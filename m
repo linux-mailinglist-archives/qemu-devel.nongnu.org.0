@@ -2,97 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15E3349D332
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Jan 2022 21:11:56 +0100 (CET)
-Received: from localhost ([::1]:37814 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4AC6B49D348
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Jan 2022 21:16:14 +0100 (CET)
+Received: from localhost ([::1]:41636 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nCoe2-0004z7-N6
-	for lists+qemu-devel@lfdr.de; Wed, 26 Jan 2022 15:11:54 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:56330)
+	id 1nCoiD-0008FK-32
+	for lists+qemu-devel@lfdr.de; Wed, 26 Jan 2022 15:16:13 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:56740)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1nCoa7-0003Qp-TL
- for qemu-devel@nongnu.org; Wed, 26 Jan 2022 15:07:51 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:42027)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1nCoa4-0004r3-Iw
- for qemu-devel@nongnu.org; Wed, 26 Jan 2022 15:07:50 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1643227666;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=BDIfXpIjK7bqZCDGBRvSP8NWlawNpj87ujcarzTB4Ag=;
- b=Ygy8AFRpB2atxC6ItHThVjpjN/wnreIQdf5OZz5OkoiO7e8w7ZwwUxTZPGE67vhJiRVhi6
- ftn7R2Yyd41OT//pVbegJgPRnPL++NYSz7UTMHhuaIwEk7f6MPJLzMP3cSCbIed5IMI/CE
- JLCEjI5WpVUmu9L2CmMFdHbLfYwDMZc=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-124-uVQscowQPCyZ9W4a2a_-8w-1; Wed, 26 Jan 2022 15:07:40 -0500
-X-MC-Unique: uVQscowQPCyZ9W4a2a_-8w-1
-Received: by mail-wm1-f71.google.com with SMTP id
- z2-20020a05600c220200b0034d2eb95f27so408042wml.1
- for <qemu-devel@nongnu.org>; Wed, 26 Jan 2022 12:07:40 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1nCoc8-0004gZ-7N; Wed, 26 Jan 2022 15:09:57 -0500
+Received: from [2607:f8b0:4864:20::333] (port=37610
+ helo=mail-ot1-x333.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1nCoc6-0004ze-HO; Wed, 26 Jan 2022 15:09:55 -0500
+Received: by mail-ot1-x333.google.com with SMTP id
+ g15-20020a9d6b0f000000b005a062b0dc12so418518otp.4; 
+ Wed, 26 Jan 2022 12:09:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=OJ3P9foEQhQyl7RWH5Cjovn5Ohlov0UqOoNZXGH8ieU=;
+ b=DRfm4AzuA1fqtx/n/Ok9i/Yq62BnTLOfwZ9VLX9hUkhPXlt3ukNAQ+7KrL6h3EdUFj
+ 1ft5IOU/khAC+WgnwW7JUYmzydAUQIQXbPmC3gXJngCd6836M52qWg9AUwyAi2SAn4HT
+ dJ6iCrzy0Z3/F1Ka/xwFEtKI+VUknE8Cou4Def1gRw9bT3QAXpgd/Ckv8LFKgx0EdROG
+ dOwr62TXoN1H5Mp+vlut1K7TXEc1yV56s1NGtJF7NhjTfc5+kCi4emTjoTwoCEWNIrbR
+ oOTfFs8qcyvKIhb6FjhUcPMVZ/05eOWhKeXlMzy0J0Ju9m0OoMpYRAqyVg4N1My/wHb/
+ l40g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to:user-agent;
- bh=BDIfXpIjK7bqZCDGBRvSP8NWlawNpj87ujcarzTB4Ag=;
- b=HJ0BFBk8cc7h326K1WGljGEqj1u28zceeH6LmZW3as6eknqNwE3ISJkv9e+FZpbs8t
- I0X/4MfwYCczC3S7RI8Mx8sdJ32iYTlpYU8yd7Kf0cdhfx/bTYm29seSeyMwaEOU/n0z
- r4z9pN6G288Y7ll9Eo14wqoBoBPLj7NRQbZ8y1GztKVSpQBjHrWQ0oXVqo3GIqUbp40p
- mxNr/wm+56cmwvPmj/CHGG27c2YZEZIvC8Mu4qVFcmLu4ZQoBtT+FuDteMsLoQJsAkqu
- 2Avh9a2PLU52LwPjU0CIFQHOdCWQo9JDEQ64ihWZEUJgBG//N+ZYfUXtEMa4yfd6Qz6I
- 3fCQ==
-X-Gm-Message-State: AOAM532w9kVPsq6MTDFIdIXiD7V8kC6PWkihmv8kyQ1EqdxnV/XaKuNb
- yqdzC+8PmvsePsdavhvgf7OAYhVEzgjycmrI4gu0w7wK6A/sgYZ/SbIzFxdf9cb8EaOK4HxVIgm
- g8bi3C01C1ciS/+w=
-X-Received: by 2002:a5d:4090:: with SMTP id o16mr169637wrp.25.1643227659313;
- Wed, 26 Jan 2022 12:07:39 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxVPARro00hPspCVUO/tlXMRIPjRATrv4afy8hZDUU/L+C764uHVlzuJ4Yykh8h+aRshfLV2A==
-X-Received: by 2002:a5d:4090:: with SMTP id o16mr169612wrp.25.1643227659093;
- Wed, 26 Jan 2022 12:07:39 -0800 (PST)
-Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
- [82.30.61.225])
- by smtp.gmail.com with ESMTPSA id u19sm152222wmm.39.2022.01.26.12.07.37
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 26 Jan 2022 12:07:38 -0800 (PST)
-Date: Wed, 26 Jan 2022 20:07:36 +0000
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Stefan Hajnoczi <stefanha@redhat.com>
-Subject: Re: [PATCH v5 03/18] pci: isolated address space for PCI bus
-Message-ID: <YfGqCJeTD9bmkZx6@work-vm>
-References: <cover.1642626515.git.jag.raman@oracle.com>
- <2971c1bec04acaac4eb3c1f2b104cbeabad01e22.1642626515.git.jag.raman@oracle.com>
- <20220119190742-mutt-send-email-mst@kernel.org>
- <1CACFB08-1BBC-4ECC-9C0B-6F377018D795@oracle.com>
- <YfBDqMuO/l/gWzL8@work-vm>
- <AE47B5D2-6515-4BD3-B541-23E5274174AC@oracle.com>
- <YfEYHBhrsdF9Edpp@stefanha-x1.localdomain>
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=OJ3P9foEQhQyl7RWH5Cjovn5Ohlov0UqOoNZXGH8ieU=;
+ b=Tlur2lYH2CpwddLFwQqWMIzv/JcoPIdFRUuKLDF00XJYbKmNXeROSY8S9/PjPt0Wat
+ +K764tmMBGfJLjY/Uc/HiA9J3Ytszi13Wyf6YR8PIrYIjv2BHTPfyZ4kMIAt2rkqi9X6
+ F18vb9tIS9thPDu8fwI81EMK2d6EEqbtND1cL0kxhk/KHFTbw2Nlz65g5HIA/+VR6FcB
+ Dtn/tlWGYfgQnOWk4tXXMQLhFVfT39ZbpJgcds5ECrSXSO9kpOwaUiCrQ5vUkjXXkINZ
+ tq7CKdLJSGewf+GWfUwGgH706Nu9lm1zi6HfrKl9kIYV7KwioklXmz2evAyqclAJ/Yhu
+ OiTg==
+X-Gm-Message-State: AOAM531roqOWH/3EkTnztdrnGBWcqDjlpoR7ZamlFhV4NkS8ULgj7Hrf
+ 0h3v4x2cv+54zuFhnBYsDgRT2yyauBA=
+X-Google-Smtp-Source: ABdhPJz1mBw+yTh9R/qQW919vlIJwXU1FeI8nsHXDuQ19tvmR5JgakNgZZTZxWgcnhki1A9bsuNhPw==
+X-Received: by 2002:a9d:7c97:: with SMTP id q23mr265803otn.165.1643227792465; 
+ Wed, 26 Jan 2022 12:09:52 -0800 (PST)
+Received: from [192.168.10.222] (189-68-153-170.dsl.telesp.net.br.
+ [189.68.153.170])
+ by smtp.gmail.com with ESMTPSA id m7sm532251ots.32.2022.01.26.12.09.50
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 26 Jan 2022 12:09:52 -0800 (PST)
+Message-ID: <7a5857b0-f0dc-5dce-d7d5-80ca5fade3d0@gmail.com>
+Date: Wed, 26 Jan 2022 17:09:49 -0300
 MIME-Version: 1.0
-In-Reply-To: <YfEYHBhrsdF9Edpp@stefanha-x1.localdomain>
-User-Agent: Mutt/2.1.5 (2021-12-30)
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.4.0
+Subject: Re: [PATCH 1/2] ppc/pnv: initialize 'taddr' in
+ pnv_phb3_translate_tve()
+Content-Language: en-US
+To: "Matheus K. Ferst" <matheus.ferst@eldorado.org.br>, qemu-devel@nongnu.org
+References: <20220126134137.791968-1-danielhb413@gmail.com>
+ <20220126134137.791968-2-danielhb413@gmail.com>
+ <582d8d5f-d46f-daba-5911-96b0a8f78bf4@eldorado.org.br>
+From: Daniel Henrique Barboza <danielhb413@gmail.com>
+In-Reply-To: <582d8d5f-d46f-daba-5911-96b0a8f78bf4@eldorado.org.br>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.155,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::333
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::333;
+ envelope-from=danielhb413@gmail.com; helo=mail-ot1-x333.google.com
+X-Spam_score_int: -10
+X-Spam_score: -1.1
+X-Spam_bar: -
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.001,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -105,98 +93,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "eduardo@habkost.net" <eduardo@habkost.net>,
- Elena Ufimtseva <elena.ufimtseva@oracle.com>,
- John Johnson <john.g.johnson@oracle.com>, Jag Raman <jag.raman@oracle.com>,
- Beraldo Leal <bleal@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- "armbru@redhat.com" <armbru@redhat.com>,
- "quintela@redhat.com" <quintela@redhat.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>,
- qemu-devel <qemu-devel@nongnu.org>,
- =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@gmail.com>,
- Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
- "thanos.makatos@nutanix.com" <thanos.makatos@nutanix.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Eric Blake <eblake@redhat.com>,
- "john.levon@nutanix.com" <john.levon@nutanix.com>
+Cc: qemu-ppc@nongnu.org, clg@kaod.org, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Stefan Hajnoczi (stefanha@redhat.com) wrote:
-> On Wed, Jan 26, 2022 at 05:27:32AM +0000, Jag Raman wrote:
-> > 
-> > 
-> > > On Jan 25, 2022, at 1:38 PM, Dr. David Alan Gilbert <dgilbert@redhat.com> wrote:
-> > > 
-> > > * Jag Raman (jag.raman@oracle.com) wrote:
-> > >> 
-> > >> 
-> > >>> On Jan 19, 2022, at 7:12 PM, Michael S. Tsirkin <mst@redhat.com> wrote:
-> > >>> 
-> > >>> On Wed, Jan 19, 2022 at 04:41:52PM -0500, Jagannathan Raman wrote:
-> > >>>> Allow PCI buses to be part of isolated CPU address spaces. This has a
-> > >>>> niche usage.
-> > >>>> 
-> > >>>> TYPE_REMOTE_MACHINE allows multiple VMs to house their PCI devices in
-> > >>>> the same machine/server. This would cause address space collision as
-> > >>>> well as be a security vulnerability. Having separate address spaces for
-> > >>>> each PCI bus would solve this problem.
-> > >>> 
-> > >>> Fascinating, but I am not sure I understand. any examples?
-> > >> 
-> > >> Hi Michael!
-> > >> 
-> > >> multiprocess QEMU and vfio-user implement a client-server model to allow
-> > >> out-of-process emulation of devices. The client QEMU, which makes ioctls
-> > >> to the kernel and runs VCPUs, could attach devices running in a server
-> > >> QEMU. The server QEMU needs access to parts of the client’s RAM to
-> > >> perform DMA.
-> > > 
-> > > Do you ever have the opposite problem? i.e. when an emulated PCI device
-> > 
-> > That’s an interesting question.
-> > 
-> > > exposes a chunk of RAM-like space (frame buffer, or maybe a mapped file)
-> > > that the client can see.  What happens if two emulated devices need to
-> > > access each others emulated address space?
-> > 
-> > In this case, the kernel driver would map the destination’s chunk of internal RAM into
-> > the DMA space of the source device. Then the source device could write to that
-> > mapped address range, and the IOMMU should direct those writes to the
-> > destination device.
-> > 
-> > I would like to take a closer look at the IOMMU implementation on how to achieve
-> > this, and get back to you. I think the IOMMU would handle this. Could you please
-> > point me to the IOMMU implementation you have in mind?
+
+
+On 1/26/22 14:28, Matheus K. Ferst wrote:
+> On 26/01/2022 10:41, Daniel Henrique Barboza wrote:
+>> The 'taddr' variable is left unintialized, being set only inside the
+>> "while ((lev--) >= 0)" loop where we get the TCE address. The 'lev' var
+>> is an int32_t that is being initiliazed by the GETFIELD() macro, which
+>> returns an uint64_t.
+>>
+>> For a human reader this means that 'lev' will always be positive or zero.
+>> But some compilers may beg to differ. 'lev' being an int32_t can in theory
+>> be set as negative, and the "while ((lev--) >= 0)" loop might never be
+>> reached, and 'taddr' will be left unitialized.
 > 
-> I don't know if the current vfio-user client/server patches already
-> implement device-to-device DMA, but the functionality is supported by
-> the vfio-user protocol.
+> If we expect this code to execute at least once, wouldn't it be better to use a do-while? E.g.:
 > 
-> Basically: if the DMA regions lookup inside the vfio-user server fails,
-> fall back to VFIO_USER_DMA_READ/WRITE messages instead.
-> https://github.com/nutanix/libvfio-user/blob/master/docs/vfio-user.rst#vfio-user-dma-read
+> do {
+>      lev--;
 > 
-> Here is the flow:
-> 1. The vfio-user server with device A sends a DMA read to QEMU.
-> 2. QEMU finds the MemoryRegion associated with the DMA address and sees
->    it's a device.
->    a. If it's emulated inside the QEMU process then the normal
->       device emulation code kicks in.
->    b. If it's another vfio-user PCI device then the vfio-user PCI proxy
->       device forwards the DMA to the second vfio-user server's device B.
+>      /* Grab the TCE address */
+>      taddr = base | (((addr >> sh) & ((1ul << tbl_shift) - 1)) << 3);
+>      if (dma_memory_read(&address_space_memory, taddr, &tce,
+>      /* ... */
+>      }
+>      sh -= tbl_shift;
+>      base = tce & ~0xfffull;
+> } while (lev >= 0);
+> 
+> Otherwise, I think we'll need to initialize tce too.
 
-I'm starting to be curious if there's a way to persuade the guest kernel
-to do it for us; in general is there a way to say to PCI devices that
-they can only DMA to the host and not other PCI devices?  Or that the
-address space of a given PCIe bus is non-overlapping with one of the
-others?
+Initializing tce isn't necessary, at least as far as compiler warning goes,
+because tce will be defaulted to zero and its current use (tce & 3, tce & 2,
+tce & 1 operations) isn't offending the compiler. For now at least.
 
-Dave
-
-> Stefan
+That said, I think using a do/while() loop is an idea that fixes the issue while
+keeping the code flow, without having to add extra initializations, so I ended
+up changing it as you suggested.
 
 
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+Thanks,
 
+
+Daniel
+
+> 
+> Thanks,
+> Matheus K. Ferst
+> Instituto de Pesquisas ELDORADO <http://www.eldorado.org.br/>
+> Analista de Software
+> Aviso Legal - Disclaimer <https://www.eldorado.org.br/disclaimer.html>
 
