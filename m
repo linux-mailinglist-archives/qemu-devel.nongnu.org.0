@@ -2,58 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 310CC49C762
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Jan 2022 11:23:53 +0100 (CET)
-Received: from localhost ([::1]:51998 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B1FC849C812
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Jan 2022 11:53:16 +0100 (CET)
+Received: from localhost ([::1]:58450 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nCfSy-0000UU-1T
-	for lists+qemu-devel@lfdr.de; Wed, 26 Jan 2022 05:23:52 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:43218)
+	id 1nCfvP-00075H-C3
+	for lists+qemu-devel@lfdr.de; Wed, 26 Jan 2022 05:53:15 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:48652)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1nCfRi-0008ED-3Y
- for qemu-devel@nongnu.org; Wed, 26 Jan 2022 05:22:34 -0500
-Received: from us-smtp-delivery-44.mimecast.com ([205.139.111.44]:29801)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1nCfsM-0005e5-Qj
+ for qemu-devel@nongnu.org; Wed, 26 Jan 2022 05:50:07 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:24026)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1nCfRf-0000Ss-R9
- for qemu-devel@nongnu.org; Wed, 26 Jan 2022 05:22:33 -0500
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1nCfsG-00047l-TO
+ for qemu-devel@nongnu.org; Wed, 26 Jan 2022 05:50:02 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1643194200;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=ai0ZifZPRg3VYu9pJNbngYM2UiqWtEiH54NENUXR+Cc=;
+ b=hWcH4UZume2i2DjAkbrHdoFQVnPmpqh/scpeQBHsnq7CyXhlRNUJWhIg+ZHC32dfGBrD2N
+ OoZVHEZd+fMc/xHWsumUVf3fNq+jpcC5Jeznzvi/CvRLBZDe1lNDUt7titcqZBSvDzp4p2
+ QZ+hWttKblQx9pnsGFZPtQn+GOXELFQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-662-4_MHKMjbMSCIWUdimuaM6g-1; Wed, 26 Jan 2022 05:22:19 -0500
-X-MC-Unique: 4_MHKMjbMSCIWUdimuaM6g-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-401-2_ptXxJFMp--8fu1ZWzkOA-1; Wed, 26 Jan 2022 05:49:57 -0500
+X-MC-Unique: 2_ptXxJFMp--8fu1ZWzkOA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A540283DD23;
- Wed, 26 Jan 2022 10:22:18 +0000 (UTC)
-Received: from bahia (unknown [10.39.192.115])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9ED1166E15;
- Wed, 26 Jan 2022 10:22:06 +0000 (UTC)
-Date: Wed, 26 Jan 2022 11:22:05 +0100
-From: Greg Kurz <groug@kaod.org>
-To: Christian Schoenebeck <qemu_oss@crudebyte.com>
-Subject: Re: [PATCH] tests/9pfs: fix mkdir() being called twice
-Message-ID: <20220126112205.58f32614@bahia>
-In-Reply-To: <3438847.JacDP26HMr@silver>
-References: <f6602123c6f7d0d593466231b04fba087817abbd.1642879848.git.qemu_oss@crudebyte.com>
- <20220125163346.4cb345ce@bahia> <3438847.JacDP26HMr@silver>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CAB9493921;
+ Wed, 26 Jan 2022 10:49:55 +0000 (UTC)
+Received: from localhost (unknown [10.39.195.72])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 00EC21F308;
+ Wed, 26 Jan 2022 10:49:53 +0000 (UTC)
+Date: Wed, 26 Jan 2022 10:49:52 +0000
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+Subject: Re: [PATCH 01/12] introduce BDRV_POLL_WHILE_UNLOCKED
+Message-ID: <YfEnUG2m2AlvJqpE@stefanha-x1.localdomain>
+References: <20220118162738.1366281-1-eesposit@redhat.com>
+ <20220118162738.1366281-2-eesposit@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=groug@kaod.org
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: kaod.org
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: softfail client-ip=205.139.111.44; envelope-from=groug@kaod.org;
- helo=us-smtp-delivery-44.mimecast.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
- SPF_HELO_NONE=0.001, SPF_SOFTFAIL=0.665 autolearn=no autolearn_force=no
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="PMkVlNM4KrKvBW1V"
+Content-Disposition: inline
+In-Reply-To: <20220118162738.1366281-2-eesposit@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.155,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -66,51 +76,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Daniel P.
- =?UTF-8?B?QmVycmFuZ8Op?=" <berrange@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Alex =?UTF-8?B?QmVubsOpZQ==?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-block@nongnu.org,
+ qemu-devel@nongnu.org, Hanna Reitz <hreitz@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 25 Jan 2022 18:51:54 +0100
-Christian Schoenebeck <qemu_oss@crudebyte.com> wrote:
 
-> On Dienstag, 25. Januar 2022 16:33:46 CET Greg Kurz wrote:
-> > On Sat, 22 Jan 2022 20:12:16 +0100
-> >=20
-> > Christian Schoenebeck <qemu_oss@crudebyte.com> wrote:
-> > > The 9p test cases use mkdtemp() to create a temporary directory for
-> > > running the 'local' 9p tests with real files/dirs. Unlike mktemp()
-> > > which only generates a unique file name, mkdtemp() also creates the
-> > > directory, therefore the subsequent mkdir() was wrong and caused
-> > > errors on some systems.
-> > >=20
-> > > Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
-> > > Fixes: 136b7af2 (tests/9pfs: fix test dir for parallel tests)
-> > > Reported-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
-> > > Resolves: https://gitlab.com/qemu-project/qemu/-/issues/832
-> > > ---
-> >=20
-> > Reviewed-by: Greg Kurz <Greg Kurz <groug@kaod.org>
->=20
-> Hey, a live sign. :)
->=20
+--PMkVlNM4KrKvBW1V
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Yeah... My current engagement with kata containers doesn't leave me
-much time to do anything else and I just had covid ;-)
+On Tue, Jan 18, 2022 at 11:27:27AM -0500, Emanuele Giuseppe Esposito wrote:
+> Same as BDRV_POLL_WHILE, but uses AIO_WAIT_WHILE_UNLOCKED.
+>=20
+> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+> ---
+>  include/block/block-global-state.h | 5 +++++
+>  1 file changed, 5 insertions(+)
+>=20
+> diff --git a/include/block/block-global-state.h b/include/block/block-glo=
+bal-state.h
+> index 419fe8427f..7ad9496f56 100644
+> --- a/include/block/block-global-state.h
+> +++ b/include/block/block-global-state.h
+> @@ -158,6 +158,11 @@ void bdrv_drain_all(void);
+>      AIO_WAIT_WHILE(bdrv_get_aio_context(bs_),              \
+>                     cond); })
+> =20
+> +#define BDRV_POLL_WHILE_UNLOCKED(bs, cond) ({              \
+> +    BlockDriverState *bs_ =3D (bs);                          \
+> +    AIO_WAIT_WHILE_UNLOCKED(bdrv_get_aio_context(bs_),     \
+> +                            cond); })
 
-> > Unrelated, the template pointer is leaked. It looks like g_autofree wou=
-ld
-> > help here. I'll post a follow-up to fix that.
->=20
-> This man knows what I like to read!
->=20
+No doc comments? When and why is this API useful? Are there any
+preconditions or assumptions (e.g. cond must be thread-safe)?
 
-Heh :-)
+Stefan
 
-> Best regards,
-> Christian Schoenebeck
->=20
->=20
+--PMkVlNM4KrKvBW1V
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmHxJ1AACgkQnKSrs4Gr
+c8gUHAgAglCxiPuBO4mjRHcoxXCXEzxg1aVT+8II709C1HzhWopV/G+ogbd1Mu+1
+FJjPy74YCp3hznqTCjw8QRsrwsI01U+KE+fj99iV/u7jz2fVU5lpAhdtF0G0zUne
+3lbrLcMM3kaAyUlxkOnTkCmewCORSugMuqVrTZC+PmCRaQLphyGTKV2RMeI5A7ow
+8rCEGRmTEnMO2ekKJ4FU3bqQxuf0e6JHnTdy+RKqk8aEAc2HGmQx6V7XAxjhpGw+
+XSUADjSeLxMdrwk2D4+KC6D4fVLmRXcSwAbBo8ot3BCb6wrvtaNCL3GD5YOq78fM
+/OHDkx8fvr2BsxzPusKHV1OayalEbg==
+=Pkxr
+-----END PGP SIGNATURE-----
+
+--PMkVlNM4KrKvBW1V--
 
 
