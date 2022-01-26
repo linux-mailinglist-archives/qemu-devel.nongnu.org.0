@@ -2,82 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E79EB49D237
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Jan 2022 20:04:57 +0100 (CET)
-Received: from localhost ([::1]:59816 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3DF9A49D25F
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Jan 2022 20:13:03 +0100 (CET)
+Received: from localhost ([::1]:39328 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nCnbE-0007PT-Fw
-	for lists+qemu-devel@lfdr.de; Wed, 26 Jan 2022 14:04:56 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:35034)
+	id 1nCnj4-0004bB-3d
+	for lists+qemu-devel@lfdr.de; Wed, 26 Jan 2022 14:13:02 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:38040)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nCnKp-0008HA-7a
- for qemu-devel@nongnu.org; Wed, 26 Jan 2022 13:48:05 -0500
-Received: from [2a00:1450:4864:20::42d] (port=35694
- helo=mail-wr1-x42d.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nCnKj-0000Gj-PT
- for qemu-devel@nongnu.org; Wed, 26 Jan 2022 13:47:58 -0500
-Received: by mail-wr1-x42d.google.com with SMTP id e2so667363wra.2
- for <qemu-devel@nongnu.org>; Wed, 26 Jan 2022 10:47:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=E2rd/u7mK9y6NoKM26dVXGQ1gO8pAWPGTRbmtylU42c=;
- b=QfnyWKYK5v8JPc6EWAc8ki1R0BwmlZwlOtbx76jof7a/vjnJKXBZsVUN3MoGhRqKKt
- rC5TpzdeBn2SsXronTWZaHG4it7Oa2WVBWqPf5YKGMVtHeLEipDUJVeUvgWoQqNMmMyv
- paSQe1IgeS8Wthffd2rWeO5kb3dXcfaZ638mhdGZxPeq0tNLeYQXSAKTgkrBm9Q8LvaI
- wUw0gzNT0neDtZtXadqrVK0cy679t+1EMfMkpKVSy6cfbGsQWuPOL+l6bkpbH2qgwweL
- XidJ7debR5vrZeDEMNYlmWZ53T3iQLOgzBuFlVE5+DDdw7MPPr16f3715/P22C5/8O/Q
- R5/A==
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nCnV8-0003cM-FV
+ for qemu-devel@nongnu.org; Wed, 26 Jan 2022 13:58:52 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:23297)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nCnV3-0001wc-PK
+ for qemu-devel@nongnu.org; Wed, 26 Jan 2022 13:58:36 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1643223512;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type;
+ bh=o80O2zG8ohqFR8AG7Q2bLdb6fg2XUJ8n9Zq5H4gObNg=;
+ b=W+lVFx1mSlW+7y1GD+6Ny88fCL5l5H11JPUPd/n4omVkgAsXAk875bTTg0FUtsTqt/toE8
+ BojCGiPgbDhFFx7EC1KVut5eOMKElvaiSHL6Mf22Zt1IQPTUy1qD8Am5HWBxAAyRMMXZt7
+ dCw5Iy3GGPGdoxgpOB+BtylIrwSASQU=
+Received: from mail-vk1-f199.google.com (mail-vk1-f199.google.com
+ [209.85.221.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-621-r12fApddOfSAvr_3CdRgbQ-1; Wed, 26 Jan 2022 13:58:31 -0500
+X-MC-Unique: r12fApddOfSAvr_3CdRgbQ-1
+Received: by mail-vk1-f199.google.com with SMTP id
+ s81-20020a1f2c54000000b0032101a87523so229540vks.0
+ for <qemu-devel@nongnu.org>; Wed, 26 Jan 2022 10:58:31 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=E2rd/u7mK9y6NoKM26dVXGQ1gO8pAWPGTRbmtylU42c=;
- b=ZKc0fcsOiz089XK4qeC8QcbaCZpLsvJH8AkS824pVaXPnoFdfNFjwdCxtYJhHmFW1N
- dTD3ZU1516zxm75ej34nHVKNe2OfIvVdwlXuhE5UxcYi2ckAxzIqj3aoi78RJSLpBZSa
- EOBgrDDnUt8kk1PMRMiUjZYbVDly+AHcwUdPj5QBYEM1Kcy0Stk/rmOualmBEKQOZtKg
- 5IdPEMhCWHW75D114rKdheG/HPmd4bp2PrHOC8mOXrmzxZie4WJYCf2ccpjWmoBAzw6p
- 7i8Q0vnDROT6hAS/ffqTuSjTqZh3DysYN30OmM4wHjuAWg9XnNhrQn0oTnpoUGsQwlto
- SVQw==
-X-Gm-Message-State: AOAM533p/5wlJt1TWCJf2Q6Oou4Son6Xo+++nQeah5JWUVdVk7YYs8nK
- UetS3iz5odedMMmk7HyKQcY/Lg==
-X-Google-Smtp-Source: ABdhPJyJsMW0Qtq6aowZ8AqP9SmAZoqsV80cC7bHU/+F2b6LVTN9Ol3TKxnOiYnuE0Sf4YlAtHmaEA==
-X-Received: by 2002:adf:ea8d:: with SMTP id s13mr20507593wrm.610.1643222860128; 
- Wed, 26 Jan 2022 10:47:40 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id d200sm3832746wmd.28.2022.01.26.10.47.38
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 26 Jan 2022 10:47:38 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 483C41FFB7;
- Wed, 26 Jan 2022 18:47:38 +0000 (GMT)
-References: <20220124171705.10432-1-Jonathan.Cameron@huawei.com>
- <20220124171705.10432-7-Jonathan.Cameron@huawei.com>
-User-agent: mu4e 1.7.6; emacs 28.0.91
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Subject: Re: [PATCH v4 06/42] hw/cxl/device: Implement basic mailbox (8.2.8.4)
-Date: Wed, 26 Jan 2022 18:22:18 +0000
-In-reply-to: <20220124171705.10432-7-Jonathan.Cameron@huawei.com>
-Message-ID: <87pmoebagl.fsf@linaro.org>
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
+ bh=o80O2zG8ohqFR8AG7Q2bLdb6fg2XUJ8n9Zq5H4gObNg=;
+ b=OwOPA9OXqit3v02UPWMo7Hti1RECHPqWfybAIvqdTY5cdauFbUk9VTpn+lhDem2zUW
+ R1jL0KN0VgHObw3Xzcnk27y2VHuY7PRHpzJ9wp7z1VD91I3ez3aV1dgM1wftIOnxAHVu
+ DswVhzXI1vvmn49Pl5sMucL4iJrENtDISRj78Hg2QQW0In9oo5T1vivUrNgjL+/0c16+
+ p3/+bu4mfViofVUYMxz9RjXnBNPlzX9OYrZXrsOtmbtQOQof3mv+rDzLOtIOCDxdl7MG
+ ef1+yH2uUTXFaIVrDks55WWu/G1/qYXT7yNklt1lVlrFJzVsSUtRvygDpe7MFCYI5Sty
+ Q3qQ==
+X-Gm-Message-State: AOAM5311TEHSqKoxDCilptcniL13estpRbmzbmO8y7Z8TcpZQ89zyn2w
+ 50bmtIaEWDgdKnr11+uW0iQuqJkoyU0X+FNVJQN2vcUgEsvLI++xxGGtdRVKyRIqSWe4pgDT/PI
+ DkS07kK7FmIQ3DgOCLRxTv0pdLU+0vF8=
+X-Received: by 2002:a67:f70f:: with SMTP id m15mr85468vso.61.1643223510088;
+ Wed, 26 Jan 2022 10:58:30 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJycSe4Jkap9R5YZQZ7kAhnIsZE3RLr9SDfcAcMDFo6blS0ysLRIMjO2ByPMT7lFhKcVoay4yTgrxcLFp0a8NUc=
+X-Received: by 2002:a67:f70f:: with SMTP id m15mr85457vso.61.1643223509676;
+ Wed, 26 Jan 2022 10:58:29 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42d
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42d.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+From: John Snow <jsnow@redhat.com>
+Date: Wed, 26 Jan 2022 13:58:19 -0500
+Message-ID: <CAFn=p-aminDYVjPgnR+4x9U3L=Loi55vsHbPq+EOK4AUE_fLeg@mail.gmail.com>
+Subject: Notes on Generating Python signatures for QMP RPCs
+To: Markus Armbruster <armbru@redhat.com>,
+ =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>, 
+ Victor Toso de Carvalho <victortoso@redhat.com>,
+ Andrea Bolognani <abologna@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=jsnow@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.155,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -90,590 +86,198 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Ben Widawsky <ben.widawsky@intel.com>, "Michael S
- . Tsirkin" <mst@redhat.com>, Samarth Saxena <samarths@cadence.com>,
- Chris Browy <cbrowy@avery-design.com>, qemu-devel@nongnu.org,
- linux-cxl@vger.kernel.org, linuxarm@huawei.com,
- Shreyas Shah <shreyas.shah@elastics.cloud>, Saransh Gupta1 <saransh@ibm.com>,
- Shameerali Kolothum Thodi <shameerali.kolothum.thodi@huawei.com>,
- Marcel Apfelbaum <marcel@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
- Dan Williams <dan.j.williams@intel.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: qemu-devel <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Hiya, I was experimenting with $subject and ran into a few points of
+interest. This is basically an informal status report from me. I've
+CC'd some of the usual suspects for people who care about SDKs and API
+design and such.
 
-Jonathan Cameron <Jonathan.Cameron@huawei.com> writes:
+This is just a list of some observations I had, so not everything
+below is a question or an action item. Just sharing some notes.
 
-> From: Ben Widawsky <ben.widawsky@intel.com>
->
-> This is the beginning of implementing mailbox support for CXL 2.0
-> devices. The implementation recognizes when the doorbell is rung,
-> handles the command/payload, clears the doorbell while returning error
-> codes and data.
->
-> Generally the mailbox mechanism is designed to permit communication
-> between the host OS and the firmware running on the device. For our
-> purposes, we emulate both the firmware, implemented primarily in
-> cxl-mailbox-utils.c, and the hardware.
->
-> No commands are implemented yet.
->
-> Signed-off-by: Ben Widawsky <ben.widawsky@intel.com>
-> Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-> ---
->  hw/cxl/cxl-device-utils.c   | 129 ++++++++++++++++++++++-
->  hw/cxl/cxl-mailbox-utils.c  | 201 ++++++++++++++++++++++++++++++++++++
->  hw/cxl/meson.build          |   1 +
->  include/hw/cxl/cxl.h        |   3 +
->  include/hw/cxl/cxl_device.h |  29 +++++-
->  5 files changed, 358 insertions(+), 5 deletions(-)
->
-> diff --git a/hw/cxl/cxl-device-utils.c b/hw/cxl/cxl-device-utils.c
-> index cb1b0a8217..c9ada7ee94 100644
-> --- a/hw/cxl/cxl-device-utils.c
-> +++ b/hw/cxl/cxl-device-utils.c
-> @@ -40,6 +40,115 @@ static uint64_t dev_reg_read(void *opaque, hwaddr off=
-set, unsigned size)
->      return 0;
->  }
->=20=20
-> +static uint64_t mailbox_reg_read(void *opaque, hwaddr offset, unsigned s=
-ize)
-> +{
-> +    CXLDeviceState *cxl_dstate =3D opaque;
-> +
-> +    switch (size) {
-> +    case 1:
-> +        return cxl_dstate->mbox_reg_state[offset];
-> +    case 2:
-> +        return cxl_dstate->mbox_reg_state16[offset / 2];
-> +    case 4:
-> +        return cxl_dstate->mbox_reg_state32[offset / 4];
-> +    case 8:
-> +        return cxl_dstate->mbox_reg_state64[offset / 8];
-> +    default:
-> +        g_assert_not_reached();
-> +    }
-> +}
-> +
-> +static void mailbox_mem_writel(uint32_t *reg_state, hwaddr offset,
-> +                               uint64_t value)
-> +{
-> +    switch (offset) {
-> +    case A_CXL_DEV_MAILBOX_CTRL:
-> +        /* fallthrough */
-> +    case A_CXL_DEV_MAILBOX_CAP:
-> +        /* RO register */
-> +        break;
-> +    default:
-> +        qemu_log_mask(LOG_UNIMP,
-> +                      "%s Unexpected 32-bit access to 0x%" PRIx64 " (WI)=
-\n",
-> +                      __func__, offset);
-> +        break;
+(0) This experiment concerned generating signatures based on
+introspection data, dynamically at runtime. In this environment type
+hints are not required, as they are not actually used at runtime.
+However, I added them anyway as an exercise for dynamic documentation
+purposes. (i.e. `help(auto_generated_function)` showing type hints can
+still be useful -- especially without access to QAPI doc blocks.)
+Determining type information is also necessary for generating the
+marshaling/unmarshaling functions to communicate with the server.
 
-The log message implies WI but it isn't. Did you want an early return?
+(1) QAPI types the return of many commands as an empty object. That's
+literally indeed what happens on the wire, and it makes sense in that
+if these commands were ever to return anything, it is a "compatible
+evolution" to include new fields in such an object. In Python, this
+does not make much sense, though; as this is somewhat hard to
+annotate:
 
-> +    }
-> +
-> +    reg_state[offset / 4] =3D value;
-> +}
-> +
-> +static void mailbox_mem_writeq(uint64_t *reg_state, hwaddr offset,
-> +                               uint64_t value)
-> +{
-> +    switch (offset) {
-> +    case A_CXL_DEV_MAILBOX_CMD:
-> +        break;
-> +    case A_CXL_DEV_BG_CMD_STS:
-> +        /* BG not supported */
-> +        /* fallthrough */
-> +    case A_CXL_DEV_MAILBOX_STS:
-> +        /* Read only register, will get updated by the state machine */
-> +        return;
-> +    default:
-> +        qemu_log_mask(LOG_UNIMP,
-> +                      "%s Unexpected 64-bit access to 0x%" PRIx64 " (WI)=
-\n",
-> +                      __func__, offset);
-> +        return;
+async def stop() -> Literal[{}]: ...
 
-which is the behaviour here.
+The more pythonic signature is:
 
-> +    }
-> +
-> +
-> +    reg_state[offset / 8] =3D value;
-> +}
-> +
-> +static void mailbox_reg_write(void *opaque, hwaddr offset, uint64_t valu=
-e,
-> +                              unsigned size)
-> +{
-> +    CXLDeviceState *cxl_dstate =3D opaque;
-> +
-> +    if (offset >=3D A_CXL_DEV_CMD_PAYLOAD) {
-> +        memcpy(cxl_dstate->mbox_reg_state + offset, &value, size);
-> +        return;
-> +    }
-> +
-> +    /*
-> +     * Lock is needed to prevent concurrent writes as well as to prevent=
- writes
-> +     * coming in while the firmware is processing. Without background co=
-mmands
-> +     * or the second mailbox implemented, this serves no purpose since t=
-he
-> +     * memory access is synchronized at a higher level (per memory regio=
-n).
-> +     */
-> +    RCU_READ_LOCK_GUARD();
+async def stop() -> None: ...
 
-RCU_READ_LOCK doesn't prevent concurrent writes, although the BQL should.
+I feel like it's spiritually equivalent, but I am aware it is a
+distinct choice that is being made. It could theoretically interfere
+with a choice made in QAPI later to explicitly return Null. I don't
+think we'd do that, but it's still a choice of abstraction that
+reduces the resolution of distinct return signatures.
 
-> +
-> +    switch (size) {
-> +    case 4:
-> +        mailbox_mem_writel(cxl_dstate->mbox_reg_state32, offset, value);
-> +        break;
-> +    case 8:
-> +        mailbox_mem_writeq(cxl_dstate->mbox_reg_state64, offset, value);
-> +        break;
-> +    default:
-> +        g_assert_not_reached();
-> +    }
-> +
-> +    if (ARRAY_FIELD_EX32(cxl_dstate->mbox_reg_state32, CXL_DEV_MAILBOX_C=
-TRL,
-> +                         DOORBELL))
-> +        cxl_process_mailbox(cxl_dstate);
-> +}
-> +
-> +static const MemoryRegionOps mailbox_ops =3D {
-> +    .read =3D mailbox_reg_read,
-> +    .write =3D mailbox_reg_write,
-> +    .endianness =3D DEVICE_LITTLE_ENDIAN,
-> +    .valid =3D {
-> +        .min_access_size =3D 1,
-> +        .max_access_size =3D 8,
-> +        .unaligned =3D false,
-> +    },
-> +    .impl =3D {
-> +        .min_access_size =3D 1,
-> +        .max_access_size =3D 8,
-> +    },
+(1.5) Do we have a formal definition for what we consider to be a
+"compatible evolution" of the schema? I've got a fairly good idea, but
+I am not sure how it's enforced. Is it just Markus being very
+thorough? If we add more languages to the generator, we probably can't
+burden Markus with knowing how to protect the compatibility of every
+generator. We might need more assertions for invariants in the
+generator itself ... but to protect "evolution", we need points of
+reference to test against. Do we have anything for this? Do we need
+one? Should I write a test?
 
-with_attrs?
+(2) There are five commands that are exempted from returning an
+object. qom-get is one. However, what I didn't really explicitly
+realize is that this doesn't mean that only five commands don't return
+an object -- we also actually allow for a list of objects, which
+*many* commands use. There's no technical issue here, just an
+observation. It is no problem at all to annotate Python commands as
+"-> SomeReturnType" or "-> List[SomeDifferentReturnType]" or even "->
+str:" as needed.
 
-> +};
-> +
->  static const MemoryRegionOps dev_ops =3D {
->      .read =3D dev_reg_read,
->      .write =3D NULL, /* status register is read only */
-> @@ -80,20 +189,33 @@ void cxl_device_register_block_init(Object *obj, CXL=
-DeviceState *cxl_dstate)
->                            "cap-array", CXL_CAPS_SIZE);
->      memory_region_init_io(&cxl_dstate->device, obj, &dev_ops, cxl_dstate,
->                            "device-status", CXL_DEVICE_REGISTERS_LENGTH);
-> +    memory_region_init_io(&cxl_dstate->mailbox, obj, &mailbox_ops, cxl_d=
-state,
-> +                          "mailbox", CXL_MAILBOX_REGISTERS_LENGTH);
->=20=20
->      memory_region_add_subregion(&cxl_dstate->device_registers, 0,
->                                  &cxl_dstate->caps);
->      memory_region_add_subregion(&cxl_dstate->device_registers,
->                                  CXL_DEVICE_REGISTERS_OFFSET,
->                                  &cxl_dstate->device);
-> +    memory_region_add_subregion(&cxl_dstate->device_registers,
-> +                                CXL_MAILBOX_REGISTERS_OFFSET,
-> +                                &cxl_dstate->mailbox);
->  }
->=20=20
->  static void device_reg_init_common(CXLDeviceState *cxl_dstate) { }
->=20=20
-> +static void mailbox_reg_init_common(CXLDeviceState *cxl_dstate)
-> +{
-> +    /* 2048 payload size, with no interrupt or background support */
-> +    ARRAY_FIELD_DP32(cxl_dstate->mbox_reg_state32, CXL_DEV_MAILBOX_CAP,
-> +                     PAYLOAD_SIZE, CXL_MAILBOX_PAYLOAD_SHIFT);
-> +    cxl_dstate->payload_size =3D CXL_MAILBOX_MAX_PAYLOAD_SIZE;
-> +}
-> +
->  void cxl_device_register_init_common(CXLDeviceState *cxl_dstate)
->  {
->      uint32_t *cap_hdrs =3D cxl_dstate->caps_reg_state32;
-> -    const int cap_count =3D 1;
-> +    const int cap_count =3D 2;
->=20=20
->      /* CXL Device Capabilities Array Register */
->      ARRAY_FIELD_DP32(cap_hdrs, CXL_DEV_CAP_ARRAY, CAP_ID, 0);
-> @@ -102,4 +224,9 @@ void cxl_device_register_init_common(CXLDeviceState *=
-cxl_dstate)
->=20=20
->      cxl_device_cap_init(cxl_dstate, DEVICE, 1);
->      device_reg_init_common(cxl_dstate);
-> +
-> +    cxl_device_cap_init(cxl_dstate, MAILBOX, 2);
-> +    mailbox_reg_init_common(cxl_dstate);
-> +
-> +    assert(cxl_initialize_mailbox(cxl_dstate) =3D=3D 0);
->  }
-> diff --git a/hw/cxl/cxl-mailbox-utils.c b/hw/cxl/cxl-mailbox-utils.c
-> new file mode 100644
-> index 0000000000..2854682cbe
-> --- /dev/null
-> +++ b/hw/cxl/cxl-mailbox-utils.c
-> @@ -0,0 +1,201 @@
-> +/*
-> + * CXL Utility library for mailbox interface
-> + *
-> + * Copyright(C) 2020 Intel Corporation.
-> + *
-> + * This work is licensed under the terms of the GNU GPL, version 2. See =
-the
-> + * COPYING file in the top-level directory.
-> + */
-> +
-> +#include "qemu/osdep.h"
-> +#include "hw/cxl/cxl.h"
-> +#include "hw/pci/pci.h"
-> +#include "qemu/log.h"
-> +#include "qemu/uuid.h"
-> +
-> +/*
-> + * How to add a new command, example. The command set FOO, with cmd BAR.
-> + *  1. Add the command set and cmd to the enum.
-> + *     FOO    =3D 0x7f,
-> + *          #define BAR 0
-> + *  2. Forward declare the handler.
-> + *     declare_mailbox_handler(FOO_BAR);
-> + *  3. Add the command to the cxl_cmd_set[][]
-> + *     CXL_CMD(FOO, BAR, 0, 0),
-> + *  4. Implement your handler
-> + *     define_mailbox_handler(FOO_BAR) { ... return CXL_MBOX_SUCCESS; }
-> + *
-> + *
-> + *  Writing the handler:
-> + *    The handler will provide the &struct cxl_cmd, the &CXLDeviceState,=
- and the
-> + *    in/out length of the payload. The handler is responsible for consu=
-ming the
-> + *    payload from cmd->payload and operating upon it as necessary. It m=
-ust then
-> + *    fill the output data into cmd->payload (overwriting what was there=
-),
-> + *    setting the length, and returning a valid return code.
-> + *
-> + *  XXX: The handler need not worry about endianess. The payload is read=
- out of
-> + *  a register interface that already deals with it.
-> + */
-> +
-> +/* 8.2.8.4.5.1 Command Return Codes */
-> +typedef enum {
-> +    CXL_MBOX_SUCCESS =3D 0x0,
-> +    CXL_MBOX_BG_STARTED =3D 0x1,
-> +    CXL_MBOX_INVALID_INPUT =3D 0x2,
-> +    CXL_MBOX_UNSUPPORTED =3D 0x3,
-> +    CXL_MBOX_INTERNAL_ERROR =3D 0x4,
-> +    CXL_MBOX_RETRY_REQUIRED =3D 0x5,
-> +    CXL_MBOX_BUSY =3D 0x6,
-> +    CXL_MBOX_MEDIA_DISABLED =3D 0x7,
-> +    CXL_MBOX_FW_XFER_IN_PROGRESS =3D 0x8,
-> +    CXL_MBOX_FW_XFER_OUT_OF_ORDER =3D 0x9,
-> +    CXL_MBOX_FW_AUTH_FAILED =3D 0xa,
-> +    CXL_MBOX_FW_INVALID_SLOT =3D 0xb,
-> +    CXL_MBOX_FW_ROLLEDBACK =3D 0xc,
-> +    CXL_MBOX_FW_REST_REQD =3D 0xd,
-> +    CXL_MBOX_INVALID_HANDLE =3D 0xe,
-> +    CXL_MBOX_INVALID_PA =3D 0xf,
-> +    CXL_MBOX_INJECT_POISON_LIMIT =3D 0x10,
-> +    CXL_MBOX_PERMANENT_MEDIA_FAILURE =3D 0x11,
-> +    CXL_MBOX_ABORTED =3D 0x12,
-> +    CXL_MBOX_INVALID_SECURITY_STATE =3D 0x13,
-> +    CXL_MBOX_INCORRECT_PASSPHRASE =3D 0x14,
-> +    CXL_MBOX_UNSUPPORTED_MAILBOX =3D 0x15,
-> +    CXL_MBOX_INVALID_PAYLOAD_LENGTH =3D 0x16,
-> +    CXL_MBOX_MAX =3D 0x17
-> +} ret_code;
-> +
-> +struct cxl_cmd;
-> +typedef ret_code (*opcode_handler)(struct cxl_cmd *cmd,
-> +                                   CXLDeviceState *cxl_dstate, uint16_t =
-*len);
-> +struct cxl_cmd {
-> +    const char *name;
-> +    opcode_handler handler;
-> +    ssize_t in;
-> +    uint16_t effect; /* Reported in CEL */
-> +    uint8_t *payload;
-> +};
-> +
-> +#define define_mailbox_handler(name)                \
-> +    static ret_code cmd_##name(struct cxl_cmd *cmd, \
-> +                               CXLDeviceState *cxl_dstate, uint16_t *len)
-> +#define declare_mailbox_handler(name) define_mailbox_handler(name)
-> +
-> +#define define_mailbox_handler_zeroed(name, size)                       =
-  \
-> +    uint16_t __zero##name =3D size;                                     =
-    \
-> +    static ret_code cmd_##name(struct cxl_cmd *cmd,                     =
-  \
-> +                               CXLDeviceState *cxl_dstate, uint16_t *len=
-) \
-> +    {                                                                   =
-  \
-> +        *len =3D __zero##name;                                          =
-    \
-> +        memset(cmd->payload, 0, *len);                                  =
-  \
-> +        return CXL_MBOX_SUCCESS;                                        =
-  \
-> +    }
-> +#define define_mailbox_handler_const(name, data)                        =
-  \
-> +    static ret_code cmd_##name(struct cxl_cmd *cmd,                     =
-  \
-> +                               CXLDeviceState *cxl_dstate, uint16_t *len=
-) \
-> +    {                                                                   =
-  \
-> +        *len =3D sizeof(data);                                          =
-    \
-> +        memcpy(cmd->payload, data, *len);                               =
-  \
-> +        return CXL_MBOX_SUCCESS;                                        =
-  \
-> +    }
-> +#define define_mailbox_handler_nop(name)                                =
-  \
-> +    static ret_code cmd_##name(struct cxl_cmd *cmd,                     =
-  \
-> +                               CXLDeviceState *cxl_dstate, uint16_t *len=
-) \
-> +    {                                                                   =
-  \
-> +        return CXL_MBOX_SUCCESS;                                        =
-  \
-> +    }
-> +
-> +#define CXL_CMD(s, c, in, cel_effect) \
-> +    [s][c] =3D { stringify(s##_##c), cmd_##s##_##c, in, cel_effect }
-> +
-> +static struct cxl_cmd cxl_cmd_set[256][256] =3D {};
-> +
-> +#undef CXL_CMD
-> +
-> +QemuUUID cel_uuid;
+(3) Over the wire, the order of arguments to QMP commands is not
+specified. In generating commands procedurally from introspection
+data, I am made aware that there are several commands in which
+"optional" arguments precede "required" arguments. This means that
+function generation in Python cannot match the stated order 1:1.
 
-static?
+That's not a crisis per se. For generating functions, we can use a
+stable sort to bubble-up the required arguments, leaving the optional
+ones trailing. However, it does mean that depending on how the QAPI
+schema is modified in the future, the argument order may change
+between versions of a generative SDK. I'd like to avoid that, if I
+can.
 
-but really this seems more like something that should be in a property
-of the device. Will it always be fixed or is it something the user might
-want to tweak?
+One trick I have available to me in Python is the ability to stipulate
+that all (QAPI) "optional" arguments are keyword-only. This means that
+Optional parameters can be re-ordered arbitrarily without any breakage
+in the generative python API. The only remaining concern is if the
+*mandatory* arguments are re-ordered.
 
-> +
-> +void cxl_process_mailbox(CXLDeviceState *cxl_dstate)
-> +{
-> +    uint16_t ret =3D CXL_MBOX_SUCCESS;
-> +    struct cxl_cmd *cxl_cmd;
-> +    uint64_t status_reg;
-> +    opcode_handler h;
-> +
-> +    /*
-> +     * current state of mailbox interface
-> +     *  mbox_cap_reg =3D cxl_dstate->reg_state32[R_CXL_DEV_MAILBOX_CAP];
-> +     *  mbox_ctrl_reg =3D cxl_dstate->reg_state32[R_CXL_DEV_MAILBOX_CTRL=
-];
-> +     *  status_reg =3D *(uint64_t *)&cxl_dstate->reg_state[A_CXL_DEV_MAI=
-LBOX_STS];
-> +     */
-> +    uint64_t command_reg =3D
-> +        *(uint64_t *)&cxl_dstate->mbox_reg_state[A_CXL_DEV_MAILBOX_CMD];
-> +
-> +    /* Check if we have to do anything */
-> +    if (!ARRAY_FIELD_EX32(cxl_dstate->mbox_reg_state32, CXL_DEV_MAILBOX_=
-CTRL,
-> +                          DOORBELL)) {
-> +        qemu_log_mask(LOG_UNIMP, "Corrupt internal state for
-> firmware\n");
+(In fact, I could stipulate that ALL arguments in Python bindings are
+keyword-only, but I think that's going overboard and hurts usability
+and readability.)
 
-is this actually UNIMP or has something gone wrong internally or is the
-guest doing something wrong?
+Marc-Andre has mentioned this before, but it might be nice to actually
+specify a canonical ordering of arguments for languages that require
+such things, and to make sure that we do not break this ordering
+without good reason.
 
-> +        return;
-> +    }
-> +
-> +    uint8_t set =3D FIELD_EX64(command_reg, CXL_DEV_MAILBOX_CMD, COMMAND=
-_SET);
-> +    uint8_t cmd =3D FIELD_EX64(command_reg, CXL_DEV_MAILBOX_CMD, COMMAND=
-);
-> +    uint16_t len =3D FIELD_EX64(command_reg, CXL_DEV_MAILBOX_CMD, LENGTH=
-);
-> +    cxl_cmd =3D &cxl_cmd_set[set][cmd];
-> +    h =3D cxl_cmd->handler;
-> +    if (!h) {
-> +        qemu_log_mask(LOG_UNIMP, "Command %04xh not implemented\n",
-> +                                 set << 8 | cmd);
-> +        goto handled;
-> +    }
-> +
-> +    if (len !=3D cxl_cmd->in) {
-> +        ret =3D CXL_MBOX_INVALID_PAYLOAD_LENGTH;
-> +    }
-> +
-> +    cxl_cmd->payload =3D cxl_dstate->mbox_reg_state + A_CXL_DEV_CMD_PAYL=
-OAD;
-> +    ret =3D (*h)(cxl_cmd, cxl_dstate, &len);
-> +    assert(len <=3D cxl_dstate->payload_size);
-> +
-> +handled:
-> +    /*
-> +     * Set the return code
-> +     * XXX: it's a 64b register, but we're not setting the vendor, so we=
- can get
-> +     * away with this
-> +     */
-> +    status_reg =3D FIELD_DP64(0, CXL_DEV_MAILBOX_STS, ERRNO, ret);
-> +
-> +    /*
-> +     * Set the return length
-> +     */
-> +    command_reg =3D FIELD_DP64(command_reg, CXL_DEV_MAILBOX_CMD, COMMAND=
-_SET, 0);
-> +    command_reg =3D FIELD_DP64(command_reg, CXL_DEV_MAILBOX_CMD, COMMAND=
-, 0);
-> +    command_reg =3D FIELD_DP64(command_reg, CXL_DEV_MAILBOX_CMD, LENGTH,=
- len);
-> +
-> +    cxl_dstate->mbox_reg_state64[A_CXL_DEV_MAILBOX_CMD / 8] =3D command_=
-reg;
-> +    cxl_dstate->mbox_reg_state64[A_CXL_DEV_MAILBOX_STS / 8] =3D status_r=
-eg;
-> +
-> +    /* Tell the host we're done */
-> +    ARRAY_FIELD_DP32(cxl_dstate->mbox_reg_state32, CXL_DEV_MAILBOX_CTRL,
-> +                     DOORBELL, 0);
-> +}
-> +
-> +int cxl_initialize_mailbox(CXLDeviceState *cxl_dstate)
-> +{
-> +    const char *cel_uuidstr =3D "0da9c0b5-bf41-4b78-8f79-96b1623b3f17";
+(Of course, SDK stability is not fully possible, and if this
+functionality is desired, then it's time to use libvirt, hint hint
+hint! However, we can avoid pointless churn in generated code and make
+it easier to use and experiment with.)
 
-I'm curious as to where this magic number came from.
+(4) StrOrNull is a tricky design problem.
 
-> +
-> +    for (int set =3D 0; set < 256; set++) {
-> +        for (int cmd =3D 0; cmd < 256; cmd++) {
-> +            if (cxl_cmd_set[set][cmd].handler) {
-> +                struct cxl_cmd *c =3D &cxl_cmd_set[set][cmd];
-> +                struct cel_log *log =3D
-> +                    &cxl_dstate->cel_log[cxl_dstate->cel_size];
-> +
-> +                log->opcode =3D (set << 8) | cmd;
-> +                log->effect =3D c->effect;
-> +                cxl_dstate->cel_size++;
-> +            }
-> +        }
-> +    }
-> +
-> +    return qemu_uuid_parse(cel_uuidstr, &cel_uuid);
-> +}
-> diff --git a/hw/cxl/meson.build b/hw/cxl/meson.build
-> index 47154d6850..0eca715d10 100644
-> --- a/hw/cxl/meson.build
-> +++ b/hw/cxl/meson.build
-> @@ -1,4 +1,5 @@
->  softmmu_ss.add(when: 'CONFIG_CXL', if_true: files(
->    'cxl-component-utils.c',
->    'cxl-device-utils.c',
-> +  'cxl-mailbox-utils.c',
->  ))
-> diff --git a/include/hw/cxl/cxl.h b/include/hw/cxl/cxl.h
-> index b9d1ac3fad..554ad93b6b 100644
-> --- a/include/hw/cxl/cxl.h
-> +++ b/include/hw/cxl/cxl.h
-> @@ -14,4 +14,7 @@
->  #include "cxl_component.h"
->  #include "cxl_device.h"
->=20=20
-> +#define CXL_COMPONENT_REG_BAR_IDX 0
-> +#define CXL_DEVICE_REG_BAR_IDX 2
-> +
->  #endif
-> diff --git a/include/hw/cxl/cxl_device.h b/include/hw/cxl/cxl_device.h
-> index 4bdfa80eb4..b3aa248ee3 100644
-> --- a/include/hw/cxl/cxl_device.h
-> +++ b/include/hw/cxl/cxl_device.h
-> @@ -85,16 +85,28 @@ typedef struct cxl_device_state {
->      MemoryRegion device_registers;
->=20=20
->      /* mmio for device capabilities array - 8.2.8.2 */
-> +    MemoryRegion device;
->      struct {
->          MemoryRegion caps;
->          uint32_t caps_reg_state32[CXL_CAPS_SIZE / 4];
->      };
->=20=20
-> -    /* mmio for the device status registers 8.2.8.3 */
-> -    MemoryRegion device;
-> -
+In Python, generally, omitted arguments are typed like this:
+async def example_command(arg: Optional[int] = None) -> None: ...
 
-The above code motion should probably be squashed into the original patch=20
+Most Python programmers would recognize that signature as meaning that
+they can omit 'arg' and some hopefully good default will be chosen.
+However, in QAPI we do have the case where "omitted" is distinct from
+"explicitly provided null". This is ... a bit challenging to convey
+semantically. Python does not offer the ability to tell "what kind of
+None" it received; i.e. unlike our generated QMP marshalling
+functions, we do not have a "has_arg" boolean we can inspect.
 
->      /* mmio for the mailbox registers 8.2.8.4 */
-> -    MemoryRegion mailbox;
-> +    struct {
-> +        MemoryRegion mailbox;
-> +        uint16_t payload_size;
-> +        union {
-> +            uint8_t mbox_reg_state[CXL_MAILBOX_REGISTERS_LENGTH];
-> +            uint16_t mbox_reg_state16[CXL_MAILBOX_REGISTERS_LENGTH / 2];
-> +            uint32_t mbox_reg_state32[CXL_MAILBOX_REGISTERS_LENGTH / 4];
-> +            uint64_t mbox_reg_state64[CXL_MAILBOX_REGISTERS_LENGTH / 8];
-> +        };
-> +        struct cel_log {
-> +            uint16_t opcode;
-> +            uint16_t effect;
-> +        } cel_log[1 << 16];
-> +        size_t cel_size;
-> +    };
->=20=20
->      /* memory region for persistent memory, HDM */
->      uint64_t pmem_size;
-> @@ -137,6 +149,9 @@ CXL_DEVICE_CAPABILITY_HEADER_REGISTER(DEVICE, CXL_DEV=
-ICE_CAP_HDR1_OFFSET)
->  CXL_DEVICE_CAPABILITY_HEADER_REGISTER(MAILBOX, CXL_DEVICE_CAP_HDR1_OFFSE=
-T + \
->                                                 CXL_DEVICE_CAP_REG_SIZE)
->=20=20
-> +int cxl_initialize_mailbox(CXLDeviceState *cxl_dstate);
-> +void cxl_process_mailbox(CXLDeviceState *cxl_dstate);
-> +
->  #define cxl_device_cap_init(dstate, reg, cap_id)                        =
-   \
->      do {                                                                =
-   \
->          uint32_t *cap_hdrs =3D dstate->caps_reg_state32;                =
-     \
-> @@ -165,6 +180,12 @@ REG32(CXL_DEV_MAILBOX_CTRL, 4)
->      FIELD(CXL_DEV_MAILBOX_CTRL, INT_EN, 1, 1)
->      FIELD(CXL_DEV_MAILBOX_CTRL, BG_INT_EN, 2, 1)
->=20=20
-> +/* XXX: actually a 64b register */
-> +REG32(CXL_DEV_MAILBOX_CMD, 8)
-> +    FIELD(CXL_DEV_MAILBOX_CMD, COMMAND, 0, 8)
-> +    FIELD(CXL_DEV_MAILBOX_CMD, COMMAND_SET, 8, 8)
-> +    FIELD(CXL_DEV_MAILBOX_CMD, LENGTH, 16, 20)
-> +
->  /* XXX: actually a 64b register */
->  REG32(CXL_DEV_MAILBOX_STS, 0x10)
->      FIELD(CXL_DEV_MAILBOX_STS, BG_OP, 0, 1)
+So how do we write a function signature that conveys the difference
+between "omitted" and "explicitly nulled" ...?
 
+One common trick in Python is to create a new sentinel singleton, and
+name it something like "Default" or "Unspecified" or "Undefined". Many
+programmers use the ellipsis `...` value for this purpose. Then, we
+can check if a value was omitted (`...`) or explicitly provided
+(`None`). It is very unlikely that these sentinels would organically
+collide with user-provided values (Unless they were trying to
+explicitly invoke default behavior.)
 
---=20
-Alex Benn=C3=A9e
+However, `...` isn't supported as a type and using it as the default
+value invalidates the typing of the field. As far as I can tell, it
+CANNOT be typed. We could create our own sentinel, but IMO, this
+creates a much less readable signature:
+
+async def example_command(arg: Union[int, qmp.Default] = qmp.Default)
+-> None: ...
+
+This probably doesn't communicate "This parameter is actually
+optional" to a casual Python programmer, so I think it's a dead end.
+
+The last thing I can think of here is to instead introduce a special
+sentinel that represents the explicit Null instead. We could use a
+special Null() type that means "Explicitly send a null over the wire."
+
+This value comes up fairly infrequently, so most signatures will
+appear "Pythonic" and the jankiness will be confined to the few
+commands that require it, e.g.
+
+async def example_command(arg: Optional[Union[int, Null]] = None) -> None: ...
+
+The above would imply an optional argument that can be omitted, can be
+provided with an int, or can be provided with an explicit Null. I
+think this is a good compromise.
+
+(5) Generating functions from introspection data is difficult because
+all of the structures are anonymous. The base type for most objects
+becomes `Dict[str, Any]` but this isn't very descriptive. For Python
+3.8+, we can do a little better and use `Dict[Literal["name", "node"],
+Any]` to help suggest what keys are valid, but we don't have access to
+an in-line definition that pairs key names with values.
+
+Python 3.8+ would allow us the use of TypedDict, but those have to be
+generated separately ... AND we still don't have a name for them, so
+it'd be a little hogwash to have a function like:
+
+async def some_command(arg: Anon321) -> None: ...
+
+That doesn't really tell me, the human, much of anything. The best
+that could perhaps be done is to create type aliases based on the name
+of the argument it is the data type for, like "ArgObject". It's a bit
+messy. For now, I've just stuck with the boring `Dict[Literal[...],
+Any]` definition.
+
+(6) Dealing with variants is hard. I didn't get a working
+implementation for them within one day of hacking, so I stubbed them
+out. There's no major blocker here, just reporting that I still have
+to finish this part of the experiment. I'm pretty happy that Markus
+simplified the union types we have, though. To my knowledge, I got
+everything else working perfectly.
+
+(7) I have no idea what to do about functions that "may not return".
+The QGA stuff in particular, I believe, is prone to some weirdness
+that violates the core principles of the QMP spec. Maybe we can add a
+"NORETURN" feature flag to those commands in the schema so that
+clients can be aware of which commands may break the expectation of
+always getting an RPC reply?
+
+(8) Thanks for reading. I'm still buried under my holiday inbox, but I
+am trying like hell to catch up on everything. I know I missed a few
+calls in which API design was discussed, and I apologize for that.
+Please send me invitations using "to: jsnow@redhat.com" to ensure I do
+not miss them. I am also frantically trying to clean up the Async QMP
+project I was working on to have more mental bandwidth for other
+tasks, but it's dragging on a bit longer than I had anticipated.
+Please accept my apologies for being somewhat reclusive lately.
+
+I'll (try to) send a status overview of the various projects I'm
+working on later to help set priority and discuss with the community
+what my goals are and what I'd like to do. I have an awful lot of code
+I've built up in local branches that I would like to share, but I'm
+already sending code upstream as fast as I can, so maybe I'll just do
+an overview at some point and point to unfinished code/experiments so
+it's at least not completely unwitnessed work.
+
+I hope 2022 is treating you all well,
+--John Snow
+
 
