@@ -2,72 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C806C49CED8
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Jan 2022 16:47:08 +0100 (CET)
-Received: from localhost ([::1]:45270 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 85D1449CED7
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Jan 2022 16:46:10 +0100 (CET)
+Received: from localhost ([::1]:43574 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nCkVn-00077R-V2
-	for lists+qemu-devel@lfdr.de; Wed, 26 Jan 2022 10:47:07 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:45936)
+	id 1nCkUq-0005vY-VG
+	for lists+qemu-devel@lfdr.de; Wed, 26 Jan 2022 10:46:08 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:45550)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1nCkSu-0005Sk-Cm
- for qemu-devel@nongnu.org; Wed, 26 Jan 2022 10:44:08 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:43630)
+ (Exim 4.90_1) (envelope-from <jmaloy@redhat.com>) id 1nCkQq-0004Je-QQ
+ for qemu-devel@nongnu.org; Wed, 26 Jan 2022 10:42:01 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:42904)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1nCkSq-0004fe-Lx
- for qemu-devel@nongnu.org; Wed, 26 Jan 2022 10:44:06 -0500
+ (Exim 4.90_1) (envelope-from <jmaloy@redhat.com>) id 1nCkQe-0004XV-Dg
+ for qemu-devel@nongnu.org; Wed, 26 Jan 2022 10:41:49 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1643211843;
+ s=mimecast20190719; t=1643211707;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=HtsUtRXRY1Mguuvbysl8P+huoQAa2yL74QvhwBgfp9Y=;
- b=bvULJzvwOCqTr92g2JLAMx9tE+Ne2kUiTtaBC65qbo49Zk8NSuI+8uwxmaxxkwBhA+wA6U
- DLRwBe2zLMNq4y+cwE48TbzkZ4iDWv1B9GXmXi+Z2+7fqtC2tyfyxE4Je0Do+X26hEVVxH
- ySiH7BQOvRREjjZqKKYqBc1nbkXg2z4=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=xpHee+nSAqpFAw07VQl0FVXyck8x3gdlbsL18Hw5G3U=;
+ b=aNeJkFHitwR/MRhmmAZWF14YcxIfdq75Qtc+8aJHWFTc74LoB4At37UIPlbTukuKUgMs+3
+ 458BoJnwU8Tg/MOaNN8iJnwILBJ8ZnTaEupBMPe6l1jwVEE+8Cbd+AU3pVjixVhFmiKJqH
+ XOXjOAs/jS3XhyuZ0MrqIWdb/Sm0OZU=
+Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
+ [209.85.222.199]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-553-3as7lXNANBuzFTvaOq__Xw-1; Wed, 26 Jan 2022 10:44:00 -0500
-X-MC-Unique: 3as7lXNANBuzFTvaOq__Xw-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6574C108088A;
- Wed, 26 Jan 2022 15:43:58 +0000 (UTC)
-Received: from localhost (unknown [10.39.195.72])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A98C970D35;
- Wed, 26 Jan 2022 15:43:26 +0000 (UTC)
-Date: Wed, 26 Jan 2022 15:43:25 +0000
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Jag Raman <jag.raman@oracle.com>
-Subject: Re: [PATCH v5 06/18] vfio-user: add HotplugHandler for remote machine
-Message-ID: <YfFsHf6ITJdvimZD@stefanha-x1.localdomain>
-References: <cover.1642626515.git.jag.raman@oracle.com>
- <fa3282607f7fed7736bfdf3c1ae9f7fce466ed44.1642626515.git.jag.raman@oracle.com>
- <Ye/Rz1bHJN2m9vCo@stefanha-x1.localdomain>
- <A037BABE-9424-4EBF-A1E2-F712DC8A89CC@oracle.com>
- <YfEV0kh8uyy3MU8V@stefanha-x1.localdomain>
- <5447E2D7-5AAB-466B-9108-A903AEB51529@oracle.com>
+ us-mta-554-NSYQFz37N_qASaj083RNNA-1; Wed, 26 Jan 2022 10:41:46 -0500
+X-MC-Unique: NSYQFz37N_qASaj083RNNA-1
+Received: by mail-qk1-f199.google.com with SMTP id
+ u9-20020ae9c009000000b0049ae89c924aso2389880qkk.9
+ for <qemu-devel@nongnu.org>; Wed, 26 Jan 2022 07:41:46 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=xpHee+nSAqpFAw07VQl0FVXyck8x3gdlbsL18Hw5G3U=;
+ b=qO+yWPJir+q/LYW6wB5laLQSoECAzwfz8OYCyqIkCab2kDHsUHmG7YJMuFYPzPiLG7
+ jc4FYeqeGLC+uLzhFChbnaoSHLO7uHg40i7ld5aD/N4jW+RbmcMO/lw3C73WhBNCdK5P
+ y3Ek33nL+Km831oPxqxZnS71iB91dh1Neij23l37LzCqb+/qJCUV19eJmrwUAZnStX+J
+ vmbw+zJbTafMjYfWJBD0G8K6xFXu/+tVn8vuKkT+NTy9zwl/ymFA3iBg2lqCJLJuh2VJ
+ wY/XYbyrzMZAtGHKXJunBXTOgsftwipFBQpSQ+d8PHF6gYhlW2gWtNxDciryNk79578P
+ dj2Q==
+X-Gm-Message-State: AOAM530Hecmb/8ZPsBaiHB25SgCXKEmJ+BGkRp2DPWC0vU+KU4syk5vf
+ sBDJAJthLmyUC7uJPL4V+nrUpJeS3McYAevN8pw/GICbkrhh68+y1XgSH5N0bEA7ffhi0h3f7S3
+ wqFcUqjd0MyJ07FJTp3nDKDXBHL3CdIxAQbfcNFlzPmpn4M48NnGTQhXxyOpwKED8
+X-Received: by 2002:a05:622a:9:: with SMTP id x9mr20773386qtw.73.1643211705726; 
+ Wed, 26 Jan 2022 07:41:45 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJywfMG64CoxHal4jE+3XVIJ9hPpTecDaJ3gOtyqXKnW+ZKmQHnavf07RWJIUoNvNAmsTPlVhQ==
+X-Received: by 2002:a05:622a:9:: with SMTP id x9mr20773365qtw.73.1643211705425; 
+ Wed, 26 Jan 2022 07:41:45 -0800 (PST)
+Received: from [10.0.0.97] ([24.225.241.171])
+ by smtp.gmail.com with ESMTPSA id x16sm11440747qko.17.2022.01.26.07.41.44
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 26 Jan 2022 07:41:44 -0800 (PST)
+Message-ID: <bac2d939-380c-ec6e-d8e4-bfa6e97b0e18@redhat.com>
+Date: Wed, 26 Jan 2022 10:44:55 -0500
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="t7RtoQztHHfqyjG0"
-Content-Disposition: inline
-In-Reply-To: <5447E2D7-5AAB-466B-9108-A903AEB51529@oracle.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.0
+Subject: Re: [PATCH] fdc: check for illegal dma length calculation
+To: qemu-devel@nongnu.org, Jason Wang <jasowang@redhat.com>
+References: <20220114013319.348012-1-jmaloy@redhat.com>
+From: Jon Maloy <jmaloy@redhat.com>
+In-Reply-To: <20220114013319.348012-1-jmaloy@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jmaloy@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jmaloy@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
 X-Spam_bar: ---
 X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.155,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -80,90 +98,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "eduardo@habkost.net" <eduardo@habkost.net>,
- Elena Ufimtseva <elena.ufimtseva@oracle.com>,
- John Johnson <john.g.johnson@oracle.com>,
- "berrange@redhat.com" <berrange@redhat.com>,
- "bleal@redhat.com" <bleal@redhat.com>,
- "john.levon@nutanix.com" <john.levon@nutanix.com>,
- "mst@redhat.com" <mst@redhat.com>, "armbru@redhat.com" <armbru@redhat.com>,
- "quintela@redhat.com" <quintela@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>,
- =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@gmail.com>,
- "thanos.makatos@nutanix.com" <thanos.makatos@nutanix.com>,
- Paolo Bonzini <pbonzini@redhat.com>, "eblake@redhat.com" <eblake@redhat.com>,
- "dgilbert@redhat.com" <dgilbert@redhat.com>
+Cc: jasowang@redhat.com, pjp@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---t7RtoQztHHfqyjG0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 1/13/22 20:33, Jon Maloy wrote:
+> The function fdctrl_start_transfer() calculates the dma data length
+> wrongly when certain boundary conditions are fulfilled. We have
+> noticed that the if ((fdctrl->fifo[5] - fdctrl->fifo[6]) > 1) we get
+> a dma length that will be interpreted as negative by the next function
+> in the chain, fdctrl_transfer_handler(). This leads to a crash.
+>
+> Rather than trying to fix this obscure calculation, we just check if
+> the harmful condition is fulfilled, and return without action if that
+> is the case. Since this is a condition that can only be created by a
+> malicious user we deem this solution safe.
+>
+> This fix is intended to address CVE-2021-3507.
+>
+> Signed-off-by: Jon Maloy <jmaloy@redhat.com>
+> ---
+>   hw/block/fdc.c | 5 +++++
+>   1 file changed, 5 insertions(+)
+>
+> diff --git a/hw/block/fdc.c b/hw/block/fdc.c
+> index 21d18ac2e3..80a1f1750a 100644
+> --- a/hw/block/fdc.c
+> +++ b/hw/block/fdc.c
+> @@ -1532,6 +1532,11 @@ static void fdctrl_start_transfer(FDCtrl *fdctrl, int direction)
+>           if (fdctrl->fifo[0] & 0x80)
+>               tmp += fdctrl->fifo[6];
+>           fdctrl->data_len *= tmp;
+> +        if (tmp < 0) {
+> +            FLOPPY_DPRINTF("calculated illegal data_len=%u, tmp=%i\n",
+> +                           fdctrl->data_len, tmp);
+> +            return;
+> +        }
+>       }
+>       fdctrl->eot = fdctrl->fifo[6];
+>       if (fdctrl->dor & FD_DOR_DMAEN) {
+I never received any feedback on this one.
+Is there any?
 
-On Wed, Jan 26, 2022 at 03:20:35PM +0000, Jag Raman wrote:
->=20
->=20
-> > On Jan 26, 2022, at 4:35 AM, Stefan Hajnoczi <stefanha@redhat.com> wrot=
-e:
-> >=20
-> > On Tue, Jan 25, 2022 at 06:12:48PM +0000, Jag Raman wrote:
-> >>=20
-> >>=20
-> >>> On Jan 25, 2022, at 5:32 AM, Stefan Hajnoczi <stefanha@redhat.com> wr=
-ote:
-> >>>=20
-> >>> On Wed, Jan 19, 2022 at 04:41:55PM -0500, Jagannathan Raman wrote:
-> >>>> Allow hotplugging of PCI(e) devices to remote machine
-> >>>>=20
-> >>>> Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
-> >>>> Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
-> >>>> Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
-> >>>> ---
-> >>>> hw/remote/machine.c | 29 +++++++++++++++++++++++++++++
-> >>>> 1 file changed, 29 insertions(+)
-> >>>=20
-> >>> Why is this code necessary? I expected the default hotplug behavior to
-> >>=20
-> >> I just discovered that TYPE_REMOTE_MACHINE wasn't setting up a hotplug
-> >> handler for the root PCI bus.
-> >>=20
-> >> Looks like, some of the machines don=E2=80=99t support hotplugging PCI=
- devices. I see
-> >> that the =E2=80=98pc=E2=80=99 machine does support hotplug, whereas =
-=E2=80=98q35=E2=80=99 does not.
-> >=20
-> > Hotplug is definitely possible with q35. I'm not familiar with the
-> > hotplug code though so I don't know how exactly that works for q35.
->=20
-> I was referring to the root PCI bus, other buses in Q35 probably support
-> hotplug. Please see error message below:
->=20
-> QEMU 6.2.50 monitor - type 'help' for more information
-> (qemu) device_add lsi53c895a,id=3Dlsi2
-> Error: Bus 'pcie.0' does not support hotplugging
-
-Yes, I think that's because it's PCIe and not PCI.
-
-Stefan
-
---t7RtoQztHHfqyjG0
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmHxbB0ACgkQnKSrs4Gr
-c8jPxAf/W6hVS/E58n9+0EjKaouPy5M2kTP1L/FGu+e0OgAmz7OJFDuL0BWoOrVm
-bJGfNacJHy0kHu7s0jrK30lAFFIpK1XlREdExtOjrUKMek233k6scJ/z19eOPmdC
-Xlqq+XYbOx5vzYXA/LKgZzjx88EJc5t/nktOsmk+exn6HFzpT/6RM781EM9VXuDJ
-aewdsa/jPzgwKf/HWN8Oul8fmYLCBDM5ZZ80mHKUTbJ5KQLrN5qi/yDxn25QqIcN
-Zc/TmETVst2AHMD1Z/I8MnzOL8RL8cKINX81ZhZBSHTiGTMSc6KiEW4mdUIU/5KZ
-pY0lAwQh4IkXu6FVP/2qJbUYHTBlIw==
-=5rk+
------END PGP SIGNATURE-----
-
---t7RtoQztHHfqyjG0--
+///jon
 
 
