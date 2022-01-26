@@ -2,91 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6587949C5A0
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Jan 2022 09:57:30 +0100 (CET)
-Received: from localhost ([::1]:47770 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8533149C5A1
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Jan 2022 09:57:41 +0100 (CET)
+Received: from localhost ([::1]:48432 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nCe7N-0004ER-9h
-	for lists+qemu-devel@lfdr.de; Wed, 26 Jan 2022 03:57:29 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:55154)
+	id 1nCe7Y-0004hp-M2
+	for lists+qemu-devel@lfdr.de; Wed, 26 Jan 2022 03:57:40 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:55262)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nCe40-0002o9-II
- for qemu-devel@nongnu.org; Wed, 26 Jan 2022 03:54:00 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:60565)
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1nCe4Z-000371-Mo
+ for qemu-devel@nongnu.org; Wed, 26 Jan 2022 03:54:36 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:49148)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nCe3y-0004cM-9F
- for qemu-devel@nongnu.org; Wed, 26 Jan 2022 03:54:00 -0500
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1nCe4Y-0004ep-3L
+ for qemu-devel@nongnu.org; Wed, 26 Jan 2022 03:54:35 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1643187233;
+ s=mimecast20190719; t=1643187273;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=lGT9xdUApTRCxCpPr/6YVmonCdmEbYcsRjoEcoj8zx8=;
- b=gn5Ma7fm7SWJs+wMGqcupFssugPePPHpqXTawccQ8OUL7hYSI1MscLahzoEn7WaKV8Wdvf
- xbSDxP44c8etRUsqyGbqc7NOdPWyXtriUDyZjtgggS460MV7iEGpix84/RwGwOcvhLXfV+
- mF1tCkgd5x5/wZzKlqS9CjhRWmtJ9lY=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=KZ+KLRmEkI2xHam9Z0ONj0vqNG8QmvNvtH3Ax+Bb9C8=;
+ b=L4Xz4Z/lbvsDC/kTufs5ngvMWz/bq6IIH/4CgZpGwy4jd5woiLXPpjWoPcnLYoPkm/qIlE
+ CzlnKnht9/IkG5HvYY3JRdiZuwW+W8yc8XjUCdXxkPbRx0li0+AoZGxyAedYMp4JVAmzJs
+ oAj5YPNTXrQZvRem7X0JDfr+XMokmO0=
+Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
+ [209.85.222.198]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-632-zp_-HfFoPhuCgDOE_-hdtA-1; Wed, 26 Jan 2022 03:53:52 -0500
-X-MC-Unique: zp_-HfFoPhuCgDOE_-hdtA-1
-Received: by mail-wr1-f72.google.com with SMTP id
- a11-20020adffb8b000000b001a0b0f4afe9so3998619wrr.13
- for <qemu-devel@nongnu.org>; Wed, 26 Jan 2022 00:53:52 -0800 (PST)
+ us-mta-583-VPy5P1R5Pw6xzsD-ceIOoQ-1; Wed, 26 Jan 2022 03:54:30 -0500
+X-MC-Unique: VPy5P1R5Pw6xzsD-ceIOoQ-1
+Received: by mail-qk1-f198.google.com with SMTP id
+ q5-20020a05620a0d8500b004738c1b48beso16692932qkl.7
+ for <qemu-devel@nongnu.org>; Wed, 26 Jan 2022 00:54:30 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=lGT9xdUApTRCxCpPr/6YVmonCdmEbYcsRjoEcoj8zx8=;
- b=Nl6zrbEIMKqXXMhY8kLscx4H2Az74m5zWF7JRU8UGn7WnEuA73jeoCsqhwI/cWekhw
- GxCrun5ZyU7dIwF4F8gwJrWQ+cj1M/103TMFvKpBNwCF4LW0ZOnwJbzFrscQ54m1E63B
- yJ6lo/Mq/7xqmUIHqe3ovXfd8UpIUDWaWFcGz+gXJ581gc1hyuGz3DKzPVlRmZzKx+rX
- FK1ELqZgSfRPReUvYQNBHZGVXkbL1CQAdmvtsGGzh9M3W60OixPVWpIuoAskaInDDdu7
- ZVV2PNExP3+aQvevf5kBLhCAsd6arJmzdYlaTF0knAKEM65vboerVMmKHB89PMHjKamv
- 2gqA==
-X-Gm-Message-State: AOAM532+3t7Twi+qUD+B6LlK4Y+i2oayGGE3LW5J3uJiTeBLIybVNw5G
- XSUB5VUlsj57zw1/0Y93gKdYGlvv5IEU0NL5/FFXR72LIkbqKECeIOZtxBSMdnrAxNNFCn5/MHi
- Q6uWLwvGYN+PajGU=
-X-Received: by 2002:a5d:6ac9:: with SMTP id u9mr19023925wrw.213.1643187231494; 
- Wed, 26 Jan 2022 00:53:51 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwYMvv7Y5NAbZx5x3Ryg+R29v+Vk5kTHOPD/j6Mev01aWKgn5qwvxxVORjnqqe6OPwsgpvyCg==
-X-Received: by 2002:a5d:6ac9:: with SMTP id u9mr19023910wrw.213.1643187231322; 
- Wed, 26 Jan 2022 00:53:51 -0800 (PST)
-Received: from [10.33.192.183] (nat-pool-str-t.redhat.com. [149.14.88.106])
- by smtp.gmail.com with ESMTPSA id l40sm3016387wms.0.2022.01.26.00.53.50
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 26 Jan 2022 00:53:50 -0800 (PST)
-Message-ID: <87c5cb4f-edbe-6dbc-c6b6-1f34d26a3649@redhat.com>
-Date: Wed, 26 Jan 2022 09:53:49 +0100
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=KZ+KLRmEkI2xHam9Z0ONj0vqNG8QmvNvtH3Ax+Bb9C8=;
+ b=zI57VeEzIeFEGdOoOkd/0HUTKe/FwnIKCsGnZPkvuPCuN9emnzWD15tDkqn8eI9CWR
+ m4y7gkjPHFO9XKQFRgQJJ0m2bg43uPXRCj21X1wcsMBndDXH2Kyc0s3Ixdxr5BedZNmE
+ p4AbFDmIXoDVmCcd2WBFKf14BHNLBFAJmQFFsK+plo3JymH6wbnSlxCAm0lIX+LgG+hE
+ ru38HXWxGnCW6c4R2paD29yPY26GrZqLnJ4uvTLU7q6TPdu9yyezTvkbwaEsIIARFXGC
+ 6lhDlb7+6ine5bEHdnXVXL8rq2m2jSPekkmkswsdYHmwX+aDORWvZkKT9qUbiYrDn1+f
+ AvYg==
+X-Gm-Message-State: AOAM531NO2rcZVVhjJ7M8XUyyepHsAaguzrS+iTtn4NcmSLAHukOmj/G
+ /jLAl+XNJHzMvGCA7hUiuAmG5Dsh278nYCpUiC/+hHaeLabzo/hZApcOmkGlc15OSko8pUmiXWw
+ /SP5fAMF7qZStJmehJHIkOpu4q/rhDGY=
+X-Received: by 2002:a05:620a:408d:: with SMTP id
+ f13mr16002235qko.486.1643187269963; 
+ Wed, 26 Jan 2022 00:54:29 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzMugKnZNR99vnc3K1v9xJ3FGyLCGDWWGRTJd/9ijPwf3DAoZamXW8Sx3m5/Z9QS/piuUnPoyNS44E2pBvXhJo=
+X-Received: by 2002:a05:620a:408d:: with SMTP id
+ f13mr16002207qko.486.1643187269705; 
+ Wed, 26 Jan 2022 00:54:29 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.0
-Subject: Re: [PATCH] gitlab: fall back to commit hash in qemu-setup filename
-To: Stefan Hajnoczi <stefanha@redhat.com>, qemu-devel@nongnu.org,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
-References: <20220125173454.10381-1-stefanha@redhat.com>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <20220125173454.10381-1-stefanha@redhat.com>
+References: <20220121202733.404989-1-eperezma@redhat.com>
+ <20220121202733.404989-3-eperezma@redhat.com>
+In-Reply-To: <20220121202733.404989-3-eperezma@redhat.com>
+From: Eugenio Perez Martin <eperezma@redhat.com>
+Date: Wed, 26 Jan 2022 09:53:53 +0100
+Message-ID: <CAJaqyWfdWZJs5bg=zh+43m_8ecGm+KJLMFWqOqkK9hRG+tjwxg@mail.gmail.com>
+Subject: Re: [PATCH 02/31] vhost: Add VhostShadowVirtqueue
+To: qemu-level <qemu-devel@nongnu.org>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eperezma@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=eperezma@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
 X-Spam_bar: ---
 X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.155,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -99,47 +94,169 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Beraldo Leal <bleal@redhat.com>, Greg Kurz <groug@kaod.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- Gerd Hoffmann <kraxel@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Cc: Laurent Vivier <lvivier@redhat.com>, Parav Pandit <parav@mellanox.com>,
+ Cindy Lu <lulu@redhat.com>, Juan Quintela <quintela@redhat.com>,
+ Jason Wang <jasowang@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Markus Armbruster <armbru@redhat.com>, Gautam Dawar <gdawar@xilinx.com>,
+ virtualization <virtualization@lists.linux-foundation.org>,
+ Harpreet Singh Anand <hanand@xilinx.com>, Xiao W Wang <xiao.w.wang@intel.com>,
+ Peter Xu <peterx@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Eli Cohen <eli@mellanox.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Zhu Lingshan <lingshan.zhu@intel.com>,
+ Stefano Garzarella <sgarzare@redhat.com>, Eric Blake <eblake@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 25/01/2022 18.34, Stefan Hajnoczi wrote:
-> Personal repos may not have release tags (v6.0.0, v6.1.0, etc) and this
-> causes cross_system_build_job to fail when pretty-printing a unique
-> qemu-setup-*.exe name:
-> 
->    version="$(git describe --match v[0-9]*)";
->               ^^^^^^^^^^ fails ^^^^^^^^^^^
->    mv -v qemu-setup*.exe qemu-setup-${version}.exe;
-> 
-> Fall back to the short commit hash if necessary. This fixes CI failures
-> that Greg Kurz and I experienced in our personal repos.
-> 
-> Cc: Greg Kurz <groug@kaod.org>
-> Cc: Gerd Hoffmann <kraxel@redhat.com>
-> Cc: Philippe Mathieu-Daudé <philmd@redhat.com>
-> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+On Fri, Jan 21, 2022 at 9:32 PM Eugenio P=C3=A9rez <eperezma@redhat.com> wr=
+ote:
+>
+> Vhost shadow virtqueue (SVQ) is an intermediate jump for virtqueue
+> notifications and buffers, allowing qemu to track them. While qemu is
+> forwarding the buffers and virtqueue changes, it is able to commit the
+> memory it's being dirtied, the same way regular qemu's VirtIO devices
+> do.
+>
+> This commit only exposes basic SVQ allocation and free. Next patches of
+> the series add functionality like notifications and buffers forwarding.
+>
+> Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
 > ---
->   .gitlab-ci.d/crossbuild-template.yml | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/.gitlab-ci.d/crossbuild-template.yml b/.gitlab-ci.d/crossbuild-template.yml
-> index 10d22dcf6c..29c3c2b826 100644
-> --- a/.gitlab-ci.d/crossbuild-template.yml
-> +++ b/.gitlab-ci.d/crossbuild-template.yml
-> @@ -14,7 +14,7 @@
->       - make -j$(expr $(nproc) + 1) all check-build $MAKE_CHECK_ARGS
->       - if grep -q "EXESUF=.exe" config-host.mak;
->         then make installer;
-> -      version="$(git describe --match v[0-9]*)";
-> +      version="$(git describe --match v[0-9]* 2>/dev/null || git rev-parse --short HEAD)";
->         mv -v qemu-setup*.exe qemu-setup-${version}.exe;
->         fi
+>  hw/virtio/vhost-shadow-virtqueue.h | 21 ++++++++++
+>  hw/virtio/vhost-shadow-virtqueue.c | 64 ++++++++++++++++++++++++++++++
+>  hw/virtio/meson.build              |  2 +-
+>  3 files changed, 86 insertions(+), 1 deletion(-)
+>  create mode 100644 hw/virtio/vhost-shadow-virtqueue.h
+>  create mode 100644 hw/virtio/vhost-shadow-virtqueue.c
+>
+> diff --git a/hw/virtio/vhost-shadow-virtqueue.h b/hw/virtio/vhost-shadow-=
+virtqueue.h
+> new file mode 100644
+> index 0000000000..61ea112002
+> --- /dev/null
+> +++ b/hw/virtio/vhost-shadow-virtqueue.h
+> @@ -0,0 +1,21 @@
+> +/*
+> + * vhost shadow virtqueue
+> + *
+> + * SPDX-FileCopyrightText: Red Hat, Inc. 2021
+> + * SPDX-FileContributor: Author: Eugenio P=C3=A9rez <eperezma@redhat.com=
+>
+> + *
+> + * SPDX-License-Identifier: GPL-2.0-or-later
+> + */
+> +
+> +#ifndef VHOST_SHADOW_VIRTQUEUE_H
+> +#define VHOST_SHADOW_VIRTQUEUE_H
+> +
+> +#include "hw/virtio/vhost.h"
+> +
+> +typedef struct VhostShadowVirtqueue VhostShadowVirtqueue;
+> +
+> +VhostShadowVirtqueue *vhost_svq_new(void);
+> +
+> +void vhost_svq_free(VhostShadowVirtqueue *vq);
+> +
+> +#endif
+> diff --git a/hw/virtio/vhost-shadow-virtqueue.c b/hw/virtio/vhost-shadow-=
+virtqueue.c
+> new file mode 100644
+> index 0000000000..5ee7b401cb
+> --- /dev/null
+> +++ b/hw/virtio/vhost-shadow-virtqueue.c
+> @@ -0,0 +1,64 @@
+> +/*
+> + * vhost shadow virtqueue
+> + *
+> + * SPDX-FileCopyrightText: Red Hat, Inc. 2021
+> + * SPDX-FileContributor: Author: Eugenio P=C3=A9rez <eperezma@redhat.com=
+>
+> + *
+> + * SPDX-License-Identifier: GPL-2.0-or-later
+> + */
+> +
+> +#include "qemu/osdep.h"
+> +#include "hw/virtio/vhost-shadow-virtqueue.h"
+> +
+> +#include "qemu/error-report.h"
+> +#include "qemu/event_notifier.h"
+> +
+> +/* Shadow virtqueue to relay notifications */
+> +typedef struct VhostShadowVirtqueue {
 
-Reviewed-by: Thomas Huth <thuth@redhat.com>
+This is already typedef as VhostShadowVirtqueue in the header, so I
+will remove it here for the next version.
+
+> +    /* Shadow kick notifier, sent to vhost */
+> +    EventNotifier hdev_kick;
+> +    /* Shadow call notifier, sent to vhost */
+> +    EventNotifier hdev_call;
+> +} VhostShadowVirtqueue;
+> +
+> +/**
+> + * Creates vhost shadow virtqueue, and instruct vhost device to use the =
+shadow
+> + * methods and file descriptors.
+> + */
+> +VhostShadowVirtqueue *vhost_svq_new(void)
+> +{
+> +    g_autofree VhostShadowVirtqueue *svq =3D g_new0(VhostShadowVirtqueue=
+, 1);
+> +    int r;
+> +
+> +    r =3D event_notifier_init(&svq->hdev_kick, 0);
+> +    if (r !=3D 0) {
+> +        error_report("Couldn't create kick event notifier: %s",
+> +                     strerror(errno));
+> +        goto err_init_hdev_kick;
+> +    }
+> +
+> +    r =3D event_notifier_init(&svq->hdev_call, 0);
+> +    if (r !=3D 0) {
+> +        error_report("Couldn't create call event notifier: %s",
+> +                     strerror(errno));
+> +        goto err_init_hdev_call;
+> +    }
+> +
+> +    return g_steal_pointer(&svq);
+> +
+> +err_init_hdev_call:
+> +    event_notifier_cleanup(&svq->hdev_kick);
+> +
+> +err_init_hdev_kick:
+> +    return NULL;
+> +}
+> +
+> +/**
+> + * Free the resources of the shadow virtqueue.
+> + */
+> +void vhost_svq_free(VhostShadowVirtqueue *vq)
+> +{
+> +    event_notifier_cleanup(&vq->hdev_kick);
+> +    event_notifier_cleanup(&vq->hdev_call);
+> +    g_free(vq);
+> +}
+> diff --git a/hw/virtio/meson.build b/hw/virtio/meson.build
+> index 521f7d64a8..2dc87613bc 100644
+> --- a/hw/virtio/meson.build
+> +++ b/hw/virtio/meson.build
+> @@ -11,7 +11,7 @@ softmmu_ss.add(when: 'CONFIG_ALL', if_true: files('vhos=
+t-stub.c'))
+>
+>  virtio_ss =3D ss.source_set()
+>  virtio_ss.add(files('virtio.c'))
+> -virtio_ss.add(when: 'CONFIG_VHOST', if_true: files('vhost.c', 'vhost-bac=
+kend.c'))
+> +virtio_ss.add(when: 'CONFIG_VHOST', if_true: files('vhost.c', 'vhost-bac=
+kend.c', 'vhost-shadow-virtqueue.c'))
+>  virtio_ss.add(when: 'CONFIG_VHOST_USER', if_true: files('vhost-user.c'))
+>  virtio_ss.add(when: 'CONFIG_VHOST_VDPA', if_true: files('vhost-vdpa.c'))
+>  virtio_ss.add(when: 'CONFIG_VIRTIO_BALLOON', if_true: files('virtio-ball=
+oon.c'))
+> --
+> 2.27.0
+>
+>
 
 
