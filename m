@@ -2,88 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A62F49CC3B
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Jan 2022 15:23:39 +0100 (CET)
-Received: from localhost ([::1]:48820 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4563549CBD1
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Jan 2022 15:06:42 +0100 (CET)
+Received: from localhost ([::1]:51820 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nCjD0-0006gR-Gd
-	for lists+qemu-devel@lfdr.de; Wed, 26 Jan 2022 09:23:38 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:34430)
+	id 1nCiwb-0004kS-C1
+	for lists+qemu-devel@lfdr.de; Wed, 26 Jan 2022 09:06:41 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:34804)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <xadimgnik@gmail.com>)
- id 1nCidy-0002kX-Iz
- for qemu-devel@nongnu.org; Wed, 26 Jan 2022 08:47:26 -0500
-Received: from [2a00:1450:4864:20::329] (port=40826
- helo=mail-wm1-x329.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <xadimgnik@gmail.com>)
- id 1nCidw-0000Yo-8L
- for qemu-devel@nongnu.org; Wed, 26 Jan 2022 08:47:25 -0500
-Received: by mail-wm1-x329.google.com with SMTP id
- d138-20020a1c1d90000000b0034e043aaac7so1186463wmd.5
- for <qemu-devel@nongnu.org>; Wed, 26 Jan 2022 05:47:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=message-id:date:mime-version:user-agent:reply-to:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=4VWrmponanBoZjuBiqM+aKR3MrRMA0UiGhMwRZriHI0=;
- b=JCXrVw5w8jmMfAHuQXyfZWeBFVP+FfRIIwA/nHcX4GH6GeLxKlZR6B4Oq/4IU8fhhB
- w5U/MwDVapNuCxttoSQIiVeqbQbPAGyt0jKJLjGDHNeKX8Qswfkt6l6iMsnuMqb4vot8
- HDpO1CwmmYiBaNA3/bBtfV3N+ixi5q+SiqaZHImKVcNKQWXKFeoA1H7H0RH1hRE7d/n2
- ZKGcrCZ2h6bm8s9kWePYdkrj3lUiaBkfhSXP5xyS8pQP9rqft1od306SPGNciA7MRSu4
- gpo554ksHPUu0fpj4LSkzTjQYKRaSzuPCTx9cCF4cF9UjuD0VlXSL9fPjoF9cm6ZnIDM
- HX9g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:reply-to
- :subject:content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=4VWrmponanBoZjuBiqM+aKR3MrRMA0UiGhMwRZriHI0=;
- b=TFK8D2Iya5aZbwMSQyQZ6tC2ZXwzBJ2SZ8LXobkAhJIX40aG4IkQw1jqN9Pc537Daq
- HAuNO5opPLdpIqRPS4m7E4zgV1xz1OPv3G2KO6bBRQfe3jjQjMB1B0a1MuyFQcf64A6S
- BkBXEnyAXkmQi86ZDHSncBXLl0p2wupXZHCvykPBJeb1OVpjsmtbkh/LyktHN9NWRGH+
- LLmWiVCBqfo9T6ejhLG2H4PRBy6gh94hWYJcr4ieE/6kMwTpd9jf0VOeloYkWeHI7wEj
- e5Rme2t4Ey470zvciYHM4hfVMoW1uc8OYfbObLCr5RQiGKUGTnvU0PDtIX2Udl8H4luh
- 35Jw==
-X-Gm-Message-State: AOAM531V4W6tQeiIHeQ5D9jYQoImKig1CY32yU04ahe9KkrXbJuXpDMU
- H5+sXPtRKvLEwV5vIO6vdiQ=
-X-Google-Smtp-Source: ABdhPJz6bCth0FuLHkr3FlcNdgVZJzrqlzHciCO36Yn2SuiNT64swHO+PdQ5i81QyfsYsH4Q5yvUlw==
-X-Received: by 2002:a05:600c:4ec7:: with SMTP id
- g7mr7480705wmq.171.1643204842294; 
- Wed, 26 Jan 2022 05:47:22 -0800 (PST)
-Received: from [10.7.237.6] (54-240-197-230.amazon.com. [54.240.197.230])
- by smtp.gmail.com with ESMTPSA id p8sm3873089wrr.16.2022.01.26.05.47.20
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 26 Jan 2022 05:47:21 -0800 (PST)
-Message-ID: <2ebaf0d6-a84a-e929-5ac2-597c81d40230@gmail.com>
-Date: Wed, 26 Jan 2022 13:47:20 +0000
+ (Exim 4.90_1) (envelope-from <maz@kernel.org>)
+ id 1nCif7-0003d0-BW; Wed, 26 Jan 2022 08:48:37 -0500
+Received: from dfw.source.kernel.org ([139.178.84.217]:56334)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <maz@kernel.org>)
+ id 1nCif5-0000e5-O4; Wed, 26 Jan 2022 08:48:36 -0500
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 3F5D361536;
+ Wed, 26 Jan 2022 13:48:26 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A22DAC340E3;
+ Wed, 26 Jan 2022 13:48:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1643204905;
+ bh=CBTX/eYcW33qRvFz0VC673VNcvSRdP9HNWAH2mQKI8A=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=BCxbVTCBeJ+G2S/izyo2b3cD+FSurF0AcvvaLfEUE6UAAbM0Gw/wblplx/vwwNGNT
+ 6RN67LdacaQSjuOOYfr2ORG+jvoM10gBatbuGYy6WNxAfAwKCQw0G5RpXPmHGuJ+OD
+ KoCc6VTu7HOxSz3YCbefS+dps/qTdyO4PHTyFHffUgvHkXBbyq7aDtXhdWl5oClAc1
+ ndrzXXMRoJ5rQ3juQ0X3KuIDH0C2eblgYG1C1sQoNcw7+hwrnbmd8IJuGRhxR/ZXw5
+ Upgb8ZlAj3e6PLMV9HJZSiSg2F6aAHvO3xT+PxMJsqT8TRgkTrSioUwBnWh3zie+mw
+ KUduEcTEjT0Iw==
+Received: from disco-boy.misterjones.org ([51.254.78.96] helo=www.loen.fr)
+ by disco-boy.misterjones.org with esmtpsa (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
+ (envelope-from <maz@kernel.org>)
+ id 1nCiet-003E9b-JL; Wed, 26 Jan 2022 13:48:23 +0000
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH] xen-hvm: Allow disabling buffer_io_timer
-Content-Language: en-US
-To: Jason Andryuk <jandryuk@gmail.com>, Paul Durrant <paul@xen.org>,
- Anthony Perard <anthony.perard@citrix.com>
-References: <20211210193434.75566-1-jandryuk@gmail.com>
- <adfe1c14-f773-0592-e304-d80da8380cc0@gmail.com>
- <CAKf6xpv0=ex+OrFb1z4TpaULsmMaPQqmmsxoY_d4yJRt6Zx3sw@mail.gmail.com>
-From: "Durrant, Paul" <xadimgnik@gmail.com>
-In-Reply-To: <CAKf6xpv0=ex+OrFb1z4TpaULsmMaPQqmmsxoY_d4yJRt6Zx3sw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::329
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::329;
- envelope-from=xadimgnik@gmail.com; helo=mail-wm1-x329.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- NICE_REPLY_A=-0.001, PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Date: Wed, 26 Jan 2022 13:48:23 +0000
+From: Marc Zyngier <maz@kernel.org>
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Subject: Re: Raspberry Pi?
+In-Reply-To: <1e98b4ec-3476-387c-9dda-99a13121e22f@amsat.org>
+References: <CAK7rcp9pFFvYnvwgX_9ganFsc8V5+c7keofM7PPSY3Fp82J15w@mail.gmail.com>
+ <1e98b4ec-3476-387c-9dda-99a13121e22f@amsat.org>
+User-Agent: Roundcube Webmail/1.4.13
+Message-ID: <9864ab7ffce7f60d460051fa94f755c5@kernel.org>
+X-Sender: maz@kernel.org
+Content-Type: text/plain; charset=UTF-8;
+ format=flowed
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 51.254.78.96
+X-SA-Exim-Rcpt-To: f4bug@amsat.org, kennethadammiller@gmail.com,
+ qemu-devel@nongnu.org, qemu-arm@nongnu.org
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org);
+ SAEximRunCond expanded to false
+Received-SPF: pass client-ip=139.178.84.217; envelope-from=maz@kernel.org;
+ helo=dfw.source.kernel.org
+X-Spam_score_int: -72
+X-Spam_score: -7.3
+X-Spam_bar: -------
+X-Spam_report: (-7.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.155,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -96,50 +80,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: paul@xen.org
-Cc: Eduardo Habkost <eduardo@habkost.net>,
- Stefano Stabellini <sstabellini@kernel.org>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, QEMU <qemu-devel@nongnu.org>,
- "open list:X86 Xen CPUs" <xen-devel@lists.xenproject.org>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: Kenneth Adam Miller <kennethadammiller@gmail.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, qemu-arm@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 26/01/2022 13:43, Jason Andryuk wrote:
-> On Tue, Dec 14, 2021 at 8:40 AM Durrant, Paul <xadimgnik@gmail.com> wrote:
->>
->> On 10/12/2021 11:34, Jason Andryuk wrote:
->>> commit f37f29d31488 "xen: slightly simplify bufioreq handling" hard
->>> coded setting req.count = 1 during initial field setup before the main
->>> loop.  This missed a subtlety that an early exit from the loop when
->>> there are no ioreqs to process, would have req.count == 0 for the return
->>> value.  handle_buffered_io() would then remove state->buffered_io_timer.
->>> Instead handle_buffered_iopage() is basically always returning true and
->>> handle_buffered_io() always re-setting the timer.
->>>
->>> Restore the disabling of the timer by introducing a new handled_ioreq
->>> boolean and use as the return value.  The named variable will more
->>> clearly show the intent of the code.
->>>
->>> Signed-off-by: Jason Andryuk <jandryuk@gmail.com>
->>
->> Reviewed-by: Paul Durrant <paul@xen.org>
+On 2022-01-26 02:59, Philippe Mathieu-Daudé via wrote:
+> Hi,
 > 
-> Thanks, Paul.
+> On 26/1/22 00:59, Kenneth Adam Miller wrote:
+>> Hello all,
+>> 
+>> I would like to emulate something on a pi so that I don't have to 
+>> pay as high of a translation penalty since the guest and host will 
+>> share the same arch. I'm finding that on some forums that people have 
+>> been having trouble getting QEMU to run on raspberry pi. The posts are 
+>> kind of old, in 2019.
+>> 
+>> Does anyone know if this has been addressed since then?
 > 
-> What is the next step for getting this into QEMU?
-> 
+> What you asks is if you can run an Aarch64 guest (virt machine?) on a
+> Raspi4 host, is that right? IIRC it should work straight away using
+> "-machine virt,gic-version=host". Cc'ing qemu-arm@ list to verify.
 
-Anthony, can you queue this?
+Note that only a RPi-4 will provide any sort of performance, assuming
+the OP wants to use KVM as the acceleration backend.
 
-   Paul
+The original RPi has no support for virtualisation (ARM 1176), and
+the two following models are deprived of a GIC, making them a bit
+useless (we have *some* support code in KVM, but I'm pretty sure it
+has bitrot by now).
 
-> To re-state more plainly, this patch fixes a bug to let QEMU go idle
-> for longer stretches of time.  Without it, buffer_io_timer continues
-> to re-arm and fire every 100ms even if there is nothing to do.
-> 
-> Regards,
-> Jason
-
+         M.
+-- 
+Jazz is not dead. It just smells funny...
 
