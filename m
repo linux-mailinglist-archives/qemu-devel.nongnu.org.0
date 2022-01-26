@@ -2,77 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A7BDF49CFCF
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Jan 2022 17:37:06 +0100 (CET)
-Received: from localhost ([::1]:43504 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 929ED49CFFB
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Jan 2022 17:48:25 +0100 (CET)
+Received: from localhost ([::1]:58772 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nClI9-0005JG-Nm
-	for lists+qemu-devel@lfdr.de; Wed, 26 Jan 2022 11:37:05 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:57424)
+	id 1nClT6-00081n-Lb
+	for lists+qemu-devel@lfdr.de; Wed, 26 Jan 2022 11:48:24 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:57482)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eric.devolder@oracle.com>)
- id 1nClAT-0006Hv-7T
- for qemu-devel@nongnu.org; Wed, 26 Jan 2022 11:29:09 -0500
-Received: from mx0b-00069f02.pphosted.com ([205.220.177.32]:34336)
+ id 1nClAc-0006Zx-Ih
+ for qemu-devel@nongnu.org; Wed, 26 Jan 2022 11:29:18 -0500
+Received: from mx0b-00069f02.pphosted.com ([205.220.177.32]:53664)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eric.devolder@oracle.com>)
- id 1nClAN-00034Z-SZ
- for qemu-devel@nongnu.org; Wed, 26 Jan 2022 11:29:08 -0500
-Received: from pps.filterd (m0246631.ppops.net [127.0.0.1])
- by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 20QFosUP022408; 
- Wed, 26 Jan 2022 16:29:00 GMT
+ id 1nClAV-00037T-Q9
+ for qemu-devel@nongnu.org; Wed, 26 Jan 2022 11:29:14 -0500
+Received: from pps.filterd (m0246630.ppops.net [127.0.0.1])
+ by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 20QFon7A028823; 
+ Wed, 26 Jan 2022 16:29:05 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references : content-type :
  mime-version; s=corp-2021-07-09;
- bh=t4WojR4pPgZM7ReGPbmzFpfQeLKcgV8YM5y77IDNGc8=;
- b=pfxB+VcIR29m0kDhwbS75MnrFcCajGGeGLUlra3zisWlSGR3PC96Cbfe71bE/6DoIvmr
- ShHu76BRXnm6ZjSwW8bxuIihjBxqN4jvrJqT0ENrVrszdWhmnMTWP7kEM6R+1oS3/+7Q
- XSAzg3+MbT2XjAs9rMFuB+WYPSfEGFMiQD+zpjR5cOmvm+UOVnS1MurRYmzjXNEua1GS
- pOuzWyB9Qa+Y8xaB2uNV9pGxHSsUIKwcnQS3GuTO1CcIDEsfC9o3CFbaeHMUjLwV1jIw
- fwzncHigmgSvZUpaN3T89Qd2+oJCZmLKv2IiuLI8CH3EtvRrAkBoPj/OrSTF01ofrpJS Zw== 
-Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
- by mx0b-00069f02.pphosted.com with ESMTP id 3dsvmjf3rc-1
+ bh=yNjDVR8eJHn+lKawALImTWMalVxYrm0AX21gFo67b7c=;
+ b=bFTW1vkAsOlCFlVSIrEPl/DmjyZ27TyPMCq/7hYUefh9pBaZIPed0dWyoF42gvJ82U3s
+ SGmusgPmLxXXTJXADL77z7NPrxycTQnAR8m/TtyUna06stRgwHVKDvfmLrHtdsXisNBo
+ Yfd/2sQv7F20xlDk34wnDDwxzPRogqm48BqDMe95weKSH1aFBZktJaBhquqifmNO6K2k
+ hpPrICQ8WgmfYzRHUzVqS1BOStMp4MWSbnT4oa4rmbP66l1/mJyEPQsmR9Ay6YFO6wny
+ K5NGNuhsmMLoyIQ/KyciOfI3rdOjQNguEmwarfNi1ETVNUEgXZ8CRc5M5JSAsYvtwTk/ dg== 
+Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
+ by mx0b-00069f02.pphosted.com with ESMTP id 3dsxaaej24-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 26 Jan 2022 16:29:00 +0000
-Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
- by aserp3020.oracle.com (8.16.1.2/8.16.1.2) with SMTP id 20QGAnAv183810;
- Wed, 26 Jan 2022 16:28:59 GMT
+ Wed, 26 Jan 2022 16:29:04 +0000
+Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
+ by userp3020.oracle.com (8.16.1.2/8.16.1.2) with SMTP id 20QGAU33153273;
+ Wed, 26 Jan 2022 16:29:03 GMT
 Received: from nam12-dm6-obe.outbound.protection.outlook.com
- (mail-dm6nam12lp2168.outbound.protection.outlook.com [104.47.59.168])
- by aserp3020.oracle.com with ESMTP id 3dtax8qprr-3
+ (mail-dm6nam12lp2170.outbound.protection.outlook.com [104.47.59.170])
+ by userp3020.oracle.com with ESMTP id 3drbcreyd0-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 26 Jan 2022 16:28:59 +0000
+ Wed, 26 Jan 2022 16:29:03 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=kaHOnmP/cE+uSDi8wEQM9kLszddoh3NDWU8g8rcyNS58hi6RqrhOrCigaS2q231h+thRnxHKjw5PAW7o/koWvMh99MugXsRcx+2XLHkh3VNfTUdn1Jk1pYMnPFHAVg53khn4W0WCih+Usobvv4LO+fv6QnkXOoqbn3EZHv46tcP4Z64Vx7sd4wpAnGvB+SCosX4tuLl8+0HFSoXEKgUjHgsmglOt1nEuAGHHqYg3KgK1Hu611Zp0rcElRMJC29/XPQY1To/oZOa4mACPjyeA42TGJijKEZj/Z8tolT0w9nvzdtF2Mbh61fBasdNaw33SyUf4R1iaf+5bpeMRA1AUBA==
+ b=LStpELkmnAqX31wNdcPaz7Kt8TI7CMrEGLFiJMa74d35sLZ7qBf2ti66fNGhmwLBrvtRzwA2gN/Sw0uaX2l5FC2Qq23yLXddPsGJmNdaBOM0ZnKBNG9PRD4MydahBLJxK5/Hpm4oDf+NTNV7v6kMdL6xhA/eF/LYRoRH2ZscpsVxl7WT3Eqm83O3ME9smlBIsmMqLv6EQC9pVtXUgT61VyBQ0UlOPOUZOMzZFgFBc66LSWFwhyTfxor9MYyYHFplZ0S8/Svo5RcpJG4HGeaNlaPZEda4TmnmDOiOyTsX37/zMwhy2FGwfCfE/UgH0rl+V3Wpz6WS1Eoffnzvle8fpQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=t4WojR4pPgZM7ReGPbmzFpfQeLKcgV8YM5y77IDNGc8=;
- b=SYDhtk2550OicEIdV4lXJL7qC1LYE+m5TmVw1zjXH9pIHP9e92MxaaqZIdB6eBbBc2BZQO1UTK4Kb2uNdwq3QPOBMAwNDMhAYlVAGAbimn0X+7Hq/Z61r4JgMu1UV+ku0GU23RYw0t4chHRRA1CCVYwbGhLngAdvJFX9GSUusCGbDfLJggBuolSCohsZZjz2WeyxcHWSg1gFUPQarOy9X6iQS8CYmpc+fT5+h4ZLLmTIrfvEhPyVkDJEOdxVb4TqgzTD7IDh+YpGNk+a2OcyTVUfeWMXAd/XhTPoKuPXbrwjpFoem2q+3ea7C64F2Ki7IJiuJCEIi0iKlDBGsKaG4g==
+ bh=yNjDVR8eJHn+lKawALImTWMalVxYrm0AX21gFo67b7c=;
+ b=THLdzoo2HnHW8KdGqF/xI/VUd8R9P/DTtZY9P8XI7WBcTGekA3Owk3xElBd2zavWdkxvM9ajObBSw9lAUoe0ytmNpd7Ywg+QYeNebaW1YRe1tTab1pHyDyXQg09vuquqwCflw3R6Jd/ca0wjHOzxCZf8AJW3CAuBD/eSt2Fmm5x3KK7rcDrV0ismyeTexxWn/rlioY4rcB2D1pXxSlJIVIQ+quF9CIYpQ97T++DWuHfjrbjyOOxou2OCJw2QmZbOuz250cNj9MskaXLre5joIBlD9gTAdgm/GmllmkAoxbpTC//HBvM5ylsfu9wupX6rxdO2Ng54AOsXm4OjNG+6iA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
  dkim=none; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=t4WojR4pPgZM7ReGPbmzFpfQeLKcgV8YM5y77IDNGc8=;
- b=VCNDu5C0LVZBjyRa83gIKwYmrZpaszxBtrcp0j/WiMcxRqiA0ieR/OSZ+q0l6gJfPT3Y3yt3IOtuReN90KeAKGySCaxoazMUU5oQeDOlpYddMqJim7g/QRyIGRDUBpVEvER8cMrhhH1cKCP9CkvDB2hEzb8PLWKwLe48+s8BR2M=
+ bh=yNjDVR8eJHn+lKawALImTWMalVxYrm0AX21gFo67b7c=;
+ b=a2qDDAUUsOPL3DZVUdl5n9sSElcpWm1CsPpyCbJfqacC2/q572d/+Av1i7GvpOWsWbWW5BjnI9wcqYpyIVy2uwOIfZ5e7uFwJFtHllelSXrMIg6nH6ZHmw6H3HwvcRwPgTF6QCYJPf9cGvEf9Mybpx9u7C1sGSSEhm9HyAAFcC0=
 Received: from CO1PR10MB4531.namprd10.prod.outlook.com (2603:10b6:303:6c::22)
  by CO1PR10MB4450.namprd10.prod.outlook.com (2603:10b6:303:93::21)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4930.15; Wed, 26 Jan
- 2022 16:28:57 +0000
+ 2022 16:28:59 +0000
 Received: from CO1PR10MB4531.namprd10.prod.outlook.com
  ([fe80::ac06:be4:5723:771c]) by CO1PR10MB4531.namprd10.prod.outlook.com
  ([fe80::ac06:be4:5723:771c%4]) with mapi id 15.20.4930.017; Wed, 26 Jan 2022
- 16:28:57 +0000
+ 16:28:59 +0000
 From: Eric DeVolder <eric.devolder@oracle.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v14 07/10] ACPI ERST: create ACPI ERST table for pc/x86
- machines
-Date: Wed, 26 Jan 2022 11:28:31 -0500
-Message-Id: <1643214514-2839-8-git-send-email-eric.devolder@oracle.com>
+Subject: [PATCH v14 08/10] ACPI ERST: qtest for ERST
+Date: Wed, 26 Jan 2022 11:28:32 -0500
+Message-Id: <1643214514-2839-9-git-send-email-eric.devolder@oracle.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1643214514-2839-1-git-send-email-eric.devolder@oracle.com>
 References: <1643214514-2839-1-git-send-email-eric.devolder@oracle.com>
@@ -82,67 +81,67 @@ X-ClientProxiedBy: SN7PR04CA0223.namprd04.prod.outlook.com
  (2603:10b6:303:6c::22)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 816b7041-d1ac-408e-1c9e-08d9e0e8f3c8
+X-MS-Office365-Filtering-Correlation-Id: e96e2bf6-cf39-4387-781c-08d9e0e8f4bd
 X-MS-TrafficTypeDiagnostic: CO1PR10MB4450:EE_
-X-Microsoft-Antispam-PRVS: <CO1PR10MB44508BEA767540337D8DBC7897209@CO1PR10MB4450.namprd10.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:5797;
+X-Microsoft-Antispam-PRVS: <CO1PR10MB4450081A1B0BC40478D9BF6497209@CO1PR10MB4450.namprd10.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:644;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: HtAIFmxKGZ/qHLwmGcF/ZjqX1VF4oSxXoo/nOWzAG/c4D9KtUVhDOI3gjhjjUx0Hah4MZYarc+sSQ8BZtfzC4s7aurY1Pj5nHVQMy0vRZuL5EYya6FnmJ5oOam+tpxB/r//tActfMkV5AA6ByOjWp6e0DWUPxQbWK4UgIBzGKXE/Nge/xXT8rOxj6hSaNvOpa3Q5s6QRVXpTvv0jHeDJ+KZoZSUIW/QsSMZ7lOkFC98mCjHnXHDRaUtdzhynUGKGG7IRSkg8rVHhdN4ZQO4F63fHfGrbmoH5uMdLFDSvsWUF2v+KFLv+SZGtxUWrbMf9rhr8VIPVS6noNukGBKZi8bTLewhq4RzytT85ZXsBenDcvVbjPhQYivgm48pCTjrWjNsoDykbDF7Kol9yzvVCyIAuHhCzeP0viDhvqrYiS/ua6m5bcPUElfYaawm+rGASk5RKZP17iqcYG3tNfcr/xh3v00e+pr6lQPXCw7idgkmjHrrAMB740UVasNtqF5eeKaIjWHJZ/5RxZzy7bclBIBhZT2BeDBMvVHOKun40oGsVZI+awgRMrzxZ7qxCMDvIidEfFOmAac21GLsGuume+m1jB0/AB65MVLRrs5KPBU+Mhz0bEilVlGqEuXw5BsE7yOYVCVqUPHEqK6baip+ffXbbL22GDKKJj+58Thn8ckYxcbrPahNtRO0scjY7vwKO
+X-Microsoft-Antispam-Message-Info: cX50Wwu3IArZTixkbj8NEqYrrKBJOjPoaEDO7UGjzXExE/xiFDNJ+n+TvPDazLTU9blhj3UD0xnvc/Ef4Eka87A0LQdkR73ERUzmCqNE99hxFOWUV6TwODrICMFDOeIKGYu7V3MuEbdWmJgsvwA1xeKMonL8qva37LbDni0SJnoLgvwkFBQCUxhcuDSkTmXBapqvNUmGeKl6LIhsUsb9SHgBQdldUdQHh/bl7h7JQ4yz50P2S3anelzsYsI6kXWh/eyvDwTEfJux8W5xGUQRKlyT3jXZkzlvCiYZwWsgBFXOmMReGNg4sk1hukpYeJLPi7xJkLE6fKWvar+Xnx/QZYjmNdoHgYRlq6t1Y0KKP7czaJ/XGIMCp3lnqk7XnlWQuMmTwaObiyyzPFA5k5INwxpcbJCCbhgretXS+4I9R9I+rtzqra1i9g+bbnoNDldVAftkS7aaMxZIpfzXzAtUu6KahoCvortCscwj8wYr59xjoIxqn4IYwHBGPGAh3R03mm4exzpYnQMaJOEM0J2qUTaB/JBwRKO6qEjI8rMZRsE4kGfZkyHi7Zaxybsc7kA4UWmzGE/AhlsOM+5OU/V2hkngyxavMIgNYJS+uKdCWqY58uBgGPQp5tbmhiUV3WMc3I8NyixYZp4FWFPrckmpi+DpFT+PhQe1tj7yQ+GiMm5WCirXP2BjwiW5AgtOR1D3aZlCr8DptmAdnx8j/2wa9A==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:CO1PR10MB4531.namprd10.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230001)(366004)(6486002)(6916009)(66556008)(66946007)(4326008)(8676002)(66476007)(8936002)(508600001)(86362001)(316002)(5660300002)(6512007)(107886003)(36756003)(38350700002)(38100700002)(186003)(26005)(2616005)(2906002)(6666004)(52116002)(6506007)(20210929001);
+ SFS:(13230001)(366004)(6486002)(83380400001)(6916009)(66556008)(66946007)(4326008)(8676002)(66476007)(8936002)(508600001)(86362001)(316002)(5660300002)(6512007)(107886003)(36756003)(38350700002)(38100700002)(186003)(26005)(2616005)(2906002)(6666004)(52116002)(6506007)(20210929001);
  DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?kxgepdxGwMxsuPb24bFcBqeEvg91mqJwIzZi+ofDCjnwC2nhSzTGzPLRNVbf?=
- =?us-ascii?Q?Cxfg4DSJjzq8HrtaWnoGZtHfW347v28mHkDM/xLDCT7H3zfL3UIU22EQDRwG?=
- =?us-ascii?Q?e+psR9QzJuBBMnfMPwBKWAhs7C1crNPx6z2+23Oi1iE96qCF+s0o5XDu5Lnd?=
- =?us-ascii?Q?zlUex2D5ns3CQ7MOsqFbMz5Ux4HzD7LJ2m+S+YrRY8/dSMEwvcSjjhesNnGg?=
- =?us-ascii?Q?aIqRdF8Bpy/PJ+LgtbUXrn3RnWPaFrueZECurcqsG8iitmCe2UaKwK0NJyoD?=
- =?us-ascii?Q?bevTjcvdGm8UvHYssXmXLo9XB+fAzPdrTwO04aeqYeMiLfpOf4oYIu6lO2I2?=
- =?us-ascii?Q?rGH4il5x9uVvHG7EwuFfBP6cZhbkumklf0foYcri8MxTNEuyYpAVDLnagm/R?=
- =?us-ascii?Q?pdlWvulgZgZNw1imJ8p3Lj/6yWa0+Z1e2yXpYdDNldbHhOqD48PEmUnp4RRu?=
- =?us-ascii?Q?Di7K8lOqvOU2lT8thmxQt27I74iXnDRON2r9c8Z7r/MfSL9KfBp5uyHxoH/B?=
- =?us-ascii?Q?dPTEbufyV07vFpOGS7eaP1ZfT3Icr5KoX0saI9Kz1Jdjn1OWMmvEM/iUgoA4?=
- =?us-ascii?Q?qxFKUHoHH53qfYv2/ZBFZ3LVVQsYpAjnBt5w0ohe9orjyeKclbRVISDg6M8A?=
- =?us-ascii?Q?qWpzmThGhjNBUV5unuiD2qJrxHXqWnhQ1lQeYySiKaKmplbCHwKaArQvTXOa?=
- =?us-ascii?Q?YvvhEkN3o5FOZHS6pN1+AONqOuZ5VOIcH8/plK6a11c5CbEtM93ZQel20khQ?=
- =?us-ascii?Q?mUdXvt63MvqyMAz0COQBUqsnfMYgPjY5WqV2tZln1MDSX5Ejz1AtVocjrgyU?=
- =?us-ascii?Q?3PfyWudx9qz+LQJ/JZlUVNU7neZU13SEs3VJHRcp/B0b1KrCCKz0zpKKeXGl?=
- =?us-ascii?Q?0D1gWzTSCXZrq+TXnKODezNTsmaiB0CfP+RIzX5DQIz/9KvbEtFsOWbDEixp?=
- =?us-ascii?Q?pvWf197X8efJt8axXFESmq9/kaTRKQQK1uLKxRg8kGxTIaOQ8jjg5JPd6Q6S?=
- =?us-ascii?Q?Z4eS29toEmbxpnQw0lWkIv3nwCGZg0X5/samtqOZGaXrBXlG39jZk1FtD30+?=
- =?us-ascii?Q?G2RYz2DpcYgboJcC2lvHtnLGBbyR1kU243++VuS5w07N+SJlPmzbaaJW26sg?=
- =?us-ascii?Q?AQFYUGhheaqTHl+a4LEYO2wWsA2fP5vZbVn89NYgCHYFPeh1nlmV5EwkKj1Q?=
- =?us-ascii?Q?jYvZbaYyjSnfvi4NsGVPrVRI3f3xgSvTLl75XDMvGF0VH08/ZakEixIxutt8?=
- =?us-ascii?Q?6gR7XofDOLv7zLcc5rizYNCFi1usxgXppc1Z1Fbe/WXRfxu97kGKrXDrFHtM?=
- =?us-ascii?Q?ZsrxWNCxFghsN81k4b93y8hwqh5LIvdePjMwaqD87ipTA5+d3UUJgpj21D1p?=
- =?us-ascii?Q?+hyCfCkicNd2L5zCIOfRdC+jHy1Chh1XlhSgh/mUAOKTjpWcbwnZo38lH8GK?=
- =?us-ascii?Q?4i6W7eEgBw38TMDxAArFqyPRbs8B23LGAQbtllwhehRJoww7szE0ixujQR0m?=
- =?us-ascii?Q?9p12DcRLjaDzSrilDf1hzzKTAVOkO9OdlttS6aXaWcQbntVm5I9XABwWylqW?=
- =?us-ascii?Q?JyYl+yJjqIUV/9Dm2zpT+JHR3pFAAwuEwR1lvBYv3XJNNbuj5E3YfGqf4mqi?=
- =?us-ascii?Q?4Trqay6AI8z2dw3KfoYxkFRH0KsLL2M3QfPLSg6f6KBH5Y1mRtBQ6/gwCKeb?=
- =?us-ascii?Q?ipAkdw=3D=3D?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?0iuYfbqM2NM5Uu1PPDvZwBD3T7bkiL4ZaO0Mo24sVx/fpVNz7RFd6YAhtHbV?=
+ =?us-ascii?Q?BgQDt+5wC3BV+ueQ23+YHjECe0Cum/rR8ExRCS9tD2LpzPXgbk2g5g72xtZG?=
+ =?us-ascii?Q?8EyXGOfkGslx55Nk/jBb7PPUg1QmEQK21YK9I4J4khaqbr5/pFQXyu4JZe8K?=
+ =?us-ascii?Q?K9yxXZX6gw0nM9ise78QSUjUQxYKuw2rxiqUUpDxpEcOmSqHRMCB7PErNsMg?=
+ =?us-ascii?Q?VQMr+ZxUAsDCLhfRz6MpqHpXbMhKOIsIYoprB1Go9Js/ILe7ItF7R6BzN9ub?=
+ =?us-ascii?Q?IiYpcImGVv1uThqeIu1Msy4Zw8sSTqlUdXjckZvrVtuZIliMp4i0MsS+UI32?=
+ =?us-ascii?Q?46bMxKbLk5dzmOAK3XiO2JiALK2AAQbns3Sf8HXPz1vKWk59BWq6SmxMKQ8C?=
+ =?us-ascii?Q?0Uo93Mb0ja13/AzIbYdlMsvIU+RhjuHAT/gSUP3bBqxh4LE8NwfSzVTmEBcI?=
+ =?us-ascii?Q?bYn4/did4yY6W+p95MTmK455GD/eLst3pwYA5RXe4kXIysBt5m88o8tA7MNh?=
+ =?us-ascii?Q?yG5QIlo4K8UCLZ2xFEXq/sgyIGiP9KqtPK2IHcMM1iUqX7T+6CUDDpqMJpZt?=
+ =?us-ascii?Q?hHKSPtNxOXwmXG8UXaLrIxHNoy30ELm3pOFJrV1yjnw7O6tECXqMees0eU/f?=
+ =?us-ascii?Q?un3KIycRI9bOwopDhjgyhYNagyp4/DoW6Va4UrAl7HlQ4lVpV8hPuKxYE1C7?=
+ =?us-ascii?Q?0wawZ8HuOI06p20lDCX6xJdg7+++7XS5GZmNF8DfqUwbMtNWYynhczcXaOw+?=
+ =?us-ascii?Q?C8TIBpqus5w54g5sMa7+qfGutW8b7ZQPphpDLkOXictiVZgI7YQtESQnvw/W?=
+ =?us-ascii?Q?AdBW6Lfmj47VMykQ39/3Rj11uDTuxwqHuM8M4JBSV4qfARfbRfOt+jmZov5r?=
+ =?us-ascii?Q?rBsspzcn+/tRMY+GHMzN59c7rriaSxwW/1I+RGun5gMzgNyt0FoaXryLU8sE?=
+ =?us-ascii?Q?1cwoMJgneIDxxd1uAanAs9K9NdOK8hK1OQbdlwpwH2+HCXxZSsWcYWXsPU28?=
+ =?us-ascii?Q?9zFkJnDcUWu2ba4cuxvZQnu8/6CbUKiyj6qTQDRNavNuCjKInhV2nhHumtzN?=
+ =?us-ascii?Q?7ANSHKCNUN6x9OFRFHUPMGTufqkKRb7fSLcB8ZRyaqf+6mYKyGfd7op+lRMl?=
+ =?us-ascii?Q?Br2+P//av12UytMb3EsjhsjmHqjETVExq0OGq1hSlIjbOsFUnOuD8bCYNwDK?=
+ =?us-ascii?Q?kW3vCdB2AKyJ2P8NvLRHCSw+sFvvRAml3gMElU3JCsnoxNPccqvZADVcPAEK?=
+ =?us-ascii?Q?ADj6kmy/O0/dsnygGn6p+gX702D0b/BxPdWh1DBjUxIb5G7wga2sm1Nq6HI7?=
+ =?us-ascii?Q?l7M1qv8EPv0q2hpEw2LAnjF4k0QsXIWR4JZ3SEJHirl6M2V9sdUQqfHKGlSD?=
+ =?us-ascii?Q?c+vASzD4QKrW51Ie8l/zhSrN9e4d2d55t+nP5Xc9BCiFWoLtS85c7gf33YKO?=
+ =?us-ascii?Q?EghMeOA0Gt18xpUHLMUAVQl+vz9lwnkyH8HXsSr0yWI5+P+SRO9l5GV5dFoM?=
+ =?us-ascii?Q?3y0UbInqiLFwdBQcVmvDM/i8Bupob3qxQfgF/dvOd+6+G6HGQwT97DlSPphT?=
+ =?us-ascii?Q?Zvo8y2unCqhou2ByWr0FpYEe0f64n70O0pV0xMLmbz4dTrei0ufR/kmd3089?=
+ =?us-ascii?Q?6L9D/cJjdsABGXfvJARDUvEf3HIIWxEmdgRZ+oPL1CkzrX8sorrTzolj9PQn?=
+ =?us-ascii?Q?BIAGFQ=3D=3D?=
 X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 816b7041-d1ac-408e-1c9e-08d9e0e8f3c8
+X-MS-Exchange-CrossTenant-Network-Message-Id: e96e2bf6-cf39-4387-781c-08d9e0e8f4bd
 X-MS-Exchange-CrossTenant-AuthSource: CO1PR10MB4531.namprd10.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Jan 2022 16:28:57.7741 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Jan 2022 16:28:59.5085 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: TGAUh44MEtEaN6OL86lJoafsGcJ2dJckw6p0cvWf6ZABCAzEE2ji59JyAto8XmumaAaqW5T01Y7ZMcvRYN6sVqJTAoeSOe7Ew08+JRr3qAw=
+X-MS-Exchange-CrossTenant-UserPrincipalName: 4kbdIqBznUxj77Xho0nADos7isZ5Q2EN1VzGtY0gtAfdNDAhyInEyIyo5cEsV4ZpRsCOabVQHIDH4zNykMIXczYlKhk06tPPVoWdD4Km8kg=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO1PR10MB4450
 X-Proofpoint-Virus-Version: vendor=nai engine=6300 definitions=10239
  signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0
- bulkscore=0 mlxscore=0
- phishscore=0 suspectscore=0 spamscore=0 mlxlogscore=999 adultscore=0
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0
+ mlxscore=0 malwarescore=0
+ spamscore=0 phishscore=0 suspectscore=0 adultscore=0 mlxlogscore=999
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2201110000
  definitions=main-2201260102
-X-Proofpoint-GUID: IKc8jUzyF2b973JJR0mgIgS8uxxLS0lB
-X-Proofpoint-ORIG-GUID: IKc8jUzyF2b973JJR0mgIgS8uxxLS0lB
+X-Proofpoint-GUID: VK-o7RTwsduYOzAdxl6yYOt3TJShz14F
+X-Proofpoint-ORIG-GUID: VK-o7RTwsduYOzAdxl6yYOt3TJShz14F
 Received-SPF: pass client-ip=205.220.177.32;
  envelope-from=eric.devolder@oracle.com; helo=mx0b-00069f02.pphosted.com
 X-Spam_score_int: -27
@@ -170,110 +169,215 @@ Cc: berrange@redhat.com, ehabkost@redhat.com, mst@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This change exposes ACPI ERST support for x86 guests.
+This change provides a qtest that locates and then does a simple
+interrogation of the ERST feature within the guest.
 
 Signed-off-by: Eric DeVolder <eric.devolder@oracle.com>
 Reviewed-by: Ani Sinha <ani@anisinha.ca>
 ---
- hw/i386/acpi-build.c   | 15 +++++++++++++++
- hw/i386/acpi-microvm.c | 15 +++++++++++++++
- include/hw/acpi/erst.h |  5 +++++
- 3 files changed, 35 insertions(+)
+ tests/qtest/erst-test.c | 172 ++++++++++++++++++++++++++++++++++++++++++++++++
+ tests/qtest/meson.build |   2 +
+ 2 files changed, 174 insertions(+)
+ create mode 100644 tests/qtest/erst-test.c
 
-diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
-index ce823e8..ebd47aa 100644
---- a/hw/i386/acpi-build.c
-+++ b/hw/i386/acpi-build.c
-@@ -43,6 +43,7 @@
- #include "sysemu/tpm.h"
- #include "hw/acpi/tpm.h"
- #include "hw/acpi/vmgenid.h"
-+#include "hw/acpi/erst.h"
- #include "sysemu/tpm_backend.h"
- #include "hw/rtc/mc146818rtc_regs.h"
- #include "migration/vmstate.h"
-@@ -74,6 +75,8 @@
- #include "hw/acpi/hmat.h"
- #include "hw/acpi/viot.h"
- 
-+#include CONFIG_DEVICES
+diff --git a/tests/qtest/erst-test.c b/tests/qtest/erst-test.c
+new file mode 100644
+index 0000000..f9ad3c9
+--- /dev/null
++++ b/tests/qtest/erst-test.c
+@@ -0,0 +1,172 @@
++/*
++ * QTest testcase for acpi-erst
++ *
++ * Copyright (c) 2021 Oracle
++ *
++ * This work is licensed under the terms of the GNU GPL, version 2 or later.
++ * See the COPYING file in the top-level directory.
++ */
 +
- /* These are used to size the ACPI tables for -M pc-i440fx-1.7 and
-  * -M pc-i440fx-2.0.  Even if the actual amount of AML generated grows
-  * a little bit, there should be plenty of free space since the DSDT
-@@ -2575,6 +2578,18 @@ void acpi_build(AcpiBuildTables *tables, MachineState *machine)
-                     ACPI_DEVICE_IF(x86ms->acpi_dev), x86ms->oem_id,
-                     x86ms->oem_table_id);
- 
-+#ifdef CONFIG_ACPI_ERST
-+    {
-+        Object *erst_dev;
-+        erst_dev = find_erst_dev();
-+        if (erst_dev) {
-+            acpi_add_table(table_offsets, tables_blob);
-+            build_erst(tables_blob, tables->linker, erst_dev,
-+                       x86ms->oem_id, x86ms->oem_table_id);
-+        }
-+    }
-+#endif
++#include "qemu/osdep.h"
++#include <glib/gstdio.h>
++#include "libqos/libqos-pc.h"
++#include "libqos/libqtest.h"
++#include "qemu-common.h"
 +
-     vmgenid_dev = find_vmgenid_dev();
-     if (vmgenid_dev) {
-         acpi_add_table(table_offsets, tables_blob);
-diff --git a/hw/i386/acpi-microvm.c b/hw/i386/acpi-microvm.c
-index 196d318..68ca7e7 100644
---- a/hw/i386/acpi-microvm.c
-+++ b/hw/i386/acpi-microvm.c
-@@ -30,6 +30,7 @@
- #include "hw/acpi/bios-linker-loader.h"
- #include "hw/acpi/generic_event_device.h"
- #include "hw/acpi/utils.h"
-+#include "hw/acpi/erst.h"
- #include "hw/i386/fw_cfg.h"
- #include "hw/i386/microvm.h"
- #include "hw/pci/pci.h"
-@@ -40,6 +41,8 @@
- #include "acpi-common.h"
- #include "acpi-microvm.h"
- 
-+#include CONFIG_DEVICES
++#include "hw/pci/pci.h"
 +
- static void acpi_dsdt_add_virtio(Aml *scope,
-                                  MicrovmMachineState *mms)
- {
-@@ -207,6 +210,18 @@ static void acpi_build_microvm(AcpiBuildTables *tables,
-                     ACPI_DEVICE_IF(x86ms->acpi_dev), x86ms->oem_id,
-                     x86ms->oem_table_id);
- 
-+#ifdef CONFIG_ACPI_ERST
-+    {
-+        Object *erst_dev;
-+        erst_dev = find_erst_dev();
-+        if (erst_dev) {
-+            acpi_add_table(table_offsets, tables_blob);
-+            build_erst(tables_blob, tables->linker, erst_dev,
-+                       x86ms->oem_id, x86ms->oem_table_id);
-+        }
-+    }
-+#endif
-+
-     xsdt = tables_blob->len;
-     build_xsdt(tables_blob, tables->linker, table_offsets, x86ms->oem_id,
-                x86ms->oem_table_id);
-diff --git a/include/hw/acpi/erst.h b/include/hw/acpi/erst.h
-index 9d63717..b747fe7 100644
---- a/include/hw/acpi/erst.h
-+++ b/include/hw/acpi/erst.h
-@@ -16,4 +16,9 @@ void build_erst(GArray *table_data, BIOSLinker *linker, Object *erst_dev,
- 
- #define TYPE_ACPI_ERST "acpi-erst"
- 
-+/* returns NULL unless there is exactly one device */
-+static inline Object *find_erst_dev(void)
++static void save_fn(QPCIDevice *dev, int devfn, void *data)
 +{
-+    return object_resolve_path_type("", TYPE_ACPI_ERST, NULL);
++    QPCIDevice **pdev = (QPCIDevice **) data;
++
++    *pdev = dev;
 +}
- #endif
++
++static QPCIDevice *get_erst_device(QPCIBus *pcibus)
++{
++    QPCIDevice *dev;
++
++    dev = NULL;
++    qpci_device_foreach(pcibus,
++        PCI_VENDOR_ID_REDHAT,
++        PCI_DEVICE_ID_REDHAT_ACPI_ERST,
++        save_fn, &dev);
++    g_assert(dev != NULL);
++
++    return dev;
++}
++
++typedef struct _ERSTState {
++    QOSState *qs;
++    QPCIBar reg_bar, mem_bar;
++    uint64_t reg_barsize, mem_barsize;
++    QPCIDevice *dev;
++} ERSTState;
++
++#define ACTION 0
++#define VALUE 8
++
++static const char *reg2str(unsigned reg)
++{
++    switch (reg) {
++    case 0:
++        return "ACTION";
++    case 8:
++        return "VALUE";
++    default:
++        return NULL;
++    }
++}
++
++static inline uint32_t in_reg32(ERSTState *s, unsigned reg)
++{
++    const char *name = reg2str(reg);
++    uint32_t res;
++
++    res = qpci_io_readl(s->dev, s->reg_bar, reg);
++    g_test_message("*%s -> %08x", name, res);
++
++    return res;
++}
++
++static inline uint64_t in_reg64(ERSTState *s, unsigned reg)
++{
++    const char *name = reg2str(reg);
++    uint64_t res;
++
++    res = qpci_io_readq(s->dev, s->reg_bar, reg);
++    g_test_message("*%s -> %016llx", name, (unsigned long long)res);
++
++    return res;
++}
++
++static inline void out_reg32(ERSTState *s, unsigned reg, uint32_t v)
++{
++    const char *name = reg2str(reg);
++
++    g_test_message("%08x -> *%s", v, name);
++    qpci_io_writel(s->dev, s->reg_bar, reg, v);
++}
++
++static inline void out_reg64(ERSTState *s, unsigned reg, uint64_t v)
++{
++    const char *name = reg2str(reg);
++
++    g_test_message("%016llx -> *%s", (unsigned long long)v, name);
++    qpci_io_writeq(s->dev, s->reg_bar, reg, v);
++}
++
++static void cleanup_vm(ERSTState *s)
++{
++    g_free(s->dev);
++    qtest_shutdown(s->qs);
++}
++
++static void setup_vm_cmd(ERSTState *s, const char *cmd)
++{
++    const char *arch = qtest_get_arch();
++
++    if (strcmp(arch, "i386") == 0 || strcmp(arch, "x86_64") == 0) {
++        s->qs = qtest_pc_boot(cmd);
++    } else {
++        g_printerr("erst-test tests are only available on x86\n");
++        exit(EXIT_FAILURE);
++    }
++    s->dev = get_erst_device(s->qs->pcibus);
++
++    s->reg_bar = qpci_iomap(s->dev, 0, &s->reg_barsize);
++    g_assert_cmpuint(s->reg_barsize, ==, 16);
++
++    s->mem_bar = qpci_iomap(s->dev, 1, &s->mem_barsize);
++    g_assert_cmpuint(s->mem_barsize, ==, 0x2000);
++
++    qpci_device_enable(s->dev);
++}
++
++static void test_acpi_erst_basic(void)
++{
++    ERSTState state;
++    uint64_t log_address_range;
++    uint64_t log_address_length;
++    uint32_t log_address_attr;
++
++    setup_vm_cmd(&state,
++        "-object memory-backend-file,"
++            "mem-path=acpi-erst.XXXXXX,"
++            "size=64K,"
++            "share=on,"
++            "id=nvram "
++        "-device acpi-erst,"
++            "memdev=nvram");
++
++    out_reg32(&state, ACTION, 0xD);
++    log_address_range = in_reg64(&state, VALUE);
++    out_reg32(&state, ACTION, 0xE);
++    log_address_length = in_reg64(&state, VALUE);
++    out_reg32(&state, ACTION, 0xF);
++    log_address_attr = in_reg32(&state, VALUE);
++
++    /* Check log_address_range is not 0, ~0 or base */
++    g_assert_cmpuint(log_address_range, !=,  0ULL);
++    g_assert_cmpuint(log_address_range, !=, ~0ULL);
++    g_assert_cmpuint(log_address_range, !=, state.reg_bar.addr);
++    g_assert_cmpuint(log_address_range, ==, state.mem_bar.addr);
++
++    /* Check log_address_length is bar1_size */
++    g_assert_cmpuint(log_address_length, ==, state.mem_barsize);
++
++    /* Check log_address_attr is 0 */
++    g_assert_cmpuint(log_address_attr, ==, 0);
++
++    cleanup_vm(&state);
++}
++
++int main(int argc, char **argv)
++{
++    int ret;
++
++    g_test_init(&argc, &argv, NULL);
++    qtest_add_func("/acpi-erst/basic", test_acpi_erst_basic);
++    ret = g_test_run();
++    return ret;
++}
+diff --git a/tests/qtest/meson.build b/tests/qtest/meson.build
+index 26937de..581d217 100644
+--- a/tests/qtest/meson.build
++++ b/tests/qtest/meson.build
+@@ -68,6 +68,7 @@ qtests_i386 = \
+   (config_all_devices.has_key('CONFIG_RTL8139_PCI') ? ['rtl8139-test'] : []) +              \
+   (config_all_devices.has_key('CONFIG_E1000E_PCI_EXPRESS') ? ['fuzz-e1000e-test'] : []) +   \
+   (config_all_devices.has_key('CONFIG_ESP_PCI') ? ['am53c974-test'] : []) +                 \
++  (config_all_devices.has_key('CONFIG_ACPI_ERST') ? ['erst-test'] : []) +                        \
+   (config_all_devices.has_key('CONFIG_VIRTIO_NET') and                                      \
+    config_all_devices.has_key('CONFIG_Q35') and                                             \
+    config_all_devices.has_key('CONFIG_VIRTIO_PCI') and                                      \
+@@ -278,6 +279,7 @@ qtests = {
+   'bios-tables-test': [io, 'boot-sector.c', 'acpi-utils.c', 'tpm-emu.c'],
+   'cdrom-test': files('boot-sector.c'),
+   'dbus-vmstate-test': files('migration-helpers.c') + dbus_vmstate1,
++  'erst-test': files('erst-test.c'),
+   'ivshmem-test': [rt, '../../contrib/ivshmem-server/ivshmem-server.c'],
+   'migration-test': files('migration-helpers.c'),
+   'pxe-test': files('boot-sector.c'),
 -- 
 1.8.3.1
 
