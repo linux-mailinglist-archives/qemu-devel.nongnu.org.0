@@ -2,69 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3CE549CABF
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Jan 2022 14:26:09 +0100 (CET)
-Received: from localhost ([::1]:54280 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A407C49CB55
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Jan 2022 14:50:59 +0100 (CET)
+Received: from localhost ([::1]:54972 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nCiJM-0006Qd-8j
-	for lists+qemu-devel@lfdr.de; Wed, 26 Jan 2022 08:26:08 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:54102)
+	id 1nCihO-0004F9-Ka
+	for lists+qemu-devel@lfdr.de; Wed, 26 Jan 2022 08:50:58 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:55170)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1nCiEF-0003rs-1p
- for qemu-devel@nongnu.org; Wed, 26 Jan 2022 08:20:52 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:22389)
+ (Exim 4.90_1) (envelope-from <lukasz.gieryk@linux.intel.com>)
+ id 1nCiHA-0006hE-Ua; Wed, 26 Jan 2022 08:23:53 -0500
+Received: from mga02.intel.com ([134.134.136.20]:58683)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1nCiEB-0003zC-E8
- for qemu-devel@nongnu.org; Wed, 26 Jan 2022 08:20:50 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1643203232;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=K4WqBlrFYYHzbcJiFcv2rr2Le6hVqF5/t2POjsDr8KA=;
- b=gR50nfpVwe/1B2zz0zVECAuFTaU3akxv1/KVsPW8adSGSN3USzxoFMLzhAfC4XTtdGyDRV
- /wrl93z3eML6lloQevSCwGTA5sxJaIOnXru3u6cM5swGqPo8e4cW/nLVQjyvp5Xf3qwCa1
- f4R8Jpgp7DmgpH2+fG5zjsZZ/ucEqks=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-562-RvoMA1dkNf-3Iq2_U_jCiQ-1; Wed, 26 Jan 2022 08:20:28 -0500
-X-MC-Unique: RvoMA1dkNf-3Iq2_U_jCiQ-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9AEF91006AA0;
- Wed, 26 Jan 2022 13:20:27 +0000 (UTC)
-Received: from localhost (unknown [10.39.195.72])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0A7306F119;
- Wed, 26 Jan 2022 13:20:11 +0000 (UTC)
-Date: Wed, 26 Jan 2022 13:20:10 +0000
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Subject: Re: [PATCH v5 1/7] scripts/qapi/gen.py: add FOO.trace-events output
- module
-Message-ID: <YfFKimcv/Eyn4jIb@stefanha-x1.localdomain>
-References: <20220125215655.3111881-1-vsementsov@virtuozzo.com>
- <20220125215655.3111881-2-vsementsov@virtuozzo.com>
+ (Exim 4.90_1) (envelope-from <lukasz.gieryk@linux.intel.com>)
+ id 1nCiH7-0004S4-Dx; Wed, 26 Jan 2022 08:23:52 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1643203429; x=1674739429;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=4wcw5DXn/q/TS5MZaY9kRb/2sJ1D05ITvopz3+wvT64=;
+ b=C7JVrLOzInHIMBfjmFwn7Qf2rku+Gcu6WuWWkWylEb0CP8EIz+0aO5Eb
+ 3qQ1vc47KT2HNil6fNfyY0Ev3Agv9KoOnyElkWZrf0vrC4PJI5BGCS/JF
+ rXcMcK5lAB07iuhyE/IZOHq14z2Aw9NiN0dE2kGkuW0ln7UtFc2civ3lv
+ F22nCi2PjcRmdOu8ZWKH42vh9ingJBLB+lgw+FSWFveiDTw0treFDt630
+ RVeYtHxFy16nDxiH89h/NnrvyEfJZfO2wH7zLguC9u7ROFUe+aa6YIS/3
+ jA2Q+Q8YIj1T53cgAF378TJq37nKxLdfp526IJHWyYYKjmCzDoJhXw2R6 w==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10238"; a="233922669"
+X-IronPort-AV: E=Sophos;i="5.88,318,1635231600"; d="scan'208";a="233922669"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Jan 2022 05:23:44 -0800
+X-IronPort-AV: E=Sophos;i="5.88,318,1635231600"; d="scan'208";a="674354194"
+Received: from lgieryk-mobl1.ger.corp.intel.com (HELO lgieryk-VirtualBox)
+ ([10.252.54.70])
+ by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Jan 2022 05:23:41 -0800
+Date: Wed, 26 Jan 2022 14:23:35 +0100
+From: =?utf-8?Q?=C5=81ukasz?= Gieryk <lukasz.gieryk@linux.intel.com>
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Subject: Re: [PATCH v3 01/15] pcie: Add support for Single Root I/O
+ Virtualization (SR/IOV)
+Message-ID: <20220126132320.GA24682@lgieryk-VirtualBox>
+References: <20211221143246.2052050-1-lukasz.maniak@linux.intel.com>
+ <20211221143246.2052050-2-lukasz.maniak@linux.intel.com>
+ <20220106050426-mutt-send-email-mst@kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="8CusYXCK/VaYYQni"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20220125215655.3111881-2-vsementsov@virtuozzo.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.155,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220106050426-mutt-send-email-mst@kernel.org>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+Received-SPF: none client-ip=134.134.136.20;
+ envelope-from=lukasz.gieryk@linux.intel.com; helo=mga02.intel.com
+X-Spam_score_int: -44
+X-Spam_score: -4.5
+X-Spam_bar: ----
+X-Spam_report: (-4.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.155,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -77,46 +75,118 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, michael.roth@amd.com, qemu-devel@nongnu.org,
- armbru@redhat.com, hreitz@redhat.com, pbonzini@redhat.com, jsnow@redhat.com
+Cc: qemu-block@nongnu.org, Lukasz Maniak <lukasz.maniak@linux.intel.com>,
+ qemu-devel@nongnu.org, Keith Busch <kbusch@kernel.org>,
+ Klaus Jensen <its@irrelevant.dk>, Knut Omang <knuto@ifi.uio.no>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+I'm sorry for the delayed response. We (I and the other Lukasz) somehow
+had hoped that Knut, the original author of this patch, would have
+responded.
 
---8CusYXCK/VaYYQni
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Let me address your questions, up to my best knowledge.
+  
+> > -static pcibus_t pci_bar_address(PCIDevice *d,
+> > -                                int reg, uint8_t type, pcibus_t size)
+> > +static pcibus_t pci_config_get_bar_addr(PCIDevice *d, int reg,
+> > +                                        uint8_t type, pcibus_t size)
+> > +{
+> > +    pcibus_t new_addr;
+> > +    if (!pci_is_vf(d)) {
+> > +        int bar = pci_bar(d, reg);
+> > +        if (type & PCI_BASE_ADDRESS_MEM_TYPE_64) {
+> > +            new_addr = pci_get_quad(d->config + bar);
+> > +        } else {
+> > +            new_addr = pci_get_long(d->config + bar);
+> > +        }
+> > +    } else {
+> > +        PCIDevice *pf = d->exp.sriov_vf.pf;
+> > +        uint16_t sriov_cap = pf->exp.sriov_cap;
+> > +        int bar = sriov_cap + PCI_SRIOV_BAR + reg * 4;
+> > +        uint16_t vf_offset = pci_get_word(pf->config + sriov_cap + PCI_SRIOV_VF_OFFSET);
+> > +        uint16_t vf_stride = pci_get_word(pf->config + sriov_cap + PCI_SRIOV_VF_STRIDE);
+> > +        uint32_t vf_num = (d->devfn - (pf->devfn + vf_offset)) / vf_stride;
+> > +
+> > +        if (type & PCI_BASE_ADDRESS_MEM_TYPE_64) {
+> > +            new_addr = pci_get_quad(pf->config + bar);
+> > +        } else {
+> > +            new_addr = pci_get_long(pf->config + bar);
+> > +        }
+> > +        new_addr += vf_num * size;
+> > +    }
+> > +    if (reg != PCI_ROM_SLOT) {
+> > +        /* Preserve the rom enable bit */
+> > +        new_addr &= ~(size - 1);
+> 
+> This comment puzzles me. How does clearing low bits preserve
+> any bits? Looks like this will clear low bits if any.
+> 
 
-On Tue, Jan 25, 2022 at 10:56:49PM +0100, Vladimir Sementsov-Ogievskiy wrot=
-e:
-> @@ -264,6 +272,14 @@ def _genh(self) -> QAPIGenH:
->          assert self._current_module is not None
->          return self._module[self._current_module][1]
-> =20
-> +    @property
-> +    def _gent(self) -> QAPIGenTrace:
+I think the comment applies to (reg != PCI_ROM_SLOT), i.e., the bits are
+cleared for BARs, but not for expansion ROM. I agree the placement of this
+comment is slightly misleading. We will move it up and rephrase slightly.
+ 
+> > +pcibus_t pci_bar_address(PCIDevice *d,
+> > +                         int reg, uint8_t type, pcibus_t size)
+> >  {
+> >      pcibus_t new_addr, last_addr;
+> > -    int bar = pci_bar(d, reg);
+> >      uint16_t cmd = pci_get_word(d->config + PCI_COMMAND);
+> >      Object *machine = qdev_get_machine();
+> >      ObjectClass *oc = object_get_class(machine);
+> > @@ -1309,7 +1363,7 @@ static pcibus_t pci_bar_address(PCIDevice *d,
+> >          if (!(cmd & PCI_COMMAND_IO)) {
+> >              return PCI_BAR_UNMAPPED;
+> >          }
+> > -        new_addr = pci_get_long(d->config + bar) & ~(size - 1);
+> > +        new_addr = pci_config_get_bar_addr(d, reg, type, size);
+> >          last_addr = new_addr + size - 1;
+> >          /* Check if 32 bit BAR wraps around explicitly.
+> >           * TODO: make priorities correct and remove this work around.
+> > @@ -1324,11 +1378,7 @@ static pcibus_t pci_bar_address(PCIDevice *d,
+> >      if (!(cmd & PCI_COMMAND_MEMORY)) {
+> >          return PCI_BAR_UNMAPPED;
+> >      }
+> > -    if (type & PCI_BASE_ADDRESS_MEM_TYPE_64) {
+> > -        new_addr = pci_get_quad(d->config + bar);
+> > -    } else {
+> > -        new_addr = pci_get_long(d->config + bar);
+> > -    }
+> > +    new_addr = pci_config_get_bar_addr(d, reg, type, size);
+> >      /* the ROM slot has a specific enable bit */
+> >      if (reg == PCI_ROM_SLOT && !(new_addr & PCI_ROM_ADDRESS_ENABLE)) {
+> 
+> And in fact here we check the low bit and handle it specially.
 
-If you respin maybe rename this to _gentrace() or even
-_gen_trace_events() so the name is clearer (although the latter collides
-with the self._gen_trace_events field and may need to be renamed to
-enable_trace_events or similar).
+The code seems correct for me. The bit is preserved for ROM case.
 
---8CusYXCK/VaYYQni
-Content-Type: application/pgp-signature; name="signature.asc"
+> > diff --git a/hw/pci/pcie.c b/hw/pci/pcie.c
+> > index d7d73a31e4..182a225054 100644
+> > --- a/hw/pci/pcie.c
+> > +++ b/hw/pci/pcie.c
+> > @@ -446,6 +446,11 @@ void pcie_cap_slot_plug_cb(HotplugHandler *hotplug_dev, DeviceState *dev,
+> >      PCIDevice *pci_dev = PCI_DEVICE(dev);
+> >      uint32_t lnkcap = pci_get_long(exp_cap + PCI_EXP_LNKCAP);
+> >  
+> > +    if(pci_is_vf(pci_dev)) {
+> > +        /* We don't want to change any state in hotplug_dev for SR/IOV virtual functions */
+> > +        return;
+> > +    }
+> > +
+> 
+> Coding style violation here.  And pls document the why not the what.
+> E.g. IIRC the reason is that VFs don't have an express capability,
+> right?
 
------BEGIN PGP SIGNATURE-----
+I think the reason is that virtual functions don’t exist physically, so
+they cannot be individually disconnected. Only PF should respond to
+hotplug events, implicitly disconnecting (thus: destroying) all child
+VFs.
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmHxSooACgkQnKSrs4Gr
-c8hw8Af/fhZswwvxNzPmk3Q/SOl6KityIKQWDscy25PZ5ct7uz33Q6W8gQFsblSO
-/fr7PyyJ8Zqlj4dG536hzTTdeGo2RxyHprcqFT6Ai0Y35RPq+L0pzbOak20FtWTB
-qZERYfeLwc0HL+0gbNDagV8UYVy6wAotX0JjveZ/rp1qug/Tlb3chx6e66LnIoZA
-1PuEkKVIaStKrmXGQioS1RCRrX1nBemlnZJo4FQyQKKB0kxX6iio40UBrJFRpHRr
-YNns9oJ3f07nfDylQqoYFctBis+U/HFb6UuoLs0CHQmNGdLPKl6uN9J2SYKKT4BX
-h0qU5cq9NtjmDDjUULZoHa3W3hVWsg==
-=6RkR
------END PGP SIGNATURE-----
+Anyway, we will update this comment to state *why* and add the missing
+space.
 
---8CusYXCK/VaYYQni--
+V4 with the mentioned changes will happen really soon.
 
 
