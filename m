@@ -2,63 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B36C49C678
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Jan 2022 10:40:09 +0100 (CET)
-Received: from localhost ([::1]:53312 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F01A049C6C9
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Jan 2022 10:47:49 +0100 (CET)
+Received: from localhost ([::1]:56980 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nCeme-0004IN-1b
-	for lists+qemu-devel@lfdr.de; Wed, 26 Jan 2022 04:40:08 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:35260)
+	id 1nCeu4-0007z5-Kl
+	for lists+qemu-devel@lfdr.de; Wed, 26 Jan 2022 04:47:48 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:36590)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1nCelC-0003aY-Sd
- for qemu-devel@nongnu.org; Wed, 26 Jan 2022 04:38:38 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:21991)
+ id 1nCerg-0006fA-0Q
+ for qemu-devel@nongnu.org; Wed, 26 Jan 2022 04:45:21 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:35552)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1nCelB-0002Yr-5X
- for qemu-devel@nongnu.org; Wed, 26 Jan 2022 04:38:38 -0500
+ id 1nCerZ-0003M8-Bq
+ for qemu-devel@nongnu.org; Wed, 26 Jan 2022 04:45:15 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1643189916;
+ s=mimecast20190719; t=1643190307;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=tFCnTBuEKvr54565ECCp3OFxshmqD8ZGE9yP9/cqpqU=;
- b=GDR7C2U/KkO7kgxjb+9+IZk2VdeVJhmZ3QaHaJlSUJbVwLhPX1O30B+IM+Rq76ZGkhy3Ky
- iWAPH1F2xSOBClWUGv8QDiyWBUtWLcavw4rVtdE4uNmzcpQd4Xz8VMuTOeO94YM3hezkCa
- MopgKqy3MKoTm0BZXO9fMnXWoIBeIHI=
+ bh=n5kNo3liM31wItd5HunKs6/MFs0EV507lFJvF8u1AiI=;
+ b=gg9J7P0zxugovXy7Enl+gXme1kld7Vi91tHwDBx2H05bvkKhQMTX4Wrnrz7DxCjApzFT32
+ 7XY4aV3avBnOy27kpVIOwZWlubH/xubQbQGaUlzUugbMqE1iwJWR5aI7XMPsmxyJUb56PC
+ 4perUZ0pzP+NVvwbKoyjo/5I6ctpQzQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-339-Bn8AL30NMTSAhazYDuqwsA-1; Wed, 26 Jan 2022 04:38:31 -0500
-X-MC-Unique: Bn8AL30NMTSAhazYDuqwsA-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-38-wZEd3uTlOfKnhwN56_pS-Q-1; Wed, 26 Jan 2022 04:45:03 -0500
+X-MC-Unique: wZEd3uTlOfKnhwN56_pS-Q-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2F6E580D680;
- Wed, 26 Jan 2022 09:38:29 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1910D6123E;
+ Wed, 26 Jan 2022 09:45:02 +0000 (UTC)
 Received: from localhost (unknown [10.39.195.72])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C257278DD4;
- Wed, 26 Jan 2022 09:37:52 +0000 (UTC)
-Date: Wed, 26 Jan 2022 09:37:51 +0000
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 41D6F7314A;
+ Wed, 26 Jan 2022 09:45:01 +0000 (UTC)
+Date: Wed, 26 Jan 2022 09:45:00 +0000
 From: Stefan Hajnoczi <stefanha@redhat.com>
 To: Jag Raman <jag.raman@oracle.com>
-Subject: Re: [PATCH v5 07/18] vfio-user: set qdev bus callbacks for remote
- machine
-Message-ID: <YfEWb/hA68r3oVrt@stefanha-x1.localdomain>
+Subject: Re: [PATCH v5 03/18] pci: isolated address space for PCI bus
+Message-ID: <YfEYHBhrsdF9Edpp@stefanha-x1.localdomain>
 References: <cover.1642626515.git.jag.raman@oracle.com>
- <1dee463f227f7a865877cd98f78e4ce48ce8ab32.1642626515.git.jag.raman@oracle.com>
- <Ye/UqqSippA8LTHK@stefanha-x1.localdomain>
- <5C83E65E-33B6-4282-9276-D651B2E56592@oracle.com>
+ <2971c1bec04acaac4eb3c1f2b104cbeabad01e22.1642626515.git.jag.raman@oracle.com>
+ <20220119190742-mutt-send-email-mst@kernel.org>
+ <1CACFB08-1BBC-4ECC-9C0B-6F377018D795@oracle.com>
+ <YfBDqMuO/l/gWzL8@work-vm>
+ <AE47B5D2-6515-4BD3-B541-23E5274174AC@oracle.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="5/cwVGeexmxTgRe8"
+ protocol="application/pgp-signature"; boundary="f/JItRIp+HGV+oxv"
 Content-Disposition: inline
-In-Reply-To: <5C83E65E-33B6-4282-9276-D651B2E56592@oracle.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
+In-Reply-To: <AE47B5D2-6515-4BD3-B541-23E5274174AC@oracle.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
@@ -82,145 +83,117 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Cc: "eduardo@habkost.net" <eduardo@habkost.net>,
  Elena Ufimtseva <elena.ufimtseva@oracle.com>,
  John Johnson <john.g.johnson@oracle.com>,
- "berrange@redhat.com" <berrange@redhat.com>, Beraldo Leal <bleal@redhat.com>,
+ Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>,
  "john.levon@nutanix.com" <john.levon@nutanix.com>,
- "mst@redhat.com" <mst@redhat.com>, "armbru@redhat.com" <armbru@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, "armbru@redhat.com" <armbru@redhat.com>,
  "quintela@redhat.com" <quintela@redhat.com>,
  qemu-devel <qemu-devel@nongnu.org>,
  Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>,
  =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@gmail.com>,
  "thanos.makatos@nutanix.com" <thanos.makatos@nutanix.com>,
- Paolo Bonzini <pbonzini@redhat.com>, "eblake@redhat.com" <eblake@redhat.com>,
- "dgilbert@redhat.com" <dgilbert@redhat.com>
+ Paolo Bonzini <pbonzini@redhat.com>, Eric Blake <eblake@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---5/cwVGeexmxTgRe8
+--f/JItRIp+HGV+oxv
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Jan 25, 2022 at 09:12:28PM +0000, Jag Raman wrote:
+On Wed, Jan 26, 2022 at 05:27:32AM +0000, Jag Raman wrote:
 >=20
 >=20
-> > On Jan 25, 2022, at 5:44 AM, Stefan Hajnoczi <stefanha@redhat.com> wrot=
+> > On Jan 25, 2022, at 1:38 PM, Dr. David Alan Gilbert <dgilbert@redhat.co=
+m> wrote:
+> >=20
+> > * Jag Raman (jag.raman@oracle.com) wrote:
+> >>=20
+> >>=20
+> >>> On Jan 19, 2022, at 7:12 PM, Michael S. Tsirkin <mst@redhat.com> wrot=
 e:
-> >=20
-> > On Wed, Jan 19, 2022 at 04:41:56PM -0500, Jagannathan Raman wrote:
-> >> Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
-> >> Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
-> >> Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
-> >> ---
-> >> hw/remote/machine.c | 57 +++++++++++++++++++++++++++++++++++++++++++++
-> >> 1 file changed, 57 insertions(+)
+> >>>=20
+> >>> On Wed, Jan 19, 2022 at 04:41:52PM -0500, Jagannathan Raman wrote:
+> >>>> Allow PCI buses to be part of isolated CPU address spaces. This has a
+> >>>> niche usage.
+> >>>>=20
+> >>>> TYPE_REMOTE_MACHINE allows multiple VMs to house their PCI devices in
+> >>>> the same machine/server. This would cause address space collision as
+> >>>> well as be a security vulnerability. Having separate address spaces =
+for
+> >>>> each PCI bus would solve this problem.
+> >>>=20
+> >>> Fascinating, but I am not sure I understand. any examples?
 > >>=20
-> >> diff --git a/hw/remote/machine.c b/hw/remote/machine.c
-> >> index 220ff01aa9..221a8430c1 100644
-> >> --- a/hw/remote/machine.c
-> >> +++ b/hw/remote/machine.c
-> >> @@ -22,6 +22,60 @@
-> >> #include "hw/pci/pci_host.h"
-> >> #include "hw/remote/iohub.h"
+> >> Hi Michael!
 > >>=20
-> >> +static bool remote_machine_get_bus(const char *type, BusState **bus,
-> >> +                                   Error **errp)
-> >> +{
-> >> +    ERRP_GUARD();
-> >> +    RemoteMachineState *s =3D REMOTE_MACHINE(current_machine);
-> >> +    BusState *root_bus =3D NULL;
-> >> +    PCIBus *new_pci_bus =3D NULL;
-> >> +
-> >> +    if (!bus) {
-> >> +        error_setg(errp, "Invalid argument");
-> >> +        return false;
-> >> +    }
-> >> +
-> >> +    if (strcmp(type, TYPE_PCI_BUS) && strcmp(type, TYPE_PCI_BUS)) {
-> >> +        return true;
-> >> +    }
-> >> +
-> >> +    root_bus =3D qbus_find_recursive(sysbus_get_default(), NULL, TYPE=
-_PCIE_BUS);
-> >> +    if (!root_bus) {
-> >> +        error_setg(errp, "Unable to find root PCI device");
-> >> +        return false;
-> >> +    }
-> >> +
-> >> +    new_pci_bus =3D pci_isol_bus_new(root_bus, type, errp);
-> >> +    if (!new_pci_bus) {
-> >> +        return false;
-> >> +    }
-> >> +
-> >> +    *bus =3D BUS(new_pci_bus);
-> >> +
-> >> +    pci_bus_irqs(new_pci_bus, remote_iohub_set_irq, remote_iohub_map_=
-irq,
-> >> +                 &s->iohub, REMOTE_IOHUB_NB_PIRQS);
-> >> +
-> >> +    return true;
-> >> +}
+> >> multiprocess QEMU and vfio-user implement a client-server model to all=
+ow
+> >> out-of-process emulation of devices. The client QEMU, which makes ioct=
+ls
+> >> to the kernel and runs VCPUs, could attach devices running in a server
+> >> QEMU. The server QEMU needs access to parts of the client=E2=80=99s RA=
+M to
+> >> perform DMA.
 > >=20
-> > Can the user create the same PCI bus via QMP commands? If so, then this
+> > Do you ever have the opposite problem? i.e. when an emulated PCI device
 >=20
-> I think there is a way we could achieve it.
+> That=E2=80=99s an interesting question.
 >=20
-> When I looked around, both the command line and the QMP didn=E2=80=99t ha=
-ve a direct
-> way to create a bus. However, there are some indirect ways. For example, =
-the
-> TYPE_LSI53C895A device creates a SCSI bus to attach SCSI devices. Similar=
-ly,
-> there are some special PCI devices like TYPE_PCI_BRIDGE which create a
-> secondary PCI bus.
+> > exposes a chunk of RAM-like space (frame buffer, or maybe a mapped file)
+> > that the client can see.  What happens if two emulated devices need to
+> > access each others emulated address space?
 >=20
-> Similarly, we could implement a PCI device that creates a PCI bus with
-> isolated address spaces.
+> In this case, the kernel driver would map the destination=E2=80=99s chunk=
+ of internal RAM into
+> the DMA space of the source device. Then the source device could write to=
+ that
+> mapped address range, and the IOMMU should direct those writes to the
+> destination device.
+>=20
+> I would like to take a closer look at the IOMMU implementation on how to =
+achieve
+> this, and get back to you. I think the IOMMU would handle this. Could you=
+ please
+> point me to the IOMMU implementation you have in mind?
 
-Exactly. device_add instantiates DeviceStates, not busses, so there
-needs to be a parent device like a SCSI controller, a PCI bridge, etc
-that owns and creates the bus.
+I don't know if the current vfio-user client/server patches already
+implement device-to-device DMA, but the functionality is supported by
+the vfio-user protocol.
 
-> > is just a convenience that saves the extra step. Or is there some magic
-> > that cannot be done via QMP device_add?
-> >=20
-> > I'm asking because there are 3 objects involved and I'd like to
-> > understand the lifecycle/dependencies:
-> > 1. The PCIDevice we wish to export.
-> > 2. The PCIBus with isolated address spaces that contains the PCIDevice.
-> > 3. The vfio-user server that exports a given PCIDevice.
-> >=20
-> > Users can already create the PCIDevice via hotplug and the vfio-user
-> > server via object-add. So if there's no magic they could also create the
-> > PCI bus:
-> > 1. device_add ...some PCI bus stuff here...,id=3Disol-pci-bus0
-> > 2. device_add ...the PCIDevice...,bus=3Disol-pci-bus0,id=3Dmydev
-> > 3. object-add x-vfio-user-server,device=3Dmydev
->=20
-> We are able to do 2 & 3 already. We could introduce a PCI device that
-> creates an isolated PCI bus. That would cover step 1 outlined above.
+Basically: if the DMA regions lookup inside the vfio-user server fails,
+fall back to VFIO_USER_DMA_READ/WRITE messages instead.
+https://github.com/nutanix/libvfio-user/blob/master/docs/vfio-user.rst#vfio=
+-user-dma-read
 
-I wonder if a new device is needed or whether it's possible to add an
-isol_as=3Don|off (default: off) option to an existing PCI bridge/expander?
-Hopefully most of the code is already there.
+Here is the flow:
+1. The vfio-user server with device A sends a DMA read to QEMU.
+2. QEMU finds the MemoryRegion associated with the DMA address and sees
+   it's a device.
+   a. If it's emulated inside the QEMU process then the normal
+      device emulation code kicks in.
+   b. If it's another vfio-user PCI device then the vfio-user PCI proxy
+      device forwards the DMA to the second vfio-user server's device B.
 
 Stefan
 
---5/cwVGeexmxTgRe8
+--f/JItRIp+HGV+oxv
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmHxFm8ACgkQnKSrs4Gr
-c8jzNQgAieWBFx5epefnoszlzdNTgPd2npdtFcGDPpQjKsoBH4XYva8MuCyyCSri
-qbhxyQ55ncm91i0Vv15ToaerErwC6Uclcpx+9xId+u16DtO72XkFlqh7n+J9OxyR
-JCuOQGb0Vck41J8zZIOD5P7UvFwaI8YMTv0CUk6IhH4e36JsMAfvJb60YCq1cnJo
-t0b0SjoJYqcKIBhe9slDW2yWyOwyI0YEki4Z6kEE+wR9nJfbYNI6aHIWt1EobvOl
-yrZDy4wAqAnT81cjAn305oZ1zB9Z1/qo6JVbzFyVlcWJKZZqhRLWvmFk6LOQGNUu
-MjyBQHb/SHt0CW8On0L67h+6pTDK+A==
-=AAFv
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmHxGBsACgkQnKSrs4Gr
+c8jzfwgAyiYI+iqLPwGnazH/KQXxHTLYyRuTUA/KNli9ySXVKRGhlbc7kYBbaUI3
+BxroH8X8i+DDK2OdwZuX3ov/JHO+kIQiCE/ypyJEeZAHH9roajTbH7CoVSQ1DkaC
+R3KH/ASfwHEv4Zd5m436X6NdCrPaBlgbyTc2N3kz+xMoVWWfJuyY4prNKtBUdqq2
+jUE+3QutFe6wzhnSssr9WuPHOaCjKkThwrTTVWqkvAfHSvJNuLhe78k2xJOvga7X
+KoHWDjCOfL0Yg4I2YunS4lxaRB9u0vIgBE1f/nj1L5Z/a8H3BU+8q/lUxClrARpJ
+3v7Vfy2vd1XY5LStctOmF3rqb6HtKw==
+=9gXT
 -----END PGP SIGNATURE-----
 
---5/cwVGeexmxTgRe8--
+--f/JItRIp+HGV+oxv--
 
 
