@@ -2,89 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C254C49E810
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Jan 2022 17:52:10 +0100 (CET)
-Received: from localhost ([::1]:37244 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C121949E835
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Jan 2022 17:58:27 +0100 (CET)
+Received: from localhost ([::1]:54510 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nD80H-0005Ps-RM
-	for lists+qemu-devel@lfdr.de; Thu, 27 Jan 2022 11:52:09 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:47992)
+	id 1nD86M-0000DA-T2
+	for lists+qemu-devel@lfdr.de; Thu, 27 Jan 2022 11:58:26 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:48010)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <anthony.perard@citrix.com>)
- id 1nD6vS-0000DH-Nw
- for qemu-devel@nongnu.org; Thu, 27 Jan 2022 10:43:10 -0500
-Received: from esa1.hc3370-68.iphmx.com ([216.71.145.142]:22849)
+ id 1nD6vn-0000bS-Bv
+ for qemu-devel@nongnu.org; Thu, 27 Jan 2022 10:43:27 -0500
+Received: from esa2.hc3370-68.iphmx.com ([216.71.145.153]:9725)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <anthony.perard@citrix.com>)
- id 1nD6vP-0007h7-PA
- for qemu-devel@nongnu.org; Thu, 27 Jan 2022 10:43:06 -0500
+ id 1nD6vl-0007hu-D2
+ for qemu-devel@nongnu.org; Thu, 27 Jan 2022 10:43:27 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=citrix.com; s=securemail; t=1643298183;
+ d=citrix.com; s=securemail; t=1643298205;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=oymZ3/Ow10YoheTCQoRnp50sCbp3qWaFIJhqLWEz4aw=;
- b=TD3DAMjxGsdz0w9Cv0FkrdVtpNYJBgEiO3jsg0EbUxvOvfcGFv0A0iUR
- muJz5r8wbDe83Obu5fZr9kF/yt9fwwFOX4z1eb6nq2+GJ646GsIeuf3J/
- VB4UdL3dvs/w5I/ObWmePCEUg/9r6Gm39pynjFa5RhVwt1ILeGVA67R7t I=;
-Authentication-Results: esa1.hc3370-68.iphmx.com;
+ bh=GuqAfKXzSxKalGM6eT/tR+t7OAliByx2K08LxaHBjd0=;
+ b=UgSaxxZK3NP0Ks4KluiftMEFC3HLecOSgnkXSarAZdDVsPlNeFLldyIl
+ nxrOHCMiwb6B8M5E70qJUPi6PHcdZvA92qPiXiY6zH6SqD6JCQEa1VEaj
+ xiUgyotllWT6wPr29HRvoFCKf7Boe4eFSsH+NgLa7bxzrC14CWPcjoL7w o=;
+Authentication-Results: esa2.hc3370-68.iphmx.com;
  dkim=none (message not signed) header.i=none
-IronPort-SDR: AQALnPXtu59be1MFubJ7C3HhMz7PGmN/WjnNW7h6F+CVMFRWvJQ/7ehj21PWjZdqo6PCUss1mR
- 6cmUSK+o2hn0xB3gU/Y6BehbOvQK0m5+trHsKVCzsWlXYQ4vfCtBC66g93kYX9OuhePFTowwXX
- SpwhvpimfcI+D7zy4UExAbYRfBbS0eKzSTtPRUmLoHFh4W9By/X+wY7Ob47wNEfVKAUlAfvBhM
- TIAyTSM7tDaarUNJ0ftMctpVU4l14CH88qHSrRMzJiLmhMINTT90JiCC1rBkadMED2M9kWcwlM
- R8Qdl9MWVCVtl8zWF4kkE+AM
+IronPort-SDR: YDi/8KC/LRASVA73LB9+31H5kPzVcc/L5naw9fjTPRmhmjzBq8E2fQiVFjajn5sqQXIKigN39x
+ ru2Ibyb1JJby3p+oewOdJl75ULjHy7U/UhTkF1RkvCRqB6+L8wClea+3VJHYQa0JrUT/Q52tPq
+ ybWXy5tgG4ToQop9Tn4UzFPwynyEAieWTmVLkOw6LSQeOD3+znKKfmFN4ahc5CLNtnejbPFkBR
+ J7pn5Ga6/UweJqt9DwDaUxQXxQZzlQnoQBXcTagr4wMF835PDZT6i0l5d+7jMfyw0PO2WbBL9L
+ YFwKpbvyi+SMY/thUR0vMj2D
 X-SBRS: 5.2
-X-MesageID: 63313159
-X-Ironport-Server: esa1.hc3370-68.iphmx.com
+X-MesageID: 62906460
+X-Ironport-Server: esa2.hc3370-68.iphmx.com
 X-Remote-IP: 162.221.156.83
 X-Policy: $RELAYED
-IronPort-Data: A9a23:sxzo2q7lgZFZvo5473w5OgxRtOrAchMFZxGqfqrLsTDasY5as4F+v
- mZLUDqBO66Ka2CgLdBzOo/n/EoB757Qn9ZgTwRr/i8yHi5G8cbLO4+Ufxz6V8+wwmwvb67FA
- +E2MISowBUcFyeEzvuV3zyIQUBUjclkfJKlYAL/En03FV8MpBsJ00o5wbZg2NEw27BVPivW0
- T/Mi5yHULOa82Yc3lI8s8pvfzs24ZweEBtB1rAPTagjUG32zhH5P7pGTU2FFFPqQ5E8IwKPb
- 72rIIdVXI/u10xF5tuNyt4Xe6CRK1LYFVDmZnF+A8BOjvXez8CbP2lS2Pc0MC9qZzu1c99Zk
- 9tDtJ+SVloQD47JnM8YeANAKDxiFPgTkFPHCSDXXc27ykTHdz3nwul0DVFwNoodkgp1KTgQr
- 7pCcmlLN03dwbLtqF64YrAEasALJc/3PIQZqzd4wCvQF/oOSpHfWaTao9Rf2V/cg+gQRq2HP
- JNEOFKDajz6TkNwZGUKB6lvp760vkfmVSJVuG2K8P9fD2/7k1UqjemF3MDuUt6DQ8lPj1ubj
- m3D9mX9RBodMbS30TeZ/2jqg+bekS7/XKoWFbux7Pksh0ecrkQKBRgLEFe2v/S9oki5Xd1ZN
- goT4CVGkEQp3BX1FJ+nBUT++SPa+E5HMzZNLwEkwFqDxKvXwRnEP1knSzpqbfc8rPQrWRV/g
- zdlgOjVLTBotbSUT1eU+bGVsS6+NEApEIMSWcMXZVBbuoe++enfmjqKF48+S/Dt0rUZDBmtm
- 2jikcQou1kEYSfnPY2f9EuPvT+jr4OhouUdtlSOBTLNAu+UieeYi22UBbrzsK4owGWxFADpU
- J04dy62tr1m4Xalz3TlfQn1NOv1j8tpyRWF6bKVI7Ev9i6251modp1K7Td1KS9Ba5hYImWyO
- BSN5FsMtfe/2UdGi4ctPepd7OxxlcDd+SnNDKiIPrKinLAvHON4wM2eTRHJhD28+KTduao+J
- Y2aYa6R4YUyUsxaIM6Nb75Fi9cDn3lmrUuKHMyT50n5jdK2OSDEIZ9YYArmRr1ot8us/VSKm
- +uzwuPXkX2zpsWkPHmOmWPSRHhXRUUG6Wfe8pwOKbXbc1M4QQnMyZb5mNscRmCspIwN/s+gw
- 513chYwJIPXiSKVJAOURGpkbb+zD59zoWhiZX4nPEqy2mhlaoGqtf9Ne5wydLgh1epi0f8rE
- KVVJ5TeWqxCGmbd5jAQTZjht4g+Jh6lsh2DYni+az8lcp8+GwGQoo34fhHi/TUlBzassZdsu
- KWp0w7WGMJRRwlrAMvMRuioyle94SoUlO5oBhOaKdhPYkT8toNtLnWp3PMwJsgNLzTFxyebi
- FnKUUtJ+7GVrtZsotfThK2Co4O4KMdEHxJXTzvB8LK7FSjG5W7/k4VOZ/mFIGLGX2Tu9aT8O
- egMl6PgMOcKlUphupZnF+o51ro34tbiquMIzglgG3mXPV2nBqk5fyuD1MhL8KZM2qVYqU29X
- UfWootWPrCAOcXEFl8NJVV6MrTfhK9MwjSCv+4oJEja5TNs+OvVWEpfCBCAlShBIeYnK4gi2
- +og5JYb5gHXZsDG6TpaYvS4L1ixE0E=
-IronPort-HdrOrdr: A9a23:UbyXTKsrl+w8N0nBa3TLsilf7skDFNV00zEX/kB9WHVpm6uj9v
- xG/c506faasl4ssR0b8uxoW5PufZq/z/NICOAqVItKNzOLhILHFutf0bc=
-X-IronPort-AV: E=Sophos;i="5.88,321,1635220800"; d="scan'208";a="63313159"
+IronPort-Data: A9a23:YcdVh6zyktwTRIuNwpF6t+fxwSrEfRIJ4+MujC+fZmUNrF6WrkVUz
+ DYdC2/TP6mNZWWmco9xb9iy90NT65/XydZiTwBq/yAxQypGp/SeCIXCJC8cHc8zwu4v7q5Dx
+ 59DAjUVBJlsFhcwnvopW1TYhSEUOZugH9IQM8aZfHAhLeNYYH1500g7wrRm2tQAbeWRWGthh
+ /uj+6UzB3f9s9JEGjp8B3Wr8U4HUFza4Vv0j3RmDRx5lAa2e0o9VfrzEZqZPXrgKrS4K8bhL
+ wr1IBNVyUuCl/slIovNfr8W6STmSJaKVeSFoiI+t6RPHnGuD8H9u0o2HKN0VKtZt9mGt+gq7
+ sxXt9u0cDosDrKSmvo2c0N5Si4raMWq+JefSZS+mcmazkmAeHrw2fR+SkoxOOX0+M4uXzsIr
+ 6ZBbmlQMFbT3Ipaw5riIgVors0lMMnsOpJZonx6xCvVJf0nXYrCU+PB4towMDIY2JofRaiCO
+ ZJxhTxHMSWQeTBqYk4rUakmo/W6gkn2QRhVtwfAzUYwyzeKl1EguFT3C/LNd8CHX4NQl1eUq
+ 2bC12D4BBgAM5qY0zXt2muhg/KKkS7lVYY6Erq++fh3xlqJyQQu5AY+DAXh56Pj0wjnBowZe
+ xd8FjcSQbYazBeNV8P/GBmBnXu0oUAeRfFwScxj51TYokbL2DqxCm8BRz9HTdUpss4qWDAnv
+ mO0c8PV6S9H6+PMFy/EnluAhXbrYHVOczdeDcMRZVZdu7HeTJcPYgUjpzqJOIq8lZXLFD752
+ FhmRwBu1uxI3abnO0hWlG0rYg5ARLCUFmbZBS2NBwpJCz+Vgqb/OuREDnCAtZ59wH6xFAXpg
+ ZT9s5H2ABoyJZ+MjjeRZ+4GAauk4f2IWBWF3wI0RcJ5rGrwoyPyFWy13N2YDB03WirjUWSxC
+ HI/RCsLvMMDVJdURfEfj32N5zQCkvG7SIWNugH8ZdtSeJlhHDJrDwk1DXN8K1vFyRB2+YlmY
+ M/zWZ/1UR4yVPo7pBLrGbZ1+eJ7l0gWmDKILbimnkvP7FZrTCPPIVvzGAHQPrlRAWLtiFi9z
+ uuzwOPTm0wAC7WvO3eOmWPRRHhTRUUG6VnNg5Q/Xoa+zsBORAnN0tfdnuEsfZJLhaNQmrua9
+ 32xQBYAmlH+mWfGOUOBbXU6MOHjWpN2rHQaOy0wPAn3hyh/MNj3tKpPJYEqebQH9fB4yaImR
+ fcyZMjdUO9ETS7K+mpBYMCl/pBibhmimSmHIzGhPGokZ5dlSgGQoo3kcwLj+TMgFC2yscdi8
+ bSs2hmCGcgIRhh4DdaQY/WqlgvjsX8YkeN0fk3JPtgMJxm8rNk0c3T816ZlLdsNJBPPwiqh+
+ zyXWRpI9/PQp4IV8cXSgfzWpYmeDOYjTFFRGHPW7OjqOHCCrHaj24JJTM2BYSvZCDHv4Kyna
+ OhYk6P8PfkAkAoYuoZwCe82n6c35t+prL5G1AV0Wn7Mag3zWL9nJ3CH2+hJt7FMmeAF6VfnB
+ BrX94kII6iNNePkDEUVdVgsYem03P0JniXfsKYuK0Lg6S4rpLeKXC2+5fVXZPCx+FetDL4Y/
+ A==
+IronPort-HdrOrdr: A9a23:xlEm4qBFyGMatGHlHemq55DYdb4zR+YMi2TC1yhKJiC9Ffbo8P
+ xG/c5rrCMc5wxxZJhNo7290ey7MBHhHP1OkO0s1NWZPDUO0VHAROoJ0WKh+UyEJ8SXzJ866U
+ 4KScZD4bPLYWSS9fyKgzWFLw==
+X-IronPort-AV: E=Sophos;i="5.88,321,1635220800"; d="scan'208";a="62906460"
 To: <qemu-devel@nongnu.org>
-CC: Peter Maydell <peter.maydell@linaro.org>, Jason Andryuk
- <jandryuk@gmail.com>, Anthony PERARD <anthony.perard@citrix.com>
-Subject: [PULL 1/2] xen-hvm: Allow disabling buffer_io_timer
-Date: Thu, 27 Jan 2022 15:42:45 +0000
-Message-ID: <20220127154246.6281-2-anthony.perard@citrix.com>
+CC: Peter Maydell <peter.maydell@linaro.org>, Ross Lagerwall
+ <ross.lagerwall@citrix.com>, Anthony PERARD <anthony.perard@citrix.com>
+Subject: [PULL 2/2] xen-mapcache: Avoid entry->lock overflow
+Date: Thu, 27 Jan 2022 15:42:46 +0000
+Message-ID: <20220127154246.6281-3-anthony.perard@citrix.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220127154246.6281-1-anthony.perard@citrix.com>
 References: <20220127154246.6281-1-anthony.perard@citrix.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-Received-SPF: pass client-ip=216.71.145.142;
- envelope-from=anthony.perard@citrix.com; helo=esa1.hc3370-68.iphmx.com
+Received-SPF: pass client-ip=216.71.145.153;
+ envelope-from=anthony.perard@citrix.com; helo=esa2.hc3370-68.iphmx.com
 X-Spam_score_int: -45
 X-Spam_score: -4.6
 X-Spam_bar: ----
 X-Spam_report: (-4.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.159,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -103,57 +104,52 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reply-to:  Anthony PERARD <anthony.perard@citrix.com>
 From:  Anthony PERARD via <qemu-devel@nongnu.org>
 
-From: Jason Andryuk <jandryuk@gmail.com>
+From: Ross Lagerwall <ross.lagerwall@citrix.com>
 
-commit f37f29d31488 "xen: slightly simplify bufioreq handling" hard
-coded setting req.count = 1 during initial field setup before the main
-loop.  This missed a subtlety that an early exit from the loop when
-there are no ioreqs to process, would have req.count == 0 for the return
-value.  handle_buffered_io() would then remove state->buffered_io_timer.
-Instead handle_buffered_iopage() is basically always returning true and
-handle_buffered_io() always re-setting the timer.
+In some cases, a particular mapcache entry may be mapped 256 times
+causing the lock field to wrap to 0. For example, this may happen when
+using emulated NVME and the guest submits a large scatter-gather write.
+At this point, the entry map be remapped causing QEMU to write the wrong
+data or crash (since remap is not atomic).
 
-Restore the disabling of the timer by introducing a new handled_ioreq
-boolean and use as the return value.  The named variable will more
-clearly show the intent of the code.
+Avoid this overflow by increasing the lock field to a uint32_t and also
+detect it and abort rather than continuing regardless.
 
-Signed-off-by: Jason Andryuk <jandryuk@gmail.com>
+Signed-off-by: Ross Lagerwall <ross.lagerwall@citrix.com>
 Reviewed-by: Paul Durrant <paul@xen.org>
-Message-Id: <20211210193434.75566-1-jandryuk@gmail.com>
+Reviewed-by: Stefano Stabellini <sstabellini@kernel.org>
+Message-Id: <20220124104450.152481-1-ross.lagerwall@citrix.com>
 Signed-off-by: Anthony PERARD <anthony.perard@citrix.com>
 ---
- hw/i386/xen/xen-hvm.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+ hw/i386/xen/xen-mapcache.c | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
 
-diff --git a/hw/i386/xen/xen-hvm.c b/hw/i386/xen/xen-hvm.c
-index 482be95415..cf8e500514 100644
---- a/hw/i386/xen/xen-hvm.c
-+++ b/hw/i386/xen/xen-hvm.c
-@@ -1087,10 +1087,11 @@ static void handle_ioreq(XenIOState *state, ioreq_t *req)
-     }
- }
- 
--static int handle_buffered_iopage(XenIOState *state)
-+static bool handle_buffered_iopage(XenIOState *state)
- {
-     buffered_iopage_t *buf_page = state->buffered_io_page;
-     buf_ioreq_t *buf_req = NULL;
-+    bool handled_ioreq = false;
-     ioreq_t req;
-     int qw;
- 
-@@ -1144,9 +1145,10 @@ static int handle_buffered_iopage(XenIOState *state)
-         assert(!req.data_is_ptr);
- 
-         qatomic_add(&buf_page->read_pointer, qw + 1);
-+        handled_ioreq = true;
-     }
- 
--    return req.count;
-+    return handled_ioreq;
- }
- 
- static void handle_buffered_io(void *opaque)
+diff --git a/hw/i386/xen/xen-mapcache.c b/hw/i386/xen/xen-mapcache.c
+index bd47c3d672..f2ef977963 100644
+--- a/hw/i386/xen/xen-mapcache.c
++++ b/hw/i386/xen/xen-mapcache.c
+@@ -52,7 +52,7 @@ typedef struct MapCacheEntry {
+     hwaddr paddr_index;
+     uint8_t *vaddr_base;
+     unsigned long *valid_mapping;
+-    uint8_t lock;
++    uint32_t lock;
+ #define XEN_MAPCACHE_ENTRY_DUMMY (1 << 0)
+     uint8_t flags;
+     hwaddr size;
+@@ -355,6 +355,12 @@ static uint8_t *xen_map_cache_unlocked(hwaddr phys_addr, hwaddr size,
+     if (lock) {
+         MapCacheRev *reventry = g_malloc0(sizeof(MapCacheRev));
+         entry->lock++;
++        if (entry->lock == 0) {
++            fprintf(stderr,
++                    "mapcache entry lock overflow: "TARGET_FMT_plx" -> %p\n",
++                    entry->paddr_index, entry->vaddr_base);
++            abort();
++        }
+         reventry->dma = dma;
+         reventry->vaddr_req = mapcache->last_entry->vaddr_base + address_offset;
+         reventry->paddr_index = mapcache->last_entry->paddr_index;
 -- 
 Anthony PERARD
 
