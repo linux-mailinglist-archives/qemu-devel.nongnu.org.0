@@ -2,72 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D874C49E904
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Jan 2022 18:29:45 +0100 (CET)
-Received: from localhost ([::1]:55388 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 799A049E8F2
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Jan 2022 18:26:46 +0100 (CET)
+Received: from localhost ([::1]:45620 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nD8ae-0007IY-Vg
-	for lists+qemu-devel@lfdr.de; Thu, 27 Jan 2022 12:29:45 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:49282)
+	id 1nD8Xl-0000GV-Hf
+	for lists+qemu-devel@lfdr.de; Thu, 27 Jan 2022 12:26:45 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:49224)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nD6zV-0006vF-Ta
- for qemu-devel@nongnu.org; Thu, 27 Jan 2022 10:47:17 -0500
-Received: from [2a00:1450:4864:20::435] (port=37845
- helo=mail-wr1-x435.google.com)
+ id 1nD6zU-0006qe-Jz
+ for qemu-devel@nongnu.org; Thu, 27 Jan 2022 10:47:16 -0500
+Received: from [2a00:1450:4864:20::32a] (port=43804
+ helo=mail-wm1-x32a.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nD6zQ-0008On-Us
- for qemu-devel@nongnu.org; Thu, 27 Jan 2022 10:47:17 -0500
-Received: by mail-wr1-x435.google.com with SMTP id w11so5581168wra.4
- for <qemu-devel@nongnu.org>; Thu, 27 Jan 2022 07:47:06 -0800 (PST)
+ id 1nD6zQ-0008Ov-Ud
+ for qemu-devel@nongnu.org; Thu, 27 Jan 2022 10:47:16 -0500
+Received: by mail-wm1-x32a.google.com with SMTP id
+ r2-20020a1c2b02000000b0034f7b261169so2154806wmr.2
+ for <qemu-devel@nongnu.org>; Thu, 27 Jan 2022 07:47:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=1EKftSqPbTE2cj73sSgFhaPxNMghmo4WdRClxKMHw6I=;
- b=R8Kd09Avc8C/f1GhlVyDLp/WK5GWmU076hO7f/3B6cOBvVZvhRrCneKAR6g2zYuGvS
- hlkr5kz/maqF5hKngaL+e+CRbPlZqwRXXTHp47YeEIJiIT1icbzp3g/fQ2YUu+D7LRxr
- rFlZ9bG2FO1mFBB5v+8SmG3pXbyb/TOwaPtCw7uZyC5/SqoPzKaPOINNvvdMyXJ/94OA
- FRVN3vDbWrEPZXm25dAzUFCe40vI/fEBAvbqOX1dmmDKfZOiO5ph3Q14Vu9bPqTlm7K8
- xIUehGthUDR7eJkfwAeTG8Fc9gz9+Tww0FlhSCiUgq5ET957njMHZdGWY7DhXMm9lO9S
- Unjg==
+ bh=UTmaOnPlnPo5RWfu20ZKGcE5TEJnVANPMo+LxFYK5oU=;
+ b=bPeg/HCvcVPeMYp3+ZtqeGiOCSj01rEpUK8y7awyBEwtEfPASPKIl32MOEt2dxmQvF
+ xIAa0vWQVM5Wgf4Hy+TG5iLX0EIpWuKhPmiFRCD7iMQ4q9ipqqHq6PN1zgJEF9hJUiYq
+ 4wAxR5QfEvyGkzhUIMtOqhwPzdbFRK3jBfuzGyiKvRVwxvnL0NkPHySp9NmO+AGrSd7q
+ LTybbe87zroAnxFPRIunrbpqkJ28uX3QGfMcOvawT8/7fxUxfvfTXXMSDrIi7P8yQs/L
+ Gt/SctidcegoqnvkcqNwpptOyH+QTlaP9J2d+Bpat6GDIlJwLqerVxyvTjSsZw1I59Gv
+ 34AA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=1EKftSqPbTE2cj73sSgFhaPxNMghmo4WdRClxKMHw6I=;
- b=1egFb713iCy5OXQTDh4mQhaYIfrwMhH7s7WPcRhnm3RY3OLcNdj8XX0Orzn0Wh5PQB
- MZYT3vc2Lirvb4eNdyVd6xDVn5UY/0U85/0KKO28szQJcbGhlxMW7hlkExCenSisNyML
- pwNQzWfYW0pRuadRUUNfzrDidDGc/Tkmo/JnynLO3sSig2x/s2LuT9zCEoKjurSvl3Lc
- oXQnpq9UbNW756snFY/XwUiPhVvYoHdyuj1Kt8kt6IIySqEDE2UDuSFKh/9ILkyGtzmu
- b/enY6HxT0X2adeGogP6K7wa+tTL6q8GqoM2pbnFgo4NPeCcPu3QubNzrr36nnk3jshi
- cUtQ==
-X-Gm-Message-State: AOAM530PPuIpKWWYwC3gb+sBd4c2Obc6JQ26AjMHSbqfpkrVLVFmeO1S
- 9+9GBMaeae7Pzt0bdN6n/9OvMg==
-X-Google-Smtp-Source: ABdhPJyJ0vDMQpM7k1jCNlNJSXlIBKZe/bE12lz7XpfvaQAA8V6L4dJPtZl1C/1L/CHCgTGmMHZTgQ==
-X-Received: by 2002:adf:f08b:: with SMTP id n11mr3525373wro.7.1643298426087;
- Thu, 27 Jan 2022 07:47:06 -0800 (PST)
+ bh=UTmaOnPlnPo5RWfu20ZKGcE5TEJnVANPMo+LxFYK5oU=;
+ b=l9cp9i5fbT2A+eVvB9ZFmA9pJg2rGimnB0ZEWBYWbhheh+PApoujBQIjt38Y1B3IsC
+ 1q6cKVGR539ibE7p4dDv7mpv3AHbl3KPGxklaei2jNRpTdHI45+9kDnjI3yQoxnNwmBD
+ sA7na6dZFPB8bXBZfkFqrss8OSxapgQWwkEf0p/lNW0tdV6kO3vIo/xwbuk+jaMk3iiw
+ f88BPd/DWQWXukq5TFpp7lcXVad8JoDKxdcswHDLzi0ef9RMZjvlobXibGJBslQgQP8K
+ omkXy3jYuf76qL30gGM19sh0dS3Xx6fBsC4ZgGbzS73svYHw2+oETmuCjWCkQmIdkYop
+ rtFg==
+X-Gm-Message-State: AOAM532nhWMgFA1NMPrCDUAjcc63agy5wzODUdvNLVXXs8BrID9lD3ox
+ qEHyNkRmul7Zp1R+Qn6/Hix6RA==
+X-Google-Smtp-Source: ABdhPJxVjdHo9Va+qcugwXbTiDtwd5eQ+TO6Mjec1qCFahpXnG/5+Jh7FViiGQVphS8y4qzBuEa0jQ==
+X-Received: by 2002:a1c:440a:: with SMTP id r10mr3830021wma.142.1643298427499; 
+ Thu, 27 Jan 2022 07:47:07 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
- by smtp.gmail.com with ESMTPSA id w9sm6687667wmc.36.2022.01.27.07.47.04
+ by smtp.gmail.com with ESMTPSA id w9sm6687667wmc.36.2022.01.27.07.47.06
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 27 Jan 2022 07:47:05 -0800 (PST)
+ Thu, 27 Jan 2022 07:47:07 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
-Subject: [PATCH 12/16] hw/arm/boot: Prevent setting both psci_conduit and
- secure_board_setup
-Date: Thu, 27 Jan 2022 15:46:35 +0000
-Message-Id: <20220127154639.2090164-13-peter.maydell@linaro.org>
+Subject: [PATCH 13/16] hw/arm/boot: Don't write secondary boot stub if using
+ PSCI
+Date: Thu, 27 Jan 2022 15:46:36 +0000
+Message-Id: <20220127154639.2090164-14-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220127154639.2090164-1-peter.maydell@linaro.org>
 References: <20220127154639.2090164-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::435
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32a
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::435;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x435.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32a.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -103,38 +104,107 @@ Cc: Eduardo Habkost <eduardo@habkost.net>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Now that we have dealt with the one special case (highbank) that needed
-to set both psci_conduit and secure_board_setup, we don't need to
-allow that combination any more. It doesn't make sense in general,
-so use an assertion to ensure we don't add new boards that do it
-by accident without thinking through the consequences.
+If we're using PSCI emulation to start secondary CPUs, there is no
+point in writing the "secondary boot" stub code, because it will
+never be used -- secondary CPUs start powered-off, and when powered
+on are set to begin execution at the address specified by the guest's
+power-on PSCI call, not at the stub.
+
+Move the call to the hook that writes the secondary boot stub code so
+that we can do it only if we're starting a Linux kernel and not using
+PSCI.
+
+(None of the users of the hook care about the ordering of its call
+relative to anything else: they only use it to write a rom blob to
+guest memory.)
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- hw/arm/boot.c | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+ include/hw/arm/boot.h |  3 +++
+ hw/arm/boot.c         | 35 ++++++++++++++++++++++++-----------
+ 2 files changed, 27 insertions(+), 11 deletions(-)
 
+diff --git a/include/hw/arm/boot.h b/include/hw/arm/boot.h
+index 0bcb58babba..0cfc1c95c4e 100644
+--- a/include/hw/arm/boot.h
++++ b/include/hw/arm/boot.h
+@@ -70,6 +70,9 @@ struct arm_boot_info {
+      * boot loader/boot ROM code, and secondary_cpu_reset_hook() should
+      * perform any necessary CPU reset handling and set the PC for the
+      * secondary CPUs to point at this boot blob.
++     *
++     * These hooks won't be called if secondary CPUs are booting via
++     * emulated PSCI (see psci_conduit below).
+      */
+     void (*write_secondary_boot)(ARMCPU *cpu,
+                                  const struct arm_boot_info *info);
 diff --git a/hw/arm/boot.c b/hw/arm/boot.c
-index 327e449f831..0424c178305 100644
+index 0424c178305..184628ce564 100644
 --- a/hw/arm/boot.c
 +++ b/hw/arm/boot.c
-@@ -1339,6 +1339,16 @@ void arm_load_kernel(ARMCPU *cpu, MachineState *ms, struct arm_boot_info *info)
-      * supported exception level or in a lower one.
-      */
+@@ -804,7 +804,7 @@ static void do_cpu_reset(void *opaque)
+                         set_kernel_args(info, as);
+                     }
+                 }
+-            } else {
++            } else if (info->secondary_cpu_reset_hook) {
+                 info->secondary_cpu_reset_hook(cpu, info);
+             }
+         }
+@@ -1030,13 +1030,6 @@ static void arm_setup_direct_kernel_boot(ARMCPU *cpu,
+         elf_machine = EM_ARM;
+     }
  
-+    /*
-+     * If PSCI is enabled, then SMC calls all go to the PSCI handler and
-+     * are never emulated to trap into guest code. It therefore does not
-+     * make sense for the board to have a setup code fragment that runs
-+     * in Secure, because this will probably need to itself issue an SMC of some
-+     * kind as part of its operation.
-+     */
-+    assert(info->psci_conduit == QEMU_PSCI_CONDUIT_DISABLED ||
-+           !info->secure_board_setup);
+-    if (!info->secondary_cpu_reset_hook) {
+-        info->secondary_cpu_reset_hook = default_reset_secondary;
+-    }
+-    if (!info->write_secondary_boot) {
+-        info->write_secondary_boot = default_write_secondary;
+-    }
+-
+     if (info->nb_cpus == 0)
+         info->nb_cpus = 1;
+ 
+@@ -1216,9 +1209,6 @@ static void arm_setup_direct_kernel_boot(ARMCPU *cpu,
+         write_bootloader("bootloader", info->loader_start,
+                          primary_loader, fixupcontext, as);
+ 
+-        if (info->nb_cpus > 1) {
+-            info->write_secondary_boot(cpu, info);
+-        }
+         if (info->write_board_setup) {
+             info->write_board_setup(cpu, info);
+         }
+@@ -1385,6 +1375,29 @@ void arm_load_kernel(ARMCPU *cpu, MachineState *ms, struct arm_boot_info *info)
+         }
+     }
+ 
++    if (info->psci_conduit == QEMU_PSCI_CONDUIT_DISABLED &&
++        info->is_linux && info->nb_cpus > 1) {
++        /*
++         * We're booting Linux but not using PSCI, so for SMP we need
++         * to write a custom secondary CPU boot loader stub, and arrange
++         * for the secondary CPU reset to make the accompanying initialization.
++         */
++        if (!info->secondary_cpu_reset_hook) {
++            info->secondary_cpu_reset_hook = default_reset_secondary;
++        }
++        if (!info->write_secondary_boot) {
++            info->write_secondary_boot = default_write_secondary;
++        }
++        info->write_secondary_boot(cpu, info);
++    } else {
++        /*
++         * No secondary boot stub; don't use the reset hook that would
++         * have set the CPU up to call it
++         */
++        info->write_secondary_boot = NULL;
++        info->secondary_cpu_reset_hook = NULL;
++    }
 +
-     /* Boot into highest supported EL ... */
-     if (arm_feature(env, ARM_FEATURE_EL3)) {
-         boot_el = 3;
+     /*
+      * arm_load_dtb() may add a PSCI node so it must be called after we have
+      * decided whether to enable PSCI and set the psci-conduit CPU properties.
 -- 
 2.25.1
 
