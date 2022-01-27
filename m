@@ -2,93 +2,100 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8A5649ED1C
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Jan 2022 22:10:58 +0100 (CET)
-Received: from localhost ([::1]:53486 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B5B249ED61
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Jan 2022 22:26:47 +0100 (CET)
+Received: from localhost ([::1]:45504 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nDC2j-0006tV-On
-	for lists+qemu-devel@lfdr.de; Thu, 27 Jan 2022 16:10:57 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:35214)
+	id 1nDCI2-0005VO-6L
+	for lists+qemu-devel@lfdr.de; Thu, 27 Jan 2022 16:26:46 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:39286)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dirty@apple.com>) id 1nDBqg-0003MT-7P
- for qemu-devel@nongnu.org; Thu, 27 Jan 2022 15:58:30 -0500
-Received: from rn-mailsvcp-ppex-lapp24.rno.apple.com ([17.179.253.38]:40778
- helo=rn-mailsvcp-ppex-lapp24.apple.com)
+ (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
+ id 1nDCEW-0004iO-2R
+ for qemu-devel@nongnu.org; Thu, 27 Jan 2022 16:23:08 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:35195)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dirty@apple.com>) id 1nDBqe-0005dU-K8
- for qemu-devel@nongnu.org; Thu, 27 Jan 2022 15:58:29 -0500
-Received: from pps.filterd (rn-mailsvcp-ppex-lapp24.rno.apple.com [127.0.0.1])
- by rn-mailsvcp-ppex-lapp24.rno.apple.com (8.16.1.2/8.16.1.2) with
- SMTP id 20RKsJx2006866; Thu, 27 Jan 2022 12:58:25 -0800
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=apple.com;
- h=from : to : cc :
- subject : date : message-id : mime-version : content-transfer-encoding;
- s=20180706; bh=XOhvgokQ39pCznVuG1b0062/D8cUCmMiPazgGEmsruk=;
- b=iS/J0Inc0Cg84uyQ6E1FVFQ2JoRt3QAIc3oRMfQM+8wtr/Of7knD7sn5pm/nB21YV4fp
- mwaHUoR4D+zLcpU1BOo83VrBHjjyLWCETIc+MgZJcCHRzuYto4Ot8n4J+q0on+pFhYpQ
- dwPmRxjvBk+BZmqsEA/Kk0cn30VpkyROaT8rC4NV8MGklEwR67srvtjkXK7DaIVX9oGH
- RjsG8P9af3t/jB2Mgwo4xSAukC+2oRoQMPO+A4YVrjJa6sO2ektTlj/UDN4teBUMMiiW
- aWbIQCjAXSsNxmuwfyBuKxUaC021Bh2qINuyV3qg93uNMqRg2KGGUzBnpncOGyVbf8gZ TQ== 
-Received: from rn-mailsvcp-mta-lapp01.rno.apple.com
- (rn-mailsvcp-mta-lapp01.rno.apple.com [10.225.203.149])
- by rn-mailsvcp-ppex-lapp24.rno.apple.com with ESMTP id 3drgddfbju-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NO);
- Thu, 27 Jan 2022 12:58:25 -0800
-Received: from rn-mailsvcp-mmp-lapp04.rno.apple.com
- (rn-mailsvcp-mmp-lapp04.rno.apple.com [17.179.253.17])
- by rn-mailsvcp-mta-lapp01.rno.apple.com
- (Oracle Communications Messaging Server 8.1.0.12.20210903 64bit (built Sep 3
- 2021)) with ESMTPS id <0R6D00IO2ZLDWUI0@rn-mailsvcp-mta-lapp01.rno.apple.com>; 
- Thu, 27 Jan 2022 12:58:25 -0800 (PST)
-Received: from process_milters-daemon.rn-mailsvcp-mmp-lapp04.rno.apple.com by
- rn-mailsvcp-mmp-lapp04.rno.apple.com
- (Oracle Communications Messaging Server 8.1.0.12.20210903 64bit (built Sep 3
- 2021)) id <0R6D00W00ZHQ6O00@rn-mailsvcp-mmp-lapp04.rno.apple.com>; Thu,
- 27 Jan 2022 12:58:25 -0800 (PST)
-X-Va-A: 
-X-Va-T-CD: 51115aee971724d6ddf329fb28aa7ad5
-X-Va-E-CD: 120ef7c1e3e295130a85bde8ba98443e
-X-Va-R-CD: c492b5a21f513dd970c5019bf23301db
-X-Va-CD: 0
-X-Va-ID: 172ef4da-aab5-4512-a236-3fca26138911
-X-V-A: 
-X-V-T-CD: 51115aee971724d6ddf329fb28aa7ad5
-X-V-E-CD: 120ef7c1e3e295130a85bde8ba98443e
-X-V-R-CD: c492b5a21f513dd970c5019bf23301db
-X-V-CD: 0
-X-V-ID: ab6a65ac-c75f-4bac-bd20-054f262cfe0a
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.425, 18.0.816
- definitions=2022-01-27_03:2022-01-27,
- 2022-01-27 signatures=0
-Received: from rn-mailsvcp-relay-lapp01.rno.apple.com
- (unknown [17.150.218.164]) by rn-mailsvcp-mmp-lapp04.rno.apple.com
- (Oracle Communications Messaging Server 8.1.0.12.20210903 64bit (built Sep 3
- 2021))
- with ESMTPSA id <0R6D00ZKZZLCHV00@rn-mailsvcp-mmp-lapp04.rno.apple.com>; Thu,
- 27 Jan 2022 12:58:25 -0800 (PST)
-From: Cameron Esfahani <dirty@apple.com>
-To: qemu-devel@nongnu.org
-Cc: laurent@vivier.eu
-Subject: [PATCH v2] linux-user: Implement starttime field in self stat
- emulation
-Date: Thu, 27 Jan 2022 12:58:24 -0800
-Message-id: <20220127205824.40626-1-dirty@apple.com>
-X-Mailer: git-send-email 2.32.0 (Apple Git-131)
-MIME-version: 1.0
-Content-transfer-encoding: 8bit
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.425, 18.0.816
- definitions=2022-01-27_03:2022-01-27,
- 2022-01-27 signatures=0
-Received-SPF: pass client-ip=17.179.253.38; envelope-from=dirty@apple.com;
- helo=rn-mailsvcp-ppex-lapp24.apple.com
-X-Spam_score_int: -45
-X-Spam_score: -4.6
-X-Spam_bar: ----
-X-Spam_report: (-4.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.159,
+ (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
+ id 1nDCEQ-0000q2-Hm
+ for qemu-devel@nongnu.org; Thu, 27 Jan 2022 16:23:06 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1643318579;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=GzO7azUufcqeY4kurW7VdPrNgJb4dACUTSdW9nUm6hY=;
+ b=Oy3nhN9OmfYUafmxkg/4k/iUguh0AeE1kUpRRwxMrjPCpMrE127Cg68oXgw2oEUzzJd3Hb
+ NnxukJJ01p5Jq4lFUvZcnkry+OsFBPJe8P92a2qTY34shyRHU1pDndC+jJS+ZZOmRDbD5Z
+ fNB1ZYAOZn2leq+tlc/EHY8HYBJDrxY=
+Received: from mail-ot1-f70.google.com (mail-ot1-f70.google.com
+ [209.85.210.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-646-i9Ld3glpOruOjpWLV5U5Ow-1; Thu, 27 Jan 2022 16:22:56 -0500
+X-MC-Unique: i9Ld3glpOruOjpWLV5U5Ow-1
+Received: by mail-ot1-f70.google.com with SMTP id
+ c3-20020a9d6c83000000b00591cba30d03so2216760otr.7
+ for <qemu-devel@nongnu.org>; Thu, 27 Jan 2022 13:22:55 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=0C8aCpD4ecDdh71gNMgxw9Xhow3wfoBoCtgQJNUr/rU=;
+ b=1cFt1OrVK+0S+pMkJYxaTpCA7J3BoLC42kBubylu+I/o9JynwbSx7tl4IxEpwDZv+l
+ PCg+inpyQytYayhfgLVbyjZm65glKLl/vzqW3bYb8qABm+w18wYLiyaQXrCoEjDA8CI9
+ KojQSUrq5XniO3iz3bb4qMq8SBjltFwn9Anj/cB6mrvPZSBII706aj0L+Sl/iLgi6d7W
+ n3zAnPXmOZm0cObqVuBQK9frOr0ry5f28ihOTkedz6CDzHWnXZDV575mIWs0pA0w6Lq/
+ 0KuWFkb8B2kLw5Fia1L2Jtl08Pt7o5T1vdi9bHy1557UtFtiAZo/sSTwMtIzXjb5sLhS
+ COyw==
+X-Gm-Message-State: AOAM533OTuTgj3eBNbi3iy02WdUUQtxKvlZf+k5z4x8NU1Do91897ej0
+ JZpZwqGolnf8G8+kynJSF9LzOfPNbqHA61D3yIxb2/38apKqpSJiClENGBh2n71svljNiaNY+zD
+ DG8j17oKRDcq0pRE=
+X-Received: by 2002:a05:6830:2649:: with SMTP id
+ f9mr1688253otu.141.1643318575263; 
+ Thu, 27 Jan 2022 13:22:55 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwka7xmpuDqAn6DvfBTk0RWBgiqTgeBd6NMD2bnSKLO/EmpnV1jOSNC1CLZ14iBFAhyS6jNeA==
+X-Received: by 2002:a05:6830:2649:: with SMTP id
+ f9mr1688228otu.141.1643318575010; 
+ Thu, 27 Jan 2022 13:22:55 -0800 (PST)
+Received: from redhat.com ([38.15.36.239])
+ by smtp.gmail.com with ESMTPSA id q18sm2900610otf.54.2022.01.27.13.22.53
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 27 Jan 2022 13:22:54 -0800 (PST)
+Date: Thu, 27 Jan 2022 14:22:53 -0700
+From: Alex Williamson <alex.williamson@redhat.com>
+To: Stefan Hajnoczi <stefanha@redhat.com>
+Subject: Re: [PATCH v5 03/18] pci: isolated address space for PCI bus
+Message-ID: <20220127142253.21ab0025.alex.williamson@redhat.com>
+In-Reply-To: <YfJYFbBVQzho7mGp@stefanha-x1.localdomain>
+References: <cover.1642626515.git.jag.raman@oracle.com>
+ <2971c1bec04acaac4eb3c1f2b104cbeabad01e22.1642626515.git.jag.raman@oracle.com>
+ <20220119190742-mutt-send-email-mst@kernel.org>
+ <1CACFB08-1BBC-4ECC-9C0B-6F377018D795@oracle.com>
+ <YfBDqMuO/l/gWzL8@work-vm>
+ <AE47B5D2-6515-4BD3-B541-23E5274174AC@oracle.com>
+ <YfEYHBhrsdF9Edpp@stefanha-x1.localdomain>
+ <YfGqCJeTD9bmkZx6@work-vm>
+ <20220126161120-mutt-send-email-mst@kernel.org>
+ <YfJYFbBVQzho7mGp@stefanha-x1.localdomain>
+X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
+MIME-Version: 1.0
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=alex.williamson@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124;
+ envelope-from=alex.williamson@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.159,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -101,71 +108,149 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: "eduardo@habkost.net" <eduardo@habkost.net>,
+ Elena Ufimtseva <elena.ufimtseva@oracle.com>, Jag Raman <jag.raman@oracle.com>,
+ Beraldo Leal <bleal@redhat.com>, John Johnson <john.g.johnson@oracle.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
+ "armbru@redhat.com" <armbru@redhat.com>,
+ "quintela@redhat.com" <quintela@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?B?TWFyYy1BbmRyw6k=?= Lureau <marcandre.lureau@gmail.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ "thanos.makatos@nutanix.com" <thanos.makatos@nutanix.com>, "Daniel
+ P. =?UTF-8?B?QmVycmFuZ8Op?=" <berrange@redhat.com>,
+ Eric Blake <eblake@redhat.com>,
+ "john.levon@nutanix.com" <john.levon@nutanix.com>,
+ Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Instead of always returning 0, return actual starttime.
+On Thu, 27 Jan 2022 08:30:13 +0000
+Stefan Hajnoczi <stefanha@redhat.com> wrote:
 
-v2: Use clock_gettime() instead of scanning /proc/self/stat
+> On Wed, Jan 26, 2022 at 04:13:33PM -0500, Michael S. Tsirkin wrote:
+> > On Wed, Jan 26, 2022 at 08:07:36PM +0000, Dr. David Alan Gilbert wrote:=
+ =20
+> > > * Stefan Hajnoczi (stefanha@redhat.com) wrote: =20
+> > > > On Wed, Jan 26, 2022 at 05:27:32AM +0000, Jag Raman wrote: =20
+> > > > >=20
+> > > > >  =20
+> > > > > > On Jan 25, 2022, at 1:38 PM, Dr. David Alan Gilbert <dgilbert@r=
+edhat.com> wrote:
+> > > > > >=20
+> > > > > > * Jag Raman (jag.raman@oracle.com) wrote: =20
+> > > > > >>=20
+> > > > > >>  =20
+> > > > > >>> On Jan 19, 2022, at 7:12 PM, Michael S. Tsirkin <mst@redhat.c=
+om> wrote:
+> > > > > >>>=20
+> > > > > >>> On Wed, Jan 19, 2022 at 04:41:52PM -0500, Jagannathan Raman w=
+rote: =20
+> > > > > >>>> Allow PCI buses to be part of isolated CPU address spaces. T=
+his has a
+> > > > > >>>> niche usage.
+> > > > > >>>>=20
+> > > > > >>>> TYPE_REMOTE_MACHINE allows multiple VMs to house their PCI d=
+evices in
+> > > > > >>>> the same machine/server. This would cause address space coll=
+ision as
+> > > > > >>>> well as be a security vulnerability. Having separate address=
+ spaces for
+> > > > > >>>> each PCI bus would solve this problem. =20
+> > > > > >>>=20
+> > > > > >>> Fascinating, but I am not sure I understand. any examples? =
+=20
+> > > > > >>=20
+> > > > > >> Hi Michael!
+> > > > > >>=20
+> > > > > >> multiprocess QEMU and vfio-user implement a client-server mode=
+l to allow
+> > > > > >> out-of-process emulation of devices. The client QEMU, which ma=
+kes ioctls
+> > > > > >> to the kernel and runs VCPUs, could attach devices running in =
+a server
+> > > > > >> QEMU. The server QEMU needs access to parts of the client=E2=
+=80=99s RAM to
+> > > > > >> perform DMA. =20
+> > > > > >=20
+> > > > > > Do you ever have the opposite problem? i.e. when an emulated PC=
+I device =20
+> > > > >=20
+> > > > > That=E2=80=99s an interesting question.
+> > > > >  =20
+> > > > > > exposes a chunk of RAM-like space (frame buffer, or maybe a map=
+ped file)
+> > > > > > that the client can see.  What happens if two emulated devices =
+need to
+> > > > > > access each others emulated address space? =20
+> > > > >=20
+> > > > > In this case, the kernel driver would map the destination=E2=80=
+=99s chunk of internal RAM into
+> > > > > the DMA space of the source device. Then the source device could =
+write to that
+> > > > > mapped address range, and the IOMMU should direct those writes to=
+ the
+> > > > > destination device.
+> > > > >=20
+> > > > > I would like to take a closer look at the IOMMU implementation on=
+ how to achieve
+> > > > > this, and get back to you. I think the IOMMU would handle this. C=
+ould you please
+> > > > > point me to the IOMMU implementation you have in mind? =20
+> > > >=20
+> > > > I don't know if the current vfio-user client/server patches already
+> > > > implement device-to-device DMA, but the functionality is supported =
+by
+> > > > the vfio-user protocol.
+> > > >=20
+> > > > Basically: if the DMA regions lookup inside the vfio-user server fa=
+ils,
+> > > > fall back to VFIO_USER_DMA_READ/WRITE messages instead.
+> > > > https://github.com/nutanix/libvfio-user/blob/master/docs/vfio-user.=
+rst#vfio-user-dma-read
+> > > >=20
+> > > > Here is the flow:
+> > > > 1. The vfio-user server with device A sends a DMA read to QEMU.
+> > > > 2. QEMU finds the MemoryRegion associated with the DMA address and =
+sees
+> > > >    it's a device.
+> > > >    a. If it's emulated inside the QEMU process then the normal
+> > > >       device emulation code kicks in.
+> > > >    b. If it's another vfio-user PCI device then the vfio-user PCI p=
+roxy
+> > > >       device forwards the DMA to the second vfio-user server's devi=
+ce B. =20
+> > >=20
+> > > I'm starting to be curious if there's a way to persuade the guest ker=
+nel
+> > > to do it for us; in general is there a way to say to PCI devices that
+> > > they can only DMA to the host and not other PCI devices? =20
+> >=20
+> >=20
+> > But of course - this is how e.g. VFIO protects host PCI devices from
+> > each other when one of them is passed through to a VM. =20
+>=20
+> Michael: Are you saying just turn on vIOMMU? :)
+>=20
+> Devices in different VFIO groups have their own IOMMU context, so their
+> IOVA space is isolated. Just don't map other devices into the IOVA space
+> and those other devices will be inaccessible.
 
-Signed-off-by: Cameron Esfahani <dirty@apple.com>
----
- linux-user/main.c    | 11 +++++++++++
- linux-user/qemu.h    |  3 +++
- linux-user/syscall.c |  3 +++
- 3 files changed, 17 insertions(+)
+Devices in different VFIO *containers* have their own IOMMU context.
+Based on the group attachment to a container, groups can either have
+shared or isolated IOVA space.  That determination is made by looking
+at the address space of the bus, which is governed by the presence of a
+vIOMMU.
 
-diff --git a/linux-user/main.c b/linux-user/main.c
-index 16def5215d..2e5e0e886b 100644
---- a/linux-user/main.c
-+++ b/linux-user/main.c
-@@ -196,6 +196,17 @@ void init_task_state(TaskState *ts)
-         .ss_size = 0,
-         .ss_flags = TARGET_SS_DISABLE,
-     };
-+
-+    /* Capture task start time relative to system boot */
-+
-+    long long ticksPerSec = sysconf(_SC_CLK_TCK);
-+    struct timespec bt;
-+
-+    if ((ticksPerSec > 0) && !clock_gettime(CLOCK_BOOTTIME, &bt)) {
-+        /* start_boottime is expressed in clock ticks */
-+        ts->start_boottime = bt.tv_sec * ticksPerSec;
-+        ts->start_boottime += bt.tv_nsec * ticksPerSec / 1000000000L;
-+    }
- }
- 
- CPUArchState *cpu_copy(CPUArchState *env)
-diff --git a/linux-user/qemu.h b/linux-user/qemu.h
-index 7910ce59cc..86bc169e72 100644
---- a/linux-user/qemu.h
-+++ b/linux-user/qemu.h
-@@ -158,6 +158,9 @@ typedef struct TaskState {
- 
-     /* This thread's sigaltstack, if it has one */
-     struct target_sigaltstack sigaltstack_used;
-+
-+    /* Start time of task after system boot in clock ticks */
-+    unsigned long long start_boottime;
- } __attribute__((aligned(16))) TaskState;
- 
- abi_long do_brk(abi_ulong new_brk);
-diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index 5950222a77..2f77dbdda7 100644
---- a/linux-user/syscall.c
-+++ b/linux-user/syscall.c
-@@ -8107,6 +8107,9 @@ static int open_self_stat(void *cpu_env, int fd)
-         } else if (i == 3) {
-             /* ppid */
-             g_string_printf(buf, FMT_pid " ", getppid());
-+        } else if (i == 21) {
-+            /* starttime */
-+            g_string_printf(buf, "%llu ", ts->start_boottime);
-         } else if (i == 27) {
-             /* stack bottom */
-             g_string_printf(buf, TARGET_ABI_FMT_ld " ", ts->info->start_stack);
--- 
-2.32.0 (Apple Git-131)
+If the goal here is to restrict DMA between devices, ie. peer-to-peer
+(p2p), why are we trying to re-invent what an IOMMU already does?  In
+fact, it seems like an IOMMU does this better in providing an IOVA
+address space per BDF.  Is the dynamic mapping overhead too much?  What
+physical hardware properties or specifications could we leverage to
+restrict p2p mappings to a device?  Should it be governed by machine
+type to provide consistency between devices?  Should each "isolated"
+bus be in a separate root complex?  Thanks,
+
+Alex
 
 
