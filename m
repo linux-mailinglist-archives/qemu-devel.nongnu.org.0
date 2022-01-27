@@ -2,52 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D157349E77C
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Jan 2022 17:28:43 +0100 (CET)
-Received: from localhost ([::1]:34404 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 26A0149E759
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Jan 2022 17:21:25 +0100 (CET)
+Received: from localhost ([::1]:50220 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nD7da-0007js-VJ
-	for lists+qemu-devel@lfdr.de; Thu, 27 Jan 2022 11:28:43 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:41820)
+	id 1nD7WV-0007MU-U8
+	for lists+qemu-devel@lfdr.de; Thu, 27 Jan 2022 11:21:23 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:41978)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1nD6YL-0004zP-HU
- for qemu-devel@nongnu.org; Thu, 27 Jan 2022 10:19:13 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:39167)
+ id 1nD6Yu-0005Ft-RW
+ for qemu-devel@nongnu.org; Thu, 27 Jan 2022 10:19:49 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:24431)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1nD6YI-0003jv-FE
- for qemu-devel@nongnu.org; Thu, 27 Jan 2022 10:19:13 -0500
+ id 1nD6Yr-0003mc-7x
+ for qemu-devel@nongnu.org; Thu, 27 Jan 2022 10:19:47 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1643296748;
+ s=mimecast20190719; t=1643296782;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=iXI6MpsEynOrVbApTNRU23ZTCAnXWnWLNK0+MEwOlaI=;
- b=BQqV6LnlD1dowG0jT8UULI0q5AwKW9gHaLCUqSQjh6tLJD+Cenv+YRR9e8+pjC2BsSaj0J
- s9+Ur75UpxfssR/lQJbByZ7MwxY6ZIZoo/+pKmcphClDrHmT53did+/FZVd9Hnwtf60tRG
- jmiZa1GFU0KrhCRoU96jqjVe0oC5VZA=
+ bh=7qKHJ+kz44DX+SXjXAxR04KqrnALWnZetuh9UunKmNQ=;
+ b=hcv2EVawQDN9WC900CQ+etbT+CEc1wzMw9MqNDmQeh9sf1RjT584uJtCmdTnjgEOgHI6bq
+ iVqO5tBDjfGKrvgXAmYFmCyFNjNxuZqbNmZz69JXkaoFRPzQrBhlKGEk5oh0TRm1fFf27f
+ Q3WHt7trdJwCpApNZJO37ZT/l7rTWZI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-654-yJibaR4nN-C_srNQYJQA-A-1; Thu, 27 Jan 2022 10:19:06 -0500
-X-MC-Unique: yJibaR4nN-C_srNQYJQA-A-1
+ us-mta-160-hCs7x92MMHK3VNM153gs5g-1; Thu, 27 Jan 2022 10:19:41 -0500
+X-MC-Unique: hCs7x92MMHK3VNM153gs5g-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 991421091DA3;
- Thu, 27 Jan 2022 15:19:02 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9638119251A0;
+ Thu, 27 Jan 2022 15:19:38 +0000 (UTC)
 Received: from secure.mitica (unknown [10.39.194.185])
- by smtp.corp.redhat.com (Postfix) with ESMTP id DD1B072FA2;
- Thu, 27 Jan 2022 15:17:56 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id F2EEF70D2D;
+ Thu, 27 Jan 2022 15:19:02 +0000 (UTC)
 From: Juan Quintela <quintela@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 32/38] migration: Introduce ram_transferred_add()
-Date: Thu, 27 Jan 2022 16:05:42 +0100
-Message-Id: <20220127150548.20595-33-quintela@redhat.com>
+Subject: [PULL 33/38] migration: Tally pre-copy,
+ downtime and post-copy bytes independently
+Date: Thu, 27 Jan 2022 16:05:43 +0100
+Message-Id: <20220127150548.20595-34-quintela@redhat.com>
 In-Reply-To: <20220127150548.20595-1-quintela@redhat.com>
 References: <20220127150548.20595-1-quintela@redhat.com>
 MIME-Version: 1.0
@@ -104,107 +105,106 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: David Edmondson <david.edmondson@oracle.com>
 
-Replace direct manipulation of ram_counters.transferred with a
-function.
+Provide information on the number of bytes copied in the pre-copy,
+downtime and post-copy phases of migration.
 
 Signed-off-by: David Edmondson <david.edmondson@oracle.com>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Reviewed-by: Juan Quintela <quintela@redhat.com>
 Signed-off-by: Juan Quintela <quintela@redhat.com>
 ---
- migration/ram.c | 23 ++++++++++++++---------
- 1 file changed, 14 insertions(+), 9 deletions(-)
+ qapi/migration.json   | 13 ++++++++++++-
+ migration/migration.c |  3 +++
+ migration/ram.c       |  7 +++++++
+ monitor/hmp-cmds.c    | 12 ++++++++++++
+ 4 files changed, 34 insertions(+), 1 deletion(-)
 
+diff --git a/qapi/migration.json b/qapi/migration.json
+index bbfd48cf0b..5975a0e104 100644
+--- a/qapi/migration.json
++++ b/qapi/migration.json
+@@ -46,6 +46,15 @@
+ # @pages-per-second: the number of memory pages transferred per second
+ #                    (Since 4.0)
+ #
++# @precopy-bytes: The number of bytes sent in the pre-copy phase
++#                 (since 7.0).
++#
++# @downtime-bytes: The number of bytes sent while the guest is paused
++#                  (since 7.0).
++#
++# @postcopy-bytes: The number of bytes sent during the post-copy phase
++#                  (since 7.0).
++#
+ # Since: 0.14
+ ##
+ { 'struct': 'MigrationStats',
+@@ -54,7 +63,9 @@
+            'normal-bytes': 'int', 'dirty-pages-rate' : 'int',
+            'mbps' : 'number', 'dirty-sync-count' : 'int',
+            'postcopy-requests' : 'int', 'page-size' : 'int',
+-           'multifd-bytes' : 'uint64', 'pages-per-second' : 'uint64' } }
++           'multifd-bytes' : 'uint64', 'pages-per-second' : 'uint64',
++           'precopy-bytes' : 'uint64', 'downtime-bytes' : 'uint64',
++           'postcopy-bytes' : 'uint64' } }
+ 
+ ##
+ # @XBZRLECacheStats:
+diff --git a/migration/migration.c b/migration/migration.c
+index 771f3e2bec..bcc385b94b 100644
+--- a/migration/migration.c
++++ b/migration/migration.c
+@@ -1014,6 +1014,9 @@ static void populate_ram_info(MigrationInfo *info, MigrationState *s)
+     info->ram->page_size = page_size;
+     info->ram->multifd_bytes = ram_counters.multifd_bytes;
+     info->ram->pages_per_second = s->pages_per_second;
++    info->ram->precopy_bytes = ram_counters.precopy_bytes;
++    info->ram->downtime_bytes = ram_counters.downtime_bytes;
++    info->ram->postcopy_bytes = ram_counters.postcopy_bytes;
+ 
+     if (migrate_use_xbzrle()) {
+         info->has_xbzrle_cache = true;
 diff --git a/migration/ram.c b/migration/ram.c
-index 1771bbdb02..619a1d9a6b 100644
+index 619a1d9a6b..ca879c744f 100644
 --- a/migration/ram.c
 +++ b/migration/ram.c
-@@ -387,6 +387,11 @@ uint64_t ram_bytes_remaining(void)
+@@ -389,6 +389,13 @@ MigrationStats ram_counters;
  
- MigrationStats ram_counters;
- 
-+static void ram_transferred_add(uint64_t bytes)
-+{
-+    ram_counters.transferred += bytes;
-+}
-+
- /* used by the search for pages to send */
- struct PageSearchStatus {
-     /* Current block being searched */
-@@ -767,7 +772,7 @@ static int save_xbzrle_page(RAMState *rs, uint8_t **current_data,
-      * RAM_SAVE_FLAG_CONTINUE.
-      */
-     xbzrle_counters.bytes += bytes_xbzrle - 8;
--    ram_counters.transferred += bytes_xbzrle;
-+    ram_transferred_add(bytes_xbzrle);
- 
-     return 1;
- }
-@@ -1208,7 +1213,7 @@ static int save_zero_page(RAMState *rs, RAMBlock *block, ram_addr_t offset)
- 
-     if (len) {
-         ram_counters.duplicate++;
--        ram_counters.transferred += len;
-+        ram_transferred_add(len);
-         return 1;
-     }
-     return -1;
-@@ -1235,7 +1240,7 @@ static bool control_save_page(RAMState *rs, RAMBlock *block, ram_addr_t offset,
-     }
- 
-     if (bytes_xmit) {
--        ram_counters.transferred += bytes_xmit;
-+        ram_transferred_add(bytes_xmit);
-         *pages = 1;
-     }
- 
-@@ -1266,8 +1271,8 @@ static bool control_save_page(RAMState *rs, RAMBlock *block, ram_addr_t offset,
- static int save_normal_page(RAMState *rs, RAMBlock *block, ram_addr_t offset,
-                             uint8_t *buf, bool async)
+ static void ram_transferred_add(uint64_t bytes)
  {
--    ram_counters.transferred += save_page_header(rs, rs->f, block,
--                                                 offset | RAM_SAVE_FLAG_PAGE);
-+    ram_transferred_add(save_page_header(rs, rs->f, block,
-+                                         offset | RAM_SAVE_FLAG_PAGE));
-     if (async) {
-         qemu_put_buffer_async(rs->f, buf, TARGET_PAGE_SIZE,
-                               migrate_release_ram() &
-@@ -1275,7 +1280,7 @@ static int save_normal_page(RAMState *rs, RAMBlock *block, ram_addr_t offset,
-     } else {
-         qemu_put_buffer(rs->f, buf, TARGET_PAGE_SIZE);
-     }
--    ram_counters.transferred += TARGET_PAGE_SIZE;
-+    ram_transferred_add(TARGET_PAGE_SIZE);
-     ram_counters.normal++;
-     return 1;
++    if (runstate_is_running()) {
++        ram_counters.precopy_bytes += bytes;
++    } else if (migration_in_postcopy()) {
++        ram_counters.postcopy_bytes += bytes;
++    } else {
++        ram_counters.downtime_bytes += bytes;
++    }
+     ram_counters.transferred += bytes;
  }
-@@ -1367,7 +1372,7 @@ static bool do_compress_ram_page(QEMUFile *f, z_stream *stream, RAMBlock *block,
- static void
- update_compress_thread_counts(const CompressParam *param, int bytes_xmit)
- {
--    ram_counters.transferred += bytes_xmit;
-+    ram_transferred_add(bytes_xmit);
  
-     if (param->zero_page) {
-         ram_counters.duplicate++;
-@@ -2284,7 +2289,7 @@ void acct_update_position(QEMUFile *f, size_t size, bool zero)
-         ram_counters.duplicate += pages;
-     } else {
-         ram_counters.normal += pages;
--        ram_counters.transferred += size;
-+        ram_transferred_add(size);
-         qemu_update_position(f, size);
+diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
+index 2669156b28..8c384dc1b2 100644
+--- a/monitor/hmp-cmds.c
++++ b/monitor/hmp-cmds.c
+@@ -293,6 +293,18 @@ void hmp_info_migrate(Monitor *mon, const QDict *qdict)
+             monitor_printf(mon, "postcopy request count: %" PRIu64 "\n",
+                            info->ram->postcopy_requests);
+         }
++        if (info->ram->precopy_bytes) {
++            monitor_printf(mon, "precopy ram: %" PRIu64 " kbytes\n",
++                           info->ram->precopy_bytes >> 10);
++        }
++        if (info->ram->downtime_bytes) {
++            monitor_printf(mon, "downtime ram: %" PRIu64 " kbytes\n",
++                           info->ram->downtime_bytes >> 10);
++        }
++        if (info->ram->postcopy_bytes) {
++            monitor_printf(mon, "postcopy ram: %" PRIu64 " kbytes\n",
++                           info->ram->postcopy_bytes >> 10);
++        }
      }
- }
-@@ -3040,7 +3045,7 @@ out:
-         multifd_send_sync_main(rs->f);
-         qemu_put_be64(f, RAM_SAVE_FLAG_EOS);
-         qemu_fflush(f);
--        ram_counters.transferred += 8;
-+        ram_transferred_add(8);
  
-         ret = qemu_file_get_error(f);
-     }
+     if (info->has_disk) {
 -- 
 2.34.1
 
