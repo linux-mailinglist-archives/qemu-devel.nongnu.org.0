@@ -2,79 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 26A3449E638
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Jan 2022 16:38:27 +0100 (CET)
-Received: from localhost ([::1]:57794 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B2CE749E575
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Jan 2022 16:08:44 +0100 (CET)
+Received: from localhost ([::1]:34016 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nD6qq-0002fG-SJ
-	for lists+qemu-devel@lfdr.de; Thu, 27 Jan 2022 10:38:20 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:35850)
+	id 1nD6OB-0007f3-Ey
+	for lists+qemu-devel@lfdr.de; Thu, 27 Jan 2022 10:08:43 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:36244)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nD6Hp-0001fJ-90
- for qemu-devel@nongnu.org; Thu, 27 Jan 2022 10:02:10 -0500
-Received: from [2a00:1450:4864:20::430] (port=34419
- helo=mail-wr1-x430.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nD6Hn-00012o-Fp
- for qemu-devel@nongnu.org; Thu, 27 Jan 2022 10:02:08 -0500
-Received: by mail-wr1-x430.google.com with SMTP id f17so5375517wrx.1
- for <qemu-devel@nongnu.org>; Thu, 27 Jan 2022 07:02:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=m4fh0R6FgFoRTj+GRlE9TXzpItN1qxhCKNYW/hllSfE=;
- b=n6PsAUniqqUr1B/AlqLoyQWcSVSzk+f0MqcfupBdjCNHK+NBIJ8KBOU19rp6oeH8Xw
- RVsP8XHVY9O4oLEp0pd9dloJ2KixFG1mgyBKqUphZRw99Dyme7ia23oQbS0a11iep3Jl
- pkJofeQ3eLJwL/ubJr2+aWvs+MsR0p2Si/61XCoPqx4odPgQN1ahtrk9FOZgqaPNLQoq
- /LAfmOHjrzgvXegnCAN9F5TSIbkPDU/QAFl+6AxC/D/6JYuI21kesU+Mzuv3RetwfRJv
- dKDBZpy0hbuBKsZNh+OoppW4+6Yk1vvFGvzvpr7ua7jWpOn7uDBfidL31i18mKSPwn50
- oTGg==
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1nD6Jb-0004Jx-UA
+ for qemu-devel@nongnu.org; Thu, 27 Jan 2022 10:04:01 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:30626)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1nD6JY-0001BI-JR
+ for qemu-devel@nongnu.org; Thu, 27 Jan 2022 10:03:58 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1643295834;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=q8VKhsEJ/bXCy5ebMY5hyL/dbw9XPS2Zq9MUQWrn07s=;
+ b=Vk8QuehC2BJoy4kDY8eczrRZ3u12acYay1XJpJ8F3KqWGE2FS5ET+W0jHHqbAWoS7+20Vr
+ i9DCB3syeeXt/XXG7q6vF6F5k7WTHQ7n6T7eQGugLJEj9GMgZPo3Z9r32BLJv3wdwJQcsV
+ VDUROQiYJuqYRM1a8ujm1e0ThKZwcDQ=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-669-gGpBBDkJOdGCjty840j-IQ-1; Thu, 27 Jan 2022 10:03:53 -0500
+X-MC-Unique: gGpBBDkJOdGCjty840j-IQ-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ g17-20020adfa591000000b001da86c91c22so1186804wrc.5
+ for <qemu-devel@nongnu.org>; Thu, 27 Jan 2022 07:03:53 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=m4fh0R6FgFoRTj+GRlE9TXzpItN1qxhCKNYW/hllSfE=;
- b=0439Ic5TRvGwagefYrdNfegmeW908nxaFOs6vjxMQaHXBsnWWpzoE15DTARqKslH3V
- qjHHoKv5lxL//7JD74pXA17sLC9HqqGdog0jbfhFkvSf3vGAo8xEPQwBXZkyEW5E3aP2
- BLVqUCBGFvg5rvRLD05b1jPv9c7EUQZYCfsyvNxFJpWntF9EP3a9ZLWn4znXRAXL0k3M
- l/Cl1n3HKbRfPjClozCCsdttSF5e8CYrCRbDCtmpUEzD3D4P59q48/yNo5opy8uuzfjr
- lBJurSWkWAoJHez8C7ysu7AAHLFHfUc6qEH12poHh+RvKOri41uhdt9oQ+zaOhaSxyJ6
- XK/w==
-X-Gm-Message-State: AOAM5319q2EY8ZtWKNMfcjqlSf+TmfU8uec8wmAQuzOUpidfxEROxOZy
- LN0DudcKi5EbvxSg5xaDSXRjtw==
-X-Google-Smtp-Source: ABdhPJzebZu/9zwWG4DYS432eJzMM4t96TLfFCXdwkrWy6p7vmzDHZmZbt3gVJRmChvrlqT3AE0yxw==
-X-Received: by 2002:a5d:64c3:: with SMTP id f3mr3277342wri.459.1643295725500; 
- Thu, 27 Jan 2022 07:02:05 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id r7sm6477006wma.39.2022.01.27.07.02.03
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=q8VKhsEJ/bXCy5ebMY5hyL/dbw9XPS2Zq9MUQWrn07s=;
+ b=wHhBa3Zd/4xEUc6bCJ4zaB88kxPDHp+EghdBT9lf27rpKDC2QQHA1iNP3xLsUN5pAw
+ QF+fjd5Vslv1U9ZBhYfZQW5w1FLBHqqFydOqYfABPeczhT2l0zzedWoau+PmlnYA+m8O
+ al07vGQ+piri3Ri4zyARINKQ3pwz1klQJREO0Caj7pcBxII+FhsbRsP76nf3edlBvaLJ
+ eAtPCQAsWAJBNvlRJ1VBHDt4YfZ1eaMCVxJkzUG/xQK1LXSIt7YRpTek8pN+/QS39kJi
+ bYSl8rrOqP/Fd0o0OFK2Zx7eXJDnjeDMihaEqg/mcoEnxyNnff8Wi9SOeAytvUz/SqAb
+ +BVw==
+X-Gm-Message-State: AOAM530kL6e/dIe4QWg066hJAjepRpboNNDMlnhRIj7Cpi9hlrpEnuBm
+ DJiKCPJtWaxS2Lmzfwap51GsZ1PTR4J6vq64wIAFHCIw7CodAPL9WI47BCof5NmT3VMmFJ3Uw4u
+ DSg0aK5PEI45RkVE=
+X-Received: by 2002:a7b:c3c3:: with SMTP id t3mr3769739wmj.94.1643295832469;
+ Thu, 27 Jan 2022 07:03:52 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzVYF9njyB7m1x2DvRfFrvof9FwzIDvbGWf3yaDMcuDkT/LRMCnj5Fmp2P6fql4tO2F9a4PrQ==
+X-Received: by 2002:a7b:c3c3:: with SMTP id t3mr3769722wmj.94.1643295832257;
+ Thu, 27 Jan 2022 07:03:52 -0800 (PST)
+Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
+ [82.30.61.225])
+ by smtp.gmail.com with ESMTPSA id m5sm2453366wms.4.2022.01.27.07.03.51
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 27 Jan 2022 07:02:04 -0800 (PST)
-Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 5F8ED1FFB7;
- Thu, 27 Jan 2022 15:02:03 +0000 (GMT)
-From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [RFC PATCH] docs/devel: mention our .editorconfig
-Date: Thu, 27 Jan 2022 15:01:59 +0000
-Message-Id: <20220127150159.1489286-1-alex.bennee@linaro.org>
-X-Mailer: git-send-email 2.30.2
+ Thu, 27 Jan 2022 07:03:51 -0800 (PST)
+Date: Thu, 27 Jan 2022 15:03:49 +0000
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Juan Quintela <quintela@redhat.com>
+Subject: Re: [PATCH v4 08/23] multifd: Move iov from pages to params
+Message-ID: <YfK0VUtFpxISRXV0@work-vm>
+References: <20220111130024.5392-1-quintela@redhat.com>
+ <20220111130024.5392-9-quintela@redhat.com>
+ <Yeb/aaVGA+gphb/q@work-vm> <87lez4rwkq.fsf@secure.mitica>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::430
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::430;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x430.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+In-Reply-To: <87lez4rwkq.fsf@secure.mitica>
+User-Agent: Mutt/2.1.5 (2021-12-30)
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.159,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -87,33 +98,78 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: Eduardo Habkost <eduardo@habkost.net>, qemu-devel@nongnu.org,
+ Peter Xu <peterx@redhat.com>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>,
+ Yanan Wang <wangyanan55@huawei.com>, Leonardo Bras <leobras@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Ideally we should keep all our automatic formatting gubins in here.
+* Juan Quintela (quintela@redhat.com) wrote:
+> "Dr. David Alan Gilbert" <dgilbert@redhat.com> wrote:
+> > * Juan Quintela (quintela@redhat.com) wrote:
+> >> This will allow us to reduce the number of system calls on the next patch.
+> >> 
+> >> Signed-off-by: Juan Quintela <quintela@redhat.com>
+> >> ---
+> >>  migration/multifd.h |  8 ++++++--
+> >>  migration/multifd.c | 34 ++++++++++++++++++++++++----------
+> >>  2 files changed, 30 insertions(+), 12 deletions(-)
+> >> 
+> >> diff --git a/migration/multifd.h b/migration/multifd.h
+> >> index e57adc783b..c3f18af364 100644
+> >> --- a/migration/multifd.h
+> >> +++ b/migration/multifd.h
+> >> @@ -62,8 +62,6 @@ typedef struct {
+> >>      uint64_t packet_num;
+> >>      /* offset of each page */
+> >>      ram_addr_t *offset;
+> >> -    /* pointer to each page */
+> >> -    struct iovec *iov;
+> >>      RAMBlock *block;
+> >>  } MultiFDPages_t;
+> >>  
+> >> @@ -110,6 +108,10 @@ typedef struct {
+> >>      uint64_t num_pages;
+> >>      /* syncs main thread and channels */
+> >>      QemuSemaphore sem_sync;
+> >> +    /* buffers to send */
+> >> +    struct iovec *iov;
+> >> +    /* number of iovs used */
+> >> +    uint32_t iovs_num;
+> >>      /* used for compression methods */
+> >>      void *data;
+> >>  }  MultiFDSendParams;
+> >> @@ -149,6 +151,8 @@ typedef struct {
+> >>      uint64_t num_pages;
+> >>      /* syncs main thread and channels */
+> >>      QemuSemaphore sem_sync;
+> >> +    /* buffers to recv */
+> >> +    struct iovec *iov;
+> >
+> > Why is there the asymmetry between send and recv, where the send
+> > has the iovs_num and the recv doesn't?
+> 
+> When we are sending data, we have the normal page and the iov, so it is
+> normal_pages + 1.  On reception side, we have to read first the header,
+> because that is where normal_pages is stored.
+> 
+> I can drop iovs_num on the send side and add a comment, but I think that
+> the new variable is more descriptive.
+> 
+> Or I can add iovs_num to the recv_side and just do a iovs_num =
+> normal_pages, but it seems a bit pointless, no?
 
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
----
- docs/devel/style.rst | 4 ++++
- 1 file changed, 4 insertions(+)
+OK, it would be great to add a comment; because it jumps out as a little
+odd.
 
-diff --git a/docs/devel/style.rst b/docs/devel/style.rst
-index 793a8d4280..9e66d133e1 100644
---- a/docs/devel/style.rst
-+++ b/docs/devel/style.rst
-@@ -12,6 +12,10 @@ patches before submitting.
- Formatting and style
- ********************
- 
-+The repository includes a ``.editorconfig`` file which can help with
-+getting the right settings for your preferred $EDITOR. See
-+`<https://editorconfig.org/>`_ for details.
-+
- Whitespace
- ==========
- 
+
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+
+> 
+> Later, Juan.
+> 
 -- 
-2.30.2
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
