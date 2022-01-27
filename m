@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B070D49E6D3
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Jan 2022 17:00:49 +0100 (CET)
-Received: from localhost ([::1]:46042 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9FA5249E71C
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Jan 2022 17:09:49 +0100 (CET)
+Received: from localhost ([::1]:58066 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nD7Ca-0000ic-QM
-	for lists+qemu-devel@lfdr.de; Thu, 27 Jan 2022 11:00:48 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:39872)
+	id 1nD7LI-0000tG-Pa
+	for lists+qemu-devel@lfdr.de; Thu, 27 Jan 2022 11:09:48 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:40050)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1nD6UO-0007C8-Su
- for qemu-devel@nongnu.org; Thu, 27 Jan 2022 10:15:09 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:58183)
+ id 1nD6Up-0007SN-7U
+ for qemu-devel@nongnu.org; Thu, 27 Jan 2022 10:15:36 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:55651)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1nD6UM-00031E-3d
- for qemu-devel@nongnu.org; Thu, 27 Jan 2022 10:15:08 -0500
+ id 1nD6UT-000335-Bc
+ for qemu-devel@nongnu.org; Thu, 27 Jan 2022 10:15:18 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1643296505;
+ s=mimecast20190719; t=1643296512;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=fELfIA00+SijfBjO6U/Yi8hSZd55Ja0ZvrfarrPVN6A=;
- b=TGp1XTwwcYxnl0PEqmC78HPG+uyAosQ+wn1KhKhMBHki8rVX3jV2WPPFmR7TvGQ8GFpaNX
- J4UlHv6sgUmuHUfSwLpVfz/Piu+HdUpY4ucpAD5PPCq8Vcl+BKOuipL+72ANPHI+HUJI/L
- p/+2XSQd5kytXEWV0UaMNxHo/Zjt000=
+ bh=onvaER+t0TraC7NXwJgnvw5i2u41yAbEjBFVmIygZSU=;
+ b=Mo+HX8qkIgH3GeFi1XLJqOvVbs7ZDN8KTGp1KV1Zoclx5T9p6Mcj5Dkn7DYTAqOYp0o4FU
+ 72wHltejpOm9R/vSlqfky5ekby639Von3aLoUe9CUp8AU4FdLXCofcuRG4kE1qvDp712pA
+ gc4n1Q+hICkALsl+he7Zkf5/UC+uxzw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-458-4sM3159xPnGFx_Ib8pDPvg-1; Thu, 27 Jan 2022 10:15:02 -0500
-X-MC-Unique: 4sM3159xPnGFx_Ib8pDPvg-1
+ us-mta-601-fBnmYJvoNp6f6miyyFZnJw-1; Thu, 27 Jan 2022 10:15:09 -0500
+X-MC-Unique: fBnmYJvoNp6f6miyyFZnJw-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B65101018720;
- Thu, 27 Jan 2022 15:14:58 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4CBD984DA43;
+ Thu, 27 Jan 2022 15:15:06 +0000 (UTC)
 Received: from secure.mitica (unknown [10.39.194.185])
- by smtp.corp.redhat.com (Postfix) with ESMTP id AD56E70D2D;
- Thu, 27 Jan 2022 15:14:51 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1ADEE70D2D;
+ Thu, 27 Jan 2022 15:14:58 +0000 (UTC)
 From: Juan Quintela <quintela@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 19/38] migration/migration.c: Add missed default error handler
- for migration state
-Date: Thu, 27 Jan 2022 16:05:29 +0100
-Message-Id: <20220127150548.20595-20-quintela@redhat.com>
+Subject: [PULL 20/38] migration/migration.c: Avoid COLO boot in postcopy
+ migration
+Date: Thu, 27 Jan 2022 16:05:30 +0100
+Message-Id: <20220127150548.20595-21-quintela@redhat.com>
 In-Reply-To: <20220127150548.20595-1-quintela@redhat.com>
 References: <20220127150548.20595-1-quintela@redhat.com>
 MIME-Version: 1.0
@@ -59,7 +59,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=quintela@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
@@ -103,30 +103,43 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Zhang Chen <chen.zhang@intel.com>
 
-In the migration_completion() no other status is expected, for
-example MIGRATION_STATUS_CANCELLING, MIGRATION_STATUS_CANCELLED, etc.
+COLO dose not support postcopy migration and remove the Fixme.
 
 Signed-off-by: Zhang Chen <chen.zhang@intel.com>
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 Reviewed-by: Juan Quintela <quintela@redhat.com>
 Signed-off-by: Juan Quintela <quintela@redhat.com>
 ---
- migration/migration.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ migration/migration.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
 diff --git a/migration/migration.c b/migration/migration.c
-index 0652165610..2afa77da03 100644
+index 2afa77da03..5b2e3c66d1 100644
 --- a/migration/migration.c
 +++ b/migration/migration.c
-@@ -3205,7 +3205,7 @@ static void migration_completion(MigrationState *s)
-         qemu_mutex_unlock_iothread();
- 
-         trace_migration_completion_postcopy_end_after_complete();
--    } else if (s->state == MIGRATION_STATUS_CANCELLING) {
-+    } else {
-         goto fail;
+@@ -3230,7 +3230,11 @@ static void migration_completion(MigrationState *s)
+         goto fail_invalidate;
      }
  
+-    if (!migrate_colo_enabled()) {
++    if (migrate_colo_enabled() && s->state == MIGRATION_STATUS_ACTIVE) {
++        /* COLO does not support postcopy */
++        migrate_set_state(&s->state, MIGRATION_STATUS_ACTIVE,
++                          MIGRATION_STATUS_COLO);
++    } else {
+         migrate_set_state(&s->state, current_active_state,
+                           MIGRATION_STATUS_COMPLETED);
+     }
+@@ -3621,10 +3625,6 @@ static void migration_iteration_finish(MigrationState *s)
+                          "COLO enabled", __func__);
+         }
+         migrate_start_colo_process(s);
+-        /*
+-         * Fixme: we will run VM in COLO no matter its old running state.
+-         * After exited COLO, we will keep running.
+-         */
+          /* Fallthrough */
+     case MIGRATION_STATUS_ACTIVE:
+         /*
 -- 
 2.34.1
 
