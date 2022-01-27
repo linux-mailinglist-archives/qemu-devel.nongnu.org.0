@@ -2,73 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B6B849EA6F
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Jan 2022 19:37:58 +0100 (CET)
-Received: from localhost ([::1]:46120 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D37049EA6E
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Jan 2022 19:37:19 +0100 (CET)
+Received: from localhost ([::1]:43786 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nD9ef-0005Z1-Er
-	for lists+qemu-devel@lfdr.de; Thu, 27 Jan 2022 13:37:57 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:33790)
+	id 1nD9e1-0003qG-La
+	for lists+qemu-devel@lfdr.de; Thu, 27 Jan 2022 13:37:17 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:33044)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1nD9b9-0002O3-88
- for qemu-devel@nongnu.org; Thu, 27 Jan 2022 13:34:19 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:41758)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1nD9b6-00013L-JG
- for qemu-devel@nongnu.org; Thu, 27 Jan 2022 13:34:18 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1643308454;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=Jd3DoLSsL5Kz6i1kMTIxqI9wVFYvs8yEBv+SOGXQ0g0=;
- b=enZIBwT34juCLqrg0KjrTa9kpFD7M1dSeIxhQmIK52oEdv0o4FENJhgdZaXS4MDNrw5x4X
- Vh/QHYJRg1Xm996mK2PIbvsB1vELNyQri+d7DwYqW937ptYlWSRrFahZa+1Z6YxDYasnhT
- LdMu7NSA5kgHTD9KZvTaSMLyOaZiNOQ=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-59-vjFmg8PDP4CWmoU5P7Zb8g-1; Thu, 27 Jan 2022 13:32:14 -0500
-X-MC-Unique: vjFmg8PDP4CWmoU5P7Zb8g-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (Exim 4.90_1) (envelope-from <lizhang@suse.de>) id 1nD9Z4-0007Yr-MO
+ for qemu-devel@nongnu.org; Thu, 27 Jan 2022 13:32:10 -0500
+Received: from smtp-out1.suse.de ([195.135.220.28]:44734)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <lizhang@suse.de>) id 1nD9Z1-0000k3-T5
+ for qemu-devel@nongnu.org; Thu, 27 Jan 2022 13:32:10 -0500
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 19D852F48
- for <qemu-devel@nongnu.org>; Thu, 27 Jan 2022 18:32:13 +0000 (UTC)
-Received: from horse.redhat.com (unknown [10.22.17.93])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 679C47D57F;
- Thu, 27 Jan 2022 18:31:22 +0000 (UTC)
-Received: by horse.redhat.com (Postfix, from userid 10451)
- id E40A5222D9C; Thu, 27 Jan 2022 13:31:21 -0500 (EST)
-Date: Thu, 27 Jan 2022 13:31:21 -0500
-From: Vivek Goyal <vgoyal@redhat.com>
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Subject: Re: [PATCH v4 4/9] virtiofsd: Extend size of fuse_conn_info->capable
- and ->want fields
-Message-ID: <YfLk+SRUDyisrYj5@redhat.com>
-References: <20220124212455.83968-1-vgoyal@redhat.com>
- <20220124212455.83968-5-vgoyal@redhat.com>
- <YfLcEJzqRdBG3SOO@work-vm>
+ by smtp-out1.suse.de (Postfix) with ESMTPS id A70E0218B0;
+ Thu, 27 Jan 2022 18:31:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1643308312; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=pHiSSpK2TTbgDFMb/E/OKgpcbuZBztJjj0drjDpxd9g=;
+ b=cXv5EjlDsqZ3yef4opIUk6a27+icuMNL78Crf8jfVV79r61/ZjRrI+F01qAnBYxOGfXH5s
+ 16Av6KO6KwydIGSRXCsr2hKsfkJ6z8T4XTMYJ6P0HpNJuq9sTQi+YQjZP9H5UVowimnJKk
+ 8nt6G6P2fsKDk1OYG1ttpojne7SIwrs=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1643308312;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=pHiSSpK2TTbgDFMb/E/OKgpcbuZBztJjj0drjDpxd9g=;
+ b=VSnhVwyErpUUrTROLEXNrIENmTYZHFPSFe26G62jkbHlMqSCkvx6LhNkoG/pFOlq267wyv
+ +ggwTLNNy9gEJQCQ==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 5199B13D4F;
+ Thu, 27 Jan 2022 18:31:52 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id v2A8CBjl8mFPOwAAMHmgww
+ (envelope-from <lizhang@suse.de>); Thu, 27 Jan 2022 18:31:52 +0000
+Subject: Re: [PATCH v2 1/1] multifd: Remove some redundant code
+From: Li Zhang <lizhang@suse.de>
+To: quintela@redhat.com
+References: <20211217101228.9512-1-lizhang@suse.de>
+ <87bkzxld33.fsf@secure.mitica> <d3563b01-6855-078a-4909-271c7c612dc0@suse.de>
+Message-ID: <fc7232e7-65c2-15d5-cb0c-68079ad119ab@suse.de>
+Date: Thu, 27 Jan 2022 19:31:51 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-In-Reply-To: <YfLcEJzqRdBG3SOO@work-vm>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=vgoyal@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=vgoyal@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.159,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <d3563b01-6855-078a-4909-271c7c612dc0@suse.de>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=195.135.220.28; envelope-from=lizhang@suse.de;
+ helo=smtp-out1.suse.de
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -81,85 +85,115 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: virtio-fs@redhat.com, mszeredi@redhat.com, qemu-devel@nongnu.org,
- stefanha@redhat.com
+Cc: qemu-devel@nongnu.org, dgilbert@redhat.com, cfontana@suse.de
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jan 27, 2022 at 05:53:20PM +0000, Dr. David Alan Gilbert wrote:
-> * Vivek Goyal (vgoyal@redhat.com) wrote:
-> > ->capable keeps track of what capabilities kernel supports and ->wants keep
-> > track of what capabilities filesytem wants.
-> > 
-> > Right now these fields are 32bit in size. But now fuse has run out of
-> > bits and capabilities can now have bit number which are higher than 31.
-> > 
-> > That means 32 bit fields are not suffcient anymore. Increase size to 64
-> > bit so that we can add newer capabilities and still be able to use existing
-> > code to check and set the capabilities.
-> > 
-> > Signed-off-by: Vivek Goyal <vgoyal@redhat.com>
-> > ---
-> >  tools/virtiofsd/fuse_common.h   | 4 ++--
-> >  tools/virtiofsd/fuse_lowlevel.c | 2 +-
-> >  2 files changed, 3 insertions(+), 3 deletions(-)
-> > 
-> > diff --git a/tools/virtiofsd/fuse_common.h b/tools/virtiofsd/fuse_common.h
-> > index 0c2665b977..6f8a988202 100644
-> > --- a/tools/virtiofsd/fuse_common.h
-> > +++ b/tools/virtiofsd/fuse_common.h
-> > @@ -439,7 +439,7 @@ struct fuse_conn_info {
-> >      /**
-> >       * Capability flags that the kernel supports (read-only)
-> >       */
-> > -    unsigned capable;
-> > +    uint64_t capable;
-> >  
-> >      /**
-> >       * Capability flags that the filesystem wants to enable.
-> > @@ -447,7 +447,7 @@ struct fuse_conn_info {
-> >       * libfuse attempts to initialize this field with
-> >       * reasonable default values before calling the init() handler.
-> >       */
-> > -    unsigned want;
-> > +    uint64_t want;
-> >  
-> >      /**
-> >       * Maximum number of pending "background" requests. A
-> > diff --git a/tools/virtiofsd/fuse_lowlevel.c b/tools/virtiofsd/fuse_lowlevel.c
-> > index c3af5ede08..f3f5e70be6 100644
-> > --- a/tools/virtiofsd/fuse_lowlevel.c
-> > +++ b/tools/virtiofsd/fuse_lowlevel.c
-> > @@ -2063,7 +2063,7 @@ static void do_init(fuse_req_t req, fuse_ino_t nodeid,
-> >      if (se->conn.want & (~se->conn.capable)) {
-> >          fuse_log(FUSE_LOG_ERR,
-> >                   "fuse: error: filesystem requested capabilities "
-> > -                 "0x%x that are not supported by kernel, aborting.\n",
-> > +                 "0x%lx that are not supported by kernel, aborting.\n",
+On 1/27/22 7:11 PM, Li Zhang wrote:
+> On 1/27/22 10:53 AM, Juan Quintela wrote:
+>> Li Zhang <lizhang@suse.de> wrote:
+>>> Clean up some unnecessary code
+>>>
+>>> Signed-off-by: Li Zhang <lizhang@suse.de>
+>>
+>> Hi
+>>
+>>> ---
+>>>   migration/multifd.c | 12 +++---------
+>>>   1 file changed, 3 insertions(+), 9 deletions(-)
+>>>
+>>> diff --git a/migration/multifd.c b/migration/multifd.c
+>>> index 3242f688e5..212be1ed04 100644
+>>> --- a/migration/multifd.c
+>>> +++ b/migration/multifd.c
+>>> @@ -854,19 +854,16 @@ static void 
+>>> multifd_new_send_channel_async(QIOTask *task, gpointer opaque)
+>>>       Error *local_err = NULL;
+>>>       trace_multifd_new_send_channel_async(p->id);
+>>> -    if (qio_task_propagate_error(task, &local_err)) {
+>>> -        goto cleanup;
+>>> -    } else {
+>>> +    if (!qio_task_propagate_error(task, &local_err)) {
+>>>           p->c = QIO_CHANNEL(sioc);
+>>>           qio_channel_set_delay(p->c, false);
+>>>           p->running = true;
+>>>           if (!multifd_channel_connect(p, sioc, local_err)) {
+>>> -            goto cleanup;
+>>> +            multifd_new_send_channel_cleanup(p, sioc, local_err);
+>>>           }
+>>>           return;
+>>>       }
+>>> -cleanup:
+>>>       multifd_new_send_channel_cleanup(p, sioc, local_err);
+>>>   }
+>>
+>> Once there, why are we duplicating the call to
+>> multifd_new_send_channel_cleanup()
+>>
+>> What about:
+>>
+>> static void multifd_new_send_channel_async(QIOTask *task, gpointer 
+>> opaque)
+>> {
+>>      MultiFDSendParams *p = opaque;
+>>      QIOChannel *sioc = QIO_CHANNEL(qio_task_get_source(task));
+>>      Error *local_err = NULL;
+>>
+>>      trace_multifd_new_send_channel_async(p->id);
+>>      if (!qio_task_propagate_error(task, &local_err)) {
+>>          p->c = QIO_CHANNEL(sioc);
+>>          qio_channel_set_delay(p->c, false);
+>>          p->running = true;
+>>          if (multifd_channel_connect(p, sioc, local_err)) {
+>>              return;
+>>          }
+>>      }
+>>      multifd_new_send_channel_cleanup(p, sioc, local_err);
+>> }
+>>
+>> What do you think?
 > 
-> I think this will be OK in practice (need to check 32 bit); but weren't
-> you using llx in the last patch?
+> Hi Juan,
+> 
+> Sorry about the code. I check it again, it still needs to cleaup
+> if it fails on multifd_channel_connect(). I just remove the goto
+> and put the cleanup function there.
+> 
+> The second cleanup is called if (qio_task_propagate_error(task, 
+> &local_err)) ), otherwise, it won't cleanup and return normally.
+> 
+> If removing the first cleanup and move the return, the logic is not 
+> right.  It is that: when no error happens, it still calls the second
+> cleanup.
+> 
 
-Probably I should use %llx so that it works fine on 32 bit. Will change
-it.
+I checked source code from the qemu.
+This condition is not right,
+if (!multifd_channel_connect(p, sioc, local_err)) is not right.
+The function multifd_channel_connect return true if no error.
 
-Vivek
+The mail is right. :)
 
 > 
-> 
-> 
-> Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-> 
-> Dave
-> 
-> >                   se->conn.want & (~se->conn.capable));
-> >          fuse_reply_err(req, EPROTO);
-> >          se->error = -EPROTO;
-> > -- 
-> > 2.31.1
-> > 
-> -- 
-> Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+> Thanks
+> Li
+>>
+>> Later, Juan.
+>>
+>>
+>>> @@ -1078,10 +1075,7 @@ static void *multifd_recv_thread(void *opaque)
+>>>           ret = qio_channel_read_all_eof(p->c, (void *)p->packet,
+>>>                                          p->packet_len, &local_err);
+>>> -        if (ret == 0) {   /* EOF */
+>>> -            break;
+>>> -        }
+>>> -        if (ret == -1) {   /* Error */
+>>> +        if (ret == 0 || ret == -1) {   /* 0: EOF  -1: Error */
+>>>               break;
+>>>           }
+>>
+>> This bit is ok.
+>>
 > 
 
 
