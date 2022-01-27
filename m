@@ -2,83 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36A2A49E5D0
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Jan 2022 16:17:43 +0100 (CET)
-Received: from localhost ([::1]:46390 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 665FF49E583
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Jan 2022 16:11:41 +0100 (CET)
+Received: from localhost ([::1]:36662 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nD6Wr-00008w-A0
-	for lists+qemu-devel@lfdr.de; Thu, 27 Jan 2022 10:17:41 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:56644)
+	id 1nD6R2-00016y-Gj
+	for lists+qemu-devel@lfdr.de; Thu, 27 Jan 2022 10:11:40 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:55896)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nD5mH-00074v-QJ
- for qemu-devel@nongnu.org; Thu, 27 Jan 2022 09:29:33 -0500
-Received: from [2a00:1450:4864:20::32d] (port=33581
- helo=mail-wm1-x32d.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nD5mF-0004QV-WD
- for qemu-devel@nongnu.org; Thu, 27 Jan 2022 09:29:33 -0500
-Received: by mail-wm1-x32d.google.com with SMTP id
- n12-20020a05600c3b8c00b0034eb13edb8eso3404964wms.0
- for <qemu-devel@nongnu.org>; Thu, 27 Jan 2022 06:29:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=RicQOisaO04B9GBLBPS0jGWaeVqHqZaQe9mPCjO4FXI=;
- b=Vap2O54BFKTXQ4CV64PilR+EKDbadYgvJk7rtSaw1uQSBDnU1bjEJQrD5bX8pfwMBZ
- aBE6SWyNaTk0bHnJrbAjqYsqj+uAglJsq5E0RWsq3d5JD2HNWfolE8WHWMqR5r35vbPs
- ywDSegDysixIJjstEgKkhv42Sph/xyIlfvpxyBYOS+nl8QVnBwn1YZMTKhvHgThcZCOw
- fFwOwcFpzohyjlhA61fw4yUTYGmcOIu039ewv8i0vG6jFaOKrv3FGfYUp+O+veuMvQwA
- 1LChEO2GoiMZThF0zIepI6X/gPfrP1jr3pp+SX1N5g2YxlTCG05TliomILc4UEsGDz2f
- OJ3A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=RicQOisaO04B9GBLBPS0jGWaeVqHqZaQe9mPCjO4FXI=;
- b=Z6LQMgQ4p9sizezdsiOdRUTcweF2eLGHWF3KQTZ81gNEGHoUIMinCwyqLXhmJ2TXFi
- sVUbwwebJ5dMAAjNegrBM4rs9Tp1dQ4kYRtXZVqSTP/soDKTiMY0TXgjAADdh/9oB9MI
- m4rsRQ5DLzUTI9KjozqBkXha8JEZt0yzlua5UnfsMbGBjRO7aPbblZ3U2RbHoosIlBI8
- F5Qtqw0eik191U397wxDQqHSY+HVrDe1HySEzBh4HGf0OiP1humxP4kghNx9zP4aeKhh
- Yemu2C+LVBCEaTthoFVuiJqDnRTkt+orzRQHm16BEQgsAqvKgBWhD+9FkrkZF7myBbvs
- zvYw==
-X-Gm-Message-State: AOAM532El+VxnZ9qaj0xhuwVb/ix7JVN740iJRl1SoaGEoESo0h4uEyV
- +PLTmyzWRXFuJ6csJVriJftLRw==
-X-Google-Smtp-Source: ABdhPJxT9o6yEHtZkzPqNS2kWs8gjkwfalClUNDJP5093P+1RycF21QeT0Y101HSOeJhoNum580e8g==
-X-Received: by 2002:a05:600c:3d94:: with SMTP id
- bi20mr12024697wmb.14.1643293770277; 
- Thu, 27 Jan 2022 06:29:30 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id r12sm2211152wrw.73.2022.01.27.06.29.28
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 27 Jan 2022 06:29:29 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 63E191FFB7;
- Thu, 27 Jan 2022 14:29:28 +0000 (GMT)
-References: <20220124171705.10432-1-Jonathan.Cameron@huawei.com>
-User-agent: mu4e 1.7.6; emacs 28.0.91
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Subject: Re: [PATCH v4 00/42] CXl 2.0 emulation Support
-Date: Thu, 27 Jan 2022 14:22:52 +0000
-In-reply-to: <20220124171705.10432-1-Jonathan.Cameron@huawei.com>
-Message-ID: <87sft98d6f.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1nD5jN-00023T-R6
+ for qemu-devel@nongnu.org; Thu, 27 Jan 2022 09:26:36 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:57025)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1nD5jJ-0004Af-4g
+ for qemu-devel@nongnu.org; Thu, 27 Jan 2022 09:26:33 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1643293575;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=Qdm90PR37+lS7YbNbHXE1UfufDajoEUJAmCgl7YpzJI=;
+ b=XdxQ4FqfriXy7pWLcv7gqrsyy5NkVE8AmVOfJG1rPxGLTs2Yw92XRtsRp9elDnJrYKamGB
+ 4NvWBSuTQ8uZOfVU3HHQJPN6zsG37K5VHdnn+5ILR/9lDYSzoOyCS2yuVyh4XlQNTeZ/4C
+ Ze/fk3nePWfQVWdh41asVjTmIX70DDg=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-284-zsCVM5p6Mvq_HD_eIpV1PQ-1; Thu, 27 Jan 2022 09:26:14 -0500
+X-MC-Unique: zsCVM5p6Mvq_HD_eIpV1PQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1F3B183DD22;
+ Thu, 27 Jan 2022 14:26:13 +0000 (UTC)
+Received: from localhost (unknown [10.39.193.168])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7E9D37B034;
+ Thu, 27 Jan 2022 14:26:12 +0000 (UTC)
+Date: Thu, 27 Jan 2022 14:26:11 +0000
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Kevin Wolf <kwolf@redhat.com>
+Subject: Re: [PATCH] block/export: Fix vhost-user-blk shutdown with requests
+ in flight
+Message-ID: <YfKrg/NPdLqrwoyg@stefanha-x1.localdomain>
+References: <20220125151435.48792-1-kwolf@redhat.com>
+ <YfFPCsvetg1IIUUO@stefanha-x1.localdomain>
+ <YfKnp6SoWCiE+F49@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32d
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32d.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="QprvkOoa67Ivf9lE"
+Content-Disposition: inline
+In-Reply-To: <YfKnp6SoWCiE+F49@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.159,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -91,38 +78,142 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Ben Widawsky <ben.widawsky@intel.com>, "Michael S
- . Tsirkin" <mst@redhat.com>, Samarth Saxena <samarths@cadence.com>,
- Chris Browy <cbrowy@avery-design.com>, qemu-devel@nongnu.org,
- linux-cxl@vger.kernel.org, linuxarm@huawei.com,
- Shreyas Shah <shreyas.shah@elastics.cloud>, Saransh Gupta1 <saransh@ibm.com>,
- Shameerali Kolothum Thodi <shameerali.kolothum.thodi@huawei.com>,
- Marcel Apfelbaum <marcel@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
- Dan Williams <dan.j.williams@intel.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: hreitz@redhat.com, qemu-devel@nongnu.org, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
-Jonathan Cameron <Jonathan.Cameron@huawei.com> writes:
+--QprvkOoa67Ivf9lE
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> Previous version was RFC v3: CXL 2.0 Support.
-> No longer an RFC as I would consider the vast majority of this
-> to be ready for detailed review. There are still questions called
-> out in some patches however.
+On Thu, Jan 27, 2022 at 03:10:11PM +0100, Kevin Wolf wrote:
+> Am 26.01.2022 um 14:39 hat Stefan Hajnoczi geschrieben:
+> > On Tue, Jan 25, 2022 at 04:14:35PM +0100, Kevin Wolf wrote:
+> > > The vhost-user-blk export runs requests asynchronously in their own
+> > > coroutine. When the vhost connection goes away and we want to stop the
+> > > vhost-user server, we need to wait for these coroutines to stop before
+> > > we can unmap the shared memory. Otherwise, they would still access the
+> > > unmapped memory and crash.
+> > >=20
+> > > This introduces a refcount to VuServer which is increased when spawni=
+ng
+> > > a new request coroutine and decreased before the coroutine exits. The
+> > > memory is only unmapped when the refcount reaches zero.
+> > >=20
+> > > Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+> > > ---
+> > >  include/qemu/vhost-user-server.h     |  5 +++++
+> > >  block/export/vhost-user-blk-server.c |  5 +++++
+> > >  util/vhost-user-server.c             | 22 ++++++++++++++++++++++
+> > >  3 files changed, 32 insertions(+)
+> > >=20
+> > > diff --git a/include/qemu/vhost-user-server.h b/include/qemu/vhost-us=
+er-server.h
+> > > index 121ea1dedf..cd43193b80 100644
+> > > --- a/include/qemu/vhost-user-server.h
+> > > +++ b/include/qemu/vhost-user-server.h
+> > > @@ -42,6 +42,8 @@ typedef struct {
+> > >      const VuDevIface *vu_iface;
+> > > =20
+> > >      /* Protected by ctx lock */
+> > > +    unsigned int refcount;
+> > > +    bool wait_idle;
+> > >      VuDev vu_dev;
+> > >      QIOChannel *ioc; /* The I/O channel with the client */
+> > >      QIOChannelSocket *sioc; /* The underlying data channel with the =
+client */
+> > > @@ -59,6 +61,9 @@ bool vhost_user_server_start(VuServer *server,
+> > > =20
+> > >  void vhost_user_server_stop(VuServer *server);
+> > > =20
+> > > +void vhost_user_server_ref(VuServer *server);
+> > > +void vhost_user_server_unref(VuServer *server);
+> > > +
+> > >  void vhost_user_server_attach_aio_context(VuServer *server, AioConte=
+xt *ctx);
+> > >  void vhost_user_server_detach_aio_context(VuServer *server);
+> > > =20
+> > > diff --git a/block/export/vhost-user-blk-server.c b/block/export/vhos=
+t-user-blk-server.c
+> > > index 1862563336..a129204c44 100644
+> > > --- a/block/export/vhost-user-blk-server.c
+> > > +++ b/block/export/vhost-user-blk-server.c
+> > > @@ -172,6 +172,7 @@ vu_blk_discard_write_zeroes(VuBlkExport *vexp, st=
+ruct iovec *iov,
+> > >      return VIRTIO_BLK_S_IOERR;
+> > >  }
+> > > =20
+> > > +/* Called with server refcount increased, must decrease before retur=
+ning */
+> > >  static void coroutine_fn vu_blk_virtio_process_req(void *opaque)
+> > >  {
+> > >      VuBlkReq *req =3D opaque;
+> > > @@ -286,10 +287,12 @@ static void coroutine_fn vu_blk_virtio_process_=
+req(void *opaque)
+> > >      }
+> > > =20
+> > >      vu_blk_req_complete(req);
+> > > +    vhost_user_server_unref(server);
+> > >      return;
+> > > =20
+> > >  err:
+> > >      free(req);
+> > > +    vhost_user_server_unref(server);
+> > >  }
+> > > =20
+> > >  static void vu_blk_process_vq(VuDev *vu_dev, int idx)
+> > > @@ -310,6 +313,8 @@ static void vu_blk_process_vq(VuDev *vu_dev, int =
+idx)
+> > > =20
+> > >          Coroutine *co =3D
+> > >              qemu_coroutine_create(vu_blk_virtio_process_req, req);
+> > > +
+> > > +        vhost_user_server_ref(server);
+> > >          qemu_coroutine_enter(co);
+> >=20
+> > Why not increment inside vu_blk_virtio_process_req()? My understanding
+> > is the coroutine is entered immediately so there is no race that needs
+> > to be protected against by incrementing the refcount early.
+>=20
+> You're right, as long as we know that qemu_coroutine_enter() is used to
+> enter the coroutine and we increase the refcount before the coroutine
+> yields for the first time, doing this in vu_blk_virtio_process_req is
+> sufficient.
+>=20
+> With respect to potential future code changes, it feels a little safer
+> to do it here like in this patch, but at the same time I have to admit
+> that having ref and unref in the same function is a little nicer.
+>=20
+> So for me there is no clear winner. If you prefer moving the ref into
+> the coroutine, I can post a v2.
 
-I've been through and added comments through the first half of the
-patches. I'll see if I can get to the second half next week however if
-you beat me to it with a re-rev I expect some ripples from the requested
-changes.
+The way the code is currently written made me question whether I missed
+a race condition. This may be a case where defensive programming
+actually makes the code harder to understand.
 
-Aside from ensuring the rest of the builds work:
+That said, it's just me and I also don't have a strong opinion because
+it's correct the way you wrote it. Feel free to merge this patch as it
+is.
 
-  https://gitlab.com/stsquad/qemu/-/pipelines/456700583/failures
-=20=20
-it looks pretty good to me. I await the next version ;-)
+Stefan
 
---=20
-Alex Benn=C3=A9e
+--QprvkOoa67Ivf9lE
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmHyq4MACgkQnKSrs4Gr
+c8jfswgAmaEQuNoqpD1NdIAlCGwfRh9JT+9kb038dMVf1BOKxI0Fmd+jhBAcY6/4
+oTuIY661EFlcMDkaw5R+lNlB1/HeR4Z2mpOkgg1gwCNub9Cz5BoJnDYf1HM8vhDJ
+13yDS0st8AUz9H2hOA/UIia3MaZzReSB9UaGYkcb3kuLmLxNSRwLLnN4LLcWwZDw
+wicZU2WP+RDcWkQfDKEp3vVB2LlsMFnN+Cf4Ssu/oxh8oCQHJqR7YZ1uUCsjBjMI
+eenTVUhMU/CYL8SeFHPxALSifxZASgG+EYQL2NH5JQFWCgy074gI9VT+DRnEIFc5
+cIyD+Q28W4+cVx/HPJbRevMafYdLXg==
+=fGX0
+-----END PGP SIGNATURE-----
+
+--QprvkOoa67Ivf9lE--
+
 
