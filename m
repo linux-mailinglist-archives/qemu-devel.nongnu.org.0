@@ -2,74 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E19049E85C
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Jan 2022 18:07:51 +0100 (CET)
-Received: from localhost ([::1]:37918 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DAA8849E8BC
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Jan 2022 18:19:59 +0100 (CET)
+Received: from localhost ([::1]:57578 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nD8FQ-0008NS-OT
-	for lists+qemu-devel@lfdr.de; Thu, 27 Jan 2022 12:07:49 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:48372)
+	id 1nD8RB-0005bN-5v
+	for lists+qemu-devel@lfdr.de; Thu, 27 Jan 2022 12:19:57 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:48736)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1nD6xN-0003Ql-8U
- for qemu-devel@nongnu.org; Thu, 27 Jan 2022 10:45:06 -0500
-Received: from [2607:f8b0:4864:20::a29] (port=44547
- helo=mail-vk1-xa29.google.com)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nD6z1-0005hm-Ed
+ for qemu-devel@nongnu.org; Thu, 27 Jan 2022 10:46:47 -0500
+Received: from [2a00:1450:4864:20::435] (port=33607
+ helo=mail-wr1-x435.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1nD6xL-0007q8-27
- for qemu-devel@nongnu.org; Thu, 27 Jan 2022 10:45:04 -0500
-Received: by mail-vk1-xa29.google.com with SMTP id b77so2082722vka.11
- for <qemu-devel@nongnu.org>; Thu, 27 Jan 2022 07:45:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bsdimp-com.20210112.gappssmtp.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=3TUIQXUHPYRbuU1jxFEjYBebytI17VU5H4oIltyPJsE=;
- b=JXuW/QC6o+JgY+SHqC71KTdYao+SVJgdNtS6B5n5xvNoNQ7clu7kGwF/cdGGSlaH3g
- 1r9Pgmr8zKgTIPEktr86jXcXbCqHiBDxHv3D72/gh4F0+3+Zv4RCYX6U+Pk5wy+uNO8i
- 7UTRwKBVVspXuAjXQA5yBS4YuA2xmpTlnvCFqQgzzOA3cd1OCDYgXxDZAJIgmeAPz9gn
- YvwPNq5ptU9Q+zgkhF3lSHm0D7nQuZ2W/xWxJ9EVlbhm2iubEkfPvc0Ch1JcbUBkd5gl
- 0vzDHV7vajNQo5DJpiEfMZohp/RqUTt0Y4Be5oGAoZuLbGfExgpUQWShpm32+VC3rny1
- 5hew==
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nD6yz-0008Eo-96
+ for qemu-devel@nongnu.org; Thu, 27 Jan 2022 10:46:46 -0500
+Received: by mail-wr1-x435.google.com with SMTP id e8so5672233wrc.0
+ for <qemu-devel@nongnu.org>; Thu, 27 Jan 2022 07:46:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=EW6QB+nBfAmu2yzjhtIJ+gH5aLPiIjZE06u5tHS9kgQ=;
+ b=ywT+Gst4d+DSK7+iVWl2qi8uCZndBb0D5EoIbO9nFreqCcMe/RSk2NuD5A/4WpXldf
+ NtOBals7yfcog/qLShUSLEnpnOh/QEWM5F8GMQ2rlnMrHivqMetL0MX7UsXr7LQHKthR
+ jcrGDGaqTt0qM/sGjj9me0dB5gpgfNEAULps/k6zRSQ3tYFz0xwN2kMI6ews8Rv8nOr0
+ om9xQbg+375eHDlEJjpEkHnCR1R1abYKxNjMPJgNrkvcmzpYUWh4Q7m4wucV0zK/a2SS
+ 1KCDKqIamJjDmvV/tI96mBKhYEDTnGX6N5yRMPspJhVjPRPFxOIOFew7oA7Iljk/Ib1K
+ 9g6A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=3TUIQXUHPYRbuU1jxFEjYBebytI17VU5H4oIltyPJsE=;
- b=R+jXMnbtWWjTKtgtYD5iH/EfsDeKOo7xH43Ui5LSqeKfIyCrP25dxaJ/M4PXixHU4D
- 2/MFa1TzXTregKnqFi7fQHlIf7Q3q7H8Od7oX7lU+K3hKRPOrmP66H/SR/EOKcCJdtGI
- ZICIcslLvPGZ6jUooflvqXypj+BFxe1/w9eFeBg4K1V4HNu6ZiQ70BRSiMl3jNmAdzH5
- Z2rg+7BxD30aKNCff8+ZZwErDhXtmvlcq5OH3O3/o6UUpAoHATbdgygDDeGPadBkyKfq
- pelEAW4Ls0Ne51WSXwJ2eHMdsAmXpp6NUWKozTFdVDc72CxfwFNTKcN9yblFYLB4tUkE
- y8Qg==
-X-Gm-Message-State: AOAM532qwGAJ+bXoxJoT3ATmQYSLD7IwiU+/odFQFOHLtW4PHyWy0BI6
- 6ovOqxT12r90zzo3ntkwVgNTtWBy68kgsl4cTiSXlg==
-X-Google-Smtp-Source: ABdhPJxy5315yoYCZ+laj+pmGmKS1sTxqstGRw+eYvTYzNWPmvRgk5mYakuTXECRYm2pDN5pHDXz1tamd7tEHwENVw8=
-X-Received: by 2002:a05:6122:181a:: with SMTP id
- ay26mr1765362vkb.5.1643298299883; 
- Thu, 27 Jan 2022 07:44:59 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=EW6QB+nBfAmu2yzjhtIJ+gH5aLPiIjZE06u5tHS9kgQ=;
+ b=hmYR2O5jZ6ZNpOLz2gf0VyrehSZ2KAyPYyKAE3spfyX/pn8rp3fRymlVu+gpsIsk6g
+ UjQbeuxlKKcaqKTCHkt7pg9E5Gf7jBwVczrXAqsG7L3iyAhyPSxQrW3pWg3w/o00Ozgo
+ NgQ5weOB1+kchPjyYCHTvORVEQuRTJVopAkNn5hA4t57gdwj4+XnmTpyplOgcE8x9izG
+ wKqIXUxWfjjMARDFJ2+6ChDj1DCRFugDaqmRnssQ30Wd2MbIt0STC2uttZNc4DP1/k55
+ h4SWQ+ktH3l/Zh8gsLtD1Q5c8x0gBob4PaCHMbhLRv///9i0llnR/KYkmyJid3Os2c13
+ cLcQ==
+X-Gm-Message-State: AOAM530yZvA573+TSV4sm6ZWvr6HV22NN91D2au2qYI+5i5PtJJGL90f
+ hLn1+egYboctDV8FJ/yEoLFksQ==
+X-Google-Smtp-Source: ABdhPJx9F6xctvNPWIn+VXtzO+QFASC7NbSzmRh2elGTJpYdnbtlZT8ikhSVOj/EKWDvFT8hXmKu6g==
+X-Received: by 2002:a05:6000:3c3:: with SMTP id
+ b3mr3658835wrg.102.1643298402949; 
+ Thu, 27 Jan 2022 07:46:42 -0800 (PST)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
+ by smtp.gmail.com with ESMTPSA id w9sm6687667wmc.36.2022.01.27.07.46.41
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 27 Jan 2022 07:46:42 -0800 (PST)
+From: Peter Maydell <peter.maydell@linaro.org>
+To: qemu-arm@nongnu.org,
+	qemu-devel@nongnu.org
+Subject: [PATCH 00/16] arm: Fix handling of unrecognized functions in PSCI
+ emulation
+Date: Thu, 27 Jan 2022 15:46:23 +0000
+Message-Id: <20220127154639.2090164-1-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20220125012947.14974-1-imp@bsdimp.com>
- <20220125012947.14974-5-imp@bsdimp.com>
- <7f758325-524e-9deb-a440-3154e739c2a8@linaro.org>
-In-Reply-To: <7f758325-524e-9deb-a440-3154e739c2a8@linaro.org>
-From: Warner Losh <imp@bsdimp.com>
-Date: Thu, 27 Jan 2022 08:44:48 -0700
-Message-ID: <CANCZdfp86gHpj-6kbm3siB54nKB_4Pc+CuRic6RejWNY8NTBRg@mail.gmail.com>
-Subject: Re: [PATCH v2 04/40] bsd-user/arm/signal.c: get_mcontext should zero
- vfp data
-To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: multipart/alternative; boundary="0000000000006cd9d305d692339a"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::a29
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::435
  (failed)
-Received-SPF: none client-ip=2607:f8b0:4864:20::a29;
- envelope-from=wlosh@bsdimp.com; helo=mail-vk1-xa29.google.com
-X-Spam_score_int: -10
-X-Spam_score: -1.1
+Received-SPF: pass client-ip=2a00:1450:4864:20::435;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x435.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
 X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, HTML_MESSAGE=0.001, PDS_HP_HELO_NORDNS=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=no autolearn_force=no
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -82,119 +86,175 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Konrad Witaszczyk <def@freebsd.org>, QEMU Developers <qemu-devel@nongnu.org>,
- Kyle Evans <kevans@freebsd.org>, Jessica Clarke <jrtc27@freebsd.org>
+Cc: Eduardo Habkost <eduardo@habkost.net>,
+ Beniamino Galvani <b.galvani@gmail.com>,
+ Alistair Francis <alistair@alistair23.me>, Rob Herring <robh@kernel.org>,
+ Andrew Jeffery <andrew@aj.id.au>, Andre Przywara <andre.przywara@arm.com>,
+ Tyrone Ting <kfting@nuvoton.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Jean-Christophe Dubois <jcd@tribudubois.net>,
+ Yanan Wang <wangyanan55@huawei.com>, Igor Mitsyanko <i.mitsyanko@gmail.com>,
+ Niek Linnenbank <nieklinnenbank@gmail.com>, Alexander Graf <agraf@csgraf.de>,
+ =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ Havard Skinnemoen <hskinnemoen@google.com>,
+ Andrey Smirnov <andrew.smirnov@gmail.com>, Joel Stanley <joel@jms.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000006cd9d305d692339a
-Content-Type: text/plain; charset="UTF-8"
+This series fixes our handling of PSCI calls where the function ID is
+not recognized. These are supposed to return an error value, but
+currently we instead emulate the SMC or HVC instruction to trap to the
+guest at EL3 or EL2. Particularly of note for code review:
+ * patches 4-9 include some "is this the right behaviour for
+   this hardware" questions for the maintainers of those boards
+ * patch 15 has a DTB API question, as well as being a change in
+   what we edit in a DTB we are passed by the user
+ * testing of the affected machines would be welcome
 
-On Wed, Jan 26, 2022 at 10:59 PM Richard Henderson <
-richard.henderson@linaro.org> wrote:
+We tried to fix that bug in commit 9fcd15b9193e819b, but ran into
+regressions and so reverted it in commit 4825eaae4fdd56fba0f for
+release 7.0.  This series fixes the underlying problems causing the
+regressions and reverts the revert.  It also fixes some other bugs
+that were preventing booting of guests on the midway board and that
+meant that the Linux kernel I tested couldn't bring up the secondary
+CPUs when running with more than one guest CPU.
 
-> On 1/25/22 12:29, Warner Losh wrote:
-> > FreeBSD's get_mcontext doesn't return any vfp data. Instead, it zeros
-> > out the vfp feilds (and all the spare fields). Impelement this
-> > behavior. We're still missing the sysarch(ARM_GET_VFPCONTEXT) syscall,
-> > though.
-> >
-> > Signed-off-by: Warner Losh <imp@bsdimp.com>
-> > ---
-> >   bsd-user/arm/signal.c | 8 ++++++++
-> >   1 file changed, 8 insertions(+)
-> >
-> > diff --git a/bsd-user/arm/signal.c b/bsd-user/arm/signal.c
-> > index 9026343b478..6eadc6e3c56 100644
-> > --- a/bsd-user/arm/signal.c
-> > +++ b/bsd-user/arm/signal.c
-> > @@ -109,6 +109,14 @@ abi_long get_mcontext(CPUARMState *env,
-> target_mcontext_t *mcp, int flags)
-> >       gr[TARGET_REG_LR] = tswap32(env->regs[14]);
-> >       gr[TARGET_REG_PC] = tswap32(env->regs[15]);
-> >
-> > +    /*
-> > +     * FreeBSD's set_mcontext doesn't save VFP info, but blanks it out
-> instead.
-> > +     * Instead, sysarch(ARM_GET_VFPSTATE) is used instead.
-> > +     */
->
-> Could be rewritten with fewer "instead".  You wanted get_mcontext.
->
+The regressions happened on boards which enabled PSCI emulation while
+still running guest code at EL3. This used to work (as long as the
+guest code itself wasn't trying to implement PSCI!)  because of the
+fall-through-to-emulate-the-insn behaviour, but once the PSCI
+emulation handles all SMC calls, most EL3 guest code will stop working
+correctly. The solution this patchset adopts is to avoid enabling
+QEMU's PSCI emulation when running guest code at EL3.
 
-Yes. Instead is indeed over used over and over redundantly :)
+The affected boards are:
+ * orangepi-pc, mcimx6ul-evk, mcimx7d-sabre, highbank, midway,
+   xlnx-zcu102 (for any EL3 guest code)
+ * xlnx-versal-virt (only for EL3 code run via -kernel)
+ * virt (only for EL3 code run via -kernel or generic-loader)
+For all these cases we will no longer enable PSCI emulation.
+(This might in theory break guest code that used to work because
+it was relying on running under QEMU and having the PSCI emulation
+despite being at EL3 itself, but hopefully such code is rare.)
 
-Thanks!
+In order to only enable PSCI emulation when the guest is running at an
+exception level lower than the level that our PSCI emulation
+"firmware" would be running at, we make the arm_load_kernel() code in
+boot.c responsible for setting the CPU properties psci-conduit and
+start-powered-off. This is because only that code knows what EL it is
+going to start the guest at (which depends on things like whether it
+has decided that the guest is a Linux kernel or not).
 
-Warner
+The complicated case in all of this is the highbank and midway board
+models, because of all the boards which enable QEMU's PSCI emulation
+only these also use the boot.c secure_board_setup flag to say "run a
+fragment of QEMU-provided boot code in the guest at EL3 to set
+something up before running the guest at EL2 or EL1". That fragment of
+code includes use of the SMC instruction, so when PSCI emulation
+starts making that a NOP rather than a trap-to-guest-EL3 the setup
+code will change behaviour. Fortunately, for this specific board's use
+case the NOP is fine. The purpose of the setup code is to arrange that
+unknown SMCs act as NOPs, because guest code may use a
+highbank/midway-specific SMC ABI to enable the L2x0 cache
+controller. So when the PSCI emulation starts to NOP the unknown SMCs
+the setup code won't actively break, and the guest behaviour will
+still be OK. (See patch 11's commit message for fuller details.)
 
+Patches 1 and 2 make the relevant CPU properties settable after the
+CPU object has been realized. This is necessary because
+arm_load_kernel() runs very late, after the whole machine (including
+the CPU objects) has been fully initialized.  (It was the restriction
+on setting these properties before realize that previously led us to
+set them in the SoC emulation code and thus to do it unconditionally.)
 
-> Otherwise,
->
-> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
->
->
-> r~
->
->
+Patch 3 provides the "set up psci conduit" functionality in the boot.c
+code; this is opt-in per board by setting a field in the arm_boot_info
+struct.
 
---0000000000006cd9d305d692339a
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Patches 4 to 9 move the individual boards across to using the new
+approach. In each case I had to make a decision about the behaviour of
+secondary CPUs when running guest firmware at EL3 -- should the
+secondaries start off powered-down (waiting for the guest to power
+them up via some kind of emulated power-control device), or powered-up
+(so they all start running the firmware at once)? In a few cases I was
+able to find the answer to this; in the rest I have erred on the side
+of retaining the current "start powered down" behaviour, and added a
+TODO comment to that effect. If you know the actual hardware
+behaviour, let me know.
 
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Wed, Jan 26, 2022 at 10:59 PM Rich=
-ard Henderson &lt;<a href=3D"mailto:richard.henderson@linaro.org">richard.h=
-enderson@linaro.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quot=
-e" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204)=
-;padding-left:1ex">On 1/25/22 12:29, Warner Losh wrote:<br>
-&gt; FreeBSD&#39;s get_mcontext doesn&#39;t return any vfp data. Instead, i=
-t zeros<br>
-&gt; out the vfp feilds (and all the spare fields). Impelement this<br>
-&gt; behavior. We&#39;re still missing the sysarch(ARM_GET_VFPCONTEXT) sysc=
-all,<br>
-&gt; though.<br>
-&gt; <br>
-&gt; Signed-off-by: Warner Losh &lt;<a href=3D"mailto:imp@bsdimp.com" targe=
-t=3D"_blank">imp@bsdimp.com</a>&gt;<br>
-&gt; ---<br>
-&gt;=C2=A0 =C2=A0bsd-user/arm/signal.c | 8 ++++++++<br>
-&gt;=C2=A0 =C2=A01 file changed, 8 insertions(+)<br>
-&gt; <br>
-&gt; diff --git a/bsd-user/arm/signal.c b/bsd-user/arm/signal.c<br>
-&gt; index 9026343b478..6eadc6e3c56 100644<br>
-&gt; --- a/bsd-user/arm/signal.c<br>
-&gt; +++ b/bsd-user/arm/signal.c<br>
-&gt; @@ -109,6 +109,14 @@ abi_long get_mcontext(CPUARMState *env, target_mc=
-ontext_t *mcp, int flags)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0gr[TARGET_REG_LR] =3D tswap32(env-&gt;regs[1=
-4]);<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0gr[TARGET_REG_PC] =3D tswap32(env-&gt;regs[1=
-5]);<br>
-&gt;=C2=A0 =C2=A0<br>
-&gt; +=C2=A0 =C2=A0 /*<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0* FreeBSD&#39;s set_mcontext doesn&#39;t save VFP=
- info, but blanks it out instead.<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0* Instead, sysarch(ARM_GET_VFPSTATE) is used inst=
-ead.<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0*/<br>
-<br>
-Could be rewritten with fewer &quot;instead&quot;.=C2=A0 You wanted get_mco=
-ntext.<br></blockquote><div><br></div><div>Yes. Instead is indeed over used=
-=C2=A0over and over redundantly :)</div><div><br></div><div>Thanks!</div><d=
-iv><br></div><div>Warner</div><div>=C2=A0</div><blockquote class=3D"gmail_q=
-uote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,2=
-04);padding-left:1ex">
-Otherwise,<br>
-<br>
-Reviewed-by: Richard Henderson &lt;<a href=3D"mailto:richard.henderson@lina=
-ro.org" target=3D"_blank">richard.henderson@linaro.org</a>&gt;<br>
-<br>
-<br>
-r~<br>
-<br>
-</blockquote></div></div>
+Patch 10 is the revert-the-revert patch.
 
---0000000000006cd9d305d692339a--
+Patch 11 removes the highbank/midway board use of the secure_board_setup
+functionality; the commit message has the details about why this is safe.
+
+Patches 12 to 14 are more minor cleanups that allow, and follow on from,
+dropping the highbank-specific secondary CPU boot stub code.
+
+Patch 15 is a change that is somewhat unrelated, but is necessary to
+get the highbank board to successfully boot in SMP and to get the
+midway board to start a Linux guest at all.
+
+I have tested this with make check/check-acceptance and also with some
+test images I have locally (including highbank and midway), but I
+don't have test images for most of these boards, and in particular I
+don't really have anything that exercises "run guest EL3 code" for
+most of them. Testing would be welcome.
+
+thanks
+-- PMM
+
+Peter Maydell (16):
+  target/arm: make psci-conduit settable after realize
+  cpu.c: Make start-powered-off settable after realize
+  hw/arm/boot: Support setting psci-conduit based on guest EL
+  hw/arm: imx: Don't enable PSCI conduit when booting guest in EL3
+  hw/arm: allwinner: Don't enable PSCI conduit when booting guest in EL3
+  hw/arm/xlnx-zcu102: Don't enable PSCI conduit when booting guest in
+    EL3
+  hw/arm/versal: Let boot.c handle PSCI enablement
+  hw/arm/virt: Let boot.c handle PSCI enablement
+  hw/arm: highbank: For EL3 guests, don't enable PSCI, start all cores
+  Revert "Revert "arm: tcg: Adhere to SMCCC 1.3 section 5.2""
+  hw/arm/highbank: Drop use of secure_board_setup
+  hw/arm/boot: Prevent setting both psci_conduit and secure_board_setup
+  hw/arm/boot: Don't write secondary boot stub if using PSCI
+  hw/arm/highbank: Drop unused secondary boot stub code
+  hw/arm/boot: Drop nb_cpus field from arm_boot_info
+  hw/arm/boot: Drop existing dtb /psci node rather than retaining it
+
+ include/hw/arm/boot.h        |  14 ++++-
+ include/hw/arm/xlnx-versal.h |   1 -
+ cpu.c                        |  22 ++++++-
+ hw/arm/allwinner-h3.c        |   9 ++-
+ hw/arm/aspeed.c              |   1 -
+ hw/arm/boot.c                | 107 +++++++++++++++++++++++++++++------
+ hw/arm/exynos4_boards.c      |   1 -
+ hw/arm/fsl-imx6ul.c          |   2 -
+ hw/arm/fsl-imx7.c            |   8 +--
+ hw/arm/highbank.c            |  72 +----------------------
+ hw/arm/imx25_pdk.c           |   3 +-
+ hw/arm/kzm.c                 |   1 -
+ hw/arm/mcimx6ul-evk.c        |   2 +-
+ hw/arm/mcimx7d-sabre.c       |   2 +-
+ hw/arm/npcm7xx.c             |   3 -
+ hw/arm/orangepi.c            |   5 +-
+ hw/arm/raspi.c               |   1 -
+ hw/arm/realview.c            |   1 -
+ hw/arm/sabrelite.c           |   1 -
+ hw/arm/sbsa-ref.c            |   1 -
+ hw/arm/vexpress.c            |   1 -
+ hw/arm/virt.c                |  13 +----
+ hw/arm/xilinx_zynq.c         |   1 -
+ hw/arm/xlnx-versal-virt.c    |   6 +-
+ hw/arm/xlnx-versal.c         |   5 +-
+ hw/arm/xlnx-zcu102.c         |   1 +
+ hw/arm/xlnx-zynqmp.c         |  13 +++--
+ target/arm/cpu.c             |   6 +-
+ target/arm/psci.c            |  35 ++----------
+ 29 files changed, 164 insertions(+), 174 deletions(-)
+
+-- 
+2.25.1
+
 
