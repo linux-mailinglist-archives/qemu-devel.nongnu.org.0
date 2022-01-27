@@ -2,80 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9845049E0DD
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Jan 2022 12:28:49 +0100 (CET)
-Received: from localhost ([::1]:59188 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F303049E153
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Jan 2022 12:41:50 +0100 (CET)
+Received: from localhost ([::1]:46202 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nD2xM-00032T-Ne
-	for lists+qemu-devel@lfdr.de; Thu, 27 Jan 2022 06:28:48 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:39118)
+	id 1nD39x-0005DR-Qo
+	for lists+qemu-devel@lfdr.de; Thu, 27 Jan 2022 06:41:49 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:39414)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nD2g1-0006n1-5W
- for qemu-devel@nongnu.org; Thu, 27 Jan 2022 06:10:54 -0500
-Received: from [2a00:1450:4864:20::430] (port=36490
- helo=mail-wr1-x430.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nD2fz-0006A7-6s
- for qemu-devel@nongnu.org; Thu, 27 Jan 2022 06:10:52 -0500
-Received: by mail-wr1-x430.google.com with SMTP id u15so4100247wrt.3
- for <qemu-devel@nongnu.org>; Thu, 27 Jan 2022 03:10:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=lQe0j41ztfi+4RsroChzdgwOB474cFz+aWaWNOBPtVE=;
- b=nf9Miub53xncAK+sWpFNexBWzbJVfDUNmO/6c9XxLwZJCRCYOqzxKhx++v8TlvvDHb
- HVuzioGffQ2BttsL6szoimEKuYCxSb6cfj/YDhqwS405ZWmrS5zBuWp1jN1sV6sJzM53
- BM70QTuTq8nNptPR3g9mrVE/1wEZMWx0Tvl9fU0MkZL4YaUsy3uQxIs4LHfn9GPBEBn4
- zO4ieUa96unPM+pR8lCTMnQugeEFjcbd5c5E1i9r/Wx+4czKGDtD++EU0gpW43xF27sZ
- MipKPofqGyGnO3Rf6cTXyCD2qKuip2zaE+V+Sd5BDXHYFqXbSsG0LuJVEQEdCvE3DmNb
- xb7w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=lQe0j41ztfi+4RsroChzdgwOB474cFz+aWaWNOBPtVE=;
- b=3tZ4UV4mWhArGXCyPwzFqZg+JCeudrv0jdYHI+SGyXwKUGyOXh6r4EqOJDqRESA0Zl
- 6VlAZnnCiu5MXf23lEzpfZ0feslxw1vo7NcJxacu31H9ZLoexs83mG1cbIpwlmAy0Xr5
- C48rlL3XusBo7Ifr6UF/dqJH7bh33825Hx4dcou0dPrN4ydGDDne/4WgijRzwF7Q0y3D
- sybYLlxikOw9h9WA0LfWn2gDN+pOcgsywbdb6J19z9VpJ8KyhquE6bdS28eay5Zb3NX7
- xdYAlrJe1M8d1qMvnanz5d66kOuQ16rD8gn1vCRpw6+h22e9k+3L4a75Dum/svamPmyn
- tTvQ==
-X-Gm-Message-State: AOAM531FdOVeO1Fl9UwJ3Y+OoSsbJdfylbeJL5WzW/CNP/YIBGqaZPIf
- kNvc9tQlOFwYgXGL7AKt+4Ii5Bd3oa4=
-X-Google-Smtp-Source: ABdhPJwCiaimnBhg6LIJmuR/qFW+H/A9L7bEadiePPi5bCaW/nxnRCKTNDzMreEMVz6L4e2jA3QuKg==
-X-Received: by 2002:adf:c448:: with SMTP id a8mr2623595wrg.697.1643281849981; 
- Thu, 27 Jan 2022 03:10:49 -0800 (PST)
-Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id s17sm1825742wrm.62.2022.01.27.03.10.49
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 27 Jan 2022 03:10:49 -0800 (PST)
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PULL 14/14] configure: fix parameter expansion of --cross-cc-cflags
- options
-Date: Thu, 27 Jan 2022 12:10:37 +0100
-Message-Id: <20220127111037.457901-15-pbonzini@redhat.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220127111037.457901-1-pbonzini@redhat.com>
-References: <20220127111037.457901-1-pbonzini@redhat.com>
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1nD2hJ-0008JJ-LQ
+ for qemu-devel@nongnu.org; Thu, 27 Jan 2022 06:12:13 -0500
+Received: from us-smtp-delivery-44.mimecast.com ([205.139.111.44]:57484)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1nD2hH-0006LZ-A4
+ for qemu-devel@nongnu.org; Thu, 27 Jan 2022 06:12:13 -0500
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-90-cLfrTQVNMmKiD170iiSckg-1; Thu, 27 Jan 2022 06:11:59 -0500
+X-MC-Unique: cLfrTQVNMmKiD170iiSckg-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A4C5F101F001;
+ Thu, 27 Jan 2022 11:11:58 +0000 (UTC)
+Received: from bahia (unknown [10.39.192.166])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 94A5473173;
+ Thu, 27 Jan 2022 11:11:40 +0000 (UTC)
+Date: Thu, 27 Jan 2022 12:11:39 +0100
+From: Greg Kurz <groug@kaod.org>
+To: Vivek Goyal <vgoyal@redhat.com>
+Subject: Re: [PATCH v4 1/2] virtiofsd: Track mounts
+Message-ID: <20220127121139.61ca8360@bahia>
+In-Reply-To: <YfHPbWRbWpZgLXVA@redhat.com>
+References: <20220125141213.361930-1-groug@kaod.org>
+ <20220125141213.361930-2-groug@kaod.org>
+ <YfHPbWRbWpZgLXVA@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::430
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::430;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x430.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: kaod.org
+Content-Type: text/plain; charset=WINDOWS-1252
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: softfail client-ip=205.139.111.44; envelope-from=groug@kaod.org;
+ helo=us-smtp-delivery-44.mimecast.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
+ SPF_HELO_NONE=0.001, SPF_SOFTFAIL=0.665 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -88,62 +65,246 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Matheus Ferst <matheus.ferst@eldorado.org.br>
+Cc: virtio-fs@redhat.com,
+ Sebastian Hasler <sebastian.hasler@stuvus.uni-stuttgart.de>,
+ qemu-devel@nongnu.org, Stefan Hajnoczi <stefanha@redhat.com>, "Dr. David
+ Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Matheus Ferst <matheus.ferst@eldorado.org.br>
+On Wed, 26 Jan 2022 17:47:09 -0500
+Vivek Goyal <vgoyal@redhat.com> wrote:
 
-Without this fix, any use of --cross-cc-cflags-* causes a message like:
-$ ../configure --cross-cc-ppc64le=clang --cross-cc-cflags-ppc64le="-target powerpc64le-unknown-linux-gnu -sysroot ..."
-../configure: 1: eval: cross_cc_cflags_--cross-cc-cflags-ppc64le=-target: not found
-../configure: 3816: export: cross_cc_cflags_--cross-cc-cflags-ppc64le: bad variable name
+> On Tue, Jan 25, 2022 at 03:12:11PM +0100, Greg Kurz wrote:
+> > The upcoming implementation of ->sync_fs() needs to know about all
+> > submounts in order to call syncfs() on them when virtiofsd is started
+> > without '-o announce_submounts'.
+> >=20
+> > Track every inode that comes up with a new mount id in a GHashTable.
+> > If the mount id isn't available, e.g. no statx() on the host, fallback
+> > on the device id for the key. This is done during lookup because we
+> > only care for the submounts that the client knows about. The inode
+> > is removed from the hash table when ultimately unreferenced. This
+> > can happen on a per-mount basis when the client posts a FUSE_FORGET
+> > request or for all submounts at once with FUSE_DESTROY.
+> >=20
+> > Signed-off-by: Greg Kurz <groug@kaod.org>
+> > ---
+> >  tools/virtiofsd/passthrough_ll.c | 43 +++++++++++++++++++++++++++++---
+> >  1 file changed, 40 insertions(+), 3 deletions(-)
+> >=20
+> > diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthr=
+ough_ll.c
+> > index 64b5b4fbb186..7bf31fc129c8 100644
+> > --- a/tools/virtiofsd/passthrough_ll.c
+> > +++ b/tools/virtiofsd/passthrough_ll.c
+> > @@ -117,6 +117,7 @@ struct lo_inode {
+> >      GHashTable *posix_locks; /* protected by lo_inode->plock_mutex */
+> > =20
+> >      mode_t filetype;
+> > +    bool is_mnt;
+> >  };
+> > =20
+> >  struct lo_cred {
+> > @@ -164,6 +165,7 @@ struct lo_data {
+> >      bool use_statx;
+> >      struct lo_inode root;
+> >      GHashTable *inodes; /* protected by lo->mutex */
+> > +    GHashTable *mnt_inodes; /* protected by lo->mutex */
+> >      struct lo_map ino_map; /* protected by lo->mutex */
+> >      struct lo_map dirp_map; /* protected by lo->mutex */
+> >      struct lo_map fd_map; /* protected by lo->mutex */
+> > @@ -1000,6 +1002,31 @@ static int do_statx(struct lo_data *lo, int dirf=
+d, const char *pathname,
+> >      return 0;
+> >  }
+> > =20
+>=20
+> Hi Greg,
+>=20
+> Thanks for the patches. Had a quick look. Overall these patches look
+> pretty good to me. I will spend more time testing and having a=20
+> closer look. Some quick thoughts below.
+>=20
+> > +static uint64_t mnt_inode_key(struct lo_inode *inode)
+> > +{
+> > +    /* Prefer mnt_id, fallback on dev */
+> > +    return inode->key.mnt_id ? inode->key.mnt_id : inode->key.dev;
+> > +}
+>=20
+> I am not sure if we should use inode->key.dev. This might create problem
+> if same file system is bind mounted at two paths in shared dir. So
+> say /dev/sdb is mounted at foo1/ and then bind mounted at foo2/ in
+> shared dir. A user looks up foo1/ and does some writes. Then we
+> lookup foo2/ and release that inode. Release of foo2 will let go
+> inode from the hash. And that means if later another write happens
+> in foo1/ followed by syncfs(), we will not issue syncfs() on filesystem
+> backed by /dev/sdb.
+>=20
 
-Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
-Message-Id: <20220120173142.2755077-1-matheus.ferst@eldorado.org.br>
-[Fix other occurrences too, noted by Philippe Mathieu-Daudé. - Paolo]
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
----
- configure              | 4 ++--
- docs/devel/testing.rst | 2 +-
- 2 files changed, 3 insertions(+), 3 deletions(-)
+Right, inode->key.dev isn't a safe fallback, which is the whole=20
+point behind the need for mnt_id :-)
 
-diff --git a/configure b/configure
-index e1a31fb332..e6cfc0e4be 100755
---- a/configure
-+++ b/configure
-@@ -402,7 +402,7 @@ for opt do
-   ;;
-   --cross-cc-*[!a-zA-Z0-9_-]*=*) error_exit "Passed bad --cross-cc-FOO option"
-   ;;
--  --cross-cc-cflags-*) cc_arch=${opt#--cross-cc-flags-}; cc_arch=${cc_arch%%=*}
-+  --cross-cc-cflags-*) cc_arch=${opt#--cross-cc-cflags-}; cc_arch=${cc_arch%%=*}
-                       eval "cross_cc_cflags_${cc_arch}=\$optarg"
-                       cross_cc_vars="$cross_cc_vars cross_cc_cflags_${cc_arch}"
-   ;;
-@@ -1328,7 +1328,7 @@ Advanced options (experts only):
-   --extra-cxxflags=CXXFLAGS append extra C++ compiler flags CXXFLAGS
-   --extra-ldflags=LDFLAGS  append extra linker flags LDFLAGS
-   --cross-cc-ARCH=CC       use compiler when building ARCH guest test cases
--  --cross-cc-flags-ARCH=   use compiler flags when building ARCH guest tests
-+  --cross-cc-cflags-ARCH=  use compiler flags when building ARCH guest tests
-   --make=MAKE              use specified make [$make]
-   --python=PYTHON          use specified python [$python]
-   --sphinx-build=SPHINX    use specified sphinx-build [$sphinx_build]
-diff --git a/docs/devel/testing.rst b/docs/devel/testing.rst
-index d744b5909c..92d40cdd19 100644
---- a/docs/devel/testing.rst
-+++ b/docs/devel/testing.rst
-@@ -1324,7 +1324,7 @@ for the architecture in question, for example::
- 
-   $(configure) --cross-cc-aarch64=aarch64-cc
- 
--There is also a ``--cross-cc-flags-ARCH`` flag in case additional
-+There is also a ``--cross-cc-cflags-ARCH`` flag in case additional
- compiler flags are needed to build for a given target.
- 
- If you have the ability to run containers as the user the build system
--- 
-2.34.1
+> So what are the options.
+>=20
+> A. Make mnt_id mandatory and do not implement it if mnt_id is not
+>    available.
+>=20
+
+This is still quite recent (kernel 5.7 and glibc 2.33), it would
+be unfortunate for users of older versions.
+
+> B. Don't do anything and live with this. It is a corner case and
+>    still better than not implement submount syncfs at all.
+>=20
+
+Having bind mounts isn't such a corner case, is it ? And anyway,
+this would be a serious flaw in the implementation. I don't think
+this is acceptable.
+
+> C. Instead of adding lo_inode to hash, create another kind of object
+>    and reference count that. It could be a mount fd which we open
+>    when we add object for the first time. So when foo1/ inode is
+>    instantiated, create mountfd object, add it to hash table using
+>    device id as the key. When foo2 comes along, we find the object
+>    in the hash and just bump up the ref. Now this mountfd object
+>    will go away when both foo1 and foo2 inodes have been evicted
+>    and will take care of the issue I am referring to.
+>=20
+> I guess B is little extra complexity but probably not too bad.
+
+s/B/C
+
+> WDYT. It sounds litter better than option A and B.
+>=20
+
+Definitely. I'll give a try.
+
+>=20
+> > +
+> > +static void add_mnt_inode(struct lo_data *lo, struct lo_inode *inode)
+> > +{
+> > +    uint64_t mnt_key =3D mnt_inode_key(inode);
+> > +
+> > +    if (!g_hash_table_contains(lo->mnt_inodes, &mnt_key)) {
+> > +        inode->is_mnt =3D true;
+> > +        g_hash_table_insert(lo->mnt_inodes, &mnt_key, inode);
+> > +    }
+> > +}
+> > +
+> > +static void remove_mnt_inode(struct lo_data *lo, struct lo_inode *inod=
+e)
+> > +{
+> > +    uint64_t mnt_key =3D mnt_inode_key(inode);
+> > +
+> > +    if (inode->is_mnt) {
+> > +        g_hash_table_remove(lo->mnt_inodes, &mnt_key);
+> > +    }
+> > +}
+>=20
+> Should we issue syncfs() on this inode when we are removing it? It
+> is possible guest did some writes, let go inode and later issued
+> a syncfs(). By that time inode is gone and we will not issue any
+> syncfs() on this filesystem. Hence leaving data in host page cache.
+>=20
+
+Right, I guess we can do that.
+
+
+Cheers,
+
+--
+Greg
+
+> Thanks
+> Vivek
+>=20
+> > +
+> >  /*
+> >   * Increments nlookup on the inode on success. unref_inode_lolocked() =
+must be
+> >   * called eventually to decrement nlookup again. If inodep is non-NULL=
+, the
+> > @@ -1086,10 +1113,15 @@ static int lo_do_lookup(fuse_req_t req, fuse_in=
+o_t parent, const char *name,
+> >          pthread_mutex_lock(&lo->mutex);
+> >          inode->fuse_ino =3D lo_add_inode_mapping(req, inode);
+> >          g_hash_table_insert(lo->inodes, &inode->key, inode);
+> > +        add_mnt_inode(lo, inode);
+> >          pthread_mutex_unlock(&lo->mutex);
+> >      }
+> >      e->ino =3D inode->fuse_ino;
+> > =20
+> > +    fuse_log(FUSE_LOG_DEBUG, "  %lli/%s -> %lli%s\n",
+> > +             (unsigned long long) parent, name, (unsigned long long) e=
+->ino,
+> > +             inode->is_mnt ? " (submount)" : "");
+> > +
+> >      /* Transfer ownership of inode pointer to caller or drop it */
+> >      if (inodep) {
+> >          *inodep =3D inode;
+> > @@ -1099,9 +1131,6 @@ static int lo_do_lookup(fuse_req_t req, fuse_ino_=
+t parent, const char *name,
+> > =20
+> >      lo_inode_put(lo, &dir);
+> > =20
+> > -    fuse_log(FUSE_LOG_DEBUG, "  %lli/%s -> %lli\n", (unsigned long lon=
+g)parent,
+> > -             name, (unsigned long long)e->ino);
+> > -
+> >      return 0;
+> > =20
+> >  out_err:
+> > @@ -1563,6 +1592,7 @@ static void unref_inode(struct lo_data *lo, struc=
+t lo_inode *inode, uint64_t n)
+> >              g_hash_table_destroy(inode->posix_locks);
+> >              pthread_mutex_destroy(&inode->plock_mutex);
+> >          }
+> > +        remove_mnt_inode(lo, inode);
+> >          /* Drop our refcount from lo_do_lookup() */
+> >          lo_inode_put(lo, &inode);
+> >      }
+> > @@ -3337,6 +3367,7 @@ static void lo_destroy(void *userdata)
+> >      struct lo_data *lo =3D (struct lo_data *)userdata;
+> > =20
+> >      pthread_mutex_lock(&lo->mutex);
+> > +    g_hash_table_remove_all(lo->mnt_inodes);
+> >      while (true) {
+> >          GHashTableIter iter;
+> >          gpointer key, value;
+> > @@ -3850,6 +3881,7 @@ static void setup_root(struct lo_data *lo, struct=
+ lo_inode *root)
+> >          root->posix_locks =3D g_hash_table_new_full(
+> >              g_direct_hash, g_direct_equal, NULL, posix_locks_value_des=
+troy);
+> >      }
+> > +    add_mnt_inode(lo, root);
+> >  }
+> > =20
+> >  static guint lo_key_hash(gconstpointer key)
+> > @@ -3869,6 +3901,10 @@ static gboolean lo_key_equal(gconstpointer a, gc=
+onstpointer b)
+> > =20
+> >  static void fuse_lo_data_cleanup(struct lo_data *lo)
+> >  {
+> > +    if (lo->mnt_inodes) {
+> > +        g_hash_table_destroy(lo->mnt_inodes);
+> > +    }
+> > +
+> >      if (lo->inodes) {
+> >          g_hash_table_destroy(lo->inodes);
+> >      }
+> > @@ -3931,6 +3967,7 @@ int main(int argc, char *argv[])
+> >      lo.root.fd =3D -1;
+> >      lo.root.fuse_ino =3D FUSE_ROOT_ID;
+> >      lo.cache =3D CACHE_AUTO;
+> > +    lo.mnt_inodes =3D g_hash_table_new(g_int64_hash, g_int64_equal);
+> > =20
+> >      /*
+> >       * Set up the ino map like this:
+> > --=20
+> > 2.34.1
+> >=20
+>=20
 
 
