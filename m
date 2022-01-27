@@ -2,77 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0B0449E26B
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Jan 2022 13:32:43 +0100 (CET)
-Received: from localhost ([::1]:36362 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F27FA49E26D
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Jan 2022 13:34:44 +0100 (CET)
+Received: from localhost ([::1]:38414 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nD3xC-0000te-K2
-	for lists+qemu-devel@lfdr.de; Thu, 27 Jan 2022 07:32:42 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:54660)
+	id 1nD3z9-0002Tq-4x
+	for lists+qemu-devel@lfdr.de; Thu, 27 Jan 2022 07:34:43 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:55946)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1nD3nn-0007YV-Qd; Thu, 27 Jan 2022 07:22:59 -0500
-Received: from [2607:f8b0:4864:20::92d] (port=40788
- helo=mail-ua1-x92d.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1nD3ne-0000tH-Od; Thu, 27 Jan 2022 07:22:52 -0500
-Received: by mail-ua1-x92d.google.com with SMTP id w21so4352408uan.7;
- Thu, 27 Jan 2022 04:22:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=AnYdSqtWh8YSOTM4yovN8mr2dsQxFa5GK4o/J4pGf7w=;
- b=Od+aB2Fho58WbyK7BSOIy5RLmBLZt/SMNP2OV7bBWmD/WnA4YxdI9qmLMnX9UYMnTg
- XcnuPwkbl6ZSiSHmxVlxAYtPj6MBKiVQqtbbOv/yB4YyRorWL4N+lpv2UL5VfnrUBVNV
- GUJvzQni9QovlAU3x1W1JmAGDLblMbAKJpvp/mhoD+FVMcFGvLdJ0Fg7EgiMaoBIPC1m
- N18+C9d+YhjhxchIyKt7BMisOOhpVLb5i3WY2IETpJi0oe/t17Eh9XwEHgWymxd7lSZS
- Zq5hG8TXELd9GzeIDlSyVZ/dnVLB7+9ubPFrDUCst/mNup/pp/SHEQCN918xHHD9htXy
- pIdQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=AnYdSqtWh8YSOTM4yovN8mr2dsQxFa5GK4o/J4pGf7w=;
- b=Zci/1JdYniMnp27730FPIS/Z6zL+ybWgN9bYdZmaCmo5UCcxM8+qN5TgdV1Imjs6LY
- K1evgyO+Mpk8PDnfV1uJPY/ce0MtspFLzN/PkPV3jMe1jBrBklWlgZBYYOu/9vXSJQOS
- JKyOzdkQPDdKOmDV1AT0mW8FQsISrCkL+N3bONkXhvF5fPe37BzISI3QUkgFH70xKJTD
- eSs2NVGvi5b4OeHQztf720kLFOU4FW/PGgy1/7ycScdmS/lYXD1Im3lD6/NSHZr6s0Cb
- SlJUe4RhKUgoJe5tUZJQ9VDeFqYEscgLIspXe9V9s6QDfcLoZec6UQ0eQVMNmjiRTycU
- lsag==
-X-Gm-Message-State: AOAM531QMxeQvLhrwIy3gp8pHYiH0gv39oucUpuQgn6N8/syhNKbGH00
- fken5sLeblNtCHaMnDDpn0Swxj/1iRk=
-X-Google-Smtp-Source: ABdhPJys8EPa1PxjpFXc5xMTtPFL6cET1HqDIp3oKdZbDYJmv2weuyz2PbW3xVEiu5Rqx6EjYvzbPw==
-X-Received: by 2002:a67:d594:: with SMTP id m20mr1360084vsj.3.1643286165810;
- Thu, 27 Jan 2022 04:22:45 -0800 (PST)
-Received: from rekt.COMFAST (189-68-153-170.dsl.telesp.net.br.
- [189.68.153.170])
- by smtp.gmail.com with ESMTPSA id e14sm520724vsu.3.2022.01.27.04.22.44
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 27 Jan 2022 04:22:45 -0800 (PST)
-From: Daniel Henrique Barboza <danielhb413@gmail.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v3 2/2] ppc/pnv: use a do-while() loop in
- pnv_phb4_translate_tve()
-Date: Thu, 27 Jan 2022 09:22:34 -0300
-Message-Id: <20220127122234.842145-3-danielhb413@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220127122234.842145-1-danielhb413@gmail.com>
-References: <20220127122234.842145-1-danielhb413@gmail.com>
+ (Exim 4.90_1) (envelope-from <matheus.ferst@eldorado.org.br>)
+ id 1nD3tN-0005xc-2a; Thu, 27 Jan 2022 07:28:45 -0500
+Received: from [187.72.171.209] (port=51223 helo=outlook.eldorado.org.br)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <matheus.ferst@eldorado.org.br>)
+ id 1nD3tL-0001qv-4W; Thu, 27 Jan 2022 07:28:44 -0500
+Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
+ secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
+ Thu, 27 Jan 2022 09:28:37 -0300
+Received: from [127.0.0.1] (unknown [10.10.70.45])
+ by p9ibm (Postfix) with ESMTP id 7EEB4800013;
+ Thu, 27 Jan 2022 09:28:36 -0300 (-03)
+Message-ID: <f8848945-a175-bd6d-d53c-3d5c9944d363@eldorado.org.br>
+Date: Thu, 27 Jan 2022 09:28:36 -0300
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH v2 1/2] ppc/pnv: use a do-while() loop in
+ pnv_phb3_translate_tve()
+Content-Language: en-US
+To: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-devel@nongnu.org
+References: <20220126201438.822457-1-danielhb413@gmail.com>
+ <20220126201438.822457-2-danielhb413@gmail.com>
+ <5b9fc0c6-f6b4-64e1-9126-de54229d05c1@eldorado.org.br>
+ <171f02a2-cf95-fd79-4dc7-94a667f3ef81@gmail.com>
+From: "Matheus K. Ferst" <matheus.ferst@eldorado.org.br>
+In-Reply-To: <171f02a2-cf95-fd79-4dc7-94a667f3ef81@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::92d
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::92d;
- envelope-from=danielhb413@gmail.com; helo=mail-ua1-x92d.google.com
+X-OriginalArrivalTime: 27 Jan 2022 12:28:37.0217 (UTC)
+ FILETIME=[68792510:01D81379]
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 187.72.171.209 (failed)
+Received-SPF: pass client-ip=187.72.171.209;
+ envelope-from=matheus.ferst@eldorado.org.br; helo=outlook.eldorado.org.br
 X-Spam_score_int: -10
 X-Spam_score: -1.1
 X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, PDS_HP_HELO_NORDNS=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ PDS_HP_HELO_NORDNS=0.001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -86,50 +63,87 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-ppc@nongnu.org,
- clg@kaod.org, david@gibson.dropbear.id.au
+Cc: qemu-ppc@nongnu.org, clg@kaod.org, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-pnv_phb4_translate_tve() is quite similar to pnv_phb3_translate_tve(),
-and that includes the fact that 'taddr' can be considered uninitialized
-when throwing the "TCE access fault" error because, in theory, the loop
-that sets 'taddr' can be skippable due to 'lev' being an signed int.
+On 27/01/2022 09:09, Daniel Henrique Barboza wrote:
+> On 1/27/22 08:41, Matheus K. Ferst wrote:
+>> On 26/01/2022 17:14, Daniel Henrique Barboza wrote:
+>>> The 'taddr' variable is left unintialized, being set only inside the
+>>> "while ((lev--) >= 0)" loop where we get the TCE address. The 'lev' var
+>>> is an int32_t that is being initiliazed by the GETFIELD() macro, which
+>>> returns an uint64_t.
+>>>
+>>> For a human reader this means that 'lev' will always be positive or 
+>>> zero.
+>>> But some compilers may beg to differ. 'lev' being an int32_t can in 
+>>> theory
+>>> be set as negative, and the "while ((lev--) >= 0)" loop might never be
+>>> reached, and 'taddr' will be left unitialized. This can cause 
+>>> phb3_error()
+>>> to use 'taddr' uninitialized down below:
+>>>
+>>> if ((is_write & !(tce & 2)) || ((!is_write) && !(tce & 1))) {
+>>>      phb3_error(phb, "TCE access fault at 0x%"PRIx64, taddr);
+>>>
+>>> A quick way of fixing it is to use a do/while() loop. This will keep the
+>>> same semanting as the existing while() loop does and the compiler will
+>>> understand that 'taddr' will be initialized at least once.
+>>>
+>>> Suggested-by: Matheus K. Ferst <matheus.ferst@eldorado.org.br>
+>>> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/573
+>>> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+>>> ---
+>>>   hw/pci-host/pnv_phb3.c | 4 ++--
+>>>   1 file changed, 2 insertions(+), 2 deletions(-)
+>>>
+>>> diff --git a/hw/pci-host/pnv_phb3.c b/hw/pci-host/pnv_phb3.c
+>>> index 7fb35dc031..39a6184419 100644
+>>> --- a/hw/pci-host/pnv_phb3.c
+>>> +++ b/hw/pci-host/pnv_phb3.c
+>>> @@ -792,7 +792,7 @@ static void 
+>>> pnv_phb3_translate_tve(PnvPhb3DMASpace *ds, hwaddr addr,
+>>>           sh = tbl_shift * lev + tce_shift;
+>>>
+>>>           /* TODO: Multi-level untested */
+>>> -        while ((lev--) >= 0) {
+>>> +        do {
+>>>               /* Grab the TCE address */
+>>>               taddr = base | (((addr >> sh) & ((1ul << tbl_shift) - 
+>>> 1)) << 3);
+>>>               if (dma_memory_read(&address_space_memory, taddr, &tce,
+>>> @@ -813,7 +813,7 @@ static void 
+>>> pnv_phb3_translate_tve(PnvPhb3DMASpace *ds, hwaddr addr,
+>>>               }
+>>>               sh -= tbl_shift;
+>>>               base = tce & ~0xfffull;
+>>> -        }
+>>> +        } while ((lev--) >= 0);
+>>
+>> This changes the number of iterations in this loop.
+> 
+> ooofff
+> 
+>> We'd need "while ((--lev) >= 0)" to keep it the same, but then we 
+>> would be checking "!(tce & 3)" for the last iteration. Is that a problem?
+> 
+> 
+> I don't think that's a problem because then (lev >= 0) will not be true 
 
-No one complained about this specific case yet, but since we took the
-time to handle the same situtation in pnv_phb3_translate_tve(), let's
-replicate it here as well.
+That holds for "while ((lev--) >= 0)", where the last iteration has 
+"lev=-1", but "while ((--lev) >= 0)" would make lev=0 in the last 
+execution of this loop. I guess we need to either decrement lev 
+elsewhere or adjust its use inside the loop (e.g.: if (lev > 0 && !(tce 
+& 3)))
 
-Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
----
- hw/pci-host/pnv_phb4.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+> and we'll
+> not going to check !(tce &3), so even if 'tce' has a bogus value it's fine.
+> 
 
-diff --git a/hw/pci-host/pnv_phb4.c b/hw/pci-host/pnv_phb4.c
-index a78add75b0..b6c74553fa 100644
---- a/hw/pci-host/pnv_phb4.c
-+++ b/hw/pci-host/pnv_phb4.c
-@@ -1267,7 +1267,9 @@ static void pnv_phb4_translate_tve(PnvPhb4DMASpace *ds, hwaddr addr,
-         /* TODO: Limit to support IO page sizes */
- 
-         /* TODO: Multi-level untested */
--        while ((lev--) >= 0) {
-+        do {
-+            lev--;
-+
-             /* Grab the TCE address */
-             taddr = base | (((addr >> sh) & ((1ul << tbl_shift) - 1)) << 3);
-             if (dma_memory_read(&address_space_memory, taddr, &tce,
-@@ -1288,7 +1290,7 @@ static void pnv_phb4_translate_tve(PnvPhb4DMASpace *ds, hwaddr addr,
-             }
-             sh -= tbl_shift;
-             base = tce & ~0xfffull;
--        }
-+        } while (lev >= 0);
- 
-         /* We exit the loop with TCE being the final TCE */
-         tce_mask = ~((1ull << tce_shift) - 1);
--- 
-2.34.1
-
+Thanks,
+Matheus K. Ferst
+Instituto de Pesquisas ELDORADO <http://www.eldorado.org.br/>
+Analista de Software
+Aviso Legal - Disclaimer <https://www.eldorado.org.br/disclaimer.html>
 
