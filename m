@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9E1C49ECEA
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Jan 2022 21:59:43 +0100 (CET)
-Received: from localhost ([::1]:34836 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A7E249ECEC
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Jan 2022 22:00:08 +0100 (CET)
+Received: from localhost ([::1]:35824 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nDBrr-0001pd-0A
-	for lists+qemu-devel@lfdr.de; Thu, 27 Jan 2022 15:59:43 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:34376)
+	id 1nDBsF-0002lA-3a
+	for lists+qemu-devel@lfdr.de; Thu, 27 Jan 2022 16:00:07 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:34424)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nDBmh-0007L3-01
- for qemu-devel@nongnu.org; Thu, 27 Jan 2022 15:54:23 -0500
-Received: from [2001:41c9:1:41f::167] (port=36804
+ id 1nDBmo-0007dh-G6
+ for qemu-devel@nongnu.org; Thu, 27 Jan 2022 15:54:30 -0500
+Received: from [2001:41c9:1:41f::167] (port=36814
  helo=mail.default.ilande.bv.iomart.io)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nDBmf-0004uv-LZ
- for qemu-devel@nongnu.org; Thu, 27 Jan 2022 15:54:22 -0500
+ id 1nDBmn-0004vl-41
+ for qemu-devel@nongnu.org; Thu, 27 Jan 2022 15:54:30 -0500
 Received: from [2a00:23c4:8ba0:ca00:d4eb:dbd5:5a41:aefe] (helo=kentang.home)
  by mail.default.ilande.bv.iomart.io with esmtpsa
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nDBm9-000BHM-RW; Thu, 27 Jan 2022 20:53:54 +0000
+ id 1nDBmI-000BHM-9I; Thu, 27 Jan 2022 20:54:02 +0000
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 To: laurent@vivier.eu,
 	qemu-devel@nongnu.org
-Date: Thu, 27 Jan 2022 20:53:55 +0000
-Message-Id: <20220127205405.23499-2-mark.cave-ayland@ilande.co.uk>
+Date: Thu, 27 Jan 2022 20:53:57 +0000
+Message-Id: <20220127205405.23499-4-mark.cave-ayland@ilande.co.uk>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20220127205405.23499-1-mark.cave-ayland@ilande.co.uk>
 References: <20220127205405.23499-1-mark.cave-ayland@ilande.co.uk>
@@ -37,7 +37,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 2a00:23c4:8ba0:ca00:d4eb:dbd5:5a41:aefe
 X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: [PATCH 01/11] mos6522: add defines for IFR bit flags
+Subject: [PATCH 03/11] mac_via: use IFR bit flag constants for VIA2 IRQs
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on mail.default.ilande.bv.iomart.io)
 X-Host-Lookup-Failed: Reverse DNS lookup failed for 2001:41c9:1:41f::167
@@ -65,47 +65,34 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-These are intended to make it easier to see how the physical control lines
-are wired for each instance.
+This allows us to easily see how the physical control lines are mapped to the
+IFR bit flags.
 
 Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 ---
- include/hw/misc/mos6522.h | 22 +++++++++++++++-------
- 1 file changed, 15 insertions(+), 7 deletions(-)
+ include/hw/misc/mac_via.h | 9 ++++-----
+ 1 file changed, 4 insertions(+), 5 deletions(-)
 
-diff --git a/include/hw/misc/mos6522.h b/include/hw/misc/mos6522.h
-index fc95d22b0f..12abd8b8d2 100644
---- a/include/hw/misc/mos6522.h
-+++ b/include/hw/misc/mos6522.h
-@@ -41,13 +41,21 @@
- #define IER_SET            0x80    /* set bits in IER */
- #define IER_CLR            0       /* clear bits in IER */
+diff --git a/include/hw/misc/mac_via.h b/include/hw/misc/mac_via.h
+index b0c3825c9b..2df1ab01b6 100644
+--- a/include/hw/misc/mac_via.h
++++ b/include/hw/misc/mac_via.h
+@@ -80,11 +80,10 @@ struct MOS6522Q800VIA1State {
  
--#define CA2_INT            0x01
--#define CA1_INT            0x02
--#define SR_INT             0x04    /* Shift register full/empty */
--#define CB2_INT            0x08
--#define CB1_INT            0x10
--#define T2_INT             0x20    /* Timer 2 interrupt */
--#define T1_INT             0x40    /* Timer 1 interrupt */
-+#define CA2_INT_BIT        0
-+#define CA1_INT_BIT        1
-+#define SR_INT_BIT         2       /* Shift register full/empty */
-+#define CB2_INT_BIT        3
-+#define CB1_INT_BIT        4
-+#define T2_INT_BIT         5       /* Timer 2 interrupt */
-+#define T1_INT_BIT         6       /* Timer 1 interrupt */
-+
-+#define CA2_INT            (1 << CA2_INT_BIT)
-+#define CA1_INT            (1 << CA1_INT_BIT)
-+#define SR_INT             (1 << SR_INT_BIT)
-+#define CB2_INT            (1 << CB2_INT_BIT)
-+#define CB1_INT            (1 << CB1_INT_BIT)
-+#define T2_INT             (1 << T2_INT_BIT)
-+#define T1_INT             (1 << T1_INT_BIT)
  
- /* Bits in ACR */
- #define T1MODE             0xc0    /* Timer 1 mode */
+ /* VIA 2 */
+-#define VIA2_IRQ_SCSI_DATA_BIT  0
+-#define VIA2_IRQ_NUBUS_BIT      1
+-#define VIA2_IRQ_UNUSED_BIT     2
+-#define VIA2_IRQ_SCSI_BIT       3
+-#define VIA2_IRQ_ASC_BIT        4
++#define VIA2_IRQ_SCSI_DATA_BIT  CA2_INT_BIT
++#define VIA2_IRQ_NUBUS_BIT      CA1_INT_BIT
++#define VIA2_IRQ_SCSI_BIT       CB2_INT_BIT
++#define VIA2_IRQ_ASC_BIT        CB1_INT_BIT
+ 
+ #define VIA2_IRQ_NB             8
+ 
 -- 
 2.20.1
 
