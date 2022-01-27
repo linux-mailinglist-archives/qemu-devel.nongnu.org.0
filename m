@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CDFA849EAF9
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Jan 2022 20:24:47 +0100 (CET)
-Received: from localhost ([::1]:54350 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0CEC149EB01
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Jan 2022 20:28:07 +0100 (CET)
+Received: from localhost ([::1]:57056 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nDANy-0000Vt-CA
-	for lists+qemu-devel@lfdr.de; Thu, 27 Jan 2022 14:24:46 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:40012)
+	id 1nDARB-00028G-Cb
+	for lists+qemu-devel@lfdr.de; Thu, 27 Jan 2022 14:28:05 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:40126)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nDA2W-0007C8-Sn
- for qemu-devel@nongnu.org; Thu, 27 Jan 2022 14:02:37 -0500
-Received: from [2a00:1450:4864:20::42a] (port=41824
- helo=mail-wr1-x42a.google.com)
+ id 1nDA32-0007Iv-Fy
+ for qemu-devel@nongnu.org; Thu, 27 Jan 2022 14:03:08 -0500
+Received: from [2a00:1450:4864:20::330] (port=36688
+ helo=mail-wm1-x330.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nDA2S-0005GV-TC
- for qemu-devel@nongnu.org; Thu, 27 Jan 2022 14:02:35 -0500
-Received: by mail-wr1-x42a.google.com with SMTP id h21so6478439wrb.8
- for <qemu-devel@nongnu.org>; Thu, 27 Jan 2022 11:02:29 -0800 (PST)
+ id 1nDA2z-0005IQ-TX
+ for qemu-devel@nongnu.org; Thu, 27 Jan 2022 14:03:07 -0500
+Received: by mail-wm1-x330.google.com with SMTP id
+ i187-20020a1c3bc4000000b0034d2ed1be2aso6597242wma.1
+ for <qemu-devel@nongnu.org>; Thu, 27 Jan 2022 11:02:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=9roIYjWvKNu6PLReU93w+dbnd7dQrlzsqensesQLNkc=;
- b=cHHQgwlzD6rmy8BcBKAMxZPPNcpm/87Kpr5evGqVC87+aqaYc98ESVZ44ItLTeYBA8
- IBcinVSK/3hXYE9zr1b7lw4dKW0PnrgD2dpYdupEu7t+GDZ7vNd1Y51SyQcuLjS9B567
- KEUUkECHcZkNJmA8Hdis5v/elUwzqV7SIkUisCks/KOtlINGDMcs9KAbOWEqsU4kPEhs
- 3/JNJhmNghgMn5uv18P3W+LT0QNYSdoArSEcIrvCjVuYW36ay7Qdw7e8B29oa53mCaB1
- gNCXKDjTZLAgehY2/lPis020evxnns/uSrUV8840yWYxRsPNp66MeQDVdFEdTXOuzxKe
- IyUQ==
+ :cc; bh=eck580UGDw5O6ckX7pyMAQ15pP/wG2yfZwihMK7G/xc=;
+ b=NYi5LjufbubL8jiQ0GB2QjJdCK8YluXbYzyCLiqzxZJXieQ7k68lfYEqhOyZHXU84T
+ IBX8Sz6zGs3VoSTr7Ckn4a3RPgs1mOze1n7AaXLk6xo5Nb9RG+5SW+QqRng4Ixy1W+0g
+ oOBUVBI8Qqnonhxtv3bJeGdMwMafV5DRU00Y9BXctHF4n+CFUG99o4FdwRNQi2FVkaOT
+ WGvSboTR7++co/ei3qF8+9a+EiWEqQLwd5riWG4HgklKO1YhdtMvSmaSzePfPvu4+Il2
+ 6k0t8+1mBBb8lWM8ZCqPfVTrSpeoRxvaQVFkjCAz+zDQNCU3IzNWxncBZg32V9vD6euF
+ I+Og==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=9roIYjWvKNu6PLReU93w+dbnd7dQrlzsqensesQLNkc=;
- b=NG9a589afCtkN3xpnIp6NJrF+5eDFFRTOc8A9o3Ebv8C1Lh0DJKfu7XJKRdQs5e6k7
- NPkVFthv5+O/yJZNxlZYwLzr5M5iT1uGDIYHwIM6H3AgNwKXUkMFd/2jer5xU0VGmdJl
- 9OiJ6QBVMSydffARb2xAK/rm7tstt2F5yk4SXE6vaLEKlNzvDU2+NjSqxYjDaUrB/3ty
- yMk1b+urx9O8dmESyxCXI8MbUHzoQJLBEqj5FMR7MUQ/Q9wW5TRXKggH66dPSmSHwRWf
- Xq8DvX0o4SHdjTpGEgHmC35ym87GuCvsjafL0wJ/KDUcfbmMU9tmkH6Zrn39wcXdo+la
- g/GQ==
-X-Gm-Message-State: AOAM531raHvPvL8RjDpwbYdQ8WcdBddecOS7lsjR6ovfUr3MtSQAyyMm
- yV5KPfyl9ctmr0gZ/dz5lhTTA16lLwZtjQ7xp03zmA==
-X-Google-Smtp-Source: ABdhPJzad8fxttLoc9ENhtHQzG5RgEUqrbZsCNI1bS2gFbNIzQpRyPHoW0zACNzeqSNMwLqDdSphc2W+1rBlnZ15jBE=
-X-Received: by 2002:a05:6000:258:: with SMTP id
- m24mr4347582wrz.2.1643310148761; 
- Thu, 27 Jan 2022 11:02:28 -0800 (PST)
+ bh=eck580UGDw5O6ckX7pyMAQ15pP/wG2yfZwihMK7G/xc=;
+ b=mX3GjZXu0xPxPgBy7z52NImmYxIoWlVi7fSmMwMf2trU6TOVvpoS5EjXXPIR1TQi28
+ ioRTJgJ+mDDtQ/XsdBrSk/D4MwH0D0uoi5wYSmRgxiLb6CfT+uPhx538ynjHTcJ9MILZ
+ Kf45Br9nfr8D2ud86jwoUx0qH9cWYblNUJiYHHBYa3JXh1htCPhPP4h/gvxBmSLe0odq
+ wcawx5s/6i5QtkuNtaZAHQ+wsxpXccPHuU0ip6OF0p6F/OP5FXw9u1KN0eq3MJ2nEETV
+ toIc+PhXecg+6OwicuL+Hu3wbTqFAxacJUH1GyqB83gPP0kIhZIQB4H56GbY7oEa+ENi
+ bWtg==
+X-Gm-Message-State: AOAM533/+GTBYk3Jp7PmHy2ZJjzPA/hQ9J1TXP3DGh4rDFP0fnAGIluE
+ OACMjfVQhtjR6RgQpw+EDU+afiXlZXXvcLDAoygvCw==
+X-Google-Smtp-Source: ABdhPJyxfmaRtaZGWGk/rhpwspAhUTXG6igtZF8bGaZxeqdRwX9JyGygZKietHeqg1dvNOnS5CWR6VrTlFvShKpy7Xk=
+X-Received: by 2002:a1c:a90d:: with SMTP id s13mr4373254wme.32.1643310167872; 
+ Thu, 27 Jan 2022 11:02:47 -0800 (PST)
 MIME-Version: 1.0
 References: <20220112002515.3991540-1-titusr@google.com>
- <20220112002515.3991540-2-titusr@google.com>
-In-Reply-To: <20220112002515.3991540-2-titusr@google.com>
+ <20220112002515.3991540-3-titusr@google.com>
+In-Reply-To: <20220112002515.3991540-3-titusr@google.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 27 Jan 2022 19:02:17 +0000
-Message-ID: <CAFEAcA_kup2t2BKkE+EnSG1sMA6ttP0HhaQJOTzCr2tEYLLFHw@mail.gmail.com>
-Subject: Re: [PATCH 2/3] tests/qtest: add tests for MAX31790 fan controller
+Date: Thu, 27 Jan 2022 19:02:37 +0000
+Message-ID: <CAFEAcA_N7cEEEie=Vmm9ko8n6hshmJs1Ouur4dOOumvrAageNA@mail.gmail.com>
+Subject: Re: [PATCH 3/3] hw/arm: kudo add max31790 behind bus 1 switch at 75
 To: Titus Rwantare <titusr@google.com>
 Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42a
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::330
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::330;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x330.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -81,27 +81,19 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: minyard@acm.org, venture@google.com, qemu-devel@nongnu.org, f4bug@amsat.org,
- Hao Wu <wuhaotsh@google.com>, qemu-arm@nongnu.org
+Cc: venture@google.com, qemu-arm@nongnu.org, qemu-devel@nongnu.org,
+ minyard@acm.org, f4bug@amsat.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On Wed, 12 Jan 2022 at 00:25, Titus Rwantare <titusr@google.com> wrote:
 >
-> Signed-off-by: Titus Rwantare <titusr@google.com>
-> Reviewed-by: Hao Wu <wuhaotsh@google.com>
-> ---
->  tests/qtest/max31790_fan_ctrl-test.c | 171 +++++++++++++++++++++++++++
->  tests/qtest/meson.build              |   1 +
->  2 files changed, 172 insertions(+)
->  create mode 100644 tests/qtest/max31790_fan_ctrl-test.c
+> From: Patrick Venture <venture@google.com>
+>
+> Signed-off-by: Patrick Venture <venture@google.com>
+> Reviewed-by: Titus Rwantare <titusr@google.com>
 
-Tests look OK to me, so
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-
-Is it worth adding a test of the address auto-increment logic,
-given that the 'increases modulo 8' behaviour is not completely
-trivial ?
 
 thanks
 -- PMM
