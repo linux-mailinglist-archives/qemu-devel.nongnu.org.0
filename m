@@ -2,73 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0FA4749E89A
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Jan 2022 18:13:48 +0100 (CET)
-Received: from localhost ([::1]:46520 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1EDF049E8B5
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Jan 2022 18:19:18 +0100 (CET)
+Received: from localhost ([::1]:56142 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nD8LC-0005yz-OM
-	for lists+qemu-devel@lfdr.de; Thu, 27 Jan 2022 12:13:46 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:48786)
+	id 1nD8QW-0004b0-U7
+	for lists+qemu-devel@lfdr.de; Thu, 27 Jan 2022 12:19:16 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:48932)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nD6z2-0005mo-NX
- for qemu-devel@nongnu.org; Thu, 27 Jan 2022 10:46:48 -0500
-Received: from [2a00:1450:4864:20::331] (port=38789
- helo=mail-wm1-x331.google.com)
+ id 1nD6z8-00066v-Ek
+ for qemu-devel@nongnu.org; Thu, 27 Jan 2022 10:46:54 -0500
+Received: from [2a00:1450:4864:20::432] (port=44676
+ helo=mail-wr1-x432.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nD6z0-0008Ev-3m
- for qemu-devel@nongnu.org; Thu, 27 Jan 2022 10:46:48 -0500
-Received: by mail-wm1-x331.google.com with SMTP id
- o30-20020a05600c511e00b0034f4c3186f4so6210733wms.3
- for <qemu-devel@nongnu.org>; Thu, 27 Jan 2022 07:46:45 -0800 (PST)
+ id 1nD6z6-0008Im-ON
+ for qemu-devel@nongnu.org; Thu, 27 Jan 2022 10:46:54 -0500
+Received: by mail-wr1-x432.google.com with SMTP id k18so5505429wrg.11
+ for <qemu-devel@nongnu.org>; Thu, 27 Jan 2022 07:46:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=ZZJxnO0wXp3VlaW8QIoFJ6AD9P5ehX63O95QyB7R9Xw=;
- b=GPWmK26oRrRzo6qTxk1QnyLLJT4NOZ51/eaym8TtSnugj4hGzL90ExvfuzVc9g6u+f
- HrXACdgG3x9s3GHGKk8CbyemjfkS7+buruDKHg4tiHwujMWmwWagbBd0yth7bdLVndNd
- /H1Fmrcs0R3PCHv362NQL8bxgUGLeOuFTUAygmFUXaL1A3YPjFkeCHwmF/zNl5SpBnSn
- ojlNLnF582zccAm9AG0aluK5Iz03heLu5uKwJpSs6rrFPS+w5srepzXtsWO/2rs5HiFl
- H5PK4lyY6HjoTKkjrLBUtndHlj0/CEOaU0bZLHNXUTSbTkugLZ3M6igxI3ngvGn161Bs
- WYDw==
+ bh=sHJ9nThESHzWZK/5l0R4RVfaxxtdAwJGigaCcT5eBLk=;
+ b=bfEhqLLicqGanBmEIeQu/xw3rEURaJgj5UxM2th6wKmp/gYIQJSvm26qG4OyA/UbOI
+ pj/g8kakC1Ed9z4N6W0hAY6q7kbeoFSifw9OqD7sx7+LUGD5rUz0/h2qyTy4mWHgBFkG
+ QZAOiDrT2fYuu2n2nMZLBFoza6RjL/sd4cXi5EHm2f3LuFQRLKLOic0mwNM4eRbel02X
+ 4mQvYhHNZ/qtQP0f1EU6y0qbNXkuibtr2HqYYZlJUn5tLsG5A10bSh+fR2B0N1cKScxy
+ LX8B1WFPxHo2eyakUxe1wJWoNdTbXNnwJrcgVYhzV/1ivDAfX20a25f/D/AVUbDXms2Q
+ 1GKA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=ZZJxnO0wXp3VlaW8QIoFJ6AD9P5ehX63O95QyB7R9Xw=;
- b=L/ZOQ7uzIrv2FKuJizpataMvzsyOpbup946mWv3VncIRwvzJDRLzXgEYWloxqMa7ju
- PPUhHsWCx+mf08K79eVclwdk97/ANjvgWBrqxxXKykQMY9M8SxKd4FiBYiOMpM/UIpwq
- wuE2757sexdPRIpKWbOIQ/2Krh+7SRpv9eIa4pkJ2UbmKaAnBfPIg07jw7hNxwfgyU2K
- 3KuMYGBiqcIzeSZ63TrEOIGoAe+Y4sDoYhWVGaxXpcoVdEkeMyRvGoPHEDF7+HsscDC+
- uzz2CfXJuPGMPP/2W3U+Mu7bk7qfNVy0AWAm6ZIiSQ5bYdTho2nltaBn7M7XvwxNGL+0
- 8wAw==
-X-Gm-Message-State: AOAM531DzqvPr31OWA0HAcifmOMEf24CaPdu2Oy1JZTwi5AgVG4TTWkH
- gXj7Xn/YxioK3IWCel6vxDY7OA==
-X-Google-Smtp-Source: ABdhPJz+jcWzgkOcpwEuwX2uDv1cWRhnotOCJ9gwLl4eUVfb2yWuBXVo6uX+YQFRBCClzjzFSiG5Gw==
-X-Received: by 2002:a05:600c:a4b:: with SMTP id
- c11mr12437091wmq.135.1643298404398; 
- Thu, 27 Jan 2022 07:46:44 -0800 (PST)
+ bh=sHJ9nThESHzWZK/5l0R4RVfaxxtdAwJGigaCcT5eBLk=;
+ b=61jQgaHPcsGn5IlYhxWM4KImnoegOZyCPCkYI9GUhQ0t2oB5RB72ecIfImx8QEIc/R
+ HZcbjleV6t228FSPmbecOKDse5jCj56VryaQzJQwYqOjK3Vbj/NnesVumR/rqTKrQjWW
+ b/omfZyQIEIBiX7ENtJ8ZJaXHafaLHhBm3EG4czebyqWom8625O6wkTynudqEv1pr4pt
+ SI46NfE8DKH2KJhT8xi1p1sG/O4HMwvlrWWfg6bFunywjXXIV7o65qOdSpcpd9i1QxJH
+ CexKYuPA7t1TwPeJjJ2epNNjD2yMT4CxiR3hWZenycyptnreNoG/5xbKFDj1Dsz6IpMX
+ 0ezw==
+X-Gm-Message-State: AOAM530CZc4C/4wcKCBg2lsXl9uakbo0Ny8349k+NREBUcLxcbiBL+kl
+ JkngFcJPlc4wHMyn2/xiwyOufw==
+X-Google-Smtp-Source: ABdhPJzbWg/xGsyVhdiJdwxTMSICOJDcNbPCPGufNpVVHdO8z0tpenATHzVFdhgAblyd/i8GYrWo7A==
+X-Received: by 2002:adf:e602:: with SMTP id p2mr3578645wrm.126.1643298411408; 
+ Thu, 27 Jan 2022 07:46:51 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
- by smtp.gmail.com with ESMTPSA id w9sm6687667wmc.36.2022.01.27.07.46.43
+ by smtp.gmail.com with ESMTPSA id w9sm6687667wmc.36.2022.01.27.07.46.50
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 27 Jan 2022 07:46:44 -0800 (PST)
+ Thu, 27 Jan 2022 07:46:51 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
-Subject: [PATCH 01/16] target/arm: make psci-conduit settable after realize
-Date: Thu, 27 Jan 2022 15:46:24 +0000
-Message-Id: <20220127154639.2090164-2-peter.maydell@linaro.org>
+Subject: [PATCH 06/16] hw/arm/xlnx-zcu102: Don't enable PSCI conduit when
+ booting guest in EL3
+Date: Thu, 27 Jan 2022 15:46:29 +0000
+Message-Id: <20220127154639.2090164-7-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220127154639.2090164-1-peter.maydell@linaro.org>
 References: <20220127154639.2090164-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::331
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::432
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::331;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x331.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::432;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x432.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -104,55 +103,76 @@ Cc: Eduardo Habkost <eduardo@habkost.net>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We want to allow the psci-conduit property to be set after realize,
-because the parts of the code which are best placed to decide if it's
-OK to enable QEMU's builtin PSCI emulation (the board code and the
-arm_load_kernel() function are distant from the code which creates
-and realizes CPUs (typically inside an SoC object's init and realize
-method) and run afterwards.
+Change the Xilinx ZynqMP-based board xlnx-zcu102 to use the new
+boot.c functionality to allow us to enable psci-conduit only if
+the guest is being booted in EL1 or EL2, so that if the user runs
+guest EL3 firmware code our PSCI emulation doesn't get in its
+way.
 
-Since the DEFINE_PROP_* macros don't have support for creating
-properties which can be changed after realize, change the property to
-be created with object_property_add_uint32_ptr(), which is what we
-already use in this function for creating settable-after-realize
-properties like init-svtor and init-nsvtor.
+To do this we stop setting the psci-conduit property on the CPU
+objects in the SoC code, and instead set the psci_conduit field in
+the arm_boot_info struct to tell the common boot loader code that
+we'd like PSCI if the guest is starting at an EL that it makes
+sense with.
 
-Note that it doesn't conceptually make sense to change the setting of
-the property after the machine has been completely initialized,
-beacuse this would mean that the behaviour of the machine when first
-started would differ from its behaviour when the system is
-subsequently reset.  (It would also require the underlying state to
-be migrated, which we don't do.)
+Note that this means that EL3 guest code will have no way
+to power on secondary cores, because we don't model any
+kind of power controller that does that on this SoC.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/arm/cpu.c | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+Again, if anybody knows the real-hardware EL3 behaviour for
+CPUs that would be great.
+---
+ hw/arm/xlnx-zcu102.c |  1 +
+ hw/arm/xlnx-zynqmp.c | 13 ++++++++-----
+ 2 files changed, 9 insertions(+), 5 deletions(-)
 
-diff --git a/target/arm/cpu.c b/target/arm/cpu.c
-index cdbc4cdd012..5a9c02a2561 100644
---- a/target/arm/cpu.c
-+++ b/target/arm/cpu.c
-@@ -1317,6 +1317,11 @@ void arm_cpu_post_init(Object *obj)
-                                        OBJ_PROP_FLAG_READWRITE);
-     }
- 
-+    /* Not DEFINE_PROP_UINT32: we want this to be settable after realize */
-+    object_property_add_uint32_ptr(obj, "psci-conduit",
-+                                   &cpu->psci_conduit,
-+                                   OBJ_PROP_FLAG_READWRITE);
-+
-     qdev_property_add_static(DEVICE(obj), &arm_cpu_cfgend_property);
- 
-     if (arm_feature(&cpu->env, ARM_FEATURE_GENERIC_TIMER)) {
-@@ -1987,7 +1992,6 @@ static ObjectClass *arm_cpu_class_by_name(const char *cpu_model)
+diff --git a/hw/arm/xlnx-zcu102.c b/hw/arm/xlnx-zcu102.c
+index 45eb19ab3b7..4c84bb932aa 100644
+--- a/hw/arm/xlnx-zcu102.c
++++ b/hw/arm/xlnx-zcu102.c
+@@ -236,6 +236,7 @@ static void xlnx_zcu102_init(MachineState *machine)
+     s->binfo.ram_size = ram_size;
+     s->binfo.loader_start = 0;
+     s->binfo.modify_dtb = zcu102_modify_dtb;
++    s->binfo.psci_conduit = QEMU_PSCI_CONDUIT_SMC;
+     arm_load_kernel(s->soc.boot_cpu_ptr, machine, &s->binfo);
  }
  
- static Property arm_cpu_properties[] = {
--    DEFINE_PROP_UINT32("psci-conduit", ARMCPU, psci_conduit, 0),
-     DEFINE_PROP_UINT64("midr", ARMCPU, midr, 0),
-     DEFINE_PROP_UINT64("mp-affinity", ARMCPU,
-                         mp_affinity, ARM64_AFFINITY_INVALID),
+diff --git a/hw/arm/xlnx-zynqmp.c b/hw/arm/xlnx-zynqmp.c
+index 1c52a575aad..17305fe7b76 100644
+--- a/hw/arm/xlnx-zynqmp.c
++++ b/hw/arm/xlnx-zynqmp.c
+@@ -215,7 +215,10 @@ static void xlnx_zynqmp_create_rpu(MachineState *ms, XlnxZynqMPState *s,
+ 
+         name = object_get_canonical_path_component(OBJECT(&s->rpu_cpu[i]));
+         if (strcmp(name, boot_cpu)) {
+-            /* Secondary CPUs start in PSCI powered-down state */
++            /*
++             * Secondary CPUs start in powered-down state.
++             * TODO: check this is what EL3 firmware expects.
++             */
+             object_property_set_bool(OBJECT(&s->rpu_cpu[i]),
+                                      "start-powered-off", true, &error_abort);
+         } else {
+@@ -435,12 +438,12 @@ static void xlnx_zynqmp_realize(DeviceState *dev, Error **errp)
+     for (i = 0; i < num_apus; i++) {
+         const char *name;
+ 
+-        object_property_set_int(OBJECT(&s->apu_cpu[i]), "psci-conduit",
+-                                QEMU_PSCI_CONDUIT_SMC, &error_abort);
+-
+         name = object_get_canonical_path_component(OBJECT(&s->apu_cpu[i]));
+         if (strcmp(name, boot_cpu)) {
+-            /* Secondary CPUs start in PSCI powered-down state */
++            /*
++             * Secondary CPUs start in powered-down state.
++             * TODO: check this is what EL3 firmware expects.
++             */
+             object_property_set_bool(OBJECT(&s->apu_cpu[i]),
+                                      "start-powered-off", true, &error_abort);
+         } else {
 -- 
 2.25.1
 
