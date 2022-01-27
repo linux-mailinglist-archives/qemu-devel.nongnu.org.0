@@ -2,73 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BBC2149E8D4
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Jan 2022 18:22:52 +0100 (CET)
-Received: from localhost ([::1]:36586 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5EF9649E8F1
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Jan 2022 18:26:43 +0100 (CET)
+Received: from localhost ([::1]:45388 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nD8Tz-0002b0-9h
-	for lists+qemu-devel@lfdr.de; Thu, 27 Jan 2022 12:22:51 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:48952)
+	id 1nD8Xi-00005P-CA
+	for lists+qemu-devel@lfdr.de; Thu, 27 Jan 2022 12:26:42 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:49014)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nD6z9-0006Br-PA
- for qemu-devel@nongnu.org; Thu, 27 Jan 2022 10:46:55 -0500
-Received: from [2a00:1450:4864:20::32c] (port=42973
- helo=mail-wm1-x32c.google.com)
+ id 1nD6zN-0006f3-SH
+ for qemu-devel@nongnu.org; Thu, 27 Jan 2022 10:47:10 -0500
+Received: from [2a00:1450:4864:20::42b] (port=46887
+ helo=mail-wr1-x42b.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nD6z8-0008Kd-2s
- for qemu-devel@nongnu.org; Thu, 27 Jan 2022 10:46:55 -0500
-Received: by mail-wm1-x32c.google.com with SMTP id
- f202-20020a1c1fd3000000b0034dd403f4fbso2161967wmf.1
- for <qemu-devel@nongnu.org>; Thu, 27 Jan 2022 07:46:53 -0800 (PST)
+ id 1nD6zG-0008O4-46
+ for qemu-devel@nongnu.org; Thu, 27 Jan 2022 10:47:03 -0500
+Received: by mail-wr1-x42b.google.com with SMTP id l25so5501005wrb.13
+ for <qemu-devel@nongnu.org>; Thu, 27 Jan 2022 07:47:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=bffQ5wNElfir0ludySMWzcts+VnP8j4cL7Lwt5H0SMU=;
- b=Be+gf7GtfE6uRbuCvxwj2P/xRgW1+CtJ6DrAO+XM6hhd2zDoCkfX6VDEdZaxRH6Zzy
- hGDa6aqKy6+JwJgSsS1HyZ8UVIXyuh5ob5ebiq7PBEx47WSCRxnM/nYa6MEQ/BtjYxex
- UqvM49nun8ulO8y3AMPCuEJrERRkJyzQh7Pl0kgE0H2XnRHsI9dxyRGZCRKyKgP6LoO/
- +lAJB1cnWiFzBo2dsoLo60gSM0RCGf4xAo+IoKoOa3CzexZzjEBuTJNxtdLJALLuGety
- bLIBcXSOzCUO2i8RvItWUVTUrS4J+w5ksobkYskdcp0xUSLUqS4HAZ6ovQRHaEUAQ9Sp
- WvBg==
+ bh=GFkNt2ByvuaZ+sNn2Dl4tejBkKkrraxOjreg3A2I/28=;
+ b=VJyYlQLkRJR3hiFtNhNE9Sqa5UhLsbl7Sg+cQfZyDL2jpHbGRMsuSQXEtf9TzYfr/C
+ kBLsbUWb5+rD/eOW2FpatYn6dGPSmUC4MGM7mnVVTrbuExGMmCA9sK9c1CnWObYKQ2YY
+ 3Bsy1DADB6gVpv2R2jrbCsqb1bld8Z7iwXrxtAVl3NT5Ut2etYoDf8IL5iFsqBxpTO4Q
+ PxHqPZ6aw77ho1tq5BKR8Ez9tox8uD9DXmTpMcUPisUjknkWhhhAccL+3/39c2gEJPzV
+ uacMEaly61oRC4FZdJ+uyqKc5gJO+dtXV5V7ukYVkcxDkDbBGupKXqE0j65V3cDSH4xn
+ D/Ew==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=bffQ5wNElfir0ludySMWzcts+VnP8j4cL7Lwt5H0SMU=;
- b=l/YlTgaeO799b+EbtrVmkPIzuQ+NCQHeKXZ6s5dkMM7oOuqMAswL/K+ui/fmd7A/SE
- P+owqxbeKMR6/Un95AFty/kIKudjS1ohzzCWIGL1Q+q3sN3fhcYYjCB60x7tlFc+vzne
- b+lSW1EsF/hsNlbk0GoPinDkVskN08KvB/lIpQFxyqK58CM/jBx1r7yT6dBiHbNwNA1C
- bFmg+oiRhhMD3GIwqG/L+g0MsK02wopY9G7iCzY4bB2nnepTjo5KKaQLN+b9nEbNoF6/
- A9jkMQjwAw5IVtgYz/YjgAg94M9qwcvrEji2X+ADoBjEY7HQmZvVvbLC+JTd+TG8KkVF
- PZ7g==
-X-Gm-Message-State: AOAM533x9TXSeDQ9C162IUrd96MzoAqprz0f2MzNr0lvZjHf4r0n0Zxh
- OTCLA78tyVjbWSMDlnEri5VluQ==
-X-Google-Smtp-Source: ABdhPJwi5gRd/CkjVeH7qwrKozQEbE5dFF6HFuSuDlWxt0Gxz94ylS6VKv/MAtKcQY+mvt96Uyakpg==
-X-Received: by 2002:a05:600c:3b11:: with SMTP id
- m17mr3746087wms.192.1643298412766; 
- Thu, 27 Jan 2022 07:46:52 -0800 (PST)
+ bh=GFkNt2ByvuaZ+sNn2Dl4tejBkKkrraxOjreg3A2I/28=;
+ b=uvvjtpj1yb0pl6fXlJvTNPxAz+rtfUIWzSEUzdu+6Oz9irwog7lA9r2eGI0VeXJMqP
+ 3ox++9DwuX6YFgQkaUq3Kfr+t5JJi4SSu8wb6FuDXIEq8WgqdPVLVgbEaxuBWhnFB5WS
+ VeDoiLRkP8L/bluujS3eZ5l12G7/8lQR03/lgOdD0OlBoe5/AJerffIDPgHW62J8rhb/
+ tb1cPV7fn3GJvzBXIoP67WuLyErCRm7k/ZvSwn1i8bI25R8jZNngU39DAczObgI9U44S
+ 9TF8dijB/dzQQtCSzXpiW5qYFSxA9jDBueJu4q1iuhiTPxl0WCoFnMXkMvoDMa47JN8e
+ TysA==
+X-Gm-Message-State: AOAM531bmm+svytPMjKTgZH2W+Ot0Ki7IHME3K/Md4WhGuo1vCRHgH05
+ hmBvv6MoufbPcYzd40gAfAQHNQ==
+X-Google-Smtp-Source: ABdhPJwyUhh5QCAPuw8KJ1CI4r0P3cAWRuSVPKOMsBNJKLlRzwyrHc9539QW+/N0bGRVKZZtXiHBHA==
+X-Received: by 2002:adf:f981:: with SMTP id f1mr3486934wrr.651.1643298420401; 
+ Thu, 27 Jan 2022 07:47:00 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
- by smtp.gmail.com with ESMTPSA id w9sm6687667wmc.36.2022.01.27.07.46.51
+ by smtp.gmail.com with ESMTPSA id w9sm6687667wmc.36.2022.01.27.07.46.52
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 27 Jan 2022 07:46:52 -0800 (PST)
+ Thu, 27 Jan 2022 07:46:53 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
-Subject: [PATCH 07/16] hw/arm/versal: Let boot.c handle PSCI enablement
-Date: Thu, 27 Jan 2022 15:46:30 +0000
-Message-Id: <20220127154639.2090164-8-peter.maydell@linaro.org>
+Subject: [PATCH 08/16] hw/arm/virt: Let boot.c handle PSCI enablement
+Date: Thu, 27 Jan 2022 15:46:31 +0000
+Message-Id: <20220127154639.2090164-9-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220127154639.2090164-1-peter.maydell@linaro.org>
 References: <20220127154639.2090164-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32c
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42b
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42b.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -105,94 +103,50 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Instead of setting the CPU psci-conduit and start-powered-off
-properties in the xlnx-versal-virt board code, set the arm_boot_info
-psci_conduit field so that the boot.c code can do it.
+properties in the virt board code, set the arm_boot_info psci_conduit
+field so that the boot.c code can do it.
 
 This will fix a corner case where we were incorrectly enabling PSCI
 emulation when booting guest code into EL3 because it was an ELF file
-passed to -kernel.  (EL3 guest code started via -bios, -pflash, or
-the generic loader was already being run with PSCI emulation
+passed to -kernel or to the generic loader.  (EL3 guest code started
+via -bios or -pflash was already being run with PSCI emulation
 disabled.)
-
-Note that EL3 guest code has no way to turn on the secondary CPUs
-because there's no emulated power controller, but this was already
-true for EL3 guest code run via -bios, -pflash, or the generic
-loader.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- include/hw/arm/xlnx-versal.h | 1 -
- hw/arm/xlnx-versal-virt.c    | 6 ++++--
- hw/arm/xlnx-versal.c         | 5 +----
- 3 files changed, 5 insertions(+), 7 deletions(-)
+ hw/arm/virt.c | 12 +-----------
+ 1 file changed, 1 insertion(+), 11 deletions(-)
 
-diff --git a/include/hw/arm/xlnx-versal.h b/include/hw/arm/xlnx-versal.h
-index 895ba12c61e..2de487564e4 100644
---- a/include/hw/arm/xlnx-versal.h
-+++ b/include/hw/arm/xlnx-versal.h
-@@ -89,7 +89,6 @@ struct Versal {
- 
-     struct {
-         MemoryRegion *mr_ddr;
--        uint32_t psci_conduit;
-     } cfg;
- };
- 
-diff --git a/hw/arm/xlnx-versal-virt.c b/hw/arm/xlnx-versal-virt.c
-index 0c5edc898e1..1b25342501b 100644
---- a/hw/arm/xlnx-versal-virt.c
-+++ b/hw/arm/xlnx-versal-virt.c
-@@ -626,6 +626,9 @@ static void versal_virt_init(MachineState *machine)
-      * When loading an OS, we turn on QEMU's PSCI implementation with SMC
-      * as the PSCI conduit. When there's no -kernel, we assume the user
-      * provides EL3 firmware to handle PSCI.
-+     *
-+     * Even if the user provides a kernel filename, arm_load_kernel()
-+     * may suppress PSCI if it's going to boot that guest code at EL3.
-      */
-     if (machine->kernel_filename) {
-         psci_conduit = QEMU_PSCI_CONDUIT_SMC;
-@@ -635,8 +638,6 @@ static void versal_virt_init(MachineState *machine)
-                             TYPE_XLNX_VERSAL);
-     object_property_set_link(OBJECT(&s->soc), "ddr", OBJECT(machine->ram),
-                              &error_abort);
--    object_property_set_int(OBJECT(&s->soc), "psci-conduit", psci_conduit,
--                            &error_abort);
-     sysbus_realize(SYS_BUS_DEVICE(&s->soc), &error_fatal);
- 
-     fdt_create(s);
-@@ -677,6 +678,7 @@ static void versal_virt_init(MachineState *machine)
-     s->binfo.loader_start = 0x0;
-     s->binfo.get_dtb = versal_virt_get_dtb;
-     s->binfo.modify_dtb = versal_virt_modify_dtb;
-+    s->binfo.psci_conduit = psci_conduit;
-     if (machine->kernel_filename) {
-         arm_load_kernel(&s->soc.fpd.apu.cpu[0], machine, &s->binfo);
-     } else {
-diff --git a/hw/arm/xlnx-versal.c b/hw/arm/xlnx-versal.c
-index b2705b6925e..458ba33815f 100644
---- a/hw/arm/xlnx-versal.c
-+++ b/hw/arm/xlnx-versal.c
-@@ -35,10 +35,8 @@ static void versal_create_apu_cpus(Versal *s)
-         object_initialize_child(OBJECT(s), "apu-cpu[*]", &s->fpd.apu.cpu[i],
-                                 XLNX_VERSAL_ACPU_TYPE);
-         obj = OBJECT(&s->fpd.apu.cpu[i]);
--        object_property_set_int(obj, "psci-conduit", s->cfg.psci_conduit,
--                                &error_abort);
-         if (i) {
--            /* Secondary CPUs start in PSCI powered-down state */
-+            /* Secondary CPUs start in powered-down state */
-             object_property_set_bool(obj, "start-powered-off", true,
-                                      &error_abort);
+diff --git a/hw/arm/virt.c b/hw/arm/virt.c
+index 141350bf215..398145a7180 100644
+--- a/hw/arm/virt.c
++++ b/hw/arm/virt.c
+@@ -2088,17 +2088,6 @@ static void machvirt_init(MachineState *machine)
+             object_property_set_bool(cpuobj, "has_el2", false, NULL);
          }
-@@ -481,7 +479,6 @@ static void versal_init(Object *obj)
- static Property versal_properties[] = {
-     DEFINE_PROP_LINK("ddr", Versal, cfg.mr_ddr, TYPE_MEMORY_REGION,
-                      MemoryRegion *),
--    DEFINE_PROP_UINT32("psci-conduit", Versal, cfg.psci_conduit, 0),
-     DEFINE_PROP_END_OF_LIST()
- };
  
+-        if (vms->psci_conduit != QEMU_PSCI_CONDUIT_DISABLED) {
+-            object_property_set_int(cpuobj, "psci-conduit", vms->psci_conduit,
+-                                    NULL);
+-
+-            /* Secondary CPUs start in PSCI powered-down state */
+-            if (n > 0) {
+-                object_property_set_bool(cpuobj, "start-powered-off", true,
+-                                         NULL);
+-            }
+-        }
+-
+         if (vmc->kvm_no_adjvtime &&
+             object_property_find(cpuobj, "kvm-no-adjvtime")) {
+             object_property_set_bool(cpuobj, "kvm-no-adjvtime", true, NULL);
+@@ -2246,6 +2235,7 @@ static void machvirt_init(MachineState *machine)
+     vms->bootinfo.get_dtb = machvirt_dtb;
+     vms->bootinfo.skip_dtb_autoload = true;
+     vms->bootinfo.firmware_loaded = firmware_loaded;
++    vms->bootinfo.psci_conduit = vms->psci_conduit;
+     arm_load_kernel(ARM_CPU(first_cpu), machine, &vms->bootinfo);
+ 
+     vms->machine_done.notify = virt_machine_done;
 -- 
 2.25.1
 
