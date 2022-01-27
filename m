@@ -2,100 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 84B4649E39D
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Jan 2022 14:35:13 +0100 (CET)
-Received: from localhost ([::1]:58662 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0216349E41F
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Jan 2022 15:04:07 +0100 (CET)
+Received: from localhost ([::1]:50122 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nD4vg-0006hn-34
-	for lists+qemu-devel@lfdr.de; Thu, 27 Jan 2022 08:35:12 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:41674)
+	id 1nD5Ne-000573-3A
+	for lists+qemu-devel@lfdr.de; Thu, 27 Jan 2022 09:04:06 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:49130)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pasic@linux.ibm.com>)
- id 1nD4pZ-0004rh-Ki; Thu, 27 Jan 2022 08:28:53 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:31916)
+ (Exim 4.90_1) (envelope-from <yang.zhong@intel.com>)
+ id 1nD5Kk-0002ui-2y
+ for qemu-devel@nongnu.org; Thu, 27 Jan 2022 09:01:09 -0500
+Received: from mga01.intel.com ([192.55.52.88]:22023)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pasic@linux.ibm.com>)
- id 1nD4pX-0003p0-CA; Thu, 27 Jan 2022 08:28:53 -0500
-Received: from pps.filterd (m0098393.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 20RDLVIL006403; 
- Thu, 27 Jan 2022 13:28:46 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=date : from : to : cc :
- subject : message-id : in-reply-to : references : mime-version :
- content-type : content-transfer-encoding; s=pp1;
- bh=eDEPkATPQPDL31PXh7ddlSgsEeC+Op6PO0f0B8tkz3Y=;
- b=QH0SOaQBoxZYvaSu/AmQy8RKM9RIOKSChgrkui23EfKR5VoqjLY0in4v44CboLdNn6vV
- ZRUUW2jWt+Y6Re4QcZqtm/qzd4sPik655qj5N1nriizSO3gmW+eFEVTD/3pDzMxZGHki
- i9/cHZll9LAsKfhyCVk5UZhGnOVT09pOWSGwpT+l8TmDROUJqXnkshAzYCDq4kwhS7K2
- +b3WEfu+3tq+cIQLEX5SDIG8wcntqTTNZ1cTGnpSDuLO/n59k5pojVALAMbqoP+c5zIt
- /PjXW6BL4n4fBUeHirv5iYR3fITgEoITgRmjob6j487NyFEGKzfkaO1B1DPCuDuETi/Z lA== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3dutb5as4h-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 27 Jan 2022 13:28:45 +0000
-Received: from m0098393.ppops.net (m0098393.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 20RDLTVT006265;
- Thu, 27 Jan 2022 13:28:45 GMT
-Received: from ppma03fra.de.ibm.com (6b.4a.5195.ip4.static.sl-reverse.com
- [149.81.74.107])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3dutb5as3v-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 27 Jan 2022 13:28:45 +0000
-Received: from pps.filterd (ppma03fra.de.ibm.com [127.0.0.1])
- by ppma03fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 20RDSdCf009262;
- Thu, 27 Jan 2022 13:28:42 GMT
-Received: from b06avi18626390.portsmouth.uk.ibm.com
- (b06avi18626390.portsmouth.uk.ibm.com [9.149.26.192])
- by ppma03fra.de.ibm.com with ESMTP id 3dr9j9p6b0-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 27 Jan 2022 13:28:41 +0000
-Received: from d06av21.portsmouth.uk.ibm.com (d06av21.portsmouth.uk.ibm.com
- [9.149.105.232])
- by b06avi18626390.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
- id 20RDIQOK49611118
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 27 Jan 2022 13:18:26 GMT
-Received: from d06av21.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id E71C152057;
- Thu, 27 Jan 2022 13:28:03 +0000 (GMT)
-Received: from li-e979b1cc-23ba-11b2-a85c-dfd230f6cf82 (unknown [9.171.77.44])
- by d06av21.portsmouth.uk.ibm.com (Postfix) with SMTP id 7226452050; 
- Thu, 27 Jan 2022 13:28:03 +0000 (GMT)
-Date: Thu, 27 Jan 2022 14:28:00 +0100
-From: Halil Pasic <pasic@linux.ibm.com>
-To: "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org
-Subject: Re: [PATCH v2 1/1] virtio: fix the condition for iommu_platform not
- supported
-Message-ID: <20220127142800.11d8f1be.pasic@linux.ibm.com>
-In-Reply-To: <20220125112112.44957075.pasic@linux.ibm.com>
-References: <20220117120238.2519239-1-pasic@linux.ibm.com>
- <20220125112112.44957075.pasic@linux.ibm.com>
-Organization: IBM
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+ (Exim 4.90_1) (envelope-from <yang.zhong@intel.com>)
+ id 1nD5Kc-0000Jg-Lz
+ for qemu-devel@nongnu.org; Thu, 27 Jan 2022 09:01:05 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1643292058; x=1674828058;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=skuvovfZA1TXMi3s/UnTIPyk2vfXk8z+1AIkn0DisUA=;
+ b=jHouDD19fu50m+EB2mpDFYCBdH7BLrzBPI0cN1yEvZmWiaY/Qj25n8m7
+ zPkZWTfHWQiQFv0F92EOpDKJDW7PJ+mBeaEZJyqUaPzP9t5mzzQHtpqOk
+ xYk3tVU71a3+FSVK9CILss6GmT9A4HuIhY4FjGj9ELZn2FVoazOgSVhQJ
+ svbZB98oxN6kPBb4ii9nfel3MUJ/ComCTMF8+vP8IpAJCUIFxoZXZmgIH
+ aXY7LIhOwwGWJAm1le4pJPGE3sd14h0Qon6f+T6sb4rCY7FMLX457J5DR
+ CAB8R6aEntncscUvnQ+muWMB78EuRP9R0w4x/w+6Oc6bG3bgaGk8d6Mnt w==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10239"; a="271309121"
+X-IronPort-AV: E=Sophos;i="5.88,320,1635231600"; d="scan'208";a="271309121"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Jan 2022 06:00:46 -0800
+X-IronPort-AV: E=Sophos;i="5.88,320,1635231600"; d="scan'208";a="696652955"
+Received: from yangzhon-virtual.bj.intel.com (HELO yangzhon-Virtual)
+ ([10.238.145.56])
+ by orsmga005-auth.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-SHA256;
+ 27 Jan 2022 06:00:43 -0800
+Date: Thu, 27 Jan 2022 21:45:20 +0800
+From: Yang Zhong <yang.zhong@intel.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH 3/7] x86: Grant AMX permission for guest
+Message-ID: <20220127134520.GA8954@yangzhon-Virtual>
+References: <20220124075523.108875-1-yang.zhong@intel.com>
+ <20220124075523.108875-4-yang.zhong@intel.com>
+ <cdd1bc06-619c-cd8c-b9cf-e6da22fd8751@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: -pnxM4WbeS3HGPM8BNZYGww9aQPfBHfi
-X-Proofpoint-ORIG-GUID: mhOOv_UvRKFgdtAnjjgJ4a9vuxVAcC0a
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.816,Hydra:6.0.425,FMLib:17.11.62.513
- definitions=2022-01-27_03,2022-01-27_01,2021-12-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 impostorscore=0
- mlxlogscore=999 spamscore=0 clxscore=1011 priorityscore=1501
- suspectscore=0 mlxscore=0 bulkscore=0 adultscore=0 malwarescore=0
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2201110000 definitions=main-2201270079
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=pasic@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <cdd1bc06-619c-cd8c-b9cf-e6da22fd8751@redhat.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Received-SPF: pass client-ip=192.55.52.88; envelope-from=yang.zhong@intel.com;
+ helo=mga01.intel.com
+X-Spam_score_int: -72
+X-Spam_score: -7.3
+X-Spam_bar: -------
+X-Spam_report: (-7.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.159,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -108,115 +75,217 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Brijesh Singh <brijesh.singh@amd.com>,
- Daniel Henrique Barboza <danielhb@linux.ibm.com>,
- Cornelia Huck <cohuck@redhat.com>, qemu-stable@nongnu.org,
- Halil Pasic <pasic@linux.ibm.com>, Jakob Naucke <Jakob.Naucke@ibm.com>
+Cc: yang.zhong@intel.com, kevin.tian@intel.com, seanjc@google.com,
+ jing2.liu@linux.intel.com, qemu-devel@nongnu.org, wei.w.wang@intel.com,
+ guang.zeng@intel.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-ping^2
-
-Also adding Brijesh and Daniel, as I believe you guys should be
-interested in this, and I'm yet to receive review.
-
-@Brijesh, Daniel: Can you confirm that AMD (SEV) and Power are affected
-too, and that the fix works for your platforms as well?
-
-Regards,
-Halil
-
-On Tue, 25 Jan 2022 11:21:12 +0100
-Halil Pasic <pasic@linux.ibm.com> wrote:
-
-> ping
-> 
-> On Mon, 17 Jan 2022 13:02:38 +0100
-> Halil Pasic <pasic@linux.ibm.com> wrote:
-> 
-> > The commit 04ceb61a40 ("virtio: Fail if iommu_platform is requested, but
-> > unsupported") claims to fail the device hotplug when iommu_platform
-> > is requested, but not supported by the (vhost) device. On the first
-> > glance the condition for detecting that situation looks perfect, but
-> > because a certain peculiarity of virtio_platform it ain't.
-> > 
-> > In fact the aforementioned commit introduces a regression. It breaks
-> > virtio-fs support for Secure Execution, and most likely also for AMD SEV
-> > or any other confidential guest scenario that relies encrypted guest
-> > memory.  The same also applies to any other vhost device that does not
-> > support _F_ACCESS_PLATFORM.
-> > 
-> > The peculiarity is that iommu_platform and _F_ACCESS_PLATFORM collates
-> > "device can not access all of the guest RAM" and "iova != gpa, thus
-> > device needs to translate iova".
-> > 
-> > Confidential guest technologies currently rely on the device/hypervisor
-> > offering _F_ACCESS_PLATFORM, so that, after the feature has been
-> > negotiated, the guest  grants access to the portions of memory the
-> > device needs to see. So in for confidential guests, generally,
-> > _F_ACCESS_PLATFORM is about the restricted access to memory, but not
-> > about the addresses used being something else than guest physical
-> > addresses.
-> > 
-> > This is the very reason for which commit f7ef7e6e3b ("vhost: correctly
-> > turn on VIRTIO_F_IOMMU_PLATFORM") for, which fences _F_ACCESS_PLATFORM
-> > form the vhost device that does not need it, because on the vhost
-> > interface it only means "I/O address translation is needed".
-> > 
-> > This patch takes inspiration from f7ef7e6e3b ("vhost: correctly turn on
-> > VIRTIO_F_IOMMU_PLATFORM"), and uses the same condition for detecting the
-> > situation when _F_ACCESS_PLATFORM is requested, but no I/O translation
-> > by the device, and thus no device capability is needed. In this
-> > situation claiming that the device does not support iommu_plattform=on
-> > is counter-productive. So let us stop doing that!
-> > 
-> > Signed-off-by: Halil Pasic <pasic@linux.ibm.com>
-> > Reported-by: Jakob Naucke <Jakob.Naucke@ibm.com>
-> > Fixes: 04ceb61a40 ("virtio: Fail if iommu_platform is requested, but
-> > unsupported")
-> > Cc: Kevin Wolf <kwolf@redhat.com>
-> > Cc: qemu-stable@nongnu.org
-> > 
-> > ---
-> > 
-> > v1->v2: 
-> > * Commit message tweaks. Most notably fixed commit SHA (Michael)
-> > 
-> > ---
-> >  hw/virtio/virtio-bus.c | 11 ++++++-----
-> >  1 file changed, 6 insertions(+), 5 deletions(-)
-> > 
-> > diff --git a/hw/virtio/virtio-bus.c b/hw/virtio/virtio-bus.c
-> > index d23db98c56..c1578f3de2 100644
-> > --- a/hw/virtio/virtio-bus.c
-> > +++ b/hw/virtio/virtio-bus.c
-> > @@ -69,11 +69,6 @@ void virtio_bus_device_plugged(VirtIODevice *vdev, Error **errp)
-> >          return;
+On Mon, Jan 24, 2022 at 11:16:36AM +0100, Paolo Bonzini wrote:
+> On 1/24/22 08:55, Yang Zhong wrote:
+> >Kernel allocates 4K xstate buffer by default. For XSAVE features
+> >which require large state component (e.g. AMX), Linux kernel
+> >dynamically expands the xstate buffer only after the process has
+> >acquired the necessary permissions. Those are called dynamically-
+> >enabled XSAVE features (or dynamic xfeatures).
+> >
+> >There are separate permissions for native tasks and guests.
+> >
+> >Qemu should request the guest permissions for dynamic xfeatures
+> >which will be exposed to the guest. This only needs to be done
+> >once before the first vcpu is created.
+> >
+> >Suggested-by: Paolo Bonzini <pbonzini@redhat.com>
+> >Signed-off-by: Yang Zhong <yang.zhong@intel.com>
+> >Signed-off-by: Jing Liu <jing2.liu@intel.com>
+> >Signed-off-by: Wei Wang <wei.w.wang@intel.com>
+> >---
+> >  target/i386/cpu.h         |  7 +++++++
+> >  target/i386/cpu.c         | 31 +++++++++++++++++++++++++++++++
+> >  target/i386/kvm/kvm-cpu.c | 12 ++++++------
+> >  target/i386/kvm/kvm.c     |  6 ++++++
+> >  4 files changed, 50 insertions(+), 6 deletions(-)
+> >
+> >diff --git a/target/i386/cpu.h b/target/i386/cpu.h
+> >index 06d2d6bccf..d4ad0f56bd 100644
+> >--- a/target/i386/cpu.h
+> >+++ b/target/i386/cpu.h
+> >@@ -549,6 +549,13 @@ typedef enum X86Seg {
+> >  #define XSTATE_ZMM_Hi256_MASK           (1ULL << XSTATE_ZMM_Hi256_BIT)
+> >  #define XSTATE_Hi16_ZMM_MASK            (1ULL << XSTATE_Hi16_ZMM_BIT)
+> >  #define XSTATE_PKRU_MASK                (1ULL << XSTATE_PKRU_BIT)
+> >+#define XSTATE_XTILE_CFG_MASK           (1ULL << XSTATE_XTILE_CFG_BIT)
+> >+#define XSTATE_XTILE_DATA_MASK          (1ULL << XSTATE_XTILE_DATA_BIT)
+> >+#define XFEATURE_XTILE_MASK             (XSTATE_XTILE_CFG_MASK \
+> >+                                         | XSTATE_XTILE_DATA_MASK)
+> >+
+> >+#define ARCH_GET_XCOMP_GUEST_PERM       0x1024
+> >+#define ARCH_REQ_XCOMP_GUEST_PERM       0x1025
+> >  #define ESA_FEATURE_ALIGN64_BIT         1
+> >diff --git a/target/i386/cpu.c b/target/i386/cpu.c
+> >index 3390820745..29b0348c25 100644
+> >--- a/target/i386/cpu.c
+> >+++ b/target/i386/cpu.c
+> >@@ -43,6 +43,10 @@
+> >  #include "disas/capstone.h"
+> >  #include "cpu-internal.h"
+> >+#include <sys/syscall.h>
+> >+
+> >+bool request_perm;
+> >+
+> >  /* Helpers for building CPUID[2] descriptors: */
+> >  struct CPUID2CacheDescriptorInfo {
+> >@@ -6000,6 +6004,27 @@ static void x86_cpu_adjust_feat_level(X86CPU *cpu, FeatureWord w)
 > >      }
-> >  
-> > -    if (has_iommu && !virtio_host_has_feature(vdev, VIRTIO_F_IOMMU_PLATFORM)) {
-> > -        error_setg(errp, "iommu_platform=true is not supported by the device");
-> > -        return;
-> > -    }
-> > -
-> >      if (klass->device_plugged != NULL) {
-> >          klass->device_plugged(qbus->parent, &local_err);
-> >      }
-> > @@ -88,6 +83,12 @@ void virtio_bus_device_plugged(VirtIODevice *vdev, Error **errp)
-> >      } else {
-> >          vdev->dma_as = &address_space_memory;
-> >      }
-> > +
-> > +    if (has_iommu && vdev->dma_as != &address_space_memory
-> > +                  && !virtio_host_has_feature(vdev, VIRTIO_F_IOMMU_PLATFORM)) {
-> > +        error_setg(errp, "iommu_platform=true is not supported by the device");
-> > +        return;
-> > +    }
 > >  }
-> >  
-> >  /* Reset the virtio_bus */
-> > 
-> > base-commit: 6621441db50d5bae7e34dbd04bf3c57a27a71b32  
+> >+static void kvm_request_xsave_components(X86CPU *cpu, uint32_t bit)
+> >+{
+> >+    KVMState *s = CPU(cpu)->kvm_state;
+> >+
+> >+    long rc = syscall(SYS_arch_prctl, ARCH_REQ_XCOMP_GUEST_PERM,
+> >+                      bit);
+> >+    if (rc) {
+> >+        /*
+> >+         * The older kernel version(<5.15) can't support
+> >+         * ARCH_REQ_XCOMP_GUEST_PERM and directly return.
+> >+         */
+> >+        return;
+> >+    }
+> >+
+> >+    rc = kvm_arch_get_supported_cpuid(s, 0xd, 0, R_EAX);
+> >+    if (!(rc & XFEATURE_XTILE_MASK)) {
+> >+        error_report("get cpuid failure and rc=0x%lx", rc);
+> >+        exit(EXIT_FAILURE);
+> >+    }
+> >+}
+> >+
+> >  /* Calculate XSAVE components based on the configured CPU feature flags */
+> >  static void x86_cpu_enable_xsave_components(X86CPU *cpu)
+> >  {
+> >@@ -6021,6 +6046,12 @@ static void x86_cpu_enable_xsave_components(X86CPU *cpu)
+> >          }
+> >      }
+> >+    /* Only request permission from fisrt vcpu. */
+> >+    if (kvm_enabled() && !request_perm) {
+> >+        kvm_request_xsave_components(cpu, XSTATE_XTILE_DATA_BIT);
+> >+        request_perm = true;
+> >+    }
 > 
+> You should pass "mask" here, or "mask & XSTATE_DYNAMIC_MASK" so that
+> the components are only requested if necessary.
 
+  Thanks, I will pass "mask" here, which can make kvm_request_xsave_components()
+  reused in the future.
+
+  Yang 
+
+> 
+> >      env->features[FEAT_XSAVE_COMP_LO] = mask;
+> >      env->features[FEAT_XSAVE_COMP_HI] = mask >> 32;
+> >  }
+> >diff --git a/target/i386/kvm/kvm-cpu.c b/target/i386/kvm/kvm-cpu.c
+> >index 033ca011ea..5ab6a0b9d2 100644
+> >--- a/target/i386/kvm/kvm-cpu.c
+> >+++ b/target/i386/kvm/kvm-cpu.c
+> >@@ -84,7 +84,7 @@ static void kvm_cpu_max_instance_init(X86CPU *cpu)
+> >  static void kvm_cpu_xsave_init(void)
+> >  {
+> >      static bool first = true;
+> >-    KVMState *s = kvm_state;
+> >+    uint32_t eax, ebx, ecx, edx;
+> >      int i;
+> >      if (!first) {
+> >@@ -100,13 +100,13 @@ static void kvm_cpu_xsave_init(void)
+> >          ExtSaveArea *esa = &x86_ext_save_areas[i];
+> >          if (esa->size) {
+> >-            int sz = kvm_arch_get_supported_cpuid(s, 0xd, i, R_EAX);
+> >-            if (sz != 0) {
+> >-                assert(esa->size == sz);
+> >-                esa->offset = kvm_arch_get_supported_cpuid(s, 0xd, i, R_EBX);
+> >+            host_cpuid(0xd, i, &eax, &ebx, &ecx, &edx);
+> >+            if (eax != 0) {
+> >+                assert(esa->size == eax);
+> >+                esa->offset = ebx;
+> >              }
+> >-            esa->ecx = kvm_arch_get_supported_cpuid(s, 0xd, i, R_ECX);
+> >+            esa->ecx = ecx;
+> 
+> I think esa->ecx should be assigned inside the "if".  This is also
+> true in patch 1.
+
+  Yes, you are right, thanks!
+  
+  Yang
+
+> 
+> >          }
+> >      }
+> >  }
+> >diff --git a/target/i386/kvm/kvm.c b/target/i386/kvm/kvm.c
+> >index 2c8feb4a6f..caf1388d8b 100644
+> >--- a/target/i386/kvm/kvm.c
+> >+++ b/target/i386/kvm/kvm.c
+> >@@ -405,6 +405,12 @@ uint32_t kvm_arch_get_supported_cpuid(KVMState *s, uint32_t function,
+> >          if (!has_msr_arch_capabs) {
+> >              ret &= ~CPUID_7_0_EDX_ARCH_CAPABILITIES;
+> >          }
+> >+    } else if (function == 0xd && index == 0 && reg == R_EAX) {
+> >+        /*
+> >+         * We can set the AMX XTILE DATA flag, even if KVM does not
+> >+         * return it on GET_SUPPORTED_CPUID.
+> >+         */
+> >+        ret |= XSTATE_XTILE_DATA_MASK;
+> >      } else if (function == 0x80000001 && reg == R_ECX) {
+> >          /*
+> >           * It's safe to enable TOPOEXT even if it's not returned by
+> >
+> 
+> Instead of setting XSTATE_XTILE_DATA_MASK blindly, you need
+> something like arch_prctl(ARCH_GET_XCOMP_GUEST_SUPP).  However, this
+> arch_prctl only exists in the bare-metal version
+> ARCH_GET_XCOMP_SUPP, and it would need access to the variable
+> supported_xcr0 that KVM exports.  So I think it's better to
+> implement it as a new KVM_CHECK_EXTENSION value instead of a prctl.
+> 
+  
+  Thanks Paolo, from your below KVM changes:
+  https://lore.kernel.org/kvm/20220126152210.3044876-3-pbonzini@redhat.com/T/#m7bf9a03c47c29d21deb78604bc290a45aa5e98f5
+
+  So the changes in kvm_arch_get_supported_cpuid() like below? 
+  +    } else if (function == 0xd && index == 0 && reg == R_EAX) {
+  +	struct kvm_device_attr attr = {
+  +		.group = 0,
+  +		.attr = KVM_X86_XCOMP_GUEST_SUPP,
+  +		.addr = (unsigned long) &bitmask
+  +	};
+  +
+  +	kvm_fd = open_kvm_dev_path_or_exit();
+  +	rc = ioctl(kvm_fd, KVM_GET_DEVICE_ATTR, &attr);
+  +	close(kvm_fd);
+  +     ret = bitmask;
+  +   } 
+
+  This can get supported_xcr0 from KVM side.
+
+  So in the kvm_request_xsave_components(), we can do below steps?
+ 
+  +    /* Check supported_xr0 firstly */ 
+  +    rc = kvm_arch_get_supported_cpuid(s, 0xd, 0, R_EAX);
+  +    if (!(rc & XFEATURE_XTILE_MASK)) {
+  +        error_report("host xcr0 can't support AMX xdata and rc=0x%lx", rc);
+  +        exit(EXIT_FAILURE);
+  +    }
+
+  +   /* request amx permission */
+  +   syscall(ARCH_REQ_XCOMP_GUEST_PERM, xdata_bit);
+
+
+  +   /* check amx permission */
+  +   syscall(ARCH_GET_XCOMP_GUEST_PERM);
+ 
+  Please help check those steps, thanks!
+
+  Yang 
+
+> Paolo
 
