@@ -2,73 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 955BC49E7F2
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Jan 2022 17:46:44 +0100 (CET)
-Received: from localhost ([::1]:55866 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 93CEC49E828
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Jan 2022 17:56:03 +0100 (CET)
+Received: from localhost ([::1]:45946 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nD7v1-0006Qm-Ep
-	for lists+qemu-devel@lfdr.de; Thu, 27 Jan 2022 11:46:43 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:47506)
+	id 1nD842-0002ni-Ks
+	for lists+qemu-devel@lfdr.de; Thu, 27 Jan 2022 11:56:02 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:47994)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1nD6st-0006IK-W2
- for qemu-devel@nongnu.org; Thu, 27 Jan 2022 10:40:28 -0500
-Received: from [2607:f8b0:4864:20::929] (port=37442
- helo=mail-ua1-x929.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1nD6ss-0007JP-By
- for qemu-devel@nongnu.org; Thu, 27 Jan 2022 10:40:27 -0500
-Received: by mail-ua1-x929.google.com with SMTP id b16so5456996uaq.4
- for <qemu-devel@nongnu.org>; Thu, 27 Jan 2022 07:40:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bsdimp-com.20210112.gappssmtp.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=3udEl6Xiz2hlWouas8aLf4C3RQLf4zX4il2OAbsMkDo=;
- b=Tl0wVBW5EQtGVn/a7rGj53xS4nwfmhFhcsdXuqQwrCXj4BFpJws+A11D3u0kNAYBmf
- BAcZ2J18ZmisIVzQDkk0eKY3HOnlkfvy7/CjzoQua6lSZ+NxLhKAv2kIN3aLNiw0u+dk
- YXD4xzFG2tKrFbapiSSdIQcHn66YLJws2dh5CS0cceFNV7pPK+WPNx3bgrCehSKa7/ub
- PsAvWhBBVyDywPdf1rYg+CNpjx0JrPBm/ybhekinhYGyvKJ2l8loHDBRzGbq5wkkTAc8
- NrG2bPd02diXkv/NKHJJoZf+8SaaWbd9lvfYhbBZVoV7rjlcHSPnYqO3cGn/F+5uKjNi
- XWFg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=3udEl6Xiz2hlWouas8aLf4C3RQLf4zX4il2OAbsMkDo=;
- b=NxO6cZklu77UrhOKsFCxIcbE9TPRMYpdBPnqzvDhrHYFtZqJd61HWsDAjD8S4LkDkx
- TpQZXQVjBVYLNl8FdoVBRiITZqOv2TT5MIjtSesOVrh+3HQcr0ojXvKCD6O5clJ7DgSc
- eQlPT7JpeF+gmtheQ343E4teIZcVIHeEjMqBgiD72KJHRIKCJPq5XdSGmOc93hAf+qSo
- jN0KnoAjEfDWwbq1YP5Mw52Sr8hFW6jzR3jpoNnasxZxnwRxKWqwicAR7NcsH4F0j3HW
- jW1y8yrVwNyXvRDMc85JQsFoffH3seelEGwMYWwbmaecmncXhMm09veHfq2uK24Oqece
- sf3A==
-X-Gm-Message-State: AOAM531F8MMgt56XxvxrvS12a9C02UQFk/vmA2b4NDfGf5/HvJ77h69b
- HUacRscDm4kN/2VWwF2huQZx4hPEdaVBqeZOxdhQfA==
-X-Google-Smtp-Source: ABdhPJwIQ+9l+PTtm5ADwKIyGMqZ+3/DuesTwFJS2V+90Vj5lTcd7ljwZ/Y8d3vWdnRkjkpTe9QtsPZGQnHh2bUqb3I=
-X-Received: by 2002:a67:33c9:: with SMTP id z192mr1883447vsz.42.1643298025242; 
- Thu, 27 Jan 2022 07:40:25 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <anthony.perard@citrix.com>)
+ id 1nD6vS-0000DJ-QP
+ for qemu-devel@nongnu.org; Thu, 27 Jan 2022 10:43:11 -0500
+Received: from esa3.hc3370-68.iphmx.com ([216.71.145.155]:61838)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <anthony.perard@citrix.com>)
+ id 1nD6vQ-0007h6-Fo
+ for qemu-devel@nongnu.org; Thu, 27 Jan 2022 10:43:06 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=citrix.com; s=securemail; t=1643298184;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=efTAYRaH8kKk4YUrUOGUaCgObgfHpjy2H/WjdfR6EdQ=;
+ b=GhP5w2GmVACu5s9xtjQhMB3eyKaVz0ejlJA2QJGvzw6cTJv17pdmvtRO
+ B6uSzpF6nQoAfdSqlgG3EAYN0tT7yXxozcnsibkjvkRsT82mipgiorfnZ
+ DeJAqTiomksqeQ1mUDlf79/hXmGWoW+XVlPDb2kMiMWNjQEG+zJrIv1Om 0=;
+Authentication-Results: esa3.hc3370-68.iphmx.com;
+ dkim=none (message not signed) header.i=none
+IronPort-SDR: 9MxcrbD2qI40qH142XffYWYAM8o2kLDdlJuHhPiXAibg4XgNRWx4QcjMNMnGSvReyLl1c6e87d
+ v/EtrI/6PtcdbKycsnBw3m05iqigHcOT57Nq7eQsyoKN9Phj0EIyDP4iqoygKI7O3gWrZzAbld
+ 7nxlEkuNI/GPf39KMV8OCwlHDryNHjeTg0DRWYVwX7QiUxlIxOSYEReS11pcShyYTSduDqtjsa
+ tb5xIagMsM857Nz0PVsrD6gxHBgIP+te84w5jf+rV9RKkfRuV6VgnTEuLPNiEid2GxtaW30yxj
+ mVtOCFbKZaK+lQs1vp25EIZK
+X-SBRS: 5.2
+X-MesageID: 62903643
+X-Ironport-Server: esa3.hc3370-68.iphmx.com
+X-Remote-IP: 162.221.156.83
+X-Policy: $RELAYED
+IronPort-Data: A9a23:fTOIlaxdH1CHdy3uXrl6t+fxwSrEfRIJ4+MujC+fZmUNrF6WrkUFz
+ mMdXWyBOK6IZGTwKt4kOYSz9ktX7JbRyd81Gwc/riAxQypGp/SeCIXCJC8cHc8zwu4v7q5Dx
+ 59DAjUVBJlsFhcwnvopW1TYhSEUOZugH9IQM8aZfHAhLeNYYH1500g7wrRm2tQAbeWRWGthh
+ /uj+6UzB3f9s9JEGjp8B3Wr8U4HUFza4Vv0j3RmDRx5lAa2e0o9VfrzEZqZPXrgKrS4K8bhL
+ wr1IBNVyUuCl/slIovNfr8W6STmSJaKVeSFoiI+t6RPHnGuD8H9u0o2HKN0VKtZt9mGt/dQk
+ elrk72gclcWMJHeod4RShhEFy4raMWq+JefSZS+mcmazkmAeHrw2fR+SkoxOOX0+M4uXzsIr
+ 6ZBbmlQMFbT3Ipaw5riIgVors0lMMnsOpJZonx6xCvVJf0nXYrCU+PB4towMDIY2JofRa2AO
+ 5FxhTxHUk3LOxtlYmcsMJM6sOGVrWfDfBpjpwfAzUYwyzeKl1EguFT3C/LNd8CHX4NQl1eUq
+ 2bC12D4BBgAM5qY0zXt2muhg/KKkS7lVYY6Erq++fh3xlqJyQQu5AY+DAXh56Pj0wjnBowZe
+ xd8FjcSQbYa023ycv/bfg2D8EGKggwlYdZJEvE+51TYokbL2DqxCm8BRz9HTdUpss4qWDAnv
+ mO0c8PV6S9H6+PMFy/EnluAhXbrYHVOczdeDcMRZVZdu7HeTJcPYgUjpzqJOIq8lZXLFD752
+ FhmRwBu1uxI3abnO0hWlG0rYg5ARLCUFmbZBS2NBwpJCz+Vgqb/OuREDnCAtZ59wH6xFAXpg
+ ZT9s5H2ABoyJZ+MjjeRZ+4GAauk4f2IWBWF3wI0RcJ5rGrwoyPyFWy13N2YDB03WirjUWSxC
+ HI/RCsLvMMDVJdURfEfj32N5zQCkvG7SIWNugH8ZdtSeJlhHDJrDwk1DXN8K1vFyRB2+YlmY
+ M/zWZ/1UR4yVPo7pBLrGbZ1+eJ7l0gWmDKILbimnkvP7FZrTCPPIVvzGAHQPrlRAWLtiFi9z
+ uuzwOPTm0wAC7WvO3eOmWPRRHhTRUUG6VnNg5Q/Xoa+zsBOQQnN0tfdnuEsfZJLhaNQmrua9
+ 32xQBYAmlH+mWfGOUOBbXU6MOHjWpN2rHQaOy0wPAn3hyh/MNj3tKpPJYEqebQH9fB4yaImR
+ fcyZMjdUO9ETS7K+mpBYMCl/pBibhmimSmHIzGhPGokZ5dlSgGQoo3kcwLj+TMgFC2yscdi8
+ bSs2hmCGcgIRhh4DdaQY/WqlgvjsX8YkeN0fk3JPtgMJxm8rNk0c3T816ZlLdsNJBPPwiqh+
+ zyXWRpI9/PQp4IV8cXSgfzWpYmeDOYjTFFRGHPW7OjqOHCCrHaj24JJTM2BYSvZCDHv4Kyna
+ OhYk6P8PfkAkAoYuoZwCe82n6c35t+prL5G1AV0Wn7Mag3zWL9nJ3CH2+hJt7FMmeAF6VfnB
+ BrX94kII6iNNePkDEUVdVgsYem03P0JniXfsKYuK0Lg6S4rpLeKXC2+5fVXZPCx+FetDL4Y/
+ A==
+IronPort-HdrOrdr: A9a23:+breVKDcf8rgZEvlHemg55DYdb4zR+YMi2TC1yhKJyC9Ffbo8/
+ xG/c5rsyMc5wxwZJhNo7y90cq7MBbhHPxOkOos1N6ZNWGM0gaVxelZnOzfKlbbehEWmNQz6U
+ 4ZSdkdNOHN
+X-IronPort-AV: E=Sophos;i="5.88,321,1635220800"; d="scan'208";a="62903643"
+To: <qemu-devel@nongnu.org>
+CC: Peter Maydell <peter.maydell@linaro.org>, Anthony PERARD
+ <anthony.perard@citrix.com>
+Subject: [PULL 0/2] Xen queue
+Date: Thu, 27 Jan 2022 15:42:44 +0000
+Message-ID: <20220127154246.6281-1-anthony.perard@citrix.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-References: <20220125012947.14974-1-imp@bsdimp.com>
- <20220125012947.14974-15-imp@bsdimp.com>
- <8d876840-8743-0e8b-c477-ca8a6e067d8c@linaro.org>
-In-Reply-To: <8d876840-8743-0e8b-c477-ca8a6e067d8c@linaro.org>
-From: Warner Losh <imp@bsdimp.com>
-Date: Thu, 27 Jan 2022 08:40:14 -0700
-Message-ID: <CANCZdfrViur=kLPYpZQPpAKjHLvohZXe35q1v+T1AFSFZjSiMw@mail.gmail.com>
-Subject: Re: [PATCH v2 14/40] bsd-user/arm/target_arch_cpu.h: Use
- force_sig_fault for EXCP_UDEF
-To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: multipart/alternative; boundary="0000000000000e1b4605d69223fa"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::929
- (failed)
-Received-SPF: none client-ip=2607:f8b0:4864:20::929;
- envelope-from=wlosh@bsdimp.com; helo=mail-ua1-x929.google.com
-X-Spam_score_int: -10
-X-Spam_score: -1.1
-X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, HTML_MESSAGE=0.001, PDS_HP_HELO_NORDNS=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=no autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+Received-SPF: pass client-ip=216.71.145.155;
+ envelope-from=anthony.perard@citrix.com; helo=esa3.hc3370-68.iphmx.com
+X-Spam_score_int: -45
+X-Spam_score: -4.6
+X-Spam_bar: ----
+X-Spam_report: (-4.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.159,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -81,115 +97,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Konrad Witaszczyk <def@freebsd.org>, QEMU Developers <qemu-devel@nongnu.org>,
- Kyle Evans <kevans@freebsd.org>, Jessica Clarke <jrtc27@freebsd.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  Anthony PERARD <anthony.perard@citrix.com>
+From:  Anthony PERARD via <qemu-devel@nongnu.org>
 
---0000000000000e1b4605d69223fa
-Content-Type: text/plain; charset="UTF-8"
+The following changes since commit 48302d4eb628ff0bea4d7e92cbf6b726410eb4c3:
 
-On Wed, Jan 26, 2022 at 11:27 PM Richard Henderson <
-richard.henderson@linaro.org> wrote:
+  Merge remote-tracking branch 'remotes/dgilbert-gitlab/tags/pull-virtiofs-20220126' into staging (2022-01-26 10:59:50 +0000)
 
-> On 1/25/22 12:29, Warner Losh wrote:
-> > +        case EXCP_NOCP:
-> > +        case EXCP_INVSTATE:
-> > +            /*
-> > +             * See arm/arm/undefined.c undefinedinstruction();
-> > +             *
-> > +             * A number of details aren't emulated (they likely don't
-> matter):
-> > +             * o Misaligned PC generates ILL_ILLADR
->
-> As I mentioned, misaligned pc will not come here for qemu.
-> In the Arm ARM, see aarch32/functions/registers/BXWritePC:
->
-> // For branches to an unaligned PC counter in A32 state, the processor
-> takes the branch
-> // and does one of:
-> // * Forces the address to be aligned
-> // * Leaves the PC unaligned, meaning the target generates a PC Alignment
-> fault.
->
-> The hardware will either refuse to allow bit 1 to be set when bit 0 is
-> clear, OR it will
-> generate a PREFETCH_DATA_ABORT for Alignment.
->
-> QEMU will do the latter.
->
+are available in the Git repository at:
 
-Ah, right. I'd meant to update the comments and it slipped my mind. I'll
-note
-that this can't happen in qemu.
+  https://xenbits.xen.org/git-http/people/aperard/qemu-dm.git tags/pull-xen-20220127
 
+for you to fetch changes up to a021a2dd8b790437d27db95774969349632f856a:
 
->
-> Otherwise,
-> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
->
+  xen-mapcache: Avoid entry->lock overflow (2022-01-27 15:14:21 +0000)
 
-Thanks for this (and all the other) review and feedback.
+----------------------------------------------------------------
+Xen patches
 
-Warner
+- bug fixes for mapcache and ioreq handling
 
+----------------------------------------------------------------
+Jason Andryuk (1):
+      xen-hvm: Allow disabling buffer_io_timer
 
+Ross Lagerwall (1):
+      xen-mapcache: Avoid entry->lock overflow
 
-
-> r~
->
-
---0000000000000e1b4605d69223fa
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Wed, Jan 26, 2022 at 11:27 PM Rich=
-ard Henderson &lt;<a href=3D"mailto:richard.henderson@linaro.org">richard.h=
-enderson@linaro.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quot=
-e" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204)=
-;padding-left:1ex">On 1/25/22 12:29, Warner Losh wrote:<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 case EXCP_NOCP:<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 case EXCP_INVSTATE:<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 /*<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* See arm/arm/undefin=
-ed.c undefinedinstruction();<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0*<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* A number of details=
- aren&#39;t emulated (they likely don&#39;t matter):<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* o Misaligned PC gen=
-erates ILL_ILLADR<br>
-<br>
-As I mentioned, misaligned pc will not come here for qemu.<br>
-In the Arm ARM, see aarch32/functions/registers/BXWritePC:<br>
-<br>
-// For branches to an unaligned PC counter in A32 state, the processor take=
-s the branch<br>
-// and does one of:<br>
-// * Forces the address to be aligned<br>
-// * Leaves the PC unaligned, meaning the target generates a PC Alignment f=
-ault.<br>
-<br>
-The hardware will either refuse to allow bit 1 to be set when bit 0 is clea=
-r, OR it will <br>
-generate a PREFETCH_DATA_ABORT for Alignment.<br>
-<br>
-QEMU will do the latter.<br></blockquote><div><br></div><div>Ah, right. I&#=
-39;d meant to update the comments and it slipped my mind. I&#39;ll note</di=
-v><div>that this can&#39;t happen in qemu.</div><div>=C2=A0</div><blockquot=
-e class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px s=
-olid rgb(204,204,204);padding-left:1ex">
-<br>
-Otherwise,<br>
-Reviewed-by: Richard Henderson &lt;<a href=3D"mailto:richard.henderson@lina=
-ro.org" target=3D"_blank">richard.henderson@linaro.org</a>&gt;<br></blockqu=
-ote><div><br></div><div>Thanks for this (and all the other) review and feed=
-back.</div><div><br></div><div>Warner</div><div><br></div><div><br></div><d=
-iv>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0p=
-x 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
-r~<br>
-</blockquote></div></div>
-
---0000000000000e1b4605d69223fa--
+ hw/i386/xen/xen-hvm.c      | 6 ++++--
+ hw/i386/xen/xen-mapcache.c | 8 +++++++-
+ 2 files changed, 11 insertions(+), 3 deletions(-)
 
