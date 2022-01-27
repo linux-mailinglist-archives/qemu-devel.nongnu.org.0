@@ -2,77 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C87D49DC91
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Jan 2022 09:29:53 +0100 (CET)
-Received: from localhost ([::1]:40134 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E1FB49DC54
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Jan 2022 09:13:27 +0100 (CET)
+Received: from localhost ([::1]:49386 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nD0AC-0001vM-4Z
-	for lists+qemu-devel@lfdr.de; Thu, 27 Jan 2022 03:29:52 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:50584)
+	id 1nCzuI-0004ZY-A0
+	for lists+qemu-devel@lfdr.de; Thu, 27 Jan 2022 03:13:26 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:50938)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nCza8-0001Am-6h
- for qemu-devel@nongnu.org; Thu, 27 Jan 2022 02:52:36 -0500
-Received: from [2607:f8b0:4864:20::102a] (port=38548
- helo=mail-pj1-x102a.google.com)
+ id 1nCzbs-0002CS-WD
+ for qemu-devel@nongnu.org; Thu, 27 Jan 2022 02:54:25 -0500
+Received: from [2607:f8b0:4864:20::1030] (port=43809
+ helo=mail-pj1-x1030.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nCza6-0000LJ-1F
- for qemu-devel@nongnu.org; Thu, 27 Jan 2022 02:52:35 -0500
-Received: by mail-pj1-x102a.google.com with SMTP id
- d12-20020a17090a628c00b001b4f47e2f51so6758268pjj.3
- for <qemu-devel@nongnu.org>; Wed, 26 Jan 2022 23:52:33 -0800 (PST)
+ id 1nCzbj-0000SC-R4
+ for qemu-devel@nongnu.org; Thu, 27 Jan 2022 02:54:24 -0500
+Received: by mail-pj1-x1030.google.com with SMTP id
+ d15-20020a17090a110f00b001b4e7d27474so2127705pja.2
+ for <qemu-devel@nongnu.org>; Wed, 26 Jan 2022 23:54:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=CF+ULzFrP9GTeJjJ5sN/088xcvKdAnlEZ2/+t4MRgJw=;
- b=Ku9Ctnc3Aup8g7LMr2le8d2+3x0hkSM/NWV2xHCxfPJdxkGfZKadxeg+2WyAfg1d96
- s8+zamFffj4p24cMs8aqfr0iwDcvl0ejDTqC4GggBLoScekX/ZW/CU5zOXtc44mENTVT
- NHy1D+OYeH8oOHHVB8ZWX0mORGDBFuQrFVe0ZLXFumbJk2bI9Hoy35KSOoYTxm5JK1a0
- 2dD7LywJJyDlO3WAeTiAamQ+YYwOlpCz5Jfe74xwaxnZeeC0O/GL6m58BiQi4mSt/Zbf
- yTUM97COMUEkziJ65Y3bwU81nggfRwePiw0QK3UhPwmNJlt0w1yYMT5Jopr5WK5XTNOz
- 8L/w==
+ bh=oihACpgOP/5+YMyu5MBJJhXG7aRyscDF9JQXBQifPaQ=;
+ b=UT5wMe9auh5GVBTy6tlx9RYGgv1RLWf57JwgJUhCV5f1vGx7OhjE/nGuAJFXFy0Fau
+ NQAELYEyu2LOdXtWpaVb698JHNP9fuBz5DDliszroT8CpljvasAjOj4Gw4XMN59hFnXV
+ lx4sPj06Az2vSlAFObzDSfdSRQTMBTCtV/qRI/QsmbPRYBjaclnZpZpfx4+8y/CvrU7r
+ XyqROEIru0Kzt+kUSv4SRyK8A/9E0fbdSIhzD6Xa8RUJyN9+l8cwPBCRIX/EbLRIGFU/
+ 03tBdlCk4c6ZEQ40zKpwZ7K95lP8evhxRx3oifPtoi+930A3tUH5VepAixjfnY72wHS4
+ sR9Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=CF+ULzFrP9GTeJjJ5sN/088xcvKdAnlEZ2/+t4MRgJw=;
- b=SXpXQTd629VjHW99k+9puAznx1yJ/U9TBqUMzRXvwYmyJq7Br4/u47UAluJz2leheg
- jzX0s9dcPrHO790SrgV4TCUNxcdR/EO2ltFTuy6TDhhYbW+/MRD6nn/5QNAYl2g87g5b
- KP9+jVKT/YP7WdoXT1G6U3k8bDrc9ik8Eff4OFRyPeRgryOPvzgLhnP5fdRaSoFAy/lP
- fkwDHZjR+PITpFgrRx5dy5mP8A7ywui9xZWtDDP7JtaemAr1Vi6VlSxidKXykijPGLR2
- G4u1pYerJSQ4QLsRTk2QI/6pc/1kGACSOzTXWk3ti0BALSomzY4p1yQcRxUksX10+k/T
- pTtw==
-X-Gm-Message-State: AOAM533uBOS8eEhpSwxyJ1a3jWph+4GD0HSzqq29XpsFcF9KSuTMesai
- ACVKHYJKVTvym22+83uPUfGfDw==
-X-Google-Smtp-Source: ABdhPJwW2+jDDdIGACf82fWxIp2aSlHkKuzmy7Wjbb98tELpewTJMb60rnGyYVtsko6C9SYizBbxHA==
-X-Received: by 2002:a17:902:a9c2:: with SMTP id
- b2mr1376296plr.135.1643269952699; 
- Wed, 26 Jan 2022 23:52:32 -0800 (PST)
+ bh=oihACpgOP/5+YMyu5MBJJhXG7aRyscDF9JQXBQifPaQ=;
+ b=0vbVqUZysH+FoEkGdkeVrkXozbv2MSpA8NsbcZLmRZhfSC0TDsMLch918XZCABBCgR
+ ggLxgKutsDNLAbmntMAH6b1l+iSLbqewvffkXllm8714W1SPS5otZjDQfhCcXSnVAztc
+ Ujjj4ypY79KHinrU6mqZs4j5muA41hBykzm+0sSxjMRxAgACgtniR+UsXZtgN6jUT6oy
+ EDgHZtCTlo/j/KOOgbLUJqaMRcbI6UtzJravYQ8f5YS/JiNN/F2RhahpOyYqft0ya6v2
+ Dd6etNXxU8LggFjHRBiytlPluWmdvgHNgfqhqBSg5ejubEmVQXZN6KIBNQxyPeeg3g62
+ 5iRg==
+X-Gm-Message-State: AOAM531+qNCLzU1P65wNmPK6lI4BmT6NNhhlupgle3amEWXwkNzEZxpo
+ 2yjAqh9RMSyuUg21VaM1DEW3nQ==
+X-Google-Smtp-Source: ABdhPJziLn43y4+W9AWr5+PgCvvWeDINJpcU+DxEAJumqQ9Z2gaAAai+GRG4illJ28phMGyXMkX64w==
+X-Received: by 2002:a17:90a:15cf:: with SMTP id
+ w15mr2964899pjd.79.1643270050902; 
+ Wed, 26 Jan 2022 23:54:10 -0800 (PST)
 Received: from [192.168.15.44] (alanje.lnk.telstra.net. [120.151.179.201])
- by smtp.gmail.com with ESMTPSA id f8sm1874568pfv.24.2022.01.26.23.52.28
+ by smtp.gmail.com with ESMTPSA id b12sm4526918pfv.148.2022.01.26.23.54.07
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 26 Jan 2022 23:52:32 -0800 (PST)
-Message-ID: <fba4e0b8-9da8-81b0-14b6-e633cd03ce3d@linaro.org>
-Date: Thu, 27 Jan 2022 18:52:25 +1100
+ Wed, 26 Jan 2022 23:54:10 -0800 (PST)
+Message-ID: <46c3225c-db01-7fe3-bbba-735c35e307a8@linaro.org>
+Date: Thu, 27 Jan 2022 18:54:04 +1100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.5.0
-Subject: Re: [PATCH v2 33/40] bsd-user/signal.c: tswap_siginfo
+Subject: Re: [PATCH v2 34/40] bsd-user/signal.c: process_pending_signals
 Content-Language: en-US
 To: Warner Losh <imp@bsdimp.com>, qemu-devel@nongnu.org
 References: <20220125012947.14974-1-imp@bsdimp.com>
- <20220125012947.14974-34-imp@bsdimp.com>
+ <20220125012947.14974-35-imp@bsdimp.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220125012947.14974-34-imp@bsdimp.com>
+In-Reply-To: <20220125012947.14974-35-imp@bsdimp.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::102a
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1030
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102a;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102a.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1030;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1030.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -99,16 +99,21 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 1/25/22 12:29, Warner Losh wrote:
-> Convert siginfo from targer to host.
+> Process the currently queued signals.
 > 
-> Signed-off-by: Stacey Son<sson@FreeBSD.org>
-> Signed-off-by: Kyle Evans<kevans@freebsd.org>
-> Signed-off-by: Warner Losh<imp@bsdimp.com>
+> Signed-off-by: Stacey Son <sson@FreeBSD.org>
+> Signed-off-by: Kyle Evans <kevans@freebsd.org>
+> Signed-off-by: Warner Losh <imp@bsdimp.com>
 > ---
->   bsd-user/signal.c | 53 +++++++++++++++++++++++++++++++++++++++++++++++
->   1 file changed, 53 insertions(+)
+>   bsd-user/signal.c | 56 ++++++++++++++++++++++++++++++++++++++++++++++-
+>   1 file changed, 55 insertions(+), 1 deletion(-)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+
+> +         * us to take anothe rhost signal, which will set signal_pending again.
+
+Typo around "another".
+
 
 r~
 
