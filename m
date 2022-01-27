@@ -2,90 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB0D449EB65
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Jan 2022 20:55:45 +0100 (CET)
-Received: from localhost ([::1]:40840 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1743149EC14
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Jan 2022 21:03:51 +0100 (CET)
+Received: from localhost ([::1]:49982 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nDArx-0005D6-28
-	for lists+qemu-devel@lfdr.de; Thu, 27 Jan 2022 14:55:45 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:49288)
+	id 1nDAzl-0003Rz-3K
+	for lists+qemu-devel@lfdr.de; Thu, 27 Jan 2022 15:03:49 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:51466)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1nDAmg-0001U5-MN
- for qemu-devel@nongnu.org; Thu, 27 Jan 2022 14:50:18 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:27106)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1nDAmd-0003zo-RQ
- for qemu-devel@nongnu.org; Thu, 27 Jan 2022 14:50:17 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1643313014;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=r8FCQMNdUHzZELqflB7Azpa9OgClb8PoIhZfsRwhsVs=;
- b=KYl+yQIqZB9U1oHiVzQIsL2g0jjm+eC9dQ3GMqASY+9M6+0rOwDTpBtiQeuG3rpYW01kiY
- A4GaZvTq7ABYYzWRcZSlEEYf+fVqBhOh7s8kQr3L9ggvuLoLoItQ4W8KMAm9GoULv3amwJ
- aaO55rxOAYtv3F7KzTLS5rPjQOoqJjU=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-184-cjr9r9bcO8i7bE5-5Bc0tw-1; Thu, 27 Jan 2022 14:50:13 -0500
-X-MC-Unique: cjr9r9bcO8i7bE5-5Bc0tw-1
-Received: by mail-wm1-f71.google.com with SMTP id
- c7-20020a1c3507000000b0034a0dfc86aaso2524749wma.6
- for <qemu-devel@nongnu.org>; Thu, 27 Jan 2022 11:50:13 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=r8FCQMNdUHzZELqflB7Azpa9OgClb8PoIhZfsRwhsVs=;
- b=4aT6StlnpwtVTz35M2nlV+XYqSeCx30mnguBcuisohOb9xdZsgD4j/qXxG6p+e2pZW
- kVmuANC+1wt3dvbUKsaqnFFP27DENPcCLloY6wYWnV0gQnwFSBP8djaQ8yhm6q4aAFkj
- URxKynTcxZwGGRPtB6M3FVNxlz3LlpU0nmrElWLluomAFXyjAuOkwCubD9k1wb8+Sq9v
- wHxIAEFL7FNW5cq2qG2QsfBt2YbFylLsXcEb4BTEMvu6ed+coa3mvs0QJnkwKDerPHT4
- M8yb2SxjAYHmAInWuHRMhje+/Lt00yZZpPvkdRVCYU5X/XsUsG2x3IVh8ILDz+RT0m7i
- knag==
-X-Gm-Message-State: AOAM531jaHgiErgpkp4dqt9tFw39wbf/1YoUkHUw0bBxC9uEhCfezStN
- oLEA705AagD5wxXoVawvbIhWIbwPckILQwNeaSUFB7mutKo0P21Kuxo2iddaeChLf2opf8fkk/F
- 3PWCxTu4tisdSlmo=
-X-Received: by 2002:a5d:4344:: with SMTP id u4mr4285922wrr.341.1643313012147; 
- Thu, 27 Jan 2022 11:50:12 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxDF9ahwOegZgLGieSp01FAGGFWzRSEYJ9XNUNAqKHT0LEx5kL5hyFDqoN1KkoB3RIxY687rQ==
-X-Received: by 2002:a5d:4344:: with SMTP id u4mr4285910wrr.341.1643313011988; 
- Thu, 27 Jan 2022 11:50:11 -0800 (PST)
-Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
- [82.30.61.225])
- by smtp.gmail.com with ESMTPSA id g6sm2819668wrq.97.2022.01.27.11.50.11
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 27 Jan 2022 11:50:11 -0800 (PST)
-Date: Thu, 27 Jan 2022 19:50:09 +0000
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Vivek Goyal <vgoyal@redhat.com>
-Subject: Re: [PATCH v4 6/9] virtiofsd: Move core file creation code in
- separate function
-Message-ID: <YfL3cXaerCHrNRA7@work-vm>
-References: <20220124212455.83968-1-vgoyal@redhat.com>
- <20220124212455.83968-7-vgoyal@redhat.com>
+ (Exim 4.90_1) (envelope-from <lizhang@suse.de>) id 1nDAyZ-0002k7-D8
+ for qemu-devel@nongnu.org; Thu, 27 Jan 2022 15:02:35 -0500
+Received: from smtp-out1.suse.de ([195.135.220.28]:48466)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <lizhang@suse.de>) id 1nDAyX-0005oI-Ra
+ for qemu-devel@nongnu.org; Thu, 27 Jan 2022 15:02:35 -0500
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 58049210FE;
+ Thu, 27 Jan 2022 20:02:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1643313752; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=T+bXvtTyQAeVq+R2kwMP8UtBjF5cxJ4Xzq+kJ3lUQYw=;
+ b=Cv0bhmJkhHacy3x4kY8OTeYCozHi71YykNv9ygYlDzlxysgsyGWKmaornLJuoZPMW/zN/h
+ d0ijM26MSQZVPYdtB/DYQCcIcHIRQOY7TwUXVOD4SWrk3VZZrkaXlV8Kz+9CmRNOFyuE0P
+ cjD8uGJ5mr4cNkGfYr9Om4lXJqnqZas=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1643313752;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=T+bXvtTyQAeVq+R2kwMP8UtBjF5cxJ4Xzq+kJ3lUQYw=;
+ b=saJPE9BZrc+i9pSJnYyaVMktD7DhUO3GagRnibb8Vm2UhgMi2lunsNAzgyXHh2pb0tjOIT
+ 5rnNNo2A5JlQlXCw==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 1F35F13C79;
+ Thu, 27 Jan 2022 20:02:32 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id PdZ/BVj68mEiXQAAMHmgww
+ (envelope-from <lizhang@suse.de>); Thu, 27 Jan 2022 20:02:32 +0000
+From: Li Zhang <lizhang@suse.de>
+To: quintela@redhat.com,
+	dgilbert@redhat.com,
+	qemu-devel@nongnu.org
+Subject: [PATCH v3 1/1] multifd: Remove some redundant code
+Date: Thu, 27 Jan 2022 21:02:01 +0100
+Message-Id: <20220127200201.26092-1-lizhang@suse.de>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-In-Reply-To: <20220124212455.83968-7-vgoyal@redhat.com>
-User-Agent: Mutt/2.1.5 (2021-12-30)
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.159,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=195.135.220.28; envelope-from=lizhang@suse.de;
+ helo=smtp-out1.suse.de
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -98,91 +77,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: virtio-fs@redhat.com, mszeredi@redhat.com, qemu-devel@nongnu.org,
- stefanha@redhat.com
+Cc: Li Zhang <lizhang@suse.de>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Vivek Goyal (vgoyal@redhat.com) wrote:
-> Move core file creation bits in a separate function. Soon this is going
-> to get more complex as file creation need to set security context also.
-> And there will be multiple modes of file creation in next patch.
-> 
-> Signed-off-by: Vivek Goyal <vgoyal@redhat.com>
+Clean up some unnecessary code
 
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Signed-off-by: Li Zhang <lizhang@suse.de>
+---
+ migration/multifd.c | 15 ++++-----------
+ 1 file changed, 4 insertions(+), 11 deletions(-)
 
-> ---
->  tools/virtiofsd/passthrough_ll.c | 36 ++++++++++++++++++++++----------
->  1 file changed, 25 insertions(+), 11 deletions(-)
-> 
-> diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrough_ll.c
-> index 64b5b4fbb1..54978b7fae 100644
-> --- a/tools/virtiofsd/passthrough_ll.c
-> +++ b/tools/virtiofsd/passthrough_ll.c
-> @@ -1976,6 +1976,30 @@ static int lo_do_open(struct lo_data *lo, struct lo_inode *inode,
->      return 0;
->  }
->  
-> +static int do_lo_create(fuse_req_t req, struct lo_inode *parent_inode,
-> +                        const char *name, mode_t mode,
-> +                        struct fuse_file_info *fi, int* open_fd)
-> +{
-> +    int err = 0, fd;
-> +    struct lo_cred old = {};
-> +    struct lo_data *lo = lo_data(req);
-> +
-> +    err = lo_change_cred(req, &old, lo->change_umask);
-> +    if (err) {
-> +        return err;
-> +    }
-> +
-> +    /* Try to create a new file but don't open existing files */
-> +    fd = openat(parent_inode->fd, name, fi->flags | O_CREAT | O_EXCL, mode);
-> +    if (fd == -1) {
-> +        err = errno;
-> +    } else {
-> +        *open_fd = fd;
-> +    }
-> +    lo_restore_cred(&old, lo->change_umask);
-> +    return err;
-> +}
-> +
->  static void lo_create(fuse_req_t req, fuse_ino_t parent, const char *name,
->                        mode_t mode, struct fuse_file_info *fi)
->  {
-> @@ -1985,7 +2009,6 @@ static void lo_create(fuse_req_t req, fuse_ino_t parent, const char *name,
->      struct lo_inode *inode = NULL;
->      struct fuse_entry_param e;
->      int err;
-> -    struct lo_cred old = {};
->  
->      fuse_log(FUSE_LOG_DEBUG, "lo_create(parent=%" PRIu64 ", name=%s)"
->               " kill_priv=%d\n", parent, name, fi->kill_priv);
-> @@ -2001,18 +2024,9 @@ static void lo_create(fuse_req_t req, fuse_ino_t parent, const char *name,
->          return;
->      }
->  
-> -    err = lo_change_cred(req, &old, lo->change_umask);
-> -    if (err) {
-> -        goto out;
-> -    }
-> -
->      update_open_flags(lo->writeback, lo->allow_direct_io, fi);
->  
-> -    /* Try to create a new file but don't open existing files */
-> -    fd = openat(parent_inode->fd, name, fi->flags | O_CREAT | O_EXCL, mode);
-> -    err = fd == -1 ? errno : 0;
-> -
-> -    lo_restore_cred(&old, lo->change_umask);
-> +    err = do_lo_create(req, parent_inode, name, mode, fi, &fd);
->  
->      /* Ignore the error if file exists and O_EXCL was not given */
->      if (err && (err != EEXIST || (fi->flags & O_EXCL))) {
-> -- 
-> 2.31.1
-> 
+diff --git a/migration/multifd.c b/migration/multifd.c
+index 3242f688e5..d44cc6670f 100644
+--- a/migration/multifd.c
++++ b/migration/multifd.c
+@@ -854,19 +854,15 @@ static void multifd_new_send_channel_async(QIOTask *task, gpointer opaque)
+     Error *local_err = NULL;
+ 
+     trace_multifd_new_send_channel_async(p->id);
+-    if (qio_task_propagate_error(task, &local_err)) {
+-        goto cleanup;
+-    } else {
++    if (!qio_task_propagate_error(task, &local_err)) {
+         p->c = QIO_CHANNEL(sioc);
+         qio_channel_set_delay(p->c, false);
+         p->running = true;
+-        if (!multifd_channel_connect(p, sioc, local_err)) {
+-            goto cleanup;
++        if (multifd_channel_connect(p, sioc, local_err)) {
++            return;
+         }
+-        return;
+     }
+ 
+-cleanup:
+     multifd_new_send_channel_cleanup(p, sioc, local_err);
+ }
+ 
+@@ -1078,10 +1074,7 @@ static void *multifd_recv_thread(void *opaque)
+ 
+         ret = qio_channel_read_all_eof(p->c, (void *)p->packet,
+                                        p->packet_len, &local_err);
+-        if (ret == 0) {   /* EOF */
+-            break;
+-        }
+-        if (ret == -1) {   /* Error */
++        if (ret == 0 || ret == -1) {   /* 0: EOF  -1: Error */
+             break;
+         }
+ 
 -- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+2.31.1
 
 
