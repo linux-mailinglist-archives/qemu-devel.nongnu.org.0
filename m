@@ -2,53 +2,98 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E89049EEAB
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jan 2022 00:12:52 +0100 (CET)
-Received: from localhost ([::1]:33744 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D47BB49EEB0
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jan 2022 00:14:59 +0100 (CET)
+Received: from localhost ([::1]:35500 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nDDwg-0003Xo-Q5
-	for lists+qemu-devel@lfdr.de; Thu, 27 Jan 2022 18:12:50 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:57674)
+	id 1nDDyk-0004le-WF
+	for lists+qemu-devel@lfdr.de; Thu, 27 Jan 2022 18:14:59 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:57852)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1nDDru-0001jk-KB
- for qemu-devel@nongnu.org; Thu, 27 Jan 2022 18:07:54 -0500
-Received: from [2001:738:2001:2001::2001] (port=28430 helo=zero.eik.bme.hu)
+ (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
+ id 1nDDtT-0002md-SQ; Thu, 27 Jan 2022 18:09:32 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:63778)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1nDDrs-0007GT-5L
- for qemu-devel@nongnu.org; Thu, 27 Jan 2022 18:07:54 -0500
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 480BE746369;
- Fri, 28 Jan 2022 00:07:48 +0100 (CET)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 2F8697457EF; Fri, 28 Jan 2022 00:07:48 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id 2E7CD7456E3;
- Fri, 28 Jan 2022 00:07:48 +0100 (CET)
-Date: Fri, 28 Jan 2022 00:07:48 +0100 (CET)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Subject: Re: Mouse pointer warping with gtk display
-In-Reply-To: <05fe1a3d-59f4-391c-4d1c-fd94c5c92fd7@ilande.co.uk>
-Message-ID: <79815b53-d2e8-287-94bd-2325986d036@eik.bme.hu>
-References: <15f521a3-712a-f8de-6994-bad6222681@eik.bme.hu>
- <CAJ+F1C+hwUJ5Zt9-bANNw8tpeeX4KyoRYk4g=qJNv3J-ji-LnA@mail.gmail.com>
- <CABLmASH5K=mO0=k4oR76JS70a9L87rNzJu9OhtNR9dohzg5-jA@mail.gmail.com>
- <05fe1a3d-59f4-391c-4d1c-fd94c5c92fd7@ilande.co.uk>
+ (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
+ id 1nDDtR-0007L6-0K; Thu, 27 Jan 2022 18:09:31 -0500
+Received: from pps.filterd (m0098410.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 20RMhs3B009739; 
+ Thu, 27 Jan 2022 23:08:57 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=from : to : cc : subject
+ : in-reply-to : references : date : message-id : content-type :
+ mime-version; s=pp1; bh=qRCdF8iP49vcToxsQJbzP/Xd9tLUU94B6yqt6UUIhPA=;
+ b=KpSwqr/BG5OZJWzjkJHWDH0COl/BYAHprCOku/NXZf023LrXrLY2YOVTDwTgMZv2UL6+
+ YRa0s7ZrWvEJSSyyIG/c+neGu4lIF2PYRxzANjtpSW4h/U7aSHCIdffcIZyfQC/kHV1U
+ ozgcnn4L2HV1zxSnh654XgfI9Aowzapr0ufdsWwwzIATDpJAgd8CEszKabaF82nw8XxN
+ OAbdF70H4P1B286//QdWwxXG54M+W2q5v15a9KM1Vzg7SwwIXSoSfVUkF3xhVRpTcHu8
+ DgUzvcOpjbCMV8TxnxUj6XQeryX4nPS1l/eZGkMLF360mer88he7xIQiNubu63bJsgcE Eg== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3dv41w8ty1-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 27 Jan 2022 23:08:56 +0000
+Received: from m0098410.ppops.net (m0098410.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 20RN04xT004945;
+ Thu, 27 Jan 2022 23:08:56 GMT
+Received: from ppma01wdc.us.ibm.com (fd.55.37a9.ip4.static.sl-reverse.com
+ [169.55.85.253])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3dv41w8txj-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 27 Jan 2022 23:08:56 +0000
+Received: from pps.filterd (ppma01wdc.us.ibm.com [127.0.0.1])
+ by ppma01wdc.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 20RN8gj7017793;
+ Thu, 27 Jan 2022 23:08:55 GMT
+Received: from b01cxnp23032.gho.pok.ibm.com (b01cxnp23032.gho.pok.ibm.com
+ [9.57.198.27]) by ppma01wdc.us.ibm.com with ESMTP id 3dr9jbxrh2-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 27 Jan 2022 23:08:55 +0000
+Received: from b01ledav006.gho.pok.ibm.com (b01ledav006.gho.pok.ibm.com
+ [9.57.199.111])
+ by b01cxnp23032.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 20RN8sZ634603318
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 27 Jan 2022 23:08:54 GMT
+Received: from b01ledav006.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 0E88CACA3B;
+ Thu, 27 Jan 2022 23:08:54 +0000 (GMT)
+Received: from b01ledav006.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 08444ACA37;
+ Thu, 27 Jan 2022 23:08:52 +0000 (GMT)
+Received: from localhost (unknown [9.211.129.51])
+ by b01ledav006.gho.pok.ibm.com (Postfix) with ESMTPS;
+ Thu, 27 Jan 2022 23:08:52 +0000 (GMT)
+From: Fabiano Rosas <farosas@linux.ibm.com>
+To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org
+Subject: Re: [PATCH v2 0/8] target/ppc: powerpc_excp improvements [74xx] (5/n)
+In-Reply-To: <633a8e99-d68b-2765-ceea-3d85935899f5@ilande.co.uk>
+References: <20220127201116.1154733-1-farosas@linux.ibm.com>
+ <633a8e99-d68b-2765-ceea-3d85935899f5@ilande.co.uk>
+Date: Thu, 27 Jan 2022 20:08:49 -0300
+Message-ID: <874k5ord32.fsf@linux.ibm.com>
+Content-Type: text/plain
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: cSnKa1tOLlUbvWjZ6USG5Ylf5QON9hH2
+X-Proofpoint-ORIG-GUID: FeWyfhjf1Et9BMqcOVDRBRoeGCldgPjz
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII; format=flowed
-X-Spam-Probability: 8%
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2001:738:2001:2001::2001
- (failed)
-Received-SPF: pass client-ip=2001:738:2001:2001::2001;
- envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
-X-Spam_score_int: -10
-X-Spam_score: -1.1
-X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.816,Hydra:6.0.425,FMLib:17.11.62.513
+ definitions=2022-01-27_05,2022-01-27_01,2021-12-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0 bulkscore=0
+ malwarescore=0 impostorscore=0 adultscore=0 priorityscore=1501 mlxscore=0
+ clxscore=1015 mlxlogscore=500 spamscore=0 lowpriorityscore=0 phishscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2201110000
+ definitions=main-2201270129
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=farosas@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -61,32 +106,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?ISO-8859-15?Q?C=E9dric_Le_Goater?= <clg@kaod.org>,
- Gerd Hoffmann <kraxel@redhat.com>,
- =?ISO-8859-15?Q?Marc-Andr=E9_Lureau?= <marcandre.lureau@gmail.com>,
- QEMU <qemu-devel@nongnu.org>, Howard Spoelstra <hsp.cat7@gmail.com>
+Cc: danielhb413@gmail.com, qemu-ppc@nongnu.org, clg@kaod.org,
+ david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 27 Jan 2022, Mark Cave-Ayland wrote:
-> On 27/01/2022 20:28, Howard Spoelstra wrote:
->
->> Hi Zoltan,
->> 
->> While I can reproduce the issue you report when running morphos with gtk, I 
->> cannot currently reproduce with the Mac OS/OSX guests I tested on Linux 
->> host. Both mac99 (adb mouse and kbd) and mac99,via=pmu (usb mouse and kbd) 
->> keep the mouse inside the guest window with both sdl and gtk.
->> 
->> Best,
->> Howard
->
-> Does the ati-vga device have a hardware cursor? Maybe it could be related to 
-> that?
+Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk> writes:
 
-Yes ir does and it seems to be related but still don't understand how. 
-I've desctibed what I've found in another reply.
+> On 27/01/2022 20:11, Fabiano Rosas wrote:
+>
+>> Changes from v1:
+>> 
+>> - Restored the 'sc 1' support to avoid breaking the pegasos2 machine.
+>> 
+>> I tested this version in the G4 with the following OSes:
+>> 
+>> - Linux 5.15 (5.16 seems to be broken, even with master)
+>> - FreeBSD 13
+>> - Mac OS 9.2
+>> - Mac OS Darwin 6.0
+>> - Mac OS X 10.4
+>> - MorphOS 3.15 (-M pegasos2 and -M mac99,via=pmu)
+>> 
+>> Based on legoater/ppc-7.0
+>> 
+>> v1:
+>> https://lore.kernel.org/r/20220126164200.1048677-1-farosas@linux.ibm.com
+>> 
+>> Fabiano Rosas (8):
+>>    target/ppc: Introduce powerpc_excp_74xx
+>>    target/ppc: Simplify powerpc_excp_74xx
+>>    target/ppc: 74xx: Machine Check exception cleanup
+>>    target/ppc: 74xx: External interrupt cleanup
+>>    target/ppc: 74xx: Program exception cleanup
+>>    target/ppc: 74xx: System Call exception cleanup
+>>    target/ppc: 74xx: System Reset interrupt cleanup
+>>    target/ppc: 74xx: Set SRRs directly in exception code
+>> 
+>>   target/ppc/excp_helper.c | 197 +++++++++++++++++++++++++++++++++++++++
+>>   1 file changed, 197 insertions(+)
+>
+> That certainly covers a good range MacOS images so I'm happy to give:
+>
+> Acked-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+>
+> Just out of curiosity have you tried booting MacOS 9.2 under KVM-PR? Last time I 
+> tried on my G4 Mac Mini here, OS X worked fine but 9.2 failed early after jumping 
+> into the 68k emulator. Unfortunately due to the split real mode (see 
+> https://github.com/torvalds/linux/commit/c01e3f66cd5cdc1f727f4c7b0c10b3e3bdb91ba7 
+> where MSR_IR != MSR_DR) I can't step through with QEMU's gdbstub to see what is going 
+> wrong...
 
-Regards,
-BALATON Zoltan
+Never crossed my mind actually. =)
+
+I don't immediately see why the step wouldn't work due to split
+mode. Let me understand that patch first. KVM-PR is full of surprises.
+
+>
+>
+> ATB,
+>
+> Mark.
 
