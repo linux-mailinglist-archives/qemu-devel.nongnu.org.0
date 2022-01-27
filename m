@@ -2,82 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D852849E468
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Jan 2022 15:16:29 +0100 (CET)
-Received: from localhost ([::1]:37754 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2743D49E48D
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Jan 2022 15:25:06 +0100 (CET)
+Received: from localhost ([::1]:48230 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nD5Zc-0007v9-Vk
-	for lists+qemu-devel@lfdr.de; Thu, 27 Jan 2022 09:16:29 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:51986)
+	id 1nD5hw-0007Hw-Jk
+	for lists+qemu-devel@lfdr.de; Thu, 27 Jan 2022 09:25:04 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:51604)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nD5VI-0004cw-8I
- for qemu-devel@nongnu.org; Thu, 27 Jan 2022 09:12:04 -0500
-Received: from [2a00:1450:4864:20::431] (port=34710
- helo=mail-wr1-x431.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nD5VE-0001xk-DY
- for qemu-devel@nongnu.org; Thu, 27 Jan 2022 09:11:59 -0500
-Received: by mail-wr1-x431.google.com with SMTP id f17so5098396wrx.1
- for <qemu-devel@nongnu.org>; Thu, 27 Jan 2022 06:11:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=nfBtEnUaAD+Rl57EBhhAi7yBAFPLODzTZc4TVL6N3wU=;
- b=i+F/SpSK1sgmeVVUg5Ao+uTuympTSQjIqxOsTx56HkG7Mlg2mm0RZMb7YXypCaBePX
- WqsJBRKnBF0d1oIcByS6lQ6bJExz9UplPg5AqLYp42HbeF5vC88ue3Qs0wRVqWpD+BCg
- ciOVdTf1m4t0wEmIUUBkeejJhDdybH6wh3LDMK3XBidmUExeT2AjYv1LRA5/y3q7CLF+
- 3Q5vmZjmNd1WMS0b+gfCPqnA930iqa3yFsdZTT7/av2UukWYs7+SvhQGVxmKNx3h3dPE
- hTzfxhS2T/QN6d3dtf4cDP08Sbo7Vr/lNxeckuIyMptAlftj36xuLnB2M8X5/jHH4fOk
- IntA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=nfBtEnUaAD+Rl57EBhhAi7yBAFPLODzTZc4TVL6N3wU=;
- b=6p1hw92z2wfkNkO/4XFD4hYCiH/h1VGqG2pUcLO1lnAC+XOnDjGq9S0uEN5nlg1b2I
- Lus4yNMBEaDTmgzc6p5AzT+F56UJRbrtHM+ScPY/OZRVvb745iiuSrNWb4nUX9U4JhQV
- 8JocAMRfvbWfRLhp3gRp6ibm4CSGVsOLwQKkeE39U0eVo2vsfbpMOCfYEXbH00Hpz57O
- WnQnOUBTzzHrDU38Uqo/31IOqiDnsIEMI5Elu2xj8TyI374gY5R4Z0YLBqPi1hPP12Uf
- yZkjCmpChZ/cYuy1rImiX799Y4yDL3To7sv7hHIyvKuyErAe9ECNJ/Px49ocu4hVV7KR
- 7sjg==
-X-Gm-Message-State: AOAM532PVJdJjberUDT62fZ66fsU8iWVxl1OA4VPhfEFdgKoiDux3e7C
- KgaObQCFTxtNzl1gFsE0Sy9uYw==
-X-Google-Smtp-Source: ABdhPJywtdipFXmukBO+I0QEyggurZdjA9YNF3Y9x0oKpJkpu859hPM/bdut3+8SLR27Nc++86wEAw==
-X-Received: by 2002:adf:e60f:: with SMTP id p15mr3176772wrm.177.1643292710553; 
- Thu, 27 Jan 2022 06:11:50 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id n5sm2318273wmq.43.2022.01.27.06.11.49
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 27 Jan 2022 06:11:49 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 674831FFB7;
- Thu, 27 Jan 2022 14:11:48 +0000 (GMT)
-References: <20220124171705.10432-1-Jonathan.Cameron@huawei.com>
- <20220124171705.10432-16-Jonathan.Cameron@huawei.com>
-User-agent: mu4e 1.7.6; emacs 28.0.91
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Subject: Re: [PATCH v4 15/42] acpi/pci: Consolidate host bridge setup
-Date: Thu, 27 Jan 2022 14:10:00 +0000
-In-reply-to: <20220124171705.10432-16-Jonathan.Cameron@huawei.com>
-Message-ID: <875yq59skb.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1nD5U5-0002IM-7I
+ for qemu-devel@nongnu.org; Thu, 27 Jan 2022 09:10:49 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:41427)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1nD5U2-0001ky-PU
+ for qemu-devel@nongnu.org; Thu, 27 Jan 2022 09:10:44 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1643292640;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=vgHODmfgH0Md2aUlD/RbINSZLynVr4O5/y2ZuomekiU=;
+ b=Bw4/3rIWdvVE0+Ma1PPudtaAyTm2OIjr5HvPO/S5lkNm+q7xzwW/NlAZ80SoAc4b2V+ZAj
+ OgDVhdK7VUOEVZ6G60r9q2XfVS0GYQcHUGpt7xpDSDQi9lbS9798KIxFLdz8KJdGuZMe1b
+ iHM3tg+egUoOPtf2I2pTrpBjE6ciIck=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-62-cI5uufvhMEK-bXR6bry67g-1; Thu, 27 Jan 2022 09:10:36 -0500
+X-MC-Unique: cI5uufvhMEK-bXR6bry67g-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1A9441091DA2;
+ Thu, 27 Jan 2022 14:10:35 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.195.252])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 14F0A1F436;
+ Thu, 27 Jan 2022 14:10:12 +0000 (UTC)
+Date: Thu, 27 Jan 2022 15:10:11 +0100
+From: Kevin Wolf <kwolf@redhat.com>
+To: Stefan Hajnoczi <stefanha@redhat.com>
+Subject: Re: [PATCH] block/export: Fix vhost-user-blk shutdown with requests
+ in flight
+Message-ID: <YfKnp6SoWCiE+F49@redhat.com>
+References: <20220125151435.48792-1-kwolf@redhat.com>
+ <YfFPCsvetg1IIUUO@stefanha-x1.localdomain>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::431
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::431;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x431.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="rDOXm0HL+VkfHR1v"
+Content-Disposition: inline
+In-Reply-To: <YfFPCsvetg1IIUUO@stefanha-x1.localdomain>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.159,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -90,124 +75,187 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Ben Widawsky <ben.widawsky@intel.com>, "Michael S
- . Tsirkin" <mst@redhat.com>, Samarth Saxena <samarths@cadence.com>,
- Chris Browy <cbrowy@avery-design.com>, qemu-devel@nongnu.org,
- linux-cxl@vger.kernel.org, linuxarm@huawei.com,
- Shreyas Shah <shreyas.shah@elastics.cloud>, Saransh Gupta1 <saransh@ibm.com>,
- Shameerali Kolothum Thodi <shameerali.kolothum.thodi@huawei.com>,
- Marcel Apfelbaum <marcel@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
- Dan Williams <dan.j.williams@intel.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: hreitz@redhat.com, qemu-devel@nongnu.org, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
-Jonathan Cameron <Jonathan.Cameron@huawei.com> writes:
+--rDOXm0HL+VkfHR1v
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> From: Ben Widawsky <ben.widawsky@intel.com>
->
-> This cleanup will make it easier to add support for CXL to the mix.
->
-> Signed-off-by: Ben Widawsky <ben.widawsky@intel.com>
-> Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-> ---
->  hw/i386/acpi-build.c | 38 +++++++++++++++++++++-----------------
->  1 file changed, 21 insertions(+), 17 deletions(-)
->
-> diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
-> index ce823e8fcb..1d8ee988f2 100644
-> --- a/hw/i386/acpi-build.c
-> +++ b/hw/i386/acpi-build.c
-> @@ -1398,6 +1398,23 @@ static void build_smb0(Aml *table, I2CBus *smbus, =
-int devnr, int func)
->      aml_append(table, scope);
->  }
->=20=20
-> +enum { PCI, PCIE };
+Am 26.01.2022 um 14:39 hat Stefan Hajnoczi geschrieben:
+> On Tue, Jan 25, 2022 at 04:14:35PM +0100, Kevin Wolf wrote:
+> > The vhost-user-blk export runs requests asynchronously in their own
+> > coroutine. When the vhost connection goes away and we want to stop the
+> > vhost-user server, we need to wait for these coroutines to stop before
+> > we can unmap the shared memory. Otherwise, they would still access the
+> > unmapped memory and crash.
+> >=20
+> > This introduces a refcount to VuServer which is increased when spawning
+> > a new request coroutine and decreased before the coroutine exits. The
+> > memory is only unmapped when the refcount reaches zero.
+> >=20
+> > Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+> > ---
+> >  include/qemu/vhost-user-server.h     |  5 +++++
+> >  block/export/vhost-user-blk-server.c |  5 +++++
+> >  util/vhost-user-server.c             | 22 ++++++++++++++++++++++
+> >  3 files changed, 32 insertions(+)
+> >=20
+> > diff --git a/include/qemu/vhost-user-server.h b/include/qemu/vhost-user=
+-server.h
+> > index 121ea1dedf..cd43193b80 100644
+> > --- a/include/qemu/vhost-user-server.h
+> > +++ b/include/qemu/vhost-user-server.h
+> > @@ -42,6 +42,8 @@ typedef struct {
+> >      const VuDevIface *vu_iface;
+> > =20
+> >      /* Protected by ctx lock */
+> > +    unsigned int refcount;
+> > +    bool wait_idle;
+> >      VuDev vu_dev;
+> >      QIOChannel *ioc; /* The I/O channel with the client */
+> >      QIOChannelSocket *sioc; /* The underlying data channel with the cl=
+ient */
+> > @@ -59,6 +61,9 @@ bool vhost_user_server_start(VuServer *server,
+> > =20
+> >  void vhost_user_server_stop(VuServer *server);
+> > =20
+> > +void vhost_user_server_ref(VuServer *server);
+> > +void vhost_user_server_unref(VuServer *server);
+> > +
+> >  void vhost_user_server_attach_aio_context(VuServer *server, AioContext=
+ *ctx);
+> >  void vhost_user_server_detach_aio_context(VuServer *server);
+> > =20
+> > diff --git a/block/export/vhost-user-blk-server.c b/block/export/vhost-=
+user-blk-server.c
+> > index 1862563336..a129204c44 100644
+> > --- a/block/export/vhost-user-blk-server.c
+> > +++ b/block/export/vhost-user-blk-server.c
+> > @@ -172,6 +172,7 @@ vu_blk_discard_write_zeroes(VuBlkExport *vexp, stru=
+ct iovec *iov,
+> >      return VIRTIO_BLK_S_IOERR;
+> >  }
+> > =20
+> > +/* Called with server refcount increased, must decrease before returni=
+ng */
+> >  static void coroutine_fn vu_blk_virtio_process_req(void *opaque)
+> >  {
+> >      VuBlkReq *req =3D opaque;
+> > @@ -286,10 +287,12 @@ static void coroutine_fn vu_blk_virtio_process_re=
+q(void *opaque)
+> >      }
+> > =20
+> >      vu_blk_req_complete(req);
+> > +    vhost_user_server_unref(server);
+> >      return;
+> > =20
+> >  err:
+> >      free(req);
+> > +    vhost_user_server_unref(server);
+> >  }
+> > =20
+> >  static void vu_blk_process_vq(VuDev *vu_dev, int idx)
+> > @@ -310,6 +313,8 @@ static void vu_blk_process_vq(VuDev *vu_dev, int id=
+x)
+> > =20
+> >          Coroutine *co =3D
+> >              qemu_coroutine_create(vu_blk_virtio_process_req, req);
+> > +
+> > +        vhost_user_server_ref(server);
+> >          qemu_coroutine_enter(co);
+>=20
+> Why not increment inside vu_blk_virtio_process_req()? My understanding
+> is the coroutine is entered immediately so there is no race that needs
+> to be protected against by incrementing the refcount early.
 
-Make this a typed enum and update the signatures to use it instead of
-int to prevent confusion.
+You're right, as long as we know that qemu_coroutine_enter() is used to
+enter the coroutine and we increase the refcount before the coroutine
+yields for the first time, doing this in vu_blk_virtio_process_req is
+sufficient.
 
-> +static void init_pci_acpi(Aml *dev, int uid, int type, bool native_pcie_=
-hp)
-> +{
-> +    if (type =3D=3D PCI) {
-> +        aml_append(dev, aml_name_decl("_HID", aml_eisaid("PNP0A03")));
-> +        aml_append(dev, aml_name_decl("_ADR", aml_int(0)));
-> +        aml_append(dev, aml_name_decl("_UID", aml_int(uid)));
-> +    } else {
-> +        aml_append(dev, aml_name_decl("_HID", aml_eisaid("PNP0A08")));
-> +        aml_append(dev, aml_name_decl("_CID", aml_eisaid("PNP0A03")));
-> +        aml_append(dev, aml_name_decl("_ADR", aml_int(0)));
-> +        aml_append(dev, aml_name_decl("_UID", aml_int(uid)));
-> +        /* Expander bridges do not have ACPI PCI Hot-plug enabled */
-> +        aml_append(dev, build_q35_osc_method(native_pcie_hp));
-> +    }
-> +}
-> +
->  static void
->  build_dsdt(GArray *table_data, BIOSLinker *linker,
->             AcpiPmInfo *pm, AcpiMiscInfo *misc,
-> @@ -1429,9 +1446,7 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
->      if (misc->is_piix4) {
->          sb_scope =3D aml_scope("_SB");
->          dev =3D aml_device("PCI0");
-> -        aml_append(dev, aml_name_decl("_HID", aml_eisaid("PNP0A03")));
-> -        aml_append(dev, aml_name_decl("_ADR", aml_int(0)));
-> -        aml_append(dev, aml_name_decl("_UID", aml_int(pcmc->pci_root_uid=
-)));
-> +        init_pci_acpi(dev, pcmc->pci_root_uid, PCI, false);
->          aml_append(sb_scope, dev);
->          aml_append(dsdt, sb_scope);
->=20=20
-> @@ -1447,11 +1462,7 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
->      } else {
->          sb_scope =3D aml_scope("_SB");
->          dev =3D aml_device("PCI0");
-> -        aml_append(dev, aml_name_decl("_HID", aml_eisaid("PNP0A08")));
-> -        aml_append(dev, aml_name_decl("_CID", aml_eisaid("PNP0A03")));
-> -        aml_append(dev, aml_name_decl("_ADR", aml_int(0)));
-> -        aml_append(dev, aml_name_decl("_UID", aml_int(pcmc->pci_root_uid=
-)));
-> -        aml_append(dev, build_q35_osc_method(!pm->pcihp_bridge_en));
-> +        init_pci_acpi(dev, pcmc->pci_root_uid, PCIE, !pm->pcihp_bridge_e=
-n);
->          aml_append(sb_scope, dev);
->          if (mcfg_valid) {
->              aml_append(sb_scope, build_q35_dram_controller(&mcfg));
-> @@ -1562,17 +1573,10 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
->=20=20
->              scope =3D aml_scope("\\_SB");
->              dev =3D aml_device("PC%.02X", bus_num);
-> -            aml_append(dev, aml_name_decl("_UID", aml_int(bus_num)));
->              aml_append(dev, aml_name_decl("_BBN", aml_int(bus_num)));
-> -            if (pci_bus_is_express(bus)) {
-> -                aml_append(dev, aml_name_decl("_HID", aml_eisaid("PNP0A0=
-8")));
-> -                aml_append(dev, aml_name_decl("_CID", aml_eisaid("PNP0A0=
-3")));
->=20=20
-> -                /* Expander bridges do not have ACPI PCI Hot-plug enable=
-d */
-> -                aml_append(dev, build_q35_osc_method(true));
-> -            } else {
-> -                aml_append(dev, aml_name_decl("_HID", aml_eisaid("PNP0A0=
-3")));
-> -            }
-> +            init_pci_acpi(dev, bus_num,
-> +                          pci_bus_is_express(bus) ? PCIE : PCI, true);
->=20=20
->              if (numa_node !=3D NUMA_NODE_UNASSIGNED) {
->                  aml_append(dev, aml_name_decl("_PXM", aml_int(numa_node)=
-));
+With respect to potential future code changes, it feels a little safer
+to do it here like in this patch, but at the same time I have to admit
+that having ref and unref in the same function is a little nicer.
 
-Otherwise:
+So for me there is no clear winner. If you prefer moving the ref into
+the coroutine, I can post a v2.
 
-Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+Kevin
+
+> >      }
+> >  }
+> > diff --git a/util/vhost-user-server.c b/util/vhost-user-server.c
+> > index f68287e811..f66fbba710 100644
+> > --- a/util/vhost-user-server.c
+> > +++ b/util/vhost-user-server.c
+> > @@ -74,6 +74,20 @@ static void panic_cb(VuDev *vu_dev, const char *buf)
+> >      error_report("vu_panic: %s", buf);
+> >  }
+> > =20
+> > +void vhost_user_server_ref(VuServer *server)
+> > +{
+> > +    assert(!server->wait_idle);
+> > +    server->refcount++;
+> > +}
+> > +
+> > +void vhost_user_server_unref(VuServer *server)
+> > +{
+> > +    server->refcount--;
+> > +    if (server->wait_idle && !server->refcount) {
+> > +        aio_co_wake(server->co_trip);
+> > +    }
+> > +}
+> > +
+> >  static bool coroutine_fn
+> >  vu_message_read(VuDev *vu_dev, int conn_fd, VhostUserMsg *vmsg)
+> >  {
+> > @@ -177,6 +191,14 @@ static coroutine_fn void vu_client_trip(void *opaq=
+ue)
+> >          /* Keep running */
+> >      }
+> > =20
+> > +    if (server->refcount) {
+> > +        /* Wait for requests to complete before we can unmap the memor=
+y */
+> > +        server->wait_idle =3D true;
+> > +        qemu_coroutine_yield();
+> > +        server->wait_idle =3D false;
+> > +    }
+> > +    assert(server->refcount =3D=3D 0);
+> > +
+> >      vu_deinit(vu_dev);
+> > =20
+> >      /* vu_deinit() should have called remove_watch() */
+> > --=20
+> > 2.31.1
+> >=20
 
 
---=20
-Alex Benn=C3=A9e
+
+--rDOXm0HL+VkfHR1v
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEE3D3rFZqa+V09dFb+fwmycsiPL9YFAmHyp8IACgkQfwmycsiP
+L9bJMxAAsKzFiJVRp3jMdR5RVY70C2j84bKKx5oOVa/EL/rIBqOwvaqd/jY00LFf
+i3a+WRau30603TaB4M2fUG3/EqYCIWwpjhLzO7T2A8BpwikJOiefzPkixEkGMZAR
+hqFsISgTTiCQaB6RQLkvD/qc9VHxthG+LP6xwOjHrANVpk+LM8bGGKFhTGTJO6Em
+YXvTls9jUAfZLrQh/SRznx0cv+SUqal1ZVm4OfIk5Lwd+UXWR5V5qgbl7vfZfGVM
+pKpcQLM6qxDMcSRq9zpIeetVovR2y9aI2VS+X9jCAABddyI17cm5LreNaHHkh1Uu
+8XoO9YdAMWD0ZpdDm0EVeufcJ4KQt9qyYOX6i2EJPMwTGWsvEyZDARRV0mXSs/3K
+0jyob5nXti32o8j1hXKWlWv2C4ClMTBJtJIdaJnTpzMu4POoey6JqgdZAbvhtxCQ
+tM/R0PydcW3Paoh7XI23muh906qNn3tlNibmaQQhIRflee8h4hTyFHOZaolvpNoM
+TQdxPF9S9ZggjRsU7EJ+pzZ9tyzxlMi8m7rD0RbNBPmvINH/uTL6+QuDaXYw/0lN
+pQQvAU+qI/lOiBjMSdkXwgN3T4em6jRo/YR2NsnmjzwPDOhYa3ATp2KTLVc5GpGp
+L3aPLab21ufEIvaOYaf2RmfwnZ5Nl3CMugPDfko4TVahhc3NMus=
+=GYEA
+-----END PGP SIGNATURE-----
+
+--rDOXm0HL+VkfHR1v--
+
 
