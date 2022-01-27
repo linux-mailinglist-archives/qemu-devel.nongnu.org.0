@@ -2,76 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1475149DC0C
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Jan 2022 08:58:35 +0100 (CET)
-Received: from localhost ([::1]:38876 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5390B49DC14
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Jan 2022 08:59:29 +0100 (CET)
+Received: from localhost ([::1]:40338 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nCzft-0005Cf-Oo
-	for lists+qemu-devel@lfdr.de; Thu, 27 Jan 2022 02:58:33 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:48934)
+	id 1nCzgm-0006Bw-98
+	for lists+qemu-devel@lfdr.de; Thu, 27 Jan 2022 02:59:28 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:49254)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nCzSC-0004Be-79
- for qemu-devel@nongnu.org; Thu, 27 Jan 2022 02:44:25 -0500
-Received: from [2607:f8b0:4864:20::102d] (port=36572
- helo=mail-pj1-x102d.google.com)
+ id 1nCzTc-0004MM-01
+ for qemu-devel@nongnu.org; Thu, 27 Jan 2022 02:45:58 -0500
+Received: from [2607:f8b0:4864:20::1033] (port=42751
+ helo=mail-pj1-x1033.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nCzS3-0007Q0-WB
- for qemu-devel@nongnu.org; Thu, 27 Jan 2022 02:44:19 -0500
-Received: by mail-pj1-x102d.google.com with SMTP id
- h20-20020a17090adb9400b001b518bf99ffso6751920pjv.1
- for <qemu-devel@nongnu.org>; Wed, 26 Jan 2022 23:44:10 -0800 (PST)
+ id 1nCzTa-0007oZ-Bd
+ for qemu-devel@nongnu.org; Thu, 27 Jan 2022 02:45:51 -0500
+Received: by mail-pj1-x1033.google.com with SMTP id
+ my12-20020a17090b4c8c00b001b528ba1cd7so2111282pjb.1
+ for <qemu-devel@nongnu.org>; Wed, 26 Jan 2022 23:45:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=P0zUZLZgJxCjyakMOZR0xieg7R0P/5M/CAjU3paQIk0=;
- b=qs9IbjZoB0jVt9C2UMOhRLsvT8OdCcoJOMJSEwZUfSlA83r/xnAk8A3A1kYqWGYAuT
- GpZxGZTvvwpHq5+zm7t+R9/b54W05md1jFfiYrbg7tAiXxQQqG+xLY8wq6NX7+zVQkXd
- hNNs8wh7hr+BtgosybIRd5rA+gXHBUOKOcxpRjEZ9/fvpnjps/XxAXdYULH5GHIzV4EN
- p2qqUwbbcgHMaGBxqeXFDjzYbpBwga/ASWAzPaZPPyU+WlsklsBmToZxtj/Zep1PEg0d
- beMWvbo/7Sp9b+1AxTHA+xojCygyM2KOEsMWwpOkI8pqPBHLb1apk81NL59+SPdIikqY
- lNZQ==
+ bh=lCw9ta7n/I3HwQtTQCyrjySl200ZQ46KXG78jOurB3I=;
+ b=VRQGfFF91Nrgid25w74d9gDTQID0/PId2p1VzfNi5gCUHx3adSBKh73xDdc0KPj9QM
+ J4zE4lgP9Wkvisq384N+Esa9UiSR0D126kUaAvtpv53wAzAWlyW8nvAbDLLjhK3zXFrA
+ bgaUfhng4dELYAq3JXxRSQRCtCfISF8tDFbNpiew7cMygfHDHZ9ma2W+H+gsVAaQ7O3b
+ KMZb3Dyy7KZNuoYXbGnwXjhExxDaD7y5EMv8ovwb87qwSZmfJOkJ48eUNXhS1FAI0a9L
+ TIgrcirILC/QMrXNhGGUF035HUWCA2Yu6PvBitd78+8XahH5KabWlcsLF19UDAd5wc24
+ 4Ixw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=P0zUZLZgJxCjyakMOZR0xieg7R0P/5M/CAjU3paQIk0=;
- b=2ycTatf0W5melhc2mmfJ4UC7yuPKgc1FYmCfqq2QeJPkN4JtvAFKjoae4Ivb1R2iR6
- puihbuEgVK5A478DKPDUcNdJZdRHF67Zc589J6in2rZ8xMFCPtaHPW+s+a5u0btawKu/
- MMizuuNYLzTuLtEGUDMOTL/Czc2zW3nFmkUPNkbHUVDOnPdQHwHTBBqlt2fOJzw29/G5
- YwU/rwL2M10f0cKH3piCgFJYzFD8/H/PI2PVflIJkhsHDbGE4l/1TMPpgDtMCnbVMnz0
- kIp3OULx7Vwjl/aFJH9YeTKFnmnZABhUiRne593/MYsLtMnmjEYwcfvU1qxw9EZggjmy
- K6nQ==
-X-Gm-Message-State: AOAM531e5Gxt5OHAsqfvhT2lz911+XZXf4DR+FNFrqSZdVZ0udlV2VKH
- ektstKtJFezxjkOuxUj1yH/6eC+rriyV19p2
-X-Google-Smtp-Source: ABdhPJx2HYH4ub0Wmmbr2Q1RJnAPT241u3FjdcsbSgMWZNFc6YkUsASuVmHYGPm5sDZa6Ri3L7uvAw==
-X-Received: by 2002:a17:903:28c:: with SMTP id j12mr2270390plr.6.1643269449830; 
- Wed, 26 Jan 2022 23:44:09 -0800 (PST)
+ bh=lCw9ta7n/I3HwQtTQCyrjySl200ZQ46KXG78jOurB3I=;
+ b=Cz7UHL9cN7ctOqH8oiFpWwBD15TXyQxweXT735x5Gr+XBQAJqlFrBiIL5AvG943x9D
+ AJvRR9bEVuSWV9jabGWSTFh0G2WSs8tj75obYCmBoARPbhD2BVxfzg2FdNJMENM25E/w
+ 18/vnT+XoD/1afem6BWR9G7vsAtLqdfbayHUqgc2ujUHHRPottDVH/VCfHgs+BkAF2+6
+ S/rchICrGZ9bMnyVEhziR8nwtCmz8vMbX1GTdOMpP6BK7Xfebk9rNRE82zVWIUgiTBR1
+ wTL1eNo9Yv9kTAFz4Oxm14BSNHXvEsiVQ7X5aYXu0P7+YxlfBHR9VedYrB3IY+Dpz3S8
+ kSPw==
+X-Gm-Message-State: AOAM532Nj9aF78u8pSVrYF0jVPNeEBXx9PPEgoJpkS5MeNz96JbT5uI+
+ ME5b4HoNmS1nSdckbWpAsxTZxw==
+X-Google-Smtp-Source: ABdhPJzwERGb+Y1mBcSw1yQ2i+fuwXlIUp/hABLvISMTq+p8lyJ6guvww18KxIU5OJOWKL5WKUMZJw==
+X-Received: by 2002:a17:902:9a02:: with SMTP id
+ v2mr2707927plp.138.1643269548344; 
+ Wed, 26 Jan 2022 23:45:48 -0800 (PST)
 Received: from [192.168.15.44] (alanje.lnk.telstra.net. [120.151.179.201])
- by smtp.gmail.com with ESMTPSA id e19sm3442533pfv.62.2022.01.26.23.44.06
+ by smtp.gmail.com with ESMTPSA id h9sm4691357pfi.124.2022.01.26.23.45.44
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 26 Jan 2022 23:44:09 -0800 (PST)
-Message-ID: <ee0a09cd-b0d8-59b6-ecc4-dc1fd1705d8f@linaro.org>
-Date: Thu, 27 Jan 2022 18:44:02 +1100
+ Wed, 26 Jan 2022 23:45:47 -0800 (PST)
+Message-ID: <a81ec12d-12c6-268b-067e-c5c927d20aa1@linaro.org>
+Date: Thu, 27 Jan 2022 18:45:40 +1100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.5.0
-Subject: Re: [PATCH v2 29/40] bsd-user/signal.c: Fill in queue_signal
+Subject: Re: [PATCH v2 30/40] bsd-user/signal.c: sigset manipulation routines.
 Content-Language: en-US
 To: Warner Losh <imp@bsdimp.com>, qemu-devel@nongnu.org
 References: <20220125012947.14974-1-imp@bsdimp.com>
- <20220125012947.14974-30-imp@bsdimp.com>
+ <20220125012947.14974-31-imp@bsdimp.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220125012947.14974-30-imp@bsdimp.com>
+In-Reply-To: <20220125012947.14974-31-imp@bsdimp.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::102d
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1033
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102d;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102d.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1033;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1033.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -98,26 +99,23 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 1/25/22 12:29, Warner Losh wrote:
-> Fill in queue signal implementation, as well as routines allocate and
-> delete elements of the signal queue.
+> target_sigemptyset: resets a set to having no bits set
+> target_sigaddset:   adds a signal to a set
+> target_sigismember: returns true when signal is a member
+> host_to_target_sigset_internal: convert host sigset to target
+> host_to_target_sigset: convert host sigset to target
+> target_to_host_sigset_internal: convert target sigset to host
+> target_to_host_sigset: convert target sigset to host
 > 
-> Signed-off-by: Stacey Son <sson@FreeBSD.org>
-> Signed-off-by: Kyle Evans <kevans@freebsd.org>
-> Signed-off-by: Warner Losh <imp@bsdimp.com>
+> Signed-off-by: Stacey Son<sson@FreeBSD.org>
+> Signed-off-by: Kyle Evans<kevans@freebsd.org>
+> Signed-off-by: Warner Losh<imp@bsdimp.com>
 > ---
->   bsd-user/qemu.h   |  1 +
->   bsd-user/signal.c | 13 ++++++++++++-
->   2 files changed, 13 insertions(+), 1 deletion(-)
+>   bsd-user/signal-common.h |  2 ++
+>   bsd-user/signal.c        | 74 ++++++++++++++++++++++++++++++++++++++++
+>   2 files changed, 76 insertions(+)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-
-> +    struct emulated_sigtable sync_signal;
->       struct emulated_sigtable sigtab[TARGET_NSIG];
-
-I'll note that we don't need an array of these, since we block all signals while returning 
-to the main cpu loop, so we can't receive a second async signal.  Something to be fixed 
-for both l-user and b-user later...
-
 
 r~
 
