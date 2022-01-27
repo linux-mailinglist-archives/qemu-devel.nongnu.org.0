@@ -2,100 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2A3149EE4A
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Jan 2022 23:54:03 +0100 (CET)
-Received: from localhost ([::1]:48636 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 78A2D49EE58
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Jan 2022 23:59:31 +0100 (CET)
+Received: from localhost ([::1]:53106 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nDDeU-0002Ln-Rn
-	for lists+qemu-devel@lfdr.de; Thu, 27 Jan 2022 17:54:02 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:55014)
+	id 1nDDjm-0005ZX-Cc
+	for lists+qemu-devel@lfdr.de; Thu, 27 Jan 2022 17:59:30 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:56100)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
- id 1nDDdG-000183-Pf; Thu, 27 Jan 2022 17:52:46 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:29352)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1nDDj1-0004kU-OM; Thu, 27 Jan 2022 17:58:43 -0500
+Received: from zero.eik.bme.hu ([152.66.115.2]:28508)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
- id 1nDDdD-00053s-NP; Thu, 27 Jan 2022 17:52:46 -0500
-Received: from pps.filterd (m0127361.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 20RMGRf8010010; 
- Thu, 27 Jan 2022 22:52:35 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=from : to : cc : subject
- : in-reply-to : references : date : message-id : mime-version :
- content-type; s=pp1; bh=2cjL40uxaBXr4T1QlrGR6Xg+vWHvRoF8m+9oXyt1Hx8=;
- b=XnpMYEa4f9BUnttMq71Azy2M0vBld+9vJmt0pzu/nHbiMEH/ilm/1RxJwlAVrWBfSQxK
- /uvNhNythX757m9Pwo5HB1w6mQCFX9FBXU3MN47UnbiHS+SHNglBTr+dpok+OB3HSFa/
- 83dl59VRFupRnjAOCN9bExQbe0sp7ayYvoGC/PVk+e2iuDvfa9fCQWZoe6u5pOM/UQ5+
- nZefbNXxQAV8VjS26lP4M9tN2VBU3Li+4ybhyzyAUrDMX/8aKOpelsqgJiLa4d2twj+e
- nCiVKp5dtsY0YT3ZE/+vTTqc0IvR1bVmcA2VlYE1jKL9lp2IcRNkvVHFOGr3s+eahpyZ /Q== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3dv41w8kxg-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 27 Jan 2022 22:52:35 +0000
-Received: from m0127361.ppops.net (m0127361.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 20RMZGbY038845;
- Thu, 27 Jan 2022 22:52:34 GMT
-Received: from ppma04wdc.us.ibm.com (1a.90.2fa9.ip4.static.sl-reverse.com
- [169.47.144.26])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3dv41w8kwk-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 27 Jan 2022 22:52:34 +0000
-Received: from pps.filterd (ppma04wdc.us.ibm.com [127.0.0.1])
- by ppma04wdc.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 20RMnvpk011026;
- Thu, 27 Jan 2022 22:52:33 GMT
-Received: from b03cxnp08027.gho.boulder.ibm.com
- (b03cxnp08027.gho.boulder.ibm.com [9.17.130.19])
- by ppma04wdc.us.ibm.com with ESMTP id 3dr9jc691w-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 27 Jan 2022 22:52:33 +0000
-Received: from b03ledav005.gho.boulder.ibm.com
- (b03ledav005.gho.boulder.ibm.com [9.17.130.236])
- by b03cxnp08027.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 20RMqWb116515476
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 27 Jan 2022 22:52:32 GMT
-Received: from b03ledav005.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 1232ABE07C;
- Thu, 27 Jan 2022 22:52:32 +0000 (GMT)
-Received: from b03ledav005.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 6B626BE068;
- Thu, 27 Jan 2022 22:52:31 +0000 (GMT)
-Received: from localhost (unknown [9.211.129.51])
- by b03ledav005.gho.boulder.ibm.com (Postfix) with ESMTPS;
- Thu, 27 Jan 2022 22:52:31 +0000 (GMT)
-From: Fabiano Rosas <farosas@linux.ibm.com>
-To: BALATON Zoltan <balaton@eik.bme.hu>
-Subject: Re: [PATCH v2 8/8] target/ppc: 74xx: Set SRRs directly in exception
- code
-In-Reply-To: <f93bbb9-82d4-6437-ca29-6413fe4a7375@eik.bme.hu>
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1nDDiz-0005xm-3V; Thu, 27 Jan 2022 17:58:43 -0500
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id 88CC27457EF;
+ Thu, 27 Jan 2022 23:58:37 +0100 (CET)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id 5DBEF7456FE; Thu, 27 Jan 2022 23:58:37 +0100 (CET)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id 590E47456E3;
+ Thu, 27 Jan 2022 23:58:37 +0100 (CET)
+Date: Thu, 27 Jan 2022 23:58:37 +0100 (CET)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Subject: Re: [PATCH v2 0/8] target/ppc: powerpc_excp improvements [74xx] (5/n)
+In-Reply-To: <633a8e99-d68b-2765-ceea-3d85935899f5@ilande.co.uk>
+Message-ID: <49c4b0b8-fbb4-fb97-f09-5c912a1f7bbf@eik.bme.hu>
 References: <20220127201116.1154733-1-farosas@linux.ibm.com>
- <20220127201116.1154733-9-farosas@linux.ibm.com>
- <f93bbb9-82d4-6437-ca29-6413fe4a7375@eik.bme.hu>
-Date: Thu, 27 Jan 2022 19:52:28 -0300
-Message-ID: <877dakrdub.fsf@linux.ibm.com>
+ <633a8e99-d68b-2765-ceea-3d85935899f5@ilande.co.uk>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: J6EZwFAqcdtb8D1ZZudDnKhgKSjs1MiB
-X-Proofpoint-GUID: YK8l1WzObWlWxwZqp2XG7Y4kYEgWFJxm
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.816,Hydra:6.0.425,FMLib:17.11.62.513
- definitions=2022-01-27_05,2022-01-27_01,2021-12-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxscore=0 bulkscore=0
- lowpriorityscore=0 priorityscore=1501 adultscore=0 phishscore=0
- mlxlogscore=927 spamscore=0 malwarescore=0 impostorscore=0 clxscore=1015
- suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2201110000 definitions=main-2201270128
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=farosas@linux.ibm.com;
- helo=mx0b-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=US-ASCII; format=flowed
+X-Spam-Probability: 8%
+Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
+ helo=zero.eik.bme.hu
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -108,82 +55,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: danielhb413@gmail.com, qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
- david@gibson.dropbear.id.au, clg@kaod.org
+Cc: Fabiano Rosas <farosas@linux.ibm.com>, danielhb413@gmail.com,
+ qemu-devel@nongnu.org, qemu-ppc@nongnu.org, clg@kaod.org,
+ david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-BALATON Zoltan <balaton@eik.bme.hu> writes:
-
-> On Thu, 27 Jan 2022, Fabiano Rosas wrote:
->> The 74xx does not have alternate/hypervisor Save and Restore
->> Registers, so we can set SRR0 and SRR1 directly.
->>
->> Signed-off-by: Fabiano Rosas <farosas@linux.ibm.com>
->> ---
->> target/ppc/excp_helper.c | 13 ++-----------
->> 1 file changed, 2 insertions(+), 11 deletions(-)
->>
->> diff --git a/target/ppc/excp_helper.c b/target/ppc/excp_helper.c
->> index b7921c0956..4e6bb87b70 100644
->> --- a/target/ppc/excp_helper.c
->> +++ b/target/ppc/excp_helper.c
->> @@ -556,7 +556,6 @@ static void powerpc_excp_74xx(PowerPCCPU *cpu, int excp)
->>     CPUState *cs = CPU(cpu);
->>     CPUPPCState *env = &cpu->env;
->>     target_ulong msr, new_msr, vector;
->> -    int srr0, srr1;
->>
->>     if (excp <= POWERPC_EXCP_NONE || excp >= POWERPC_EXCP_NB) {
->>         cpu_abort(cs, "Invalid PowerPC exception %d. Aborting\n", excp);
->> @@ -575,10 +574,6 @@ static void powerpc_excp_74xx(PowerPCCPU *cpu, int excp)
->>      */
->>     new_msr = env->msr & ((target_ulong)1 << MSR_ME);
->>
->> -    /* target registers */
->> -    srr0 = SPR_SRR0;
->> -    srr1 = SPR_SRR1;
->> -
->>     /*
->>      * Hypervisor emulation assistance interrupt only exists on server
->>      * arch 2.05 server or later.
->> @@ -731,10 +726,6 @@ static void powerpc_excp_74xx(PowerPCCPU *cpu, int excp)
->>             cpu_abort(cs, "Trying to deliver HV exception (MSR) %d with "
->>                       "no HV support\n", excp);
->>         }
+On Thu, 27 Jan 2022, Mark Cave-Ayland wrote:
+> On 27/01/2022 20:11, Fabiano Rosas wrote:
 >
-> If we have ho MSR_HVB why is this still here? Shouldn't it have been gone 
-> in patch 2? Or is this still reachable?
+>> Changes from v1:
+>> 
+>> - Restored the 'sc 1' support to avoid breaking the pegasos2 machine.
+>> 
+>> I tested this version in the G4 with the following OSes:
+>> 
+>> - Linux 5.15 (5.16 seems to be broken, even with master)
+>> - FreeBSD 13
+>> - Mac OS 9.2
+>> - Mac OS Darwin 6.0
+>> - Mac OS X 10.4
+>> - MorphOS 3.15 (-M pegasos2 and -M mac99,via=pmu)
+>> 
+>> Based on legoater/ppc-7.0
+>> 
+>> v1:
+>> https://lore.kernel.org/r/20220126164200.1048677-1-farosas@linux.ibm.com
+>> 
+>> Fabiano Rosas (8):
+>>    target/ppc: Introduce powerpc_excp_74xx
+>>    target/ppc: Simplify powerpc_excp_74xx
+>>    target/ppc: 74xx: Machine Check exception cleanup
+>>    target/ppc: 74xx: External interrupt cleanup
+>>    target/ppc: 74xx: Program exception cleanup
+>>    target/ppc: 74xx: System Call exception cleanup
+>>    target/ppc: 74xx: System Reset interrupt cleanup
+>>    target/ppc: 74xx: Set SRRs directly in exception code
+>>
+>>   target/ppc/excp_helper.c | 197 +++++++++++++++++++++++++++++++++++++++
+>>   1 file changed, 197 insertions(+)
+>
+> That certainly covers a good range MacOS images so I'm happy to give:
+>
+> Acked-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+>
+> Just out of curiosity have you tried booting MacOS 9.2 under KVM-PR? Last 
+> time I tried on my G4 Mac Mini here, OS X worked fine but 9.2 failed early 
+> after jumping into the 68k emulator. Unfortunately due to the split real mode 
+> (see 
+> https://github.com/torvalds/linux/commit/c01e3f66cd5cdc1f727f4c7b0c10b3e3bdb91ba7 
+> where MSR_IR != MSR_DR) I can't step through with QEMU's gdbstub to see what 
+> is going wrong...
 
-It is still reachable. Any of the individual exceptions above could set
-the wrong bit. I have been keeping this block for all CPUs because I
-intend to extract this sanity check to an outer function after I move
-all CPU families.
+Can't comment on that as I don't have PPC hardware but in case you don't 
+know it yet, check out this blog entry (and its part 2):
 
-In the long run I think we should validate MSR against the whole
-msr_mask instead of just checking this single bit. But I am not
-confident that today all the bits that are set are also present in the
-corresponding location in the msr_mask.
+https://www.talospace.com/2018/08/making-your-talos-ii-into-power-mac.html
 
->> -        If (srr0 == SPR_HSRR0) {
->> -            cpu_abort(cs, "Trying to deliver HV exception (HSRR) %d with "
->> -                      "no HV support\n", excp);
->> -        }
->>     }
->>
->>     /*
->> @@ -746,10 +737,10 @@ static void powerpc_excp_74xx(PowerPCCPU *cpu, int excp)
->>     }
->>
->>     /* Save PC */
->> -    env->spr[srr0] = env->nip;
->> +    env->spr[SPR_SRR0] = env->nip;
->>
->>     /* Save MSR */
->> -    env->spr[srr1] = msr;
->> +    env->spr[SPR_SRR1] = msr;
->>
->>     powerpc_set_excp_state(cpu, vector, new_msr);
->> }
->>
+which talks about running KVM-PR on POWER9 and why MacOS may not work at 
+least with newer POWER CPUs. But if you run G4 code on G4 it may be a 
+different problem but still an interesting article and may give you some 
+ideas.
+
+Regards,
+BALATON Zoltan
 
