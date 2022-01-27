@@ -2,142 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4B0149E3F3
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Jan 2022 14:58:34 +0100 (CET)
-Received: from localhost ([::1]:45634 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 554B549E42A
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Jan 2022 15:08:17 +0100 (CET)
+Received: from localhost ([::1]:51922 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nD5IH-0001p5-Rb
-	for lists+qemu-devel@lfdr.de; Thu, 27 Jan 2022 08:58:33 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:47966)
+	id 1nD5Rg-0006Jg-0d
+	for lists+qemu-devel@lfdr.de; Thu, 27 Jan 2022 09:08:16 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:49644)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1nD5Ff-00012h-Hx
- for qemu-devel@nongnu.org; Thu, 27 Jan 2022 08:55:52 -0500
-Received: from [2a01:111:f400:7e1b::725] (port=13665
- helo=EUR05-AM6-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1nD5Fa-000832-Ct
- for qemu-devel@nongnu.org; Thu, 27 Jan 2022 08:55:50 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Kxhrldm3MkMCBzyFWn2B2O9foKRZkO1wvFrR3FBZ5Fn92a3pGbl+gM58FkOX/VMwq6FbKT1eUR+qf72Qu2zdgjSPkDi7RGVkmTkKFUjIJlQGrzPNQKzdXSYyFu9h4tSQfLWzszs38CtxD7E/e8H1o84QvknkMWjs6kbouf1snLlg4xBpWoYjTz5lGS2pEybsdQW6jrKsZmHkIf6+iXjX+uaIWl7xFmkPDLE+zGO5jyzCOV1L8J8rYj7zdIgJA/fKMi2b/14wz1tpzpzWN8Fwd1xug9100Bm+FeAr6Oy7hfFg5kXvvBjmNZiZgMOHhsy023zrI1wV6Q4fD2HeMDQK8w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=96uULXEl68GccJ6PfWEk5B3h5QcH3+luoFwNiH4fwaw=;
- b=nyqLFdxIYsD1Z2Cpwb4xMk6OMvilnhFWYZbsz1GCV3/v1n+FYfVPlJiivFOQCRTjtMbZUR0dVchqsZX/6Ow750vzktYtu8DLnbDk2DxK6HXxTn5fiUwOAWDZU6xjZ5Eix7c4j09RqhEQo3RiSZjG1Wj/GKL0Z7F7I93xodlCgiaJ0TEVdFUVL6VtTBGvrlvQOQI51QqdKLFDMZa9yg1p17igYlOfQj2GPmRqOPWnOBfGKh+a0cMSAH6ofGZoZ2Gg04DammqQZR/hCPjpt2PTmbwxPfWbHsn6kWs+ya4dr2fVSMqW+0rqJptUdSW1mMOU7PzDw+Ly3dAnGtZw5Z5lIw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=96uULXEl68GccJ6PfWEk5B3h5QcH3+luoFwNiH4fwaw=;
- b=qoXw4v6pLWx2XI9X3VbAhJkMMIz/i2NGZB7oH7BM3XZlpGR5yt8tRcasdqGCBBcQa8BsLGDEmKocELSDQCSkObWGOvoFckHBGG0f0a8jgzizD/VjyGWKY4I/Uq/n3cuMiClVfZC5aT17iDWkDG84xVJDxm0gh02z6JP/OVuNNUI=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=virtuozzo.com;
-Received: from AM9PR08MB6737.eurprd08.prod.outlook.com (2603:10a6:20b:304::18)
- by DB7PR08MB3113.eurprd08.prod.outlook.com (2603:10a6:5:20::21) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4930.15; Thu, 27 Jan
- 2022 13:55:40 +0000
-Received: from AM9PR08MB6737.eurprd08.prod.outlook.com
- ([fe80::4def:4b08:dfe6:b4bd]) by AM9PR08MB6737.eurprd08.prod.outlook.com
- ([fe80::4def:4b08:dfe6:b4bd%3]) with mapi id 15.20.4909.017; Thu, 27 Jan 2022
- 13:55:40 +0000
-Message-ID: <d80654f3-9da9-e3f0-3968-a0658627e6e1@virtuozzo.com>
-Date: Thu, 27 Jan 2022 16:55:38 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [PULL 0/8] QAPI patches patches for 2022-01-27
-Content-Language: en-US
-To: Peter Maydell <peter.maydell@linaro.org>,
- Markus Armbruster <armbru@redhat.com>
-Cc: qemu-devel@nongnu.org
-References: <20220127112859.222484-1-armbru@redhat.com>
- <CAFEAcA-63VsRor-FbOo7KhR-5R1a2AeBmJc=GzNTZmPoq5kWWQ@mail.gmail.com>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-In-Reply-To: <CAFEAcA-63VsRor-FbOo7KhR-5R1a2AeBmJc=GzNTZmPoq5kWWQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: FR3P281CA0032.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:1c::13) To AM9PR08MB6737.eurprd08.prod.outlook.com
- (2603:10a6:20b:304::18)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1nD5MN-0003g4-LA
+ for qemu-devel@nongnu.org; Thu, 27 Jan 2022 09:02:47 -0500
+Received: from [2a00:1450:4864:20::331] (port=56134
+ helo=mail-wm1-x331.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1nD5ML-0000c7-Au
+ for qemu-devel@nongnu.org; Thu, 27 Jan 2022 09:02:47 -0500
+Received: by mail-wm1-x331.google.com with SMTP id r7so2003354wmq.5
+ for <qemu-devel@nongnu.org>; Thu, 27 Jan 2022 06:02:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=tkqUQB+Z68LqsV8nNXr4aY67heT2gE+llsiDXPUiMtY=;
+ b=pNyuYNDxW9tov4xwsdczD5QbZrIMAC3gBeUox/KkolEghTFCVwjb4FyNNAR8b1/w/f
+ OwIltt1a2O7WjwgaQ1Ufuk2bQp2ICcXZplYkCstpBTT6dXkEH4A0FT3rhpdpuZrfDVXc
+ tgn9UIaeGdvspZPtXqbv2w91sLiP2U/6V7YY74/kyosgtn44Xh7Uwz4TcPgdGwK2hY/X
+ tmBTaFG3d7wU2dQs/u57d5XiqwgEdF7lS8xlRCNo1rK0pLWlcgzTacWlPqoOop8uz9iT
+ yoooMFej2VYwhbuWATxnn1YyPT8yE+pHoje4D1vZ0VmLxOcUyk9LA9dCvHnHIK8toRtV
+ cCyw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=tkqUQB+Z68LqsV8nNXr4aY67heT2gE+llsiDXPUiMtY=;
+ b=WtlChusuKx1AIiyWw5sOJvnNkaIFYD0glt6mEr5SnRx25czJ5O/SpDfP7nlgQubW44
+ Cmlf9D6BLitcRLwpjJoaoEEUdzA/IW2cavk/k84RRWp9dBnaCJ9xTGEUU7PCdDYzsfOT
+ SiQBosfUHSCXQv3hItSyFfGCjXMji0VSP8uJp8TyjPr0NbteJYmVCaD28fQtb3PGEmlm
+ +zl5rukkjrL2pkRmZOgwFAsDGhBARIbs2+289nxyYLPVcORUJjrn4OpPm2+WoXp22j9R
+ B9wQ4VEValtiTDEgrxjP9BdEEgk42scgXbvUNbL2FFp38f4OfK6xV81+nBW7xcVyUb7R
+ qCTg==
+X-Gm-Message-State: AOAM530rUkDY0dbm/BXexZzm80PuOoVj0qZUu7P1TxrC2aylvxUr7XaX
+ JCypr0TH1qm3kYXSk/V63HbOYg==
+X-Google-Smtp-Source: ABdhPJxPo5tYIKAQV7rja4QAjgj6D07+0MHuJ+TT11lF5j7OGFRQt5k2MJ0chDg+cxi0Rsw9YJSzhQ==
+X-Received: by 2002:a05:600c:a06:: with SMTP id
+ z6mr11675850wmp.9.1643292163790; 
+ Thu, 27 Jan 2022 06:02:43 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id i6sm2049590wma.22.2022.01.27.06.02.42
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 27 Jan 2022 06:02:42 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 47FD21FFB7;
+ Thu, 27 Jan 2022 14:02:42 +0000 (GMT)
+References: <20220124171705.10432-1-Jonathan.Cameron@huawei.com>
+ <20220124171705.10432-14-Jonathan.Cameron@huawei.com>
+User-agent: mu4e 1.7.6; emacs 28.0.91
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Subject: Re: [PATCH v4 13/42] hw/pxb: Allow creation of a CXL PXB (host bridge)
+Date: Thu, 27 Jan 2022 13:59:56 +0000
+In-reply-to: <20220124171705.10432-14-Jonathan.Cameron@huawei.com>
+Message-ID: <87ee4t9szh.fsf@linaro.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: dc47bf5f-d8f3-4d2d-d1bf-08d9e19cb3f1
-X-MS-TrafficTypeDiagnostic: DB7PR08MB3113:EE_
-X-Microsoft-Antispam-PRVS: <DB7PR08MB311394A5C09A8CB6C7F2C9B7C1219@DB7PR08MB3113.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:1850;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: eeYGTSGgkFACaYzLcNeePvxzilWiL1Er2Cl4ZydJhXkQt/6NSZp4+11c1znk0g1FPopXD+eLY3suUB9HMMYbDzQiOl2csHbSLGs8Eb9j3ZDqCG7yFwZH+lw5dopCKZbawRrOo3jlVtqR5ONWRfolq4h3TRKEJ79iSEosHCpEB0STtMULRbATw3ntgLBKDtXFLzIoBu/GFxSfi0CEfdh3bwzjLXIvCUp2vP0UUmNDlXmQYXjo6S7JdbTH5F3YcFlZj9JPNA68jvdJ5i3/VvxlQPn/AFst8VUhIEifi/u/U5hzoOEvOfLEGU9xL86H5Xk/mXvCY0mjdKnAO07J1dJRyN4mmhZS7H1PBW0jwhHbgot1j8ZyVGRSiAa/goCAqL2JKs0xd5wBFIjJB72q1N06/7/LpcOLLXOR75jJQRr96xakdDqmBuZrxiPLODOo9oHqDFYPxCS2gYsHjKYPCNCJmmfLFwOAFEkA/oQjzOLDZSAjZ0xW+j2GcXn/Vu9Qq2atYCfMv58WmJmVliAcR6D09tnVrJIR9NIp8njmWecbM6bJeUkKGfb6GjGBK59aotA8QiYQEjRc85SU0IlEJBzYKQmSY0MmrEpNB++WIiYQOCWqOFTE8Y0c8Pgr6umHNRC/WeIE65aNmGRCA5He2oHG0AkKXGvbX/6+MdU3uY/bRDvKCfHcy+EUPyQq4DWoXib/+NPQqICDuqOylFbpFkxhy70zpq4XC9RKg1KTlIEg3e0508ki+fjE2YOCRMkGlDTYvl/639x87jQe5w732MKxCoOz22ssdI0jl1p3f2dY/shwKAvIle1mVVVbmycgfquZxs9sHNahjsNUSYNd5nIp/A3s+jOGSlso2tSziTJUaHs=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM9PR08MB6737.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230001)(4636009)(366004)(5660300002)(508600001)(36756003)(6486002)(66476007)(83380400001)(966005)(66946007)(66556008)(38350700002)(4326008)(38100700002)(316002)(86362001)(8936002)(110136005)(8676002)(31696002)(186003)(6512007)(6506007)(26005)(2616005)(31686004)(2906002)(52116002)(45980500001)(43740500002)(20210929001);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?blFLUVFDd0VBT29pYTlGcjByVjFBckVPNnZ6RDR4a1FGMzdRaXBydDg1SE1S?=
- =?utf-8?B?Z0VnK0ZYcE5wT0UrdEFlY0ZPemVCTEJtaTBoNkVFL0V0VkR6OUhmWWFHVDhH?=
- =?utf-8?B?SjM4T0dmaktaSnJOa0Y5VG14WVpQdlFoandsN1FpNFJTTkdUczd5OCtSelM3?=
- =?utf-8?B?M09xR3NNOC9nK1VFdnNiMk1Ia1ozcCs5bzBBYktyY0psODlFZjNqQnZ6UUxr?=
- =?utf-8?B?MU5Xc0FIWjBGVXcvOUpOOTdSTGVOVmI1WDBxZlhIcW1mV0RKUmg5bGpaK0JM?=
- =?utf-8?B?b2dTMzBWZ0JLOXdwLy90Y2VKUXRkSzVROGhtUEwrWUc5dWJpRStJL2krRnJx?=
- =?utf-8?B?eEQ3cGdjL2Jmb3dYdGJFb2ZBcEhMV3ByU1BxL3pYcGZzZkRacTErVjQ1dW93?=
- =?utf-8?B?VTE1Nm8xYzU0M1QzaXF2dk1sR2lpN0hUT0p3ZHNCSVdoOHA0UzR2UGgyUmtQ?=
- =?utf-8?B?TkhYdHNCU295R0d2K1h4V0xUMGZPd1BSZU4wUHBqVWNRWUQwb0ZkTGsrYWZS?=
- =?utf-8?B?emdKRENUUDY4dGxWY1prYkd3eHVpWE5xSFBGbzkxTitZcG5TajVPVGxhRUcw?=
- =?utf-8?B?QXFnWkRQR0s0aXVsSGN0RjVwdU1QaEp0dUliVnFrdC82b3VNaHZZaGcwdVZ2?=
- =?utf-8?B?MlZNM3JCbjQ2bXI0R2J6VmVMWDdnOU12OXU3TitFbXU5YnV1SlNYOURZUGZ6?=
- =?utf-8?B?L2hlSEZPUmFseEFJd1ZZak1YdEpHNTVaTVc3eDlpcFMvdnhvN3A3cHJBeWdN?=
- =?utf-8?B?YjdkRnpyVHU1ek5WVDFadktXbnVRL3NCSjFWTTV0eTYzNmVaNUpiZWRvMk5n?=
- =?utf-8?B?Z0Z4Q2k4ODBJSHZsSUhjUi9BTXkxYkhQd2lLS2lUK2JlNUVzYVNsMnpoRHg3?=
- =?utf-8?B?WHRVZXlRZUpOSENQcU9BSFJoSGludFF0dHJHcU8rU0NwU1ZHZkw4a2xlUGNs?=
- =?utf-8?B?eVJNdnY4bjl1Y056Y0s1UXFQM1B3bnkyWk9GV2l5bE9GMGZUM2ZvL2F6eW1m?=
- =?utf-8?B?czE0TllqZTE1UFFZdGlBUmgxR3pzZUVkSGdtY1hkSktzZ0VhR2tDVXJ0Qm1G?=
- =?utf-8?B?dTJuRzhsdjJQVndqaHlMMUFURGI5ejErV2RweXhoaHJQVlRSK3dKajdwREx0?=
- =?utf-8?B?VWRkeDhHY243VmpWek9xUWVZZHZFN3grVURyVEtkVVJSSHlCOXhtL1liQVdx?=
- =?utf-8?B?b0EzL08xRTJ6Mll4dFJRYXZ4eHVGVzFSSTZ5RmZBSU9HbEJmUHhiSG0wd1Ft?=
- =?utf-8?B?Rkw0QmErWjZjQ3czbFdsOHp4VWgzeVEwODViK01pK2VETko0REVHYTlwZ3Qz?=
- =?utf-8?B?aGZrMk5XOWlMaXpGWVc5bHMvdXpwT0cyZTcxL1dFajJRNFp5MXp6YkZua2ZE?=
- =?utf-8?B?aDNLeFJDTmNxSG5XdkhBL2I3dzZCQjRiWnFHcmI3TkN5anNoRFVZRUc0RU1V?=
- =?utf-8?B?TnN0NXJWbGZCTjc0RXVhblllU1REMERCZmZMaG1Sa0F6US9qVThXRnhoS29U?=
- =?utf-8?B?TVVSN091ajhJbThLMno1bEJMRWsrSlp1ejl0bmptd2xIaFc4ODhETnpNQ0dO?=
- =?utf-8?B?blViWmNaM2JuWnpGd1ZPKzBkd05jVjF6disraVBGaU9IZ0pXLy9pNE5ibHVG?=
- =?utf-8?B?WldhZmVVc3hQOW1jQ0szUVM3SGR5RWpCSXRoUk4wWDY2UFh4UnlQQzRuN3J1?=
- =?utf-8?B?dEZmWDFGUjNySnVzaWhaS1RMaWdSN2tqdjZVaXRXSW0wRnExUkNZdHJFeFhG?=
- =?utf-8?B?VG1Sa0xXVDdOZzk2YkFERXI4T0E2a0tzTlVzQ0tZNEpzalMxMzVOMis2RWdy?=
- =?utf-8?B?M3BNODVOVFBBWU5BZEN6OHQveWNCK2dXWW5STUc4TlFWU3V1WUN6LzkyczJq?=
- =?utf-8?B?MHNKaVhNVS9lVjhMUEc2alRpaVhMckFwR3ZFZmNGcVZXWnBBNUMwaFpFem9i?=
- =?utf-8?B?MGFJWUxQM0NQTHhCWkpXYUNROE13VjBsSmlweEdOVkpYdWJpditCY2tlQ2Mr?=
- =?utf-8?B?RUZuZ0xGdjZUblEySkRaQ3QzUCtWZFFFS0pPMEk3eDJXdjd0ZjMwWXB0RGRO?=
- =?utf-8?B?NVNHR25hTDlZcUhDMFdZeCtNMFZPZndZMTM5cm1Nb1NzcTJITlMvTVEzZTJq?=
- =?utf-8?B?eEorb253RVJzdUhiVms3SzNYYkoreUdBaUlhZ1RFWWFpWk5rSkovR0E5TjR0?=
- =?utf-8?B?STJEZU4zM1lXKzZhcllYaWtZbmlhdURIeHY1eXFNYXdjZnZ1d1FMSVpWYTdp?=
- =?utf-8?Q?j3Yy8KSW/oJ+t7R+1wF2kR23G/VubrRotJHdmxRUQc=3D?=
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: dc47bf5f-d8f3-4d2d-d1bf-08d9e19cb3f1
-X-MS-Exchange-CrossTenant-AuthSource: AM9PR08MB6737.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Jan 2022 13:55:40.2408 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: b6F2rxWB6IXLl5h12gCP8e5dO7odKtxEngp9mO60ji0D5cJyz22EuOrRZ+dpk4nIW5rt1ljrj7U7rvAAg/ujmJUIAec68pBj383cphGHpYg=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB7PR08MB3113
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a01:111:f400:7e1b::725
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::331
  (failed)
-Received-SPF: pass client-ip=2a01:111:f400:7e1b::725;
- envelope-from=vsementsov@virtuozzo.com;
- helo=EUR05-AM6-obe.outbound.protection.outlook.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::331;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x331.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
 X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -150,62 +91,294 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Ben Widawsky <ben.widawsky@intel.com>, "Michael S
+ . Tsirkin" <mst@redhat.com>, Samarth Saxena <samarths@cadence.com>,
+ Chris Browy <cbrowy@avery-design.com>, qemu-devel@nongnu.org,
+ linux-cxl@vger.kernel.org, linuxarm@huawei.com,
+ Shreyas Shah <shreyas.shah@elastics.cloud>, Saransh Gupta1 <saransh@ibm.com>,
+ Shameerali Kolothum Thodi <shameerali.kolothum.thodi@huawei.com>,
+ Marcel Apfelbaum <marcel@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
+ Dan Williams <dan.j.williams@intel.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-27.01.2022 15:56, Peter Maydell wrote:
-> On Thu, 27 Jan 2022 at 11:29, Markus Armbruster <armbru@redhat.com> wrote:
->>
->> The following changes since commit 48302d4eb628ff0bea4d7e92cbf6b726410eb4c3:
->>
->>    Merge remote-tracking branch 'remotes/dgilbert-gitlab/tags/pull-virtiofs-20220126' into staging (2022-01-26 10:59:50 +0000)
->>
->> are available in the Git repository at:
->>
->>    git://repo.or.cz/qemu/armbru.git tags/pull-qapi-2022-01-27
->>
->> for you to fetch changes up to 5161c168b44f3a8fcae8c4f29c81f374ab0af8e1:
->>
->>    qapi: generate trace events by default (2022-01-27 11:28:44 +0100)
->>
->> ----------------------------------------------------------------
->> QAPI patches patches for 2022-01-27
->>
-> 
-> Fails to build on the CI jobs that build docs, eg:
-> https://gitlab.com/qemu-project/qemu/-/jobs/2022584945
-> https://gitlab.com/qemu-project/qemu/-/jobs/2022585026
-> 
-> Warning, treated as error:
-> /home/gitlab-runner/builds/CMuZxyfG/0/qemu-project/qemu/docs/devel/qapi-code-gen.rst:1634:undefined
-> label: tracing (if the link has no caption the label must precede a
-> section header)
-> 
 
-Sorry :/ again, me not enabling docs compilation to save my time and waste others one :(
+Jonathan Cameron <Jonathan.Cameron@huawei.com> writes:
 
-The fix should look like this (squash to "docs/qapi-code-gen: update to cover trace events code generation" patch):
+> From: Ben Widawsky <ben.widawsky@intel.com>
+>
+> This works like adding a typical pxb device, except the name is
+> 'pxb-cxl' instead of 'pxb-pcie'. An example command line would be as
+> follows:
+>   -device pxb-cxl,id=3Dcxl.0,bus=3D"pcie.0",bus_nr=3D1
+>
+> A CXL PXB is backward compatible with PCIe. What this means in practice
+> is that an operating system that is unaware of CXL should still be able
+> to enumerate this topology as if it were PCIe.
+>
+> One can create multiple CXL PXB host bridges, but a host bridge can only
+> be connected to the main root bus. Host bridges cannot appear elsewhere
+> in the topology.
+>
+> Note that as of this patch, the ACPI tables needed for the host bridge
+> (specifically, an ACPI object in _SB named ACPI0016 and the CEDT) aren't
+> created. So while this patch internally creates it, it cannot be
+> properly used by an operating system or other system software.
+>
+> Signed-off-by: Ben Widawsky <ben.widawsky@intel.com>
+> Signed-off-by: Jonathan.Cameron <Jonathan.Cameron@huawei.com>
+> ---
+>  hw/pci-bridge/pci_expander_bridge.c | 98 ++++++++++++++++++++++++++++-
+>  hw/pci/pci.c                        |  7 +++
+>  include/hw/pci/pci.h                |  6 ++
+>  3 files changed, 109 insertions(+), 2 deletions(-)
+>
+> diff --git a/hw/pci-bridge/pci_expander_bridge.c b/hw/pci-bridge/pci_expa=
+nder_bridge.c
+> index a6caa1e7b5..7009b541de 100644
+> --- a/hw/pci-bridge/pci_expander_bridge.c
+> +++ b/hw/pci-bridge/pci_expander_bridge.c
+> @@ -17,6 +17,7 @@
+>  #include "hw/pci/pci_host.h"
+>  #include "hw/qdev-properties.h"
+>  #include "hw/pci/pci_bridge.h"
+> +#include "hw/cxl/cxl.h"
+>  #include "qemu/range.h"
+>  #include "qemu/error-report.h"
+>  #include "qemu/module.h"
+> @@ -56,6 +57,10 @@ DECLARE_INSTANCE_CHECKER(PXBDev, PXB_DEV,
+>  DECLARE_INSTANCE_CHECKER(PXBDev, PXB_PCIE_DEV,
+>                           TYPE_PXB_PCIE_DEVICE)
+>=20=20
+> +#define TYPE_PXB_CXL_DEVICE "pxb-cxl"
+> +DECLARE_INSTANCE_CHECKER(PXBDev, PXB_CXL_DEV,
+> +                         TYPE_PXB_CXL_DEVICE)
+> +
+>  struct PXBDev {
+>      /*< private >*/
+>      PCIDevice parent_obj;
+> @@ -66,8 +71,19 @@ struct PXBDev {
+>      bool bypass_iommu;
+>  };
+>=20=20
+> +typedef struct CXLHost {
+> +    PCIHostState parent_obj;
+> +
+> +    CXLComponentState cxl_cstate;
+> +} CXLHost;
+> +
+>  static PXBDev *convert_to_pxb(PCIDevice *dev)
+>  {
+> +    /* A CXL PXB's parent bus is PCIe, so the normal check won't work */
+> +    if (object_dynamic_cast(OBJECT(dev), TYPE_PXB_CXL_DEVICE)) {
+> +        return PXB_CXL_DEV(dev);
+> +    }
+> +
+>      return pci_bus_is_express(pci_get_bus(dev))
+>          ? PXB_PCIE_DEV(dev) : PXB_DEV(dev);
+>  }
+> @@ -76,6 +92,9 @@ static GList *pxb_dev_list;
+>=20=20
+>  #define TYPE_PXB_HOST "pxb-host"
+>=20=20
+> +#define TYPE_PXB_CXL_HOST "pxb-cxl-host"
+> +#define PXB_CXL_HOST(obj) OBJECT_CHECK(CXLHost, (obj), TYPE_PXB_CXL_HOST)
+> +
+>  static int pxb_bus_num(PCIBus *bus)
+>  {
+>      PXBDev *pxb =3D convert_to_pxb(bus->parent_dev);
+> @@ -112,11 +131,20 @@ static const TypeInfo pxb_pcie_bus_info =3D {
+>      .class_init    =3D pxb_bus_class_init,
+>  };
+>=20=20
+> +static const TypeInfo pxb_cxl_bus_info =3D {
+> +    .name          =3D TYPE_PXB_CXL_BUS,
+> +    .parent        =3D TYPE_CXL_BUS,
+> +    .instance_size =3D sizeof(PXBBus),
+> +    .class_init    =3D pxb_bus_class_init,
+> +};
+> +
+>  static const char *pxb_host_root_bus_path(PCIHostState *host_bridge,
+>                                            PCIBus *rootbus)
+>  {
+> -    PXBBus *bus =3D pci_bus_is_express(rootbus) ?
+> -                  PXB_PCIE_BUS(rootbus) : PXB_BUS(rootbus);
+> +    PXBBus *bus =3D pci_bus_is_cxl(rootbus) ?
+> +                      PXB_CXL_BUS(rootbus) :
+> +                      pci_bus_is_express(rootbus) ? PXB_PCIE_BUS(rootbus=
+) :
+> +                                                    PXB_BUS(rootbus);
+>=20=20
+>      snprintf(bus->bus_path, 8, "0000:%02x", pxb_bus_num(rootbus));
+>      return bus->bus_path;
+> @@ -218,6 +246,16 @@ static int pxb_map_irq_fn(PCIDevice *pci_dev, int pi=
+n)
+>      return pin - PCI_SLOT(pxb->devfn);
+>  }
+>=20=20
+> +static void pxb_dev_reset(DeviceState *dev)
+> +{
+> +    CXLHost *cxl =3D PXB_CXL_HOST(dev);
+> +    CXLComponentState *cxl_cstate =3D &cxl->cxl_cstate;
+> +    uint32_t *reg_state =3D cxl_cstate->crb.cache_mem_registers;
+> +
+> +    cxl_component_register_init_common(reg_state, CXL2_ROOT_PORT);
+> +    ARRAY_FIELD_DP32(reg_state, CXL_HDM_DECODER_CAPABILITY, TARGET_COUNT=
+, 8);
+> +}
+> +
+>  static gint pxb_compare(gconstpointer a, gconstpointer b)
+>  {
+>      const PXBDev *pxb_a =3D a, *pxb_b =3D b;
+> @@ -290,6 +328,11 @@ static void pxb_dev_realize_common(PCIDevice *dev, e=
+num BusType type,
+>      pci_config_set_class(dev->config, PCI_CLASS_BRIDGE_HOST);
+>=20=20
+>      pxb_dev_list =3D g_list_insert_sorted(pxb_dev_list, pxb, pxb_compare=
+);
+> +
+> +    if (type =3D=3D CXL) {
+> +        pxb_dev_reset(ds);
+> +    }
+> +
 
-diff --git a/docs/devel/tracing.rst b/docs/devel/tracing.rst
-index ba83954899..4290ac42ee 100644
---- a/docs/devel/tracing.rst
-+++ b/docs/devel/tracing.rst
-@@ -1,3 +1,5 @@
-+.. _tracing:
-+
-  =======
-  Tracing
-  =======
+Couldn't this just be done in the cxl realize function after it calls the
+common code?
+
+>      return;
+>=20=20
+>  err_register_bus:
+> @@ -338,6 +381,12 @@ static void pxb_dev_class_init(ObjectClass *klass, v=
+oid *data)
+>      device_class_set_props(dc, pxb_dev_properties);
+>      dc->hotpluggable =3D false;
+>      set_bit(DEVICE_CATEGORY_BRIDGE, dc->categories);
+> +
+> +    /*
+> +     * Reset doesn't seem to actually be called, but maybe it will in the
+> +     * future?
+> +     */
+> +    dc->reset =3D pxb_dev_reset;
+
+Surely because this should be in pxb_cxl_dev_class_init?
+
+>  }
+>=20=20
+>  static const TypeInfo pxb_dev_info =3D {
+> @@ -389,13 +438,58 @@ static const TypeInfo pxb_pcie_dev_info =3D {
+>      },
+>  };
+>=20=20
+> +static void pxb_cxl_dev_realize(PCIDevice *dev, Error **errp)
+> +{
+> +    /* A CXL PXB's parent bus is still PCIe */
+> +    if (!pci_bus_is_express(pci_get_bus(dev))) {
+> +        error_setg(errp, "pxb-cxl devices cannot reside on a PCI bus");
+> +        return;
+> +    }
+> +
+> +    pxb_dev_realize_common(dev, CXL, errp);
+> +}
+> +
+> +static void pxb_cxl_dev_class_init(ObjectClass *klass, void *data)
+> +{
+> +    DeviceClass *dc   =3D DEVICE_CLASS(klass);
+> +    PCIDeviceClass *k =3D PCI_DEVICE_CLASS(klass);
+> +
+> +    k->realize             =3D pxb_cxl_dev_realize;
+> +    k->exit                =3D pxb_dev_exitfn;
+> +    /*
+> +     * XXX: These types of bridges don't actually show up in the hierarc=
+hy so
+> +     * vendor, device, class, etc. ids are intentionally left out.
+> +     */
+> +
+> +    dc->desc =3D "CXL Host Bridge";
+> +    device_class_set_props(dc, pxb_dev_properties);
+> +    set_bit(DEVICE_CATEGORY_BRIDGE, dc->categories);
+> +
+> +    /* Host bridges aren't hotpluggable. FIXME: spec reference */
+> +    dc->hotpluggable =3D false;
+> +}
+> +
+> +static const TypeInfo pxb_cxl_dev_info =3D {
+> +    .name          =3D TYPE_PXB_CXL_DEVICE,
+> +    .parent        =3D TYPE_PCI_DEVICE,
+> +    .instance_size =3D sizeof(PXBDev),
+> +    .class_init    =3D pxb_cxl_dev_class_init,
+> +    .interfaces =3D
+> +        (InterfaceInfo[]){
+> +            { INTERFACE_CONVENTIONAL_PCI_DEVICE },
+> +            {},
+> +        },
+> +};
+> +
+>  static void pxb_register_types(void)
+>  {
+>      type_register_static(&pxb_bus_info);
+>      type_register_static(&pxb_pcie_bus_info);
+> +    type_register_static(&pxb_cxl_bus_info);
+>      type_register_static(&pxb_host_info);
+>      type_register_static(&pxb_dev_info);
+>      type_register_static(&pxb_pcie_dev_info);
+> +    type_register_static(&pxb_cxl_dev_info);
+>  }
+>=20=20
+>  type_init(pxb_register_types)
+> diff --git a/hw/pci/pci.c b/hw/pci/pci.c
+> index 474ea98c1d..cafebf6f59 100644
+> --- a/hw/pci/pci.c
+> +++ b/hw/pci/pci.c
+> @@ -229,6 +229,12 @@ static const TypeInfo pcie_bus_info =3D {
+>      .class_init =3D pcie_bus_class_init,
+>  };
+>=20=20
+> +static const TypeInfo cxl_bus_info =3D {
+> +    .name       =3D TYPE_CXL_BUS,
+> +    .parent     =3D TYPE_PCIE_BUS,
+> +    .class_init =3D pcie_bus_class_init,
+> +};
+> +
+>  static PCIBus *pci_find_bus_nr(PCIBus *bus, int bus_num);
+>  static void pci_update_mappings(PCIDevice *d);
+>  static void pci_irq_handler(void *opaque, int irq_num, int level);
+> @@ -2892,6 +2898,7 @@ static void pci_register_types(void)
+>  {
+>      type_register_static(&pci_bus_info);
+>      type_register_static(&pcie_bus_info);
+> +    type_register_static(&cxl_bus_info);
+>      type_register_static(&conventional_pci_interface_info);
+>      type_register_static(&cxl_interface_info);
+>      type_register_static(&pcie_interface_info);
+> diff --git a/include/hw/pci/pci.h b/include/hw/pci/pci.h
+> index 908896ebe8..97cbbad375 100644
+> --- a/include/hw/pci/pci.h
+> +++ b/include/hw/pci/pci.h
+> @@ -409,6 +409,7 @@ typedef PCIINTxRoute (*pci_route_irq_fn)(void *opaque=
+, int pin);
+>  #define TYPE_PCI_BUS "PCI"
+>  OBJECT_DECLARE_TYPE(PCIBus, PCIBusClass, PCI_BUS)
+>  #define TYPE_PCIE_BUS "PCIE"
+> +#define TYPE_CXL_BUS "CXL"
+>=20=20
+>  typedef void (*pci_bus_dev_fn)(PCIBus *b, PCIDevice *d, void *opaque);
+>  typedef void (*pci_bus_fn)(PCIBus *b, void *opaque);
+> @@ -768,6 +769,11 @@ static inline void pci_irq_pulse(PCIDevice *pci_dev)
+>      pci_irq_deassert(pci_dev);
+>  }
+>=20=20
+> +static inline int pci_is_cxl(const PCIDevice *d)
+> +{
+> +    return d->cap_present & QEMU_PCIE_CAP_CXL;
+> +}
+> +
+>  static inline int pci_is_express(const PCIDevice *d)
+>  {
+>      return d->cap_present & QEMU_PCI_CAP_EXPRESS;
 
 
-Than link works. For example, in docs/devel/build-system.rst we have :ref:`kconfig` and docs/devel/kconfig.rst starts with
-
-.. _kconfig:
-
-
-
-
--- 
-Best regards,
-Vladimir
+--=20
+Alex Benn=C3=A9e
 
