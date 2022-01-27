@@ -2,64 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 12F6B49E1DD
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Jan 2022 13:03:42 +0100 (CET)
-Received: from localhost ([::1]:53824 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C7B049E19C
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Jan 2022 12:52:12 +0100 (CET)
+Received: from localhost ([::1]:33234 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nD3V6-0005PB-UN
-	for lists+qemu-devel@lfdr.de; Thu, 27 Jan 2022 07:03:40 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:43280)
+	id 1nD3Jz-0007qs-IN
+	for lists+qemu-devel@lfdr.de; Thu, 27 Jan 2022 06:52:11 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:43284)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nD2xk-0005dy-9m
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nD2xl-0005eI-76
  for qemu-devel@nongnu.org; Thu, 27 Jan 2022 06:29:13 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:30101)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:23320)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nD2xi-0000Nf-Fn
- for qemu-devel@nongnu.org; Thu, 27 Jan 2022 06:29:11 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nD2xi-0000Np-Vj
+ for qemu-devel@nongnu.org; Thu, 27 Jan 2022 06:29:12 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1643282949;
+ s=mimecast20190719; t=1643282950;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=RWHYDG+AYSTXXnvdt63cGlbBLmMtorvMEgBAXFzb4G4=;
- b=WkAvtBiOKG7QnPYQnSXYSZQkVI/dcfpTtoP4J/F95QSDPSZUHPZ8RyIzjtohHcPmcMd3Cs
- WcIm78KTIuXBKHwdbqmAmGddlT9wuMJOFRgQB5pc8AxW+seaajtW5NB5VueIq31GdK5aV7
- r8/XNYYUrtwuHdxf1JxoOWZW6oCKxdg=
+ bh=hc7P+KISRThSIHMrqupvteMA+A9ZU/+oAwFyGejzFEU=;
+ b=X2YXYY0ZAkaPgq0AvHRlvIUcw17q0w5h5nHKMQriRqnefg4LWBgfYSHHQaHCWhLf7r7xbA
+ R4EePc5e9t90VJghCOPq11Mr+K9vIfOOd5c9PdDvup1Nu7JbskNRAxoCZ/sdC/NXaGXkEb
+ rJ8F0s59tMQrrNw9009r54GBFrJ4YRg=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-30-sK5ghe3FOEqvicqnCrVZrQ-1; Thu, 27 Jan 2022 06:29:06 -0500
-X-MC-Unique: sK5ghe3FOEqvicqnCrVZrQ-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-183-YTFoOv2OM2OYKMyUxd3s9Q-1; Thu, 27 Jan 2022 06:29:07 -0500
+X-MC-Unique: YTFoOv2OM2OYKMyUxd3s9Q-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B5ACB8519E3;
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DB89686A064;
  Thu, 27 Jan 2022 11:29:05 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-7.ams2.redhat.com [10.36.112.7])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 838C6110F9C;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 8340A752DE;
  Thu, 27 Jan 2022 11:29:05 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 7680F11380A9; Thu, 27 Jan 2022 12:28:59 +0100 (CET)
+ id 79E1311380AB; Thu, 27 Jan 2022 12:28:59 +0100 (CET)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 7/8] meson: document why we don't generate trace events for
- tests/ and qga/
-Date: Thu, 27 Jan 2022 12:28:58 +0100
-Message-Id: <20220127112859.222484-8-armbru@redhat.com>
+Subject: [PULL 8/8] qapi: generate trace events by default
+Date: Thu, 27 Jan 2022 12:28:59 +0100
+Message-Id: <20220127112859.222484-9-armbru@redhat.com>
 In-Reply-To: <20220127112859.222484-1-armbru@redhat.com>
 References: <20220127112859.222484-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
@@ -88,60 +87,103 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 
-Making trace generation work for tests/ and qga/ would involve some
-Meson hackery to ensure we generate the trace-events files before
-trace-tool uses them. Since we don't actually support tracing there
-anyway, we bypass that problem.
+We don't generate trace events for tests/ and qga/ because that it is
+not simple and not necessary. We have corresponding comments in both
+tests/meson.build and qga/meson.build.
 
-Let's add corresponding comments.
+Still to not miss possible future qapi code generation call, and not to
+forget to enable trace events generation, let's enable it by default.
+So, turn option --gen-trace into opposite --no-trace-events and use new
+option only in tests/ and qga/ where we already have good comments why
+we don't generate trace events code.
+
+Note that this commit enables trace-events generation for qapi-gen.py
+call from tests/qapi-schema/meson.build and storage-daemon/meson.build.
+Still, both are kind of noop: tests/qapi-schema/ doesn't seem to
+generate any QMP command code and no .trace-events files anyway,
+storage-daemon/ uses common QMP command implementations and just
+generate empty .trace-events
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Message-Id: <20220126161130.3240892-7-vsementsov@virtuozzo.com>
 Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+Message-Id: <20220126161130.3240892-8-vsementsov@virtuozzo.com>
 Reviewed-by: Markus Armbruster <armbru@redhat.com>
-[Pasto fixed, commit message punctuation tidied up]
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 ---
- qga/meson.build   | 7 +++++++
- tests/meson.build | 7 +++++++
- 2 files changed, 14 insertions(+)
+ qapi/meson.build     | 2 +-
+ qga/meson.build      | 3 ++-
+ scripts/qapi/main.py | 8 ++++----
+ tests/meson.build    | 3 ++-
+ 4 files changed, 9 insertions(+), 7 deletions(-)
 
+diff --git a/qapi/meson.build b/qapi/meson.build
+index b22558ca73..656ef0e039 100644
+--- a/qapi/meson.build
++++ b/qapi/meson.build
+@@ -127,7 +127,7 @@ endforeach
+ qapi_files = custom_target('shared QAPI source files',
+   output: qapi_util_outputs + qapi_specific_outputs + qapi_nonmodule_outputs,
+   input: [ files('qapi-schema.json') ],
+-  command: [ qapi_gen, '-o', 'qapi', '-b', '@INPUT0@', '--gen-trace' ],
++  command: [ qapi_gen, '-o', 'qapi', '-b', '@INPUT0@' ],
+   depend_files: [ qapi_inputs, qapi_gen_depends ])
+ 
+ # Now go through all the outputs and add them to the right sourceset.
 diff --git a/qga/meson.build b/qga/meson.build
-index cfb1fbc085..724d5a667b 100644
+index 724d5a667b..f06b726ad3 100644
 --- a/qga/meson.build
 +++ b/qga/meson.build
-@@ -15,6 +15,13 @@ qga_qapi_outputs = [
-   'qga-qapi-visit.h',
- ]
- 
-+# Problem: to generate trace events, we'd have to add the .trace-events
-+# file to qapi_trace_events like we do in qapi/meson.build.  Since
-+# qapi_trace_events is used by trace/meson.build, we'd have to move
-+# subdir('qga') above subdir('trace') in the top-level meson.build.
-+# Can't, because it would break the dependency of qga on qemuutil (which
-+# depends on trace_ss).  Not worth solving now; simply suppress trace
-+# event generation instead.
+@@ -25,7 +25,8 @@ qga_qapi_outputs = [
  qga_qapi_files = custom_target('QGA QAPI files',
                                 output: qga_qapi_outputs,
                                 input: 'qapi-schema.json',
+-                               command: [ qapi_gen, '-o', 'qga', '-p', 'qga-', '@INPUT0@' ],
++                               command: [ qapi_gen, '-o', 'qga', '-p', 'qga-', '@INPUT0@',
++                                          '--suppress-tracing' ],
+                                depend_files: qapi_gen_depends)
+ 
+ qga_ss = ss.source_set()
+diff --git a/scripts/qapi/main.py b/scripts/qapi/main.py
+index 687d408aba..fc216a53d3 100644
+--- a/scripts/qapi/main.py
++++ b/scripts/qapi/main.py
+@@ -76,10 +76,10 @@ def main() -> int:
+                         dest='unmask',
+                         help="expose non-ABI names in introspection")
+ 
+-    # Option --gen-trace exists so we can avoid solving build system
++    # Option --suppress-tracing exists so we can avoid solving build system
+     # problems.  TODO Drop it when we no longer need it.
+-    parser.add_argument('--gen-trace', action='store_true',
+-                        help="add trace events to qmp marshals")
++    parser.add_argument('--suppress-tracing', action='store_true',
++                        help="suppress adding trace events to qmp marshals")
+ 
+     parser.add_argument('schema', action='store')
+     args = parser.parse_args()
+@@ -96,7 +96,7 @@ def main() -> int:
+                  prefix=args.prefix,
+                  unmask=args.unmask,
+                  builtins=args.builtins,
+-                 gen_tracing=args.gen_trace)
++                 gen_tracing=not args.suppress_tracing)
+     except QAPIError as err:
+         print(f"{sys.argv[0]}: {str(err)}", file=sys.stderr)
+         return 1
 diff --git a/tests/meson.build b/tests/meson.build
-index 3f3882748a..c8ab6272d1 100644
+index c8ab6272d1..94a425d94a 100644
 --- a/tests/meson.build
 +++ b/tests/meson.build
-@@ -31,6 +31,13 @@ test_qapi_outputs = [
-   'test-qapi-visit.h',
- ]
+@@ -44,7 +44,8 @@ test_qapi_files = custom_target('Test QAPI files',
+                                              'qapi-schema/include/sub-module.json',
+                                              'qapi-schema/sub-sub-module.json'),
+                                 command: [ qapi_gen, '-o', meson.current_build_dir(),
+-                                           '-b', '-p', 'test-', '@INPUT0@' ],
++                                           '-b', '-p', 'test-', '@INPUT0@',
++                                           '--suppress-tracing' ],
+                                 depend_files: qapi_gen_depends)
  
-+# Problem: to generate trace events, we'd have to add the .trace-events
-+# file to qapi_trace_events like we do in qapi/meson.build.  Since
-+# qapi_trace_events is used by trace/meson.build, we'd have to move
-+# subdir('tests') above subdir('trace') in the top-level meson.build.
-+# Can't, because it would break the dependency of qga on qemuutil (which
-+# depends on trace_ss).  Not worth solving now; simply suppress trace
-+# event generation instead.
- test_qapi_files = custom_target('Test QAPI files',
-                                 output: test_qapi_outputs,
-                                 input: files('qapi-schema/qapi-schema-test.json',
+ # meson doesn't like generated output in other directories
 -- 
 2.31.1
 
