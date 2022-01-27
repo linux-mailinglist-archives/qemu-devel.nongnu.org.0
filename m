@@ -2,74 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D15049E0AB
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Jan 2022 12:22:44 +0100 (CET)
-Received: from localhost ([::1]:45672 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 78BE249E094
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Jan 2022 12:20:17 +0100 (CET)
+Received: from localhost ([::1]:41896 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nD2rT-0002Dv-NY
-	for lists+qemu-devel@lfdr.de; Thu, 27 Jan 2022 06:22:43 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:39048)
+	id 1nD2p6-0007om-GU
+	for lists+qemu-devel@lfdr.de; Thu, 27 Jan 2022 06:20:16 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:39050)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nD2fw-0006mf-K1
+ id 1nD2fw-0006mg-NI
  for qemu-devel@nongnu.org; Thu, 27 Jan 2022 06:10:51 -0500
-Received: from [2a00:1450:4864:20::32f] (port=44946
- helo=mail-wm1-x32f.google.com)
+Received: from [2a00:1450:4864:20::336] (port=55176
+ helo=mail-wm1-x336.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nD2fu-00067p-21
- for qemu-devel@nongnu.org; Thu, 27 Jan 2022 06:10:47 -0500
-Received: by mail-wm1-x32f.google.com with SMTP id
- l35-20020a05600c1d2300b0034d477271c1so1600102wms.3
+ id 1nD2fu-00068t-QC
+ for qemu-devel@nongnu.org; Thu, 27 Jan 2022 06:10:48 -0500
+Received: by mail-wm1-x336.google.com with SMTP id c192so1621632wma.4
  for <qemu-devel@nongnu.org>; Thu, 27 Jan 2022 03:10:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=DM6390IblKITC2WUseBCeDBsNtvZZl5g/IOpmBC35RU=;
- b=ioL1QOJJd1L7r+5EuGtZR2ODgb9Tk/qxDMmuiUcvlP6kUBBVmOjvXMrqNIuBs/4BEz
- WZOWjOrMUc98wjLZmJPCX4NLzgzPgj0l3Ztn2rYfIu8Fg6vzHmfd/GwGcw4SEoFbxvUp
- yhC2uuSmJDR9Tjh6r3mmZ59+N7DPkymTkqTRRV6rNI3yy4W2Qs4bIh/ttA0/ZQsVpz1x
- PcnD15kxziYNFjRGnHNB9dmpNarkyfAeHdlrGLh1YSJve+AEJBMbOkJ19Bx6BbARGyBr
- 9yFkCZU5mKLct9Oc8NJdyif5GkU/4vvorFUh15cfJpIQ/ivaWi5/uoiAbtEEnj5H7cz8
- OuTA==
+ bh=COj2CSQH2YQg2JpQfJANqj/+hFRZ0YGw/IVDcI2ycQI=;
+ b=KLHAnX8Zsr6Uz4X0uPrN0DspQBvlcXtwm0DkILSjDWYwDfA+a/5YM9keVGrs5pXOnO
+ W2aNteRPemmWcNxJgTaLT3nXLh5WPnpsgtmG9HcmSklUuAZLFQFGkDt4qUjAi/YSFMW1
+ lLkMPhT+oKiOyJL/tX+IFEBbCLJcrrKeZ4V1Gda7o4Pj+6EXjaUzl5EQcGMfVOmtrZrU
+ ZLUDVIiglz4CWx+n4YKBXszPE4llTfDGmG0GKraC0BBeDnldBwffBQpaongsO9NOayiN
+ 38exRiXKfDdoB8nWZX9q5QH7+z4beQ/hYxdUEbnR6sg+i3mD30zT37iYKPjrr1DCyKTL
+ nYNw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=DM6390IblKITC2WUseBCeDBsNtvZZl5g/IOpmBC35RU=;
- b=rgaxKO6uzu38k1UbSzWYW89wiImMrTv10wbbFg4wI6LLYr7KiXVAQ/23/CXlq73/DL
- IA5Iomu6M+1LGhO66H6AsAG9nkHBxpk2FKDRtVzQF5pTvdx8P2p/NYJc91Zij0+rf/rG
- /hZXAOoSiPdsW2SAml3FfRF2KrTWuFZPbGy55qL3jdITkchvlV87Kl7nhJL9mWBTQ8Z3
- PuzK9VhC6fGkCJNnKGSjyP571jQfF6d3bPZeZqsxP3j1yGu/ZQBpEneKMD5DN9yH/NYs
- ZCk/gekicIyIB/ZYMrvnpx76lYpcuf12y5SJp8lwDs1/kTLKlVtFG6DXhKXZev91eoLS
- iYaA==
-X-Gm-Message-State: AOAM532idPUnV7oqIfpCUS5s5dewSiCygBeaRR0fat5p7B3sZoLnH3CS
- SnZ3MSaAaUE1yGII90v6daIkcIcP5tk=
-X-Google-Smtp-Source: ABdhPJyRGqtcz14hNDMz/oTA1rWztVwZ8plyh2p9w8WAXDJRLDuilxU1WIfgEp4Z4Y8huU8qf2XLOg==
-X-Received: by 2002:a05:600c:3641:: with SMTP id
- y1mr2701686wmq.53.1643281844357; 
+ bh=COj2CSQH2YQg2JpQfJANqj/+hFRZ0YGw/IVDcI2ycQI=;
+ b=4l1GkhocYqxxvafzQkHklU+et7xb83BIkQMWb7M7icAk9EdF0Wp6HVypzfvHTmBbV3
+ iiEJQg7V4Y+lvMWAbb/6R9Arqf7S2xl8KOFD7QxtBRBAIWxB8l1kTycngGAzneG1ai8v
+ 2uOwjg5W6Q/UrimXYHgPPhj1lhclDf+Q6AjBM/35GevmPh4vZ8cqlfL080jnhQYJuzI9
+ 4cxqUMbOQ7jXRN61sjB90koqmYWVTxUhn1aHP36Zt4GXre+WjmZVY7FYEAtoTgFKljvv
+ GKqYiSksZuy/wMzm3kWjq5ggSXw4e1B0RuOqCFL3/4UEoLtw+ANFsvk8Hv3bL598xNXq
+ 4PEw==
+X-Gm-Message-State: AOAM531l2y5h4mStyTh/xWp6g6S5n6JSAj8gQ//n9DRUAcJnIzHbGzFe
+ iHTvfdAuQEtOiEobEXBxe0yv2FTZ7U0=
+X-Google-Smtp-Source: ABdhPJzDG8q97TaeVpWg01ou99MesMAltMMd5HtfDL8SXbruf7LNPAUQ4BNw7/tjBhLvgzHve6m5Cw==
+X-Received: by 2002:a05:600c:2650:: with SMTP id
+ 16mr2805819wmy.52.1643281844987; 
  Thu, 27 Jan 2022 03:10:44 -0800 (PST)
 Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id s17sm1825742wrm.62.2022.01.27.03.10.43
+ by smtp.gmail.com with ESMTPSA id s17sm1825742wrm.62.2022.01.27.03.10.44
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Thu, 27 Jan 2022 03:10:44 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 06/14] exec/cpu: Make host pages variables / macros 'target
- agnostic'
-Date: Thu, 27 Jan 2022 12:10:29 +0100
-Message-Id: <20220127111037.457901-7-pbonzini@redhat.com>
+Subject: [PULL 07/14] meson: Use find_program() to resolve the entitlement.sh
+ script
+Date: Thu, 27 Jan 2022 12:10:30 +0100
+Message-Id: <20220127111037.457901-8-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220127111037.457901-1-pbonzini@redhat.com>
 References: <20220127111037.457901-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32f
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::336
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x32f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::336;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x336.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -90,67 +89,90 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- David Hildenbrand <david@redhat.com>
+Cc: Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Akihiko Odaki <akihiko.odaki@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <f4bug@amsat.org>
+From: Philippe Mathieu-Daudé via <qemu-devel@nongnu.org>
 
-"host" pages are related to the *host* not the *target*,
-thus the qemu_host_page_size / qemu_host_page_mask variables
-and the HOST_PAGE_ALIGN() / REAL_HOST_PAGE_ALIGN() macros
-can be moved to "exec/cpu-common.h" which is target agnostic.
+Using ../configure without any particular option generates 31 targets
+on Darwin, and meson search for the entitlement.sh script 31 times:
+
+  Program nm found: YES
+  Program scripts/undefsym.py found: YES (/opt/homebrew/opt/python@3.9/bin/python3.9 /Code/qemu/scripts/undefsym.py)
+  Program scripts/feature_to_c.sh found: YES (/bin/sh /Code/qemu/scripts/feature_to_c.sh)
+  Program scripts/entitlement.sh found: YES (/Code/qemu/scripts/entitlement.sh)
+  Program scripts/entitlement.sh found: YES (/Code/qemu/scripts/entitlement.sh)
+  Program scripts/entitlement.sh found: YES (/Code/qemu/scripts/entitlement.sh)
+  Program scripts/entitlement.sh found: YES (/Code/qemu/scripts/entitlement.sh)
+  Program scripts/entitlement.sh found: YES (/Code/qemu/scripts/entitlement.sh)
+  Program scripts/entitlement.sh found: YES (/Code/qemu/scripts/entitlement.sh)
+  Program scripts/entitlement.sh found: YES (/Code/qemu/scripts/entitlement.sh)
+  Program scripts/entitlement.sh found: YES (/Code/qemu/scripts/entitlement.sh)
+  Program scripts/entitlement.sh found: YES (/Code/qemu/scripts/entitlement.sh)
+  Program scripts/entitlement.sh found: YES (/Code/qemu/scripts/entitlement.sh)
+  Program scripts/entitlement.sh found: YES (/Code/qemu/scripts/entitlement.sh)
+  Program scripts/entitlement.sh found: YES (/Code/qemu/scripts/entitlement.sh)
+  Program scripts/entitlement.sh found: YES (/Code/qemu/scripts/entitlement.sh)
+  Program scripts/entitlement.sh found: YES (/Code/qemu/scripts/entitlement.sh)
+  Program scripts/entitlement.sh found: YES (/Code/qemu/scripts/entitlement.sh)
+  Program scripts/entitlement.sh found: YES (/Code/qemu/scripts/entitlement.sh)
+  Program scripts/entitlement.sh found: YES (/Code/qemu/scripts/entitlement.sh)
+  Program scripts/entitlement.sh found: YES (/Code/qemu/scripts/entitlement.sh)
+  Program scripts/entitlement.sh found: YES (/Code/qemu/scripts/entitlement.sh)
+  Program scripts/entitlement.sh found: YES (/Code/qemu/scripts/entitlement.sh)
+  Program scripts/entitlement.sh found: YES (/Code/qemu/scripts/entitlement.sh)
+  Program scripts/entitlement.sh found: YES (/Code/qemu/scripts/entitlement.sh)
+  Program scripts/entitlement.sh found: YES (/Code/qemu/scripts/entitlement.sh)
+  Program scripts/entitlement.sh found: YES (/Code/qemu/scripts/entitlement.sh)
+  Program scripts/entitlement.sh found: YES (/Code/qemu/scripts/entitlement.sh)
+  Program scripts/entitlement.sh found: YES (/Code/qemu/scripts/entitlement.sh)
+  Program scripts/entitlement.sh found: YES (/Code/qemu/scripts/entitlement.sh)
+  Program scripts/entitlement.sh found: YES (/Code/qemu/scripts/entitlement.sh)
+  Program scripts/entitlement.sh found: YES (/Code/qemu/scripts/entitlement.sh)
+  Program scripts/entitlement.sh found: YES (/Code/qemu/scripts/entitlement.sh)
+  Program scripts/entitlement.sh found: YES (/Code/qemu/scripts/entitlement.sh)
+  Configuring 50-edk2-i386-secure.json using configuration
+  Configuring 50-edk2-x86_64-secure.json using configuration
+
+Use find_program() which seems to cache the script path once found.
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Reviewed-by: David Hildenbrand <david@redhat.com>
-Message-Id: <20220120000836.229419-1-f4bug@amsat.org>
+Reviewed-by: Akihiko Odaki <akihiko.odaki@gmail.com>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Message-Id: <20220122002052.83745-1-f4bug@amsat.org>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- include/exec/cpu-all.h    | 9 ---------
- include/exec/cpu-common.h | 9 +++++++++
- 2 files changed, 9 insertions(+), 9 deletions(-)
+ meson.build | 9 +++------
+ 1 file changed, 3 insertions(+), 6 deletions(-)
 
-diff --git a/include/exec/cpu-all.h b/include/exec/cpu-all.h
-index bb37239efa..84caf5c3d9 100644
---- a/include/exec/cpu-all.h
-+++ b/include/exec/cpu-all.h
-@@ -234,15 +234,6 @@ extern const TargetPageBits target_page;
+diff --git a/meson.build b/meson.build
+index 4429fd2041..c69fbbd0cb 100644
+--- a/meson.build
++++ b/meson.build
+@@ -3052,17 +3052,14 @@ foreach target : target_dirs
+         install_input += meson.current_source_dir() / entitlements
+       endif
  
- #define TARGET_PAGE_ALIGN(addr) ROUND_UP((addr), TARGET_PAGE_SIZE)
++      entitlement = find_program('scripts/entitlement.sh')
+       emulators += {exe['name'] : custom_target(exe['name'],
+                    input: build_input,
+                    output: exe['name'],
+-                   command: [
+-                     files('scripts/entitlement.sh'),
+-                     '@OUTPUT@',
+-                     '@INPUT@'
+-                   ])
++                   command: [entitlement, '@OUTPUT@', '@INPUT@'])
+       }
  
--/* Using intptr_t ensures that qemu_*_page_mask is sign-extended even
-- * when intptr_t is 32-bit and we are aligning a long long.
-- */
--extern uintptr_t qemu_host_page_size;
--extern intptr_t qemu_host_page_mask;
--
--#define HOST_PAGE_ALIGN(addr) ROUND_UP((addr), qemu_host_page_size)
--#define REAL_HOST_PAGE_ALIGN(addr) ROUND_UP((addr), qemu_real_host_page_size)
--
- /* same as PROT_xxx */
- #define PAGE_READ      0x0001
- #define PAGE_WRITE     0x0002
-diff --git a/include/exec/cpu-common.h b/include/exec/cpu-common.h
-index 039d422bf4..de5f444b19 100644
---- a/include/exec/cpu-common.h
-+++ b/include/exec/cpu-common.h
-@@ -7,6 +7,15 @@
- #include "exec/hwaddr.h"
- #endif
- 
-+/* Using intptr_t ensures that qemu_*_page_mask is sign-extended even
-+ * when intptr_t is 32-bit and we are aligning a long long.
-+ */
-+extern uintptr_t qemu_host_page_size;
-+extern intptr_t qemu_host_page_mask;
-+
-+#define HOST_PAGE_ALIGN(addr) ROUND_UP((addr), qemu_host_page_size)
-+#define REAL_HOST_PAGE_ALIGN(addr) ROUND_UP((addr), qemu_real_host_page_size)
-+
- /* The CPU list lock nests outside page_(un)lock or mmap_(un)lock */
- void qemu_init_cpu_list(void);
- void cpu_list_lock(void);
+-      meson.add_install_script('scripts/entitlement.sh', '--install',
++      meson.add_install_script(entitlement, '--install',
+                                get_option('bindir') / exe['name'],
+                                install_input)
+     else
 -- 
 2.34.1
 
