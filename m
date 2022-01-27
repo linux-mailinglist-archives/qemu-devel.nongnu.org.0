@@ -2,65 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C07649E86B
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Jan 2022 18:09:29 +0100 (CET)
-Received: from localhost ([::1]:40638 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E19049E85C
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Jan 2022 18:07:51 +0100 (CET)
+Received: from localhost ([::1]:37918 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nD8H1-0001nk-R7
-	for lists+qemu-devel@lfdr.de; Thu, 27 Jan 2022 12:09:27 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:45884)
+	id 1nD8FQ-0008NS-OT
+	for lists+qemu-devel@lfdr.de; Thu, 27 Jan 2022 12:07:49 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:48372)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1nD6ng-0000ET-HA
- for qemu-devel@nongnu.org; Thu, 27 Jan 2022 10:35:04 -0500
-Received: from [2607:f8b0:4864:20::92c] (port=34348
- helo=mail-ua1-x92c.google.com)
+ (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1nD6xN-0003Ql-8U
+ for qemu-devel@nongnu.org; Thu, 27 Jan 2022 10:45:06 -0500
+Received: from [2607:f8b0:4864:20::a29] (port=44547
+ helo=mail-vk1-xa29.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1nD6nc-0006LK-Md
- for qemu-devel@nongnu.org; Thu, 27 Jan 2022 10:35:03 -0500
-Received: by mail-ua1-x92c.google.com with SMTP id y4so5468147uad.1
- for <qemu-devel@nongnu.org>; Thu, 27 Jan 2022 07:34:59 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1nD6xL-0007q8-27
+ for qemu-devel@nongnu.org; Thu, 27 Jan 2022 10:45:04 -0500
+Received: by mail-vk1-xa29.google.com with SMTP id b77so2082722vka.11
+ for <qemu-devel@nongnu.org>; Thu, 27 Jan 2022 07:45:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bsdimp-com.20210112.gappssmtp.com; s=20210112;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=RBqhVMCdgBjSv1RpGnknbGDx2G48e5pQCyv1rQdkkiA=;
- b=tkz/GHZWUKKVPGjBLhxaBl+YF8azRRsGeqC0mZYAqpIH75whodDOMq2VXNbyOAyU5g
- Z6HeBgPn9nWwMSrATxM9mypZstQUtd9cXN0nmrNy1jRiXJHmuW7vBKHBpRaRmNniYu5n
- 5gxBj/0jZAwoFsBT3IOiPIQAlF6zDn1ultXz3oXAmlYufg7X9qUjM5b+4mDWA2xvTPeN
- tp94vyrrifSZiOVT8PLgEcfIwN8KusnO1jHFJ3jrxbBcYFbgiw8Itmu1hcQvKw3pkN0q
- TBE3orkA29LwXnADQedtYhqAwd3zAkwcBdBbJcGroMqln6Ntvvd+1E5XxCRifAi+eU5t
- PnXQ==
+ :cc; bh=3TUIQXUHPYRbuU1jxFEjYBebytI17VU5H4oIltyPJsE=;
+ b=JXuW/QC6o+JgY+SHqC71KTdYao+SVJgdNtS6B5n5xvNoNQ7clu7kGwF/cdGGSlaH3g
+ 1r9Pgmr8zKgTIPEktr86jXcXbCqHiBDxHv3D72/gh4F0+3+Zv4RCYX6U+Pk5wy+uNO8i
+ 7UTRwKBVVspXuAjXQA5yBS4YuA2xmpTlnvCFqQgzzOA3cd1OCDYgXxDZAJIgmeAPz9gn
+ YvwPNq5ptU9Q+zgkhF3lSHm0D7nQuZ2W/xWxJ9EVlbhm2iubEkfPvc0Ch1JcbUBkd5gl
+ 0vzDHV7vajNQo5DJpiEfMZohp/RqUTt0Y4Be5oGAoZuLbGfExgpUQWShpm32+VC3rny1
+ 5hew==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=RBqhVMCdgBjSv1RpGnknbGDx2G48e5pQCyv1rQdkkiA=;
- b=LdtdosuKHlEWAXJ3a4ObQrDz2gwuUqxXpLvq/HtcschPoKsGW5n+IKB+EkC3DhvgaR
- 3W0vmJ2r7TD8j3Lp25q5GRWcQAeg3xDFQjWfhIm2HdQjomHFx1WM7KIjYuR0niaBnq+p
- ggt4dBT2qq8zfpYWJMalDLzqHNxqjWjYDP3rhEurw6a/tyo08KfDx6zCiD2VJLlQ5MfT
- UcC5F6/iYZrfhBBlouzYgHF3W2C9gZz36Ep0FLevljayxlnLcFeskNr0I7MW/4bgFfIG
- epiz+A6/QLUmJaqr3zSg7GfDk9TxK9qU9sjtgzVq8jEYyGCpdHQOZp/IhtPzUh+NOsgl
- S78g==
-X-Gm-Message-State: AOAM5324+1uQZDDnejD4iQ283pn1mq9+s2hSICCTct7nklpR62zEjdk5
- V5ePvmwL4AYrGrGLLY5L86u0nNRK6jUGZsoNhr02h/jJz6VMhQ==
-X-Google-Smtp-Source: ABdhPJw+eDI3k9LLFpgfoC6c2rME5cd+R9NBeFh8es/VH1BtiYf/uWmF/me4j9q6FAteO8KvmNnU8biTG81jNS/tJH4=
-X-Received: by 2002:a67:fac3:: with SMTP id g3mr2039032vsq.6.1643297698777;
- Thu, 27 Jan 2022 07:34:58 -0800 (PST)
+ bh=3TUIQXUHPYRbuU1jxFEjYBebytI17VU5H4oIltyPJsE=;
+ b=R+jXMnbtWWjTKtgtYD5iH/EfsDeKOo7xH43Ui5LSqeKfIyCrP25dxaJ/M4PXixHU4D
+ 2/MFa1TzXTregKnqFi7fQHlIf7Q3q7H8Od7oX7lU+K3hKRPOrmP66H/SR/EOKcCJdtGI
+ ZICIcslLvPGZ6jUooflvqXypj+BFxe1/w9eFeBg4K1V4HNu6ZiQ70BRSiMl3jNmAdzH5
+ Z2rg+7BxD30aKNCff8+ZZwErDhXtmvlcq5OH3O3/o6UUpAoHATbdgygDDeGPadBkyKfq
+ pelEAW4Ls0Ne51WSXwJ2eHMdsAmXpp6NUWKozTFdVDc72CxfwFNTKcN9yblFYLB4tUkE
+ y8Qg==
+X-Gm-Message-State: AOAM532qwGAJ+bXoxJoT3ATmQYSLD7IwiU+/odFQFOHLtW4PHyWy0BI6
+ 6ovOqxT12r90zzo3ntkwVgNTtWBy68kgsl4cTiSXlg==
+X-Google-Smtp-Source: ABdhPJxy5315yoYCZ+laj+pmGmKS1sTxqstGRw+eYvTYzNWPmvRgk5mYakuTXECRYm2pDN5pHDXz1tamd7tEHwENVw8=
+X-Received: by 2002:a05:6122:181a:: with SMTP id
+ ay26mr1765362vkb.5.1643298299883; 
+ Thu, 27 Jan 2022 07:44:59 -0800 (PST)
 MIME-Version: 1.0
 References: <20220125012947.14974-1-imp@bsdimp.com>
- <20220125012947.14974-30-imp@bsdimp.com>
- <ee0a09cd-b0d8-59b6-ecc4-dc1fd1705d8f@linaro.org>
-In-Reply-To: <ee0a09cd-b0d8-59b6-ecc4-dc1fd1705d8f@linaro.org>
+ <20220125012947.14974-5-imp@bsdimp.com>
+ <7f758325-524e-9deb-a440-3154e739c2a8@linaro.org>
+In-Reply-To: <7f758325-524e-9deb-a440-3154e739c2a8@linaro.org>
 From: Warner Losh <imp@bsdimp.com>
-Date: Thu, 27 Jan 2022 08:34:47 -0700
-Message-ID: <CANCZdfpcGnqb-Cg9q8LCbOE168vVdgJCarYhOa3of3uYRur=zQ@mail.gmail.com>
-Subject: Re: [PATCH v2 29/40] bsd-user/signal.c: Fill in queue_signal
+Date: Thu, 27 Jan 2022 08:44:48 -0700
+Message-ID: <CANCZdfp86gHpj-6kbm3siB54nKB_4Pc+CuRic6RejWNY8NTBRg@mail.gmail.com>
+Subject: Re: [PATCH v2 04/40] bsd-user/arm/signal.c: get_mcontext should zero
+ vfp data
 To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: multipart/alternative; boundary="00000000000098d11905d6920f8a"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::92c
+Content-Type: multipart/alternative; boundary="0000000000006cd9d305d692339a"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::a29
  (failed)
-Received-SPF: none client-ip=2607:f8b0:4864:20::92c;
- envelope-from=wlosh@bsdimp.com; helo=mail-ua1-x92c.google.com
+Received-SPF: none client-ip=2607:f8b0:4864:20::a29;
+ envelope-from=wlosh@bsdimp.com; helo=mail-vk1-xa29.google.com
 X-Spam_score_int: -10
 X-Spam_score: -1.1
 X-Spam_bar: -
@@ -80,92 +82,119 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Stacey Son <sson@freebsd.org>,
- Kyle Evans <kevans@freebsd.org>, QEMU Developers <qemu-devel@nongnu.org>,
- Konrad Witaszczyk <def@freebsd.org>, Jessica Clarke <jrtc27@freebsd.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Konrad Witaszczyk <def@freebsd.org>, QEMU Developers <qemu-devel@nongnu.org>,
+ Kyle Evans <kevans@freebsd.org>, Jessica Clarke <jrtc27@freebsd.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---00000000000098d11905d6920f8a
+--0000000000006cd9d305d692339a
 Content-Type: text/plain; charset="UTF-8"
 
-On Thu, Jan 27, 2022 at 12:44 AM Richard Henderson <
+On Wed, Jan 26, 2022 at 10:59 PM Richard Henderson <
 richard.henderson@linaro.org> wrote:
 
 > On 1/25/22 12:29, Warner Losh wrote:
-> > Fill in queue signal implementation, as well as routines allocate and
-> > delete elements of the signal queue.
+> > FreeBSD's get_mcontext doesn't return any vfp data. Instead, it zeros
+> > out the vfp feilds (and all the spare fields). Impelement this
+> > behavior. We're still missing the sysarch(ARM_GET_VFPCONTEXT) syscall,
+> > though.
 > >
-> > Signed-off-by: Stacey Son <sson@FreeBSD.org>
-> > Signed-off-by: Kyle Evans <kevans@freebsd.org>
 > > Signed-off-by: Warner Losh <imp@bsdimp.com>
 > > ---
-> >   bsd-user/qemu.h   |  1 +
-> >   bsd-user/signal.c | 13 ++++++++++++-
-> >   2 files changed, 13 insertions(+), 1 deletion(-)
+> >   bsd-user/arm/signal.c | 8 ++++++++
+> >   1 file changed, 8 insertions(+)
+> >
+> > diff --git a/bsd-user/arm/signal.c b/bsd-user/arm/signal.c
+> > index 9026343b478..6eadc6e3c56 100644
+> > --- a/bsd-user/arm/signal.c
+> > +++ b/bsd-user/arm/signal.c
+> > @@ -109,6 +109,14 @@ abi_long get_mcontext(CPUARMState *env,
+> target_mcontext_t *mcp, int flags)
+> >       gr[TARGET_REG_LR] = tswap32(env->regs[14]);
+> >       gr[TARGET_REG_PC] = tswap32(env->regs[15]);
+> >
+> > +    /*
+> > +     * FreeBSD's set_mcontext doesn't save VFP info, but blanks it out
+> instead.
+> > +     * Instead, sysarch(ARM_GET_VFPSTATE) is used instead.
+> > +     */
 >
-> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
->
-> > +    struct emulated_sigtable sync_signal;
-> >       struct emulated_sigtable sigtab[TARGET_NSIG];
->
-> I'll note that we don't need an array of these, since we block all signals
-> while returning
-> to the main cpu loop, so we can't receive a second async signal.
-> Something to be fixed
-> for both l-user and b-user later...
+> Could be rewritten with fewer "instead".  You wanted get_mcontext.
 >
 
-I'll add
-+    /*
-+     * TODO: Since we block all signals while returning to the main CPU
-+     * loop, this needn't be an array
-+     */
-before the array to document this so it doesn't get lost...
+Yes. Instead is indeed over used over and over redundantly :)
+
+Thanks!
 
 Warner
 
---00000000000098d11905d6920f8a
+
+> Otherwise,
+>
+> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+>
+>
+> r~
+>
+>
+
+--0000000000006cd9d305d692339a
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
 <div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Thu, Jan 27, 2022 at 12:44 AM Rich=
+<div dir=3D"ltr" class=3D"gmail_attr">On Wed, Jan 26, 2022 at 10:59 PM Rich=
 ard Henderson &lt;<a href=3D"mailto:richard.henderson@linaro.org">richard.h=
 enderson@linaro.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quot=
 e" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204)=
 ;padding-left:1ex">On 1/25/22 12:29, Warner Losh wrote:<br>
-&gt; Fill in queue signal implementation, as well as routines allocate and<=
-br>
-&gt; delete elements of the signal queue.<br>
+&gt; FreeBSD&#39;s get_mcontext doesn&#39;t return any vfp data. Instead, i=
+t zeros<br>
+&gt; out the vfp feilds (and all the spare fields). Impelement this<br>
+&gt; behavior. We&#39;re still missing the sysarch(ARM_GET_VFPCONTEXT) sysc=
+all,<br>
+&gt; though.<br>
 &gt; <br>
-&gt; Signed-off-by: Stacey Son &lt;sson@FreeBSD.org&gt;<br>
-&gt; Signed-off-by: Kyle Evans &lt;<a href=3D"mailto:kevans@freebsd.org" ta=
-rget=3D"_blank">kevans@freebsd.org</a>&gt;<br>
 &gt; Signed-off-by: Warner Losh &lt;<a href=3D"mailto:imp@bsdimp.com" targe=
 t=3D"_blank">imp@bsdimp.com</a>&gt;<br>
 &gt; ---<br>
-&gt;=C2=A0 =C2=A0bsd-user/qemu.h=C2=A0 =C2=A0|=C2=A0 1 +<br>
-&gt;=C2=A0 =C2=A0bsd-user/signal.c | 13 ++++++++++++-<br>
-&gt;=C2=A0 =C2=A02 files changed, 13 insertions(+), 1 deletion(-)<br>
+&gt;=C2=A0 =C2=A0bsd-user/arm/signal.c | 8 ++++++++<br>
+&gt;=C2=A0 =C2=A01 file changed, 8 insertions(+)<br>
+&gt; <br>
+&gt; diff --git a/bsd-user/arm/signal.c b/bsd-user/arm/signal.c<br>
+&gt; index 9026343b478..6eadc6e3c56 100644<br>
+&gt; --- a/bsd-user/arm/signal.c<br>
+&gt; +++ b/bsd-user/arm/signal.c<br>
+&gt; @@ -109,6 +109,14 @@ abi_long get_mcontext(CPUARMState *env, target_mc=
+ontext_t *mcp, int flags)<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0gr[TARGET_REG_LR] =3D tswap32(env-&gt;regs[1=
+4]);<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0gr[TARGET_REG_PC] =3D tswap32(env-&gt;regs[1=
+5]);<br>
+&gt;=C2=A0 =C2=A0<br>
+&gt; +=C2=A0 =C2=A0 /*<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0* FreeBSD&#39;s set_mcontext doesn&#39;t save VFP=
+ info, but blanks it out instead.<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0* Instead, sysarch(ARM_GET_VFPSTATE) is used inst=
+ead.<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0*/<br>
+<br>
+Could be rewritten with fewer &quot;instead&quot;.=C2=A0 You wanted get_mco=
+ntext.<br></blockquote><div><br></div><div>Yes. Instead is indeed over used=
+=C2=A0over and over redundantly :)</div><div><br></div><div>Thanks!</div><d=
+iv><br></div><div>Warner</div><div>=C2=A0</div><blockquote class=3D"gmail_q=
+uote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,2=
+04);padding-left:1ex">
+Otherwise,<br>
 <br>
 Reviewed-by: Richard Henderson &lt;<a href=3D"mailto:richard.henderson@lina=
 ro.org" target=3D"_blank">richard.henderson@linaro.org</a>&gt;<br>
 <br>
-&gt; +=C2=A0 =C2=A0 struct emulated_sigtable sync_signal;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0struct emulated_sigtable sigtab[TARGET_NSIG]=
-;<br>
 <br>
-I&#39;ll note that we don&#39;t need an array of these, since we block all =
-signals while returning <br>
-to the main cpu loop, so we can&#39;t receive a second async signal.=C2=A0 =
-Something to be fixed <br>
-for both l-user and b-user later...<br></blockquote><div><br></div><div>I&#=
-39;ll add</div>+ =C2=A0 =C2=A0/*<br>+ =C2=A0 =C2=A0 * TODO: Since we block =
-all signals while returning to the main CPU<br>+ =C2=A0 =C2=A0 * loop, this=
- needn&#39;t be an array<br><div>+ =C2=A0 =C2=A0 */</div><div>before the ar=
-ray to document this so it doesn&#39;t get lost...=C2=A0</div><div><br></di=
-v><div>Warner</div></div></div>
+r~<br>
+<br>
+</blockquote></div></div>
 
---00000000000098d11905d6920f8a--
+--0000000000006cd9d305d692339a--
 
