@@ -2,73 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 78BE249E094
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Jan 2022 12:20:17 +0100 (CET)
-Received: from localhost ([::1]:41896 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 561A349E0C1
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Jan 2022 12:26:39 +0100 (CET)
+Received: from localhost ([::1]:54288 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nD2p6-0007om-GU
-	for lists+qemu-devel@lfdr.de; Thu, 27 Jan 2022 06:20:16 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:39050)
+	id 1nD2vG-00080R-1D
+	for lists+qemu-devel@lfdr.de; Thu, 27 Jan 2022 06:26:38 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:39070)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nD2fw-0006mg-NI
+ id 1nD2fy-0006mj-K7
  for qemu-devel@nongnu.org; Thu, 27 Jan 2022 06:10:51 -0500
-Received: from [2a00:1450:4864:20::336] (port=55176
- helo=mail-wm1-x336.google.com)
+Received: from [2a00:1450:4864:20::430] (port=39624
+ helo=mail-wr1-x430.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nD2fu-00068t-QC
+ id 1nD2fu-000696-Sz
  for qemu-devel@nongnu.org; Thu, 27 Jan 2022 06:10:48 -0500
-Received: by mail-wm1-x336.google.com with SMTP id c192so1621632wma.4
- for <qemu-devel@nongnu.org>; Thu, 27 Jan 2022 03:10:45 -0800 (PST)
+Received: by mail-wr1-x430.google.com with SMTP id s9so4072391wrb.6
+ for <qemu-devel@nongnu.org>; Thu, 27 Jan 2022 03:10:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=COj2CSQH2YQg2JpQfJANqj/+hFRZ0YGw/IVDcI2ycQI=;
- b=KLHAnX8Zsr6Uz4X0uPrN0DspQBvlcXtwm0DkILSjDWYwDfA+a/5YM9keVGrs5pXOnO
- W2aNteRPemmWcNxJgTaLT3nXLh5WPnpsgtmG9HcmSklUuAZLFQFGkDt4qUjAi/YSFMW1
- lLkMPhT+oKiOyJL/tX+IFEBbCLJcrrKeZ4V1Gda7o4Pj+6EXjaUzl5EQcGMfVOmtrZrU
- ZLUDVIiglz4CWx+n4YKBXszPE4llTfDGmG0GKraC0BBeDnldBwffBQpaongsO9NOayiN
- 38exRiXKfDdoB8nWZX9q5QH7+z4beQ/hYxdUEbnR6sg+i3mD30zT37iYKPjrr1DCyKTL
- nYNw==
+ bh=hPO4TufcfjhpALVJpQIo88mGXcGGnW5eY9HmLHccuZQ=;
+ b=SFTy3V/C77+C6LgfFDMjbMeGMsU2IGCkl3KDQsZpUZMYhLop0zy71sOrm/SW5fyQQU
+ VdHYRmFEkB/L3jW49INxey7q2+q2+HGKdjm4KWDX9b0KUWQGkFvz80xFxdVBkUsuVn/v
+ kleWwRca2MphUFB3G/XZccfz3/SiUg3Nhn6SWbfahvWjuYq42S5IRQY87Iufe/XQc4Vt
+ KTC3erwQGnBZw/PDmLUsicYMiR8Yyb24a/WsQK7qn9B6sR8xRhxNGUTN6qQEsXgKsHhR
+ T+zjZFEGVU3OQp3JqYtUa2vPjiRMWrv0grukpMBcBQpg92quT3Dh47//pAJy6bUfdM54
+ QgTg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=COj2CSQH2YQg2JpQfJANqj/+hFRZ0YGw/IVDcI2ycQI=;
- b=4l1GkhocYqxxvafzQkHklU+et7xb83BIkQMWb7M7icAk9EdF0Wp6HVypzfvHTmBbV3
- iiEJQg7V4Y+lvMWAbb/6R9Arqf7S2xl8KOFD7QxtBRBAIWxB8l1kTycngGAzneG1ai8v
- 2uOwjg5W6Q/UrimXYHgPPhj1lhclDf+Q6AjBM/35GevmPh4vZ8cqlfL080jnhQYJuzI9
- 4cxqUMbOQ7jXRN61sjB90koqmYWVTxUhn1aHP36Zt4GXre+WjmZVY7FYEAtoTgFKljvv
- GKqYiSksZuy/wMzm3kWjq5ggSXw4e1B0RuOqCFL3/4UEoLtw+ANFsvk8Hv3bL598xNXq
- 4PEw==
-X-Gm-Message-State: AOAM531l2y5h4mStyTh/xWp6g6S5n6JSAj8gQ//n9DRUAcJnIzHbGzFe
- iHTvfdAuQEtOiEobEXBxe0yv2FTZ7U0=
-X-Google-Smtp-Source: ABdhPJzDG8q97TaeVpWg01ou99MesMAltMMd5HtfDL8SXbruf7LNPAUQ4BNw7/tjBhLvgzHve6m5Cw==
-X-Received: by 2002:a05:600c:2650:: with SMTP id
- 16mr2805819wmy.52.1643281844987; 
- Thu, 27 Jan 2022 03:10:44 -0800 (PST)
+ bh=hPO4TufcfjhpALVJpQIo88mGXcGGnW5eY9HmLHccuZQ=;
+ b=myq0+Gr0F8L2t0TffJP7BmR+5+RAvsVRzc2p65P21IOmR5CZkNj6WuQ/U5lc5hkuZO
+ 9uwrb6TutbSw1eRbVFTq/QhF9Xugpq0GAy06eMbedAZZaprAIIiv6C8pmHP68FY4JhdQ
+ 6EkU+6QzAi0fuJEw0Ej1IKH9gJIVcSAoR/l0jbgy/gWgwhsC59p6FbdANXwyVsTOv4zw
+ CtfNyGl0ogR+1fQSgXm65Ow5WcdMKI2SqklR7mdQo1zRqq5dKX28v2VitZWUTEwzHD8S
+ 1zcYTdysLrVKMH41lLThJgD3mfY6Ys3jKOyl4dEVi8gF1Rgdoxmm6OqCQ9wLZ3vDfj52
+ VmCg==
+X-Gm-Message-State: AOAM531WmcQzh77+qCRDElNsW1cYvECEmgMdET0pOQazc1NCcuMq9oHg
+ X/LtwzwvyiPKskEcNCaF+fgQoJy2c7Y=
+X-Google-Smtp-Source: ABdhPJwGbHX5QHCLFuX05zpn9gn1y9sCOauf+1WsEU6gI964CJ3sSmEC+KhBjFA7QLHqJkvKM8fyTA==
+X-Received: by 2002:a5d:438a:: with SMTP id i10mr2583084wrq.425.1643281845644; 
+ Thu, 27 Jan 2022 03:10:45 -0800 (PST)
 Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id s17sm1825742wrm.62.2022.01.27.03.10.44
+ by smtp.gmail.com with ESMTPSA id s17sm1825742wrm.62.2022.01.27.03.10.45
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 27 Jan 2022 03:10:44 -0800 (PST)
+ Thu, 27 Jan 2022 03:10:45 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 07/14] meson: Use find_program() to resolve the entitlement.sh
- script
-Date: Thu, 27 Jan 2022 12:10:30 +0100
-Message-Id: <20220127111037.457901-8-pbonzini@redhat.com>
+Subject: [PULL 08/14] check-block.sh: passthrough -jN flag of make to -j N
+ flag of check
+Date: Thu, 27 Jan 2022 12:10:31 +0100
+Message-Id: <20220127111037.457901-9-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220127111037.457901-1-pbonzini@redhat.com>
 References: <20220127111037.457901-1-pbonzini@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::336
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::430
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::336;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x336.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::430;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x430.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -89,90 +87,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Akihiko Odaki <akihiko.odaki@gmail.com>
+Cc: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé via <qemu-devel@nongnu.org>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 
-Using ../configure without any particular option generates 31 targets
-on Darwin, and meson search for the entitlement.sh script 31 times:
+This improves performance of running iotests during "make -jN check".
 
-  Program nm found: YES
-  Program scripts/undefsym.py found: YES (/opt/homebrew/opt/python@3.9/bin/python3.9 /Code/qemu/scripts/undefsym.py)
-  Program scripts/feature_to_c.sh found: YES (/bin/sh /Code/qemu/scripts/feature_to_c.sh)
-  Program scripts/entitlement.sh found: YES (/Code/qemu/scripts/entitlement.sh)
-  Program scripts/entitlement.sh found: YES (/Code/qemu/scripts/entitlement.sh)
-  Program scripts/entitlement.sh found: YES (/Code/qemu/scripts/entitlement.sh)
-  Program scripts/entitlement.sh found: YES (/Code/qemu/scripts/entitlement.sh)
-  Program scripts/entitlement.sh found: YES (/Code/qemu/scripts/entitlement.sh)
-  Program scripts/entitlement.sh found: YES (/Code/qemu/scripts/entitlement.sh)
-  Program scripts/entitlement.sh found: YES (/Code/qemu/scripts/entitlement.sh)
-  Program scripts/entitlement.sh found: YES (/Code/qemu/scripts/entitlement.sh)
-  Program scripts/entitlement.sh found: YES (/Code/qemu/scripts/entitlement.sh)
-  Program scripts/entitlement.sh found: YES (/Code/qemu/scripts/entitlement.sh)
-  Program scripts/entitlement.sh found: YES (/Code/qemu/scripts/entitlement.sh)
-  Program scripts/entitlement.sh found: YES (/Code/qemu/scripts/entitlement.sh)
-  Program scripts/entitlement.sh found: YES (/Code/qemu/scripts/entitlement.sh)
-  Program scripts/entitlement.sh found: YES (/Code/qemu/scripts/entitlement.sh)
-  Program scripts/entitlement.sh found: YES (/Code/qemu/scripts/entitlement.sh)
-  Program scripts/entitlement.sh found: YES (/Code/qemu/scripts/entitlement.sh)
-  Program scripts/entitlement.sh found: YES (/Code/qemu/scripts/entitlement.sh)
-  Program scripts/entitlement.sh found: YES (/Code/qemu/scripts/entitlement.sh)
-  Program scripts/entitlement.sh found: YES (/Code/qemu/scripts/entitlement.sh)
-  Program scripts/entitlement.sh found: YES (/Code/qemu/scripts/entitlement.sh)
-  Program scripts/entitlement.sh found: YES (/Code/qemu/scripts/entitlement.sh)
-  Program scripts/entitlement.sh found: YES (/Code/qemu/scripts/entitlement.sh)
-  Program scripts/entitlement.sh found: YES (/Code/qemu/scripts/entitlement.sh)
-  Program scripts/entitlement.sh found: YES (/Code/qemu/scripts/entitlement.sh)
-  Program scripts/entitlement.sh found: YES (/Code/qemu/scripts/entitlement.sh)
-  Program scripts/entitlement.sh found: YES (/Code/qemu/scripts/entitlement.sh)
-  Program scripts/entitlement.sh found: YES (/Code/qemu/scripts/entitlement.sh)
-  Program scripts/entitlement.sh found: YES (/Code/qemu/scripts/entitlement.sh)
-  Program scripts/entitlement.sh found: YES (/Code/qemu/scripts/entitlement.sh)
-  Program scripts/entitlement.sh found: YES (/Code/qemu/scripts/entitlement.sh)
-  Program scripts/entitlement.sh found: YES (/Code/qemu/scripts/entitlement.sh)
-  Configuring 50-edk2-i386-secure.json using configuration
-  Configuring 50-edk2-x86_64-secure.json using configuration
-
-Use find_program() which seems to cache the script path once found.
-
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Reviewed-by: Akihiko Odaki <akihiko.odaki@gmail.com>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20220122002052.83745-1-f4bug@amsat.org>
+Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Message-Id: <20211223183933.1497037-1-vsementsov@virtuozzo.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- meson.build | 9 +++------
- 1 file changed, 3 insertions(+), 6 deletions(-)
+ tests/check-block.sh | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
 
-diff --git a/meson.build b/meson.build
-index 4429fd2041..c69fbbd0cb 100644
---- a/meson.build
-+++ b/meson.build
-@@ -3052,17 +3052,14 @@ foreach target : target_dirs
-         install_input += meson.current_source_dir() / entitlements
-       endif
+diff --git a/tests/check-block.sh b/tests/check-block.sh
+index f86cb863de..d98d49ad63 100755
+--- a/tests/check-block.sh
++++ b/tests/check-block.sh
+@@ -74,10 +74,17 @@ cd tests/qemu-iotests
+ # QEMU_CHECK_BLOCK_AUTO is used to disable some unstable sub-tests
+ export QEMU_CHECK_BLOCK_AUTO=1
+ export PYTHONUTF8=1
++# If make was called with -jN we want to call ./check with -j N. Extract the
++# flag from MAKEFLAGS, so that if it absent (or MAKEFLAGS is not defined), JOBS
++# would be an empty line otherwise JOBS is prepared string of flag with value:
++# "-j N"
++# Note, that the following works even if make was called with "-j N" or even
++# "--jobs N", as all these variants becomes simply "-jN" in MAKEFLAGS variable.
++JOBS=$(echo "$MAKEFLAGS" | sed -n 's/\(^\|.* \)-j\([0-9]\+\)\( .*\|$\)/-j \2/p')
  
-+      entitlement = find_program('scripts/entitlement.sh')
-       emulators += {exe['name'] : custom_target(exe['name'],
-                    input: build_input,
-                    output: exe['name'],
--                   command: [
--                     files('scripts/entitlement.sh'),
--                     '@OUTPUT@',
--                     '@INPUT@'
--                   ])
-+                   command: [entitlement, '@OUTPUT@', '@INPUT@'])
-       }
+ ret=0
+ for fmt in $format_list ; do
+-    ${PYTHON} ./check -makecheck -$fmt $group || ret=1
++    ${PYTHON} ./check $JOBS -makecheck -$fmt $group || ret=1
+ done
  
--      meson.add_install_script('scripts/entitlement.sh', '--install',
-+      meson.add_install_script(entitlement, '--install',
-                                get_option('bindir') / exe['name'],
-                                install_input)
-     else
+ exit $ret
 -- 
 2.34.1
 
