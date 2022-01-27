@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A743449E844
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Jan 2022 18:01:41 +0100 (CET)
-Received: from localhost ([::1]:57414 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D5F249E7CF
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Jan 2022 17:42:15 +0100 (CET)
+Received: from localhost ([::1]:51590 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nD89U-0002BC-H0
-	for lists+qemu-devel@lfdr.de; Thu, 27 Jan 2022 12:01:40 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:49160)
+	id 1nD7qf-0002gk-Sz
+	for lists+qemu-devel@lfdr.de; Thu, 27 Jan 2022 11:42:13 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:49218)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nD6zT-0006oN-3V
+ id 1nD6zU-0006qU-HJ
  for qemu-devel@nongnu.org; Thu, 27 Jan 2022 10:47:16 -0500
-Received: from [2a00:1450:4864:20::434] (port=46896
- helo=mail-wr1-x434.google.com)
+Received: from [2a00:1450:4864:20::334] (port=37648
+ helo=mail-wm1-x334.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nD6zN-0008OP-PB
- for qemu-devel@nongnu.org; Thu, 27 Jan 2022 10:47:14 -0500
-Received: by mail-wr1-x434.google.com with SMTP id l25so5501243wrb.13
- for <qemu-devel@nongnu.org>; Thu, 27 Jan 2022 07:47:04 -0800 (PST)
+ id 1nD6zQ-0008Ob-UZ
+ for qemu-devel@nongnu.org; Thu, 27 Jan 2022 10:47:15 -0500
+Received: by mail-wm1-x334.google.com with SMTP id
+ l12-20020a7bc34c000000b003467c58cbdfso6225082wmj.2
+ for <qemu-devel@nongnu.org>; Thu, 27 Jan 2022 07:47:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Uro/87OmdJ9VYj+C+oygu8t7WovRg4G1f/DHiBXFt7o=;
- b=IkeAIzHivng1HQ/nQ+S4sRI/FdGS4WUcsT3ZPfGKELg/79p2zACQpbTe93SjwI2Eui
- hYiqU8+GxrXnFstorrGt03sfHelkLjvmLVNzyh1a/jSi3cwZm42++tq/lAStK55WOtGQ
- /NvwfOlgGCX8p+wjhsD5yUo3DOhmrsG1JkZWRYp4epB9xZCWzyUQp8YzyXtVQ8y/xbzI
- Ks07KgN71UooYqLYY+5sKx/0/+lk9YlcoQefRJVT20JrYst4y3NIrfhThZ7mZu9n0fVF
- WUJjh2YRGbhShrKMYEBWJaAvDVJfIphS8dvhEEbwVVsurX/9XdiXeDSGS/79748gTzie
- Meew==
+ bh=/vGnghbsyXVm29DGZvmuMVyl3fMFFrfkrrbD0nUxv8g=;
+ b=sJ77hw0uqGXG62HKRfIt1W8KSQeGUdl0ZyCaKM8Lp9JvPSyAyFjiQqUidH7rtmzOT9
+ Exf/WoNx/Bde8t7sKO6aRuBPJ39sD9m2/WnYS+lVgZfz7ampWgq6Tn0umLrUmuzwfHs9
+ D+qmggZeVf4qkFNDstJnMjHxysuZaheL8cqP2InzJ2sF5t6e6Jhx5vjLnDFPyRWQ0zeV
+ 3fZZz7gQpbp5ae42gNekq6iqJEC7U+Gd2qPUR5HcpjvdIKmIIFhmdpSkkWx+3uoGwsqZ
+ gY1Vk4jFHzhbfRa7QVIE2F8wmaGKt88po89S8SHS4udNEXtlDWUQSxJY06vdDX/SZGOq
+ vveg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Uro/87OmdJ9VYj+C+oygu8t7WovRg4G1f/DHiBXFt7o=;
- b=TVZhzyf9VKCI6MZ3N3h/MUdD2uByPWcaqEq6d99OYCmUQw3u7IBXTKeaRkuyVle+Uw
- +MWNfO6ceu51NQOM5oLR0A38b7qDRipQke7ZOnocJSwJpqWYSJrHtB3UQWN5+RAKlYf1
- e+U2EkVnkcRbcR1SGI9w9uXiMrGUa26jUU7z9WzHYfxYOzRb16LjK9cqD5sVpniX5yiE
- xsS40bCPWBy7dfchW/6UNI3puc8fwIbi44fQOx1UG8jHQuLyqmHi0v8oVH05/25rOyVd
- NF4Q+q2Hm9Ls9kK09QkoUC+UmOBGBbTdJ/dIwzszEI7OGSPErQ6SktqFrjhVENPzfMvn
- AAbg==
-X-Gm-Message-State: AOAM532UYkjhFI2igBBvl+/nHIoduq4VV67rHc3ad2weDEq6KYMPhxaB
- 23tHkbbLoVk3BIMrORCKWaP2Zw==
-X-Google-Smtp-Source: ABdhPJyp6HkHmPzDWR8YSwaOmwxkbjTrFwLsJefClygZi5d1vrpNSyDxmNxCmyXMcqLeM8yog47vYA==
-X-Received: by 2002:adf:e54e:: with SMTP id z14mr3593821wrm.490.1643298423277; 
- Thu, 27 Jan 2022 07:47:03 -0800 (PST)
+ bh=/vGnghbsyXVm29DGZvmuMVyl3fMFFrfkrrbD0nUxv8g=;
+ b=2DO0dK44cvJrQMufT0I4u9TW3jf+pvB52fY4oPY45+c14wy//lYi3CNFgfkqPeMzgJ
+ 0+HJqKGYpB5gJMt/REOWAosq85+dgiV8NhH5O/E8LNUB6xr10jjmGrvHl8U+9+ddRcnj
+ yLELlDsgzuSKp/y2Wg18U4IdHQDyfxy8mdzDsJPBy6SMHLxhKcSb1dC05lM9RZnJtfEJ
+ Vzb39loxLABG5Fz/E5jyaos+bmZ/wrk7cS5STr+JF4v6O06DrBfM2dP4farEB9LJm5Hx
+ 7uqzEKlaR5iHJ1V1rcArbTZV1ZlP6UQQ5mlDlFESHH23rXZ3SZsWdLMWrCSFZIzqp+ax
+ qx3w==
+X-Gm-Message-State: AOAM530yAxYod0w4zuH2SWX+2BFSwKozAFa5qIwTcWOHsPIi1f+HoHn/
+ K3Z7zAGd39r8AUiEUP2Meng3wQ==
+X-Google-Smtp-Source: ABdhPJwzLZCQDBC6ElRNRIfZuw9HSgVRfZm0Map6Fl+laG/BVhFP1ja0jXYAva4hOp34zf20jKsIXQ==
+X-Received: by 2002:a7b:cb54:: with SMTP id v20mr12176591wmj.2.1643298424687; 
+ Thu, 27 Jan 2022 07:47:04 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
- by smtp.gmail.com with ESMTPSA id w9sm6687667wmc.36.2022.01.27.07.47.01
+ by smtp.gmail.com with ESMTPSA id w9sm6687667wmc.36.2022.01.27.07.47.03
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 27 Jan 2022 07:47:02 -0800 (PST)
+ Thu, 27 Jan 2022 07:47:04 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
-Subject: [PATCH 10/16] Revert "Revert "arm: tcg: Adhere to SMCCC 1.3 section
- 5.2""
-Date: Thu, 27 Jan 2022 15:46:33 +0000
-Message-Id: <20220127154639.2090164-11-peter.maydell@linaro.org>
+Subject: [PATCH 11/16] hw/arm/highbank: Drop use of secure_board_setup
+Date: Thu, 27 Jan 2022 15:46:34 +0000
+Message-Id: <20220127154639.2090164-12-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220127154639.2090164-1-peter.maydell@linaro.org>
 References: <20220127154639.2090164-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::434
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::334
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::434;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x434.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::334;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x334.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -103,97 +103,75 @@ Cc: Eduardo Habkost <eduardo@habkost.net>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Now that we have arranged for all the affected board models
-to not enable the PSCI emulation if they are running guest code
-at EL3, we can revert commit 4825eaae4fdd56fba0f, thus
-reinstating commit 9fcd15b9193e819b, without bringing back the
-regressions that caused us to revert it.
+Guest code on highbank may make non-PSCI SMC calls in order to
+enable/disable the L2x0 cache controller (see the Linux kernel's
+arch/arm/mach-highbank/highbank.c highbank_l2c310_write_sec()
+function).  The ABI for this is documented in kernel commit
+8e56130dcb as being borrowed from the OMAP44xx ROM.  The OMAP44xx TRM
+documents this function ID as having no return value and potentially
+trashing all guest registers except SP and PC. For QEMU's purposes
+(where our L2x0 model is a stub and enabling or disabling it doesn't
+affect the guest behaviour) a simple "do nothing" SMC is fine.
 
-For clarity, here is the original commit message of 9fcd15b9193e819b:
+We currently implement this NOP behaviour using a little bit of
+Secure code we run before jumping to the guest kernel, which is
+written by arm_write_secure_board_setup_dummy_smc().  The code sets
+up a set of Secure vectors where the SMC entry point returns without
+doing anything.
 
-The SMCCC 1.3 spec section 5.2 says
+Now that the PSCI SMC emulation handles all SMC calls (setting r0 to
+an error code if the input r0 function identifier is not recognized),
+we can use that default behaviour as sufficient for the highbank
+cache controller call.  (Because the guest code assumes r0 has no
+interesting value on exit it doesn't matter that we set it to the
+error code).  We can therefore delete the highbank board code that
+sets secure_board_setup to true and writes the secure-code bootstub.
 
-  The Unknown SMC Function Identifier is a sign-extended value of (-1)
-  that is returned in the R0, W0 or X0 registers. An implementation must
-  return this error code when it receives:
+(Note that because the OMAP44xx ABI puts function-identifiers in
+r12 and PSCI uses r0, we only avoid a clash because Linux's code
+happens to put the function-identifier in both registers. But this
+is true also when the kernel is running on real firmware that
+implements both ABIs as far as I can see.)
 
-    * An SMC or HVC call with an unknown Function Identifier
-    * An SMC or HVC call for a removed Function Identifier
-    * An SMC64/HVC64 call from AArch32 state
-
-To comply with these statements, let's always return -1 when we encounter
-an unknown HVC or SMC call.
+This change fixes in passing booting on the 'midway' board model,
+which has been completely broken since we added support for Hyp
+mode to the Cortex-A15 CPU. When we did that boot.c was made to
+start running the guest code in Hyp mode; this includes the
+board_setup hook, which instantly UNDEFs because the NSACR is
+not accessible from Hyp. (Put another way, we never made the
+secure_board_setup hook support cope with Hyp mode.)
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/arm/psci.c | 35 ++++++-----------------------------
- 1 file changed, 6 insertions(+), 29 deletions(-)
+ hw/arm/highbank.c | 8 --------
+ 1 file changed, 8 deletions(-)
 
-diff --git a/target/arm/psci.c b/target/arm/psci.c
-index 6709e280133..b279c0b9a45 100644
---- a/target/arm/psci.c
-+++ b/target/arm/psci.c
-@@ -27,15 +27,13 @@
+diff --git a/hw/arm/highbank.c b/hw/arm/highbank.c
+index 048f8550cb9..a21afd178d1 100644
+--- a/hw/arm/highbank.c
++++ b/hw/arm/highbank.c
+@@ -48,12 +48,6 @@
  
- bool arm_is_psci_call(ARMCPU *cpu, int excp_type)
+ /* Board init.  */
+ 
+-static void hb_write_board_setup(ARMCPU *cpu,
+-                                 const struct arm_boot_info *info)
+-{
+-    arm_write_secure_board_setup_dummy_smc(cpu, info, MVBAR_ADDR);
+-}
+-
+ static void hb_write_secondary(ARMCPU *cpu, const struct arm_boot_info *info)
  {
--    /* Return true if the r0/x0 value indicates a PSCI call and
--     * the exception type matches the configured PSCI conduit. This is
--     * called before the SMC/HVC instruction is executed, to decide whether
--     * we should treat it as a PSCI call or with the architecturally
-+    /*
-+     * Return true if the exception type matches the configured PSCI conduit.
-+     * This is called before the SMC/HVC instruction is executed, to decide
-+     * whether we should treat it as a PSCI call or with the architecturally
-      * defined behaviour for an SMC or HVC (which might be UNDEF or trap
-      * to EL2 or to EL3).
-      */
--    CPUARMState *env = &cpu->env;
--    uint64_t param = is_a64(env) ? env->xregs[0] : env->regs[0];
+     int n;
+@@ -389,8 +383,6 @@ static void calxeda_init(MachineState *machine, enum cxmachines machine_id)
+     highbank_binfo.write_secondary_boot = hb_write_secondary;
+     highbank_binfo.secondary_cpu_reset_hook = hb_reset_secondary;
+     highbank_binfo.board_setup_addr = BOARD_SETUP_ADDR;
+-    highbank_binfo.write_board_setup = hb_write_board_setup;
+-    highbank_binfo.secure_board_setup = true;
+     highbank_binfo.psci_conduit = QEMU_PSCI_CONDUIT_SMC;
  
-     switch (excp_type) {
-     case EXCP_HVC:
-@@ -52,27 +50,7 @@ bool arm_is_psci_call(ARMCPU *cpu, int excp_type)
-         return false;
-     }
- 
--    switch (param) {
--    case QEMU_PSCI_0_2_FN_PSCI_VERSION:
--    case QEMU_PSCI_0_2_FN_MIGRATE_INFO_TYPE:
--    case QEMU_PSCI_0_2_FN_AFFINITY_INFO:
--    case QEMU_PSCI_0_2_FN64_AFFINITY_INFO:
--    case QEMU_PSCI_0_2_FN_SYSTEM_RESET:
--    case QEMU_PSCI_0_2_FN_SYSTEM_OFF:
--    case QEMU_PSCI_0_1_FN_CPU_ON:
--    case QEMU_PSCI_0_2_FN_CPU_ON:
--    case QEMU_PSCI_0_2_FN64_CPU_ON:
--    case QEMU_PSCI_0_1_FN_CPU_OFF:
--    case QEMU_PSCI_0_2_FN_CPU_OFF:
--    case QEMU_PSCI_0_1_FN_CPU_SUSPEND:
--    case QEMU_PSCI_0_2_FN_CPU_SUSPEND:
--    case QEMU_PSCI_0_2_FN64_CPU_SUSPEND:
--    case QEMU_PSCI_0_1_FN_MIGRATE:
--    case QEMU_PSCI_0_2_FN_MIGRATE:
--        return true;
--    default:
--        return false;
--    }
-+    return true;
- }
- 
- void arm_handle_psci_call(ARMCPU *cpu)
-@@ -194,10 +172,9 @@ void arm_handle_psci_call(ARMCPU *cpu)
-         break;
-     case QEMU_PSCI_0_1_FN_MIGRATE:
-     case QEMU_PSCI_0_2_FN_MIGRATE:
-+    default:
-         ret = QEMU_PSCI_RET_NOT_SUPPORTED;
-         break;
--    default:
--        g_assert_not_reached();
-     }
- 
- err:
+     arm_load_kernel(ARM_CPU(first_cpu), machine, &highbank_binfo);
 -- 
 2.25.1
 
