@@ -2,72 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A49C349E140
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Jan 2022 12:37:33 +0100 (CET)
-Received: from localhost ([::1]:39002 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D15049E0AB
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Jan 2022 12:22:44 +0100 (CET)
+Received: from localhost ([::1]:45672 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nD35o-0000L5-PM
-	for lists+qemu-devel@lfdr.de; Thu, 27 Jan 2022 06:37:32 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:39018)
+	id 1nD2rT-0002Dv-NY
+	for lists+qemu-devel@lfdr.de; Thu, 27 Jan 2022 06:22:43 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:39048)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nD2fv-0006ls-KD
+ id 1nD2fw-0006mf-K1
  for qemu-devel@nongnu.org; Thu, 27 Jan 2022 06:10:51 -0500
-Received: from [2a00:1450:4864:20::32b] (port=56114
- helo=mail-wm1-x32b.google.com)
+Received: from [2a00:1450:4864:20::32f] (port=44946
+ helo=mail-wm1-x32f.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nD2fu-00067W-0Y
+ id 1nD2fu-00067p-21
  for qemu-devel@nongnu.org; Thu, 27 Jan 2022 06:10:47 -0500
-Received: by mail-wm1-x32b.google.com with SMTP id r7so1615446wmq.5
- for <qemu-devel@nongnu.org>; Thu, 27 Jan 2022 03:10:44 -0800 (PST)
+Received: by mail-wm1-x32f.google.com with SMTP id
+ l35-20020a05600c1d2300b0034d477271c1so1600102wms.3
+ for <qemu-devel@nongnu.org>; Thu, 27 Jan 2022 03:10:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=IAVMsDJsaXOjswkyBD7Ia0E8Zsa510y7vP1ftZ1P6HE=;
- b=diskyPafenum2sVU+zGGPPOv0CeBuBRso/WCorgHGUhfWLNIa9bLN8/+xufOVCOg58
- 1HhTmFZH0Y4VIv/HFx/5Xj534WfJBlhZBYD/yPPTWd94DVY/HTYjRNAByFmZMJeeo5JZ
- 0BW71C3qoU6hUP92svbQ7VlyF9Cj+WkmaMcnUPJv2gFSD1TYnVLHnuSZfDmo52Qf/d5w
- H30igjLWlYETTBC+R5uKMCNAlpsB5KiR4L35gDVyXr5Wiv1cmox1ZeuDCLVlMoRRlA38
- PN/ALz/b8QHEgc54y5mThQeM+0513YKcqpfcDT5ulfQLEHXUWcRo6HliU7kDJv2Esc8T
- iWew==
+ bh=DM6390IblKITC2WUseBCeDBsNtvZZl5g/IOpmBC35RU=;
+ b=ioL1QOJJd1L7r+5EuGtZR2ODgb9Tk/qxDMmuiUcvlP6kUBBVmOjvXMrqNIuBs/4BEz
+ WZOWjOrMUc98wjLZmJPCX4NLzgzPgj0l3Ztn2rYfIu8Fg6vzHmfd/GwGcw4SEoFbxvUp
+ yhC2uuSmJDR9Tjh6r3mmZ59+N7DPkymTkqTRRV6rNI3yy4W2Qs4bIh/ttA0/ZQsVpz1x
+ PcnD15kxziYNFjRGnHNB9dmpNarkyfAeHdlrGLh1YSJve+AEJBMbOkJ19Bx6BbARGyBr
+ 9yFkCZU5mKLct9Oc8NJdyif5GkU/4vvorFUh15cfJpIQ/ivaWi5/uoiAbtEEnj5H7cz8
+ OuTA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=IAVMsDJsaXOjswkyBD7Ia0E8Zsa510y7vP1ftZ1P6HE=;
- b=LRAVtqSaay+cVGzEwvvn7F4gRpxkPqrLnlRXWzh1MsDsUdmWXpOHXxGGRbfEs266U+
- 55SSqQ/4swpq4RPQq6BEePEdAZbrXnYyj7JypdRz2EAbQl3FpFqHzr5r8XHTZSqWPlH9
- 0GYiSzBxI+c1yKizA/ibvg6YCrYaXbHa0EaXKLVyrESuxFMadYdKEQpB/VjXKx1oVQBs
- ZfLXsMiWsLTt333pO5ZRydtbfmYsdDHJvLsh991ThuGUETlRT+6Xf9FiXtYO+prbpZns
- 2Keu7GPTs0iOtEPorN8SLYx+1C1GQxRTS5wiq22MUBD3vQZwOemVTXFSx+leV7f31XXO
- lf4A==
-X-Gm-Message-State: AOAM53209zfiJXFthGSYCNMEmo8LXNruEKwvKf3Nbn4omEdJpNvhimGi
- HAuGkni+Et/b6iS3DLRJYd5vztiENGY=
-X-Google-Smtp-Source: ABdhPJyeh146kwnzuwyAA1oHYMYEJRUtEoVhZ4Lkzt1zPjwLVaL1eJ/eV3ApzG6VwC7AKltC3MOOMw==
-X-Received: by 2002:a7b:c153:: with SMTP id z19mr11038989wmi.118.1643281843674; 
- Thu, 27 Jan 2022 03:10:43 -0800 (PST)
+ bh=DM6390IblKITC2WUseBCeDBsNtvZZl5g/IOpmBC35RU=;
+ b=rgaxKO6uzu38k1UbSzWYW89wiImMrTv10wbbFg4wI6LLYr7KiXVAQ/23/CXlq73/DL
+ IA5Iomu6M+1LGhO66H6AsAG9nkHBxpk2FKDRtVzQF5pTvdx8P2p/NYJc91Zij0+rf/rG
+ /hZXAOoSiPdsW2SAml3FfRF2KrTWuFZPbGy55qL3jdITkchvlV87Kl7nhJL9mWBTQ8Z3
+ PuzK9VhC6fGkCJNnKGSjyP571jQfF6d3bPZeZqsxP3j1yGu/ZQBpEneKMD5DN9yH/NYs
+ ZCk/gekicIyIB/ZYMrvnpx76lYpcuf12y5SJp8lwDs1/kTLKlVtFG6DXhKXZev91eoLS
+ iYaA==
+X-Gm-Message-State: AOAM532idPUnV7oqIfpCUS5s5dewSiCygBeaRR0fat5p7B3sZoLnH3CS
+ SnZ3MSaAaUE1yGII90v6daIkcIcP5tk=
+X-Google-Smtp-Source: ABdhPJyRGqtcz14hNDMz/oTA1rWztVwZ8plyh2p9w8WAXDJRLDuilxU1WIfgEp4Z4Y8huU8qf2XLOg==
+X-Received: by 2002:a05:600c:3641:: with SMTP id
+ y1mr2701686wmq.53.1643281844357; 
+ Thu, 27 Jan 2022 03:10:44 -0800 (PST)
 Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
  by smtp.gmail.com with ESMTPSA id s17sm1825742wrm.62.2022.01.27.03.10.43
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 27 Jan 2022 03:10:43 -0800 (PST)
+ Thu, 27 Jan 2022 03:10:44 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 05/14] meson.build: Use a function from libfdt 1.5.1 for the
- library check
-Date: Thu, 27 Jan 2022 12:10:28 +0100
-Message-Id: <20220127111037.457901-6-pbonzini@redhat.com>
+Subject: [PULL 06/14] exec/cpu: Make host pages variables / macros 'target
+ agnostic'
+Date: Thu, 27 Jan 2022 12:10:29 +0100
+Message-Id: <20220127111037.457901-7-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220127111037.457901-1-pbonzini@redhat.com>
 References: <20220127111037.457901-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32b
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32f
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x32b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x32f.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -88,42 +90,67 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Alistair Francis <alistair.francis@wdc.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ David Hildenbrand <david@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Thomas Huth <thuth@redhat.com>
+From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-The fdt version test in meson.build uses a function from libfdt v1.4.7,
-but we require version 1.5.1 nowadays. Thus use a function that has
-been introduced in that version instead.
+"host" pages are related to the *host* not the *target*,
+thus the qemu_host_page_size / qemu_host_page_mask variables
+and the HOST_PAGE_ALIGN() / REAL_HOST_PAGE_ALIGN() macros
+can be moved to "exec/cpu-common.h" which is target agnostic.
 
-Resolves: https://gitlab.com/qemu-project/qemu/-/issues/822
-Signed-off-by: Thomas Huth <thuth@redhat.com>
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-Id: <20220118170548.97288-1-thuth@redhat.com>
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Reviewed-by: David Hildenbrand <david@redhat.com>
+Message-Id: <20220120000836.229419-1-f4bug@amsat.org>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- meson.build | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ include/exec/cpu-all.h    | 9 ---------
+ include/exec/cpu-common.h | 9 +++++++++
+ 2 files changed, 9 insertions(+), 9 deletions(-)
 
-diff --git a/meson.build b/meson.build
-index 833fd6bc4c..4429fd2041 100644
---- a/meson.build
-+++ b/meson.build
-@@ -2279,7 +2279,7 @@ if have_system
-     if fdt.found() and cc.links('''
-        #include <libfdt.h>
-        #include <libfdt_env.h>
--       int main(void) { fdt_check_full(NULL, 0); return 0; }''',
-+       int main(void) { fdt_find_max_phandle(NULL, NULL); return 0; }''',
-          dependencies: fdt)
-       fdt_opt = 'system'
-     elif fdt_opt == 'system'
+diff --git a/include/exec/cpu-all.h b/include/exec/cpu-all.h
+index bb37239efa..84caf5c3d9 100644
+--- a/include/exec/cpu-all.h
++++ b/include/exec/cpu-all.h
+@@ -234,15 +234,6 @@ extern const TargetPageBits target_page;
+ 
+ #define TARGET_PAGE_ALIGN(addr) ROUND_UP((addr), TARGET_PAGE_SIZE)
+ 
+-/* Using intptr_t ensures that qemu_*_page_mask is sign-extended even
+- * when intptr_t is 32-bit and we are aligning a long long.
+- */
+-extern uintptr_t qemu_host_page_size;
+-extern intptr_t qemu_host_page_mask;
+-
+-#define HOST_PAGE_ALIGN(addr) ROUND_UP((addr), qemu_host_page_size)
+-#define REAL_HOST_PAGE_ALIGN(addr) ROUND_UP((addr), qemu_real_host_page_size)
+-
+ /* same as PROT_xxx */
+ #define PAGE_READ      0x0001
+ #define PAGE_WRITE     0x0002
+diff --git a/include/exec/cpu-common.h b/include/exec/cpu-common.h
+index 039d422bf4..de5f444b19 100644
+--- a/include/exec/cpu-common.h
++++ b/include/exec/cpu-common.h
+@@ -7,6 +7,15 @@
+ #include "exec/hwaddr.h"
+ #endif
+ 
++/* Using intptr_t ensures that qemu_*_page_mask is sign-extended even
++ * when intptr_t is 32-bit and we are aligning a long long.
++ */
++extern uintptr_t qemu_host_page_size;
++extern intptr_t qemu_host_page_mask;
++
++#define HOST_PAGE_ALIGN(addr) ROUND_UP((addr), qemu_host_page_size)
++#define REAL_HOST_PAGE_ALIGN(addr) ROUND_UP((addr), qemu_real_host_page_size)
++
+ /* The CPU list lock nests outside page_(un)lock or mmap_(un)lock */
+ void qemu_init_cpu_list(void);
+ void cpu_list_lock(void);
 -- 
 2.34.1
 
