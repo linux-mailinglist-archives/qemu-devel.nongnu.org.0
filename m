@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 24C0149E77A
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Jan 2022 17:27:59 +0100 (CET)
-Received: from localhost ([::1]:33042 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C975C49E6CD
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Jan 2022 16:58:51 +0100 (CET)
+Received: from localhost ([::1]:44184 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nD7cs-0006gn-8O
-	for lists+qemu-devel@lfdr.de; Thu, 27 Jan 2022 11:27:58 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:42548)
+	id 1nD7Ag-0007s5-SN
+	for lists+qemu-devel@lfdr.de; Thu, 27 Jan 2022 10:58:50 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:42686)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1nD6b3-0007RC-Qy
- for qemu-devel@nongnu.org; Thu, 27 Jan 2022 10:22:01 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:34908)
+ id 1nD6bD-0007xf-4A
+ for qemu-devel@nongnu.org; Thu, 27 Jan 2022 10:22:11 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:52045)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1nD6b1-0004L2-Vc
- for qemu-devel@nongnu.org; Thu, 27 Jan 2022 10:22:01 -0500
+ id 1nD6bA-0004MS-0a
+ for qemu-devel@nongnu.org; Thu, 27 Jan 2022 10:22:10 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1643296919;
+ s=mimecast20190719; t=1643296927;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=TS6gx8Hyh/qhvZFYSgScu0p5q+84OON1lKmnMJrgHoY=;
- b=R8uEG+pNYIDaHNOiwPnTpOI9K3Cb5sO0xJAbMRm6UO6pr8KuU0Fu/rbi7Xz8srbiTLCSR4
- GtipbNImPdFPT4W3dPH2HygiYPMRyNZ0nxCD8dI+dC7R9L5f+r0n1JB3raeoq766eODTng
- LEZpp+bKnjCKC3w/8Tg7ossV5osF46M=
+ bh=NS9i5KtB9MDi6NvLNSXtcUhnOuwhJtpHaixEEDN6Yyo=;
+ b=XeSPfFmj1dFUoxiaVQMC6JEJdiZ5NlKIT0p93a5JQgJiUdS/b99146w+87wujdRtmkpbSw
+ WnaEkYo6vjGBCt5OGoOw3CIA8y9kxWMeaIOIVj1mUB9ONp4yKcZd3kzpynJpg6CGe45Skt
+ Xoi5YS3kJuL4f9ap3sVD7a4Lozjo5qo=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-434-9uejBX0cPtSFZMhedaP3Hw-1; Thu, 27 Jan 2022 10:21:56 -0500
-X-MC-Unique: 9uejBX0cPtSFZMhedaP3Hw-1
+ us-mta-169-4ZS-J2K4OuKKFo7Le3NPLA-1; Thu, 27 Jan 2022 10:22:04 -0500
+X-MC-Unique: 4ZS-J2K4OuKKFo7Le3NPLA-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8508C83DD1F;
- Thu, 27 Jan 2022 15:21:53 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1C83A83DD23;
+ Thu, 27 Jan 2022 15:22:01 +0000 (UTC)
 Received: from secure.mitica (unknown [10.39.194.185])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4111972FA2;
- Thu, 27 Jan 2022 15:21:42 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E297F70D4A;
+ Thu, 27 Jan 2022 15:21:53 +0000 (UTC)
 From: Juan Quintela <quintela@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 36/38] migration: Add postcopy_has_request()
-Date: Thu, 27 Jan 2022 16:05:46 +0100
-Message-Id: <20220127150548.20595-37-quintela@redhat.com>
+Subject: [PULL 37/38] migration: Simplify unqueue_page()
+Date: Thu, 27 Jan 2022 16:05:47 +0100
+Message-Id: <20220127150548.20595-38-quintela@redhat.com>
 In-Reply-To: <20220127150548.20595-1-quintela@redhat.com>
 References: <20220127150548.20595-1-quintela@redhat.com>
 MIME-Version: 1.0
@@ -58,7 +58,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=quintela@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -23
 X-Spam_score: -2.4
@@ -67,7 +67,7 @@ X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.159,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- URG_BIZ=0.573 autolearn=ham autolearn_force=no
+ URG_BIZ=0.573 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -102,96 +102,125 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Peter Xu <peterx@redhat.com>
 
-Add a helper to detect whether postcopy has pending request.
+This patch simplifies unqueue_page() on both sides of it (itself, and caller).
 
-Since at it, cleanup the code a bit, e.g. in unqueue_page() we shouldn't need
-to check it again on queue empty because we're the only one (besides cleanup
-code, which should never run during this process) that will take a request off
-the list, so the request list can only grow but not shrink under the hood.
+Firstly, due to the fact that right after unqueue_page() returned true, we'll
+definitely send a huge page (see ram_save_huge_page() call - it will _never_
+exit before finish sending that huge page), so unqueue_page() does not need to
+jump in small page size if huge page is enabled on the ramblock.  IOW, it's
+destined that only the 1st 4K page will be valid, when unqueue the 2nd+ time
+we'll notice the whole huge page has already been sent anyway.  Switching to
+operating on huge page reduces a lot of the loops of redundant unqueue_page().
+
+Meanwhile, drop the dirty check.  It's not helpful to call test_bit() every
+time to jump over clean pages, as ram_save_host_page() has already done so,
+while in a faster way (see commit ba1b7c812c ("migration/ram: Optimize
+ram_save_host_page()", 2021-05-13)).  So that's not necessary too.
+
+Drop the two tracepoints along the way - based on above analysis it's very
+possible that no one is really using it..
 
 Signed-off-by: Peter Xu <peterx@redhat.com>
 Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 Reviewed-by: Juan Quintela <quintela@redhat.com>
 Signed-off-by: Juan Quintela <quintela@redhat.com>
 ---
- migration/ram.c | 43 +++++++++++++++++++++++++++----------------
- 1 file changed, 27 insertions(+), 16 deletions(-)
+ migration/ram.c        | 37 +++++++++++--------------------------
+ migration/trace-events |  3 +--
+ 2 files changed, 12 insertions(+), 28 deletions(-)
 
 diff --git a/migration/ram.c b/migration/ram.c
-index 58adcaf430..eb9db4f777 100644
+index eb9db4f777..91ca743ac8 100644
 --- a/migration/ram.c
 +++ b/migration/ram.c
-@@ -355,6 +355,12 @@ static RAMState *ram_state;
- 
- static NotifierWithReturnList precopy_notifier_list;
- 
-+/* Whether postcopy has queued requests? */
-+static bool postcopy_has_request(RAMState *rs)
-+{
-+    return !QSIMPLEQ_EMPTY_ATOMIC(&rs->src_page_requests);
-+}
-+
- void precopy_infrastructure_init(void)
+@@ -1547,6 +1547,7 @@ static RAMBlock *unqueue_page(RAMState *rs, ram_addr_t *offset)
  {
-     notifier_with_return_list_init(&precopy_notifier_list);
-@@ -1539,28 +1545,33 @@ static bool find_dirty_block(RAMState *rs, PageSearchStatus *pss, bool *again)
-  */
- static RAMBlock *unqueue_page(RAMState *rs, ram_addr_t *offset)
- {
-+    struct RAMSrcPageRequest *entry;
+     struct RAMSrcPageRequest *entry;
      RAMBlock *block = NULL;
++    size_t page_size;
  
--    if (QSIMPLEQ_EMPTY_ATOMIC(&rs->src_page_requests)) {
-+    if (!postcopy_has_request(rs)) {
+     if (!postcopy_has_request(rs)) {
          return NULL;
+@@ -1563,10 +1564,13 @@ static RAMBlock *unqueue_page(RAMState *rs, ram_addr_t *offset)
+     entry = QSIMPLEQ_FIRST(&rs->src_page_requests);
+     block = entry->rb;
+     *offset = entry->offset;
++    page_size = qemu_ram_pagesize(block);
++    /* Each page request should only be multiple page size of the ramblock */
++    assert((entry->len % page_size) == 0);
+ 
+-    if (entry->len > TARGET_PAGE_SIZE) {
+-        entry->len -= TARGET_PAGE_SIZE;
+-        entry->offset += TARGET_PAGE_SIZE;
++    if (entry->len > page_size) {
++        entry->len -= page_size;
++        entry->offset += page_size;
+     } else {
+         memory_region_unref(block->mr);
+         QSIMPLEQ_REMOVE_HEAD(&rs->src_page_requests, next_req);
+@@ -1574,6 +1578,9 @@ static RAMBlock *unqueue_page(RAMState *rs, ram_addr_t *offset)
+         migration_consume_urgent_request();
      }
  
-     QEMU_LOCK_GUARD(&rs->src_page_req_mutex);
--    if (!QSIMPLEQ_EMPTY(&rs->src_page_requests)) {
--        struct RAMSrcPageRequest *entry =
--                                QSIMPLEQ_FIRST(&rs->src_page_requests);
--        block = entry->rb;
--        *offset = entry->offset;
- 
--        if (entry->len > TARGET_PAGE_SIZE) {
--            entry->len -= TARGET_PAGE_SIZE;
--            entry->offset += TARGET_PAGE_SIZE;
--        } else {
--            memory_region_unref(block->mr);
--            QSIMPLEQ_REMOVE_HEAD(&rs->src_page_requests, next_req);
--            g_free(entry);
--            migration_consume_urgent_request();
--        }
-+    /*
-+     * This should _never_ change even after we take the lock, because no one
-+     * should be taking anything off the request list other than us.
-+     */
-+    assert(postcopy_has_request(rs));
++    trace_unqueue_page(block->idstr, *offset,
++                       test_bit((*offset >> TARGET_PAGE_BITS), block->bmap));
 +
-+    entry = QSIMPLEQ_FIRST(&rs->src_page_requests);
-+    block = entry->rb;
-+    *offset = entry->offset;
-+
-+    if (entry->len > TARGET_PAGE_SIZE) {
-+        entry->len -= TARGET_PAGE_SIZE;
-+        entry->offset += TARGET_PAGE_SIZE;
-+    } else {
-+        memory_region_unref(block->mr);
-+        QSIMPLEQ_REMOVE_HEAD(&rs->src_page_requests, next_req);
-+        g_free(entry);
-+        migration_consume_urgent_request();
-     }
- 
      return block;
-@@ -2992,7 +3003,7 @@ static int ram_save_iterate(QEMUFile *f, void *opaque)
-         t0 = qemu_clock_get_ns(QEMU_CLOCK_REALTIME);
-         i = 0;
-         while ((ret = qemu_file_rate_limit(f)) == 0 ||
--                !QSIMPLEQ_EMPTY(&rs->src_page_requests)) {
-+               postcopy_has_request(rs)) {
-             int pages;
+ }
  
-             if (qemu_file_get_error(f)) {
+@@ -1948,30 +1955,8 @@ static bool get_queued_page(RAMState *rs, PageSearchStatus *pss)
+ {
+     RAMBlock  *block;
+     ram_addr_t offset;
+-    bool dirty;
+ 
+-    do {
+-        block = unqueue_page(rs, &offset);
+-        /*
+-         * We're sending this page, and since it's postcopy nothing else
+-         * will dirty it, and we must make sure it doesn't get sent again
+-         * even if this queue request was received after the background
+-         * search already sent it.
+-         */
+-        if (block) {
+-            unsigned long page;
+-
+-            page = offset >> TARGET_PAGE_BITS;
+-            dirty = test_bit(page, block->bmap);
+-            if (!dirty) {
+-                trace_get_queued_page_not_dirty(block->idstr, (uint64_t)offset,
+-                                                page);
+-            } else {
+-                trace_get_queued_page(block->idstr, (uint64_t)offset, page);
+-            }
+-        }
+-
+-    } while (block && !dirty);
++    block = unqueue_page(rs, &offset);
+ 
+     if (!block) {
+         /*
+diff --git a/migration/trace-events b/migration/trace-events
+index 171a83a55d..48aa7b10ee 100644
+--- a/migration/trace-events
++++ b/migration/trace-events
+@@ -86,8 +86,6 @@ put_qlist_end(const char *field_name, const char *vmsd_name) "%s(%s)"
+ qemu_file_fclose(void) ""
+ 
+ # ram.c
+-get_queued_page(const char *block_name, uint64_t tmp_offset, unsigned long page_abs) "%s/0x%" PRIx64 " page_abs=0x%lx"
+-get_queued_page_not_dirty(const char *block_name, uint64_t tmp_offset, unsigned long page_abs) "%s/0x%" PRIx64 " page_abs=0x%lx"
+ migration_bitmap_sync_start(void) ""
+ migration_bitmap_sync_end(uint64_t dirty_pages) "dirty_pages %" PRIu64
+ migration_bitmap_clear_dirty(char *str, uint64_t start, uint64_t size, unsigned long page) "rb %s start 0x%"PRIx64" size 0x%"PRIx64" page 0x%lx"
+@@ -113,6 +111,7 @@ ram_save_iterate_big_wait(uint64_t milliconds, int iterations) "big wait: %" PRI
+ ram_load_complete(int ret, uint64_t seq_iter) "exit_code %d seq iteration %" PRIu64
+ ram_write_tracking_ramblock_start(const char *block_id, size_t page_size, void *addr, size_t length) "%s: page_size: %zu addr: %p length: %zu"
+ ram_write_tracking_ramblock_stop(const char *block_id, size_t page_size, void *addr, size_t length) "%s: page_size: %zu addr: %p length: %zu"
++unqueue_page(char *block, uint64_t offset, bool dirty) "ramblock '%s' offset 0x%"PRIx64" dirty %d"
+ 
+ # multifd.c
+ multifd_new_send_channel_async(uint8_t id) "channel %u"
 -- 
 2.34.1
 
