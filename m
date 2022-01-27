@@ -2,74 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D30BF49DE5E
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Jan 2022 10:47:07 +0100 (CET)
-Received: from localhost ([::1]:50388 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7DBAF49DE48
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Jan 2022 10:43:23 +0100 (CET)
+Received: from localhost ([::1]:46026 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nD1Mw-0008Mt-UB
-	for lists+qemu-devel@lfdr.de; Thu, 27 Jan 2022 04:47:06 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:46630)
+	id 1nD1JK-0004w8-C7
+	for lists+qemu-devel@lfdr.de; Thu, 27 Jan 2022 04:43:22 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:46744)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1nD1Gt-0002dE-4F
- for qemu-devel@nongnu.org; Thu, 27 Jan 2022 04:40:51 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:41732)
+ id 1nD1HJ-00034K-Ek
+ for qemu-devel@nongnu.org; Thu, 27 Jan 2022 04:41:18 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:25505)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1nD1Gq-00014T-6D
- for qemu-devel@nongnu.org; Thu, 27 Jan 2022 04:40:49 -0500
+ id 1nD1HI-00017U-0b
+ for qemu-devel@nongnu.org; Thu, 27 Jan 2022 04:41:17 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1643276447;
+ s=mimecast20190719; t=1643276474;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=twYv+ghG2cd+0Acm+uJ2w9g/FGmQ76CIbBwxxJt/aoU=;
- b=Q+1f4wV3ixHxpagQyTpStvrA1kgwsdhX/7MDw5CmY0nn8oqnWBSTShCnRSki1yVpJVmw1g
- asgijafwat2ND+efsunAJJue4GE1r+AKTj2Rj4mht/DoIVpRNbkhiOOkGbZt6K18ENejFP
- daibHuao3lcX7R8SNc/dJKPSNHDB4Z4=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=Y1ck0GyJZcwS6EaXwV1gwHdJJoHsak3GChHp6ApfJOA=;
+ b=QcZnC3ZnXHxASNhhq5D69S84y/S7NHGA6nrywbKjl+bf0tn1KnqPWrqs8jX5mnJzicZuDf
+ GPsHXCd+ns+tiLtWojvKajMPlS+9CwB9WQx23BQMwtRT3bROdjjcO24dGe2dWIJhk+NnM+
+ 86YiFygbnyOTSkjcc1GUXAalpZbd4qw=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-13-jHHF4cC3NYeoRW2ty5NNSQ-1; Thu, 27 Jan 2022 04:40:46 -0500
-X-MC-Unique: jHHF4cC3NYeoRW2ty5NNSQ-1
-Received: by mail-wm1-f69.google.com with SMTP id
- m189-20020a1c26c6000000b003508ba87dfbso453369wmm.7
- for <qemu-devel@nongnu.org>; Thu, 27 Jan 2022 01:40:46 -0800 (PST)
+ us-mta-499-2RizZrc3OoOKMFKurAajig-1; Thu, 27 Jan 2022 04:41:13 -0500
+X-MC-Unique: 2RizZrc3OoOKMFKurAajig-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ o140-20020a1ca592000000b00350aef3949aso453549wme.5
+ for <qemu-devel@nongnu.org>; Thu, 27 Jan 2022 01:41:13 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:in-reply-to:references
  :user-agent:reply-to:date:message-id:mime-version;
- bh=twYv+ghG2cd+0Acm+uJ2w9g/FGmQ76CIbBwxxJt/aoU=;
- b=WIK3MrqYoKLxdSyUQ7TfT9F6ipONBS5FuqAcYG+yTv4oBs2MwmVcEwBlYYLOn/T5vm
- eZBYyB/5cu+s05rSMwOXc6ELO5fZU+Zb1DMJYLl+fjEaK0YT22MDPp1u+QjV76JrMxB+
- CoJ4mgGN7miT/9Pn3Qck4g2VHEcOEi6PZTezU+B81VHAKFivf7mxG+iv1f0rnZrh75gk
- GFfsVlfsYSjb4llQtWyofUXzGiLw/UurNRtDa8Dka3punMjweqvqoKFcMI33GuZDmUBs
- l6KcHADEGJgAoRP+hQEiyCeVsv8yEfkLpJy2iVTKiMKo0SLa0vYroYWweToKGiOVeO9H
- C1pQ==
-X-Gm-Message-State: AOAM531EmkMp/JFP2LRSgiH1+sFG+CKR9loWti2Trsqcnj2fYd5EkofL
- 5H4IbLHt6mwk9/eZtoAAhAkK6HbRJ8ylOIk15ngyIi7ofEnrSCFYGs6Mz45vX624qdaHpC1oJk2
- VA51mqefZBnekBPs=
-X-Received: by 2002:a5d:64a3:: with SMTP id m3mr788647wrp.412.1643276444902;
- Thu, 27 Jan 2022 01:40:44 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwHYOKApK+PgPrUKnNI0lDWcRRZKz/3J2ML0HJOYgy5yyVr249HCaylQaYKVdlIXwCjSWB7aA==
-X-Received: by 2002:a5d:64a3:: with SMTP id m3mr788637wrp.412.1643276444761;
- Thu, 27 Jan 2022 01:40:44 -0800 (PST)
+ bh=Y1ck0GyJZcwS6EaXwV1gwHdJJoHsak3GChHp6ApfJOA=;
+ b=eXsHnaNA2BKsprpAE4C3Kopa6ggvvRVh0W3PVczhr/ibD9NJjgLkU4onLdAHDt014+
+ AkHrhBejYnry3qECh63Pn7FMzpn9nbX8D3Q2hwU5fDIaEGRIDFQ4Hn4kgqWZTl/kg5UA
+ FIGOiwkHB2XkRZ/DBMVtpRsXlW3AASyW4gfsi+Pxbse56NAk03DcY+SIeJjsZb05Owjq
+ 9wV/Kc/kOC9CRa6I5MAbeWF7HUhl7v+MRWidN3W2TDQrTsP+Pkt99GMLONbZ4u9RxubF
+ cEJFONcyajd0B12nORmoeKugX8ZZRK9YDgHxoMrDCtZIeQTjfWvS25/oCSMQWSGrZjms
+ jJMw==
+X-Gm-Message-State: AOAM530VtT7qyq78kwY9nLM7VyPfFubrYKLbl6ctRm1P9/ZaxX1SR+Ny
+ ALUAZMVcoArF5rkLXLTawReSOTAWs1b2fchtFx3m3+gl8a8SmTrYi5RQthHQ+qidbfFifLZMbtp
+ NyqPywYpAB7sETvk=
+X-Received: by 2002:a5d:46d1:: with SMTP id g17mr2327977wrs.471.1643276472104; 
+ Thu, 27 Jan 2022 01:41:12 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzwadI8yzHxT+dBvtmTUwQuSl3cuaRG1FzMVy6UuKt9pGdfIC7mABWi/sf9wUK7kTSya5al8Q==
+X-Received: by 2002:a5d:46d1:: with SMTP id g17mr2327964wrs.471.1643276471936; 
+ Thu, 27 Jan 2022 01:41:11 -0800 (PST)
 Received: from localhost ([47.61.17.76])
- by smtp.gmail.com with ESMTPSA id y14sm1926570wrd.91.2022.01.27.01.40.44
+ by smtp.gmail.com with ESMTPSA id i17sm1615486wru.107.2022.01.27.01.41.11
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 27 Jan 2022 01:40:44 -0800 (PST)
+ Thu, 27 Jan 2022 01:41:11 -0800 (PST)
 From: Juan Quintela <quintela@redhat.com>
 To: Peter Xu <peterx@redhat.com>
-Subject: Re: [PATCH RFC 03/15] migration: Enable UFFD_FEATURE_THREAD_ID even
- without blocktime feat
-In-Reply-To: <20220119080929.39485-4-peterx@redhat.com> (Peter Xu's message of
- "Wed, 19 Jan 2022 16:09:17 +0800")
+Subject: Re: [PATCH RFC 04/15] migration: Add postcopy_has_request()
+In-Reply-To: <20220119080929.39485-5-peterx@redhat.com> (Peter Xu's message of
+ "Wed, 19 Jan 2022 16:09:18 +0800")
 References: <20220119080929.39485-1-peterx@redhat.com>
- <20220119080929.39485-4-peterx@redhat.com>
+ <20220119080929.39485-5-peterx@redhat.com>
 User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
-Date: Thu, 27 Jan 2022 10:40:43 +0100
-Message-ID: <87tudpldno.fsf@secure.mitica>
+Date: Thu, 27 Jan 2022 10:41:10 +0100
+Message-ID: <87pmodldmx.fsf@secure.mitica>
 MIME-Version: 1.0
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=quintela@redhat.com
@@ -104,16 +103,16 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Peter Xu <peterx@redhat.com> wrote:
-> This patch allows us to read the tid even without blocktime feature enabled.
-> It's useful when tracing postcopy fault thread on faulted pages to show thread
-> id too with the address.
+> Add a helper to detect whether postcopy has pending request.
 >
-> Remove the comments - they're merely not helpful at all.
+> Since at it, cleanup the code a bit, e.g. in unqueue_page() we shouldn't need
+> to check it again on queue empty because we're the only one (besides cleanup
+> code, which should never run during this process) that will take a request off
+> the list, so the request list can only grow but not shrink under the hood.
 >
 > Signed-off-by: Peter Xu <peterx@redhat.com>
 
 Reviewed-by: Juan Quintela <quintela@redhat.com>
-
-queued.
+queued
 
 
