@@ -2,85 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C25449DC69
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Jan 2022 09:19:50 +0100 (CET)
-Received: from localhost ([::1]:56886 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A46549DCB2
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Jan 2022 09:43:24 +0100 (CET)
+Received: from localhost ([::1]:53938 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nD00S-00028k-4a
-	for lists+qemu-devel@lfdr.de; Thu, 27 Jan 2022 03:19:48 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:52380)
+	id 1nD0NH-0003Bo-5a
+	for lists+qemu-devel@lfdr.de; Thu, 27 Jan 2022 03:43:23 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:53148)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nCziV-00010u-96
- for qemu-devel@nongnu.org; Thu, 27 Jan 2022 03:01:15 -0500
-Received: from [2607:f8b0:4864:20::1036] (port=39679
- helo=mail-pj1-x1036.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nCziT-0001iK-6V
- for qemu-devel@nongnu.org; Thu, 27 Jan 2022 03:01:14 -0500
-Received: by mail-pj1-x1036.google.com with SMTP id
- s61-20020a17090a69c300b001b4d0427ea2so6770409pjj.4
- for <qemu-devel@nongnu.org>; Thu, 27 Jan 2022 00:01:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=DquBZ0rp1YEhrnR/hiX39uLRHXYfvp3IDmvwyJEYTrk=;
- b=rTMbVAdSX+6j2IAvSZ/FvxR/Uo6RsmC8/hIBtP7icega/iyC8rYTtM8o0OwocKKpRC
- ee1SP3o56ejWrnHapHpWX4oZJZ8WdxZU/Vg6+JAZiadvan7WhZZl1EUaM2ndD9SL3nC/
- XOfPvmggzJm2lzmyL7Fmx/zbFOW+TKvBT+/EWK6fivXU7ig0c+EcJohTzLu6ol+aD72P
- xLbBQfDsXsNIqAgSRKyf5w2zQ+Cj6g0r4T8/YBqpYy2Q1C/jpQhv3PXFjtrV+sf1uDuI
- 9GeTA6yarBhhITQoc4nxe+u/ir5qFdV8ZTA8b70/a/L6JblJDCWmpiSVFW1bEW50kSK7
- pVKg==
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nCznh-0002VZ-Gm
+ for qemu-devel@nongnu.org; Thu, 27 Jan 2022 03:06:41 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:32661)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nCznf-0002Fs-86
+ for qemu-devel@nongnu.org; Thu, 27 Jan 2022 03:06:36 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1643270793;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=504wFKnHwwkFfPMgKXlwh2pWyCBgbL4WyM0tygoZNNQ=;
+ b=PgzeprEjsSeRWLdXveGH87perQH+nmsPrCV3JHaLbuhJ0nUcVIlK9x/Xs73BN0iGlhbt7Y
+ VGrG+Y74Syt5pGmsCfc7b3nCofZeiloyKbeKxamgo1yfm1HDD05C3/p5yhDBJL3OG03sx4
+ eLZwG3epkhg1ItZPjMSo7tW1aeHWzO8=
+Received: from mail-pf1-f197.google.com (mail-pf1-f197.google.com
+ [209.85.210.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-356-Wfxe1fdwOHGje9ypLHgZxw-1; Thu, 27 Jan 2022 03:06:26 -0500
+X-MC-Unique: Wfxe1fdwOHGje9ypLHgZxw-1
+Received: by mail-pf1-f197.google.com with SMTP id
+ 68-20020a621547000000b004c74bbd2819so1201972pfv.18
+ for <qemu-devel@nongnu.org>; Thu, 27 Jan 2022 00:06:26 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=DquBZ0rp1YEhrnR/hiX39uLRHXYfvp3IDmvwyJEYTrk=;
- b=sLvLquIHxwTk0Lq5m/tAO808wG9yqbv1F/LlRxsG4lkvfhLAshnjlASi4x4Ff3s29u
- YyYqpO5dKzq6FkxzltLsZ6/fsdg4mGXBDSmVhCazC6qBY0euPbC02kqLAAncK0Z7tZFH
- mtfZSokdgb4dfHZeXbdwoSKwJRnGVz3kc6qMcOZ+5dgaCb95AfcmsYch0DK3XbX4xNF0
- ty5onydHzOo9JjGAuCsG+iNlQBGZYo0xmxVgDOIrAL34ViutrglqoaB8vx1nOAVpfSJy
- mtn5nF0bCW5S4zU5Rb9SbyzfHVucdSOHU1XMA3LOSmq2g+8Ne1mNMcZmr3FDaFGrg/2i
- ojQQ==
-X-Gm-Message-State: AOAM5328Q7Ei+orAKhpNTeJiTKr8lt1OoLo6cqd2Dr20d4nLt6NtIffK
- gPXh1msKCnB1kFR3S7Xh1OSBrA==
-X-Google-Smtp-Source: ABdhPJwaJWbGSzliFFYKOv0RdHh26TEbjkJS9LoJi/+XroXK1fcN4cW0JzWi5ObEItudIL+jWTSsvw==
-X-Received: by 2002:a17:902:6945:: with SMTP id
- k5mr2048613plt.141.1643270466443; 
- Thu, 27 Jan 2022 00:01:06 -0800 (PST)
-Received: from [192.168.15.44] (alanje.lnk.telstra.net. [120.151.179.201])
- by smtp.gmail.com with ESMTPSA id z14sm18988955pgr.34.2022.01.27.00.01.03
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 27 Jan 2022 00:01:06 -0800 (PST)
-Message-ID: <293e8cbb-24c5-074f-2840-a340e3222353@linaro.org>
-Date: Thu, 27 Jan 2022 19:00:59 +1100
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=504wFKnHwwkFfPMgKXlwh2pWyCBgbL4WyM0tygoZNNQ=;
+ b=hH25qVCZunO3EIUfYJVjd6j5cY5MIuH+l9/mvw0enXVcBwasvcCdUtfAH6VkbmXf0s
+ dwEMZwFrrSMOeZsJGDxhM35HLKMrRNstYgNj/l4Gx7V6QwrTJf/ptLPZCc0Aygc+XHiQ
+ FmSoIXAgOM5o4XuBmCpHeBHTJAp4byLDPPGf4wdsXYfGATNeasFjsz9KMHWKQSTOmMJj
+ 4Yq46TG7iMMSNwTFWdMjwKE2UtiKQRW/cWwFZeFsoJAvf4XPc2uoLA6Q0jM5opIILHHf
+ th61KibJrFdoskJPLbPbdys5iQbQQv+/p/AkUgqDdoP4Ux/oP//BgmoXv7g8z7ne035P
+ 13Dw==
+X-Gm-Message-State: AOAM533RFLmYdDyygOQn7bf6qx//3O572XbS0XVZi3LInNoiOzIJxrkR
+ hglTn8Qb8lsKGtU1D1umJk/ZPhSssYe3VDmmajwxSK/YurC5Z1GLwWOkvGYz5uldbIhf/V25RU9
+ tErp9d7BGAxtcqC8=
+X-Received: by 2002:a17:90b:4c11:: with SMTP id
+ na17mr12923666pjb.208.1643270785784; 
+ Thu, 27 Jan 2022 00:06:25 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyLKfGJjeS4YswQ/QKDZOAXPs/PKdHTyVn17lLFQab1SuE9NkeWoTsMumy/vbjTkOUgHRMDEg==
+X-Received: by 2002:a17:90b:4c11:: with SMTP id
+ na17mr12923639pjb.208.1643270785491; 
+ Thu, 27 Jan 2022 00:06:25 -0800 (PST)
+Received: from xz-m1.local ([111.197.238.41])
+ by smtp.gmail.com with ESMTPSA id f15sm4385357pfn.19.2022.01.27.00.06.20
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 27 Jan 2022 00:06:25 -0800 (PST)
+Date: Thu, 27 Jan 2022 16:06:19 +0800
+From: Peter Xu <peterx@redhat.com>
+To: Eugenio Perez Martin <eperezma@redhat.com>
+Subject: Re: [PATCH 21/31] util: Add iova_tree_alloc
+Message-ID: <YfJSezhQv1kXa1x8@xz-m1.local>
+References: <20220121202733.404989-1-eperezma@redhat.com>
+ <20220121202733.404989-22-eperezma@redhat.com>
+ <Ye4r7tKFhP9VaT5/@xz-m1.local>
+ <CAJaqyWf--wbNZz5ZzbpixD9op_fO5fV01kbYXzG097c_NkqYrw@mail.gmail.com>
+ <Ye6IhLCe6NDKO6+E@xz-m1.local>
+ <CAJaqyWcdpTr2X4VuAN2NLmpviCjDoAaY269+VQGZ7-F6myOhSw@mail.gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH v2 40/40] bsd-user/freebsd/target_os_ucontext.h: Prefer
- env as arg name for CPUArchState args
-Content-Language: en-US
-To: Warner Losh <imp@bsdimp.com>, qemu-devel@nongnu.org
-References: <20220125012947.14974-1-imp@bsdimp.com>
- <20220125012947.14974-41-imp@bsdimp.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220125012947.14974-41-imp@bsdimp.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1036
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1036;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1036.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+In-Reply-To: <CAJaqyWcdpTr2X4VuAN2NLmpviCjDoAaY269+VQGZ7-F6myOhSw@mail.gmail.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.159,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,18 +99,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, def@FreeBSD.org,
- jrtc27@FreeBSD.org, Kyle Evans <kevans@freebsd.org>
+Cc: Laurent Vivier <lvivier@redhat.com>, Parav Pandit <parav@mellanox.com>,
+ Cindy Lu <lulu@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Jason Wang <jasowang@redhat.com>, Juan Quintela <quintela@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ qemu-level <qemu-devel@nongnu.org>, Gautam Dawar <gdawar@xilinx.com>,
+ Markus Armbruster <armbru@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ Harpreet Singh Anand <hanand@xilinx.com>, Xiao W Wang <xiao.w.wang@intel.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Eli Cohen <eli@mellanox.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Zhu Lingshan <lingshan.zhu@intel.com>,
+ virtualization <virtualization@lists.linux-foundation.org>,
+ Eric Blake <eblake@redhat.com>, Stefano Garzarella <sgarzare@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/25/22 12:29, Warner Losh wrote:
-> Signed-off-by: Warner Losh<imp@bsdimp.com>
-> ---
->   bsd-user/freebsd/target_os_ucontext.h | 6 +++---
->   1 file changed, 3 insertions(+), 3 deletions(-)
+On Tue, Jan 25, 2022 at 10:40:01AM +0100, Eugenio Perez Martin wrote:
+> So I think that the first step to remove complexity from the old one
+> is to remove iova_begin and iova_end.
+> 
+> As Jason points out, removing iova_end is easier. It has the drawback
+> of having to traverse all the list beyond iova_end, but a well formed
+> iova tree should contain none. If the guest can manipulate it, it's
+> only hurting itself adding nodes to it.
+> 
+> It's possible to extract the check for hole_right (or this in Jason's
+> proposal) as a special case too.
+> 
+> But removing the iova_begin parameter is more complicated. We cannot
+> know if it's a valid hole without knowing iova_begin, and we cannot
+> resume traversing. Could we assume iova_begin will always be 0? I
+> think not, the vdpa device can return anything through syscall.
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Frankly I don't know what's the syscall you're talking about, but after a 2nd
+thought and after I went back and re-read your previous version more carefully
+(the one without the list) I think it seems working to me in general.  I should
+have tried harder when reviewing the first time!
 
-r~
+I mean this one:
+
+https://lore.kernel.org/qemu-devel/20211029183525.1776416-24-eperezma@redhat.com/
+
+Though this time I have some comments on the details.
+
+Personally I like that one (probably with some amendment upon the old version)
+more than the current list-based approach.  But I'd like to know your thoughts
+too (including Jason).  I'll further comment in that thread soon.
+
+Thanks,
+
+-- 
+Peter Xu
+
 
