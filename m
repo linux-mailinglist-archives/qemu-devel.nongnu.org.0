@@ -2,56 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D41C649E4D4
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Jan 2022 15:39:49 +0100 (CET)
-Received: from localhost ([::1]:47258 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A91849E548
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Jan 2022 15:57:34 +0100 (CET)
+Received: from localhost ([::1]:48168 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nD5wC-0001BY-Ue
-	for lists+qemu-devel@lfdr.de; Thu, 27 Jan 2022 09:39:48 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:54618)
+	id 1nD6DN-00067R-5C
+	for lists+qemu-devel@lfdr.de; Thu, 27 Jan 2022 09:57:33 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:54710)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nD5fB-00073j-C6
- for qemu-devel@nongnu.org; Thu, 27 Jan 2022 09:22:13 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:30430)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nD5fL-0007ep-Rh
+ for qemu-devel@nongnu.org; Thu, 27 Jan 2022 09:22:23 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:46225)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nD5f9-0003OI-Cv
- for qemu-devel@nongnu.org; Thu, 27 Jan 2022 09:22:13 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nD5fK-0003PJ-3Z
+ for qemu-devel@nongnu.org; Thu, 27 Jan 2022 09:22:23 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1643293330;
+ s=mimecast20190719; t=1643293341;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=2lbnBSx6s7PyjoEIgmQc6Kb11SK0yBEdluoczg4PChE=;
- b=Z+lsebYbHwgH3ub1TW/Gf8/sF8YJOWM2SmXxqIXFDl9wyPsUfUegGGQS9tWPcZ0eNnzp14
- PWdJl0JyiUWI2sPlsy/ZGV2HDwz6BmvWeIpuENEIUEjs5PRPrQCYQt9TDkJXzqNDZ6KUgC
- xe4x9wddpQNLkedFTIosfyR0EvrspSg=
+ bh=hAE4/uxm5nEiNKnBfQnCpAQ9p9jfXH/3iDAiVZ2ztPk=;
+ b=aGuqM5+T7xfvnkzqkjsjC07bzwfjLbs5SHTGwJA9hxtsvF/O1JnypyByrDdJvGBmmOYpOG
+ wjzCAD0w9Cb9QJufEtw0+E7ISf7t5MrcnXScykHcnDDih5Bw/ROqW9KUDCmS0NaSYTu47D
+ 60Wy/pW8psJ+bUu0tq17aNRJEdjVANc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-413-2XLV2QfKNmmts89tU8HZ-A-1; Thu, 27 Jan 2022 09:22:06 -0500
-X-MC-Unique: 2XLV2QfKNmmts89tU8HZ-A-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-79-kc185jK3NCmdk23G5ENNfA-1; Thu, 27 Jan 2022 09:22:20 -0500
+X-MC-Unique: kc185jK3NCmdk23G5ENNfA-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 99C731091DA0;
- Thu, 27 Jan 2022 14:22:05 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4221A15720;
+ Thu, 27 Jan 2022 14:22:19 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-7.ams2.redhat.com [10.36.112.7])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 68F877D735;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 68ABE70D43;
  Thu, 27 Jan 2022 14:22:05 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id AB7791138223; Thu, 27 Jan 2022 15:22:02 +0100 (CET)
+ id AEB2D1138224; Thu, 27 Jan 2022 15:22:02 +0100 (CET)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v2 5/8] meson: generate trace events for qmp commands
-Date: Thu, 27 Jan 2022 15:21:59 +0100
-Message-Id: <20220127142202.236638-6-armbru@redhat.com>
+Subject: [PULL v2 6/8] docs/qapi-code-gen: update to cover trace events code
+ generation
+Date: Thu, 27 Jan 2022 15:22:00 +0100
+Message-Id: <20220127142202.236638-7-armbru@redhat.com>
 In-Reply-To: <20220127142202.236638-1-armbru@redhat.com>
 References: <20220127142202.236638-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -81,116 +82,92 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: peter.maydell@linaro.org,
  Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+ Stefan Hajnoczi <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 
-1. Use --gen-trace when generate qmp commands
-2. Add corresponding .trace-events files as outputs in qapi_files
-   custom target
-3. Define global qapi_trace_events list of .trace-events file targets,
-   to fill in trace/qapi.build and to use in trace/meson.build
-4. In trace/meson.build use the new array as an additional source of
-   .trace_events files to be processed
+Previous commits enabled trace events generation for most of QAPI
+generated code (except for tests/ and qga/). Let's update documentation
+to illustrate it.
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Acked-by: Paolo Bonzini <pbonzini@redhat.com>
+Message-Id: <20220126161130.3240892-6-vsementsov@virtuozzo.com>
 Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
-Message-Id: <20220126161130.3240892-5-vsementsov@virtuozzo.com>
+Reviewed-by: Markus Armbruster <armbru@redhat.com>
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 ---
- meson.build       |  3 +++
- qapi/meson.build  |  9 ++++++++-
- trace/meson.build | 11 ++++++++---
- 3 files changed, 19 insertions(+), 4 deletions(-)
+ docs/devel/qapi-code-gen.rst | 23 +++++++++++++++++++++++
+ docs/devel/tracing.rst       |  2 ++
+ 2 files changed, 25 insertions(+)
 
-diff --git a/meson.build b/meson.build
-index 833fd6bc4c..e0cfafe8d9 100644
---- a/meson.build
-+++ b/meson.build
-@@ -41,6 +41,7 @@ qemu_icondir = get_option('datadir') / 'icons'
+diff --git a/docs/devel/qapi-code-gen.rst b/docs/devel/qapi-code-gen.rst
+index feafed79b5..246709ede8 100644
+--- a/docs/devel/qapi-code-gen.rst
++++ b/docs/devel/qapi-code-gen.rst
+@@ -1630,6 +1630,9 @@ The following files are generated:
+  ``$(prefix)qapi-commands.h``
+      Function prototypes for the QMP commands specified in the schema
  
- config_host_data = configuration_data()
- genh = []
-+qapi_trace_events = []
++ ``$(prefix)qapi-commands.trace-events``
++     Trace event declarations, see :ref:`tracing`.
++
+  ``$(prefix)qapi-init-commands.h``
+      Command initialization prototype
  
- target_dirs = config_host['TARGET_DIRS'].split()
- have_linux_user = false
-@@ -2557,6 +2558,8 @@ if 'CONFIG_VHOST_USER' in config_host
-   vhost_user = libvhost_user.get_variable('vhost_user_dep')
- endif
+@@ -1650,6 +1653,13 @@ Example::
+     void qmp_marshal_my_command(QDict *args, QObject **ret, Error **errp);
  
-+# NOTE: the trace/ subdirectory needs the qapi_trace_events variable
-+# that is filled in by qapi/.
- subdir('qapi')
- subdir('qobject')
- subdir('stubs')
-diff --git a/qapi/meson.build b/qapi/meson.build
-index c0c49c15e4..b22558ca73 100644
---- a/qapi/meson.build
-+++ b/qapi/meson.build
-@@ -114,6 +114,7 @@ foreach module : qapi_all_modules
-       'qapi-events-@0@.h'.format(module),
-       'qapi-commands-@0@.c'.format(module),
-       'qapi-commands-@0@.h'.format(module),
-+      'qapi-commands-@0@.trace-events'.format(module),
-     ]
-   endif
-   if module.endswith('-target')
-@@ -126,7 +127,7 @@ endforeach
- qapi_files = custom_target('shared QAPI source files',
-   output: qapi_util_outputs + qapi_specific_outputs + qapi_nonmodule_outputs,
-   input: [ files('qapi-schema.json') ],
--  command: [ qapi_gen, '-o', 'qapi', '-b', '@INPUT0@' ],
-+  command: [ qapi_gen, '-o', 'qapi', '-b', '@INPUT0@', '--gen-trace' ],
-   depend_files: [ qapi_inputs, qapi_gen_depends ])
+     #endif /* EXAMPLE_QAPI_COMMANDS_H */
++
++    $ cat qapi-generated/example-qapi-commands.trace-events
++    # AUTOMATICALLY GENERATED, DO NOT MODIFY
++
++    qmp_enter_my_command(const char *json) "%s"
++    qmp_exit_my_command(const char *result, bool succeeded) "%s %d"
++
+     $ cat qapi-generated/example-qapi-commands.c
+     [Uninteresting stuff omitted...]
  
- # Now go through all the outputs and add them to the right sourceset.
-@@ -137,6 +138,9 @@ foreach output : qapi_util_outputs
-   if output.endswith('.h')
-     genh += qapi_files[i]
-   endif
-+  if output.endswith('.trace-events')
-+    qapi_trace_events += qapi_files[i]
-+  endif
-   util_ss.add(qapi_files[i])
-   i = i + 1
- endforeach
-@@ -145,6 +149,9 @@ foreach output : qapi_specific_outputs + qapi_nonmodule_outputs
-   if output.endswith('.h')
-     genh += qapi_files[i]
-   endif
-+  if output.endswith('.trace-events')
-+    qapi_trace_events += qapi_files[i]
-+  endif
-   specific_ss.add(when: 'CONFIG_SOFTMMU', if_true: qapi_files[i])
-   i = i + 1
- endforeach
-diff --git a/trace/meson.build b/trace/meson.build
-index 573dd699c6..c4794a1f2a 100644
---- a/trace/meson.build
-+++ b/trace/meson.build
-@@ -2,10 +2,15 @@
- specific_ss.add(files('control-target.c'))
+@@ -1689,14 +1699,27 @@ Example::
+             goto out;
+         }
  
- trace_events_files = []
--foreach dir : [ '.' ] + trace_events_subdirs
--  trace_events_file = meson.project_source_root() / dir / 'trace-events'
-+foreach item : [ '.' ] + trace_events_subdirs + qapi_trace_events
-+  if item in qapi_trace_events
-+    trace_events_file = item
-+    group_name = item.full_path().split('/')[-1].underscorify()
-+  else
-+    trace_events_file = meson.project_source_root() / item / 'trace-events'
-+    group_name = item == '.' ? 'root' : item.underscorify()
-+  endif
-   trace_events_files += [ trace_events_file ]
--  group_name = dir == '.' ? 'root' : dir.underscorify()
-   group = '--group=' + group_name
-   fmt = '@0@-' + group_name + '.@1@'
++        if (trace_event_get_state_backends(TRACE_QMP_ENTER_MY_COMMAND)) {
++            g_autoptr(GString) req_json = qobject_to_json(QOBJECT(args));
++
++            trace_qmp_enter_my_command(req_json->str);
++        }
++
+         retval = qmp_my_command(arg.arg1, &err);
+         if (err) {
++            trace_qmp_exit_my_command(error_get_pretty(err), false);
+             error_propagate(errp, err);
+             goto out;
+         }
  
+         qmp_marshal_output_UserDefOne(retval, ret, errp);
+ 
++        if (trace_event_get_state_backends(TRACE_QMP_EXIT_MY_COMMAND)) {
++            g_autoptr(GString) ret_json = qobject_to_json(*ret);
++
++            trace_qmp_exit_my_command(ret_json->str, true);
++        }
++
+     out:
+         visit_free(v);
+         v = qapi_dealloc_visitor_new();
+diff --git a/docs/devel/tracing.rst b/docs/devel/tracing.rst
+index ba83954899..4290ac42ee 100644
+--- a/docs/devel/tracing.rst
++++ b/docs/devel/tracing.rst
+@@ -1,3 +1,5 @@
++.. _tracing:
++
+ =======
+ Tracing
+ =======
 -- 
 2.31.1
 
