@@ -2,75 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C818B49DCFB
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Jan 2022 09:53:20 +0100 (CET)
-Received: from localhost ([::1]:36774 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E66AD49DCAC
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Jan 2022 09:39:10 +0100 (CET)
+Received: from localhost ([::1]:50244 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nD0Wt-0002rG-Fk
-	for lists+qemu-devel@lfdr.de; Thu, 27 Jan 2022 03:53:19 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:58236)
+	id 1nD0JB-0000em-P3
+	for lists+qemu-devel@lfdr.de; Thu, 27 Jan 2022 03:39:09 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:59592)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1nD0Ai-0003u8-8f
- for qemu-devel@nongnu.org; Thu, 27 Jan 2022 03:30:28 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:51763)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1nD0Af-0006IU-Eq
- for qemu-devel@nongnu.org; Thu, 27 Jan 2022 03:30:23 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1643272220;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=uBTthIW8KbInjHJ8upFwcgHEYhiRkg8n5HoVQFfex/4=;
- b=LeqiTuHKPYkZav2tiwBU0o+CqyLVd9LuA0zRo6RbPwsNn8SfPQBveP83hBbV58kOuO5K+/
- VIFiqtG895CNb4GyAlCCupFn1o45kKh7/0lk86gPaN1PEU2ZUm1zBeX42PvhJSFaTK5x/1
- 9gwz88OD4SMj8LK79ax9vnNfZxjwztc=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-472-avYWxHwlMeyuHqHEXgObBg-1; Thu, 27 Jan 2022 03:30:16 -0500
-X-MC-Unique: avYWxHwlMeyuHqHEXgObBg-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EACBC101F7B9;
- Thu, 27 Jan 2022 08:30:14 +0000 (UTC)
-Received: from localhost (unknown [10.39.193.168])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 38CFE4EC8E;
- Thu, 27 Jan 2022 08:30:13 +0000 (UTC)
-Date: Thu, 27 Jan 2022 08:30:13 +0000
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Subject: Re: [PATCH v5 03/18] pci: isolated address space for PCI bus
-Message-ID: <YfJYFbBVQzho7mGp@stefanha-x1.localdomain>
-References: <cover.1642626515.git.jag.raman@oracle.com>
- <2971c1bec04acaac4eb3c1f2b104cbeabad01e22.1642626515.git.jag.raman@oracle.com>
- <20220119190742-mutt-send-email-mst@kernel.org>
- <1CACFB08-1BBC-4ECC-9C0B-6F377018D795@oracle.com>
- <YfBDqMuO/l/gWzL8@work-vm>
- <AE47B5D2-6515-4BD3-B541-23E5274174AC@oracle.com>
- <YfEYHBhrsdF9Edpp@stefanha-x1.localdomain>
- <YfGqCJeTD9bmkZx6@work-vm>
- <20220126161120-mutt-send-email-mst@kernel.org>
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1nD0GY-0006et-TB
+ for qemu-devel@nongnu.org; Thu, 27 Jan 2022 03:36:26 -0500
+Received: from [2607:f8b0:4864:20::1033] (port=50781
+ helo=mail-pj1-x1033.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1nD0GW-0007XJ-PD
+ for qemu-devel@nongnu.org; Thu, 27 Jan 2022 03:36:26 -0500
+Received: by mail-pj1-x1033.google.com with SMTP id o11so2258377pjf.0
+ for <qemu-devel@nongnu.org>; Thu, 27 Jan 2022 00:36:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
+ h=date:from:to:cc:subject:in-reply-to:message-id:references
+ :user-agent:mime-version;
+ bh=rYHCgWbbFwKVEqdufD2LeeFYyyQ340XmV5rTXZd5puw=;
+ b=qIuAAHOWkGxlkoD10bPVEVR5xAY+dvuw3LfpF2VIaKAnIp3BQ5U2sTL3FANALvy5jl
+ w7Hk09rp1Aw1Afmi4arkmT/KVwLayYuDpYLCXDWc10yv7D3/N0NqlT4tyeAoPXMc+lqF
+ mnlDGlYQtQqKlLIOWs2DBGGtPhjhpa80rPvoTKZN6yiqC3L1go7qMYEnKFgfSrVGvkU5
+ AVZ8RsBdWXJOa/Ww9Cdq2dme2B6omrNC8Swypv3mQOTCTsvZp9bTwUFXp41AUYUyYFww
+ GQyJU3sPG+rchW3gKW8GxZ/kolaKyynTQ/0b7rclDOdT2VRJWqc6RUrgVfL54be6nJxh
+ DZvw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:in-reply-to:message-id
+ :references:user-agent:mime-version;
+ bh=rYHCgWbbFwKVEqdufD2LeeFYyyQ340XmV5rTXZd5puw=;
+ b=BIr/2EfP0vlLFyYXuIYTrtxpUROhBTybsIIZZnmCInFFs1FzrEX1H8yjqVHQlEP4nj
+ AeLBa9bhHZigUVeMBFPh2MuKYE1VyRvyOUX2GUdW0WV+Iv9mqGAJiGm6lsoNapzpKtM1
+ La3K3avOXggm/aBN2RgXlqZC2/9xSbo33NWVwM+wi9CWnQxCJt2AEE+2gX7tfqD4TiK7
+ cxn2Iow0M63+z/R1v/3dxu6zBRusA150aOoD64sr9QnRfHkZo88GQQ+VYtZiTXItPa+k
+ 0IvFWIiGFKNL+7LGMet4J0xkpOTh1FAcEM5ecQ7pweWo2qpdBbpec5aJ3Uc875REjU30
+ OZ+w==
+X-Gm-Message-State: AOAM53168unWPIps7YM5GU5D39pjlMi4al4pPzfHGmT8mJhIzdqH8Lz4
+ 2pN07KhHxrWKQBfbDArXPzeHJw==
+X-Google-Smtp-Source: ABdhPJwgz17mtlMTQCsHwKS4a42Z3HFfcgVBCxg+c88vMOH/GQ9SJI01LTC9zKKIZRfKvdLPUO/uTQ==
+X-Received: by 2002:a17:903:247:: with SMTP id
+ j7mr2445147plh.105.1643272582663; 
+ Thu, 27 Jan 2022 00:36:22 -0800 (PST)
+Received: from [10.5.18.6] ([91.219.213.7])
+ by smtp.googlemail.com with ESMTPSA id ha11sm6587817pjb.3.2022.01.27.00.36.18
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Thu, 27 Jan 2022 00:36:22 -0800 (PST)
+Date: Thu, 27 Jan 2022 14:06:15 +0530 (IST)
+From: Ani Sinha <ani@anisinha.ca>
+X-X-Sender: ani@athabasca.local
+To: Eric DeVolder <eric.devolder@oracle.com>
+Subject: Re: [PATCH v14 06/10] ACPI ERST: build the ACPI ERST table
+In-Reply-To: <1643214514-2839-7-git-send-email-eric.devolder@oracle.com>
+Message-ID: <alpine.OSX.2.20.2201271401250.42000@athabasca.local>
+References: <1643214514-2839-1-git-send-email-eric.devolder@oracle.com>
+ <1643214514-2839-7-git-send-email-eric.devolder@oracle.com>
+User-Agent: Alpine 2.20 (OSX 67 2015-01-07)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="UtsycOu6mYknyxFv"
-Content-Disposition: inline
-In-Reply-To: <20220126161120-mutt-send-email-mst@kernel.org>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.159,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=US-ASCII
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1033
+ (failed)
+Received-SPF: none client-ip=2607:f8b0:4864:20::1033;
+ envelope-from=ani@anisinha.ca; helo=mail-pj1-x1033.google.com
+X-Spam_score_int: -10
+X-Spam_score: -1.1
+X-Spam_bar: -
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -83,148 +87,286 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "eduardo@habkost.net" <eduardo@habkost.net>,
- Elena Ufimtseva <elena.ufimtseva@oracle.com>,
- John Johnson <john.g.johnson@oracle.com>, Jag Raman <jag.raman@oracle.com>,
- Beraldo Leal <bleal@redhat.com>, "quintela@redhat.com" <quintela@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>, "armbru@redhat.com" <armbru@redhat.com>,
- "john.levon@nutanix.com" <john.levon@nutanix.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@gmail.com>,
- Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
- "thanos.makatos@nutanix.com" <thanos.makatos@nutanix.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Eric Blake <eblake@redhat.com>
+Cc: berrange@redhat.com, ehabkost@redhat.com, mst@redhat.com,
+ konrad.wilk@oracle.com, qemu-devel@nongnu.org, pbonzini@redhat.com,
+ imammedo@redhat.com, boris.ostrovsky@oracle.com, rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---UtsycOu6mYknyxFv
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On Wed, Jan 26, 2022 at 04:13:33PM -0500, Michael S. Tsirkin wrote:
-> On Wed, Jan 26, 2022 at 08:07:36PM +0000, Dr. David Alan Gilbert wrote:
-> > * Stefan Hajnoczi (stefanha@redhat.com) wrote:
-> > > On Wed, Jan 26, 2022 at 05:27:32AM +0000, Jag Raman wrote:
-> > > >=20
-> > > >=20
-> > > > > On Jan 25, 2022, at 1:38 PM, Dr. David Alan Gilbert <dgilbert@red=
-hat.com> wrote:
-> > > > >=20
-> > > > > * Jag Raman (jag.raman@oracle.com) wrote:
-> > > > >>=20
-> > > > >>=20
-> > > > >>> On Jan 19, 2022, at 7:12 PM, Michael S. Tsirkin <mst@redhat.com=
-> wrote:
-> > > > >>>=20
-> > > > >>> On Wed, Jan 19, 2022 at 04:41:52PM -0500, Jagannathan Raman wro=
-te:
-> > > > >>>> Allow PCI buses to be part of isolated CPU address spaces. Thi=
-s has a
-> > > > >>>> niche usage.
-> > > > >>>>=20
-> > > > >>>> TYPE_REMOTE_MACHINE allows multiple VMs to house their PCI dev=
-ices in
-> > > > >>>> the same machine/server. This would cause address space collis=
-ion as
-> > > > >>>> well as be a security vulnerability. Having separate address s=
-paces for
-> > > > >>>> each PCI bus would solve this problem.
-> > > > >>>=20
-> > > > >>> Fascinating, but I am not sure I understand. any examples?
-> > > > >>=20
-> > > > >> Hi Michael!
-> > > > >>=20
-> > > > >> multiprocess QEMU and vfio-user implement a client-server model =
-to allow
-> > > > >> out-of-process emulation of devices. The client QEMU, which make=
-s ioctls
-> > > > >> to the kernel and runs VCPUs, could attach devices running in a =
-server
-> > > > >> QEMU. The server QEMU needs access to parts of the client=E2=80=
-=99s RAM to
-> > > > >> perform DMA.
-> > > > >=20
-> > > > > Do you ever have the opposite problem? i.e. when an emulated PCI =
-device
-> > > >=20
-> > > > That=E2=80=99s an interesting question.
-> > > >=20
-> > > > > exposes a chunk of RAM-like space (frame buffer, or maybe a mappe=
-d file)
-> > > > > that the client can see.  What happens if two emulated devices ne=
-ed to
-> > > > > access each others emulated address space?
-> > > >=20
-> > > > In this case, the kernel driver would map the destination=E2=80=99s=
- chunk of internal RAM into
-> > > > the DMA space of the source device. Then the source device could wr=
-ite to that
-> > > > mapped address range, and the IOMMU should direct those writes to t=
-he
-> > > > destination device.
-> > > >=20
-> > > > I would like to take a closer look at the IOMMU implementation on h=
-ow to achieve
-> > > > this, and get back to you. I think the IOMMU would handle this. Cou=
-ld you please
-> > > > point me to the IOMMU implementation you have in mind?
-> > >=20
-> > > I don't know if the current vfio-user client/server patches already
-> > > implement device-to-device DMA, but the functionality is supported by
-> > > the vfio-user protocol.
-> > >=20
-> > > Basically: if the DMA regions lookup inside the vfio-user server fail=
-s,
-> > > fall back to VFIO_USER_DMA_READ/WRITE messages instead.
-> > > https://github.com/nutanix/libvfio-user/blob/master/docs/vfio-user.rs=
-t#vfio-user-dma-read
-> > >=20
-> > > Here is the flow:
-> > > 1. The vfio-user server with device A sends a DMA read to QEMU.
-> > > 2. QEMU finds the MemoryRegion associated with the DMA address and se=
-es
-> > >    it's a device.
-> > >    a. If it's emulated inside the QEMU process then the normal
-> > >       device emulation code kicks in.
-> > >    b. If it's another vfio-user PCI device then the vfio-user PCI pro=
-xy
-> > >       device forwards the DMA to the second vfio-user server's device=
- B.
-> >=20
-> > I'm starting to be curious if there's a way to persuade the guest kernel
-> > to do it for us; in general is there a way to say to PCI devices that
-> > they can only DMA to the host and not other PCI devices?
->=20
->=20
-> But of course - this is how e.g. VFIO protects host PCI devices from
-> each other when one of them is passed through to a VM.
+On Wed, 26 Jan 2022, Eric DeVolder wrote:
 
-Michael: Are you saying just turn on vIOMMU? :)
+> This builds the ACPI ERST table to inform OSPM how to communicate
+> with the acpi-erst device.
 
-Devices in different VFIO groups have their own IOMMU context, so their
-IOVA space is isolated. Just don't map other devices into the IOVA space
-and those other devices will be inaccessible.
+There might be more optimizations possible but I think we have messaged
+this code enough. We can further rework the code if needed in subsequent
+patches once this is pushed.
 
-Stefan
+>
+> Signed-off-by: Eric DeVolder <eric.devolder@oracle.com>
 
---UtsycOu6mYknyxFv
-Content-Type: application/pgp-signature; name="signature.asc"
+with some minor comments,
 
------BEGIN PGP SIGNATURE-----
+Reviewed-by: Ani Sinha <ani@anisinha.ca>
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmHyWBQACgkQnKSrs4Gr
-c8ggIQf+IvNPe2uWXLhCPWy4DCh56SK/YjTiS2bxkeV7BIeFeCRsvlgS5iaB7srO
-NWW2/6jy4Z+EyFXNJTAAJnP2aR0U3XYtE6yp2y7hTi9BwClzW/utLcZVvEKeAQ1p
-O+QhOfBVZALsa9EchQII+eVEIRebG2geLr3gVKuYcO2+psXvZqwBpDFJ624DgV34
-58upDA6ecXSWCVe5BIuryMMyAeixxgOrG+SoNAGlvimxItEM4/j1vrfuU0O4wXWB
-qM624SpAXpKw0P9ksa5x66LfaalGhjBy5grWx0ZilTQPGaxBojpf7U4X/4gr2hCW
-ONhw3JqhzGAhlPc4gGNyagUI45pXWw==
-=4lXa
------END PGP SIGNATURE-----
+>  hw/acpi/erst.c | 225 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 225 insertions(+)
+>
+> diff --git a/hw/acpi/erst.c b/hw/acpi/erst.c
+> index fe9ba51..5d5a639 100644
+> --- a/hw/acpi/erst.c
+> +++ b/hw/acpi/erst.c
+> @@ -59,6 +59,27 @@
+>  #define STATUS_RECORD_STORE_EMPTY     0x04
+>  #define STATUS_RECORD_NOT_FOUND       0x05
+>
+> +/* ACPI 4.0: Table 17-19 Serialization Instructions */
+> +#define INST_READ_REGISTER                 0x00
+> +#define INST_READ_REGISTER_VALUE           0x01
+> +#define INST_WRITE_REGISTER                0x02
+> +#define INST_WRITE_REGISTER_VALUE          0x03
+> +#define INST_NOOP                          0x04
+> +#define INST_LOAD_VAR1                     0x05
+> +#define INST_LOAD_VAR2                     0x06
+> +#define INST_STORE_VAR1                    0x07
+> +#define INST_ADD                           0x08
+> +#define INST_SUBTRACT                      0x09
+> +#define INST_ADD_VALUE                     0x0A
+> +#define INST_SUBTRACT_VALUE                0x0B
+> +#define INST_STALL                         0x0C
+> +#define INST_STALL_WHILE_TRUE              0x0D
+> +#define INST_SKIP_NEXT_INSTRUCTION_IF_TRUE 0x0E
+> +#define INST_GOTO                          0x0F
+> +#define INST_SET_SRC_ADDRESS_BASE          0x10
+> +#define INST_SET_DST_ADDRESS_BASE          0x11
+> +#define INST_MOVE_DATA                     0x12
+> +
+>  /* UEFI 2.1: Appendix N Common Platform Error Record */
+>  #define UEFI_CPER_RECORD_MIN_SIZE 128U
+>  #define UEFI_CPER_RECORD_LENGTH_OFFSET 20U
+> @@ -172,6 +193,210 @@ typedef struct {
+>
+>  /*******************************************************************/
+>  /*******************************************************************/
+> +typedef struct {
+> +    GArray *table_data;
+> +    pcibus_t bar;
+> +    uint8_t instruction;
+> +    uint8_t flags;
+> +    uint8_t register_bit_width;
+> +    pcibus_t register_offset;
+> +} BuildSerializationInstructionEntry;
+> +
+> +/* ACPI 4.0: 17.4.1.2 Serialization Instruction Entries */
+> +static void build_serialization_instruction(
+> +    BuildSerializationInstructionEntry *e,
+> +    uint8_t serialization_action,
+> +    uint64_t value)
+> +{
+> +    /* ACPI 4.0: Table 17-18 Serialization Instruction Entry */
+> +    struct AcpiGenericAddress gas;
+> +    uint64_t mask;
+> +
+> +    /* Serialization Action */
+> +    build_append_int_noprefix(e->table_data, serialization_action, 1);
+> +    /* Instruction */
+> +    build_append_int_noprefix(e->table_data, e->instruction, 1);
+> +    /* Flags */
+> +    build_append_int_noprefix(e->table_data, e->flags, 1);
+> +    /* Reserved */
+> +    build_append_int_noprefix(e->table_data, 0, 1);
+> +    /* Register Region */
+> +    gas.space_id = AML_SYSTEM_MEMORY;
+> +    gas.bit_width = e->register_bit_width;
+> +    gas.bit_offset = 0;
+> +    gas.access_width = ctz32(e->register_bit_width) - 2;
 
---UtsycOu6mYknyxFv--
+Should this be casted as unit8_t?
 
+> +    gas.address = (uint64_t)(e->bar + e->register_offset);
+> +    build_append_gas_from_struct(e->table_data, &gas);
+> +    /* Value */
+> +    build_append_int_noprefix(e->table_data, value, 8);
+> +    /* Mask */
+> +    mask = (1ULL << (e->register_bit_width - 1) << 1) - 1;
+> +    build_append_int_noprefix(e->table_data, mask, 8);
+> +}
+> +
+> +/* ACPI 4.0: 17.4.1 Serialization Action Table */
+> +void build_erst(GArray *table_data, BIOSLinker *linker, Object *erst_dev,
+> +    const char *oem_id, const char *oem_table_id)
+> +{
+> +    /*
+> +     * Serialization Action Table
+> +     * The serialization action table must be generated first
+> +     * so that its size can be known in order to populate the
+> +     * Instruction Entry Count field.
+> +     */
+> +    GArray *table_instruction_data = g_array_new(FALSE, FALSE, sizeof(char));
+> +    pcibus_t bar0 = pci_get_bar_addr(PCI_DEVICE(erst_dev), 0);
+> +    AcpiTable table = { .sig = "ERST", .rev = 1, .oem_id = oem_id,
+> +                        .oem_table_id = oem_table_id };
+> +    /* Contexts for the different ways ACTION and VALUE are accessed */
+> +    BuildSerializationInstructionEntry rd_value_32_val = {
+> +        .table_data = table_instruction_data,
+> +        .bar = bar0,
+> +        .instruction = INST_READ_REGISTER_VALUE,
+> +        .flags = 0,
+> +        .register_bit_width = 32,
+> +        .register_offset = ERST_VALUE_OFFSET,
+> +    };
+> +    BuildSerializationInstructionEntry rd_value_32 = {
+> +        .table_data = table_instruction_data,
+> +        .bar = bar0,
+> +        .instruction = INST_READ_REGISTER,
+> +        .flags = 0,
+> +        .register_bit_width = 32,
+> +        .register_offset = ERST_VALUE_OFFSET,
+> +    };
+> +    BuildSerializationInstructionEntry rd_value_64 = {
+> +        .table_data = table_instruction_data,
+> +        .bar = bar0,
+> +        .instruction = INST_READ_REGISTER,
+> +        .flags = 0,
+> +        .register_bit_width = 64,
+> +        .register_offset = ERST_VALUE_OFFSET,
+> +    };
+> +    BuildSerializationInstructionEntry wr_value_32_val = {
+> +        .table_data = table_instruction_data,
+> +        .bar = bar0,
+> +        .instruction = INST_WRITE_REGISTER_VALUE,
+> +        .flags = 0,
+> +        .register_bit_width = 32,
+> +        .register_offset = ERST_VALUE_OFFSET,
+> +    };
+> +    BuildSerializationInstructionEntry wr_value_32 = {
+> +        .table_data = table_instruction_data,
+> +        .bar = bar0,
+> +        .instruction = INST_WRITE_REGISTER,
+> +        .flags = 0,
+> +        .register_bit_width = 32,
+> +        .register_offset = ERST_VALUE_OFFSET,
+> +    };
+> +    BuildSerializationInstructionEntry wr_value_64 = {
+> +        .table_data = table_instruction_data,
+> +        .bar = bar0,
+> +        .instruction = INST_WRITE_REGISTER,
+> +        .flags = 0,
+> +        .register_bit_width = 64,
+> +        .register_offset = ERST_VALUE_OFFSET,
+> +    };
+> +    BuildSerializationInstructionEntry wr_action = {
+> +        .table_data = table_instruction_data,
+> +        .bar = bar0,
+> +        .instruction = INST_WRITE_REGISTER_VALUE,
+> +        .flags = 0,
+> +        .register_bit_width = 32,
+> +        .register_offset = ERST_ACTION_OFFSET,
+> +    };
+
+We can probably write a macro to simply generating these structs. I see
+.bar and .flags are the same in all structs. The .bit_width can be a param
+into the macro etc.
+
+> +    unsigned action;
+> +
+> +    trace_acpi_erst_pci_bar_0(bar0);
+> +
+> +    /* Serialization Instruction Entries */
+> +    action = ACTION_BEGIN_WRITE_OPERATION;
+> +    build_serialization_instruction(&wr_action, action, action);
+> +
+> +    action = ACTION_BEGIN_READ_OPERATION;
+> +    build_serialization_instruction(&wr_action, action, action);
+> +
+> +    action = ACTION_BEGIN_CLEAR_OPERATION;
+> +    build_serialization_instruction(&wr_action, action, action);
+> +
+> +    action = ACTION_END_OPERATION;
+> +    build_serialization_instruction(&wr_action, action, action);
+> +
+> +    action = ACTION_SET_RECORD_OFFSET;
+> +    build_serialization_instruction(&wr_value_32, action, 0);
+> +    build_serialization_instruction(&wr_action, action, action);
+> +
+> +    action = ACTION_EXECUTE_OPERATION;
+> +    build_serialization_instruction(&wr_value_32_val, action,
+> +        ERST_EXECUTE_OPERATION_MAGIC);
+> +    build_serialization_instruction(&wr_action, action, action);
+> +
+> +    action = ACTION_CHECK_BUSY_STATUS;
+> +    build_serialization_instruction(&wr_action, action, action);
+> +    build_serialization_instruction(&rd_value_32_val, action, 0x01);
+> +
+> +    action = ACTION_GET_COMMAND_STATUS;
+> +    build_serialization_instruction(&wr_action, action, action);
+> +    build_serialization_instruction(&rd_value_32, action, 0);
+> +
+> +    action = ACTION_GET_RECORD_IDENTIFIER;
+> +    build_serialization_instruction(&wr_action, action, action);
+> +    build_serialization_instruction(&rd_value_64, action, 0);
+> +
+> +    action = ACTION_SET_RECORD_IDENTIFIER;
+> +    build_serialization_instruction(&wr_value_64, action, 0);
+> +    build_serialization_instruction(&wr_action, action, action);
+> +
+> +    action = ACTION_GET_RECORD_COUNT;
+> +    build_serialization_instruction(&wr_action, action, action);
+> +    build_serialization_instruction(&rd_value_32, action, 0);
+> +
+> +    action = ACTION_BEGIN_DUMMY_WRITE_OPERATION;
+> +    build_serialization_instruction(&wr_action, action, action);
+> +
+> +    action = ACTION_GET_ERROR_LOG_ADDRESS_RANGE;
+> +    build_serialization_instruction(&wr_action, action, action);
+> +    build_serialization_instruction(&rd_value_64, action, 0);
+> +
+> +    action = ACTION_GET_ERROR_LOG_ADDRESS_LENGTH;
+> +    build_serialization_instruction(&wr_action, action, action);
+> +    build_serialization_instruction(&rd_value_64, action, 0);
+> +
+> +    action = ACTION_GET_ERROR_LOG_ADDRESS_RANGE_ATTRIBUTES;
+> +    build_serialization_instruction(&wr_action, action, action);
+> +    build_serialization_instruction(&rd_value_32, action, 0);
+> +
+> +    action = ACTION_GET_EXECUTE_OPERATION_TIMINGS;
+> +    build_serialization_instruction(&wr_action, action, action);
+> +    build_serialization_instruction(&rd_value_64, action, 0);
+> +
+> +    /* Serialization Header */
+> +    acpi_table_begin(&table, table_data);
+> +
+> +    /* Serialization Header Size */
+> +    build_append_int_noprefix(table_data, 48, 4);
+> +
+> +    /* Reserved */
+> +    build_append_int_noprefix(table_data,  0, 4);
+> +
+> +    /*
+> +     * Instruction Entry Count
+> +     * Each instruction entry is 32 bytes
+> +     */
+> +    g_assert((table_instruction_data->len) % 32 == 0);
+> +    build_append_int_noprefix(table_data,
+> +        (table_instruction_data->len / 32), 4);
+> +
+> +    /* Serialization Instruction Entries */
+> +    g_array_append_vals(table_data, table_instruction_data->data,
+> +        table_instruction_data->len);
+> +    g_array_free(table_instruction_data, TRUE);
+> +
+> +    acpi_table_end(linker, &table);
+> +}
+> +
+> +/*******************************************************************/
+> +/*******************************************************************/
+>  static uint8_t *get_nvram_ptr_by_index(ERSTDeviceState *s, unsigned index)
+>  {
+>      uint8_t *rc = NULL;
+> --
+> 1.8.3.1
+>
+>
 
