@@ -2,52 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 20C1F49E69A
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Jan 2022 16:48:58 +0100 (CET)
-Received: from localhost ([::1]:48434 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B95C049E762
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Jan 2022 17:22:52 +0100 (CET)
+Received: from localhost ([::1]:53830 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nD717-0007RJ-67
-	for lists+qemu-devel@lfdr.de; Thu, 27 Jan 2022 10:48:57 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:40772)
+	id 1nD7Xv-0001Yd-SX
+	for lists+qemu-devel@lfdr.de; Thu, 27 Jan 2022 11:22:51 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:40902)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1nD6Vd-0007ke-S5
- for qemu-devel@nongnu.org; Thu, 27 Jan 2022 10:16:25 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:49248)
+ id 1nD6Vu-0008KP-2D
+ for qemu-devel@nongnu.org; Thu, 27 Jan 2022 10:16:45 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:22138)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1nD6VT-0003HI-O6
- for qemu-devel@nongnu.org; Thu, 27 Jan 2022 10:16:25 -0500
+ id 1nD6Vs-0003KY-FG
+ for qemu-devel@nongnu.org; Thu, 27 Jan 2022 10:16:41 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1643296572;
+ s=mimecast20190719; t=1643296599;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ZEDHjNn5660tKa3OsoWZdLmqD8eE6Y5+2rpz+s3JKVA=;
- b=bzQvD0mHwu4eBoJgQBDKU6FJM6Su9UA8tbrBt0hcooZXCDiNjHnD3rq3KGd7ZRsnp5HZsD
- 3cKvVp1nk6IiRxJCDQHvzD8LzuAJ5RGZqZyA3Elkos5ODUcvbUVhG66YMXlWtJCwJ5Wk4h
- RAdOHXVEQgb16ZfwBdJPCIjXDUmc4WM=
+ bh=Vopd49TCz+wjUPFGxCVUDJUhTwkiZxNTMIqVcxx9ykc=;
+ b=hnm7pDkHYhA4Nw80kxhTU0iKeuBwVdEGL+tsAh5Y9pwGPrIWDlC8It7K1Ke76g4knNi0/8
+ pAzCNCQwKIJp9pLHObK4h/ZXSa2hGaFxqkGV9PnIvCDYlcPY8m4nHZ/xoj0ic8yE+Y0FqV
+ dJRkrWi2gjDLNUDH03tIGsa8ljBsLRg=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-639-BiM2ccHVNXWtFdLhcw7FKg-1; Thu, 27 Jan 2022 10:16:09 -0500
-X-MC-Unique: BiM2ccHVNXWtFdLhcw7FKg-1
+ us-mta-551-v1Fx-LYfOvCxw9cphbct9g-1; Thu, 27 Jan 2022 10:16:31 -0500
+X-MC-Unique: v1Fx-LYfOvCxw9cphbct9g-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3DBC2814250;
- Thu, 27 Jan 2022 15:16:06 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BEAEE92500;
+ Thu, 27 Jan 2022 15:16:28 +0000 (UTC)
 Received: from secure.mitica (unknown [10.39.194.185])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 16C9270D2D;
- Thu, 27 Jan 2022 15:15:58 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9E07570D2D;
+ Thu, 27 Jan 2022 15:16:06 +0000 (UTC)
 From: Juan Quintela <quintela@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 28/38] migration: Drop postcopy_chunk_hostpages()
-Date: Thu, 27 Jan 2022 16:05:38 +0100
-Message-Id: <20220127150548.20595-29-quintela@redhat.com>
+Subject: [PULL 29/38] migration: Do chunk page in
+ postcopy_each_ram_send_discard()
+Date: Thu, 27 Jan 2022 16:05:39 +0100
+Message-Id: <20220127150548.20595-30-quintela@redhat.com>
 In-Reply-To: <20220127150548.20595-1-quintela@redhat.com>
 References: <20220127150548.20595-1-quintela@redhat.com>
 MIME-Version: 1.0
@@ -101,74 +102,35 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Peter Xu <peterx@redhat.com>
 
-This function calls three functions:
-
-  - postcopy_discard_send_init(ms, block->idstr);
-  - postcopy_chunk_hostpages_pass(ms, block);
-  - postcopy_discard_send_finish(ms);
-
-However only the 2nd function call is meaningful.  It's major role is to make
-sure dirty bits are applied in host-page-size granule, so there will be no
-partial dirty bits set for a whole host page if huge pages are used.
-
-The 1st/3rd call are for latter when we want to send the disgard ranges.
-They're mostly no-op here besides some tracepoints (which are misleading!).
-
-Drop them, then we can directly drop postcopy_chunk_hostpages() as a whole
-because we can call postcopy_chunk_hostpages_pass() directly.
-
-There're still some nice comments above postcopy_chunk_hostpages() that explain
-what it does.  Copy it over to the caller's site.
+Right now we loop ramblocks for twice, the 1st time chunk the dirty bits with
+huge page information; the 2nd time we send the discard ranges.  That's not
+necessary - we can do them in a single loop.
 
 Signed-off-by: Peter Xu <peterx@redhat.com>
 Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 Reviewed-by: Juan Quintela <quintela@redhat.com>
 Signed-off-by: Juan Quintela <quintela@redhat.com>
 ---
- migration/ram.c | 33 +++++++--------------------------
- 1 file changed, 7 insertions(+), 26 deletions(-)
+ migration/ram.c | 20 ++++++++++----------
+ 1 file changed, 10 insertions(+), 10 deletions(-)
 
 diff --git a/migration/ram.c b/migration/ram.c
-index c60cf5ad83..91d32002e8 100644
+index 91d32002e8..d74a8c04b6 100644
 --- a/migration/ram.c
 +++ b/migration/ram.c
-@@ -2557,30 +2557,6 @@ static void postcopy_chunk_hostpages_pass(MigrationState *ms, RAMBlock *block)
-     }
+@@ -2454,6 +2454,8 @@ static int postcopy_send_discard_bm_ram(MigrationState *ms, RAMBlock *block)
+     return 0;
  }
  
--/**
-- * postcopy_chunk_hostpages: discard any partially sent host page
-- *
-- * Utility for the outgoing postcopy code.
-- *
-- * Discard any partially sent host-page size chunks, mark any partially
-- * dirty host-page size chunks as all dirty.  In this case the host-page
-- * is the host-page for the particular RAMBlock, i.e. it might be a huge page
-- *
-- * @ms: current migration state
-- * @block: block we want to work with
-- */
--static void postcopy_chunk_hostpages(MigrationState *ms, RAMBlock *block)
--{
--    postcopy_discard_send_init(ms, block->idstr);
--
--    /*
--     * Ensure that all partially dirty host pages are made fully dirty.
--     */
--    postcopy_chunk_hostpages_pass(ms, block);
--
--    postcopy_discard_send_finish(ms);
--}
--
++static void postcopy_chunk_hostpages_pass(MigrationState *ms, RAMBlock *block);
++
  /**
-  * ram_postcopy_send_discard_bitmap: transmit the discard bitmap
+  * postcopy_each_ram_send_discard: discard all RAMBlocks
   *
-@@ -2612,8 +2588,13 @@ int ram_postcopy_send_discard_bitmap(MigrationState *ms)
-     rs->last_page = 0;
- 
+@@ -2475,6 +2477,14 @@ static int postcopy_each_ram_send_discard(MigrationState *ms)
      RAMBLOCK_FOREACH_NOT_IGNORED(block) {
--        /* Deal with TPS != HPS and huge pages */
--        postcopy_chunk_hostpages(ms, block);
+         postcopy_discard_send_init(ms, block->idstr);
+ 
 +        /*
 +         * Deal with TPS != HPS and huge pages.  It discard any partially sent
 +         * host-page size chunks, mark any partially dirty host-page size
@@ -176,9 +138,34 @@ index c60cf5ad83..91d32002e8 100644
 +         * for the particular RAMBlock, i.e. it might be a huge page.
 +         */
 +        postcopy_chunk_hostpages_pass(ms, block);
-     }
++
+         /*
+          * Postcopy sends chunks of bitmap over the wire, but it
+          * just needs indexes at this point, avoids it having
+@@ -2575,7 +2585,6 @@ static void postcopy_chunk_hostpages_pass(MigrationState *ms, RAMBlock *block)
+ int ram_postcopy_send_discard_bitmap(MigrationState *ms)
+ {
+     RAMState *rs = ram_state;
+-    RAMBlock *block;
+ 
+     RCU_READ_LOCK_GUARD();
+ 
+@@ -2587,15 +2596,6 @@ int ram_postcopy_send_discard_bitmap(MigrationState *ms)
+     rs->last_sent_block = NULL;
+     rs->last_page = 0;
+ 
+-    RAMBLOCK_FOREACH_NOT_IGNORED(block) {
+-        /*
+-         * Deal with TPS != HPS and huge pages.  It discard any partially sent
+-         * host-page size chunks, mark any partially dirty host-page size
+-         * chunks as all dirty.  In this case the host-page is the host-page
+-         * for the particular RAMBlock, i.e. it might be a huge page.
+-         */
+-        postcopy_chunk_hostpages_pass(ms, block);
+-    }
      trace_ram_postcopy_send_discard_bitmap();
  
+     return postcopy_each_ram_send_discard(ms);
 -- 
 2.34.1
 
