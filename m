@@ -2,72 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D5F249E7CF
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Jan 2022 17:42:15 +0100 (CET)
-Received: from localhost ([::1]:51590 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 553C249E7FC
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Jan 2022 17:48:54 +0100 (CET)
+Received: from localhost ([::1]:60166 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nD7qf-0002gk-Sz
-	for lists+qemu-devel@lfdr.de; Thu, 27 Jan 2022 11:42:13 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:49218)
+	id 1nD7x4-0001er-1X
+	for lists+qemu-devel@lfdr.de; Thu, 27 Jan 2022 11:48:50 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:49298)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nD6zU-0006qU-HJ
- for qemu-devel@nongnu.org; Thu, 27 Jan 2022 10:47:16 -0500
-Received: from [2a00:1450:4864:20::334] (port=37648
- helo=mail-wm1-x334.google.com)
+ id 1nD6zW-0006xk-Ii
+ for qemu-devel@nongnu.org; Thu, 27 Jan 2022 10:47:18 -0500
+Received: from [2a00:1450:4864:20::32d] (port=50808
+ helo=mail-wm1-x32d.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nD6zQ-0008Ob-UZ
- for qemu-devel@nongnu.org; Thu, 27 Jan 2022 10:47:15 -0500
-Received: by mail-wm1-x334.google.com with SMTP id
- l12-20020a7bc34c000000b003467c58cbdfso6225082wmj.2
- for <qemu-devel@nongnu.org>; Thu, 27 Jan 2022 07:47:05 -0800 (PST)
+ id 1nD6zR-0008PY-4S
+ for qemu-devel@nongnu.org; Thu, 27 Jan 2022 10:47:18 -0500
+Received: by mail-wm1-x32d.google.com with SMTP id r186so329543wma.0
+ for <qemu-devel@nongnu.org>; Thu, 27 Jan 2022 07:47:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=/vGnghbsyXVm29DGZvmuMVyl3fMFFrfkrrbD0nUxv8g=;
- b=sJ77hw0uqGXG62HKRfIt1W8KSQeGUdl0ZyCaKM8Lp9JvPSyAyFjiQqUidH7rtmzOT9
- Exf/WoNx/Bde8t7sKO6aRuBPJ39sD9m2/WnYS+lVgZfz7ampWgq6Tn0umLrUmuzwfHs9
- D+qmggZeVf4qkFNDstJnMjHxysuZaheL8cqP2InzJ2sF5t6e6Jhx5vjLnDFPyRWQ0zeV
- 3fZZz7gQpbp5ae42gNekq6iqJEC7U+Gd2qPUR5HcpjvdIKmIIFhmdpSkkWx+3uoGwsqZ
- gY1Vk4jFHzhbfRa7QVIE2F8wmaGKt88po89S8SHS4udNEXtlDWUQSxJY06vdDX/SZGOq
- vveg==
+ bh=MUqrd0qjKKbwcA4BpGGoWMvbKVeAVH+zXdgNV8IRg1M=;
+ b=MpiQUuWYdf8RgCJxJwU8ZI2PvZCFJzXI3qOTN4T5fs61j8yrsX5jKKekS4lUknZC8g
+ gBzDuHRMOMC09RLEfvSjsVMYsyPMaPGU8hqiDo9gnHsZKeshQu4tiMJufM35eMkdStmY
+ lldIDIUb9GU6kZKN3iUSNiyuJVywYGc3MkoU2olaJ8gJ29u6NoU9GcB4Ui6LHY1Xs3jS
+ M3bJodZHZCh4MegQZ662kj45VIa1WEOhBC6wumcnNpkejr9RCpk62hOTedT201krBPek
+ YAzP5THCJiO8wUqED7c6jlDVB863aULu8q5TVHtpYvPM6Nd71QmG6gF4IDKetdgSmoZR
+ WlaQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=/vGnghbsyXVm29DGZvmuMVyl3fMFFrfkrrbD0nUxv8g=;
- b=2DO0dK44cvJrQMufT0I4u9TW3jf+pvB52fY4oPY45+c14wy//lYi3CNFgfkqPeMzgJ
- 0+HJqKGYpB5gJMt/REOWAosq85+dgiV8NhH5O/E8LNUB6xr10jjmGrvHl8U+9+ddRcnj
- yLELlDsgzuSKp/y2Wg18U4IdHQDyfxy8mdzDsJPBy6SMHLxhKcSb1dC05lM9RZnJtfEJ
- Vzb39loxLABG5Fz/E5jyaos+bmZ/wrk7cS5STr+JF4v6O06DrBfM2dP4farEB9LJm5Hx
- 7uqzEKlaR5iHJ1V1rcArbTZV1ZlP6UQQ5mlDlFESHH23rXZ3SZsWdLMWrCSFZIzqp+ax
- qx3w==
-X-Gm-Message-State: AOAM530yAxYod0w4zuH2SWX+2BFSwKozAFa5qIwTcWOHsPIi1f+HoHn/
- K3Z7zAGd39r8AUiEUP2Meng3wQ==
-X-Google-Smtp-Source: ABdhPJwzLZCQDBC6ElRNRIfZuw9HSgVRfZm0Map6Fl+laG/BVhFP1ja0jXYAva4hOp34zf20jKsIXQ==
-X-Received: by 2002:a7b:cb54:: with SMTP id v20mr12176591wmj.2.1643298424687; 
- Thu, 27 Jan 2022 07:47:04 -0800 (PST)
+ bh=MUqrd0qjKKbwcA4BpGGoWMvbKVeAVH+zXdgNV8IRg1M=;
+ b=PDCRoDJK1kldFK0lzJO3dEBu8urKiRe50RxAzLVRVdtANKRTCHOzh9TEeMmkryfZ/F
+ pmf1S2Lvla4DhZR67pzMo6MF0oQD3swY4z1hBQjPx7VZDx8fi8OpMlPZjobDxj0UMAYW
+ 0qEepo3mA7eWOeXodI4MgQNKmi6Fh1kl8od7lCJJdW5Vc8nxk4CgqmvlMt8CB4nNU4z3
+ Kd/28PN36hbG4TTVu3W+f282/JsMJtkrsNTWuAqlLNYV4GIBTya0qHoknDdjio/zIW66
+ T19Zr9ywnUd4Twc8NaX27ePubxEDJvwBalv/UI+LmDnGcVWZ0Y2IY4LV7I5Yh392XWU3
+ zUYg==
+X-Gm-Message-State: AOAM531mQSU2KBTWJp1WOEttQVMxlPBwnjiGqRkSsKdowCUbQFrzMxmS
+ XAIxEOzz0UltrLUOGa8iw3TmRA==
+X-Google-Smtp-Source: ABdhPJx3ulbZ7WRqsjlhJPXNC4o+jo0UqcD/hOC82iAMP/LQRh9aqiCAd60ML4raUZzJxDtOEFUuLg==
+X-Received: by 2002:a05:600c:3c92:: with SMTP id
+ bg18mr3777365wmb.161.1643298431828; 
+ Thu, 27 Jan 2022 07:47:11 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
- by smtp.gmail.com with ESMTPSA id w9sm6687667wmc.36.2022.01.27.07.47.03
+ by smtp.gmail.com with ESMTPSA id w9sm6687667wmc.36.2022.01.27.07.47.10
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 27 Jan 2022 07:47:04 -0800 (PST)
+ Thu, 27 Jan 2022 07:47:11 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
-Subject: [PATCH 11/16] hw/arm/highbank: Drop use of secure_board_setup
-Date: Thu, 27 Jan 2022 15:46:34 +0000
-Message-Id: <20220127154639.2090164-12-peter.maydell@linaro.org>
+Subject: [PATCH 16/16] hw/arm/boot: Drop existing dtb /psci node rather than
+ retaining it
+Date: Thu, 27 Jan 2022 15:46:39 +0000
+Message-Id: <20220127154639.2090164-17-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220127154639.2090164-1-peter.maydell@linaro.org>
 References: <20220127154639.2090164-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::334
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32d
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::334;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x334.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32d.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -103,75 +104,62 @@ Cc: Eduardo Habkost <eduardo@habkost.net>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Guest code on highbank may make non-PSCI SMC calls in order to
-enable/disable the L2x0 cache controller (see the Linux kernel's
-arch/arm/mach-highbank/highbank.c highbank_l2c310_write_sec()
-function).  The ABI for this is documented in kernel commit
-8e56130dcb as being borrowed from the OMAP44xx ROM.  The OMAP44xx TRM
-documents this function ID as having no return value and potentially
-trashing all guest registers except SP and PC. For QEMU's purposes
-(where our L2x0 model is a stub and enabling or disabling it doesn't
-affect the guest behaviour) a simple "do nothing" SMC is fine.
+If we're using PSCI emulation, we add a /psci node to the device tree
+we pass to the guest.  At the moment, if the dtb already has a /psci
+node in it, we retain it, rather than replacing it. (This behaviour
+was added in commit c39770cd637765 in 2018.)
 
-We currently implement this NOP behaviour using a little bit of
-Secure code we run before jumping to the guest kernel, which is
-written by arm_write_secure_board_setup_dummy_smc().  The code sets
-up a set of Secure vectors where the SMC entry point returns without
-doing anything.
+This is a problem if the existing node doesn't match our PSCI
+emulation.  In particular, it might specify the wrong method (HVC vs
+SMC), or wrong function IDs for cpu_suspend/cpu_off/etc, in which
+case the guest will not get the behaviour it wants when it makes PSCI
+calls.
 
-Now that the PSCI SMC emulation handles all SMC calls (setting r0 to
-an error code if the input r0 function identifier is not recognized),
-we can use that default behaviour as sufficient for the highbank
-cache controller call.  (Because the guest code assumes r0 has no
-interesting value on exit it doesn't matter that we set it to the
-error code).  We can therefore delete the highbank board code that
-sets secure_board_setup to true and writes the secure-code bootstub.
+An example of this is trying to boot the highbank or midway board
+models using the device tree supplied in the kernel sources: this
+device tree includes a /psci node that specifies function IDs that
+don't match the (PSCI 0.2 compliant) IDs that QEMU uses.  The dtb
+cpu_suspend function ID happens to match the PSCI 0.2 cpu_off ID, so
+the guest hangs after booting when the kernel tries to idle the CPU
+and instead it gets turned off.
 
-(Note that because the OMAP44xx ABI puts function-identifiers in
-r12 and PSCI uses r0, we only avoid a clash because Linux's code
-happens to put the function-identifier in both registers. But this
-is true also when the kernel is running on real firmware that
-implements both ABIs as far as I can see.)
-
-This change fixes in passing booting on the 'midway' board model,
-which has been completely broken since we added support for Hyp
-mode to the Cortex-A15 CPU. When we did that boot.c was made to
-start running the guest code in Hyp mode; this includes the
-board_setup hook, which instantly UNDEFs because the NSACR is
-not accessible from Hyp. (Put another way, we never made the
-secure_board_setup hook support cope with Hyp mode.)
+Instead of retaining an existing /psci node, delete it entirely
+and replace it with a node whose properties match QEMU's PSCI
+emulation behaviour. This matches the way we handle /memory nodes,
+where we also delete any existing nodes and write in ones that
+match the way QEMU is going to behave.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- hw/arm/highbank.c | 8 --------
- 1 file changed, 8 deletions(-)
+I'm not confident about the FDT API to use to remove an
+existing node -- I used qemu_fdt_nop_node() as that matches the
+code in boot.c that's removing the memory nodes. There is
+also an fdt_del_node(), though...
+---
+ hw/arm/boot.c | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
-diff --git a/hw/arm/highbank.c b/hw/arm/highbank.c
-index 048f8550cb9..a21afd178d1 100644
---- a/hw/arm/highbank.c
-+++ b/hw/arm/highbank.c
-@@ -48,12 +48,6 @@
+diff --git a/hw/arm/boot.c b/hw/arm/boot.c
+index b46f1fe889e..b1e95978f26 100644
+--- a/hw/arm/boot.c
++++ b/hw/arm/boot.c
+@@ -478,12 +478,13 @@ static void fdt_add_psci_node(void *fdt)
+     }
  
- /* Board init.  */
+     /*
+-     * If /psci node is present in provided DTB, assume that no fixup
+-     * is necessary and all PSCI configuration should be taken as-is
++     * A pre-existing /psci node might specify function ID values
++     * that don't match QEMU's PSCI implementation. Delete the whole
++     * node and put our own in instead.
+      */
+     rc = fdt_path_offset(fdt, "/psci");
+     if (rc >= 0) {
+-        return;
++        qemu_fdt_nop_node(fdt, "/psci");
+     }
  
--static void hb_write_board_setup(ARMCPU *cpu,
--                                 const struct arm_boot_info *info)
--{
--    arm_write_secure_board_setup_dummy_smc(cpu, info, MVBAR_ADDR);
--}
--
- static void hb_write_secondary(ARMCPU *cpu, const struct arm_boot_info *info)
- {
-     int n;
-@@ -389,8 +383,6 @@ static void calxeda_init(MachineState *machine, enum cxmachines machine_id)
-     highbank_binfo.write_secondary_boot = hb_write_secondary;
-     highbank_binfo.secondary_cpu_reset_hook = hb_reset_secondary;
-     highbank_binfo.board_setup_addr = BOARD_SETUP_ADDR;
--    highbank_binfo.write_board_setup = hb_write_board_setup;
--    highbank_binfo.secure_board_setup = true;
-     highbank_binfo.psci_conduit = QEMU_PSCI_CONDUIT_SMC;
- 
-     arm_load_kernel(ARM_CPU(first_cpu), machine, &highbank_binfo);
+     qemu_fdt_add_subnode(fdt, "/psci");
 -- 
 2.25.1
 
