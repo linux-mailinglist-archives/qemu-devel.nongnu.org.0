@@ -2,90 +2,140 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 806AC49DE67
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Jan 2022 10:49:18 +0100 (CET)
-Received: from localhost ([::1]:58664 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 53C1B49DE77
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Jan 2022 10:52:31 +0100 (CET)
+Received: from localhost ([::1]:60624 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nD1P3-0005Yi-6Y
-	for lists+qemu-devel@lfdr.de; Thu, 27 Jan 2022 04:49:17 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:46876)
+	id 1nD1SA-0006rZ-FV
+	for lists+qemu-devel@lfdr.de; Thu, 27 Jan 2022 04:52:30 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:46910)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1nD1He-0003Pq-AP
- for qemu-devel@nongnu.org; Thu, 27 Jan 2022 04:41:38 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:30549)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1nD1Hj-0003Vb-6n
+ for qemu-devel@nongnu.org; Thu, 27 Jan 2022 04:41:43 -0500
+Received: from mail-eopbgr140122.outbound.protection.outlook.com
+ ([40.107.14.122]:56137 helo=EUR01-VE1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1nD1Hb-00018n-JJ
- for qemu-devel@nongnu.org; Thu, 27 Jan 2022 04:41:38 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1643276495;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=b3R08/D0Qe5OWLLh8asKZonaCRNtD+yxqTYXUKv5Vfs=;
- b=aJepPvHAY1Hy01koVOusBulu4gBANSByNV9onbspltcbvji2xLYw6R7eremw2luTaMUmG+
- LqeGo4C8YpbkDuqTZkezo65FB2LG7b48DkNGP/nTuXKLig02+Tk3s5DljemoiKZH+61g6X
- HWPvNbINM0tVWN4TUoz9g3+mVCghdmM=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-612-JWoJx0nrPlilIqVgmXXm7A-1; Thu, 27 Jan 2022 04:41:33 -0500
-X-MC-Unique: JWoJx0nrPlilIqVgmXXm7A-1
-Received: by mail-wr1-f69.google.com with SMTP id
- g17-20020adfa591000000b001da86c91c22so858330wrc.5
- for <qemu-devel@nongnu.org>; Thu, 27 Jan 2022 01:41:33 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:in-reply-to:references
- :user-agent:reply-to:date:message-id:mime-version;
- bh=b3R08/D0Qe5OWLLh8asKZonaCRNtD+yxqTYXUKv5Vfs=;
- b=nbqru1WVnHzBD84NBX1XTMcfjBVOvaNop2M5uzfK1F7ne5qxqHD6qfDSglvzmOncKO
- Dojk0zGpN+1BQJSh43s8VGRmbsSGFRDseFHk7RGTuSpDnIHVaa8qoK71cjSidqYulbdn
- A/e/qZS2f7/+U3hngp9b+JigxVRkHil0fCcXh+FrGNbjrcvCqN/48CyquFSbRjtMpT6c
- YceCA0d3JiYJckTlv3ermZskUIhClSzLzYj9ZBTw9G2JuA9h8+OSllRFd15IMWHUwNgh
- MImX9su97phi+zlb2UO6jzkwXvmeKbZhOWcpOZBiFfzKEf4gaxGxL/EmMcftvyKfDigR
- z5fQ==
-X-Gm-Message-State: AOAM531jWtmGD2oBL4oZ6HUgnmZ71GehMSfXP8eVw5gRVrhdoGbthtx0
- Pp5E6L0OTl/YB7O5ibh5w05gKOlgAsWi2P33QTydoGIidx64qOic22fQGQYGXCMaUU6CGgib6XJ
- ZyAyrb2he8ZemCAA=
-X-Received: by 2002:a05:6000:10cf:: with SMTP id
- b15mr2373507wrx.70.1643276492393; 
- Thu, 27 Jan 2022 01:41:32 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwOWxJDj4PDGQctGI9uBWWdeOWACJulaSJ7BmIu5zC4Q4bbYGskvNZ0PkvQIkg95XHA6QXvlg==
-X-Received: by 2002:a05:6000:10cf:: with SMTP id
- b15mr2373488wrx.70.1643276492187; 
- Thu, 27 Jan 2022 01:41:32 -0800 (PST)
-Received: from localhost ([47.61.17.76])
- by smtp.gmail.com with ESMTPSA id h127sm6161987wmh.27.2022.01.27.01.41.31
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 27 Jan 2022 01:41:31 -0800 (PST)
-From: Juan Quintela <quintela@redhat.com>
-To: Peter Xu <peterx@redhat.com>
-Subject: Re: [PATCH RFC 05/15] migration: Simplify unqueue_page()
-In-Reply-To: <20220119080929.39485-6-peterx@redhat.com> (Peter Xu's message of
- "Wed, 19 Jan 2022 16:09:19 +0800")
-References: <20220119080929.39485-1-peterx@redhat.com>
- <20220119080929.39485-6-peterx@redhat.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
-Date: Thu, 27 Jan 2022 10:41:31 +0100
-Message-ID: <87lez1ldmc.fsf@secure.mitica>
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1nD1Hh-00019h-Cx
+ for qemu-devel@nongnu.org; Thu, 27 Jan 2022 04:41:42 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=d1RKk9Vv6pa1DkDoDSe1nS12bN0iaGzgBbOJeryaojzS4xB0visoUemxrsk2RRiJV/P0erbMmL7prF4AzdbH0cCP/carov4xoZhSkTfFttU2QuWKOHPXIwpFVmNbzglws6cYT0y7HqpvmaeWww4HIY8Hha6qQB5Ti51iOuCWCN84aCnhnUNROYcjhJdt+eTfYxB/vi7FouGrncfp2j6ZusPPPITLNgZcI8eN0y7OagGftPy9m8YmIXXxHAy3MkbSBcZxnVwsdz+WBOIoox3/zCQ4bL9KXU/BnPknFGy2xVP1M11cZ3OwLqRk0sRn9PzmUoFuRSjVGhkkIg9OZusfDw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=UU8kHV17V+kWE6eardiATKt1cJ1B4ZPbtwTYzZwYvI4=;
+ b=P8TsUCF5OjBBsECBLJB25co1o4xoz+kpc7/ZRF8U4JeUxSmqYrCfe0SEBET1dAkUBCfZo9PctL+cfZwiY65CBfSYdNL9RCWvdF3MB9EhaCuYz1wErvi6ZNsMb4spI12dDwWUDdHpnWxfrXiC/3jmeJnccqSA9SddhRIqHdIxSmq9VAHO+p1q6MEe2TjUhXFIlOE1u35oGBB/VUYTGOfgEJEe5Vd+a2Flvwt3BgTXNlxTofybvpTU6jShHvHt0cKjhlAQOuOhy9jDN2CHQ6eEf7859VCyVUw5MDmRwiPdKwYyVJRBCz/MPTcVWy7fDCfjUXbLpVCVCW3J+l8ilKWY3w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=UU8kHV17V+kWE6eardiATKt1cJ1B4ZPbtwTYzZwYvI4=;
+ b=NxXUs93zAVMwurULI1vuMQnM/Q3W7X8L47A4WlYC7sXvvYr6gwwSmLffi9mnCcFAU3g3FBvCUbPmBhXZmMYsWiodd1UJ+WkJVIbB3F9I/FdPoEUj0XWFxURb7AyM212XIS80YaLQWhnGUJzPwbdPghKQsxvyual3B8gxGqXqaK0=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=virtuozzo.com;
+Received: from AM9PR08MB6737.eurprd08.prod.outlook.com (2603:10a6:20b:304::18)
+ by PAXPR08MB6783.eurprd08.prod.outlook.com (2603:10a6:102:131::13)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4909.10; Thu, 27 Jan
+ 2022 09:41:37 +0000
+Received: from AM9PR08MB6737.eurprd08.prod.outlook.com
+ ([fe80::4def:4b08:dfe6:b4bd]) by AM9PR08MB6737.eurprd08.prod.outlook.com
+ ([fe80::4def:4b08:dfe6:b4bd%3]) with mapi id 15.20.4909.017; Thu, 27 Jan 2022
+ 09:41:37 +0000
+Message-ID: <eb640ff2-c493-10f6-397b-7640bed5f646@virtuozzo.com>
+Date: Thu, 27 Jan 2022 12:41:35 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.2.0
+Subject: Re: [PATCH v6 0/7] trace qmp commands
+Content-Language: en-US
+To: Stefan Hajnoczi <stefanha@redhat.com>
+Cc: qemu-devel@nongnu.org, michael.roth@amd.com, armbru@redhat.com,
+ jsnow@redhat.com, hreitz@redhat.com, kwolf@redhat.com, pbonzini@redhat.com
+References: <20220126161130.3240892-1-vsementsov@virtuozzo.com>
+ <YfJV/MRD/eEIP7S8@stefanha-x1.localdomain>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+In-Reply-To: <YfJV/MRD/eEIP7S8@stefanha-x1.localdomain>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: AM4PR05CA0034.eurprd05.prod.outlook.com (2603:10a6:205::47)
+ To AM9PR08MB6737.eurprd08.prod.outlook.com
+ (2603:10a6:20b:304::18)
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=quintela@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.159,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 31209098-15d0-467c-edf5-08d9e17936d1
+X-MS-TrafficTypeDiagnostic: PAXPR08MB6783:EE_
+X-Microsoft-Antispam-PRVS: <PAXPR08MB6783128FAB8380BE0E7854CAC1219@PAXPR08MB6783.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:568;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: opuM3ZJT8k3DLbHgYCpD+KXT9iYk1BAwaUGe6/UxIPplmIP+PqFPJElWOiJjBKRLx6mHteVAVqh0vPh9wXkiRs1poZgxv3URRkSOTxlPEPCHFYJvotCWP4g9Yk+3wsAUfh4EQlzyBbrqbFwvqbQoVLrA9tYtKihbJLVzPYIyozp9/BqXy4/a9Vo9lZrhru3dNEJorm3GNQRKNQGpe7ROo0cwqwkdFLbcGtYcBI/yetI8GcU2YMrokZmd7ORO3VMx2idpp8FF13HoQNmb6IFbZ/HIN3rMfVI9A9PVxmjGj+zD5QyI7fcJi3swHlABTtNsV3XSXG2rqxGrM4q+EIjtAfNpDzQ/KmpPLG2O/UtGqP6LsyFu1YGYVbkOEc8CsGie728s5HSE1FvNtneOLOLdV4rktvCGXN/A8XtFiBFmkBCwJoy1xaQ1ogmLrevziTuWQEYWBdbSvW5Jw88RAR1urEm+Dtbb2D/UhhC3AgS9Nm6NtkoUeYu/6Dsd+tNW35vyLBaQtdT1L7ZFBvdPX4ZYZb+Rb21jFXSzv1anGzyDzKdojMw5iFTdQJu+Af5j7vnEQUCN/zog6ETBks3MSA0TwFMaCbpUhqw6Mqf9OB6vIm7C/Sezwn65gC5VUzIVAxavHUpre5ZHe6PZqPl/Rm6oP/TjanN5BX3I9jl+sx4n9vUPRCGpV4SqLkrD0G1YHqGQo0oMyPIowmRWYhOmWVc6Pd4seg26i6+GudiS82meOZ7wi7fREuQMyCiKav/4JWiZv8ptyXDQCOwzfCjW8YTj2Q==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM9PR08MB6737.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(366004)(66946007)(186003)(508600001)(36756003)(38350700002)(5660300002)(316002)(6506007)(2616005)(66556008)(52116002)(8676002)(8936002)(6916009)(6512007)(86362001)(83380400001)(2906002)(31696002)(38100700002)(26005)(31686004)(66476007)(4326008)(6486002)(43740500002)(45980500001);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Z0pUYS9EaXBQa25udUdxN2R3SjNVR2xoMkhkdXk4czcyL3c2YnRqT0dRSC9q?=
+ =?utf-8?B?bjJzMTMxWURNWmxGODF0R2VSVEpYL0VEejQ4amgydUJHY3k1K0ljeEFpL05D?=
+ =?utf-8?B?eGk0ck56UHRUSTB4b2Z3emJMYU1HVFVCQkRuLzI5R2hNczZtUU1Cbm1qM3VE?=
+ =?utf-8?B?R2Jwa2dUaFRNVjZvYmZsK0tOOVpuTm0zYjVVOFVFVHJKN3ZwRTl0bGxQWFRF?=
+ =?utf-8?B?MlBxSU5RalFXMTBqcVF6QVd0ZnJ1UFU0MmllWkRTWSt3OGxoM25UVnQ4WDVR?=
+ =?utf-8?B?MWI4NENMeGxNYTFnb3BpLzBsK0x4YmtPSHFxeTkzQk9YVXpKeHhoVHNYYVVM?=
+ =?utf-8?B?R2lRMjlHREtUYWxwUmlUendaQzV0OU83OFZUZjNhQ2FQdnc5NnM4ZnZXZWxM?=
+ =?utf-8?B?WmFDR1pxektMcEhrUWhtWmlGQ2xQdzNPMEYrN2RZUnRoSUdOUXVXZjN6NC9o?=
+ =?utf-8?B?b0NhQ1JEbGozcEc2Ymk0TFluRWU3dkpRS2x0dlo3VXlKMjN4VEprUEdRanJ5?=
+ =?utf-8?B?SEFBWEhTRzNqUi9DaXVJVlllTSsxazZiaUM2N0Vod0tZMmFKTmNjUHdQd0RD?=
+ =?utf-8?B?WFpjZkp1akkzeVRobkxQanRyajZwcjZGNmd6NDdnR2s0YkI0UFlMVXB2RzVY?=
+ =?utf-8?B?SUdBZFJnQjA4TkZ6cTY4VWJndG9ZYno1S2lESjVwWEJqYm9XbVd0SExmVjBs?=
+ =?utf-8?B?YXFsSDRjSkxQMEZsRElxZ2N0NFU3ekRJUXpPWUFtcC9qM2U4SEV1b0FkdHVJ?=
+ =?utf-8?B?aUZWb3o5Q1h0UjFjSk1tQ3FEV2tkcVlQdXkzWktDQVB2RWlMQVo4anNrMERR?=
+ =?utf-8?B?elYzQWJsZUFQL1hUWlJReFVJVEIrb2lPdktDZGZmUmM4c0dWWDIzMnpNY095?=
+ =?utf-8?B?dThYZHpxODdNUk95MXNuMDJQdE5qL09GQVBJRGdrV3hvMEZPZ2xPb21KYUIy?=
+ =?utf-8?B?RmRJWkphQnpoNkhIbmh0ZUpoUDIxdGJLek1BWC96MjB4OEpZOWZ0cFhWRTlU?=
+ =?utf-8?B?SlZmV0RFcEJFaWpGTDZtOGhWSno1dG56UHA3eEJoNnBkQnJWTk8yZjJpY0VF?=
+ =?utf-8?B?d0hUMXdRd1haWVVsaFZMVk5rSi9VUk9JbUdXdklsSkNCU1cwK2lZb1dWcGd5?=
+ =?utf-8?B?bGVnTUM0Z250NmpGZXMxcmp3UE53TjlmU0hQK0Iwbi9CRjdkeGwwbEg2MXdZ?=
+ =?utf-8?B?Nnd2L2RGdjhZdnBnQjc3L1JueFdDVW4wcEYrdSs3T2xXdmVhYnVyZ21xU3pp?=
+ =?utf-8?B?MEl1bWZNKzdsajRJZnppTk0rRzVnZUh4RlhQV0VnZjBQZzlyNll6N2NhWm5p?=
+ =?utf-8?B?T3dhS1hQUStxMFUwQWlrYWljZXFQRTBjY3YyeXpyOUJSRzMySlh4cnZja29m?=
+ =?utf-8?B?OTJNU1VwVTFzT1FkTFJEd0xRTTBwenUxNzExUElnbjI5QmI4ODN0UFI4WTlw?=
+ =?utf-8?B?N2kveWFpejFiQnllTHBVQTF6TUZQOTRQV3B6Z3hRVUVHTm9YTWR4eXh0b0gv?=
+ =?utf-8?B?WWpESU9oc0NqS242eU5oWEZXWnNtelBUazdEcjNDVlpiMUIzR2g0bmRBalBn?=
+ =?utf-8?B?Q1EvU01wUlM5NjJrQUJidGtrT2VKc3ZhYk5sNmNXQzdwenZWMGZUVFNZNCtJ?=
+ =?utf-8?B?TFNrM0VmWGQvNjIyRWhKTDV3aVJ4QVlHeTFZdWhmOUlTN0ZMdGVySTJSQUEz?=
+ =?utf-8?B?Q2JhdXpvRmZaVE1OTTJSMEJVcmc5d2FPNmd4aDRlV3l2YmEwTlRuK1FaVWNo?=
+ =?utf-8?B?UTYrTTlIUjBkWUkyMU1lU0taQndjcHdWWU0wenZNSVgwbGVWZHpVYVdCdGM3?=
+ =?utf-8?B?SXpKcGYyby9lL21Cam00ZmhSdXlaWXZUTDVQZTN5WkFxRTBqR3JPVXhja2Vx?=
+ =?utf-8?B?VDl4YndBbVdYTkoyNlRrK2ZLbmFQZ2hheTIwZk9xcjBmS01sV1AvSmVFQlNV?=
+ =?utf-8?B?djgrM0ZQSnpJY043eUIwSloxV3VCRGxGdW5wMVZRazlaSG1rd1ZMZjB3c2VB?=
+ =?utf-8?B?QmhpTkVMYmZpY3V5L2NtcmhxeEJQU1FMcG9nZWlocEN2Z0tNUkUrVXhzeWt3?=
+ =?utf-8?B?bDVEKzRwcFpDMUVRR2FhZTNZZmJuL1FMSEM5M0lJTVVQbkJWcEl0RmFJM1Y2?=
+ =?utf-8?B?eVdsVktxOXVjWXF1U3pUVnk3ZzhPZnhOWm1TaDExS3ZYbDJDc0Z4UEFGdzJP?=
+ =?utf-8?B?d2xUQkp4KzM3TGZFb25zN05TNnB2eU1oQ09yTnFMTG5ubmpZVWdYai9wUk5q?=
+ =?utf-8?Q?jqY0lv+gpNGvGNDs2d1pA5DCPduVpd5hWQLUbt8sUw=3D?=
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 31209098-15d0-467c-edf5-08d9e17936d1
+X-MS-Exchange-CrossTenant-AuthSource: AM9PR08MB6737.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Jan 2022 09:41:37.8842 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: KdZKwiCHgzFCAtCr44mA8JNB379QE5ULI9GU0zw1OOX/owbkxwaW8xIY6fGW30NQSzZuFFbWzh5/i0TpnaWBypYo1kjRv8IiCeSNn8yzMlM=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAXPR08MB6783
+Received-SPF: pass client-ip=40.107.14.122;
+ envelope-from=vsementsov@virtuozzo.com;
+ helo=EUR01-VE1-obe.outbound.protection.outlook.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -98,37 +148,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: quintela@redhat.com
-Cc: Leonardo Bras Soares Passos <lsoaresp@redhat.com>, qemu-devel@nongnu.org,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Peter Xu <peterx@redhat.com> wrote:
-> This patch simplifies unqueue_page() on both sides of it (itself, and caller).
->
-> Firstly, due to the fact that right after unqueue_page() returned true, we'll
-> definitely send a huge page (see ram_save_huge_page() call - it will _never_
-> exit before finish sending that huge page), so unqueue_page() does not need to
-> jump in small page size if huge page is enabled on the ramblock.  IOW, it's
-> destined that only the 1st 4K page will be valid, when unqueue the 2nd+ time
-> we'll notice the whole huge page has already been sent anyway.  Switching to
-> operating on huge page reduces a lot of the loops of redundant unqueue_page().
->
-> Meanwhile, drop the dirty check.  It's not helpful to call test_bit() every
-> time to jump over clean pages, as ram_save_host_page() has already done so,
-> while in a faster way (see commit ba1b7c812c ("migration/ram: Optimize
-> ram_save_host_page()", 2021-05-13)).  So that's not necessary too.
->
-> Drop the two tracepoints along the way - based on above analysis it's very
-> possible that no one is really using it..
->
-> Signed-off-by: Peter Xu <peterx@redhat.com>
+27.01.2022 11:21, Stefan Hajnoczi wrote:
+> On Wed, Jan 26, 2022 at 05:11:23PM +0100, Vladimir Sementsov-Ogievskiy wrote:
+>> This series aims to add trace points for each qmp command with help of
+>> qapi code generator.
+>>
+>> v6:
+>> 01-04,07: add Stefan's r-b
+>> 01: - subject changed
+>>      - rename:
+>>         gen_trace_events --> gen_tracing
+>>         _gen_trace_events --> _gen_tracing
+>>         _gent() --> _gen_trace_events()
+>>      - a bit more compact code for gent initializing
+>> 03: - rename:
+>>         gen_trace_events --> gen_tracing
+>>         _gen_trace_events --> _gen_tracing
+>> 04: fix --add-trace-events -> --gen-trace in commit message
+>> 05: - drop extra two sentences
+>>      - reword
+>>      - add example .trace-events file
+>> 06: reword
+>> 07: rename option to --suppress-tracing
+>>
+>> Vladimir Sementsov-Ogievskiy (7):
+>>    qapi/gen: Add FOO.trace-events output module
+>>    qapi/commands: refactor error handling code
+>>    qapi/commands: Optionally generate trace for QMP commands
+>>    meson: generate trace events for qmp commands
+>>    docs/qapi-code-gen: update to cover trace events code generation
+>>    meson: document, why we don't generate trace events for tests/ and
+>>      qga/
+>>    qapi: generate trace events by default
+>>
+>>   docs/devel/qapi-code-gen.rst |  25 ++++++++-
+>>   meson.build                  |   3 ++
+>>   qapi/meson.build             |   7 +++
+>>   qga/meson.build              |  10 +++-
+>>   scripts/qapi/commands.py     | 101 ++++++++++++++++++++++++++++++-----
+>>   scripts/qapi/gen.py          |  31 +++++++++--
+>>   scripts/qapi/main.py         |  14 +++--
+>>   tests/meson.build            |  10 +++-
+>>   trace/meson.build            |  11 ++--
+>>   9 files changed, 185 insertions(+), 27 deletions(-)
+>>
+>> -- 
+>> 2.31.1
+>>
+> 
+> Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+> 
 
-Reviewed-by: Juan Quintela <quintela@redhat.com>
+Thanks a lot for reviewing!
 
-queued.
-
-I added the extra tracepoint that you added later.
-
+-- 
+Best regards,
+Vladimir
 
