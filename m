@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A0FC49EDC5
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Jan 2022 22:51:45 +0100 (CET)
-Received: from localhost ([::1]:34958 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B038749EDC6
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Jan 2022 22:52:24 +0100 (CET)
+Received: from localhost ([::1]:36246 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nDCgB-0001vP-FL
-	for lists+qemu-devel@lfdr.de; Thu, 27 Jan 2022 16:51:43 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:44534)
+	id 1nDCgp-0002xm-Bl
+	for lists+qemu-devel@lfdr.de; Thu, 27 Jan 2022 16:52:23 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:44562)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wwcohen@gmail.com>) id 1nDCcX-0000J3-6V
- for qemu-devel@nongnu.org; Thu, 27 Jan 2022 16:47:57 -0500
-Received: from [2a00:1450:4864:20::12e] (port=45929
- helo=mail-lf1-x12e.google.com)
+ (Exim 4.90_1) (envelope-from <wwcohen@gmail.com>) id 1nDCcj-0000cJ-9k
+ for qemu-devel@nongnu.org; Thu, 27 Jan 2022 16:48:09 -0500
+Received: from [2a00:1450:4864:20::129] (port=41528
+ helo=mail-lf1-x129.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <wwcohen@gmail.com>) id 1nDCcV-0004Ki-AM
- for qemu-devel@nongnu.org; Thu, 27 Jan 2022 16:47:56 -0500
-Received: by mail-lf1-x12e.google.com with SMTP id o12so7876336lfg.12
- for <qemu-devel@nongnu.org>; Thu, 27 Jan 2022 13:47:54 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <wwcohen@gmail.com>) id 1nDCch-0004MB-3R
+ for qemu-devel@nongnu.org; Thu, 27 Jan 2022 16:48:08 -0500
+Received: by mail-lf1-x129.google.com with SMTP id x7so7925317lfu.8
+ for <qemu-devel@nongnu.org>; Thu, 27 Jan 2022 13:48:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=jJkTshhSrktEP8KZRZBVtv3+1WjltK+bosf++qfU+Fw=;
- b=Fp9ofthR1FCxYcku9uvkgRk+53h7XGjVoCehV8VUcw8oKvxO05UAsJ9HrpvNgBX8C7
- mrOXLt1SGl7rz7XNLFhdZptjzdc26TmRYmZG1u1KknQ0R/XXJ3agkGYshs1pYwKGsrcR
- i+w02+FkG6BIjKVgMnZxVN+m+zoFU4AEvWc51ZGk8YCBNpwThW9C0YCza1fTHObZe31k
- EYwmvbnJA1An/QJaQXQBYK+WM0YnFhWyw5e4hkBnziyOMQglGq0+LofjmN77fyOm6o7j
- LIVeb9hxqz1X/VEAjOhKFkla3Ei1Cn0m3OMp26Xjq0UAET5RNEkjq8k8ToVysWXjF7lT
- MU9A==
+ :cc; bh=LyfVfGqu0/LlLdtKab+Y2QZVuDZLPQzOBNeNQ2j0flU=;
+ b=T9pUVDXmyHOLfndbY6x7gyffwnt+oGzvtt3pLuvxzG8OFTGig8El79HgetNRx5AvfD
+ h7sZP8YV2tfNY9L2v8txQjv6esVb6E3D/uMfpbZKLAr0OiC/7c/CYdSJX58Yl8SZt6HW
+ ninnofIq0cplcZMqwS3p5TLizZg9mOBm9FcHTZb5Zu7lu/LwETs1KzGNWTjRzI574CE3
+ rve34FIh7M9KIguzTp07Est/vjqokmCmW/mSLnyZdQ7uVbbV97OX1cz5GntSLZbIXvCi
+ HA0DGIkBHSBkjuUEKj/E+ksuvMhJ+zOq2JkIDaj0uyyoEvWe+IToThSXSv0LyKaWRi6K
+ 2dlw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=jJkTshhSrktEP8KZRZBVtv3+1WjltK+bosf++qfU+Fw=;
- b=TrVg6w5eZ1AR4/autfy5cyc9zqtTw7MTVVgL53cXRxP67eu+FVo1UgJ4osj7cnlgyF
- U3am5nUDVkRbqcjv8RGYqKb9pNH5Yy2lADf6sutx+qGBK/wQoHF5+GUqsKi2Noxt3rAS
- 9XdrouN7PFHQPLbD9JctN3/6RtC3jQ/Ct/kThok50Fqjsja0yzg2Db2e6NtiG4zaH/ti
- 9Yw3FYSuDhOyarH/gBIS3voeyjBUtKgL+nJyymmoVNXbS9sy+OFRYLLb68MMjXcl7c2O
- 3MnNHEAqYsK6mIdPyK/ZwuoVnjJrL3Y4HdJ62l9cpjxIb090Eso++mEPx9zj8BBYDjoi
- CH6w==
-X-Gm-Message-State: AOAM530EoQ5Y82J2MR6aKs5NIes+Y8MBQHFFNJ3PQknTBQDhVgAGXqYe
- Sdnhus82H2LjjxBYoQppfSypeuNOwvhSnxJnh+E=
-X-Google-Smtp-Source: ABdhPJyelzKX/Yu6Q+fXD2mNO96zG4LATaA/ht5gqZnjG8I+fKDrBCnqz7LwYz7UnfBrw7r13XUU4CpcqO18BzOYBAs=
-X-Received: by 2002:a05:6512:3085:: with SMTP id
- z5mr4292736lfd.439.1643320072606; 
- Thu, 27 Jan 2022 13:47:52 -0800 (PST)
+ bh=LyfVfGqu0/LlLdtKab+Y2QZVuDZLPQzOBNeNQ2j0flU=;
+ b=Vo73TSuCQqP1KepeBgO+r7RxeomYE9GKfcnevDGCGFBAGaRROoxV5LhRYECzhFPcgo
+ gdWkvNaBHJ0wjSJ4RsdQqHx20LkgC7oFQedI/6yTeoYUUDz4b1Z5TtoEqREkNundqnAm
+ rPNeK+PikTGXHcLn6rJv/HUspLU1YxL2ah9jiF44payYqKXvb3F5BI6JvdbFpMAE0Brg
+ gbS1nKDXe8x3v+pS9cUWwLz9SBat1H0pp6s9B17YBeeNjwJrFN37+QHd5k1YmdaY4xO6
+ 6DB303l0+e4GNjQq700M6s81WlGzIicDGwK6aZUyCeCC9Qx8LMJ1s7gXWQh7k0v3Np+T
+ wO0g==
+X-Gm-Message-State: AOAM533c1xse2xnlLGX/7QpVpWLNa1ewzt3JtVMyb0jOR0+V0kzjuvY4
+ 2rTUwutwIIUeJwyMxIfOa2jdvykhDcUsoSSyA1M=
+X-Google-Smtp-Source: ABdhPJxIhwqHzVVXZtRDcnPWiZUMEzvaXMx2b0ohVmgDEuEU831DvaM+bnFscy4oYqdDIjSoGcBmherITDjnVJU7F7Q=
+X-Received: by 2002:a05:6512:3123:: with SMTP id
+ p3mr4277953lfd.298.1643320085520; 
+ Thu, 27 Jan 2022 13:48:05 -0800 (PST)
 MIME-Version: 1.0
 References: <20211122004913.20052-1-wwcohen@gmail.com>
- <20211122004913.20052-9-wwcohen@gmail.com>
- <2301973.IoarFkLyKX@silver>
-In-Reply-To: <2301973.IoarFkLyKX@silver>
+ <20211122004913.20052-11-wwcohen@gmail.com>
+ <3039867.d4g7DdiYNH@silver>
+In-Reply-To: <3039867.d4g7DdiYNH@silver>
 From: Will Cohen <wwcohen@gmail.com>
-Date: Thu, 27 Jan 2022 16:47:40 -0500
-Message-ID: <CAB26zV1WW1D4+3Kq_fZ4y1o61HZXYAaugcRgJji0f4+jRdcLnQ@mail.gmail.com>
-Subject: Re: [PATCH v2 08/11] 9p: darwin: Compatibility for f/l*xattr
+Date: Thu, 27 Jan 2022 16:47:54 -0500
+Message-ID: <CAB26zV3uHf1r9nVUcrcysbvMojHE_Jz5sM941pc_uSSjYNnogg@mail.gmail.com>
+Subject: Re: [PATCH v2 10/11] 9p: darwin: Implement compatibility for mknodat
 To: Christian Schoenebeck <qemu_oss@crudebyte.com>
-Content-Type: multipart/alternative; boundary="0000000000002e17aa05d6974541"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::12e
+Content-Type: multipart/alternative; boundary="000000000000f327e305d6974556"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::129
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::12e;
- envelope-from=wwcohen@gmail.com; helo=mail-lf1-x12e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::129;
+ envelope-from=wwcohen@gmail.com; helo=mail-lf1-x129.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -87,246 +87,337 @@ Cc: Keno Fischer <keno@juliacomputing.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000002e17aa05d6974541
+--000000000000f327e305d6974556
 Content-Type: text/plain; charset="UTF-8"
 
-It's quite possible I'm misreading the man page when double-checking this,
-but I believe the l-prefixed functions are for the link itself and
-fgetxattr works on the file it refers to. This is why XATTR_NOFOLLOW
-doesn't appear on fgetxattr, and I believe this also means that these
-definitions line up the macOS behavior with Linux.
+Back when this was being proposed, the original proposer did file such a
+report to Apple, but we're still in this situation!
 
-On Wed, Nov 24, 2021 at 11:20 AM Christian Schoenebeck <
+Replacing clang with gcc in v3.
+
+On Wed, Nov 24, 2021 at 12:20 PM Christian Schoenebeck <
 qemu_oss@crudebyte.com> wrote:
 
-> On Montag, 22. November 2021 01:49:10 CET Will Cohen wrote:
+> On Montag, 22. November 2021 01:49:12 CET Will Cohen wrote:
 > > From: Keno Fischer <keno@juliacomputing.com>
 > >
-> > On darwin `fgetxattr` takes two extra optional arguments,
-> > and the l* variants are not defined (in favor of an extra
-> > flag to the regular variants.
+> > Darwin does not support mknodat. However, to avoid race conditions
+> > with later setting the permissions, we must avoid using mknod on
+> > the full path instead. We could try to fchdir, but that would cause
+> > problems if multiple threads try to call mknodat at the same time.
+> > However, luckily there is a solution: Darwin as an (unexposed in the
+> > C library) system call that sets the cwd for the current thread only.
+> > This should suffice to use mknod safely.
 > >
 > > Signed-off-by: Keno Fischer <keno@juliacomputing.com>
-> > [Michael Roitzsch: - Rebase for NixOS]
 > > Signed-off-by: Michael Roitzsch <reactorcontrol@icloud.com>
+> > [Will Cohen: - Adjust coding style]
 > > Signed-off-by: Will Cohen <wwcohen@gmail.com>
 > > ---
-> >  hw/9pfs/9p-local.c | 12 ++++++++----
-> >  hw/9pfs/9p-util.h  | 17 +++++++++++++++++
-> >  2 files changed, 25 insertions(+), 4 deletions(-)
+> >  hw/9pfs/9p-local.c       |  5 +++--
+> >  hw/9pfs/9p-util-darwin.c | 33 +++++++++++++++++++++++++++++++++
+> >  hw/9pfs/9p-util-linux.c  |  5 +++++
+> >  hw/9pfs/9p-util.h        |  2 ++
+> >  4 files changed, 43 insertions(+), 2 deletions(-)
 > >
 > > diff --git a/hw/9pfs/9p-local.c b/hw/9pfs/9p-local.c
-> > index 1a5e3eed73..2bfff79b12 100644
+> > index 4268703d05..42b65e143b 100644
 > > --- a/hw/9pfs/9p-local.c
 > > +++ b/hw/9pfs/9p-local.c
-> > @@ -781,16 +781,20 @@ static int local_fstat(FsContext *fs_ctx, int
-> > fid_type, mode_t tmp_mode;
-> >          dev_t tmp_dev;
+> > @@ -673,7 +673,7 @@ static int local_mknod(FsContext *fs_ctx, V9fsPath
+> > *dir_path,
 > >
-> > -        if (fgetxattr(fd, "user.virtfs.uid", &tmp_uid, sizeof(uid_t)) >
-> 0)
-> > { +        if (qemu_fgetxattr(fd, "user.virtfs.uid",
-> > +                           &tmp_uid, sizeof(uid_t)) > 0) {
-> >              stbuf->st_uid = le32_to_cpu(tmp_uid);
+> >      if (fs_ctx->export_flags & V9FS_SM_MAPPED ||
+> >          fs_ctx->export_flags & V9FS_SM_MAPPED_FILE) {
+> > -        err = mknodat(dirfd, name, fs_ctx->fmode | S_IFREG, 0);
+> > +        err = qemu_mknodat(dirfd, name, fs_ctx->fmode | S_IFREG, 0);
+> >          if (err == -1) {
+> >              goto out;
 > >          }
-> > -        if (fgetxattr(fd, "user.virtfs.gid", &tmp_gid, sizeof(gid_t)) >
-> 0)
-> > { +        if (qemu_fgetxattr(fd, "user.virtfs.gid",
-> > +                           &tmp_gid, sizeof(gid_t)) > 0) {
-> >              stbuf->st_gid = le32_to_cpu(tmp_gid);
+> > @@ -688,7 +688,7 @@ static int local_mknod(FsContext *fs_ctx, V9fsPath
+> > *dir_path, }
+> >      } else if (fs_ctx->export_flags & V9FS_SM_PASSTHROUGH ||
+> >                 fs_ctx->export_flags & V9FS_SM_NONE) {
+> > -        err = mknodat(dirfd, name, credp->fc_mode, credp->fc_rdev);
+> > +        err = qemu_mknodat(dirfd, name, credp->fc_mode, credp->fc_rdev);
+> >          if (err == -1) {
+> >              goto out;
 > >          }
-> > -        if (fgetxattr(fd, "user.virtfs.mode", &tmp_mode,
-> sizeof(mode_t)) >
-> > 0) { +        if (qemu_fgetxattr(fd, "user.virtfs.mode",
-> > +                           &tmp_mode, sizeof(mode_t)) > 0) {
-> >              stbuf->st_mode = le32_to_cpu(tmp_mode);
-> >          }
-> > -        if (fgetxattr(fd, "user.virtfs.rdev", &tmp_dev, sizeof(dev_t))
-> > 0)
-> > { +        if (qemu_fgetxattr(fd, "user.virtfs.rdev",
-> > +                           &tmp_dev, sizeof(dev_t)) > 0) {
-> >              stbuf->st_rdev = le64_to_cpu(tmp_dev);
-> >          }
-> >      } else if (fs_ctx->export_flags & V9FS_SM_MAPPED_FILE) {
-> > diff --git a/hw/9pfs/9p-util.h b/hw/9pfs/9p-util.h
-> > index 627baebaba..38ef8b289d 100644
-> > --- a/hw/9pfs/9p-util.h
-> > +++ b/hw/9pfs/9p-util.h
-> > @@ -19,6 +19,23 @@
-> >  #define O_PATH_9P_UTIL 0
-> >  #endif
+> > @@ -701,6 +701,7 @@ static int local_mknod(FsContext *fs_ctx, V9fsPath
+> > *dir_path,
 > >
-> > +#ifdef CONFIG_DARWIN
-> > +#define qemu_fgetxattr(...) fgetxattr(__VA_ARGS__, 0, 0)
->
-> Why does this not have XATTR_NOFOLLOW and the others do? -^
->
-> > +#define qemu_lgetxattr(...) getxattr(__VA_ARGS__, 0, XATTR_NOFOLLOW)
-> > +#define qemu_llistxattr(...) listxattr(__VA_ARGS__, XATTR_NOFOLLOW)
-> > +#define qemu_lremovexattr(...) removexattr(__VA_ARGS__, XATTR_NOFOLLOW)
-> > +static inline int qemu_lsetxattr(const char *path, const char *name,
-> > +                                 const void *value, size_t size, int
-> flags)
-> > { +    return setxattr(path, name, value, size, 0, flags |
-> XATTR_NOFOLLOW);
-> > +}
-> > +#else
-> > +#define qemu_fgetxattr fgetxattr
-> > +#define qemu_lgetxattr lgetxattr
-> > +#define qemu_llistxattr llistxattr
-> > +#define qemu_lremovexattr lremovexattr
-> > +#define qemu_lsetxattr lsetxattr
+> >  err_end:
+> >      unlinkat_preserve_errno(dirfd, name, 0);
+> > +
+> >  out:
+> >      close_preserve_errno(dirfd);
+> >      return err;
+> > diff --git a/hw/9pfs/9p-util-darwin.c b/hw/9pfs/9p-util-darwin.c
+> > index ac414bcbfd..25e67d5067 100644
+> > --- a/hw/9pfs/9p-util-darwin.c
+> > +++ b/hw/9pfs/9p-util-darwin.c
+> > @@ -158,3 +158,36 @@ done:
+> >      close_preserve_errno(fd);
+> >      return ret;
+> >  }
+> > +
+> > +#ifndef SYS___pthread_fchdir
+> > +# define SYS___pthread_fchdir 349
 > > +#endif
 > > +
-> >  static inline void close_preserve_errno(int fd)
+> > +/*
+> > + * This is an undocumented OS X syscall. It would be best to avoid it,
+> > + * but there doesn't seem to be another safe way to implement mknodat.
+> > + * Dear Apple, please implement mknodat before you remove this syscall.
+> > + */
+> > +static int fchdir_thread_local(int fd)
+>
+> Hooo, that's a brave move. Shouldn't its future and likely becoming
+> absence be
+> guarded "somehow"? :)
+>
+> BTW it might make sense to file a report instead of hoping Apple will just
+> read this comment: ;-)
+> https://feedbackassistant.apple.com/
+>
+> > +{
+> > +#pragma clang diagnostic push
+> > +#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+> > +    return syscall(SYS___pthread_fchdir, fd);
+> > +#pragma clang diagnostic pop
+> > +}
+>
+> Consider s/clang/GCC/ then it would also work with GCC. In the end most
+> people
+> probably just use clang on macOS anyway, but just saying.
+>
+> > +
+> > +int qemu_mknodat(int dirfd, const char *filename, mode_t mode, dev_t
+> dev)
+> > +{
+> > +    int preserved_errno, err;
+> > +    if (fchdir_thread_local(dirfd) < 0) {
+> > +        return -1;
+> > +    }
+> > +    err = mknod(filename, mode, dev);
+> > +    preserved_errno = errno;
+> > +    /* Stop using the thread-local cwd */
+> > +    fchdir_thread_local(-1);
+> > +    if (err < 0) {
+> > +        errno = preserved_errno;
+> > +    }
+> > +    return err;
+> > +}
+> > diff --git a/hw/9pfs/9p-util-linux.c b/hw/9pfs/9p-util-linux.c
+> > index d54bf57a59..4f57d8c047 100644
+> > --- a/hw/9pfs/9p-util-linux.c
+> > +++ b/hw/9pfs/9p-util-linux.c
+> > @@ -68,3 +68,8 @@ int utimensat_nofollow(int dirfd, const char *filename,
 > >  {
-> >      int serrno = errno;
->
-> Hmm, so we would have two different behaviours for Linux vs. macOS here.
->
-> If there is a symbolic link on host, Linux currently applies the permission
-> map as xattrs to the destination of the symlink, whereas macOS would map
-> the
-> permissions as xattrs to the symbolic link itself.
->
-> Who is right?
+> >      return utimensat(dirfd, filename, times, AT_SYMLINK_NOFOLLOW);
+> >  }
+> > +
+> > +int qemu_mknodat(int dirfd, const char *filename, mode_t mode, dev_t
+> dev)
+> > +{
+> > +    return mknodat(dirfd, filename, mode, dev);
+> > +}
+> > diff --git a/hw/9pfs/9p-util.h b/hw/9pfs/9p-util.h
+> > index 1c477a0e66..cac682d335 100644
+> > --- a/hw/9pfs/9p-util.h
+> > +++ b/hw/9pfs/9p-util.h
+> > @@ -105,4 +105,6 @@ ssize_t fremovexattrat_nofollow(int dirfd, const char
+> > *filename, int utimensat_nofollow(int dirfd, const char *filename,
+> >                         const struct timespec times[2]);
+> >
+> > +int qemu_mknodat(int dirfd, const char *filename, mode_t mode, dev_t
+> dev);
+> > +
+> >  #endif
 >
 >
 >
 
---0000000000002e17aa05d6974541
+--000000000000f327e305d6974556
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div>It&#39;s quite possible I&#39;m misreading the man pa=
-ge when double-checking this, but I believe the l-prefixed functions are fo=
-r the link itself and fgetxattr works on the file it refers to. This is why=
- XATTR_NOFOLLOW doesn&#39;t appear on fgetxattr, and I believe this also me=
-ans that these definitions line up the macOS behavior with Linux. </div></d=
-iv><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On =
-Wed, Nov 24, 2021 at 11:20 AM Christian Schoenebeck &lt;<a href=3D"mailto:q=
-emu_oss@crudebyte.com" target=3D"_blank">qemu_oss@crudebyte.com</a>&gt; wro=
-te:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px =
-0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">On Montag, 2=
-2. November 2021 01:49:10 CET Will Cohen wrote:<br>
+<div dir=3D"ltr"><div>Back when this was being proposed, the original propo=
+ser did file such a report to Apple, but we&#39;re still in this situation!=
+</div><div><br></div><div>Replacing clang with gcc in v3.<br></div></div><b=
+r><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Wed, =
+Nov 24, 2021 at 12:20 PM Christian Schoenebeck &lt;<a href=3D"mailto:qemu_o=
+ss@crudebyte.com" target=3D"_blank">qemu_oss@crudebyte.com</a>&gt; wrote:<b=
+r></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex=
+;border-left:1px solid rgb(204,204,204);padding-left:1ex">On Montag, 22. No=
+vember 2021 01:49:12 CET Will Cohen wrote:<br>
 &gt; From: Keno Fischer &lt;<a href=3D"mailto:keno@juliacomputing.com" targ=
 et=3D"_blank">keno@juliacomputing.com</a>&gt;<br>
 &gt; <br>
-&gt; On darwin `fgetxattr` takes two extra optional arguments,<br>
-&gt; and the l* variants are not defined (in favor of an extra<br>
-&gt; flag to the regular variants.<br>
+&gt; Darwin does not support mknodat. However, to avoid race conditions<br>
+&gt; with later setting the permissions, we must avoid using mknod on<br>
+&gt; the full path instead. We could try to fchdir, but that would cause<br=
+>
+&gt; problems if multiple threads try to call mknodat at the same time.<br>
+&gt; However, luckily there is a solution: Darwin as an (unexposed in the<b=
+r>
+&gt; C library) system call that sets the cwd for the current thread only.<=
+br>
+&gt; This should suffice to use mknod safely.<br>
 &gt; <br>
 &gt; Signed-off-by: Keno Fischer &lt;<a href=3D"mailto:keno@juliacomputing.=
 com" target=3D"_blank">keno@juliacomputing.com</a>&gt;<br>
-&gt; [Michael Roitzsch: - Rebase for NixOS]<br>
 &gt; Signed-off-by: Michael Roitzsch &lt;<a href=3D"mailto:reactorcontrol@i=
 cloud.com" target=3D"_blank">reactorcontrol@icloud.com</a>&gt;<br>
+&gt; [Will Cohen: - Adjust coding style]<br>
 &gt; Signed-off-by: Will Cohen &lt;<a href=3D"mailto:wwcohen@gmail.com" tar=
 get=3D"_blank">wwcohen@gmail.com</a>&gt;<br>
 &gt; ---<br>
-&gt;=C2=A0 hw/9pfs/9p-local.c | 12 ++++++++----<br>
-&gt;=C2=A0 hw/9pfs/9p-util.h=C2=A0 | 17 +++++++++++++++++<br>
-&gt;=C2=A0 2 files changed, 25 insertions(+), 4 deletions(-)<br>
+&gt;=C2=A0 hw/9pfs/9p-local.c=C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 5 +++--<br>
+&gt;=C2=A0 hw/9pfs/9p-util-darwin.c | 33 +++++++++++++++++++++++++++++++++<=
+br>
+&gt;=C2=A0 hw/9pfs/9p-util-linux.c=C2=A0 |=C2=A0 5 +++++<br>
+&gt;=C2=A0 hw/9pfs/9p-util.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 2 ++<br>
+&gt;=C2=A0 4 files changed, 43 insertions(+), 2 deletions(-)<br>
 &gt; <br>
 &gt; diff --git a/hw/9pfs/9p-local.c b/hw/9pfs/9p-local.c<br>
-&gt; index 1a5e3eed73..2bfff79b12 100644<br>
+&gt; index 4268703d05..42b65e143b 100644<br>
 &gt; --- a/hw/9pfs/9p-local.c<br>
 &gt; +++ b/hw/9pfs/9p-local.c<br>
-&gt; @@ -781,16 +781,20 @@ static int local_fstat(FsContext *fs_ctx, int<br=
->
-&gt; fid_type, mode_t tmp_mode;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 dev_t tmp_dev;<br>
-&gt; <br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (fgetxattr(fd, &quot;user.virtfs.uid&q=
-uot;, &amp;tmp_uid, sizeof(uid_t)) &gt; 0)<br>
-&gt; { +=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (qemu_fgetxattr(fd, &quot;user.virtf=
-s.uid&quot;,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0&amp;tmp_uid, sizeof(uid_t)) &gt; 0) {<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 stbuf-&gt;st_uid =3D l=
-e32_to_cpu(tmp_uid);<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (fgetxattr(fd, &quot;user.virtfs.gid&q=
-uot;, &amp;tmp_gid, sizeof(gid_t)) &gt; 0)<br>
-&gt; { +=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (qemu_fgetxattr(fd, &quot;user.virtf=
-s.gid&quot;,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0&amp;tmp_gid, sizeof(gid_t)) &gt; 0) {<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 stbuf-&gt;st_gid =3D l=
-e32_to_cpu(tmp_gid);<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (fgetxattr(fd, &quot;user.virtfs.mode&=
-quot;, &amp;tmp_mode, sizeof(mode_t)) &gt;<br>
-&gt; 0) { +=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (qemu_fgetxattr(fd, &quot;user.vi=
-rtfs.mode&quot;,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0&amp;tmp_mode, sizeof(mode_t)) &gt; 0) {<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 stbuf-&gt;st_mode =3D =
-le32_to_cpu(tmp_mode);<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (fgetxattr(fd, &quot;user.virtfs.rdev&=
-quot;, &amp;tmp_dev, sizeof(dev_t)) &gt; 0)<br>
-&gt; { +=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (qemu_fgetxattr(fd, &quot;user.virtf=
-s.rdev&quot;,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0&amp;tmp_dev, sizeof(dev_t)) &gt; 0) {<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 stbuf-&gt;st_rdev =3D =
-le64_to_cpu(tmp_dev);<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 } else if (fs_ctx-&gt;export_flags &amp; V9FS_SM_M=
-APPED_FILE) {<br>
-&gt; diff --git a/hw/9pfs/9p-util.h b/hw/9pfs/9p-util.h<br>
-&gt; index 627baebaba..38ef8b289d 100644<br>
-&gt; --- a/hw/9pfs/9p-util.h<br>
-&gt; +++ b/hw/9pfs/9p-util.h<br>
-&gt; @@ -19,6 +19,23 @@<br>
-&gt;=C2=A0 #define O_PATH_9P_UTIL 0<br>
-&gt;=C2=A0 #endif<br>
-&gt; <br>
-&gt; +#ifdef CONFIG_DARWIN<br>
-&gt; +#define qemu_fgetxattr(...) fgetxattr(__VA_ARGS__, 0, 0)<br>
+&gt; @@ -673,7 +673,7 @@ static int local_mknod(FsContext *fs_ctx, V9fsPath=
 <br>
-Why does this not have XATTR_NOFOLLOW and the others do? -^<br>
+&gt; *dir_path,<br>
+&gt; <br>
+&gt;=C2=A0 =C2=A0 =C2=A0 if (fs_ctx-&gt;export_flags &amp; V9FS_SM_MAPPED |=
+|<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 fs_ctx-&gt;export_flags &amp; V9FS_S=
+M_MAPPED_FILE) {<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 err =3D mknodat(dirfd, name, fs_ctx-&gt;f=
+mode | S_IFREG, 0);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 err =3D qemu_mknodat(dirfd, name, fs_ctx-=
+&gt;fmode | S_IFREG, 0);<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (err =3D=3D -1) {<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 goto out;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
+&gt; @@ -688,7 +688,7 @@ static int local_mknod(FsContext *fs_ctx, V9fsPath=
 <br>
-&gt; +#define qemu_lgetxattr(...) getxattr(__VA_ARGS__, 0, XATTR_NOFOLLOW)<=
-br>
-&gt; +#define qemu_llistxattr(...) listxattr(__VA_ARGS__, XATTR_NOFOLLOW)<b=
-r>
-&gt; +#define qemu_lremovexattr(...) removexattr(__VA_ARGS__, XATTR_NOFOLLO=
-W)<br>
-&gt; +static inline int qemu_lsetxattr(const char *path, const char *name,<=
-br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0const void *value, size_t =
-size, int flags)<br>
-&gt; { +=C2=A0 =C2=A0 return setxattr(path, name, value, size, 0, flags | X=
-ATTR_NOFOLLOW);<br>
-&gt; +}<br>
-&gt; +#else<br>
-&gt; +#define qemu_fgetxattr fgetxattr<br>
-&gt; +#define qemu_lgetxattr lgetxattr<br>
-&gt; +#define qemu_llistxattr llistxattr<br>
-&gt; +#define qemu_lremovexattr lremovexattr<br>
-&gt; +#define qemu_lsetxattr lsetxattr<br>
+&gt; *dir_path, }<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 } else if (fs_ctx-&gt;export_flags &amp; V9FS_SM_P=
+ASSTHROUGH ||<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0fs_ctx-&g=
+t;export_flags &amp; V9FS_SM_NONE) {<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 err =3D mknodat(dirfd, name, credp-&gt;fc=
+_mode, credp-&gt;fc_rdev);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 err =3D qemu_mknodat(dirfd, name, credp-&=
+gt;fc_mode, credp-&gt;fc_rdev);<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (err =3D=3D -1) {<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 goto out;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
+&gt; @@ -701,6 +701,7 @@ static int local_mknod(FsContext *fs_ctx, V9fsPath=
+<br>
+&gt; *dir_path,<br>
+&gt; <br>
+&gt;=C2=A0 err_end:<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 unlinkat_preserve_errno(dirfd, name, 0);<br>
+&gt; +<br>
+&gt;=C2=A0 out:<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 close_preserve_errno(dirfd);<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 return err;<br>
+&gt; diff --git a/hw/9pfs/9p-util-darwin.c b/hw/9pfs/9p-util-darwin.c<br>
+&gt; index ac414bcbfd..25e67d5067 100644<br>
+&gt; --- a/hw/9pfs/9p-util-darwin.c<br>
+&gt; +++ b/hw/9pfs/9p-util-darwin.c<br>
+&gt; @@ -158,3 +158,36 @@ done:<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 close_preserve_errno(fd);<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 return ret;<br>
+&gt;=C2=A0 }<br>
+&gt; +<br>
+&gt; +#ifndef SYS___pthread_fchdir<br>
+&gt; +# define SYS___pthread_fchdir 349<br>
 &gt; +#endif<br>
 &gt; +<br>
-&gt;=C2=A0 static inline void close_preserve_errno(int fd)<br>
+&gt; +/*<br>
+&gt; + * This is an undocumented OS X syscall. It would be best to avoid it=
+,<br>
+&gt; + * but there doesn&#39;t seem to be another safe way to implement mkn=
+odat.<br>
+&gt; + * Dear Apple, please implement mknodat before you remove this syscal=
+l.<br>
+&gt; + */<br>
+&gt; +static int fchdir_thread_local(int fd)<br>
+<br>
+Hooo, that&#39;s a brave move. Shouldn&#39;t its future and likely becoming=
+ absence be <br>
+guarded &quot;somehow&quot;? :)<br>
+<br>
+BTW it might make sense to file a report instead of hoping Apple will just =
+<br>
+read this comment: ;-)<br>
+<a href=3D"https://feedbackassistant.apple.com/" rel=3D"noreferrer" target=
+=3D"_blank">https://feedbackassistant.apple.com/</a><br>
+<br>
+&gt; +{<br>
+&gt; +#pragma clang diagnostic push<br>
+&gt; +#pragma clang diagnostic ignored &quot;-Wdeprecated-declarations&quot=
+;<br>
+&gt; +=C2=A0 =C2=A0 return syscall(SYS___pthread_fchdir, fd);<br>
+&gt; +#pragma clang diagnostic pop<br>
+&gt; +}<br>
+<br>
+Consider s/clang/GCC/ then it would also work with GCC. In the end most peo=
+ple <br>
+probably just use clang on macOS anyway, but just saying.<br>
+<br>
+&gt; +<br>
+&gt; +int qemu_mknodat(int dirfd, const char *filename, mode_t mode, dev_t =
+dev)<br>
+&gt; +{<br>
+&gt; +=C2=A0 =C2=A0 int preserved_errno, err;<br>
+&gt; +=C2=A0 =C2=A0 if (fchdir_thread_local(dirfd) &lt; 0) {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 return -1;<br>
+&gt; +=C2=A0 =C2=A0 }<br>
+&gt; +=C2=A0 =C2=A0 err =3D mknod(filename, mode, dev);<br>
+&gt; +=C2=A0 =C2=A0 preserved_errno =3D errno;<br>
+&gt; +=C2=A0 =C2=A0 /* Stop using the thread-local cwd */<br>
+&gt; +=C2=A0 =C2=A0 fchdir_thread_local(-1);<br>
+&gt; +=C2=A0 =C2=A0 if (err &lt; 0) {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 errno =3D preserved_errno;<br>
+&gt; +=C2=A0 =C2=A0 }<br>
+&gt; +=C2=A0 =C2=A0 return err;<br>
+&gt; +}<br>
+&gt; diff --git a/hw/9pfs/9p-util-linux.c b/hw/9pfs/9p-util-linux.c<br>
+&gt; index d54bf57a59..4f57d8c047 100644<br>
+&gt; --- a/hw/9pfs/9p-util-linux.c<br>
+&gt; +++ b/hw/9pfs/9p-util-linux.c<br>
+&gt; @@ -68,3 +68,8 @@ int utimensat_nofollow(int dirfd, const char *filena=
+me,<br>
 &gt;=C2=A0 {<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 int serrno =3D errno;<br>
-<br>
-Hmm, so we would have two different behaviours for Linux vs. macOS here.<br=
->
-<br>
-If there is a symbolic link on host, Linux currently applies the permission=
-<br>
-map as xattrs to the destination of the symlink, whereas macOS would map th=
-e<br>
-permissions as xattrs to the symbolic link itself.<br>
-<br>
-Who is right?<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 return utimensat(dirfd, filename, times, AT_SYMLIN=
+K_NOFOLLOW);<br>
+&gt;=C2=A0 }<br>
+&gt; +<br>
+&gt; +int qemu_mknodat(int dirfd, const char *filename, mode_t mode, dev_t =
+dev)<br>
+&gt; +{<br>
+&gt; +=C2=A0 =C2=A0 return mknodat(dirfd, filename, mode, dev);<br>
+&gt; +}<br>
+&gt; diff --git a/hw/9pfs/9p-util.h b/hw/9pfs/9p-util.h<br>
+&gt; index 1c477a0e66..cac682d335 100644<br>
+&gt; --- a/hw/9pfs/9p-util.h<br>
+&gt; +++ b/hw/9pfs/9p-util.h<br>
+&gt; @@ -105,4 +105,6 @@ ssize_t fremovexattrat_nofollow(int dirfd, const c=
+har<br>
+&gt; *filename, int utimensat_nofollow(int dirfd, const char *filename,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0const struct timespec times[2]);<br>
+&gt; <br>
+&gt; +int qemu_mknodat(int dirfd, const char *filename, mode_t mode, dev_t =
+dev);<br>
+&gt; +<br>
+&gt;=C2=A0 #endif<br>
 <br>
 <br>
 </blockquote></div>
 
---0000000000002e17aa05d6974541--
+--000000000000f327e305d6974556--
 
