@@ -2,70 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 374B849E8BE
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Jan 2022 18:20:03 +0100 (CET)
-Received: from localhost ([::1]:57676 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7343C49E89D
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Jan 2022 18:15:05 +0100 (CET)
+Received: from localhost ([::1]:50844 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nD8RG-0005fx-9z
-	for lists+qemu-devel@lfdr.de; Thu, 27 Jan 2022 12:20:02 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:55900)
+	id 1nD8MS-0000f4-GR
+	for lists+qemu-devel@lfdr.de; Thu, 27 Jan 2022 12:15:04 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:60202)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1nD7RF-0000mn-0a
- for qemu-devel@nongnu.org; Thu, 27 Jan 2022 11:15:59 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:22240)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1nD7RA-0004Eb-Te
- for qemu-devel@nongnu.org; Thu, 27 Jan 2022 11:15:54 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1643300152;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=9JOWL2kClnf/OA5EXY+RnDqq8v1MvtMJGNt8CBRpENc=;
- b=XM4Zo1O/55lzWuj3Xy/p1Czq3qp9L3qBFF7t68ayK+JBeL2cy+k2HJs9NR1mA6GfRvOVYw
- JVLjkDdhiLmV373oJKY6bBskQjahtd4XLbTDblA0ncH5bYk+mnO1fgwZL7RDldfq8sYhbc
- EKr2XHK4kgSeEbJuxYk+MfuFqQRP3iQ=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-483-sd5tj32lNoO1ouLWGi7LjA-1; Thu, 27 Jan 2022 11:15:48 -0500
-X-MC-Unique: sd5tj32lNoO1ouLWGi7LjA-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2B75A8144E2;
- Thu, 27 Jan 2022 16:15:47 +0000 (UTC)
-Received: from redhat.com (unknown [10.39.195.252])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 5AB75109005E;
- Thu, 27 Jan 2022 16:15:45 +0000 (UTC)
-Date: Thu, 27 Jan 2022 17:15:43 +0100
-From: Kevin Wolf <kwolf@redhat.com>
-To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>
-Subject: Re: [RFC PATCH] block/export/fuse: Fix build failure on FreeBSD
-Message-ID: <YfLFLzOsqlzJUvNq@redhat.com>
-References: <20220122134940.401590-1-f4bug@amsat.org>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nD7gT-0003iJ-Cl
+ for qemu-devel@nongnu.org; Thu, 27 Jan 2022 11:31:43 -0500
+Received: from [2a00:1450:4864:20::42c] (port=36503
+ helo=mail-wr1-x42c.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nD7gP-0006mR-QG
+ for qemu-devel@nongnu.org; Thu, 27 Jan 2022 11:31:39 -0500
+Received: by mail-wr1-x42c.google.com with SMTP id u15so5826357wrt.3
+ for <qemu-devel@nongnu.org>; Thu, 27 Jan 2022 08:31:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to;
+ bh=fNiOAmQ420Z6ck2EPpcnI4GeChvrAMoNnPkgJzts4ks=;
+ b=asfw1szOoVSo88nALFIcwdBw6mhqCQefy1frIZq/RAC8/QdJyL51ua+3mrxZQ3uQ3Q
+ ePKEW2bKBghQ/HVZLu9DE3TnI1PTxl5v1bFbRVkgipB4d/M0mq+Re/wGeJIaB7SH1+Ru
+ Hjx1ppxz7LjiMBkzq9WieczR6lkpQAU9mZFG4edNX7Z0zcVquKLqji4xRAKOMYd5QrTn
+ BlekohTRqw4OmttxHcLAl65FdVlsZU/wC6P0hXiy+HHaJwaoWgifOP/TzLtI4d6wJS3G
+ 2hGdj6m+Z1lpJ32dq6csIfvO1HX/ZRSWRNkaCtVcWzWtDIIxNsW+RZovk/JPiI7Al2km
+ w4kA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to;
+ bh=fNiOAmQ420Z6ck2EPpcnI4GeChvrAMoNnPkgJzts4ks=;
+ b=X8E9gBtOeIJBQBTAszAm9kMTznjURpPT68rYhPzTWd4ApSnnsQ56GnDqmOPic3vSjY
+ NN6ME04ZSEGdFARdQ0W3CQOzUjypskFqH9gcXGIhnsWs8O9C/xhEMgjhbZXYDVSSL52t
+ n7pSKNtjKUzUCWnBtvTGsRQG8kTVGPAVkiBu05L+Ni6mma/XmqhYUAy4AgoqxSq4rxzy
+ Na4s45rayoU+gRi2vFiMN12thlEHIweKnpCzyEv3sqtoVNP3iDmMmv4VRnVsKt3GOm5/
+ d+REINuRHv+aPjqbnndwILSYJVbbp/cKlszFbxM5QK+PG96bDXD3u7TOa8qGqIHVfxst
+ c9IA==
+X-Gm-Message-State: AOAM53360ep4ipRUrBOBA4bttKOffVu1+3gfiVjD7XOoFIDURd37Qxxp
+ H5efwAXNJ3JFegssWY2GJFtx+CyoSW1whih9/hersw==
+X-Google-Smtp-Source: ABdhPJxYtKX+7ualaCpjWO2W0cnWlEO2xTnSdvU87Gl2ekvvtu7iCLJF6mc+W4UlFBY7TTfu0Sn8X/ffYcX66mmY8vM=
+X-Received: by 2002:a5d:5343:: with SMTP id t3mr3738367wrv.521.1643301096132; 
+ Thu, 27 Jan 2022 08:31:36 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20220122134940.401590-1-f4bug@amsat.org>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=kwolf@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.159,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+References: <20220117131953.3936137-1-peter.maydell@linaro.org>
+In-Reply-To: <20220117131953.3936137-1-peter.maydell@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 27 Jan 2022 16:31:25 +0000
+Message-ID: <CAFEAcA8mXXg5tm=sD2_TS0vgSgG3M_yp1YWdjHtbCGZHKgv0kQ@mail.gmail.com>
+Subject: Re: [PATCH] target/arm: Use correct entrypoint for SVC taken from Hyp
+ to Hyp
+To: qemu-arm@nongnu.org, qemu-devel@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42c
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42c.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -78,111 +80,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Ed Maste <emaste@freebsd.org>, qemu-block@nongnu.org,
- Kyle Evans <kevans@freebsd.org>, qemu-devel@nongnu.org,
- Fabrice Fontaine <fontaine.fabrice@gmail.com>, Hanna Reitz <hreitz@redhat.com>,
- Li-Wen Hsu <lwhsu@freebsd.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 22.01.2022 um 14:49 hat Philippe Mathieu-Daudé geschrieben:
-> When building on FreeBSD we get:
-> 
->   [816/6851] Compiling C object libblockdev.fa.p/block_export_fuse.c.o
->   ../block/export/fuse.c:628:16: error: use of undeclared identifier 'FALLOC_FL_KEEP_SIZE'
->       if (mode & FALLOC_FL_KEEP_SIZE) {
->                  ^
->   ../block/export/fuse.c:632:16: error: use of undeclared identifier 'FALLOC_FL_PUNCH_HOLE'
->       if (mode & FALLOC_FL_PUNCH_HOLE) {
->                  ^
->   ../block/export/fuse.c:633:22: error: use of undeclared identifier 'FALLOC_FL_KEEP_SIZE'
->           if (!(mode & FALLOC_FL_KEEP_SIZE)) {
->                        ^
->   3 errors generated.
->   FAILED: libblockdev.fa.p/block_export_fuse.c.o
-> 
-> Meson indeed reported FALLOC_FL_PUNCH_HOLE is not available:
-> 
->   C compiler for the host machine: cc (clang 10.0.1 "FreeBSD clang version 10.0.1")
->   Checking for function "fallocate" : NO
->   Checking for function "posix_fallocate" : YES
->   Header <linux/falloc.h> has symbol "FALLOC_FL_PUNCH_HOLE" : NO
->   Header <linux/falloc.h> has symbol "FALLOC_FL_ZERO_RANGE" : NO
->   ...
-> 
-> Similarly to commit 304332039 ("block/export/fuse.c: fix musl build"),
-> guard the code requiring FALLOC_FL_KEEP_SIZE / FALLOC_FL_PUNCH_HOLE
-> definitions under CONFIG_FALLOCATE_PUNCH_HOLE #ifdef'ry.
-> 
-> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Ping for code review? This is a nice short easy one :-)
+
+thanks
+-- PMM
+
+On Mon, 17 Jan 2022 at 13:19, Peter Maydell <peter.maydell@linaro.org> wrote:
+>
+> The exception caused by an SVC instruction may be taken to AArch32
+> Hyp mode for two reasons:
+>  * HCR.TGE indicates that exceptions from EL0 should trap to EL2
+>  * we were already in Hyp mode
+>
+> The entrypoint in the vector table to be used differs in these two
+> cases: for an exception routed to Hyp mode from EL0, we enter at the
+> common 0x14 "hyp trap" entrypoint.  For SVC from Hyp mode to Hyp
+> mode, we enter at the 0x08 (svc/hvc trap) entrypoint.
+> In the v8A Arm ARM pseudocode this is done in AArch32.TakeSVCException.
+>
+> QEMU incorrectly routed both of these exceptions to the 0x14
+> entrypoint.  Correct the entrypoint for SVC from Hyp to Hyp by making
+> use of the existing logic which handles "normal entrypoint for
+> Hyp-to-Hyp, otherwise 0x14" for traps like UNDEF and data/prefetch
+> aborts (reproduced here since it's outside the visible context
+> in the diff for this commit):
+>
+>     if (arm_current_el(env) != 2 && addr < 0x14) {
+>         addr = 0x14;
+>     }
+>
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 > ---
-> Fragile #ifdef'ry... Any clever idea?
-
-I guess we could reorder things. The last case (!mode) is mutually
-exclusive with the other conditions, so checking it first doesn't make a
-difference, and then you can #ifdef things out more cleanly.
-
->     ERROR: else should follow close brace '}'
->     #17: FILE: block/export/fuse.c:647:
->          }
->     +    else
-> 
->     ERROR: else should follow close brace '}'
->     #29: FILE: block/export/fuse.c:670:
->          }
->     +    else
-> 
->     total: 2 errors, 0 warnings, 28 lines checked
-
-On the other hand, I'm not really worried about these either. The only
-way this could fail in the future is build errors, which are obvious and
-quick to fix.
-
-If you hadn't marked this an RFC, I think I would just have applied it.
-
-Kevin
-
-> ---
->  block/export/fuse.c | 8 ++++++--
->  1 file changed, 6 insertions(+), 2 deletions(-)
-> 
-> diff --git a/block/export/fuse.c b/block/export/fuse.c
-> index 6710d8aed86..d8bad0e53df 100644
-> --- a/block/export/fuse.c
-> +++ b/block/export/fuse.c
-> @@ -625,6 +625,7 @@ static void fuse_fallocate(fuse_req_t req, fuse_ino_t inode, int mode,
->          return;
->      }
->  
-> +#ifdef CONFIG_FALLOCATE_PUNCH_HOLE
->      if (mode & FALLOC_FL_KEEP_SIZE) {
->          length = MIN(length, blk_len - offset);
->      }
-> @@ -643,8 +644,10 @@ static void fuse_fallocate(fuse_req_t req, fuse_ino_t inode, int mode,
->              length -= size;
->          } while (ret == 0 && length > 0);
->      }
-> +    else
-> +#endif /* CONFIG_FALLOCATE_PUNCH_HOLE */
->  #ifdef CONFIG_FALLOCATE_ZERO_RANGE
-> -    else if (mode & FALLOC_FL_ZERO_RANGE) {
-> +    if (mode & FALLOC_FL_ZERO_RANGE) {
->          if (!(mode & FALLOC_FL_KEEP_SIZE) && offset + length > blk_len) {
->              /* No need for zeroes, we are going to write them ourselves */
->              ret = fuse_do_truncate(exp, offset + length, false,
-> @@ -664,8 +667,9 @@ static void fuse_fallocate(fuse_req_t req, fuse_ino_t inode, int mode,
->              length -= size;
->          } while (ret == 0 && length > 0);
->      }
-> +    else
->  #endif /* CONFIG_FALLOCATE_ZERO_RANGE */
-> -    else if (!mode) {
-> +    if (!mode) {
->          /* We can only fallocate at the EOF with a truncate */
->          if (offset < blk_len) {
->              fuse_reply_err(req, EOPNOTSUPP);
-> -- 
-> 2.34.1
-> 
-
+>  target/arm/helper.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/target/arm/helper.c b/target/arm/helper.c
+> index cfca0f5ba6d..a898e400f6c 100644
+> --- a/target/arm/helper.c
+> +++ b/target/arm/helper.c
+> @@ -9655,7 +9655,7 @@ static void arm_cpu_do_interrupt_aarch32_hyp(CPUState *cs)
+>       * separately here.
+>       *
+>       * The vector table entry used is always the 0x14 Hyp mode entry point,
+> -     * unless this is an UNDEF/HVC/abort taken from Hyp to Hyp.
+> +     * unless this is an UNDEF/SVC/HVC/abort taken from Hyp to Hyp.
+>       * The offset applied to the preferred return address is always zero
+>       * (see DDI0487C.a section G1.12.3).
+>       * PSTATE A/I/F masks are set based only on the SCR.EA/IRQ/FIQ values.
+> @@ -9669,7 +9669,7 @@ static void arm_cpu_do_interrupt_aarch32_hyp(CPUState *cs)
+>          addr = 0x04;
+>          break;
+>      case EXCP_SWI:
+> -        addr = 0x14;
+> +        addr = 0x08;
+>          break;
+>      case EXCP_BKPT:
+>          /* Fall through to prefetch abort.  */
+> --
+> 2.25.1
+>
 
