@@ -2,93 +2,98 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6032F49DD9E
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Jan 2022 10:16:32 +0100 (CET)
-Received: from localhost ([::1]:51048 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5984449DDCF
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Jan 2022 10:22:48 +0100 (CET)
+Received: from localhost ([::1]:59324 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nD0tL-0004sv-GU
-	for lists+qemu-devel@lfdr.de; Thu, 27 Jan 2022 04:16:31 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:40092)
+	id 1nD0zP-0001mD-Dv
+	for lists+qemu-devel@lfdr.de; Thu, 27 Jan 2022 04:22:47 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:41012)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1nD0qB-0003J9-JP
- for qemu-devel@nongnu.org; Thu, 27 Jan 2022 04:13:15 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:38711)
+ (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
+ id 1nD0vS-0007Lj-JP
+ for qemu-devel@nongnu.org; Thu, 27 Jan 2022 04:18:43 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:30142)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1nD0q9-0004tT-Nr
- for qemu-devel@nongnu.org; Thu, 27 Jan 2022 04:13:15 -0500
+ (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
+ id 1nD0vC-0005Yj-2Z
+ for qemu-devel@nongnu.org; Thu, 27 Jan 2022 04:18:27 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1643274790;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
+ s=mimecast20190719; t=1643275105;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=BlUPuWB6UYJZLK0C/C8O54c44q7XbFpOMoLhKzfKAnw=;
- b=UxhdcpYzXk7GWfHpZm8C3Hj129k1XnUr0WMYCsrNPAr5QKsaa+L1HKBOQu7FvxUdMp4MHM
- pfu9RtagKnuq+q7myRiqRUFF8Qg7sTC/hO4rCWGlM/8j8Y2NaIiJ/FGNEEpdCVgNEjPTRe
- kGuz1ZMjDmbQp7X3De0sNGfoj/b7CDM=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=VGY2FtQjF+FNYl+VpEa1qVfVjO2ol8ICrAUSIDWBt1U=;
+ b=KdwulOvsjycdpDfZxCPYJ27N6CTPPXv9maA/pjgQR8DYbK0auqpibsi0AF+k41eiFZDFw+
+ GD67FKMINjkZmzlxoNd4gkZBKJzFW7LydlhpTb0SxT5olEqtKisZzBkDVsXTVO39cn21Q1
+ rSz4CmljYrsRsxoC2pHHMy4mdt+ITBk=
+Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
+ [209.85.219.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-133-hOzvBV5FMTSzePmcHDj6eA-1; Thu, 27 Jan 2022 04:13:02 -0500
-X-MC-Unique: hOzvBV5FMTSzePmcHDj6eA-1
-Received: by mail-wr1-f71.google.com with SMTP id
- q14-20020adfaa4e000000b001dd761d46c7so821099wrd.4
- for <qemu-devel@nongnu.org>; Thu, 27 Jan 2022 01:13:01 -0800 (PST)
+ us-mta-414-AudcoWfMNamZqhRZ5hGQLg-1; Thu, 27 Jan 2022 04:18:24 -0500
+X-MC-Unique: AudcoWfMNamZqhRZ5hGQLg-1
+Received: by mail-qv1-f72.google.com with SMTP id
+ hu4-20020a056214234400b0041ad4e40960so2558707qvb.13
+ for <qemu-devel@nongnu.org>; Thu, 27 Jan 2022 01:18:24 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:in-reply-to:references
- :user-agent:reply-to:date:message-id:mime-version
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=BlUPuWB6UYJZLK0C/C8O54c44q7XbFpOMoLhKzfKAnw=;
- b=d9x5c1LZCFDjgYwh/gUZiF25r2TOBtLZgRZiGWS0BN/TCICdSI3unrRSl3Qbi3mzau
- Pj2u9MpsluLufeWJZAlcxyL5ZTDu/kKVWY/aizDo34YazOH0c0z0rZt8ou0n+pqNhE7x
- OhnZW2QMPTbEtCSMxFxgaIOmd12PItn2iccqj2LxQhT1oqauvzsHFa2DRGQlKdnp5/Ab
- ozXdzoAWhC0GJllgCWzGFk4+oCUMWYVFS1okOnJGqExrmGnT7ZMO1hnyVLBSOq0yArar
- xdbGLkG1c2hia8II1Dx/GAfavQ0ffLgKDfOuK51oSeo237FnoLzquXhYeakkiRuT8fnr
- yGag==
-X-Gm-Message-State: AOAM531PE0rA6GXGH+zo1fvQy0gpqH+T2SyPsaZxyiM3uXTn4jinMCDB
- jnrYLyXUfyyAu17Zull+TMBrg8itPCe6xkA6cbwHaDLM2wHmixWunxxgBTi7RUYHOGB7DhDS5yp
- ewekIz0CAxprqUEQ=
-X-Received: by 2002:a5d:448e:: with SMTP id j14mr2173869wrq.399.1643274780970; 
- Thu, 27 Jan 2022 01:13:00 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxg7/qWunjQwGfth4Rbh/jPzZUxO6e3hQXd2p4qbQzpR/wQ7WFjYwaaXQl2WRf38KRYWGV14g==
-X-Received: by 2002:a5d:448e:: with SMTP id j14mr2173862wrq.399.1643274780801; 
- Thu, 27 Jan 2022 01:13:00 -0800 (PST)
-Received: from localhost ([47.61.17.76])
- by smtp.gmail.com with ESMTPSA id g5sm2042862wri.108.2022.01.27.01.12.59
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 27 Jan 2022 01:13:00 -0800 (PST)
-From: Juan Quintela <quintela@redhat.com>
-To: David Edmondson <david.edmondson@oracle.com>
-Subject: Re: [PATCH v3 2/2] migration: Tally pre-copy, downtime and
- post-copy bytes independently
-In-Reply-To: <20211221093441.1445590-3-david.edmondson@oracle.com> (David
- Edmondson's message of "Tue, 21 Dec 2021 09:34:41 +0000")
-References: <20211221093441.1445590-1-david.edmondson@oracle.com>
- <20211221093441.1445590-3-david.edmondson@oracle.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
-Date: Thu, 27 Jan 2022 10:12:59 +0100
-Message-ID: <874k5pmtic.fsf@secure.mitica>
+ bh=VGY2FtQjF+FNYl+VpEa1qVfVjO2ol8ICrAUSIDWBt1U=;
+ b=Ikd08Rx8MdUHh+G2OSNMwHJ1K18Ezj8u4BZgJ6japsFHWUR4z5dp2QeusfIApMcQy/
+ JMgldgzjpRLAIQz4MVNk6B8y12+jdHuYfLuT0NvSjKJl/YVlg4celtBL9F9ps5v34lhN
+ xmMCFnT78AKxlGHDVtqVCvpB7pTV7hXzGlh26fw+3oSMjJNw6jjC2JblwvUqHpPomCuU
+ 1upntKWH58SdzQ+uPbCV9UOYYHpmXqwLjqYisdzBki+op8jrcwsD3TEDYzOOAvtzZGU+
+ eWHQbXFMzYCHRsb7xKC825M09vfii20EVxNOTI1MoJLIymknKx7X8vrW98cad6y9GDEw
+ 4ayw==
+X-Gm-Message-State: AOAM5333jmO0MyuTOlFi0vbJEHfdh60zPLj6cJsjDoooGPbDTmfmMaV0
+ zrwk8zhq6WTz3ldNf0AYazSnnBFMWhf1o2Z72nKD2j979ZDo9L1yF8jOq2gZ9ZmUfkA6agu9yLO
+ 1S7xS6lhkLi8LU6I=
+X-Received: by 2002:a05:620a:22c4:: with SMTP id
+ o4mr1904848qki.534.1643275102828; 
+ Thu, 27 Jan 2022 01:18:22 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxpxCKzwJ43SD8X8+3cWAw1xbq026CQZzHpro9e/3NwieuagECwgwliiKOcsk81Who8gBiPqQ==
+X-Received: by 2002:a05:620a:22c4:: with SMTP id
+ o4mr1904832qki.534.1643275102543; 
+ Thu, 27 Jan 2022 01:18:22 -0800 (PST)
+Received: from ?IPV6:2a04:ee41:4:31cb:e591:1e1e:abde:a8f1?
+ ([2a04:ee41:4:31cb:e591:1e1e:abde:a8f1])
+ by smtp.gmail.com with ESMTPSA id m4sm1039533qka.111.2022.01.27.01.18.19
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 27 Jan 2022 01:18:22 -0800 (PST)
+Message-ID: <8101768a-6f0d-ccb2-7c3d-810118dc7875@redhat.com>
+Date: Thu, 27 Jan 2022 10:18:17 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.2.0
+Subject: Re: [PATCH v6 20/33] block: rename bdrv_invalidate_cache_all,
+ blk_invalidate_cache and test_sync_op_invalidate_cache
+To: quintela@redhat.com
+References: <20220121170544.2049944-1-eesposit@redhat.com>
+ <20220121170544.2049944-21-eesposit@redhat.com>
+ <87r18x5s70.fsf@secure.mitica>
+From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+In-Reply-To: <87r18x5s70.fsf@secure.mitica>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=quintela@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eesposit@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=quintela@redhat.com;
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eesposit@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
 X-Spam_bar: ---
 X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.159,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -101,40 +106,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: quintela@redhat.com
-Cc: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Eric Blake <eblake@redhat.com>, qemu-devel@nongnu.org,
+Cc: Fam Zheng <fam@euphon.net>, qemu-devel@nongnu.org,
+ "Denis V. Lunev" <den@openvz.org>, Eric Blake <eblake@redhat.com>,
+ qemu-block@nongnu.org, Daniel Henrique Barboza <danielhb413@gmail.com>,
+ Markus Armbruster <armbru@redhat.com>, Eduardo Habkost <eduardo@habkost.net>,
+ Richard Henderson <richard.henderson@linaro.org>, Greg Kurz <groug@kaod.org>,
  "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Markus Armbruster <armbru@redhat.com>
+ =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
+ Stefan Hajnoczi <stefanha@redhat.com>, John Snow <jsnow@redhat.com>,
+ David Gibson <david@gibson.dropbear.id.au>, Kevin Wolf <kwolf@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ Hanna Reitz <hreitz@redhat.com>, qemu-ppc@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-David Edmondson <david.edmondson@oracle.com> wrote:
-> Provide information on the number of bytes copied in the pre-copy,
-> downtime and post-copy phases of migration.
->
-> Signed-off-by: David Edmondson <david.edmondson@oracle.com>
-> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 
-Reviewed-by: Juan Quintela <quintela@redhat.com>
 
-queued.
+On 24/01/2022 11:44, Juan Quintela wrote:
+>> diff --git a/migration/migration.c b/migration/migration.c
+>> index 0652165610..1f06fd2d18 100644
+>> --- a/migration/migration.c
+>> +++ b/migration/migration.c
+>> @@ -499,7 +499,7 @@ static void process_incoming_migration_bh(void *opaque)
+>>              global_state_get_runstate() == RUN_STATE_RUNNING))) {
+>>          /* Make sure all file formats flush their mutable metadata.
+>>           * If we get an error here, just don't restart the VM yet. */
+>> -        bdrv_invalidate_cache_all(&local_err);
+>> +        bdrv_activate_all(&local_err);
+> I guess that we can change the comment here, it just looks weird the
+> comment saying flush() and the function nawed _activate()
+> 
 
->  static void ram_transferred_add(uint64_t bytes)
->  {
-> +    if (runstate_is_running()) {
-> +        ram_counters.precopy_bytes +=3D bytes;
-> +    } else if (migration_in_postcopy()) {
-> +        ram_counters.postcopy_bytes +=3D bytes;
-> +    } else {
-> +        ram_counters.downtime_bytes +=3D bytes;
-> +    }
->      ram_counters.transferred +=3D bytes;
->  }
+Do you think it's enough to replace "flush" with "activate"? I am not
+sure whether "activate their mutable metadata" is meaningful.
 
-Now transferred can be calculated from the other three fields, but
-changing it needs too many changes.
-
-Later, Juan.
+Thank you,
+Emanuele
 
 
