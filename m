@@ -2,52 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7DA4849E734
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Jan 2022 17:14:55 +0100 (CET)
-Received: from localhost ([::1]:36556 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9524149E7AA
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Jan 2022 17:36:35 +0100 (CET)
+Received: from localhost ([::1]:46586 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nD7QE-0005lV-Dq
-	for lists+qemu-devel@lfdr.de; Thu, 27 Jan 2022 11:14:54 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:41118)
+	id 1nD7l9-0007c2-Qj
+	for lists+qemu-devel@lfdr.de; Thu, 27 Jan 2022 11:36:31 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:41462)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1nD6WO-0001FR-SH
- for qemu-devel@nongnu.org; Thu, 27 Jan 2022 10:17:12 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:23826)
+ id 1nD6XK-0003JY-QJ
+ for qemu-devel@nongnu.org; Thu, 27 Jan 2022 10:18:10 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:59931)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1nD6WL-0003UV-N7
- for qemu-devel@nongnu.org; Thu, 27 Jan 2022 10:17:12 -0500
+ id 1nD6XH-0003c7-L4
+ for qemu-devel@nongnu.org; Thu, 27 Jan 2022 10:18:10 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1643296629;
+ s=mimecast20190719; t=1643296682;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=5gaBfMRbjowHnqRPDnBC7yhRQPALIIHNsXEKr4uCULw=;
- b=gmlfnHXAQpNl8QASrtbEIQC5svIbCPEDz6TbjN+4WEiE/+hVwIu0hfVYz6BXYbf6IXZ6z3
- jXJBopXIB112FiLE4UfPnrMSPCi7YsJttUDCFYLtTkFwx/9yjsntMl4rUSxpTpJwvvWiaq
- ODOYjnYoiZDCsoOMj3LNgdKwmhxYSnU=
+ bh=hE2kigmqsLGNbYQ+L1kwrW1aVo1Qr7jSwGoqehKP/b8=;
+ b=BvQuWzXKna0Zi87bQZa62KZgDy8YyockstfBXIdWG8SZ6/P1uRBazqwx0gNOBA0AdNKHYS
+ lYdKE5nj9UnNYDMvGCsmS3yg+UR32N4Szg8138Pi7vvctpnm6usvqCGuhow9lkHmXJFPZm
+ /dOJy5WjHMtHjdg6w/EPojA+KAq7SaI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-584-0ZnrtW_IMK2aafD6odYH_g-1; Thu, 27 Jan 2022 10:17:05 -0500
-X-MC-Unique: 0ZnrtW_IMK2aafD6odYH_g-1
+ us-mta-255-jHLFZV3SN4CMfHYddAOBkw-1; Thu, 27 Jan 2022 10:17:59 -0500
+X-MC-Unique: jHLFZV3SN4CMfHYddAOBkw-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 02CB4839A44;
- Thu, 27 Jan 2022 15:17:03 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A2E4818B62B4;
+ Thu, 27 Jan 2022 15:17:56 +0000 (UTC)
 Received: from secure.mitica (unknown [10.39.194.185])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2DDFD70D2D;
- Thu, 27 Jan 2022 15:16:28 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 649F970D2D;
+ Thu, 27 Jan 2022 15:17:03 +0000 (UTC)
 From: Juan Quintela <quintela@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 30/38] migration: Drop return code for disgard ram process
-Date: Thu, 27 Jan 2022 16:05:40 +0100
-Message-Id: <20220127150548.20595-31-quintela@redhat.com>
+Subject: [PULL 31/38] migration: Don't return for
+ postcopy_send_discard_bm_ram()
+Date: Thu, 27 Jan 2022 16:05:41 +0100
+Message-Id: <20220127150548.20595-32-quintela@redhat.com>
 In-Reply-To: <20220127150548.20595-1-quintela@redhat.com>
 References: <20220127150548.20595-1-quintela@redhat.com>
 MIME-Version: 1.0
@@ -58,7 +59,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=quintela@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
@@ -93,7 +94,8 @@ Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
  Artyom Tarasenko <atar4qemu@gmail.com>, Pavel Pisa <pisa@cmp.felk.cvut.cz>,
  Alistair Francis <alistair@alistair23.me>,
  "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Greg Kurz <groug@kaod.org>,
- qemu-arm@nongnu.org, =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
+ David Edmondson <david.edmondson@oracle.com>, qemu-arm@nongnu.org,
+ =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
  Paolo Bonzini <pbonzini@redhat.com>, Stafford Horne <shorne@gmail.com>,
  David Gibson <david@gibson.dropbear.id.au>, Laurent Vivier <laurent@vivier.eu>,
  Andrew Baumann <Andrew.Baumann@microsoft.com>, qemu-ppc@nongnu.org,
@@ -101,125 +103,48 @@ Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Peter Xu <peterx@redhat.com>
+From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-It will just never fail.  Drop those return values where they're constantly
-zeros.
+postcopy_send_discard_bm_ram() always return zero. Since it can't
+fail, simplify and do not return anything.
 
-A tiny touch-up on the tracepoint so trace_ram_postcopy_send_discard_bitmap()
-is called after the logic itself (which sounds more reasonable).
-
-Signed-off-by: Peter Xu <peterx@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Reviewed-by: David Edmondson <david.edmondson@oracle.com>
 Reviewed-by: Juan Quintela <quintela@redhat.com>
 Signed-off-by: Juan Quintela <quintela@redhat.com>
 ---
- migration/ram.h       |  2 +-
- migration/migration.c |  5 +----
- migration/ram.c       | 20 +++++---------------
- 3 files changed, 7 insertions(+), 20 deletions(-)
+ migration/ram.c | 6 +-----
+ 1 file changed, 1 insertion(+), 5 deletions(-)
 
-diff --git a/migration/ram.h b/migration/ram.h
-index f543e25765..2c6dc3675d 100644
---- a/migration/ram.h
-+++ b/migration/ram.h
-@@ -57,7 +57,7 @@ int ram_save_queue_pages(const char *rbname, ram_addr_t start, ram_addr_t len);
- void acct_update_position(QEMUFile *f, size_t size, bool zero);
- void ram_postcopy_migrated_memory_release(MigrationState *ms);
- /* For outgoing discard bitmap */
--int ram_postcopy_send_discard_bitmap(MigrationState *ms);
-+void ram_postcopy_send_discard_bitmap(MigrationState *ms);
- /* For incoming postcopy discard */
- int ram_discard_range(const char *block_name, uint64_t start, size_t length);
- int ram_postcopy_incoming_init(MigrationIncomingState *mis);
-diff --git a/migration/migration.c b/migration/migration.c
-index 3849b33108..771f3e2bec 100644
---- a/migration/migration.c
-+++ b/migration/migration.c
-@@ -2991,10 +2991,7 @@ static int postcopy_start(MigrationState *ms)
-      * that are dirty
-      */
-     if (migrate_postcopy_ram()) {
--        if (ram_postcopy_send_discard_bitmap(ms)) {
--            error_report("postcopy send discard bitmap failed");
--            goto fail;
--        }
-+        ram_postcopy_send_discard_bitmap(ms);
-     }
- 
-     /*
 diff --git a/migration/ram.c b/migration/ram.c
-index d74a8c04b6..5489ee3b7a 100644
+index 5489ee3b7a..1771bbdb02 100644
 --- a/migration/ram.c
 +++ b/migration/ram.c
-@@ -2459,8 +2459,6 @@ static void postcopy_chunk_hostpages_pass(MigrationState *ms, RAMBlock *block);
+@@ -2419,14 +2419,12 @@ void ram_postcopy_migrated_memory_release(MigrationState *ms)
  /**
-  * postcopy_each_ram_send_discard: discard all RAMBlocks
+  * postcopy_send_discard_bm_ram: discard a RAMBlock
   *
-- * Returns 0 for success or negative for error
+- * Returns zero on success
 - *
-  * Utility for the outgoing postcopy code.
-  *   Calls postcopy_send_discard_bm_ram for each RAMBlock
-  *   passing it bitmap indexes and name.
-@@ -2469,10 +2467,9 @@ static void postcopy_chunk_hostpages_pass(MigrationState *ms, RAMBlock *block);
+  * Callback from postcopy_each_ram_send_discard for each RAMBlock
   *
   * @ms: current migration state
+  * @block: RAMBlock to discard
   */
--static int postcopy_each_ram_send_discard(MigrationState *ms)
-+static void postcopy_each_ram_send_discard(MigrationState *ms)
+-static int postcopy_send_discard_bm_ram(MigrationState *ms, RAMBlock *block)
++static void postcopy_send_discard_bm_ram(MigrationState *ms, RAMBlock *block)
  {
-     struct RAMBlock *block;
--    int ret;
- 
-     RAMBLOCK_FOREACH_NOT_IGNORED(block) {
-         postcopy_discard_send_init(ms, block->idstr);
-@@ -2490,14 +2487,9 @@ static int postcopy_each_ram_send_discard(MigrationState *ms)
-          * just needs indexes at this point, avoids it having
-          * target page specific code.
-          */
--        ret = postcopy_send_discard_bm_ram(ms, block);
-+        postcopy_send_discard_bm_ram(ms, block);
-         postcopy_discard_send_finish(ms);
--        if (ret) {
--            return ret;
--        }
+     unsigned long end = block->used_length >> TARGET_PAGE_BITS;
+     unsigned long current;
+@@ -2450,8 +2448,6 @@ static int postcopy_send_discard_bm_ram(MigrationState *ms, RAMBlock *block)
+         postcopy_discard_send_range(ms, one, discard_length);
+         current = one + discard_length;
      }
 -
 -    return 0;
  }
  
- /**
-@@ -2570,8 +2562,6 @@ static void postcopy_chunk_hostpages_pass(MigrationState *ms, RAMBlock *block)
- /**
-  * ram_postcopy_send_discard_bitmap: transmit the discard bitmap
-  *
-- * Returns zero on success
-- *
-  * Transmit the set of pages to be discarded after precopy to the target
-  * these are pages that:
-  *     a) Have been previously transmitted but are now dirty again
-@@ -2582,7 +2572,7 @@ static void postcopy_chunk_hostpages_pass(MigrationState *ms, RAMBlock *block)
-  *
-  * @ms: current migration state
-  */
--int ram_postcopy_send_discard_bitmap(MigrationState *ms)
-+void ram_postcopy_send_discard_bitmap(MigrationState *ms)
- {
-     RAMState *rs = ram_state;
- 
-@@ -2596,9 +2586,9 @@ int ram_postcopy_send_discard_bitmap(MigrationState *ms)
-     rs->last_sent_block = NULL;
-     rs->last_page = 0;
- 
-+    postcopy_each_ram_send_discard(ms);
-+
-     trace_ram_postcopy_send_discard_bitmap();
--
--    return postcopy_each_ram_send_discard(ms);
- }
- 
- /**
+ static void postcopy_chunk_hostpages_pass(MigrationState *ms, RAMBlock *block);
 -- 
 2.34.1
 
