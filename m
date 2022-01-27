@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01E8F49E4C8
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Jan 2022 15:39:00 +0100 (CET)
-Received: from localhost ([::1]:45096 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 904D249E4E1
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Jan 2022 15:44:07 +0100 (CET)
+Received: from localhost ([::1]:56128 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nD5vO-000868-Q0
-	for lists+qemu-devel@lfdr.de; Thu, 27 Jan 2022 09:38:58 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:58174)
+	id 1nD60M-0007fD-MR
+	for lists+qemu-devel@lfdr.de; Thu, 27 Jan 2022 09:44:06 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:58216)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jean-philippe@linaro.org>)
- id 1nD5sc-0005Eb-D1
- for qemu-devel@nongnu.org; Thu, 27 Jan 2022 09:36:06 -0500
-Received: from [2a00:1450:4864:20::429] (port=44673
- helo=mail-wr1-x429.google.com)
+ id 1nD5se-0005Iq-TB
+ for qemu-devel@nongnu.org; Thu, 27 Jan 2022 09:36:08 -0500
+Received: from [2a00:1450:4864:20::332] (port=55817
+ helo=mail-wm1-x332.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <jean-philippe@linaro.org>)
- id 1nD5sZ-0005bi-F5
- for qemu-devel@nongnu.org; Thu, 27 Jan 2022 09:36:06 -0500
-Received: by mail-wr1-x429.google.com with SMTP id k18so5116894wrg.11
+ id 1nD5sZ-0005bk-F6
+ for qemu-devel@nongnu.org; Thu, 27 Jan 2022 09:36:08 -0500
+Received: by mail-wm1-x332.google.com with SMTP id r7so2077523wmq.5
  for <qemu-devel@nongnu.org>; Thu, 27 Jan 2022 06:36:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=dJzVegTFZjehCkbbLO9OIO0TY46xdVB2cc86JEWPD7Q=;
- b=kqH69NdlcYKzv91EVnAGsSPcfYkd4YkC5mo00zBCimTfLF27106kqdrrUQHa+15tRl
- WS5v17mtkXALAXgLYJHHPIenTZXucAkx9f1ZmEg6s5rzBowhPgcyIOf9PAong0wUpUre
- OhPYZn3rdB5pVxpz6u2aF54CBi5+uj63cUOgQBbCXzGdfDKIjOvcQytDiLfHbbLx/7Gh
- n9chdihSld28BAKQ2i/zJAJzG4JE/HWKt2wmGAC01oF7Ou7qz0IDBqXEA86v5RAarcYx
- r5x6d/Ylfz9/mCSWzf4vW30QsA/WFuRah1sl0eWXHIvVV6qddWmCcp25FP1sOwmxS8EL
- vt+w==
+ bh=2zSKrSp6a5EAi6fIn7FE1Se7TLsdnk4XPoD/ijRomuk=;
+ b=Zbh8abxC9MXMq9rlUIQu1YoRSG0l+W93JnGNGfW+FyQDbU+Jy+s9uiqjmDE4JY1ajj
+ dSMTgwAjkdSvpKcY2o+LqMf3okZM8IwU270YWBZn+ajASrO5FLtaWKx8Itb9r0tHHXLm
+ i6wtNRrQCSMAiFZEHV7Mr/Hcn/4UWaL4SfwELMbmQFIQtSuKNACndiH28MBDUk5PvO2g
+ Pof87unTvShk3OOzxys4EDFN/CacKalaPUmK89l853lzzHK1MEfuKzQ2sg7BPXHTsu3U
+ u4mMT63MEvvNSZ6aORjFysbOujXaIBj02bZR2CWutHi4csA6d7v/HBaFBbpChrIvOccJ
+ ZpVQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=dJzVegTFZjehCkbbLO9OIO0TY46xdVB2cc86JEWPD7Q=;
- b=UCTKg82EBfTl2Mo3+ZIYEEkrkt1jCxeGpkDNjKLnN37pf9+H9eCpKi9/UpzC7pf5/p
- ebP9PvGKY0YNqUoJAc5DU5cpr2oJFNPdxcFoG5oBTun1cxMKzqMblr6X8ufeoGYvO+W/
- d/ryrpmM5qTbZDm0M//qg7QA/d2BfROdzU7Pkm7NjBtnY7lje5d6WqrM5/kA8YJbm78d
- v5R96teWN+fE3mzasOQl9kookYm/lAEXL6G6XK+BD3Oso4p4UK34mD9H+xafs7Jftv1J
- TvLqKEfCzJenq9nAs7qdlL1E9J3UqbMXJSBWTGO/NzVVUUzBmUwIppD7q5Cea+gtXXZk
- rluA==
-X-Gm-Message-State: AOAM5320j2LARrWO7n3A2kKbUU9nIWUongxs1dbx1fGtsJrzbJ6TE0Iu
- QGCiEsMn+xJ8QeZYsx3aMEMpkQ==
-X-Google-Smtp-Source: ABdhPJzkSCKc447AkStomd+Hqcg5TdZTv0SLvdbWDeHhXZbk9bT0s0xw41Jl4He4ljcKDIfoCDZ3eg==
-X-Received: by 2002:a05:6000:170b:: with SMTP id
- n11mr3329824wrc.163.1643294159127; 
+ bh=2zSKrSp6a5EAi6fIn7FE1Se7TLsdnk4XPoD/ijRomuk=;
+ b=VCrisc4iqd5HVh1OQ6VY5HzFKPB/+RKl7Q2T0/bcjdEaWvRuJpNukMTlgsGQQcrcgP
+ MRLefoLBFEcVB3HSHJU3L7De+f5FUpsS6N6VPj/VjYuGR8OKxMktIeD8fEL3e15QDIWh
+ eDcQ7HKiFDUeIlvKjNmkXlaOet7hakTxsHAXPDtkxBZAprzRD7N7vMQedPxNVJlpS6wD
+ 3UPynU12M+XKs6N4ldeOlW/mnh6Wwbt3415tmrw8zhlA2MG4oXvDd51lD5Oe+aV2/xAQ
+ K/UfKhwrklkn9Vc1nN2S+TDC3pHYtD/50aXmXeB12blpZ9w03myn67wEFjHaOhJcA6eP
+ VKFg==
+X-Gm-Message-State: AOAM5313/04xLFZ9bJsaMSYh+s1ep0DuETbMnNIL8v+V1RD1h+nPLV/j
+ jPeSf5UnpzX8jfd4tSb/aT433A==
+X-Google-Smtp-Source: ABdhPJwNtof78MrIiMOhDyzpatOuY6ObKAqIfhUHzXdN9tYBAman3hSADHLM3nRuI2BaLWT5D4At0w==
+X-Received: by 2002:a05:600c:3848:: with SMTP id
+ s8mr3515240wmr.151.1643294159895; 
  Thu, 27 Jan 2022 06:35:59 -0800 (PST)
 Received: from localhost.localdomain
  (cpc92880-cmbg19-2-0-cust679.5-4.cable.virginm.net. [82.27.106.168])
- by smtp.gmail.com with ESMTPSA id i3sm2285894wru.33.2022.01.27.06.35.58
+ by smtp.gmail.com with ESMTPSA id i3sm2285894wru.33.2022.01.27.06.35.59
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 27 Jan 2022 06:35:58 -0800 (PST)
+ Thu, 27 Jan 2022 06:35:59 -0800 (PST)
 From: Jean-Philippe Brucker <jean-philippe@linaro.org>
 To: eric.auger@redhat.com
-Subject: [PATCH v2 3/4] virtio-iommu: Support bypass domain
-Date: Thu, 27 Jan 2022 14:29:40 +0000
-Message-Id: <20220127142940.671333-4-jean-philippe@linaro.org>
+Subject: [PATCH v2 4/4] tests/qtest/virtio-iommu-test: Check bypass config
+Date: Thu, 27 Jan 2022 14:29:41 +0000
+Message-Id: <20220127142940.671333-5-jean-philippe@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220127142940.671333-1-jean-philippe@linaro.org>
 References: <20220127142940.671333-1-jean-philippe@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::429
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::332
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::429;
- envelope-from=jean-philippe@linaro.org; helo=mail-wr1-x429.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::332;
+ envelope-from=jean-philippe@linaro.org; helo=mail-wm1-x332.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -93,118 +93,31 @@ Cc: lvivier@redhat.com, Jean-Philippe Brucker <jean-philippe@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The driver can create a bypass domain by passing the
-VIRTIO_IOMMU_ATTACH_F_BYPASS flag on the ATTACH request. Bypass domains
-perform slightly better than domains with identity mappings since they
-skip translation.
+The bypass config field should be initialized to 1 by default.
 
 Signed-off-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
 ---
- hw/virtio/virtio-iommu.c | 32 ++++++++++++++++++++++++++++++--
- 1 file changed, 30 insertions(+), 2 deletions(-)
+ tests/qtest/virtio-iommu-test.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/hw/virtio/virtio-iommu.c b/hw/virtio/virtio-iommu.c
-index ec02029bb6..a112428c65 100644
---- a/hw/virtio/virtio-iommu.c
-+++ b/hw/virtio/virtio-iommu.c
-@@ -43,6 +43,7 @@
+diff --git a/tests/qtest/virtio-iommu-test.c b/tests/qtest/virtio-iommu-test.c
+index 47e68388a0..068e7a9e6c 100644
+--- a/tests/qtest/virtio-iommu-test.c
++++ b/tests/qtest/virtio-iommu-test.c
+@@ -31,11 +31,13 @@ static void pci_config(void *obj, void *data, QGuestAllocator *t_alloc)
+     uint64_t input_range_end = qvirtio_config_readq(dev, 16);
+     uint32_t domain_range_start = qvirtio_config_readl(dev, 24);
+     uint32_t domain_range_end = qvirtio_config_readl(dev, 28);
++    uint8_t bypass = qvirtio_config_readb(dev, 36);
  
- typedef struct VirtIOIOMMUDomain {
-     uint32_t id;
-+    bool bypass;
-     GTree *mappings;
-     QLIST_HEAD(, VirtIOIOMMUEndpoint) endpoint_list;
- } VirtIOIOMMUDomain;
-@@ -258,12 +259,16 @@ static void virtio_iommu_put_endpoint(gpointer data)
+     g_assert_cmpint(input_range_start, ==, 0);
+     g_assert_cmphex(input_range_end, ==, UINT64_MAX);
+     g_assert_cmpint(domain_range_start, ==, 0);
+     g_assert_cmpint(domain_range_end, ==, UINT32_MAX);
++    g_assert_cmpint(bypass, ==, 1);
  }
  
- static VirtIOIOMMUDomain *virtio_iommu_get_domain(VirtIOIOMMU *s,
--                                                  uint32_t domain_id)
-+                                                  uint32_t domain_id,
-+                                                  bool bypass)
- {
-     VirtIOIOMMUDomain *domain;
- 
-     domain = g_tree_lookup(s->domains, GUINT_TO_POINTER(domain_id));
-     if (domain) {
-+        if (domain->bypass != bypass) {
-+            return NULL;
-+        }
-         return domain;
-     }
-     domain = g_malloc0(sizeof(*domain));
-@@ -271,6 +276,7 @@ static VirtIOIOMMUDomain *virtio_iommu_get_domain(VirtIOIOMMU *s,
-     domain->mappings = g_tree_new_full((GCompareDataFunc)interval_cmp,
-                                    NULL, (GDestroyNotify)g_free,
-                                    (GDestroyNotify)g_free);
-+    domain->bypass = bypass;
-     g_tree_insert(s->domains, GUINT_TO_POINTER(domain_id), domain);
-     QLIST_INIT(&domain->endpoint_list);
-     trace_virtio_iommu_get_domain(domain_id);
-@@ -334,11 +340,16 @@ static int virtio_iommu_attach(VirtIOIOMMU *s,
- {
-     uint32_t domain_id = le32_to_cpu(req->domain);
-     uint32_t ep_id = le32_to_cpu(req->endpoint);
-+    uint32_t flags = le32_to_cpu(req->flags);
-     VirtIOIOMMUDomain *domain;
-     VirtIOIOMMUEndpoint *ep;
- 
-     trace_virtio_iommu_attach(domain_id, ep_id);
- 
-+    if (flags & ~VIRTIO_IOMMU_ATTACH_F_BYPASS) {
-+        return VIRTIO_IOMMU_S_INVAL;
-+    }
-+
-     ep = virtio_iommu_get_endpoint(s, ep_id);
-     if (!ep) {
-         return VIRTIO_IOMMU_S_NOENT;
-@@ -356,7 +367,12 @@ static int virtio_iommu_attach(VirtIOIOMMU *s,
-         }
-     }
- 
--    domain = virtio_iommu_get_domain(s, domain_id);
-+    domain = virtio_iommu_get_domain(s, domain_id,
-+                                     flags & VIRTIO_IOMMU_ATTACH_F_BYPASS);
-+    if (!domain) {
-+        /* Incompatible bypass flag */
-+        return VIRTIO_IOMMU_S_INVAL;
-+    }
-     QLIST_INSERT_HEAD(&domain->endpoint_list, ep, next);
- 
-     ep->domain = domain;
-@@ -419,6 +435,10 @@ static int virtio_iommu_map(VirtIOIOMMU *s,
-         return VIRTIO_IOMMU_S_NOENT;
-     }
- 
-+    if (domain->bypass) {
-+        return VIRTIO_IOMMU_S_INVAL;
-+    }
-+
-     interval = g_malloc0(sizeof(*interval));
- 
-     interval->low = virt_start;
-@@ -464,6 +484,11 @@ static int virtio_iommu_unmap(VirtIOIOMMU *s,
-     if (!domain) {
-         return VIRTIO_IOMMU_S_NOENT;
-     }
-+
-+    if (domain->bypass) {
-+        return VIRTIO_IOMMU_S_INVAL;
-+    }
-+
-     interval.low = virt_start;
-     interval.high = virt_end;
- 
-@@ -780,6 +805,9 @@ static IOMMUTLBEntry virtio_iommu_translate(IOMMUMemoryRegion *mr, hwaddr addr,
-             entry.perm = flag;
-         }
-         goto unlock;
-+    } else if (ep->domain->bypass) {
-+        entry.perm = flag;
-+        goto unlock;
-     }
- 
-     found = g_tree_lookup_extended(ep->domain->mappings, (gpointer)(&interval),
+ static int read_tail_status(struct virtio_iommu_req_tail *buffer)
 -- 
 2.34.1
 
