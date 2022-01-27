@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 127C049E6F9
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Jan 2022 17:04:02 +0100 (CET)
-Received: from localhost ([::1]:53796 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F37D349E6CE
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Jan 2022 16:59:14 +0100 (CET)
+Received: from localhost ([::1]:44990 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nD7Fg-0006DD-Uy
-	for lists+qemu-devel@lfdr.de; Thu, 27 Jan 2022 11:04:00 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:40434)
+	id 1nD7B4-0008P5-32
+	for lists+qemu-devel@lfdr.de; Thu, 27 Jan 2022 10:59:14 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:40440)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1nD6VC-0007dN-Fa
+ id 1nD6VC-0007dW-L6
  for qemu-devel@nongnu.org; Thu, 27 Jan 2022 10:16:01 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:29826)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:58457)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1nD6V6-0003B1-Qy
- for qemu-devel@nongnu.org; Thu, 27 Jan 2022 10:15:57 -0500
+ id 1nD6V7-0003Ba-St
+ for qemu-devel@nongnu.org; Thu, 27 Jan 2022 10:15:58 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1643296542;
+ s=mimecast20190719; t=1643296549;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=A2B2+TVQlWAuqvtCs7R9leG4MI6OE0bzrkXceQTNKVc=;
- b=CqTZPONZp3kfFxjcrS4NNEBMfGhFllrfcULrIn7m9py5SA4g5icSblshfUKupoUWRa179x
- QL3NA5F4bRT96OSI+hbhCYOR+WYMnK391mMjNTjHCBa64wIYVn8GWMPM4ZRbEzrycKUxLY
- fa/k79n/FcttBRrqbX4Ni4st7uc3/GM=
+ bh=LLAQ1nW4YKEPm7wnZ619dRUESUtm/F93UK4qE9q7iAc=;
+ b=UY/4+6tB5vLK2AvWLYPDejp5i/167liX+JMA2L1V3sX4ZRUnLbO02ZEiSslZ4FSBUxTCp0
+ DldR1aPWCT45XFiq0fslEElOkpZsPutByFrGUFnDskL0V/Pd0aEvmhLvGuxb8FMu55hr5r
+ TGaXBBdqkec5vVFEhWboxcQCQHkFYuY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-669-M5K2QLXNMW6CzHNaCfVpyQ-1; Thu, 27 Jan 2022 10:15:39 -0500
-X-MC-Unique: M5K2QLXNMW6CzHNaCfVpyQ-1
+ us-mta-664-SiWLrOQ-Nc-_A7DGhoOn1A-1; Thu, 27 Jan 2022 10:15:46 -0500
+X-MC-Unique: SiWLrOQ-Nc-_A7DGhoOn1A-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1B57D101F7A3;
- Thu, 27 Jan 2022 15:15:36 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C1A0D92505;
+ Thu, 27 Jan 2022 15:15:43 +0000 (UTC)
 Received: from secure.mitica (unknown [10.39.194.185])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3538D70D46;
- Thu, 27 Jan 2022 15:15:29 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7D1D070D2D;
+ Thu, 27 Jan 2022 15:15:36 +0000 (UTC)
 From: Juan Quintela <quintela@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 24/38] migration: Perform vmsd structure check during tests
-Date: Thu, 27 Jan 2022 16:05:34 +0100
-Message-Id: <20220127150548.20595-25-quintela@redhat.com>
+Subject: [PULL 25/38] migration/ram: clean up unused comment.
+Date: Thu, 27 Jan 2022 16:05:35 +0100
+Message-Id: <20220127150548.20595-26-quintela@redhat.com>
 In-Reply-To: <20220127150548.20595-1-quintela@redhat.com>
 References: <20220127150548.20595-1-quintela@redhat.com>
 MIME-Version: 1.0
@@ -58,7 +58,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=quintela@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
@@ -80,7 +80,8 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
- "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ Xu Zheng <xuzheng@cmss.chinamobile.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Jason Wang <jasowang@redhat.com>,
  Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, Peter Xu <peterx@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  Gerd Hoffmann <kraxel@redhat.com>, Ani Sinha <ani@anisinha.ca>,
@@ -89,7 +90,9 @@ Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
  qemu-block@nongnu.org, Juan Quintela <quintela@redhat.com>,
  Daniel Henrique Barboza <danielhb413@gmail.com>,
  Markus Armbruster <armbru@redhat.com>, Artyom Tarasenko <atar4qemu@gmail.com>,
- Pavel Pisa <pisa@cmp.felk.cvut.cz>, Alistair Francis <alistair@alistair23.me>,
+ Pavel Pisa <pisa@cmp.felk.cvut.cz>,
+ Mao Zhongyi <maozhongyi@cmss.chinamobile.com>,
+ Alistair Francis <alistair@alistair23.me>,
  "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Greg Kurz <groug@kaod.org>,
  qemu-arm@nongnu.org, =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
  Paolo Bonzini <pbonzini@redhat.com>, Stafford Horne <shorne@gmail.com>,
@@ -99,83 +102,31 @@ Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+From: Xu Zheng <xuzheng@cmss.chinamobile.com>
 
-Perform a check on vmsd structures during test runs in the hope
-of catching any missing terminators and other simple screwups.
+Just a removal of an unused comment.
+a0a8aa147aa did many fixes and removed the parameter named "ms", but forget to remove the corresponding comment in function named "ram_save_host_page".
 
-Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-Reviewed-by: Juan Quintela <quintela@redhat.com>
+Signed-off-by: Xu Zheng <xuzheng@cmss.chinamobile.com>
+Signed-off-by: Mao Zhongyi <maozhongyi@cmss.chinamobile.com>
 Signed-off-by: Juan Quintela <quintela@redhat.com>
+Reviewed-by: Juan Quintela <quintela@redhat.com>
 ---
- migration/savevm.c | 39 +++++++++++++++++++++++++++++++++++++++
- 1 file changed, 39 insertions(+)
+ migration/ram.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/migration/savevm.c b/migration/savevm.c
-index b17e624d3f..302babc8cf 100644
---- a/migration/savevm.c
-+++ b/migration/savevm.c
-@@ -66,6 +66,7 @@
- #include "net/announce.h"
- #include "qemu/yank.h"
- #include "yank_functions.h"
-+#include "sysemu/qtest.h"
- 
- const unsigned int postcopy_ram_discard_version;
- 
-@@ -839,6 +840,39 @@ void unregister_savevm(VMStateIf *obj, const char *idstr, void *opaque)
-     }
- }
- 
-+/*
-+ * Perform some basic checks on vmsd's at registration
-+ * time.
-+ */
-+static void vmstate_check(const VMStateDescription *vmsd)
-+{
-+    const VMStateField *field = vmsd->fields;
-+    const VMStateDescription **subsection = vmsd->subsections;
-+
-+    if (field) {
-+        while (field->name) {
-+            if (field->flags & (VMS_STRUCT | VMS_VSTRUCT)) {
-+                /* Recurse to sub structures */
-+                vmstate_check(field->vmsd);
-+            }
-+            /* Carry on */
-+            field++;
-+        }
-+        /* Check for the end of field list canary */
-+        assert(field->flags == VMS_END);
-+    }
-+
-+    while (subsection && *subsection) {
-+        /*
-+         * The name of a subsection should start with the name of the
-+         * current object.
-+         */
-+        assert(!strncmp(vmsd->name, (*subsection)->name, strlen(vmsd->name)));
-+        vmstate_check(*subsection);
-+        subsection++;
-+    }
-+}
-+
- int vmstate_register_with_alias_id(VMStateIf *obj, uint32_t instance_id,
-                                    const VMStateDescription *vmsd,
-                                    void *opaque, int alias_id,
-@@ -884,6 +918,11 @@ int vmstate_register_with_alias_id(VMStateIf *obj, uint32_t instance_id,
-     } else {
-         se->instance_id = instance_id;
-     }
-+
-+    /* Perform a recursive sanity check during the test runs */
-+    if (qtest_enabled()) {
-+        vmstate_check(vmsd);
-+    }
-     assert(!se->compat || se->instance_id == 0);
-     savevm_state_handler_insert(se);
-     return 0;
+diff --git a/migration/ram.c b/migration/ram.c
+index e9dcd3ca4e..b4477b8ee0 100644
+--- a/migration/ram.c
++++ b/migration/ram.c
+@@ -2179,7 +2179,6 @@ static int ram_save_target_page(RAMState *rs, PageSearchStatus *pss)
+  * Returns the number of pages written or negative on error
+  *
+  * @rs: current RAM state
+- * @ms: current migration state
+  * @pss: data about the page we want to send
+  */
+ static int ram_save_host_page(RAMState *rs, PageSearchStatus *pss)
 -- 
 2.34.1
 
