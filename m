@@ -2,60 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4BE5849E4BE
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Jan 2022 15:36:57 +0100 (CET)
-Received: from localhost ([::1]:40288 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AE94049E526
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Jan 2022 15:52:31 +0100 (CET)
+Received: from localhost ([::1]:40416 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nD5tQ-0004io-C0
-	for lists+qemu-devel@lfdr.de; Thu, 27 Jan 2022 09:36:56 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:54676)
+	id 1nD68T-0000QJ-KV
+	for lists+qemu-devel@lfdr.de; Thu, 27 Jan 2022 09:52:29 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:54646)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nD5fJ-0007Va-9Q
- for qemu-devel@nongnu.org; Thu, 27 Jan 2022 09:22:21 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:56601)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nD5fG-0007L5-He
+ for qemu-devel@nongnu.org; Thu, 27 Jan 2022 09:22:18 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:60366)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nD5fH-0003Ov-J9
- for qemu-devel@nongnu.org; Thu, 27 Jan 2022 09:22:20 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nD5fE-0003Oh-Vy
+ for qemu-devel@nongnu.org; Thu, 27 Jan 2022 09:22:18 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1643293338;
+ s=mimecast20190719; t=1643293336;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=uCJe4bf9sFj9ZcmAhcx1t6PVlMLuN4Y+Ylj/rx2TQhk=;
- b=Eeyg7Gtwcj/e9fnhlh2g7PQG9aNdV86HoNjGhwYTSTHvpILqEDvLDlmoTzIC78HEotuvLR
- bhd9Rv/tWHNRWMqcDEXe6dmvsuNk6UwSMqhp46hax+KCq07OIlicy7UIfuadezYHWsN4EB
- TCn6ZAwFwafgAmJfKwgiIKM1AUNSHPI=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=LD/BvmwFxeDFmz1CA0PqMx56Fm1tSxQo7h+DwLqdHOc=;
+ b=ej00LMMykzqvEDUcCUADVwNVPaE4/ja0YbWyL0zyh5M7WvgzvGogkArH6e4pheaU51Y45g
+ pnsAI44aA56A3ZWarD9qOVqf+CpuAlwHRAIiTGrLaVCkHGuMwRX7wEdDEs0kBm8fdSil2l
+ LGyxguQGMjVS95UVm7fYsEe2ZxYrDKY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-489-TR8oJeOXMCa2z65Cp6kCRQ-1; Thu, 27 Jan 2022 09:22:05 -0500
-X-MC-Unique: TR8oJeOXMCa2z65Cp6kCRQ-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-278-jfBz99nOPqmF3S0VEwOvIA-1; Thu, 27 Jan 2022 09:22:13 -0500
+X-MC-Unique: jfBz99nOPqmF3S0VEwOvIA-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 27B598144E2;
- Thu, 27 Jan 2022 14:22:04 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 986AD1932480;
+ Thu, 27 Jan 2022 14:22:12 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-7.ams2.redhat.com [10.36.112.7])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id ED1826F9CF;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id ED3F370D3C;
  Thu, 27 Jan 2022 14:22:03 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 9B8E0113864A; Thu, 27 Jan 2022 15:22:02 +0100 (CET)
+ id 9DA5E11384A5; Thu, 27 Jan 2022 15:22:02 +0100 (CET)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v2 0/8] QAPI patches patches for 2022-01-27
-Date: Thu, 27 Jan 2022 15:21:54 +0100
-Message-Id: <20220127142202.236638-1-armbru@redhat.com>
+Subject: [PULL v2 1/8] schemas: add missing vim modeline
+Date: Thu, 27 Jan 2022 15:21:55 +0100
+Message-Id: <20220127142202.236638-2-armbru@redhat.com>
+In-Reply-To: <20220127142202.236638-1-armbru@redhat.com>
+References: <20220127142202.236638-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
@@ -76,54 +79,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org
+Cc: peter.maydell@linaro.org, Victor Toso <victortoso@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit 48302d4eb628ff0bea4d7e92cbf6b726410eb4c3:
+From: Victor Toso <victortoso@redhat.com>
 
-  Merge remote-tracking branch 'remotes/dgilbert-gitlab/tags/pull-virtiofs-20220126' into staging (2022-01-26 10:59:50 +0000)
+Similar to f7160f3218 "schemas: Add vim modeline"
 
-are available in the Git repository at:
+Signed-off-by: Victor Toso <victortoso@redhat.com>
+Message-Id: <20211220145624.52801-1-victortoso@redhat.com>
+Acked-by: Markus Armbruster <armbru@redhat.com>
+Signed-off-by: Markus Armbruster <armbru@redhat.com>
+---
+ qapi/audio.json  | 1 +
+ qapi/compat.json | 1 +
+ qapi/replay.json | 1 +
+ qapi/trace.json  | 1 +
+ 4 files changed, 4 insertions(+)
 
-  git://repo.or.cz/qemu/armbru.git tags/pull-qapi-2022-01-27-v2
-
-for you to fetch changes up to 761a1a488e67a77858f3645a43fbdfe6208b51ce:
-
-  qapi: generate trace events by default (2022-01-27 15:17:35 +0100)
-
-----------------------------------------------------------------
-QAPI patches patches for 2022-01-27
-
-----------------------------------------------------------------
-Victor Toso (1):
-      schemas: add missing vim modeline
-
-Vladimir Sementsov-Ogievskiy (7):
-      qapi/gen: Add FOO.trace-events output module
-      qapi/commands: refactor error handling code
-      qapi/commands: Optionally generate trace for QMP commands
-      meson: generate trace events for qmp commands
-      docs/qapi-code-gen: update to cover trace events code generation
-      meson: document why we don't generate trace events for tests/ and qga/
-      qapi: generate trace events by default
-
- docs/devel/qapi-code-gen.rst |  25 ++++++++++-
- docs/devel/tracing.rst       |   2 +
- meson.build                  |   3 ++
- qapi/audio.json              |   1 +
- qapi/compat.json             |   1 +
- qapi/replay.json             |   1 +
- qapi/trace.json              |   1 +
- qapi/meson.build             |   7 +++
- qga/meson.build              |  10 ++++-
- scripts/qapi/commands.py     | 100 +++++++++++++++++++++++++++++++++++++------
- scripts/qapi/gen.py          |  31 ++++++++++++--
- scripts/qapi/main.py         |  14 ++++--
- tests/meson.build            |  10 ++++-
- trace/meson.build            |  11 +++--
- 14 files changed, 190 insertions(+), 27 deletions(-)
-
+diff --git a/qapi/audio.json b/qapi/audio.json
+index 693e327c6b..0785e70a50 100644
+--- a/qapi/audio.json
++++ b/qapi/audio.json
+@@ -1,4 +1,5 @@
+ # -*- mode: python -*-
++# vim: filetype=python
+ #
+ # Copyright (C) 2015-2019 Zoltán Kővágó <DirtY.iCE.hu@gmail.com>
+ #
+diff --git a/qapi/compat.json b/qapi/compat.json
+index dd7261ae2a..c53b69fe3f 100644
+--- a/qapi/compat.json
++++ b/qapi/compat.json
+@@ -1,4 +1,5 @@
+ # -*- Mode: Python -*-
++# vim: filetype=python
+ 
+ ##
+ # = Compatibility policy
+diff --git a/qapi/replay.json b/qapi/replay.json
+index bfd83d7591..b4d1ba253b 100644
+--- a/qapi/replay.json
++++ b/qapi/replay.json
+@@ -1,4 +1,5 @@
+ # -*- Mode: Python -*-
++# vim: filetype=python
+ #
+ 
+ ##
+diff --git a/qapi/trace.json b/qapi/trace.json
+index eedfded512..119509f565 100644
+--- a/qapi/trace.json
++++ b/qapi/trace.json
+@@ -1,4 +1,5 @@
+ # -*- mode: python -*-
++# vim: filetype=python
+ #
+ # Copyright (C) 2011-2016 Lluís Vilanova <vilanova@ac.upc.edu>
+ #
 -- 
 2.31.1
 
