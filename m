@@ -2,71 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC9C149E0A0
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Jan 2022 12:21:37 +0100 (CET)
-Received: from localhost ([::1]:44652 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8FB4D49E0DB
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Jan 2022 12:28:38 +0100 (CET)
+Received: from localhost ([::1]:58584 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nD2qO-0001Kj-SG
-	for lists+qemu-devel@lfdr.de; Thu, 27 Jan 2022 06:21:36 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:38970)
+	id 1nD2xB-0002c8-IM
+	for lists+qemu-devel@lfdr.de; Thu, 27 Jan 2022 06:28:37 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:38972)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nD2ft-0006li-SM
+ id 1nD2fu-0006lj-2C
  for qemu-devel@nongnu.org; Thu, 27 Jan 2022 06:10:47 -0500
-Received: from [2a00:1450:4864:20::436] (port=41900
- helo=mail-wr1-x436.google.com)
+Received: from [2a00:1450:4864:20::432] (port=38486
+ helo=mail-wr1-x432.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nD2fp-00066t-Uh
+ id 1nD2fp-00066y-Ux
  for qemu-devel@nongnu.org; Thu, 27 Jan 2022 06:10:44 -0500
-Received: by mail-wr1-x436.google.com with SMTP id h21so4043692wrb.8
+Received: by mail-wr1-x432.google.com with SMTP id c23so4080675wrb.5
  for <qemu-devel@nongnu.org>; Thu, 27 Jan 2022 03:10:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=RhCZzX1SzaShlFvgBIqzU1rna1BkC/vhcmJziKa4KaE=;
- b=WpAidGiGzPfJCTSqS+TONjOp1Gq1MEr1yuTZ4JEU8e2PzYhc79Vpu/lfw5iSbtPWJf
- 4SaNbX6oBLBzkWmjKGuc95lynZs1Fxtjqjr9+ETyvIhou14mPuy35b51upULBAjbOIR0
- 5T01jPEp+QlsPmuWmZMQs1EhwCF0CvRWEmEVy6n7bK75aumZxtpGlgrtLqRImDXjZd3t
- n0aEkMkPuvI1ggb2Hzx291CVpjJRFwTcJJG5i94zdxC637zz64xVIzZQ2wBMO4P57rZO
- wSQQbnfRk6qGz4MGZq4/tt+BMnPUBNzB90vweefSdo5LLte5Bh/5f5L3aurgrxNnQY0F
- Z7nA==
+ bh=0qQTl1Wmpww8I6zctLdCK7C2s/OXLuCsycoHUgco2G4=;
+ b=k8LcvCcbp4NuhWdgtyrMg0U372uJBwi6CpsYnGNTe6YNNElQOIt2gK+HU8O5kNeaCj
+ KVT77hZeQ1xM5TO3WoRGnVFv6gKohg/NhEpmxGV0FTcq59+D1fKQzgKT8NLwUqQrO+TH
+ Syw1iC8STzf5qJmz01ah4p3o8m3j1uLXQ+xWglsnmB4Qp4xlfgOCnBu4w8cJehcW0X/z
+ cm1Hwhciqgv1ZDvyPUEmR/fIW2PQtUtkfb7Jm5K5+fRk68hd+hIN+B+HdNxkxxe6Gl7c
+ VR91/bRFBvguzKWOfO3wtPQ11XnZhpaYAiKMz/f1guvrP1G/t6mHE6YbhxoZa6k4UaG+
+ XlOw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=RhCZzX1SzaShlFvgBIqzU1rna1BkC/vhcmJziKa4KaE=;
- b=PUXbs/gQJsIE96yYI9zuNxj0yzboitCQF+KAGJyD+FZ2+HXEjVGbSQPo45iG+tKNDX
- gpB+m+M+a9Czc/nfphu/2/k/IaFFuZbJTKWTkZgymlXdrVtnaY3BRCqFFlPIKdad/q82
- MiH4JGjRErElDERYBMzdtvl5aV/EmijFTZk2RK+voXjUqOI9gwyOIHK+oeXl6IXs3PVh
- I810z+SUEYe6S0a7HwCLTiqJBFh5DzyomMMfQCKeAEmcHgTNZgYcxFEm+p6nEPU8qUli
- yvUqlJ1SYgXlMosTyY3fRou4qUW+R5lmRDOOd6TMg5eaimE6fgyPTMpwC3QKam6PmNsD
- 4FzA==
-X-Gm-Message-State: AOAM531ry+YlwNrU208Fkv4AMs1HmolZrMGMOcnn6+9kfet7I21u8si1
- eUVRg4CQfwpxo7AgcSRdwaxzzKkPsUU=
-X-Google-Smtp-Source: ABdhPJxS7SedTGpagY6fq/8Aa8pXyKiLUpGpSy+dSgVCw2lVuQq2ftAt+qj1NKygiRpHpshycwUDwg==
-X-Received: by 2002:a5d:4cc7:: with SMTP id c7mr2517950wrt.233.1643281840009; 
+ bh=0qQTl1Wmpww8I6zctLdCK7C2s/OXLuCsycoHUgco2G4=;
+ b=nzhNTB6CG/AyubC1Sky39r2Ftc0PNcZifHe0SCJXSSuuEk629jKTIFMvRjbDFOJOC1
+ RQT4I1jBbQvtQdGRiTEo4P3A1OeljRhTxHGpOqPKZC7tganOnEvGWeSB5b2LaLZev1Sp
+ sPARpq2SgeIo12ruN/usAtCTI8D3dPC7ssRwmRk9N0NWnp45LU4/dOkmQl7ckqOylR7i
+ 8k91bmL7/p/4iJZXdHYGqEQTVEPmKk8zSfb74rlafb5Mks5wqg04Ue+Eq1e4DqJzeldo
+ 619wz1hlS7DquRB61xXkbJhG7DQf+ns3DPKD3RWDC4tiAb6SSaYE87KBRttqQXI8rSuw
+ tZeA==
+X-Gm-Message-State: AOAM531qVbWZAMynZkQ9sGJ2RspZvboFl2jCZ7doMntYXz2Zd5i6NBi1
+ tG/ojd6M5PhS+RC6lUaTY1DzXikW/jE=
+X-Google-Smtp-Source: ABdhPJxm2hJm0z67n2i9HUPqf7mvmFUn3XUdPqYg0syIgN1AlUTee0ow3/xZDVV2jAf7qCclAFF29Q==
+X-Received: by 2002:a05:6000:1688:: with SMTP id
+ y8mr2568553wrd.374.1643281840647; 
  Thu, 27 Jan 2022 03:10:40 -0800 (PST)
 Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id s17sm1825742wrm.62.2022.01.27.03.10.39
+ by smtp.gmail.com with ESMTPSA id s17sm1825742wrm.62.2022.01.27.03.10.40
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 27 Jan 2022 03:10:39 -0800 (PST)
+ Thu, 27 Jan 2022 03:10:40 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 01/14] build-sys: fix a meson deprecation warning
-Date: Thu, 27 Jan 2022 12:10:24 +0100
-Message-Id: <20220127111037.457901-2-pbonzini@redhat.com>
+Subject: [PULL 02/14] build-sys: fix undefined ARCH error
+Date: Thu, 27 Jan 2022 12:10:25 +0100
+Message-Id: <20220127111037.457901-3-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220127111037.457901-1-pbonzini@redhat.com>
 References: <20220127111037.457901-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::436
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::432
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::436;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x436.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::432;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x432.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -87,37 +88,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>
+Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-WARNING: Deprecated features used:
- * 0.56.0: {'meson.source_root'}
+../qga/meson.build:76:4: ERROR: Key ARCH is not in the dictionary.
+
+Fixes commit 823eb013 ("configure, meson: move ARCH to meson.build")
 
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-Reported-by: Peter Maydell <peter.maydell@linaro.org>
-Message-Id: <20220113162148.3621818-1-marcandre.lureau@redhat.com>
+Message-Id: <20220114084312.3725242-1-marcandre.lureau@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- tests/qtest/meson.build | 2 +-
+ qga/meson.build | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/tests/qtest/meson.build b/tests/qtest/meson.build
-index 26937deb6d..842b1df420 100644
---- a/tests/qtest/meson.build
-+++ b/tests/qtest/meson.build
-@@ -103,7 +103,7 @@ if dbus_daemon.found() and config_host.has_key('GDBUS_CODEGEN')
-   #qtests_i386 += ['dbus-vmstate-test']
-   dbus_vmstate1 = custom_target('dbus-vmstate description',
-                                 output: ['dbus-vmstate1.h', 'dbus-vmstate1.c'],
--                                input: meson.source_root() / 'backends/dbus-vmstate1.xml',
-+                                input: meson.project_source_root() / 'backends/dbus-vmstate1.xml',
-                                 command: [config_host['GDBUS_CODEGEN'],
-                                           '@INPUT@',
-                                           '--interface-prefix', 'org.qemu',
+diff --git a/qga/meson.build b/qga/meson.build
+index cfb1fbc085..613ecb9802 100644
+--- a/qga/meson.build
++++ b/qga/meson.build
+@@ -75,7 +75,7 @@ if targetos == 'windows'
+     endif
+     qga_msi = custom_target('QGA MSI',
+                             input: files('installer/qemu-ga.wxs'),
+-                            output: 'qemu-ga-@0@.msi'.format(config_host['ARCH']),
++                            output: 'qemu-ga-@0@.msi'.format(host_arch),
+                             depends: deps,
+                             command: [
+                               find_program('env'),
 -- 
 2.34.1
 
