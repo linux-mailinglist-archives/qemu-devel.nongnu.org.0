@@ -2,70 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C791249E090
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Jan 2022 12:19:15 +0100 (CET)
-Received: from localhost ([::1]:39086 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9654F49E161
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Jan 2022 12:44:22 +0100 (CET)
+Received: from localhost ([::1]:51086 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nD2o6-0005xf-Tf
-	for lists+qemu-devel@lfdr.de; Thu, 27 Jan 2022 06:19:14 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:37514)
+	id 1nD3CP-0000Uw-Mk
+	for lists+qemu-devel@lfdr.de; Thu, 27 Jan 2022 06:44:21 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:39218)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1nD2Yv-0000ng-SV
- for qemu-devel@nongnu.org; Thu, 27 Jan 2022 06:03:33 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:44134)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1nD2Yt-0004z4-0T
- for qemu-devel@nongnu.org; Thu, 27 Jan 2022 06:03:33 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1643281410;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=DCK+hytWKrtRjseMcd8S4fbni0FpujdsjylKtkxOmdQ=;
- b=L+HpwqhS6n6WZSeceG3T0m8dPWPbZXJmszMOGQZAS2toeRfEn0haDNRd+HeHkom18CiLOC
- VJkuOcHLuoSWd25XsheCsLXgpyRsdgXFaAOuyi9Fi+H3OC1nWf1lq6DSh88i0ySl3OMTTN
- r9QFg/zzjjcfovP/2uJt3r71NPlze7Y=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-335-9qOcr5urPYWTae4vvHHrPQ-1; Thu, 27 Jan 2022 06:03:26 -0500
-X-MC-Unique: 9qOcr5urPYWTae4vvHHrPQ-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E9FF21926DA9;
- Thu, 27 Jan 2022 11:03:24 +0000 (UTC)
-Received: from redhat.com (unknown [10.39.195.16])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 9A32F110F86;
- Thu, 27 Jan 2022 11:03:20 +0000 (UTC)
-Date: Thu, 27 Jan 2022 12:03:19 +0100
-From: Kevin Wolf <kwolf@redhat.com>
-To: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-Subject: Re: [PATCH v6 21/33] block: move BQL logic of
- bdrv_co_invalidate_cache in bdrv_activate
-Message-ID: <YfJ79zaea6yFFh4w@redhat.com>
-References: <20220121170544.2049944-1-eesposit@redhat.com>
- <20220121170544.2049944-22-eesposit@redhat.com>
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1nD2gV-0006vn-9q
+ for qemu-devel@nongnu.org; Thu, 27 Jan 2022 06:11:23 -0500
+Received: from [2a00:1450:4864:20::530] (port=33776
+ helo=mail-ed1-x530.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1nD2gS-0006C8-9v
+ for qemu-devel@nongnu.org; Thu, 27 Jan 2022 06:11:23 -0500
+Received: by mail-ed1-x530.google.com with SMTP id b13so3203312edn.0
+ for <qemu-devel@nongnu.org>; Thu, 27 Jan 2022 03:11:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=tZhKwAf3sYPBO+cTG0d9mActh9kh357GjbrXNGiPuT4=;
+ b=jUQXB/rne540RZ911EEV0XmxxjgDzcarTyUyJZ7pP4woNpe/JzXVGYkildeQUlHFdw
+ YTAjP60mlbbY+8/YfF+Ldc6gxioPnsIdAcHnGXcVWoHFXxf2ac3y8SoVHTnZYphv0z53
+ iMHJ/oM9zKo/VowNxE9YEln9fnLMkCSSIyy8z6TD6nH3ZR2ftfB+YEkXu6xUzMRocreL
+ gjf81K+xknaZwPZuoYOF+ZQ3nvrKf1zg4DqhCpIEDGPNDZjBAzfXfRmgBLhjx/eEKgC/
+ 9tNoEeppUqMfMYSVZFzLNeW9dLulsr5tUI7LUmLL4GU1xVy8ZfdAlPNkJ98BA36Jzxqf
+ QbsA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=tZhKwAf3sYPBO+cTG0d9mActh9kh357GjbrXNGiPuT4=;
+ b=8LVNgVxf4VmPfiesLYUmUWslWZRdKUo57R2HZs2iEB2d4KcltO2kdpB3HE+iV1oxxl
+ 0If8bcxJaZdOMa3npEZZoYwnWODm7tloPXiJPVpGUNYMSmc7Lcxv/1wXDjctA61+u5De
+ A/C0JaMh1Q7Vti2OqZIBxNpNIAjysWd/ATJtUTL5civXqD2pqqKTkqZMPtvV/2Hi4U5u
+ rKQ8uOkBCl6hbx5wHIquYiymXzHFJ5urp0HcAW+zBQ5ulfoq3qM59rg4Qw3i+kbDwGpm
+ mRyWV9ZIC1inYeHHSXyPTcTvAf4VGIk3RopRDztxdUFhRR2Mks6OOvVc9rhRkz7j94el
+ fy8g==
+X-Gm-Message-State: AOAM53388TNakaILo9CIjJQH9CEmO+dqSDWzBlm6Y/BUOvLejH/e2Grc
+ c5hUMp0IklxP7TaCR925C3Ur0csVcI/IpA==
+X-Google-Smtp-Source: ABdhPJy8yx/WyeGbjHUgcafY+U9vjWw3HVGUqB8t2Ks7PVfRM/HaJdcWcJ6EPJHZRcdw9BGdTvxhIw==
+X-Received: by 2002:a50:aadd:: with SMTP id r29mr3204711edc.236.1643281874386; 
+ Thu, 27 Jan 2022 03:11:14 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id w18sm8459271edr.59.2022.01.27.03.11.13
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 27 Jan 2022 03:11:13 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id B091E1FFB7;
+ Thu, 27 Jan 2022 11:11:12 +0000 (GMT)
+References: <20211220145624.52801-1-victortoso@redhat.com>
+User-agent: mu4e 1.7.6; emacs 28.0.91
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Victor Toso <victortoso@redhat.com>
+Subject: Re: [PATCH] schemas: add missing vim modeline
+Date: Thu, 27 Jan 2022 11:07:46 +0000
+In-reply-to: <20211220145624.52801-1-victortoso@redhat.com>
+Message-ID: <87lez1bfhr.fsf@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <20220121170544.2049944-22-eesposit@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=kwolf@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.159,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::530
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::530;
+ envelope-from=alex.bennee@linaro.org; helo=mail-ed1-x530.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -78,123 +89,79 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, qemu-devel@nongnu.org,
- "Denis V. Lunev" <den@openvz.org>, Eric Blake <eblake@redhat.com>,
- qemu-block@nongnu.org, Juan Quintela <quintela@redhat.com>,
- Daniel Henrique Barboza <danielhb413@gmail.com>,
- Markus Armbruster <armbru@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, Greg Kurz <groug@kaod.org>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>,
- Stefan Hajnoczi <stefanha@redhat.com>, John Snow <jsnow@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>,
- Eduardo Habkost <eduardo@habkost.net>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>,
- Hanna Reitz <hreitz@redhat.com>, qemu-ppc@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: Eric Blake <eblake@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 21.01.2022 um 18:05 hat Emanuele Giuseppe Esposito geschrieben:
-> Split bdrv_co_invalidate cache in two: the GS code that takes
-> care of permissions and running GS callbacks, and leave only the
-> I/O code (->bdrv_co_invalidate_cache) running in the I/O coroutine.
-> 
-> The only side effect is that bdrv_co_invalidate_cache is not
-> recursive anymore, and so is every direct call to
-> bdrv_invalidate_cache().
-> 
-> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+
+Victor Toso <victortoso@redhat.com> writes:
+
+> Similar to f7160f3218 "schemas: Add vim modeline"
+>
+> Signed-off-by: Victor Toso <victortoso@redhat.com>
 > ---
->  block.c | 36 +++++++++++++++++++++---------------
->  1 file changed, 21 insertions(+), 15 deletions(-)
-> 
-> diff --git a/block.c b/block.c
-> index 7ab5031027..bad834c86e 100644
-> --- a/block.c
-> +++ b/block.c
-> @@ -6550,23 +6550,20 @@ void bdrv_init_with_whitelist(void)
->  }
->  
->  int bdrv_activate(BlockDriverState *bs, Error **errp)
-> -{
-> -    return bdrv_invalidate_cache(bs, errp);
-> -}
-> -
-> -int coroutine_fn bdrv_co_invalidate_cache(BlockDriverState *bs, Error **errp)
->  {
->      BdrvChild *child, *parent;
->      Error *local_err = NULL;
->      int ret;
->      BdrvDirtyBitmap *bm;
->  
-> +    assert(qemu_in_main_thread());
-> +
->      if (!bs->drv)  {
->          return -ENOMEDIUM;
->      }
->  
->      QLIST_FOREACH(child, &bs->children, next) {
-> -        bdrv_co_invalidate_cache(child->bs, &local_err);
-> +        bdrv_activate(child->bs, &local_err);
->          if (local_err) {
->              error_propagate(errp, local_err);
->              return -EINVAL;
-> @@ -6579,7 +6576,7 @@ int coroutine_fn bdrv_co_invalidate_cache(BlockDriverState *bs, Error **errp)
->       * Note that the required permissions of inactive images are always a
->       * subset of the permissions required after activating the image. This
->       * allows us to just get the permissions upfront without restricting
-> -     * drv->bdrv_invalidate_cache().
-> +     * drv->bdrv_co_invalidate_cache().
->       *
->       * It also means that in error cases, we don't have to try and revert to
->       * the old permissions (which is an operation that could fail, too). We can
-> @@ -6594,14 +6591,7 @@ int coroutine_fn bdrv_co_invalidate_cache(BlockDriverState *bs, Error **errp)
->              return ret;
->          }
->  
-> -        if (bs->drv->bdrv_co_invalidate_cache) {
-> -            bs->drv->bdrv_co_invalidate_cache(bs, &local_err);
-> -            if (local_err) {
-> -                bs->open_flags |= BDRV_O_INACTIVE;
-> -                error_propagate(errp, local_err);
-> -                return -EINVAL;
-> -            }
-> -        }
-> +        bdrv_invalidate_cache(bs, errp);
->  
->          FOR_EACH_DIRTY_BITMAP(bs, bm) {
->              bdrv_dirty_bitmap_skip_store(bm, false);
-> @@ -6629,6 +6619,22 @@ int coroutine_fn bdrv_co_invalidate_cache(BlockDriverState *bs, Error **errp)
->      return 0;
->  }
->  
-> +int coroutine_fn bdrv_co_invalidate_cache(BlockDriverState *bs, Error **errp)
-> +{
-> +    Error *local_err = NULL;
-> +
-> +    if (bs->drv->bdrv_co_invalidate_cache) {
-> +        bs->drv->bdrv_co_invalidate_cache(bs, &local_err);
-> +        if (local_err) {
-> +            bs->open_flags |= BDRV_O_INACTIVE;
+>  qapi/audio.json  | 1 +
+>  qapi/compat.json | 1 +
+>  qapi/replay.json | 1 +
+>  qapi/trace.json  | 1 +
+>  4 files changed, 4 insertions(+)
+>
+> diff --git a/qapi/audio.json b/qapi/audio.json
+> index 9cba0df8a4..fe3b506ec3 100644
+> --- a/qapi/audio.json
+> +++ b/qapi/audio.json
+> @@ -1,4 +1,5 @@
+>  # -*- mode: python -*-
+> +# vim: filetype=3Dpython
 
-This doesn't feel like the right place. The flag is cleared by the
-caller, so it should also be set again on failure by the caller and not
-by this function.
+I realise we have Emacs mode annotations here as well and I'm not going
+to start a holy war but I thought we used .editorconfig to avoid messing
+directly with the individual files. So something like:
 
-What bdrv_co_invalidate_cache() could do is assert that BDRV_O_INACTIVE
-is cleared when it's called.
+  [*.json]
+  indent_style =3D space
+  emacs_mode =3D python
+  vim_filetype =3D python
 
-> +            error_propagate(errp, local_err);
-> +            return -EINVAL;
-> +        }
-> +    }
-> +
-> +    return 0;
-> +}
+should also do the job.
 
-Kevin
+>  #
+>  # Copyright (C) 2015-2019 Zolt=C3=A1n K=C5=91v=C3=A1g=C3=B3 <DirtY.iCE.h=
+u@gmail.com>
+>  #
+> diff --git a/qapi/compat.json b/qapi/compat.json
+> index dd7261ae2a..c53b69fe3f 100644
+> --- a/qapi/compat.json
+> +++ b/qapi/compat.json
+> @@ -1,4 +1,5 @@
+>  # -*- Mode: Python -*-
+> +# vim: filetype=3Dpython
+>=20=20
+>  ##
+>  # =3D Compatibility policy
+> diff --git a/qapi/replay.json b/qapi/replay.json
+> index bfd83d7591..b4d1ba253b 100644
+> --- a/qapi/replay.json
+> +++ b/qapi/replay.json
+> @@ -1,4 +1,5 @@
+>  # -*- Mode: Python -*-
+> +# vim: filetype=3Dpython
+>  #
+>=20=20
+>  ##
+> diff --git a/qapi/trace.json b/qapi/trace.json
+> index eedfded512..119509f565 100644
+> --- a/qapi/trace.json
+> +++ b/qapi/trace.json
+> @@ -1,4 +1,5 @@
+>  # -*- mode: python -*-
+> +# vim: filetype=3Dpython
+>  #
+>  # Copyright (C) 2011-2016 Llu=C3=ADs Vilanova <vilanova@ac.upc.edu>
+>  #
 
+
+--=20
+Alex Benn=C3=A9e
 
