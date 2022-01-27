@@ -2,70 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8744949E60A
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Jan 2022 16:28:07 +0100 (CET)
-Received: from localhost ([::1]:34858 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2646F49E7F4
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Jan 2022 17:47:27 +0100 (CET)
+Received: from localhost ([::1]:57772 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nD6gw-0003ow-KP
-	for lists+qemu-devel@lfdr.de; Thu, 27 Jan 2022 10:28:06 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:58202)
+	id 1nD7vh-0008Ic-Qj
+	for lists+qemu-devel@lfdr.de; Thu, 27 Jan 2022 11:47:25 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:42326)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jean-philippe@linaro.org>)
- id 1nD5sd-0005HN-QQ
- for qemu-devel@nongnu.org; Thu, 27 Jan 2022 09:36:08 -0500
-Received: from [2a00:1450:4864:20::436] (port=33628
- helo=mail-wr1-x436.google.com)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1nD6ab-0005sN-Nv
+ for qemu-devel@nongnu.org; Thu, 27 Jan 2022 10:21:33 -0500
+Received: from [2a00:1450:4864:20::535] (port=46842
+ helo=mail-ed1-x535.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <jean-philippe@linaro.org>)
- id 1nD5sZ-0005bU-Jb
- for qemu-devel@nongnu.org; Thu, 27 Jan 2022 09:36:07 -0500
-Received: by mail-wr1-x436.google.com with SMTP id e8so5282697wrc.0
- for <qemu-devel@nongnu.org>; Thu, 27 Jan 2022 06:35:57 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1nD6Zw-00043L-AC
+ for qemu-devel@nongnu.org; Thu, 27 Jan 2022 10:21:16 -0500
+Received: by mail-ed1-x535.google.com with SMTP id m11so4057422edi.13
+ for <qemu-devel@nongnu.org>; Thu, 27 Jan 2022 07:20:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=p2GhnkmTKwpX6vg+BavbftPZC4r78oegMkP8OGJ236c=;
- b=QbtCtQMRcEr1b+48cnAIdIhOwRv/Rjsl0fqawgXCT5DNTRJ69FJOoWdZlcKpN9jIDn
- BPmI5ps1/GQ8OSZYTL7zMZuQ6x9a+wX/aZa2R+dDXtypcDTgIDHvYOWGGedcheXwY368
- A7Oym7WQt1mzqBW91gcv6Vu4yEc7ICzA7tyXKrinJO+CwaWmgGXmqV/AFdWN8ZHgf+rS
- 4pMQAmeM2axgAlH4hju5L54fYl4CB1i1qonTcFcXcnZtz6SCCjqqKFdA4CgvjB+qAeK/
- Wy/XZ7lrNed4j/9UskxIWXgP0iciAG7f4ji6KxuADIYl9HSQkEsHAi83k2FfSQzk/eAY
- jo/A==
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=qF4QcpMuNcMy8kSMfRBvsCnPzYUywg9vOjmsFp6VR/g=;
+ b=Gy73PfoccphY2IUbbo5Pyhg1PQB1I6Q4ye0C6LxeRUWyLAAo7ooZjioBQAQSfphcFp
+ BT/mxLXbZsZaB9H1AzSGiRpixKdSQoJFeHQTG73oHb9T6Ebu7jumSwcNLOlDq64UqlmN
+ EEyJ2WayS8B+904lNli0nwGc3yD2odBi+KSJf51m2DYrgeRgUelD/b6pJOrx856SyeXD
+ ibAc1tSFUUgJKcjWuFpDkJ81Ip9iL1Ture8jMlGmHoSwsP68TenhUwGJpPP8XzJco8Q8
+ P7399Dqrno1nmic7NNPnrqkTBahy33KKY7etOPpmg2b1g1sxbnH0noLHarbh9XrCl+Yr
+ YYEw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=p2GhnkmTKwpX6vg+BavbftPZC4r78oegMkP8OGJ236c=;
- b=IhHTqRBfRTBm7jLY7VK52WYg1ILUZkfwgIJmfrVp+zRqMf1k8klE7IcuIRQfrmg/hU
- GAdD395YpQPuVNyWqLgAywxj0vxMxoj/tiuYQ6mz1Z5Ork4IAekLG2KjX8JWEslKWpK/
- Dq0ZwHNXUq7+Z8eQENGixy8vBiFV8Z1/nok+SFIKCXUuL10ztbEseU11TlPrU3pOqjKG
- KS2NQ8FZPyYzvwClHBfTIs+X7REEGyaHcWDv6ZQlypkEhWW4NqTrES2ZmlwmDKmkzew2
- kE86HXtUrS280v1qTWEoLE19u8XTY3FPOrwP+uMzfJVvEFL0yhFaWnlPXuN/3LzHMm7U
- Ovmw==
-X-Gm-Message-State: AOAM531hluN05qx6zxbEKC4LZTYmRFbYkMTut9ecIh6+BsKkax5C8LSs
- sdtfLVeeetFQvpbqFQO1Zh4zxQ==
-X-Google-Smtp-Source: ABdhPJzXiOsBguTLqN0W0/z371BatsMwdFYl61+QUeJwqrsXmw+EUj/a5I5xBcsz+zeT21Q7DojTnw==
-X-Received: by 2002:a05:6000:4d:: with SMTP id
- k13mr3287046wrx.625.1643294156612; 
- Thu, 27 Jan 2022 06:35:56 -0800 (PST)
-Received: from localhost.localdomain
- (cpc92880-cmbg19-2-0-cust679.5-4.cable.virginm.net. [82.27.106.168])
- by smtp.gmail.com with ESMTPSA id i3sm2285894wru.33.2022.01.27.06.35.55
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=qF4QcpMuNcMy8kSMfRBvsCnPzYUywg9vOjmsFp6VR/g=;
+ b=m7dxfdfNmmKeJbJZumCFQM3/FqJHGyJ4viyoV8PNM6rqQPl/L8NGIhKXCnSJzoa0Cy
+ LnyIb9inYknJFItMOv6IDQf5qSFsINIOlV9qbS4ykslBWONo5eWMSfLnmqhAtLGcndrt
+ VB7NvurxvKzb8A0X69RZghIRTrLD++2j+LGF0HpRiXuUDLK9SLdo/TQ5rWaQ9r1VWjps
+ YkO5S3xxCG5XdKsvZv3NJ2QzLQkS/Iws0v0hB8YfbYg1MhmIRbMOZVWts6fYhoQBXlci
+ j1luhLZBCYTrIkCmwzKZU/8NdwRHcJdTG6QpcnTHhIvRtpjlTar3TXyNEBuYMO1xshGW
+ ZKVg==
+X-Gm-Message-State: AOAM531MIZW9arP60CQO8xt3Fs6mc41LKulFvzgKlqYWtSo4sC4ZSVZh
+ 44KMuhw+bCik10GtYAZXYbBkXqwqjBFS/g==
+X-Google-Smtp-Source: ABdhPJz0a4iNxXTawVST1r8kJdxi07AxAMr2WoJxYsgEi22L5cPr0kLr6LnlV/yTf+luiFdxfQCc2w==
+X-Received: by 2002:a05:6402:1e92:: with SMTP id
+ f18mr4094949edf.128.1643296836251; 
+ Thu, 27 Jan 2022 07:20:36 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id w18sm8810774edr.59.2022.01.27.07.20.35
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 27 Jan 2022 06:35:56 -0800 (PST)
-From: Jean-Philippe Brucker <jean-philippe@linaro.org>
-To: eric.auger@redhat.com
-Subject: [PATCH v2 0/4] virtio-iommu: Support VIRTIO_IOMMU_F_BYPASS_CONFIG
-Date: Thu, 27 Jan 2022 14:29:37 +0000
-Message-Id: <20220127142940.671333-1-jean-philippe@linaro.org>
-X-Mailer: git-send-email 2.34.1
+ Thu, 27 Jan 2022 07:20:35 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id DA9921FFB7;
+ Thu, 27 Jan 2022 15:20:34 +0000 (GMT)
+References: <20211220145624.52801-1-victortoso@redhat.com>
+ <87lez1bfhr.fsf@linaro.org> <87h79pp9va.fsf@dusky.pond.sub.org>
+User-agent: mu4e 1.7.6; emacs 28.0.91
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Markus Armbruster <armbru@redhat.com>
+Subject: Re: [PATCH] schemas: add missing vim modeline
+Date: Thu, 27 Jan 2022 14:36:21 +0000
+In-reply-to: <87h79pp9va.fsf@dusky.pond.sub.org>
+Message-ID: <87lez18at9.fsf@linaro.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::436
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::535
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::436;
- envelope-from=jean-philippe@linaro.org; helo=mail-wr1-x436.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::535;
+ envelope-from=alex.bennee@linaro.org; helo=mail-ed1-x535.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -85,78 +91,75 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: lvivier@redhat.com, Jean-Philippe Brucker <jean-philippe@linaro.org>,
- thuth@redhat.com, mst@redhat.com, cohuck@redhat.com, qemu-devel@nongnu.org,
- pasic@linux.ibm.com, pbonzini@redhat.com
+Cc: Eric Blake <eblake@redhat.com>, Victor Toso <victortoso@redhat.com>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Replace the VIRTIO_IOMMU_F_BYPASS feature with
-VIRTIO_IOMMU_F_BYPASS_CONFIG, which enables a config space bit to switch
-global bypass on and off.
 
-Add a boot-bypass option, which defaults to 'on' to be in line with
-other vIOMMUs and to allow running firmware/bootloader that are unaware
-of the IOMMU. x86 doesn't need a workaround to boot with virtio-iommu
-anymore.
+Markus Armbruster <armbru@redhat.com> writes:
 
-Since v1 [1]:
-* The specification [2] and Linux header [3] changes have been merged
-* Patch 1 pulls in the whole Linux header changes, in order to
-  get the virtio_iommu.h update
-* Reset bypass on system reset, and other fixes suggested by Eric
-* Added a simple test, patch 4, that checks the boot bypass value
+> Alex Benn=C3=A9e <alex.bennee@linaro.org> writes:
+>
+>> Victor Toso <victortoso@redhat.com> writes:
+>>
+>>> Similar to f7160f3218 "schemas: Add vim modeline"
+>>>
+>>> Signed-off-by: Victor Toso <victortoso@redhat.com>
+>>> ---
+>>>  qapi/audio.json  | 1 +
+>>>  qapi/compat.json | 1 +
+>>>  qapi/replay.json | 1 +
+>>>  qapi/trace.json  | 1 +
+>>>  4 files changed, 4 insertions(+)
+>>>
+>>> diff --git a/qapi/audio.json b/qapi/audio.json
+>>> index 9cba0df8a4..fe3b506ec3 100644
+>>> --- a/qapi/audio.json
+>>> +++ b/qapi/audio.json
+>>> @@ -1,4 +1,5 @@
+>>>  # -*- mode: python -*-
+>>> +# vim: filetype=3Dpython
+>>
+>> I realise we have Emacs mode annotations here as well and I'm not going
+>> to start a holy war but I thought we used .editorconfig to avoid messing
+>> directly with the individual files. So something like:
+>>
+>>   [*.json]
+>>   indent_style =3D space
+>>   emacs_mode =3D python
+>>   vim_filetype =3D python
+>>
+>> should also do the job.
+>
+> Most schema files have lines for both Emacs and vim.  Some have only the
+> former, and this patch adds the latter to them.  Seems fair to me.
 
-[1] https://lore.kernel.org/qemu-devel/20210930185050.262759-1-jean-philippe@linaro.org/
-[2] https://github.com/oasis-tcs/virtio-spec/issues/119
-[3] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=063ebb19d962
+No argument from me there.
 
-Jean-Philippe Brucker (4):
-  linux-headers: update to v5.17-rc1
-  virtio-iommu: Default to bypass during boot
-  virtio-iommu: Support bypass domain
-  tests/qtest/virtio-iommu-test: Check bypass config
+> Perhaps we could get rid of them all instead.  As far as I can tell,
+> .editorconfig doesn't work for stock Emacs out of the box, though.
 
- include/hw/virtio/virtio-iommu.h              |   1 +
- include/standard-headers/asm-x86/kvm_para.h   |   1 +
- include/standard-headers/drm/drm_fourcc.h     |  11 ++
- include/standard-headers/linux/ethtool.h      |   1 +
- include/standard-headers/linux/fuse.h         |  60 +++++++-
- include/standard-headers/linux/pci_regs.h     | 142 +++++++++---------
- include/standard-headers/linux/virtio_gpio.h  |  72 +++++++++
- include/standard-headers/linux/virtio_i2c.h   |  47 ++++++
- include/standard-headers/linux/virtio_iommu.h |   8 +-
- .../standard-headers/linux/virtio_pcidev.h    |  65 ++++++++
- include/standard-headers/linux/virtio_scmi.h  |  24 +++
- linux-headers/asm-generic/unistd.h            |   5 +-
- linux-headers/asm-mips/unistd_n32.h           |   2 +
- linux-headers/asm-mips/unistd_n64.h           |   2 +
- linux-headers/asm-mips/unistd_o32.h           |   2 +
- linux-headers/asm-powerpc/unistd_32.h         |   2 +
- linux-headers/asm-powerpc/unistd_64.h         |   2 +
- linux-headers/asm-riscv/bitsperlong.h         |  14 ++
- linux-headers/asm-riscv/mman.h                |   1 +
- linux-headers/asm-riscv/unistd.h              |  44 ++++++
- linux-headers/asm-s390/unistd_32.h            |   2 +
- linux-headers/asm-s390/unistd_64.h            |   2 +
- linux-headers/asm-x86/kvm.h                   |  16 +-
- linux-headers/asm-x86/unistd_32.h             |   1 +
- linux-headers/asm-x86/unistd_64.h             |   1 +
- linux-headers/asm-x86/unistd_x32.h            |   1 +
- linux-headers/linux/kvm.h                     |  17 +++
- hw/virtio/virtio-iommu.c                      |  83 +++++++++-
- tests/qtest/virtio-iommu-test.c               |   2 +
- hw/virtio/trace-events                        |   4 +-
- 30 files changed, 552 insertions(+), 83 deletions(-)
- create mode 100644 include/standard-headers/linux/virtio_gpio.h
- create mode 100644 include/standard-headers/linux/virtio_i2c.h
- create mode 100644 include/standard-headers/linux/virtio_pcidev.h
- create mode 100644 include/standard-headers/linux/virtio_scmi.h
- create mode 100644 linux-headers/asm-riscv/bitsperlong.h
- create mode 100644 linux-headers/asm-riscv/mman.h
- create mode 100644 linux-headers/asm-riscv/unistd.h
+It does require a package-install although fortunately it's in non-gnu
+elpa so should work out of the box with any reasonably recent Emacs. I
+personally wrap this stuff up in use-package:
 
--- 
-2.34.1
+  ;; EditorConfig
+  (use-package editorconfig
+    :ensure t
+    :diminish "EdCf"
+    :config
+    ;; See https://github.com/editorconfig/editorconfig-emacs/issues/246
+    (add-to-list 'editorconfig-exclude-modes 'git-rebase-mode)
+    (editorconfig-mode 1))
 
+We also have have a rather embryonic .dir-locals in the root of the
+source tree as well.
+
+Our vim-brethren seem to have multiple ways of installing their plugin:
+
+  https://github.com/editorconfig/editorconfig-vim#installation
+
+--=20
+Alex Benn=C3=A9e
 
