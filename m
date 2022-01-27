@@ -2,98 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5984449DDCF
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Jan 2022 10:22:48 +0100 (CET)
-Received: from localhost ([::1]:59324 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 998CA49DDEF
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Jan 2022 10:27:51 +0100 (CET)
+Received: from localhost ([::1]:38076 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nD0zP-0001mD-Dv
-	for lists+qemu-devel@lfdr.de; Thu, 27 Jan 2022 04:22:47 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:41012)
+	id 1nD14I-0006n5-7l
+	for lists+qemu-devel@lfdr.de; Thu, 27 Jan 2022 04:27:50 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:42466)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1nD0vS-0007Lj-JP
- for qemu-devel@nongnu.org; Thu, 27 Jan 2022 04:18:43 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:30142)
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1nD11h-0005Es-Ud
+ for qemu-devel@nongnu.org; Thu, 27 Jan 2022 04:25:10 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:42432)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1nD0vC-0005Yj-2Z
- for qemu-devel@nongnu.org; Thu, 27 Jan 2022 04:18:27 -0500
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1nD11e-0006ic-HB
+ for qemu-devel@nongnu.org; Thu, 27 Jan 2022 04:25:08 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1643275105;
+ s=mimecast20190719; t=1643275505;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=VGY2FtQjF+FNYl+VpEa1qVfVjO2ol8ICrAUSIDWBt1U=;
- b=KdwulOvsjycdpDfZxCPYJ27N6CTPPXv9maA/pjgQR8DYbK0auqpibsi0AF+k41eiFZDFw+
- GD67FKMINjkZmzlxoNd4gkZBKJzFW7LydlhpTb0SxT5olEqtKisZzBkDVsXTVO39cn21Q1
- rSz4CmljYrsRsxoC2pHHMy4mdt+ITBk=
-Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
- [209.85.219.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=V54GEKDs9ByYGsH2C0ASukSq+bC+nPxcbaTBaVf3LiE=;
+ b=I0U+a38xnYt1nb0OHVFmxBxZFiUrJPgkj37/YFCCEUmXcXhdhpTt5RvBVkHF6MypNiKsGr
+ HLsVy0now0/Il5L4dLKHuz9hyQR79m3A9hWwhhFwhnoXE/VM41WOzcUzFY7W+RIt/O2JUN
+ V5m+0UpYlNgYeVEuvr8ZbbXEDNpgPYM=
+Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
+ [209.85.160.197]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-414-AudcoWfMNamZqhRZ5hGQLg-1; Thu, 27 Jan 2022 04:18:24 -0500
-X-MC-Unique: AudcoWfMNamZqhRZ5hGQLg-1
-Received: by mail-qv1-f72.google.com with SMTP id
- hu4-20020a056214234400b0041ad4e40960so2558707qvb.13
- for <qemu-devel@nongnu.org>; Thu, 27 Jan 2022 01:18:24 -0800 (PST)
+ us-mta-81-gPzEIzEEPyuBdI5tGW443A-1; Thu, 27 Jan 2022 04:25:04 -0500
+X-MC-Unique: gPzEIzEEPyuBdI5tGW443A-1
+Received: by mail-qt1-f197.google.com with SMTP id
+ a6-20020ac844a6000000b002cf3968d32aso1813005qto.1
+ for <qemu-devel@nongnu.org>; Thu, 27 Jan 2022 01:25:03 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=VGY2FtQjF+FNYl+VpEa1qVfVjO2ol8ICrAUSIDWBt1U=;
- b=Ikd08Rx8MdUHh+G2OSNMwHJ1K18Ezj8u4BZgJ6japsFHWUR4z5dp2QeusfIApMcQy/
- JMgldgzjpRLAIQz4MVNk6B8y12+jdHuYfLuT0NvSjKJl/YVlg4celtBL9F9ps5v34lhN
- xmMCFnT78AKxlGHDVtqVCvpB7pTV7hXzGlh26fw+3oSMjJNw6jjC2JblwvUqHpPomCuU
- 1upntKWH58SdzQ+uPbCV9UOYYHpmXqwLjqYisdzBki+op8jrcwsD3TEDYzOOAvtzZGU+
- eWHQbXFMzYCHRsb7xKC825M09vfii20EVxNOTI1MoJLIymknKx7X8vrW98cad6y9GDEw
- 4ayw==
-X-Gm-Message-State: AOAM5333jmO0MyuTOlFi0vbJEHfdh60zPLj6cJsjDoooGPbDTmfmMaV0
- zrwk8zhq6WTz3ldNf0AYazSnnBFMWhf1o2Z72nKD2j979ZDo9L1yF8jOq2gZ9ZmUfkA6agu9yLO
- 1S7xS6lhkLi8LU6I=
-X-Received: by 2002:a05:620a:22c4:: with SMTP id
- o4mr1904848qki.534.1643275102828; 
- Thu, 27 Jan 2022 01:18:22 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxpxCKzwJ43SD8X8+3cWAw1xbq026CQZzHpro9e/3NwieuagECwgwliiKOcsk81Who8gBiPqQ==
-X-Received: by 2002:a05:620a:22c4:: with SMTP id
- o4mr1904832qki.534.1643275102543; 
- Thu, 27 Jan 2022 01:18:22 -0800 (PST)
-Received: from ?IPV6:2a04:ee41:4:31cb:e591:1e1e:abde:a8f1?
- ([2a04:ee41:4:31cb:e591:1e1e:abde:a8f1])
- by smtp.gmail.com with ESMTPSA id m4sm1039533qka.111.2022.01.27.01.18.19
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 27 Jan 2022 01:18:22 -0800 (PST)
-Message-ID: <8101768a-6f0d-ccb2-7c3d-810118dc7875@redhat.com>
-Date: Thu, 27 Jan 2022 10:18:17 +0100
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=V54GEKDs9ByYGsH2C0ASukSq+bC+nPxcbaTBaVf3LiE=;
+ b=xpi/r1yhyi2Px/H8HewtGh7uId/YO39DzTB11aR8i8ossB5yK4V6jJZ6FrmQm1H5cl
+ VZlrJlnRS922ubNoNCPN2XZRJXyT6e212joXJnBXWlfQ3ELIyVLf/A6Aga0O6wXAD0zH
+ JxNpCb97aGL4s97w8Q7TKQ3titF8AXByvg7dVvLz4yUOwqrHeeI77yGU6lBNe1fo6QhP
+ BXi5U6M16E275eaP+JqAWB9QdqiilyLfjYMW2j4wl8ZCQZs6Mcd++GQ6w2qu5rg28oxY
+ e1C17apakwrDOiKgYkdfVaRXMpFjKSmYf+ZKDZvNU3AiqmyQz0Qt5RGu3+HSRE5Z+Blo
+ QP4w==
+X-Gm-Message-State: AOAM530JFqlZq9vYFSmNaGwGh6NsGhDKV+p9mcNEtEBZANOAMhKLVl6d
+ fBYZfIFdZUZ3ujEmau2vyr7vMWLd++N5lfBJukd4tBRkfe/6NVdrdVc1MneWvukeRbsdmwIToNf
+ wgkKZoK+50Wn1r4LItOr5CMRIyk9/Ovo=
+X-Received: by 2002:ac8:5751:: with SMTP id 17mr1901503qtx.459.1643275503489; 
+ Thu, 27 Jan 2022 01:25:03 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwTG7EnK+P7K+HMcf9k/Hm6UNNiS4172hag31yARUywbvea0Jj06/fPO7ACUMDKRgoHan+qxOnyeNVtDAgH5kQ=
+X-Received: by 2002:ac8:5751:: with SMTP id 17mr1901479qtx.459.1643275503226; 
+ Thu, 27 Jan 2022 01:25:03 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [PATCH v6 20/33] block: rename bdrv_invalidate_cache_all,
- blk_invalidate_cache and test_sync_op_invalidate_cache
-To: quintela@redhat.com
-References: <20220121170544.2049944-1-eesposit@redhat.com>
- <20220121170544.2049944-21-eesposit@redhat.com>
- <87r18x5s70.fsf@secure.mitica>
-From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-In-Reply-To: <87r18x5s70.fsf@secure.mitica>
+References: <20220121202733.404989-1-eperezma@redhat.com>
+ <20220121202733.404989-22-eperezma@redhat.com>
+ <Ye4r7tKFhP9VaT5/@xz-m1.local>
+ <CAJaqyWf--wbNZz5ZzbpixD9op_fO5fV01kbYXzG097c_NkqYrw@mail.gmail.com>
+ <Ye6IhLCe6NDKO6+E@xz-m1.local>
+ <CAJaqyWcdpTr2X4VuAN2NLmpviCjDoAaY269+VQGZ7-F6myOhSw@mail.gmail.com>
+ <YfJSezhQv1kXa1x8@xz-m1.local>
+In-Reply-To: <YfJSezhQv1kXa1x8@xz-m1.local>
+From: Eugenio Perez Martin <eperezma@redhat.com>
+Date: Thu, 27 Jan 2022 10:24:27 +0100
+Message-ID: <CAJaqyWczZ7C_vbwugyN9bEgOVuRokGqVMb_g5UK_R4F8O+qKOA@mail.gmail.com>
+Subject: Re: [PATCH 21/31] util: Add iova_tree_alloc
+To: Peter Xu <peterx@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eesposit@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eperezma@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eesposit@redhat.com;
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=eperezma@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
 X-Spam_bar: ---
 X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.159,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -106,44 +95,102 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, qemu-devel@nongnu.org,
- "Denis V. Lunev" <den@openvz.org>, Eric Blake <eblake@redhat.com>,
- qemu-block@nongnu.org, Daniel Henrique Barboza <danielhb413@gmail.com>,
- Markus Armbruster <armbru@redhat.com>, Eduardo Habkost <eduardo@habkost.net>,
- Richard Henderson <richard.henderson@linaro.org>, Greg Kurz <groug@kaod.org>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
- Stefan Hajnoczi <stefanha@redhat.com>, John Snow <jsnow@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>, Kevin Wolf <kwolf@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- Hanna Reitz <hreitz@redhat.com>, qemu-ppc@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: Laurent Vivier <lvivier@redhat.com>, Parav Pandit <parav@mellanox.com>,
+ Cindy Lu <lulu@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Jason Wang <jasowang@redhat.com>, Juan Quintela <quintela@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ qemu-level <qemu-devel@nongnu.org>, Gautam Dawar <gdawar@xilinx.com>,
+ Markus Armbruster <armbru@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ Harpreet Singh Anand <hanand@xilinx.com>, Xiao W Wang <xiao.w.wang@intel.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Eli Cohen <eli@mellanox.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Zhu Lingshan <lingshan.zhu@intel.com>,
+ virtualization <virtualization@lists.linux-foundation.org>,
+ Eric Blake <eblake@redhat.com>, Stefano Garzarella <sgarzare@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Thu, Jan 27, 2022 at 9:06 AM Peter Xu <peterx@redhat.com> wrote:
+>
+> On Tue, Jan 25, 2022 at 10:40:01AM +0100, Eugenio Perez Martin wrote:
+> > So I think that the first step to remove complexity from the old one
+> > is to remove iova_begin and iova_end.
+> >
+> > As Jason points out, removing iova_end is easier. It has the drawback
+> > of having to traverse all the list beyond iova_end, but a well formed
+> > iova tree should contain none. If the guest can manipulate it, it's
+> > only hurting itself adding nodes to it.
+> >
+> > It's possible to extract the check for hole_right (or this in Jason's
+> > proposal) as a special case too.
+> >
+> > But removing the iova_begin parameter is more complicated. We cannot
+> > know if it's a valid hole without knowing iova_begin, and we cannot
+> > resume traversing. Could we assume iova_begin will always be 0? I
+> > think not, the vdpa device can return anything through syscall.
+>
+> Frankly I don't know what's the syscall you're talking about,
+
+I meant VHOST_VDPA_GET_IOVA_RANGE, which allows qemu to know the valid
+range of iova addresses. We get a pair of uint64_t from it, that
+indicates the minimum and maximum iova address the device (or iommu)
+supports.
+
+We must allocate iova ranges within that address range, which
+complicates this algorithm a little bit. Since the SVQ iova addresses
+are not GPA, qemu needs extra code to be able to allocate and free
+them, creating a new custom iova as.
+
+Please let me know if you want more details or if you prefer me to
+give more context in the patch message.
+
+> but after a 2nd
+> thought and after I went back and re-read your previous version more carefully
+> (the one without the list) I think it seems working to me in general.  I should
+> have tried harder when reviewing the first time!
+>
+
+I guess I should have added more context so this particular change can
+be better understood in isolation.
+
+> I mean this one:
+>
+> https://lore.kernel.org/qemu-devel/20211029183525.1776416-24-eperezma@redhat.com/
+>
+> Though this time I have some comments on the details.
+>
+> Personally I like that one (probably with some amendment upon the old version)
+> more than the current list-based approach.  But I'd like to know your thoughts
+> too (including Jason).  I'll further comment in that thread soon.
+>
+
+Sure, I'm fine with whatever solution we choose, but I'm just running
+out of ideas to simplify it. Reading your suggestions on old RFC now.
+
+Overall I feel list-based one is both more convenient and easy to
+delete when qemu raises the minimal glib version, but it adds a lot
+more code.
+
+It could add less code with this less elegant changes:
+* If we just put the list entry in the DMAMap itself, although it
+exposes unneeded implementation details.
+* We force the iova tree either to be an allocation-based or an
+insertion-based, but not both. In other words, you can only either use
+iova_tree_alloc or iova_tree_insert on the same tree.
+
+I have a few tests to check the algorithms, but they are not in the
+qemu test format. I will post them so we all can understand better
+what is expected from this.
+
+Thanks!
 
 
-On 24/01/2022 11:44, Juan Quintela wrote:
->> diff --git a/migration/migration.c b/migration/migration.c
->> index 0652165610..1f06fd2d18 100644
->> --- a/migration/migration.c
->> +++ b/migration/migration.c
->> @@ -499,7 +499,7 @@ static void process_incoming_migration_bh(void *opaque)
->>              global_state_get_runstate() == RUN_STATE_RUNNING))) {
->>          /* Make sure all file formats flush their mutable metadata.
->>           * If we get an error here, just don't restart the VM yet. */
->> -        bdrv_invalidate_cache_all(&local_err);
->> +        bdrv_activate_all(&local_err);
-> I guess that we can change the comment here, it just looks weird the
-> comment saying flush() and the function nawed _activate()
-> 
 
-Do you think it's enough to replace "flush" with "activate"? I am not
-sure whether "activate their mutable metadata" is meaningful.
+Thanks!
 
-Thank you,
-Emanuele
+> Thanks,
+>
+> --
+> Peter Xu
+>
 
 
