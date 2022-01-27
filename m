@@ -2,68 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D01949E4A5
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Jan 2022 15:31:44 +0100 (CET)
-Received: from localhost ([::1]:59314 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C2A149E502
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Jan 2022 15:48:15 +0100 (CET)
+Received: from localhost ([::1]:33248 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nD5oN-0006e9-9E
-	for lists+qemu-devel@lfdr.de; Thu, 27 Jan 2022 09:31:43 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:52618)
+	id 1nD64M-0003Jl-7X
+	for lists+qemu-devel@lfdr.de; Thu, 27 Jan 2022 09:48:14 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:53848)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1nD5Xk-0007yA-NN
- for qemu-devel@nongnu.org; Thu, 27 Jan 2022 09:14:33 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:22631)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1nD5Xj-00028V-7i
- for qemu-devel@nongnu.org; Thu, 27 Jan 2022 09:14:32 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1643292870;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=/4YQBd0EOyjDHGoIozj1n0eDeMIx6cbGfzYD1y0BC0g=;
- b=W9cW4kyZV5j6szb+mw5Te/A0HL0twRu0skqMY9xvjYjcS0X45hA7iRhztfr7n7BIVtw4vf
- BSbuYCUq+YCIjLGGXTdZDkVa+vp5OHkPE6SGI4k2tpBQr4xILiIxMP6Ogou4di/ros2Mpc
- t3jrRcBaaAqF1Xp7oxdGtUx5FmTWStk=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-180-sbATfuhMO76XMICttMkaDQ-1; Thu, 27 Jan 2022 09:14:27 -0500
-X-MC-Unique: sbATfuhMO76XMICttMkaDQ-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 31CAE84B9A5;
- Thu, 27 Jan 2022 14:14:26 +0000 (UTC)
-Received: from redhat.com (unknown [10.39.195.252])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id B6D3584651;
- Thu, 27 Jan 2022 14:14:15 +0000 (UTC)
-Date: Thu, 27 Jan 2022 15:14:14 +0100
-From: Kevin Wolf <kwolf@redhat.com>
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Subject: Re: [PATCH] block: bdrv_set_backing_hd(): use drained section
-Message-ID: <YfKotrIcGEbOKkaO@redhat.com>
-References: <20220124173741.2984056-1-vsementsov@virtuozzo.com>
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1nD5cb-0005J6-8a
+ for qemu-devel@nongnu.org; Thu, 27 Jan 2022 09:19:33 -0500
+Received: from [2a00:1450:4864:20::62b] (port=36755
+ helo=mail-ej1-x62b.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1nD5cZ-0002pY-Ou
+ for qemu-devel@nongnu.org; Thu, 27 Jan 2022 09:19:32 -0500
+Received: by mail-ej1-x62b.google.com with SMTP id s13so6235788ejy.3
+ for <qemu-devel@nongnu.org>; Thu, 27 Jan 2022 06:19:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=laSX09zjoWy+fX5bh0LTSIhaA63oEaJIJhnoahkS044=;
+ b=zweCcL7eIHPSmak/7XJLFo0yKVIJ/6jtD2up6kUPSY3pqCLJlhYmYpoaiVSEZd02GP
+ adKSGRZlU7I56f03DPA+0gHfq/0gQBWrMt/9orITcMuYJlqLi/RNxt7NgY2KxEn2Mv5N
+ C0W1Uxk5mZllLe9czbVGxJqcOsclyCZmTkJnKiterGu0De7v9X/r6UGAVBWwtxRXoIj+
+ fidsZdRO84oFAaHbK0o06o18i1zEexAB0yU3mb9a9QaESx5qUW0uHGdY0y2g776xxIDx
+ 27MJO8e4VExlOTaVVQ+LFhRiHOXuIM4FjX7Urq88/4UzI7vXybFQviWkD86KgEhoiqyQ
+ kzOw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=laSX09zjoWy+fX5bh0LTSIhaA63oEaJIJhnoahkS044=;
+ b=zatkbA9y+tGSlFt/8WttNfo5RL3Dn+Ore+WpeG8jtFdGT+iF8fC7fb4+D1OybpJYFJ
+ dQZElspIRGCeQaEmVSxt/Ej4De19iy0R1ekuvhVHUnHj9sFMA1oo+ichBB4ApbYVcGKG
+ oBjT/urniJDY6af8XcWenhdbPYyWJnNT4EBMgBZKrhBJAq+5kebUImzSABiVwCn+f3Wu
+ lhytBzQouyks+cG8aTYFU25SJRfs6AfYbOYbovbtSddNHOTvaGhx3deOrTs84WL8vWPc
+ LEb8yQdusuc+ZieBUn45Th9js/p07X5TzKXMB2Ls0L9WztcCjVRyJ4RNm3fzXr/G6mNt
+ z1Iw==
+X-Gm-Message-State: AOAM533qHC6EYv7w/Kc38XcB5lu1rpSesOZNbIoNvn9ocLSZ+5YG4uoi
+ TJD/Oz+goG0YW+geExkFVwjmHg==
+X-Google-Smtp-Source: ABdhPJwCyZeGV1ho0a3IO39Dy6YHdA6P8rmNrMRrvlEyjt6W1BOwXubJYEfRWWheRNKak/vn4BSh4A==
+X-Received: by 2002:a17:907:86a0:: with SMTP id
+ qa32mr3137536ejc.336.1643293170193; 
+ Thu, 27 Jan 2022 06:19:30 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id lf16sm8649264ejc.25.2022.01.27.06.19.28
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 27 Jan 2022 06:19:28 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 1F6DC1FFB7;
+ Thu, 27 Jan 2022 14:19:28 +0000 (GMT)
+References: <20220124171705.10432-1-Jonathan.Cameron@huawei.com>
+ <20220124171705.10432-18-Jonathan.Cameron@huawei.com>
+User-agent: mu4e 1.7.6; emacs 28.0.91
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Subject: Re: [PATCH v4 17/42] cxl: Machine level control on whether CXL
+ support is enabled
+Date: Thu, 27 Jan 2022 14:18:02 +0000
+In-reply-to: <20220124171705.10432-18-Jonathan.Cameron@huawei.com>
+Message-ID: <87wnil8dn3.fsf@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <20220124173741.2984056-1-vsementsov@virtuozzo.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.159,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::62b
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::62b;
+ envelope-from=alex.bennee@linaro.org; helo=mail-ej1-x62b.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -76,60 +92,74 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: den@openvz.org, hreitz@redhat.com, qemu-devel@nongnu.org,
- qemu-block@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Ben Widawsky <ben.widawsky@intel.com>, "Michael S
+ . Tsirkin" <mst@redhat.com>, Samarth Saxena <samarths@cadence.com>,
+ Chris Browy <cbrowy@avery-design.com>, qemu-devel@nongnu.org,
+ linux-cxl@vger.kernel.org, linuxarm@huawei.com,
+ Shreyas Shah <shreyas.shah@elastics.cloud>, Saransh Gupta1 <saransh@ibm.com>,
+ Shameerali Kolothum Thodi <shameerali.kolothum.thodi@huawei.com>,
+ Marcel Apfelbaum <marcel@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
+ Dan Williams <dan.j.williams@intel.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 24.01.2022 um 18:37 hat Vladimir Sementsov-Ogievskiy geschrieben:
-> Graph modifications should be done in drained section. stream_prepare()
-> handler of block stream job call bdrv_set_backing_hd() without using
-> drained section and it's theoretically possible that some IO request
-> will interleave with graph modification and will use outdated pointers
-> to removed block nodes.
-> 
-> Some other callers use bdrv_set_backing_hd() not caring about drained
-> sections too. So it seems good to make a drained section exactly in
-> bdrv_set_backing_hd().
-> 
-> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 
-Thanks, applied to the block branch.
+Jonathan Cameron <Jonathan.Cameron@huawei.com> writes:
 
-> Hi all!
-> 
-> We faced the following bug in our Rhel7-based downstream:
-> read request crashes because backing bs is NULL unexpectedly (honestly,
-> it crashes inside bdrv_is_allocated(), which is called during read and
-> it's a downstream-only code, but that doesn't make real sense).
-> 
-> In gdb I also see block-stream job in state
-> "refcnt = 0, status = JOB_STATUS_NULL", but it's still in jobs list.
-> 
-> So, I assume that backing file was disappeared exactly as final step of
-> block-stream job. And the problem is that this step should be done in
-> drained section, but seems that it isn't.
-> 
-> If we have a drained section, we'd wait for finish of read request
-> before removing the backing node.
-> 
-> I don't have a reproducer. I spent some time to write a test, but there
-> are problems that makes hard to use blkdebug's break-points: we have
-> drained section at block-stream start, and we do have drained section at
-> block-stream finish: bdrv_cor_filter_drop() called from stream_prepare()
-> does drained section (unlike bdrv_set_backing_hd()).
+> From: Jonathan Cameron <jonathan.cameron@huawei.com>
+>
+> There are going to be some potential overheads to CXL enablement,
+> for example the host bridge region reserved in memory maps.
+> Add a machine level control so that CXL is disabled by default.
+>
+> Signed-off-by: Jonathan Cameron <jonathan.cameron@huawei.com>
+> ---
+>  hw/arm/virt.c        |  1 +
+>  hw/core/machine.c    | 26 ++++++++++++++++++++++++++
+>  hw/i386/microvm.c    |  1 +
+>  hw/i386/pc.c         |  1 +
+>  hw/ppc/spapr.c       |  1 +
+>  include/hw/boards.h  |  2 ++
+>  include/hw/cxl/cxl.h |  4 ++++
+>  7 files changed, 36 insertions(+)
+>
+> diff --git a/hw/arm/virt.c b/hw/arm/virt.c
+> index 2b6cc7aa9e..cbb18dcba6 100644
+> --- a/hw/arm/virt.c
+> +++ b/hw/arm/virt.c
+> @@ -2856,6 +2856,7 @@ static void virt_machine_class_init(ObjectClass *oc=
+, void *data)
+>      hc->unplug =3D virt_machine_device_unplug_cb;
+>      mc->nvdimm_supported =3D true;
+>      mc->smp_props.clusters_supported =3D true;
+> +    mc->cxl_supported =3D false;
 
-Maybe a unit test would be easier to write for this kind of thing than
-an iotest?
+You should be able to do this in machine_class_init and then...
 
-> So, the fix is intuitive. I think, it's correct)
-> 
-> Note also, that alternative would be to make a drained section in
-> stream_prepare() and don't touch bdrv_set_backing_hd() function. But it
-> seems good to make a public graph-modification function more safe.
+<snip>
 
-Yes, makes sense to me.
+just turn it on for pc
 
-Kevin
+> diff --git a/hw/i386/pc.c b/hw/i386/pc.c
+> index c8696ac01e..b6800a511a 100644
+> --- a/hw/i386/pc.c
+> +++ b/hw/i386/pc.c
+> @@ -1739,6 +1739,7 @@ static void pc_machine_class_init(ObjectClass *oc, =
+void *data)
+>      mc->default_cpu_type =3D TARGET_DEFAULT_CPU_TYPE;
+>      mc->nvdimm_supported =3D true;
+>      mc->smp_props.dies_supported =3D true;
+> +    mc->cxl_supported =3D true;
+>      mc->default_ram_id =3D "pc.ram";
+>=20=20
+<snip>
 
+Otherwise:
+
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+
+--=20
+Alex Benn=C3=A9e
 
