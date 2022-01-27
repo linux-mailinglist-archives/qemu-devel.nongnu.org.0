@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A9A249ED08
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Jan 2022 22:09:44 +0100 (CET)
-Received: from localhost ([::1]:53192 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 59B2849ED02
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Jan 2022 22:03:21 +0100 (CET)
+Received: from localhost ([::1]:43488 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nDC1W-0006ho-AF
-	for lists+qemu-devel@lfdr.de; Thu, 27 Jan 2022 16:09:43 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:34476)
+	id 1nDBvM-0008U9-EM
+	for lists+qemu-devel@lfdr.de; Thu, 27 Jan 2022 16:03:20 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:34516)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nDBmy-0008C2-Bm
- for qemu-devel@nongnu.org; Thu, 27 Jan 2022 15:54:40 -0500
-Received: from [2001:41c9:1:41f::167] (port=36838
+ id 1nDBn2-0008KR-G0
+ for qemu-devel@nongnu.org; Thu, 27 Jan 2022 15:54:44 -0500
+Received: from [2001:41c9:1:41f::167] (port=36844
  helo=mail.default.ilande.bv.iomart.io)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nDBmw-0004wa-Li
- for qemu-devel@nongnu.org; Thu, 27 Jan 2022 15:54:40 -0500
+ id 1nDBn0-0004xA-Rj
+ for qemu-devel@nongnu.org; Thu, 27 Jan 2022 15:54:44 -0500
 Received: from [2a00:23c4:8ba0:ca00:d4eb:dbd5:5a41:aefe] (helo=kentang.home)
  by mail.default.ilande.bv.iomart.io with esmtpsa
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nDBmR-000BHM-Ez; Thu, 27 Jan 2022 20:54:11 +0000
+ id 1nDBmV-000BHM-Lc; Thu, 27 Jan 2022 20:54:15 +0000
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 To: laurent@vivier.eu,
 	qemu-devel@nongnu.org
-Date: Thu, 27 Jan 2022 20:54:01 +0000
-Message-Id: <20220127205405.23499-8-mark.cave-ayland@ilande.co.uk>
+Date: Thu, 27 Jan 2022 20:54:02 +0000
+Message-Id: <20220127205405.23499-9-mark.cave-ayland@ilande.co.uk>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20220127205405.23499-1-mark.cave-ayland@ilande.co.uk>
 References: <20220127205405.23499-1-mark.cave-ayland@ilande.co.uk>
@@ -37,8 +37,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 2a00:23c4:8ba0:ca00:d4eb:dbd5:5a41:aefe
 X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: [PATCH 07/11] mos6522: add register names to register read/write
- trace events
+Subject: [PATCH 08/11] mos6522: add "info via" HMP command for debugging
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on mail.default.ilande.bv.iomart.io)
 X-Host-Lookup-Failed: Reverse DNS lookup failed for 2001:41c9:1:41f::167
@@ -66,64 +65,152 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This helps to follow how the guest is programming the mos6522 when debugging.
+This displays detailed information about the device registers and timers to aid
+debugging problems with timers and interrupts.
 
 Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 ---
- hw/misc/mos6522.c    | 10 ++++++++--
- hw/misc/trace-events |  4 ++--
- 2 files changed, 10 insertions(+), 4 deletions(-)
+ hmp-commands-info.hx | 12 ++++++
+ hw/misc/mos6522.c    | 92 ++++++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 104 insertions(+)
 
+diff --git a/hmp-commands-info.hx b/hmp-commands-info.hx
+index e90f20a107..4e714e79a2 100644
+--- a/hmp-commands-info.hx
++++ b/hmp-commands-info.hx
+@@ -879,3 +879,15 @@ SRST
+   ``info sgx``
+     Show intel SGX information.
+ ERST
++
++    {
++        .name       = "via",
++        .args_type  = "",
++        .params     = "",
++        .help       = "show guest 6522 VIA devices",
++    },
++
++SRST
++  ``info via``
++    Show guest 6522 VIA devices.
++ERST
 diff --git a/hw/misc/mos6522.c b/hw/misc/mos6522.c
-index 093cc83dcf..aaae195d63 100644
+index aaae195d63..cfa6a9c44b 100644
 --- a/hw/misc/mos6522.c
 +++ b/hw/misc/mos6522.c
-@@ -36,6 +36,12 @@
- #include "qemu/module.h"
- #include "trace.h"
- 
-+
-+static const char *mos6522_reg_names[16] = {
-+    "ORB", "ORA", "DDRB", "DDRA", "T1CL", "T1CH", "T1LL", "T1LH",
-+    "T2CL", "T2CH", "SR", "ACR", "PCR", "IFR", "IER", "ANH"
-+};
-+
- /* XXX: implement all timer modes */
- 
- static void mos6522_timer1_update(MOS6522State *s, MOS6522Timer *ti,
-@@ -310,7 +316,7 @@ uint64_t mos6522_read(void *opaque, hwaddr addr, unsigned size)
+@@ -30,6 +30,8 @@
+ #include "hw/misc/mos6522.h"
+ #include "hw/qdev-properties.h"
+ #include "migration/vmstate.h"
++#include "monitor/monitor.h"
++#include "qapi/type-helpers.h"
+ #include "qemu/timer.h"
+ #include "qemu/cutils.h"
+ #include "qemu/log.h"
+@@ -415,6 +417,95 @@ void mos6522_write(void *opaque, hwaddr addr, uint64_t val, unsigned size)
      }
+ }
  
-     if (addr != VIA_REG_IFR || val != 0) {
--        trace_mos6522_read(addr, val);
-+        trace_mos6522_read(addr, mos6522_reg_names[addr], val);
-     }
++static int qmp_x_query_via_foreach(Object *obj, void *opaque)
++{
++    GString *buf = opaque;
++
++    if (object_dynamic_cast(obj, TYPE_MOS6522)) {
++        MOS6522State *s = MOS6522(obj);
++        int64_t now = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
++        uint16_t t1counter = get_counter(s, &s->timers[0]);
++        uint16_t t2counter = get_counter(s, &s->timers[1]);
++
++        g_string_append_printf(buf, "%s:\n", object_get_typename(obj));
++
++        g_string_append_printf(buf, "  Registers:\n");
++        g_string_append_printf(buf, "    %-*s:    0x%x\n", 4,
++                               mos6522_reg_names[0], s->b);
++        g_string_append_printf(buf, "    %-*s:    0x%x\n", 4,
++                               mos6522_reg_names[1], s->a);
++        g_string_append_printf(buf, "    %-*s:    0x%x\n", 4,
++                               mos6522_reg_names[2], s->dirb);
++        g_string_append_printf(buf, "    %-*s:    0x%x\n", 4,
++                               mos6522_reg_names[3], s->dira);
++        g_string_append_printf(buf, "    %-*s:    0x%x\n", 4,
++                               mos6522_reg_names[4], t1counter & 0xff);
++        g_string_append_printf(buf, "    %-*s:    0x%x\n", 4,
++                               mos6522_reg_names[5], t1counter >> 8);
++        g_string_append_printf(buf, "    %-*s:    0x%x\n", 4,
++                               mos6522_reg_names[6],
++                               s->timers[0].latch & 0xff);
++        g_string_append_printf(buf, "    %-*s:    0x%x\n", 4,
++                               mos6522_reg_names[7],
++                               s->timers[0].latch >> 8);
++        g_string_append_printf(buf, "    %-*s:    0x%x\n", 4,
++                               mos6522_reg_names[8], t2counter & 0xff);
++        g_string_append_printf(buf, "    %-*s:    0x%x\n", 4,
++                               mos6522_reg_names[9], t2counter >> 8);
++        g_string_append_printf(buf, "    %-*s:    0x%x\n", 4,
++                               mos6522_reg_names[10], s->sr);
++        g_string_append_printf(buf, "    %-*s:    0x%x\n", 4,
++                               mos6522_reg_names[11], s->acr);
++        g_string_append_printf(buf, "    %-*s:    0x%x\n", 4,
++                               mos6522_reg_names[12], s->pcr);
++        g_string_append_printf(buf, "    %-*s:    0x%x\n", 4,
++                               mos6522_reg_names[13], s->ifr);
++        g_string_append_printf(buf, "    %-*s:    0x%x\n", 4,
++                               mos6522_reg_names[14], s->ier);
++
++        g_string_append_printf(buf, "  Timers:\n");
++        g_string_append_printf(buf, "    Using current time now(ns)=%"PRId64
++                                    "\n", now);
++        g_string_append_printf(buf, "    T1 freq(hz)=%"PRId64
++                               " mode=%s"
++                               " counter=0x%x"
++                               " latch=0x%x\n"
++                               "       load_time(ns)=%"PRId64
++                               " next_irq_time(ns)=%"PRId64 "\n",
++                               s->timers[0].frequency,
++                               ((s->acr & T1MODE) == T1MODE_CONT) ? "continuous"
++                                                                  : "one-shot",
++                               t1counter,
++                               s->timers[0].latch,
++                               s->timers[0].load_time,
++                               get_next_irq_time(s, &s->timers[0], now));
++        g_string_append_printf(buf, "    T2 freq(hz)=%"PRId64
++                               " mode=%s"
++                               " counter=0x%x"
++                               " latch=0x%x\n"
++                               "       load_time(ns)=%"PRId64
++                               " next_irq_time(ns)=%"PRId64 "\n",
++                               s->timers[1].frequency,
++                               "one-shot",
++                               t2counter,
++                               s->timers[1].latch,
++                               s->timers[1].load_time,
++                               get_next_irq_time(s, &s->timers[1], now));
++    }
++
++    return 0;
++}
++
++static HumanReadableText *qmp_x_query_via(Error **errp)
++{
++    g_autoptr(GString) buf = g_string_new("");
++
++    object_child_foreach_recursive(object_get_root(),
++                                   qmp_x_query_via_foreach, buf);
++
++    return human_readable_text_from_str(buf);
++}
++
+ static const MemoryRegionOps mos6522_ops = {
+     .read = mos6522_read,
+     .write = mos6522_write,
+@@ -547,6 +638,7 @@ static const TypeInfo mos6522_type_info = {
+ static void mos6522_register_types(void)
+ {
+     type_register_static(&mos6522_type_info);
++    monitor_register_hmp_info_hrt("via", qmp_x_query_via);
+ }
  
-     return val;
-@@ -321,7 +327,7 @@ void mos6522_write(void *opaque, hwaddr addr, uint64_t val, unsigned size)
-     MOS6522State *s = opaque;
-     MOS6522DeviceClass *mdc = MOS6522_GET_CLASS(s);
- 
--    trace_mos6522_write(addr, val);
-+    trace_mos6522_write(addr, mos6522_reg_names[addr], val);
- 
-     switch (addr) {
-     case VIA_REG_B:
-diff --git a/hw/misc/trace-events b/hw/misc/trace-events
-index 1c373dd0a4..c1ea57de31 100644
---- a/hw/misc/trace-events
-+++ b/hw/misc/trace-events
-@@ -95,8 +95,8 @@ imx7_gpr_write(uint64_t offset, uint64_t value) "addr 0x%08" PRIx64 "value 0x%08
- mos6522_set_counter(int index, unsigned int val) "T%d.counter=%d"
- mos6522_get_next_irq_time(uint16_t latch, int64_t d, int64_t delta) "latch=%d counter=0x%"PRId64 " delta_next=0x%"PRId64
- mos6522_set_sr_int(void) "set sr_int"
--mos6522_write(uint64_t addr, uint64_t val) "reg=0x%"PRIx64 " val=0x%"PRIx64
--mos6522_read(uint64_t addr, unsigned val) "reg=0x%"PRIx64 " val=0x%x"
-+mos6522_write(uint64_t addr, const char *name, uint64_t val) "reg=0x%"PRIx64 " [%s] val=0x%"PRIx64
-+mos6522_read(uint64_t addr, const char *name, unsigned val) "reg=0x%"PRIx64 " [%s] val=0x%x"
- 
- # npcm7xx_clk.c
- npcm7xx_clk_read(uint64_t offset, uint32_t value) " offset: 0x%04" PRIx64 " value: 0x%08" PRIx32
+ type_init(mos6522_register_types)
 -- 
 2.20.1
 
