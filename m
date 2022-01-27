@@ -2,76 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A10BD49ED4B
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Jan 2022 22:17:03 +0100 (CET)
-Received: from localhost ([::1]:36748 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A8A5649ED1C
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Jan 2022 22:10:58 +0100 (CET)
+Received: from localhost ([::1]:53486 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nDC8c-0007GV-GQ
-	for lists+qemu-devel@lfdr.de; Thu, 27 Jan 2022 16:17:02 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:35656)
+	id 1nDC2j-0006tV-On
+	for lists+qemu-devel@lfdr.de; Thu, 27 Jan 2022 16:10:57 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:35214)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <titusr@google.com>) id 1nDBu4-0006tq-Ba
- for qemu-devel@nongnu.org; Thu, 27 Jan 2022 16:02:00 -0500
-Received: from [2a00:1450:4864:20::22a] (port=39574
- helo=mail-lj1-x22a.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <titusr@google.com>) id 1nDBty-0006BU-QH
- for qemu-devel@nongnu.org; Thu, 27 Jan 2022 16:02:00 -0500
-Received: by mail-lj1-x22a.google.com with SMTP id z20so6124066ljo.6
- for <qemu-devel@nongnu.org>; Thu, 27 Jan 2022 13:01:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=l9lO1OklyoDmPOBdmBi2tJI2IFnDDbuqGS8Madrj3lE=;
- b=DQ4wpApDLOOD4jiZAr5PsCDVKBtDlbPOKQkOLp4miSg95JHGeZHfIRU5/tA4e1Wl49
- IPPIzuysTcujyXOKFAWuLWeBEDZxvE444CeBNvVhYxK2jJNkd2TrCUuJXNbEiXbahW1P
- U5jcaayf0TTHUtjWbugbsbDRJKQUE8AtJkGQaInjIB9ks2AXBGw4i0qgr3mqxH2QdHYJ
- DRrX9aeDTW9bUmkeLYhkCG1ifEN5VUNZEJJ1DJhc5xC9b3TOtI/zNJChacBKKJDFOcvu
- KH7GoybpHSBuwhlvzbR9B3X0ikI6eQR4l4QzO3Qn8pAKH7Isi317UB4CFNGRwbER+/HJ
- dNJA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=l9lO1OklyoDmPOBdmBi2tJI2IFnDDbuqGS8Madrj3lE=;
- b=qJ3+N4VUsZP8hDJytgp/730qSDPkycepZ1A06AevA49OP/vo3pgIJ7ijCZbyVClNuZ
- C7Cr3vCWL9jU6LsehHnHifU9L7Ytelbbm7aYD5sgGmuj25R537PkUPOSkui8wEBmvL6T
- yTaYufOO6Tzsk/64hhEkgQwUmtXIzE6BtVrkLbJpHU5SIEBTvNPLHFbIbLcLlujQLYsC
- 5o3vZosbn/+rYJxO3qUFyCzgbk+2yWaMSq6+/CJZ0YBUG/K9N42dweBgl1hLSF28G1wo
- ms0W2+jItNQSaSKkODF4iKIyvuXKYlO76uxQ9etl14QaKh46nfnKk4nv5obqtEs2B5MQ
- Qfpg==
-X-Gm-Message-State: AOAM532i/nixiXEpQNkmQNaSRU0ToOMwx9TBcFpGYEohJoIMDHl8fTgP
- tfuDU07ZjaMoEzKwg7A732dP+OP8yuSAuWZDgIqiS9NBsms=
-X-Google-Smtp-Source: ABdhPJzuKGIWS2ImPQ1KCpS3M+CQLmjMoI8B9ny2fJcJ42ruZLQRgbgzJW2mFwlR+d4oBfCdFwrzBYZH6JQzci6Jk/c=
-X-Received: by 2002:a17:907:2d8e:: with SMTP id
- gt14mr4292037ejc.509.1643316897297; 
- Thu, 27 Jan 2022 12:54:57 -0800 (PST)
-MIME-Version: 1.0
-References: <20220106230936.417020-1-titusr@google.com>
- <20220106230936.417020-4-titusr@google.com>
- <CAFEAcA-m6Pk+nzSR72hfTaEmEHoYKa+BvxvGij9kCtEu5vRXUA@mail.gmail.com>
-In-Reply-To: <CAFEAcA-m6Pk+nzSR72hfTaEmEHoYKa+BvxvGij9kCtEu5vRXUA@mail.gmail.com>
-From: Titus Rwantare <titusr@google.com>
-Date: Thu, 27 Jan 2022 12:54:20 -0800
-Message-ID: <CAMvPwGoSXYOJnUnDz1jdKWXmGKS3wdvjZ+oV-Pdrk1Z-AXF+Ww@mail.gmail.com>
-Subject: Re: [PATCH 3/5] hw/sensor: add Intersil ISL69260 device model
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: f4bug@amsat.org, minyard@acm.org, qemu-arm@nongnu.org, 
- qemu-devel@nongnu.org, venture@google.com, Hao Wu <wuhaotsh@google.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::22a
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::22a;
- envelope-from=titusr@google.com; helo=mail-lj1-x22a.google.com
-X-Spam_score_int: -167
-X-Spam_score: -16.8
-X-Spam_bar: ----------------
-X-Spam_report: (-16.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
+ (Exim 4.90_1) (envelope-from <dirty@apple.com>) id 1nDBqg-0003MT-7P
+ for qemu-devel@nongnu.org; Thu, 27 Jan 2022 15:58:30 -0500
+Received: from rn-mailsvcp-ppex-lapp24.rno.apple.com ([17.179.253.38]:40778
+ helo=rn-mailsvcp-ppex-lapp24.apple.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dirty@apple.com>) id 1nDBqe-0005dU-K8
+ for qemu-devel@nongnu.org; Thu, 27 Jan 2022 15:58:29 -0500
+Received: from pps.filterd (rn-mailsvcp-ppex-lapp24.rno.apple.com [127.0.0.1])
+ by rn-mailsvcp-ppex-lapp24.rno.apple.com (8.16.1.2/8.16.1.2) with
+ SMTP id 20RKsJx2006866; Thu, 27 Jan 2022 12:58:25 -0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=apple.com;
+ h=from : to : cc :
+ subject : date : message-id : mime-version : content-transfer-encoding;
+ s=20180706; bh=XOhvgokQ39pCznVuG1b0062/D8cUCmMiPazgGEmsruk=;
+ b=iS/J0Inc0Cg84uyQ6E1FVFQ2JoRt3QAIc3oRMfQM+8wtr/Of7knD7sn5pm/nB21YV4fp
+ mwaHUoR4D+zLcpU1BOo83VrBHjjyLWCETIc+MgZJcCHRzuYto4Ot8n4J+q0on+pFhYpQ
+ dwPmRxjvBk+BZmqsEA/Kk0cn30VpkyROaT8rC4NV8MGklEwR67srvtjkXK7DaIVX9oGH
+ RjsG8P9af3t/jB2Mgwo4xSAukC+2oRoQMPO+A4YVrjJa6sO2ektTlj/UDN4teBUMMiiW
+ aWbIQCjAXSsNxmuwfyBuKxUaC021Bh2qINuyV3qg93uNMqRg2KGGUzBnpncOGyVbf8gZ TQ== 
+Received: from rn-mailsvcp-mta-lapp01.rno.apple.com
+ (rn-mailsvcp-mta-lapp01.rno.apple.com [10.225.203.149])
+ by rn-mailsvcp-ppex-lapp24.rno.apple.com with ESMTP id 3drgddfbju-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NO);
+ Thu, 27 Jan 2022 12:58:25 -0800
+Received: from rn-mailsvcp-mmp-lapp04.rno.apple.com
+ (rn-mailsvcp-mmp-lapp04.rno.apple.com [17.179.253.17])
+ by rn-mailsvcp-mta-lapp01.rno.apple.com
+ (Oracle Communications Messaging Server 8.1.0.12.20210903 64bit (built Sep 3
+ 2021)) with ESMTPS id <0R6D00IO2ZLDWUI0@rn-mailsvcp-mta-lapp01.rno.apple.com>; 
+ Thu, 27 Jan 2022 12:58:25 -0800 (PST)
+Received: from process_milters-daemon.rn-mailsvcp-mmp-lapp04.rno.apple.com by
+ rn-mailsvcp-mmp-lapp04.rno.apple.com
+ (Oracle Communications Messaging Server 8.1.0.12.20210903 64bit (built Sep 3
+ 2021)) id <0R6D00W00ZHQ6O00@rn-mailsvcp-mmp-lapp04.rno.apple.com>; Thu,
+ 27 Jan 2022 12:58:25 -0800 (PST)
+X-Va-A: 
+X-Va-T-CD: 51115aee971724d6ddf329fb28aa7ad5
+X-Va-E-CD: 120ef7c1e3e295130a85bde8ba98443e
+X-Va-R-CD: c492b5a21f513dd970c5019bf23301db
+X-Va-CD: 0
+X-Va-ID: 172ef4da-aab5-4512-a236-3fca26138911
+X-V-A: 
+X-V-T-CD: 51115aee971724d6ddf329fb28aa7ad5
+X-V-E-CD: 120ef7c1e3e295130a85bde8ba98443e
+X-V-R-CD: c492b5a21f513dd970c5019bf23301db
+X-V-CD: 0
+X-V-ID: ab6a65ac-c75f-4bac-bd20-054f262cfe0a
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.425, 18.0.816
+ definitions=2022-01-27_03:2022-01-27,
+ 2022-01-27 signatures=0
+Received: from rn-mailsvcp-relay-lapp01.rno.apple.com
+ (unknown [17.150.218.164]) by rn-mailsvcp-mmp-lapp04.rno.apple.com
+ (Oracle Communications Messaging Server 8.1.0.12.20210903 64bit (built Sep 3
+ 2021))
+ with ESMTPSA id <0R6D00ZKZZLCHV00@rn-mailsvcp-mmp-lapp04.rno.apple.com>; Thu,
+ 27 Jan 2022 12:58:25 -0800 (PST)
+From: Cameron Esfahani <dirty@apple.com>
+To: qemu-devel@nongnu.org
+Cc: laurent@vivier.eu
+Subject: [PATCH v2] linux-user: Implement starttime field in self stat
+ emulation
+Date: Thu, 27 Jan 2022 12:58:24 -0800
+Message-id: <20220127205824.40626-1-dirty@apple.com>
+X-Mailer: git-send-email 2.32.0 (Apple Git-131)
+MIME-version: 1.0
+Content-transfer-encoding: 8bit
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.425, 18.0.816
+ definitions=2022-01-27_03:2022-01-27,
+ 2022-01-27 signatures=0
+Received-SPF: pass client-ip=17.179.253.38; envelope-from=dirty@apple.com;
+ helo=rn-mailsvcp-ppex-lapp24.apple.com
+X-Spam_score_int: -45
+X-Spam_score: -4.6
+X-Spam_bar: ----
+X-Spam_report: (-4.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.159,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- ENV_AND_HDR_SPF_MATCH=-0.5, PDS_HP_HELO_NORDNS=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, USER_IN_DEF_DKIM_WL=-7.5,
- USER_IN_DEF_SPF_WL=-7.5 autolearn=no autolearn_force=no
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -87,42 +104,68 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 27 Jan 2022 at 11:39, Peter Maydell <peter.maydell@linaro.org> wrote:
->
-> On Thu, 6 Jan 2022 at 23:19, Titus Rwantare <titusr@google.com> wrote:
-> >
+Instead of always returning 0, return actual starttime.
 
-> > +static uint8_t isl_pmbus_read_byte(PMBusDevice *pmdev)
-> > +{
-> > +    qemu_log_mask(LOG_GUEST_ERROR,
-> > +                  "%s: reading from unsupported register: 0x%02x\n",
-> > +                  __func__, pmdev->code);
-> > +    return 0xFF;
-> > +}
-> > +
-> > +static int isl_pmbus_write_data(PMBusDevice *pmdev, const uint8_t *buf,
-> > +                              uint8_t len)
-> > +{
-> > +    qemu_log_mask(LOG_GUEST_ERROR,
-> > +                  "%s: write to unsupported register: 0x%02x\n",
-> > +                  __func__, pmdev->code);
-> > +    return 0xFF;
-> > +}
->
-> This device appears to have no implemented guest visible
-> interface at all, and yet it has a lot of object properties.
-> What's going on here ?
->
-> thanks
-> -- PMM
+v2: Use clock_gettime() instead of scanning /proc/self/stat
 
-This device relies on read_byte and write_data implemented in
-pmbus_device.c. Those generic implementations fall through to the
-device specific implementations for registers not in the standard.
-This qemu model happens not to include additional registers. However,
-I must change these to LOG_UNIMP which is more appropriate to what's
-going on.
+Signed-off-by: Cameron Esfahani <dirty@apple.com>
+---
+ linux-user/main.c    | 11 +++++++++++
+ linux-user/qemu.h    |  3 +++
+ linux-user/syscall.c |  3 +++
+ 3 files changed, 17 insertions(+)
 
-Thanks,
-Titus
+diff --git a/linux-user/main.c b/linux-user/main.c
+index 16def5215d..2e5e0e886b 100644
+--- a/linux-user/main.c
++++ b/linux-user/main.c
+@@ -196,6 +196,17 @@ void init_task_state(TaskState *ts)
+         .ss_size = 0,
+         .ss_flags = TARGET_SS_DISABLE,
+     };
++
++    /* Capture task start time relative to system boot */
++
++    long long ticksPerSec = sysconf(_SC_CLK_TCK);
++    struct timespec bt;
++
++    if ((ticksPerSec > 0) && !clock_gettime(CLOCK_BOOTTIME, &bt)) {
++        /* start_boottime is expressed in clock ticks */
++        ts->start_boottime = bt.tv_sec * ticksPerSec;
++        ts->start_boottime += bt.tv_nsec * ticksPerSec / 1000000000L;
++    }
+ }
+ 
+ CPUArchState *cpu_copy(CPUArchState *env)
+diff --git a/linux-user/qemu.h b/linux-user/qemu.h
+index 7910ce59cc..86bc169e72 100644
+--- a/linux-user/qemu.h
++++ b/linux-user/qemu.h
+@@ -158,6 +158,9 @@ typedef struct TaskState {
+ 
+     /* This thread's sigaltstack, if it has one */
+     struct target_sigaltstack sigaltstack_used;
++
++    /* Start time of task after system boot in clock ticks */
++    unsigned long long start_boottime;
+ } __attribute__((aligned(16))) TaskState;
+ 
+ abi_long do_brk(abi_ulong new_brk);
+diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+index 5950222a77..2f77dbdda7 100644
+--- a/linux-user/syscall.c
++++ b/linux-user/syscall.c
+@@ -8107,6 +8107,9 @@ static int open_self_stat(void *cpu_env, int fd)
+         } else if (i == 3) {
+             /* ppid */
+             g_string_printf(buf, FMT_pid " ", getppid());
++        } else if (i == 21) {
++            /* starttime */
++            g_string_printf(buf, "%llu ", ts->start_boottime);
+         } else if (i == 27) {
+             /* stack bottom */
+             g_string_printf(buf, TARGET_ABI_FMT_ld " ", ts->info->start_stack);
+-- 
+2.32.0 (Apple Git-131)
+
 
