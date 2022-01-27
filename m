@@ -2,53 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6241149E25D
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Jan 2022 13:29:00 +0100 (CET)
-Received: from localhost ([::1]:54780 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A77C149E1C8
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Jan 2022 12:59:58 +0100 (CET)
+Received: from localhost ([::1]:48278 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nD3tb-0002hK-Dj
-	for lists+qemu-devel@lfdr.de; Thu, 27 Jan 2022 07:28:59 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:46040)
+	id 1nD3RV-0001aq-Q5
+	for lists+qemu-devel@lfdr.de; Thu, 27 Jan 2022 06:59:57 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:46042)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1nD3BO-0000Mz-Rk; Thu, 27 Jan 2022 06:43:18 -0500
-Received: from [187.72.171.209] (port=32148 helo=outlook.eldorado.org.br)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1nD3BL-0002Vr-Od; Thu, 27 Jan 2022 06:43:18 -0500
-Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
- secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
- Thu, 27 Jan 2022 08:41:48 -0300
-Received: from [127.0.0.1] (unknown [10.10.70.45])
- by p9ibm (Postfix) with ESMTP id E8B4C800013;
- Thu, 27 Jan 2022 08:41:47 -0300 (-03)
-Message-ID: <77fd8cbd-ed2a-301f-3ea7-30c49aacfd0a@eldorado.org.br>
-Date: Thu, 27 Jan 2022 08:41:47 -0300
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1nD3BO-0000N4-T1
+ for qemu-devel@nongnu.org; Thu, 27 Jan 2022 06:43:20 -0500
+Received: from us-smtp-delivery-44.mimecast.com ([205.139.111.44]:56368)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1nD3BK-0002W3-SW
+ for qemu-devel@nongnu.org; Thu, 27 Jan 2022 06:43:17 -0500
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-470-6npUO3xQODWU9tQU7ofu5g-1; Thu, 27 Jan 2022 06:43:01 -0500
+X-MC-Unique: 6npUO3xQODWU9tQU7ofu5g-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 515BA81A274
+ for <qemu-devel@nongnu.org>; Thu, 27 Jan 2022 11:43:00 +0000 (UTC)
+Received: from bahia (unknown [10.39.192.166])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 70EC04F856;
+ Thu, 27 Jan 2022 11:42:49 +0000 (UTC)
+Date: Thu, 27 Jan 2022 12:42:48 +0100
+From: Greg Kurz <groug@kaod.org>
+To: Vivek Goyal <vgoyal@redhat.com>
+Subject: Re: [Virtio-fs] [PATCH v4 1/2] virtiofsd: Track mounts
+Message-ID: <20220127124248.1c33492c@bahia>
+In-Reply-To: <YfHTFmQpM8hEU/I/@redhat.com>
+References: <20220125141213.361930-1-groug@kaod.org>
+ <20220125141213.361930-2-groug@kaod.org>
+ <YfHPbWRbWpZgLXVA@redhat.com> <YfHTFmQpM8hEU/I/@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH v2 2/2] ppc/pnv: use a do-while() loop in
- pnv_phb4_translate_tve()
-Content-Language: en-US
-To: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-devel@nongnu.org
-References: <20220126201438.822457-1-danielhb413@gmail.com>
- <20220126201438.822457-3-danielhb413@gmail.com>
-From: "Matheus K. Ferst" <matheus.ferst@eldorado.org.br>
-In-Reply-To: <20220126201438.822457-3-danielhb413@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-OriginalArrivalTime: 27 Jan 2022 11:41:48.0422 (UTC)
- FILETIME=[DE4D0A60:01D81372]
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 187.72.171.209 (failed)
-Received-SPF: pass client-ip=187.72.171.209;
- envelope-from=matheus.ferst@eldorado.org.br; helo=outlook.eldorado.org.br
-X-Spam_score_int: -10
-X-Spam_score: -1.1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: kaod.org
+Content-Type: text/plain; charset=WINDOWS-1252
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: softfail client-ip=205.139.111.44; envelope-from=groug@kaod.org;
+ helo=us-smtp-delivery-44.mimecast.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- PDS_HP_HELO_NORDNS=0.001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
+ SPF_HELO_NONE=0.001, SPF_SOFTFAIL=0.665 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -61,68 +65,238 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, clg@kaod.org, david@gibson.dropbear.id.au
+Cc: virtio-fs@redhat.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 26/01/2022 17:14, Daniel Henrique Barboza wrote:
-> pnv_phb4_translate_tve() is quite similar to pnv_phb3_translate_tve(),
-> and that includes the fact that 'taddr' can be considered uninitialized
-> when throwing the "TCE access fault" error because, in theory, the loop
-> that sets 'taddr' can be skippable due to 'lev' being an signed int.
-> 
-> No one complained about this specific case yet, but since we took the
-> time to handle the same situtation in pnv_phb3_translate_tve(), let's
-> replicate it here as well.
-> 
-> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
-> ---
->   hw/pci-host/pnv_phb4.c | 12 ++++++++++--
->   1 file changed, 10 insertions(+), 2 deletions(-)
-> 
-> diff --git a/hw/pci-host/pnv_phb4.c b/hw/pci-host/pnv_phb4.c
-> index a78add75b0..88a1479831 100644
-> --- a/hw/pci-host/pnv_phb4.c
-> +++ b/hw/pci-host/pnv_phb4.c
-> @@ -1261,13 +1261,21 @@ static void pnv_phb4_translate_tve(PnvPhb4DMASpace *ds, hwaddr addr,
->           /* Top level table base address */
->           base = tta << 12;
-> 
-> +        /*
-> +         * There were reports of compilers complaining about 'taddr'
-> +         * being used uninitialized in pnv_phb3_translate_tve(), and
-> +         * the same scenario is happening here. Initialize 'taddr'
-> +         * just in case.
-> +         */
-> +        taddr = base;
-> +
+On Wed, 26 Jan 2022 18:02:46 -0500
+Vivek Goyal <vgoyal@redhat.com> wrote:
 
-Do we still need this initialization?
+> On Wed, Jan 26, 2022 at 05:47:09PM -0500, Vivek Goyal wrote:
+> > On Tue, Jan 25, 2022 at 03:12:11PM +0100, Greg Kurz wrote:
+> > > The upcoming implementation of ->sync_fs() needs to know about all
+> > > submounts in order to call syncfs() on them when virtiofsd is started
+> > > without '-o announce_submounts'.
+> > >=20
+> > > Track every inode that comes up with a new mount id in a GHashTable.
+> > > If the mount id isn't available, e.g. no statx() on the host, fallbac=
+k
+> > > on the device id for the key. This is done during lookup because we
+> > > only care for the submounts that the client knows about. The inode
+> > > is removed from the hash table when ultimately unreferenced. This
+> > > can happen on a per-mount basis when the client posts a FUSE_FORGET
+> > > request or for all submounts at once with FUSE_DESTROY.
+> > >=20
+> > > Signed-off-by: Greg Kurz <groug@kaod.org>
+> > > ---
+> > >  tools/virtiofsd/passthrough_ll.c | 43 +++++++++++++++++++++++++++++-=
+--
+> > >  1 file changed, 40 insertions(+), 3 deletions(-)
+> > >=20
+> > > diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passt=
+hrough_ll.c
+> > > index 64b5b4fbb186..7bf31fc129c8 100644
+> > > --- a/tools/virtiofsd/passthrough_ll.c
+> > > +++ b/tools/virtiofsd/passthrough_ll.c
+> > > @@ -117,6 +117,7 @@ struct lo_inode {
+> > >      GHashTable *posix_locks; /* protected by lo_inode->plock_mutex *=
+/
+> > > =20
+> > >      mode_t filetype;
+> > > +    bool is_mnt;
+> > >  };
+> > > =20
+> > >  struct lo_cred {
+> > > @@ -164,6 +165,7 @@ struct lo_data {
+> > >      bool use_statx;
+> > >      struct lo_inode root;
+> > >      GHashTable *inodes; /* protected by lo->mutex */
+> > > +    GHashTable *mnt_inodes; /* protected by lo->mutex */
+> > >      struct lo_map ino_map; /* protected by lo->mutex */
+> > >      struct lo_map dirp_map; /* protected by lo->mutex */
+> > >      struct lo_map fd_map; /* protected by lo->mutex */
+> > > @@ -1000,6 +1002,31 @@ static int do_statx(struct lo_data *lo, int di=
+rfd, const char *pathname,
+> > >      return 0;
+> > >  }
+> > > =20
+> >=20
+> > Hi Greg,
+> >=20
+> > Thanks for the patches. Had a quick look. Overall these patches look
+> > pretty good to me. I will spend more time testing and having a=20
+> > closer look. Some quick thoughts below.
+> >=20
+> > > +static uint64_t mnt_inode_key(struct lo_inode *inode)
+> > > +{
+> > > +    /* Prefer mnt_id, fallback on dev */
+> > > +    return inode->key.mnt_id ? inode->key.mnt_id : inode->key.dev;
+> > > +}
+> >=20
+> > I am not sure if we should use inode->key.dev. This might create proble=
+m
+> > if same file system is bind mounted at two paths in shared dir. So
+> > say /dev/sdb is mounted at foo1/ and then bind mounted at foo2/ in
+> > shared dir. A user looks up foo1/ and does some writes. Then we
+> > lookup foo2/ and release that inode. Release of foo2 will let go
+> > inode from the hash. And that means if later another write happens
+> > in foo1/ followed by syncfs(), we will not issue syncfs() on filesystem
+> > backed by /dev/sdb.
+> >=20
+> > So what are the options.
+> >=20
+> > A. Make mnt_id mandatory and do not implement it if mnt_id is not
+> >    available.
+> >=20
+> > B. Don't do anything and live with this. It is a corner case and
+> >    still better than not implement submount syncfs at all.
+> >=20
+> > C. Instead of adding lo_inode to hash, create another kind of object
+> >    and reference count that. It could be a mount fd which we open
+> >    when we add object for the first time. So when foo1/ inode is
+> >    instantiated, create mountfd object, add it to hash table using
+> >    device id as the key. When foo2 comes along, we find the object
+> >    in the hash and just bump up the ref. Now this mountfd object
+> >    will go away when both foo1 and foo2 inodes have been evicted
+> >    and will take care of the issue I am referring to.
+>=20
+> And we could take a ref on mountfd object only when we find an
+> inode whose parent's device id/mnt_id is different from us. That
+> way for every inode in the system we don't go through this exercise.
+> Just only those dir inodes which are a mount point.
+>=20
 
->           /* Total shift to first level */
->           sh = tbl_shift * lev + tce_shift;
-> 
->           /* TODO: Limit to support IO page sizes */
-> 
->           /* TODO: Multi-level untested */
-> -        while ((lev--) >= 0) {
-> +        do {
->               /* Grab the TCE address */
->               taddr = base | (((addr >> sh) & ((1ul << tbl_shift) - 1)) << 3);
->               if (dma_memory_read(&address_space_memory, taddr, &tce,
-> @@ -1288,7 +1296,7 @@ static void pnv_phb4_translate_tve(PnvPhb4DMASpace *ds, hwaddr addr,
->               }
->               sh -= tbl_shift;
->               base = tce & ~0xfffull;
-> -        }
-> +        } while ((lev--) >= 0);
+Good idea !
 
-The same comments from the other patch apply here, this changes the 
-number of iterations in this loop.
+> Vivek
+>=20
+> >=20
+> > I guess B is little extra complexity but probably not too bad.
+> > WDYT. It sounds litter better than option A and B.
+> >=20
+> >=20
+> > > +
+> > > +static void add_mnt_inode(struct lo_data *lo, struct lo_inode *inode=
+)
+> > > +{
+> > > +    uint64_t mnt_key =3D mnt_inode_key(inode);
+> > > +
+> > > +    if (!g_hash_table_contains(lo->mnt_inodes, &mnt_key)) {
+> > > +        inode->is_mnt =3D true;
+> > > +        g_hash_table_insert(lo->mnt_inodes, &mnt_key, inode);
+> > > +    }
+> > > +}
+> > > +
+> > > +static void remove_mnt_inode(struct lo_data *lo, struct lo_inode *in=
+ode)
+> > > +{
+> > > +    uint64_t mnt_key =3D mnt_inode_key(inode);
+> > > +
+> > > +    if (inode->is_mnt) {
+> > > +        g_hash_table_remove(lo->mnt_inodes, &mnt_key);
+> > > +    }
+> > > +}
+> >=20
+> > Should we issue syncfs() on this inode when we are removing it? It
+> > is possible guest did some writes, let go inode and later issued
+> > a syncfs(). By that time inode is gone and we will not issue any
+> > syncfs() on this filesystem. Hence leaving data in host page cache.
+> >=20
+> > Thanks
+> > Vivek
+> >=20
+> > > +
+> > >  /*
+> > >   * Increments nlookup on the inode on success. unref_inode_lolocked(=
+) must be
+> > >   * called eventually to decrement nlookup again. If inodep is non-NU=
+LL, the
+> > > @@ -1086,10 +1113,15 @@ static int lo_do_lookup(fuse_req_t req, fuse_=
+ino_t parent, const char *name,
+> > >          pthread_mutex_lock(&lo->mutex);
+> > >          inode->fuse_ino =3D lo_add_inode_mapping(req, inode);
+> > >          g_hash_table_insert(lo->inodes, &inode->key, inode);
+> > > +        add_mnt_inode(lo, inode);
+> > >          pthread_mutex_unlock(&lo->mutex);
+> > >      }
+> > >      e->ino =3D inode->fuse_ino;
+> > > =20
+> > > +    fuse_log(FUSE_LOG_DEBUG, "  %lli/%s -> %lli%s\n",
+> > > +             (unsigned long long) parent, name, (unsigned long long)=
+ e->ino,
+> > > +             inode->is_mnt ? " (submount)" : "");
+> > > +
+> > >      /* Transfer ownership of inode pointer to caller or drop it */
+> > >      if (inodep) {
+> > >          *inodep =3D inode;
+> > > @@ -1099,9 +1131,6 @@ static int lo_do_lookup(fuse_req_t req, fuse_in=
+o_t parent, const char *name,
+> > > =20
+> > >      lo_inode_put(lo, &dir);
+> > > =20
+> > > -    fuse_log(FUSE_LOG_DEBUG, "  %lli/%s -> %lli\n", (unsigned long l=
+ong)parent,
+> > > -             name, (unsigned long long)e->ino);
+> > > -
+> > >      return 0;
+> > > =20
+> > >  out_err:
+> > > @@ -1563,6 +1592,7 @@ static void unref_inode(struct lo_data *lo, str=
+uct lo_inode *inode, uint64_t n)
+> > >              g_hash_table_destroy(inode->posix_locks);
+> > >              pthread_mutex_destroy(&inode->plock_mutex);
+> > >          }
+> > > +        remove_mnt_inode(lo, inode);
+> > >          /* Drop our refcount from lo_do_lookup() */
+> > >          lo_inode_put(lo, &inode);
+> > >      }
+> > > @@ -3337,6 +3367,7 @@ static void lo_destroy(void *userdata)
+> > >      struct lo_data *lo =3D (struct lo_data *)userdata;
+> > > =20
+> > >      pthread_mutex_lock(&lo->mutex);
+> > > +    g_hash_table_remove_all(lo->mnt_inodes);
+> > >      while (true) {
+> > >          GHashTableIter iter;
+> > >          gpointer key, value;
+> > > @@ -3850,6 +3881,7 @@ static void setup_root(struct lo_data *lo, stru=
+ct lo_inode *root)
+> > >          root->posix_locks =3D g_hash_table_new_full(
+> > >              g_direct_hash, g_direct_equal, NULL, posix_locks_value_d=
+estroy);
+> > >      }
+> > > +    add_mnt_inode(lo, root);
+> > >  }
+> > > =20
+> > >  static guint lo_key_hash(gconstpointer key)
+> > > @@ -3869,6 +3901,10 @@ static gboolean lo_key_equal(gconstpointer a, =
+gconstpointer b)
+> > > =20
+> > >  static void fuse_lo_data_cleanup(struct lo_data *lo)
+> > >  {
+> > > +    if (lo->mnt_inodes) {
+> > > +        g_hash_table_destroy(lo->mnt_inodes);
+> > > +    }
+> > > +
+> > >      if (lo->inodes) {
+> > >          g_hash_table_destroy(lo->inodes);
+> > >      }
+> > > @@ -3931,6 +3967,7 @@ int main(int argc, char *argv[])
+> > >      lo.root.fd =3D -1;
+> > >      lo.root.fuse_ino =3D FUSE_ROOT_ID;
+> > >      lo.cache =3D CACHE_AUTO;
+> > > +    lo.mnt_inodes =3D g_hash_table_new(g_int64_hash, g_int64_equal);
+> > > =20
+> > >      /*
+> > >       * Set up the ino map like this:
+> > > --=20
+> > > 2.34.1
+> > >=20
+> >=20
+> > _______________________________________________
+> > Virtio-fs mailing list
+> > Virtio-fs@redhat.com
+> > https://listman.redhat.com/mailman/listinfo/virtio-fs
+> >=20
+>=20
 
-Thanks,
-Matheus K. Ferst
-Instituto de Pesquisas ELDORADO <http://www.eldorado.org.br/>
-Analista de Software
-Aviso Legal - Disclaimer <https://www.eldorado.org.br/disclaimer.html>
 
