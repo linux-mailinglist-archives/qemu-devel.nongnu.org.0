@@ -2,60 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E86EE49E49B
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Jan 2022 15:29:34 +0100 (CET)
-Received: from localhost ([::1]:56904 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 69A6249E469
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Jan 2022 15:16:30 +0100 (CET)
+Received: from localhost ([::1]:37800 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nD5mH-00051W-VK
-	for lists+qemu-devel@lfdr.de; Thu, 27 Jan 2022 09:29:34 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:51676)
+	id 1nD5Zd-0007xx-FG
+	for lists+qemu-devel@lfdr.de; Thu, 27 Jan 2022 09:16:29 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:52090)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1nD5UE-0002VL-Px
- for qemu-devel@nongnu.org; Thu, 27 Jan 2022 09:10:54 -0500
-Received: from mout.kundenserver.de ([217.72.192.73]:46373)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1nD5UC-0001nK-QB
- for qemu-devel@nongnu.org; Thu, 27 Jan 2022 09:10:54 -0500
-Received: from [192.168.100.1] ([82.142.25.174]) by mrelayeu.kundenserver.de
- (mreue109 [213.165.67.119]) with ESMTPSA (Nemesis) id
- 1MSKq6-1movop0IwK-00SiI8; Thu, 27 Jan 2022 15:10:51 +0100
-Message-ID: <22a4629f-6c1a-a6b1-d662-365a13bf4842@vivier.eu>
-Date: Thu, 27 Jan 2022 15:10:50 +0100
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1nD5WB-0005E7-Vi
+ for qemu-devel@nongnu.org; Thu, 27 Jan 2022 09:12:55 -0500
+Received: from [2a00:1450:4864:20::636] (port=40704
+ helo=mail-ej1-x636.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1nD5Vz-0001zX-NT
+ for qemu-devel@nongnu.org; Thu, 27 Jan 2022 09:12:45 -0500
+Received: by mail-ej1-x636.google.com with SMTP id p15so6083474ejc.7
+ for <qemu-devel@nongnu.org>; Thu, 27 Jan 2022 06:12:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=KLTW43m14STAUOT82UxdiR7lbPM9jRR2XlYTsv+pZb8=;
+ b=LSKiQNQ/QDgcXDk80fCC+vPvJCCtK4mCR6QO+86xQG0j3STLd3VHVNLvfxMcaNfvfU
+ 8x0fZYewSKI0Lp2TAiU0Dbd2yexqmNKVJCeN9DZwLjF5Z4WH7b1UEh39MvxEDIa7Zz4/
+ QyfVlYh1ORz8cE+cpW5+nHY/pgsuKor8o4aRwtiCjK3vOa21tx1hV3VmmnM2Vadmp4gI
+ 7HNAwOQBZnBPrEcsg+sw2hHZLCQEkQ1eFmg5xXa57TOYUl7n4l1YSs2NTM1PnEKO0NCZ
+ ZU5JnYyHzmF7eMqsfqFpHf0jGSkMnfbMF8feZpqHQZEBdeIz8tkwwwVH7c5GtuwjZ3iC
+ rvPQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=KLTW43m14STAUOT82UxdiR7lbPM9jRR2XlYTsv+pZb8=;
+ b=AZk6dXhuhlTX5nHtCelfX4vdDzB7w6iSHbxDIVjwCn/FINNF1ZKNoWaawqWVPGTbVx
+ hwvSL4mn55O+oixzcL0tNPX0i093ivGOQVD1UAOBzlM0opBB/kLWiBx0/781MNpky6TF
+ uDP9F+nv86gumGnT0xwPfRQ4bsnR2c/1WEYf+Y3jWadEwpv8hg5j8L4GyMy+RM6LgPMu
+ kTpxlBq3cw4ObxJGDDCt55HmZYopj1uhan3/4zIRhKwziipcEkvFNxVjy0ir60jMMxvH
+ +kgQRCuuEuZ251guHiL3lFjCUF+lryKwKz8qIzqdIxAVvRW3qszPUhO1GW2Mgd4a5jSM
+ v6Ww==
+X-Gm-Message-State: AOAM533JDVqZrHHwsHuD0tFjJ8wObxVO7NwblFBNm4TjkDJwLS+lD4Df
+ s7MagSymDg5/3lWM33HvAkrW8g==
+X-Google-Smtp-Source: ABdhPJxRAYsYL5RpikAUlTxLEzPGj4fGnku4zZ0OeqxLswk+XuLJqQDV02jMOOSuyJl7sVPR1NMjRA==
+X-Received: by 2002:a17:906:938f:: with SMTP id
+ l15mr3028131ejx.99.1643292759195; 
+ Thu, 27 Jan 2022 06:12:39 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id by22sm8777166ejb.84.2022.01.27.06.12.37
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 27 Jan 2022 06:12:38 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 7A7F61FFB7;
+ Thu, 27 Jan 2022 14:12:37 +0000 (GMT)
+References: <20220124171705.10432-1-Jonathan.Cameron@huawei.com>
+ <20220124171705.10432-17-Jonathan.Cameron@huawei.com>
+User-agent: mu4e 1.7.6; emacs 28.0.91
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Subject: Re: [PATCH v4 16/42] tests/acpi: Add update DSDT.viot
+Date: Thu, 27 Jan 2022 14:12:24 +0000
+In-reply-to: <20220124171705.10432-17-Jonathan.Cameron@huawei.com>
+Message-ID: <871r0t9siy.fsf@linaro.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH] linux-user: Fix inotify on aarch64
-Content-Language: fr
-To: Paul Brook <paul@nowt.org>, qemu-devel@nongnu.org
-References: <20220126202636.655289-1-paul@nowt.org>
-From: Laurent Vivier <laurent@vivier.eu>
-In-Reply-To: <20220126202636.655289-1-paul@nowt.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:y8dvVIfa47CLv75Huciae23uKF4WKeqk9kWbrRD3rswkH6IGTpg
- IZpeWHGyrfLzd4PBnCa2gZlaWoXKFvojXh34mVTsJo6jtRCgSfTQH4kiFtUk9NeacrzI50W
- i0WUkpx5I8p5LdyFNJfs1zgK5ChjbpFHwggrYwYqbcZIpINq9LxbUHUhIULCGYsBc8JJqJh
- dAHDFJgNgW7jA1g/gFWNw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:ezeymR9zgTA=:6cctEhoi8BWTdqzkvE071E
- Z0CyuYCDzfMWZJPzrBfoEMeRvr8UI0Ly0gsFX+d1uu658T4mMU877KZjdl8a4QFevAKZRVyXY
- +zMcsv48TRKmimdg/yAvuYX1imzLoMuV2uiaEKn7Oj2qMXM3h1TjKy5nwvvHNJM9QpVNXcnKC
- r/4zVmK8Qqt3RA/agrkoQ+2Belq0m7BMW03BPUorX+4fJLFrf8lrk7Y4wCcyB0JVect6AYpij
- /qnfFSrwtMq67xBLVsBPi+cDU3s0wGBYUk6SsRLIyd3I2CLGLsHe4JDxmOxb84XAU1Y6dHaBb
- c+4ee/c0XyXr/47WQULAVodjWAHg8fktImubtqjb55OzB9gNRQByAZOk+0CpSVOEvIUVSMZFv
- ciRYXSyJufLMmnUrn86NsxjjuwsDjlcG8B1qS9U4dwkftkwgCHORZixO9Kvvu2mM9z+q4tuSU
- tkDK2xsODEXEHKSVAPM8K6Urk6DRtF0ZCfYMBQpaitdwG5wqYKDi7iqbPWfWs7eAFsSMh2ODa
- S7Rm1qgfu8U+FFfSpGhWoGKCMeKIE2WC/zi8zAfl1Keu32ybg/49+DueCGtR8JCqrzc68fKKY
- VAWlwpmJRaDddVkxC3lt71M6uXL6Fvbk+SIDVz+U4vFRd3usTwZR62AZbIoAgEcoR4g72GZLG
- asbPMLhgXV0A2Frqs6WviKtXjLCeo75uEsM74ZMvTyxj+pjO0vp8G/rbRt412t1NW8xU=
-Received-SPF: none client-ip=217.72.192.73; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::636
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::636;
+ envelope-from=alex.bennee@linaro.org; helo=mail-ej1-x636.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -68,146 +91,76 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Ben Widawsky <ben.widawsky@intel.com>, "Michael S
+ . Tsirkin" <mst@redhat.com>, Samarth Saxena <samarths@cadence.com>,
+ Chris Browy <cbrowy@avery-design.com>, qemu-devel@nongnu.org,
+ linux-cxl@vger.kernel.org, linuxarm@huawei.com,
+ Shreyas Shah <shreyas.shah@elastics.cloud>, Saransh Gupta1 <saransh@ibm.com>,
+ Shameerali Kolothum Thodi <shameerali.kolothum.thodi@huawei.com>,
+ Marcel Apfelbaum <marcel@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
+ Dan Williams <dan.j.williams@intel.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 26/01/2022 à 21:26, Paul Brook a écrit :
-> The inotify implementation originally called the raw host syscalls.
-> Commit 3b3f24add0 changed this to use the glibc wrappers. However ifdefs
-> in syscall.c still test for presence of the raw syscalls.
-> 
-> This causes a problem on e.g. aarch64 hosts which never had the
-> inotify_init syscall - it had been obsoleted by inotify_init1 before
-> aarch64 was invented! However it does have a perfectly good glibc
-> implementation of inotify_wait.
-> 
-> Fix this by removing all the raw __NR_inotify_* tests, and instead check
-> CONFIG_INOTIFY, which already tests for the glibc functionality we use.
-> 
-> Also remove the now-pointless sys_inotify* wrappers.
-> 
-> Tested using x86-64 inotifywatch on aarch64 host, and vice-versa
-> 
-> Signed-off-by: Paul Brook <paul@nowt.org>
+
+Jonathan Cameron <Jonathan.Cameron@huawei.com> writes:
+
+> From: Jonathan Cameron <jonathan.cameron@huawei.com>
+>
+> The consolidation of DSDT AML generation for PCI host bridges
+> lead to some minor ordering changes and the addition of _ADR
+> with a default of 0 for those case that didn't already have it.
+> Only DSDT.viot test is affected.
+>
+> Changes all similar to:
+>
+> Scope (\_SB)
+>      {
+>        Device (PC30)
+>        {
+> -        Name (_UID, 0x30)  // _UID: Unique ID
+>          Name (_BBN, 0x30)  // _BBN: BIOS Bus Number
+>          Name (_HID, EisaId ("PNP0A08") /* PCI Express Bus */)  // _HID: =
+Hardware ID
+>          Name (_CID, EisaId ("PNP0A03") /* PCI Bus */)  // _CID: Compatib=
+le ID
+> +        Name (_ADR, Zero)  // _ADR: Address
+> +        Name (_UID, 0x30)  // _UID: Unique ID
+>          Method (_OSC, 4, NotSerialized)  // _OSC: Operating System Capab=
+ilities
+>
+> Signed-off-by: Jonathan Cameron <jonathan.cameron@huawei.com>
 > ---
->   linux-user/fd-trans.c |  5 ++---
->   linux-user/syscall.c  | 50 +++++++++----------------------------------
->   2 files changed, 12 insertions(+), 43 deletions(-)
-> 
-> diff --git a/linux-user/fd-trans.c b/linux-user/fd-trans.c
-> index 6941089959..30e7b49112 100644
-> --- a/linux-user/fd-trans.c
-> +++ b/linux-user/fd-trans.c
-> @@ -1460,9 +1460,8 @@ TargetFdTrans target_eventfd_trans = {
->       .target_to_host_data = swap_data_eventfd,
->   };
->   
-> -#if (defined(TARGET_NR_inotify_init) && defined(__NR_inotify_init)) || \
-> -    (defined(CONFIG_INOTIFY1) && defined(TARGET_NR_inotify_init1) && \
-> -     defined(__NR_inotify_init1))
-> +#if defined(CONFIG_INOTIFY) && (defined(TARGET_NR_inotify_init) || \
-> +        defined(TARGET_NR_inotify_init1))
->   static abi_long host_to_target_data_inotify(void *buf, size_t len)
->   {
->       struct inotify_event *ev;
-> diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-> index 56a3e17183..17cc38fe34 100644
-> --- a/linux-user/syscall.c
-> +++ b/linux-user/syscall.c
-> @@ -272,9 +272,6 @@ static type name (type1 arg1,type2 arg2,type3 arg3,type4 arg4,type5 arg5,	\
->   #if defined(__NR_futex_time64)
->   # define __NR_sys_futex_time64 __NR_futex_time64
->   #endif
-> -#define __NR_sys_inotify_init __NR_inotify_init
-> -#define __NR_sys_inotify_add_watch __NR_inotify_add_watch
-> -#define __NR_sys_inotify_rm_watch __NR_inotify_rm_watch
->   #define __NR_sys_statx __NR_statx
->   
->   #if defined(__alpha__) || defined(__x86_64__) || defined(__s390x__)
-> @@ -447,33 +444,6 @@ static int sys_renameat2(int oldfd, const char *old,
->   
->   #ifdef CONFIG_INOTIFY
->   #include <sys/inotify.h>
-> -
-> -#if defined(TARGET_NR_inotify_init) && defined(__NR_inotify_init)
-> -static int sys_inotify_init(void)
-> -{
-> -  return (inotify_init());
-> -}
-> -#endif
-> -#if defined(TARGET_NR_inotify_add_watch) && defined(__NR_inotify_add_watch)
-> -static int sys_inotify_add_watch(int fd,const char *pathname, int32_t mask)
-> -{
-> -  return (inotify_add_watch(fd, pathname, mask));
-> -}
-> -#endif
-> -#if defined(TARGET_NR_inotify_rm_watch) && defined(__NR_inotify_rm_watch)
-> -static int sys_inotify_rm_watch(int fd, int32_t wd)
-> -{
-> -  return (inotify_rm_watch(fd, wd));
-> -}
-> -#endif
-> -#ifdef CONFIG_INOTIFY1
-> -#if defined(TARGET_NR_inotify_init1) && defined(__NR_inotify_init1)
-> -static int sys_inotify_init1(int flags)
-> -{
-> -  return (inotify_init1(flags));
-> -}
-> -#endif
-> -#endif
->   #else
->   /* Userspace can usually survive runtime without inotify */
->   #undef TARGET_NR_inotify_init
-> @@ -12263,35 +12233,35 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
->       case TARGET_NR_futex_time64:
->           return do_futex_time64(cpu, arg1, arg2, arg3, arg4, arg5, arg6);
->   #endif
-> -#if defined(TARGET_NR_inotify_init) && defined(__NR_inotify_init)
-> +#ifdef CONFIG_INOTIFY
-> +#if defined(TARGET_NR_inotify_init)
->       case TARGET_NR_inotify_init:
-> -        ret = get_errno(sys_inotify_init());
-> +        ret = get_errno(inotify_init());
->           if (ret >= 0) {
->               fd_trans_register(ret, &target_inotify_trans);
->           }
->           return ret;
->   #endif
-> -#ifdef CONFIG_INOTIFY1
-> -#if defined(TARGET_NR_inotify_init1) && defined(__NR_inotify_init1)
-> +#if defined(TARGET_NR_inotify_init1) && defined(CONFIG_INOTIFY1)
->       case TARGET_NR_inotify_init1:
-> -        ret = get_errno(sys_inotify_init1(target_to_host_bitmask(arg1,
-> +        ret = get_errno(inotify_init1(target_to_host_bitmask(arg1,
->                                             fcntl_flags_tbl)));
->           if (ret >= 0) {
->               fd_trans_register(ret, &target_inotify_trans);
->           }
->           return ret;
->   #endif
-> -#endif
-> -#if defined(TARGET_NR_inotify_add_watch) && defined(__NR_inotify_add_watch)
-> +#if defined(TARGET_NR_inotify_add_watch)
->       case TARGET_NR_inotify_add_watch:
->           p = lock_user_string(arg2);
-> -        ret = get_errno(sys_inotify_add_watch(arg1, path(p), arg3));
-> +        ret = get_errno(inotify_add_watch(arg1, path(p), arg3));
->           unlock_user(p, arg2, 0);
->           return ret;
->   #endif
-> -#if defined(TARGET_NR_inotify_rm_watch) && defined(__NR_inotify_rm_watch)
-> +#if defined(TARGET_NR_inotify_rm_watch)
->       case TARGET_NR_inotify_rm_watch:
-> -        return get_errno(sys_inotify_rm_watch(arg1, arg2));
-> +        return get_errno(inotify_rm_watch(arg1, arg2));
-> +#endif
->   #endif
->   
->   #if defined(TARGET_NR_mq_open) && defined(__NR_mq_open)
+>  tests/data/acpi/q35/DSDT.viot               | Bin 9398 -> 9416 bytes
+>  tests/qtest/bios-tables-test-allowed-diff.h |   1 -
+>  2 files changed, 1 deletion(-)
+>
+> diff --git a/tests/data/acpi/q35/DSDT.viot b/tests/data/acpi/q35/DSDT.viot
+> index 1c3b4da5cbe81ecab5e1ef50d383b561c5e0f55f..207ac5b9ae4c3a4bc0094c224=
+2d1a1b08771b784 100644
+> GIT binary patch
+> delta 139
+> zcmdnydBT&+CD<k8gbD)#<CBeCu5zLdVlnZ-PVv!A?xF$C#s(bmPELMY6KfQhxC}No
+> z$Z0Y1qbM*kn0!E9nwKNq(Itq1BR<sAg-ZdbOrCM_F9mK?rG^HRr4><?3V@Yv4pmBI
+> F0sxp4B{u*7
+>
+> delta 143
+> zcmX@%xy_TyCD<ion+gL1<MNGMu5zMYqA~HoPVv!Aj-mn1#s(bmp`I>WlVjy%CeC%7
+> z+^Kj^(SX5#0jQdxl0g7Ptr1kM!sPw((lEse3<_8k8$uNeOjb|?Dc;<vXwM7)8)+to
+>
+> diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bi=
+os-tables-test-allowed-diff.h
+> index 08a8095432..dfb8523c8b 100644
+> --- a/tests/qtest/bios-tables-test-allowed-diff.h
+> +++ b/tests/qtest/bios-tables-test-allowed-diff.h
+> @@ -1,2 +1 @@
+>  /* List of comma-separated changed AML files to ignore */
+> -"tests/data/acpi/q35/DSDT.viot",
 
-Applied to my linux-user-for-7.0 branch.
+squash with the change please.
 
-Thanks,
-Laurent
-
+--=20
+Alex Benn=C3=A9e
 
