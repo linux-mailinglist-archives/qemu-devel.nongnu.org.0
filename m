@@ -2,95 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7842749DFBC
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Jan 2022 11:48:15 +0100 (CET)
-Received: from localhost ([::1]:35320 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2901D49E053
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Jan 2022 12:11:43 +0100 (CET)
+Received: from localhost ([::1]:55164 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nD2K6-0000ZY-Am
-	for lists+qemu-devel@lfdr.de; Thu, 27 Jan 2022 05:48:14 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:33036)
+	id 1nD2gm-0005BX-Ly
+	for lists+qemu-devel@lfdr.de; Thu, 27 Jan 2022 06:11:40 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:36316)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1nD2HM-0005Xm-6Y
- for qemu-devel@nongnu.org; Thu, 27 Jan 2022 05:45:24 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:57989)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1nD2TQ-00055n-KS
+ for qemu-devel@nongnu.org; Thu, 27 Jan 2022 05:57:52 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:60675)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1nD2HI-00024y-Sm
- for qemu-devel@nongnu.org; Thu, 27 Jan 2022 05:45:22 -0500
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1nD2TN-00047c-BS
+ for qemu-devel@nongnu.org; Thu, 27 Jan 2022 05:57:51 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1643280319;
+ s=mimecast20190719; t=1643281068;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=LU9IZHUu3pCtTqOpPktPpnR6th1g3m239iDevRfSw9Q=;
- b=KM+4i/b9TDLnHRl2pl6oicTt4pLW/dcDOv137X9apqYg3HqObQ9fitVz3U57wHDdA/Kg+c
- PFuadv2IYRQhxztyE3+WEJY+lopGgFCfF9EHYylyCwmIYanSDfcXmJ+fzPQJ1z3UAClKvj
- YCJRYYlI7GhdriNjdEn8uk5upMtC1b0=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=vMnZ1oanJS5h85jOPuzucdkXoIhYXkZSQTi0y+pFx+c=;
+ b=C2uA5im5qTrPumJmn8x8KgTubQlx8y8K4FGQb6ORY9H6XTag1PoFVMAelmebm5U6JD0NLh
+ BSgCZEhE5SUrqSkPJduFsLzNoo8KPM5DQBsFaEXINlcewcTW/NEuMKmb9KzYLfCPIvCV76
+ IoIFoGbTz6LrgHfSCVlhDtP72+n4moA=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-371-XXHaU2tdOm2iQ4qlLetxjw-1; Thu, 27 Jan 2022 05:45:15 -0500
-X-MC-Unique: XXHaU2tdOm2iQ4qlLetxjw-1
-Received: by mail-wr1-f69.google.com with SMTP id
- z1-20020adfbbc1000000b001df54394cebso76695wrg.20
- for <qemu-devel@nongnu.org>; Thu, 27 Jan 2022 02:45:15 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:organization:in-reply-to
- :content-transfer-encoding;
- bh=LU9IZHUu3pCtTqOpPktPpnR6th1g3m239iDevRfSw9Q=;
- b=nriH3bb/yw6TriAcH6VMhiu4laNZCibP21F1VYEStOcoss7Lo8f9K1cT0lmyv4bURl
- SBVVsuWLuaU6yJs1TB8eL0FrqnfQkhkMn7B3KEdKhYdKV8RNiVq2V1wX/JptPkDkh47A
- wEssI7HytSKyMxzgpfRf/D6ClVSEp1zbdFdUR3gR7d8dg4rQ+zQnitVoYsqnjCsDYE3j
- 37W1V1lnswnmJ3nSx5ZcUNLrhKhC+VuGEAAfkuhKiNEbA9ihnOO6usreCXaBi9yohI4k
- Jb2DQNlXFVFzyt+sDWQ9k+ap34HcaVQOqNeSEwb/BSSvnmVHX2kPoD2GRt7eMIwsU9WE
- YDhg==
-X-Gm-Message-State: AOAM530+xnK/MOUWJm1Mzj5+cmjwt/fC60WZbYMqy4EdJN21Gb1nzp/p
- cs7MYjs+Fjmz5m7kzf00DzR3Toc/6wtdMh5hhGYJ03nltuDN+UfMseGUxaC02DCnO+0sv6tUHcr
- ljSZK+/i6z7a/vIs=
-X-Received: by 2002:a5d:55c3:: with SMTP id i3mr2506449wrw.250.1643280314451; 
- Thu, 27 Jan 2022 02:45:14 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwbhWQ0cYEvOP9nAWExDN0GxmdfDamScYe4v++JhkcPJg+QDUrNymhc8QXi8IyJQwLs/KH+9A==
-X-Received: by 2002:a5d:55c3:: with SMTP id i3mr2506429wrw.250.1643280314175; 
- Thu, 27 Jan 2022 02:45:14 -0800 (PST)
-Received: from ?IPV6:2003:cb:c70d:8300:4812:9d4f:6cd8:7f47?
- (p200300cbc70d830048129d4f6cd87f47.dip0.t-ipconnect.de.
- [2003:cb:c70d:8300:4812:9d4f:6cd8:7f47])
- by smtp.gmail.com with ESMTPSA id m14sm2305616wrp.4.2022.01.27.02.45.13
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 27 Jan 2022 02:45:13 -0800 (PST)
-Message-ID: <463337d3-dad9-abbc-b0e3-544e08160234@redhat.com>
-Date: Thu, 27 Jan 2022 11:45:13 +0100
+ us-mta-441-x83QWWCCOB6mi4Jq8OxxdA-1; Thu, 27 Jan 2022 05:57:43 -0500
+X-MC-Unique: x83QWWCCOB6mi4Jq8OxxdA-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 778A685EE60;
+ Thu, 27 Jan 2022 10:57:39 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.195.16])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 759B6752DC;
+ Thu, 27 Jan 2022 10:56:56 +0000 (UTC)
+Date: Thu, 27 Jan 2022 11:56:54 +0100
+From: Kevin Wolf <kwolf@redhat.com>
+To: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+Subject: Re: [PATCH v6 01/33] main-loop.h: introduce qemu_in_main_thread()
+Message-ID: <YfJ6dsVcmB4Uc2rO@redhat.com>
+References: <20220121170544.2049944-1-eesposit@redhat.com>
+ <20220121170544.2049944-2-eesposit@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.0
-Subject: Re: [PATCH qemu v2] s390x: sck: load into a temporary not into in1
-To: Janosch Frank <frankja@linux.ibm.com>, Nico Boehr <nrb@linux.ibm.com>,
- qemu-devel@nongnu.org
-References: <20220126084201.774457-1-nrb@linux.ibm.com>
- <a90563ea-2740-d4ca-d2f3-6b6861faf0de@linux.ibm.com>
-From: David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-In-Reply-To: <a90563ea-2740-d4ca-d2f3-6b6861faf0de@linux.ibm.com>
+In-Reply-To: <20220121170544.2049944-2-eesposit@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=david@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=kwolf@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
 X-Spam_bar: ---
 X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.159,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -103,35 +77,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: linux-s390@vger.kernel.org, thuth@redhat.com, richard.henderson@linaro.org
+Cc: Fam Zheng <fam@euphon.net>, qemu-devel@nongnu.org,
+ "Denis V. Lunev" <den@openvz.org>, Eric Blake <eblake@redhat.com>,
+ qemu-block@nongnu.org, Juan Quintela <quintela@redhat.com>,
+ Daniel Henrique Barboza <danielhb413@gmail.com>,
+ Markus Armbruster <armbru@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, Greg Kurz <groug@kaod.org>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>,
+ Stefan Hajnoczi <stefanha@redhat.com>, John Snow <jsnow@redhat.com>,
+ David Gibson <david@gibson.dropbear.id.au>,
+ Eduardo Habkost <eduardo@habkost.net>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>,
+ Hanna Reitz <hreitz@redhat.com>, qemu-ppc@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 27.01.22 11:32, Janosch Frank wrote:
-> On 1/26/22 09:42, Nico Boehr wrote:
->> We previously loaded into in1, but in1 is not filled during
->> disassembly and hence always zero. This leads to an assertion failure:
->>
->>    qemu-system-s390x: /home/nrb/qemu/include/tcg/tcg.h:654: temp_idx:
->>    Assertion `n >= 0 && n < tcg_ctx->nb_temps' failed.`
->>
->> Instead, use in2_la2_m64a to load from storage into in2 and pass that to
->> the helper, which matches what we already do for SCKC.
->>
->> This fixes the SCK test I sent here under TCG:
->> <https://www.spinics.net/lists/kvm/msg265169.html>
->>
->> Suggested-by: David Hildenbrand <david@redhat.com>
->> Signed-off-by: Nico Boehr <nrb@linux.ibm.com>
+Am 21.01.2022 um 18:05 hat Emanuele Giuseppe Esposito geschrieben:
+> When invoked from the main loop, this function is the same
+> as qemu_mutex_iothread_locked, and returns true if the BQL is held.
+
+So its name is misleading because it doesn't answer the question whether
+we're in the main thread, but whethere we're holding the BQL (which is
+mostly equivalent to holding an AioContext lock, not being in the home
+thread of that AioContext).
+
+> When invoked from iothreads or tests, it returns true only
+> if the current AioContext is the Main Loop.
 > 
-> @David: Was this already broken when it was implemented?
-> I.e. do we want a "Fixes: 9dc67537 ("s390x/tcg: implement SET CLOCK ")" tag?
+> This essentially just extends qemu_mutex_iothread_locked to work
+> also in unit tests or other users like storage-daemon, that run
+> in the Main Loop but end up using the implementation in
+> stubs/iothread-lock.c.
+> 
+> Using qemu_mutex_iothread_locked in unit tests defaults to false
+> because they use the implementation in stubs/iothread-lock,
+> making all assertions added in next patches fail despite the
+> AioContext is still the main loop.
+> 
+> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+> Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 
-That sounds about right.
+This adds a new function that is almost the same as an existing
+function, but the documentation is unclear when I should use one or the
+other.
 
--- 
-Thanks,
+What are the use cases for the existing qemu_mutex_iothread_locked()
+stub where we rely on false being returned?
 
-David / dhildenb
+If there aren't any, then maybe we should change the stub for that one
+instead of adding a new function that behaves the same in the system
+emulator and different only when it's stubbed out?
+
+Kevin
 
 
