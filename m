@@ -2,51 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F31449EEC2
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jan 2022 00:19:43 +0100 (CET)
-Received: from localhost ([::1]:39698 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A25849EEC3
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jan 2022 00:20:16 +0100 (CET)
+Received: from localhost ([::1]:40804 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nDE3K-00089A-P2
-	for lists+qemu-devel@lfdr.de; Thu, 27 Jan 2022 18:19:42 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:59050)
+	id 1nDE3q-0000T2-A5
+	for lists+qemu-devel@lfdr.de; Thu, 27 Jan 2022 18:20:14 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:59202)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1nDE0A-0006t9-G0
- for qemu-devel@nongnu.org; Thu, 27 Jan 2022 18:16:26 -0500
-Received: from [2001:738:2001:2001::2001] (port=29291 helo=zero.eik.bme.hu)
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1nDE0u-0007IF-86; Thu, 27 Jan 2022 18:17:12 -0500
+Received: from [2001:41c9:1:41f::167] (port=37076
+ helo=mail.default.ilande.bv.iomart.io)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1nDE08-0008KV-4M
- for qemu-devel@nongnu.org; Thu, 27 Jan 2022 18:16:25 -0500
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 82A127457EF;
- Fri, 28 Jan 2022 00:16:21 +0100 (CET)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 652D07456FE; Fri, 28 Jan 2022 00:16:21 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id 6396B7456E3;
- Fri, 28 Jan 2022 00:16:21 +0100 (CET)
-Date: Fri, 28 Jan 2022 00:16:21 +0100 (CET)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Subject: Re: [PATCH 01/11] mos6522: add defines for IFR bit flags
-In-Reply-To: <20220127205405.23499-2-mark.cave-ayland@ilande.co.uk>
-Message-ID: <9e5c4e86-8555-1a42-783f-dae53f114cd2@eik.bme.hu>
-References: <20220127205405.23499-1-mark.cave-ayland@ilande.co.uk>
- <20220127205405.23499-2-mark.cave-ayland@ilande.co.uk>
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1nDE0s-0008TH-3A; Thu, 27 Jan 2022 18:17:11 -0500
+Received: from [2a00:23c4:8ba0:ca00:d4eb:dbd5:5a41:aefe]
+ by mail.default.ilande.bv.iomart.io with esmtpsa
+ (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.92)
+ (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1nDE0I-000C1X-Se; Thu, 27 Jan 2022 23:16:38 +0000
+Message-ID: <34808844-5699-b7e8-e2b0-2b6b2dce2652@ilande.co.uk>
+Date: Thu, 27 Jan 2022 23:16:50 +0000
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII; format=flowed
-X-Spam-Probability: 8%
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2001:738:2001:2001::2001
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Content-Language: en-US
+To: Fabiano Rosas <farosas@linux.ibm.com>, qemu-devel@nongnu.org
+References: <20220127201116.1154733-1-farosas@linux.ibm.com>
+ <633a8e99-d68b-2765-ceea-3d85935899f5@ilande.co.uk>
+ <874k5ord32.fsf@linux.ibm.com>
+From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+In-Reply-To: <874k5ord32.fsf@linux.ibm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-SA-Exim-Connect-IP: 2a00:23c4:8ba0:ca00:d4eb:dbd5:5a41:aefe
+X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
+Subject: Re: [PATCH v2 0/8] target/ppc: powerpc_excp improvements [74xx] (5/n)
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on mail.default.ilande.bv.iomart.io)
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2001:41c9:1:41f::167
  (failed)
-Received-SPF: pass client-ip=2001:738:2001:2001::2001;
- envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
+Received-SPF: pass client-ip=2001:41c9:1:41f::167;
+ envelope-from=mark.cave-ayland@ilande.co.uk;
+ helo=mail.default.ilande.bv.iomart.io
 X-Spam_score_int: -10
 X-Spam_score: -1.1
 X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -59,58 +65,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: laurent@vivier.eu, qemu-devel@nongnu.org
+Cc: danielhb413@gmail.com, qemu-ppc@nongnu.org, clg@kaod.org,
+ david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 27 Jan 2022, Mark Cave-Ayland wrote:
-> These are intended to make it easier to see how the physical control lines
-> are wired for each instance.
->
-> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-> ---
-> include/hw/misc/mos6522.h | 22 +++++++++++++++-------
-> 1 file changed, 15 insertions(+), 7 deletions(-)
->
-> diff --git a/include/hw/misc/mos6522.h b/include/hw/misc/mos6522.h
-> index fc95d22b0f..12abd8b8d2 100644
-> --- a/include/hw/misc/mos6522.h
-> +++ b/include/hw/misc/mos6522.h
-> @@ -41,13 +41,21 @@
-> #define IER_SET            0x80    /* set bits in IER */
-> #define IER_CLR            0       /* clear bits in IER */
->
-> -#define CA2_INT            0x01
-> -#define CA1_INT            0x02
-> -#define SR_INT             0x04    /* Shift register full/empty */
-> -#define CB2_INT            0x08
-> -#define CB1_INT            0x10
-> -#define T2_INT             0x20    /* Timer 2 interrupt */
-> -#define T1_INT             0x40    /* Timer 1 interrupt */
-> +#define CA2_INT_BIT        0
-> +#define CA1_INT_BIT        1
-> +#define SR_INT_BIT         2       /* Shift register full/empty */
-> +#define CB2_INT_BIT        3
-> +#define CB1_INT_BIT        4
-> +#define T2_INT_BIT         5       /* Timer 2 interrupt */
-> +#define T1_INT_BIT         6       /* Timer 1 interrupt */
-> +
-> +#define CA2_INT            (1 << CA2_INT_BIT)
-> +#define CA1_INT            (1 << CA1_INT_BIT)
-> +#define SR_INT             (1 << SR_INT_BIT)
-> +#define CB2_INT            (1 << CB2_INT_BIT)
-> +#define CB1_INT            (1 << CB1_INT_BIT)
-> +#define T2_INT             (1 << T2_INT_BIT)
-> +#define T1_INT             (1 << T1_INT_BIT)
+On 27/01/2022 23:08, Fabiano Rosas wrote:
 
-Maybe you could leave the #defines called XX_INT and then use BIT(XX_INT) 
-instead of the second set of #defines which would provide same readability 
-but with less #defines needed.
+> Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk> writes:
+> 
+>> On 27/01/2022 20:11, Fabiano Rosas wrote:
+>>
+>>> Changes from v1:
+>>>
+>>> - Restored the 'sc 1' support to avoid breaking the pegasos2 machine.
+>>>
+>>> I tested this version in the G4 with the following OSes:
+>>>
+>>> - Linux 5.15 (5.16 seems to be broken, even with master)
+>>> - FreeBSD 13
+>>> - Mac OS 9.2
+>>> - Mac OS Darwin 6.0
+>>> - Mac OS X 10.4
+>>> - MorphOS 3.15 (-M pegasos2 and -M mac99,via=pmu)
+>>>
+>>> Based on legoater/ppc-7.0
+>>>
+>>> v1:
+>>> https://lore.kernel.org/r/20220126164200.1048677-1-farosas@linux.ibm.com
+>>>
+>>> Fabiano Rosas (8):
+>>>     target/ppc: Introduce powerpc_excp_74xx
+>>>     target/ppc: Simplify powerpc_excp_74xx
+>>>     target/ppc: 74xx: Machine Check exception cleanup
+>>>     target/ppc: 74xx: External interrupt cleanup
+>>>     target/ppc: 74xx: Program exception cleanup
+>>>     target/ppc: 74xx: System Call exception cleanup
+>>>     target/ppc: 74xx: System Reset interrupt cleanup
+>>>     target/ppc: 74xx: Set SRRs directly in exception code
+>>>
+>>>    target/ppc/excp_helper.c | 197 +++++++++++++++++++++++++++++++++++++++
+>>>    1 file changed, 197 insertions(+)
+>>
+>> That certainly covers a good range MacOS images so I'm happy to give:
+>>
+>> Acked-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+>>
+>> Just out of curiosity have you tried booting MacOS 9.2 under KVM-PR? Last time I
+>> tried on my G4 Mac Mini here, OS X worked fine but 9.2 failed early after jumping
+>> into the 68k emulator. Unfortunately due to the split real mode (see
+>> https://github.com/torvalds/linux/commit/c01e3f66cd5cdc1f727f4c7b0c10b3e3bdb91ba7
+>> where MSR_IR != MSR_DR) I can't step through with QEMU's gdbstub to see what is going
+>> wrong...
+> 
+> Never crossed my mind actually. =)
+> 
+> I don't immediately see why the step wouldn't work due to split
+> mode. Let me understand that patch first. KVM-PR is full of surprises.
 
-Regards,
-BALATON Zoltan
+IIRC from a debugging point of view the problem was that the QEMU *_debug() functions 
+can't translate correctly in split mode, so if gdbstub is enabled with KVM all you 
+end up seeing in gdb is junk :(
 
-> /* Bits in ACR */
-> #define T1MODE             0xc0    /* Timer 1 mode */
->
+
+ATB,
+
+Mark.
 
