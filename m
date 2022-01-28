@@ -2,66 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB73749FE3F
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jan 2022 17:43:34 +0100 (CET)
-Received: from localhost ([::1]:46316 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 698B849FE4C
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jan 2022 17:47:41 +0100 (CET)
+Received: from localhost ([::1]:55672 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nDULV-0005AR-V4
-	for lists+qemu-devel@lfdr.de; Fri, 28 Jan 2022 11:43:34 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:35018)
+	id 1nDUPU-0003i5-9T
+	for lists+qemu-devel@lfdr.de; Fri, 28 Jan 2022 11:47:40 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:35510)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nDTXH-0007YH-Ne
- for qemu-devel@nongnu.org; Fri, 28 Jan 2022 10:51:39 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:30831)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1nDTZb-0008OY-1S
+ for qemu-devel@nongnu.org; Fri, 28 Jan 2022 10:54:03 -0500
+Received: from us-smtp-delivery-44.mimecast.com ([205.139.111.44]:31946)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nDTXE-0001G4-F2
- for qemu-devel@nongnu.org; Fri, 28 Jan 2022 10:51:38 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1643385095;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=XIIUv5uqy0sjqvNCzWvSgWTBko21v8VJtK52bGBa8+8=;
- b=U3EVrnD46q646RDG3xffheQ6ZlSCEj/PIV08f0DMrCsyRCxf3af6kC2/jDoGAgQ8wHNxq8
- 3ZkW+lSGldlm8ZqffgDp7nCw+/JkC7MBHJYuj1D8yTsKX8qvGCLJiNeG1Speqjx8Y4XmqY
- JLKLetJx9QACYIElpjTeY0KGQOKP/mc=
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1nDTZZ-0001N5-89
+ for qemu-devel@nongnu.org; Fri, 28 Jan 2022 10:54:02 -0500
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-290-bWxlMEeSOn6ehHTcNABbsg-1; Fri, 28 Jan 2022 10:51:33 -0500
-X-MC-Unique: bWxlMEeSOn6ehHTcNABbsg-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-364-2b-ZHByjPeiltqcUYqM4Kg-1; Fri, 28 Jan 2022 10:52:55 -0500
+X-MC-Unique: 2b-ZHByjPeiltqcUYqM4Kg-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7458986A8A0;
- Fri, 28 Jan 2022 15:51:32 +0000 (UTC)
-Received: from localhost (unknown [10.39.192.242])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 191B710A48A4;
- Fri, 28 Jan 2022 15:51:31 +0000 (UTC)
-From: Hanna Reitz <hreitz@redhat.com>
-To: qemu-block@nongnu.org
-Subject: [RFC] block/nbd: Move s->ioc on AioContext change
-Date: Fri, 28 Jan 2022 16:51:30 +0100
-Message-Id: <20220128155130.13326-1-hreitz@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 72EA21083F65;
+ Fri, 28 Jan 2022 15:52:53 +0000 (UTC)
+Received: from bahia (unknown [10.39.192.167])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 70C707B028;
+ Fri, 28 Jan 2022 15:52:47 +0000 (UTC)
+Date: Fri, 28 Jan 2022 16:52:45 +0100
+From: Greg Kurz <groug@kaod.org>
+To: Will Cohen <wwcohen@gmail.com>
+Subject: Re: [PATCH v3 01/11] 9p: linux: Fix a couple Linux assumptions
+Message-ID: <20220128165246.560c8310@bahia>
+In-Reply-To: <20220128005611.87185-2-wwcohen@gmail.com>
+References: <20220128005611.87185-1-wwcohen@gmail.com>
+ <20220128005611.87185-2-wwcohen@gmail.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=groug@kaod.org
 X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=hreitz@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.167,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Mimecast-Originator: kaod.org
+Content-Type: text/plain; charset=WINDOWS-1252
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: softfail client-ip=205.139.111.44; envelope-from=groug@kaod.org;
+ helo=us-smtp-delivery-44.mimecast.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
+ SPF_HELO_NONE=0.001, SPF_SOFTFAIL=0.665,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -74,92 +67,125 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Eric Blake <eblake@redhat.com>, qemu-devel@nongnu.org
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Christian Schoenebeck <qemu_oss@crudebyte.com>, qemu-devel@nongnu.org,
+ hi@alyssa.is, Michael Roitzsch <reactorcontrol@icloud.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Keno Fischer <keno@alumni.harvard.edu>,
+ Keno Fischer <keno@juliacomputing.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-s->ioc must always be attached to the NBD node's AioContext.  If that
-context changes, s->ioc must be attached to the new context.
+On Thu, 27 Jan 2022 19:56:01 -0500
+Will Cohen <wwcohen@gmail.com> wrote:
 
-Buglink: https://bugzilla.redhat.com/show_bug.cgi?id=1990835
-Signed-off-by: Hanna Reitz <hreitz@redhat.com>
----
-This is an RFC because I believe there are some other things in the NBD
-block driver that need attention on an AioContext change, too.  Namely,
-there are two timers (reconnect_delay_timer and open_timer) that are
-also attached to the node's AioContext, and I'm afraid they need to be
-handled, too.  Probably pause them on detach, and resume them on attach,
-but I'm not sure, which is why I'm posting this as an RFC to get some
-comments from that from someone who knows this code better than me. :)
+> From: Keno Fischer <keno@alumni.harvard.edu>
+>=20
+>  - Guard Linux only headers.
+>  - Add qemu/statfs.h header to abstract over the which
+>    headers are needed for struct statfs
+>  - Define `ENOATTR` only if not only defined
+>    (it's defined in system headers on Darwin).
+>=20
+> Signed-off-by: Keno Fischer <keno@juliacomputing.com>
+> [Michael Roitzsch: - Rebase for NixOS]
+> Signed-off-by: Michael Roitzsch <reactorcontrol@icloud.com>
+> [Will Cohen: - Fix headers for Alpine
+>              - Integrate statfs.h back into file-op-9p.h]
+> Signed-off-by: Will Cohen <wwcohen@gmail.com>
+> ---
+>  fsdev/file-op-9p.h   | 15 ++++++++++++++-
+>  hw/9pfs/9p-local.c   |  2 ++
+>  hw/9pfs/9p.c         |  4 ++++
+>  include/qemu/xattr.h |  4 +++-
 
-(Also, in a real v1, of course I'd want to add a regression test.)
----
- block/nbd.c | 28 ++++++++++++++++++++++++++++
- 1 file changed, 28 insertions(+)
+fsdev/virtfs-proxy-helper.c would need similar fixing in theory
+but patch 10 disables the build for non-linux. Maybe just mention
+it in the changelog so that people know this is deliberate.
 
-diff --git a/block/nbd.c b/block/nbd.c
-index 63dbfa807d..119a774c04 100644
---- a/block/nbd.c
-+++ b/block/nbd.c
-@@ -2036,6 +2036,25 @@ static void nbd_cancel_in_flight(BlockDriverState *bs)
-     nbd_co_establish_connection_cancel(s->conn);
- }
- 
-+static void nbd_attach_aio_context(BlockDriverState *bs,
-+                                   AioContext *new_context)
-+{
-+    BDRVNBDState *s = bs->opaque;
-+
-+    if (s->ioc) {
-+        qio_channel_attach_aio_context(s->ioc, new_context);
-+    }
-+}
-+
-+static void nbd_detach_aio_context(BlockDriverState *bs)
-+{
-+    BDRVNBDState *s = bs->opaque;
-+
-+    if (s->ioc) {
-+        qio_channel_detach_aio_context(s->ioc);
-+    }
-+}
-+
- static BlockDriver bdrv_nbd = {
-     .format_name                = "nbd",
-     .protocol_name              = "nbd",
-@@ -2059,6 +2078,9 @@ static BlockDriver bdrv_nbd = {
-     .bdrv_dirname               = nbd_dirname,
-     .strong_runtime_opts        = nbd_strong_runtime_opts,
-     .bdrv_cancel_in_flight      = nbd_cancel_in_flight,
-+
-+    .bdrv_attach_aio_context    = nbd_attach_aio_context,
-+    .bdrv_detach_aio_context    = nbd_detach_aio_context,
- };
- 
- static BlockDriver bdrv_nbd_tcp = {
-@@ -2084,6 +2106,9 @@ static BlockDriver bdrv_nbd_tcp = {
-     .bdrv_dirname               = nbd_dirname,
-     .strong_runtime_opts        = nbd_strong_runtime_opts,
-     .bdrv_cancel_in_flight      = nbd_cancel_in_flight,
-+
-+    .bdrv_attach_aio_context    = nbd_attach_aio_context,
-+    .bdrv_detach_aio_context    = nbd_detach_aio_context,
- };
- 
- static BlockDriver bdrv_nbd_unix = {
-@@ -2109,6 +2134,9 @@ static BlockDriver bdrv_nbd_unix = {
-     .bdrv_dirname               = nbd_dirname,
-     .strong_runtime_opts        = nbd_strong_runtime_opts,
-     .bdrv_cancel_in_flight      = nbd_cancel_in_flight,
-+
-+    .bdrv_attach_aio_context    = nbd_attach_aio_context,
-+    .bdrv_detach_aio_context    = nbd_detach_aio_context,
- };
- 
- static void bdrv_nbd_init(void)
--- 
-2.34.1
+Apart from that, LGTM.
+
+>  4 files changed, 23 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/fsdev/file-op-9p.h b/fsdev/file-op-9p.h
+> index 8fd89f0447..616c6f503f 100644
+> --- a/fsdev/file-op-9p.h
+> +++ b/fsdev/file-op-9p.h
+> @@ -16,10 +16,23 @@
+> =20
+>  #include <dirent.h>
+>  #include <utime.h>
+> -#include <sys/vfs.h>
+>  #include "qemu-fsdev-throttle.h"
+>  #include "p9array.h"
+> =20
+> +#ifndef QEMU_STATFS_H
+> +#define QEMU_STATFS_H
+> +
+
+Include guards from the old header file don't make sense
+anymore here. You should drop them.
+
+> +#ifdef CONFIG_LINUX
+> +# include <sys/vfs.h>
+> +#endif
+> +#ifdef CONFIG_DARWIN
+> +# include <sys/param.h>
+> +# include <sys/mount.h>
+> +#endif
+> +
+> +#endif
+> +
+> +
+>  #define SM_LOCAL_MODE_BITS    0600
+>  #define SM_LOCAL_DIR_MODE_BITS    0700
+> =20
+> diff --git a/hw/9pfs/9p-local.c b/hw/9pfs/9p-local.c
+> index 210d9e7705..1a5e3eed73 100644
+> --- a/hw/9pfs/9p-local.c
+> +++ b/hw/9pfs/9p-local.c
+> @@ -32,10 +32,12 @@
+>  #include "qemu/error-report.h"
+>  #include "qemu/option.h"
+>  #include <libgen.h>
+> +#ifdef CONFIG_LINUX
+>  #include <linux/fs.h>
+>  #ifdef CONFIG_LINUX_MAGIC_H
+>  #include <linux/magic.h>
+>  #endif
+> +#endif
+>  #include <sys/ioctl.h>
+> =20
+>  #ifndef XFS_SUPER_MAGIC
+> diff --git a/hw/9pfs/9p.c b/hw/9pfs/9p.c
+> index 15b3f4d385..9c63e14b28 100644
+> --- a/hw/9pfs/9p.c
+> +++ b/hw/9pfs/9p.c
+> @@ -32,7 +32,11 @@
+>  #include "migration/blocker.h"
+>  #include "qemu/xxhash.h"
+>  #include <math.h>
+> +#ifdef CONFIG_LINUX
+>  #include <linux/limits.h>
+> +#else
+> +#include <limits.h>
+> +#endif
+> =20
+>  int open_fd_hw;
+>  int total_open_fd;
+> diff --git a/include/qemu/xattr.h b/include/qemu/xattr.h
+> index a83fe8e749..f1d0f7be74 100644
+> --- a/include/qemu/xattr.h
+> +++ b/include/qemu/xattr.h
+> @@ -22,7 +22,9 @@
+>  #ifdef CONFIG_LIBATTR
+>  #  include <attr/xattr.h>
+>  #else
+> -#  define ENOATTR ENODATA
+> +#  if !defined(ENOATTR)
+> +#    define ENOATTR ENODATA
+> +#  endif
+>  #  include <sys/xattr.h>
+>  #endif
+> =20
 
 
