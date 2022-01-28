@@ -2,73 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DFCAC4A0015
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jan 2022 19:28:08 +0100 (CET)
-Received: from localhost ([::1]:55904 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 32A674A0023
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jan 2022 19:31:55 +0100 (CET)
+Received: from localhost ([::1]:35872 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nDVyh-0004cV-Vd
-	for lists+qemu-devel@lfdr.de; Fri, 28 Jan 2022 13:28:08 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:44092)
+	id 1nDW2L-0001tK-Na
+	for lists+qemu-devel@lfdr.de; Fri, 28 Jan 2022 13:31:53 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:44936)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nDVu9-0000Fe-28
- for qemu-devel@nongnu.org; Fri, 28 Jan 2022 13:23:25 -0500
-Received: from [2a00:1450:4864:20::432] (port=41569
- helo=mail-wr1-x432.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nDVty-0007hp-OW
- for qemu-devel@nongnu.org; Fri, 28 Jan 2022 13:23:15 -0500
-Received: by mail-wr1-x432.google.com with SMTP id h21so12452315wrb.8
- for <qemu-devel@nongnu.org>; Fri, 28 Jan 2022 10:23:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=AZiHwMgynZ1xLiodGvWZFRzNlNs9o7JBbafyGRrfwZw=;
- b=MCUKMCiFoYVB60li82opb6khxmL3gILe3oVQSh4adia4nvvJCnKU0HIrH6r4jmsn6b
- 0chgJyccGYvcv8etjswl+TDMQgTVFGByOxt2BWvRmg9XucHV/0Yjbe9JsHXlwkPGLt2A
- ZpDUhJeDnBe5CFgyqvMn/uidQU0bXkWx3nARuFK99xuDs34hySgJvV+0MBFYI0JAP7WM
- vpoVXtqKEt67BvTvwtOnShgG2EaYG7aaPO2hjnDElmtUQ76v77bhJ5HDJ86SvfDcTdwd
- a3eqXztJN6kg3nQROEc9kBFqS/cobyL8/XDbPt0zVSKgF5wpyEWz2WgXm9ZgQPHcBL5H
- ixkA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=AZiHwMgynZ1xLiodGvWZFRzNlNs9o7JBbafyGRrfwZw=;
- b=pXej50ktyqDT5eXGb7bVkBoamu1bAJFICeYIhbBwxZoUQyHRpDcNUWCaQZujRvWTXA
- FCvtmaXsqIWNc//jsNei9i9Lh6Pk0K5EEDNzg6j3nP3YNPT01+P0xT0gOGNg91S5042z
- hRXLf9lTrx0cQeA8cwQLHXQ7zG/XT8LhDjZHO3DeGJWc1LycRzGHcsmVGiJlGb7BUUUk
- MU7WkOVHUz90xKjmHVt3ASLknduZNiBWdAgYeu5HKMkpwmoRhiLqD+ZEDDe98R7Ru8E7
- 0hCEwjQLndvyhFyZzKneuZLX/rvSo+nSaDhztd9jOD/S+ZTnlgeYwwzg6Rk6Eu2KQIHz
- 5UWA==
-X-Gm-Message-State: AOAM530YNBH75LUNo4gYDIiz1rOFXkoaafS3qDlFjnvUuzAmNCPC/+zD
- 9UUzprDz1tdqgAHAB++cpRdSXnDUnHkhjBzymb5Shg==
-X-Google-Smtp-Source: ABdhPJzHMpJN9RNFWJvqhjZzLp6+zZJ9pN8kNjwBJSZV1xaNvn2SoYCmRZiJVULEputRdwn4R26atSnP8WcekPUnLt4=
-X-Received: by 2002:a5d:5343:: with SMTP id t3mr8277724wrv.521.1643394193071; 
- Fri, 28 Jan 2022 10:23:13 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1nDVxe-00061I-Ha
+ for qemu-devel@nongnu.org; Fri, 28 Jan 2022 13:27:07 -0500
+Received: from frasgout.his.huawei.com ([185.176.79.56]:2226)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1nDVxY-0008Ne-N9
+ for qemu-devel@nongnu.org; Fri, 28 Jan 2022 13:27:01 -0500
+Received: from fraeml745-chm.china.huawei.com (unknown [172.18.147.226])
+ by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4Jlm6J6hpHz67b4M;
+ Sat, 29 Jan 2022 02:23:04 +0800 (CST)
+Received: from lhreml710-chm.china.huawei.com (10.201.108.61) by
+ fraeml745-chm.china.huawei.com (10.206.15.226) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.21; Fri, 28 Jan 2022 19:26:39 +0100
+Received: from localhost (10.122.247.231) by lhreml710-chm.china.huawei.com
+ (10.201.108.61) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.21; Fri, 28 Jan
+ 2022 18:26:38 +0000
+Date: Fri, 28 Jan 2022 18:26:37 +0000
+To: Alex =?ISO-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>
+CC: <qemu-devel@nongnu.org>, Marcel Apfelbaum <marcel@redhat.com>, "Michael S
+ . Tsirkin" <mst@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
+ <linux-cxl@vger.kernel.org>, Ben Widawsky <ben.widawsky@intel.com>, "Peter
+ Maydell" <peter.maydell@linaro.org>, <linuxarm@huawei.com>, "Shameerali
+ Kolothum Thodi" <shameerali.kolothum.thodi@huawei.com>, Philippe
+ =?ISO-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>, Saransh Gupta1
+ <saransh@ibm.com>, Shreyas Shah <shreyas.shah@elastics.cloud>, Chris Browy
+ <cbrowy@avery-design.com>, Samarth Saxena <samarths@cadence.com>, "Dan
+ Williams" <dan.j.williams@intel.com>
+Subject: Re: [PATCH v4 14/42] tests/acpi: allow DSDT.viot table changes.
+Message-ID: <20220128182637.0000188a@huawei.com>
+In-Reply-To: <87a6fh9sry.fsf@linaro.org>
+References: <20220124171705.10432-1-Jonathan.Cameron@huawei.com>
+ <20220124171705.10432-15-Jonathan.Cameron@huawei.com>
+ <87a6fh9sry.fsf@linaro.org>
+Organization: Huawei Technologies R&D (UK) Ltd.
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.29; x86_64-w64-mingw32)
 MIME-Version: 1.0
-References: <20220127063428.30212-1-richard.henderson@linaro.org>
- <20220127063428.30212-4-richard.henderson@linaro.org>
-In-Reply-To: <20220127063428.30212-4-richard.henderson@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 28 Jan 2022 18:23:02 +0000
-Message-ID: <CAFEAcA9pn3aAtS4SPcN-TtTGjcXexqvj_+SKz3jUDAKBJJ=L3g@mail.gmail.com>
-Subject: Re: [PATCH 3/4] target/arm: Fix {fp,
- sve}_exception_el for VHE mode running
-To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::432
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::432;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x432.google.com
-X-Spam_score_int: 6
-X-Spam_score: 0.6
-X-Spam_bar: /
-X-Spam_report: (0.6 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, PDS_HP_HELO_NORDNS=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+Content-Type: text/plain; charset="ISO-8859-1"
+Content-Transfer-Encoding: quoted-printable
+X-Originating-IP: [10.122.247.231]
+X-ClientProxiedBy: lhreml740-chm.china.huawei.com (10.201.108.190) To
+ lhreml710-chm.china.huawei.com (10.201.108.61)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=185.176.79.56;
+ envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
+X-Spam_score_int: -22
+X-Spam_score: -2.3
+X-Spam_bar: --
+X-Spam_report: (-2.3 / 5.0 requ) RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -81,26 +77,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: yuzenghui@huawei.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  Jonathan Cameron <Jonathan.Cameron@huawei.com>
+From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 
-On Thu, 27 Jan 2022 at 06:34, Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> When HCR_EL2.E2H is set, the format of CPTR_EL2 changes to
-> look more like CPACR_EL1, with ZEN and FPEN fields instead
-> of TZ and TFP fields.
->
-> Reported-by: Zenghui Yu <yuzenghui@huawei.com>
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->  target/arm/helper.c | 77 +++++++++++++++++++++++++++++++++++----------
->  1 file changed, 60 insertions(+), 17 deletions(-)
->
+On Thu, 27 Jan 2022 14:06:42 +0000
+Alex Benn=E9e <alex.bennee@linaro.org> wrote:
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+> Jonathan Cameron <Jonathan.Cameron@huawei.com> writes:
+>=20
+> > From: Jonathan Cameron <jonathan.cameron@huawei.com>
+> >
+> > The next patch unifies some of the PCI host bridge DSDT
+> > generation code and results in some minor changes to this file. =20
+>=20
+> I'd just squash this in with the patch that makes the change...
+> otherwise you risk breaking bisectablility.
+Hi Alex,
 
-thanks
--- PMM
+This sequence of 3 patches is as described in
+tests/qtest/bios-tables-test.c
+
+According to description there the point is to allow
+whoever picks these patches up to just change the 3rd patch
+if the tables need updating to reflect some other change.
+
+It would be a lot easier obviously to just squash it, but
+given the process is laid out in that file, I'd rather
+leave it like this.
+
+Or am I missing a reason this particular one is better
+squashed?=20
+
+Thanks,
+
+Jonathan
+
+
+>=20
+> >
+> > Signed-off-by: Jonathan Cameron <jonathan.cameron@huawei.com>
+> > ---
+> >  tests/qtest/bios-tables-test-allowed-diff.h | 1 +
+> >  1 file changed, 1 insertion(+)
+> >
+> > diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/=
+bios-tables-test-allowed-diff.h
+> > index dfb8523c8b..08a8095432 100644
+> > --- a/tests/qtest/bios-tables-test-allowed-diff.h
+> > +++ b/tests/qtest/bios-tables-test-allowed-diff.h
+> > @@ -1 +1,2 @@
+> >  /* List of comma-separated changed AML files to ignore */
+> > +"tests/data/acpi/q35/DSDT.viot", =20
+>=20
+>=20
+
 
