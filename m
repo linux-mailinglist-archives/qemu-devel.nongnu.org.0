@@ -2,92 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E13BA49FA30
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jan 2022 13:59:51 +0100 (CET)
-Received: from localhost ([::1]:38386 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F2F6249FA5C
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jan 2022 14:09:48 +0100 (CET)
+Received: from localhost ([::1]:40726 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nDQr0-0003qM-5H
-	for lists+qemu-devel@lfdr.de; Fri, 28 Jan 2022 07:59:50 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:36548)
+	id 1nDR0d-0006JE-Ig
+	for lists+qemu-devel@lfdr.de; Fri, 28 Jan 2022 08:09:47 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:60878)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1nDQ7J-0001Q2-E6
- for qemu-devel@nongnu.org; Fri, 28 Jan 2022 07:12:37 -0500
-Received: from [2607:f8b0:4864:20::a2a] (port=37482
- helo=mail-vk1-xa2a.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1nDQ7G-00077A-Dq
- for qemu-devel@nongnu.org; Fri, 28 Jan 2022 07:12:36 -0500
-Received: by mail-vk1-xa2a.google.com with SMTP id v192so3748118vkv.4;
- Fri, 28 Jan 2022 04:12:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=GfgMFtVtQGWXaGAV8n+udsct9x9Pevav4zo+G9TlSr4=;
- b=OSPtnyuSShLkm2sPdMIdFslfBq7fBVNTAkgAQy+VA+RU226QtXqlstrjrwPzjLYgip
- OWVKpYlm/mKwU+VsJYUSWxpmnqx72m5/AqG26k7LF6bzXNo/1nHpYUJ7x2j77IF3Z4G1
- syJlpNHBaXysNBdwoBRnbq7GhLKx8ImZ9z5xPyVu732D8lD8D+HxAQCqmRS7zHqQQ9uu
- eU6BpFB6ykZIeu+Rm1kR2Q0hO8yB+4VzIE6ZUgDpSU4S39Yopp5M6oEJYAUjREB2uO0H
- vxIhc2rkDENlyHjKwcFFFRNAocmgEF6ZsHS1kQBGO/8fC2Gi1LG//3HJNxNi+lryDCiT
- iR0g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=GfgMFtVtQGWXaGAV8n+udsct9x9Pevav4zo+G9TlSr4=;
- b=EbV8sx7pEWYlCfPus8DZWrteW9d22ZCwp3ZJKjbwNACuaITZJBNDQGcFPZvGUpsJVy
- bpWtNfZxdQxOCRO3XfHXDqXGY9xrTKyHUNq+nhBswOyZG7e/gOi/Q7uJVNWMOgsiflkF
- k35r/2INqyKQFcpmZ8x6Mi4J9AMZrquf+wlP82PnoTz62A/6qypFOAMpdUP+oxcrPnh8
- 6crNpBT6r/HHE03krGlXqnBoS5f5ADWzKbnjRxh//qhyVRx6Oq0HCyxNm+lRrNimW7/C
- pWTtAIBd0RHl8ImOwzqzp7QtrQkPL3fUBRhT44tTKDVq+mVdfKXhSwFd3uLuuNTE1hUJ
- CGfQ==
-X-Gm-Message-State: AOAM532BsbLiBxV+bhtuwk1kp71dEjL0x0nYBFFXCutatC1tIdHrYfwX
- HKWlaWhSNg7M08v9ASKXxvo/Vn2JChw=
-X-Google-Smtp-Source: ABdhPJwuWpEtAL5FGrOZaplzaEXWCUR2UdLdBFjY64RqnsPIVEau5Cp5lyXjMr9Nuzk/YCKGFabWnQ==
-X-Received: by 2002:a05:6122:182a:: with SMTP id
- ay42mr3544903vkb.5.1643371951487; 
- Fri, 28 Jan 2022 04:12:31 -0800 (PST)
-Received: from [192.168.10.222] (189-68-153-170.dsl.telesp.net.br.
- [189.68.153.170])
- by smtp.gmail.com with ESMTPSA id u12sm1517332vku.9.2022.01.28.04.12.28
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 28 Jan 2022 04:12:31 -0800 (PST)
-Message-ID: <83296441-c3cc-d8b8-adc3-a83f0a10b54a@gmail.com>
-Date: Fri, 28 Jan 2022 09:12:26 -0300
+ (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
+ id 1nDPmW-0004g6-PD
+ for qemu-devel@nongnu.org; Fri, 28 Jan 2022 06:51:09 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:50996)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
+ id 1nDPmQ-0003Sp-2G
+ for qemu-devel@nongnu.org; Fri, 28 Jan 2022 06:51:08 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1643370660;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=pi2sh+AgeO3EvJDWiCygbpS7HupSLZzAr/YQChAyZLc=;
+ b=Hze42rgqbUXin+YCv9WqyDu6nCiGeU+1COgOjwBNG0bcyea/3CZFVynDYJb/Lmeopr43lJ
+ 0YoDJsnSuPEznJwKWQHBLKWZ5TOoNEO0BWGQ8uKJ+BbUV9S+q6ZCPqRadBA6sajIjVHRno
+ +rdTGWS4cywKY5UIiQkWGx4Wmo8tBJk=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-588-c7lK8aYtNBqGXvY-a448tQ-1; Fri, 28 Jan 2022 06:50:57 -0500
+X-MC-Unique: c7lK8aYtNBqGXvY-a448tQ-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CC77583DEA6;
+ Fri, 28 Jan 2022 11:50:55 +0000 (UTC)
+Received: from virtlab701.virt.lab.eng.bos.redhat.com
+ (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id CDB601FD88;
+ Fri, 28 Jan 2022 11:50:54 +0000 (UTC)
+From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+To: qemu-block@nongnu.org
+Subject: [PATCH v4 19/19] block_job_query: remove atomic read
+Date: Fri, 28 Jan 2022 06:50:31 -0500
+Message-Id: <20220128115031.4061565-20-eesposit@redhat.com>
+In-Reply-To: <20220128115031.4061565-1-eesposit@redhat.com>
+References: <20220128115031.4061565-1-eesposit@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH v2 1/1] virtio: fix the condition for iommu_platform not
- supported
-Content-Language: en-US
-To: Halil Pasic <pasic@linux.ibm.com>
-References: <20220117120238.2519239-1-pasic@linux.ibm.com>
- <20220125112112.44957075.pasic@linux.ibm.com>
- <20220127142800.11d8f1be.pasic@linux.ibm.com>
- <be34f50a-9664-7411-1e9b-2bac4735311d@gmail.com>
- <20220128032911.440323f1.pasic@linux.ibm.com>
- <cbac9c93-0d4a-1914-3c9d-203b1472056c@gmail.com>
- <20220128124833.0ceb0789.pasic@linux.ibm.com>
-From: Daniel Henrique Barboza <danielhb413@gmail.com>
-In-Reply-To: <20220128124833.0ceb0789.pasic@linux.ibm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::a2a
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::a2a;
- envelope-from=danielhb413@gmail.com; helo=mail-vk1-xa2a.google.com
-X-Spam_score_int: -10
-X-Spam_score: -1.1
-X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.001,
- PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eesposit@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eesposit@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.167,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -100,107 +80,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Brijesh Singh <brijesh.singh@amd.com>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- Daniel Henrique Barboza <danielhb@linux.ibm.com>,
- Cornelia Huck <cohuck@redhat.com>, qemu-devel@nongnu.org,
- qemu-stable@nongnu.org, Jakob Naucke <Jakob.Naucke@ibm.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Wen Congyang <wencongyang2@huawei.com>,
+ Xie Changlong <xiechanglong.d@gmail.com>,
+ Emanuele Giuseppe Esposito <eesposit@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
+ Hanna Reitz <hreitz@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Not sure what the atomic here was supposed to do, since job.busy
+is protected by the job lock. Since the whole function
+is called under job_mutex, just remove the atomic.
 
+Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+---
+ blockjob.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-On 1/28/22 08:48, Halil Pasic wrote:
-> On Fri, 28 Jan 2022 08:02:39 -0300
-> Daniel Henrique Barboza <danielhb413@gmail.com> wrote:
-> 
->>> We may be able to differentiate between the two using ->dma_as, but for
->>> that it needs to be set up correctly: whenever you require translation
->>> it should be something different than address_space_memory. The question
->>> is why do you require translation but don't have your ->dma_as set up
->>> properly? It can be a guest thing, i.e. guest just assumes it has to do
->>> bus addresses, while it actually does not have to, or we indeed do have
->>> an IOMMU which polices the devices access to the guest memory, but for
->>> some strange reason we failed to set up ->dma_as to reflect that.
->>
->>
->> I have 2 suggestions. First is to separate how we interpret iommu_platform. I find it
->> hard to do this properly without creating a new flag/command line option.
->>
-> 
-> A new command line option looks problematic to me because of the
-> existing setups. We could tie that to a compat machine, but it looks
-> ugly and also a little wrong from where I stand.
->>
->> My second suggestion is, well .... I think it's proved that s390x-PV and AMD SEV are
->> being impacted (and probably Power secure guests as well), so why not check for
->> confidential guest support to skip that check entirely? Something like this patch:
->>
-> 
-> This is not acceptable for s390x and it should not be acceptable for SEV
-> or Power secure guests, because s390x Secure Execution ()support predates
-> the confidential guest support patches and "->cgs", and thus you don't
-> have to turn on CGS to use SE. Just providing the iommu_platform=on
-> manually on each device is perfectly fine! Should be the same for SEV
+diff --git a/blockjob.c b/blockjob.c
+index afb0e9ad5e..e7ed4f545d 100644
+--- a/blockjob.c
++++ b/blockjob.c
+@@ -329,7 +329,7 @@ BlockJobInfo *block_job_query_locked(BlockJob *job, Error **errp)
+     info = g_new0(BlockJobInfo, 1);
+     info->type      = g_strdup(job_type_str(&job->job));
+     info->device    = g_strdup(job->job.id);
+-    info->busy      = qatomic_read(&job->job.busy);
++    info->busy      = job->job.busy;
+     info->paused    = job->job.pause_count > 0;
+     info->offset    = progress_current;
+     info->len       = progress_total;
+-- 
+2.31.1
 
-Hm, that's unfortunate. Checking machine->cgs would be an easy way out.
-
-> 
-> [..]
->> +    if (!machine->cgs && has_iommu &&
->> +        !virtio_host_has_feature(vdev, VIRTIO_F_IOMMU_PLATFORM)) {
->>            error_setg(errp, "iommu_platform=true is not supported by the device");
->>            return;
->>        }
-> [..]
-> 
->> This will not break anything for non-secure guests and, granted that machine->cgs is already
->> set at this point, this will fix the problem for s390x-PV and AMD SEV. And we won't have to
->> dive deep into a virtio-bus feature negotiation saga because of something that can be easily
->> handled for machine->cgs guests only.
-> 
-> Your assumption does not hold. See above. Unfortunately my assumption of
-> ->dma_as == & address_space_memory implies does not need translation
-> does not hold either. But IMHO we should really get to the bottom of
-> that, because it just does not make sense.
-
-
-I'll make an attempt to understand the logic in Power side.
-
-> 
->>
->> If this patch works for you and Brijesh I believe this is a good option.
-> 
-> I don't believe it is a good option. @Brijesh can you confirm that SEV
-> has the same problem with this approach s390x has, and that it would
-> break existing setups?
-> 
-> I have another idea, but my problem is that I don't understand enough of
-> the Power and PCI stuff. Anyway if for your plattform iommu_platform=on
-> devices can not work in a VM that does not have an IOMMU you could
-> error out on that. You could express that via a machine property, and
-> then make sure your dma address space is not address_space_memory, if
-> that machine property is set.
-
-
-Bear in mind that the root problem of what I've reported up there isn't something that's
-just Power specific. Any arch in which vhost-user-fs-pci doesn not support iommu_platform
-will have the problem as well (e.g. x86 and the RH bug Kevin fixed).
-
-
-What I mean is that I can fix my side using the PowerPC PCI specifications and be done
-with it, but that would not help x86 for example. I believe a better way is to use the
-PowerPC case to understand where the overall common logic can be improved to everyone.
-
-
-Thanks,
-
-
-Daniel
-
-
-
-> 
-> Regards,
-> Halil
 
