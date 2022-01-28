@@ -2,71 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 12CEC49FC60
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jan 2022 16:03:16 +0100 (CET)
-Received: from localhost ([::1]:50140 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F31D349FD02
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jan 2022 16:43:33 +0100 (CET)
+Received: from localhost ([::1]:44552 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nDSmR-0007re-0C
-	for lists+qemu-devel@lfdr.de; Fri, 28 Jan 2022 10:03:15 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:48074)
+	id 1nDTPR-0002Ys-3I
+	for lists+qemu-devel@lfdr.de; Fri, 28 Jan 2022 10:43:33 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:48094)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philipp.tomsich@vrull.eu>)
- id 1nDSgH-00008S-Bu
- for qemu-devel@nongnu.org; Fri, 28 Jan 2022 09:56:53 -0500
-Received: from [2a00:1450:4864:20::12f] (port=33552
- helo=mail-lf1-x12f.google.com)
+ id 1nDSgI-0000CU-S1
+ for qemu-devel@nongnu.org; Fri, 28 Jan 2022 09:56:54 -0500
+Received: from [2a00:1450:4864:20::235] (port=44890
+ helo=mail-lj1-x235.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philipp.tomsich@vrull.eu>)
- id 1nDSgF-0000v1-TT
- for qemu-devel@nongnu.org; Fri, 28 Jan 2022 09:56:53 -0500
-Received: by mail-lf1-x12f.google.com with SMTP id x23so12425115lfc.0
- for <qemu-devel@nongnu.org>; Fri, 28 Jan 2022 06:56:51 -0800 (PST)
+ id 1nDSgG-0000vM-Sp
+ for qemu-devel@nongnu.org; Fri, 28 Jan 2022 09:56:54 -0500
+Received: by mail-lj1-x235.google.com with SMTP id c15so9336998ljf.11
+ for <qemu-devel@nongnu.org>; Fri, 28 Jan 2022 06:56:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vrull.eu; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=49K2XBdsZPlU4W+3lrMVrLV2a6HUrhIuJTkPIRwXLUY=;
- b=mfQ2kOHVtPoBLY2JwHy+QAApSupQ5ujDuTluRLWi31PFbwR04Wl7hnP6WOZlTMAlOc
- t8TEbLWAHWcetffCMhBVK6hnuKqquhFbQ9x/2xoXPg2tn0lhyGa8+12yGgKl4y66ixRB
- L62x5zBOrovQvCk+pKRPUrIASgKuZKQCCuq9uDnMswXoAjM6URBpGv8EcqS2TGzIC92+
- tJq/bryiOj5niaM1gL2IfcAJZUudtydL+MzP4ClOOa2VYhxs5rwBdd7BmlVgEQ9QCZzy
- zpskECqplDueDG1sfujK7oIM/8FwguczLYVqwdfrpfHn0r2iHTWL3x4wBg06F9v7AmXc
- TCPQ==
+ bh=1TFlXHJhw+y0N03qSQu5XRUUUyDNRhlCyiaVHsCjinw=;
+ b=klJ7U2IFQ92In1olWyiDz2vB5UXvfWwlBvY2PCQwuoIJ30DaRgHSjyH/hRtG9RyQ1d
+ KVsj9AKVmUqTA7HOjMZf9tw4P6rM8tcV1Cagt4qgaoMNjwbN0P7q2poWpqEJSKfZlUQa
+ xyCNe8FQ1pSgY4gT2yf8tqNG1d5h8Lau7SlaQBvsj6Gd64biUwyzgL9Qx7r9kX74yrhk
+ /SxUePF3MhT4+uDwRYZrZlr9rJQXsuTcoYLGGWrcciK/zuS5nMdVZQ35FG3GeSC2Gh1m
+ w9u3qegB7NT4WmHY1QxsbA0SK+P+2UpcKnYcMacwuoChtXGuX2M2RPSC2TEhD8DSPnF4
+ od+w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=49K2XBdsZPlU4W+3lrMVrLV2a6HUrhIuJTkPIRwXLUY=;
- b=V1PzFuAF0NEFlYyloAWnVyWMwIjLoqDxCdS40O/MUnKqC66ABH930/SphZcW7rUB4Y
- 8IHyxT+1g54X4zqBg1VD9tGKNsnWk3hLZdFhRshuqDnl/jNYoPNMcUFI1gTfGXmyfCaK
- bh0vZ8KusDic+DtAbzcW7wSghUjbJWnD6o6fxff6zW86gODK+Iom/r1twrc1DAW/R9ML
- e5ekbPSvOPHGoE8tz6o8fWOUAZb1A48PxlAZm8TXYAUTrv1Lye9xt+JBaXjAlQb7XUUd
- H1KRpUNnl9TgN8QWPyG7ZAX1U0Vl28OR7YsOkBsirHH7QIGxfFqcPpH3vVj0IPo1CP1a
- kHuw==
-X-Gm-Message-State: AOAM530McAl/wadR9evaGj5/E5wPiiYn9dtP1gYECZi7teXo8eQ1h1Iv
- HT0kiQuKdeeGd2Rlz9KrrsOPFWVt3L09ZwCy
-X-Google-Smtp-Source: ABdhPJz/10dvL3UEDRkJ1eo7vjottQJ/C4Jwv38ocwT/PQcdAQdG7QInW6SUIxSV/mAnpSzS0H0Qjw==
-X-Received: by 2002:a05:6512:c09:: with SMTP id
- z9mr6429213lfu.147.1643381810063; 
- Fri, 28 Jan 2022 06:56:50 -0800 (PST)
+ bh=1TFlXHJhw+y0N03qSQu5XRUUUyDNRhlCyiaVHsCjinw=;
+ b=zrAbUkLd1WBloH/HHEJOOqnGgLH3/SNHVqMZkiFLhf4IRn5JbWhH2cc9+oPRiC74Kq
+ tpWCvo73Ao9JJQgPtEV3g/xetNVifhQj0inrY3o6ZFjeYUah5R0Zc2PRDREvFprJ1Ua4
+ TCQZXwvzMTRzUcGeHUnLhILapVnodf4TuZRMPl8ogP469Mx4k3lKMSRpu1oEu88yi6Rn
+ sdMY2mnoS7yQ34kdN0k88eStQaqYk1XT0mYvGJi379+FqnZi2ONIUE0eqn19brvXKTdb
+ ZvKvgTKNuzX7k/U+Qoq6jahD53SfihWXj7jjbbgKclkuwbcpPxOua4zSRgCOYbPfPvAI
+ XXog==
+X-Gm-Message-State: AOAM530DCpZ1Ni6fzkZH4jLYED8wY8XcRXpI2vS4CrcrFozNaIJ1Ys35
+ jnA/XqOMh8lZTC1wYosZVEcVhQW4F5LIuVzm
+X-Google-Smtp-Source: ABdhPJx1rQU+8gSziaIBMT8Nvi4VPI1xzcApH/weszliDw5Fx7AsKZd0HxFRRRuuLFpmj1JH/3mZBg==
+X-Received: by 2002:a2e:b749:: with SMTP id k9mr6168696ljo.135.1643381811117; 
+ Fri, 28 Jan 2022 06:56:51 -0800 (PST)
 Received: from ubuntu-focal.. ([2a01:4f9:3a:1e26::2])
- by smtp.gmail.com with ESMTPSA id b20sm1031234lfb.51.2022.01.28.06.56.49
+ by smtp.gmail.com with ESMTPSA id b20sm1031234lfb.51.2022.01.28.06.56.50
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 28 Jan 2022 06:56:49 -0800 (PST)
+ Fri, 28 Jan 2022 06:56:50 -0800 (PST)
 From: Philipp Tomsich <philipp.tomsich@vrull.eu>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 4/7] target/riscv: access cfg structure through DisasContext
-Date: Fri, 28 Jan 2022 15:56:39 +0100
-Message-Id: <20220128145642.1305416-5-philipp.tomsich@vrull.eu>
+Subject: [PATCH v3 5/7] target/riscv: iterate over a table of decoders
+Date: Fri, 28 Jan 2022 15:56:40 +0100
+Message-Id: <20220128145642.1305416-6-philipp.tomsich@vrull.eu>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <20220128145642.1305416-1-philipp.tomsich@vrull.eu>
 References: <20220128145642.1305416-1-philipp.tomsich@vrull.eu>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::12f
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::235
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::12f;
- envelope-from=philipp.tomsich@vrull.eu; helo=mail-lf1-x12f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::235;
+ envelope-from=philipp.tomsich@vrull.eu; helo=mail-lj1-x235.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -94,57 +93,98 @@ Cc: Richard Henderson <richard.henderson@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The Zb[abcs] support code still uses the RISCV_CPU macros to access
-the configuration information (i.e., check whether an extension is
-available/enabled).  Now that we provide this information directly
-from DisasContext, we can access this directly via the cfg_ptr field.
+To split up the decoder into multiple functions (both to support
+vendor-specific opcodes in separate files and to simplify maintenance
+of orthogonal extensions), this changes decode_op to iterate over a
+table of decoders predicated on guard functions.
+
+This commit only adds the new structure and the table, allowing for
+the easy addition of additional decoders in the future.
 
 Signed-off-by: Philipp Tomsich <philipp.tomsich@vrull.eu>
-Suggested-by: Richard Henderson <richard.henderson@linaro.org>
-
 ---
 
 Changes in v3:
-- (new patch) change Zb[abcs] implementation to use cfg_ptr (copied
-  into DisasContext) instead of going throuhg RISCV_CPU
+- expose only the DisasContext* to predicate functions
+- mark the table of decoder functions as static
+- drop the inline from always_true_p, until the need arises (i.e.,
+  someone finds a use for it and calls it directly)
+- rewrite to drop the 'handled' temporary in iterating over the
+  decoder table, removing the assignment in the condition of the if
 
- target/riscv/insn_trans/trans_rvb.c.inc | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+Changes in v2:
+- (new patch) iterate over a table of guarded decoder functions
 
-diff --git a/target/riscv/insn_trans/trans_rvb.c.inc b/target/riscv/insn_trans/trans_rvb.c.inc
-index 810431a1d6..f9bd3b7ec4 100644
---- a/target/riscv/insn_trans/trans_rvb.c.inc
-+++ b/target/riscv/insn_trans/trans_rvb.c.inc
-@@ -19,25 +19,25 @@
-  */
+ target/riscv/translate.c | 34 ++++++++++++++++++++++++++++------
+ 1 file changed, 28 insertions(+), 6 deletions(-)
+
+diff --git a/target/riscv/translate.c b/target/riscv/translate.c
+index 441690846c..38fdec2fd9 100644
+--- a/target/riscv/translate.c
++++ b/target/riscv/translate.c
+@@ -111,6 +111,11 @@ static inline bool has_ext(DisasContext *ctx, uint32_t ext)
+     return ctx->misa_ext & ext;
+ }
  
- #define REQUIRE_ZBA(ctx) do {                    \
--    if (!RISCV_CPU(ctx->cs)->cfg.ext_zba) {      \
-+    if (ctx->cfg_ptr->ext_zba) {                 \
-         return false;                            \
-     }                                            \
- } while (0)
++static bool always_true_p(DisasContext *ctx  __attribute__((__unused__)))
++{
++    return true;
++}
++
+ #ifdef TARGET_RISCV32
+ #define get_xl(ctx)    MXL_RV32
+ #elif defined(CONFIG_USER_ONLY)
+@@ -855,16 +860,26 @@ static uint32_t opcode_at(DisasContextBase *dcbase, target_ulong pc)
  
- #define REQUIRE_ZBB(ctx) do {                    \
--    if (!RISCV_CPU(ctx->cs)->cfg.ext_zbb) {      \
-+    if (ctx->cfg_ptr->ext_zbb) {                 \
-         return false;                            \
-     }                                            \
- } while (0)
+ static void decode_opc(CPURISCVState *env, DisasContext *ctx, uint16_t opcode)
+ {
+-    /* check for compressed insn */
++    /*
++     * A table with predicate (i.e., guard) functions and decoder functions
++     * that are tested in-order until a decoder matches onto the opcode.
++     */
++    static const struct {
++        bool (*guard_func)(DisasContext *);
++        bool (*decode_func)(DisasContext *, uint32_t);
++    } decoders[] = {
++        { always_true_p,  decode_insn32 },
++    };
++
++    /* Check for compressed insn */
+     if (extract16(opcode, 0, 2) != 3) {
+         if (!has_ext(ctx, RVC)) {
+             gen_exception_illegal(ctx);
+         } else {
+             ctx->opcode = opcode;
+             ctx->pc_succ_insn = ctx->base.pc_next + 2;
+-            if (!decode_insn16(ctx, opcode)) {
+-                gen_exception_illegal(ctx);
+-            }
++            if (decode_insn16(ctx, opcode))
++                return;
+         }
+     } else {
+         uint32_t opcode32 = opcode;
+@@ -873,10 +888,17 @@ static void decode_opc(CPURISCVState *env, DisasContext *ctx, uint16_t opcode)
+                                              ctx->base.pc_next + 2));
+         ctx->opcode = opcode32;
+         ctx->pc_succ_insn = ctx->base.pc_next + 4;
+-        if (!decode_insn32(ctx, opcode32)) {
+-            gen_exception_illegal(ctx);
++
++        for (size_t i = 0; i < ARRAY_SIZE(decoders); ++i) {
++            if (!decoders[i].guard_func(ctx))
++                continue;
++
++            if (decoders[i].decode_func(ctx, opcode32))
++                return;
+         }
+     }
++
++    gen_exception_illegal(ctx);
+ }
  
- #define REQUIRE_ZBC(ctx) do {                    \
--    if (!RISCV_CPU(ctx->cs)->cfg.ext_zbc) {      \
-+    if (ctx->cfg_ptr->ext_zbc) {                 \
-         return false;                            \
-     }                                            \
- } while (0)
- 
- #define REQUIRE_ZBS(ctx) do {                    \
--    if (!RISCV_CPU(ctx->cs)->cfg.ext_zbs) {      \
-+    if (ctx->cfg_ptr->ext_zbs) {                 \
-         return false;                            \
-     }                                            \
- } while (0)
+ static void riscv_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cs)
 -- 
 2.33.1
 
