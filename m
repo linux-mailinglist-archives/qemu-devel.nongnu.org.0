@@ -2,84 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 38F4A4A00BB
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jan 2022 20:16:35 +0100 (CET)
-Received: from localhost ([::1]:55928 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AAABD4A010A
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jan 2022 20:41:24 +0100 (CET)
+Received: from localhost ([::1]:57538 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nDWjZ-0004FQ-AF
-	for lists+qemu-devel@lfdr.de; Fri, 28 Jan 2022 14:16:33 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:47602)
+	id 1nDX7b-0000lR-Om
+	for lists+qemu-devel@lfdr.de; Fri, 28 Jan 2022 14:41:23 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:51248)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nDW6Y-0007Oj-Ez
- for qemu-devel@nongnu.org; Fri, 28 Jan 2022 13:36:14 -0500
-Received: from [2a00:1450:4864:20::330] (port=35427
- helo=mail-wm1-x330.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nDW6P-0001Op-4U
- for qemu-devel@nongnu.org; Fri, 28 Jan 2022 13:36:13 -0500
-Received: by mail-wm1-x330.google.com with SMTP id
- f22-20020a1c1f16000000b003525bf08b1eso142870wmf.0
- for <qemu-devel@nongnu.org>; Fri, 28 Jan 2022 10:36:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=DH9MJLfbsqAgkpSYjEYYm76W7i2dSAdVQ+Nt2JwiGEE=;
- b=orrTiYmwbS3sTTcXz2j5S9dfDKhb5R4MwvLOOObQzAIN9kxHO1ckoWNUFR69NXiCFh
- gTZX7TMvQeRG8RUV+qWVc1Ayu69nUnaERPdtH9tnVaZcjLgEbTtRJxx4y6uWp0sAtXsD
- 2XfRGQl8SbxXMHm33tvCbFkdH7XRgMI86nzWKRfNw8tcVZbgEGhIWrWl0kS8qC3DYJw7
- fp9HZTfG7ZE9cUzu1z/SzZphsNywwq1gX3kvA+aF/xAiLy5g3wlqz91+lUFPYpY9rJEO
- wPhXLisd/tbcNVPIj/pBWm4Ji1dYvOTfQyPJo+ygOjVdAd5qqbcEayBeExyOzAzzfJys
- u75g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=DH9MJLfbsqAgkpSYjEYYm76W7i2dSAdVQ+Nt2JwiGEE=;
- b=XHWWouBl/On9O4x/jAeQ5sq6TOMoq4pLWyZyIuiWB/IU8uFMr2AJZ7JoGwBMDl8hH2
- Xu41segO60ZD9Qe2IdUkEAx65WSohn/86H5wfHICm2lhLjNt9weBE0taTMyXmEevM5HD
- FP5K+isZ9Pd/W4IbeUMnpRKRMewbeUlWt3HR2orQtSB9Yy0EFxKn8JDJJ5ISuG2fTovw
- DLcS1j9JmAa/y/FXeruoLN3r4bQ3/htsfCk6ZYq+Gk9UmLNU4/XrhV1TprJpOfedTRqD
- AQkSD/PWX2FXWcWtG8v37pb99Yfadm7fcLIvIlvVtd/vb3JH4uXnjrEnxeuhweAPx39n
- vlaA==
-X-Gm-Message-State: AOAM5339grUOiN+lE2A2J8GpAAw7h/8rw3Bwzao8fIHHT1lIEoshEO4C
- NR/CtWPfLCiZV7vdx0wyfBXc+Q==
-X-Google-Smtp-Source: ABdhPJzcu/Ss/9RgwPPJg93YQ7JubBa0Zh0691y5Zmny6DTl8TfzhEyt4JKFN6lUZKmLaaMEQaKLjA==
-X-Received: by 2002:a1c:5401:: with SMTP id i1mr11309608wmb.169.1643394959987; 
- Fri, 28 Jan 2022 10:35:59 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id z1sm2463750wmk.32.2022.01.28.10.35.58
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 28 Jan 2022 10:35:58 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id B8CD41FFB7;
- Fri, 28 Jan 2022 18:35:57 +0000 (GMT)
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1nDWJ2-0004Ja-3K
+ for qemu-devel@nongnu.org; Fri, 28 Jan 2022 13:49:08 -0500
+Received: from frasgout.his.huawei.com ([185.176.79.56]:2227)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1nDWIy-0003N7-D2
+ for qemu-devel@nongnu.org; Fri, 28 Jan 2022 13:49:07 -0500
+Received: from fraeml705-chm.china.huawei.com (unknown [172.18.147.207])
+ by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4Jlmgk4y5tz67kNj;
+ Sat, 29 Jan 2022 02:48:34 +0800 (CST)
+Received: from lhreml710-chm.china.huawei.com (10.201.108.61) by
+ fraeml705-chm.china.huawei.com (10.206.15.54) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
+ 15.1.2308.21; Fri, 28 Jan 2022 19:49:01 +0100
+Received: from localhost (10.122.247.231) by lhreml710-chm.china.huawei.com
+ (10.201.108.61) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.21; Fri, 28 Jan
+ 2022 18:49:00 +0000
+Date: Fri, 28 Jan 2022 18:48:59 +0000
+To: Alex =?ISO-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>
+CC: <qemu-devel@nongnu.org>, Marcel Apfelbaum <marcel@redhat.com>, "Michael S
+ . Tsirkin" <mst@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
+ <linux-cxl@vger.kernel.org>, Ben Widawsky <ben.widawsky@intel.com>, "Peter
+ Maydell" <peter.maydell@linaro.org>, <linuxarm@huawei.com>, "Shameerali
+ Kolothum Thodi" <shameerali.kolothum.thodi@huawei.com>, Philippe
+ =?ISO-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>, Saransh Gupta1
+ <saransh@ibm.com>, Shreyas Shah <shreyas.shah@elastics.cloud>, Chris Browy
+ <cbrowy@avery-design.com>, Samarth Saxena <samarths@cadence.com>, "Dan
+ Williams" <dan.j.williams@intel.com>
+Subject: Re: [PATCH v4 13/42] hw/pxb: Allow creation of a CXL PXB (host bridge)
+Message-ID: <20220128184859.000005eb@huawei.com>
+In-Reply-To: <20220128182001.00006886@huawei.com>
 References: <20220124171705.10432-1-Jonathan.Cameron@huawei.com>
- <20220124171705.10432-15-Jonathan.Cameron@huawei.com>
- <87a6fh9sry.fsf@linaro.org> <20220128182637.0000188a@huawei.com>
-User-agent: mu4e 1.7.6; emacs 28.0.91
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Subject: Re: [PATCH v4 14/42] tests/acpi: allow DSDT.viot table changes.
-Date: Fri, 28 Jan 2022 18:34:59 +0000
-In-reply-to: <20220128182637.0000188a@huawei.com>
-Message-ID: <87zgnf7lo2.fsf@linaro.org>
+ <20220124171705.10432-14-Jonathan.Cameron@huawei.com>
+ <87ee4t9szh.fsf@linaro.org> <20220128182001.00006886@huawei.com>
+Organization: Huawei Technologies R&D (UK) Ltd.
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.29; x86_64-w64-mingw32)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset="ISO-8859-1"
 Content-Transfer-Encoding: quoted-printable
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::330
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::330;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x330.google.com
-X-Spam_score_int: 6
-X-Spam_score: 0.6
-X-Spam_bar: /
-X-Spam_report: (0.6 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, PDS_HP_HELO_NORDNS=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+X-Originating-IP: [10.122.247.231]
+X-ClientProxiedBy: lhreml740-chm.china.huawei.com (10.201.108.190) To
+ lhreml710-chm.china.huawei.com (10.201.108.61)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=185.176.79.56;
+ envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
+X-Spam_score_int: -22
+X-Spam_score: -2.3
+X-Spam_bar: --
+X-Spam_report: (-2.3 / 5.0 requ) RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -92,79 +77,327 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Ben Widawsky <ben.widawsky@intel.com>, "Michael S
- . Tsirkin" <mst@redhat.com>, Samarth Saxena <samarths@cadence.com>,
- Chris Browy <cbrowy@avery-design.com>, qemu-devel@nongnu.org,
- linux-cxl@vger.kernel.org, linuxarm@huawei.com,
- Shreyas Shah <shreyas.shah@elastics.cloud>, Saransh Gupta1 <saransh@ibm.com>,
- Shameerali Kolothum Thodi <shameerali.kolothum.thodi@huawei.com>,
- Marcel Apfelbaum <marcel@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
- Dan Williams <dan.j.williams@intel.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  Jonathan Cameron <Jonathan.Cameron@huawei.com>
+From:  Jonathan Cameron via <qemu-devel@nongnu.org>
+
+On Fri, 28 Jan 2022 18:20:01 +0000
+Jonathan Cameron <Jonathan.Cameron@huawei.com> wrote:
+
+> On Thu, 27 Jan 2022 13:59:56 +0000
+> Alex Benn=E9e <alex.bennee@linaro.org> wrote:
+>=20
+> > Jonathan Cameron <Jonathan.Cameron@huawei.com> writes:
+> >  =20
+> > > From: Ben Widawsky <ben.widawsky@intel.com>
+> > >
+> > > This works like adding a typical pxb device, except the name is
+> > > 'pxb-cxl' instead of 'pxb-pcie'. An example command line would be as
+> > > follows:
+> > >   -device pxb-cxl,id=3Dcxl.0,bus=3D"pcie.0",bus_nr=3D1
+> > >
+> > > A CXL PXB is backward compatible with PCIe. What this means in practi=
+ce
+> > > is that an operating system that is unaware of CXL should still be ab=
+le
+> > > to enumerate this topology as if it were PCIe.
+> > >
+> > > One can create multiple CXL PXB host bridges, but a host bridge can o=
+nly
+> > > be connected to the main root bus. Host bridges cannot appear elsewhe=
+re
+> > > in the topology.
+> > >
+> > > Note that as of this patch, the ACPI tables needed for the host bridge
+> > > (specifically, an ACPI object in _SB named ACPI0016 and the CEDT) are=
+n't
+> > > created. So while this patch internally creates it, it cannot be
+> > > properly used by an operating system or other system software.
+> > >
+> > > Signed-off-by: Ben Widawsky <ben.widawsky@intel.com>
+> > > Signed-off-by: Jonathan.Cameron <Jonathan.Cameron@huawei.com>
+> > > ---
+> > >  hw/pci-bridge/pci_expander_bridge.c | 98 +++++++++++++++++++++++++++=
++-
+> > >  hw/pci/pci.c                        |  7 +++
+> > >  include/hw/pci/pci.h                |  6 ++
+> > >  3 files changed, 109 insertions(+), 2 deletions(-)
+> > >
+> > > diff --git a/hw/pci-bridge/pci_expander_bridge.c b/hw/pci-bridge/pci_=
+expander_bridge.c
+> > > index a6caa1e7b5..7009b541de 100644
+> > > --- a/hw/pci-bridge/pci_expander_bridge.c
+> > > +++ b/hw/pci-bridge/pci_expander_bridge.c
+> > > @@ -17,6 +17,7 @@
+> > >  #include "hw/pci/pci_host.h"
+> > >  #include "hw/qdev-properties.h"
+> > >  #include "hw/pci/pci_bridge.h"
+> > > +#include "hw/cxl/cxl.h"
+> > >  #include "qemu/range.h"
+> > >  #include "qemu/error-report.h"
+> > >  #include "qemu/module.h"
+> > > @@ -56,6 +57,10 @@ DECLARE_INSTANCE_CHECKER(PXBDev, PXB_DEV,
+> > >  DECLARE_INSTANCE_CHECKER(PXBDev, PXB_PCIE_DEV,
+> > >                           TYPE_PXB_PCIE_DEVICE)
+> > > =20
+> > > +#define TYPE_PXB_CXL_DEVICE "pxb-cxl"
+> > > +DECLARE_INSTANCE_CHECKER(PXBDev, PXB_CXL_DEV,
+> > > +                         TYPE_PXB_CXL_DEVICE)
+> > > +
+> > >  struct PXBDev {
+> > >      /*< private >*/
+> > >      PCIDevice parent_obj;
+> > > @@ -66,8 +71,19 @@ struct PXBDev {
+> > >      bool bypass_iommu;
+> > >  };
+> > > =20
+> > > +typedef struct CXLHost {
+> > > +    PCIHostState parent_obj;
+> > > +
+> > > +    CXLComponentState cxl_cstate;
+> > > +} CXLHost;
+> > > +
+> > >  static PXBDev *convert_to_pxb(PCIDevice *dev)
+> > >  {
+> > > +    /* A CXL PXB's parent bus is PCIe, so the normal check won't wor=
+k */
+> > > +    if (object_dynamic_cast(OBJECT(dev), TYPE_PXB_CXL_DEVICE)) {
+> > > +        return PXB_CXL_DEV(dev);
+> > > +    }
+> > > +
+> > >      return pci_bus_is_express(pci_get_bus(dev))
+> > >          ? PXB_PCIE_DEV(dev) : PXB_DEV(dev);
+> > >  }
+> > > @@ -76,6 +92,9 @@ static GList *pxb_dev_list;
+> > > =20
+> > >  #define TYPE_PXB_HOST "pxb-host"
+> > > =20
+> > > +#define TYPE_PXB_CXL_HOST "pxb-cxl-host"
+> > > +#define PXB_CXL_HOST(obj) OBJECT_CHECK(CXLHost, (obj), TYPE_PXB_CXL_=
+HOST)
+> > > +
+> > >  static int pxb_bus_num(PCIBus *bus)
+> > >  {
+> > >      PXBDev *pxb =3D convert_to_pxb(bus->parent_dev);
+> > > @@ -112,11 +131,20 @@ static const TypeInfo pxb_pcie_bus_info =3D {
+> > >      .class_init    =3D pxb_bus_class_init,
+> > >  };
+> > > =20
+> > > +static const TypeInfo pxb_cxl_bus_info =3D {
+> > > +    .name          =3D TYPE_PXB_CXL_BUS,
+> > > +    .parent        =3D TYPE_CXL_BUS,
+> > > +    .instance_size =3D sizeof(PXBBus),
+> > > +    .class_init    =3D pxb_bus_class_init,
+> > > +};
+> > > +
+> > >  static const char *pxb_host_root_bus_path(PCIHostState *host_bridge,
+> > >                                            PCIBus *rootbus)
+> > >  {
+> > > -    PXBBus *bus =3D pci_bus_is_express(rootbus) ?
+> > > -                  PXB_PCIE_BUS(rootbus) : PXB_BUS(rootbus);
+> > > +    PXBBus *bus =3D pci_bus_is_cxl(rootbus) ?
+> > > +                      PXB_CXL_BUS(rootbus) :
+> > > +                      pci_bus_is_express(rootbus) ? PXB_PCIE_BUS(roo=
+tbus) :
+> > > +                                                    PXB_BUS(rootbus);
+> > > =20
+> > >      snprintf(bus->bus_path, 8, "0000:%02x", pxb_bus_num(rootbus));
+> > >      return bus->bus_path;
+> > > @@ -218,6 +246,16 @@ static int pxb_map_irq_fn(PCIDevice *pci_dev, in=
+t pin)
+> > >      return pin - PCI_SLOT(pxb->devfn);
+> > >  }
+> > > =20
+> > > +static void pxb_dev_reset(DeviceState *dev)
+> > > +{
+> > > +    CXLHost *cxl =3D PXB_CXL_HOST(dev); =20
+> Having fixed the stuff you observed below...
+>=20
+> It's not that device by rather the PXB_CXL_DEV and we
+> can access the CXLHost via
+> PXB_CXL_DEV(dv)->cxl.cxl_host_bridge()
+> at which point this seems to be working.
+
+The infrastructure to do this isn't in place until patch 24 so I'll have
+to pull some of it into this patch to allow this reset to work.
+
+Jonathan
 
 
-Jonathan Cameron <Jonathan.Cameron@huawei.com> writes:
-
-> On Thu, 27 Jan 2022 14:06:42 +0000
-> Alex Benn=C3=A9e <alex.bennee@linaro.org> wrote:
->
->> Jonathan Cameron <Jonathan.Cameron@huawei.com> writes:
->>=20
->> > From: Jonathan Cameron <jonathan.cameron@huawei.com>
->> >
->> > The next patch unifies some of the PCI host bridge DSDT
->> > generation code and results in some minor changes to this file.=20=20
->>=20
->> I'd just squash this in with the patch that makes the change...
->> otherwise you risk breaking bisectablility.
-> Hi Alex,
->
-> This sequence of 3 patches is as described in
-> tests/qtest/bios-tables-test.c
->
-> According to description there the point is to allow
-> whoever picks these patches up to just change the 3rd patch
-> if the tables need updating to reflect some other change.
->
-> It would be a lot easier obviously to just squash it, but
-> given the process is laid out in that file, I'd rather
-> leave it like this.
-
-Hmm I shall defer to the maintainer here. I assume this process is to
-deal with complex changes over several commits. So ignore that comment
-for now.
-
->
-> Or am I missing a reason this particular one is better
-> squashed?=20
->
-> Thanks,
->
+>=20
+> > > +    CXLComponentState *cxl_cstate =3D &cxl->cxl_cstate;
+> > > +    uint32_t *reg_state =3D cxl_cstate->crb.cache_mem_registers;
+> > > +
+> > > +    cxl_component_register_init_common(reg_state, CXL2_ROOT_PORT);
+> > > +    ARRAY_FIELD_DP32(reg_state, CXL_HDM_DECODER_CAPABILITY, TARGET_C=
+OUNT, 8);
+> > > +}
+> > > +
+> > >  static gint pxb_compare(gconstpointer a, gconstpointer b)
+> > >  {
+> > >      const PXBDev *pxb_a =3D a, *pxb_b =3D b;
+> > > @@ -290,6 +328,11 @@ static void pxb_dev_realize_common(PCIDevice *de=
+v, enum BusType type,
+> > >      pci_config_set_class(dev->config, PCI_CLASS_BRIDGE_HOST);
+> > > =20
+> > >      pxb_dev_list =3D g_list_insert_sorted(pxb_dev_list, pxb, pxb_com=
+pare);
+> > > +
+> > > +    if (type =3D=3D CXL) {
+> > > +        pxb_dev_reset(ds);
+> > > +    }
+> > > +   =20
+> >=20
+> > Couldn't this just be done in the cxl realize function after it calls t=
+he
+> > common code? =20
+> yup.
+>=20
+> >  =20
+> > >      return;
+> > > =20
+> > >  err_register_bus:
+> > > @@ -338,6 +381,12 @@ static void pxb_dev_class_init(ObjectClass *klas=
+s, void *data)
+> > >      device_class_set_props(dc, pxb_dev_properties);
+> > >      dc->hotpluggable =3D false;
+> > >      set_bit(DEVICE_CATEGORY_BRIDGE, dc->categories);
+> > > +
+> > > +    /*
+> > > +     * Reset doesn't seem to actually be called, but maybe it will i=
+n the
+> > > +     * future?
+> > > +     */
+> > > +    dc->reset =3D pxb_dev_reset;   =20
+> >=20
+> > Surely because this should be in pxb_cxl_dev_class_init? =20
+>=20
+> That would indeed do it.
+>=20
+> Thanks.
+>=20
 > Jonathan
->
->
->>=20
->> >
->> > Signed-off-by: Jonathan Cameron <jonathan.cameron@huawei.com>
->> > ---
->> >  tests/qtest/bios-tables-test-allowed-diff.h | 1 +
->> >  1 file changed, 1 insertion(+)
->> >
->> > diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest=
-/bios-tables-test-allowed-diff.h
->> > index dfb8523c8b..08a8095432 100644
->> > --- a/tests/qtest/bios-tables-test-allowed-diff.h
->> > +++ b/tests/qtest/bios-tables-test-allowed-diff.h
->> > @@ -1 +1,2 @@
->> >  /* List of comma-separated changed AML files to ignore */
->> > +"tests/data/acpi/q35/DSDT.viot",=20=20
->>=20
->>=20
+>=20
+> >  =20
+> > >  }
+> > > =20
+> > >  static const TypeInfo pxb_dev_info =3D {
+> > > @@ -389,13 +438,58 @@ static const TypeInfo pxb_pcie_dev_info =3D {
+> > >      },
+> > >  };
+> > > =20
+> > > +static void pxb_cxl_dev_realize(PCIDevice *dev, Error **errp)
+> > > +{
+> > > +    /* A CXL PXB's parent bus is still PCIe */
+> > > +    if (!pci_bus_is_express(pci_get_bus(dev))) {
+> > > +        error_setg(errp, "pxb-cxl devices cannot reside on a PCI bus=
+");
+> > > +        return;
+> > > +    }
+> > > +
+> > > +    pxb_dev_realize_common(dev, CXL, errp);
+> > > +}
+> > > +
+> > > +static void pxb_cxl_dev_class_init(ObjectClass *klass, void *data)
+> > > +{
+> > > +    DeviceClass *dc   =3D DEVICE_CLASS(klass);
+> > > +    PCIDeviceClass *k =3D PCI_DEVICE_CLASS(klass);
+> > > +
+> > > +    k->realize             =3D pxb_cxl_dev_realize;
+> > > +    k->exit                =3D pxb_dev_exitfn;
+> > > +    /*
+> > > +     * XXX: These types of bridges don't actually show up in the hie=
+rarchy so
+> > > +     * vendor, device, class, etc. ids are intentionally left out.
+> > > +     */
+> > > +
+> > > +    dc->desc =3D "CXL Host Bridge";
+> > > +    device_class_set_props(dc, pxb_dev_properties);
+> > > +    set_bit(DEVICE_CATEGORY_BRIDGE, dc->categories);
+> > > +
+> > > +    /* Host bridges aren't hotpluggable. FIXME: spec reference */
+> > > +    dc->hotpluggable =3D false;
+> > > +}
+> > > +
+> > > +static const TypeInfo pxb_cxl_dev_info =3D {
+> > > +    .name          =3D TYPE_PXB_CXL_DEVICE,
+> > > +    .parent        =3D TYPE_PCI_DEVICE,
+> > > +    .instance_size =3D sizeof(PXBDev),
+> > > +    .class_init    =3D pxb_cxl_dev_class_init,
+> > > +    .interfaces =3D
+> > > +        (InterfaceInfo[]){
+> > > +            { INTERFACE_CONVENTIONAL_PCI_DEVICE },
+> > > +            {},
+> > > +        },
+> > > +};
+> > > +
+> > >  static void pxb_register_types(void)
+> > >  {
+> > >      type_register_static(&pxb_bus_info);
+> > >      type_register_static(&pxb_pcie_bus_info);
+> > > +    type_register_static(&pxb_cxl_bus_info);
+> > >      type_register_static(&pxb_host_info);
+> > >      type_register_static(&pxb_dev_info);
+> > >      type_register_static(&pxb_pcie_dev_info);
+> > > +    type_register_static(&pxb_cxl_dev_info);
+> > >  }
+> > > =20
+> > >  type_init(pxb_register_types)
+> > > diff --git a/hw/pci/pci.c b/hw/pci/pci.c
+> > > index 474ea98c1d..cafebf6f59 100644
+> > > --- a/hw/pci/pci.c
+> > > +++ b/hw/pci/pci.c
+> > > @@ -229,6 +229,12 @@ static const TypeInfo pcie_bus_info =3D {
+> > >      .class_init =3D pcie_bus_class_init,
+> > >  };
+> > > =20
+> > > +static const TypeInfo cxl_bus_info =3D {
+> > > +    .name       =3D TYPE_CXL_BUS,
+> > > +    .parent     =3D TYPE_PCIE_BUS,
+> > > +    .class_init =3D pcie_bus_class_init,
+> > > +};
+> > > +
+> > >  static PCIBus *pci_find_bus_nr(PCIBus *bus, int bus_num);
+> > >  static void pci_update_mappings(PCIDevice *d);
+> > >  static void pci_irq_handler(void *opaque, int irq_num, int level);
+> > > @@ -2892,6 +2898,7 @@ static void pci_register_types(void)
+> > >  {
+> > >      type_register_static(&pci_bus_info);
+> > >      type_register_static(&pcie_bus_info);
+> > > +    type_register_static(&cxl_bus_info);
+> > >      type_register_static(&conventional_pci_interface_info);
+> > >      type_register_static(&cxl_interface_info);
+> > >      type_register_static(&pcie_interface_info);
+> > > diff --git a/include/hw/pci/pci.h b/include/hw/pci/pci.h
+> > > index 908896ebe8..97cbbad375 100644
+> > > --- a/include/hw/pci/pci.h
+> > > +++ b/include/hw/pci/pci.h
+> > > @@ -409,6 +409,7 @@ typedef PCIINTxRoute (*pci_route_irq_fn)(void *op=
+aque, int pin);
+> > >  #define TYPE_PCI_BUS "PCI"
+> > >  OBJECT_DECLARE_TYPE(PCIBus, PCIBusClass, PCI_BUS)
+> > >  #define TYPE_PCIE_BUS "PCIE"
+> > > +#define TYPE_CXL_BUS "CXL"
+> > > =20
+> > >  typedef void (*pci_bus_dev_fn)(PCIBus *b, PCIDevice *d, void *opaque=
+);
+> > >  typedef void (*pci_bus_fn)(PCIBus *b, void *opaque);
+> > > @@ -768,6 +769,11 @@ static inline void pci_irq_pulse(PCIDevice *pci_=
+dev)
+> > >      pci_irq_deassert(pci_dev);
+> > >  }
+> > > =20
+> > > +static inline int pci_is_cxl(const PCIDevice *d)
+> > > +{
+> > > +    return d->cap_present & QEMU_PCIE_CAP_CXL;
+> > > +}
+> > > +
+> > >  static inline int pci_is_express(const PCIDevice *d)
+> > >  {
+> > >      return d->cap_present & QEMU_PCI_CAP_EXPRESS;   =20
+> >=20
+> >  =20
+>=20
 
-
---=20
-Alex Benn=C3=A9e
 
