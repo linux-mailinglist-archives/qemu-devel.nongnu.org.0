@@ -2,70 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C66924A047E
-	for <lists+qemu-devel@lfdr.de>; Sat, 29 Jan 2022 00:48:03 +0100 (CET)
-Received: from localhost ([::1]:37086 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B74D64A0500
+	for <lists+qemu-devel@lfdr.de>; Sat, 29 Jan 2022 01:04:57 +0100 (CET)
+Received: from localhost ([::1]:40474 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nDayI-0007Il-TD
-	for lists+qemu-devel@lfdr.de; Fri, 28 Jan 2022 18:48:02 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:42000)
+	id 1nDbEe-00058n-J6
+	for lists+qemu-devel@lfdr.de; Fri, 28 Jan 2022 19:04:56 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:42002)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1nDafm-0000fo-Cg
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1nDafm-0000fr-CU
  for qemu-devel@nongnu.org; Fri, 28 Jan 2022 18:28:54 -0500
-Received: from [2607:f8b0:4864:20::d29] (port=44824
- helo=mail-io1-xd29.google.com)
+Received: from [2607:f8b0:4864:20::d2a] (port=43744
+ helo=mail-io1-xd2a.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1nDafg-0001aA-Mu
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1nDafg-0001aE-N9
  for qemu-devel@nongnu.org; Fri, 28 Jan 2022 18:28:53 -0500
-Received: by mail-io1-xd29.google.com with SMTP id p63so8829467iod.11
- for <qemu-devel@nongnu.org>; Fri, 28 Jan 2022 15:28:18 -0800 (PST)
+Received: by mail-io1-xd2a.google.com with SMTP id z199so9685251iof.10
+ for <qemu-devel@nongnu.org>; Fri, 28 Jan 2022 15:28:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bsdimp-com.20210112.gappssmtp.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=+DlEs5WrZvuXfm29/4/3j1YKa0M1X3SLWmqACMEYKjk=;
- b=6dtBZu+3Z5s2Yiy6dlqBqBLqJtvUtjOC+dMHQWeWOA7JLp/skUvm1HrdghdreEinkH
- 7mZqvkJgmP3F+fa+qlYrQZePg4F47U/GBifZM8LN1aleJp/R+TjNPPOJgirZOs5JU6Mz
- 2WxaZXlHoh2MDZlAs19im+TNPlzYPGBCtAKXmOkQFV/PNgSjrNK7kdcQ9L7eYozapc4i
- 0Qebqrde05xO1B7lVKUR0B+LciDnovRq9ZDDGMHrPFoQ7rBUAOX3rKSBKgZSo/0hA/83
- t9BiBRLRpQgI9z7j/sg4KGDjp43A3AXvrZOtO/VucQeVGUTos9LaF5sme/JnQHHrp2hC
- hDbA==
+ bh=kcZ/fxJZTdiXxs5uHcd2Nm1OFR/CKnoGxaFeU6jvAsI=;
+ b=pzci1BDorZmXncrG5UQtZ5vYbjjeDRaxAQlUQRryeUX7/s3mq8cWpWFbWOJjTmJ5OK
+ amAfZpHlq3vK+/pHnzy8rW+HdE6QNybh94xPbLkbKB7q9G4xP1LGA9dexE/v4Yy43Mxz
+ O2k91j5sWmPbZKwvbV23Dvs+uGrzYo+WVPAr9Lg5Ng9nyH152Qfk/mzGw1obt1aK7vLl
+ EyNGOapSe4h7FzKTdJfJo97AeXZoLAdQaCcdjXlhLT7TBnq5plVwaKCANPFLc6n6dw03
+ F1Tjdd5LZqUWIOpBXyk8AzicHXoNS5tEuez6UCizlsGiTLy9KbVJVx9HdgNSNKB67pPt
+ lF4Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=+DlEs5WrZvuXfm29/4/3j1YKa0M1X3SLWmqACMEYKjk=;
- b=QT72RqNDY1iQ1RYDwkIOwoxhPqBrzZJFsBG25uecK+TLxJBkQA3Bpr+Sy4KLcifJcI
- B1FDN3EYVqnURGRr/ePaEfOpNkBN47oD/N/MCvqjUmcWO1HAGU+BCNg4Wl1p7JwBWDv4
- u+tcjAryazUjyu+aoryP1ZA4opHsy17N+oyUTuYUgitRHQG3VFfTkI8X0e5DohBdDkzX
- ujToEofLUB3OpM+9wo4/AdnqT1V8obMUb8Abk+74AUxXg6c+ic8pg9J1fGfPgc77lSHu
- XmGh/nrFvKZVVO/xfPocB7Fyt7dd8lAyI0Ml/rPcH/VtFZTXwaMJ6ztqXpKETukwf5as
- KCNg==
-X-Gm-Message-State: AOAM531hV0vE0lcrtSW/BcNAuR/7r9BV7kQDQd+lp1bAdxqV10neAJQ9
- vRkotyGVzYUIy7SCDwIAykdakjrjMtLKkg==
-X-Google-Smtp-Source: ABdhPJzN+fQmVkNV4cKMer90iUCOqaDBE+SlSIJpZllZOQjhGCAdjpQYk1PppqvBVXU/0fTCFP/4wA==
-X-Received: by 2002:a6b:905:: with SMTP id t5mr6729323ioi.86.1643412498009;
+ bh=kcZ/fxJZTdiXxs5uHcd2Nm1OFR/CKnoGxaFeU6jvAsI=;
+ b=OgJVkcduY3z+vCp+EahBzYBo9HZKksyunwAW9RPYIKfCjJbLexUVYF+IWAvcPTI4cs
+ wHE6ma8n8AQcyR7axUoRQmcfwc6z/clWt1XPStKdG494Hih4qGB6O9YhZ8oD8ddYjSFt
+ L+xGO2VGUmrP0xYkzd9w7DhNvrVKH0KQR0ZOOdBks7J9r4X1aIvrCt/1MU3cdRMB4l7s
+ YjGid/ApAttZNry4bfQE9JTIulGGq6TdSqgqySLYRzQtlY1QF/wyJLvGTRk4odM9d59f
+ ZmXxGXtADfiy+sTTe1mLGJiittlunC8my/uXarYdlGsXFYr1WD347UOGdpq6kr6tArWs
+ RP3w==
+X-Gm-Message-State: AOAM530UVxSaWG6Bnpd5OHGgoloB98g/ME3BSt0B2TZYpDFOKcTeiqc7
+ gCYxqmi7n88AmA10xeShcef4lxnHW0MhgA==
+X-Google-Smtp-Source: ABdhPJyIJOfZOlxhQOseFDDUe+DSC+SUk+dadvFGAo9IC0ay18eEcTVyx7L/B85FwpRy97ClH+zl5A==
+X-Received: by 2002:a02:23c5:: with SMTP id u188mr2356809jau.55.1643412498812; 
  Fri, 28 Jan 2022 15:28:18 -0800 (PST)
 Received: from dune.bsdimp.com (50-253-99-174-static.hfc.comcastbusiness.net.
  [50.253.99.174])
- by smtp.gmail.com with ESMTPSA id o11sm14323111ilm.20.2022.01.28.15.28.17
+ by smtp.gmail.com with ESMTPSA id o11sm14323111ilm.20.2022.01.28.15.28.18
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 28 Jan 2022 15:28:17 -0800 (PST)
+ Fri, 28 Jan 2022 15:28:18 -0800 (PST)
 From: Warner Losh <imp@bsdimp.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 15/40] bsd-user/arm/target_arch_cpu.h: Implement data faults
-Date: Fri, 28 Jan 2022 16:27:40 -0700
-Message-Id: <20220128232805.86191-16-imp@bsdimp.com>
+Subject: [PATCH v3 16/40] bsd-user/signal.c: implement abstract target / host
+ signal translation
+Date: Fri, 28 Jan 2022 16:27:41 -0700
+Message-Id: <20220128232805.86191-17-imp@bsdimp.com>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <20220128232805.86191-1-imp@bsdimp.com>
 References: <20220128232805.86191-1-imp@bsdimp.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::d29
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::d2a
  (failed)
-Received-SPF: none client-ip=2607:f8b0:4864:20::d29;
- envelope-from=imp@bsdimp.com; helo=mail-io1-xd29.google.com
+Received-SPF: none client-ip=2607:f8b0:4864:20::d2a;
+ envelope-from=imp@bsdimp.com; helo=mail-io1-xd2a.google.com
 X-Spam_score_int: 8
 X-Spam_score: 0.8
 X-Spam_bar: /
@@ -85,86 +86,74 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Kyle Evans <kevans@freebsd.org>,
+Cc: Peter Maydell <peter.maydell@linaro.org>, Stacey Son <sson@FreeBSD.org>,
+ Kyle Evans <kevans@freebsd.org>,
  Richard Henderson <richard.henderson@linaro.org>, def@FreeBSD.org,
  jrtc27@FreeBSD.org, Warner Losh <imp@bsdimp.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Update for the richer set of data faults that are now possible. Copied
-largely from linux-user/arm/cpu_loop.c, with minor typo fixes.
+Implement host_to_target_signal and target_to_host_signal.
 
+Signed-off-by: Stacey Son <sson@FreeBSD.org>
+Signed-off-by: Kyle Evans <kevans@freebsd.org>
 Signed-off-by: Warner Losh <imp@bsdimp.com>
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- bsd-user/arm/target_arch_cpu.h | 45 ++++++++++++++++++++++++++--------
- 1 file changed, 35 insertions(+), 10 deletions(-)
+ bsd-user/signal-common.h |  2 ++
+ bsd-user/signal.c        | 16 ++++++++++++++++
+ 2 files changed, 18 insertions(+)
 
-diff --git a/bsd-user/arm/target_arch_cpu.h b/bsd-user/arm/target_arch_cpu.h
-index 9d790176420..2b395d5c97f 100644
---- a/bsd-user/arm/target_arch_cpu.h
-+++ b/bsd-user/arm/target_arch_cpu.h
-@@ -39,8 +39,7 @@ static inline void target_cpu_init(CPUARMState *env,
+diff --git a/bsd-user/signal-common.h b/bsd-user/signal-common.h
+index f9a9d1e01aa..efed23d9efb 100644
+--- a/bsd-user/signal-common.h
++++ b/bsd-user/signal-common.h
+@@ -13,8 +13,10 @@ long do_rt_sigreturn(CPUArchState *env);
+ abi_long do_sigaltstack(abi_ulong uss_addr, abi_ulong uoss_addr, abi_ulong sp);
+ long do_sigreturn(CPUArchState *env);
+ void force_sig_fault(int sig, int code, abi_ulong addr);
++int host_to_target_signal(int sig);
+ void process_pending_signals(CPUArchState *env);
+ void queue_signal(CPUArchState *env, int sig, target_siginfo_t *info);
+ void signal_init(void);
++int target_to_host_signal(int sig);
  
- static inline void target_cpu_loop(CPUARMState *env)
- {
--    int trapnr;
--    target_siginfo_t info;
-+    int trapnr, si_signo, si_code;
-     unsigned int n;
-     CPUState *cs = env_cpu(env);
+ #endif
+diff --git a/bsd-user/signal.c b/bsd-user/signal.c
+index 844dfa19095..1313baec96a 100644
+--- a/bsd-user/signal.c
++++ b/bsd-user/signal.c
+@@ -2,6 +2,7 @@
+  *  Emulation of BSD signals
+  *
+  *  Copyright (c) 2003 - 2008 Fabrice Bellard
++ *  Copyright (c) 2013 Stacey Son
+  *
+  *  This program is free software; you can redistribute it and/or modify
+  *  it under the terms of the GNU General Public License as published by
+@@ -27,6 +28,21 @@
+  * fork.
+  */
  
-@@ -150,15 +149,41 @@ static inline void target_cpu_loop(CPUARMState *env)
-             /* just indicate that signals should be handled asap */
-             break;
-         case EXCP_PREFETCH_ABORT:
--            /* See arm/arm/trap.c prefetch_abort_handler() */
-         case EXCP_DATA_ABORT:
--            /* See arm/arm/trap.c data_abort_handler() */
--            info.si_signo = TARGET_SIGSEGV;
--            info.si_errno = 0;
--            /* XXX: check env->error_code */
--            info.si_code = 0;
--            info.si_addr = env->exception.vaddress;
--            queue_signal(env, info.si_signo, &info);
-+            /*
-+             * See arm/arm/trap-v6.c prefetch_abort_handler() and
-+             * data_abort_handler()
-+             *
-+             * However, FreeBSD maps these to a generic value and then uses that
-+             * to maybe fault in pages in vm/vm_fault.c:vm_fault_trap(). I
-+             * believe that the indirection maps the same as Linux, but haven't
-+             * chased down every single possible indirection.
-+             */
++/*
++ * The BSD ABIs use the same singal numbers across all the CPU architectures, so
++ * (unlike Linux) these functions are just the identity mapping. This might not
++ * be true for XyzBSD running on AbcBSD, which doesn't currently work.
++ */
++int host_to_target_signal(int sig)
++{
++    return sig;
++}
 +
-+            /* For user-only we don't set TTBCR_EAE, so look at the FSR. */
-+            switch (env->exception.fsr & 0x1f) {
-+            case 0x1: /* Alignment */
-+                si_signo = TARGET_SIGBUS;
-+                si_code = TARGET_BUS_ADRALN;
-+                break;
-+            case 0x3: /* Access flag fault, level 1 */
-+            case 0x6: /* Access flag fault, level 2 */
-+            case 0x9: /* Domain fault, level 1 */
-+            case 0xb: /* Domain fault, level 2 */
-+            case 0xd: /* Permission fault, level 1 */
-+            case 0xf: /* Permission fault, level 2 */
-+                si_signo = TARGET_SIGSEGV;
-+                si_code = TARGET_SEGV_ACCERR;
-+                break;
-+            case 0x5: /* Translation fault, level 1 */
-+            case 0x7: /* Translation fault, level 2 */
-+                si_signo = TARGET_SIGSEGV;
-+                si_code = TARGET_SEGV_MAPERR;
-+                break;
-+            default:
-+                g_assert_not_reached();
-+            }
-+            force_sig_fault(si_signo, si_code, env->exception.vaddress);
-             break;
-         case EXCP_DEBUG:
-         case EXCP_BKPT:
++int target_to_host_signal(int sig)
++{
++    return sig;
++}
++
+ /*
+  * Queue a signal so that it will be send to the virtual CPU as soon as
+  * possible.
 -- 
 2.33.1
 
