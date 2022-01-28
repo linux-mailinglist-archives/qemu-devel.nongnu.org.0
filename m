@@ -2,67 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 07BAC49F51B
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jan 2022 09:30:05 +0100 (CET)
-Received: from localhost ([::1]:53248 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 84EF449F53F
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jan 2022 09:36:20 +0100 (CET)
+Received: from localhost ([::1]:55666 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nDMdv-00026P-QR
-	for lists+qemu-devel@lfdr.de; Fri, 28 Jan 2022 03:30:03 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:48278)
+	id 1nDMjz-0003xV-IZ
+	for lists+qemu-devel@lfdr.de; Fri, 28 Jan 2022 03:36:19 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:49844)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1nDMTl-0004bL-BD
- for qemu-devel@nongnu.org; Fri, 28 Jan 2022 03:19:33 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:52566)
+ id 1nDMdn-0002V6-Fc
+ for qemu-devel@nongnu.org; Fri, 28 Jan 2022 03:29:55 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:57509)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1nDMTi-00057p-3q
- for qemu-devel@nongnu.org; Fri, 28 Jan 2022 03:19:31 -0500
+ id 1nDMdj-0006ep-K2
+ for qemu-devel@nongnu.org; Fri, 28 Jan 2022 03:29:53 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1643357968;
+ s=mimecast20190719; t=1643358590;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=vuVnPdqiJeSO7LrnWx2mZUd3/7oV5AldOWIBI4ynoxY=;
- b=CCSOdkeJUtkWMOpNKhpOxV7Ko8Nk7tcN9vmq1NoLIfdJD1HPmv8+8ynpzHs6RJtrK1iVxG
- mi/tIBZ7zGPA4YHpBU2sN67+lPg+NKSEetfzlkPw5X6NlTJeAcCIzS7bB3WH0rZzwaUvQX
- FUlGgrjnLZ8ZMznsvHEDheDxIgOCa20=
+ bh=X63IjIVjqhgoMTIdq6+2xOd1+rsR+0T6cOeYmuSmIHg=;
+ b=VxR9GP+0qKC6mBmucVE3K0JzenJa1tSrnRSVRmmv67hjxlm0Y4GRls1EqIwH6u9Pwn9Lyn
+ UNFyuWVJthVKJkmdQ4M/4yJoryuEVQ5CI2vWWNoct6WN3JZoP5/AwhqOIcG1W2G8SckeNP
+ F/bnHJf272j7bkZWQDxltQTFmo0ChKQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-605-dpcAPhxYNsuNz6Zs4x_PDA-1; Fri, 28 Jan 2022 03:19:25 -0500
-X-MC-Unique: dpcAPhxYNsuNz6Zs4x_PDA-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-27-bo3MeLDUNgGLqWoYQRlntQ-1; Fri, 28 Jan 2022 03:29:45 -0500
+X-MC-Unique: bo3MeLDUNgGLqWoYQRlntQ-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1F34C1083F60;
- Fri, 28 Jan 2022 08:19:23 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id ABEB583DD23;
+ Fri, 28 Jan 2022 08:29:43 +0000 (UTC)
 Received: from localhost (unknown [10.39.193.145])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 20FF360C36;
- Fri, 28 Jan 2022 08:19:07 +0000 (UTC)
-Date: Fri, 28 Jan 2022 08:19:06 +0000
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4C85E5E49B;
+ Fri, 28 Jan 2022 08:29:28 +0000 (UTC)
+Date: Fri, 28 Jan 2022 08:29:26 +0000
 From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Alex Williamson <alex.williamson@redhat.com>
-Subject: Re: [PATCH v5 03/18] pci: isolated address space for PCI bus
-Message-ID: <YfOm+hhspMIfZnY/@stefanha-x1.localdomain>
-References: <2971c1bec04acaac4eb3c1f2b104cbeabad01e22.1642626515.git.jag.raman@oracle.com>
- <20220119190742-mutt-send-email-mst@kernel.org>
- <1CACFB08-1BBC-4ECC-9C0B-6F377018D795@oracle.com>
- <YfBDqMuO/l/gWzL8@work-vm>
- <AE47B5D2-6515-4BD3-B541-23E5274174AC@oracle.com>
- <YfEYHBhrsdF9Edpp@stefanha-x1.localdomain>
- <YfGqCJeTD9bmkZx6@work-vm>
- <20220126161120-mutt-send-email-mst@kernel.org>
- <YfJYFbBVQzho7mGp@stefanha-x1.localdomain>
- <20220127142253.21ab0025.alex.williamson@redhat.com>
+To: Jag Raman <jag.raman@oracle.com>
+Subject: Re: [PATCH v5 17/18] vfio-user: register handlers to facilitate
+ migration
+Message-ID: <YfOpZmI4GM6oGhGH@stefanha-x1.localdomain>
+References: <cover.1642626515.git.jag.raman@oracle.com>
+ <0ec006e5c309166cc1920871688508c1f6270ac3.1642626515.git.jag.raman@oracle.com>
+ <YfAbwButynCFEBwY@stefanha-x1.localdomain>
+ <A4D21E02-4F6A-49C6-A7D8-24C30BD2B645@oracle.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="7IjNXegecZu1fJcC"
+ protocol="application/pgp-signature"; boundary="ajj5JmPFYg0fWQB0"
 Content-Disposition: inline
-In-Reply-To: <20220127142253.21ab0025.alex.williamson@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+In-Reply-To: <A4D21E02-4F6A-49C6-A7D8-24C30BD2B645@oracle.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
@@ -85,167 +80,241 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: "eduardo@habkost.net" <eduardo@habkost.net>,
- Elena Ufimtseva <elena.ufimtseva@oracle.com>, Jag Raman <jag.raman@oracle.com>,
- Beraldo Leal <bleal@redhat.com>, John Johnson <john.g.johnson@oracle.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
- "armbru@redhat.com" <armbru@redhat.com>,
- "quintela@redhat.com" <quintela@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@gmail.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- "thanos.makatos@nutanix.com" <thanos.makatos@nutanix.com>,
+ Elena Ufimtseva <elena.ufimtseva@oracle.com>,
+ John Johnson <john.g.johnson@oracle.com>,
  Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
- Eric Blake <eblake@redhat.com>,
- "john.levon@nutanix.com" <john.levon@nutanix.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>
+ Beraldo Leal <bleal@redhat.com>, John Levon <john.levon@nutanix.com>,
+ Markus Armbruster <armbru@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>,
+ qemu-devel <qemu-devel@nongnu.org>, Juan Quintela <quintela@redhat.com>,
+ =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@gmail.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Thanos Makatos <thanos.makatos@nutanix.com>, Eric Blake <eblake@redhat.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---7IjNXegecZu1fJcC
+--ajj5JmPFYg0fWQB0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Jan 27, 2022 at 02:22:53PM -0700, Alex Williamson wrote:
-> On Thu, 27 Jan 2022 08:30:13 +0000
-> Stefan Hajnoczi <stefanha@redhat.com> wrote:
+On Thu, Jan 27, 2022 at 05:04:26PM +0000, Jag Raman wrote:
 >=20
-> > On Wed, Jan 26, 2022 at 04:13:33PM -0500, Michael S. Tsirkin wrote:
-> > > On Wed, Jan 26, 2022 at 08:07:36PM +0000, Dr. David Alan Gilbert wrot=
-e: =20
-> > > > * Stefan Hajnoczi (stefanha@redhat.com) wrote: =20
-> > > > > On Wed, Jan 26, 2022 at 05:27:32AM +0000, Jag Raman wrote: =20
-> > > > > >=20
-> > > > > >  =20
-> > > > > > > On Jan 25, 2022, at 1:38 PM, Dr. David Alan Gilbert <dgilbert=
-@redhat.com> wrote:
-> > > > > > >=20
-> > > > > > > * Jag Raman (jag.raman@oracle.com) wrote: =20
-> > > > > > >>=20
-> > > > > > >>  =20
-> > > > > > >>> On Jan 19, 2022, at 7:12 PM, Michael S. Tsirkin <mst@redhat=
-=2Ecom> wrote:
-> > > > > > >>>=20
-> > > > > > >>> On Wed, Jan 19, 2022 at 04:41:52PM -0500, Jagannathan Raman=
- wrote: =20
-> > > > > > >>>> Allow PCI buses to be part of isolated CPU address spaces.=
- This has a
-> > > > > > >>>> niche usage.
-> > > > > > >>>>=20
-> > > > > > >>>> TYPE_REMOTE_MACHINE allows multiple VMs to house their PCI=
- devices in
-> > > > > > >>>> the same machine/server. This would cause address space co=
-llision as
-> > > > > > >>>> well as be a security vulnerability. Having separate addre=
-ss spaces for
-> > > > > > >>>> each PCI bus would solve this problem. =20
-> > > > > > >>>=20
-> > > > > > >>> Fascinating, but I am not sure I understand. any examples? =
-=20
-> > > > > > >>=20
-> > > > > > >> Hi Michael!
-> > > > > > >>=20
-> > > > > > >> multiprocess QEMU and vfio-user implement a client-server mo=
-del to allow
-> > > > > > >> out-of-process emulation of devices. The client QEMU, which =
-makes ioctls
-> > > > > > >> to the kernel and runs VCPUs, could attach devices running i=
-n a server
-> > > > > > >> QEMU. The server QEMU needs access to parts of the client=E2=
-=80=99s RAM to
-> > > > > > >> perform DMA. =20
-> > > > > > >=20
-> > > > > > > Do you ever have the opposite problem? i.e. when an emulated =
-PCI device =20
-> > > > > >=20
-> > > > > > That=E2=80=99s an interesting question.
-> > > > > >  =20
-> > > > > > > exposes a chunk of RAM-like space (frame buffer, or maybe a m=
-apped file)
-> > > > > > > that the client can see.  What happens if two emulated device=
-s need to
-> > > > > > > access each others emulated address space? =20
-> > > > > >=20
-> > > > > > In this case, the kernel driver would map the destination=E2=80=
-=99s chunk of internal RAM into
-> > > > > > the DMA space of the source device. Then the source device coul=
-d write to that
-> > > > > > mapped address range, and the IOMMU should direct those writes =
-to the
-> > > > > > destination device.
-> > > > > >=20
-> > > > > > I would like to take a closer look at the IOMMU implementation =
-on how to achieve
-> > > > > > this, and get back to you. I think the IOMMU would handle this.=
- Could you please
-> > > > > > point me to the IOMMU implementation you have in mind? =20
-> > > > >=20
-> > > > > I don't know if the current vfio-user client/server patches alrea=
-dy
-> > > > > implement device-to-device DMA, but the functionality is supporte=
-d by
-> > > > > the vfio-user protocol.
-> > > > >=20
-> > > > > Basically: if the DMA regions lookup inside the vfio-user server =
-fails,
-> > > > > fall back to VFIO_USER_DMA_READ/WRITE messages instead.
-> > > > > https://github.com/nutanix/libvfio-user/blob/master/docs/vfio-use=
-r.rst#vfio-user-dma-read
-> > > > >=20
-> > > > > Here is the flow:
-> > > > > 1. The vfio-user server with device A sends a DMA read to QEMU.
-> > > > > 2. QEMU finds the MemoryRegion associated with the DMA address an=
-d sees
-> > > > >    it's a device.
-> > > > >    a. If it's emulated inside the QEMU process then the normal
-> > > > >       device emulation code kicks in.
-> > > > >    b. If it's another vfio-user PCI device then the vfio-user PCI=
- proxy
-> > > > >       device forwards the DMA to the second vfio-user server's de=
-vice B. =20
-> > > >=20
-> > > > I'm starting to be curious if there's a way to persuade the guest k=
-ernel
-> > > > to do it for us; in general is there a way to say to PCI devices th=
-at
-> > > > they can only DMA to the host and not other PCI devices? =20
-> > >=20
-> > >=20
-> > > But of course - this is how e.g. VFIO protects host PCI devices from
-> > > each other when one of them is passed through to a VM. =20
-> >=20
-> > Michael: Are you saying just turn on vIOMMU? :)
-> >=20
-> > Devices in different VFIO groups have their own IOMMU context, so their
-> > IOVA space is isolated. Just don't map other devices into the IOVA space
-> > and those other devices will be inaccessible.
 >=20
-> Devices in different VFIO *containers* have their own IOMMU context.
-> Based on the group attachment to a container, groups can either have
-> shared or isolated IOVA space.  That determination is made by looking
-> at the address space of the bus, which is governed by the presence of a
-> vIOMMU.
+> > On Jan 25, 2022, at 10:48 AM, Stefan Hajnoczi <stefanha@redhat.com> wro=
+te:
+> >=20
+> > On Wed, Jan 19, 2022 at 04:42:06PM -0500, Jagannathan Raman wrote:
+> >> +     * The client subsequetly asks the remote server for any data that
+> >=20
+> > subsequently
+> >=20
+> >> +static void vfu_mig_state_running(vfu_ctx_t *vfu_ctx)
+> >> +{
+> >> +    VfuObject *o =3D vfu_get_private(vfu_ctx);
+> >> +    VfuObjectClass *k =3D VFU_OBJECT_GET_CLASS(OBJECT(o));
+> >> +    static int migrated_devs;
+> >> +    Error *local_err =3D NULL;
+> >> +    int ret;
+> >> +
+> >> +    /**
+> >> +     * TODO: move to VFU_MIGR_STATE_RESUME handler. Presently, the
+> >> +     * VMSD data from source is not available at RESUME state.
+> >> +     * Working on a fix for this.
+> >> +     */
+> >> +    if (!o->vfu_mig_file) {
+> >> +        o->vfu_mig_file =3D qemu_fopen_ops(o, &vfu_mig_fops_load, fal=
+se);
+> >> +    }
+> >> +
+> >> +    ret =3D qemu_remote_loadvm(o->vfu_mig_file);
+> >> +    if (ret) {
+> >> +        VFU_OBJECT_ERROR(o, "vfu: failed to restore device state");
+> >> +        return;
+> >> +    }
+> >> +
+> >> +    qemu_file_shutdown(o->vfu_mig_file);
+> >> +    o->vfu_mig_file =3D NULL;
+> >> +
+> >> +    /* VFU_MIGR_STATE_RUNNING begins here */
+> >> +    if (++migrated_devs =3D=3D k->nr_devs) {
+> >=20
+> > When is this counter reset so migration can be tried again if it
+> > fails/cancels?
+>=20
+> Detecting cancellation is a pending item. We will address it in the
+> next rev. Will check with you if  we get stuck during the process
+> of implementing it.
+>=20
+> >=20
+> >> +static ssize_t vfu_mig_read_data(vfu_ctx_t *vfu_ctx, void *buf,
+> >> +                                 uint64_t size, uint64_t offset)
+> >> +{
+> >> +    VfuObject *o =3D vfu_get_private(vfu_ctx);
+> >> +
+> >> +    if (offset > o->vfu_mig_buf_size) {
+> >> +        return -1;
+> >> +    }
+> >> +
+> >> +    if ((offset + size) > o->vfu_mig_buf_size) {
+> >> +        warn_report("vfu: buffer overflow - check pending_bytes");
+> >> +        size =3D o->vfu_mig_buf_size - offset;
+> >> +    }
+> >> +
+> >> +    memcpy(buf, (o->vfu_mig_buf + offset), size);
+> >> +
+> >> +    o->vfu_mig_buf_pending -=3D size;
+> >=20
+> > This assumes that the caller increments offset by size each time. If
+> > that assumption is okay, then we can just trust offset and don't need to
+> > do arithmetic on vfu_mig_buf_pending. If that assumption is not correct,
+> > then the code needs to be extended to safely update vfu_mig_buf_pending
+> > when offset jumps around arbitrarily between calls.
+>=20
+> Going by the definition of vfu_migration_callbacks_t in the library, I as=
+sumed
+> that read_data advances the offset by size bytes.
+>=20
+> Will add a comment a comment to explain that.
+>=20
+> >=20
+> >> +uint64_t vmstate_vmsd_size(PCIDevice *pci_dev)
+> >> +{
+> >> +    DeviceClass *dc =3D DEVICE_GET_CLASS(DEVICE(pci_dev));
+> >> +    const VMStateField *field =3D NULL;
+> >> +    uint64_t size =3D 0;
+> >> +
+> >> +    if (!dc->vmsd) {
+> >> +        return 0;
+> >> +    }
+> >> +
+> >> +    field =3D dc->vmsd->fields;
+> >> +    while (field && field->name) {
+> >> +        size +=3D vmstate_size(pci_dev, field);
+> >> +        field++;
+> >> +    }
+> >> +
+> >> +    return size;
+> >> +}
+> >=20
+> > This function looks incorrect because it ignores subsections as well as
+> > runtime behavior during save(). Although VMStateDescription is partially
+> > declarative, there is still a bunch of imperative code that can write to
+> > the QEMUFile at save() time so there's no way of knowing the size ahead
+> > of time.
+>=20
+> I see your point, it would be a problem for any field which has the
+> (VMS_BUFFER | VMS_ALLOC) flags set.
+>=20
+> >=20
+> > I asked this in a previous revision of this series but I'm not sure if
+> > it was answered: is it really necessary to know the size of the vmstate?
+> > I thought the VFIO migration interface is designed to support
+> > streaming reads/writes. We could choose a fixed size like 64KB and
+> > stream the vmstate in 64KB chunks.
+>=20
+> The library exposes the migration data to the client as a device BAR with
+> fixed size - the size of which is fixed at boot time, even when using
+> vfu_migration_callbacks_t callbacks.
+>=20
+> I don=E2=80=99t believe the library supports streaming vmstate/migration-=
+data - see
+> the following comment in migration_region_access() defined in the library:
+>=20
+> * Does this mean that partial reads are not allowed?
+>=20
+> Thanos or John,
+>=20
+>     Could you please clarify this?
+>=20
+> Stefan,
+>     We attempted to answer the migration cancellation and vmstate size
+>     questions previously also, in the following email:
+>=20
+> https://lore.kernel.org/all/F48606B1-15A4-4DD2-9D71-2FCAFC0E671F@oracle.c=
+om/
 
-Oops, thank you for pointing that out!
+>  libvfio-user has the vfu_migration_callbacks_t interface that allows the
+>  device to save/load more data regardless of the size of the migration
+>  region. I don't see the issue here since the region doesn't need to be
+>  sized to fit the savevm data?
+
+The answer didn't make sense to me:
+
+"In both scenarios at the server end - whether using the migration BAR or
+using callbacks, the migration data is transported to the other end using
+the BAR. As such we need to specify the BAR=E2=80=99s size during initializ=
+ation.
+
+In the case of the callbacks, the library translates the BAR access to call=
+backs."
+
+The BAR and the migration region within it need a size but my
+understanding is that VFIO migration is designed to stream the device
+state, allowing it to be broken up into multiple reads/writes with
+knowing the device state's size upfront. Here is the description from
+<linux/vfio.h>:
+
+  * The sequence to be followed while in pre-copy state and stop-and-copy s=
+tate
+  * is as follows:
+  * a. Read pending_bytes, indicating the start of a new iteration to get d=
+evice
+  *    data. Repeated read on pending_bytes at this stage should have no si=
+de
+  *    effects.
+  *    If pending_bytes =3D=3D 0, the user application should not iterate t=
+o get data
+  *    for that device.
+  *    If pending_bytes > 0, perform the following steps.
+  * b. Read data_offset, indicating that the vendor driver should make data
+  *    available through the data section. The vendor driver should return =
+this
+  *    read operation only after data is available from (region + data_offs=
+et)
+  *    to (region + data_offset + data_size).
+  * c. Read data_size, which is the amount of data in bytes available throu=
+gh
+  *    the migration region.
+  *    Read on data_offset and data_size should return the offset and size =
+of
+  *    the current buffer if the user application reads data_offset and
+  *    data_size more than once here.
+  * d. Read data_size bytes of data from (region + data_offset) from the
+  *    migration region.
+  * e. Process the data.
+  * f. Read pending_bytes, which indicates that the data from the previous
+  *    iteration has been read. If pending_bytes > 0, go to step b.
+  *
+  * The user application can transition from the _SAVING|_RUNNING
+  * (pre-copy state) to the _SAVING (stop-and-copy) state regardless of the
+  * number of pending bytes. The user application should iterate in _SAVING
+  * (stop-and-copy) until pending_bytes is 0.
+
+This means you can report pending_bytes > 0 until the entire vmstate has
+been read and can pick a fixed chunk size like 64KB for the migration
+region. There's no need to size the migration region to fit the entire
+vmstate.
 
 Stefan
 
---7IjNXegecZu1fJcC
+--ajj5JmPFYg0fWQB0
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmHzpvoACgkQnKSrs4Gr
-c8jyIAgAxp/Qq/kNZaQ9EF7hOggS85uH1WPJ57K4n+4oeYpjohVuwrt2i+d+WRwY
-tJx7Dz7i1x/e2Bh92V+PyfhHBtfHfgKJXv5uheUE5x0XghfDl5hj9oMpUDEG5VOA
-ntzrSHdv+EI83mmU6eNqWp4iE2SMORgwvLUUGAPP6nc0I6OBOO+2UvsKInPPYqDZ
-bHefDI98e6faVLvrkBEap5d3GKGqHUokpVLUcoBt7QBwQzyZ144+qNaWPTbn0u+W
-/ZWOdPEN/pV4Owgy0f1AMNRVf73njRCWuvGgJSxOvbWgw/jsHHo0s9bNU8867RHg
-2yfCuaAjU248dlOiXe0k3H4ALfem2A==
-=sQMU
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmHzqWYACgkQnKSrs4Gr
+c8hNpggAtj6ExPqeRS0w3le2tR+znDx35ZLslzONvoJtEV2DKXQpNvQDQmZk2sw+
+nX7LK49PLPNZ0332PqMpOO5LtBYt2FuXip4rBYYf0tOEKZdfh/2TEQ4hDSe/exxv
+BwqdvYyvmLdkajN8fDJUPx2PRKVOqoZMski1JU9JY0iYHffbQ1VCkea6b86/m3Nh
+qqi+0ZYsxmWh5YBiXd1Tu4zGRD0EEeF2+UcKvO2S5cwFahLw18HTMOQMt2awcDWI
+tK5TnYO8qswlkDNCqGI2jrVTM68AEwTYLlgV4fuKQ6DINaAXv1NItnZj3zUEy9ve
+6qWk9V6yuKVKbGdf8XE69mMuIEJOkg==
+=4/AB
 -----END PGP SIGNATURE-----
 
---7IjNXegecZu1fJcC--
+--ajj5JmPFYg0fWQB0--
 
 
