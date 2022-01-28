@@ -2,54 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0585849F8F8
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jan 2022 13:11:21 +0100 (CET)
-Received: from localhost ([::1]:52850 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C94FD49F8FA
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jan 2022 13:11:36 +0100 (CET)
+Received: from localhost ([::1]:53884 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nDQ64-0004e8-4d
-	for lists+qemu-devel@lfdr.de; Fri, 28 Jan 2022 07:11:20 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:60808)
+	id 1nDQ6J-0005Nj-Ru
+	for lists+qemu-devel@lfdr.de; Fri, 28 Jan 2022 07:11:35 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:60662)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1nDPmU-0004b6-S1
- for qemu-devel@nongnu.org; Fri, 28 Jan 2022 06:51:07 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:53081)
+ id 1nDPmQ-0004ad-94
+ for qemu-devel@nongnu.org; Fri, 28 Jan 2022 06:51:05 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:35170)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1nDPmO-0003Ql-71
- for qemu-devel@nongnu.org; Fri, 28 Jan 2022 06:51:04 -0500
+ id 1nDPmJ-0003QS-Tp
+ for qemu-devel@nongnu.org; Fri, 28 Jan 2022 06:50:58 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1643370651;
+ s=mimecast20190719; t=1643370650;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Z8LmR5UB0sxldZrzxM2ie6cp7lMgOr3I6o5e+HjgF6I=;
- b=Q7cb/Uit1hcedFQdFCPB6KXzapjKfbVmVttqLWhQo03UvBFmTqqs1pHUjH5FH2iToKd0F0
- arCsN8cu5uBA8Jrg2d4M5vV7By8Zo56B4KmEyQMKeJUUKVW24CZU/0wRFuIVRV3ia79CYz
- vKqn0S/Hz10giBaST+I8hPoDXehXr2s=
+ bh=bpK6YwXXmaGiaJSMzMZgz5JuC7LtKXmaevRPXpWssQk=;
+ b=KnYw531oPimpghdeeIkI6syjBg6TrtgfHS67j1v+bV+ipOlXIjTHq4JddDKyjqNVopKCEI
+ JzFmJLa1RMCYzsBJQipNPkOxm08kESKhu4oGxSXSKER5kzg1fjlEUckM1NHBNLkF/g/vbf
+ TDHQxaM0lajHVkoOBBpTQ6fAfXtf5q0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-501-6dkdK4KfPXG3JclXicQ3Zg-1; Fri, 28 Jan 2022 06:50:48 -0500
-X-MC-Unique: 6dkdK4KfPXG3JclXicQ3Zg-1
+ us-mta-453-Nmr0YNLqOrqFwg4JJXKgsw-1; Fri, 28 Jan 2022 06:50:49 -0500
+X-MC-Unique: Nmr0YNLqOrqFwg4JJXKgsw-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4E54B1006AA0;
- Fri, 28 Jan 2022 11:50:47 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5FA742F4D;
+ Fri, 28 Jan 2022 11:50:48 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 57D5222DE3;
- Fri, 28 Jan 2022 11:50:46 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 694E622DE3;
+ Fri, 28 Jan 2022 11:50:47 +0000 (UTC)
 From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH v4 11/19] jobs: document all static functions and add
- _locked() suffix
-Date: Fri, 28 Jan 2022 06:50:23 -0500
-Message-Id: <20220128115031.4061565-12-eesposit@redhat.com>
+Subject: [PATCH v4 12/19] job.h: define unlocked functions
+Date: Fri, 28 Jan 2022 06:50:24 -0500
+Message-Id: <20220128115031.4061565-13-eesposit@redhat.com>
 In-Reply-To: <20220128115031.4061565-1-eesposit@redhat.com>
 References: <20220128115031.4061565-1-eesposit@redhat.com>
 MIME-Version: 1.0
@@ -92,811 +91,332 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Now that we added the job_lock/unlock pairs, we can also
-rename all static functions in job.c that are called with
-the job mutex held as _locked(), and add a little comment
-on top.
+All these functions assume that the lock is not held, and acquire
+it internally.
 
-No functional change intended.
+These functions will be useful when job_lock is globally applied,
+as they will allow callers to access the job struct fields
+without worrying about the job lock.
+
+Update also the comments in blockjob.c (and move them in job.c).
+
+Note: at this stage, job_{lock/unlock} and job lock guard macros
+are *nop*.
 
 Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 ---
- blockjob.c               |  29 +++--
- include/block/blockjob.h |   6 +-
- job.c                    | 247 ++++++++++++++++++++++-----------------
- monitor/qmp-cmds.c       |   2 +-
- 4 files changed, 165 insertions(+), 119 deletions(-)
+ blockjob.c         | 20 -----------------
+ include/qemu/job.h | 38 ++++++++++++++++++++++++++++---
+ job.c              | 56 +++++++++++++++++++++++++++++++++++-----------
+ 3 files changed, 78 insertions(+), 36 deletions(-)
 
 diff --git a/blockjob.c b/blockjob.c
-index c370bd0b5e..f1a30833bd 100644
+index f1a30833bd..a6c94b6b64 100644
 --- a/blockjob.c
 +++ b/blockjob.c
-@@ -256,7 +256,8 @@ int block_job_add_bdrv(BlockJob *job, const char *name, BlockDriverState *bs,
-     return 0;
- }
+@@ -36,21 +36,6 @@
+ #include "qemu/main-loop.h"
+ #include "qemu/timer.h"
  
--static void block_job_on_idle(Notifier *n, void *opaque)
-+/* Called with job_mutex lock held. */
-+static void block_job_on_idle_locked(Notifier *n, void *opaque)
+-/*
+- * The block job API is composed of two categories of functions.
+- *
+- * The first includes functions used by the monitor.  The monitor is
+- * peculiar in that it accesses the block job list with block_job_get, and
+- * therefore needs consistency across block_job_get and the actual operation
+- * (e.g. block_job_set_speed).  The consistency is achieved with
+- * aio_context_acquire/release.  These functions are declared in blockjob.h.
+- *
+- * The second includes functions used by the block job drivers and sometimes
+- * by the core block layer.  These do not care about locking, because the
+- * whole coroutine runs under the AioContext lock, and are declared in
+- * blockjob_int.h.
+- */
+-
+ static bool is_block_job(Job *job)
  {
-     /*
-      * we can't kick with job_mutex held, but we also want
-@@ -369,7 +370,8 @@ static void block_job_iostatus_set_err(BlockJob *job, int error)
-     }
+     return job_type(job) == JOB_TYPE_BACKUP ||
+@@ -451,11 +436,6 @@ static void block_job_event_ready_locked(Notifier *n, void *opaque)
  }
  
--static void block_job_event_cancelled(Notifier *n, void *opaque)
-+/* Called with job_mutex lock held. */
-+static void block_job_event_cancelled_locked(Notifier *n, void *opaque)
- {
-     BlockJob *job = opaque;
-     uint64_t progress_current, progress_total;
-@@ -388,7 +390,8 @@ static void block_job_event_cancelled(Notifier *n, void *opaque)
-                                         job->speed);
- }
  
--static void block_job_event_completed(Notifier *n, void *opaque)
-+/* Called with job_mutex lock held. */
-+static void block_job_event_completed_locked(Notifier *n, void *opaque)
- {
-     BlockJob *job = opaque;
-     const char *msg = NULL;
-@@ -414,7 +417,8 @@ static void block_job_event_completed(Notifier *n, void *opaque)
-                                         msg);
- }
- 
--static void block_job_event_pending(Notifier *n, void *opaque)
-+/* Called with job_mutex lock held. */
-+static void block_job_event_pending_locked(Notifier *n, void *opaque)
- {
-     BlockJob *job = opaque;
- 
-@@ -426,7 +430,8 @@ static void block_job_event_pending(Notifier *n, void *opaque)
-                                       job->job.id);
- }
- 
--static void block_job_event_ready(Notifier *n, void *opaque)
-+/* Called with job_mutex lock held. */
-+static void block_job_event_ready_locked(Notifier *n, void *opaque)
- {
-     BlockJob *job = opaque;
-     uint64_t progress_current, progress_total;
-@@ -477,11 +482,11 @@ void *block_job_create(const char *job_id, const BlockJobDriver *driver,
- 
-     ratelimit_init(&job->limit);
- 
--    job->finalize_cancelled_notifier.notify = block_job_event_cancelled;
--    job->finalize_completed_notifier.notify = block_job_event_completed;
--    job->pending_notifier.notify = block_job_event_pending;
--    job->ready_notifier.notify = block_job_event_ready;
--    job->idle_notifier.notify = block_job_on_idle;
-+    job->finalize_cancelled_notifier.notify = block_job_event_cancelled_locked;
-+    job->finalize_completed_notifier.notify = block_job_event_completed_locked;
-+    job->pending_notifier.notify = block_job_event_pending_locked;
-+    job->ready_notifier.notify = block_job_event_ready_locked;
-+    job->idle_notifier.notify = block_job_on_idle_locked;
- 
-     WITH_JOB_LOCK_GUARD() {
-         notifier_list_add(&job->job.on_finalize_cancelled,
-@@ -517,7 +522,7 @@ fail:
-     return NULL;
- }
- 
--void block_job_iostatus_reset(BlockJob *job)
-+void block_job_iostatus_reset_locked(BlockJob *job)
- {
-     assert(qemu_in_main_thread());
-     if (job->iostatus == BLOCK_DEVICE_IO_STATUS_OK) {
-@@ -532,7 +537,7 @@ void block_job_user_resume(Job *job)
-     BlockJob *bjob = container_of(job, BlockJob, job);
-     assert(qemu_in_main_thread());
-     WITH_JOB_LOCK_GUARD() {
--        block_job_iostatus_reset(bjob);
-+        block_job_iostatus_reset_locked(bjob);
-     }
- }
- 
-diff --git a/include/block/blockjob.h b/include/block/blockjob.h
-index cabfa52d5b..a9a6cf2b84 100644
---- a/include/block/blockjob.h
-+++ b/include/block/blockjob.h
-@@ -159,13 +159,15 @@ bool block_job_set_speed_locked(BlockJob *job, int64_t speed, Error **errp);
- BlockJobInfo *block_job_query_locked(BlockJob *job, Error **errp);
+-/*
+- * API for block job drivers and the block layer.  These functions are
+- * declared in blockjob_int.h.
+- */
+-
+ void *block_job_create(const char *job_id, const BlockJobDriver *driver,
+                        JobTxn *txn, BlockDriverState *bs, uint64_t perm,
+                        uint64_t shared_perm, int64_t speed, int flags,
+diff --git a/include/qemu/job.h b/include/qemu/job.h
+index e13c976ba5..fc57472e84 100644
+--- a/include/qemu/job.h
++++ b/include/qemu/job.h
+@@ -382,6 +382,7 @@ void job_txn_add_job_locked(JobTxn *txn, Job *job);
  
  /**
-- * block_job_iostatus_reset:
-+ * block_job_iostatus_reset_locked:
-  * @job: The job whose I/O status should be reset.
+  * Create a new long-running job and return it.
++ * Called with job_mutex *not* held.
   *
-  * Reset I/O status on @job and on BlockDriverState objects it uses,
-  * other than job->blk.
-+ *
-+ * Called with job_mutex lock held.
-  */
--void block_job_iostatus_reset(BlockJob *job);
-+void block_job_iostatus_reset_locked(BlockJob *job);
- 
- /* Common functions that are neither I/O nor Global State */
- 
-diff --git a/job.c b/job.c
-index b169bd7280..2f2b4892e0 100644
---- a/job.c
-+++ b/job.c
-@@ -38,6 +38,7 @@
-  */
- QemuMutex job_mutex;
- 
-+/* Protected by job_mutex */
- static QLIST_HEAD(, Job) jobs = QLIST_HEAD_INITIALIZER(jobs);
- 
- /* Job State Transition Table */
-@@ -113,7 +114,8 @@ JobTxn *job_txn_new(void)
-     return txn;
- }
- 
--static void job_txn_ref(JobTxn *txn)
-+/* Called with job_mutex held. */
-+static void job_txn_ref_locked(JobTxn *txn)
- {
-     txn->refcnt++;
- }
-@@ -135,10 +137,11 @@ void job_txn_add_job_locked(JobTxn *txn, Job *job)
-     job->txn = txn;
- 
-     QLIST_INSERT_HEAD(&txn->jobs, job, txn_list);
--    job_txn_ref(txn);
-+    job_txn_ref_locked(txn);
- }
- 
--static void job_txn_del_job(Job *job)
-+/* Called with job_mutex held. */
-+static void job_txn_del_job_locked(Job *job)
- {
-     if (job->txn) {
-         QLIST_REMOVE(job, txn_list);
-@@ -147,17 +150,18 @@ static void job_txn_del_job(Job *job)
-     }
- }
- 
--static int job_txn_apply(Job *job, int fn(Job *))
-+/* Called with job_mutex held. */
-+static int job_txn_apply_locked(Job *job, int fn(Job *))
- {
-     Job *other_job, *next;
-     JobTxn *txn = job->txn;
-     int rc = 0;
- 
-     /*
--     * Similar to job_completed_txn_abort, we take each job's lock before
--     * applying fn, but since we assume that outer_ctx is held by the caller,
--     * we need to release it here to avoid holding the lock twice - which would
--     * break AIO_WAIT_WHILE from within fn.
-+     * Similar to job_completed_txn_abort_locked, we take each job's lock
-+     * before applying fn, but since we assume that outer_ctx is held by the
-+     * caller, we need to release it here to avoid holding the lock
-+     * twice - which would break AIO_WAIT_WHILE from within fn.
-      */
-     job_ref_locked(job);
-     aio_context_release(job->aio_context);
-@@ -183,7 +187,8 @@ bool job_is_internal(Job *job)
-     return (job->id == NULL);
- }
- 
--static void job_state_transition(Job *job, JobStatus s1)
-+/* Called with job_mutex held. */
-+static void job_state_transition_locked(Job *job, JobStatus s1)
- {
-     JobStatus s0 = job->status;
-     assert(s1 >= 0 && s1 < JOB_STATUS__MAX);
-@@ -296,7 +301,8 @@ static bool job_started(Job *job)
-     return job->co;
- }
- 
--static bool job_should_pause(Job *job)
-+/* Called with job_mutex held. */
-+static bool job_should_pause_locked(Job *job)
- {
-     return job->pause_count > 0;
- }
-@@ -322,6 +328,7 @@ Job *job_get_locked(const char *id)
-     return NULL;
- }
- 
-+/* Called with job_mutex *not* held. */
- static void job_sleep_timer_cb(void *opaque)
- {
-     Job *job = opaque;
-@@ -376,7 +383,7 @@ void *job_create(const char *job_id, const JobDriver *driver, JobTxn *txn,
-     notifier_list_init(&job->on_ready);
-     notifier_list_init(&job->on_idle);
- 
--    job_state_transition(job, JOB_STATUS_CREATED);
-+    job_state_transition_locked(job, JOB_STATUS_CREATED);
-     aio_timer_init(qemu_get_aio_context(), &job->sleep_timer,
-                    QEMU_CLOCK_REALTIME, SCALE_NS,
-                    job_sleep_timer_cb, job);
-@@ -444,7 +451,7 @@ void job_progress_increase_remaining(Job *job, uint64_t delta)
-  * To be called when a cancelled job is finalised.
-  * Called with job_mutex held.
-  */
--static void job_event_cancelled(Job *job)
-+static void job_event_cancelled_locked(Job *job)
- {
-     notifier_list_notify(&job->on_finalize_cancelled, job);
- }
-@@ -453,22 +460,25 @@ static void job_event_cancelled(Job *job)
-  * To be called when a successfully completed job is finalised.
-  * Called with job_mutex held.
-  */
--static void job_event_completed(Job *job)
-+static void job_event_completed_locked(Job *job)
- {
-     notifier_list_notify(&job->on_finalize_completed, job);
- }
- 
--static void job_event_pending(Job *job)
-+/* Called with job_mutex held. */
-+static void job_event_pending_locked(Job *job)
- {
-     notifier_list_notify(&job->on_pending, job);
- }
- 
--static void job_event_ready(Job *job)
-+/* Called with job_mutex held. */
-+static void job_event_ready_locked(Job *job)
- {
-     notifier_list_notify(&job->on_ready, job);
- }
- 
--static void job_event_idle(Job *job)
-+/* Called with job_mutex held. */
-+static void job_event_idle_locked(Job *job)
- {
-     notifier_list_notify(&job->on_idle, job);
- }
-@@ -511,15 +521,18 @@ void job_enter(Job *job)
-  * is allowed and cancels the timer.
+  * @job_id: The id of the newly-created job, or %NULL for internal jobs
+  * @driver: The class object for the newly-created job.
+@@ -417,6 +418,8 @@ void job_unref_locked(Job *job);
+  * @done: How much progress the job made since the last call
   *
-  * If @ns is (uint64_t) -1, no timer is scheduled and job_enter() must be
-- * called explicitly. */
--static void coroutine_fn job_do_yield(Job *job, uint64_t ns)
-+ * called explicitly.
+  * Updates the progress counter of the job.
 + *
-+ * Called with job_mutex held, but releases it temporarly.
-+ */
-+static void coroutine_fn job_do_yield_locked(Job *job, uint64_t ns)
- {
-     real_job_lock();
-     if (ns != -1) {
-         timer_mod(&job->sleep_timer, ns);
-     }
-     job->busy = false;
--    job_event_idle(job);
-+    job_event_idle_locked(job);
-     real_job_unlock();
-     job_unlock();
-     qemu_coroutine_yield();
-@@ -534,7 +547,7 @@ void coroutine_fn job_pause_point(Job *job)
-     assert(job && job_started(job));
++ * Progress API is thread safe.
+  */
+ void job_progress_update(Job *job, uint64_t done);
  
-     job_lock();
--    if (!job_should_pause(job)) {
-+    if (!job_should_pause_locked(job)) {
-         job_unlock();
-         return;
-     }
-@@ -549,15 +562,15 @@ void coroutine_fn job_pause_point(Job *job)
-         job_lock();
-     }
+@@ -427,6 +430,8 @@ void job_progress_update(Job *job, uint64_t done);
+  *
+  * Sets the expected end value of the progress counter of a job so that a
+  * completion percentage can be calculated when the progress is updated.
++ *
++ * Progress API is thread safe.
+  */
+ void job_progress_set_remaining(Job *job, uint64_t remaining);
  
--    if (job_should_pause(job) && !job_is_cancelled(job)) {
-+    if (job_should_pause_locked(job) && !job_is_cancelled_locked(job)) {
-         JobStatus status = job->status;
--        job_state_transition(job, status == JOB_STATUS_READY
-+        job_state_transition_locked(job, status == JOB_STATUS_READY
-                                   ? JOB_STATUS_STANDBY
-                                   : JOB_STATUS_PAUSED);
-         job->paused = true;
--        job_do_yield(job, -1);
-+        job_do_yield_locked(job, -1);
-         job->paused = false;
--        job_state_transition(job, status);
-+        job_state_transition_locked(job, status);
-     }
-     job_unlock();
+@@ -442,6 +447,8 @@ void job_progress_set_remaining(Job *job, uint64_t remaining);
+  * length before, and job_progress_update() afterwards.
+  * (So the operation acts as a parenthesis in regards to the main job
+  * operation running in background.)
++ *
++ * Progress API is thread safe.
+  */
+ void job_progress_increase_remaining(Job *job, uint64_t delta);
  
-@@ -576,8 +589,8 @@ void job_yield(Job *job)
-             return;
-         }
- 
--        if (!job_should_pause(job)) {
--            job_do_yield(job, -1);
-+        if (!job_should_pause_locked(job)) {
-+            job_do_yield_locked(job, -1);
-         }
-     }
- 
-@@ -594,8 +607,9 @@ void coroutine_fn job_sleep_ns(Job *job, int64_t ns)
-             return;
-         }
- 
--        if (!job_should_pause(job)) {
--            job_do_yield(job, qemu_clock_get_ns(QEMU_CLOCK_REALTIME) + ns);
-+        if (!job_should_pause_locked(job)) {
-+            job_do_yield_locked(job,
-+                                qemu_clock_get_ns(QEMU_CLOCK_REALTIME) + ns);
-         }
-     }
- 
-@@ -666,16 +680,17 @@ void job_user_resume_locked(Job *job, Error **errp)
-     job_resume_locked(job);
- }
- 
--static void job_do_dismiss(Job *job)
-+/* Called with job_mutex held. */
-+static void job_do_dismiss_locked(Job *job)
- {
-     assert(job);
-     job->busy = false;
-     job->paused = false;
-     job->deferred_to_main_loop = true;
- 
--    job_txn_del_job(job);
-+    job_txn_del_job_locked(job);
- 
--    job_state_transition(job, JOB_STATUS_NULL);
-+    job_state_transition_locked(job, JOB_STATUS_NULL);
-     job_unref_locked(job);
- }
- 
-@@ -688,14 +703,14 @@ void job_dismiss_locked(Job **jobptr, Error **errp)
-         return;
-     }
- 
--    job_do_dismiss(job);
-+    job_do_dismiss_locked(job);
-     *jobptr = NULL;
- }
- 
- void job_early_fail_locked(Job *job)
- {
-     assert(job->status == JOB_STATUS_CREATED);
--    job_do_dismiss(job);
-+    job_do_dismiss_locked(job);
- }
- 
- void job_early_fail(Job *job)
-@@ -704,15 +719,17 @@ void job_early_fail(Job *job)
-     job_early_fail_locked(job);
- }
- 
--static void job_conclude(Job *job)
-+/* Called with job_mutex held. */
-+static void job_conclude_locked(Job *job)
- {
--    job_state_transition(job, JOB_STATUS_CONCLUDED);
-+    job_state_transition_locked(job, JOB_STATUS_CONCLUDED);
-     if (job->auto_dismiss || !job_started(job)) {
--        job_do_dismiss(job);
-+        job_do_dismiss_locked(job);
-     }
- }
- 
--static void job_update_rc(Job *job)
-+/* Called with job_mutex held. */
-+static void job_update_rc_locked(Job *job)
- {
-     if (!job->ret && job_is_cancelled(job)) {
-         job->ret = -ECANCELED;
-@@ -721,11 +738,12 @@ static void job_update_rc(Job *job)
-         if (!job->err) {
-             error_setg(&job->err, "%s", strerror(-job->ret));
-         }
--        job_state_transition(job, JOB_STATUS_ABORTING);
-+        job_state_transition_locked(job, JOB_STATUS_ABORTING);
-     }
- }
- 
--static void job_commit(Job *job)
-+/* Called with job_mutex held, but releases it temporarly */
-+static void job_commit_locked(Job *job)
- {
-     assert(!job->ret);
-     assert(qemu_in_main_thread());
-@@ -736,7 +754,8 @@ static void job_commit(Job *job)
-     }
- }
- 
--static void job_abort(Job *job)
-+/* Called with job_mutex held, but releases it temporarly */
-+static void job_abort_locked(Job *job)
- {
-     assert(job->ret);
-     assert(qemu_in_main_thread());
-@@ -747,7 +766,8 @@ static void job_abort(Job *job)
-     }
- }
- 
--static void job_clean(Job *job)
-+/* Called with job_mutex held, but releases it temporarly */
-+static void job_clean_locked(Job *job)
- {
-     assert(qemu_in_main_thread());
-     if (job->driver->clean) {
-@@ -757,7 +777,8 @@ static void job_clean(Job *job)
-     }
- }
- 
--static int job_finalize_single(Job *job)
-+/* Called with job_mutex held, but releases it temporarly. */
-+static int job_finalize_single_locked(Job *job)
- {
-     int job_ret;
-     AioContext *ctx = job->aio_context;
-@@ -765,16 +786,16 @@ static int job_finalize_single(Job *job)
-     assert(job_is_completed_locked(job));
- 
-     /* Ensure abort is called for late-transactional failures */
--    job_update_rc(job);
-+    job_update_rc_locked(job);
- 
-     aio_context_acquire(ctx);
- 
-     if (!job->ret) {
--        job_commit(job);
-+        job_commit_locked(job);
-     } else {
--        job_abort(job);
-+        job_abort_locked(job);
-     }
--    job_clean(job);
-+    job_clean_locked(job);
- 
-     aio_context_release(ctx);
- 
-@@ -787,19 +808,20 @@ static int job_finalize_single(Job *job)
- 
-     /* Emit events only if we actually started */
-     if (job_started(job)) {
--        if (job_is_cancelled(job)) {
--            job_event_cancelled(job);
-+        if (job_is_cancelled_locked(job)) {
-+            job_event_cancelled_locked(job);
-         } else {
--            job_event_completed(job);
-+            job_event_completed_locked(job);
-         }
-     }
- 
--    job_txn_del_job(job);
--    job_conclude(job);
-+    job_txn_del_job_locked(job);
-+    job_conclude_locked(job);
-     return 0;
- }
- 
--static void job_cancel_async(Job *job, bool force)
-+/* Called with job_mutex held, but releases it temporarly. */
-+static void job_cancel_async_locked(Job *job, bool force)
- {
-     assert(qemu_in_main_thread());
-     if (job->driver->cancel) {
-@@ -837,7 +859,8 @@ static void job_cancel_async(Job *job, bool force)
-     }
- }
- 
--static void job_completed_txn_abort(Job *job)
-+/* Called with job_mutex held. */
-+static void job_completed_txn_abort_locked(Job *job)
- {
-     AioContext *ctx;
-     JobTxn *txn = job->txn;
-@@ -850,12 +873,12 @@ static void job_completed_txn_abort(Job *job)
-         return;
-     }
-     txn->aborting = true;
--    job_txn_ref(txn);
-+    job_txn_ref_locked(txn);
- 
-     /*
-      * We can only hold the single job's AioContext lock while calling
--     * job_finalize_single() because the finalization callbacks can involve
--     * calls of AIO_WAIT_WHILE(), which could deadlock otherwise.
-+     * job_finalize_single_locked() because the finalization callbacks can
-+     *  involve calls of AIO_WAIT_WHILE(), which could deadlock otherwise.
-      * Note that the job's AioContext may change when it is finalized.
-      */
-     job_ref_locked(job);
-@@ -870,10 +893,10 @@ static void job_completed_txn_abort(Job *job)
-             aio_context_acquire(ctx);
-             /*
-              * This is a transaction: If one job failed, no result will matter.
--             * Therefore, pass force=true to terminate all other jobs as quickly
--             * as possible.
-+             * Therefore, pass force=true to terminate all other jobs as
-+             * quickly as possible.
-              */
--            job_cancel_async(other_job, true);
-+            job_cancel_async_locked(other_job, true);
-             aio_context_release(ctx);
-         }
-     }
-@@ -890,12 +913,12 @@ static void job_completed_txn_abort(Job *job)
-             job_finish_sync_locked(other_job, NULL, NULL);
-         }
-         aio_context_release(ctx);
--        job_finalize_single(other_job);
-+        job_finalize_single_locked(other_job);
-     }
- 
-     /*
-      * Use job_ref_locked()/job_unref_locked() so we can read the AioContext
--     * here even if the job went away during job_finalize_single().
-+     * here even if the job went away during job_finalize_single_locked().
-      */
-     aio_context_acquire(job->aio_context);
-     job_unref_locked(job);
-@@ -903,7 +926,8 @@ static void job_completed_txn_abort(Job *job)
-     job_txn_unref_locked(txn);
- }
- 
--static int job_prepare(Job *job)
-+/* Called with job_mutex held, but releases it temporarly. */
-+static int job_prepare_locked(Job *job)
- {
-     int ret;
-     AioContext *ctx = job->aio_context;
-@@ -916,28 +940,30 @@ static int job_prepare(Job *job)
-         aio_context_release(ctx);
-         job_lock();
-         job->ret = ret;
--        job_update_rc(job);
-+        job_update_rc_locked(job);
-     }
- 
-     return job->ret;
- }
- 
--static int job_needs_finalize(Job *job)
-+/* Called with job_mutex held. */
-+static int job_needs_finalize_locked(Job *job)
- {
-     return !job->auto_finalize;
- }
- 
--static void job_do_finalize(Job *job)
-+/* Called with job_mutex held. */
-+static void job_do_finalize_locked(Job *job)
- {
-     int rc;
-     assert(job && job->txn);
- 
-     /* prepare the transaction to complete */
--    rc = job_txn_apply(job, job_prepare);
-+    rc = job_txn_apply_locked(job, job_prepare_locked);
-     if (rc) {
--        job_completed_txn_abort(job);
-+        job_completed_txn_abort_locked(job);
-     } else {
--        job_txn_apply(job, job_finalize_single);
-+        job_txn_apply_locked(job, job_finalize_single_locked);
-     }
- }
- 
-@@ -947,14 +973,15 @@ void job_finalize_locked(Job *job, Error **errp)
-     if (job_apply_verb_locked(job, JOB_VERB_FINALIZE, errp)) {
-         return;
-     }
--    job_do_finalize(job);
-+    job_do_finalize_locked(job);
- }
- 
--static int job_transition_to_pending(Job *job)
-+/* Called with job_mutex held. */
-+static int job_transition_to_pending_locked(Job *job)
- {
--    job_state_transition(job, JOB_STATUS_PENDING);
-+    job_state_transition_locked(job, JOB_STATUS_PENDING);
-     if (!job->auto_finalize) {
--        job_event_pending(job);
-+        job_event_pending_locked(job);
-     }
-     return 0;
- }
-@@ -962,16 +989,17 @@ static int job_transition_to_pending(Job *job)
- void job_transition_to_ready(Job *job)
- {
-     JOB_LOCK_GUARD();
--    job_state_transition(job, JOB_STATUS_READY);
--    job_event_ready(job);
-+    job_state_transition_locked(job, JOB_STATUS_READY);
-+    job_event_ready_locked(job);
- }
- 
--static void job_completed_txn_success(Job *job)
-+/* Called with job_mutex held. */
-+static void job_completed_txn_success_locked(Job *job)
- {
-     JobTxn *txn = job->txn;
-     Job *other_job;
- 
--    job_state_transition(job, JOB_STATUS_WAITING);
-+    job_state_transition_locked(job, JOB_STATUS_WAITING);
- 
-     /*
-      * Successful completion, see if there are other running jobs in this
-@@ -984,28 +1012,32 @@ static void job_completed_txn_success(Job *job)
-         assert(other_job->ret == 0);
-     }
- 
--    job_txn_apply(job, job_transition_to_pending);
-+    job_txn_apply_locked(job, job_transition_to_pending_locked);
- 
-     /* If no jobs need manual finalization, automatically do so */
--    if (job_txn_apply(job, job_needs_finalize) == 0) {
--        job_do_finalize(job);
-+    if (job_txn_apply_locked(job, job_needs_finalize_locked) == 0) {
-+        job_do_finalize_locked(job);
-     }
- }
- 
--static void job_completed(Job *job)
-+/* Called with job_mutex held. */
-+static void job_completed_locked(Job *job)
- {
-     assert(job && job->txn && !job_is_completed_locked(job));
- 
--    job_update_rc(job);
-+    job_update_rc_locked(job);
-     trace_job_completed(job, job->ret);
-     if (job->ret) {
--        job_completed_txn_abort(job);
-+        job_completed_txn_abort_locked(job);
-     } else {
--        job_completed_txn_success(job);
-+        job_completed_txn_success_locked(job);
-     }
- }
- 
--/** Useful only as a type shim for aio_bh_schedule_oneshot. */
-+/**
-+ * Useful only as a type shim for aio_bh_schedule_oneshot.
-+ *  Called with job_mutex *not* held.
-+ */
- static void job_exit(void *opaque)
- {
-     Job *job = (Job *)opaque;
-@@ -1020,15 +1052,15 @@ static void job_exit(void *opaque)
-      * drain block nodes, and if .drained_poll still returned true, we would
-      * deadlock. */
-     job->busy = false;
--    job_event_idle(job);
-+    job_event_idle_locked(job);
- 
--    job_completed(job);
-+    job_completed_locked(job);
- 
-     /*
--     * Note that calling job_completed can move the job to a different
--     * aio_context, so we cannot cache from above. job_txn_apply takes care of
--     * acquiring the new lock, and we ref/unref to avoid job_completed freeing
--     * the job underneath us.
-+     * Note that calling job_completed_locked can move the job to a different
-+     * aio_context, so we cannot cache from above. job_txn_apply_locked takes
-+     * care of acquiring the new lock, and we ref/unref to avoid
-+     * job_completed_locked freeing the job underneath us.
-      */
-     ctx = job->aio_context;
-     job_unref_locked(job);
-@@ -1038,6 +1070,8 @@ static void job_exit(void *opaque)
- /**
-  * All jobs must allow a pause point before entering their job proper. This
-  * ensures that jobs can be paused prior to being started, then resumed later.
+@@ -459,13 +466,17 @@ void job_enter_cond_locked(Job *job, bool(*fn)(Job *job));
+  *
+  * Begins execution of a job.
+  * Takes ownership of one reference to the job object.
 + *
 + * Called with job_mutex *not* held.
   */
- static void coroutine_fn job_co_entry(void *opaque)
- {
-@@ -1055,6 +1089,7 @@ static void coroutine_fn job_co_entry(void *opaque)
-     aio_bh_schedule_oneshot(qemu_get_aio_context(), job_exit, job);
- }
- 
-+/* Called with job_mutex *not* held. */
- static int job_pre_run(Job *job)
- {
-     assert(qemu_in_main_thread());
-@@ -1079,7 +1114,7 @@ void job_start(Job *job)
-         job->pause_count--;
-         job->busy = true;
-         job->paused = false;
--        job_state_transition(job, JOB_STATUS_RUNNING);
-+        job_state_transition_locked(job, JOB_STATUS_RUNNING);
-     }
-     aio_co_enter(job->aio_context, job->co);
- }
-@@ -1087,25 +1122,25 @@ void job_start(Job *job)
- void job_cancel_locked(Job *job, bool force)
- {
-     if (job->status == JOB_STATUS_CONCLUDED) {
--        job_do_dismiss(job);
-+        job_do_dismiss_locked(job);
-         return;
-     }
--    job_cancel_async(job, force);
-+    job_cancel_async_locked(job, force);
-     if (!job_started(job)) {
--        job_completed(job);
-+        job_completed_locked(job);
-     } else if (job->deferred_to_main_loop) {
-         /*
--         * job_cancel_async() ignores soft-cancel requests for jobs
-+         * job_cancel_async_locked() ignores soft-cancel requests for jobs
-          * that are already done (i.e. deferred to the main loop).  We
-          * have to check again whether the job is really cancelled.
-          * (job_cancel_requested() and job_is_cancelled() are equivalent
--         * here, because job_cancel_async() will make soft-cancel
-+         * here, because job_cancel_async_locked() will make soft-cancel
-          * requests no-ops when deferred_to_main_loop is true.  We
-          * choose to call job_is_cancelled() to show that we invoke
--         * job_completed_txn_abort() only for force-cancelled jobs.)
-+         * job_completed_txn_abort_locked() only for force-cancelled jobs.)
-          */
--        if (job_is_cancelled(job)) {
--            job_completed_txn_abort(job);
-+        if (job_is_cancelled_locked(job)) {
-+            job_completed_txn_abort_locked(job);
-         }
-     } else {
-         job_enter_cond_locked(job, NULL);
-@@ -1124,16 +1159,20 @@ void job_user_cancel_locked(Job *job, bool force, Error **errp)
-  * A wrapper around job_cancel_locked() taking an Error ** parameter so
-  * it may be used with job_finish_sync_locked() without the
-  * need for (rather nasty) function pointer casts there.
-+ *
-+ * Called with job_mutex held.
-  */
--static void job_cancel_err(Job *job, Error **errp)
-+static void job_cancel_err_locked(Job *job, Error **errp)
- {
-     job_cancel_locked(job, false);
- }
+ void job_start(Job *job);
  
  /**
-- * Same as job_cancel_err(), but force-cancel.
-+ * Same as job_cancel_err_locked(), but force-cancel.
-+ *
-+ * Called with job_mutex held.
+  * @job: The job to enter.
++ * Called with job_mutex *not* held.
+  *
+  * Continue the specified job by entering the coroutine.
++ * Called with job_mutex lock *not* held.
   */
--static void job_force_cancel_err(Job *job, Error **errp)
-+static void job_force_cancel_err_locked(Job *job, Error **errp)
- {
-     job_cancel_locked(job, true);
- }
-@@ -1141,9 +1180,9 @@ static void job_force_cancel_err(Job *job, Error **errp)
- int job_cancel_sync_locked(Job *job, bool force)
- {
-     if (force) {
--        return job_finish_sync_locked(job, &job_force_cancel_err, NULL);
-+        return job_finish_sync_locked(job, &job_force_cancel_err_locked, NULL);
-     } else {
--        return job_finish_sync_locked(job, &job_cancel_err, NULL);
-+        return job_finish_sync_locked(job, &job_cancel_err_locked, NULL);
-     }
+ void job_enter(Job *job);
+ 
+@@ -475,6 +486,9 @@ void job_enter(Job *job);
+  * Pause now if job_pause_locked() has been called.
+  * Jobs that perform lots of I/O must call this between
+  * requests so that the job can be paused.
++ *
++ * Called with job_mutex *not* held (we don't want the coroutine
++ * to yield with the lock held!).
+  */
+ void coroutine_fn job_pause_point(Job *job);
+ 
+@@ -482,6 +496,8 @@ void coroutine_fn job_pause_point(Job *job);
+  * @job: The job that calls the function.
+  *
+  * Yield the job coroutine.
++ * Called with job_mutex *not* held (we don't want the coroutine
++ * to yield with the lock held!).
+  */
+ void job_yield(Job *job);
+ 
+@@ -492,6 +508,9 @@ void job_yield(Job *job);
+  * Put the job to sleep (assuming that it wasn't canceled) for @ns
+  * %QEMU_CLOCK_REALTIME nanoseconds.  Canceling the job will immediately
+  * interrupt the wait.
++ *
++ * Called with job_mutex *not* held (we don't want the coroutine
++ * to yield with the lock held!).
+  */
+ void coroutine_fn job_sleep_ns(Job *job, int64_t ns);
+ 
+@@ -504,12 +523,19 @@ const char *job_type_str(const Job *job);
+ /** Returns true if the job should not be visible to the management layer. */
+ bool job_is_internal(Job *job);
+ 
+-/** Returns whether the job is being cancelled. */
++/**
++ * Returns whether the job is being cancelled.
++ * Called with job_mutex *not* held.
++ */
+ bool job_is_cancelled(Job *job);
+ 
++/** Just like job_is_cancelled, but called between job_lock and job_unlock */
++bool job_is_cancelled_locked(Job *job);
++
+ /**
+  * Returns whether the job is scheduled for cancellation (at an
+  * indefinite point).
++ * Called with job_mutex *not* held.
+  */
+ bool job_cancel_requested(Job *job);
+ 
+@@ -593,13 +619,19 @@ Job *job_get_locked(const char *id);
+  */
+ int job_apply_verb_locked(Job *job, JobVerb verb, Error **errp);
+ 
+-/** The @job could not be started, free it. */
++/**
++ * The @job could not be started, free it.
++ * Called with job_mutex *not* held.
++ */
+ void job_early_fail(Job *job);
+ 
+ /** Same as job_early_fail(), but assumes job_lock is held. */
+ void job_early_fail_locked(Job *job);
+ 
+-/** Moves the @job from RUNNING to READY */
++/**
++ * Moves the @job from RUNNING to READY.
++ * Called with job_mutex *not* held.
++ */
+ void job_transition_to_ready(Job *job);
+ 
+ /**
+diff --git a/job.c b/job.c
+index 2f2b4892e0..468a387390 100644
+--- a/job.c
++++ b/job.c
+@@ -32,6 +32,22 @@
+ #include "trace/trace-root.h"
+ #include "qapi/qapi-events-job.h"
+ 
++/*
++ * The job API is composed of two categories of functions.
++ *
++ * The first includes functions used by the monitor.  The monitor is
++ * peculiar in that it accesses the block job list with job_get, and
++ * therefore needs consistency across job_get and the actual operation
++ * (e.g. job_user_cancel). To achieve this consistency, the caller
++ * calls job_lock/job_unlock itself around the whole operation.
++ * These functions are declared in job-monitor.h.
++ *
++ *
++ * The second includes functions used by the block job drivers and sometimes
++ * by the core block layer. These delegate the locking to the callee instead,
++ * and are declared in job-driver.h.
++ */
++
+ /*
+  * job_mutex protects the jobs list, but also makes the
+  * struct job fields thread-safe.
+@@ -227,18 +243,31 @@ const char *job_type_str(const Job *job)
+     return JobType_str(job_type(job));
  }
  
-diff --git a/monitor/qmp-cmds.c b/monitor/qmp-cmds.c
-index 59f6bdd98c..58c96078f2 100644
---- a/monitor/qmp-cmds.c
-+++ b/monitor/qmp-cmds.c
-@@ -137,7 +137,7 @@ void qmp_cont(Error **errp)
-     WITH_JOB_LOCK_GUARD() {
-         for (job = block_job_next_locked(NULL); job;
-              job = block_job_next_locked(job)) {
--            block_job_iostatus_reset(job);
-+            block_job_iostatus_reset_locked(job);
+-bool job_is_cancelled(Job *job)
++bool job_is_cancelled_locked(Job *job)
+ {
+     /* force_cancel may be true only if cancelled is true, too */
+     assert(job->cancelled || !job->force_cancel);
+     return job->force_cancel;
+ }
+ 
+-bool job_cancel_requested(Job *job)
++bool job_is_cancelled(Job *job)
++{
++    JOB_LOCK_GUARD();
++    return job_is_cancelled_locked(job);
++}
++
++/* Called with job_mutex held. */
++static bool job_cancel_requested_locked(Job *job)
+ {
+     return job->cancelled;
+ }
+ 
++bool job_cancel_requested(Job *job)
++{
++    JOB_LOCK_GUARD();
++    return job_cancel_requested_locked(job);
++}
++
+ bool job_is_ready_locked(Job *job)
+ {
+     switch (job->status) {
+@@ -551,7 +580,7 @@ void coroutine_fn job_pause_point(Job *job)
+         job_unlock();
+         return;
+     }
+-    if (job_is_cancelled(job)) {
++    if (job_is_cancelled_locked(job)) {
+         job_unlock();
+         return;
+     }
+@@ -585,7 +614,7 @@ void job_yield(Job *job)
+         assert(job->busy);
+ 
+         /* Check cancellation *before* setting busy = false, too!  */
+-        if (job_is_cancelled(job)) {
++        if (job_is_cancelled_locked(job)) {
+             return;
          }
-     }
  
+@@ -603,7 +632,7 @@ void coroutine_fn job_sleep_ns(Job *job, int64_t ns)
+         assert(job->busy);
+ 
+         /* Check cancellation *before* setting busy = false, too!  */
+-        if (job_is_cancelled(job)) {
++        if (job_is_cancelled_locked(job)) {
+             return;
+         }
+ 
+@@ -731,7 +760,7 @@ static void job_conclude_locked(Job *job)
+ /* Called with job_mutex held. */
+ static void job_update_rc_locked(Job *job)
+ {
+-    if (!job->ret && job_is_cancelled(job)) {
++    if (!job->ret && job_is_cancelled_locked(job)) {
+         job->ret = -ECANCELED;
+     }
+     if (job->ret) {
+@@ -909,7 +938,7 @@ static void job_completed_txn_abort_locked(Job *job)
+         ctx = other_job->aio_context;
+         aio_context_acquire(ctx);
+         if (!job_is_completed_locked(other_job)) {
+-            assert(job_cancel_requested(other_job));
++            assert(job_cancel_requested_locked(other_job));
+             job_finish_sync_locked(other_job, NULL, NULL);
+         }
+         aio_context_release(ctx);
+@@ -1133,10 +1162,10 @@ void job_cancel_locked(Job *job, bool force)
+          * job_cancel_async_locked() ignores soft-cancel requests for jobs
+          * that are already done (i.e. deferred to the main loop).  We
+          * have to check again whether the job is really cancelled.
+-         * (job_cancel_requested() and job_is_cancelled() are equivalent
+-         * here, because job_cancel_async_locked() will make soft-cancel
+-         * requests no-ops when deferred_to_main_loop is true.  We
+-         * choose to call job_is_cancelled() to show that we invoke
++         * (job_cancel_requested_locked() and job_is_cancelled_locked() are
++         * equivalent here, because job_cancel_async_locked() will make
++         * soft-cancel requests no-ops when deferred_to_main_loop is true.  We
++         * choose to call job_is_cancelled_locked() to show that we invoke
+          * job_completed_txn_abort_locked() only for force-cancelled jobs.)
+          */
+         if (job_is_cancelled_locked(job)) {
+@@ -1213,7 +1242,7 @@ void job_complete_locked(Job *job, Error **errp)
+     if (job_apply_verb_locked(job, JOB_VERB_COMPLETE, errp)) {
+         return;
+     }
+-    if (job_cancel_requested(job) || !job->driver->complete) {
++    if (job_cancel_requested_locked(job) || !job->driver->complete) {
+         error_setg(errp, "The active block job '%s' cannot be completed",
+                    job->id);
+         return;
+@@ -1246,7 +1275,8 @@ int job_finish_sync_locked(Job *job, void (*finish)(Job *, Error **errp),
+                    (job_enter(job), !job_is_completed(job)));
+     job_lock();
+ 
+-    ret = (job_is_cancelled(job) && job->ret == 0) ? -ECANCELED : job->ret;
++    ret = (job_is_cancelled_locked(job) && job->ret == 0) ?
++          -ECANCELED : job->ret;
+     job_unref_locked(job);
+     return ret;
+ }
 -- 
 2.31.1
 
