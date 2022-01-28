@@ -2,55 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 572A44A028D
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jan 2022 22:07:49 +0100 (CET)
-Received: from localhost ([::1]:60256 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 39C284A02E2
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jan 2022 22:34:48 +0100 (CET)
+Received: from localhost ([::1]:52366 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nDYTD-000246-F6
-	for lists+qemu-devel@lfdr.de; Fri, 28 Jan 2022 16:07:48 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:45778)
+	id 1nDYtK-00088G-Sj
+	for lists+qemu-devel@lfdr.de; Fri, 28 Jan 2022 16:34:46 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:51300)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1nDYGW-0000zh-Hc
- for qemu-devel@nongnu.org; Fri, 28 Jan 2022 15:54:40 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:29033)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1nDYhd-0006re-4O
+ for qemu-devel@nongnu.org; Fri, 28 Jan 2022 16:22:41 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:41445)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1nDYGU-0004qQ-T2
- for qemu-devel@nongnu.org; Fri, 28 Jan 2022 15:54:40 -0500
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1nDYhZ-0000qt-Ta
+ for qemu-devel@nongnu.org; Fri, 28 Jan 2022 16:22:39 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1643403278;
+ s=mimecast20190719; t=1643404956;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=g5cZ+sGGeykxfnw4kXmUVHrLmEGd4rxuhsyjK9tzQzw=;
- b=VoedkWOHg23R2D+AHqgbmLadWLNvEDWZ4UujiHkwxTJmdYdhS327NunYTpLgyT3txY2Oi/
- fRU76UXeuFM8F6UYrTUIPGVaGZ4AyEAElqJOFsCquFeDLYoSbuNtoXrl/qSwzGcEcV71tN
- QEPoyrFseCk89mXMzDKmaCoNk1t1pX4=
+ bh=WltlMizdQIWgL17n2wtG9iBhWJJHX0rrCeBn/XJymPA=;
+ b=KzEkTHeAOFZ203ccA5jf1jgSuuvpLgcEfZhtGZ9VcJOegyxxGXNA4pdpMhi8bphluEXzYl
+ sykMOCSNv3+//yh4sZiJdq2WrYPVZczJd0PkM238FUx6ecbekHpuRrcEIX4Elflh3wMjxT
+ lkWc4RqQV8oJYq8WfZCh2c2heyDj8ig=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-447-s9j0Px9jMd6tvoVJaXgdJQ-1; Fri, 28 Jan 2022 15:54:35 -0500
-X-MC-Unique: s9j0Px9jMd6tvoVJaXgdJQ-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-494-rsRkiyNYM16C82x_41-U_A-1; Fri, 28 Jan 2022 16:22:33 -0500
+X-MC-Unique: rsRkiyNYM16C82x_41-U_A-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B62E81083F65;
- Fri, 28 Jan 2022 20:54:33 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 48ACE100C661;
+ Fri, 28 Jan 2022 21:22:32 +0000 (UTC)
 Received: from redhat.com (unknown [10.22.32.61])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id DA506A22D;
- Fri, 28 Jan 2022 20:54:32 +0000 (UTC)
-Date: Fri, 28 Jan 2022 14:54:30 -0600
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 69C7B1024879;
+ Fri, 28 Jan 2022 21:22:28 +0000 (UTC)
+Date: Fri, 28 Jan 2022 15:22:26 -0600
 From: Eric Blake <eblake@redhat.com>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: Re: [PATCH] qapi/block: Cosmetic change in BlockExportType schema
-Message-ID: <20220128205430.ispmytuw2vrpar4g@redhat.com>
-References: <20220119121439.214821-1-f4bug@amsat.org>
+To: "Richard W.M. Jones" <rjones@redhat.com>
+Subject: Re: Block alignment of qcow2 compress driver
+Message-ID: <20220128212226.ijwkrxhptyxb7l64@redhat.com>
+References: <20220128110732.GA19514@redhat.com>
+ <e07b998f-9a62-7587-0526-bf51eae54ed6@redhat.com>
+ <20220128114815.GQ1127@redhat.com>
+ <26486e0e-adb5-aa3b-e70d-82ab21a0d2be@redhat.com>
+ <20220128121803.GS1127@redhat.com>
+ <54f3a548-ebea-9ed5-6387-5dda2bf92c4e@redhat.com>
+ <20220128133053.GT1127@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20220119121439.214821-1-f4bug@amsat.org>
+In-Reply-To: <20220128133053.GT1127@redhat.com>
 User-Agent: NeoMutt/20211029-256-77b59a
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -58,7 +64,7 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=eblake@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eblake@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -10
 X-Spam_score: -1.1
@@ -80,46 +86,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, qemu-devel@nongnu.org, qemu-block@nongnu.org,
- Markus Armbruster <armbru@redhat.com>
+Cc: kwolf@redhat.com, andrey.shinkevich@virtuozzo.com,
+ Hanna Reitz <hreitz@redhat.com>, qemu-devel@nongnu.org, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Jan 19, 2022 at 01:14:39PM +0100, Philippe Mathieu-Daudé wrote:
-> From: Philippe Mathieu-Daude <f4bug@amsat.org>
+On Fri, Jan 28, 2022 at 01:30:53PM +0000, Richard W.M. Jones wrote:
+> > 
+> > In qcow2, only the whole cluster can be compressed, so writing
+> > compressed data means having to write the whole cluster.  qcow2
+> > could implement the padding by itself, but we decided to just leave
+> > the burden of only writing full clusters (with the COMPRESSED write
+> > flag) on the callers.
 > 
-> From: Philippe Mathieu-Daudé <f4bug@amsat.org>
-
-The doubled From: looks odd here.  I'll double-check that git doesn't
-mess up the actual commit once I apply the patch.
-
+> I feel like this may be a bug in what qemu-nbd advertises.  Currently
+> it is:
 > 
-> Fix long line introduced in commit bb01ea73110 ("qapi/block:
-> Restrict vhost-user-blk to CONFIG_VHOST_USER_BLK_SERVER").
-> 
-> Suggested-by: Markus Armbruster <armbru@redhat.com>
-> Acked-by: Markus Armbruster <armbru@redhat.com>
-> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-> ---
->  qapi/block-export.json | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
-> 
-> diff --git a/qapi/block-export.json b/qapi/block-export.json
-> index f9ce79a974b..f183522d0d2 100644
-> --- a/qapi/block-export.json
-> +++ b/qapi/block-export.json
-> @@ -278,7 +278,8 @@
->  ##
->  { 'enum': 'BlockExportType',
->    'data': [ 'nbd',
-> -            { 'name': 'vhost-user-blk', 'if': 'CONFIG_VHOST_USER_BLK_SERVER' },
-> +            { 'name': 'vhost-user-blk',
-> +              'if': 'CONFIG_VHOST_USER_BLK_SERVER' },
->              { 'name': 'fuse', 'if': 'CONFIG_FUSE' } ] }
+> $ qemu-nbd -t --image-opts driver=compress,file.driver=qcow2,file.file.driver=file,file.file.filename=output.qcow2 &
+> [2] 2068900
+> $ nbdinfo nbd://localhost
 
-Reviewed-by: Eric Blake <eblake@redhat.com>
+> 		block_size_minimum: 65536    <---
+> 		block_size_preferred: 65536
+> 		block_size_maximum: 33554432
+> 
+> block_size_preferred is (rightly) set to 64K, as that's what the
+> compress + qcow2 combination prefers.
+> 
+> But block_size_minimum sounds as if it should be 512 or 1, if qemu-nbd
+> is able to reassemble smaller than preferred requests, even if they
+> are suboptimal.
 
-Happy to queue this through my NBD tree (as it is tangentially related...)
+When compression is involved, 64k is the minimum block size at the
+qcow2 layer, but the qemu NBD layer is relying on the generic block
+core code to do RMW on anything smaller than that.  If the RMW doesn't
+work, we may have a bug in the block layer.  Even if it does appear to
+work, I'm not sure whether the block layer is able to recompress a
+cluster - it may be that the act of RMW on a partially-written
+initially-compressed cluster causes that cluster to no longer be
+compressed, at which point, while your write succeeded, you are no
+longer getting any compression.
+
+So, while it is a nice QoI feature of qemu-nbd that we can rely on the
+block layer RMW to accept client requests that were smaller than the
+advertised minimum block size, I still think the advertised size is
+correct, and that the client is in violation of the spec if it is
+requesting but then not honoring the advertised size.  And yes, while
+it is a pain to hack nbdcopy to pay more attention to block sizing, I
+think in the long run it will be worth it.
 
 -- 
 Eric Blake, Principal Software Engineer
