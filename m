@@ -2,60 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A0B1449FBA7
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jan 2022 15:29:14 +0100 (CET)
-Received: from localhost ([::1]:56676 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E9B549FB1E
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jan 2022 14:55:14 +0100 (CET)
+Received: from localhost ([::1]:58372 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nDSFV-0005Tx-Os
-	for lists+qemu-devel@lfdr.de; Fri, 28 Jan 2022 09:29:13 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:52128)
+	id 1nDRia-0008EU-Ls
+	for lists+qemu-devel@lfdr.de; Fri, 28 Jan 2022 08:55:12 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:52924)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <rjones@redhat.com>) id 1nDRLR-0005gq-H1
- for qemu-devel@nongnu.org; Fri, 28 Jan 2022 08:31:18 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:34746)
+ (Exim 4.90_1) (envelope-from <rjones@redhat.com>) id 1nDRQe-0002PJ-Nr
+ for qemu-devel@nongnu.org; Fri, 28 Jan 2022 08:36:41 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:50174)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <rjones@redhat.com>) id 1nDRLO-0002vn-Gn
- for qemu-devel@nongnu.org; Fri, 28 Jan 2022 08:31:16 -0500
+ (Exim 4.90_1) (envelope-from <rjones@redhat.com>) id 1nDRQb-0003qO-BS
+ for qemu-devel@nongnu.org; Fri, 28 Jan 2022 08:36:38 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1643376670;
+ s=mimecast20190719; t=1643376995;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=aAWIagF3Lmvs1wlWUeQlrVet324wVnPppLNTa7irkaE=;
- b=YbHrjMJ+WYM9NgRLeRqXRQGt5fWtStFr11udEEpOvbWfv5VG8evDTCZ3z2tKj/YGnVLyPx
- CfH4CepvGTgWtUG3m+aaHnZ4/utjIc3O+mD0Qh7w8+GfwtEdAQKK1pUta9/r67933lk5we
- siBZuMh/vNXSOUn6ExKQ901iXDxRmxw=
+ bh=imwBCQTTWygKgyGygkBYw4W4kAwyYCunw0LAtmUkLCA=;
+ b=L3gYAa3sIl+tzEES8NflxqO329PIfe3QRkolX9GbLmn7qZ0vzJ7Q/qa6tgBxn3KUwO4SoO
+ fPjpzhHm36VVfLf50XZKOB4dDCa9UHvl1LKBh0JgId38hbgMPm1h85UzFIM+TIpqMxRxRu
+ I2f/O5mJgjxTB0SNpzc69f86JBrSBmU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-669-YrrOcu6NMr-nEUp5nDt1MA-1; Fri, 28 Jan 2022 08:31:01 -0500
-X-MC-Unique: YrrOcu6NMr-nEUp5nDt1MA-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-12-6huO0HBgPHmy0yZmI4Nu-w-1; Fri, 28 Jan 2022 08:36:33 -0500
+X-MC-Unique: 6huO0HBgPHmy0yZmI4Nu-w-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6A59418C89C4;
- Fri, 28 Jan 2022 13:31:00 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6E3F58189CC;
+ Fri, 28 Jan 2022 13:36:32 +0000 (UTC)
 Received: from localhost (unknown [10.39.194.34])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A944B84630;
- Fri, 28 Jan 2022 13:30:54 +0000 (UTC)
-Date: Fri, 28 Jan 2022 13:30:53 +0000
+ by smtp.corp.redhat.com (Postfix) with ESMTP id F21D51086480;
+ Fri, 28 Jan 2022 13:36:31 +0000 (UTC)
+Date: Fri, 28 Jan 2022 13:36:31 +0000
 From: "Richard W.M. Jones" <rjones@redhat.com>
-To: Hanna Reitz <hreitz@redhat.com>
+To: Kevin Wolf <kwolf@redhat.com>
 Subject: Re: Block alignment of qcow2 compress driver
-Message-ID: <20220128133053.GT1127@redhat.com>
+Message-ID: <20220128133631.GU1127@redhat.com>
 References: <20220128110732.GA19514@redhat.com>
  <e07b998f-9a62-7587-0526-bf51eae54ed6@redhat.com>
  <20220128114815.GQ1127@redhat.com>
  <26486e0e-adb5-aa3b-e70d-82ab21a0d2be@redhat.com>
  <20220128121803.GS1127@redhat.com>
  <54f3a548-ebea-9ed5-6387-5dda2bf92c4e@redhat.com>
+ <YfPtcGQGIZP4cYrJ@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <54f3a548-ebea-9ed5-6387-5dda2bf92c4e@redhat.com>
+In-Reply-To: <YfPtcGQGIZP4cYrJ@redhat.com>
 User-Agent: Mutt/1.5.21 (2010-09-15)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=rjones@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -63,7 +64,7 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=rjones@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=rjones@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
@@ -84,103 +85,105 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, andrey.shinkevich@virtuozzo.com, eblake@redhat.com,
- qemu-devel@nongnu.org, qemu-block@nongnu.org
+Cc: andrey.shinkevich@virtuozzo.com, Hanna Reitz <hreitz@redhat.com>,
+ eblake@redhat.com, qemu-devel@nongnu.org, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-On Fri, Jan 28, 2022 at 01:30:43PM +0100, Hanna Reitz wrote:
-> On 28.01.22 13:18, Richard W.M. Jones wrote:
-> >On Fri, Jan 28, 2022 at 12:57:47PM +0100, Hanna Reitz wrote:
-> >>On 28.01.22 12:48, Richard W.M. Jones wrote:
-> >>>On Fri, Jan 28, 2022 at 12:39:11PM +0100, Hanna Reitz wrote:
-> >>>>So I actually don’t know why it works for you.  OTOH, I don’t
-> >>>>understand why the block size affects you over NBD, because I would
-> >>>>have expected qemu to internally auto-align requests when they are
-> >>>>not aligned (in bdrv_co_pwritev_part()).
-> >>>I checked it again and my hack definitely fixes nbdcopy.  But maybe
-> >>>that's expected if qemu-nbd is auto-aligning requests?  (I'm only
-> >>>accessing the block layer through qemu-nbd, not with qemu-io)
-> >>It’s not just qemu-io, with your diff[3] I get the same EINVAL over
-> >>NBD, too:
-> >>
-> >>$ ./qemu-img create -f qcow2 test.qcow2 64M
-> >>Formatting 'test.qcow2', fmt=qcow2 cluster_size=65536
-> >>extended_l2=off compression_type=zlib size=67108864
-> >>lazy_refcounts=off refcount_bits=16
-> >>
-> >>$ ./qemu-nbd --fork --image-opts \
-> >>driver=compress,file.driver=qcow2,file.file.driver=file,file.file.filename=test.qcow2
-> >>
-> >>$ ./qemu-io -c 'write 0 32k' -f raw nbd://localhost
-> >>write failed: Invalid argument
-> >Strange - is that error being generated by qemu's nbd client code?
+On Fri, Jan 28, 2022 at 02:19:44PM +0100, Kevin Wolf wrote:
+> Am 28.01.2022 um 13:30 hat Hanna Reitz geschrieben:
+> > > > I just changed that line of code [2], as shown in [4].  I suppose
+> > > > the better thing to do would be to have an option for the NBD server
+> > > > to force-change the announced request alignment, because it can
+> > > > expect the qemu block layer code to auto-align requests through
+> > > > RMW.  Doing it in the client is wrong, because the NBD server might
+> > > > want to detect that the client sends unaligned requests and reject
+> > > > them (though ours doesn’t, it just traces such events[5] – note that
+> > > > it’s explicitly noted there that qemu will auto-align requests).
+> > > I know I said I didn't care about performance (in this case), but is
+> > > there in fact a penalty to sending unaligned requests to the qcow2
+> > > layer?  Or perhaps it cannot compress them?
+> > 
+> > In qcow2, only the whole cluster can be compressed, so writing compressed
+> > data means having to write the whole cluster.  qcow2 could implement the
+> > padding by itself, but we decided to just leave the burden of only writing
+> > full clusters (with the COMPRESSED write flag) on the callers.
+> > 
+> > Things like qemu-img convert and blockdev-backup just adhere to that by
+> > design; and the compress driver makes sure to set its request alignment
+> > accordingly so that requests to it will always be aligned to the cluster
+> > size (either by its user, or by the qemu block layer which performs the
+> > padding automatically).
 > 
-> It’s generated by qcow2, namely the exact place I pointed out (as
-> [1]).  I can see that when I put an fprintf there.
-
-I can't reproduce this behaviour (with qemu @ cfe63e46be0a, the head
-of git at time of writing).  I wonder if I'm doing something wrong?
-
-  ++ /home/rjones/d/qemu/build/qemu-img create -f qcow2 output.qcow2 64k
-  Formatting 'output.qcow2', fmt=qcow2 cluster_size=65536 extended_l2=off compression_type=zlib size=65536 lazy_refcounts=off refcount_bits=16
-  ++ sleep 1
-  ++ /home/rjones/d/qemu/build/qemu-nbd -t --image-opts driver=compress,file.driver=qcow2,file.file.driver=file,file.file.filename=output.qcow2
-  ++ /home/rjones/d/qemu/build/qemu-io -c 'write 0 32k' -f raw nbd://localhost
-  wrote 32768/32768 bytes at offset 0
-  32 KiB, 1 ops; 00.02 sec (1.547 MiB/sec and 49.5067 ops/sec)
-
-> >I know I said I didn't care about performance (in this case), but is
-> >there in fact a penalty to sending unaligned requests to the qcow2
-> >layer?  Or perhaps it cannot compress them?
+> I thought the more limiting factor would be that after auto-aligning the
+> first request by padding with zeros, the second request to the same
+> cluster would fail because compression doesn't allow using an already
+> allocated cluster:
 > 
-> In qcow2, only the whole cluster can be compressed, so writing
-> compressed data means having to write the whole cluster.  qcow2
-> could implement the padding by itself, but we decided to just leave
-> the burden of only writing full clusters (with the COMPRESSED write
-> flag) on the callers.
+>     /* Compression can't overwrite anything. Fail if the cluster was already
+>      * allocated. */
+>     cluster_offset = get_l2_entry(s, l2_slice, l2_index);
+>     if (cluster_offset & L2E_OFFSET_MASK) {
+>         qcow2_cache_put(s->l2_table_cache, (void **) &l2_slice);
+>         return -EIO;
+>     }
+> 
+> Did you always just test a single request or why don't you run into
+> this?
 
-I feel like this may be a bug in what qemu-nbd advertises.  Currently
-it is:
+I didn't test that one specifically and yes it does fail:
 
+$ qemu-img create -f qcow2 output.qcow2 1M
+Formatting 'output.qcow2', fmt=qcow2 cluster_size=65536 extended_l2=off compression_type=zlib size=1048576 lazy_refcounts=off refcount_bits=16
 $ qemu-nbd -t --image-opts driver=compress,file.driver=qcow2,file.file.driver=file,file.file.filename=output.qcow2 &
-[2] 2068900
-$ nbdinfo nbd://localhost
-protocol: newstyle-fixed without TLS
-export="":
-	export-size: 65536 (64K)
-	uri: nbd://localhost:10809/
-	contexts:
-		base:allocation
-		is_rotational: false
-		is_read_only: false
-		can_cache: true
-		can_df: true
-		can_fast_zero: true
-		can_flush: true
-		can_fua: true
-		can_multi_conn: false
-		can_trim: true
-		can_zero: true
-		block_size_minimum: 65536    <---
-		block_size_preferred: 65536
-		block_size_maximum: 33554432
+[1] 2069037
 
-block_size_preferred is (rightly) set to 64K, as that's what the
-compress + qcow2 combination prefers.
+$ nbdsh -u nbd://localhost
+nbd> h.set_strict_mode(h.get_strict_mode() & ~nbd.STRICT_ALIGN)
+nbd> buf = b'1' * 1024
+nbd> h.pwrite(buf, 0)
+nbd> h.pwrite(buf, 1024)
+Traceback (most recent call last):
+  File "/usr/lib64/python3.10/code.py", line 90, in runcode
+    exec(code, self.locals)
+  File "<console>", line 1, in <module>
+  File "/usr/lib64/python3.10/site-packages/nbd.py", line 1631, in pwrite
+    return libnbdmod.pwrite(self._o, buf, offset, flags)
+nbd.Error: nbd_pwrite: write: command failed: Input/output error (EIO)
 
-But block_size_minimum sounds as if it should be 512 or 1, if qemu-nbd
-is able to reassemble smaller than preferred requests, even if they
-are suboptimal.
+So what I said in the previous email about about minimum vs preferred
+is wrong :-(
+
+What's more interesting is that nbdcopy still appeared to work.
+Simulating what that was doing would be something like which
+also fails when I do it directly:
+
+nbd> h.pwrite(buf, 0)
+nbd> h.zero(1024, 1024)
+Traceback (most recent call last):
+  File "/usr/lib64/python3.10/code.py", line 90, in runcode
+    exec(code, self.locals)
+  File "<console>", line 1, in <module>
+  File "/usr/lib64/python3.10/site-packages/nbd.py", line 1782, in zero
+    return libnbdmod.zero(self._o, count, offset, flags)
+nbd.Error: nbd_zero: write-zeroes: command failed: Input/output error (EIO)
+
+Anyway back to poking at nbdcopy to make it support block sizes ...
+
+> I guess checking L2E_OFFSET_MASK is strictly speaking wrong because it's
+> invalid for compressed clusters (qcow2_get_cluster_type() feels more
+> appropriate), but in practice, you will always have non-zero data there,
+> so it should error out here.
+> 
+> Kevin
 
 Rich.
 
 -- 
 Richard Jones, Virtualization Group, Red Hat http://people.redhat.com/~rjones
 Read my programming and virtualization blog: http://rwmj.wordpress.com
-virt-p2v converts physical machines to virtual machines.  Boot with a
-live CD or over the network (PXE) and turn machines into KVM guests.
-http://libguestfs.org/virt-v2v
+virt-df lists disk usage of guests without needing to install any
+software inside the virtual machine.  Supports Linux and Windows.
+http://people.redhat.com/~rjones/virt-df/
 
 
