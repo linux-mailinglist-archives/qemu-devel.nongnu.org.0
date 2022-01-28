@@ -2,70 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D04149FFC9
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jan 2022 18:52:52 +0100 (CET)
-Received: from localhost ([::1]:38726 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5CA3749FFF8
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jan 2022 19:14:00 +0100 (CET)
+Received: from localhost ([::1]:37196 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nDVQZ-0006Sz-8K
-	for lists+qemu-devel@lfdr.de; Fri, 28 Jan 2022 12:52:51 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:36496)
+	id 1nDVl1-0008Tu-GE
+	for lists+qemu-devel@lfdr.de; Fri, 28 Jan 2022 13:13:59 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:36890)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nDVOd-0004dt-Ah
- for qemu-devel@nongnu.org; Fri, 28 Jan 2022 12:50:51 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:30040)
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1nDVQb-0007g7-2p
+ for qemu-devel@nongnu.org; Fri, 28 Jan 2022 12:52:53 -0500
+Received: from frasgout.his.huawei.com ([185.176.79.56]:2224)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nDVOU-0002n3-ME
- for qemu-devel@nongnu.org; Fri, 28 Jan 2022 12:50:45 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1643392240;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=Ta32Fp99Iaxk3XZ0bur54d2PCkTDXPczO2L/zcrgMgQ=;
- b=VaT0ouDG03AESSKtA0tZCljaB17Ky2Mk0IYo+wc9i33p9RyQbPiLe4b/8aiVMngPI9hVUR
- r+p27U9Eqtnbdw+6Ttc2DLu2xJao5eN1dH6Gb0bccRBL+lUGIVUpjjD0Z6L3V+YqpKseYt
- WdKXSdM8wu3P7yFjgwVEmj8mlY4MNkY=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-554-fUIveLi6O8O94Df6LJZB1Q-1; Fri, 28 Jan 2022 12:50:32 -0500
-X-MC-Unique: fUIveLi6O8O94Df6LJZB1Q-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B04EA343C9;
- Fri, 28 Jan 2022 17:50:31 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.37.9])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id CDAAA74EAD;
- Fri, 28 Jan 2022 17:50:20 +0000 (UTC)
-Date: Fri, 28 Jan 2022 17:50:18 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PATCH] block/curl.c: Check error return from curl_easy_setopt()
-Message-ID: <YfQs2qIew5UR6MCk@redhat.com>
-References: <20220128165535.2550899-1-peter.maydell@linaro.org>
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1nDVQY-00034o-63
+ for qemu-devel@nongnu.org; Fri, 28 Jan 2022 12:52:52 -0500
+Received: from fraeml707-chm.china.huawei.com (unknown [172.18.147.207])
+ by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4JllLF0ls6z67brf;
+ Sat, 29 Jan 2022 01:48:21 +0800 (CST)
+Received: from lhreml710-chm.china.huawei.com (10.201.108.61) by
+ fraeml707-chm.china.huawei.com (10.206.15.35) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.21; Fri, 28 Jan 2022 18:52:46 +0100
+Received: from localhost (10.122.247.231) by lhreml710-chm.china.huawei.com
+ (10.201.108.61) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.21; Fri, 28 Jan
+ 2022 17:52:46 +0000
+Date: Fri, 28 Jan 2022 17:52:45 +0000
+To: Alex =?ISO-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>
+CC: <qemu-devel@nongnu.org>, Marcel Apfelbaum <marcel@redhat.com>, "Michael S
+ . Tsirkin" <mst@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
+ <linux-cxl@vger.kernel.org>, Ben Widawsky <ben.widawsky@intel.com>, "Peter
+ Maydell" <peter.maydell@linaro.org>, <linuxarm@huawei.com>, "Shameerali
+ Kolothum Thodi" <shameerali.kolothum.thodi@huawei.com>, Philippe
+ =?ISO-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>, Saransh Gupta1
+ <saransh@ibm.com>, Shreyas Shah <shreyas.shah@elastics.cloud>, Chris Browy
+ <cbrowy@avery-design.com>, Samarth Saxena <samarths@cadence.com>, "Dan
+ Williams" <dan.j.williams@intel.com>
+Subject: Re: [PATCH v4 09/42] hw/cxl/device: Timestamp implementation (8.2.9.3)
+Message-ID: <20220128175245.00007f6b@huawei.com>
+In-Reply-To: <874k5pbdlh.fsf@linaro.org>
+References: <20220124171705.10432-1-Jonathan.Cameron@huawei.com>
+ <20220124171705.10432-10-Jonathan.Cameron@huawei.com>
+ <874k5pbdlh.fsf@linaro.org>
+Organization: Huawei Technologies R&D (UK) Ltd.
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.29; x86_64-w64-mingw32)
 MIME-Version: 1.0
-In-Reply-To: <20220128165535.2550899-1-peter.maydell@linaro.org>
-User-Agent: Mutt/2.1.5 (2021-12-30)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -10
-X-Spam_score: -1.1
-X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) DKIMWL_WL_HIGH=-0.167, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset="ISO-8859-1"
+Content-Transfer-Encoding: quoted-printable
+X-Originating-IP: [10.122.247.231]
+X-ClientProxiedBy: lhreml740-chm.china.huawei.com (10.201.108.190) To
+ lhreml710-chm.china.huawei.com (10.201.108.61)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=185.176.79.56;
+ envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
+X-Spam_score_int: -22
+X-Spam_score: -2.3
+X-Spam_bar: --
+X-Spam_report: (-2.3 / 5.0 requ) RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
@@ -80,211 +77,99 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
- qemu-devel@nongnu.org, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  Jonathan Cameron <Jonathan.Cameron@huawei.com>
+From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 
-On Fri, Jan 28, 2022 at 04:55:35PM +0000, Peter Maydell wrote:
-> Coverity points out that we aren't checking the return value
-> from curl_easy_setopt() for any of the calls to it we make
-> in block/curl.c.
-> 
-> Fixes: Coverity CID 1459336, 1459482, 1460331
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-> ---
-> Big fat disclaimer: tested only with 'make check', which I suspect
-> may not be exercising this block backend. Hints on how to test
-> more thoroughly are welcome.
+On Thu, 27 Jan 2022 11:50:08 +0000
+Alex Benn=E9e <alex.bennee@linaro.org> wrote:
 
-yeah afaik, qemu-iotests don't have support for this. As a very
-basic smoke test do
+> Jonathan Cameron <Jonathan.Cameron@huawei.com> writes:
+>=20
+> > From: Ben Widawsky <ben.widawsky@intel.com>
+> >
+> > Per spec, timestamp appears to be a free-running counter from a value
+> > set by the host via the Set Timestamp command (0301h). There are
+> > references to the epoch, which seem like a red herring. Therefore, the
+> > implementation implements the timestamp as freerunning counter from the
+> > last value that was issued by the Set Timestamp command.
+> >
+> > Signed-off-by: Ben Widawsky <ben.widawsky@intel.com>
+> > Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+> > ---
+> >  hw/cxl/cxl-mailbox-utils.c  | 53 +++++++++++++++++++++++++++++++++++++
+> >  include/hw/cxl/cxl_device.h |  6 +++++
+> >  2 files changed, 59 insertions(+)
+> >
+> > diff --git a/hw/cxl/cxl-mailbox-utils.c b/hw/cxl/cxl-mailbox-utils.c
+> > index 1a87846356..cea4b2a59c 100644
+> > --- a/hw/cxl/cxl-mailbox-utils.c
+> > +++ b/hw/cxl/cxl-mailbox-utils.c
+> > @@ -43,6 +43,9 @@ enum {
+> >          #define CLEAR_RECORDS   0x1
+> >          #define GET_INTERRUPT_POLICY   0x2
+> >          #define SET_INTERRUPT_POLICY   0x3
+> > +    TIMESTAMP   =3D 0x03,
+> > +        #define GET           0x0
+> > +        #define SET           0x1
+> >  };
+> > =20
+> >  /* 8.2.8.4.5.1 Command Return Codes */
+> > @@ -117,8 +120,11 @@ define_mailbox_handler_zeroed(EVENTS_GET_RECORDS, =
+0x20);
+> >  define_mailbox_handler_nop(EVENTS_CLEAR_RECORDS);
+> >  define_mailbox_handler_zeroed(EVENTS_GET_INTERRUPT_POLICY, 4);
+> >  define_mailbox_handler_nop(EVENTS_SET_INTERRUPT_POLICY);
+> > +declare_mailbox_handler(TIMESTAMP_GET);
+> > +declare_mailbox_handler(TIMESTAMP_SET);
+> > =20
+> >  #define IMMEDIATE_CONFIG_CHANGE (1 << 1)
+> > +#define IMMEDIATE_POLICY_CHANGE (1 << 3)
+> >  #define IMMEDIATE_LOG_CHANGE (1 << 4)
+> > =20
+> >  #define CXL_CMD(s, c, in, cel_effect) \
+> > @@ -129,10 +135,57 @@ static struct cxl_cmd cxl_cmd_set[256][256] =3D {
+> >      CXL_CMD(EVENTS, CLEAR_RECORDS, ~0, IMMEDIATE_LOG_CHANGE),
+> >      CXL_CMD(EVENTS, GET_INTERRUPT_POLICY, 0, 0),
+> >      CXL_CMD(EVENTS, SET_INTERRUPT_POLICY, 4, IMMEDIATE_CONFIG_CHANGE),
+> > +    CXL_CMD(TIMESTAMP, GET, 0, 0),
+> > +    CXL_CMD(TIMESTAMP, SET, 8, IMMEDIATE_POLICY_CHANGE),
+> >  };
+> > =20
+> >  #undef CXL_CMD
+> > =20
+> > +/*
+> > + * 8.2.9.3.1
+> > + */
+> > +define_mailbox_handler(TIMESTAMP_GET)
+> > +{
+> > +    struct timespec ts;
+> > +    uint64_t delta;
+> > +
+> > +    if (!cxl_dstate->timestamp.set) {
+> > +        *(uint64_t *)cmd->payload =3D 0;
+> > +        goto done;
+> > +    }
+> > +
+> > +    /* First find the delta from the last time the host set the time. =
+*/
+> > +    clock_gettime(CLOCK_REALTIME, &ts); =20
+>=20
+> Could you consider using qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL)?
+> Otherwise by introducing a dependency on real time you'll loose the
+> ability to get deterministic execution via icount.
 
-$ qemu-img info https://cloud.debian.org/images/cloud/buster/daily/latest/debian-10-nocloud-amd64-daily.qcow2
-image: https://cloud.debian.org/images/cloud/buster/daily/latest/debian-10-nocloud-amd64-daily.qcow2
-file format: qcow2
-virtual size: 2 GiB (2147483648 bytes)
-disk size: unavailable
-cluster_size: 65536
-Format specific information:
-    compat: 1.1
-    compression type: zlib
-    lazy refcounts: false
-    refcount bits: 16
-    corrupt: false
-    extended l2: false
+I don't have a strong opinion either way, so Ill go with=20
+qemu_clock_get_ns() and see if any comments on it in v5.
 
-and/or
+I've also updated the commit message as the catch all errata
+which was F4 included a clarification that the timestamp
+was as implemented here.
 
-$ qemu-img info --image-opts driver=qcow2,file.driver=https,file.url=https://cloud.debian.org/images/cloud/buster/daily/latest/debian-10-nocloud-amd64-daily.qcow2
-image: https://cloud.debian.org/images/cloud/buster/daily/latest/debian-10-nocloud-amd64-daily.qcow2
-file format: qcow2
-virtual size: 2 GiB (2147483648 bytes)
-disk size: unavailable
-cluster_size: 65536
-Format specific information:
-    compat: 1.1
-    compression type: zlib
-    lazy refcounts: false
-    refcount bits: 16
-    corrupt: false
-    extended l2: false
+Thanks,
 
-
-> 
->  block/curl.c | 90 +++++++++++++++++++++++++++++++++-------------------
->  1 file changed, 58 insertions(+), 32 deletions(-)
-> 
-> diff --git a/block/curl.c b/block/curl.c
-> index 6a6cd729758..aaee1b17bef 100644
-> --- a/block/curl.c
-> +++ b/block/curl.c
-> @@ -458,38 +458,51 @@ static int curl_init_state(BDRVCURLState *s, CURLState *state)
->          if (!state->curl) {
->              return -EIO;
->          }
-> -        curl_easy_setopt(state->curl, CURLOPT_URL, s->url);
-> -        curl_easy_setopt(state->curl, CURLOPT_SSL_VERIFYPEER,
-> -                         (long) s->sslverify);
-> -        curl_easy_setopt(state->curl, CURLOPT_SSL_VERIFYHOST,
-> -                         s->sslverify ? 2L : 0L);
-> -        if (s->cookie) {
-> -            curl_easy_setopt(state->curl, CURLOPT_COOKIE, s->cookie);
-> +        if (curl_easy_setopt(state->curl, CURLOPT_URL, s->url) ||
-> +            curl_easy_setopt(state->curl, CURLOPT_SSL_VERIFYPEER,
-> +                             (long) s->sslverify) ||
-> +            curl_easy_setopt(state->curl, CURLOPT_SSL_VERIFYHOST,
-> +                             s->sslverify ? 2L : 0L)) {
-> +            goto err;
-> +        }
-> +        if (s->cookie) {
-> +            if (curl_easy_setopt(state->curl, CURLOPT_COOKIE, s->cookie)) {
-> +                goto err;
-> +            }
-> +        }
-> +        if (curl_easy_setopt(state->curl, CURLOPT_TIMEOUT, (long)s->timeout) ||
-> +            curl_easy_setopt(state->curl, CURLOPT_WRITEFUNCTION,
-> +                             (void *)curl_read_cb) ||
-> +            curl_easy_setopt(state->curl, CURLOPT_WRITEDATA, (void *)state) ||
-> +            curl_easy_setopt(state->curl, CURLOPT_PRIVATE, (void *)state) ||
-> +            curl_easy_setopt(state->curl, CURLOPT_AUTOREFERER, 1) ||
-> +            curl_easy_setopt(state->curl, CURLOPT_FOLLOWLOCATION, 1) ||
-> +            curl_easy_setopt(state->curl, CURLOPT_NOSIGNAL, 1) ||
-> +            curl_easy_setopt(state->curl, CURLOPT_ERRORBUFFER, state->errmsg) ||
-> +            curl_easy_setopt(state->curl, CURLOPT_FAILONERROR, 1)) {
-> +            goto err;
->          }
-> -        curl_easy_setopt(state->curl, CURLOPT_TIMEOUT, (long)s->timeout);
-> -        curl_easy_setopt(state->curl, CURLOPT_WRITEFUNCTION,
-> -                         (void *)curl_read_cb);
-> -        curl_easy_setopt(state->curl, CURLOPT_WRITEDATA, (void *)state);
-> -        curl_easy_setopt(state->curl, CURLOPT_PRIVATE, (void *)state);
-> -        curl_easy_setopt(state->curl, CURLOPT_AUTOREFERER, 1);
-> -        curl_easy_setopt(state->curl, CURLOPT_FOLLOWLOCATION, 1);
-> -        curl_easy_setopt(state->curl, CURLOPT_NOSIGNAL, 1);
-> -        curl_easy_setopt(state->curl, CURLOPT_ERRORBUFFER, state->errmsg);
-> -        curl_easy_setopt(state->curl, CURLOPT_FAILONERROR, 1);
-> -
->          if (s->username) {
-> -            curl_easy_setopt(state->curl, CURLOPT_USERNAME, s->username);
-> +            if (curl_easy_setopt(state->curl, CURLOPT_USERNAME, s->username)) {
-> +                goto err;
-> +            }
->          }
->          if (s->password) {
-> -            curl_easy_setopt(state->curl, CURLOPT_PASSWORD, s->password);
-> +            if (curl_easy_setopt(state->curl, CURLOPT_PASSWORD, s->password)) {
-> +                goto err;
-> +            }
->          }
->          if (s->proxyusername) {
-> -            curl_easy_setopt(state->curl,
-> -                             CURLOPT_PROXYUSERNAME, s->proxyusername);
-> +            if (curl_easy_setopt(state->curl,
-> +                                 CURLOPT_PROXYUSERNAME, s->proxyusername)) {
-> +                goto err;
-> +            }
->          }
->          if (s->proxypassword) {
-> -            curl_easy_setopt(state->curl,
-> -                             CURLOPT_PROXYPASSWORD, s->proxypassword);
-> +            if (curl_easy_setopt(state->curl,
-> +                                 CURLOPT_PROXYPASSWORD, s->proxypassword)) {
-> +                goto err;
-> +            }
->          }
->  
->          /* Restrict supported protocols to avoid security issues in the more
-> @@ -499,18 +512,27 @@ static int curl_init_state(BDRVCURLState *s, CURLState *state)
->           * Restricting protocols is only supported from 7.19.4 upwards.
->           */
->  #if LIBCURL_VERSION_NUM >= 0x071304
-> -        curl_easy_setopt(state->curl, CURLOPT_PROTOCOLS, PROTOCOLS);
-> -        curl_easy_setopt(state->curl, CURLOPT_REDIR_PROTOCOLS, PROTOCOLS);
-> +        if (curl_easy_setopt(state->curl, CURLOPT_PROTOCOLS, PROTOCOLS) ||
-> +            curl_easy_setopt(state->curl, CURLOPT_REDIR_PROTOCOLS, PROTOCOLS)) {
-> +            goto err;
-> +        }
->  #endif
->  
->  #ifdef DEBUG_VERBOSE
-> -        curl_easy_setopt(state->curl, CURLOPT_VERBOSE, 1);
-> +        if (curl_easy_setopt(state->curl, CURLOPT_VERBOSE, 1)) {
-> +            goto err;
-> +        }
->  #endif
->      }
->  
->      state->s = s;
->  
->      return 0;
-> +
-> +err:
-> +    curl_easy_cleanup(state->curl);
-> +    state->curl = NULL;
-> +    return -EIO;
->  }
->  
->  /* Called with s->mutex held.  */
-> @@ -763,10 +785,11 @@ static int curl_open(BlockDriverState *bs, QDict *options, int flags,
->      }
->  
->      s->accept_range = false;
-> -    curl_easy_setopt(state->curl, CURLOPT_NOBODY, 1);
-> -    curl_easy_setopt(state->curl, CURLOPT_HEADERFUNCTION,
-> -                     curl_header_cb);
-> -    curl_easy_setopt(state->curl, CURLOPT_HEADERDATA, s);
-> +    if (curl_easy_setopt(state->curl, CURLOPT_NOBODY, 1) ||
-> +        curl_easy_setopt(state->curl, CURLOPT_HEADERFUNCTION, curl_header_cb) ||
-> +        curl_easy_setopt(state->curl, CURLOPT_HEADERDATA, s)) {
-> +        goto out;
-> +    }
->      if (curl_easy_perform(state->curl))
->          goto out;
->      if (curl_easy_getinfo(state->curl, CURLINFO_CONTENT_LENGTH_DOWNLOAD, &d)) {
-> @@ -879,7 +902,10 @@ static void curl_setup_preadv(BlockDriverState *bs, CURLAIOCB *acb)
->  
->      snprintf(state->range, 127, "%" PRIu64 "-%" PRIu64, start, end);
->      trace_curl_setup_preadv(acb->bytes, start, state->range);
-> -    curl_easy_setopt(state->curl, CURLOPT_RANGE, state->range);
-> +    if (curl_easy_setopt(state->curl, CURLOPT_RANGE, state->range)) {
-> +        curl_clean_state(state);
-> +        goto out;
-> +    }
->  
->      if (curl_multi_add_handle(s->multi, state->curl) != CURLM_OK) {
->          state->acb[0] = NULL;
-> -- 
-> 2.25.1
-> 
-> 
-
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+Jonathan
+=20
 
 
