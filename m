@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6F9A4A00AE
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jan 2022 20:11:51 +0100 (CET)
-Received: from localhost ([::1]:48920 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 399214A0124
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jan 2022 20:53:07 +0100 (CET)
+Received: from localhost ([::1]:51748 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nDWf0-0007ez-G8
-	for lists+qemu-devel@lfdr.de; Fri, 28 Jan 2022 14:11:50 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:48294)
+	id 1nDXIv-0000Ij-WE
+	for lists+qemu-devel@lfdr.de; Fri, 28 Jan 2022 14:53:06 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:48592)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1nDW8i-0000uM-4P
- for qemu-devel@nongnu.org; Fri, 28 Jan 2022 13:38:28 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:56831)
+ id 1nDW93-00018Z-ST
+ for qemu-devel@nongnu.org; Fri, 28 Jan 2022 13:38:57 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:37464)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1nDW8N-0001nO-NV
- for qemu-devel@nongnu.org; Fri, 28 Jan 2022 13:38:11 -0500
+ id 1nDW8h-0001oe-OG
+ for qemu-devel@nongnu.org; Fri, 28 Jan 2022 13:38:43 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1643395086;
+ s=mimecast20190719; t=1643395091;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=/osl7oqZ/l1nIb7N6ea0VQuADVcsGBk75aoqoxqFn4s=;
- b=M94tNf7cP+DZcCmHk679hPWycJg+lmwlpqyfM1/hhxziV5qKqHVQ2Jezo3liuJ3gOK1uNa
- GuHe7ZdR30+wdYQ5tQycvucC7stcMsNInyFMYo9urQpHkXRR+m9yQI9uSQswkWomnKplUJ
- EwrIsUMoovZpRb+Iu8p3VdU6AmMOuGo=
+ bh=DUtLJ3E/Ba4f1f0VyVY15aJnRzdGGlTSP4JV0rpYGRw=;
+ b=I3dj76sqS0g6DksdU6PHYNyOCQTUJEg6s+m/x7/K0ULXrX18fiEfQkJ7AQkiu24mmJzweJ
+ Ayhtk55Ceh4wfti6HwoKHzyeI0vpKyd06XfosAruHmVbU9WAHD8Z/l3mCl4di5QcvhjZ3o
+ y+JkxSeuByncqaH3mKwVY70dqVoJF/s=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-67-dMq-fhvhOcGW4jjCzuL6KA-1; Fri, 28 Jan 2022 13:38:02 -0500
-X-MC-Unique: dMq-fhvhOcGW4jjCzuL6KA-1
+ us-mta-49-0wdi2zUuM8i51xAhb9vHxQ-1; Fri, 28 Jan 2022 13:38:10 -0500
+X-MC-Unique: 0wdi2zUuM8i51xAhb9vHxQ-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9FAA894DC1;
- Fri, 28 Jan 2022 18:37:59 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 101D394DC6;
+ Fri, 28 Jan 2022 18:38:07 +0000 (UTC)
 Received: from secure.mitica (unknown [10.39.194.185])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 983F077462;
- Fri, 28 Jan 2022 18:37:52 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 03F9612E25;
+ Fri, 28 Jan 2022 18:37:59 +0000 (UTC)
 From: Juan Quintela <quintela@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 21/36] migration/migration.c: Remove the
- MIGRATION_STATUS_ACTIVE when migration finished
-Date: Fri, 28 Jan 2022 19:30:18 +0100
-Message-Id: <20220128183033.31998-22-quintela@redhat.com>
+Subject: [PULL 22/36] migration: Report the error returned when
+ save_live_iterate fails
+Date: Fri, 28 Jan 2022 19:30:19 +0100
+Message-Id: <20220128183033.31998-23-quintela@redhat.com>
 In-Reply-To: <20220128183033.31998-1-quintela@redhat.com>
 References: <20220128183033.31998-1-quintela@redhat.com>
 MIME-Version: 1.0
@@ -93,45 +93,45 @@ Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
  Markus Armbruster <armbru@redhat.com>, Artyom Tarasenko <atar4qemu@gmail.com>,
  Pavel Pisa <pisa@cmp.felk.cvut.cz>, Alistair Francis <alistair@alistair23.me>,
  "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Greg Kurz <groug@kaod.org>,
- qemu-arm@nongnu.org, =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
+ David Edmondson <david.edmondson@oracle.com>, qemu-arm@nongnu.org,
+ =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
  Igor Mammedov <imammedo@redhat.com>, Stafford Horne <shorne@gmail.com>,
  David Gibson <david@gibson.dropbear.id.au>, Laurent Vivier <laurent@vivier.eu>,
- Andrew Baumann <Andrew.Baumann@microsoft.com>,
- Zhang Chen <chen.zhang@intel.com>, qemu-ppc@nongnu.org,
+ Andrew Baumann <Andrew.Baumann@microsoft.com>, qemu-ppc@nongnu.org,
  Paolo Bonzini <pbonzini@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Zhang Chen <chen.zhang@intel.com>
+From: David Edmondson <david.edmondson@oracle.com>
 
-The MIGRATION_STATUS_ACTIVE indicates that migration is running.
-Remove it to be handled by the default operation,
-It should be part of the unknown ending states.
+Should qemu_savevm_state_iterate() encounter a failure when calling a
+particular save_live_iterate function, report the error code returned
+by the function.
 
-Signed-off-by: Zhang Chen <chen.zhang@intel.com>
+Signed-off-by: David Edmondson <david.edmondson@oracle.com>
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 Reviewed-by: Juan Quintela <quintela@redhat.com>
 Signed-off-by: Juan Quintela <quintela@redhat.com>
 ---
- migration/migration.c | 6 ------
- 1 file changed, 6 deletions(-)
+ migration/savevm.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/migration/migration.c b/migration/migration.c
-index 5b2e3c66d1..3849b33108 100644
---- a/migration/migration.c
-+++ b/migration/migration.c
-@@ -3625,12 +3625,6 @@ static void migration_iteration_finish(MigrationState *s)
-                          "COLO enabled", __func__);
+diff --git a/migration/savevm.c b/migration/savevm.c
+index 0bef031acb..1599b02fbc 100644
+--- a/migration/savevm.c
++++ b/migration/savevm.c
+@@ -1298,8 +1298,9 @@ int qemu_savevm_state_iterate(QEMUFile *f, bool postcopy)
+         save_section_footer(f, se);
+ 
+         if (ret < 0) {
+-            error_report("failed to save SaveStateEntry with id(name): %d(%s)",
+-                         se->section_id, se->idstr);
++            error_report("failed to save SaveStateEntry with id(name): "
++                         "%d(%s): %d",
++                         se->section_id, se->idstr, ret);
+             qemu_file_set_error(f, ret);
          }
-         migrate_start_colo_process(s);
--         /* Fallthrough */
--    case MIGRATION_STATUS_ACTIVE:
--        /*
--         * We should really assert here, but since it's during
--         * migration, let's try to reduce the usage of assertions.
--         */
-         s->vm_was_running = true;
-         /* Fallthrough */
-     case MIGRATION_STATUS_FAILED:
+         if (ret <= 0) {
 -- 
 2.34.1
 
