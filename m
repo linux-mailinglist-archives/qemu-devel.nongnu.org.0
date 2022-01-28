@@ -2,96 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F55C49FC36
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jan 2022 15:55:19 +0100 (CET)
-Received: from localhost ([::1]:33866 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7705049FC31
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jan 2022 15:54:33 +0100 (CET)
+Received: from localhost ([::1]:60546 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nDSeY-00052c-LE
-	for lists+qemu-devel@lfdr.de; Fri, 28 Jan 2022 09:55:14 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:45142)
+	id 1nDSdy-0003xF-Vj
+	for lists+qemu-devel@lfdr.de; Fri, 28 Jan 2022 09:54:31 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:45590)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1nDSUu-0006Sg-E8
- for qemu-devel@nongnu.org; Fri, 28 Jan 2022 09:45:18 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:47139)
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1nDSX2-0006v4-VF
+ for qemu-devel@nongnu.org; Fri, 28 Jan 2022 09:47:26 -0500
+Received: from frasgout.his.huawei.com ([185.176.79.56]:2218)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1nDSUn-0007Fs-7f
- for qemu-devel@nongnu.org; Fri, 28 Jan 2022 09:45:03 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1643381098;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=vF/yaRiby7+Qwna89teXCWKfPKLzq0vWZLNZ92cyKaA=;
- b=YIxFelNP/3ZaUBrHxmKEVpn+NTXoGMWHLyT8IH1VbTd8JZyDBawyS1lOwWV4QXS1XFKTsJ
- Z9JBn5769u5DZfgPnVU9WtOn62jP9fMiNbEvVoo35UrmBAJPi/vK8MQfWikrNS8TcqSIp1
- 5bLNq52k4sIV8K6nJqS7rCKo4vxfokc=
-Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
- [209.85.160.199]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-653--_J6ZrGSOkOwrwlnx-EZvQ-1; Fri, 28 Jan 2022 09:44:57 -0500
-X-MC-Unique: -_J6ZrGSOkOwrwlnx-EZvQ-1
-Received: by mail-qt1-f199.google.com with SMTP id
- l15-20020ac84ccf000000b002cf9424cfa5so4654401qtv.7
- for <qemu-devel@nongnu.org>; Fri, 28 Jan 2022 06:44:57 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=vF/yaRiby7+Qwna89teXCWKfPKLzq0vWZLNZ92cyKaA=;
- b=tZoE/xBnO7VtZsnUlRZ5pb0z7bF0qmX3/J/K4745LYrit9nJc5g5eepLneprFLERKA
- dNALN0mpA7Z/Hpg4+Zan24ic9XRjL+0QGHAlbzBFizNO0SjSLLoVXGcHx/svLEphuvi/
- nCLvPHWea6lDKAP7aOe7AmEVDpKtsqyrjRiCTTNg+7Ca4Sk2A7gFBmL0TV7oouPo4B6w
- iPvDDAQfsHVO8gbDW/O9JEZJL0r5b58cLivDRKh2LMWSmFhaR+lwI7VRHcjyG+ZhV5tD
- F61Y6zhoZjoU1dEvBZNRlCnXFze8lv0aS2wM66PCB5WcX2q11TMhqZY9iSKZgjqHjK9O
- EENg==
-X-Gm-Message-State: AOAM530BweDKCqNS296Fxs1Yf5/574ETxo9ZHd7zLYI299XP53wB3qqX
- wBTOGYI02U1UcQK/Zrac61VYnhEtzAYUs8Zd52/IiYyJK+tyaLqNWpp770izxo+yQVqqhbj5YcK
- ss3j/Rwysjp0wYgo=
-X-Received: by 2002:ac8:5e47:: with SMTP id i7mr6365324qtx.674.1643381097273; 
- Fri, 28 Jan 2022 06:44:57 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzOFS2kPkOC1kFJo4RWh6q6mEvc4YJaToCBT6P4EY0GXkT/ehtiqHQJSTgcC6Npwup5hdEiGg==
-X-Received: by 2002:ac8:5e47:: with SMTP id i7mr6365299qtx.674.1643381097044; 
- Fri, 28 Jan 2022 06:44:57 -0800 (PST)
-Received: from ?IPV6:2a04:ee41:4:31cb:e591:1e1e:abde:a8f1?
- ([2a04:ee41:4:31cb:e591:1e1e:abde:a8f1])
- by smtp.gmail.com with ESMTPSA id x16sm3090664qta.24.2022.01.28.06.44.52
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 28 Jan 2022 06:44:56 -0800 (PST)
-Message-ID: <1b9a6864-b3ea-3206-d85b-266729d03026@redhat.com>
-Date: Fri, 28 Jan 2022 15:44:50 +0100
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1nDSWJ-0007kL-QO
+ for qemu-devel@nongnu.org; Fri, 28 Jan 2022 09:46:39 -0500
+Received: from fraeml744-chm.china.huawei.com (unknown [172.18.147.200])
+ by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4JlgHx4v9Zz67Xkw;
+ Fri, 28 Jan 2022 22:46:05 +0800 (CST)
+Received: from lhreml710-chm.china.huawei.com (10.201.108.61) by
+ fraeml744-chm.china.huawei.com (10.206.15.225) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.21; Fri, 28 Jan 2022 15:46:32 +0100
+Received: from localhost (10.47.76.156) by lhreml710-chm.china.huawei.com
+ (10.201.108.61) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.21; Fri, 28 Jan
+ 2022 14:46:31 +0000
+Date: Fri, 28 Jan 2022 14:46:22 +0000
+To: Alex =?ISO-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>
+CC: <qemu-devel@nongnu.org>, Marcel Apfelbaum <marcel@redhat.com>, "Michael S
+ . Tsirkin" <mst@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
+ <linux-cxl@vger.kernel.org>, Ben Widawsky <ben.widawsky@intel.com>, "Peter
+ Maydell" <peter.maydell@linaro.org>, <linuxarm@huawei.com>, "Shameerali
+ Kolothum Thodi" <shameerali.kolothum.thodi@huawei.com>, Philippe
+ =?ISO-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>, Saransh Gupta1
+ <saransh@ibm.com>, Shreyas Shah <shreyas.shah@elastics.cloud>, Chris Browy
+ <cbrowy@avery-design.com>, Samarth Saxena <samarths@cadence.com>, "Dan
+ Williams" <dan.j.williams@intel.com>
+Subject: Re: [PATCH v4 02/42] hw/cxl/component: Introduce CXL components
+ (8.1.x, 8.2.5)
+Message-ID: <20220128144622.00004b7f@Huawei.com>
+In-Reply-To: <20220128142251.0000437f@Huawei.com>
+References: <20220124171705.10432-1-Jonathan.Cameron@huawei.com>
+ <20220124171705.10432-3-Jonathan.Cameron@huawei.com>
+ <87bkzyd3c7.fsf@linaro.org> <20220128142251.0000437f@Huawei.com>
+Organization: Huawei Technologies Research and Development (UK) Ltd.
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.29; i686-w64-mingw32)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [PATCH v6 04/33] block/export/fuse.c: allow writable exports to
- take RESIZE permission
-To: Hanna Reitz <hreitz@redhat.com>, qemu-block@nongnu.org
-References: <20220121170544.2049944-1-eesposit@redhat.com>
- <20220121170544.2049944-5-eesposit@redhat.com>
- <bc3fa04f-e384-e059-8aed-fe1c6ac4a2a6@redhat.com>
-From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-In-Reply-To: <bc3fa04f-e384-e059-8aed-fe1c6ac4a2a6@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eesposit@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=eesposit@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.167,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+X-Originating-IP: [10.47.76.156]
+X-ClientProxiedBy: lhreml731-chm.china.huawei.com (10.201.108.82) To
+ lhreml710-chm.china.huawei.com (10.201.108.61)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=185.176.79.56;
+ envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -104,115 +77,191 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org,
- John Snow <jsnow@redhat.com>, Daniel Henrique Barboza <danielhb413@gmail.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Markus Armbruster <armbru@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- Eduardo Habkost <eduardo@habkost.net>, Greg Kurz <groug@kaod.org>,
- qemu-ppc@nongnu.org, =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
- Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- "Denis V. Lunev" <den@openvz.org>, Eric Blake <eblake@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  Jonathan Cameron <Jonathan.Cameron@Huawei.com>
+From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 
+On Fri, 28 Jan 2022 14:22:51 +0000
+Jonathan Cameron <Jonathan.Cameron@Huawei.com> wrote:
 
+> On Wed, 26 Jan 2022 12:32:01 +0000
+> Alex Benn=C3=A9e <alex.bennee@linaro.org> wrote:
+>=20
+> > Jonathan Cameron <Jonathan.Cameron@huawei.com> writes:
+> >  =20
+> > > From: Ben Widawsky <ben.widawsky@intel.com>
+> > >
+> > > A CXL 2.0 component is any entity in the CXL topology. All components
+> > > have a analogous function in PCIe. Except for the CXL host bridge, all
+> > > have a PCIe config space that is accessible via the common PCIe
+> > > mechanisms. CXL components are enumerated via DVSEC fields in the
+> > > extended PCIe header space. CXL components will minimally implement s=
+ome
+> > > subset of CXL.mem and CXL.cache registers defined in 8.2.5 of the CXL
+> > > 2.0 specification. Two headers and a utility library are introduced to
+> > > support the minimum functionality needed to enumerate components.
+> > >
+> > > The cxl_pci header manages bits associated with PCI, specifically the
+> > > DVSEC and related fields. The cxl_component.h variant has data
+> > > structures and APIs that are useful for drivers implementing any of t=
+he
+> > > CXL 2.0 components. The library takes care of making use of the DVSEC
+> > > bits and the CXL.[mem|cache] registers. Per spec, the registers are
+> > > little endian.
+> > >
+> > > None of the mechanisms required to enumerate a CXL capable hostbridge
+> > > are introduced at this point.
+> > >
+> > > Note that the CXL.mem and CXL.cache registers used are always 4B wide.
+> > > It's possible in the future that this constraint will not hold.
+> > >
+> > > Signed-off-by: Ben Widawsky <ben.widawsky@intel.com>
+> > > Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+> > > ---
+> > >  hw/Kconfig                     |   1 +
+> > >  hw/cxl/Kconfig                 |   3 +
+> > >  hw/cxl/cxl-component-utils.c   | 212 +++++++++++++++++++++++++++++++=
+++
+> > >  hw/cxl/meson.build             |   3 +
+> > >  hw/meson.build                 |   1 +
+> > >  include/hw/cxl/cxl.h           |  16 +++
+> > >  include/hw/cxl/cxl_component.h | 196 ++++++++++++++++++++++++++++++
+> > >  include/hw/cxl/cxl_pci.h       | 138 +++++++++++++++++++++
+> > >  8 files changed, 570 insertions(+)
+> > >
+> > > diff --git a/hw/Kconfig b/hw/Kconfig
+> > > index ad20cce0a9..50e0952889 100644
+> > > --- a/hw/Kconfig
+> > > +++ b/hw/Kconfig
+> > > @@ -6,6 +6,7 @@ source audio/Kconfig
+> > >  source block/Kconfig
+> > >  source char/Kconfig
+> > >  source core/Kconfig
+> > > +source cxl/Kconfig
+> > >  source display/Kconfig
+> > >  source dma/Kconfig
+> > >  source gpio/Kconfig
+> > > diff --git a/hw/cxl/Kconfig b/hw/cxl/Kconfig
+> > > new file mode 100644
+> > > index 0000000000..8e67519b16
+> > > --- /dev/null
+> > > +++ b/hw/cxl/Kconfig
+> > > @@ -0,0 +1,3 @@
+> > > +config CXL
+> > > +    bool
+> > > +    default y if PCI_EXPRESS
+> > > diff --git a/hw/cxl/cxl-component-utils.c b/hw/cxl/cxl-component-util=
+s.c
+> > > new file mode 100644
+> > > index 0000000000..5007b29ebb
+> > > --- /dev/null
+> > > +++ b/hw/cxl/cxl-component-utils.c
+> > > @@ -0,0 +1,212 @@
+> > > +/*
+> > > + * CXL Utility library for components
+> > > + *
+> > > + * Copyright(C) 2020 Intel Corporation.
+> > > + *
+> > > + * This work is licensed under the terms of the GNU GPL, version 2. =
+See the
+> > > + * COPYING file in the top-level directory.
+> > > + */
+> > > +
+> > > +#include "qemu/osdep.h"
+> > > +#include "qemu/log.h"
+> > > +#include "hw/pci/pci.h"
+> > > +#include "hw/cxl/cxl.h"
+> > > +
+> > > +static uint64_t cxl_cache_mem_read_reg(void *opaque, hwaddr offset,
+> > > +                                       unsigned size)
+> > > +{
+> > > +    CXLComponentState *cxl_cstate =3D opaque;
+> > > +    ComponentRegisters *cregs =3D &cxl_cstate->crb;
+> > > +
+> > > +    assert(size =3D=3D 4);   =20
+> >=20
+> > You assert here but bellow:
+> >  =20
+> > > +
+> > > +/*
+> > > + * 8.2.3
+> > > + *   The access restrictions specified in Section 8.2.2 also apply t=
+o CXL 2.0
+> > > + *   Component Registers.
+> > > + *
+> > > + * 8.2.2
+> > > + *   =E2=80=A2 A 32 bit register shall be accessed as a 4 Bytes quan=
+tity. Partial
+> > > + *   reads are not permitted.
+> > > + *   =E2=80=A2 A 64 bit register shall be accessed as a 8 Bytes quan=
+tity. Partial
+> > > + *   reads are not permitted.
+> > > + *
+> > > + * As of the spec defined today, only 4 byte registers exist.
+> > > + */
+> > > +static const MemoryRegionOps cache_mem_ops =3D {
+> > > +    .read =3D cxl_cache_mem_read_reg,
+> > > +    .write =3D cxl_cache_mem_write_reg,
+> > > +    .endianness =3D DEVICE_LITTLE_ENDIAN,
+> > > +    .valid =3D {
+> > > +        .min_access_size =3D 4,
+> > > +        .max_access_size =3D 8,
+> > > +        .unaligned =3D false,
+> > > +    },
+> > > +    .impl =3D {
+> > > +        .min_access_size =3D 4,
+> > > +        .max_access_size =3D 4,
+> > > +    },
+> > > +};   =20
+> >=20
+> > You have constrained the access to 4 so you will only see 4 bytes
+> > accesses. If it is valid for the guest to access 64bit words then it
+> > would be better to no-op that case and maybe LOG_UNIMP the fact.
+> >  =20
+>=20
+> Ugh. This looks suspiciously like a work around for a kernel bug (possibly
+> an accidental one).
+>=20
+> If the comment above is correct (I've checked the spec and agree with it)=
+..
+>=20
+> https://elixir.bootlin.com/linux/v5.17-rc1/source/drivers/cxl/core/regs.c=
+#L48
+>=20
+> cap_array =3D readq(base + CXL_CM_CAP_HDR_OFFSET);
+>=20
+> is undefined behavior as CAP_HDR is a 32bit register.
+>=20
+> I guess the undefined choice on all the hardware people actually have
+> is to service the 8 byte read, but there is no reason to believe future
+> hardware will.
+>=20
+> ... and this is why we like having emulation in Qemu :)
+> + eagle eyed reviewers!
+>=20
+> Guess I'd better send a kernel fix sometime soon.
 
-On 25/01/2022 17:51, Hanna Reitz wrote:
-> On 21.01.22 18:05, Emanuele Giuseppe Esposito wrote:
->> Allow writable exports to get BLK_PERM_RESIZE permission
->> from creation, in fuse_export_create().
->> In this way, there is no need to give the permission in
->> fuse_do_truncate(), which might be run in an iothread.
->>
->> Permissions should be set only in the main thread, so
->> in any case if an iothread tries to set RESIZE, it will
->> be blocked.
->>
->> Also assert in fuse_do_truncate that if we give the
->> RESIZE permission we can then restore the original ones,
->> since we don't check the return value of blk_set_perm.
-> 
+However, after another read of the spec there are link related registers
+which we currently don't implement emulation for but do advertise as
+being present (as they are required) are 8 bytes long.
 
-I will then just remove the last line in the commit message ("since ..
-blk_set_perm.").
+Linux doesn't use them yet, but it may come so I'll need to leave
+max_access_size =3D 8 enabled and as you suggested LOG_UNIMP.
 
-Thank you,
-Emanuele
+Probably makes sense to implement the link registers in a follow up
+patch set along with (possibly) some kernel support to expose
+the information available in those registers.
 
-> We do, because we pass &error_abort for errp, so if an error were to
-> occur, qemu would abort.
-> 
-> Not that I mind adding an assertion on the return value, just noting
-> that we omitted that kind of intentionally.
-> 
-> Reviewed-by: Hanna Reitz <hreitz@redhat.com>
-> 
->> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
->> ---
->>   block/export/fuse.c | 25 ++++++++++++++++++-------
->>   1 file changed, 18 insertions(+), 7 deletions(-)
->>
->> diff --git a/block/export/fuse.c b/block/export/fuse.c
->> index 823c126d23..3c177b9e67 100644
->> --- a/block/export/fuse.c
->> +++ b/block/export/fuse.c
->> @@ -86,8 +86,8 @@ static int fuse_export_create(BlockExport *blk_exp,
->>         assert(blk_exp_args->type == BLOCK_EXPORT_TYPE_FUSE);
->>   -    /* For growable exports, take the RESIZE permission */
->> -    if (args->growable) {
->> +    /* For growable and writable exports, take the RESIZE permission */
->> +    if (args->growable || blk_exp_args->writable) {
->>           uint64_t blk_perm, blk_shared_perm;
->>             blk_get_perm(exp->common.blk, &blk_perm, &blk_shared_perm);
->> @@ -392,14 +392,23 @@ static int fuse_do_truncate(const FuseExport
->> *exp, int64_t size,
->>   {
->>       uint64_t blk_perm, blk_shared_perm;
->>       BdrvRequestFlags truncate_flags = 0;
->> -    int ret;
->> +    bool add_resize_perm;
->> +    int ret, ret_check;
->> +
->> +    /* Growable and writable exports have a permanent RESIZE
->> permission */
->> +    add_resize_perm = !exp->growable && !exp->writable;
->>         if (req_zero_write) {
->>           truncate_flags |= BDRV_REQ_ZERO_WRITE;
->>       }
->>   -    /* Growable exports have a permanent RESIZE permission */
->> -    if (!exp->growable) {
->> +    if (add_resize_perm) {
->> +
->> +        if (!qemu_in_main_thread()) {
->> +            /* Changing permissions like below only works in the main
->> thread */
->> +            return -EPERM;
->> +        }
->> +
->>           blk_get_perm(exp->common.blk, &blk_perm, &blk_shared_perm);
->>             ret = blk_set_perm(exp->common.blk, blk_perm |
->> BLK_PERM_RESIZE,
->> @@ -412,9 +421,11 @@ static int fuse_do_truncate(const FuseExport
->> *exp, int64_t size,
->>       ret = blk_truncate(exp->common.blk, size, true, prealloc,
->>                          truncate_flags, NULL);
->>   -    if (!exp->growable) {
->> +    if (add_resize_perm) {
->>           /* Must succeed, because we are only giving up the RESIZE
->> permission */
->> -        blk_set_perm(exp->common.blk, blk_perm, blk_shared_perm,
->> &error_abort);
->> +        ret_check = blk_set_perm(exp->common.blk, blk_perm,
->> +                                 blk_shared_perm, &error_abort);
->> +        assert(ret_check == 0);
->>       }
->>         return ret;
-> 
+Jonathan
+
+>=20
+> Jonathan
+>=20
+> > Otherwise the rest looks ok to me:
+> >=20
+> > Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+> >  =20
+>=20
 
 
