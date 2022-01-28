@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B54A449F771
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jan 2022 11:38:35 +0100 (CET)
-Received: from localhost ([::1]:47480 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0315549F77A
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jan 2022 11:39:41 +0100 (CET)
+Received: from localhost ([::1]:50020 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nDOeI-0005pL-BY
-	for lists+qemu-devel@lfdr.de; Fri, 28 Jan 2022 05:38:34 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:46418)
+	id 1nDOfL-0007V8-Rs
+	for lists+qemu-devel@lfdr.de; Fri, 28 Jan 2022 05:39:39 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:46770)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nDOb2-0003d7-23
- for qemu-devel@nongnu.org; Fri, 28 Jan 2022 05:35:12 -0500
-Received: from [2a00:1450:4864:20::334] (port=55978
- helo=mail-wm1-x334.google.com)
+ id 1nDOdA-0005mU-Ip
+ for qemu-devel@nongnu.org; Fri, 28 Jan 2022 05:37:25 -0500
+Received: from [2a00:1450:4864:20::42f] (port=37421
+ helo=mail-wr1-x42f.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nDOb0-0000rA-Bd
- for qemu-devel@nongnu.org; Fri, 28 Jan 2022 05:35:11 -0500
-Received: by mail-wm1-x334.google.com with SMTP id r7so4010817wmq.5
- for <qemu-devel@nongnu.org>; Fri, 28 Jan 2022 02:35:09 -0800 (PST)
+ id 1nDOd7-0001BJ-VT
+ for qemu-devel@nongnu.org; Fri, 28 Jan 2022 05:37:23 -0500
+Received: by mail-wr1-x42f.google.com with SMTP id w11so10014988wra.4
+ for <qemu-devel@nongnu.org>; Fri, 28 Jan 2022 02:37:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=OsMGecQjmNLdmRCeJ6nf8hgOBeAPgZC8A21vF01b4es=;
- b=DTS87BO+PfYHeyK7s4uCVSvCOB0Hz90jS3FhuWUk1ezFrgYi2gkw/aQwOIWpS89uIK
- yt2qEpX8QaSSo7pytnWl54Zj8OV6TZ1b7EeCEJaOioexmIyHCZd0xgh2ZNcJ4Iz8ZZmH
- Yyuibfz2Q8xiQUGx641luQfreRA6Zlkl3xb6twLXPw8kXxAfCByZ6IyoCgz6YutEMprL
- CAorNTinikrAdnRiCN+ec6w3XWcbKrWl3kM1vc4YND/NecOjbQIIprVFKtvRVT5aWjxs
- GbgqFgQjjZPZJ3ZoGxoJzSlUWxEHsU9eAIDQJm6Ty5Enbrt8rfGAEEaHDvisKNmKpXGr
- 5tEQ==
+ :cc:content-transfer-encoding;
+ bh=84AYyjH2FP/xTg8VHAhvJDQVcdQRw691ZYINddeLNK0=;
+ b=V0V/7y4b0uKsvuw3caJ5Dn0MtyMxjsBkTNxjsaszfJ+s/Hc+Q0tgMUYQ2A3Zmb4R7v
+ 7K9vSEByNzd1RmaaX73fF4/rIkOlHjBn/fp/OI6feAgy02Ovo5I51vb49ClIKKra1ISh
+ sspySHxSPKBwF5CrEP40yOzQOuOH39yjUMF9erQWFOrENFarH1x8rqSiFIRNxfyx63ax
+ v3DtfOK3tYfb7arNiWqobdux6VZYyHZQo2PghTwkTPubnFU7JGNEwbQ5aHG8zJ+ikaSD
+ OP/Rhgwp+KgOariLPfPdczdpzeK0YygfvZf/4bcSF7uv9UGHxr2QxswhDDKwkuYroYAG
+ REkA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=OsMGecQjmNLdmRCeJ6nf8hgOBeAPgZC8A21vF01b4es=;
- b=C+0JnYdo7V2HmjHOdYhcD20Q5va29h+A/pemch1uw582yXetVL6XV8f1Rtydvc5QUb
- xr+nXY65kJEGYHw80BH7H9VhDzxjV58CdrIAQ3kWb2rUJt/NU2W8NFX8JJ6auQy8Ok/4
- jr0IAb0C7eyhgN6YUD/WCb41CC23aohaVhMeN6XPMuVRXPzHiS5Or+zMXnaUTC9uWniw
- XkcnOgNfWXg9xo/ye7zGuTKjtAvBH2KHRsbgUzFNkdns7pVm6qo3CkQT3S+Rn1JQSxps
- VVzr5IWT/XBzuYjgI4LKECDJMHp/S7MPyNP3wv3Obg5RFB/RgbrYiwUlubJwDbDgM5TG
- XikA==
-X-Gm-Message-State: AOAM532XC6DpwHGiMb5RnvGpTQRMVe8Uu/g2zMUbQEQWt65Lu056h1vR
- b+eCZr/qhb8rL1nzEmvjPgOABLkgDtYBJOq9DjMFew==
-X-Google-Smtp-Source: ABdhPJxylpMVSI6JgcpMvOFL2/LjzK4tysaO5Ul1bJHjLB1sBP5sFmseLk1UnKgSSdMe9qUYxmrCsriG5keJ+AhkTA8=
-X-Received: by 2002:a05:600c:4f13:: with SMTP id
- l19mr15987552wmq.126.1643366108594; 
- Fri, 28 Jan 2022 02:35:08 -0800 (PST)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=84AYyjH2FP/xTg8VHAhvJDQVcdQRw691ZYINddeLNK0=;
+ b=y0hvBIN7nP3Llr3Bf9FJex7hb66Wtvwpl1org5AQr/qr2vofG+j/2//cqHDBgeQkym
+ BfPoQZU9yPk2b+3LwilogC6E1MD3i48RtNTGSxaJ265yeaO6FfJJ/wQG6WOTRgOTRIUE
+ bRum6k5FfVX9YJRNTn8RJcBsvTTpJwMQfl05PKoDO7dRbVvYlvHXGiZkH5ENJJS0mLxO
+ TnMKxjPcAC9gSX/Z5KtuackLgeDY+fKsuw4maUGkpTt8mvF0t6G8S9Iivi+KczfYCs+4
+ ktvgzGsEJoQX9M5JylDgigjpDuNudsdKaXuTapSiOOUzNK4YSiMhSUHx85P1fpciGxCo
+ lgrQ==
+X-Gm-Message-State: AOAM531k3q1jQxzNYtvcbbaaG8t2foZQVGsIZdyWaxuq/IcXOj8QMvhp
+ hiXHKi9RPOPnIz0kq48lg6Vx/kXPmYCJqN6NR4FsYA==
+X-Google-Smtp-Source: ABdhPJxflE2O7rSHgv1x1NNZ67vSDm4eUryypICK+Q72+7h/GKkYgGcsMyyYSWN6X3JSn6H62s35puv7TMMpaPWpM/c=
+X-Received: by 2002:a5d:438a:: with SMTP id i10mr6394931wrq.295.1643366233196; 
+ Fri, 28 Jan 2022 02:37:13 -0800 (PST)
 MIME-Version: 1.0
-References: <20220106230936.417020-1-titusr@google.com>
- <20220106230936.417020-4-titusr@google.com>
- <CAFEAcA-m6Pk+nzSR72hfTaEmEHoYKa+BvxvGij9kCtEu5vRXUA@mail.gmail.com>
- <CAMvPwGoSXYOJnUnDz1jdKWXmGKS3wdvjZ+oV-Pdrk1Z-AXF+Ww@mail.gmail.com>
-In-Reply-To: <CAMvPwGoSXYOJnUnDz1jdKWXmGKS3wdvjZ+oV-Pdrk1Z-AXF+Ww@mail.gmail.com>
+References: <20220125012947.14974-1-imp@bsdimp.com>
+ <20220125012947.14974-37-imp@bsdimp.com>
+ <B29CD011-011F-4BDB-81FD-84311EB562F9@bsdimp.com>
+In-Reply-To: <B29CD011-011F-4BDB-81FD-84311EB562F9@bsdimp.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 28 Jan 2022 10:34:57 +0000
-Message-ID: <CAFEAcA-DrG6EzkWVXLfhQc-dgy-CoPuyC7bLVO3Ca1gcE4NALA@mail.gmail.com>
-Subject: Re: [PATCH 3/5] hw/sensor: add Intersil ISL69260 device model
-To: Titus Rwantare <titusr@google.com>
+Date: Fri, 28 Jan 2022 10:37:02 +0000
+Message-ID: <CAFEAcA_qp3f9hcJp3LvgaENb2vE+C-5+x-EeUUiyS39=YKUW9g@mail.gmail.com>
+Subject: Re: [PATCH v2 36/40] bsd-user/signal.c: implement do_sigaction
+To: Warner Losh <wlosh@bsdimp.com>
 Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::334
+Content-Transfer-Encoding: quoted-printable
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42f
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::334;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x334.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42f.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -84,54 +84,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: minyard@acm.org, venture@google.com, f4bug@amsat.org, qemu-devel@nongnu.org,
- Hao Wu <wuhaotsh@google.com>, qemu-arm@nongnu.org
+Cc: Stacey Son <sson@freebsd.org>, Kyle Evans <kevans@freebsd.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, "def@freebsd.org" <def@freebsd.org>,
+ "jrtc27@freebsd.org" <jrtc27@freebsd.org>, Warner Losh <imp@bsdimp.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 27 Jan 2022 at 20:54, Titus Rwantare <titusr@google.com> wrote:
+On Thu, 27 Jan 2022 at 22:46, Warner Losh <wlosh@bsdimp.com> wrote:
 >
-> On Thu, 27 Jan 2022 at 11:39, Peter Maydell <peter.maydell@linaro.org> wrote:
-> >
-> > On Thu, 6 Jan 2022 at 23:19, Titus Rwantare <titusr@google.com> wrote:
-> > >
 >
-> > > +static uint8_t isl_pmbus_read_byte(PMBusDevice *pmdev)
-> > > +{
-> > > +    qemu_log_mask(LOG_GUEST_ERROR,
-> > > +                  "%s: reading from unsupported register: 0x%02x\n",
-> > > +                  __func__, pmdev->code);
-> > > +    return 0xFF;
-> > > +}
-> > > +
-> > > +static int isl_pmbus_write_data(PMBusDevice *pmdev, const uint8_t *buf,
-> > > +                              uint8_t len)
-> > > +{
-> > > +    qemu_log_mask(LOG_GUEST_ERROR,
-> > > +                  "%s: write to unsupported register: 0x%02x\n",
-> > > +                  __func__, pmdev->code);
-> > > +    return 0xFF;
-> > > +}
+>
+> > On Jan 24, 2022, at 6:29 PM, Warner Losh <imp@bsdimp.com> wrote:
 > >
-> > This device appears to have no implemented guest visible
-> > interface at all, and yet it has a lot of object properties.
-> > What's going on here ?
+> > Implement the meat of the sigaction(2) system call with do_sigaction an=
+d
+> > helper routiner block_signals (which is also used to implemement signal
+> > masking so it's global).
+> >
+> > Signed-off-by: Stacey Son <sson@FreeBSD.org>
+> > Signed-off-by: Kyle Evans <kevans@freebsd.org>
+> > Signed-off-by: Warner Losh <imp@bsdimp.com>
+> >
+> > Pending Comments from Peter Maydell <peter.maydell@linaro.org>
+> >
+> > (1) in block_signals, sigprocmast
+> > For linux-user we rely on sigprocmask() in a multithreaded
+> > program setting the signal mask for only the calling thread,
+> > which isn't POSIX-mandated. (Arguably we should use
+> > pthread_sigmask() instead, but we don't for basically
+> > historical reasons since linux-user is host-OS-specific anyway.)
+> > Does BSD have the same "this changes this thread's signal mask"
+> > semantics for sigprocmask()?
+>
+> FreeBSD changes this on a per-thread basis for both
+> sigprocmask and pthread_sigmask(). pthread_sigmask() just
+> does some extra stuff with SIGCANCEL for pthread_cancel
+> support which qemu doesn=E2=80=99t use. They are the same. I=E2=80=99m in=
+clined
+> to leave it as sigprocmask() since I=E2=80=99m unsure what the implicatio=
+ns
+> of doing funky things for SIGCANCEL would be.
 
-> This device relies on read_byte and write_data implemented in
-> pmbus_device.c. Those generic implementations fall through to the
-> device specific implementations for registers not in the standard.
-> This qemu model happens not to include additional registers. However,
-> I must change these to LOG_UNIMP which is more appropriate to what's
-> going on.
-
-Ah, right. A comment noting something like that might also
-be helpful.
-
-Something I forgot to note -- the filenames isl_pmbus.[ch] seem a
-bit overly generic for "PMBus device for Renesas Digital Multiphase
-Voltage Regulators" -- could you rename to something a bit more
-specific? This will help to avoid in future people lumping
-lots of different unrelated device models into the same source file.
+Yes, that sounds like the right thing.
 
 thanks
 -- PMM
