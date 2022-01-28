@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E3B224A01BC
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jan 2022 21:13:26 +0100 (CET)
-Received: from localhost ([::1]:46066 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9AFC34A00D6
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jan 2022 20:27:39 +0100 (CET)
+Received: from localhost ([::1]:39176 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nDXcb-0008B8-Dc
-	for lists+qemu-devel@lfdr.de; Fri, 28 Jan 2022 15:13:25 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:49942)
+	id 1nDWuH-0004Zi-Io
+	for lists+qemu-devel@lfdr.de; Fri, 28 Jan 2022 14:27:37 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:50050)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1nDWCw-0001yO-MX
- for qemu-devel@nongnu.org; Fri, 28 Jan 2022 13:42:51 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:48046)
+ id 1nDWCz-00020f-2G
+ for qemu-devel@nongnu.org; Fri, 28 Jan 2022 13:42:53 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:37478)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1nDWCn-0002W1-2b
- for qemu-devel@nongnu.org; Fri, 28 Jan 2022 13:42:49 -0500
+ id 1nDWCr-0002Wi-6b
+ for qemu-devel@nongnu.org; Fri, 28 Jan 2022 13:42:52 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1643395347;
+ s=mimecast20190719; t=1643395354;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=GkWkS3xp+0M05sMrGQxYgQctujCPIGIetcJubDJCE8Q=;
- b=Vlf3S1umMXchlJTtgORZvfJiP5y4U5aFbBKd902ok4xNtEdu1S/m7gzjMPgxHfajDHCwxk
- 0S47pQ7uwHe/qMlhpiLEpvs/qt85uBYscJ6RnCaB00F1xHe/9ET2GTeAXFI4/vvC4skFAj
- Hfjyta18UAFG2Ib6pyfhfjb+lAAc8zI=
+ bh=WqBDQpUHEZjJ9CbMmxkFKgKY9VLv0LHeqJmfi5UhxQ4=;
+ b=Nr/o5Mse+y2QdGzHlpSSA0Ah0Lm4zjyo1s93gAL+fxZAUQwWTJfbLtkRaH0HwqsecXsHod
+ jDGD/Zp7uruyQj2jPxQMwpcNaDgeSjpFiyPxaDZZ1SDVIq3YA7mpGXvPfAotQyQaRYnnQf
+ 4cx37maCoAaGPW8tNjsYI5nf2RZW09E=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-553-FcEUj3VXMKurSAHzPAJz-w-1; Fri, 28 Jan 2022 13:42:24 -0500
-X-MC-Unique: FcEUj3VXMKurSAHzPAJz-w-1
+ us-mta-199--RlGShxDM6ukzRTc6JEvkQ-1; Fri, 28 Jan 2022 13:42:31 -0500
+X-MC-Unique: -RlGShxDM6ukzRTc6JEvkQ-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9814746860;
- Fri, 28 Jan 2022 18:42:21 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C92FC101F7A1;
+ Fri, 28 Jan 2022 18:42:28 +0000 (UTC)
 Received: from secure.mitica (unknown [10.39.194.185])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1B36577464;
- Fri, 28 Jan 2022 18:42:13 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id F11617745B;
+ Fri, 28 Jan 2022 18:42:21 +0000 (UTC)
 From: Juan Quintela <quintela@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 32/36] migration: No off-by-one for pss->page update in host
- page size
-Date: Fri, 28 Jan 2022 19:30:29 +0100
-Message-Id: <20220128183033.31998-33-quintela@redhat.com>
+Subject: [PULL 33/36] migration: Enable UFFD_FEATURE_THREAD_ID even without
+ blocktime feat
+Date: Fri, 28 Jan 2022 19:30:30 +0100
+Message-Id: <20220128183033.31998-34-quintela@redhat.com>
 In-Reply-To: <20220128183033.31998-1-quintela@redhat.com>
 References: <20220128183033.31998-1-quintela@redhat.com>
 MIME-Version: 1.0
@@ -82,15 +82,13 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
- Kunkun Jiang <jiangkunkun@huawei.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Jason Wang <jasowang@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
  Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, Peter Xu <peterx@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  Gerd Hoffmann <kraxel@redhat.com>, Ani Sinha <ani@anisinha.ca>,
  "Edgar E. Iglesias" <edgar.iglesias@gmail.com>, Eric Blake <eblake@redhat.com>,
- Andrey Gruzdev <andrey.gruzdev@virtuozzo.com>, Hannes Reinecke <hare@suse.com>,
- Vikram Garhwal <fnu.vikram@xilinx.com>, qemu-block@nongnu.org,
- Juan Quintela <quintela@redhat.com>, Keqian Zhu <zhukeqian1@huawei.com>,
+ Hannes Reinecke <hare@suse.com>, Vikram Garhwal <fnu.vikram@xilinx.com>,
+ qemu-block@nongnu.org, Juan Quintela <quintela@redhat.com>,
  Daniel Henrique Barboza <danielhb413@gmail.com>,
  Markus Armbruster <armbru@redhat.com>, Artyom Tarasenko <atar4qemu@gmail.com>,
  Pavel Pisa <pisa@cmp.felk.cvut.cz>, Alistair Francis <alistair@alistair23.me>,
@@ -105,42 +103,46 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Peter Xu <peterx@redhat.com>
 
-We used to do off-by-one fixup for pss->page when finished one host huge page
-transfer.  That seems to be unnecesary at all.  Drop it.
+This patch allows us to read the tid even without blocktime feature enabled.
+It's useful when tracing postcopy fault thread on faulted pages to show thread
+id too with the address.
 
-Cc: Keqian Zhu <zhukeqian1@huawei.com>
-Cc: Kunkun Jiang <jiangkunkun@huawei.com>
-Cc: Andrey Gruzdev <andrey.gruzdev@virtuozzo.com>
+Remove the comments - they're merely not helpful at all.
+
 Signed-off-by: Peter Xu <peterx@redhat.com>
 Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 Reviewed-by: Juan Quintela <quintela@redhat.com>
 Signed-off-by: Juan Quintela <quintela@redhat.com>
 ---
- migration/ram.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ migration/postcopy-ram.c | 14 ++++++--------
+ 1 file changed, 6 insertions(+), 8 deletions(-)
 
-diff --git a/migration/ram.c b/migration/ram.c
-index ca879c744f..58adcaf430 100644
---- a/migration/ram.c
-+++ b/migration/ram.c
-@@ -1617,7 +1617,7 @@ static int ram_save_release_protection(RAMState *rs, PageSearchStatus *pss,
-     /* Check if page is from UFFD-managed region. */
-     if (pss->block->flags & RAM_UF_WRITEPROTECT) {
-         void *page_address = pss->block->host + (start_page << TARGET_PAGE_BITS);
--        uint64_t run_length = (pss->page - start_page + 1) << TARGET_PAGE_BITS;
-+        uint64_t run_length = (pss->page - start_page) << TARGET_PAGE_BITS;
+diff --git a/migration/postcopy-ram.c b/migration/postcopy-ram.c
+index d18b5d05b2..2176ed68a5 100644
+--- a/migration/postcopy-ram.c
++++ b/migration/postcopy-ram.c
+@@ -283,15 +283,13 @@ static bool ufd_check_and_apply(int ufd, MigrationIncomingState *mis)
+     }
  
-         /* Flush async buffers before un-protect. */
-         qemu_fflush(rs->f);
-@@ -2230,7 +2230,7 @@ static int ram_save_host_page(RAMState *rs, PageSearchStatus *pss)
-              offset_in_ramblock(pss->block,
-                                 ((ram_addr_t)pss->page) << TARGET_PAGE_BITS));
-     /* The offset we leave with is the min boundary of host page and block */
--    pss->page = MIN(pss->page, hostpage_boundary) - 1;
-+    pss->page = MIN(pss->page, hostpage_boundary);
+ #ifdef UFFD_FEATURE_THREAD_ID
+-    if (migrate_postcopy_blocktime() && mis &&
+-        UFFD_FEATURE_THREAD_ID & supported_features) {
+-        /* kernel supports that feature */
+-        /* don't create blocktime_context if it exists */
+-        if (!mis->blocktime_ctx) {
+-            mis->blocktime_ctx = blocktime_context_new();
+-        }
+-
++    if (UFFD_FEATURE_THREAD_ID & supported_features) {
+         asked_features |= UFFD_FEATURE_THREAD_ID;
++        if (migrate_postcopy_blocktime()) {
++            if (!mis->blocktime_ctx) {
++                mis->blocktime_ctx = blocktime_context_new();
++            }
++        }
+     }
+ #endif
  
-     res = ram_save_release_protection(rs, pss, start_page);
-     return (res < 0 ? res : pages);
 -- 
 2.34.1
 
