@@ -2,56 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EAAE949FC1B
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jan 2022 15:49:10 +0100 (CET)
-Received: from localhost ([::1]:54466 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F55C49FC36
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jan 2022 15:55:19 +0100 (CET)
+Received: from localhost ([::1]:33866 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nDSYn-0007qn-Nl
-	for lists+qemu-devel@lfdr.de; Fri, 28 Jan 2022 09:49:09 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:44724)
+	id 1nDSeY-00052c-LE
+	for lists+qemu-devel@lfdr.de; Fri, 28 Jan 2022 09:55:14 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:45142)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1nDST9-000509-KP; Fri, 28 Jan 2022 09:43:19 -0500
-Received: from kylie.crudebyte.com ([5.189.157.229]:51365)
+ (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
+ id 1nDSUu-0006Sg-E8
+ for qemu-devel@nongnu.org; Fri, 28 Jan 2022 09:45:18 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:47139)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1nDST7-00077e-BF; Fri, 28 Jan 2022 09:43:19 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
- MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
- Content-ID:Content-Description;
- bh=JYjTsyZIW4dQuxOM7l2Jhw6FAHsHet+TdfpRGowNRnw=; b=HUsSsKbyNfkeNNVN4JksfK3loD
- lYVBykFccSxuuz5favWehB/L3BBpBszBDSisYhRdmxA16uWxJzNYy/lWpG9qOl+hD8oXoyHwU3TFg
- GWCMt3YWQxuhZwjl23cW5VsA3mZgHoOF1iRuF1wwERtoQiEkFxSaq7OgfibRwknPCAHIm0/qou2ZQ
- kvYTMGD4lwrNogt3QxgY5qNudWEtp6xtQn/j7OeYCupKPTJuySznrBPnqwwUsWXBmNf5f4pz91NEp
- vWxHvl0IL1UPJ2Ry3VdqnzRSisrsg5BzrdZYyVkTX7u24Ka2neu1ToMmJDuCuBfS632vwzojrMSyq
- pTs5dD3ZdLvmg7pcN58R27LOWlKV5ItX/Z+u1DRgVAAZJRkAK9BA6T7rGc3YnahE5EmGq8wkLI5mp
- o4itNqiQGksFqPF/+asbr3GcaSB8uNlTTn4sS31+D/OYHmeAUDUKR0XsrjL42gT1gVficHWqb7NZt
- wn1po4eP9UxknZoi6SylQDsmXJQSHuaiinoPRaN4mr5PzWEDbCcRrcK7UXt72+dImJHb7Px2dVM4a
- HnnGd0/lxqIlGpTyJhjiKLmUCh6r3BEWbh9xH5sePSexGMmMzRfktcHdeDoIfafQb3dhwuS4tirsJ
- PPdg0PUIQE/tbIena19VWhTASvom+QhOnX7y51IEA=;
-From: Christian Schoenebeck <qemu_oss@crudebyte.com>
-To: qemu-devel@nongnu.org
-Cc: Vitaly Chikunov <vt@altlinux.org>, Greg Kurz <groug@kaod.org>,
- ldv@altlinux.org, qemu-stable@nongnu.org
-Subject: Re: [PATCH] 9pfs: Fix segfault in do_readdir_many caused by struct
- dirent overread
-Date: Fri, 28 Jan 2022 15:43:10 +0100
-Message-ID: <2533498.9Ea8Rob0xc@silver>
-In-Reply-To: <20220127212734.218900-1-vt@altlinux.org>
-References: <20220127212734.218900-1-vt@altlinux.org>
+ (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
+ id 1nDSUn-0007Fs-7f
+ for qemu-devel@nongnu.org; Fri, 28 Jan 2022 09:45:03 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1643381098;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=vF/yaRiby7+Qwna89teXCWKfPKLzq0vWZLNZ92cyKaA=;
+ b=YIxFelNP/3ZaUBrHxmKEVpn+NTXoGMWHLyT8IH1VbTd8JZyDBawyS1lOwWV4QXS1XFKTsJ
+ Z9JBn5769u5DZfgPnVU9WtOn62jP9fMiNbEvVoo35UrmBAJPi/vK8MQfWikrNS8TcqSIp1
+ 5bLNq52k4sIV8K6nJqS7rCKo4vxfokc=
+Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
+ [209.85.160.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-653--_J6ZrGSOkOwrwlnx-EZvQ-1; Fri, 28 Jan 2022 09:44:57 -0500
+X-MC-Unique: -_J6ZrGSOkOwrwlnx-EZvQ-1
+Received: by mail-qt1-f199.google.com with SMTP id
+ l15-20020ac84ccf000000b002cf9424cfa5so4654401qtv.7
+ for <qemu-devel@nongnu.org>; Fri, 28 Jan 2022 06:44:57 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=vF/yaRiby7+Qwna89teXCWKfPKLzq0vWZLNZ92cyKaA=;
+ b=tZoE/xBnO7VtZsnUlRZ5pb0z7bF0qmX3/J/K4745LYrit9nJc5g5eepLneprFLERKA
+ dNALN0mpA7Z/Hpg4+Zan24ic9XRjL+0QGHAlbzBFizNO0SjSLLoVXGcHx/svLEphuvi/
+ nCLvPHWea6lDKAP7aOe7AmEVDpKtsqyrjRiCTTNg+7Ca4Sk2A7gFBmL0TV7oouPo4B6w
+ iPvDDAQfsHVO8gbDW/O9JEZJL0r5b58cLivDRKh2LMWSmFhaR+lwI7VRHcjyG+ZhV5tD
+ F61Y6zhoZjoU1dEvBZNRlCnXFze8lv0aS2wM66PCB5WcX2q11TMhqZY9iSKZgjqHjK9O
+ EENg==
+X-Gm-Message-State: AOAM530BweDKCqNS296Fxs1Yf5/574ETxo9ZHd7zLYI299XP53wB3qqX
+ wBTOGYI02U1UcQK/Zrac61VYnhEtzAYUs8Zd52/IiYyJK+tyaLqNWpp770izxo+yQVqqhbj5YcK
+ ss3j/Rwysjp0wYgo=
+X-Received: by 2002:ac8:5e47:: with SMTP id i7mr6365324qtx.674.1643381097273; 
+ Fri, 28 Jan 2022 06:44:57 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzOFS2kPkOC1kFJo4RWh6q6mEvc4YJaToCBT6P4EY0GXkT/ehtiqHQJSTgcC6Npwup5hdEiGg==
+X-Received: by 2002:ac8:5e47:: with SMTP id i7mr6365299qtx.674.1643381097044; 
+ Fri, 28 Jan 2022 06:44:57 -0800 (PST)
+Received: from ?IPV6:2a04:ee41:4:31cb:e591:1e1e:abde:a8f1?
+ ([2a04:ee41:4:31cb:e591:1e1e:abde:a8f1])
+ by smtp.gmail.com with ESMTPSA id x16sm3090664qta.24.2022.01.28.06.44.52
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 28 Jan 2022 06:44:56 -0800 (PST)
+Message-ID: <1b9a6864-b3ea-3206-d85b-266729d03026@redhat.com>
+Date: Fri, 28 Jan 2022 15:44:50 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
-Received-SPF: pass client-ip=5.189.157.229;
- envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.2.0
+Subject: Re: [PATCH v6 04/33] block/export/fuse.c: allow writable exports to
+ take RESIZE permission
+To: Hanna Reitz <hreitz@redhat.com>, qemu-block@nongnu.org
+References: <20220121170544.2049944-1-eesposit@redhat.com>
+ <20220121170544.2049944-5-eesposit@redhat.com>
+ <bc3fa04f-e384-e059-8aed-fe1c6ac4a2a6@redhat.com>
+From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+In-Reply-To: <bc3fa04f-e384-e059-8aed-fe1c6ac4a2a6@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eesposit@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=eesposit@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.167,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -64,180 +104,115 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org,
+ John Snow <jsnow@redhat.com>, Daniel Henrique Barboza <danielhb413@gmail.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Markus Armbruster <armbru@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ Eduardo Habkost <eduardo@habkost.net>, Greg Kurz <groug@kaod.org>,
+ qemu-ppc@nongnu.org, =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ "Denis V. Lunev" <den@openvz.org>, Eric Blake <eblake@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Donnerstag, 27. Januar 2022 22:27:34 CET Vitaly Chikunov wrote:
-> `struct dirent' returned from readdir(3) could be shorter than
-> `sizeof(struct dirent)', thus memcpy of sizeof length will overread
-> into unallocated page causing SIGSEGV. Example stack trace:
 
-It could be shorter or longer. Your patch is fixing both possibilities.
 
-I just realized BTW that there are other places that should be fixed as well. 
-:/
-
-For instance hw/9pfs/9p-synth.c (used for the 9p test cases [1][2]) is copying 
-dirents, too.
-
-And in hw/9pfs/9p.c v9fs_do_readdir_with_stat() used by 9p2000.u doesn't even 
-bother to copy at all, which is undefined behaviour as fs driver is running on 
-a background thread and the dirent pointer might have mutated in the meantime 
-with the next readdir() call.
-
-[1] https://wiki.qemu.org/Documentation/9p#Test_Cases
-[2] https://wiki.qemu.org/Documentation/9p#9p_Filesystem_Drivers
-
->  #0  0x00005555559ebeed v9fs_co_readdir_many (/usr/bin/qemu-system-x86_64 +
-> 0x497eed) #1  0x00005555559ec2e9 v9fs_readdir (/usr/bin/qemu-system-x86_64
-> + 0x4982e9) #2  0x0000555555eb7983 coroutine_trampoline
-> (/usr/bin/qemu-system-x86_64 + 0x963983) #3  0x00007ffff73e0be0 n/a (n/a +
-> 0x0)
+On 25/01/2022 17:51, Hanna Reitz wrote:
+> On 21.01.22 18:05, Emanuele Giuseppe Esposito wrote:
+>> Allow writable exports to get BLK_PERM_RESIZE permission
+>> from creation, in fuse_export_create().
+>> In this way, there is no need to give the permission in
+>> fuse_do_truncate(), which might be run in an iothread.
+>>
+>> Permissions should be set only in the main thread, so
+>> in any case if an iothread tries to set RESIZE, it will
+>> be blocked.
+>>
+>> Also assert in fuse_do_truncate that if we give the
+>> RESIZE permission we can then restore the original ones,
+>> since we don't check the return value of blk_set_perm.
 > 
-> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/841
-> Signed-off-by: Vitaly Chikunov <vt@altlinux.org>
 
-Adding qemu-stable on CC for making sure this patch will be handled for the 
-stable branches as well.
+I will then just remove the last line in the commit message ("since ..
+blk_set_perm.").
 
-> ---
-> Tested on x86-64 Linux.
+Thank you,
+Emanuele
+
+> We do, because we pass &error_abort for errp, so if an error were to
+> occur, qemu would abort.
 > 
->  hw/9pfs/codir.c      |  7 +++++--
->  include/qemu/osdep.h |  6 ++++++
->  util/osdep.c         | 23 +++++++++++++++++++++++
->  3 files changed, 34 insertions(+), 2 deletions(-)
+> Not that I mind adding an assertion on the return value, just noting
+> that we omitted that kind of intentionally.
 > 
-> diff --git a/hw/9pfs/codir.c b/hw/9pfs/codir.c
-> index 032cce04c4..ea7f5e6578 100644
-> --- a/hw/9pfs/codir.c
-> +++ b/hw/9pfs/codir.c
-> @@ -143,8 +143,11 @@ static int do_readdir_many(V9fsPDU *pdu, V9fsFidState
-> *fidp, } else {
->              e = e->next = g_malloc0(sizeof(V9fsDirEnt));
->          }
-> -        e->dent = g_malloc0(sizeof(struct dirent));
-> -        memcpy(e->dent, dent, sizeof(struct dirent));
-> +        e->dent = qemu_dirent_dup(dent);
-
-That's the actual fix.
-
-> +        if (!e->dent) {
-> +            err = -errno;
-> +            break;
-> +        }
-
-e->dent is never NULL, so this check can be removed. See explanation about 
-g_malloc() below.
-
+> Reviewed-by: Hanna Reitz <hreitz@redhat.com>
 > 
->          /* perform a full stat() for directory entry if requested by caller
-> */ if (dostat) {
-> diff --git a/include/qemu/osdep.h b/include/qemu/osdep.h
-> index d1660d67fa..b54d22db04 100644
-> --- a/include/qemu/osdep.h
-> +++ b/include/qemu/osdep.h
-> @@ -805,6 +805,12 @@ static inline int
-> platform_does_not_support_system(const char *command) }
->  #endif /* !HAVE_SYSTEM_FUNCTION */
+>> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+>> ---
+>>   block/export/fuse.c | 25 ++++++++++++++++++-------
+>>   1 file changed, 18 insertions(+), 7 deletions(-)
+>>
+>> diff --git a/block/export/fuse.c b/block/export/fuse.c
+>> index 823c126d23..3c177b9e67 100644
+>> --- a/block/export/fuse.c
+>> +++ b/block/export/fuse.c
+>> @@ -86,8 +86,8 @@ static int fuse_export_create(BlockExport *blk_exp,
+>>         assert(blk_exp_args->type == BLOCK_EXPORT_TYPE_FUSE);
+>>   -    /* For growable exports, take the RESIZE permission */
+>> -    if (args->growable) {
+>> +    /* For growable and writable exports, take the RESIZE permission */
+>> +    if (args->growable || blk_exp_args->writable) {
+>>           uint64_t blk_perm, blk_shared_perm;
+>>             blk_get_perm(exp->common.blk, &blk_perm, &blk_shared_perm);
+>> @@ -392,14 +392,23 @@ static int fuse_do_truncate(const FuseExport
+>> *exp, int64_t size,
+>>   {
+>>       uint64_t blk_perm, blk_shared_perm;
+>>       BdrvRequestFlags truncate_flags = 0;
+>> -    int ret;
+>> +    bool add_resize_perm;
+>> +    int ret, ret_check;
+>> +
+>> +    /* Growable and writable exports have a permanent RESIZE
+>> permission */
+>> +    add_resize_perm = !exp->growable && !exp->writable;
+>>         if (req_zero_write) {
+>>           truncate_flags |= BDRV_REQ_ZERO_WRITE;
+>>       }
+>>   -    /* Growable exports have a permanent RESIZE permission */
+>> -    if (!exp->growable) {
+>> +    if (add_resize_perm) {
+>> +
+>> +        if (!qemu_in_main_thread()) {
+>> +            /* Changing permissions like below only works in the main
+>> thread */
+>> +            return -EPERM;
+>> +        }
+>> +
+>>           blk_get_perm(exp->common.blk, &blk_perm, &blk_shared_perm);
+>>             ret = blk_set_perm(exp->common.blk, blk_perm |
+>> BLK_PERM_RESIZE,
+>> @@ -412,9 +421,11 @@ static int fuse_do_truncate(const FuseExport
+>> *exp, int64_t size,
+>>       ret = blk_truncate(exp->common.blk, size, true, prealloc,
+>>                          truncate_flags, NULL);
+>>   -    if (!exp->growable) {
+>> +    if (add_resize_perm) {
+>>           /* Must succeed, because we are only giving up the RESIZE
+>> permission */
+>> -        blk_set_perm(exp->common.blk, blk_perm, blk_shared_perm,
+>> &error_abort);
+>> +        ret_check = blk_set_perm(exp->common.blk, blk_perm,
+>> +                                 blk_shared_perm, &error_abort);
+>> +        assert(ret_check == 0);
+>>       }
+>>         return ret;
 > 
-> +/**
-> + * Actual 'struct dirent' size may be bigger or shorter than
-> + * sizeof(struct dirent) in many cases.
-> + */
-> +struct dirent *qemu_dirent_dup(struct dirent *dent);
-> +
-
-I think this issue deserves a more verbose API doc comment, something like:
-
-/**
- * Duplicate directory entry @dent.
- *
- * It is highly recommended to use this function instead of open coding 
- * duplication of @c dirent objects, because the actual @c struct @c dirent 
- * size may be bigger or shorter than @c sizeof(struct dirent) and correct
- * handling is platform specific (see gitlab issue #841).
- *
- * @dent - original directory entry to be duplicated
- * @returns duplicated directory entry which should be freed with g_free()
- */
-struct dirent *qemu_dirent_dup(struct dirent *dent);
-
->  #ifdef __cplusplus
->  }
->  #endif
-> diff --git a/util/osdep.c b/util/osdep.c
-> index 42a0a4986a..e39d1071fd 100644
-> --- a/util/osdep.c
-> +++ b/util/osdep.c
-> @@ -33,6 +33,7 @@
->  extern int madvise(char *, size_t, int);
->  #endif
-> 
-> +#include <dirent.h>
-
-Wouldn't that break Windows builds?
-
->  #include "qemu-common.h"
->  #include "qemu/cutils.h"
->  #include "qemu/sockets.h"
-> @@ -615,3 +616,25 @@ writev(int fd, const struct iovec *iov, int iov_cnt)
->      return readv_writev(fd, iov, iov_cnt, true);
->  }
->  #endif
-> +
-> +struct dirent *
-> +qemu_dirent_dup(struct dirent *dent)
-> +{
-> +    struct dirent *dst;
-> +#if defined _DIRENT_HAVE_D_RECLEN
-> +    /* Avoid use of strlen() if there's d_reclen. */
-> +    dst = g_malloc(dent->d_reclen);
-> +#else
-> +    /* Fallback to a most portable way. */
-> +    const size_t reclen = offsetof(struct dirent, d_name) +
-> strlen(dent->d_name) + 1; +
-> +    dst = g_malloc(reclen);
-> +#endif
-> +    if (!dst)
-> +        return NULL;
-> +#ifdef _DIRENT_HAVE_D_RECLEN
-> +    return memcpy(dst, dent, dent->d_reclen);
-> +#else
-> +    return memcpy(dst, dent, reclen);
-> +#endif
-> +}
-
-On the long run we probably should have a configure check whether d_reclen
-exists, but I would not insist on that now as there is a valid fallback
-solution at least.
-
-Note that g_malloc() never returns NULL, if it runs out of memory it
-terminates instead, so the NULL checks are unncessary:
-https://developer.gimp.org/api/2.0/glib/glib-Memory-Allocation.html#g-try-malloc
-
-Also I would prefer g_malloc0() over g_malloc().
-
-Then by adding a variable for the d_reclen yes/no case, overall code can be
-reduced. So I would suggest something like this instead:
-
-struct dirent *
-qemu_dirent_dup(struct dirent *dent)
-{
-#if defined _DIRENT_HAVE_D_RECLEN
-    /* Avoid use of strlen() if there's d_reclen. */
-    const size_t sz = dent->d_reclen;
-#else
-    /* Fallback to a most portable way. */
-    const size_t sz = offsetof(struct dirent, d_name) +
-                      strlen(dent->d_name) + 1;
-#endif
-    struct dirent *dst = g_malloc(sz);
-    return memcpy(dst, dent, sz);
-}
-
-Best regards,
-Christian Schoenebeck
-
 
 
