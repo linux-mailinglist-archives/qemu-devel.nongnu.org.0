@@ -2,71 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F6614A0474
-	for <lists+qemu-devel@lfdr.de>; Sat, 29 Jan 2022 00:46:39 +0100 (CET)
-Received: from localhost ([::1]:34186 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE1E84A04BB
+	for <lists+qemu-devel@lfdr.de>; Sat, 29 Jan 2022 01:02:21 +0100 (CET)
+Received: from localhost ([::1]:35688 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nDaww-0004vn-37
-	for lists+qemu-devel@lfdr.de; Fri, 28 Jan 2022 18:46:38 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:42060)
+	id 1nDbC8-0001ua-Sh
+	for lists+qemu-devel@lfdr.de; Fri, 28 Jan 2022 19:02:20 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:42054)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1nDafr-0000kd-JL
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1nDafr-0000ka-K7
  for qemu-devel@nongnu.org; Fri, 28 Jan 2022 18:29:01 -0500
-Received: from [2607:f8b0:4864:20::131] (port=38694
- helo=mail-il1-x131.google.com)
+Received: from [2607:f8b0:4864:20::d35] (port=33281
+ helo=mail-io1-xd35.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1nDafg-0001aR-Oe
- for qemu-devel@nongnu.org; Fri, 28 Jan 2022 18:28:59 -0500
-Received: by mail-il1-x131.google.com with SMTP id i1so6770267ils.5
- for <qemu-devel@nongnu.org>; Fri, 28 Jan 2022 15:28:23 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1nDafh-0001aZ-1D
+ for qemu-devel@nongnu.org; Fri, 28 Jan 2022 18:28:58 -0500
+Received: by mail-io1-xd35.google.com with SMTP id y84so9768641iof.0
+ for <qemu-devel@nongnu.org>; Fri, 28 Jan 2022 15:28:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bsdimp-com.20210112.gappssmtp.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=1mpwYZNs4mJXgxPDyP8VAeZVM/ryFURuOJnVXj3MG+M=;
- b=u97vf602JKJV2/pGsxk/oR1Z8Gqp3y1lH95B6unSIh6MozQ17k//oMbo16XUEni2Mr
- /JQjMkSZ4qofbLlAKSQMtyHR7XK96uSPug4AkrCUR7+zOQhSQ1+yevH64AqBVksJLGOS
- gfDWtUN2ujR1GEgIUlnEFLTwpo1AjoH3hF6vn44rulNwgMwttgvYosXnn5cOYfWKhoCT
- LuU1dpMXfHqPoOF/04BUuIwsnDjyL1Jq/ZBGNrcDCo3KS+f6bg9adHX+C8qYm30xUEQx
- aBZ1Z39NfFK4SPunGN2R+WoqG96qMwPBF5oGDUdAtn4NHaS4OoVjR6ZEM6k39nvoS0/p
- JzzQ==
+ bh=6lp+mf01Obw62O4XR76se3KsYTrGoqPsoy/y1+puMOw=;
+ b=a8VtirO52CbuAFtpIEC3Gk7gCk7FGNXpf1FUnNam/NRjegMfjn3cJuhIoCxPqKKyCe
+ HCVt/gRwtmM8OGyfgMUlxICj0LHw/aDsV9nDTkPJQ6YIuTfKrg8FOTC974MzjjcVthjx
+ GOkJwDXvSvHLaq9t9jKw33of669z2sUIOmL9Lm2gY/L2AU0AuuT+6oeDghy8+KCx8PKz
+ pYqY2S09Qjs1JtaPwuqoAf+kL8PD1ZQTtIbVgsvDJ8q64k9VmhQBaO7N6jdM0XZtSIy0
+ sAVMdgj2RIhJPMagZXoclr9ArF4NdNChowCrEn569zJ71NSEjBc70nIjY+CgoPsr7apM
+ opUg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=1mpwYZNs4mJXgxPDyP8VAeZVM/ryFURuOJnVXj3MG+M=;
- b=tnY8/8zMlbsm297VUke036zbLIR8GAnoXnR8X5qiB9ImG+NzLpmKKRu41fMCihIMIl
- KhKyJF6FEUFYIV2szKHGEcijkqsfvJbqesRkOfpCdIj83bBIjtdT9E3C5iL6FWtN/kmv
- OAgt9+P+MVlUCt9OqXYo05/+VsBCKTIPOg4KQs+whYqaeYW1GWHRTsjCcvazUBYEB6++
- k/fPyQK+P2dSJfy8Fxuvbsyn0cRNNIjj1p+WNTTrXI2bswzsBf73iY3VGKJ0PNW8BapX
- HNPwmrgo+sD4BujGKJnIiEcC5+GG1w6eEoRrNYTXKi3IIZMcnlKb3Izotf788EzaNcq8
- xG3Q==
-X-Gm-Message-State: AOAM5302OUA7MzL645SRPioQ1FC2WqeIvpT8+WRkeVpUVtr/6dSBKCyZ
- RSBJ8vzj7X/SRlIo5tu9cqFi8JdHKMQKQA==
-X-Google-Smtp-Source: ABdhPJyh/6CaT1Tokts6vpUci1O/javSrhHMXSyclKXpjRP+OEIvHOEqUCnqAJBiugQTMAPSGqIrag==
-X-Received: by 2002:a92:c685:: with SMTP id o5mr182660ilg.153.1643412502279;
- Fri, 28 Jan 2022 15:28:22 -0800 (PST)
+ bh=6lp+mf01Obw62O4XR76se3KsYTrGoqPsoy/y1+puMOw=;
+ b=pXSctxY+5zP1ZIYh2lgwc10qOwarpdMlKttasmfgksnyU+FG2LM9zgGtjlwjLEOwh1
+ /2UwztO4yWCSJByJtKdrIlyAIAD+E7bU/MSb1eQlE4DLb6JOq/QEVfKcCCkz8ro/emsH
+ mBy145VsP93UNgOIR4zjKF26ILej/pDjDn7z/YGQaWouI1ULpqVow4c8KxixfbvMeHXg
+ L7hdC0BHquCjEg25c6dcFU3Pib00swgMIpkMSsUl0avDX3R3S/o3eNWmWxOL7eVmSeaW
+ /MQvoQmQhesT1n+bBBnFOyC0Syf4wkb8rvqOsc1pswyywWGCLdr/OVb2AKWeGfgN75Bt
+ NhZg==
+X-Gm-Message-State: AOAM5323x8H1b/loxLcWMA6h+/h62kriVvgb47p6dJim+K6ZFJv32FtU
+ ghyZFMii0qTjbrjk1ZX1aq2CxhLkhNDBhg==
+X-Google-Smtp-Source: ABdhPJzMmkqf1vDsx3tSBJ/VkypFc841TrWazWjfyQJPWZ299HHaepW7NGGZZugsA+BFLoSyeTQyQA==
+X-Received: by 2002:a05:6638:3045:: with SMTP id
+ u5mr4979429jak.105.1643412504591; 
+ Fri, 28 Jan 2022 15:28:24 -0800 (PST)
 Received: from dune.bsdimp.com (50-253-99-174-static.hfc.comcastbusiness.net.
  [50.253.99.174])
- by smtp.gmail.com with ESMTPSA id o11sm14323111ilm.20.2022.01.28.15.28.21
+ by smtp.gmail.com with ESMTPSA id o11sm14323111ilm.20.2022.01.28.15.28.22
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 28 Jan 2022 15:28:21 -0800 (PST)
+ Fri, 28 Jan 2022 15:28:24 -0800 (PST)
 From: Warner Losh <imp@bsdimp.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 19/40] bsd-user/host/arm/host-signal.h: Implement
+Subject: [PATCH v3 20/40] bsd-user/host/i386/host-signal.h: Implement
  host_signal_*
-Date: Fri, 28 Jan 2022 16:27:44 -0700
-Message-Id: <20220128232805.86191-20-imp@bsdimp.com>
+Date: Fri, 28 Jan 2022 16:27:45 -0700
+Message-Id: <20220128232805.86191-21-imp@bsdimp.com>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <20220128232805.86191-1-imp@bsdimp.com>
 References: <20220128232805.86191-1-imp@bsdimp.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::131
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::d35
  (failed)
-Received-SPF: none client-ip=2607:f8b0:4864:20::131;
- envelope-from=imp@bsdimp.com; helo=mail-il1-x131.google.com
+Received-SPF: none client-ip=2607:f8b0:4864:20::d35;
+ envelope-from=imp@bsdimp.com; helo=mail-io1-xd35.google.com
 X-Spam_score_int: 8
 X-Spam_score: 0.8
 X-Spam_bar: /
@@ -93,22 +94,23 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Implement host_signal_pc, host_signal_set_pc and host_signal_write for
-arm.
+i386.
 
 Signed-off-by: Kyle Evans <kevans@freebsd.org>
 Signed-off-by: Warner Losh <imp@bsdimp.com>
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- bsd-user/host/arm/host-signal.h | 35 +++++++++++++++++++++++++++++++++
- 1 file changed, 35 insertions(+)
- create mode 100644 bsd-user/host/arm/host-signal.h
+ bsd-user/host/i386/host-signal.h | 37 ++++++++++++++++++++++++++++++++
+ 1 file changed, 37 insertions(+)
+ create mode 100644 bsd-user/host/i386/host-signal.h
 
-diff --git a/bsd-user/host/arm/host-signal.h b/bsd-user/host/arm/host-signal.h
+diff --git a/bsd-user/host/i386/host-signal.h b/bsd-user/host/i386/host-signal.h
 new file mode 100644
-index 00000000000..56679bd6993
+index 00000000000..169e61b154c
 --- /dev/null
-+++ b/bsd-user/host/arm/host-signal.h
-@@ -0,0 +1,35 @@
++++ b/bsd-user/host/i386/host-signal.h
+@@ -0,0 +1,37 @@
 +/*
 + * host-signal.h: signal info dependent on the host architecture
 + *
@@ -117,30 +119,32 @@ index 00000000000..56679bd6993
 + * SPDX-License-Identifier: GPL-2.0-or-later
 + */
 +
-+#ifndef ARM_HOST_SIGNAL_H
-+#define ARM_HOST_SIGNAL_H
++#ifndef I386_HOST_SIGNAL_H
++#define I386_HOST_SIGNAL_H
 +
 +#include <sys/ucontext.h>
++#include <machine/trap.h>
++#include <vm/pmap.h>
++#include <machine/pmap.h>
 +
 +static inline uintptr_t host_signal_pc(ucontext_t *uc)
 +{
-+    return uc->uc_mcontext.__gregs[_REG_PC];
++    return uc->uc_mcontext.mc_eip;
 +}
 +
 +static inline void host_signal_set_pc(ucontext_t *uc, uintptr_t pc)
 +{
-+    uc->uc_mcontext.__gregs[_REG_PC] = pc;
++    uc->uc_mcontext.mc_eip = pc;
 +}
 +
 +static inline bool host_signal_write(siginfo_t *info, ucontext_t *uc)
 +{
 +    /*
-+     * In the FSR, bit 11 is WnR. FreeBSD returns this as part of the
-+     * si_info.si_trapno.
++     * Look in sys/i386/i386/trap.c. NOTE: mc_err == tr_err due to type punning
++     * between a trapframe and mcontext on FreeBSD/i386.
 +     */
-+    uint32_t fsr = info->si_trapno;
-+
-+    return extract32(fsr, 11, 1);
++    return uc->uc_mcontext.mc_trapno == T_PAGEFLT &&
++        uc->uc_mcontext.mc_err & PGEX_W;
 +}
 +
 +#endif
