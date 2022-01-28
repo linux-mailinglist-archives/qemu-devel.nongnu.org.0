@@ -2,63 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3370D4A0294
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jan 2022 22:16:38 +0100 (CET)
-Received: from localhost ([::1]:41530 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 572A44A028D
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jan 2022 22:07:49 +0100 (CET)
+Received: from localhost ([::1]:60256 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nDYbk-0000Lp-Po
-	for lists+qemu-devel@lfdr.de; Fri, 28 Jan 2022 16:16:36 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:45330)
+	id 1nDYTD-000246-F6
+	for lists+qemu-devel@lfdr.de; Fri, 28 Jan 2022 16:07:48 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:45778)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1nDYDL-0005ci-Uq
- for qemu-devel@nongnu.org; Fri, 28 Jan 2022 15:51:23 -0500
-Received: from smtpout3.mo529.mail-out.ovh.net ([46.105.54.81]:37939)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1nDYGW-0000zh-Hc
+ for qemu-devel@nongnu.org; Fri, 28 Jan 2022 15:54:40 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:29033)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1nDYDJ-0004ck-AL
- for qemu-devel@nongnu.org; Fri, 28 Jan 2022 15:51:22 -0500
-Received: from mxplan5.mail.ovh.net (unknown [10.109.146.147])
- by mo529.mail-out.ovh.net (Postfix) with ESMTPS id 456D3DAC0FE7;
- Fri, 28 Jan 2022 21:51:18 +0100 (CET)
-Received: from kaod.org (37.59.142.102) by DAG4EX1.mxp5.local (172.16.2.31)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.18; Fri, 28 Jan
- 2022 21:51:17 +0100
-Authentication-Results: garm.ovh; auth=pass
- (GARM-102R004c1408c6b-a9f1-4d65-9490-05c23fe38492,
- 25116B600FA9B488C253496EC78095CF85B5B260) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 90.89.155.142
-Message-ID: <3940fbe4-d268-6664-c031-193a56455460@kaod.org>
-Date: Fri, 28 Jan 2022 21:51:16 +0100
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1nDYGU-0004qQ-T2
+ for qemu-devel@nongnu.org; Fri, 28 Jan 2022 15:54:40 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1643403278;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=g5cZ+sGGeykxfnw4kXmUVHrLmEGd4rxuhsyjK9tzQzw=;
+ b=VoedkWOHg23R2D+AHqgbmLadWLNvEDWZ4UujiHkwxTJmdYdhS327NunYTpLgyT3txY2Oi/
+ fRU76UXeuFM8F6UYrTUIPGVaGZ4AyEAElqJOFsCquFeDLYoSbuNtoXrl/qSwzGcEcV71tN
+ QEPoyrFseCk89mXMzDKmaCoNk1t1pX4=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-447-s9j0Px9jMd6tvoVJaXgdJQ-1; Fri, 28 Jan 2022 15:54:35 -0500
+X-MC-Unique: s9j0Px9jMd6tvoVJaXgdJQ-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B62E81083F65;
+ Fri, 28 Jan 2022 20:54:33 +0000 (UTC)
+Received: from redhat.com (unknown [10.22.32.61])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id DA506A22D;
+ Fri, 28 Jan 2022 20:54:32 +0000 (UTC)
+Date: Fri, 28 Jan 2022 14:54:30 -0600
+From: Eric Blake <eblake@redhat.com>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Subject: Re: [PATCH] qapi/block: Cosmetic change in BlockExportType schema
+Message-ID: <20220128205430.ispmytuw2vrpar4g@redhat.com>
+References: <20220119121439.214821-1-f4bug@amsat.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.0
-Subject: Re: [PATCH] target/ppc: Remove support for the PowerPC 602 CPU
-Content-Language: en-US
-To: Fabiano Rosas <farosas@linux.ibm.com>, <qemu-ppc@nongnu.org>,
- <qemu-devel@nongnu.org>
-References: <20220128131227.199226-1-clg@kaod.org>
- <874k5odjby.fsf@linux.ibm.com>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <874k5odjby.fsf@linux.ibm.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [37.59.142.102]
-X-ClientProxiedBy: DAG1EX2.mxp5.local (172.16.2.2) To DAG4EX1.mxp5.local
- (172.16.2.31)
-X-Ovh-Tracer-GUID: 9fe05e8c-7190-43ce-9f43-3082eee25c74
-X-Ovh-Tracer-Id: 6288713933353880358
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvvddrfeehgddugedvucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvfhfhjggtgfhisehtjeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhephffhleegueektdetffdvffeuieeugfekkeelheelteeftdfgtefffeehueegleehnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrddutddvnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhnsggprhgtphhtthhopedupdhrtghpthhtohepghhrohhugheskhgrohgurdhorhhg
-Received-SPF: pass client-ip=46.105.54.81; envelope-from=clg@kaod.org;
- helo=smtpout3.mo529.mail-out.ovh.net
-X-Spam_score_int: 10
-X-Spam_score: 1.0
-X-Spam_bar: +
-X-Spam_report: (1.0 / 5.0 requ) NICE_REPLY_A=-0.001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001, TVD_SUBJ_WIPE_DEBT=1.004,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+In-Reply-To: <20220119121439.214821-1-f4bug@amsat.org>
+User-Agent: NeoMutt/20211029-256-77b59a
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=eblake@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -10
+X-Spam_score: -1.1
+X-Spam_bar: -
+X-Spam_report: (-1.1 / 5.0 requ) DKIMWL_WL_HIGH=-0.167, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -71,53 +80,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Daniel Henrique Barboza <danielhb413@gmail.com>, Greg Kurz <groug@kaod.org>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: qemu-trivial@nongnu.org, qemu-devel@nongnu.org, qemu-block@nongnu.org,
+ Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
->> diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
->> index 66e13075c3df..b9119479958c 100644
->> --- a/target/ppc/cpu.h
->> +++ b/target/ppc/cpu.h
+On Wed, Jan 19, 2022 at 01:14:39PM +0100, Philippe Mathieu-Daudé wrote:
+> From: Philippe Mathieu-Daude <f4bug@amsat.org>
 > 
-> In cpu.h you could probably remove the MSR_AP and MSR_SA bit definitions
-> as well. And the code in ppc_cpu_reset that sets them.
+> From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-done !
+The doubled From: looks odd here.  I'll double-check that git doesn't
+mess up the actual commit once I apply the patch.
 
 > 
->> @@ -2142,8 +2142,6 @@ enum {
->>       PPC_MFTB           = 0x0000000000000200ULL,
->>   
->>       /* Fixed-point unit extensions                                           */
->> -    /*   PowerPC 602 specific                                                */
->> -    PPC_602_SPEC       = 0x0000000000000400ULL,
->>       /*   isel instruction                                                    */
->>       PPC_ISEL           = 0x0000000000000800ULL,
->>       /*   popcntb instruction                                                 */
+> Fix long line introduced in commit bb01ea73110 ("qapi/block:
+> Restrict vhost-user-blk to CONFIG_VHOST_USER_BLK_SERVER").
 > 
-> ...
+> Suggested-by: Markus Armbruster <armbru@redhat.com>
+> Acked-by: Markus Armbruster <armbru@redhat.com>
+> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> ---
+>  qapi/block-export.json | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
 > 
->> diff --git a/target/ppc/int_helper.c b/target/ppc/int_helper.c
->> index 9bc327bcba5a..d7765fd3e3d8 100644
->> --- a/target/ppc/int_helper.c
->> +++ b/target/ppc/int_helper.c
->> @@ -488,27 +488,6 @@ target_ulong helper_divso(CPUPPCState *env, target_ulong arg1,
->>       }
->>   }
->>   
->> -/*****************************************************************************/
->> -/* 602 specific instructions */
->> -/* mfrom is the most crazy instruction ever seen, imho ! */
-> 
-> How do you have the heart to remove the "most crazy instruction ever
-> seen"?
+> diff --git a/qapi/block-export.json b/qapi/block-export.json
+> index f9ce79a974b..f183522d0d2 100644
+> --- a/qapi/block-export.json
+> +++ b/qapi/block-export.json
+> @@ -278,7 +278,8 @@
+>  ##
+>  { 'enum': 'BlockExportType',
+>    'data': [ 'nbd',
+> -            { 'name': 'vhost-user-blk', 'if': 'CONFIG_VHOST_USER_BLK_SERVER' },
+> +            { 'name': 'vhost-user-blk',
+> +              'if': 'CONFIG_VHOST_USER_BLK_SERVER' },
+>              { 'name': 'fuse', 'if': 'CONFIG_FUSE' } ] }
 
-It is indeed crazy and QEMU is the perfect playground to implement
-instructions even more crazier but I am without heart for this one :)
+Reviewed-by: Eric Blake <eblake@redhat.com>
 
-Cheers,
+Happy to queue this through my NBD tree (as it is tangentially related...)
 
-C.
+-- 
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3266
+Virtualization:  qemu.org | libvirt.org
+
 
