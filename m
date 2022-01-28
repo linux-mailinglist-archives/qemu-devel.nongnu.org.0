@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01EC449FE53
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jan 2022 17:48:54 +0100 (CET)
-Received: from localhost ([::1]:58536 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 509C949FE79
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jan 2022 17:54:24 +0100 (CET)
+Received: from localhost ([::1]:38834 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nDUQf-0006BY-3C
-	for lists+qemu-devel@lfdr.de; Fri, 28 Jan 2022 11:48:53 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:40206)
+	id 1nDUVz-0004EK-EG
+	for lists+qemu-devel@lfdr.de; Fri, 28 Jan 2022 11:54:23 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:40250)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nDTrB-0007Xp-ME
- for qemu-devel@nongnu.org; Fri, 28 Jan 2022 11:12:13 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:22651)
+ id 1nDTrG-0007cB-Jm
+ for qemu-devel@nongnu.org; Fri, 28 Jan 2022 11:12:20 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:40838)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nDTr9-0004H7-Sx
- for qemu-devel@nongnu.org; Fri, 28 Jan 2022 11:12:13 -0500
+ id 1nDTrD-0004Id-D6
+ for qemu-devel@nongnu.org; Fri, 28 Jan 2022 11:12:17 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1643386331;
+ s=mimecast20190719; t=1643386334;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=T64icqHfCKUEa+YnAo/8HlLHB7X6JMhnBXtbvxeThaw=;
- b=M5ZvM10uktiJdvqwdjp2GrbBviOak7Uwz0s8vHFlvJwv5CFxwxpNvp38M+zaMJq7X9nkLd
- x+titE/v3FUizeCMzrMOsEeSY95PfN9LxWyzfEMNxHFE6dxWwLS2k8L2lRPWJRIm/RrciE
- cuYP5MSL/3YuHEvxEwte0GSmdo9TNq4=
+ bh=7NEXdKnMUbMJfTY228LczyVEJmY/9xPMcUHzPhisFmI=;
+ b=KB9M1Ay+XStxHltfllPfMpcl+eMoNWfmiCOjNIOoKd7T8NC6bs79ne6ZdWEOlbltq9B+Po
+ yU2MTYr1/W9MxjxsziEenbiwxICVzY1aicYmtSYfsoTZqBlIAe4HQMHx3/NInOyMflHNGR
+ 9zVSLpJ9xPPOw0Y9iFwV9YpEfhwCs14=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-199-zYq7CzAMPgmg9TACLdXw2A-1; Fri, 28 Jan 2022 11:12:09 -0500
-X-MC-Unique: zYq7CzAMPgmg9TACLdXw2A-1
+ us-mta-347-2YbYU1I7OBCyYyUBEl1Jvg-1; Fri, 28 Jan 2022 11:12:11 -0500
+X-MC-Unique: 2YbYU1I7OBCyYyUBEl1Jvg-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B95928145E1;
- Fri, 28 Jan 2022 16:12:08 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8690B18C8C04;
+ Fri, 28 Jan 2022 16:12:10 +0000 (UTC)
 Received: from localhost.localdomain.com (unknown [10.33.37.9])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7C5A57D3F4;
- Fri, 28 Jan 2022 16:12:07 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0E7DE7D3F4;
+ Fri, 28 Jan 2022 16:12:08 +0000 (UTC)
 From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 1/2] python: introduce qmp-shell-wrap convenience tool
-Date: Fri, 28 Jan 2022 16:11:56 +0000
-Message-Id: <20220128161157.36261-2-berrange@redhat.com>
+Subject: [PATCH v3 2/2] python: support recording QMP session to a file
+Date: Fri, 28 Jan 2022 16:11:57 +0000
+Message-Id: <20220128161157.36261-3-berrange@redhat.com>
 In-Reply-To: <20220128161157.36261-1-berrange@redhat.com>
 References: <20220128161157.36261-1-berrange@redhat.com>
 MIME-Version: 1.0
@@ -81,168 +81,184 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Eduardo Habkost <eduardo@habkost.net>,
  =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- John Snow <jsnow@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- Cleber Rosa <crosa@redhat.com>
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Markus Armbruster <armbru@redhat.com>, Cleber Rosa <crosa@redhat.com>,
+ John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-With the current 'qmp-shell' tool developers must first spawn QEMU with
-a suitable -qmp arg and then spawn qmp-shell in a separate terminal
-pointing to the right socket.
+When running QMP commands with very large response payloads, it is often
+not easy to spot the info you want. If we can save the response to a
+file then tools like 'grep' or 'jq' can be used to extract information.
 
-With 'qmp-shell-wrap' developers can ignore QMP sockets entirely and
-just pass the QEMU command and arguments they want. The program will
-listen on a UNIX socket and tell QEMU to connect QMP to that.
+For convenience of processing, we merge the QMP command and response
+dictionaries together:
 
-For example, this:
+  {
+      "arguments": {},
+      "execute": "query-kvm",
+      "return": {
+          "enabled": false,
+          "present": true
+      }
+  }
 
- # qmp-shell-wrap -- qemu-system-x86_64 -display none
+Example usage
 
-Is roughly equivalent of running:
+  $ ./scripts/qmp/qmp-shell-wrap -l q.log -p -- ./build/qemu-system-x86_64 -display none
+  Welcome to the QMP low-level shell!
+  Connected
+  (QEMU) query-kvm
+  {
+      "return": {
+          "enabled": false,
+          "present": true
+      }
+  }
+  (QEMU) query-mice
+  {
+      "return": [
+          {
+              "absolute": false,
+              "current": true,
+              "index": 2,
+              "name": "QEMU PS/2 Mouse"
+          }
+      ]
+  }
 
- # qemu-system-x86_64 -display none -qmp qmp-shell-1234 &
- # qmp-shell qmp-shell-1234
+ $ jq --slurp '. | to_entries[] | select(.value.execute == "query-kvm") |
+               .value.return.enabled' < q.log
+   false
 
-Except that 'qmp-shell-wrap' switches the socket peers around so that
-it is the UNIX socket server and QEMU is the socket client. This makes
-QEMU reliably go away when qmp-shell-wrap exits, closing the server
-socket.
-
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
 ---
- python/qemu/aqmp/qmp_shell.py | 67 ++++++++++++++++++++++++++++++++---
- python/setup.cfg              |  1 +
- scripts/qmp/qmp-shell-wrap    | 11 ++++++
- 3 files changed, 75 insertions(+), 4 deletions(-)
- create mode 100755 scripts/qmp/qmp-shell-wrap
+ python/qemu/aqmp/qmp_shell.py | 29 ++++++++++++++++++++++-------
+ python/setup.cfg              |  3 +++
+ 2 files changed, 25 insertions(+), 7 deletions(-)
 
 diff --git a/python/qemu/aqmp/qmp_shell.py b/python/qemu/aqmp/qmp_shell.py
-index d11bf54b00..185f5066ef 100644
+index 185f5066ef..85988d9f2e 100644
 --- a/python/qemu/aqmp/qmp_shell.py
 +++ b/python/qemu/aqmp/qmp_shell.py
-@@ -86,6 +86,7 @@
- import os
- import re
- import readline
-+from subprocess import Popen
+@@ -89,6 +89,7 @@
+ from subprocess import Popen
  import sys
  from typing import (
++    IO,
      Iterator,
-@@ -167,8 +168,10 @@ class QMPShell(QEMUMonitorProtocol):
-     :param verbose: Echo outgoing QMP messages to console.
-     """
+     List,
+     NoReturn,
+@@ -170,7 +171,8 @@ class QMPShell(QEMUMonitorProtocol):
      def __init__(self, address: SocketAddrT,
--                 pretty: bool = False, verbose: bool = False):
--        super().__init__(address)
-+                 pretty: bool = False,
-+                 verbose: bool = False,
-+                 server: bool = False):
-+        super().__init__(address, server=server)
+                  pretty: bool = False,
+                  verbose: bool = False,
+-                 server: bool = False):
++                 server: bool = False,
++                 logfile: Optional[str] = None):
+         super().__init__(address, server=server)
          self._greeting: Optional[QMPMessage] = None
          self._completer = QMPCompleter()
-         self._transmode = False
-@@ -409,8 +412,10 @@ class HMPShell(QMPShell):
-     :param verbose: Echo outgoing QMP messages to console.
-     """
+@@ -180,6 +182,10 @@ def __init__(self, address: SocketAddrT,
+                                       '.qmp-shell_history')
+         self.pretty = pretty
+         self.verbose = verbose
++        self.logfile = None
++
++        if logfile is not None:
++            self.logfile = open(logfile, "w", encoding='utf-8')
+ 
+     def close(self) -> None:
+         # Hook into context manager of parent to save shell history.
+@@ -320,11 +326,11 @@ def _build_cmd(self, cmdline: str) -> Optional[QMPMessage]:
+         self._cli_expr(cmdargs[1:], qmpcmd['arguments'])
+         return qmpcmd
+ 
+-    def _print(self, qmp_message: object) -> None:
++    def _print(self, qmp_message: object, fh: IO[str] = sys.stdout) -> None:
+         jsobj = json.dumps(qmp_message,
+                            indent=4 if self.pretty else None,
+                            sort_keys=self.pretty)
+-        print(str(jsobj))
++        print(str(jsobj), file=fh)
+ 
+     def _execute_cmd(self, cmdline: str) -> bool:
+         try:
+@@ -347,6 +353,9 @@ def _execute_cmd(self, cmdline: str) -> bool:
+             print('Disconnected')
+             return False
+         self._print(resp)
++        if self.logfile is not None:
++            cmd = {**qmpcmd, **resp}
++            self._print(cmd, fh=self.logfile)
+         return True
+ 
+     def connect(self, negotiate: bool = True) -> None:
+@@ -414,8 +423,9 @@ class HMPShell(QMPShell):
      def __init__(self, address: SocketAddrT,
--                 pretty: bool = False, verbose: bool = False):
--        super().__init__(address, pretty, verbose)
-+                 pretty: bool = False,
-+                 verbose: bool = False,
-+                 server: bool = False):
-+        super().__init__(address, pretty, verbose, server)
+                  pretty: bool = False,
+                  verbose: bool = False,
+-                 server: bool = False):
+-        super().__init__(address, pretty, verbose, server)
++                 server: bool = False,
++                 logfile: Optional[str] = None):
++        super().__init__(address, pretty, verbose, server, logfile)
          self._cpu_index = 0
  
      def _cmd_completion(self) -> None:
-@@ -533,5 +538,59 @@ def main() -> None:
-             pass
+@@ -508,6 +518,8 @@ def main() -> None:
+                         help='Verbose (echo commands sent and received)')
+     parser.add_argument('-p', '--pretty', action='store_true',
+                         help='Pretty-print JSON')
++    parser.add_argument('-l', '--logfile',
++                        help='Save log of all QMP messages to PATH')
  
+     default_server = os.environ.get('QMP_SOCKET')
+     parser.add_argument('qmp_server', action='store',
+@@ -526,7 +538,7 @@ def main() -> None:
+         parser.error(f"Bad port number: {args.qmp_server}")
+         return  # pycharm doesn't know error() is noreturn
  
-+def main_wrap() -> None:
-+    """
-+    qmp-shell-wrap entry point: parse command line arguments and
-+    start the REPL.
-+    """
-+    parser = argparse.ArgumentParser()
-+    parser.add_argument('-H', '--hmp', action='store_true',
-+                        help='Use HMP interface')
-+    parser.add_argument('-v', '--verbose', action='store_true',
-+                        help='Verbose (echo commands sent and received)')
-+    parser.add_argument('-p', '--pretty', action='store_true',
-+                        help='Pretty-print JSON')
-+
-+    parser.add_argument('command', nargs=argparse.REMAINDER,
-+                        help='QEMU command line to invoke')
-+
-+    args = parser.parse_args()
-+
-+    cmd = args.command
-+    if len(cmd) != 0 and cmd[0] == '--':
-+        cmd = cmd[1:]
-+    if len(cmd) == 0:
-+        cmd = ["qemu-system-x86_64"]
-+
-+    sockpath = "qmp-shell-wrap-%d" % os.getpid()
-+    cmd += ["-qmp", "unix:%s" % sockpath]
-+
-+    shell_class = HMPShell if args.hmp else QMPShell
-+
-+    try:
-+        address = shell_class.parse_address(sockpath)
-+    except qmp.QMPBadPortError:
-+        parser.error(f"Bad port number: {sockpath}")
-+        return  # pycharm doesn't know error() is noreturn
-+
-+    try:
-+        with shell_class(address, args.pretty, args.verbose, True) as qemu:
-+            with Popen(cmd):
-+
-+                try:
-+                    qemu.accept()
-+                except qmp.QMPConnectError:
-+                    die("Didn't get QMP greeting message")
-+                except qmp.QMPCapabilitiesError:
-+                    die("Couldn't negotiate capabilities")
-+                except OSError as err:
-+                    die(f"Couldn't connect to {sockpath}: {err!s}")
-+
-+                for _ in qemu.repl():
-+                    pass
-+    finally:
-+        os.unlink(sockpath)
-+
-+
- if __name__ == '__main__':
-     main()
+-    with shell_class(address, args.pretty, args.verbose) as qemu:
++    with shell_class(address, args.pretty, args.verbose, args.logfile) as qemu:
+         try:
+             qemu.connect(negotiate=not args.skip_negotiation)
+         except ConnectError as err:
+@@ -550,6 +562,8 @@ def main_wrap() -> None:
+                         help='Verbose (echo commands sent and received)')
+     parser.add_argument('-p', '--pretty', action='store_true',
+                         help='Pretty-print JSON')
++    parser.add_argument('-l', '--logfile',
++                        help='Save log of all QMP messages to PATH')
+ 
+     parser.add_argument('command', nargs=argparse.REMAINDER,
+                         help='QEMU command line to invoke')
+@@ -574,7 +588,8 @@ def main_wrap() -> None:
+         return  # pycharm doesn't know error() is noreturn
+ 
+     try:
+-        with shell_class(address, args.pretty, args.verbose, True) as qemu:
++        with shell_class(address, args.pretty, args.verbose,
++                         True, args.logfile) as qemu:
+             with Popen(cmd):
+ 
+                 try:
 diff --git a/python/setup.cfg b/python/setup.cfg
-index 3fb18f845d..84c0f33baf 100644
+index 84c0f33baf..9aeb74aed4 100644
 --- a/python/setup.cfg
 +++ b/python/setup.cfg
-@@ -68,6 +68,7 @@ console_scripts =
-     qom-fuse = qemu.utils.qom_fuse:QOMFuse.entry_point [fuse]
-     qemu-ga-client = qemu.utils.qemu_ga_client:main
-     qmp-shell = qemu.aqmp.qmp_shell:main
-+    qmp-shell-wrap = qemu.aqmp.qmp_shell:main_wrap
-     aqmp-tui = qemu.aqmp.aqmp_tui:main [tui]
+@@ -114,7 +114,10 @@ ignore_missing_imports = True
+ # no Warning level messages displayed, use "--disable=all --enable=classes
+ # --disable=W".
+ disable=consider-using-f-string,
++        consider-using-with,
++        too-many-arguments,
+         too-many-function-args,  # mypy handles this with less false positives.
++        too-many-instance-attributes,
+         no-member,  # mypy also handles this better.
  
- [flake8]
-diff --git a/scripts/qmp/qmp-shell-wrap b/scripts/qmp/qmp-shell-wrap
-new file mode 100755
-index 0000000000..9e94da114f
---- /dev/null
-+++ b/scripts/qmp/qmp-shell-wrap
-@@ -0,0 +1,11 @@
-+#!/usr/bin/env python3
-+
-+import os
-+import sys
-+
-+sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..', 'python'))
-+from qemu.qmp import qmp_shell
-+
-+
-+if __name__ == '__main__':
-+    qmp_shell.main_wrap()
+ [pylint.basic]
 -- 
 2.34.1
 
