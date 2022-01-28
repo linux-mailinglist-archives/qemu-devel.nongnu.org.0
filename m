@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81F4349F8D7
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jan 2022 12:58:00 +0100 (CET)
-Received: from localhost ([::1]:42430 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E335B49F903
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jan 2022 13:14:48 +0100 (CET)
+Received: from localhost ([::1]:59218 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nDPt9-0005JK-B6
-	for lists+qemu-devel@lfdr.de; Fri, 28 Jan 2022 06:57:59 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:60396)
+	id 1nDQ9O-0000yL-HJ
+	for lists+qemu-devel@lfdr.de; Fri, 28 Jan 2022 07:14:48 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:60410)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1nDPm9-0004WL-0E
+ id 1nDPm9-0004WN-8O
  for qemu-devel@nongnu.org; Fri, 28 Jan 2022 06:50:45 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:29282)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:22025)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1nDPm6-0003O7-Ri
+ id 1nDPm7-0003OL-5N
  for qemu-devel@nongnu.org; Fri, 28 Jan 2022 06:50:44 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1643370641;
+ s=mimecast20190719; t=1643370642;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=RT2MwcJ1XMATqhJ+/wLnwovAkUHRy8yXLe3wz1foGR8=;
- b=ZV6IX8XFxFdJm8AXMiiddG5LPKOLsX7zqUuMX01/hOjZa4a1qQnCubYTCYrMxwKCL+Issi
- DOy6Ew9d6XW/RJ86buw35dqWsQsZCJzeU7su5y/+1ZviwtrnKdoJV2dTx9S7hhg2sldMey
- nq7a0OnyO+acvb0QWGqPw6F/LZPvJ0o=
+ bh=SqoxSw1h5BeFcY2tzotqevjRb8efoOUpor1OkE2Ew3s=;
+ b=JI+2RAGHYYllzyfxBn812+TgDBpIsJsgCsKeQDpQegDFUN1IBBjGrToz9dtHOLA3G9aZX+
+ p/Z79kuPgJg6lw24x6DToqdSmQqKqnxFWWLzKD7zXIeNng1IfXr8hqFBfNMTOi4YktcUOV
+ Q1VkTYfm2Opo2bAKzOqAvre2YGXUdrY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-412-q6_x8tv-NYKBNV7ZQCyQiQ-1; Fri, 28 Jan 2022 06:50:38 -0500
-X-MC-Unique: q6_x8tv-NYKBNV7ZQCyQiQ-1
+ us-mta-628-azbzvunkPd-4BGoY22QqzA-1; Fri, 28 Jan 2022 06:50:39 -0500
+X-MC-Unique: azbzvunkPd-4BGoY22QqzA-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 86D648144E1;
- Fri, 28 Jan 2022 11:50:37 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9648A1006AA0;
+ Fri, 28 Jan 2022 11:50:38 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7B88A1FD88;
- Fri, 28 Jan 2022 11:50:36 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A083722DE3;
+ Fri, 28 Jan 2022 11:50:37 +0000 (UTC)
 From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH v4 02/19] job.h: categorize fields in struct Job
-Date: Fri, 28 Jan 2022 06:50:14 -0500
-Message-Id: <20220128115031.4061565-3-eesposit@redhat.com>
+Subject: [PATCH v4 03/19] job.c: make job_event_* functions static
+Date: Fri, 28 Jan 2022 06:50:15 -0500
+Message-Id: <20220128115031.4061565-4-eesposit@redhat.com>
 In-Reply-To: <20220128115031.4061565-1-eesposit@redhat.com>
 References: <20220128115031.4061565-1-eesposit@redhat.com>
 MIME-Version: 1.0
@@ -67,8 +67,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.167,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -92,123 +91,60 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Categorize the fields in struct Job to understand which ones
-need to be protected by the job mutex and which don't.
+job_event_* functions can all be static, as they are not used
+outside job.c.
 
 Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 ---
- include/qemu/job.h | 59 ++++++++++++++++++++++++++--------------------
- 1 file changed, 34 insertions(+), 25 deletions(-)
+ include/qemu/job.h |  6 ------
+ job.c              | 12 ++++++++++--
+ 2 files changed, 10 insertions(+), 8 deletions(-)
 
 diff --git a/include/qemu/job.h b/include/qemu/job.h
-index 8d0d370dda..a36ef921c9 100644
+index a36ef921c9..6f22a20d58 100644
 --- a/include/qemu/job.h
 +++ b/include/qemu/job.h
-@@ -40,27 +40,50 @@ typedef struct JobTxn JobTxn;
-  * Long-running operation.
+@@ -438,12 +438,6 @@ void job_progress_set_remaining(Job *job, uint64_t remaining);
   */
- typedef struct Job {
-+
-+    /* Fields set at initialization (job_create), and never modified */
-+
-     /** The ID of the job. May be NULL for internal jobs. */
-     char *id;
+ void job_progress_increase_remaining(Job *job, uint64_t delta);
  
--    /** The type of this job. */
-+    /**
-+     * The type of this job.
-+     * All callbacks are called with job_mutex *not* held.
-+     */
-     const JobDriver *driver;
- 
--    /** Reference count of the block job */
--    int refcnt;
+-/** To be called when a cancelled job is finalised. */
+-void job_event_cancelled(Job *job);
 -
--    /** Current state; See @JobStatus for details. */
--    JobStatus status;
+-/** To be called when a successfully completed job is finalised. */
+-void job_event_completed(Job *job);
 -
--    /** AioContext to run the job coroutine in */
--    AioContext *aio_context;
--
-     /**
-      * The coroutine that executes the job.  If not NULL, it is reentered when
-      * busy is false and the job is cancelled.
-+     * Initialized in job_start()
-      */
-     Coroutine *co;
- 
-+    /** True if this job should automatically finalize itself */
-+    bool auto_finalize;
-+
-+    /** True if this job should automatically dismiss itself */
-+    bool auto_dismiss;
-+
-+    /** The completion function that will be called when the job completes.  */
-+    BlockCompletionFunc *cb;
-+
-+    /** The opaque value that is passed to the completion function.  */
-+    void *opaque;
-+
-+    /* ProgressMeter API is thread-safe */
-+    ProgressMeter progress;
-+
-+
-+    /** AioContext to run the job coroutine in */
-+    AioContext *aio_context;
-+
-+    /** Reference count of the block job */
-+    int refcnt;
-+
-+    /** Current state; See @JobStatus for details. */
-+    JobStatus status;
-+
-     /**
-      * Timer that is used by @job_sleep_ns. Accessed under job_mutex (in
-      * job.c).
-@@ -112,14 +135,6 @@ typedef struct Job {
-     /** Set to true when the job has deferred work to the main loop. */
-     bool deferred_to_main_loop;
- 
--    /** True if this job should automatically finalize itself */
--    bool auto_finalize;
--
--    /** True if this job should automatically dismiss itself */
--    bool auto_dismiss;
--
--    ProgressMeter progress;
--
-     /**
-      * Return code from @run and/or @prepare callback(s).
-      * Not final until the job has reached the CONCLUDED status.
-@@ -134,12 +149,6 @@ typedef struct Job {
-      */
-     Error *err;
- 
--    /** The completion function that will be called when the job completes.  */
--    BlockCompletionFunc *cb;
--
--    /** The opaque value that is passed to the completion function.  */
--    void *opaque;
--
-     /** Notifiers called when a cancelled job is finalised */
-     NotifierList on_finalize_cancelled;
- 
-@@ -167,6 +176,7 @@ typedef struct Job {
- 
  /**
-  * Callbacks and other information about a Job driver.
-+ * All callbacks are invoked with job_mutex *not* held.
-  */
- struct JobDriver {
+  * Conditionally enter the job coroutine if the job is ready to run, not
+  * already busy and fn() returns true. fn() is called while under the job_lock
+diff --git a/job.c b/job.c
+index f5e5b04e8c..e97b159396 100644
+--- a/job.c
++++ b/job.c
+@@ -427,12 +427,20 @@ void job_progress_increase_remaining(Job *job, uint64_t delta)
+     progress_increase_remaining(&job->progress, delta);
+ }
  
-@@ -481,7 +491,6 @@ void job_yield(Job *job);
-  */
- void coroutine_fn job_sleep_ns(Job *job, int64_t ns);
+-void job_event_cancelled(Job *job)
++/**
++ * To be called when a cancelled job is finalised.
++ * Called with job_mutex held.
++ */
++static void job_event_cancelled(Job *job)
+ {
+     notifier_list_notify(&job->on_finalize_cancelled, job);
+ }
  
--
- /** Returns the JobType of a given Job. */
- JobType job_type(const Job *job);
- 
+-void job_event_completed(Job *job)
++/**
++ * To be called when a successfully completed job is finalised.
++ * Called with job_mutex held.
++ */
++static void job_event_completed(Job *job)
+ {
+     notifier_list_notify(&job->on_finalize_completed, job);
+ }
 -- 
 2.31.1
 
