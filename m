@@ -2,69 +2,102 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C373C49FBE8
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jan 2022 15:41:29 +0100 (CET)
-Received: from localhost ([::1]:42652 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AE54B49FBF0
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jan 2022 15:44:47 +0100 (CET)
+Received: from localhost ([::1]:50068 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nDSRM-0007In-J6
-	for lists+qemu-devel@lfdr.de; Fri, 28 Jan 2022 09:41:28 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:38378)
+	id 1nDSUY-0004LN-Md
+	for lists+qemu-devel@lfdr.de; Fri, 28 Jan 2022 09:44:46 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:40850)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1nDS9b-0005bK-0h
- for qemu-devel@nongnu.org; Fri, 28 Jan 2022 09:23:07 -0500
-Received: from frasgout.his.huawei.com ([185.176.79.56]:2217)
+ (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
+ id 1nDSHP-00080f-0s; Fri, 28 Jan 2022 09:31:11 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:25020
+ helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1nDS9X-0003Et-Mv
- for qemu-devel@nongnu.org; Fri, 28 Jan 2022 09:23:06 -0500
-Received: from fraeml737-chm.china.huawei.com (unknown [172.18.147.201])
- by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4Jlfmp1LHxz67bjw;
- Fri, 28 Jan 2022 22:22:34 +0800 (CST)
-Received: from lhreml710-chm.china.huawei.com (10.201.108.61) by
- fraeml737-chm.china.huawei.com (10.206.15.218) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.21; Fri, 28 Jan 2022 15:23:00 +0100
-Received: from localhost (10.47.76.156) by lhreml710-chm.china.huawei.com
- (10.201.108.61) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.21; Fri, 28 Jan
- 2022 14:22:59 +0000
-Date: Fri, 28 Jan 2022 14:22:51 +0000
-To: Alex =?ISO-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>
-CC: <qemu-devel@nongnu.org>, Marcel Apfelbaum <marcel@redhat.com>, "Michael S
- . Tsirkin" <mst@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
- <linux-cxl@vger.kernel.org>, Ben Widawsky <ben.widawsky@intel.com>, "Peter
- Maydell" <peter.maydell@linaro.org>, <linuxarm@huawei.com>, "Shameerali
- Kolothum Thodi" <shameerali.kolothum.thodi@huawei.com>, Philippe
- =?ISO-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>, Saransh Gupta1
- <saransh@ibm.com>, Shreyas Shah <shreyas.shah@elastics.cloud>, Chris Browy
- <cbrowy@avery-design.com>, Samarth Saxena <samarths@cadence.com>, "Dan
- Williams" <dan.j.williams@intel.com>
-Subject: Re: [PATCH v4 02/42] hw/cxl/component: Introduce CXL components
- (8.1.x, 8.2.5)
-Message-ID: <20220128142251.0000437f@Huawei.com>
-In-Reply-To: <87bkzyd3c7.fsf@linaro.org>
-References: <20220124171705.10432-1-Jonathan.Cameron@huawei.com>
- <20220124171705.10432-3-Jonathan.Cameron@huawei.com>
- <87bkzyd3c7.fsf@linaro.org>
-Organization: Huawei Technologies Research and Development (UK) Ltd.
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.29; i686-w64-mingw32)
+ (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
+ id 1nDSHE-0004fq-DL; Fri, 28 Jan 2022 09:31:10 -0500
+Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 20SED85Y011804; 
+ Fri, 28 Jan 2022 14:30:00 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=from : to : cc : subject
+ : in-reply-to : references : date : message-id : mime-version :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=5GBVc2qgAKTTQDZzY/n1p70ZQWcngiMSxtySOYoLxgU=;
+ b=gJXRe1JQkAFuaFiOM4Dnk7DkdzmWhRFuRvlpxWLAlD8XufEMf+hZ6tg60ewSZUIE3MNs
+ SOoN4fX8+9ez7MkMs8fAUqm2+ozyKVmGAXsu7htcbrucaqJlaoV/BK1Qcw/0UtQ0sVuO
+ Fh2bO/91x/CXyToiRkqrVv71sbuPsLhgNdSmBARy1uruJ98ARDXskCPsYa4hQW8cRikj
+ vFgrvRIGUPlhvW42EZkd4gaeVqa0Sdsjv4T/UWMlrq7mquWD1xppWDlFGF7bDlzTwjlw
+ nQfjXxlV1UCuKRVS7z0SbgKWQOZm9T8WH9vXYdT19/ZYmQNBIC2gk6AL/dqnmpui/+KW fg== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 3dvj240ahv-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 28 Jan 2022 14:29:59 +0000
+Received: from m0098419.ppops.net (m0098419.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 20SED03B007980;
+ Fri, 28 Jan 2022 14:29:59 GMT
+Received: from ppma01dal.us.ibm.com (83.d6.3fa9.ip4.static.sl-reverse.com
+ [169.63.214.131])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 3dvj240ahn-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 28 Jan 2022 14:29:59 +0000
+Received: from pps.filterd (ppma01dal.us.ibm.com [127.0.0.1])
+ by ppma01dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 20SER0wb002451;
+ Fri, 28 Jan 2022 14:29:58 GMT
+Received: from b03cxnp08027.gho.boulder.ibm.com
+ (b03cxnp08027.gho.boulder.ibm.com [9.17.130.19])
+ by ppma01dal.us.ibm.com with ESMTP id 3dr9jdg7vj-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 28 Jan 2022 14:29:58 +0000
+Received: from b03ledav005.gho.boulder.ibm.com
+ (b03ledav005.gho.boulder.ibm.com [9.17.130.236])
+ by b03cxnp08027.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 20SETus514615090
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 28 Jan 2022 14:29:56 GMT
+Received: from b03ledav005.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 74438BE058;
+ Fri, 28 Jan 2022 14:29:56 +0000 (GMT)
+Received: from b03ledav005.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id C26BCBE079;
+ Fri, 28 Jan 2022 14:29:55 +0000 (GMT)
+Received: from localhost (unknown [9.211.66.85])
+ by b03ledav005.gho.boulder.ibm.com (Postfix) with ESMTPS;
+ Fri, 28 Jan 2022 14:29:55 +0000 (GMT)
+From: Fabiano Rosas <farosas@linux.ibm.com>
+To: =?utf-8?Q?C=C3=A9dric?= Le Goater <clg@kaod.org>, qemu-ppc@nongnu.org,
+ qemu-devel@nongnu.org
+Subject: Re: [PATCH] target/ppc: Remove support for the PowerPC 602 CPU
+In-Reply-To: <20220128131227.199226-1-clg@kaod.org>
+References: <20220128131227.199226-1-clg@kaod.org>
+Date: Fri, 28 Jan 2022 11:29:53 -0300
+Message-ID: <874k5odjby.fsf@linux.ibm.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-X-Originating-IP: [10.47.76.156]
-X-ClientProxiedBy: lhreml731-chm.china.huawei.com (10.201.108.82) To
- lhreml710-chm.china.huawei.com (10.201.108.61)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=185.176.79.56;
- envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: YcnpNYoO1o2eGaayLgW8xCbim9X2uXFG
+X-Proofpoint-GUID: YM7JvPTsuvz_zivGyLGknANlIA9SSdPT
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.816,Hydra:6.0.425,FMLib:17.11.62.513
+ definitions=2022-01-28_04,2022-01-27_01,2021-12-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0 phishscore=0
+ mlxlogscore=999 adultscore=0 mlxscore=0 clxscore=1015 suspectscore=0
+ malwarescore=0 bulkscore=0 priorityscore=1501 spamscore=0
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2201110000 definitions=main-2201280090
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=farosas@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -9
+X-Spam_score: -1.0
+X-Spam_bar: -
+X-Spam_report: (-1.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ TVD_SUBJ_WIPE_DEBT=1.004,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -77,168 +110,102 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Daniel Henrique Barboza <danielhb413@gmail.com>,
+ =?utf-8?Q?C=C3=A9dric?= Le Goater <clg@kaod.org>,
+ David Gibson <david@gibson.dropbear.id.au>, Greg Kurz <groug@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  Jonathan Cameron <Jonathan.Cameron@Huawei.com>
-From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 
-On Wed, 26 Jan 2022 12:32:01 +0000
-Alex Benn=C3=A9e <alex.bennee@linaro.org> wrote:
+C=C3=A9dric Le Goater <clg@kaod.org> writes:
 
-> Jonathan Cameron <Jonathan.Cameron@huawei.com> writes:
->=20
-> > From: Ben Widawsky <ben.widawsky@intel.com>
-> >
-> > A CXL 2.0 component is any entity in the CXL topology. All components
-> > have a analogous function in PCIe. Except for the CXL host bridge, all
-> > have a PCIe config space that is accessible via the common PCIe
-> > mechanisms. CXL components are enumerated via DVSEC fields in the
-> > extended PCIe header space. CXL components will minimally implement some
-> > subset of CXL.mem and CXL.cache registers defined in 8.2.5 of the CXL
-> > 2.0 specification. Two headers and a utility library are introduced to
-> > support the minimum functionality needed to enumerate components.
-> >
-> > The cxl_pci header manages bits associated with PCI, specifically the
-> > DVSEC and related fields. The cxl_component.h variant has data
-> > structures and APIs that are useful for drivers implementing any of the
-> > CXL 2.0 components. The library takes care of making use of the DVSEC
-> > bits and the CXL.[mem|cache] registers. Per spec, the registers are
-> > little endian.
-> >
-> > None of the mechanisms required to enumerate a CXL capable hostbridge
-> > are introduced at this point.
-> >
-> > Note that the CXL.mem and CXL.cache registers used are always 4B wide.
-> > It's possible in the future that this constraint will not hold.
-> >
-> > Signed-off-by: Ben Widawsky <ben.widawsky@intel.com>
-> > Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-> > ---
-> >  hw/Kconfig                     |   1 +
-> >  hw/cxl/Kconfig                 |   3 +
-> >  hw/cxl/cxl-component-utils.c   | 212 +++++++++++++++++++++++++++++++++
-> >  hw/cxl/meson.build             |   3 +
-> >  hw/meson.build                 |   1 +
-> >  include/hw/cxl/cxl.h           |  16 +++
-> >  include/hw/cxl/cxl_component.h | 196 ++++++++++++++++++++++++++++++
-> >  include/hw/cxl/cxl_pci.h       | 138 +++++++++++++++++++++
-> >  8 files changed, 570 insertions(+)
-> >
-> > diff --git a/hw/Kconfig b/hw/Kconfig
-> > index ad20cce0a9..50e0952889 100644
-> > --- a/hw/Kconfig
-> > +++ b/hw/Kconfig
-> > @@ -6,6 +6,7 @@ source audio/Kconfig
-> >  source block/Kconfig
-> >  source char/Kconfig
-> >  source core/Kconfig
-> > +source cxl/Kconfig
-> >  source display/Kconfig
-> >  source dma/Kconfig
-> >  source gpio/Kconfig
-> > diff --git a/hw/cxl/Kconfig b/hw/cxl/Kconfig
-> > new file mode 100644
-> > index 0000000000..8e67519b16
-> > --- /dev/null
-> > +++ b/hw/cxl/Kconfig
-> > @@ -0,0 +1,3 @@
-> > +config CXL
-> > +    bool
-> > +    default y if PCI_EXPRESS
-> > diff --git a/hw/cxl/cxl-component-utils.c b/hw/cxl/cxl-component-utils.c
-> > new file mode 100644
-> > index 0000000000..5007b29ebb
-> > --- /dev/null
-> > +++ b/hw/cxl/cxl-component-utils.c
-> > @@ -0,0 +1,212 @@
-> > +/*
-> > + * CXL Utility library for components
-> > + *
-> > + * Copyright(C) 2020 Intel Corporation.
-> > + *
-> > + * This work is licensed under the terms of the GNU GPL, version 2. Se=
-e the
-> > + * COPYING file in the top-level directory.
-> > + */
-> > +
-> > +#include "qemu/osdep.h"
-> > +#include "qemu/log.h"
-> > +#include "hw/pci/pci.h"
-> > +#include "hw/cxl/cxl.h"
-> > +
-> > +static uint64_t cxl_cache_mem_read_reg(void *opaque, hwaddr offset,
-> > +                                       unsigned size)
-> > +{
-> > +    CXLComponentState *cxl_cstate =3D opaque;
-> > +    ComponentRegisters *cregs =3D &cxl_cstate->crb;
-> > +
-> > +    assert(size =3D=3D 4); =20
->=20
-> You assert here but bellow:
->=20
-> > +
-> > +/*
-> > + * 8.2.3
-> > + *   The access restrictions specified in Section 8.2.2 also apply to =
-CXL 2.0
-> > + *   Component Registers.
-> > + *
-> > + * 8.2.2
-> > + *   =E2=80=A2 A 32 bit register shall be accessed as a 4 Bytes quanti=
-ty. Partial
-> > + *   reads are not permitted.
-> > + *   =E2=80=A2 A 64 bit register shall be accessed as a 8 Bytes quanti=
-ty. Partial
-> > + *   reads are not permitted.
-> > + *
-> > + * As of the spec defined today, only 4 byte registers exist.
-> > + */
-> > +static const MemoryRegionOps cache_mem_ops =3D {
-> > +    .read =3D cxl_cache_mem_read_reg,
-> > +    .write =3D cxl_cache_mem_write_reg,
-> > +    .endianness =3D DEVICE_LITTLE_ENDIAN,
-> > +    .valid =3D {
-> > +        .min_access_size =3D 4,
-> > +        .max_access_size =3D 8,
-> > +        .unaligned =3D false,
-> > +    },
-> > +    .impl =3D {
-> > +        .min_access_size =3D 4,
-> > +        .max_access_size =3D 4,
-> > +    },
-> > +}; =20
->=20
-> You have constrained the access to 4 so you will only see 4 bytes
-> accesses. If it is valid for the guest to access 64bit words then it
-> would be better to no-op that case and maybe LOG_UNIMP the fact.
->=20
+> The 602 was derived from the PowerPC 603, for the gaming market it
+> seems. It was hardly used and no firmware supporting the CPU could be
+> found. Drop support.
+>
+> Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
+> ---
+>  target/ppc/cpu-models.h      |   1 -
+>  target/ppc/cpu.h             |   2 -
+>  target/ppc/helper.h          |   1 -
+>  target/ppc/cpu-models.c      |   2 -
+>  target/ppc/cpu_init.c        | 145 -----------------------------------
+>  target/ppc/excp_helper.c     |   1 -
+>  target/ppc/int_helper.c      |  21 -----
+>  target/ppc/mfrom_table_gen.c |  34 --------
+>  target/ppc/translate.c       |  30 --------
+>  target/ppc/mfrom_table.c.inc |  78 -------------------
+>  10 files changed, 315 deletions(-)
+>  delete mode 100644 target/ppc/mfrom_table_gen.c
+>  delete mode 100644 target/ppc/mfrom_table.c.inc
+>
+> diff --git a/target/ppc/cpu-models.h b/target/ppc/cpu-models.h
+> index bf1dc7e5ca3d..612978a3fbd2 100644
+> --- a/target/ppc/cpu-models.h
+> +++ b/target/ppc/cpu-models.h
+> @@ -208,7 +208,6 @@ enum {
+>      CPU_POWERPC_601_v0             =3D 0x00010001,
+>      CPU_POWERPC_601_v1             =3D 0x00010001,
+>      CPU_POWERPC_601_v2             =3D 0x00010002,
+> -    CPU_POWERPC_602                =3D 0x00050100,
+>      CPU_POWERPC_603                =3D 0x00030100,
+>      CPU_POWERPC_603E_v11           =3D 0x00060101,
+>      CPU_POWERPC_603E_v12           =3D 0x00060102,
+> diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
+> index 66e13075c3df..b9119479958c 100644
+> --- a/target/ppc/cpu.h
+> +++ b/target/ppc/cpu.h
 
-Ugh. This looks suspiciously like a work around for a kernel bug (possibly
-an accidental one).
+In cpu.h you could probably remove the MSR_AP and MSR_SA bit definitions
+as well. And the code in ppc_cpu_reset that sets them.
 
-If the comment above is correct (I've checked the spec and agree with it)..
+> @@ -2142,8 +2142,6 @@ enum {
+>      PPC_MFTB           =3D 0x0000000000000200ULL,
+>=20=20
+>      /* Fixed-point unit extensions                                      =
+     */
+> -    /*   PowerPC 602 specific                                           =
+     */
+> -    PPC_602_SPEC       =3D 0x0000000000000400ULL,
+>      /*   isel instruction                                               =
+     */
+>      PPC_ISEL           =3D 0x0000000000000800ULL,
+>      /*   popcntb instruction                                            =
+     */
 
-https://elixir.bootlin.com/linux/v5.17-rc1/source/drivers/cxl/core/regs.c#L=
-48
+...
 
-cap_array =3D readq(base + CXL_CM_CAP_HDR_OFFSET);
+> diff --git a/target/ppc/int_helper.c b/target/ppc/int_helper.c
+> index 9bc327bcba5a..d7765fd3e3d8 100644
+> --- a/target/ppc/int_helper.c
+> +++ b/target/ppc/int_helper.c
+> @@ -488,27 +488,6 @@ target_ulong helper_divso(CPUPPCState *env, target_u=
+long arg1,
+>      }
+>  }
+>=20=20
+> -/***********************************************************************=
+******/
+> -/* 602 specific instructions */
+> -/* mfrom is the most crazy instruction ever seen, imho ! */
 
-is undefined behavior as CAP_HDR is a 32bit register.
+How do you have the heart to remove the "most crazy instruction ever
+seen"?
 
-I guess the undefined choice on all the hardware people actually have
-is to service the 8 byte read, but there is no reason to believe future
-hardware will.
-
-... and this is why we like having emulation in Qemu :)
-+ eagle eyed reviewers!
-
-Guess I'd better send a kernel fix sometime soon.
-
-Jonathan
-
-> Otherwise the rest looks ok to me:
->=20
-> Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
->=20
-
+> -/* Real implementation uses a ROM table. Do the same */
+> -/*
+> - * Extremely decomposed:
+> - *                      -arg / 256
+> - * return 256 * log10(10           + 1.0) + 0.5
+> - */
+> -#if !defined(CONFIG_USER_ONLY)
+> -target_ulong helper_602_mfrom(target_ulong arg)
+> -{
+> -    if (likely(arg < 602)) {
+> -#include "mfrom_table.c.inc"
+> -        return mfrom_ROM_table[arg];
+> -    } else {
+> -        return 0;
+> -    }
+> -}
+> -#endif
 
