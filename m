@@ -2,71 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 929D14A0498
-	for <lists+qemu-devel@lfdr.de>; Sat, 29 Jan 2022 00:51:21 +0100 (CET)
-Received: from localhost ([::1]:42622 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B5894A2A99
+	for <lists+qemu-devel@lfdr.de>; Sat, 29 Jan 2022 01:29:00 +0100 (CET)
+Received: from localhost ([::1]:40374 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nDb1U-0002sW-Kv
-	for lists+qemu-devel@lfdr.de; Fri, 28 Jan 2022 18:51:20 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:42134)
+	id 1nDbbv-0003Cl-E5
+	for lists+qemu-devel@lfdr.de; Fri, 28 Jan 2022 19:28:59 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:42272)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1nDafw-0000oB-Ro
- for qemu-devel@nongnu.org; Fri, 28 Jan 2022 18:29:04 -0500
-Received: from [2607:f8b0:4864:20::d32] (port=34805
- helo=mail-io1-xd32.google.com)
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1nDag3-0000t9-Ix
+ for qemu-devel@nongnu.org; Fri, 28 Jan 2022 18:29:12 -0500
+Received: from [2607:f8b0:4864:20::d2b] (port=42735
+ helo=mail-io1-xd2b.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1nDafi-0001bD-FD
- for qemu-devel@nongnu.org; Fri, 28 Jan 2022 18:29:04 -0500
-Received: by mail-io1-xd32.google.com with SMTP id i62so9720936ioa.1
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1nDafi-0001bE-UP
+ for qemu-devel@nongnu.org; Fri, 28 Jan 2022 18:29:08 -0500
+Received: by mail-io1-xd2b.google.com with SMTP id r144so9659744iod.9
  for <qemu-devel@nongnu.org>; Fri, 28 Jan 2022 15:28:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bsdimp-com.20210112.gappssmtp.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=MVWZUYxrpCifraNDGYSj461HH4N52sJPo6Fc3sNZUKk=;
- b=SKNLiLJx7kUYdSiGyFtGWagPIFJIAeW38/JzLx72XtDQlKwQyN4bwcfvMYUqXwafFz
- 6PmYNpqsVdh8EEgT0f7XsJM7Y/+wRKffcSsp3iofzqvHxRR3dTcQa+B/Zq1+HKULRJXg
- NPNSlxNDwtO+R+XzL7zVm7nS6/AokLudiKY4BiH5sesftsu3C4L+zuo3PqtrZGfhmuS0
- ASBsFXs0svV5hxbO7dc5KHXIW/LEWqCmd9LGgEkYgykmXeaO66p6szfa7bYi1q6gjdtE
- biJ0OiffYuJBYFnKA/6oG4TnA0oW7Kk+OtcaQy81MPHw6R/eAXj4Jd+wAFGf19Sk+YgS
- RbYQ==
+ bh=rw3tCyrqXVGsCR1NJHkGgUyguO31bINLvGmuRP6N6Bw=;
+ b=E2/5Eu6z3Y+04KpoPr9MjkG+22j5QaD6K/agC+9iTnYs/wzeIH0DyOPqxaSvbilo4P
+ sivx84dV9/NExuVYe4z8sLiNpt6OJepwXcyyHUwLLdf3/P3tyRaV2TU6dvTVMEFQQGaY
+ 5mwyy3qePV+kmaValGkTibw8mlK8WTVMQOfOyZa1y+nZtFJmFtLtVDsM31yytOkXu+6l
+ XpA345B6Imx+zkXtl8/Y5Fv0Gbl8lLqwrmDizQXPhsB4q7JHAl/duczYbpknMf6boJWE
+ nWjM6D+YLA0kzGX5pCSvDExkmX93x3l8KgyjOIB0ZnQoJpDlDn+ygvLJOlwzQer2PmRU
+ n+8Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=MVWZUYxrpCifraNDGYSj461HH4N52sJPo6Fc3sNZUKk=;
- b=f/ll18NMDrVmjEsQeTk2y/HhyFYCZAWS0lh5HaRLLkulyzeFsjPn8e4/WYo4s4q943
- KQsxVoyykV+WU99+fsQ0j/CS3gf+zvUQBtmN0NLUSSzqN4LnfesuzgnjDT4kfdIEqqZS
- zDbIQZMU/fCoNmjcZIozqhToqJgA3ibZO8Z+cv4bGd5rUt1DyqkGipBcKoE+mDwcKYW/
- 908es1OcNU9cg1b9F93IsLOv4LIXlUAetApbygs1Rq8pnl24kUg2jcXAWr3sXyf4QVyK
- JZEeVz2ORz35fpb5Wx7qGNzZO3889joZgpDU7SpjHX7gOPSFdNKbYY6v1Sll5fcY3RuH
- bFiw==
-X-Gm-Message-State: AOAM531wkih8BIowsUowpeTUekGPcnXeotHV89EFfrwoOce0skLiiHFU
- l+B8D/UqEUwZ4BObqt0lSqTdsYbjQRpqPA==
-X-Google-Smtp-Source: ABdhPJy9YFodkovJdgOKjHAYuUSbpQmle9sofC4sfw2ARORPVMZDqV6hG7WLUilcClaGuDkIErEN0g==
-X-Received: by 2002:a05:6602:2e90:: with SMTP id
- m16mr6703387iow.74.1643412514732; 
- Fri, 28 Jan 2022 15:28:34 -0800 (PST)
+ bh=rw3tCyrqXVGsCR1NJHkGgUyguO31bINLvGmuRP6N6Bw=;
+ b=PGw0ZTZ0NOl1hb85GRZtr9TXe34fnuSaliW6VVBH75kBjAAlkdDDsSAdld9Slxq16h
+ 72ExQzX9SXyRNNk80Exz/AsdXz/6PKfAkpVf241GWd040Sy4g2n61KpOGOpbYY2oUjkx
+ SZVMT/TeLTAW74PplE9HzTAZ3awlVNQ5CAboNCiRmsbkTBelEqggTsTs00Ij90Izai1O
+ brgr5OvzDYa35arsAOKPSbR/R1XiWqayS5D+cYPNkWyHCO2YBHuJbxcM4GX0FVcD+R1t
+ FW/a4599hlo1oQ+VX3xjvWCL9VtqlnbmxDu1aSMctGHmXAC/T2tN9zgZDV5L00WEIcak
+ qdRA==
+X-Gm-Message-State: AOAM530Rt9/pvB3oqvIYKzipmes9Uv+g98Uq62CLvT244zModwRDiuf6
+ LFyygPL4+icRHZ/afZjmPTDSeqLpCb+/Mw==
+X-Google-Smtp-Source: ABdhPJwIFN4GL+CZYKhWlCcTfdk+T5Ii3Ulez/L6YtVM6AMMNmPt5zRK/gs+vsnGAWU9NhV6PKqaig==
+X-Received: by 2002:a6b:8e89:: with SMTP id q131mr6634114iod.77.1643412516161; 
+ Fri, 28 Jan 2022 15:28:36 -0800 (PST)
 Received: from dune.bsdimp.com (50-253-99-174-static.hfc.comcastbusiness.net.
  [50.253.99.174])
- by smtp.gmail.com with ESMTPSA id o11sm14323111ilm.20.2022.01.28.15.28.33
+ by smtp.gmail.com with ESMTPSA id o11sm14323111ilm.20.2022.01.28.15.28.34
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 28 Jan 2022 15:28:34 -0800 (PST)
+ Fri, 28 Jan 2022 15:28:35 -0800 (PST)
 From: Warner Losh <imp@bsdimp.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 29/40] bsd-user/signal.c: Fill in queue_signal
-Date: Fri, 28 Jan 2022 16:27:54 -0700
-Message-Id: <20220128232805.86191-30-imp@bsdimp.com>
+Subject: [PATCH v3 30/40] bsd-user/signal.c: sigset manipulation routines.
+Date: Fri, 28 Jan 2022 16:27:55 -0700
+Message-Id: <20220128232805.86191-31-imp@bsdimp.com>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <20220128232805.86191-1-imp@bsdimp.com>
 References: <20220128232805.86191-1-imp@bsdimp.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::d32
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::d2b
  (failed)
-Received-SPF: none client-ip=2607:f8b0:4864:20::d32;
- envelope-from=imp@bsdimp.com; helo=mail-io1-xd32.google.com
+Received-SPF: none client-ip=2607:f8b0:4864:20::d2b;
+ envelope-from=imp@bsdimp.com; helo=mail-io1-xd2b.google.com
 X-Spam_score_int: 8
 X-Spam_score: 0.8
 X-Spam_bar: /
@@ -93,58 +92,140 @@ Cc: Peter Maydell <peter.maydell@linaro.org>, Stacey Son <sson@FreeBSD.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Fill in queue signal implementation, as well as routines allocate and
-delete elements of the signal queue.
+target_sigemptyset: resets a set to having no bits set
+target_sigaddset:   adds a signal to a set
+target_sigismember: returns true when signal is a member
+host_to_target_sigset_internal: convert host sigset to target
+host_to_target_sigset: convert host sigset to target
+target_to_host_sigset_internal: convert target sigset to host
+target_to_host_sigset: convert target sigset to host
 
 Signed-off-by: Stacey Son <sson@FreeBSD.org>
 Signed-off-by: Kyle Evans <kevans@freebsd.org>
 Signed-off-by: Warner Losh <imp@bsdimp.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- bsd-user/qemu.h   |  5 +++++
- bsd-user/signal.c | 13 ++++++++++++-
- 2 files changed, 17 insertions(+), 1 deletion(-)
+ bsd-user/signal-common.h |  2 ++
+ bsd-user/signal.c        | 74 ++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 76 insertions(+)
 
-diff --git a/bsd-user/qemu.h b/bsd-user/qemu.h
-index a7964776fdb..1648a509b9c 100644
---- a/bsd-user/qemu.h
-+++ b/bsd-user/qemu.h
-@@ -85,6 +85,11 @@ typedef struct TaskState {
-     struct bsd_binprm *bprm;
-     struct image_info *info;
+diff --git a/bsd-user/signal-common.h b/bsd-user/signal-common.h
+index 80e9503238a..ee819266f54 100644
+--- a/bsd-user/signal-common.h
++++ b/bsd-user/signal-common.h
+@@ -14,11 +14,13 @@ abi_long do_sigaltstack(abi_ulong uss_addr, abi_ulong uoss_addr, abi_ulong sp);
+ long do_sigreturn(CPUArchState *env);
+ void force_sig_fault(int sig, int code, abi_ulong addr);
+ int host_to_target_signal(int sig);
++void host_to_target_sigset(target_sigset_t *d, const sigset_t *s);
+ void process_pending_signals(CPUArchState *env);
+ void queue_signal(CPUArchState *env, int sig, int si_type,
+                   target_siginfo_t *info);
+ void signal_init(void);
+ int target_to_host_signal(int sig);
++void target_to_host_sigset(sigset_t *d, const target_sigset_t *s);
  
-+    struct emulated_sigtable sync_signal;
-+    /*
-+     * TODO: Since we block all signals while returning to the main CPU
-+     * loop, this needn't be an array
-+     */
-     struct emulated_sigtable sigtab[TARGET_NSIG];
-     /*
-      * Nonzero if process_pending_signals() needs to do something (either
+ /*
+  * Within QEMU the top 8 bits of si_code indicate which of the parts of the
 diff --git a/bsd-user/signal.c b/bsd-user/signal.c
-index ccda7adbeef..34663f7a28a 100644
+index 34663f7a28a..84dafa4e9fe 100644
 --- a/bsd-user/signal.c
 +++ b/bsd-user/signal.c
-@@ -255,7 +255,18 @@ static void QEMU_NORETURN dump_core_and_abort(int target_sig)
- void queue_signal(CPUArchState *env, int sig, int si_type,
-                   target_siginfo_t *info)
- {
--    qemu_log_mask(LOG_UNIMP, "No signal queueing, dropping signal %d\n", sig);
-+    CPUState *cpu = env_cpu(env);
-+    TaskState *ts = cpu->opaque;
+@@ -32,6 +32,9 @@
+ 
+ static struct target_sigaction sigact_table[TARGET_NSIG];
+ static void host_signal_handler(int host_sig, siginfo_t *info, void *puc);
++static void target_to_host_sigset_internal(sigset_t *d,
++        const target_sigset_t *s);
 +
-+    trace_user_queue_signal(env, sig);
-+
-+    info->si_code = deposit32(info->si_code, 24, 8, si_type);
-+
-+    ts->sync_signal.info = *info;
-+    ts->sync_signal.pending = sig;
-+    /* Signal that a new signal is pending. */
-+    qatomic_set(&ts->signal_pending, 1);
-+    return;
+ 
+ /*
+  * The BSD ABIs use the same singal numbers across all the CPU architectures, so
+@@ -48,6 +51,25 @@ int target_to_host_signal(int sig)
+     return sig;
  }
  
- static int fatal_signal(int sig)
++static inline void target_sigemptyset(target_sigset_t *set)
++{
++    memset(set, 0, sizeof(*set));
++}
++
++static inline void target_sigaddset(target_sigset_t *set, int signum)
++{
++    signum--;
++    uint32_t mask = (uint32_t)1 << (signum % TARGET_NSIG_BPW);
++    set->__bits[signum / TARGET_NSIG_BPW] |= mask;
++}
++
++static inline int target_sigismember(const target_sigset_t *set, int signum)
++{
++    signum--;
++    abi_ulong mask = (abi_ulong)1 << (signum % TARGET_NSIG_BPW);
++    return (set->__bits[signum / TARGET_NSIG_BPW] & mask) != 0;
++}
++
+ /* Adjust the signal context to rewind out of safe-syscall if we're in it */
+ static inline void rewind_if_in_safe_syscall(void *puc)
+ {
+@@ -60,6 +82,58 @@ static inline void rewind_if_in_safe_syscall(void *puc)
+     }
+ }
+ 
++/*
++ * Note: The following take advantage of the BSD signal property that all
++ * signals are available on all architectures.
++ */
++static void host_to_target_sigset_internal(target_sigset_t *d,
++        const sigset_t *s)
++{
++    int i;
++
++    target_sigemptyset(d);
++    for (i = 1; i <= NSIG; i++) {
++        if (sigismember(s, i)) {
++            target_sigaddset(d, host_to_target_signal(i));
++        }
++    }
++}
++
++void host_to_target_sigset(target_sigset_t *d, const sigset_t *s)
++{
++    target_sigset_t d1;
++    int i;
++
++    host_to_target_sigset_internal(&d1, s);
++    for (i = 0; i < _SIG_WORDS; i++) {
++        d->__bits[i] = tswap32(d1.__bits[i]);
++    }
++}
++
++static void target_to_host_sigset_internal(sigset_t *d,
++        const target_sigset_t *s)
++{
++    int i;
++
++    sigemptyset(d);
++    for (i = 1; i <= TARGET_NSIG; i++) {
++        if (target_sigismember(s, i)) {
++            sigaddset(d, target_to_host_signal(i));
++        }
++    }
++}
++
++void target_to_host_sigset(sigset_t *d, const target_sigset_t *s)
++{
++    target_sigset_t s1;
++    int i;
++
++    for (i = 0; i < TARGET_NSIG_WORDS; i++) {
++        s1.__bits[i] = tswap32(s->__bits[i]);
++    }
++    target_to_host_sigset_internal(d, &s1);
++}
++
+ static bool has_trapno(int tsig)
+ {
+     return tsig == TARGET_SIGILL ||
 -- 
 2.33.1
 
