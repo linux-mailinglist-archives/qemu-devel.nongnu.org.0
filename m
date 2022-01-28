@@ -2,59 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1137449FCAA
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jan 2022 16:19:30 +0100 (CET)
-Received: from localhost ([::1]:40704 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 58B8649FD69
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jan 2022 16:59:42 +0100 (CET)
+Received: from localhost ([::1]:43100 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nDT29-0004wt-4K
-	for lists+qemu-devel@lfdr.de; Fri, 28 Jan 2022 10:19:29 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:53528)
+	id 1nDTf3-0004YZ-Ep
+	for lists+qemu-devel@lfdr.de; Fri, 28 Jan 2022 10:59:41 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:53714)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1nDSyD-0001XJ-C8
- for qemu-devel@nongnu.org; Fri, 28 Jan 2022 10:15:26 -0500
-Received: from kylie.crudebyte.com ([5.189.157.229]:33631)
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1nDSz3-00038s-Ew
+ for qemu-devel@nongnu.org; Fri, 28 Jan 2022 10:16:18 -0500
+Received: from frasgout.his.huawei.com ([185.176.79.56]:2220)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1nDSyA-00042a-DZ
- for qemu-devel@nongnu.org; Fri, 28 Jan 2022 10:15:24 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
- MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
- Content-ID:Content-Description;
- bh=GJDQ5irLUT5gE2OhdLOenniDnU919svCGpl3AA6U/OU=; b=vWi41W4AKTzxGDbKtsm6d0lpP5
- HLhC4NM2Ye9uuh01CRYECqfTY0qia0YBR/9a2LabYWWVQmsSsvHrNyxQQvUMWjCKkeh6enpUdH1gw
- R9tZqfjm6UzpUBkWwavK4iwtt3RJVPkSX4pcrCXUy+XJjp97lJlfhHAwjtWVLIFqxn8xW2Urdj3eX
- dA28ZsD9Ts7nb4qyfKrEPdpzqffCXFSBTeMEorYEQUDUPskqUOJYUy24vbDFzHtE4NCGL+/+3jEU/
- +1gsC0UOI+nbDkfMQzVjtlwQQDoxFUholYtR3J8Xhk4m33Zs1dmTgMsZOBg+db4Zrvjfy8nA+UMvb
- cMFJYg1YHTruCelkZY1IV/+uhFaba8hMRPXRNKetGfyZO9TuZbBvmJVuzPF+RLYDctR/BnxErd9dg
- kdxFt3toLuxMHdjJxSsZS5PgjVoBrMSVXODFEgvA/msIbPE9h02YJrorKwtn+2sB7b4EUHCfYPvDM
- VGHAYycEJ2VIuF7Ce9F81PG7Ha8TIP5qX49imo+X8PPFZ48eAQKZUt0I5rlyTP8jED8HFZwX9u7te
- 00GyTDW/zUTB+My8Ys4xz1xEFNJBReevXLZmhmrEsuGgGnE5YsVKNjKNxjDK/4HkaSwMg153pD20P
- qs5S5Sx4rY3J/m55+/oQ/Kvy74XOtYkWmVn8ESUcI=;
-From: Christian Schoenebeck <qemu_oss@crudebyte.com>
-To: qemu-devel@nongnu.org
-Cc: Will Cohen <wwcohen@gmail.com>, Keno Fischer <keno@juliacomputing.com>,
- Michael Roitzsch <reactorcontrol@icloud.com>, hi@alyssa.is,
- Greg Kurz <groug@kaod.org>
-Subject: Re: [PATCH v2 10/11] 9p: darwin: Implement compatibility for mknodat
-Date: Fri, 28 Jan 2022 16:15:12 +0100
-Message-ID: <1868804.s9PD02ncGZ@silver>
-In-Reply-To: <CAB26zV3uHf1r9nVUcrcysbvMojHE_Jz5sM941pc_uSSjYNnogg@mail.gmail.com>
-References: <20211122004913.20052-1-wwcohen@gmail.com>
- <3039867.d4g7DdiYNH@silver>
- <CAB26zV3uHf1r9nVUcrcysbvMojHE_Jz5sM941pc_uSSjYNnogg@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1nDSz0-0004BS-NO
+ for qemu-devel@nongnu.org; Fri, 28 Jan 2022 10:16:17 -0500
+Received: from fraeml701-chm.china.huawei.com (unknown [172.18.147.226])
+ by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4JlgsY6yDMz67xJ8;
+ Fri, 28 Jan 2022 23:11:45 +0800 (CST)
+Received: from lhreml710-chm.china.huawei.com (10.201.108.61) by
+ fraeml701-chm.china.huawei.com (10.206.15.50) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
+ 15.1.2308.21; Fri, 28 Jan 2022 16:16:11 +0100
+Received: from localhost (10.122.247.231) by lhreml710-chm.china.huawei.com
+ (10.201.108.61) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.21; Fri, 28 Jan
+ 2022 15:16:09 +0000
+Date: Fri, 28 Jan 2022 15:16:07 +0000
+To: Alex =?ISO-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>
+CC: <qemu-devel@nongnu.org>, Marcel Apfelbaum <marcel@redhat.com>, "Michael S
+ . Tsirkin" <mst@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
+ <linux-cxl@vger.kernel.org>, Ben Widawsky <ben.widawsky@intel.com>, "Peter
+ Maydell" <peter.maydell@linaro.org>, <linuxarm@huawei.com>, "Shameerali
+ Kolothum Thodi" <shameerali.kolothum.thodi@huawei.com>, Philippe
+ =?ISO-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>, Saransh Gupta1
+ <saransh@ibm.com>, Shreyas Shah <shreyas.shah@elastics.cloud>, Chris Browy
+ <cbrowy@avery-design.com>, Samarth Saxena <samarths@cadence.com>, "Dan
+ Williams" <dan.j.williams@intel.com>
+Subject: Re: [PATCH v4 05/42] hw/cxl/device: Implement the CAP array
+ (8.2.8.1-2)
+Message-ID: <20220128151607.000022b7@huawei.com>
+In-Reply-To: <87tudqbbr7.fsf@linaro.org>
+References: <20220124171705.10432-1-Jonathan.Cameron@huawei.com>
+ <20220124171705.10432-6-Jonathan.Cameron@huawei.com>
+ <87tudqbbr7.fsf@linaro.org>
+Organization: Huawei Technologies R&D (UK) Ltd.
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.29; x86_64-w64-mingw32)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
-Received-SPF: pass client-ip=5.189.157.229;
- envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+X-Originating-IP: [10.122.247.231]
+X-ClientProxiedBy: lhreml740-chm.china.huawei.com (10.201.108.190) To
+ lhreml710-chm.china.huawei.com (10.201.108.61)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=185.176.79.56;
+ envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -70,207 +79,117 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  Jonathan Cameron <Jonathan.Cameron@huawei.com>
+From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 
-On Donnerstag, 27. Januar 2022 22:47:54 CET Will Cohen wrote:
-> Back when this was being proposed, the original proposer did file such a
-> report to Apple, but we're still in this situation!
+On Wed, 26 Jan 2022 18:17:12 +0000
+Alex Benn=C3=A9e <alex.bennee@linaro.org> wrote:
 
-Ok, but still, do you find it appropriate to just blindly use a private 
-syscall that may or may not exist or might change its behaviour at any time 
-without a user being aware?
+> Jonathan Cameron <Jonathan.Cameron@huawei.com> writes:
+>=20
+> > From: Ben Widawsky <ben.widawsky@intel.com>
+> >
+> > This implements all device MMIO up to the first capability. That
+> > includes the CXL Device Capabilities Array Register, as well as all of
+> > the CXL Device Capability Header Registers. The latter are filled in as
+> > they are implemented in the following patches.
+> >
+> > Endianness and alignment are managed by softmmu memory core.
+> >
+> > Signed-off-by: Ben Widawsky <ben.widawsky@intel.com>
+> > Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+> > ---
+> >  hw/cxl/cxl-device-utils.c   | 105 ++++++++++++++++++++++++++++++++++++
+> >  hw/cxl/meson.build          |   1 +
+> >  include/hw/cxl/cxl_device.h |  28 +++++++++-
+> >  3 files changed, 133 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/hw/cxl/cxl-device-utils.c b/hw/cxl/cxl-device-utils.c
+> > new file mode 100644
+> > index 0000000000..cb1b0a8217
+> > --- /dev/null
+> > +++ b/hw/cxl/cxl-device-utils.c
+> > @@ -0,0 +1,105 @@
+> > +/*
+> > + * CXL Utility library for devices
+> > + *
+> > + * Copyright(C) 2020 Intel Corporation.
+> > + *
+> > + * This work is licensed under the terms of the GNU GPL, version 2. Se=
+e the
+> > + * COPYING file in the top-level directory.
+> > + */
+> > +
+> > +#include "qemu/osdep.h"
+> > +#include "qemu/log.h"
+> > +#include "hw/cxl/cxl.h"
+> > +
+> > +/*
+> > + * Device registers have no restrictions per the spec, and so fall bac=
+k to the
+> > + * default memory mapped register rules in 8.2:
+> > + *   Software shall use CXL.io Memory Read and Write to access memory =
+mapped
+> > + *   register defined in this section. Unless otherwise specified, sof=
+tware
+> > + *   shall restrict the accesses width based on the following:
+> > + *   =E2=80=A2 A 32 bit register shall be accessed as a 1 Byte, 2 Byte=
+s or 4 Bytes
+> > + *     quantity.
+> > + *   =E2=80=A2 A 64 bit register shall be accessed as a 1 Byte, 2 Byte=
+s, 4 Bytes or 8
+> > + *     Bytes
+> > + *   =E2=80=A2 The address shall be a multiple of the access width, e.=
+g. when
+> > + *     accessing a register as a 4 Byte quantity, the address shall be
+> > + *     multiple of 4.
+> > + *   =E2=80=A2 The accesses shall map to contiguous bytes.If these rul=
+es are not
+> > + *     followed, the behavior is undefined
+> > + */
+> > +
+> > +static uint64_t caps_reg_read(void *opaque, hwaddr offset, unsigned si=
+ze)
+> > +{
+> > +    CXLDeviceState *cxl_dstate =3D opaque;
+> > +
+> > +    return cxl_dstate->caps_reg_state32[offset / 4];
+> > +}
+> > +
+> > +static uint64_t dev_reg_read(void *opaque, hwaddr offset, unsigned siz=
+e)
+> > +{
+> > +    return 0;
+> > +}
+> > +
+> > +static const MemoryRegionOps dev_ops =3D {
+> > +    .read =3D dev_reg_read,
+> > +    .write =3D NULL, /* status register is read only */
+> > +    .endianness =3D DEVICE_LITTLE_ENDIAN,
+> > +    .valid =3D {
+> > +        .min_access_size =3D 1,
+> > +        .max_access_size =3D 8,
+> > +        .unaligned =3D false,
+> > +    },
+> > +    .impl =3D {
+> > +        .min_access_size =3D 1,
+> > +        .max_access_size =3D 8,
+> > +    },
+> > +}; =20
+>=20
+> I think for >64 bit registers you need to use the read_with_attrs=20
 
-I am not opposed to using workarounds at all, but what I worry about is that 
-Apple might change this in whatever way at any time, and as this sycall is 
-currently not guarded in this patch at all, we might one day receive bug 
-reports by macOS users with symptoms that might not immediately be obvious to 
-relate to this being the root cause.
+I don't follow this comment.  Max access to registers is 64 bits.
+A few are documented as 128 bit or indeed larger in the spec, but the
+access is as if they were multiple 64 bit registers accesses.
+It's not permissible to do a single 128bit access for example.
 
-Options that would come to my mind:
-- a test case for this syscall
-- a clear runtime error message for ordinary users
+The F4 errata clarified that - previously it was rather unclear what
+the restrictions on access to the larger registers were.
 
-Is there a rdar or FB number for the report on Apple's side?
+I've updated a few comments on this to reflect the errata.
 
-> Replacing clang with gcc in v3.
-> 
-> On Wed, Nov 24, 2021 at 12:20 PM Christian Schoenebeck <
-> 
-> qemu_oss@crudebyte.com> wrote:
-> > On Montag, 22. November 2021 01:49:12 CET Will Cohen wrote:
-> > > From: Keno Fischer <keno@juliacomputing.com>
-> > > 
-> > > Darwin does not support mknodat. However, to avoid race conditions
-> > > with later setting the permissions, we must avoid using mknod on
-> > > the full path instead. We could try to fchdir, but that would cause
-> > > problems if multiple threads try to call mknodat at the same time.
-> > > However, luckily there is a solution: Darwin as an (unexposed in the
-> > > C library) system call that sets the cwd for the current thread only.
-> > > This should suffice to use mknod safely.
-> > > 
-> > > Signed-off-by: Keno Fischer <keno@juliacomputing.com>
-> > > Signed-off-by: Michael Roitzsch <reactorcontrol@icloud.com>
-> > > [Will Cohen: - Adjust coding style]
-> > > Signed-off-by: Will Cohen <wwcohen@gmail.com>
-> > > ---
-> > > 
-> > >  hw/9pfs/9p-local.c       |  5 +++--
-> > >  hw/9pfs/9p-util-darwin.c | 33 +++++++++++++++++++++++++++++++++
-> > >  hw/9pfs/9p-util-linux.c  |  5 +++++
-> > >  hw/9pfs/9p-util.h        |  2 ++
-> > >  4 files changed, 43 insertions(+), 2 deletions(-)
-> > > 
-> > > diff --git a/hw/9pfs/9p-local.c b/hw/9pfs/9p-local.c
-> > > index 4268703d05..42b65e143b 100644
-> > > --- a/hw/9pfs/9p-local.c
-> > > +++ b/hw/9pfs/9p-local.c
-> > > @@ -673,7 +673,7 @@ static int local_mknod(FsContext *fs_ctx, V9fsPath
-> > > *dir_path,
-> > > 
-> > >      if (fs_ctx->export_flags & V9FS_SM_MAPPED ||
-> > >      
-> > >          fs_ctx->export_flags & V9FS_SM_MAPPED_FILE) {
-> > > 
-> > > -        err = mknodat(dirfd, name, fs_ctx->fmode | S_IFREG, 0);
-> > > +        err = qemu_mknodat(dirfd, name, fs_ctx->fmode | S_IFREG, 0);
-> > > 
-> > >          if (err == -1) {
-> > >          
-> > >              goto out;
-> > >          
-> > >          }
-> > > 
-> > > @@ -688,7 +688,7 @@ static int local_mknod(FsContext *fs_ctx, V9fsPath
-> > > *dir_path, }
-> > > 
-> > >      } else if (fs_ctx->export_flags & V9FS_SM_PASSTHROUGH ||
-> > >      
-> > >                 fs_ctx->export_flags & V9FS_SM_NONE) {
-> > > 
-> > > -        err = mknodat(dirfd, name, credp->fc_mode, credp->fc_rdev);
-> > > +        err = qemu_mknodat(dirfd, name, credp->fc_mode,
-> > > credp->fc_rdev);
-> > > 
-> > >          if (err == -1) {
-> > >          
-> > >              goto out;
-> > >          
-> > >          }
-> > > 
-> > > @@ -701,6 +701,7 @@ static int local_mknod(FsContext *fs_ctx, V9fsPath
-> > > *dir_path,
-> > > 
-> > >  err_end:
-> > >      unlinkat_preserve_errno(dirfd, name, 0);
-> > > 
-> > > +
-> > > 
-> > >  out:
-> > >      close_preserve_errno(dirfd);
-> > >      return err;
-> > > 
-> > > diff --git a/hw/9pfs/9p-util-darwin.c b/hw/9pfs/9p-util-darwin.c
-> > > index ac414bcbfd..25e67d5067 100644
-> > > --- a/hw/9pfs/9p-util-darwin.c
-> > > +++ b/hw/9pfs/9p-util-darwin.c
-> > > 
-> > > @@ -158,3 +158,36 @@ done:
-> > >      close_preserve_errno(fd);
-> > >      return ret;
-> > >  
-> > >  }
-> > > 
-> > > +
-> > > +#ifndef SYS___pthread_fchdir
-> > > +# define SYS___pthread_fchdir 349
-> > > +#endif
-> > > +
-> > > +/*
-> > > + * This is an undocumented OS X syscall. It would be best to avoid it,
-> > > + * but there doesn't seem to be another safe way to implement mknodat.
-> > > + * Dear Apple, please implement mknodat before you remove this syscall.
-> > > + */
-> > > +static int fchdir_thread_local(int fd)
-> > 
-> > Hooo, that's a brave move. Shouldn't its future and likely becoming
-> > absence be
-> > guarded "somehow"? :)
-> > 
-> > BTW it might make sense to file a report instead of hoping Apple will just
-> > read this comment: ;-)
-> > https://feedbackassistant.apple.com/
-> > 
-> > > +{
-> > > +#pragma clang diagnostic push
-> > > +#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-> > > +    return syscall(SYS___pthread_fchdir, fd);
-> > > +#pragma clang diagnostic pop
-> > > +}
-> > 
-> > Consider s/clang/GCC/ then it would also work with GCC. In the end most
-> > people
-> > probably just use clang on macOS anyway, but just saying.
-> > 
-> > > +
-> > > +int qemu_mknodat(int dirfd, const char *filename, mode_t mode, dev_t
-> > 
-> > dev)
-> > 
-> > > +{
-> > > +    int preserved_errno, err;
-> > > +    if (fchdir_thread_local(dirfd) < 0) {
-> > > +        return -1;
-> > > +    }
-> > > +    err = mknod(filename, mode, dev);
-> > > +    preserved_errno = errno;
-> > > +    /* Stop using the thread-local cwd */
-> > > +    fchdir_thread_local(-1);
-> > > +    if (err < 0) {
-> > > +        errno = preserved_errno;
-> > > +    }
-> > > +    return err;
-> > > +}
-> > > diff --git a/hw/9pfs/9p-util-linux.c b/hw/9pfs/9p-util-linux.c
-> > > index d54bf57a59..4f57d8c047 100644
-> > > --- a/hw/9pfs/9p-util-linux.c
-> > > +++ b/hw/9pfs/9p-util-linux.c
-> > > @@ -68,3 +68,8 @@ int utimensat_nofollow(int dirfd, const char
-> > > *filename,
-> > > 
-> > >  {
-> > >  
-> > >      return utimensat(dirfd, filename, times, AT_SYMLINK_NOFOLLOW);
-> > >  
-> > >  }
-> > > 
-> > > +
-> > > +int qemu_mknodat(int dirfd, const char *filename, mode_t mode, dev_t
-> > 
-> > dev)
-> > 
-> > > +{
-> > > +    return mknodat(dirfd, filename, mode, dev);
-> > > +}
-> > > diff --git a/hw/9pfs/9p-util.h b/hw/9pfs/9p-util.h
-> > > index 1c477a0e66..cac682d335 100644
-> > > --- a/hw/9pfs/9p-util.h
-> > > +++ b/hw/9pfs/9p-util.h
-> > > @@ -105,4 +105,6 @@ ssize_t fremovexattrat_nofollow(int dirfd, const
-> > > char
-> > > *filename, int utimensat_nofollow(int dirfd, const char *filename,
-> > > 
-> > >                         const struct timespec times[2]);
-> > > 
-> > > +int qemu_mknodat(int dirfd, const char *filename, mode_t mode, dev_t
-> > 
-> > dev);
-> > 
-> > > +
-> > > 
-> > >  #endif
+Thanks,
 
-
-Best regards,
-Christian Schoenebeck
-
-
+Jonathan
 
