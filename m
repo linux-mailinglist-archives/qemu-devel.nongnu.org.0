@@ -2,68 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6EF9A49FF9A
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jan 2022 18:34:50 +0100 (CET)
-Received: from localhost ([::1]:50080 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B4B6849FFF5
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jan 2022 19:11:53 +0100 (CET)
+Received: from localhost ([::1]:58932 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nDV96-0001po-Vz
-	for lists+qemu-devel@lfdr.de; Fri, 28 Jan 2022 12:34:49 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:59812)
+	id 1nDViv-00046V-NJ
+	for lists+qemu-devel@lfdr.de; Fri, 28 Jan 2022 13:11:49 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:34202)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1nDV4T-0006a7-Tg
- for qemu-devel@nongnu.org; Fri, 28 Jan 2022 12:30:02 -0500
-Received: from frasgout.his.huawei.com ([185.176.79.56]:2223)
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1nDVFO-0006tS-0i; Fri, 28 Jan 2022 12:41:18 -0500
+Received: from kylie.crudebyte.com ([5.189.157.229]:46387)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1nDV4P-0007tt-77
- for qemu-devel@nongnu.org; Fri, 28 Jan 2022 12:29:59 -0500
-Received: from fraeml715-chm.china.huawei.com (unknown [172.18.147.201])
- by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4Jlkrn6SWfz67ydC;
- Sat, 29 Jan 2022 01:26:17 +0800 (CST)
-Received: from lhreml710-chm.china.huawei.com (10.201.108.61) by
- fraeml715-chm.china.huawei.com (10.206.15.34) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.21; Fri, 28 Jan 2022 18:29:52 +0100
-Received: from localhost (10.122.247.231) by lhreml710-chm.china.huawei.com
- (10.201.108.61) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.21; Fri, 28 Jan
- 2022 17:29:51 +0000
-Date: Fri, 28 Jan 2022 17:29:50 +0000
-To: <qemu-devel@nongnu.org>, Marcel Apfelbaum <marcel@redhat.com>, "Michael S
- . Tsirkin" <mst@redhat.com>, Igor Mammedov <imammedo@redhat.com>
-CC: <linux-cxl@vger.kernel.org>, Ben Widawsky <ben.widawsky@intel.com>, Alex
- =?ISO-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>, Peter Maydell
- <peter.maydell@linaro.org>, <linuxarm@huawei.com>, "Shameerali Kolothum
- Thodi" <shameerali.kolothum.thodi@huawei.com>, Philippe =?ISO-8859-1?Q?Mat?=
- =?ISO-8859-1?Q?hieu-Daud=E9?= <f4bug@amsat.org>, Saransh Gupta1
- <saransh@ibm.com>, Shreyas Shah <shreyas.shah@elastics.cloud>, Chris Browy
- <cbrowy@avery-design.com>, Samarth Saxena <samarths@cadence.com>, "Dan
- Williams" <dan.j.williams@intel.com>
-Subject: Re: [PATCH v4 27/42] hw/cxl/device: Implement get/set Label Storage
- Area (LSA)
-Message-ID: <20220128172950.00004ddc@huawei.com>
-In-Reply-To: <20220124171705.10432-28-Jonathan.Cameron@huawei.com>
-References: <20220124171705.10432-1-Jonathan.Cameron@huawei.com>
- <20220124171705.10432-28-Jonathan.Cameron@huawei.com>
-Organization: Huawei Technologies R&D (UK) Ltd.
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.29; x86_64-w64-mingw32)
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1nDVFG-0001Ih-Md; Fri, 28 Jan 2022 12:41:12 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
+ MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+ Content-ID:Content-Description;
+ bh=6CIiuW8I/+WHayZKdOMJwl3is3Xgiy9lvaG+foETCs4=; b=cbXe1V7kQLpXws2hR+ocU2u+jp
+ LjDsu6l8MDlqJOvLiv3C+7zbHsvapu8hN16T534vyX5Q7G8Msk2C4fbKRhCWQx/Ajvv6rnZaWuB3w
+ 3l8qcKR/dzMW52fdXJldJ+gWNicydeJlFZiHdvpzJB2lf0RFm4F6rNjFXpNkuSUWdFiML3FIcAkWh
+ qYRcG6Mqok5tvxwFwklR4Kl0ZGOXB8e8Cizdn2Dc5EQxUpi9jbewtt/AvgutkNazae57hbTXNKM68
+ HQ+gddvUL1ksKJ/O+z/MweDxsTeMJOySHo3Zp1ZstOjaWwT8bJCKi+Bj1eDvciidxfqWpSCL9qRcV
+ FIiHbGEDYgsI6QO2X42H5NOERlUTQA/XFaiwvf5rasD5K/fW7VdMPSphf8Ml6VA+x6bU/zB0cZ+tR
+ qq9JmTxc3rLnJ1c08/lkFkkjEfW3jKBlPbVUU7VwLHDrhtNTqLMbs0lVTW6VBHCsaPssKyyfyOyg+
+ IX+pG79xW/wBdHWT0m8NMopy57qM8IEJYJQ1bfmN7uJXzZMtwRgyXxXgkp2h1fHubmVUHGr9El/ir
+ AFVRUWct9ZDtt3ZaUckqjCoqc1MMkAoRnpxV3Zm0J/0VokbmMRGeqz4sHPamIyqD5Mc6HZuNSLSIP
+ JU5Y+T1KpexMqdca4rIih0ktY25siix5YbiT9x7JU=;
+From: Christian Schoenebeck <qemu_oss@crudebyte.com>
+To: qemu-devel@nongnu.org
+Cc: Vitaly Chikunov <vt@altlinux.org>, qemu-stable@nongnu.org, ldv@altlinux.org,
+ Greg Kurz <groug@kaod.org>
+Subject: Re: [PATCH] 9pfs: Fix segfault in do_readdir_many caused by struct
+ dirent overread
+Date: Fri, 28 Jan 2022 18:40:59 +0100
+Message-ID: <1768416.RRnjqH5RSi@silver>
+In-Reply-To: <20220128162401.vbnffmghae3zgrfo@altlinux.org>
+References: <20220127212734.218900-1-vt@altlinux.org>
+ <2533498.9Ea8Rob0xc@silver> <20220128162401.vbnffmghae3zgrfo@altlinux.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.122.247.231]
-X-ClientProxiedBy: lhreml740-chm.china.huawei.com (10.201.108.190) To
- lhreml710-chm.china.huawei.com (10.201.108.61)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=185.176.79.56;
- envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
-X-Spam_score_int: -22
-X-Spam_score: -2.3
-X-Spam_bar: --
-X-Spam_report: (-2.3 / 5.0 requ) RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001,
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
+Received-SPF: pass client-ip=5.189.157.229;
+ envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
+X-Spam_score_int: -1
+X-Spam_score: -0.2
+X-Spam_bar: /
+X-Spam_report: (-0.2 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -79,53 +67,42 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  Jonathan Cameron <Jonathan.Cameron@huawei.com>
-From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 
-On Mon, 24 Jan 2022 17:16:50 +0000
-Jonathan Cameron <Jonathan.Cameron@huawei.com> wrote:
+On Freitag, 28. Januar 2022 17:24:01 CET Vitaly Chikunov wrote:
+> > > diff --git a/util/osdep.c b/util/osdep.c
+> > > index 42a0a4986a..e39d1071fd 100644
+> > > --- a/util/osdep.c
+> > > +++ b/util/osdep.c
+> > > @@ -33,6 +33,7 @@
+> > > 
+> > >  extern int madvise(char *, size_t, int);
+> > >  #endif
+> > > 
+> > > +#include <dirent.h>
+> > 
+> > Wouldn't that break Windows builds?
+> 
+> Possible, but I don't have windows build to test. What would you
+> suggest as better fix?
+> 
+> I took as example `util/path.c' which includes `dirent.h' too, but it is
+> not handled anyway different than `util/osdep.c'
 
-> From: Ben Widawsky <ben.widawsky@intel.com>
-> 
-> Implement get and set handlers for the Label Storage Area
-> used to hold data describing persistent memory configuration
-> so that it can be ensured it is seen in the same configuration
-> after reboot.
-> 
-> Signed-off-by: Ben Widawsky <ben.widawsky@intel.com>
-> Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-> ---
->  hw/cxl/cxl-mailbox-utils.c  | 54 +++++++++++++++++++++++++++++++++++
->  hw/mem/cxl_type3.c          | 56 ++++++++++++++++++++++++++++++++++++-
->  include/hw/cxl/cxl_device.h |  5 ++++
->  3 files changed, 114 insertions(+), 1 deletion(-)
-> 
-> diff --git a/hw/cxl/cxl-mailbox-utils.c b/hw/cxl/cxl-mailbox-utils.c
-> index 4009152b7e..0df2a8492a 100644
-> --- a/hw/cxl/cxl-mailbox-utils.c
-> +++ b/hw/cxl/cxl-mailbox-utils.c
-> @@ -55,6 +55,8 @@ enum {
->          #define MEMORY_DEVICE 0x0
->      CCLS        = 0x41,
->          #define GET_PARTITION_INFO     0x0
-> +        #define GET_LSA       0x2
-> +        #define SET_LSA       0x3
->  };
->  
->  /* 8.2.8.4.5.1 Command Return Codes */
-> @@ -136,8 +138,11 @@ declare_mailbox_handler(LOGS_GET_SUPPORTED);
->  declare_mailbox_handler(LOGS_GET_LOG);
->  declare_mailbox_handler(IDENTIFY_MEMORY_DEVICE);
->  declare_mailbox_handler(CCLS_GET_PARTITION_INFO);
-> +declare_mailbox_handler(CCLS_GET_LSA);
-> +declare_mailbox_handler(CCLS_SET_LSA);
->  
->  #define IMMEDIATE_CONFIG_CHANGE (1 << 1)
-> +#define IMMEDIATE_DATA_CHANGE (1 << 1)
-Notice whilst reworking this code to drop the macro compexity.
-This should be (1 << 2) I think as it is bit 2 in the CEL.
+AFAICS the current expectation is to build QEMU for Windows with a POSIX-aware 
+toolchain like msys2, cygwin or some cross compiler:
+https://wiki.qemu.org/Hosts/W32
 
->  #define IMMEDIATE_POLICY_CHANGE (1 << 3)
->  #define IMMEDIATE_LOG_CHANGE (1 << 4)
->  
+So I suggest leave it as is, it should be fine. Otherwise we can still wrap it 
+into something like
+
+	#if !defined(WIN32)
+	...
+	#endif
+
+later on if really required.
+
+Best regards,
+Christian Schoenebeck
+
+
 
