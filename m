@@ -2,69 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58B8649FD69
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jan 2022 16:59:42 +0100 (CET)
-Received: from localhost ([::1]:43100 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 401EA49FCC0
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jan 2022 16:26:35 +0100 (CET)
+Received: from localhost ([::1]:49432 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nDTf3-0004YZ-Ep
-	for lists+qemu-devel@lfdr.de; Fri, 28 Jan 2022 10:59:41 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:53714)
+	id 1nDT90-0002st-B1
+	for lists+qemu-devel@lfdr.de; Fri, 28 Jan 2022 10:26:34 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:55008)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1nDSz3-00038s-Ew
- for qemu-devel@nongnu.org; Fri, 28 Jan 2022 10:16:18 -0500
-Received: from frasgout.his.huawei.com ([185.176.79.56]:2220)
+ (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
+ id 1nDT37-0007ME-U0
+ for qemu-devel@nongnu.org; Fri, 28 Jan 2022 10:20:36 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:26044)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1nDSz0-0004BS-NO
- for qemu-devel@nongnu.org; Fri, 28 Jan 2022 10:16:17 -0500
-Received: from fraeml701-chm.china.huawei.com (unknown [172.18.147.226])
- by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4JlgsY6yDMz67xJ8;
- Fri, 28 Jan 2022 23:11:45 +0800 (CST)
-Received: from lhreml710-chm.china.huawei.com (10.201.108.61) by
- fraeml701-chm.china.huawei.com (10.206.15.50) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.2308.21; Fri, 28 Jan 2022 16:16:11 +0100
-Received: from localhost (10.122.247.231) by lhreml710-chm.china.huawei.com
- (10.201.108.61) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.21; Fri, 28 Jan
- 2022 15:16:09 +0000
-Date: Fri, 28 Jan 2022 15:16:07 +0000
-To: Alex =?ISO-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>
-CC: <qemu-devel@nongnu.org>, Marcel Apfelbaum <marcel@redhat.com>, "Michael S
- . Tsirkin" <mst@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
- <linux-cxl@vger.kernel.org>, Ben Widawsky <ben.widawsky@intel.com>, "Peter
- Maydell" <peter.maydell@linaro.org>, <linuxarm@huawei.com>, "Shameerali
- Kolothum Thodi" <shameerali.kolothum.thodi@huawei.com>, Philippe
- =?ISO-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>, Saransh Gupta1
- <saransh@ibm.com>, Shreyas Shah <shreyas.shah@elastics.cloud>, Chris Browy
- <cbrowy@avery-design.com>, Samarth Saxena <samarths@cadence.com>, "Dan
- Williams" <dan.j.williams@intel.com>
-Subject: Re: [PATCH v4 05/42] hw/cxl/device: Implement the CAP array
- (8.2.8.1-2)
-Message-ID: <20220128151607.000022b7@huawei.com>
-In-Reply-To: <87tudqbbr7.fsf@linaro.org>
-References: <20220124171705.10432-1-Jonathan.Cameron@huawei.com>
- <20220124171705.10432-6-Jonathan.Cameron@huawei.com>
- <87tudqbbr7.fsf@linaro.org>
-Organization: Huawei Technologies R&D (UK) Ltd.
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.29; x86_64-w64-mingw32)
+ (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
+ id 1nDT32-0004cf-8P
+ for qemu-devel@nongnu.org; Fri, 28 Jan 2022 10:20:26 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1643383202;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=VCpQ6G8EbZVUlEEObPH7XuBaFcUOrkC12+weEu9U2yU=;
+ b=ipR0h2Qd0f1HEgjMOB9Dd9fp8v/Z+dycDlxmlNIt3QPp5iGr5uL9/wZjnuielDzBi67kkw
+ t8826ftALdvgmkkWhrQiGZYVtkVUIKb8vT48uNUJxkhzRsuaeoXa3GuteNjF4B8o3788fF
+ 1JKVx9CoG3oO0qi3xMwKDSyfkh0r0qg=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-634-2GV9DZLRM2eVcOWq4PvASQ-1; Fri, 28 Jan 2022 10:20:01 -0500
+X-MC-Unique: 2GV9DZLRM2eVcOWq4PvASQ-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ w5-20020a1cf605000000b0034b8cb1f55eso6055593wmc.0
+ for <qemu-devel@nongnu.org>; Fri, 28 Jan 2022 07:20:01 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=VCpQ6G8EbZVUlEEObPH7XuBaFcUOrkC12+weEu9U2yU=;
+ b=WKLtcOaDHXxs27w9Xh8DQNdhO5Kr/tIgcDVQKrDYJMzsaqJWNWUP1iOdoGfh8cawkt
+ Wk4Kha6CTF/8k9skQpuDgngqVWXQm8qCp0MJbr/O1edEHE7XFMh420u79fFdKLgWsLuS
+ T94Q7/IlmuZdTHj8YaET9jZ1Stpfzjv1i7uv/nZrYZvbCoDhav+5I/jc9N/uUK4k1mta
+ xlvLgdk3KOhylgoiMDI2u1cjBgltsZNnj4AqaPqNKoI/3qSdc10sgJw/d9linMR5mmg0
+ YpN0l3tBTm5pXljHNzSxn2SOSOvsdolmAflcRz2mBRDkbbrrJz93QSRAQxD8LJaUA200
+ fxKw==
+X-Gm-Message-State: AOAM531ndUozCa8tTfWkvD3K3ndVmacT/i7Bv1hSwaYLPO+UFE/Fp3m8
+ 7h8D52XAqFl+kK8EfqM4Fd6XfGxcJiS5AiKTYt3ZXRV/OnCHpTsxtIHJoYEtP0GXUtr5DhH46zM
+ svjUpeUyKysZCth8=
+X-Received: by 2002:a5d:6603:: with SMTP id n3mr7256602wru.20.1643383200161;
+ Fri, 28 Jan 2022 07:20:00 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxTFXMecEuiDsa+wWVyFRPTjhNx3Rnt9oysgJjiRWYV+91Ab+ffRtdCeEr/ywNoxZuj4ooMyQ==
+X-Received: by 2002:a5d:6603:: with SMTP id n3mr7256564wru.20.1643383199889;
+ Fri, 28 Jan 2022 07:19:59 -0800 (PST)
+Received: from ?IPV6:2a04:ee41:4:31cb:e591:1e1e:abde:a8f1?
+ ([2a04:ee41:4:31cb:e591:1e1e:abde:a8f1])
+ by smtp.gmail.com with ESMTPSA id o6sm5880545wrc.65.2022.01.28.07.19.58
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 28 Jan 2022 07:19:59 -0800 (PST)
+Message-ID: <dfd3932e-ced4-c2db-441f-df7bb991415b@redhat.com>
+Date: Fri, 28 Jan 2022 16:19:57 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-X-Originating-IP: [10.122.247.231]
-X-ClientProxiedBy: lhreml740-chm.china.huawei.com (10.201.108.190) To
- lhreml710-chm.china.huawei.com (10.201.108.61)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=185.176.79.56;
- envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.2.0
+Subject: Re: [PATCH v6 29/33] job.h: assertions in the callers of JobDriver
+ funcion pointers
+To: Hanna Reitz <hreitz@redhat.com>, qemu-block@nongnu.org
+References: <20220121170544.2049944-1-eesposit@redhat.com>
+ <20220121170544.2049944-30-eesposit@redhat.com>
+ <daa2d5d6-8f57-672a-2ce8-41e8d163d821@redhat.com>
+From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+In-Reply-To: <daa2d5d6-8f57-672a-2ce8-41e8d163d821@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eesposit@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eesposit@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.167,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -77,119 +104,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org,
+ John Snow <jsnow@redhat.com>, Daniel Henrique Barboza <danielhb413@gmail.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Markus Armbruster <armbru@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ Eduardo Habkost <eduardo@habkost.net>, Greg Kurz <groug@kaod.org>,
+ qemu-ppc@nongnu.org, =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ "Denis V. Lunev" <den@openvz.org>, Eric Blake <eblake@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  Jonathan Cameron <Jonathan.Cameron@huawei.com>
-From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 
-On Wed, 26 Jan 2022 18:17:12 +0000
-Alex Benn=C3=A9e <alex.bennee@linaro.org> wrote:
 
-> Jonathan Cameron <Jonathan.Cameron@huawei.com> writes:
->=20
-> > From: Ben Widawsky <ben.widawsky@intel.com>
-> >
-> > This implements all device MMIO up to the first capability. That
-> > includes the CXL Device Capabilities Array Register, as well as all of
-> > the CXL Device Capability Header Registers. The latter are filled in as
-> > they are implemented in the following patches.
-> >
-> > Endianness and alignment are managed by softmmu memory core.
-> >
-> > Signed-off-by: Ben Widawsky <ben.widawsky@intel.com>
-> > Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-> > ---
-> >  hw/cxl/cxl-device-utils.c   | 105 ++++++++++++++++++++++++++++++++++++
-> >  hw/cxl/meson.build          |   1 +
-> >  include/hw/cxl/cxl_device.h |  28 +++++++++-
-> >  3 files changed, 133 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/hw/cxl/cxl-device-utils.c b/hw/cxl/cxl-device-utils.c
-> > new file mode 100644
-> > index 0000000000..cb1b0a8217
-> > --- /dev/null
-> > +++ b/hw/cxl/cxl-device-utils.c
-> > @@ -0,0 +1,105 @@
-> > +/*
-> > + * CXL Utility library for devices
-> > + *
-> > + * Copyright(C) 2020 Intel Corporation.
-> > + *
-> > + * This work is licensed under the terms of the GNU GPL, version 2. Se=
-e the
-> > + * COPYING file in the top-level directory.
-> > + */
-> > +
-> > +#include "qemu/osdep.h"
-> > +#include "qemu/log.h"
-> > +#include "hw/cxl/cxl.h"
-> > +
-> > +/*
-> > + * Device registers have no restrictions per the spec, and so fall bac=
-k to the
-> > + * default memory mapped register rules in 8.2:
-> > + *   Software shall use CXL.io Memory Read and Write to access memory =
-mapped
-> > + *   register defined in this section. Unless otherwise specified, sof=
-tware
-> > + *   shall restrict the accesses width based on the following:
-> > + *   =E2=80=A2 A 32 bit register shall be accessed as a 1 Byte, 2 Byte=
-s or 4 Bytes
-> > + *     quantity.
-> > + *   =E2=80=A2 A 64 bit register shall be accessed as a 1 Byte, 2 Byte=
-s, 4 Bytes or 8
-> > + *     Bytes
-> > + *   =E2=80=A2 The address shall be a multiple of the access width, e.=
-g. when
-> > + *     accessing a register as a 4 Byte quantity, the address shall be
-> > + *     multiple of 4.
-> > + *   =E2=80=A2 The accesses shall map to contiguous bytes.If these rul=
-es are not
-> > + *     followed, the behavior is undefined
-> > + */
-> > +
-> > +static uint64_t caps_reg_read(void *opaque, hwaddr offset, unsigned si=
-ze)
-> > +{
-> > +    CXLDeviceState *cxl_dstate =3D opaque;
-> > +
-> > +    return cxl_dstate->caps_reg_state32[offset / 4];
-> > +}
-> > +
-> > +static uint64_t dev_reg_read(void *opaque, hwaddr offset, unsigned siz=
-e)
-> > +{
-> > +    return 0;
-> > +}
-> > +
-> > +static const MemoryRegionOps dev_ops =3D {
-> > +    .read =3D dev_reg_read,
-> > +    .write =3D NULL, /* status register is read only */
-> > +    .endianness =3D DEVICE_LITTLE_ENDIAN,
-> > +    .valid =3D {
-> > +        .min_access_size =3D 1,
-> > +        .max_access_size =3D 8,
-> > +        .unaligned =3D false,
-> > +    },
-> > +    .impl =3D {
-> > +        .min_access_size =3D 1,
-> > +        .max_access_size =3D 8,
-> > +    },
-> > +}; =20
->=20
-> I think for >64 bit registers you need to use the read_with_attrs=20
 
-I don't follow this comment.  Max access to registers is 64 bits.
-A few are documented as 128 bit or indeed larger in the spec, but the
-access is as if they were multiple 64 bit registers accesses.
-It's not permissible to do a single 128bit access for example.
+On 26/01/2022 15:13, Hanna Reitz wrote:
+> On 21.01.22 18:05, Emanuele Giuseppe Esposito wrote:
+>> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+>> ---
+>>   job.c | 9 +++++++++
+>>   1 file changed, 9 insertions(+)
+> 
+> Just curious, why did you remove the assertion in job_co_entry()?
+> (Looking at it again, it might have been nicer to swap it with the
+> assertion below it, so that `job != NULL` is asserted first, but other
+> than that...)
+> 
+I think it's useless, job_co_entry runs in a coroutine in
+job->aio_context created and entered in job_start (its only caller), so
+there is no way that we are in a different aiocontext.
 
-The F4 errata clarified that - previously it was rather unclear what
-the restrictions on access to the larger registers were.
+Same as assert(job), I don't think the opaque pointer can ever be NULL.
 
-I've updated a few comments on this to reflect the errata.
+Thank you,
+Emanuele
 
-Thanks,
+> (And since I’m already replying to this patch, might as well point out
+> s/funcion/function/ in the subject)
+> 
+> Hanna
+> 
 
-Jonathan
 
