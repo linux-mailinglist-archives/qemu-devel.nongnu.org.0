@@ -2,72 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2B574A046E
-	for <lists+qemu-devel@lfdr.de>; Sat, 29 Jan 2022 00:43:10 +0100 (CET)
-Received: from localhost ([::1]:56828 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C66924A047E
+	for <lists+qemu-devel@lfdr.de>; Sat, 29 Jan 2022 00:48:03 +0100 (CET)
+Received: from localhost ([::1]:37086 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nDatZ-00015D-HQ
-	for lists+qemu-devel@lfdr.de; Fri, 28 Jan 2022 18:43:09 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:41912)
+	id 1nDayI-0007Il-TD
+	for lists+qemu-devel@lfdr.de; Fri, 28 Jan 2022 18:48:02 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:42000)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1nDafj-0000cV-U2
- for qemu-devel@nongnu.org; Fri, 28 Jan 2022 18:28:52 -0500
-Received: from [2607:f8b0:4864:20::d31] (port=46958
- helo=mail-io1-xd31.google.com)
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1nDafm-0000fo-Cg
+ for qemu-devel@nongnu.org; Fri, 28 Jan 2022 18:28:54 -0500
+Received: from [2607:f8b0:4864:20::d29] (port=44824
+ helo=mail-io1-xd29.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1nDafg-0001a6-Kq
- for qemu-devel@nongnu.org; Fri, 28 Jan 2022 18:28:51 -0500
-Received: by mail-io1-xd31.google.com with SMTP id e79so9637260iof.13
- for <qemu-devel@nongnu.org>; Fri, 28 Jan 2022 15:28:17 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1nDafg-0001aA-Mu
+ for qemu-devel@nongnu.org; Fri, 28 Jan 2022 18:28:53 -0500
+Received: by mail-io1-xd29.google.com with SMTP id p63so8829467iod.11
+ for <qemu-devel@nongnu.org>; Fri, 28 Jan 2022 15:28:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bsdimp-com.20210112.gappssmtp.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=p0pz1mYsxMG+ZM0MzZl75FORMdT6nHp51WXALYPrt0k=;
- b=xSRPQRbiZtFVU3uJ2oInngkgw+MOwuE36L8TW3aA3a6dz9yQPFXS6m6v4pLlVYDonh
- Moj/cJhQ/Bgy7dAvfCRBGbeprDt1kApIRfd2OVjp01tVQYD/fBT9KQNJAf3tEK0qGWaR
- kHinkzDygUayrqqOC82XMIKz2fkUvdxXQgjqTz+T8ynRgyPkMJP94oQY0mJ31HMgRd3M
- MvyXiVjOncewZbvW9Th1t+nksAo6f8ZG5oyQhbUA07PB4sdFinXpDngZrQknxxfnVJmj
- 9qF+dqutqd6CJPPjtCt5h5OjNnbbF/E7t1TW9imFps6OsF/y1Fk72egm76R+JB+A0Hyz
- LEOQ==
+ bh=+DlEs5WrZvuXfm29/4/3j1YKa0M1X3SLWmqACMEYKjk=;
+ b=6dtBZu+3Z5s2Yiy6dlqBqBLqJtvUtjOC+dMHQWeWOA7JLp/skUvm1HrdghdreEinkH
+ 7mZqvkJgmP3F+fa+qlYrQZePg4F47U/GBifZM8LN1aleJp/R+TjNPPOJgirZOs5JU6Mz
+ 2WxaZXlHoh2MDZlAs19im+TNPlzYPGBCtAKXmOkQFV/PNgSjrNK7kdcQ9L7eYozapc4i
+ 0Qebqrde05xO1B7lVKUR0B+LciDnovRq9ZDDGMHrPFoQ7rBUAOX3rKSBKgZSo/0hA/83
+ t9BiBRLRpQgI9z7j/sg4KGDjp43A3AXvrZOtO/VucQeVGUTos9LaF5sme/JnQHHrp2hC
+ hDbA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=p0pz1mYsxMG+ZM0MzZl75FORMdT6nHp51WXALYPrt0k=;
- b=36snB8/0plPg5Nfu0ckIEh1AOrMMP6rlcXWOFDYLZE2tOIL0mxymjdh6wfONWpkmnt
- v+B8weTVxAFkHD5sZQVPZxiWqBb8RPs56ufMZVZ6L03OwsXFPuJ7G3LMrdkxzZP7hsOx
- vzp301c2T1DVcwf/4Hwm360WGq/DEcsaxaVWEz9RlC2dU5yGjLLE9Qz//Yx84sKXLSNc
- 1VtLnG/uYMmGn6SLOwvhOfhQoP5lGXc3+hn7tlvcMPBSoZ0PHSC2hYg8tpKOhD3m0Iwe
- /APkNO1nbnRPLzmWQAU0MZaMaGkcwmCKDgmqsjVp0iYc995iUtVeMno4Fiq25APYa6Zs
- 8eNQ==
-X-Gm-Message-State: AOAM530lB0taL5gsNRt9/rlXVm/SSg8dKy6wOtn0/d11L5frdU0UVtGC
- 8w8goEVwrBAkLobPvy6uPdwIpzW3MmMSXw==
-X-Google-Smtp-Source: ABdhPJyEG7mZ1fiJgIChqa6c9iLD0dBZPi5yNopKLqBL5ASZ0jQK8vqo74M2r4cN8L2UZH2G6hVkdQ==
-X-Received: by 2002:a05:6602:1409:: with SMTP id
- t9mr6507399iov.176.1643412496927; 
- Fri, 28 Jan 2022 15:28:16 -0800 (PST)
+ bh=+DlEs5WrZvuXfm29/4/3j1YKa0M1X3SLWmqACMEYKjk=;
+ b=QT72RqNDY1iQ1RYDwkIOwoxhPqBrzZJFsBG25uecK+TLxJBkQA3Bpr+Sy4KLcifJcI
+ B1FDN3EYVqnURGRr/ePaEfOpNkBN47oD/N/MCvqjUmcWO1HAGU+BCNg4Wl1p7JwBWDv4
+ u+tcjAryazUjyu+aoryP1ZA4opHsy17N+oyUTuYUgitRHQG3VFfTkI8X0e5DohBdDkzX
+ ujToEofLUB3OpM+9wo4/AdnqT1V8obMUb8Abk+74AUxXg6c+ic8pg9J1fGfPgc77lSHu
+ XmGh/nrFvKZVVO/xfPocB7Fyt7dd8lAyI0Ml/rPcH/VtFZTXwaMJ6ztqXpKETukwf5as
+ KCNg==
+X-Gm-Message-State: AOAM531hV0vE0lcrtSW/BcNAuR/7r9BV7kQDQd+lp1bAdxqV10neAJQ9
+ vRkotyGVzYUIy7SCDwIAykdakjrjMtLKkg==
+X-Google-Smtp-Source: ABdhPJzN+fQmVkNV4cKMer90iUCOqaDBE+SlSIJpZllZOQjhGCAdjpQYk1PppqvBVXU/0fTCFP/4wA==
+X-Received: by 2002:a6b:905:: with SMTP id t5mr6729323ioi.86.1643412498009;
+ Fri, 28 Jan 2022 15:28:18 -0800 (PST)
 Received: from dune.bsdimp.com (50-253-99-174-static.hfc.comcastbusiness.net.
  [50.253.99.174])
- by smtp.gmail.com with ESMTPSA id o11sm14323111ilm.20.2022.01.28.15.28.15
+ by smtp.gmail.com with ESMTPSA id o11sm14323111ilm.20.2022.01.28.15.28.17
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 28 Jan 2022 15:28:16 -0800 (PST)
+ Fri, 28 Jan 2022 15:28:17 -0800 (PST)
 From: Warner Losh <imp@bsdimp.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 14/40] bsd-user/arm/target_arch_cpu.h: Use force_sig_fault
- for EXCP_UDEF
-Date: Fri, 28 Jan 2022 16:27:39 -0700
-Message-Id: <20220128232805.86191-15-imp@bsdimp.com>
+Subject: [PATCH v3 15/40] bsd-user/arm/target_arch_cpu.h: Implement data faults
+Date: Fri, 28 Jan 2022 16:27:40 -0700
+Message-Id: <20220128232805.86191-16-imp@bsdimp.com>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <20220128232805.86191-1-imp@bsdimp.com>
 References: <20220128232805.86191-1-imp@bsdimp.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::d31
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::d29
  (failed)
-Received-SPF: none client-ip=2607:f8b0:4864:20::d31;
- envelope-from=imp@bsdimp.com; helo=mail-io1-xd31.google.com
+Received-SPF: none client-ip=2607:f8b0:4864:20::d29;
+ envelope-from=imp@bsdimp.com; helo=mail-io1-xd29.google.com
 X-Spam_score_int: 8
 X-Spam_score: 0.8
 X-Spam_bar: /
@@ -93,55 +91,80 @@ Cc: Peter Maydell <peter.maydell@linaro.org>, Kyle Evans <kevans@freebsd.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Use force_sig_fault to implement unknown opcode. This just uninlines
-that function, so simplify things by using it. Fold in EXCP_NOCP and
-EXCP_INVSTATE, as is done in linux-user. Make a note about slight
-differences with FreeBSD in case any of them turn out to be important
-later.
+Update for the richer set of data faults that are now possible. Copied
+largely from linux-user/arm/cpu_loop.c, with minor typo fixes.
 
 Signed-off-by: Warner Losh <imp@bsdimp.com>
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- bsd-user/arm/target_arch_cpu.h | 25 +++++++++++++------------
- 1 file changed, 13 insertions(+), 12 deletions(-)
+ bsd-user/arm/target_arch_cpu.h | 45 ++++++++++++++++++++++++++--------
+ 1 file changed, 35 insertions(+), 10 deletions(-)
 
 diff --git a/bsd-user/arm/target_arch_cpu.h b/bsd-user/arm/target_arch_cpu.h
-index 905f13aa1b9..9d790176420 100644
+index 9d790176420..2b395d5c97f 100644
 --- a/bsd-user/arm/target_arch_cpu.h
 +++ b/bsd-user/arm/target_arch_cpu.h
-@@ -51,18 +51,19 @@ static inline void target_cpu_loop(CPUARMState *env)
-         process_queued_cpu_work(cs);
-         switch (trapnr) {
-         case EXCP_UDEF:
--            {
--                /* See arm/arm/undefined.c undefinedinstruction(); */
--                info.si_addr = env->regs[15];
--
--                /* illegal instruction */
--                info.si_signo = TARGET_SIGILL;
--                info.si_errno = 0;
--                info.si_code = TARGET_ILL_ILLOPC;
--                queue_signal(env, info.si_signo, &info);
--
--                /* TODO: What about instruction emulation? */
--            }
-+        case EXCP_NOCP:
-+        case EXCP_INVSTATE:
-+            /*
-+             * See arm/arm/undefined.c undefinedinstruction();
-+             *
-+             * A number of details aren't emulated (they likely don't matter):
-+             * o Misaligned PC generates ILL_ILLADR (these can't come from qemu)
-+             * o Thumb-2 instructions generate ILLADR
-+             * o Both modes implement coprocessor instructions, which we don't
-+             *   do here. FreeBSD just implements them for the VFP coprocessor
-+             *   and special kernel breakpoints, trace points, dtrace, etc.
-+             */
-+            force_sig_fault(TARGET_SIGILL, TARGET_ILL_ILLOPC, env->regs[15]);
+@@ -39,8 +39,7 @@ static inline void target_cpu_init(CPUARMState *env,
+ 
+ static inline void target_cpu_loop(CPUARMState *env)
+ {
+-    int trapnr;
+-    target_siginfo_t info;
++    int trapnr, si_signo, si_code;
+     unsigned int n;
+     CPUState *cs = env_cpu(env);
+ 
+@@ -150,15 +149,41 @@ static inline void target_cpu_loop(CPUARMState *env)
+             /* just indicate that signals should be handled asap */
              break;
-         case EXCP_SWI:
-             {
+         case EXCP_PREFETCH_ABORT:
+-            /* See arm/arm/trap.c prefetch_abort_handler() */
+         case EXCP_DATA_ABORT:
+-            /* See arm/arm/trap.c data_abort_handler() */
+-            info.si_signo = TARGET_SIGSEGV;
+-            info.si_errno = 0;
+-            /* XXX: check env->error_code */
+-            info.si_code = 0;
+-            info.si_addr = env->exception.vaddress;
+-            queue_signal(env, info.si_signo, &info);
++            /*
++             * See arm/arm/trap-v6.c prefetch_abort_handler() and
++             * data_abort_handler()
++             *
++             * However, FreeBSD maps these to a generic value and then uses that
++             * to maybe fault in pages in vm/vm_fault.c:vm_fault_trap(). I
++             * believe that the indirection maps the same as Linux, but haven't
++             * chased down every single possible indirection.
++             */
++
++            /* For user-only we don't set TTBCR_EAE, so look at the FSR. */
++            switch (env->exception.fsr & 0x1f) {
++            case 0x1: /* Alignment */
++                si_signo = TARGET_SIGBUS;
++                si_code = TARGET_BUS_ADRALN;
++                break;
++            case 0x3: /* Access flag fault, level 1 */
++            case 0x6: /* Access flag fault, level 2 */
++            case 0x9: /* Domain fault, level 1 */
++            case 0xb: /* Domain fault, level 2 */
++            case 0xd: /* Permission fault, level 1 */
++            case 0xf: /* Permission fault, level 2 */
++                si_signo = TARGET_SIGSEGV;
++                si_code = TARGET_SEGV_ACCERR;
++                break;
++            case 0x5: /* Translation fault, level 1 */
++            case 0x7: /* Translation fault, level 2 */
++                si_signo = TARGET_SIGSEGV;
++                si_code = TARGET_SEGV_MAPERR;
++                break;
++            default:
++                g_assert_not_reached();
++            }
++            force_sig_fault(si_signo, si_code, env->exception.vaddress);
+             break;
+         case EXCP_DEBUG:
+         case EXCP_BKPT:
 -- 
 2.33.1
 
