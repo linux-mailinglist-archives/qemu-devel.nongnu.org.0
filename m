@@ -2,80 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90B9649FD2A
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jan 2022 16:54:44 +0100 (CET)
-Received: from localhost ([::1]:35212 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A82B349FE09
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jan 2022 17:27:35 +0100 (CET)
+Received: from localhost ([::1]:47592 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nDTaF-0007TH-LT
-	for lists+qemu-devel@lfdr.de; Fri, 28 Jan 2022 10:54:43 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:57886)
+	id 1nDU62-0002pI-Gf
+	for lists+qemu-devel@lfdr.de; Fri, 28 Jan 2022 11:27:34 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:60952)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nDTDG-0002BC-TO
- for qemu-devel@nongnu.org; Fri, 28 Jan 2022 10:30:59 -0500
-Received: from [2a00:1450:4864:20::330] (port=56155
- helo=mail-wm1-x330.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nDTD9-0006RS-Vs
- for qemu-devel@nongnu.org; Fri, 28 Jan 2022 10:30:57 -0500
-Received: by mail-wm1-x330.google.com with SMTP id r7so4663927wmq.5
- for <qemu-devel@nongnu.org>; Fri, 28 Jan 2022 07:30:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:subject:date:message-id:in-reply-to:references:mime-version
- :content-transfer-encoding;
- bh=fRHZFbTPE9xEcVHdaUtARyBl4Hsz+piH6aYCgikS9YI=;
- b=NadRFUSHS9fifjj64sye69XI+DZW2TGDfqWiAYi0IQzxsTjGzRH+nJGfwXulHNbb6F
- MXKIyIxzXuOJ5lNI8P59dGC4gqb8rwSklkFpJ54zq0Ep6ZCpB3bJoVFtPBvOKKWlcAV3
- 3yN6Q7G11NemsnALedRkzQ7nSLO3qXSWka0TQNYZonQsrpnD8XA4Vdlv5t2HmTdOfr+d
- 121qa1+muJfQSHVtT6z5+sFW01GXA3TLFhUhDhcyP15rB3r1m1thzn/pTzhUxXZf4CiH
- o47KF8dDtjWjpgx3M5/0YXT2m8C2y8bZtIbMZlYORLCrIuRR0AAmfBBpF5vQ1k7bXEsp
- hmuA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=fRHZFbTPE9xEcVHdaUtARyBl4Hsz+piH6aYCgikS9YI=;
- b=M0Y01emNT8TwKbjN5dw3Xq1p1qeHR2BkshQD91LtIGeKxHjWcyB+XnlTURS2xjuO0i
- GfHnMMp2IIQMnzA4nDHs246EIeDwoN5YqOvY36oBtWXtVHsnu5YYsumTWmdTtQcuWDqj
- JOizHx4nc6ZwURE9kAlBuZqXpMyfLo/rL5pDeHHUq1o5op2L6GWsQuZtX9XPXoNvdrl9
- a+TY1AGWX+plNS9dMAPL+Gd5hgEUjADlEkntQWHbjRAHiQkMLAQfj9jzeweGehZnQe4N
- 1jtfgq12nGbCRbschxI/SyqVEniS2wBuSpYmkfdwSwqqZMtakVL/WxByaO2PDADNh7L1
- /WNg==
-X-Gm-Message-State: AOAM531qd+luzGxh9kT59hm8bi+IqriMnVWZkdVktnZ1D9bDoP3gEikc
- cjqZS3TXA9NISZZYF5ztReviQBpya5jHYQ==
-X-Google-Smtp-Source: ABdhPJzlxIauCod12p1N5E86ZX5h7XwCiZW4gRpXhOFt1KmdRqjFW6Ddd3u412M7H4RXchott28uuw==
-X-Received: by 2002:a1c:6a14:: with SMTP id f20mr16268887wmc.177.1643383843101; 
- Fri, 28 Jan 2022 07:30:43 -0800 (PST)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
- by smtp.gmail.com with ESMTPSA id j3sm4749485wrb.57.2022.01.28.07.30.42
- for <qemu-devel@nongnu.org>
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 28 Jan 2022 07:30:42 -0800 (PST)
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PULL 32/32] target/arm: Use correct entrypoint for SVC taken from
- Hyp to Hyp
-Date: Fri, 28 Jan 2022 15:30:09 +0000
-Message-Id: <20220128153009.2467560-33-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220128153009.2467560-1-peter.maydell@linaro.org>
-References: <20220128153009.2467560-1-peter.maydell@linaro.org>
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1nDTPU-00059P-NA
+ for qemu-devel@nongnu.org; Fri, 28 Jan 2022 10:43:36 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:37732)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1nDTPM-0008DW-Ca
+ for qemu-devel@nongnu.org; Fri, 28 Jan 2022 10:43:35 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1643384583;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=4DUJyZa3foaIjEqXQjuzpe9Codx1X0oHsjJH8P/XGfs=;
+ b=E4hteU1HYSRZoG2Cu16lazvzqyfHDjvyzAQwwKiK+V2qmMkUMNdrpe6RBsOvcEaWBRRUX/
+ sRuRaT4LQmghUfYEZZE2G18t0NAf0yMiZFzJMqu9QGoR0TjJ8QHbYMogBjeUQlH/6HtdLs
+ +T3bFleFw/2bSu/ohETF0V/ylhTTLGE=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-464-P3mllhgyOy--tz9iX3OhoA-1; Fri, 28 Jan 2022 10:42:57 -0500
+X-MC-Unique: P3mllhgyOy--tz9iX3OhoA-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A66038143EF
+ for <qemu-devel@nongnu.org>; Fri, 28 Jan 2022 15:42:56 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.37.9])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id B6A0910A3955;
+ Fri, 28 Jan 2022 15:42:42 +0000 (UTC)
+Date: Fri, 28 Jan 2022 15:42:39 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Eduardo Terrell Ferrari Otubo <eterrell@redhat.com>
+Subject: Re: [PATCH 0/5] seccomp: fix hole in blocking forks
+Message-ID: <YfQO7w9QL+LrE11D@redhat.com>
+References: <20210802130303.3300108-1-berrange@redhat.com>
+ <008bee58061405c8f9fe36d8c40a62d360bd4547.camel@redhat.com>
 MIME-Version: 1.0
+In-Reply-To: <008bee58061405c8f9fe36d8c40a62d360bd4547.camel@redhat.com>
+User-Agent: Mutt/2.1.5 (2021-12-30)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::330
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::330;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x330.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.167,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -88,62 +83,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Eduardo Otubo <otubo@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The exception caused by an SVC instruction may be taken to AArch32
-Hyp mode for two reasons:
- * HCR.TGE indicates that exceptions from EL0 should trap to EL2
- * we were already in Hyp mode
+Hi Eduardo,
 
-The entrypoint in the vector table to be used differs in these two
-cases: for an exception routed to Hyp mode from EL0, we enter at the
-common 0x14 "hyp trap" entrypoint.  For SVC from Hyp mode to Hyp
-mode, we enter at the 0x08 (svc/hvc trap) entrypoint.
-In the v8A Arm ARM pseudocode this is done in AArch32.TakeSVCException.
+You acked this series, but going through my old git branches I
+just discovered that this never got merged. I guess I was assuming
+you had queued it for a future PULL when you acked it.
 
-QEMU incorrectly routed both of these exceptions to the 0x14
-entrypoint.  Correct the entrypoint for SVC from Hyp to Hyp by making
-use of the existing logic which handles "normal entrypoint for
-Hyp-to-Hyp, otherwise 0x14" for traps like UNDEF and data/prefetch
-aborts (reproduced here since it's outside the visible context
-in the diff for this commit):
+I don't mind sending a pull request myself if you've no objections.
 
-    if (arm_current_el(env) != 2 && addr < 0x14) {
-        addr = 0x14;
-    }
+On Wed, Aug 04, 2021 at 10:05:38AM +0200, Eduardo Terrell Ferrari Otubo wrote:
+> On Mon, 2021-08-02 at 14:02 +0100, Daniel P. Berrangé wrote:
+> > Blocking the 'fork' syscall on Linux is not sufficient to block the
+> > 'fork' C library function, because the latter is essentially always
+> > implemented using the 'clone' syscall these days.
+> > 
+> > Blocking 'clone' is difficult as that also blocks pthread creation,
+> > so it needs careful filtering.
+> > 
+> > Daniel P. Berrangé (5):
+> >   seccomp: allow action to be customized per syscall
+> >   seccomp: add unit test for seccomp filtering
+> >   seccomp: fix blocking of process spawning
+> >   seccomp: block use of clone3 syscall
+> >   seccomp: block setns, unshare and execveat syscalls
+> > 
+> >  MAINTAINERS               |   1 +
+> >  softmmu/qemu-seccomp.c    | 282 +++++++++++++++++++++++++++++-------
+> > --
+> >  tests/unit/meson.build    |   4 +
+> >  tests/unit/test-seccomp.c | 269 ++++++++++++++++++++++++++++++++++++
+> >  4 files changed, 490 insertions(+), 66 deletions(-)
+> >  create mode 100644 tests/unit/test-seccomp.c
+> > 
+> > -- 
+> > 2.31.1
+> > 
+> > 
+> 
+> Acked-by: Eduardo Otubo <otubo@redhat.com>
+> 
+> -- 
+> Eduardo Otubo
+> 
+> 
 
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-Reviewed-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20220117131953.3936137-1-peter.maydell@linaro.org
----
- target/arm/helper.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/target/arm/helper.c b/target/arm/helper.c
-index 4df12394021..6dd241fbef3 100644
---- a/target/arm/helper.c
-+++ b/target/arm/helper.c
-@@ -9658,7 +9658,7 @@ static void arm_cpu_do_interrupt_aarch32_hyp(CPUState *cs)
-      * separately here.
-      *
-      * The vector table entry used is always the 0x14 Hyp mode entry point,
--     * unless this is an UNDEF/HVC/abort taken from Hyp to Hyp.
-+     * unless this is an UNDEF/SVC/HVC/abort taken from Hyp to Hyp.
-      * The offset applied to the preferred return address is always zero
-      * (see DDI0487C.a section G1.12.3).
-      * PSTATE A/I/F masks are set based only on the SCR.EA/IRQ/FIQ values.
-@@ -9672,7 +9672,7 @@ static void arm_cpu_do_interrupt_aarch32_hyp(CPUState *cs)
-         addr = 0x04;
-         break;
-     case EXCP_SWI:
--        addr = 0x14;
-+        addr = 0x08;
-         break;
-     case EXCP_BKPT:
-         /* Fall through to prefetch abort.  */
+
+Regards,
+Daniel
 -- 
-2.25.1
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
