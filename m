@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BBC324A00DC
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jan 2022 20:29:19 +0100 (CET)
-Received: from localhost ([::1]:40978 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE1274A00F2
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jan 2022 20:37:01 +0100 (CET)
+Received: from localhost ([::1]:50650 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nDWvu-0005zJ-RK
-	for lists+qemu-devel@lfdr.de; Fri, 28 Jan 2022 14:29:18 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:47986)
+	id 1nDX3N-0004Mm-1h
+	for lists+qemu-devel@lfdr.de; Fri, 28 Jan 2022 14:37:01 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:48044)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1nDW7s-0000cf-Lf
- for qemu-devel@nongnu.org; Fri, 28 Jan 2022 13:37:36 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:52647)
+ id 1nDW82-0000ff-Gs
+ for qemu-devel@nongnu.org; Fri, 28 Jan 2022 13:37:47 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:54176)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1nDW7m-0001iQ-9C
- for qemu-devel@nongnu.org; Fri, 28 Jan 2022 13:37:32 -0500
+ id 1nDW7s-0001jC-Cz
+ for qemu-devel@nongnu.org; Fri, 28 Jan 2022 13:37:37 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1643395048;
+ s=mimecast20190719; t=1643395055;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=MkAbiCYttSVRqU0/R/ggcgebKM7ODj+Bue3CTNACnp8=;
- b=QAgEk8cvs8EsM4qX/XjCeCF3hWh3khSli9m0n0TH4uc2DmgJ2eBjz/Yz0PuoI8b/4Z4UcY
- TdxrkqnfpoPf1ZjmWP/e0QRVX7pkslq7MOV/t+CjdzdBTyaujK5DTnRNHLzEUucQUGQJiR
- CCGXQX18DqjKyvhMTnfYHqdSprfzspY=
+ bh=ESOmsPTxjZbmAe2g1N7ay6d2NzqChH7CCCrDtgiDR1Q=;
+ b=L3RQUW8h3J9CkyzQy5aLR8KyAlGcItqVRvLUz2ZCNOmiLbPzA0MLd5eynaC2qO+4UpjvFc
+ bMTw9mcDNtDoTYG1YNbaOsK37TuUQ+NHQSTHgV+69+Z+2RkD+0HgzRwKqGEMQwiy7pqMXd
+ ZBp2muI+t8FBmBHW9VgMC/G5pZqMBfA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-307-J2fgEbu-MnOZULJXtH4CMA-1; Fri, 28 Jan 2022 13:37:25 -0500
-X-MC-Unique: J2fgEbu-MnOZULJXtH4CMA-1
+ us-mta-344-vrv_VeCYPeeTZfI-tMtjyA-1; Fri, 28 Jan 2022 13:37:32 -0500
+X-MC-Unique: vrv_VeCYPeeTZfI-tMtjyA-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8078E8144E1;
- Fri, 28 Jan 2022 18:37:22 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DE4BE1091DA1;
+ Fri, 28 Jan 2022 18:37:29 +0000 (UTC)
 Received: from secure.mitica (unknown [10.39.194.185])
- by smtp.corp.redhat.com (Postfix) with ESMTP id BE69377456;
- Fri, 28 Jan 2022 18:37:15 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E0AFF77462;
+ Fri, 28 Jan 2022 18:37:22 +0000 (UTC)
 From: Juan Quintela <quintela@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 16/36] multifd: recv side only needs the RAMBlock host address
-Date: Fri, 28 Jan 2022 19:30:13 +0100
-Message-Id: <20220128183033.31998-17-quintela@redhat.com>
+Subject: [PULL 17/36] multifd: Rename pages_used to normal_pages
+Date: Fri, 28 Jan 2022 19:30:14 +0100
+Message-Id: <20220128183033.31998-18-quintela@redhat.com>
 In-Reply-To: <20220128183033.31998-1-quintela@redhat.com>
 References: <20220128183033.31998-1-quintela@redhat.com>
 MIME-Version: 1.0
@@ -58,7 +58,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=quintela@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -10
 X-Spam_score: -1.1
@@ -100,97 +100,49 @@ Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-So we can remove the MultiFDPages.
-
 Signed-off-by: Juan Quintela <quintela@redhat.com>
 Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 ---
- migration/multifd.h      | 4 ++--
- migration/multifd-zlib.c | 2 +-
- migration/multifd-zstd.c | 2 +-
- migration/multifd.c      | 7 ++-----
- 4 files changed, 6 insertions(+), 9 deletions(-)
+ migration/multifd.h | 3 ++-
+ migration/multifd.c | 4 ++--
+ 2 files changed, 4 insertions(+), 3 deletions(-)
 
 diff --git a/migration/multifd.h b/migration/multifd.h
-index 850889c5d8..be460f821b 100644
+index be460f821b..4dda900a0b 100644
 --- a/migration/multifd.h
 +++ b/migration/multifd.h
-@@ -136,8 +136,8 @@ typedef struct {
-     bool running;
-     /* should this thread finish */
-     bool quit;
--    /* array of pages to receive */
--    MultiFDPages_t *pages;
-+    /* ramblock host address */
-+    uint8_t *host;
-     /* packet allocated len */
-     uint32_t packet_len;
-     /* pointer to the packet */
-diff --git a/migration/multifd-zlib.c b/migration/multifd-zlib.c
-index 8239c840d3..aba1c88a0c 100644
---- a/migration/multifd-zlib.c
-+++ b/migration/multifd-zlib.c
-@@ -253,7 +253,7 @@ static int zlib_recv_pages(MultiFDRecvParams *p, Error **errp)
-         }
- 
-         zs->avail_out = page_size;
--        zs->next_out = p->pages->block->host + p->normal[i];
-+        zs->next_out = p->host + p->normal[i];
- 
-         /*
-          * Welcome to inflate semantics
-diff --git a/migration/multifd-zstd.c b/migration/multifd-zstd.c
-index c5ed72ddcd..d788d309f2 100644
---- a/migration/multifd-zstd.c
-+++ b/migration/multifd-zstd.c
-@@ -264,7 +264,7 @@ static int zstd_recv_pages(MultiFDRecvParams *p, Error **errp)
-     z->in.pos = 0;
- 
-     for (i = 0; i < p->normal_num; i++) {
--        z->out.dst = p->pages->block->host + p->normal[i];
-+        z->out.dst = p->host + p->normal[i];
-         z->out.size = page_size;
-         z->out.pos = 0;
- 
+@@ -44,7 +44,8 @@ typedef struct {
+     uint32_t flags;
+     /* maximum number of allocated pages */
+     uint32_t pages_alloc;
+-    uint32_t pages_used;
++    /* non zero pages */
++    uint32_t normal_pages;
+     /* size of the next packet that contains pages */
+     uint32_t next_packet_size;
+     uint64_t packet_num;
 diff --git a/migration/multifd.c b/migration/multifd.c
-index e362b1bb89..b39fef5dfe 100644
+index b39fef5dfe..76b57a7177 100644
 --- a/migration/multifd.c
 +++ b/migration/multifd.c
-@@ -147,7 +147,7 @@ static int nocomp_recv_pages(MultiFDRecvParams *p, Error **errp)
-         return -1;
-     }
-     for (int i = 0; i < p->normal_num; i++) {
--        p->iov[i].iov_base = p->pages->block->host + p->normal[i];
-+        p->iov[i].iov_base = p->host + p->normal[i];
-         p->iov[i].iov_len = page_size;
-     }
-     return qio_channel_readv_all(p->c, p->iov, p->normal_num, errp);
-@@ -340,7 +340,7 @@ static int multifd_recv_unfill_packet(MultiFDRecvParams *p, Error **errp)
+@@ -262,7 +262,7 @@ static void multifd_send_fill_packet(MultiFDSendParams *p)
+ 
+     packet->flags = cpu_to_be32(p->flags);
+     packet->pages_alloc = cpu_to_be32(p->pages->allocated);
+-    packet->pages_used = cpu_to_be32(p->normal_num);
++    packet->normal_pages = cpu_to_be32(p->normal_num);
+     packet->next_packet_size = cpu_to_be32(p->next_packet_size);
+     packet->packet_num = cpu_to_be64(p->packet_num);
+ 
+@@ -316,7 +316,7 @@ static int multifd_recv_unfill_packet(MultiFDRecvParams *p, Error **errp)
          return -1;
      }
  
--    p->pages->block = block;
-+    p->host = block->host;
-     for (i = 0; i < p->normal_num; i++) {
-         uint64_t offset = be64_to_cpu(packet->offset[i]);
- 
-@@ -1007,8 +1007,6 @@ int multifd_load_cleanup(Error **errp)
-         qemu_sem_destroy(&p->sem_sync);
-         g_free(p->name);
-         p->name = NULL;
--        multifd_pages_clear(p->pages);
--        p->pages = NULL;
-         p->packet_len = 0;
-         g_free(p->packet);
-         p->packet = NULL;
-@@ -1149,7 +1147,6 @@ int multifd_load_setup(Error **errp)
-         qemu_sem_init(&p->sem_sync, 0);
-         p->quit = false;
-         p->id = i;
--        p->pages = multifd_pages_init(page_count);
-         p->packet_len = sizeof(MultiFDPacket_t)
-                       + sizeof(uint64_t) * page_count;
-         p->packet = g_malloc0(p->packet_len);
+-    p->normal_num = be32_to_cpu(packet->pages_used);
++    p->normal_num = be32_to_cpu(packet->normal_pages);
+     if (p->normal_num > packet->pages_alloc) {
+         error_setg(errp, "multifd: received packet "
+                    "with %u pages and expected maximum pages are %u",
 -- 
 2.34.1
 
