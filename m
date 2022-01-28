@@ -2,66 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C452949F7A1
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jan 2022 11:53:41 +0100 (CET)
-Received: from localhost ([::1]:54162 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B84B549F7A3
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jan 2022 11:54:11 +0100 (CET)
+Received: from localhost ([::1]:56338 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nDOsu-0003Ig-BY
-	for lists+qemu-devel@lfdr.de; Fri, 28 Jan 2022 05:53:40 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:49632)
+	id 1nDOtO-0004kK-It
+	for lists+qemu-devel@lfdr.de; Fri, 28 Jan 2022 05:54:10 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:49842)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nDOqP-0001Pa-P0
- for qemu-devel@nongnu.org; Fri, 28 Jan 2022 05:51:08 -0500
-Received: from [2a00:1450:4864:20::431] (port=34330
- helo=mail-wr1-x431.google.com)
+ id 1nDOrW-0002H7-CA
+ for qemu-devel@nongnu.org; Fri, 28 Jan 2022 05:52:14 -0500
+Received: from [2a00:1450:4864:20::42e] (port=46658
+ helo=mail-wr1-x42e.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nDOqM-00035d-Kv
- for qemu-devel@nongnu.org; Fri, 28 Jan 2022 05:51:04 -0500
-Received: by mail-wr1-x431.google.com with SMTP id f17so10136001wrx.1
- for <qemu-devel@nongnu.org>; Fri, 28 Jan 2022 02:51:00 -0800 (PST)
+ id 1nDOrT-0003Fe-Kr
+ for qemu-devel@nongnu.org; Fri, 28 Jan 2022 05:52:14 -0500
+Received: by mail-wr1-x42e.google.com with SMTP id l25so10017235wrb.13
+ for <qemu-devel@nongnu.org>; Fri, 28 Jan 2022 02:52:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=aQyN94duJXexWxI36pp2rVCw83t6s9vLpOMLUkHi5eA=;
- b=vHQcVxgOckzMDckiYgiz1zM5A6sGP8qAcio+8mX4k7WdDsMKR4MNb5XsSMsVN+OWG1
- aDgGNVUXXvmW1Fow92ufak6ty91vx7LxjM3+YLGTP3A6StbjSHk7OfuxiB/OXreMPmW6
- JbS6R32Kykl2HwJiNilnGEU3GOF6hAcn8QuJ201Dszh641EKtwn2dNWEBAJpSywZvN8n
- ZWTLA0mT0fRE2GV9e1kcnEEqAZ91ovPtU//mv7rEapaPmNbmqytEPP2UqqIEitpItlj7
- KcGjpt44MswvEri+NunjdXgwwVU75QX0c0fQA8V0kZiMfS8cTCZhQzvXMItoMnpfbCDj
- 3r4w==
+ :cc:content-transfer-encoding;
+ bh=cLjP2O4H615JGx2i+CeBkLHEIC2riVesbwrQ06Izni0=;
+ b=HhaSobLkvtPbNrHmLXXa09uFAHSv8tNwtpOCjEQdortK3+2yBcr+JyK5mBtPy37Nvw
+ Zsou/OttqeDm+/ktK8fo7Prf5DVhDYmXb2pepo9mPXj8Q/6AFAKTpktBL2bkW7V7HSVn
+ oyEB3ioWNXIr1WIC4TM8Y8rlL2xmFe9UxwRzw8m56FlyFD67uxSLrRAxWgN45Eo1vz7T
+ sidAWX1NSmDYWxerl9Jt+XJwhZJQFCIg1D1ADQBX8j/oYEW+VdgYgnUPdHFR5UX6YOEE
+ Vxc22j/M+cUL5EsrEKQ1Bkv/XUMd6jOosqdo5D3PDbwGmdA+hGhc/lyBRhH9ss5mrUXn
+ mYyw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=aQyN94duJXexWxI36pp2rVCw83t6s9vLpOMLUkHi5eA=;
- b=OhyRA1AKYJQK0ewcQV6UObgSApxy20ThzvlsGDs1wHfd8osZ/3/wzMO1xWM6zYiWix
- g4K0xxPFgHUBxS5XV93Xp4K35hzWXmobBLQA9x0HXXCXyXORJvDESoS8tmSZJ9Vjy9Ti
- vq3FF/ZUOHKEYtTpEzrG+ZcWcwbc3jTemH7W4Y5CrqBwygO1K6Ei4c5UJO6xI1yTs32T
- gkGkCqwFIG84rxd4MV2I0xIyPkYff3aPXlIvzyYNvaovw9708DvjUCIORTI8k3wnoHwE
- B+gYGpO2JVF1CgEew6a6gJQPzubGhHUhscQag42hu0cbAuT/3Oc9UlR3KKiVz66ZVDsu
- 15vw==
-X-Gm-Message-State: AOAM533tBBUtJVy90PZcyXSWsKpW2kvMVd3vKEQw5RsKXlgEgRaUTqb9
- 5Qzoyc0R35ZbzqSYvVLvOMlwEeJ9y6Vbz+Euw6EJzg==
-X-Google-Smtp-Source: ABdhPJzIo0eKjyI4wWkgld4YACXagC/fnbq0ShzIWaValSKlycbUaSnHjZb8CCnnh+Gmzpkpr12i5RbyI1MvmVIvYn0=
-X-Received: by 2002:a5d:438a:: with SMTP id i10mr6438225wrq.295.1643367059789; 
- Fri, 28 Jan 2022 02:50:59 -0800 (PST)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=cLjP2O4H615JGx2i+CeBkLHEIC2riVesbwrQ06Izni0=;
+ b=wSBSSScoZt29SPPGJv7rGOYQJ61KUbEYYz9T9vlUg9rZkYthQtjuPTE1RagB6mjUR7
+ x97fC6XUXjVSmNhKjWMgcr/0SCvHUvqR5Nd+uIpw23aL4gkRohvnPXZe/lpB+ZxjEMT1
+ WpzxzzLHSEJAc5NFJOFVWtfFBqk6kZYZjNOX991C5ViiTvWbG/vhA+Xl9k4mI22OFKLj
+ JOgZjtBwoLmOdCtlJrswLTBvCJagyooe/hPTLvoPTyfucx35gGDWGDAXfUweOyXw22e3
+ iS+zniIsfimKFeWl5fesoyQydhIZS2R6Lp9VhdQdDIs9T0Y42rKdoo7Jd3wvpz7utt1T
+ gg7w==
+X-Gm-Message-State: AOAM532w6+nekMXeEtt1kfw0kjXlkrgrzi6SNrQaYbpb29+VD0pHAEo+
+ V/5x1irFtNV2wEEJhAD9YTkg5HNFvbfsOYvbqUl5xQ==
+X-Google-Smtp-Source: ABdhPJznf8XmZ55w4Oah5x7g1V3Kw8pjzlAA6aZ/L25vI7GzI3CO2aUbuUwmio1rlJ6knok6yx8w5cXihoH+FEYrq6c=
+X-Received: by 2002:a05:6000:258:: with SMTP id
+ m24mr6904812wrz.2.1643367122347; 
+ Fri, 28 Jan 2022 02:52:02 -0800 (PST)
 MIME-Version: 1.0
 References: <20220111171048.3545974-1-peter.maydell@linaro.org>
- <20220111171048.3545974-2-peter.maydell@linaro.org>
- <e81fe48e-af20-5e4e-959c-be8e2265a513@linaro.org>
-In-Reply-To: <e81fe48e-af20-5e4e-959c-be8e2265a513@linaro.org>
+ <20220111171048.3545974-3-peter.maydell@linaro.org>
+ <908f211b-0882-cce4-2fa9-dd43ced4545d@linaro.org>
+In-Reply-To: <908f211b-0882-cce4-2fa9-dd43ced4545d@linaro.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 28 Jan 2022 10:50:48 +0000
-Message-ID: <CAFEAcA8Qf4aG70bCqxXfCT1a_df5xpBBYi84Z+tupEMUp7nzNA@mail.gmail.com>
-Subject: Re: [PATCH v2 01/13] hw/intc/arm_gicv3_its: Fix event ID bounds checks
+Date: Fri, 28 Jan 2022 10:51:51 +0000
+Message-ID: <CAFEAcA8Vy-_xb7fUw8eS5gaotGXxEFMFk=S0ZnPd_HcQ+-_vsg@mail.gmail.com>
+Subject: Re: [PATCH v2 02/13] hw/intc/arm_gicv3_its: Convert int ID check to
+ num_intids convention
 To: Richard Henderson <richard.henderson@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::431
+Content-Transfer-Encoding: quoted-printable
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42e
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::431;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x431.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42e.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -87,42 +91,38 @@ Cc: Shashi Mallela <shashi.mallela@linaro.org>, qemu-arm@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 28 Jan 2022 at 01:33, Richard Henderson
+On Fri, 28 Jan 2022 at 01:35, Richard Henderson
 <richard.henderson@linaro.org> wrote:
 >
 > On 1/12/22 04:10, Peter Maydell wrote:
-> > In process_its_cmd() and process_mapti() we must check the
-> > event ID against a limit defined by the size field in the DTE,
-> > which specifies the number of ID bits minus one. Convert
-> > this code to our num_foo convention:
-> >   * change the variable names
-> >   * use uint64_t and 1ULL when calculating the number
-> >     of valid event IDs, because DTE.SIZE is 5 bits and
-> >     so num_eventids may be up to 2^32
-> >   * fix the off-by-one error in the comparison
+> > The bounds check on the number of interrupt IDs is correct, but
+> > doesn't match our convention; change the variable name, initialize it
+> > to the 2^n value rather than (2^n)-1, and use >=3D instead of > in the
+> > comparison.
 > >
-> > Signed-off-by: Peter Maydell<peter.maydell@linaro.org>
+> > Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+> > Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
 > > ---
-> >   hw/intc/arm_gicv3_its.c | 18 ++++++++++--------
-> >   1 file changed, 10 insertions(+), 8 deletions(-)
+> >   hw/intc/arm_gicv3_its.c | 6 +++---
+> >   1 file changed, 3 insertions(+), 3 deletions(-)
+> >
+> > diff --git a/hw/intc/arm_gicv3_its.c b/hw/intc/arm_gicv3_its.c
+> > index 6d11fa02040..5919b1a3b7f 100644
+> > --- a/hw/intc/arm_gicv3_its.c
+> > +++ b/hw/intc/arm_gicv3_its.c
+> > @@ -338,7 +338,7 @@ static bool process_mapti(GICv3ITSState *s, uint64_=
+t value, uint32_t offset,
+> >       uint32_t devid, eventid;
+> >       uint32_t pIntid =3D 0;
+> >       uint64_t num_eventids;
+> > -    uint32_t max_Intid;
+> > +    uint32_t num_intids;
 >
-> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
->
->
-> > +        num_eventids = 1ULL << (FIELD_EX64(dte, DTE, SIZE) + 1);
->
-> Could be written 2 << N, instead of 1 << (N + 1).
+> Does this now need to be uint64_t, like num_eventids?
 
-It could, but the spec defines the field as containing
-"number of supported bits, minus 1", so I think that
-using an expression that matches that is clearer.
+No, because GICD_TYPER_IDBITS is 0xf, so num_intids is 2^16
+and still fits in a 32-bit integer.
 
-Aside: clang optimizes both of these expressions to
-the same thing; gcc does not:
-
-https://godbolt.org/z/nsz4Mdxhq
-
-(not that it will make a perf difference we care about here).
-
+thanks
 -- PMM
 
