@@ -2,88 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6679C49FBE9
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jan 2022 15:42:49 +0100 (CET)
-Received: from localhost ([::1]:46468 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EAAE949FC1B
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jan 2022 15:49:10 +0100 (CET)
+Received: from localhost ([::1]:54466 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nDSSe-0001qU-HS
-	for lists+qemu-devel@lfdr.de; Fri, 28 Jan 2022 09:42:48 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:40948)
+	id 1nDSYn-0007qn-Nl
+	for lists+qemu-devel@lfdr.de; Fri, 28 Jan 2022 09:49:09 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:44724)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nDSHR-00086m-L2
- for qemu-devel@nongnu.org; Fri, 28 Jan 2022 09:31:13 -0500
-Received: from [2a00:1450:4864:20::62f] (port=44907
- helo=mail-ej1-x62f.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nDSHN-0004hK-Ta
- for qemu-devel@nongnu.org; Fri, 28 Jan 2022 09:31:13 -0500
-Received: by mail-ej1-x62f.google.com with SMTP id ka4so16530122ejc.11
- for <qemu-devel@nongnu.org>; Fri, 28 Jan 2022 06:30:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=3Ucpq2mQMTmKdhLkauzQ/Wcb++foP2rNjXzZ9Ps2MLA=;
- b=qME8TJxrxdE49z4SnT/neQcaqkgCL3zTxSy/YzwqnKGV20HR9JP8me14lLanYUxDH+
- MeYPk4AYIv9WzPi6RAYKET2l4uE3lbwBd32wKCMCk88AfYu7Kw8C+CeVwW5SYsL9Pz7K
- g2AHtYB/B/oZfFMCjIVc0vXeGdtSmzH7PgcLZD6yXqNZcUpRABP+FEJtoAeWh4ZaYvub
- nk3hd4vZLLzkLw+48/inH4qJxICjZ8fOLB7nLinWtrwBi9AEhY97yzS3tYKgCfeQg3yd
- c/AfN5zmbleiImKVbOvQIS9bDL5IE9S/eurbp95n06tkfr5JvZjGvySOD/xr/fhvrOIe
- MZLQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=3Ucpq2mQMTmKdhLkauzQ/Wcb++foP2rNjXzZ9Ps2MLA=;
- b=sj/P80cFQDoQMtjHYdInZthu5X8AgJfqlvlL5xLU3bvTFN6BH68FET7Rgc1HW9GiYN
- fL40g6/1oL10q+5HQFrgSdSA76i0g/hVDXH3Y2g0qF653vlUEgqhD692GvHdk0ukc5zG
- LWBfRF20F2oOgXMhfkHpiV6C0roI9CGiZxos1dNhKgdKXw7m2T0mQ4UTJy2D7KRPe7oF
- /zPcp1PPHgf+ylqEBORLe15NpbmKcpGt8J76jQSJ8rXv18RSk5x3ty3xgyH7KrdU4a2o
- 04O0Zq6EOUsl+F/wk0ohcNW3Xr+CQfqn/XbGq1j8+59gpQJkpmC/9CxCFkO3ifqr4aMv
- wncg==
-X-Gm-Message-State: AOAM530saU7JrQtEKo5hrShnLY72QXuojhLtYogtPm2mk22WGt/c/DjB
- XSS/khXeL2SqWDtE87+83Cw=
-X-Google-Smtp-Source: ABdhPJyH9ZkJyt9W/d/PN2MpaJ4htj3y9If6MeR5f/94lCWg1lmo0PBupjAo67xF1obiaqh+mOimKQ==
-X-Received: by 2002:a17:907:a088:: with SMTP id
- hu8mr6496908ejc.439.1643380216016; 
- Fri, 28 Jan 2022 06:30:16 -0800 (PST)
-Received: from ?IPV6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
- ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.googlemail.com with ESMTPSA id
- bv2sm10016773ejb.155.2022.01.28.06.30.12
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 28 Jan 2022 06:30:15 -0800 (PST)
-Message-ID: <ac920f6c-de23-b93a-4d5a-db807aeace3a@redhat.com>
-Date: Fri, 28 Jan 2022 15:30:11 +0100
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1nDST9-000509-KP; Fri, 28 Jan 2022 09:43:19 -0500
+Received: from kylie.crudebyte.com ([5.189.157.229]:51365)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1nDST7-00077e-BF; Fri, 28 Jan 2022 09:43:19 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
+ MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+ Content-ID:Content-Description;
+ bh=JYjTsyZIW4dQuxOM7l2Jhw6FAHsHet+TdfpRGowNRnw=; b=HUsSsKbyNfkeNNVN4JksfK3loD
+ lYVBykFccSxuuz5favWehB/L3BBpBszBDSisYhRdmxA16uWxJzNYy/lWpG9qOl+hD8oXoyHwU3TFg
+ GWCMt3YWQxuhZwjl23cW5VsA3mZgHoOF1iRuF1wwERtoQiEkFxSaq7OgfibRwknPCAHIm0/qou2ZQ
+ kvYTMGD4lwrNogt3QxgY5qNudWEtp6xtQn/j7OeYCupKPTJuySznrBPnqwwUsWXBmNf5f4pz91NEp
+ vWxHvl0IL1UPJ2Ry3VdqnzRSisrsg5BzrdZYyVkTX7u24Ka2neu1ToMmJDuCuBfS632vwzojrMSyq
+ pTs5dD3ZdLvmg7pcN58R27LOWlKV5ItX/Z+u1DRgVAAZJRkAK9BA6T7rGc3YnahE5EmGq8wkLI5mp
+ o4itNqiQGksFqPF/+asbr3GcaSB8uNlTTn4sS31+D/OYHmeAUDUKR0XsrjL42gT1gVficHWqb7NZt
+ wn1po4eP9UxknZoi6SylQDsmXJQSHuaiinoPRaN4mr5PzWEDbCcRrcK7UXt72+dImJHb7Px2dVM4a
+ HnnGd0/lxqIlGpTyJhjiKLmUCh6r3BEWbh9xH5sePSexGMmMzRfktcHdeDoIfafQb3dhwuS4tirsJ
+ PPdg0PUIQE/tbIena19VWhTASvom+QhOnX7y51IEA=;
+From: Christian Schoenebeck <qemu_oss@crudebyte.com>
+To: qemu-devel@nongnu.org
+Cc: Vitaly Chikunov <vt@altlinux.org>, Greg Kurz <groug@kaod.org>,
+ ldv@altlinux.org, qemu-stable@nongnu.org
+Subject: Re: [PATCH] 9pfs: Fix segfault in do_readdir_many caused by struct
+ dirent overread
+Date: Fri, 28 Jan 2022 15:43:10 +0100
+Message-ID: <2533498.9Ea8Rob0xc@silver>
+In-Reply-To: <20220127212734.218900-1-vt@altlinux.org>
+References: <20220127212734.218900-1-vt@altlinux.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.0
-Subject: Re: should we have a Kconfig "device group" for I2C devices?
-Content-Language: en-US
-To: Peter Maydell <peter.maydell@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>
-References: <CAFEAcA-VUOa3R8_BZzJ0d3+RQyZJgwQ-P+3RWPHBoJQYUc7_Mg@mail.gmail.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-In-Reply-To: <CAFEAcA-VUOa3R8_BZzJ0d3+RQyZJgwQ-P+3RWPHBoJQYUc7_Mg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::62f
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::62f;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x62f.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
- PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
+Received-SPF: pass client-ip=5.189.157.229;
+ envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -96,47 +64,180 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/28/22 15:17, Peter Maydell wrote:
-> Hi; I've been looking into what is the right way to handle in Kconfig
-> an i2c device which is intended for the user to specify on the command
-> line with a -device option.
-> (It's the lsm303dlhc magnetometer, currently in code review:
-> https://patchew.org/QEMU/20210921093227.18592-1-kevin.townsend@linaro.org/  )
-> 
-> Currently all our i2c devices are just pulled in by "select FOO" from
-> the Kconfig stanza for a board which has that kind of sensor hardwired
-> on-board. But for at least some of them it works fine to just specify
-> them on the commandline of any board that has an i2c controller that
-> allows pluggable devices. (For instance we do that kind of commandline
-> plugging in our test suite with tests/qtest/tmp105-test.c.)
-> 
-> What's the best way to structure this? For PCI we have the "device
-> group" PCI_DEVICES as documented in
-> https://qemu-project.gitlab.io/qemu/devel/kconfig.html#guidelines-for-writing-kconfig-files
-> and PCI devices say
->      default y if PCI_DEVICES
->      depends on PCI
-> 
-> For ISA devices we seem to make them say
->      default y
->      depends on ISA_BUS
-> 
-> I2C devices currently just say
->      depends on I2C
-> 
-> Should we have an I2C_DEVICES, which boards where there's a sensible
-> user-pluggable i2c controller can specifically select ? Or should we
-> mark the i2c devices which are sensibly user-pluggable as
-> "default y" ? Or something else ?
+On Donnerstag, 27. Januar 2022 22:27:34 CET Vitaly Chikunov wrote:
+> `struct dirent' returned from readdir(3) could be shorter than
+> `sizeof(struct dirent)', thus memcpy of sizeof length will overread
+> into unallocated page causing SIGSEGV. Example stack trace:
 
-Yes, I think it's a good idea to have I2C_DEVICES like we have 
-PCI_DEVICES.  This way we can skip them on x86 (where the SMBus 
-controller is mostly a legacy device) but include them by default on 
-AVR, embedded ARM, etc.
+It could be shorter or longer. Your patch is fixing both possibilities.
 
-Paolo
+I just realized BTW that there are other places that should be fixed as well. 
+:/
+
+For instance hw/9pfs/9p-synth.c (used for the 9p test cases [1][2]) is copying 
+dirents, too.
+
+And in hw/9pfs/9p.c v9fs_do_readdir_with_stat() used by 9p2000.u doesn't even 
+bother to copy at all, which is undefined behaviour as fs driver is running on 
+a background thread and the dirent pointer might have mutated in the meantime 
+with the next readdir() call.
+
+[1] https://wiki.qemu.org/Documentation/9p#Test_Cases
+[2] https://wiki.qemu.org/Documentation/9p#9p_Filesystem_Drivers
+
+>  #0  0x00005555559ebeed v9fs_co_readdir_many (/usr/bin/qemu-system-x86_64 +
+> 0x497eed) #1  0x00005555559ec2e9 v9fs_readdir (/usr/bin/qemu-system-x86_64
+> + 0x4982e9) #2  0x0000555555eb7983 coroutine_trampoline
+> (/usr/bin/qemu-system-x86_64 + 0x963983) #3  0x00007ffff73e0be0 n/a (n/a +
+> 0x0)
+> 
+> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/841
+> Signed-off-by: Vitaly Chikunov <vt@altlinux.org>
+
+Adding qemu-stable on CC for making sure this patch will be handled for the 
+stable branches as well.
+
+> ---
+> Tested on x86-64 Linux.
+> 
+>  hw/9pfs/codir.c      |  7 +++++--
+>  include/qemu/osdep.h |  6 ++++++
+>  util/osdep.c         | 23 +++++++++++++++++++++++
+>  3 files changed, 34 insertions(+), 2 deletions(-)
+> 
+> diff --git a/hw/9pfs/codir.c b/hw/9pfs/codir.c
+> index 032cce04c4..ea7f5e6578 100644
+> --- a/hw/9pfs/codir.c
+> +++ b/hw/9pfs/codir.c
+> @@ -143,8 +143,11 @@ static int do_readdir_many(V9fsPDU *pdu, V9fsFidState
+> *fidp, } else {
+>              e = e->next = g_malloc0(sizeof(V9fsDirEnt));
+>          }
+> -        e->dent = g_malloc0(sizeof(struct dirent));
+> -        memcpy(e->dent, dent, sizeof(struct dirent));
+> +        e->dent = qemu_dirent_dup(dent);
+
+That's the actual fix.
+
+> +        if (!e->dent) {
+> +            err = -errno;
+> +            break;
+> +        }
+
+e->dent is never NULL, so this check can be removed. See explanation about 
+g_malloc() below.
+
+> 
+>          /* perform a full stat() for directory entry if requested by caller
+> */ if (dostat) {
+> diff --git a/include/qemu/osdep.h b/include/qemu/osdep.h
+> index d1660d67fa..b54d22db04 100644
+> --- a/include/qemu/osdep.h
+> +++ b/include/qemu/osdep.h
+> @@ -805,6 +805,12 @@ static inline int
+> platform_does_not_support_system(const char *command) }
+>  #endif /* !HAVE_SYSTEM_FUNCTION */
+> 
+> +/**
+> + * Actual 'struct dirent' size may be bigger or shorter than
+> + * sizeof(struct dirent) in many cases.
+> + */
+> +struct dirent *qemu_dirent_dup(struct dirent *dent);
+> +
+
+I think this issue deserves a more verbose API doc comment, something like:
+
+/**
+ * Duplicate directory entry @dent.
+ *
+ * It is highly recommended to use this function instead of open coding 
+ * duplication of @c dirent objects, because the actual @c struct @c dirent 
+ * size may be bigger or shorter than @c sizeof(struct dirent) and correct
+ * handling is platform specific (see gitlab issue #841).
+ *
+ * @dent - original directory entry to be duplicated
+ * @returns duplicated directory entry which should be freed with g_free()
+ */
+struct dirent *qemu_dirent_dup(struct dirent *dent);
+
+>  #ifdef __cplusplus
+>  }
+>  #endif
+> diff --git a/util/osdep.c b/util/osdep.c
+> index 42a0a4986a..e39d1071fd 100644
+> --- a/util/osdep.c
+> +++ b/util/osdep.c
+> @@ -33,6 +33,7 @@
+>  extern int madvise(char *, size_t, int);
+>  #endif
+> 
+> +#include <dirent.h>
+
+Wouldn't that break Windows builds?
+
+>  #include "qemu-common.h"
+>  #include "qemu/cutils.h"
+>  #include "qemu/sockets.h"
+> @@ -615,3 +616,25 @@ writev(int fd, const struct iovec *iov, int iov_cnt)
+>      return readv_writev(fd, iov, iov_cnt, true);
+>  }
+>  #endif
+> +
+> +struct dirent *
+> +qemu_dirent_dup(struct dirent *dent)
+> +{
+> +    struct dirent *dst;
+> +#if defined _DIRENT_HAVE_D_RECLEN
+> +    /* Avoid use of strlen() if there's d_reclen. */
+> +    dst = g_malloc(dent->d_reclen);
+> +#else
+> +    /* Fallback to a most portable way. */
+> +    const size_t reclen = offsetof(struct dirent, d_name) +
+> strlen(dent->d_name) + 1; +
+> +    dst = g_malloc(reclen);
+> +#endif
+> +    if (!dst)
+> +        return NULL;
+> +#ifdef _DIRENT_HAVE_D_RECLEN
+> +    return memcpy(dst, dent, dent->d_reclen);
+> +#else
+> +    return memcpy(dst, dent, reclen);
+> +#endif
+> +}
+
+On the long run we probably should have a configure check whether d_reclen
+exists, but I would not insist on that now as there is a valid fallback
+solution at least.
+
+Note that g_malloc() never returns NULL, if it runs out of memory it
+terminates instead, so the NULL checks are unncessary:
+https://developer.gimp.org/api/2.0/glib/glib-Memory-Allocation.html#g-try-malloc
+
+Also I would prefer g_malloc0() over g_malloc().
+
+Then by adding a variable for the d_reclen yes/no case, overall code can be
+reduced. So I would suggest something like this instead:
+
+struct dirent *
+qemu_dirent_dup(struct dirent *dent)
+{
+#if defined _DIRENT_HAVE_D_RECLEN
+    /* Avoid use of strlen() if there's d_reclen. */
+    const size_t sz = dent->d_reclen;
+#else
+    /* Fallback to a most portable way. */
+    const size_t sz = offsetof(struct dirent, d_name) +
+                      strlen(dent->d_name) + 1;
+#endif
+    struct dirent *dst = g_malloc(sz);
+    return memcpy(dst, dent, sz);
+}
+
+Best regards,
+Christian Schoenebeck
+
+
 
