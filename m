@@ -2,67 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6833F49FFF6
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jan 2022 19:12:09 +0100 (CET)
-Received: from localhost ([::1]:60042 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2688D4A0005
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jan 2022 19:23:45 +0100 (CET)
+Received: from localhost ([::1]:47100 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nDVjE-0004tP-6j
-	for lists+qemu-devel@lfdr.de; Fri, 28 Jan 2022 13:12:08 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:41082)
+	id 1nDVuS-00074d-8D
+	for lists+qemu-devel@lfdr.de; Fri, 28 Jan 2022 13:23:44 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:42098)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nDVgI-0002PF-D7
- for qemu-devel@nongnu.org; Fri, 28 Jan 2022 13:09:06 -0500
-Received: from [2a00:1450:4864:20::42b] (port=36376
- helo=mail-wr1-x42b.google.com)
+ id 1nDVkR-0008E9-TW
+ for qemu-devel@nongnu.org; Fri, 28 Jan 2022 13:13:23 -0500
+Received: from [2a00:1450:4864:20::429] (port=40821
+ helo=mail-wr1-x429.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nDVgG-0005gb-OC
- for qemu-devel@nongnu.org; Fri, 28 Jan 2022 13:09:06 -0500
-Received: by mail-wr1-x42b.google.com with SMTP id u15so12428115wrt.3
- for <qemu-devel@nongnu.org>; Fri, 28 Jan 2022 10:09:03 -0800 (PST)
+ id 1nDVkQ-0006LZ-5D
+ for qemu-devel@nongnu.org; Fri, 28 Jan 2022 13:13:23 -0500
+Received: by mail-wr1-x429.google.com with SMTP id s18so12411275wrv.7
+ for <qemu-devel@nongnu.org>; Fri, 28 Jan 2022 10:13:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=BxQzLT/nyU9R41goMbuXcf4fxG5qZ3hAivyHlE3TD4o=;
- b=hVqvsm+6bDFiuy8EqNzswwoBQTisxvHpPhw+arWJUyWbBZYqLVt8bJN/5HiV/0kmKU
- sH+dOScBwoQyk+EgsQHDduIi9ZD0+yy3SDcYOpr0NrOcmgCJZh14fH+gPwyKSrJcHcUK
- 43X0bz13r9WRedkhBg7LUSHM7067Yw3qnH6ggmLDJZnPtbav906izCZS8FxIzQsZaCcM
- 0tBAEgyB10nRHqDX2ysSwVTmU/UhUnsWmlAhalDKENxkhMWYStWK971gnB/I+Lj7PRZq
- 61erF+uVyP/dGlO5T6ZbaV1vqdfdo/uI7/EU4kUIXNEnT55tfvejubkvrgrmoQLRfgQt
- +zbA==
+ :cc; bh=Q8MQBxnxP/orxcZqvX9P2x2YUFlWPRoe4GigdzLPgEU=;
+ b=eVGhVzLsJ6xGVLq4Nf4GbEKT2dGLXx79pm/xm7DjvYea8wudj0YjQNN4l+PXnlXDnG
+ wxJ/rXAhfxKrbzX5CXmjb8oFEvJh6r3VEupy2dxesZeIJLhjZi9laDtHw2dAFVyhjYvN
+ f+AS+2HLtir8vRUve9JpCD9kloiECZG1N7syAupLs1tTyh17sTz6EciN9S2xG/U37A4q
+ HlN5H1RC9wrCXXrKSLJVZXcPqfR3vdomZBTXdxym2UxngKePeqnu2YtH+5YJUafscwzG
+ bG7BHnHRrv9taLm0mDdyBzI1sQ8u9UY3Iaiif3Gtafq4v6JxUnEmUt1bYZgDnVD64bsm
+ t0ww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=BxQzLT/nyU9R41goMbuXcf4fxG5qZ3hAivyHlE3TD4o=;
- b=Tg+8aIHbbMhOWXrwfK1RDBHwX3x86QhC7gDzHwaoPHD6PvZv1FuI1MXxd4PLU0rW3J
- d92tSqlBO6EZXk+fti1Ti38mfwDzdKRL5TQ/DIhHPGh+rczVnG78HeZ9iiHXWsQnmZI9
- eSYzk2honP1gEIAKbqAb3ha2BZEa34lUTEEZO6MafO/U1m55gmB//U/8+37aPixlj6Qe
- n9/SmP/BNZhzJW8xlsZBSJ+RNJ9J4bky728ba4MEW1oF3/64YxNvR7N5caJg3gIckbjS
- pVrhA96vC6CdHpqtnHvVoThgGLE2iMbngHrYtHm+Yzi8iINIorfV8aiYQzutAHJMdYps
- WdZg==
-X-Gm-Message-State: AOAM5310GIWC+JD1VEnPYuEwhRsxwy16BVI5qH3nAZPDhB51jRwHYyd2
- zLr70KO8VHTurVpy5P8tXWJ0bQFlGigMXh4Tm9vnBA==
-X-Google-Smtp-Source: ABdhPJyvNuvn7fBdrix1vDJps41yrhpjLVa9X9qyqLDHgSnuaUrf2HT1x8bFx2Gm4j135/UNXuJ2lEuXNq5EB/kxZ4g=
-X-Received: by 2002:a5d:5343:: with SMTP id t3mr8231295wrv.521.1643393342012; 
- Fri, 28 Jan 2022 10:09:02 -0800 (PST)
+ :message-id:subject:to:cc;
+ bh=Q8MQBxnxP/orxcZqvX9P2x2YUFlWPRoe4GigdzLPgEU=;
+ b=Ep13US1JFyxsNTI0Dv5IDhU4jWAxKGfOYLJdJXnhOod3AKgSQLOzxikiiNAJHydMCg
+ UpmEE+hXEwSiVSVwJ43NkbRSUOGeyaTLeF1Lm9Gk2xKMgA/I/j19SBazweBfU+8ygDXB
+ l9YmNFJ57vuL8YbFPGtasO2UAM2QTHOp2qyVNpEP8gsV6OIgtEJwKAJbDz8yQk1slJ56
+ WtqKw3050tWUad0crBE321saLwHeiX+PeIPEPqg336MfsfZWrDYhfztzpWxulmI9ZM7E
+ E0TXWzwawSgpgRf3pk/hqLr6O/ZVuqctCuT4uBG7iX53yG3CHpYKSSli+px0ZEAYGq+u
+ k8Fw==
+X-Gm-Message-State: AOAM533zCli6EmYrFZeLDvLIVIk+WIUXWiz/17fuPVidnw3AHRrG6qWA
+ OMUzTy1bMp3e9Ral8RA/zGAyvqC8nRvhV4hhL4Rb6g==
+X-Google-Smtp-Source: ABdhPJzoCtEkD+Oh9Lz3WFjhhuRQA2Vhn9RDHGtwKffLjCnbB87Xsn4o4iGD9Bdx5NIEHhxTdhIH/reZ0aCudakgn8o=
+X-Received: by 2002:a5d:5343:: with SMTP id t3mr8245891wrv.521.1643393598263; 
+ Fri, 28 Jan 2022 10:13:18 -0800 (PST)
 MIME-Version: 1.0
-References: <20220128165535.2550899-1-peter.maydell@linaro.org>
- <YfQs2qIew5UR6MCk@redhat.com>
-In-Reply-To: <YfQs2qIew5UR6MCk@redhat.com>
+References: <20220127063428.30212-1-richard.henderson@linaro.org>
+ <20220127063428.30212-5-richard.henderson@linaro.org>
+In-Reply-To: <20220127063428.30212-5-richard.henderson@linaro.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 28 Jan 2022 18:08:50 +0000
-Message-ID: <CAFEAcA9W34DGAho3CS62j0a4-PJvrBYyDXQN-ZnQzWW6wTc5eQ@mail.gmail.com>
-Subject: Re: [PATCH] block/curl.c: Check error return from curl_easy_setopt()
-To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
+Date: Fri, 28 Jan 2022 18:13:07 +0000
+Message-ID: <CAFEAcA8Bj2uUHj-y10VfcH6RDdOhPBKeYfug2iVe1BfKpUUUrA@mail.gmail.com>
+Subject: Re: [PATCH 4/4] target/arm: Use CPTR_TFP with CPTR_EL3 in
+ fp_exception_el
+To: Richard Henderson <richard.henderson@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42b
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::429
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::429;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x429.google.com
 X-Spam_score_int: 6
 X-Spam_score: 0.6
 X-Spam_bar: /
@@ -82,31 +81,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
- qemu-devel@nongnu.org, qemu-block@nongnu.org
+Cc: yuzenghui@huawei.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 28 Jan 2022 at 17:50, Daniel P. Berrang=C3=A9 <berrange@redhat.com>=
- wrote:
+On Thu, 27 Jan 2022 at 06:34, Richard Henderson
+<richard.henderson@linaro.org> wrote:
 >
-> On Fri, Jan 28, 2022 at 04:55:35PM +0000, Peter Maydell wrote:
-> > Coverity points out that we aren't checking the return value
-> > from curl_easy_setopt() for any of the calls to it we make
-> > in block/curl.c.
-> >
-> > Fixes: Coverity CID 1459336, 1459482, 1460331
-> > Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-> > ---
-> > Big fat disclaimer: tested only with 'make check', which I suspect
-> > may not be exercising this block backend. Hints on how to test
-> > more thoroughly are welcome.
+> Use the named bit rather than a bare extract32.
 >
-> yeah afaik, qemu-iotests don't have support for this. As a very
-> basic smoke test do
-> [command lines snipped]
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>  target/arm/helper.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/target/arm/helper.c b/target/arm/helper.c
+> index ca916139e8..5610879680 100644
+> --- a/target/arm/helper.c
+> +++ b/target/arm/helper.c
+> @@ -13034,7 +13034,7 @@ int fp_exception_el(CPUARMState *env, int cur_el)
+>      }
+>
+>      /* CPTR_EL3 : present in v8 */
+> -    if (extract32(env->cp15.cptr_el[3], 10, 1)) {
+> +    if (env->cp15.cptr_el[3] & CPTR_TFP) {
+>          /* Trap all FP ops to EL3 */
+>          return 3;
+>      }
+> --
+> 2.25.1
 
-Thanks; yes, those both work.
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
+thanks
 -- PMM
 
