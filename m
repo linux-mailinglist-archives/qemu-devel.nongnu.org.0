@@ -2,68 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42A0C49FFC8
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jan 2022 18:51:37 +0100 (CET)
-Received: from localhost ([::1]:36070 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E3A3649FF87
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jan 2022 18:26:36 +0100 (CET)
+Received: from localhost ([::1]:35980 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nDVPM-0004ZA-Cu
-	for lists+qemu-devel@lfdr.de; Fri, 28 Jan 2022 12:51:36 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:48210)
+	id 1nDV19-0000JM-Vs
+	for lists+qemu-devel@lfdr.de; Fri, 28 Jan 2022 12:26:36 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:50370)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1nDUPr-00070p-G7
- for qemu-devel@nongnu.org; Fri, 28 Jan 2022 11:48:03 -0500
-Received: from frasgout.his.huawei.com ([185.176.79.56]:2222)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1nDUPo-0000uU-6m
- for qemu-devel@nongnu.org; Fri, 28 Jan 2022 11:48:03 -0500
-Received: from fraeml745-chm.china.huawei.com (unknown [172.18.147.206])
- by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4Jljv81lLXz67Wgc;
- Sat, 29 Jan 2022 00:43:16 +0800 (CST)
-Received: from lhreml710-chm.china.huawei.com (10.201.108.61) by
- fraeml745-chm.china.huawei.com (10.206.15.226) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.21; Fri, 28 Jan 2022 17:47:42 +0100
-Received: from localhost (10.122.247.231) by lhreml710-chm.china.huawei.com
- (10.201.108.61) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.21; Fri, 28 Jan
- 2022 16:47:41 +0000
-Date: Fri, 28 Jan 2022 16:47:40 +0000
-To: Alex =?ISO-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>, Dan Williams
- <dan.j.williams@intel.com>
-CC: <qemu-devel@nongnu.org>, Marcel Apfelbaum <marcel@redhat.com>, "Michael S
- . Tsirkin" <mst@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
- <linux-cxl@vger.kernel.org>, Ben Widawsky <ben.widawsky@intel.com>, "Peter
- Maydell" <peter.maydell@linaro.org>, <linuxarm@huawei.com>, "Shameerali
- Kolothum Thodi" <shameerali.kolothum.thodi@huawei.com>, Philippe
- =?ISO-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>, Saransh Gupta1
- <saransh@ibm.com>, Shreyas Shah <shreyas.shah@elastics.cloud>, Chris Browy
- <cbrowy@avery-design.com>, Samarth Saxena <samarths@cadence.com>
-Subject: Re: [PATCH v4 10/42] hw/cxl/device: Add log commands (8.2.9.4) + CEL
-Message-ID: <20220128164740.00001707@huawei.com>
-In-Reply-To: <87zgnh9yno.fsf@linaro.org>
-References: <20220124171705.10432-1-Jonathan.Cameron@huawei.com>
- <20220124171705.10432-11-Jonathan.Cameron@huawei.com>
- <87zgnh9yno.fsf@linaro.org>
-Organization: Huawei Technologies R&D (UK) Ltd.
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.29; x86_64-w64-mingw32)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nDUXk-0008B1-Uy
+ for qemu-devel@nongnu.org; Fri, 28 Jan 2022 11:56:13 -0500
+Received: from [2a00:1450:4864:20::42c] (port=45865
+ helo=mail-wr1-x42c.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nDUXh-00023B-In
+ for qemu-devel@nongnu.org; Fri, 28 Jan 2022 11:56:12 -0500
+Received: by mail-wr1-x42c.google.com with SMTP id m14so11791701wrg.12
+ for <qemu-devel@nongnu.org>; Fri, 28 Jan 2022 08:55:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=my6AC68IrsDTzgwV0y0YsmAQ4IVN0yCb3Xq0zo4Jr8A=;
+ b=GPHbsr1jOs3xYEqJ8MY1HwnoPyho4Kb57rdGuMpnGA5L8YpEsxe8yl7lgVdZmXk6R6
+ pBpimGGQ5KFb6+HKsu3qdR1WXjjJeeIVuqN0MBWYQkPzub6twmWHvX/p08mi4vxVFMG2
+ BeHkW1O1gTKmRsxhQUqf+k5tXhf15mFhrI2Hnp5K5Rx+QhUsb3832OMn9sGPQ6gtlwUi
+ 6SPoC+V82zv2csUzJZwQqK09nCy5C57MyXVHwkz5Mdj0ECe32Qk9KwEsyRsrfYsR0umy
+ O8FT7bbbImWvbDh3zpXOY90prC4fCGFZyabNnzqlwi+lYZhVtHh2jEQu2cc3kiI5AkwU
+ gD6g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=my6AC68IrsDTzgwV0y0YsmAQ4IVN0yCb3Xq0zo4Jr8A=;
+ b=K3WFAwD4k+zyATEnsfBcjcsWMjn/FiERKkjNubzy70rJPKX69oNTHT+m5p7GfTfa+c
+ Ghe74HDcjHeW/GyvjPTnx+55FBl+qBwUoIIVHLTLlviZAmw4KLyTKZxieQ9P1coRmzjt
+ 7Xvy3VkgqKd2DlQ6FvnolkMXATje2C++kbiOmU8PvAxiChedtGHXPr4MvKt5uK7Yg7kM
+ v7qEVKbg+W728BdAVU232Fx9BMB3i2pnocZ0y+Kdyy6aSebGP7TbVdCqbZWQPgfy6Qbf
+ lBCuGltMcae3rZ4LwmfF6fSKVxEbO2pIto+z7rsii+0f3KwoCMUJ1ZEbOJs+L9x7ZOC3
+ cddw==
+X-Gm-Message-State: AOAM5327jS86LXMbgPbE+x0GZFcyG1ScGVccncc8ysYgwzn/3tvx2r7l
+ O6NZI01hN6yTcDtJbDYOap1enKkt16Dyig==
+X-Google-Smtp-Source: ABdhPJwvJoCps5xcq8YR5gwtrJgfCVztjHDG+QBNo/P0RJivDM8tix6wZotGZW1b0rDTe+kiA7+TVA==
+X-Received: by 2002:adf:aade:: with SMTP id i30mr7744876wrc.629.1643388937705; 
+ Fri, 28 Jan 2022 08:55:37 -0800 (PST)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
+ by smtp.gmail.com with ESMTPSA id n13sm2497220wms.8.2022.01.28.08.55.36
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 28 Jan 2022 08:55:37 -0800 (PST)
+From: Peter Maydell <peter.maydell@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] block/curl.c: Check error return from curl_easy_setopt()
+Date: Fri, 28 Jan 2022 16:55:35 +0000
+Message-Id: <20220128165535.2550899-1-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="ISO-8859-1"
-Content-Transfer-Encoding: quoted-printable
-X-Originating-IP: [10.122.247.231]
-X-ClientProxiedBy: lhreml740-chm.china.huawei.com (10.201.108.190) To
- lhreml710-chm.china.huawei.com (10.201.108.61)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=185.176.79.56;
- envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42c
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42c.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -76,177 +84,165 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
+ qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  Jonathan Cameron <Jonathan.Cameron@huawei.com>
-From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 
-On Thu, 27 Jan 2022 11:55:47 +0000
-Alex Benn=E9e <alex.bennee@linaro.org> wrote:
+Coverity points out that we aren't checking the return value
+from curl_easy_setopt() for any of the calls to it we make
+in block/curl.c.
 
-> Jonathan Cameron <Jonathan.Cameron@huawei.com> writes:
->=20
-> > From: Ben Widawsky <ben.widawsky@intel.com>
-> >
-> > CXL specification provides for the ability to obtain logs from the
-> > device. Logs are either spec defined, like the "Command Effects Log"
-> > (CEL), or vendor specific. UUIDs are defined for all log types.
-> >
-> > The CEL is a mechanism to provide information to the host about which
-> > commands are supported. It is useful both to determine which spec'd
-> > optional commands are supported, as well as provide a list of vendor
-> > specified commands that might be used. The CEL is already created as
-> > part of mailbox initialization, but here it is now exported to hosts
-> > that use these log commands.
-> >
-> > Signed-off-by: Ben Widawsky <ben.widawsky@intel.com>
-> > Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-> > ---
-> >  hw/cxl/cxl-mailbox-utils.c | 67 ++++++++++++++++++++++++++++++++++++++
-> >  1 file changed, 67 insertions(+)
-> >
-> > diff --git a/hw/cxl/cxl-mailbox-utils.c b/hw/cxl/cxl-mailbox-utils.c
-> > index cea4b2a59c..0ab0592e6c 100644
-> > --- a/hw/cxl/cxl-mailbox-utils.c
-> > +++ b/hw/cxl/cxl-mailbox-utils.c
-> > @@ -46,6 +46,9 @@ enum {
-> >      TIMESTAMP   =3D 0x03,
-> >          #define GET           0x0
-> >          #define SET           0x1
-> > +    LOGS        =3D 0x04,
-> > +        #define GET_SUPPORTED 0x0
-> > +        #define GET_LOG       0x1
-> >  };
-> > =20
-> >  /* 8.2.8.4.5.1 Command Return Codes */
-> > @@ -122,6 +125,8 @@ define_mailbox_handler_zeroed(EVENTS_GET_INTERRUPT_=
-POLICY, 4);
-> >  define_mailbox_handler_nop(EVENTS_SET_INTERRUPT_POLICY);
-> >  declare_mailbox_handler(TIMESTAMP_GET);
-> >  declare_mailbox_handler(TIMESTAMP_SET);
-> > +declare_mailbox_handler(LOGS_GET_SUPPORTED);
-> > +declare_mailbox_handler(LOGS_GET_LOG);
-> > =20
-> >  #define IMMEDIATE_CONFIG_CHANGE (1 << 1)
-> >  #define IMMEDIATE_POLICY_CHANGE (1 << 3)
-> > @@ -137,6 +142,8 @@ static struct cxl_cmd cxl_cmd_set[256][256] =3D {
-> >      CXL_CMD(EVENTS, SET_INTERRUPT_POLICY, 4, IMMEDIATE_CONFIG_CHANGE),
-> >      CXL_CMD(TIMESTAMP, GET, 0, 0),
-> >      CXL_CMD(TIMESTAMP, SET, 8, IMMEDIATE_POLICY_CHANGE),
-> > +    CXL_CMD(LOGS, GET_SUPPORTED, 0, 0),
-> > +    CXL_CMD(LOGS, GET_LOG, 0x18, 0),
-> >  };
-> > =20
-> >  #undef CXL_CMD
-> > @@ -188,6 +195,66 @@ define_mailbox_handler(TIMESTAMP_SET)
-> > =20
-> >  QemuUUID cel_uuid;
-> > =20
-> > +/* 8.2.9.4.1 */
-> > +define_mailbox_handler(LOGS_GET_SUPPORTED)
-> > +{ =20
->=20
-> Here is where I get a bit wary of the define_mailbox_handler define
-> which from what I can tell just hides the declarations. This makes the
-> handling of things like *cmd rather opaque. There is an argument for the
-> boilerplate definitions (_nop and _zeroed) but perhaps not these.
+Fixes: Coverity CID 1459336, 1459482, 1460331
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+---
+Big fat disclaimer: tested only with 'make check', which I suspect
+may not be exercising this block backend. Hints on how to test
+more thoroughly are welcome.
 
-Agreed. I think these macros got a bit too clever.
+ block/curl.c | 90 +++++++++++++++++++++++++++++++++-------------------
+ 1 file changed, 58 insertions(+), 32 deletions(-)
 
-I debated keeping the CXL_CMD one but that then forces us to have
-ugly mixed lower case and upper case function names, so I've dropped that
-as well.
-
-I'm debating whether to go with
-[EVENTS][GET] =3D ...
-[EVENTS][SET] =3D ...
-
-vs=20
-[EVENTS] =3D {
-    [GET] =3D { ..
-    [SET] =3D { ..
-},
-
-For now I'll go with the [][] variant. The other one may make more
-sense as we add more commands.
-
-Reorganizing the code a little gets rid of the need for the forward
-declarations as well so end result is less code than with the macros
-even if a few corners are a little repetitive.
-
-Thanks,
-
-Jonathan
-
->=20
-> > +    struct {
-> > +        uint16_t entries;
-> > +        uint8_t rsvd[6];
-> > +        struct {
-> > +            QemuUUID uuid;
-> > +            uint32_t size;
-> > +        } log_entries[1];
-> > +    } __attribute__((packed)) *supported_logs =3D (void *)cmd->payload;
-> > +    _Static_assert(sizeof(*supported_logs) =3D=3D 0x1c, "Bad supported=
- log size");
-> > +
-> > +    supported_logs->entries =3D 1;
-> > +    supported_logs->log_entries[0].uuid =3D cel_uuid;
-> > +    supported_logs->log_entries[0].size =3D 4 * cxl_dstate->cel_size;
-> > +
-> > +    *len =3D sizeof(*supported_logs);
-> > +    return CXL_MBOX_SUCCESS;
-> > +}
-> > +
-> > +/* 8.2.9.4.2 */
-> > +define_mailbox_handler(LOGS_GET_LOG)
-> > +{
-> > +    struct {
-> > +        QemuUUID uuid;
-> > +        uint32_t offset;
-> > +        uint32_t length;
-> > +    } __attribute__((packed, __aligned__(16))) *get_log =3D (void *)cm=
-d->payload;
-> > +
-> > +    /*
-> > +     * 8.2.9.4.2
-> > +     *   The device shall return Invalid Parameter if the Offset or Le=
-ngth
-> > +     *   fields attempt to access beyond the size of the log as report=
-ed by Get
-> > +     *   Supported Logs.
-> > +     *
-> > +     * XXX: Spec is wrong, "Invalid Parameter" isn't a thing.
-> > +     * XXX: Spec doesn't address incorrect UUID incorrectness.
-> > +     *
-> > +     * The CEL buffer is large enough to fit all commands in the emula=
-tion, so
-> > +     * the only possible failure would be if the mailbox itself isn't =
-big
-> > +     * enough.
-> > +     */
-> > +    if (get_log->offset + get_log->length > cxl_dstate->payload_size) {
-> > +        return CXL_MBOX_INVALID_INPUT;
-> > +    }
-> > +
-> > +    if (!qemu_uuid_is_equal(&get_log->uuid, &cel_uuid)) {
-> > +        return CXL_MBOX_UNSUPPORTED;
-> > +    }
-> > +
-> > +    /* Store off everything to local variables so we can wipe out the =
-payload */
-> > +    *len =3D get_log->length;
-> > +
-> > +    memmove(cmd->payload, cxl_dstate->cel_log + get_log->offset,
-> > +           get_log->length);
-> > +
-> > +    return CXL_MBOX_SUCCESS;
-> > +}
-> > +
-> >  void cxl_process_mailbox(CXLDeviceState *cxl_dstate)
-> >  {
-> >      uint16_t ret =3D CXL_MBOX_SUCCESS; =20
->=20
->=20
+diff --git a/block/curl.c b/block/curl.c
+index 6a6cd729758..aaee1b17bef 100644
+--- a/block/curl.c
++++ b/block/curl.c
+@@ -458,38 +458,51 @@ static int curl_init_state(BDRVCURLState *s, CURLState *state)
+         if (!state->curl) {
+             return -EIO;
+         }
+-        curl_easy_setopt(state->curl, CURLOPT_URL, s->url);
+-        curl_easy_setopt(state->curl, CURLOPT_SSL_VERIFYPEER,
+-                         (long) s->sslverify);
+-        curl_easy_setopt(state->curl, CURLOPT_SSL_VERIFYHOST,
+-                         s->sslverify ? 2L : 0L);
+-        if (s->cookie) {
+-            curl_easy_setopt(state->curl, CURLOPT_COOKIE, s->cookie);
++        if (curl_easy_setopt(state->curl, CURLOPT_URL, s->url) ||
++            curl_easy_setopt(state->curl, CURLOPT_SSL_VERIFYPEER,
++                             (long) s->sslverify) ||
++            curl_easy_setopt(state->curl, CURLOPT_SSL_VERIFYHOST,
++                             s->sslverify ? 2L : 0L)) {
++            goto err;
++        }
++        if (s->cookie) {
++            if (curl_easy_setopt(state->curl, CURLOPT_COOKIE, s->cookie)) {
++                goto err;
++            }
++        }
++        if (curl_easy_setopt(state->curl, CURLOPT_TIMEOUT, (long)s->timeout) ||
++            curl_easy_setopt(state->curl, CURLOPT_WRITEFUNCTION,
++                             (void *)curl_read_cb) ||
++            curl_easy_setopt(state->curl, CURLOPT_WRITEDATA, (void *)state) ||
++            curl_easy_setopt(state->curl, CURLOPT_PRIVATE, (void *)state) ||
++            curl_easy_setopt(state->curl, CURLOPT_AUTOREFERER, 1) ||
++            curl_easy_setopt(state->curl, CURLOPT_FOLLOWLOCATION, 1) ||
++            curl_easy_setopt(state->curl, CURLOPT_NOSIGNAL, 1) ||
++            curl_easy_setopt(state->curl, CURLOPT_ERRORBUFFER, state->errmsg) ||
++            curl_easy_setopt(state->curl, CURLOPT_FAILONERROR, 1)) {
++            goto err;
+         }
+-        curl_easy_setopt(state->curl, CURLOPT_TIMEOUT, (long)s->timeout);
+-        curl_easy_setopt(state->curl, CURLOPT_WRITEFUNCTION,
+-                         (void *)curl_read_cb);
+-        curl_easy_setopt(state->curl, CURLOPT_WRITEDATA, (void *)state);
+-        curl_easy_setopt(state->curl, CURLOPT_PRIVATE, (void *)state);
+-        curl_easy_setopt(state->curl, CURLOPT_AUTOREFERER, 1);
+-        curl_easy_setopt(state->curl, CURLOPT_FOLLOWLOCATION, 1);
+-        curl_easy_setopt(state->curl, CURLOPT_NOSIGNAL, 1);
+-        curl_easy_setopt(state->curl, CURLOPT_ERRORBUFFER, state->errmsg);
+-        curl_easy_setopt(state->curl, CURLOPT_FAILONERROR, 1);
+-
+         if (s->username) {
+-            curl_easy_setopt(state->curl, CURLOPT_USERNAME, s->username);
++            if (curl_easy_setopt(state->curl, CURLOPT_USERNAME, s->username)) {
++                goto err;
++            }
+         }
+         if (s->password) {
+-            curl_easy_setopt(state->curl, CURLOPT_PASSWORD, s->password);
++            if (curl_easy_setopt(state->curl, CURLOPT_PASSWORD, s->password)) {
++                goto err;
++            }
+         }
+         if (s->proxyusername) {
+-            curl_easy_setopt(state->curl,
+-                             CURLOPT_PROXYUSERNAME, s->proxyusername);
++            if (curl_easy_setopt(state->curl,
++                                 CURLOPT_PROXYUSERNAME, s->proxyusername)) {
++                goto err;
++            }
+         }
+         if (s->proxypassword) {
+-            curl_easy_setopt(state->curl,
+-                             CURLOPT_PROXYPASSWORD, s->proxypassword);
++            if (curl_easy_setopt(state->curl,
++                                 CURLOPT_PROXYPASSWORD, s->proxypassword)) {
++                goto err;
++            }
+         }
+ 
+         /* Restrict supported protocols to avoid security issues in the more
+@@ -499,18 +512,27 @@ static int curl_init_state(BDRVCURLState *s, CURLState *state)
+          * Restricting protocols is only supported from 7.19.4 upwards.
+          */
+ #if LIBCURL_VERSION_NUM >= 0x071304
+-        curl_easy_setopt(state->curl, CURLOPT_PROTOCOLS, PROTOCOLS);
+-        curl_easy_setopt(state->curl, CURLOPT_REDIR_PROTOCOLS, PROTOCOLS);
++        if (curl_easy_setopt(state->curl, CURLOPT_PROTOCOLS, PROTOCOLS) ||
++            curl_easy_setopt(state->curl, CURLOPT_REDIR_PROTOCOLS, PROTOCOLS)) {
++            goto err;
++        }
+ #endif
+ 
+ #ifdef DEBUG_VERBOSE
+-        curl_easy_setopt(state->curl, CURLOPT_VERBOSE, 1);
++        if (curl_easy_setopt(state->curl, CURLOPT_VERBOSE, 1)) {
++            goto err;
++        }
+ #endif
+     }
+ 
+     state->s = s;
+ 
+     return 0;
++
++err:
++    curl_easy_cleanup(state->curl);
++    state->curl = NULL;
++    return -EIO;
+ }
+ 
+ /* Called with s->mutex held.  */
+@@ -763,10 +785,11 @@ static int curl_open(BlockDriverState *bs, QDict *options, int flags,
+     }
+ 
+     s->accept_range = false;
+-    curl_easy_setopt(state->curl, CURLOPT_NOBODY, 1);
+-    curl_easy_setopt(state->curl, CURLOPT_HEADERFUNCTION,
+-                     curl_header_cb);
+-    curl_easy_setopt(state->curl, CURLOPT_HEADERDATA, s);
++    if (curl_easy_setopt(state->curl, CURLOPT_NOBODY, 1) ||
++        curl_easy_setopt(state->curl, CURLOPT_HEADERFUNCTION, curl_header_cb) ||
++        curl_easy_setopt(state->curl, CURLOPT_HEADERDATA, s)) {
++        goto out;
++    }
+     if (curl_easy_perform(state->curl))
+         goto out;
+     if (curl_easy_getinfo(state->curl, CURLINFO_CONTENT_LENGTH_DOWNLOAD, &d)) {
+@@ -879,7 +902,10 @@ static void curl_setup_preadv(BlockDriverState *bs, CURLAIOCB *acb)
+ 
+     snprintf(state->range, 127, "%" PRIu64 "-%" PRIu64, start, end);
+     trace_curl_setup_preadv(acb->bytes, start, state->range);
+-    curl_easy_setopt(state->curl, CURLOPT_RANGE, state->range);
++    if (curl_easy_setopt(state->curl, CURLOPT_RANGE, state->range)) {
++        curl_clean_state(state);
++        goto out;
++    }
+ 
+     if (curl_multi_add_handle(s->multi, state->curl) != CURLM_OK) {
+         state->acb[0] = NULL;
+-- 
+2.25.1
 
 
