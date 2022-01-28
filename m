@@ -2,67 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4334249FEBF
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jan 2022 18:15:14 +0100 (CET)
-Received: from localhost ([::1]:41044 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 373BF49FED4
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jan 2022 18:18:53 +0100 (CET)
+Received: from localhost ([::1]:50004 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nDUq8-00014m-Si
-	for lists+qemu-devel@lfdr.de; Fri, 28 Jan 2022 12:15:12 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:35404)
+	id 1nDUtg-0007iV-AZ
+	for lists+qemu-devel@lfdr.de; Fri, 28 Jan 2022 12:18:52 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:35706)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1nDTZI-00088M-R4
- for qemu-devel@nongnu.org; Fri, 28 Jan 2022 10:53:44 -0500
-Received: from frasgout.his.huawei.com ([185.176.79.56]:2221)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nDTak-0001Sa-5K
+ for qemu-devel@nongnu.org; Fri, 28 Jan 2022 10:55:54 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:33918)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1nDTYE-0001Ln-IN
- for qemu-devel@nongnu.org; Fri, 28 Jan 2022 10:52:56 -0500
-Received: from fraeml703-chm.china.huawei.com (unknown [172.18.147.207])
- by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4JlhhN3N6Jz6802N;
- Fri, 28 Jan 2022 23:48:52 +0800 (CST)
-Received: from lhreml710-chm.china.huawei.com (10.201.108.61) by
- fraeml703-chm.china.huawei.com (10.206.15.52) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.2308.21; Fri, 28 Jan 2022 16:52:26 +0100
-Received: from localhost (10.122.247.231) by lhreml710-chm.china.huawei.com
- (10.201.108.61) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.21; Fri, 28 Jan
- 2022 15:52:25 +0000
-Date: Fri, 28 Jan 2022 15:52:24 +0000
-To: Alex =?ISO-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>
-CC: <qemu-devel@nongnu.org>, Marcel Apfelbaum <marcel@redhat.com>, "Michael S
- . Tsirkin" <mst@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
- <linux-cxl@vger.kernel.org>, Ben Widawsky <ben.widawsky@intel.com>, "Peter
- Maydell" <peter.maydell@linaro.org>, <linuxarm@huawei.com>, "Shameerali
- Kolothum Thodi" <shameerali.kolothum.thodi@huawei.com>, Philippe
- =?ISO-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>, Saransh Gupta1
- <saransh@ibm.com>, Shreyas Shah <shreyas.shah@elastics.cloud>, Chris Browy
- <cbrowy@avery-design.com>, Samarth Saxena <samarths@cadence.com>, "Dan
- Williams" <dan.j.williams@intel.com>
-Subject: Re: [PATCH v4 06/42] hw/cxl/device: Implement basic mailbox (8.2.8.4)
-Message-ID: <20220128155224.0000667c@huawei.com>
-In-Reply-To: <87pmoebagl.fsf@linaro.org>
-References: <20220124171705.10432-1-Jonathan.Cameron@huawei.com>
- <20220124171705.10432-7-Jonathan.Cameron@huawei.com>
- <87pmoebagl.fsf@linaro.org>
-Organization: Huawei Technologies R&D (UK) Ltd.
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.29; x86_64-w64-mingw32)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nDTaf-0001j5-Ag
+ for qemu-devel@nongnu.org; Fri, 28 Jan 2022 10:55:13 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1643385308;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=UxlKv5DKpfgKTYbtZhmgKOq0cbreCat5dn6JEcrkpUs=;
+ b=GKUG6p6b0xjGlxsb4RbMSuMTO73byyXTD90wjraG5GFrdPv80zE5+fehgcPkqldKWyRI+V
+ OFHaiaYyBBT2p7cnNw5R1olr3ebTnMjO2uhlUmKb358TtNmwOzJV7NMEeTpFL9rKo87qKh
+ v7wPctXKjFuO9eLmpjz2gimODYVKuFE=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-310-G4UtNVg0PAWxN2STfzZHIw-1; Fri, 28 Jan 2022 10:55:05 -0500
+X-MC-Unique: G4UtNVg0PAWxN2STfzZHIw-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ w7-20020adfbac7000000b001d6f75e4faeso2408592wrg.7
+ for <qemu-devel@nongnu.org>; Fri, 28 Jan 2022 07:55:04 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=UxlKv5DKpfgKTYbtZhmgKOq0cbreCat5dn6JEcrkpUs=;
+ b=ct1DfrxP7C5bLwnJc+JOf9flw8VBT5fmg2NNUbNV81Bh526mgKJjGISkqvMGXyVuyj
+ y/LWR1aZKY8bZmClLWgK0MEURLRQ8L6XqTo1u10K91xS+sNoSS0X/8YAr2a9Ac5+7zCG
+ JzoztQWg5yy+5NtXiAU80w2/bVrRH0MX7Z6Mik1jyEht9de7SMZM0qfiwJKTFBphBIXJ
+ T5jy0S3fDg1E8CoeK9PH28mKpVOTrKJ6QWiYXC/YzAzKpYvn846dU6IM68QdQYxLCliA
+ ZWEDaK5QrMQ+Jf8Bs7qoAgZgPe4U05kaJbKOTkhrjbZGGd9LlScBTvzw4LCV8GXEQ/CD
+ U0pQ==
+X-Gm-Message-State: AOAM531SsJcdL2bB6x8n+vx5aMcJuG8NZzFSMe2T/Cr4+G0wG6ZVmgGq
+ hHEDC+EQncBcJkLLHZFDPFZLt9tHLjtWpNY51itb6rbHEmbjVi0TqhiW59roqvgXbk84KSv7Gz4
+ 9vJR5aKlklLPcZcE=
+X-Received: by 2002:a05:6000:2aa:: with SMTP id
+ l10mr1968996wry.582.1643385303900; 
+ Fri, 28 Jan 2022 07:55:03 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJy3LvQeqlmOm17LSlld8wC46dK96fQlvlKzCa9S5O23IXpYL6KMqlSheov8Fcukmfmi0uFJJA==
+X-Received: by 2002:a05:6000:2aa:: with SMTP id
+ l10mr1968972wry.582.1643385303582; 
+ Fri, 28 Jan 2022 07:55:03 -0800 (PST)
+Received: from redhat.com ([2.55.144.199])
+ by smtp.gmail.com with ESMTPSA id f2sm5226680wri.49.2022.01.28.07.55.01
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 28 Jan 2022 07:55:02 -0800 (PST)
+Date: Fri, 28 Jan 2022 10:54:59 -0500
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Eric DeVolder <eric.devolder@oracle.com>
+Subject: Re: [PATCH v14 06/10] ACPI ERST: build the ACPI ERST table
+Message-ID: <20220128105311-mutt-send-email-mst@kernel.org>
+References: <1643214514-2839-1-git-send-email-eric.devolder@oracle.com>
+ <1643214514-2839-7-git-send-email-eric.devolder@oracle.com>
+ <alpine.OSX.2.20.2201271401250.42000@athabasca.local>
+ <1f544cb3-7434-3480-63fc-ff317327ea78@oracle.com>
+ <20220127193136-mutt-send-email-mst@kernel.org>
+ <c5460e4e-61dd-78ad-6703-e518a8302097@oracle.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="ISO-8859-1"
-Content-Transfer-Encoding: quoted-printable
-X-Originating-IP: [10.122.247.231]
-X-ClientProxiedBy: lhreml740-chm.china.huawei.com (10.201.108.190) To
- lhreml710-chm.china.huawei.com (10.201.108.61)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=185.176.79.56;
- envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+In-Reply-To: <c5460e4e-61dd-78ad-6703-e518a8302097@oracle.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.167,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -76,403 +99,391 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: berrange@redhat.com, ehabkost@redhat.com, konrad.wilk@oracle.com,
+ qemu-devel@nongnu.org, pbonzini@redhat.com, Ani Sinha <ani@anisinha.ca>,
+ imammedo@redhat.com, boris.ostrovsky@oracle.com, rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  Jonathan Cameron <Jonathan.Cameron@huawei.com>
-From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 
-On Wed, 26 Jan 2022 18:22:18 +0000
-Alex Benn=E9e <alex.bennee@linaro.org> wrote:
+On Fri, Jan 28, 2022 at 09:11:41AM -0600, Eric DeVolder wrote:
+> Michael,
+> Thanks for examining this. Inline response below.
+> eric
+> 
+> On 1/27/22 18:37, Michael S. Tsirkin wrote:
+> > On Thu, Jan 27, 2022 at 04:02:07PM -0600, Eric DeVolder wrote:
+> > > Ani,
+> > > Thanks for the RB! Inline responses below.
+> > > eric
+> > > 
+> > > On 1/27/22 02:36, Ani Sinha wrote:
+> > > > 
+> > > > 
+> > > > On Wed, 26 Jan 2022, Eric DeVolder wrote:
+> > > > 
+> > > > > This builds the ACPI ERST table to inform OSPM how to communicate
+> > > > > with the acpi-erst device.
+> > > > 
+> > > > There might be more optimizations possible but I think we have messaged
+> > > > this code enough. We can further rework the code if needed in subsequent
+> > > > patches once this is pushed.
+> > > > 
+> > > > > 
+> > > > > Signed-off-by: Eric DeVolder <eric.devolder@oracle.com>
+> > > > 
+> > > > with some minor comments,
+> > > > 
+> > > > Reviewed-by: Ani Sinha <ani@anisinha.ca>
+> > > > 
+> > > > >    hw/acpi/erst.c | 225 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+> > > > >    1 file changed, 225 insertions(+)
+> > > > > 
+> > > > > diff --git a/hw/acpi/erst.c b/hw/acpi/erst.c
+> > > > > index fe9ba51..5d5a639 100644
+> > > > > --- a/hw/acpi/erst.c
+> > > > > +++ b/hw/acpi/erst.c
+> > > > > @@ -59,6 +59,27 @@
+> > > > >    #define STATUS_RECORD_STORE_EMPTY     0x04
+> > > > >    #define STATUS_RECORD_NOT_FOUND       0x05
+> > > > > 
+> > > > > +/* ACPI 4.0: Table 17-19 Serialization Instructions */
+> > > > > +#define INST_READ_REGISTER                 0x00
+> > > > > +#define INST_READ_REGISTER_VALUE           0x01
+> > > > > +#define INST_WRITE_REGISTER                0x02
+> > > > > +#define INST_WRITE_REGISTER_VALUE          0x03
+> > > > > +#define INST_NOOP                          0x04
+> > > > > +#define INST_LOAD_VAR1                     0x05
+> > > > > +#define INST_LOAD_VAR2                     0x06
+> > > > > +#define INST_STORE_VAR1                    0x07
+> > > > > +#define INST_ADD                           0x08
+> > > > > +#define INST_SUBTRACT                      0x09
+> > > > > +#define INST_ADD_VALUE                     0x0A
+> > > > > +#define INST_SUBTRACT_VALUE                0x0B
+> > > > > +#define INST_STALL                         0x0C
+> > > > > +#define INST_STALL_WHILE_TRUE              0x0D
+> > > > > +#define INST_SKIP_NEXT_INSTRUCTION_IF_TRUE 0x0E
+> > > > > +#define INST_GOTO                          0x0F
+> > > > > +#define INST_SET_SRC_ADDRESS_BASE          0x10
+> > > > > +#define INST_SET_DST_ADDRESS_BASE          0x11
+> > > > > +#define INST_MOVE_DATA                     0x12
+> > > > > +
+> > > > >    /* UEFI 2.1: Appendix N Common Platform Error Record */
+> > > > >    #define UEFI_CPER_RECORD_MIN_SIZE 128U
+> > > > >    #define UEFI_CPER_RECORD_LENGTH_OFFSET 20U
+> > > > > @@ -172,6 +193,210 @@ typedef struct {
+> > > > > 
+> > > > >    /*******************************************************************/
+> > > > >    /*******************************************************************/
+> > > > > +typedef struct {
+> > > > > +    GArray *table_data;
+> > > > > +    pcibus_t bar;
+> > > > > +    uint8_t instruction;
+> > > > > +    uint8_t flags;
+> > > > > +    uint8_t register_bit_width;
+> > > > > +    pcibus_t register_offset;
+> > > > > +} BuildSerializationInstructionEntry;
+> > > > > +
+> > > > > +/* ACPI 4.0: 17.4.1.2 Serialization Instruction Entries */
+> > > > > +static void build_serialization_instruction(
+> > > > > +    BuildSerializationInstructionEntry *e,
+> > > > > +    uint8_t serialization_action,
+> > > > > +    uint64_t value)
+> > > > > +{
+> > > > > +    /* ACPI 4.0: Table 17-18 Serialization Instruction Entry */
+> > > > > +    struct AcpiGenericAddress gas;
+> > > > > +    uint64_t mask;
+> > > > > +
+> > > > > +    /* Serialization Action */
+> > > > > +    build_append_int_noprefix(e->table_data, serialization_action, 1);
+> > > > > +    /* Instruction */
+> > > > > +    build_append_int_noprefix(e->table_data, e->instruction, 1);
+> > > > > +    /* Flags */
+> > > > > +    build_append_int_noprefix(e->table_data, e->flags, 1);
+> > > > > +    /* Reserved */
+> > > > > +    build_append_int_noprefix(e->table_data, 0, 1);
+> > > > > +    /* Register Region */
+> > > > > +    gas.space_id = AML_SYSTEM_MEMORY;
+> > > > > +    gas.bit_width = e->register_bit_width;
+> > > > > +    gas.bit_offset = 0;
+> > > > > +    gas.access_width = ctz32(e->register_bit_width) - 2;
+> > > > 
+> > > > Should this be casted as unit8_t?
+> > > OK, done.
+> > > 
+> > > > 
+> > > > > +    gas.address = (uint64_t)(e->bar + e->register_offset);
+> > > > > +    build_append_gas_from_struct(e->table_data, &gas);
+> > > > > +    /* Value */
+> > > > > +    build_append_int_noprefix(e->table_data, value, 8);
+> > > > > +    /* Mask */
+> > > > > +    mask = (1ULL << (e->register_bit_width - 1) << 1) - 1;
+> > > > > +    build_append_int_noprefix(e->table_data, mask, 8);
+> > > > > +}
+> > > > > +
+> > > > > +/* ACPI 4.0: 17.4.1 Serialization Action Table */
+> > > > > +void build_erst(GArray *table_data, BIOSLinker *linker, Object *erst_dev,
+> > > > > +    const char *oem_id, const char *oem_table_id)
+> > > > > +{
+> > > > > +    /*
+> > > > > +     * Serialization Action Table
+> > > > > +     * The serialization action table must be generated first
+> > > > > +     * so that its size can be known in order to populate the
+> > > > > +     * Instruction Entry Count field.
+> > > > > +     */
+> > > > > +    GArray *table_instruction_data = g_array_new(FALSE, FALSE, sizeof(char));
+> > > > > +    pcibus_t bar0 = pci_get_bar_addr(PCI_DEVICE(erst_dev), 0);
+> > > > > +    AcpiTable table = { .sig = "ERST", .rev = 1, .oem_id = oem_id,
+> > > > > +                        .oem_table_id = oem_table_id };
+> > > > > +    /* Contexts for the different ways ACTION and VALUE are accessed */
+> > > > > +    BuildSerializationInstructionEntry rd_value_32_val = {
+> > > > > +        .table_data = table_instruction_data,
+> > > > > +        .bar = bar0,
+> > > > > +        .instruction = INST_READ_REGISTER_VALUE,
+> > > > > +        .flags = 0,
+> > > > > +        .register_bit_width = 32,
+> > > > > +        .register_offset = ERST_VALUE_OFFSET,
+> > > > > +    };
+> > > > > +    BuildSerializationInstructionEntry rd_value_32 = {
+> > > > > +        .table_data = table_instruction_data,
+> > > > > +        .bar = bar0,
+> > > > > +        .instruction = INST_READ_REGISTER,
+> > > > > +        .flags = 0,
+> > > > > +        .register_bit_width = 32,
+> > > > > +        .register_offset = ERST_VALUE_OFFSET,
+> > > > > +    };
+> > > > > +    BuildSerializationInstructionEntry rd_value_64 = {
+> > > > > +        .table_data = table_instruction_data,
+> > > > > +        .bar = bar0,
+> > > > > +        .instruction = INST_READ_REGISTER,
+> > > > > +        .flags = 0,
+> > > > > +        .register_bit_width = 64,
+> > > > > +        .register_offset = ERST_VALUE_OFFSET,
+> > > > > +    };
+> > > > > +    BuildSerializationInstructionEntry wr_value_32_val = {
+> > > > > +        .table_data = table_instruction_data,
+> > > > > +        .bar = bar0,
+> > > > > +        .instruction = INST_WRITE_REGISTER_VALUE,
+> > > > > +        .flags = 0,
+> > > > > +        .register_bit_width = 32,
+> > > > > +        .register_offset = ERST_VALUE_OFFSET,
+> > > > > +    };
+> > > > > +    BuildSerializationInstructionEntry wr_value_32 = {
+> > > > > +        .table_data = table_instruction_data,
+> > > > > +        .bar = bar0,
+> > > > > +        .instruction = INST_WRITE_REGISTER,
+> > > > > +        .flags = 0,
+> > > > > +        .register_bit_width = 32,
+> > > > > +        .register_offset = ERST_VALUE_OFFSET,
+> > > > > +    };
+> > > > > +    BuildSerializationInstructionEntry wr_value_64 = {
+> > > > > +        .table_data = table_instruction_data,
+> > > > > +        .bar = bar0,
+> > > > > +        .instruction = INST_WRITE_REGISTER,
+> > > > > +        .flags = 0,
+> > > > > +        .register_bit_width = 64,
+> > > > > +        .register_offset = ERST_VALUE_OFFSET,
+> > > > > +    };
+> > > > > +    BuildSerializationInstructionEntry wr_action = {
+> > > > > +        .table_data = table_instruction_data,
+> > > > > +        .bar = bar0,
+> > > > > +        .instruction = INST_WRITE_REGISTER_VALUE,
+> > > > > +        .flags = 0,
+> > > > > +        .register_bit_width = 32,
+> > > > > +        .register_offset = ERST_ACTION_OFFSET,
+> > > > > +    };
+> > > > 
+> > > > We can probably write a macro to simply generating these structs. I see
+> > > > .bar and .flags are the same in all structs. The .bit_width can be a param
+> > > > into the macro etc.
+> > > Agree, however the request was to NOT hide the use of local variables in
+> > > macros, so while .flags is always 0, .instruction, .register_bit_width and .register_offset
+> > > would be parameters, that leaves .table_data and .bar which just need the local
+> > > variables. Is the following acceptable (which hides the use of the local variables)?
+> > 
+> > You can just use assignment:
+> > 
+> >     BuildSerializationInstructionEntry entry = {
+> >         .table_data = table_instruction_data,
+> >         .bar = bar0,
+> >         .flags = 0,
+> >         .register_bit_width = 32,
+> >     };
+> >     BuildSerializationInstructionEntry rd_value_32_val = entry;
+> >     rd_value_32_val.action = INST_READ_REGISTER_VALUE;
+> >     rd_value_32_val.register_offset = ERST_ACTION_OFFSET;
+> > 
+> > and so on.
+> > not sure it's worth it, it's just a couple of lines.
+> > 
+> 
+> OK, here is the equivalent using struct assignment, is this what you were after?
+> 
+>     BuildSerializationInstructionEntry base = {
+>         .table_data = table_instruction_data,
+>         .bar = bar0,
+>         .instruction = INST_WRITE_REGISTER,
+>         .flags = 0,
+>         .register_bit_width = 32,
+>         .register_offset = ERST_VALUE_OFFSET,
+>     };
+>     BuildSerializationInstructionEntry rd_value_32_val = base;
+>     rd_value_32_val.instruction = INST_READ_REGISTER_VALUE;
+>     BuildSerializationInstructionEntry rd_value_32 = base;
+>     rd_value_32.instruction = INST_READ_REGISTER;
+>     BuildSerializationInstructionEntry rd_value_64 = base;
+>     rd_value_64.instruction = INST_READ_REGISTER;
+>     rd_value_64.register_bit_width = 64;
+>     BuildSerializationInstructionEntry wr_value_32_val = base;
+>     wr_value_32_val.instruction = INST_WRITE_REGISTER_VALUE;
+>     BuildSerializationInstructionEntry wr_value_32 = base;
+>     BuildSerializationInstructionEntry wr_value_64 = base;
+>     wr_value_64.register_bit_width = 64;
+>     BuildSerializationInstructionEntry wr_action = base;
+>     wr_action.instruction = INST_WRITE_REGISTER_VALUE;
+>     wr_action.register_offset = ERST_ACTION_OFFSET;
+> 
 
-> Jonathan Cameron <Jonathan.Cameron@huawei.com> writes:
->=20
-> > From: Ben Widawsky <ben.widawsky@intel.com>
-> >
-> > This is the beginning of implementing mailbox support for CXL 2.0
-> > devices. The implementation recognizes when the doorbell is rung,
-> > handles the command/payload, clears the doorbell while returning error
-> > codes and data.
-> >
-> > Generally the mailbox mechanism is designed to permit communication
-> > between the host OS and the firmware running on the device. For our
-> > purposes, we emulate both the firmware, implemented primarily in
-> > cxl-mailbox-utils.c, and the hardware.
-> >
-> > No commands are implemented yet.
-> >
-> > Signed-off-by: Ben Widawsky <ben.widawsky@intel.com>
-> > Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-> > ---
-
-...
-
-> > +static void mailbox_reg_write(void *opaque, hwaddr offset, uint64_t va=
-lue,
-> > +                              unsigned size)
-> > +{
-> > +    CXLDeviceState *cxl_dstate =3D opaque;
-> > +
-> > +    if (offset >=3D A_CXL_DEV_CMD_PAYLOAD) {
-> > +        memcpy(cxl_dstate->mbox_reg_state + offset, &value, size);
-> > +        return;
-> > +    }
-> > +
-> > +    /*
-> > +     * Lock is needed to prevent concurrent writes as well as to preve=
-nt writes
-> > +     * coming in while the firmware is processing. Without background =
-commands
-> > +     * or the second mailbox implemented, this serves no purpose since=
- the
-> > +     * memory access is synchronized at a higher level (per memory reg=
-ion).
-> > +     */
-> > +    RCU_READ_LOCK_GUARD(); =20
->=20
-> RCU_READ_LOCK doesn't prevent concurrent writes, although the BQL should.
-
-Indeed, odd choice that I'd missed completely. I'm don't think we need anyt=
-hing
-at all until we consider implementing background commands / secondary mailb=
-ox.
-So for now I'll adjust the comment a little to say a lock 'would be needed'.
-and take no lock at all.
-
->=20
-> > +
-> > +    switch (size) {
-> > +    case 4:
-> > +        mailbox_mem_writel(cxl_dstate->mbox_reg_state32, offset, value=
-);
-> > +        break;
-> > +    case 8:
-> > +        mailbox_mem_writeq(cxl_dstate->mbox_reg_state64, offset, value=
-);
-> > +        break;
-> > +    default:
-> > +        g_assert_not_reached();
-> > +    }
-> > +
-> > +    if (ARRAY_FIELD_EX32(cxl_dstate->mbox_reg_state32, CXL_DEV_MAILBOX=
-_CTRL,
-> > +                         DOORBELL))
-> > +        cxl_process_mailbox(cxl_dstate);
-> > +}
-> > +
-> > +static const MemoryRegionOps mailbox_ops =3D {
-> > +    .read =3D mailbox_reg_read,
-> > +    .write =3D mailbox_reg_write,
-> > +    .endianness =3D DEVICE_LITTLE_ENDIAN,
-> > +    .valid =3D {
-> > +        .min_access_size =3D 1,
-> > +        .max_access_size =3D 8,
-> > +        .unaligned =3D false,
-> > +    },
-> > +    .impl =3D {
-> > +        .min_access_size =3D 1,
-> > +        .max_access_size =3D 8,
-> > +    }, =20
->=20
-> with_attrs?
-
-As before I don't follow.  8 byte is maximum size so should be fine.
-
->=20
-> > +};
-> > +
-> > diff --git a/hw/cxl/cxl-mailbox-utils.c b/hw/cxl/cxl-mailbox-utils.c
-> > new file mode 100644
-> > index 0000000000..2854682cbe
-> > --- /dev/null
-> > +++ b/hw/cxl/cxl-mailbox-utils.c
-> > @@ -0,0 +1,201 @@
-> > +/*
-> > + * CXL Utility library for mailbox interface
-> > + *
-> > + * Copyright(C) 2020 Intel Corporation.
-> > + *
-> > + * This work is licensed under the terms of the GNU GPL, version 2. Se=
-e the
-> > + * COPYING file in the top-level directory.
-> > + */
-> > +
-> > +#include "qemu/osdep.h"
-> > +#include "hw/cxl/cxl.h"
-> > +#include "hw/pci/pci.h"
-> > +#include "qemu/log.h"
-> > +#include "qemu/uuid.h"
-> > +
-> > +/*
-> > + * How to add a new command, example. The command set FOO, with cmd BA=
-R.
-> > + *  1. Add the command set and cmd to the enum.
-> > + *     FOO    =3D 0x7f,
-> > + *          #define BAR 0
-> > + *  2. Forward declare the handler.
-> > + *     declare_mailbox_handler(FOO_BAR);
-> > + *  3. Add the command to the cxl_cmd_set[][]
-> > + *     CXL_CMD(FOO, BAR, 0, 0),
-> > + *  4. Implement your handler
-> > + *     define_mailbox_handler(FOO_BAR) { ... return CXL_MBOX_SUCCESS; }
-> > + *
-> > + *
-> > + *  Writing the handler:
-> > + *    The handler will provide the &struct cxl_cmd, the &CXLDeviceStat=
-e, and the
-> > + *    in/out length of the payload. The handler is responsible for con=
-suming the
-> > + *    payload from cmd->payload and operating upon it as necessary. It=
- must then
-> > + *    fill the output data into cmd->payload (overwriting what was the=
-re),
-> > + *    setting the length, and returning a valid return code.
-> > + *
-> > + *  XXX: The handler need not worry about endianess. The payload is re=
-ad out of
-> > + *  a register interface that already deals with it.
-> > + */
-> > +
-> > +/* 8.2.8.4.5.1 Command Return Codes */
-> > +typedef enum {
-> > +    CXL_MBOX_SUCCESS =3D 0x0,
-> > +    CXL_MBOX_BG_STARTED =3D 0x1,
-> > +    CXL_MBOX_INVALID_INPUT =3D 0x2,
-> > +    CXL_MBOX_UNSUPPORTED =3D 0x3,
-> > +    CXL_MBOX_INTERNAL_ERROR =3D 0x4,
-> > +    CXL_MBOX_RETRY_REQUIRED =3D 0x5,
-> > +    CXL_MBOX_BUSY =3D 0x6,
-> > +    CXL_MBOX_MEDIA_DISABLED =3D 0x7,
-> > +    CXL_MBOX_FW_XFER_IN_PROGRESS =3D 0x8,
-> > +    CXL_MBOX_FW_XFER_OUT_OF_ORDER =3D 0x9,
-> > +    CXL_MBOX_FW_AUTH_FAILED =3D 0xa,
-> > +    CXL_MBOX_FW_INVALID_SLOT =3D 0xb,
-> > +    CXL_MBOX_FW_ROLLEDBACK =3D 0xc,
-> > +    CXL_MBOX_FW_REST_REQD =3D 0xd,
-> > +    CXL_MBOX_INVALID_HANDLE =3D 0xe,
-> > +    CXL_MBOX_INVALID_PA =3D 0xf,
-> > +    CXL_MBOX_INJECT_POISON_LIMIT =3D 0x10,
-> > +    CXL_MBOX_PERMANENT_MEDIA_FAILURE =3D 0x11,
-> > +    CXL_MBOX_ABORTED =3D 0x12,
-> > +    CXL_MBOX_INVALID_SECURITY_STATE =3D 0x13,
-> > +    CXL_MBOX_INCORRECT_PASSPHRASE =3D 0x14,
-> > +    CXL_MBOX_UNSUPPORTED_MAILBOX =3D 0x15,
-> > +    CXL_MBOX_INVALID_PAYLOAD_LENGTH =3D 0x16,
-> > +    CXL_MBOX_MAX =3D 0x17
-> > +} ret_code;
-> > +
-> > +struct cxl_cmd;
-> > +typedef ret_code (*opcode_handler)(struct cxl_cmd *cmd,
-> > +                                   CXLDeviceState *cxl_dstate, uint16_=
-t *len);
-> > +struct cxl_cmd {
-> > +    const char *name;
-> > +    opcode_handler handler;
-> > +    ssize_t in;
-> > +    uint16_t effect; /* Reported in CEL */
-> > +    uint8_t *payload;
-> > +};
-> > +
-> > +#define define_mailbox_handler(name)                \
-> > +    static ret_code cmd_##name(struct cxl_cmd *cmd, \
-> > +                               CXLDeviceState *cxl_dstate, uint16_t *l=
-en)
-> > +#define declare_mailbox_handler(name) define_mailbox_handler(name)
-> > +
-> > +#define define_mailbox_handler_zeroed(name, size)                     =
-    \
-> > +    uint16_t __zero##name =3D size;                                   =
-      \
-> > +    static ret_code cmd_##name(struct cxl_cmd *cmd,                   =
-    \
-> > +                               CXLDeviceState *cxl_dstate, uint16_t *l=
-en) \
-> > +    {                                                                 =
-    \
-> > +        *len =3D __zero##name;                                        =
-      \
-> > +        memset(cmd->payload, 0, *len);                                =
-    \
-> > +        return CXL_MBOX_SUCCESS;                                      =
-    \
-> > +    }
-> > +#define define_mailbox_handler_const(name, data)                      =
-    \
-> > +    static ret_code cmd_##name(struct cxl_cmd *cmd,                   =
-    \
-> > +                               CXLDeviceState *cxl_dstate, uint16_t *l=
-en) \
-> > +    {                                                                 =
-    \
-> > +        *len =3D sizeof(data);                                        =
-      \
-> > +        memcpy(cmd->payload, data, *len);                             =
-    \
-> > +        return CXL_MBOX_SUCCESS;                                      =
-    \
-> > +    }
-> > +#define define_mailbox_handler_nop(name)                              =
-    \
-> > +    static ret_code cmd_##name(struct cxl_cmd *cmd,                   =
-    \
-> > +                               CXLDeviceState *cxl_dstate, uint16_t *l=
-en) \
-> > +    {                                                                 =
-    \
-> > +        return CXL_MBOX_SUCCESS;                                      =
-    \
-> > +    }
-> > +
-> > +#define CXL_CMD(s, c, in, cel_effect) \
-> > +    [s][c] =3D { stringify(s##_##c), cmd_##s##_##c, in, cel_effect }
-> > +
-> > +static struct cxl_cmd cxl_cmd_set[256][256] =3D {};
-> > +
-> > +#undef CXL_CMD
-> > +
-> > +QemuUUID cel_uuid; =20
->=20
-> static?
-
-done
-
->=20
-> but really this seems more like something that should be in a property
-> of the device. Will it always be fixed or is it something the user might
-> want to tweak?
-
-It's fixed as it comes straight from the spec. I'll add a comment to make t=
-hat clear
-where the UUID is below.
+That's what I described, yes. We should have some empty lines here I
+guess. I'm ok with the original one too, there's not too much
+duplication.
 
 
->=20
-> > +
-> > +void cxl_process_mailbox(CXLDeviceState *cxl_dstate)
-> > +{
-> > +    uint16_t ret =3D CXL_MBOX_SUCCESS;
-> > +    struct cxl_cmd *cxl_cmd;
-> > +    uint64_t status_reg;
-> > +    opcode_handler h;
-> > +
-> > +    /*
-> > +     * current state of mailbox interface
-> > +     *  mbox_cap_reg =3D cxl_dstate->reg_state32[R_CXL_DEV_MAILBOX_CAP=
-];
-> > +     *  mbox_ctrl_reg =3D cxl_dstate->reg_state32[R_CXL_DEV_MAILBOX_CT=
-RL];
-> > +     *  status_reg =3D *(uint64_t *)&cxl_dstate->reg_state[A_CXL_DEV_M=
-AILBOX_STS];
-> > +     */
-> > +    uint64_t command_reg =3D
-> > +        *(uint64_t *)&cxl_dstate->mbox_reg_state[A_CXL_DEV_MAILBOX_CMD=
-];
-> > +
-> > +    /* Check if we have to do anything */
-> > +    if (!ARRAY_FIELD_EX32(cxl_dstate->mbox_reg_state32, CXL_DEV_MAILBO=
-X_CTRL,
-> > +                          DOORBELL)) {
-> > +        qemu_log_mask(LOG_UNIMP, "Corrupt internal state for
-> > firmware\n"); =20
->=20
-> is this actually UNIMP or has something gone wrong internally or is the
-> guest doing something wrong?
-
-It can't happen. I'd guess this is probably a left over from some earlier
-more complex implementation.
-
-As things currently stand we only call this function if that bit is set.
-
-I'll drop the check.
-
->=20
-> > +        return;
-> > +    }
-> > +
-> > +    uint8_t set =3D FIELD_EX64(command_reg, CXL_DEV_MAILBOX_CMD, COMMA=
-ND_SET);
-> > +    uint8_t cmd =3D FIELD_EX64(command_reg, CXL_DEV_MAILBOX_CMD, COMMA=
-ND);
-> > +    uint16_t len =3D FIELD_EX64(command_reg, CXL_DEV_MAILBOX_CMD, LENG=
-TH);
-> > +    cxl_cmd =3D &cxl_cmd_set[set][cmd];
-> > +    h =3D cxl_cmd->handler;
-> > +    if (!h) {
-> > +        qemu_log_mask(LOG_UNIMP, "Command %04xh not implemented\n",
-> > +                                 set << 8 | cmd);
-> > +        goto handled;
-> > +    }
-> > +
-> > +    if (len !=3D cxl_cmd->in) {
-> > +        ret =3D CXL_MBOX_INVALID_PAYLOAD_LENGTH;
-> > +    }
-> > +
-> > +    cxl_cmd->payload =3D cxl_dstate->mbox_reg_state + A_CXL_DEV_CMD_PA=
-YLOAD;
-> > +    ret =3D (*h)(cxl_cmd, cxl_dstate, &len);
-> > +    assert(len <=3D cxl_dstate->payload_size);
-> > +
-> > +handled:
-> > +    /*
-> > +     * Set the return code
-> > +     * XXX: it's a 64b register, but we're not setting the vendor, so =
-we can get
-> > +     * away with this
-> > +     */
-> > +    status_reg =3D FIELD_DP64(0, CXL_DEV_MAILBOX_STS, ERRNO, ret);
-> > +
-> > +    /*
-> > +     * Set the return length
-> > +     */
-> > +    command_reg =3D FIELD_DP64(command_reg, CXL_DEV_MAILBOX_CMD, COMMA=
-ND_SET, 0);
-> > +    command_reg =3D FIELD_DP64(command_reg, CXL_DEV_MAILBOX_CMD, COMMA=
-ND, 0);
-> > +    command_reg =3D FIELD_DP64(command_reg, CXL_DEV_MAILBOX_CMD, LENGT=
-H, len);
-> > +
-> > +    cxl_dstate->mbox_reg_state64[A_CXL_DEV_MAILBOX_CMD / 8] =3D comman=
-d_reg;
-> > +    cxl_dstate->mbox_reg_state64[A_CXL_DEV_MAILBOX_STS / 8] =3D status=
-_reg;
-> > +
-> > +    /* Tell the host we're done */
-> > +    ARRAY_FIELD_DP32(cxl_dstate->mbox_reg_state32, CXL_DEV_MAILBOX_CTR=
-L,
-> > +                     DOORBELL, 0);
-> > +}
-> > +
-> > +int cxl_initialize_mailbox(CXLDeviceState *cxl_dstate)
-> > +{
-> > +    const char *cel_uuidstr =3D "0da9c0b5-bf41-4b78-8f79-96b1623b3f17"=
-; =20
->=20
-> I'm curious as to where this magic number came from.
-
-CXL 2.0: Table 169  There are a couple defined so far but this is the only
-we've yet implemented in Qemu.
-
-It has to be the same for all devices because this is a spec defined query.
-
->=20
-> > +
-> > +    for (int set =3D 0; set < 256; set++) {
-> > +        for (int cmd =3D 0; cmd < 256; cmd++) {
-> > +            if (cxl_cmd_set[set][cmd].handler) {
-> > +                struct cxl_cmd *c =3D &cxl_cmd_set[set][cmd];
-> > +                struct cel_log *log =3D
-> > +                    &cxl_dstate->cel_log[cxl_dstate->cel_size];
-> > +
-> > +                log->opcode =3D (set << 8) | cmd;
-> > +                log->effect =3D c->effect;
-> > +                cxl_dstate->cel_size++;
-> > +            }
-> > +        }
-> > +    }
-> > +
-> > +    return qemu_uuid_parse(cel_uuidstr, &cel_uuid);
-> > +}
-
-...
-
+> 
+> > 
+> > 
+> > > #define SERIALIZATIONINSTRUCTIONCTX(name, \
+> > >      inst, bit_width, offset) \
+> > >      BuildSerializationInstructionEntry name = { \
+> > >          .table_data = table_instruction_data, \
+> > >          .bar = bar0, \
+> > >          .instruction = inst, \
+> > >          .flags = 0, \
+> > >          .register_bit_width = bit_width, \
+> > >          .register_offset = offset, \
+> > >      }
+> > >      SERIALIZATIONINSTRUCTIONCTX(rd_value_32_val,
+> > >          INST_READ_REGISTER_VALUE, 32, ERST_VALUE_OFFSET);
+> > >      SERIALIZATIONINSTRUCTIONCTX(rd_value_32,
+> > >          INST_READ_REGISTER, 32, ERST_VALUE_OFFSET);
+> > >      SERIALIZATIONINSTRUCTIONCTX(rd_value_64,
+> > >          INST_READ_REGISTER, 64, ERST_VALUE_OFFSET);
+> > >      SERIALIZATIONINSTRUCTIONCTX(wr_value_32_val,
+> > >          INST_WRITE_REGISTER_VALUE, 32, ERST_VALUE_OFFSET);
+> > >      SERIALIZATIONINSTRUCTIONCTX(wr_value_32,
+> > >          INST_WRITE_REGISTER, 32, ERST_VALUE_OFFSET);
+> > >      SERIALIZATIONINSTRUCTIONCTX(wr_value_64,
+> > >          INST_WRITE_REGISTER, 64, ERST_VALUE_OFFSET);
+> > >      SERIALIZATIONINSTRUCTIONCTX(wr_action,
+> > >          INST_WRITE_REGISTER_VALUE, 32, ERST_ACTION_OFFSET);
+> > > 
+> > > These are the 7 accessors needed.
+> > 
+> > not at all sure this one is worth the macro mess.
+> 
+> I'm hoping to produce a v15 with the style you want.
+> eric
+> 
+> > 
+> > > > 
+> > > > > +    unsigned action;
+> > > > > +
+> > > > > +    trace_acpi_erst_pci_bar_0(bar0);
+> > > > > +
+> > > > > +    /* Serialization Instruction Entries */
+> > > > > +    action = ACTION_BEGIN_WRITE_OPERATION;
+> > > > > +    build_serialization_instruction(&wr_action, action, action);
+> > > > > +
+> > > > > +    action = ACTION_BEGIN_READ_OPERATION;
+> > > > > +    build_serialization_instruction(&wr_action, action, action);
+> > > > > +
+> > > > > +    action = ACTION_BEGIN_CLEAR_OPERATION;
+> > > > > +    build_serialization_instruction(&wr_action, action, action);
+> > > > > +
+> > > > > +    action = ACTION_END_OPERATION;
+> > > > > +    build_serialization_instruction(&wr_action, action, action);
+> > > > > +
+> > > > > +    action = ACTION_SET_RECORD_OFFSET;
+> > > > > +    build_serialization_instruction(&wr_value_32, action, 0);
+> > > > > +    build_serialization_instruction(&wr_action, action, action);
+> > > > > +
+> > > > > +    action = ACTION_EXECUTE_OPERATION;
+> > > > > +    build_serialization_instruction(&wr_value_32_val, action,
+> > > > > +        ERST_EXECUTE_OPERATION_MAGIC);
+> > > > > +    build_serialization_instruction(&wr_action, action, action);
+> > > > > +
+> > > > > +    action = ACTION_CHECK_BUSY_STATUS;
+> > > > > +    build_serialization_instruction(&wr_action, action, action);
+> > > > > +    build_serialization_instruction(&rd_value_32_val, action, 0x01);
+> > > > > +
+> > > > > +    action = ACTION_GET_COMMAND_STATUS;
+> > > > > +    build_serialization_instruction(&wr_action, action, action);
+> > > > > +    build_serialization_instruction(&rd_value_32, action, 0);
+> > > > > +
+> > > > > +    action = ACTION_GET_RECORD_IDENTIFIER;
+> > > > > +    build_serialization_instruction(&wr_action, action, action);
+> > > > > +    build_serialization_instruction(&rd_value_64, action, 0);
+> > > > > +
+> > > > > +    action = ACTION_SET_RECORD_IDENTIFIER;
+> > > > > +    build_serialization_instruction(&wr_value_64, action, 0);
+> > > > > +    build_serialization_instruction(&wr_action, action, action);
+> > > > > +
+> > > > > +    action = ACTION_GET_RECORD_COUNT;
+> > > > > +    build_serialization_instruction(&wr_action, action, action);
+> > > > > +    build_serialization_instruction(&rd_value_32, action, 0);
+> > > > > +
+> > > > > +    action = ACTION_BEGIN_DUMMY_WRITE_OPERATION;
+> > > > > +    build_serialization_instruction(&wr_action, action, action);
+> > > > > +
+> > > > > +    action = ACTION_GET_ERROR_LOG_ADDRESS_RANGE;
+> > > > > +    build_serialization_instruction(&wr_action, action, action);
+> > > > > +    build_serialization_instruction(&rd_value_64, action, 0);
+> > > > > +
+> > > > > +    action = ACTION_GET_ERROR_LOG_ADDRESS_LENGTH;
+> > > > > +    build_serialization_instruction(&wr_action, action, action);
+> > > > > +    build_serialization_instruction(&rd_value_64, action, 0);
+> > > > > +
+> > > > > +    action = ACTION_GET_ERROR_LOG_ADDRESS_RANGE_ATTRIBUTES;
+> > > > > +    build_serialization_instruction(&wr_action, action, action);
+> > > > > +    build_serialization_instruction(&rd_value_32, action, 0);
+> > > > > +
+> > > > > +    action = ACTION_GET_EXECUTE_OPERATION_TIMINGS;
+> > > > > +    build_serialization_instruction(&wr_action, action, action);
+> > > > > +    build_serialization_instruction(&rd_value_64, action, 0);
+> > > > > +
+> > > > > +    /* Serialization Header */
+> > > > > +    acpi_table_begin(&table, table_data);
+> > > > > +
+> > > > > +    /* Serialization Header Size */
+> > > > > +    build_append_int_noprefix(table_data, 48, 4);
+> > > > > +
+> > > > > +    /* Reserved */
+> > > > > +    build_append_int_noprefix(table_data,  0, 4);
+> > > > > +
+> > > > > +    /*
+> > > > > +     * Instruction Entry Count
+> > > > > +     * Each instruction entry is 32 bytes
+> > > > > +     */
+> > > > > +    g_assert((table_instruction_data->len) % 32 == 0);
+> > > > > +    build_append_int_noprefix(table_data,
+> > > > > +        (table_instruction_data->len / 32), 4);
+> > > > > +
+> > > > > +    /* Serialization Instruction Entries */
+> > > > > +    g_array_append_vals(table_data, table_instruction_data->data,
+> > > > > +        table_instruction_data->len);
+> > > > > +    g_array_free(table_instruction_data, TRUE);
+> > > > > +
+> > > > > +    acpi_table_end(linker, &table);
+> > > > > +}
+> > > > > +
+> > > > > +/*******************************************************************/
+> > > > > +/*******************************************************************/
+> > > > >    static uint8_t *get_nvram_ptr_by_index(ERSTDeviceState *s, unsigned index)
+> > > > >    {
+> > > > >        uint8_t *rc = NULL;
+> > > > > --
+> > > > > 1.8.3.1
+> > > > > 
+> > > > > 
+> > 
 
 
