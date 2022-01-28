@@ -2,56 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4B6849FFF5
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jan 2022 19:11:53 +0100 (CET)
-Received: from localhost ([::1]:58932 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D04149FFC9
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jan 2022 18:52:52 +0100 (CET)
+Received: from localhost ([::1]:38726 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nDViv-00046V-NJ
-	for lists+qemu-devel@lfdr.de; Fri, 28 Jan 2022 13:11:49 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:34202)
+	id 1nDVQZ-0006Sz-8K
+	for lists+qemu-devel@lfdr.de; Fri, 28 Jan 2022 12:52:51 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:36496)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1nDVFO-0006tS-0i; Fri, 28 Jan 2022 12:41:18 -0500
-Received: from kylie.crudebyte.com ([5.189.157.229]:46387)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1nDVOd-0004dt-Ah
+ for qemu-devel@nongnu.org; Fri, 28 Jan 2022 12:50:51 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:30040)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1nDVFG-0001Ih-Md; Fri, 28 Jan 2022 12:41:12 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
- MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
- Content-ID:Content-Description;
- bh=6CIiuW8I/+WHayZKdOMJwl3is3Xgiy9lvaG+foETCs4=; b=cbXe1V7kQLpXws2hR+ocU2u+jp
- LjDsu6l8MDlqJOvLiv3C+7zbHsvapu8hN16T534vyX5Q7G8Msk2C4fbKRhCWQx/Ajvv6rnZaWuB3w
- 3l8qcKR/dzMW52fdXJldJ+gWNicydeJlFZiHdvpzJB2lf0RFm4F6rNjFXpNkuSUWdFiML3FIcAkWh
- qYRcG6Mqok5tvxwFwklR4Kl0ZGOXB8e8Cizdn2Dc5EQxUpi9jbewtt/AvgutkNazae57hbTXNKM68
- HQ+gddvUL1ksKJ/O+z/MweDxsTeMJOySHo3Zp1ZstOjaWwT8bJCKi+Bj1eDvciidxfqWpSCL9qRcV
- FIiHbGEDYgsI6QO2X42H5NOERlUTQA/XFaiwvf5rasD5K/fW7VdMPSphf8Ml6VA+x6bU/zB0cZ+tR
- qq9JmTxc3rLnJ1c08/lkFkkjEfW3jKBlPbVUU7VwLHDrhtNTqLMbs0lVTW6VBHCsaPssKyyfyOyg+
- IX+pG79xW/wBdHWT0m8NMopy57qM8IEJYJQ1bfmN7uJXzZMtwRgyXxXgkp2h1fHubmVUHGr9El/ir
- AFVRUWct9ZDtt3ZaUckqjCoqc1MMkAoRnpxV3Zm0J/0VokbmMRGeqz4sHPamIyqD5Mc6HZuNSLSIP
- JU5Y+T1KpexMqdca4rIih0ktY25siix5YbiT9x7JU=;
-From: Christian Schoenebeck <qemu_oss@crudebyte.com>
-To: qemu-devel@nongnu.org
-Cc: Vitaly Chikunov <vt@altlinux.org>, qemu-stable@nongnu.org, ldv@altlinux.org,
- Greg Kurz <groug@kaod.org>
-Subject: Re: [PATCH] 9pfs: Fix segfault in do_readdir_many caused by struct
- dirent overread
-Date: Fri, 28 Jan 2022 18:40:59 +0100
-Message-ID: <1768416.RRnjqH5RSi@silver>
-In-Reply-To: <20220128162401.vbnffmghae3zgrfo@altlinux.org>
-References: <20220127212734.218900-1-vt@altlinux.org>
- <2533498.9Ea8Rob0xc@silver> <20220128162401.vbnffmghae3zgrfo@altlinux.org>
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1nDVOU-0002n3-ME
+ for qemu-devel@nongnu.org; Fri, 28 Jan 2022 12:50:45 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1643392240;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=Ta32Fp99Iaxk3XZ0bur54d2PCkTDXPczO2L/zcrgMgQ=;
+ b=VaT0ouDG03AESSKtA0tZCljaB17Ky2Mk0IYo+wc9i33p9RyQbPiLe4b/8aiVMngPI9hVUR
+ r+p27U9Eqtnbdw+6Ttc2DLu2xJao5eN1dH6Gb0bccRBL+lUGIVUpjjD0Z6L3V+YqpKseYt
+ WdKXSdM8wu3P7yFjgwVEmj8mlY4MNkY=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-554-fUIveLi6O8O94Df6LJZB1Q-1; Fri, 28 Jan 2022 12:50:32 -0500
+X-MC-Unique: fUIveLi6O8O94Df6LJZB1Q-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B04EA343C9;
+ Fri, 28 Jan 2022 17:50:31 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.37.9])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id CDAAA74EAD;
+ Fri, 28 Jan 2022 17:50:20 +0000 (UTC)
+Date: Fri, 28 Jan 2022 17:50:18 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PATCH] block/curl.c: Check error return from curl_easy_setopt()
+Message-ID: <YfQs2qIew5UR6MCk@redhat.com>
+References: <20220128165535.2550899-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
-Received-SPF: pass client-ip=5.189.157.229;
- envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
-X-Spam_score_int: -1
-X-Spam_score: -0.2
-X-Spam_bar: /
-X-Spam_report: (-0.2 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+In-Reply-To: <20220128165535.2550899-1-peter.maydell@linaro.org>
+User-Agent: Mutt/2.1.5 (2021-12-30)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -10
+X-Spam_score: -1.1
+X-Spam_bar: -
+X-Spam_report: (-1.1 / 5.0 requ) DKIMWL_WL_HIGH=-0.167, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -65,44 +80,211 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
+ qemu-devel@nongnu.org, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Freitag, 28. Januar 2022 17:24:01 CET Vitaly Chikunov wrote:
-> > > diff --git a/util/osdep.c b/util/osdep.c
-> > > index 42a0a4986a..e39d1071fd 100644
-> > > --- a/util/osdep.c
-> > > +++ b/util/osdep.c
-> > > @@ -33,6 +33,7 @@
-> > > 
-> > >  extern int madvise(char *, size_t, int);
-> > >  #endif
-> > > 
-> > > +#include <dirent.h>
-> > 
-> > Wouldn't that break Windows builds?
+On Fri, Jan 28, 2022 at 04:55:35PM +0000, Peter Maydell wrote:
+> Coverity points out that we aren't checking the return value
+> from curl_easy_setopt() for any of the calls to it we make
+> in block/curl.c.
 > 
-> Possible, but I don't have windows build to test. What would you
-> suggest as better fix?
+> Fixes: Coverity CID 1459336, 1459482, 1460331
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+> ---
+> Big fat disclaimer: tested only with 'make check', which I suspect
+> may not be exercising this block backend. Hints on how to test
+> more thoroughly are welcome.
+
+yeah afaik, qemu-iotests don't have support for this. As a very
+basic smoke test do
+
+$ qemu-img info https://cloud.debian.org/images/cloud/buster/daily/latest/debian-10-nocloud-amd64-daily.qcow2
+image: https://cloud.debian.org/images/cloud/buster/daily/latest/debian-10-nocloud-amd64-daily.qcow2
+file format: qcow2
+virtual size: 2 GiB (2147483648 bytes)
+disk size: unavailable
+cluster_size: 65536
+Format specific information:
+    compat: 1.1
+    compression type: zlib
+    lazy refcounts: false
+    refcount bits: 16
+    corrupt: false
+    extended l2: false
+
+and/or
+
+$ qemu-img info --image-opts driver=qcow2,file.driver=https,file.url=https://cloud.debian.org/images/cloud/buster/daily/latest/debian-10-nocloud-amd64-daily.qcow2
+image: https://cloud.debian.org/images/cloud/buster/daily/latest/debian-10-nocloud-amd64-daily.qcow2
+file format: qcow2
+virtual size: 2 GiB (2147483648 bytes)
+disk size: unavailable
+cluster_size: 65536
+Format specific information:
+    compat: 1.1
+    compression type: zlib
+    lazy refcounts: false
+    refcount bits: 16
+    corrupt: false
+    extended l2: false
+
+
 > 
-> I took as example `util/path.c' which includes `dirent.h' too, but it is
-> not handled anyway different than `util/osdep.c'
+>  block/curl.c | 90 +++++++++++++++++++++++++++++++++-------------------
+>  1 file changed, 58 insertions(+), 32 deletions(-)
+> 
+> diff --git a/block/curl.c b/block/curl.c
+> index 6a6cd729758..aaee1b17bef 100644
+> --- a/block/curl.c
+> +++ b/block/curl.c
+> @@ -458,38 +458,51 @@ static int curl_init_state(BDRVCURLState *s, CURLState *state)
+>          if (!state->curl) {
+>              return -EIO;
+>          }
+> -        curl_easy_setopt(state->curl, CURLOPT_URL, s->url);
+> -        curl_easy_setopt(state->curl, CURLOPT_SSL_VERIFYPEER,
+> -                         (long) s->sslverify);
+> -        curl_easy_setopt(state->curl, CURLOPT_SSL_VERIFYHOST,
+> -                         s->sslverify ? 2L : 0L);
+> -        if (s->cookie) {
+> -            curl_easy_setopt(state->curl, CURLOPT_COOKIE, s->cookie);
+> +        if (curl_easy_setopt(state->curl, CURLOPT_URL, s->url) ||
+> +            curl_easy_setopt(state->curl, CURLOPT_SSL_VERIFYPEER,
+> +                             (long) s->sslverify) ||
+> +            curl_easy_setopt(state->curl, CURLOPT_SSL_VERIFYHOST,
+> +                             s->sslverify ? 2L : 0L)) {
+> +            goto err;
+> +        }
+> +        if (s->cookie) {
+> +            if (curl_easy_setopt(state->curl, CURLOPT_COOKIE, s->cookie)) {
+> +                goto err;
+> +            }
+> +        }
+> +        if (curl_easy_setopt(state->curl, CURLOPT_TIMEOUT, (long)s->timeout) ||
+> +            curl_easy_setopt(state->curl, CURLOPT_WRITEFUNCTION,
+> +                             (void *)curl_read_cb) ||
+> +            curl_easy_setopt(state->curl, CURLOPT_WRITEDATA, (void *)state) ||
+> +            curl_easy_setopt(state->curl, CURLOPT_PRIVATE, (void *)state) ||
+> +            curl_easy_setopt(state->curl, CURLOPT_AUTOREFERER, 1) ||
+> +            curl_easy_setopt(state->curl, CURLOPT_FOLLOWLOCATION, 1) ||
+> +            curl_easy_setopt(state->curl, CURLOPT_NOSIGNAL, 1) ||
+> +            curl_easy_setopt(state->curl, CURLOPT_ERRORBUFFER, state->errmsg) ||
+> +            curl_easy_setopt(state->curl, CURLOPT_FAILONERROR, 1)) {
+> +            goto err;
+>          }
+> -        curl_easy_setopt(state->curl, CURLOPT_TIMEOUT, (long)s->timeout);
+> -        curl_easy_setopt(state->curl, CURLOPT_WRITEFUNCTION,
+> -                         (void *)curl_read_cb);
+> -        curl_easy_setopt(state->curl, CURLOPT_WRITEDATA, (void *)state);
+> -        curl_easy_setopt(state->curl, CURLOPT_PRIVATE, (void *)state);
+> -        curl_easy_setopt(state->curl, CURLOPT_AUTOREFERER, 1);
+> -        curl_easy_setopt(state->curl, CURLOPT_FOLLOWLOCATION, 1);
+> -        curl_easy_setopt(state->curl, CURLOPT_NOSIGNAL, 1);
+> -        curl_easy_setopt(state->curl, CURLOPT_ERRORBUFFER, state->errmsg);
+> -        curl_easy_setopt(state->curl, CURLOPT_FAILONERROR, 1);
+> -
+>          if (s->username) {
+> -            curl_easy_setopt(state->curl, CURLOPT_USERNAME, s->username);
+> +            if (curl_easy_setopt(state->curl, CURLOPT_USERNAME, s->username)) {
+> +                goto err;
+> +            }
+>          }
+>          if (s->password) {
+> -            curl_easy_setopt(state->curl, CURLOPT_PASSWORD, s->password);
+> +            if (curl_easy_setopt(state->curl, CURLOPT_PASSWORD, s->password)) {
+> +                goto err;
+> +            }
+>          }
+>          if (s->proxyusername) {
+> -            curl_easy_setopt(state->curl,
+> -                             CURLOPT_PROXYUSERNAME, s->proxyusername);
+> +            if (curl_easy_setopt(state->curl,
+> +                                 CURLOPT_PROXYUSERNAME, s->proxyusername)) {
+> +                goto err;
+> +            }
+>          }
+>          if (s->proxypassword) {
+> -            curl_easy_setopt(state->curl,
+> -                             CURLOPT_PROXYPASSWORD, s->proxypassword);
+> +            if (curl_easy_setopt(state->curl,
+> +                                 CURLOPT_PROXYPASSWORD, s->proxypassword)) {
+> +                goto err;
+> +            }
+>          }
+>  
+>          /* Restrict supported protocols to avoid security issues in the more
+> @@ -499,18 +512,27 @@ static int curl_init_state(BDRVCURLState *s, CURLState *state)
+>           * Restricting protocols is only supported from 7.19.4 upwards.
+>           */
+>  #if LIBCURL_VERSION_NUM >= 0x071304
+> -        curl_easy_setopt(state->curl, CURLOPT_PROTOCOLS, PROTOCOLS);
+> -        curl_easy_setopt(state->curl, CURLOPT_REDIR_PROTOCOLS, PROTOCOLS);
+> +        if (curl_easy_setopt(state->curl, CURLOPT_PROTOCOLS, PROTOCOLS) ||
+> +            curl_easy_setopt(state->curl, CURLOPT_REDIR_PROTOCOLS, PROTOCOLS)) {
+> +            goto err;
+> +        }
+>  #endif
+>  
+>  #ifdef DEBUG_VERBOSE
+> -        curl_easy_setopt(state->curl, CURLOPT_VERBOSE, 1);
+> +        if (curl_easy_setopt(state->curl, CURLOPT_VERBOSE, 1)) {
+> +            goto err;
+> +        }
+>  #endif
+>      }
+>  
+>      state->s = s;
+>  
+>      return 0;
+> +
+> +err:
+> +    curl_easy_cleanup(state->curl);
+> +    state->curl = NULL;
+> +    return -EIO;
+>  }
+>  
+>  /* Called with s->mutex held.  */
+> @@ -763,10 +785,11 @@ static int curl_open(BlockDriverState *bs, QDict *options, int flags,
+>      }
+>  
+>      s->accept_range = false;
+> -    curl_easy_setopt(state->curl, CURLOPT_NOBODY, 1);
+> -    curl_easy_setopt(state->curl, CURLOPT_HEADERFUNCTION,
+> -                     curl_header_cb);
+> -    curl_easy_setopt(state->curl, CURLOPT_HEADERDATA, s);
+> +    if (curl_easy_setopt(state->curl, CURLOPT_NOBODY, 1) ||
+> +        curl_easy_setopt(state->curl, CURLOPT_HEADERFUNCTION, curl_header_cb) ||
+> +        curl_easy_setopt(state->curl, CURLOPT_HEADERDATA, s)) {
+> +        goto out;
+> +    }
+>      if (curl_easy_perform(state->curl))
+>          goto out;
+>      if (curl_easy_getinfo(state->curl, CURLINFO_CONTENT_LENGTH_DOWNLOAD, &d)) {
+> @@ -879,7 +902,10 @@ static void curl_setup_preadv(BlockDriverState *bs, CURLAIOCB *acb)
+>  
+>      snprintf(state->range, 127, "%" PRIu64 "-%" PRIu64, start, end);
+>      trace_curl_setup_preadv(acb->bytes, start, state->range);
+> -    curl_easy_setopt(state->curl, CURLOPT_RANGE, state->range);
+> +    if (curl_easy_setopt(state->curl, CURLOPT_RANGE, state->range)) {
+> +        curl_clean_state(state);
+> +        goto out;
+> +    }
+>  
+>      if (curl_multi_add_handle(s->multi, state->curl) != CURLM_OK) {
+>          state->acb[0] = NULL;
+> -- 
+> 2.25.1
+> 
+> 
 
-AFAICS the current expectation is to build QEMU for Windows with a POSIX-aware 
-toolchain like msys2, cygwin or some cross compiler:
-https://wiki.qemu.org/Hosts/W32
-
-So I suggest leave it as is, it should be fine. Otherwise we can still wrap it 
-into something like
-
-	#if !defined(WIN32)
-	...
-	#endif
-
-later on if really required.
-
-Best regards,
-Christian Schoenebeck
-
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
