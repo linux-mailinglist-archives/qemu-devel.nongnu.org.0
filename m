@@ -2,97 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4466E49FB74
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jan 2022 15:17:59 +0100 (CET)
-Received: from localhost ([::1]:33192 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 61B0F49FBDF
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jan 2022 15:39:59 +0100 (CET)
+Received: from localhost ([::1]:39176 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nDS4b-0005zB-Oq
-	for lists+qemu-devel@lfdr.de; Fri, 28 Jan 2022 09:17:57 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:35344)
+	id 1nDSPu-0004oP-3Y
+	for lists+qemu-devel@lfdr.de; Fri, 28 Jan 2022 09:39:58 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:40958)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1nDRzH-0002Tc-WB
- for qemu-devel@nongnu.org; Fri, 28 Jan 2022 09:12:28 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:37621)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1nDRzD-0001ab-67
- for qemu-devel@nongnu.org; Fri, 28 Jan 2022 09:12:26 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1643379141;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=xyEKnDnvJPLuA69pCN8tyX3groxDEXOSsYXt18RkNdc=;
- b=fU9DKRcfyMgzmvWH35kmKcTRBoCX5CtB8JPt6JBvIh9zAEC2KeNXAwpHtm8Z2PZ2mP14Wl
- ZIvgsHrezENJ2D6NRAg0VN/AADMSXQDFWNkw2VevuJBepg3pRwds50a+SagMlAmAKB4GDo
- 1e0JqJK43as/Fg/9nJkTMQD3gQMzufw=
-Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
- [209.85.222.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-507-Mb4V3ZlDPsG_BMKEkH2r3w-1; Fri, 28 Jan 2022 09:12:15 -0500
-X-MC-Unique: Mb4V3ZlDPsG_BMKEkH2r3w-1
-Received: by mail-qk1-f197.google.com with SMTP id
- l23-20020a37f517000000b0049b8b31c76cso4898860qkk.4
- for <qemu-devel@nongnu.org>; Fri, 28 Jan 2022 06:12:15 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=xyEKnDnvJPLuA69pCN8tyX3groxDEXOSsYXt18RkNdc=;
- b=paP3iCD5MHjcl0p+mfTC6XHRf/nN7rZ+n1DW3UCu5gr2wpzXRP/ZSbYtjxJ1J90pm0
- yUikM+X1bGLqgKvXxX+9D9HAEKfl+wVKhIbX/CR34S5MSO5PmkuzVCuPRrODeQ68+P3B
- bGRelrxW9nXwtQzmko/oLPrWkBt4D0XIwXcCXfqmeC35g2396lTVWmoIUigAYw7mIbT9
- GYHOOpnmlrGr2s5FVkcRJYtW0rQYyGFAF4A8j1znI3a8FSXbc2EaEysBmjkDH0o98jVl
- dNdoZod9K7W91J9Umstu8HTByklWyuJKTe6vTQjQJJFp6FzhnUtIRVgIJl6cqZQfL55s
- yQmA==
-X-Gm-Message-State: AOAM532tXTFXfT/lgJ3C/qpYDe+6EKD5J2Sq2c4mlODF1h2SWM4XDT6B
- /ml/zqEJ7XOuG7QoVr00uLhvz7JdCGtzIJELY5lPLkiaF9VdPNvX3IodOynv5me9Ja24+Dyem5j
- VAMcfwtYV58BYMEM=
-X-Received: by 2002:ad4:5cae:: with SMTP id q14mr7884452qvh.19.1643379135117; 
- Fri, 28 Jan 2022 06:12:15 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwqsHiDnDCJWXCBPI7VTdbGbo39hROkXQBQsYcGlaJiLra9IaPw6NEMWg+VRxnx8GntZ1Ir+g==
-X-Received: by 2002:ad4:5cae:: with SMTP id q14mr7884419qvh.19.1643379134824; 
- Fri, 28 Jan 2022 06:12:14 -0800 (PST)
-Received: from ?IPV6:2a04:ee41:4:31cb:e591:1e1e:abde:a8f1?
- ([2a04:ee41:4:31cb:e591:1e1e:abde:a8f1])
- by smtp.gmail.com with ESMTPSA id a16sm3227918qtx.7.2022.01.28.06.12.12
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 28 Jan 2022 06:12:14 -0800 (PST)
-Message-ID: <196093af-80e8-20c0-3d73-4af642644af7@redhat.com>
-Date: Fri, 28 Jan 2022 15:12:11 +0100
+ (Exim 4.90_1) (envelope-from <victor.colombo@eldorado.org.br>)
+ id 1nDSHS-00087e-1Z; Fri, 28 Jan 2022 09:31:14 -0500
+Received: from [187.72.171.209] (port=33019 helo=outlook.eldorado.org.br)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <victor.colombo@eldorado.org.br>)
+ id 1nDSHP-0004mt-EW; Fri, 28 Jan 2022 09:31:13 -0500
+Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
+ secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
+ Fri, 28 Jan 2022 11:13:02 -0300
+Received: from [127.0.0.1] (unknown [10.10.70.45])
+ by p9ibm (Postfix) with ESMTPS id 27D91800066;
+ Fri, 28 Jan 2022 11:13:02 -0300 (-03)
+Message-ID: <48832eff-fc37-86f6-842c-43b75fbe83be@eldorado.org.br>
+Date: Fri, 28 Jan 2022 11:13:01 -0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [PATCH] block: bdrv_set_backing_hd(): use drained section
-To: Kevin Wolf <kwolf@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-References: <20220124173741.2984056-1-vsementsov@virtuozzo.com>
- <8689ce30-7021-5d5d-861f-1d759e8acf46@redhat.com>
- <4aa42545-e0da-2a15-110e-3d7b2d8cd273@virtuozzo.com>
- <YfKobj+ZpzIxLasz@redhat.com>
-From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-In-Reply-To: <YfKobj+ZpzIxLasz@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eesposit@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+ Thunderbird/91.5.0
+Subject: Re: [PATCH] target/ppc: Remove support for the PowerPC 602 CPU
 Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
+To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>, qemu-ppc@nongnu.org,
+ qemu-devel@nongnu.org
+References: <20220128131227.199226-1-clg@kaod.org>
+From: =?UTF-8?Q?V=c3=adctor_Colombo?= <victor.colombo@eldorado.org.br>
+In-Reply-To: <20220128131227.199226-1-clg@kaod.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=eesposit@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.167,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+X-OriginalArrivalTime: 28 Jan 2022 14:13:02.0482 (UTC)
+ FILETIME=[29467720:01D81451]
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 187.72.171.209 (failed)
+Received-SPF: pass client-ip=187.72.171.209;
+ envelope-from=victor.colombo@eldorado.org.br; helo=outlook.eldorado.org.br
+X-Spam_score_int: 0
+X-Spam_score: -0.1
+X-Spam_bar: /
+X-Spam_report: (-0.1 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ PDS_HP_HELO_NORDNS=0.001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, TVD_SUBJ_WIPE_DEBT=1.004,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -105,149 +61,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, hreitz@redhat.com,
- qemu-devel@nongnu.org, qemu-block@nongnu.org, den@openvz.org
+Cc: Daniel Henrique Barboza <danielhb413@gmail.com>, Greg Kurz <groug@kaod.org>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-
-On 27/01/2022 15:13, Kevin Wolf wrote:
-> Am 25.01.2022 um 11:12 hat Vladimir Sementsov-Ogievskiy geschrieben:
->> 25.01.2022 12:24, Paolo Bonzini wrote:
->>> On 1/24/22 18:37, Vladimir Sementsov-Ogievskiy wrote:
->>>> Graph modifications should be done in drained section. stream_prepare()
->>>> handler of block stream job call bdrv_set_backing_hd() without using
->>>> drained section and it's theoretically possible that some IO request
->>>> will interleave with graph modification and will use outdated pointers
->>>> to removed block nodes.
->>>>
->>>> Some other callers use bdrv_set_backing_hd() not caring about drained
->>>> sections too. So it seems good to make a drained section exactly in
->>>> bdrv_set_backing_hd().
->>>
->>> Emanuele has a similar patch in his series to protect all graph
->>> modifications with drains:
->>>
->>> @@ -3456,6 +3478,11 @@ int bdrv_set_backing_hd(BlockDriverState *bs, BlockDriverState *backing_hd,
->>>
->>>       assert(qemu_in_main_thread());
->>>
->>> +    bdrv_subtree_drained_begin_unlocked(bs);
->>> +    if (backing_hd) {
->>> +        bdrv_subtree_drained_begin_unlocked(backing_hd);
->>> +    }
->>> +
->>>       ret = bdrv_set_backing_noperm(bs, backing_hd, tran, errp);
->>>       if (ret < 0) {
->>>           goto out;
->>> @@ -3464,6 +3491,10 @@ int bdrv_set_backing_hd(BlockDriverState *bs, BlockDriverState *backing_hd,
->>>       ret = bdrv_refresh_perms(bs, errp);
->>>   out:
->>>       tran_finalize(tran, ret);
->>> +    if (backing_hd) {
->>> +        bdrv_subtree_drained_end_unlocked(backing_hd);
->>> +    }
->>> +    bdrv_subtree_drained_end_unlocked(bs);
->>>
->>>       return ret;
->>>   }
->>>
->>> so the idea at least is correct.
->>>
->>> I don't object to fixing this independently, but please check
->>> 1) if a subtree drain would be more appropriate, 2) whether
->>> backing_hd should be drained as well, 3) whether we're guaranteed
->>> to be holding the AioContext lock as required for
->>> bdrv_drained_begin/end.
->>>
->>
->> Hmm.
->>
->> 1. Subtree draining of backing_hd will not help, as bs is not drained,
->> we still may have in-fight request in bs, touching old bs->backing.
-
-What do you mean bs is not drained? In my patch I drain both.
-
->>
->> 2. I think non-recursive drain of bs is enough. We modify only bs
->> node, so we should drain it. backing_hd itself is not modified. If
->> backing_hd participate in some other backing chain - it's not touched,
->> and in-flight requests in that other chain are not broken by
->> modification, so why to drain it? Same for old bs->backing and other
->> bs children. We are not interested in in-flight requests in subtree
->> which are not part of request in bs. So, if no inflight requests in
->> bs, we can modify bs and not care about requests in subtree.
+On 28/01/2022 10:12, Cédric Le Goater wrote:
+> The 602 was derived from the PowerPC 603, for the gaming market it
+> seems. It was hardly used and no firmware supporting the CPU could be
+> found. Drop support.
 > 
-> I agree on both points. Emanuele's patch seems to be doing unnecessary
-> work there.
+> Signed-off-by: Cédric Le Goater <clg@kaod.org>
 
-Wait, the point of my patches[*] is to protect
-bdrv_replace_child_noperm(). See the cover letter of my series for more
-info.
+Hello Cédric! I am having problems building QEMU with this patch
+applied. Tried on both master and legoater/ppc-7.0. I think you forgot
+one reference to PPC_602_SPEC on cpu.h:
 
-The reason for a subtree drain is that one callback of .attach() in
-bdrv_replace_child_noperm() is bdrv_child_cb_attach().
-This attaches the node in child->opaque->children list, so both nodes
-pointed by the BdrvChild are modified (child->bs and child->opaque).
-Simply draining on child->bs won't be enough to also get child->opaque
-in my opinion[*].
-Same applies with detach.
-One interesting side note is what happens if we are moving the child
-from one bs to another (old_bs and new_bs are both != NULL):
-child->opaque will just lose and re-gain the same child.
+  #define PPC_TCG_INSNS  (PPC_INSNS_BASE | PPC_POWER | PPC_POWER2 \
+                          | PPC_POWER_RTC | PPC_POWER_BR | PPC_64B \
+                          | PPC_64BX | PPC_64H | PPC_WAIT | PPC_MFTB \
+-                        | PPC_602_SPEC | PPC_ISEL | PPC_POPCNTB \
++                        | PPC_ISEL | PPC_POPCNTB \
+                          | PPC_STRING | PPC_FLOAT | PPC_FLOAT_EXT \
+                          | PPC_FLOAT_FSQRT | PPC_FLOAT_FRES \
+                          | PPC_FLOAT_FRSQRTE | PPC_FLOAT_FRSQRTES \
 
-Regarding this specific drain: I am missing something for sure here,
-because if I try to follow the code I see that from
-bdrv_set_backing_hd(bs, backing_hd)
-the call stack eventually ends up to
-bdrv_replace_child_noperm(child, new_bs /* -> backing_hd */)
-and then the graph modification there is:
-QLIST_INSERT_HEAD(&new_bs->parents, child, next_parent);
 
-So why not protecting backing_hd?
+Could you take a look at it please? Thanks!
 
-Full stack:
-bdrv_set_backing_hd(bs, backing_hd)
- bdrv_set_backing_noperm(bs, backing_hd)
-  bdrv_set_file_or_backing_noperm(bs, backing_hd)
-    bdrv_attach_child_noperm(parent_bs = bs, child_bs = backing_hd)
-     bdrv_attach_child_common(child_bs = backing_hd, .., parent_bs = bs)
-      new_child.bs = NULL;
-      new_child.opaque = parent_bs = bs;
-      bdrv_replace_child_noperm(new_child, child_bs = backing_hd)
-
-[*] = BTW, I see that you understand this stuff way deeper than I do, so
-feel free to review my drained-related series if you have time :)
-
-> 
->> 3. Jobs are bound to aio context, so I believe that they care to hold
->> AioContext lock. For example, on path job_prepare may be called
->> through job_exit(), job_exit() does
->> aio_context_acquire(job->aio_context), or it may be called through
->> job_cancel(), which seems to be called under aio_context_acquire() as
->> well. So, seems in general we care about it, and of course
->> bdrv_set_backing_hd() must be called with AioContext lock held. If for
->> some code path it isn't, it's a bug..
-> 
-> We do have some code that does exactly that: In the main thread, we
-> often don't hold the AioContext lock, but only the BQL. I find it quite
-> ugly, but it works as long as the node is in the main AioContext.
-> 
-> One path where this is relevant is bdrv_open_inherit() ->
-> bdrv_open_backing_file() -> bdrv_set_backing_hd(). This one is harmless
-> because we know that we just created the new node in the main
-> AioContext.
-> 
-> All the other paths seem to come either from jobs (which take the
-> AioContext as you explained) or directly from monitor commands, which I
-> just checked to take the lock as well.
-> 
-
-This won't hold anymore when the job patches are applied. So that is why
-in my case subtree_drained_begin/end_unlocked() works.
-
-Thank you,
-Emanuele
-
+-- Víctor
 
