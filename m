@@ -2,73 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 835F749FDE9
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jan 2022 17:23:10 +0100 (CET)
-Received: from localhost ([::1]:40602 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5DF2249FDE5
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jan 2022 17:19:45 +0100 (CET)
+Received: from localhost ([::1]:36972 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nDU1j-0006Od-SB
-	for lists+qemu-devel@lfdr.de; Fri, 28 Jan 2022 11:23:07 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:57752)
+	id 1nDTyS-0003lh-Ew
+	for lists+qemu-devel@lfdr.de; Fri, 28 Jan 2022 11:19:44 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:57912)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nDTDD-0002B2-Bq
- for qemu-devel@nongnu.org; Fri, 28 Jan 2022 10:30:58 -0500
-Received: from [2a00:1450:4864:20::336] (port=41518
- helo=mail-wm1-x336.google.com)
+ id 1nDTDJ-0002Dc-NJ
+ for qemu-devel@nongnu.org; Fri, 28 Jan 2022 10:31:03 -0500
+Received: from [2a00:1450:4864:20::42a] (port=37872
+ helo=mail-wr1-x42a.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nDTD4-0006Pn-1H
- for qemu-devel@nongnu.org; Fri, 28 Jan 2022 10:30:49 -0500
-Received: by mail-wm1-x336.google.com with SMTP id
- q141-20020a1ca793000000b00347b48dfb53so4325563wme.0
- for <qemu-devel@nongnu.org>; Fri, 28 Jan 2022 07:30:30 -0800 (PST)
+ id 1nDTDE-0006Pv-IV
+ for qemu-devel@nongnu.org; Fri, 28 Jan 2022 10:30:58 -0500
+Received: by mail-wr1-x42a.google.com with SMTP id w11so11579064wra.4
+ for <qemu-devel@nongnu.org>; Fri, 28 Jan 2022 07:30:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=iBHQOpZOmYstj+pi68lc9e07pXmprbTTnrIKiNAgDtE=;
- b=IdfcuW3YwNFIXhVrduoh/Ky5YbA/ilHhFasr+rnU4l62hgBwfQ/l/50BOQIuNPpkIt
- eS6Vfjz7adoEpNQFvS+gI/QRZZoCMwDm4KNwPvdZDq95xWx/qFntTyvrD2Bzq1XEBzU+
- ZERX52ca0k0cLuvOQgbqMzyjJ1AgBZbBdMiIwXXGi31A7ojrkiM6Jyp96nK+YELejgsf
- 0lB5nunEk8EFRLhcQ0gbHFze2t0UzAcjTS+fWq/xE4Kd8oG+RBQxv/V110FMNTC7zOzD
- 6kqyGxaselIy0fa+vKMvELhPIAwyksJb8gLx51QOHM0q22YkT0PKemJKF3g0Dll5TA8K
- SXTw==
+ bh=4IotcbgfgVJfdN6t+JQbwn7fCUsCHP2X7DpaVZ7V1H4=;
+ b=HPnC4Etfk9GSloyjrfgzro4HQXVCZy9n2zWw2NOLDS0YAev4sN1vlTQUKDU0UJgJn2
+ PMIXf5NcgTZ05RsnRuzNhEyg5GNMW7SL0aMwNtLe2c1sey2nDZJ/zkvQ5zwNNMUqdj/t
+ g8lvab0QzB/JruQj4BK6SeWsz7M2OLa851yCOlQg3hbn7gc3zKKiaXCImT1Ox5N8pEWv
+ D9Wj7+OB2MfntJwn34mfdnc2eXsK1vExPzzQzToqL0w3ksonunbVKpN853ncgR7c1TJi
+ XlhU2UI2gae2GA10WCuGeMJ3cnsgs3MutW/QZCWBKN88Ftbn9i7Ffa1Jhr4IgxuGkjYu
+ ejgw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=iBHQOpZOmYstj+pi68lc9e07pXmprbTTnrIKiNAgDtE=;
- b=vOE9BK/WTPSqhHLb/9MFe7VV/SO9usTxyEk+RNE70HYqXxToUddn8p3Dmd76v6oCkG
- mVICPCdD5dvBAsnelWRR0k8riv15U/AdUK27FqOHbvRYa+m5ZNYc694Rt9EhDwHrtguo
- aURH7fCdiKduLtdledZfOadqgpWOaMQyXm1+3Ep0Y8XRdKuoVe+vGGoEi2iSlid97NEC
- PaXi/XYp3mvrof7pNr/JXYspjGCqZ5tqBYLdAZ0MXDQVlASSXB2bzA1JXy9EeKxOejpS
- qVpnVDThcM2iXA6Y+/Ht+IoBfJ0PHx3zZx92XD7fU/8QcaYuyvhHCv/2j4B88wrhYRG+
- wdHQ==
-X-Gm-Message-State: AOAM532XI7z7IuMi+QP98Y/KD84W3QjpP8yI3vc2vjEpJA/fkrnjULMS
- p2AZuwnpm1bifV8lvSH5CZDGYZjVGt9gEg==
-X-Google-Smtp-Source: ABdhPJzBWyk/8Aei1AfBqG2S+TxBfp/RpXq1KpbPfdpepBshUEMbOIEaaE1+b9T7MP1ROUfJ7jfD7g==
-X-Received: by 2002:a05:600c:3505:: with SMTP id
- h5mr7978756wmq.122.1643383830018; 
+ bh=4IotcbgfgVJfdN6t+JQbwn7fCUsCHP2X7DpaVZ7V1H4=;
+ b=bKJsTjtIJTJcXaKMroCtXgkcH75iNP4b9l1Xb6gdT66DfpMYXhKWGzNGvBHfrpmHf/
+ a2WEIaiOzZvTIWdZKt8iLfxTo1fR9gEcUxl3cn60tyjdiF+syhGl5HbrucDKveQS8w8y
+ e6e/AhYw0lzFk4kw6CFkW/aLCcKhWklBdQ3cWq3tsg5CPd7yHfyljcLkV5ApVhmZ6wSB
+ vVMs4TFcQPzdJMpX5fdikQDpuKYvHedlb6JPL6z8kte+CkiIx5WrnMeGDveHbcffLvKD
+ 4QHFbyu9CaAnuVv9yEmrcEzCxEsBp9/iAK4AiIR/eXAIn4zdG/LPA84P4EtiBP4cYtBR
+ cKMQ==
+X-Gm-Message-State: AOAM531BwWWSaKpE3xjMqgDwDkK3j9uP6GtqUd+/bsbdtOCtky7bsQ8p
+ +Klqw0wWl1SoHefxnoOKX0bGpHb71ls6IQ==
+X-Google-Smtp-Source: ABdhPJyJCFFq25Mr1nE0xM04nRX97UKg/Ioz9eTr1DpoS466NNM103AHLDLzJMwnQpJ4nSc2WE6WHA==
+X-Received: by 2002:a5d:6b48:: with SMTP id x8mr7673074wrw.86.1643383830684;
  Fri, 28 Jan 2022 07:30:30 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
- by smtp.gmail.com with ESMTPSA id j3sm4749485wrb.57.2022.01.28.07.30.29
+ by smtp.gmail.com with ESMTPSA id j3sm4749485wrb.57.2022.01.28.07.30.30
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 28 Jan 2022 07:30:29 -0800 (PST)
+ Fri, 28 Jan 2022 07:30:30 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 14/32] MAINTAINERS: Add an entry for Xilinx Versal OSPI
-Date: Fri, 28 Jan 2022 15:29:51 +0000
-Message-Id: <20220128153009.2467560-15-peter.maydell@linaro.org>
+Subject: [PULL 15/32] MAINTAINERS: Remove myself (for raspi).
+Date: Fri, 28 Jan 2022 15:29:52 +0000
+Message-Id: <20220128153009.2467560-16-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220128153009.2467560-1-peter.maydell@linaro.org>
 References: <20220128153009.2467560-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::336
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42a
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::336;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x336.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42a.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -92,36 +91,27 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Francisco Iglesias <francisco.iglesias@xilinx.com>
+From: Andrew Baumann <Andrew.Baumann@microsoft.com>
 
-List myself as maintainer for the Xilinx Versal OSPI controller.
-
-Signed-off-by: Francisco Iglesias <francisco.iglesias@xilinx.com>
-Reviewed-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-Message-id: 20220121161141.14389-11-francisco.iglesias@xilinx.com
+Signed-off-by: Andrew Baumann <Andrew.Baumann@microsoft.com>
+Message-id: MW4PR21MB1940E8BB52F4053C943B1FCD9E219@MW4PR21MB1940.namprd21.prod.outlook.com
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- MAINTAINERS | 6 ++++++
- 1 file changed, 6 insertions(+)
+ MAINTAINERS | 1 -
+ 1 file changed, 1 deletion(-)
 
 diff --git a/MAINTAINERS b/MAINTAINERS
-index e4b3a4bcdf4..6797a270e4e 100644
+index 6797a270e4e..b43344fa98c 100644
 --- a/MAINTAINERS
 +++ b/MAINTAINERS
-@@ -958,6 +958,12 @@ F: hw/display/dpcd.c
- F: include/hw/display/dpcd.h
- F: docs/system/arm/xlnx-versal-virt.rst
+@@ -818,7 +818,6 @@ F: docs/system/arm/palm.rst
  
-+Xilinx Versal OSPI
-+M: Francisco Iglesias <francisco.iglesias@xilinx.com>
-+S: Maintained
-+F: hw/ssi/xlnx-versal-ospi.c
-+F: include/hw/ssi/xlnx-versal-ospi.h
-+
- ARM ACPI Subsystem
- M: Shannon Zhao <shannon.zhaosl@gmail.com>
+ Raspberry Pi
+ M: Peter Maydell <peter.maydell@linaro.org>
+-R: Andrew Baumann <Andrew.Baumann@microsoft.com>
+ R: Philippe Mathieu-Daudé <f4bug@amsat.org>
  L: qemu-arm@nongnu.org
+ S: Odd Fixes
 -- 
 2.25.1
 
