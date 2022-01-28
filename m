@@ -2,98 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 546484A0407
-	for <lists+qemu-devel@lfdr.de>; Sat, 29 Jan 2022 00:02:10 +0100 (CET)
-Received: from localhost ([::1]:60976 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 007C34A0411
+	for <lists+qemu-devel@lfdr.de>; Sat, 29 Jan 2022 00:06:51 +0100 (CET)
+Received: from localhost ([::1]:42984 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nDaFs-0004JL-Ow
-	for lists+qemu-devel@lfdr.de; Fri, 28 Jan 2022 18:02:08 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:34714)
+	id 1nDaKP-0003Oe-Rh
+	for lists+qemu-devel@lfdr.de; Fri, 28 Jan 2022 18:06:49 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:37016)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
- id 1nDZvd-0007lx-CJ; Fri, 28 Jan 2022 17:41:16 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:38096)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1nDa9p-0008E4-I0
+ for qemu-devel@nongnu.org; Fri, 28 Jan 2022 17:55:57 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:21483)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
- id 1nDZvW-0003WQ-EJ; Fri, 28 Jan 2022 17:41:12 -0500
-Received: from pps.filterd (m0098394.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 20SKdGfZ004145; 
- Fri, 28 Jan 2022 22:40:50 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=from : to : cc : subject
- : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding; s=pp1;
- bh=cyW8KupNV9ucHS3eJyiqV4kbvM+z2XLQKie+abX27Fw=;
- b=M+WcahAtUFkivCSy/FPMLQ03j1CCiIANgEsAd6i2nlqJjkh6LVQmvHjPYQFurJYUqW5R
- zK47pmXviYUrDKsiL82RM5ZgRilC0eVGw2mf2Ef091R1QpLKH0DWiOixwomJ7NvDe6Ng
- wdB/W4EGESjrtTOj43R5RYFXX5war09kU4cnUlRUlRWpqBRDDQFD1C6fHU8ELGivrh2g
- 7g6nHQxYqYihS+hemtrSR7v36bArsdDvPFySxG8L7EjY3H47q4GaMInMICUrd+9dbWmP
- XKAI0PfNxe4/uWfaBdCWNd7bJe0JxcPItOCEdKUVPMQq0jh5M8FmplKrp1tJxwaIg84i sQ== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3dvqauaam6-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 28 Jan 2022 22:40:49 +0000
-Received: from m0098394.ppops.net (m0098394.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 20SM5bjc000757;
- Fri, 28 Jan 2022 22:40:49 GMT
-Received: from ppma04wdc.us.ibm.com (1a.90.2fa9.ip4.static.sl-reverse.com
- [169.47.144.26])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3dvqauaaky-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 28 Jan 2022 22:40:49 +0000
-Received: from pps.filterd (ppma04wdc.us.ibm.com [127.0.0.1])
- by ppma04wdc.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 20SMcg41027384;
- Fri, 28 Jan 2022 22:40:48 GMT
-Received: from b03cxnp08025.gho.boulder.ibm.com
- (b03cxnp08025.gho.boulder.ibm.com [9.17.130.17])
- by ppma04wdc.us.ibm.com with ESMTP id 3dr9jcu20b-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 28 Jan 2022 22:40:48 +0000
-Received: from b03ledav004.gho.boulder.ibm.com
- (b03ledav004.gho.boulder.ibm.com [9.17.130.235])
- by b03cxnp08025.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 20SMelqW31261164
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 28 Jan 2022 22:40:47 GMT
-Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 2075078066;
- Fri, 28 Jan 2022 22:40:47 +0000 (GMT)
-Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id A926F7805E;
- Fri, 28 Jan 2022 22:40:45 +0000 (GMT)
-Received: from farosas.linux.ibm.com.com (unknown [9.211.66.85])
- by b03ledav004.gho.boulder.ibm.com (Postfix) with ESMTP;
- Fri, 28 Jan 2022 22:40:45 +0000 (GMT)
-From: Fabiano Rosas <farosas@linux.ibm.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 11/11] target/ppc: booke: System Reset exception cleanup
-Date: Fri, 28 Jan 2022 19:40:18 -0300
-Message-Id: <20220128224018.1228062-12-farosas@linux.ibm.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220128224018.1228062-1-farosas@linux.ibm.com>
-References: <20220128224018.1228062-1-farosas@linux.ibm.com>
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1nDa9c-0005Pb-NA
+ for qemu-devel@nongnu.org; Fri, 28 Jan 2022 17:55:52 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1643410529;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=FdRXYjecH2mwZS1YJUX4duCGKoeymHhcuDmxbUrhGN8=;
+ b=TIP5vTT6EwKJSJhYX9Ie4foGKS1wXee87RD5oHD3L2RjQ8zek7hJe709RuRKou/SNJIu/1
+ mmRYBsPpCJKMaLrQV73hQjO10n/NYfE8rRj7qdh56OX7tN7rFNUeSpf+4Re9MrqAcSGqai
+ WsYczfhQ2YyLGmFaFHahQuEtoT8FCJw=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-460-MjlTFgElPzK38OPksFJGVg-1; Fri, 28 Jan 2022 17:55:23 -0500
+X-MC-Unique: MjlTFgElPzK38OPksFJGVg-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 586D646863;
+ Fri, 28 Jan 2022 22:55:22 +0000 (UTC)
+Received: from redhat.com (unknown [10.22.32.61])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 6E4981037F3A;
+ Fri, 28 Jan 2022 22:55:21 +0000 (UTC)
+Date: Fri, 28 Jan 2022 16:55:19 -0600
+From: Eric Blake <eblake@redhat.com>
+To: Hanna Reitz <hreitz@redhat.com>
+Subject: Re: [PATCH v2 2/2] iotests/block-status-cache: New test
+Message-ID: <20220128225519.jd2yqojnkgvimbgg@redhat.com>
+References: <20220118170000.49423-1-hreitz@redhat.com>
+ <20220118170000.49423-3-hreitz@redhat.com>
+ <20220128205051.aqbqkfkavlb6ycci@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: WS8dwXPbHQH_QQMtxmAcBD9Ac9c_LZIl
-X-Proofpoint-GUID: 0qKwRszDSIVMo_OBSao2aAO_d4HI3h8L
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.816,Hydra:6.0.425,FMLib:17.11.62.513
- definitions=2022-01-28_08,2022-01-28_01,2021-12-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxlogscore=773
- impostorscore=0 suspectscore=0 phishscore=0 spamscore=0 clxscore=1015
- priorityscore=1501 bulkscore=0 malwarescore=0 mlxscore=0 adultscore=0
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2201110000 definitions=main-2201280125
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=farosas@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: 0
-X-Spam_score: -0.1
-X-Spam_bar: /
-X-Spam_report: (-0.1 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+In-Reply-To: <20220128205051.aqbqkfkavlb6ycci@redhat.com>
+User-Agent: NeoMutt/20211029-256-77b59a
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eblake@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -10
+X-Spam_score: -1.1
+X-Spam_bar: -
+X-Spam_report: (-1.1 / 5.0 requ) DKIMWL_WL_HIGH=-0.167, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -107,49 +80,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: danielhb413@gmail.com, qemu-ppc@nongnu.org, clg@kaod.org,
- david@gibson.dropbear.id.au
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org, qemu-block@nongnu.org,
+ qemu-stable@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-There is no MSR_HV in BookE, so remove all of the HV logic.
+On Fri, Jan 28, 2022 at 02:50:51PM -0600, Eric Blake wrote:
+> On Tue, Jan 18, 2022 at 06:00:00PM +0100, Hanna Reitz wrote:
+> > Add a new test to verify that want_zero=false block-status calls do not
+> > pollute the block-status cache for want_zero=true calls.
+> > 
+> > We check want_zero=true calls and their results using `qemu-img map`
+> > (over NBD), and want_zero=false calls also using `qemu-img map` over
+> > NBD, but using the qemu:allocation-depth context.
+> > 
+> > (This test case cannot be integrated into nbd-qemu-allocation, because
+> > that is a qcow2 test, and this is a raw test.)
+> > 
+> > Signed-off-by: Hanna Reitz <hreitz@redhat.com>
+> > ---
+> >  tests/qemu-iotests/tests/block-status-cache   | 139 ++++++++++++++++++
+> >  .../qemu-iotests/tests/block-status-cache.out |   5 +
+> >  2 files changed, 144 insertions(+)
+> >  create mode 100755 tests/qemu-iotests/tests/block-status-cache
+> >  create mode 100644 tests/qemu-iotests/tests/block-status-cache.out
+> 
+> Reviewed-by: Eric Blake <eblake@redhat.com>
 
-Signed-off-by: Fabiano Rosas <farosas@linux.ibm.com>
----
- target/ppc/excp_helper.c | 18 ++----------------
- 1 file changed, 2 insertions(+), 16 deletions(-)
+I also tested that applying this patch but not 1/2 reproduces the
+failure for me, so I'm adding:
 
-diff --git a/target/ppc/excp_helper.c b/target/ppc/excp_helper.c
-index 7c228dac58..7d7d0a08b5 100644
---- a/target/ppc/excp_helper.c
-+++ b/target/ppc/excp_helper.c
-@@ -925,23 +925,9 @@ static void powerpc_excp_booke(PowerPCCPU *cpu, int excp)
-         env->spr[SPR_BOOKE_ESR] = ESR_SPV;
-         break;
-     case POWERPC_EXCP_RESET:     /* System reset exception                   */
--        /* A power-saving exception sets ME, otherwise it is unchanged */
-         if (msr_pow) {
--            /* indicate that we resumed from power save mode */
--            msr |= 0x10000;
--            new_msr |= ((target_ulong)1 << MSR_ME);
--        }
--        if (env->msr_mask & MSR_HVB) {
--            /*
--             * ISA specifies HV, but can be delivered to guest with HV
--             * clear (e.g., see FWNMI in PAPR, NMI injection in QEMU).
--             */
--            new_msr |= (target_ulong)MSR_HVB;
--        } else {
--            if (msr_pow) {
--                cpu_abort(cs, "Trying to deliver power-saving system reset "
--                          "exception %d with no HV support\n", excp);
--            }
-+            cpu_abort(cs, "Trying to deliver power-saving system reset "
-+                      "exception %d with no HV support\n", excp);
-         }
-         break;
-     case POWERPC_EXCP_EFPDI:     /* Embedded floating-point data interrupt   */
+Tested-by: Eric Blake <eblake@redhat.com>
+
 -- 
-2.34.1
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3266
+Virtualization:  qemu.org | libvirt.org
 
 
