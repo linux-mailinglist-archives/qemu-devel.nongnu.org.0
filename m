@@ -2,78 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B286449F1BF
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jan 2022 04:21:11 +0100 (CET)
-Received: from localhost ([::1]:58498 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0531A49F1BB
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jan 2022 04:18:08 +0100 (CET)
+Received: from localhost ([::1]:55478 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nDHp0-0000A5-Q2
-	for lists+qemu-devel@lfdr.de; Thu, 27 Jan 2022 22:21:10 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:36452)
+	id 1nDHm2-0006Yd-Ph
+	for lists+qemu-devel@lfdr.de; Thu, 27 Jan 2022 22:18:06 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:36564)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nDHjF-0004CQ-EY
- for qemu-devel@nongnu.org; Thu, 27 Jan 2022 22:15:15 -0500
-Received: from [2607:f8b0:4864:20::636] (port=33427
- helo=mail-pl1-x636.google.com)
+ id 1nDHju-0004VU-Fo
+ for qemu-devel@nongnu.org; Thu, 27 Jan 2022 22:15:54 -0500
+Received: from [2607:f8b0:4864:20::102d] (port=54884
+ helo=mail-pj1-x102d.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nDHjC-000788-Mq
- for qemu-devel@nongnu.org; Thu, 27 Jan 2022 22:15:12 -0500
-Received: by mail-pl1-x636.google.com with SMTP id k17so4711583plk.0
- for <qemu-devel@nongnu.org>; Thu, 27 Jan 2022 19:15:10 -0800 (PST)
+ id 1nDHjn-0007GC-P8
+ for qemu-devel@nongnu.org; Thu, 27 Jan 2022 22:15:53 -0500
+Received: by mail-pj1-x102d.google.com with SMTP id r59so5236800pjg.4
+ for <qemu-devel@nongnu.org>; Thu, 27 Jan 2022 19:15:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=4O7WF2dNEv6+T07efh0scbDlUd0TBIs/BbpZ7LzoPl4=;
- b=GwUVNmtElfFlEPjs3OzypA5TaiD4VpgNuMMFKtOuPbLKAuSkx58ztQWRPpmuK2OrSQ
- vLK1LzQ8qw++VUxjX4O3z71qr+kVshRPxzwUhU41Y8uMJG2+rO/TjsM0YhvW8YV7dLxc
- VWoLX4RdSBc28Nmg42zfPs1NJ+miYK3U4DXQfoNoZ7/E3dN16k3nP8SMDJj5k7N3Gfd5
- dbr9YNKcCvxK4EuLlaDZjTb9LdoAp8gq3j3IHlvaQ4d75HSI/MbmS1awSZtelM16pc5Z
- k93iHz+JLyCTSbjkgWBrDPBeS01xUT1WHSHoyHmhb4lyM76GBEcgm3q9OnyKoZbqZrXC
- sVTA==
+ bh=EZt81jaNhoY98TNkVvN44GCtkogQ8kkgDfpI9ov+V9Q=;
+ b=q5Zbv0XrU1BoSXziV+SG8ZSNvb9VeORVSQJZcMJnHksMgstcya7KuiTLDCISIaCHNB
+ namXrZz7SiFJ0hK7WWhc7XY/cD2r/yDVIHGdm/6yO3tTO1SRqsY8/lykTfnrp7uJC/g/
+ EHHVd33MKDv/TcxLZi1qaLR3Uo38GzLY9EG6i25xJc0l+qr/zsK+CtjAN6ZbJFSaSwAj
+ eNJbwBXcxaCFhJL+Tr2SbxviS/Q3Sv6iO4eGMuy1M6kPfHPzsI6lL0QYf+P7DXdRqLqb
+ bau3qLn8NjUyvIgBElO8dSuTrIcxBo5bA560WOfbMsBUPzmaix1sKkdkqpRKrAno7fGX
+ z5+Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=4O7WF2dNEv6+T07efh0scbDlUd0TBIs/BbpZ7LzoPl4=;
- b=YOojySNao1gk0C2Awu1tKToNsRGGMktLfvU5H+IxX2qq3ROfV6LtX1BgwmpvGISya4
- SMCKsz48LKE2VUKwZRzRXF3LYsta0LiC5sSRsstyWn7s++newZzUHvWCmv2rLvQuyysc
- ru/9M6wN/g7XRlPK1GzeWMkcc0CxlyKiEoWmnaaCA0EJkyWYmR/7zQQ0BU8C33869g1K
- /xKHw7XLqWBVwsPfXdbN9wKO4DozHYBhnUo4fNp64XjfPnW0rwI1sxXM4A5w2025ShjA
- m6StyYIR7R0GRxpAw8BFdmGW6CqtR7f2hqC4JlW8Kwh4vFvTsKrVuaW9yrYkd1CHVstt
- ETfA==
-X-Gm-Message-State: AOAM533CZ8edLIk99ylAMMRjF+ZNCDywEAHwR5Hn9CSqae+nBnUJKBK/
- BYNeD8YuWHUXlkAs37+V8TFFkg==
-X-Google-Smtp-Source: ABdhPJy0fwmWYfps28f4W3rnt1XKZQD3n05W7vvOhsQaCL7hEhHLquN6VsendhnAnHV3JV2+NPQLcw==
-X-Received: by 2002:a17:90b:4b05:: with SMTP id
- lx5mr17391743pjb.128.1643339709320; 
- Thu, 27 Jan 2022 19:15:09 -0800 (PST)
+ bh=EZt81jaNhoY98TNkVvN44GCtkogQ8kkgDfpI9ov+V9Q=;
+ b=2O7MavDT1OJEi0j7gfVVDhdF89g9sBvd3TYZHaj8zTYl3M9HoQvaKKhwlcBeuwJ/iA
+ kIPThhbyhs0uX+Ivty2MXL4rQz95keBzLISylsgOZXmkicx5d8W2B0RcQq6M3ieEdqY/
+ lXgVF7HNzOMqsdzIZ5LFfiptkpf84fdR6NffuSYtE1rn6Ehv5CEqwTWBjA799AcnRg/T
+ w5aFM9giH3bzIagFM1w4ah34c2xc/1evSIFOWowCQ0+SNeqtj7UG3qzI3g+9ThrByG1e
+ mvd4Mv2tfK/LlaGGH97U8pSbK1IfokrgXWw38GAmJCOgIo29D4Gi1B7pv1zXxFMceDgW
+ Rulw==
+X-Gm-Message-State: AOAM533R63VqmDQgLGEGSwNp9g7mlspuWYrD4NAvVmELMHOkNUDDZdWP
+ Hbi+udLvLFbzaFXizEdLQUqUVw==
+X-Google-Smtp-Source: ABdhPJw91vCH+EpKLMw31KuBOKnaN8CkZ0vW0g5zW58Oyx3xuan5bRz5ewaGcrogtukwf+/sdBN6vA==
+X-Received: by 2002:a17:90b:38d1:: with SMTP id
+ nn17mr4581436pjb.219.1643339744429; 
+ Thu, 27 Jan 2022 19:15:44 -0800 (PST)
 Received: from [192.168.15.44] (alanje.lnk.telstra.net. [120.151.179.201])
- by smtp.gmail.com with ESMTPSA id t14sm662954pjd.6.2022.01.27.19.15.06
+ by smtp.gmail.com with ESMTPSA id h9sm6769626pfe.101.2022.01.27.19.15.41
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 27 Jan 2022 19:15:09 -0800 (PST)
-Message-ID: <b3df3bed-104a-0a64-501e-a4216b663a45@linaro.org>
-Date: Fri, 28 Jan 2022 14:15:04 +1100
+ Thu, 27 Jan 2022 19:15:44 -0800 (PST)
+Message-ID: <2343926c-8b5a-9210-a77a-662b35d28963@linaro.org>
+Date: Fri, 28 Jan 2022 14:15:39 +1100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.5.0
-Subject: Re: [PATCH 06/14] hw/intc/arm_gicv3: Honour GICD_CTLR.EnableGrp1NS
- for LPIs
+Subject: Re: [PATCH 07/14] hw/intc/arm_gicv3_its: Sort ITS command list into
+ numeric order
 Content-Language: en-US
 To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
  qemu-devel@nongnu.org
 References: <20220122182444.724087-1-peter.maydell@linaro.org>
- <20220122182444.724087-7-peter.maydell@linaro.org>
+ <20220122182444.724087-8-peter.maydell@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220122182444.724087-7-peter.maydell@linaro.org>
+In-Reply-To: <20220122182444.724087-8-peter.maydell@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::636
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::102d
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::636;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x636.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102d;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102d.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -99,17 +99,13 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 1/23/22 05:24, Peter Maydell wrote:
-> The GICD_CTLR distributor register has enable bits which control
-> whether the different interrupt groups (Group 0, Non-secure Group 1
-> and Secure Group 1) are forwarded to the CPU.  We get this right for
-> traditional interrupts, but forgot to account for it when adding
-> LPIs.  LPIs are always Group 1 NS and if the EnableGrp1NS bit is not
-> set we must not forward them to the CPU.
+> The list of #defines for the ITS command packet numbers is neither
+> in alphabetical nor numeric order. Sort it into numeric order.
 > 
 > Signed-off-by: Peter Maydell<peter.maydell@linaro.org>
 > ---
->   hw/intc/arm_gicv3.c | 1 +
->   1 file changed, 1 insertion(+)
+>   hw/intc/gicv3_internal.h | 10 +++++-----
+>   1 file changed, 5 insertions(+), 5 deletions(-)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
