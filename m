@@ -2,61 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82AE349F606
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jan 2022 10:11:00 +0100 (CET)
-Received: from localhost ([::1]:55418 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5120E49F61F
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jan 2022 10:19:37 +0100 (CET)
+Received: from localhost ([::1]:36418 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nDNHX-0008VD-Kb
-	for lists+qemu-devel@lfdr.de; Fri, 28 Jan 2022 04:10:59 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:54868)
+	id 1nDNPs-0007pz-DL
+	for lists+qemu-devel@lfdr.de; Fri, 28 Jan 2022 04:19:36 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:57478)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
- id 1nDN2p-0004HQ-0d; Fri, 28 Jan 2022 03:55:47 -0500
-Received: from smtp25.cstnet.cn ([159.226.251.25]:57590 helo=cstnet.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <liweiwei@iscas.ac.cn>)
- id 1nDN2i-0002Jz-SL; Fri, 28 Jan 2022 03:55:44 -0500
-Received: from localhost.localdomain (unknown [180.156.147.178])
- by APP-05 (Coremail) with SMTP id zQCowAAX+fGCr_NhQg8YAA--.29604S7;
- Fri, 28 Jan 2022 16:55:36 +0800 (CST)
-From: Weiwei Li <liweiwei@iscas.ac.cn>
-To: anup@brainfault.org, palmer@dabbelt.com, alistair.francis@wdc.com,
- bin.meng@windriver.com, qemu-riscv@nongnu.org, qemu-devel@nongnu.org
-Subject: [PATCH v7 5/5] target/riscv: add support for svpbmt extension
-Date: Fri, 28 Jan 2022 16:55:01 +0800
-Message-Id: <20220128085501.8014-6-liweiwei@iscas.ac.cn>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20220128085501.8014-1-liweiwei@iscas.ac.cn>
-References: <20220128085501.8014-1-liweiwei@iscas.ac.cn>
-X-CM-TRANSID: zQCowAAX+fGCr_NhQg8YAA--.29604S7
-X-Coremail-Antispam: 1UD129KBjvJXoW7ZFW7ArW3KFW8KF1rXry8uFg_yoW8tw1kpr
- s3G3yxKa95tFWayayxKF1UJ34UGw4Y9Fn29397Zr4xJr4rJ3y3JF1DKws7GF43XF1UZr1a
- 93W3CF1Yvr4UXaDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnRJUUUPF14x267AKxVWrJVCq3wAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
- rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2048vs2IY020E87I2jVAFwI0_JF0E3s1l82xGYI
- kIc2x26xkF7I0E14v26ryj6s0DM28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8wA2
- z4x0Y4vE2Ix0cI8IcVAFwI0_Xr0_Ar1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Cr0_Gr
- 1UM28EF7xvwVC2z280aVAFwI0_Cr1j6rxdM28EF7xvwVC2z280aVCY1x0267AKxVW0oVCq
- 3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7
- IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r4U
- M4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwACI402YVCY1x02628vn2
- kIc2xKxwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E
- 14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIx
- kGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUCVW8JwCI42IY6xIIjxv20xvEc7CjxVAF
- wI0_Cr0_Gr1UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJV
- W8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjfUOBTY
- UUUUU
-X-Originating-IP: [180.156.147.178]
-X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
-Received-SPF: pass client-ip=159.226.251.25; envelope-from=liweiwei@iscas.ac.cn;
- helo=cstnet.cn
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1nDNEj-0007fv-9E
+ for qemu-devel@nongnu.org; Fri, 28 Jan 2022 04:08:06 -0500
+Received: from [2a00:1450:4864:20::532] (port=37864
+ helo=mail-ed1-x532.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1nDNEh-0004D3-NY
+ for qemu-devel@nongnu.org; Fri, 28 Jan 2022 04:08:04 -0500
+Received: by mail-ed1-x532.google.com with SMTP id c24so8543393edy.4
+ for <qemu-devel@nongnu.org>; Fri, 28 Jan 2022 01:08:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=Xs1yAfGX6iIjMKaOcIHtWfMt4QbIsVDhMVaBuTyFsJk=;
+ b=vL3bwEKAeBT3E0o1U+QE07+IIzHC0DQwz0gdj8JNR2KiHklxhigGS6bNYSyTmHJlxV
+ nswua49zmfZ2puIhEN7QsXqwQdO48zYKwLkM+MBvmP2Cei58zRchfB226LlLQXTcOsAD
+ S92eJFS/gqyfCchD9rSg2VYis5yra2qNV8XOhRFackcKoPpjRmG3Jvs5lslmwWA6XWny
+ oAtblZGpQ+/effWeG80dPjzKLkVX84FKLIPwHnLbkPh01akW35uYYHLbWrmPbzM8w5r9
+ OfgJYRE0fkXjHz5mgwcH2zFHbN0pgNKSrZPXOB5ORRPUBAMAc7o1HaoKUZoodIMZVqey
+ TbzQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=Xs1yAfGX6iIjMKaOcIHtWfMt4QbIsVDhMVaBuTyFsJk=;
+ b=JdGYUhBqrrpD2PiOyBkbxzA4nkYyJJlPqX1H4WDWzqIZEfea6YMHP8V+0Htfgohql7
+ yEtVHxXQR84eRvH3ICCbWtb833nSfpLT+P7i1TyPu47aUu20rQe9i1vuf0Piw4BF+f6A
+ xQntawV3S4Wv6xd8AdBtwkA7+gJ6EbpnMGvcGEQNHRqMuHJPuvhrRaspL0iEs3bFxkER
+ oqxwuiQB3y29fOejAAlUQ9OqUDsR3HPaiVhZxf9+qu6iaYupv0slfgUE5ELf3BPyMWQ+
+ e6AMeCaXtzucvq3BmLeiDrYFooaQyo928pnXEXKEkd+F8hWPDufzWD1b2IQcGvpHldxt
+ iALw==
+X-Gm-Message-State: AOAM5310XUUHmSLKsQB6xH7H9sYE/uwobBVediTT+b19EJ9Q6iLTjviU
+ V5LwuE7Lee0Tsjp9t6TJQRpvHU/2eKuSqqXG42bBBUo0GfFKGg==
+X-Google-Smtp-Source: ABdhPJyjn8eUmefZr6zTPVSiAXzdH0XldSzmVAdc4mWYYEXgxIiltqHIkI/G7/SePrt0V3z9gs37C+HGuLLbUFG9aLA=
+X-Received: by 2002:a17:907:6e09:: with SMTP id
+ sd9mr2221602ejc.259.1643360512593; 
+ Fri, 28 Jan 2022 01:01:52 -0800 (PST)
+MIME-Version: 1.0
+References: <1643214514-2839-1-git-send-email-eric.devolder@oracle.com>
+ <1643214514-2839-7-git-send-email-eric.devolder@oracle.com>
+ <alpine.OSX.2.20.2201271401250.42000@athabasca.local>
+ <1f544cb3-7434-3480-63fc-ff317327ea78@oracle.com>
+ <20220127193136-mutt-send-email-mst@kernel.org>
+In-Reply-To: <20220127193136-mutt-send-email-mst@kernel.org>
+From: Ani Sinha <ani@anisinha.ca>
+Date: Fri, 28 Jan 2022 14:31:41 +0530
+Message-ID: <CAARzgwzs38AWQtbvMnbAzcoJqv1MAqzU60HCxmAnhMRhW9sL2A@mail.gmail.com>
+Subject: Re: [PATCH v14 06/10] ACPI ERST: build the ACPI ERST table
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::532
+ (failed)
+Received-SPF: none client-ip=2a00:1450:4864:20::532;
+ envelope-from=ani@anisinha.ca; helo=mail-ed1-x532.google.com
+X-Spam_score_int: -10
+X-Spam_score: -1.1
+X-Spam_bar: -
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_NONE=0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01,
+ UPPERCASE_50_75=0.008 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -69,67 +84,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: wangjunqiang@iscas.ac.cn, Weiwei Li <liweiwei@iscas.ac.cn>,
- lazyparser@gmail.com, ren_guo@c-sky.com
+Cc: berrange@redhat.com, ehabkost@redhat.com, konrad.wilk@oracle.com,
+ qemu-devel@nongnu.org, pbonzini@redhat.com, imammedo@redhat.com,
+ boris.ostrovsky@oracle.com, Eric DeVolder <eric.devolder@oracle.com>,
+ rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-- add PTE_PBMT bits: It uses two PTE bits, but otherwise has no effect on QEMU, since QEMU is sequentially consistent and doesn't model PMAs currently
-- add PTE_PBMT bit check for inner PTE
+> > #define SERIALIZATIONINSTRUCTIONCTX(name, \
+> >     inst, bit_width, offset) \
+> >     BuildSerializationInstructionEntry name = { \
+> >         .table_data = table_instruction_data, \
+> >         .bar = bar0, \
+> >         .instruction = inst, \
+> >         .flags = 0, \
+> >         .register_bit_width = bit_width, \
+> >         .register_offset = offset, \
+> >     }
+> >     SERIALIZATIONINSTRUCTIONCTX(rd_value_32_val,
+> >         INST_READ_REGISTER_VALUE, 32, ERST_VALUE_OFFSET);
+> >     SERIALIZATIONINSTRUCTIONCTX(rd_value_32,
+> >         INST_READ_REGISTER, 32, ERST_VALUE_OFFSET);
+> >     SERIALIZATIONINSTRUCTIONCTX(rd_value_64,
+> >         INST_READ_REGISTER, 64, ERST_VALUE_OFFSET);
+> >     SERIALIZATIONINSTRUCTIONCTX(wr_value_32_val,
+> >         INST_WRITE_REGISTER_VALUE, 32, ERST_VALUE_OFFSET);
+> >     SERIALIZATIONINSTRUCTIONCTX(wr_value_32,
+> >         INST_WRITE_REGISTER, 32, ERST_VALUE_OFFSET);
+> >     SERIALIZATIONINSTRUCTIONCTX(wr_value_64,
+> >         INST_WRITE_REGISTER, 64, ERST_VALUE_OFFSET);
+> >     SERIALIZATIONINSTRUCTIONCTX(wr_action,
+> >         INST_WRITE_REGISTER_VALUE, 32, ERST_ACTION_OFFSET);
+> >
+> > These are the 7 accessors needed.
+>
+> not at all sure this one is worth the macro mess.
+>
 
-Signed-off-by: Weiwei Li <liweiwei@iscas.ac.cn>
-Signed-off-by: Junqiang Wang <wangjunqiang@iscas.ac.cn>
-Reviewed-by: Anup Patel <anup@brainfault.org>
----
- target/riscv/cpu.c        | 1 +
- target/riscv/cpu_bits.h   | 2 ++
- target/riscv/cpu_helper.c | 4 +++-
- 3 files changed, 6 insertions(+), 1 deletion(-)
-
-diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-index 4efdc16780..44c8229d3a 100644
---- a/target/riscv/cpu.c
-+++ b/target/riscv/cpu.c
-@@ -731,6 +731,7 @@ static Property riscv_cpu_properties[] = {
- 
-     DEFINE_PROP_BOOL("svinval", RISCVCPU, cfg.ext_svinval, false),
-     DEFINE_PROP_BOOL("svnapot", RISCVCPU, cfg.ext_svnapot, false),
-+    DEFINE_PROP_BOOL("svpbmt", RISCVCPU, cfg.ext_svpbmt, false),
- 
-     DEFINE_PROP_BOOL("zba", RISCVCPU, cfg.ext_zba, true),
-     DEFINE_PROP_BOOL("zbb", RISCVCPU, cfg.ext_zbb, true),
-diff --git a/target/riscv/cpu_bits.h b/target/riscv/cpu_bits.h
-index f6ff1c5012..d3e4245964 100644
---- a/target/riscv/cpu_bits.h
-+++ b/target/riscv/cpu_bits.h
-@@ -489,7 +489,9 @@ typedef enum {
- #define PTE_A               0x040 /* Accessed */
- #define PTE_D               0x080 /* Dirty */
- #define PTE_SOFT            0x300 /* Reserved for Software */
-+#define PTE_PBMT            0x6000000000000000 /* Page-based memory types */
- #define PTE_N               0x8000000000000000 /* NAPOT translation */
-+#define PTE_ATTR            (PTE_N | PTE_PBMT) /* All attributes bits */
- 
- /* Page table PPN shift amount */
- #define PTE_PPN_SHIFT       10
-diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
-index 6262d157e2..8398e4cbb6 100644
---- a/target/riscv/cpu_helper.c
-+++ b/target/riscv/cpu_helper.c
-@@ -639,9 +639,11 @@ restart:
-         if (!(pte & PTE_V)) {
-             /* Invalid PTE */
-             return TRANSLATE_FAIL;
-+        } else if (!cpu->cfg.ext_svpbmt && (pte & (target_ulong)PTE_PBMT)) {
-+            return TRANSLATE_FAIL;
-         } else if (!(pte & (PTE_R | PTE_W | PTE_X))) {
-             /* Inner PTE, continue walking */
--            if (pte & (target_ulong)(PTE_D | PTE_A | PTE_U | PTE_N)) {
-+            if (pte & (target_ulong)(PTE_D | PTE_A | PTE_U | PTE_ATTR)) {
-                 return TRANSLATE_FAIL;
-             }
-             base = ppn << PGSHIFT;
--- 
-2.17.1
-
+I did not quite have this in my mind when I said macro but it's fine.
+We can improve the code later.
 
