@@ -2,71 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EDB5D49FE0D
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jan 2022 17:28:20 +0100 (CET)
-Received: from localhost ([::1]:49202 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6FFAE49FE0C
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jan 2022 17:28:12 +0100 (CET)
+Received: from localhost ([::1]:49052 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nDU6m-00041X-3S
-	for lists+qemu-devel@lfdr.de; Fri, 28 Jan 2022 11:28:20 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:57758)
+	id 1nDU6c-0003vg-Tx
+	for lists+qemu-devel@lfdr.de; Fri, 28 Jan 2022 11:28:11 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:58072)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nDTDD-0002B5-DW
- for qemu-devel@nongnu.org; Fri, 28 Jan 2022 10:30:58 -0500
-Received: from [2a00:1450:4864:20::42c] (port=33704
- helo=mail-wr1-x42c.google.com)
+ id 1nDTDN-0002Fz-S7
+ for qemu-devel@nongnu.org; Fri, 28 Jan 2022 10:31:06 -0500
+Received: from [2a00:1450:4864:20::32a] (port=51037
+ helo=mail-wm1-x32a.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nDTD0-0006QD-3A
- for qemu-devel@nongnu.org; Fri, 28 Jan 2022 10:30:48 -0500
-Received: by mail-wr1-x42c.google.com with SMTP id e8so11670040wrc.0
- for <qemu-devel@nongnu.org>; Fri, 28 Jan 2022 07:30:34 -0800 (PST)
+ id 1nDTDK-0006QH-SJ
+ for qemu-devel@nongnu.org; Fri, 28 Jan 2022 10:31:05 -0500
+Received: by mail-wm1-x32a.google.com with SMTP id m26so2236644wms.0
+ for <qemu-devel@nongnu.org>; Fri, 28 Jan 2022 07:30:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=9SyNcRrVuvovEvSkxrvxeCVjQbfrBwz9kaivzr8f5zc=;
- b=rgRyz2loESAPI3X0p3n1io84VmrtIb5mWV+Sr9YuXqXRvdUK4wVr6XbVc7mRb8MQvG
- NTQq9+EmnTzJPx5flS2wJB/btSw0MQwtmPg5ni6z0JDT4O/L/cUnlHLB26JSsZLeWFlJ
- EFEQO+ZvsfmE1bMyYFNQfhZVDnkPplGk8RdMLVAX6mxLhC8MFX3wfcb/aVwPPq3SVYDr
- aoDR00L8oFL8kIbI32Ve90vROE/L2QK6dn0GjxHgpd0XSgrhwgFzMyfto/frNymbVuar
- vk/Jajg6s8cYSDeLhmLa+4aAJUiS890kknwaGVrf6E4VCZxth0YDHn6wf+UJOpmd19LT
- smLQ==
+ bh=OdtIkV/XqQbri3TA1b5zl/FnINW56thqfzKkEfK6UQo=;
+ b=ERp3rE+NPQ5I6tC38USzx29S2c9NyMEUnopuxMRhpLazGp2RLMwrA1ZMVzIA2uYNai
+ giafQVnmkYSBzC5gQ7BFe61vgSXEn1PpOi2CVouXndyEJOIoEcYpOwtseX2lr0I8rj6z
+ yTz0lcRuH9uB9itcr3+D/xnUkRw3Hd8XxoY1RnCn9Ag4EujpwQvujGnrIQv+ohaeJa18
+ ldcxeMlECKGhsAUT64psOuof9U2Futng4K4TxzOUfMo+pi+UbPnPxrduJ1CKZk/erp/u
+ AOVi18W0pNZbSIfbRHn12vfcmBwFFfyr+Qz35VmANBQPNpFUIe+IluY2/ckNcblRfZap
+ qHsQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=9SyNcRrVuvovEvSkxrvxeCVjQbfrBwz9kaivzr8f5zc=;
- b=hjW6m0C/raBdsMdpffq7D+vapECb0k3lVKuTy/SoR+/X1lwvlLGkYzRF2Y9I04NyLL
- h7ksHX8efOK8msu9eEYE0nXA/p6BUIUYDYGKfLZIV6U3kxH5+DYxM59NVmNjLcjDehYQ
- JviBc5t8eVNQ0qGpJtVUZpYY1Y9TmPO0bsKaaYThGS8LNqDK/MHRBial5CXFyjvjDmTF
- IJzWl/ucfUk10CsXrFrryO8E1XlYbsoBCFb9BC9vLtfSRtfxn8hwLYu72se/fSby8VPF
- 9P1oR65mbg+UeyQvKYUb+10MJxVZAY+ELIajP+5I5BPE4BY9i0vtRHBwYesg0azgLWeF
- 0cHA==
-X-Gm-Message-State: AOAM531A5wDix667tN3JD7EsqG03KIpa64ONxk5Q9a39Jwckf5REzTCQ
- +NgQ7RYKwlCaXJnzuyG2ryOCdzY/qpRjnA==
-X-Google-Smtp-Source: ABdhPJxu67oQfKMUE5gxMipFPYQE8C9U7Kcdjn1APMKvcmFFSwPiAnfEBIg2SV421ElnPjllHsnxhQ==
-X-Received: by 2002:adf:d1c7:: with SMTP id b7mr5867113wrd.506.1643383833683; 
- Fri, 28 Jan 2022 07:30:33 -0800 (PST)
+ bh=OdtIkV/XqQbri3TA1b5zl/FnINW56thqfzKkEfK6UQo=;
+ b=cTT641qHiblAuYTV7uN+9Ik22Y0nvc0dK4qca6tYv8qfpON6nK2SNBDCaRsEHE0ktA
+ pfvdW82n/VCgE2ye1iHP3Y161ewSNyT4xYX6hnLWxjlU+irQ+oJ5TW7VFLldBtLrXHgR
+ I3xZ1JqoGHY6gTlsLMmY60zkMtYMh96O8x4hSrpwnG3HDhNDjsCPPxx3iAaSiIjeCySW
+ R4toHqdlHoajR4XwvEO993+wtdnwzecX/R1mxLv84YeZnn0eYh3RegEdk+9BV8oBmucK
+ 7LQNY+0IUCS45pyQ7VEg1QGFxDD+qCQd4uzwn9F5bSZJ4xVAoE38jmOwGd1dqSnv+V8x
+ u+Cg==
+X-Gm-Message-State: AOAM533pV/ZFqMmMXM2Mfo+DeOENwoA5pcnss+QIBzPoKCYoTjxuH4iB
+ XQPn2vM/M1PbuGsBNVCmSlrWd2ikfyx5jQ==
+X-Google-Smtp-Source: ABdhPJxDQk6nhiUQ90LPgqd8/+b5K9CBPlKQK26kUzad6+5/MlyvWY6x66zI7HhxwXf9XIqPfKSr/A==
+X-Received: by 2002:a1c:4455:: with SMTP id r82mr7704132wma.103.1643383834380; 
+ Fri, 28 Jan 2022 07:30:34 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
- by smtp.gmail.com with ESMTPSA id j3sm4749485wrb.57.2022.01.28.07.30.32
+ by smtp.gmail.com with ESMTPSA id j3sm4749485wrb.57.2022.01.28.07.30.33
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 28 Jan 2022 07:30:33 -0800 (PST)
+ Fri, 28 Jan 2022 07:30:34 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 19/32] hw/intc/arm_gicv3: Initialise dma_as in GIC, not ITS
-Date: Fri, 28 Jan 2022 15:29:56 +0000
-Message-Id: <20220128153009.2467560-20-peter.maydell@linaro.org>
+Subject: [PULL 20/32] hw/intc/arm_gicv3_its: Don't clear GITS_CREADR when
+ GITS_CTLR.ENABLED is set
+Date: Fri, 28 Jan 2022 15:29:57 +0000
+Message-Id: <20220128153009.2467560-21-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220128153009.2467560-1-peter.maydell@linaro.org>
 References: <20220128153009.2467560-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42c
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32a
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32a.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -90,58 +91,30 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In our implementation, all ITSes connected to a GIC share a single
-AddressSpace, which we keep in the GICv3State::dma_as field and
-initialized based on the GIC's 'sysmem' property. The right place
-to set it up by calling address_space_init() is therefore in the
-GIC's realize method, not the ITS's realize.
-
-This fixes a theoretical bug where QEMU hangs on startup if the board
-model creates two ITSes connected to the same GIC -- we would call
-address_space_init() twice on the same AddressSpace*, which creates
-an infinite loop in the QTAILQ that softmmu/memory.c uses to store
-its list of AddressSpaces and causes any subsequent attempt to
-iterate through that list to loop forever.  There aren't any board
-models like that in the tree at the moment, though.
+The current ITS code clears GITS_CREADR when GITS_CTLR.ENABLED is set.
+This is not correct -- guest code can validly clear ENABLED and then
+set it again and expect the ITS to continue processing where it left
+off. Remove the erroneous assignment.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20220122182444.724087-4-peter.maydell@linaro.org
+Message-id: 20220122182444.724087-5-peter.maydell@linaro.org
 ---
- hw/intc/arm_gicv3_common.c | 5 +++++
- hw/intc/arm_gicv3_its.c    | 3 ---
- 2 files changed, 5 insertions(+), 3 deletions(-)
+ hw/intc/arm_gicv3_its.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/hw/intc/arm_gicv3_common.c b/hw/intc/arm_gicv3_common.c
-index 9884d2e39b9..579aa0cb9ed 100644
---- a/hw/intc/arm_gicv3_common.c
-+++ b/hw/intc/arm_gicv3_common.c
-@@ -357,6 +357,11 @@ static void arm_gicv3_common_realize(DeviceState *dev, Error **errp)
-         return;
-     }
- 
-+    if (s->lpi_enable) {
-+        address_space_init(&s->dma_as, s->dma,
-+                           "gicv3-its-sysmem");
-+    }
-+
-     s->cpu = g_new0(GICv3CPUState, s->num_cpu);
- 
-     for (i = 0; i < s->num_cpu; i++) {
 diff --git a/hw/intc/arm_gicv3_its.c b/hw/intc/arm_gicv3_its.c
-index 6d2549e64b1..67f12d98af3 100644
+index 67f12d98af3..1763ba4a671 100644
 --- a/hw/intc/arm_gicv3_its.c
 +++ b/hw/intc/arm_gicv3_its.c
-@@ -1194,9 +1194,6 @@ static void gicv3_arm_its_realize(DeviceState *dev, Error **errp)
- 
-     gicv3_its_init_mmio(s, &gicv3_its_control_ops, &gicv3_its_translation_ops);
- 
--    address_space_init(&s->gicv3->dma_as, s->gicv3->dma,
--                       "gicv3-its-sysmem");
--
-     /* set the ITS default features supported */
-     s->typer = FIELD_DP64(s->typer, GITS_TYPER, PHYSICAL, 1);
-     s->typer = FIELD_DP64(s->typer, GITS_TYPER, ITT_ENTRY_SIZE,
+@@ -853,7 +853,6 @@ static bool its_writel(GICv3ITSState *s, hwaddr offset,
+             s->ctlr |= R_GITS_CTLR_ENABLED_MASK;
+             extract_table_params(s);
+             extract_cmdq_params(s);
+-            s->creadr = 0;
+             process_cmdq(s);
+         } else {
+             s->ctlr &= ~R_GITS_CTLR_ENABLED_MASK;
 -- 
 2.25.1
 
