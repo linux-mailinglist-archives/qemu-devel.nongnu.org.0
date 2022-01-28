@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2688D4A0005
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jan 2022 19:23:45 +0100 (CET)
-Received: from localhost ([::1]:47100 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A9C704A0003
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jan 2022 19:19:43 +0100 (CET)
+Received: from localhost ([::1]:42912 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nDVuS-00074d-8D
-	for lists+qemu-devel@lfdr.de; Fri, 28 Jan 2022 13:23:44 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:42098)
+	id 1nDVqY-00049x-7I
+	for lists+qemu-devel@lfdr.de; Fri, 28 Jan 2022 13:19:42 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:42614)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nDVkR-0008E9-TW
- for qemu-devel@nongnu.org; Fri, 28 Jan 2022 13:13:23 -0500
-Received: from [2a00:1450:4864:20::429] (port=40821
- helo=mail-wr1-x429.google.com)
+ id 1nDVmW-0002Yz-1J
+ for qemu-devel@nongnu.org; Fri, 28 Jan 2022 13:15:37 -0500
+Received: from [2a00:1450:4864:20::432] (port=45806
+ helo=mail-wr1-x432.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nDVkQ-0006LZ-5D
- for qemu-devel@nongnu.org; Fri, 28 Jan 2022 13:13:23 -0500
-Received: by mail-wr1-x429.google.com with SMTP id s18so12411275wrv.7
- for <qemu-devel@nongnu.org>; Fri, 28 Jan 2022 10:13:20 -0800 (PST)
+ id 1nDVmS-0006ma-J8
+ for qemu-devel@nongnu.org; Fri, 28 Jan 2022 13:15:29 -0500
+Received: by mail-wr1-x432.google.com with SMTP id m14so12194059wrg.12
+ for <qemu-devel@nongnu.org>; Fri, 28 Jan 2022 10:15:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Q8MQBxnxP/orxcZqvX9P2x2YUFlWPRoe4GigdzLPgEU=;
- b=eVGhVzLsJ6xGVLq4Nf4GbEKT2dGLXx79pm/xm7DjvYea8wudj0YjQNN4l+PXnlXDnG
- wxJ/rXAhfxKrbzX5CXmjb8oFEvJh6r3VEupy2dxesZeIJLhjZi9laDtHw2dAFVyhjYvN
- f+AS+2HLtir8vRUve9JpCD9kloiECZG1N7syAupLs1tTyh17sTz6EciN9S2xG/U37A4q
- HlN5H1RC9wrCXXrKSLJVZXcPqfR3vdomZBTXdxym2UxngKePeqnu2YtH+5YJUafscwzG
- bG7BHnHRrv9taLm0mDdyBzI1sQ8u9UY3Iaiif3Gtafq4v6JxUnEmUt1bYZgDnVD64bsm
- t0ww==
+ :cc; bh=n8imG8oMK3qYIdDNOdXQGJFm7OosIKXw5PAPRSwWNV8=;
+ b=LZPB0B/IRSy2inULLXVEcL7OKNFIeDDq53AlbklkwHTFj0uwgWrMDuO0OKoat5//oc
+ Y6VS9OzBmzF5QQAAHbDRg76013nGF33V6eeFqvqyXZ0GHZ0IWBLmdUD3QPNDlKf70eCl
+ 4eiRbLjwK2tL3nlF6KQTXYWboEOqPwIwRpG1yH/lBdodnGA/6rnf9g1QlzTUaYNIhGIR
+ Afh48XdlTMvckYLRVaxRsNSvHUSuKe5Cup6vnVzreQJ2bh/n139yicYNRQsh6FtM+ghn
+ gA/4wGYOaPWCVn9xsfL88C41pYDtMqo6wRCkDp1v0c6ac1MXLC0lwjfqnM3HCfS8Je40
+ URgQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=Q8MQBxnxP/orxcZqvX9P2x2YUFlWPRoe4GigdzLPgEU=;
- b=Ep13US1JFyxsNTI0Dv5IDhU4jWAxKGfOYLJdJXnhOod3AKgSQLOzxikiiNAJHydMCg
- UpmEE+hXEwSiVSVwJ43NkbRSUOGeyaTLeF1Lm9Gk2xKMgA/I/j19SBazweBfU+8ygDXB
- l9YmNFJ57vuL8YbFPGtasO2UAM2QTHOp2qyVNpEP8gsV6OIgtEJwKAJbDz8yQk1slJ56
- WtqKw3050tWUad0crBE321saLwHeiX+PeIPEPqg336MfsfZWrDYhfztzpWxulmI9ZM7E
- E0TXWzwawSgpgRf3pk/hqLr6O/ZVuqctCuT4uBG7iX53yG3CHpYKSSli+px0ZEAYGq+u
- k8Fw==
-X-Gm-Message-State: AOAM533zCli6EmYrFZeLDvLIVIk+WIUXWiz/17fuPVidnw3AHRrG6qWA
- OMUzTy1bMp3e9Ral8RA/zGAyvqC8nRvhV4hhL4Rb6g==
-X-Google-Smtp-Source: ABdhPJzoCtEkD+Oh9Lz3WFjhhuRQA2Vhn9RDHGtwKffLjCnbB87Xsn4o4iGD9Bdx5NIEHhxTdhIH/reZ0aCudakgn8o=
-X-Received: by 2002:a5d:5343:: with SMTP id t3mr8245891wrv.521.1643393598263; 
- Fri, 28 Jan 2022 10:13:18 -0800 (PST)
+ bh=n8imG8oMK3qYIdDNOdXQGJFm7OosIKXw5PAPRSwWNV8=;
+ b=CN5h9KPgGZp3CtciQvdLoWkjndaVrN+Z4R6De2s445D+w/SSYZdV+57Ajb5VUEuFSp
+ OngXAE8h/ZTGokASIA8DbK9SuFVxSC2ceFU20+JZ1ffsTGk5GMs5CJU9OkGsrAT5bHMP
+ FUiCMlYBZ/SDzFzbkZilv2Is6jZUrt+2QXke1FQjgNwfXDuehUU6xZ94pF7sw/OCIroB
+ YAIURbxAFhIn8GQkrLAz67Gz8x7qSR4pdgd2G8/WfIwGZnzUDVnh4z5IGqyfRpXtv3nd
+ UpIAEbqsAXqMCYe25ZRwULiVDBtauU+v1955F0DRXCb6Z2ynu5pvS/yOFVal0Vmln5PX
+ Q1lQ==
+X-Gm-Message-State: AOAM530qwsz2KtIKGSJcgQhBFXZw8LFQQ8BxJvV9Y12MVS+ukX9SgIEi
+ gZKsBSBRd44XBdPKZOnUBF4yybLpc7HXi8DuKEqruQ==
+X-Google-Smtp-Source: ABdhPJxBv/7rorXkXtpWrVVkTf0c0IT9h+CqRsj2ahXvtaexuZWbpV88z0aYe1eAhTgLNV+wTgZBMzM/9TJXKoZTF/s=
+X-Received: by 2002:a05:6000:1acb:: with SMTP id
+ i11mr8261062wry.172.1643393726484; 
+ Fri, 28 Jan 2022 10:15:26 -0800 (PST)
 MIME-Version: 1.0
 References: <20220127063428.30212-1-richard.henderson@linaro.org>
- <20220127063428.30212-5-richard.henderson@linaro.org>
-In-Reply-To: <20220127063428.30212-5-richard.henderson@linaro.org>
+ <20220127063428.30212-3-richard.henderson@linaro.org>
+In-Reply-To: <20220127063428.30212-3-richard.henderson@linaro.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 28 Jan 2022 18:13:07 +0000
-Message-ID: <CAFEAcA8Bj2uUHj-y10VfcH6RDdOhPBKeYfug2iVe1BfKpUUUrA@mail.gmail.com>
-Subject: Re: [PATCH 4/4] target/arm: Use CPTR_TFP with CPTR_EL3 in
- fp_exception_el
+Date: Fri, 28 Jan 2022 18:15:15 +0000
+Message-ID: <CAFEAcA9iVTTkyO1Dq9e2Bio9zAgUazCQwuZb1GtZ+A3zdhbr2w@mail.gmail.com>
+Subject: Re: [PATCH 2/4] target/arm: Tidy sve_exception_el for CPACR_EL1 access
 To: Richard Henderson <richard.henderson@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::429
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::432
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::429;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x429.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::432;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x432.google.com
 X-Spam_score_int: 6
 X-Spam_score: 0.6
 X-Spam_bar: /
@@ -88,28 +88,11 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 On Thu, 27 Jan 2022 at 06:34, Richard Henderson
 <richard.henderson@linaro.org> wrote:
 >
-> Use the named bit rather than a bare extract32.
+> Extract entire fields for ZEN and FPEN, rather than testing specific bits.
+> This makes it easier to follow the code versus the ARM spec.
 >
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->  target/arm/helper.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/target/arm/helper.c b/target/arm/helper.c
-> index ca916139e8..5610879680 100644
-> --- a/target/arm/helper.c
-> +++ b/target/arm/helper.c
-> @@ -13034,7 +13034,7 @@ int fp_exception_el(CPUARMState *env, int cur_el)
->      }
->
->      /* CPTR_EL3 : present in v8 */
-> -    if (extract32(env->cp15.cptr_el[3], 10, 1)) {
-> +    if (env->cp15.cptr_el[3] & CPTR_TFP) {
->          /* Trap all FP ops to EL3 */
->          return 3;
->      }
-> --
-> 2.25.1
 
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
