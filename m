@@ -2,77 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D82D49F1B3
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jan 2022 04:14:01 +0100 (CET)
-Received: from localhost ([::1]:48106 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A19649F1BA
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jan 2022 04:17:52 +0100 (CET)
+Received: from localhost ([::1]:54836 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nDHi4-0001Ou-0W
-	for lists+qemu-devel@lfdr.de; Thu, 27 Jan 2022 22:14:00 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:36080)
+	id 1nDHln-00067g-G5
+	for lists+qemu-devel@lfdr.de; Thu, 27 Jan 2022 22:17:51 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:36160)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nDHgL-0007aG-LH
- for qemu-devel@nongnu.org; Thu, 27 Jan 2022 22:12:13 -0500
-Received: from [2607:f8b0:4864:20::62b] (port=42733
- helo=mail-pl1-x62b.google.com)
+ id 1nDHh3-0000QT-Gv
+ for qemu-devel@nongnu.org; Thu, 27 Jan 2022 22:12:57 -0500
+Received: from [2607:f8b0:4864:20::1034] (port=40648
+ helo=mail-pj1-x1034.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nDHgK-0006nE-3t
- for qemu-devel@nongnu.org; Thu, 27 Jan 2022 22:12:13 -0500
-Received: by mail-pl1-x62b.google.com with SMTP id i1so4606609pla.9
- for <qemu-devel@nongnu.org>; Thu, 27 Jan 2022 19:12:11 -0800 (PST)
+ id 1nDHh1-0006oL-Sv
+ for qemu-devel@nongnu.org; Thu, 27 Jan 2022 22:12:57 -0500
+Received: by mail-pj1-x1034.google.com with SMTP id
+ z10-20020a17090acb0a00b001b520826011so9717191pjt.5
+ for <qemu-devel@nongnu.org>; Thu, 27 Jan 2022 19:12:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=Q75phySsGtxd9QnzfTnWdDBiB9wfLlzN3qw40EZsVto=;
- b=yxy94r5LYqr4TKCmTaJ9s72InXt0Ld3FTkp0Ux/lDZNnVWm4/6hV2q1sbreoziPosu
- afCCXr7X5rPomo9TVQqc7BI4781tpgtUUCBqG+aUxM9IuJwLBCPrqKxtsfTuUFmAtl8F
- JJcniPe3gcee0IFv7wM03Gaaj1lwsFDskn/5LZdFWfdnds/jpyKNtcjEQUFVB7XTOI/n
- 6AEEQwAfm0gr/VnHl2tn1bSRLsgX14gbPr+Xgs3IPsqa+ZPcqtV8VMgFlafbv5ePVex/
- csi5rau1bb+bK4FVvxKkrwLsDhs2KLkUXBmXa4VhmZWCVxAxm6hNGyjGcrva/MVsXfKq
- hfLQ==
+ bh=0gx2La73i55guNFbmZkkQPmzp3blHiSd9YakpQX/jTc=;
+ b=esU6/7bOBkQlt4vhO5juIt1ViSG9PRHVD4fgcl5fRimhzpu1DqxoEhjsWWZDx7oXlW
+ V/dVBe4kvqygEoPoNfhAL9/Ckfkvv0h3/UfnlIgaFgFfS8p/0QnizuuS3BhF1rm5ogGb
+ r+IU4BKYqYH/1sKNI3mPGHkrytNFTYlsJYENDCqolIVTNo7wL59O09ckPLsIlPNiS8VU
+ cXGpYRDjXWsmouMJHytsfDz8gVK9LyMJgHzJCEtekRXtJAHJ3NbvqLlOImbdOy0DQq7y
+ YDvUpBiHICaAHUUK0SBLmISkcIIMzJwSCCx/mHICkLcZYpdExoUY1cH9woQP3Yo2mt0t
+ r65g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=Q75phySsGtxd9QnzfTnWdDBiB9wfLlzN3qw40EZsVto=;
- b=OKcdmVCmkimAE0ZZtsnWv2sqbkhtdgwvpotJEFlftvFnMO+6qsCbPrT2rGUKFyo+ix
- bWxFvISlPpLlQu5ObpanA40O+gyEopEmW3spjHTKO0eaHfDSMun9PGIZzx+GZjfawN+E
- gVbhqKbwNq1mIt116EvuPfEklBQzvGXSxwiA1UoAOLqZAkXc2schUyasyOwc7wDb2oUN
- p+ZZ/ZoVZzWOG4fH+oW3U3now4pPwSlnHJ8LtpdaurYwYUQW015Fzls3IiHk+WPfhMsj
- pIuS2K6xt934s4UpuUAuoKKmA2urr4dL/8B7kIHg9F1ECjcP16E2wfvWFTAZhBJ43Jdh
- Qg0w==
-X-Gm-Message-State: AOAM532pJgQZaRwp6qqpFBvp7dBkfSAzRTH38lOTJ8yVsIzSpQUf+kV5
- McPOwLOM6qF1AYtU14hHEeRQ5hQO6nflNxB/
-X-Google-Smtp-Source: ABdhPJwAHzO8dzLgy7/bFSH/SkwJLb9SwpuA4JDKagjq9gwTnhdsc3AKCa9RUQ8utsMMcdUJgCk2zQ==
-X-Received: by 2002:a17:90b:2281:: with SMTP id
- kx1mr7596563pjb.60.1643339530767; 
- Thu, 27 Jan 2022 19:12:10 -0800 (PST)
+ bh=0gx2La73i55guNFbmZkkQPmzp3blHiSd9YakpQX/jTc=;
+ b=7IG2Q2WJ1a2kVBhtnF3dg44bkFRF4efstdebeGo05SpevAOlg9HgPzqvQTKs6ixTeZ
+ 4iItGF59bw07K66YGmX8IhCHUzqvjx+R7A7j61jPed+z+2GOv7WRi55mHBPU+oyXbXES
+ l5GAH5d7+zKNZj6lCTNmGrtC9f66vauw+3IE6rjez/NYh2PaoIwBF+2Z831D5r7/a3j/
+ Bohq4k+OyTKtqXtcpAC/76lRnFwzrhL7DVcbKrLmseKhZAv2mDDi9Nw6BLOiDXlU1e+7
+ G+Y6xsLjA7Gpkt78EAP+ugAKSJJZ08ouG3ua1LHY1x8PUJhWnSrDJhKlyC5flV5Hv1OC
+ 4/VQ==
+X-Gm-Message-State: AOAM533PuBGSjFzmyOXQXt+hyi4t1qxZyNvw/LZuFvm0Vb4HwBnj1zai
+ w6GqafkqudJnjFBEVwb1bWF9Wg==
+X-Google-Smtp-Source: ABdhPJz0rnuRDSFXaNqFT/SkfnOUtffxT79f3n/LEwxWoAyd4XxFKEZ1Pt48piQ8qFSBhlbzdW20Dw==
+X-Received: by 2002:a17:902:d2c2:: with SMTP id
+ n2mr6448441plc.57.1643339574658; 
+ Thu, 27 Jan 2022 19:12:54 -0800 (PST)
 Received: from [192.168.15.44] (alanje.lnk.telstra.net. [120.151.179.201])
- by smtp.gmail.com with ESMTPSA id z13sm3938486pfh.45.2022.01.27.19.12.08
+ by smtp.gmail.com with ESMTPSA id mn2sm632223pjb.38.2022.01.27.19.12.52
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 27 Jan 2022 19:12:10 -0800 (PST)
-Message-ID: <540229ae-75ca-d492-a045-cc20ddfe49fb@linaro.org>
-Date: Fri, 28 Jan 2022 14:12:05 +1100
+ Thu, 27 Jan 2022 19:12:54 -0800 (PST)
+Message-ID: <70fdabac-f73a-e3b1-cd98-44b67f26aff1@linaro.org>
+Date: Fri, 28 Jan 2022 14:12:48 +1100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.5.0
-Subject: Re: [PATCH 03/14] hw/intc/arm_gicv3: Initialise dma_as in GIC, not ITS
+Subject: Re: [PATCH 04/14] hw/intc/arm_gicv3_its: Don't clear GITS_CREADR when
+ GITS_CTLR.ENABLED is set
 Content-Language: en-US
 To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
  qemu-devel@nongnu.org
 References: <20220122182444.724087-1-peter.maydell@linaro.org>
- <20220122182444.724087-4-peter.maydell@linaro.org>
+ <20220122182444.724087-5-peter.maydell@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220122182444.724087-4-peter.maydell@linaro.org>
+In-Reply-To: <20220122182444.724087-5-peter.maydell@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::62b
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1034
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62b;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62b.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1034;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1034.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -98,25 +100,15 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 1/23/22 05:24, Peter Maydell wrote:
-> In our implementation, all ITSes connected to a GIC share a single
-> AddressSpace, which we keep in the GICv3State::dma_as field and
-> initialized based on the GIC's 'sysmem' property. The right place
-> to set it up by calling address_space_init() is therefore in the
-> GIC's realize method, not the ITS's realize.
-> 
-> This fixes a theoretical bug where QEMU hangs on startup if the board
-> model creates two ITSes connected to the same GIC -- we would call
-> address_space_init() twice on the same AddressSpace*, which creates
-> an infinite loop in the QTAILQ that softmmu/memory.c uses to store
-> its list of AddressSpaces and causes any subsequent attempt to
-> iterate through that list to loop forever.  There aren't any board
-> models like that in the tree at the moment, though.
+> The current ITS code clears GITS_CREADR when GITS_CTLR.ENABLED is set.
+> This is not correct -- guest code can validly clear ENABLED and then
+> set it again and expect the ITS to continue processing where it left
+> off. Remove the erroneous assignment.
 > 
 > Signed-off-by: Peter Maydell<peter.maydell@linaro.org>
 > ---
->   hw/intc/arm_gicv3_common.c | 5 +++++
->   hw/intc/arm_gicv3_its.c    | 3 ---
->   2 files changed, 5 insertions(+), 3 deletions(-)
+>   hw/intc/arm_gicv3_its.c | 1 -
+>   1 file changed, 1 deletion(-)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
