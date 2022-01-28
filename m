@@ -2,73 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 37DB049FCF1
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jan 2022 16:36:27 +0100 (CET)
-Received: from localhost ([::1]:36318 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E60049FD0F
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jan 2022 16:47:02 +0100 (CET)
+Received: from localhost ([::1]:49624 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nDTIY-0005AS-AT
-	for lists+qemu-devel@lfdr.de; Fri, 28 Jan 2022 10:36:26 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:57678)
+	id 1nDTSn-0006CT-Ie
+	for lists+qemu-devel@lfdr.de; Fri, 28 Jan 2022 10:47:01 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:57734)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nDTD6-0002Ae-TG
- for qemu-devel@nongnu.org; Fri, 28 Jan 2022 10:30:52 -0500
-Received: from [2a00:1450:4864:20::432] (port=42598
- helo=mail-wr1-x432.google.com)
+ id 1nDTDB-0002Ax-CI
+ for qemu-devel@nongnu.org; Fri, 28 Jan 2022 10:30:58 -0500
+Received: from [2a00:1450:4864:20::32d] (port=54013
+ helo=mail-wm1-x32d.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nDTD0-0006Q0-2o
- for qemu-devel@nongnu.org; Fri, 28 Jan 2022 10:30:45 -0500
-Received: by mail-wr1-x432.google.com with SMTP id a13so11560609wrh.9
+ id 1nDTD0-0006Q3-2t
+ for qemu-devel@nongnu.org; Fri, 28 Jan 2022 10:30:47 -0500
+Received: by mail-wm1-x32d.google.com with SMTP id n8so4669337wmk.3
  for <qemu-devel@nongnu.org>; Fri, 28 Jan 2022 07:30:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=dwHC/ctEYOOYZjyRsSRWGZZC159ozfXxs9syF5bxiNs=;
- b=t+94CuuQrKSosJGOI4rVaV31UvLb5KpjwFV6c4gKmu4q4KvsQCCUIPFLOKZ0i8dgym
- VMIRqt95UNpB1viGiyzb3KxV23KCXvNilQ02XZKWws7LezFqq4e/BXZxFPRRnGhaOZ+h
- jn3MBNTj3c0eiiu8moaL0OqbsCb+BAFd+uKlr75XF/ChNFN1Zf4ZWtJRIz6l2Q/XaBKF
- wu52yFgeGGU5ilHCUDOtgxeqtqrQe7tCaEPQGfVloJ+KinkQ/YP5x4TYajmPQ9ks6IGO
- ufSBFbb9ht5JICzNPtpbPJjiL7s7XvTRMB+aQdvK8PokujeALmc79bLPy6AYdtm4I5HU
- 7/LA==
+ bh=ZFj0BsQuhPdpN6HiulkG32ZQk/456mTtdXfhKwX2aq8=;
+ b=B20p+T1xqbTWihSzJeB7Bbqn7C+vQAF76SyqdKqV0BBZQ/ZZN7B1+BsYeOGm55USR8
+ 27wLa/ZM3LRaDdSQqIUvjVgMXCWQgs5ekSkNeC3wU2tEcODRVRqjhLlq1dXOuz+VFlqu
+ 4IFjLh/hseeMvioPxC9Vzoo+0tuvApFqUO3EO7XCRHmYUjGGzBJ64cFAgmXi+24Mz3Ct
+ IWJwWQn894P0TNY3Vt3ZbIMTZSBCZR7oKgSqdNPDX/580dfgKgKDWnAoga70I0tNMzb0
+ sQZX5MP1OvvEhsyjVVZmM/i0KeJTHZ3u1/lGAOZN9Qx+tQJAdZdgMFZO/Q+d5Z8phtPr
+ 8hFQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=dwHC/ctEYOOYZjyRsSRWGZZC159ozfXxs9syF5bxiNs=;
- b=e1nIb2kl8yePsyluURqyn448E+L2iarZO1hjQQS6vW4uJuZYjaqLI77IyK1gN9fJaO
- qLmOH5vPxveCpur1dKaQCiKZKeBX+BbGXvlmsjOYskgnyS09TyKFbCUO5jHwO/D16z8X
- hKgvpVSOWU6cspFBF+s9fxIKvaanGbOdLDOkMtYOO5RhhDmZjQqtxV1hxCdbk28U5kzr
- /RF3KIaN2M8yhs5NnYJ/tv0dkfWHiIbPM4sTNZBaAXmdJfVQi94W6/LpWDJangiiv7aJ
- aS/O3Tm0ViAmlYyZZfqvrisKpy23FvdVEnJxHhP8eq78pk9vtpTQPKYB2IdqOUefzBK0
- f/Kw==
-X-Gm-Message-State: AOAM530Z4dyjfc+fl91bas1q7351c8BajBdU2OnaC5Zo9xtOEC8vOmMT
- bsdJWybsMCCNBcC27mNte10yEzvnn0eIhw==
-X-Google-Smtp-Source: ABdhPJwoRqT76mTqnWUXomioJhjk8iLIm0k8KzuXVKPT8NUTa9IW7Tw4OHsTtTPuUxtBnnZP0Gh+uw==
-X-Received: by 2002:adf:d1ec:: with SMTP id g12mr7936088wrd.8.1643383831391;
- Fri, 28 Jan 2022 07:30:31 -0800 (PST)
+ bh=ZFj0BsQuhPdpN6HiulkG32ZQk/456mTtdXfhKwX2aq8=;
+ b=SlN5ludbMu/aDKzbm7o+GVwiQ9Kkx+hvvE8wJf6aeKVSduSQyTxRAZN6liW5bhvevn
+ nyF+AXiSoJhBko7Gooho+NvoH8ZO6bNolunIEl89AIAuuSRM9hjm/pggOTOrgleaHSEj
+ SSI1SUScXTmqsoI9vqBUQKgG6U9OYfAt9QNDauMkjNQT5pDsNlOknN0rAh0eIzWKtV4r
+ dzCCv3YdYOok43y20SM94xK3h5EZIjbzLXgJP5tp2DfKvnCvZ7yVyVI9XD1lG8KLvln/
+ KdkuIyb7zN47jZktgT/E1mjEkIlDZbrWdNrCDlan/HGeluH0JwSIqOAZDTCcTpedQXND
+ TnRw==
+X-Gm-Message-State: AOAM533rixMuQMGxKLlIrSuHdDr0OxOGsmsINnilcs8OM+KLXaQDgF2T
+ dizuRQmpDGRfHGPWz4R4pASaWfILQOTz0Q==
+X-Google-Smtp-Source: ABdhPJwj9yu8Qa4Ftn8N3i1lnes/FomHYuBH/WcLDrYE85dGjJfiVIsMshB7nIbXVQwgiKe33qUpkw==
+X-Received: by 2002:a7b:cc93:: with SMTP id p19mr7757552wma.175.1643383832029; 
+ Fri, 28 Jan 2022 07:30:32 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
- by smtp.gmail.com with ESMTPSA id j3sm4749485wrb.57.2022.01.28.07.30.30
+ by smtp.gmail.com with ESMTPSA id j3sm4749485wrb.57.2022.01.28.07.30.31
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Fri, 28 Jan 2022 07:30:31 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 16/32] scripts: Explain the difference between linux-headers
- and standard-headers
-Date: Fri, 28 Jan 2022 15:29:53 +0000
-Message-Id: <20220128153009.2467560-17-peter.maydell@linaro.org>
+Subject: [PULL 17/32] target/arm: Log CPU index in 'Taking exception' log
+Date: Fri, 28 Jan 2022 15:29:54 +0000
+Message-Id: <20220128153009.2467560-18-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220128153009.2467560-1-peter.maydell@linaro.org>
 References: <20220128153009.2467560-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::432
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32d
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::432;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x432.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32d.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -92,46 +91,81 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-If you don't know it, it's hard to figure out the difference between
-the linux-headers folder and the include/standard-headers folder.
-So let's add a short explanation to clarify the difference.
+In an SMP system it can be unclear which CPU is taking an exception;
+add the CPU index (which is the same value used in the TCG 'Trace
+%d:' logging) to the "Taking exception" log line to clarify it.
 
-Suggested-by: Thomas Huth <thuth@redhat.com>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Cornelia Huck <cohuck@redhat.com>
-Reviewed-by: Thomas Huth <thuth@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Message-id: 20220122182444.724087-2-peter.maydell@linaro.org
 ---
- scripts/update-linux-headers.sh | 16 ++++++++++++++++
- 1 file changed, 16 insertions(+)
+ target/arm/internals.h | 2 +-
+ target/arm/helper.c    | 9 ++++++---
+ target/arm/m_helper.c  | 2 +-
+ 3 files changed, 8 insertions(+), 5 deletions(-)
 
-diff --git a/scripts/update-linux-headers.sh b/scripts/update-linux-headers.sh
-index fea4d6eb655..fe850763c55 100755
---- a/scripts/update-linux-headers.sh
-+++ b/scripts/update-linux-headers.sh
-@@ -9,6 +9,22 @@
- #
- # This work is licensed under the terms of the GNU GPL version 2.
- # See the COPYING file in the top-level directory.
-+#
-+# The script will copy the headers into two target folders:
-+#
-+# - linux-headers/ for files that are required for compiling for a
-+#   Linux host.  Generally we have these so we can use kernel structs
-+#   and defines that are more recent than the headers that might be
-+#   installed on the host system.  Usually this script can do simple
-+#   file copies for these headers.
-+#
-+# - include/standard-headers/ for files that are used for guest
-+#   device emulation and are required on all hosts.  For instance, we
-+#   get our definitions of the virtio structures from the Linux
-+#   kernel headers, but we need those definitions regardless of which
-+#   host OS we are building for.  This script has to be careful to
-+#   sanitize the headers to remove any use of Linux-specifics such as
-+#   types like "__u64".  This work is done in the cp_portable function.
+diff --git a/target/arm/internals.h b/target/arm/internals.h
+index 89f7610ebc5..3f05748ea47 100644
+--- a/target/arm/internals.h
++++ b/target/arm/internals.h
+@@ -1130,7 +1130,7 @@ bool get_phys_addr(CPUARMState *env, target_ulong address,
+                    ARMMMUFaultInfo *fi, ARMCacheAttrs *cacheattrs)
+     __attribute__((nonnull));
  
- tmpdir=$(mktemp -d)
- linux="$1"
+-void arm_log_exception(int idx);
++void arm_log_exception(CPUState *cs);
+ 
+ #endif /* !CONFIG_USER_ONLY */
+ 
+diff --git a/target/arm/helper.c b/target/arm/helper.c
+index cfca0f5ba6d..4df12394021 100644
+--- a/target/arm/helper.c
++++ b/target/arm/helper.c
+@@ -9317,8 +9317,10 @@ uint32_t arm_phys_excp_target_el(CPUState *cs, uint32_t excp_idx,
+     return target_el;
+ }
+ 
+-void arm_log_exception(int idx)
++void arm_log_exception(CPUState *cs)
+ {
++    int idx = cs->exception_index;
++
+     if (qemu_loglevel_mask(CPU_LOG_INT)) {
+         const char *exc = NULL;
+         static const char * const excnames[] = {
+@@ -9352,7 +9354,8 @@ void arm_log_exception(int idx)
+         if (!exc) {
+             exc = "unknown";
+         }
+-        qemu_log_mask(CPU_LOG_INT, "Taking exception %d [%s]\n", idx, exc);
++        qemu_log_mask(CPU_LOG_INT, "Taking exception %d [%s] on CPU %d\n",
++                      idx, exc, cs->cpu_index);
+     }
+ }
+ 
+@@ -10185,7 +10188,7 @@ void arm_cpu_do_interrupt(CPUState *cs)
+ 
+     assert(!arm_feature(env, ARM_FEATURE_M));
+ 
+-    arm_log_exception(cs->exception_index);
++    arm_log_exception(cs);
+     qemu_log_mask(CPU_LOG_INT, "...from EL%d to EL%d\n", arm_current_el(env),
+                   new_el);
+     if (qemu_loglevel_mask(CPU_LOG_INT)
+diff --git a/target/arm/m_helper.c b/target/arm/m_helper.c
+index 2c9922dc292..b11e927df1d 100644
+--- a/target/arm/m_helper.c
++++ b/target/arm/m_helper.c
+@@ -2206,7 +2206,7 @@ void arm_v7m_cpu_do_interrupt(CPUState *cs)
+     uint32_t lr;
+     bool ignore_stackfaults;
+ 
+-    arm_log_exception(cs->exception_index);
++    arm_log_exception(cs);
+ 
+     /*
+      * For exceptions we just mark as pending on the NVIC, and let that
 -- 
 2.25.1
 
