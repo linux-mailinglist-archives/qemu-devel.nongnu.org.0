@@ -2,77 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9655E49F1B1
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jan 2022 04:13:32 +0100 (CET)
-Received: from localhost ([::1]:45996 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D82D49F1B3
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jan 2022 04:14:01 +0100 (CET)
+Received: from localhost ([::1]:48106 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nDHhb-00082b-LZ
-	for lists+qemu-devel@lfdr.de; Thu, 27 Jan 2022 22:13:31 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:35870)
+	id 1nDHi4-0001Ou-0W
+	for lists+qemu-devel@lfdr.de; Thu, 27 Jan 2022 22:14:00 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:36080)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nDHfD-0005VZ-AJ
- for qemu-devel@nongnu.org; Thu, 27 Jan 2022 22:11:03 -0500
-Received: from [2607:f8b0:4864:20::633] (port=43663
- helo=mail-pl1-x633.google.com)
+ id 1nDHgL-0007aG-LH
+ for qemu-devel@nongnu.org; Thu, 27 Jan 2022 22:12:13 -0500
+Received: from [2607:f8b0:4864:20::62b] (port=42733
+ helo=mail-pl1-x62b.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nDHfB-0006j0-1z
- for qemu-devel@nongnu.org; Thu, 27 Jan 2022 22:11:02 -0500
-Received: by mail-pl1-x633.google.com with SMTP id d1so4601163plh.10
- for <qemu-devel@nongnu.org>; Thu, 27 Jan 2022 19:11:00 -0800 (PST)
+ id 1nDHgK-0006nE-3t
+ for qemu-devel@nongnu.org; Thu, 27 Jan 2022 22:12:13 -0500
+Received: by mail-pl1-x62b.google.com with SMTP id i1so4606609pla.9
+ for <qemu-devel@nongnu.org>; Thu, 27 Jan 2022 19:12:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=CmHD/KD952UGoY8XcHGPqqybILVSYCuEFXXcb5e8iBY=;
- b=I///97cFRAuol+LVV6dA7S/5ZLqqSVx8e3NJroKjLeRNciYajY9Ck6++GcH7KnFCdp
- rR12RwHxwa03foj5Jn1TEGGTJyLb8eptWrgv2P/bRRkxyeN4wPezUYYIU9Phh6GwLMYK
- pU3fRl6p2MfUGzcvZyeE+8ASSqtw+7/OzOQlUGeQ5dsxzKY7i31u3y9jTYMhZLZsIK47
- CpbYzZlwjbRAnTQLHNq4Ad9NOb/v5yW0wgT4Fl41ye9ApJuBVTcwJ3S4RPB2WmwYKbZ3
- CPA+OSzX9nWGHXA8rh37mxeWcYidf/KfBCB/qyYV4dOxht/cWl+wTquuCvL60UOydh1/
- i19A==
+ bh=Q75phySsGtxd9QnzfTnWdDBiB9wfLlzN3qw40EZsVto=;
+ b=yxy94r5LYqr4TKCmTaJ9s72InXt0Ld3FTkp0Ux/lDZNnVWm4/6hV2q1sbreoziPosu
+ afCCXr7X5rPomo9TVQqc7BI4781tpgtUUCBqG+aUxM9IuJwLBCPrqKxtsfTuUFmAtl8F
+ JJcniPe3gcee0IFv7wM03Gaaj1lwsFDskn/5LZdFWfdnds/jpyKNtcjEQUFVB7XTOI/n
+ 6AEEQwAfm0gr/VnHl2tn1bSRLsgX14gbPr+Xgs3IPsqa+ZPcqtV8VMgFlafbv5ePVex/
+ csi5rau1bb+bK4FVvxKkrwLsDhs2KLkUXBmXa4VhmZWCVxAxm6hNGyjGcrva/MVsXfKq
+ hfLQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=CmHD/KD952UGoY8XcHGPqqybILVSYCuEFXXcb5e8iBY=;
- b=mN/xG7YXdMnJG8K1vjBWGUt2iel3knvcCkpeerrF8hyUuiPCxwwvH1gtVucRGPQ9f2
- jfea8kp64URPkey9DVrT0M04WIdE+JX3i6WtgIZoPwZDDT/MpQ0TIOLeF7xNgx005nid
- peTIBV0rAyP/H18h1VpixqGVLo0Zzlg7lCMKrR9JnO4ZGkLBNcmGEdWG5xSIppxtJ8aZ
- yK1tFTcVri0k2lqHw0JCL4o0+R7K5CLXHvz+cWB44+bTISWKqoPiZ5Ut/stR/Sv6E9iY
- al3RUal5pPhfX9qe4gHZpK5Vems9njcG5Mb7PqzN139Hzhw+xBq5Wt3d+aeOMNGcXjcr
- oBjA==
-X-Gm-Message-State: AOAM532NBejXkf6EhPhhZenA7hNw7Tf/7A15+qNi3/H92qgDz/bphrGn
- 4tTYbYvHtD5ropj3UVbFm18gGC3bCTFiSGB7
-X-Google-Smtp-Source: ABdhPJznXeTK3JKGmJ/NYZkhCraQjXjFkNkcXRdKlllM9k/1Oyzp/q1Rlqc/M9VG7J43VNLHS0cfcw==
-X-Received: by 2002:a17:90a:b90b:: with SMTP id
- p11mr7506308pjr.189.1643339459852; 
- Thu, 27 Jan 2022 19:10:59 -0800 (PST)
+ bh=Q75phySsGtxd9QnzfTnWdDBiB9wfLlzN3qw40EZsVto=;
+ b=OKcdmVCmkimAE0ZZtsnWv2sqbkhtdgwvpotJEFlftvFnMO+6qsCbPrT2rGUKFyo+ix
+ bWxFvISlPpLlQu5ObpanA40O+gyEopEmW3spjHTKO0eaHfDSMun9PGIZzx+GZjfawN+E
+ gVbhqKbwNq1mIt116EvuPfEklBQzvGXSxwiA1UoAOLqZAkXc2schUyasyOwc7wDb2oUN
+ p+ZZ/ZoVZzWOG4fH+oW3U3now4pPwSlnHJ8LtpdaurYwYUQW015Fzls3IiHk+WPfhMsj
+ pIuS2K6xt934s4UpuUAuoKKmA2urr4dL/8B7kIHg9F1ECjcP16E2wfvWFTAZhBJ43Jdh
+ Qg0w==
+X-Gm-Message-State: AOAM532pJgQZaRwp6qqpFBvp7dBkfSAzRTH38lOTJ8yVsIzSpQUf+kV5
+ McPOwLOM6qF1AYtU14hHEeRQ5hQO6nflNxB/
+X-Google-Smtp-Source: ABdhPJwAHzO8dzLgy7/bFSH/SkwJLb9SwpuA4JDKagjq9gwTnhdsc3AKCa9RUQ8utsMMcdUJgCk2zQ==
+X-Received: by 2002:a17:90b:2281:: with SMTP id
+ kx1mr7596563pjb.60.1643339530767; 
+ Thu, 27 Jan 2022 19:12:10 -0800 (PST)
 Received: from [192.168.15.44] (alanje.lnk.telstra.net. [120.151.179.201])
- by smtp.gmail.com with ESMTPSA id u16sm7202805pfg.192.2022.01.27.19.10.57
+ by smtp.gmail.com with ESMTPSA id z13sm3938486pfh.45.2022.01.27.19.12.08
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 27 Jan 2022 19:10:59 -0800 (PST)
-Message-ID: <9e38036c-12a5-09ef-61c9-932fd7e1677c@linaro.org>
-Date: Fri, 28 Jan 2022 14:10:54 +1100
+ Thu, 27 Jan 2022 19:12:10 -0800 (PST)
+Message-ID: <540229ae-75ca-d492-a045-cc20ddfe49fb@linaro.org>
+Date: Fri, 28 Jan 2022 14:12:05 +1100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.5.0
-Subject: Re: [PATCH 02/14] hw/intc/arm_gicv3_its: Add tracepoints
+Subject: Re: [PATCH 03/14] hw/intc/arm_gicv3: Initialise dma_as in GIC, not ITS
 Content-Language: en-US
 To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
  qemu-devel@nongnu.org
 References: <20220122182444.724087-1-peter.maydell@linaro.org>
- <20220122182444.724087-3-peter.maydell@linaro.org>
+ <20220122182444.724087-4-peter.maydell@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220122182444.724087-3-peter.maydell@linaro.org>
+In-Reply-To: <20220122182444.724087-4-peter.maydell@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::633
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::62b
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::633;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x633.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62b;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62b.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -98,15 +98,25 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 1/23/22 05:24, Peter Maydell wrote:
-> The ITS currently has no tracepoints; add a minimal set
-> that allows basic monitoring of guest register accesses and
-> reading of commands from the command queue.
+> In our implementation, all ITSes connected to a GIC share a single
+> AddressSpace, which we keep in the GICv3State::dma_as field and
+> initialized based on the GIC's 'sysmem' property. The right place
+> to set it up by calling address_space_init() is therefore in the
+> GIC's realize method, not the ITS's realize.
+> 
+> This fixes a theoretical bug where QEMU hangs on startup if the board
+> model creates two ITSes connected to the same GIC -- we would call
+> address_space_init() twice on the same AddressSpace*, which creates
+> an infinite loop in the QTAILQ that softmmu/memory.c uses to store
+> its list of AddressSpaces and causes any subsequent attempt to
+> iterate through that list to loop forever.  There aren't any board
+> models like that in the tree at the moment, though.
 > 
 > Signed-off-by: Peter Maydell<peter.maydell@linaro.org>
 > ---
->   hw/intc/arm_gicv3_its.c | 11 +++++++++++
->   hw/intc/trace-events    |  8 ++++++++
->   2 files changed, 19 insertions(+)
+>   hw/intc/arm_gicv3_common.c | 5 +++++
+>   hw/intc/arm_gicv3_its.c    | 3 ---
+>   2 files changed, 5 insertions(+), 3 deletions(-)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
