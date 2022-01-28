@@ -2,78 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C38CC49F1DA
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jan 2022 04:28:44 +0100 (CET)
-Received: from localhost ([::1]:38356 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 15CFA49F1E5
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jan 2022 04:34:01 +0100 (CET)
+Received: from localhost ([::1]:41816 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nDHwJ-000625-US
-	for lists+qemu-devel@lfdr.de; Thu, 27 Jan 2022 22:28:43 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:38132)
+	id 1nDI1Q-0008W0-1x
+	for lists+qemu-devel@lfdr.de; Thu, 27 Jan 2022 22:34:00 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:38622)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nDHv4-00059Z-AW
- for qemu-devel@nongnu.org; Thu, 27 Jan 2022 22:27:26 -0500
-Received: from [2607:f8b0:4864:20::62b] (port=44827
- helo=mail-pl1-x62b.google.com)
+ id 1nDHzZ-000743-08
+ for qemu-devel@nongnu.org; Thu, 27 Jan 2022 22:32:05 -0500
+Received: from [2607:f8b0:4864:20::1035] (port=33286
+ helo=mail-pj1-x1035.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nDHv2-0000N7-Pw
- for qemu-devel@nongnu.org; Thu, 27 Jan 2022 22:27:25 -0500
-Received: by mail-pl1-x62b.google.com with SMTP id c9so4629053plg.11
- for <qemu-devel@nongnu.org>; Thu, 27 Jan 2022 19:27:24 -0800 (PST)
+ id 1nDHzW-0000ze-Oh
+ for qemu-devel@nongnu.org; Thu, 27 Jan 2022 22:32:03 -0500
+Received: by mail-pj1-x1035.google.com with SMTP id
+ g11-20020a17090a7d0b00b001b2c12c7273so6420401pjl.0
+ for <qemu-devel@nongnu.org>; Thu, 27 Jan 2022 19:32:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=C/C17HGr4K28H6mayuh6WUg3uZ69lu3PJY9/bRzGYug=;
- b=rOjHXKHoeqNRIcgeBt1AIaBooHm+FyWftp3aL3g1tXQXwQPW2VF3eKrbt/yHKI74wP
- hNdutqCn3nOAR8tM1MxjVsmlSWBQvzzg56N8nN8VFZh0KSnfkjzVHlf7VC/NyFF4VumO
- UYLyRr1NQ4ybH4RT1EQ7ph6fhH2qXwrnbXx9crFGgiCcRDD5I9xGq7zYnq1fUuW8ZRF+
- 4IaSvv8Pz2VIve9oNQYOz810xPjAJyiVMbEEoBYsYqfnuBHDUTNEw7skkGrfVfmT4Yop
- GJc7KDIPijyAaqMuLkQG2zLMx+g1mhz4pFUd0EPr8KNRBcsXFo+R5txolWYfteSRtd/n
- B6rg==
+ bh=FPkNNZeahEEH3UPvcmIleRojm0EA/KN7k/E1JhaM9wg=;
+ b=PdTJQKaPzLEy3TNYBKPinwe1XUWaqqpSqWsTil1jlw5HImSaPcIztQBvUOuulLnBL2
+ gIqIZGqTqyRPfmCHH2ogiO/bK5hiuOEwMnoN9LS8l3A1e876QcCeIY+6HBYzH7vRkJ0k
+ CgnrecQUi9Fx7Q4ILTLbUx49LwevChAuwAB0QQKe7bzHyEcAPCMEK+rg1Vi5+P9CQ8v7
+ qWr+Nbh8x6DsWLpHIhb9qEVeAIic4H9/+yhlsxD1Swx27Z6JzIc7dmuxuFpNCZxHkdKM
+ aLrBq9v1nreUyGdQglzqu3eVDez4e96HCAq9Aa2Qks+jHw3BGzZF8TPRSWLQnYRF6RoB
+ 9c4A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=C/C17HGr4K28H6mayuh6WUg3uZ69lu3PJY9/bRzGYug=;
- b=LrW3Tb4DBTpCcMIGy0ZNCcxhe0ywWDNzBB++KjHpxj/p9BJZi5Yce1Ut68EaFFZvrj
- rHDS/+Rqnl6jVAAFFORhMqEmpLo1fmb/SJPiLeNyslFaVUqp7p7CZAVnlA65rU4ZjNm6
- 2kE+byP1BKLme40+jh8S0Gw1uaiWVn6MOF9OU1t6MzIEnM6jG9d0kdHVzZXm1h50cqDf
- DDJvlgT06teQB7gjjFX9qcr54BPokYFBegHfUYaCl/nsuw9h40DkmImTBiM+jyqtgEN5
- eB7HCCgjj31oQ+dK7GlA4l0055eSmqaOFZJXQqOQri6SjKaOle3C6Vj23X4PoJGyF6J/
- vNrg==
-X-Gm-Message-State: AOAM532GGaH94n//qlBVMbHQUPD+a3+d+1aLiiGrNNuWcfqOjhR+ZS4j
- WF95J6LOJnt1pEpuJbyVuSpxwg==
-X-Google-Smtp-Source: ABdhPJxa9iWpYZfQEljeVwrU5tvTxvXgH9e9gO0uVLuPaQ9SFpmk5U0W26K+37N45b9K33XAk/vHSA==
-X-Received: by 2002:a17:902:8648:: with SMTP id
- y8mr6233861plt.115.1643340443383; 
- Thu, 27 Jan 2022 19:27:23 -0800 (PST)
+ bh=FPkNNZeahEEH3UPvcmIleRojm0EA/KN7k/E1JhaM9wg=;
+ b=nSLFlgXh8Bu988MgFxl8bzv27drONweVp08lwCSTsiENN89GIQxzwzTHCHU8JQQfEj
+ ByzoRy1ky+OXK//BUiIY7Yr48mZ5JToj+vmWsWk20js7dN/AcEPuli8RpbTQ4Pkk/f4X
+ V90D1j4nkJcdNHZ8NcnFxxx2dYy8s23aAeNMFVKGBcZ6ZRnTVBEIOvWTO6t++pzA2hnu
+ jrEZoPu4GrEWcnZ02Mw7iFfuVVCWiuICb+Kgt53PYzqtgl8LGTiNeeg2Hx66/5aqijQM
+ GosZo7NA4RUmG0UYb+HZTG0SB5S7Udm+3mJqynzs4Utdk4Q0qW4G2lpZc+6QXGnZxwTl
+ LYPA==
+X-Gm-Message-State: AOAM532QlWwVCw71d7kXaP19l14sZNuGRcmt/PR1g9McZsBCr9Y9WGrI
+ KwJ/xQ3K9/Xz9RDMX2L6/kr78w==
+X-Google-Smtp-Source: ABdhPJzRAPVK3LwWF+fkuWvS9hMMUFfVt56Pipz6mNc2GofTHqVf4l/yM2VnKnopoLyDg9LqG0JCFg==
+X-Received: by 2002:a17:902:b215:: with SMTP id
+ t21mr6842539plr.73.1643340720463; 
+ Thu, 27 Jan 2022 19:32:00 -0800 (PST)
 Received: from [192.168.15.44] (alanje.lnk.telstra.net. [120.151.179.201])
- by smtp.gmail.com with ESMTPSA id l10sm6801805pff.44.2022.01.27.19.27.20
+ by smtp.gmail.com with ESMTPSA id f2sm7197414pfj.6.2022.01.27.19.31.57
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 27 Jan 2022 19:27:23 -0800 (PST)
-Message-ID: <32f1d628-f550-63ad-c6ab-3d8788253e52@linaro.org>
-Date: Fri, 28 Jan 2022 14:27:18 +1100
+ Thu, 27 Jan 2022 19:32:00 -0800 (PST)
+Message-ID: <9ee60c84-54b2-4f28-c74a-ae9bba526889@linaro.org>
+Date: Fri, 28 Jan 2022 14:31:49 +1100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.5.0
-Subject: Re: [PATCH 10/14] hw/intc/arm_gicv3_its: Provide read accessor for
- translation_ops
+Subject: Re: [PATCH 11/14] hw/intc/arm_gicv3_its: Make GITS_BASER<n> RAZ/WI
+ for unimplemented registers
 Content-Language: en-US
 To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
  qemu-devel@nongnu.org
 References: <20220122182444.724087-1-peter.maydell@linaro.org>
- <20220122182444.724087-11-peter.maydell@linaro.org>
+ <20220122182444.724087-12-peter.maydell@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220122182444.724087-11-peter.maydell@linaro.org>
+In-Reply-To: <20220122182444.724087-12-peter.maydell@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::62b
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1035
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62b;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62b.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1035;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1035.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -99,21 +100,27 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 1/23/22 05:24, Peter Maydell wrote:
-> The MemoryRegionOps gicv3_its_translation_ops currently provides only
-> a .write_with_attrs function, because the only register in this
-> region is the write-only GITS_TRANSLATER.  However, if you don't
-> provide a read function and the guest tries reading from this memory
-> region, QEMU will crash because
-> memory_region_read_with_attrs_accessor() calls a NULL pointer.
+> The ITS has a bank of 8 GITS_BASER<n> registers, which allow the
+> guest to specify the base address of various data tables.  Each
+> register has a read-only type field indicating which table it is for
+> and a read-write field where the guest can write in the base address
+> (among other things).  We currently allow the guest to write the
+> writeable fields for all eight registers, even if the type field is 0
+> indicating "Unimplemented".  This means the guest can provoke QEMU
+> into asserting by writing an address into one of these unimplemented
+> base registers, which bypasses the "if (!value) continue" check in
+> extract_table_params() and lets us hit the assertion that the type
+> field is one of the permitted table types.
 > 
-> Add a read function which always returns 0, to cover both bogus
-> attempts to read GITS_TRANSLATER and also reads from the rest of the
-> region, which is documented to be reserved, RES0.
+> Prevent the assertion by not allowing the guest to write to the
+> unimplemented base registers. This means their value will remain 0
+> and extract_table_params() will ignore them.
+> 
 > 
 > Signed-off-by: Peter Maydell<peter.maydell@linaro.org>
 > ---
->   hw/intc/arm_gicv3_its.c | 13 +++++++++++++
->   1 file changed, 13 insertions(+)
+>   hw/intc/arm_gicv3_its.c | 8 ++++++++
+>   1 file changed, 8 insertions(+)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
