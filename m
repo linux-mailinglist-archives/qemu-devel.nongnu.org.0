@@ -2,74 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31F4049F7EA
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jan 2022 12:09:35 +0100 (CET)
-Received: from localhost ([::1]:40256 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B7A949F7FD
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jan 2022 12:12:27 +0100 (CET)
+Received: from localhost ([::1]:43932 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nDP8I-0005L1-AM
-	for lists+qemu-devel@lfdr.de; Fri, 28 Jan 2022 06:09:34 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:52414)
+	id 1nDPB4-0007z9-Gi
+	for lists+qemu-devel@lfdr.de; Fri, 28 Jan 2022 06:12:26 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:52870)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nDP4I-00031I-5m
- for qemu-devel@nongnu.org; Fri, 28 Jan 2022 06:05:26 -0500
-Received: from [2a00:1450:4864:20::336] (port=44745
- helo=mail-wm1-x336.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nDP4F-0005C7-Fn
- for qemu-devel@nongnu.org; Fri, 28 Jan 2022 06:05:25 -0500
-Received: by mail-wm1-x336.google.com with SMTP id
- l35-20020a05600c1d2300b0034d477271c1so3783204wms.3
- for <qemu-devel@nongnu.org>; Fri, 28 Jan 2022 03:05:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=m9sJXmzq/+fkbAOd/q9jweToZmG1D5mLo56dAF5lKKM=;
- b=aD94kK1kYSzReq2yZXrWt9qFgs48cod7XXirDT8qy3uXzN7cK5xLPmJCuCXWl6Kfbf
- uBjdZTR0714xiD9rwtAmt4OIftTpUvT77k5/PYGfPy53TGqYATzgVvZJe/2PjEgVcCai
- UCSBtQcTHO6+m+YZcUGC0qgVo6Fdz5dY7+qhWocVqJ7PRGT4Y5iDrYn2edcUrDVJsZgN
- 8v3sGMHHa3nQy5qhg6Py1j1Ts16gBRpnOeyNELM2WO6M9g0gyOgW6F0ncRrxgsHdUAZZ
- jVYxfX2h4F2FdLGOkVDFJoB/xAPj0lJXEWldNJf/5ZqNMHmXH2LkI2Z5dImQwAbe92nS
- zFrQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=m9sJXmzq/+fkbAOd/q9jweToZmG1D5mLo56dAF5lKKM=;
- b=eHD27HnX2KtjZD+UeI3zXivFtG1hvx+AKkF4Ar0gIBDrv49NsE0VbqUCYnWsWZfldD
- Q+M48yofEOZFhVtX3uUcbUWpHDmxOvlytmBVsyYGtp0bDmfRg52ebfRnGT8YuKOJNmN2
- fT7CeI8bS8NU/kleiht+hWkETssoS4MVa1qv6S6kr6UEm4ZaAuHpCLSsFDpmhV5k5/ln
- A1q4N+36y83tU04nAd3rLy2OTCy38Z4uB4JolgaiMya13fEeqO/m8MqO8Tb8HiLHGYns
- WEAUxMinLm8f34cWH5TVkAP4azGjgskjJy5964uNmW3l+b4ansRJl3PCzstmnabuut5V
- OTyg==
-X-Gm-Message-State: AOAM531lBNO05N6ey9KYG6uYy12Ys4MKd23g1t46UYTW+s7t96jLt/q7
- nHbOsi3B3PkuO1qCTgwkv/21fwRYtauN6YrdEgqQcg==
-X-Google-Smtp-Source: ABdhPJxNEKU6vpQtAGT653pFZMg9iAY8mMhJK71xRK49oMxGMTdnwtdEyaUoRxEkbVaAEKr6gQSh9QBPRImI0qtO1NM=
-X-Received: by 2002:a05:600c:1e0f:: with SMTP id
- ay15mr6978459wmb.133.1643367921419; 
- Fri, 28 Jan 2022 03:05:21 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <rjones@redhat.com>) id 1nDP6b-0005C9-Su
+ for qemu-devel@nongnu.org; Fri, 28 Jan 2022 06:07:50 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:37616)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <rjones@redhat.com>) id 1nDP6V-0005Za-Kx
+ for qemu-devel@nongnu.org; Fri, 28 Jan 2022 06:07:45 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1643368061;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type;
+ bh=JLDRGlqSj0GjDiqqfP8Oxp9q5DZcwymf65r484BA5TI=;
+ b=SHBcEpYBxdGOKgH8oSyvPAL4qmhqWK8FYAHqkYMd7g0mz9GqPVIzC8ZEJKTfIP8L5W4JBF
+ FYbfa6Rmo6OBPYZ8TTef1cqJ7pAym5P16dddHzkMjArM36av2reaS9u7fPs5l6uwUCLua8
+ o78fOd/ZnVXrpIrj3GBdn+SUM0al/nI=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-340-8otDviRlMUe30A04xwSGDQ-1; Fri, 28 Jan 2022 06:07:37 -0500
+X-MC-Unique: 8otDviRlMUe30A04xwSGDQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A24C21F2DA;
+ Fri, 28 Jan 2022 11:07:36 +0000 (UTC)
+Received: from localhost (unknown [10.39.194.34])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B9DB178DD6;
+ Fri, 28 Jan 2022 11:07:33 +0000 (UTC)
+Date: Fri, 28 Jan 2022 11:07:32 +0000
+From: "Richard W.M. Jones" <rjones@redhat.com>
+To: qemu-block@nongnu.org, qemu-devel@nongnu.org
+Subject: Block alignment of qcow2 compress driver
+Message-ID: <20220128110732.GA19514@redhat.com>
 MIME-Version: 1.0
-References: <20220127150548.20595-1-quintela@redhat.com>
-In-Reply-To: <20220127150548.20595-1-quintela@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 28 Jan 2022 11:05:10 +0000
-Message-ID: <CAFEAcA9O_nZz=4VSvh+rFE4cXepUEBeUui2WdawBjjos+pqOeg@mail.gmail.com>
-Subject: Re: [PULL 00/38] Migration 20220127 patches
-To: Juan Quintela <quintela@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::336
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::336;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x336.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+User-Agent: Mutt/1.5.21 (2010-09-15)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=rjones@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=rjones@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.167,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -82,60 +74,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, "Michael S. Tsirkin" <mst@redhat.com>,
- Jason Wang <jasowang@redhat.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
- Peter Xu <peterx@redhat.com>, Laurent Vivier <Laurent@vivier.eu>,
- Gerd Hoffmann <kraxel@redhat.com>, Ani Sinha <ani@anisinha.ca>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>, Eric Blake <eblake@redhat.com>,
- Hannes Reinecke <hare@suse.com>, Vikram Garhwal <fnu.vikram@xilinx.com>,
- qemu-block@nongnu.org, Daniel Henrique Barboza <danielhb413@gmail.com>,
- Markus Armbruster <armbru@redhat.com>, Artyom Tarasenko <atar4qemu@gmail.com>,
- Pavel Pisa <pisa@cmp.felk.cvut.cz>, Alistair Francis <alistair@alistair23.me>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Greg Kurz <groug@kaod.org>,
- qemu-arm@nongnu.org, =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Stafford Horne <shorne@gmail.com>,
- David Gibson <david@gibson.dropbear.id.au>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
- Andrew Baumann <Andrew.Baumann@microsoft.com>, qemu-ppc@nongnu.org,
- Igor Mammedov <imammedo@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>
+Cc: kwolf@redhat.com, andrey.shinkevich@virtuozzo.com, hreitz@redhat.com,
+ eblake@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 27 Jan 2022 at 15:06, Juan Quintela <quintela@redhat.com> wrote:
->
-> The following changes since commit 48302d4eb628ff0bea4d7e92cbf6b726410eb4c3:
->
->   Merge remote-tracking branch 'remotes/dgilbert-gitlab/tags/pull-virtiofs-20220126' into staging (2022-01-26 10:59:50 +0000)
->
-> are available in the Git repository at:
->
->   https://gitlab.com/juan.quintela/qemu.git tags/migration-20220127-pull-request
->
-> for you to fetch changes up to 4e29a822de430e8d0d8bf5c61aaff0561a713d84:
->
->   migration: Move temp page setup and cleanup into separate functions (2022-01-27 13:37:55 +0100)
->
-> ----------------------------------------------------------------
-> Migration Pull request
->
-> Hi
->
-> This pull request includes every patch ack'd on the list for migration.  In no particular order:
->
-> - ram_transferred_add() - (Edmondson)
-> - vmstate canary (dgilbert)
-> - minimum_version_id_old removal (peter maydell)
-> - postcopy cleanups (peter xu)
-> - more cleanups (Philippe)
-> - yet more cleanups (zheng)
-> - colo and cleanups (zhang)
+The commands below set up a sparse RAM disk, with an allocated block
+at offset 32K and another one at offset 1M-32K.  Then it tries to copy
+this to a compressed qcow2 file using qemu-nbd + the qemu compress
+filter:
 
-Hi; this fails because we hit this assert in the vmstate canary check
-on some of the CI jobs, for instance:
-https://gitlab.com/qemu-project/qemu/-/jobs/2024872142
-and also on the NetBSD VM in tests/vm.
+  $ qemu-img create -f qcow2 output.qcow2 1M
+  $ qemu-nbd -t --image-opts driver=compress,file.driver=qcow2,file.file.driver=file,file.file.filename=output.qcow2 & sleep 1
+  $ nbdkit -U - \
+           data '@32768 1*32768 @1015808 1*32768' \
+           --run 'nbdcopy $uri nbd://localhost -p'
 
-thanks
--- PMM
+The nbdcopy command fails when zeroing the first 32K with:
+
+  nbd://localhost: nbd_aio_zero: request is unaligned: Invalid argument
+
+This is a bug in nbdcopy because it ignores the minimum block size
+being correctly declared by the compress filter:
+
+  $ nbdinfo nbd://localhost
+  protocol: newstyle-fixed without TLS
+  export="":
+	export-size: 1048576 (1M)
+	uri: nbd://localhost:10809/
+	contexts:
+  ...
+		block_size_minimum: 65536          <----
+		block_size_preferred: 65536
+		block_size_maximum: 33554432
+
+The compress filter sets the minimum block size to the the same as the
+qcow2 cluster size here:
+
+  https://gitlab.com/qemu-project/qemu/-/blob/cfe63e46be0a1f8a7fd2fd5547222f8344a43279/block/filter-compress.c#L117
+
+I patched qemu to force this to 4K:
+
+-    bs->bl.request_alignment = bdi.cluster_size;
++    //bs->bl.request_alignment = bdi.cluster_size;
++    bs->bl.request_alignment = 4096;
+
+and the copy above works, and the output file is compressed!
+
+So my question is, does the compress filter in qemu really need to
+declare the large minimum block size?  I'm not especially concerned
+about efficiency, I'd prefer it just worked, and changing nbdcopy to
+understand block sizes is painful.
+
+Is it already adjustable at run time?  (I tried using --image-opts
+like compress.request_alignment=4096 but it seems like the filter
+doesn't support anything I could think of, and I don't know how to
+list the supported options.)
+
+Rich.
+
+-- 
+Richard Jones, Virtualization Group, Red Hat http://people.redhat.com/~rjones
+Read my programming and virtualization blog: http://rwmj.wordpress.com
+virt-builder quickly builds VMs from scratch
+http://libguestfs.org/virt-builder.1.html
+
 
