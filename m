@@ -2,72 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8ECFF49FDE4
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jan 2022 17:19:30 +0100 (CET)
-Received: from localhost ([::1]:35588 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B52049FE41
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jan 2022 17:43:47 +0100 (CET)
+Received: from localhost ([::1]:47012 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nDTyD-0002oz-JF
-	for lists+qemu-devel@lfdr.de; Fri, 28 Jan 2022 11:19:29 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:58116)
+	id 1nDULi-0005f7-E8
+	for lists+qemu-devel@lfdr.de; Fri, 28 Jan 2022 11:43:46 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:58106)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nDTDP-0002Hx-8E
- for qemu-devel@nongnu.org; Fri, 28 Jan 2022 10:31:07 -0500
-Received: from [2a00:1450:4864:20::436] (port=44890
- helo=mail-wr1-x436.google.com)
+ id 1nDTDO-0002HC-Kz
+ for qemu-devel@nongnu.org; Fri, 28 Jan 2022 10:31:06 -0500
+Received: from [2a00:1450:4864:20::32d] (port=43868
+ helo=mail-wm1-x32d.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nDTDK-0006JY-SP
+ id 1nDTDK-0006Jd-SS
  for qemu-devel@nongnu.org; Fri, 28 Jan 2022 10:31:06 -0500
-Received: by mail-wr1-x436.google.com with SMTP id k18so11533494wrg.11
- for <qemu-devel@nongnu.org>; Fri, 28 Jan 2022 07:30:17 -0800 (PST)
+Received: by mail-wm1-x32d.google.com with SMTP id
+ k6-20020a05600c1c8600b003524656034cso1250680wms.2
+ for <qemu-devel@nongnu.org>; Fri, 28 Jan 2022 07:30:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=6TNsa+9vU96PmnK49D4r+sw0Gbh6DRvow5OiVFqQM9A=;
- b=I2IlkuAs0VgoOHsZy86QqzWCqA8Kvswrt0Uv2hZvmrfVjNg/NANb0X6oVjtFWePqim
- QRJO/Z9Pbb4XYthPB9Du953vk3OAgvo5DYV/yv1y/zYginR2aiWIkLU2pX5DkwgP/7Qy
- DzehgFu2DbsHoQG/1sLPH/+YKCs1cotjznLYzaHq6GmLrshkEqBmDRzLt/5J4HcwR6ZS
- +xq/iRCj6o9FJCGUFfo3/OAQZKOC4arU4wc2stu3bfh9rVpQF4HJ+qZVU4DIWvLenPdv
- YJlN3I5XjDKnzPTUcpTZwzeS5IJQ49OlXTO1PP1LJXgMa5e2LtMAkWrXL13pttsaPN0C
- KOWQ==
+ bh=tC3w9/x0OfjkAjjFI9nzbpgiKr47Rct6S90BOp4oX6s=;
+ b=pyRNfOpnmQ7Mn2DA7Gj+8aumZCHhp56HTY/wqBqfPaiCEAtHyQv7wZnHxlUaexIY/y
+ Ga8N8twpRDGOhvP/O88hKsgLcuS0sfG1/rEe0bIF7VJ6OdX0FQ6yDzjpStt2G46FW/ti
+ rvVrDeZ1tX7/QxFfn3NoIVW4sZTjfvizr0Kng/j7ze3UtSM3VxVb547DiuxOzqxFjUmO
+ HMGwVrByVJxvRK+dgFl3iDQ6o5bQwo9COU/Wu0tP/S9O5bot8IQT5ESi0bpFWXQthDbP
+ MhCTuvJDMM4uPlZwoJymcL/o58DobMc0lAoxGIhOSkHAlslbIQ2wB/4tEc4M4LX5b7BS
+ 8k2g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=6TNsa+9vU96PmnK49D4r+sw0Gbh6DRvow5OiVFqQM9A=;
- b=m4XRSG3UzH4POcCmP0f5roQweiqfHcTsF1oHvEBXw0Z+U1LbawCkAF/9phuZTSoCEp
- sTLrftUQK9AUX8xXWCUZ8jY4PWhBfKes+A4yEQKKjI0mIaPNP1/nCo3BPH9lJpxRqY58
- pjsK8SF9TViCXVW7sWKlhme4kQz9CcpcV7ZFtI5joRDA40tug/tpwWxpBS2jc9kARpOO
- RWoKg52W/xRo3ThkaXt/eoY/RfjL3SEnY+zwnJw1aVloAKBfDeCCKysqmNMzDfRsoPbC
- 9G/upBXPdNerrQo4C9EMkYw0Q90ns6AN1+dnDYoxVWcv8GH3fqyhbLf/lADZEAHuRTeo
- GwbA==
-X-Gm-Message-State: AOAM531HnrPBbI1DesRfRjMz7qkbkb+gMWWwP7obhym81ITTCKXwsrm/
- XnBuuDKuTjp9XAcML1uMczMT/HygJyUXEw==
-X-Google-Smtp-Source: ABdhPJzMZvtXCvuq1Fj/16saUuXGMVH4tSiKoZtGaTh09hCandY8xxR2Uk8sRlSzcgHj4CjEtd9eEA==
-X-Received: by 2002:adf:f582:: with SMTP id f2mr7613899wro.161.1643383816240; 
- Fri, 28 Jan 2022 07:30:16 -0800 (PST)
+ bh=tC3w9/x0OfjkAjjFI9nzbpgiKr47Rct6S90BOp4oX6s=;
+ b=5NBVh9itkTHaRqOCP0oLXoDPfgavzXPTrt+kEfbKXY4AHKqByPnFS/QIYPBfWQen1V
+ 8SMIUwtMvXVt5kvSqXBWZhavlR7V4PtJ9R+5wC7PJs08rJSQciIongZHWCAfxCbx7FDH
+ rtIbq2JPWErEosIGYTv1xfRHigkhD9qMkh9ND5+YmjA5fZi1cKfHPBQ0G/+bT4XOkGIb
+ ssWX2DD9/dVTG2937CLPMcLdmPWRBaAMtXuMKOjIoPrmNctOtXrw5nbMDf+Lm/UXg9cU
+ zLlXNvz6DDLNMSEyWBVfcuXXAOUw3eTX8B2z721LmNY/pqNClbM/RNmaLakpotnb1FLK
+ 20Bw==
+X-Gm-Message-State: AOAM532fQov0RZ9zhydod5l+BAibuVjU8EO5BhehKNpXMRsAIKR6xRsD
+ ZdHvECtS95/xQ28mQNvSDqjcmhevdPIG7Q==
+X-Google-Smtp-Source: ABdhPJzT8QS3MniWHucPJi9NGXccrNHLb8za9DV68ms5//YXsyFm/inD6+cB3h/uFWk9h5nHA3llIA==
+X-Received: by 2002:a1c:f203:: with SMTP id s3mr2424296wmc.112.1643383817022; 
+ Fri, 28 Jan 2022 07:30:17 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
- by smtp.gmail.com with ESMTPSA id j3sm4749485wrb.57.2022.01.28.07.30.15
+ by smtp.gmail.com with ESMTPSA id j3sm4749485wrb.57.2022.01.28.07.30.16
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 28 Jan 2022 07:30:15 -0800 (PST)
+ Fri, 28 Jan 2022 07:30:16 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 02/32] hw/armv7m: Fix broken VMStateDescription
-Date: Fri, 28 Jan 2022 15:29:39 +0000
-Message-Id: <20220128153009.2467560-3-peter.maydell@linaro.org>
+Subject: [PULL 03/32] hw/char/exynos4210_uart: Fix crash on trying to load VM
+ state
+Date: Fri, 28 Jan 2022 15:29:40 +0000
+Message-Id: <20220128153009.2467560-4-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220128153009.2467560-1-peter.maydell@linaro.org>
 References: <20220128153009.2467560-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::436
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32d
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::436;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x436.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32d.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -91,40 +93,50 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In commit d5093d961585f02 we added a VMStateDescription to
-the TYPE_ARMV7M object, to handle migration of its Clocks.
-However a cut-and-paste error meant we used the wrong struct
-name in the VMSTATE_CLOCK() macro arguments. The result was
-that attempting a 'savevm' might result in an assertion
-failure.
+The exynos4210_uart_post_load() function assumes that it is passed
+the Exynos4210UartState, but it has been attached to the
+VMStateDescription for the Exynos4210UartFIFO type.  The result is a
+SIGSEGV when attempting to load VM state for any machine type
+including this device.
 
-Cc: qemu-stable@nongnu.org
-Buglink: https://gitlab.com/qemu-project/qemu/-/issues/803
-Fixes: d5093d961585f02
+Fix the bug by attaching the post-load function to the VMSD for the
+Exynos4210UartState.  This is the logical place for it, because the
+actions it does relate to the entire UART state, not just the FIFO.
+
+Thanks to the bug reporter @TrungNguyen1909 for the clear bug
+description and the suggested fix.
+
+Fixes: c9d3396d80fe7ece9b
+   ("hw/char/exynos4210_uart: Implement post_load function")
+Resolves: https://gitlab.com/qemu-project/qemu/-/issues/638
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-Reviewed-by: Ani Sinha <ani@anisinha.ca>
-Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
+Reviewed-by: Guenter Roeck <linux@roeck-us.net>
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-id: 20220120151609.433555-1-peter.maydell@linaro.org
+Message-id: 20220120151648.433736-1-peter.maydell@linaro.org
 ---
- hw/arm/armv7m.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ hw/char/exynos4210_uart.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/hw/arm/armv7m.c b/hw/arm/armv7m.c
-index 8d08db80be8..ceb76df3cd4 100644
---- a/hw/arm/armv7m.c
-+++ b/hw/arm/armv7m.c
-@@ -520,8 +520,8 @@ static const VMStateDescription vmstate_armv7m = {
+diff --git a/hw/char/exynos4210_uart.c b/hw/char/exynos4210_uart.c
+index 80d401a3795..addcd59b028 100644
+--- a/hw/char/exynos4210_uart.c
++++ b/hw/char/exynos4210_uart.c
+@@ -628,7 +628,6 @@ static const VMStateDescription vmstate_exynos4210_uart_fifo = {
+     .name = "exynos4210.uart.fifo",
      .version_id = 1,
      .minimum_version_id = 1,
+-    .post_load = exynos4210_uart_post_load,
      .fields = (VMStateField[]) {
--        VMSTATE_CLOCK(refclk, SysTickState),
--        VMSTATE_CLOCK(cpuclk, SysTickState),
-+        VMSTATE_CLOCK(refclk, ARMv7MState),
-+        VMSTATE_CLOCK(cpuclk, ARMv7MState),
-         VMSTATE_END_OF_LIST()
-     }
- };
+         VMSTATE_UINT32(sp, Exynos4210UartFIFO),
+         VMSTATE_UINT32(rp, Exynos4210UartFIFO),
+@@ -641,6 +640,7 @@ static const VMStateDescription vmstate_exynos4210_uart = {
+     .name = "exynos4210.uart",
+     .version_id = 1,
+     .minimum_version_id = 1,
++    .post_load = exynos4210_uart_post_load,
+     .fields = (VMStateField[]) {
+         VMSTATE_STRUCT(rx, Exynos4210UartState, 1,
+                        vmstate_exynos4210_uart_fifo, Exynos4210UartFIFO),
 -- 
 2.25.1
 
