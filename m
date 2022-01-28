@@ -2,52 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 61B0F49FBDF
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jan 2022 15:39:59 +0100 (CET)
-Received: from localhost ([::1]:39176 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2CFBE49FBA3
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jan 2022 15:27:24 +0100 (CET)
+Received: from localhost ([::1]:52316 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nDSPu-0004oP-3Y
-	for lists+qemu-devel@lfdr.de; Fri, 28 Jan 2022 09:39:58 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:40958)
+	id 1nDSDi-0002SU-Lf
+	for lists+qemu-devel@lfdr.de; Fri, 28 Jan 2022 09:27:22 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:36866)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <victor.colombo@eldorado.org.br>)
- id 1nDSHS-00087e-1Z; Fri, 28 Jan 2022 09:31:14 -0500
-Received: from [187.72.171.209] (port=33019 helo=outlook.eldorado.org.br)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <victor.colombo@eldorado.org.br>)
- id 1nDSHP-0004mt-EW; Fri, 28 Jan 2022 09:31:13 -0500
-Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
- secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
- Fri, 28 Jan 2022 11:13:02 -0300
-Received: from [127.0.0.1] (unknown [10.10.70.45])
- by p9ibm (Postfix) with ESMTPS id 27D91800066;
- Fri, 28 Jan 2022 11:13:02 -0300 (-03)
-Message-ID: <48832eff-fc37-86f6-842c-43b75fbe83be@eldorado.org.br>
-Date: Fri, 28 Jan 2022 11:13:01 -0300
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nDS4S-0007rE-LY
+ for qemu-devel@nongnu.org; Fri, 28 Jan 2022 09:17:48 -0500
+Received: from [2a00:1450:4864:20::32d] (port=40614
+ helo=mail-wm1-x32d.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nDS4P-0002PG-9F
+ for qemu-devel@nongnu.org; Fri, 28 Jan 2022 09:17:48 -0500
+Received: by mail-wm1-x32d.google.com with SMTP id
+ d138-20020a1c1d90000000b0034e043aaac7so5701050wmd.5
+ for <qemu-devel@nongnu.org>; Fri, 28 Jan 2022 06:17:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:from:date:message-id:subject:to:cc;
+ bh=sRb2SpkuldrUP/tTjMfekMux1B9SIkY93GGpOdS4aJo=;
+ b=DtLMiUbpPg/VNrewAgwaJuDxkiTYUjsPqzvTikDah5sMqBGf1X0+ZaCuAiGM/VbM1D
+ v4Cx37mOkeJJJGI8Yy5/GyhkmvkKTvNWNu6aWOS6OvptTsOpjhvyMyVoDyLtKvbFvw4z
+ FYjJWA93s8vZay5IM5YguLFIxLyp/8WapN4+5Ey47g184dEN8piXVltNbsjJ6QYWYV6C
+ byqd6wIGNrNtDRolopEWvwxFCcGn8uHygTiPooEt2VTX5LVQJgP0TkWDBL0Y9couhNcp
+ ZKSUuZDX3jqHsKYj/xuO9Sn2uFimL62XwXI0hKCkdP2MbOWPBncqInFzvo4kja/u/CSM
+ hrGQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
+ bh=sRb2SpkuldrUP/tTjMfekMux1B9SIkY93GGpOdS4aJo=;
+ b=HjqTxW1e86yXPj8wlcaw8D0bPjBBODDay5aXKaWZ+C1jFoD6VH1T93o6pjuORIP7LN
+ VrZmWGa62FSLq8mlOYxZxiTM3+ya8OZAZIRD+/R9Y6bGb6y0JR958+e8PCb1O0ZjE1DD
+ PIVvDDKOso6uHjoohuE4BPo/8ihhXKcYlUHQwKwjlJzLqzs+6T+shP0dTr60lC+cWZq9
+ nHWoslHmGf/I64kfcVXla18kw9ZULIbKJ0Wm6Wji0cxeOxKUPcAtAIwTDkECyZpBm02o
+ V0RWvq9cahMH35EPwBTeGMVl/yfLA8nFQw9pDBtQpylPX9nmadyyxj18TFZaRLoRr4nE
+ x65w==
+X-Gm-Message-State: AOAM530URlZ5AT6ky1KDmRY+yLB+GOUNfoFO+th0itPB/WNyjZm5GEQp
+ x1UEgdmS+ZngbI0AX2AMAoHqRIBMqiC5R11IwtNPHW8ZEHye+Q==
+X-Google-Smtp-Source: ABdhPJyKHccR7xbN0ijYbMC246r/HT0WkoJxaEnBIclczSgut4dw2rGOc8JPrV1rwJufTfap0+P9TaHAPGF2LWSgbUs=
+X-Received: by 2002:a1c:a90d:: with SMTP id s13mr7659903wme.32.1643379455503; 
+ Fri, 28 Jan 2022 06:17:35 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH] target/ppc: Remove support for the PowerPC 602 CPU
-Content-Language: en-US
-To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>, qemu-ppc@nongnu.org,
- qemu-devel@nongnu.org
-References: <20220128131227.199226-1-clg@kaod.org>
-From: =?UTF-8?Q?V=c3=adctor_Colombo?= <victor.colombo@eldorado.org.br>
-In-Reply-To: <20220128131227.199226-1-clg@kaod.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-OriginalArrivalTime: 28 Jan 2022 14:13:02.0482 (UTC)
- FILETIME=[29467720:01D81451]
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 187.72.171.209 (failed)
-Received-SPF: pass client-ip=187.72.171.209;
- envelope-from=victor.colombo@eldorado.org.br; helo=outlook.eldorado.org.br
-X-Spam_score_int: 0
-X-Spam_score: -0.1
-X-Spam_bar: /
-X-Spam_report: (-0.1 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- PDS_HP_HELO_NORDNS=0.001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, TVD_SUBJ_WIPE_DEBT=1.004,
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 28 Jan 2022 14:17:24 +0000
+Message-ID: <CAFEAcA-VUOa3R8_BZzJ0d3+RQyZJgwQ-P+3RWPHBoJQYUc7_Mg@mail.gmail.com>
+Subject: should we have a Kconfig "device group" for I2C devices?
+To: QEMU Developers <qemu-devel@nongnu.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32d
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32d.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -61,33 +78,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Daniel Henrique Barboza <danielhb413@gmail.com>, Greg Kurz <groug@kaod.org>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 28/01/2022 10:12, Cédric Le Goater wrote:
-> The 602 was derived from the PowerPC 603, for the gaming market it
-> seems. It was hardly used and no firmware supporting the CPU could be
-> found. Drop support.
-> 
-> Signed-off-by: Cédric Le Goater <clg@kaod.org>
+Hi; I've been looking into what is the right way to handle in Kconfig
+an i2c device which is intended for the user to specify on the command
+line with a -device option.
+(It's the lsm303dlhc magnetometer, currently in code review:
+https://patchew.org/QEMU/20210921093227.18592-1-kevin.townsend@linaro.org/ )
 
-Hello Cédric! I am having problems building QEMU with this patch
-applied. Tried on both master and legoater/ppc-7.0. I think you forgot
-one reference to PPC_602_SPEC on cpu.h:
+Currently all our i2c devices are just pulled in by "select FOO" from
+the Kconfig stanza for a board which has that kind of sensor hardwired
+on-board. But for at least some of them it works fine to just specify
+them on the commandline of any board that has an i2c controller that
+allows pluggable devices. (For instance we do that kind of commandline
+plugging in our test suite with tests/qtest/tmp105-test.c.)
 
-  #define PPC_TCG_INSNS  (PPC_INSNS_BASE | PPC_POWER | PPC_POWER2 \
-                          | PPC_POWER_RTC | PPC_POWER_BR | PPC_64B \
-                          | PPC_64BX | PPC_64H | PPC_WAIT | PPC_MFTB \
--                        | PPC_602_SPEC | PPC_ISEL | PPC_POPCNTB \
-+                        | PPC_ISEL | PPC_POPCNTB \
-                          | PPC_STRING | PPC_FLOAT | PPC_FLOAT_EXT \
-                          | PPC_FLOAT_FSQRT | PPC_FLOAT_FRES \
-                          | PPC_FLOAT_FRSQRTE | PPC_FLOAT_FRSQRTES \
+What's the best way to structure this? For PCI we have the "device
+group" PCI_DEVICES as documented in
+https://qemu-project.gitlab.io/qemu/devel/kconfig.html#guidelines-for-writing-kconfig-files
+and PCI devices say
+    default y if PCI_DEVICES
+    depends on PCI
 
+For ISA devices we seem to make them say
+    default y
+    depends on ISA_BUS
 
-Could you take a look at it please? Thanks!
+I2C devices currently just say
+    depends on I2C
 
--- Víctor
+Should we have an I2C_DEVICES, which boards where there's a sensible
+user-pluggable i2c controller can specifically select ? Or should we
+mark the i2c devices which are sensibly user-pluggable as
+"default y" ? Or something else ?
+
+thanks
+-- PMM
 
