@@ -2,71 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2CD1549F712
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jan 2022 11:18:10 +0100 (CET)
-Received: from localhost ([::1]:37156 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C81F49F714
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jan 2022 11:18:12 +0100 (CET)
+Received: from localhost ([::1]:37212 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nDOKX-0006Sg-9r
-	for lists+qemu-devel@lfdr.de; Fri, 28 Jan 2022 05:18:09 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:41762)
+	id 1nDOKY-0006VR-PR
+	for lists+qemu-devel@lfdr.de; Fri, 28 Jan 2022 05:18:10 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:41804)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nDOHn-0003Ur-7Y
- for qemu-devel@nongnu.org; Fri, 28 Jan 2022 05:15:19 -0500
-Received: from [2a00:1450:4864:20::629] (port=36356
- helo=mail-ej1-x629.google.com)
+ id 1nDOHo-0003ZQ-LN
+ for qemu-devel@nongnu.org; Fri, 28 Jan 2022 05:15:23 -0500
+Received: from [2a00:1450:4864:20::52d] (port=40517
+ helo=mail-ed1-x52d.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nDOHl-00064y-8f
- for qemu-devel@nongnu.org; Fri, 28 Jan 2022 05:15:18 -0500
-Received: by mail-ej1-x629.google.com with SMTP id s13so14430729ejy.3
- for <qemu-devel@nongnu.org>; Fri, 28 Jan 2022 02:15:16 -0800 (PST)
+ id 1nDOHl-00065a-Oy
+ for qemu-devel@nongnu.org; Fri, 28 Jan 2022 05:15:20 -0500
+Received: by mail-ed1-x52d.google.com with SMTP id w25so7998929edt.7
+ for <qemu-devel@nongnu.org>; Fri, 28 Jan 2022 02:15:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:from:to:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=llZ8azvbscFarubs1pSqfnJA7KCRVI3ZxRtvcZT3ubI=;
- b=pqTLVxBhXJk8WYhF2+ZRhw7G2SUaoeSD+CRkanin64KbouKceFIgIBdXZ0ZdXIo1hl
- J/2AcDXxbBHNDvS8pxycFX7XZq1+hfcb7Ef+WQS4T/wvldhJKJZUPfIoD0mV+YgB6Q70
- RZhZIKnUp4kDnPtsPFJ9AxCdL+Imo8PGIHCxbCKJ7JSdAs4ueE48GIPkB4Nlv9um8NmF
- g0EFXr9EP4vOgVMb7tNaJDPg6Q5RMInJpK2+1IjVbYl4gZ5W0Wd+urNd3BYqG75B2XKY
- gVLl4MZbCssoXrW19VRXykoyw2TUPWHOqDNQKh5PuRD24NAqMTzEZyQfnjXXDZ8Vmhnb
- qx3w==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=y9HqWxQas/aoKdwYcCHD6AmZdXGUBEac1zGEyJSJejo=;
+ b=pzLWVtpimmYVrTeenpEC9pI3OfFm6SneP8xZc/mxTUloX5qBc0pKei4FpFEPz6VsXf
+ UXD7Vc5A1nMpzZvQmVCXUgKNTkEECRLCctwuVOW+Ad1r9y1qQb109C6VWCj3reno9VeN
+ 9kh9lYRqkmuPAEpYrCEojv5ScXbhybNSdksMCQH90QTBuvVCS4tMH4bngG+mAzSTc80n
+ 7j8J5q8ErQD1WGef0Xvhkeu7QG6uNTq5cbwtfthBWWIgStcx/5tXx6FRrwtFdWef2RcA
+ KzUZjqqQQM3zwCbhP1Cegk3P04PJJKVl0wks+Yo/BgMbjnO/Gn1pdcaDTBlE1gKeBG8e
+ LOaA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:from:to:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=llZ8azvbscFarubs1pSqfnJA7KCRVI3ZxRtvcZT3ubI=;
- b=kjNIsiBFwA9lqXhhRswXid7VCB0sRBySiLS2YZtFX2jRDhVf1YGps9GJoxj45WRnNl
- 1nb7Ztn2/M3NMgWvUf7VZ2iYj6bQw+EQ6ThiaY4lPfvAgiHigf/MR6vcvjrppFrT4ZYj
- eBG/MRx9t+SPdpw/e2m7id+iXqb6UQRqTXhQrOvL+eGRpZ+wB9/VSHo+qyBTfYCchIRC
- Vi726CC1Mj2J2uV37z8Z9WbQfCHDqjpmGs8X8JVDf0jsZDq09hY2jQGpi+rj1P1u05TL
- RmG6xfPaGuXVczp0a3pRNgtPY11I4E7prbckrtMIDNH+g38VN0FjsQB/LEifJnRFtvQX
- YTFw==
-X-Gm-Message-State: AOAM533yMIr+VylHyXS4rRZlpftwx80X8hF24Yf45g1aC7dJXfyxVjyw
- L9rQNfjE4oeE1zU6USMKsJzlGaIARec=
-X-Google-Smtp-Source: ABdhPJyPliqy2jjnhFX9qnzlKO/WbOuu+nIIBDADJnhT7Xc+cxJ8yH49BvT9kfWH+KpQnmjnZw+yxg==
-X-Received: by 2002:a17:906:4786:: with SMTP id
- cw6mr6307026ejc.69.1643364915332; 
- Fri, 28 Jan 2022 02:15:15 -0800 (PST)
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=y9HqWxQas/aoKdwYcCHD6AmZdXGUBEac1zGEyJSJejo=;
+ b=NP01NaFMjR9wLVjdBIPQ9EgWNXXeb2InKhf8RUhmw/ib+lcUUZQogfHMSEd5JXkPAC
+ KA65u0mBL0zhc8ftGRHx2Bt7Z5/1DTyRWMBBjkQfHqAVGA/WCyl8U2binhKzqhoUy9Et
+ hEUHF6X0AAP79ucdoKo4kgsQgaABS1RnC25ue/tKmBjxvHn+mvEICOb+FJYTjnuRl/dy
+ AqQ0kFHcCHMcgoFFU413mjr7xZZD2TsgQr5btqFqZEtvZmR8eqiSFXHI5sGNstY+LPGG
+ kHTHTD9mjnztd2nOICMY35ekjUhD+YQXNIanB2T0ARamiNPRAMKobSvdVCCTD8vikZue
+ 2ukA==
+X-Gm-Message-State: AOAM5308lPD37QfA0TtR6BX0M0WtlntOg5k6Lc4vMZG8ETF11soSXxXb
+ yYq++Aj3CwSDoqDVD5dpME/dt/M0z7w=
+X-Google-Smtp-Source: ABdhPJyxOtn7XSKY18r8DlH2RDKqvcY8iL11UfPac64Y44dBE6i0Pk51oYmBDqUMUWBflGbxZuyovQ==
+X-Received: by 2002:a50:d0c4:: with SMTP id g4mr7634169edf.278.1643364916179; 
+ Fri, 28 Jan 2022 02:15:16 -0800 (PST)
 Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id dk3sm12690738edb.33.2022.01.28.02.15.14
- for <qemu-devel@nongnu.org>
+ by smtp.gmail.com with ESMTPSA id dk3sm12690738edb.33.2022.01.28.02.15.15
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 28 Jan 2022 02:15:14 -0800 (PST)
+ Fri, 28 Jan 2022 02:15:15 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v2 00/14] Misc patches for 2022-01-27
-Date: Fri, 28 Jan 2022 11:15:12 +0100
-Message-Id: <20220128101513.646792-1-pbonzini@redhat.com>
+Subject: [PULL v2 07/14] meson: Use find_program() to resolve the
+ entitlement.sh script
+Date: Fri, 28 Jan 2022 11:15:13 +0100
+Message-Id: <20220128101513.646792-2-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20220128101513.646792-1-pbonzini@redhat.com>
+References: <20220128101513.646792-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::629
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::52d
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::629;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x629.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::52d;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x52d.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -88,86 +89,90 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Akihiko Odaki <akihiko.odaki@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit aeb0ae95b7f18c66158792641cb6ba0cde5789ab:
+From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-  Merge remote-tracking branch 'remotes/jsnow-gitlab/tags/python-pull-request' into staging (2022-01-22 12:03:22 +0000)
+Using ../configure without any particular option generates 31 targets
+on Darwin, and meson search for the entitlement.sh script 31 times:
 
-are available in the Git repository at:
+  Program nm found: YES
+  Program scripts/undefsym.py found: YES (/opt/homebrew/opt/python@3.9/bin/python3.9 /Code/qemu/scripts/undefsym.py)
+  Program scripts/feature_to_c.sh found: YES (/bin/sh /Code/qemu/scripts/feature_to_c.sh)
+  Program scripts/entitlement.sh found: YES (/Code/qemu/scripts/entitlement.sh)
+  Program scripts/entitlement.sh found: YES (/Code/qemu/scripts/entitlement.sh)
+  Program scripts/entitlement.sh found: YES (/Code/qemu/scripts/entitlement.sh)
+  Program scripts/entitlement.sh found: YES (/Code/qemu/scripts/entitlement.sh)
+  Program scripts/entitlement.sh found: YES (/Code/qemu/scripts/entitlement.sh)
+  Program scripts/entitlement.sh found: YES (/Code/qemu/scripts/entitlement.sh)
+  Program scripts/entitlement.sh found: YES (/Code/qemu/scripts/entitlement.sh)
+  Program scripts/entitlement.sh found: YES (/Code/qemu/scripts/entitlement.sh)
+  Program scripts/entitlement.sh found: YES (/Code/qemu/scripts/entitlement.sh)
+  Program scripts/entitlement.sh found: YES (/Code/qemu/scripts/entitlement.sh)
+  Program scripts/entitlement.sh found: YES (/Code/qemu/scripts/entitlement.sh)
+  Program scripts/entitlement.sh found: YES (/Code/qemu/scripts/entitlement.sh)
+  Program scripts/entitlement.sh found: YES (/Code/qemu/scripts/entitlement.sh)
+  Program scripts/entitlement.sh found: YES (/Code/qemu/scripts/entitlement.sh)
+  Program scripts/entitlement.sh found: YES (/Code/qemu/scripts/entitlement.sh)
+  Program scripts/entitlement.sh found: YES (/Code/qemu/scripts/entitlement.sh)
+  Program scripts/entitlement.sh found: YES (/Code/qemu/scripts/entitlement.sh)
+  Program scripts/entitlement.sh found: YES (/Code/qemu/scripts/entitlement.sh)
+  Program scripts/entitlement.sh found: YES (/Code/qemu/scripts/entitlement.sh)
+  Program scripts/entitlement.sh found: YES (/Code/qemu/scripts/entitlement.sh)
+  Program scripts/entitlement.sh found: YES (/Code/qemu/scripts/entitlement.sh)
+  Program scripts/entitlement.sh found: YES (/Code/qemu/scripts/entitlement.sh)
+  Program scripts/entitlement.sh found: YES (/Code/qemu/scripts/entitlement.sh)
+  Program scripts/entitlement.sh found: YES (/Code/qemu/scripts/entitlement.sh)
+  Program scripts/entitlement.sh found: YES (/Code/qemu/scripts/entitlement.sh)
+  Program scripts/entitlement.sh found: YES (/Code/qemu/scripts/entitlement.sh)
+  Program scripts/entitlement.sh found: YES (/Code/qemu/scripts/entitlement.sh)
+  Program scripts/entitlement.sh found: YES (/Code/qemu/scripts/entitlement.sh)
+  Program scripts/entitlement.sh found: YES (/Code/qemu/scripts/entitlement.sh)
+  Program scripts/entitlement.sh found: YES (/Code/qemu/scripts/entitlement.sh)
+  Program scripts/entitlement.sh found: YES (/Code/qemu/scripts/entitlement.sh)
+  Configuring 50-edk2-i386-secure.json using configuration
+  Configuring 50-edk2-x86_64-secure.json using configuration
 
-  https://gitlab.com/bonzini/qemu.git tags/for-upstream
+Use find_program() which seems to cache the script path once found.
 
-for you to fetch changes up to 479ca4ccd54afcd54b0163532709079233d64b97:
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Reviewed-by: Akihiko Odaki <akihiko.odaki@gmail.com>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Message-Id: <20220122002052.83745-1-f4bug@amsat.org>
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+---
+ meson.build | 9 +++------
+ 1 file changed, 3 insertions(+), 6 deletions(-)
 
-  configure: fix parameter expansion of --cross-cc-cflags options (2022-01-28 11:13:33 +0100)
-
-----------------------------------------------------------------
-* configure and meson fixes
-* "meson test" switch for iotests
-* deprecation of old SGX QAPI
-* unexport InterruptStatsProviderClass-related functions
-
-----------------------------------------------------------------
-Bernhard Beschow (1):
-      intc: Unexport InterruptStatsProviderClass-related functions
-
-Marc-André Lureau (3):
-      build-sys: fix a meson deprecation warning
-      build-sys: fix undefined ARCH error
-      docker: add msitools to Fedora/mingw cross
-
-Matheus Ferst (1):
-      configure: fix parameter expansion of --cross-cc-cflags options
-
-Paolo Bonzini (4):
-      scripts/mtest2make: add support for SPEED=thorough
-      build: make check-block a meson test
-      qemu-iotests: require at least an argument to check-block.sh
-      check-block: replace -makecheck with TAP output
-
-Philippe Mathieu-Daudé (2):
-      exec/cpu: Make host pages variables / macros 'target agnostic'
-      meson: Use find_program() to resolve the entitlement.sh script
-
-Thomas Huth (1):
-      meson.build: Use a function from libfdt 1.5.1 for the library check
-
-Vladimir Sementsov-Ogievskiy (1):
-      check-block.sh: passthrough -jN flag of make to -j N flag of check
-
-Yang Zhong (1):
-      qapi: Cleanup SGX related comments and restore @section-size
-
- configure                                          |  4 +-
- docs/about/deprecated.rst                          | 13 ++++++
- docs/devel/testing.rst                             |  2 +-
- hw/i386/sgx.c                                      | 11 ++++-
- hw/intc/i8259_common.c                             |  6 +--
- hw/intc/ioapic_common.c                            |  2 +-
- include/exec/cpu-all.h                             |  9 ----
- include/exec/cpu-common.h                          |  9 ++++
- include/hw/i386/ioapic_internal.h                  |  1 -
- include/hw/isa/i8259_internal.h                    |  3 --
- meson.build                                        | 16 +++----
- qapi/machine.json                                  |  4 +-
- qapi/misc-target.json                              | 22 ++++++---
- qga/meson.build                                    |  2 +-
- scripts/mtest2make.py                              | 20 +++++++--
- tests/Makefile.include                             | 16 ++-----
- tests/check-block.sh                               | 52 +++++++++++-----------
- tests/docker/dockerfiles/fedora-win32-cross.docker |  1 +
- tests/docker/dockerfiles/fedora-win64-cross.docker |  1 +
- tests/meson.build                                  |  1 +
- tests/qemu-iotests/check                           |  6 +--
- tests/qemu-iotests/meson.build                     | 30 +++++++++++++
- tests/qemu-iotests/testenv.py                      | 30 ++++++-------
- tests/qemu-iotests/testrunner.py                   | 49 ++++++++++----------
- tests/qtest/meson.build                            |  2 +-
- 25 files changed, 189 insertions(+), 123 deletions(-)
- create mode 100644 tests/qemu-iotests/meson.build
+diff --git a/meson.build b/meson.build
+index 4429fd2041..c69fbbd0cb 100644
+--- a/meson.build
++++ b/meson.build
+@@ -3052,17 +3052,14 @@ foreach target : target_dirs
+         install_input += meson.current_source_dir() / entitlements
+       endif
+ 
++      entitlement = find_program('scripts/entitlement.sh')
+       emulators += {exe['name'] : custom_target(exe['name'],
+                    input: build_input,
+                    output: exe['name'],
+-                   command: [
+-                     files('scripts/entitlement.sh'),
+-                     '@OUTPUT@',
+-                     '@INPUT@'
+-                   ])
++                   command: [entitlement, '@OUTPUT@', '@INPUT@'])
+       }
+ 
+-      meson.add_install_script('scripts/entitlement.sh', '--install',
++      meson.add_install_script(entitlement, '--install',
+                                get_option('bindir') / exe['name'],
+                                install_input)
+     else
 -- 
 2.34.1
-
 
