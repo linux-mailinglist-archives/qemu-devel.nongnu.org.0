@@ -2,78 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32DF649F0AE
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jan 2022 02:46:35 +0100 (CET)
-Received: from localhost ([::1]:43664 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD3F449F0AF
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jan 2022 02:46:54 +0100 (CET)
+Received: from localhost ([::1]:44976 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nDGLR-0004ih-Ph
-	for lists+qemu-devel@lfdr.de; Thu, 27 Jan 2022 20:46:33 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:52156)
+	id 1nDGLl-0005ub-QJ
+	for lists+qemu-devel@lfdr.de; Thu, 27 Jan 2022 20:46:53 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:52442)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nDGI7-0002Zi-BE
- for qemu-devel@nongnu.org; Thu, 27 Jan 2022 20:43:07 -0500
-Received: from [2607:f8b0:4864:20::102c] (port=51010
- helo=mail-pj1-x102c.google.com)
+ id 1nDGJI-0003sr-Vw
+ for qemu-devel@nongnu.org; Thu, 27 Jan 2022 20:44:21 -0500
+Received: from [2607:f8b0:4864:20::530] (port=39508
+ helo=mail-pg1-x530.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nDGI3-0003Hg-LJ
- for qemu-devel@nongnu.org; Thu, 27 Jan 2022 20:43:06 -0500
-Received: by mail-pj1-x102c.google.com with SMTP id o11so5093275pjf.0
- for <qemu-devel@nongnu.org>; Thu, 27 Jan 2022 17:42:51 -0800 (PST)
+ id 1nDGJH-0003TK-EM
+ for qemu-devel@nongnu.org; Thu, 27 Jan 2022 20:44:20 -0500
+Received: by mail-pg1-x530.google.com with SMTP id j10so3909414pgc.6
+ for <qemu-devel@nongnu.org>; Thu, 27 Jan 2022 17:44:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=UBQg9YR5jTkdJ7S8Bcm4ntzYwqvC7Nk117MqSldtzb4=;
- b=QsHdHeqVwghZ3cJPBXVEYchcw5aEgRfo5ibLNTnm5shpYKTtr74iA4Royq1XYetKMP
- MsOfN9ViJgj1sxkfdLP3FFmvUvuoPuCIx4yni0eZ6lTn7jjYfQIAtpurwGXUd6fH9OeD
- o2MN00qNIu9fqOLBDHRufwSQX1x0ZfcjlnOypsKtYto+Wnb67JivpQ6yT6a1BL4D37hI
- N+47ohQJo21rPZZ6opD8ciS5/X36ZREtzLGoqSRO/pgkC/oRqPxsY8R6HG2dngWxE4To
- Z19H0fgRDqyrA6DN+TdDXWFR+uT8bQqrgu1xUmZ0pDDqQg8PFHJQtG0luPgUTFR785YV
- 7DZA==
+ bh=aIiI9K7HSzTWg/+CIWHb8DFbzK4Rqsax+3pQDyFp32U=;
+ b=NOppJAX9V9f7gCOZtM1jp1PcNvpJ9VQsZog6nNcoBWBP2+AEGNBYnoVnxp1tzr2H+T
+ d+VaQUK0It277/I9oeKZ2W0hYcpaYkIHCsKo799VtTf9yDSKDN/dka+Y86j3wDrliRRT
+ LaeIlvGdzqLUl38Xuc3+9xU4bMtm3UpL7GeCivAdTJ7DaiecpkSXzR5kkmkOUWGK//OD
+ JmNPByeym5m0SNFXc3q7izIaruxbARIqTd1eAOzOhOExexsQXgQy8egQYeNnkpq9JWgU
+ ePPRNuzQrXCAKSB7TaB/x0av67o1q4ukW9IMbDO7glorfb3OebgKWA2Pc7WTBjLbyLBH
+ Ou8Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=UBQg9YR5jTkdJ7S8Bcm4ntzYwqvC7Nk117MqSldtzb4=;
- b=l52xVcxIi+x6PaZjyETR8yhQi8YUqETfK0tdG5nAnBgmjW3tehBOPPaoygepyuj51+
- I3UCSz5bEM6vIePMh16LXdC/8UcnRcYg2unGRQ0TfNb/xOrSMbyDC6Z/jdYEFJnrf8Rt
- lpUzsWRcRmVNyzfQ18rblVjQUXIIfDmKLZ4Ok7+6TZIeO2donRISZ0LYsosQReqltPeS
- jGvex+XKBlZjBQya9C7rwIZnM7pMay5xTCe1XuMBOev3B7UFPW3IuBJvQ3eojf6nsLzq
- E2VZj2fXjqd1vFV+fvJiIWF8cZipf/gElBhxZlCnrtWRgmkv7V+ZejsXOgnsr0LDOgma
- Ajsw==
-X-Gm-Message-State: AOAM532hhYsGvfABOkx+CQqBFwaGFsxABD+G3tpQ7/bYbJl00I9ccJrZ
- BsJLhGsOib/OV5OqnWzLEYuQMg==
-X-Google-Smtp-Source: ABdhPJzznDjLOHgxnV+ij2/Rwia2RRl58i/J8BLmDa5ZQqnioKV3Rmr1aDpG5e0cQnjP93NHDI1HeQ==
-X-Received: by 2002:a17:902:ecc5:: with SMTP id
- a5mr5841153plh.30.1643334170051; 
- Thu, 27 Jan 2022 17:42:50 -0800 (PST)
+ bh=aIiI9K7HSzTWg/+CIWHb8DFbzK4Rqsax+3pQDyFp32U=;
+ b=YWrQRn3GFH1zpZa9dhnx3sjaqXZJsE83MtMe+7wPUq73xhBvrng8NF1Zjhwi72WANs
+ 0SsarfgDpRPJc5q1PHONBj3aHOtbQeOI5Sj67+SeJe09PTjZ78gOzBb52hiQ69PizTeU
+ gEqq4iodtdcjGybf1aSlRe8GDTSvy4EcxsTPeR5ugj4skGc0Y602b+s/ZRL5gS9948GX
+ DGch975/3OVzya4BXrJB/QjwlxwKrLcluhKmsmg8yW7UVluptWEznMYn0qy2TrJCMQ7C
+ YcdpTAECiKE/Y8NAKj2OGhB2+q5gHZPVd8hGopnHRb9a4DmPe+VyVdmhwxDkzjk8njlq
+ OkNA==
+X-Gm-Message-State: AOAM531sf0pAp7EKXewxxf3LUBjp75+/lbkXl8fCCfyGTLoNltrL/l71
+ eA7tRzG+JXe8onEo0BduD4ZgkA==
+X-Google-Smtp-Source: ABdhPJxjZeMA0yiwj8Eqk3ZT5YPkwG0dv5jduQd8Plgr/DiTx+LElTDfCJ+5bcL4lUz+89iSoLhDkQ==
+X-Received: by 2002:a05:6a00:2283:: with SMTP id
+ f3mr5664887pfe.24.1643334258175; 
+ Thu, 27 Jan 2022 17:44:18 -0800 (PST)
 Received: from [192.168.15.44] (alanje.lnk.telstra.net. [120.151.179.201])
- by smtp.gmail.com with ESMTPSA id oo9sm532584pjb.15.2022.01.27.17.42.47
+ by smtp.gmail.com with ESMTPSA id b14sm7245555pfm.17.2022.01.27.17.44.15
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 27 Jan 2022 17:42:49 -0800 (PST)
-Message-ID: <a90b72ac-104e-3a74-da54-4717d17fd781@linaro.org>
-Date: Fri, 28 Jan 2022 12:42:44 +1100
+ Thu, 27 Jan 2022 17:44:17 -0800 (PST)
+Message-ID: <e975ac85-eb64-8075-43d5-b9e6dc5a31bf@linaro.org>
+Date: Fri, 28 Jan 2022 12:44:12 +1100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.5.0
-Subject: Re: [PATCH v2 12/13] hw/intc/arm_gicv3_its: Check indexes before use, 
- not after
+Subject: Re: [PATCH v2 13/13] hw/intc/arm_gicv3_its: Range-check ICID before
+ indexing into collection table
 Content-Language: en-US
 To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
  qemu-devel@nongnu.org
 References: <20220111171048.3545974-1-peter.maydell@linaro.org>
- <20220111171048.3545974-13-peter.maydell@linaro.org>
+ <20220111171048.3545974-14-peter.maydell@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220111171048.3545974-13-peter.maydell@linaro.org>
+In-Reply-To: <20220111171048.3545974-14-peter.maydell@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::102c
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::530
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102c;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102c.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::530;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x530.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -99,17 +99,24 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 1/12/22 04:10, Peter Maydell wrote:
-> In a few places in the ITS command handling functions, we were
-> doing the range-check of an event ID or device ID only after using
-> it as a table index; move the checks to before the uses.
+> In process_its_cmd(), we read an ICID out of the interrupt table
+> entry, and then use it as an index into the collection table.  Add a
+> check that it is within range for the collection table first.
 > 
-> This misordering wouldn't have very bad effects because the
-> tables are in guest memory anyway.
+> This check is not strictly necessary, because:
+>   * we range check the ICID from the guest before writing it into
+>     the interrupt table entry, so the the only way to get an
+>     out of range ICID in process_its_cmd() is if a badly-behaved
+>     guest is writing directly to the interrupt table memory
+>   * the collection table is in guest memory, so QEMU won't fall
+>     over if we read off the end of it
+> 
+> However, it seems clearer to include the check.
 > 
 > Signed-off-by: Peter Maydell<peter.maydell@linaro.org>
 > ---
->   hw/intc/arm_gicv3_its.c | 42 ++++++++++++++++++++++++-----------------
->   1 file changed, 25 insertions(+), 17 deletions(-)
+>   hw/intc/arm_gicv3_its.c | 7 +++++++
+>   1 file changed, 7 insertions(+)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
