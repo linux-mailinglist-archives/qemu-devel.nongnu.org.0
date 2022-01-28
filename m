@@ -2,94 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE60149FE7C
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jan 2022 17:54:46 +0100 (CET)
-Received: from localhost ([::1]:40732 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E55749FE87
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jan 2022 17:59:20 +0100 (CET)
+Received: from localhost ([::1]:51014 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nDUWL-0005Uw-Os
-	for lists+qemu-devel@lfdr.de; Fri, 28 Jan 2022 11:54:45 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:40676)
+	id 1nDUal-0004I3-5X
+	for lists+qemu-devel@lfdr.de; Fri, 28 Jan 2022 11:59:19 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:40934)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nDTsm-0008Q4-As
- for qemu-devel@nongnu.org; Fri, 28 Jan 2022 11:13:52 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:38518)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nDTtN-0000pb-AC
+ for qemu-devel@nongnu.org; Fri, 28 Jan 2022 11:14:29 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:25762)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nDTsk-0004Ou-Cb
- for qemu-devel@nongnu.org; Fri, 28 Jan 2022 11:13:51 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nDTtK-0004TK-Jp
+ for qemu-devel@nongnu.org; Fri, 28 Jan 2022 11:14:28 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1643386429;
+ s=mimecast20190719; t=1643386465;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=pPcJdjHEAg7REBF/Vsx84ym6UySBMXgoZni83RgVALQ=;
- b=i8+vWYJb4IzobL5Q1aOgnLH0CwaITn+B+47p8+U3rpZcsYyVmYpsYKCKjld+3Bq3iSyEbQ
- qfJVyb+DYQD3bF6ns924bu1stZK4cKu+ks59zd45Tin4ZUlos21nS3hqqe1s9SE6Gxq99Z
- ZxnLRbbYJdefQZzzo6xhOQooKpHh89w=
-Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
- [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=15gytEXhlTmDq7mth31T+ucTn1iLZJPlg7ik2XNK5b0=;
+ b=U2HhYZ4rp3rKBAEsNy0Vf3BMkeH9x9lNuhVG8AH+OFuq1xqww+xINqpHkWJKH5tYe/WVL1
+ rXSrLN3K1dmLQh7EDKsnVSzBOnhwnnA+o/Fvw59zPMp6dUlgeC6WgCdx+RJ637Dq9c7xoO
+ YJFZmZ0ySl3yY2PfoJ4JjJIXEItkdxI=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-335-6KfIB_ocNmG-9imgcuOoBg-1; Fri, 28 Jan 2022 11:13:47 -0500
-X-MC-Unique: 6KfIB_ocNmG-9imgcuOoBg-1
-Received: by mail-ej1-f70.google.com with SMTP id
- h22-20020a1709060f5600b006b11a2d3dcfso3114795ejj.4
- for <qemu-devel@nongnu.org>; Fri, 28 Jan 2022 08:13:46 -0800 (PST)
+ us-mta-195-ygXVdcHmPDyvvON9kymEiA-1; Fri, 28 Jan 2022 11:14:24 -0500
+X-MC-Unique: ygXVdcHmPDyvvON9kymEiA-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ v185-20020a1cacc2000000b0034906580813so6116439wme.1
+ for <qemu-devel@nongnu.org>; Fri, 28 Jan 2022 08:14:24 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=pPcJdjHEAg7REBF/Vsx84ym6UySBMXgoZni83RgVALQ=;
- b=qBBdbyg+cpgtUNADC3mcQIm02+kSd3Ys83sc60NAY/dtaJDtfl82PdPqCnM1O15UUs
- tsyh+xY3cItxD3V8+I6zgUpAe/ZCav6KxC4TgM9oywLzCxzhB1InAmnF3+5hcZD42KAE
- shpSZ30EXFunFZce86S4eCQ1dKrxWkpYh2De1bbPBnCURMtqvJJsybEmiEmME57DVYRK
- UiG0xZrsQ3p1z66v6U5N0xRM8MD0kJckkQNcDp5qr5bBlFQ3RDKz/leYSFMV13Ii7qHT
- VF8Kseoqa9VpVskBoPpnScCITOz9WrIcIrk9R90AnPLcUCkaFhxe3EJnBH/LTdWbcKAK
- QQJA==
-X-Gm-Message-State: AOAM5305KSNdOU3LVZ7FnVvhzfyWsaFvWTVJdowMTr+ccqlj15lulH/Q
- pdxqxy2ul/Epd+UWzoUN8RBN9iZgpoP/fkeie8a0PWK7Rygep4FKDNbNfoRc7r27zJFDtsGnG/k
- XEKNQKZgf8KRcPGc=
-X-Received: by 2002:a17:907:1c11:: with SMTP id
- nc17mr7313021ejc.675.1643386425942; 
- Fri, 28 Jan 2022 08:13:45 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzpUzJp05zUkcshYnFU++gKpgM0G2G2JLN4XgMQGcXUlg+kPu2/X16fSyfq0T3+DR0xRhjV9Q==
-X-Received: by 2002:a17:907:1c11:: with SMTP id
- nc17mr7312924ejc.675.1643386424524; 
- Fri, 28 Jan 2022 08:13:44 -0800 (PST)
-Received: from ?IPV6:2a02:8071:5055:3f20:7ad9:a400:6d51:83e6?
- ([2a02:8071:5055:3f20:7ad9:a400:6d51:83e6])
- by smtp.gmail.com with ESMTPSA id e19sm9039469ejl.225.2022.01.28.08.13.43
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 28 Jan 2022 08:13:44 -0800 (PST)
-Message-ID: <1e8c10a2-5f0c-ac8a-cea0-6c5fe63b379d@redhat.com>
-Date: Fri, 28 Jan 2022 17:13:43 +0100
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=15gytEXhlTmDq7mth31T+ucTn1iLZJPlg7ik2XNK5b0=;
+ b=hISYvnqi+4UBPpWXtAklGp3XmF7dUPQ+MbrN+7lEOj9h0LCaBsEubEZ4qc6vqwlOys
+ viNZyVI22WloYGHa1QYI88uZ7addgva1KNxVliBK68KunnQGA3DC7UU7Snx7kTW12CoH
+ JQjgjqb4+Fe2+w1rNOP9Yfn9D1lRxsaxmA0Tw8I8MkZmigWAHjPYUdmvup3eAvZqoswB
+ PRAq6r6ZwVgy+uv/qVVaoqDs4bd2N+EpCLW12fUIThV8GQNU8aFesvAJUvUTQNPfcT5Q
+ 7zUVj4dkS8F3LHoSyL7JIgVwXuFcKTErN2SK7ny/qRCE45/coqtVuVaswrZCOeQiHB7A
+ 5FWg==
+X-Gm-Message-State: AOAM530MmSw42Ptqa39S2nCBtZeamy0uu4uos6TFz6PQ1cOquRluzGHX
+ NX+k8buTPU4Xo0/FVJ6mFmsYurrje0+6ddXwY8hfyM9sik55StanSb0VnLwGj4uyOyml6jtuPSd
+ nzZC/Y8Wz6Xbw1Vw=
+X-Received: by 2002:adf:de0b:: with SMTP id b11mr7297304wrm.712.1643386462905; 
+ Fri, 28 Jan 2022 08:14:22 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJx6RR2AcrVCIyxP5GxS23EvH66SGSeOpYFfrDjDBxiX2LFZVQSuRqBdfYmT/GdT+qUTdhCrvw==
+X-Received: by 2002:adf:de0b:: with SMTP id b11mr7297285wrm.712.1643386462644; 
+ Fri, 28 Jan 2022 08:14:22 -0800 (PST)
+Received: from redhat.com ([2.55.144.199])
+ by smtp.gmail.com with ESMTPSA id l39sm2357716wms.24.2022.01.28.08.14.19
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 28 Jan 2022 08:14:22 -0800 (PST)
+Date: Fri, 28 Jan 2022 11:14:17 -0500
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Eric DeVolder <eric.devolder@oracle.com>
+Subject: Re: [PATCH v14 06/10] ACPI ERST: build the ACPI ERST table
+Message-ID: <20220128111327-mutt-send-email-mst@kernel.org>
+References: <1643214514-2839-1-git-send-email-eric.devolder@oracle.com>
+ <1643214514-2839-7-git-send-email-eric.devolder@oracle.com>
+ <alpine.OSX.2.20.2201271401250.42000@athabasca.local>
+ <1f544cb3-7434-3480-63fc-ff317327ea78@oracle.com>
+ <20220127193136-mutt-send-email-mst@kernel.org>
+ <c5460e4e-61dd-78ad-6703-e518a8302097@oracle.com>
+ <20220128105311-mutt-send-email-mst@kernel.org>
+ <db012849-b7ec-eecc-bf41-a6b211c021f0@oracle.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH] qsd: Document fuse's allow-other option
-To: Kevin Wolf <kwolf@redhat.com>
-References: <20220124170300.20680-1-hreitz@redhat.com>
- <YfLCBDnTibtJnNU3@redhat.com>
-From: Hanna Reitz <hreitz@redhat.com>
-In-Reply-To: <YfLCBDnTibtJnNU3@redhat.com>
+In-Reply-To: <db012849-b7ec-eecc-bf41-a6b211c021f0@oracle.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=hreitz@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
 X-Spam_bar: ---
 X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.167,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -102,76 +99,413 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org
+Cc: berrange@redhat.com, ehabkost@redhat.com, konrad.wilk@oracle.com,
+ qemu-devel@nongnu.org, pbonzini@redhat.com, Ani Sinha <ani@anisinha.ca>,
+ imammedo@redhat.com, boris.ostrovsky@oracle.com, rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 27.01.22 17:02, Kevin Wolf wrote:
-> Am 24.01.2022 um 18:03 hat Hanna Reitz geschrieben:
->> We did not add documentation to the storage daemon's man page for fuse's
->> allow-other option when it was introduced, so do that now.
->>
->> Fixes: 8fc54f9428b9763f800 ("export/fuse: Add allow-other option")
->> Signed-off-by: Hanna Reitz <hreitz@redhat.com>
->> ---
->>   docs/tools/qemu-storage-daemon.rst   | 9 +++++++--
->>   storage-daemon/qemu-storage-daemon.c | 2 +-
->>   2 files changed, 8 insertions(+), 3 deletions(-)
->>
->> diff --git a/docs/tools/qemu-storage-daemon.rst b/docs/tools/qemu-storage-daemon.rst
->> index 9b0eaba6e5..f7a300c84e 100644
->> --- a/docs/tools/qemu-storage-daemon.rst
->> +++ b/docs/tools/qemu-storage-daemon.rst
->> @@ -76,7 +76,7 @@ Standard options:
->>   .. option:: --export [type=]nbd,id=<id>,node-name=<node-name>[,name=<export-name>][,writable=on|off][,bitmap=<name>]
->>     --export [type=]vhost-user-blk,id=<id>,node-name=<node-name>,addr.type=unix,addr.path=<socket-path>[,writable=on|off][,logical-block-size=<block-size>][,num-queues=<num-queues>]
->>     --export [type=]vhost-user-blk,id=<id>,node-name=<node-name>,addr.type=fd,addr.str=<fd>[,writable=on|off][,logical-block-size=<block-size>][,num-queues=<num-queues>]
->> -  --export [type=]fuse,id=<id>,node-name=<node-name>,mountpoint=<file>[,growable=on|off][,writable=on|off]
->> +  --export [type=]fuse,id=<id>,node-name=<node-name>,mountpoint=<file>[,growable=on|off][,writable=on|off][,allow-other=on|off|auto]
->>   
->>     is a block export definition. ``node-name`` is the block node that should be
->>     exported. ``writable`` determines whether or not the export allows write
->> @@ -103,7 +103,12 @@ Standard options:
->>     mounted). Consequently, applications that have opened the given file before
->>     the export became active will continue to see its original content. If
->>     ``growable`` is set, writes after the end of the exported file will grow the
->> -  block node to fit.
->> +  block node to fit.  The ``allow-other`` option controls whether users other
->> +  than the QSD user will be allowed to access the export.  Note that enabling
->> +  this option as a non-root user requires enabling the user_allow_other option
->> +  in the global fuse.conf configuration file.  Setting ``allow-other`` to auto
->> +  (the default) will have the QSD try enabling this option, and on error fall
->> +  back to disabling it.
-> "QSD" is not an acronym that is used (or introduced) elsewhere in this
-> document.
+On Fri, Jan 28, 2022 at 10:01:18AM -0600, Eric DeVolder wrote:
+> Michael, thanks! See inline response below, please.
+> eric
+> 
+> On 1/28/22 09:54, Michael S. Tsirkin wrote:
+> > On Fri, Jan 28, 2022 at 09:11:41AM -0600, Eric DeVolder wrote:
+> > > Michael,
+> > > Thanks for examining this. Inline response below.
+> > > eric
+> > > 
+> > > On 1/27/22 18:37, Michael S. Tsirkin wrote:
+> > > > On Thu, Jan 27, 2022 at 04:02:07PM -0600, Eric DeVolder wrote:
+> > > > > Ani,
+> > > > > Thanks for the RB! Inline responses below.
+> > > > > eric
+> > > > > 
+> > > > > On 1/27/22 02:36, Ani Sinha wrote:
+> > > > > > 
+> > > > > > 
+> > > > > > On Wed, 26 Jan 2022, Eric DeVolder wrote:
+> > > > > > 
+> > > > > > > This builds the ACPI ERST table to inform OSPM how to communicate
+> > > > > > > with the acpi-erst device.
+> > > > > > 
+> > > > > > There might be more optimizations possible but I think we have messaged
+> > > > > > this code enough. We can further rework the code if needed in subsequent
+> > > > > > patches once this is pushed.
+> > > > > > 
+> > > > > > > 
+> > > > > > > Signed-off-by: Eric DeVolder <eric.devolder@oracle.com>
+> > > > > > 
+> > > > > > with some minor comments,
+> > > > > > 
+> > > > > > Reviewed-by: Ani Sinha <ani@anisinha.ca>
+> > > > > > 
+> > > > > > >     hw/acpi/erst.c | 225 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+> > > > > > >     1 file changed, 225 insertions(+)
+> > > > > > > 
+> > > > > > > diff --git a/hw/acpi/erst.c b/hw/acpi/erst.c
+> > > > > > > index fe9ba51..5d5a639 100644
+> > > > > > > --- a/hw/acpi/erst.c
+> > > > > > > +++ b/hw/acpi/erst.c
+> > > > > > > @@ -59,6 +59,27 @@
+> > > > > > >     #define STATUS_RECORD_STORE_EMPTY     0x04
+> > > > > > >     #define STATUS_RECORD_NOT_FOUND       0x05
+> > > > > > > 
+> > > > > > > +/* ACPI 4.0: Table 17-19 Serialization Instructions */
+> > > > > > > +#define INST_READ_REGISTER                 0x00
+> > > > > > > +#define INST_READ_REGISTER_VALUE           0x01
+> > > > > > > +#define INST_WRITE_REGISTER                0x02
+> > > > > > > +#define INST_WRITE_REGISTER_VALUE          0x03
+> > > > > > > +#define INST_NOOP                          0x04
+> > > > > > > +#define INST_LOAD_VAR1                     0x05
+> > > > > > > +#define INST_LOAD_VAR2                     0x06
+> > > > > > > +#define INST_STORE_VAR1                    0x07
+> > > > > > > +#define INST_ADD                           0x08
+> > > > > > > +#define INST_SUBTRACT                      0x09
+> > > > > > > +#define INST_ADD_VALUE                     0x0A
+> > > > > > > +#define INST_SUBTRACT_VALUE                0x0B
+> > > > > > > +#define INST_STALL                         0x0C
+> > > > > > > +#define INST_STALL_WHILE_TRUE              0x0D
+> > > > > > > +#define INST_SKIP_NEXT_INSTRUCTION_IF_TRUE 0x0E
+> > > > > > > +#define INST_GOTO                          0x0F
+> > > > > > > +#define INST_SET_SRC_ADDRESS_BASE          0x10
+> > > > > > > +#define INST_SET_DST_ADDRESS_BASE          0x11
+> > > > > > > +#define INST_MOVE_DATA                     0x12
+> > > > > > > +
+> > > > > > >     /* UEFI 2.1: Appendix N Common Platform Error Record */
+> > > > > > >     #define UEFI_CPER_RECORD_MIN_SIZE 128U
+> > > > > > >     #define UEFI_CPER_RECORD_LENGTH_OFFSET 20U
+> > > > > > > @@ -172,6 +193,210 @@ typedef struct {
+> > > > > > > 
+> > > > > > >     /*******************************************************************/
+> > > > > > >     /*******************************************************************/
+> > > > > > > +typedef struct {
+> > > > > > > +    GArray *table_data;
+> > > > > > > +    pcibus_t bar;
+> > > > > > > +    uint8_t instruction;
+> > > > > > > +    uint8_t flags;
+> > > > > > > +    uint8_t register_bit_width;
+> > > > > > > +    pcibus_t register_offset;
+> > > > > > > +} BuildSerializationInstructionEntry;
+> > > > > > > +
+> > > > > > > +/* ACPI 4.0: 17.4.1.2 Serialization Instruction Entries */
+> > > > > > > +static void build_serialization_instruction(
+> > > > > > > +    BuildSerializationInstructionEntry *e,
+> > > > > > > +    uint8_t serialization_action,
+> > > > > > > +    uint64_t value)
+> > > > > > > +{
+> > > > > > > +    /* ACPI 4.0: Table 17-18 Serialization Instruction Entry */
+> > > > > > > +    struct AcpiGenericAddress gas;
+> > > > > > > +    uint64_t mask;
+> > > > > > > +
+> > > > > > > +    /* Serialization Action */
+> > > > > > > +    build_append_int_noprefix(e->table_data, serialization_action, 1);
+> > > > > > > +    /* Instruction */
+> > > > > > > +    build_append_int_noprefix(e->table_data, e->instruction, 1);
+> > > > > > > +    /* Flags */
+> > > > > > > +    build_append_int_noprefix(e->table_data, e->flags, 1);
+> > > > > > > +    /* Reserved */
+> > > > > > > +    build_append_int_noprefix(e->table_data, 0, 1);
+> > > > > > > +    /* Register Region */
+> > > > > > > +    gas.space_id = AML_SYSTEM_MEMORY;
+> > > > > > > +    gas.bit_width = e->register_bit_width;
+> > > > > > > +    gas.bit_offset = 0;
+> > > > > > > +    gas.access_width = ctz32(e->register_bit_width) - 2;
+> > > > > > 
+> > > > > > Should this be casted as unit8_t?
+> > > > > OK, done.
+> > > > > 
+> > > > > > 
+> > > > > > > +    gas.address = (uint64_t)(e->bar + e->register_offset);
+> > > > > > > +    build_append_gas_from_struct(e->table_data, &gas);
+> > > > > > > +    /* Value */
+> > > > > > > +    build_append_int_noprefix(e->table_data, value, 8);
+> > > > > > > +    /* Mask */
+> > > > > > > +    mask = (1ULL << (e->register_bit_width - 1) << 1) - 1;
+> > > > > > > +    build_append_int_noprefix(e->table_data, mask, 8);
+> > > > > > > +}
+> > > > > > > +
+> > > > > > > +/* ACPI 4.0: 17.4.1 Serialization Action Table */
+> > > > > > > +void build_erst(GArray *table_data, BIOSLinker *linker, Object *erst_dev,
+> > > > > > > +    const char *oem_id, const char *oem_table_id)
+> > > > > > > +{
+> > > > > > > +    /*
+> > > > > > > +     * Serialization Action Table
+> > > > > > > +     * The serialization action table must be generated first
+> > > > > > > +     * so that its size can be known in order to populate the
+> > > > > > > +     * Instruction Entry Count field.
+> > > > > > > +     */
+> > > > > > > +    GArray *table_instruction_data = g_array_new(FALSE, FALSE, sizeof(char));
+> > > > > > > +    pcibus_t bar0 = pci_get_bar_addr(PCI_DEVICE(erst_dev), 0);
+> > > > > > > +    AcpiTable table = { .sig = "ERST", .rev = 1, .oem_id = oem_id,
+> > > > > > > +                        .oem_table_id = oem_table_id };
+> > > > > > > +    /* Contexts for the different ways ACTION and VALUE are accessed */
+> > > > > > > +    BuildSerializationInstructionEntry rd_value_32_val = {
+> > > > > > > +        .table_data = table_instruction_data,
+> > > > > > > +        .bar = bar0,
+> > > > > > > +        .instruction = INST_READ_REGISTER_VALUE,
+> > > > > > > +        .flags = 0,
+> > > > > > > +        .register_bit_width = 32,
+> > > > > > > +        .register_offset = ERST_VALUE_OFFSET,
+> > > > > > > +    };
+> > > > > > > +    BuildSerializationInstructionEntry rd_value_32 = {
+> > > > > > > +        .table_data = table_instruction_data,
+> > > > > > > +        .bar = bar0,
+> > > > > > > +        .instruction = INST_READ_REGISTER,
+> > > > > > > +        .flags = 0,
+> > > > > > > +        .register_bit_width = 32,
+> > > > > > > +        .register_offset = ERST_VALUE_OFFSET,
+> > > > > > > +    };
+> > > > > > > +    BuildSerializationInstructionEntry rd_value_64 = {
+> > > > > > > +        .table_data = table_instruction_data,
+> > > > > > > +        .bar = bar0,
+> > > > > > > +        .instruction = INST_READ_REGISTER,
+> > > > > > > +        .flags = 0,
+> > > > > > > +        .register_bit_width = 64,
+> > > > > > > +        .register_offset = ERST_VALUE_OFFSET,
+> > > > > > > +    };
+> > > > > > > +    BuildSerializationInstructionEntry wr_value_32_val = {
+> > > > > > > +        .table_data = table_instruction_data,
+> > > > > > > +        .bar = bar0,
+> > > > > > > +        .instruction = INST_WRITE_REGISTER_VALUE,
+> > > > > > > +        .flags = 0,
+> > > > > > > +        .register_bit_width = 32,
+> > > > > > > +        .register_offset = ERST_VALUE_OFFSET,
+> > > > > > > +    };
+> > > > > > > +    BuildSerializationInstructionEntry wr_value_32 = {
+> > > > > > > +        .table_data = table_instruction_data,
+> > > > > > > +        .bar = bar0,
+> > > > > > > +        .instruction = INST_WRITE_REGISTER,
+> > > > > > > +        .flags = 0,
+> > > > > > > +        .register_bit_width = 32,
+> > > > > > > +        .register_offset = ERST_VALUE_OFFSET,
+> > > > > > > +    };
+> > > > > > > +    BuildSerializationInstructionEntry wr_value_64 = {
+> > > > > > > +        .table_data = table_instruction_data,
+> > > > > > > +        .bar = bar0,
+> > > > > > > +        .instruction = INST_WRITE_REGISTER,
+> > > > > > > +        .flags = 0,
+> > > > > > > +        .register_bit_width = 64,
+> > > > > > > +        .register_offset = ERST_VALUE_OFFSET,
+> > > > > > > +    };
+> > > > > > > +    BuildSerializationInstructionEntry wr_action = {
+> > > > > > > +        .table_data = table_instruction_data,
+> > > > > > > +        .bar = bar0,
+> > > > > > > +        .instruction = INST_WRITE_REGISTER_VALUE,
+> > > > > > > +        .flags = 0,
+> > > > > > > +        .register_bit_width = 32,
+> > > > > > > +        .register_offset = ERST_ACTION_OFFSET,
+> > > > > > > +    };
+> > > > > > 
+> > > > > > We can probably write a macro to simply generating these structs. I see
+> > > > > > .bar and .flags are the same in all structs. The .bit_width can be a param
+> > > > > > into the macro etc.
+> > > > > Agree, however the request was to NOT hide the use of local variables in
+> > > > > macros, so while .flags is always 0, .instruction, .register_bit_width and .register_offset
+> > > > > would be parameters, that leaves .table_data and .bar which just need the local
+> > > > > variables. Is the following acceptable (which hides the use of the local variables)?
+> > > > 
+> > > > You can just use assignment:
+> > > > 
+> > > >      BuildSerializationInstructionEntry entry = {
+> > > >          .table_data = table_instruction_data,
+> > > >          .bar = bar0,
+> > > >          .flags = 0,
+> > > >          .register_bit_width = 32,
+> > > >      };
+> > > >      BuildSerializationInstructionEntry rd_value_32_val = entry;
+> > > >      rd_value_32_val.action = INST_READ_REGISTER_VALUE;
+> > > >      rd_value_32_val.register_offset = ERST_ACTION_OFFSET;
+> > > > 
+> > > > and so on.
+> > > > not sure it's worth it, it's just a couple of lines.
+> > > > 
+> > > 
+> > > OK, here is the equivalent using struct assignment, is this what you were after?
+> > > 
+> > >      BuildSerializationInstructionEntry base = {
+> > >          .table_data = table_instruction_data,
+> > >          .bar = bar0,
+> > >          .instruction = INST_WRITE_REGISTER,
+> > >          .flags = 0,
+> > >          .register_bit_width = 32,
+> > >          .register_offset = ERST_VALUE_OFFSET,
+> > >      };
+> > >      BuildSerializationInstructionEntry rd_value_32_val = base;
+> > >      rd_value_32_val.instruction = INST_READ_REGISTER_VALUE;
+> > >      BuildSerializationInstructionEntry rd_value_32 = base;
+> > >      rd_value_32.instruction = INST_READ_REGISTER;
+> > >      BuildSerializationInstructionEntry rd_value_64 = base;
+> > >      rd_value_64.instruction = INST_READ_REGISTER;
+> > >      rd_value_64.register_bit_width = 64;
+> > >      BuildSerializationInstructionEntry wr_value_32_val = base;
+> > >      wr_value_32_val.instruction = INST_WRITE_REGISTER_VALUE;
+> > >      BuildSerializationInstructionEntry wr_value_32 = base;
+> > >      BuildSerializationInstructionEntry wr_value_64 = base;
+> > >      wr_value_64.register_bit_width = 64;
+> > >      BuildSerializationInstructionEntry wr_action = base;
+> > >      wr_action.instruction = INST_WRITE_REGISTER_VALUE;
+> > >      wr_action.register_offset = ERST_ACTION_OFFSET;
+> > > 
+> > 
+> > That's what I described, yes. We should have some empty lines here I
+> > guess. I'm ok with the original one too, there's not too much
+> > duplication.
+> 
+> Are the blank lines referring to spacing out the setup of each of the 7 accesors?
+> If so, I could put a one line comment between each setup? Or is a blank line also
+> needed?
 
-It’s used in “qsd-qmp.sock”, “qsd-nbd.sock”, and “qsd.pid” O:)
+A blank line between declarations and code is usually a good idea.
 
-> I suggest replacing "QSD user" with "user running the process" and "will
-> have the QSD try" with simply "will try".
 
-Sure, sounds good, will do!
+> Is it OK to post v15 with the struct assignment approach? Or would you prefer the
+> explicit structs (which is what I think you mean by 'the original one')?
+> 
+> Thanks!
+> eric
 
-Hanna
+I don't care either way.
 
->>   .. option:: --monitor MONITORDEF
->>   
->> diff --git a/storage-daemon/qemu-storage-daemon.c b/storage-daemon/qemu-storage-daemon.c
->> index 9d76d1114d..a1dcc4aa2e 100644
->> --- a/storage-daemon/qemu-storage-daemon.c
->> +++ b/storage-daemon/qemu-storage-daemon.c
->> @@ -100,7 +100,7 @@ static void help(void)
->>   "\n"
->>   #ifdef CONFIG_FUSE
->>   "  --export [type=]fuse,id=<id>,node-name=<node-name>,mountpoint=<file>\n"
->> -"           [,growable=on|off][,writable=on|off]\n"
->> +"           [,growable=on|off][,writable=on|off][,allow-other=on|off|auto]\n"
->>   "                         export the specified block node over FUSE\n"
->>   "\n"
->>   #endif /* CONFIG_FUSE */
-> Looks good otherwise.
->
-> Kevin
->
+> > 
+> > 
+> > > 
+> > > > 
+> > > > 
+> > > > > #define SERIALIZATIONINSTRUCTIONCTX(name, \
+> > > > >       inst, bit_width, offset) \
+> > > > >       BuildSerializationInstructionEntry name = { \
+> > > > >           .table_data = table_instruction_data, \
+> > > > >           .bar = bar0, \
+> > > > >           .instruction = inst, \
+> > > > >           .flags = 0, \
+> > > > >           .register_bit_width = bit_width, \
+> > > > >           .register_offset = offset, \
+> > > > >       }
+> > > > >       SERIALIZATIONINSTRUCTIONCTX(rd_value_32_val,
+> > > > >           INST_READ_REGISTER_VALUE, 32, ERST_VALUE_OFFSET);
+> > > > >       SERIALIZATIONINSTRUCTIONCTX(rd_value_32,
+> > > > >           INST_READ_REGISTER, 32, ERST_VALUE_OFFSET);
+> > > > >       SERIALIZATIONINSTRUCTIONCTX(rd_value_64,
+> > > > >           INST_READ_REGISTER, 64, ERST_VALUE_OFFSET);
+> > > > >       SERIALIZATIONINSTRUCTIONCTX(wr_value_32_val,
+> > > > >           INST_WRITE_REGISTER_VALUE, 32, ERST_VALUE_OFFSET);
+> > > > >       SERIALIZATIONINSTRUCTIONCTX(wr_value_32,
+> > > > >           INST_WRITE_REGISTER, 32, ERST_VALUE_OFFSET);
+> > > > >       SERIALIZATIONINSTRUCTIONCTX(wr_value_64,
+> > > > >           INST_WRITE_REGISTER, 64, ERST_VALUE_OFFSET);
+> > > > >       SERIALIZATIONINSTRUCTIONCTX(wr_action,
+> > > > >           INST_WRITE_REGISTER_VALUE, 32, ERST_ACTION_OFFSET);
+> > > > > 
+> > > > > These are the 7 accessors needed.
+> > > > 
+> > > > not at all sure this one is worth the macro mess.
+> > > 
+> > > I'm hoping to produce a v15 with the style you want.
+> > > eric
+> > > 
+> > > > 
+> > > > > > 
+> > > > > > > +    unsigned action;
+> > > > > > > +
+> > > > > > > +    trace_acpi_erst_pci_bar_0(bar0);
+> > > > > > > +
+> > > > > > > +    /* Serialization Instruction Entries */
+> > > > > > > +    action = ACTION_BEGIN_WRITE_OPERATION;
+> > > > > > > +    build_serialization_instruction(&wr_action, action, action);
+> > > > > > > +
+> > > > > > > +    action = ACTION_BEGIN_READ_OPERATION;
+> > > > > > > +    build_serialization_instruction(&wr_action, action, action);
+> > > > > > > +
+> > > > > > > +    action = ACTION_BEGIN_CLEAR_OPERATION;
+> > > > > > > +    build_serialization_instruction(&wr_action, action, action);
+> > > > > > > +
+> > > > > > > +    action = ACTION_END_OPERATION;
+> > > > > > > +    build_serialization_instruction(&wr_action, action, action);
+> > > > > > > +
+> > > > > > > +    action = ACTION_SET_RECORD_OFFSET;
+> > > > > > > +    build_serialization_instruction(&wr_value_32, action, 0);
+> > > > > > > +    build_serialization_instruction(&wr_action, action, action);
+> > > > > > > +
+> > > > > > > +    action = ACTION_EXECUTE_OPERATION;
+> > > > > > > +    build_serialization_instruction(&wr_value_32_val, action,
+> > > > > > > +        ERST_EXECUTE_OPERATION_MAGIC);
+> > > > > > > +    build_serialization_instruction(&wr_action, action, action);
+> > > > > > > +
+> > > > > > > +    action = ACTION_CHECK_BUSY_STATUS;
+> > > > > > > +    build_serialization_instruction(&wr_action, action, action);
+> > > > > > > +    build_serialization_instruction(&rd_value_32_val, action, 0x01);
+> > > > > > > +
+> > > > > > > +    action = ACTION_GET_COMMAND_STATUS;
+> > > > > > > +    build_serialization_instruction(&wr_action, action, action);
+> > > > > > > +    build_serialization_instruction(&rd_value_32, action, 0);
+> > > > > > > +
+> > > > > > > +    action = ACTION_GET_RECORD_IDENTIFIER;
+> > > > > > > +    build_serialization_instruction(&wr_action, action, action);
+> > > > > > > +    build_serialization_instruction(&rd_value_64, action, 0);
+> > > > > > > +
+> > > > > > > +    action = ACTION_SET_RECORD_IDENTIFIER;
+> > > > > > > +    build_serialization_instruction(&wr_value_64, action, 0);
+> > > > > > > +    build_serialization_instruction(&wr_action, action, action);
+> > > > > > > +
+> > > > > > > +    action = ACTION_GET_RECORD_COUNT;
+> > > > > > > +    build_serialization_instruction(&wr_action, action, action);
+> > > > > > > +    build_serialization_instruction(&rd_value_32, action, 0);
+> > > > > > > +
+> > > > > > > +    action = ACTION_BEGIN_DUMMY_WRITE_OPERATION;
+> > > > > > > +    build_serialization_instruction(&wr_action, action, action);
+> > > > > > > +
+> > > > > > > +    action = ACTION_GET_ERROR_LOG_ADDRESS_RANGE;
+> > > > > > > +    build_serialization_instruction(&wr_action, action, action);
+> > > > > > > +    build_serialization_instruction(&rd_value_64, action, 0);
+> > > > > > > +
+> > > > > > > +    action = ACTION_GET_ERROR_LOG_ADDRESS_LENGTH;
+> > > > > > > +    build_serialization_instruction(&wr_action, action, action);
+> > > > > > > +    build_serialization_instruction(&rd_value_64, action, 0);
+> > > > > > > +
+> > > > > > > +    action = ACTION_GET_ERROR_LOG_ADDRESS_RANGE_ATTRIBUTES;
+> > > > > > > +    build_serialization_instruction(&wr_action, action, action);
+> > > > > > > +    build_serialization_instruction(&rd_value_32, action, 0);
+> > > > > > > +
+> > > > > > > +    action = ACTION_GET_EXECUTE_OPERATION_TIMINGS;
+> > > > > > > +    build_serialization_instruction(&wr_action, action, action);
+> > > > > > > +    build_serialization_instruction(&rd_value_64, action, 0);
+> > > > > > > +
+> > > > > > > +    /* Serialization Header */
+> > > > > > > +    acpi_table_begin(&table, table_data);
+> > > > > > > +
+> > > > > > > +    /* Serialization Header Size */
+> > > > > > > +    build_append_int_noprefix(table_data, 48, 4);
+> > > > > > > +
+> > > > > > > +    /* Reserved */
+> > > > > > > +    build_append_int_noprefix(table_data,  0, 4);
+> > > > > > > +
+> > > > > > > +    /*
+> > > > > > > +     * Instruction Entry Count
+> > > > > > > +     * Each instruction entry is 32 bytes
+> > > > > > > +     */
+> > > > > > > +    g_assert((table_instruction_data->len) % 32 == 0);
+> > > > > > > +    build_append_int_noprefix(table_data,
+> > > > > > > +        (table_instruction_data->len / 32), 4);
+> > > > > > > +
+> > > > > > > +    /* Serialization Instruction Entries */
+> > > > > > > +    g_array_append_vals(table_data, table_instruction_data->data,
+> > > > > > > +        table_instruction_data->len);
+> > > > > > > +    g_array_free(table_instruction_data, TRUE);
+> > > > > > > +
+> > > > > > > +    acpi_table_end(linker, &table);
+> > > > > > > +}
+> > > > > > > +
+> > > > > > > +/*******************************************************************/
+> > > > > > > +/*******************************************************************/
+> > > > > > >     static uint8_t *get_nvram_ptr_by_index(ERSTDeviceState *s, unsigned index)
+> > > > > > >     {
+> > > > > > >         uint8_t *rc = NULL;
+> > > > > > > --
+> > > > > > > 1.8.3.1
+> > > > > > > 
+> > > > > > > 
+> > > > 
+> > 
 
 
