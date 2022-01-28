@@ -2,71 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E775749FD29
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jan 2022 16:54:34 +0100 (CET)
-Received: from localhost ([::1]:34446 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6883549FD17
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jan 2022 16:49:08 +0100 (CET)
+Received: from localhost ([::1]:53952 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nDTa6-0006y2-1m
-	for lists+qemu-devel@lfdr.de; Fri, 28 Jan 2022 10:54:34 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:57644)
+	id 1nDTUp-0000qz-Hm
+	for lists+qemu-devel@lfdr.de; Fri, 28 Jan 2022 10:49:07 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:57640)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nDTD5-0002Ac-P3
- for qemu-devel@nongnu.org; Fri, 28 Jan 2022 10:30:53 -0500
-Received: from [2a00:1450:4864:20::42f] (port=40799
- helo=mail-wr1-x42f.google.com)
+ id 1nDTD5-0002Aa-P5
+ for qemu-devel@nongnu.org; Fri, 28 Jan 2022 10:30:52 -0500
+Received: from [2a00:1450:4864:20::331] (port=41512
+ helo=mail-wm1-x331.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nDTCy-0006JQ-93
+ id 1nDTCz-0006JV-FR
  for qemu-devel@nongnu.org; Fri, 28 Jan 2022 10:30:43 -0500
-Received: by mail-wr1-x42f.google.com with SMTP id s18so11559181wrv.7
- for <qemu-devel@nongnu.org>; Fri, 28 Jan 2022 07:30:15 -0800 (PST)
+Received: by mail-wm1-x331.google.com with SMTP id
+ q141-20020a1ca793000000b00347b48dfb53so4325123wme.0
+ for <qemu-devel@nongnu.org>; Fri, 28 Jan 2022 07:30:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:subject:date:message-id:mime-version
+ h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=3nqq6Er5DPcsISJj2hyu2C062BekUHKIeaHvVyJaSz0=;
- b=AVyWbalIAkBcZE64DBrEpVeQjuKHYx4g8N6noYNtXAu/pRQSk4hpFxxA7xP12NBfZ+
- AHjs5mVsE7Uqi9eVKMpqiyWw9A2x2ntGL1DRfbTitWcAb92jLexZLAjzHvC96u13bVPK
- wYev2JD6msWJqWl6TtmoAPwNmMqFy/U6zINYh0LLWRQ1LZ/lcjxosCoDy3vr9c9JHDv9
- xKThbeAHOCjDFZyA9xlgQH2elDd6HTu4ZW7zfK1UkWDCk4HagrqWdeR72TI2eNEbrOL7
- cH9lSfVaFOVk2q00oGVVxE1o27E13noqX/4gzEKK9Gmrpbj4I0KFl914xkM/2e79huMw
- 2s2g==
+ bh=3TqR2zgm5S4ywZbptgY4U9W2XiKosnPZusX/itqpoIY=;
+ b=Olw57ZRiRQdO8Tvj8LMFrF3HWkLtQ6NqAhPhjMhlCefMCatx/HUixnW14N7Cvev0ny
+ 3Zyh5ZnkQ6awXyL2wJ5yRp5oqFItQSRl5BLCl6kFoObC0x6Qc2i3h+bNqD2bMycC4t4j
+ fwl60xdsGzVCikrLmwxgn+zmem7KtGBBMpbBcj6ONj6iu7GsmkkgivQZ/2HiAqxWiM55
+ iXI3dQHVwPvzwuWD3UpNXd2uDfEZ0ewkhLttXboYCTS2BBjO73DAU03er1Uu+0MrPWKx
+ UUFOMd4NPb3IJeh+3FyaGkp/E98dMeLCdPGM9pb/NjqxT11D/dlRhS2n01bIBhcTLUSO
+ 6mnQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=3nqq6Er5DPcsISJj2hyu2C062BekUHKIeaHvVyJaSz0=;
- b=hWXuuMo3XoHu7o+ARiu0irDJ2zwUnH2d1De7RE5vg6wetmIFtuMfHlhRoLszVo71Mx
- ZnrAdL7Q5e+/R8CDlVKcdAPtnX2WVKspz7su6mo+1d4yWS/dypEWPQOlgMpc60lj/sqe
- vvDnHUJDw5pUlZlyvcpwcqsEF6Fv8I0rciHWrLOEJwZ/Hb03KHJt2VtRqqI+6mJfwNvi
- gETPwHUhDYVyKpvPbEogJUuUwxhW3ewRgp+XnrxDDWuK7xux8q5q3jA01RP8Pi2pQ4Fm
- 2y6bartestr91tdjoOarXCtDvJDKHDDkOzDuJ4q6gm5gbsWyBFxkntiRRZLbpaRHVqrq
- RYOQ==
-X-Gm-Message-State: AOAM531hxOE/pEKRyw8yqbiVgxIEcKN8//swQHGUx3R5dvwJK6GbN6cz
- DinI0B1C8VY881eJ0zKbKZvAR9ekFUe7tQ==
-X-Google-Smtp-Source: ABdhPJxezRWAkBM/49tZEzFs28/NdKcTRDlYM71Yqpja5FGpXIjd1pOtsZoifE5F5JKkpOFDQ+1Zyw==
-X-Received: by 2002:a05:6000:1884:: with SMTP id
- a4mr7166517wri.509.1643383814836; 
- Fri, 28 Jan 2022 07:30:14 -0800 (PST)
+ h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=3TqR2zgm5S4ywZbptgY4U9W2XiKosnPZusX/itqpoIY=;
+ b=b/uoSFsHpbjJroN/v4aS+NXHtwsOvWYYVfFoq71yg5m4Asd7OrxiqrExsGFXlsoKLZ
+ cSXT5Q/OiaC1VQtWhBkdGTWWnkqTNKZQi6NrKnxNadpDALTuaBcQ8ell85syXdXdlON7
+ V5gc77xOR5llCP7srjHWO2rSFLDGLMKCFKDS2maicPD0KCGKhp+0e2cHcBOjz9UiRizc
+ a3DAVS6MK2/jtt77pyAbq2zdd1qo1bABN2YH+Jfc3UhkNpUcjRqh5MDgFkniw8i6/ect
+ 7RnqOBUVZN+Rf20vJIkYf0wVeU7s1M4MF74FfJpmUCJEaozBq6kUQksy0dNc8HYwpVQT
+ mRTg==
+X-Gm-Message-State: AOAM530eWc1OKin0BS4ktJRBTd24mZqeyxiXp+bQdvqqLoxCX+IeZvCs
+ x6n0K61WuGrWI/6EuzuzWMdfc4ev3j522A==
+X-Google-Smtp-Source: ABdhPJw5e2pKA2MZxMKE1TM0C0WIUYwVC8dVult5l3ENvaTzhG91CU93aYo9HJpZmfhanj7YCtQHEA==
+X-Received: by 2002:a05:600c:ac7:: with SMTP id
+ c7mr2748223wmr.61.1643383815582; 
+ Fri, 28 Jan 2022 07:30:15 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id j3sm4749485wrb.57.2022.01.28.07.30.14
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 28 Jan 2022 07:30:14 -0800 (PST)
+ Fri, 28 Jan 2022 07:30:15 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 00/32] target-arm queue
-Date: Fri, 28 Jan 2022 15:29:37 +0000
-Message-Id: <20220128153009.2467560-1-peter.maydell@linaro.org>
+Subject: [PULL 01/32] Update copyright dates to 2022
+Date: Fri, 28 Jan 2022 15:29:38 +0000
+Message-Id: <20220128153009.2467560-2-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20220128153009.2467560-1-peter.maydell@linaro.org>
+References: <20220128153009.2467560-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42f
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::331
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::331;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x331.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -90,130 +93,45 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit b367db48126d4ee14579af6cf5cdbffeb9496627:
+It's a new year; update the copyright strings for our
+help/version/about information and for our documentation.
 
-  Merge remote-tracking branch 'remotes/aperard/tags/pull-xen-20220127' into staging (2022-01-28 11:05:29 +0000)
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Message-id: 20220120124713.288303-1-peter.maydell@linaro.org
+---
+ docs/conf.py          | 2 +-
+ include/qemu-common.h | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-are available in the Git repository at:
+diff --git a/docs/conf.py b/docs/conf.py
+index e79015975e6..49dab44cca5 100644
+--- a/docs/conf.py
++++ b/docs/conf.py
+@@ -98,7 +98,7 @@
+ 
+ # General information about the project.
+ project = u'QEMU'
+-copyright = u'2021, The QEMU Project Developers'
++copyright = u'2022, The QEMU Project Developers'
+ author = u'The QEMU Project Developers'
+ 
+ # The version info for the project you're documenting, acts as replacement for
+diff --git a/include/qemu-common.h b/include/qemu-common.h
+index 73bcf763ed8..0e7e7bab959 100644
+--- a/include/qemu-common.h
++++ b/include/qemu-common.h
+@@ -13,7 +13,7 @@
+ #define TFR(expr) do { if ((expr) != -1) break; } while (errno == EINTR)
+ 
+ /* Copyright string for -version arguments, About dialogs, etc */
+-#define QEMU_COPYRIGHT "Copyright (c) 2003-2021 " \
++#define QEMU_COPYRIGHT "Copyright (c) 2003-2022 " \
+     "Fabrice Bellard and the QEMU Project developers"
+ 
+ /* Bug reporting information for --help arguments, About dialogs, etc */
+-- 
+2.25.1
 
-  https://git.linaro.org/people/pmaydell/qemu-arm.git tags/pull-target-arm-20220128
-
-for you to fetch changes up to 2c023d3675a3ffb54fc30504dcd715bc6f6e234f:
-
-  target/arm: Use correct entrypoint for SVC taken from Hyp to Hyp (2022-01-28 14:30:36 +0000)
-
-----------------------------------------------------------------
-target-arm queue:
- * Update copyright dates to 2022
- * hw/armv7m: Fix broken VMStateDescription
- * hw/char/exynos4210_uart: Fix crash on trying to load VM state
- * rtc: Move RTC function prototypes to their own header
- * xlnx-versal-virt: Support PMC SLCR
- * xlnx-versal-virt: Support OSPI flash memory controller
- * scripts: Explain the difference between linux-headers and standard-headers
- * target/arm: Log CPU index in 'Taking exception' log
- * arm_gicv3_its: Various bugfixes and cleanups
- * arm_gicv3_its: Implement the missing MOVI and MOVALL commands
- * ast2600: Fix address mapping of second SPI controller
- * target/arm: Use correct entrypoint for SVC taken from Hyp to Hyp
-
-----------------------------------------------------------------
-Andrew Baumann (1):
-      MAINTAINERS: Remove myself (for raspi).
-
-Cédric Le Goater (1):
-      hw/arm: ast2600: Fix address mapping of second SPI controller
-
-Francisco Iglesias (10):
-      hw/misc: Add a model of Versal's PMC SLCR
-      hw/arm/xlnx-versal: 'Or' the interrupts from the BBRAM and RTC models
-      hw/arm/xlnx-versal: Connect Versal's PMC SLCR
-      include/hw/dma/xlnx_csu_dma: Add in missing includes in the header
-      hw/dma/xlnx_csu_dma: Support starting a read transfer through a class method
-      hw/ssi: Add a model of Xilinx Versal's OSPI flash memory controller
-      hw/arm/xlnx-versal: Connect the OSPI flash memory controller model
-      hw/block/m25p80: Add support for Micron Xccela flash mt35xu01g
-      hw/arm/xlnx-versal-virt: Connect mt35xu01g flashes to the OSPI
-      MAINTAINERS: Add an entry for Xilinx Versal OSPI
-
-Peter Maydell (20):
-      Update copyright dates to 2022
-      hw/armv7m: Fix broken VMStateDescription
-      hw/char/exynos4210_uart: Fix crash on trying to load VM state
-      rtc: Move RTC function prototypes to their own header
-      scripts: Explain the difference between linux-headers and standard-headers
-      target/arm: Log CPU index in 'Taking exception' log
-      hw/intc/arm_gicv3_its: Add tracepoints
-      hw/intc/arm_gicv3: Initialise dma_as in GIC, not ITS
-      hw/intc/arm_gicv3_its: Don't clear GITS_CREADR when GITS_CTLR.ENABLED is set
-      hw/intc/arm_gicv3_its: Don't clear GITS_CWRITER on writes to GITS_CBASER
-      hw/intc/arm_gicv3: Honour GICD_CTLR.EnableGrp1NS for LPIs
-      hw/intc/arm_gicv3_its: Sort ITS command list into numeric order
-      hw/intc/arm_gicv3_redist: Remove unnecessary zero checks
-      hw/intc/arm_gicv3: Set GICR_CTLR.CES if LPIs are supported
-      hw/intc/arm_gicv3_its: Provide read accessor for translation_ops
-      hw/intc/arm_gicv3_its: Make GITS_BASER<n> RAZ/WI for unimplemented registers
-      hw/intc/arm_gicv3_its: Check table bounds against correct limit
-      hw/intc/arm_gicv3_its: Implement MOVALL
-      hw/intc/arm_gicv3_its: Implement MOVI
-      target/arm: Use correct entrypoint for SVC taken from Hyp to Hyp
-
- docs/conf.py                               |    2 +-
- hw/intc/gicv3_internal.h                   |   43 +-
- include/hw/arm/xlnx-versal.h               |   30 +-
- include/hw/dma/xlnx_csu_dma.h              |   24 +-
- include/hw/intc/arm_gicv3_its_common.h     |    1 -
- include/hw/misc/xlnx-versal-pmc-iou-slcr.h |   78 ++
- include/hw/ssi/xlnx-versal-ospi.h          |  111 ++
- include/qemu-common.h                      |    5 +-
- include/sysemu/rtc.h                       |   58 +
- target/arm/internals.h                     |    2 +-
- hw/arm/armv7m.c                            |    4 +-
- hw/arm/aspeed_ast2600.c                    |    2 +-
- hw/arm/omap1.c                             |    2 +-
- hw/arm/pxa2xx.c                            |    2 +-
- hw/arm/strongarm.c                         |    2 +-
- hw/arm/xlnx-versal-virt.c                  |   25 +-
- hw/arm/xlnx-versal.c                       |  190 ++-
- hw/block/m25p80.c                          |    2 +
- hw/char/exynos4210_uart.c                  |    2 +-
- hw/dma/xlnx_csu_dma.c                      |   17 +
- hw/intc/arm_gicv3.c                        |    1 +
- hw/intc/arm_gicv3_common.c                 |    9 +
- hw/intc/arm_gicv3_its.c                    |  258 +++-
- hw/intc/arm_gicv3_redist.c                 |  115 +-
- hw/misc/mac_via.c                          |    2 +-
- hw/misc/macio/cuda.c                       |    2 +-
- hw/misc/macio/pmu.c                        |    2 +-
- hw/misc/xlnx-versal-pmc-iou-slcr.c         | 1446 ++++++++++++++++++++++
- hw/ppc/spapr_rtc.c                         |    2 +-
- hw/rtc/allwinner-rtc.c                     |    2 +-
- hw/rtc/aspeed_rtc.c                        |    2 +-
- hw/rtc/ds1338.c                            |    2 +-
- hw/rtc/exynos4210_rtc.c                    |    2 +-
- hw/rtc/goldfish_rtc.c                      |    2 +-
- hw/rtc/m41t80.c                            |    2 +-
- hw/rtc/m48t59.c                            |    2 +-
- hw/rtc/mc146818rtc.c                       |    2 +-
- hw/rtc/pl031.c                             |    2 +-
- hw/rtc/twl92230.c                          |    2 +-
- hw/rtc/xlnx-zynqmp-rtc.c                   |    2 +-
- hw/s390x/tod-tcg.c                         |    2 +-
- hw/scsi/megasas.c                          |    2 +-
- hw/ssi/xlnx-versal-ospi.c                  | 1853 ++++++++++++++++++++++++++++
- net/dump.c                                 |    2 +-
- softmmu/rtc.c                              |    2 +-
- target/arm/helper.c                        |   13 +-
- target/arm/m_helper.c                      |    2 +-
- MAINTAINERS                                |    7 +-
- hw/intc/trace-events                       |    8 +
- hw/misc/meson.build                        |    5 +-
- hw/ssi/meson.build                         |    1 +
- scripts/update-linux-headers.sh            |   16 +
- 52 files changed, 4300 insertions(+), 74 deletions(-)
- create mode 100644 include/hw/misc/xlnx-versal-pmc-iou-slcr.h
- create mode 100644 include/hw/ssi/xlnx-versal-ospi.h
- create mode 100644 include/sysemu/rtc.h
- create mode 100644 hw/misc/xlnx-versal-pmc-iou-slcr.c
- create mode 100644 hw/ssi/xlnx-versal-ospi.c
 
