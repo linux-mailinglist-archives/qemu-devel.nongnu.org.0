@@ -2,41 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F29A49F23D
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jan 2022 05:08:23 +0100 (CET)
-Received: from localhost ([::1]:57782 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E8BEA49F244
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jan 2022 05:12:05 +0100 (CET)
+Received: from localhost ([::1]:37996 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nDIYg-0006qS-C3
-	for lists+qemu-devel@lfdr.de; Thu, 27 Jan 2022 23:08:22 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:39942)
+	id 1nDIcH-0004E9-2C
+	for lists+qemu-devel@lfdr.de; Thu, 27 Jan 2022 23:12:05 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:39954)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <yangxiaojuan@loongson.cn>)
- id 1nDIBs-00083C-C5
+ id 1nDIBs-00084A-QF
  for qemu-devel@nongnu.org; Thu, 27 Jan 2022 22:44:48 -0500
-Received: from mail.loongson.cn ([114.242.206.163]:40514 helo=loongson.cn)
+Received: from mail.loongson.cn ([114.242.206.163]:40492 helo=loongson.cn)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <yangxiaojuan@loongson.cn>) id 1nDIBq-0002Lt-4b
+ (envelope-from <yangxiaojuan@loongson.cn>) id 1nDIBp-0002Lo-C9
  for qemu-devel@nongnu.org; Thu, 27 Jan 2022 22:44:48 -0500
 Received: from localhost.localdomain (unknown [10.2.5.185])
- by mail.loongson.cn (Coremail) with SMTP id AQAAf9AxGuCMZvNhWCkFAA--.15604S14; 
+ by mail.loongson.cn (Coremail) with SMTP id AQAAf9AxGuCMZvNhWCkFAA--.15604S15; 
  Fri, 28 Jan 2022 11:44:32 +0800 (CST)
 From: Xiaojuan Yang <yangxiaojuan@loongson.cn>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH v5 12/30] target/loongarch: Add timer related instructions
- support.
-Date: Thu, 27 Jan 2022 22:43:54 -0500
-Message-Id: <20220128034412.1262452-13-yangxiaojuan@loongson.cn>
+Subject: [RFC PATCH v5 13/30] target/loongarch: Add gdb support.
+Date: Thu, 27 Jan 2022 22:43:55 -0500
+Message-Id: <20220128034412.1262452-14-yangxiaojuan@loongson.cn>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20220128034412.1262452-1-yangxiaojuan@loongson.cn>
 References: <20220128034412.1262452-1-yangxiaojuan@loongson.cn>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf9AxGuCMZvNhWCkFAA--.15604S14
-X-Coremail-Antispam: 1UD129KBjvJXoWxGry8KFyUArW5Zr13tFyDAwb_yoW5tr1Dpa
- 1IkrW5KF48tFZxXayxJ3WYgr98Xa1xKrW2qa9av395CF43XwsrZr10g3sI9Fy5JayDXryj
- v3Z5Aw1UuF47X3JanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnUUvcSsGvfC2KfnxnUUI43ZEXa7xR_UUUUUUUUU==
+X-CM-TRANSID: AQAAf9AxGuCMZvNhWCkFAA--.15604S15
+X-Coremail-Antispam: 1UD129KBjvAXoWfJry7ArWDZr43GF1fWF1DAwb_yoW8Jr4UCo
+ WagFsxtr18C39Yy3WrAFn0qa9FqF1jyFs7ua43ur98Gan5C3yfGryqgwn0vFyrJrs3Wry5
+ J3yS9a97Wrn7Xr1fn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7v73VFW2AGmfu7bjvjm3
+ AaLaJ3UjIYCTnIWjDUYxBIdaVFxhVjvjDU0xZFpf9x0zRUUUUUUUUU=
 X-CM-SenderInfo: p1dqw5xldry3tdq6z05rqj20fqof0/
 Received-SPF: pass client-ip=114.242.206.163;
  envelope-from=yangxiaojuan@loongson.cn; helo=loongson.cn
@@ -62,115 +61,298 @@ Cc: mark.cave-ayland@ilande.co.uk, richard.henderson@linaro.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This includes:
--RDTIME{L/H}.W
--RDTIME.D
-
 Signed-off-by: Xiaojuan Yang <yangxiaojuan@loongson.cn>
 Signed-off-by: Song Gao <gaosong@loongson.cn>
 ---
- target/loongarch/helper.h                     |  1 +
- target/loongarch/insn_trans/trans_extra.c.inc | 32 +++++++++++++++++++
- target/loongarch/op_helper.c                  |  6 ++++
- target/loongarch/translate.c                  |  2 ++
- 4 files changed, 41 insertions(+)
+ configs/targets/loongarch64-softmmu.mak |  1 +
+ gdb-xml/loongarch-base64.xml            | 43 +++++++++++
+ gdb-xml/loongarch-fpu64.xml             | 57 +++++++++++++++
+ target/loongarch/cpu.c                  |  7 ++
+ target/loongarch/gdbstub.c              | 97 +++++++++++++++++++++++++
+ target/loongarch/internals.h            | 10 +++
+ target/loongarch/meson.build            |  1 +
+ 7 files changed, 216 insertions(+)
+ create mode 100644 configs/targets/loongarch64-softmmu.mak
+ create mode 100644 gdb-xml/loongarch-base64.xml
+ create mode 100644 gdb-xml/loongarch-fpu64.xml
+ create mode 100644 target/loongarch/gdbstub.c
 
-diff --git a/target/loongarch/helper.h b/target/loongarch/helper.h
-index c916f2650b..035bd141ed 100644
---- a/target/loongarch/helper.h
-+++ b/target/loongarch/helper.h
-@@ -116,4 +116,5 @@ DEF_HELPER_4(lddir, tl, env, tl, tl, i32)
- DEF_HELPER_4(ldpte, void, env, tl, tl, i32)
- DEF_HELPER_1(ertn, void, env)
- DEF_HELPER_1(idle, void, env)
-+DEF_HELPER_1(rdtime_d, i64, env)
- #endif /* !CONFIG_USER_ONLY */
-diff --git a/target/loongarch/insn_trans/trans_extra.c.inc b/target/loongarch/insn_trans/trans_extra.c.inc
-index 2ce95d3382..8d3425ba61 100644
---- a/target/loongarch/insn_trans/trans_extra.c.inc
-+++ b/target/loongarch/insn_trans/trans_extra.c.inc
-@@ -33,22 +33,54 @@ static bool trans_asrtgt_d(DisasContext *ctx, arg_asrtgt_d * a)
-     return true;
- }
- 
-+#ifndef CONFIG_USER_ONLY
-+static bool gen_rdtime(DisasContext *ctx, arg_rr *a,
-+                       bool word, bool high)
-+{
-+    TCGv dst1 = gpr_dst(ctx, a->rd, EXT_NONE);
-+    TCGv dst2 = gpr_dst(ctx, a->rj, EXT_NONE);
+diff --git a/configs/targets/loongarch64-softmmu.mak b/configs/targets/loongarch64-softmmu.mak
+new file mode 100644
+index 0000000000..f33fa1590b
+--- /dev/null
++++ b/configs/targets/loongarch64-softmmu.mak
+@@ -0,0 +1 @@
++TARGET_XML_FILES= gdb-xml/loongarch-base64.xml gdb-xml/loongarch-fpu64.xml
+diff --git a/gdb-xml/loongarch-base64.xml b/gdb-xml/loongarch-base64.xml
+new file mode 100644
+index 0000000000..f2af2a4b6e
+--- /dev/null
++++ b/gdb-xml/loongarch-base64.xml
+@@ -0,0 +1,43 @@
++<?xml version="1.0"?>
++<!-- Copyright (C) 2021 Free Software Foundation, Inc.
 +
-+    if (tb_cflags(ctx->base.tb) & CF_USE_ICOUNT) {
-+        gen_io_start();
++     Copying and distribution of this file, with or without modification,
++     are permitted in any medium without royalty provided the copyright
++     notice and this notice are preserved.  -->
++
++<!DOCTYPE feature SYSTEM "gdb-target.dtd">
++<feature name="org.gnu.gdb.loongarch.base">
++  <reg name="r0" bitsize="64" type="uint64" group="general"/>
++  <reg name="r1" bitsize="64" type="uint64" group="general"/>
++  <reg name="r2" bitsize="64" type="uint64" group="general"/>
++  <reg name="r3" bitsize="64" type="uint64" group="general"/>
++  <reg name="r4" bitsize="64" type="uint64" group="general"/>
++  <reg name="r5" bitsize="64" type="uint64" group="general"/>
++  <reg name="r6" bitsize="64" type="uint64" group="general"/>
++  <reg name="r7" bitsize="64" type="uint64" group="general"/>
++  <reg name="r8" bitsize="64" type="uint64" group="general"/>
++  <reg name="r9" bitsize="64" type="uint64" group="general"/>
++  <reg name="r10" bitsize="64" type="uint64" group="general"/>
++  <reg name="r11" bitsize="64" type="uint64" group="general"/>
++  <reg name="r12" bitsize="64" type="uint64" group="general"/>
++  <reg name="r13" bitsize="64" type="uint64" group="general"/>
++  <reg name="r14" bitsize="64" type="uint64" group="general"/>
++  <reg name="r15" bitsize="64" type="uint64" group="general"/>
++  <reg name="r16" bitsize="64" type="uint64" group="general"/>
++  <reg name="r17" bitsize="64" type="uint64" group="general"/>
++  <reg name="r18" bitsize="64" type="uint64" group="general"/>
++  <reg name="r19" bitsize="64" type="uint64" group="general"/>
++  <reg name="r20" bitsize="64" type="uint64" group="general"/>
++  <reg name="r21" bitsize="64" type="uint64" group="general"/>
++  <reg name="r22" bitsize="64" type="uint64" group="general"/>
++  <reg name="r23" bitsize="64" type="uint64" group="general"/>
++  <reg name="r24" bitsize="64" type="uint64" group="general"/>
++  <reg name="r25" bitsize="64" type="uint64" group="general"/>
++  <reg name="r26" bitsize="64" type="uint64" group="general"/>
++  <reg name="r27" bitsize="64" type="uint64" group="general"/>
++  <reg name="r28" bitsize="64" type="uint64" group="general"/>
++  <reg name="r29" bitsize="64" type="uint64" group="general"/>
++  <reg name="r30" bitsize="64" type="uint64" group="general"/>
++  <reg name="r31" bitsize="64" type="uint64" group="general"/>
++  <reg name="pc" bitsize="64" type="code_ptr" group="general"/>
++</feature>
+diff --git a/gdb-xml/loongarch-fpu64.xml b/gdb-xml/loongarch-fpu64.xml
+new file mode 100644
+index 0000000000..e52cf89fbc
+--- /dev/null
++++ b/gdb-xml/loongarch-fpu64.xml
+@@ -0,0 +1,57 @@
++<?xml version="1.0"?>
++<!-- Copyright (C) 2021 Free Software Foundation, Inc.
++
++     Copying and distribution of this file, with or without modification,
++     are permitted in any medium without royalty provided the copyright
++     notice and this notice are preserved.  -->
++
++<!DOCTYPE feature SYSTEM "gdb-target.dtd">
++<feature name="org.gnu.gdb.loongarch.fpu">
++
++  <union id="fpu64type">
++    <field name="f" type="ieee_single"/>
++    <field name="d" type="ieee_double"/>
++  </union>
++
++  <reg name="f0" bitsize="64" type="fpu64type" group="float"/>
++  <reg name="f1" bitsize="64" type="fpu64type" group="float"/>
++  <reg name="f2" bitsize="64" type="fpu64type" group="float"/>
++  <reg name="f3" bitsize="64" type="fpu64type" group="float"/>
++  <reg name="f4" bitsize="64" type="fpu64type" group="float"/>
++  <reg name="f5" bitsize="64" type="fpu64type" group="float"/>
++  <reg name="f6" bitsize="64" type="fpu64type" group="float"/>
++  <reg name="f7" bitsize="64" type="fpu64type" group="float"/>
++  <reg name="f8" bitsize="64" type="fpu64type" group="float"/>
++  <reg name="f9" bitsize="64" type="fpu64type" group="float"/>
++  <reg name="f10" bitsize="64" type="fpu64type" group="float"/>
++  <reg name="f11" bitsize="64" type="fpu64type" group="float"/>
++  <reg name="f12" bitsize="64" type="fpu64type" group="float"/>
++  <reg name="f13" bitsize="64" type="fpu64type" group="float"/>
++  <reg name="f14" bitsize="64" type="fpu64type" group="float"/>
++  <reg name="f15" bitsize="64" type="fpu64type" group="float"/>
++  <reg name="f16" bitsize="64" type="fpu64type" group="float"/>
++  <reg name="f17" bitsize="64" type="fpu64type" group="float"/>
++  <reg name="f18" bitsize="64" type="fpu64type" group="float"/>
++  <reg name="f19" bitsize="64" type="fpu64type" group="float"/>
++  <reg name="f20" bitsize="64" type="fpu64type" group="float"/>
++  <reg name="f21" bitsize="64" type="fpu64type" group="float"/>
++  <reg name="f22" bitsize="64" type="fpu64type" group="float"/>
++  <reg name="f23" bitsize="64" type="fpu64type" group="float"/>
++  <reg name="f24" bitsize="64" type="fpu64type" group="float"/>
++  <reg name="f25" bitsize="64" type="fpu64type" group="float"/>
++  <reg name="f26" bitsize="64" type="fpu64type" group="float"/>
++  <reg name="f27" bitsize="64" type="fpu64type" group="float"/>
++  <reg name="f28" bitsize="64" type="fpu64type" group="float"/>
++  <reg name="f29" bitsize="64" type="fpu64type" group="float"/>
++  <reg name="f30" bitsize="64" type="fpu64type" group="float"/>
++  <reg name="f31" bitsize="64" type="fpu64type" group="float"/>
++  <reg name="fcc0" bitsize="8" type="uint8" group="float"/>
++  <reg name="fcc1" bitsize="8" type="uint8" group="float"/>
++  <reg name="fcc2" bitsize="8" type="uint8" group="float"/>
++  <reg name="fcc3" bitsize="8" type="uint8" group="float"/>
++  <reg name="fcc4" bitsize="8" type="uint8" group="float"/>
++  <reg name="fcc5" bitsize="8" type="uint8" group="float"/>
++  <reg name="fcc6" bitsize="8" type="uint8" group="float"/>
++  <reg name="fcc7" bitsize="8" type="uint8" group="float"/>
++  <reg name="fcsr" bitsize="32" type="uint32" group="float"/>
++</feature>
+diff --git a/target/loongarch/cpu.c b/target/loongarch/cpu.c
+index 962d3ab803..6a31ca08e5 100644
+--- a/target/loongarch/cpu.c
++++ b/target/loongarch/cpu.c
+@@ -146,11 +146,18 @@ static void loongarch_cpu_do_interrupt(CPUState *cs)
+                      " TLBRERA " TARGET_FMT_lx " %s exception\n", __func__,
+                      env->pc, env->CSR_ERA, env->CSR_TLBRERA, name);
+     }
++    if (cs->exception_index == EXCCODE_INT &&
++       (FIELD_EX64(env->CSR_DBG, CSR_DBG, DST))) {
++        env->CSR_DBG = FIELD_DP64(env->CSR_DBG, CSR_DBG, DEI, 1);
++        goto set_DERA;
 +    }
-+    gen_helper_rdtime_d(dst1, cpu_env);
-+    if (word) {
-+        tcg_gen_sextract_tl(dst1, dst1, high ? 32 : 0, 32);
-+    }
-+    tcg_gen_ld_i64(dst2, cpu_env, offsetof(CPULoongArchState, CSR_TID));
-+
-+    return true;
-+}
-+#endif
-+
- static bool trans_rdtimel_w(DisasContext *ctx, arg_rdtimel_w *a)
- {
-+#ifdef CONFIG_USER_ONLY
-     tcg_gen_movi_tl(cpu_gpr[a->rd], 0);
-     return true;
-+#else
-+    return gen_rdtime(ctx, a, 1, 0);
-+#endif
- }
  
- static bool trans_rdtimeh_w(DisasContext *ctx, arg_rdtimeh_w *a)
- {
-+#ifdef CONFIG_USER_ONLY
-     tcg_gen_movi_tl(cpu_gpr[a->rd], 0);
-     return true;
-+#else
-+    return gen_rdtime(ctx, a, 1, 1);
-+#endif
- }
- 
- static bool trans_rdtime_d(DisasContext *ctx, arg_rdtime_d *a)
- {
-+#ifdef CONFIG_USER_ONLY
-     tcg_gen_movi_tl(cpu_gpr[a->rd], 0);
-     return true;
-+#else
-+    return gen_rdtime(ctx, a, 0, 0);
-+#endif
- }
- 
- static bool trans_cpucfg(DisasContext *ctx, arg_cpucfg *a)
-diff --git a/target/loongarch/op_helper.c b/target/loongarch/op_helper.c
-index 5db1982c48..b1d9df1f0e 100644
---- a/target/loongarch/op_helper.c
-+++ b/target/loongarch/op_helper.c
-@@ -127,4 +127,10 @@ void helper_idle(CPULoongArchState *env)
-     cpu_reset_interrupt(cs, CPU_INTERRUPT_WAKE);
-     do_raise_exception(env, EXCP_HLT, 0);
- }
+     switch (cs->exception_index) {
+     case EXCCODE_DBP:
+         env->CSR_DBG = FIELD_DP64(env->CSR_DBG, CSR_DBG, DCL, 1);
+         env->CSR_DBG = FIELD_DP64(env->CSR_DBG, CSR_DBG, ECODE, 0xC);
++        goto set_DERA;
++    set_DERA:
+         env->CSR_DERA = env->pc;
+         env->CSR_DBG = FIELD_DP64(env->CSR_DBG, CSR_DBG, DST, 1);
+         env->pc = env->CSR_EENTRY + 0x480;
+diff --git a/target/loongarch/gdbstub.c b/target/loongarch/gdbstub.c
+new file mode 100644
+index 0000000000..2fec9364de
+--- /dev/null
++++ b/target/loongarch/gdbstub.c
+@@ -0,0 +1,97 @@
++/*
++ * LOONGARCH gdb server stub
++ *
++ * Copyright (c) 2021 Loongson Technology Corporation Limited
++ *
++ * SPDX-License-Identifier: LGPL-2.1+
++ */
 +
-+uint64_t helper_rdtime_d(CPULoongArchState *env)
++#include "qemu/osdep.h"
++#include "qemu-common.h"
++#include "cpu.h"
++#include "internals.h"
++#include "exec/gdbstub.h"
++#include "exec/helper-proto.h"
++
++int loongarch_cpu_gdb_read_register(CPUState *cs, GByteArray *mem_buf, int n)
 +{
-+     LoongArchCPU *cpu = LOONGARCH_CPU(env_cpu(env));
-+     return cpu_loongarch_get_constant_timer_counter(cpu);
-+}
- #endif /* !CONFIG_USER_ONLY */
-diff --git a/target/loongarch/translate.c b/target/loongarch/translate.c
-index c1cac2f006..9ce003980d 100644
---- a/target/loongarch/translate.c
-+++ b/target/loongarch/translate.c
-@@ -25,6 +25,8 @@ static TCGv cpu_lladdr, cpu_llval;
- TCGv_i32 cpu_fcsr0;
- TCGv_i64 cpu_fpr[32];
- 
-+#include "exec/gen-icount.h"
++    LoongArchCPU *cpu = LOONGARCH_CPU(cs);
++    CPULoongArchState *env = &cpu->env;
 +
- #define DISAS_STOP       DISAS_TARGET_0
- #define DISAS_EXIT       DISAS_TARGET_1
++    if (0 <= n && n < 32) {
++        return gdb_get_regl(mem_buf, env->gpr[n]);
++    } else if (n == 32) {
++        return gdb_get_regl(mem_buf, env->pc);
++    }
++    return 0;
++}
++
++int loongarch_cpu_gdb_write_register(CPUState *cs, uint8_t *mem_buf, int n)
++{
++    LoongArchCPU *cpu = LOONGARCH_CPU(cs);
++    CPULoongArchState *env = &cpu->env;
++    target_ulong tmp = ldtul_p(mem_buf);
++
++    if (0 <= n && n < 32) {
++        return env->gpr[n] = tmp, sizeof(target_ulong);
++    } else if (n == 32) {
++        return env->pc = tmp, sizeof(target_ulong);
++    }
++    return 0;
++}
++
++static int loongarch_gdb_get_fpu(CPULoongArchState *env,
++                                 GByteArray *mem_buf, int n)
++{
++    if (0 <= n && n < 32) {
++        return gdb_get_reg64(mem_buf, env->fpr[n]);
++    } else if (32 <= n && n < 40) {
++        return gdb_get_reg8(mem_buf, env->cf[n - 32]);
++    } else if (n == 40) {
++        return gdb_get_reg32(mem_buf, env->fcsr0);
++    }
++    return 0;
++}
++
++static int loongarch_gdb_set_fpu(CPULoongArchState *env,
++                                 uint8_t *mem_buf, int n)
++{
++    if (0 <= n && n < 32) {
++        return env->fpr[n] = ldq_p(mem_buf), 8;
++    } else if (32 <= n && n < 40) {
++        return env->cf[n - 32] = ldub_p(mem_buf), 1;
++    } else if (n == 40) {
++        return env->fcsr0 = ldl_p(mem_buf), 4;
++    }
++    return 0;
++}
++
++void loongarch_cpu_register_gdb_regs_for_features(CPUState *cs)
++{
++    gdb_register_coprocessor(cs, loongarch_gdb_get_fpu, loongarch_gdb_set_fpu,
++                             41, "loongarch-fpu64.xml", 0);
++}
++
++int loongarch_read_qxfer(CPUState *cs, const char *annex, uint8_t *read_buf,
++                         unsigned long offset, unsigned long len)
++{
++    if (strncmp(annex, "cpucfg", sizeof("cpucfg") - 1) == 0) {
++        if (offset % 4 != 0 || len % 4 != 0) {
++            return 0;
++        }
++
++        size_t i;
++        for (i = offset; i < offset + len; i += 4)
++            ((uint32_t *)read_buf)[(i - offset) / 4] =
++                helper_cpucfg(&(LOONGARCH_CPU(cs)->env), i / 4);
++        return 32 * 4;
++    }
++    return 0;
++}
++
++int loongarch_write_qxfer(CPUState *cs, const char *annex,
++                          const uint8_t *write_buf, unsigned long offset,
++                          unsigned long len)
++{
++    return 0;
++}
+diff --git a/target/loongarch/internals.h b/target/loongarch/internals.h
+index 92f0a9aa5b..e3fa3d951f 100644
+--- a/target/loongarch/internals.h
++++ b/target/loongarch/internals.h
+@@ -42,5 +42,15 @@ bool loongarch_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+ 
+ hwaddr loongarch_cpu_get_phys_page_debug(CPUState *cpu, vaddr addr);
+ #endif
++int loongarch_cpu_gdb_read_register(CPUState *cs, GByteArray *mem_buf, int n);
++int loongarch_cpu_gdb_write_register(CPUState *cs, uint8_t *mem_buf, int n);
++int loongarch_read_qxfer(CPUState *cs, const char *annex,
++                         uint8_t *read_buf,
++                         unsigned long offset, unsigned long len);
++int loongarch_write_qxfer(CPUState *cs, const char *annex,
++                          const uint8_t *write_buf,
++                          unsigned long offset, unsigned long len);
++
++void loongarch_cpu_register_gdb_regs_for_features(CPUState *cs);
+ 
+ #endif
+diff --git a/target/loongarch/meson.build b/target/loongarch/meson.build
+index 072684ca6d..4fb0c96e52 100644
+--- a/target/loongarch/meson.build
++++ b/target/loongarch/meson.build
+@@ -11,6 +11,7 @@ loongarch_tcg_ss.add(files(
+   'fpu_helper.c',
+   'op_helper.c',
+   'translate.c',
++  'gdbstub.c',
+ ))
+ loongarch_tcg_ss.add(zlib)
  
 -- 
 2.27.0
