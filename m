@@ -2,75 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B84B549F7A3
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jan 2022 11:54:11 +0100 (CET)
-Received: from localhost ([::1]:56338 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4DAAA49F7B2
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jan 2022 11:57:47 +0100 (CET)
+Received: from localhost ([::1]:58758 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nDOtO-0004kK-It
-	for lists+qemu-devel@lfdr.de; Fri, 28 Jan 2022 05:54:10 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:49842)
+	id 1nDOws-0006e5-Ef
+	for lists+qemu-devel@lfdr.de; Fri, 28 Jan 2022 05:57:46 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:50280)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nDOrW-0002H7-CA
- for qemu-devel@nongnu.org; Fri, 28 Jan 2022 05:52:14 -0500
-Received: from [2a00:1450:4864:20::42e] (port=46658
- helo=mail-wr1-x42e.google.com)
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1nDOuJ-0005gm-Vv
+ for qemu-devel@nongnu.org; Fri, 28 Jan 2022 05:55:08 -0500
+Received: from [2a00:1450:4864:20::535] (port=41918
+ helo=mail-ed1-x535.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nDOrT-0003Fe-Kr
- for qemu-devel@nongnu.org; Fri, 28 Jan 2022 05:52:14 -0500
-Received: by mail-wr1-x42e.google.com with SMTP id l25so10017235wrb.13
- for <qemu-devel@nongnu.org>; Fri, 28 Jan 2022 02:52:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=cLjP2O4H615JGx2i+CeBkLHEIC2riVesbwrQ06Izni0=;
- b=HhaSobLkvtPbNrHmLXXa09uFAHSv8tNwtpOCjEQdortK3+2yBcr+JyK5mBtPy37Nvw
- Zsou/OttqeDm+/ktK8fo7Prf5DVhDYmXb2pepo9mPXj8Q/6AFAKTpktBL2bkW7V7HSVn
- oyEB3ioWNXIr1WIC4TM8Y8rlL2xmFe9UxwRzw8m56FlyFD67uxSLrRAxWgN45Eo1vz7T
- sidAWX1NSmDYWxerl9Jt+XJwhZJQFCIg1D1ADQBX8j/oYEW+VdgYgnUPdHFR5UX6YOEE
- Vxc22j/M+cUL5EsrEKQ1Bkv/XUMd6jOosqdo5D3PDbwGmdA+hGhc/lyBRhH9ss5mrUXn
- mYyw==
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1nDOuH-0003Vz-6y
+ for qemu-devel@nongnu.org; Fri, 28 Jan 2022 05:55:07 -0500
+Received: by mail-ed1-x535.google.com with SMTP id j2so8994053edj.8
+ for <qemu-devel@nongnu.org>; Fri, 28 Jan 2022 02:55:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:message-id:date:mime-version:user-agent:subject
+ :content-language:to:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=XyBalw8WQja9AqTXwskoTOx/wAivSzlSQvhqmeq9elU=;
+ b=AosnHSfR+NmU/Y88nPv8bfWB/vbqCbVvUD+0GmVvOvrpQFs368I12x9bKfv6QKgN/2
+ 4CWewnFVWNlwCgnDfMDMGkO5qBTZXmaxUNEIAYCupZiLbGBeKO/rtUCz5Gs6/GurJ2p9
+ BvCnv3ScQBJUpcHPRVTby/C/mmFcQ2LeusOlp7BVuaQesUFp8FR5hu/16vUA+OawTw0H
+ Lxu/v2d7vzUddiN0kLE0thrtzXhKOuJiftashAXZeYE5F4fF5krHRYtCkS4ZEBtjk3FY
+ ULEQaFo3I2S7jKedMEwJzyy7mye0isN3b78CpT+n8Hsi6FVHAHZWwveN6HghoXm9xrQ5
+ LH7Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=cLjP2O4H615JGx2i+CeBkLHEIC2riVesbwrQ06Izni0=;
- b=wSBSSScoZt29SPPGJv7rGOYQJ61KUbEYYz9T9vlUg9rZkYthQtjuPTE1RagB6mjUR7
- x97fC6XUXjVSmNhKjWMgcr/0SCvHUvqR5Nd+uIpw23aL4gkRohvnPXZe/lpB+ZxjEMT1
- WpzxzzLHSEJAc5NFJOFVWtfFBqk6kZYZjNOX991C5ViiTvWbG/vhA+Xl9k4mI22OFKLj
- JOgZjtBwoLmOdCtlJrswLTBvCJagyooe/hPTLvoPTyfucx35gGDWGDAXfUweOyXw22e3
- iS+zniIsfimKFeWl5fesoyQydhIZS2R6Lp9VhdQdDIs9T0Y42rKdoo7Jd3wvpz7utt1T
- gg7w==
-X-Gm-Message-State: AOAM532w6+nekMXeEtt1kfw0kjXlkrgrzi6SNrQaYbpb29+VD0pHAEo+
- V/5x1irFtNV2wEEJhAD9YTkg5HNFvbfsOYvbqUl5xQ==
-X-Google-Smtp-Source: ABdhPJznf8XmZ55w4Oah5x7g1V3Kw8pjzlAA6aZ/L25vI7GzI3CO2aUbuUwmio1rlJ6knok6yx8w5cXihoH+FEYrq6c=
-X-Received: by 2002:a05:6000:258:: with SMTP id
- m24mr6904812wrz.2.1643367122347; 
- Fri, 28 Jan 2022 02:52:02 -0800 (PST)
+ h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+ :subject:content-language:to:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=XyBalw8WQja9AqTXwskoTOx/wAivSzlSQvhqmeq9elU=;
+ b=mhFK3iCXvQjZvYQuZ6QD4Veh2E1HXsMrJInru9unC8K/no0QFB9859e6snbb4Ua9kr
+ bS8BduNz+yIaTlrr+4hi8T5eZVnsAXag10+IuKociLfCvezXtFt/xBT168TJSjyXz1e3
+ 4zahaF3jmBlP4ALI0OzfgcVaaVS0CX0kQjXb3s+dMaHLfGSxr4ZMoYVuqbVLzq1dNYE+
+ LFQTLfD7aA1Tt5gZxbTwEHQAoquNZdt+csuMW1DShGhpvG1JOnNDgxV4g5RtKuvILO71
+ ib8AiQfvnoTGFMW69HjEe1JQqJxwrW8gNx6JYwUb7mPl0h7DoKX5+SLaRL65ZoNwhA6n
+ fRBw==
+X-Gm-Message-State: AOAM530san6ZZ/xWgYNPT2o9zw0GNRkcOqbY/k7YtL0sObDq348sfiVd
+ Ibz4aVk9hlSMVwrfAMYgR2c=
+X-Google-Smtp-Source: ABdhPJwhvJuxvlWzemCZd2nJlp6iJY+lLs6nteKPVxH7O1CiTNvcwhc5ItZTH1PNpqQpOCRZapfr4g==
+X-Received: by 2002:aa7:cb42:: with SMTP id w2mr7767567edt.376.1643367303657; 
+ Fri, 28 Jan 2022 02:55:03 -0800 (PST)
+Received: from ?IPV6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
+ ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.googlemail.com with ESMTPSA id g6sm7643856ejz.170.2022.01.28.02.55.02
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 28 Jan 2022 02:55:03 -0800 (PST)
+Message-ID: <932291d0-954b-7092-b61d-83182413ba9d@redhat.com>
+Date: Fri, 28 Jan 2022 11:55:02 +0100
 MIME-Version: 1.0
-References: <20220111171048.3545974-1-peter.maydell@linaro.org>
- <20220111171048.3545974-3-peter.maydell@linaro.org>
- <908f211b-0882-cce4-2fa9-dd43ced4545d@linaro.org>
-In-Reply-To: <908f211b-0882-cce4-2fa9-dd43ced4545d@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 28 Jan 2022 10:51:51 +0000
-Message-ID: <CAFEAcA8Vy-_xb7fUw8eS5gaotGXxEFMFk=S0ZnPd_HcQ+-_vsg@mail.gmail.com>
-Subject: Re: [PATCH v2 02/13] hw/intc/arm_gicv3_its: Convert int ID check to
- num_intids convention
-To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42e
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.4.0
+Subject: Re: [PATCH] target/i386: Add kvm_get_one_msr helper
+Content-Language: en-US
+To: Yang Weijiang <weijiang.yang@intel.com>, ehabkost@redhat.com,
+ qemu-devel@nongnu.org
+References: <20220127155845.95594-1-weijiang.yang@intel.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+In-Reply-To: <20220127155845.95594-1-weijiang.yang@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::535
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42e.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+Received-SPF: pass client-ip=2a00:1450:4864:20::535;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x535.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
  PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
@@ -86,43 +94,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Shashi Mallela <shashi.mallela@linaro.org>, qemu-arm@nongnu.org,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 28 Jan 2022 at 01:35, Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> On 1/12/22 04:10, Peter Maydell wrote:
-> > The bounds check on the number of interrupt IDs is correct, but
-> > doesn't match our convention; change the variable name, initialize it
-> > to the 2^n value rather than (2^n)-1, and use >=3D instead of > in the
-> > comparison.
-> >
-> > Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-> > Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-> > ---
-> >   hw/intc/arm_gicv3_its.c | 6 +++---
-> >   1 file changed, 3 insertions(+), 3 deletions(-)
-> >
-> > diff --git a/hw/intc/arm_gicv3_its.c b/hw/intc/arm_gicv3_its.c
-> > index 6d11fa02040..5919b1a3b7f 100644
-> > --- a/hw/intc/arm_gicv3_its.c
-> > +++ b/hw/intc/arm_gicv3_its.c
-> > @@ -338,7 +338,7 @@ static bool process_mapti(GICv3ITSState *s, uint64_=
-t value, uint32_t offset,
-> >       uint32_t devid, eventid;
-> >       uint32_t pIntid =3D 0;
-> >       uint64_t num_eventids;
-> > -    uint32_t max_Intid;
-> > +    uint32_t num_intids;
->
-> Does this now need to be uint64_t, like num_eventids?
+On 1/27/22 16:58, Yang Weijiang wrote:
+> @@ -135,6 +135,7 @@ static struct kvm_msr_list *kvm_feature_msrs;
+>   
+>   #define BUS_LOCK_SLICE_TIME 1000000000ULL /* ns */
+>   static RateLimit bus_lock_ratelimit_ctrl;
+> +static int kvm_get_one_msr(X86CPU *cpu, int index, uint64_t *value);
+>   
+>   int kvm_has_pit_state2(void)
+>   {
 
-No, because GICD_TYPER_IDBITS is 0xf, so num_intids is 2^16
-and still fits in a 32-bit integer.
+...
 
-thanks
--- PMM
+> @@ -2734,6 +2721,25 @@ static int kvm_put_one_msr(X86CPU *cpu, int index, uint64_t value)
+>       return kvm_vcpu_ioctl(CPU(cpu), KVM_SET_MSRS, cpu->kvm_msr_buf);
+>   }
+>   
+> +static int kvm_get_one_msr(X86CPU *cpu, int index, uint64_t *value)
+> +{
+> +    int ret;
+> +    struct {
+> +        struct kvm_msrs info;
+> +        struct kvm_msr_entry entries[1];
+> +    } msr_data = {
+> +        .info.nmsrs = 1,
+> +        .entries[0].index = index,
+> +    };
+> +
+> +    ret = kvm_vcpu_ioctl(CPU(cpu), KVM_GET_MSRS, &msr_data);
+> +    if (ret < 0) {
+> +        return ret;
+> +    }
+> +    assert(ret == 1);
+> +    *value = msr_data.entries[0].data;
+> +    return ret;
+> +}
+>   void kvm_put_apicbase(X86CPU *cpu, uint64_t value)
+>   {
+>       int ret;
+
+The patch is a good idea, but you can put the function before the uses. 
+  This way there will be no need for a forward declaration, either.
+
+Thanks,
+
+Paolo
 
