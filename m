@@ -2,91 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7821149F43C
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jan 2022 08:18:41 +0100 (CET)
-Received: from localhost ([::1]:46758 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1FE0849F439
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jan 2022 08:17:54 +0100 (CET)
+Received: from localhost ([::1]:46492 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nDLWq-0006a9-HQ
-	for lists+qemu-devel@lfdr.de; Fri, 28 Jan 2022 02:18:40 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:37356)
+	id 1nDLW4-0006Nu-2Y
+	for lists+qemu-devel@lfdr.de; Fri, 28 Jan 2022 02:17:52 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:37692)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nDLIg-0002d0-9I
- for qemu-devel@nongnu.org; Fri, 28 Jan 2022 02:04:02 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:53186)
+ (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
+ id 1nDLKb-00036A-HP; Fri, 28 Jan 2022 02:06:04 -0500
+Received: from szxga02-in.huawei.com ([45.249.212.188]:5098)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nDLIe-0003Ms-8a
- for qemu-devel@nongnu.org; Fri, 28 Jan 2022 02:04:01 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1643353439;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=RyPGh3mRmqePoPwxSLGOf5yiz1f2qJnlhAikREKN0RM=;
- b=b3iA0zd5cFaxGrBzMoChRgscCKYnmlEuAKG9c4JmFQP31lScSXWuCF+tYtwhq8VngWdmq1
- N+AanPemrc1cEOtjhAlpPb0KkKif/39bWqk1YO8T3w3t7g+MXYBQSRIUqK61AHBfZDjE3j
- 5hvYArVYK/N2D2rKdvCDL+QNiPaIgWU=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-85-SZ4MAM7_MG2Dd1PBoWl-Mg-1; Fri, 28 Jan 2022 02:03:58 -0500
-X-MC-Unique: SZ4MAM7_MG2Dd1PBoWl-Mg-1
-Received: by mail-wr1-f69.google.com with SMTP id
- c10-20020adfa30a000000b001d79c73b64bso1920268wrb.1
- for <qemu-devel@nongnu.org>; Thu, 27 Jan 2022 23:03:57 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=RyPGh3mRmqePoPwxSLGOf5yiz1f2qJnlhAikREKN0RM=;
- b=py2aPH4p3g55g2QthSyZ5SzBmJj2DrB7p8sagoD3g4FeWnoaLDrxMSh5Q33gzDgRhn
- k9xDCiTq5zl2LAT3TdH3/Zsih+TM7TmNWb8nKXi2Yv+L0lmrjfN33nt7Pn0quRqfVV5P
- ObjNhZAeJ6VR762CzD65vzh5gFyek3nRUJNWrgzD6glaq6cB5V+lTgUFYgAZxJBoK1w9
- 9QL8SB95JvH/b1PRPQNzTvO6rLleeYg6Vwn8bl57AxHrM6qMnSue1R4XVI67sGt+7Xg7
- lk86zoaAyehvOpAZQZHe5k8K5t9y799AeCjHK8f3u1r/sV5OKGvwRrT9uS5UHfijYAzC
- Ts3A==
-X-Gm-Message-State: AOAM5307V81h7i3JBeLXNN1UVVXrJVDFVxWiNmmpj4pCjlQZJiq/EDzL
- pfN3UkVDK2KtHTc0Z03dsaFTs8XvtP5KlC8OcREUMIoMEcS78nsUdlFrn/G7rsOrO+1CfDQtwhe
- yFK+pU/D4ArFX+1Y=
-X-Received: by 2002:a1c:1f0c:: with SMTP id f12mr6118110wmf.44.1643353436838; 
- Thu, 27 Jan 2022 23:03:56 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJw/1V2zHHX98XTPPPQaS4d2Jgk0FUVPh48aMUJMDzOxj1TDEpfnRBB3zOpy0NwFXh4bBE89tQ==
-X-Received: by 2002:a1c:1f0c:: with SMTP id f12mr6118100wmf.44.1643353436648; 
- Thu, 27 Jan 2022 23:03:56 -0800 (PST)
-Received: from [192.168.8.100] (tmo-096-196.customers.d1-online.com.
- [80.187.96.196])
- by smtp.gmail.com with ESMTPSA id i9sm4789471wry.32.2022.01.27.23.03.55
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 27 Jan 2022 23:03:56 -0800 (PST)
-Message-ID: <94e2290b-e31b-15d0-4f44-3c33ffbbfcf1@redhat.com>
-Date: Fri, 28 Jan 2022 08:03:54 +0100
+ (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
+ id 1nDLKK-0003TN-7r; Fri, 28 Jan 2022 02:05:51 -0500
+Received: from dggpemm500023.china.huawei.com (unknown [172.30.72.53])
+ by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4JlT2j4Nvwz9sVV;
+ Fri, 28 Jan 2022 15:03:57 +0800 (CST)
+Received: from [10.174.187.128] (10.174.187.128) by
+ dggpemm500023.china.huawei.com (7.185.36.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id
+ 15.1.2308.21; Fri, 28 Jan 2022 15:05:18 +0800
+Subject: Re: [PATCH] hw/arm/virt: Fix CPU's default NUMA node ID
+To: Igor Mammedov <imammedo@redhat.com>, Gavin Shan <gshan@redhat.com>
+CC: <peter.maydell@linaro.org>, <drjones@redhat.com>,
+ <richard.henderson@linaro.org>, <qemu-devel@nongnu.org>,
+ <qemu-arm@nongnu.org>, <shan.gavin@gmail.com>
+References: <20220126052410.36380-1-gshan@redhat.com>
+ <20220126101447.5d4f01f9@redhat.com>
+Message-ID: <f5780366-7c6e-1643-d471-1304ce6584ca@huawei.com>
+Date: Fri, 28 Jan 2022 15:05:18 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH v3 11/11] 9p: darwin: adjust assumption on virtio-9p-test
-To: Will Cohen <wwcohen@gmail.com>, qemu-devel@nongnu.org
-References: <20220128005611.87185-1-wwcohen@gmail.com>
- <20220128005611.87185-12-wwcohen@gmail.com>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <20220128005611.87185-12-wwcohen@gmail.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
+In-Reply-To: <20220126101447.5d4f01f9@redhat.com>
+Content-Type: text/plain; charset="utf-8"; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.167,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Content-Language: en-US
+X-Originating-IP: [10.174.187.128]
+X-ClientProxiedBy: dggeme702-chm.china.huawei.com (10.1.199.98) To
+ dggpemm500023.china.huawei.com (7.185.36.83)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.188;
+ envelope-from=wangyanan55@huawei.com; helo=szxga02-in.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -100,42 +64,100 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>,
- Christian Schoenebeck <qemu_oss@crudebyte.com>, Greg Kurz <groug@kaod.org>,
- hi@alyssa.is, Fabian Franz <github@fabian-franz.de>,
- Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  "wangyanan (Y)" <wangyanan55@huawei.com>
+From:  "wangyanan (Y)" via <qemu-devel@nongnu.org>
 
+Hi,
 
--EMISSINGPATCHDESCRIPTION
+On 2022/1/26 17:14, Igor Mammedov wrote:
+> On Wed, 26 Jan 2022 13:24:10 +0800
+> Gavin Shan <gshan@redhat.com> wrote:
+>
+>> The default CPU-to-NUMA association is given by mc->get_default_cpu_node_id()
+>> when it isn't provided explicitly. However, the CPU topology isn't fully
+>> considered in the default association and it causes CPU topology broken
+>> warnings on booting Linux guest.
+>>
+>> For example, the following warning messages are observed when the Linux guest
+>> is booted with the following command lines.
+>>
+>>    /home/gavin/sandbox/qemu.main/build/qemu-system-aarch64 \
+>>    -accel kvm -machine virt,gic-version=host               \
+>>    -cpu host                                               \
+>>    -smp 6,sockets=2,cores=3,threads=1                      \
+>>    -m 1024M,slots=16,maxmem=64G                            \
+>>    -object memory-backend-ram,id=mem0,size=128M            \
+>>    -object memory-backend-ram,id=mem1,size=128M            \
+>>    -object memory-backend-ram,id=mem2,size=128M            \
+>>    -object memory-backend-ram,id=mem3,size=128M            \
+>>    -object memory-backend-ram,id=mem4,size=128M            \
+>>    -object memory-backend-ram,id=mem4,size=384M            \
+>>    -numa node,nodeid=0,memdev=mem0                         \
+>>    -numa node,nodeid=1,memdev=mem1                         \
+>>    -numa node,nodeid=2,memdev=mem2                         \
+>>    -numa node,nodeid=3,memdev=mem3                         \
+>>    -numa node,nodeid=4,memdev=mem4                         \
+>>    -numa node,nodeid=5,memdev=mem5
+>>           :
+>>    alternatives: patching kernel code
+>>    BUG: arch topology borken
+>>    the CLS domain not a subset of the MC domain
+>>    <the above error log repeats>
+>>    BUG: arch topology borken
+>>    the DIE domain not a subset of the NODE domain
+>>
+>> With current implementation of mc->get_default_cpu_node_id(), CPU#0 to CPU#5
+>> are associated with NODE#0 to NODE#5 separately. That's incorrect because
+>> CPU#0/1/2 should be associated with same NUMA node because they're seated
+>> in same socket.
+>>
+>> This fixes the issue by considering the socket when default CPU-to-NUMA
+>> is given. With this applied, no more CPU topology broken warnings are seen
+>> from the Linux guest. The 6 CPUs are associated with NODE#0/1, but there are
+>> no CPUs associated with NODE#2/3/4/5.
+> >From migration point of view it looks fine to me, and doesn't need a compat knob
+> since NUMA data (on virt-arm) only used to construct ACPI tables (and we don't
+> version those unless something is broken by it).
+>
+>
+>> Signed-off-by: Gavin Shan <gshan@redhat.com>
+>> ---
+>>   hw/arm/virt.c | 2 +-
+>>   1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/hw/arm/virt.c b/hw/arm/virt.c
+>> index 141350bf21..b4a95522d3 100644
+>> --- a/hw/arm/virt.c
+>> +++ b/hw/arm/virt.c
+>> @@ -2499,7 +2499,7 @@ virt_cpu_index_to_props(MachineState *ms, unsigned cpu_index)
+>>   
+>>   static int64_t virt_get_default_cpu_node_id(const MachineState *ms, int idx)
+>>   {
+>> -    return idx % ms->numa_state->num_nodes;
+>> +    return idx / (ms->smp.dies * ms->smp.clusters * ms->smp.cores * ms->smp.threads);
+> I'd like for ARM folks to confirm whether above is correct
+> (i.e. socket is NUMA node boundary and also if above topo vars
+> could have odd values. Don't look at horribly complicated x86
+> as example, but it showed that vendors could stash pretty much
+> anything there, so we should consider it here as well and maybe
+> forbid that in smp virt-arm parser)
+We now have a generic smp parser in machine-smp.c and it guarantees
+different machine boards a correct group of topo vars: supported topo
+vars being valid and value of unsupported ones being 1. I think it's safe
+to use them here. Or am I missing something else?
 
-Please avoid sending patches without patch description. E.g. explain here 
-*why* this needs to be adjusted.
+Also, we may not need to include "dies" here because it's not supported
+on ARM virt machine. I believe we will always have "ms->smp.dies==1"
+for this machine.
 
-  Thanks,
-   Thomas
-
-
-On 28/01/2022 01.56, Will Cohen wrote:
-> Signed-off-by: Fabian Franz <github@fabian-franz.de>
-> Signed-off-by: Will Cohen <wwcohen@gmail.com>
-> ---
->   tests/qtest/virtio-9p-test.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/tests/qtest/virtio-9p-test.c b/tests/qtest/virtio-9p-test.c
-> index 41fed41de1..6bcf89f0f8 100644
-> --- a/tests/qtest/virtio-9p-test.c
-> +++ b/tests/qtest/virtio-9p-test.c
-> @@ -1270,7 +1270,7 @@ static void fs_unlinkat_dir(void *obj, void *data, QGuestAllocator *t_alloc)
->       /* ... and is actually a directory */
->       g_assert((st.st_mode & S_IFMT) == S_IFDIR);
->   
-> -    do_unlinkat(v9p, "/", "02", AT_REMOVEDIR);
-> +    do_unlinkat(v9p, "/", "02", P9_DOTL_AT_REMOVEDIR);
->       /* directory should be gone now */
->       g_assert(stat(new_dir, &st) != 0);
->   
+Thanks,
+Yanan
+>>   }
+>>   
+>>   static const CPUArchIdList *virt_possible_cpu_arch_ids(MachineState *ms)
+>
+> .
 
 
