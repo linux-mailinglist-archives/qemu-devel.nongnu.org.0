@@ -2,76 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D47B49FC8D
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jan 2022 16:16:06 +0100 (CET)
-Received: from localhost ([::1]:34590 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F82C49FD19
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jan 2022 16:49:32 +0100 (CET)
+Received: from localhost ([::1]:55912 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nDSyr-0000OB-03
-	for lists+qemu-devel@lfdr.de; Fri, 28 Jan 2022 10:16:05 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:48126)
+	id 1nDTVD-0002IF-5F
+	for lists+qemu-devel@lfdr.de; Fri, 28 Jan 2022 10:49:31 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:50144)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philipp.tomsich@vrull.eu>)
- id 1nDSgK-0000Gy-8N
- for qemu-devel@nongnu.org; Fri, 28 Jan 2022 09:56:56 -0500
-Received: from [2a00:1450:4864:20::12a] (port=43608
- helo=mail-lf1-x12a.google.com)
+ (Exim 4.90_1) (envelope-from <yaroshchuk2000@gmail.com>)
+ id 1nDSm5-0000DC-Ey
+ for qemu-devel@nongnu.org; Fri, 28 Jan 2022 10:02:55 -0500
+Received: from [2607:f8b0:4864:20::429] (port=42639
+ helo=mail-pf1-x429.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philipp.tomsich@vrull.eu>)
- id 1nDSgI-0000vX-82
- for qemu-devel@nongnu.org; Fri, 28 Jan 2022 09:56:55 -0500
-Received: by mail-lf1-x12a.google.com with SMTP id u6so12265216lfm.10
- for <qemu-devel@nongnu.org>; Fri, 28 Jan 2022 06:56:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vrull.eu; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=J8A0VEoGdkoTI+wEc69bUyrhuKWLvBkAfR6t03SX5ew=;
- b=a7uEcQ5ReFbPw9WZiUkKJbTLA93RhpYPoHKJZj2b2NPmxz4ohEKPhaDjOJc86uF4Yu
- j9d3Y7wphIRpFZ863D4x4trqYpgvAWl1Atqc77PwMxZoHRFG2HiiwK40fVGA6UBbTWJC
- uESjx+nkvCS+F0nO70Be3GxCJhWbWgsHzhYj6X5gGIv78EKlw2opfSnsVJrXirwSwAYG
- eLX/85U4nnUbGQX56JU5u1up0JO/zplmyR44EbOcw949o9KJADLmYBWIPoCOSnLaKbDg
- /Uum349V4fbZVGirvi/2KRymI7hZ7YZjmLT+OI5UYb86BSySyikx+buc3YiBtgTDCiA7
- Ja5Q==
+ (Exim 4.90_1) (envelope-from <yaroshchuk2000@gmail.com>)
+ id 1nDSm3-00022c-Ep
+ for qemu-devel@nongnu.org; Fri, 28 Jan 2022 10:02:53 -0500
+Received: by mail-pf1-x429.google.com with SMTP id i65so6345468pfc.9
+ for <qemu-devel@nongnu.org>; Fri, 28 Jan 2022 07:02:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=6gjTriXOOFGWXTHXvPMTlwiDAUzFU/5fpu+57TH8PUM=;
+ b=JviHhqiC6uDpJXUvwfteuC4qx0ddR18QVxlQlhI02F6LnaUiLIwq1oi+XzI9hq9FXO
+ L29ohB7j5nu9D95Vo5Ww6+dc/s1V7Ue/O8ZsSBuf+kv4oRWJYQjRUfdI6KH/Hq2DUWUc
+ Wk8FY5J9zQ2GbCDxEMxO8BKxEA6nfH4a1FLWYFVn5pG55y+VFmmsscd7evWhzY2n5bka
+ lxKDsYdCiNK8VsyAP7Eduwipcjf9Br5X1M2f/GYt6+VShZv6fIGrBbEBDasHOWCypXlQ
+ hihWLQaSFTpAN5iABV7DdMkC8m80t4F1n3foMZH7fz3ypD4WBdn5+oVhEeuQ6VnmVNgD
+ HkGw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=J8A0VEoGdkoTI+wEc69bUyrhuKWLvBkAfR6t03SX5ew=;
- b=L5YWX+lNYFp860VcXsRXZPnHPORTZ3nAZHZ4lMhhYrZzmD2my96lAA6j4UjkeEcTpI
- WaC/zVmJ3iLywCADk0tkL/UI4xnHhNC/EkVtBuJ3vhX55GmD0zjDvn1oSDpRKbQmtt+N
- OarIhboW3tFxatTfewXaEFcYRBGo83YeQJfrMSHq6gANcogTIQksVt9xXRgNMRhY0TG8
- rO6l7RDxioQbFBAUFbguqm0JTsDkSHSSF1hCA7sIr55ms6lnxeSWL95mmPny5Mj3i9A3
- UcXQtgN0qxxTt3U8aZMLK3/vh1GK8zHv6f0nf7exYSeNRmE9yM8ABFIv5tInQfs1fZl9
- s9Eg==
-X-Gm-Message-State: AOAM532mJzrHeAcQBE4Ler029tqt5QqC4+bbelQ1Y0GgWje52/cnC+Yf
- DEv3YVuC1gFE3InpkkNHWjo9tvBymg1LQhQU
-X-Google-Smtp-Source: ABdhPJxoDIlVNCE3ylKh6Cv9v+5Qt3IE57IZ9S7q9Oik7ynSiDHsX4zdk+mUnts1OR2pzjIIeCj0Rw==
-X-Received: by 2002:a05:6512:68f:: with SMTP id
- t15mr6399958lfe.124.1643381812220; 
- Fri, 28 Jan 2022 06:56:52 -0800 (PST)
-Received: from ubuntu-focal.. ([2a01:4f9:3a:1e26::2])
- by smtp.gmail.com with ESMTPSA id b20sm1031234lfb.51.2022.01.28.06.56.51
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 28 Jan 2022 06:56:51 -0800 (PST)
-From: Philipp Tomsich <philipp.tomsich@vrull.eu>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v3 6/7] target/riscv: Add XVentanaCondOps custom extension
-Date: Fri, 28 Jan 2022 15:56:41 +0100
-Message-Id: <20220128145642.1305416-7-philipp.tomsich@vrull.eu>
-X-Mailer: git-send-email 2.33.1
-In-Reply-To: <20220128145642.1305416-1-philipp.tomsich@vrull.eu>
-References: <20220128145642.1305416-1-philipp.tomsich@vrull.eu>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=6gjTriXOOFGWXTHXvPMTlwiDAUzFU/5fpu+57TH8PUM=;
+ b=deUhIp6PmD08xCWII0ED0UnUayTsQFquGweBQ3aFRH2vhaUruq2MU+aYRHrEIgEo2c
+ Gx9PqXzCN6koE5PT0+0cksMkdfgQOxCnVEN1XtFVK1ii+g2NYbn3SUJBd2U/AJnOD8Z4
+ WgmKfe3/k03PmYm1v1c2gxjah2hM3MrWBFi7O6oL2gJrjhwdKWcHIZDOxY+q9pfgBy5l
+ sWM9IFXpYyKp59e5C2DPuyoKqiCoSmhyBgKRzb9R9Yfp0If8/HZlEam1A6oYvplx8fAV
+ ttK3ZWKJ1k+531LyX4SCxV0uJoV6NuHmbNItc+1h/u4X/3be+sBsj3nYv18p8IZOhH+m
+ V97Q==
+X-Gm-Message-State: AOAM531YKOCBEXNEd09WdPCxutYpB7xz5pye4HXoOsks/DQmbeESHA4a
+ WWand/383a2ESNB57I3162zLVgaUZT0gpI+3tos=
+X-Google-Smtp-Source: ABdhPJxAUtQsBNZcR/HLmWmUtCsdo3TplJgKiq2CvasgQE5BxgSHB/yD9/XWT99Kxt6if6reMksnmIgx03ffJgy0/aE=
+X-Received: by 2002:a63:ea0b:: with SMTP id c11mr6788150pgi.495.1643382169939; 
+ Fri, 28 Jan 2022 07:02:49 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::12a
+References: <0CE826F5-EEF8-4D1A-975A-7BBAB29FAA51@icloud.com>
+In-Reply-To: <0CE826F5-EEF8-4D1A-975A-7BBAB29FAA51@icloud.com>
+From: Vladislav Yaroshchuk <yaroshchuk2000@gmail.com>
+Date: Fri, 28 Jan 2022 18:02:38 +0300
+Message-ID: <CADO9X9SGDvraWUzaF+AQs=9xbAZe5AH07HiS=Xvqe6en491Tyg@mail.gmail.com>
+Subject: Re: [PATCH v8 5/7] net/vmnet: implement bridged mode (vmnet-bridged)
+To: =?UTF-8?B?5p2O5aOr5p6X?= <lslboyfuture@icloud.com>
+Content-Type: multipart/alternative; boundary="00000000000078363d05d6a5ba4d"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::429
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::12a;
- envelope-from=philipp.tomsich@vrull.eu; helo=mail-lf1-x12a.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
+Received-SPF: pass client-ip=2607:f8b0:4864:20::429;
+ envelope-from=yaroshchuk2000@gmail.com; helo=mail-pf1-x429.google.com
+X-Spam_score_int: -10
+X-Spam_score: -1.1
 X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, HTML_MESSAGE=0.001,
  PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
@@ -87,202 +81,161 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- Greg Favor <gfavor@ventanamicro.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- Kito Cheng <kito.cheng@sifive.com>, Philipp Tomsich <philipp.tomsich@vrull.eu>
+Cc: Jason Wang <jasowang@redhat.com>, phillip.ennen@gmail.com,
+ Markus Armbruster <armbru@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
+ Roman Bolshakov <r.bolshakov@yadro.com>, Phillip Tennen <phillip@axleos.com>,
+ Akihiko Odaki <akihiko.odaki@gmail.com>, Howard Spoelstra <hsp.cat7@gmail.com>,
+ Alessio Dionisi <hello@adns.io>, Eric Blake <eblake@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This adds the decoder and translation for the XVentanaCondOps custom
-extension (vendor-defined by Ventana Micro Systems), which is
-documented at https://github.com/ventanamicro/ventana-custom-extensions/releases/download/v1.0.0/ventana-custom-extensions-v1.0.0.pdf
+--00000000000078363d05d6a5ba4d
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-This commit then also adds a guard-function (has_XVentanaCondOps_p)
-and the decoder function to the table of decoders, enabling the
-support for the XVentanaCondOps extension.
+=D0=B2=D1=81, 23 =D1=8F=D0=BD=D0=B2. 2022 =D0=B3. =D0=B2 07:51, =E6=9D=8E=
+=E5=A3=AB=E6=9E=97 <lslboyfuture@icloud.com>:
 
-Signed-off-by: Philipp Tomsich <philipp.tomsich@vrull.eu>
+> Hi:
+>     I develop a custom os use qemu and use macos as host, I use the net
+> argument '-net nic,model=3Dpcnet -net
+> tap,ifname=3Dtap0,script=3Dno,downscript=3Dno=E2=80=99 when run the qemu-=
+system-i386,then
+> I can get the network device in my custom os:
+>
+>
+Please notice that `-net` is a legacy option
+https://wiki.qemu.org/Documentation/Networking#The_legacy_-net_option
 
----
 
-Changes in v3:
-- rename to trans_xventanacondops.c.inc (i.e. with the '.c')
-- (in MATERIALISE_EXT_PREDICATE) don't annotate the predicate function
-  for testing the availability of individual extensions as 'inline'
-  and don't make CPURISCVState* visible to these predicate functions
+>     pci_device_dump: vendor id:      0x1022
+>     pci_device_dump: device id:      0x2000
+>     pci_device_dump: class code:     0x20000
+>     pci_device_dump: revision id:    0x10
+>     pci_device_dump: multi function: 0
+>     pci_device_dump: card bus CIS pointer: 0
+>     pci_device_dump: subsystem vendor id: 0
+>     pci_device_dump: subsystem device id: 0
+>     pci_device_dump: expansion ROM base address: feb80000
+>     pci_device_dump: capability list pointer:  0
+>     pci_device_dump: irq line: 11
+>     pci_device_dump: irq pin:  1
+>     pci_device_dump: min Gnt: 6
+>     pci_device_dump: max Lat:  255
+>     pci_device_dump: bar 0:
+>     pci_device_bar_dump: type: io base address
+>     pci_device_bar_dump: base address: c000
+>     pci_device_bar_dump: len: 20
+>     pci_device_dump: bar 1:
+>     pci_device_bar_dump: type: mem base address
+>     pci_device_bar_dump: base address: febd1000
+>     pci_device_bar_dump: len: 20
+>
+> I can send a message to the host from my custom os in qemu, but can=E2=80=
+=99t
+> receive a message from the host.
+>
+>
+This is known issue:
+https://gitlab.com/qemu-project/qemu/-/issues/335
 
-Changes in v2:
-- Split off decode table into XVentanaCondOps.decode
-- Wire up XVentanaCondOps in the decoder-table
 
- target/riscv/XVentanaCondOps.decode           | 25 ++++++++++++
- target/riscv/cpu.c                            |  3 ++
- target/riscv/cpu.h                            |  3 ++
- .../insn_trans/trans_xventanacondops.c.inc    | 39 +++++++++++++++++++
- target/riscv/meson.build                      |  1 +
- target/riscv/translate.c                      | 12 ++++++
- 6 files changed, 83 insertions(+)
- create mode 100644 target/riscv/XVentanaCondOps.decode
- create mode 100644 target/riscv/insn_trans/trans_xventanacondops.c.inc
+> so I rebuild the qemu use this patch, then I use the argument '-netdev
+> vmnet-bridged,id=3Dvmnet,ifname=3Den0=E2=80=99 run the qemu-system-i386 a=
+gain, this
+> time, I can=E2=80=99t get the network device either, I don=E2=80=99t know=
+ why, how to use
+> vmnet-bridged to send message to host from my custom os and receive a
+> message from the host, what should I do? thanks a lot!
 
-diff --git a/target/riscv/XVentanaCondOps.decode b/target/riscv/XVentanaCondOps.decode
-new file mode 100644
-index 0000000000..5aef7c3d72
---- /dev/null
-+++ b/target/riscv/XVentanaCondOps.decode
-@@ -0,0 +1,25 @@
-+#
-+# RISC-V translation routines for the XVentanaCondOps extension
-+#
-+# Copyright (c) 2022 Dr. Philipp Tomsich, philipp.tomsich@vrull.eu
-+#
-+# SPDX-License-Identifier: LGPL-2.1-or-later
-+#
-+# Reference: VTx-family custom instructions
-+#            Custom ISA extensions for Ventana Micro Systems RISC-V cores
-+#            (https://github.com/ventanamicro/ventana-custom-extensions/releases/download/v1.0.0/ventana-custom-extensions-v1.0.0.pdf)
-+
-+# Fields
-+%rs2  20:5
-+%rs1  15:5
-+%rd    7:5
-+
-+# Argument sets
-+&r    rd rs1 rs2  !extern
-+
-+# Formats
-+@r         .......  ..... ..... ... ..... ....... &r                %rs2 %rs1 %rd
-+
-+# *** RV64 Custom-3 Extension ***
-+vt_maskc   0000000  ..... ..... 110 ..... 1111011 @r
-+vt_maskcn  0000000  ..... ..... 111 ..... 1111011 @r
-diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-index 1cb0436187..6df07b8289 100644
---- a/target/riscv/cpu.c
-+++ b/target/riscv/cpu.c
-@@ -734,6 +734,9 @@ static Property riscv_cpu_properties[] = {
-     DEFINE_PROP_BOOL("zbc", RISCVCPU, cfg.ext_zbc, true),
-     DEFINE_PROP_BOOL("zbs", RISCVCPU, cfg.ext_zbs, true),
- 
-+    /* Vendor-specific custom extensions */
-+    DEFINE_PROP_BOOL("xventanacondops", RISCVCPU, cfg.ext_XVentanaCondOps, false),
-+
-     /* These are experimental so mark with 'x-' */
-     DEFINE_PROP_BOOL("x-j", RISCVCPU, cfg.ext_j, false),
-     /* ePMP 0.9.3 */
-diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-index 9c795089b6..ccf9ea9922 100644
---- a/target/riscv/cpu.h
-+++ b/target/riscv/cpu.h
-@@ -329,6 +329,9 @@ struct RISCVCPUConfig {
-     bool ext_zve32f;
-     bool ext_zve64f;
- 
-+    /* Vendor-specific custom extensions */
-+    bool ext_XVentanaCondOps;
-+
-     char *priv_spec;
-     char *user_spec;
-     char *bext_spec;
-diff --git a/target/riscv/insn_trans/trans_xventanacondops.c.inc b/target/riscv/insn_trans/trans_xventanacondops.c.inc
-new file mode 100644
-index 0000000000..b8a5d031b5
---- /dev/null
-+++ b/target/riscv/insn_trans/trans_xventanacondops.c.inc
-@@ -0,0 +1,39 @@
-+/*
-+ * RISC-V translation routines for the XVentanaCondOps extension.
-+ *
-+ * Copyright (c) 2021-2022 VRULL GmbH.
-+ *
-+ * This program is free software; you can redistribute it and/or modify it
-+ * under the terms and conditions of the GNU General Public License,
-+ * version 2 or later, as published by the Free Software Foundation.
-+ *
-+ * This program is distributed in the hope it will be useful, but WITHOUT
-+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
-+ * more details.
-+ *
-+ * You should have received a copy of the GNU General Public License along with
-+ * this program.  If not, see <http://www.gnu.org/licenses/>.
-+ */
-+
-+static bool gen_condmask(DisasContext *ctx, arg_r *a, TCGCond cond)
-+{
-+    TCGv dest = dest_gpr(ctx, a->rd);
-+    TCGv src1 = get_gpr(ctx, a->rs1, EXT_NONE);
-+    TCGv src2 = get_gpr(ctx, a->rs2, EXT_NONE);
-+
-+    tcg_gen_movcond_tl(cond, dest, src2, ctx->zero, src1, ctx->zero);
-+
-+    gen_set_gpr(ctx, a->rd, dest);
-+    return true;
-+}
-+
-+static bool trans_vt_maskc(DisasContext *ctx, arg_r *a)
-+{
-+    return gen_condmask(ctx, a, TCG_COND_NE);
-+}
-+
-+static bool trans_vt_maskcn(DisasContext *ctx, arg_r *a)
-+{
-+    return gen_condmask(ctx, a, TCG_COND_EQ);
-+}
-diff --git a/target/riscv/meson.build b/target/riscv/meson.build
-index a3997ed580..91f0ac32ff 100644
---- a/target/riscv/meson.build
-+++ b/target/riscv/meson.build
-@@ -4,6 +4,7 @@ dir = meson.current_source_dir()
- gen = [
-   decodetree.process('insn16.decode', extra_args: ['--static-decode=decode_insn16', '--insnwidth=16']),
-   decodetree.process('insn32.decode', extra_args: '--static-decode=decode_insn32'),
-+  decodetree.process('XVentanaCondOps.decode', extra_args: '--static-decode=decode_XVentanaCodeOps'),
- ]
- 
- riscv_ss = ss.source_set()
-diff --git a/target/riscv/translate.c b/target/riscv/translate.c
-index 38fdec2fd9..89cf96b2e6 100644
---- a/target/riscv/translate.c
-+++ b/target/riscv/translate.c
-@@ -116,6 +116,14 @@ static bool always_true_p(DisasContext *ctx  __attribute__((__unused__)))
-     return true;
- }
- 
-+#define MATERIALISE_EXT_PREDICATE(ext)  \
-+    static bool has_ ## ext ## _p(DisasContext *ctx)    \
-+    { \
-+        return ctx->cfg_ptr->ext_ ## ext ; \
-+    }
-+
-+MATERIALISE_EXT_PREDICATE(XVentanaCondOps);
-+
- #ifdef TARGET_RISCV32
- #define get_xl(ctx)    MXL_RV32
- #elif defined(CONFIG_USER_ONLY)
-@@ -854,9 +862,12 @@ static uint32_t opcode_at(DisasContextBase *dcbase, target_ulong pc)
- #include "insn_trans/trans_rvb.c.inc"
- #include "insn_trans/trans_rvzfh.c.inc"
- #include "insn_trans/trans_privileged.c.inc"
-+#include "insn_trans/trans_xventanacondops.c.inc"
- 
- /* Include the auto-generated decoder for 16 bit insn */
- #include "decode-insn16.c.inc"
-+/* Include decoders for factored-out extensions */
-+#include "decode-XVentanaCondOps.c.inc"
- 
- static void decode_opc(CPURISCVState *env, DisasContext *ctx, uint16_t opcode)
- {
-@@ -869,6 +880,7 @@ static void decode_opc(CPURISCVState *env, DisasContext *ctx, uint16_t opcode)
-         bool (*decode_func)(DisasContext *, uint32_t);
-     } decoders[] = {
-         { always_true_p,  decode_insn32 },
-+        { has_XVentanaCondOps_p,  decode_XVentanaCodeOps },
-     };
- 
-     /* Check for compressed insn */
--- 
-2.33.1
 
+It's normal behavior since you've specified a
+network backend only. See the corresponding
+QEMU documentation section:
+https://wiki.qemu.org/Documentation/Networking#Network_Backends
+
+Currently you have:
+`-netdev vmnet-bridged,id=3Dvmnet,ifname=3Den0`
+You need add a device:
+ `-netdev vmnet-bridged,id=3Dvmnet,ifname=3Den0 -device pcnet,netdev=3Dvmne=
+t`
+
+Supported devices can be listed with -device help:
+`qemu-system-xxx -device help`
+
+--
+Best Regards,
+
+Vladislav Yaroshchuk
+
+--00000000000078363d05d6a5ba4d
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">=D0=B2=D1=81, 23 =D1=8F=D0=BD=D0=B2. =
+2022 =D0=B3. =D0=B2 07:51, =E6=9D=8E=E5=A3=AB=E6=9E=97 &lt;<a href=3D"mailt=
+o:lslboyfuture@icloud.com">lslboyfuture@icloud.com</a>&gt;:<br></div><block=
+quote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1=
+px solid rgb(204,204,204);padding-left:1ex">Hi:<br>
+=C2=A0 =C2=A0 I develop a custom os use qemu and use macos as host, I use t=
+he net argument &#39;-net nic,model=3Dpcnet -net tap,ifname=3Dtap0,script=
+=3Dno,downscript=3Dno=E2=80=99 when run the qemu-system-i386,then I can get=
+ the network device in my custom os:<br>
+<br></blockquote><div><br></div><div>Please notice that `-net` is a legacy =
+option<br><a href=3D"https://wiki.qemu.org/Documentation/Networking#The_leg=
+acy_-net_option">https://wiki.qemu.org/Documentation/Networking#The_legacy_=
+-net_option</a><br></div><div>=C2=A0</div><blockquote class=3D"gmail_quote"=
+ style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);p=
+adding-left:1ex">
+=C2=A0 =C2=A0 pci_device_dump: vendor id:=C2=A0 =C2=A0 =C2=A0 0x1022<br>
+=C2=A0 =C2=A0 pci_device_dump: device id:=C2=A0 =C2=A0 =C2=A0 0x2000<br>
+=C2=A0 =C2=A0 pci_device_dump: class code:=C2=A0 =C2=A0 =C2=A00x20000<br>
+=C2=A0 =C2=A0 pci_device_dump: revision id:=C2=A0 =C2=A0 0x10<br>
+=C2=A0 =C2=A0 pci_device_dump: multi function: 0<br>
+=C2=A0 =C2=A0 pci_device_dump: card bus CIS pointer: 0<br>
+=C2=A0 =C2=A0 pci_device_dump: subsystem vendor id: 0<br>
+=C2=A0 =C2=A0 pci_device_dump: subsystem device id: 0<br>
+=C2=A0 =C2=A0 pci_device_dump: expansion ROM base address: feb80000<br>
+=C2=A0 =C2=A0 pci_device_dump: capability list pointer:=C2=A0 0<br>
+=C2=A0 =C2=A0 pci_device_dump: irq line: 11<br>
+=C2=A0 =C2=A0 pci_device_dump: irq pin:=C2=A0 1<br>
+=C2=A0 =C2=A0 pci_device_dump: min Gnt: 6<br>
+=C2=A0 =C2=A0 pci_device_dump: max Lat:=C2=A0 255<br>
+=C2=A0 =C2=A0 pci_device_dump: bar 0:<br>
+=C2=A0 =C2=A0 pci_device_bar_dump: type: io base address<br>
+=C2=A0 =C2=A0 pci_device_bar_dump: base address: c000<br>
+=C2=A0 =C2=A0 pci_device_bar_dump: len: 20<br>
+=C2=A0 =C2=A0 pci_device_dump: bar 1:<br>
+=C2=A0 =C2=A0 pci_device_bar_dump: type: mem base address<br>
+=C2=A0 =C2=A0 pci_device_bar_dump: base address: febd1000<br>
+=C2=A0 =C2=A0 pci_device_bar_dump: len: 20<br>
+<br>
+I can send a message to the host from my custom os in qemu, but can=E2=80=
+=99t receive a message from the host.<br>
+<br></blockquote><div><br></div><div>This is known issue:<br><a href=3D"htt=
+ps://gitlab.com/qemu-project/qemu/-/issues/335">https://gitlab.com/qemu-pro=
+ject/qemu/-/issues/335</a><br></div><div>=C2=A0</div><blockquote class=3D"g=
+mail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204=
+,204,204);padding-left:1ex">
+so I rebuild the qemu use this patch, then I use the argument &#39;-netdev =
+vmnet-bridged,id=3Dvmnet,ifname=3Den0=E2=80=99 run the qemu-system-i386 aga=
+in, this time, I can=E2=80=99t get the network device either, I don=E2=80=
+=99t know why, how to use vmnet-bridged to send message to host from my cus=
+tom os and receive a message from the host, what should I do? thanks a lot!=
+</blockquote><div><br><p dir=3D"auto">It&#39;s normal behavior since you&#3=
+9;ve specified a<br>network backend only. See the corresponding <br>QEMU do=
+cumentation section:<br><a href=3D"https://wiki.qemu.org/Documentation/Netw=
+orking#Network_Backends">https://wiki.qemu.org/Documentation/Networking#Net=
+work_Backends</a><br><br>Currently you have:<br>`-netdev vmnet-bridged,id=
+=3Dvmnet,ifname=3Den0`<br>You need add a device:<br>=C2=A0`-netdev vmnet-br=
+idged,id=3Dvmnet,ifname=3Den0 -device pcnet,netdev=3Dvmnet`<br></p><p dir=
+=3D"auto">Supported devices can be listed with -device help:<br>`qemu-syste=
+m-xxx <span class=3D"gmail-nt">-device</span> <span class=3D"gmail-nb">help=
+`=C2=A0</span></p><p dir=3D"auto">--<br></p></div></div><div dir=3D"ltr" cl=
+ass=3D"gmail_signature" data-smartmail=3D"gmail_signature"><div dir=3D"ltr"=
+>Best Regards,<div><br><div>Vladislav Yaroshchuk</div></div></div></div></d=
+iv>
+
+--00000000000078363d05d6a5ba4d--
 
