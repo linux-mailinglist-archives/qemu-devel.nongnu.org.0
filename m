@@ -2,76 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E3A3649FF87
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jan 2022 18:26:36 +0100 (CET)
-Received: from localhost ([::1]:35980 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 89B9B49FEB4
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jan 2022 18:11:56 +0100 (CET)
+Received: from localhost ([::1]:34394 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nDV19-0000JM-Vs
-	for lists+qemu-devel@lfdr.de; Fri, 28 Jan 2022 12:26:36 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:50370)
+	id 1nDUmx-0004ZR-LA
+	for lists+qemu-devel@lfdr.de; Fri, 28 Jan 2022 12:11:55 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:51102)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nDUXk-0008B1-Uy
- for qemu-devel@nongnu.org; Fri, 28 Jan 2022 11:56:13 -0500
-Received: from [2a00:1450:4864:20::42c] (port=45865
- helo=mail-wr1-x42c.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nDUXh-00023B-In
- for qemu-devel@nongnu.org; Fri, 28 Jan 2022 11:56:12 -0500
-Received: by mail-wr1-x42c.google.com with SMTP id m14so11791701wrg.12
- for <qemu-devel@nongnu.org>; Fri, 28 Jan 2022 08:55:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=my6AC68IrsDTzgwV0y0YsmAQ4IVN0yCb3Xq0zo4Jr8A=;
- b=GPHbsr1jOs3xYEqJ8MY1HwnoPyho4Kb57rdGuMpnGA5L8YpEsxe8yl7lgVdZmXk6R6
- pBpimGGQ5KFb6+HKsu3qdR1WXjjJeeIVuqN0MBWYQkPzub6twmWHvX/p08mi4vxVFMG2
- BeHkW1O1gTKmRsxhQUqf+k5tXhf15mFhrI2Hnp5K5Rx+QhUsb3832OMn9sGPQ6gtlwUi
- 6SPoC+V82zv2csUzJZwQqK09nCy5C57MyXVHwkz5Mdj0ECe32Qk9KwEsyRsrfYsR0umy
- O8FT7bbbImWvbDh3zpXOY90prC4fCGFZyabNnzqlwi+lYZhVtHh2jEQu2cc3kiI5AkwU
- gD6g==
+ (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
+ id 1nDUZb-00041B-EE
+ for qemu-devel@nongnu.org; Fri, 28 Jan 2022 11:58:07 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:20496)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
+ id 1nDUZS-0002Wb-Im
+ for qemu-devel@nongnu.org; Fri, 28 Jan 2022 11:58:00 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1643389077;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=R2NAPP8T41sFgAETIyeFHWc26qvD8R4PYNixUz6xdzU=;
+ b=hVdShSmtm3zZanNFN1n5rWoTXDndDij/rm47zBfrUBnGgcI1z0KLcTPA5dl4kAFApGTpuM
+ ae7A5j3d4vFxu6UyXim/R67EJbeKHcJJKtztn75otavrVreB91S677JCugMJy4Wx0ToqzY
+ lrif37x/LkCQELV0I9YMsv9S1W0zmDQ=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-627-go7umeuEOLGkpnWhUjY-eg-1; Fri, 28 Jan 2022 11:57:55 -0500
+X-MC-Unique: go7umeuEOLGkpnWhUjY-eg-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ h12-20020adfa4cc000000b001d474912698so2457111wrb.2
+ for <qemu-devel@nongnu.org>; Fri, 28 Jan 2022 08:57:55 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=my6AC68IrsDTzgwV0y0YsmAQ4IVN0yCb3Xq0zo4Jr8A=;
- b=K3WFAwD4k+zyATEnsfBcjcsWMjn/FiERKkjNubzy70rJPKX69oNTHT+m5p7GfTfa+c
- Ghe74HDcjHeW/GyvjPTnx+55FBl+qBwUoIIVHLTLlviZAmw4KLyTKZxieQ9P1coRmzjt
- 7Xvy3VkgqKd2DlQ6FvnolkMXATje2C++kbiOmU8PvAxiChedtGHXPr4MvKt5uK7Yg7kM
- v7qEVKbg+W728BdAVU232Fx9BMB3i2pnocZ0y+Kdyy6aSebGP7TbVdCqbZWQPgfy6Qbf
- lBCuGltMcae3rZ4LwmfF6fSKVxEbO2pIto+z7rsii+0f3KwoCMUJ1ZEbOJs+L9x7ZOC3
- cddw==
-X-Gm-Message-State: AOAM5327jS86LXMbgPbE+x0GZFcyG1ScGVccncc8ysYgwzn/3tvx2r7l
- O6NZI01hN6yTcDtJbDYOap1enKkt16Dyig==
-X-Google-Smtp-Source: ABdhPJwvJoCps5xcq8YR5gwtrJgfCVztjHDG+QBNo/P0RJivDM8tix6wZotGZW1b0rDTe+kiA7+TVA==
-X-Received: by 2002:adf:aade:: with SMTP id i30mr7744876wrc.629.1643388937705; 
- Fri, 28 Jan 2022 08:55:37 -0800 (PST)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
- by smtp.gmail.com with ESMTPSA id n13sm2497220wms.8.2022.01.28.08.55.36
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 28 Jan 2022 08:55:37 -0800 (PST)
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] block/curl.c: Check error return from curl_easy_setopt()
-Date: Fri, 28 Jan 2022 16:55:35 +0000
-Message-Id: <20220128165535.2550899-1-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.25.1
+ bh=R2NAPP8T41sFgAETIyeFHWc26qvD8R4PYNixUz6xdzU=;
+ b=poXxQlVdU3H4uSIdsYkhmrNV3mZutrvYTLV76WKTqClBXN7f/9WGIetftsxpO5ykqb
+ y5D0TROSg4rLuGoOgfTqFOmRWLPSqiUMeX8bIxl5wECfDP6ZZ8bOWoAQW+PX5lT83Abc
+ Pkr6XtLfX/S0JtXdWZLb7WRGyzCB6SM7aY0clRi0TpTl3agRvvWINVL5GFWVO8qjIlx2
+ aFAO21tvKBMthCLy+5B/9yUd5teet6EUb8AjMzOpryBJaco9PF1tS+42O0SBJowPzoH6
+ tdsaPkx1GB+grpkn38PP31+Sp3lZBsXQwy+dGy6zvb0Y41JhYhbk5t33KLcGjkmk1b4f
+ pAHA==
+X-Gm-Message-State: AOAM530wjvmLyBBZa4whhmMCz3nKHp/h+TtkMXYS74jNuoM24nGNbeXZ
+ wRV8f0V0VB9wwqIBge9Zt05BFmwN7UM1kXOuZC2KPwr8uHYosCqRxvl2IqetEK5ZSL/msstcaJ+
+ kOaR7OwiD8QVAErY=
+X-Received: by 2002:a5d:4406:: with SMTP id z6mr7604233wrq.125.1643389074648; 
+ Fri, 28 Jan 2022 08:57:54 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwwUmMCiDHrQE793VaTmzeqjczlSvAzdly2MQBi872nt9w26xWP7sDhCHSHjWLaci3JfOP1cg==
+X-Received: by 2002:a5d:4406:: with SMTP id z6mr7604203wrq.125.1643389074325; 
+ Fri, 28 Jan 2022 08:57:54 -0800 (PST)
+Received: from ?IPV6:2a04:ee41:4:31cb:e591:1e1e:abde:a8f1?
+ ([2a04:ee41:4:31cb:e591:1e1e:abde:a8f1])
+ by smtp.gmail.com with ESMTPSA id v3sm4887588wru.15.2022.01.28.08.57.53
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 28 Jan 2022 08:57:53 -0800 (PST)
+Message-ID: <eeec5f93-f38f-4f83-632e-a6f574e82b06@redhat.com>
+Date: Fri, 28 Jan 2022 17:57:52 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.2.0
+Subject: Re: [PATCH v6 32/33] crypto: delegate permission functions to
+ JobDriver .pre_run
+To: Hanna Reitz <hreitz@redhat.com>, qemu-block@nongnu.org
+References: <20220121170544.2049944-1-eesposit@redhat.com>
+ <20220121170544.2049944-33-eesposit@redhat.com>
+ <49d12b8b-cf53-06cb-de26-d4e8f03a8e04@redhat.com>
+From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+In-Reply-To: <49d12b8b-cf53-06cb-de26-d4e8f03a8e04@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eesposit@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42c
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42c.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=eesposit@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.167,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -84,165 +104,236 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
- qemu-block@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org,
+ John Snow <jsnow@redhat.com>, Daniel Henrique Barboza <danielhb413@gmail.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Markus Armbruster <armbru@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ Eduardo Habkost <eduardo@habkost.net>, Greg Kurz <groug@kaod.org>,
+ qemu-ppc@nongnu.org, =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ "Denis V. Lunev" <den@openvz.org>, Eric Blake <eblake@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Coverity points out that we aren't checking the return value
-from curl_easy_setopt() for any of the calls to it we make
-in block/curl.c.
 
-Fixes: Coverity CID 1459336, 1459482, 1460331
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
----
-Big fat disclaimer: tested only with 'make check', which I suspect
-may not be exercising this block backend. Hints on how to test
-more thoroughly are welcome.
 
- block/curl.c | 90 +++++++++++++++++++++++++++++++++-------------------
- 1 file changed, 58 insertions(+), 32 deletions(-)
+On 26/01/2022 17:10, Hanna Reitz wrote:
+> On 21.01.22 18:05, Emanuele Giuseppe Esposito wrote:
+>> block_crypto_amend_options_generic_luks uses the block layer
+>> permission API, therefore it should be called with the BQL held.
+>>
+>> However, the same function is being called by two BlockDriver
+>> callbacks: bdrv_amend_options (under BQL) and bdrv_co_amend (I/O).
+>>
+>> The latter is I/O because it is invoked by block/amend.c's
+>> blockdev_amend_run(), a .run callback of the amend JobDriver
+>>
+>> Therefore we want to 1) change block_crypto driver
+>> to use the permission API only when the BQL is held, and
+>> 2) use the .pre_run JobDriver callback to check for
+>> permissions before switching to the job aiocontext. This has also
+>> the benefit of applying the same permission operation to all
+>> amend implementations, not only luks.
+>>
+>> Remove the permission check in block_crypto_amend_options_generic_luks()
+>> and:
+>> - Add helper functions block_crypto_amend_options_{prepare/cleanup}
+>>    that take care of checking permissions in
+>>    block_crypto_amend_options_luks(), so when it is under BQL, and
+>>
+>> - Use job->pre_run() and job->clean() to do the same thing when
+>>    we are in an iothread, by performing these checks before the
+>>    job runs in its aiocontext. So far job->pre_run() is only defined
+>>    but not called in job_start(), now it is the moment to use it.
+>>
+>> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+>> ---
+>>   block/crypto.c | 57 ++++++++++++++++++++++++++++++++------------------
+>>   job.c          | 13 ++++++++++++
+>>   2 files changed, 50 insertions(+), 20 deletions(-)
+>>
+>> diff --git a/block/crypto.c b/block/crypto.c
+>> index f5e0c7b7c0..bdb4ba5664 100644
+>> --- a/block/crypto.c
+>> +++ b/block/crypto.c
+>> @@ -791,6 +791,28 @@ block_crypto_amend_cleanup(BlockDriverState *bs)
+>>       crypto->updating_keys = false;
+>>   }
+>>   +static int
+>> +block_crypto_amend_options_prepare(BlockDriverState *bs,
+>> +                                   Error **errp)
+>> +{
+>> +    BlockCrypto *crypto = bs->opaque;
+>> +
+>> +    /* apply for exclusive read/write permissions to the underlying
+>> file*/
+>> +    crypto->updating_keys = true;
+>> +    return bdrv_child_refresh_perms(bs, bs->file, errp);
+>> +}
+>> +
+>> +static int
+>> +block_crypto_amend_options_cleanup(BlockDriverState *bs,
+>> +                                   Error **errp)
+>> +{
+>> +    BlockCrypto *crypto = bs->opaque;
+>> +
+>> +    /* release exclusive read/write permissions to the underlying file*/
+>> +    crypto->updating_keys = false;
+>> +    return bdrv_child_refresh_perms(bs, bs->file, errp);
+>> +}
+>> +
+> 
+> Now that I have this patch applied, it does look like it would be nicer
+> if we could skip adding these functions and just reuse
+> block_crypto_amend_{pre_run,cleanup}() (which would require them to call
+> bdrv_child_refresh_perms()).
+> 
+>>   static int
+>>   block_crypto_amend_options_generic_luks(BlockDriverState *bs,
+>>                                           QCryptoBlockAmendOptions
+>> *amend_options,
+>> @@ -798,30 +820,17 @@
+>> block_crypto_amend_options_generic_luks(BlockDriverState *bs,
+>>                                           Error **errp)
+>>   {
+>>       BlockCrypto *crypto = bs->opaque;
+>> -    int ret;
+>>         assert(crypto);
+>>       assert(crypto->block);
+>>   -    /* apply for exclusive read/write permissions to the underlying
+>> file*/
+>> -    crypto->updating_keys = true;
+>> -    ret = bdrv_child_refresh_perms(bs, bs->file, errp);
+>> -    if (ret) {
+>> -        goto cleanup;
+>> -    }
+>> -
+>> -    ret = qcrypto_block_amend_options(crypto->block,
+>> -                                      block_crypto_read_func,
+>> -                                      block_crypto_write_func,
+>> -                                      bs,
+>> -                                      amend_options,
+>> -                                      force,
+>> -                                      errp);
+>> -cleanup:
+>> -    /* release exclusive read/write permissions to the underlying file*/
+>> -    crypto->updating_keys = false;
+>> -    bdrv_child_refresh_perms(bs, bs->file, errp);
+>> -    return ret;
+>> +    return qcrypto_block_amend_options(crypto->block,
+>> +                                       block_crypto_read_func,
+>> +                                       block_crypto_write_func,
+>> +                                       bs,
+>> +                                       amend_options,
+>> +                                       force,
+>> +                                       errp);
+>>   }
+>>     static int
+>> @@ -847,8 +856,16 @@ block_crypto_amend_options_luks(BlockDriverState
+>> *bs,
+>>       if (!amend_options) {
+>>           goto cleanup;
+>>       }
+>> +
+>> +    ret = block_crypto_amend_options_prepare(bs, errp);
+>> +    if (ret) {
+>> +        goto perm_cleanup;
+>> +    }
+>>       ret = block_crypto_amend_options_generic_luks(bs, amend_options,
+>>                                                     force, errp);
+>> +
+>> +perm_cleanup:
+>> +    block_crypto_amend_options_cleanup(bs, errp);
+> 
+> Uh, pre-existing but still dangerous.  We must not pass @errp here,
+> because it may (and if we come from ..._prepare() failing, s/may/will/)
+> already contain some error, and then, if this fails (which it very
+> likely will not), we will get an assertion failure in error_setv().
+> 
+> We could decide that this must not fail and pass &error_abort (but then
+> block_crypto_amend_options_cleanup() should do that), or we pass some
+> new guaranteed-empty pointer and report it.
+> 
+> In any case, we should probably have
+> block_crypto_amend_options_cleanup() (or block_crypto_amend_cleanup())
+> handle this and have that function return void and no error, so we don’t
+> have to worry about that here at all.
 
-diff --git a/block/curl.c b/block/curl.c
-index 6a6cd729758..aaee1b17bef 100644
---- a/block/curl.c
-+++ b/block/curl.c
-@@ -458,38 +458,51 @@ static int curl_init_state(BDRVCURLState *s, CURLState *state)
-         if (!state->curl) {
-             return -EIO;
-         }
--        curl_easy_setopt(state->curl, CURLOPT_URL, s->url);
--        curl_easy_setopt(state->curl, CURLOPT_SSL_VERIFYPEER,
--                         (long) s->sslverify);
--        curl_easy_setopt(state->curl, CURLOPT_SSL_VERIFYHOST,
--                         s->sslverify ? 2L : 0L);
--        if (s->cookie) {
--            curl_easy_setopt(state->curl, CURLOPT_COOKIE, s->cookie);
-+        if (curl_easy_setopt(state->curl, CURLOPT_URL, s->url) ||
-+            curl_easy_setopt(state->curl, CURLOPT_SSL_VERIFYPEER,
-+                             (long) s->sslverify) ||
-+            curl_easy_setopt(state->curl, CURLOPT_SSL_VERIFYHOST,
-+                             s->sslverify ? 2L : 0L)) {
-+            goto err;
+Applied all feedback on crypto and amend (patches 30, 31, 32).
+All what you said makes sense.
+
+> 
+>>   cleanup:
+>>       qapi_free_QCryptoBlockAmendOptions(amend_options);
+>>       return ret;
+>> diff --git a/job.c b/job.c
+>> index 39bf511949..cf0dc9325a 100644
+>> --- a/job.c
+>> +++ b/job.c
+>> @@ -967,11 +967,24 @@ static void coroutine_fn job_co_entry(void *opaque)
+>>       aio_bh_schedule_oneshot(qemu_get_aio_context(), job_exit, job);
+>>   }
+>>   +static int job_pre_run(Job *job)
+>> +{
+>> +    assert(qemu_in_main_thread());
+>> +    if (job->driver->pre_run) {
+>> +        return job->driver->pre_run(job, &job->err);
+>> +    }
+>> +
+>> +    return 0;
+>> +}
+>> +
+>>   void job_start(Job *job)
+>>   {
+>>       assert(job && !job_started(job) && job->paused &&
+>>              job->driver && job->driver->run);
+>>       job->co = qemu_coroutine_create(job_co_entry, job);
+>> +    if (job_pre_run(job)) {
+>> +        return;
+> 
+> Do we not need to announce the error somehow?  Like, perhaps
+> job_pre_run() should set job->ret to the value returned by .pre_run()
+> (like job_co_entry() does it for .run()), and then call job_completed()
+> on error (or even job_exit()? I’m not sure :/).
+> 
+> The way it is, it looks like the job will just basically leak on error,
+> and never complete.
+> 
+
+I will do something like this:
+
+1. move job_pre_run to run just before aio_co_enter() in job_start(),
+because it must be in JOB_STATUS_RUNNING otherwise the transition status
+in job_exit functions won't probably work.
+Basically simulate as .run() just finished and failed.
+
+2. change in this
+
++        ret = job->driver->pre_run(job, &job->err);
++        if (ret) {
++            job->ret = ret;
++            job_exit(job);
++            return ret;
 +        }
-+        if (s->cookie) {
-+            if (curl_easy_setopt(state->curl, CURLOPT_COOKIE, s->cookie)) {
-+                goto err;
-+            }
-+        }
-+        if (curl_easy_setopt(state->curl, CURLOPT_TIMEOUT, (long)s->timeout) ||
-+            curl_easy_setopt(state->curl, CURLOPT_WRITEFUNCTION,
-+                             (void *)curl_read_cb) ||
-+            curl_easy_setopt(state->curl, CURLOPT_WRITEDATA, (void *)state) ||
-+            curl_easy_setopt(state->curl, CURLOPT_PRIVATE, (void *)state) ||
-+            curl_easy_setopt(state->curl, CURLOPT_AUTOREFERER, 1) ||
-+            curl_easy_setopt(state->curl, CURLOPT_FOLLOWLOCATION, 1) ||
-+            curl_easy_setopt(state->curl, CURLOPT_NOSIGNAL, 1) ||
-+            curl_easy_setopt(state->curl, CURLOPT_ERRORBUFFER, state->errmsg) ||
-+            curl_easy_setopt(state->curl, CURLOPT_FAILONERROR, 1)) {
-+            goto err;
-         }
--        curl_easy_setopt(state->curl, CURLOPT_TIMEOUT, (long)s->timeout);
--        curl_easy_setopt(state->curl, CURLOPT_WRITEFUNCTION,
--                         (void *)curl_read_cb);
--        curl_easy_setopt(state->curl, CURLOPT_WRITEDATA, (void *)state);
--        curl_easy_setopt(state->curl, CURLOPT_PRIVATE, (void *)state);
--        curl_easy_setopt(state->curl, CURLOPT_AUTOREFERER, 1);
--        curl_easy_setopt(state->curl, CURLOPT_FOLLOWLOCATION, 1);
--        curl_easy_setopt(state->curl, CURLOPT_NOSIGNAL, 1);
--        curl_easy_setopt(state->curl, CURLOPT_ERRORBUFFER, state->errmsg);
--        curl_easy_setopt(state->curl, CURLOPT_FAILONERROR, 1);
--
-         if (s->username) {
--            curl_easy_setopt(state->curl, CURLOPT_USERNAME, s->username);
-+            if (curl_easy_setopt(state->curl, CURLOPT_USERNAME, s->username)) {
-+                goto err;
-+            }
-         }
-         if (s->password) {
--            curl_easy_setopt(state->curl, CURLOPT_PASSWORD, s->password);
-+            if (curl_easy_setopt(state->curl, CURLOPT_PASSWORD, s->password)) {
-+                goto err;
-+            }
-         }
-         if (s->proxyusername) {
--            curl_easy_setopt(state->curl,
--                             CURLOPT_PROXYUSERNAME, s->proxyusername);
-+            if (curl_easy_setopt(state->curl,
-+                                 CURLOPT_PROXYUSERNAME, s->proxyusername)) {
-+                goto err;
-+            }
-         }
-         if (s->proxypassword) {
--            curl_easy_setopt(state->curl,
--                             CURLOPT_PROXYPASSWORD, s->proxypassword);
-+            if (curl_easy_setopt(state->curl,
-+                                 CURLOPT_PROXYPASSWORD, s->proxypassword)) {
-+                goto err;
-+            }
-         }
- 
-         /* Restrict supported protocols to avoid security issues in the more
-@@ -499,18 +512,27 @@ static int curl_init_state(BDRVCURLState *s, CURLState *state)
-          * Restricting protocols is only supported from 7.19.4 upwards.
-          */
- #if LIBCURL_VERSION_NUM >= 0x071304
--        curl_easy_setopt(state->curl, CURLOPT_PROTOCOLS, PROTOCOLS);
--        curl_easy_setopt(state->curl, CURLOPT_REDIR_PROTOCOLS, PROTOCOLS);
-+        if (curl_easy_setopt(state->curl, CURLOPT_PROTOCOLS, PROTOCOLS) ||
-+            curl_easy_setopt(state->curl, CURLOPT_REDIR_PROTOCOLS, PROTOCOLS)) {
-+            goto err;
-+        }
- #endif
- 
- #ifdef DEBUG_VERBOSE
--        curl_easy_setopt(state->curl, CURLOPT_VERBOSE, 1);
-+        if (curl_easy_setopt(state->curl, CURLOPT_VERBOSE, 1)) {
-+            goto err;
-+        }
- #endif
-     }
- 
-     state->s = s;
- 
-     return 0;
-+
-+err:
-+    curl_easy_cleanup(state->curl);
-+    state->curl = NULL;
-+    return -EIO;
- }
- 
- /* Called with s->mutex held.  */
-@@ -763,10 +785,11 @@ static int curl_open(BlockDriverState *bs, QDict *options, int flags,
-     }
- 
-     s->accept_range = false;
--    curl_easy_setopt(state->curl, CURLOPT_NOBODY, 1);
--    curl_easy_setopt(state->curl, CURLOPT_HEADERFUNCTION,
--                     curl_header_cb);
--    curl_easy_setopt(state->curl, CURLOPT_HEADERDATA, s);
-+    if (curl_easy_setopt(state->curl, CURLOPT_NOBODY, 1) ||
-+        curl_easy_setopt(state->curl, CURLOPT_HEADERFUNCTION, curl_header_cb) ||
-+        curl_easy_setopt(state->curl, CURLOPT_HEADERDATA, s)) {
-+        goto out;
-+    }
-     if (curl_easy_perform(state->curl))
-         goto out;
-     if (curl_easy_getinfo(state->curl, CURLINFO_CONTENT_LENGTH_DOWNLOAD, &d)) {
-@@ -879,7 +902,10 @@ static void curl_setup_preadv(BlockDriverState *bs, CURLAIOCB *acb)
- 
-     snprintf(state->range, 127, "%" PRIu64 "-%" PRIu64, start, end);
-     trace_curl_setup_preadv(acb->bytes, start, state->range);
--    curl_easy_setopt(state->curl, CURLOPT_RANGE, state->range);
-+    if (curl_easy_setopt(state->curl, CURLOPT_RANGE, state->range)) {
-+        curl_clean_state(state);
-+        goto out;
-+    }
- 
-     if (curl_multi_add_handle(s->multi, state->curl) != CURLM_OK) {
-         state->acb[0] = NULL;
--- 
-2.25.1
+
+basically cache the reply of pre_run, and if it's non-zero, set job->ret
+and exit, just as job_co_entry does.
+
+Thank you,
+Emanuele
+
+> Hanna
+> 
+>> +    }
+>>       job->pause_count--;
+>>       job->busy = true;
+>>       job->paused = false;
+> 
 
 
