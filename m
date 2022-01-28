@@ -2,84 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6593F49F336
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jan 2022 07:01:26 +0100 (CET)
-Received: from localhost ([::1]:47856 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B481049F343
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jan 2022 07:06:07 +0100 (CET)
+Received: from localhost ([::1]:50408 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nDKK5-0007Cs-8n
-	for lists+qemu-devel@lfdr.de; Fri, 28 Jan 2022 01:01:25 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:54636)
+	id 1nDKOc-0000g2-QZ
+	for lists+qemu-devel@lfdr.de; Fri, 28 Jan 2022 01:06:06 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:55134)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1nDKF3-0005pP-LK
- for qemu-devel@nongnu.org; Fri, 28 Jan 2022 00:56:14 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:41910)
+ id 1nDKI8-0007Dj-2D
+ for qemu-devel@nongnu.org; Fri, 28 Jan 2022 00:59:24 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:41403)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1nDKF0-0002go-2j
- for qemu-devel@nongnu.org; Fri, 28 Jan 2022 00:56:11 -0500
+ id 1nDKI4-0002xm-I8
+ for qemu-devel@nongnu.org; Fri, 28 Jan 2022 00:59:22 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1643349368;
+ s=mimecast20190719; t=1643349559;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=NmvUTogdu9baspfBfX4rGdD/WSBa3qyhLpro0p4Kf88=;
- b=abBjW/InIN25RN0YtYWsBVkqIdQ/As1WAkCz2gZVpNGXrhNqjr68RFhEGn7jL57+CiXeZ9
- PuZNgpSBhA/3/ipRfEl83G1vOgsQQVax0UxS7CWSopFR4g//lzqOJcDIAx/NVArM5pHAb/
- L1ci8lUgUwuGhePu0oSbhtaAp1IyoLY=
-Received: from mail-pj1-f72.google.com (mail-pj1-f72.google.com
- [209.85.216.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=oitSK9I3YZG1rWLNMuU6LMoA46dX5KaaI4ppmXJErZM=;
+ b=SCjztOl6TP48/8pMn0hKCahLKPmcCf+ezskHdHvz02HbhMUPCI0ylL1vPip928zxyKrzKQ
+ 2x20/bp6FII9o5h0J+6a5uF6JDB7+1xZgC17KiNVURh+GP1fn9j6hhWDFVuf5ItCGUuMWi
+ Lw2LleQZM39jCd/lvgoWhh3wu5e5Ut4=
+Received: from mail-pj1-f69.google.com (mail-pj1-f69.google.com
+ [209.85.216.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-294-2K1qAeUUPryF-RhxqkXsbA-1; Fri, 28 Jan 2022 00:56:06 -0500
-X-MC-Unique: 2K1qAeUUPryF-RhxqkXsbA-1
-Received: by mail-pj1-f72.google.com with SMTP id
- k2-20020a17090a658200b001b399622095so3280338pjj.9
- for <qemu-devel@nongnu.org>; Thu, 27 Jan 2022 21:56:06 -0800 (PST)
+ us-mta-202-wNFEb6GdMgKlEgU9Sivhfg-1; Fri, 28 Jan 2022 00:59:18 -0500
+X-MC-Unique: wNFEb6GdMgKlEgU9Sivhfg-1
+Received: by mail-pj1-f69.google.com with SMTP id
+ e16-20020a17090a119000b001b28f7b2a3bso3118341pja.8
+ for <qemu-devel@nongnu.org>; Thu, 27 Jan 2022 21:59:18 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=NmvUTogdu9baspfBfX4rGdD/WSBa3qyhLpro0p4Kf88=;
- b=B+TuxpQ0/Iw2G4QXDpY3cZVO+RsHuuVLvvGAFu5Yso0+7xGdI0RP+I8K3f0Qic2bsP
- 9l5Oz7XTORHTLSLitkPGrK59hqYW+d9T/5/mJBKJU35x0x7rfQ/nFqrSRjzE32JJMy6n
- CW+BwCD0Xznu00tJZrtS4QlrcgI8IEYkyNbcaxiL104HzgiwdON42wohPpnC9hnBlfRL
- AjiLRsxy+fTf6JzB6LD72tZMHSk7Inqun8m9xb+yyegIbRVfg2saXrzPD1/NkmJBhU+M
- JjYx9KBO8kuRCtsFkN3/Sx9QvL5qKrj9HC39avGtjjKb56KO/y6zT/HLRxxqh35ViHF9
- bhuA==
-X-Gm-Message-State: AOAM531+UegordxqX6tbxCRbevvFwfRwB+Q6wDcl0xBp48azKbk8VQHn
- ehUAcABKn5+vgpXjybcwJX5LG9LOwKe50owcyShV/m8cQySDnOv5/Mv/7BJ1T7clqIxdpHpoCyi
- ZUxrpxCBfQmsFPgg=
-X-Received: by 2002:a17:903:2093:: with SMTP id
- d19mr6880871plc.29.1643349365500; 
- Thu, 27 Jan 2022 21:56:05 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJz95qaukLEbZr8VsmgQvFlsKXiWASwMyW6mr5bfmyA0korfMYDb0Bp7tw8WKU55Q0DHPgjCcg==
-X-Received: by 2002:a17:903:2093:: with SMTP id
- d19mr6880836plc.29.1643349365189; 
- Thu, 27 Jan 2022 21:56:05 -0800 (PST)
+ bh=oitSK9I3YZG1rWLNMuU6LMoA46dX5KaaI4ppmXJErZM=;
+ b=qdD8IJgKVlZgNg1za1yEhIT1VcX6pXzL+OhnNFqwuGnD8fDNzJDwstdlZNYqcqeMnZ
+ od+Fj+QTJLZzF0yTpIuahbXcEU6VhIrLC/teb25LxHgob4kYK3t39DsgzIBa50McLyFa
+ gQpOph8fqAXOjzV/peg/0jYUIOuPoT7p8/x02qAHEty5cB/NbMvEObYUgtnKGQHqZ/bo
+ A+9lHaPi9DA4tJur6LFLRCKdoBQ5YW5bWa5Fd3nRYsYeVNUFoCaow7aAUJauLGsZzRgJ
+ ywsvmUh9qDXM5WbTeaQ9q4GFb9m5zHr8Xek8vFoQb1+Vdhv2rQKsPhbUqM8aQuEzqFe3
+ sqRA==
+X-Gm-Message-State: AOAM5332r6F5tqDH6Phw3+FpL+fm+MxjwR5wqnYruxJSXvCD4T6rTRPX
+ 9EsPuH8J7648WDqp+BaJgUKJipkENRDoBql/TmrVIvY929E9xwmSvN4RQTrbm4cxfOxmsIKrVY8
+ oADCyjhS8K1Fbz/I=
+X-Received: by 2002:a05:6a00:1312:: with SMTP id
+ j18mr6250483pfu.61.1643349557164; 
+ Thu, 27 Jan 2022 21:59:17 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxM7GtklXiZln7FjKCq9nZUq3JnD3OmTjctC2A2YbpD3k9gYpSmt6jUwUaiKrDlDwzoMg+EuQ==
+X-Received: by 2002:a05:6a00:1312:: with SMTP id
+ j18mr6250443pfu.61.1643349556884; 
+ Thu, 27 Jan 2022 21:59:16 -0800 (PST)
 Received: from [10.72.13.185] ([209.132.188.80])
- by smtp.gmail.com with ESMTPSA id d22sm960881pfl.71.2022.01.27.21.55.58
+ by smtp.gmail.com with ESMTPSA id f16sm8147510pfa.147.2022.01.27.21.59.10
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 27 Jan 2022 21:56:04 -0800 (PST)
-Message-ID: <345cd684-0cc2-a685-0611-e2fcf0dfc52b@redhat.com>
-Date: Fri, 28 Jan 2022 13:55:53 +0800
+ Thu, 27 Jan 2022 21:59:16 -0800 (PST)
+Message-ID: <bb5490a4-8fae-0cc8-56dd-0953a2b40922@redhat.com>
+Date: Fri, 28 Jan 2022 13:59:08 +0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
  Gecko/20100101 Thunderbird/91.5.0
-Subject: Re: [PATCH 21/31] util: Add iova_tree_alloc
-To: Peter Xu <peterx@redhat.com>, Eugenio Perez Martin <eperezma@redhat.com>
+Subject: Re: [PATCH 01/31] vdpa: Reorder virtio/vhost-vdpa.c functions
+To: =?UTF-8?Q?Eugenio_P=c3=a9rez?= <eperezma@redhat.com>, qemu-devel@nongnu.org
 References: <20220121202733.404989-1-eperezma@redhat.com>
- <20220121202733.404989-22-eperezma@redhat.com> <Ye4r7tKFhP9VaT5/@xz-m1.local>
- <CAJaqyWf--wbNZz5ZzbpixD9op_fO5fV01kbYXzG097c_NkqYrw@mail.gmail.com>
- <Ye6IhLCe6NDKO6+E@xz-m1.local>
- <CAJaqyWcdpTr2X4VuAN2NLmpviCjDoAaY269+VQGZ7-F6myOhSw@mail.gmail.com>
- <YfJSezhQv1kXa1x8@xz-m1.local>
- <CAJaqyWczZ7C_vbwugyN9bEgOVuRokGqVMb_g5UK_R4F8O+qKOA@mail.gmail.com>
- <YfNprA3OLUqj8LSG@xz-m1.local>
+ <20220121202733.404989-2-eperezma@redhat.com>
 From: Jason Wang <jasowang@redhat.com>
-In-Reply-To: <YfNprA3OLUqj8LSG@xz-m1.local>
+In-Reply-To: <20220121202733.404989-2-eperezma@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -113,97 +107,249 @@ Cc: Laurent Vivier <lvivier@redhat.com>, Parav Pandit <parav@mellanox.com>,
  Cindy Lu <lulu@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
  Juan Quintela <quintela@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>,
- qemu-level <qemu-devel@nongnu.org>, Gautam Dawar <gdawar@xilinx.com>,
- Markus Armbruster <armbru@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, Gautam Dawar <gdawar@xilinx.com>,
+ virtualization@lists.linux-foundation.org,
+ Eduardo Habkost <ehabkost@redhat.com>,
  Harpreet Singh Anand <hanand@xilinx.com>, Xiao W Wang <xiao.w.wang@intel.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Eli Cohen <eli@mellanox.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Zhu Lingshan <lingshan.zhu@intel.com>,
- virtualization <virtualization@lists.linux-foundation.org>,
- Eric Blake <eblake@redhat.com>, Stefano Garzarella <sgarzare@redhat.com>
+ Peter Xu <peterx@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Eli Cohen <eli@mellanox.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Zhu Lingshan <lingshan.zhu@intel.com>, Eric Blake <eblake@redhat.com>,
+ Stefano Garzarella <sgarzare@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
-在 2022/1/28 上午11:57, Peter Xu 写道:
-> On Thu, Jan 27, 2022 at 10:24:27AM +0100, Eugenio Perez Martin wrote:
->> On Thu, Jan 27, 2022 at 9:06 AM Peter Xu <peterx@redhat.com> wrote:
->>> On Tue, Jan 25, 2022 at 10:40:01AM +0100, Eugenio Perez Martin wrote:
->>>> So I think that the first step to remove complexity from the old one
->>>> is to remove iova_begin and iova_end.
->>>>
->>>> As Jason points out, removing iova_end is easier. It has the drawback
->>>> of having to traverse all the list beyond iova_end, but a well formed
->>>> iova tree should contain none. If the guest can manipulate it, it's
->>>> only hurting itself adding nodes to it.
->>>>
->>>> It's possible to extract the check for hole_right (or this in Jason's
->>>> proposal) as a special case too.
->>>>
->>>> But removing the iova_begin parameter is more complicated. We cannot
->>>> know if it's a valid hole without knowing iova_begin, and we cannot
->>>> resume traversing. Could we assume iova_begin will always be 0? I
->>>> think not, the vdpa device can return anything through syscall.
->>> Frankly I don't know what's the syscall you're talking about,
->> I meant VHOST_VDPA_GET_IOVA_RANGE, which allows qemu to know the valid
->> range of iova addresses. We get a pair of uint64_t from it, that
->> indicates the minimum and maximum iova address the device (or iommu)
->> supports.
->>
->> We must allocate iova ranges within that address range, which
->> complicates this algorithm a little bit. Since the SVQ iova addresses
->> are not GPA, qemu needs extra code to be able to allocate and free
->> them, creating a new custom iova as.
->>
->> Please let me know if you want more details or if you prefer me to
->> give more context in the patch message.
-> That's good enough, thanks.
+在 2022/1/22 上午4:27, Eugenio Pérez 写道:
+> vhost_vdpa_set_features and vhost_vdpa_init need to use
+> vhost_vdpa_get_features in svq mode.
 >
->>> I mean this one:
->>>
->>> https://lore.kernel.org/qemu-devel/20211029183525.1776416-24-eperezma@redhat.com/
->>>
->>> Though this time I have some comments on the details.
->>>
->>> Personally I like that one (probably with some amendment upon the old version)
->>> more than the current list-based approach.  But I'd like to know your thoughts
->>> too (including Jason).  I'll further comment in that thread soon.
->>>
->> Sure, I'm fine with whatever solution we choose, but I'm just running
->> out of ideas to simplify it. Reading your suggestions on old RFC now.
->>
->> Overall I feel list-based one is both more convenient and easy to
->> delete when qemu raises the minimal glib version, but it adds a lot
->> more code.
->>
->> It could add less code with this less elegant changes:
->> * If we just put the list entry in the DMAMap itself, although it
->> exposes unneeded implementation details.
->> * We force the iova tree either to be an allocation-based or an
->> insertion-based, but not both. In other words, you can only either use
->> iova_tree_alloc or iova_tree_insert on the same tree.
+> vhost_vdpa_dev_start needs to use almost all _set_ functions:
+> vhost_vdpa_set_vring_dev_kick, vhost_vdpa_set_vring_dev_call,
+> vhost_vdpa_set_dev_vring_base and vhost_vdpa_set_dev_vring_num.
+>
+> No functional change intended.
 
 
-This seems an odd API I must say :(
-
-
-> Yeah, I just noticed it yesterday that there's no easy choice on it.  Let's go
-> with either way; it shouldn't block the rest of the code.  It'll be good if
-> Jason or Michael share their preferences too.
-
-
-(Havne't gone through the code deeply)
-
-I wonder how about just copy-paste gtree_node_first|last()? A quick 
-google told me it's not complicated.
+Is it related (a must) to the SVQ code?
 
 Thanks
 
 
 >
->> I have a few tests to check the algorithms, but they are not in the
->> qemu test format. I will post them so we all can understand better
->> what is expected from this.
-> Sure.  Thanks.
+> Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
+> ---
+>   hw/virtio/vhost-vdpa.c | 164 ++++++++++++++++++++---------------------
+>   1 file changed, 82 insertions(+), 82 deletions(-)
 >
+> diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
+> index 04ea43704f..6c10a7f05f 100644
+> --- a/hw/virtio/vhost-vdpa.c
+> +++ b/hw/virtio/vhost-vdpa.c
+> @@ -342,41 +342,6 @@ static bool vhost_vdpa_one_time_request(struct vhost_dev *dev)
+>       return v->index != 0;
+>   }
+>   
+> -static int vhost_vdpa_init(struct vhost_dev *dev, void *opaque, Error **errp)
+> -{
+> -    struct vhost_vdpa *v;
+> -    assert(dev->vhost_ops->backend_type == VHOST_BACKEND_TYPE_VDPA);
+> -    trace_vhost_vdpa_init(dev, opaque);
+> -    int ret;
+> -
+> -    /*
+> -     * Similar to VFIO, we end up pinning all guest memory and have to
+> -     * disable discarding of RAM.
+> -     */
+> -    ret = ram_block_discard_disable(true);
+> -    if (ret) {
+> -        error_report("Cannot set discarding of RAM broken");
+> -        return ret;
+> -    }
+> -
+> -    v = opaque;
+> -    v->dev = dev;
+> -    dev->opaque =  opaque ;
+> -    v->listener = vhost_vdpa_memory_listener;
+> -    v->msg_type = VHOST_IOTLB_MSG_V2;
+> -
+> -    vhost_vdpa_get_iova_range(v);
+> -
+> -    if (vhost_vdpa_one_time_request(dev)) {
+> -        return 0;
+> -    }
+> -
+> -    vhost_vdpa_add_status(dev, VIRTIO_CONFIG_S_ACKNOWLEDGE |
+> -                               VIRTIO_CONFIG_S_DRIVER);
+> -
+> -    return 0;
+> -}
+> -
+>   static void vhost_vdpa_host_notifier_uninit(struct vhost_dev *dev,
+>                                               int queue_index)
+>   {
+> @@ -506,24 +471,6 @@ static int vhost_vdpa_set_mem_table(struct vhost_dev *dev,
+>       return 0;
+>   }
+>   
+> -static int vhost_vdpa_set_features(struct vhost_dev *dev,
+> -                                   uint64_t features)
+> -{
+> -    int ret;
+> -
+> -    if (vhost_vdpa_one_time_request(dev)) {
+> -        return 0;
+> -    }
+> -
+> -    trace_vhost_vdpa_set_features(dev, features);
+> -    ret = vhost_vdpa_call(dev, VHOST_SET_FEATURES, &features);
+> -    if (ret) {
+> -        return ret;
+> -    }
+> -
+> -    return vhost_vdpa_add_status(dev, VIRTIO_CONFIG_S_FEATURES_OK);
+> -}
+> -
+>   static int vhost_vdpa_set_backend_cap(struct vhost_dev *dev)
+>   {
+>       uint64_t features;
+> @@ -646,35 +593,6 @@ static int vhost_vdpa_get_config(struct vhost_dev *dev, uint8_t *config,
+>       return ret;
+>    }
+>   
+> -static int vhost_vdpa_dev_start(struct vhost_dev *dev, bool started)
+> -{
+> -    struct vhost_vdpa *v = dev->opaque;
+> -    trace_vhost_vdpa_dev_start(dev, started);
+> -
+> -    if (started) {
+> -        vhost_vdpa_host_notifiers_init(dev);
+> -        vhost_vdpa_set_vring_ready(dev);
+> -    } else {
+> -        vhost_vdpa_host_notifiers_uninit(dev, dev->nvqs);
+> -    }
+> -
+> -    if (dev->vq_index + dev->nvqs != dev->vq_index_end) {
+> -        return 0;
+> -    }
+> -
+> -    if (started) {
+> -        memory_listener_register(&v->listener, &address_space_memory);
+> -        return vhost_vdpa_add_status(dev, VIRTIO_CONFIG_S_DRIVER_OK);
+> -    } else {
+> -        vhost_vdpa_reset_device(dev);
+> -        vhost_vdpa_add_status(dev, VIRTIO_CONFIG_S_ACKNOWLEDGE |
+> -                                   VIRTIO_CONFIG_S_DRIVER);
+> -        memory_listener_unregister(&v->listener);
+> -
+> -        return 0;
+> -    }
+> -}
+> -
+>   static int vhost_vdpa_set_log_base(struct vhost_dev *dev, uint64_t base,
+>                                        struct vhost_log *log)
+>   {
+> @@ -735,6 +653,35 @@ static int vhost_vdpa_set_vring_call(struct vhost_dev *dev,
+>       return vhost_vdpa_call(dev, VHOST_SET_VRING_CALL, file);
+>   }
+>   
+> +static int vhost_vdpa_dev_start(struct vhost_dev *dev, bool started)
+> +{
+> +    struct vhost_vdpa *v = dev->opaque;
+> +    trace_vhost_vdpa_dev_start(dev, started);
+> +
+> +    if (started) {
+> +        vhost_vdpa_host_notifiers_init(dev);
+> +        vhost_vdpa_set_vring_ready(dev);
+> +    } else {
+> +        vhost_vdpa_host_notifiers_uninit(dev, dev->nvqs);
+> +    }
+> +
+> +    if (dev->vq_index + dev->nvqs != dev->vq_index_end) {
+> +        return 0;
+> +    }
+> +
+> +    if (started) {
+> +        memory_listener_register(&v->listener, &address_space_memory);
+> +        return vhost_vdpa_add_status(dev, VIRTIO_CONFIG_S_DRIVER_OK);
+> +    } else {
+> +        vhost_vdpa_reset_device(dev);
+> +        vhost_vdpa_add_status(dev, VIRTIO_CONFIG_S_ACKNOWLEDGE |
+> +                                   VIRTIO_CONFIG_S_DRIVER);
+> +        memory_listener_unregister(&v->listener);
+> +
+> +        return 0;
+> +    }
+> +}
+> +
+>   static int vhost_vdpa_get_features(struct vhost_dev *dev,
+>                                        uint64_t *features)
+>   {
+> @@ -745,6 +692,24 @@ static int vhost_vdpa_get_features(struct vhost_dev *dev,
+>       return ret;
+>   }
+>   
+> +static int vhost_vdpa_set_features(struct vhost_dev *dev,
+> +                                   uint64_t features)
+> +{
+> +    int ret;
+> +
+> +    if (vhost_vdpa_one_time_request(dev)) {
+> +        return 0;
+> +    }
+> +
+> +    trace_vhost_vdpa_set_features(dev, features);
+> +    ret = vhost_vdpa_call(dev, VHOST_SET_FEATURES, &features);
+> +    if (ret) {
+> +        return ret;
+> +    }
+> +
+> +    return vhost_vdpa_add_status(dev, VIRTIO_CONFIG_S_FEATURES_OK);
+> +}
+> +
+>   static int vhost_vdpa_set_owner(struct vhost_dev *dev)
+>   {
+>       if (vhost_vdpa_one_time_request(dev)) {
+> @@ -772,6 +737,41 @@ static bool  vhost_vdpa_force_iommu(struct vhost_dev *dev)
+>       return true;
+>   }
+>   
+> +static int vhost_vdpa_init(struct vhost_dev *dev, void *opaque, Error **errp)
+> +{
+> +    struct vhost_vdpa *v;
+> +    assert(dev->vhost_ops->backend_type == VHOST_BACKEND_TYPE_VDPA);
+> +    trace_vhost_vdpa_init(dev, opaque);
+> +    int ret;
+> +
+> +    /*
+> +     * Similar to VFIO, we end up pinning all guest memory and have to
+> +     * disable discarding of RAM.
+> +     */
+> +    ret = ram_block_discard_disable(true);
+> +    if (ret) {
+> +        error_report("Cannot set discarding of RAM broken");
+> +        return ret;
+> +    }
+> +
+> +    v = opaque;
+> +    v->dev = dev;
+> +    dev->opaque =  opaque ;
+> +    v->listener = vhost_vdpa_memory_listener;
+> +    v->msg_type = VHOST_IOTLB_MSG_V2;
+> +
+> +    vhost_vdpa_get_iova_range(v);
+> +
+> +    if (vhost_vdpa_one_time_request(dev)) {
+> +        return 0;
+> +    }
+> +
+> +    vhost_vdpa_add_status(dev, VIRTIO_CONFIG_S_ACKNOWLEDGE |
+> +                               VIRTIO_CONFIG_S_DRIVER);
+> +
+> +    return 0;
+> +}
+> +
+>   const VhostOps vdpa_ops = {
+>           .backend_type = VHOST_BACKEND_TYPE_VDPA,
+>           .vhost_backend_init = vhost_vdpa_init,
 
 
