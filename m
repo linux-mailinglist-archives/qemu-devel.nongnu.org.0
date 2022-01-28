@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11B5C49F8F1
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jan 2022 13:08:47 +0100 (CET)
-Received: from localhost ([::1]:50582 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 81F4349F8D7
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jan 2022 12:58:00 +0100 (CET)
+Received: from localhost ([::1]:42430 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nDQ3Z-0002aW-JM
-	for lists+qemu-devel@lfdr.de; Fri, 28 Jan 2022 07:08:45 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:60364)
+	id 1nDPt9-0005JK-B6
+	for lists+qemu-devel@lfdr.de; Fri, 28 Jan 2022 06:57:59 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:60396)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1nDPm8-0004WH-2U
+ id 1nDPm9-0004WL-0E
  for qemu-devel@nongnu.org; Fri, 28 Jan 2022 06:50:45 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:57513)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:29282)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1nDPm5-0003Nu-Lj
- for qemu-devel@nongnu.org; Fri, 28 Jan 2022 06:50:43 -0500
+ id 1nDPm6-0003O7-Ri
+ for qemu-devel@nongnu.org; Fri, 28 Jan 2022 06:50:44 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1643370640;
+ s=mimecast20190719; t=1643370641;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=qxcJppvwnYVfQdCihPNsBkAfFi8EBTfnO0Mo6JSswdc=;
- b=KCawuHv75oggyJpLlHQ61/ktCYhJGirhmRYUQt+pBc6CvtQuk7YR4OfmDbnUXkbMTl3nf5
- xM+Dcue3iMOgTJaXfFT3fD4kFJsMErxBy3hfZxKv6BjpnJse+USuwto8YLKep4xB6Lj5sh
- oJKvgTuL1EXMHVNxbnvDesO2HrGwHNI=
+ bh=RT2MwcJ1XMATqhJ+/wLnwovAkUHRy8yXLe3wz1foGR8=;
+ b=ZV6IX8XFxFdJm8AXMiiddG5LPKOLsX7zqUuMX01/hOjZa4a1qQnCubYTCYrMxwKCL+Issi
+ DOy6Ew9d6XW/RJ86buw35dqWsQsZCJzeU7su5y/+1ZviwtrnKdoJV2dTx9S7hhg2sldMey
+ nq7a0OnyO+acvb0QWGqPw6F/LZPvJ0o=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-448-J8omojhQMtC1cnyHRANLXQ-1; Fri, 28 Jan 2022 06:50:37 -0500
-X-MC-Unique: J8omojhQMtC1cnyHRANLXQ-1
+ us-mta-412-q6_x8tv-NYKBNV7ZQCyQiQ-1; Fri, 28 Jan 2022 06:50:38 -0500
+X-MC-Unique: q6_x8tv-NYKBNV7ZQCyQiQ-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 61CFD1006AA6;
- Fri, 28 Jan 2022 11:50:36 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 86D648144E1;
+ Fri, 28 Jan 2022 11:50:37 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 43FE122DE7;
- Fri, 28 Jan 2022 11:50:34 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7B88A1FD88;
+ Fri, 28 Jan 2022 11:50:36 +0000 (UTC)
 From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH v4 01/19] job.c: make job_mutex and job_lock/unlock() public
-Date: Fri, 28 Jan 2022 06:50:13 -0500
-Message-Id: <20220128115031.4061565-2-eesposit@redhat.com>
+Subject: [PATCH v4 02/19] job.h: categorize fields in struct Job
+Date: Fri, 28 Jan 2022 06:50:14 -0500
+Message-Id: <20220128115031.4061565-3-eesposit@redhat.com>
 In-Reply-To: <20220128115031.4061565-1-eesposit@redhat.com>
 References: <20220128115031.4061565-1-eesposit@redhat.com>
 MIME-Version: 1.0
@@ -92,153 +92,123 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-job mutex will be used to protect the job struct elements and list,
-replacing AioContext locks.
-
-Right now use a shared lock for all jobs, in order to keep things
-simple. Once the AioContext lock is gone, we can introduce per-job
-locks.
-
-To simplify the switch from aiocontext to job lock, introduce
-*nop* lock/unlock functions and macros.
-We want to always call job_lock/unlock outside the AioContext locks,
-and not vice-versa, otherwise we might get a deadlock. This is not
-straightforward to do, and that's why we start with nop functions.
-Once everything is protected by job_lock/unlock, we can change the nop into
-an actual mutex and remove the aiocontext lock.
-
-Since job_mutex is already being used, add static
-real_job_{lock/unlock} for the existing usage.
+Categorize the fields in struct Job to understand which ones
+need to be protected by the job mutex and which don't.
 
 Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 ---
- include/qemu/job.h | 24 ++++++++++++++++++++++++
- job.c              | 35 +++++++++++++++++++++++------------
- 2 files changed, 47 insertions(+), 12 deletions(-)
+ include/qemu/job.h | 59 ++++++++++++++++++++++++++--------------------
+ 1 file changed, 34 insertions(+), 25 deletions(-)
 
 diff --git a/include/qemu/job.h b/include/qemu/job.h
-index 915ceff425..8d0d370dda 100644
+index 8d0d370dda..a36ef921c9 100644
 --- a/include/qemu/job.h
 +++ b/include/qemu/job.h
-@@ -312,6 +312,30 @@ typedef enum JobCreateFlags {
-     JOB_MANUAL_DISMISS = 0x04,
- } JobCreateFlags;
+@@ -40,27 +40,50 @@ typedef struct JobTxn JobTxn;
+  * Long-running operation.
+  */
+ typedef struct Job {
++
++    /* Fields set at initialization (job_create), and never modified */
++
+     /** The ID of the job. May be NULL for internal jobs. */
+     char *id;
  
-+extern QemuMutex job_mutex;
+-    /** The type of this job. */
++    /**
++     * The type of this job.
++     * All callbacks are called with job_mutex *not* held.
++     */
+     const JobDriver *driver;
+ 
+-    /** Reference count of the block job */
+-    int refcnt;
+-
+-    /** Current state; See @JobStatus for details. */
+-    JobStatus status;
+-
+-    /** AioContext to run the job coroutine in */
+-    AioContext *aio_context;
+-
+     /**
+      * The coroutine that executes the job.  If not NULL, it is reentered when
+      * busy is false and the job is cancelled.
++     * Initialized in job_start()
+      */
+     Coroutine *co;
+ 
++    /** True if this job should automatically finalize itself */
++    bool auto_finalize;
 +
-+#define JOB_LOCK_GUARD() /* QEMU_LOCK_GUARD(&job_mutex) */
++    /** True if this job should automatically dismiss itself */
++    bool auto_dismiss;
 +
-+#define WITH_JOB_LOCK_GUARD() /* WITH_QEMU_LOCK_GUARD(&job_mutex) */
++    /** The completion function that will be called when the job completes.  */
++    BlockCompletionFunc *cb;
 +
-+/**
-+ * job_lock:
-+ *
-+ * Take the mutex protecting the list of jobs and their status.
-+ * Most functions called by the monitor need to call job_lock
-+ * and job_unlock manually.  On the other hand, function called
-+ * by the block jobs themselves and by the block layer will take the
-+ * lock for you.
-+ */
-+void job_lock(void);
++    /** The opaque value that is passed to the completion function.  */
++    void *opaque;
 +
-+/**
-+ * job_unlock:
-+ *
-+ * Release the mutex protecting the list of jobs and their status.
-+ */
-+void job_unlock(void);
++    /* ProgressMeter API is thread-safe */
++    ProgressMeter progress;
 +
++
++    /** AioContext to run the job coroutine in */
++    AioContext *aio_context;
++
++    /** Reference count of the block job */
++    int refcnt;
++
++    /** Current state; See @JobStatus for details. */
++    JobStatus status;
++
+     /**
+      * Timer that is used by @job_sleep_ns. Accessed under job_mutex (in
+      * job.c).
+@@ -112,14 +135,6 @@ typedef struct Job {
+     /** Set to true when the job has deferred work to the main loop. */
+     bool deferred_to_main_loop;
+ 
+-    /** True if this job should automatically finalize itself */
+-    bool auto_finalize;
+-
+-    /** True if this job should automatically dismiss itself */
+-    bool auto_dismiss;
+-
+-    ProgressMeter progress;
+-
+     /**
+      * Return code from @run and/or @prepare callback(s).
+      * Not final until the job has reached the CONCLUDED status.
+@@ -134,12 +149,6 @@ typedef struct Job {
+      */
+     Error *err;
+ 
+-    /** The completion function that will be called when the job completes.  */
+-    BlockCompletionFunc *cb;
+-
+-    /** The opaque value that is passed to the completion function.  */
+-    void *opaque;
+-
+     /** Notifiers called when a cancelled job is finalised */
+     NotifierList on_finalize_cancelled;
+ 
+@@ -167,6 +176,7 @@ typedef struct Job {
+ 
  /**
-  * Allocate and return a new job transaction. Jobs can be added to the
-  * transaction using job_txn_add_job().
-diff --git a/job.c b/job.c
-index cf0dc9325a..f5e5b04e8c 100644
---- a/job.c
-+++ b/job.c
-@@ -32,6 +32,12 @@
- #include "trace/trace-root.h"
- #include "qapi/qapi-events-job.h"
+  * Callbacks and other information about a Job driver.
++ * All callbacks are invoked with job_mutex *not* held.
+  */
+ struct JobDriver {
  
-+/*
-+ * job_mutex protects the jobs list, but also makes the
-+ * struct job fields thread-safe.
-+ */
-+QemuMutex job_mutex;
-+
- static QLIST_HEAD(, Job) jobs = QLIST_HEAD_INITIALIZER(jobs);
+@@ -481,7 +491,6 @@ void job_yield(Job *job);
+  */
+ void coroutine_fn job_sleep_ns(Job *job, int64_t ns);
  
- /* Job State Transition Table */
-@@ -74,17 +80,22 @@ struct JobTxn {
-     int refcnt;
- };
+-
+ /** Returns the JobType of a given Job. */
+ JobType job_type(const Job *job);
  
--/* Right now, this mutex is only needed to synchronize accesses to job->busy
-- * and job->sleep_timer, such as concurrent calls to job_do_yield and
-- * job_enter. */
--static QemuMutex job_mutex;
-+void job_lock(void)
-+{
-+    /* nop */
-+}
-+
-+void job_unlock(void)
-+{
-+    /* nop */
-+}
- 
--static void job_lock(void)
-+static void real_job_lock(void)
- {
-     qemu_mutex_lock(&job_mutex);
- }
- 
--static void job_unlock(void)
-+static void real_job_unlock(void)
- {
-     qemu_mutex_unlock(&job_mutex);
- }
-@@ -450,21 +461,21 @@ void job_enter_cond(Job *job, bool(*fn)(Job *job))
-         return;
-     }
- 
--    job_lock();
-+    real_job_lock();
-     if (job->busy) {
--        job_unlock();
-+        real_job_unlock();
-         return;
-     }
- 
-     if (fn && !fn(job)) {
--        job_unlock();
-+        real_job_unlock();
-         return;
-     }
- 
-     assert(!job->deferred_to_main_loop);
-     timer_del(&job->sleep_timer);
-     job->busy = true;
--    job_unlock();
-+    real_job_unlock();
-     aio_co_enter(job->aio_context, job->co);
- }
- 
-@@ -481,13 +492,13 @@ void job_enter(Job *job)
-  * called explicitly. */
- static void coroutine_fn job_do_yield(Job *job, uint64_t ns)
- {
--    job_lock();
-+    real_job_lock();
-     if (ns != -1) {
-         timer_mod(&job->sleep_timer, ns);
-     }
-     job->busy = false;
-     job_event_idle(job);
--    job_unlock();
-+    real_job_unlock();
-     qemu_coroutine_yield();
- 
-     /* Set by job_enter_cond() before re-entering the coroutine.  */
 -- 
 2.31.1
 
