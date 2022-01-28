@@ -2,72 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 490304A0472
-	for <lists+qemu-devel@lfdr.de>; Sat, 29 Jan 2022 00:46:34 +0100 (CET)
-Received: from localhost ([::1]:33822 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CEEDF4A046D
+	for <lists+qemu-devel@lfdr.de>; Sat, 29 Jan 2022 00:42:24 +0100 (CET)
+Received: from localhost ([::1]:54028 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nDawr-0004g3-CC
-	for lists+qemu-devel@lfdr.de; Fri, 28 Jan 2022 18:46:33 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:41766)
+	id 1nDasp-0007VU-TO
+	for lists+qemu-devel@lfdr.de; Fri, 28 Jan 2022 18:42:23 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:41794)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1nDaf6-0000H8-UU
- for qemu-devel@nongnu.org; Fri, 28 Jan 2022 18:28:12 -0500
-Received: from [2607:f8b0:4864:20::d31] (port=34802
- helo=mail-io1-xd31.google.com)
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1nDaf8-0000NY-E7
+ for qemu-devel@nongnu.org; Fri, 28 Jan 2022 18:28:14 -0500
+Received: from [2607:f8b0:4864:20::d35] (port=34806
+ helo=mail-io1-xd35.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1nDaf5-0001Z2-C7
- for qemu-devel@nongnu.org; Fri, 28 Jan 2022 18:28:12 -0500
-Received: by mail-io1-xd31.google.com with SMTP id i62so9719959ioa.1
- for <qemu-devel@nongnu.org>; Fri, 28 Jan 2022 15:28:11 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1nDaf6-0001ZK-Rb
+ for qemu-devel@nongnu.org; Fri, 28 Jan 2022 18:28:14 -0500
+Received: by mail-io1-xd35.google.com with SMTP id i62so9720042ioa.1
+ for <qemu-devel@nongnu.org>; Fri, 28 Jan 2022 15:28:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bsdimp-com.20210112.gappssmtp.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=IIwWr4XQkvp7rEwjOGXmWZZadDj8kG6ZitoG4k00onk=;
- b=tjYLNQne+w/q/cgCQOn9/MCpZo8OsZ+agiKl2NycwIwh4lFOwW40xkiwTKz810AA66
- 6dMuwek1kTtTozxadyjK5q36yT6pdqCQYo1iShx/1r7xAz50cXaNBqMwzC6NHtkO51Ov
- bfIvbuwxPzCuDgBg4XiXDuIE14pUW+YsVx+Wf92dAFYbypTcn0uG/V3X7bat1xyjg/Ao
- KmwKyCAS7fy8osHDRVpiMZ015OTWxybxqEAwTh+hBBpqL0IDx64Eu7MGKcBk5XhFLtYn
- WFl1EOhRVOc8DuMp3qSZdckiJTccugCaSn+U6bGAhUKs/jEH8fJ1WqUMN7MpVk1LjkRt
- MTNA==
+ bh=SGJfV2pZjNq6/Lkgq5idUT85KpfDUjfI//YVpMiMT3c=;
+ b=QWcIZtVhZIDHRFETahoxwHZ+ElEbZDAgdWLwPfTMDIOhcOMEuuCxsArgqcV7qfayXS
+ YpkETfPkfrjJ6OxWJ2NiDX6Aoyx7m4Fz6f4rF+6Y7DA4u+aoWIy4yqzx4HYUZbhhuzaG
+ zgbqtiCtVcyG8VoHeBCxDUNJFZAsK3jOjS1m9YFTO+KFcIR7z5+xQ4yao1dQTaV5oBAH
+ LttDPbRgVf+73zGoE8ilH1hEcbjhQjZImMT02FnJT7Ks2GDIUcasba3lOO5Z2aR78FgT
+ d+6pYjzcGp1AUMnCRgOaNMylbhfubM1lGm56m0nlI/lHpqwd58800BkgiFFHRoKpzuSH
+ ZKVw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=IIwWr4XQkvp7rEwjOGXmWZZadDj8kG6ZitoG4k00onk=;
- b=t/Wuh4MRJAamuwOjBY17lGEDIA4BvP6VxNP/wnFsBM6csnst7Wi1NtP+c3fYUhUrVl
- mFjoAreesh/MbCW8FJSFq6SD3xi5jRQA7DuES1QljKebvW2AsYDl2X9sMC4SjmeUuqEc
- tl+hSdUk5W6NpdL3A6V6vaUw74NzDIKUXXX6ZZyCNm2sbKNYamX2sErZH/bT/60sD3Vh
- GRkCMutJ3QU8h58H/DUHqu/glnUOM3ymx0gmfYCVkGTGYn9rIL8IqyAKJJGN83XkyYVL
- 1smcH8nGqx/BiNZ7z0FAD9MgmL6iZOcbaZb337UbNG7/HPIWF+r/bJnRvoho4ucFiIBY
- 2KGA==
-X-Gm-Message-State: AOAM530qPCed6jBjx1Pxcdc0aEcqT2GLmZfQ7gWH3qbFDOmubHUD8py5
- TYjeXZ6nt3foRfwK1cKpCNEV55qgye07JQ==
-X-Google-Smtp-Source: ABdhPJwac7O+HX+W6J5ce2nHrB5kjyGREmUQS8E1HbOxbkk1bVkx3lvkpioWH2FJcxOilAazAD9gAA==
-X-Received: by 2002:a05:6638:4105:: with SMTP id
- ay5mr6057564jab.128.1643412490084; 
- Fri, 28 Jan 2022 15:28:10 -0800 (PST)
+ bh=SGJfV2pZjNq6/Lkgq5idUT85KpfDUjfI//YVpMiMT3c=;
+ b=w0gRz6DawksI4dW2+9pgYroKsdPTNSl5eQ1ozCPnnDJu8FKZoNtGn7XCYTHgPvMnCB
+ BP5olxcOQzOdNIMz7+hidC39thuCnaIkYSr/lUj357AQw0/DmFnWCpXT4YTQlyEMCNgZ
+ YdYe1yE+gl0+tH/iDtHBVUHyftm6yN9K4dyDDU+/ZFBKkJgDI5BxZzWX758p0E1QWmOk
+ vsYCkxXT9TKH4qYPrAtf6TurOEoyFfEexJipRc4GvLdD8qkd3tSrLthi2HDLaUDvvAEw
+ kNEVRR3LPOYM/DaA5m2bsOvNBKW7sM1/6EHTTNoAhGalZRP6wzcR9FyUjcOsn+L5Zjli
+ psEw==
+X-Gm-Message-State: AOAM531b6E1MfEn8KYIw1TELaevC0nQhL5BnCuN3o0mvCdinYtQ9rhvP
+ ik8QLBtOpYpAW9XdY/pXjdC5YsQiifJcfg==
+X-Google-Smtp-Source: ABdhPJyWF5Y9qhfd7XTl/K0hHe/bu6obTBrzGG2Gju6I2qXXwA26VIiKBY7JHozU1AugtasTn8kWLw==
+X-Received: by 2002:a02:2208:: with SMTP id o8mr2378771jao.72.1643412491562;
+ Fri, 28 Jan 2022 15:28:11 -0800 (PST)
 Received: from dune.bsdimp.com (50-253-99-174-static.hfc.comcastbusiness.net.
  [50.253.99.174])
- by smtp.gmail.com with ESMTPSA id o11sm14323111ilm.20.2022.01.28.15.28.09
+ by smtp.gmail.com with ESMTPSA id o11sm14323111ilm.20.2022.01.28.15.28.10
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 28 Jan 2022 15:28:09 -0800 (PST)
+ Fri, 28 Jan 2022 15:28:10 -0800 (PST)
 From: Warner Losh <imp@bsdimp.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 09/40] bsd-user/signal-common.h: Move signal functions
- prototypes to here
-Date: Fri, 28 Jan 2022 16:27:34 -0700
-Message-Id: <20220128232805.86191-10-imp@bsdimp.com>
+Subject: [PATCH v3 10/40] bsd-user/signal.c: Implement cpu_loop_exit_sigsegv
+Date: Fri, 28 Jan 2022 16:27:35 -0700
+Message-Id: <20220128232805.86191-11-imp@bsdimp.com>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <20220128232805.86191-1-imp@bsdimp.com>
 References: <20220128232805.86191-1-imp@bsdimp.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::d31
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::d35
  (failed)
-Received-SPF: none client-ip=2607:f8b0:4864:20::d31;
- envelope-from=imp@bsdimp.com; helo=mail-io1-xd31.google.com
+Received-SPF: none client-ip=2607:f8b0:4864:20::d35;
+ envelope-from=imp@bsdimp.com; helo=mail-io1-xd35.google.com
 X-Spam_score_int: 8
 X-Spam_score: 0.8
 X-Spam_bar: /
@@ -87,94 +85,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Kyle Evans <kevans@freebsd.org>,
+Cc: Peter Maydell <peter.maydell@linaro.org>, Stacey Son <sson@FreeBSD.org>,
+ Kyle Evans <kevans@freebsd.org>,
  Richard Henderson <richard.henderson@linaro.org>, def@FreeBSD.org,
  jrtc27@FreeBSD.org, Warner Losh <imp@bsdimp.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+First attempt at implementing cpu_loop_exit_sigsegv, mostly copied from
+linux-user version of this function.
+
+Signed-off-by: Stacey Son <sson@FreeBSD.org>
+Signed-off-by: Kyle Evans <kevans@freebsd.org>
 Signed-off-by: Warner Losh <imp@bsdimp.com>
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- bsd-user/arm/target_arch_cpu.h    | 1 +
- bsd-user/i386/target_arch_cpu.h   | 1 +
- bsd-user/qemu.h                   | 8 --------
- bsd-user/signal-common.h          | 6 ++++++
- bsd-user/x86_64/target_arch_cpu.h | 1 +
- 5 files changed, 9 insertions(+), 8 deletions(-)
+ bsd-user/signal.c | 15 ++++++++++++---
+ 1 file changed, 12 insertions(+), 3 deletions(-)
 
-diff --git a/bsd-user/arm/target_arch_cpu.h b/bsd-user/arm/target_arch_cpu.h
-index c526fc73502..b7f728fd667 100644
---- a/bsd-user/arm/target_arch_cpu.h
-+++ b/bsd-user/arm/target_arch_cpu.h
-@@ -21,6 +21,7 @@
- #define _TARGET_ARCH_CPU_H_
- 
- #include "target_arch.h"
-+#include "signal-common.h"
- 
- #define TARGET_DEFAULT_CPU_MODEL "any"
- 
-diff --git a/bsd-user/i386/target_arch_cpu.h b/bsd-user/i386/target_arch_cpu.h
-index b28602adbbd..472a96689fc 100644
---- a/bsd-user/i386/target_arch_cpu.h
-+++ b/bsd-user/i386/target_arch_cpu.h
+diff --git a/bsd-user/signal.c b/bsd-user/signal.c
+index 1206d0d728c..12de0e2dea4 100644
+--- a/bsd-user/signal.c
++++ b/bsd-user/signal.c
 @@ -20,6 +20,7 @@
- #define _TARGET_ARCH_CPU_H_
+ #include "qemu/osdep.h"
+ #include "qemu.h"
+ #include "signal-common.h"
++#include "hw/core/tcg-cpu-ops.h"
  
- #include "target_arch.h"
-+#include "signal-common.h"
+ /*
+  * Stubbed out routines until we merge signal support from bsd-user
+@@ -63,9 +64,17 @@ void process_pending_signals(CPUArchState *cpu_env)
+ void cpu_loop_exit_sigsegv(CPUState *cpu, target_ulong addr,
+                            MMUAccessType access_type, bool maperr, uintptr_t ra)
+ {
+-    qemu_log_mask(LOG_UNIMP, "No signal support for SIGSEGV\n");
+-    /* unreachable */
+-    abort();
++    const struct TCGCPUOps *tcg_ops = CPU_GET_CLASS(cpu)->tcg_ops;
++
++    if (tcg_ops->record_sigsegv) {
++        tcg_ops->record_sigsegv(cpu, addr, access_type, maperr, ra);
++    }
++
++    force_sig_fault(TARGET_SIGSEGV,
++                    maperr ? TARGET_SEGV_MAPERR : TARGET_SEGV_ACCERR,
++                    addr);
++    cpu->exception_index = EXCP_INTERRUPT;
++    cpu_loop_exit_restore(cpu, ra);
+ }
  
- #define TARGET_DEFAULT_CPU_MODEL "qemu32"
- 
-diff --git a/bsd-user/qemu.h b/bsd-user/qemu.h
-index 671b26f00cc..99c37fc9942 100644
---- a/bsd-user/qemu.h
-+++ b/bsd-user/qemu.h
-@@ -199,14 +199,6 @@ print_openbsd_syscall(int num,
- void print_openbsd_syscall_ret(int num, abi_long ret);
- extern int do_strace;
- 
--/* signal.c */
--void process_pending_signals(CPUArchState *cpu_env);
--void signal_init(void);
--long do_sigreturn(CPUArchState *env);
--long do_rt_sigreturn(CPUArchState *env);
--void queue_signal(CPUArchState *env, int sig, target_siginfo_t *info);
--abi_long do_sigaltstack(abi_ulong uss_addr, abi_ulong uoss_addr, abi_ulong sp);
--
- /* mmap.c */
- int target_mprotect(abi_ulong start, abi_ulong len, int prot);
- abi_long target_mmap(abi_ulong start, abi_ulong len, int prot,
-diff --git a/bsd-user/signal-common.h b/bsd-user/signal-common.h
-index 6207417d39e..f9a9d1e01aa 100644
---- a/bsd-user/signal-common.h
-+++ b/bsd-user/signal-common.h
-@@ -9,6 +9,12 @@
- #ifndef SIGNAL_COMMON_H
- #define SIGNAL_COMMON_H
- 
-+long do_rt_sigreturn(CPUArchState *env);
-+abi_long do_sigaltstack(abi_ulong uss_addr, abi_ulong uoss_addr, abi_ulong sp);
-+long do_sigreturn(CPUArchState *env);
- void force_sig_fault(int sig, int code, abi_ulong addr);
-+void process_pending_signals(CPUArchState *env);
-+void queue_signal(CPUArchState *env, int sig, target_siginfo_t *info);
-+void signal_init(void);
- 
- #endif
-diff --git a/bsd-user/x86_64/target_arch_cpu.h b/bsd-user/x86_64/target_arch_cpu.h
-index 5172b230f09..14def48adb5 100644
---- a/bsd-user/x86_64/target_arch_cpu.h
-+++ b/bsd-user/x86_64/target_arch_cpu.h
-@@ -20,6 +20,7 @@
- #define _TARGET_ARCH_CPU_H_
- 
- #include "target_arch.h"
-+#include "signal-common.h"
- 
- #define TARGET_DEFAULT_CPU_MODEL "qemu64"
- 
+ void cpu_loop_exit_sigbus(CPUState *cpu, target_ulong addr,
 -- 
 2.33.1
 
