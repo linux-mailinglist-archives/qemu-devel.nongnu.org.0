@@ -2,95 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 99BC64A035C
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jan 2022 23:19:28 +0100 (CET)
-Received: from localhost ([::1]:48156 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B0894A03CB
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jan 2022 23:36:21 +0100 (CET)
+Received: from localhost ([::1]:56076 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nDZaZ-0007Jm-5n
-	for lists+qemu-devel@lfdr.de; Fri, 28 Jan 2022 17:19:27 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:59292)
+	id 1nDZqt-0005bl-Tr
+	for lists+qemu-devel@lfdr.de; Fri, 28 Jan 2022 17:36:19 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:33608)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
- id 1nDZXz-0006Os-0t; Fri, 28 Jan 2022 17:16:47 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:55462)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
- id 1nDZXw-0008Mu-Rx; Fri, 28 Jan 2022 17:16:46 -0500
-Received: from pps.filterd (m0098417.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 20SLDPds024335; 
- Fri, 28 Jan 2022 22:16:22 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=from : to : cc : subject
- : date : message-id : mime-version : content-transfer-encoding; s=pp1;
- bh=gDAZuQLJV9MbWtFdriL1wPtYwYApH+xFgxnVNd07Vvw=;
- b=fLIrScIePTdbogfXTFXIW3WEgwFbVrPmkR2krOEeBq+dFxCQ4DPZjn6uHl7XQhYC1vjy
- PAoByBCHR+WzW3zRWrRstsAqdpPNebNBZMCBWbXtr20eiN+VXlUn7L04N8Qrh9/1oP0b
- SS3iOxRy9QN2TWLC7qfqQ8KQ1m0Yl6AtUpkv8oAj6C6duIRv0EXnn3r4ZiufLhKS2Ujq
- h852ZYZSxFApJcrkZKAk0i22l1FNdQ+iEDRSFdomv5EetqEtIwX3dKszgybzZD7ekfos
- umQcjAER9ZiG0drkHdBxj/x4Q3WXNBD/FE470IiwrTs4QWW6km7RzvoA2vA8KS9VQSjH HA== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3dvr7b909x-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 28 Jan 2022 22:16:22 +0000
-Received: from m0098417.ppops.net (m0098417.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 20SLtP8l031567;
- Fri, 28 Jan 2022 22:16:22 GMT
-Received: from ppma01dal.us.ibm.com (83.d6.3fa9.ip4.static.sl-reverse.com
- [169.63.214.131])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3dvr7b909r-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 28 Jan 2022 22:16:22 +0000
-Received: from pps.filterd (ppma01dal.us.ibm.com [127.0.0.1])
- by ppma01dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 20SLr3FS016575;
- Fri, 28 Jan 2022 22:16:21 GMT
-Received: from b01cxnp22033.gho.pok.ibm.com (b01cxnp22033.gho.pok.ibm.com
- [9.57.198.23]) by ppma01dal.us.ibm.com with ESMTP id 3dr9jdt1t0-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 28 Jan 2022 22:16:21 +0000
-Received: from b01ledav005.gho.pok.ibm.com (b01ledav005.gho.pok.ibm.com
- [9.57.199.110])
- by b01cxnp22033.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 20SMGJQ936569422
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 28 Jan 2022 22:16:19 GMT
-Received: from b01ledav005.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id EAF8EAE060;
- Fri, 28 Jan 2022 22:16:18 +0000 (GMT)
-Received: from b01ledav005.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 2715AAE067;
- Fri, 28 Jan 2022 22:16:17 +0000 (GMT)
-Received: from farosas.linux.ibm.com.com (unknown [9.211.66.85])
- by b01ledav005.gho.pok.ibm.com (Postfix) with ESMTP;
- Fri, 28 Jan 2022 22:16:16 +0000 (GMT)
-From: Fabiano Rosas <farosas@linux.ibm.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] target/ppc: Remove 440x4 CPU
-Date: Fri, 28 Jan 2022 19:16:11 -0300
-Message-Id: <20220128221611.1221715-1-farosas@linux.ibm.com>
-X-Mailer: git-send-email 2.34.1
+ (Exim 4.90_1) (envelope-from <vt@altlinux.org>)
+ id 1nDZok-0003yq-Jw; Fri, 28 Jan 2022 17:34:06 -0500
+Received: from vmicros1.altlinux.org ([194.107.17.57]:60956)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <vt@altlinux.org>)
+ id 1nDZoh-0002RF-1M; Fri, 28 Jan 2022 17:34:06 -0500
+Received: from imap.altlinux.org (imap.altlinux.org [194.107.17.38])
+ by vmicros1.altlinux.org (Postfix) with ESMTP id 02BF972C8FA;
+ Sat, 29 Jan 2022 01:33:59 +0300 (MSK)
+Received: from beacon.altlinux.org (unknown [193.43.10.9])
+ by imap.altlinux.org (Postfix) with ESMTPSA id D3EBC4A46F0;
+ Sat, 29 Jan 2022 01:33:58 +0300 (MSK)
+From: Vitaly Chikunov <vt@altlinux.org>
+To: Greg Kurz <groug@kaod.org>, Christian Schoenebeck <qemu_oss@crudebyte.com>,
+ qemu-devel@nongnu.org
+Subject: [PATCH v2] 9pfs: Fix segfault in do_readdir_many caused by struct
+ dirent overread
+Date: Sat, 29 Jan 2022 01:33:26 +0300
+Message-Id: <20220128223326.927132-1-vt@altlinux.org>
+X-Mailer: git-send-email 2.33.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: k8lpkPyvuBEC79sKBE1Lijt0YEfftesX
-X-Proofpoint-ORIG-GUID: sffqcXE50C08eEoJ2T3nk706IDJGLl81
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.816,Hydra:6.0.425,FMLib:17.11.62.513
- definitions=2022-01-28_08,2022-01-28_01,2021-12-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxscore=0 bulkscore=0
- phishscore=0 spamscore=0 malwarescore=0 impostorscore=0 priorityscore=1501
- lowpriorityscore=0 mlxlogscore=999 clxscore=1015 adultscore=0
- suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2201110000 definitions=main-2201280124
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=farosas@linux.ibm.com;
- helo=mx0b-001b2d01.pphosted.com
+Received-SPF: pass client-ip=194.107.17.57; envelope-from=vt@altlinux.org;
+ helo=vmicros1.altlinux.org
 X-Spam_score_int: 0
-X-Spam_score: -0.1
+X-Spam_score: -0.0
 X-Spam_bar: /
-X-Spam_report: (-0.1 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-0.0 / 5.0 requ) SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable
+ autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -103,113 +53,108 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: danielhb413@gmail.com, qemu-ppc@nongnu.org, clg@kaod.org
+Cc: Vitaly Chikunov <vt@altlinux.org>, qemu-stable@nongnu.org, ldv@altlinux.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This CPU was partially removed due to lack of support in 2017 by commit
-aef7796057 ("ppc: remove non implemented cpu models").
+`struct dirent' returned from readdir(3) could be shorter than
+`sizeof(struct dirent)', thus memcpy of sizeof length will overread
+into unallocated page causing SIGSEGV. Example stack trace:
 
-Signed-off-by: Fabiano Rosas <farosas@linux.ibm.com>
+ #0  0x00005555559ebeed v9fs_co_readdir_many (/usr/bin/qemu-system-x86_64 + 0x497eed)
+ #1  0x00005555559ec2e9 v9fs_readdir (/usr/bin/qemu-system-x86_64 + 0x4982e9)
+ #2  0x0000555555eb7983 coroutine_trampoline (/usr/bin/qemu-system-x86_64 + 0x963983)
+ #3  0x00007ffff73e0be0 n/a (n/a + 0x0)
+
+While fixing, provide a helper for any future `struct dirent' cloning.
+
+Resolves: https://gitlab.com/qemu-project/qemu/-/issues/841
+Cc: qemu-stable@nongnu.org
+Co-authored-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
+Signed-off-by: Vitaly Chikunov <vt@altlinux.org>
 ---
- target/ppc/cpu_init.c | 83 -------------------------------------------
- 1 file changed, 83 deletions(-)
+Tested on x86-64 Linux.
 
-diff --git a/target/ppc/cpu_init.c b/target/ppc/cpu_init.c
-index e30e86fe9d..f4a4f39419 100644
---- a/target/ppc/cpu_init.c
-+++ b/target/ppc/cpu_init.c
-@@ -2777,89 +2777,6 @@ POWERPC_FAMILY(440GP)(ObjectClass *oc, void *data)
-                  POWERPC_FLAG_DE | POWERPC_FLAG_BUS_CLK;
- }
+Changes since v1:
+- Update commentary text.
+- Remove hanging of g_malloc "errors".
+- Simplify qemu_dirent_dup.
+
+ hw/9pfs/codir.c      |  3 +--
+ include/qemu/osdep.h | 13 +++++++++++++
+ util/osdep.c         | 16 ++++++++++++++++
+ 3 files changed, 30 insertions(+), 2 deletions(-)
+
+diff --git a/hw/9pfs/codir.c b/hw/9pfs/codir.c
+index 032cce04c4..c0873bde16 100644
+--- a/hw/9pfs/codir.c
++++ b/hw/9pfs/codir.c
+@@ -143,8 +143,7 @@ static int do_readdir_many(V9fsPDU *pdu, V9fsFidState *fidp,
+         } else {
+             e = e->next = g_malloc0(sizeof(V9fsDirEnt));
+         }
+-        e->dent = g_malloc0(sizeof(struct dirent));
+-        memcpy(e->dent, dent, sizeof(struct dirent));
++        e->dent = qemu_dirent_dup(dent);
  
--static void init_proc_440x4(CPUPPCState *env)
--{
--    /* Time base */
--    register_tbl(env);
--    register_BookE_sprs(env, 0x000000000000FFFFULL);
--    register_440_sprs(env);
--    register_usprgh_sprs(env);
--    /* Processor identification */
--    spr_register(env, SPR_BOOKE_PIR, "PIR",
--                 SPR_NOACCESS, SPR_NOACCESS,
--                 &spr_read_generic, &spr_write_pir,
--                 0x00000000);
--    /* XXX : not implemented */
--    spr_register(env, SPR_BOOKE_IAC3, "IAC3",
--                 SPR_NOACCESS, SPR_NOACCESS,
--                 &spr_read_generic, &spr_write_generic,
--                 0x00000000);
--    /* XXX : not implemented */
--    spr_register(env, SPR_BOOKE_IAC4, "IAC4",
--                 SPR_NOACCESS, SPR_NOACCESS,
--                 &spr_read_generic, &spr_write_generic,
--                 0x00000000);
--    /* XXX : not implemented */
--    spr_register(env, SPR_BOOKE_DVC1, "DVC1",
--                 SPR_NOACCESS, SPR_NOACCESS,
--                 &spr_read_generic, &spr_write_generic,
--                 0x00000000);
--    /* XXX : not implemented */
--    spr_register(env, SPR_BOOKE_DVC2, "DVC2",
--                 SPR_NOACCESS, SPR_NOACCESS,
--                 &spr_read_generic, &spr_write_generic,
--                 0x00000000);
--    /* Memory management */
--#if !defined(CONFIG_USER_ONLY)
--    env->nb_tlb = 64;
--    env->nb_ways = 1;
--    env->id_tlbs = 0;
--    env->tlb_type = TLB_EMB;
--#endif
--    init_excp_BookE(env);
--    env->dcache_line_size = 32;
--    env->icache_line_size = 32;
--    /* XXX: TODO: allocate internal IRQ controller */
--
--    SET_FIT_PERIOD(12, 16, 20, 24);
--    SET_WDT_PERIOD(20, 24, 28, 32);
--}
--
--POWERPC_FAMILY(440x4)(ObjectClass *oc, void *data)
--{
--    DeviceClass *dc = DEVICE_CLASS(oc);
--    PowerPCCPUClass *pcc = POWERPC_CPU_CLASS(oc);
--
--    dc->desc = "PowerPC 440x4";
--    pcc->init_proc = init_proc_440x4;
--    pcc->check_pow = check_pow_nocheck;
--    pcc->insns_flags = PPC_INSNS_BASE | PPC_STRING |
--                       PPC_DCR | PPC_WRTEE |
--                       PPC_CACHE | PPC_CACHE_ICBI |
--                       PPC_CACHE_DCBZ | PPC_CACHE_DCBA |
--                       PPC_MEM_TLBSYNC | PPC_MFTB |
--                       PPC_BOOKE | PPC_4xx_COMMON | PPC_405_MAC |
--                       PPC_440_SPEC;
--    pcc->msr_mask = (1ull << MSR_POW) |
--                    (1ull << MSR_CE) |
--                    (1ull << MSR_EE) |
--                    (1ull << MSR_PR) |
--                    (1ull << MSR_FP) |
--                    (1ull << MSR_ME) |
--                    (1ull << MSR_FE0) |
--                    (1ull << MSR_DWE) |
--                    (1ull << MSR_DE) |
--                    (1ull << MSR_FE1) |
--                    (1ull << MSR_IR) |
--                    (1ull << MSR_DR);
--    pcc->mmu_model = POWERPC_MMU_BOOKE;
--    pcc->excp_model = POWERPC_EXCP_BOOKE;
--    pcc->bus_model = PPC_FLAGS_INPUT_BookE;
--    pcc->bfd_mach = bfd_mach_ppc_403;
--    pcc->flags = POWERPC_FLAG_CE | POWERPC_FLAG_DWE |
--                 POWERPC_FLAG_DE | POWERPC_FLAG_BUS_CLK;
--}
--
- static void init_proc_440x5(CPUPPCState *env)
- {
-     /* Time base */
+         /* perform a full stat() for directory entry if requested by caller */
+         if (dostat) {
+diff --git a/include/qemu/osdep.h b/include/qemu/osdep.h
+index d1660d67fa..ce12f64853 100644
+--- a/include/qemu/osdep.h
++++ b/include/qemu/osdep.h
+@@ -805,6 +805,19 @@ static inline int platform_does_not_support_system(const char *command)
+ }
+ #endif /* !HAVE_SYSTEM_FUNCTION */
+ 
++/**
++ * Duplicate directory entry @dent.
++ *
++ * It is highly recommended to use this function instead of open coding
++ * duplication of @c dirent objects, because the actual @c struct @c dirent
++ * size may be bigger or shorter than @c sizeof(struct dirent) and correct
++ * handling is platform specific (see gitlab issue #841).
++ *
++ * @dent - original directory entry to be duplicated
++ * @returns duplicated directory entry which should be freed with g_free()
++ */
++struct dirent *qemu_dirent_dup(struct dirent *dent);
++
+ #ifdef __cplusplus
+ }
+ #endif
+diff --git a/util/osdep.c b/util/osdep.c
+index 42a0a4986a..0bc7ec1e22 100644
+--- a/util/osdep.c
++++ b/util/osdep.c
+@@ -33,6 +33,7 @@
+ extern int madvise(char *, size_t, int);
+ #endif
+ 
++#include <dirent.h>
+ #include "qemu-common.h"
+ #include "qemu/cutils.h"
+ #include "qemu/sockets.h"
+@@ -615,3 +616,18 @@ writev(int fd, const struct iovec *iov, int iov_cnt)
+     return readv_writev(fd, iov, iov_cnt, true);
+ }
+ #endif
++
++struct dirent *
++qemu_dirent_dup(struct dirent *dent)
++{
++#if defined _DIRENT_HAVE_D_RECLEN
++    /* Avoid use of strlen() if there's d_reclen. */
++    const size_t sz = dent->d_reclen;
++#else
++    /* Fallback to a most portable way. */
++    const size_t sz = offsetof(struct dirent, d_name) +
++                      strlen(dent->d_name) + 1;
++#endif
++    struct dirent *dst = g_malloc(sz);
++    return memcpy(dst, dent, sz);
++}
 -- 
-2.34.1
+2.33.0
 
 
