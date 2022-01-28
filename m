@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D78B49FE16
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jan 2022 17:32:46 +0100 (CET)
-Received: from localhost ([::1]:57984 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 835F749FDE9
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jan 2022 17:23:10 +0100 (CET)
+Received: from localhost ([::1]:40602 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nDUB2-0001hN-DW
-	for lists+qemu-devel@lfdr.de; Fri, 28 Jan 2022 11:32:44 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:57754)
+	id 1nDU1j-0006Od-SB
+	for lists+qemu-devel@lfdr.de; Fri, 28 Jan 2022 11:23:07 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:57752)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nDTDD-0002B3-C3
+ id 1nDTDD-0002B2-Bq
  for qemu-devel@nongnu.org; Fri, 28 Jan 2022 10:30:58 -0500
-Received: from [2a00:1450:4864:20::332] (port=35729
- helo=mail-wm1-x332.google.com)
+Received: from [2a00:1450:4864:20::336] (port=41518
+ helo=mail-wm1-x336.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nDTD1-0006Pj-3w
- for qemu-devel@nongnu.org; Fri, 28 Jan 2022 10:30:48 -0500
-Received: by mail-wm1-x332.google.com with SMTP id
- q9-20020a7bce89000000b00349e697f2fbso8475713wmj.0
+ id 1nDTD4-0006Pn-1H
+ for qemu-devel@nongnu.org; Fri, 28 Jan 2022 10:30:49 -0500
+Received: by mail-wm1-x336.google.com with SMTP id
+ q141-20020a1ca793000000b00347b48dfb53so4325563wme.0
  for <qemu-devel@nongnu.org>; Fri, 28 Jan 2022 07:30:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=SswMcNdhH2avjkSQoRFehyrrJuGL4jyozjNMZJykN2k=;
- b=Vg5kzl948niLUIOJUmbKRQJrCVHLNQ6A4BosQJYkiapCmaL+6c2EwrTNhrTLW4IsTY
- JcKxs2deDGzft0Q04xKFvUwGCebVz7kdN2ay25njnOvm4EtBmDtGEaG1qtPAvamSIVCU
- qIL3N4qXMJ/6X1+t5OKn7ovLSyDaY8fP5GJK1fNSTJhq4AxuZ6QyV/lTcfqvzDrhIXwQ
- 79xKh5HMm/E95gk/qkTWtIp529T8Rtl/mfT45o2gbyym7P8wcpcF+zUXQsu7g8OxxDjc
- 74D7O6CDGJXZdWtiq0QtB285KW0qyDUQZhuZn77xhsCIYCjY6PHIB3eEihCsfVodTxnF
- aseA==
+ bh=iBHQOpZOmYstj+pi68lc9e07pXmprbTTnrIKiNAgDtE=;
+ b=IdfcuW3YwNFIXhVrduoh/Ky5YbA/ilHhFasr+rnU4l62hgBwfQ/l/50BOQIuNPpkIt
+ eS6Vfjz7adoEpNQFvS+gI/QRZZoCMwDm4KNwPvdZDq95xWx/qFntTyvrD2Bzq1XEBzU+
+ ZERX52ca0k0cLuvOQgbqMzyjJ1AgBZbBdMiIwXXGi31A7ojrkiM6Jyp96nK+YELejgsf
+ 0lB5nunEk8EFRLhcQ0gbHFze2t0UzAcjTS+fWq/xE4Kd8oG+RBQxv/V110FMNTC7zOzD
+ 6kqyGxaselIy0fa+vKMvELhPIAwyksJb8gLx51QOHM0q22YkT0PKemJKF3g0Dll5TA8K
+ SXTw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=SswMcNdhH2avjkSQoRFehyrrJuGL4jyozjNMZJykN2k=;
- b=c80m560dc9YJ8kqhOc87iqFw2tOXm5KZiOx05nCZfK/cF21ZoV7wb6UjCo5X3Jy4K1
- +PWp1HvayBw41Mlo00uga5zgod5PrCW5K+DHLvYN40dhsfXg+A7/d2u+K7Gvvxfv5TUV
- Qb0ieGY4XdPjkfGRL1TTDzQRLn7sokzru6CoBSEFmZi/y2kZRIuBABBV/xRktcUL5Vns
- s8LOmL12LuXHezp2wJF3xkXJYn24SHt7UZuPTvGu6NMeRxF2TMXk3Q8p+CCciwEo29aq
- T5HWiP8iKXrxtN/uYoVG5RXaXimCLtmc/oYt9p7Ieej9zMUIMvZKVbawPxyqn1y/glq4
- TKaA==
-X-Gm-Message-State: AOAM533V63YrRDLDjNlysHP9RHFpEiGww/dkv8nZdvfbHx+3vycOpdw2
- HpzgVLoPu/rYunovo7R0RYG7523u0OTflg==
-X-Google-Smtp-Source: ABdhPJyDkOT11IyZ/FgnL2LWLdmeYJn5WFrgVPQVFFgXyohXvAFY5uaqG0cHDzOeBrjsXB+s43hyxw==
-X-Received: by 2002:a1c:5401:: with SMTP id i1mr10691043wmb.169.1643383829183; 
- Fri, 28 Jan 2022 07:30:29 -0800 (PST)
+ bh=iBHQOpZOmYstj+pi68lc9e07pXmprbTTnrIKiNAgDtE=;
+ b=vOE9BK/WTPSqhHLb/9MFe7VV/SO9usTxyEk+RNE70HYqXxToUddn8p3Dmd76v6oCkG
+ mVICPCdD5dvBAsnelWRR0k8riv15U/AdUK27FqOHbvRYa+m5ZNYc694Rt9EhDwHrtguo
+ aURH7fCdiKduLtdledZfOadqgpWOaMQyXm1+3Ep0Y8XRdKuoVe+vGGoEi2iSlid97NEC
+ PaXi/XYp3mvrof7pNr/JXYspjGCqZ5tqBYLdAZ0MXDQVlASSXB2bzA1JXy9EeKxOejpS
+ qVpnVDThcM2iXA6Y+/Ht+IoBfJ0PHx3zZx92XD7fU/8QcaYuyvhHCv/2j4B88wrhYRG+
+ wdHQ==
+X-Gm-Message-State: AOAM532XI7z7IuMi+QP98Y/KD84W3QjpP8yI3vc2vjEpJA/fkrnjULMS
+ p2AZuwnpm1bifV8lvSH5CZDGYZjVGt9gEg==
+X-Google-Smtp-Source: ABdhPJzBWyk/8Aei1AfBqG2S+TxBfp/RpXq1KpbPfdpepBshUEMbOIEaaE1+b9T7MP1ROUfJ7jfD7g==
+X-Received: by 2002:a05:600c:3505:: with SMTP id
+ h5mr7978756wmq.122.1643383830018; 
+ Fri, 28 Jan 2022 07:30:30 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
- by smtp.gmail.com with ESMTPSA id j3sm4749485wrb.57.2022.01.28.07.30.28
+ by smtp.gmail.com with ESMTPSA id j3sm4749485wrb.57.2022.01.28.07.30.29
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 28 Jan 2022 07:30:28 -0800 (PST)
+ Fri, 28 Jan 2022 07:30:29 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 13/32] hw/arm/xlnx-versal-virt: Connect mt35xu01g flashes to
- the OSPI
-Date: Fri, 28 Jan 2022 15:29:50 +0000
-Message-Id: <20220128153009.2467560-14-peter.maydell@linaro.org>
+Subject: [PULL 14/32] MAINTAINERS: Add an entry for Xilinx Versal OSPI
+Date: Fri, 28 Jan 2022 15:29:51 +0000
+Message-Id: <20220128153009.2467560-15-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220128153009.2467560-1-peter.maydell@linaro.org>
 References: <20220128153009.2467560-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::332
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::336
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::332;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x332.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::336;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x336.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -94,59 +94,34 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Francisco Iglesias <francisco.iglesias@xilinx.com>
 
-Connect Micron Xccela mt35xu01g flashes to the OSPI flash memory
-controller.
+List myself as maintainer for the Xilinx Versal OSPI controller.
 
 Signed-off-by: Francisco Iglesias <francisco.iglesias@xilinx.com>
 Reviewed-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-Message-id: 20220121161141.14389-10-francisco.iglesias@xilinx.com
+Message-id: 20220121161141.14389-11-francisco.iglesias@xilinx.com
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- hw/arm/xlnx-versal-virt.c | 23 +++++++++++++++++++++++
- 1 file changed, 23 insertions(+)
+ MAINTAINERS | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/hw/arm/xlnx-versal-virt.c b/hw/arm/xlnx-versal-virt.c
-index 8ea9979710f..3f56ae28eea 100644
---- a/hw/arm/xlnx-versal-virt.c
-+++ b/hw/arm/xlnx-versal-virt.c
-@@ -25,6 +25,8 @@
- #define TYPE_XLNX_VERSAL_VIRT_MACHINE MACHINE_TYPE_NAME("xlnx-versal-virt")
- OBJECT_DECLARE_SIMPLE_TYPE(VersalVirt, XLNX_VERSAL_VIRT_MACHINE)
+diff --git a/MAINTAINERS b/MAINTAINERS
+index e4b3a4bcdf4..6797a270e4e 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -958,6 +958,12 @@ F: hw/display/dpcd.c
+ F: include/hw/display/dpcd.h
+ F: docs/system/arm/xlnx-versal-virt.rst
  
-+#define XLNX_VERSAL_NUM_OSPI_FLASH 4
++Xilinx Versal OSPI
++M: Francisco Iglesias <francisco.iglesias@xilinx.com>
++S: Maintained
++F: hw/ssi/xlnx-versal-ospi.c
++F: include/hw/ssi/xlnx-versal-ospi.h
 +
- struct VersalVirt {
-     MachineState parent_obj;
- 
-@@ -691,6 +693,27 @@ static void versal_virt_init(MachineState *machine)
-             exit(EXIT_FAILURE);
-         }
-     }
-+
-+    for (i = 0; i < XLNX_VERSAL_NUM_OSPI_FLASH; i++) {
-+        BusState *spi_bus;
-+        DeviceState *flash_dev;
-+        qemu_irq cs_line;
-+        DriveInfo *dinfo = drive_get(IF_MTD, 0, i);
-+
-+        spi_bus = qdev_get_child_bus(DEVICE(&s->soc.pmc.iou.ospi), "spi0");
-+
-+        flash_dev = qdev_new("mt35xu01g");
-+        if (dinfo) {
-+            qdev_prop_set_drive_err(flash_dev, "drive",
-+                                    blk_by_legacy_dinfo(dinfo), &error_fatal);
-+        }
-+        qdev_realize_and_unref(flash_dev, spi_bus, &error_fatal);
-+
-+        cs_line = qdev_get_gpio_in_named(flash_dev, SSI_GPIO_CS, 0);
-+
-+        sysbus_connect_irq(SYS_BUS_DEVICE(&s->soc.pmc.iou.ospi),
-+                           i + 1, cs_line);
-+    }
- }
- 
- static void versal_virt_machine_instance_init(Object *obj)
+ ARM ACPI Subsystem
+ M: Shannon Zhao <shannon.zhaosl@gmail.com>
+ L: qemu-arm@nongnu.org
 -- 
 2.25.1
 
