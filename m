@@ -2,77 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 668A949F1EB
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jan 2022 04:41:00 +0100 (CET)
-Received: from localhost ([::1]:46292 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C57B049F1F0
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jan 2022 04:43:23 +0100 (CET)
+Received: from localhost ([::1]:49254 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nDI8B-0003Hw-H2
-	for lists+qemu-devel@lfdr.de; Thu, 27 Jan 2022 22:40:59 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:39016)
+	id 1nDIAR-0005li-FC
+	for lists+qemu-devel@lfdr.de; Thu, 27 Jan 2022 22:43:21 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:39120)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nDI56-00029p-BV
- for qemu-devel@nongnu.org; Thu, 27 Jan 2022 22:37:48 -0500
-Received: from [2607:f8b0:4864:20::42c] (port=39829
- helo=mail-pf1-x42c.google.com)
+ id 1nDI67-0002kg-MI
+ for qemu-devel@nongnu.org; Thu, 27 Jan 2022 22:38:51 -0500
+Received: from [2607:f8b0:4864:20::433] (port=37691
+ helo=mail-pf1-x433.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nDI54-0001cL-Mu
- for qemu-devel@nongnu.org; Thu, 27 Jan 2022 22:37:48 -0500
-Received: by mail-pf1-x42c.google.com with SMTP id a8so4914467pfa.6
- for <qemu-devel@nongnu.org>; Thu, 27 Jan 2022 19:37:46 -0800 (PST)
+ id 1nDI66-0001fC-2o
+ for qemu-devel@nongnu.org; Thu, 27 Jan 2022 22:38:51 -0500
+Received: by mail-pf1-x433.google.com with SMTP id p37so4921932pfh.4
+ for <qemu-devel@nongnu.org>; Thu, 27 Jan 2022 19:38:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=lNViaG3CzaemUEEjM7cz4z3583QpDIPZEFSIoFDTiAY=;
- b=iJLNAaRsZK72THhGO1LS6VmXVOSZamddccmLb4i3jjoXXtR/zPLM8WB4T3FOz1oQKz
- f+GVXQc+v9IxgNRVMRs7aJ1T5mEhEvVSgdkhcZlcK2ksV6FMiZKLgTdgztaoLBd9SR8N
- UAyGdszCqZc9rk6OWURc/IJt+kfU9bftBUmU0QTxlKf0/1Y8OumAA3+eBHTa/lpTRMF+
- xzh3tKsYUZOeTePmwt62aeS3GMyJka82VwuTMdm14Wogibrd+M08YGMASLBsjVDVjYLX
- N8+o2Sbo/o5V4bC6OJHbj9p1h2G4a8K+h4Vhy9ExNF4yOyXnXwdvcAJfO84qS+ytC6Ka
- 7MFg==
+ bh=1bNRYm61u3wzfZM74ZvYU9IkZ0YmO0e2GB7pf2XyzRw=;
+ b=rbtsbSvl0E1y99+r0B9hL5xqdI2aaQCPO8y0scyfgCQjYT5VkdXkhmgmNrZC/3snNU
+ YCYxjk9RbbMD1+FTT708B6fBeTuot0tFzio82Ttnbxfcmn0d8/ZDJ3b0AyUredXjeq90
+ ZjjIPbHsEYB22VR+6VLSaif6KqJvD6HdmNkepVsxwts+EGicJzqw1hYAxh4Pma4krd49
+ MHjQr9+BfU/9mkzC4IxYPnCbQ5D7w8T3nl6atyqWaTMwTsIc839uSPs2jwcnrC+wTy81
+ 69HAbv3KNzVPgnKRe0uXkEQUGtlvpTy6OiJ/c+MCW6jjcdqVwLuAqv9mCy5CWbJSqbXg
+ Y57Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=lNViaG3CzaemUEEjM7cz4z3583QpDIPZEFSIoFDTiAY=;
- b=oRATsYrFsOMBmUfBZmpWhXutyb0flEEGFdFuUcKv7KEKbiq24Y5Lt4WxaRExEvIToE
- kKsSw8rBKxIWFKzuPkFTtXUCOVyHAZafDjZ2woSBUXNneKJA+Y4Y2BVVscAkQyM3cwRn
- pFeBGR5WPn3qp1Xl+6H5uHCywXBhWaszlIGltUgnijQUcUFI1HXjplVTZFvVIj0RqmQC
- IBWDJl/v3dTdEo23o6vmkKah0s/+ySfdi/LGxsSRd0U9E0IGuE2mtNX3xseY5JJVrhuc
- 7cLNcsxj1AzxeoWPFAit6JJxDUzO8p4/CE+nSHd7o40ruMFRbwxuqFConZoBNL6Bb559
- UBJw==
-X-Gm-Message-State: AOAM531pXwhP4CoIeOyNCx/KOBpTAnsN5VNhFHCbR5/MoIipnvd0MsXT
- vqRPgxFjvrEcK/FJsS+Z4vAdcw==
-X-Google-Smtp-Source: ABdhPJzUQdZwWYM88AeWBcGD2TnAc+nobDHtxWFwv8rPfUwIjhtjW9Tg0kDfsnIuhWVQXJnTcZddAQ==
-X-Received: by 2002:a05:6a00:2493:: with SMTP id
- c19mr6180172pfv.29.1643341065175; 
- Thu, 27 Jan 2022 19:37:45 -0800 (PST)
+ bh=1bNRYm61u3wzfZM74ZvYU9IkZ0YmO0e2GB7pf2XyzRw=;
+ b=YTrJY9ICIaUvKUTWWQgDGOA00A08clkNyNvRzNdFsYoS5+jh7lnmx9V5pu7NaD3cyN
+ jYxTcwEr/tUu2mCkMPXO2G96hT1g3sawwURlkNNpm4z5m58MhknLQ4VueZ472DWMwgnC
+ LFo0riTFKpu4k7Nzs855DGBqf497/o4Li3Ckjyklsd37ET9hx/0VTOHCxcvrDa3DEWy8
+ yd5i5/l5kKSw9pfPQuWE8rhe41Q5lIzzedyK61lSWHKH+TM2iqxE0q+AAfGOVRI4CEbW
+ /XA+fxt705CnytgJi34MUEXR9blvFWDSf7k9tdKOOqLFgjUQ1FHlODUvd1qklQ+w49xD
+ JePw==
+X-Gm-Message-State: AOAM533xrzNY5/j+UU9qXb/YrX7KoN+L0AVRo6ItP1aFUO9+8SSdcRES
+ ZhNvBLeLyggDyxkQ4lVo4HGRNQ==
+X-Google-Smtp-Source: ABdhPJzQn2d37T0STfccpSxkLPAvQOiyIV6HLMDDYHV4+FokcOTIqM72ZUxvn7+TvarByyz7pcSOzw==
+X-Received: by 2002:a63:6cc9:: with SMTP id h192mr5004307pgc.486.1643341126235; 
+ Thu, 27 Jan 2022 19:38:46 -0800 (PST)
 Received: from [192.168.15.44] (alanje.lnk.telstra.net. [120.151.179.201])
- by smtp.gmail.com with ESMTPSA id v17sm6958162pfm.10.2022.01.27.19.37.42
+ by smtp.gmail.com with ESMTPSA id y191sm6913577pfb.114.2022.01.27.19.38.43
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 27 Jan 2022 19:37:44 -0800 (PST)
-Message-ID: <bae003f2-24c9-d65a-ddb9-ae0eb0fd14ec@linaro.org>
-Date: Fri, 28 Jan 2022 14:37:39 +1100
+ Thu, 27 Jan 2022 19:38:45 -0800 (PST)
+Message-ID: <cff79bec-6c8f-74e4-799f-cb9ae56b074e@linaro.org>
+Date: Fri, 28 Jan 2022 14:38:40 +1100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.5.0
-Subject: Re: [PATCH 13/14] hw/intc/arm_gicv3_its: Implement MOVALL
+Subject: Re: [PATCH 14/14] hw/intc/arm_gicv3_its: Implement MOVI
 Content-Language: en-US
 To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
  qemu-devel@nongnu.org
 References: <20220122182444.724087-1-peter.maydell@linaro.org>
- <20220122182444.724087-14-peter.maydell@linaro.org>
+ <20220122182444.724087-15-peter.maydell@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220122182444.724087-14-peter.maydell@linaro.org>
+In-Reply-To: <20220122182444.724087-15-peter.maydell@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::42c
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::433
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42c;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42c.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::433;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x433.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -98,19 +97,25 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 1/23/22 05:24, Peter Maydell wrote:
-> Implement the ITS MOVALL command, which takes all the pending
-> interrupts on a source redistributor and makes the not-pending on
-> that source redistributor and pending on a destination redistributor.
+> Implement the ITS MOVI command. This command specifies a (physical) LPI
+> by DeviceID and EventID and provides a new ICID for it. The ITS must
+> find the interrupt translation table entry for the LPI, which will
+> tell it the old ICID. It then moves the pending state of the LPI from
+> the old redistributor to the new one and updates the ICID field in
+> the translation table entry.
 > 
-> This is a GICv3 ITS command which we forgot to implement. (It is
-> not used by Linux guests.)
+> This is another GICv3 ITS command that we forgot to implement.  Linux
+> does use this one, but only if the guest powers off one of its CPUs.
 > 
 > Signed-off-by: Peter Maydell<peter.maydell@linaro.org>
 > ---
->   hw/intc/gicv3_internal.h   | 16 +++++++++++
->   hw/intc/arm_gicv3_its.c    | 55 ++++++++++++++++++++++++++++++++++++++
->   hw/intc/arm_gicv3_redist.c | 54 +++++++++++++++++++++++++++++++++++++
->   3 files changed, 125 insertions(+)
+> All the "validate guest command argument, log and return if bad"
+> logic feels very clunky here...
+> ---
+>   hw/intc/gicv3_internal.h   |  16 ++++
+>   hw/intc/arm_gicv3_its.c    | 146 +++++++++++++++++++++++++++++++++++++
+>   hw/intc/arm_gicv3_redist.c |  53 ++++++++++++++
+>   3 files changed, 215 insertions(+)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
