@@ -2,48 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC98B49F5F3
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jan 2022 10:07:00 +0100 (CET)
-Received: from localhost ([::1]:47592 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8AAAB49F613
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jan 2022 10:14:07 +0100 (CET)
+Received: from localhost ([::1]:59194 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nDNDf-0003Do-T6
-	for lists+qemu-devel@lfdr.de; Fri, 28 Jan 2022 04:06:59 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:54864)
+	id 1nDNKY-0003BL-AA
+	for lists+qemu-devel@lfdr.de; Fri, 28 Jan 2022 04:14:06 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:54848)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
- id 1nDN2p-0004HL-0J; Fri, 28 Jan 2022 03:55:47 -0500
-Received: from smtp25.cstnet.cn ([159.226.251.25]:57530 helo=cstnet.cn)
+ id 1nDN2m-0004GB-Jl; Fri, 28 Jan 2022 03:55:45 -0500
+Received: from smtp25.cstnet.cn ([159.226.251.25]:57558 helo=cstnet.cn)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <liweiwei@iscas.ac.cn>)
- id 1nDN2i-0002H6-Si; Fri, 28 Jan 2022 03:55:44 -0500
+ id 1nDN2i-0002Jk-Rk; Fri, 28 Jan 2022 03:55:43 -0500
 Received: from localhost.localdomain (unknown [180.156.147.178])
- by APP-05 (Coremail) with SMTP id zQCowAAX+fGCr_NhQg8YAA--.29604S2;
- Fri, 28 Jan 2022 16:55:31 +0800 (CST)
+ by APP-05 (Coremail) with SMTP id zQCowAAX+fGCr_NhQg8YAA--.29604S3;
+ Fri, 28 Jan 2022 16:55:33 +0800 (CST)
 From: Weiwei Li <liweiwei@iscas.ac.cn>
 To: anup@brainfault.org, palmer@dabbelt.com, alistair.francis@wdc.com,
  bin.meng@windriver.com, qemu-riscv@nongnu.org, qemu-devel@nongnu.org
-Subject: [PATCH v7 0/5] support subsets of virtual memory extension
-Date: Fri, 28 Jan 2022 16:54:56 +0800
-Message-Id: <20220128085501.8014-1-liweiwei@iscas.ac.cn>
+Subject: [PATCH v7 1/5] target/riscv: Ignore reserved bits in PTE for RV64
+Date: Fri, 28 Jan 2022 16:54:57 +0800
+Message-Id: <20220128085501.8014-2-liweiwei@iscas.ac.cn>
 X-Mailer: git-send-email 2.17.1
-X-CM-TRANSID: zQCowAAX+fGCr_NhQg8YAA--.29604S2
-X-Coremail-Antispam: 1UD129KBjvJXoW7ZrW3Jw1UKw4kXr18uw4kZwb_yoW8AF48pF
- 45K3yakFZ8tFZ7Jw4ftF18Ar45Xw48ur45Jwn3Jw1kXa13ZrW5Jrnak3y3CryUWFy0gry2
- 9F4Uur13uayUJrJanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnRJUUUv014x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
- rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
- 1l84ACjcxK6xIIjxv20xvE14v26ryj6F1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
- 6F4UM28EF7xvwVC2z280aVAFwI0_Cr1j6rxdM28EF7xvwVC2z280aVCY1x0267AKxVW0oV
- Cq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0
- I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r
- 4UM4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwACI402YVCY1x02628v
- n2kIc2xKxwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F4
- 0E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFyl
- IxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxV
- AFwI0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7xG6rW3Jr0E3s1lIxAIcVC2z280aVAFwI0_
- Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7VUb
- XdbUUUUUU==
+In-Reply-To: <20220128085501.8014-1-liweiwei@iscas.ac.cn>
+References: <20220128085501.8014-1-liweiwei@iscas.ac.cn>
+X-CM-TRANSID: zQCowAAX+fGCr_NhQg8YAA--.29604S3
+X-Coremail-Antispam: 1UD129KBjvJXoWxJFykXw15Cw48WFW7Jr1xuFg_yoW5Xry8pr
+ Z7Ga4fArWDXFZ3JayfKF15twn8Jws29r4rCws7urnrtF4rXrZ5W3Wqk3WIvFnxXF18WF1Y
+ 9F1qkFy5AF4DZFDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUUBmb7Iv0xC_tr1lb4IE77IF4wAFF20E14v26ryj6rWUM7CY07I2
+ 0VC2zVCF04k26cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28IrcIa0xkI8VA2jI
+ 8067AKxVWUGwA2048vs2IY020Ec7CjxVAFwI0_JFI_Gr1l8cAvFVAK0II2c7xJM28CjxkF
+ 64kEwVA0rcxSw2x7M28EF7xvwVC0I7IYx2IY67AKxVW5JVW7JwA2z4x0Y4vE2Ix0cI8IcV
+ CY1x0267AKxVWxJVW8Jr1l84ACjcxK6I8E87Iv67AKxVWxJr0_GcWl84ACjcxK6I8E87Iv
+ 6xkF7I0E14v26rxl6s0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c
+ 02F40Ex7xfMcIj6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE
+ 4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IYc2Ij64vIr41lFIxGxcIEc7CjxVA2Y2ka0xkIwI1l42
+ xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWU
+ GwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI4
+ 8JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r4j6F4U
+ MIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I
+ 8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjxUcy8BUUUUU
 X-Originating-IP: [180.156.147.178]
 X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
 Received-SPF: pass client-ip=159.226.251.25; envelope-from=liweiwei@iscas.ac.cn;
@@ -66,65 +68,104 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: wangjunqiang@iscas.ac.cn, Weiwei Li <liweiwei@iscas.ac.cn>,
+Cc: wangjunqiang@iscas.ac.cn, Bin Meng <bmeng.cn@gmail.com>,
  lazyparser@gmail.com, ren_guo@c-sky.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patchset implements virtual memory related RISC-V extensions: Svnapot version 1.0, Svinval vesion 1.0, Svpbmt version 1.0. 
+From: Guo Ren <ren_guo@c-sky.com>
 
-Specification:
-https://github.com/riscv/virtual-memory/tree/main/specs
+Highest bits of PTE has been used for svpbmt, ref: [1], [2], so we
+need to ignore them. They cannot be a part of ppn.
 
-The port is available here:
-https://github.com/plctlab/plct-qemu/tree/plct-virtmem-upstream-v7
+1: The RISC-V Instruction Set Manual, Volume II: Privileged Architecture
+   4.4 Sv39: Page-Based 39-bit Virtual-Memory System
+   4.5 Sv48: Page-Based 48-bit Virtual-Memory System
 
-To test this implementation, specify cpu argument with 'svinval=true,svnapot=true,svpbmt=true'.
+2: https://github.com/riscv/virtual-memory/blob/main/specs/663-Svpbmt-diff.pdf
 
-This implementation can pass the riscv-tests for rv64ssvnapot.
+Signed-off-by: Guo Ren <ren_guo@c-sky.com>
+Reviewed-by: Liu Zhiwei <zhiwei_liu@c-sky.com>
+Cc: Bin Meng <bmeng.cn@gmail.com>
+Cc: Alistair Francis <alistair.francis@wdc.com>
+---
+ target/riscv/cpu.h        | 15 +++++++++++++++
+ target/riscv/cpu_bits.h   |  3 +++
+ target/riscv/cpu_helper.c | 14 +++++++++++++-
+ 3 files changed, 31 insertions(+), 1 deletion(-)
 
-v7:
-* delete definition of PTE_PPN_MASK for TARGET_RISCV32
-* make riscv_cpu_sxl works for user mode
-* add commit msg for patch 2
-
-v6:
-* select ppn mask base on sxl
-
-v5:
-* merge patch https://lore.kernel.org/qemu-devel/1569456861-8502-1-git-send-email-guoren@kernel.org/
-* relax pte attribute check
-
-v4:
-* fix encodings for hinval_vvma and hinval_gvma
-* partition inner PTE check into several steps
-* improve commit messages to describe changes
-
-v3:
-* drop "x-" in exposed properties
-
-v2:
-* add extension check for svnapot and svpbmt
-
-Guo Ren (1):
-  target/riscv: Ignore reserved bits in PTE for RV64
-
-Weiwei Li (4):
-  target/riscv: add PTE_A/PTE_D/PTE_U bits check for inner PTE
-  target/riscv: add support for svnapot extension
-  target/riscv: add support for svinval extension
-  target/riscv: add support for svpbmt extension
-
- target/riscv/cpu.c                          |  4 ++
- target/riscv/cpu.h                          | 16 +++++
- target/riscv/cpu_bits.h                     |  6 ++
- target/riscv/cpu_helper.c                   | 34 +++++++++-
- target/riscv/insn32.decode                  |  7 ++
- target/riscv/insn_trans/trans_svinval.c.inc | 75 +++++++++++++++++++++
- target/riscv/translate.c                    |  1 +
- 7 files changed, 140 insertions(+), 3 deletions(-)
- create mode 100644 target/riscv/insn_trans/trans_svinval.c.inc
-
+diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+index 55635d68d5..336fe8e3d5 100644
+--- a/target/riscv/cpu.h
++++ b/target/riscv/cpu.h
+@@ -341,6 +341,8 @@ struct RISCVCPU {
+         bool ext_counters;
+         bool ext_ifencei;
+         bool ext_icsr;
++        bool ext_svnapot;
++        bool ext_svpbmt;
+         bool ext_zfh;
+         bool ext_zfhmin;
+         bool ext_zve32f;
+@@ -495,6 +497,19 @@ static inline int riscv_cpu_xlen(CPURISCVState *env)
+     return 16 << env->xl;
+ }
+ 
++#ifdef TARGET_RISCV32
++#define riscv_cpu_sxl(env)  ((void)(env), MXL_RV32)
++#else
++static inline RISCVMXL riscv_cpu_sxl(CPURISCVState *env)
++{
++#ifdef CONFIG_USER_ONLY
++    return env->misa_mxl;
++#else
++    return get_field(env->mstatus, MSTATUS64_SXL);
++#endif
++}
++#endif
++
+ /*
+  * Encode LMUL to lmul as follows:
+  *     LMUL    vlmul    lmul
+diff --git a/target/riscv/cpu_bits.h b/target/riscv/cpu_bits.h
+index 7c87433645..6ea3944423 100644
+--- a/target/riscv/cpu_bits.h
++++ b/target/riscv/cpu_bits.h
+@@ -493,6 +493,9 @@ typedef enum {
+ /* Page table PPN shift amount */
+ #define PTE_PPN_SHIFT       10
+ 
++/* Page table PPN mask */
++#define PTE_PPN_MASK        0x3FFFFFFFFFFC00ULL
++
+ /* Leaf page shift amount */
+ #define PGSHIFT             12
+ 
+diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
+index 327a2c4f1d..5a1c0e239e 100644
+--- a/target/riscv/cpu_helper.c
++++ b/target/riscv/cpu_helper.c
+@@ -622,7 +622,19 @@ restart:
+             return TRANSLATE_FAIL;
+         }
+ 
+-        hwaddr ppn = pte >> PTE_PPN_SHIFT;
++        hwaddr ppn;
++        RISCVCPU *cpu = env_archcpu(env);
++
++        if (riscv_cpu_sxl(env) == MXL_RV32) {
++            ppn = pte >> PTE_PPN_SHIFT;
++        } else if (cpu->cfg.ext_svpbmt || cpu->cfg.ext_svnapot) {
++            ppn = (pte & (target_ulong)PTE_PPN_MASK) >> PTE_PPN_SHIFT;
++        } else {
++            ppn = pte >> PTE_PPN_SHIFT;
++            if ((pte & ~(target_ulong)PTE_PPN_MASK) >> PTE_PPN_SHIFT) {
++                return TRANSLATE_FAIL;
++            }
++        }
+ 
+         if (!(pte & PTE_V)) {
+             /* Invalid PTE */
 -- 
 2.17.1
 
