@@ -2,61 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D854449F700
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jan 2022 11:17:18 +0100 (CET)
-Received: from localhost ([::1]:35422 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2CD1549F712
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jan 2022 11:18:10 +0100 (CET)
+Received: from localhost ([::1]:37156 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nDOJh-00058g-Fh
-	for lists+qemu-devel@lfdr.de; Fri, 28 Jan 2022 05:17:17 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:41322)
+	id 1nDOKX-0006Sg-9r
+	for lists+qemu-devel@lfdr.de; Fri, 28 Jan 2022 05:18:09 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:41762)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1nDOGc-0002un-6w
- for qemu-devel@nongnu.org; Fri, 28 Jan 2022 05:14:06 -0500
-Received: from mout.kundenserver.de ([212.227.126.134]:38147)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1nDOGa-0005kS-EZ
- for qemu-devel@nongnu.org; Fri, 28 Jan 2022 05:14:05 -0500
-Received: from [192.168.100.1] ([82.142.25.174]) by mrelayeu.kundenserver.de
- (mreue012 [213.165.67.103]) with ESMTPSA (Nemesis) id
- 1MWz4j-1mkVVm3vB3-00XHH5; Fri, 28 Jan 2022 11:14:00 +0100
-Message-ID: <aecbe24d-c05a-7704-80bc-9fe66b55d28b@vivier.eu>
-Date: Fri, 28 Jan 2022 11:13:59 +0100
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1nDOHn-0003Ur-7Y
+ for qemu-devel@nongnu.org; Fri, 28 Jan 2022 05:15:19 -0500
+Received: from [2a00:1450:4864:20::629] (port=36356
+ helo=mail-ej1-x629.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1nDOHl-00064y-8f
+ for qemu-devel@nongnu.org; Fri, 28 Jan 2022 05:15:18 -0500
+Received: by mail-ej1-x629.google.com with SMTP id s13so14430729ejy.3
+ for <qemu-devel@nongnu.org>; Fri, 28 Jan 2022 02:15:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=llZ8azvbscFarubs1pSqfnJA7KCRVI3ZxRtvcZT3ubI=;
+ b=pqTLVxBhXJk8WYhF2+ZRhw7G2SUaoeSD+CRkanin64KbouKceFIgIBdXZ0ZdXIo1hl
+ J/2AcDXxbBHNDvS8pxycFX7XZq1+hfcb7Ef+WQS4T/wvldhJKJZUPfIoD0mV+YgB6Q70
+ RZhZIKnUp4kDnPtsPFJ9AxCdL+Imo8PGIHCxbCKJ7JSdAs4ueE48GIPkB4Nlv9um8NmF
+ g0EFXr9EP4vOgVMb7tNaJDPg6Q5RMInJpK2+1IjVbYl4gZ5W0Wd+urNd3BYqG75B2XKY
+ gVLl4MZbCssoXrW19VRXykoyw2TUPWHOqDNQKh5PuRD24NAqMTzEZyQfnjXXDZ8Vmhnb
+ qx3w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:sender:from:to:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=llZ8azvbscFarubs1pSqfnJA7KCRVI3ZxRtvcZT3ubI=;
+ b=kjNIsiBFwA9lqXhhRswXid7VCB0sRBySiLS2YZtFX2jRDhVf1YGps9GJoxj45WRnNl
+ 1nb7Ztn2/M3NMgWvUf7VZ2iYj6bQw+EQ6ThiaY4lPfvAgiHigf/MR6vcvjrppFrT4ZYj
+ eBG/MRx9t+SPdpw/e2m7id+iXqb6UQRqTXhQrOvL+eGRpZ+wB9/VSHo+qyBTfYCchIRC
+ Vi726CC1Mj2J2uV37z8Z9WbQfCHDqjpmGs8X8JVDf0jsZDq09hY2jQGpi+rj1P1u05TL
+ RmG6xfPaGuXVczp0a3pRNgtPY11I4E7prbckrtMIDNH+g38VN0FjsQB/LEifJnRFtvQX
+ YTFw==
+X-Gm-Message-State: AOAM533yMIr+VylHyXS4rRZlpftwx80X8hF24Yf45g1aC7dJXfyxVjyw
+ L9rQNfjE4oeE1zU6USMKsJzlGaIARec=
+X-Google-Smtp-Source: ABdhPJyPliqy2jjnhFX9qnzlKO/WbOuu+nIIBDADJnhT7Xc+cxJ8yH49BvT9kfWH+KpQnmjnZw+yxg==
+X-Received: by 2002:a17:906:4786:: with SMTP id
+ cw6mr6307026ejc.69.1643364915332; 
+ Fri, 28 Jan 2022 02:15:15 -0800 (PST)
+Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.gmail.com with ESMTPSA id dk3sm12690738edb.33.2022.01.28.02.15.14
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 28 Jan 2022 02:15:14 -0800 (PST)
+From: Paolo Bonzini <pbonzini@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PULL v2 00/14] Misc patches for 2022-01-27
+Date: Fri, 28 Jan 2022 11:15:12 +0100
+Message-Id: <20220128101513.646792-1-pbonzini@redhat.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH v3] linux-user: Implement starttime field in self stat
- emulation
-Content-Language: fr
-To: Cameron Esfahani <dirty@apple.com>, qemu-devel@nongnu.org
-References: <20220128001251.45165-1-dirty@apple.com>
-From: Laurent Vivier <laurent@vivier.eu>
-In-Reply-To: <20220128001251.45165-1-dirty@apple.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:v/vHyjGCEZ0w6Q0VmW56oB31C6j4iTTLThaicvi7/s6OAnV9zA3
- 5UEIMgD3iFWrSVNw+4wrRo+ZrG+8j40HsZPxNUCILeZJiglampcYNhskatrQ6GY00dgvkT6
- 8Kv1rQCPIgSOD331+Zi62hu+L+tJVZz8g/Xugd17RvtB5Im2Ks+v80wLJLgmZbeaCgMEsub
- Z8dzbAGKfz4bxe2qjrfvA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:WleBrX6PxeI=:R92y6+Jj4/wnSHMRCkNeGD
- mi/q+ZQexChr0i3WWPlVkcyEFeeN5KIf1fd14iO5M2bpsNSuDMS0rysw1V8O4xcpsyGe0KvKr
- VrE65iF8Y3zYQ2u3rDonzjK/zbaLC3U+4UjQakXmPWMkuckN3qzIW9z7JryUfBxfor/1Qu8Jo
- i4O6oL6F5gKh2I7sBZ5gVBOokxmQEVim33/ALlqzHibDQIBR4oMXt2OapI4OjoKQyBV6MLpLD
- GNd9+xto8Hs+q83DAOQj4YaS1a+AG7v7MynWnyvRSJdm87do7QAwOf/YmtkmIFvU4TFbqHtgK
- H9+W2cs7Toa+75F2n2qrVjQrN3QKS3bGxgui4oqqxJYOHEPpAOwfd/vJfAt+nhKFxkhgp3bfB
- y7dZZc4FJb1W0tKoLEDaMmjxTbyOjh/eJuZyPCCSfO+/ckVrh4HNduQFX2NPLyOV8nX7C78Qd
- ibeLos+3r6wYrSMsHg8OCSR7mbtC20kPvrIGlgsiyQZZYBm1nb1Be+ncZ/CUE68FtDcvh8Dkj
- 2jdqoyNM5K67+iQQMcpUpafRs2Njlx0ik2F23ZcWzm45w7T2TSJQh8JyxIyBFi/wOyFVIhAIq
- 3WDtpGIbFVcMQbhGO8LE9foLcQuaaVWOF5TpSg/sak2cR4Qb2BP5sHs4/3TVOxtQc/zw358KU
- dOvjPxq4gOXZXHgKLFtoCq+FJ0dfrPy5NymlxsfAsiQyH0yBWjA8nmRH+gnPZMxMpeO8=
-Received-SPF: none client-ip=212.227.126.134; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_NONE=0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::629
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::629;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x629.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -72,87 +91,83 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 28/01/2022 à 01:12, Cameron Esfahani a écrit :
-> Instead of always returning 0, return actual starttime.
-> 
-> v3: Fix formatting issues
-> v2: Use clock_gettime() instead of scanning /proc/self/stat
+The following changes since commit aeb0ae95b7f18c66158792641cb6ba0cde5789ab:
 
-For your next contribution: move version information after the "---" to not clutter the commit message.
+  Merge remote-tracking branch 'remotes/jsnow-gitlab/tags/python-pull-request' into staging (2022-01-22 12:03:22 +0000)
 
-Applied to my linux-user-for-7.0 branch.
+are available in the Git repository at:
 
-Thanks,
-Laurent
+  https://gitlab.com/bonzini/qemu.git tags/for-upstream
 
-> 
-> Signed-off-by: Cameron Esfahani <dirty@apple.com>
-> ---
+for you to fetch changes up to 479ca4ccd54afcd54b0163532709079233d64b97:
 
+  configure: fix parameter expansion of --cross-cc-cflags options (2022-01-28 11:13:33 +0100)
 
->   linux-user/main.c    | 14 ++++++++++++++
->   linux-user/qemu.h    |  3 +++
->   linux-user/syscall.c |  3 +++
->   3 files changed, 20 insertions(+)
-> 
-> diff --git a/linux-user/main.c b/linux-user/main.c
-> index 16def5215d..fbc9bcfd5f 100644
-> --- a/linux-user/main.c
-> +++ b/linux-user/main.c
-> @@ -190,12 +190,26 @@ void stop_all_tasks(void)
->   /* Assumes contents are already zeroed.  */
->   void init_task_state(TaskState *ts)
->   {
-> +    long ticks_per_sec;
-> +    struct timespec bt;
-> +
->       ts->used = 1;
->       ts->sigaltstack_used = (struct target_sigaltstack) {
->           .ss_sp = 0,
->           .ss_size = 0,
->           .ss_flags = TARGET_SS_DISABLE,
->       };
-> +
-> +    /* Capture task start time relative to system boot */
-> +
-> +    ticks_per_sec = sysconf(_SC_CLK_TCK);
-> +
-> +    if ((ticks_per_sec > 0) && !clock_gettime(CLOCK_BOOTTIME, &bt)) {
-> +        /* start_boottime is expressed in clock ticks */
-> +        ts->start_boottime = bt.tv_sec * (uint64_t) ticks_per_sec;
-> +        ts->start_boottime += bt.tv_nsec * (uint64_t) ticks_per_sec /
-> +                              NANOSECONDS_PER_SECOND;
-> +    }
->   }
->   
->   CPUArchState *cpu_copy(CPUArchState *env)
-> diff --git a/linux-user/qemu.h b/linux-user/qemu.h
-> index 7910ce59cc..106175406a 100644
-> --- a/linux-user/qemu.h
-> +++ b/linux-user/qemu.h
-> @@ -158,6 +158,9 @@ typedef struct TaskState {
->   
->       /* This thread's sigaltstack, if it has one */
->       struct target_sigaltstack sigaltstack_used;
-> +
-> +    /* Start time of task after system boot in clock ticks */
-> +    uint64_t start_boottime;
->   } __attribute__((aligned(16))) TaskState;
->   
->   abi_long do_brk(abi_ulong new_brk);
-> diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-> index 5950222a77..7b3dbc72d4 100644
-> --- a/linux-user/syscall.c
-> +++ b/linux-user/syscall.c
-> @@ -8107,6 +8107,9 @@ static int open_self_stat(void *cpu_env, int fd)
->           } else if (i == 3) {
->               /* ppid */
->               g_string_printf(buf, FMT_pid " ", getppid());
-> +        } else if (i == 21) {
-> +            /* starttime */
-> +            g_string_printf(buf, "%" PRIu64 " ", ts->start_boottime);
->           } else if (i == 27) {
->               /* stack bottom */
->               g_string_printf(buf, TARGET_ABI_FMT_ld " ", ts->info->start_stack);
+----------------------------------------------------------------
+* configure and meson fixes
+* "meson test" switch for iotests
+* deprecation of old SGX QAPI
+* unexport InterruptStatsProviderClass-related functions
+
+----------------------------------------------------------------
+Bernhard Beschow (1):
+      intc: Unexport InterruptStatsProviderClass-related functions
+
+Marc-André Lureau (3):
+      build-sys: fix a meson deprecation warning
+      build-sys: fix undefined ARCH error
+      docker: add msitools to Fedora/mingw cross
+
+Matheus Ferst (1):
+      configure: fix parameter expansion of --cross-cc-cflags options
+
+Paolo Bonzini (4):
+      scripts/mtest2make: add support for SPEED=thorough
+      build: make check-block a meson test
+      qemu-iotests: require at least an argument to check-block.sh
+      check-block: replace -makecheck with TAP output
+
+Philippe Mathieu-Daudé (2):
+      exec/cpu: Make host pages variables / macros 'target agnostic'
+      meson: Use find_program() to resolve the entitlement.sh script
+
+Thomas Huth (1):
+      meson.build: Use a function from libfdt 1.5.1 for the library check
+
+Vladimir Sementsov-Ogievskiy (1):
+      check-block.sh: passthrough -jN flag of make to -j N flag of check
+
+Yang Zhong (1):
+      qapi: Cleanup SGX related comments and restore @section-size
+
+ configure                                          |  4 +-
+ docs/about/deprecated.rst                          | 13 ++++++
+ docs/devel/testing.rst                             |  2 +-
+ hw/i386/sgx.c                                      | 11 ++++-
+ hw/intc/i8259_common.c                             |  6 +--
+ hw/intc/ioapic_common.c                            |  2 +-
+ include/exec/cpu-all.h                             |  9 ----
+ include/exec/cpu-common.h                          |  9 ++++
+ include/hw/i386/ioapic_internal.h                  |  1 -
+ include/hw/isa/i8259_internal.h                    |  3 --
+ meson.build                                        | 16 +++----
+ qapi/machine.json                                  |  4 +-
+ qapi/misc-target.json                              | 22 ++++++---
+ qga/meson.build                                    |  2 +-
+ scripts/mtest2make.py                              | 20 +++++++--
+ tests/Makefile.include                             | 16 ++-----
+ tests/check-block.sh                               | 52 +++++++++++-----------
+ tests/docker/dockerfiles/fedora-win32-cross.docker |  1 +
+ tests/docker/dockerfiles/fedora-win64-cross.docker |  1 +
+ tests/meson.build                                  |  1 +
+ tests/qemu-iotests/check                           |  6 +--
+ tests/qemu-iotests/meson.build                     | 30 +++++++++++++
+ tests/qemu-iotests/testenv.py                      | 30 ++++++-------
+ tests/qemu-iotests/testrunner.py                   | 49 ++++++++++----------
+ tests/qtest/meson.build                            |  2 +-
+ 25 files changed, 189 insertions(+), 123 deletions(-)
+ create mode 100644 tests/qemu-iotests/meson.build
+-- 
+2.34.1
 
 
