@@ -2,40 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8BEA49F244
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jan 2022 05:12:05 +0100 (CET)
-Received: from localhost ([::1]:37996 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C4B8449F236
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jan 2022 05:05:54 +0100 (CET)
+Received: from localhost ([::1]:53238 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nDIcH-0004E9-2C
-	for lists+qemu-devel@lfdr.de; Thu, 27 Jan 2022 23:12:05 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:39954)
+	id 1nDIWH-0003g0-Qp
+	for lists+qemu-devel@lfdr.de; Thu, 27 Jan 2022 23:05:53 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:39982)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <yangxiaojuan@loongson.cn>)
- id 1nDIBs-00084A-QF
- for qemu-devel@nongnu.org; Thu, 27 Jan 2022 22:44:48 -0500
-Received: from mail.loongson.cn ([114.242.206.163]:40492 helo=loongson.cn)
+ id 1nDIBt-000869-Fj
+ for qemu-devel@nongnu.org; Thu, 27 Jan 2022 22:44:49 -0500
+Received: from mail.loongson.cn ([114.242.206.163]:40540 helo=loongson.cn)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <yangxiaojuan@loongson.cn>) id 1nDIBp-0002Lo-C9
- for qemu-devel@nongnu.org; Thu, 27 Jan 2022 22:44:48 -0500
+ (envelope-from <yangxiaojuan@loongson.cn>) id 1nDIBq-0002M9-Ou
+ for qemu-devel@nongnu.org; Thu, 27 Jan 2022 22:44:49 -0500
 Received: from localhost.localdomain (unknown [10.2.5.185])
- by mail.loongson.cn (Coremail) with SMTP id AQAAf9AxGuCMZvNhWCkFAA--.15604S15; 
+ by mail.loongson.cn (Coremail) with SMTP id AQAAf9AxGuCMZvNhWCkFAA--.15604S16; 
  Fri, 28 Jan 2022 11:44:32 +0800 (CST)
 From: Xiaojuan Yang <yangxiaojuan@loongson.cn>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH v5 13/30] target/loongarch: Add gdb support.
-Date: Thu, 27 Jan 2022 22:43:55 -0500
-Message-Id: <20220128034412.1262452-14-yangxiaojuan@loongson.cn>
+Subject: [RFC PATCH v5 14/30] hw/pci-host: Add ls7a1000 PCIe Host bridge
+ support for Loongson3 Platform
+Date: Thu, 27 Jan 2022 22:43:56 -0500
+Message-Id: <20220128034412.1262452-15-yangxiaojuan@loongson.cn>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20220128034412.1262452-1-yangxiaojuan@loongson.cn>
 References: <20220128034412.1262452-1-yangxiaojuan@loongson.cn>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf9AxGuCMZvNhWCkFAA--.15604S15
-X-Coremail-Antispam: 1UD129KBjvAXoWfJry7ArWDZr43GF1fWF1DAwb_yoW8Jr4UCo
- WagFsxtr18C39Yy3WrAFn0qa9FqF1jyFs7ua43ur98Gan5C3yfGryqgwn0vFyrJrs3Wry5
- J3yS9a97Wrn7Xr1fn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7v73VFW2AGmfu7bjvjm3
- AaLaJ3UjIYCTnIWjDUYxBIdaVFxhVjvjDU0xZFpf9x0zRUUUUUUUUU=
+X-CM-TRANSID: AQAAf9AxGuCMZvNhWCkFAA--.15604S16
+X-Coremail-Antispam: 1UD129KBjvJXoW3Xr1xZFW3ZF43WF4xGr4DJwb_yoWfAF13pF
+ 98C3ZakF48Jay7J393tr9rGF15JFsaka4UAF47uw1IyFZ7C34jyrsF9FWjvrWxGrWqq3W5
+ WFWkG3ZrKF4UJw7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnUUvcSsGvfC2KfnxnUUI43ZEXa7xR_UUUUUUUUU==
 X-CM-SenderInfo: p1dqw5xldry3tdq6z05rqj20fqof0/
 Received-SPF: pass client-ip=114.242.206.163;
  envelope-from=yangxiaojuan@loongson.cn; helo=loongson.cn
@@ -61,299 +62,306 @@ Cc: mark.cave-ayland@ilande.co.uk, richard.henderson@linaro.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+This is a model of the PCIe Host Bridge found on a Loongson-5000
+processor. It includes a interrupt controller, some interface for
+pci and nonpci devices. Mainly emulate part of it that is not
+exactly the same as the host and only use part devices for
+tcg mode. It support for MSI and MSIX interrupt sources.
+
+For more detailed info about ls7a1000 you can see the doc at
+https://github.com/loongson/LoongArch-Documentation/releases/latest/
+download/Loongson-7A1000-usermanual-2.00-EN.pdf
+
 Signed-off-by: Xiaojuan Yang <yangxiaojuan@loongson.cn>
 Signed-off-by: Song Gao <gaosong@loongson.cn>
 ---
- configs/targets/loongarch64-softmmu.mak |  1 +
- gdb-xml/loongarch-base64.xml            | 43 +++++++++++
- gdb-xml/loongarch-fpu64.xml             | 57 +++++++++++++++
- target/loongarch/cpu.c                  |  7 ++
- target/loongarch/gdbstub.c              | 97 +++++++++++++++++++++++++
- target/loongarch/internals.h            | 10 +++
- target/loongarch/meson.build            |  1 +
- 7 files changed, 216 insertions(+)
- create mode 100644 configs/targets/loongarch64-softmmu.mak
- create mode 100644 gdb-xml/loongarch-base64.xml
- create mode 100644 gdb-xml/loongarch-fpu64.xml
- create mode 100644 target/loongarch/gdbstub.c
+ hw/pci-host/Kconfig        |   4 +
+ hw/pci-host/ls7a.c         | 178 +++++++++++++++++++++++++++++++++++++
+ hw/pci-host/meson.build    |   1 +
+ include/hw/pci-host/ls7a.h |  52 +++++++++++
+ include/hw/pci/pci_ids.h   |   3 +
+ 5 files changed, 238 insertions(+)
+ create mode 100644 hw/pci-host/ls7a.c
+ create mode 100644 include/hw/pci-host/ls7a.h
 
-diff --git a/configs/targets/loongarch64-softmmu.mak b/configs/targets/loongarch64-softmmu.mak
+diff --git a/hw/pci-host/Kconfig b/hw/pci-host/Kconfig
+index 2b5f7d58cc..b02a9d1454 100644
+--- a/hw/pci-host/Kconfig
++++ b/hw/pci-host/Kconfig
+@@ -77,3 +77,7 @@ config MV64361
+     bool
+     select PCI
+     select I8259
++
++config PCI_EXPRESS_7A
++    bool
++    select PCI_EXPRESS
+diff --git a/hw/pci-host/ls7a.c b/hw/pci-host/ls7a.c
 new file mode 100644
-index 0000000000..f33fa1590b
+index 0000000000..eb16b669bb
 --- /dev/null
-+++ b/configs/targets/loongarch64-softmmu.mak
-@@ -0,0 +1 @@
-+TARGET_XML_FILES= gdb-xml/loongarch-base64.xml gdb-xml/loongarch-fpu64.xml
-diff --git a/gdb-xml/loongarch-base64.xml b/gdb-xml/loongarch-base64.xml
-new file mode 100644
-index 0000000000..f2af2a4b6e
---- /dev/null
-+++ b/gdb-xml/loongarch-base64.xml
-@@ -0,0 +1,43 @@
-+<?xml version="1.0"?>
-+<!-- Copyright (C) 2021 Free Software Foundation, Inc.
-+
-+     Copying and distribution of this file, with or without modification,
-+     are permitted in any medium without royalty provided the copyright
-+     notice and this notice are preserved.  -->
-+
-+<!DOCTYPE feature SYSTEM "gdb-target.dtd">
-+<feature name="org.gnu.gdb.loongarch.base">
-+  <reg name="r0" bitsize="64" type="uint64" group="general"/>
-+  <reg name="r1" bitsize="64" type="uint64" group="general"/>
-+  <reg name="r2" bitsize="64" type="uint64" group="general"/>
-+  <reg name="r3" bitsize="64" type="uint64" group="general"/>
-+  <reg name="r4" bitsize="64" type="uint64" group="general"/>
-+  <reg name="r5" bitsize="64" type="uint64" group="general"/>
-+  <reg name="r6" bitsize="64" type="uint64" group="general"/>
-+  <reg name="r7" bitsize="64" type="uint64" group="general"/>
-+  <reg name="r8" bitsize="64" type="uint64" group="general"/>
-+  <reg name="r9" bitsize="64" type="uint64" group="general"/>
-+  <reg name="r10" bitsize="64" type="uint64" group="general"/>
-+  <reg name="r11" bitsize="64" type="uint64" group="general"/>
-+  <reg name="r12" bitsize="64" type="uint64" group="general"/>
-+  <reg name="r13" bitsize="64" type="uint64" group="general"/>
-+  <reg name="r14" bitsize="64" type="uint64" group="general"/>
-+  <reg name="r15" bitsize="64" type="uint64" group="general"/>
-+  <reg name="r16" bitsize="64" type="uint64" group="general"/>
-+  <reg name="r17" bitsize="64" type="uint64" group="general"/>
-+  <reg name="r18" bitsize="64" type="uint64" group="general"/>
-+  <reg name="r19" bitsize="64" type="uint64" group="general"/>
-+  <reg name="r20" bitsize="64" type="uint64" group="general"/>
-+  <reg name="r21" bitsize="64" type="uint64" group="general"/>
-+  <reg name="r22" bitsize="64" type="uint64" group="general"/>
-+  <reg name="r23" bitsize="64" type="uint64" group="general"/>
-+  <reg name="r24" bitsize="64" type="uint64" group="general"/>
-+  <reg name="r25" bitsize="64" type="uint64" group="general"/>
-+  <reg name="r26" bitsize="64" type="uint64" group="general"/>
-+  <reg name="r27" bitsize="64" type="uint64" group="general"/>
-+  <reg name="r28" bitsize="64" type="uint64" group="general"/>
-+  <reg name="r29" bitsize="64" type="uint64" group="general"/>
-+  <reg name="r30" bitsize="64" type="uint64" group="general"/>
-+  <reg name="r31" bitsize="64" type="uint64" group="general"/>
-+  <reg name="pc" bitsize="64" type="code_ptr" group="general"/>
-+</feature>
-diff --git a/gdb-xml/loongarch-fpu64.xml b/gdb-xml/loongarch-fpu64.xml
-new file mode 100644
-index 0000000000..e52cf89fbc
---- /dev/null
-+++ b/gdb-xml/loongarch-fpu64.xml
-@@ -0,0 +1,57 @@
-+<?xml version="1.0"?>
-+<!-- Copyright (C) 2021 Free Software Foundation, Inc.
-+
-+     Copying and distribution of this file, with or without modification,
-+     are permitted in any medium without royalty provided the copyright
-+     notice and this notice are preserved.  -->
-+
-+<!DOCTYPE feature SYSTEM "gdb-target.dtd">
-+<feature name="org.gnu.gdb.loongarch.fpu">
-+
-+  <union id="fpu64type">
-+    <field name="f" type="ieee_single"/>
-+    <field name="d" type="ieee_double"/>
-+  </union>
-+
-+  <reg name="f0" bitsize="64" type="fpu64type" group="float"/>
-+  <reg name="f1" bitsize="64" type="fpu64type" group="float"/>
-+  <reg name="f2" bitsize="64" type="fpu64type" group="float"/>
-+  <reg name="f3" bitsize="64" type="fpu64type" group="float"/>
-+  <reg name="f4" bitsize="64" type="fpu64type" group="float"/>
-+  <reg name="f5" bitsize="64" type="fpu64type" group="float"/>
-+  <reg name="f6" bitsize="64" type="fpu64type" group="float"/>
-+  <reg name="f7" bitsize="64" type="fpu64type" group="float"/>
-+  <reg name="f8" bitsize="64" type="fpu64type" group="float"/>
-+  <reg name="f9" bitsize="64" type="fpu64type" group="float"/>
-+  <reg name="f10" bitsize="64" type="fpu64type" group="float"/>
-+  <reg name="f11" bitsize="64" type="fpu64type" group="float"/>
-+  <reg name="f12" bitsize="64" type="fpu64type" group="float"/>
-+  <reg name="f13" bitsize="64" type="fpu64type" group="float"/>
-+  <reg name="f14" bitsize="64" type="fpu64type" group="float"/>
-+  <reg name="f15" bitsize="64" type="fpu64type" group="float"/>
-+  <reg name="f16" bitsize="64" type="fpu64type" group="float"/>
-+  <reg name="f17" bitsize="64" type="fpu64type" group="float"/>
-+  <reg name="f18" bitsize="64" type="fpu64type" group="float"/>
-+  <reg name="f19" bitsize="64" type="fpu64type" group="float"/>
-+  <reg name="f20" bitsize="64" type="fpu64type" group="float"/>
-+  <reg name="f21" bitsize="64" type="fpu64type" group="float"/>
-+  <reg name="f22" bitsize="64" type="fpu64type" group="float"/>
-+  <reg name="f23" bitsize="64" type="fpu64type" group="float"/>
-+  <reg name="f24" bitsize="64" type="fpu64type" group="float"/>
-+  <reg name="f25" bitsize="64" type="fpu64type" group="float"/>
-+  <reg name="f26" bitsize="64" type="fpu64type" group="float"/>
-+  <reg name="f27" bitsize="64" type="fpu64type" group="float"/>
-+  <reg name="f28" bitsize="64" type="fpu64type" group="float"/>
-+  <reg name="f29" bitsize="64" type="fpu64type" group="float"/>
-+  <reg name="f30" bitsize="64" type="fpu64type" group="float"/>
-+  <reg name="f31" bitsize="64" type="fpu64type" group="float"/>
-+  <reg name="fcc0" bitsize="8" type="uint8" group="float"/>
-+  <reg name="fcc1" bitsize="8" type="uint8" group="float"/>
-+  <reg name="fcc2" bitsize="8" type="uint8" group="float"/>
-+  <reg name="fcc3" bitsize="8" type="uint8" group="float"/>
-+  <reg name="fcc4" bitsize="8" type="uint8" group="float"/>
-+  <reg name="fcc5" bitsize="8" type="uint8" group="float"/>
-+  <reg name="fcc6" bitsize="8" type="uint8" group="float"/>
-+  <reg name="fcc7" bitsize="8" type="uint8" group="float"/>
-+  <reg name="fcsr" bitsize="32" type="uint32" group="float"/>
-+</feature>
-diff --git a/target/loongarch/cpu.c b/target/loongarch/cpu.c
-index 962d3ab803..6a31ca08e5 100644
---- a/target/loongarch/cpu.c
-+++ b/target/loongarch/cpu.c
-@@ -146,11 +146,18 @@ static void loongarch_cpu_do_interrupt(CPUState *cs)
-                      " TLBRERA " TARGET_FMT_lx " %s exception\n", __func__,
-                      env->pc, env->CSR_ERA, env->CSR_TLBRERA, name);
-     }
-+    if (cs->exception_index == EXCCODE_INT &&
-+       (FIELD_EX64(env->CSR_DBG, CSR_DBG, DST))) {
-+        env->CSR_DBG = FIELD_DP64(env->CSR_DBG, CSR_DBG, DEI, 1);
-+        goto set_DERA;
-+    }
- 
-     switch (cs->exception_index) {
-     case EXCCODE_DBP:
-         env->CSR_DBG = FIELD_DP64(env->CSR_DBG, CSR_DBG, DCL, 1);
-         env->CSR_DBG = FIELD_DP64(env->CSR_DBG, CSR_DBG, ECODE, 0xC);
-+        goto set_DERA;
-+    set_DERA:
-         env->CSR_DERA = env->pc;
-         env->CSR_DBG = FIELD_DP64(env->CSR_DBG, CSR_DBG, DST, 1);
-         env->pc = env->CSR_EENTRY + 0x480;
-diff --git a/target/loongarch/gdbstub.c b/target/loongarch/gdbstub.c
-new file mode 100644
-index 0000000000..2fec9364de
---- /dev/null
-+++ b/target/loongarch/gdbstub.c
-@@ -0,0 +1,97 @@
++++ b/hw/pci-host/ls7a.c
+@@ -0,0 +1,178 @@
++/* SPDX-License-Identifier: GPL-2.0-or-later */
 +/*
-+ * LOONGARCH gdb server stub
++ * QEMU Loongson 7A1000 North Bridge Emulation
 + *
-+ * Copyright (c) 2021 Loongson Technology Corporation Limited
-+ *
-+ * SPDX-License-Identifier: LGPL-2.1+
++ * Copyright (C) 2021 Loongson Technology Corporation Limited
 + */
 +
 +#include "qemu/osdep.h"
-+#include "qemu-common.h"
-+#include "cpu.h"
-+#include "internals.h"
-+#include "exec/gdbstub.h"
-+#include "exec/helper-proto.h"
 +
-+int loongarch_cpu_gdb_read_register(CPUState *cs, GByteArray *mem_buf, int n)
-+{
-+    LoongArchCPU *cpu = LOONGARCH_CPU(cs);
-+    CPULoongArchState *env = &cpu->env;
++#include "hw/pci/pci.h"
++#include "hw/pci/pcie_host.h"
++#include "hw/qdev-properties.h"
++#include "qapi/error.h"
++#include "hw/irq.h"
++#include "hw/pci/pci_bridge.h"
++#include "hw/pci/pci_bus.h"
++#include "sysemu/reset.h"
++#include "hw/pci-host/ls7a.h"
++#include "migration/vmstate.h"
 +
-+    if (0 <= n && n < 32) {
-+        return gdb_get_regl(mem_buf, env->gpr[n]);
-+    } else if (n == 32) {
-+        return gdb_get_regl(mem_buf, env->pc);
++static const VMStateDescription vmstate_ls7a_pcie = {
++    .name = "LS7A_PCI_DEVICE",
++    .version_id = 1,
++    .minimum_version_id = 1,
++    .fields = (VMStateField[]) {
++        VMSTATE_PCI_DEVICE(parent_obj, LS7APCIState),
++        VMSTATE_END_OF_LIST()
 +    }
-+    return 0;
-+}
++};
 +
-+int loongarch_cpu_gdb_write_register(CPUState *cs, uint8_t *mem_buf, int n)
++static void pci_ls7a_config_write(void *opaque, hwaddr addr,
++                                  uint64_t val, unsigned size)
 +{
-+    LoongArchCPU *cpu = LOONGARCH_CPU(cs);
-+    CPULoongArchState *env = &cpu->env;
-+    target_ulong tmp = ldtul_p(mem_buf);
-+
-+    if (0 <= n && n < 32) {
-+        return env->gpr[n] = tmp, sizeof(target_ulong);
-+    } else if (n == 32) {
-+        return env->pc = tmp, sizeof(target_ulong);
-+    }
-+    return 0;
++    pci_data_write(opaque, addr, val, size);
 +}
 +
-+static int loongarch_gdb_get_fpu(CPULoongArchState *env,
-+                                 GByteArray *mem_buf, int n)
++static uint64_t pci_ls7a_config_read(void *opaque,
++                                     hwaddr addr, unsigned size)
 +{
-+    if (0 <= n && n < 32) {
-+        return gdb_get_reg64(mem_buf, env->fpr[n]);
-+    } else if (32 <= n && n < 40) {
-+        return gdb_get_reg8(mem_buf, env->cf[n - 32]);
-+    } else if (n == 40) {
-+        return gdb_get_reg32(mem_buf, env->fcsr0);
-+    }
-+    return 0;
++    uint64_t val;
++
++    val = pci_data_read(opaque, addr, size);
++
++    return val;
 +}
 +
-+static int loongarch_gdb_set_fpu(CPULoongArchState *env,
-+                                 uint8_t *mem_buf, int n)
++static const MemoryRegionOps pci_ls7a_config_ops = {
++    .read = pci_ls7a_config_read,
++    .write = pci_ls7a_config_write,
++    .valid = {
++        .min_access_size = 1,
++        .max_access_size = 4,
++    },
++    .impl = {
++        .min_access_size = 1,
++        .max_access_size = 4,
++    },
++    .endianness = DEVICE_LITTLE_ENDIAN,
++};
++
++static void ls7a_pciehost_realize(DeviceState *dev, Error **errp)
 +{
-+    if (0 <= n && n < 32) {
-+        return env->fpr[n] = ldq_p(mem_buf), 8;
-+    } else if (32 <= n && n < 40) {
-+        return env->cf[n - 32] = ldub_p(mem_buf), 1;
-+    } else if (n == 40) {
-+        return env->fcsr0 = ldl_p(mem_buf), 4;
-+    }
-+    return 0;
++    PCIHostState *pci = PCI_HOST_BRIDGE(dev);
++    LS7APCIEHost *s = LS7A_HOST_DEVICE(dev);
++    SysBusDevice *sbd = SYS_BUS_DEVICE(dev);
++    PCIExpressHost *pex = PCIE_HOST_BRIDGE(dev);
++
++    pcie_host_mmcfg_init(pex, LS_PCIECFG_SIZE);
++    sysbus_init_mmio(sbd, &pex->mmio);
++
++    /* Add ls7a pci-io/pci-mmio */
++    memory_region_init(&s->pci_io, OBJECT(s), "io", LS7A_PCI_IO_SIZE);
++    memory_region_init(&s->pci_mmio, OBJECT(s), "ls7a_mmio", UINT64_MAX);
++    sysbus_init_mmio(sbd, &s->pci_io);
++    sysbus_init_mmio(sbd, &s->pci_mmio);
++
++    pci->bus = pci_register_root_bus(dev, "pcie.0", NULL, NULL, s,
++                                     &s->pci_mmio, &s->pci_io,
++                                     PCI_DEVFN(1, 0), 128, TYPE_PCIE_BUS);
++
++    memory_region_init_io(&s->pci_conf, OBJECT(dev),
++                          &pci_ls7a_config_ops, pci->bus,
++                          "ls7a_pci_conf", HT1LO_PCICFG_SIZE);
++    sysbus_init_mmio(sbd, &s->pci_conf);
++
++    qdev_realize(DEVICE(&s->pci_dev), BUS(pci->bus), &error_fatal);
 +}
 +
-+void loongarch_cpu_register_gdb_regs_for_features(CPUState *cs)
++static void ls7a_reset(DeviceState *qdev)
 +{
-+    gdb_register_coprocessor(cs, loongarch_gdb_get_fpu, loongarch_gdb_set_fpu,
-+                             41, "loongarch-fpu64.xml", 0);
++    PCIDevice *d = PCI_DEVICE(qdev);
++
++    /* pci status */
++    d->config[0x6] = 0x01;
++    /* base class code */
++    d->config[0xb] = 0x06;
++    /* header type */
++    d->config[0xe] = 0x80;
++    /* capabilities pointer */
++    d->config[0x34] = 0x40;
++    /* link status and control register 0 */
++    d->config[0x44] = 0x20;
 +}
 +
-+int loongarch_read_qxfer(CPUState *cs, const char *annex, uint8_t *read_buf,
-+                         unsigned long offset, unsigned long len)
++static void ls7a_pcie_class_init(ObjectClass *klass, void *data)
 +{
-+    if (strncmp(annex, "cpucfg", sizeof("cpucfg") - 1) == 0) {
-+        if (offset % 4 != 0 || len % 4 != 0) {
-+            return 0;
-+        }
++    DeviceClass *dc = DEVICE_CLASS(klass);
++    PCIDeviceClass *k = PCI_DEVICE_CLASS(klass);
 +
-+        size_t i;
-+        for (i = offset; i < offset + len; i += 4)
-+            ((uint32_t *)read_buf)[(i - offset) / 4] =
-+                helper_cpucfg(&(LOONGARCH_CPU(cs)->env), i / 4);
-+        return 32 * 4;
-+    }
-+    return 0;
++    set_bit(DEVICE_CATEGORY_BRIDGE, dc->categories);
++    dc->desc = "LS7A1000 PCIE Host bridge";
++    dc->vmsd = &vmstate_ls7a_pcie;
++    k->vendor_id = PCI_VENDOR_ID_LOONGSON;
++    k->device_id = PCI_DEVICE_ID_LOONGSON_HOST;
++    k->revision = 0x0;
++    k->class_id = PCI_CLASS_BRIDGE_HOST;
++    dc->reset = ls7a_reset;
++    /*
++     * PCI-facing part of the host bridge, not usable without the
++     * host-facing part, which can't be device_add'ed, yet.
++     */
++    dc->user_creatable = false;
 +}
 +
-+int loongarch_write_qxfer(CPUState *cs, const char *annex,
-+                          const uint8_t *write_buf, unsigned long offset,
-+                          unsigned long len)
++static const TypeInfo ls7a_pcie_device_info = {
++    .name          = TYPE_LS7A_PCI_DEVICE,
++    .parent        = TYPE_PCI_DEVICE,
++    .instance_size = sizeof(LS7APCIState),
++    .class_init    = ls7a_pcie_class_init,
++    .interfaces = (InterfaceInfo[]) {
++        { INTERFACE_CONVENTIONAL_PCI_DEVICE },
++        { },
++    },
++};
++
++static void ls7a_pciehost_initfn(Object *obj)
 +{
-+    return 0;
++    LS7APCIEHost *s = LS7A_HOST_DEVICE(obj);
++    LS7APCIState *ls7a_pci = &s->pci_dev;
++
++    object_initialize_child(obj, "ls7a_pci", ls7a_pci, TYPE_LS7A_PCI_DEVICE);
++    qdev_prop_set_int32(DEVICE(ls7a_pci), "addr", PCI_DEVFN(0, 0));
++    qdev_prop_set_bit(DEVICE(ls7a_pci), "multifunction", false);
 +}
-diff --git a/target/loongarch/internals.h b/target/loongarch/internals.h
-index 92f0a9aa5b..e3fa3d951f 100644
---- a/target/loongarch/internals.h
-+++ b/target/loongarch/internals.h
-@@ -42,5 +42,15 @@ bool loongarch_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
++
++static const char *ls7a_pciehost_root_bus_path(PCIHostState *host_bridge,
++                                          PCIBus *rootbus)
++{
++    return "0000:00";
++}
++
++static void ls7a_pciehost_class_init(ObjectClass *klass, void *data)
++{
++    DeviceClass *dc = DEVICE_CLASS(klass);
++    PCIHostBridgeClass *hc = PCI_HOST_BRIDGE_CLASS(klass);
++
++    hc->root_bus_path = ls7a_pciehost_root_bus_path;
++    dc->realize = ls7a_pciehost_realize;
++    set_bit(DEVICE_CATEGORY_BRIDGE, dc->categories);
++    dc->fw_name = "pci";
++    dc->user_creatable = false;
++}
++
++static const TypeInfo ls7a_pciehost_info = {
++    .name          = TYPE_LS7A_HOST_DEVICE,
++    .parent        = TYPE_PCIE_HOST_BRIDGE,
++    .instance_size = sizeof(LS7APCIEHost),
++    .instance_init = ls7a_pciehost_initfn,
++    .class_init    = ls7a_pciehost_class_init,
++};
++
++static void ls7a_register_types(void)
++{
++    type_register_static(&ls7a_pciehost_info);
++    type_register_static(&ls7a_pcie_device_info);
++}
++
++type_init(ls7a_register_types)
+diff --git a/hw/pci-host/meson.build b/hw/pci-host/meson.build
+index 4c4f39c15c..c4955455fd 100644
+--- a/hw/pci-host/meson.build
++++ b/hw/pci-host/meson.build
+@@ -11,6 +11,7 @@ pci_ss.add(when: 'CONFIG_PCI_SABRE', if_true: files('sabre.c'))
+ pci_ss.add(when: 'CONFIG_XEN_IGD_PASSTHROUGH', if_true: files('xen_igd_pt.c'))
+ pci_ss.add(when: 'CONFIG_REMOTE_PCIHOST', if_true: files('remote.c'))
+ pci_ss.add(when: 'CONFIG_SH_PCI', if_true: files('sh_pci.c'))
++pci_ss.add(when: 'CONFIG_PCI_EXPRESS_7A', if_true: files('ls7a.c'))
  
- hwaddr loongarch_cpu_get_phys_page_debug(CPUState *cpu, vaddr addr);
+ # PPC devices
+ pci_ss.add(when: 'CONFIG_RAVEN_PCI', if_true: files('raven.c'))
+diff --git a/include/hw/pci-host/ls7a.h b/include/hw/pci-host/ls7a.h
+new file mode 100644
+index 0000000000..6adbfbe443
+--- /dev/null
++++ b/include/hw/pci-host/ls7a.h
+@@ -0,0 +1,52 @@
++/* SPDX-License-Identifier: GPL-2.0-or-later */
++/*
++ * QEMU LoongArch CPU
++ *
++ * Copyright (c) 2021 Loongson Technology Corporation Limited
++ */
++
++#ifndef HW_LS7A_H
++#define HW_LS7A_H
++
++#include "hw/pci/pci.h"
++#include "hw/pci/pcie_host.h"
++#include "hw/pci-host/pam.h"
++#include "qemu/units.h"
++#include "qemu/range.h"
++#include "qom/object.h"
++
++#define HT1LO_PCICFG_BASE        0x1a000000
++#define HT1LO_PCICFG_SIZE        0x02000000
++
++#define LS_PCIECFG_BASE          0x20000000
++#define LS_PCIECFG_SIZE          0x08000000
++
++#define LS7A_PCI_IO_BASE         0x18004000UL
++#define LS7A_PCI_IO_SIZE         0xC000
++
++struct LS7APCIState {
++    /*< private >*/
++    PCIDevice parent_obj;
++    /*< public >*/
++};
++
++typedef struct LS7APCIState LS7APCIState;
++typedef struct LS7APCIEHost {
++    /*< private >*/
++    PCIExpressHost parent_obj;
++    /*< public >*/
++
++    LS7APCIState pci_dev;
++
++    MemoryRegion pci_conf;
++    MemoryRegion pci_mmio;
++    MemoryRegion pci_io;
++} LS7APCIEHost;
++
++#define TYPE_LS7A_HOST_DEVICE "ls7a1000-pciehost"
++OBJECT_DECLARE_SIMPLE_TYPE(LS7APCIEHost, LS7A_HOST_DEVICE)
++
++#define TYPE_LS7A_PCI_DEVICE "ls7a1000_pci"
++OBJECT_DECLARE_SIMPLE_TYPE(LS7APCIState, LS7A_PCI_DEVICE)
++
++#endif /* HW_LS7A_H */
+diff --git a/include/hw/pci/pci_ids.h b/include/hw/pci/pci_ids.h
+index 11abe22d46..f3cdf7a912 100644
+--- a/include/hw/pci/pci_ids.h
++++ b/include/hw/pci/pci_ids.h
+@@ -283,4 +283,7 @@
+ 
+ #define PCI_VENDOR_ID_NVIDIA             0x10de
+ 
++#define PCI_VENDOR_ID_LOONGSON           0x0014
++#define PCI_DEVICE_ID_LOONGSON_HOST      0x7a00
++
  #endif
-+int loongarch_cpu_gdb_read_register(CPUState *cs, GByteArray *mem_buf, int n);
-+int loongarch_cpu_gdb_write_register(CPUState *cs, uint8_t *mem_buf, int n);
-+int loongarch_read_qxfer(CPUState *cs, const char *annex,
-+                         uint8_t *read_buf,
-+                         unsigned long offset, unsigned long len);
-+int loongarch_write_qxfer(CPUState *cs, const char *annex,
-+                          const uint8_t *write_buf,
-+                          unsigned long offset, unsigned long len);
-+
-+void loongarch_cpu_register_gdb_regs_for_features(CPUState *cs);
- 
- #endif
-diff --git a/target/loongarch/meson.build b/target/loongarch/meson.build
-index 072684ca6d..4fb0c96e52 100644
---- a/target/loongarch/meson.build
-+++ b/target/loongarch/meson.build
-@@ -11,6 +11,7 @@ loongarch_tcg_ss.add(files(
-   'fpu_helper.c',
-   'op_helper.c',
-   'translate.c',
-+  'gdbstub.c',
- ))
- loongarch_tcg_ss.add(zlib)
- 
 -- 
 2.27.0
 
