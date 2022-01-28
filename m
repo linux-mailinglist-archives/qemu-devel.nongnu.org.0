@@ -2,69 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39C284A02E2
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jan 2022 22:34:48 +0100 (CET)
-Received: from localhost ([::1]:52366 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A36F94A02FB
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jan 2022 22:37:54 +0100 (CET)
+Received: from localhost ([::1]:57338 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nDYtK-00088G-Sj
-	for lists+qemu-devel@lfdr.de; Fri, 28 Jan 2022 16:34:46 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:51300)
+	id 1nDYwL-00040X-G6
+	for lists+qemu-devel@lfdr.de; Fri, 28 Jan 2022 16:37:53 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:52090)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1nDYhd-0006re-4O
- for qemu-devel@nongnu.org; Fri, 28 Jan 2022 16:22:41 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:41445)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1nDYng-00005E-J0
+ for qemu-devel@nongnu.org; Fri, 28 Jan 2022 16:28:59 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:36959)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1nDYhZ-0000qt-Ta
- for qemu-devel@nongnu.org; Fri, 28 Jan 2022 16:22:39 -0500
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1nDYml-0001K0-Ol
+ for qemu-devel@nongnu.org; Fri, 28 Jan 2022 16:28:07 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1643404956;
+ s=mimecast20190719; t=1643405258;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=WltlMizdQIWgL17n2wtG9iBhWJJHX0rrCeBn/XJymPA=;
- b=KzEkTHeAOFZ203ccA5jf1jgSuuvpLgcEfZhtGZ9VcJOegyxxGXNA4pdpMhi8bphluEXzYl
- sykMOCSNv3+//yh4sZiJdq2WrYPVZczJd0PkM238FUx6ecbekHpuRrcEIX4Elflh3wMjxT
- lkWc4RqQV8oJYq8WfZCh2c2heyDj8ig=
+ bh=u2eA1jBWU29BDG3sCRO7j1EHyS7zja4EsZ/sq/VMB1Q=;
+ b=Fx2o568FWWsnpgZ6FB+uosdMnQZHMSaUP3jTUClBPZjLHBM7hXUYBC6nl6F1fFwNtFTWhT
+ FjwPOn2Uz2SATMqWdZEnKRvX6iZ4y+OtFKMPGiGI6HqmJiS3L3KYSgZwcZ3uF4E8OudkRW
+ uVjVqBGYGHIIVBQREC1BKJejAhBTXqg=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-494-rsRkiyNYM16C82x_41-U_A-1; Fri, 28 Jan 2022 16:22:33 -0500
-X-MC-Unique: rsRkiyNYM16C82x_41-U_A-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-653-EZRPa0Q8PLyFN-AntDOgwg-1; Fri, 28 Jan 2022 16:27:35 -0500
+X-MC-Unique: EZRPa0Q8PLyFN-AntDOgwg-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 48ACE100C661;
- Fri, 28 Jan 2022 21:22:32 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E236C1091DA0;
+ Fri, 28 Jan 2022 21:27:33 +0000 (UTC)
 Received: from redhat.com (unknown [10.22.32.61])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 69C7B1024879;
- Fri, 28 Jan 2022 21:22:28 +0000 (UTC)
-Date: Fri, 28 Jan 2022 15:22:26 -0600
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id C3D82610AF;
+ Fri, 28 Jan 2022 21:27:30 +0000 (UTC)
+Date: Fri, 28 Jan 2022 15:27:28 -0600
 From: Eric Blake <eblake@redhat.com>
-To: "Richard W.M. Jones" <rjones@redhat.com>
-Subject: Re: Block alignment of qcow2 compress driver
-Message-ID: <20220128212226.ijwkrxhptyxb7l64@redhat.com>
-References: <20220128110732.GA19514@redhat.com>
- <e07b998f-9a62-7587-0526-bf51eae54ed6@redhat.com>
- <20220128114815.GQ1127@redhat.com>
- <26486e0e-adb5-aa3b-e70d-82ab21a0d2be@redhat.com>
- <20220128121803.GS1127@redhat.com>
- <54f3a548-ebea-9ed5-6387-5dda2bf92c4e@redhat.com>
- <20220128133053.GT1127@redhat.com>
+To: Hanna Reitz <hreitz@redhat.com>
+Subject: Re: [RFC] block/nbd: Move s->ioc on AioContext change
+Message-ID: <20220128212728.vsiysj2vvpl5utdm@redhat.com>
+References: <20220128155130.13326-1-hreitz@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20220128133053.GT1127@redhat.com>
+In-Reply-To: <20220128155130.13326-1-hreitz@redhat.com>
 User-Agent: NeoMutt/20211029-256-77b59a
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eblake@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=eblake@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -10
 X-Spam_score: -1.1
@@ -86,54 +78,82 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, andrey.shinkevich@virtuozzo.com,
- Hanna Reitz <hreitz@redhat.com>, qemu-devel@nongnu.org, qemu-block@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-devel@nongnu.org,
+ qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Jan 28, 2022 at 01:30:53PM +0000, Richard W.M. Jones wrote:
-> > 
-> > In qcow2, only the whole cluster can be compressed, so writing
-> > compressed data means having to write the whole cluster.  qcow2
-> > could implement the padding by itself, but we decided to just leave
-> > the burden of only writing full clusters (with the COMPRESSED write
-> > flag) on the callers.
-> 
-> I feel like this may be a bug in what qemu-nbd advertises.  Currently
-> it is:
-> 
-> $ qemu-nbd -t --image-opts driver=compress,file.driver=qcow2,file.file.driver=file,file.file.filename=output.qcow2 &
-> [2] 2068900
-> $ nbdinfo nbd://localhost
+On Fri, Jan 28, 2022 at 04:51:30PM +0100, Hanna Reitz wrote:
+> s->ioc must always be attached to the NBD node's AioContext.  If that
+> context changes, s->ioc must be attached to the new context.
 
-> 		block_size_minimum: 65536    <---
-> 		block_size_preferred: 65536
-> 		block_size_maximum: 33554432
-> 
-> block_size_preferred is (rightly) set to 64K, as that's what the
-> compress + qcow2 combination prefers.
-> 
-> But block_size_minimum sounds as if it should be 512 or 1, if qemu-nbd
-> is able to reassemble smaller than preferred requests, even if they
-> are suboptimal.
+Eww.  Good catch; and looks like it is not the first time where we've
+run into issues (a quick grep for context through git history of nbd/
+finds commit e6cada923).
 
-When compression is involved, 64k is the minimum block size at the
-qcow2 layer, but the qemu NBD layer is relying on the generic block
-core code to do RMW on anything smaller than that.  If the RMW doesn't
-work, we may have a bug in the block layer.  Even if it does appear to
-work, I'm not sure whether the block layer is able to recompress a
-cluster - it may be that the act of RMW on a partially-written
-initially-compressed cluster causes that cluster to no longer be
-compressed, at which point, while your write succeeded, you are no
-longer getting any compression.
+> 
+> Buglink: https://bugzilla.redhat.com/show_bug.cgi?id=1990835
+> Signed-off-by: Hanna Reitz <hreitz@redhat.com>
+> ---
+> This is an RFC because I believe there are some other things in the NBD
+> block driver that need attention on an AioContext change, too.  Namely,
+> there are two timers (reconnect_delay_timer and open_timer) that are
 
-So, while it is a nice QoI feature of qemu-nbd that we can rely on the
-block layer RMW to accept client requests that were smaller than the
-advertised minimum block size, I still think the advertised size is
-correct, and that the client is in violation of the spec if it is
-requesting but then not honoring the advertised size.  And yes, while
-it is a pain to hack nbdcopy to pay more attention to block sizing, I
-think in the long run it will be worth it.
+As Vladimir is more familiar with the timers needed for reconnecting
+an NBD connection, I'm hoping he will chime in.  But yes, your worry
+about context changes sounds reasonable.
+
+> also attached to the node's AioContext, and I'm afraid they need to be
+> handled, too.  Probably pause them on detach, and resume them on attach,
+> but I'm not sure, which is why I'm posting this as an RFC to get some
+> comments from that from someone who knows this code better than me. :)
+> 
+> (Also, in a real v1, of course I'd want to add a regression test.)
+> ---
+>  block/nbd.c | 28 ++++++++++++++++++++++++++++
+>  1 file changed, 28 insertions(+)
+> 
+> diff --git a/block/nbd.c b/block/nbd.c
+> index 63dbfa807d..119a774c04 100644
+> --- a/block/nbd.c
+> +++ b/block/nbd.c
+> @@ -2036,6 +2036,25 @@ static void nbd_cancel_in_flight(BlockDriverState *bs)
+>      nbd_co_establish_connection_cancel(s->conn);
+>  }
+>  
+> +static void nbd_attach_aio_context(BlockDriverState *bs,
+> +                                   AioContext *new_context)
+> +{
+> +    BDRVNBDState *s = bs->opaque;
+> +
+> +    if (s->ioc) {
+> +        qio_channel_attach_aio_context(s->ioc, new_context);
+> +    }
+> +}
+> +
+> +static void nbd_detach_aio_context(BlockDriverState *bs)
+> +{
+> +    BDRVNBDState *s = bs->opaque;
+> +
+> +    if (s->ioc) {
+> +        qio_channel_detach_aio_context(s->ioc);
+> +    }
+> +}
+> +
+>  static BlockDriver bdrv_nbd = {
+>      .format_name                = "nbd",
+>      .protocol_name              = "nbd",
+> @@ -2059,6 +2078,9 @@ static BlockDriver bdrv_nbd = {
+>      .bdrv_dirname               = nbd_dirname,
+>      .strong_runtime_opts        = nbd_strong_runtime_opts,
+>      .bdrv_cancel_in_flight      = nbd_cancel_in_flight,
+> +
+> +    .bdrv_attach_aio_context    = nbd_attach_aio_context,
+> +    .bdrv_detach_aio_context    = nbd_detach_aio_context,
+
+Looks straightforward, but as you say, fleshing out what else may need
+similar treatment could make the "real" v1 more interesting.
 
 -- 
 Eric Blake, Principal Software Engineer
