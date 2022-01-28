@@ -2,39 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7526649F280
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jan 2022 05:29:11 +0100 (CET)
-Received: from localhost ([::1]:41326 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7CB2949F26C
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jan 2022 05:22:59 +0100 (CET)
+Received: from localhost ([::1]:59282 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nDIso-0001Ds-CB
-	for lists+qemu-devel@lfdr.de; Thu, 27 Jan 2022 23:29:10 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:40714)
+	id 1nDImo-0002WO-Js
+	for lists+qemu-devel@lfdr.de; Thu, 27 Jan 2022 23:22:58 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:40722)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <yangxiaojuan@loongson.cn>)
- id 1nDIIe-0007b9-6p
+ id 1nDIIe-0007bW-I1
  for qemu-devel@nongnu.org; Thu, 27 Jan 2022 22:51:49 -0500
-Received: from mail.loongson.cn ([114.242.206.163]:42624 helo=loongson.cn)
+Received: from mail.loongson.cn ([114.242.206.163]:42626 helo=loongson.cn)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <yangxiaojuan@loongson.cn>) id 1nDIIa-0003R0-9r
- for qemu-devel@nongnu.org; Thu, 27 Jan 2022 22:51:47 -0500
+ (envelope-from <yangxiaojuan@loongson.cn>) id 1nDIIa-0003R1-K9
+ for qemu-devel@nongnu.org; Thu, 27 Jan 2022 22:51:48 -0500
 Received: from localhost.localdomain (unknown [10.2.5.185])
- by mail.loongson.cn (Coremail) with SMTP id AQAAf9AxGuCMZvNhWCkFAA--.15604S31; 
- Fri, 28 Jan 2022 11:44:41 +0800 (CST)
+ by mail.loongson.cn (Coremail) with SMTP id AQAAf9AxGuCMZvNhWCkFAA--.15604S32; 
+ Fri, 28 Jan 2022 11:44:42 +0800 (CST)
 From: Xiaojuan Yang <yangxiaojuan@loongson.cn>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH v5 29/30] hw/loongarch: Add fdt support.
-Date: Thu, 27 Jan 2022 22:44:11 -0500
-Message-Id: <20220128034412.1262452-30-yangxiaojuan@loongson.cn>
+Subject: [RFC PATCH v5 30/30] tests/tcg/loongarch64: Add hello/memory test in
+ loongarch64 system
+Date: Thu, 27 Jan 2022 22:44:12 -0500
+Message-Id: <20220128034412.1262452-31-yangxiaojuan@loongson.cn>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20220128034412.1262452-1-yangxiaojuan@loongson.cn>
 References: <20220128034412.1262452-1-yangxiaojuan@loongson.cn>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf9AxGuCMZvNhWCkFAA--.15604S31
-X-Coremail-Antispam: 1UD129KBjvJXoW3Ar1kurW8WF1UKry3XFW5Jrb_yoW3uF4rpF
- W7AFWDWrW8Jrs7ursag345uwn3Jr18GFW7Xa17KrW0kayDWw18Zay8Ca93AF15J340qFyY
- vFZ5XrySg3WIgr7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+X-CM-TRANSID: AQAAf9AxGuCMZvNhWCkFAA--.15604S32
+X-Coremail-Antispam: 1UD129KBjvJXoW3Jw43Kw4fAF48KrWxJr43KFg_yoW7tw4Upw
+ 4akFy5Krs7JFZrGw1xKF1rGF13Jry8CF1UWFy3Xr40vFs7Ww1vqw1FgrW5JFy2qrZ5GrWS
+ v3Z5tw1YgF97Ga7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
  9KBjDU0xBIdaVrnUUvcSsGvfC2KfnxnUUI43ZEXa7xR_UUUUUUUUU==
 X-CM-SenderInfo: p1dqw5xldry3tdq6z05rqj20fqof0/
 Received-SPF: pass client-ip=114.242.206.163;
@@ -61,257 +62,254 @@ Cc: mark.cave-ayland@ilande.co.uk, richard.henderson@linaro.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add tree nodes for 3A5000 device tree.
-- cpu nodes;
-- fw_cfg nodes;
-- pcie nodes.
-
-The lastest loongarch bios have supported fdt.
-- https://github.com/loongson/edk2
-- https://github.com/loongson/edk2-platforms
+- We write a very minimal softmmu harness.
+- This is a very simple smoke test with no need to run a full Linux/kernel.
+- The Makefile.softmmu-target record the rule to run.
 
 Signed-off-by: Xiaojuan Yang <yangxiaojuan@loongson.cn>
 Signed-off-by: Song Gao <gaosong@loongson.cn>
 ---
- hw/loongarch/loongson3.c         | 137 +++++++++++++++++++++++++++++++
- include/hw/loongarch/loongarch.h |   5 ++
- target/loongarch/cpu.c           |   2 +
- target/loongarch/cpu.h           |   3 +
- 4 files changed, 147 insertions(+)
+ tests/tcg/loongarch64/Makefile.softmmu-target | 33 +++++++
+ tests/tcg/loongarch64/system/boot.S           | 58 +++++++++++++
+ tests/tcg/loongarch64/system/kernel.ld        | 30 +++++++
+ tests/tcg/loongarch64/system/regdef.h         | 86 +++++++++++++++++++
+ 4 files changed, 207 insertions(+)
+ create mode 100644 tests/tcg/loongarch64/Makefile.softmmu-target
+ create mode 100644 tests/tcg/loongarch64/system/boot.S
+ create mode 100644 tests/tcg/loongarch64/system/kernel.ld
+ create mode 100644 tests/tcg/loongarch64/system/regdef.h
 
-diff --git a/hw/loongarch/loongson3.c b/hw/loongarch/loongson3.c
-index a4dd2509c4..808964f68f 100644
---- a/hw/loongarch/loongson3.c
-+++ b/hw/loongarch/loongson3.c
-@@ -32,6 +32,9 @@
- #include "hw/firmware/smbios.h"
- #include "hw/acpi/aml-build.h"
- #include "qapi/qapi-visit-common.h"
-+#include "sysemu/device_tree.h"
+diff --git a/tests/tcg/loongarch64/Makefile.softmmu-target b/tests/tcg/loongarch64/Makefile.softmmu-target
+new file mode 100644
+index 0000000000..908f3a8c0f
+--- /dev/null
++++ b/tests/tcg/loongarch64/Makefile.softmmu-target
+@@ -0,0 +1,33 @@
++#
++# Loongarch64 system tests
++#
 +
-+#include <libfdt.h>
- 
- #include "target/loongarch/cpu.h"
- 
-@@ -377,6 +380,126 @@ static void loongarch_irq_init(LoongArchMachineState *lams)
-     loongarch_devices_init(pch_pic);
- }
- 
-+static void create_fdt(LoongArchMachineState *lams)
++LOONGARCH64_SYSTEM_SRC=$(SRC_PATH)/tests/tcg/loongarch64/system
++VPATH+=$(LOONGARCH64_SYSTEM_SRC)
++
++# These objects provide the basic boot code and helper functions for all tests
++CRT_OBJS=boot.o
++
++LOONGARCH64_TEST_SRCS=$(wildcard $(LOONGARCH64_SYSTEM_SRC)/*.c)
++LOONGARCH64_TESTS = $(patsubst $(LOONGARCH64_SYSTEM_SRC)/%.c, %, $(LOONGARCH64_TEST_SRCS))
++
++CRT_PATH=$(LOONGARCH64_SYSTEM_SRC)
++LINK_SCRIPT=$(LOONGARCH64_SYSTEM_SRC)/kernel.ld
++LDFLAGS=-Wl,-T$(LINK_SCRIPT)
++TESTS+=$(LOONGARCH64_TESTS) $(MULTIARCH_TESTS)
++CFLAGS+=-nostdlib -g -O1 -march=loongarch64 -mabi=lp64d $(MINILIB_INC)
++LDFLAGS+=-static -nostdlib $(CRT_OBJS) $(MINILIB_OBJS) -lgcc
++
++# building head blobs
++.PRECIOUS: $(CRT_OBJS)
++
++%.o: $(CRT_PATH)/%.S
++	$(CC) $(CFLAGS) $(EXTRA_CFLAGS) -x assembler-with-cpp -c $< -o $@
++
++# Build and link the tests
++%: %.c $(LINK_SCRIPT) $(CRT_OBJS) $(MINILIB_OBJS)
++	$(CC) $(CFLAGS) $(EXTRA_CFLAGS) $< -o $@ $(LDFLAGS)
++
++memory: CFLAGS+=-DCHECK_UNALIGNED=0
++# Running
++QEMU_OPTS+=-serial chardev:output -kernel
+diff --git a/tests/tcg/loongarch64/system/boot.S b/tests/tcg/loongarch64/system/boot.S
+new file mode 100644
+index 0000000000..6a0671a5bf
+--- /dev/null
++++ b/tests/tcg/loongarch64/system/boot.S
+@@ -0,0 +1,58 @@
++/* SPDX-License-Identifier: GPL-2.0-or-later */
++/*
++ * Minimal LoongArch system boot code.
++ *
++ * Copyright (c) 2021 Loongson Technology Corporation Limited
++ */
++
++#include "regdef.h"
++
++	.global _start
++	.align 16
++_start:
++	bl main
++
++	.type _start 2
++	.size _start, .-_start
++
++	.global _exit
++	.align 16
++_exit:
++2:      /* QEMU ACPI poweroff */
++	li.w  t0, 0x3c00
++	li.w  t1, 0x100d0014
++	st.w  t0, t1, 0
++	idle  0
++	bl    2b
++
++	.type _exit 2
++	.size _exit, .-_exit
++
++	.global __sys_outc
++__sys_outc:
++	li.d t1, 1000000
++loop:
++	lu12i.w	t2, 0x1fe00
++	ori	t0, t2, 0x1e5
++	lu52i.d	t0, t0, -2048
++	ld.bu	t0, t0, 0
++	andi	t0, t0, 0x20
++	ext.w.b	t0, t0
++	bnez	t0, in
++	addi.w	t1, t1, -1
++	bnez	t1, loop
++in:
++	ext.w.b	a0, a0
++	lu12i.w	t0, 0x1fe00
++	ori	t0, t0, 0x1e0
++	lu52i.d	t0, t0, -2048
++	st.b	a0, t0, 0
++	jirl	$r0, ra, 0
++
++	.data
++	.align 4
++stack:
++	.skip	65536
++$stack_end:
++	.type	stack,@object
++	.size	stack, . - stack
+diff --git a/tests/tcg/loongarch64/system/kernel.ld b/tests/tcg/loongarch64/system/kernel.ld
+new file mode 100644
+index 0000000000..f1a7c0168c
+--- /dev/null
++++ b/tests/tcg/loongarch64/system/kernel.ld
+@@ -0,0 +1,30 @@
++ENTRY(_start)
++
++SECTIONS
 +{
-+    MachineState *ms = MACHINE(lams);
-+
-+    ms->fdt = create_device_tree(&lams->fdt_size);
-+    if (!ms->fdt) {
-+        error_report("create_device_tree() failed");
-+        exit(1);
++    /* Linux kernel legacy start address.  */
++    . = 0x9000000000200000;
++    _text = .;
++    .text : {
++        *(.text)
 +    }
-+
-+    /* Header */
-+    qemu_fdt_setprop_string(ms->fdt, "/", "compatible",
-+                            "linux,dummy-loongson3");
-+    qemu_fdt_setprop_cell(ms->fdt, "/", "#address-cells", 0x2);
-+    qemu_fdt_setprop_cell(ms->fdt, "/", "#size-cells", 0x2);
-+}
-+
-+static void fdt_add_cpu_nodes(const LoongArchMachineState *lams)
-+{
-+    int num;
-+    const MachineState *ms = MACHINE(lams);
-+    int smp_cpus = ms->smp.cpus;
-+
-+    qemu_fdt_add_subnode(ms->fdt, "/cpus");
-+    qemu_fdt_setprop_cell(ms->fdt, "/cpus", "#address-cells", 0x1);
-+    qemu_fdt_setprop_cell(ms->fdt, "/cpus", "#size-cells", 0x0);
-+
-+    /* cpu nodes */
-+    for (num = smp_cpus - 1; num >= 0; num--) {
-+        char *nodename = g_strdup_printf("/cpus/cpu@%d", num);
-+        LoongArchCPU *cpu = LOONGARCH_CPU(qemu_get_cpu(num));
-+
-+        qemu_fdt_add_subnode(ms->fdt, nodename);
-+        qemu_fdt_setprop_string(ms->fdt, nodename, "device_type", "cpu");
-+        qemu_fdt_setprop_string(ms->fdt, nodename, "compatible",
-+                                cpu->dtb_compatible);
-+        qemu_fdt_setprop_cell(ms->fdt, nodename, "reg", num);
-+        qemu_fdt_setprop_cell(ms->fdt, nodename, "phandle",
-+                              qemu_fdt_alloc_phandle(ms->fdt));
-+        g_free(nodename);
++    .rodata : {
++        *(.rodata)
 +    }
++    _etext = .;
 +
-+    /*cpu map */
-+    qemu_fdt_add_subnode(ms->fdt, "/cpus/cpu-map");
-+
-+    for (num = smp_cpus - 1; num >= 0; num--) {
-+        char *cpu_path = g_strdup_printf("/cpus/cpu@%d", num);
-+        char *map_path;
-+
-+        if (ms->smp.threads > 1) {
-+            map_path = g_strdup_printf(
-+                "/cpus/cpu-map/socket%d/core%d/thread%d",
-+                num / (ms->smp.cores * ms->smp.threads),
-+                (num / ms->smp.threads) % ms->smp.cores,
-+                num % ms->smp.threads);
-+        } else {
-+            map_path = g_strdup_printf(
-+                "/cpus/cpu-map/socket%d/core%d",
-+                num / ms->smp.cores,
-+                num % ms->smp.cores);
-+        }
-+        qemu_fdt_add_path(ms->fdt, map_path);
-+        qemu_fdt_setprop_phandle(ms->fdt, map_path, "cpu", cpu_path);
-+
-+        g_free(map_path);
-+        g_free(cpu_path);
++    . = ALIGN(8192);
++    _data = .;
++    .got : {
++        *(.got)
 +    }
++    .data : {
++	*(.sdata)
++        *(.data)
++    }
++    _edata = .;
++    .bss : {
++        *(.bss)
++    }
++    _end = .;
 +}
+diff --git a/tests/tcg/loongarch64/system/regdef.h b/tests/tcg/loongarch64/system/regdef.h
+new file mode 100644
+index 0000000000..faa09b2377
+--- /dev/null
++++ b/tests/tcg/loongarch64/system/regdef.h
+@@ -0,0 +1,86 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++/*
++ * Copyright (c) 2021 Loongson Technology Corporation Limited
++ */
++#ifndef _ASM_REGDEF_H
++#define _ASM_REGDEF_H
 +
-+static void fdt_add_fw_cfg_node(const LoongArchMachineState *lams)
-+{
-+    char *nodename;
-+    hwaddr base = FW_CFG_ADDR;
-+    const MachineState *ms = MACHINE(lams);
++#define zero    $r0     /* wired zero */
++#define ra      $r1     /* return address */
++#define tp      $r2
++#define sp      $r3     /* stack pointer */
++#define v0      $r4     /* return value - caller saved */
++#define v1      $r5
++#define a0      $r4     /* argument registers */
++#define a1      $r5
++#define a2      $r6
++#define a3      $r7
++#define a4      $r8
++#define a5      $r9
++#define a6      $r10
++#define a7      $r11
++#define t0      $r12    /* caller saved */
++#define t1      $r13
++#define t2      $r14
++#define t3      $r15
++#define t4      $r16
++#define t5      $r17
++#define t6      $r18
++#define t7      $r19
++#define t8      $r20
++                        /* $r21: Temporarily reserved */
++#define fp      $r22    /* frame pointer */
++#define s0      $r23    /* callee saved */
++#define s1      $r24
++#define s2      $r25
++#define s3      $r26
++#define s4      $r27
++#define s5      $r28
++#define s6      $r29
++#define s7      $r30
++#define s8      $r31
 +
-+    nodename = g_strdup_printf("/fw_cfg@%" PRIx64, base);
-+    qemu_fdt_add_subnode(ms->fdt, nodename);
-+    qemu_fdt_setprop_string(ms->fdt, nodename,
-+                            "compatible", "qemu,fw-cfg-mmio");
-+    qemu_fdt_setprop_sized_cells(ms->fdt, nodename, "reg",
-+                                 2, base, 2, 0x8);
-+    qemu_fdt_setprop(ms->fdt, nodename, "dma-coherent", NULL, 0);
-+    g_free(nodename);
-+}
++#define gr0     $r0
++#define gr1     $r1
++#define gr2     $r2
++#define gr3     $r3
++#define gr4     $r4
++#define gr5     $r5
++#define gr6     $r6
++#define gr7     $r7
++#define gr8     $r8
++#define gr9     $r9
++#define gr10    $r10
++#define gr11    $r11
++#define gr12    $r12
++#define gr13    $r13
++#define gr14    $r14
++#define gr15    $r15
++#define gr16    $r16
++#define gr17    $r17
++#define gr18    $r18
++#define gr19    $r19
++#define gr20    $r20
++#define gr21    $r21
++#define gr22    $r22
++#define gr23    $r23
++#define gr24    $r24
++#define gr25    $r25
++#define gr26    $r26
++#define gr27    $r27
++#define gr28    $r28
++#define gr29    $r29
++#define gr30    $r30
++#define gr31    $r31
 +
-+static void fdt_add_pcie_node(const LoongArchMachineState *lams)
-+{
-+    char *nodename;
-+    hwaddr base_mmio = LS7A_PCI_MEM_BASE;
-+    hwaddr size_mmio = LS7A_PCI_MEM_SIZE;
-+    hwaddr base_pio = LS7A_PCI_IO_BASE;
-+    hwaddr size_pio = LS7A_PCI_IO_SIZE;
-+    hwaddr base_pcie = LS_PCIECFG_BASE;
-+    hwaddr size_pcie = LS_PCIECFG_SIZE;
-+    hwaddr base = base_pcie;
++#define STT_NOTYPE  0
++#define STT_OBJECT  1
++#define STT_FUNC    2
++#define STT_SECTION 3
++#define STT_FILE    4
++#define STT_COMMON  5
++#define STT_TLS     6
 +
-+    const MachineState *ms = MACHINE(lams);
++#define ASM_NL           ;
 +
-+    nodename = g_strdup_printf("/pcie@%" PRIx64, base);
-+    qemu_fdt_add_subnode(ms->fdt, nodename);
-+    qemu_fdt_setprop_string(ms->fdt, nodename,
-+                            "compatible", "pci-host-ecam-generic");
-+    qemu_fdt_setprop_string(ms->fdt, nodename, "device_type", "pci");
-+    qemu_fdt_setprop_cell(ms->fdt, nodename, "#address-cells", 3);
-+    qemu_fdt_setprop_cell(ms->fdt, nodename, "#size-cells", 2);
-+    qemu_fdt_setprop_cell(ms->fdt, nodename, "linux,pci-domain", 0);
-+    qemu_fdt_setprop_cells(ms->fdt, nodename, "bus-range", 0,
-+                           PCIE_MMCFG_BUS(LS_PCIECFG_SIZE - 1));
-+    qemu_fdt_setprop(ms->fdt, nodename, "dma-coherent", NULL, 0);
-+    qemu_fdt_setprop_sized_cells(ms->fdt, nodename, "reg",
-+                                 2, base_pcie, 2, size_pcie);
-+    qemu_fdt_setprop_sized_cells(ms->fdt, nodename, "ranges",
-+                                 1, FDT_PCI_RANGE_IOPORT, 2, LS7A_PCI_IO_OFFSET,
-+                                 2, base_pio, 2, size_pio,
-+                                 1, FDT_PCI_RANGE_MMIO, 2, base_mmio,
-+                                 2, base_mmio, 2, size_mmio);
-+    g_free(nodename);
-+    qemu_fdt_dumpdtb(ms->fdt, lams->fdt_size);
-+}
-+
- static void loongarch_init(MachineState *machine)
- {
-     const char *cpu_model = machine->cpu_type;
-@@ -403,6 +526,8 @@ static void loongarch_init(MachineState *machine)
-         exit(1);
-     }
- 
-+    create_fdt(lams);
-+
-     /* Init CPUs */
-     for (i = 0; i < machine->smp.cpus; i++) {
-         la_cpu = LOONGARCH_CPU(cpu_create(machine->cpu_type));
-@@ -424,6 +549,8 @@ static void loongarch_init(MachineState *machine)
- 
-     }
- 
-+    fdt_add_cpu_nodes(lams);
-+
-     if (ram_size < 1 * GiB) {
-         error_report("ram_size must be greater than 1G.");
-         exit(1);
-@@ -464,6 +591,8 @@ static void loongarch_init(MachineState *machine)
-         exit(1);
-     }
- 
-+    fdt_add_fw_cfg_node(lams);
-+
-     if (kernel_filename) {
-         loaderparams.ram_size = ram_size;
-         loaderparams.kernel_filename = kernel_filename;
-@@ -482,6 +611,14 @@ static void loongarch_init(MachineState *machine)
- 
-     /* Initialize the IO interrupt subsystem */
-     loongarch_irq_init(lams);
-+
-+    fdt_add_pcie_node(lams);
-+
-+    /* load fdt */
-+    MemoryRegion *fdt_rom = g_new(MemoryRegion, 1);
-+    memory_region_init_rom(fdt_rom, NULL, "fdt", LA_FDT_SIZE, &error_fatal);
-+    memory_region_add_subregion(get_system_memory(), LA_FDT_BASE, fdt_rom);
-+    rom_add_blob_fixed("fdt", machine->fdt, lams->fdt_size, LA_FDT_BASE);
- }
- 
- bool loongarch_is_acpi_enabled(LoongArchMachineState *lams)
-diff --git a/include/hw/loongarch/loongarch.h b/include/hw/loongarch/loongarch.h
-index 85278fc4b8..dd764bdd91 100644
---- a/include/hw/loongarch/loongarch.h
-+++ b/include/hw/loongarch/loongarch.h
-@@ -41,6 +41,9 @@
- #define LA_BIOS_BASE            0x1c000000
- #define LA_BIOS_SIZE            (4 * 1024 * 1024)
- 
-+#define LA_FDT_BASE             0x1c400000
-+#define LA_FDT_SIZE             0x100000
-+
- /* Kernels can be configured with 64KB pages */
- #define INITRD_PAGE_SIZE        (64 * KiB)
- #define INITRD_BASE             0x04000000
-@@ -61,6 +64,8 @@ typedef struct LoongArchMachineState {
-     OnOffAuto   acpi;
-     char        *oem_id;
-     char        *oem_table_id;
-+
-+    int fdt_size;
- } LoongArchMachineState;
- 
- #define TYPE_LOONGARCH_MACHINE  MACHINE_TYPE_NAME("loongson3-ls7a")
-diff --git a/target/loongarch/cpu.c b/target/loongarch/cpu.c
-index 6a31ca08e5..eff7a1246b 100644
---- a/target/loongarch/cpu.c
-+++ b/target/loongarch/cpu.c
-@@ -334,6 +334,8 @@ static void loongarch_3a5000_initfn(Object *obj)
-         env->cpucfg[i] = 0x0;
-     }
- 
-+    cpu->dtb_compatible = "loongarch,Loongson-3A5000";
-+
-     env->cpucfg[0] = 0x14c010;  /* PRID */
- 
-     uint32_t data = 0;
-diff --git a/target/loongarch/cpu.h b/target/loongarch/cpu.h
-index a62f9c805f..88c2d2d298 100644
---- a/target/loongarch/cpu.h
-+++ b/target/loongarch/cpu.h
-@@ -360,6 +360,9 @@ struct LoongArchCPU {
-     CPUNegativeOffsetState neg;
-     CPULoongArchState env;
-     QEMUTimer timer;
-+
-+    /* 'compatible' string for this CPU for Linux device trees */
-+    const char *dtb_compatible;
- };
- 
- #define TYPE_LOONGARCH_CPU "loongarch-cpu"
++#endif /* _ASM_REGDEF_H */
 -- 
 2.27.0
 
