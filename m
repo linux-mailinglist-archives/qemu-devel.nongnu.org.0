@@ -2,83 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DBA3D4A2D60
-	for <lists+qemu-devel@lfdr.de>; Sat, 29 Jan 2022 10:30:13 +0100 (CET)
-Received: from localhost ([::1]:42850 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 93FF24A2D77
+	for <lists+qemu-devel@lfdr.de>; Sat, 29 Jan 2022 10:48:57 +0100 (CET)
+Received: from localhost ([::1]:58580 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nDk3g-000772-Bs
-	for lists+qemu-devel@lfdr.de; Sat, 29 Jan 2022 04:30:12 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:43328)
+	id 1nDkLo-0003PR-4M
+	for lists+qemu-devel@lfdr.de; Sat, 29 Jan 2022 04:48:56 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:46236)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nDk21-0006M8-Vv
- for qemu-devel@nongnu.org; Sat, 29 Jan 2022 04:28:30 -0500
-Received: from [2607:f8b0:4864:20::531] (port=33613
- helo=mail-pg1-x531.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nDk20-0007mL-CD
- for qemu-devel@nongnu.org; Sat, 29 Jan 2022 04:28:29 -0500
-Received: by mail-pg1-x531.google.com with SMTP id 133so7474554pgb.0
- for <qemu-devel@nongnu.org>; Sat, 29 Jan 2022 01:28:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language
- :from:to:references:in-reply-to:content-transfer-encoding;
- bh=l3/PaqC0qwEbSZ5n99jsm/KG5Hsu4ODtwM5ZCEMZtow=;
- b=VB7Id5m3neysFKVCPe4TyN4BtdkV90fKL8TrTYQZ01BzuwdLfBQKlJzJZdzZViTK02
- UW7khtPUvSlqUg19l6I6+lijgK+o6eE2dswyBFXf67bb+cMFjYDnGKpG6a1mWQoyPz7/
- drzwdWYDD/QYWkMQdh81D/hmaOXT4P0BirVhJKPj7SNoG0mEfhnFYtUV92UJO7vPbPEP
- YTLpqGfwneaG324oLuNo9JDqNdJFwwWk0bW4GOgwyn0MpyX6fdYzXePDCoy/yOsibWLa
- ChZgy3Cls+rVpV/TdMB44jggwgl4kiy8LEJJUOEsO6SLpitlMdsWnM/8Hs65jx3IsuSh
- QtpQ==
+ (Exim 4.90_1) (envelope-from <leobras@redhat.com>)
+ id 1nDkKM-000210-2i
+ for qemu-devel@nongnu.org; Sat, 29 Jan 2022 04:47:26 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:48523)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <leobras@redhat.com>)
+ id 1nDkKJ-0002gm-AS
+ for qemu-devel@nongnu.org; Sat, 29 Jan 2022 04:47:24 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1643449639;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=pAVLEXh55UJePiBne0eX5BxTj3GWW71ZjBEKYPV38xw=;
+ b=NdsUuaWxbDKPEswzIFVorhnqX/RWXb7cX+aLK/gcEorpoCkl5a5tbRuJDv3WQp3epF8jOt
+ ipVyEiEaX7UDh+HNDc+r58JcEIGAgGYgR1mgfnm6ENgIXQbblaMTIeCRN0POeXw/ide9kE
+ do0Co8ktFR/JrU8Q/ZvP/y60lm0qmAw=
+Received: from mail-ua1-f71.google.com (mail-ua1-f71.google.com
+ [209.85.222.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-608-YovoIqwSOn-nWCP5FGbAFw-1; Sat, 29 Jan 2022 04:47:18 -0500
+X-MC-Unique: YovoIqwSOn-nWCP5FGbAFw-1
+Received: by mail-ua1-f71.google.com with SMTP id
+ i25-20020ab03759000000b00308e68dcb1fso4528669uat.22
+ for <qemu-devel@nongnu.org>; Sat, 29 Jan 2022 01:47:17 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:from:to:references:in-reply-to
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=l3/PaqC0qwEbSZ5n99jsm/KG5Hsu4ODtwM5ZCEMZtow=;
- b=wGx63LvreIbi4E4ZHryWYV51uthSHinwgZgvQ7MVCp8pXzNJ6213qgdcCRPRaNo7Vh
- M5+svQhLkSrNht/EhzK1jy07nAoC/EETBkDoRMbIMiVg2gQ+CgrGklQFbRSBvNOVia1t
- +DVuneqdWcWCFrD4xXoqR+pTkWbwYUm+4aTnmgX0rePgmUqjpEIZJJpASx1mzTVuPapt
- nQEA714uMeR6dOSUDUUbF+W/BVDjoPaJ0kAsSjLqG2Bi6E1M49k8FTnjhEJUrK+8fmz3
- LEn5lWlBh2xvN4oeYc/iEHrZFcWM6H2Xlnc6nRRUQoa98KwH9cWhlmSu5kjNgiwh0hbJ
- +aag==
-X-Gm-Message-State: AOAM533hDq2ms5gI+Fu4BR03yk4N049tDMCc3RGEjKzYNa/CXKOJqL+n
- vOU/GDcId6cWJCQ/mL36o9CrcKWJ25Ut/o56
-X-Google-Smtp-Source: ABdhPJw80F70+twbEtMQujc8VS5LaW1bndr4cpw0Yj2tQKyu4ZSQ6oC4MNoZ2yGjQ5qiUrxAZHvOSQ==
-X-Received: by 2002:a62:5fc3:: with SMTP id t186mr12030224pfb.0.1643448506463; 
- Sat, 29 Jan 2022 01:28:26 -0800 (PST)
-Received: from [192.168.15.44] (alanje.lnk.telstra.net. [120.151.179.201])
- by smtp.gmail.com with ESMTPSA id rj1sm5208365pjb.49.2022.01.29.01.28.24
- for <qemu-devel@nongnu.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 29 Jan 2022 01:28:25 -0800 (PST)
-Message-ID: <6c518961-07fc-94d3-1acb-fc4aa99e0d04@linaro.org>
-Date: Sat, 29 Jan 2022 20:28:21 +1100
+ bh=pAVLEXh55UJePiBne0eX5BxTj3GWW71ZjBEKYPV38xw=;
+ b=QvbleXylpYc+Xm3j7nu42u3yUmz3xUp4EvEeJ6yzy5k4ZxFqoAqrJiqbsw+6YNd0St
+ s4kLUZtT3/99jpGloGR/H+gyI4PGj0WzmVFkwFxSKtAADURjk6kSCHY3XQcdLiqCZIrd
+ Aws3L00nMLOsz++0HwbV5KsQ5a5a9fvLkogW22Eh4oQ94tCgQOkfcTnq7p7Qxr6Xwnet
+ FljoAxSiKP4TZUAIZJ9DRhvE79jOMLLQTeOVwiqCfB2YDGZWjVfut4g5YKYRtr7U6vlT
+ 6OqWoMghdEuC+mOkwXD4EkFygjMGcp3mfVqmv6PL8IIcRA265LQESLJeoYBkoWre7tn4
+ O5Ow==
+X-Gm-Message-State: AOAM532AoMHYP72G02lLxZlW5EAry/arDgO44NwOeOcR0bGY8xfnHtT4
+ 5WSlBbiaBhJL+CibuNivDlXeondhMQUkq7mxoL4P2iShfQe98kc1E/BeWwPOq5SZ1NL4KTcbcyJ
+ Mr2n9AQga0mKQQj8=
+X-Received: by 2002:a05:6122:2194:: with SMTP id
+ j20mr5266217vkd.21.1643449637488; 
+ Sat, 29 Jan 2022 01:47:17 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxgeD+0V7n1ejp5Nxiq4Egr9IHz/zjZOUq/D8WJPaAodLyyOjcSnYME9UIH1++bUGqy+TUOZA==
+X-Received: by 2002:a05:6122:2194:: with SMTP id
+ j20mr5266212vkd.21.1643449637267; 
+ Sat, 29 Jan 2022 01:47:17 -0800 (PST)
+Received: from LeoBras.redhat.com ([2804:431:c7f1:95e9:6da1:67bd:fdc3:e12e])
+ by smtp.gmail.com with ESMTPSA id n10sm1950649vso.34.2022.01.29.01.47.14
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 29 Jan 2022 01:47:16 -0800 (PST)
+From: Leonardo Bras <leobras@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>,
+ David Edmondson <david.edmondson@oracle.com>,
+ Leonardo Bras <leobras@redhat.com>, Peter Xu <peterx@redhat.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>
+Subject: [PATCH v1 1/1] target/i386: Mask xstate_bv based on the cpu enabled
+ features
+Date: Sat, 29 Jan 2022 06:46:45 -0300
+Message-Id: <20220129094644.385841-1-leobras@redhat.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH 00/20] tcg: vector improvements
-Content-Language: en-US
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-References: <20211218194250.247633-1-richard.henderson@linaro.org>
-In-Reply-To: <20211218194250.247633-1-richard.henderson@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::531
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::531;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x531.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=leobras@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=leobras@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.167,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -91,70 +99,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Ping?
+The following steps describe a migration bug:
+1 - Bring up a VM with -cpu EPYC on a host with EPYC-Milan cpu
+2 - Migrate to a host with EPYC-Naples cpu
 
-Patch 1 is now upstream, but only patches 2-4 have reviews.
-It applies cleanly to master...
+The guest kernel crashes shortly after the migration.
 
+The crash happens due to a fault caused by XRSTOR:
+A set bit in XSTATE_BV is not set in XCR0.
+The faulting bit is FEATURE_PKRU (enabled in Milan, but not in Naples)
 
-r~
+To avoid this kind of bug:
+In kvm_get_xsave, mask-out from xstate_bv any bits that are not set in
+current vcpu's features.
 
-On 12/19/21 06:42, Richard Henderson wrote:
-> Add some opcodes for compound logic operations that were so
-> far marked as TODO.  Implement those for PPC and S390X.
-> 
-> We do not want to implement 512-bit width operations, because
-> those trigger a cluster clock slowdown on the current set of
-> Intel cpus.  But there are new operations in avx512 that apply
-> to 128 and 256-bit vectors, which do not trigger the slowdown,
-> and those are very interesting.
-> 
-> 
-> r~
-> 
-> 
-> Richard Henderson (20):
->    tcg/optimize: Fix folding of vector ops
->    tcg: Add opcodes for vector nand, nor, eqv
->    tcg/ppc: Implement vector NAND, NOR, EQV
->    tcg/s390x: Implement vector NAND, NOR, EQV
->    tcg/i386: Detect AVX512
->    tcg/i386: Add tcg_out_evex_opc
->    tcg/i386: Use tcg_can_emit_vec_op in expand_vec_cmp_noinv
->    tcg/i386: Implement avx512 variable shifts
->    tcg/i386: Implement avx512 scalar shift
->    tcg/i386: Implement avx512 immediate sari shift
->    tcg/i386: Implement avx512 immediate rotate
->    tcg/i386: Implement avx512 variable rotate
->    tcg/i386: Support avx512vbmi2 vector shift-double instructions
->    tcg/i386: Expand vector word rotate as avx512vbmi2 shift-double
->    tcg/i386: Remove rotls_vec from tcg_target_op_def
->    tcg/i386: Expand scalar rotate with avx512 insns
->    tcg/i386: Implement avx512 min/max/abs
->    tcg/i386: Implement avx512 multiply
->    tcg/i386: Implement more logical operations for avx512
->    tcg/i386: Implement bitsel for avx512
-> 
->   include/qemu/cpuid.h          |  20 +-
->   include/tcg/tcg-opc.h         |   3 +
->   include/tcg/tcg.h             |   3 +
->   tcg/aarch64/tcg-target.h      |   3 +
->   tcg/arm/tcg-target.h          |   3 +
->   tcg/i386/tcg-target-con-set.h |   1 +
->   tcg/i386/tcg-target.h         |  17 +-
->   tcg/i386/tcg-target.opc.h     |   3 +
->   tcg/ppc/tcg-target.h          |   3 +
->   tcg/s390x/tcg-target.h        |   3 +
->   tcg/optimize.c                |  61 ++++--
->   tcg/tcg-op-vec.c              |  27 ++-
->   tcg/tcg.c                     |   6 +
->   tcg/i386/tcg-target.c.inc     | 386 ++++++++++++++++++++++++++++------
->   tcg/ppc/tcg-target.c.inc      |  15 ++
->   tcg/s390x/tcg-target.c.inc    |  17 ++
->   16 files changed, 472 insertions(+), 99 deletions(-)
-> 
+This keeps cpu->env->xstate_bv with feature bits compatible with any
+host machine capable of running the vcpu model.
+
+Signed-off-by: Leonardo Bras <leobras@redhat.com>
+---
+ target/i386/xsave_helper.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/target/i386/xsave_helper.c b/target/i386/xsave_helper.c
+index ac61a96344..0628226234 100644
+--- a/target/i386/xsave_helper.c
++++ b/target/i386/xsave_helper.c
+@@ -167,7 +167,7 @@ void x86_cpu_xrstor_all_areas(X86CPU *cpu, const void *buf, uint32_t buflen)
+         env->xmm_regs[i].ZMM_Q(1) = ldq_p(xmm + 8);
+     }
+ 
+-    env->xstate_bv = header->xstate_bv;
++    env->xstate_bv = header->xstate_bv & env->features[FEAT_XSAVE_COMP_LO];
+ 
+     e = &x86_ext_save_areas[XSTATE_YMM_BIT];
+     if (e->size && e->offset) {
+-- 
+2.34.1
 
 
