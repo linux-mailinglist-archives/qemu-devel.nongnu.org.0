@@ -2,62 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1CF6B4A2FFF
-	for <lists+qemu-devel@lfdr.de>; Sat, 29 Jan 2022 15:12:30 +0100 (CET)
-Received: from localhost ([::1]:50518 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 72C124A3066
+	for <lists+qemu-devel@lfdr.de>; Sat, 29 Jan 2022 16:57:42 +0100 (CET)
+Received: from localhost ([::1]:40808 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nDoSq-0002Tc-QI
-	for lists+qemu-devel@lfdr.de; Sat, 29 Jan 2022 09:12:28 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:49330)
+	id 1nDq6f-00060m-1u
+	for lists+qemu-devel@lfdr.de; Sat, 29 Jan 2022 10:57:41 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:39324)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nDnt8-000777-Hj
- for qemu-devel@nongnu.org; Sat, 29 Jan 2022 08:35:34 -0500
-Received: from [2a00:1450:4864:20::431] (port=34354
- helo=mail-wr1-x431.google.com)
+ id 1nDq4o-0004tt-Jq
+ for qemu-devel@nongnu.org; Sat, 29 Jan 2022 10:55:46 -0500
+Received: from [2a00:1450:4864:20::32f] (port=34445
+ helo=mail-wm1-x32f.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nDnsw-0003df-9W
- for qemu-devel@nongnu.org; Sat, 29 Jan 2022 08:35:23 -0500
-Received: by mail-wr1-x431.google.com with SMTP id f17so16310700wrx.1
- for <qemu-devel@nongnu.org>; Sat, 29 Jan 2022 05:35:04 -0800 (PST)
+ id 1nDq4m-0005dn-LM
+ for qemu-devel@nongnu.org; Sat, 29 Jan 2022 10:55:46 -0500
+Received: by mail-wm1-x32f.google.com with SMTP id
+ bg19-20020a05600c3c9300b0034565e837b6so5865541wmb.1
+ for <qemu-devel@nongnu.org>; Sat, 29 Jan 2022 07:55:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:from:date:message-id:subject:to:cc;
- bh=0HcbvTEtMJ5owsValDuXQQK+KcpcGpc0pOeSzl9YUC4=;
- b=wXBLfodTUHzG5LufDJnuEb1wRMRYGB+nA42rxRm1iILTSy9+mEt3qZO7vy5Ww2fUIc
- vfkpMWoN62k0EMUpVyOXsQek7RWK9WBVTqZm0pcAOE+gN4H2HlKIRRMMmbxMtQn/ogCT
- CBnbNSYpxNAoFU9nZflcDGf4i4ogkOJysk1ryrT3c4MMR5LMzqqtJCovW8YcLHqpzQc3
- lzbhaN9lFUSrCb77tGe3ojWWGbzk0gNjdKIeCFrox7nQNFLlK4CLvY18W9hMRAaPzswI
- IZUMhUZa3H4DWBJsB2O2hYlpc4YLqZIIIYG2TAC/feyp20unwJ19lDMMOFKPxArhvWX1
- xH1g==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to;
+ bh=Kkdglc0MZhg7hVk4bfsjoiJ4mHFBApiUuCg5nx6qccA=;
+ b=Jflv8U/7pg2cSI/qZFke3ppbvDs+W849Y8zAw/8oH/GrZHcgho2YQjRBKu+99yAqV7
+ 5UGsSUms+eUJYhKLEMJFjm8gbzDiJd/HZE1ZyrjMetCeYl7skBKGDoJW9h/Z9s5+JGzs
+ reaJ6tWFz+7OYRSPzIl1/DyVbJySR5CFxzb9Zo3KMpMmrJpepxjfvkjDiA2W6HmsVEyi
+ RhW5jmT7CwEjTokytV2jFl6LhOM/HG2/2ev7zNTSx5sHRmlOIudcXLB8TqoQBussl7V1
+ 7eImS8v0ij1t9+Bur0MC5XtbtmpJSHq+C8c8yy7KNqY+m7yUeCwKJrKR2I5AKujmnFsD
+ GITQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
- bh=0HcbvTEtMJ5owsValDuXQQK+KcpcGpc0pOeSzl9YUC4=;
- b=pyAst+yZi6RFWMtq++AqrIQqSYP/VUQXaRuF5NgfvyeJCn7/cmGjN/08bebkSpQJZo
- ITk+G3M9ehvoWPyIU+dB+Nk0vfOoabxtC3GMT9ZcjXIzpcyHIh4yxXRyKXa1G3vAFR6F
- 6cHxXhBVjOw3Y9G1MihoGOhGOVR2YI6Kq146C/Z/VgjIOEDduE4X7ZRh5jxf06sHovp2
- r8Bn389EHi4zsvswuHKQEX0VT3W3C/dHJV2MPPUh4DfWGwIcRGh32a/h/0p7yynL8alH
- 0EmzDhHLCDGa7jV+O629vgKni+5WilBMuTOCXETv0WjaNU5WKE/S4Va+7xXYt61KQGsX
- a1RA==
-X-Gm-Message-State: AOAM530aCVS8MXmfx3RBgkVlfGehOHZsL56kvvjUc6rZjaCtr5iYh0aH
- WideNzmy8KtUN4V7cq0ga4edholbQM/HbGQDYYBL33f10Asd7g==
-X-Google-Smtp-Source: ABdhPJwVp5N9ZSvJdWIshl2KBLk0cfOCVhJDPvHATJ1oux2RFsf3omA62oBqkm3/fcMjIZFJc70vGzN40ZhYH9dj99c=
-X-Received: by 2002:a05:6000:258:: with SMTP id
- m24mr10983956wrz.2.1643463302636; 
- Sat, 29 Jan 2022 05:35:02 -0800 (PST)
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to;
+ bh=Kkdglc0MZhg7hVk4bfsjoiJ4mHFBApiUuCg5nx6qccA=;
+ b=3dJzmmh1R5I8njaFSmfT/Lxf/SNynePIWlRnC0s3NudKG1X4Zx3kUdkhfkbtkps+Kh
+ TeKB25PQK/DGya+0wDLiCFC7GladBUgxNq9+M2ZbTHh7ni6o53acPD1W9AkrA3CzCeZc
+ tAw0Z7nKQUJuu/nqQP3CItznVTrPRA9LayBSXSac6Stt/rZVqNnPOAg0y+xRh5p7i8MP
+ mODXyN8Tv5aTMHN05OpLpGBK7cz0Xp9T0g7GtkTwIkGX9bfSGHECkv4Q1ZWsN8Y55iH3
+ RXW21XQnYIYkUcK+xWshu+zl1tJQEvNzJHx70xmy3T6LF/mVj4qbd5TBPQCabCuyTB0S
+ sOhA==
+X-Gm-Message-State: AOAM532kVoniy0u80/jJ1rSdUlFxdF0/aTTW46hTKwEIN6kelgi3mMJb
+ ohpvU5Lwu4/X9iybh6MUE2L1Yx5ys2nVZxSpzXsTK5yqRJ0=
+X-Google-Smtp-Source: ABdhPJzUG+YA8H0yl+EPXaAINlFqVMc5Suu0kX5bxbP8V5xMJfCkXZxIO3EX8P87NBeswMhe1CHrXJYFLvQ1IdoGBag=
+X-Received: by 2002:a05:600c:1443:: with SMTP id
+ h3mr20403341wmi.37.1643471743034; 
+ Sat, 29 Jan 2022 07:55:43 -0800 (PST)
 MIME-Version: 1.0
+References: <20220128153009.2467560-1-peter.maydell@linaro.org>
+In-Reply-To: <20220128153009.2467560-1-peter.maydell@linaro.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Sat, 29 Jan 2022 13:34:51 +0000
-Message-ID: <CAFEAcA8V0jAjv1HS8QRa9AQHCxg=BVVH_jYVMYUVSP-Szstq-Q@mail.gmail.com>
-Subject: build-oss-fuzz CI job often times out
-To: QEMU Developers <qemu-devel@nongnu.org>
+Date: Sat, 29 Jan 2022 15:55:32 +0000
+Message-ID: <CAFEAcA8brexcTJQVkvTeiokNNxjfjCp9OrE4uD2NzWe1Cs=CrA@mail.gmail.com>
+Subject: Re: [PULL 00/32] target-arm queue
+To: qemu-devel@nongnu.org
 Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::431
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32f
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::431;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x431.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32f.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -78,27 +82,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Beraldo Leal <bleal@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi; the build-oss-fuzz gitlab CI job seems to intermittently
-but quite commonly hit the 1 hour timeout mark and get killed.
-Examples from the last couple of days:
+On Fri, 28 Jan 2022 at 15:30, Peter Maydell <peter.maydell@linaro.org> wrote:
+>
+> The following changes since commit b367db48126d4ee14579af6cf5cdbffeb9496627:
+>
+>   Merge remote-tracking branch 'remotes/aperard/tags/pull-xen-20220127' into staging (2022-01-28 11:05:29 +0000)
+>
+> are available in the Git repository at:
+>
+>   https://git.linaro.org/people/pmaydell/qemu-arm.git tags/pull-target-arm-20220128
+>
+> for you to fetch changes up to 2c023d3675a3ffb54fc30504dcd715bc6f6e234f:
+>
+>   target/arm: Use correct entrypoint for SVC taken from Hyp to Hyp (2022-01-28 14:30:36 +0000)
+>
+> ----------------------------------------------------------------
+> target-arm queue:
+>  * Update copyright dates to 2022
+>  * hw/armv7m: Fix broken VMStateDescription
+>  * hw/char/exynos4210_uart: Fix crash on trying to load VM state
+>  * rtc: Move RTC function prototypes to their own header
+>  * xlnx-versal-virt: Support PMC SLCR
+>  * xlnx-versal-virt: Support OSPI flash memory controller
+>  * scripts: Explain the difference between linux-headers and standard-headers
+>  * target/arm: Log CPU index in 'Taking exception' log
+>  * arm_gicv3_its: Various bugfixes and cleanups
+>  * arm_gicv3_its: Implement the missing MOVI and MOVALL commands
+>  * ast2600: Fix address mapping of second SPI controller
+>  * target/arm: Use correct entrypoint for SVC taken from Hyp to Hyp
 
-https://gitlab.com/qemu-project/qemu/-/jobs/2030815488
-https://gitlab.com/qemu-project/qemu/-/jobs/2029246068
-https://gitlab.com/qemu-project/qemu/-/jobs/2029013479
-https://gitlab.com/qemu-project/qemu/-/jobs/2024871970
-https://gitlab.com/qemu-project/qemu/-/jobs/2022584981
 
-Can we do anything to cut down on the runtime of this job
-and make it reliably complete inside the time limit?
+Applied, thanks.
 
-thanks
+Please update the changelog at https://wiki.qemu.org/ChangeLog/7.0
+for any user-visible changes.
+
 -- PMM
 
