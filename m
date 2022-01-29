@@ -2,74 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93FF24A2D77
-	for <lists+qemu-devel@lfdr.de>; Sat, 29 Jan 2022 10:48:57 +0100 (CET)
-Received: from localhost ([::1]:58580 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A7E2B4A2D9E
+	for <lists+qemu-devel@lfdr.de>; Sat, 29 Jan 2022 11:26:00 +0100 (CET)
+Received: from localhost ([::1]:44016 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nDkLo-0003PR-4M
-	for lists+qemu-devel@lfdr.de; Sat, 29 Jan 2022 04:48:56 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:46236)
+	id 1nDkvf-0007bL-AM
+	for lists+qemu-devel@lfdr.de; Sat, 29 Jan 2022 05:25:59 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:50240)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <leobras@redhat.com>)
- id 1nDkKM-000210-2i
- for qemu-devel@nongnu.org; Sat, 29 Jan 2022 04:47:26 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:48523)
+ id 1nDkuJ-0006Q9-3a
+ for qemu-devel@nongnu.org; Sat, 29 Jan 2022 05:24:35 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:39380)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <leobras@redhat.com>)
- id 1nDkKJ-0002gm-AS
- for qemu-devel@nongnu.org; Sat, 29 Jan 2022 04:47:24 -0500
+ id 1nDkuG-0007bm-BF
+ for qemu-devel@nongnu.org; Sat, 29 Jan 2022 05:24:33 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1643449639;
+ s=mimecast20190719; t=1643451871;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding;
- bh=pAVLEXh55UJePiBne0eX5BxTj3GWW71ZjBEKYPV38xw=;
- b=NdsUuaWxbDKPEswzIFVorhnqX/RWXb7cX+aLK/gcEorpoCkl5a5tbRuJDv3WQp3epF8jOt
- ipVyEiEaX7UDh+HNDc+r58JcEIGAgGYgR1mgfnm6ENgIXQbblaMTIeCRN0POeXw/ide9kE
- do0Co8ktFR/JrU8Q/ZvP/y60lm0qmAw=
-Received: from mail-ua1-f71.google.com (mail-ua1-f71.google.com
- [209.85.222.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=W0biUixU6ufiYQTueeS7pBPYD6cD6Z+SqSJWF9fP/uc=;
+ b=DepBRn3xow0tf+kez63+UC+tWe1mperbq4sv6vIHGced2i2cNpYFrjkAGlgcyc+97GdG5a
+ ztIrerq5nuZdcFlD4h+398/Dw/DFv9eqXgm6M3Yd2xSMgeZ4A+74Rz7r4FJCWnNjmNV3yV
+ PDMWld0nXJJ2z69uTdNlx8SKwVIzUVw=
+Received: from mail-ua1-f69.google.com (mail-ua1-f69.google.com
+ [209.85.222.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-608-YovoIqwSOn-nWCP5FGbAFw-1; Sat, 29 Jan 2022 04:47:18 -0500
-X-MC-Unique: YovoIqwSOn-nWCP5FGbAFw-1
-Received: by mail-ua1-f71.google.com with SMTP id
- i25-20020ab03759000000b00308e68dcb1fso4528669uat.22
- for <qemu-devel@nongnu.org>; Sat, 29 Jan 2022 01:47:17 -0800 (PST)
+ us-mta-153-fuJxmazVOpe69yriIbdYZA-1; Sat, 29 Jan 2022 05:24:28 -0500
+X-MC-Unique: fuJxmazVOpe69yriIbdYZA-1
+Received: by mail-ua1-f69.google.com with SMTP id
+ e22-20020ab031d6000000b0030525c25702so4602011uan.6
+ for <qemu-devel@nongnu.org>; Sat, 29 Jan 2022 02:24:28 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=pAVLEXh55UJePiBne0eX5BxTj3GWW71ZjBEKYPV38xw=;
- b=QvbleXylpYc+Xm3j7nu42u3yUmz3xUp4EvEeJ6yzy5k4ZxFqoAqrJiqbsw+6YNd0St
- s4kLUZtT3/99jpGloGR/H+gyI4PGj0WzmVFkwFxSKtAADURjk6kSCHY3XQcdLiqCZIrd
- Aws3L00nMLOsz++0HwbV5KsQ5a5a9fvLkogW22Eh4oQ94tCgQOkfcTnq7p7Qxr6Xwnet
- FljoAxSiKP4TZUAIZJ9DRhvE79jOMLLQTeOVwiqCfB2YDGZWjVfut4g5YKYRtr7U6vlT
- 6OqWoMghdEuC+mOkwXD4EkFygjMGcp3mfVqmv6PL8IIcRA265LQESLJeoYBkoWre7tn4
- O5Ow==
-X-Gm-Message-State: AOAM532AoMHYP72G02lLxZlW5EAry/arDgO44NwOeOcR0bGY8xfnHtT4
- 5WSlBbiaBhJL+CibuNivDlXeondhMQUkq7mxoL4P2iShfQe98kc1E/BeWwPOq5SZ1NL4KTcbcyJ
- Mr2n9AQga0mKQQj8=
-X-Received: by 2002:a05:6122:2194:: with SMTP id
- j20mr5266217vkd.21.1643449637488; 
- Sat, 29 Jan 2022 01:47:17 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxgeD+0V7n1ejp5Nxiq4Egr9IHz/zjZOUq/D8WJPaAodLyyOjcSnYME9UIH1++bUGqy+TUOZA==
-X-Received: by 2002:a05:6122:2194:: with SMTP id
- j20mr5266212vkd.21.1643449637267; 
- Sat, 29 Jan 2022 01:47:17 -0800 (PST)
+ bh=W0biUixU6ufiYQTueeS7pBPYD6cD6Z+SqSJWF9fP/uc=;
+ b=DU+qzpJSPVXE7M6NgoF0uD8mXy596CgaBfIyU0lke046OLetidCtCHoWz6z7jiuvGr
+ UiFaqCJkfBVttssab8Z+P+6NjdbudAr/SRGI26ZiXZJEE8q6UBLDwll2BHIXjl3ctxQs
+ wQPo/1C5t/p8KMSE/XMLTYmhOT5GjrbrndFD9TWbd6ppRaGDOyi71lytAJR8z7GYs+IV
+ fv7d9yVgmBhVLQ39tsdWidFz87G3jZKViNdIYnriwzHVt0pyVU9Rp6lPFOrXHABNEWlQ
+ 1NXkSLRoKRakmvixKj3hL2T22nm9RfWjv/qCgi7pbkobS6XA1pMfghUEdEPu1BJiA0Y8
+ MceQ==
+X-Gm-Message-State: AOAM532dCi86k/LwElVcg8LkaxTc6QcUoZ0lbuDDzwIB6LyFkvLQ0Fpu
+ a35O8Chl2rieOslU8lsQeW2EyEia90XnHFLSZ2/hs5EWSacE7EERTXl9MjYm6DtkN7t2K7icZ4M
+ tbaX3KKx56yWiZJ0=
+X-Received: by 2002:ab0:49a9:: with SMTP id e38mr5423455uad.8.1643451867637;
+ Sat, 29 Jan 2022 02:24:27 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzG3c8QDkyguAYHtyIAlCEtu0cPTxxyd2+9lZIz2viekHkNyUDR9kGlTdZiYti7AaJ7bUIHuw==
+X-Received: by 2002:ab0:49a9:: with SMTP id e38mr5423442uad.8.1643451867420;
+ Sat, 29 Jan 2022 02:24:27 -0800 (PST)
 Received: from LeoBras.redhat.com ([2804:431:c7f1:95e9:6da1:67bd:fdc3:e12e])
- by smtp.gmail.com with ESMTPSA id n10sm1950649vso.34.2022.01.29.01.47.14
+ by smtp.gmail.com with ESMTPSA id v201sm2363565vkv.54.2022.01.29.02.24.24
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 29 Jan 2022 01:47:16 -0800 (PST)
+ Sat, 29 Jan 2022 02:24:26 -0800 (PST)
 From: Leonardo Bras <leobras@redhat.com>
 To: Paolo Bonzini <pbonzini@redhat.com>,
- David Edmondson <david.edmondson@oracle.com>,
- Leonardo Bras <leobras@redhat.com>, Peter Xu <peterx@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Yang Zhong <yang.zhong@intel.com>, Peter Xu <peterx@redhat.com>,
  "Dr . David Alan Gilbert" <dgilbert@redhat.com>
-Subject: [PATCH v1 1/1] target/i386: Mask xstate_bv based on the cpu enabled
- features
-Date: Sat, 29 Jan 2022 06:46:45 -0300
-Message-Id: <20220129094644.385841-1-leobras@redhat.com>
+Subject: [RFC PATCH 1/1] i386: Remove features from Epyc-Milan cpu
+Date: Sat, 29 Jan 2022 07:23:37 -0300
+Message-Id: <20220129102336.387460-1-leobras@redhat.com>
 X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Authentication-Results: relay.mimecast.com;
@@ -78,7 +77,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=leobras@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=leobras@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
@@ -99,45 +98,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: Leonardo Bras <leobras@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following steps describe a migration bug:
-1 - Bring up a VM with -cpu EPYC on a host with EPYC-Milan cpu
-2 - Migrate to a host with EPYC-Naples cpu
+While trying to bring a VM with EPYC-Milan cpu on a host with
+EPYC-Milan cpu (EPYC 7313), the following warning can be seen:
 
-The guest kernel crashes shortly after the migration.
+qemu-system-x86_64: warning: host doesn't support requested feature: CPUID.07H:EBX.erms [bit 9]
+qemu-system-x86_64: warning: host doesn't support requested feature: CPUID.07H:EDX.fsrm [bit 4]
 
-The crash happens due to a fault caused by XRSTOR:
-A set bit in XSTATE_BV is not set in XCR0.
-The faulting bit is FEATURE_PKRU (enabled in Milan, but not in Naples)
+Even with this warning, the host goes up.
 
-To avoid this kind of bug:
-In kvm_get_xsave, mask-out from xstate_bv any bits that are not set in
-current vcpu's features.
+Then, grep'ing cpuid output on both guest and host, outputs:
 
-This keeps cpu->env->xstate_bv with feature bits compatible with any
-host machine capable of running the vcpu model.
+extended feature flags (7):
+      enhanced REP MOVSB/STOSB                 = false
+      fast short REP MOV                       = false
+      (simple synth)  = AMD EPYC (3rd Gen) (Milan B1) [Zen 3], 7nm
+   brand = "AMD EPYC 7313 16-Core Processor               "
+
+This means that for the same -cpu model (EPYC-Milan), the vcpu may or may
+not have the above feature bits set, which is usually not a good idea for
+live migration:
+Migrating from a host with these features to a host without them can
+be troublesome for the guest.
+
+Remove the "optional" features (erms, fsrm) from Epyc-Milan, in order to
+avoid possible after-migration guest issues.
 
 Signed-off-by: Leonardo Bras <leobras@redhat.com>
 ---
- target/i386/xsave_helper.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/target/i386/xsave_helper.c b/target/i386/xsave_helper.c
-index ac61a96344..0628226234 100644
---- a/target/i386/xsave_helper.c
-+++ b/target/i386/xsave_helper.c
-@@ -167,7 +167,7 @@ void x86_cpu_xrstor_all_areas(X86CPU *cpu, const void *buf, uint32_t buflen)
-         env->xmm_regs[i].ZMM_Q(1) = ldq_p(xmm + 8);
-     }
- 
--    env->xstate_bv = header->xstate_bv;
-+    env->xstate_bv = header->xstate_bv & env->features[FEAT_XSAVE_COMP_LO];
- 
-     e = &x86_ext_save_areas[XSTATE_YMM_BIT];
-     if (e->size && e->offset) {
+Does this make sense? Or maybe I am missing something here.
+
+Having a kvm guest running with a feature bit, while the host
+does not support it seems to cause a possible break the guest.
+
+
+ target/i386/cpu.c | 5 +----
+ 1 file changed, 1 insertion(+), 4 deletions(-)
+
+diff --git a/target/i386/cpu.c b/target/i386/cpu.c
+index aa9e636800..a4bbd38ed0 100644
+--- a/target/i386/cpu.c
++++ b/target/i386/cpu.c
+@@ -4160,12 +4160,9 @@ static const X86CPUDefinition builtin_x86_defs[] = {
+             CPUID_7_0_EBX_FSGSBASE | CPUID_7_0_EBX_BMI1 | CPUID_7_0_EBX_AVX2 |
+             CPUID_7_0_EBX_SMEP | CPUID_7_0_EBX_BMI2 | CPUID_7_0_EBX_RDSEED |
+             CPUID_7_0_EBX_ADX | CPUID_7_0_EBX_SMAP | CPUID_7_0_EBX_CLFLUSHOPT |
+-            CPUID_7_0_EBX_SHA_NI | CPUID_7_0_EBX_CLWB | CPUID_7_0_EBX_ERMS |
+-            CPUID_7_0_EBX_INVPCID,
++            CPUID_7_0_EBX_SHA_NI | CPUID_7_0_EBX_CLWB | CPUID_7_0_EBX_INVPCID,
+         .features[FEAT_7_0_ECX] =
+             CPUID_7_0_ECX_UMIP | CPUID_7_0_ECX_RDPID | CPUID_7_0_ECX_PKU,
+-        .features[FEAT_7_0_EDX] =
+-            CPUID_7_0_EDX_FSRM,
+         .features[FEAT_XSAVE] =
+             CPUID_XSAVE_XSAVEOPT | CPUID_XSAVE_XSAVEC |
+             CPUID_XSAVE_XGETBV1 | CPUID_XSAVE_XSAVES,
 -- 
 2.34.1
 
