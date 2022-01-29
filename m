@@ -2,76 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 654AF4A2C6A
-	for <lists+qemu-devel@lfdr.de>; Sat, 29 Jan 2022 08:18:24 +0100 (CET)
-Received: from localhost ([::1]:42928 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B4FB74A2C80
+	for <lists+qemu-devel@lfdr.de>; Sat, 29 Jan 2022 08:32:24 +0100 (CET)
+Received: from localhost ([::1]:47696 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nDi07-0007lM-E8
-	for lists+qemu-devel@lfdr.de; Sat, 29 Jan 2022 02:18:23 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:49268)
+	id 1nDiDd-000348-S7
+	for lists+qemu-devel@lfdr.de; Sat, 29 Jan 2022 02:32:21 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:48930)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <npiggin@gmail.com>)
- id 1nDhc0-0001Wu-2x; Sat, 29 Jan 2022 01:53:35 -0500
-Received: from [2607:f8b0:4864:20::62b] (port=45906
- helo=mail-pl1-x62b.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <npiggin@gmail.com>)
- id 1nDhbp-00021T-Kb; Sat, 29 Jan 2022 01:53:23 -0500
-Received: by mail-pl1-x62b.google.com with SMTP id s6so2595074plg.12;
- Fri, 28 Jan 2022 22:50:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=0y4JY67Y2v7fsxBzNsH7lyUYFi6YTb8brlUFe+hx9BA=;
- b=gVD8DeoNylCAXnG1X31UI/BBOhlWA0DmRNZ6Ktf+SwRBgoY+IX2U+PVT9p9W19PYyr
- eROF+8R9Is6HnnetyjSFYluR7XV+J71GGrb5KT29PPfcdRzsrDdjJ0v1qeRd5uIEQFG3
- jzrjE5W+/f1MQB/p3DPTpwZ4jX2CIqQBT1PkBGimf8KD+ZsBT8KlZr34eAF3SbtKc9o3
- aoldT0mE0wGmGwpm6O274CxjKnfjHKs2sJD0mFVHmvVGfAsm4oNL4KjJAzBkKaUlGV3q
- 8KmWE5noBJgVqPdUA3qI//8D1D+NPNN+V1oxrmueAcTJ9z3RWcO01aC96PsovK7SzcE1
- 7GJQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=0y4JY67Y2v7fsxBzNsH7lyUYFi6YTb8brlUFe+hx9BA=;
- b=e0wnXObOXiYiwcwishd3KACkbyMZTS2JMWiIAMoq5BGIhcmkPd/9CnaFM28u9gtzn1
- IHadBf5zt7nmQ6HBlEKhy8e+I/CJLR4Vr7ce9sboM66iv8rLRy7n+FjjzPKEEq8UDJrm
- eKX0+NUMVjxspm9xvSwsxte5UdkohQjuIidywZhzZ3mDrLJy2PPlTu9T8j+lH4EkmOAC
- 9QuZ3wKPkKpgUEsNwuQmo+MxxxVJF5Gg/TXhMSvgJxLbfsxclyACHaqyI18QAtWL7nyO
- b3a/fFnvdJUKRkiL0ehNZlpZHCrJTh84FFZfghVZyQ+NFBTlTXL5j1ATvQQzprgGsA7M
- UFFA==
-X-Gm-Message-State: AOAM533D/aoX/oYjjn45K0AEiRhN8P6yG4GuDXLAUbf9B3E5uAcOHy9G
- SB5Rfx/6Pqcf8oYp6hLQl/gR9LD0XpZp+w==
-X-Google-Smtp-Source: ABdhPJx/8uUMc9IJJLudDX5RFMZy3k9sQ+my2ucjL0OlS6H6WcWWumEmD/6bXOQFW0F7CpY6/OfDRQ==
-X-Received: by 2002:a17:90b:38cc:: with SMTP id
- nn12mr23587496pjb.44.1643439015257; 
- Fri, 28 Jan 2022 22:50:15 -0800 (PST)
-Received: from bobo.ozlabs.ibm.com ([203.111.178.100])
- by smtp.gmail.com with ESMTPSA id l10sm10879972pff.44.2022.01.28.22.50.12
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 28 Jan 2022 22:50:14 -0800 (PST)
-From: Nicholas Piggin <npiggin@gmail.com>
-To: qemu-ppc@nongnu.org
-Subject: [RFC PATCH] spapr: Add SPAPR_CAP_AIL_MODES for supported AIL modes
- for H_SET_MODE hcall
-Date: Sat, 29 Jan 2022 16:50:07 +1000
-Message-Id: <20220129065007.103681-1-npiggin@gmail.com>
-X-Mailer: git-send-email 2.23.0
+ (Exim 4.90_1) (envelope-from <yuzenghui@huawei.com>)
+ id 1nDhbe-0001Uo-OB
+ for qemu-devel@nongnu.org; Sat, 29 Jan 2022 01:53:09 -0500
+Received: from szxga01-in.huawei.com ([45.249.212.187]:3533)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <yuzenghui@huawei.com>)
+ id 1nDhbQ-0002C6-OA
+ for qemu-devel@nongnu.org; Sat, 29 Jan 2022 01:53:00 -0500
+Received: from kwepemi100004.china.huawei.com (unknown [172.30.72.55])
+ by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4Jm4cD45z0zZf06;
+ Sat, 29 Jan 2022 14:46:36 +0800 (CST)
+Received: from kwepemm600007.china.huawei.com (7.193.23.208) by
+ kwepemi100004.china.huawei.com (7.221.188.70) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.21; Sat, 29 Jan 2022 14:50:34 +0800
+Received: from [10.174.185.179] (10.174.185.179) by
+ kwepemm600007.china.huawei.com (7.193.23.208) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.21; Sat, 29 Jan 2022 14:50:33 +0800
+Subject: Re: [PATCH 3/4] target/arm: Fix {fp,sve}_exception_el for VHE mode
+ running
+To: Richard Henderson <richard.henderson@linaro.org>, <qemu-devel@nongnu.org>
+CC: <peter.maydell@linaro.org>
+References: <20220127063428.30212-1-richard.henderson@linaro.org>
+ <20220127063428.30212-4-richard.henderson@linaro.org>
+Message-ID: <ecef405b-99b7-4ac9-9e0b-78c5b9acde09@huawei.com>
+Date: Sat, 29 Jan 2022 14:50:32 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.9.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::62b
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62b;
- envelope-from=npiggin@gmail.com; helo=mail-pl1-x62b.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+In-Reply-To: <20220127063428.30212-4-richard.henderson@linaro.org>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.174.185.179]
+X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
+ kwepemm600007.china.huawei.com (7.193.23.208)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.187; envelope-from=yuzenghui@huawei.com;
+ helo=szxga01-in.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -84,333 +69,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, Nicholas Piggin <npiggin@gmail.com>,
- David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  Zenghui Yu <yuzenghui@huawei.com>
+From:  Zenghui Yu via <qemu-devel@nongnu.org>
 
-The behaviour of the Address Translation Mode on Interrupt resource is
-not consistently supported by all CPU versions or all KVM versions.  In
-particular KVM HV only supports mode 0 on POWER7 processors, and does
-not support mode 2 on any processors. KVM PR only supports mode 0. TCG
-can support all modes (0,2,3).
+Hi Richard,
 
-This leads to inconsistencies in guest behaviour and could cause
-problems migrating guests.
+On 2022/1/27 14:34, Richard Henderson wrote:
+> +    if (el <= 2) {
+> +        if (hcr_el2 & HCR_E2H) {
+> +            /* Check CPTR_EL2.ZEN.  */
+> +            switch (extract32(env->cp15.cptr_el[2], 16, 2)) {
+> +            case 1:
+> +                if (el != 0 || !(hcr_el2 & HCR_TGE)) {
 
-This was not too noticable for Linux guests for a long time because the
-kernel only used mode 0 or 3, and it used to consider AIL to be somewhat
-advisory (KVM would not always honor it either) and it kept both sets of
-interrupt vectors around.
+It looks to me that the code will be easier to follow if we can
+put '!(hcr_el2 & HCR_TGE)' before 'el != 0'.
 
-Recent Linux guests depend on the AIL mode working as defined by the ISA
-to support the SCV facility interrupt. If AIL mode 3 can not be provided,
-then Linux must be given an error so it can disable the SCV facility.
+> +                    break;
+> +                }
+> +                /* fall through */
+> +            case 0:
+> +            case 2:
+> +                return 2;
+> +            }
 
-Add the ail-modes capability which is a bitmap of the supported values
-for the H_SET_MODE Address Translation Mode on Interrupt resource. Add
-a new KVM CAP that exports the same thing, and provide defaults for PR
-and HV KVM that predate the cap.
----
+Regardless, thanks for the fix.
 
-I just wanted to get some feedback on the approach before submitting a
-patch for the KVM cap.
-
-The reason I don't make that a boolean cap for AIL=3 is that future
-processors might implement new modes a guest would like to use even
-though it's not the nicest interface.
-
-Thanks,
-Nick
-
- hw/ppc/spapr.c            |  1 +
- hw/ppc/spapr_caps.c       | 81 +++++++++++++++++++++++++++++++++++++++
- hw/ppc/spapr_hcall.c      | 16 ++------
- include/hw/ppc/spapr.h    | 10 ++++-
- linux-headers/linux/kvm.h |  1 +
- target/ppc/kvm.c          | 25 ++++++++++++
- target/ppc/kvm_ppc.h      |  6 +++
- 7 files changed, 126 insertions(+), 14 deletions(-)
-
-diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-index 163c90388a..2a7a510aa7 100644
---- a/hw/ppc/spapr.c
-+++ b/hw/ppc/spapr.c
-@@ -4604,6 +4604,7 @@ static void spapr_machine_class_init(ObjectClass *oc, void *data)
-     smc->default_caps.caps[SPAPR_CAP_CCF_ASSIST] = SPAPR_CAP_ON;
-     smc->default_caps.caps[SPAPR_CAP_FWNMI] = SPAPR_CAP_ON;
-     smc->default_caps.caps[SPAPR_CAP_RPT_INVALIDATE] = SPAPR_CAP_OFF;
-+    smc->default_caps.caps[SPAPR_CAP_AIL_MODES] = SPAPR_CAP_AIL_MODES_DEFAULT;
-     spapr_caps_add_properties(smc);
-     smc->irq = &spapr_irq_dual;
-     smc->dr_phb_enabled = true;
-diff --git a/hw/ppc/spapr_caps.c b/hw/ppc/spapr_caps.c
-index ed7c077a0d..21cc93af86 100644
---- a/hw/ppc/spapr_caps.c
-+++ b/hw/ppc/spapr_caps.c
-@@ -94,6 +94,30 @@ static void spapr_cap_set_bool(Object *obj, Visitor *v, const char *name,
-     spapr->eff.caps[cap->index] = value ? SPAPR_CAP_ON : SPAPR_CAP_OFF;
- }
- 
-+static void spapr_cap_get_uint8(Object *obj, Visitor *v, const char *name,
-+                               void *opaque, Error **errp)
-+{
-+    SpaprCapabilityInfo *cap = opaque;
-+    SpaprMachineState *spapr = SPAPR_MACHINE(obj);
-+    uint8_t value = spapr_get_cap(spapr, cap->index) == SPAPR_CAP_ON;
-+
-+    visit_type_uint8(v, name, &value, errp);
-+}
-+
-+static void spapr_cap_set_uint8(Object *obj, Visitor *v, const char *name,
-+                               void *opaque, Error **errp)
-+{
-+    SpaprCapabilityInfo *cap = opaque;
-+    SpaprMachineState *spapr = SPAPR_MACHINE(obj);
-+    uint8_t value;
-+
-+    if (!visit_type_uint8(v, name, &value, errp)) {
-+        return;
-+    }
-+
-+    spapr->cmd_line_caps[cap->index] = true;
-+    spapr->eff.caps[cap->index] = value;
-+}
- 
- static void  spapr_cap_get_string(Object *obj, Visitor *v, const char *name,
-                                   void *opaque, Error **errp)
-@@ -613,6 +637,54 @@ static void cap_rpt_invalidate_apply(SpaprMachineState *spapr,
-     }
- }
- 
-+static void cap_ail_apply(SpaprMachineState *spapr,
-+                                     uint8_t val, Error **errp)
-+{
-+    ERRP_GUARD();
-+
-+    if (!(val & (0x01 << 0))) {
-+        error_setg(errp, "cap-ail-modes mode must include AIL=0");
-+        error_append_hint(errp,
-+                          "Ensure bit 0 (value 1) is set in cap-ail-modes\n");
-+        return;
-+    }
-+
-+    if (val & ~((0x01 << 0) | (0x01 << 1) | (0x01 << 2) | (0x01 << 3))) {
-+        error_setg(errp, "Unknown cap-ail-modes value");
-+        error_append_hint(errp,
-+                          "Ensure only bits between 0 and 3 are set in cap-ail-modes\n");
-+        return;
-+    }
-+
-+    if (val & (0x01 << 1)) {
-+        error_setg(errp, "Unsupported cap-ail-modes mode AIL=1");
-+        error_append_hint(errp,
-+                          "Ensure bit 1 (value 2) is clear in cap-ail-modes\n");
-+        return;
-+    }
-+
-+    if (kvm_enabled()) {
-+        if (val & (0x01 << 2)) {
-+            error_setg(errp, "KVM does not support cap-ail-modes mode AIL=2");
-+            error_append_hint(errp,
-+                              "Ensure bit 2 (value 4) is clear in cap-ail-modes\n");
-+            if (kvmppc_has_cap_ail_3()) {
-+                error_append_hint(errp, "Try appending -machine cap-ail-modes=9\n");
-+            } else {
-+                error_append_hint(errp, "Try appending -machine cap-ail-modes=1\n");
-+            }
-+            return;
-+        }
-+        if ((val & (0x01 << 3)) && !kvmppc_has_cap_ail_3()) {
-+            error_setg(errp, "KVM implementation does not support cap-ail-modes AIL=3");
-+            error_append_hint(errp,
-+                              "Ensure bit 3 (value 8) is clear in cap-ail-modes\n");
-+            error_append_hint(errp, "Try appending -machine cap-ail-modes=1\n");
-+            return;
-+        }
-+    }
-+}
-+
- SpaprCapabilityInfo capability_table[SPAPR_CAP_NUM] = {
-     [SPAPR_CAP_HTM] = {
-         .name = "htm",
-@@ -730,6 +802,15 @@ SpaprCapabilityInfo capability_table[SPAPR_CAP_NUM] = {
-         .type = "bool",
-         .apply = cap_rpt_invalidate_apply,
-     },
-+    [SPAPR_CAP_AIL_MODES] = {
-+        .name = "ail-modes",
-+        .description = "Bitmap of AIL (alternate interrupt location) mode support",
-+        .index = SPAPR_CAP_AIL_MODES,
-+        .get = spapr_cap_get_uint8,
-+        .set = spapr_cap_set_uint8,
-+        .type = "uint8",
-+        .apply = cap_ail_apply,
-+    },
- };
- 
- static SpaprCapabilities default_caps_with_cpu(SpaprMachineState *spapr,
-diff --git a/hw/ppc/spapr_hcall.c b/hw/ppc/spapr_hcall.c
-index 222c1b6bbd..3de4553b35 100644
---- a/hw/ppc/spapr_hcall.c
-+++ b/hw/ppc/spapr_hcall.c
-@@ -811,15 +811,11 @@ static target_ulong h_set_mode_resource_le(PowerPCCPU *cpu,
- }
- 
- static target_ulong h_set_mode_resource_addr_trans_mode(PowerPCCPU *cpu,
-+                                                        SpaprMachineState *spapr,
-                                                         target_ulong mflags,
-                                                         target_ulong value1,
-                                                         target_ulong value2)
- {
--    PowerPCCPUClass *pcc = POWERPC_CPU_GET_CLASS(cpu);
--
--    if (!(pcc->insns_flags2 & PPC2_ISA207S)) {
--        return H_P2;
--    }
-     if (value1) {
-         return H_P3;
-     }
-@@ -827,13 +823,7 @@ static target_ulong h_set_mode_resource_addr_trans_mode(PowerPCCPU *cpu,
-         return H_P4;
-     }
- 
--    if (mflags == 1) {
--        /* AIL=1 is reserved in POWER8/POWER9/POWER10 */
--        return H_UNSUPPORTED_FLAG;
--    }
--
--    if (mflags == 2 && (pcc->insns_flags2 & PPC2_ISA310)) {
--        /* AIL=2 is reserved in POWER10 (ISA v3.1) */
-+    if (!(spapr_get_cap(spapr, SPAPR_CAP_AIL_MODES) & (0x01 << mflags))) {
-         return H_UNSUPPORTED_FLAG;
-     }
- 
-@@ -853,7 +843,7 @@ static target_ulong h_set_mode(PowerPCCPU *cpu, SpaprMachineState *spapr,
-         ret = h_set_mode_resource_le(cpu, spapr, args[0], args[2], args[3]);
-         break;
-     case H_SET_MODE_RESOURCE_ADDR_TRANS_MODE:
--        ret = h_set_mode_resource_addr_trans_mode(cpu, args[0],
-+        ret = h_set_mode_resource_addr_trans_mode(cpu, spapr, args[0],
-                                                   args[2], args[3]);
-         break;
-     }
-diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
-index ee7504b976..307b89adb7 100644
---- a/include/hw/ppc/spapr.h
-+++ b/include/hw/ppc/spapr.h
-@@ -49,6 +49,12 @@ typedef enum {
-     SPAPR_RESIZE_HPT_REQUIRED,
- } SpaprResizeHpt;
- 
-+/**
-+ * This cap is a bitmask of supported modes. Default to always supporting
-+ * 0 and 3 (PR KVM and POWER7 and earlier only support 0).
-+ */
-+#define SPAPR_CAP_AIL_MODES_DEFAULT     ((0x01 << 0) | (0x01 << 3))
-+
- /**
-  * Capabilities
-  */
-@@ -77,8 +83,10 @@ typedef enum {
- #define SPAPR_CAP_FWNMI                 0x0A
- /* Support H_RPT_INVALIDATE */
- #define SPAPR_CAP_RPT_INVALIDATE        0x0B
-+/* Support for AIL modes */
-+#define SPAPR_CAP_AIL_MODES             0x0C
- /* Num Caps */
--#define SPAPR_CAP_NUM                   (SPAPR_CAP_RPT_INVALIDATE + 1)
-+#define SPAPR_CAP_NUM                   (SPAPR_CAP_AIL_MODES + 1)
- 
- /*
-  * Capability Values
-diff --git a/linux-headers/linux/kvm.h b/linux-headers/linux/kvm.h
-index bcaf66cc4d..5e94ecaa8e 100644
---- a/linux-headers/linux/kvm.h
-+++ b/linux-headers/linux/kvm.h
-@@ -1112,6 +1112,7 @@ struct kvm_ppc_resize_hpt {
- #define KVM_CAP_BINARY_STATS_FD 203
- #define KVM_CAP_EXIT_ON_EMULATION_FAILURE 204
- #define KVM_CAP_ARM_MTE 205
-+#define KVM_CAP_PPC_AIL_MODES 206
- 
- #ifdef KVM_CAP_IRQ_ROUTING
- 
-diff --git a/target/ppc/kvm.c b/target/ppc/kvm.c
-index dc93b99189..c6a5a8e6e5 100644
---- a/target/ppc/kvm.c
-+++ b/target/ppc/kvm.c
-@@ -90,6 +90,7 @@ static int cap_ppc_nested_kvm_hv;
- static int cap_large_decr;
- static int cap_fwnmi;
- static int cap_rpt_invalidate;
-+static int cap_ail_modes;
- 
- static uint32_t debug_inst_opcode;
- 
-@@ -154,6 +155,7 @@ int kvm_arch_init(MachineState *ms, KVMState *s)
-     }
- 
-     cap_rpt_invalidate = kvm_vm_check_extension(s, KVM_CAP_PPC_RPT_INVALIDATE);
-+    cap_ail_modes = kvm_vm_check_extension(s, KVM_CAP_PPC_AIL_MODES);
-     kvm_ppc_register_host_cpu_type();
- 
-     return 0;
-@@ -2563,6 +2565,29 @@ int kvmppc_has_cap_rpt_invalidate(void)
-     return cap_rpt_invalidate;
- }
- 
-+int kvmppc_has_cap_ail_3(void)
-+{
-+    if (!cap_ail_modes) {
-+        PowerPCCPUClass *pcc = kvm_ppc_get_host_cpu_class();
-+
-+        /*
-+         * KVM HV hosts which do not support CAP_AIL_MODES capability still
-+         * support AIL=3 on POWER8 and above. Special-case this so as not to
-+         * lose performance on those hosts.
-+         */
-+        if (!(pcc->insns_flags2 & PPC2_ISA207S)) {
-+            return 0;
-+        }
-+
-+        if (kvmppc_is_pr(kvm_state)) {
-+            return 0;
-+        } else {
-+            return 1;
-+        }
-+    }
-+    return !!(cap_ail_modes & (1 << 3));
-+}
-+
- PowerPCCPUClass *kvm_ppc_get_host_cpu_class(void)
- {
-     uint32_t host_pvr = mfpvr();
-diff --git a/target/ppc/kvm_ppc.h b/target/ppc/kvm_ppc.h
-index ee9325bf9a..efafa67b83 100644
---- a/target/ppc/kvm_ppc.h
-+++ b/target/ppc/kvm_ppc.h
-@@ -73,6 +73,7 @@ int kvmppc_set_cap_nested_kvm_hv(int enable);
- int kvmppc_get_cap_large_decr(void);
- int kvmppc_enable_cap_large_decr(PowerPCCPU *cpu, int enable);
- int kvmppc_has_cap_rpt_invalidate(void);
-+int kvmppc_has_cap_ail_3(void);
- int kvmppc_enable_hwrng(void);
- int kvmppc_put_books_sregs(PowerPCCPU *cpu);
- PowerPCCPUClass *kvm_ppc_get_host_cpu_class(void);
-@@ -393,6 +394,11 @@ static inline int kvmppc_has_cap_rpt_invalidate(void)
-     return false;
- }
- 
-+static inline int kvmppc_has_cap_ail_3(void)
-+{
-+    return false;
-+}
-+
- static inline int kvmppc_enable_hwrng(void)
- {
-     return -1;
--- 
-2.23.0
-
+Reviewed-and-tested-by: Zenghui Yu <yuzenghui@huawei.com>
 
