@@ -2,89 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A7E2B4A2D9E
-	for <lists+qemu-devel@lfdr.de>; Sat, 29 Jan 2022 11:26:00 +0100 (CET)
-Received: from localhost ([::1]:44016 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 40DE44A2F75
+	for <lists+qemu-devel@lfdr.de>; Sat, 29 Jan 2022 13:36:36 +0100 (CET)
+Received: from localhost ([::1]:39566 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nDkvf-0007bL-AM
-	for lists+qemu-devel@lfdr.de; Sat, 29 Jan 2022 05:25:59 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:50240)
+	id 1nDmy2-0008DJ-Qu
+	for lists+qemu-devel@lfdr.de; Sat, 29 Jan 2022 07:36:34 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:37898)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <leobras@redhat.com>)
- id 1nDkuJ-0006Q9-3a
- for qemu-devel@nongnu.org; Sat, 29 Jan 2022 05:24:35 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:39380)
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1nDmvf-0005fG-1O
+ for qemu-devel@nongnu.org; Sat, 29 Jan 2022 07:34:08 -0500
+Received: from kylie.crudebyte.com ([5.189.157.229]:57167)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <leobras@redhat.com>)
- id 1nDkuG-0007bm-BF
- for qemu-devel@nongnu.org; Sat, 29 Jan 2022 05:24:33 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1643451871;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=W0biUixU6ufiYQTueeS7pBPYD6cD6Z+SqSJWF9fP/uc=;
- b=DepBRn3xow0tf+kez63+UC+tWe1mperbq4sv6vIHGced2i2cNpYFrjkAGlgcyc+97GdG5a
- ztIrerq5nuZdcFlD4h+398/Dw/DFv9eqXgm6M3Yd2xSMgeZ4A+74Rz7r4FJCWnNjmNV3yV
- PDMWld0nXJJ2z69uTdNlx8SKwVIzUVw=
-Received: from mail-ua1-f69.google.com (mail-ua1-f69.google.com
- [209.85.222.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-153-fuJxmazVOpe69yriIbdYZA-1; Sat, 29 Jan 2022 05:24:28 -0500
-X-MC-Unique: fuJxmazVOpe69yriIbdYZA-1
-Received: by mail-ua1-f69.google.com with SMTP id
- e22-20020ab031d6000000b0030525c25702so4602011uan.6
- for <qemu-devel@nongnu.org>; Sat, 29 Jan 2022 02:24:28 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=W0biUixU6ufiYQTueeS7pBPYD6cD6Z+SqSJWF9fP/uc=;
- b=DU+qzpJSPVXE7M6NgoF0uD8mXy596CgaBfIyU0lke046OLetidCtCHoWz6z7jiuvGr
- UiFaqCJkfBVttssab8Z+P+6NjdbudAr/SRGI26ZiXZJEE8q6UBLDwll2BHIXjl3ctxQs
- wQPo/1C5t/p8KMSE/XMLTYmhOT5GjrbrndFD9TWbd6ppRaGDOyi71lytAJR8z7GYs+IV
- fv7d9yVgmBhVLQ39tsdWidFz87G3jZKViNdIYnriwzHVt0pyVU9Rp6lPFOrXHABNEWlQ
- 1NXkSLRoKRakmvixKj3hL2T22nm9RfWjv/qCgi7pbkobS6XA1pMfghUEdEPu1BJiA0Y8
- MceQ==
-X-Gm-Message-State: AOAM532dCi86k/LwElVcg8LkaxTc6QcUoZ0lbuDDzwIB6LyFkvLQ0Fpu
- a35O8Chl2rieOslU8lsQeW2EyEia90XnHFLSZ2/hs5EWSacE7EERTXl9MjYm6DtkN7t2K7icZ4M
- tbaX3KKx56yWiZJ0=
-X-Received: by 2002:ab0:49a9:: with SMTP id e38mr5423455uad.8.1643451867637;
- Sat, 29 Jan 2022 02:24:27 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzG3c8QDkyguAYHtyIAlCEtu0cPTxxyd2+9lZIz2viekHkNyUDR9kGlTdZiYti7AaJ7bUIHuw==
-X-Received: by 2002:ab0:49a9:: with SMTP id e38mr5423442uad.8.1643451867420;
- Sat, 29 Jan 2022 02:24:27 -0800 (PST)
-Received: from LeoBras.redhat.com ([2804:431:c7f1:95e9:6da1:67bd:fdc3:e12e])
- by smtp.gmail.com with ESMTPSA id v201sm2363565vkv.54.2022.01.29.02.24.24
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 29 Jan 2022 02:24:26 -0800 (PST)
-From: Leonardo Bras <leobras@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Eduardo Habkost <ehabkost@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Yang Zhong <yang.zhong@intel.com>, Peter Xu <peterx@redhat.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>
-Subject: [RFC PATCH 1/1] i386: Remove features from Epyc-Milan cpu
-Date: Sat, 29 Jan 2022 07:23:37 -0300
-Message-Id: <20220129102336.387460-1-leobras@redhat.com>
-X-Mailer: git-send-email 2.34.1
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1nDmvc-000135-Qz
+ for qemu-devel@nongnu.org; Sat, 29 Jan 2022 07:34:06 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
+ MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+ Content-ID:Content-Description;
+ bh=ViFsQGWBdHTPpb8VUXvh/NcFNxUsKedtcUazmX9HS9w=; b=jNzbGwrH6/7QIjmdlk7hDsSc4m
+ yQxUjQBsL/Ox5+VJ98ZywQSkWtTfP8/Dn0N0VHnGRsX3WSAElRGn6QsY6ltd+0Hxm8ogGNZRR1pIS
+ PyG5G2sa9/LfhkbU6nFg14bwMv3kWDMU70IEs7WIUCHXbbW6qRUtEMbQvkjoTK4M+ciVIMAm3+b32
+ 4EUVpjqrzf8S27A2frXvc5IaBeEav25a0h1CM7vQmFXGihKNVmACdNWfQhhGSfdapC+xji4+fwMTX
+ 822Q8OU+rf23gUfGYa4FfOV+48qArBxEL/Zl9Nlr1qFLJLqCwMsYhIvAFthhvkjjkkWBxers8v0Jj
+ 3Hw2hUU83fgK2dlu+tia+ZHuAuPMlcZq3gRUG2N8SO1Mr68Kq9+UR19zlyEpyMR/V6ugqeY/Ik3jK
+ y1Fp/SjR9bTTn6zueCyJNeQt2xbnWv8N/mhL9U9QLFW+bdQiN+TUwIewKhNb66fVTYLy/JTTXm9bA
+ ZWCOB1RPKwVamM7EFc0jKqp7wHfriEDlWFbVS0yK0LQUtGN/8Oemhe6eCi36aZVQM8HfV++1Cu/9S
+ Wl96Cz5wuwNvPCum9y/gTY/+ge77vORMmCviqWqvBBv9mUhT4TPI0+s16UC2m8zyooUzbhrGGCDWU
+ B5ZyeG8aXN3G01XxmC6xi9vyPdUarDH+hpbNNpBmM=;
+From: Christian Schoenebeck <qemu_oss@crudebyte.com>
+To: qemu-devel@nongnu.org
+Cc: Greg Kurz <groug@kaod.org>, Laurent Vivier <lvivier@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>
+Subject: Re: [PATCH] tests/9pfs: Use g_autofree and g_autoptr where possible
+Date: Sat, 29 Jan 2022 13:33:59 +0100
+Message-ID: <4981516.0zRxyBk1fS@silver>
+In-Reply-To: <2336064.2jqZdHoEpY@silver>
+References: <20220126171136.672657-1-groug@kaod.org>
+ <2336064.2jqZdHoEpY@silver>
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=leobras@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=leobras@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.167,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
+Received-SPF: pass client-ip=5.189.157.229;
+ envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -98,66 +66,77 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Leonardo Bras <leobras@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-While trying to bring a VM with EPYC-Milan cpu on a host with
-EPYC-Milan cpu (EPYC 7313), the following warning can be seen:
+On Freitag, 28. Januar 2022 12:49:58 CET Christian Schoenebeck wrote:
+> On Mittwoch, 26. Januar 2022 18:11:36 CET Greg Kurz wrote:
+> > The template pointer in virtio_9p_create_local_test_dir() is leaked.
+> > Add the g_autofree annotation to fix that. While here, convert the
+> > rest of the virtio 9p test code to using g_autofree or g_autoptr
+> > where possible, since this is the preferred approach to avoid potential
+> > leaks in the future.
+> > 
+> > Based-on:
+> > <f6602123c6f7d0d593466231b04fba087817abbd.1642879848.git.qemu_oss@crudebyt
+> > e
+> > .com> Signed-off-by: Greg Kurz <groug@kaod.org>
+> > ---
+> > 
+> >  tests/qtest/libqos/virtio-9p.c | 15 +++++----------
+> >  1 file changed, 5 insertions(+), 10 deletions(-)
+> 
+> I fear there is something wrong with this patch:
+> 
+> # Start of local tests
+> # starting QEMU: exec x86_64-softmmu/qemu-system-x86_64 -qtest
+> unix:/tmp/qtest-4234.sock -qtest-log /dev/null -chardev
+> socket,path=/tmp/qtest-4234.qmp,id=char0 -mon chardev=char0,mode=control
+> -display none -M pc  -fsdev
+> local,id=fsdev0,path='',security_model=mapped-xattr -device
+> virtio-9p-pci,fsdev=fsdev0,addr=04.0,mount_tag=qtest -accel qtest
+> qemu-system-x86_64: -device
+> virtio-9p-pci,fsdev=fsdev0,addr=04.0,mount_tag=qtest: cannot initialize
+> fsdev 'fsdev0': failed to open '': No such file or directory Broken pipe
+> Aborted
 
-qemu-system-x86_64: warning: host doesn't support requested feature: CPUID.07H:EBX.erms [bit 9]
-qemu-system-x86_64: warning: host doesn't support requested feature: CPUID.07H:EDX.fsrm [bit 4]
+Reason ...
 
-Even with this warning, the host goes up.
+> > diff --git a/tests/qtest/libqos/virtio-9p.c
+> > b/tests/qtest/libqos/virtio-9p.c index ef96ef006adc..0a0d0d16709b 100644
+> > --- a/tests/qtest/libqos/virtio-9p.c
+> > +++ b/tests/qtest/libqos/virtio-9p.c
+> > @@ -40,14 +40,13 @@ static char *concat_path(const char* a, const char* b)
+> > 
+> >  void virtio_9p_create_local_test_dir(void)
+> >  {
+> >  
+> >      struct stat st;
+> > 
+> > -    char *pwd = g_get_current_dir();
+> > -    char *template = concat_path(pwd, "qtest-9p-local-XXXXXX");
+> > +    g_autofree char *pwd = g_get_current_dir();
+> > +    g_autofree char *template = concat_path(pwd,
+> > "qtest-9p-local-XXXXXX");
+> > 
+> >      local_test_path = mkdtemp(template);
 
-Then, grep'ing cpuid output on both guest and host, outputs:
+... mkdtemp() does not allocate a new buffer, it just modifies the character 
+array passed, i.e. the address returned by mkdtemp() equals the address of 
+variable 'template', and when virtio_9p_create_local_test_dir() scope is left, 
+the global variable 'local_test_path' would then point to freed memory.
 
-extended feature flags (7):
-      enhanced REP MOVSB/STOSB                 = false
-      fast short REP MOV                       = false
-      (simple synth)  = AMD EPYC (3rd Gen) (Milan B1) [Zen 3], 7nm
-   brand = "AMD EPYC 7313 16-Core Processor               "
+I would drop g_autofree from template:
 
-This means that for the same -cpu model (EPYC-Milan), the vcpu may or may
-not have the above feature bits set, which is usually not a good idea for
-live migration:
-Migrating from a host with these features to a host without them can
-be troublesome for the guest.
+    char *template = concat_path(pwd, "qtest-9p-local-XXXXXX");
 
-Remove the "optional" features (erms, fsrm) from Epyc-Milan, in order to
-avoid possible after-migration guest issues.
+And if it helps to silence a leak warning (haven't tested), to prepend 
+g_autofree to the global variable instead:
 
-Signed-off-by: Leonardo Bras <leobras@redhat.com>
----
+static g_autofree char *local_test_path;
 
-Does this make sense? Or maybe I am missing something here.
+Best regards,
+Christian Schoenebeck
 
-Having a kvm guest running with a feature bit, while the host
-does not support it seems to cause a possible break the guest.
-
-
- target/i386/cpu.c | 5 +----
- 1 file changed, 1 insertion(+), 4 deletions(-)
-
-diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-index aa9e636800..a4bbd38ed0 100644
---- a/target/i386/cpu.c
-+++ b/target/i386/cpu.c
-@@ -4160,12 +4160,9 @@ static const X86CPUDefinition builtin_x86_defs[] = {
-             CPUID_7_0_EBX_FSGSBASE | CPUID_7_0_EBX_BMI1 | CPUID_7_0_EBX_AVX2 |
-             CPUID_7_0_EBX_SMEP | CPUID_7_0_EBX_BMI2 | CPUID_7_0_EBX_RDSEED |
-             CPUID_7_0_EBX_ADX | CPUID_7_0_EBX_SMAP | CPUID_7_0_EBX_CLFLUSHOPT |
--            CPUID_7_0_EBX_SHA_NI | CPUID_7_0_EBX_CLWB | CPUID_7_0_EBX_ERMS |
--            CPUID_7_0_EBX_INVPCID,
-+            CPUID_7_0_EBX_SHA_NI | CPUID_7_0_EBX_CLWB | CPUID_7_0_EBX_INVPCID,
-         .features[FEAT_7_0_ECX] =
-             CPUID_7_0_ECX_UMIP | CPUID_7_0_ECX_RDPID | CPUID_7_0_ECX_PKU,
--        .features[FEAT_7_0_EDX] =
--            CPUID_7_0_EDX_FSRM,
-         .features[FEAT_XSAVE] =
-             CPUID_XSAVE_XSAVEOPT | CPUID_XSAVE_XSAVEC |
-             CPUID_XSAVE_XGETBV1 | CPUID_XSAVE_XSAVES,
--- 
-2.34.1
 
 
