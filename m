@@ -2,47 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B29BC4A2A9A
-	for <lists+qemu-devel@lfdr.de>; Sat, 29 Jan 2022 01:31:42 +0100 (CET)
-Received: from localhost ([::1]:43810 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 179764A2ADB
+	for <lists+qemu-devel@lfdr.de>; Sat, 29 Jan 2022 02:06:28 +0100 (CET)
+Received: from localhost ([::1]:54294 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nDbeX-0005kj-QM
-	for lists+qemu-devel@lfdr.de; Fri, 28 Jan 2022 19:31:41 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:47440)
+	id 1nDcCA-0006z9-Sq
+	for lists+qemu-devel@lfdr.de; Fri, 28 Jan 2022 20:06:26 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:51682)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1nDbHT-0001wZ-R6; Fri, 28 Jan 2022 19:07:51 -0500
-Received: from zero.eik.bme.hu ([152.66.115.2]:65323)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1nDbHP-0006uK-9L; Fri, 28 Jan 2022 19:07:51 -0500
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 24217746324;
- Sat, 29 Jan 2022 01:07:43 +0100 (CET)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 00CAB74579D; Sat, 29 Jan 2022 01:07:42 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id F39037456E3;
- Sat, 29 Jan 2022 01:07:42 +0100 (CET)
-Date: Sat, 29 Jan 2022 01:07:42 +0100 (CET)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: Fabiano Rosas <farosas@linux.ibm.com>
-Subject: Re: [PATCH 00/11] target/ppc: powerpc_excp improvements [BookE] (6/n)
-In-Reply-To: <20220128224018.1228062-1-farosas@linux.ibm.com>
-Message-ID: <c9bb63f8-c2e8-31e5-fe24-b9923c2c1821@eik.bme.hu>
-References: <20220128224018.1228062-1-farosas@linux.ibm.com>
+ (Exim 4.90_1) (envelope-from <atishp@rivosinc.com>)
+ id 1nDbyh-0002BC-3L
+ for qemu-devel@nongnu.org; Fri, 28 Jan 2022 19:52:31 -0500
+Received: from [2a00:1450:4864:20::529] (port=35650
+ helo=mail-ed1-x529.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <atishp@rivosinc.com>)
+ id 1nDbyW-0003ue-6K
+ for qemu-devel@nongnu.org; Fri, 28 Jan 2022 19:52:23 -0500
+Received: by mail-ed1-x529.google.com with SMTP id n10so13247996edv.2
+ for <qemu-devel@nongnu.org>; Fri, 28 Jan 2022 16:52:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=rivosinc-com.20210112.gappssmtp.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=PZJ3vMVqdeVQZhcQtBsuE+DS8y2K0C8rMEdCP0zaBlE=;
+ b=mX9OWIsGAuj9Dep5Q82R4bLPZpYXCu3E1Ecnixh48Jorgu8MZBMz+wOsfVnJAB2syo
+ W5XEDdD3f2jPKcJoAdsrqM26RRe+ePsYdyJLI+yG+dHmttf4mobtJD8253ZiFVxXOGsI
+ TVmIkReQsiyJH+TSJtgLwVYk61JFJiQrY6+iP3jFl0V+iw4/+/ec8Z2XsXbmm5KFoib1
+ dRIVPEKqcnh2wFUoKyrsqr35siFd4nl1lc7kiH04PGCYJdnDsam5mJ/MUVWJxL3+ZAxe
+ vtNxsL/fX7CB42tLC2JuTNNUUu+57n3miZaNK2lm/G1QvPKpOPjXoqQFZI3LYFJKhO8Q
+ 8YJw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=PZJ3vMVqdeVQZhcQtBsuE+DS8y2K0C8rMEdCP0zaBlE=;
+ b=OqSKby6Uq2JD5gobITj0ThlE1nVp4M0jzYQABgX9Aw7yfJtx8ZKegdCUMaI15QLdSl
+ +6XyndRekeZgfkmSJujRuEK0DC7gmRrkhi62DsSVE8CLifA1h1JCVrkA9D9lWjR6/R09
+ aYOLFW3ky3qhaaKXd2oxyvD+Dm70uT/bIO8OD+gtaRXk/meI0Y8w1I5gRaXO/lBWUqlN
+ p5ahO+YCztIyZUbin3ACX5LsaTcNra9t6wkgfsCFDw/P6haZeGqJ3PYdCJvLb6WJAv+b
+ ByxaMgzcS9DpMdzfE9xwUxBdxDx//McBB9WeYkuonB0dXpjwgenFkx8ZM91kPpZswSvx
+ XZAA==
+X-Gm-Message-State: AOAM533OPch+Vb1AQp+Id2JOhOYhbS2j78d5+ZWlKvZSL7WB7HHX48KF
+ jFBKW5+mqXvPvOIcmUNaxLpydK4rLW4x41smk8ATLw==
+X-Google-Smtp-Source: ABdhPJw2T3NeoVSdElTrH1MPS9297k6xdToUPoGDtfhq6gTTm7LqcQ0kSWcXJ8gfPvYREolOKJH8Y5H497E/njzFR7E=
+X-Received: by 2002:a50:ed8e:: with SMTP id h14mr10492318edr.398.1643417537488; 
+ Fri, 28 Jan 2022 16:52:17 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII; format=flowed
-X-Spam-Probability: 8%
-Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
- helo=zero.eik.bme.hu
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+References: <20220120200735.2739543-1-atishp@rivosinc.com>
+ <20220120200735.2739543-2-atishp@rivosinc.com>
+ <fc833a66-c0fe-931a-ab7e-e81917a8d786@linaro.org>
+In-Reply-To: <fc833a66-c0fe-931a-ab7e-e81917a8d786@linaro.org>
+From: Atish Kumar Patra <atishp@rivosinc.com>
+Date: Fri, 28 Jan 2022 16:52:06 -0800
+Message-ID: <CAHBxVyGOuLWPs1-10GTAtz6=QMDybOq4h5dXLq7NcDYOTn9nuA@mail.gmail.com>
+Subject: Re: [RFC 1/5] target/riscv: Add the privileged spec version 1.12.0
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: multipart/alternative; boundary="0000000000008a397d05d6adf601"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::529
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::529;
+ envelope-from=atishp@rivosinc.com; helo=mail-ed1-x529.google.com
+X-Spam_score_int: -10
+X-Spam_score: -1.1
+X-Spam_bar: -
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, HTML_MESSAGE=0.001, PDS_HP_HELO_NORDNS=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -55,68 +82,118 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: danielhb413@gmail.com, qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
- david@gibson.dropbear.id.au, clg@kaod.org
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Anup Patel <anup@brainfault.org>, Bin Meng <bin.meng@windriver.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 28 Jan 2022, Fabiano Rosas wrote:
-> This series handles the BookE exception code.
->
-> Tested the following machines/CPUs:
->
-> == bamboo ==
-> 440ep, 460ex, 440-xilinx-w-dfpu
->
-> == sam460ex ==
-> 440ep, 460ex, 440-xilinx-w-dfpu
+--0000000000008a397d05d6adf601
+Content-Type: text/plain; charset="UTF-8"
 
-What OS did you test with? Other than the 460ex may not make much sense 
-on this board but checking it never hurts. If you only tried Linux kernel 
-then something else to give more coverage could be the same MorphOS iso 
-that used for pegasos2 which should also boot on sam460ex as shown here:
+On Sun, Jan 23, 2022 at 11:59 PM Richard Henderson <
+richard.henderson@linaro.org> wrote:
 
-http://zero.eik.bme.hu/~balaton/qemu/amiga/#morphos
+> On 1/21/22 7:07 AM, Atish Patra wrote:
+> > Add the definition for ratified privileged specification version v1.12
+> >
+> > Signed-off-by: Atish Patra <atishp@rivosinc.com>
+> > ---
+> >   target/riscv/cpu.h | 1 +
+> >   1 file changed, 1 insertion(+)
+> >
+> > diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+> > index 4d630867650a..671f65100b1a 100644
+> > --- a/target/riscv/cpu.h
+> > +++ b/target/riscv/cpu.h
+> > @@ -82,6 +82,7 @@ enum {
+> >
+> >   #define PRIV_VERSION_1_10_0 0x00011000
+> >   #define PRIV_VERSION_1_11_0 0x00011100
+> > +#define PRIV_VERSION_1_12_0 0x00011200
+>
+> Is there any good reason for defining things this way, as opposed to a
+> simple enumeration?
+> A simple enum would eliminate the need for
+>
+>
+Agreed. A simple enum would be much nicer. I was just following the
+previous definition of
+PRIV_VERSION_1_10_0 & PRIV_VERSION_1_11_0.
 
-or the AROS iso further up that page that should also boot on sam460ex.
+I am not sure about the reason behind this scheme.
 
-Regards,
-BALATON Zoltan
+@Alistair Francis <alistair.francis@wdc.com> Is there any history behind
+this scheme ?
+or Are you okay if I change it ?
 
-> == mpc8544ds ==
-> e500v1, e500v2
+
+> > +    /* The default privilege specification version supported is 1.10 */
+> > +    if (!csr_min_priv) {
+> > +        csr_min_priv = PRIV_VERSION_1_10_0;
+> > +    }
 >
-> == ppce500 ==
-> e500mc, e5500, e6500
->
-> About the remaining CPUs:
->
-> - The 440x4 have been partially removed in the past. I sent a separate
->  patch removing what's left of it.
->
-> - The 440x5 (440-xilinx) boots with the bamboo machine but it
->  segfaults in userspace (also in master).
->
-> - The e200 is broken in master due to an assert in _spr_register (the
->  DSRR0/1 registers are being registered twice). After fixing that
->  QEMU crashes due to lack of IRQ controller (there's a TODO in the
->  init_proc_e200).
->
-> Fabiano Rosas (11):
->  target/ppc: Introduce powerpc_excp_booke
->  target/ppc: Simplify powerpc_excp_booke
->  target/ppc: booke: Critical exception cleanup
->  target/ppc: booke: Machine Check cleanups
->  target/ppc: booke: Data Storage exception cleanup
->  target/ppc: booke: Instruction storage exception cleanup
->  target/ppc: booke: External interrupt cleanup
->  target/ppc: booke: Alignment interrupt cleanup
->  target/ppc: booke: System Call exception cleanup
->  target/ppc: booke: Watchdog Timer interrupt
->  target/ppc: booke: System Reset exception cleanup
->
-> target/ppc/excp_helper.c | 228 +++++++++++++++++++++++++++++++++++++++
-> 1 file changed, 228 insertions(+)
+> in patch 5.
 >
 >
+> r~
+>
+
+--0000000000008a397d05d6adf601
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Sun, Jan 23, 2022 at 11:59 PM Rich=
+ard Henderson &lt;<a href=3D"mailto:richard.henderson@linaro.org">richard.h=
+enderson@linaro.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quot=
+e" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204)=
+;padding-left:1ex">On 1/21/22 7:07 AM, Atish Patra wrote:<br>
+&gt; Add the definition for ratified privileged specification version v1.12=
+<br>
+&gt; <br>
+&gt; Signed-off-by: Atish Patra &lt;<a href=3D"mailto:atishp@rivosinc.com" =
+target=3D"_blank">atishp@rivosinc.com</a>&gt;<br>
+&gt; ---<br>
+&gt;=C2=A0 =C2=A0target/riscv/cpu.h | 1 +<br>
+&gt;=C2=A0 =C2=A01 file changed, 1 insertion(+)<br>
+&gt; <br>
+&gt; diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h<br>
+&gt; index 4d630867650a..671f65100b1a 100644<br>
+&gt; --- a/target/riscv/cpu.h<br>
+&gt; +++ b/target/riscv/cpu.h<br>
+&gt; @@ -82,6 +82,7 @@ enum {<br>
+&gt;=C2=A0 =C2=A0<br>
+&gt;=C2=A0 =C2=A0#define PRIV_VERSION_1_10_0 0x00011000<br>
+&gt;=C2=A0 =C2=A0#define PRIV_VERSION_1_11_0 0x00011100<br>
+&gt; +#define PRIV_VERSION_1_12_0 0x00011200<br>
+<br>
+Is there any good reason for defining things this way, as opposed to a simp=
+le enumeration?<br>
+A simple enum would eliminate the need for<br>
+<br></blockquote><div><br></div><div>Agreed. A simple enum would be much ni=
+cer. I was just following the previous definition of=C2=A0 <br>PRIV_VERSION=
+_1_10_0 &amp; PRIV_VERSION_1_11_0.</div><div><br></div><div>I am not sure a=
+bout the reason behind this scheme.</div><div><br></div><div><a class=3D"gm=
+ail_plusreply" id=3D"plusReplyChip-0" href=3D"mailto:alistair.francis@wdc.c=
+om" tabindex=3D"-1">@Alistair Francis</a>=C2=A0Is there any history behind =
+this scheme ?<br></div><div>or Are you okay if I change it ?</div><div><br>=
+</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;b=
+order-left:1px solid rgb(204,204,204);padding-left:1ex">
+<br>
+&gt; +=C2=A0 =C2=A0 /* The default privilege specification version supporte=
+d is 1.10 */<br>
+&gt; +=C2=A0 =C2=A0 if (!csr_min_priv) {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 csr_min_priv =3D PRIV_VERSION_1_10_0;<br>
+&gt; +=C2=A0 =C2=A0 }<br>
+<br>
+in patch 5.<br>
+<br>
+<br>
+r~<br>
+</blockquote></div></div>
+
+--0000000000008a397d05d6adf601--
 
