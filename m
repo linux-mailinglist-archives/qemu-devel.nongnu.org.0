@@ -2,78 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46F6B4A2D08
-	for <lists+qemu-devel@lfdr.de>; Sat, 29 Jan 2022 09:21:01 +0100 (CET)
-Received: from localhost ([::1]:43588 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5FACC4A2D10
+	for <lists+qemu-devel@lfdr.de>; Sat, 29 Jan 2022 09:25:23 +0100 (CET)
+Received: from localhost ([::1]:47816 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nDiyh-0006oO-BD
-	for lists+qemu-devel@lfdr.de; Sat, 29 Jan 2022 03:20:59 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:33120)
+	id 1nDj2w-0001VF-Fo
+	for lists+qemu-devel@lfdr.de; Sat, 29 Jan 2022 03:25:22 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:33810)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1nDit3-0004Sn-1I
- for qemu-devel@nongnu.org; Sat, 29 Jan 2022 03:15:10 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:25199)
+ id 1nDiyC-0008C9-2i
+ for qemu-devel@nongnu.org; Sat, 29 Jan 2022 03:20:28 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:51809)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1nDisz-0005Tg-Qc
- for qemu-devel@nongnu.org; Sat, 29 Jan 2022 03:15:07 -0500
+ id 1nDiy9-0006Hn-Qn
+ for qemu-devel@nongnu.org; Sat, 29 Jan 2022 03:20:27 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1643444104;
+ s=mimecast20190719; t=1643444423;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=/AmWnbDa3ZHDENpvKpm30KocL/1g4LiipQ8O0X+mswk=;
- b=LU1wdSgPXUxCJpO2GctWTKImNUiJxK0fOuanOyXPyzxHr10HNJHe7Pds1odhCqzvkWoRuv
- DgmTxGXwtj6NHolZNxUrzXBkJg30i1p/AOqcJTFevcvFq1tC0UdDHiWoGoynahbmn9PSG8
- 35Y0tHbqgBk8FDUOBLfP3id+pdN7n0U=
-Received: from mail-pj1-f69.google.com (mail-pj1-f69.google.com
- [209.85.216.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=RUvaXBeYFYqIFBRUBXZDha8iyJ6iXQ2Wr2dPtTHLNxk=;
+ b=Ue+DXkBiDPhJj46gpMzy+sc4kdGA5quNGJYjNqoBmsvbrh/K7QvA9JFLmJaY0jwO69SFhq
+ +LqYc41Cc4X5PqC7fkc+gegA+DBMXXSlqY/JgWnKR2OlzjRCrmmaYl7nNz+009uahT2F+v
+ 5fJZPrvtUm+G5NRgnaYwGy1KWVP/cPE=
+Received: from mail-pj1-f70.google.com (mail-pj1-f70.google.com
+ [209.85.216.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-6-vSqxX48uNsWtbFoZHlpSDw-1; Sat, 29 Jan 2022 03:15:02 -0500
-X-MC-Unique: vSqxX48uNsWtbFoZHlpSDw-1
-Received: by mail-pj1-f69.google.com with SMTP id
- y14-20020a17090ad70e00b001b4fc2943b3so7601125pju.8
- for <qemu-devel@nongnu.org>; Sat, 29 Jan 2022 00:15:02 -0800 (PST)
+ us-mta-240-Rh1ReyitNNqTiBm8tCaq9w-1; Sat, 29 Jan 2022 03:20:20 -0500
+X-MC-Unique: Rh1ReyitNNqTiBm8tCaq9w-1
+Received: by mail-pj1-f70.google.com with SMTP id
+ q1-20020a17090a064100b001b4d85cbaf7so7608124pje.9
+ for <qemu-devel@nongnu.org>; Sat, 29 Jan 2022 00:20:20 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=/AmWnbDa3ZHDENpvKpm30KocL/1g4LiipQ8O0X+mswk=;
- b=HSZRwB6ATXSBGZbStptgsEZCJB6EHrOX461h54Mu5ixUuKcXuwewEDH+gIYMxlcnP8
- ur3zBxcE4SQy5N9fQnYBURvhjp9nLO9Y1zCh1rk4bCNLXmGQBjSmvpwDixXqKMdgsAtj
- Gg2KN3MQloRr+6C+nHzQTtIDp3i2GCgOlHhnZPV1ctqWl7KOJiuW8RDeGHmUNNvZApUc
- SescXJQ2LsdctdMxgWdxso3CH9tZKd2iGhUsGy0+31HVHsV9Q6m5O7KBOsq68tDeJiRn
- pAUAb+DKCXihtMqhLX3qbMyqrRa4iNWUTSZbcbY/zx/5wLxrEBxMZEU0XH2qe1gbj+wQ
- zLMQ==
-X-Gm-Message-State: AOAM533PLABF8x/dWAvv9e1p/hEARhXqSaTVYQQ4WHZIH6nEW0S8ZEuN
- //FKpbodtHnHYZOKkjD20NBBSER1mtMGiWgORdKAhAJ2k86uPIel7NqH+HK6WDR5nKVju2xp6iY
- KMcnec9fLlVWZCXQ=
-X-Received: by 2002:a17:902:d4ca:: with SMTP id
- o10mr11954571plg.29.1643444101680; 
- Sat, 29 Jan 2022 00:15:01 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJw6ES+YqoIkoHiAEL1QcXo8Ga7bsBHgrlf+9UmNR1khbkLHGyZMAdZoUw3GeYJWT4U3EpW78g==
-X-Received: by 2002:a17:902:d4ca:: with SMTP id
- o10mr11954539plg.29.1643444101414; 
- Sat, 29 Jan 2022 00:15:01 -0800 (PST)
+ bh=RUvaXBeYFYqIFBRUBXZDha8iyJ6iXQ2Wr2dPtTHLNxk=;
+ b=3zBmyefhlIBvBgbE2Y15r5978U05k0cAED0F8v/wJJqEo5IPEliVVhiE2gApYWI8Ca
+ +50oKEr/jADxvF+/FOKcc/6dkI4lWMymJgi8sw5ZXOFDQ3vk0g7Fj4escAPLUooPSsGT
+ q0fjFVQAtsxA/xedcmF4w+nOLsjl5PT50ko4Uka5aZUR0bKO+56xq7oyPcv7JFaT3vGM
+ /faZe8qwXnzF6dVRHhTjBM2070/vV4RIC+LCvDE6CfXJFZLrmUpcmnZVoZcBUl93qzwQ
+ ONIarSUA/ro6oCVzj9Tg0GtAw0uZRQIaFuTgQQFHr1m8MZfQK/sattrcy9cl3gZ77WKh
+ ID2w==
+X-Gm-Message-State: AOAM533pgEE0giy//Q2CgfvvbigHVWDbLF8Dm8ZQKRErpFDds4Mg+CaE
+ Q4Y7yG6Mj1yeTWlV4eJNeyAxu1Fqf2MxDPsQPLZCMwx2DPY4ropP8osBXJ8CQDJy9aJ81GY92xt
+ rPkodcxa38zJTF/w=
+X-Received: by 2002:a17:90b:911:: with SMTP id
+ bo17mr13915830pjb.165.1643444419363; 
+ Sat, 29 Jan 2022 00:20:19 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJw6gwpcpp5qLQfr02/uT3lvvEljwPojpW9Is/AeoJ/I/4YeaoiQIQITWzDGqSTgHxTKumlLRA==
+X-Received: by 2002:a17:90b:911:: with SMTP id
+ bo17mr13915795pjb.165.1643444419113; 
+ Sat, 29 Jan 2022 00:20:19 -0800 (PST)
 Received: from [10.72.12.112] ([209.132.188.80])
- by smtp.gmail.com with ESMTPSA id c17sm12617308pfv.68.2022.01.29.00.14.54
+ by smtp.gmail.com with ESMTPSA id oj7sm4958823pjb.43.2022.01.29.00.20.12
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 29 Jan 2022 00:15:00 -0800 (PST)
-Message-ID: <04720687-f6b9-1ed9-c4da-30a965743065@redhat.com>
-Date: Sat, 29 Jan 2022 16:14:52 +0800
+ Sat, 29 Jan 2022 00:20:18 -0800 (PST)
+Message-ID: <f0e549eb-3485-01f5-88cb-f5681fc74abc@redhat.com>
+Date: Sat, 29 Jan 2022 16:20:09 +0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
  Gecko/20100101 Thunderbird/91.5.0
-Subject: Re: [PATCH 15/31] vdpa: Add vhost_svq_get_num
+Subject: Re: [PATCH 16/31] vhost: pass queue index to vhost_vq_get_addr
 To: =?UTF-8?Q?Eugenio_P=c3=a9rez?= <eperezma@redhat.com>, qemu-devel@nongnu.org
 References: <20220121202733.404989-1-eperezma@redhat.com>
- <20220121202733.404989-16-eperezma@redhat.com>
+ <20220121202733.404989-17-eperezma@redhat.com>
 From: Jason Wang <jasowang@redhat.com>
-In-Reply-To: <20220121202733.404989-16-eperezma@redhat.com>
+In-Reply-To: <20220121202733.404989-17-eperezma@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -120,50 +120,45 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
 在 2022/1/22 上午4:27, Eugenio Pérez 写道:
-> This reports the guest's visible SVQ effective length, not the device's
-> one.
+> Doing that way allows vhost backend to know what address to return.
+>
+> Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
+> ---
+>   hw/virtio/vhost.c | 6 +++---
+>   1 file changed, 3 insertions(+), 3 deletions(-)
+>
+> diff --git a/hw/virtio/vhost.c b/hw/virtio/vhost.c
+> index 7b03efccec..64b955ba0c 100644
+> --- a/hw/virtio/vhost.c
+> +++ b/hw/virtio/vhost.c
+> @@ -798,9 +798,10 @@ static int vhost_virtqueue_set_addr(struct vhost_dev *dev,
+>                                       struct vhost_virtqueue *vq,
+>                                       unsigned idx, bool enable_log)
+>   {
+> -    struct vhost_vring_addr addr;
+> +    struct vhost_vring_addr addr = {
+> +        .index = idx,
+> +    };
+>       int r;
+> -    memset(&addr, 0, sizeof(struct vhost_vring_addr));
+>   
+>       if (dev->vhost_ops->vhost_vq_get_addr) {
+>           r = dev->vhost_ops->vhost_vq_get_addr(dev, &addr, vq);
+> @@ -813,7 +814,6 @@ static int vhost_virtqueue_set_addr(struct vhost_dev *dev,
+>           addr.avail_user_addr = (uint64_t)(unsigned long)vq->avail;
+>           addr.used_user_addr = (uint64_t)(unsigned long)vq->used;
+>       }
 
 
-I think we need to explain if there could be a case that the SVQ size is 
-not equal to the device queue size.
+I'm a bit lost in the logic above, any reason we need call 
+vhost_vq_get_addr() :) ?
 
 Thanks
 
 
->
-> Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
-> ---
->   hw/virtio/vhost-shadow-virtqueue.h | 1 +
->   hw/virtio/vhost-shadow-virtqueue.c | 5 +++++
->   2 files changed, 6 insertions(+)
->
-> diff --git a/hw/virtio/vhost-shadow-virtqueue.h b/hw/virtio/vhost-shadow-virtqueue.h
-> index 3521e8094d..035207a469 100644
-> --- a/hw/virtio/vhost-shadow-virtqueue.h
-> +++ b/hw/virtio/vhost-shadow-virtqueue.h
-> @@ -29,6 +29,7 @@ const EventNotifier *vhost_svq_get_svq_call_notifier(
->                                                 const VhostShadowVirtqueue *svq);
->   void vhost_svq_get_vring_addr(const VhostShadowVirtqueue *svq,
->                                 struct vhost_vring_addr *addr);
-> +uint16_t vhost_svq_get_num(const VhostShadowVirtqueue *svq);
->   size_t vhost_svq_driver_area_size(const VhostShadowVirtqueue *svq);
->   size_t vhost_svq_device_area_size(const VhostShadowVirtqueue *svq);
->   
-> diff --git a/hw/virtio/vhost-shadow-virtqueue.c b/hw/virtio/vhost-shadow-virtqueue.c
-> index 0f2c2403ff..f129ec8395 100644
-> --- a/hw/virtio/vhost-shadow-virtqueue.c
-> +++ b/hw/virtio/vhost-shadow-virtqueue.c
-> @@ -212,6 +212,11 @@ void vhost_svq_get_vring_addr(const VhostShadowVirtqueue *svq,
->       addr->used_user_addr = (uint64_t)svq->vring.used;
->   }
->   
-> +uint16_t vhost_svq_get_num(const VhostShadowVirtqueue *svq)
-> +{
-> +    return svq->vring.num;
-> +}
-> +
->   size_t vhost_svq_driver_area_size(const VhostShadowVirtqueue *svq)
->   {
->       size_t desc_size = sizeof(vring_desc_t) * svq->vring.num;
+> -    addr.index = idx;
+>       addr.log_guest_addr = vq->used_phys;
+>       addr.flags = enable_log ? (1 << VHOST_VRING_F_LOG) : 0;
+>       r = dev->vhost_ops->vhost_set_vring_addr(dev, &addr);
 
 
