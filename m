@@ -2,66 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9EB644A3B51
-	for <lists+qemu-devel@lfdr.de>; Mon, 31 Jan 2022 00:37:57 +0100 (CET)
-Received: from localhost ([::1]:37378 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB82B4A3BC4
+	for <lists+qemu-devel@lfdr.de>; Mon, 31 Jan 2022 00:39:36 +0100 (CET)
+Received: from localhost ([::1]:41902 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nEJlb-0005Mm-Ss
-	for lists+qemu-devel@lfdr.de; Sun, 30 Jan 2022 18:37:56 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:38398)
+	id 1nEJnD-00005f-So
+	for lists+qemu-devel@lfdr.de; Sun, 30 Jan 2022 18:39:35 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:38560)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nEJjj-0003wu-8L; Sun, 30 Jan 2022 18:35:59 -0500
-Received: from [2a00:1450:4864:20::32e] (port=38682
- helo=mail-wm1-x32e.google.com)
+ id 1nEJkw-00068b-6C; Sun, 30 Jan 2022 18:37:14 -0500
+Received: from [2a00:1450:4864:20::432] (port=38548
+ helo=mail-wr1-x432.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nEJjh-000416-OD; Sun, 30 Jan 2022 18:35:58 -0500
-Received: by mail-wm1-x32e.google.com with SMTP id
- o30-20020a05600c511e00b0034f4c3186f4so12456430wms.3; 
- Sun, 30 Jan 2022 15:35:57 -0800 (PST)
+ id 1nEJku-0004As-7c; Sun, 30 Jan 2022 18:37:13 -0500
+Received: by mail-wr1-x432.google.com with SMTP id c23so22016193wrb.5;
+ Sun, 30 Jan 2022 15:37:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=nPalRgcqo1Kumyk7q0Lwa8WrfJYIRLfzwdSN7zYWjQQ=;
- b=Tvmyx0wvGHo2hAABTEBfaoboG0ivcoPRgMNYm4HX9aRE9thkg6Yvip74ww1yYhQfRP
- nOK8N9xR0ZMMJE5A27kBorhS0+CSIusWL5vNGdIVak0BAKK28RQd68pV9DqsGDoUY1xM
- DFyKExZxTmhWKL+7/r0pkx6MTY9aTzH9af4NMvVnq/LczSiZ2TV3zOY3E2/onOv5WVYb
- cuoXoeU2nb366a993+w6oiaMKL77OThOmhnyxxnyJPYOonkssGW1NA+Vfe71BNEi2ySN
- 3Y7/E4WRI2Ia3fLCtDnmj4ENQq7WPeQTxvJZvIe4MQYCdGgtGw3idEspGvNslzPp6Il2
- BvrQ==
+ bh=CzkPakoi0PJ0ai7zLwa78NGbtgZh3QjahtLwMCd1yJk=;
+ b=WM+FdkSxKiqWm8htA3J8Qv3ZKwK+fWUwvbEPP2ZUso7Qz6vRiESWqLE5kgW5C9D/7u
+ dNxdNflaM0Z/ieqjXGz6rZsxEqclvTdeUMpsigxWyr8R5k+jBDltsgxgk2HGtVuQikcL
+ 0iRgyIE7AQLbbhnwuW+NmY4IkcTq2ccN/7eXzFYcMffAF2TAaZB6hwOicebR90WcVIDd
+ EX676wQ6F86HveODAK8kQdMQ6l+6/skBCaKBuvfvS7AkoNSPu4Cf2kO4kBhEvpdL2Ufh
+ 1p1qssyFXywp2eYvVB+eQlO0DFHvcPUASKgJM5qjX4UUFF/yZoGV5tLUscsQdraReCGs
+ 21EQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
  :subject:content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=nPalRgcqo1Kumyk7q0Lwa8WrfJYIRLfzwdSN7zYWjQQ=;
- b=UlMFKn7BsPxWA20CDJDjffrSBXxUKO4BL6ox+3d68tvx81tgaPfY7rfKsIpGtJ7Bre
- paTqUH9g4WnXFwlaAsauX55kcJlvQP2EGKVdWai/KBH0O6dy/pZ8Gs7Ng0YsPfUj4UpY
- lcgVHJArQFRFQjI9udxVkDvQnbvcpDW6QbO39gxD5GrGqsaf65lCkFVQsORe1juwAw7l
- aeFbFNIxZ4U2edy2Z4AEdcnYewsNCZCzHuFEOW20h1nYydBsYiub/9cJJXwOW0CBgydh
- br2PialZDoDGqO8xoeC1/5wWdmI0ApqNCFBGPEA/nv27c90PZKZzIPQZEOWU1Q/r5LVO
- JKEg==
-X-Gm-Message-State: AOAM530ZyXljscZaexk/jW1p4knOUb2c1aP4S0cHGd8NoqM/9FDyPQzl
- pzAQzxRZ5XBbiz4VgzHVndg=
-X-Google-Smtp-Source: ABdhPJyml4TVzYm35AIT2j3DxkrfwaiXmBqNRq+EL7RqehrWuv+bCK9lXJ+l3oP3dXUawNXUsSnPgA==
-X-Received: by 2002:a05:600c:4c95:: with SMTP id
- g21mr24864322wmp.109.1643585755995; 
- Sun, 30 Jan 2022 15:35:55 -0800 (PST)
+ bh=CzkPakoi0PJ0ai7zLwa78NGbtgZh3QjahtLwMCd1yJk=;
+ b=mR4LU7YqaVdGS5YM5I3qwaiJdCqREJfWOhP6LJ5D9RfdeHEyMyUjB2tIiV2PJw5XxJ
+ azNdFZKnOoogEuNTc30kHr9zvAuyr1f2ynf/Ly9jzmOaJdVHVgjoxR/sufpaCn1viDl6
+ /m4i6b56Kzg+jy7y5b1sHvNdF3ckxsKhRIeY2f2FXAw4EbMaI2bidtKxBW0rW657FHFF
+ s2vz3VEY4YCTRyO1CqpTIxmz/ic3uI0gb6OsEft8EL7BFdF0WmaAKdx7X7fTeixLZzy4
+ ulcSgQUQ+esjptHvaQ2ApSkoHNT+iyzPRqMgtM9q4e7TH4NMGVYiLke1pLDa4Nys/eN2
+ uv9A==
+X-Gm-Message-State: AOAM532OI61TVF7RZ42j7KIq0KCv1rf6pyo7KzEq5l+pQ+lbC3VlZN7W
+ ZrW5NFF/JSyXEN34geCVXYM=
+X-Google-Smtp-Source: ABdhPJxb3Ex20Of164IUGDF+1d3K/pQKIURO8H7NtIJRIQRtNZmblDPPYnxXd2buHAITeeDZnqVVQQ==
+X-Received: by 2002:a5d:4a0d:: with SMTP id m13mr15646252wrq.171.1643585825619; 
+ Sun, 30 Jan 2022 15:37:05 -0800 (PST)
 Received: from [192.168.1.33] (154.red-83-50-83.dynamicip.rima-tde.net.
  [83.50.83.154])
- by smtp.gmail.com with ESMTPSA id r7sm7712950wma.39.2022.01.30.15.35.55
+ by smtp.gmail.com with ESMTPSA id l6sm10873446wrs.51.2022.01.30.15.37.04
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 30 Jan 2022 15:35:55 -0800 (PST)
-Message-ID: <24f93c21-33a6-091f-206f-b80f505b6ddb@amsat.org>
-Date: Mon, 31 Jan 2022 00:35:54 +0100
+ Sun, 30 Jan 2022 15:37:05 -0800 (PST)
+Message-ID: <376cacec-fcb5-3b92-1cd3-d8a352c414af@amsat.org>
+Date: Mon, 31 Jan 2022 00:37:04 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
  Gecko/20100101 Thunderbird/91.5.0
-Subject: Re: [PATCH v1 5/6] hw/misc: Add a model of the Xilinx ZynqMP APU
- Control
+Subject: Re: [PATCH v1 6/6] hw/arm/xlnx-zynqmp: Connect the ZynqMP APU Control
 Content-Language: en-US
 To: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>, qemu-devel@nongnu.org
 Cc: edgar.iglesias@xilinx.com, peter.maydell@linaro.org, luc@lmichel.fr,
@@ -70,14 +67,14 @@ Cc: edgar.iglesias@xilinx.com, peter.maydell@linaro.org, luc@lmichel.fr,
  francisco.iglesias@xilinx.com, frederic.konrad@adacore.com,
  qemu-arm@nongnu.org
 References: <20220130231206.34035-1-edgar.iglesias@gmail.com>
- <20220130231206.34035-6-edgar.iglesias@gmail.com>
-In-Reply-To: <20220130231206.34035-6-edgar.iglesias@gmail.com>
+ <20220130231206.34035-7-edgar.iglesias@gmail.com>
+In-Reply-To: <20220130231206.34035-7-edgar.iglesias@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32e
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::432
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::432;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x432.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -107,65 +104,13 @@ From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 On 31/1/22 00:12, Edgar E. Iglesias wrote:
 > From: "Edgar E. Iglesias" <edgar.iglesias@xilinx.com>
 > 
-> Add a model of the Xilinx ZynqMP APU Control.
+> Connect the ZynqMP APU Control device.
 > 
 > Signed-off-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
 > ---
->   include/hw/misc/xlnx-zynqmp-apu-ctrl.h |  91 +++++++++
->   hw/misc/xlnx-zynqmp-apu-ctrl.c         | 257 +++++++++++++++++++++++++
->   hw/misc/meson.build                    |   1 +
->   3 files changed, 349 insertions(+)
->   create mode 100644 include/hw/misc/xlnx-zynqmp-apu-ctrl.h
->   create mode 100644 hw/misc/xlnx-zynqmp-apu-ctrl.c
-> 
-> diff --git a/include/hw/misc/xlnx-zynqmp-apu-ctrl.h b/include/hw/misc/xlnx-zynqmp-apu-ctrl.h
-> new file mode 100644
-> index 0000000000..44bf264cef
-> --- /dev/null
-> +++ b/include/hw/misc/xlnx-zynqmp-apu-ctrl.h
-> @@ -0,0 +1,91 @@
-> +/*
-> + * QEMU model of ZynqMP APU Control.
-> + *
-> + * Copyright (c) 2013-2022 Xilinx Inc
-> + * SPDX-License-Identifier: GPL-2.0-or-later
-> + *
-> + * Written by Peter Crosthwaite <peter.crosthwaite@xilinx.com> and
-> + * Edgar E. Iglesias <edgar.iglesias@xilinx.com>
-> + *
-> + */
-> +
-> +#include "hw/sysbus.h"
-> +#include "hw/register.h"
-> +#include "target/arm/cpu.h"
-> +
-> +#define TYPE_XLNX_ZYNQMP_APU_CTRL "xlnx.apu-ctrl"
-> +
-> +#define XLNX_ZYNQMP_APU(obj) \
-> +     OBJECT_CHECK(XlnxZynqMPAPUCtrl, (obj), TYPE_XLNX_ZYNQMP_APU_CTRL)
-...
+>   include/hw/arm/xlnx-zynqmp.h |  4 +++-
+>   hw/arm/xlnx-zynqmp.c         | 25 +++++++++++++++++++++++--
+>   2 files changed, 26 insertions(+), 3 deletions(-)
 
-> +#define APU_R_MAX ((R_PWRSTAT) + 1)
-> +
-> +#define NUM_CPUS 4
-
-Hmm isn't it APU_MAX_CPU?
-
-> +typedef struct XlnxZynqMPAPUCtrl {
-> +    SysBusDevice busdev;
-> +
-> +    ARMCPU *cpus[NUM_CPUS];
-> +    /* WFIs towards PMU. */
-> +    qemu_irq wfi_out[4];
-> +    /* CPU Power status towards INTC Redirect. */
-> +    qemu_irq cpu_power_status[4];
-> +    qemu_irq irq_imr;
-> +
-> +    uint8_t cpu_pwrdwn_req;
-> +    uint8_t cpu_in_wfi;
-> +
-> +    RegisterInfoArray *reg_array;
-> +    uint32_t regs[APU_R_MAX];
-> +    RegisterInfo regs_info[APU_R_MAX];
-> +} XlnxZynqMPAPUCtrl;
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
