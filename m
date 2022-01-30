@@ -2,78 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 295A94A34C9
-	for <lists+qemu-devel@lfdr.de>; Sun, 30 Jan 2022 08:12:46 +0100 (CET)
-Received: from localhost ([::1]:54202 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A08594A34DA
+	for <lists+qemu-devel@lfdr.de>; Sun, 30 Jan 2022 08:22:32 +0100 (CET)
+Received: from localhost ([::1]:58886 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nE4OC-0008Gp-KI
-	for lists+qemu-devel@lfdr.de; Sun, 30 Jan 2022 02:12:44 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:36046)
+	id 1nE4Xf-0003uh-Dz
+	for lists+qemu-devel@lfdr.de; Sun, 30 Jan 2022 02:22:31 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:36282)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1nE3zZ-0004T3-6R
- for qemu-devel@nongnu.org; Sun, 30 Jan 2022 01:47:19 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:54480)
+ id 1nE42q-0004vG-CO
+ for qemu-devel@nongnu.org; Sun, 30 Jan 2022 01:50:45 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:25773)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1nE3zV-0001lk-3N
- for qemu-devel@nongnu.org; Sun, 30 Jan 2022 01:47:14 -0500
+ id 1nE42n-0002EG-L6
+ for qemu-devel@nongnu.org; Sun, 30 Jan 2022 01:50:39 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1643525232;
+ s=mimecast20190719; t=1643525436;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=jOYyKgOH8RgV9ghW6d3htexHq30T842ik8y10Dn6PXU=;
- b=QAB+I2NqO0IVVCPZkwEfVTKR5ewIIRkiczaR1HAleKarZtj1h2/V1CFtg+urvN6Qk/rApJ
- s4h/JcgVXbYMfvUJp9VnBRfO/7RP3HiH1o/w4f58xf92o46e/J2zRbdta3kmb9TfP4FsNS
- b7wU6qvckNTZ7rAOy0xIe2wM2kQhkgM=
-Received: from mail-pf1-f199.google.com (mail-pf1-f199.google.com
- [209.85.210.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=bzZVcP/vnAaeDpsixBNZqpLgN2oQGxF+rhswlTNK7r4=;
+ b=EM11Xh3AmHaWNMUWO0nDqnjTOJyRUJe35QtLS2PfFcLHweWplL0C/qlgKXkuTiCdmBU7W+
+ G1Y0EnzywTf8j5Vhyi5SPq1ayBXOYqUHMcuYUD+a0IzfOoNVSayF4QfssKMog6/u1dez7o
+ As14kAFETZ+2cPuV5qUg5nOlUN6L4iw=
+Received: from mail-pg1-f199.google.com (mail-pg1-f199.google.com
+ [209.85.215.199]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-462-LU7M-6yBOxKuHFRcQizcWQ-1; Sun, 30 Jan 2022 01:47:10 -0500
-X-MC-Unique: LU7M-6yBOxKuHFRcQizcWQ-1
-Received: by mail-pf1-f199.google.com with SMTP id
- o194-20020a62cdcb000000b004c9d2b4bfd8so5590626pfg.7
- for <qemu-devel@nongnu.org>; Sat, 29 Jan 2022 22:47:10 -0800 (PST)
+ us-mta-168-1Y0TL1vwPfC2HJq0aB5FwA-1; Sun, 30 Jan 2022 01:50:33 -0500
+X-MC-Unique: 1Y0TL1vwPfC2HJq0aB5FwA-1
+Received: by mail-pg1-f199.google.com with SMTP id
+ c75-20020a63354e000000b003408e4153d1so6245629pga.9
+ for <qemu-devel@nongnu.org>; Sat, 29 Jan 2022 22:50:33 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=jOYyKgOH8RgV9ghW6d3htexHq30T842ik8y10Dn6PXU=;
- b=FaQPJRt8iO7tmVugVIuan6ULhZ/1jXAcxymlgUXkPJkSDsI2jBL8jvkUWejP7RcaUp
- +W6XhqAJib/rWj1xMLIg/uWip8nDDg6TJfnuIDK4sMQf+tdWRXO/gHImbJqjVvSuAyOO
- SRWjX/XL/WtxNOyr8c9U8vIMzgfmBVQ1IWAyvaD/Wjcx+TM7iVwbjqy6Vmt5oRKeqzYx
- mvyrbUMYwnX3u68sqMfsSQ+sGGxGUDi1N4qeB25ECCp3giXg1cXbQtPgCx9ybzvrfBmp
- wOE2Sta+P8qkL0bGWMTuYbRYUWlaXx9iGCCEaS3UtYVizHZzNK+T+a5K6Kg1suUNIh6M
- XMNQ==
-X-Gm-Message-State: AOAM531FnlsLJags7V5QO+GScFODNV2r7khXZQhjOTjaNMGaSoNE22j3
- bOOwO86AdgBc72xLXcpL/fRWjjqnP1tr/BRWnCAVcq8MnHz5Cxfqee10UaB9VfFbt62BcNcZHc7
- kFYDKqk4EyVryQg4=
-X-Received: by 2002:a17:903:2310:: with SMTP id
- d16mr15915284plh.20.1643525229465; 
- Sat, 29 Jan 2022 22:47:09 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyvkJnGJTlkesocFe2yOrHY63ccYBcB9uAQjGdHa8f4+hZV1VOE9H2vT7fPuwB9oTwWXZ0QlA==
-X-Received: by 2002:a17:903:2310:: with SMTP id
- d16mr15915263plh.20.1643525229246; 
- Sat, 29 Jan 2022 22:47:09 -0800 (PST)
+ bh=bzZVcP/vnAaeDpsixBNZqpLgN2oQGxF+rhswlTNK7r4=;
+ b=dZMljdO1kqsv6aVJTMUwCVcMW9rHx15pFHDMwKAZlWDWDAOiD7JVNwsKPsvykmf2Lv
+ UYGlfv/2UUsdD1kiaZQwBSLKfxR5qar72P731zpe4DzoR1580SSy9ubicIu0ReZiBkxC
+ b7B4cLDt4BtuF8ln2qG5UyF6fq+0n/o5uNL5QFGCChxgPbsitmv0HqGJ51ltiE5pLeR/
+ 7j+HqMwGoJWAUn88uvjb4AA9+uGhvsLOYQ+2kRd7Yhys5utkArfjzc/zbQmDldKthdPJ
+ YPYTIvYjIzVPGGfjFntCLGvq5FG56/vnRdaCZao+UUQlebUOLGr+u4AzZhCNygIVrkpC
+ H4Xw==
+X-Gm-Message-State: AOAM530lDGakLDjL0TD/LgBz8HIqKZc7Suh/NnMIQfBpXZdqOTbDmGv1
+ GN8gEXDjuW4iS/mZ0ZKQoix0xb9vHSHyqZoa7lte115bC8YOzqmWLkw27pbdSSUgp8/z9gHkGAn
+ smO4+nZWyKsG3h6E=
+X-Received: by 2002:a17:902:d50d:: with SMTP id
+ b13mr15497339plg.170.1643525432308; 
+ Sat, 29 Jan 2022 22:50:32 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJypCazowZawvAJp3qjD1ARehRzwfZT99zuv2/XaiFEaIcwm835UkiPxGRUs90B9rmw57wev6w==
+X-Received: by 2002:a17:902:d50d:: with SMTP id
+ b13mr15497312plg.170.1643525432077; 
+ Sat, 29 Jan 2022 22:50:32 -0800 (PST)
 Received: from [10.72.12.243] ([209.132.188.80])
- by smtp.gmail.com with ESMTPSA id g1sm7859070pfu.32.2022.01.29.22.47.02
+ by smtp.gmail.com with ESMTPSA id lt17sm6796189pjb.41.2022.01.29.22.50.25
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 29 Jan 2022 22:47:08 -0800 (PST)
-Message-ID: <62e877ca-51d7-da85-13c9-d469a85f33c9@redhat.com>
-Date: Sun, 30 Jan 2022 14:46:57 +0800
+ Sat, 29 Jan 2022 22:50:31 -0800 (PST)
+Message-ID: <42664143-6d0c-b107-ec90-8e6336bae29b@redhat.com>
+Date: Sun, 30 Jan 2022 14:50:22 +0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
  Gecko/20100101 Thunderbird/91.5.1
-Subject: Re: [PATCH 18/31] vhost: Shadow virtqueue buffers forwarding
+Subject: Re: [PATCH 28/31] vdpa: Expose VHOST_F_LOG_ALL on SVQ
 To: =?UTF-8?Q?Eugenio_P=c3=a9rez?= <eperezma@redhat.com>, qemu-devel@nongnu.org
 References: <20220121202733.404989-1-eperezma@redhat.com>
- <20220121202733.404989-19-eperezma@redhat.com>
+ <20220121202733.404989-29-eperezma@redhat.com>
 From: Jason Wang <jasowang@redhat.com>
-In-Reply-To: <20220121202733.404989-19-eperezma@redhat.com>
+In-Reply-To: <20220121202733.404989-29-eperezma@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -120,39 +120,68 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
 在 2022/1/22 上午4:27, Eugenio Pérez 写道:
-> @@ -272,6 +590,28 @@ void vhost_svq_set_svq_kick_fd(VhostShadowVirtqueue *svq, int svq_kick_fd)
->   void vhost_svq_stop(VhostShadowVirtqueue *svq)
->   {
->       event_notifier_set_handler(&svq->svq_kick, NULL);
-> +    g_autofree VirtQueueElement *next_avail_elem = NULL;
+> SVQ is able to log the dirty bits by itself, so let's use it to not
+> block migration.
+>
+> Also, ignore set and clear of VHOST_F_LOG_ALL on set_features if SVQ is
+> enabled. Even if the device supports it, the reports would be nonsense
+> because SVQ memory is in the qemu region.
+>
+> The log region is still allocated. Future changes might skip that, but
+> this series is already long enough.
+>
+> Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
+> ---
+>   hw/virtio/vhost-vdpa.c | 20 ++++++++++++++++++++
+>   1 file changed, 20 insertions(+)
+>
+> diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
+> index fb0a338baa..75090d65e8 100644
+> --- a/hw/virtio/vhost-vdpa.c
+> +++ b/hw/virtio/vhost-vdpa.c
+> @@ -1022,6 +1022,9 @@ static int vhost_vdpa_get_features(struct vhost_dev *dev, uint64_t *features)
+>       if (ret == 0 && v->shadow_vqs_enabled) {
+>           /* Filter only features that SVQ can offer to guest */
+>           vhost_svq_valid_guest_features(features);
 > +
-> +    if (!svq->vq) {
-> +        return;
-> +    }
+> +        /* Add SVQ logging capabilities */
+> +        *features |= BIT_ULL(VHOST_F_LOG_ALL);
+>       }
+>   
+>       return ret;
+> @@ -1039,8 +1042,25 @@ static int vhost_vdpa_set_features(struct vhost_dev *dev,
+>   
+>       if (v->shadow_vqs_enabled) {
+>           uint64_t dev_features, svq_features, acked_features;
+> +        uint8_t status = 0;
+>           bool ok;
+>   
+> +        ret = vhost_vdpa_call(dev, VHOST_VDPA_GET_STATUS, &status);
+> +        if (unlikely(ret)) {
+> +            return ret;
+> +        }
 > +
-> +    /* Send all pending used descriptors to guest */
-> +    vhost_svq_flush(svq, false);
+> +        if (status & VIRTIO_CONFIG_S_DRIVER_OK) {
+> +            /*
+> +             * vhost is trying to enable or disable _F_LOG, and the device
+> +             * would report wrong dirty pages. SVQ handles it.
+> +             */
 
 
-Do we need to wait for all the pending descriptors to be completed here?
+I fail to understand this comment, I'd think there's no way to disable 
+dirty page tracking for SVQ.
 
 Thanks
 
 
-> +
-> +    for (unsigned i = 0; i < svq->vring.num; ++i) {
-> +        g_autofree VirtQueueElement *elem = NULL;
-> +        elem = g_steal_pointer(&svq->ring_id_maps[i]);
-> +        if (elem) {
-> +            virtqueue_detach_element(svq->vq, elem, elem->len);
+> +            return 0;
 > +        }
-> +    }
 > +
-> +    next_avail_elem = g_steal_pointer(&svq->next_guest_avail_elem);
-> +    if (next_avail_elem) {
-> +        virtqueue_detach_element(svq->vq, next_avail_elem,
-> +                                 next_avail_elem->len);
-> +    }
->   }
+> +        /* We must not ack _F_LOG if SVQ is enabled */
+> +        features &= ~BIT_ULL(VHOST_F_LOG_ALL);
+> +
+>           ret = vhost_vdpa_get_dev_features(dev, &dev_features);
+>           if (ret != 0) {
+>               error_report("Can't get vdpa device features, got (%d)", ret);
 
 
