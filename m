@@ -2,78 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C29604A3A9B
-	for <lists+qemu-devel@lfdr.de>; Sun, 30 Jan 2022 22:49:28 +0100 (CET)
-Received: from localhost ([::1]:58714 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F9694A3AAC
+	for <lists+qemu-devel@lfdr.de>; Sun, 30 Jan 2022 23:18:59 +0100 (CET)
+Received: from localhost ([::1]:43280 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nEI4d-0005PJ-Bl
-	for lists+qemu-devel@lfdr.de; Sun, 30 Jan 2022 16:49:27 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:37850)
+	id 1nEIXC-0007cr-0B
+	for lists+qemu-devel@lfdr.de; Sun, 30 Jan 2022 17:18:58 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:45348)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nEI2Q-0004Je-92
- for qemu-devel@nongnu.org; Sun, 30 Jan 2022 16:47:10 -0500
-Received: from [2607:f8b0:4864:20::629] (port=34376
- helo=mail-pl1-x629.google.com)
+ id 1nEIUH-0004rO-LO
+ for qemu-devel@nongnu.org; Sun, 30 Jan 2022 17:15:57 -0500
+Received: from [2607:f8b0:4864:20::52f] (port=45569
+ helo=mail-pg1-x52f.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nEI2M-0003og-PQ
- for qemu-devel@nongnu.org; Sun, 30 Jan 2022 16:47:08 -0500
-Received: by mail-pl1-x629.google.com with SMTP id h14so10903568plf.1
- for <qemu-devel@nongnu.org>; Sun, 30 Jan 2022 13:47:05 -0800 (PST)
+ id 1nEIUB-0008P8-FK
+ for qemu-devel@nongnu.org; Sun, 30 Jan 2022 17:15:55 -0500
+Received: by mail-pg1-x52f.google.com with SMTP id z131so10512810pgz.12
+ for <qemu-devel@nongnu.org>; Sun, 30 Jan 2022 14:15:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=cFIfH2SebrFQpNfxAFA0OSGr3eM+KF5EZu0Z5a4Lnv0=;
- b=dYQKqS5rD9TW9JpogT6w+dUCYazYurh3pp3/JHczxlr+UnBDbYgH+DpRhFbEKrExS1
- cN9Yc9D3fLKO5p62C8TgxvHpYyuRHwRF5iqHL477lfsk3FUnsAxmNM/XH1rqOgkWDIOe
- GetErCQGP/BR2HbNDhdEMBKqqBd8nk+sAWsZsyk5vY1J+Q5x3FxmBaSNOPGfarlAhhbE
- oVvDQ//zKQirJuxThu+2FtytrQRVfvNUVLf3bOK5OX8erTF2p0JwgKOcGhbhQSp5dvou
- GGfYyhSB3gpK2hr451mlkNlJQf7sT9QpIsIMHrIV+zwYF1iqq2+SvCt6wjgG9LSWUGew
- 2E5g==
+ bh=hTBvTaxCwRtCqwxIprtOuuKoCPAExvByAvPKwtkc1dY=;
+ b=uthbLygFpxwP+rr6edEegmXDQZIxuC+G+UxE6WeCHf0d64dW3e7dqP9ZX41G+Ip8dH
+ XcM0Lmj4acdgbCJHlRl4AlKfaX8uop37tBQQDXI2YH7xg4EMYtQUEXuJgUc3k99sMjnS
+ 2ZDcAy7xWfRsNgE7zG46U27gcO8E7Y3gEWSrzHeCJ7M/RNeVNQiCeCSqA2upKRE5PAbv
+ UTPwt2cQNGNM98L3HhdBLj2m+xvkKgeyw7GGjnkkNW3lDvwVLvgAvjkm9iVyNBnNdac1
+ 7kwdd3AoHoARkvNZj6owlXQYBDV0gfX1tBFQ1scIT4sQitAHxtkqjSRGvtYHuVl0hnwL
+ EoCw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=cFIfH2SebrFQpNfxAFA0OSGr3eM+KF5EZu0Z5a4Lnv0=;
- b=a1OMzSXdPn3mionm7/G+lKl8iVEn2dbZNS77DSHNsxw5dCMdzLqFg9gP7O6UgG1rQ7
- XkJqu2vfqxbm/WIGZ4DDrahl3dAp370xok9XG7Gz/OqaZpr601+ZjpHgKcxfIs4lXh2y
- Rm/cYgJykdvaZx4h5fXJstAl1ONMA1DC4Fe6asLbUlzguA0lLeua/jTZ3HATpOfP2Ak+
- aPymCixdFO9TCUSw8hNNrSE9MwzCnWCIChYGgjMY0Eyl5kYF8eMCtvhrbFPL3y3fgXJr
- liewJq3EedBeeBsl3kEPZjtPhiNiQrnaDYZwPW6q33XPrZj8teYlVuabITyMvcRh3iOM
- vF7A==
-X-Gm-Message-State: AOAM533HzJZkjm3kqxeVHaWxl9LIehcvc1lKRZyisJTxvG8Q3uHw9Uw4
- +2oxgpYflHXShpIsaIWAVhPweg==
-X-Google-Smtp-Source: ABdhPJyUFlIY5jEwdH9Q6yt6RS7+iA2Xol31nfUcc8jJv9MNJfnVnqil/RafKQAhmlG97cTb7UFSWw==
-X-Received: by 2002:a17:902:bf02:: with SMTP id
- bi2mr18228621plb.139.1643579224629; 
- Sun, 30 Jan 2022 13:47:04 -0800 (PST)
+ bh=hTBvTaxCwRtCqwxIprtOuuKoCPAExvByAvPKwtkc1dY=;
+ b=af9hz0JAiS4uVLiJ4uAf2GXjX4bZDJVafdlgkpA659vNN1oCTBMmzSg26XOf8/p8yY
+ 9wfaqIhdRDYrjF9IhtfLzgF/glHHgHIHRJOi8GSsMm0h0vZvZjfgh/S9otyAXRFkh6c+
+ wVJ8hMnrZJuPQj6tQCIT0MkzruqRcPzjYXvnZOuFaE+++oQ6+Ck3RpDGoUVK0Yl5+r6i
+ HI06ouHWI8zwVGj3vfi5CX8/qbAV/HfdQDtalPbpX0usfK570aBS8YKxmqFyl3MNMhX2
+ zdwHTcH1zP3LpqAlu9doDq23pHBTgrL0ggw/AhY2VfI4krszB0Ra35yKg8a6bKKAaBzj
+ HGwA==
+X-Gm-Message-State: AOAM533F3TnRqKKNhz1t2nrZwWiO5+/3lyb61INdbEYs2zh6BCUw/cdZ
+ wMkTvQpZrLC/zdBjxrcqrIyKUw==
+X-Google-Smtp-Source: ABdhPJwdmI6tQpC6Ruy3hWmh8UJ95AzJCxFx5p906FXw/X4AnJnUBBRv9NB5YsEaYFL64rangP31xw==
+X-Received: by 2002:a05:6a00:8d2:: with SMTP id
+ s18mr17429512pfu.5.1643580927992; 
+ Sun, 30 Jan 2022 14:15:27 -0800 (PST)
 Received: from [192.168.2.37] (240.194.168.125.sta.wbroadband.net.au.
  [125.168.194.240])
- by smtp.gmail.com with ESMTPSA id f5sm3301831pfc.0.2022.01.30.13.46.56
+ by smtp.gmail.com with ESMTPSA id l26sm26671388pgm.73.2022.01.30.14.15.19
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 30 Jan 2022 13:47:03 -0800 (PST)
-Message-ID: <06d70a45-9aeb-9815-5613-6dd67404860b@linaro.org>
-Date: Mon, 31 Jan 2022 08:46:52 +1100
+ Sun, 30 Jan 2022 14:15:27 -0800 (PST)
+Message-ID: <7d4dff61-f75b-4243-9008-506c9c715dea@linaro.org>
+Date: Mon, 31 Jan 2022 09:15:15 +1100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.5.0
-Subject: Re: [PATCH 02/16] cpu.c: Make start-powered-off settable after realize
+Subject: Re: [PATCH 03/16] hw/arm/boot: Support setting psci-conduit based on
+ guest EL
 Content-Language: en-US
 To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
  qemu-devel@nongnu.org
 References: <20220127154639.2090164-1-peter.maydell@linaro.org>
- <20220127154639.2090164-3-peter.maydell@linaro.org>
+ <20220127154639.2090164-4-peter.maydell@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220127154639.2090164-3-peter.maydell@linaro.org>
+In-Reply-To: <20220127154639.2090164-4-peter.maydell@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::629
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::52f
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::629;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x629.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52f;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52f.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -111,33 +112,75 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 1/28/22 02:46, Peter Maydell wrote:
-> The CPU object's start-powered-off property is currently only
-> settable before the CPU object is realized.  For arm machines this is
-> awkward, because we would like to decide whether the CPU should be
-> powered-off based on how we are booting the guest code, which is
-> something done in the machine model code and in common code called by
-> the machine model, which runs much later and in completely different
-> parts of the codebase from the SoC object code that is responsible
-> for creating and realizing the CPU objects.
+> Currently we expect board code to set the psci-conduit property on
+> CPUs and ensure that secondary CPUs are created with the
+> start-powered-off property set to false, if the board wishes to use
+> QEMU's builtin PSCI emulation.  This worked OK for the virt board
+> where we first wanted to use it, because the virt board directly
+> creates its CPUs and is in a reasonable position to set those
+> properties.  For other boards which model real hardware and use a
+> separate SoC object, however, it is more awkward.  Most PSCI-using
+> boards just set the psci-conduit board unconditionally.
 > 
-> Allow start-powered-off to be set after realize.  Since this isn't
-> something that's supported by the DEFINE_PROP_* macros, we have to
-> switch the property definition to use the
-> object_class_property_add_bool() function.
+> This was never strictly speaking correct (because you would not be
+> able to run EL3 guest firmware that itself provided the PSCI
+> interface, as the QEMU implementation would overrule it), but mostly
+> worked in practice because for non-PSCI SMC calls QEMU would emulate
+> the SMC instruction as normal (by trapping to guest EL3).  However,
+> we would like to make our PSCI emulation follow the part of the SMCC
+> specification that mandates that SMC calls with unknown function
+> identifiers return a failure code, which means that all SMC calls
+> will be handled by the PSCI code and the "emulate as normal" path
+> will no longer be taken.
 > 
-> Note that it doesn't conceptually make sense to change the setting of
-> the property after the machine has been completely initialized,
-> beacuse this would mean that the behaviour of the machine when first
-> started would differ from its behaviour when the system is
-> subsequently reset.  (It would also require the underlying state to
-> be migrated, which we don't do.)
+> We tried to implement that in commit 9fcd15b9193e81
+> ("arm: tcg: Adhere to SMCCC 1.3 section 5.2"), but this
+> regressed attempts to run EL3 guest code on the affected boards:
+>   * mcimx6ul-evk, mcimx7d-sabre, orangepi, xlnx-zcu102
+>   * for the case only of EL3 code loaded via -kernel (and
+>     not via -bios or -pflash), virt and xlnx-versal-virt
+> so for the 7.0 release we reverted it (in commit 4825eaae4fdd56f).
 > 
-> Signed-off-by: Peter Maydell<peter.maydell@linaro.org>
+> This commit provides a mechanism that boards can use to arrange that
+> psci-conduit is set if running guest code at a low enough EL but not
+> if it would be running at the same EL that the conduit implies that
+> the QEMU PSCI implementation is using.  (Later commits will convert
+> individual board models to use this mechanism.)
+> 
+> We do this by moving the setting of the psci-conduit and
+> start-powered-off properties to arm_load_kernel().  Boards which want
+> to potentially use emulated PSCI must set a psci_conduit field in the
+> arm_boot_info struct to the type of conduit they want to use (SMC or
+> HVC); arm_load_kernel() will then set the CPUs up accordingly if it
+> is not going to start the guest code at the same or higher EL as the
+> fake QEMU firmware would be at.
+> 
+> Board/SoC code which uses this mechanism should no longer set the CPU
+> psci-conduit property directly.  It should only set the
+> start-powered-off property for secondaries if EL3 guest firmware
+> running bare metal expects that rather than the alternative "all CPUs
+> start executing the firmware at once".
+> 
+> Note that when calculating whether we are going to run guest
+> code at EL3, we ignore the setting of arm_boot_info::secure_board_setup,
+> which might cause us to run a stub bit of guest code at EL3 which
+> does some board-specific setup before dropping to EL2 or EL1 to
+> run the guest kernel. This is OK because only one board that
+> enables PSCI sets secure_board_setup (the highbank board), and
+> the stub code it writes will behave the same way whether the
+> one SMC call it makes is handled by "emulate the SMC" or by
+> "PSCI default returns an error code". So we can leave that stub
+> code in place until after we've changed the PSCI default behaviour;
+> at that point we will remove it.
+> 
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 > ---
->   cpu.c | 22 +++++++++++++++++++++-
->   1 file changed, 21 insertions(+), 1 deletion(-)
+>   include/hw/arm/boot.h | 10 +++++++++
+>   hw/arm/boot.c         | 50 +++++++++++++++++++++++++++++++++++++++++++
+>   2 files changed, 60 insertions(+)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+
 
 r~
 
