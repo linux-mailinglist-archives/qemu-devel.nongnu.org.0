@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB6AE4A3AE8
-	for <lists+qemu-devel@lfdr.de>; Mon, 31 Jan 2022 00:16:21 +0100 (CET)
-Received: from localhost ([::1]:43634 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 64FA54A3AEC
+	for <lists+qemu-devel@lfdr.de>; Mon, 31 Jan 2022 00:18:56 +0100 (CET)
+Received: from localhost ([::1]:51164 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nEJQi-0005wW-Nt
-	for lists+qemu-devel@lfdr.de; Sun, 30 Jan 2022 18:16:20 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:34968)
+	id 1nEJTD-0002hF-ER
+	for lists+qemu-devel@lfdr.de; Sun, 30 Jan 2022 18:18:55 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:34974)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <edgar.iglesias@gmail.com>)
- id 1nEJMq-00038J-Kf; Sun, 30 Jan 2022 18:12:20 -0500
-Received: from [2a00:1450:4864:20::232] (port=46805
- helo=mail-lj1-x232.google.com)
+ id 1nEJMq-00038e-Nl; Sun, 30 Jan 2022 18:12:20 -0500
+Received: from [2a00:1450:4864:20::132] (port=42891
+ helo=mail-lf1-x132.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <edgar.iglesias@gmail.com>)
- id 1nEJMn-0000vr-Ab; Sun, 30 Jan 2022 18:12:20 -0500
-Received: by mail-lj1-x232.google.com with SMTP id c7so16533801ljr.13;
+ id 1nEJMn-0000vw-B0; Sun, 30 Jan 2022 18:12:20 -0500
+Received: by mail-lf1-x132.google.com with SMTP id y15so23156494lfa.9;
  Sun, 30 Jan 2022 15:12:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=awTWQmmNVu1OsQYeHrQ+A/19XUG6MkrMGcQv68t8Yp8=;
- b=RmnBQo7vVn1qhe5KAdWyo1nyoMneJvUcxH/HDQP9SYJkGSVrjd8wngHObjluWbqoDe
- G4uq0sEfuYMleDmLFAQc7w5x888YZrWMow7X1iFllgy2sPiPmYoII7tdxLFL0kcuHPFU
- XCx52CH22S5kBiFKB2NUbsq+09dUWexywgaxX410J/lsQX89zYCS93iPTSqpvw/+xTIL
- aDqjsr6y0/fJZyq7UyGx6S9qLSIvE7DbJsDys7FGMgi9BABiq9Q83XE2XHNtOZqOANrX
- PGqxwUtUI+FV/1MKIE6sgF21ewM1dk/1NnNHu+AHCHIOJeIDZL7G9lHwUDpWFeNu6JFd
- ceog==
+ bh=5cC47Sv0aLp7tnKjjmWCbq8mH4nDRh0G2Q/XihE2vyw=;
+ b=MWVBC2o6Yv9eE+WjO14Gt9B3HpF4b0rBCQhjjdRWwFgoNgVucshfre5RGFNKEgHosn
+ reN6UH1l+WPBvlyJbdpEWPS02u7d4kugvCQ0Yi7YYjhOL4ae+Ym7csbJptfzpLX1OMou
+ UsC7r5dRRPeFcr8dl/OLVC3V+euSjGprBXGMi2bR0GscwwmK3/MVNCH11cEnxutmSabz
+ 9G7JGhGHmjkkftPBsNG6dBksSb0Oc4dcP3o4JEVsks5ilyMjt5Js7iC30s7VoWFLoY83
+ EkxaPQ7G4uimbuEYh/xyefQkwUUU1OPk1jYGbueMoIF5BnCgtZU+3b6SZ5PsHZL2tOdl
+ +URQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=awTWQmmNVu1OsQYeHrQ+A/19XUG6MkrMGcQv68t8Yp8=;
- b=SgQ1F9vaKtrQOhGDe4zerHrmZ3AwAafn5ASsp92PhvtoJ4yg6aNaHEzcHZV7h6kQYh
- h5f89Ws25LnPie0AX3Fod90tDEUkZ3Nvd0/IgHvZn/YxIabmU/YYkxyx8cSFumloZdeY
- pAfRCENKLRedH1OiLRBf0I8rTr5TYMLTJeZzAuQ7A7hI6S+SZNhzvLakrbJ3ejDBMuH3
- bDe1MXo2QkGuRzRkbdg7HZfY7MxYI0g0I3iyUTLOGx3AiBIwatSAKuNqEmVCt2K8KMr5
- MiQUAzFGQD90toIxIF/AJ8M3pOOx5cDuRb3NFiUt2h3eITe87fg2TN5Ssv6bL1WE/CiO
- YaGg==
-X-Gm-Message-State: AOAM531KKeqxolPK+DPxuH1vwLokGXC7+L+AqPKRF8o4zcEs8+U1hEtp
- RKbaGq0tCqUcuGvR+ywiQc+FV2OGtwJ0qg==
-X-Google-Smtp-Source: ABdhPJzC7KjzL9jgTLeq7ewXFCEWGTAIlb2biPD+/nFPH0YIe5tG+VBKsUryY0chiLdvRnC1Ok3vJA==
-X-Received: by 2002:a2e:b749:: with SMTP id k9mr12146762ljo.135.1643584328595; 
- Sun, 30 Jan 2022 15:12:08 -0800 (PST)
+ bh=5cC47Sv0aLp7tnKjjmWCbq8mH4nDRh0G2Q/XihE2vyw=;
+ b=i8KJRxOF5F6VG0UNZIbtKTPBwlZPf7AnZEviAO4wvpP3cowdXQmhl3lTo/wpPWW7jE
+ MCLj8G7yuLD1+HlzHkYKXksN0rXDPtwxm0l9HQVmtxC9EgqA9WalvbHFLZSo6LKzD14G
+ Otob43i7csZLLdHQaqKxRnv8SYo5gnEU9lDkpdWn3ZkUp5pmYGEPogQo4+tLS5PEb0n0
+ y1xAKp+tVxpEo8lLXsk0PUD0qJheGR71SQP1ra6oUjtQBwWAPJM2sCSQaOI1gF134Xl9
+ ZK8itY8eP4c/BEUnLDHUiw8Fety+v5CK0k8kDPvUOvd5WdaBcxxc/xmTD6OCNk9rzibI
+ ojXg==
+X-Gm-Message-State: AOAM531t5AEOOdsknowS9FGyIqqi25LxjbUDvMCKnyFy8AT/++iJkgdE
+ 93rHBYSurxtfyDKZjYaK67eWkQ7OdqKk8Q==
+X-Google-Smtp-Source: ABdhPJzgcL5pDInH+MHnRpnsiX8u/h1XRrb9W5zpptf3atR+w0f4I7WcY2ff7VxacPsLG1CLAFh58w==
+X-Received: by 2002:ac2:4d4b:: with SMTP id 11mr13113193lfp.422.1643584329580; 
+ Sun, 30 Jan 2022 15:12:09 -0800 (PST)
 Received: from gmail.com (81-231-232-130-no39.tbcn.telia.com. [81.231.232.130])
- by smtp.gmail.com with ESMTPSA id u18sm2568332lfg.0.2022.01.30.15.12.08
+ by smtp.gmail.com with ESMTPSA id v6sm1247091lfq.181.2022.01.30.15.12.08
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 30 Jan 2022 15:12:08 -0800 (PST)
+ Sun, 30 Jan 2022 15:12:09 -0800 (PST)
 From: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v1 1/6] hw/arm/xlnx-zynqmp: Add unimplemented SERDES area
-Date: Mon, 31 Jan 2022 00:12:01 +0100
-Message-Id: <20220130231206.34035-2-edgar.iglesias@gmail.com>
+Subject: [PATCH v1 2/6] target/arm: Make rvbar settable after realize
+Date: Mon, 31 Jan 2022 00:12:02 +0100
+Message-Id: <20220130231206.34035-3-edgar.iglesias@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220130231206.34035-1-edgar.iglesias@gmail.com>
 References: <20220130231206.34035-1-edgar.iglesias@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::232
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::132
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::232;
- envelope-from=edgar.iglesias@gmail.com; helo=mail-lj1-x232.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::132;
+ envelope-from=edgar.iglesias@gmail.com; helo=mail-lf1-x132.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -93,49 +93,39 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: "Edgar E. Iglesias" <edgar.iglesias@xilinx.com>
 
-Add unimplemented SERDES area.
+Make the rvbar property settable after realize. This is done
+in preparation to model the ZynqMP's runtime configurable rvbar.
 
 Signed-off-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
 ---
- include/hw/arm/xlnx-zynqmp.h | 2 +-
- hw/arm/xlnx-zynqmp.c         | 4 ++++
- 2 files changed, 5 insertions(+), 1 deletion(-)
+ target/arm/cpu.c | 7 +++----
+ 1 file changed, 3 insertions(+), 4 deletions(-)
 
-diff --git a/include/hw/arm/xlnx-zynqmp.h b/include/hw/arm/xlnx-zynqmp.h
-index 062e637fe4..99ceb8a609 100644
---- a/include/hw/arm/xlnx-zynqmp.h
-+++ b/include/hw/arm/xlnx-zynqmp.h
-@@ -84,7 +84,7 @@ OBJECT_DECLARE_SIMPLE_TYPE(XlnxZynqMPState, XLNX_ZYNQMP)
- /*
-  * Unimplemented mmio regions needed to boot some images.
-  */
--#define XLNX_ZYNQMP_NUM_UNIMP_AREAS 1
-+#define XLNX_ZYNQMP_NUM_UNIMP_AREAS 2
+diff --git a/target/arm/cpu.c b/target/arm/cpu.c
+index 5a9c02a256..e30ae088fe 100644
+--- a/target/arm/cpu.c
++++ b/target/arm/cpu.c
+@@ -1128,9 +1128,6 @@ static Property arm_cpu_reset_cbar_property =
+ static Property arm_cpu_reset_hivecs_property =
+             DEFINE_PROP_BOOL("reset-hivecs", ARMCPU, reset_hivecs, false);
  
- struct XlnxZynqMPState {
-     /*< private >*/
-diff --git a/hw/arm/xlnx-zynqmp.c b/hw/arm/xlnx-zynqmp.c
-index 17305fe7b7..ba44e95899 100644
---- a/hw/arm/xlnx-zynqmp.c
-+++ b/hw/arm/xlnx-zynqmp.c
-@@ -51,6 +51,9 @@
- #define QSPI_IRQ            15
- #define QSPI_DMA_ADDR       0xff0f0800
+-static Property arm_cpu_rvbar_property =
+-            DEFINE_PROP_UINT64("rvbar", ARMCPU, rvbar, 0);
+-
+ #ifndef CONFIG_USER_ONLY
+ static Property arm_cpu_has_el2_property =
+             DEFINE_PROP_BOOL("has_el2", ARMCPU, has_el2, true);
+@@ -1233,7 +1230,9 @@ void arm_cpu_post_init(Object *obj)
+     }
  
-+#define SERDES_ADDR         0xfd400000
-+#define SERDES_SIZE         0x20000
-+
- #define DP_ADDR             0xfd4a0000
- #define DP_IRQ              113
+     if (arm_feature(&cpu->env, ARM_FEATURE_AARCH64)) {
+-        qdev_property_add_static(DEVICE(obj), &arm_cpu_rvbar_property);
++        object_property_add_uint64_ptr(obj, "rvbar",
++                                       &cpu->rvbar,
++                                       OBJ_PROP_FLAG_READWRITE);
+     }
  
-@@ -284,6 +287,7 @@ static void xlnx_zynqmp_create_unimp_mmio(XlnxZynqMPState *s)
-         hwaddr size;
-     } unimp_areas[ARRAY_SIZE(s->mr_unimp)] = {
-         { .name = "apu", APU_ADDR, APU_SIZE },
-+        { .name = "serdes", SERDES_ADDR, SERDES_SIZE },
-     };
-     unsigned int nr;
- 
+ #ifndef CONFIG_USER_ONLY
 -- 
 2.25.1
 
