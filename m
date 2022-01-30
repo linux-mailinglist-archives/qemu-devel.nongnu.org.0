@@ -2,67 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B2164A3AE7
+	by mail.lfdr.de (Postfix) with ESMTPS id EB6AE4A3AE8
 	for <lists+qemu-devel@lfdr.de>; Mon, 31 Jan 2022 00:16:21 +0100 (CET)
-Received: from localhost ([::1]:43676 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:43634 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nEJQi-0005yB-3X
+	id 1nEJQi-0005wW-Nt
 	for lists+qemu-devel@lfdr.de; Sun, 30 Jan 2022 18:16:20 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:34960)
+Received: from eggs.gnu.org ([209.51.188.92]:34968)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <edgar.iglesias@gmail.com>)
- id 1nEJMq-00038B-GE; Sun, 30 Jan 2022 18:12:20 -0500
-Received: from [2a00:1450:4864:20::136] (port=37810
- helo=mail-lf1-x136.google.com)
+ id 1nEJMq-00038J-Kf; Sun, 30 Jan 2022 18:12:20 -0500
+Received: from [2a00:1450:4864:20::232] (port=46805
+ helo=mail-lj1-x232.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <edgar.iglesias@gmail.com>)
- id 1nEJMn-0000vo-9c; Sun, 30 Jan 2022 18:12:20 -0500
-Received: by mail-lf1-x136.google.com with SMTP id n8so23223338lfq.4;
- Sun, 30 Jan 2022 15:12:09 -0800 (PST)
+ id 1nEJMn-0000vr-Ab; Sun, 30 Jan 2022 18:12:20 -0500
+Received: by mail-lj1-x232.google.com with SMTP id c7so16533801ljr.13;
+ Sun, 30 Jan 2022 15:12:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=hyWgnKcFsZbjV25ohAQeWlsgH9LfoJT09eJHJH1WZ64=;
- b=iyXVa56Nh7gQaFGKA6CmPa+29S1osWPxw9KVrEPxAp28dBJjhcGMHI0ee06RS1IsPV
- h9v2J3nstH7oGUgJjLPH3wx6xoDXXZPzN4+RPcpHksDk523PbrwfXbOhQoJiQ9bI8E5v
- LjF2G/Y5Euf3ptYHz7qKhmEdOxl0cy8CJFdbxu8TFQcFpUg/AOFySbV0xkzEwntr/xCC
- uoUDFnOXHUNpjnVbl9KL+eyCAM7185qsNc7YuzCmePxyRo2sQfNXX7r/8vVgKf1KAvSy
- S2NLrA7rn6VfNvp9v8Ui7yduySspeJOiEP4D3nQdN34iHu86BpfjNpoqPKxAb5KFEog9
- aWpQ==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=awTWQmmNVu1OsQYeHrQ+A/19XUG6MkrMGcQv68t8Yp8=;
+ b=RmnBQo7vVn1qhe5KAdWyo1nyoMneJvUcxH/HDQP9SYJkGSVrjd8wngHObjluWbqoDe
+ G4uq0sEfuYMleDmLFAQc7w5x888YZrWMow7X1iFllgy2sPiPmYoII7tdxLFL0kcuHPFU
+ XCx52CH22S5kBiFKB2NUbsq+09dUWexywgaxX410J/lsQX89zYCS93iPTSqpvw/+xTIL
+ aDqjsr6y0/fJZyq7UyGx6S9qLSIvE7DbJsDys7FGMgi9BABiq9Q83XE2XHNtOZqOANrX
+ PGqxwUtUI+FV/1MKIE6sgF21ewM1dk/1NnNHu+AHCHIOJeIDZL7G9lHwUDpWFeNu6JFd
+ ceog==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=hyWgnKcFsZbjV25ohAQeWlsgH9LfoJT09eJHJH1WZ64=;
- b=XXAugRSqm7jk+6ZxAqXC7E7hi3T2lXqXq4MWEWB1jcdSjL/QkeybzZka+D9lw0itqn
- VYf6kC/MPYGu5oi1lpCjEnOOQU2cJ875cHtC42EyHkDDju0sSZKmcVB9n0ZRpQyiRRXz
- cU3rl41n6Thb9HXsfaYMtyuQ8J0NOEvEwVGx5SZXuPeR1dDTME/ggj+3QGyajtO7WJkx
- juN8mUXcB/4QFYxJHMLa9VG0I1LJPdVPbi/XCi8GQxQyrJHsPbFVLubnjtn9312SdTiX
- rHpLl3TcpwdUk7jgJa0EQpWh6qfg7NDP8vxVxv6TUdeQOzTygckxRCXgeRV6N+6HSK+4
- TNug==
-X-Gm-Message-State: AOAM533xXXSXbFrZqm1lAWeq5d6J7roxuGY1MbxXZyeaPjCCunV2pPn8
- Da9PNcpxv0jWyqFlTt+mt+cXBAINftAdvQ==
-X-Google-Smtp-Source: ABdhPJxenPMFl1vdj/W2Lqsbwv1fW1EVMu1d5x2crgl7CTfHmvBYDYwAG72eRwdMmhumRGkDMuAM3Q==
-X-Received: by 2002:a05:6512:32c5:: with SMTP id
- f5mr8393000lfg.361.1643584327654; 
- Sun, 30 Jan 2022 15:12:07 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=awTWQmmNVu1OsQYeHrQ+A/19XUG6MkrMGcQv68t8Yp8=;
+ b=SgQ1F9vaKtrQOhGDe4zerHrmZ3AwAafn5ASsp92PhvtoJ4yg6aNaHEzcHZV7h6kQYh
+ h5f89Ws25LnPie0AX3Fod90tDEUkZ3Nvd0/IgHvZn/YxIabmU/YYkxyx8cSFumloZdeY
+ pAfRCENKLRedH1OiLRBf0I8rTr5TYMLTJeZzAuQ7A7hI6S+SZNhzvLakrbJ3ejDBMuH3
+ bDe1MXo2QkGuRzRkbdg7HZfY7MxYI0g0I3iyUTLOGx3AiBIwatSAKuNqEmVCt2K8KMr5
+ MiQUAzFGQD90toIxIF/AJ8M3pOOx5cDuRb3NFiUt2h3eITe87fg2TN5Ssv6bL1WE/CiO
+ YaGg==
+X-Gm-Message-State: AOAM531KKeqxolPK+DPxuH1vwLokGXC7+L+AqPKRF8o4zcEs8+U1hEtp
+ RKbaGq0tCqUcuGvR+ywiQc+FV2OGtwJ0qg==
+X-Google-Smtp-Source: ABdhPJzC7KjzL9jgTLeq7ewXFCEWGTAIlb2biPD+/nFPH0YIe5tG+VBKsUryY0chiLdvRnC1Ok3vJA==
+X-Received: by 2002:a2e:b749:: with SMTP id k9mr12146762ljo.135.1643584328595; 
+ Sun, 30 Jan 2022 15:12:08 -0800 (PST)
 Received: from gmail.com (81-231-232-130-no39.tbcn.telia.com. [81.231.232.130])
- by smtp.gmail.com with ESMTPSA id w35sm3433795lfu.273.2022.01.30.15.12.07
+ by smtp.gmail.com with ESMTPSA id u18sm2568332lfg.0.2022.01.30.15.12.08
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 30 Jan 2022 15:12:07 -0800 (PST)
+ Sun, 30 Jan 2022 15:12:08 -0800 (PST)
 From: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v1 0/6] hw/arm: zynqmp: Add CRF and APU control to support PSCI
-Date: Mon, 31 Jan 2022 00:12:00 +0100
-Message-Id: <20220130231206.34035-1-edgar.iglesias@gmail.com>
+Subject: [PATCH v1 1/6] hw/arm/xlnx-zynqmp: Add unimplemented SERDES area
+Date: Mon, 31 Jan 2022 00:12:01 +0100
+Message-Id: <20220130231206.34035-2-edgar.iglesias@gmail.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20220130231206.34035-1-edgar.iglesias@gmail.com>
+References: <20220130231206.34035-1-edgar.iglesias@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::136
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::232
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::136;
- envelope-from=edgar.iglesias@gmail.com; helo=mail-lf1-x136.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::232;
+ envelope-from=edgar.iglesias@gmail.com; helo=mail-lj1-x232.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -92,37 +93,49 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: "Edgar E. Iglesias" <edgar.iglesias@xilinx.com>
 
-This adds the necessary modeling to support some of our firmware
-tests at EL3 implementing PSCI (TBM). These are the test-cases
-that were previously relying on QEMU's builtin PSCI emulation.
+Add unimplemented SERDES area.
 
-I've only tested this on top of Peter's recent PSCI emulation fixes.
+Signed-off-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
+---
+ include/hw/arm/xlnx-zynqmp.h | 2 +-
+ hw/arm/xlnx-zynqmp.c         | 4 ++++
+ 2 files changed, 5 insertions(+), 1 deletion(-)
 
-Cheers,
-Edgar
-
-Edgar E. Iglesias (6):
-  hw/arm/xlnx-zynqmp: Add unimplemented SERDES area
-  target/arm: Make rvbar settable after realize
-  hw/misc: Add a model of the Xilinx ZynqMP CRF
-  hw/arm/xlnx-zynqmp: Connect the ZynqMP CRF
-  hw/misc: Add a model of the Xilinx ZynqMP APU Control
-  hw/arm/xlnx-zynqmp: Connect the ZynqMP APU Control
-
- include/hw/arm/xlnx-zynqmp.h           |   4 +
- include/hw/misc/xlnx-zynqmp-apu-ctrl.h |  91 +++++++++
- include/hw/misc/xlnx-zynqmp-crf.h      | 209 +++++++++++++++++++
- hw/arm/xlnx-zynqmp.c                   |  45 ++++-
- hw/misc/xlnx-zynqmp-apu-ctrl.c         | 257 +++++++++++++++++++++++
- hw/misc/xlnx-zynqmp-crf.c              | 270 +++++++++++++++++++++++++
- target/arm/cpu.c                       |   7 +-
- hw/misc/meson.build                    |   2 +
- 8 files changed, 879 insertions(+), 6 deletions(-)
- create mode 100644 include/hw/misc/xlnx-zynqmp-apu-ctrl.h
- create mode 100644 include/hw/misc/xlnx-zynqmp-crf.h
- create mode 100644 hw/misc/xlnx-zynqmp-apu-ctrl.c
- create mode 100644 hw/misc/xlnx-zynqmp-crf.c
-
+diff --git a/include/hw/arm/xlnx-zynqmp.h b/include/hw/arm/xlnx-zynqmp.h
+index 062e637fe4..99ceb8a609 100644
+--- a/include/hw/arm/xlnx-zynqmp.h
++++ b/include/hw/arm/xlnx-zynqmp.h
+@@ -84,7 +84,7 @@ OBJECT_DECLARE_SIMPLE_TYPE(XlnxZynqMPState, XLNX_ZYNQMP)
+ /*
+  * Unimplemented mmio regions needed to boot some images.
+  */
+-#define XLNX_ZYNQMP_NUM_UNIMP_AREAS 1
++#define XLNX_ZYNQMP_NUM_UNIMP_AREAS 2
+ 
+ struct XlnxZynqMPState {
+     /*< private >*/
+diff --git a/hw/arm/xlnx-zynqmp.c b/hw/arm/xlnx-zynqmp.c
+index 17305fe7b7..ba44e95899 100644
+--- a/hw/arm/xlnx-zynqmp.c
++++ b/hw/arm/xlnx-zynqmp.c
+@@ -51,6 +51,9 @@
+ #define QSPI_IRQ            15
+ #define QSPI_DMA_ADDR       0xff0f0800
+ 
++#define SERDES_ADDR         0xfd400000
++#define SERDES_SIZE         0x20000
++
+ #define DP_ADDR             0xfd4a0000
+ #define DP_IRQ              113
+ 
+@@ -284,6 +287,7 @@ static void xlnx_zynqmp_create_unimp_mmio(XlnxZynqMPState *s)
+         hwaddr size;
+     } unimp_areas[ARRAY_SIZE(s->mr_unimp)] = {
+         { .name = "apu", APU_ADDR, APU_SIZE },
++        { .name = "serdes", SERDES_ADDR, SERDES_SIZE },
+     };
+     unsigned int nr;
+ 
 -- 
 2.25.1
 
