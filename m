@@ -2,66 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0CD74A35DA
+	by mail.lfdr.de (Postfix) with ESMTPS id B38FF4A35DB
 	for <lists+qemu-devel@lfdr.de>; Sun, 30 Jan 2022 12:07:47 +0100 (CET)
-Received: from localhost ([::1]:55836 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:55846 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nE83e-0008Pp-9e
-	for lists+qemu-devel@lfdr.de; Sun, 30 Jan 2022 06:07:46 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:34284)
+	id 1nE83d-0008Pz-UK
+	for lists+qemu-devel@lfdr.de; Sun, 30 Jan 2022 06:07:45 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:34286)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <edgar.iglesias@gmail.com>)
- id 1nE7zM-0006XT-Er; Sun, 30 Jan 2022 06:03:20 -0500
-Received: from [2a00:1450:4864:20::235] (port=46619
- helo=mail-lj1-x235.google.com)
+ id 1nE7zM-0006XU-E2; Sun, 30 Jan 2022 06:03:20 -0500
+Received: from [2a00:1450:4864:20::12e] (port=36793
+ helo=mail-lf1-x12e.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <edgar.iglesias@gmail.com>)
- id 1nE7zJ-0008MW-Uw; Sun, 30 Jan 2022 06:03:19 -0500
-Received: by mail-lj1-x235.google.com with SMTP id c7so14962959ljr.13;
- Sun, 30 Jan 2022 03:03:16 -0800 (PST)
+ id 1nE7zK-0008MZ-8g; Sun, 30 Jan 2022 06:03:19 -0500
+Received: by mail-lf1-x12e.google.com with SMTP id z4so20976922lft.3;
+ Sun, 30 Jan 2022 03:03:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=MEIGrybOclqUD83VbzxeddgFxVNGzQEKSjdZ4MLB4Nw=;
- b=nGJjmXtQDeVHF1UNqbl3b4txHjDui8f/o2ieRfmOi3TNxohSb8frenmcu5zGdA3ptL
- Nc5b9uQ9nu8JI73J05PpECownWxM2dMBLGByb2gswtwhYleNIqeFcYtKrgi5sjSeN+pB
- kr3rudGb76dwliKbWthhURvCyJdPc/bBjOzev2slrIw5BaDj2q93CDz1JKJrn9HsMJQV
- I+bav4ZaowalLTG8lcJNbVnR10VG/xoqzTvghon4zLYB7ffjsO/4lGUTK5vJJHV7WbU8
- Rm3Ggz9pWEB/flBg/DUeM7Hi91oqjoPToln0SqW9bMCrXOjTIdOHxrDYvliBUshkkr9O
- vn5A==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=x6yLIbYspJVYvRw9HXbfG9AYHgDE7MtZasbLFHtf3z4=;
+ b=JT1q2QusY4OxtlPlg/hJKFVVnK/cZnCWfZM1zM70ODAgBW9Smg+loZWJBYsv9MtsIJ
+ 763q5I6RkisZjfYdusq5CZiP15uiImmk4qnm4A6sBHWjcZEZg6ofelFX1/r7a+E9jE36
+ MYiMHi8hPiCFl1osh2xV/aROy8hORSTF76OZKuuQJUyv/9ty72WWRsHJNmXpmVS70cS0
+ yWnOG6Wr7qorU1o7dVJfZk4Kfou4JsGJEpPmvdCm1q4YqcUQUNQpM9no1tML+3T43yJE
+ EpN4YqiSNI3EKwYCQ3DHG5cC9j/lRvDsA1dSm0D8sctb4HNdMRyKp0yOEBpw95oZ9son
+ nwDw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=MEIGrybOclqUD83VbzxeddgFxVNGzQEKSjdZ4MLB4Nw=;
- b=Xx4R9eKOgiWSS1+e4J4du+lK4nYxKJtnsfoN3CCJa6Z9+//yDREJkBYUUSi5pd4CXO
- 9MH5WY1siniDiRIA6tdVskEjOagnOx5pj789Dox45wV66j2GIedreUHNpSYKwdnZs/sC
- qtxenGb5UX73P2Qtg/ZCr9Tzy/fOM8DCUzUWQk6XBzLSaQcypaKeSQd88ja2uaq4pEJu
- 4ln2s35lKd3ZSf/+dHXGjXraoiP+K4EvFFAsbVfHasvxqq4rUd6t9tznh3TrivrXMIGH
- uPC0cfFqpmB/C+dD1jpNWPfHV6W3zwENbEZXDC7oHZi8PgsfcH+6Qc/pfIMFuRyxiu8E
- 6P0w==
-X-Gm-Message-State: AOAM532xIl8KX5Gt4H0sEYMY/aTFnoHtySHMGxLGmVuKSRkCKBVafzDs
- qZ532bumXrH1homgtADPEuHppEEadaddzw==
-X-Google-Smtp-Source: ABdhPJxh96LYrjoKB9veHJ4QV2FvmODNo6AkOrZRUscAfVVcByxXKGHliMO20CGFs94sC6fBG2ZkeA==
-X-Received: by 2002:a2e:81d6:: with SMTP id s22mr11202679ljg.61.1643540594564; 
- Sun, 30 Jan 2022 03:03:14 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=x6yLIbYspJVYvRw9HXbfG9AYHgDE7MtZasbLFHtf3z4=;
+ b=No7WeGmEoBXLq/aQ3b86aUKsUD4dy3xntCV1tKnZEP4yP5hmFcidmXDwOmVq7e4Ogp
+ lLHihn7oKDyj0Po99NNlh08ivPXpCn+AsHlhOW/tp+7doNWLrCreLMkejYwF/IbQ0MM7
+ p8ClzyTR3yd46FTmpsONI8NREmAUQExPj+v1oBr53ALOgGm3C7HYvPl8iREOWH9GW6yD
+ l6QDLG8sYZAUL9F7n5ag/k7CLpD/uUCr6VWzpSGGbqAOb0JlqdUU1lt/aFef9FgmiuR3
+ B9De9TCMDlPS9BjALHcKRAwVb2lX8EiQ206lyVv9aC8t4KJI6cwF4GKpgwo/ABeTKJF+
+ vLog==
+X-Gm-Message-State: AOAM533JOWrbGu8ul758TYZD502/1qC/ipVIB7D7oiJOZps1MP64pdRH
+ XPWCLTHT5hAcPvURS0244cfc2ql+QmBp4g==
+X-Google-Smtp-Source: ABdhPJy2Ld5gHl6tq0BKUDR78Io7CPa/lgUSPhccRybC7qjtJ6sDthM4bpJcpJwGKYxxRB9i9jkz6A==
+X-Received: by 2002:a05:6512:3b26:: with SMTP id
+ f38mr6005958lfv.643.1643540595619; 
+ Sun, 30 Jan 2022 03:03:15 -0800 (PST)
 Received: from gmail.com (81-231-232-130-no39.tbcn.telia.com. [81.231.232.130])
- by smtp.gmail.com with ESMTPSA id q6sm2788413lfr.171.2022.01.30.03.03.13
+ by smtp.gmail.com with ESMTPSA id f22sm3232271lfj.261.2022.01.30.03.03.14
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 30 Jan 2022 03:03:14 -0800 (PST)
+ Sun, 30 Jan 2022 03:03:15 -0800 (PST)
 From: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v1 0/1] hw/arm: versal-virt: Always call arm_load_kernel()
-Date: Sun, 30 Jan 2022 12:03:12 +0100
-Message-Id: <20220130110313.4045351-1-edgar.iglesias@gmail.com>
+Subject: [PATCH v1 1/1] hw/arm: versal-virt: Always call arm_load_kernel()
+Date: Sun, 30 Jan 2022 12:03:13 +0100
+Message-Id: <20220130110313.4045351-2-edgar.iglesias@gmail.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20220130110313.4045351-1-edgar.iglesias@gmail.com>
+References: <20220130110313.4045351-1-edgar.iglesias@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::235
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::12e
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::235;
- envelope-from=edgar.iglesias@gmail.com; helo=mail-lj1-x235.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::12e;
+ envelope-from=edgar.iglesias@gmail.com; helo=mail-lf1-x12e.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -92,24 +95,44 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: "Edgar E. Iglesias" <edgar.iglesias@xilinx.com>
 
-This should be applied on top of Peter Maydell's
-"arm: Fix handling of unrecognized functions in PSCI emulation"
-patch series.
-
-This fixes an issue reported by Peter Maydell. We should
-always call arm_load_kernel() regardless of kernel_filename being
+Always call arm_load_kernel() regardless of kernel_filename being
 set. This is needed because arm_load_kernel() sets up reset for
 the CPUs.
 
-Cheers,
-Edgar
-
-Edgar E. Iglesias (1):
-  hw/arm: versal-virt: Always call arm_load_kernel()
-
+Fixes: 6f16da53ff (hw/arm: versal: Add a virtual Xilinx Versal board)
+Reported-by: Peter Maydell <peter.maydell@linaro.org>
+Signed-off-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
+---
  hw/arm/xlnx-versal-virt.c | 11 ++---------
  1 file changed, 2 insertions(+), 9 deletions(-)
 
+diff --git a/hw/arm/xlnx-versal-virt.c b/hw/arm/xlnx-versal-virt.c
+index ef3231cdbb..7c7baff8b7 100644
+--- a/hw/arm/xlnx-versal-virt.c
++++ b/hw/arm/xlnx-versal-virt.c
+@@ -681,20 +681,13 @@ static void versal_virt_init(MachineState *machine)
+     s->binfo.get_dtb = versal_virt_get_dtb;
+     s->binfo.modify_dtb = versal_virt_modify_dtb;
+     s->binfo.psci_conduit = psci_conduit;
+-    if (machine->kernel_filename) {
+-        arm_load_kernel(&s->soc.fpd.apu.cpu[0], machine, &s->binfo);
+-    } else {
+-        AddressSpace *as = arm_boot_address_space(&s->soc.fpd.apu.cpu[0],
+-                                                  &s->binfo);
++    if (!machine->kernel_filename) {
+         /* Some boot-loaders (e.g u-boot) don't like blobs at address 0 (NULL).
+          * Offset things by 4K.  */
+         s->binfo.loader_start = 0x1000;
+         s->binfo.dtb_limit = 0x1000000;
+-        if (arm_load_dtb(s->binfo.loader_start,
+-                         &s->binfo, s->binfo.dtb_limit, as, machine) < 0) {
+-            exit(EXIT_FAILURE);
+-        }
+     }
++    arm_load_kernel(&s->soc.fpd.apu.cpu[0], machine, &s->binfo);
+ 
+     for (i = 0; i < XLNX_VERSAL_NUM_OSPI_FLASH; i++) {
+         BusState *spi_bus;
 -- 
 2.25.1
 
