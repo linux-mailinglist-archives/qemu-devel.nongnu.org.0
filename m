@@ -2,77 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE6BD4A3850
-	for <lists+qemu-devel@lfdr.de>; Sun, 30 Jan 2022 20:02:31 +0100 (CET)
-Received: from localhost ([::1]:55362 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C5C6E4A387D
+	for <lists+qemu-devel@lfdr.de>; Sun, 30 Jan 2022 20:19:58 +0100 (CET)
+Received: from localhost ([::1]:32956 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nEFT4-0002Ad-Iy
-	for lists+qemu-devel@lfdr.de; Sun, 30 Jan 2022 14:02:30 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:36510)
+	id 1nEFjt-00083V-Nu
+	for lists+qemu-devel@lfdr.de; Sun, 30 Jan 2022 14:19:53 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:40008)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nEFHn-0007Dx-RS; Sun, 30 Jan 2022 13:50:52 -0500
-Received: from [2a00:1450:4864:20::32b] (port=56136
- helo=mail-wm1-x32b.google.com)
+ id 1nEFgc-000606-93
+ for qemu-devel@nongnu.org; Sun, 30 Jan 2022 14:16:30 -0500
+Received: from [2a00:1450:4864:20::431] (port=42801
+ helo=mail-wr1-x431.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nEFHk-0004tX-CS; Sun, 30 Jan 2022 13:50:50 -0500
-Received: by mail-wm1-x32b.google.com with SMTP id r7so8701286wmq.5;
- Sun, 30 Jan 2022 10:50:44 -0800 (PST)
+ id 1nEFga-0008C7-FQ
+ for qemu-devel@nongnu.org; Sun, 30 Jan 2022 14:16:30 -0500
+Received: by mail-wr1-x431.google.com with SMTP id a13so21319898wrh.9
+ for <qemu-devel@nongnu.org>; Sun, 30 Jan 2022 11:16:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
+ :content-language:to:references:from:cc:in-reply-to
  :content-transfer-encoding;
- bh=GJpoSDCKo1RxFAlQY+7VUVU+goEtVhcjhXyZ2bsPkys=;
- b=N3jbfsAwsiC6uuA437a/Z3Fg93C5VhA0EiwHnEBUnmQ9OkgLzOa7fsDkO92bPuk6eV
- un3W+pkTz0/BvhIgUjmjU2fstgB49TLvIgLpo3lg19U8YSzjQb8EB2bMxxDukC3v7Vja
- xO+ue+hTywQTPT3WmL15D4OpK6cfpbBKMdyRt9VJq2F/T17pPhFbsoLZ2zmQTr2SPr7H
- I+ZP0sWSGmc4hdsjuHMloIZHeKlCdzNi2uHOsEOWs1NS880UhPeSbEJCRVg/E9HO/bfy
- cJKY3qC/k+5WCfmDPL1/vy5PRRNgA3fDGFLirf+TgmwDBwQFQS35PrR8kttf15NmbtaL
- yBaQ==
+ bh=786odt0MBCPgHhoAvPJl94aAcQNzRFjPIyzZ+gtMG2c=;
+ b=PBzBkyoPvK8GqboPjv/j5YBiCpZX7JsRGrPQT6wNvwA/EaarUP0RVqLaGdTcWHs7+Y
+ lbSyCSUVsPWPZulB1ec1CSPNsqChcGU5I8UMhoS4o9Lg+vytgJCsK5f5niXUk9OqaTzt
+ uA0fbSgYScw+t+TZqWdK2gqbQsp2Pc5+wzekYgsjm/EgPQXAEYHcx3Vxrj6KPmWHCj+7
+ hCqGCcwqKmWCK3MLXB6bg+EersypO3gbOM0EvnsxGEZ3TxCKCQEYTWLGiPgKs9PjNJqx
+ 32Kev90kFxHWA0Onh6CtidHLEzWtNBjeO7Ge3p1sUO9ZHgzp/dcUqx60PrIs0YswQ9D0
+ YtUg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:to:cc:references:from:in-reply-to
+ :subject:content-language:to:references:from:cc:in-reply-to
  :content-transfer-encoding;
- bh=GJpoSDCKo1RxFAlQY+7VUVU+goEtVhcjhXyZ2bsPkys=;
- b=lOfgK39sQIdWeBWwu/sj6cs+Ns3fH6Z5s/VpGpEWqdVRR9GH4qnDQ44O01PDwdtwPz
- Se0jd2OyqztP4mYm0VYm1wKRa5uarcGTlTfzcCsv9ryJBoiRPrmVrk/Nud0UmgS869GG
- bapa4hwoVpkxKzpHyxipMgEvd+qLgC7WzBN9YOPD5Mt+euBe8ib61EleTuL0blAYi/Qb
- OCmbvPBhpIZa41ZKpkkiZTJeqYSFTX3Kt0M32HafK1R5qEOwqwhitf53ZEKGd7Opue2J
- e4UqBSpGXphhJAy4p35Bnp+qBwLKtzbJYtsmC9lDTncfYRYKqle9RQibFEF7lgbmSuAD
- jm8g==
-X-Gm-Message-State: AOAM5304bMnb4AzqYo77p3IbPjhwnKviZAWtDx2hCFEzruDRpKswu3cb
- rMpFpw0U6FdbaupxtrkobNE=
-X-Google-Smtp-Source: ABdhPJzkhdZt2ihlJT+95JrEj9V62VxIpYBA/30LCI1Cp7SIYNA9HHNFqykbpQk9pBcw8/Hl7jOfcw==
-X-Received: by 2002:a05:600c:3846:: with SMTP id
- s6mr18295370wmr.26.1643568642962; 
- Sun, 30 Jan 2022 10:50:42 -0800 (PST)
+ bh=786odt0MBCPgHhoAvPJl94aAcQNzRFjPIyzZ+gtMG2c=;
+ b=nY1fAY5KMdjZ9yUAIbxDdAC3qsYVOZjSaWljDxITJ6H9rkfN3cT/fXDJgu0zkzKOFX
+ iXTYtD/H2FW8c5haTRsvj8kHAOLyquiJWDhPuqy60ycH9ibNLVdILSuHDxaSHwHL/Cho
+ Y/k0Nk9tbXHGJR+VwPb17lP5gC7p043wxpQUoZK3VxSUYRrf5JWx3fb82646IxeSPc0x
+ /JDmOMFMzKvSdPZMw7Q/H6mh7wZkFC0YDHrR5jdgycu7Pewds2A80KC5XAv3Fsu6CRl/
+ CnsskCipR6huLDl3PqxREUYmcG7I4g3UTvjNuW+XuFfg+r1y4VJ7909cxd7mCIZ3CHVv
+ eX9g==
+X-Gm-Message-State: AOAM531wmyFqydwyDX35xabNtuCYwpuwmyydYgGWjELiblm5buBQpRB+
+ imIyrQ5vlLh742nkf1tkRyk=
+X-Google-Smtp-Source: ABdhPJxaOOgvMftCpFFUqlES1X/MCHnh2j0DZEzS96JMsBunA680cIm459lGpXMcRaRHtzUMXoon+Q==
+X-Received: by 2002:a5d:64e5:: with SMTP id g5mr6476771wri.345.1643570187000; 
+ Sun, 30 Jan 2022 11:16:27 -0800 (PST)
 Received: from [192.168.1.33] (154.red-83-50-83.dynamicip.rima-tde.net.
  [83.50.83.154])
- by smtp.gmail.com with ESMTPSA id n8sm7323933wmq.42.2022.01.30.10.50.42
+ by smtp.gmail.com with ESMTPSA id g4sm11052356wrd.111.2022.01.30.11.16.26
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 30 Jan 2022 10:50:42 -0800 (PST)
-Message-ID: <50848a6d-98a9-3218-479b-7406850a06a2@amsat.org>
-Date: Sun, 30 Jan 2022 19:50:41 +0100
+ Sun, 30 Jan 2022 11:16:26 -0800 (PST)
+Message-ID: <17584a77-c2b8-680c-5596-61a5825e9900@amsat.org>
+Date: Sun, 30 Jan 2022 20:16:25 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
  Gecko/20100101 Thunderbird/91.5.0
-Subject: Re: [PATCH] qapi/block: Cosmetic change in BlockExportType schema
+Subject: Re: should we have a Kconfig "device group" for I2C devices?
 Content-Language: en-US
-To: Eric Blake <eblake@redhat.com>
-Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org,
- Markus Armbruster <armbru@redhat.com>, qemu-trivial@nongnu.org
-References: <20220119121439.214821-1-f4bug@amsat.org>
- <20220128205430.ispmytuw2vrpar4g@redhat.com>
-In-Reply-To: <20220128205430.ispmytuw2vrpar4g@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
+ <alex.bennee@linaro.org>
+References: <CAFEAcA-VUOa3R8_BZzJ0d3+RQyZJgwQ-P+3RWPHBoJQYUc7_Mg@mail.gmail.com>
+ <ac920f6c-de23-b93a-4d5a-db807aeace3a@redhat.com>
+Cc: QEMU Developers <qemu-devel@nongnu.org>,
+ Peter Maydell <peter.maydell@linaro.org>
+In-Reply-To: <ac920f6c-de23-b93a-4d5a-db807aeace3a@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32b
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::431
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::431;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x431.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -99,33 +101,70 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
 From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
-On 28/1/22 21:54, Eric Blake wrote:
-> On Wed, Jan 19, 2022 at 01:14:39PM +0100, Philippe Mathieu-Daudé wrote:
->> From: Philippe Mathieu-Daude <f4bug@amsat.org>
++Alex
+
+On 28/1/22 15:30, Paolo Bonzini wrote:
+> On 1/28/22 15:17, Peter Maydell wrote:
+>> Hi; I've been looking into what is the right way to handle in Kconfig
+>> an i2c device which is intended for the user to specify on the command
+>> line with a -device option.
+>> (It's the lsm303dlhc magnetometer, currently in code review:
+>> https://patchew.org/QEMU/20210921093227.18592-1-kevin.townsend@linaro.org/  
+>> )
 >>
->> From: Philippe Mathieu-Daudé <f4bug@amsat.org>
+>> Currently all our i2c devices are just pulled in by "select FOO" from
+>> the Kconfig stanza for a board which has that kind of sensor hardwired
+>> on-board. But for at least some of them it works fine to just specify
+>> them on the commandline of any board that has an i2c controller that
+>> allows pluggable devices. (For instance we do that kind of commandline
+>> plugging in our test suite with tests/qtest/tmp105-test.c.)
+>>
+>> What's the best way to structure this? For PCI we have the "device
+>> group" PCI_DEVICES as documented in
+>> https://qemu-project.gitlab.io/qemu/devel/kconfig.html#guidelines-for-writing-kconfig-files 
+>>
+>> and PCI devices say
+>>      default y if PCI_DEVICES
+>>      depends on PCI
+>>
+>> For ISA devices we seem to make them say
+>>      default y
+>>      depends on ISA_BUS
+>>
+>> I2C devices currently just say
+>>      depends on I2C
+>>
+>> Should we have an I2C_DEVICES, which boards where there's a sensible
+>> user-pluggable i2c controller can specifically select ? Or should we
+>> mark the i2c devices which are sensibly user-pluggable as
+>> "default y" ? Or something else ?
 > 
-> The doubled From: looks odd here.  I'll double-check that git doesn't
-> mess up the actual commit once I apply the patch.
+> Yes, I think it's a good idea to have I2C_DEVICES like we have 
+> PCI_DEVICES.  This way we can skip them on x86 (where the SMBus 
+> controller is mostly a legacy device) but include them by default on 
+> AVR, embedded ARM, etc.
 
-I played with the git --from option to not appear in the list as
-'"Philippe Mathieu-Daudé via" <qemu-devel@nongnu.org>':
-https://lore.kernel.org/qemu-devel/efc5f304-f3d2-ff7b-99a6-673595ff0259@amsat.org/
-by using a different sendemail.from (removing the acute in my
-lastname) to force a correct author.from.
-git-am should have picked the 2nd form, but I see the 1st in commit
-3a8fa0edd1. Just curious, did you had to modify it manually?
+My first reaction was "Yes, generically each bus should have its
+bus_DEVICES" switch; but then I wondered in which use case we still
+need this switch.
 
-Anyway, thanks for merging this :)
+- In the default case (--with-default-devices) if a board exposes a bus,
+   we want to have all the devices compatible with the bus to be built.
 
->>
->> Fix long line introduced in commit bb01ea73110 ("qapi/block:
->> Restrict vhost-user-blk to CONFIG_VHOST_USER_BLK_SERVER").
->>
->> Suggested-by: Markus Armbruster <armbru@redhat.com>
->> Acked-by: Markus Armbruster <armbru@redhat.com>
->> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
->> ---
->>   qapi/block-export.json | 3 ++-
->>   1 file changed, 2 insertions(+), 1 deletion(-)
+- If we use --without-default-devices, then we only want the explicitly
+   listed devices, and PCI_DEVICES=y here seems dubious to me.
+
+- If we use --with-devices, this is similar to the previous case
+   (--without-default-devices is a specific --with-devices case [*]).
+
+Paolo, in what case do you see having a ${bus}_DEVICES config useful?
+
+Thanks,
+
+Phil.
+
+[*] Actually I think --with-devices replaced
+--with[out]-default-devices, it is more powerful / customizable;
+we should only keep / maintain --with-devices and drop
+--with[out]-default-devices options.
 
