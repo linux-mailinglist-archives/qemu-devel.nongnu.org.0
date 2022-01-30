@@ -2,79 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 964DF4A3994
-	for <lists+qemu-devel@lfdr.de>; Sun, 30 Jan 2022 21:57:36 +0100 (CET)
-Received: from localhost ([::1]:39544 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE6154A3995
+	for <lists+qemu-devel@lfdr.de>; Sun, 30 Jan 2022 21:58:07 +0100 (CET)
+Received: from localhost ([::1]:42390 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nEHGR-0004ZW-Fm
-	for lists+qemu-devel@lfdr.de; Sun, 30 Jan 2022 15:57:35 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:55660)
+	id 1nEHGw-0006TO-Mp
+	for lists+qemu-devel@lfdr.de; Sun, 30 Jan 2022 15:58:06 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:55860)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nEHDB-0002rw-Dp
- for qemu-devel@nongnu.org; Sun, 30 Jan 2022 15:54:13 -0500
-Received: from [2607:f8b0:4864:20::1029] (port=40572
- helo=mail-pj1-x1029.google.com)
+ id 1nEHDZ-0003mI-DG
+ for qemu-devel@nongnu.org; Sun, 30 Jan 2022 15:54:37 -0500
+Received: from [2607:f8b0:4864:20::536] (port=44939
+ helo=mail-pg1-x536.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nEHD9-0004DV-W3
- for qemu-devel@nongnu.org; Sun, 30 Jan 2022 15:54:13 -0500
-Received: by mail-pj1-x1029.google.com with SMTP id
- z10-20020a17090acb0a00b001b520826011so16239047pjt.5
- for <qemu-devel@nongnu.org>; Sun, 30 Jan 2022 12:54:11 -0800 (PST)
+ id 1nEHDY-0004GU-0l
+ for qemu-devel@nongnu.org; Sun, 30 Jan 2022 15:54:37 -0500
+Received: by mail-pg1-x536.google.com with SMTP id h23so10314263pgk.11
+ for <qemu-devel@nongnu.org>; Sun, 30 Jan 2022 12:54:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=rAlvq0TJ/hBRUcD7hL7faGzwmRJG99mU1tPOmfDeSH4=;
- b=llMJaK8OQNgswMt361XvV9du89N9YiMcW9PKy6Eoz9v0F0NhkmluMCyHGBBFXwj11m
- 4MZ7zGUNDTd9Ze4CaON4sN8aDZJaVuL0p5pJUHA2kvjTwUoD5oAX1jUx/cBZIdzvzexk
- kUW4WbnovBQ8LeKgDpmrGsShXu61i03ZEJPwBzu/eRNEcRVJnN4f08ZVtQiEG7s7FnV9
- 0a0SU9gRBE/oXoJ+zhUtCNy0LOLFH7+xrQM9kreDz5BDcZcmFsojHcHb+UN8ANd3mA07
- wnuTk4Mxzb7oM5eGsHOIPZjAe7DxrbPBngRFg5HE5JQNOcFSJF/tSbbIHQ9Xh69WKEYj
- Bq/g==
+ bh=H17Q+N7n4Ovh7BLlnPFDN2adNzKixTrKOcb37TvN3ag=;
+ b=FayhlYww5DKUTBbs0WI4JMKgk7l4Z3b3MCONLFraFahNdNsWpEk62hALJY2cZYTjhG
+ EqI845ZL6sSlTltF6WH2BsnhXFGsX35Agh1OeZIMJTfBzD0Eczd2M+wSaRhf0WGUipSs
+ HObNIMJMpMGbC5ylQfG/8nCPSVyrg81QrXogZszTpu3VcEZ/UpKxf1fiUTJOBfSs3BlR
+ /5sXPDl5nEn3Ei8qENQz8ZkvBot1U/oaRn0PaRHqmNKEEVog+yEPRdDUuuj15ugP0kDS
+ SURGthrXNwEEdYuUXVINfFIE9GmlbvxLmd4zPGo/dZZsR0jLCvPiEpIW0P/dWXyNHcs2
+ Ql1A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=rAlvq0TJ/hBRUcD7hL7faGzwmRJG99mU1tPOmfDeSH4=;
- b=jiN4wb7RlVkCC+UnlDRJqdT/eF78AZHvlxn/NycEgwvRhvZjx8BxhDpFzzQFs6NGSN
- X8IhXlW4WWbhNceHn0iUPcF5I+9jHNGTBLnHbhvaJDnfa51FmPMAvhArl4DwaUWXnW7j
- z30YBuL3z5DzmsTlv7zpi6/RNwLe8tNcHcIaTSNu2l/GJ7kVoFFnXQLpcf2RsmnX7Ta/
- CEbBbWZ3aRDvY5XNQUYHh/V3aSn7nZuU1VmHRucw85XQbOpiCCvaCFW+OwKH4q3V0vuV
- C02qu1XLdGYLui+1mx/dcQeS5fBZCSngv8X+hdZenC9wDREwB2JIgcTvSQRnhIz6Ht8S
- 5GQw==
-X-Gm-Message-State: AOAM531mY56vFS6pZUjE8WLG6twky9nz+axPSPhAIoxLXqHCI4XPFuIO
- tICJ0SazO6p45IAGH3btPb0WyImz3iIiorq2
-X-Google-Smtp-Source: ABdhPJxSb5R7ZZDYU6hytNhKcv9NH3nCcrmDbyDDt8f4R/BtMmzjF+LhOGvW9+AshwSivVdZ8iBHRA==
-X-Received: by 2002:a17:90a:f406:: with SMTP id
- ch6mr30969511pjb.180.1643576050720; 
- Sun, 30 Jan 2022 12:54:10 -0800 (PST)
+ bh=H17Q+N7n4Ovh7BLlnPFDN2adNzKixTrKOcb37TvN3ag=;
+ b=RBeVjO2S9gVSvg6hhgdy4zHZHDDCayfG2nF1Nc/3bSEh4LON7kDQ6YtNlYSeL51Euh
+ nvp+1sPMWkLyPQZ3dGF2otZ5bJXSaQO778hXRysQQv9C01tq31+TMzPWA0zlFXx4d39O
+ b/N6HbHGEDhnv6KK2SpI/it/Ze5wgqs/49+gF1pogCEq2xNYUEjlPBn/fJOiSRuptx8N
+ 9zdD2hk4YEdiFYJ04QQ5vzEMXqldL3BbBSsFTaRcEzljltXHgNuCZd9Pjk/WEtc10hEI
+ YrUHaNpOkwoVK4Kk2EBIhtSmizwLlPb7pDa3glvlp5Ykzpk52pVDE27UH1RZr1vRoPaH
+ +6LA==
+X-Gm-Message-State: AOAM5319KubJA9vosNwHBlvRQc5Upu/Kl5QOhg6FA2xHDSPoVIQ0lsIM
+ FolETzLUASmx6rDMAg93jhC4/g==
+X-Google-Smtp-Source: ABdhPJxlQ1L/cv77JVDLXaKCV6Nc9PNoagu6zih9aZbeTaKZXb1xhJyppuBiJTDbMgY6+Cd97SGO6Q==
+X-Received: by 2002:a63:4755:: with SMTP id w21mr14667189pgk.336.1643576074304; 
+ Sun, 30 Jan 2022 12:54:34 -0800 (PST)
 Received: from [192.168.2.37] (240.194.168.125.sta.wbroadband.net.au.
  [125.168.194.240])
- by smtp.gmail.com with ESMTPSA id k15sm16258793pff.39.2022.01.30.12.54.07
+ by smtp.gmail.com with ESMTPSA id b13sm15572604pfm.27.2022.01.30.12.54.31
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 30 Jan 2022 12:54:10 -0800 (PST)
-Message-ID: <307d5fcc-c1a4-099b-c1c9-fe6ba3e2b449@linaro.org>
-Date: Mon, 31 Jan 2022 07:54:04 +1100
+ Sun, 30 Jan 2022 12:54:34 -0800 (PST)
+Message-ID: <57a6aec2-de05-dd33-1428-0c2c998d86ef@linaro.org>
+Date: Mon, 31 Jan 2022 07:54:28 +1100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.5.0
-Subject: Re: [PATCH v3 3/7] target/riscv: access configuration through cfg_ptr
- in DisasContext
+Subject: Re: [PATCH v3 4/7] target/riscv: access cfg structure through
+ DisasContext
 Content-Language: en-US
 To: Philipp Tomsich <philipp.tomsich@vrull.eu>, qemu-devel@nongnu.org
 References: <20220128145642.1305416-1-philipp.tomsich@vrull.eu>
- <20220128145642.1305416-4-philipp.tomsich@vrull.eu>
+ <20220128145642.1305416-5-philipp.tomsich@vrull.eu>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220128145642.1305416-4-philipp.tomsich@vrull.eu>
+In-Reply-To: <20220128145642.1305416-5-philipp.tomsich@vrull.eu>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1029
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::536
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1029;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1029.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::536;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x536.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -102,10 +100,10 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 1/29/22 01:56, Philipp Tomsich wrote:
-> The implementation in trans_{rvi,rvv,rvzfh}.c.inc accesses the shallow
-> copies (in DisasContext) of some of the elements available in the
-> RISCVCPUConfig structure.  This commit redirects accesses to use the
-> cfg_ptr copied into DisasContext and removes the shallow copies.
+> The Zb[abcs] support code still uses the RISCV_CPU macros to access
+> the configuration information (i.e., check whether an extension is
+> available/enabled).  Now that we provide this information directly
+> from DisasContext, we can access this directly via the cfg_ptr field.
 > 
 > Signed-off-by: Philipp Tomsich<philipp.tomsich@vrull.eu>
 > Suggested-by: Richard Henderson<richard.henderson@linaro.org>
@@ -113,15 +111,11 @@ On 1/29/22 01:56, Philipp Tomsich wrote:
 > ---
 > 
 > Changes in v3:
-> - (new patch) test extension-availability through cfg_ptr in
->    DisasContext, removing the fields that have been copied into
->    DisasContext directly
+> - (new patch) change Zb[abcs] implementation to use cfg_ptr (copied
+>    into DisasContext) instead of going throuhg RISCV_CPU
 > 
->   target/riscv/insn_trans/trans_rvi.c.inc   |   2 +-
->   target/riscv/insn_trans/trans_rvv.c.inc   | 104 +++++++++++-----------
->   target/riscv/insn_trans/trans_rvzfh.c.inc |   4 +-
->   target/riscv/translate.c                  |  14 ---
->   4 files changed, 55 insertions(+), 69 deletions(-)
+>   target/riscv/insn_trans/trans_rvb.c.inc | 8 ++++----
+>   1 file changed, 4 insertions(+), 4 deletions(-)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
