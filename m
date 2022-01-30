@@ -2,78 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F1F44A39B7
-	for <lists+qemu-devel@lfdr.de>; Sun, 30 Jan 2022 22:08:18 +0100 (CET)
-Received: from localhost ([::1]:48832 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 663284A39B8
+	for <lists+qemu-devel@lfdr.de>; Sun, 30 Jan 2022 22:09:00 +0100 (CET)
+Received: from localhost ([::1]:50606 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nEHQn-0002fo-9W
-	for lists+qemu-devel@lfdr.de; Sun, 30 Jan 2022 16:08:17 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:58048)
+	id 1nEHRT-0003u8-IL
+	for lists+qemu-devel@lfdr.de; Sun, 30 Jan 2022 16:08:59 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:58298)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nEHOs-0001iT-Vb
- for qemu-devel@nongnu.org; Sun, 30 Jan 2022 16:06:18 -0500
-Received: from [2607:f8b0:4864:20::1031] (port=45891
- helo=mail-pj1-x1031.google.com)
+ id 1nEHPG-0002C2-08
+ for qemu-devel@nongnu.org; Sun, 30 Jan 2022 16:06:42 -0500
+Received: from [2607:f8b0:4864:20::1029] (port=53899
+ helo=mail-pj1-x1029.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nEHOr-00064s-FA
- for qemu-devel@nongnu.org; Sun, 30 Jan 2022 16:06:18 -0500
-Received: by mail-pj1-x1031.google.com with SMTP id
- g15-20020a17090a67cf00b001b7d5b6bedaso2533103pjm.4
- for <qemu-devel@nongnu.org>; Sun, 30 Jan 2022 13:06:15 -0800 (PST)
+ id 1nEHPE-0006Df-H0
+ for qemu-devel@nongnu.org; Sun, 30 Jan 2022 16:06:41 -0500
+Received: by mail-pj1-x1029.google.com with SMTP id h12so11860413pjq.3
+ for <qemu-devel@nongnu.org>; Sun, 30 Jan 2022 13:06:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=tNoYTxE8ZzVgdnnogbFPIOgPdQfNRo/1K0aDVmsvAKo=;
- b=f6zYVuuYvEsNevpBnAshZfEQz72uIGdp/xqd9YnqKNgGMT74rgxyUrks4pLf7RhTsp
- E840KmGiVqGui4lcJWQzby+LV/ObnC9YxjRmgZtggQAjN/F8xvvgRzDVlD23ge+E5X5w
- 7wN89JbD9HsdFJ16qC3vqc1+3/Nvw3l+6b9tgD1jg0Sl7HEdP1IeJ7zZLMwywb9vXIbC
- i62Q73ePlURypx/PbA7YheII9lvA3ii0Nbh+CTFq31GCxRxnXUwzIDxYfEjHHc+UzKNo
- 6taTK4MMKZcJxlgZQwEDxI8WETAWfUzPuqtCQ04za9ol4QNPVmKYwg8X1TOBR/fX/VV6
- ltTA==
+ bh=YL6/s8Y5sCxxTBp3nmiCyFu6go7ORuhrFxSDrzkpspg=;
+ b=tyfdfGbEgdwlMjbH5CtaK2298xXuGzWYBJ7ac0T/F0uXKmq2hSLiUNokhupXpeCwXK
+ M60sx9B8K8/y5a3ADec7etv+ny8qbkMm2n4JlGNiOfcpPWjJVmT1whudpRLTXM+ZCJVU
+ 02ZYm8Ft/aUM045n1VjgeDaTtGafOl9rQ4gNdfg4c8iLer7bP5p7YH2JIQ3MhlA0+4K2
+ 9WLYLOKvEhzUTk2oQTFgevyH21n4j3KnXpprgqQhdRZSlipTNHHsW36Xp2MH2+KF8JTH
+ qbvYjHdVnagIOMER4zYZISuyjKNaXniFC34qXYpn47O0a23RP2tg/Uf7ILX0wwnwTrnZ
+ Hjcw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=tNoYTxE8ZzVgdnnogbFPIOgPdQfNRo/1K0aDVmsvAKo=;
- b=BMuBCsjPecs9JYKqNScF+FZuXEFd0VBhwjF0K6oTWw8U6QOrxVmi8Tpti4fP63XAOd
- xAt0MtAFz/vDkHTcok7ttpzVaNLhWHziej///lNg4ut7YgmcHi5LQVYX9pxlHQALdq3O
- bJH8S0bD6OnXwvdWx8CMtZwgDZviJiyqUEktZ+SzP/d/OD0pQiDOrpThLU9rg8cn8AeC
- /twzsSdwp5p+P518NQM/7BhbIgUUCd4tmOmDqBAl7fMDqO+J7FZo0o0CoWYhYjmvPqwP
- oZYjnX2ztKUHIPKUDLJV9qcRLb+qmSGUuc62/ARp6iBGQQp0dzsmQt+G4r0+R8gyg05p
- jitg==
-X-Gm-Message-State: AOAM5300WdWabPNvMc/xSBvKlxOzFaZOFBG3Clq6gZBSFD/kLNXlZioV
- RN32qkczF5jyVnh6/tXnkqYuig==
-X-Google-Smtp-Source: ABdhPJy54S/EaENYD88fLKbFfG1uV+Wy+o1rmNCDnzeB9MP/nyi5X1Rbh6HYWRWoWn+9WwEDm7iVng==
-X-Received: by 2002:a17:90b:390a:: with SMTP id
- ob10mr21316397pjb.110.1643576773996; 
- Sun, 30 Jan 2022 13:06:13 -0800 (PST)
+ bh=YL6/s8Y5sCxxTBp3nmiCyFu6go7ORuhrFxSDrzkpspg=;
+ b=6Aho3Sng0yziWjTX+ElOZGOCbdUBOZMceTP3x+7a3ywJ5YdgnGyN5zyr7WOK6qpkSn
+ Q93NI7ZfgSiomiPjjjr+eHDiPo+4NRt2hL7NL/JikNAe4x5KuWhI3oZS2Q7U2PXjZOGP
+ 3P+zlFyySpKXiPk00h/BAU+uSADwGKqXv8eNE1X7EcwbFx6zXq8U3PK6tGj2yGwEXw2G
+ f0nCHY7P94kBNguoveqVV3Ppr9cIHAgqitET19Ojk0AkTI5WmSzHUNLb5oC+qNjlu+Wn
+ KfG3q7+n2sHEN7PfkQZwG4ohH4UaPp3shRA6VforPjjgsSfpsSp0bfpN9HRULmsM9GGt
+ TDag==
+X-Gm-Message-State: AOAM532LF13gHFYWwK7D49iAAAnIcMZaUmNuj19ZHGTOEZ4i0ZKnHwJM
+ MaWLcf7fJ5jk4zwDPl7+i2VKfQhA3QVQVB+W
+X-Google-Smtp-Source: ABdhPJylPR5VHb1oq0AU+UIlKUY9CZUCQCKY/QmMLGstk0/Tbtiqk6LTaguab5T0/p8wB+dhz/nE+g==
+X-Received: by 2002:a17:90b:1e42:: with SMTP id
+ pi2mr21313343pjb.176.1643576799246; 
+ Sun, 30 Jan 2022 13:06:39 -0800 (PST)
 Received: from [192.168.2.37] (240.194.168.125.sta.wbroadband.net.au.
  [125.168.194.240])
- by smtp.gmail.com with ESMTPSA id h3sm8582379pfo.66.2022.01.30.13.06.11
+ by smtp.gmail.com with ESMTPSA id q19sm15540594pfn.159.2022.01.30.13.06.36
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 30 Jan 2022 13:06:13 -0800 (PST)
-Message-ID: <206cdccf-3e56-7ba9-b33e-278e0ecdf762@linaro.org>
-Date: Mon, 31 Jan 2022 08:06:08 +1100
+ Sun, 30 Jan 2022 13:06:38 -0800 (PST)
+Message-ID: <33e05a91-34d6-18da-d84e-37bc76bbddbb@linaro.org>
+Date: Mon, 31 Jan 2022 08:06:34 +1100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.5.0
-Subject: Re: [PATCH v3 6/7] target/riscv: Add XVentanaCondOps custom extension
+Subject: Re: [PATCH v3 7/7] target/riscv: add a MAINTAINERS entry for
+ XVentanaCondOps
 Content-Language: en-US
 To: Philipp Tomsich <philipp.tomsich@vrull.eu>, qemu-devel@nongnu.org
 References: <20220128145642.1305416-1-philipp.tomsich@vrull.eu>
- <20220128145642.1305416-7-philipp.tomsich@vrull.eu>
+ <20220128145642.1305416-8-philipp.tomsich@vrull.eu>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220128145642.1305416-7-philipp.tomsich@vrull.eu>
+In-Reply-To: <20220128145642.1305416-8-philipp.tomsich@vrull.eu>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1031
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1029
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1031;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1031.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1029;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1029.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -101,13 +101,8 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 1/29/22 01:56, Philipp Tomsich wrote:
-> This adds the decoder and translation for the XVentanaCondOps custom
-> extension (vendor-defined by Ventana Micro Systems), which is
-> documented athttps://github.com/ventanamicro/ventana-custom-extensions/releases/download/v1.0.0/ventana-custom-extensions-v1.0.0.pdf
-> 
-> This commit then also adds a guard-function (has_XVentanaCondOps_p)
-> and the decoder function to the table of decoders, enabling the
-> support for the XVentanaCondOps extension.
+> The XVentanaCondOps extension is supported by VRULL on behalf of the
+> Ventana Micro.  Add myself as a point-of-contact.
 > 
 > Signed-off-by: Philipp Tomsich<philipp.tomsich@vrull.eu>
 > 
