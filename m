@@ -2,82 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D60C94A3AC0
-	for <lists+qemu-devel@lfdr.de>; Sun, 30 Jan 2022 23:38:28 +0100 (CET)
-Received: from localhost ([::1]:52686 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 76C7B4A3AC2
+	for <lists+qemu-devel@lfdr.de>; Sun, 30 Jan 2022 23:41:35 +0100 (CET)
+Received: from localhost ([::1]:56782 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nEIq3-0006oc-MS
-	for lists+qemu-devel@lfdr.de; Sun, 30 Jan 2022 17:38:27 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:50784)
+	id 1nEIt4-0001HO-ED
+	for lists+qemu-devel@lfdr.de; Sun, 30 Jan 2022 17:41:34 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:51570)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nEIo0-0004SK-SY; Sun, 30 Jan 2022 17:36:21 -0500
-Received: from [2a00:1450:4864:20::432] (port=35377
- helo=mail-wr1-x432.google.com)
+ id 1nEIrH-0000Xa-Kk
+ for qemu-devel@nongnu.org; Sun, 30 Jan 2022 17:39:43 -0500
+Received: from [2a00:1450:4864:20::433] (port=37619
+ helo=mail-wr1-x433.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nEInz-00030x-A6; Sun, 30 Jan 2022 17:36:20 -0500
-Received: by mail-wr1-x432.google.com with SMTP id e2so21930116wra.2;
- Sun, 30 Jan 2022 14:36:18 -0800 (PST)
+ id 1nEIrG-0003LT-5C
+ for qemu-devel@nongnu.org; Sun, 30 Jan 2022 17:39:43 -0500
+Received: by mail-wr1-x433.google.com with SMTP id w11so21862694wra.4
+ for <qemu-devel@nongnu.org>; Sun, 30 Jan 2022 14:39:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=Q6nW0HPUxgZrqvX+E37hVkIxbkHH6UmHj00EaFCeX2o=;
- b=QiL3QkVw/sHkdsR9AMvQC34qv6nUALDstc2z34y5tLSbd25aB73TF367X0WSk9GBbR
- 71kQgyL050kFWlkXCteIeYcHAyIwX0LerGAqVzODSDBgBNXN0v5UB1dlAGRq/QSDWppo
- avWPGVvPEI3iarDufQJSQhaZnkhHHU4nLZQwk0Q3bMnDr081BBKWui0HnHzXOfrKpcUC
- 6D3iThabfIuHOynLZN0WlALPRotRwyafobk4Fecw03lS0EMu5PcVd1XfsMgDQAw5cetU
- OkciyEEr5evl8OHt5RmOxfDwZjy8ZK13Y+tC1oyaWjaK8jx3bihroJ0iXzZKpnzccXcI
- tsWA==
+ bh=xtejDC5j2j/aE9XoUqAnq/0uwAFCdIWgmH5RDVHIWhU=;
+ b=TurRDm0/Y/7a6WlHDpcfhAM3BiJdyGS4AvVoq8slqwA8Bak2wHTfzRBUpnE/uerTYc
+ u5tEc1EKOulaabRTjEcXoZa9ve2Xz5w36DOF9yLDq4ZksMyHhakodObtN82azijcm3cT
+ tlDSYPBQtwIqJmMHOWgD44KQHz2JuL/I9MTUsAOleBrwXJsRp+jUmR6Yhb/P2FdYqX6O
+ ax3BKYIJIGSDK6sN6ue7MQHIlDfpcAhA7iGT0CiVb7tp3UHLTymshIiqRkflKoazCPyb
+ r0S5ELS9jupfOMO7mY2+I7AWSsZxWKNBSsoIC9YfKhBsTv27hS0RI8ZTzj41LpR4rgq7
+ 0DvA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
  :subject:content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=Q6nW0HPUxgZrqvX+E37hVkIxbkHH6UmHj00EaFCeX2o=;
- b=L3bU4e5vpstjzFQFhmw2o+wsSgkmG5/hQiouhBhhQTzmsexJmf55LypRkxRlEoMbxP
- TTMIiz7kFu+X4qiHsYvob3INPOW6Qbb3H7rhaDKtdtwJBrSm6rt1NJyN7aNjzvFNil9L
- YtLVvr0NqctNy2b2IK2qEg9PEHDhaWr2ymgPoL8TEc51ZfJgA9UEwG5Agxq6gHsfkft3
- aH8FnzltGqEnpZUW2iTm59dPl00tSSNeAbdj66f6gj3Cg142BFsI8xz+hnq4Pz6e8X+9
- 960mOOQWrCXMPBtldKoXA/nhO3mH6tzrSOTUce4Kv8FH8qaUrAjxhHnUhVGfmyCAKCuO
- 2hKA==
-X-Gm-Message-State: AOAM532aEA9XV56MXNKPZsCTOgAMtaf2/K5DM4e4Y8buZxOAhgJLHpbg
- nSQx8jGDB6cRYdvlILJUquQ=
-X-Google-Smtp-Source: ABdhPJwdmRIYm/+MU8kmaV/d9w+uiVaFczZ8E8eQVAYO4Tc0QagF3a9akztSg7t/91yebh+aHMT/jA==
-X-Received: by 2002:a05:6000:1292:: with SMTP id
- f18mr15211621wrx.133.1643582177084; 
- Sun, 30 Jan 2022 14:36:17 -0800 (PST)
+ bh=xtejDC5j2j/aE9XoUqAnq/0uwAFCdIWgmH5RDVHIWhU=;
+ b=qsz+Qibh8SR3shsojRDpUGzohfME7XaML5O1/1jS194diloKjeqnKnG/lNi7c1eonU
+ TnKfZ1C6/bnM93ptr9kJZxfKiS1IrEQdMRwrlor3OGeHZRGhEbuSrNzzQXbmoT5v9tqQ
+ SKX1hzycaIHPxMwFcgcfbi6skPwMoPgrqU4LhWoNo3IjIK8k/sVWaulGYJl762pIJsIL
+ 3u2qk3zyFZiBX+NFcmmqwSo/3NZfShlWslp9eTFzjRvC/qw+F3dgYPSwX/agNdswqViB
+ esH1kd1bVaUaWIACWgsNJxfZgZSr1ZATQsC1eEesGgWMivo3cHjjXKRylSSFhe9l/Wno
+ biyg==
+X-Gm-Message-State: AOAM531vsspmTvCMMT6zjYm4sPZiJwnjcl0OtgLRdp57Bm8q0QjQl8i8
+ R0NQURA6455evT2Fz8sm9rQ=
+X-Google-Smtp-Source: ABdhPJzt9fxiiT/G1p20WpMQkicbecx1YK23xdEqEQz6QI9mR4B1RRzO4FHKefZdf1i/e9mYY30QDA==
+X-Received: by 2002:adf:e6c9:: with SMTP id y9mr15759384wrm.389.1643582371212; 
+ Sun, 30 Jan 2022 14:39:31 -0800 (PST)
 Received: from [192.168.1.33] (154.red-83-50-83.dynamicip.rima-tde.net.
  [83.50.83.154])
- by smtp.gmail.com with ESMTPSA id f13sm10856095wri.44.2022.01.30.14.36.16
+ by smtp.gmail.com with ESMTPSA id m14sm12443680wrp.4.2022.01.30.14.39.30
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 30 Jan 2022 14:36:16 -0800 (PST)
-Message-ID: <3905e376-552e-d3fa-fcbf-8f16e3e250a6@amsat.org>
-Date: Sun, 30 Jan 2022 23:36:15 +0100
+ Sun, 30 Jan 2022 14:39:30 -0800 (PST)
+Message-ID: <15415670-1e38-4f27-bebd-8c62d8c0a500@amsat.org>
+Date: Sun, 30 Jan 2022 23:39:29 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
  Gecko/20100101 Thunderbird/91.5.0
-Subject: Re: [PATCH 2/3] pci: Always pass own DeviceState to pci_map_irq_fn's
+Subject: Re: [PATCH 3/3] isa/piix4: Resolve global variables
 Content-Language: en-US
 To: Bernhard Beschow <shentey@gmail.com>, qemu-devel@nongnu.org
 Cc: Aurelien Jarno <aurelien@aurel32.net>,
  =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>,
- Yoshinori Sato <ysato@users.sourceforge.jp>,
- Magnus Damm <magnus.damm@gmail.com>, Peter Maydell
- <peter.maydell@linaro.org>, BALATON Zoltan <balaton@eik.bme.hu>,
- "open list:Versatile PB" <qemu-arm@nongnu.org>,
- "open list:sam460ex" <qemu-ppc@nongnu.org>
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
 References: <20220112213629.9126-1-shentey@gmail.com>
- <20220112213629.9126-3-shentey@gmail.com>
-In-Reply-To: <20220112213629.9126-3-shentey@gmail.com>
+ <20220112213629.9126-4-shentey@gmail.com>
+In-Reply-To: <20220112213629.9126-4-shentey@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::432
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::433
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::432;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x432.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::433;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x433.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -105,17 +103,16 @@ Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
 From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
 On 12/1/22 22:36, Bernhard Beschow wrote:
-> Passing own DeviceState rather than just the IRQs allows for resolving
-> global variables.
+> Now that piix4_set_irq's opaque parameter references own PIIX4State,
+> piix4_dev becomes redundant and pci_irq_levels can be moved into PIIX4State.
 > 
 > Signed-off-by: Bernhard Beschow <shentey@gmail.com>
 > ---
->   hw/isa/piix4.c          | 6 +++---
->   hw/pci-host/sh_pci.c    | 6 +++---
->   hw/pci-host/versatile.c | 6 +++---
->   hw/ppc/ppc440_pcix.c    | 6 +++---
->   hw/ppc/ppc4xx_pci.c     | 6 +++---
->   5 files changed, 15 insertions(+), 15 deletions(-)
+>   hw/isa/piix4.c                | 22 +++++++++-------------
+>   include/hw/southbridge/piix.h |  2 --
+>   2 files changed, 9 insertions(+), 15 deletions(-)
+
+Finally!
 
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
