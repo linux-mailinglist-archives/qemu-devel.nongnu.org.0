@@ -2,61 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE7044A49DF
-	for <lists+qemu-devel@lfdr.de>; Mon, 31 Jan 2022 16:09:11 +0100 (CET)
-Received: from localhost ([::1]:35678 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8723B4A4AA6
+	for <lists+qemu-devel@lfdr.de>; Mon, 31 Jan 2022 16:33:37 +0100 (CET)
+Received: from localhost ([::1]:42002 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nEYIo-00021c-7Y
-	for lists+qemu-devel@lfdr.de; Mon, 31 Jan 2022 10:09:10 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:57892)
+	id 1nEYgS-0001Cx-7p
+	for lists+qemu-devel@lfdr.de; Mon, 31 Jan 2022 10:33:36 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:59150)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1nEXrq-0003Dv-8J
- for qemu-devel@nongnu.org; Mon, 31 Jan 2022 09:41:18 -0500
-Received: from 1.mo548.mail-out.ovh.net ([178.32.121.110]:35185)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1nEXx1-0006xk-UM
+ for qemu-devel@nongnu.org; Mon, 31 Jan 2022 09:46:48 -0500
+Received: from us-smtp-delivery-44.mimecast.com ([205.139.111.44]:43268)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1nEXrm-00064w-Tn
- for qemu-devel@nongnu.org; Mon, 31 Jan 2022 09:41:16 -0500
-Received: from mxplan5.mail.ovh.net (unknown [10.109.146.44])
- by mo548.mail-out.ovh.net (Postfix) with ESMTPS id D6FE1205BF;
- Mon, 31 Jan 2022 14:41:10 +0000 (UTC)
-Received: from kaod.org (37.59.142.103) by DAG4EX1.mxp5.local (172.16.2.31)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.18; Mon, 31 Jan
- 2022 15:41:10 +0100
-Authentication-Results: garm.ovh; auth=pass
- (GARM-103G00535f62a22-11e5-4262-be8a-aa55e22a56e3,
- 4E4406098780EA2DD5F77ED28C3E8FA94DEDF1FC) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Message-ID: <ecce8be7-5294-e1d5-27a9-a790fe447889@kaod.org>
-Date: Mon, 31 Jan 2022 15:41:09 +0100
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1nEXwv-0006UV-Uq
+ for qemu-devel@nongnu.org; Mon, 31 Jan 2022 09:46:38 -0500
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-186-RInDkDDrN9Wspg1NdjYolQ-1; Mon, 31 Jan 2022 09:44:49 -0500
+X-MC-Unique: RInDkDDrN9Wspg1NdjYolQ-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B865D100C661;
+ Mon, 31 Jan 2022 14:44:48 +0000 (UTC)
+Received: from bahia (unknown [10.39.196.42])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8934784A25;
+ Mon, 31 Jan 2022 14:44:47 +0000 (UTC)
+Date: Mon, 31 Jan 2022 15:44:46 +0100
+From: Greg Kurz <groug@kaod.org>
+To: Christian Schoenebeck <qemu_oss@crudebyte.com>
+Subject: Re: [PATCH] tests/9pfs: Use g_autofree and g_autoptr where possible
+Message-ID: <20220131154408.4b9fab8e@bahia>
+In-Reply-To: <8838481.laWMekmXc4@silver>
+References: <20220126171136.672657-1-groug@kaod.org>
+ <4981516.0zRxyBk1fS@silver> <20220131083524.4a5d5a8d@bahia>
+ <8838481.laWMekmXc4@silver>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.0
-Subject: Re: [PATCH] target/ppc: Remove 440x4 CPU
-Content-Language: en-US
-To: Fabiano Rosas <farosas@linux.ibm.com>, <qemu-devel@nongnu.org>
-References: <20220128221611.1221715-1-farosas@linux.ibm.com>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <20220128221611.1221715-1-farosas@linux.ibm.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.103]
-X-ClientProxiedBy: DAG5EX2.mxp5.local (172.16.2.42) To DAG4EX1.mxp5.local
- (172.16.2.31)
-X-Ovh-Tracer-GUID: 312363fd-08ec-44b5-bf7a-d23c42b51f1b
-X-Ovh-Tracer-Id: 17655799390067198944
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvvddrgedugdeikecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfhfhfgjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeeigedvffekgeeftedutddttdevudeihfegudffkeeitdekkeetkefhffelveelleenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddtfeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdpnhgspghrtghpthhtohepuddprhgtphhtthhopegurghnihgvlhhhsgegudefsehgmhgrihhlrdgtohhm
-Received-SPF: pass client-ip=178.32.121.110; envelope-from=clg@kaod.org;
- helo=1.mo548.mail-out.ovh.net
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: kaod.org
+Content-Type: text/plain; charset=WINDOWS-1252
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: softfail client-ip=205.139.111.44; envelope-from=groug@kaod.org;
+ helo=us-smtp-delivery-44.mimecast.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
+ SPF_HELO_NONE=0.001, SPF_SOFTFAIL=0.665,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -69,120 +66,108 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: danielhb413@gmail.com, qemu-ppc@nongnu.org
+Cc: Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/28/22 23:16, Fabiano Rosas wrote:
-> This CPU was partially removed due to lack of support in 2017 by commit
-> aef7796057 ("ppc: remove non implemented cpu models").
-> 
-> Signed-off-by: Fabiano Rosas <farosas@linux.ibm.com>
+On Mon, 31 Jan 2022 13:37:23 +0100
+Christian Schoenebeck <qemu_oss@crudebyte.com> wrote:
 
-Reviewed-by: Cédric Le Goater <clg@kaod.org>
+> On Montag, 31. Januar 2022 08:35:24 CET Greg Kurz wrote:
+> > > > > diff --git a/tests/qtest/libqos/virtio-9p.c
+> > > > > b/tests/qtest/libqos/virtio-9p.c index ef96ef006adc..0a0d0d16709b
+> > > > > 100644
+> > > > > --- a/tests/qtest/libqos/virtio-9p.c
+> > > > > +++ b/tests/qtest/libqos/virtio-9p.c
+> > > > > @@ -40,14 +40,13 @@ static char *concat_path(const char* a, const
+> > > > > char* b)
+> > > > >=20
+> > > > >  void virtio_9p_create_local_test_dir(void)
+> > > > >  {
+> > > > > =20
+> > > > >      struct stat st;
+> > > > >=20
+> > > > > -    char *pwd =3D g_get_current_dir();
+> > > > > -    char *template =3D concat_path(pwd, "qtest-9p-local-XXXXXX")=
+;
+> > > > > +    g_autofree char *pwd =3D g_get_current_dir();
+> > > > > +    g_autofree char *template =3D concat_path(pwd,
+> > > > > "qtest-9p-local-XXXXXX");
+> > > > >=20
+> > > > >      local_test_path =3D mkdtemp(template);
+> > >=20
+> > > ... mkdtemp() does not allocate a new buffer, it just modifies the
+> > > character array passed, i.e. the address returned by mkdtemp() equals=
+ the
+> > > address of variable 'template', and when
+> > > virtio_9p_create_local_test_dir() scope is left, the global variable
+> > > 'local_test_path' would then point to freed memory.
+> > I hate global variables ;-) and the 'Returned result must be freed' com=
+ment
+> > in 'concat_path()' is slightly misleading in this respect.
+>=20
+> About the global variable: sure, I am not happy about it either. What I
+> disliked even more is that virtio_9p_create_local_test_dir() is called fr=
+om a
+> constructor, but as I described in [1] I did not find a realiable alterna=
+tive.
+> If somebody comes up with a working and reliable, clean alternative, very=
+ much
+> appreciated!
+>=20
 
-Thanks,
+An alternative might be to create/remove the test directory when
+a virtio-9p device is started/destroyed, and keeping the string
+under the QVirtio9p structure. The most notable effect would be
+to have a new directory for each individual test instead of
+all the lifetime of qos-test, but it doesn't hurt. I'll have a look.
 
-C.
+> About the concat_path() comment: I don't understand what's supposed to be
+> misleading about the comment, concat_path() is just a one-liner utility
+> function:
+>=20
+> /* Concatenates the passed 2 pathes. Returned result must be freed. */
+> static char *concat_path(const char* a, const char* b)
+> {
+>     return g_build_filename(a, b, NULL);
+> }
+>=20
+> So all the comment sais is that the function allocates memory that it doe=
+s not
+> free on it its own. The called glib function sais this [2]:
+>=20
+>     "A newly-allocated string that must be freed with g_free()."
+>=20
+> [1] https://github.com/qemu/qemu/commit/136b7af22774a6f0fb44c9c1b8c088b52=
+e2e92ed
+> [2] https://docs.gtk.org/glib/func.build_filename.html
+>=20
 
-> ---
->   target/ppc/cpu_init.c | 83 -------------------------------------------
->   1 file changed, 83 deletions(-)
-> 
-> diff --git a/target/ppc/cpu_init.c b/target/ppc/cpu_init.c
-> index e30e86fe9d..f4a4f39419 100644
-> --- a/target/ppc/cpu_init.c
-> +++ b/target/ppc/cpu_init.c
-> @@ -2777,89 +2777,6 @@ POWERPC_FAMILY(440GP)(ObjectClass *oc, void *data)
->                    POWERPC_FLAG_DE | POWERPC_FLAG_BUS_CLK;
->   }
->   
-> -static void init_proc_440x4(CPUPPCState *env)
-> -{
-> -    /* Time base */
-> -    register_tbl(env);
-> -    register_BookE_sprs(env, 0x000000000000FFFFULL);
-> -    register_440_sprs(env);
-> -    register_usprgh_sprs(env);
-> -    /* Processor identification */
-> -    spr_register(env, SPR_BOOKE_PIR, "PIR",
-> -                 SPR_NOACCESS, SPR_NOACCESS,
-> -                 &spr_read_generic, &spr_write_pir,
-> -                 0x00000000);
-> -    /* XXX : not implemented */
-> -    spr_register(env, SPR_BOOKE_IAC3, "IAC3",
-> -                 SPR_NOACCESS, SPR_NOACCESS,
-> -                 &spr_read_generic, &spr_write_generic,
-> -                 0x00000000);
-> -    /* XXX : not implemented */
-> -    spr_register(env, SPR_BOOKE_IAC4, "IAC4",
-> -                 SPR_NOACCESS, SPR_NOACCESS,
-> -                 &spr_read_generic, &spr_write_generic,
-> -                 0x00000000);
-> -    /* XXX : not implemented */
-> -    spr_register(env, SPR_BOOKE_DVC1, "DVC1",
-> -                 SPR_NOACCESS, SPR_NOACCESS,
-> -                 &spr_read_generic, &spr_write_generic,
-> -                 0x00000000);
-> -    /* XXX : not implemented */
-> -    spr_register(env, SPR_BOOKE_DVC2, "DVC2",
-> -                 SPR_NOACCESS, SPR_NOACCESS,
-> -                 &spr_read_generic, &spr_write_generic,
-> -                 0x00000000);
-> -    /* Memory management */
-> -#if !defined(CONFIG_USER_ONLY)
-> -    env->nb_tlb = 64;
-> -    env->nb_ways = 1;
-> -    env->id_tlbs = 0;
-> -    env->tlb_type = TLB_EMB;
-> -#endif
-> -    init_excp_BookE(env);
-> -    env->dcache_line_size = 32;
-> -    env->icache_line_size = 32;
-> -    /* XXX: TODO: allocate internal IRQ controller */
-> -
-> -    SET_FIT_PERIOD(12, 16, 20, 24);
-> -    SET_WDT_PERIOD(20, 24, 28, 32);
-> -}
-> -
-> -POWERPC_FAMILY(440x4)(ObjectClass *oc, void *data)
-> -{
-> -    DeviceClass *dc = DEVICE_CLASS(oc);
-> -    PowerPCCPUClass *pcc = POWERPC_CPU_CLASS(oc);
-> -
-> -    dc->desc = "PowerPC 440x4";
-> -    pcc->init_proc = init_proc_440x4;
-> -    pcc->check_pow = check_pow_nocheck;
-> -    pcc->insns_flags = PPC_INSNS_BASE | PPC_STRING |
-> -                       PPC_DCR | PPC_WRTEE |
-> -                       PPC_CACHE | PPC_CACHE_ICBI |
-> -                       PPC_CACHE_DCBZ | PPC_CACHE_DCBA |
-> -                       PPC_MEM_TLBSYNC | PPC_MFTB |
-> -                       PPC_BOOKE | PPC_4xx_COMMON | PPC_405_MAC |
-> -                       PPC_440_SPEC;
-> -    pcc->msr_mask = (1ull << MSR_POW) |
-> -                    (1ull << MSR_CE) |
-> -                    (1ull << MSR_EE) |
-> -                    (1ull << MSR_PR) |
-> -                    (1ull << MSR_FP) |
-> -                    (1ull << MSR_ME) |
-> -                    (1ull << MSR_FE0) |
-> -                    (1ull << MSR_DWE) |
-> -                    (1ull << MSR_DE) |
-> -                    (1ull << MSR_FE1) |
-> -                    (1ull << MSR_IR) |
-> -                    (1ull << MSR_DR);
-> -    pcc->mmu_model = POWERPC_MMU_BOOKE;
-> -    pcc->excp_model = POWERPC_EXCP_BOOKE;
-> -    pcc->bus_model = PPC_FLAGS_INPUT_BookE;
-> -    pcc->bfd_mach = bfd_mach_ppc_403;
-> -    pcc->flags = POWERPC_FLAG_CE | POWERPC_FLAG_DWE |
-> -                 POWERPC_FLAG_DE | POWERPC_FLAG_BUS_CLK;
-> -}
-> -
->   static void init_proc_440x5(CPUPPCState *env)
->   {
->       /* Time base */
-> 
+Sure, maybe misleading isn't the right wording, but it certainly
+tricked my into adding g_autofree while completely missing the
+pointer ended up in a global... :-)
+
+> >=20
+> > > I would drop g_autofree from template:
+> > >     char *template =3D concat_path(pwd, "qtest-9p-local-XXXXXX");
+> > >=20
+> > > And if it helps to silence a leak warning (haven't tested), to prepen=
+d
+> > > g_autofree to the global variable instead:
+> > >=20
+> > > static g_autofree char *local_test_path;
+> >=20
+> > The way to go is either drop the g_autofree annotation as you're
+> > suggesting, but this would make the comment in 'concat_path()'
+> > even more awkward, or go forward with the glib way and use
+> > g_steal_pointer() which maps exactly to what the code is doing.
+>=20
+> I am fine either way, as long as the resulting behaviour works.
+>=20
+> Best regards,
+> Christian Schoenebeck
+>=20
+>=20
 
 
