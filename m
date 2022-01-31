@@ -2,77 +2,154 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E1DFD4A4F91
-	for <lists+qemu-devel@lfdr.de>; Mon, 31 Jan 2022 20:40:00 +0100 (CET)
-Received: from localhost ([::1]:47138 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 04C024A4FB4
+	for <lists+qemu-devel@lfdr.de>; Mon, 31 Jan 2022 20:49:58 +0100 (CET)
+Received: from localhost ([::1]:55606 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nEcWt-0004GZ-OG
-	for lists+qemu-devel@lfdr.de; Mon, 31 Jan 2022 14:39:59 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:55692)
+	id 1nEcgW-0002Er-SP
+	for lists+qemu-devel@lfdr.de; Mon, 31 Jan 2022 14:49:56 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:37248)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <nieklinnenbank@gmail.com>)
- id 1nEcEr-0000LK-JD
- for qemu-devel@nongnu.org; Mon, 31 Jan 2022 14:21:21 -0500
-Received: from [2607:f8b0:4864:20::62e] (port=44912
- helo=mail-pl1-x62e.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <nieklinnenbank@gmail.com>)
- id 1nEcEm-0003zN-7x
- for qemu-devel@nongnu.org; Mon, 31 Jan 2022 14:21:20 -0500
-Received: by mail-pl1-x62e.google.com with SMTP id c9so13309902plg.11
- for <qemu-devel@nongnu.org>; Mon, 31 Jan 2022 11:21:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=TprZ8cyZxK2uheXo5D1Qtgyvat56YrPd8PErunskW0s=;
- b=IEYxko6NQx9qVQ0LIo/zYKeFN3ErUuvwFYNPcDoPHRfxGCrn66zfcLvQwdOOuOKeoV
- M6mRTYiPhioFSDc17vpNySm5E+CdRfTPnHYsqUhaLj3lXSiYyI80tXmgiXeMNwoUNwnU
- /wiW4+d3R4YwAXuCiYhuCWuEekzq+jjJOby4ZJKvmgPnZ3Jc80DgjQaR9H4SLVqSaggn
- kh/iOT6tAC1vnSx3Kzvpt3ChXJo9iAPQXTb52QonahYCJNZMZXNBpZP6gV/fuFmkC9Wv
- o+7pcblBnC8xuYcTMMpeEPDw1Ma/Gwp/5r9PqhAvVs79Hgdl17xgapLNyDdqYmRAQBbS
- vohQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=TprZ8cyZxK2uheXo5D1Qtgyvat56YrPd8PErunskW0s=;
- b=0Ic9iw3xsZpMBvl5g+SXfRb4oVVGvKZ6wk68zPk+KPgI8cnkLD8TCXxhtKg+kSE+a6
- LWoPn49XFO8dp6b/PETSdrgiRt8iK0W4CG02zV6ZHhl0BH3WcRk7q9w1FOjojH4eYnyX
- iSk/4HmHAqz5t4y1abGOm0PPKrM5pa+pwrWB86gCBWzwIFz+Ut7Sx9iMXtSEMGq1lX2S
- F7ljNFSF61ydYaThDgx8B9RhOkfVJuOZmNkWlKU0FwzeFTQZDEMjDg/k6QxxW2FpjSqh
- E+rqeaH2xu3kyq+z8UI0R0HTZQBEVtSCXBBjeErJaoEaBtiGfgRlRFZeNM/wGiCP5Usx
- m1EQ==
-X-Gm-Message-State: AOAM532NUnaUoMQ0+oMVpnbzMi11F6C4yCqGwRawXHd02mBCN3h/WU3e
- cF29H9awe3aSh4HrfUFGqKz91AJ6oNNWLjupbU0=
-X-Google-Smtp-Source: ABdhPJzigW4QixXmDDqUiyAiXCC9cZ2l3P8ywp3kHoINrp0WEODVCPYt0aHR71SI47uTLNI3XwTN5p48xUj1Ap2CPvY=
-X-Received: by 2002:a17:90b:1881:: with SMTP id
- mn1mr35583987pjb.236.1643656870063; 
- Mon, 31 Jan 2022 11:21:10 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <mark.kanda@oracle.com>)
+ id 1nEcaQ-0007OT-ES
+ for qemu-devel@nongnu.org; Mon, 31 Jan 2022 14:43:38 -0500
+Received: from mx0a-00069f02.pphosted.com ([205.220.165.32]:26940)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mark.kanda@oracle.com>)
+ id 1nEcaH-0008Jq-DV
+ for qemu-devel@nongnu.org; Mon, 31 Jan 2022 14:43:32 -0500
+Received: from pps.filterd (m0246629.ppops.net [127.0.0.1])
+ by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 20VIGFGa010041; 
+ Mon, 31 Jan 2022 19:43:24 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=from : to : cc :
+ subject : date : message-id : content-transfer-encoding : content-type :
+ mime-version; s=corp-2021-07-09;
+ bh=+Kz8wxEA5aliue5WMIQKItUMUNT4CVt/6+0jLBm3clc=;
+ b=mJ61dvbhrXwafymvXzifkK/MN1yL7yGOMmKQU48whGG2lz5pYkkDrHbEUo1cGQ4y9RZp
+ ICRjrL/qk5qg7iZ6/wUHIO1s/KYkBbQ5zlm1Atqn2p271CjBWd2QxtMmdlSZRVP8jSio
+ fgJYt4kb658PaTQ8IdM1gJPgwIZx646Z3u/SAjw1hQIe6oULY2gn3iJTi39LdyS1ihvP
+ pjgauGYUAwfRn/xNZLKlMDKiF2+J4hCEpSkgfh+WDwXUAQNTBAk8oNIvyaZSjh17GcvQ
+ VfUacHBO/3YAAdLkwKYyQh4e7mlZuTwVrX71TBP+KcW7ZO42CUdYg43wWS7OyRxC0inp 8g== 
+Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
+ by mx0b-00069f02.pphosted.com with ESMTP id 3dxjac0tbs-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 31 Jan 2022 19:43:23 +0000
+Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
+ by userp3020.oracle.com (8.16.1.2/8.16.1.2) with SMTP id 20VJQEx2005659;
+ Mon, 31 Jan 2022 19:43:22 GMT
+Received: from nam04-mw2-obe.outbound.protection.outlook.com
+ (mail-mw2nam08lp2169.outbound.protection.outlook.com [104.47.73.169])
+ by userp3020.oracle.com with ESMTP id 3dvy1nd025-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 31 Jan 2022 19:43:21 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=mSDxukGa2CBWCJDQBPEzi/VGpWkRKtQvnSRu7rY4UoPPrss0qJ0AXK0SFZeoNKCu2IYpVkbByJCNfUVLs4n2txivUZYL9dhrntiaRTTyIDdXY9dN9qIu9MotCbW33/q0zSaRkI1ERTB8KZPlP6AfqTxxqnvj4r+33+vTzVOmGWGVatTwwU45ADm5sqiaaAQGVQdMiX+sEygtPFAMS6YH2pq6mds9x6iVYA1fwQehbgLYKKmdutNOjc/8fkoWJf2HUiL3/EuvsXpZRgZQ2yHv9hSQrXSrEce9ujR8XnkIElcT6Od+KAhXRpfqzLrwSOjhuEhFEHm/Ja9i4/Kfnz9XDA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=+Kz8wxEA5aliue5WMIQKItUMUNT4CVt/6+0jLBm3clc=;
+ b=Oc+LUgrZvpSermPeqeDuvRgGXj7APvKfugWh3nij/ra3h/W1pkBJ5tSekjMPeHxVx9DQe8ed2enQUddApAK3/RvyYtlUfaGLH/RzM6fKELuZEPE51gHaqHv/SW4gOD+bSfclg+eDKe44ZtCDt8K1X1Hfb+IfSgPOJ892/Y2qKJPA9XE8eHuzFTObWanrrcVQ+gHhuz5d6rOu/2kKEvONY/qRF3VL4LITVzSnnXlsPWhZ2B7PNdyIeDRxoobujzeNM+dcdnhyIivJgJdTOmA1DznH1gTlZQOMlc+F2R2CTSyLVa52U7uemLwg8luPPCTxlHzMaFriGqSHK4Iuj+CETQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=+Kz8wxEA5aliue5WMIQKItUMUNT4CVt/6+0jLBm3clc=;
+ b=dZBIxvmQZ98/ELWYukw8fdHqWvgvM7d19jLccWW1lLleF116tuACwGrVfPUMIWpn4B2rEgmUQyp3RX844bFRxQcYMZ/SjrxFJ5yovWs0iQ15hiPsWSW3dp2PfMJ2GL52G6QOHF1SS5ed9+wmqEEBu0/NQgiC0YwL2XdSoQRmwI4=
+Received: from SA1PR10MB5841.namprd10.prod.outlook.com (2603:10b6:806:22b::16)
+ by BLAPR10MB5362.namprd10.prod.outlook.com (2603:10b6:208:333::9)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4930.19; Mon, 31 Jan
+ 2022 19:43:19 +0000
+Received: from SA1PR10MB5841.namprd10.prod.outlook.com
+ ([fe80::58ef:3181:b9d4:b716]) by SA1PR10MB5841.namprd10.prod.outlook.com
+ ([fe80::58ef:3181:b9d4:b716%5]) with mapi id 15.20.4930.021; Mon, 31 Jan 2022
+ 19:43:19 +0000
+From: Mark Kanda <mark.kanda@oracle.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v3 0/3] Support fd-based KVM stats
+Date: Mon, 31 Jan 2022 13:43:09 -0600
+Message-Id: <20220131194312.1192626-1-mark.kanda@oracle.com>
+X-Mailer: git-send-email 2.27.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SA9P221CA0008.NAMP221.PROD.OUTLOOK.COM
+ (2603:10b6:806:25::13) To SA1PR10MB5841.namprd10.prod.outlook.com
+ (2603:10b6:806:22b::16)
 MIME-Version: 1.0
-References: <20211102164317.45658-1-david@redhat.com>
- <20211102164317.45658-3-david@redhat.com>
- <CAPan3Wpgm94iHRCz3uGvUZYV37W=e4_d7UMqc81hY1cxB-zs1w@mail.gmail.com>
- <0039f019-2bf4-577c-2ab4-f0a2f6f5ef1b@amsat.org>
-In-Reply-To: <0039f019-2bf4-577c-2ab4-f0a2f6f5ef1b@amsat.org>
-From: Niek Linnenbank <nieklinnenbank@gmail.com>
-Date: Mon, 31 Jan 2022 20:20:58 +0100
-Message-ID: <CAPan3Wpg3TOvOCFauru9YPH4U4JW+9yyxHmy=sptmv5zpMifwg@mail.gmail.com>
-Subject: Re: [PATCH v3 2/3] memory: Make memory_region_is_mapped() succeed
- when mapped via an alias
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
-Content-Type: multipart/alternative; boundary="000000000000df71fc05d6e5afce"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::62e
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62e;
- envelope-from=nieklinnenbank@gmail.com; helo=mail-pl1-x62e.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 3de7ee6e-7122-4467-0a42-08d9e4f1eea7
+X-MS-TrafficTypeDiagnostic: BLAPR10MB5362:EE_
+X-Microsoft-Antispam-PRVS: <BLAPR10MB5362C6E2ED9EB91B936C0429F9259@BLAPR10MB5362.namprd10.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:6430;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: bFalwLsPjXZcpQI9cwGyndDSgi3DIcGxicJT7dUElhffGvdCzDZF2pTEVkwI4eN4oREuOOWhZzHT5mJaQ7sTxjtFmxeypcJkKYPt/Xjbc6b8cGRA1eRkCioBX7rU8Z4UU+h5S4msJxOBz3sevqCUhVLEv6FxDH8ADp9eeoWepI1YCD1HiLK68hPew4loGiIGG47M7XZIC4OHp7DB5G27AoySrBSLYxXswkpqbNtoM+g6WUm/YCwaCEpzV008hzw1qeoPxebOtWX0lDL38L2OC3aPO1AANmCXszyxwjBR7G1Cam5IUPZuH9BvVo+FneYepHQXb5PZM0lHB0hnBZCoCxbeyTAFse2SlZ9Dky3JrUuj8T+CHmBn+b0zpMDkVizgjt4ZpDaPZOuwEDRs1gcLvU5Ju1hFzDSFb4VC2DCGBbpbQ8Ls/5c4Nwh468i8Rz+/gP5VvL9keDC9NQhgIarGXUNeGxMtKcOyi+hwhWRGfUIKC1ULtkDlxifDhhSmgGDKP0Egcn0gexiPy6/hhPGauO9FJ4duH26oKIwy+1Ms8SouCiH7BCagocyLnpwpE00zo0Ow/v36OED7Nh4hkjRAl+XUs/LFgfIZkuTbZ8ubLavwGZ+XCq0HwSEp6kG3BVknlTxldnjuCGlMzU3JUDJ1XipZJvm7EyWQGTjx9JmSq2VJz7vsRvdd0wOBvaMF4JS8i9RGhnAZETSB5rwlmtw2mJ1HaKI+fFjFXXFaa2MYMhB+6Ofso9IgqZAsRAAoDo2zZqZKNJQYYhALRsCRpxMLYM0ozjTklOKzhRHMwBZXF88=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SA1PR10MB5841.namprd10.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230001)(366004)(26005)(508600001)(186003)(36756003)(107886003)(1076003)(2616005)(316002)(6916009)(52116002)(6506007)(6666004)(6486002)(2906002)(86362001)(4326008)(8936002)(8676002)(966005)(6512007)(44832011)(5660300002)(66556008)(66476007)(38350700002)(38100700002)(66946007)(20210929001);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?kTPWCtLB1qzM5sI6osqguRtuFnyyP2a5m5FzFNT92N8tYHt44XQ+YPhL1+Z1?=
+ =?us-ascii?Q?LixOQJm6NmU4rzet+rrVvj0EIyXLOU9JU1cyQDAiRppu0gsIyU1pdssbixQB?=
+ =?us-ascii?Q?riSGDvUnU49NqQsH2OLXcJcW0kLqH0CrsPpau/w7WNgLQnTR2nCO6xymdsxV?=
+ =?us-ascii?Q?kMiJiJ5YE4L9NCnwQFl0leFqEfajSDGYZKralTZ/AUtFUkcM4/u3FJvgRdKd?=
+ =?us-ascii?Q?Oc3/XipAu4KnRsyoG2T18qdfY/yAdDYhMFZE15A39d/tpzYQjZ1wDs1LPlJa?=
+ =?us-ascii?Q?oXwaGYEb5drfj+rKDoKi87477YZot911Y0bFaI0LYvgEnmUZYin3bQ6JfHzi?=
+ =?us-ascii?Q?HvmtqREwcXKiwGl0Fvrwyi9HGNPsDS0iVjazCfFUGBMNNnq+dYBOwSVoptLi?=
+ =?us-ascii?Q?rodBa7OFfftQTUMXTRMICn89iq0GIayjcEI1jr68P4HSyrkINhB7KE5WRAql?=
+ =?us-ascii?Q?vk9jDpG2xBrhtteGl4WsHY8kCOLpzX5owvLBV3Fnq8gszvcmibF2L/+mDU1S?=
+ =?us-ascii?Q?IEJa0IH0LxRY2heW6TD1RIuEQNjbexuDrVQRPPA2I8TPlto9tuKanajH9oSi?=
+ =?us-ascii?Q?yU6HjRdbt1Jw9HPayCRHAC/WgPJ9fk8WxusPxoBwy/i25Wk50mEbhoiFR3Pd?=
+ =?us-ascii?Q?MS/8qfxRFB9fE9tMM0WVG1uH4VcEE9kE5zreSPB72PRRLsAVMLtabsLovjSb?=
+ =?us-ascii?Q?iIO4C32YzyQ2Kj8b2RPMJpb9FZKo03qPr8N+YgzEPQTMSWXbWSjkF0wyQKxL?=
+ =?us-ascii?Q?B6zkUGSlnErv3Mvubz21y0JE9qn5j0V4IQwzTHRo00pQYA0fPes7jdV6PTn6?=
+ =?us-ascii?Q?p63F83zxj7pQmbTU9/iY5wzWIaPVAHekTH1c76/Dr84YeStjMw71MdID/Up3?=
+ =?us-ascii?Q?rrvJ+rgmORLSPUDnT+dnwT2rF45gyKqJ6vLRz7My5f4zYP1bl3HUw+gSgwTR?=
+ =?us-ascii?Q?SJkVLaryvhfMaLaRAIA+LzIJQevfMvM4yzcXhpjpg2Wx+fbEIDz+0Lj4ABHf?=
+ =?us-ascii?Q?vpH/Rp3vph6biPWhpFGEpKJjtXbe5TaTEZJDjkFzChfjHFzCY4y8dwlxuUcx?=
+ =?us-ascii?Q?UEPYzRUgLuuq0/jNDbN1toPzZT2QFgjE7FUvRmqpCEBXqd7l0sKuq4qXa+1g?=
+ =?us-ascii?Q?hB/vWO7vjg8+iaakw8c3qolYk/lzGZSZtFSaa2WBG+XvhXemuKmhCJQj+WMn?=
+ =?us-ascii?Q?aurqA8Tn+dqShBAlx+3oftW9BBnDvNJc4/OUw+6zUw9thhw0E4iRSuAowWX5?=
+ =?us-ascii?Q?ZEYZm5KGO74YlC4vvZwQ8sbjBbcJNTcNloVrrErUCNCbJSiHP+F1ygBtWisT?=
+ =?us-ascii?Q?mlzBc0g6BxlxdYgrOrQCEJJ251tprjqg1lo+Xjk1fmYH9UmRn8D3tFZgotug?=
+ =?us-ascii?Q?1Thsw7bFcidWZlt8nqMeyFbrfBlBn+q/qQKjr4pR82fi/d0gAw31zbjSM6oi?=
+ =?us-ascii?Q?a4jIlKJ3bMakf4cNrtOxO7JtfsciIbhOM+LxcOVDTf/PeIHNAMI8L3/4qE0s?=
+ =?us-ascii?Q?YVJA/kEkY0cOVfT6zgyWzhK30xqXtVYaKm1rqCjZmBlU9BziMG1XHH0Unzrd?=
+ =?us-ascii?Q?1vaOx6qxdUEUEVYxgGRCUnf8vJl8VxppRrrBry8OslEjSrENHOjmYWUxYU3I?=
+ =?us-ascii?Q?y+oRyzh3jOPfWuyYFNOvSzY=3D?=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3de7ee6e-7122-4467-0a42-08d9e4f1eea7
+X-MS-Exchange-CrossTenant-AuthSource: SA1PR10MB5841.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Jan 2022 19:43:19.3217 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Z2bnvZ4TLwrXh1QW9uu86xadM8sB9cXSZ1zxL2QYQ2jNO1zvV4mY67EaW6Y6nV30bqaLkYpFXWwS61CF2Y4Y5A==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BLAPR10MB5362
+X-Proofpoint-Virus-Version: vendor=nai engine=6300 definitions=10244
+ signatures=673430
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
+ mlxscore=0 spamscore=0
+ bulkscore=0 adultscore=0 mlxlogscore=933 phishscore=0 malwarescore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2201110000
+ definitions=main-2201310125
+X-Proofpoint-GUID: RdCeK7RNyCVdIr0V8cGR__0pcGYRTBr-
+X-Proofpoint-ORIG-GUID: RdCeK7RNyCVdIr0V8cGR__0pcGYRTBr-
+Received-SPF: pass client-ip=205.220.165.32;
+ envelope-from=mark.kanda@oracle.com; helo=mx0a-00069f02.pphosted.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -85,259 +162,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Eduardo Habkost <ehabkost@redhat.com>, David Hildenbrand <david@redhat.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- Richard Henderson <richard.henderson@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>, Peter Xu <peterx@redhat.com>,
- Igor Mammedov <imammedo@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+Cc: pbonzini@redhat.com, berrange@redhat.com, armbru@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000df71fc05d6e5afce
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+v3:
+- various QMP API enhancements from v2 review [1] [Daniel, Paolo, Igor]
+- general cleanup
 
-Hi Philippe,
+v2: [Paolo]
+- generalize the interface
+- add support for querying stat schema and instances
+- add additional HMP semantic processing for a few exponent/unit
+   combinations (related to seconds and bytes)
 
-On Mon, Jan 31, 2022 at 12:29 AM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.o=
-rg>
-wrote:
+This patchset adds QEMU support for querying fd-based KVM stats. The
+kernel support was introduced by:
 
-> Hi Niek!
->
-> (+Mark FYI)
->
-> On 30/1/22 23:50, Niek Linnenbank wrote:
-> > Hi David,
-> >
-> > While I realize my response is quite late, I wanted to report this erro=
-r
-> > I found when running the acceptance
-> > tests for the orangepi-pc machine using avocado:
->
-> Unfortunately I only run the full SD/MMC tests when I send a SD/MMC pull
-> request, so missed that here.
->
+cb082bfab59a ("KVM: stats: Add fd-based API to read binary stats data")
 
-I understand. These tests are behind the AVOCADO_ALLOW_LARGE_STORAGE flag
-in avocado, so I guess they
-don't run on gitlab as well, but I'm not sure about that.
+[1] https://lore.kernel.org/all/20211119195153.11815-1-mark.kanda@oracle.com/
 
+Mark Kanda (3):
+  qmp: Support for querying stats
+  hmp: Support for querying stats
+  kvm: Support for querying fd-based stats
 
->
-> > Basically the two tests freeze during the part where the U-Boot
-> > bootloader needs to detect the amount of memory. We model this in the
-> > hw/misc/allwinner-h3-dramc.c file.
-> > And when running the machine manually it shows an assert on
-> > 'alias->mapped_via_alias >=3D 0'. When running manually via gdb, I was
-> > able to collect this backtrace:
-> >
-> > $ gdb ./build/qemu-system-arm
-> > ...
-> > gdb) run -M orangepi-pc -nographic
-> > ./Armbian_20.08.1_Orangepipc_bionic_current_5.8.5.img
-> > ...
-> > U-Boot SPL 2020.04-armbian (Sep 02 2020 - 10:16:13 +0200)
-> > DRAM:
-> > qemu-system-arm: ../softmmu/memory.c:2588: memory_region_del_subregion:
-> > Assertion `alias->mapped_via_alias >=3D 0' failed.
-> ...
->
-> > So it seems that the hw/misc/allwinner-h3-dramc.c file is using the cal=
-l
-> > memory_region_set_address, where internally we are calling
-> > memory_region_del_subregion.
-> > The allwinner-h3-dramc.c file does use
-> > memory_region_add_subregion_overlap once in the realize function, but
-> > might use the memory_region_set_address multiple times.
-> > It looks to me this is the path where the assert comes in. If I revert
-> > this patch on current master, the machine boots without the assertion.
-> >
-> > Would you be able to help out how we can best resolve this? Ofcourse, i=
-f
-> > there is anything needed to be changed on the allwinner-h3-dramc.c file=
-,
-> > I would be happy to prepare a patch for that.
->
-> David's patch LGTM and I think your model might be somehow abusing the
-> memory API, but I'd like to read on the DRAMCOM Control Register to
-> understand the allwinner_h3_dramc_map_rows() logic. I couldn't find a
-> reference looking at Allwinner_H3_Datasheet_V1.2.pdf.
-> I wonder if we could ignore implementing it.
->
+ accel/kvm/kvm-all.c     | 308 ++++++++++++++++++++++++++++++++++++++++
+ hmp-commands-info.hx    |  28 ++++
+ include/monitor/hmp.h   |   2 +
+ include/monitor/stats.h |  36 +++++
+ monitor/hmp-cmds.c      | 288 +++++++++++++++++++++++++++++++++++++
+ monitor/qmp-cmds.c      | 183 ++++++++++++++++++++++++
+ qapi/misc.json          | 253 +++++++++++++++++++++++++++++++++
+ 7 files changed, 1098 insertions(+)
+ create mode 100644 include/monitor/stats.h
 
-Yes David's fix using memory_region_add_subregion_common inside
-memory_region_readd_subregion resolves the issue indeed.
-Well the allwinner-h3-dramc.c module works OK for now, but it can certainly
-use improvements indeed.
-And you're right, unfortunately the DRAMCOM device isn't documented in the
-datasheet as far as I know.
+-- 
+2.27.0
 
-
->
-> Your use case is typically what I tried to solve with this model:
->
-> https://lore.kernel.org/qemu-devel/20210419094329.1402767-2-f4bug@amsat.o=
-rg/
->
-> In your case, @span_size is your amount of DRAM, and @region_size is the
-> area u-boot is scanning (and @offset is zero).
-> Could that work, or is DRAMCOM doing much more?
->
-
-The current model in allwinner-h3-dramc.c is roughly based on the code that
-is present in U-Boot in the file arm/arm/mach-sunxi/dram_sunxi_dw.c.
-It implements the low-level initialization of the memory controller, and
-when running using Qemu the most important thing it needs to do is
-detect the amount of memory. If it cannot accomplish this task, the U-Boot
-SPL won't boot properly or crash later. So what we have in
-the allwinner-h3-dramc.c implementation comes from the information and code
-in the dram_sunxi_dw.c file in U-Boot, not the datasheet.
-
-The proposal you send with span_size/region_size looks interesting indeed.
-It would be great if this could help
-simplify the code in allwinner-h3-dramc.c. But it would require some effort
-to figure out if it can indeed replace the current
-behavior.
-
-Kind regards,
-Niek
-
-
->
-> Thanks,
->
-> Phil.
->
-> P.D. reference to documentation welcome :)
->
-
-
---=20
-Niek Linnenbank
-
---000000000000df71fc05d6e5afce
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div>Hi Philippe,<br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Mon, Jan 31, 2022 at 12:29 AM Phil=
-ippe Mathieu-Daud=C3=A9 &lt;<a href=3D"mailto:f4bug@amsat.org">f4bug@amsat.=
-org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"marg=
-in:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1e=
-x">Hi Niek!<br>
-<br>
-(+Mark FYI)<br>
-<br>
-On 30/1/22 23:50, Niek Linnenbank wrote:<br>
-&gt; Hi David,<br>
-&gt; <br>
-&gt; While I realize my response is quite late, I wanted to report this err=
-or <br>
-&gt; I found when running the acceptance<br>
-&gt; tests for the orangepi-pc machine using avocado:<br>
-<br>
-Unfortunately I only run the full SD/MMC tests when I send a SD/MMC pull<br=
->
-request, so missed that here.<br></blockquote><div><br></div><div>I underst=
-and. These tests are behind the AVOCADO_ALLOW_LARGE_STORAGE flag in avocado=
-, so I guess they</div><div>don&#39;t run on gitlab as well, but I&#39;m no=
-t sure about that.<br></div><div>=C2=A0</div><blockquote class=3D"gmail_quo=
-te" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204=
-);padding-left:1ex">
-<br>
-&gt; Basically the two tests freeze during the part where the U-Boot <br>
-&gt; bootloader needs to detect the amount of memory. We model this in the =
-<br>
-&gt; hw/misc/allwinner-h3-dramc.c file.<br>
-&gt; And when running the machine manually it shows an assert on <br>
-&gt; &#39;alias-&gt;mapped_via_alias &gt;=3D 0&#39;. When running manually =
-via gdb, I was <br>
-&gt; able to collect this backtrace:<br>
-&gt; <br>
-&gt; $ gdb ./build/qemu-system-arm<br>
-&gt; ...<br>
-&gt; gdb) run -M orangepi-pc -nographic <br>
-&gt; ./Armbian_20.08.1_Orangepipc_bionic_current_5.8.5.img<br>
-&gt; ...<br>
-&gt; U-Boot SPL 2020.04-armbian (Sep 02 2020 - 10:16:13 +0200)<br>
-&gt; DRAM:<br>
-&gt; qemu-system-arm: ../softmmu/memory.c:2588: memory_region_del_subregion=
-: <br>
-&gt; Assertion `alias-&gt;mapped_via_alias &gt;=3D 0&#39; failed.<br>
-...<br>
-<br>
-&gt; So it seems that the hw/misc/allwinner-h3-dramc.c file is using the ca=
-ll <br>
-&gt; memory_region_set_address, where internally we are calling <br>
-&gt; memory_region_del_subregion.<br>
-&gt; The allwinner-h3-dramc.c file does use <br>
-&gt; memory_region_add_subregion_overlap once in the realize function, but =
-<br>
-&gt; might use the memory_region_set_address multiple times.<br>
-&gt; It looks to me this is the path where the assert comes in. If I revert=
- <br>
-&gt; this patch on current master, the machine boots without the assertion.=
-<br>
-&gt; <br>
-&gt; Would you be able to help out how we can best resolve this? Ofcourse, =
-if <br>
-&gt; there is anything needed to be changed on the allwinner-h3-dramc.c fil=
-e, <br>
-&gt; I would be happy to prepare a patch for that.<br>
-<br>
-David&#39;s patch LGTM and I think your model might be somehow abusing the<=
-br>
-memory API, but I&#39;d like to read on the DRAMCOM Control Register to<br>
-understand the allwinner_h3_dramc_map_rows() logic. I couldn&#39;t find a<b=
-r>
-reference looking at Allwinner_H3_Datasheet_V1.2.pdf.<br>
-I wonder if we could ignore implementing it.<br></blockquote><div><br></div=
-><div>Yes David&#39;s fix using memory_region_add_subregion_common inside m=
-emory_region_readd_subregion resolves the issue indeed.</div><div>Well the =
-allwinner-h3-dramc.c module works OK for now, but it can certainly use impr=
-ovements indeed.</div><div>And you&#39;re right, unfortunately the DRAMCOM =
-device isn&#39;t documented in the datasheet as far as I know.</div><div>=
-=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0=
-.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
-<br>
-Your use case is typically what I tried to solve with this model:<br>
-<a rel=3D"noreferrer">https://lore.kernel.org/qemu-devel/20210419094329.140=
-2767-2-f4bug@amsat.org/</a><br>
-<br>
-In your case, @span_size is your amount of DRAM, and @region_size is the<br=
->
-area u-boot is scanning (and @offset is zero).<br>
-Could that work, or is DRAMCOM doing much more?<br></blockquote><div><br></=
-div><div><div>The current model in allwinner-h3-dramc.c is roughly based on=
- the code that is=20
-present in U-Boot in the file arm/arm/mach-sunxi/dram_sunxi_dw.c.</div><div=
->It
- implements the low-level initialization of the memory controller, and=20
-when running using Qemu the most important thing it needs to do is</div><di=
-v>detect the amount of memory. If it cannot accomplish this task, the U-Boo=
-t SPL won&#39;t boot properly or crash later. So what we have in</div><div>=
-the
- allwinner-h3-dramc.c implementation comes from the information and code
- in the dram_sunxi_dw.c file in U-Boot, not the datasheet.</div><div><br></=
-div><div>The proposal you send with span_size/region_size looks interesting=
- indeed. It would be great if this could help</div><div>simplify the code i=
-n allwinner-h3-dramc.c. But it would require some effort to figure out if i=
-t can indeed replace the current</div><div>behavior.</div><div><br></div><d=
-iv>Kind regards,</div><div>Niek<br></div></div><div>=C2=A0</div><blockquote=
- class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px so=
-lid rgb(204,204,204);padding-left:1ex">
-<br>
-Thanks,<br>
-<br>
-Phil.<br>
-<br>
-P.D. reference to documentation welcome :)<br>
-</blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=3D"g=
-mail_signature"><div dir=3D"ltr"><div>Niek Linnenbank<br><br></div></div></=
-div></div>
-
---000000000000df71fc05d6e5afce--
 
