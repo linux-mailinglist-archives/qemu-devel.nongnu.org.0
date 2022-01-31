@@ -2,77 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 76B444A5221
-	for <lists+qemu-devel@lfdr.de>; Mon, 31 Jan 2022 23:11:01 +0100 (CET)
-Received: from localhost ([::1]:47616 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE3C74A5222
+	for <lists+qemu-devel@lfdr.de>; Mon, 31 Jan 2022 23:11:45 +0100 (CET)
+Received: from localhost ([::1]:48930 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nEet2-0002Ei-3Z
-	for lists+qemu-devel@lfdr.de; Mon, 31 Jan 2022 17:11:00 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:44700)
+	id 1nEetj-0003Ab-4F
+	for lists+qemu-devel@lfdr.de; Mon, 31 Jan 2022 17:11:43 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:44684)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nEepg-00005t-Va
- for qemu-devel@nongnu.org; Mon, 31 Jan 2022 17:07:34 -0500
-Received: from [2607:f8b0:4864:20::102c] (port=39521
- helo=mail-pj1-x102c.google.com)
+ id 1nEepg-00005m-UZ
+ for qemu-devel@nongnu.org; Mon, 31 Jan 2022 17:07:32 -0500
+Received: from [2607:f8b0:4864:20::435] (port=43954
+ helo=mail-pf1-x435.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nEepb-000598-UG
- for qemu-devel@nongnu.org; Mon, 31 Jan 2022 17:07:32 -0500
-Received: by mail-pj1-x102c.google.com with SMTP id
- s61-20020a17090a69c300b001b4d0427ea2so538382pjj.4
- for <qemu-devel@nongnu.org>; Mon, 31 Jan 2022 14:05:32 -0800 (PST)
+ id 1nEepb-0005B4-U0
+ for qemu-devel@nongnu.org; Mon, 31 Jan 2022 17:07:30 -0500
+Received: by mail-pf1-x435.google.com with SMTP id d187so14065934pfa.10
+ for <qemu-devel@nongnu.org>; Mon, 31 Jan 2022 14:06:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=UhLQVxPMjBe/pYPXxrVvPO7nJ1rU4vj8jExhVy6roow=;
- b=H2yYSSc9cZixcIj9uedse+M5rLEwZwTTB7//2Rtj2BxcGgeWVT2dR19X76VoLlBqH+
- AoDoYHjfC1LvXScyabbpJbDwp5he0bblekHCChPavhRvpNrP963gEkcFqX2YJ8/jiJtI
- xoulq26cGHsZPy30lo5YUC7+nTVX20Vrga/c2Fc/6JMEkSnFgXnJJLD2sKWRgonI5CYn
- dm4rsgWsM2he8AWumwzxTbIHFx/nmVD2Xh9FS4rRXzcMomgWgJTgMTaC6hq2GkXo0Vuv
- 5AfiNrOLKk/IPAp1eZHohONAGBo8Q2bs98Wa9y2CUkV0FqBBKNiSYjQh2liyNCVLs7C1
- dSVA==
+ bh=d/Pu5BWTLEJS5SSCRlUKwywev47dQuhxfQqpnjgvm8M=;
+ b=xLtVIH6v13d88Lz/toYGqtFUyAEp7dFypfG+MI5jAohFYJ8LJ7K+praIxeR0/dKDTa
+ 3VC0R8F4023J4pIyT1HK7K2AwzvxqOsR5i/xladF6jqI5mUSTG04bQAMqFBR2iK/K+o3
+ g+PH3N8OHg3DC3wH8pQQPu19siuTJ2YqKXC3g4PKsxlc5EwV0Rm5WjLr6Vq8tOLMl8+x
+ QZwB/FfYcktSKv/zoG1QdauYi6MgS7nIwqM9YZupYhdaHRb4XdfascI/2ZT4WDZ4SbWV
+ ePi/eLfrT47mDQaA+K82uOz56T9pO41szzIuUqun9da3Q5b9q/p/WdVrN+qMVM/3zPWz
+ oo8g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=UhLQVxPMjBe/pYPXxrVvPO7nJ1rU4vj8jExhVy6roow=;
- b=eYMYQkiWumIYgFcDEngYNuTsLdL6QUD/YHfD+dwy8c4DkAKHavoTreszVZM/ouXB/K
- Ga5ciV3dXWT2DpTWeIy8txiqLU+Gb2xxGKS+tfdVw8ZFPmGIR8E4v88Gg1WlWvn7g75n
- w9jLxvXdl4NoM/L+wgmf6ij8gZQD3Q+FWzaqCEfl30uxmMoszpnrlZjdCWqb9lqoQ2hc
- 3fg37bGxfcrw6Xhj9gBQjWlB3tQMDc5OyX8MwMraljFjZgSmxrQ/Z5rU8KW5JabSHvW7
- Y0jT/T8vUI32KusaBEMtJ3Jxs8vhteXNmFeYy6uw3wclHNpc+8iMWDOQ/htUxENHo8pv
- kIUw==
-X-Gm-Message-State: AOAM530/s/fkSMeuC7EF18eMzNVRhKXptY+faJFev6w0mem8JEp2QLCO
- 74CfXA0bvaMK6IcCpDkdlZa0pA==
-X-Google-Smtp-Source: ABdhPJy8PHu5cQA4XlP0UnmZEmGrseDLu5LrZzNP4+E2ablvq0cUzBT92yCdGaYn/1b+HbAGUkFrAg==
-X-Received: by 2002:a17:90a:b018:: with SMTP id
- x24mr26478731pjq.91.1643666731509; 
- Mon, 31 Jan 2022 14:05:31 -0800 (PST)
+ bh=d/Pu5BWTLEJS5SSCRlUKwywev47dQuhxfQqpnjgvm8M=;
+ b=W9FycF5foSajYSMlc61Ob6D8mMWlZ+HaIyqlGUkm2Y+LSrErRlLqGauiGlhLmY74+C
+ To+YHm5Kpb8tHNBTbblH5a4/JgERqf3WKGYFYfNpq5e5p23TBJC3LA7ymJwVjwpwDC9Z
+ CFtGh/pQpeV0To2xcEG3Vbm4X5XdDSRZ48N+MaqDss6ulB/WXjvW0U2Ssz+8MSh+4mFz
+ 9vUXSytTqdzrjPMd7uAyJIGhmrITbFkANPAXJUGsTrmlBqRY0rb3MLPtZiTHJvIlcbFs
+ G4jzTg5DzZWZbuL8AFxkOWn4WXyEpAqcMVP4iwmNIKF6xA9nbMZQ5NfE1sEa8+i/0GSx
+ L47A==
+X-Gm-Message-State: AOAM530cclEsRqc0IB1jy7vCikvEdGaw5GeJNs+AEuv0EZJo1b2Q633v
+ 8XciNhysACTpHTr9kU+qkLIhaA==
+X-Google-Smtp-Source: ABdhPJxFbZmVa5rwdC5m2ou+fCS0uD7DTds3mqzge9jIPcM7zgn5cF70zK+wI47vEhOCntTq4/K7cg==
+X-Received: by 2002:a05:6a00:1914:: with SMTP id
+ y20mr22233397pfi.39.1643666779499; 
+ Mon, 31 Jan 2022 14:06:19 -0800 (PST)
 Received: from [192.168.15.130] ([60.231.85.5])
- by smtp.gmail.com with ESMTPSA id y8sm30392301pgs.31.2022.01.31.14.05.29
+ by smtp.gmail.com with ESMTPSA id x18sm18777506pfc.123.2022.01.31.14.06.17
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 31 Jan 2022 14:05:31 -0800 (PST)
-Message-ID: <11f84353-dccb-60d8-77f0-2b0f7cb030a6@linaro.org>
-Date: Tue, 1 Feb 2022 09:05:26 +1100
+ Mon, 31 Jan 2022 14:06:19 -0800 (PST)
+Message-ID: <85d3ed39-76df-2ebb-d1d9-65e426302c06@linaro.org>
+Date: Tue, 1 Feb 2022 09:06:14 +1100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.5.0
-Subject: Re: [PATCH v2 2/6] hw/hppa: Allow up to 16 emulated CPUs
+Subject: Re: [PATCH v2 3/6] hppa: Add support for an emulated TOC/NMI button.
 Content-Language: en-US
 To: Helge Deller <deller@gmx.de>, qemu-devel@nongnu.org
 References: <20220131213529.17404-1-deller@gmx.de>
- <20220131213529.17404-3-deller@gmx.de>
+ <20220131213529.17404-4-deller@gmx.de>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220131213529.17404-3-deller@gmx.de>
+In-Reply-To: <20220131213529.17404-4-deller@gmx.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::102c
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::435
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102c;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102c.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::435;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x435.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -98,37 +97,46 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 2/1/22 08:35, Helge Deller wrote:
-> This brings the hppa_hardware.h file in sync with the copy in the
-> SeaBIOS-hppa sources.
+> Almost all PA-RISC machines have either a button that is labeled with 'TOC' or
+> a BMC/GSP function to trigger a TOC.  TOC is a non-maskable interrupt that is
+> sent to the processor.  This can be used for diagnostic purposes like obtaining
+> a stack trace/register dump or to enter KDB/KGDB in Linux.
 > 
-> In order to support up to 16 CPUs, it's required to move the HPA for
-> MEMORY_HPA out of the address space of the 16th CPU.
+> This patch adds support for such an emulated TOC button.
+> 
+> It wires up the qemu monitor "nmi" command to trigger a TOC.  For that it
+> provides the hppa_nmi function which is assigned to the nmi_monitor_handler
+> function pointer.  When called it raises the EXCP_TOC hardware interrupt in the
+> hppa_cpu_do_interrupt() function.  The interrupt function then calls the
+> architecturally defined TOC function in SeaBIOS-hppa firmware (at fixed address
+> 0xf0000000).
+> 
+> According to the PA-RISC PDC specification, the SeaBIOS firmware then writes
+> the CPU registers into PIM (processor internal memmory) for later analysis.  In
+> order to write all registers it needs to know the contents of the CPU "shadow
+> registers" and the IASQ- and IAOQ-back values. The IAOQ/IASQ values are
+> provided by qemu in shadow registers when entering the SeaBIOS TOC function.
+> This patch adds a new aritificial opcode "getshadowregs" (0xfffdead2) which
+> restores the original values of the shadow registers. With this opcode SeaBIOS
+> can store those registers as well into PIM before calling an OS-provided TOC
+> handler.
+> 
+> To trigger a TOC, switch to the qemu monitor with Ctrl-A C, and type in the
+> command "nmi".  After the TOC started the OS-debugger, exit the qemu monitor
+> with Ctrl-A C.
 > 
 > Signed-off-by: Helge Deller<deller@gmx.de>
 > ---
->   hw/hppa/hppa_hardware.h | 5 +++--
->   1 file changed, 3 insertions(+), 2 deletions(-)
-> 
-> diff --git a/hw/hppa/hppa_hardware.h b/hw/hppa/hppa_hardware.h
-> index bc258895c9..5edf577563 100644
-> --- a/hw/hppa/hppa_hardware.h
-> +++ b/hw/hppa/hppa_hardware.h
-> @@ -25,7 +25,7 @@
->   #define LASI_GFX_HPA    0xf8000000
->   #define ARTIST_FB_ADDR  0xf9000000
->   #define CPU_HPA         0xfffb0000
-> -#define MEMORY_HPA      0xfffbf000
-> +#define MEMORY_HPA      0xfffff000
+>   hw/hppa/machine.c        | 35 ++++++++++++++++++++++++++++++++++-
+>   target/hppa/cpu.c        |  2 +-
+>   target/hppa/cpu.h        |  5 +++++
+>   target/hppa/helper.h     |  1 +
+>   target/hppa/insns.decode |  1 +
+>   target/hppa/int_helper.c | 19 ++++++++++++++++++-
+>   target/hppa/op_helper.c  |  7 ++++++-
+>   target/hppa/translate.c  | 10 ++++++++++
+>   8 files changed, 76 insertions(+), 4 deletions(-)
 
-You could mention that you're moving it *well* out of the way, perhaps.  I was first 
-confused about why the gap between the two numbers was so large.
-
-
-> +#define PIM_STORAGE_SIZE 600	/* storage size of pdc_pim_toc_struct (64bit) */
-
-Belongs to the next patch?  Completely unused?
-
-Otherwise,
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
 r~
