@@ -2,80 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 603684A48CB
-	for <lists+qemu-devel@lfdr.de>; Mon, 31 Jan 2022 14:55:16 +0100 (CET)
-Received: from localhost ([::1]:46636 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6022A4A4829
+	for <lists+qemu-devel@lfdr.de>; Mon, 31 Jan 2022 14:32:12 +0100 (CET)
+Received: from localhost ([::1]:56002 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nEX9H-0003Me-ED
-	for lists+qemu-devel@lfdr.de; Mon, 31 Jan 2022 08:55:15 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:38788)
+	id 1nEWmu-0005qV-Di
+	for lists+qemu-devel@lfdr.de; Mon, 31 Jan 2022 08:32:10 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:40496)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1nEUwY-0003mY-Go
- for qemu-devel@nongnu.org; Mon, 31 Jan 2022 06:33:58 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:48276)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1nEV6a-0003wg-QH
+ for qemu-devel@nongnu.org; Mon, 31 Jan 2022 06:44:20 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:50309)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1nEUwU-0000Ls-Nz
- for qemu-devel@nongnu.org; Mon, 31 Jan 2022 06:33:58 -0500
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1nEV6X-0001pg-Py
+ for qemu-devel@nongnu.org; Mon, 31 Jan 2022 06:44:19 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1643628828;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=CzBlj2Fh3jz47w39YT5Qj7RhN4D6l7SCZ7c5i8zFdtI=;
- b=UqzoktO2N+pYaizeko/51v89HSfXM1Io+I18jDto2Qs8wbRTygN8ggLjzAVR5logBSZpam
- E0mRvKC8aRYIx8JN0ilcg8H3zlEG/+freWrTsbr8MyfqaXlElaytys5++eS4SBkkkzcO6j
- L35icgY5/ruuTEhzQNbF4WgTZutrzYY=
-Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
- [209.85.219.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ s=mimecast20190719; t=1643629456;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=EQdACnVG4eNJfDJQDLugXnOGZtsrsV/F0ppysQ65iFw=;
+ b=AnwRrDMKZFWO/ZIQ/JZkbO6jcR+9l4WodYzcTtBhLEiIb8yABmJfGw4luG26Oi8J5w72OD
+ iM6KKMWxfdKhiiJaNFnpxaWFl4oIQcRB0fJ3HJutUSPe3E9HLEL5reSmXvYOlPlfWKwOlJ
+ nsSsNjUFDWjLkqi+Lkpl55aZjv2uNOo=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-418-4u8CyZCNNQOhWaz2JncuCA-1; Mon, 31 Jan 2022 06:33:47 -0500
-X-MC-Unique: 4u8CyZCNNQOhWaz2JncuCA-1
-Received: by mail-qv1-f71.google.com with SMTP id
- u15-20020a0cec8f000000b00425d89d8be0so9875220qvo.20
- for <qemu-devel@nongnu.org>; Mon, 31 Jan 2022 03:33:47 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=CzBlj2Fh3jz47w39YT5Qj7RhN4D6l7SCZ7c5i8zFdtI=;
- b=qwEqCh4YG7JR9mNnBWjXMTUt58HK87hFx80y1l1kD/b83MzkEdy1CtyEiJNiRZqku+
- nQur697QLivWIloT7VESj8ipskdeZLBYfSM5f/3R2AIhDpEojyVnRTX+ru8MBoJctfZH
- NXJWhbPb56Ifl6D9bxIWng/EY/wzNxV2mnCwkEZqLYtsuuNIOJE6vzQMNmksrLGn+L31
- u1I+BmNvbKnLKjXXAJgu8UjidlaFhgyOmA3a+RXTdAOOA3x/GzoT4nPoTPZQDbhpb5eF
- m7Btsvrn3g/qrOiKIUOHfRCY0yvFiLJ+jJTNK7LhWZmMyuJY/shH8MPW3/U4Fa+DcHlm
- 823g==
-X-Gm-Message-State: AOAM5320kEALT2nH2RLclRHi4eU7NLWqJ0z3qt7PWs4wbvm9/sqLZyov
- SzVnlPuD1yEs7af7NwZLn8DAISGpbqzapJV+U3DBkEig5D+VNFrauYacD00sgioWhgwpvkXPEP5
- eDc2HFgvpR5UT9nOt+4FisaA8yQmFGqA=
-X-Received: by 2002:a05:622a:199c:: with SMTP id
- u28mr13949887qtc.221.1643628827244; 
- Mon, 31 Jan 2022 03:33:47 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwkyXZziQzuOsNe8KfI9JVuEaRsLAMZoFrbPnVKQ5+CPXJetrWblte+9h+/5gFn3rVQc0MmWdQmeT4qDH7mdlU=
-X-Received: by 2002:a05:622a:199c:: with SMTP id
- u28mr13949822qtc.221.1643628825993; 
- Mon, 31 Jan 2022 03:33:45 -0800 (PST)
+ us-mta-578-l2CApO_MOdmSpuM8RvHnoQ-1; Mon, 31 Jan 2022 06:44:10 -0500
+X-MC-Unique: l2CApO_MOdmSpuM8RvHnoQ-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 73DDD84B9A4;
+ Mon, 31 Jan 2022 11:44:09 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.195.62])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id A145D7D723;
+ Mon, 31 Jan 2022 11:44:06 +0000 (UTC)
+Date: Mon, 31 Jan 2022 11:44:03 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Dov Murik <dovmurik@linux.ibm.com>
+Subject: Re: [PATCH] qapi, i386/sev: Add debug-launch-digest to
+ launch-measure response
+Message-ID: <YffLgx48+mM2SiIX@redhat.com>
+References: <20220131111539.3091765-1-dovmurik@linux.ibm.com>
 MIME-Version: 1.0
-References: <20220121202733.404989-1-eperezma@redhat.com>
- <20220121202733.404989-7-eperezma@redhat.com>
- <2cb2415b-7d8b-6187-c202-27e8f26410a4@redhat.com>
-In-Reply-To: <2cb2415b-7d8b-6187-c202-27e8f26410a4@redhat.com>
-From: Eugenio Perez Martin <eperezma@redhat.com>
-Date: Mon, 31 Jan 2022 12:33:09 +0100
-Message-ID: <CAJaqyWeRbmwW80q3q52nFw=iz1xcPRFviFaRHo0nzXpEb+3m3A@mail.gmail.com>
-Subject: Re: [PATCH 06/31] vhost: Route guest->host notification through
- shadow virtqueue
-To: Jason Wang <jasowang@redhat.com>
+In-Reply-To: <20220131111539.3091765-1-dovmurik@linux.ibm.com>
+User-Agent: Mutt/2.1.5 (2021-12-30)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eperezma@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eperezma@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -96,374 +80,104 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Parav Pandit <parav@mellanox.com>,
- Cindy Lu <lulu@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Juan Quintela <quintela@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- qemu-level <qemu-devel@nongnu.org>, Gautam Dawar <gdawar@xilinx.com>,
- Markus Armbruster <armbru@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
- Harpreet Singh Anand <hanand@xilinx.com>, Xiao W Wang <xiao.w.wang@intel.com>,
- Peter Xu <peterx@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Eli Cohen <eli@mellanox.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Zhu Lingshan <lingshan.zhu@intel.com>,
- virtualization <virtualization@lists.linux-foundation.org>,
- Eric Blake <eblake@redhat.com>, Stefano Garzarella <sgarzare@redhat.com>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Tom Lendacky <thomas.lendacky@amd.com>, Ashish Kalra <ashish.kalra@amd.com>,
+ Brijesh Singh <brijesh.singh@amd.com>, James Bottomley <jejb@linux.ibm.com>,
+ Marcelo Tosatti <mtosatti@redhat.com>, qemu-devel@nongnu.org,
+ Markus Armbruster <armbru@redhat.com>,
+ Tobin Feldman-Fitzthum <tobin@linux.ibm.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Eric Blake <eblake@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Jan 28, 2022 at 7:57 AM Jason Wang <jasowang@redhat.com> wrote:
->
->
-> =E5=9C=A8 2022/1/22 =E4=B8=8A=E5=8D=884:27, Eugenio P=C3=A9rez =E5=86=99=
-=E9=81=93:
-> > At this moment no buffer forwarding will be performed in SVQ mode: Qemu
-> > just forward the guest's kicks to the device. This commit also set up
-> > SVQs in the vhost device.
-> >
-> > Host memory notifiers regions are left out for simplicity, and they wil=
-l
-> > not be addressed in this series.
->
->
-> I wonder if it's better to squash this into patch 5 since it gives us a
-> full guest->host forwarding.
->
+On Mon, Jan 31, 2022 at 11:15:39AM +0000, Dov Murik wrote:
+> Currently the responses of QMP commands query-sev-launch-measure and
+> query-sev-attestation-report return just the signed measurement. In
+> order to validate it, the Guest Owner must know the exact guest launch
+> digest, besides other host and guest properties which are included in
+> the measurement.
+> 
+> The other host and guest details (SEV API major, SEV API minor, SEV
+> build, and guest policy) are all available via query-sev QMP command.
+> However, the launch digest is not available.  This makes checking the
+> measurement harder for the Guest Owner, as it has to iterate through all
+> allowed launch digests and compute the expected measurement.
 
-I'm fine with that if you think it makes the review easier.
+So more specifically to validate the measurement, the guest owner is
+currently calculating:
 
->
-> >
-> > Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
-> > ---
-> >   include/hw/virtio/vhost-vdpa.h |   4 ++
-> >   hw/virtio/vhost-vdpa.c         | 122 ++++++++++++++++++++++++++++++++=
--
-> >   2 files changed, 124 insertions(+), 2 deletions(-)
-> >
-> > diff --git a/include/hw/virtio/vhost-vdpa.h b/include/hw/virtio/vhost-v=
-dpa.h
-> > index 3ce79a646d..009a9f3b6b 100644
-> > --- a/include/hw/virtio/vhost-vdpa.h
-> > +++ b/include/hw/virtio/vhost-vdpa.h
-> > @@ -12,6 +12,8 @@
-> >   #ifndef HW_VIRTIO_VHOST_VDPA_H
-> >   #define HW_VIRTIO_VHOST_VDPA_H
-> >
-> > +#include <gmodule.h>
-> > +
-> >   #include "hw/virtio/virtio.h"
-> >   #include "standard-headers/linux/vhost_types.h"
-> >
-> > @@ -27,6 +29,8 @@ typedef struct vhost_vdpa {
-> >       bool iotlb_batch_begin_sent;
-> >       MemoryListener listener;
-> >       struct vhost_vdpa_iova_range iova_range;
-> > +    bool shadow_vqs_enabled;
-> > +    GPtrArray *shadow_vqs;
-> >       struct vhost_dev *dev;
-> >       VhostVDPAHostNotifier notifier[VIRTIO_QUEUE_MAX];
-> >   } VhostVDPA;
-> > diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
-> > index 6c10a7f05f..18de14f0fb 100644
-> > --- a/hw/virtio/vhost-vdpa.c
-> > +++ b/hw/virtio/vhost-vdpa.c
-> > @@ -17,12 +17,14 @@
-> >   #include "hw/virtio/vhost.h"
-> >   #include "hw/virtio/vhost-backend.h"
-> >   #include "hw/virtio/virtio-net.h"
-> > +#include "hw/virtio/vhost-shadow-virtqueue.h"
-> >   #include "hw/virtio/vhost-vdpa.h"
-> >   #include "exec/address-spaces.h"
-> >   #include "qemu/main-loop.h"
-> >   #include "cpu.h"
-> >   #include "trace.h"
-> >   #include "qemu-common.h"
-> > +#include "qapi/error.h"
-> >
-> >   /*
-> >    * Return one past the end of the end of section. Be careful with uin=
-t64_t
-> > @@ -409,8 +411,14 @@ err:
-> >
-> >   static void vhost_vdpa_host_notifiers_init(struct vhost_dev *dev)
-> >   {
-> > +    struct vhost_vdpa *v =3D dev->opaque;
-> >       int i;
-> >
-> > +    if (v->shadow_vqs_enabled) {
-> > +        /* SVQ is not compatible with host notifiers mr */
->
->
-> I guess there should be a TODO or FIXME here.
->
+   expected_measurement = HMAC(0x04 || API_MAJOR || API_MINOR || BUILD ||
+                               GCTX.POLICY || GCTX.LD || MNONCE; GCTX.TIK)
 
-Sure I can add it.
+where GCTX.LD is
 
->
-> > +        return;
-> > +    }
-> > +
-> >       for (i =3D dev->vq_index; i < dev->vq_index + dev->nvqs; i++) {
-> >           if (vhost_vdpa_host_notifier_init(dev, i)) {
-> >               goto err;
-> > @@ -424,6 +432,17 @@ err:
-> >       return;
-> >   }
-> >
-> > +static void vhost_vdpa_svq_cleanup(struct vhost_dev *dev)
-> > +{
-> > +    struct vhost_vdpa *v =3D dev->opaque;
-> > +    size_t idx;
-> > +
-> > +    for (idx =3D 0; idx < v->shadow_vqs->len; ++idx) {
-> > +        vhost_svq_stop(g_ptr_array_index(v->shadow_vqs, idx));
-> > +    }
-> > +    g_ptr_array_free(v->shadow_vqs, true);
-> > +}
-> > +
-> >   static int vhost_vdpa_cleanup(struct vhost_dev *dev)
-> >   {
-> >       struct vhost_vdpa *v;
-> > @@ -432,6 +451,7 @@ static int vhost_vdpa_cleanup(struct vhost_dev *dev=
-)
-> >       trace_vhost_vdpa_cleanup(dev, v);
-> >       vhost_vdpa_host_notifiers_uninit(dev, dev->nvqs);
-> >       memory_listener_unregister(&v->listener);
-> > +    vhost_vdpa_svq_cleanup(dev);
-> >
-> >       dev->opaque =3D NULL;
-> >       ram_block_discard_disable(false);
-> > @@ -507,9 +527,15 @@ static int vhost_vdpa_get_device_id(struct vhost_d=
-ev *dev,
-> >
-> >   static int vhost_vdpa_reset_device(struct vhost_dev *dev)
-> >   {
-> > +    struct vhost_vdpa *v =3D dev->opaque;
-> >       int ret;
-> >       uint8_t status =3D 0;
-> >
-> > +    for (unsigned i =3D 0; i < v->shadow_vqs->len; ++i) {
-> > +        VhostShadowVirtqueue *svq =3D g_ptr_array_index(v->shadow_vqs,=
- i);
-> > +        vhost_svq_stop(svq);
-> > +    }
-> > +
-> >       ret =3D vhost_vdpa_call(dev, VHOST_VDPA_SET_STATUS, &status);
-> >       trace_vhost_vdpa_reset_device(dev, status);
-> >       return ret;
-> > @@ -639,13 +665,28 @@ static int vhost_vdpa_get_vring_base(struct vhost=
-_dev *dev,
-> >       return ret;
-> >   }
-> >
-> > -static int vhost_vdpa_set_vring_kick(struct vhost_dev *dev,
-> > -                                       struct vhost_vring_file *file)
-> > +static int vhost_vdpa_set_vring_dev_kick(struct vhost_dev *dev,
-> > +                                         struct vhost_vring_file *file=
-)
-> >   {
-> >       trace_vhost_vdpa_set_vring_kick(dev, file->index, file->fd);
-> >       return vhost_vdpa_call(dev, VHOST_SET_VRING_KICK, file);
-> >   }
-> >
-> > +static int vhost_vdpa_set_vring_kick(struct vhost_dev *dev,
-> > +                                       struct vhost_vring_file *file)
-> > +{
-> > +    struct vhost_vdpa *v =3D dev->opaque;
-> > +    int vdpa_idx =3D vhost_vdpa_get_vq_index(dev, file->index);
-> > +
-> > +    if (v->shadow_vqs_enabled) {
-> > +        VhostShadowVirtqueue *svq =3D g_ptr_array_index(v->shadow_vqs,=
- vdpa_idx);
-> > +        vhost_svq_set_svq_kick_fd(svq, file->fd);
-> > +        return 0;
-> > +    } else {
-> > +        return vhost_vdpa_set_vring_dev_kick(dev, file);
-> > +    }
-> > +}
-> > +
-> >   static int vhost_vdpa_set_vring_call(struct vhost_dev *dev,
-> >                                          struct vhost_vring_file *file)
-> >   {
-> > @@ -653,6 +694,33 @@ static int vhost_vdpa_set_vring_call(struct vhost_=
-dev *dev,
-> >       return vhost_vdpa_call(dev, VHOST_SET_VRING_CALL, file);
-> >   }
-> >
-> > +/**
-> > + * Set shadow virtqueue descriptors to the device
-> > + *
-> > + * @dev   The vhost device model
-> > + * @svq   The shadow virtqueue
-> > + * @idx   The index of the virtqueue in the vhost device
-> > + */
-> > +static bool vhost_vdpa_svq_setup(struct vhost_dev *dev,
-> > +                                VhostShadowVirtqueue *svq,
-> > +                                unsigned idx)
-> > +{
-> > +    struct vhost_vring_file file =3D {
-> > +        .index =3D dev->vq_index + idx,
-> > +    };
-> > +    const EventNotifier *event_notifier;
-> > +    int r;
-> > +
-> > +    event_notifier =3D vhost_svq_get_dev_kick_notifier(svq);
->
->
-> A question, any reason for making VhostShadowVirtqueue private? If we
-> export it in .h we don't need helper to access its member like
-> vhost_svq_get_dev_kick_notifier().
->
+    SHA256(FIRMWARE-CODE || KERNEL-HASHES-TABLE || VMSA-FOREACH-VCPU)
 
-To export it it's always a possibility of course, but that direct
-access will not be thread safe if we decide to move SVQ to its own
-iothread for example.
+and comparing expected_measurement to the actual measurement from
+query-sev-launch-measure.
 
-I feel it will be easier to work with it this way but it might be that
-I'm just used to making as much as possible private. Not like it's
-needed to use the helpers in the hot paths, only in the setup and
-teardown.
+> Add a new field debug-launch-digest to the response of
+> query-sev-launch-measure and query-sev-attestation-report which includes
+> the guest launch digest, which is the SHA256 of all initial memory added
+> to the guest via sev_launch_update_data().
 
-> Note that vhost_dev is a public structure.
->
+So this new 'debug-launch-digest' field is returning GCTX.LD value
+above.
 
-Sure we could embed in vhost_virtqueue if we choose to do it that way,
-for example.
+> Note that the value of debug-launch-digest should not be used for
+> verifying the measurement, because it is not signed.  Hence the choice
+> of the 'debug-' prefix for the field's name.
 
->
-> > +    file.fd =3D event_notifier_get_fd(event_notifier);
-> > +    r =3D vhost_vdpa_set_vring_dev_kick(dev, &file);
-> > +    if (unlikely(r !=3D 0)) {
-> > +        error_report("Can't set device kick fd (%d)", -r);
-> > +    }
->
->
-> I wonder whether or not we can generalize the logic here and
-> vhost_vdpa_set_vring_kick(). There's nothing vdpa specific unless the
-> vhost_ops->set_vring_kick().
->
+The earlier paragraph talks about making it easier for the guest
+owner to verify the measurement, but here is saying this new field
+should not be used to verify the measurement.
 
-If we call vhost_ops->set_vring_kick we are setting guest->SVQ kick
-notifier, not SVQ -> vDPA device, because the
-if(v->shadow_vqs_enabled). All of the modified ops callbacks are
-hiding the actual device from the vhost subsystem so we need to
-explicitly use the newly created _dev_ ones.
+So I'm confused as to what is the benefit of returning this info ?
 
->
-> > +
-> > +    return r =3D=3D 0;
-> > +}
-> > +
-> >   static int vhost_vdpa_dev_start(struct vhost_dev *dev, bool started)
-> >   {
-> >       struct vhost_vdpa *v =3D dev->opaque;
-> > @@ -660,6 +728,13 @@ static int vhost_vdpa_dev_start(struct vhost_dev *=
-dev, bool started)
-> >
-> >       if (started) {
-> >           vhost_vdpa_host_notifiers_init(dev);
-> > +        for (unsigned i =3D 0; i < v->shadow_vqs->len; ++i) {
-> > +            VhostShadowVirtqueue *svq =3D g_ptr_array_index(v->shadow_=
-vqs, i);
-> > +            bool ok =3D vhost_vdpa_svq_setup(dev, svq, i);
-> > +            if (unlikely(!ok)) {
-> > +                return -1;
-> > +            }
-> > +        }
-> >           vhost_vdpa_set_vring_ready(dev);
-> >       } else {
-> >           vhost_vdpa_host_notifiers_uninit(dev, dev->nvqs);
-> > @@ -737,6 +812,41 @@ static bool  vhost_vdpa_force_iommu(struct vhost_d=
-ev *dev)
-> >       return true;
-> >   }
-> >
-> > +/**
-> > + * Adaptor function to free shadow virtqueue through gpointer
-> > + *
-> > + * @svq   The Shadow Virtqueue
-> > + */
-> > +static void vhost_psvq_free(gpointer svq)
-> > +{
-> > +    vhost_svq_free(svq);
-> > +}
->
->
-> Any reason for such indirection? Can we simply use vhost_svq_free()?
->
+Due to the lack of guarantees about this data, it can't be used
+for a real production use case. AFAIK it can only be useful if
+debugging your code logic used for validating measurwements.
+Am I missing something about the motivation here ?
 
-GCC complains about different types. I think we could do a function
-type cast and it's valid for every architecture qemu supports, but the
-indirection seems cleaner to me, and I would be surprised if the
-compiler does not optimize it away in the cases that the casting are
-valid.
 
-../hw/virtio/vhost-vdpa.c:1186:60: error: incompatible function
-pointer types passing 'void (VhostShadowVirtqueue *)' (aka 'void
-(struct VhostShadowVirtqueue *)') to parameter of type
-'GDestroyNotify' (aka 'void (*)(void *)')
+If the guest owner is comparing expected and actual measurements
+and they get a mis-match, all they'll see is two big hex strings
+representing the HMAC value, and they'll have to work backwards
+to figure out whether one of their expected inputs had a mistake,
+or their algorithm was buggy.
 
-Thanks!
+If the guest owner is comparing the expectd and actual launch
+digest and they get a mis-match, again they'll just huave two
+big hex strings representing the SHA256 value, and they'll have
+to work backwards to figure out whether one of their expected
+inputs had a mistake, or their algorithm was buggy.
 
-> Thanks
->
->
-> > +
-> > +static int vhost_vdpa_init_svq(struct vhost_dev *hdev, struct vhost_vd=
-pa *v,
-> > +                               Error **errp)
-> > +{
-> > +    size_t n_svqs =3D v->shadow_vqs_enabled ? hdev->nvqs : 0;
-> > +    g_autoptr(GPtrArray) shadow_vqs =3D g_ptr_array_new_full(n_svqs,
-> > +                                                           vhost_psvq_=
-free);
-> > +    if (!v->shadow_vqs_enabled) {
-> > +        goto out;
-> > +    }
-> > +
-> > +    for (unsigned n =3D 0; n < hdev->nvqs; ++n) {
-> > +        VhostShadowVirtqueue *svq =3D vhost_svq_new();
-> > +
-> > +        if (unlikely(!svq)) {
-> > +            error_setg(errp, "Cannot create svq %u", n);
-> > +            return -1;
-> > +        }
-> > +        g_ptr_array_add(v->shadow_vqs, svq);
-> > +    }
-> > +
-> > +out:
-> > +    v->shadow_vqs =3D g_steal_pointer(&shadow_vqs);
-> > +    return 0;
-> > +}
-> > +
-> >   static int vhost_vdpa_init(struct vhost_dev *dev, void *opaque, Error=
- **errp)
-> >   {
-> >       struct vhost_vdpa *v;
-> > @@ -759,6 +869,10 @@ static int vhost_vdpa_init(struct vhost_dev *dev, =
-void *opaque, Error **errp)
-> >       dev->opaque =3D  opaque ;
-> >       v->listener =3D vhost_vdpa_memory_listener;
-> >       v->msg_type =3D VHOST_IOTLB_MSG_V2;
-> > +    ret =3D vhost_vdpa_init_svq(dev, v, errp);
-> > +    if (ret) {
-> > +        goto err;
-> > +    }
-> >
-> >       vhost_vdpa_get_iova_range(v);
-> >
-> > @@ -770,6 +884,10 @@ static int vhost_vdpa_init(struct vhost_dev *dev, =
-void *opaque, Error **errp)
-> >                                  VIRTIO_CONFIG_S_DRIVER);
-> >
-> >       return 0;
-> > +
-> > +err:
-> > +    ram_block_discard_disable(false);
-> > +    return ret;
-> >   }
-> >
-> >   const VhostOps vdpa_ops =3D {
->
+By having this 'debug-launch-digest' field, you can slightly
+more quickly determine whether your mistake lies in your impl
+of the HMAC alg, or API_MAJOR || API_MINOR || BUILD || GCTX.POLICY
+values, vs a mistake in your calc of the debug-launch-digest
+field. Basically it gives you one step in bisecting the mistake
+location.
+
+Is that really compelling enough to justify adding this extra
+info to the QAPI commands ? IME of writing code to verify the SEV
+measurement, there were many little ways I screwed up at first
+and having this field would not have made a significant difference
+to my debugging efforts.
+
+What was/would have been useful was having a known good reference
+implementation of the algorithm which dumped out all the key
+values for the different steps of process. I used James Bottomley's
+python script as my reference and hacked it to dump out key values
+so I could see what step I went wrong in. I was still working blind
+for doing the SEV-ES VMSA and kernel hashes table work.
+
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
