@@ -2,79 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F00164A443F
-	for <lists+qemu-devel@lfdr.de>; Mon, 31 Jan 2022 12:30:21 +0100 (CET)
-Received: from localhost ([::1]:42764 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CCFFF4A4445
+	for <lists+qemu-devel@lfdr.de>; Mon, 31 Jan 2022 12:32:13 +0100 (CET)
+Received: from localhost ([::1]:44590 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nEUt2-0006Vv-TL
-	for lists+qemu-devel@lfdr.de; Mon, 31 Jan 2022 06:30:20 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:59636)
+	id 1nEUuq-0007lO-TA
+	for lists+qemu-devel@lfdr.de; Mon, 31 Jan 2022 06:32:12 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:34128)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philipp.tomsich@vrull.eu>)
- id 1nEURt-0001vP-3G
- for qemu-devel@nongnu.org; Mon, 31 Jan 2022 06:02:17 -0500
-Received: from [2a00:1450:4864:20::12d] (port=43758
- helo=mail-lf1-x12d.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philipp.tomsich@vrull.eu>)
- id 1nEURq-00043E-7f
- for qemu-devel@nongnu.org; Mon, 31 Jan 2022 06:02:16 -0500
-Received: by mail-lf1-x12d.google.com with SMTP id u6so25987051lfm.10
- for <qemu-devel@nongnu.org>; Mon, 31 Jan 2022 03:02:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vrull.eu; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=Bt5W1zbpmN0AezjNc3+ix0CBuxXy+bHpfuA3/L3gQH0=;
- b=XYUMSfFyaLzWabJCwjsgaCXWSEAw70tDxXiHS4mhP6nsObCjZB3dPoHhPHuP/abOPV
- z6q4v9cKnSQ+Lt75s8Biw+AmHJ4EplL3oFLhe+UL+w6hafVpogqcD5G3OGHqL9kB88ie
- Uj0YJJvurfJa0sN5cVKpAE2TA/ERKlfuwbQUlZRIb8oMNUXfA0cgonGGZRP8jyGpZ0pk
- Ynf/UAMeAk65dbMN0n/qUR8msxD08IOtGA4oDYfjgL6YIUePOq0we2iCg/ftYYQdJ4Mf
- GPX6caZlsdslwkaNll1zYwzA7C0iigxAG5We+Fj+tIAM/I/j7EXsZ9Z2nSvGDwlJqxvS
- fs+g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=Bt5W1zbpmN0AezjNc3+ix0CBuxXy+bHpfuA3/L3gQH0=;
- b=wjGvXWUNntIsselk/Z+AY6Ftym7PipeGqgko+UcYfH8hl2jUqnCQtK90VlUpHZiN0y
- AMFL0Py8iRvoAP5xI/p9VcLP/8AtSjACykT9F8DVMJ/o0+u3ZdLpj52q/BAm1F12K1vP
- qR7FtoSspTA08tsGivy4zRjlRgjiDCKHzfeMQ6qvkdJfuKb25pwKkm1GxQZ0hColLVmN
- yMJeh63I2BMKR8+SjL94Jf7V0tQdEWD+szM2Ra6a0zstFT/JAxHRx0RhfTCGDsj/2OCM
- uIF+wHBVHVBxCW6fEwmJ2NCc0cAFObEl080nG1UJacBdOSYR7BDjcvZri11oXhBQUCdb
- vaJA==
-X-Gm-Message-State: AOAM533fZSOpsCFxwR1dF0tzIYafg2B19hHW7qX15Z+VZZwAEvsAf8YU
- C6xPqOUu/meu9W3jKtQf2BS0jYFxhez7egZ0
-X-Google-Smtp-Source: ABdhPJyGpl8e9KHRAs4oH7kRGK1KGEC+v/kzYIQ/lcZwXMCeK2kqNe2dq+qqEh7MXNzXI4dyC3Rb+w==
-X-Received: by 2002:ac2:5190:: with SMTP id u16mr13601115lfi.257.1643626931985; 
- Mon, 31 Jan 2022 03:02:11 -0800 (PST)
-Received: from ubuntu-focal.. ([2a01:4f9:3a:1e26::2])
- by smtp.gmail.com with ESMTPSA id u22sm1952759lfl.26.2022.01.31.03.02.11
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 31 Jan 2022 03:02:11 -0800 (PST)
-From: Philipp Tomsich <philipp.tomsich@vrull.eu>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v5 7/7] target/riscv: add a MAINTAINERS entry for
- XVentanaCondOps
-Date: Mon, 31 Jan 2022 12:02:01 +0100
-Message-Id: <20220131110201.2303275-8-philipp.tomsich@vrull.eu>
-X-Mailer: git-send-email 2.33.1
-In-Reply-To: <20220131110201.2303275-1-philipp.tomsich@vrull.eu>
-References: <20220131110201.2303275-1-philipp.tomsich@vrull.eu>
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>)
+ id 1nEUYe-00060x-6Y; Mon, 31 Jan 2022 06:09:18 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:23454)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>)
+ id 1nEUYb-00053O-3n; Mon, 31 Jan 2022 06:09:15 -0500
+Received: from pps.filterd (m0098404.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 20V98Y2j019350; 
+ Mon, 31 Jan 2022 11:08:20 GMT
+Received: from ppma03fra.de.ibm.com (6b.4a.5195.ip4.static.sl-reverse.com
+ [149.81.74.107])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3dx66b8abr-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 31 Jan 2022 11:08:19 +0000
+Received: from pps.filterd (ppma03fra.de.ibm.com [127.0.0.1])
+ by ppma03fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 20VB2MpP018213;
+ Mon, 31 Jan 2022 11:08:17 GMT
+Received: from b06cxnps3075.portsmouth.uk.ibm.com
+ (d06relay10.portsmouth.uk.ibm.com [9.149.109.195])
+ by ppma03fra.de.ibm.com with ESMTP id 3dvw799ueh-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 31 Jan 2022 11:08:17 +0000
+Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com
+ [9.149.105.58])
+ by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 20VB8Fvh40304900
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 31 Jan 2022 11:08:15 GMT
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 344DD4C040;
+ Mon, 31 Jan 2022 11:08:15 +0000 (GMT)
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id D44B54C046;
+ Mon, 31 Jan 2022 11:08:14 +0000 (GMT)
+Received: from smtp.tlslab.ibm.com (unknown [9.101.4.1])
+ by d06av22.portsmouth.uk.ibm.com (Postfix) with SMTP;
+ Mon, 31 Jan 2022 11:08:14 +0000 (GMT)
+Received: from yukon.ibmuc.com (unknown [9.171.57.185])
+ by smtp.tlslab.ibm.com (Postfix) with ESMTP id 042322201C1;
+ Mon, 31 Jan 2022 12:08:13 +0100 (CET)
+From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
+To: qemu-ppc@nongnu.org, qemu-devel@nongnu.org
+Subject: [PULL 01/41] spapr: Force 32bit when resetting a core
+Date: Mon, 31 Jan 2022 12:07:31 +0100
+Message-Id: <20220131110811.619053-2-clg@kaod.org>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20220131110811.619053-1-clg@kaod.org>
+References: <20220131110811.619053-1-clg@kaod.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::12d
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::12d;
- envelope-from=philipp.tomsich@vrull.eu; helo=mail-lf1-x12d.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: 69UHk-AKW-NoaKy3ItjFb64aWp8pHUVs
+X-Proofpoint-ORIG-GUID: 69UHk-AKW-NoaKy3ItjFb64aWp8pHUVs
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.816,Hydra:6.0.425,FMLib:17.11.62.513
+ definitions=2022-01-31_04,2022-01-28_01,2021-12-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 clxscore=1034
+ impostorscore=0 lowpriorityscore=0 suspectscore=0 bulkscore=0 spamscore=0
+ mlxscore=0 mlxlogscore=620 priorityscore=1501 phishscore=0 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2201110000
+ definitions=main-2201310074
+Received-SPF: softfail client-ip=148.163.156.1; envelope-from=clg@kaod.org;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -11
+X-Spam_score: -1.2
 X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+X-Spam_report: (-1.2 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ SPF_SOFTFAIL=0.665, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -87,48 +93,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alistair Francis <alistair.francis@wdc.com>,
- Greg Favor <gfavor@ventanamicro.com>,
+Cc: Alexey Kardashevskiy <aik@ozlabs.ru>,
+ Peter Maydell <peter.maydell@linaro.org>,
  Richard Henderson <richard.henderson@linaro.org>,
- Kito Cheng <kito.cheng@sifive.com>, Philipp Tomsich <philipp.tomsich@vrull.eu>
+ =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The XVentanaCondOps extension is supported by VRULL on behalf of the
-Ventana Micro.  Add myself as a point-of-contact.
+From: Alexey Kardashevskiy <aik@ozlabs.ru>
 
-Signed-off-by: Philipp Tomsich <philipp.tomsich@vrull.eu>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+"PowerPC Processor binding to IEEE 1275" says in
+"8.2.1. Initial Register Values" that the initial state is defined as
+32bit so do it for both SLOF and VOF.
 
+This should not cause behavioral change as SLOF switches to 64bit very
+early anyway. As nothing enforces LE anywhere, this drops it for VOF.
+
+The goal is to make VOF work with TCG as otherwise it barfs with
+qemu: fatal: TCG hflags mismatch (current:0x6c000004 rebuilt:0x6c000000)
+
+Signed-off-by: Alexey Kardashevskiy <aik@ozlabs.ru>
+Reviewed-by: C=C3=A9dric Le Goater <clg@kaod.org>
+Message-Id: <20220107072423.2278113-1-aik@ozlabs.ru>
+Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
 ---
+ hw/ppc/spapr_cpu_core.c | 5 +++++
+ hw/ppc/spapr_vof.c      | 2 --
+ 2 files changed, 5 insertions(+), 2 deletions(-)
 
-(no changes since v3)
-
-Changes in v3:
-- add a MAINTAINERS entry for XVentanaCondOps
-
- MAINTAINERS | 7 +++++++
- 1 file changed, 7 insertions(+)
-
-diff --git a/MAINTAINERS b/MAINTAINERS
-index b43344fa98..2e0b2ae947 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -286,6 +286,13 @@ F: include/hw/riscv/
- F: linux-user/host/riscv32/
- F: linux-user/host/riscv64/
- 
-+RISC-V XVentanaCondOps extension
-+M: Philipp Tomsich <philipp.tomsich@vrull.eu>
-+L: qemu-riscv@nongnu.org
-+S: Supported
-+F: target/riscv/XVentanaCondOps.decode
-+F: target/riscv/insn_trans/trans_xventanacondops.c.inc
-+
- RENESAS RX CPUs
- R: Yoshinori Sato <ysato@users.sourceforge.jp>
- S: Orphan
--- 
-2.33.1
+diff --git a/hw/ppc/spapr_cpu_core.c b/hw/ppc/spapr_cpu_core.c
+index a57ba70a8781..a781e97f8d1d 100644
+--- a/hw/ppc/spapr_cpu_core.c
++++ b/hw/ppc/spapr_cpu_core.c
+@@ -37,6 +37,11 @@ static void spapr_reset_vcpu(PowerPCCPU *cpu)
+=20
+     cpu_reset(cs);
+=20
++    /*
++     * "PowerPC Processor binding to IEEE 1275" defines the initial MSR =
+state
++     * as 32bit (MSR_SF=3D0) in "8.2.1. Initial Register Values".
++     */
++    env->msr &=3D ~(1ULL << MSR_SF);
+     env->spr[SPR_HIOR] =3D 0;
+=20
+     lpcr =3D env->spr[SPR_LPCR];
+diff --git a/hw/ppc/spapr_vof.c b/hw/ppc/spapr_vof.c
+index 40ce8fe0037c..a33f940c32bb 100644
+--- a/hw/ppc/spapr_vof.c
++++ b/hw/ppc/spapr_vof.c
+@@ -88,8 +88,6 @@ void spapr_vof_reset(SpaprMachineState *spapr, void *fd=
+t, Error **errp)
+     spapr_cpu_set_entry_state(first_ppc_cpu, SPAPR_ENTRY_POINT,
+                               stack_ptr, spapr->initrd_base,
+                               spapr->initrd_size);
+-    /* VOF is 32bit BE so enforce MSR here */
+-    first_ppc_cpu->env.msr &=3D ~((1ULL << MSR_SF) | (1ULL << MSR_LE));
+=20
+     /*
+      * At this point the expected allocation map is:
+--=20
+2.34.1
 
 
