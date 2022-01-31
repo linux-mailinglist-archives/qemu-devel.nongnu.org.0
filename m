@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8DEB54A4B13
-	for <lists+qemu-devel@lfdr.de>; Mon, 31 Jan 2022 16:55:39 +0100 (CET)
-Received: from localhost ([::1]:46506 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 76CA84A4B01
+	for <lists+qemu-devel@lfdr.de>; Mon, 31 Jan 2022 16:52:43 +0100 (CET)
+Received: from localhost ([::1]:41478 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nEZ1m-0007hL-Ah
-	for lists+qemu-devel@lfdr.de; Mon, 31 Jan 2022 10:55:38 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:53636)
+	id 1nEYyv-00046K-N0
+	for lists+qemu-devel@lfdr.de; Mon, 31 Jan 2022 10:52:41 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:53684)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1nEYsB-0000lj-S6
- for qemu-devel@nongnu.org; Mon, 31 Jan 2022 10:45:46 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:58930)
+ id 1nEYsD-0000lz-9L
+ for qemu-devel@nongnu.org; Mon, 31 Jan 2022 10:45:50 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:29738)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1nEYs9-00021T-6G
- for qemu-devel@nongnu.org; Mon, 31 Jan 2022 10:45:42 -0500
+ id 1nEYsB-00022T-QH
+ for qemu-devel@nongnu.org; Mon, 31 Jan 2022 10:45:44 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1643643940;
+ s=mimecast20190719; t=1643643943;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=QpRJz7RNL1WFg1veTk/fgw6KOLNib+clA4ww5erziqM=;
- b=Lh+NefZqpkGyqhFdIipy5lSgcJTnigrN1oC82A+EXgER/4EN/i6n+Jp7kE8oIpgyI9mVSk
- Rx0/pnB0ErF+SK0DoSnJhOf0yDxjangppNTx7ueEPLzcbvNYWCFPa6cvX1/9IrgOI+xgP9
- hSGq4aXsG8nI5cd5XZyYWg405OJ8Dq0=
+ bh=qzMYUhqqXcT2W/6cvbgOyKGD7EbmZl9Cl7a91MJiUfE=;
+ b=h9zOVRH5OdThi89xZE7vEb3ua424DfAqRQl9Cw4pVL77kiH+48Ya/JxX7IQmF4QnC+ilVI
+ JhNk9KuOhv3HWZx/E5EnuHH72uU+tlMcOWSJLPV/+7yh6eMdRixUBta6lDmyFONUUr1Qhy
+ SVMlSc96R42tMp+jFWbaycKnLIhf2do=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-183-qypN66jaP_WqblSSSjwobA-1; Mon, 31 Jan 2022 10:45:39 -0500
-X-MC-Unique: qypN66jaP_WqblSSSjwobA-1
+ us-mta-142-USywE_HHMmml_Skd9D9glw-1; Mon, 31 Jan 2022 10:45:42 -0500
+X-MC-Unique: USywE_HHMmml_Skd9D9glw-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 207058519E0;
- Mon, 31 Jan 2022 15:45:38 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CD0BD94EE4;
+ Mon, 31 Jan 2022 15:45:40 +0000 (UTC)
 Received: from laptop.redhat.com (unknown [10.39.192.53])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 96FB97B9E6;
- Mon, 31 Jan 2022 15:45:35 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 796037B9ED;
+ Mon, 31 Jan 2022 15:45:38 +0000 (UTC)
 From: Eric Auger <eric.auger@redhat.com>
 To: eric.auger.pro@gmail.com, eric.auger@redhat.com, thuth@redhat.com,
  lvivier@redhat.com, peter.maydell@linaro.org, drjones@redhat.com,
  f4bug@amsat.org, qemu-arm@nongnu.org, qemu-devel@nongnu.org,
  pbonzini@redhat.com
-Subject: [PATCH 1/2] hw/arm/virt: Fix gic-version=max when CONFIG_ARM_GIC_TCG
- is unset
-Date: Mon, 31 Jan 2022 16:45:30 +0100
-Message-Id: <20220131154531.429533-2-eric.auger@redhat.com>
+Subject: [PATCH 2/2] tests/qtest: Special case sbsa-ref and xlnx-versal-virt
+ if !CONFIG_ARM_GIC_TCG
+Date: Mon, 31 Jan 2022 16:45:31 +0100
+Message-Id: <20220131154531.429533-3-eric.auger@redhat.com>
 In-Reply-To: <20220131154531.429533-1-eric.auger@redhat.com>
 References: <20220131154531.429533-1-eric.auger@redhat.com>
 MIME-Version: 1.0
@@ -62,7 +62,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.129.124;
+Received-SPF: pass client-ip=170.10.133.124;
  envelope-from=eric.auger@redhat.com; helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -86,33 +86,36 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In TCG mode, if gic-version=max we always select GICv3 even if
-CONFIG_ARM_GIC_TCG is unset. We shall rather select GICv2.
-This also brings the benefit of fixing qos tests errors for tests
-using gic-version=max with CONFIG_ARM_GIC_TCG unset.
+qom-test and test-hmp shall not run tests on sbsa-ref and
+xlnx-versal-virt if CONFIG_ARM_GIC_TCG is unset as those machines
+always instantiate GICv3.
+
+Otherwise the tests fail with
+ERROR:../qom/object.c:715:object_new_with_type: assertion failed: (type != NULL)
 
 Signed-off-by: Eric Auger <eric.auger@redhat.com>
 Fixes: a8a5546798c3 ("hw/intc/arm_gicv3: Introduce CONFIG_ARM_GIC_TCG Kconfig selector")
 ---
- hw/arm/virt.c | 4 ++++
- 1 file changed, 4 insertions(+)
+ tests/qtest/libqtest.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/hw/arm/virt.c b/hw/arm/virt.c
-index 141350bf21..2f1d4d0230 100644
---- a/hw/arm/virt.c
-+++ b/hw/arm/virt.c
-@@ -1852,7 +1852,11 @@ static void finalize_gic_version(VirtMachineState *vms)
-         vms->gic_version = VIRT_GIC_VERSION_2;
-         break;
-     case VIRT_GIC_VERSION_MAX:
-+#ifdef CONFIG_ARM_GIC_TCG
-         vms->gic_version = VIRT_GIC_VERSION_3;
-+#else
-+        vms->gic_version = VIRT_GIC_VERSION_2;
+diff --git a/tests/qtest/libqtest.c b/tests/qtest/libqtest.c
+index 41f4da4e54..f53983a28e 100644
+--- a/tests/qtest/libqtest.c
++++ b/tests/qtest/libqtest.c
+@@ -1394,6 +1394,12 @@ void qtest_cb_for_every_machine(void (*cb)(const char *machine),
+             g_str_equal("xenpv", machines[i].name)) {
+             continue;
+         }
++#ifndef CONFIG_ARM_GIC_TCG
++        if (!strncmp("sbsa-ref", machines[i].name, 8) ||
++            !strncmp("xlnx-versal-virt", machines[i].name, 16)) {
++            continue;
++        }
 +#endif
-         break;
-     case VIRT_GIC_VERSION_HOST:
-         error_report("gic-version=host requires KVM");
+         if (!skip_old_versioned ||
+             !qtest_is_old_versioned_machine(machines[i].name)) {
+             cb(machines[i].name);
 -- 
 2.26.3
 
