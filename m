@@ -2,101 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A4D64A4C53
-	for <lists+qemu-devel@lfdr.de>; Mon, 31 Jan 2022 17:41:03 +0100 (CET)
-Received: from localhost ([::1]:55148 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B8B284A4C59
+	for <lists+qemu-devel@lfdr.de>; Mon, 31 Jan 2022 17:42:33 +0100 (CET)
+Received: from localhost ([::1]:60554 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nEZji-0002Rk-CY
-	for lists+qemu-devel@lfdr.de; Mon, 31 Jan 2022 11:41:02 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:36084)
+	id 1nEZlA-0006AY-Qi
+	for lists+qemu-devel@lfdr.de; Mon, 31 Jan 2022 11:42:32 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:36078)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1nEZO3-0003Cw-5g
- for qemu-devel@nongnu.org; Mon, 31 Jan 2022 11:18:39 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:20689)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1nEZO1-0007h7-Dr
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1nEZO2-0003Bn-RL
  for qemu-devel@nongnu.org; Mon, 31 Jan 2022 11:18:38 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1643645916;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=qeO6XJV2jmnwI4OAOt5S9XoqyRxZqpx8HZqz9ac4uis=;
- b=MaCdpD9fhSH7Kk99oFCli86/PUAg+fUO8PFdR7F/Hk134qjl7zfqL6rzUZnIHgQOekWlR/
- 0PXSfqKCCXQJZyaMVIdY3KtGdM9aPmt+Ajg16JSHBsr3YMB2qEsZLaX4TFK5spOlmidtCq
- Lz1swJYyFXFG8aDq7TjJ0xyHRoJgqR8=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-60-WLqkKt7fPUSxriaLWn3Obw-1; Mon, 31 Jan 2022 11:18:33 -0500
-X-MC-Unique: WLqkKt7fPUSxriaLWn3Obw-1
-Received: by mail-wm1-f70.google.com with SMTP id
- d140-20020a1c1d92000000b0034edefd55caso10553674wmd.4
- for <qemu-devel@nongnu.org>; Mon, 31 Jan 2022 08:18:33 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:reply-to:subject:to:cc:references:from
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-transfer-encoding:content-language;
- bh=qeO6XJV2jmnwI4OAOt5S9XoqyRxZqpx8HZqz9ac4uis=;
- b=WN8OWMsAVcf/ebeOBFPlrRRz+ih9jsZe/Dv5vQlqe+L2MtK5DlRfb0/KJu7PnxBvVq
- A8SXmOAioZatRHHDWCKQ8Ze5NFhSLSKuLY5NdesP1lNXmzk6pOjO8yCMmw+Vz4paEY34
- a3rpA6BcT5L7nXQZzc0U70C0zJR4f7vJQgneRfBnuFFCEHstyeOH4lU1Mpdy87buaQq6
- wr400EQ3d5V9Y8BIay6t3NnnIdXHO3w33eDcWo/r/6aSSM+Ku3UO1DAdeJEFgzt8aIzT
- 9HrNBa4EtaW52ZXlbJzkAHFvXHLXKLVANoY0YYnjButEE7f3l0N+0Nmtz/lu3bdXqQ8E
- 2ucA==
-X-Gm-Message-State: AOAM532grb7uUCMAk5+DPX2qRjYRAutbJRCZ/D/LvBcYBE7/0rykCC+S
- mYpa9o6mOlMoZNsSXCPNDqxuyjpGJUAoXZgz/g3xkbMrXjxND0wFRB4L3Frjr24VGTr/bNZONDr
- WfjUzIgAL+i0E8wg=
-X-Received: by 2002:a05:600c:225a:: with SMTP id
- a26mr19472704wmm.87.1643645912341; 
- Mon, 31 Jan 2022 08:18:32 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwOxElsfvt5I82U8fQO+RGIC26bsJ+Pg5mqfaANmI0Meof/VF5DFF3mYl7VWTmGdHnUIQJdZg==
-X-Received: by 2002:a05:600c:225a:: with SMTP id
- a26mr19472680wmm.87.1643645912049; 
- Mon, 31 Jan 2022 08:18:32 -0800 (PST)
-Received: from ?IPv6:2a01:e0a:59e:9d80:527b:9dff:feef:3874?
- ([2a01:e0a:59e:9d80:527b:9dff:feef:3874])
- by smtp.gmail.com with ESMTPSA id m64sm9468676wmm.31.2022.01.31.08.18.30
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 31 Jan 2022 08:18:31 -0800 (PST)
-Subject: Re: [PATCH 2/2] tests/qtest: Special case sbsa-ref and
- xlnx-versal-virt if !CONFIG_ARM_GIC_TCG
-To: Andrew Jones <drjones@redhat.com>, Peter Maydell <peter.maydell@linaro.org>
-References: <20220131154531.429533-1-eric.auger@redhat.com>
- <20220131154531.429533-3-eric.auger@redhat.com>
- <20220131155936.lm7jn32ihb2ndsf7@gator>
- <CAFEAcA-K3cAPMiAfHNCOaceRN2csH26W4w9RDOUUVhpKPMNh2Q@mail.gmail.com>
- <20220131161408.py2ncvkkxxhbkpjj@gator>
-From: Eric Auger <eric.auger@redhat.com>
-Message-ID: <7be1cd57-c5e7-a069-f6a0-bfbe09358723@redhat.com>
-Date: Mon, 31 Jan 2022 17:18:30 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+Received: from kylie.crudebyte.com ([5.189.157.229]:41775)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1nEZO0-0007gd-E2
+ for qemu-devel@nongnu.org; Mon, 31 Jan 2022 11:18:38 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
+ MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+ Content-ID:Content-Description;
+ bh=bMminvCdihyBEuCIzA+pIn1EoSMT1I1hGwBP5zDSwjo=; b=q9Xhh8vdzwIG2HkhiHS1JIWkHT
+ 0ckIjgjjPBfrdBst6nsTUtWBGVvAYjb6P4J7FP6cITZV6kdpoibmp8L8VGs718NkgRe+TQGtdEilf
+ y2iBcljckNIunmctsvOAZpXTTU7D6vQu/pxZa2njMFqCgpzx97yyxScH00alijOs4MEsbkI4hE7m3
+ 8nXRlttet9IxgsIt3yhil9gQisDruhT1GtqD+Tl3To5zt240l1sGVmIgTTTau9vC1N9SpwQahOaAp
+ idRoO9hY5hAKmO0WUVgfyaOW2KwvtwbR6hZ4w0oZ/4QK8EdHiAj/7lFiW1PWLErxNKDDwK7sE0nv8
+ 2zttqSDavhDWQLmFqc6yqb2C5Q9djtLDE5GjSsKQeQYMuZe6lSzm1Oghf/ZbRxM0tXjtLTKiPzqd+
+ oFOd4FecYk6rxcyljhhIFMM8TNKZknAk/bz2BzdOOZg94ngV9hnwKsNHh+IhIqiUnhQK6+0nUMeAL
+ nL1mZVU/QSQbxi2cpzQ7Lc/EyD74u7xKGJGHVTciVGD+cZ5Qrd7W25wHaLtJyDqaY6Xrt9lB/xQz6
+ dnXu8HeWzpMaoJbCq0toE2jkcJh2i5tHq6lfnzqC9jdg8vyH/WLLnaWe2kiXIGFAI8D7HCcNhwMkH
+ /tQrTgHUUc8umevmPO9s8EeCMUhtZC4Wl9fdIl3UU=;
+From: Christian Schoenebeck <qemu_oss@crudebyte.com>
+To: Greg Kurz <groug@kaod.org>
+Cc: qemu-devel@nongnu.org, Laurent Vivier <lvivier@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>
+Subject: Re: [PATCH] tests/9pfs: Use g_autofree and g_autoptr where possible
+Date: Mon, 31 Jan 2022 17:18:33 +0100
+Message-ID: <6421822.Trfd2Djtnt@silver>
+In-Reply-To: <20220131170907.3a85de94@bahia>
+References: <20220126171136.672657-1-groug@kaod.org>
+ <2777753.eeY9lOXx2E@silver> <20220131170907.3a85de94@bahia>
 MIME-Version: 1.0
-In-Reply-To: <20220131161408.py2ncvkkxxhbkpjj@gator>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eric.auger@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-Received-SPF: pass client-ip=170.10.133.124;
- envelope-from=eric.auger@redhat.com; helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
+Received-SPF: pass client-ip=5.189.157.229;
+ envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.088,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -109,66 +66,84 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: eric.auger@redhat.com
-Cc: lvivier@redhat.com, thuth@redhat.com, qemu-devel@nongnu.org,
- f4bug@amsat.org, qemu-arm@nongnu.org, pbonzini@redhat.com,
- eric.auger.pro@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Drew,
+On Montag, 31. Januar 2022 17:09:07 CET Greg Kurz wrote:
+> On Mon, 31 Jan 2022 16:12:45 +0100
+> 
+> Christian Schoenebeck <qemu_oss@crudebyte.com> wrote:
+> > On Montag, 31. Januar 2022 15:44:46 CET Greg Kurz wrote:
+> > > On Mon, 31 Jan 2022 13:37:23 +0100
+> > > 
+> > > Christian Schoenebeck <qemu_oss@crudebyte.com> wrote:
+> > > > On Montag, 31. Januar 2022 08:35:24 CET Greg Kurz wrote:
+> > > > > > > > diff --git a/tests/qtest/libqos/virtio-9p.c
+> > > > > > > > b/tests/qtest/libqos/virtio-9p.c index
+> > > > > > > > ef96ef006adc..0a0d0d16709b
+> > > > > > > > 100644
+> > > > > > > > --- a/tests/qtest/libqos/virtio-9p.c
+> > > > > > > > +++ b/tests/qtest/libqos/virtio-9p.c
+> > > > > > > > @@ -40,14 +40,13 @@ static char *concat_path(const char* a,
+> > > > > > > > const
+> > > > > > > > char* b)
+> > > > > > > > 
+> > > > > > > >  void virtio_9p_create_local_test_dir(void)
+> > > > > > > >  {
+> > > > > > > >  
+> > > > > > > >      struct stat st;
+> > > > > > > > 
+> > > > > > > > -    char *pwd = g_get_current_dir();
+> > > > > > > > -    char *template = concat_path(pwd,
+> > > > > > > > "qtest-9p-local-XXXXXX");
+> > > > > > > > +    g_autofree char *pwd = g_get_current_dir();
+> > > > > > > > +    g_autofree char *template = concat_path(pwd,
+> > > > > > > > "qtest-9p-local-XXXXXX");
+> > > > > > > > 
+> > > > > > > >      local_test_path = mkdtemp(template);
+> > > > > > 
+> > > > > > ... mkdtemp() does not allocate a new buffer, it just modifies the
+> > > > > > character array passed, i.e. the address returned by mkdtemp()
+> > > > > > equals
+> > > > > > the
+> > > > > > address of variable 'template', and when
+> > > > > > virtio_9p_create_local_test_dir() scope is left, the global
+> > > > > > variable
+> > > > > > 'local_test_path' would then point to freed memory.
+> > > > > 
+> > > > > I hate global variables ;-) and the 'Returned result must be freed'
+> > > > > comment
+> > > > > in 'concat_path()' is slightly misleading in this respect.
+> > > > 
+> > > > About the global variable: sure, I am not happy about it either. What
+> > > > I
+> > > > disliked even more is that virtio_9p_create_local_test_dir() is called
+> > > > from a constructor, but as I described in [1] I did not find a
+> > > > realiable
+> > > > alternative. If somebody comes up with a working and reliable, clean
+> > > > alternative, very much appreciated!
+> > > 
+> > > An alternative might be to create/remove the test directory when
+> > > a virtio-9p device is started/destroyed, and keeping the string
+> > > under the QVirtio9p structure.
+> > 
+> > Yeah, I tried that already. Keep in mind it not only has to work
+> > sometimes, it has to work reliably, always, for everybody and commit
+> > history shows that this can be more hairy than one might think and
+> > observe.
+> 
+> Yeah it is more hairy... the temp directory must be created before the
+> device. We could maybe get rid of the constructor by creating the temp
+> direcotry in assign_9p_local_driver() since this is the first user. Then we
+> still need the destructor to do final cleanup.
 
-On 1/31/22 5:14 PM, Andrew Jones wrote:
-> On Mon, Jan 31, 2022 at 04:05:06PM +0000, Peter Maydell wrote:
->> On Mon, 31 Jan 2022 at 15:59, Andrew Jones <drjones@redhat.com> wrote:
->>> Hmm, if these machine types completely depend on userspace gicv3
->>> emulation, i.e. no way to use in-kernel gic or another tcg gic
->>> model, then I guess they shouldn't be built at all when ARM_GIC_TCG
->>> isn't configured. I.e.
->>>
->>> diff --git a/hw/arm/Kconfig b/hw/arm/Kconfig
->>> index 2e0049196d6c..d7cc028b049d 100644
->>> --- a/hw/arm/Kconfig
->>> +++ b/hw/arm/Kconfig
->>> @@ -209,6 +209,7 @@ config REALVIEW
->>>
->>>  config SBSA_REF
->>>      bool
->>> +    depends on ARM_GIC_TCG
->>>      imply PCI_DEVICES
->>>      select AHCI
->>>      select ARM_SMMUV3
->>> @@ -378,6 +379,7 @@ config XLNX_ZYNQMP_ARM
->>>
->>>  config XLNX_VERSAL
->>>      bool
->>> +    depends on ARM_GIC_TCG
->>>      select ARM_GIC
->>>      select PL011
->>>      select CADENCE
->> I kind of agree, but isn't this kind of mixing two things?
-> How about two dependencies?
->
->> (1) Both these machines require a GICv3 and a GICv2 won't do,
->> so they should do something that says "if you want this
->> machine type, you need a GICv3 device"
-> depends on ARM_GIC_TCG   (IMO, could use a rename to be gicv3 specific)
-Yep I think it would be clearer to rename the CONFIG.
->
->> (2) Both these machines don't work with KVM or hvf, so if we're
->> not building TCG then there's no point configuring in these
->> machine models (a property they share with every other arm
->> machine type except "virt", currently)
-> depends on TCG
+I save your time on that: it doesn't work. I tried that as well, plus probably 
+a bunch of other options that you haven't considered yet. I even reviewed the 
+entire libqos and glib test case code base to find a clean alternative, 
+without success.
 
-That's what I would be inclined to do as well
+Best regards,
+Christian Schoenebeck
 
-Thanks
-
-Eric
->
-> Thanks,
-> drew
->
 
 
