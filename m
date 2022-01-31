@@ -2,116 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D3324A4B59
-	for <lists+qemu-devel@lfdr.de>; Mon, 31 Jan 2022 17:08:29 +0100 (CET)
-Received: from localhost ([::1]:58526 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E7ECD4A4BC3
+	for <lists+qemu-devel@lfdr.de>; Mon, 31 Jan 2022 17:21:44 +0100 (CET)
+Received: from localhost ([::1]:49820 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nEZEB-0007tc-Nm
-	for lists+qemu-devel@lfdr.de; Mon, 31 Jan 2022 11:08:27 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:54746)
+	id 1nEZR1-0004Qy-U4
+	for lists+qemu-devel@lfdr.de; Mon, 31 Jan 2022 11:21:44 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:54950)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <figlesia@xilinx.com>)
- id 1nEYvP-0003lJ-Ji; Mon, 31 Jan 2022 10:49:04 -0500
-Received: from mail-mw2nam10on2067.outbound.protection.outlook.com
- ([40.107.94.67]:1441 helo=NAM10-MW2-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1nEYwJ-0004nr-6L
+ for qemu-devel@nongnu.org; Mon, 31 Jan 2022 10:50:01 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:39262)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <figlesia@xilinx.com>)
- id 1nEYvM-0002ZU-Rm; Mon, 31 Jan 2022 10:49:02 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Hm2rl72Wn8jQeGL5iuwxG5VD61N3EGcmYU2SD0MIJJrI68/Xynywy7BjTM47KAlITFUzE2dBY4TE7TMojvyXW7nuiDMSihghoPWnaIgDNQukl/BRuMTIf0sz/oGl11+5omct22J55s7lO52nLlV2DA05Rc745abN09JeM/c2Woo26IeTzGqcOyq21L0D0E3TWH8AQU5Z0K0tcdfprFxM3Cn/sTI4c4QC/pdV0vBkLv40Twx/nQe6fTNM1KYnU6k3jUF3DqDpyhR0AqMD4E80ZMQ6+c7JeWMXa7I51BoSq2vjDlV5rPZDnMK54QoAbSyFpSIul1jWJq0yXfOzz1YBlw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Pj1x9qiaiOSgj8GsMQ1ZrDRnTNE3CJOvI8OL0shx+Q0=;
- b=QkQvenff1OQs3cZm+dc6NIk+6h8FkjU5+sKXOh9qX+rfk8vKKgkDSKK7+ojo/Fv7QAAKhfuMql2lN2fZKYVmIRGG7JFbmLRgUnXqmQxp1QliRhIcpdwyHZQNiw/R22nuYcOQx8ipxSMc/w4BbTYYLcpLKLLehtIsjbE+R4rc2tJUF+fRXBjRwrfkljLLjQUgfgb1Qbs1opeaXtJYTsFXz3MBowbRYPQoJhKw8k9/rr+A7RJgqaMjVsMf+K/DQ+09Id/zf7a71ZZbtGYb0GZkdMhdOFduechdtR5nFi9/4x4BmTlBGz/5a6vMM8h/iehJDrP7YnbJr/YAwn304PoROA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 149.199.62.198) smtp.rcpttodomain=gmail.com smtp.mailfrom=xilinx.com;
- dmarc=pass (p=none sp=none pct=100) action=none header.from=xilinx.com;
- dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=xilinx.onmicrosoft.com; s=selector2-xilinx-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Pj1x9qiaiOSgj8GsMQ1ZrDRnTNE3CJOvI8OL0shx+Q0=;
- b=H+kTxZJm6EmI4Zx6b6pP60PO30rDKLMIosSTKYiOopmiMxlTbrqE4d1Lnn2RMLB1t+2Ux3nGy+mv3oXMT62cDdozhiSKP8OEK0KlCFK+hZ6uWrQKyclxDzz4YIiB3v5cMRukVTDNI5pMLtELP+/M3/nX2JmiT/d442LQdIyquEU=
-Received: from BN9PR03CA0915.namprd03.prod.outlook.com (2603:10b6:408:107::20)
- by CH0PR02MB8133.namprd02.prod.outlook.com (2603:10b6:610:10a::23)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4909.12; Mon, 31 Jan
- 2022 15:48:56 +0000
-Received: from BN1NAM02FT058.eop-nam02.prod.protection.outlook.com
- (2603:10b6:408:107:cafe::ac) by BN9PR03CA0915.outlook.office365.com
- (2603:10b6:408:107::20) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4930.15 via Frontend
- Transport; Mon, 31 Jan 2022 15:48:56 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 149.199.62.198)
- smtp.mailfrom=xilinx.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=xilinx.com;
-Received-SPF: Pass (protection.outlook.com: domain of xilinx.com designates
- 149.199.62.198 as permitted sender) receiver=protection.outlook.com;
- client-ip=149.199.62.198; helo=xsj-pvapexch02.xlnx.xilinx.com;
-Received: from xsj-pvapexch02.xlnx.xilinx.com (149.199.62.198) by
- BN1NAM02FT058.mail.protection.outlook.com (10.13.2.166) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.4930.15 via Frontend Transport; Mon, 31 Jan 2022 15:48:56 +0000
-Received: from xsj-pvapexch02.xlnx.xilinx.com (172.19.86.41) by
- xsj-pvapexch02.xlnx.xilinx.com (172.19.86.41) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.14; Mon, 31 Jan 2022 07:48:53 -0800
-Received: from smtp.xilinx.com (172.19.127.95) by
- xsj-pvapexch02.xlnx.xilinx.com (172.19.86.41) with Microsoft SMTP Server id
- 15.1.2176.14 via Frontend Transport; Mon, 31 Jan 2022 07:48:53 -0800
-Received: from [10.23.120.116] (port=56721 helo=debian)
- by smtp.xilinx.com with esmtp (Exim 4.90)
- (envelope-from <francisco.iglesias@xilinx.com>)
- id 1nEYvF-000Dti-5W; Mon, 31 Jan 2022 07:48:53 -0800
-Date: Mon, 31 Jan 2022 15:48:50 +0000
-From: Francisco Iglesias <francisco.iglesias@xilinx.com>
-To: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
-Subject: Re: [PATCH v1 6/6] hw/arm/xlnx-zynqmp: Connect the ZynqMP APU Control
-Message-ID: <20220131154848.itmhkvnbfb7bxoun@debian>
-References: <20220130231206.34035-1-edgar.iglesias@gmail.com>
- <20220130231206.34035-7-edgar.iglesias@gmail.com>
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1nEYwG-0002fR-Pb
+ for qemu-devel@nongnu.org; Mon, 31 Jan 2022 10:49:58 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1643644195;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=8DJRM83NtrGkmFO2N0v+PIszj0WppHGGQNE5laxRt1I=;
+ b=dCJkbXYw4ZjR5NwvzXXtiddMaN9zjDhTpgipozva+zOZthC6s3ylCnyRDjlQxWZoo/0Zy5
+ EMUZqrSBVzE4QS+ZaJTdt+26QxGb8hfXN6WAWYv0JeyyO1UR3hnnNE0ZFrO116N4z3VevI
+ 6aPd5aZ14dBbCySozxSEUHlL0hfROmk=
+Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
+ [209.85.160.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-516-3sxgyHZfNbmlgfJ1A8w8xQ-1; Mon, 31 Jan 2022 10:49:52 -0500
+X-MC-Unique: 3sxgyHZfNbmlgfJ1A8w8xQ-1
+Received: by mail-qt1-f197.google.com with SMTP id
+ x10-20020ac8700a000000b002c3ef8fc44cso10578466qtm.8
+ for <qemu-devel@nongnu.org>; Mon, 31 Jan 2022 07:49:52 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=8DJRM83NtrGkmFO2N0v+PIszj0WppHGGQNE5laxRt1I=;
+ b=52UOGCSeVVJvM7WYzYf2QkaLU5Z23Rwd1qlJI51yPl5D1vQEis6NL7G3bV4OC42DgF
+ EDksuRAACWs/Uc30rE+yGoU+kzXN+lLrETjlnJ6NC7JN1O87MMm5uwzufkK740KhVFP8
+ kCmwKjKj7LhQWyaacXwjB2Lk/IOAEZ31FFIcKdiJMis0RtnBEgyrnMsrytKySxmEhCIs
+ gRXwFDgB5n4RiCI9SejK7wBV00OwVwBHVT3UMDwpIUS3Uh7vpwpMad2e5eEqUKWqL/gX
+ FfhbVL1/ekLG6xSVOtOlrPtS+rEpzLdVDnkho9nCmLVSBsqF0ycQkyRUbukTZZAbucPw
+ IPPA==
+X-Gm-Message-State: AOAM53392YnQ6LWL0Qcu68iSfI6tgsVO0prlT7Qrd+3rLvWPSZv3v3LK
+ xzlCkNIBWf4kn/49DNr+9oR3gb3aki6RGl6Qc4H/uFgPM3gs8K8PToh4vFS2C2ZI9fkFtEJUg25
+ ZFkrLMsoRyffWyU8bUzZbF1uznMiYsHU=
+X-Received: by 2002:a05:622a:215:: with SMTP id
+ b21mr15252640qtx.199.1643644191767; 
+ Mon, 31 Jan 2022 07:49:51 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJypAVOujwCAFAi6QUU+20GVpZI7kPrUKTzlwyepE8e4SpXOSjzYkql3x8iGYe4MLPmVvryHW/LJqDvINCmbzOc=
+X-Received: by 2002:a05:622a:215:: with SMTP id
+ b21mr15252621qtx.199.1643644191381; 
+ Mon, 31 Jan 2022 07:49:51 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Disposition: inline
-In-Reply-To: <20220130231206.34035-7-edgar.iglesias@gmail.com>
-User-Agent: NeoMutt/20170113 (1.7.2)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: b3b33efd-7de2-4113-b3ce-08d9e4d1306f
-X-MS-TrafficTypeDiagnostic: CH0PR02MB8133:EE_
-X-Microsoft-Antispam-PRVS: <CH0PR02MB813368BFC32C017BE53CB592AD259@CH0PR02MB8133.namprd02.prod.outlook.com>
-X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
-X-MS-Oob-TLC-OOBClassifiers: OLM:83;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 68KulyGJ0bo8BeTitJti+G4/lo11daYwPs8OL9dm2QYJzOUkAb10BEmnKy4M9uSIbsFaHi+fgjhJt+Nry1pYtJC5hiVzA/KVcr348wh73xtJZJwsxm5ORjI6sOCEy5Y1BIMK2y7la8E41tZNkK6g5xGMKVTSY4kGTUmlb+VZAncD2uKcbs2wEQV7vRxfu1JcbXDi4rpZN4cMpJKqTzeKruy24IYSRvH1VikXe9sMhZPIB2R+7iJIBA0kRMHhAvzZH0xpPdpbWqd/E51RBbZrHcaVtlp/uk9XvBgNlzkfZeB1uaMstaq2g5O5hkuYigeRemL91uUPucnu5BgJ5D2rE2bjGpFYtB3xBagr4j77ooV2QcKwbaKyX7uHvtUxLUvbP77iz6FRUKqO28IU7C789meydAhHYJb3d/pBMxNIXubVGMiuKIzvdGqMHR355Thsj0gCgnQQ655xevcyBMK1V8kC0Jn4onybBrMujTZ14RQEcqyA5oawDBkbXIeTq8bOF8UVDLvlF4wu+JLkLDcORnF9NxE3/wrwSegQvDx/KzW/aIYHrpRhRdLf1wsc2lRoNotXWcbyue6gxUjpootrExA2lV6sJ3d5y7erjdRL7gI+AJkjCh0LnSe5N4h1xgpQX+1uOACcFWe9MkGRA7F1mLyA/Ge7LkOG4/E8nmxqZxJQ4XFidChNXhnvXkb50H3vK4yq+LQAsUH/Qjd4DVZBfg==
-X-Forefront-Antispam-Report: CIP:149.199.62.198; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:xsj-pvapexch02.xlnx.xilinx.com;
- PTR:unknown-62-198.xilinx.com; CAT:NONE;
- SFS:(4636009)(46966006)(36840700001)(7636003)(70206006)(1076003)(5660300002)(44832011)(107886003)(186003)(47076005)(9686003)(508600001)(54906003)(6916009)(426003)(2906002)(8676002)(83380400001)(36860700001)(70586007)(9576002)(8936002)(9786002)(26005)(33716001)(82310400004)(356005)(4326008)(316002)(336012);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: xilinx.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Jan 2022 15:48:56.0154 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: b3b33efd-7de2-4113-b3ce-08d9e4d1306f
-X-MS-Exchange-CrossTenant-Id: 657af505-d5df-48d0-8300-c31994686c5c
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=657af505-d5df-48d0-8300-c31994686c5c; Ip=[149.199.62.198];
- Helo=[xsj-pvapexch02.xlnx.xilinx.com]
-X-MS-Exchange-CrossTenant-AuthSource: BN1NAM02FT058.eop-nam02.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH0PR02MB8133
-Received-SPF: pass client-ip=40.107.94.67; envelope-from=figlesia@xilinx.com;
- helo=NAM10-MW2-obe.outbound.protection.outlook.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+References: <20220121202733.404989-1-eperezma@redhat.com>
+ <20220121202733.404989-12-eperezma@redhat.com>
+ <660257ba-6445-3fb2-1da4-3b141e382191@redhat.com>
+In-Reply-To: <660257ba-6445-3fb2-1da4-3b141e382191@redhat.com>
+From: Eugenio Perez Martin <eperezma@redhat.com>
+Date: Mon, 31 Jan 2022 16:49:15 +0100
+Message-ID: <CAJaqyWfaf0RG9AzW4ktH2L3wyfOGuSk=rNm-j7xRkpdfVvkY-g@mail.gmail.com>
+Subject: Re: [PATCH 11/31] vhost: Add vhost_svq_valid_device_features to
+ shadow vq
+To: Jason Wang <jasowang@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eperezma@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eperezma@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.088,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -124,114 +96,188 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: edgar.iglesias@xilinx.com, peter.maydell@linaro.org, luc@lmichel.fr,
- sai.pavan.boddu@xilinx.com, frasse.iglesias@gmail.com, alistair@alistair23.me,
- richard.henderson@linaro.org, qemu-devel@nongnu.org,
- frederic.konrad@adacore.com, qemu-arm@nongnu.org
+Cc: Laurent Vivier <lvivier@redhat.com>, Parav Pandit <parav@mellanox.com>,
+ Cindy Lu <lulu@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Juan Quintela <quintela@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ qemu-level <qemu-devel@nongnu.org>, Gautam Dawar <gdawar@xilinx.com>,
+ Markus Armbruster <armbru@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ Harpreet Singh Anand <hanand@xilinx.com>, Xiao W Wang <xiao.w.wang@intel.com>,
+ Peter Xu <peterx@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Eli Cohen <eli@mellanox.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Zhu Lingshan <lingshan.zhu@intel.com>,
+ virtualization <virtualization@lists.linux-foundation.org>,
+ Eric Blake <eblake@redhat.com>, Stefano Garzarella <sgarzare@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Jan 31, 2022 at 12:12:06AM +0100, Edgar E. Iglesias wrote:
-> From: "Edgar E. Iglesias" <edgar.iglesias@xilinx.com>
-> 
-> Connect the ZynqMP APU Control device.
-> 
-> Signed-off-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
+On Sat, Jan 29, 2022 at 9:11 AM Jason Wang <jasowang@redhat.com> wrote:
+>
+>
+> =E5=9C=A8 2022/1/22 =E4=B8=8A=E5=8D=884:27, Eugenio P=C3=A9rez =E5=86=99=
+=E9=81=93:
+> > This allows SVQ to negotiate features with the device. For the device,
+> > SVQ is a driver. While this function needs to bypass all non-transport
+> > features, it needs to disable the features that SVQ does not support
+> > when forwarding buffers. This includes packed vq layout, indirect
+> > descriptors or event idx.
+> >
+> > Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
+> > ---
+> >   hw/virtio/vhost-shadow-virtqueue.h |  2 ++
+> >   hw/virtio/vhost-shadow-virtqueue.c | 44 +++++++++++++++++++++++++++++=
++
+> >   hw/virtio/vhost-vdpa.c             | 21 ++++++++++++++
+> >   3 files changed, 67 insertions(+)
+> >
+> > diff --git a/hw/virtio/vhost-shadow-virtqueue.h b/hw/virtio/vhost-shado=
+w-virtqueue.h
+> > index c9ffa11fce..d963867a04 100644
+> > --- a/hw/virtio/vhost-shadow-virtqueue.h
+> > +++ b/hw/virtio/vhost-shadow-virtqueue.h
+> > @@ -15,6 +15,8 @@
+> >
+> >   typedef struct VhostShadowVirtqueue VhostShadowVirtqueue;
+> >
+> > +bool vhost_svq_valid_device_features(uint64_t *features);
+> > +
+> >   void vhost_svq_set_svq_kick_fd(VhostShadowVirtqueue *svq, int svq_kic=
+k_fd);
+> >   void vhost_svq_set_guest_call_notifier(VhostShadowVirtqueue *svq, int=
+ call_fd);
+> >   const EventNotifier *vhost_svq_get_dev_kick_notifier(
+> > diff --git a/hw/virtio/vhost-shadow-virtqueue.c b/hw/virtio/vhost-shado=
+w-virtqueue.c
+> > index 9619c8082c..51442b3dbf 100644
+> > --- a/hw/virtio/vhost-shadow-virtqueue.c
+> > +++ b/hw/virtio/vhost-shadow-virtqueue.c
+> > @@ -45,6 +45,50 @@ const EventNotifier *vhost_svq_get_dev_kick_notifier=
+(
+> >       return &svq->hdev_kick;
+> >   }
+> >
+> > +/**
+> > + * Validate the transport device features that SVQ can use with the de=
+vice
+> > + *
+> > + * @dev_features  The device features. If success, the acknowledged fe=
+atures.
+> > + *
+> > + * Returns true if SVQ can go with a subset of these, false otherwise.
+> > + */
+> > +bool vhost_svq_valid_device_features(uint64_t *dev_features)
+> > +{
+> > +    bool r =3D true;
+> > +
+> > +    for (uint64_t b =3D VIRTIO_TRANSPORT_F_START; b <=3D VIRTIO_TRANSP=
+ORT_F_END;
+> > +         ++b) {
+> > +        switch (b) {
+> > +        case VIRTIO_F_NOTIFY_ON_EMPTY:
+> > +        case VIRTIO_F_ANY_LAYOUT:
+> > +            continue;
+> > +
+> > +        case VIRTIO_F_ACCESS_PLATFORM:
+> > +            /* SVQ does not know how to translate addresses */
+>
+>
+> I may miss something but any reason that we need to disable
+> ACCESS_PLATFORM? I'd expect the vring helper we used for shadow
+> virtqueue can deal with vIOMMU perfectly.
+>
 
-Reviewed-by: Francisco Iglesias <francisco.iglesias@xilinx.com>
+This function is validating SVQ <-> Device communications features,
+that may or may not be the same as guest <-> SVQ. These feature flags
+are valid for guest <-> SVQ communication, same as with indirect
+descriptors one.
 
-> ---
->  include/hw/arm/xlnx-zynqmp.h |  4 +++-
->  hw/arm/xlnx-zynqmp.c         | 25 +++++++++++++++++++++++--
->  2 files changed, 26 insertions(+), 3 deletions(-)
-> 
-> diff --git a/include/hw/arm/xlnx-zynqmp.h b/include/hw/arm/xlnx-zynqmp.h
-> index d5a3ad3df2..05cd2128f3 100644
-> --- a/include/hw/arm/xlnx-zynqmp.h
-> +++ b/include/hw/arm/xlnx-zynqmp.h
-> @@ -38,6 +38,7 @@
->  #include "hw/dma/xlnx_csu_dma.h"
->  #include "hw/nvram/xlnx-bbram.h"
->  #include "hw/nvram/xlnx-zynqmp-efuse.h"
-> +#include "hw/misc/xlnx-zynqmp-apu-ctrl.h"
->  #include "hw/misc/xlnx-zynqmp-crf.h"
->  
->  #define TYPE_XLNX_ZYNQMP "xlnx-zynqmp"
-> @@ -85,7 +86,7 @@ OBJECT_DECLARE_SIMPLE_TYPE(XlnxZynqMPState, XLNX_ZYNQMP)
->  /*
->   * Unimplemented mmio regions needed to boot some images.
->   */
-> -#define XLNX_ZYNQMP_NUM_UNIMP_AREAS 2
-> +#define XLNX_ZYNQMP_NUM_UNIMP_AREAS 1
->  
->  struct XlnxZynqMPState {
->      /*< private >*/
-> @@ -123,6 +124,7 @@ struct XlnxZynqMPState {
->      XlnxZDMA gdma[XLNX_ZYNQMP_NUM_GDMA_CH];
->      XlnxZDMA adma[XLNX_ZYNQMP_NUM_ADMA_CH];
->      XlnxCSUDMA qspi_dma;
-> +    XlnxZynqMPAPUCtrl apu_ctrl;
->      XlnxZynqMPCRF crf;
->  
->      char *boot_cpu;
-> diff --git a/hw/arm/xlnx-zynqmp.c b/hw/arm/xlnx-zynqmp.c
-> index 857d3c9636..21c411cd77 100644
-> --- a/hw/arm/xlnx-zynqmp.c
-> +++ b/hw/arm/xlnx-zynqmp.c
-> @@ -64,7 +64,7 @@
->  #define DPDMA_IRQ           116
->  
->  #define APU_ADDR            0xfd5c0000
-> -#define APU_SIZE            0x100
-> +#define APU_IRQ             153
->  
->  #define IPI_ADDR            0xFF300000
->  #define IPI_IRQ             64
-> @@ -282,6 +282,27 @@ static void xlnx_zynqmp_create_efuse(XlnxZynqMPState *s, qemu_irq *gic)
->      sysbus_connect_irq(sbd, 0, gic[EFUSE_IRQ]);
->  }
->  
-> +static void xlnx_zynqmp_create_apu_ctrl(XlnxZynqMPState *s, qemu_irq *gic)
-> +{
-> +    SysBusDevice *sbd;
-> +    int i;
-> +
-> +    object_initialize_child(OBJECT(s), "apu-ctrl", &s->apu_ctrl,
-> +                            TYPE_XLNX_ZYNQMP_APU_CTRL);
-> +    sbd = SYS_BUS_DEVICE(&s->apu_ctrl);
-> +
-> +    for (i = 0; i < XLNX_ZYNQMP_NUM_APU_CPUS; i++) {
-> +        g_autofree gchar *name = g_strdup_printf("cpu%d", i);
-> +
-> +        object_property_set_link(OBJECT(&s->apu_ctrl), name,
-> +                                 OBJECT(&s->apu_cpu[i]), &error_abort);
-> +    }
-> +
-> +    sysbus_realize(sbd, &error_fatal);
-> +    sysbus_mmio_map(sbd, 0, APU_ADDR);
-> +    sysbus_connect_irq(sbd, 0, gic[APU_IRQ]);
-> +}
-> +
->  static void xlnx_zynqmp_create_crf(XlnxZynqMPState *s, qemu_irq *gic)
->  {
->      SysBusDevice *sbd;
-> @@ -301,7 +322,6 @@ static void xlnx_zynqmp_create_unimp_mmio(XlnxZynqMPState *s)
->          hwaddr base;
->          hwaddr size;
->      } unimp_areas[ARRAY_SIZE(s->mr_unimp)] = {
-> -        { .name = "apu", APU_ADDR, APU_SIZE },
->          { .name = "serdes", SERDES_ADDR, SERDES_SIZE },
->      };
->      unsigned int nr;
-> @@ -697,6 +717,7 @@ static void xlnx_zynqmp_realize(DeviceState *dev, Error **errp)
->  
->      xlnx_zynqmp_create_bbram(s, gic_spi);
->      xlnx_zynqmp_create_efuse(s, gic_spi);
-> +    xlnx_zynqmp_create_apu_ctrl(s, gic_spi);
->      xlnx_zynqmp_create_crf(s, gic_spi);
->      xlnx_zynqmp_create_unimp_mmio(s);
->  
-> -- 
-> 2.25.1
-> 
+Having said that, there is a point in the series where
+VIRTIO_F_ACCESS_PLATFORM is actually mandatory, so I think we could
+use the latter addition of x-svq cmdline parameter and delay the
+feature validations where it makes more sense.
+
+>
+> > +            if (*dev_features & BIT_ULL(b)) {
+> > +                clear_bit(b, dev_features);
+> > +                r =3D false;
+> > +            }
+> > +            break;
+> > +
+> > +        case VIRTIO_F_VERSION_1:
+>
+>
+> I had the same question here.
+>
+
+For VERSION_1 it's easier to assume that guest is little endian at
+some points, but we could try harder to support both endianness if
+needed.
+
+Thanks!
+
+> Thanks
+>
+>
+> > +            /* SVQ trust that guest vring is little endian */
+> > +            if (!(*dev_features & BIT_ULL(b))) {
+> > +                set_bit(b, dev_features);
+> > +                r =3D false;
+> > +            }
+> > +            continue;
+> > +
+> > +        default:
+> > +            if (*dev_features & BIT_ULL(b)) {
+> > +                clear_bit(b, dev_features);
+> > +            }
+> > +        }
+> > +    }
+> > +
+> > +    return r;
+> > +}
+> > +
+> >   /* Forward guest notifications */
+> >   static void vhost_handle_guest_kick(EventNotifier *n)
+> >   {
+> > diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
+> > index bdb45c8808..9d801cf907 100644
+> > --- a/hw/virtio/vhost-vdpa.c
+> > +++ b/hw/virtio/vhost-vdpa.c
+> > @@ -855,10 +855,31 @@ static int vhost_vdpa_init_svq(struct vhost_dev *=
+hdev, struct vhost_vdpa *v,
+> >       size_t n_svqs =3D v->shadow_vqs_enabled ? hdev->nvqs : 0;
+> >       g_autoptr(GPtrArray) shadow_vqs =3D g_ptr_array_new_full(n_svqs,
+> >                                                              vhost_psvq=
+_free);
+> > +    uint64_t dev_features;
+> > +    uint64_t svq_features;
+> > +    int r;
+> > +    bool ok;
+> > +
+> >       if (!v->shadow_vqs_enabled) {
+> >           goto out;
+> >       }
+> >
+> > +    r =3D vhost_vdpa_get_features(hdev, &dev_features);
+> > +    if (r !=3D 0) {
+> > +        error_setg(errp, "Can't get vdpa device features, got (%d)", r=
+);
+> > +        return r;
+> > +    }
+> > +
+> > +    svq_features =3D dev_features;
+> > +    ok =3D vhost_svq_valid_device_features(&svq_features);
+> > +    if (unlikely(!ok)) {
+> > +        error_setg(errp,
+> > +            "SVQ Invalid device feature flags, offer: 0x%"PRIx64", ok:=
+ 0x%"PRIx64,
+> > +            hdev->features, svq_features);
+> > +        return -1;
+> > +    }
+> > +
+> > +    shadow_vqs =3D g_ptr_array_new_full(hdev->nvqs, vhost_psvq_free);
+> >       for (unsigned n =3D 0; n < hdev->nvqs; ++n) {
+> >           VhostShadowVirtqueue *svq =3D vhost_svq_new();
+> >
+>
+
 
