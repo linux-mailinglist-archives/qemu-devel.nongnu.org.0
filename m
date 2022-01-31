@@ -2,80 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31A604A3F09
-	for <lists+qemu-devel@lfdr.de>; Mon, 31 Jan 2022 10:07:45 +0100 (CET)
-Received: from localhost ([::1]:43974 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4DA714A3F14
+	for <lists+qemu-devel@lfdr.de>; Mon, 31 Jan 2022 10:13:03 +0100 (CET)
+Received: from localhost ([::1]:49568 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nESf1-0006o5-Kj
-	for lists+qemu-devel@lfdr.de; Mon, 31 Jan 2022 04:07:43 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:34946)
+	id 1nESkA-0002GB-AA
+	for lists+qemu-devel@lfdr.de; Mon, 31 Jan 2022 04:13:02 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:36256)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1nESbL-0004pK-14
- for qemu-devel@nongnu.org; Mon, 31 Jan 2022 04:03:55 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:52236)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1nESg0-0000Np-0q
+ for qemu-devel@nongnu.org; Mon, 31 Jan 2022 04:08:44 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:33449)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1nESbH-0003fH-1W
- for qemu-devel@nongnu.org; Mon, 31 Jan 2022 04:03:53 -0500
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1nESfx-0004OQ-OW
+ for qemu-devel@nongnu.org; Mon, 31 Jan 2022 04:08:43 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1643619825;
+ s=mimecast20190719; t=1643620107;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=/tJNqqyd7R10N2YzyaNOpnCH3qAZTzi0reSjbfLddrU=;
- b=R3lUFG+sAAslcEFnJZArbMuf0135hkwOab+4uoHY5eZkU4NG0HPVv9SLqpkpe12EotfnVt
- 3KBgVgC1Xu9L+KBJXPs8k83yovN301ioiNhaiLYbIAUug0biENyOTJAg8pHlcVtIBNWAmt
- 81f514RkqyV4mPwHZXfuBK8UL/LTED4=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=+o8+fo7edtCerkKoh7Uz0n32R4dvtBnaTTf9xyu8RwA=;
+ b=iiBJK1agvyyt7sMqKe40iUFgC2HRtw0FYIIYJ5jbuAAlX9RC1Cebkv0xqGtTCxgYOg4iCB
+ QnlVqPsO65/fIny7M6UD8+dXDmG1ySL5vttHOhs1minJqeTb6NAVD2x1ruDh4TQ3onfGHp
+ /l1VToKURSOxex5keHEvURIhEyC042Q=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-219-Jn8vg6nYOxaHLX5A-VDPRQ-1; Mon, 31 Jan 2022 04:03:44 -0500
-X-MC-Unique: Jn8vg6nYOxaHLX5A-VDPRQ-1
-Received: by mail-wr1-f72.google.com with SMTP id
- r27-20020adfb1db000000b001d7567e33baso4516171wra.12
- for <qemu-devel@nongnu.org>; Mon, 31 Jan 2022 01:03:44 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:in-reply-to:references
- :user-agent:reply-to:date:message-id:mime-version;
- bh=/tJNqqyd7R10N2YzyaNOpnCH3qAZTzi0reSjbfLddrU=;
- b=0Y7z7+8MbJpsiNtYFTkPdj8ZPJQnqR5c6ytpfvIgPMBTPj5FViWmK8pj+J0HcOpiwS
- n7DB+69RYmbQJ1oh567ko0BWMOFv6IGUdMCwG8Lt8DGUkx87HsYUkIAJd0wJHzsB37ib
- aUa5r1plyGjm870DV5GJYjvvdNPdS+dzR67jUJSXB88u+QcUwzp1xxNdpJfnvGnUoJqW
- tmIwned+Kb2L0DX0BmnaXohfV9KUIcTbZswtWHXfTzvkIEnrJ5iSoB43DE/49FhspmsA
- 8B/JtKOEnkEVMQKi/UaGbDQn0P5ay8R2Uu8mhKcF8v2GbK9ApGZJJ5Z5WHHdDge5WAmg
- h0hA==
-X-Gm-Message-State: AOAM5305AipRyTZeKp5NvoG0vIXxgQKq7sshqu7KWM6zVVErAOhuOYVI
- 2YwO+LlHDgjLWZn6LmfSjFNi5wRHlx3uk3o3tZlLzrtQ0GoqP7tjILX1sibRqkdIlTySppO/KjO
- WIxiDGWooim3ihls=
-X-Received: by 2002:a5d:4d50:: with SMTP id a16mr16826521wru.182.1643619822822; 
- Mon, 31 Jan 2022 01:03:42 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJw19bQ7zGkfuAFBr4ljXoSOmEEYeHpwThFFGclhTpT3mHwa8Bfrfmwcvw4k9jPe5HBi1Bl4NQ==
-X-Received: by 2002:a5d:4d50:: with SMTP id a16mr16826480wru.182.1643619822599; 
- Mon, 31 Jan 2022 01:03:42 -0800 (PST)
-Received: from localhost ([47.61.17.76])
- by smtp.gmail.com with ESMTPSA id i6sm8410343wma.22.2022.01.31.01.03.41
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 31 Jan 2022 01:03:42 -0800 (PST)
-From: Juan Quintela <quintela@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PULL 00/38] Migration 20220127 patches
-In-Reply-To: <CAFEAcA9O_nZz=4VSvh+rFE4cXepUEBeUui2WdawBjjos+pqOeg@mail.gmail.com>
- (Peter Maydell's message of "Fri, 28 Jan 2022 11:05:10 +0000")
-References: <20220127150548.20595-1-quintela@redhat.com>
- <CAFEAcA9O_nZz=4VSvh+rFE4cXepUEBeUui2WdawBjjos+pqOeg@mail.gmail.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
-Date: Mon, 31 Jan 2022 10:03:41 +0100
-Message-ID: <87ilu08efm.fsf@secure.mitica>
+ us-mta-192-KTGt3eVPOrqE4Aet0OPuww-1; Mon, 31 Jan 2022 04:08:23 -0500
+X-MC-Unique: KTGt3eVPOrqE4Aet0OPuww-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5D43D190D340;
+ Mon, 31 Jan 2022 09:08:22 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.195.62])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id DB33C10841AF;
+ Mon, 31 Jan 2022 09:07:46 +0000 (UTC)
+Date: Mon, 31 Jan 2022 09:07:42 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Leonardo Bras <leobras@redhat.com>, Babu Moger <babu.moger@amd.com>
+Subject: Re: [RFC PATCH 1/1] i386: Remove features from Epyc-Milan cpu
+Message-ID: <Yfem3s94EwIxqO1a@redhat.com>
+References: <20220129102336.387460-1-leobras@redhat.com>
 MIME-Version: 1.0
+In-Reply-To: <20220129102336.387460-1-leobras@redhat.com>
+User-Agent: Mutt/2.1.5 (2021-12-30)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=quintela@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=quintela@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -96,75 +79,93 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: quintela@redhat.com
-Cc: Fam Zheng <fam@euphon.net>, "Michael S. Tsirkin" <mst@redhat.com>,
- Jason Wang <jasowang@redhat.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
- Peter Xu <peterx@redhat.com>, Laurent Vivier <Laurent@vivier.eu>,
- Gerd Hoffmann <kraxel@redhat.com>, Ani Sinha <ani@anisinha.ca>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>, Eric Blake <eblake@redhat.com>,
- Hannes Reinecke <hare@suse.com>, Vikram Garhwal <fnu.vikram@xilinx.com>,
- qemu-block@nongnu.org, Daniel Henrique Barboza <danielhb413@gmail.com>,
- Markus Armbruster <armbru@redhat.com>, Artyom Tarasenko <atar4qemu@gmail.com>,
- Pavel Pisa <pisa@cmp.felk.cvut.cz>, Alistair Francis <alistair@alistair23.me>,
- "Dr. David Alan
- Gilbert" <dgilbert@redhat.com>, Greg Kurz <groug@kaod.org>, qemu-arm@nongnu.org,
- =?utf-8?Q?C=C3=A9dric?= Le Goater <clg@kaod.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Stafford Horne <shorne@gmail.com>,
- David Gibson <david@gibson.dropbear.id.au>,
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Yang Zhong <yang.zhong@intel.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ qemu-devel@nongnu.org, Richard Henderson <richard.henderson@linaro.org>,
  Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Andrew Baumann <Andrew.Baumann@microsoft.com>, qemu-ppc@nongnu.org,
- Igor Mammedov <imammedo@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>
+ Peter Xu <peterx@redhat.com>, "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Peter Maydell <peter.maydell@linaro.org> wrote:
-> On Thu, 27 Jan 2022 at 15:06, Juan Quintela <quintela@redhat.com> wrote:
->>
->> The following changes since commit 48302d4eb628ff0bea4d7e92cbf6b726410eb4c3:
->>
->>   Merge remote-tracking branch
->> 'remotes/dgilbert-gitlab/tags/pull-virtiofs-20220126' into staging
->> (2022-01-26 10:59:50 +0000)
->>
->> are available in the Git repository at:
->>
->>   https://gitlab.com/juan.quintela/qemu.git tags/migration-20220127-pull-request
->>
->> for you to fetch changes up to 4e29a822de430e8d0d8bf5c61aaff0561a713d84:
->>
->>   migration: Move temp page setup and cleanup into separate functions (2022-01-27 13:37:55 +0100)
->>
->> ----------------------------------------------------------------
->> Migration Pull request
->>
->> Hi
->>
->> This pull request includes every patch ack'd on the list for migration.  In no particular order:
->>
->> - ram_transferred_add() - (Edmondson)
->> - vmstate canary (dgilbert)
->> - minimum_version_id_old removal (peter maydell)
->> - postcopy cleanups (peter xu)
->> - more cleanups (Philippe)
->> - yet more cleanups (zheng)
->> - colo and cleanups (zhang)
->
-> Hi; this fails because we hit this assert in the vmstate canary check
-> on some of the CI jobs, for instance:
-> https://gitlab.com/qemu-project/qemu/-/jobs/2024872142
-> and also on the NetBSD VM in tests/vm.
+CC'ing  Babu Moger who aded the Milan CPU model.
 
-I dropped them on my PULL request, but there is something fishy on
-aarch64 for migration.  It makes exactly zero sense to fail with this
-patch.  Or something is missing a VMSTATE_END that only happens on
-aarch64.
+On Sat, Jan 29, 2022 at 07:23:37AM -0300, Leonardo Bras wrote:
+> While trying to bring a VM with EPYC-Milan cpu on a host with
+> EPYC-Milan cpu (EPYC 7313), the following warning can be seen:
+> 
+> qemu-system-x86_64: warning: host doesn't support requested feature: CPUID.07H:EBX.erms [bit 9]
+> qemu-system-x86_64: warning: host doesn't support requested feature: CPUID.07H:EDX.fsrm [bit 4]
+> 
+> Even with this warning, the host goes up.
+> 
+> Then, grep'ing cpuid output on both guest and host, outputs:
+> 
+> extended feature flags (7):
+>       enhanced REP MOVSB/STOSB                 = false
+>       fast short REP MOV                       = false
+>       (simple synth)  = AMD EPYC (3rd Gen) (Milan B1) [Zen 3], 7nm
+>    brand = "AMD EPYC 7313 16-Core Processor               "
+> 
+> This means that for the same -cpu model (EPYC-Milan), the vcpu may or may
+> not have the above feature bits set, which is usually not a good idea for
+> live migration:
+> Migrating from a host with these features to a host without them can
+> be troublesome for the guest.
+> 
+> Remove the "optional" features (erms, fsrm) from Epyc-Milan, in order to
+> avoid possible after-migration guest issues.
 
-I will take a look.
+Babu,  can you give some insight into availability of erms / fsrm
+features across the EPYC 3rd gen CPU line. Is this example missing
+erms/fsrm an exception, or common place ?
 
-Later, Juan.
+> 
+> Signed-off-by: Leonardo Bras <leobras@redhat.com>
+> ---
+> 
+> Does this make sense? Or maybe I am missing something here.
+> 
+> Having a kvm guest running with a feature bit, while the host
+> does not support it seems to cause a possible break the guest.
 
-PD.  As Dave said, the patch makes sense to drop because we need a new
-libslirp before pushing for it.
+The guest won't see the feature bit - that warning message from QEMU
+is telling you that it did't honour the request to expose
+erms / fsrm - it has dropped them from the CPUO exposed to the guest.
+
+> 
+> 
+>  target/i386/cpu.c | 5 +----
+>  1 file changed, 1 insertion(+), 4 deletions(-)
+> 
+> diff --git a/target/i386/cpu.c b/target/i386/cpu.c
+> index aa9e636800..a4bbd38ed0 100644
+> --- a/target/i386/cpu.c
+> +++ b/target/i386/cpu.c
+> @@ -4160,12 +4160,9 @@ static const X86CPUDefinition builtin_x86_defs[] = {
+>              CPUID_7_0_EBX_FSGSBASE | CPUID_7_0_EBX_BMI1 | CPUID_7_0_EBX_AVX2 |
+>              CPUID_7_0_EBX_SMEP | CPUID_7_0_EBX_BMI2 | CPUID_7_0_EBX_RDSEED |
+>              CPUID_7_0_EBX_ADX | CPUID_7_0_EBX_SMAP | CPUID_7_0_EBX_CLFLUSHOPT |
+> -            CPUID_7_0_EBX_SHA_NI | CPUID_7_0_EBX_CLWB | CPUID_7_0_EBX_ERMS |
+> -            CPUID_7_0_EBX_INVPCID,
+> +            CPUID_7_0_EBX_SHA_NI | CPUID_7_0_EBX_CLWB | CPUID_7_0_EBX_INVPCID,
+>          .features[FEAT_7_0_ECX] =
+>              CPUID_7_0_ECX_UMIP | CPUID_7_0_ECX_RDPID | CPUID_7_0_ECX_PKU,
+> -        .features[FEAT_7_0_EDX] =
+> -            CPUID_7_0_EDX_FSRM,
+>          .features[FEAT_XSAVE] =
+>              CPUID_XSAVE_XSAVEOPT | CPUID_XSAVE_XSAVEC |
+>              CPUID_XSAVE_XGETBV1 | CPUID_XSAVE_XSAVES,
+> -- 
+> 2.34.1
+> 
+> 
+
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
