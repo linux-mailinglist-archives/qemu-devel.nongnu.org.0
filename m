@@ -2,86 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2FD04A3E49
-	for <lists+qemu-devel@lfdr.de>; Mon, 31 Jan 2022 08:41:46 +0100 (CET)
-Received: from localhost ([::1]:37752 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 984074A3E43
+	for <lists+qemu-devel@lfdr.de>; Mon, 31 Jan 2022 08:37:35 +0100 (CET)
+Received: from localhost ([::1]:34850 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nERJp-0000My-U4
-	for lists+qemu-devel@lfdr.de; Mon, 31 Jan 2022 02:41:45 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:39338)
+	id 1nERFm-0006fG-Io
+	for lists+qemu-devel@lfdr.de; Mon, 31 Jan 2022 02:37:34 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:40548)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nEQdY-0000h7-Mj
- for qemu-devel@nongnu.org; Mon, 31 Jan 2022 01:58:06 -0500
-Received: from [2607:f8b0:4864:20::42c] (port=33649
- helo=mail-pf1-x42c.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nEQdU-0002xG-OG
- for qemu-devel@nongnu.org; Mon, 31 Jan 2022 01:58:03 -0500
-Received: by mail-pf1-x42c.google.com with SMTP id i186so9640131pfe.0
- for <qemu-devel@nongnu.org>; Sun, 30 Jan 2022 22:57:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=qrEDFwiz8QhdUfRrjtkOtw3C5xSdw7ffc9iqNqm/z3o=;
- b=pul53IyMQsLnM8BMw2vlJc3dgOxD5vrsylYQ+ikEpoHLFFV2fnSTnpttJ7JEbmXe1N
- Nyej72NIkSS++j8IR/AKY2QW2S9mZ/8bY2pk1cGR7Q1A1lnBHv3SQGewGQI5LLFXIF9p
- SHUW2Sb3G46bAYalDStRen7Pl0zUsuAUaBUqcM6xSKCeKz4cwmCsC25VLdkc1lVpbkZ6
- Cb4+4W6nHyu4fCQkgDnrXz7OzDHElNpbSyL+uGSS3UUyMR4wIZAPL8qA+MNr7JlOPn0V
- 3kqytqs7vI3kOFkKfut0H2jel3/umGF6Pb1XMn80uxGOe+06pRzrce/n8jO8srEBop0w
- moYg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=qrEDFwiz8QhdUfRrjtkOtw3C5xSdw7ffc9iqNqm/z3o=;
- b=kOl2viMWUhJSDqzzBuy6F5Ep1rpgCEoBnYs3Z4w5TRRkX6yXybEPqCXtSnqv2kkSct
- tpY4cGodwHv+wnVcoaAdpTq82vIChX9vSQKOr2jYWurItNTMQp8xU9rf1vt4bI7Z5rPX
- zyF/32TC999WtP/K4dMBHTRMl+UEvaGlpiqyGF50cSSa2bcM/Drwpuf3jN7IIRZNZmrd
- C1k4C9V6gUPXnMbCSw0Npf9qw+lQaqiwPOuAUGSFjlmSAZ7Hso+cS2XpVPkZaxSuiJVs
- gCQZ07z2IN+gzgYdQI1gVMnT+EXzI9vskos0oK0ZGbS9dsTrLjbhvtPXjIyi3epGsMnr
- msUw==
-X-Gm-Message-State: AOAM530S0NAej1jnTy7/i3Yyem8b1zF3D8fDNq+nPL/mms599eV+cbrO
- RvMUPCLBpzVPPZKrHQIP87tsvw==
-X-Google-Smtp-Source: ABdhPJxhLnr176ZX7zIDzicTiajH5tCcvdz4ksp/JdeKEbv9MsBHd+85xmfpa0qI9K9N+Eajg6bu9w==
-X-Received: by 2002:a63:88c6:: with SMTP id
- l189mr15704850pgd.229.1643612276491; 
- Sun, 30 Jan 2022 22:57:56 -0800 (PST)
-Received: from [192.168.15.130] ([60.231.85.5])
- by smtp.gmail.com with ESMTPSA id a14sm18302437pfv.212.2022.01.30.22.57.49
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 30 Jan 2022 22:57:56 -0800 (PST)
-Message-ID: <9497e12c-2400-b864-733d-5469fc63efcc@linaro.org>
-Date: Mon, 31 Jan 2022 17:57:46 +1100
+ (Exim 4.90_1) (envelope-from <ale@rev.ng>) id 1nEQke-0003Bo-5Y
+ for qemu-devel@nongnu.org; Mon, 31 Jan 2022 02:05:32 -0500
+Received: from rev.ng ([5.9.113.41]:42717)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <ale@rev.ng>) id 1nEQkZ-0003vf-0Y
+ for qemu-devel@nongnu.org; Mon, 31 Jan 2022 02:05:21 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=rev.ng;
+ s=dkim; h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:
+ In-Reply-To:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:Content-ID:
+ Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+ :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=AoXg/gzTVwldsn3GqtZw5pYgm3QUPJjnXfbatmXx9bc=; b=NuNV1O5SOx9oSNuh+t4R+DHCGK
+ 5bdC5+Hv5kn1WRWwLQ5oh6jN0U3HkDg4foTy2CF7d4Z4D3QaObrEplRrhiNROkLvLufh8DsL5eDlq
+ O5DQD28njk2MoqUnvorNpuy1bYXbZXoug6MUHy7pAB6Mc4d3tZ1EJm40Dw/zlJILMjuo=;
+Date: Mon, 31 Jan 2022 08:04:59 +0100
+To: Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= via <qemu-devel@nongnu.org>,
+ Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <f4bug@amsat.org>, Alex
+ =?UTF-8?B?QmVubsOpZQ==?= <alex.bennee@linaro.org>
+Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, Ross Lagerwall
+ <ross.lagerwall@citrix.com>, Stefano Stabellini <sstabellini@kernel.org>,
+ =?UTF-8?B?Q8OpZHJpYw==?= Le Goater <clg@kaod.org>, Ed Maste
+ <emaste@freebsd.org>, Thomas Huth <thuth@redhat.com>, Michael Tokarev
+ <mjt@tls.msk.ru>, "Daniel P . =?UTF-8?B?QmVycmFuZ8Op?="
+ <berrange@redhat.com>, Li-Wen Hsu <lwhsu@freebsd.org>, Stefan Hajnoczi
+ <stefanha@redhat.com>, Xiang Chen <chenxiang66@hisilicon.com>, Jonathan
+ Cameron <Jonathan.Cameron@Huawei.com>, Longpeng <longpeng2@huawei.com>,
+ Yifei Jiang <jiangyifei@huawei.com>, Vasilev Oleg
+ <vasilev.oleg@huawei.com>, Anton Johansson <anjo@rev.ng>, Michael Roth
+ <michael.roth@amd.com>
+Subject: Re: [PATCH v6 0/7] tests: Refresh lcitool submodule & remove libxml2
+Message-ID: <20220131080459.456a0b55@orange>
+In-Reply-To: <c1dcf128-84e8-a3ce-8b9f-f0a409b34b00@amsat.org>
+References: <20220121154134.315047-1-f4bug@amsat.org>
+ <87mtjle71g.fsf@linaro.org>
+ <4dc22a36-52da-26fb-bf8e-5e27e91db359@amsat.org>
+ <87ee4xdjjp.fsf@linaro.org>
+ <efc5f304-f3d2-ff7b-99a6-673595ff0259@amsat.org>
+ <c1dcf128-84e8-a3ce-8b9f-f0a409b34b00@amsat.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH 10/16] Revert "Revert "arm: tcg: Adhere to SMCCC 1.3
- section 5.2""
-Content-Language: en-US
-To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
- qemu-devel@nongnu.org
-References: <20220127154639.2090164-1-peter.maydell@linaro.org>
- <20220127154639.2090164-11-peter.maydell@linaro.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220127154639.2090164-11-peter.maydell@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::42c
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42c;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42c.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=5.9.113.41; envelope-from=ale@rev.ng; helo=rev.ng
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,50 +72,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <eduardo@habkost.net>, Rob Herring <robh@kernel.org>,
- Andrew Jeffery <andrew@aj.id.au>, Andre Przywara <andre.przywara@arm.com>,
- Alistair Francis <alistair@alistair23.me>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- Jean-Christophe Dubois <jcd@tribudubois.net>,
- Beniamino Galvani <b.galvani@gmail.com>, Tyrone Ting <kfting@nuvoton.com>,
- Niek Linnenbank <nieklinnenbank@gmail.com>, Alexander Graf <agraf@csgraf.de>,
- Igor Mitsyanko <i.mitsyanko@gmail.com>,
- =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
- Havard Skinnemoen <hskinnemoen@google.com>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- Yanan Wang <wangyanan55@huawei.com>, Andrey Smirnov <andrew.smirnov@gmail.com>,
- Joel Stanley <joel@jms.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  Alessandro Di Federico <ale@rev.ng>
+From:  Alessandro Di Federico via <qemu-devel@nongnu.org>
 
-On 1/28/22 02:46, Peter Maydell wrote:
-> Now that we have arranged for all the affected board models
-> to not enable the PSCI emulation if they are running guest code
-> at EL3, we can revert commit 4825eaae4fdd56fba0f, thus
-> reinstating commit 9fcd15b9193e819b, without bringing back the
-> regressions that caused us to revert it.
-> 
-> For clarity, here is the original commit message of 9fcd15b9193e819b:
-> 
-> The SMCCC 1.3 spec section 5.2 says
-> 
->    The Unknown SMC Function Identifier is a sign-extended value of (-1)
->    that is returned in the R0, W0 or X0 registers. An implementation must
->    return this error code when it receives:
-> 
->      * An SMC or HVC call with an unknown Function Identifier
->      * An SMC or HVC call for a removed Function Identifier
->      * An SMC64/HVC64 call from AArch32 state
-> 
-> To comply with these statements, let's always return -1 when we encounter
-> an unknown HVC or SMC call.
-> 
-> Signed-off-by: Peter Maydell<peter.maydell@linaro.org>
-> ---
->   target/arm/psci.c | 35 ++++++-----------------------------
->   1 file changed, 6 insertions(+), 29 deletions(-)
+On Tue, 25 Jan 2022 11:59:38 +0100
+Philippe Mathieu-Daud=C3=A9 via <qemu-devel@nongnu.org> wrote:
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+> I'm seeing the same issue with these domains since mid december:
+>=20
+> ...
+> - rev.ng
+>=20
+> ...
+> https://lore.kernel.org/qemu-devel/20220105185720.0d4fc159@orange/
+> ...
 
-r~
+I've tried to look into this and it looks like our set up should be OK.
+We enabled SPF (i.e., a rule stating that only our mailserver can send
+e-mail with our domain in "From:") and DKIM (i.e., our mailserver signs
+certain portions of the e-mail). We also enabled DMARC which
+coordinates the two.
+
+Now, as far as I understand, mailing lists can either rewrite the
+"From" header (as qemu-devel does) or leave it as it is. In the latter
+situation, SPF will fail but DMARC should instruct MTAs to check
+DKIM, and that should pass.
+
+    https://begriffs.com/posts/2018-09-18-dmarc-mailing-list.html
+    https://dmarc.org/wiki/FAQ#I_operate_a_mailing_list_and_I_want_to_inter=
+operate_with_DMARC.2C_what_should_I_do.3F
+
+DKIM signature can be corrupted in case the mailing list tampers with
+the subject or the body of the e-mail, but this doesn't seem to be the
+case: I've tried to manually verify the DKIM signature of the same
+e-mail that I got both from the mailing list and directly from the
+sender (I was in Cc), and they both verify correctly.
+
+tl;dr I *think* rewriting the From header should not be necessary for
+our domain.
+
+If you guys think this is not the case and there's something we can do
+to improve the situation (other than adding gmail.com to our SPF
+record), let me know.
+
+--=20
+Alessandro Di Federico
+rev.ng Labs
 
