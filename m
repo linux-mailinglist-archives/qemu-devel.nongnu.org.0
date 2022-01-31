@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E60B64A5125
-	for <lists+qemu-devel@lfdr.de>; Mon, 31 Jan 2022 22:11:43 +0100 (CET)
-Received: from localhost ([::1]:59648 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2EB374A50C5
+	for <lists+qemu-devel@lfdr.de>; Mon, 31 Jan 2022 22:06:37 +0100 (CET)
+Received: from localhost ([::1]:54530 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nEdxc-00021W-3O
-	for lists+qemu-devel@lfdr.de; Mon, 31 Jan 2022 16:11:40 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:43282)
+	id 1nEdsh-0006Qy-MC
+	for lists+qemu-devel@lfdr.de; Mon, 31 Jan 2022 16:06:35 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:43284)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1nEcnl-000548-3N
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1nEcnl-00054A-3i
  for qemu-devel@nongnu.org; Mon, 31 Jan 2022 14:57:25 -0500
-Received: from [2607:f8b0:4864:20::12c] (port=43823
- helo=mail-il1-x12c.google.com)
+Received: from [2607:f8b0:4864:20::d32] (port=35660
+ helo=mail-io1-xd32.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1nEcnb-0002du-Qo
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1nEcnb-0002ey-PJ
  for qemu-devel@nongnu.org; Mon, 31 Jan 2022 14:57:24 -0500
-Received: by mail-il1-x12c.google.com with SMTP id d3so12385831ilr.10
- for <qemu-devel@nongnu.org>; Mon, 31 Jan 2022 11:56:44 -0800 (PST)
+Received: by mail-io1-xd32.google.com with SMTP id 9so18465605iou.2
+ for <qemu-devel@nongnu.org>; Mon, 31 Jan 2022 11:56:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bsdimp-com.20210112.gappssmtp.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=w4FRMcODA3Yw9ipRGV2deCv5GoQkPWInOh9N0fcX/6E=;
- b=GVhiZpjA5T+Cg+ZkAMZMJ1sP/5R6wcjvCoxqqZBOMOMtElaYdxTTjZfRcQrJlWNg9B
- BW6VOo6oXFReOp+7TusA6p6Z8kic8KIyNiEmoFVl1ot2/SucZjxNk9TO0KT1WtyPJUVA
- fxDcO+1feYTBm4IYGPtReDEAZEu/GeLwxyyDTXgQIwIqMWOBMU/pc4hixOOORf6Fpyc1
- uSYCN6yq7JwDQND6yuTQebmN1FfFpU9I2kVlXIm6uLPUHgjvID5Vcjdagh3mm+WIpJ5L
- FyXTjEvhycaHJGkKAzDSlO2af6egXHeOJGn0apbrVx6cL5CYpN3/yV5uNAQr5BcWK3qZ
- qnEQ==
+ bh=2cxVzUGQfUKapU6iJyRCNz3mEY37Sx777/SzAWGZs48=;
+ b=MntQDAUF+/auInE6Lqv2Hrz1wQucNLiwZVcLEFAdbVoUdla4N9cJroz027SYU0jmai
+ bym8Q+CefIMnXb6HdNsbNppSZdQhUS0hZBSfsLFBu0vhmEM+3PfjBMAhfZYUY208pYsi
+ KUMDIwxFqj2TIVF6t1oUUjZ2fM/+KinhnK2NsRKQ5P+Zxi8tM39MDPjLDgnco0ziCvkb
+ liqdoIOrOROl0y2I9GuUWek/1Vy49Zjdj3b1oM5XEXfTUFVZdDH1BWKo/v0vh3DIv0vB
+ ixQsCiaTvsndxqS7UixeOL14GAgGNZY5SBh86CAhYSVKzTIzzqlamwoRkcrWNh3vaIMp
+ jHdA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=w4FRMcODA3Yw9ipRGV2deCv5GoQkPWInOh9N0fcX/6E=;
- b=rnqo9w40ryRSMY2HB15B7ZexKr29iNeeeRzJaI7VmGHlpz3IldYYUbZET8Hh8fBZt2
- qTz00DdkpzUYxHYMIEhhqUmtHD3TenrH7TCAhgoUu304NQS+AyY38BjMQUr+CnndV3Ym
- 7x2avUWpwqitGAx7Lt5+anOpLclxIUJOjBg73ZztS825kSrvjefhZThaZKBn5wuXYiBj
- FVgsCRd5c9v1B9NfsAJi9S+GkVDFob00df4eAPLmTSJLnTCXSoUYpPfaHlT2kQnrIgrG
- J0XuV4fawwAlE3tx8Dg5jpvciIinTqBeV9QRJU2qB4liGHS2VlQjnvv/aBeU6SzBwwi7
- gdPA==
-X-Gm-Message-State: AOAM530L0Tw2uxkhbx3WlngcYC2N4xyOt97scxq5g0c8u7eTT37GyvSk
- Q0oFkpTL9fHBh/mqcz4ta70v+wG7EHgVWw==
-X-Google-Smtp-Source: ABdhPJzzPjbjMhHLbpulJPmj0qeWmmV3pbTaYCgFLMAj/zuEm8fzMCqCFq7+JEM/WSBic0+HxOdhWQ==
-X-Received: by 2002:a92:cd8e:: with SMTP id r14mr13527540ilb.53.1643659003419; 
- Mon, 31 Jan 2022 11:56:43 -0800 (PST)
+ bh=2cxVzUGQfUKapU6iJyRCNz3mEY37Sx777/SzAWGZs48=;
+ b=2uAVJDSEt83R2Tu2lX2LXgGbo9sNtwQtVuOo70QCQejoimX+SkTX02fPQqIKPqMbVA
+ IHLuLSElX0LEcDRcsK46oB1kJRkwZJ6zvo6H697zPgMt4Jp4dtusB1+3q9x9KHV9y8yD
+ bHgbkgUUabJhxHJF6nBvAg2sXtDa8kMHRqY+mBS27SjVZYryZq7jWmtKWS7f+EO9K3Pe
+ GFiXnuWtvUsDKyMeeopcrEgm7gTGDfffnSekviCQhFvSX/88Yt963LBB/w5+qaL918nV
+ 5z/ZiKKxgRRMjNxZ13kisqAfHHrSWLzNhK1cOn8/ASw5uw9gHH1ucOb3oHqmIxsunn6S
+ N/iw==
+X-Gm-Message-State: AOAM532j99k8d+v8v9ZsjiJm7p5bR9uoTwsMefa4UvRBx1Osh9VDTqso
+ NGUOIver5JTlma5l+UjHJXDBdIKwiBbp9w==
+X-Google-Smtp-Source: ABdhPJz7tdoYrAfNvMqFqbOiBYos4+yoliNsdImVX0FNS95u4CRV+HlFE2x19bMXkZOmB53MLfDfEA==
+X-Received: by 2002:a6b:4417:: with SMTP id r23mr11906817ioa.23.1643659014974; 
+ Mon, 31 Jan 2022 11:56:54 -0800 (PST)
 Received: from dune.bsdimp.com (50-253-99-174-static.hfc.comcastbusiness.net.
  [50.253.99.174])
- by smtp.gmail.com with ESMTPSA id j2sm1972989ilu.82.2022.01.31.11.56.42
+ by smtp.gmail.com with ESMTPSA id j2sm1972989ilu.82.2022.01.31.11.56.54
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 31 Jan 2022 11:56:43 -0800 (PST)
+ Mon, 31 Jan 2022 11:56:54 -0800 (PST)
 From: Warner Losh <imp@bsdimp.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 13/40] bsd-user/arm/target_arch_cpu.h: Correct code pointer
-Date: Mon, 31 Jan 2022 12:56:09 -0700
-Message-Id: <20220131195636.31991-14-imp@bsdimp.com>
+Subject: [PULL 25/40] bsd-user/signal.c: Implement rewind_if_in_safe_syscall
+Date: Mon, 31 Jan 2022 12:56:21 -0700
+Message-Id: <20220131195636.31991-26-imp@bsdimp.com>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <20220131195636.31991-1-imp@bsdimp.com>
 References: <20220131195636.31991-1-imp@bsdimp.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::12c
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::d32
  (failed)
-Received-SPF: none client-ip=2607:f8b0:4864:20::12c;
- envelope-from=imp@bsdimp.com; helo=mail-il1-x12c.google.com
+Received-SPF: none client-ip=2607:f8b0:4864:20::d32;
+ envelope-from=imp@bsdimp.com; helo=mail-io1-xd32.google.com
 X-Spam_score_int: -10
 X-Spam_score: -1.1
 X-Spam_bar: -
@@ -91,29 +91,57 @@ Cc: Peter Maydell <peter.maydell@linaro.org>, Kyle Evans <kevans@freebsd.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The code has moved in FreeBSD since the emulator was started, update the
-comment to reflect that change.
-
+Signed-off-by: Kyle Evans <kevans@freebsd.org>
 Signed-off-by: Warner Losh <imp@bsdimp.com>
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- bsd-user/arm/target_arch_cpu.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ bsd-user/qemu.h   |  2 ++
+ bsd-user/signal.c | 13 ++++++++++++-
+ 2 files changed, 14 insertions(+), 1 deletion(-)
 
-diff --git a/bsd-user/arm/target_arch_cpu.h b/bsd-user/arm/target_arch_cpu.h
-index 05b19ce6119..905f13aa1b9 100644
---- a/bsd-user/arm/target_arch_cpu.h
-+++ b/bsd-user/arm/target_arch_cpu.h
-@@ -73,7 +73,7 @@ static inline void target_cpu_loop(CPUARMState *env)
-                     int32_t syscall_nr = n;
-                     int32_t arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8;
+diff --git a/bsd-user/qemu.h b/bsd-user/qemu.h
+index 49f01932a53..8ed1bfbca89 100644
+--- a/bsd-user/qemu.h
++++ b/bsd-user/qemu.h
+@@ -446,4 +446,6 @@ static inline void *lock_user_string(abi_ulong guest_addr)
  
--                    /* See arm/arm/trap.c cpu_fetch_syscall_args() */
-+                    /* See arm/arm/syscall.c cpu_fetch_syscall_args() */
-                     if (syscall_nr == TARGET_FREEBSD_NR_syscall) {
-                         syscall_nr = env->regs[0];
-                         arg1 = env->regs[1];
+ #include <pthread.h>
+ 
++#include "user/safe-syscall.h"
++
+ #endif /* QEMU_H */
+diff --git a/bsd-user/signal.c b/bsd-user/signal.c
+index db8cf0a08f1..454aef2993e 100644
+--- a/bsd-user/signal.c
++++ b/bsd-user/signal.c
+@@ -48,6 +48,18 @@ int target_to_host_signal(int sig)
+     return sig;
+ }
+ 
++/* Adjust the signal context to rewind out of safe-syscall if we're in it */
++static inline void rewind_if_in_safe_syscall(void *puc)
++{
++    ucontext_t *uc = (ucontext_t *)puc;
++    uintptr_t pcreg = host_signal_pc(uc);
++
++    if (pcreg > (uintptr_t)safe_syscall_start
++        && pcreg < (uintptr_t)safe_syscall_end) {
++        host_signal_set_pc(uc, (uintptr_t)safe_syscall_start);
++    }
++}
++
+ static bool has_trapno(int tsig)
+ {
+     return tsig == TARGET_SIGILL ||
+@@ -57,7 +69,6 @@ static bool has_trapno(int tsig)
+         tsig == TARGET_SIGTRAP;
+ }
+ 
+-
+ /* Siginfo conversion. */
+ 
+ /*
 -- 
 2.33.1
 
