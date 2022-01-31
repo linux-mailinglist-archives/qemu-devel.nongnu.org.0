@@ -2,88 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 50BE34A4BB0
-	for <lists+qemu-devel@lfdr.de>; Mon, 31 Jan 2022 17:19:43 +0100 (CET)
-Received: from localhost ([::1]:46156 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 40F294A4BC9
+	for <lists+qemu-devel@lfdr.de>; Mon, 31 Jan 2022 17:21:53 +0100 (CET)
+Received: from localhost ([::1]:50494 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nEZP3-0001vC-TI
-	for lists+qemu-devel@lfdr.de; Mon, 31 Jan 2022 11:19:42 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:57492)
+	id 1nEZRA-0004sm-Ai
+	for lists+qemu-devel@lfdr.de; Mon, 31 Jan 2022 11:21:52 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:57784)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nEZ4f-0003UK-BK; Mon, 31 Jan 2022 10:58:40 -0500
-Received: from [2a00:1450:4864:20::435] (port=34588
- helo=mail-wr1-x435.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nEZ4d-00048O-OZ; Mon, 31 Jan 2022 10:58:36 -0500
-Received: by mail-wr1-x435.google.com with SMTP id f17so26353636wrx.1;
- Mon, 31 Jan 2022 07:58:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=aeVM3OKGdh1yBMpgJYGt9f1C+fFFBFjn1JraQFkCh7M=;
- b=LCtcIjeFRtH1zPYVshUWxVj0BEIhKbt/HN8VTeNglj1G3u73RlDm1p9i3Y0f5Dgjek
- pmC95sVP4UU3RlbvNSzZ45EDQAkVaMJLS96jZAWBs3d3RvZPpKKkD1Xo/HGjTZNbpNRi
- HIQq3sFTiAKPgSeeayGUlcztS5S7ytFrjoNJllNqXsUkzB6R6swohw2u9K0sov2zcizy
- B1UWeKeHZsCXxKqWYW19b3lCoachU4JhokLSRACVu2Jz/jGhKMExFlwGE7JiHZ7RJfuU
- D16iA7EXMItZAIvk/Z0TOWVSVrCcijtndxmVCvXRUxgavjZP/ighhGMr4RIqprHtxPWU
- hbnA==
+ (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
+ id 1nEZ5p-0004kV-7b
+ for qemu-devel@nongnu.org; Mon, 31 Jan 2022 10:59:49 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:29260)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
+ id 1nEZ5k-0004Cz-RS
+ for qemu-devel@nongnu.org; Mon, 31 Jan 2022 10:59:46 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1643644783;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=sYAAG9sJWNXlGL03Gi0NkUm02lL4CA3To8NqIppTjPQ=;
+ b=WL3+UMkDVy2UjM5uLdUAZpt7Bqt9M2txdMGzGlD8URQpaZ3YLtl6vKE/qJWBmfUkxCLdD4
+ nDObf6TeJ95ShG06aTsiZX3fiTAAa3r+FOrQin1siZfJCgv9pcrlqJ1J6VAR6nXngDsTJO
+ r0B6kbsbnl+Y06wRZHq/2BXFC6SFWOA=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-412-NaeZ3tiKOJeeegIbk2n4-A-1; Mon, 31 Jan 2022 10:59:40 -0500
+X-MC-Unique: NaeZ3tiKOJeeegIbk2n4-A-1
+Received: by mail-ed1-f71.google.com with SMTP id
+ o5-20020a50c905000000b00403bbdcef64so6703631edh.14
+ for <qemu-devel@nongnu.org>; Mon, 31 Jan 2022 07:59:40 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=aeVM3OKGdh1yBMpgJYGt9f1C+fFFBFjn1JraQFkCh7M=;
- b=gakmRy7T2RS+Jy9fszBEJIG6veEq6pllQIPSlOiWi2HiZmX/wX+/SMnIyjMQaJl7Cp
- YDbBkcdkGPsDeMA4avKcLGJtoTl0Jj/P1T7zGyM/YUMEJVwQ7cPRYUtE3H9lBJ3TqxcA
- BW9oXyD9EGPSVmEEdjbbhUZOahc+uM1mHM22UefbkX55VXlFeRK2cCcqlFotD4bCH5ss
- cjhuh2H6qHYMMIXsDxYdQ42fgEsSqWQ3ZGEN9amIKFc878mrnT3DRkIiEmyLezmtZ9aH
- ultzSNAxt5Ap/EItVbH4OBwYT17qYMd0ZDGqlMP2CIqf3Wt1HFZ8lHb6Y/4lqh0HFf4b
- IL0w==
-X-Gm-Message-State: AOAM533TbDNSUqhyNFFXSK4tsCtt+h7FAXyhOnmHXRNbc6k33LfGPKNV
- Qq2fz4runsP8R7o8jBvRDhc=
-X-Google-Smtp-Source: ABdhPJzkw1lumS2Ji3SA9l8tbWc4H1uz9DsD1U43rmoLFPXH+uwrcqIlSbOiAEyROjF9xPdLCD53KQ==
-X-Received: by 2002:adf:c448:: with SMTP id a8mr18488656wrg.697.1643644713810; 
- Mon, 31 Jan 2022 07:58:33 -0800 (PST)
-Received: from ?IPV6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
- ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.googlemail.com with ESMTPSA id r2sm17119493wrz.99.2022.01.31.07.58.32
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 31 Jan 2022 07:58:33 -0800 (PST)
-Message-ID: <1653fd9d-e1e9-5f32-3bd1-62abecd09601@redhat.com>
-Date: Mon, 31 Jan 2022 16:58:32 +0100
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=sYAAG9sJWNXlGL03Gi0NkUm02lL4CA3To8NqIppTjPQ=;
+ b=TRwmbXpLIoFhb0Ra1x/5QV9hw14wiQH1sr8DWrNcT7pzg0OnmrZU5OmoKf3oPSE8wp
+ rcUsUMfWgiJJsA/pX3mYEigQHHsAyFwHnYVlmF7wXNNFfmU0KIObspuhcpGnbjhiIQkl
+ /eyQxWaySi/rOEFnLjB0UzbuD1GwDwGb+dI+oN4icCmexLKWdWSiHkpeouR6rp4WKlGZ
+ 1/S6rZsr2r7BE3yMKfj3V377DdJTjSc5xc1XX+YepJCHf2olgR30C1aIhJoxadCG51GM
+ ZL5sJMHB9F0N4nRSONksm9S2OruXf4OpuFkJBtMlGnhVk2nkh8ClDkYO0KFE43/gk2IW
+ a1Jg==
+X-Gm-Message-State: AOAM530F5TIEgr2fozirUc0Cv4SemyaRzIDs/YAo9h7L8E6zBwLS5FYb
+ LKk9YbgguzVSN1VEPEdw3VuXq/r3xZo7FLt8FWQMGVknbuwFSbGJlb/9MOuSJx0nOD8Vm7jQH89
+ b6RdE0ygq3C+lxdY=
+X-Received: by 2002:a17:907:1690:: with SMTP id
+ hc16mr18471033ejc.333.1643644779404; 
+ Mon, 31 Jan 2022 07:59:39 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwsAR8yrKkhtImb74DqxGlQCILrswSh9/6K7rt1Jkls4gsN0VF6KJ/9So33zhyyDPMiRlvslA==
+X-Received: by 2002:a17:907:1690:: with SMTP id
+ hc16mr18471006ejc.333.1643644779110; 
+ Mon, 31 Jan 2022 07:59:39 -0800 (PST)
+Received: from gator (cst2-173-70.cust.vodafone.cz. [31.30.173.70])
+ by smtp.gmail.com with ESMTPSA id gg14sm13585780ejb.63.2022.01.31.07.59.38
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 31 Jan 2022 07:59:38 -0800 (PST)
+Date: Mon, 31 Jan 2022 16:59:36 +0100
+From: Andrew Jones <drjones@redhat.com>
+To: Eric Auger <eric.auger@redhat.com>
+Subject: Re: [PATCH 2/2] tests/qtest: Special case sbsa-ref and
+ xlnx-versal-virt if !CONFIG_ARM_GIC_TCG
+Message-ID: <20220131155936.lm7jn32ihb2ndsf7@gator>
+References: <20220131154531.429533-1-eric.auger@redhat.com>
+ <20220131154531.429533-3-eric.auger@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH v6 02/33] include/block/block: split header into I/O and
- global state API
-Content-Language: en-US
-To: Kevin Wolf <kwolf@redhat.com>,
- Emanuele Giuseppe Esposito <eesposit@redhat.com>
-References: <20220121170544.2049944-1-eesposit@redhat.com>
- <20220121170544.2049944-3-eesposit@redhat.com> <YfJ7pbLDuwP2hgnw@redhat.com>
- <ac8b0576-4c03-4eb6-9ef6-c0a6b20b6184@redhat.com>
- <Yff4Dl6bpHhTxAfB@redhat.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-In-Reply-To: <Yff4Dl6bpHhTxAfB@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::435
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::435;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x435.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.248, NICE_REPLY_A=-0.001,
- PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+In-Reply-To: <20220131154531.429533-3-eric.auger@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=drjones@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=drjones@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.088,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -96,45 +98,76 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Eduardo Habkost <eduardo@habkost.net>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-block@nongnu.org, Juan Quintela <quintela@redhat.com>,
- John Snow <jsnow@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
- Daniel Henrique Barboza <danielhb413@gmail.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Markus Armbruster <armbru@redhat.com>, Greg Kurz <groug@kaod.org>,
- qemu-ppc@nongnu.org, =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
- Stefan Hajnoczi <stefanha@redhat.com>, "Denis V. Lunev" <den@openvz.org>,
- Eric Blake <eblake@redhat.com>, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: lvivier@redhat.com, peter.maydell@linaro.org, thuth@redhat.com,
+ f4bug@amsat.org, qemu-devel@nongnu.org, qemu-arm@nongnu.org,
+ pbonzini@redhat.com, eric.auger.pro@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/31/22 15:54, Kevin Wolf wrote:
-> So I guess the decision depends on what you're going to use the
-> categories in the future. I get the feeling that we have one more
-> category than this series introduces:
+On Mon, Jan 31, 2022 at 04:45:31PM +0100, Eric Auger wrote:
+> qom-test and test-hmp shall not run tests on sbsa-ref and
+> xlnx-versal-virt if CONFIG_ARM_GIC_TCG is unset as those machines
+> always instantiate GICv3.
 > 
-> * Global State (must run from the main thread/hold the BQL)
-> * I/O (can be called in any thread under the AioContext lock, doesn't
->    modify global state, drain waits for it to complete)
-> * Common (doesn't even touch global state)
-> * iothread dependent (can run without the BQL, but only in one specific
->    iothread while holding its AioContext lock; this would cover at least
->    AIO_WAIT_WHILE() and all of its indirect callers)
+> Otherwise the tests fail with
+> ERROR:../qom/object.c:715:object_new_with_type: assertion failed: (type != NULL)
+> 
+> Signed-off-by: Eric Auger <eric.auger@redhat.com>
+> Fixes: a8a5546798c3 ("hw/intc/arm_gicv3: Introduce CONFIG_ARM_GIC_TCG Kconfig selector")
+> ---
+>  tests/qtest/libqtest.c | 6 ++++++
+>  1 file changed, 6 insertions(+)
+> 
+> diff --git a/tests/qtest/libqtest.c b/tests/qtest/libqtest.c
+> index 41f4da4e54..f53983a28e 100644
+> --- a/tests/qtest/libqtest.c
+> +++ b/tests/qtest/libqtest.c
+> @@ -1394,6 +1394,12 @@ void qtest_cb_for_every_machine(void (*cb)(const char *machine),
+>              g_str_equal("xenpv", machines[i].name)) {
+>              continue;
+>          }
+> +#ifndef CONFIG_ARM_GIC_TCG
+> +        if (!strncmp("sbsa-ref", machines[i].name, 8) ||
+> +            !strncmp("xlnx-versal-virt", machines[i].name, 16)) {
+> +            continue;
+> +        }
+> +#endif
 
-Yes, I agree.
+Hmm, if these machine types completely depend on userspace gicv3
+emulation, i.e. no way to use in-kernel gic or another tcg gic
+model, then I guess they shouldn't be built at all when ARM_GIC_TCG
+isn't configured. I.e.
 
-bdrv_drained_begin and friends are somewhat like a coroutine-level 
-lock/unlock primitive, so they need to be available in both the main 
-thread and the iothread.  They could be called iothread dependent, 
-AioContext dependent, or perhaps "global or I/O".
+diff --git a/hw/arm/Kconfig b/hw/arm/Kconfig
+index 2e0049196d6c..d7cc028b049d 100644
+--- a/hw/arm/Kconfig
++++ b/hw/arm/Kconfig
+@@ -209,6 +209,7 @@ config REALVIEW
+ 
+ config SBSA_REF
+     bool
++    depends on ARM_GIC_TCG
+     imply PCI_DEVICES
+     select AHCI
+     select ARM_SMMUV3
+@@ -378,6 +379,7 @@ config XLNX_ZYNQMP_ARM
+ 
+ config XLNX_VERSAL
+     bool
++    depends on ARM_GIC_TCG
+     select ARM_GIC
+     select PL011
+     select CADENCE
 
-That said, even if they are a different category, I think it makes sense 
-to leave them in the same header file as I/O functions, because I/O 
-functions are locked out between drained_begin and drained_end.
 
-Paolo
+Thanks,
+drew
+
+>          if (!skip_old_versioned ||
+>              !qtest_is_old_versioned_machine(machines[i].name)) {
+>              cb(machines[i].name);
+> -- 
+> 2.26.3
+> 
+
 
