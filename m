@@ -2,85 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0196F4A5372
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Feb 2022 00:42:50 +0100 (CET)
-Received: from localhost ([::1]:59636 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8016F4A5387
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Feb 2022 00:50:16 +0100 (CET)
+Received: from localhost ([::1]:36684 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nEgJt-0001k0-58
-	for lists+qemu-devel@lfdr.de; Mon, 31 Jan 2022 18:42:49 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:33414)
+	id 1nEgR5-0005m3-1k
+	for lists+qemu-devel@lfdr.de; Mon, 31 Jan 2022 18:50:15 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:34462)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nEgIL-000145-Og
- for qemu-devel@nongnu.org; Mon, 31 Jan 2022 18:41:13 -0500
-Received: from [2607:f8b0:4864:20::102f] (port=33433
- helo=mail-pj1-x102f.google.com)
+ id 1nEgOw-0004Xh-5K
+ for qemu-devel@nongnu.org; Mon, 31 Jan 2022 18:48:02 -0500
+Received: from [2607:f8b0:4864:20::534] (port=44696
+ helo=mail-pg1-x534.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nEgIJ-0001Kl-Ta
- for qemu-devel@nongnu.org; Mon, 31 Jan 2022 18:41:13 -0500
-Received: by mail-pj1-x102f.google.com with SMTP id
- g11-20020a17090a7d0b00b001b2c12c7273so846443pjl.0
- for <qemu-devel@nongnu.org>; Mon, 31 Jan 2022 15:41:11 -0800 (PST)
+ id 1nEgOu-00028f-7I
+ for qemu-devel@nongnu.org; Mon, 31 Jan 2022 18:48:01 -0500
+Received: by mail-pg1-x534.google.com with SMTP id h23so13690327pgk.11
+ for <qemu-devel@nongnu.org>; Mon, 31 Jan 2022 15:47:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=hoHA0jnpbenk0L1wCxXnTJA6EPgG69AgIZOxa5K/Ypw=;
- b=TY5QZ3wlGz5jF976m8VM9kmG0+n6NMa4xpOoSeYXirw7hKHCdbMQoGdwM8T05vLKlQ
- KDEzVj2Pds0FobIWdeAle/DcmmJZTaFrOkV+2gYa4KlVlrzf8hGeKkvWEe15u54cJWwU
- QsAB2TMVcmhsUbTErnblMoHhMXUxhonrBn9yY1o2efFm/NnaS6tC/vLldYuid89fiQ0A
- n4rkQ2dfeUH6GQZDlvuz0NS3FyMtYrWOEWc3Q3FOokxKT74QqW29P7KBL/HsinGx5qeh
- 4Cjqj2wZCqbjPtuwJJfQi36v/BJHoUZy69wHHFUo48x7OEVgpSny2yJptY5zhATf9it5
- oAGA==
+ bh=jgArsUrz37iCvbWVgY4Vp6E0Oin8r6z/hyR89uevgz8=;
+ b=gdr8Hn53U6zWd7a5aP5WMHmaVGaoH4iSZHRVE8eYm8AG1PTlwT7CvKMtJ4qbLZngqo
+ g6SI736MF3peCPr3z8jOFmD8eSXC+Yw5JaTyPZXj5jAuxbB792xbKXAoQET46zBZ+n3R
+ DAMMUzTQLy4xhJCseXh+O9Czmz3Ya4WbH3lcAyXKpc2w50pOuyvkFXAfTAuxUUzmzWoU
+ MzOwjF1DS3MejRco+gH3qcJ+SHD3on/9HXdyKXW+XGEC1vMPByVW2pHF+VPbjvPaP+Nx
+ cprxNNw4x0jy9ZZ+qR/BjtyEB0H/cF2TjKS4Ar3CFuew6aYRcobzv+RcmjkxLfXwTuWv
+ C1+w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
  :subject:content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=hoHA0jnpbenk0L1wCxXnTJA6EPgG69AgIZOxa5K/Ypw=;
- b=j9jxHo7ZBT8frnl60vQcDCdzXJwJ+9I30BD9T9ikjzHtjk4zLPaFFcs89AjfLH1UDY
- Ec7rD8+lM9Z3vvquzP9LMzlxw+96rIea5fjUQyCbT0tS+K2O0IeCP+rEisFOv63PuN7j
- PPFGkKMxE13P/YkX+ujPgy9vUGic1jBBftW31VefACAb9hs+iovvnPKKhj7emLeImWVV
- RsRAshScUyaJIE2Ays/BZS75g2LBYEshANZYhjdEwKPRzs0v0Z5lfjc8CXuagpR9ovtM
- eM6KGdqTvAh7o4qz0pBKpBNF9L693lApRjrVo3gkiw7BdNPB2IVzqrPTdcQnzwQWzl3m
- 888A==
-X-Gm-Message-State: AOAM530hGWFS00r10zNasvb9SD0zeS8R06u2faXHL2HCHeyNwyP5ux+/
- zOCzzYxB3YIV9cXwxmZkfYs=
-X-Google-Smtp-Source: ABdhPJzLEE9sFmGJotLLq4pvt10V8UlxFEoO/eOWX9XN9cEp8cDiDi1/EIiv7OhaOgrEMTPzSjKb8Q==
-X-Received: by 2002:a17:90b:1c0f:: with SMTP id
- oc15mr29791513pjb.17.1643672470447; 
- Mon, 31 Jan 2022 15:41:10 -0800 (PST)
+ bh=jgArsUrz37iCvbWVgY4Vp6E0Oin8r6z/hyR89uevgz8=;
+ b=3aaaZl4i/m5WDaQVlujAUjJXCYmQnk2EzWOUr1UZScwkxNs0DopWY8hJrJiwQHFZZr
+ ToQ6PvxuDqUr9LH+qENPUxITvVCani91/0uFHugZV9GURr4OkCqVtG395jG2AJGVHX/3
+ 6CTd0NgYvshtomgX7JSW8EW9YIRdCHeWDxXbvQI5vEIgXm6csgjAA2ElYt937HQq/Dy3
+ 7Km+cnrpwG54smzzFP6q1rSjx95xix9bvICvYlwXGmrmyCc8VejG2GsMxZETmoSAKrri
+ BOF4XSBDGw0xX6pMw4H5gxAmHWHSkQUmatjF/beMXp5GOeseqwQW/C2v5LGETX+1f7oR
+ sjhg==
+X-Gm-Message-State: AOAM532RknprEp2rV7mJTREfJ3AAhyVyU0gkSOb1DmhvwLMjJff3dRXW
+ gwzhoplkM/fvuuebO2sCUcA=
+X-Google-Smtp-Source: ABdhPJzYiUxk4q8eJxOTXwWUiBL4HvrGI+AnV8jFziJCYmOs31+EhfvgKO45V+KE7wOCOLpb03UvZw==
+X-Received: by 2002:a63:285:: with SMTP id 127mr18472494pgc.67.1643672871119; 
+ Mon, 31 Jan 2022 15:47:51 -0800 (PST)
 Received: from [192.168.1.33] (154.red-83-50-83.dynamicip.rima-tde.net.
  [83.50.83.154])
- by smtp.gmail.com with ESMTPSA id kb18sm410793pjb.30.2022.01.31.15.41.08
+ by smtp.gmail.com with ESMTPSA id 79sm18909595pfv.117.2022.01.31.15.47.47
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 31 Jan 2022 15:41:10 -0800 (PST)
-Message-ID: <043a2316-1570-39a9-19ce-4764635574cb@amsat.org>
-Date: Tue, 1 Feb 2022 00:41:05 +0100
+ Mon, 31 Jan 2022 15:47:50 -0800 (PST)
+Message-ID: <f14f723c-f8a7-cd95-2854-69dddad56926@amsat.org>
+Date: Tue, 1 Feb 2022 00:47:46 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
  Gecko/20100101 Thunderbird/91.5.0
-Subject: Re: [RFC PATCH 2/2] hw/i386/sgx: Attach SGX-EPC to its memory backend
+Subject: Re: [PATCH v3 2/3] memory: Make memory_region_is_mapped() succeed
+ when mapped via an alias
 Content-Language: en-US
-To: Yang Zhong <yang.zhong@intel.com>
-Cc: qemu-devel@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Eduardo Habkost <eduardo@habkost.net>,
- Richard Henderson <richard.henderson@linaro.org>
-References: <20220116235331.103977-1-f4bug@amsat.org>
- <20220116235331.103977-3-f4bug@amsat.org>
- <c1a8eba5-b1a1-bbcf-c237-23e16ce88475@redhat.com>
- <20220123125230.GA981@yangzhon-Virtual>
-In-Reply-To: <20220123125230.GA981@yangzhon-Virtual>
+To: Niek Linnenbank <nieklinnenbank@gmail.com>
+Cc: David Hildenbrand <david@redhat.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, Peter Xu <peterx@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+References: <20211102164317.45658-1-david@redhat.com>
+ <20211102164317.45658-3-david@redhat.com>
+ <CAPan3Wpgm94iHRCz3uGvUZYV37W=e4_d7UMqc81hY1cxB-zs1w@mail.gmail.com>
+ <0039f019-2bf4-577c-2ab4-f0a2f6f5ef1b@amsat.org>
+ <CAPan3Wpg3TOvOCFauru9YPH4U4JW+9yyxHmy=sptmv5zpMifwg@mail.gmail.com>
+In-Reply-To: <CAPan3Wpg3TOvOCFauru9YPH4U4JW+9yyxHmy=sptmv5zpMifwg@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::102f
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::534
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102f;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pj1-x102f.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::534;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pg1-x534.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -107,92 +110,120 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
 From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
-On 23/1/22 13:52, Yang Zhong wrote:
-> On Mon, Jan 17, 2022 at 12:48:10PM +0100, Paolo Bonzini wrote:
->> On 1/17/22 00:53, Philippe Mathieu-Daudé via wrote:
->>> We have one SGX-EPC address/size/node per memory backend,
->>> make it child of the backend in the QOM composition tree.
->>>
->>> Cc: Yang Zhong <yang.zhong@intel.com>
->>> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
->>> ---
->>>   hw/i386/sgx.c | 3 +++
->>>   1 file changed, 3 insertions(+)
->>>
->>> diff --git a/hw/i386/sgx.c b/hw/i386/sgx.c
->>> index 5de5dd08936..6362e5e9d02 100644
->>> --- a/hw/i386/sgx.c
->>> +++ b/hw/i386/sgx.c
->>> @@ -300,6 +300,9 @@ void pc_machine_init_sgx_epc(PCMachineState *pcms)
->>>           /* set the memdev link with memory backend */
->>>           object_property_parse(obj, SGX_EPC_MEMDEV_PROP, list->value->memdev,
->>>                                 &error_fatal);
->>> +        object_property_add_child(OBJECT(list->value->memdev), "sgx-epc",
->>> +                                  OBJECT(obj));
->>> +
->>>           /* set the numa node property for sgx epc object */
->>>           object_property_set_uint(obj, SGX_EPC_NUMA_NODE_PROP, list->value->node,
->>>                                &error_fatal);
->>
->> I don't think this is a good idea; only list->value->memdev should
->> add something below itself in the tree.
->>
->> However, I think obj can be added under the machine itself as
->> /machine/sgx-epc-device[*].
->>
+On 31/1/22 20:20, Niek Linnenbank wrote:
+> Hi Philippe,
 > 
->    Philippe, Sorry I can't receive all Qemu mails from my mutt tool.
+> On Mon, Jan 31, 2022 at 12:29 AM Philippe Mathieu-Daudé <f4bug@amsat.org 
+> <mailto:f4bug@amsat.org>> wrote:
 > 
->    https://lists.nongnu.org/archive/html/qemu-devel/2022-01/msg03535.html
->    I verified this patch, and the issue was reported as below:
+>     Hi Niek!
 > 
->    Unexpected error in object_property_try_add() at ../qom/object.c:1224:
->    qemu-system-x86_64: attempt to add duplicate property 'sgx-epc' to object (type 'pc-q35-7.0-machine')
->    Aborted (core dumped)
+>     (+Mark FYI)
 > 
->    Even I changed it to another name, which still reported same kind of issue.
+>     On 30/1/22 23:50, Niek Linnenbank wrote:
+>      > Hi David,
+>      >
+>      > While I realize my response is quite late, I wanted to report
+>     this error
+>      > I found when running the acceptance
+>      > tests for the orangepi-pc machine using avocado:
 > 
->    I tried below patch as my previous patch, and it can work
->    diff --git a/hw/i386/sgx.c b/hw/i386/sgx.c
->    index d60485fc422..66444745b47 100644
->    --- a/hw/i386/sgx.c
->    +++ b/hw/i386/sgx.c
->    @@ -281,6 +281,7 @@ void pc_machine_init_sgx_epc(PCMachineState *pcms)
->         SGXEPCState *sgx_epc = &pcms->sgx_epc;
->         X86MachineState *x86ms = X86_MACHINE(pcms);
->         SgxEPCList *list = NULL;
->    +    int sgx_count = 0;
->         Object *obj;
+>     Unfortunately I only run the full SD/MMC tests when I send a SD/MMC pull
+>     request, so missed that here.
 > 
->         memset(sgx_epc, 0, sizeof(SGXEPCState));
->    @@ -297,7 +298,9 @@ void pc_machine_init_sgx_epc(PCMachineState *pcms)
->         for (list = x86ms->sgx_epc_list; list; list = list->next) {
->             obj = object_new("sgx-epc");
 > 
->    -        object_property_add_child(OBJECT(pcms), "sgx-epc", OBJECT(obj));
->    +        gchar *name = g_strdup_printf("device[%d]", sgx_count++);
+> I understand. These tests are behind the AVOCADO_ALLOW_LARGE_STORAGE 
+> flag in avocado, so I guess they
+> don't run on gitlab as well, but I'm not sure about that.
 
-Oops yes you are right... Fixed in v3!
+Indeed they don't run on GitLab due to that flag, but I run them locally
+before sending a SD/MMC pull request (along with older images that are
+not available anymore on the internet but are still in my local Avocado
+cache).
 
->    +        object_property_add_child(container_get(qdev_get_machine(), "/sgx-epc-device"),
->    +                                      name, obj);
->    
->             /* set the memdev link with memory backend */
->             object_property_parse(obj, SGX_EPC_MEMDEV_PROP, list->value->memdev,
+>      > Basically the two tests freeze during the part where the U-Boot
+>      > bootloader needs to detect the amount of memory. We model this in
+>     the
+>      > hw/misc/allwinner-h3-dramc.c file.
+>      > And when running the machine manually it shows an assert on
+>      > 'alias->mapped_via_alias >= 0'. When running manually via gdb, I was
+>      > able to collect this backtrace:
+>      >
+>      > $ gdb ./build/qemu-system-arm
+>      > ...
+>      > gdb) run -M orangepi-pc -nographic
+>      > ./Armbian_20.08.1_Orangepipc_bionic_current_5.8.5.img
+>      > ...
+>      > U-Boot SPL 2020.04-armbian (Sep 02 2020 - 10:16:13 +0200)
+>      > DRAM:
+>      > qemu-system-arm: ../softmmu/memory.c:2588:
+>     memory_region_del_subregion:
+>      > Assertion `alias->mapped_via_alias >= 0' failed.
+>     ...
+> 
+>      > So it seems that the hw/misc/allwinner-h3-dramc.c file is using
+>     the call
+>      > memory_region_set_address, where internally we are calling
+>      > memory_region_del_subregion.
+>      > The allwinner-h3-dramc.c file does use
+>      > memory_region_add_subregion_overlap once in the realize function,
+>     but
+>      > might use the memory_region_set_address multiple times.
+>      > It looks to me this is the path where the assert comes in. If I
+>     revert
+>      > this patch on current master, the machine boots without the
+>     assertion.
+>      >
+>      > Would you be able to help out how we can best resolve this?
+>     Ofcourse, if
+>      > there is anything needed to be changed on the
+>     allwinner-h3-dramc.c file,
+>      > I would be happy to prepare a patch for that.
+> 
+>     David's patch LGTM and I think your model might be somehow abusing the
+>     memory API, but I'd like to read on the DRAMCOM Control Register to
+>     understand the allwinner_h3_dramc_map_rows() logic. I couldn't find a
+>     reference looking at Allwinner_H3_Datasheet_V1.2.pdf.
+>     I wonder if we could ignore implementing it.
 > 
 > 
->    From the monitor,
->    (qemu) qom-list /machine/sgx-epc-device
->    type (string)
->    device[0] (child<sgx-epc>)
->    device[1] (child<sgx-epc>)
->    
->    This can normally show two sgx epc section devices.
->    
->    If you have new patch, I can help verify, thanks!
+> Yes David's fix using memory_region_add_subregion_common inside 
+> memory_region_readd_subregion resolves the issue indeed.
 
-Here you go for v3:
-https://lore.kernel.org/qemu-devel/20220131233507.334174-1-f4bug@amsat.org/
+Great.
+
+> Well the allwinner-h3-dramc.c module works OK for now, but it can 
+> certainly use improvements indeed.
+> And you're right, unfortunately the DRAMCOM device isn't documented in 
+> the datasheet as far as I know.
+
+OK :/
+
+>     Your use case is typically what I tried to solve with this model:
+>     https://lore.kernel.org/qemu-devel/20210419094329.1402767-2-f4bug@amsat.org/
+> 
+>     In your case, @span_size is your amount of DRAM, and @region_size is the
+>     area u-boot is scanning (and @offset is zero).
+>     Could that work, or is DRAMCOM doing much more?
+> 
+> 
+> The current model in allwinner-h3-dramc.c is roughly based on the code 
+> that is present in U-Boot in the file arm/arm/mach-sunxi/dram_sunxi_dw.c.
+> It implements the low-level initialization of the memory controller, and 
+> when running using Qemu the most important thing it needs to do is
+> detect the amount of memory. If it cannot accomplish this task, the 
+> U-Boot SPL won't boot properly or crash later. So what we have in
+> the allwinner-h3-dramc.c implementation comes from the information and 
+> code in the dram_sunxi_dw.c file in U-Boot, not the datasheet.
+
+OK, this is a good start point. I'll look at the memory accesses
+(certainly not today, but that problem is of my interest).
+
+> The proposal you send with span_size/region_size looks interesting 
+> indeed. It would be great if this could help
+> simplify the code in allwinner-h3-dramc.c. But it would require some 
+> effort to figure out if it can indeed replace the current
+> behavior.
 
 Regards,
 
