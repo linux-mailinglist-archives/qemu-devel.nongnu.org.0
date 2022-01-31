@@ -2,100 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3696D4A4889
-	for <lists+qemu-devel@lfdr.de>; Mon, 31 Jan 2022 14:46:25 +0100 (CET)
-Received: from localhost ([::1]:37464 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 06FFD4A48CA
+	for <lists+qemu-devel@lfdr.de>; Mon, 31 Jan 2022 14:55:16 +0100 (CET)
+Received: from localhost ([::1]:46700 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nEX0h-0004m1-VT
-	for lists+qemu-devel@lfdr.de; Mon, 31 Jan 2022 08:46:24 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:59496)
+	id 1nEX9G-0003PN-Iv
+	for lists+qemu-devel@lfdr.de; Mon, 31 Jan 2022 08:55:14 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:33240)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
- id 1nEWUP-0007Mn-Or; Mon, 31 Jan 2022 08:13:02 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:24554)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1nEWba-0002gx-G2
+ for qemu-devel@nongnu.org; Mon, 31 Jan 2022 08:20:27 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:25086)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
- id 1nEWU6-0007jx-5F; Mon, 31 Jan 2022 08:12:59 -0500
-Received: from pps.filterd (m0098394.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 20VCVnMQ019145; 
- Mon, 31 Jan 2022 13:12:25 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=from : to : cc : subject
- : in-reply-to : references : date : message-id : mime-version :
- content-type : content-transfer-encoding; s=pp1;
- bh=WdAbMORFk92iQWEt60shD/ePrUcejj9HATWDDpWvDJ8=;
- b=GOHxzrfMaMyacq9szR/yFogvPe51uCYdNjFfRqZQmKn2LF6F5/jPEZIObZuwOW0qrcX/
- 01+ZXXbwebDSRwbAFLtQZKJqX1X3AitmX+KzDQBtEffSuTsHJ0cZeoT8XB2kmFW1073i
- pbgNHkkKhQQmHIJN/EYtCgF5OPF5VpK/ZlI1YmN8g8e23kxkj2nbwHxbmDK6QKFPgiLD
- Oda8IrqfamIWLviMy7AgULkDZt5GQPaDV0lGFSc5Xe1+2x5yBYMGeBAEqLeYF21Iv8Oi
- m10R4acJQJjyJa/WhSkf+WGkoCCk4pXELU2qx+XJbfxCsk5+2PH7TpBWWJjsdWIKTmz0 2Q== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3dxfuvrwvm-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 31 Jan 2022 13:12:25 +0000
-Received: from m0098394.ppops.net (m0098394.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 20VCXl6d000811;
- Mon, 31 Jan 2022 13:12:24 GMT
-Received: from ppma01wdc.us.ibm.com (fd.55.37a9.ip4.static.sl-reverse.com
- [169.55.85.253])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3dxfuvrwv1-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 31 Jan 2022 13:12:24 +0000
-Received: from pps.filterd (ppma01wdc.us.ibm.com [127.0.0.1])
- by ppma01wdc.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 20VDCHtC014842;
- Mon, 31 Jan 2022 13:12:23 GMT
-Received: from b01cxnp22034.gho.pok.ibm.com (b01cxnp22034.gho.pok.ibm.com
- [9.57.198.24]) by ppma01wdc.us.ibm.com with ESMTP id 3dvw79u0cw-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 31 Jan 2022 13:12:23 +0000
-Received: from b01ledav004.gho.pok.ibm.com (b01ledav004.gho.pok.ibm.com
- [9.57.199.109])
- by b01cxnp22034.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 20VDCLoV18416024
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 31 Jan 2022 13:12:22 GMT
-Received: from b01ledav004.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id CBAC5112070;
- Mon, 31 Jan 2022 13:12:21 +0000 (GMT)
-Received: from b01ledav004.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 9B8E4112069;
- Mon, 31 Jan 2022 13:12:20 +0000 (GMT)
-Received: from localhost (unknown [9.211.96.126])
- by b01ledav004.gho.pok.ibm.com (Postfix) with ESMTPS;
- Mon, 31 Jan 2022 13:12:20 +0000 (GMT)
-From: Fabiano Rosas <farosas@linux.ibm.com>
-To: =?utf-8?Q?C=C3=A9dric?= Le Goater <clg@kaod.org>, qemu-ppc@nongnu.org,
- qemu-devel@nongnu.org
-Subject: Re: [PATCH v2] target/ppc: Remove support for the PowerPC 602 CPU
-In-Reply-To: <20220130172508.265144-1-clg@kaod.org>
-References: <20220130172508.265144-1-clg@kaod.org>
-Date: Mon, 31 Jan 2022 10:12:17 -0300
-Message-ID: <871r0odp72.fsf@linux.ibm.com>
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1nEWbW-0000jL-Eq
+ for qemu-devel@nongnu.org; Mon, 31 Jan 2022 08:20:24 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1643635220;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=52AADeGyYzojwAqbdTxrIwODO7NSerxUIXlVA85w45E=;
+ b=i463bL9W8KEeXLwasv3YFwm/EhmHgyLlT0yt4TR21tgWYHK2Fuzuwwtc7AAebeoVB4g/H2
+ 3dJI1+vrLBXHRbvYDzbjBSYFCc30sgmOIfolnXZiKcplIhwpslDDgw0MygAYdRN5n3RhVf
+ hybCLAeyykWtLAEopCOJ0ybc0v2rbr4=
+Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
+ [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-620-N4BSi8N8O12DaHDB-xbwXQ-1; Mon, 31 Jan 2022 08:20:18 -0500
+X-MC-Unique: N4BSi8N8O12DaHDB-xbwXQ-1
+Received: by mail-ej1-f71.google.com with SMTP id
+ gb4-20020a170907960400b0069d1ebc4538so5008093ejc.2
+ for <qemu-devel@nongnu.org>; Mon, 31 Jan 2022 05:20:18 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=52AADeGyYzojwAqbdTxrIwODO7NSerxUIXlVA85w45E=;
+ b=o7+MtNzQBH3L4JtVC7I6pWkLd5bBvQWD9akod86fp1njL7iu5BEWkrzWxpJBDfgwu1
+ 2WB//LE5jxIN0WZ1tQHuoIw2c8GnfS09F8YRkF+40XprqR4LlO/chxtJdLles7txoU/y
+ osdE1O/83n5MU23qnBOkp0koLABHCTopxvRQlFNpqj3i8853RUJHu8zxZZtWCybOSuMc
+ hYKw/ht3vOmaroA0y0Ml4ZM5XyePphxl+A8ye0sB2sraXORmF38lJjv/fdfbWF/7yYdi
+ LtzuYMU+hXtQD6N9pBpaPtfUyfvcLBmy5jIU/CVauMIq3elBfgf6KFycSXQLA6/Q+dwW
+ WnHg==
+X-Gm-Message-State: AOAM530A5P50A0y5TgtjjTbZsLSv/sPTynZi+9BJY/WTb018CgkwHAPn
+ RwpKQW7VB/6hCOrSsqKmJykeV+Xor4t7bUuF1dav5QkwZbqtkZwGKy0NSghMP5SfFruvMffP82h
+ KC+Fa8xAl6PbIR+w=
+X-Received: by 2002:a17:907:1c8a:: with SMTP id
+ nb10mr17101521ejc.273.1643635217539; 
+ Mon, 31 Jan 2022 05:20:17 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyrDFsoNBY3j1o4YvU1DtNTVPYC01KX9kgDNR6agQPOi3IsavHmyWxTtAkfW2TSlw8QDIEGEg==
+X-Received: by 2002:a17:907:1c8a:: with SMTP id
+ nb10mr17101496ejc.273.1643635217255; 
+ Mon, 31 Jan 2022 05:20:17 -0800 (PST)
+Received: from localhost (nat-pool-brq-t.redhat.com. [213.175.37.10])
+ by smtp.gmail.com with ESMTPSA id u1sm13370085ejj.215.2022.01.31.05.20.16
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 31 Jan 2022 05:20:16 -0800 (PST)
+Date: Mon, 31 Jan 2022 14:20:15 +0100
+From: Igor Mammedov <imammedo@redhat.com>
+To: Ani Sinha <ani@anisinha.ca>
+Subject: Re: [PATCH 3/4] acpi: fix OEM ID/OEM Table ID padding
+Message-ID: <20220131142015.5e73ff90@redhat.com>
+In-Reply-To: <CAARzgwyc4UkvDSfu_tg8PqvG9VUZWVuPgVv5NRWqAguJgc8Thw@mail.gmail.com>
+References: <20220112130332.1648664-1-imammedo@redhat.com>
+ <20220112130332.1648664-4-imammedo@redhat.com>
+ <CAARzgwyc4UkvDSfu_tg8PqvG9VUZWVuPgVv5NRWqAguJgc8Thw@mail.gmail.com>
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.31; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: vG8AP0tHguwlr91_VLgH1M9H51APMv6U
-X-Proofpoint-ORIG-GUID: P0iiFGmWSGn9PWs0iLBx2sMWE3HvgGtD
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.816,Hydra:6.0.425,FMLib:17.11.62.513
- definitions=2022-01-31_05,2022-01-28_01,2021-12-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 adultscore=0
- bulkscore=0 mlxlogscore=999 mlxscore=0 priorityscore=1501
- lowpriorityscore=0 suspectscore=0 clxscore=1011 malwarescore=0
- phishscore=0 spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2201110000 definitions=main-2201310088
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=farosas@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -9
-X-Spam_score: -1.0
-X-Spam_bar: -
-X-Spam_report: (-1.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- TVD_SUBJ_WIPE_DEBT=1.004,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=imammedo@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.088,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -108,22 +101,85 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?utf-8?Q?V=C3=ADctor?= Colombo <victor.colombo@eldorado.org.br>,
- Daniel Henrique Barboza <danielhb413@gmail.com>, Greg Kurz <groug@kaod.org>,
- David Gibson <david@gibson.dropbear.id.au>,
- =?utf-8?Q?C=C3=A9dric?= Le Goater <clg@kaod.org>
+Cc: qemu-stable@nongnu.org, "Michael S
+ . Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
+ "Dmitry V . Orekhov" <dima.orekhov@gmail.com>,
+ Marian Postevca <posteuca@mutex.one>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-C=C3=A9dric Le Goater <clg@kaod.org> writes:
+On Mon, 31 Jan 2022 11:47:00 +0530
+Ani Sinha <ani@anisinha.ca> wrote:
 
-> The 602 was derived from the PowerPC 603, for the gaming market it
-> seems. It was hardly used and no firmware supporting the CPU could be
-> found. Drop support.
->
-> Cc: Fabiano Rosas <farosas@linux.ibm.com>
-> Cc: V=C3=ADctor Colombo <victor.colombo@eldorado.org.br>
-> Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
+> On Wed, Jan 12, 2022 at 6:33 PM Igor Mammedov <imammedo@redhat.com> wrote:
+> >
+> > Commit [2] broke original '\0' padding of OEM ID and OEM Table ID
+> > fields in headers of ACPI tables. While it doesn't have impact on
+> > default values since QEMU uses 6 and 8 characters long values
+> > respectively, it broke usecase where IDs are provided on QEMU CLI.
+> > It shouldn't affect guest (but may cause licensing verification
+> > issues in guest OS).
+> > One of the broken usecases is user supplied SLIC table with IDs
+> > shorter than max possible length, where [2] mangles IDs with extra
+> > spaces in RSDT and FADT tables whereas guest OS expects those to
+> > mirror the respective values of the used SLIC table.
+> >
+> > Fix it by replacing whitespace padding with '\0' padding in
+> > accordance with [1] and expectations of guest OS
+> >
+> > 1) ACPI spec, v2.0b
+> >        17.2 AML Grammar Definition
+> >        ...
+> >        //OEM ID of up to 6 characters. If the OEM ID is
+> >        //shorter than 6 characters, it can be terminated
+> >        //with a NULL character.  
+> 
+> On the other hand, from
+> https://uefi.org/specs/ACPI/6.4/21_ACPI_Data_Tables_and_Table_Def_Language/ACPI_Data_Tables.html
+> ,
+> 
+> "For example, the OEM ID and OEM Table ID in the common ACPI table
+> header (shown above) are fixed at six and eight characters,
+> respectively. They are not necessarily null terminated"
+> 
+> I also checked version 5 and the verbiage is the same. I think not
+> terminating with a null is not incorrect.
 
-Reviewed-by: Fabiano Rosas <farosas@linux.ibm.com>
+I have a trouble with too much 'not' within the sentence.
+So what's the point of this comment and how it's related to
+this patch?
+
+
+
+> > 2)
+> > Fixes: 602b458201 ("acpi: Permit OEM ID and OEM table ID fields to be changed")
+> > Resolves: https://gitlab.com/qemu-project/qemu/-/issues/707
+> > Reported-by: Dmitry V. Orekhov <dima.orekhov@gmail.com>
+> > Signed-off-by: Igor Mammedov <imammedo@redhat.com>
+> > Cc: qemu-stable@nongnu.org
+> > ---
+> >  hw/acpi/aml-build.c | 4 ++--
+> >  1 file changed, 2 insertions(+), 2 deletions(-)
+> >
+> > diff --git a/hw/acpi/aml-build.c b/hw/acpi/aml-build.c
+> > index b3b3310df3..65148d5b9d 100644
+> > --- a/hw/acpi/aml-build.c
+> > +++ b/hw/acpi/aml-build.c
+> > @@ -1724,9 +1724,9 @@ void acpi_table_begin(AcpiTable *desc, GArray *array)
+> >      build_append_int_noprefix(array, 0, 4); /* Length */
+> >      build_append_int_noprefix(array, desc->rev, 1); /* Revision */
+> >      build_append_int_noprefix(array, 0, 1); /* Checksum */
+> > -    build_append_padded_str(array, desc->oem_id, 6, ' '); /* OEMID */
+> > +    build_append_padded_str(array, desc->oem_id, 6, '\0'); /* OEMID */
+> >      /* OEM Table ID */
+> > -    build_append_padded_str(array, desc->oem_table_id, 8, ' ');
+> > +    build_append_padded_str(array, desc->oem_table_id, 8, '\0');
+> >      build_append_int_noprefix(array, 1, 4); /* OEM Revision */
+> >      g_array_append_vals(array, ACPI_BUILD_APPNAME8, 4); /* Creator ID */
+> >      build_append_int_noprefix(array, 1, 4); /* Creator Revision */
+> > --
+> > 2.31.1
+> >  
+> 
+
 
