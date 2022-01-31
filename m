@@ -2,63 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C17744A49C7
-	for <lists+qemu-devel@lfdr.de>; Mon, 31 Jan 2022 16:00:50 +0100 (CET)
-Received: from localhost ([::1]:56456 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C17984A49A3
+	for <lists+qemu-devel@lfdr.de>; Mon, 31 Jan 2022 15:47:43 +0100 (CET)
+Received: from localhost ([::1]:36040 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nEYAh-0004b0-Se
-	for lists+qemu-devel@lfdr.de; Mon, 31 Jan 2022 10:00:47 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:54356)
+	id 1nEXy2-0006E4-Rf
+	for lists+qemu-devel@lfdr.de; Mon, 31 Jan 2022 09:47:42 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:55936)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1nEXkc-0002Eq-FA
- for qemu-devel@nongnu.org; Mon, 31 Jan 2022 09:33:50 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:60870)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1nEXnl-0005t7-3c
+ for qemu-devel@nongnu.org; Mon, 31 Jan 2022 09:37:07 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:35893)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1nEXkY-0004GF-Vu
- for qemu-devel@nongnu.org; Mon, 31 Jan 2022 09:33:49 -0500
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1nEXni-00053q-VG
+ for qemu-devel@nongnu.org; Mon, 31 Jan 2022 09:37:04 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1643639609;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ s=mimecast20190719; t=1643639822;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=TiG6lRaR6ZV4VdAISxfqwMt+gZpK7/yywW8DdmKMbE4=;
- b=abMCrDQZzbt84FVIoNLuL0+O+NuFXu5ZbTZM//BxEUTU+HFajt54jfCvwEmYBBgQ5ftv1G
- ogzD4km5r6uDhaYZ9QDXdDXERThmsj78th6kPsnQES97HG6QsxjynZwKUS+qY1TdtnLV5W
- r4hjclrySX2d6Bx7GYXqn26Yl5VR/P0=
+ bh=SfUZbFsc4WuOzu6DOQ49CQTlGmkwAebZrueU69dCSKM=;
+ b=DZFFe6+aj4FI7//CHxuY/0ZrI4L+eMX+q0MkKw3rkpxFdcCPtlkKlR0mXdWrAJe5xy+BDy
+ ESVd7Y+05Hx3FN24iJu6Ch66nYUtPP65+OtQiq4ERULIqenxi5cW6ntcJ/NetN6GqbMaAl
+ rYXKv50gwO2DAniQDkexeOn+/cSQs7E=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-100-Qfb06u_5MmuKlvDJ2Oybpw-1; Mon, 31 Jan 2022 09:33:26 -0500
-X-MC-Unique: Qfb06u_5MmuKlvDJ2Oybpw-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-526-6H9hSZTbNDySHdqi_yGgpg-1; Mon, 31 Jan 2022 09:36:55 -0500
+X-MC-Unique: 6H9hSZTbNDySHdqi_yGgpg-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B167C363A9;
- Mon, 31 Jan 2022 14:33:23 +0000 (UTC)
-Received: from redhat.com (unknown [10.39.193.138])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 0AA8B6E212;
- Mon, 31 Jan 2022 14:33:18 +0000 (UTC)
-Date: Mon, 31 Jan 2022 15:33:17 +0100
-From: Kevin Wolf <kwolf@redhat.com>
-To: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-Subject: Re: [PATCH v6 01/33] main-loop.h: introduce qemu_in_main_thread()
-Message-ID: <YffzLaIhjgfBkcXf@redhat.com>
-References: <20220121170544.2049944-1-eesposit@redhat.com>
- <20220121170544.2049944-2-eesposit@redhat.com>
- <YfJ6dsVcmB4Uc2rO@redhat.com>
- <7ada78d2-0978-8f5a-f0f8-318d2f26ba41@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CDE481080865;
+ Mon, 31 Jan 2022 14:36:54 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.195.62])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 23DCA72436;
+ Mon, 31 Jan 2022 14:36:48 +0000 (UTC)
+Date: Mon, 31 Jan 2022 14:36:46 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Kashyap Chamarthy <kchamart@redhat.com>
+Subject: Re: [PATCH v2] docs: expand firmware descriptor to allow flash
+ without NVRAM
+Message-ID: <Yffz/v/7b6jJOBwi@redhat.com>
+References: <20220131125509.170307-1-berrange@redhat.com>
+ <YffrgRRVCEWVLS41@paraplu>
 MIME-Version: 1.0
-In-Reply-To: <7ada78d2-0978-8f5a-f0f8-318d2f26ba41@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+In-Reply-To: <YffrgRRVCEWVLS41@paraplu>
+User-Agent: Mutt/2.1.5 (2021-12-30)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -79,123 +84,161 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, qemu-devel@nongnu.org,
- "Denis V. Lunev" <den@openvz.org>, Eric Blake <eblake@redhat.com>,
- qemu-block@nongnu.org, Juan Quintela <quintela@redhat.com>,
- Daniel Henrique Barboza <danielhb413@gmail.com>,
- Markus Armbruster <armbru@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, Greg Kurz <groug@kaod.org>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>,
- Stefan Hajnoczi <stefanha@redhat.com>, John Snow <jsnow@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>,
- Eduardo Habkost <eduardo@habkost.net>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>,
- Hanna Reitz <hreitz@redhat.com>, qemu-ppc@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: libvir-list@redhat.com, qemu-devel@nongnu.org,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 31.01.2022 um 12:25 hat Emanuele Giuseppe Esposito geschrieben:
-> 
-> 
-> On 27/01/2022 11:56, Kevin Wolf wrote:
-> > Am 21.01.2022 um 18:05 hat Emanuele Giuseppe Esposito geschrieben:
-> >> When invoked from the main loop, this function is the same
-> >> as qemu_mutex_iothread_locked, and returns true if the BQL is held.
+On Mon, Jan 31, 2022 at 03:00:33PM +0100, Kashyap Chamarthy wrote:
+> On Mon, Jan 31, 2022 at 12:55:09PM +0000, Daniel P. Berrangé wrote:
+> > The current firmware descriptor schema for flash requires that both the
+> > executable to NVRAM template paths be provided. This is fine for the
+> > most common usage of EDK2 builds in virtualization where the separate
+> > _CODE and _VARS files are provided.
 > > 
-> > So its name is misleading because it doesn't answer the question whether
-> > we're in the main thread, but whethere we're holding the BQL (which is
-> > mostly equivalent to holding an AioContext lock, not being in the home
-> > thread of that AioContext).
+> > With confidential computing technology like AMD SEV, persistent storage
+> > of variables may be completely disabled because the firmware requires a
+> > known clean state on every cold boot. There is no way to express this
+> > in the firmware descriptor today.
 > > 
-> >> When invoked from iothreads or tests, it returns true only
-> >> if the current AioContext is the Main Loop.
-> >>
-> >> This essentially just extends qemu_mutex_iothread_locked to work
-> >> also in unit tests or other users like storage-daemon, that run
-> >> in the Main Loop but end up using the implementation in
-> >> stubs/iothread-lock.c.
-> >>
-> >> Using qemu_mutex_iothread_locked in unit tests defaults to false
-> >> because they use the implementation in stubs/iothread-lock,
-> >> making all assertions added in next patches fail despite the
-> >> AioContext is still the main loop.
-> >>
-> >> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-> >> Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+> > Even with regular EDK2 builds it is possible to create a firmware that
+> > has both executable code and variable persistence in a single file. This
+> > hasn't been commonly used, since it would mean every guest bootup would
+> > need to clone the full firmware file, leading to redundant duplicate
+> > storage of the code portion. In some scenarios this may not matter and
+> > might even be beneficial. For example if a public cloud allows users to
+> > bring their own firmware, such that the user can pre-enroll their own
+> > secure boot keys, you're going to have this copied on disk for each
+> > tenant already. At this point the it can be simpler to just deal with
+> > a single file rather than split builds. The firmware descriptor ought
+> > to be able to express this combined firmware model too.
+> 
+> Cool, TIL that it's possible to include both the executable and the
+> variables file into a single file.
+> 
+> I briefly wondered if in this "combined" mode whether the no. of
+> duplicate copies can ever fill up the storage.  I doubt that, as the
+> combined size of _VARS + _CODE is just about 2MB.  So it only starts
+> mattering if you're running tens of thousands of guests.
+
+When guest root / data disk sizes are measured in 100's of MB, or
+GBs, I struggle to get worried about even a 16 MB OVMF  blob being
+copied per guest.
+
+The firmware can be provided in qcow2 format too, so if really
+concerned, just create a qcow2 file with a backing store pointing
+to the readonly master, so you're only paying the price of the
+delta for any guest VARs writes. That's more efficient than what
+we do today with copying the separate raw format VARS.fd file.
+
+> > This all points towards expanding the schema for flash with a 'mode'
+> > concept:
 > > 
-> > This adds a new function that is almost the same as an existing
-> > function, but the documentation is unclear when I should use one or the
-> > other.
+> >  - "split" - the current implicit behaviour with separate files
+> >    for code and variables.
+> > 
+> >  - "combined" - the alternate behaviour where a single file contains
+> >    both code and variables.
+> > 
+> >  - "stateless" - the confidential computing use case where storage
+> >    of variables is completely disable, leaving only the code.
+> >
+> > Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> > Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+> > ---
+> >  docs/interop/firmware.json | 54 ++++++++++++++++++++++++++++++++------
+> >  1 file changed, 46 insertions(+), 8 deletions(-)
+> > 
+> > In v2:
+> > 
+> >  - Mark 'mode' as optional field
+> >  - Misc typos in docs
+> > 
+> > diff --git a/docs/interop/firmware.json b/docs/interop/firmware.json
+> > index 8d8b0be030..f5d1d0b6e7 100644
+> > --- a/docs/interop/firmware.json
+> > +++ b/docs/interop/firmware.json
+> > @@ -210,24 +210,61 @@
+> >    'data'   : { 'filename' : 'str',
+> >                 'format'   : 'BlockdevDriver' } }
+> >  
+> > +
+> > +##
+> > +# @FirmwareFlashType:
+> > +#
+> > +# Describes how the firmware build handles code versus variable
+> > +# persistence.
+> > +#
+> > +# @split: the executable file contains code while the NVRAM
+> > +#         template provides variable storage. The executable
+> > +#         must be configured read-only and can be shared between
+> > +#         multiple guests. The NVRAM template must be cloned
+> > +#         for each new guest and configured read-write.
+> > +#
+> > +# @combined: the executable file contains both code and
+> > +#            variable storage. The executable must be cloned
+> > +#            for each new guest and configured read-write.
+> > +#            No NVRAM template will be specified.
 > 
-> Why do you think it is unclear? as explained in commit and
-> documentation, unit tests for example use stubs/iothread-lock, which
-> returns always false. So we can (and should!) use this function in
-> APIs invoked by unit tests, because qemu_mutex_iothread_locked will
-> just return false, making all tests crash. On the other side, I am
-> pretty sure it won't cause any failure when running QEMU or
-> qemu-iotests, because there most of the API use the cpu
-> implementation.
+> Given my above wondering, is it worth adding a note here about storage
+> considerations when running large number of guests in the "combined"
+> mode?  If not, ignore my comment.
 
-I feel "use this function if your code is going to be used by unit
-tests, but use qemu_mutex_iothread_locked() otherwise" is a very strange
-interface. I'm relatively sure that qemu_mutex_iothread_locked() isn't
-primarily used to make unit tests crash.
+I don't think its worth worrying about.
 
-Documentation and the definition of the interface of a function
-shouldn't be about the caller, but about the semantics of the function
-itself. So, which question does qemu_mutex_iothread_locked() answer, and
-which question does qemu_in_main_thread() answer?
-
-The meaning of their result must be different, otherwise there wouldn't
-be two different functions that must be used in different contexts.
-
-> > What are the use cases for the existing qemu_mutex_iothread_locked()
-> > stub where we rely on false being returned?
 > 
-> I don't think we ever rely on stub being false. There are only 2
-> places where I see !qemu_mutex_iothread_locked(), and are in
-> helper_regs.c and cpus.c
+> > +# @stateless: the executable file contains code and variable
+> > +#             storage is not persisted. The executed must
 > 
-> So being cpu related functions they use the cpu implementation.
+> I guess you meant: s/executed/executable/
+
+Opp yes.
+
+> Whoever is applying the patch can touch it up.
 > 
-> However, commit 5f50be9b5810293141bb53cfd0cb46e765367d56 changed the
-> stub to return false for a specific reason.
-
-I must admit I don't really understand the reasoning there:
-
-    With this change, the stub qemu_mutex_iothread_locked() must be changed
-    from true to false.  The previous value of true was needed because the
-    main thread did not have an AioContext in the thread-local variable,
-    but now it does have one.
-
-This explains why it _can_ be changed to false for this caller, but not
-why it _must_ be changed.
-
-> > If there aren't any, then maybe we should change the stub for that one
-> > instead of adding a new function that behaves the same in the system
-> > emulator and different only when it's stubbed out?
+> > +#             be configured read-only and can be shared
+> > +#             between multiple guests. No NVRAM template
+> > +#             will be specified.
+> > +#
+> > +# Since: 7.0.0
+> > +##
+> > +{ 'enum': 'FirmwareFlashMode',
+> > +  'data': [ 'split', 'combined', 'stateless' ] }
+> > +
+> >  ##
+> >  # @FirmwareMappingFlash:
+> >  #
+> >  # Describes loading and mapping properties for the firmware executable
+> >  # and its accompanying NVRAM file, when @FirmwareDevice is @flash.
+> >  #
+> > -# @executable: Identifies the firmware executable. The firmware
+> > -#              executable may be shared by multiple virtual machine
+> > -#              definitions. The preferred corresponding QEMU command
+> > -#              line options are
+> > +# @mode: describes how the firmware build handles code versus variable
+> > +#        storage. If not present, it must be treated as if it was
+> > +#        configured with value ``split``. Since: 7.0.0
 > 
-> I don't think we can replace it, bcause stubs/qemu_in_main_thread()
-> calls qemu_get_current_aio_context, that in turn calls
-> qemu_mutex_iothread_locked. So we implicitly rely on that "false".
+> For consistency, might want to capitalize the first word:
+> s/describes/Describes/
 
-qemu_get_current_aio_context() will just return my_aiocontext, which is
-qemu_aio_context because all tools call qemu_init_main_loop(). I don't
-think it will ever call qemu_mutex_iothread_locked() in tools, except
-for worker threads.
+Yep
 
-Ooh, and that's why we return false. Because the only kind of non-main
-threads accessing global state in tools are worker threads which never
-hold the BQL in the system emulator.
+> 
+> (Here too, maintainer can touch it up.)
+> 
+> [...]
+> 
+> The concept looks very clear, and obviously useful.  FWIW:
+> 
+>     Reviewed-by: Kashyap Chamarthy <kchamart@redhat.com>    
 
-So is the problem with the unit tests really just that they never call
-qemu_init_main_loop() and therefore never set the AioContext for the
-main thread?
-
-Kevin
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
