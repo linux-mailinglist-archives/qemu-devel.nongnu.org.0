@@ -2,95 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 686AF4A3E5A
-	for <lists+qemu-devel@lfdr.de>; Mon, 31 Jan 2022 08:50:18 +0100 (CET)
-Received: from localhost ([::1]:40972 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D7A9C4A3E4C
+	for <lists+qemu-devel@lfdr.de>; Mon, 31 Jan 2022 08:44:06 +0100 (CET)
+Received: from localhost ([::1]:38892 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nERS4-0002xI-Sl
-	for lists+qemu-devel@lfdr.de; Mon, 31 Jan 2022 02:50:17 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:40698)
+	id 1nERM5-0001C5-R0
+	for lists+qemu-devel@lfdr.de; Mon, 31 Jan 2022 02:44:05 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:44374)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nEQmA-0003VV-CP
- for qemu-devel@nongnu.org; Mon, 31 Jan 2022 02:06:58 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:54608)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1nERE9-0007Ty-Fo
+ for qemu-devel@nongnu.org; Mon, 31 Jan 2022 02:35:58 -0500
+Received: from us-smtp-delivery-44.mimecast.com ([207.211.30.44]:37864)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nEQm6-00049s-Au
- for qemu-devel@nongnu.org; Mon, 31 Jan 2022 02:06:56 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1643612809;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=TEhxUEz/R3JCNXm2vbGzYZ73rOrlFjOzct9okqtc21w=;
- b=W6Q5p/NAawfiaVSlMw+Keliwctrt5hO55+XX7m5sAycX/C8vdhGnMLzqTM9gq80ULxH3ea
- R2M5Ny8AcYrq9rDywqHi3pQimqux0er+Rl+QQCNR5AYD8OEoIfABGfZwOrzjjmVk7UeFUr
- Ed6NUhfwvrzaht4jaOSrm9CjMIaAeVg=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1nERDx-0007iX-OG
+ for qemu-devel@nongnu.org; Mon, 31 Jan 2022 02:35:43 -0500
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-482-Zi-vAz-xN-KpJVvtJNvRvg-1; Mon, 31 Jan 2022 02:06:48 -0500
-X-MC-Unique: Zi-vAz-xN-KpJVvtJNvRvg-1
-Received: by mail-wr1-f69.google.com with SMTP id
- b3-20020a5d4b83000000b001d676462248so4427126wrt.17
- for <qemu-devel@nongnu.org>; Sun, 30 Jan 2022 23:06:48 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=TEhxUEz/R3JCNXm2vbGzYZ73rOrlFjOzct9okqtc21w=;
- b=zHjpDf60Hx9P2+inbwNLM5u0/2Kik1UmIkX0LQA8O/wqERJcAP3PCgYIjQ+mMfyYgK
- VusYz7WX+RUN7kYizjKrAyXGAlzE1MMAZ+iY5vqPLbNxCgmh2SRN2LWQS4Hr932JzqIR
- eV8Q89RWXklgh0scDA1gkdfeHp8etEumqOz0mmldQnXNcaSpBKtDYWWLFUX5IlbyPhKt
- qdyxujiGBtLKchqikTBGL+Gt0x6EzIq/riCirTi28niEv7+EzlPj7Y4X+2AqDxxmN93a
- RFvijdg/BhgwG4QxQgn8c3BTD4T3Et/SpOMfacwaOIjKbRAYJd/THmXGTaCVcTDqd1ei
- 1WlA==
-X-Gm-Message-State: AOAM533e3SsiYHCFp9vsjTgV/fXFqIbdN/sjD0vJ7plp+8SXZKQxtT5M
- 7W2km7bsSLjg8UWFoVxAm4TVuxST8Cdr6dEF8XBHHy0FTToc11K8t+uGJTH7fbkmYTK5NAs2xbC
- PJYX09M9LAtuafjQ=
-X-Received: by 2002:a05:600c:1d14:: with SMTP id
- l20mr16713005wms.182.1643612807536; 
- Sun, 30 Jan 2022 23:06:47 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwC8cLKm5/m77HSTFVz/Am33Uq3TMNr6p2wKBZ4/9DzicVq4BWJpSu7zMEYaQYAq1nLnZOpqA==
-X-Received: by 2002:a05:600c:1d14:: with SMTP id
- l20mr16712961wms.182.1643612806885; 
- Sun, 30 Jan 2022 23:06:46 -0800 (PST)
-Received: from [192.168.8.100] (tmo-096-196.customers.d1-online.com.
- [80.187.96.196])
- by smtp.gmail.com with ESMTPSA id 16sm7976897wmj.12.2022.01.30.23.06.45
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 30 Jan 2022 23:06:46 -0800 (PST)
-Message-ID: <ba4b4c1e-3328-4375-b877-9eec06f04ff1@redhat.com>
-Date: Mon, 31 Jan 2022 08:06:44 +0100
+ us-mta-151-6paJSv4CMKKKVnFDjtO3uw-1; Mon, 31 Jan 2022 02:35:28 -0500
+X-MC-Unique: 6paJSv4CMKKKVnFDjtO3uw-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 43DE3801B04;
+ Mon, 31 Jan 2022 07:35:27 +0000 (UTC)
+Received: from bahia (unknown [10.39.192.158])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id F21D31F2EB;
+ Mon, 31 Jan 2022 07:35:25 +0000 (UTC)
+Date: Mon, 31 Jan 2022 08:35:24 +0100
+From: Greg Kurz <groug@kaod.org>
+To: Christian Schoenebeck <qemu_oss@crudebyte.com>
+Subject: Re: [PATCH] tests/9pfs: Use g_autofree and g_autoptr where possible
+Message-ID: <20220131083524.4a5d5a8d@bahia>
+In-Reply-To: <4981516.0zRxyBk1fS@silver>
+References: <20220126171136.672657-1-groug@kaod.org>
+ <2336064.2jqZdHoEpY@silver> <4981516.0zRxyBk1fS@silver>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: build-oss-fuzz CI job often times out
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- Peter Maydell <peter.maydell@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>, Alexander Bulekov <alxndr@bu.edu>
-References: <CAFEAcA8V0jAjv1HS8QRa9AQHCxg=BVVH_jYVMYUVSP-Szstq-Q@mail.gmail.com>
- <7a56fef0-0ac0-f4d5-eae7-23028e49d2bb@amsat.org>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <7a56fef0-0ac0-f4d5-eae7-23028e49d2bb@amsat.org>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=groug@kaod.org
 X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.088,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Mimecast-Originator: kaod.org
+Content-Type: text/plain; charset=WINDOWS-1252
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: softfail client-ip=207.211.30.44; envelope-from=groug@kaod.org;
+ helo=us-smtp-delivery-44.mimecast.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
+ SPF_HELO_NONE=0.001, SPF_SOFTFAIL=0.665,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -103,36 +67,103 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Darren Kenny <darren.kenny@oracle.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Beraldo Leal <bleal@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>
+Cc: Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-> On 29/1/22 14:34, Peter Maydell wrote:
->> Hi; the build-oss-fuzz gitlab CI job seems to intermittently
->> but quite commonly hit the 1 hour timeout mark and get killed.
->> Examples from the last couple of days:
->>
->> https://gitlab.com/qemu-project/qemu/-/jobs/2030815488
->> https://gitlab.com/qemu-project/qemu/-/jobs/2029246068
->> https://gitlab.com/qemu-project/qemu/-/jobs/2029013479
->> https://gitlab.com/qemu-project/qemu/-/jobs/2024871970
->> https://gitlab.com/qemu-project/qemu/-/jobs/2022584981
->>
->> Can we do anything to cut down on the runtime of this job
->> and make it reliably complete inside the time limit?
+On Sat, 29 Jan 2022 13:33:59 +0100
+Christian Schoenebeck <qemu_oss@crudebyte.com> wrote:
 
-All the jobs that you've listed hang in the very same test 
-(qtest-i386/boot-serial-test), so I assume it's rather a test that now hangs 
-occasionally, and not a generic slowness (otherwise the jobs would fail 
-sometimes earlier, sometimes later).
+> On Freitag, 28. Januar 2022 12:49:58 CET Christian Schoenebeck wrote:
+> > On Mittwoch, 26. Januar 2022 18:11:36 CET Greg Kurz wrote:
+> > > The template pointer in virtio_9p_create_local_test_dir() is leaked.
+> > > Add the g_autofree annotation to fix that. While here, convert the
+> > > rest of the virtio 9p test code to using g_autofree or g_autoptr
+> > > where possible, since this is the preferred approach to avoid potenti=
+al
+> > > leaks in the future.
+> > >=20
+> > > Based-on:
+> > > <f6602123c6f7d0d593466231b04fba087817abbd.1642879848.git.qemu_oss@cru=
+debyt
+> > > e
+> > > .com> Signed-off-by: Greg Kurz <groug@kaod.org>
+> > > ---
+> > >=20
+> > >  tests/qtest/libqos/virtio-9p.c | 15 +++++----------
+> > >  1 file changed, 5 insertions(+), 10 deletions(-)
+> >=20
+> > I fear there is something wrong with this patch:
+> >=20
+> > # Start of local tests
+> > # starting QEMU: exec x86_64-softmmu/qemu-system-x86_64 -qtest
+> > unix:/tmp/qtest-4234.sock -qtest-log /dev/null -chardev
+> > socket,path=3D/tmp/qtest-4234.qmp,id=3Dchar0 -mon chardev=3Dchar0,mode=
+=3Dcontrol
+> > -display none -M pc  -fsdev
+> > local,id=3Dfsdev0,path=3D'',security_model=3Dmapped-xattr -device
+> > virtio-9p-pci,fsdev=3Dfsdev0,addr=3D04.0,mount_tag=3Dqtest -accel qtest
+> > qemu-system-x86_64: -device
+> > virtio-9p-pci,fsdev=3Dfsdev0,addr=3D04.0,mount_tag=3Dqtest: cannot init=
+ialize
+> > fsdev 'fsdev0': failed to open '': No such file or directory Broken pip=
+e
+> > Aborted
+>=20
+> Reason ...
+>=20
+> > > diff --git a/tests/qtest/libqos/virtio-9p.c
+> > > b/tests/qtest/libqos/virtio-9p.c index ef96ef006adc..0a0d0d16709b 100=
+644
+> > > --- a/tests/qtest/libqos/virtio-9p.c
+> > > +++ b/tests/qtest/libqos/virtio-9p.c
+> > > @@ -40,14 +40,13 @@ static char *concat_path(const char* a, const cha=
+r* b)
+> > >=20
+> > >  void virtio_9p_create_local_test_dir(void)
+> > >  {
+> > > =20
+> > >      struct stat st;
+> > >=20
+> > > -    char *pwd =3D g_get_current_dir();
+> > > -    char *template =3D concat_path(pwd, "qtest-9p-local-XXXXXX");
+> > > +    g_autofree char *pwd =3D g_get_current_dir();
+> > > +    g_autofree char *template =3D concat_path(pwd,
+> > > "qtest-9p-local-XXXXXX");
+> > >=20
+> > >      local_test_path =3D mkdtemp(template);
+>=20
+> ... mkdtemp() does not allocate a new buffer, it just modifies the charac=
+ter=20
+> array passed, i.e. the address returned by mkdtemp() equals the address o=
+f=20
+> variable 'template', and when virtio_9p_create_local_test_dir() scope is =
+left,=20
+> the global variable 'local_test_path' would then point to freed memory.
+>=20
 
-Thus we likely have a regression in the code that only shows up occasionally 
-in these builds... Can you mark a point in time when these issues first 
-happened?
+I hate global variables ;-) and the 'Returned result must be freed' comment
+in 'concat_path()' is slightly misleading in this respect.
 
-  Thomas
+> I would drop g_autofree from template:
+>=20
+>     char *template =3D concat_path(pwd, "qtest-9p-local-XXXXXX");
+>=20
+> And if it helps to silence a leak warning (haven't tested), to prepend=20
+> g_autofree to the global variable instead:
+>=20
+> static g_autofree char *local_test_path;
+>=20
+
+The way to go is either drop the g_autofree annotation as you're
+suggesting, but this would make the comment in 'concat_path()'
+even more awkward, or go forward with the glib way and use
+g_steal_pointer() which maps exactly to what the code is doing.
+
+> Best regards,
+> Christian Schoenebeck
+>=20
+>=20
 
 
