@@ -2,88 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 66E534A492A
-	for <lists+qemu-devel@lfdr.de>; Mon, 31 Jan 2022 15:17:29 +0100 (CET)
-Received: from localhost ([::1]:45374 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D52BE4A494D
+	for <lists+qemu-devel@lfdr.de>; Mon, 31 Jan 2022 15:28:08 +0100 (CET)
+Received: from localhost ([::1]:33660 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nEXUm-0006Ir-He
-	for lists+qemu-devel@lfdr.de; Mon, 31 Jan 2022 09:17:28 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:39638)
+	id 1nEXf5-0001Zm-GB
+	for lists+qemu-devel@lfdr.de; Mon, 31 Jan 2022 09:28:07 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:42820)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nEWyQ-0005qt-QZ; Mon, 31 Jan 2022 08:44:03 -0500
-Received: from [2a00:1450:4864:20::432] (port=41571
- helo=mail-wr1-x432.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nEWyN-0004JH-HW; Mon, 31 Jan 2022 08:44:01 -0500
-Received: by mail-wr1-x432.google.com with SMTP id h21so25507471wrb.8;
- Mon, 31 Jan 2022 05:43:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=T8tu7PHP64Wh3NwNRP5ujO0rSthz5ycMNE0XMaxl0wo=;
- b=kptaPjC0Fp+ls2S7iTSn0v+QzGZEB/Wg5SGYzyDAZRl7j4TmbxRIythnkOjcRpwM77
- QozyVQUOGRy0wFB61wQbb44P7e5zPq9O5Ua5kbdur5WxuW5BY4d92hbVml87f5kjP+H/
- jZx3yb5rxAd0U4/YbAwlkclKgeiDx/mz9Bydgj2HJBIPz/YzAl5rUjMdmc9/YjiK8Sc9
- 6Pm0234CIvQ0lPSV4ax7oHq5hch2yVX9ksHHg9iWv37Q5axzvyYiHdwWmy2nOuqaXY4n
- 0qg5R0oJhFI6q/VEf/i+N9dSCYaby1TwSMiRm8kANPsQvj+OAPjQUbeL2osgEkG2ibD8
- yxoQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=T8tu7PHP64Wh3NwNRP5ujO0rSthz5ycMNE0XMaxl0wo=;
- b=l2oKfbxaKeuiW4RKENCoGRNZXAvaKLep2dNE7gk7gSe+HLq5ALFBFbUDsgPIbb506M
- ab3MHjxvUxdNXdp2Z7VAQVKz0WzWnnqgptC8eBiHC6qurOvcofv7lyAZzpaRTvhnjp2k
- q+IRY0oUSdc0yPX1HnanN5/ZpnAdua3R2AvIUutoNZfHpGy1yXMAjSIG1oMMRfTzvtxt
- 1b/PgEqupx8grhRtx9wl+y0cAug5bgG0kXQ7tysMY3DWVvBzRkimc2RaqSnkkHX5aXaY
- lJDiZ+qm+EVwMu+mieKm9AELCafFEzVtPnRBCXlgKLMInOEvY/5MVKW8kPnWUI4utDr8
- QyiQ==
-X-Gm-Message-State: AOAM531RN997gefHRPFKQPwgCm2rWoHsx08l/POROR25015gGKHZZYS7
- tywBq0MNTSLt/EU40+rPRTk=
-X-Google-Smtp-Source: ABdhPJy9fIK+A2PPK/NSPh1DJkDKwYnkezF0ZCDvUUWa5luRwLD7lLzISJ4gFiwDnscRQBrjjlunhw==
-X-Received: by 2002:a5d:5446:: with SMTP id w6mr17400279wrv.493.1643636637364; 
- Mon, 31 Jan 2022 05:43:57 -0800 (PST)
-Received: from [192.168.1.33] (154.red-83-50-83.dynamicip.rima-tde.net.
- [83.50.83.154])
- by smtp.gmail.com with ESMTPSA id n26sm9500763wms.13.2022.01.31.05.43.56
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 31 Jan 2022 05:43:56 -0800 (PST)
-Message-ID: <eabe95a4-752e-d18a-1846-66709008c2c3@amsat.org>
-Date: Mon, 31 Jan 2022 14:43:55 +0100
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nEXDX-00088u-8l
+ for qemu-devel@nongnu.org; Mon, 31 Jan 2022 08:59:45 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:33965)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nEXDU-0006c6-TY
+ for qemu-devel@nongnu.org; Mon, 31 Jan 2022 08:59:38 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1643637576;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=qZw6P68jBMD+Ba0ZG5HIVYcxqhAttqL+0lJAFZXhhrY=;
+ b=ACAaQctyHKsOmBP3daPHKc6xKzQ3d8KAyWj+JprCEFtpvSXENBIWZe0zsZv2v++zIRRGaE
+ n+xuo4gK73iaTkRlTUx65mDByJRvmjsISNQuOaIYUYOUjt2MyeuppmTp92MQPMj76TgdWr
+ OM7GofflTjyGR6Jv92iE+u3O4AA0iYw=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-227-SVnCshKHPu6rbQqJvvMS7Q-1; Mon, 31 Jan 2022 08:59:33 -0500
+X-MC-Unique: SVnCshKHPu6rbQqJvvMS7Q-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 268141083F62;
+ Mon, 31 Jan 2022 13:59:32 +0000 (UTC)
+Received: from localhost (unknown [10.39.194.217])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 5294A84A16;
+ Mon, 31 Jan 2022 13:59:10 +0000 (UTC)
+From: Hanna Reitz <hreitz@redhat.com>
+To: qemu-block@nongnu.org
+Subject: [PATCH] qemu-img: Unify [-b [-F]] documentation
+Date: Mon, 31 Jan 2022 14:59:08 +0100
+Message-Id: <20220131135908.32393-1-hreitz@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.5.0
-Subject: Re: [PATCH] hw/ppc/vof: Add missing includes
-Content-Language: en-US
-To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>, qemu-devel@nongnu.org
-Cc: Daniel Henrique Barboza <danielhb413@gmail.com>,
- Greg Kurz <groug@kaod.org>, qemu-ppc@nongnu.org,
- David Gibson <david@gibson.dropbear.id.au>,
- Alexey Kardashevskiy <aik@ozlabs.ru>, qemu-trivial@nongnu.org
-References: <20220122003104.84391-1-f4bug@amsat.org>
- <cac5809d-87d0-28dc-8681-e2b8c92a9534@amsat.org>
- <20d584f8-54e4-e9ad-b125-77b25067532f@kaod.org>
-In-Reply-To: <20d584f8-54e4-e9ad-b125-77b25067532f@kaod.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::432
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::432;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x432.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.248, NICE_REPLY_A=-0.001,
- PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=hreitz@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.088,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -96,17 +75,74 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
+ Eric Blake <eblake@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
-On 31/1/22 08:45, Cédric Le Goater wrote:
-> On 1/30/22 20:38, Philippe Mathieu-Daudé wrote:
->> Cc'ing qemu-trivial@
->>
-> 
-> It is queued in ppc-7.0. I should send a PR today or tomorrow.
+qemu-img convert documents the backing file and backing format options
+as follows:
+    [-B backing_file [-F backing_fmt]]
+whereas qemu-img create has this:
+    [-b backing_file] [-F backing_fmt]
 
-Thanks!
+That is, for convert, we document that -F cannot be given without -B,
+while for create, way say that they are independent.
+
+Indeed, it is technically possible to give -F without -b, because it is
+left to the block driver to decide whether this is an error or not, so
+sometimes it is:
+
+$ qemu-img create -f qed -F qed test.qed 64M
+Formatting 'test.qed', fmt=qed size=67108864 backing_fmt=qed [...]
+
+And sometimes it is not:
+
+$ qemu-img create -f qcow2 -F qcow2 test.qcow2 64M
+Formatting 'test.qcow2', fmt=qcow2 cluster_size=65536 [...]
+qemu-img: test.qcow2: Backing format cannot be used without backing file
+
+Generally, it does not make much sense, though, and users should only
+give -F with -b, so document it that way, as we have already done for
+qemu-img convert (commit 1899bf47375ad40555dcdff12ba49b4b8b82df38).
+
+Reported-by: Tingting Mao <timao@redhat.com>
+Signed-off-by: Hanna Reitz <hreitz@redhat.com>
+---
+ docs/tools/qemu-img.rst | 2 +-
+ qemu-img-cmds.hx        | 4 ++--
+ 2 files changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/docs/tools/qemu-img.rst b/docs/tools/qemu-img.rst
+index d663dd92bd..8885ea11cf 100644
+--- a/docs/tools/qemu-img.rst
++++ b/docs/tools/qemu-img.rst
+@@ -463,7 +463,7 @@ Command description:
+   ``--skip-broken-bitmaps`` is also specified to copy only the
+   consistent bitmaps.
+ 
+-.. option:: create [--object OBJECTDEF] [-q] [-f FMT] [-b BACKING_FILE] [-F BACKING_FMT] [-u] [-o OPTIONS] FILENAME [SIZE]
++.. option:: create [--object OBJECTDEF] [-q] [-f FMT] [-b BACKING_FILE [-F BACKING_FMT]] [-u] [-o OPTIONS] FILENAME [SIZE]
+ 
+   Create the new disk image *FILENAME* of size *SIZE* and format
+   *FMT*. Depending on the file format, you can add one or more *OPTIONS*
+diff --git a/qemu-img-cmds.hx b/qemu-img-cmds.hx
+index 72bcdcfbfa..1b1dab5b17 100644
+--- a/qemu-img-cmds.hx
++++ b/qemu-img-cmds.hx
+@@ -52,9 +52,9 @@ SRST
+ ERST
+ 
+ DEF("create", img_create,
+-    "create [--object objectdef] [-q] [-f fmt] [-b backing_file] [-F backing_fmt] [-u] [-o options] filename [size]")
++    "create [--object objectdef] [-q] [-f fmt] [-b backing_file [-F backing_fmt]] [-u] [-o options] filename [size]")
+ SRST
+-.. option:: create [--object OBJECTDEF] [-q] [-f FMT] [-b BACKING_FILE] [-F BACKING_FMT] [-u] [-o OPTIONS] FILENAME [SIZE]
++.. option:: create [--object OBJECTDEF] [-q] [-f FMT] [-b BACKING_FILE [-F BACKING_FMT]] [-u] [-o OPTIONS] FILENAME [SIZE]
+ ERST
+ 
+ DEF("dd", img_dd,
+-- 
+2.34.1
+
 
