@@ -2,77 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 99E484A3E35
-	for <lists+qemu-devel@lfdr.de>; Mon, 31 Jan 2022 08:28:56 +0100 (CET)
-Received: from localhost ([::1]:55870 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E2FD04A3E49
+	for <lists+qemu-devel@lfdr.de>; Mon, 31 Jan 2022 08:41:46 +0100 (CET)
+Received: from localhost ([::1]:37752 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nER7O-0000pi-QF
-	for lists+qemu-devel@lfdr.de; Mon, 31 Jan 2022 02:28:54 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:38912)
+	id 1nERJp-0000My-U4
+	for lists+qemu-devel@lfdr.de; Mon, 31 Jan 2022 02:41:45 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:39338)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nEQbY-0000Eu-8o
- for qemu-devel@nongnu.org; Mon, 31 Jan 2022 01:56:04 -0500
-Received: from [2607:f8b0:4864:20::42d] (port=45596
- helo=mail-pf1-x42d.google.com)
+ id 1nEQdY-0000h7-Mj
+ for qemu-devel@nongnu.org; Mon, 31 Jan 2022 01:58:06 -0500
+Received: from [2607:f8b0:4864:20::42c] (port=33649
+ helo=mail-pf1-x42c.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nEQbT-0002hR-QX
- for qemu-devel@nongnu.org; Mon, 31 Jan 2022 01:55:57 -0500
-Received: by mail-pf1-x42d.google.com with SMTP id 128so12077572pfe.12
- for <qemu-devel@nongnu.org>; Sun, 30 Jan 2022 22:55:44 -0800 (PST)
+ id 1nEQdU-0002xG-OG
+ for qemu-devel@nongnu.org; Mon, 31 Jan 2022 01:58:03 -0500
+Received: by mail-pf1-x42c.google.com with SMTP id i186so9640131pfe.0
+ for <qemu-devel@nongnu.org>; Sun, 30 Jan 2022 22:57:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=EGLBiewxA4ODMDJfHjfpEX1VUMbqdhTUkvXm9+aeWf8=;
- b=c1MJvQ4jObhRrkpO5ufCBfJ5l3BVdpcj85hKCxsyq3t6S7LxlVJK9s01u2qIwLHzTc
- 5ZL0U9L989JeGDCzRuYeHapF67qUWDhS7enq1HMstzW19Gbx3EaQ64wHHyuuDqVZRwl/
- QGtRXvij+Ux0euxotI2BY+X10FnjFEzpVnsG/C4RDptiKn7Htb+nArr8nlwrFsXlVJzv
- eeMtahn7AQ1s0lPk1OPD5qBQqX3Lu7xsl7Zh5cwO5pY5WTO4tT9pFS75tWx8jF2ktdXd
- LlaLztHREY6BUioM801cpI78trMDV85elIng0OkAlCl46mGHX90z2mVJfF3xdgsUxrdb
- 7oIg==
+ bh=qrEDFwiz8QhdUfRrjtkOtw3C5xSdw7ffc9iqNqm/z3o=;
+ b=pul53IyMQsLnM8BMw2vlJc3dgOxD5vrsylYQ+ikEpoHLFFV2fnSTnpttJ7JEbmXe1N
+ Nyej72NIkSS++j8IR/AKY2QW2S9mZ/8bY2pk1cGR7Q1A1lnBHv3SQGewGQI5LLFXIF9p
+ SHUW2Sb3G46bAYalDStRen7Pl0zUsuAUaBUqcM6xSKCeKz4cwmCsC25VLdkc1lVpbkZ6
+ Cb4+4W6nHyu4fCQkgDnrXz7OzDHElNpbSyL+uGSS3UUyMR4wIZAPL8qA+MNr7JlOPn0V
+ 3kqytqs7vI3kOFkKfut0H2jel3/umGF6Pb1XMn80uxGOe+06pRzrce/n8jO8srEBop0w
+ moYg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=EGLBiewxA4ODMDJfHjfpEX1VUMbqdhTUkvXm9+aeWf8=;
- b=nKnfSn2yvE5kgF3ckPltcNRZEpoGKO8M2NUbSWSSNRpLE7BCVX29VA+U3RcIuUWvKO
- kthyk5mtd2a7SQl22nQAO4jNqVNxORIaIiU5QNjutM1rRWGegJslVgL58ynYkVgHlnfz
- 6mLADSg/NNfyCVgXVSOLeinkZJ1COiOTWnWALkj8Qt452orVjxp+pi7Voit8bfIF1NSH
- QJMHWcMaoL0iSLKjBHNtdUFNI+S+WPelyVm3wAq5yZeiWamQSb9tF2pzCar5XSh4uNvE
- 6oEZOuD1L/aB7mRmlIrInEVhRexec04bphKP61gL1tLtAHWLWNl6H+zZ8XPqSEmlQq0W
- sX9w==
-X-Gm-Message-State: AOAM533uGXkOrYcwITtbz7gPaQ7cijZCrFJyTiFIS4vPvcmd44/AqBwO
- oRW/BosP5/NZwtDGNUCHE8cCOw==
-X-Google-Smtp-Source: ABdhPJzsoW/wrFNdNCw6JHtv+IraGqSuplt4lY41XMVRLk94y0pdvm9w0NqRcLx4takANS/eJcTzhQ==
-X-Received: by 2002:a62:8fcb:: with SMTP id n194mr18934256pfd.29.1643612143612; 
- Sun, 30 Jan 2022 22:55:43 -0800 (PST)
+ bh=qrEDFwiz8QhdUfRrjtkOtw3C5xSdw7ffc9iqNqm/z3o=;
+ b=kOl2viMWUhJSDqzzBuy6F5Ep1rpgCEoBnYs3Z4w5TRRkX6yXybEPqCXtSnqv2kkSct
+ tpY4cGodwHv+wnVcoaAdpTq82vIChX9vSQKOr2jYWurItNTMQp8xU9rf1vt4bI7Z5rPX
+ zyF/32TC999WtP/K4dMBHTRMl+UEvaGlpiqyGF50cSSa2bcM/Drwpuf3jN7IIRZNZmrd
+ C1k4C9V6gUPXnMbCSw0Npf9qw+lQaqiwPOuAUGSFjlmSAZ7Hso+cS2XpVPkZaxSuiJVs
+ gCQZ07z2IN+gzgYdQI1gVMnT+EXzI9vskos0oK0ZGbS9dsTrLjbhvtPXjIyi3epGsMnr
+ msUw==
+X-Gm-Message-State: AOAM530S0NAej1jnTy7/i3Yyem8b1zF3D8fDNq+nPL/mms599eV+cbrO
+ RvMUPCLBpzVPPZKrHQIP87tsvw==
+X-Google-Smtp-Source: ABdhPJxhLnr176ZX7zIDzicTiajH5tCcvdz4ksp/JdeKEbv9MsBHd+85xmfpa0qI9K9N+Eajg6bu9w==
+X-Received: by 2002:a63:88c6:: with SMTP id
+ l189mr15704850pgd.229.1643612276491; 
+ Sun, 30 Jan 2022 22:57:56 -0800 (PST)
 Received: from [192.168.15.130] ([60.231.85.5])
- by smtp.gmail.com with ESMTPSA id mv10sm9703027pjb.45.2022.01.30.22.55.36
+ by smtp.gmail.com with ESMTPSA id a14sm18302437pfv.212.2022.01.30.22.57.49
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 30 Jan 2022 22:55:43 -0800 (PST)
-Message-ID: <37d67db4-9617-8fb5-b80f-eaef9d63e24d@linaro.org>
-Date: Mon, 31 Jan 2022 17:55:33 +1100
+ Sun, 30 Jan 2022 22:57:56 -0800 (PST)
+Message-ID: <9497e12c-2400-b864-733d-5469fc63efcc@linaro.org>
+Date: Mon, 31 Jan 2022 17:57:46 +1100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.5.0
-Subject: Re: [PATCH 09/16] hw/arm: highbank: For EL3 guests, don't enable
- PSCI, start all cores
+Subject: Re: [PATCH 10/16] Revert "Revert "arm: tcg: Adhere to SMCCC 1.3
+ section 5.2""
 Content-Language: en-US
 To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
  qemu-devel@nongnu.org
 References: <20220127154639.2090164-1-peter.maydell@linaro.org>
- <20220127154639.2090164-10-peter.maydell@linaro.org>
+ <20220127154639.2090164-11-peter.maydell@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220127154639.2090164-10-peter.maydell@linaro.org>
+In-Reply-To: <20220127154639.2090164-11-peter.maydell@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::42d
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::42c
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42d;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42d.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42c;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42c.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -110,32 +111,31 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 1/28/22 02:46, Peter Maydell wrote:
-> Change the highbank/midway boards to use the new boot.c functionality
-> to allow us to enable psci-conduit only if the guest is being booted
-> in EL1 or EL2, so that if the user runs guest EL3 firmware code our
-> PSCI emulation doesn't get in its way.
+> Now that we have arranged for all the affected board models
+> to not enable the PSCI emulation if they are running guest code
+> at EL3, we can revert commit 4825eaae4fdd56fba0f, thus
+> reinstating commit 9fcd15b9193e819b, without bringing back the
+> regressions that caused us to revert it.
 > 
-> To do this we stop setting the psci-conduit and start-powered-off
-> properties on the CPU objects in the board code, and instead set the
-> psci_conduit field in the arm_boot_info struct to tell the common
-> boot loader code that we'd like PSCI if the guest is starting at an
-> EL that it makes sense with (in which case it will set these
-> properties).
+> For clarity, here is the original commit message of 9fcd15b9193e819b:
 > 
-> This means that when running guest code at EL3, all the cores
-> will start execution at once on poweron. This matches the
-> real hardware behaviour. (A brief description of the hardware
-> boot process is in the u-boot documentation for these boards:
-> https://u-boot.readthedocs.io/en/latest/board/highbank/highbank.html#boot-process
->   -- in theory one might run the 'a9boot'/'a15boot' secure monitor
-> code in QEMU, though we probably don't emulate enough for that.)
+> The SMCCC 1.3 spec section 5.2 says
 > 
-> This affects the highbank and midway boards.
+>    The Unknown SMC Function Identifier is a sign-extended value of (-1)
+>    that is returned in the R0, W0 or X0 registers. An implementation must
+>    return this error code when it receives:
+> 
+>      * An SMC or HVC call with an unknown Function Identifier
+>      * An SMC or HVC call for a removed Function Identifier
+>      * An SMC64/HVC64 call from AArch32 state
+> 
+> To comply with these statements, let's always return -1 when we encounter
+> an unknown HVC or SMC call.
 > 
 > Signed-off-by: Peter Maydell<peter.maydell@linaro.org>
 > ---
->   hw/arm/highbank.c | 7 +------
->   1 file changed, 1 insertion(+), 6 deletions(-)
+>   target/arm/psci.c | 35 ++++++-----------------------------
+>   1 file changed, 6 insertions(+), 29 deletions(-)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
