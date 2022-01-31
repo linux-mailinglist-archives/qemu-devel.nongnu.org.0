@@ -2,70 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01A0E4A501A
-	for <lists+qemu-devel@lfdr.de>; Mon, 31 Jan 2022 21:28:07 +0100 (CET)
-Received: from localhost ([::1]:58154 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 92B834A500D
+	for <lists+qemu-devel@lfdr.de>; Mon, 31 Jan 2022 21:22:56 +0100 (CET)
+Received: from localhost ([::1]:48366 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nEdHR-0001dD-Nz
-	for lists+qemu-devel@lfdr.de; Mon, 31 Jan 2022 15:28:05 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:43048)
+	id 1nEdCR-0003Vo-Bb
+	for lists+qemu-devel@lfdr.de; Mon, 31 Jan 2022 15:22:55 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:42990)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1nEcng-0004xU-65
- for qemu-devel@nongnu.org; Mon, 31 Jan 2022 14:57:20 -0500
-Received: from [2607:f8b0:4864:20::d32] (port=33448
- helo=mail-io1-xd32.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1nEcnb-0002fL-Hu
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1nEcnf-0004v4-3B
  for qemu-devel@nongnu.org; Mon, 31 Jan 2022 14:57:19 -0500
-Received: by mail-io1-xd32.google.com with SMTP id y84so18496745iof.0
- for <qemu-devel@nongnu.org>; Mon, 31 Jan 2022 11:56:59 -0800 (PST)
+Received: from [2607:f8b0:4864:20::134] (port=47055
+ helo=mail-il1-x134.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1nEcnb-0002fT-CJ
+ for qemu-devel@nongnu.org; Mon, 31 Jan 2022 14:57:18 -0500
+Received: by mail-il1-x134.google.com with SMTP id e8so12375849ilm.13
+ for <qemu-devel@nongnu.org>; Mon, 31 Jan 2022 11:57:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bsdimp-com.20210112.gappssmtp.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=U8VtaM8f6H1mBedMcMN2t5hogqkVzA4l3N+z2sTiAUQ=;
- b=UxAJSeqOb0X8WTk0+XqmlJ98pz3QkdHKj+aZw2m+InBvq2krgKLCKyMxvJvzLCwVwI
- zHmZQDQctgU7ocnbq42ABrd3RyrMyJTImzYfUZBD26BpCOV0onCkMekJ58veOoVGDyRP
- gJEcxaOblzFUkReeWk6pXpe4bd+AaPbXbfqnZdoRj7s/ULwEPsRIo6BGSIs81bXBK1Hh
- mHqoVYDDNZASi0JQbZzUjxEenD+E2kBef7A9tLz7usi99fVC/qgNLMhCxSFJdgqMZy31
- 9RUz44wtACoOMbgMXyvNh4DbIbq/qYwDg8yG+5vyxpEMyIfIyxFhsKitlu/9ZDxd4odi
- rmCw==
+ bh=MVWZUYxrpCifraNDGYSj461HH4N52sJPo6Fc3sNZUKk=;
+ b=X/BhydrfXIDLK8VV/LWNjp9DUyMbsAH0cNJqmpFlZ4Uq5DVLgo+o8lnOKT8oyVEBLW
+ wAJuVHAsYSKzsZp2fxPP7FHSTrGJdXDSP95SB+KMoQAULwAxsXfOv5ulrGls3vGVA2om
+ NOH9kT8WF+t8TnG5kX1u2nS5LQqhwGgMvyY+vFi/Elx+3Xl9huNhIE06MS0VPyvbUjv2
+ eoqyQHbAT+UDZxI90zBEHIogBca6gWLUQpc2El+OTVw12sQibgVnhxE3ds4ICF706ToL
+ m5mDC7FAIpNYeopfAav21nXLLSGz84228BqJ4UVY4+5N3ck1q7DeJ8MDF5N0D15ptbmD
+ SDQQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=U8VtaM8f6H1mBedMcMN2t5hogqkVzA4l3N+z2sTiAUQ=;
- b=TZtVC4u9fIME/awhoU+nRX6dY+1rjQZ9hFuZCUEqf73DEWvY0GauWOKAD27OksAReU
- JT8nN5TW10lreIlr6Lo5By+IX/Hf7UliuPopAPwoem7XJRjfugqpWOEc8e2SeqXq1KlD
- fWsyVn5HHmfEpCCdT9JQzCHDRTB5irk1QfqGKJdSfkrqalJCkMlnnR9ttIh8PVFYZhgi
- lBJZpnAH7D5s4KsIqIa0qizODaXvjG9xaOoXJFy9RldhN09mt3YNzOElPjFTRWp4iV6Y
- sY8aJkcVavXQxEYsMRlZg97iVHLds73iiy/c/bwqmy1qV4YG7XHFAvG+ilCJNlsqoKu2
- M0mg==
-X-Gm-Message-State: AOAM5335tDf5Ek95OFTF0yPceIBsiNnmhd/q2wqvL9PZtU83aAh/vqBo
- 8UGMygBvg4acJ07Ln+8vNXBbt4nL3IPKBg==
-X-Google-Smtp-Source: ABdhPJwt+pkOPn5WU/Y8ilImgdCcLGsMxwLFzj8hVgumiC19wIIrmmQwXyZebig5eo5HBgR7Bw8hjw==
-X-Received: by 2002:a6b:c817:: with SMTP id y23mr11724218iof.71.1643659018090; 
- Mon, 31 Jan 2022 11:56:58 -0800 (PST)
+ bh=MVWZUYxrpCifraNDGYSj461HH4N52sJPo6Fc3sNZUKk=;
+ b=KSM+V498pmc3rRo9SVj04rD4A5j++QT3RMVzmNvUXJFpGwR9yiCEwrhgZ3Dc3hSNNy
+ B661USTcZVDQSyQbxBFsla96tLvdbguQjU6eXJAkHit1EgX4iqIhXYGkdPJHUMrqsNng
+ bXrHvXtSnr/u41Clax6vXCKO5Rd/C89jhKzYnp+Pq5kkX8phpgMGFTJ0dvGy1LXNbCt7
+ OM/Zjh9HkAa8/HpW/eWtuTuBaIbqWklGNoqXaYucHySDXGjmOsDCDJ7lAH5sghgCPXQv
+ 3a9fB3uZl8y2SspFY7mUABcxctccAeH96oakXVsqT5JEnf917n0DWp/4UwTiitM8hApH
+ frfA==
+X-Gm-Message-State: AOAM533UCKy/E2k95SKufCHVJSImoAKdeFrjFqRPv12vCKWFA9/r78jv
+ KrWE+CLhewUhmY6uWeIkbJ1qFB+kH0MEqA==
+X-Google-Smtp-Source: ABdhPJxstx98rtVCcAkApxnnHmpivBG8BKfinJYDBq2aKJBTMxX6fXL+MRne6W0aDY6bstk2ut51Zg==
+X-Received: by 2002:a05:6e02:1a4d:: with SMTP id
+ u13mr2114394ilv.136.1643659019357; 
+ Mon, 31 Jan 2022 11:56:59 -0800 (PST)
 Received: from dune.bsdimp.com (50-253-99-174-static.hfc.comcastbusiness.net.
  [50.253.99.174])
- by smtp.gmail.com with ESMTPSA id j2sm1972989ilu.82.2022.01.31.11.56.57
+ by smtp.gmail.com with ESMTPSA id j2sm1972989ilu.82.2022.01.31.11.56.58
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 31 Jan 2022 11:56:57 -0800 (PST)
+ Mon, 31 Jan 2022 11:56:58 -0800 (PST)
 From: Warner Losh <imp@bsdimp.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 28/40] bsd-user/signal.c: Implement dump_core_and_abort
-Date: Mon, 31 Jan 2022 12:56:24 -0700
-Message-Id: <20220131195636.31991-29-imp@bsdimp.com>
+Subject: [PULL 29/40] bsd-user/signal.c: Fill in queue_signal
+Date: Mon, 31 Jan 2022 12:56:25 -0700
+Message-Id: <20220131195636.31991-30-imp@bsdimp.com>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <20220131195636.31991-1-imp@bsdimp.com>
 References: <20220131195636.31991-1-imp@bsdimp.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::d32
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::134
  (failed)
-Received-SPF: none client-ip=2607:f8b0:4864:20::d32;
- envelope-from=imp@bsdimp.com; helo=mail-io1-xd32.google.com
+Received-SPF: none client-ip=2607:f8b0:4864:20::134;
+ envelope-from=imp@bsdimp.com; helo=mail-il1-x134.google.com
 X-Spam_score_int: -10
 X-Spam_score: -1.1
 X-Spam_bar: -
@@ -92,117 +93,58 @@ Cc: Peter Maydell <peter.maydell@linaro.org>, Stacey Son <sson@FreeBSD.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Force delivering a signal and generating a core file. It's a global
-function for the moment...
+Fill in queue signal implementation, as well as routines allocate and
+delete elements of the signal queue.
 
 Signed-off-by: Stacey Son <sson@FreeBSD.org>
 Signed-off-by: Kyle Evans <kevans@freebsd.org>
 Signed-off-by: Warner Losh <imp@bsdimp.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- bsd-user/signal.c       | 76 +++++++++++++++++++++++++++++++++++++++++
- bsd-user/syscall_defs.h |  1 +
- 2 files changed, 77 insertions(+)
+ bsd-user/qemu.h   |  5 +++++
+ bsd-user/signal.c | 13 ++++++++++++-
+ 2 files changed, 17 insertions(+), 1 deletion(-)
 
+diff --git a/bsd-user/qemu.h b/bsd-user/qemu.h
+index a7964776fdb..1648a509b9c 100644
+--- a/bsd-user/qemu.h
++++ b/bsd-user/qemu.h
+@@ -85,6 +85,11 @@ typedef struct TaskState {
+     struct bsd_binprm *bprm;
+     struct image_info *info;
+ 
++    struct emulated_sigtable sync_signal;
++    /*
++     * TODO: Since we block all signals while returning to the main CPU
++     * loop, this needn't be an array
++     */
+     struct emulated_sigtable sigtab[TARGET_NSIG];
+     /*
+      * Nonzero if process_pending_signals() needs to do something (either
 diff --git a/bsd-user/signal.c b/bsd-user/signal.c
-index 24cf4b1120b..ccda7adbeef 100644
+index ccda7adbeef..34663f7a28a 100644
 --- a/bsd-user/signal.c
 +++ b/bsd-user/signal.c
-@@ -172,6 +172,82 @@ static inline void host_to_target_siginfo_noswap(target_siginfo_t *tinfo,
-     tinfo->si_code = deposit32(si_code, 24, 8, si_type);
- }
- 
-+/* Returns 1 if given signal should dump core if not handled. */
-+static int core_dump_signal(int sig)
-+{
-+    switch (sig) {
-+    case TARGET_SIGABRT:
-+    case TARGET_SIGFPE:
-+    case TARGET_SIGILL:
-+    case TARGET_SIGQUIT:
-+    case TARGET_SIGSEGV:
-+    case TARGET_SIGTRAP:
-+    case TARGET_SIGBUS:
-+        return 1;
-+    default:
-+        return 0;
-+    }
-+}
-+
-+/* Abort execution with signal. */
-+static void QEMU_NORETURN dump_core_and_abort(int target_sig)
-+{
-+    CPUArchState *env = thread_cpu->env_ptr;
+@@ -255,7 +255,18 @@ static void QEMU_NORETURN dump_core_and_abort(int target_sig)
+ void queue_signal(CPUArchState *env, int sig, int si_type,
+                   target_siginfo_t *info)
+ {
+-    qemu_log_mask(LOG_UNIMP, "No signal queueing, dropping signal %d\n", sig);
 +    CPUState *cpu = env_cpu(env);
 +    TaskState *ts = cpu->opaque;
-+    int core_dumped = 0;
-+    int host_sig;
-+    struct sigaction act;
 +
-+    host_sig = target_to_host_signal(target_sig);
-+    gdb_signalled(env, target_sig);
++    trace_user_queue_signal(env, sig);
 +
-+    /* Dump core if supported by target binary format */
-+    if (core_dump_signal(target_sig) && (ts->bprm->core_dump != NULL)) {
-+        stop_all_tasks();
-+        core_dumped =
-+            ((*ts->bprm->core_dump)(target_sig, env) == 0);
-+    }
-+    if (core_dumped) {
-+        struct rlimit nodump;
++    info->si_code = deposit32(info->si_code, 24, 8, si_type);
 +
-+        /*
-+         * We already dumped the core of target process, we don't want
-+         * a coredump of qemu itself.
-+         */
-+         getrlimit(RLIMIT_CORE, &nodump);
-+         nodump.rlim_cur = 0;
-+         setrlimit(RLIMIT_CORE, &nodump);
-+         (void) fprintf(stderr, "qemu: uncaught target signal %d (%s) "
-+             "- %s\n", target_sig, strsignal(host_sig), "core dumped");
-+    }
-+
-+    /*
-+     * The proper exit code for dying from an uncaught signal is
-+     * -<signal>.  The kernel doesn't allow exit() or _exit() to pass
-+     * a negative value.  To get the proper exit code we need to
-+     * actually die from an uncaught signal.  Here the default signal
-+     * handler is installed, we send ourself a signal and we wait for
-+     * it to arrive.
-+     */
-+    memset(&act, 0, sizeof(act));
-+    sigfillset(&act.sa_mask);
-+    act.sa_handler = SIG_DFL;
-+    sigaction(host_sig, &act, NULL);
-+
-+    kill(getpid(), host_sig);
-+
-+    /*
-+     * Make sure the signal isn't masked (just reuse the mask inside
-+     * of act).
-+     */
-+    sigdelset(&act.sa_mask, host_sig);
-+    sigsuspend(&act.sa_mask);
-+
-+    /* unreachable */
-+    abort();
-+}
-+
- /*
-  * Queue a signal so that it will be send to the virtual CPU as soon as
-  * possible.
-diff --git a/bsd-user/syscall_defs.h b/bsd-user/syscall_defs.h
-index 04a1a886d7b..62b472b990b 100644
---- a/bsd-user/syscall_defs.h
-+++ b/bsd-user/syscall_defs.h
-@@ -21,6 +21,7 @@
- #define _SYSCALL_DEFS_H_
++    ts->sync_signal.info = *info;
++    ts->sync_signal.pending = sig;
++    /* Signal that a new signal is pending. */
++    qatomic_set(&ts->signal_pending, 1);
++    return;
+ }
  
- #include <sys/syscall.h>
-+#include <sys/resource.h>
- 
- #include "errno_defs.h"
- 
+ static int fatal_signal(int sig)
 -- 
 2.33.1
 
