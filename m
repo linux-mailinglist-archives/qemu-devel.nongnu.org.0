@@ -2,76 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73B4A4A4FBF
-	for <lists+qemu-devel@lfdr.de>; Mon, 31 Jan 2022 20:54:29 +0100 (CET)
-Received: from localhost ([::1]:35770 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DC2534A500B
+	for <lists+qemu-devel@lfdr.de>; Mon, 31 Jan 2022 21:22:26 +0100 (CET)
+Received: from localhost ([::1]:45428 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nEcks-00088a-80
-	for lists+qemu-devel@lfdr.de; Mon, 31 Jan 2022 14:54:28 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:37252)
+	id 1nEdBx-0001ME-Qt
+	for lists+qemu-devel@lfdr.de; Mon, 31 Jan 2022 15:22:25 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:37246)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.kanda@oracle.com>)
- id 1nEcaQ-0007OY-CM
+ id 1nEcaQ-0007OS-CB
  for qemu-devel@nongnu.org; Mon, 31 Jan 2022 14:43:38 -0500
-Received: from mx0a-00069f02.pphosted.com ([205.220.165.32]:28424)
+Received: from mx0a-00069f02.pphosted.com ([205.220.165.32]:29782)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.kanda@oracle.com>)
- id 1nEcaH-0008Ju-DH
+ id 1nEcaH-0008K6-DY
  for qemu-devel@nongnu.org; Mon, 31 Jan 2022 14:43:33 -0500
-Received: from pps.filterd (m0246627.ppops.net [127.0.0.1])
- by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 20VIBIiP010608; 
+Received: from pps.filterd (m0246617.ppops.net [127.0.0.1])
+ by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 20VJ2a1n008746; 
  Mon, 31 Jan 2022 19:43:25 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references :
  content-transfer-encoding : content-type : mime-version;
- s=corp-2021-07-09; bh=tDSFcOh5caT8TaphCDeBkArwVoI+/mGLqNDSVCEJJP8=;
- b=lGoO/KM8t9FtTuxf4cgtLy+ha/Gsg0xhYxkV+PS5lxFf1zEE5rkNzSLtO+EY/uzWaDan
- Q5BLzXDMKiCERbcj6DaEibi5x0ZKliPdmSaJbi3UqaVtpqcATbu/J9lWjUBeRjK4W+22
- PVQg9k0Hs2XYpLeij+KgVSPAzYmlH/AefDSeFWJ+U0IuUM9UyvvQ7Buy5xabtrbyisNy
- PWaqa+jlQCC/yFEzDlLEDnG7m9jjQh+5Sxmttkxs3hJ+81FbKHob4vQh9amZ/jOay96M
- /6HmthVZOGP2uw2yZ6dU1ZvDklPeHGt0iHm3z2eIOF1H/j9zgEI2MHyz4D9vudTYaWNS qQ== 
+ s=corp-2021-07-09; bh=H9p7KMB8H2dqIrb/pf7kYpEyuhg3hdYusfr2X20n9BY=;
+ b=mICX/lHC7vZ0UHmAV3po2Myp7y/xpQYAjDQehEnO67kEG2u7zLx88Qwiyv8/apq1wKfe
+ /DKUwlZgvg01GRz+lU4ic28a40Yzg6x6r46JbjE3Bxwjtj551AO6phHgL7H0wEMh7Ruz
+ L2k+s+FsWOt+kCx7WKZ+DNClC+dFrPvMgIcaPY/9NHxYEeNvDe5kku8dbRyLQWX7XeHX
+ I4XoFfTe5JDS2GYRv/7Dy/P9HGuM581ZzToWISLL88lQEqrjhksEHlKjzorRAiNUcDpq
+ JUAn6bdr+SwKQZ1aHt3PS95LpwfPcwxS9buTE/We0o41jpUJd2uiKJW/Sx0f+JZVIXKy kw== 
 Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
- by mx0b-00069f02.pphosted.com with ESMTP id 3dxjatru6u-1
+ by mx0b-00069f02.pphosted.com with ESMTP id 3dxnk2g34p-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 31 Jan 2022 19:43:24 +0000
+ Mon, 31 Jan 2022 19:43:25 +0000
 Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
- by userp3020.oracle.com (8.16.1.2/8.16.1.2) with SMTP id 20VJQEx4005659;
- Mon, 31 Jan 2022 19:43:23 GMT
+ by userp3020.oracle.com (8.16.1.2/8.16.1.2) with SMTP id 20VJQEx5005659;
+ Mon, 31 Jan 2022 19:43:24 GMT
 Received: from nam04-mw2-obe.outbound.protection.outlook.com
  (mail-mw2nam08lp2169.outbound.protection.outlook.com [104.47.73.169])
- by userp3020.oracle.com with ESMTP id 3dvy1nd025-3
+ by userp3020.oracle.com with ESMTP id 3dvy1nd025-4
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
  Mon, 31 Jan 2022 19:43:23 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=MgVC4G29ykWek9y+dC+/32Y/2OYwSegVETFo5y92RszrhawLXaajYE11ZewRRDyeyBJlE/n7dxSqW48F683xsO1opBPk1vZuRhW6tGgO3zE9NeSkNDxDapx3H/DcETTDTL4l9cnE2XLMP4M+cDoPnGjvNE9gsp2z102By/rQHnOvz6JEtKQIIJjzAOdAEQmKN2sZwZGCPwB4J0sJTU08Iv6CexIDHkNsuPnPCMOrB1ckAY4Cws6W+eV7ZNCWzyoH9huMA/Zv7BFBG/QVaqKg3HK8PCWa5Xp52tGZOTzKbDQ40fz/AnJnOf91BT1V7n6WHe02pMXXlBRuR/L5Vdfayg==
+ b=GLBp1pBE/kwQnyUry2TTGR5bq46c69vErcMMIuyWrFYhCcTz01XZLXMTZplu/qucRo/1JkosEHuRDbqAtaIAzmieExuee6Y92ozK+Hdly72KfGkYhPN3Gc2V7LjC0lmneH+vwq5WuvoFQGOD7HS+vCTnXNPL9UOSA5R3h/PnmoZca5Idue/tsdt0KVuFQvU8C5ZvN6oXhZej/m/25K2UV0+iCoHUckXyMIsBKPr9xlB2O5TnGr0wjSr0rH/cd+lAgYEhMpe8dug2n9qnckYK3HMGmfL5/93Zt+2t8omWF8wPdyks0EdqACv7bDZysrF55gCIMe8MBy3IIy3BH9A9NQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=tDSFcOh5caT8TaphCDeBkArwVoI+/mGLqNDSVCEJJP8=;
- b=aadBv4ZjewSSbQt1i4aoY/CNWyDW5Pk/E3SkXqISxA076V9hCmA+IMhpZgP70NPBtP3Z6KryQ9aWVhcNCz/vk3MQ4XIlxlc4gQ+SgajRYitlOxHsH4bpF3sUe33nqkejx3IVJgU4cP7IaL+gTQh+FFGUfzZtPNF7GapJNTv0Q5jh/ipEEGpl19EWDfP+s1W8m+m7F4f4PfeHPZ5NkbroQuhwXoyJqdQQdt/NcQTQY6CIua+dYyQ3ByezIbQ3hpprm07u3u+ka204vv47ufoal2VEm0dIQ8ttLiUMkOdmisVLY9yFUsRn+LIu7Xr/Z+bDtDuGMVfg0entrNJ/38bG4w==
+ bh=H9p7KMB8H2dqIrb/pf7kYpEyuhg3hdYusfr2X20n9BY=;
+ b=LzHLi/HrGqO/JS+k3Nv0p2Sy5y1F70ft0HnwhIxuXxLvnlJa7T0TigJCxkfJhmRBrQgy7dGW1pUTeSUTX/6zpAvmxreP9/jz82VZL73Ptyrxx+PjMJ1lmncphSOZ4oTXAGRoe5/ntFPZ+KHFXCn8/y+NcPmiOxzhXrgdjoCntPwUz2UcPYJC9wjXPL6gQo98iX0IoJGGdE59jHiNW5tUSignV7RcRy6HClTLsDe1Vgi5QuhTegXT9Tub1igRzLZFHcxh+PK+7jtSkm5FnzVX1L7pp53tAnbAk+zwVW9dos9JV0D9P4fWA+kCdz7mxsSo6/RTKbYSAfle3P/fhLeAdQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
  dkim=none; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=tDSFcOh5caT8TaphCDeBkArwVoI+/mGLqNDSVCEJJP8=;
- b=W8K5ivUb8ik8Pq9X1n1gtKyLVoz3s9ez8xpyzanGZZFQnjSo3L3AI0TwMEVL8wb+1t3/wnk41+rDnvCZEmyDMXTp0blbEu8xkUoHoRZ+UNCMJCaJ7Ukko/+Pj8WEgzGYid/AINZFtoao6apYcA1JuVdAjs6R+rPjp9cjLhwnp4k=
+ bh=H9p7KMB8H2dqIrb/pf7kYpEyuhg3hdYusfr2X20n9BY=;
+ b=FVTY8tXsnQTYvBvV2zhtySebWB4sMPk52Jfe6VPh1HiEvY1iBHQDTlI58f6MUJ1QKLP9rTUDeDqTrCX5wXk6mWZ196k+30Q2neBV5s+mGkk8xYiP3ImsABsjCm+jXJtyEm2IQcHPqyxWswOMnDVZdY9A3gDlcJHCYDD/sfuebTI=
 Received: from SA1PR10MB5841.namprd10.prod.outlook.com (2603:10b6:806:22b::16)
  by BLAPR10MB5362.namprd10.prod.outlook.com (2603:10b6:208:333::9)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4930.19; Mon, 31 Jan
- 2022 19:43:20 +0000
+ 2022 19:43:21 +0000
 Received: from SA1PR10MB5841.namprd10.prod.outlook.com
  ([fe80::58ef:3181:b9d4:b716]) by SA1PR10MB5841.namprd10.prod.outlook.com
  ([fe80::58ef:3181:b9d4:b716%5]) with mapi id 15.20.4930.021; Mon, 31 Jan 2022
  19:43:20 +0000
 From: Mark Kanda <mark.kanda@oracle.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 2/3] hmp: Support for querying stats
-Date: Mon, 31 Jan 2022 13:43:11 -0600
-Message-Id: <20220131194312.1192626-3-mark.kanda@oracle.com>
+Subject: [PATCH v3 3/3] kvm: Support for querying fd-based stats
+Date: Mon, 31 Jan 2022 13:43:12 -0600
+Message-Id: <20220131194312.1192626-4-mark.kanda@oracle.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20220131194312.1192626-1-mark.kanda@oracle.com>
 References: <20220131194312.1192626-1-mark.kanda@oracle.com>
@@ -82,56 +82,56 @@ X-ClientProxiedBy: SA9P221CA0008.NAMP221.PROD.OUTLOOK.COM
  (2603:10b6:806:22b::16)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: ddcba4ab-326d-4e1c-8dd0-08d9e4f1ef44
+X-MS-Office365-Filtering-Correlation-Id: fcee6dbf-bc51-46df-732f-08d9e4f1ef8e
 X-MS-TrafficTypeDiagnostic: BLAPR10MB5362:EE_
-X-Microsoft-Antispam-PRVS: <BLAPR10MB5362C826CE43E4E646A8FEBCF9259@BLAPR10MB5362.namprd10.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:148;
+X-Microsoft-Antispam-PRVS: <BLAPR10MB5362307FED83278294AB64C5F9259@BLAPR10MB5362.namprd10.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:3;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: fxTnih4nE6mnqiDDp1L45srULgfI3pHCcfT0Hxr/2hVlFW2ukm8V939gwny7oZH0enMGMqH1TQY7kbJrzPFDm7eQsMyA276gzAZp2Qu/PdCNnC1yUjoWIPAyAaLkmp0NKIib3HuNCG2tkP2YhLkiSpfHUH21THEndJfccLiLc33lQ1KLxDl1UY08TL7EtL0WwKoUUXI6JPCIWhA1olnIc7JY8Rx/tsw6A+1oQqB8jfcHZ09aWWrn/0HJoKY9Jd2GDNDDyWl7/iK2lczEHmJBAvFwU7zzYD67q/i/ZuM7KNzP0ci28eflHP2my62ndXTFPZqcBc+B0ty7rqtmGOo/K2QD7H+imi8DjlbWjlHQcyvWeGZ/Mt6lPwhRHh05QyNtbKYQw9zuw425NUXQRudmCo0EjacyAjl9xoRBv7KCu1rOEGwOi3HJ+HHXKh0AHJDmw3PKtvnoWJCBE6S0rucU9q653MXhArtnqtC4aq2+Pam5PHKJ6yTF1juPh8pJwyvEXYHR390kFlCKZtrv6WKZ04L5Mma1q+4wfdFFAWufZz8TUpdx1aGfkTN8ndHdKgxNWWczGuTmylQQR3frTA26/g+tXk+tFUuZDjoxdBK8ajVNskGWlJf/NzDzhsBElEzhzS9Hyk567jX4jjzpdtGzR32bCHI+cYwOoi+ac6wPHIQ3LtSVJLApAfHHED79yucvkmWIjisXrcMN0cNnJ9JqeA==
+X-Microsoft-Antispam-Message-Info: n8w+ONNakgXwjJ+7pqcoUr6TUU1K4TItzX1t5wY7xRrbJTaPt9/eYmgcPNBxq6fjl4vEq3OQNvLIQzo5Qb1ZmXf2vT0KPGN7VvugKbOq1ptW8sklJEn8qbLsaQ8p4jb6JU8Euk41wv0HAsz6Z1ew566FSUXR6bxsLO+b7xGLLU2w4dgv9lsZCaK+pa5x3cKU/yKO0MnV4acsZRjAQ5TV/+MA+I6JESMkgyGhDZB2Sf+6es2lln5+/h2gJkFxm77C5QwmvuaQASsjiPpvAmLU3UEAQd6yImghNQjxUZ1BCifPlDj4/eb285oQ0niKyDOeLSAcN+BygyFEgFMRxVdYcK1LRtE9JUayvil/askzHfTz1jNo7o35+BR/8xHr2e+B1FhToAz6cnVRIOWOudwhs69vZFiSjMva8/PO32y2uBtQ+CO1KmBzzplFRG2VzECdovSa7wyFJQMN7VX9vdgP2cqsGORfwNWyOX80XDsQFUMMy08I/sIQilhpzoDXFi+A99ZPXu9YmVhTGjo2T4WadOe90N4J/C8gpz8hEUUMxFFHzKdZkfoW/T/+YrWJBOUPVpjNCpEleTT+m2/z539Znc5CPrFBkZ17DP+uuu3eLxOy14Y7VLkKpseH/jlYlFuCC79kbl8Yr2IU/HgAyCpnXFrCXcEggxtWG1wOknll0OeAC4UrPbWAk4QkqlRSJzSuEvbI8SAoroV+NK54KCs8fw==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:SA1PR10MB5841.namprd10.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230001)(366004)(26005)(508600001)(186003)(36756003)(107886003)(1076003)(2616005)(316002)(6916009)(52116002)(6506007)(6666004)(6486002)(2906002)(86362001)(4326008)(8936002)(8676002)(30864003)(6512007)(44832011)(5660300002)(66556008)(66476007)(38350700002)(38100700002)(66946007)(20210929001);
+ SFS:(13230001)(366004)(26005)(508600001)(83380400001)(186003)(36756003)(107886003)(1076003)(2616005)(316002)(6916009)(52116002)(6506007)(6666004)(6486002)(2906002)(86362001)(4326008)(8936002)(8676002)(6512007)(44832011)(5660300002)(66556008)(66476007)(38350700002)(38100700002)(66946007)(20210929001);
  DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?XfB4A5HjC/p99rHXRW0gwLOOiGEhwjPO1zHOg6uynnHaEPfMWIVVns3OEY0L?=
- =?us-ascii?Q?Ex9XAt1I/9epzDS2/0QhfrFLF7l2krzWI9Fuu0mexJBfr70HPz7wYNAjTjxY?=
- =?us-ascii?Q?maDd3QEHKfT2hbCsRPlAy98A/HIZjSCLwHdv2i9mTj0iBPOBl70Ee+HmEqKQ?=
- =?us-ascii?Q?Wy8Z78XXcOKiRhIyI4P9VjwaaMZnYvAhyupobXPXUiP+eYbLTJ/e128SiVWE?=
- =?us-ascii?Q?8bMDKYa7lIsfcsuLFSE3uS+PSUj4qpu3iftbtQowwd7l9tall5FcpZFnUOSa?=
- =?us-ascii?Q?aNola/5VGGbF941X0W5YZ2PiMvOVuZme3jFMI7IVUDcNDocjTETynurVpQ2y?=
- =?us-ascii?Q?OEAJUAFSicIEoPzq4Rz9zxJICmnh3RV5czIw5fj4N6A2UHfbKxo7ol8QSxjR?=
- =?us-ascii?Q?XP03Nl1fhR5bzDKDHnKZGLgSxcTwFPk9n28qg0dpOSdSBOzY4Pr3cNkMeY1x?=
- =?us-ascii?Q?j1BNFihtVWHv1qxZTspsnTDOjrlHLA3fjrq1yJ0D0LTcbRSKCFcul0Mb8WGa?=
- =?us-ascii?Q?QoA9vFkObu/ipXZ+ijMACjb/yP1J7bXh+ATfHY82/o7CLDV0rdIj+l4e3FAB?=
- =?us-ascii?Q?q72IbFUPJtQ9yXscmicGOJmv0ael/J+Fb7uZlcarOLaeydUWcqN17V8ZBIGl?=
- =?us-ascii?Q?Y3JKjFqCWBeWpQED3KufkTupkRCz+jhHNHBC4vjxB8bUgUDCiPjxi5nSByti?=
- =?us-ascii?Q?N1H6YyaWnxl7yRGelwBAo6lmpyDXThyX+pzFp2u8D9mCfRfG2X8jzv5trPtz?=
- =?us-ascii?Q?QG2ddeuaHpbyMy0VWfhJ0/y9x0ItHGOnya+lApvAtGp0iFnynue4eTJh/E8q?=
- =?us-ascii?Q?oR2u76yRHsBd0qav9mJ+tdvkABMWE1KMNtgSrGsNaDvjefmeR1UpugkPOza7?=
- =?us-ascii?Q?crhL+SlELIkC8iuDkknIicgWcBh8kLixpq5PyDeVtqugVaSXVbIqEjccyWXc?=
- =?us-ascii?Q?z70R8mgDB6rQzjrzmy8IJQjqJ2lc684sF+7FR3e82nLgsCrsthEn4O90hAep?=
- =?us-ascii?Q?jfNUAMbg1tODyHucdnNt+er9mlUnoVEpTLt+YtLYc3kdPyf0A3yAimtccZ5p?=
- =?us-ascii?Q?OKlIhp9S3OJz4c8YG8YACSXYEaTkzGQ7Tp3JjQggeci8+aAPzYDnCCR5ykGz?=
- =?us-ascii?Q?6JBDRYOoNUICe5d07NqGPuEf0mUIo5UXQHPrmjTqJPHMcoFEYVvi4vtW8Znt?=
- =?us-ascii?Q?1eXllYbSYXBXmvyiqZ2zva3XIBt1hHEL2Pt5Mq8GXpN3qVAUujSo/+ddrFf3?=
- =?us-ascii?Q?3CiB9xxIkJvY8g5iXf7nmFlCYFMnC98FfxYSUglEUapiu++x2YilcDLMui2u?=
- =?us-ascii?Q?PphqVa5DHC3mbsNDb5v+yWwTVmoUJwPNxmWttb1uzd+UUAm/xNC05vvY+NHF?=
- =?us-ascii?Q?U2u4h3iSA7Eb/Z6pWS3gBieDD6t+6xmAZVZ87OIDVlsl6DePR+bGi3hFWLHT?=
- =?us-ascii?Q?tYfp+XGNrdtH8mAoFKaKCony8f+3LW+rYBy/YqWWFYABxFHnK7IDyMHCL70j?=
- =?us-ascii?Q?1g0UZq6x68HmksG6ORxV84nfoPwTV116GtfYR3Oa9ai4Q6VMNmsrCziN6P3K?=
- =?us-ascii?Q?Kob+n0u+5fwipHSfNJgkiNMIRY05ZD2rfdklqpB3mUM7zy0aC+wYhWSgvCvx?=
- =?us-ascii?Q?qbNI6pK+urqUZNaxn4eDj0c=3D?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?F1Q3d8K9O1C1YEcGD5+Yrue2qccYsTHgMnG22DgEFoTlxqik+18eZ8jMSpyW?=
+ =?us-ascii?Q?WfqFtnoCbeELo2TrLyCBLV9wwY4bOjXmQ9GAIgt4lCFvtwTfz4uY8v0bqwXq?=
+ =?us-ascii?Q?qpYBTcd1maTpgevOyEVxKK5313bm/Ar984+v5JQN/LVql27zvnhohlWw47Bp?=
+ =?us-ascii?Q?YoZIxHFTJBrRVBio+thQ2viV8xh7zAsToHQ8eUcQhmastwuFGDxxlbmL4t3W?=
+ =?us-ascii?Q?yN4UmKi/GmPOSHfdNM3XjFlKPUHWsP+HZ0epKGq8W0qILd5WzEG0tKZPeCYP?=
+ =?us-ascii?Q?lcdhLeqa1wYsj0B159Si2QeITonop9tqImXq7BYMAHMHvPRCNuCmZr5MoEc/?=
+ =?us-ascii?Q?cpK6PwAEdtRDpLzEWorNkh82v+0H/1k/EfHiamcgBUEjVqpYgZmk0RsxTMrT?=
+ =?us-ascii?Q?zv1WsEahioGz7GQWLoG59PE1UfApIZS0VsCmcezFw5kqLRKWSIRIGWYC8hUP?=
+ =?us-ascii?Q?XFrgCCC22X+taXzfakhxdqnHeX4UE0o7Wt8qcox7zPuk2dRYpYrRPAXclLwF?=
+ =?us-ascii?Q?0Lf1/os3pJEf4tmzul+A0XAVcflVmZopEstg42rhdV7Unz7eIikHDfBxNXzp?=
+ =?us-ascii?Q?K+Z+WrnPspOu4Uz4FNVLh6yFTYniQihNy6C7N2Sxc76PIO4A45gSQkGh/mbW?=
+ =?us-ascii?Q?iU4eKENrXffV2HVMbhJ9loDvxYzBlesuYesPT5luLgRF/9RvEs5U4j19wOgE?=
+ =?us-ascii?Q?rUWct0n+ciKmAKAjOnhf5a3wWrmXulfGapTCsBJcNWk2qkuh4rfvQI8IMOb5?=
+ =?us-ascii?Q?wi9ZLDDJxu6WK6qsdiTyxvo6fdynBeCLyiq5tfgaUoi3SA3ZM0EuGRmXV0lf?=
+ =?us-ascii?Q?HJ1HH8yIFzWJwv0oZcVktsrIhTpdGyu2nHCG57D6ahjiQ1Z4rWflddt2buN9?=
+ =?us-ascii?Q?xFWRExi+RWkQbm4DdRzVQvDTB+DV/ou6YmSeL2Qpz2dvcjM7Y/8ZjUXr+aC9?=
+ =?us-ascii?Q?tWAPujIfOLNXpo5YpqU+wK2laRAucQQS8jEg8kQ3o4DJrU31hiyTNs2yCywz?=
+ =?us-ascii?Q?aSt5ElGU69vct/OUelXEt8RGWZfZrhl2EyMTmMIdAbXfXlK7EbXCa45EDstd?=
+ =?us-ascii?Q?OTz1fEzaW7lncOkWhZSC9O5QIVFyovoju1F8wQdfdMPjRxqOOGajk80OtzfU?=
+ =?us-ascii?Q?MMwWKkxt4yZaRRx89ZZLYRyAxTCfacoByOdlUlK7p1IM+/efHgL8dgenbVP3?=
+ =?us-ascii?Q?DQPDmvY9+hD/fWdPaX4EnfldxgPnkifi4FK6v1dcjnQSmfGh6lFPoPgfrypj?=
+ =?us-ascii?Q?NDery0vRY6LCNui+TegfsFEriqBVokH2d+/dGonc7B1qblAIXPPx1mthBu72?=
+ =?us-ascii?Q?LUrg6TOQc6P7iQEsMfE3Bo9UQS5vSj6idPcKag1tH0hrzPQ7MPh9mCbTJx/X?=
+ =?us-ascii?Q?B02DTq2YKltb+l7G/7BtP+Al5YGSDf4OgG4ytgV2Z2zKCJLztL5BwRThuvIW?=
+ =?us-ascii?Q?b3GsCd2M92i9Advr0oDJObKb2knK2Zly/mC6JrO+rFqTC4HVlD9SxvWHajof?=
+ =?us-ascii?Q?ZYp0WJlxfzsN3UES56qrkI90Wg4zc2+KRk2MhDVVN6dTkpnDwdtpZw14Wj+j?=
+ =?us-ascii?Q?j81YCmx7u2+FWJJBC6vUFiwWF1E832kizC1zHuznfCbJe2l2MErn02lSwEep?=
+ =?us-ascii?Q?Rbk7y1IeKoTrxE6dYCeRf6A=3D?=
 X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ddcba4ab-326d-4e1c-8dd0-08d9e4f1ef44
+X-MS-Exchange-CrossTenant-Network-Message-Id: fcee6dbf-bc51-46df-732f-08d9e4f1ef8e
 X-MS-Exchange-CrossTenant-AuthSource: SA1PR10MB5841.namprd10.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Jan 2022 19:43:20.3384 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Jan 2022 19:43:20.8851 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Q0fQhxL+MPeqQysDomDJzuIIfAfWpxfA78G8+Lx63fGQnNxAW4ARkFoMcDfhP72NRDKouP4Nmt7ihagSAndoUQ==
+X-MS-Exchange-CrossTenant-UserPrincipalName: HMnilhnd6NzhOVkbaD3MPcZyFeC9AYsAuAgipLXlFWVmMzTG3eo2EeRVl4T/AHEhmWMDe1VnehtcOpHYlz7mjw==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: BLAPR10MB5362
 X-Proofpoint-Virus-Version: vendor=nai engine=6300 definitions=10244
  signatures=673430
@@ -140,8 +140,8 @@ X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
  bulkscore=0 adultscore=0 mlxlogscore=999 phishscore=0 malwarescore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2201110000
  definitions=main-2201310125
-X-Proofpoint-GUID: _lBkZM55f6iuXEf8VrLCZg3w7dmwvAax
-X-Proofpoint-ORIG-GUID: _lBkZM55f6iuXEf8VrLCZg3w7dmwvAax
+X-Proofpoint-GUID: EH8pzqZjd3lk7Ywfk2kGggkVa2-rODWl
+X-Proofpoint-ORIG-GUID: EH8pzqZjd3lk7Ywfk2kGggkVa2-rODWl
 Received-SPF: pass client-ip=205.220.165.32;
  envelope-from=mark.kanda@oracle.com; helo=mx0a-00069f02.pphosted.com
 X-Spam_score_int: -27
@@ -168,412 +168,367 @@ Cc: pbonzini@redhat.com, berrange@redhat.com, armbru@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Leverage the QMP support for querying stats. The interface supports the same
-arguments as the QMP interface. Wildcard char (*) is accepted for names and
-stats target.
+Add support for querying fd-based KVM stats - as introduced by Linux kernel
+commit:
 
-Examples (with fd-based KVM stats):
-
-- Display all stats
-(qemu) info stats
-vm
-  provider: kvm
-    max_mmu_page_hash_collisions (peak): 0
-    max_mmu_rmap_size (peak): 0
-...
-vcpu (qom path: /machine/unattached/device[0])
-  provider: kvm
-    guest_mode (instant): 0
-    directed_yield_successful (cumulative): 0
-...
-
-(qemu) info stats-schemas
-vm
-  provider: kvm
-    max_mmu_page_hash_collisions (peak)
-    max_mmu_rmap_size (peak)
-...
-vcpu
-  provider: kvm
-    guest_mode (instant)
-    directed_yield_successful (cumulative)
-
-- Display 'halt_wait_ns' and 'exits' for vCPUs with qom paths
-/machine/unattached/device[2] and /machine/unattached/device[4]:
-
-(qemu) info stats exits,halt_wait_ns /machine/unattached/device[2],
-/machine/unattached/device[4]
-
-vcpu (qom path: /machine/unattached/device[2])
-  provider: kvm
-    exits (cumulative): 52369
-    halt_wait_ns (cumulative nanoseconds): 416092704390
-vcpu (qom path: /machine/unattached/device[4])
-  provider: kvm
-    exits (cumulative): 52550
-    halt_wait_ns (cumulative nanoseconds): 419637402657
-
-- Display all VM stats for provider KVM:
-
-(qemu) info stats * vm kvm
-vm
-  provider: kvm
-    max_mmu_page_hash_collisions (peak): 0
-    max_mmu_rmap_size (peak): 0
-    nx_lpage_splits (instant): 51
-...
+cb082bfab59a ("KVM: stats: Add fd-based API to read binary stats data")
 
 Signed-off-by: Mark Kanda <mark.kanda@oracle.com>
 ---
- hmp-commands-info.hx  |  28 ++++
- include/monitor/hmp.h |   2 +
- monitor/hmp-cmds.c    | 288 ++++++++++++++++++++++++++++++++++++++++++
- 3 files changed, 318 insertions(+)
+ accel/kvm/kvm-all.c | 308 ++++++++++++++++++++++++++++++++++++++++++++
+ qapi/misc.json      |   2 +-
+ 2 files changed, 309 insertions(+), 1 deletion(-)
 
-diff --git a/hmp-commands-info.hx b/hmp-commands-info.hx
-index e90f20a107..7365a8e002 100644
---- a/hmp-commands-info.hx
-+++ b/hmp-commands-info.hx
-@@ -879,3 +879,31 @@ SRST
-   ``info sgx``
-     Show intel SGX information.
- ERST
-+
-+    {
-+        .name       = "stats",
-+        .args_type  = "names:s?,paths:s?,provider:s?",
-+        .params     = "[names] [paths] [provider]",
-+        .help       = "show statistics; optional comma separated names, "
-+	              "vcpu qom paths, and provider",
-+        .cmd        = hmp_info_stats,
-+    },
-+
-+SRST
-+  ``stats``
-+    Show stats
-+ERST
-+
-+    {
-+        .name       = "stats-schemas",
-+        .args_type  = "provider:s?",
-+        .params     = "[provider]",
-+        .help       = "show statistics schema for each provider",
-+        .cmd        = hmp_info_stats_schemas,
-+    },
-+
-+SRST
-+  ``stats-schemas``
-+    Show stats per schema
-+ERST
-+
-diff --git a/include/monitor/hmp.h b/include/monitor/hmp.h
-index 96d014826a..a748511105 100644
---- a/include/monitor/hmp.h
-+++ b/include/monitor/hmp.h
-@@ -133,5 +133,7 @@ void hmp_info_dirty_rate(Monitor *mon, const QDict *qdict);
- void hmp_calc_dirty_rate(Monitor *mon, const QDict *qdict);
- void hmp_human_readable_text_helper(Monitor *mon,
-                                     HumanReadableText *(*qmp_handler)(Error **));
-+void hmp_info_stats(Monitor *mon, const QDict *qdict);
-+void hmp_info_stats_schemas(Monitor *mon, const QDict *qdict);
+diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
+index 0e66ebb497..e43e1f1c1c 100644
+--- a/accel/kvm/kvm-all.c
++++ b/accel/kvm/kvm-all.c
+@@ -47,6 +47,8 @@
+ #include "kvm-cpus.h"
  
- #endif
-diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
-index 8c384dc1b2..19b2a585d6 100644
---- a/monitor/hmp-cmds.c
-+++ b/monitor/hmp-cmds.c
-@@ -2178,3 +2178,291 @@ void hmp_info_memory_size_summary(Monitor *mon, const QDict *qdict)
-     }
-     hmp_handle_error(mon, err);
+ #include "hw/boards.h"
++#include "qapi/qapi-commands-misc.h"
++#include "monitor/stats.h"
+ 
+ /* This check must be after config-host.h is included */
+ #ifdef CONFIG_EVENTFD
+@@ -2309,6 +2311,9 @@ bool kvm_dirty_ring_enabled(void)
+     return kvm_state->kvm_dirty_ring_size ? true : false;
  }
+ 
++static void query_stats_cb(StatsResults *, StatsFilter *, Error **);
++static void query_stats_schemas_cb(StatsSchemaResult *, Error **);
 +
-+static void print_stats_schema_value(Monitor *mon, StatsSchemaValue *value)
-+{
-+    monitor_printf(mon, "    %s (%s", value->name, StatType_str(value->type));
-+
-+    if (value->unit == STAT_UNIT_SECONDS &&
-+        value->exponent >= -9 && value->exponent <= 0 &&
-+        value->exponent % 3 == 0 && value->base == STAT_BASE_POW10) {
-+
-+        const char *si_prefix[] = { "", "milli", "micro", "nano" };
-+        monitor_printf(mon, " %s", si_prefix[value->exponent / -3]);
-+
-+    } else if (value->unit == STAT_UNIT_BYTES &&
-+        value->exponent >= 0 && value->exponent <= 40 &&
-+        value->exponent % 10 == 0 && value->base == STAT_BASE_POW2) {
-+
-+        const char *si_prefix[] = {
-+            "", "kilo", "mega", "giga", "tera" };
-+        monitor_printf(mon, " %s", si_prefix[value->exponent / 10]);
-+
-+    } else if (value->exponent) {
-+        /* Print the base and exponent as "x <base>^<exp>" */
-+        monitor_printf(mon, " x %s^%d", StatBase_str(value->base),
-+                       value->exponent);
+ static int kvm_init(MachineState *ms)
+ {
+     MachineClass *mc = MACHINE_GET_CLASS(ms);
+@@ -2637,6 +2642,11 @@ static int kvm_init(MachineState *ms)
+         }
+     }
+ 
++    if (kvm_check_extension(kvm_state, KVM_CAP_BINARY_STATS_FD)) {
++        add_stats_callbacks(STATS_PROVIDER_KVM, &query_stats_cb,
++                            &query_stats_schemas_cb);
 +    }
 +
-+    /* Don't print "none" unit type */
-+    monitor_printf(mon, "%s)", value->unit == STAT_UNIT_NONE ?
-+                   "" : StatUnit_str(value->unit));
-+}
+     return 0;
+ 
+ err:
+@@ -3696,3 +3706,301 @@ static void kvm_type_init(void)
+ }
+ 
+ type_init(kvm_type_init);
 +
-+static StatsSchemaValueList *find_schema_value_list(
-+    StatsSchemaProviderList *list, StatsProvider provider)
++typedef struct StatsArgs {
++    StatsFilter *filter;
++    bool is_schema;
++    union {
++        StatsResults *stats;
++        StatsSchemaResult *schema;
++    } result;
++    Error **errp;
++} StatsArgs;
++
++static StatsList *add_kvmstat_entry(struct kvm_stats_desc *pdesc,
++                                    uint64_t *stats_data,
++                                    StatsList *stats_list,
++                                    Error **errp)
 +{
-+    StatsSchemaProviderList *schema_provider_list;
++    StatsList *stats_entry = g_malloc0(sizeof(*stats_entry));
++    Stats *stats = g_malloc0(sizeof(*stats));
++    uint64List *val_list = NULL;
++    int i;
 +
-+    for (schema_provider_list = list;
-+         schema_provider_list;
-+         schema_provider_list = schema_provider_list->next) {
-+        if (schema_provider_list->value->provider == provider) {
-+            return schema_provider_list->value->stats;
++    stats->name = g_strdup(pdesc->name);
++    stats->value = g_malloc0(sizeof(*stats->value));
++
++    /* Alloc and populate data list */
++    if (pdesc->size == 1) {
++        stats->value->u.scalar = *stats_data;
++        stats->value->type = QTYPE_QNUM;
++    } else {
++        for (i = 0; i < pdesc->size; i++) {
++            uint64List *val_entry = g_malloc0(sizeof(*val_entry));
++            val_entry->value = stats_data[i];
++            val_entry->next = val_list;
++            val_list = val_entry;
 +        }
++        stats->value->u.list.list = val_list;
++        stats->value->type = QTYPE_QDICT;
 +    }
-+    return NULL;
++
++    stats_entry->value = stats;
++    stats_entry->next = stats_list;
++
++    return stats_entry;
 +}
 +
-+static void print_stats_results_entry_list(Monitor *mon, StatsTarget type,
-+                                           StatsResultsEntryList *list,
-+                                           StatsSchemaProviderList *schema)
++static StatsSchemaValueList *add_kvmschema_entry(struct kvm_stats_desc *pdesc,
++                                                 StatsSchemaValueList *list,
++                                                 Error **errp)
 +{
-+    StatsResultsEntryList *results_entry_list;
++    StatsSchemaValueList *schema_entry;
 +
-+    for (results_entry_list = list;
-+         results_entry_list;
-+         results_entry_list = results_entry_list->next) {
++    schema_entry = g_malloc0(sizeof(*schema_entry));
++    schema_entry->value = g_malloc0(sizeof(*schema_entry->value));
++    schema_entry->value->name = g_strdup(pdesc->name);
 +
-+        StatsResultsEntry *results_entry = results_entry_list->value;
-+        monitor_printf(mon, "  provider: %s\n",
-+                       StatsProvider_str(results_entry->provider));
++    switch (pdesc->flags & KVM_STATS_TYPE_MASK) {
++    case KVM_STATS_TYPE_CUMULATIVE:
++        schema_entry->value->type = STAT_TYPE_CUMULATIVE;
++        break;
++    case KVM_STATS_TYPE_INSTANT:
++        schema_entry->value->type = STAT_TYPE_INSTANT;
++        break;
++    case KVM_STATS_TYPE_PEAK:
++        schema_entry->value->type = STAT_TYPE_PEAK;
++        break;
++    case KVM_STATS_TYPE_LINEAR_HIST:
++        schema_entry->value->type = STAT_TYPE_LINEAR_HIST;
++        break;
++    case KVM_STATS_TYPE_LOG_HIST:
++        schema_entry->value->type = STAT_TYPE_LOG_HIST;
++        break;
++    default:
++        schema_entry->value->type = STAT_TYPE_UNKNOWN;
++    }
 +
-+        /* Find provider schema */
-+        StatsSchemaValueList *schema_value_list =
-+            find_schema_value_list(schema, results_entry->provider);
-+        StatsList *stats_list;
++    switch (pdesc->flags & KVM_STATS_UNIT_MASK) {
++    case KVM_STATS_UNIT_NONE:
++        schema_entry->value->unit = STAT_UNIT_NONE;
++        break;
++    case KVM_STATS_UNIT_BYTES:
++        schema_entry->value->unit = STAT_UNIT_BYTES;
++        break;
++    case KVM_STATS_UNIT_CYCLES:
++        schema_entry->value->unit = STAT_UNIT_CYCLES;
++        break;
++    case KVM_STATS_UNIT_SECONDS:
++        schema_entry->value->unit = STAT_UNIT_SECONDS;
++        break;
++    default:
++        schema_entry->value->unit = STAT_UNIT_UNKNOWN;
++    }
 +
-+        for (stats_list = results_entry->stats;
-+             stats_list;
-+             stats_list = stats_list->next,
-+                 schema_value_list = schema_value_list->next) {
++    switch (pdesc->flags & KVM_STATS_BASE_MASK) {
++    case KVM_STATS_BASE_POW10:
++        schema_entry->value->base = STAT_BASE_POW10;
++        break;
++    case KVM_STATS_BASE_POW2:
++        schema_entry->value->base = STAT_BASE_POW2;
++        break;
++    default:
++        schema_entry->value->base = STAT_BASE_UNKNOWN;
++    }
 +
-+            Stats *stats = stats_list->value;
-+            StatsValue *stats_value = stats->value;
-+            StatsSchemaValue *schema_value = schema_value_list->value;
++    schema_entry->value->exponent = pdesc->exponent;
++    schema_entry->next = list;
++    return schema_entry;
++}
 +
-+            /* Find schema entry */
-+            while (!g_str_equal(stats->name, schema_value->name)) {
-+                if (!schema_value_list->next) {
-+                    monitor_printf(mon, "failed to find schema entry for %s\n",
-+                                   stats->name);
-+                    return;
-+                }
-+                schema_value_list = schema_value_list->next;
-+                schema_value = schema_value_list->value;
-+            }
++static void query_stats(StatsArgs *kvm_stat_args, int stats_fd)
++{
++    size_t size_desc, size_data;
++    struct kvm_stats_header *header;
++    struct kvm_stats_desc *stats_desc = NULL;
++    Error *local_err = NULL;
++    void *stats_list = NULL;
++    char *id = NULL;
++    ssize_t ret;
++    int i;
 +
-+            print_stats_schema_value(mon, schema_value);
++    /* Read KVM stats header */
++    header = g_malloc(sizeof(*header));
++    ret = read(stats_fd, header, sizeof(*header));
++    if (ret != sizeof(*header)) {
++        error_setg(&local_err, "KVM stats: failed to read stats header: "
++                   "expected %zu actual %zu", sizeof(*header), ret);
++        goto exit;
++    }
++    size_desc = sizeof(*stats_desc) + header->name_size;
 +
-+            if (stats_value->type == QTYPE_QNUM) {
-+                monitor_printf(mon, ": %ld\n", stats_value->u.scalar);
-+            } else if (stats_value->type == QTYPE_QDICT) {
-+                uint64List *list;
-+                int i;
++    /* Read KVM stats id string */
++    id = g_malloc(header->name_size);
++    ret = read(stats_fd, id, header->name_size);
++    if (ret != header->name_size) {
++        error_setg(&local_err, "KVM stats: failed to read id string: "
++                   "expected %zu actual %zu", (size_t) header->name_size, ret);
++        goto exit;
++    }
 +
-+                monitor_printf(mon, ": ");
-+                for (list = stats_value->u.list.list, i = 1;
-+                     list;
-+                     list = list->next, i++) {
-+                    monitor_printf(mon, "[%d]=%ld ", i, list->value);
-+                }
-+                monitor_printf(mon, "\n");
-+            }
++    /* Read KVM stats descriptors */
++    stats_desc = g_malloc0(header->num_desc * size_desc);
++    ret = pread(stats_fd, stats_desc,
++                size_desc * header->num_desc, header->desc_offset);
++
++    if (ret != size_desc * header->num_desc) {
++        error_setg(&local_err, "KVM stats: failed to read stats descriptors: "
++                   "expected %zu actual %zu",
++                   size_desc * header->num_desc, ret);
++        goto exit;
++    }
++
++    for (i = 0; i < header->num_desc; ++i) {
++        struct kvm_stats_desc *pdesc = (void *)stats_desc + i * size_desc;
++        size_data = pdesc->size * sizeof(uint64_t);
++
++        uint64_t *stats_data = g_malloc(size_data);
++
++        ret = pread(stats_fd, stats_data, size_data,
++                    header->data_offset + pdesc->offset);
++
++        if (ret != pdesc->size * sizeof(*stats_data)) {
++            error_setg(&local_err, "KVM stats: failed to read data: "
++                       "expected %zu actual %zu",
++                       pdesc->size * sizeof(*stats_data), ret);
++            g_free(stats_data);
++            goto exit;
 +        }
++
++        /* Add entry to the list */
++        if (kvm_stat_args->is_schema) {
++            stats_list = add_kvmschema_entry(pdesc, (StatsSchemaValueList *)
++                                             stats_list, &local_err);
++        } else {
++            if (stat_name_filter(kvm_stat_args->filter,
++                                 kvm_stat_args->filter->target, pdesc->name)) {
++                g_free(stats_data);
++                continue;
++            }
++            stats_list = add_kvmstat_entry(pdesc, stats_data,
++                                           (StatsList *) stats_list,
++                                           &local_err);
++        }
++        g_free(stats_data);
 +    }
++
++    if (!stats_list) {
++        goto exit;
++    }
++
++    if (kvm_stat_args->is_schema) {
++        StatsSchemaProvider *provider;
++        if (kvm_stat_args->filter->target == STATS_TARGET_VM) {
++            provider = add_vm_stats_schema(kvm_stat_args->result.schema,
++                                           STATS_PROVIDER_KVM);
++        } else if (kvm_stat_args->filter->target == STATS_TARGET_VCPU) {
++            provider = add_vcpu_stats_schema(kvm_stat_args->result.schema,
++                                             STATS_PROVIDER_KVM);
++        }
++        provider->stats = (StatsSchemaValueList *)stats_list;
++    } else {
++        StatsResultsEntry *results;
++        if (kvm_stat_args->filter->target == STATS_TARGET_VM) {
++            results = add_vm_stats_entry(kvm_stat_args->result.stats,
++                                         STATS_PROVIDER_KVM);
++        } else if (kvm_stat_args->filter->target == STATS_TARGET_VCPU) {
++            results =
++                add_vcpu_stats_entry(kvm_stat_args->result.stats,
++                                     STATS_PROVIDER_KVM,
++                                     current_cpu->parent_obj.canonical_path);
++        }
++        results->stats = (StatsList *)stats_list;
++    }
++exit:
++    error_propagate(kvm_stat_args->errp, local_err);
++    g_free(stats_desc);
++    g_free(id);
++    g_free(header);
 +}
 +
-+static const char wildcard[] = "*";
-+static StatsFilter *stats_filter(StatsTarget target, const char *name,
-+                                 StatsProvider provider)
++static void query_stats_vcpu(CPUState *cpu, run_on_cpu_data data)
 +{
-+    StatsFilter *filter = g_malloc0(sizeof(*filter));
-+    filter->target = target;
++    StatsArgs *kvm_stats_args = (StatsArgs *) data.host_ptr;
++    int stats_fd = kvm_vcpu_ioctl(cpu, KVM_GET_STATS_FD, NULL);
++    Error *local_err = NULL;
 +
-+    switch (target) {
++    if (stats_fd == -1) {
++        error_setg(&local_err, "KVM stats: ioctl failed");
++        error_propagate(kvm_stats_args->errp, local_err);
++        return;
++    }
++    query_stats(kvm_stats_args, stats_fd);
++    close(stats_fd);
++}
++
++static void query_stats_cb(StatsResults *stats_result, StatsFilter *filter,
++                           Error **errp)
++{
++    KVMState *s = kvm_state;
++    CPUState *cpu;
++    int stats_fd;
++    StatsArgs *stats_args = g_malloc0(sizeof(*stats_args));
++    stats_args->filter = filter;
++    stats_args->errp = errp;
++    stats_args->result.stats = stats_result;
++
++    switch (filter->target) {
 +    case STATS_TARGET_VM:
-+        if (name && !g_str_equal(name, wildcard)) {
-+            filter->u.vm.fields = strList_from_comma_list(name);
-+            filter->u.vm.has_fields = true;
++        stats_fd = kvm_vm_ioctl(s, KVM_GET_STATS_FD, NULL);
++        if (stats_fd == -1) {
++            error_setg(errp, "KVM stats: ioctl failed");
++            goto done;
 +        }
-+        if (provider != STATS_PROVIDER__MAX) {
-+            filter->u.vm.provider = provider;
-+            filter->u.vm.has_provider = true;
-+        }
++
++        query_stats(stats_args, stats_fd);
 +        break;
 +    case STATS_TARGET_VCPU:
-+        if (name && !g_str_equal(name, wildcard)) {
-+            filter->u.vcpu.fields = strList_from_comma_list(name);
-+            filter->u.vcpu.has_fields = true;
-+        }
-+        if (provider != STATS_PROVIDER__MAX) {
-+            filter->u.vcpu.provider = provider;
-+            filter->u.vcpu.has_provider = true;
++        CPU_FOREACH(cpu) {
++            if (stat_cpu_filter(filter, cpu->parent_obj.canonical_path)) {
++                continue;
++            }
++            run_on_cpu(cpu, query_stats_vcpu, RUN_ON_CPU_HOST_PTR(stats_args));
 +        }
 +        break;
 +    default:
 +        break;
 +    }
-+    return filter;
++done:
++    g_free(stats_args);
 +}
 +
-+void hmp_info_stats(Monitor *mon, const QDict *qdict)
++void query_stats_schemas_cb(StatsSchemaResult *stats_result, Error **errp)
 +{
-+    const char *names = qdict_get_try_str(qdict, "names");
-+    const char *paths = qdict_get_try_str(qdict, "paths");
-+    const char *provider = qdict_get_try_str(qdict, "provider");
++    KVMState *s = kvm_state;
++    int stats_fd;
++    StatsArgs *stats_args =  g_malloc0(sizeof(*stats_args));
++    stats_args->filter = g_malloc0(sizeof(*stats_args->filter));
++    stats_args->errp = errp;
 +
-+    StatsProvider stats_provider = STATS_PROVIDER__MAX;
-+    StatsTarget target;
-+    Error *err = NULL;
-+
-+    if (provider) {
-+        for (stats_provider = 0; stats_provider < STATS_PROVIDER__MAX;
-+             stats_provider++) {
-+            if (g_str_equal(StatsProvider_str(stats_provider), provider)) {
-+                break;
-+            }
-+        }
-+        if (stats_provider == STATS_PROVIDER__MAX) {
-+            monitor_printf(mon, "invalid stats filter provider %s\n",
-+                           provider);
-+            goto exit;
-+        }
++    stats_fd = kvm_vm_ioctl(s, KVM_GET_STATS_FD, NULL);
++    if (stats_fd == -1) {
++        error_setg(errp, "KVM stats: ioctl failed");
++        goto done;
 +    }
 +
-+    for (target = 0; target < STATS_TARGET__MAX; target++) {
-+        StatsResults *stats_results = NULL;
-+        StatsSchemaResult *schema_results = NULL;
-+        StatsFilter *filter = stats_filter(target, names, stats_provider);
++    stats_args->result.schema = stats_result;
++    stats_args->is_schema = true;
 +
-+        switch (target) {
-+        case STATS_TARGET_VM:
-+            if (paths && !g_str_equal(paths, wildcard) &&
-+                !g_str_equal(paths, StatsTarget_str(STATS_TARGET_VM))) {
-+                break;
-+            }
-+            stats_results = qmp_query_stats(filter, &err);
-+            schema_results =
-+                qmp_query_stats_schemas(provider ? true : false,
-+                                        stats_provider, &err);
++    /* Query VM */
++    stats_args->filter->target = STATS_TARGET_VM;
++    query_stats(stats_args, stats_fd);
 +
-+            if (!stats_results->u.vm.list) {
-+                break;
-+            }
-+            monitor_printf(mon, "%s\n", StatsTarget_str(STATS_TARGET_VM));
-+            print_stats_results_entry_list(mon, STATS_TARGET_VM,
-+                                           stats_results->u.vm.list,
-+                                           schema_results->vm);
-+            break;
-+        case STATS_TARGET_VCPU:
-+            if (paths && !g_str_equal(paths, wildcard) &&
-+                !g_str_equal(paths, StatsTarget_str(STATS_TARGET_VCPU))) {
-+                /* apply filter for specified paths */
-+                filter->u.vcpu.paths = strList_from_comma_list(paths);
-+                filter->u.vcpu.has_paths = true;
-+            }
-+
-+            stats_results = qmp_query_stats(filter, &err);
-+            schema_results =
-+                qmp_query_stats_schemas(provider ? true : false,
-+                                        stats_provider, &err);
-+
-+            VCPUResultsEntryList *results_entry_list;
-+            for (results_entry_list = stats_results->u.vcpu.list;
-+                 results_entry_list;
-+                 results_entry_list = results_entry_list->next) {
-+                monitor_printf(mon, "%s (qom path: %s)\n",
-+                               StatsTarget_str(STATS_TARGET_VCPU),
-+                               results_entry_list->value->path);
-+                print_stats_results_entry_list(mon, STATS_TARGET_VCPU,
-+                                               results_entry_list->value->list,
-+                                               schema_results->vcpu);
-+            }
-+            break;
-+        default:
-+            break;
-+        }
-+        qapi_free_StatsFilter(filter);
-+        qapi_free_StatsSchemaResult(schema_results);
-+        qapi_free_StatsResults(stats_results);
-+    }
-+
-+exit:
-+    if (err) {
-+        monitor_printf(mon, "%s\n", error_get_pretty(err));
-+        error_free(err);
-+    }
++    /* Query vCPU */
++    stats_args->filter->target = STATS_TARGET_VCPU;
++    run_on_cpu(first_cpu, query_stats_vcpu, RUN_ON_CPU_HOST_PTR(stats_args));
++done:
++    g_free(stats_args->filter);
++    g_free(stats_args);
 +}
 +
-+static void print_stats_schema_list(Monitor *mon, StatsSchemaProviderList *list)
-+{
-+    StatsSchemaProviderList *schema_provider_list;
-+
-+    for (schema_provider_list = list;
-+         schema_provider_list;
-+         schema_provider_list = schema_provider_list->next) {
-+
-+        StatsSchemaProvider *schema_provider =
-+            schema_provider_list->value;
-+        monitor_printf(mon, "  provider: %s\n",
-+                       StatsProvider_str(schema_provider->provider));
-+
-+        StatsSchemaValueList *schema_value_list;
-+        for (schema_value_list = schema_provider->stats;
-+             schema_value_list;
-+             schema_value_list = schema_value_list->next) {
-+
-+            StatsSchemaValue *schema_value = schema_value_list->value;
-+            print_stats_schema_value(mon, schema_value);
-+            monitor_printf(mon, "\n");
-+        }
-+    }
-+}
-+
-+void hmp_info_stats_schemas(Monitor *mon, const QDict *qdict)
-+{
-+    const char *provider = qdict_get_try_str(qdict, "provider");
-+    StatsProvider stats_provider = STATS_PROVIDER__MAX;
-+    StatsSchemaResult *schema_result;
-+    Error *err = NULL;
-+
-+    if (provider) {
-+        for (stats_provider = 0; stats_provider < STATS_PROVIDER__MAX;
-+             stats_provider++) {
-+            if (g_str_equal(StatsProvider_str(stats_provider), provider)) {
-+                break;
-+            }
-+        }
-+        if (stats_provider == STATS_PROVIDER__MAX) {
-+            monitor_printf(mon, "invalid stats filter provider %s\n", provider);
-+            return;
-+       }
-+    }
-+
-+    schema_result =
-+        qmp_query_stats_schemas(provider ? true : false, stats_provider, &err);
-+
-+    if (err) {
-+        monitor_printf(mon, "%s\n", error_get_pretty(err));
-+        error_free(err);
-+        return;
-+    }
-+
-+    monitor_printf(mon, "%s\n", StatsTarget_str(STATS_TARGET_VM));
-+    print_stats_schema_list(mon, schema_result->vm);
-+    monitor_printf(mon, "%s\n", StatsTarget_str(STATS_TARGET_VCPU));
-+    print_stats_schema_list(mon, schema_result->vcpu);
-+
-+    qapi_free_StatsSchemaResult(schema_result);
-+}
+diff --git a/qapi/misc.json b/qapi/misc.json
+index 8d326464f0..39a7d172cb 100644
+--- a/qapi/misc.json
++++ b/qapi/misc.json
+@@ -574,7 +574,7 @@
+ # Since: 7.0
+ ##
+ { 'enum': 'StatsProvider',
+-  'data': [ ] }
++  'data': [ 'kvm' ] }
+ 
+ ##
+ # @StatsTarget:
 -- 
 2.27.0
 
