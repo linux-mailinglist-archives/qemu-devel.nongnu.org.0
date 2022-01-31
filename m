@@ -2,90 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40F294A4BC9
-	for <lists+qemu-devel@lfdr.de>; Mon, 31 Jan 2022 17:21:53 +0100 (CET)
-Received: from localhost ([::1]:50494 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 109CA4A4BE4
+	for <lists+qemu-devel@lfdr.de>; Mon, 31 Jan 2022 17:25:01 +0100 (CET)
+Received: from localhost ([::1]:55992 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nEZRA-0004sm-Ai
-	for lists+qemu-devel@lfdr.de; Mon, 31 Jan 2022 11:21:52 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:57784)
+	id 1nEZU3-0000C6-QH
+	for lists+qemu-devel@lfdr.de; Mon, 31 Jan 2022 11:24:52 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:58160)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
- id 1nEZ5p-0004kV-7b
- for qemu-devel@nongnu.org; Mon, 31 Jan 2022 10:59:49 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:29260)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
- id 1nEZ5k-0004Cz-RS
- for qemu-devel@nongnu.org; Mon, 31 Jan 2022 10:59:46 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1643644783;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=sYAAG9sJWNXlGL03Gi0NkUm02lL4CA3To8NqIppTjPQ=;
- b=WL3+UMkDVy2UjM5uLdUAZpt7Bqt9M2txdMGzGlD8URQpaZ3YLtl6vKE/qJWBmfUkxCLdD4
- nDObf6TeJ95ShG06aTsiZX3fiTAAa3r+FOrQin1siZfJCgv9pcrlqJ1J6VAR6nXngDsTJO
- r0B6kbsbnl+Y06wRZHq/2BXFC6SFWOA=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-412-NaeZ3tiKOJeeegIbk2n4-A-1; Mon, 31 Jan 2022 10:59:40 -0500
-X-MC-Unique: NaeZ3tiKOJeeegIbk2n4-A-1
-Received: by mail-ed1-f71.google.com with SMTP id
- o5-20020a50c905000000b00403bbdcef64so6703631edh.14
- for <qemu-devel@nongnu.org>; Mon, 31 Jan 2022 07:59:40 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1nEZ6p-00059m-K2; Mon, 31 Jan 2022 11:00:53 -0500
+Received: from [2a00:1450:4864:20::42e] (port=44628
+ helo=mail-wr1-x42e.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1nEZ6m-0004aU-13; Mon, 31 Jan 2022 11:00:50 -0500
+Received: by mail-wr1-x42e.google.com with SMTP id k18so26351766wrg.11;
+ Mon, 31 Jan 2022 08:00:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=sAxJ1Dca+tNjO9U9DPuhqnvDtvZy2t/n4sgaM6OmYJ0=;
+ b=JWQvD15Bk2i41h9etDQyLPPBrAKjdWmLYBMV/x1JUtkWMrOO60iTEid4VVo6NmMdt3
+ TJzqwM7KXeaGIoBsdKWmoj5vShzmqo+xgjvaStM91lDMlLFNAsZJMnLTeaJP6y52xi4H
+ MCR7ol7cCcaj8Vt8XJ695QpJ1WMBgIny0HVYc4mIA6gQDgvm9ZYeBWGgdrC6lkMa7luR
+ +uTLjqLwDhe4YBy/6uAQPd92ghpHHh0Rx4WIBZjJPLpNgECLqL/hBipQmMh3UaRkIL+t
+ uVcdUsf1GEmA9EDPp3E2uycgTOYwiLH5u/xxdFGCb+c4xHmKzpTsinRFzQcvQj4OPViB
+ FN/Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=sYAAG9sJWNXlGL03Gi0NkUm02lL4CA3To8NqIppTjPQ=;
- b=TRwmbXpLIoFhb0Ra1x/5QV9hw14wiQH1sr8DWrNcT7pzg0OnmrZU5OmoKf3oPSE8wp
- rcUsUMfWgiJJsA/pX3mYEigQHHsAyFwHnYVlmF7wXNNFfmU0KIObspuhcpGnbjhiIQkl
- /eyQxWaySi/rOEFnLjB0UzbuD1GwDwGb+dI+oN4icCmexLKWdWSiHkpeouR6rp4WKlGZ
- 1/S6rZsr2r7BE3yMKfj3V377DdJTjSc5xc1XX+YepJCHf2olgR30C1aIhJoxadCG51GM
- ZL5sJMHB9F0N4nRSONksm9S2OruXf4OpuFkJBtMlGnhVk2nkh8ClDkYO0KFE43/gk2IW
- a1Jg==
-X-Gm-Message-State: AOAM530F5TIEgr2fozirUc0Cv4SemyaRzIDs/YAo9h7L8E6zBwLS5FYb
- LKk9YbgguzVSN1VEPEdw3VuXq/r3xZo7FLt8FWQMGVknbuwFSbGJlb/9MOuSJx0nOD8Vm7jQH89
- b6RdE0ygq3C+lxdY=
-X-Received: by 2002:a17:907:1690:: with SMTP id
- hc16mr18471033ejc.333.1643644779404; 
- Mon, 31 Jan 2022 07:59:39 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwsAR8yrKkhtImb74DqxGlQCILrswSh9/6K7rt1Jkls4gsN0VF6KJ/9So33zhyyDPMiRlvslA==
-X-Received: by 2002:a17:907:1690:: with SMTP id
- hc16mr18471006ejc.333.1643644779110; 
- Mon, 31 Jan 2022 07:59:39 -0800 (PST)
-Received: from gator (cst2-173-70.cust.vodafone.cz. [31.30.173.70])
- by smtp.gmail.com with ESMTPSA id gg14sm13585780ejb.63.2022.01.31.07.59.38
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 31 Jan 2022 07:59:38 -0800 (PST)
-Date: Mon, 31 Jan 2022 16:59:36 +0100
-From: Andrew Jones <drjones@redhat.com>
-To: Eric Auger <eric.auger@redhat.com>
-Subject: Re: [PATCH 2/2] tests/qtest: Special case sbsa-ref and
- xlnx-versal-virt if !CONFIG_ARM_GIC_TCG
-Message-ID: <20220131155936.lm7jn32ihb2ndsf7@gator>
-References: <20220131154531.429533-1-eric.auger@redhat.com>
- <20220131154531.429533-3-eric.auger@redhat.com>
+ h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+ :subject:content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=sAxJ1Dca+tNjO9U9DPuhqnvDtvZy2t/n4sgaM6OmYJ0=;
+ b=715VIjo03A16fnUZ0QpcUPjd4D6J5Z8x9gG4BuujG1CerFHA+SDeJ2HBsHPjs3F4MJ
+ SvU+egP/qeiy75E68tzbDTdYG6WQHpmDi0EJD79+8+8+0QYwqsDScqbjg3WXEf2qMzna
+ IrzRMO6ZIp4dFFwOl7x+PM9XSnl4FVfV78gZrsEoOi/6342l2rP61GbWpM19azf4WKRk
+ dY0dhcYiRD7sIicsX9VDA45EdycJCPzqJybJX+VvMx/kopNeXG4MchPPJPkErdSl6dib
+ vQKMzVg7mJ4HJwdy0hppk1AD0NtEH/Bej+PKc12iwusI2xjPQQYNoo/qxy3e9zVHtVDP
+ O90A==
+X-Gm-Message-State: AOAM532tjERkL16pJQLqmQWwfDpUSCgwEZ9nim61cieBj4TGssinkjsd
+ +Gc7/ERC0XEBJNTuIvGxrqI=
+X-Google-Smtp-Source: ABdhPJzmz6bPYc/3Hwz10REc1oJ4KXtuppdFcYyBYnLOYP5QrjVhbTVzhRqf2dviBgS1OI/neGXUmA==
+X-Received: by 2002:a5d:5408:: with SMTP id g8mr18790832wrv.703.1643644845615; 
+ Mon, 31 Jan 2022 08:00:45 -0800 (PST)
+Received: from ?IPV6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
+ ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.googlemail.com with ESMTPSA id
+ o12sm14569984wry.115.2022.01.31.07.59.58
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 31 Jan 2022 08:00:45 -0800 (PST)
+Message-ID: <dae7ed3d-5e25-7075-96fd-3a059c8e7b2c@redhat.com>
+Date: Mon, 31 Jan 2022 16:59:57 +0100
 MIME-Version: 1.0
-In-Reply-To: <20220131154531.429533-3-eric.auger@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=drjones@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=drjones@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.088,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH v6 20/33] block: rename bdrv_invalidate_cache_all,
+ blk_invalidate_cache and test_sync_op_invalidate_cache
+Content-Language: en-US
+To: Emanuele Giuseppe Esposito <eesposit@redhat.com>, quintela@redhat.com
+References: <20220121170544.2049944-1-eesposit@redhat.com>
+ <20220121170544.2049944-21-eesposit@redhat.com>
+ <87r18x5s70.fsf@secure.mitica>
+ <8101768a-6f0d-ccb2-7c3d-810118dc7875@redhat.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+In-Reply-To: <8101768a-6f0d-ccb2-7c3d-810118dc7875@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42e
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x42e.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.248, NICE_REPLY_A=-0.001,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -98,76 +96,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: lvivier@redhat.com, peter.maydell@linaro.org, thuth@redhat.com,
- f4bug@amsat.org, qemu-devel@nongnu.org, qemu-arm@nongnu.org,
- pbonzini@redhat.com, eric.auger.pro@gmail.com
+Cc: Fam Zheng <fam@euphon.net>, Eduardo Habkost <eduardo@habkost.net>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-block@nongnu.org, John Snow <jsnow@redhat.com>,
+ Hanna Reitz <hreitz@redhat.com>,
+ Daniel Henrique Barboza <danielhb413@gmail.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Markus Armbruster <armbru@redhat.com>, Greg Kurz <groug@kaod.org>,
+ qemu-ppc@nongnu.org, =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
+ Stefan Hajnoczi <stefanha@redhat.com>, "Denis V. Lunev" <den@openvz.org>,
+ Kevin Wolf <kwolf@redhat.com>, Eric Blake <eblake@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Jan 31, 2022 at 04:45:31PM +0100, Eric Auger wrote:
-> qom-test and test-hmp shall not run tests on sbsa-ref and
-> xlnx-versal-virt if CONFIG_ARM_GIC_TCG is unset as those machines
-> always instantiate GICv3.
-> 
-> Otherwise the tests fail with
-> ERROR:../qom/object.c:715:object_new_with_type: assertion failed: (type != NULL)
-> 
-> Signed-off-by: Eric Auger <eric.auger@redhat.com>
-> Fixes: a8a5546798c3 ("hw/intc/arm_gicv3: Introduce CONFIG_ARM_GIC_TCG Kconfig selector")
-> ---
->  tests/qtest/libqtest.c | 6 ++++++
->  1 file changed, 6 insertions(+)
-> 
-> diff --git a/tests/qtest/libqtest.c b/tests/qtest/libqtest.c
-> index 41f4da4e54..f53983a28e 100644
-> --- a/tests/qtest/libqtest.c
-> +++ b/tests/qtest/libqtest.c
-> @@ -1394,6 +1394,12 @@ void qtest_cb_for_every_machine(void (*cb)(const char *machine),
->              g_str_equal("xenpv", machines[i].name)) {
->              continue;
->          }
-> +#ifndef CONFIG_ARM_GIC_TCG
-> +        if (!strncmp("sbsa-ref", machines[i].name, 8) ||
-> +            !strncmp("xlnx-versal-virt", machines[i].name, 16)) {
-> +            continue;
-> +        }
-> +#endif
+On 1/27/22 10:18, Emanuele Giuseppe Esposito wrote:
+>>>           /* Make sure all file formats flush their mutable metadata.
+>>>            * If we get an error here, just don't restart the VM yet. */
+>>> -        bdrv_invalidate_cache_all(&local_err);
+>>> +        bdrv_activate_all(&local_err);
+>> I guess that we can change the comment here, it just looks weird the
+>> comment saying flush() and the function nawed _activate()
+>>
+> Do you think it's enough to replace "flush" with "activate"? I am not
+> sure whether "activate their mutable metadata" is meaningful.
 
-Hmm, if these machine types completely depend on userspace gicv3
-emulation, i.e. no way to use in-kernel gic or another tcg gic
-model, then I guess they shouldn't be built at all when ARM_GIC_TCG
-isn't configured. I.e.
+"Activation" consists of throwing away mutable metadata.
 
-diff --git a/hw/arm/Kconfig b/hw/arm/Kconfig
-index 2e0049196d6c..d7cc028b049d 100644
---- a/hw/arm/Kconfig
-+++ b/hw/arm/Kconfig
-@@ -209,6 +209,7 @@ config REALVIEW
- 
- config SBSA_REF
-     bool
-+    depends on ARM_GIC_TCG
-     imply PCI_DEVICES
-     select AHCI
-     select ARM_SMMUV3
-@@ -378,6 +379,7 @@ config XLNX_ZYNQMP_ARM
- 
- config XLNX_VERSAL
-     bool
-+    depends on ARM_GIC_TCG
-     select ARM_GIC
-     select PL011
-     select CADENCE
+That's what "flush" means in this case, but it is often interpreted as 
+"persisting" the metadata instead.  So perhaps s/flush/throw away/.
 
-
-Thanks,
-drew
-
->          if (!skip_old_versioned ||
->              !qtest_is_old_versioned_machine(machines[i].name)) {
->              cb(machines[i].name);
-> -- 
-> 2.26.3
-> 
-
+Paolo
 
