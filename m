@@ -2,48 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3DC484A3E8E
-	for <lists+qemu-devel@lfdr.de>; Mon, 31 Jan 2022 09:19:02 +0100 (CET)
-Received: from localhost ([::1]:60780 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 417534A3E94
+	for <lists+qemu-devel@lfdr.de>; Mon, 31 Jan 2022 09:28:54 +0100 (CET)
+Received: from localhost ([::1]:41170 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nERts-00022I-W9
-	for lists+qemu-devel@lfdr.de; Mon, 31 Jan 2022 03:19:01 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:51664)
+	id 1nES3R-00008w-B3
+	for lists+qemu-devel@lfdr.de; Mon, 31 Jan 2022 03:28:53 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:53100)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1nERo5-0008Ka-06
- for qemu-devel@nongnu.org; Mon, 31 Jan 2022 03:13:01 -0500
-Received: from relay64.bu.edu ([128.197.228.104]:53695)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1nERo2-0004op-Tg
- for qemu-devel@nongnu.org; Mon, 31 Jan 2022 03:13:00 -0500
-X-Envelope-From: alxndr@bu.edu
-X-BU-AUTH: mozz.bu.edu [128.197.127.33]
-Received: from BU-AUTH (localhost.localdomain [127.0.0.1]) (authenticated
- bits=0)
- by relay64.bu.edu (8.14.3/8.14.3) with ESMTP id 20V8Bd0P008077
- (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
- Mon, 31 Jan 2022 03:11:42 -0500
-Date: Mon, 31 Jan 2022 03:11:38 -0500
-From: Alexander Bulekov <alxndr@bu.edu>
-To: Thomas Huth <thuth@redhat.com>
-Subject: Re: build-oss-fuzz CI job often times out
-Message-ID: <20220131081138.etmpzep4hz7rgyxo@mozz.bu.edu>
-References: <CAFEAcA8V0jAjv1HS8QRa9AQHCxg=BVVH_jYVMYUVSP-Szstq-Q@mail.gmail.com>
- <7a56fef0-0ac0-f4d5-eae7-23028e49d2bb@amsat.org>
- <ba4b4c1e-3328-4375-b877-9eec06f04ff1@redhat.com>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nERwe-00064t-A0
+ for qemu-devel@nongnu.org; Mon, 31 Jan 2022 03:21:53 -0500
+Received: from [2607:f8b0:4864:20::436] (port=42499
+ helo=mail-pf1-x436.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nERwc-00060f-CK
+ for qemu-devel@nongnu.org; Mon, 31 Jan 2022 03:21:51 -0500
+Received: by mail-pf1-x436.google.com with SMTP id i65so12241072pfc.9
+ for <qemu-devel@nongnu.org>; Mon, 31 Jan 2022 00:21:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=ljWvpFt4w2K+iPWC2Z/5zDvFpBK9z+O6BwKulAtbxho=;
+ b=gBvpsqLU1yP+L3zJkxIdc2fspGQOhA/rNM5ckUU31aJFZhoUsAxjwgx81msJqJmoLF
+ ZIuyRDnzCeM2JfKoMzG2wrS1JGw9wTHamQ4ljepkQQaEJUbIKAYXL3394ASAUV0qr/6v
+ vLePZiZpCrOoUEjtGmPwPzqFMbCSDE9LC+cL11LISHhk/C1DBCDiNvrXZin6lyIm0zSx
+ yOptGpdFKQ5It/q+ceUoSfnqy1eRQK28mgBWPZqzWL9ocCAfbNMqvN4P26XEUMaC920b
+ pdRiJDOUpgofx18sxrDiX9OXCB98rd0KeO4sO4JayOzPTujMldW7W8GLat2pIt73OItG
+ VH+w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=ljWvpFt4w2K+iPWC2Z/5zDvFpBK9z+O6BwKulAtbxho=;
+ b=TvfEdesqgsE6+3683sOv7+l6xJ11CD4t2sgZkTmxSxniI3z6RWGBbV7l47obM77weT
+ QLp9jxKhdAwr8yLOsCDeXw/5IK0jqwS0NidePQp9lXZiEK6D5zr1J7+e556iNYpOJq0U
+ Szr6cfDPKOYBi6ACoVKUwq5kduGP/+7uatyF13NgBrfSjwHBSkwKGoBNaAwc3+6eRCgi
+ jEIOTVgeKE+Qh6Mm2KBdVCptAImx5FvXb1viWTs4VixAzBGJtbpUPMKGFBMcl0VbKGVS
+ 6KN76ysg1P3cDNW03APAbmGjBQ9NzuePOTHz5GcqVIsvv3+KUU8TOSCExiOgc+C8HUEj
+ SzEQ==
+X-Gm-Message-State: AOAM532vFGoAnXyYIZiFjb0tiHb1z2yLxXihs7vTnAW/4Kqyz8mVE3zk
+ FBliOWaMVpXeL6yjyyUq+AJL9w==
+X-Google-Smtp-Source: ABdhPJz2/R6L8rp9hfR3XZChqwnWOhokCFZCz+F/vWfvPSNI/+Klnkgi8ZDsk99HugjXhSQM29aPKw==
+X-Received: by 2002:a05:6a00:889:: with SMTP id q9mr735820pfj.23.1643617308944; 
+ Mon, 31 Jan 2022 00:21:48 -0800 (PST)
+Received: from [192.168.15.130] ([60.231.85.5])
+ by smtp.gmail.com with ESMTPSA id kx11sm9941061pjb.1.2022.01.31.00.21.41
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 31 Jan 2022 00:21:48 -0800 (PST)
+Message-ID: <f10fda55-eeb3-fa07-9b10-63d5509f1c38@linaro.org>
+Date: Mon, 31 Jan 2022 19:21:38 +1100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ba4b4c1e-3328-4375-b877-9eec06f04ff1@redhat.com>
-Received-SPF: pass client-ip=128.197.228.104; envelope-from=alxndr@bu.edu;
- helo=relay64.bu.edu
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, HK_RANDOM_ENVFROM=0.998,
- HK_RANDOM_FROM=0.998, RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH 16/16] hw/arm/boot: Drop existing dtb /psci node rather
+ than retaining it
+Content-Language: en-US
+To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org
+References: <20220127154639.2090164-1-peter.maydell@linaro.org>
+ <20220127154639.2090164-17-peter.maydell@linaro.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20220127154639.2090164-17-peter.maydell@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::436
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::436;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x436.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -56,49 +93,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Beraldo Leal <bleal@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>,
- Darren Kenny <darren.kenny@oracle.com>,
- Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: Eduardo Habkost <eduardo@habkost.net>, Rob Herring <robh@kernel.org>,
+ Andrew Jeffery <andrew@aj.id.au>, Andre Przywara <andre.przywara@arm.com>,
+ Alistair Francis <alistair@alistair23.me>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ Jean-Christophe Dubois <jcd@tribudubois.net>,
+ Beniamino Galvani <b.galvani@gmail.com>, Tyrone Ting <kfting@nuvoton.com>,
+ Niek Linnenbank <nieklinnenbank@gmail.com>, Alexander Graf <agraf@csgraf.de>,
+ Igor Mitsyanko <i.mitsyanko@gmail.com>,
+ =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
+ Havard Skinnemoen <hskinnemoen@google.com>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ Yanan Wang <wangyanan55@huawei.com>, Andrey Smirnov <andrew.smirnov@gmail.com>,
+ Joel Stanley <joel@jms.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 220131 0806, Thomas Huth wrote:
-> > On 29/1/22 14:34, Peter Maydell wrote:
-> > > Hi; the build-oss-fuzz gitlab CI job seems to intermittently
-> > > but quite commonly hit the 1 hour timeout mark and get killed.
-> > > Examples from the last couple of days:
-> > > 
-> > > https://gitlab.com/qemu-project/qemu/-/jobs/2030815488
-> > > https://gitlab.com/qemu-project/qemu/-/jobs/2029246068
-> > > https://gitlab.com/qemu-project/qemu/-/jobs/2029013479
-> > > https://gitlab.com/qemu-project/qemu/-/jobs/2024871970
-> > > https://gitlab.com/qemu-project/qemu/-/jobs/2022584981
-> > > 
-> > > Can we do anything to cut down on the runtime of this job
-> > > and make it reliably complete inside the time limit?
+On 1/28/22 02:46, Peter Maydell wrote:
+> If we're using PSCI emulation, we add a /psci node to the device tree
+> we pass to the guest.  At the moment, if the dtb already has a /psci
+> node in it, we retain it, rather than replacing it. (This behaviour
+> was added in commit c39770cd637765 in 2018.)
 > 
-> All the jobs that you've listed hang in the very same test
-> (qtest-i386/boot-serial-test), so I assume it's rather a test that now hangs
-> occasionally, and not a generic slowness (otherwise the jobs would fail
-> sometimes earlier, sometimes later).
+> This is a problem if the existing node doesn't match our PSCI
+> emulation.  In particular, it might specify the wrong method (HVC vs
+> SMC), or wrong function IDs for cpu_suspend/cpu_off/etc, in which
+> case the guest will not get the behaviour it wants when it makes PSCI
+> calls.
 > 
-
-Judging by this job, from one of those pipelines, the big qos-test is
-next up after boot-serial-test (the last test that finishes
-successfully):
-https://gitlab.com/qemu-project/qemu/-/jobs/2024872156#L57
-
-So something is likely timing out there, when built with ASAN..
--Alex
-
-
-> Thus we likely have a regression in the code that only shows up occasionally
-> in these builds... Can you mark a point in time when these issues first
-> happened?
+> An example of this is trying to boot the highbank or midway board
+> models using the device tree supplied in the kernel sources: this
+> device tree includes a /psci node that specifies function IDs that
+> don't match the (PSCI 0.2 compliant) IDs that QEMU uses.  The dtb
+> cpu_suspend function ID happens to match the PSCI 0.2 cpu_off ID, so
+> the guest hangs after booting when the kernel tries to idle the CPU
+> and instead it gets turned off.
 > 
->  Thomas
+> Instead of retaining an existing /psci node, delete it entirely
+> and replace it with a node whose properties match QEMU's PSCI
+> emulation behaviour. This matches the way we handle /memory nodes,
+> where we also delete any existing nodes and write in ones that
+> match the way QEMU is going to behave.
 > 
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+> ---
+> I'm not confident about the FDT API to use to remove an
+> existing node -- I used qemu_fdt_nop_node() as that matches the
+> code in boot.c that's removing the memory nodes. There is
+> also an fdt_del_node(), though...
+
+It all depends on whether we've got saved offsets for nodes in the DTB, I guess. 
+fdt_del_node says that it changes node offsets, and fdt_nop_node says that it doesn't.
+
+Anyway,
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+
+
+r~
 
