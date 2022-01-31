@@ -2,82 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 085DC4A4BA0
-	for <lists+qemu-devel@lfdr.de>; Mon, 31 Jan 2022 17:16:29 +0100 (CET)
-Received: from localhost ([::1]:39804 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BBD664A4BF9
+	for <lists+qemu-devel@lfdr.de>; Mon, 31 Jan 2022 17:27:50 +0100 (CET)
+Received: from localhost ([::1]:32850 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nEZLt-0005pR-Bf
-	for lists+qemu-devel@lfdr.de; Mon, 31 Jan 2022 11:16:27 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:55836)
+	id 1nEZWv-0003l6-SI
+	for lists+qemu-devel@lfdr.de; Mon, 31 Jan 2022 11:27:49 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:57634)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
- id 1nEYzO-0006m3-CV
- for qemu-devel@nongnu.org; Mon, 31 Jan 2022 10:53:10 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:24388)
+ (Exim 4.90_1) (envelope-from <kchamart@redhat.com>)
+ id 1nEZ5E-0004MX-DH
+ for qemu-devel@nongnu.org; Mon, 31 Jan 2022 10:59:12 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:54114)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
- id 1nEYzM-0003Gg-VQ
- for qemu-devel@nongnu.org; Mon, 31 Jan 2022 10:53:10 -0500
+ (Exim 4.90_1) (envelope-from <kchamart@redhat.com>)
+ id 1nEZ5C-0004Ap-Kz
+ for qemu-devel@nongnu.org; Mon, 31 Jan 2022 10:59:11 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1643644387;
+ s=mimecast20190719; t=1643644750;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=NZU1iHaiSTkaMqH8QBAwfDGqj3RCD8y2Zin05CM4oys=;
- b=bpQbDPcXnob4nsu1+uR7YKpmrTfgIdF/hHgeDbqIxoEfOYA9KgGXOvnz4RqLrYJaURkwj2
- Lx6OtjsHx0ZgdhrnheYgpZgfu4NcUS5McLf6cmywNZHQM2zQaGngQwp7zTghP87N6p6z1O
- B+Udp4DDKxoIOXIDUSPP5/iZNhjhIP8=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=EjMHoVlehjoyXWpnOv/NbqHJ7jV0xeOV5EsUpJGXymM=;
+ b=BifS5XEDKjAhkjNZiyOL1e1f152oRUy+OqbTMcvt0YqpAQiyesUc+OcmpuIO81fQNXhYRq
+ y1E7nL3QjtQYqXApNc0r7rX+jt2Q/57haK1Wzs3haTb2alb4IQZS5PQc/pqpzS2wp9VTsy
+ uWpCsdHmn22QF4y2c2UXTXsDU7If+9E=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-435-L2toFyTzMv274LS1lie4rQ-1; Mon, 31 Jan 2022 10:53:06 -0500
-X-MC-Unique: L2toFyTzMv274LS1lie4rQ-1
-Received: by mail-ed1-f69.google.com with SMTP id
- en7-20020a056402528700b00404aba0a6ffso7160461edb.5
- for <qemu-devel@nongnu.org>; Mon, 31 Jan 2022 07:53:06 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=NZU1iHaiSTkaMqH8QBAwfDGqj3RCD8y2Zin05CM4oys=;
- b=a5RpiMD3RysnFgy8TpolmTfmkEX+Cew7A1LfFID359rSfYdk5dwuikwkZKyAelTXDN
- BwqYc14fjsg8cXxMpjV/hhUOw1/tNBCDikuqhNPvuzZ06hDnK4WuNCPqJ1y5y1L95iJa
- 9MTDfK+QqXjhx8AQklcU+4fO1eGSFR+foAyuqM7jEc4Y0Ng5FE+FSpPsfM6ylMEgjJwo
- xQkvZPUa7Rpa+dwxoRvK2l8/+SLLuWBz+4EXpeCLRaUmoAgC7lIzkRL618K2WEC7ReVL
- 7vquZ4ixnPZmJOy0jstvWRBObfxCI94smQGxeVeCC9xHZCdy/abGn8Xr70B+g/HJPdJG
- eKzg==
-X-Gm-Message-State: AOAM533dAzA2Z/m5iCaK5HJWIrZ5clBNsT2qnxllE+EHDD3q8eJKrKkJ
- B0qZE+GzwgYIibHX99fT680MwddJuHX5ckqX7ehuJl+Aj7rh31rAdF6nvj+u7alKi0vnSxnf2TV
- i08kKB2h8z0oHqNg=
-X-Received: by 2002:a05:6402:440c:: with SMTP id
- y12mr21166602eda.75.1643644385293; 
- Mon, 31 Jan 2022 07:53:05 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyQeT5Mfo65sG5coZe3KWNkOZYbArNcMLYHvp7yN0vjVsJrpJr/IEGio50rRwPBluOJl9u5IA==
-X-Received: by 2002:a05:6402:440c:: with SMTP id
- y12mr21166572eda.75.1643644385013; 
- Mon, 31 Jan 2022 07:53:05 -0800 (PST)
-Received: from gator (cst2-173-70.cust.vodafone.cz. [31.30.173.70])
- by smtp.gmail.com with ESMTPSA id d3sm7694772edq.13.2022.01.31.07.53.04
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 31 Jan 2022 07:53:04 -0800 (PST)
-Date: Mon, 31 Jan 2022 16:53:02 +0100
-From: Andrew Jones <drjones@redhat.com>
-To: Eric Auger <eric.auger@redhat.com>
-Subject: Re: [PATCH 1/2] hw/arm/virt: Fix gic-version=max when
- CONFIG_ARM_GIC_TCG is unset
-Message-ID: <20220131155302.ud4kzxxi27zky4jn@gator>
-References: <20220131154531.429533-1-eric.auger@redhat.com>
- <20220131154531.429533-2-eric.auger@redhat.com>
+ us-mta-665-7Xg3C3HNN9u4jFZAUGAT_Q-1; Mon, 31 Jan 2022 10:59:06 -0500
+X-MC-Unique: 7Xg3C3HNN9u4jFZAUGAT_Q-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1FF211018722;
+ Mon, 31 Jan 2022 15:59:05 +0000 (UTC)
+Received: from paraplu (unknown [10.39.195.135])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 2F6E8798C0;
+ Mon, 31 Jan 2022 15:58:34 +0000 (UTC)
+Date: Mon, 31 Jan 2022 16:58:31 +0100
+From: Kashyap Chamarthy <kchamart@redhat.com>
+To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
+Subject: Re: [PATCH v2] docs: expand firmware descriptor to allow flash
+ without NVRAM
+Message-ID: <YfgHJ7w+Vo43a2qO@paraplu>
+References: <20220131125509.170307-1-berrange@redhat.com>
+ <YffrgRRVCEWVLS41@paraplu> <Yffz/v/7b6jJOBwi@redhat.com>
+ <Yff+gCndUlijqMsz@paraplu> <YfgBpsEKl5ArM+64@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20220131154531.429533-2-eric.auger@redhat.com>
+In-Reply-To: <YfgBpsEKl5ArM+64@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=drjones@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kchamart@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=drjones@redhat.com;
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=kchamart@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -98,52 +83,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: lvivier@redhat.com, peter.maydell@linaro.org, thuth@redhat.com,
- f4bug@amsat.org, qemu-devel@nongnu.org, qemu-arm@nongnu.org,
- pbonzini@redhat.com, eric.auger.pro@gmail.com
+Cc: libvir-list@redhat.com, qemu-devel@nongnu.org,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Jan 31, 2022 at 04:45:30PM +0100, Eric Auger wrote:
-> In TCG mode, if gic-version=max we always select GICv3 even if
-> CONFIG_ARM_GIC_TCG is unset. We shall rather select GICv2.
-> This also brings the benefit of fixing qos tests errors for tests
-> using gic-version=max with CONFIG_ARM_GIC_TCG unset.
+On Mon, Jan 31, 2022 at 03:35:02PM +0000, Daniel P. Berrangé wrote:
+> On Mon, Jan 31, 2022 at 04:21:36PM +0100, Kashyap Chamarthy wrote:
+> > On Mon, Jan 31, 2022 at 02:36:46PM +0000, Daniel P. Berrangé wrote:
+
+[...]
+
+> > > The firmware can be provided in qcow2 format too, so if really
+> > > concerned, just create a qcow2 file with a backing store pointing
+> > > to the readonly master, so you're only paying the price of the
+> > > delta for any guest VARs writes. That's more efficient than what
+> > > we do today with copying the separate raw format VARS.fd file.
+> > 
+> > That's nice, I didn't know the qcow2 possibility in this context.  For
+> > some reason I assumed the file format always has to be raw here.  Your
+> > qcow2 point above should  be documented, if it isn't already.  Although
+> > I don't know the right place for it.
 > 
-> Signed-off-by: Eric Auger <eric.auger@redhat.com>
-> Fixes: a8a5546798c3 ("hw/intc/arm_gicv3: Introduce CONFIG_ARM_GIC_TCG Kconfig selector")
-> ---
->  hw/arm/virt.c | 4 ++++
->  1 file changed, 4 insertions(+)
-> 
-> diff --git a/hw/arm/virt.c b/hw/arm/virt.c
-> index 141350bf21..2f1d4d0230 100644
-> --- a/hw/arm/virt.c
-> +++ b/hw/arm/virt.c
-> @@ -1852,7 +1852,11 @@ static void finalize_gic_version(VirtMachineState *vms)
->          vms->gic_version = VIRT_GIC_VERSION_2;
->          break;
->      case VIRT_GIC_VERSION_MAX:
-> +#ifdef CONFIG_ARM_GIC_TCG
->          vms->gic_version = VIRT_GIC_VERSION_3;
-> +#else
-> +        vms->gic_version = VIRT_GIC_VERSION_2;
-> +#endif
->          break;
->      case VIRT_GIC_VERSION_HOST:
->          error_report("gic-version=host requires KVM");
-> -- 
-> 2.26.3
->
+> There's already a format field in the descriptor, but even if the
+> firmware is distributed as raw, libvirt can choose to put qcow2
+> overlay on it, as its all configured with -blockdev
 
-Why is the config generically named "ARM_GIC_TCG" when it only controls
-Arm GICV3 TCG?
+Ah, understood.  
 
-Otherwise,
+I should've first checked the spec to look for the @format field.  For
+others reading the thread, the @format bit is located here
+infirmware.json:
 
-Reviewed-by: Andrew Jones <drjones@redhat.com>
+  [...]
+  # @FirmwareFlashFile:
+  #
+  # Defines common properties that are necessary for loading a firmware
+  # file into a pflash chip. The corresponding QEMU command line option is
+  # "-drive file=@filename,format=@format". Note however that the
+  # option-argument shown here is incomplete; it is completed under
+  # @FirmwareMappingFlash.
+  #
+  # @filename: Specifies the filename on the host filesystem where the
+  #            firmware file can be found.
+  #
+  # @format: Specifies the block format of the file pointed-to by
+  #          @filename, such as @raw or @qcow2.
+  [...]
 
-Thanks,
-drew
+-- 
+/kashyap
 
 
