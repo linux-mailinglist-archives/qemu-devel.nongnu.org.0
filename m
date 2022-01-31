@@ -2,69 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BBB2C4A4CF1
-	for <lists+qemu-devel@lfdr.de>; Mon, 31 Jan 2022 18:16:55 +0100 (CET)
-Received: from localhost ([::1]:52948 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 80B0F4A4D0D
+	for <lists+qemu-devel@lfdr.de>; Mon, 31 Jan 2022 18:24:30 +0100 (CET)
+Received: from localhost ([::1]:59098 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nEaIQ-0006z1-Jh
-	for lists+qemu-devel@lfdr.de; Mon, 31 Jan 2022 12:16:54 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:51350)
+	id 1nEaPl-0002zH-Dh
+	for lists+qemu-devel@lfdr.de; Mon, 31 Jan 2022 12:24:29 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:51436)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1nEa6i-0001Xr-CB
- for qemu-devel@nongnu.org; Mon, 31 Jan 2022 12:04:48 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:60824)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1nEa6f-0007S5-Ju
- for qemu-devel@nongnu.org; Mon, 31 Jan 2022 12:04:47 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1643648684;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=XV71P2sLnR/qPqyPAEYdGjxWcG9soMr4fWGGZbFMakM=;
- b=dRwyNpEIXUIyAV4FbpTdJ1rkhEtmir7FgsQX7PGpfuS1a3HpHLSzQPP6wmBcFS2i4O5AaX
- rr8AaA7vwg8DLCCGys5HzTaeER1onEBcoRUrwKN1skZb/ySA/VUx88LtmxakX4lplFNb3E
- jXjl6i45nIlGmzN2F/iFucK1NKAbbrI=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-202-6g8QVN8TOr-nn05Cb0D7VQ-1; Mon, 31 Jan 2022 12:04:41 -0500
-X-MC-Unique: 6g8QVN8TOr-nn05Cb0D7VQ-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3DC871091DA2;
- Mon, 31 Jan 2022 17:04:39 +0000 (UTC)
-Received: from merkur.redhat.com (unknown [10.39.193.138])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1535510A48D5;
- Mon, 31 Jan 2022 17:04:37 +0000 (UTC)
-From: Kevin Wolf <kwolf@redhat.com>
-To: qemu-block@nongnu.org
-Subject: [PATCH 5/5] docs: Only mention gluster in the man page when available
-Date: Mon, 31 Jan 2022 18:04:11 +0100
-Message-Id: <20220131170411.125198-6-kwolf@redhat.com>
-In-Reply-To: <20220131170411.125198-1-kwolf@redhat.com>
-References: <20220131170411.125198-1-kwolf@redhat.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nEa7A-0001lc-F7
+ for qemu-devel@nongnu.org; Mon, 31 Jan 2022 12:05:17 -0500
+Received: from [2a00:1450:4864:20::431] (port=39473
+ helo=mail-wr1-x431.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nEa6z-0007TJ-RX
+ for qemu-devel@nongnu.org; Mon, 31 Jan 2022 12:05:12 -0500
+Received: by mail-wr1-x431.google.com with SMTP id s9so26678577wrb.6
+ for <qemu-devel@nongnu.org>; Mon, 31 Jan 2022 09:04:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=Bnju4prFv/Zq73UeRoNOpnuaNdrOg4ThcXyK8vKzzwU=;
+ b=Z8QKFeF+b4m9LNU0chs3m0sLxdbXgm080P29YA79kJ/yOFX2Ccov7i5BvnzdnD6Pwe
+ HFD/EZKzAhqpi7t5c0e757r+FLbbivzs7oA651o4+oU9ZtIkc6lgDrC4LiLrXFBKxBzA
+ rQWCmE+kq6xHU+umoPzmL6qRubA5J05E0kVz3HAd+j2pdm165WwxZnVD2pjQspa5o/0E
+ ocGMH5T0/z3pISdSTlhLvewgSkHIs+gmwCdIWTgkPFkOGhL5bzkpmFN/tIw5B0mRLfGp
+ xz8giM1WZvsHl3dMrkzwkWffBcXpdqs9Wrbu3V3O7iWDkatf0SqMcBWY9O7D9It1R+n6
+ NO2g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=Bnju4prFv/Zq73UeRoNOpnuaNdrOg4ThcXyK8vKzzwU=;
+ b=iZZzqEzLQHJ4Lvg6emmT42NqIx+N8cjSv+wLvgb+99TE/RrJF6UjBEmMGFJt7RRwcn
+ mTasICFiJ5qO5bO58fMwTB0ychRWvgIbLcV7KrmswCx8HPVJ2OQkg0goc+Uk6bTijp9t
+ ddhWV8gVhJJBA44waTCmctXUfdOydwbI1FoRkAR6M2epAVMlbQd6aJ2Pi57qI3Hf7i4N
+ BOopc7ZWzBF1gf7Hj80h2DPeZk4MbyX0361/pbaJVYt80gS8JCjCPIk/IqScd9jz5pyW
+ iCCI7CoBhieNN8h41rKB9B9VfOAGFH1iCMYiCEinLY67OYgCoPrDrWN1szBn9LE8JfF4
+ 73/A==
+X-Gm-Message-State: AOAM532D5TKiENBZKcaeLCechq+QgkmKn0XC9sr7kbIo82u/lQNu95jH
+ 8/F+9bf/1bZurQVpM175W4BH2KEwGL4NJgtauQc8TA==
+X-Google-Smtp-Source: ABdhPJz+yD5dxaOPP+6jsrAnXSk1uyr4Z6T016X7hrVV1tWJHnjLF1X8igP2WGkFL36slig0eGaO6eMLgWeOCH2Bx1c=
+X-Received: by 2002:a05:6000:1acb:: with SMTP id
+ i11mr18663672wry.172.1643648697650; 
+ Mon, 31 Jan 2022 09:04:57 -0800 (PST)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.088,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+References: <20220131110811.619053-1-clg@kaod.org>
+ <20220131110811.619053-3-clg@kaod.org>
+ <b878009a-cf35-1465-9bae-11d50ac84241@ilande.co.uk>
+ <560147a3-7583-b62f-a194-6af1066ccbef@kaod.org>
+ <6902a813-16cd-86e5-b851-d244d42e0be2@ilande.co.uk>
+In-Reply-To: <6902a813-16cd-86e5-b851-d244d42e0be2@ilande.co.uk>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 31 Jan 2022 17:04:46 +0000
+Message-ID: <CAFEAcA96kQXXDZye-XgUm4otfdFO_Mgi=t9RmJdpV56-08WLBA@mail.gmail.com>
+Subject: Re: [PULL 02/41] target/ppc: 603: fix restore of GPRs 0-3 on rfi
+To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::431
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::431;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x431.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -77,104 +87,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, pbonzini@redhat.com, qemu-devel@nongnu.org,
- timao@redhat.com
+Cc: Fabiano Rosas <farosas@linux.ibm.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Christophe Leroy <christophe.leroy@csgroup.eu>, qemu-ppc@nongnu.org,
+ =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-If gluster is disabled in the build, the man page shouldn't contain
-information on how to use the gluster block driver.
+On Mon, 31 Jan 2022 at 17:00, Mark Cave-Ayland
+<mark.cave-ayland@ilande.co.uk> wrote:
+> Here we see checkpatch.pl has no issues with the output of git diff, but =
+when you run
+> it on the whole file:
+> ... it shows up. How is it possible for checkpatch.pl to miss things when=
+ processing
+> diffs instead of whole files?
 
-This patch is best viewed with whitespace changes ignored.
+Probably because checkpatch is a pretty hairy perl script and sometimes
+it mis-parses stuff, especially when it's working with a diff hunk
+and it has a limited view of the context around the statement.
+It's always been best-effort rather than guaranteed to catch all
+formatting issues.
 
-Signed-off-by: Kevin Wolf <kwolf@redhat.com>
----
- docs/system/device-url-syntax.rst.inc | 64 ++++++++++++++-------------
- 1 file changed, 33 insertions(+), 31 deletions(-)
+For this particular error, it doesn't seem to me worth making C=C3=A9dric
+reroll the pullreq to fix it unless there's some other issue with
+it; we can fix it with a followup patch.
 
-diff --git a/docs/system/device-url-syntax.rst.inc b/docs/system/device-url-syntax.rst.inc
-index d55622847a..79270c8709 100644
---- a/docs/system/device-url-syntax.rst.inc
-+++ b/docs/system/device-url-syntax.rst.inc
-@@ -89,44 +89,46 @@ special URL syntax.
-        Currently authentication must be done using ssh-agent. Other
-        authentication methods may be supported in future.
- 
--``GlusterFS``
--   GlusterFS is a user space distributed file system. QEMU supports the
--   use of GlusterFS volumes for hosting VM disk images using TCP, Unix
--   Domain Sockets and RDMA transport protocols.
-+.. only:: not DISABLE_GLUSTERFS
- 
--   Syntax for specifying a VM disk image on GlusterFS volume is
-+    ``GlusterFS``
-+       GlusterFS is a user space distributed file system. QEMU supports the
-+       use of GlusterFS volumes for hosting VM disk images using TCP, Unix
-+       Domain Sockets and RDMA transport protocols.
- 
--   .. parsed-literal::
-+       Syntax for specifying a VM disk image on GlusterFS volume is
- 
--      URI:
--      gluster[+type]://[host[:port]]/volume/path[?socket=...][,debug=N][,logfile=...]
-+       .. parsed-literal::
- 
--      JSON:
--      'json:{"driver":"qcow2","file":{"driver":"gluster","volume":"testvol","path":"a.img","debug":N,"logfile":"...",
--                                       "server":[{"type":"tcp","host":"...","port":"..."},
--                                                 {"type":"unix","socket":"..."}]}}'
-+          URI:
-+          gluster[+type]://[host[:port]]/volume/path[?socket=...][,debug=N][,logfile=...]
- 
--   Example
-+          JSON:
-+          'json:{"driver":"qcow2","file":{"driver":"gluster","volume":"testvol","path":"a.img","debug":N,"logfile":"...",
-+                                           "server":[{"type":"tcp","host":"...","port":"..."},
-+                                                     {"type":"unix","socket":"..."}]}}'
- 
--   .. parsed-literal::
-+       Example
-+
-+       .. parsed-literal::
- 
--      URI:
--      |qemu_system| --drive file=gluster://192.0.2.1/testvol/a.img,
--                                     file.debug=9,file.logfile=/var/log/qemu-gluster.log
--
--      JSON:
--      |qemu_system| 'json:{"driver":"qcow2",
--                                "file":{"driver":"gluster",
--                                         "volume":"testvol","path":"a.img",
--                                         "debug":9,"logfile":"/var/log/qemu-gluster.log",
--                                         "server":[{"type":"tcp","host":"1.2.3.4","port":24007},
--                                                   {"type":"unix","socket":"/var/run/glusterd.socket"}]}}'
--      |qemu_system| -drive driver=qcow2,file.driver=gluster,file.volume=testvol,file.path=/path/a.img,
--                                            file.debug=9,file.logfile=/var/log/qemu-gluster.log,
--                                            file.server.0.type=tcp,file.server.0.host=1.2.3.4,file.server.0.port=24007,
--                                            file.server.1.type=unix,file.server.1.socket=/var/run/glusterd.socket
--
--   See also http://www.gluster.org.
-+          URI:
-+          |qemu_system| --drive file=gluster://192.0.2.1/testvol/a.img,
-+                                         file.debug=9,file.logfile=/var/log/qemu-gluster.log
-+
-+          JSON:
-+          |qemu_system| 'json:{"driver":"qcow2",
-+                                    "file":{"driver":"gluster",
-+                                             "volume":"testvol","path":"a.img",
-+                                             "debug":9,"logfile":"/var/log/qemu-gluster.log",
-+                                             "server":[{"type":"tcp","host":"1.2.3.4","port":24007},
-+                                                       {"type":"unix","socket":"/var/run/glusterd.socket"}]}}'
-+          |qemu_system| -drive driver=qcow2,file.driver=gluster,file.volume=testvol,file.path=/path/a.img,
-+                                                file.debug=9,file.logfile=/var/log/qemu-gluster.log,
-+                                                file.server.0.type=tcp,file.server.0.host=1.2.3.4,file.server.0.port=24007,
-+                                                file.server.1.type=unix,file.server.1.socket=/var/run/glusterd.socket
-+
-+       See also http://www.gluster.org.
- 
- .. only:: not DISABLE_CURL
- 
--- 
-2.31.1
-
+thanks
+-- PMM
 
