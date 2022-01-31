@@ -2,60 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 435DC4A476C
-	for <lists+qemu-devel@lfdr.de>; Mon, 31 Jan 2022 13:43:44 +0100 (CET)
-Received: from localhost ([::1]:35002 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 680724A47C0
+	for <lists+qemu-devel@lfdr.de>; Mon, 31 Jan 2022 14:08:21 +0100 (CET)
+Received: from localhost ([::1]:39928 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nEW23-0005nn-2T
-	for lists+qemu-devel@lfdr.de; Mon, 31 Jan 2022 07:43:43 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:51492)
+	id 1nEWPl-0001gN-3S
+	for lists+qemu-devel@lfdr.de; Mon, 31 Jan 2022 08:08:16 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:34650)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vasilev.oleg@huawei.com>)
- id 1nEVpL-0002wV-DU
- for qemu-devel@nongnu.org; Mon, 31 Jan 2022 07:30:37 -0500
-Received: from szxga03-in.huawei.com ([45.249.212.189]:4181)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>)
+ id 1nEUZ3-0006BP-JN; Mon, 31 Jan 2022 06:09:41 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:25340)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vasilev.oleg@huawei.com>)
- id 1nEVpH-0001OO-71
- for qemu-devel@nongnu.org; Mon, 31 Jan 2022 07:30:35 -0500
-Received: from dggpeml500022.china.huawei.com (unknown [172.30.72.54])
- by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4JnS4M5QV1z8wW0;
- Mon, 31 Jan 2022 20:27:15 +0800 (CST)
-Received: from dggpeml500023.china.huawei.com (7.185.36.114) by
- dggpeml500022.china.huawei.com (7.185.36.66) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.21; Mon, 31 Jan 2022 20:30:18 +0800
-Received: from dggpeml500023.china.huawei.com ([7.185.36.114]) by
- dggpeml500023.china.huawei.com ([7.185.36.114]) with mapi id 15.01.2308.021;
- Mon, 31 Jan 2022 20:30:18 +0800
-To: =?iso-8859-1?Q?Alex_Benn=E9e?= <alex.bennee@linaro.org>, Oleg Vasilev
- <me@svin.in>
-CC: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, Alexandre Iooss
- <erdnaxe@crans.org>, Mahmoud Mandour <ma.mandourr@gmail.com>
-Subject: Re: [PATCH] contrib/plugins: add mask plugin
-Thread-Topic: [PATCH] contrib/plugins: add mask plugin
-Thread-Index: AQHYERPstKcp/RS/0EuN6ckVKSxA4w==
-Date: Mon, 31 Jan 2022 12:30:18 +0000
-Message-ID: <7514ada0e90a4fa186b5a0f6d6de8292@huawei.com>
-References: <20220124111602.671654-1-me@svin.in> <87ilu9e2v4.fsf@linaro.org>
-Accept-Language: en-US, zh-CN
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.47.163.112]
-Content-Type: text/plain; charset="iso-8859-1"
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>)
+ id 1nEUYy-00053U-8J; Mon, 31 Jan 2022 06:09:41 -0500
+Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 20VAc0S5017225; 
+ Mon, 31 Jan 2022 11:08:20 GMT
+Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.102])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3dx33wtjck-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 31 Jan 2022 11:08:19 +0000
+Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
+ by ppma06ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 20VB2JVZ004596;
+ Mon, 31 Jan 2022 11:08:16 GMT
+Received: from b06cxnps4075.portsmouth.uk.ibm.com
+ (d06relay12.portsmouth.uk.ibm.com [9.149.109.197])
+ by ppma06ams.nl.ibm.com with ESMTP id 3dvvuj2kvq-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 31 Jan 2022 11:08:16 +0000
+Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com
+ [9.149.105.58])
+ by b06cxnps4075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 20VB8E1S41222454
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 31 Jan 2022 11:08:14 GMT
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 684D04C04A;
+ Mon, 31 Jan 2022 11:08:14 +0000 (GMT)
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 1E2444C044;
+ Mon, 31 Jan 2022 11:08:14 +0000 (GMT)
+Received: from smtp.tlslab.ibm.com (unknown [9.101.4.1])
+ by d06av22.portsmouth.uk.ibm.com (Postfix) with SMTP;
+ Mon, 31 Jan 2022 11:08:14 +0000 (GMT)
+Received: from yukon.ibmuc.com (unknown [9.171.57.185])
+ by smtp.tlslab.ibm.com (Postfix) with ESMTP id 4EF4A220149;
+ Mon, 31 Jan 2022 12:08:13 +0100 (CET)
+From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
+To: qemu-ppc@nongnu.org, qemu-devel@nongnu.org
+Subject: [PULL 00/41] ppc queue
+Date: Mon, 31 Jan 2022 12:07:30 +0100
+Message-Id: <20220131110811.619053-1-clg@kaod.org>
+X-Mailer: git-send-email 2.34.1
+Content-Type: text/plain; charset=UTF-8
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: QpWPJwDCsXSebskxo3FIwJgmeoJ8CUX8
+X-Proofpoint-ORIG-GUID: QpWPJwDCsXSebskxo3FIwJgmeoJ8CUX8
 Content-Transfer-Encoding: quoted-printable
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
 MIME-Version: 1.0
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.189;
- envelope-from=vasilev.oleg@huawei.com; helo=szxga03-in.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.816,Hydra:6.0.425,FMLib:17.11.62.513
+ definitions=2022-01-31_04,2022-01-28_01,2021-12-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1034 bulkscore=0
+ adultscore=0 impostorscore=0 mlxlogscore=680 malwarescore=0 phishscore=0
+ suspectscore=0 mlxscore=0 spamscore=0 lowpriorityscore=0
+ priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2201110000 definitions=main-2201310074
+Received-SPF: softfail client-ip=148.163.156.1; envelope-from=clg@kaod.org;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -11
+X-Spam_score: -1.2
+X-Spam_bar: -
+X-Spam_report: (-1.2 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ SPF_SOFTFAIL=0.665, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -68,299 +92,121 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  Vasilev Oleg <vasilev.oleg@huawei.com>
-From:  Vasilev Oleg via <qemu-devel@nongnu.org>
 
-On 1/24/2022 3:26 PM, Alex Benn=E9e wrote:=0A=
-=0A=
-> Oleg Vasilev <me@svin.in> writes:=0A=
->=0A=
->> From: Oleg Vasilev <vasilev.oleg@huawei.com>=0A=
->>=0A=
->> Plugin can be used to track statistics based on virtual address mask mat=
-ching.=0A=
->> Useful for tracking kernel vs user translation blocks.=0A=
-> Could we have a bit more detail please, maybe some words for=0A=
-> devel/tcg/plugins.rst. Running:=0A=
->=0A=
-> ./qemu-system-x86_64 -monitor none -display none -chardev file,path=3Dtes=
-t.out,id=3Doutput -device isa-debugcon,chardev=3Doutput -device isa-debug-e=
-xit,iobase=3D0xf4,iosize=3D0x4 -=0A=
-> kernel ./tests/tcg/x86_64-softmmu/memory -plugin contrib/plugins/libmask.=
-so -d plugin=0A=
-> hint: all, mask: 0x0000000000000000, bits: 0x0000000000000000, hit_rate: =
-0.999023, mask_freq: 0.000004, tb_exec: 1024, tb_trans: 1=0A=
-> hint: kernel, mask: 0x8000000000000000, bits: 0x8000000000000000, hit_rat=
-e: -nan, mask_freq: 0.000000, tb_exec: 0, tb_trans: 0=0A=
-> hint: user, mask: 0x8000000000000000, bits: 0x0000000000000000, hit_rate:=
- 0.999023, mask_freq: 0.000004, tb_exec: 1024, tb_trans: 1=0A=
-> hint: all, mask: 0x0000000000000000, bits: 0x0000000000000000, hit_rate: =
-0.999849, mask_freq: 0.078281, tb_exec: 21013504, tb_trans: 3169=0A=
-> hint: kernel, mask: 0x8000000000000000, bits: 0x8000000000000000, hit_rat=
-e: -nan, mask_freq: 0.000000, tb_exec: 0, tb_trans: 0=0A=
-> hint: user, mask: 0x8000000000000000, bits: 0x0000000000000000, hit_rate:=
- 0.999849, mask_freq: 0.078281, tb_exec: 21013504, tb_trans: 3169=0A=
->=0A=
-> ends up being a bit incomprehensible.=0A=
->> Signed-off-by: Oleg Vasilev <vasilev.oleg@huawei.com>=0A=
->> Signed-off-by: Oleg Vasilev <me@svin.in>=0A=
->> ---=0A=
->>  contrib/plugins/Makefile |   1 +=0A=
->>  contrib/plugins/mask.c   | 144 +++++++++++++++++++++++++++++++++++++++=
-=0A=
->>  2 files changed, 145 insertions(+)=0A=
->>  create mode 100644 contrib/plugins/mask.c=0A=
->>=0A=
->> diff --git a/contrib/plugins/Makefile b/contrib/plugins/Makefile=0A=
->> index 54ac5ccd9f..7e9cb51c9d 100644=0A=
->> --- a/contrib/plugins/Makefile=0A=
->> +++ b/contrib/plugins/Makefile=0A=
->> @@ -20,6 +20,7 @@ NAMES +=3D howvec=0A=
->>  NAMES +=3D lockstep=0A=
->>  NAMES +=3D hwprofile=0A=
->>  NAMES +=3D cache=0A=
->> +NAMES +=3D mask=0A=
->>  =0A=
->>  SONAMES :=3D $(addsuffix .so,$(addprefix lib,$(NAMES)))=0A=
->>  =0A=
->> diff --git a/contrib/plugins/mask.c b/contrib/plugins/mask.c=0A=
->> new file mode 100644=0A=
->> index 0000000000..c6d2bd2386=0A=
->> --- /dev/null=0A=
->> +++ b/contrib/plugins/mask.c=0A=
->> @@ -0,0 +1,144 @@=0A=
->> +/*=0A=
->> + * Copyright (C) 2022, Oleg Vasilev <vasilev.oleg@huawei.com>=0A=
->> + *=0A=
->> + * Track statistics based on virtual address mask matching.=0A=
->> + * Useful for tracking kernel vs user translation blocks.=0A=
->> + *=0A=
->> + * License: GNU GPL, version 2 or later.=0A=
->> + *   See the COPYING file in the top-level directory.=0A=
->> + */=0A=
->> +=0A=
->> +#include <assert.h>=0A=
->> +#include <compiler.h>=0A=
->> +#include <glib.h>=0A=
->> +#include <inttypes.h>=0A=
->> +#include <qemu-plugin.h>=0A=
->> +#include <stdio.h>=0A=
->> +#include <stdlib.h>=0A=
->> +#include <string.h>=0A=
->> +#include <unistd.h>=0A=
->> +=0A=
->> +#include <atomic.h>=0A=
->> +=0A=
->> +QEMU_PLUGIN_EXPORT int qemu_plugin_version =3D QEMU_PLUGIN_VERSION;=0A=
->> +=0A=
->> +typedef struct {=0A=
->> +    GMutex lock;=0A=
->> +    const char *hint;=0A=
->> +    uint64_t mask;=0A=
->> +    uint64_t bits;=0A=
->> +    uint64_t tb_exec;=0A=
->> +    uint64_t tb_trans;=0A=
->> +    uint64_t isins;=0A=
->> +} MaskCounter;=0A=
->> +=0A=
->> +static GPtrArray *counters;=0A=
->> +=0A=
->> +static uint64_t report_every =3D 1 << 28;=0A=
->> +static uint64_t tb_exec_every =3D 1 << 10;=0A=
->> +static uint64_t total_tb_exec;=0A=
->> +=0A=
->> +static void gen_one_report(MaskCounter *counter, GString *report)=0A=
->> +{=0A=
->> +    g_mutex_lock(&counter->lock);=0A=
->> +    uint64_t tb_exec =3D counter->tb_exec * tb_exec_every;=0A=
->> +=0A=
->> +    double hit_rate =3D (double)counter->tb_trans / tb_exec;=0A=
->> +    hit_rate =3D 1 - hit_rate;=0A=
->> +=0A=
->> +    double mask_freq =3D (double) counter->tb_exec * tb_exec_every / re=
-port_every;=0A=
->> +=0A=
->> +    g_string_append_printf(report,=0A=
->> +                           "hint: %s, mask: 0x%016lx, bits: 0x%016lx, h=
-it_rate: %f, "=0A=
->> +                           "mask_freq: %f, tb_exec: %ld, tb_trans: %ld\=
-n",=0A=
->> +                           counter->hint, counter->mask, counter->bits,=
- hit_rate,=0A=
->> +                           mask_freq, tb_exec, counter->tb_trans);=0A=
-> Could aiming for plainer CSV format make this information more=0A=
-> digestible by tooling?=0A=
-=0A=
-Hi, thanks for looking at the patch!=0A=
-=0A=
-What do you think, tskv would be fine, considering some tooling exists and =
-it is also readable for eyes? =0A=
-=0A=
-Like this:=0A=
-hint=3Dkernel     hit_rate=3D0.999923       freq=3D0.110752   execs=3D29729=
-792  translations=3D2299=0A=
-hint=3Duser       hit_rate=3D0.999952       freq=3D0.889248   execs=3D23870=
-5664 translations=3D11557=0A=
-=0A=
->=0A=
->> +=0A=
->> +    counter->tb_exec =3D 0;=0A=
->> +    counter->tb_trans =3D 0;=0A=
->> +    counter->isins =3D 0;=0A=
-> Would it be worth tracking total lifetime vs period counts?=0A=
-=0A=
-Probably so, will add a config option to specify period length.=0A=
-=0A=
->> +=0A=
->> +    g_mutex_unlock(&counter->lock);=0A=
->> +}=0A=
->> +=0A=
->> +static void report_all(void)=0A=
->> +{=0A=
->> +    g_autoptr(GString) report =3D g_string_new("");=0A=
->> +    g_ptr_array_foreach(counters, (GFunc)gen_one_report, report);=0A=
->> +    qemu_plugin_outs(report->str);=0A=
->> +}=0A=
->> +=0A=
->> +static void plugin_exit(qemu_plugin_id_t id, void *p)=0A=
->> +{=0A=
->> +    report_all();=0A=
->> +}=0A=
->> +=0A=
->> +static bool match(MaskCounter *counter, struct qemu_plugin_tb *tb)=0A=
->> +{=0A=
->> +    return (counter->mask & qemu_plugin_tb_vaddr(tb)) =3D=3D counter->b=
-its;=0A=
->> +}=0A=
->> +=0A=
->> +static void tb_exec(MaskCounter *counter, struct qemu_plugin_tb *tb)=0A=
->> +{=0A=
->> +    if (!match(counter, tb)) {=0A=
->> +        return;=0A=
->> +    }=0A=
->> +    g_mutex_lock(&counter->lock);=0A=
->> +    counter->tb_exec++;=0A=
->> +    g_mutex_unlock(&counter->lock);=0A=
->> +}=0A=
->> +=0A=
->> +static void vcpu_tb_exec(unsigned int cpu_index, void *tb)=0A=
->> +{=0A=
->> +    uint64_t cur_tb_exec =3D qatomic_fetch_inc(&total_tb_exec);=0A=
->> +    if ((cur_tb_exec & (tb_exec_every - 1)) =3D=3D 0) {=0A=
->> +        g_ptr_array_foreach(counters, (GFunc)tb_exec, tb);=0A=
->> +    }=0A=
->> +=0A=
->> +    if ((cur_tb_exec & (report_every - 1)) =3D=3D 0) {=0A=
->> +        report_all();=0A=
->> +    }=0A=
->> +}=0A=
->> +=0A=
->> +static void tb_trans(MaskCounter *counter, struct qemu_plugin_tb *tb)=
-=0A=
->> +{=0A=
->> +    if (!match(counter, tb)) {=0A=
->> +        return;=0A=
->> +    }=0A=
->> +    g_mutex_lock(&counter->lock);=0A=
->> +    counter->tb_trans++;=0A=
->> +    g_mutex_unlock(&counter->lock);=0A=
->> +}=0A=
->> +=0A=
->> +static void vcpu_tb_trans(qemu_plugin_id_t id, struct qemu_plugin_tb *t=
-b)=0A=
->> +{=0A=
->> +    qemu_plugin_register_vcpu_tb_exec_cb(tb, vcpu_tb_exec,=0A=
->> +                                         QEMU_PLUGIN_CB_NO_REGS, tb);=
-=0A=
-> You can't pass qemu_plugin_tb to the exec handler like this as it is=0A=
-> only valid during the lifetime of translation. You need to extract the=0A=
-> information you need (qemu_plugin_tb_vaddr(tb)) and pass that.=0A=
->=0A=
-> The restriction is the same as we state for qemu_plugin_tb_get_insn():=0A=
->=0A=
->  The returned handle can be used in follow up helper queries as well=0A=
->  as when instrumenting an instruction. It is only valid for the=0A=
->  lifetime of the callback.=0A=
->=0A=
-> but it isn't attached to a API docs, we do mention it in the general=0A=
-> principles:=0A=
->=0A=
->   Lifetime of the query handle=0A=
->   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~=0A=
->=0A=
->   Each callback provides an opaque anonymous information handle which=0A=
->   can usually be further queried to find out information about a=0A=
->   translation, instruction or operation. The handles themselves are only=
-=0A=
->   valid during the lifetime of the callback so it is important that any=
-=0A=
->   information that is needed is extracted during the callback and saved=
-=0A=
->   by the plugin.=0A=
->=0A=
-If I were to allocate a distinct structure per tb here, how could I free it=
-? Or is it fine to just leave it leaked?=0A=
-=0A=
-Perhaps a new cb helper should be added for flush htable event, when we cou=
-ld reset all current tb structures?=0A=
-=0A=
->> +    g_ptr_array_foreach(counters, (GFunc)tb_trans, tb);=0A=
->> +}=0A=
->> +=0A=
->> +static void add_counter(const char *hint, uint64_t mask, uint64_t bits)=
-=0A=
->> +{=0A=
->> +    MaskCounter *counter =3D g_new0(MaskCounter, 1);=0A=
->> +    counter->hint =3D hint;=0A=
->> +    counter->mask =3D mask;=0A=
->> +    counter->bits =3D bits;=0A=
->> +    g_mutex_init(&counter->lock);=0A=
->> +    g_ptr_array_add(counters, counter);=0A=
->> +}=0A=
->> +=0A=
->> +QEMU_PLUGIN_EXPORT int qemu_plugin_install(qemu_plugin_id_t id,=0A=
->> +                                           const qemu_info_t *info, int=
- argc,=0A=
->> +                                           char **argv)=0A=
->> +{=0A=
->> +    counters =3D g_ptr_array_new();=0A=
->> +=0A=
->> +    // Update for a different mask=0A=
->> +    add_counter("all", 0, 0);=0A=
->> +    add_counter("kernel", 0x1ll << 63, 0x1ll << 63);=0A=
->> +    add_counter("user", 0x1ll << 63, 0);=0A=
-> These seem very fixed - do they apply for all kernels/architectures?=0A=
-> Perhaps we could have sensible defaults based on info->target_name with=
-=0A=
-> an option to hand set zones via CLI options?=0A=
-=0A=
-Generally for linux kernel the highest bit indicated kernel space AFAIK.=0A=
-=0A=
-Sensible default probably here would be to determine the highest bit based =
-on 64 vs 32 bit current architecture.=0A=
-=0A=
-Regarding the CLI options, I considered adding that, and I am thinking thos=
-e would be too complex. Much easier would be to change the code and write t=
-he correct mask. Do you think this can be merged without the CLI options, e=
-xpecting users to modify these lines to achieve different zoning?=0A=
-=0A=
-Best regards,=0A=
-Oleg=0A=
-=0A=
->=0A=
-> Also what should happen in the case of !info->system_emulation? There is=
-=0A=
-> probably a case for something similar tracking execution in various .so=
-=0A=
-> libs but that would need a little additional information from the=0A=
-> infrastructure to track.=0A=
->=0A=
->> +=0A=
->> +    qemu_plugin_register_vcpu_tb_trans_cb(id, vcpu_tb_trans);=0A=
->> +    qemu_plugin_register_atexit_cb(id, plugin_exit, NULL);=0A=
->> +    return 0;=0A=
->> +}=0A=
-=0A=
+The following changes since commit cfe63e46be0a1f8a7fd2fd5547222f8344a43279:
+
+  Merge remote-tracking branch 'remotes/armbru/tags/pull-qapi-2022-01-27-v2=
+' into staging (2022-01-27 15:45:13 +0000)
+
+are available in the Git repository at:
+
+  https://github.com/legoater/qemu/ tags/pull-ppc-20220130
+
+for you to fetch changes up to 4537d62dcece45183632298272abfb4859418cc0:
+
+  target/ppc: Remove support for the PowerPC 602 CPU (2022-01-28 21:38:17 +=
+0100)
+
+----------------------------------------------------------------
+ppc 7.0 queue:
+
+* Exception and TLB fixes for the 405 CPU (Fabiano and Cedric)
+* spapr fixes (Alexey and Daniel)
+* PowerNV PHB3/4 fixes (Frederic and Daniel)
+* PowerNV XIVE improvements (Cedric)
+* 603 CPUs fixes (Christophe)
+* Book-E exception fixes (Vitaly)
+* Misc compile issues  (Philippe and Fabiano)
+* Exception model rework for the BookS CPUs (Fabiano)
+* Exception model rework for the 74xx CPUs (Fabiano)
+* Removal of 602 CPUs
+
+----------------------------------------------------------------
+Alexey Kardashevskiy (1):
+      spapr: Force 32bit when resetting a core
+
+Christophe Leroy (1):
+      target/ppc: 603: fix restore of GPRs 0-3 on rfi
+
+C=C3=A9dric Le Goater (4):
+      ppc/xive: check return value of ldq_be_dma()
+      target/ppc: Fix test on mmu_model in hreg_compute_hflags_value()
+      ppc/ppc405: Fix TLB flushing
+      target/ppc: Remove support for the PowerPC 602 CPU
+
+Daniel Henrique Barboza (4):
+      ppc/pnv: use a do-while() loop in pnv_phb3_translate_tve()
+      ppc/pnv: use a do-while() loop in pnv_phb4_translate_tve()
+      target/ppc: fix 'skip KVM' cond in cpu_interrupt_exittb()
+      spapr.c: check bus !=3D NULL in spapr_get_fw_dev_path()
+
+Fabiano Rosas (28):
+      target/ppc: Put do_rfi under a TCG-only block
+      target/ppc: 405: Rename MSR_POW to MSR_WE
+      target/ppc: 405: Add missing MSR_ME bit
+      target/ppc: Introduce powerpc_excp_40x
+      target/ppc: Simplify powerpc_excp_40x
+      target/ppc: 405: Critical exceptions cleanup
+      target/ppc: 405: Machine check exception cleanup
+      target/ppc: 405: External exception cleanup
+      target/ppc: 405: System call exception cleanup
+      target/ppc: 405: Alignment exception cleanup
+      target/ppc: 405: Debug exception cleanup
+      target/ppc: 405: Data Storage exception cleanup
+      target/ppc: 405: Instruction storage interrupt cleanup
+      target/ppc: 405: Program exception cleanup
+      target/ppc: 405: Watchdog timer exception cleanup
+      target/ppc: Introduce powerpc_excp_books
+      target/ppc: Simplify powerpc_excp_books
+      target/ppc: books: Machine Check exception cleanup
+      target/ppc: books: External interrupt cleanup
+      target/ppc: books: Program exception cleanup
+      target/ppc: Introduce powerpc_excp_74xx
+      target/ppc: Simplify powerpc_excp_74xx
+      target/ppc: 74xx: Machine Check exception cleanup
+      target/ppc: 74xx: External interrupt cleanup
+      target/ppc: 74xx: Program exception cleanup
+      target/ppc: 74xx: System Call exception cleanup
+      target/ppc: 74xx: System Reset interrupt cleanup
+      target/ppc: 74xx: Set SRRs directly in exception code
+
+Frederic Barrat (1):
+      ppc/pnv: Fail DMA access if page permissions are not correct
+
+Philippe Mathieu-Daud=C3=A9 (1):
+      hw/ppc/vof: Add missing includes
+
+Vitaly Cheptsov (1):
+      target/ppc/mmu_common: Fix SRR1/MSR error code on Book-E
+
+ include/hw/ppc/vof.h         |   5 +
+ target/ppc/cpu-models.h      |   1 -
+ target/ppc/cpu.h             |   9 +-
+ target/ppc/helper.h          |   2 +-
+ hw/intc/pnv_xive.c           |  22 +-
+ hw/pci-host/pnv_phb3.c       |  17 +-
+ hw/pci-host/pnv_phb4.c       |  17 +-
+ hw/ppc/spapr.c               |   2 +-
+ hw/ppc/spapr_cpu_core.c      |   5 +
+ hw/ppc/spapr_vof.c           |   2 -
+ hw/ppc/vof.c                 |   1 -
+ target/ppc/cpu-models.c      |   2 -
+ target/ppc/cpu_init.c        | 150 +---------
+ target/ppc/excp_helper.c     | 674 +++++++++++++++++++++++++++++++++++++++=
++++-
+ target/ppc/helper_regs.c     |  12 +-
+ target/ppc/int_helper.c      |  21 --
+ target/ppc/mfrom_table_gen.c |  34 ---
+ target/ppc/mmu_common.c      |  18 +-
+ target/ppc/mmu_helper.c      |  12 +-
+ target/ppc/translate.c       |  32 +-
+ target/ppc/mfrom_table.c.inc |  78 -----
+ 21 files changed, 761 insertions(+), 355 deletions(-)
+ delete mode 100644 target/ppc/mfrom_table_gen.c
+ delete mode 100644 target/ppc/mfrom_table.c.inc
 
