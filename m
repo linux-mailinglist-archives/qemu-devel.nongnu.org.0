@@ -2,56 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B66F4A4A36
-	for <lists+qemu-devel@lfdr.de>; Mon, 31 Jan 2022 16:16:16 +0100 (CET)
-Received: from localhost ([::1]:46408 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 813384A4A86
+	for <lists+qemu-devel@lfdr.de>; Mon, 31 Jan 2022 16:28:36 +0100 (CET)
+Received: from localhost ([::1]:35104 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nEYPf-000144-Jw
-	for lists+qemu-devel@lfdr.de; Mon, 31 Jan 2022 10:16:15 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:40038)
+	id 1nEYbb-0004ev-Lb
+	for lists+qemu-devel@lfdr.de; Mon, 31 Jan 2022 10:28:35 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:45812)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1nEX0Q-0007FX-AK; Mon, 31 Jan 2022 08:46:06 -0500
-Received: from kylie.crudebyte.com ([5.189.157.229]:50995)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1nEXP8-0001DQ-0D
+ for qemu-devel@nongnu.org; Mon, 31 Jan 2022 09:11:39 -0500
+Received: from smtpout2.mo529.mail-out.ovh.net ([79.137.123.220]:40379)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1nEX0L-0004iS-Ln; Mon, 31 Jan 2022 08:46:05 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
- MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
- Content-ID:Content-Description;
- bh=EFOfpQD44+GUVMFr9sm/X48V8tpuKEu5QIoQBEe48ac=; b=BQM5THtk+5oYQqAwARR+bfirvf
- XdUASLzIcA2RKbdN3Rmbm4J2++rU8h5K2nL+9rdUAJOmklZy8ZPzG3T+7Ao0Lu1pyfA+6D935BtfL
- JhffRH2JY1J9Y//y+y4k9NPmS4HquRHsZgnZyoWKDiosDeaC3aiThSWHsFe/52751nGzA6M3FHhJ2
- zoYhJ5D+JMTLxHcSXpNoWGDIC6lVg7An1ylhG4Y0siYunVLRtVGiccGVA5ZnJbxTZwal7SXDcUz/S
- qIL1n32BZ2i6giizduEeFaZSYSo+/M0fsg1A8Qc6xhjbZeP7qgmqVpZsFVCzM+rA2yfs6r73TYlxQ
- X13dGpCq1272yH2NNw1Rk2ROn3SELCdi35fIk6V2w85VFzkL8P3Nu39fNr+W5iVp+jsC0X+5yRuVC
- dOTCrQAZbu95FRu9x8cAuNU/nYs/a8h+OrkgJ8Uzjdi5QjoW9sxpB4Xt5Ml15DbREO3dsvVSdeXlS
- lUBCwRLO8ikAHh7ZARbDahOQSQXLuEnM/1kFHXv4erK+esXstmgBwBqXKh8XeY/lksF/Gyl6Eep4i
- HSnSKjOsAn7cFVOSaDdUXTrV6qa62adYUmGamxs6qcEvMJo5t/+IMB1JSnUxLkuV4If/kIne821YF
- wDiWBN7fZ49BAjtPcXp3fLWRqWt79YrRWlQq+PscA=;
-From: Christian Schoenebeck <qemu_oss@crudebyte.com>
-To: qemu-devel@nongnu.org
-Cc: Vitaly Chikunov <vt@altlinux.org>, Greg Kurz <groug@kaod.org>,
- qemu-stable@nongnu.org, ldv@altlinux.org
-Subject: Re: [PATCH v2] 9pfs: Fix segfault in do_readdir_many caused by struct
- dirent overread
-Date: Mon, 31 Jan 2022 14:45:56 +0100
-Message-ID: <6821400.qEESzP8Xzo@silver>
-In-Reply-To: <20220128223326.927132-1-vt@altlinux.org>
-References: <20220128223326.927132-1-vt@altlinux.org>
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1nEXP5-0000AU-Jq
+ for qemu-devel@nongnu.org; Mon, 31 Jan 2022 09:11:37 -0500
+Received: from mxplan5.mail.ovh.net (unknown [10.109.146.15])
+ by mo529.mail-out.ovh.net (Postfix) with ESMTPS id 12C92DB43D49;
+ Mon, 31 Jan 2022 15:11:33 +0100 (CET)
+Received: from kaod.org (37.59.142.95) by DAG4EX1.mxp5.local (172.16.2.31)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.18; Mon, 31 Jan
+ 2022 15:11:32 +0100
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-95G001d569dcc3-db00-480b-86df-5bafc15cf54b,
+ 4E4406098780EA2DD5F77ED28C3E8FA94DEDF1FC) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Message-ID: <560147a3-7583-b62f-a194-6af1066ccbef@kaod.org>
+Date: Mon, 31 Jan 2022 15:11:32 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
-Received-SPF: pass client-ip=5.189.157.229;
- envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.0
+Subject: Re: [PULL 02/41] target/ppc: 603: fix restore of GPRs 0-3 on rfi
+Content-Language: en-US
+To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, <qemu-ppc@nongnu.org>,
+ <qemu-devel@nongnu.org>
+References: <20220131110811.619053-1-clg@kaod.org>
+ <20220131110811.619053-3-clg@kaod.org>
+ <b878009a-cf35-1465-9bae-11d50ac84241@ilande.co.uk>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <b878009a-cf35-1465-9bae-11d50ac84241@ilande.co.uk>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [37.59.142.95]
+X-ClientProxiedBy: DAG2EX1.mxp5.local (172.16.2.11) To DAG4EX1.mxp5.local
+ (172.16.2.31)
+X-Ovh-Tracer-GUID: 6ee2dc94-b138-4ba6-96a3-5f03ea97e058
+X-Ovh-Tracer-Id: 17155336884479560553
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvvddrgedugdeivdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfhfhfgjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeejkeekfeehfedvfeehgfejleevkeehieelheduveekfedvhfelteeivdfftddukeenucffohhmrghinhepghhithhlrggsrdgtohhmnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrdelheenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdpnhgspghrtghpthhtohepuddprhgtphhtthhopehfrghrohhsrghssehlihhnuhigrdhisghmrdgtohhm
+Received-SPF: pass client-ip=79.137.123.220; envelope-from=clg@kaod.org;
+ helo=smtpout2.mo529.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -64,115 +72,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Christophe Leroy <christophe.leroy@csgroup.eu>,
+ Fabiano Rosas <farosas@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Freitag, 28. Januar 2022 23:33:26 CET Vitaly Chikunov wrote:
-> `struct dirent' returned from readdir(3) could be shorter than
-> `sizeof(struct dirent)', thus memcpy of sizeof length will overread
-> into unallocated page causing SIGSEGV. Example stack trace:
+On 1/31/22 13:01, Mark Cave-Ayland wrote:
+> On 31/01/2022 11:07, Cédric Le Goater wrote:
+> 
+>> From: Christophe Leroy <christophe.leroy@csgroup.eu>
+>>
+>> After a TLB miss exception, GPRs 0-3 must be restored on rfi.
+>>
+>> This is managed by hreg_store_msr() which is called by do_rfi()
+>>
+>> However, hreg_store_msr() does it if MSR[TGPR] is unset in the
+>> passed MSR value.
+>>
+>> The problem is that do_rfi() is given the content of SRR1 as
+>> the value to be set in MSR, but TGPR bit is not part of SRR1
+>> and that bit is used for something else and is sometimes set
+>> to 1, leading to hreg_store_msr() not restoring GPRs.
+>>
+>> So, do the same way as for POW bit, force clearing it.
+>>
+>> Signed-off-by: Christophe Leroy <christophe.leroy@csgroup.eu>
+>> Cc: Cedric Le Goater <clg@kaod.org>
+>> Cc: Fabiano Rosas <farosas@linux.ibm.com>
+>> Reviewed-by: Cédric Le Goater <clg@kaod.org>
+>> Message-Id: <20220120103824.239573-1-christophe.leroy@csgroup.eu>
+>> Signed-off-by: Cédric Le Goater <clg@kaod.org>
+>> ---
+>>   target/ppc/excp_helper.c | 4 ++++
+>>   1 file changed, 4 insertions(+)
+>>
+>> diff --git a/target/ppc/excp_helper.c b/target/ppc/excp_helper.c
+>> index bc646c67a0f5..980f62fd7964 100644
+>> --- a/target/ppc/excp_helper.c
+>> +++ b/target/ppc/excp_helper.c
+>> @@ -1164,6 +1164,10 @@ static void do_rfi(CPUPPCState *env, target_ulong nip, target_ulong msr)
+>>       /* MSR:POW cannot be set by any form of rfi */
+>>       msr &= ~(1ULL << MSR_POW);
+>> +    /* MSR:TGPR cannot be set by any form of rfi */
+>> +    if (env->flags & POWERPC_FLAG_TGPR)
+>> +        msr &= ~(1ULL << MSR_TGPR);
+>> +
+>>   #if defined(TARGET_PPC64)
+>>       /* Switching to 32-bit ? Crop the nip */
+>>       if (!msr_is_64bit(env, msr)) {
+> 
+> Have you tried a pre-PR push to Gitlab CI for your pull-ppc-20220130 tag? I'd expect this to fail the check-patch job due to the missing braces around the if() statement.
 
-I actually suggested to make it clear in the commit log comment here that it 
-could be both, shorter or longer, but OK, the API doc comment on 
-qemu_dirent_dup() sais it, so ...
+All is fine :
 
-Reviewed-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
+   https://gitlab.com/legoater/qemu/-/pipelines/458888936
 
-> 
->  #0  0x00005555559ebeed v9fs_co_readdir_many (/usr/bin/qemu-system-x86_64 +
-> 0x497eed) #1  0x00005555559ec2e9 v9fs_readdir (/usr/bin/qemu-system-x86_64
-> + 0x4982e9) #2  0x0000555555eb7983 coroutine_trampoline
-> (/usr/bin/qemu-system-x86_64 + 0x963983) #3  0x00007ffff73e0be0 n/a (n/a +
-> 0x0)
-> 
-> While fixing, provide a helper for any future `struct dirent' cloning.
-> 
-> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/841
-> Cc: qemu-stable@nongnu.org
-> Co-authored-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
-> Signed-off-by: Vitaly Chikunov <vt@altlinux.org>
-> ---
-> Tested on x86-64 Linux.
-> 
-> Changes since v1:
-> - Update commentary text.
-> - Remove hanging of g_malloc "errors".
-> - Simplify qemu_dirent_dup.
-> 
->  hw/9pfs/codir.c      |  3 +--
->  include/qemu/osdep.h | 13 +++++++++++++
->  util/osdep.c         | 16 ++++++++++++++++
->  3 files changed, 30 insertions(+), 2 deletions(-)
-> 
-> diff --git a/hw/9pfs/codir.c b/hw/9pfs/codir.c
-> index 032cce04c4..c0873bde16 100644
-> --- a/hw/9pfs/codir.c
-> +++ b/hw/9pfs/codir.c
-> @@ -143,8 +143,7 @@ static int do_readdir_many(V9fsPDU *pdu, V9fsFidState
-> *fidp, } else {
->              e = e->next = g_malloc0(sizeof(V9fsDirEnt));
->          }
-> -        e->dent = g_malloc0(sizeof(struct dirent));
-> -        memcpy(e->dent, dent, sizeof(struct dirent));
-> +        e->dent = qemu_dirent_dup(dent);
-> 
->          /* perform a full stat() for directory entry if requested by caller
-> */ if (dostat) {
-> diff --git a/include/qemu/osdep.h b/include/qemu/osdep.h
-> index d1660d67fa..ce12f64853 100644
-> --- a/include/qemu/osdep.h
-> +++ b/include/qemu/osdep.h
-> @@ -805,6 +805,19 @@ static inline int
-> platform_does_not_support_system(const char *command) }
->  #endif /* !HAVE_SYSTEM_FUNCTION */
-> 
-> +/**
-> + * Duplicate directory entry @dent.
-> + *
-> + * It is highly recommended to use this function instead of open coding
-> + * duplication of @c dirent objects, because the actual @c struct @c dirent
-> + * size may be bigger or shorter than @c sizeof(struct dirent) and correct
-> + * handling is platform specific (see gitlab issue #841).
-> + *
-> + * @dent - original directory entry to be duplicated
-> + * @returns duplicated directory entry which should be freed with g_free()
-> + */
-> +struct dirent *qemu_dirent_dup(struct dirent *dent);
-> +
->  #ifdef __cplusplus
->  }
->  #endif
-> diff --git a/util/osdep.c b/util/osdep.c
-> index 42a0a4986a..0bc7ec1e22 100644
-> --- a/util/osdep.c
-> +++ b/util/osdep.c
-> @@ -33,6 +33,7 @@
->  extern int madvise(char *, size_t, int);
->  #endif
-> 
-> +#include <dirent.h>
->  #include "qemu-common.h"
->  #include "qemu/cutils.h"
->  #include "qemu/sockets.h"
-> @@ -615,3 +616,18 @@ writev(int fd, const struct iovec *iov, int iov_cnt)
->      return readv_writev(fd, iov, iov_cnt, true);
->  }
->  #endif
-> +
-> +struct dirent *
-> +qemu_dirent_dup(struct dirent *dent)
-> +{
-> +#if defined _DIRENT_HAVE_D_RECLEN
-> +    /* Avoid use of strlen() if there's d_reclen. */
-> +    const size_t sz = dent->d_reclen;
-> +#else
-> +    /* Fallback to a most portable way. */
-> +    const size_t sz = offsetof(struct dirent, d_name) +
-> +                      strlen(dent->d_name) + 1;
-> +#endif
-> +    struct dirent *dst = g_malloc(sz);
-> +    return memcpy(dst, dent, sz);
-> +}
+I even did a checkpatch before sending and it did not complain :/
 
+Thanks,
 
+C.
 
