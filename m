@@ -2,104 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC2544A49B3
-	for <lists+qemu-devel@lfdr.de>; Mon, 31 Jan 2022 15:54:04 +0100 (CET)
-Received: from localhost ([::1]:45854 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ADD984A49C3
+	for <lists+qemu-devel@lfdr.de>; Mon, 31 Jan 2022 15:59:01 +0100 (CET)
+Received: from localhost ([::1]:53458 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nEY42-00056v-0o
-	for lists+qemu-devel@lfdr.de; Mon, 31 Jan 2022 09:53:54 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:59032)
+	id 1nEY8y-0002B3-B6
+	for lists+qemu-devel@lfdr.de; Mon, 31 Jan 2022 09:59:00 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:33250)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
- id 1nEXwz-0006xc-PD; Mon, 31 Jan 2022 09:46:48 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:53964
- helo=mx0a-001b2d01.pphosted.com)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1nEY56-0007qu-7W
+ for qemu-devel@nongnu.org; Mon, 31 Jan 2022 09:55:00 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:33202)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
- id 1nEXvN-0006UJ-L4; Mon, 31 Jan 2022 09:45:19 -0500
-Received: from pps.filterd (m0098413.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 20VDWLdS030817; 
- Mon, 31 Jan 2022 14:44:47 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=8H210n/nMxyMX/OTzS0e7OdMB03iBoR4fyZMAj1j3xA=;
- b=fI2qh/b5Bvbi7VlbQ8k1w/Uhd+P1A/XamX14Y1G5c3Ttmrg1bXlycO+8mAW/7dP/zzcf
- ssDXf/HgxhnFIoFYZwMOWxvXSsznephlp/J60xpMUnSmNW6v9XZehcM2WVMzTXJn1Ed5
- Drxj6bCHiFr/6LP7EVPtgXehftoNBEsZrY5msfF0I8jBJqhW7NN3hn6Uaf4lFDYdEM//
- ZwBzBFNXXAk9ByhlAf4xE0oRdVxvAU4tMSqZEAJJ688JRed+1KMP1bVuWqI89gfcBVrW
- 8+0SW3SVEyIDV+A+zZ1TmNXf76NiMc1butBXJBGSbdRrMO7IvCf2huvgMghu1SLXed0a zQ== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com with ESMTP id 3dxgr69m33-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 31 Jan 2022 14:44:46 +0000
-Received: from m0098413.ppops.net (m0098413.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 20VELo3O013674;
- Mon, 31 Jan 2022 14:44:46 GMT
-Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.99])
- by mx0b-001b2d01.pphosted.com with ESMTP id 3dxgr69m2b-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 31 Jan 2022 14:44:46 +0000
-Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
- by ppma04ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 20VEgBtL030209;
- Mon, 31 Jan 2022 14:44:44 GMT
-Received: from b06cxnps4075.portsmouth.uk.ibm.com
- (d06relay12.portsmouth.uk.ibm.com [9.149.109.197])
- by ppma04ams.nl.ibm.com with ESMTP id 3dvw79ch9m-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 31 Jan 2022 14:44:44 +0000
-Received: from d06av26.portsmouth.uk.ibm.com (d06av26.portsmouth.uk.ibm.com
- [9.149.105.62])
- by b06cxnps4075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 20VEideH46924150
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 31 Jan 2022 14:44:39 GMT
-Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id B2E6CAE057;
- Mon, 31 Jan 2022 14:44:39 +0000 (GMT)
-Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id E1184AE051;
- Mon, 31 Jan 2022 14:44:38 +0000 (GMT)
-Received: from [9.171.84.74] (unknown [9.171.84.74])
- by d06av26.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Mon, 31 Jan 2022 14:44:38 +0000 (GMT)
-Message-ID: <799e6d4c-57f4-c321-4c96-d6186cfb3136@linux.ibm.com>
-Date: Mon, 31 Jan 2022 15:46:35 +0100
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1nEY53-0008Bf-II
+ for qemu-devel@nongnu.org; Mon, 31 Jan 2022 09:54:59 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1643640896;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=HNDomTh1Z50PJ/hdiOfcfLoRyQfjgmUBEFhlu0SJJYY=;
+ b=E681e06+gi8mz5csUKy3KaAQe/LG5lAiUFj73o1GmESTlKW+JU8f7hcyP6APj3Ev1O/IIq
+ wi0XvMWIjtIEO2Av8AHeN6nNV9kbSFhPXhSMvmVqW1aKZiICweLhTmFWj8rVszgKHX1OHz
+ 8eY+Dq+f6+WKVyLmaLOhG5+XW1B5ly4=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-495-wcyhtf9HOju1b5JnYQ5f2A-1; Mon, 31 Jan 2022 09:54:52 -0500
+X-MC-Unique: wcyhtf9HOju1b5JnYQ5f2A-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A66971091DA6;
+ Mon, 31 Jan 2022 14:54:50 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.193.138])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id AEF197B9DD;
+ Mon, 31 Jan 2022 14:54:07 +0000 (UTC)
+Date: Mon, 31 Jan 2022 15:54:06 +0100
+From: Kevin Wolf <kwolf@redhat.com>
+To: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+Subject: Re: [PATCH v6 02/33] include/block/block: split header into I/O and
+ global state API
+Message-ID: <Yff4Dl6bpHhTxAfB@redhat.com>
+References: <20220121170544.2049944-1-eesposit@redhat.com>
+ <20220121170544.2049944-3-eesposit@redhat.com>
+ <YfJ7pbLDuwP2hgnw@redhat.com>
+ <ac8b0576-4c03-4eb6-9ef6-c0a6b20b6184@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.0
-Subject: Re: [PATCH v2 4/9] s390x/pci: enable for load/store intepretation
-Content-Language: en-US
-To: Matthew Rosato <mjrosato@linux.ibm.com>, qemu-s390x@nongnu.org
-References: <20220114203849.243657-1-mjrosato@linux.ibm.com>
- <20220114203849.243657-5-mjrosato@linux.ibm.com>
-From: Pierre Morel <pmorel@linux.ibm.com>
-In-Reply-To: <20220114203849.243657-5-mjrosato@linux.ibm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: GpdItj6yBkjBq2cn50kR8eE4ZKSHScTQ
-X-Proofpoint-ORIG-GUID: zy4sNk5hte7DsE7d6WU0n1c9WBzJeWqP
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.816,Hydra:6.0.425,FMLib:17.11.62.513
- definitions=2022-01-31_06,2022-01-31_01,2021-12-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxscore=0 lowpriorityscore=0
- malwarescore=0 priorityscore=1501 mlxlogscore=999 suspectscore=0
- phishscore=0 clxscore=1015 adultscore=0 impostorscore=0 bulkscore=0
- spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2201110000 definitions=main-2201310097
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=pmorel@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+In-Reply-To: <ac8b0576-4c03-4eb6-9ef6-c0a6b20b6184@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.088,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -112,370 +81,109 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: farman@linux.ibm.com, kvm@vger.kernel.org, schnelle@linux.ibm.com,
- cohuck@redhat.com, richard.henderson@linaro.org, thuth@redhat.com,
- qemu-devel@nongnu.org, pasic@linux.ibm.com, alex.williamson@redhat.com,
- mst@redhat.com, pbonzini@redhat.com, david@redhat.com,
- borntraeger@linux.ibm.com
+Cc: Fam Zheng <fam@euphon.net>, qemu-devel@nongnu.org,
+ "Denis V. Lunev" <den@openvz.org>, Eric Blake <eblake@redhat.com>,
+ qemu-block@nongnu.org, Juan Quintela <quintela@redhat.com>,
+ Daniel Henrique Barboza <danielhb413@gmail.com>,
+ Markus Armbruster <armbru@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, Greg Kurz <groug@kaod.org>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>,
+ Stefan Hajnoczi <stefanha@redhat.com>, John Snow <jsnow@redhat.com>,
+ David Gibson <david@gibson.dropbear.id.au>,
+ Eduardo Habkost <eduardo@habkost.net>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>,
+ Hanna Reitz <hreitz@redhat.com>, qemu-ppc@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-
-On 1/14/22 21:38, Matthew Rosato wrote:
-> Use the associated vfio feature ioctl to enable interpretation for devices
-> when requested.  As part of this process, we must use the host function
-> handle rather than a QEMU-generated one -- this is provided as part of the
-> ioctl payload.
-
-I wonder if we should not explain here that having interpretation as a 
-default and silently fall back to interception allows backward 
-compatibility while allowing performence be chosing by default.
-(You can say it better as I do :) )
-
-
+Am 31.01.2022 um 14:40 hat Emanuele Giuseppe Esposito geschrieben:
+> On 27/01/2022 12:01, Kevin Wolf wrote:
+> >>> +    BlockDriverState *bs_ = (bs);                          \
+> >>> +    AIO_WAIT_WHILE(bdrv_get_aio_context(bs_),              \
+> >>> +                   cond); })
+> >> Hmm... AIO_WAIT_WHILE() is explicitly documented to be called from I/O
+> >> threads. But it has to be a specific I/O thread, the home thread of the
+> >> AioContext of bs.
+> >> 
+> >> So it really fits neither the description for global state (it works
+> >> outside the main thread) nor for I/O functions (it doesn't work in any
+> >> arbitrary thread).
 > 
-> Signed-off-by: Matthew Rosato <mjrosato@linux.ibm.com>
-> ---
->   hw/s390x/s390-pci-bus.c          | 70 +++++++++++++++++++++++++++++++-
->   hw/s390x/s390-pci-inst.c         | 63 +++++++++++++++++++++++++++-
->   hw/s390x/s390-pci-vfio.c         | 52 ++++++++++++++++++++++++
->   include/hw/s390x/s390-pci-bus.h  |  1 +
->   include/hw/s390x/s390-pci-vfio.h | 15 +++++++
->   5 files changed, 199 insertions(+), 2 deletions(-)
+> So I would say BDRV_POLL_WHILE can go in block-common? what you wrote
+> above is the exact definition of common functions.
+
+Maybe, but either way I feel it should be categorised the same as its
+users, like bdrv_drained_begin() below.
+
+> >>> +
+> >>> +/**
+> >>> + * bdrv_drained_begin:
+> >>> + *
+> >>> + * Begin a quiesced section for exclusive access to the BDS, by disabling
+> >>> + * external request sources including NBD server, block jobs, and device model.
+> >>> + *
+> >>> + * This function can be recursive.
+> >>> + */
+> >>> +void bdrv_drained_begin(BlockDriverState *bs);
+> >> I don't see how the whole family of drain functions can work in any
+> >> arbitrary thread. They call BDRV_POLL_WHILE(), the rules for which are
+> >> that it has to be either in the main thread or in the AioContext of bs
+> >> (which currently ensures that all block nodes and their users are in the
+> >> same AioContext).
+> >> 
+> >> Cross-AioContext BDRV_POLL_WHILE() can cause deadlocks, as documented in
+> >> AIO_WAIT_WHILE().
+> >> 
+> >> Actually, the same is true for all other BDRV_POLL_WHILE() callers, too.
+> >> For example, every function generated by block-coroutine-wrapper.py can
+> >> only be thread-safe when called in coroutine context, otherwise it has
+> >> to be called from the node's AioContext.
+> >> 
 > 
-> diff --git a/hw/s390x/s390-pci-bus.c b/hw/s390x/s390-pci-bus.c
-> index 01b58ebc70..a39ccfee05 100644
-> --- a/hw/s390x/s390-pci-bus.c
-> +++ b/hw/s390x/s390-pci-bus.c
-> @@ -971,12 +971,58 @@ static void s390_pci_update_subordinate(PCIDevice *dev, uint32_t nr)
->       }
->   }
->   
-> +static int s390_pci_interp_plug(S390pciState *s, S390PCIBusDevice *pbdev)
-> +{
-> +    uint32_t idx;
-> +    int rc;
-> +
-> +    rc = s390_pci_probe_interp(pbdev);
-> +    if (rc) {
-> +        return rc;
-> +    }
-> +
-> +    rc = s390_pci_update_passthrough_fh(pbdev);
-> +    if (rc) {
-> +        return rc;
-> +    }
-> +
-> +    /*
-> +     * The host device is already in an enabled state, but we always present
-> +     * the initial device state to the guest as disabled (ZPCI_FS_DISABLED).
-> +     * Therefore, mask off the enable bit from the passthrough handle until
-> +     * the guest issues a CLP SET PCI FN later to enable the device.
-> +     */
-> +    pbdev->fh &= ~FH_MASK_ENABLE;
-> +
-> +    /* Next, see if the idx is already in-use */
-> +    idx = pbdev->fh & FH_MASK_INDEX;
-> +    if (pbdev->idx != idx) {
-> +        if (s390_pci_find_dev_by_idx(s, idx)) {
-> +            return -EINVAL;
-> +        }
-> +        /*
-> +         * Update the idx entry with the passed through idx
-> +         * If the relinquished idx is lower than next_idx, use it
-> +         * to replace next_idx
-> +         */
-> +        g_hash_table_remove(s->zpci_table, &pbdev->idx);
-> +        if (idx < s->next_idx) {
-> +            s->next_idx = idx;
-> +        }
-> +        pbdev->idx = idx;
-> +        g_hash_table_insert(s->zpci_table, &pbdev->idx, pbdev);
-> +    }
-> +
-> +    return 0;
-> +}
-> +
->   static void s390_pcihost_plug(HotplugHandler *hotplug_dev, DeviceState *dev,
->                                 Error **errp)
->   {
->       S390pciState *s = S390_PCI_HOST_BRIDGE(hotplug_dev);
->       PCIDevice *pdev = NULL;
->       S390PCIBusDevice *pbdev = NULL;
-> +    int rc;
->   
->       if (object_dynamic_cast(OBJECT(dev), TYPE_PCI_BRIDGE)) {
->           PCIBridge *pb = PCI_BRIDGE(dev);
-> @@ -1022,12 +1068,33 @@ static void s390_pcihost_plug(HotplugHandler *hotplug_dev, DeviceState *dev,
->           set_pbdev_info(pbdev);
->   
->           if (object_dynamic_cast(OBJECT(dev), "vfio-pci")) {
-> -            pbdev->fh |= FH_SHM_VFIO;
-> +            /*
-> +             * By default, interpretation is always requested; if the available
-> +             * facilities indicate it is not available, fallback to the
-> +             * intercept model.
-
-s/intercept/interception/ ?
-
-> +             */
-> +            if (pbdev->interp && !s390_has_feat(S390_FEAT_ZPCI_INTERP)) {
-> +                    DPRINTF("zPCI interpretation facilities missing.\n");
-> +                    pbdev->interp = false;
-> +                }
-> +            if (pbdev->interp) {
-> +                rc = s390_pci_interp_plug(s, pbdev);
-> +                if (rc) {
-> +                    error_setg(errp, "zpci interp plug failed: %d", rc);
-> +                    return;
-> +                }
-> +            }
-
-
-Can't we rearrange that as
-if (pbdev->interp) {
-     if (s390_has_feat) {
-     } else {
-     }
-}
-
-
->               pbdev->iommu->dma_limit = s390_pci_start_dma_count(s, pbdev);
->               /* Fill in CLP information passed via the vfio region */
->               s390_pci_get_clp_info(pbdev);
-> +            if (!pbdev->interp) {
-> +                /* Do vfio passthrough but intercept for I/O */
-> +                pbdev->fh |= FH_SHM_VFIO;
-> +            }
->           } else {
->               pbdev->fh |= FH_SHM_EMUL;
-> +            /* Always intercept emulated devices */
-> +            pbdev->interp = false;
->           }
->   
->           if (s390_pci_msix_init(pbdev)) {
-> @@ -1360,6 +1427,7 @@ static Property s390_pci_device_properties[] = {
->       DEFINE_PROP_UINT16("uid", S390PCIBusDevice, uid, UID_UNDEFINED),
->       DEFINE_PROP_S390_PCI_FID("fid", S390PCIBusDevice, fid),
->       DEFINE_PROP_STRING("target", S390PCIBusDevice, target),
-> +    DEFINE_PROP_BOOL("interp", S390PCIBusDevice, interp, true),
->       DEFINE_PROP_END_OF_LIST(),
->   };
->   
-> diff --git a/hw/s390x/s390-pci-inst.c b/hw/s390x/s390-pci-inst.c
-> index 6d400d4147..e9a0dc12e4 100644
-> --- a/hw/s390x/s390-pci-inst.c
-> +++ b/hw/s390x/s390-pci-inst.c
-> @@ -18,6 +18,7 @@
->   #include "sysemu/hw_accel.h"
->   #include "hw/s390x/s390-pci-inst.h"
->   #include "hw/s390x/s390-pci-bus.h"
-> +#include "hw/s390x/s390-pci-vfio.h"
->   #include "hw/s390x/tod.h"
->   
->   #ifndef DEBUG_S390PCI_INST
-> @@ -156,6 +157,47 @@ out:
->       return rc;
->   }
->   
-> +static int clp_enable_interp(S390PCIBusDevice *pbdev)
-> +{
-> +    int rc;
-> +
-> +    rc = s390_pci_set_interp(pbdev, true);
-> +    if (rc) {
-> +        DPRINTF("Failed to enable interpretation\n");
-> +        return rc;
-> +    }
-> +    rc = s390_pci_update_passthrough_fh(pbdev);
-> +    if (rc) {
-> +        DPRINTF("Failed to update passthrough fh\n");
-> +        return rc;
-> +    }
-> +    if (!(pbdev->fh & FH_MASK_ENABLE)) {
-> +        DPRINTF("Passthrough handle is not enabled\n");
-> +        return -EINVAL;
-> +    }
-> +
-> +    return 0;
-> +}
-> +
-> +static int clp_disable_interp(S390PCIBusDevice *pbdev)
-> +{
-> +    int rc;
-> +
-> +    rc = s390_pci_set_interp(pbdev, false);
-> +    if (rc) {
-> +        DPRINTF("Failed to disable interpretation\n");
-> +        return rc;
-> +    }
-> +
-> +    rc = s390_pci_update_passthrough_fh(pbdev);
-> +    if (rc) {
-> +        DPRINTF("Failed to update passthrough fh\n");
-> +        return rc;
-> +    }
-> +
-> +    return 0;
-> +}
-> +
->   int clp_service_call(S390CPU *cpu, uint8_t r2, uintptr_t ra)
->   {
->       ClpReqHdr *reqh;
-> @@ -246,7 +288,19 @@ int clp_service_call(S390CPU *cpu, uint8_t r2, uintptr_t ra)
->                   goto out;
->               }
->   
-> -            pbdev->fh |= FH_MASK_ENABLE;
-> +            /*
-> +             * If interpretation is specified, attempt to enable this now and
-> +             * update with the host fh
-> +             */
-> +            if (pbdev->interp) {
-> +                if (clp_enable_interp(pbdev)) {
-> +                    stw_p(&ressetpci->hdr.rsp, CLP_RC_SETPCIFN_ERR);
-> +                    goto out;
-> +                }
-> +            } else {
-> +                pbdev->fh |= FH_MASK_ENABLE;
-> +            }
-> +
->               pbdev->state = ZPCI_FS_ENABLED;
->               stl_p(&ressetpci->fh, pbdev->fh);
->               stw_p(&ressetpci->hdr.rsp, CLP_RC_OK);
-> @@ -257,6 +311,13 @@ int clp_service_call(S390CPU *cpu, uint8_t r2, uintptr_t ra)
->                   goto out;
->               }
->               device_legacy_reset(DEVICE(pbdev));
-> +            if (pbdev->interp) {
-> +                if (clp_disable_interp(pbdev)) {
-> +                    stw_p(&ressetpci->hdr.rsp, CLP_RC_SETPCIFN_ERR);
-> +                    goto out;
-> +                }
-> +            }
-> +            /* Mask off the enabled bit for interpreted devices too */
->               pbdev->fh &= ~FH_MASK_ENABLE;
->               pbdev->state = ZPCI_FS_DISABLED;
->               stl_p(&ressetpci->fh, pbdev->fh);
-> diff --git a/hw/s390x/s390-pci-vfio.c b/hw/s390x/s390-pci-vfio.c
-> index 6f80a47e29..2cab3a9e89 100644
-> --- a/hw/s390x/s390-pci-vfio.c
-> +++ b/hw/s390x/s390-pci-vfio.c
-> @@ -97,6 +97,58 @@ void s390_pci_end_dma_count(S390pciState *s, S390PCIDMACount *cnt)
->       }
->   }
->   
-> +int s390_pci_probe_interp(S390PCIBusDevice *pbdev)
-> +{
-> +    VFIOPCIDevice *vdev = VFIO_PCI(pbdev->pdev);
-> +    struct vfio_device_feature feat = {
-> +        .argsz = sizeof(struct vfio_device_feature),
-> +        .flags = VFIO_DEVICE_FEATURE_PROBE | VFIO_DEVICE_FEATURE_ZPCI_INTERP
-> +    };
-> +
-> +    return ioctl(vdev->vbasedev.fd, VFIO_DEVICE_FEATURE, &feat);
-> +}
-> +
-> +int s390_pci_set_interp(S390PCIBusDevice *pbdev, bool enable)
-> +{
-> +    VFIOPCIDevice *vdev = VFIO_PCI(pbdev->pdev);
-> +    struct vfio_device_zpci_interp *data;
-> +    int size = sizeof(struct vfio_device_feature) + sizeof(*data);
-> +    g_autofree struct vfio_device_feature *feat = g_malloc0(size);
-> +
-> +    feat->argsz = size;
-> +    feat->flags = VFIO_DEVICE_FEATURE_SET + VFIO_DEVICE_FEATURE_ZPCI_INTERP;
-> +
-> +    data = (struct vfio_device_zpci_interp *)&feat->data;
-> +    if (enable) {
-> +        data->flags = VFIO_DEVICE_ZPCI_FLAG_INTERP;
-> +    } else {
-> +        data->flags = 0;
-> +    }
-> +
-> +    return ioctl(vdev->vbasedev.fd, VFIO_DEVICE_FEATURE, feat);
-> +}
-> +
-> +int s390_pci_update_passthrough_fh(S390PCIBusDevice *pbdev)
-> +{
-> +    VFIOPCIDevice *vdev = VFIO_PCI(pbdev->pdev);
-> +    struct vfio_device_zpci_interp *data;
-> +    int size = sizeof(struct vfio_device_feature) + sizeof(*data);
-> +    g_autofree struct vfio_device_feature *feat = g_malloc0(size);
-> +    int rc;
-> +
-> +    feat->argsz = size;
-> +    feat->flags = VFIO_DEVICE_FEATURE_GET + VFIO_DEVICE_FEATURE_ZPCI_INTERP;
-> +
-> +    rc = ioctl(vdev->vbasedev.fd, VFIO_DEVICE_FEATURE, feat);
-> +    if (rc) {
-> +        return rc;
-> +    }
-> +
-> +    data = (struct vfio_device_zpci_interp *)&feat->data;
-> +    pbdev->fh = data->fh;
-> +    return 0;
-> +}
-> +
->   static void s390_pci_read_base(S390PCIBusDevice *pbdev,
->                                  struct vfio_device_info *info)
->   {
-> diff --git a/include/hw/s390x/s390-pci-bus.h b/include/hw/s390x/s390-pci-bus.h
-> index da3cde2bb4..a9843dfe97 100644
-> --- a/include/hw/s390x/s390-pci-bus.h
-> +++ b/include/hw/s390x/s390-pci-bus.h
-> @@ -350,6 +350,7 @@ struct S390PCIBusDevice {
->       IndAddr *indicator;
->       bool pci_unplug_request_processed;
->       bool unplug_requested;
-> +    bool interp;
->       QTAILQ_ENTRY(S390PCIBusDevice) link;
->   };
->   
-> diff --git a/include/hw/s390x/s390-pci-vfio.h b/include/hw/s390x/s390-pci-vfio.h
-> index ff708aef50..42533e38f7 100644
-> --- a/include/hw/s390x/s390-pci-vfio.h
-> +++ b/include/hw/s390x/s390-pci-vfio.h
-> @@ -20,6 +20,9 @@ bool s390_pci_update_dma_avail(int fd, unsigned int *avail);
->   S390PCIDMACount *s390_pci_start_dma_count(S390pciState *s,
->                                             S390PCIBusDevice *pbdev);
->   void s390_pci_end_dma_count(S390pciState *s, S390PCIDMACount *cnt);
-> +int s390_pci_probe_interp(S390PCIBusDevice *pbdev);
-> +int s390_pci_set_interp(S390PCIBusDevice *pbdev, bool enable);
-> +int s390_pci_update_passthrough_fh(S390PCIBusDevice *pbdev);
->   void s390_pci_get_clp_info(S390PCIBusDevice *pbdev);
->   #else
->   static inline bool s390_pci_update_dma_avail(int fd, unsigned int *avail)
-> @@ -33,6 +36,18 @@ static inline S390PCIDMACount *s390_pci_start_dma_count(S390pciState *s,
->   }
->   static inline void s390_pci_end_dma_count(S390pciState *s,
->                                             S390PCIDMACount *cnt) { }
-> +int s390_pci_probe_interp(S390PCIBusDevice *pbdev)
-> +{
-> +    return -EINVAL;
-> +}
-> +static inline int s390_pci_set_interp(S390PCIBusDevice *pbdev, bool enable)
-> +{
-> +    return -EINVAL;
-> +}
-> +static inline int s390_pci_update_passthrough_fh(S390PCIBusDevice *pbdev)
-> +{
-> +    return -EINVAL;
-> +}
->   static inline void s390_pci_get_clp_info(S390PCIBusDevice *pbdev) { }
->   #endif
->   
+> Maybe not in any arbitrary thread, but an iothread can call these
+> function in any case. Therefore it is not a GS function for sure, so I
+> would leave it as I/O.
 > 
+> I guess you can also see I/O more as "all the ones that are not GS".
 
-LGTM
-With the corrections proposed by Thomas.
-Mine... you see what you prefer.
+Your current definition is:
 
-Reviewed-by: Pierre Morel <pmorel@linux.ibm.com>
+/*
+ * I/O API functions. These functions are thread-safe, and therefore
+ * can run in any thread as long as the thread has called
+ * aio_context_acquire/release().
+ */
 
+If you want it to mean "everything that isn't GS", then you need to
+change this definition. (This in turn would mean that nothing would fit
+the definiton for common functions any more, which is "neither GS nor
+I/O".)
 
--- 
-Pierre Morel
-IBM Lab Boeblingen
+I thought that the definition that you currently have is actually
+meaningful in the context of multiqueue, which I think is ultimately the
+goal of your work. If at some point you're going to argue "this uses
+only I/O functions, so it's threadsafe", the definition of I/O functions
+must actually guarantee this.
+
+If you categorise bdrv_drained_begin() as an I/O function, then this
+property is violated because you have to call it from a specific thread.
+
+So I guess the decision depends on what you're going to use the
+categories in the future. I get the feeling that we have one more
+category than this series introduces:
+
+* Global State (must run from the main thread/hold the BQL)
+* I/O (can be called in any thread under the AioContext lock, doesn't
+  modify global state, drain waits for it to complete)
+* Common (doesn't even touch global state)
+* iothread dependent (can run without the BQL, but only in one specific
+  iothread while holding its AioContext lock; this would cover at least
+  AIO_WAIT_WHILE() and all of its indirect callers)
+
+Kevin
+
 
