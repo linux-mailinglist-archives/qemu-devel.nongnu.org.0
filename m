@@ -2,61 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD4504A4966
-	for <lists+qemu-devel@lfdr.de>; Mon, 31 Jan 2022 15:33:50 +0100 (CET)
-Received: from localhost ([::1]:43512 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A0A24A4912
+	for <lists+qemu-devel@lfdr.de>; Mon, 31 Jan 2022 15:12:28 +0100 (CET)
+Received: from localhost ([::1]:37066 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nEXkb-0008Vf-JX
-	for lists+qemu-devel@lfdr.de; Mon, 31 Jan 2022 09:33:49 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:56642)
+	id 1nEXPv-0008JZ-0y
+	for lists+qemu-devel@lfdr.de; Mon, 31 Jan 2022 09:12:27 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:56778)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nEWDr-0002Gv-TP
- for qemu-devel@nongnu.org; Mon, 31 Jan 2022 07:55:55 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:37481)
+ (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
+ id 1nEWEu-0002as-Cw
+ for qemu-devel@nongnu.org; Mon, 31 Jan 2022 07:57:01 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:56009)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nEWDp-0005DT-A8
- for qemu-devel@nongnu.org; Mon, 31 Jan 2022 07:55:55 -0500
+ (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
+ id 1nEWER-0005JS-7f
+ for qemu-devel@nongnu.org; Mon, 31 Jan 2022 07:56:32 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1643633752;
+ s=mimecast20190719; t=1643633782;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding;
- bh=DhvL74TPk5QRnhocvrsyDbCviNLrhlJC+DaukOM4lhQ=;
- b=Rcv64mQDOs0304Kc4jiwu8TvFR7q03A08/8nGy1AqusxmfFd84lQsllPyqtXI59NA7/E2c
- E5EFkhuHq4x6hBcWIc8BTuwfbkc2emuM4xLqGqSHjrt12dDI8p7CyiXeifuBNaRM6M1fRW
- PLF/6bp0W3impGAHcSUcMUDMwc5U6nc=
+ bh=1JEWyhY+r0hOMjVtuXtN9Q22acIEvtKQ7yVWg2CH7iI=;
+ b=KrHMoFOjGM4PDYg1hmJM/X38odpOz1IYgXieFXabIDRyI4hxWxqHwMx2UAVFe5UtzxNfV5
+ YpT+tUYh0cu5NbAeMZkliP/ljzGjOyYW1NMsGnDKlcvNdpVLW+ThMAE0pP4Hs2oiHQq9mf
+ ix7+7CKvgDflJfNtLDaXkR1Ff1RIiv0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-134-MxLUfBSLOY-EJ7h4yHb3hg-1; Mon, 31 Jan 2022 07:55:45 -0500
-X-MC-Unique: MxLUfBSLOY-EJ7h4yHb3hg-1
+ us-mta-113-wFQ6IsBbMZmmSAStlknjeQ-1; Mon, 31 Jan 2022 07:56:19 -0500
+X-MC-Unique: wFQ6IsBbMZmmSAStlknjeQ-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E85E61006AC6;
- Mon, 31 Jan 2022 12:55:40 +0000 (UTC)
-Received: from localhost.localdomain.com (unknown [10.39.195.62])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 688117DE2C;
- Mon, 31 Jan 2022 12:55:11 +0000 (UTC)
-From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2] docs: expand firmware descriptor to allow flash without
- NVRAM
-Date: Mon, 31 Jan 2022 12:55:09 +0000
-Message-Id: <20220131125509.170307-1-berrange@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2E77B51081;
+ Mon, 31 Jan 2022 12:56:18 +0000 (UTC)
+Received: from virtlab701.virt.lab.eng.bos.redhat.com
+ (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B501A7AB79;
+ Mon, 31 Jan 2022 12:56:17 +0000 (UTC)
+From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+To: qemu-block@nongnu.org
+Subject: [PATCH] block.h: remove outdated comment
+Date: Mon, 31 Jan 2022 07:56:15 -0500
+Message-Id: <20220131125615.74612-1-eesposit@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eesposit@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=eesposit@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -77,143 +77,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: libvir-list@redhat.com,
- =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Kashyap Chamarthy <kchamart@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ Emanuele Giuseppe Esposito <eesposit@redhat.com>,
+ Hanna Reitz <hreitz@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The current firmware descriptor schema for flash requires that both the
-executable to NVRAM template paths be provided. This is fine for the
-most common usage of EDK2 builds in virtualization where the separate
-_CODE and _VARS files are provided.
+The comment "disk I/O throttling" doesn't make any sense at all
+any more. It was added in commit 0563e191516 to describe
+bdrv_io_limits_enable()/disable(), which were removed in commit
+97148076, so the comment is just a forgotten leftover.
 
-With confidential computing technology like AMD SEV, persistent storage
-of variables may be completely disabled because the firmware requires a
-known clean state on every cold boot. There is no way to express this
-in the firmware descriptor today.
-
-Even with regular EDK2 builds it is possible to create a firmware that
-has both executable code and variable persistence in a single file. This
-hasn't been commonly used, since it would mean every guest bootup would
-need to clone the full firmware file, leading to redundant duplicate
-storage of the code portion. In some scenarios this may not matter and
-might even be beneficial. For example if a public cloud allows users to
-bring their own firmware, such that the user can pre-enroll their own
-secure boot keys, you're going to have this copied on disk for each
-tenant already. At this point the it can be simpler to just deal with
-a single file rather than split builds. The firmware descriptor ought
-to be able to express this combined firmware model too.
-
-This all points towards expanding the schema for flash with a 'mode'
-concept:
-
- - "split" - the current implicit behaviour with separate files
-   for code and variables.
-
- - "combined" - the alternate behaviour where a single file contains
-   both code and variables.
-
- - "stateless" - the confidential computing use case where storage
-   of variables is completely disable, leaving only the code.
-
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+Suggested-by: Kevin Wolf <kwolf@redhat.com>
+Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 ---
- docs/interop/firmware.json | 54 ++++++++++++++++++++++++++++++++------
- 1 file changed, 46 insertions(+), 8 deletions(-)
+ include/block/block.h | 1 -
+ 1 file changed, 1 deletion(-)
 
-In v2:
-
- - Mark 'mode' as optional field
- - Misc typos in docs
-
-diff --git a/docs/interop/firmware.json b/docs/interop/firmware.json
-index 8d8b0be030..f5d1d0b6e7 100644
---- a/docs/interop/firmware.json
-+++ b/docs/interop/firmware.json
-@@ -210,24 +210,61 @@
-   'data'   : { 'filename' : 'str',
-                'format'   : 'BlockdevDriver' } }
+diff --git a/include/block/block.h b/include/block/block.h
+index 9d4050220b..e1713ee306 100644
+--- a/include/block/block.h
++++ b/include/block/block.h
+@@ -344,7 +344,6 @@ typedef unsigned int BdrvChildRole;
+ char *bdrv_perm_names(uint64_t perm);
+ uint64_t bdrv_qapi_perm_to_blk_perm(BlockPermission qapi_perm);
  
-+
-+##
-+# @FirmwareFlashType:
-+#
-+# Describes how the firmware build handles code versus variable
-+# persistence.
-+#
-+# @split: the executable file contains code while the NVRAM
-+#         template provides variable storage. The executable
-+#         must be configured read-only and can be shared between
-+#         multiple guests. The NVRAM template must be cloned
-+#         for each new guest and configured read-write.
-+#
-+# @combined: the executable file contains both code and
-+#            variable storage. The executable must be cloned
-+#            for each new guest and configured read-write.
-+#            No NVRAM template will be specified.
-+#
-+# @stateless: the executable file contains code and variable
-+#             storage is not persisted. The executed must
-+#             be configured read-only and can be shared
-+#             between multiple guests. No NVRAM template
-+#             will be specified.
-+#
-+# Since: 7.0.0
-+##
-+{ 'enum': 'FirmwareFlashMode',
-+  'data': [ 'split', 'combined', 'stateless' ] }
-+
- ##
- # @FirmwareMappingFlash:
- #
- # Describes loading and mapping properties for the firmware executable
- # and its accompanying NVRAM file, when @FirmwareDevice is @flash.
- #
--# @executable: Identifies the firmware executable. The firmware
--#              executable may be shared by multiple virtual machine
--#              definitions. The preferred corresponding QEMU command
--#              line options are
-+# @mode: describes how the firmware build handles code versus variable
-+#        storage. If not present, it must be treated as if it was
-+#        configured with value ``split``. Since: 7.0.0
-+#
-+# @executable: Identifies the firmware executable. The @mode
-+#              indicates whether there will be an associated
-+#              NVRAM template present. The preferred
-+#              corresponding QEMU command line options are
- #                  -drive if=none,id=pflash0,readonly=on,file=@executable.@filename,format=@executable.@format
- #                  -machine pflash0=pflash0
--#              or equivalent -blockdev instead of -drive.
-+#              or equivalent -blockdev instead of -drive. When
-+#              @mode is ``combined`` the executable must be
-+#              cloned before use and configured with readonly=off.
- #              With QEMU versions older than 4.0, you have to use
- #                  -drive if=pflash,unit=0,readonly=on,file=@executable.@filename,format=@executable.@format
- #
- # @nvram-template: Identifies the NVRAM template compatible with
--#                  @executable. Management software instantiates an
-+#                  @executable, when @mode is set to ``split``,
-+#                  otherwise it should not be present.
-+#                  Management software instantiates an
- #                  individual copy -- a specific NVRAM file -- from
- #                  @nvram-template.@filename for each new virtual
- #                  machine definition created. @nvram-template.@filename
-@@ -246,8 +283,9 @@
- # Since: 3.0
- ##
- { 'struct' : 'FirmwareMappingFlash',
--  'data'   : { 'executable'     : 'FirmwareFlashFile',
--               'nvram-template' : 'FirmwareFlashFile' } }
-+  'data'   : { '*mode': 'FirmwareFlashMode',
-+               'executable'     : 'FirmwareFlashFile',
-+               '*nvram-template' : 'FirmwareFlashFile' } }
- 
- ##
- # @FirmwareMappingKernel:
+-/* disk I/O throttling */
+ void bdrv_init(void);
+ void bdrv_init_with_whitelist(void);
+ bool bdrv_uses_whitelist(void);
 -- 
-2.34.1
+2.31.1
 
 
