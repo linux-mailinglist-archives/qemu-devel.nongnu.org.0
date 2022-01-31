@@ -2,78 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3745A4A3E13
-	for <lists+qemu-devel@lfdr.de>; Mon, 31 Jan 2022 08:09:58 +0100 (CET)
-Received: from localhost ([::1]:48812 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 286C24A3E36
+	for <lists+qemu-devel@lfdr.de>; Mon, 31 Jan 2022 08:29:58 +0100 (CET)
+Received: from localhost ([::1]:57862 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nEQp3-0003c1-9H
-	for lists+qemu-devel@lfdr.de; Mon, 31 Jan 2022 02:09:57 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:37842)
+	id 1nER8O-0002bt-QS
+	for lists+qemu-devel@lfdr.de; Mon, 31 Jan 2022 02:29:56 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:38054)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nEQVQ-0007jD-By
- for qemu-devel@nongnu.org; Mon, 31 Jan 2022 01:49:43 -0500
-Received: from [2607:f8b0:4864:20::62c] (port=36382
- helo=mail-pl1-x62c.google.com)
+ id 1nEQWx-0007wy-Pu
+ for qemu-devel@nongnu.org; Mon, 31 Jan 2022 01:51:23 -0500
+Received: from [2607:f8b0:4864:20::42e] (port=42998
+ helo=mail-pf1-x42e.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nEQVO-0001hN-L1
- for qemu-devel@nongnu.org; Mon, 31 Jan 2022 01:49:39 -0500
-Received: by mail-pl1-x62c.google.com with SMTP id b15so11612881plg.3
- for <qemu-devel@nongnu.org>; Sun, 30 Jan 2022 22:49:37 -0800 (PST)
+ id 1nEQWu-00022q-Gk
+ for qemu-devel@nongnu.org; Mon, 31 Jan 2022 01:51:14 -0500
+Received: by mail-pf1-x42e.google.com with SMTP id i65so12086767pfc.9
+ for <qemu-devel@nongnu.org>; Sun, 30 Jan 2022 22:51:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=MrK3VQutQi0aYTTF66mxXA/7wBlgGpTqZma6IyC4zPE=;
- b=TohwioRbEQ/bwoRA/uZVlFXVnLX+uafp2Tr9yqtCut5+zEvO3rPHB0Yyp+A3l0r413
- VLPBs++WuvsezLDyJrIi0cS6E4p+6Y+wDfPA/hzm/TqRyysFQvn7Ma08e+p8ig9k4W1Z
- Drig+mHnLwavp/K0O+u23y0nO7fa8Ocw+l19zE2pI3loBV/VLTtduo00U6nHYauIef+f
- BAhyN2sfOQP5kmj1Eyj98Crx2aG0kTV+kxEUI+bfVcGwh5TthaSu7NCq973ZvkZr/oa7
- niqa9NduVi9WVX0LRl2YpX0ygwI+L3p+cIhLaArAH/oHdGuoOGPEXyeUJAD4jmxRttyG
- 5s+Q==
+ bh=dSrEyogKJFhAp12eJufVnFm0WUtS+NDb9vcs/6kLhek=;
+ b=tv/x4bat3Z9ANaFQxI7NjzsmRcp38kDt+s09pUo9HknLavP+X9VrPmQtzPniz611JH
+ cZP8GwlqpVcpeAg5rD3uF9v8GzfaqcYqFKmcVd4pvs3HYmeNrQKSLdEdUr0KylbFr2su
+ eMKqDyGzYA+uMmINCwBzpV56swVaPdsgEnj6cBECD4DDIRtWr4tbIwnNwiG8p9Nh0y37
+ qFm+F/Jdk7Tz+kdDkUK8lmxkY17u72WjVtaIei+WCAW8Tq8CtYZxl0lAvMF7fh2JN1Q0
+ pHN3T1T7wVxx4uvVIoMQ4MBpI3O9zFsX1YtRJMOHsLrQJQgZyCPSCKN2ic6NYwn2ViU2
+ GnbQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=MrK3VQutQi0aYTTF66mxXA/7wBlgGpTqZma6IyC4zPE=;
- b=OqO8GVM972BekkuLqCzC4YE6GDoc1aQq+kVfZyJD2HsxUVZwch1h3KxNsEgDsG+mYB
- xu9P4W3+msKlxY03po+fN7R3YEWhaGY1oj7vaETvmYn0Co/e1oT0jXT3q8gc11s+6F1y
- IcFcYAthELdxrDfjjHIrWaqels8DSsDUaL3njmRgaad5IYOxvkxqZXVwbkyvFjdAe5xV
- yD0xIiLXw9WkQqryAwcIqWBHN5z6TtIFD8ca7Pfw6HfPugKO/LTWo+GuWv5U9RGD5ocH
- bmOa2ONQltdhX8kRwMf3yIT0v6D+1X9hzbQrVpWoZN0XR30xlvIIJjX2QRv+1VxRmD8q
- g+nQ==
-X-Gm-Message-State: AOAM531bWEHkfoztl0knvM4Nz0KBQNVh/LQHZRClXzIjadM1MGCG0Dpi
- NRd3VF8YSSLP1epb1Lxw37BS2Q==
-X-Google-Smtp-Source: ABdhPJzM331xzObVsnRKtwslcziwodStE2SOLXdwVAHRuek7eqxgMgi/stW+u7fqRMrOAyKVXsTqAw==
-X-Received: by 2002:a17:902:8b8a:: with SMTP id
- ay10mr19241010plb.64.1643611776823; 
- Sun, 30 Jan 2022 22:49:36 -0800 (PST)
+ bh=dSrEyogKJFhAp12eJufVnFm0WUtS+NDb9vcs/6kLhek=;
+ b=mdVEVLmO+w91t+Wyu01JPyDRTF9EiqRHl1s5CgVyBmOohZ5/lQ8wY2Cv5k+5qChbJH
+ wqmnx7BHn2TXX3cCpHcgPA2QfotK1vkFgurm+40bdGxWMNRkiRxULJxh78NSvGBwfV0M
+ Mjm/XKw72iXpvfjf4zufHr3D9xVK/RggcYrB4QfEHkVtDgt6+18W8zatlqSX1Lg1uqTa
+ wEBkWhNezIFVCxJO9fdfYwZMvGVgRA7bgXE/qYF79aZiB+qogg61syT6U5rfUt6zY++3
+ sYEFMBnOupcJlaOZkdCfxO7Ch82SSfea2xBfzlyOa9YWHe1rz+FfOQeGv+RfwNO4f/fJ
+ lpOQ==
+X-Gm-Message-State: AOAM532XBDeiqtnIsog+pspgHUiRs0FjBKCB7sSbV0uyriYapHOywWw8
+ h7foFihT5x+2M6JBm0WLjmqwZQ==
+X-Google-Smtp-Source: ABdhPJytlN7KIg5rzcdrugRNxvgHxDLeXcpvt5WsstHiMN0pzc09EsB+OarjFIIk54NiNwZbDHiIwg==
+X-Received: by 2002:a63:ed17:: with SMTP id d23mr15423300pgi.543.1643611871236; 
+ Sun, 30 Jan 2022 22:51:11 -0800 (PST)
 Received: from [192.168.15.130] ([60.231.85.5])
- by smtp.gmail.com with ESMTPSA id ck21sm9370928pjb.51.2022.01.30.22.49.29
+ by smtp.gmail.com with ESMTPSA id ot1sm4363525pjb.22.2022.01.30.22.51.03
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 30 Jan 2022 22:49:36 -0800 (PST)
-Message-ID: <55bbb5b9-8a1a-aa40-824e-b837f78d73f8@linaro.org>
-Date: Mon, 31 Jan 2022 17:49:25 +1100
+ Sun, 30 Jan 2022 22:51:10 -0800 (PST)
+Message-ID: <dccc1934-cb3a-0f5a-fcd6-bc00442d97f3@linaro.org>
+Date: Mon, 31 Jan 2022 17:50:59 +1100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.5.0
-Subject: Re: [PATCH 06/16] hw/arm/xlnx-zcu102: Don't enable PSCI conduit when
- booting guest in EL3
+Subject: Re: [PATCH 07/16] hw/arm/versal: Let boot.c handle PSCI enablement
 Content-Language: en-US
 To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
  qemu-devel@nongnu.org
 References: <20220127154639.2090164-1-peter.maydell@linaro.org>
- <20220127154639.2090164-7-peter.maydell@linaro.org>
+ <20220127154639.2090164-8-peter.maydell@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220127154639.2090164-7-peter.maydell@linaro.org>
+In-Reply-To: <20220127154639.2090164-8-peter.maydell@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::62c
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::42e
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62c;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62c.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42e;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42e.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -111,32 +109,29 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 1/28/22 02:46, Peter Maydell wrote:
-> Change the Xilinx ZynqMP-based board xlnx-zcu102 to use the new
-> boot.c functionality to allow us to enable psci-conduit only if
-> the guest is being booted in EL1 or EL2, so that if the user runs
-> guest EL3 firmware code our PSCI emulation doesn't get in its
-> way.
+> Instead of setting the CPU psci-conduit and start-powered-off
+> properties in the xlnx-versal-virt board code, set the arm_boot_info
+> psci_conduit field so that the boot.c code can do it.
 > 
-> To do this we stop setting the psci-conduit property on the CPU
-> objects in the SoC code, and instead set the psci_conduit field in
-> the arm_boot_info struct to tell the common boot loader code that
-> we'd like PSCI if the guest is starting at an EL that it makes
-> sense with.
+> This will fix a corner case where we were incorrectly enabling PSCI
+> emulation when booting guest code into EL3 because it was an ELF file
+> passed to -kernel.  (EL3 guest code started via -bios, -pflash, or
+> the generic loader was already being run with PSCI emulation
+> disabled.)
 > 
-> Note that this means that EL3 guest code will have no way
-> to power on secondary cores, because we don't model any
-> kind of power controller that does that on this SoC.
+> Note that EL3 guest code has no way to turn on the secondary CPUs
+> because there's no emulated power controller, but this was already
+> true for EL3 guest code run via -bios, -pflash, or the generic
+> loader.
 > 
 > Signed-off-by: Peter Maydell<peter.maydell@linaro.org>
 > ---
-> Again, if anybody knows the real-hardware EL3 behaviour for
-> CPUs that would be great.
-> ---
->   hw/arm/xlnx-zcu102.c |  1 +
->   hw/arm/xlnx-zynqmp.c | 13 ++++++++-----
->   2 files changed, 9 insertions(+), 5 deletions(-)
+>   include/hw/arm/xlnx-versal.h | 1 -
+>   hw/arm/xlnx-versal-virt.c    | 6 ++++--
+>   hw/arm/xlnx-versal.c         | 5 +----
+>   3 files changed, 5 insertions(+), 7 deletions(-)
 
-Acked-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
 r~
 
