@@ -2,63 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 984074A3E43
-	for <lists+qemu-devel@lfdr.de>; Mon, 31 Jan 2022 08:37:35 +0100 (CET)
-Received: from localhost ([::1]:34850 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 686AF4A3E5A
+	for <lists+qemu-devel@lfdr.de>; Mon, 31 Jan 2022 08:50:18 +0100 (CET)
+Received: from localhost ([::1]:40972 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nERFm-0006fG-Io
-	for lists+qemu-devel@lfdr.de; Mon, 31 Jan 2022 02:37:34 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:40548)
+	id 1nERS4-0002xI-Sl
+	for lists+qemu-devel@lfdr.de; Mon, 31 Jan 2022 02:50:17 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:40698)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ale@rev.ng>) id 1nEQke-0003Bo-5Y
- for qemu-devel@nongnu.org; Mon, 31 Jan 2022 02:05:32 -0500
-Received: from rev.ng ([5.9.113.41]:42717)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nEQmA-0003VV-CP
+ for qemu-devel@nongnu.org; Mon, 31 Jan 2022 02:06:58 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:54608)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ale@rev.ng>) id 1nEQkZ-0003vf-0Y
- for qemu-devel@nongnu.org; Mon, 31 Jan 2022 02:05:21 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=rev.ng;
- s=dkim; h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:
- In-Reply-To:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:Content-ID:
- Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
- :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=AoXg/gzTVwldsn3GqtZw5pYgm3QUPJjnXfbatmXx9bc=; b=NuNV1O5SOx9oSNuh+t4R+DHCGK
- 5bdC5+Hv5kn1WRWwLQ5oh6jN0U3HkDg4foTy2CF7d4Z4D3QaObrEplRrhiNROkLvLufh8DsL5eDlq
- O5DQD28njk2MoqUnvorNpuy1bYXbZXoug6MUHy7pAB6Mc4d3tZ1EJm40Dw/zlJILMjuo=;
-Date: Mon, 31 Jan 2022 08:04:59 +0100
-To: Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= via <qemu-devel@nongnu.org>,
- Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <f4bug@amsat.org>, Alex
- =?UTF-8?B?QmVubsOpZQ==?= <alex.bennee@linaro.org>
-Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, Ross Lagerwall
- <ross.lagerwall@citrix.com>, Stefano Stabellini <sstabellini@kernel.org>,
- =?UTF-8?B?Q8OpZHJpYw==?= Le Goater <clg@kaod.org>, Ed Maste
- <emaste@freebsd.org>, Thomas Huth <thuth@redhat.com>, Michael Tokarev
- <mjt@tls.msk.ru>, "Daniel P . =?UTF-8?B?QmVycmFuZ8Op?="
- <berrange@redhat.com>, Li-Wen Hsu <lwhsu@freebsd.org>, Stefan Hajnoczi
- <stefanha@redhat.com>, Xiang Chen <chenxiang66@hisilicon.com>, Jonathan
- Cameron <Jonathan.Cameron@Huawei.com>, Longpeng <longpeng2@huawei.com>,
- Yifei Jiang <jiangyifei@huawei.com>, Vasilev Oleg
- <vasilev.oleg@huawei.com>, Anton Johansson <anjo@rev.ng>, Michael Roth
- <michael.roth@amd.com>
-Subject: Re: [PATCH v6 0/7] tests: Refresh lcitool submodule & remove libxml2
-Message-ID: <20220131080459.456a0b55@orange>
-In-Reply-To: <c1dcf128-84e8-a3ce-8b9f-f0a409b34b00@amsat.org>
-References: <20220121154134.315047-1-f4bug@amsat.org>
- <87mtjle71g.fsf@linaro.org>
- <4dc22a36-52da-26fb-bf8e-5e27e91db359@amsat.org>
- <87ee4xdjjp.fsf@linaro.org>
- <efc5f304-f3d2-ff7b-99a6-673595ff0259@amsat.org>
- <c1dcf128-84e8-a3ce-8b9f-f0a409b34b00@amsat.org>
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nEQm6-00049s-Au
+ for qemu-devel@nongnu.org; Mon, 31 Jan 2022 02:06:56 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1643612809;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=TEhxUEz/R3JCNXm2vbGzYZ73rOrlFjOzct9okqtc21w=;
+ b=W6Q5p/NAawfiaVSlMw+Keliwctrt5hO55+XX7m5sAycX/C8vdhGnMLzqTM9gq80ULxH3ea
+ R2M5Ny8AcYrq9rDywqHi3pQimqux0er+Rl+QQCNR5AYD8OEoIfABGfZwOrzjjmVk7UeFUr
+ Ed6NUhfwvrzaht4jaOSrm9CjMIaAeVg=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-482-Zi-vAz-xN-KpJVvtJNvRvg-1; Mon, 31 Jan 2022 02:06:48 -0500
+X-MC-Unique: Zi-vAz-xN-KpJVvtJNvRvg-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ b3-20020a5d4b83000000b001d676462248so4427126wrt.17
+ for <qemu-devel@nongnu.org>; Sun, 30 Jan 2022 23:06:48 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=TEhxUEz/R3JCNXm2vbGzYZ73rOrlFjOzct9okqtc21w=;
+ b=zHjpDf60Hx9P2+inbwNLM5u0/2Kik1UmIkX0LQA8O/wqERJcAP3PCgYIjQ+mMfyYgK
+ VusYz7WX+RUN7kYizjKrAyXGAlzE1MMAZ+iY5vqPLbNxCgmh2SRN2LWQS4Hr932JzqIR
+ eV8Q89RWXklgh0scDA1gkdfeHp8etEumqOz0mmldQnXNcaSpBKtDYWWLFUX5IlbyPhKt
+ qdyxujiGBtLKchqikTBGL+Gt0x6EzIq/riCirTi28niEv7+EzlPj7Y4X+2AqDxxmN93a
+ RFvijdg/BhgwG4QxQgn8c3BTD4T3Et/SpOMfacwaOIjKbRAYJd/THmXGTaCVcTDqd1ei
+ 1WlA==
+X-Gm-Message-State: AOAM533e3SsiYHCFp9vsjTgV/fXFqIbdN/sjD0vJ7plp+8SXZKQxtT5M
+ 7W2km7bsSLjg8UWFoVxAm4TVuxST8Cdr6dEF8XBHHy0FTToc11K8t+uGJTH7fbkmYTK5NAs2xbC
+ PJYX09M9LAtuafjQ=
+X-Received: by 2002:a05:600c:1d14:: with SMTP id
+ l20mr16713005wms.182.1643612807536; 
+ Sun, 30 Jan 2022 23:06:47 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwC8cLKm5/m77HSTFVz/Am33Uq3TMNr6p2wKBZ4/9DzicVq4BWJpSu7zMEYaQYAq1nLnZOpqA==
+X-Received: by 2002:a05:600c:1d14:: with SMTP id
+ l20mr16712961wms.182.1643612806885; 
+ Sun, 30 Jan 2022 23:06:46 -0800 (PST)
+Received: from [192.168.8.100] (tmo-096-196.customers.d1-online.com.
+ [80.187.96.196])
+ by smtp.gmail.com with ESMTPSA id 16sm7976897wmj.12.2022.01.30.23.06.45
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 30 Jan 2022 23:06:46 -0800 (PST)
+Message-ID: <ba4b4c1e-3328-4375-b877-9eec06f04ff1@redhat.com>
+Date: Mon, 31 Jan 2022 08:06:44 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=5.9.113.41; envelope-from=ale@rev.ng; helo=rev.ng
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: build-oss-fuzz CI job often times out
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, Alexander Bulekov <alxndr@bu.edu>
+References: <CAFEAcA8V0jAjv1HS8QRa9AQHCxg=BVVH_jYVMYUVSP-Szstq-Q@mail.gmail.com>
+ <7a56fef0-0ac0-f4d5-eae7-23028e49d2bb@amsat.org>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <7a56fef0-0ac0-f4d5-eae7-23028e49d2bb@amsat.org>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_PASS=-0.001,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.088,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -72,52 +103,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Darren Kenny <darren.kenny@oracle.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Beraldo Leal <bleal@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  Alessandro Di Federico <ale@rev.ng>
-From:  Alessandro Di Federico via <qemu-devel@nongnu.org>
 
-On Tue, 25 Jan 2022 11:59:38 +0100
-Philippe Mathieu-Daud=C3=A9 via <qemu-devel@nongnu.org> wrote:
+> On 29/1/22 14:34, Peter Maydell wrote:
+>> Hi; the build-oss-fuzz gitlab CI job seems to intermittently
+>> but quite commonly hit the 1 hour timeout mark and get killed.
+>> Examples from the last couple of days:
+>>
+>> https://gitlab.com/qemu-project/qemu/-/jobs/2030815488
+>> https://gitlab.com/qemu-project/qemu/-/jobs/2029246068
+>> https://gitlab.com/qemu-project/qemu/-/jobs/2029013479
+>> https://gitlab.com/qemu-project/qemu/-/jobs/2024871970
+>> https://gitlab.com/qemu-project/qemu/-/jobs/2022584981
+>>
+>> Can we do anything to cut down on the runtime of this job
+>> and make it reliably complete inside the time limit?
 
-> I'm seeing the same issue with these domains since mid december:
->=20
-> ...
-> - rev.ng
->=20
-> ...
-> https://lore.kernel.org/qemu-devel/20220105185720.0d4fc159@orange/
-> ...
+All the jobs that you've listed hang in the very same test 
+(qtest-i386/boot-serial-test), so I assume it's rather a test that now hangs 
+occasionally, and not a generic slowness (otherwise the jobs would fail 
+sometimes earlier, sometimes later).
 
-I've tried to look into this and it looks like our set up should be OK.
-We enabled SPF (i.e., a rule stating that only our mailserver can send
-e-mail with our domain in "From:") and DKIM (i.e., our mailserver signs
-certain portions of the e-mail). We also enabled DMARC which
-coordinates the two.
+Thus we likely have a regression in the code that only shows up occasionally 
+in these builds... Can you mark a point in time when these issues first 
+happened?
 
-Now, as far as I understand, mailing lists can either rewrite the
-"From" header (as qemu-devel does) or leave it as it is. In the latter
-situation, SPF will fail but DMARC should instruct MTAs to check
-DKIM, and that should pass.
+  Thomas
 
-    https://begriffs.com/posts/2018-09-18-dmarc-mailing-list.html
-    https://dmarc.org/wiki/FAQ#I_operate_a_mailing_list_and_I_want_to_inter=
-operate_with_DMARC.2C_what_should_I_do.3F
-
-DKIM signature can be corrupted in case the mailing list tampers with
-the subject or the body of the e-mail, but this doesn't seem to be the
-case: I've tried to manually verify the DKIM signature of the same
-e-mail that I got both from the mailing list and directly from the
-sender (I was in Cc), and they both verify correctly.
-
-tl;dr I *think* rewriting the From header should not be necessary for
-our domain.
-
-If you guys think this is not the case and there's something we can do
-to improve the situation (other than adding gmail.com to our SPF
-record), let me know.
-
---=20
-Alessandro Di Federico
-rev.ng Labs
 
