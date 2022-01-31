@@ -2,77 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18E644A4F69
-	for <lists+qemu-devel@lfdr.de>; Mon, 31 Jan 2022 20:27:21 +0100 (CET)
-Received: from localhost ([::1]:34520 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 58C3E4A4F6D
+	for <lists+qemu-devel@lfdr.de>; Mon, 31 Jan 2022 20:29:29 +0100 (CET)
+Received: from localhost ([::1]:36922 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nEcKd-0002kB-SN
-	for lists+qemu-devel@lfdr.de; Mon, 31 Jan 2022 14:27:19 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:48136)
+	id 1nEcMi-0004nK-Es
+	for lists+qemu-devel@lfdr.de; Mon, 31 Jan 2022 14:29:28 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:48448)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <nieklinnenbank@gmail.com>)
- id 1nEbt4-0007Mz-CJ
- for qemu-devel@nongnu.org; Mon, 31 Jan 2022 13:58:50 -0500
-Received: from [2607:f8b0:4864:20::62b] (port=37752
- helo=mail-pl1-x62b.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <nieklinnenbank@gmail.com>)
- id 1nEbt1-0008Ng-MZ
- for qemu-devel@nongnu.org; Mon, 31 Jan 2022 13:58:50 -0500
-Received: by mail-pl1-x62b.google.com with SMTP id j16so13287019plx.4
- for <qemu-devel@nongnu.org>; Mon, 31 Jan 2022 10:58:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=rTPYdCL787Y7m8xp55FStrrlxPw5OHdzRHY0ar9aWWQ=;
- b=B9m1XfO45DdvHOTGraGlIRCanN4CfBBpguId+CsOSICNBD1+/7jJJh1oq+JDbPgKby
- Idxi7B64fnwxeqvYzDyvvGOs71hCKJEi34M1lll+MoAdYBt5Maa4bGaCUJmO2FLyzf/D
- mn1BKtz7bM/5SZC1u4tDDZ9ei+TtPWcAq69Se3ilxY0XEKWSFYLPw6dQclO7KcRjzOao
- J96vjf3EXLQIIFo2UB1ThJ2zlEQhC+31u0MT523jCMPUIO1IeEsL75sJzR+y9b7skjTq
- 48xyyrx+s42zJnhBh/2Ic2y84H75oNTt7Qd+HARtuxTqYnVwWc0vzJogxKArp33P/ZzS
- ip6w==
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1nEbvy-0007im-CB
+ for qemu-devel@nongnu.org; Mon, 31 Jan 2022 14:01:56 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:58096)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1nEbvZ-0008Pa-FB
+ for qemu-devel@nongnu.org; Mon, 31 Jan 2022 14:01:28 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1643655559;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Zy+hu+aqPZTnN5prArMgbJZAo4lk3UUN+wKDD5iUB2Q=;
+ b=gHzFLKH7WXlqko7PZcjIe2LxN6H5nqQvM921k06xMrEUxlR0jYZttv5wlw3pVbV1yNw9RY
+ Bqs8hA+Oc3vhSWiQHkcpzU69sa/0wTJuErUeWbBhsLtq//Vfv7txkrDZbvggdVgtlfbuKZ
+ mxKX8lAsnmkIqm9gbvZJqo3GhKRV7XA=
+Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
+ [209.85.222.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-226-2RSwECXLMLW2z0gqjxvFhw-1; Mon, 31 Jan 2022 13:59:17 -0500
+X-MC-Unique: 2RSwECXLMLW2z0gqjxvFhw-1
+Received: by mail-qk1-f199.google.com with SMTP id
+ c128-20020a37b386000000b0047f37e77660so10421346qkf.12
+ for <qemu-devel@nongnu.org>; Mon, 31 Jan 2022 10:59:17 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=rTPYdCL787Y7m8xp55FStrrlxPw5OHdzRHY0ar9aWWQ=;
- b=PXsgE4Pk2ABq+oG0COkb/GIEonERTB9YzJu66W5zIIw80sDQPDNbY7ys4qiROgRIrQ
- Jq+KnHkxF7mTgeJjim9dahjlnxxK0XRaej3SWJmhjC2e9fZ6XWUk5bRdeGvmahPSB7KH
- EHXWomQukd7ZkkJuW6PdFRoA93P0C4Je7EK/fVYywvOSVBDL/TtOoSafJtH522q6zGnF
- CQ3F3ifuHlIa2cM7orBKXEIfJn3HejJR6yRMWmTUpw0yPHZzPEUJIkNr+9O5+/3HUVRi
- b8yaqZpLkbiwXAyy81lrrljDJhjhG4neOTuCrcUlYk3berZ/kvRAfXn0W8UUIjKqqxJy
- nvKA==
-X-Gm-Message-State: AOAM5323/sB+bhxPMKEt2+UG/Sm9g2VrjlJ72GBcQKKf4a2yGpZ+SCuz
- PP9KrBbZmtPJs5VjLOS81tPEqXyeWsUjwiUUo5s=
-X-Google-Smtp-Source: ABdhPJzORGbl3MVmEbtyvUg0kzxgEmn6jvdfulm5FzDhzuw0hI6L6ALY8miU5nZNuwg7ccGW1gR+C2OeEuJQtfDKpMs=
-X-Received: by 2002:a17:90b:4ad0:: with SMTP id
- mh16mr34939368pjb.89.1643655525738; 
- Mon, 31 Jan 2022 10:58:45 -0800 (PST)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=Zy+hu+aqPZTnN5prArMgbJZAo4lk3UUN+wKDD5iUB2Q=;
+ b=2d9liKBGI71LYteHvPWo3crmnMWoA4ywoELdIvktG0G0Y0reJvk8UmUnH56d0yKjC5
+ KNgAf8rnxaneJp236oshd6qQzgZ4IgAv1MCSL+KA5naeDYiNx3pXB5AjMSmRYLJzNwgt
+ fZfMZ9H7A0YBuy75H706K0ejdLvM7EkIjCJh2b+c3yIpKhUCkrlJjvqLzZ7r+2OSw04X
+ dfnDP/YAkVBZpE5TXo1wzz1xpA1JAQ9BF4+u+efqcyBvvvJW+woq3fG+qAoUasn2v9bS
+ hIRJEL7nGIq+Qnb4oNG0avhi+CxOlsDwhUzC6xlJvXc5ZxBpMf62NN3hvKCt8EVVY9Gn
+ JzVQ==
+X-Gm-Message-State: AOAM531uF8KxOAnoWyrftbk0wg9PFalO7LO8fPfO7goENaNp+2q5ZUho
+ nsTMyUhc57x5jpZgX9ioOgpqOue4GKeKcbmDvE6Bu4sc/1WWSllUxBwAW6KcUFtQ23ReBbJ8IkT
+ SsxD98djhjYT46o5jgATNkVlSXcieLvU=
+X-Received: by 2002:ac8:5f14:: with SMTP id x20mr7510138qta.459.1643655557230; 
+ Mon, 31 Jan 2022 10:59:17 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyRMG5OSzoyXO/zQir1R2lKLHjlBSefbjfhsC9SFUGgcx72DGA3Kp++2/AcWTUdmiwenyJZLFqJaoz1P8D9a+0=
+X-Received: by 2002:ac8:5f14:: with SMTP id x20mr7510129qta.459.1643655556908; 
+ Mon, 31 Jan 2022 10:59:16 -0800 (PST)
 MIME-Version: 1.0
-References: <20211102164317.45658-1-david@redhat.com>
- <20211102164317.45658-3-david@redhat.com>
- <CAPan3Wpgm94iHRCz3uGvUZYV37W=e4_d7UMqc81hY1cxB-zs1w@mail.gmail.com>
- <3f971963-8424-ba36-7723-1d60251c10cd@redhat.com>
-In-Reply-To: <3f971963-8424-ba36-7723-1d60251c10cd@redhat.com>
-From: Niek Linnenbank <nieklinnenbank@gmail.com>
-Date: Mon, 31 Jan 2022 19:58:34 +0100
-Message-ID: <CAPan3Woi0oPAnkSt8ZYAVyh_AFb06oK17zJnc7zr7NEqaMfFVQ@mail.gmail.com>
-Subject: Re: [PATCH v3 2/3] memory: Make memory_region_is_mapped() succeed
- when mapped via an alias
-To: David Hildenbrand <david@redhat.com>
-Content-Type: multipart/alternative; boundary="000000000000beaa0c05d6e55f43"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::62b
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62b;
- envelope-from=nieklinnenbank@gmail.com; helo=mail-pl1-x62b.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+References: <20220121202733.404989-1-eperezma@redhat.com>
+ <20220121202733.404989-18-eperezma@redhat.com>
+ <82b8c3bf-1b11-86c7-4fad-294f5ccf1278@redhat.com>
+In-Reply-To: <82b8c3bf-1b11-86c7-4fad-294f5ccf1278@redhat.com>
+From: Eugenio Perez Martin <eperezma@redhat.com>
+Date: Mon, 31 Jan 2022 19:58:40 +0100
+Message-ID: <CAJaqyWdRKZp6CwnE+HAr0JALhSRh-trJbZ01kddnLTuRX_tMKQ@mail.gmail.com>
+Subject: Re: [PATCH 17/31] vdpa: adapt vhost_ops callbacks to svq
+To: Jason Wang <jasowang@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eperezma@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eperezma@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.088,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -85,455 +93,427 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Eduardo Habkost <ehabkost@redhat.com>,
+Cc: Laurent Vivier <lvivier@redhat.com>, Parav Pandit <parav@mellanox.com>,
+ Cindy Lu <lulu@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Juan Quintela <quintela@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>, Peter Xu <peterx@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+ qemu-level <qemu-devel@nongnu.org>, Gautam Dawar <gdawar@xilinx.com>,
+ Markus Armbruster <armbru@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ Harpreet Singh Anand <hanand@xilinx.com>, Xiao W Wang <xiao.w.wang@intel.com>,
+ Peter Xu <peterx@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Eli Cohen <eli@mellanox.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Zhu Lingshan <lingshan.zhu@intel.com>,
+ virtualization <virtualization@lists.linux-foundation.org>,
+ Eric Blake <eblake@redhat.com>, Stefano Garzarella <sgarzare@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000beaa0c05d6e55f43
-Content-Type: text/plain; charset="UTF-8"
-
-Hi David,
-
-On Mon, Jan 31, 2022 at 9:11 AM David Hildenbrand <david@redhat.com> wrote:
-
-> On 30.01.22 23:50, Niek Linnenbank wrote:
-> > Hi David,
+On Sun, Jan 30, 2022 at 5:03 AM Jason Wang <jasowang@redhat.com> wrote:
 >
-> Hi Niek,
 >
-> thanks for the report.
->
+> =E5=9C=A8 2022/1/22 =E4=B8=8A=E5=8D=884:27, Eugenio P=C3=A9rez =E5=86=99=
+=E9=81=93:
+> > First half of the buffers forwarding part, preparing vhost-vdpa
+> > callbacks to SVQ to offer it. QEMU cannot enable it at this moment, so
+> > this is effectively dead code at the moment, but it helps to reduce
+> > patch size.
 > >
-> > While I realize my response is quite late, I wanted to report this error
-> > I found when running the acceptance
-> > tests for the orangepi-pc machine using avocado:
+> > Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
+> > ---
+> >   hw/virtio/vhost-shadow-virtqueue.h |   2 +-
+> >   hw/virtio/vhost-shadow-virtqueue.c |  21 ++++-
+> >   hw/virtio/vhost-vdpa.c             | 133 ++++++++++++++++++++++++++--=
+-
+> >   3 files changed, 143 insertions(+), 13 deletions(-)
 > >
-> > ARMBIAN_ARTIFACTS_CACHED=yes AVOCADO_ALLOW_LARGE_STORAGE=yes avocado
-> > --show=app,console run -t machine:orangepi-pc
-> > tests/avocado/boot_linux_console.py
-> > ...
-> >  (4/5)
+> > diff --git a/hw/virtio/vhost-shadow-virtqueue.h b/hw/virtio/vhost-shado=
+w-virtqueue.h
+> > index 035207a469..39aef5ffdf 100644
+> > --- a/hw/virtio/vhost-shadow-virtqueue.h
+> > +++ b/hw/virtio/vhost-shadow-virtqueue.h
+> > @@ -35,7 +35,7 @@ size_t vhost_svq_device_area_size(const VhostShadowVi=
+rtqueue *svq);
 > >
-> tests/avocado/boot_linux_console.py:BootLinuxConsole.test_arm_orangepi_bionic_20_08:
-> > -console: U-Boot SPL 2020.04-armbian (Sep 02 2020 - 10:16:13 +0200)
-> > \console: DRAM:
-> > INTERRUPTED: Test interrupted by SIGTERM\nRunner error occurred: Timeout
-> > reached\nOriginal status: ERROR\n{'name':
+> >   void vhost_svq_stop(VhostShadowVirtqueue *svq);
 > >
-> '4-tests/avocado/boot_linux_console.py:BootLinuxConsole.test_arm_orangepi_bionic_20_08',
-> > 'logdir': '/home/fox/avocado/job-results/job-2022-01-30T23.09-af49e...
-> > (90.64 s)
-> >  (5/5)
+> > -VhostShadowVirtqueue *vhost_svq_new(void);
+> > +VhostShadowVirtqueue *vhost_svq_new(uint16_t qsize);
 > >
-> tests/avocado/boot_linux_console.py:BootLinuxConsole.test_arm_orangepi_uboot_netbsd9:
-> > /console: U-Boot SPL 2020.01+dfsg-1 (Jan 08 2020 - 08:19:44 +0000)
-> > console: DRAM:
-> > INTERRUPTED: Test interrupted by SIGTERM\nRunner error occurred: Timeout
-> > reached\nOriginal status: ERROR\n{'name':
+> >   void vhost_svq_free(VhostShadowVirtqueue *vq);
 > >
-> '5-tests/avocado/boot_linux_console.py:BootLinuxConsole.test_arm_orangepi_uboot_netbsd9',
-> > 'logdir': '/home/fox/avocado/job-results/job-2022-01-30T23.09-af49...
-> > (90.64 s)
-> > RESULTS    : PASS 3 | ERROR 0 | FAIL 0 | SKIP 0 | WARN 0 | INTERRUPT 2 |
-> > CANCEL 0
-> > JOB TIME   : 221.25 s
+> > diff --git a/hw/virtio/vhost-shadow-virtqueue.c b/hw/virtio/vhost-shado=
+w-virtqueue.c
+> > index f129ec8395..7c168075d7 100644
+> > --- a/hw/virtio/vhost-shadow-virtqueue.c
+> > +++ b/hw/virtio/vhost-shadow-virtqueue.c
+> > @@ -277,9 +277,17 @@ void vhost_svq_stop(VhostShadowVirtqueue *svq)
+> >   /**
+> >    * Creates vhost shadow virtqueue, and instruct vhost device to use t=
+he shadow
+> >    * methods and file descriptors.
+> > + *
+> > + * @qsize Shadow VirtQueue size
+> > + *
+> > + * Returns the new virtqueue or NULL.
+> > + *
+> > + * In case of error, reason is reported through error_report.
+> >    */
+> > -VhostShadowVirtqueue *vhost_svq_new(void)
+> > +VhostShadowVirtqueue *vhost_svq_new(uint16_t qsize)
+> >   {
+> > +    size_t desc_size =3D sizeof(vring_desc_t) * qsize;
+> > +    size_t device_size, driver_size;
+> >       g_autofree VhostShadowVirtqueue *svq =3D g_new0(VhostShadowVirtqu=
+eue, 1);
+> >       int r;
 > >
-> > Basically the two tests freeze during the part where the U-Boot
-> > bootloader needs to detect the amount of memory. We model this in the
-> > hw/misc/allwinner-h3-dramc.c file.
-> > And when running the machine manually it shows an assert on
-> > 'alias->mapped_via_alias >= 0'. When running manually via gdb, I was
-> > able to collect this backtrace:
+> > @@ -300,6 +308,15 @@ VhostShadowVirtqueue *vhost_svq_new(void)
+> >       /* Placeholder descriptor, it should be deleted at set_kick_fd */
+> >       event_notifier_init_fd(&svq->svq_kick, INVALID_SVQ_KICK_FD);
 > >
-> > $ gdb ./build/qemu-system-arm
-> > ...
-> > gdb) run -M orangepi-pc -nographic
-> > ./Armbian_20.08.1_Orangepipc_bionic_current_5.8.5.img
-> > ...
-> > U-Boot SPL 2020.04-armbian (Sep 02 2020 - 10:16:13 +0200)
-> > DRAM:
-> > qemu-system-arm: ../softmmu/memory.c:2588: memory_region_del_subregion:
-> > Assertion `alias->mapped_via_alias >= 0' failed.
+> > +    svq->vring.num =3D qsize;
+>
+>
+> I wonder if this is the best. E.g some hardware can support up to 32K
+> queue size. So this will probably end up with:
+>
+> 1) SVQ use 32K queue size
+> 2) hardware queue uses 256
+>
+
+In that case SVQ vring queue size will be 32K and guest's vring can
+negotiate any number with SVQ equal or less than 32K, including 256.
+Is that what you mean?
+
+If with hardware queues you mean guest's vring, not sure why it is
+"probably 256". I'd say that in that case with the virtio-net kernel
+driver the ring size will be the same as the device export, for
+example, isn't it?
+
+The implementation should support any combination of sizes, but the
+ring size exposed to the guest is never bigger than hardware one.
+
+> ? Or we SVQ can stick to 256 but this will this cause trouble if we want
+> to add event index support?
+>
+
+I think we should not have any problem with event idx. If you mean
+that the guest could mark more buffers available than SVQ vring's
+size, that should not happen because there must be less entries in the
+guest than SVQ.
+
+But if I understood you correctly, a similar situation could happen if
+a guest's contiguous buffer is scattered across many qemu's VA chunks.
+Even if that would happen, the situation should be ok too: SVQ knows
+the guest's avail idx and, if SVQ is full, it will continue forwarding
+avail buffers when the device uses more buffers.
+
+Does that make sense to you?
+
+>
+> > +    driver_size =3D vhost_svq_driver_area_size(svq);
+> > +    device_size =3D vhost_svq_device_area_size(svq);
+> > +    svq->vring.desc =3D qemu_memalign(qemu_real_host_page_size, driver=
+_size);
+> > +    svq->vring.avail =3D (void *)((char *)svq->vring.desc + desc_size)=
+;
+> > +    memset(svq->vring.desc, 0, driver_size);
+> > +    svq->vring.used =3D qemu_memalign(qemu_real_host_page_size, device=
+_size);
+> > +    memset(svq->vring.used, 0, device_size);
+> > +
+> >       event_notifier_set_handler(&svq->hdev_call, vhost_svq_handle_call=
+);
+> >       return g_steal_pointer(&svq);
 > >
-> > Thread 4 "qemu-system-arm" received signal SIGABRT, Aborted.
-> > [Switching to Thread 0x7ffff5f72700 (LWP 32866)]
-> > __GI_raise (sig=sig@entry=6) at ../sysdeps/unix/sysv/linux/raise.c:50
-> > 50 ../sysdeps/unix/sysv/linux/raise.c: No such file or directory.
-> > (gdb) bt
-> > #0  __GI_raise (sig=sig@entry=6) at
-> ../sysdeps/unix/sysv/linux/raise.c:50
-> > #1  0x00007ffff7535859 in __GI_abort () at abort.c:79
-> > #2  0x00007ffff7535729 in __assert_fail_base
-> >     (fmt=0x7ffff76cb588 "%s%s%s:%u: %s%sAssertion `%s' failed.\n%n",
-> > assertion=0x55555642fd65 "alias->mapped_via_alias >= 0",
-> > file=0x55555642f8cd "../softmmu/memory.c", line=2588,
-> > function=<optimized out>)
-> >     at assert.c:92
-> > #3  0x00007ffff7546f36 in __GI___assert_fail
-> >     (assertion=0x55555642fd65 "alias->mapped_via_alias >= 0",
-> > file=0x55555642f8cd "../softmmu/memory.c", line=2588,
-> > function=0x555556430690 <__PRETTY_FUNCTION__.8>
-> > "memory_region_del_subregion") at assert.c:101
-> > #4  0x0000555555e587e0 in memory_region_del_subregion
-> > (mr=0x555556f0bc00, subregion=0x7ffff5fa1090) at ../softmmu/memory.c:2588
-> > #5  0x0000555555e589f3 in memory_region_readd_subregion
-> > (mr=0x7ffff5fa1090) at ../softmmu/memory.c:2630
-> > #6  0x0000555555e58a5f in memory_region_set_address (mr=0x7ffff5fa1090,
-> > addr=1090519040) at ../softmmu/memory.c:2642
-> > #7  0x0000555555ac352b in allwinner_h3_dramc_map_rows (s=0x7ffff5fa0c50,
-> > row_bits=16 '\020', bank_bits=2 '\002', page_size=512) at
-> > ../hw/misc/allwinner-h3-dramc.c:92
-> > #8  0x0000555555ac36c2 in allwinner_h3_dramcom_write
-> > (opaque=0x7ffff5fa0c50, offset=0, val=4396785, size=4) at
-> > ../hw/misc/allwinner-h3-dramc.c:131
-> > #9  0x0000555555e52561 in memory_region_write_accessor
-> > (mr=0x7ffff5fa11a0, addr=0, value=0x7ffff5f710e8, size=4, shift=0,
-> > mask=4294967295, attrs=...) at ../softmmu/memory.c:492
-> > #10 0x0000555555e527ad in access_with_adjusted_size (addr=0,
-> > value=0x7ffff5f710e8, size=4, access_size_min=4, access_size_max=4,
-> > access_fn=
-> >     0x555555e52467 <memory_region_write_accessor>, mr=0x7ffff5fa11a0,
-> > attrs=...) at ../softmmu/memory.c:554
-> > #11 0x0000555555e55935 in memory_region_dispatch_write
-> > (mr=0x7ffff5fa11a0, addr=0, data=4396785, op=MO_32, attrs=...) at
-> > ../softmmu/memory.c:1514
-> > #12 0x0000555555f891ae in io_writex (env=0x7ffff5f7ce30,
-> > iotlbentry=0x7fffec0275f0, mmu_idx=7, val=4396785, addr=29761536,
-> > retaddr=140734938367479, op=MO_32) at ../accel/tcg/cputlb.c:1420
-> > #13 0x0000555555f8ba10 in store_helper (env=0x7ffff5f7ce30,
-> > addr=29761536, val=4396785, oi=3623, retaddr=140734938367479, op=MO_32)
-> > at ../accel/tcg/cputlb.c:2355
-> > #14 0x0000555555f8bdda in full_le_stl_mmu (env=0x7ffff5f7ce30,
-> > addr=29761536, val=4396785, oi=3623, retaddr=140734938367479) at
-> > ../accel/tcg/cputlb.c:2443
-> > #15 0x0000555555f8be16 in helper_le_stl_mmu (env=0x7ffff5f7ce30,
-> > addr=29761536, val=4396785, oi=3623, retaddr=140734938367479) at
-> > ../accel/tcg/cputlb.c:2449
-> > #16 0x00007fff680245f7 in code_gen_buffer ()
-> > #17 0x0000555555f754cb in cpu_tb_exec (cpu=0x7ffff5f730a0,
-> > itb=0x7fffa802b400, tb_exit=0x7ffff5f7182c) at
-> ../accel/tcg/cpu-exec.c:357
-> > #18 0x0000555555f76366 in cpu_loop_exec_tb (cpu=0x7ffff5f730a0,
-> > tb=0x7fffa802b400, last_tb=0x7ffff5f71840, tb_exit=0x7ffff5f7182c) at
-> > ../accel/tcg/cpu-exec.c:842
-> > #19 0x0000555555f76720 in cpu_exec (cpu=0x7ffff5f730a0) at
-> > ../accel/tcg/cpu-exec.c:1001
-> > #20 0x0000555555f993dd in tcg_cpus_exec (cpu=0x7ffff5f730a0) at
-> > ../accel/tcg/tcg-accel-ops.c:67
-> > #21 0x0000555555f9976d in mttcg_cpu_thread_fn (arg=0x7ffff5f730a0) at
-> > ../accel/tcg/tcg-accel-ops-mttcg.c:95
-> > #22 0x000055555624bf4d in qemu_thread_start (args=0x5555572b6780) at
-> > ../util/qemu-thread-posix.c:556
-> > #23 0x00007ffff770b609 in start_thread (arg=<optimized out>) at
-> > pthread_create.c:477
-> > #24 0x00007ffff7632293 in clone () at
-> > ../sysdeps/unix/sysv/linux/x86_64/clone.S:95
+> > @@ -318,5 +335,7 @@ void vhost_svq_free(VhostShadowVirtqueue *vq)
+> >       event_notifier_cleanup(&vq->hdev_kick);
+> >       event_notifier_set_handler(&vq->hdev_call, NULL);
+> >       event_notifier_cleanup(&vq->hdev_call);
+> > +    qemu_vfree(vq->vring.desc);
+> > +    qemu_vfree(vq->vring.used);
+> >       g_free(vq);
+> >   }
+> > diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
+> > index 9d801cf907..53e14bafa0 100644
+> > --- a/hw/virtio/vhost-vdpa.c
+> > +++ b/hw/virtio/vhost-vdpa.c
+> > @@ -641,20 +641,52 @@ static int vhost_vdpa_set_vring_addr(struct vhost=
+_dev *dev,
+> >       return vhost_vdpa_call(dev, VHOST_SET_VRING_ADDR, addr);
+> >   }
 > >
-> > So it seems that the hw/misc/allwinner-h3-dramc.c file is using the call
-> > memory_region_set_address, where internally we are calling
-> > memory_region_del_subregion.
+> > -static int vhost_vdpa_set_vring_num(struct vhost_dev *dev,
+> > -                                      struct vhost_vring_state *ring)
+> > +static int vhost_vdpa_set_dev_vring_num(struct vhost_dev *dev,
+> > +                                        struct vhost_vring_state *ring=
+)
+> >   {
+> >       trace_vhost_vdpa_set_vring_num(dev, ring->index, ring->num);
+> >       return vhost_vdpa_call(dev, VHOST_SET_VRING_NUM, ring);
+> >   }
+> >
+> > -static int vhost_vdpa_set_vring_base(struct vhost_dev *dev,
+> > -                                       struct vhost_vring_state *ring)
+> > +static int vhost_vdpa_set_vring_num(struct vhost_dev *dev,
+> > +                                    struct vhost_vring_state *ring)
+> > +{
+> > +    struct vhost_vdpa *v =3D dev->opaque;
+> > +
+> > +    if (v->shadow_vqs_enabled) {
+> > +        /*
+> > +         * Vring num was set at device start. SVQ num is handled by Vi=
+rtQueue
+> > +         * code
+> > +         */
+> > +        return 0;
+> > +    }
+> > +
+> > +    return vhost_vdpa_set_dev_vring_num(dev, ring);
+> > +}
+> > +
+> > +static int vhost_vdpa_set_dev_vring_base(struct vhost_dev *dev,
+> > +                                         struct vhost_vring_state *rin=
+g)
+> >   {
+> >       trace_vhost_vdpa_set_vring_base(dev, ring->index, ring->num);
+> >       return vhost_vdpa_call(dev, VHOST_SET_VRING_BASE, ring);
+> >   }
+> >
+> > +static int vhost_vdpa_set_vring_base(struct vhost_dev *dev,
+> > +                                     struct vhost_vring_state *ring)
+> > +{
+> > +    struct vhost_vdpa *v =3D dev->opaque;
+> > +
+> > +    if (v->shadow_vqs_enabled) {
+> > +        /*
+> > +         * Vring base was set at device start. SVQ base is handled by =
+VirtQueue
+> > +         * code
+> > +         */
+> > +        return 0;
+> > +    }
+> > +
+> > +    return vhost_vdpa_set_dev_vring_base(dev, ring);
+> > +}
+> > +
+> >   static int vhost_vdpa_get_vring_base(struct vhost_dev *dev,
+> >                                          struct vhost_vring_state *ring=
+)
+> >   {
+> > @@ -784,8 +816,8 @@ static int vhost_vdpa_dev_start(struct vhost_dev *d=
+ev, bool started)
+> >       }
+> >   }
+> >
+> > -static int vhost_vdpa_get_features(struct vhost_dev *dev,
+> > -                                     uint64_t *features)
+> > +static int vhost_vdpa_get_dev_features(struct vhost_dev *dev,
+> > +                                       uint64_t *features)
+> >   {
+> >       int ret;
+> >
+> > @@ -794,15 +826,64 @@ static int vhost_vdpa_get_features(struct vhost_d=
+ev *dev,
+> >       return ret;
+> >   }
+> >
+> > +static int vhost_vdpa_get_features(struct vhost_dev *dev, uint64_t *fe=
+atures)
+> > +{
+> > +    struct vhost_vdpa *v =3D dev->opaque;
+> > +    int ret =3D vhost_vdpa_get_dev_features(dev, features);
+> > +
+> > +    if (ret =3D=3D 0 && v->shadow_vqs_enabled) {
+> > +        /* Filter only features that SVQ can offer to guest */
+> > +        vhost_svq_valid_guest_features(features);
+> > +    }
 >
-> Okay, so we're using memory_region_set_address() on an alias after
-> marking it as enabled.
 >
-> memory_region_readd_subregion() detect if the region is already added
-> via "mr->container" ... so in the old code, the
->
-> memory_region_del_subregion()
-> mr->container = container;
-> memory_region_update_container_subregions(mr);
->
-> I think the issue is that we want to do a "del+add" but we do a
-> "del+hack", not a proper add.
+> Sorry if I've asked before, I think it's sufficient to filter out the
+> device features that we don't support during and fail the vhost
+> initialization. Any reason we need do it again here?
 >
 
-Okey, yeah that makes sense.
+On the contrary, if something needs to be asked that means that is not
+clear enough :).
 
+At initialization we validate that the device offers all the needed
+features (ACCESS_PLATFORM, VERSION_1). We don't have the features
+acknowledged by the guest at that point.
 
->
-> Would something like the following do the trick (untested)?:
->
->
-> diff --git a/softmmu/memory.c b/softmmu/memory.c
-> index 0d39cf3da6..7a1c8158c5 100644
-> --- a/softmmu/memory.c
-> +++ b/softmmu/memory.c
-> @@ -2633,8 +2633,7 @@ static void
-> memory_region_readd_subregion(MemoryRegion *mr)
->          memory_region_transaction_begin();
->          memory_region_ref(mr);
->          memory_region_del_subregion(container, mr);
-> -        mr->container = container;
-> -        memory_region_update_container_subregions(mr);
-> +        memory_region_add_subregion_common(container, mr->addr, mr);
->          memory_region_unref(mr);
->          memory_region_transaction_commit();
->      }
->
-
-Yes, this resolved the assertion problem indeed. I've re-run all acceptance
-tests for the orangepi-pc machine with this change applied to
-the current master at 95a6af2a00, and all tests are passing.
-
-How do we proceed from here, can this become a new patch maybe?
-
-Thanks for your help,
-Niek
+This is checking the written features by the guest. For example, we
+accept _F_INDIRECT here, so the guest can write indirect descriptors
+to SVQ, since qemu VirtQueue code is handling it for us. I've stayed
+on the safe side and I've not included packed or event_idx, but I
+might try to run with them. These would not have been accepted for the
+device.
 
 >
+> > +
+> > +    return ret;
+> > +}
+> > +
+> >   static int vhost_vdpa_set_features(struct vhost_dev *dev,
+> >                                      uint64_t features)
+> >   {
+> > +    struct vhost_vdpa *v =3D dev->opaque;
+> >       int ret;
+> >
+> >       if (vhost_vdpa_one_time_request(dev)) {
+> >           return 0;
+> >       }
+> >
+> > +    if (v->shadow_vqs_enabled) {
+> > +        uint64_t dev_features, svq_features, acked_features;
+> > +        bool ok;
+> > +
+> > +        ret =3D vhost_vdpa_get_dev_features(dev, &dev_features);
+> > +        if (ret !=3D 0) {
+> > +            error_report("Can't get vdpa device features, got (%d)", r=
+et);
+> > +            return ret;
+> > +        }
+> > +
+> > +        svq_features =3D dev_features;
+> > +        ok =3D vhost_svq_valid_device_features(&svq_features);
+> > +        if (unlikely(!ok)) {
+> > +            error_report("SVQ Invalid device feature flags, offer: 0x%=
+"
+> > +                         PRIx64", ok: 0x%"PRIx64, dev->features, svq_f=
+eatures);
+> > +            return -1;
+> > +        }
+> > +
+> > +        ok =3D vhost_svq_valid_guest_features(&features);
+> > +        if (unlikely(!ok)) {
+> > +            error_report(
+> > +                "Invalid guest acked feature flag, acked: 0x%"
+> > +                PRIx64", ok: 0x%"PRIx64, dev->acked_features, features=
+);
+> > +            return -1;
+> > +        }
+> > +
+> > +        ok =3D vhost_svq_ack_guest_features(svq_features, features,
+> > +                                          &acked_features);
+> > +        if (unlikely(!ok)) {
+> > +            return -1;
+> > +        }
+> > +
+> > +        features =3D acked_features;
+> > +    }
+> > +
+> >       trace_vhost_vdpa_set_features(dev, features);
+> >       ret =3D vhost_vdpa_call(dev, VHOST_SET_FEATURES, &features);
+> >       if (ret) {
+> > @@ -822,13 +903,31 @@ static int vhost_vdpa_set_owner(struct vhost_dev =
+*dev)
+> >       return vhost_vdpa_call(dev, VHOST_SET_OWNER, NULL);
+> >   }
+> >
+> > -static int vhost_vdpa_vq_get_addr(struct vhost_dev *dev,
+> > -                    struct vhost_vring_addr *addr, struct vhost_virtqu=
+eue *vq)
+> > +static void vhost_vdpa_vq_get_guest_addr(struct vhost_vring_addr *addr=
+,
+> > +                                         struct vhost_virtqueue *vq)
+> >   {
+> > -    assert(dev->vhost_ops->backend_type =3D=3D VHOST_BACKEND_TYPE_VDPA=
+);
+> >       addr->desc_user_addr =3D (uint64_t)(unsigned long)vq->desc_phys;
+> >       addr->avail_user_addr =3D (uint64_t)(unsigned long)vq->avail_phys=
+;
+> >       addr->used_user_addr =3D (uint64_t)(unsigned long)vq->used_phys;
+> > +}
+> > +
+> > +static int vhost_vdpa_vq_get_addr(struct vhost_dev *dev,
+> > +                                  struct vhost_vring_addr *addr,
+> > +                                  struct vhost_virtqueue *vq)
+> > +{
+> > +    struct vhost_vdpa *v =3D dev->opaque;
+> > +
+> > +    assert(dev->vhost_ops->backend_type =3D=3D VHOST_BACKEND_TYPE_VDPA=
+);
+> > +
+> > +    if (v->shadow_vqs_enabled) {
+> > +        int idx =3D vhost_vdpa_get_vq_index(dev, addr->index);
+> > +        VhostShadowVirtqueue *svq =3D g_ptr_array_index(v->shadow_vqs,=
+ idx);
+> > +
+> > +        vhost_svq_get_vring_addr(svq, addr);
+> > +    } else {
+> > +        vhost_vdpa_vq_get_guest_addr(addr, vq);
+> > +    }
+> > +
+> >       trace_vhost_vdpa_vq_get_addr(dev, vq, addr->desc_user_addr,
+> >                                    addr->avail_user_addr, addr->used_us=
+er_addr);
+> >       return 0;
+> > @@ -849,6 +948,12 @@ static void vhost_psvq_free(gpointer svq)
+> >       vhost_svq_free(svq);
+> >   }
+> >
+> > +static int vhost_vdpa_get_max_queue_size(struct vhost_dev *dev,
+> > +                                         uint16_t *qsize)
+> > +{
+> > +    return vhost_vdpa_call(dev, VHOST_VDPA_GET_VRING_NUM, qsize);
+> > +}
+> > +
+> >   static int vhost_vdpa_init_svq(struct vhost_dev *hdev, struct vhost_v=
+dpa *v,
+> >                                  Error **errp)
+> >   {
+> > @@ -857,6 +962,7 @@ static int vhost_vdpa_init_svq(struct vhost_dev *hd=
+ev, struct vhost_vdpa *v,
+> >                                                              vhost_psvq=
+_free);
+> >       uint64_t dev_features;
+> >       uint64_t svq_features;
+> > +    uint16_t qsize;
+> >       int r;
+> >       bool ok;
+> >
+> > @@ -864,7 +970,7 @@ static int vhost_vdpa_init_svq(struct vhost_dev *hd=
+ev, struct vhost_vdpa *v,
+> >           goto out;
+> >       }
+> >
+> > -    r =3D vhost_vdpa_get_features(hdev, &dev_features);
+> > +    r =3D vhost_vdpa_get_dev_features(hdev, &dev_features);
+> >       if (r !=3D 0) {
+> >           error_setg(errp, "Can't get vdpa device features, got (%d)", =
+r);
+> >           return r;
+> > @@ -879,9 +985,14 @@ static int vhost_vdpa_init_svq(struct vhost_dev *h=
+dev, struct vhost_vdpa *v,
+> >           return -1;
+> >       }
+> >
+> > +    r =3D vhost_vdpa_get_max_queue_size(hdev, &qsize);
+> > +    if (unlikely(r)) {
+> > +        qsize =3D 256;
+> > +    }
 >
-> --
-> Thanks,
 >
-> David / dhildenb
->
+> Should we fail instead of having a "default" value here?
 >
 
--- 
-Niek Linnenbank
+Maybe it is better to fail here, yes. I guess there is no safe default valu=
+e.
 
---000000000000beaa0c05d6e55f43
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Thanks!
 
-<div dir=3D"ltr"><div dir=3D"ltr">Hi David,<br></div><br><div class=3D"gmai=
-l_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Mon, Jan 31, 2022 at 9:11=
- AM David Hildenbrand &lt;<a href=3D"mailto:david@redhat.com">david@redhat.=
-com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"marg=
-in:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1e=
-x">On 30.01.22 23:50, Niek Linnenbank wrote:<br>
-&gt; Hi David,<br>
-<br>
-Hi Niek,<br>
-<br>
-thanks for the report.<br>
-<br>
-&gt; <br>
-&gt; While I realize my response is quite late, I wanted to report this err=
-or<br>
-&gt; I found when running the acceptance<br>
-&gt; tests for the orangepi-pc machine using avocado:<br>
-&gt; <br>
-&gt; ARMBIAN_ARTIFACTS_CACHED=3Dyes AVOCADO_ALLOW_LARGE_STORAGE=3Dyes avoca=
-do<br>
-&gt; --show=3Dapp,console run -t machine:orangepi-pc<br>
-&gt; tests/avocado/boot_linux_console.py<br>
-&gt; ...<br>
-&gt; =C2=A0(4/5)<br>
-&gt; tests/avocado/boot_linux_console.py:BootLinuxConsole.test_arm_orangepi=
-_bionic_20_08:<br>
-&gt; -console: U-Boot SPL 2020.04-armbian (Sep 02 2020 - 10:16:13 +0200)<br=
+> Thanks
 >
-&gt; \console: DRAM:<br>
-&gt; INTERRUPTED: Test interrupted by SIGTERM\nRunner error occurred: Timeo=
-ut<br>
-&gt; reached\nOriginal status: ERROR\n{&#39;name&#39;:<br>
-&gt; &#39;4-tests/avocado/boot_linux_console.py:BootLinuxConsole.test_arm_o=
-rangepi_bionic_20_08&#39;,<br>
-&gt; &#39;logdir&#39;: &#39;/home/fox/avocado/job-results/job-2022-01-30T23=
-.09-af49e...<br>
-&gt; (90.64 s)<br>
-&gt; =C2=A0(5/5)<br>
-&gt; tests/avocado/boot_linux_console.py:BootLinuxConsole.test_arm_orangepi=
-_uboot_netbsd9:<br>
-&gt; /console: U-Boot SPL 2020.01+dfsg-1 (Jan 08 2020 - 08:19:44 +0000)<br>
-&gt; console: DRAM:<br>
-&gt; INTERRUPTED: Test interrupted by SIGTERM\nRunner error occurred: Timeo=
-ut<br>
-&gt; reached\nOriginal status: ERROR\n{&#39;name&#39;:<br>
-&gt; &#39;5-tests/avocado/boot_linux_console.py:BootLinuxConsole.test_arm_o=
-rangepi_uboot_netbsd9&#39;,<br>
-&gt; &#39;logdir&#39;: &#39;/home/fox/avocado/job-results/job-2022-01-30T23=
-.09-af49...<br>
-&gt; (90.64 s)<br>
-&gt; RESULTS =C2=A0 =C2=A0: PASS 3 | ERROR 0 | FAIL 0 | SKIP 0 | WARN 0 | I=
-NTERRUPT 2 |<br>
-&gt; CANCEL 0<br>
-&gt; JOB TIME =C2=A0 : 221.25 s<br>
-&gt; <br>
-&gt; Basically the two tests freeze during the part where the U-Boot<br>
-&gt; bootloader needs to detect the amount of memory. We model this in the<=
-br>
-&gt; hw/misc/allwinner-h3-dramc.c file.<br>
-&gt; And when running the machine manually it shows an assert on<br>
-&gt; &#39;alias-&gt;mapped_via_alias &gt;=3D 0&#39;. When running manually =
-via gdb, I was<br>
-&gt; able to collect this backtrace:<br>
-&gt; <br>
-&gt; $ gdb ./build/qemu-system-arm<br>
-&gt; ...<br>
-&gt; gdb) run -M orangepi-pc -nographic<br>
-&gt; ./Armbian_20.08.1_Orangepipc_bionic_current_5.8.5.img<br>
-&gt; ...<br>
-&gt; U-Boot SPL 2020.04-armbian (Sep 02 2020 - 10:16:13 +0200)<br>
-&gt; DRAM:<br>
-&gt; qemu-system-arm: ../softmmu/memory.c:2588: memory_region_del_subregion=
-:<br>
-&gt; Assertion `alias-&gt;mapped_via_alias &gt;=3D 0&#39; failed.<br>
-&gt; <br>
-&gt; Thread 4 &quot;qemu-system-arm&quot; received signal SIGABRT, Aborted.=
-<br>
-&gt; [Switching to Thread 0x7ffff5f72700 (LWP 32866)]<br>
-&gt; __GI_raise (sig=3Dsig@entry=3D6) at ../sysdeps/unix/sysv/linux/raise.c=
-:50<br>
-&gt; 50 ../sysdeps/unix/sysv/linux/raise.c: No such file or directory.<br>
-&gt; (gdb) bt<br>
-&gt; #0 =C2=A0__GI_raise (sig=3Dsig@entry=3D6) at ../sysdeps/unix/sysv/linu=
-x/raise.c:50<br>
-&gt; #1 =C2=A00x00007ffff7535859 in __GI_abort () at abort.c:79<br>
-&gt; #2 =C2=A00x00007ffff7535729 in __assert_fail_base<br>
-&gt; =C2=A0 =C2=A0 (fmt=3D0x7ffff76cb588 &quot;%s%s%s:%u: %s%sAssertion `%s=
-&#39; failed.\n%n&quot;,<br>
-&gt; assertion=3D0x55555642fd65 &quot;alias-&gt;mapped_via_alias &gt;=3D 0&=
-quot;,<br>
-&gt; file=3D0x55555642f8cd &quot;../softmmu/memory.c&quot;, line=3D2588,<br=
 >
-&gt; function=3D&lt;optimized out&gt;)<br>
-&gt; =C2=A0 =C2=A0 at assert.c:92<br>
-&gt; #3 =C2=A00x00007ffff7546f36 in __GI___assert_fail<br>
-&gt; =C2=A0 =C2=A0 (assertion=3D0x55555642fd65 &quot;alias-&gt;mapped_via_a=
-lias &gt;=3D 0&quot;,<br>
-&gt; file=3D0x55555642f8cd &quot;../softmmu/memory.c&quot;, line=3D2588,<br=
+> > +
+> >       shadow_vqs =3D g_ptr_array_new_full(hdev->nvqs, vhost_psvq_free);
+> >       for (unsigned n =3D 0; n < hdev->nvqs; ++n) {
+> > -        VhostShadowVirtqueue *svq =3D vhost_svq_new();
+> > +        VhostShadowVirtqueue *svq =3D vhost_svq_new(qsize);
+> >
+> >           if (unlikely(!svq)) {
+> >               error_setg(errp, "Cannot create svq %u", n);
 >
-&gt; function=3D0x555556430690 &lt;__PRETTY_FUNCTION__.8&gt;<br>
-&gt; &quot;memory_region_del_subregion&quot;) at assert.c:101<br>
-&gt; #4 =C2=A00x0000555555e587e0 in memory_region_del_subregion<br>
-&gt; (mr=3D0x555556f0bc00, subregion=3D0x7ffff5fa1090) at ../softmmu/memory=
-.c:2588<br>
-&gt; #5 =C2=A00x0000555555e589f3 in memory_region_readd_subregion<br>
-&gt; (mr=3D0x7ffff5fa1090) at ../softmmu/memory.c:2630<br>
-&gt; #6 =C2=A00x0000555555e58a5f in memory_region_set_address (mr=3D0x7ffff=
-5fa1090,<br>
-&gt; addr=3D1090519040) at ../softmmu/memory.c:2642<br>
-&gt; #7 =C2=A00x0000555555ac352b in allwinner_h3_dramc_map_rows (s=3D0x7fff=
-f5fa0c50,<br>
-&gt; row_bits=3D16 &#39;\020&#39;, bank_bits=3D2 &#39;\002&#39;, page_size=
-=3D512) at<br>
-&gt; ../hw/misc/allwinner-h3-dramc.c:92<br>
-&gt; #8 =C2=A00x0000555555ac36c2 in allwinner_h3_dramcom_write<br>
-&gt; (opaque=3D0x7ffff5fa0c50, offset=3D0, val=3D4396785, size=3D4) at<br>
-&gt; ../hw/misc/allwinner-h3-dramc.c:131<br>
-&gt; #9 =C2=A00x0000555555e52561 in memory_region_write_accessor<br>
-&gt; (mr=3D0x7ffff5fa11a0, addr=3D0, value=3D0x7ffff5f710e8, size=3D4, shif=
-t=3D0,<br>
-&gt; mask=3D4294967295, attrs=3D...) at ../softmmu/memory.c:492<br>
-&gt; #10 0x0000555555e527ad in access_with_adjusted_size (addr=3D0,<br>
-&gt; value=3D0x7ffff5f710e8, size=3D4, access_size_min=3D4, access_size_max=
-=3D4,<br>
-&gt; access_fn=3D<br>
-&gt; =C2=A0 =C2=A0 0x555555e52467 &lt;memory_region_write_accessor&gt;, mr=
-=3D0x7ffff5fa11a0,<br>
-&gt; attrs=3D...) at ../softmmu/memory.c:554<br>
-&gt; #11 0x0000555555e55935 in memory_region_dispatch_write<br>
-&gt; (mr=3D0x7ffff5fa11a0, addr=3D0, data=3D4396785, op=3DMO_32, attrs=3D..=
-.) at<br>
-&gt; ../softmmu/memory.c:1514<br>
-&gt; #12 0x0000555555f891ae in io_writex (env=3D0x7ffff5f7ce30,<br>
-&gt; iotlbentry=3D0x7fffec0275f0, mmu_idx=3D7, val=3D4396785, addr=3D297615=
-36,<br>
-&gt; retaddr=3D140734938367479, op=3DMO_32) at ../accel/tcg/cputlb.c:1420<b=
-r>
-&gt; #13 0x0000555555f8ba10 in store_helper (env=3D0x7ffff5f7ce30,<br>
-&gt; addr=3D29761536, val=3D4396785, oi=3D3623, retaddr=3D140734938367479, =
-op=3DMO_32)<br>
-&gt; at ../accel/tcg/cputlb.c:2355<br>
-&gt; #14 0x0000555555f8bdda in full_le_stl_mmu (env=3D0x7ffff5f7ce30,<br>
-&gt; addr=3D29761536, val=3D4396785, oi=3D3623, retaddr=3D140734938367479) =
-at<br>
-&gt; ../accel/tcg/cputlb.c:2443<br>
-&gt; #15 0x0000555555f8be16 in helper_le_stl_mmu (env=3D0x7ffff5f7ce30,<br>
-&gt; addr=3D29761536, val=3D4396785, oi=3D3623, retaddr=3D140734938367479) =
-at<br>
-&gt; ../accel/tcg/cputlb.c:2449<br>
-&gt; #16 0x00007fff680245f7 in code_gen_buffer ()<br>
-&gt; #17 0x0000555555f754cb in cpu_tb_exec (cpu=3D0x7ffff5f730a0,<br>
-&gt; itb=3D0x7fffa802b400, tb_exit=3D0x7ffff5f7182c) at ../accel/tcg/cpu-ex=
-ec.c:357<br>
-&gt; #18 0x0000555555f76366 in cpu_loop_exec_tb (cpu=3D0x7ffff5f730a0,<br>
-&gt; tb=3D0x7fffa802b400, last_tb=3D0x7ffff5f71840, tb_exit=3D0x7ffff5f7182=
-c) at<br>
-&gt; ../accel/tcg/cpu-exec.c:842<br>
-&gt; #19 0x0000555555f76720 in cpu_exec (cpu=3D0x7ffff5f730a0) at<br>
-&gt; ../accel/tcg/cpu-exec.c:1001<br>
-&gt; #20 0x0000555555f993dd in tcg_cpus_exec (cpu=3D0x7ffff5f730a0) at<br>
-&gt; ../accel/tcg/tcg-accel-ops.c:67<br>
-&gt; #21 0x0000555555f9976d in mttcg_cpu_thread_fn (arg=3D0x7ffff5f730a0) a=
-t<br>
-&gt; ../accel/tcg/tcg-accel-ops-mttcg.c:95<br>
-&gt; #22 0x000055555624bf4d in qemu_thread_start (args=3D0x5555572b6780) at=
-<br>
-&gt; ../util/qemu-thread-posix.c:556<br>
-&gt; #23 0x00007ffff770b609 in start_thread (arg=3D&lt;optimized out&gt;) a=
-t<br>
-&gt; pthread_create.c:477<br>
-&gt; #24 0x00007ffff7632293 in clone () at<br>
-&gt; ../sysdeps/unix/sysv/linux/x86_64/clone.S:95<br>
-&gt; <br>
-&gt; So it seems that the hw/misc/allwinner-h3-dramc.c file is using the ca=
-ll<br>
-&gt; memory_region_set_address, where internally we are calling<br>
-&gt; memory_region_del_subregion.<br>
-<br>
-Okay, so we&#39;re using memory_region_set_address() on an alias after<br>
-marking it as enabled.<br>
-<br>
-memory_region_readd_subregion() detect if the region is already added<br>
-via &quot;mr-&gt;container&quot; ... so in the old code, the<br>
-<br>
-memory_region_del_subregion()<br>
-mr-&gt;container =3D container;<br>
-memory_region_update_container_subregions(mr);<br>
-<br>
-I think the issue is that we want to do a &quot;del+add&quot; but we do a<b=
-r>
-&quot;del+hack&quot;, not a proper add.<br></blockquote><div><br></div><div=
->Okey, yeah that makes sense.</div><div>=C2=A0<br></div><blockquote class=
-=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rg=
-b(204,204,204);padding-left:1ex">
-<br>
-Would something like the following do the trick (untested)?:<br>
-<br>
-<br>
-diff --git a/softmmu/memory.c b/softmmu/memory.c<br>
-index 0d39cf3da6..7a1c8158c5 100644<br>
---- a/softmmu/memory.c<br>
-+++ b/softmmu/memory.c<br>
-@@ -2633,8 +2633,7 @@ static void<br>
-memory_region_readd_subregion(MemoryRegion *mr)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0memory_region_transaction_begin();<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0memory_region_ref(mr);<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0memory_region_del_subregion(container, mr=
-);<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 mr-&gt;container =3D container;<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 memory_region_update_container_subregions(mr);=
-<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 memory_region_add_subregion_common(container, =
-mr-&gt;addr, mr);<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0memory_region_unref(mr);<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0memory_region_transaction_commit();<br>
-=C2=A0 =C2=A0 =C2=A0}<br></blockquote><div><br></div><div>Yes, this resolve=
-d the assertion problem indeed. I&#39;ve re-run all acceptance tests for th=
-e orangepi-pc machine with this change applied to</div><div>the current mas=
-ter at 95a6af2a00, and all tests are passing.</div><div><br></div><div>How =
-do we proceed from here, can this become a new patch maybe? <br></div><div>=
-<br></div><div>Thanks for your help,</div><div>Niek <br></div><blockquote c=
-lass=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px soli=
-d rgb(204,204,204);padding-left:1ex">
-<br>
-<br>
--- <br>
-Thanks,<br>
-<br>
-David / dhildenb<br>
-<br>
-</blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=3D"g=
-mail_signature"><div dir=3D"ltr"><div>Niek Linnenbank<br><br></div></div></=
-div></div>
 
---000000000000beaa0c05d6e55f43--
 
