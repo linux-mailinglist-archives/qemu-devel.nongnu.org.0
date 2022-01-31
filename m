@@ -2,77 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3F684A3E90
-	for <lists+qemu-devel@lfdr.de>; Mon, 31 Jan 2022 09:19:45 +0100 (CET)
-Received: from localhost ([::1]:32970 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ACE724A3E87
+	for <lists+qemu-devel@lfdr.de>; Mon, 31 Jan 2022 09:16:30 +0100 (CET)
+Received: from localhost ([::1]:59082 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nERuX-0002M9-TG
-	for lists+qemu-devel@lfdr.de; Mon, 31 Jan 2022 03:19:42 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:49876)
+	id 1nERrR-0000mM-AS
+	for lists+qemu-devel@lfdr.de; Mon, 31 Jan 2022 03:16:29 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:49994)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nERfp-000475-7y
- for qemu-devel@nongnu.org; Mon, 31 Jan 2022 03:04:29 -0500
-Received: from [2607:f8b0:4864:20::534] (port=46865
- helo=mail-pg1-x534.google.com)
+ id 1nERgJ-0004Vz-1J
+ for qemu-devel@nongnu.org; Mon, 31 Jan 2022 03:04:59 -0500
+Received: from [2607:f8b0:4864:20::535] (port=41474
+ helo=mail-pg1-x535.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nERfn-0003Mm-F4
- for qemu-devel@nongnu.org; Mon, 31 Jan 2022 03:04:28 -0500
-Received: by mail-pg1-x534.google.com with SMTP id s16so11429550pgs.13
- for <qemu-devel@nongnu.org>; Mon, 31 Jan 2022 00:03:42 -0800 (PST)
+ id 1nERgH-0003QV-99
+ for qemu-devel@nongnu.org; Mon, 31 Jan 2022 03:04:58 -0500
+Received: by mail-pg1-x535.google.com with SMTP id f8so11522018pgf.8
+ for <qemu-devel@nongnu.org>; Mon, 31 Jan 2022 00:04:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=UsOP5hQR27bYNMlbm2SRlJUeawopjrAG+jzqKZD307U=;
- b=ivBrIP66YfEsuzdDB2yUXRjpuRuQFm5hwRzZqY6J+5aRjN3YKeP5Nbe9fLOs2yX7Zs
- FOrGpGJ/LtUGNuQzLlOxye1BWaL4+9vkJuokoN3a+itFyqwVC/OS6Zh0a6VmdXEpTwSo
- uuR7BjxENFKlx6o0R3fZrc/DasKo12q67klycueOaX0SsJ2KbvWJytiSZ6gE2MG/TN6n
- 80h/TNXjFBNDKTb/p/r/mNA7km0sxFqWONBD3p4rditfUVX3Mh2dy6SHUjUHSgaqo+jk
- Ym9qmjDkuDum2tNO+8GkyW/2wx1D3mtv1FAMLpE4Mmotg90RbVrmr4xrws/mLwAzOj07
- Kn6w==
+ bh=Gsr+K1ewk3YwFz7gBYBwzI/6z2+xXrPh9GMm5NxTDrY=;
+ b=VAl34/pwnzWmFsNce1y4n5evuijDRtbTEtFzwwoXfwTetxy1DpzKIEqzCBqE2PPs+V
+ PdEDJRwaAJNBgL0OtWuP7glSRqNk5IAxb+ifdU5N+cTDZbeVibAqjEyKmm1r/R3gkVha
+ vKm4w1q2AJLVVl1NIyRv/3aKKLiwRziqrGk39ko81/t8geJ9SAHAwZVD9d4IgZlKXLKZ
+ Rd1g3kcxV5PY651vpekkGpIO6mGD5gY+Lp0Bnk5aFYqMPZJW7viXO1sNAUu/0225Qo3C
+ UJWz7nTGQSFrKLpQQmIZ6IaCtzdLeH3rpHseZY/Kr3Kq833pbuqwS3McnuHdYMpeftng
+ l9pg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=UsOP5hQR27bYNMlbm2SRlJUeawopjrAG+jzqKZD307U=;
- b=qo/DM1e3SNoPiR1wxg59fx4NaV4JzabmTja0lHJy2FAKja0TSM0DtQja0QjirLNt3M
- w5Yn4UW+JTAx9kmqumvGSYFGrkGODnCFdQTAPNtcDOO7KcvJc/1O6R6D1uNpxLs/EcnB
- AZ79WcmWMhaj9kDi/uBKfsSCIgMn1vWrHCYvFlf8uoTPHWtXpsFIn6sSQPE9/Z/cDcDe
- KLmq34JOPRuUxhZEW8O+9GaK4WLt/H7La6ixxjVxZ20YbjR7BzZUb47lbr+k7SPVs9Pw
- 1ZnV7946HXc6caT6i9r1Cg1KJ2BBZ93r2QalPUOa8fGXs9cDrYj1RwdQkxwJAdN92k5y
- XqNQ==
-X-Gm-Message-State: AOAM530bzlBkP0k5UiUBsx0PwVTPnUnf6o60RUsvsFPTBQdc607s7nWS
- bZ/HiIAo7xII1mNcCSmPgmuxRg==
-X-Google-Smtp-Source: ABdhPJyTXPnwqflhI0ttNnAER10/dQ69lssP8JWnDj6XzsyDMuONeQuCiVVigp6AiKUip7l7coyAtg==
-X-Received: by 2002:a05:6a00:2343:: with SMTP id
- j3mr19012432pfj.7.1643616221826; 
- Mon, 31 Jan 2022 00:03:41 -0800 (PST)
+ bh=Gsr+K1ewk3YwFz7gBYBwzI/6z2+xXrPh9GMm5NxTDrY=;
+ b=0GE+/gz0YIiwe5hGl0o1nRC3W4RL3lWIMPI75HOaAcVoGrsoaZ5g77isfHgCmqNfZ8
+ rpmFZHBJ4HUlCo9jH/sCCSCL+Pqqvug8ibggAGMICOBTPhCpy2faGQZVplOfOINg6vzW
+ j6bpnXMjA36lusTWDF9OzasOUU7HDm7wP0+ZaK6Ws5Mqr8BrQx/R+GSX5uI6gT9a1f3/
+ xoju2cA0prynJSaMVUaAIzTxizNPLHwsRjz/gmljZuOefaTJROoq1rCgwfPu3ya3DdtG
+ ht0g2jH+8RjfKIoxzBgCQ/Ld17Pv1d2VOz4aZQRSSut9gb6kxXP4nbULc8aYQf7m0P6F
+ ITWA==
+X-Gm-Message-State: AOAM530RVIe/fifDv2hvCusagTVpNErNPBeKjFwJhYksbzJd2N+WmD5T
+ znWee4gvXN1d7AAi7NEhtN8s/Q==
+X-Google-Smtp-Source: ABdhPJxiFI+loG315lHiWlzDlcxhzuhBlHY5uIZj+bImF8UId7sj/nu8gKwMGfRXjimr7IJ3ZOGDvw==
+X-Received: by 2002:a05:6a00:1594:: with SMTP id
+ u20mr19237926pfk.75.1643616295886; 
+ Mon, 31 Jan 2022 00:04:55 -0800 (PST)
 Received: from [192.168.15.130] ([60.231.85.5])
- by smtp.gmail.com with ESMTPSA id f16sm18517612pfa.147.2022.01.31.00.03.34
+ by smtp.gmail.com with ESMTPSA id f12sm16859967pgg.35.2022.01.31.00.04.48
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 31 Jan 2022 00:03:41 -0800 (PST)
-Message-ID: <34e6de6c-d80d-b438-0e33-c9b50191a88e@linaro.org>
-Date: Mon, 31 Jan 2022 19:03:31 +1100
+ Mon, 31 Jan 2022 00:04:55 -0800 (PST)
+Message-ID: <1e92a442-6689-4528-ed3e-28da4df3919d@linaro.org>
+Date: Mon, 31 Jan 2022 19:04:45 +1100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.5.0
-Subject: Re: [PATCH 11/16] hw/arm/highbank: Drop use of secure_board_setup
+Subject: Re: [PATCH 12/16] hw/arm/boot: Prevent setting both psci_conduit and
+ secure_board_setup
 Content-Language: en-US
 To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
  qemu-devel@nongnu.org
 References: <20220127154639.2090164-1-peter.maydell@linaro.org>
- <20220127154639.2090164-12-peter.maydell@linaro.org>
+ <20220127154639.2090164-13-peter.maydell@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220127154639.2090164-12-peter.maydell@linaro.org>
+In-Reply-To: <20220127154639.2090164-13-peter.maydell@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::534
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::535
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::534;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x534.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::535;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x535.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -110,48 +111,16 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 1/28/22 02:46, Peter Maydell wrote:
-> Guest code on highbank may make non-PSCI SMC calls in order to
-> enable/disable the L2x0 cache controller (see the Linux kernel's
-> arch/arm/mach-highbank/highbank.c highbank_l2c310_write_sec()
-> function).  The ABI for this is documented in kernel commit
-> 8e56130dcb as being borrowed from the OMAP44xx ROM.  The OMAP44xx TRM
-> documents this function ID as having no return value and potentially
-> trashing all guest registers except SP and PC. For QEMU's purposes
-> (where our L2x0 model is a stub and enabling or disabling it doesn't
-> affect the guest behaviour) a simple "do nothing" SMC is fine.
-> 
-> We currently implement this NOP behaviour using a little bit of
-> Secure code we run before jumping to the guest kernel, which is
-> written by arm_write_secure_board_setup_dummy_smc().  The code sets
-> up a set of Secure vectors where the SMC entry point returns without
-> doing anything.
-> 
-> Now that the PSCI SMC emulation handles all SMC calls (setting r0 to
-> an error code if the input r0 function identifier is not recognized),
-> we can use that default behaviour as sufficient for the highbank
-> cache controller call.  (Because the guest code assumes r0 has no
-> interesting value on exit it doesn't matter that we set it to the
-> error code).  We can therefore delete the highbank board code that
-> sets secure_board_setup to true and writes the secure-code bootstub.
-> 
-> (Note that because the OMAP44xx ABI puts function-identifiers in
-> r12 and PSCI uses r0, we only avoid a clash because Linux's code
-> happens to put the function-identifier in both registers. But this
-> is true also when the kernel is running on real firmware that
-> implements both ABIs as far as I can see.)
-> 
-> This change fixes in passing booting on the 'midway' board model,
-> which has been completely broken since we added support for Hyp
-> mode to the Cortex-A15 CPU. When we did that boot.c was made to
-> start running the guest code in Hyp mode; this includes the
-> board_setup hook, which instantly UNDEFs because the NSACR is
-> not accessible from Hyp. (Put another way, we never made the
-> secure_board_setup hook support cope with Hyp mode.)
+> Now that we have dealt with the one special case (highbank) that needed
+> to set both psci_conduit and secure_board_setup, we don't need to
+> allow that combination any more. It doesn't make sense in general,
+> so use an assertion to ensure we don't add new boards that do it
+> by accident without thinking through the consequences.
 > 
 > Signed-off-by: Peter Maydell<peter.maydell@linaro.org>
 > ---
->   hw/arm/highbank.c | 8 --------
->   1 file changed, 8 deletions(-)
+>   hw/arm/boot.c | 10 ++++++++++
+>   1 file changed, 10 insertions(+)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
