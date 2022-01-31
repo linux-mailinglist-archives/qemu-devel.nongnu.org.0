@@ -2,75 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BBD664A4BF9
-	for <lists+qemu-devel@lfdr.de>; Mon, 31 Jan 2022 17:27:50 +0100 (CET)
-Received: from localhost ([::1]:32850 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 50BE34A4BB0
+	for <lists+qemu-devel@lfdr.de>; Mon, 31 Jan 2022 17:19:43 +0100 (CET)
+Received: from localhost ([::1]:46156 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nEZWv-0003l6-SI
-	for lists+qemu-devel@lfdr.de; Mon, 31 Jan 2022 11:27:49 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:57634)
+	id 1nEZP3-0001vC-TI
+	for lists+qemu-devel@lfdr.de; Mon, 31 Jan 2022 11:19:42 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:57492)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kchamart@redhat.com>)
- id 1nEZ5E-0004MX-DH
- for qemu-devel@nongnu.org; Mon, 31 Jan 2022 10:59:12 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:54114)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kchamart@redhat.com>)
- id 1nEZ5C-0004Ap-Kz
- for qemu-devel@nongnu.org; Mon, 31 Jan 2022 10:59:11 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1643644750;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=EjMHoVlehjoyXWpnOv/NbqHJ7jV0xeOV5EsUpJGXymM=;
- b=BifS5XEDKjAhkjNZiyOL1e1f152oRUy+OqbTMcvt0YqpAQiyesUc+OcmpuIO81fQNXhYRq
- y1E7nL3QjtQYqXApNc0r7rX+jt2Q/57haK1Wzs3haTb2alb4IQZS5PQc/pqpzS2wp9VTsy
- uWpCsdHmn22QF4y2c2UXTXsDU7If+9E=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-665-7Xg3C3HNN9u4jFZAUGAT_Q-1; Mon, 31 Jan 2022 10:59:06 -0500
-X-MC-Unique: 7Xg3C3HNN9u4jFZAUGAT_Q-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1FF211018722;
- Mon, 31 Jan 2022 15:59:05 +0000 (UTC)
-Received: from paraplu (unknown [10.39.195.135])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2F6E8798C0;
- Mon, 31 Jan 2022 15:58:34 +0000 (UTC)
-Date: Mon, 31 Jan 2022 16:58:31 +0100
-From: Kashyap Chamarthy <kchamart@redhat.com>
-To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
-Subject: Re: [PATCH v2] docs: expand firmware descriptor to allow flash
- without NVRAM
-Message-ID: <YfgHJ7w+Vo43a2qO@paraplu>
-References: <20220131125509.170307-1-berrange@redhat.com>
- <YffrgRRVCEWVLS41@paraplu> <Yffz/v/7b6jJOBwi@redhat.com>
- <Yff+gCndUlijqMsz@paraplu> <YfgBpsEKl5ArM+64@redhat.com>
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1nEZ4f-0003UK-BK; Mon, 31 Jan 2022 10:58:40 -0500
+Received: from [2a00:1450:4864:20::435] (port=34588
+ helo=mail-wr1-x435.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1nEZ4d-00048O-OZ; Mon, 31 Jan 2022 10:58:36 -0500
+Received: by mail-wr1-x435.google.com with SMTP id f17so26353636wrx.1;
+ Mon, 31 Jan 2022 07:58:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=aeVM3OKGdh1yBMpgJYGt9f1C+fFFBFjn1JraQFkCh7M=;
+ b=LCtcIjeFRtH1zPYVshUWxVj0BEIhKbt/HN8VTeNglj1G3u73RlDm1p9i3Y0f5Dgjek
+ pmC95sVP4UU3RlbvNSzZ45EDQAkVaMJLS96jZAWBs3d3RvZPpKKkD1Xo/HGjTZNbpNRi
+ HIQq3sFTiAKPgSeeayGUlcztS5S7ytFrjoNJllNqXsUkzB6R6swohw2u9K0sov2zcizy
+ B1UWeKeHZsCXxKqWYW19b3lCoachU4JhokLSRACVu2Jz/jGhKMExFlwGE7JiHZ7RJfuU
+ D16iA7EXMItZAIvk/Z0TOWVSVrCcijtndxmVCvXRUxgavjZP/ighhGMr4RIqprHtxPWU
+ hbnA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+ :subject:content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=aeVM3OKGdh1yBMpgJYGt9f1C+fFFBFjn1JraQFkCh7M=;
+ b=gakmRy7T2RS+Jy9fszBEJIG6veEq6pllQIPSlOiWi2HiZmX/wX+/SMnIyjMQaJl7Cp
+ YDbBkcdkGPsDeMA4avKcLGJtoTl0Jj/P1T7zGyM/YUMEJVwQ7cPRYUtE3H9lBJ3TqxcA
+ BW9oXyD9EGPSVmEEdjbbhUZOahc+uM1mHM22UefbkX55VXlFeRK2cCcqlFotD4bCH5ss
+ cjhuh2H6qHYMMIXsDxYdQ42fgEsSqWQ3ZGEN9amIKFc878mrnT3DRkIiEmyLezmtZ9aH
+ ultzSNAxt5Ap/EItVbH4OBwYT17qYMd0ZDGqlMP2CIqf3Wt1HFZ8lHb6Y/4lqh0HFf4b
+ IL0w==
+X-Gm-Message-State: AOAM533TbDNSUqhyNFFXSK4tsCtt+h7FAXyhOnmHXRNbc6k33LfGPKNV
+ Qq2fz4runsP8R7o8jBvRDhc=
+X-Google-Smtp-Source: ABdhPJzkw1lumS2Ji3SA9l8tbWc4H1uz9DsD1U43rmoLFPXH+uwrcqIlSbOiAEyROjF9xPdLCD53KQ==
+X-Received: by 2002:adf:c448:: with SMTP id a8mr18488656wrg.697.1643644713810; 
+ Mon, 31 Jan 2022 07:58:33 -0800 (PST)
+Received: from ?IPV6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
+ ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.googlemail.com with ESMTPSA id r2sm17119493wrz.99.2022.01.31.07.58.32
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 31 Jan 2022 07:58:33 -0800 (PST)
+Message-ID: <1653fd9d-e1e9-5f32-3bd1-62abecd09601@redhat.com>
+Date: Mon, 31 Jan 2022 16:58:32 +0100
 MIME-Version: 1.0
-In-Reply-To: <YfgBpsEKl5ArM+64@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kchamart@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=kchamart@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.088,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH v6 02/33] include/block/block: split header into I/O and
+ global state API
+Content-Language: en-US
+To: Kevin Wolf <kwolf@redhat.com>,
+ Emanuele Giuseppe Esposito <eesposit@redhat.com>
+References: <20220121170544.2049944-1-eesposit@redhat.com>
+ <20220121170544.2049944-3-eesposit@redhat.com> <YfJ7pbLDuwP2hgnw@redhat.com>
+ <ac8b0576-4c03-4eb6-9ef6-c0a6b20b6184@redhat.com>
+ <Yff4Dl6bpHhTxAfB@redhat.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+In-Reply-To: <Yff4Dl6bpHhTxAfB@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::435
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::435;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x435.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.248, NICE_REPLY_A=-0.001,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -83,55 +96,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: libvir-list@redhat.com, qemu-devel@nongnu.org,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>
+Cc: Fam Zheng <fam@euphon.net>, Eduardo Habkost <eduardo@habkost.net>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-block@nongnu.org, Juan Quintela <quintela@redhat.com>,
+ John Snow <jsnow@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
+ Daniel Henrique Barboza <danielhb413@gmail.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Markus Armbruster <armbru@redhat.com>, Greg Kurz <groug@kaod.org>,
+ qemu-ppc@nongnu.org, =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
+ Stefan Hajnoczi <stefanha@redhat.com>, "Denis V. Lunev" <den@openvz.org>,
+ Eric Blake <eblake@redhat.com>, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Jan 31, 2022 at 03:35:02PM +0000, Daniel P. Berrangé wrote:
-> On Mon, Jan 31, 2022 at 04:21:36PM +0100, Kashyap Chamarthy wrote:
-> > On Mon, Jan 31, 2022 at 02:36:46PM +0000, Daniel P. Berrangé wrote:
-
-[...]
-
-> > > The firmware can be provided in qcow2 format too, so if really
-> > > concerned, just create a qcow2 file with a backing store pointing
-> > > to the readonly master, so you're only paying the price of the
-> > > delta for any guest VARs writes. That's more efficient than what
-> > > we do today with copying the separate raw format VARS.fd file.
-> > 
-> > That's nice, I didn't know the qcow2 possibility in this context.  For
-> > some reason I assumed the file format always has to be raw here.  Your
-> > qcow2 point above should  be documented, if it isn't already.  Although
-> > I don't know the right place for it.
+On 1/31/22 15:54, Kevin Wolf wrote:
+> So I guess the decision depends on what you're going to use the
+> categories in the future. I get the feeling that we have one more
+> category than this series introduces:
 > 
-> There's already a format field in the descriptor, but even if the
-> firmware is distributed as raw, libvirt can choose to put qcow2
-> overlay on it, as its all configured with -blockdev
+> * Global State (must run from the main thread/hold the BQL)
+> * I/O (can be called in any thread under the AioContext lock, doesn't
+>    modify global state, drain waits for it to complete)
+> * Common (doesn't even touch global state)
+> * iothread dependent (can run without the BQL, but only in one specific
+>    iothread while holding its AioContext lock; this would cover at least
+>    AIO_WAIT_WHILE() and all of its indirect callers)
 
-Ah, understood.  
+Yes, I agree.
 
-I should've first checked the spec to look for the @format field.  For
-others reading the thread, the @format bit is located here
-infirmware.json:
+bdrv_drained_begin and friends are somewhat like a coroutine-level 
+lock/unlock primitive, so they need to be available in both the main 
+thread and the iothread.  They could be called iothread dependent, 
+AioContext dependent, or perhaps "global or I/O".
 
-  [...]
-  # @FirmwareFlashFile:
-  #
-  # Defines common properties that are necessary for loading a firmware
-  # file into a pflash chip. The corresponding QEMU command line option is
-  # "-drive file=@filename,format=@format". Note however that the
-  # option-argument shown here is incomplete; it is completed under
-  # @FirmwareMappingFlash.
-  #
-  # @filename: Specifies the filename on the host filesystem where the
-  #            firmware file can be found.
-  #
-  # @format: Specifies the block format of the file pointed-to by
-  #          @filename, such as @raw or @qcow2.
-  [...]
+That said, even if they are a different category, I think it makes sense 
+to leave them in the same header file as I/O functions, because I/O 
+functions are locked out between drained_begin and drained_end.
 
--- 
-/kashyap
-
+Paolo
 
