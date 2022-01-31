@@ -2,68 +2,98 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8C024A3F26
-	for <lists+qemu-devel@lfdr.de>; Mon, 31 Jan 2022 10:22:12 +0100 (CET)
-Received: from localhost ([::1]:33046 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A6534A3F33
+	for <lists+qemu-devel@lfdr.de>; Mon, 31 Jan 2022 10:27:06 +0100 (CET)
+Received: from localhost ([::1]:40386 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nESt1-0002UQ-R6
-	for lists+qemu-devel@lfdr.de; Mon, 31 Jan 2022 04:22:11 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:38196)
+	id 1nESxl-0007gS-IV
+	for lists+qemu-devel@lfdr.de; Mon, 31 Jan 2022 04:27:05 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:39108)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mrezanin@redhat.com>)
- id 1nESoT-00008i-95
- for qemu-devel@nongnu.org; Mon, 31 Jan 2022 04:17:29 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:29922)
+ (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
+ id 1nEStt-0005l4-Dj
+ for qemu-devel@nongnu.org; Mon, 31 Jan 2022 04:23:06 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:27805)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mrezanin@redhat.com>)
- id 1nESoQ-0005mS-I4
- for qemu-devel@nongnu.org; Mon, 31 Jan 2022 04:17:27 -0500
+ (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
+ id 1nEStr-0006Rh-6m
+ for qemu-devel@nongnu.org; Mon, 31 Jan 2022 04:23:04 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1643620645;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=x30y8StUyvm45mUxRz1TxlxqP7xKIlhJd9usrp4+b5w=;
- b=b1VqLRosP1M1TNdvMMfkOj/cLo2IzHVUIGvcPj+nikRroQ987XaFSxkaYE7MieCHYid9PT
- fpWfL7fkPDuMOituZQQ/fhNV6nFl2/Ad31HK5Y2+4pdCKrUJsmSP18OAcwmJoIE9rWEmm2
- uk1vJuwErbtQc8k1nSr/mE8tSlTwFVs=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ s=mimecast20190719; t=1643620980;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=VUMuO3Dv3dHoMDbGoqzB+eMpwnB9U5H9gTggytAFnHU=;
+ b=JZRzoSl5fVpdYIfVXy2flyWOnL5TFDioRIiuHVQKtIX2kRblXwOqBjgFSZIRU3/CP9Atea
+ cxex1HgXjkeW14X7thFo28T6NCMtBxCzFFIHGp8wbAXHiW/m5Q608Bo4oweM3/YAwo8ZBw
+ EYceP5xwfz+/A86kOJyVYZtvY0oH1dg=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-183-IObFs2DAMEmSgsrOFCwTTw-1; Mon, 31 Jan 2022 04:17:22 -0500
-X-MC-Unique: IObFs2DAMEmSgsrOFCwTTw-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0A5B41091DA1;
- Mon, 31 Jan 2022 09:17:21 +0000 (UTC)
-Received: from t590.rezanina.moe.com (unknown [10.40.195.84])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9BCE34F867;
- Mon, 31 Jan 2022 09:17:19 +0000 (UTC)
-From: Miroslav Rezanina <mrezanin@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2] Use long endian options for ppc64
-Date: Mon, 31 Jan 2022 10:17:14 +0100
-Message-Id: <20220131091714.4825-1-mrezanin@redhat.com>
+ us-mta-140-DqSbBuDgP0OZTzg2UGRlUw-1; Mon, 31 Jan 2022 04:22:58 -0500
+X-MC-Unique: DqSbBuDgP0OZTzg2UGRlUw-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ x4-20020adfbb44000000b001d83e815683so4542499wrg.8
+ for <qemu-devel@nongnu.org>; Mon, 31 Jan 2022 01:22:58 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:reply-to:subject:to:cc:references:from
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-transfer-encoding:content-language;
+ bh=VUMuO3Dv3dHoMDbGoqzB+eMpwnB9U5H9gTggytAFnHU=;
+ b=NJcbe6hinmnoYGnrZkbv4SNbSWi7kTnSdSvEUEQ7+s8TkpPSpGhd/8ut/Q3OSSgN9W
+ keQ/k+CYELas7A6nPJ9lyNAdWjFdkL71toyb5PULcABWDI3U3NTImhUVfjMWizzhjJSU
+ Kt17whaLTJD4jbiZjVImlw4GgcHHlBBM4pydNszxvPPDkfZA0gMc0nnhf0XGgxI8VUNW
+ 6LtEBKzahK4VWcULLBqjhthmXdHEMT9XI4PueAZSordUATM0L/Ii+OXo1i4KrUWqsWPU
+ j5SbESX8PX5Jl1yCGYG+ffJeuruu79CjpZME+T6vGiBMZKqReDc+/GwSzMDhRTNNsg1Q
+ y1Fw==
+X-Gm-Message-State: AOAM533cZUuoswyUbLFcPgcTKYqAo18fSbdw4JZFyqRa2ArkZbo5t2my
+ QFZoN7Vt6OJYQC/tCuPACX6qiSTBW3AQWmC5C5+qsC5/iwSjF3P8Biq32h++HXrKQB5lTiA3al9
+ 1r1r9vSZ+MhLip4c=
+X-Received: by 2002:a5d:64af:: with SMTP id m15mr16739309wrp.92.1643620977273; 
+ Mon, 31 Jan 2022 01:22:57 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwWp8KM9Ha44A/vJ1bw5kVeZJ1TdYzfprDD8dqUn7UHnOP66wBoCUYV30hyqc7Ne0HPW/t85A==
+X-Received: by 2002:a5d:64af:: with SMTP id m15mr16739286wrp.92.1643620977061; 
+ Mon, 31 Jan 2022 01:22:57 -0800 (PST)
+Received: from ?IPv6:2a01:e0a:59e:9d80:527b:9dff:feef:3874?
+ ([2a01:e0a:59e:9d80:527b:9dff:feef:3874])
+ by smtp.gmail.com with ESMTPSA id n10sm13820055wrf.96.2022.01.31.01.22.55
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 31 Jan 2022 01:22:56 -0800 (PST)
+Subject: Re: [PATCH v2 3/4] virtio-iommu: Support bypass domain
+To: Jean-Philippe Brucker <jean-philippe@linaro.org>,
+ Juan Quintela <quintela@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>
+References: <20220127142940.671333-1-jean-philippe@linaro.org>
+ <20220127142940.671333-4-jean-philippe@linaro.org>
+From: Eric Auger <eric.auger@redhat.com>
+Message-ID: <bf447d9b-c039-ccdc-f24f-ab8b56c1b196@redhat.com>
+Date: Mon, 31 Jan 2022 10:22:54 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+In-Reply-To: <20220127142940.671333-4-jean-philippe@linaro.org>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mrezanin@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eric.auger@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mrezanin@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+Received-SPF: pass client-ip=170.10.133.124;
+ envelope-from=eric.auger@redhat.com; helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
 X-Spam_bar: --
 X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.088,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -76,65 +106,142 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com, Miroslav Rezanina <mrezanin@redhat.com>,
- richard.henderson@linaro.org, f4bug@amsat.org
+Reply-To: eric.auger@redhat.com
+Cc: lvivier@redhat.com, thuth@redhat.com, mst@redhat.com, cohuck@redhat.com,
+ qemu-devel@nongnu.org, pasic@linux.ibm.com, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-GCC options pairs -mlittle/-mlittle-endian and -mbig/-mbig-endian are
-equivalent on ppc64 architecture. However, Clang supports only long
-version of the options.
+Hi Jean,
 
-Use longer form in configure to properly support both GCC and Clang
-compiler. In addition, fix this issue in tcg test configure.
+On 1/27/22 3:29 PM, Jean-Philippe Brucker wrote:
+> The driver can create a bypass domain by passing the
+> VIRTIO_IOMMU_ATTACH_F_BYPASS flag on the ATTACH request. Bypass domains
+> perform slightly better than domains with identity mappings since they
+> skip translation.
+>
+> Signed-off-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
+> ---
+>  hw/virtio/virtio-iommu.c | 32 ++++++++++++++++++++++++++++++--
+>  1 file changed, 30 insertions(+), 2 deletions(-)
+>
+> diff --git a/hw/virtio/virtio-iommu.c b/hw/virtio/virtio-iommu.c
+> index ec02029bb6..a112428c65 100644
+> --- a/hw/virtio/virtio-iommu.c
+> +++ b/hw/virtio/virtio-iommu.c
+> @@ -43,6 +43,7 @@
+>  
+>  typedef struct VirtIOIOMMUDomain {
+>      uint32_t id;
+> +    bool bypass;
+I am afraid this will break the migration if you don't change
+vmstate_domain.
 
-Signed-off-by: Miroslav Rezanina <mrezanin@redhat.com>
+See static const VMStateDescription vmstate_domain.
+Also you need to migrate the new bypass field.
 
----
-This is v2 of configure: Use -mlittle-endian instead of -mlittle for ppc64.
+Logically we should handle this with a vmstate subsection I think to
+handle migration of older devices. However I doubt the device has been
+used in production environment supporting migration so my guess is we
+may skip that burden and just add the missing field. Adding Juan, Dave &
+Peter for advices.
 
-v2:
- - handle both -mlittle and -mbig usage
- - fix tests/tcg/configure.sh
----
- configure              | 4 ++--
- tests/tcg/configure.sh | 4 ++--
- 2 files changed, 4 insertions(+), 4 deletions(-)
+Thanks
 
-diff --git a/configure b/configure
-index e6cfc0e4be..066fa29b70 100755
---- a/configure
-+++ b/configure
-@@ -655,10 +655,10 @@ case "$cpu" in
-   ppc)
-     CPU_CFLAGS="-m32" ;;
-   ppc64)
--    CPU_CFLAGS="-m64 -mbig" ;;
-+    CPU_CFLAGS="-m64 -mbig-endian" ;;
-   ppc64le)
-     cpu="ppc64"
--    CPU_CFLAGS="-m64 -mlittle" ;;
-+    CPU_CFLAGS="-m64 -mlittle-endian" ;;
- 
-   s390)
-     CPU_CFLAGS="-m31" ;;
-diff --git a/tests/tcg/configure.sh b/tests/tcg/configure.sh
-index 309335a2bd..21959e1fde 100755
---- a/tests/tcg/configure.sh
-+++ b/tests/tcg/configure.sh
-@@ -64,9 +64,9 @@ fi
- : ${cross_cc_ppc="powerpc-linux-gnu-gcc"}
- : ${cross_cc_cflags_ppc="-m32"}
- : ${cross_cc_ppc64="powerpc64-linux-gnu-gcc"}
--: ${cross_cc_cflags_ppc64="-m64 -mbig"}
-+: ${cross_cc_cflags_ppc64="-m64 -mbig-endian"}
- : ${cross_cc_ppc64le="$cross_cc_ppc64"}
--: ${cross_cc_cflags_ppc64le="-m64 -mlittle"}
-+: ${cross_cc_cflags_ppc64le="-m64 -mlittle-endian"}
- : ${cross_cc_riscv64="riscv64-linux-gnu-gcc"}
- : ${cross_cc_s390x="s390x-linux-gnu-gcc"}
- : ${cross_cc_sh4="sh4-linux-gnu-gcc"}
--- 
-2.34.1
+Eric
+
+>      GTree *mappings;
+>      QLIST_HEAD(, VirtIOIOMMUEndpoint) endpoint_list;
+>  } VirtIOIOMMUDomain;
+> @@ -258,12 +259,16 @@ static void virtio_iommu_put_endpoint(gpointer data)
+>  }
+>  
+>  static VirtIOIOMMUDomain *virtio_iommu_get_domain(VirtIOIOMMU *s,
+> -                                                  uint32_t domain_id)
+> +                                                  uint32_t domain_id,
+> +                                                  bool bypass)
+>  {
+>      VirtIOIOMMUDomain *domain;
+>  
+>      domain = g_tree_lookup(s->domains, GUINT_TO_POINTER(domain_id));
+>      if (domain) {
+> +        if (domain->bypass != bypass) {
+> +            return NULL;
+> +        }
+>          return domain;
+>      }
+>      domain = g_malloc0(sizeof(*domain));
+> @@ -271,6 +276,7 @@ static VirtIOIOMMUDomain *virtio_iommu_get_domain(VirtIOIOMMU *s,
+>      domain->mappings = g_tree_new_full((GCompareDataFunc)interval_cmp,
+>                                     NULL, (GDestroyNotify)g_free,
+>                                     (GDestroyNotify)g_free);
+> +    domain->bypass = bypass;
+>      g_tree_insert(s->domains, GUINT_TO_POINTER(domain_id), domain);
+>      QLIST_INIT(&domain->endpoint_list);
+>      trace_virtio_iommu_get_domain(domain_id);
+> @@ -334,11 +340,16 @@ static int virtio_iommu_attach(VirtIOIOMMU *s,
+>  {
+>      uint32_t domain_id = le32_to_cpu(req->domain);
+>      uint32_t ep_id = le32_to_cpu(req->endpoint);
+> +    uint32_t flags = le32_to_cpu(req->flags);
+>      VirtIOIOMMUDomain *domain;
+>      VirtIOIOMMUEndpoint *ep;
+>  
+>      trace_virtio_iommu_attach(domain_id, ep_id);
+>  
+> +    if (flags & ~VIRTIO_IOMMU_ATTACH_F_BYPASS) {
+> +        return VIRTIO_IOMMU_S_INVAL;
+> +    }
+> +
+>      ep = virtio_iommu_get_endpoint(s, ep_id);
+>      if (!ep) {
+>          return VIRTIO_IOMMU_S_NOENT;
+> @@ -356,7 +367,12 @@ static int virtio_iommu_attach(VirtIOIOMMU *s,
+>          }
+>      }
+>  
+> -    domain = virtio_iommu_get_domain(s, domain_id);
+> +    domain = virtio_iommu_get_domain(s, domain_id,
+> +                                     flags & VIRTIO_IOMMU_ATTACH_F_BYPASS);
+> +    if (!domain) {
+> +        /* Incompatible bypass flag */
+> +        return VIRTIO_IOMMU_S_INVAL;
+> +    }
+>      QLIST_INSERT_HEAD(&domain->endpoint_list, ep, next);
+>  
+>      ep->domain = domain;
+> @@ -419,6 +435,10 @@ static int virtio_iommu_map(VirtIOIOMMU *s,
+>          return VIRTIO_IOMMU_S_NOENT;
+>      }
+>  
+> +    if (domain->bypass) {
+> +        return VIRTIO_IOMMU_S_INVAL;
+> +    }
+> +
+>      interval = g_malloc0(sizeof(*interval));
+>  
+>      interval->low = virt_start;
+> @@ -464,6 +484,11 @@ static int virtio_iommu_unmap(VirtIOIOMMU *s,
+>      if (!domain) {
+>          return VIRTIO_IOMMU_S_NOENT;
+>      }
+> +
+> +    if (domain->bypass) {
+> +        return VIRTIO_IOMMU_S_INVAL;
+> +    }
+> +
+>      interval.low = virt_start;
+>      interval.high = virt_end;
+>  
+> @@ -780,6 +805,9 @@ static IOMMUTLBEntry virtio_iommu_translate(IOMMUMemoryRegion *mr, hwaddr addr,
+>              entry.perm = flag;
+>          }
+>          goto unlock;
+> +    } else if (ep->domain->bypass) {
+> +        entry.perm = flag;
+> +        goto unlock;
+>      }
+>  
+>      found = g_tree_lookup_extended(ep->domain->mappings, (gpointer)(&interval),
 
 
