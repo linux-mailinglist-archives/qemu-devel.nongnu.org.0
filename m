@@ -2,75 +2,103 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C17984A49A3
-	for <lists+qemu-devel@lfdr.de>; Mon, 31 Jan 2022 15:47:43 +0100 (CET)
-Received: from localhost ([::1]:36040 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC2544A49B3
+	for <lists+qemu-devel@lfdr.de>; Mon, 31 Jan 2022 15:54:04 +0100 (CET)
+Received: from localhost ([::1]:45854 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nEXy2-0006E4-Rf
-	for lists+qemu-devel@lfdr.de; Mon, 31 Jan 2022 09:47:42 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:55936)
+	id 1nEY42-00056v-0o
+	for lists+qemu-devel@lfdr.de; Mon, 31 Jan 2022 09:53:54 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:59032)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nEXnl-0005t7-3c
- for qemu-devel@nongnu.org; Mon, 31 Jan 2022 09:37:07 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:35893)
+ (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
+ id 1nEXwz-0006xc-PD; Mon, 31 Jan 2022 09:46:48 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:53964
+ helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nEXni-00053q-VG
- for qemu-devel@nongnu.org; Mon, 31 Jan 2022 09:37:04 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1643639822;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=SfUZbFsc4WuOzu6DOQ49CQTlGmkwAebZrueU69dCSKM=;
- b=DZFFe6+aj4FI7//CHxuY/0ZrI4L+eMX+q0MkKw3rkpxFdcCPtlkKlR0mXdWrAJe5xy+BDy
- ESVd7Y+05Hx3FN24iJu6Ch66nYUtPP65+OtQiq4ERULIqenxi5cW6ntcJ/NetN6GqbMaAl
- rYXKv50gwO2DAniQDkexeOn+/cSQs7E=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-526-6H9hSZTbNDySHdqi_yGgpg-1; Mon, 31 Jan 2022 09:36:55 -0500
-X-MC-Unique: 6H9hSZTbNDySHdqi_yGgpg-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CDE481080865;
- Mon, 31 Jan 2022 14:36:54 +0000 (UTC)
-Received: from redhat.com (unknown [10.39.195.62])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 23DCA72436;
- Mon, 31 Jan 2022 14:36:48 +0000 (UTC)
-Date: Mon, 31 Jan 2022 14:36:46 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Kashyap Chamarthy <kchamart@redhat.com>
-Subject: Re: [PATCH v2] docs: expand firmware descriptor to allow flash
- without NVRAM
-Message-ID: <Yffz/v/7b6jJOBwi@redhat.com>
-References: <20220131125509.170307-1-berrange@redhat.com>
- <YffrgRRVCEWVLS41@paraplu>
+ (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
+ id 1nEXvN-0006UJ-L4; Mon, 31 Jan 2022 09:45:19 -0500
+Received: from pps.filterd (m0098413.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 20VDWLdS030817; 
+ Mon, 31 Jan 2022 14:44:47 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=8H210n/nMxyMX/OTzS0e7OdMB03iBoR4fyZMAj1j3xA=;
+ b=fI2qh/b5Bvbi7VlbQ8k1w/Uhd+P1A/XamX14Y1G5c3Ttmrg1bXlycO+8mAW/7dP/zzcf
+ ssDXf/HgxhnFIoFYZwMOWxvXSsznephlp/J60xpMUnSmNW6v9XZehcM2WVMzTXJn1Ed5
+ Drxj6bCHiFr/6LP7EVPtgXehftoNBEsZrY5msfF0I8jBJqhW7NN3hn6Uaf4lFDYdEM//
+ ZwBzBFNXXAk9ByhlAf4xE0oRdVxvAU4tMSqZEAJJ688JRed+1KMP1bVuWqI89gfcBVrW
+ 8+0SW3SVEyIDV+A+zZ1TmNXf76NiMc1butBXJBGSbdRrMO7IvCf2huvgMghu1SLXed0a zQ== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 3dxgr69m33-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 31 Jan 2022 14:44:46 +0000
+Received: from m0098413.ppops.net (m0098413.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 20VELo3O013674;
+ Mon, 31 Jan 2022 14:44:46 GMT
+Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.99])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 3dxgr69m2b-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 31 Jan 2022 14:44:46 +0000
+Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
+ by ppma04ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 20VEgBtL030209;
+ Mon, 31 Jan 2022 14:44:44 GMT
+Received: from b06cxnps4075.portsmouth.uk.ibm.com
+ (d06relay12.portsmouth.uk.ibm.com [9.149.109.197])
+ by ppma04ams.nl.ibm.com with ESMTP id 3dvw79ch9m-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 31 Jan 2022 14:44:44 +0000
+Received: from d06av26.portsmouth.uk.ibm.com (d06av26.portsmouth.uk.ibm.com
+ [9.149.105.62])
+ by b06cxnps4075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 20VEideH46924150
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 31 Jan 2022 14:44:39 GMT
+Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id B2E6CAE057;
+ Mon, 31 Jan 2022 14:44:39 +0000 (GMT)
+Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id E1184AE051;
+ Mon, 31 Jan 2022 14:44:38 +0000 (GMT)
+Received: from [9.171.84.74] (unknown [9.171.84.74])
+ by d06av26.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Mon, 31 Jan 2022 14:44:38 +0000 (GMT)
+Message-ID: <799e6d4c-57f4-c321-4c96-d6186cfb3136@linux.ibm.com>
+Date: Mon, 31 Jan 2022 15:46:35 +0100
 MIME-Version: 1.0
-In-Reply-To: <YffrgRRVCEWVLS41@paraplu>
-User-Agent: Mutt/2.1.5 (2021-12-30)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.0
+Subject: Re: [PATCH v2 4/9] s390x/pci: enable for load/store intepretation
+Content-Language: en-US
+To: Matthew Rosato <mjrosato@linux.ibm.com>, qemu-s390x@nongnu.org
+References: <20220114203849.243657-1-mjrosato@linux.ibm.com>
+ <20220114203849.243657-5-mjrosato@linux.ibm.com>
+From: Pierre Morel <pmorel@linux.ibm.com>
+In-Reply-To: <20220114203849.243657-5-mjrosato@linux.ibm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: GpdItj6yBkjBq2cn50kR8eE4ZKSHScTQ
+X-Proofpoint-ORIG-GUID: zy4sNk5hte7DsE7d6WU0n1c9WBzJeWqP
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.816,Hydra:6.0.425,FMLib:17.11.62.513
+ definitions=2022-01-31_06,2022-01-31_01,2021-12-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxscore=0 lowpriorityscore=0
+ malwarescore=0 priorityscore=1501 mlxlogscore=999 suspectscore=0
+ phishscore=0 clxscore=1015 adultscore=0 impostorscore=0 bulkscore=0
+ spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2201110000 definitions=main-2201310097
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=pmorel@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.088,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -84,161 +112,370 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: libvir-list@redhat.com, qemu-devel@nongnu.org,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: farman@linux.ibm.com, kvm@vger.kernel.org, schnelle@linux.ibm.com,
+ cohuck@redhat.com, richard.henderson@linaro.org, thuth@redhat.com,
+ qemu-devel@nongnu.org, pasic@linux.ibm.com, alex.williamson@redhat.com,
+ mst@redhat.com, pbonzini@redhat.com, david@redhat.com,
+ borntraeger@linux.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Jan 31, 2022 at 03:00:33PM +0100, Kashyap Chamarthy wrote:
-> On Mon, Jan 31, 2022 at 12:55:09PM +0000, Daniel P. Berrangé wrote:
-> > The current firmware descriptor schema for flash requires that both the
-> > executable to NVRAM template paths be provided. This is fine for the
-> > most common usage of EDK2 builds in virtualization where the separate
-> > _CODE and _VARS files are provided.
-> > 
-> > With confidential computing technology like AMD SEV, persistent storage
-> > of variables may be completely disabled because the firmware requires a
-> > known clean state on every cold boot. There is no way to express this
-> > in the firmware descriptor today.
-> > 
-> > Even with regular EDK2 builds it is possible to create a firmware that
-> > has both executable code and variable persistence in a single file. This
-> > hasn't been commonly used, since it would mean every guest bootup would
-> > need to clone the full firmware file, leading to redundant duplicate
-> > storage of the code portion. In some scenarios this may not matter and
-> > might even be beneficial. For example if a public cloud allows users to
-> > bring their own firmware, such that the user can pre-enroll their own
-> > secure boot keys, you're going to have this copied on disk for each
-> > tenant already. At this point the it can be simpler to just deal with
-> > a single file rather than split builds. The firmware descriptor ought
-> > to be able to express this combined firmware model too.
-> 
-> Cool, TIL that it's possible to include both the executable and the
-> variables file into a single file.
-> 
-> I briefly wondered if in this "combined" mode whether the no. of
-> duplicate copies can ever fill up the storage.  I doubt that, as the
-> combined size of _VARS + _CODE is just about 2MB.  So it only starts
-> mattering if you're running tens of thousands of guests.
 
-When guest root / data disk sizes are measured in 100's of MB, or
-GBs, I struggle to get worried about even a 16 MB OVMF  blob being
-copied per guest.
 
-The firmware can be provided in qcow2 format too, so if really
-concerned, just create a qcow2 file with a backing store pointing
-to the readonly master, so you're only paying the price of the
-delta for any guest VARs writes. That's more efficient than what
-we do today with copying the separate raw format VARS.fd file.
+On 1/14/22 21:38, Matthew Rosato wrote:
+> Use the associated vfio feature ioctl to enable interpretation for devices
+> when requested.  As part of this process, we must use the host function
+> handle rather than a QEMU-generated one -- this is provided as part of the
+> ioctl payload.
 
-> > This all points towards expanding the schema for flash with a 'mode'
-> > concept:
-> > 
-> >  - "split" - the current implicit behaviour with separate files
-> >    for code and variables.
-> > 
-> >  - "combined" - the alternate behaviour where a single file contains
-> >    both code and variables.
-> > 
-> >  - "stateless" - the confidential computing use case where storage
-> >    of variables is completely disable, leaving only the code.
-> >
-> > Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-> > Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
-> > ---
-> >  docs/interop/firmware.json | 54 ++++++++++++++++++++++++++++++++------
-> >  1 file changed, 46 insertions(+), 8 deletions(-)
-> > 
-> > In v2:
-> > 
-> >  - Mark 'mode' as optional field
-> >  - Misc typos in docs
-> > 
-> > diff --git a/docs/interop/firmware.json b/docs/interop/firmware.json
-> > index 8d8b0be030..f5d1d0b6e7 100644
-> > --- a/docs/interop/firmware.json
-> > +++ b/docs/interop/firmware.json
-> > @@ -210,24 +210,61 @@
-> >    'data'   : { 'filename' : 'str',
-> >                 'format'   : 'BlockdevDriver' } }
-> >  
-> > +
-> > +##
-> > +# @FirmwareFlashType:
-> > +#
-> > +# Describes how the firmware build handles code versus variable
-> > +# persistence.
-> > +#
-> > +# @split: the executable file contains code while the NVRAM
-> > +#         template provides variable storage. The executable
-> > +#         must be configured read-only and can be shared between
-> > +#         multiple guests. The NVRAM template must be cloned
-> > +#         for each new guest and configured read-write.
-> > +#
-> > +# @combined: the executable file contains both code and
-> > +#            variable storage. The executable must be cloned
-> > +#            for each new guest and configured read-write.
-> > +#            No NVRAM template will be specified.
-> 
-> Given my above wondering, is it worth adding a note here about storage
-> considerations when running large number of guests in the "combined"
-> mode?  If not, ignore my comment.
+I wonder if we should not explain here that having interpretation as a 
+default and silently fall back to interception allows backward 
+compatibility while allowing performence be chosing by default.
+(You can say it better as I do :) )
 
-I don't think its worth worrying about.
 
 > 
-> > +# @stateless: the executable file contains code and variable
-> > +#             storage is not persisted. The executed must
+> Signed-off-by: Matthew Rosato <mjrosato@linux.ibm.com>
+> ---
+>   hw/s390x/s390-pci-bus.c          | 70 +++++++++++++++++++++++++++++++-
+>   hw/s390x/s390-pci-inst.c         | 63 +++++++++++++++++++++++++++-
+>   hw/s390x/s390-pci-vfio.c         | 52 ++++++++++++++++++++++++
+>   include/hw/s390x/s390-pci-bus.h  |  1 +
+>   include/hw/s390x/s390-pci-vfio.h | 15 +++++++
+>   5 files changed, 199 insertions(+), 2 deletions(-)
 > 
-> I guess you meant: s/executed/executable/
+> diff --git a/hw/s390x/s390-pci-bus.c b/hw/s390x/s390-pci-bus.c
+> index 01b58ebc70..a39ccfee05 100644
+> --- a/hw/s390x/s390-pci-bus.c
+> +++ b/hw/s390x/s390-pci-bus.c
+> @@ -971,12 +971,58 @@ static void s390_pci_update_subordinate(PCIDevice *dev, uint32_t nr)
+>       }
+>   }
+>   
+> +static int s390_pci_interp_plug(S390pciState *s, S390PCIBusDevice *pbdev)
+> +{
+> +    uint32_t idx;
+> +    int rc;
+> +
+> +    rc = s390_pci_probe_interp(pbdev);
+> +    if (rc) {
+> +        return rc;
+> +    }
+> +
+> +    rc = s390_pci_update_passthrough_fh(pbdev);
+> +    if (rc) {
+> +        return rc;
+> +    }
+> +
+> +    /*
+> +     * The host device is already in an enabled state, but we always present
+> +     * the initial device state to the guest as disabled (ZPCI_FS_DISABLED).
+> +     * Therefore, mask off the enable bit from the passthrough handle until
+> +     * the guest issues a CLP SET PCI FN later to enable the device.
+> +     */
+> +    pbdev->fh &= ~FH_MASK_ENABLE;
+> +
+> +    /* Next, see if the idx is already in-use */
+> +    idx = pbdev->fh & FH_MASK_INDEX;
+> +    if (pbdev->idx != idx) {
+> +        if (s390_pci_find_dev_by_idx(s, idx)) {
+> +            return -EINVAL;
+> +        }
+> +        /*
+> +         * Update the idx entry with the passed through idx
+> +         * If the relinquished idx is lower than next_idx, use it
+> +         * to replace next_idx
+> +         */
+> +        g_hash_table_remove(s->zpci_table, &pbdev->idx);
+> +        if (idx < s->next_idx) {
+> +            s->next_idx = idx;
+> +        }
+> +        pbdev->idx = idx;
+> +        g_hash_table_insert(s->zpci_table, &pbdev->idx, pbdev);
+> +    }
+> +
+> +    return 0;
+> +}
+> +
+>   static void s390_pcihost_plug(HotplugHandler *hotplug_dev, DeviceState *dev,
+>                                 Error **errp)
+>   {
+>       S390pciState *s = S390_PCI_HOST_BRIDGE(hotplug_dev);
+>       PCIDevice *pdev = NULL;
+>       S390PCIBusDevice *pbdev = NULL;
+> +    int rc;
+>   
+>       if (object_dynamic_cast(OBJECT(dev), TYPE_PCI_BRIDGE)) {
+>           PCIBridge *pb = PCI_BRIDGE(dev);
+> @@ -1022,12 +1068,33 @@ static void s390_pcihost_plug(HotplugHandler *hotplug_dev, DeviceState *dev,
+>           set_pbdev_info(pbdev);
+>   
+>           if (object_dynamic_cast(OBJECT(dev), "vfio-pci")) {
+> -            pbdev->fh |= FH_SHM_VFIO;
+> +            /*
+> +             * By default, interpretation is always requested; if the available
+> +             * facilities indicate it is not available, fallback to the
+> +             * intercept model.
 
-Opp yes.
+s/intercept/interception/ ?
 
-> Whoever is applying the patch can touch it up.
-> 
-> > +#             be configured read-only and can be shared
-> > +#             between multiple guests. No NVRAM template
-> > +#             will be specified.
-> > +#
-> > +# Since: 7.0.0
-> > +##
-> > +{ 'enum': 'FirmwareFlashMode',
-> > +  'data': [ 'split', 'combined', 'stateless' ] }
-> > +
-> >  ##
-> >  # @FirmwareMappingFlash:
-> >  #
-> >  # Describes loading and mapping properties for the firmware executable
-> >  # and its accompanying NVRAM file, when @FirmwareDevice is @flash.
-> >  #
-> > -# @executable: Identifies the firmware executable. The firmware
-> > -#              executable may be shared by multiple virtual machine
-> > -#              definitions. The preferred corresponding QEMU command
-> > -#              line options are
-> > +# @mode: describes how the firmware build handles code versus variable
-> > +#        storage. If not present, it must be treated as if it was
-> > +#        configured with value ``split``. Since: 7.0.0
-> 
-> For consistency, might want to capitalize the first word:
-> s/describes/Describes/
+> +             */
+> +            if (pbdev->interp && !s390_has_feat(S390_FEAT_ZPCI_INTERP)) {
+> +                    DPRINTF("zPCI interpretation facilities missing.\n");
+> +                    pbdev->interp = false;
+> +                }
+> +            if (pbdev->interp) {
+> +                rc = s390_pci_interp_plug(s, pbdev);
+> +                if (rc) {
+> +                    error_setg(errp, "zpci interp plug failed: %d", rc);
+> +                    return;
+> +                }
+> +            }
 
-Yep
 
-> 
-> (Here too, maintainer can touch it up.)
-> 
-> [...]
-> 
-> The concept looks very clear, and obviously useful.  FWIW:
-> 
->     Reviewed-by: Kashyap Chamarthy <kchamart@redhat.com>    
+Can't we rearrange that as
+if (pbdev->interp) {
+     if (s390_has_feat) {
+     } else {
+     }
+}
 
-Regards,
-Daniel
+
+>               pbdev->iommu->dma_limit = s390_pci_start_dma_count(s, pbdev);
+>               /* Fill in CLP information passed via the vfio region */
+>               s390_pci_get_clp_info(pbdev);
+> +            if (!pbdev->interp) {
+> +                /* Do vfio passthrough but intercept for I/O */
+> +                pbdev->fh |= FH_SHM_VFIO;
+> +            }
+>           } else {
+>               pbdev->fh |= FH_SHM_EMUL;
+> +            /* Always intercept emulated devices */
+> +            pbdev->interp = false;
+>           }
+>   
+>           if (s390_pci_msix_init(pbdev)) {
+> @@ -1360,6 +1427,7 @@ static Property s390_pci_device_properties[] = {
+>       DEFINE_PROP_UINT16("uid", S390PCIBusDevice, uid, UID_UNDEFINED),
+>       DEFINE_PROP_S390_PCI_FID("fid", S390PCIBusDevice, fid),
+>       DEFINE_PROP_STRING("target", S390PCIBusDevice, target),
+> +    DEFINE_PROP_BOOL("interp", S390PCIBusDevice, interp, true),
+>       DEFINE_PROP_END_OF_LIST(),
+>   };
+>   
+> diff --git a/hw/s390x/s390-pci-inst.c b/hw/s390x/s390-pci-inst.c
+> index 6d400d4147..e9a0dc12e4 100644
+> --- a/hw/s390x/s390-pci-inst.c
+> +++ b/hw/s390x/s390-pci-inst.c
+> @@ -18,6 +18,7 @@
+>   #include "sysemu/hw_accel.h"
+>   #include "hw/s390x/s390-pci-inst.h"
+>   #include "hw/s390x/s390-pci-bus.h"
+> +#include "hw/s390x/s390-pci-vfio.h"
+>   #include "hw/s390x/tod.h"
+>   
+>   #ifndef DEBUG_S390PCI_INST
+> @@ -156,6 +157,47 @@ out:
+>       return rc;
+>   }
+>   
+> +static int clp_enable_interp(S390PCIBusDevice *pbdev)
+> +{
+> +    int rc;
+> +
+> +    rc = s390_pci_set_interp(pbdev, true);
+> +    if (rc) {
+> +        DPRINTF("Failed to enable interpretation\n");
+> +        return rc;
+> +    }
+> +    rc = s390_pci_update_passthrough_fh(pbdev);
+> +    if (rc) {
+> +        DPRINTF("Failed to update passthrough fh\n");
+> +        return rc;
+> +    }
+> +    if (!(pbdev->fh & FH_MASK_ENABLE)) {
+> +        DPRINTF("Passthrough handle is not enabled\n");
+> +        return -EINVAL;
+> +    }
+> +
+> +    return 0;
+> +}
+> +
+> +static int clp_disable_interp(S390PCIBusDevice *pbdev)
+> +{
+> +    int rc;
+> +
+> +    rc = s390_pci_set_interp(pbdev, false);
+> +    if (rc) {
+> +        DPRINTF("Failed to disable interpretation\n");
+> +        return rc;
+> +    }
+> +
+> +    rc = s390_pci_update_passthrough_fh(pbdev);
+> +    if (rc) {
+> +        DPRINTF("Failed to update passthrough fh\n");
+> +        return rc;
+> +    }
+> +
+> +    return 0;
+> +}
+> +
+>   int clp_service_call(S390CPU *cpu, uint8_t r2, uintptr_t ra)
+>   {
+>       ClpReqHdr *reqh;
+> @@ -246,7 +288,19 @@ int clp_service_call(S390CPU *cpu, uint8_t r2, uintptr_t ra)
+>                   goto out;
+>               }
+>   
+> -            pbdev->fh |= FH_MASK_ENABLE;
+> +            /*
+> +             * If interpretation is specified, attempt to enable this now and
+> +             * update with the host fh
+> +             */
+> +            if (pbdev->interp) {
+> +                if (clp_enable_interp(pbdev)) {
+> +                    stw_p(&ressetpci->hdr.rsp, CLP_RC_SETPCIFN_ERR);
+> +                    goto out;
+> +                }
+> +            } else {
+> +                pbdev->fh |= FH_MASK_ENABLE;
+> +            }
+> +
+>               pbdev->state = ZPCI_FS_ENABLED;
+>               stl_p(&ressetpci->fh, pbdev->fh);
+>               stw_p(&ressetpci->hdr.rsp, CLP_RC_OK);
+> @@ -257,6 +311,13 @@ int clp_service_call(S390CPU *cpu, uint8_t r2, uintptr_t ra)
+>                   goto out;
+>               }
+>               device_legacy_reset(DEVICE(pbdev));
+> +            if (pbdev->interp) {
+> +                if (clp_disable_interp(pbdev)) {
+> +                    stw_p(&ressetpci->hdr.rsp, CLP_RC_SETPCIFN_ERR);
+> +                    goto out;
+> +                }
+> +            }
+> +            /* Mask off the enabled bit for interpreted devices too */
+>               pbdev->fh &= ~FH_MASK_ENABLE;
+>               pbdev->state = ZPCI_FS_DISABLED;
+>               stl_p(&ressetpci->fh, pbdev->fh);
+> diff --git a/hw/s390x/s390-pci-vfio.c b/hw/s390x/s390-pci-vfio.c
+> index 6f80a47e29..2cab3a9e89 100644
+> --- a/hw/s390x/s390-pci-vfio.c
+> +++ b/hw/s390x/s390-pci-vfio.c
+> @@ -97,6 +97,58 @@ void s390_pci_end_dma_count(S390pciState *s, S390PCIDMACount *cnt)
+>       }
+>   }
+>   
+> +int s390_pci_probe_interp(S390PCIBusDevice *pbdev)
+> +{
+> +    VFIOPCIDevice *vdev = VFIO_PCI(pbdev->pdev);
+> +    struct vfio_device_feature feat = {
+> +        .argsz = sizeof(struct vfio_device_feature),
+> +        .flags = VFIO_DEVICE_FEATURE_PROBE | VFIO_DEVICE_FEATURE_ZPCI_INTERP
+> +    };
+> +
+> +    return ioctl(vdev->vbasedev.fd, VFIO_DEVICE_FEATURE, &feat);
+> +}
+> +
+> +int s390_pci_set_interp(S390PCIBusDevice *pbdev, bool enable)
+> +{
+> +    VFIOPCIDevice *vdev = VFIO_PCI(pbdev->pdev);
+> +    struct vfio_device_zpci_interp *data;
+> +    int size = sizeof(struct vfio_device_feature) + sizeof(*data);
+> +    g_autofree struct vfio_device_feature *feat = g_malloc0(size);
+> +
+> +    feat->argsz = size;
+> +    feat->flags = VFIO_DEVICE_FEATURE_SET + VFIO_DEVICE_FEATURE_ZPCI_INTERP;
+> +
+> +    data = (struct vfio_device_zpci_interp *)&feat->data;
+> +    if (enable) {
+> +        data->flags = VFIO_DEVICE_ZPCI_FLAG_INTERP;
+> +    } else {
+> +        data->flags = 0;
+> +    }
+> +
+> +    return ioctl(vdev->vbasedev.fd, VFIO_DEVICE_FEATURE, feat);
+> +}
+> +
+> +int s390_pci_update_passthrough_fh(S390PCIBusDevice *pbdev)
+> +{
+> +    VFIOPCIDevice *vdev = VFIO_PCI(pbdev->pdev);
+> +    struct vfio_device_zpci_interp *data;
+> +    int size = sizeof(struct vfio_device_feature) + sizeof(*data);
+> +    g_autofree struct vfio_device_feature *feat = g_malloc0(size);
+> +    int rc;
+> +
+> +    feat->argsz = size;
+> +    feat->flags = VFIO_DEVICE_FEATURE_GET + VFIO_DEVICE_FEATURE_ZPCI_INTERP;
+> +
+> +    rc = ioctl(vdev->vbasedev.fd, VFIO_DEVICE_FEATURE, feat);
+> +    if (rc) {
+> +        return rc;
+> +    }
+> +
+> +    data = (struct vfio_device_zpci_interp *)&feat->data;
+> +    pbdev->fh = data->fh;
+> +    return 0;
+> +}
+> +
+>   static void s390_pci_read_base(S390PCIBusDevice *pbdev,
+>                                  struct vfio_device_info *info)
+>   {
+> diff --git a/include/hw/s390x/s390-pci-bus.h b/include/hw/s390x/s390-pci-bus.h
+> index da3cde2bb4..a9843dfe97 100644
+> --- a/include/hw/s390x/s390-pci-bus.h
+> +++ b/include/hw/s390x/s390-pci-bus.h
+> @@ -350,6 +350,7 @@ struct S390PCIBusDevice {
+>       IndAddr *indicator;
+>       bool pci_unplug_request_processed;
+>       bool unplug_requested;
+> +    bool interp;
+>       QTAILQ_ENTRY(S390PCIBusDevice) link;
+>   };
+>   
+> diff --git a/include/hw/s390x/s390-pci-vfio.h b/include/hw/s390x/s390-pci-vfio.h
+> index ff708aef50..42533e38f7 100644
+> --- a/include/hw/s390x/s390-pci-vfio.h
+> +++ b/include/hw/s390x/s390-pci-vfio.h
+> @@ -20,6 +20,9 @@ bool s390_pci_update_dma_avail(int fd, unsigned int *avail);
+>   S390PCIDMACount *s390_pci_start_dma_count(S390pciState *s,
+>                                             S390PCIBusDevice *pbdev);
+>   void s390_pci_end_dma_count(S390pciState *s, S390PCIDMACount *cnt);
+> +int s390_pci_probe_interp(S390PCIBusDevice *pbdev);
+> +int s390_pci_set_interp(S390PCIBusDevice *pbdev, bool enable);
+> +int s390_pci_update_passthrough_fh(S390PCIBusDevice *pbdev);
+>   void s390_pci_get_clp_info(S390PCIBusDevice *pbdev);
+>   #else
+>   static inline bool s390_pci_update_dma_avail(int fd, unsigned int *avail)
+> @@ -33,6 +36,18 @@ static inline S390PCIDMACount *s390_pci_start_dma_count(S390pciState *s,
+>   }
+>   static inline void s390_pci_end_dma_count(S390pciState *s,
+>                                             S390PCIDMACount *cnt) { }
+> +int s390_pci_probe_interp(S390PCIBusDevice *pbdev)
+> +{
+> +    return -EINVAL;
+> +}
+> +static inline int s390_pci_set_interp(S390PCIBusDevice *pbdev, bool enable)
+> +{
+> +    return -EINVAL;
+> +}
+> +static inline int s390_pci_update_passthrough_fh(S390PCIBusDevice *pbdev)
+> +{
+> +    return -EINVAL;
+> +}
+>   static inline void s390_pci_get_clp_info(S390PCIBusDevice *pbdev) { }
+>   #endif
+>   
+> 
+
+LGTM
+With the corrections proposed by Thomas.
+Mine... you see what you prefer.
+
+Reviewed-by: Pierre Morel <pmorel@linux.ibm.com>
+
+
 -- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
-
+Pierre Morel
+IBM Lab Boeblingen
 
