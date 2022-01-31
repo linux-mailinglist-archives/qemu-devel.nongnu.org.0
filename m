@@ -2,65 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95C064A4991
-	for <lists+qemu-devel@lfdr.de>; Mon, 31 Jan 2022 15:44:09 +0100 (CET)
-Received: from localhost ([::1]:33738 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E86C4A4950
+	for <lists+qemu-devel@lfdr.de>; Mon, 31 Jan 2022 15:29:26 +0100 (CET)
+Received: from localhost ([::1]:36368 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nEXua-0004dJ-Nt
-	for lists+qemu-devel@lfdr.de; Mon, 31 Jan 2022 09:44:08 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:43044)
+	id 1nEXgL-0003Qg-Dk
+	for lists+qemu-devel@lfdr.de; Mon, 31 Jan 2022 09:29:25 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:45542)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kchamart@redhat.com>)
- id 1nEXF2-0008Oq-9m
- for qemu-devel@nongnu.org; Mon, 31 Jan 2022 09:01:14 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:48489)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1nEXOl-0000Eu-BF
+ for qemu-devel@nongnu.org; Mon, 31 Jan 2022 09:11:15 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:42070)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kchamart@redhat.com>)
- id 1nEXEW-0006m5-Sl
- for qemu-devel@nongnu.org; Mon, 31 Jan 2022 09:00:42 -0500
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1nEXOh-0008Pb-0F
+ for qemu-devel@nongnu.org; Mon, 31 Jan 2022 09:11:13 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1643637639;
+ s=mimecast20190719; t=1643638229;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=smIWqOctOcfZWvLVXI35FN28MIyVwHN+51liQ9ypkG8=;
- b=Vw2TqQUIymkCd37RXjnejSb4zJydsvTS6IuGQWVV+VjSS0ygdwU+GilINHE9E4oLQDR5VC
- H6RPcfxU+177FlsV8l4AvJYs+O6jnZwOI1JOBdqPBWqQKlTgbPl2EykYZoiZEQKaEQ5Zki
- hOQORziMuBtwBnKvPZpRGXzuHWMHD0c=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=OzsMSkY1XluvSsoENoAndPGSeQxA08MiaeLLSNbx0eY=;
+ b=Pk8ktL00ZlnhBiiXRBK2N31ny76EzKtCUuhUWWg81PC6+4k/kqlbH4szgMjaI5SXvaLT+f
+ Uv7n4ndzBd68obeME+y1OFGLjw+HY5EPHsTImaVO+3zFL7CsObWxt5HE4/yR/polhUufyy
+ k8iVTiDMYLYFfo4nTKR9FaDZEblRex0=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-172-EH3Yc5tJPoa_a4-4TSA_hA-1; Mon, 31 Jan 2022 09:00:38 -0500
-X-MC-Unique: EH3Yc5tJPoa_a4-4TSA_hA-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4215C46863;
- Mon, 31 Jan 2022 14:00:37 +0000 (UTC)
-Received: from paraplu (unknown [10.39.195.135])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2666B7B022;
- Mon, 31 Jan 2022 14:00:36 +0000 (UTC)
-Date: Mon, 31 Jan 2022 15:00:33 +0100
-From: Kashyap Chamarthy <kchamart@redhat.com>
-To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
-Subject: Re: [PATCH v2] docs: expand firmware descriptor to allow flash
- without NVRAM
-Message-ID: <YffrgRRVCEWVLS41@paraplu>
-References: <20220131125509.170307-1-berrange@redhat.com>
+ us-mta-292-hwZ1ieXhN2GEoMlKGF1JqQ-1; Mon, 31 Jan 2022 09:10:27 -0500
+X-MC-Unique: hwZ1ieXhN2GEoMlKGF1JqQ-1
+Received: by mail-ed1-f71.google.com with SMTP id
+ o5-20020a50c905000000b00403bbdcef64so6528201edh.14
+ for <qemu-devel@nongnu.org>; Mon, 31 Jan 2022 06:10:27 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=OzsMSkY1XluvSsoENoAndPGSeQxA08MiaeLLSNbx0eY=;
+ b=AhXcDEofYmDljydxmHlu3YOSyx9Xu5+eYVJ/ReDsegvtyqEEjucfVBPZjWw5usTC5m
+ NLnNKOpC1FbozeU4rZGPHWk33FW8apWBR2Wz4DIyhNOG/8WNcRPszH+m0yhwDIUVTxWW
+ 9bVD1fhb8nvqKONxxPWkJLzn7SuS0eoSEGCu1ZsOC+Ghk8d2GZNz4M+W9kPlJ4ZqiMZQ
+ YgSmhbT31WGI0kXZHbkVNwz+Qh8boDrSf4xh6RDEDDIBnCQ90OaRjthdMZ5MkGhj8Tra
+ c9ZS2lb1Q+H3NAA8wwm6zfsKsH1DfgCEIcc1+CSY4uEv0CfvZdKrAKdWP/q22Ozw32uk
+ IWRQ==
+X-Gm-Message-State: AOAM5300kvdEQYPuSlow1lrLdcu72ANdnqzugMxGvc9jhrY6UJdrBm0q
+ FbxL4r0jRbtjS++LxmgW3XVyfcnxE9GxJjzJ20sSkoSx4BjI9b/W70wy+mF6qH2TNTgz414TSuX
+ KTb5J4GiAidCQ1TQ=
+X-Received: by 2002:aa7:cd0e:: with SMTP id b14mr20579378edw.414.1643638226167; 
+ Mon, 31 Jan 2022 06:10:26 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyV/2h0mI1oHBp7IZDmGZ1Kiaxkx8QMmNuDwJSMuOu9hsTv2CLxJCEGnNkbJrzeGALDNUNCtQ==
+X-Received: by 2002:aa7:cd0e:: with SMTP id b14mr20579356edw.414.1643638225903; 
+ Mon, 31 Jan 2022 06:10:25 -0800 (PST)
+Received: from localhost (nat-pool-brq-t.redhat.com. [213.175.37.10])
+ by smtp.gmail.com with ESMTPSA id k20sm13678111eja.14.2022.01.31.06.10.25
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 31 Jan 2022 06:10:25 -0800 (PST)
+Date: Mon, 31 Jan 2022 15:10:24 +0100
+From: Igor Mammedov <imammedo@redhat.com>
+To: Ani Sinha <ani@anisinha.ca>
+Subject: Re: [PATCH 3/4] acpi: fix OEM ID/OEM Table ID padding
+Message-ID: <20220131151024.15070c15@redhat.com>
+In-Reply-To: <alpine.DEB.2.22.394.2201311854290.1478493@anisinha-lenovo>
+References: <20220112130332.1648664-1-imammedo@redhat.com>
+ <20220112130332.1648664-4-imammedo@redhat.com>
+ <CAARzgwyc4UkvDSfu_tg8PqvG9VUZWVuPgVv5NRWqAguJgc8Thw@mail.gmail.com>
+ <20220131142015.5e73ff90@redhat.com>
+ <alpine.DEB.2.22.394.2201311854290.1478493@anisinha-lenovo>
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.31; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <20220131125509.170307-1-berrange@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kchamart@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kchamart@redhat.com;
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=imammedo@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -68,7 +87,8 @@ X-Spam_bar: --
 X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.088,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -81,141 +101,78 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: libvir-list@redhat.com, qemu-devel@nongnu.org,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>
+Cc: qemu-stable@nongnu.org, "Michael S
+ . Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
+ "Dmitry V . Orekhov" <dima.orekhov@gmail.com>,
+ Marian Postevca <posteuca@mutex.one>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Jan 31, 2022 at 12:55:09PM +0000, Daniel P. Berrangé wrote:
-> The current firmware descriptor schema for flash requires that both the
-> executable to NVRAM template paths be provided. This is fine for the
-> most common usage of EDK2 builds in virtualization where the separate
-> _CODE and _VARS files are provided.
-> 
-> With confidential computing technology like AMD SEV, persistent storage
-> of variables may be completely disabled because the firmware requires a
-> known clean state on every cold boot. There is no way to express this
-> in the firmware descriptor today.
-> 
-> Even with regular EDK2 builds it is possible to create a firmware that
-> has both executable code and variable persistence in a single file. This
-> hasn't been commonly used, since it would mean every guest bootup would
-> need to clone the full firmware file, leading to redundant duplicate
-> storage of the code portion. In some scenarios this may not matter and
-> might even be beneficial. For example if a public cloud allows users to
-> bring their own firmware, such that the user can pre-enroll their own
-> secure boot keys, you're going to have this copied on disk for each
-> tenant already. At this point the it can be simpler to just deal with
-> a single file rather than split builds. The firmware descriptor ought
-> to be able to express this combined firmware model too.
+On Mon, 31 Jan 2022 18:58:57 +0530 (IST)
+Ani Sinha <ani@anisinha.ca> wrote:
 
-Cool, TIL that it's possible to include both the executable and the
-variables file into a single file.
-
-I briefly wondered if in this "combined" mode whether the no. of
-duplicate copies can ever fill up the storage.  I doubt that, as the
-combined size of _VARS + _CODE is just about 2MB.  So it only starts
-mattering if you're running tens of thousands of guests.
-
-> This all points towards expanding the schema for flash with a 'mode'
-> concept:
+> On Mon, 31 Jan 2022, Igor Mammedov wrote:
 > 
->  - "split" - the current implicit behaviour with separate files
->    for code and variables.
+> > On Mon, 31 Jan 2022 11:47:00 +0530
+> > Ani Sinha <ani@anisinha.ca> wrote:
+> >  
+> > > On Wed, Jan 12, 2022 at 6:33 PM Igor Mammedov <imammedo@redhat.com> wrote:  
+> > > >
+> > > > Commit [2] broke original '\0' padding of OEM ID and OEM Table ID
+> > > > fields in headers of ACPI tables. While it doesn't have impact on
+> > > > default values since QEMU uses 6 and 8 characters long values
+> > > > respectively, it broke usecase where IDs are provided on QEMU CLI.
+> > > > It shouldn't affect guest (but may cause licensing verification
+> > > > issues in guest OS).
+> > > > One of the broken usecases is user supplied SLIC table with IDs
+> > > > shorter than max possible length, where [2] mangles IDs with extra
+> > > > spaces in RSDT and FADT tables whereas guest OS expects those to
+> > > > mirror the respective values of the used SLIC table.
+> > > >
+> > > > Fix it by replacing whitespace padding with '\0' padding in
+> > > > accordance with [1] and expectations of guest OS
+> > > >
+> > > > 1) ACPI spec, v2.0b
+> > > >        17.2 AML Grammar Definition
+> > > >        ...
+> > > >        //OEM ID of up to 6 characters. If the OEM ID is
+> > > >        //shorter than 6 characters, it can be terminated
+> > > >        //with a NULL character.  
+> > >
+> > > On the other hand, from
+> > > https://uefi.org/specs/ACPI/6.4/21_ACPI_Data_Tables_and_Table_Def_Language/ACPI_Data_Tables.html
+> > > ,
+> > >
+> > > "For example, the OEM ID and OEM Table ID in the common ACPI table
+> > > header (shown above) are fixed at six and eight characters,
+> > > respectively. They are not necessarily null terminated"
+> > >
+> > > I also checked version 5 and the verbiage is the same. I think not
+> > > terminating with a null is not incorrect.  
+> >
+> > I have a trouble with too much 'not' within the sentence.  
 > 
->  - "combined" - the alternate behaviour where a single file contains
->    both code and variables.
+> :-)
 > 
->  - "stateless" - the confidential computing use case where storage
->    of variables is completely disable, leaving only the code.
+> > So what's the point of this comment and how it's related to
+> > this patch?  
+> 
+> My understanding of the spec is that null termination of both those IDs is
+> not mandatory. Guests may get confused or expect the strings to be null
+> termimated but they should really be open to expecting non-null terminated
+> strings as well. What is important is that the number of chars of those
+> two strings are fixed and well defined in the spec and qemu
+> implementation.
 >
-> Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
-> ---
->  docs/interop/firmware.json | 54 ++++++++++++++++++++++++++++++++------
->  1 file changed, 46 insertions(+), 8 deletions(-)
-> 
-> In v2:
-> 
->  - Mark 'mode' as optional field
->  - Misc typos in docs
-> 
-> diff --git a/docs/interop/firmware.json b/docs/interop/firmware.json
-> index 8d8b0be030..f5d1d0b6e7 100644
-> --- a/docs/interop/firmware.json
-> +++ b/docs/interop/firmware.json
-> @@ -210,24 +210,61 @@
->    'data'   : { 'filename' : 'str',
->                 'format'   : 'BlockdevDriver' } }
->  
-> +
-> +##
-> +# @FirmwareFlashType:
-> +#
-> +# Describes how the firmware build handles code versus variable
-> +# persistence.
-> +#
-> +# @split: the executable file contains code while the NVRAM
-> +#         template provides variable storage. The executable
-> +#         must be configured read-only and can be shared between
-> +#         multiple guests. The NVRAM template must be cloned
-> +#         for each new guest and configured read-write.
-> +#
-> +# @combined: the executable file contains both code and
-> +#            variable storage. The executable must be cloned
-> +#            for each new guest and configured read-write.
-> +#            No NVRAM template will be specified.
+> In any case, I think we can leave the patch as is for now and see if the
+> change causes trouble with other guests.
 
-Given my above wondering, is it worth adding a note here about storage
-considerations when running large number of guests in the "combined"
-mode?  If not, ignore my comment.
 
-> +# @stateless: the executable file contains code and variable
-> +#             storage is not persisted. The executed must
+these fields have a fixed length so one doesn't need terminating NULL
+in case the full length of the field is utilized, otherwise in case of
+where the value is shorter than max length it has to be null terminated
+to express a shorter value. That way QEMU worked for years until
+602b458201 introduced regression.
 
-I guess you meant: s/executed/executable/
-
-Whoever is applying the patch can touch it up.
-
-> +#             be configured read-only and can be shared
-> +#             between multiple guests. No NVRAM template
-> +#             will be specified.
-> +#
-> +# Since: 7.0.0
-> +##
-> +{ 'enum': 'FirmwareFlashMode',
-> +  'data': [ 'split', 'combined', 'stateless' ] }
-> +
->  ##
->  # @FirmwareMappingFlash:
->  #
->  # Describes loading and mapping properties for the firmware executable
->  # and its accompanying NVRAM file, when @FirmwareDevice is @flash.
->  #
-> -# @executable: Identifies the firmware executable. The firmware
-> -#              executable may be shared by multiple virtual machine
-> -#              definitions. The preferred corresponding QEMU command
-> -#              line options are
-> +# @mode: describes how the firmware build handles code versus variable
-> +#        storage. If not present, it must be treated as if it was
-> +#        configured with value ``split``. Since: 7.0.0
-
-For consistency, might want to capitalize the first word:
-s/describes/Describes/  
-
-(Here too, maintainer can touch it up.)
-
-[...]
-
-The concept looks very clear, and obviously useful.  FWIW:
-
-    Reviewed-by: Kashyap Chamarthy <kchamart@redhat.com>    
-
-> -- 
-> 2.34.1
-> 
-
--- 
-/kashyap
 
 
