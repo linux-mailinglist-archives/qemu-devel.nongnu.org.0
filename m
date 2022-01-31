@@ -2,64 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 051854A51C5
-	for <lists+qemu-devel@lfdr.de>; Mon, 31 Jan 2022 22:42:16 +0100 (CET)
-Received: from localhost ([::1]:54566 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A3AD4A51DA
+	for <lists+qemu-devel@lfdr.de>; Mon, 31 Jan 2022 22:49:55 +0100 (CET)
+Received: from localhost ([::1]:33236 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nEeRD-0003PX-2R
-	for lists+qemu-devel@lfdr.de; Mon, 31 Jan 2022 16:42:15 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:38772)
+	id 1nEeYc-0008Kc-LP
+	for lists+qemu-devel@lfdr.de; Mon, 31 Jan 2022 16:49:54 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:39220)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1nEeMO-0006dC-26
- for qemu-devel@nongnu.org; Mon, 31 Jan 2022 16:37:16 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:33893)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1nEeO5-00024D-Qm
+ for qemu-devel@nongnu.org; Mon, 31 Jan 2022 16:39:01 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:34146)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1nEeMK-0001Cw-RO
- for qemu-devel@nongnu.org; Mon, 31 Jan 2022 16:37:14 -0500
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1nEeO4-0001VY-9L
+ for qemu-devel@nongnu.org; Mon, 31 Jan 2022 16:39:01 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1643665032;
+ s=mimecast20190719; t=1643665139;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ST4AVF55fqzUgM1RbzLPzBWv3mCBlcI0cUwUoC0Qk6I=;
- b=I9Lb2H1oY8Exb5So4Yyr0CeH1ayTpWuCjX5oYu6QDCYoPSqlLquBHLOHoxixdjeES52v2S
- 3bym6JkgKmsSa7+szh3upiQHNJxpqpBJfzMGBJjwJdgbK5cinZlJJJRxcXWcFBoasw15SG
- 9oa5diIrAzvrAl5p/nhNVWeFrzzcKRs=
+ bh=1QSfxMqoKXio4YVc21QPqesbFBMXnGYCJgqhqjX/plQ=;
+ b=DtbXTMGzkrg4FBZHG8CGWfO9PWaiJCVa5ovOmzBpWMMgObDVGNt2jj7CNP1EdB/tS3l3X8
+ riH1RaNu47pMiq04IgU7Un9al/CUsASn4JjGjPUPbppMYV1vqGa6RJYkIysYyuDdASLF8s
+ d+aJRkJVWQvsXZN25gDp20/s3G/mnp8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-633-ud_POe-1PuG29qXuG5cPdA-1; Mon, 31 Jan 2022 16:37:06 -0500
-X-MC-Unique: ud_POe-1PuG29qXuG5cPdA-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-617-nVeiYTRQOwaeQjAMNr6r9g-1; Mon, 31 Jan 2022 16:38:56 -0500
+X-MC-Unique: nVeiYTRQOwaeQjAMNr6r9g-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4F53283DD20;
- Mon, 31 Jan 2022 21:37:05 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4F3F8824F83;
+ Mon, 31 Jan 2022 21:38:55 +0000 (UTC)
 Received: from redhat.com (unknown [10.22.32.61])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id DD7525DB94;
- Mon, 31 Jan 2022 21:37:02 +0000 (UTC)
-Date: Mon, 31 Jan 2022 15:37:00 -0600
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 91A4D6AB88;
+ Mon, 31 Jan 2022 21:38:54 +0000 (UTC)
+Date: Mon, 31 Jan 2022 15:38:52 -0600
 From: Eric Blake <eblake@redhat.com>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: Re: [PATCH] qapi/block: Cosmetic change in BlockExportType schema
-Message-ID: <20220131213700.7smrzizfuhg2befo@redhat.com>
-References: <20220119121439.214821-1-f4bug@amsat.org>
- <20220128205430.ispmytuw2vrpar4g@redhat.com>
- <50848a6d-98a9-3218-479b-7406850a06a2@amsat.org>
+To: Hanna Reitz <hreitz@redhat.com>
+Subject: Re: [PATCH v2] qsd: Document fuse's allow-other option
+Message-ID: <20220131213852.xx7ren7pgqy5yg6d@redhat.com>
+References: <20220131103124.20325-1-hreitz@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <50848a6d-98a9-3218-479b-7406850a06a2@amsat.org>
+In-Reply-To: <20220131103124.20325-1-hreitz@redhat.com>
 User-Agent: NeoMutt/20211029-256-77b59a
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=eblake@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
@@ -82,49 +78,23 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, qemu-devel@nongnu.org, qemu-block@nongnu.org,
- Markus Armbruster <armbru@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, Jan 30, 2022 at 07:50:41PM +0100, Philippe Mathieu-Daudé wrote:
-> On 28/1/22 21:54, Eric Blake wrote:
-> > On Wed, Jan 19, 2022 at 01:14:39PM +0100, Philippe Mathieu-Daudé wrote:
-> > > From: Philippe Mathieu-Daude <f4bug@amsat.org>
-
-'git am' used this line to insert the authorship...
-
-> > > 
-> > > From: Philippe Mathieu-Daudé <f4bug@amsat.org>
-
-...then left this line in the commit body, which I manually deleted,
-without spotting the difference between the two.
-
-> > 
-> > The doubled From: looks odd here.  I'll double-check that git doesn't
-> > mess up the actual commit once I apply the patch.
+On Mon, Jan 31, 2022 at 11:31:24AM +0100, Hanna Reitz wrote:
+> We did not add documentation to the storage daemon's man page for fuse's
+> allow-other option when it was introduced, so do that now.
 > 
-> I played with the git --from option to not appear in the list as
-> '"Philippe Mathieu-Daudé via" <qemu-devel@nongnu.org>':
-> https://lore.kernel.org/qemu-devel/efc5f304-f3d2-ff7b-99a6-673595ff0259@amsat.org/
-> by using a different sendemail.from (removing the acute in my
-> lastname) to force a correct author.from.
-> git-am should have picked the 2nd form, but I see the 1st in commit
-> 3a8fa0edd1. Just curious, did you had to modify it manually?
+> Fixes: 8fc54f9428b9763f800 ("export/fuse: Add allow-other option")
+> Signed-off-by: Hanna Reitz <hreitz@redhat.com>
+> ---
+> v2:
+> - Replaced instances of "QSD" by more generic descriptions, as suggested
+>   by Kevin.
+>
 
-Alas, since I managed to overlook the change in the acute (I suppose
-I'm cursed with having a boring name, so unlike many list participants
-who are overjoyed by the power of UTF-8 to make self-expression more
-accurate, I have not had as much experience with thinking about it),
-my manual edits explain why the merged commit ended up with a less
-desirable spelling.  I apologize for the mishap.  Do we need/want a
-.mailmap entry to aid git at listing your preferred spelling?
-
-> 
-> Anyway, thanks for merging this :)
-
-And thanks for bearing with developers that are still learning to
-overcome accidental cultural bias!
+Reviewed-by: Eric Blake <eblake@redhat.com>
 
 -- 
 Eric Blake, Principal Software Engineer
