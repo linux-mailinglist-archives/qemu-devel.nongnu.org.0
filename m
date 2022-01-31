@@ -2,60 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA8CC4A4440
-	for <lists+qemu-devel@lfdr.de>; Mon, 31 Jan 2022 12:30:39 +0100 (CET)
-Received: from localhost ([::1]:43194 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D3244A4516
+	for <lists+qemu-devel@lfdr.de>; Mon, 31 Jan 2022 12:40:50 +0100 (CET)
+Received: from localhost ([::1]:35584 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nEUtK-0006nv-Pz
-	for lists+qemu-devel@lfdr.de; Mon, 31 Jan 2022 06:30:38 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:34258)
+	id 1nEV3B-0004lY-N1
+	for lists+qemu-devel@lfdr.de; Mon, 31 Jan 2022 06:40:49 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:34654)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1nEUYg-00061I-VE; Mon, 31 Jan 2022 06:09:19 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:39892)
+ id 1nEUZ3-0006BR-JS; Mon, 31 Jan 2022 06:09:41 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:37244)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1nEUYb-000566-W7; Mon, 31 Jan 2022 06:09:17 -0500
-Received: from pps.filterd (m0098410.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 20V9sFn7005858; 
- Mon, 31 Jan 2022 11:08:44 GMT
-Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.99])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3dx66crpqp-1
+ id 1nEUYy-00055e-7B; Mon, 31 Jan 2022 06:09:40 -0500
+Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 20VA4gTf008250; 
+ Mon, 31 Jan 2022 11:08:45 GMT
+Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.98])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3dwv2wqu7y-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 31 Jan 2022 11:08:44 +0000
-Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
- by ppma04ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 20VB2Bob006677;
+ Mon, 31 Jan 2022 11:08:45 +0000
+Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
+ by ppma03ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 20VB2IBZ004475;
  Mon, 31 Jan 2022 11:08:42 GMT
-Received: from b06cxnps4074.portsmouth.uk.ibm.com
- (d06relay11.portsmouth.uk.ibm.com [9.149.109.196])
- by ppma04ams.nl.ibm.com with ESMTP id 3dvw79afyh-1
+Received: from b06cxnps4075.portsmouth.uk.ibm.com
+ (d06relay12.portsmouth.uk.ibm.com [9.149.109.197])
+ by ppma03ams.nl.ibm.com with ESMTP id 3dvw79afwe-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 31 Jan 2022 11:08:41 +0000
+ Mon, 31 Jan 2022 11:08:42 +0000
 Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com
  [9.149.105.61])
- by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 20VB8dEq44040448
+ by b06cxnps4075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 20VB8e5I48169398
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 31 Jan 2022 11:08:39 GMT
+ Mon, 31 Jan 2022 11:08:40 GMT
 Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 59C7811C04C;
- Mon, 31 Jan 2022 11:08:39 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 2099111C052;
+ Mon, 31 Jan 2022 11:08:40 +0000 (GMT)
 Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 05FA111C058;
+ by IMSVA (Postfix) with ESMTP id C0C4E11C04C;
  Mon, 31 Jan 2022 11:08:39 +0000 (GMT)
 Received: from smtp.tlslab.ibm.com (unknown [9.101.4.1])
  by d06av25.portsmouth.uk.ibm.com (Postfix) with SMTP;
- Mon, 31 Jan 2022 11:08:38 +0000 (GMT)
+ Mon, 31 Jan 2022 11:08:39 +0000 (GMT)
 Received: from yukon.ibmuc.com (unknown [9.171.57.185])
- by smtp.tlslab.ibm.com (Postfix) with ESMTP id 2A348220149;
+ by smtp.tlslab.ibm.com (Postfix) with ESMTP id E4FCA2201C1;
  Mon, 31 Jan 2022 12:08:38 +0100 (CET)
 From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 To: qemu-ppc@nongnu.org, qemu-devel@nongnu.org
-Subject: [PULL 30/41] target/ppc: books: Machine Check exception cleanup
-Date: Mon, 31 Jan 2022 12:08:00 +0100
-Message-Id: <20220131110811.619053-31-clg@kaod.org>
+Subject: [PULL 31/41] target/ppc: books: External interrupt cleanup
+Date: Mon, 31 Jan 2022 12:08:01 +0100
+Message-Id: <20220131110811.619053-32-clg@kaod.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220131110811.619053-1-clg@kaod.org>
 References: <20220131110811.619053-1-clg@kaod.org>
@@ -63,17 +63,17 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: D2lU7cF67q3aekJxGQ2hSPj-ypztn92t
-X-Proofpoint-ORIG-GUID: D2lU7cF67q3aekJxGQ2hSPj-ypztn92t
+X-Proofpoint-ORIG-GUID: DSxKlnPEXJdZ0MgrVwDOp2xdhFoMq5s_
+X-Proofpoint-GUID: DSxKlnPEXJdZ0MgrVwDOp2xdhFoMq5s_
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.816,Hydra:6.0.425,FMLib:17.11.62.513
  definitions=2022-01-31_04,2022-01-28_01,2021-12-02_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 impostorscore=0
- mlxlogscore=970 clxscore=1034 bulkscore=0 priorityscore=1501 adultscore=0
- spamscore=0 suspectscore=0 mlxscore=0 malwarescore=0 lowpriorityscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2201110000
- definitions=main-2201310074
+ priorityscore=1501
+ mlxlogscore=999 suspectscore=0 spamscore=0 clxscore=1034
+ lowpriorityscore=0 malwarescore=0 impostorscore=0 phishscore=0 mlxscore=0
+ adultscore=0 bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2201110000 definitions=main-2201310074
 Received-SPF: softfail client-ip=148.163.156.1; envelope-from=clg@kaod.org;
  helo=mx0a-001b2d01.pphosted.com
 X-Spam_score_int: -11
@@ -102,46 +102,75 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Fabiano Rosas <farosas@linux.ibm.com>
 
-powerpc_excp_books is BookS only, so remove 40x and BookE code.
+Since this is now BookS only, we can simplify the code a bit and check
+has_hv_mode instead of enumerating the exception models. LPES0 does
+not make sense if there is no MSR_HV.
+
+Note that QEMU does not support HV mode on 970 and POWER5+ so we don't
+set MSR_HV in msr_mask.
 
 Signed-off-by: Fabiano Rosas <farosas@linux.ibm.com>
 Reviewed-by: C=C3=A9dric Le Goater <clg@kaod.org>
-Message-Id: <20220124184605.999353-4-farosas@linux.ibm.com>
+Message-Id: <20220124184605.999353-5-farosas@linux.ibm.com>
 Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
 ---
- target/ppc/excp_helper.c | 17 -----------------
- 1 file changed, 17 deletions(-)
+ target/ppc/excp_helper.c | 30 +++++++-----------------------
+ 1 file changed, 7 insertions(+), 23 deletions(-)
 
 diff --git a/target/ppc/excp_helper.c b/target/ppc/excp_helper.c
-index 161b207bc7b8..be8c64a0cde9 100644
+index be8c64a0cde9..e0d6287c4e88 100644
 --- a/target/ppc/excp_helper.c
 +++ b/target/ppc/excp_helper.c
-@@ -632,23 +632,6 @@ static void powerpc_excp_books(PowerPCCPU *cpu, int =
-excp)
-         /* machine check exceptions don't have ME set */
-         new_msr &=3D ~((target_ulong)1 << MSR_ME);
+@@ -644,39 +644,23 @@ static void powerpc_excp_books(PowerPCCPU *cpu, int=
+ excp)
+     {
+         bool lpes0;
 =20
--        /* XXX: should also have something loaded in DAR / DSISR */
--        switch (excp_model) {
--        case POWERPC_EXCP_40x:
--            srr0 =3D SPR_40x_SRR2;
--            srr1 =3D SPR_40x_SRR3;
--            break;
--        case POWERPC_EXCP_BOOKE:
--            /* FIXME: choose one or the other based on CPU type */
--            srr0 =3D SPR_BOOKE_MCSRR0;
--            srr1 =3D SPR_BOOKE_MCSRR1;
+-        cs =3D CPU(cpu);
 -
--            env->spr[SPR_BOOKE_CSRR0] =3D env->nip;
--            env->spr[SPR_BOOKE_CSRR1] =3D msr;
--            break;
--        default:
--            break;
+         /*
+-         * Exception targeting modifiers
+-         *
+-         * LPES0 is supported on POWER7/8/9
+-         * LPES1 is not supported (old iSeries mode)
+-         *
+-         * On anything else, we behave as if LPES0 is 1
+-         * (externals don't alter MSR:HV)
++         * LPES0 is only taken into consideration if we support HV
++         * mode for this CPU.
+          */
+-#if defined(TARGET_PPC64)
+-        if (excp_model =3D=3D POWERPC_EXCP_POWER7 ||
+-            excp_model =3D=3D POWERPC_EXCP_POWER8 ||
+-            excp_model =3D=3D POWERPC_EXCP_POWER9 ||
+-            excp_model =3D=3D POWERPC_EXCP_POWER10) {
+-            lpes0 =3D !!(env->spr[SPR_LPCR] & LPCR_LPES0);
+-        } else
+-#endif /* defined(TARGET_PPC64) */
+-        {
+-            lpes0 =3D true;
++        if (!env->has_hv_mode) {
++            break;
+         }
+=20
++        lpes0 =3D !!(env->spr[SPR_LPCR] & LPCR_LPES0);
++
+         if (!lpes0) {
+             new_msr |=3D (target_ulong)MSR_HVB;
+             new_msr |=3D env->msr & ((target_ulong)1 << MSR_RI);
+             srr0 =3D SPR_HSRR0;
+             srr1 =3D SPR_HSRR1;
+         }
+-        if (env->mpic_proxy) {
+-            /* IACK the IRQ on delivery */
+-            env->spr[SPR_BOOKE_EPR] =3D ldl_phys(cs->as, env->mpic_iack)=
+;
 -        }
++
          break;
-     case POWERPC_EXCP_DSI:       /* Data storage exception              =
+     }
+     case POWERPC_EXCP_ALIGN:     /* Alignment exception                 =
      */
-         trace_ppc_excp_dsi(env->spr[SPR_DSISR], env->spr[SPR_DAR]);
 --=20
 2.34.1
 
