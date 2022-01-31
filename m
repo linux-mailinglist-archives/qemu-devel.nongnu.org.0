@@ -2,70 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BCBC44A508F
-	for <lists+qemu-devel@lfdr.de>; Mon, 31 Jan 2022 21:52:27 +0100 (CET)
-Received: from localhost ([::1]:56218 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F56A4A5016
+	for <lists+qemu-devel@lfdr.de>; Mon, 31 Jan 2022 21:24:55 +0100 (CET)
+Received: from localhost ([::1]:56674 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nEdf0-00054r-GG
-	for lists+qemu-devel@lfdr.de; Mon, 31 Jan 2022 15:52:26 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:43046)
+	id 1nEdEM-0000e9-7q
+	for lists+qemu-devel@lfdr.de; Mon, 31 Jan 2022 15:24:54 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:43034)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1nEcng-0004xT-5U
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1nEcnf-0004xN-Tk
  for qemu-devel@nongnu.org; Mon, 31 Jan 2022 14:57:20 -0500
-Received: from [2607:f8b0:4864:20::d34] (port=39860
- helo=mail-io1-xd34.google.com)
+Received: from [2607:f8b0:4864:20::d36] (port=43996
+ helo=mail-io1-xd36.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1nEcnb-0002g0-Hf
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1nEcnb-0002g6-Gc
  for qemu-devel@nongnu.org; Mon, 31 Jan 2022 14:57:19 -0500
-Received: by mail-io1-xd34.google.com with SMTP id c188so18404288iof.6
- for <qemu-devel@nongnu.org>; Mon, 31 Jan 2022 11:57:06 -0800 (PST)
+Received: by mail-io1-xd36.google.com with SMTP id z199so18396154iof.10
+ for <qemu-devel@nongnu.org>; Mon, 31 Jan 2022 11:57:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bsdimp-com.20210112.gappssmtp.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=yFznSEKSLa4wr4LT6m629JqoMGJyil+XeLDgIrumdQM=;
- b=UbOVK6+q8y5HMod4jvFX0eXD83YN1oQA8rQdJMXfc1bhcdEFb8/WrNZmZdgy6txIW9
- BxcAg8ufgc3J+V6zVpa77xl6LVPVFLkO7rKi3Sird2sdH5aVDhXgPcefAorQO3AR0DiE
- 6h2TZqmtTd05X1J/64a94pxJBOsbK/bqJG+WUWMAeJrwiXbQ9xc2ed/6ioPmhnWP/t8R
- 5EZDaNIieKxs12p3iVvcsbwym7DH1Nbd2R6CMAKeZxOFirDNDJvcIWbaeaSyZyEWfIS8
- VK83I3oHlBQ+6YKiuPwhzKlWF1aTOKDFiVPid8Yl4/8d8DTkMtajBoztoaA/xP592yki
- mVWw==
+ bh=sL+j8/qMLIuHq5OnGr0sHnHdREY1Bcj+mIcecdeQ4BA=;
+ b=Le2lBG1imaMOlTuR+qViUyb+VKQjzAdjCxdDgkWQa8t75c7WiDFbBrCO/TqXoGVZOT
+ fhiN32RTrIgLWckwhxYRZxSX3uqJYLuPp/YARAtE3jejMYD1pAkEBLAdwSelZMQS7g0M
+ yRZLEnQsH7b6i26xCXxEfnEFV1CTEWyhiB+1zE3MFBlu7jNHsgECNaV1Go3CxFuaKbWm
+ bFdHF3do1cBiNqFj4EQwd5Jd38PT1m6y5B5Jj600nfVLcgd/VhLXUGSdH/dwV/Ib/fcS
+ YTjDAYGdfl1rAA2iNel6M+eS6kYsc3otsBvdAAMQDNapdGipz2Emve2Tpe2vJeXdPMjZ
+ y5Qw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=yFznSEKSLa4wr4LT6m629JqoMGJyil+XeLDgIrumdQM=;
- b=7LENEb1e43Pycba9FufACJLtrp7nGYdoewHmgtqciUa5VKcUsCFpMLT02THsZWcKrS
- Re5Zouv6lWltKofdO/dccL5AFwwklBheL6WhK/Mm+hXoIqGs70Pa6y8dY6RA0BYk4gC9
- 0S+PJV8/hBio4kWUQKeus69TioV5LOEFFZDTli5Daf2rSZ9FAGOVcVYxsd9kamAtEeYS
- RfOL3KIgd4fS3dHJZFb/rCyOMbEgU7CFIJVDE+xgfvm1TcCgEzNt/RHwV+dYFqVba7Zx
- RIuIm4uO2elnhcx6vQDFw3iusEC8/a+mjjnR+S/JYXch4xiiHxr2qgoW/rq31PWO6E0g
- UN9w==
-X-Gm-Message-State: AOAM53247IWZjw4zk0WhSiqEx74/ps8PpRFLySXcExGiS1iO2gEM6Ipn
- rNlZ5Fk1qyuAHRMtK5sh6HXyX8ezaJm79g==
-X-Google-Smtp-Source: ABdhPJw+lO5ryTJS5ySw4nqeeI2EW0ziKWe5q6gu1atKWc2bLrz41WXyBfRdeVafUXTHAXKFIySjOw==
-X-Received: by 2002:a02:a602:: with SMTP id c2mr4602171jam.220.1643659024973; 
- Mon, 31 Jan 2022 11:57:04 -0800 (PST)
+ bh=sL+j8/qMLIuHq5OnGr0sHnHdREY1Bcj+mIcecdeQ4BA=;
+ b=1BQoNC/nBviEnIPIA+kus4Q8TrQ5NWfeFBiUbUYRnsXnnMQfWD1nbPfn+xsUadSHga
+ wzsyRF32sXZgRrfiQwBQkjLSqkX85qPSpwx+YGR9xON+eWzlOpJAqvmH17tDLwEez7ro
+ UqnlKXNIpizA2C3CtsgR8E91EjQtLRUp/ouFFUaPoCWOgZndJ/vqCzchmkBah0qudDfR
+ vG1fole4Vy7TvC8hM58lbjQwYoEnBCgR167MeBwZY5GkDclsKVYAAHpmxqp2bxzneWqz
+ 4lkh0nqfdgzVW/dWR4m74cJ0t+jjzLWZkQehbC3rkv91rVBLcH1QlI1m5y06Px9kjhNg
+ vLKw==
+X-Gm-Message-State: AOAM533XFXEh6jacqH18oCgKM3UZz3/sQChYsXVfQOewWNTUXIxqc0yF
+ 50zKBTqHt9Sht5OG+s2jggztF7ls+vu27g==
+X-Google-Smtp-Source: ABdhPJxR1AOshpL+V70GZE6wP8TOEwv1vfhCbgAlbnfuaU6m3XMpaTJNJrbGapB6/ilkA15xlxUKrA==
+X-Received: by 2002:a02:6988:: with SMTP id
+ e130mr11298152jac.120.1643659026112; 
+ Mon, 31 Jan 2022 11:57:06 -0800 (PST)
 Received: from dune.bsdimp.com (50-253-99-174-static.hfc.comcastbusiness.net.
  [50.253.99.174])
- by smtp.gmail.com with ESMTPSA id j2sm1972989ilu.82.2022.01.31.11.57.03
+ by smtp.gmail.com with ESMTPSA id j2sm1972989ilu.82.2022.01.31.11.57.05
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 31 Jan 2022 11:57:04 -0800 (PST)
+ Mon, 31 Jan 2022 11:57:05 -0800 (PST)
 From: Warner Losh <imp@bsdimp.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 34/40] bsd-user/signal.c: process_pending_signals
-Date: Mon, 31 Jan 2022 12:56:30 -0700
-Message-Id: <20220131195636.31991-35-imp@bsdimp.com>
+Subject: [PULL 35/40] bsd-user/signal.c: implement do_sigreturn
+Date: Mon, 31 Jan 2022 12:56:31 -0700
+Message-Id: <20220131195636.31991-36-imp@bsdimp.com>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <20220131195636.31991-1-imp@bsdimp.com>
 References: <20220131195636.31991-1-imp@bsdimp.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::d34
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::d36
  (failed)
-Received-SPF: none client-ip=2607:f8b0:4864:20::d34;
- envelope-from=imp@bsdimp.com; helo=mail-io1-xd34.google.com
+Received-SPF: none client-ip=2607:f8b0:4864:20::d36;
+ envelope-from=imp@bsdimp.com; helo=mail-io1-xd36.google.com
 X-Spam_score_int: -10
 X-Spam_score: -1.1
 X-Spam_bar: -
@@ -92,84 +93,99 @@ Cc: Peter Maydell <peter.maydell@linaro.org>, Stacey Son <sson@FreeBSD.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Process the currently queued signals.
+Implements the meat of a sigreturn(2) system call via do_sigreturn, and
+helper reset_signal_mask. Fix the prototype of do_sigreturn in qemu.h
+and remove do_rt_sigreturn since it's linux only.
 
 Signed-off-by: Stacey Son <sson@FreeBSD.org>
 Signed-off-by: Kyle Evans <kevans@freebsd.org>
 Signed-off-by: Warner Losh <imp@bsdimp.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- bsd-user/signal.c | 56 ++++++++++++++++++++++++++++++++++++++++++++++-
- 1 file changed, 55 insertions(+), 1 deletion(-)
+ bsd-user/signal-common.h |  2 +-
+ bsd-user/signal.c        | 56 ++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 57 insertions(+), 1 deletion(-)
 
+diff --git a/bsd-user/signal-common.h b/bsd-user/signal-common.h
+index ee819266f54..786ec592d18 100644
+--- a/bsd-user/signal-common.h
++++ b/bsd-user/signal-common.h
+@@ -11,7 +11,7 @@
+ 
+ long do_rt_sigreturn(CPUArchState *env);
+ abi_long do_sigaltstack(abi_ulong uss_addr, abi_ulong uoss_addr, abi_ulong sp);
+-long do_sigreturn(CPUArchState *env);
++long do_sigreturn(CPUArchState *env, abi_ulong addr);
+ void force_sig_fault(int sig, int code, abi_ulong addr);
+ int host_to_target_signal(int sig);
+ void host_to_target_sigset(target_sigset_t *d, const sigset_t *s);
 diff --git a/bsd-user/signal.c b/bsd-user/signal.c
-index 34e8c811ad6..4b398745f45 100644
+index 4b398745f45..150262a87e5 100644
 --- a/bsd-user/signal.c
 +++ b/bsd-user/signal.c
-@@ -756,8 +756,62 @@ static void handle_pending_signal(CPUArchState *env, int sig,
-     }
+@@ -627,6 +627,62 @@ static void setup_frame(int sig, int code, struct target_sigaction *ka,
+     unlock_user_struct(frame, frame_addr, 1);
  }
  
--void process_pending_signals(CPUArchState *cpu_env)
-+void process_pending_signals(CPUArchState *env)
- {
-+    CPUState *cpu = env_cpu(env);
-+    int sig;
-+    sigset_t *blocked_set, set;
-+    struct emulated_sigtable *k;
-+    TaskState *ts = cpu->opaque;
++static int reset_signal_mask(target_ucontext_t *ucontext)
++{
++    int i;
++    sigset_t blocked;
++    target_sigset_t target_set;
++    TaskState *ts = (TaskState *)thread_cpu->opaque;
 +
-+    while (qatomic_read(&ts->signal_pending)) {
-+        sigfillset(&set);
-+        sigprocmask(SIG_SETMASK, &set, 0);
-+
-+    restart_scan:
-+        sig = ts->sync_signal.pending;
-+        if (sig) {
-+            /*
-+             * Synchronous signals are forced by the emulated CPU in some way.
-+             * If they are set to ignore, restore the default handler (see
-+             * sys/kern_sig.c trapsignal() and execsigs() for this behavior)
-+             * though maybe this is done only when forcing exit for non SIGCHLD.
-+             */
-+            if (sigismember(&ts->signal_mask, target_to_host_signal(sig)) ||
-+                sigact_table[sig - 1]._sa_handler == TARGET_SIG_IGN) {
-+                sigdelset(&ts->signal_mask, target_to_host_signal(sig));
-+                sigact_table[sig - 1]._sa_handler = TARGET_SIG_DFL;
-+            }
-+            handle_pending_signal(env, sig, &ts->sync_signal);
++    for (i = 0; i < TARGET_NSIG_WORDS; i++) {
++        if (__get_user(target_set.__bits[i],
++                    &ucontext->uc_sigmask.__bits[i])) {
++            return -TARGET_EFAULT;
 +        }
-+
-+        k = ts->sigtab;
-+        for (sig = 1; sig <= TARGET_NSIG; sig++, k++) {
-+            blocked_set = ts->in_sigsuspend ?
-+                &ts->sigsuspend_mask : &ts->signal_mask;
-+            if (k->pending &&
-+                !sigismember(blocked_set, target_to_host_signal(sig))) {
-+                handle_pending_signal(env, sig, k);
-+                /*
-+                 * Restart scan from the beginning, as handle_pending_signal
-+                 * might have resulted in a new synchronous signal (eg SIGSEGV).
-+                 */
-+                goto restart_scan;
-+            }
-+        }
-+
-+        /*
-+         * Unblock signals and check one more time. Unblocking signals may cause
-+         * us to take another host signal, which will set signal_pending again.
-+         */
-+        qatomic_set(&ts->signal_pending, 0);
-+        ts->in_sigsuspend = false;
-+        set = ts->signal_mask;
-+        sigdelset(&set, SIGSEGV);
-+        sigdelset(&set, SIGBUS);
-+        sigprocmask(SIG_SETMASK, &set, 0);
 +    }
-+    ts->in_sigsuspend = false;
- }
- 
- void cpu_loop_exit_sigsegv(CPUState *cpu, target_ulong addr,
++    target_to_host_sigset_internal(&blocked, &target_set);
++    ts->signal_mask = blocked;
++
++    return 0;
++}
++
++/* See sys/$M/$M/exec_machdep.c sigreturn() */
++long do_sigreturn(CPUArchState *env, abi_ulong addr)
++{
++    long ret;
++    abi_ulong target_ucontext;
++    target_ucontext_t *ucontext = NULL;
++
++    /* Get the target ucontext address from the stack frame */
++    ret = get_ucontext_sigreturn(env, addr, &target_ucontext);
++    if (is_error(ret)) {
++        return ret;
++    }
++    trace_user_do_sigreturn(env, addr);
++    if (!lock_user_struct(VERIFY_READ, ucontext, target_ucontext, 0)) {
++        goto badframe;
++    }
++
++    /* Set the register state back to before the signal. */
++    if (set_mcontext(env, &ucontext->uc_mcontext, 1)) {
++        goto badframe;
++    }
++
++    /* And reset the signal mask. */
++    if (reset_signal_mask(ucontext)) {
++        goto badframe;
++    }
++
++    unlock_user_struct(ucontext, target_ucontext, 0);
++    return -TARGET_EJUSTRETURN;
++
++badframe:
++    if (ucontext != NULL) {
++        unlock_user_struct(ucontext, target_ucontext, 0);
++    }
++    return -TARGET_EFAULT;
++}
++
+ void signal_init(void)
+ {
+     TaskState *ts = (TaskState *)thread_cpu->opaque;
 -- 
 2.33.1
 
