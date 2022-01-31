@@ -2,73 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 38C8C4A3DB5
-	for <lists+qemu-devel@lfdr.de>; Mon, 31 Jan 2022 07:36:24 +0100 (CET)
-Received: from localhost ([::1]:41258 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2FC9D4A3E12
+	for <lists+qemu-devel@lfdr.de>; Mon, 31 Jan 2022 08:08:39 +0100 (CET)
+Received: from localhost ([::1]:47060 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nEQIY-0004Nc-Qg
-	for lists+qemu-devel@lfdr.de; Mon, 31 Jan 2022 01:36:22 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:35572)
+	id 1nEQnl-000212-FM
+	for lists+qemu-devel@lfdr.de; Mon, 31 Jan 2022 02:08:37 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:37116)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1nEQGV-0003c0-DF; Mon, 31 Jan 2022 01:34:15 -0500
-Received: from [2607:f8b0:4864:20::d2f] (port=37482
- helo=mail-io1-xd2f.google.com)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nEQPe-0006iZ-7U
+ for qemu-devel@nongnu.org; Mon, 31 Jan 2022 01:43:46 -0500
+Received: from [2607:f8b0:4864:20::102c] (port=52092
+ helo=mail-pj1-x102c.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1nEQGS-00082u-FC; Mon, 31 Jan 2022 01:34:13 -0500
-Received: by mail-io1-xd2f.google.com with SMTP id n17so15445703iod.4;
- Sun, 30 Jan 2022 22:34:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=FQRGwxcjhZ7j5jntoCET/NSCqSVLiRF+K8hs9vX7USc=;
- b=RqN4PtxC2RY1BpoikVMCbsw3BAkGTa40xwEDq8VGg1CYZY0wAISSri6lUgpVc6U1Dj
- KcivoWVdGWCTkNvCyaURC1kx3Pg9u6qCsSN3oDt0lbjE8MTi+g+sC/I41s2527HJOuQC
- Esek1MxKzyjuxqh7Cl7y9HwuBbsilnZw6AlZ+3NBibBCE3EVIvaMcW7D5/lvxwHj+XNj
- jVnmhXn0c2fnI8AiGlTrSxLhSkdyBqNG+gMahys02D/En6xwrrTW73mvznykNuq08o8o
- SBCvxH0r4wN2f/w0BRZIWxsP7VwO2de5O1xJ+kwvlV8KQ4/3UJK/xGkgKZ7TUGRFp1rA
- ghfA==
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nEQPZ-00010l-Ix
+ for qemu-devel@nongnu.org; Mon, 31 Jan 2022 01:43:38 -0500
+Received: by mail-pj1-x102c.google.com with SMTP id q63so12994291pja.1
+ for <qemu-devel@nongnu.org>; Sun, 30 Jan 2022 22:43:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=O3KWhBCDPYFSkCGhIBtPmmlCDjr3D1zTasIv/6/wYd8=;
+ b=NJYIwiqkmUf43a8dAf7ML/19uujVldprdmhE8QVjci3qb9s6Y5cQKeBkkWab0bIZtx
+ EKRI8degL981YBudPltTuYSVlR2foBUDlEdWDzVLqwbqmZ4w1VJoo01tw0pzPosFXmnM
+ 0SO1TDQ9dGkp9hqPKK1LpQ3GM+6cOTh9PVll5oFS5Uf6+HMJn+70QBcuJdwXMEekod9A
+ 3fGLjUHHX0yNY7EV5zrPelYRxUkoAQwiAaDep9C2bp+rUADTG/sJTd4SnGJXnSCW+vtb
+ 1Wzn9NH59QQVFCy5gqM/rKIM2LCB0j1Pe1KKBsw4vQ8779GApNO20QKKYef8w188VeUy
+ 3QpA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=FQRGwxcjhZ7j5jntoCET/NSCqSVLiRF+K8hs9vX7USc=;
- b=owOYUuwYW5tWpVVqasxDhZMu/fnOfq/lrvCp6g49KfLReWNIHziGOIdswhkm5HjL7X
- M/U2ZiVvNMmmW2SKpqidYphojClCAWlZn5COSAqtUaWNWbZNhNhfIY63mFrb9isa7c6T
- npWIJxsDLesg7re/tW0g4iVcO7is1TTUVRTiW9l58TUGoYx1vSX9M5q1CvL+lIiTA/JJ
- yvxxAOpY7XhiaylKO/IwbOwU/aMDxrePkYiBQmpPScOK174AAGt5dVZLkBSSZOEiNf/d
- HcrRBOmtopb++SF7phlV8hAtvgVu6XBEiLXtUBmDZbnY1Q0efFrjaL1Vow0t0hg5Mh6j
- MrRA==
-X-Gm-Message-State: AOAM5306F/6YnFQ5YR9a5v8XBiljrGVbjxG5Z77PXFXWpmeD/e4hiula
- KM1/AtzW906IywuplFALo8ZsVOIBi4nwuaukIeI=
-X-Google-Smtp-Source: ABdhPJzYa0iAdRdi+9xE79Pn/JDw7WOX7XrlbpgLfIocAaVJW8opXyi8am5LFQIXLCpUT3hNvNxg8tj9k2aOQxwb3fQ=
-X-Received: by 2002:a02:c956:: with SMTP id u22mr9751007jao.63.1643610850581; 
- Sun, 30 Jan 2022 22:34:10 -0800 (PST)
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=O3KWhBCDPYFSkCGhIBtPmmlCDjr3D1zTasIv/6/wYd8=;
+ b=bggjs/ZqyChF4bp8tQjFin1PepN5NXEkQN3oGhxtOHxt1vLYWSBdU6NH8eT6RZ4DT6
+ CFKtXGeQ3RdQ+4VexeAbwB0ckqZEcFiaSnjqF0noK7JgoAftpQBkx621NUzLRuIU20dP
+ YXD2CFUTu9RRTtdrahIiIuwf0yUHyh1SvmAlm67pA8Iu900S75mNaRr0bRWBKj9UNkcL
+ js4aRRQRm2gxd4sCwLJCrW3bHUUcD80NNeBYGo5GoEgK4KJJ0ok3zJOIUKghFKFHb0ae
+ 1GrqX3a0/2Sc32UYR/BLWcY3HvzHbEUATkXcCY2ET8FsZb+uLH1wQiLTQrb0Z2NcbNOM
+ 3NOg==
+X-Gm-Message-State: AOAM530xYJD1VZfBZOzcokHjP38WoENsyAwvm796IBwx+UqKY7fn9hIe
+ uzur0gEEyiuIZ/vTP6WrWdVYvQ==
+X-Google-Smtp-Source: ABdhPJygD+nohy2962Qqkkfeei6Lkl7y03kAslDCSs944Hjm0pG+obMAV9J65eFQQzRz22dl39ziBw==
+X-Received: by 2002:a17:90a:8c8b:: with SMTP id
+ b11mr434051pjo.197.1643611415092; 
+ Sun, 30 Jan 2022 22:43:35 -0800 (PST)
+Received: from [192.168.15.130] ([60.231.85.5])
+ by smtp.gmail.com with ESMTPSA id h17sm11695068pfv.198.2022.01.30.22.43.27
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 30 Jan 2022 22:43:34 -0800 (PST)
+Message-ID: <63a2ba3b-18fd-5a55-34f2-f9aa20466edf@linaro.org>
+Date: Mon, 31 Jan 2022 17:43:23 +1100
 MIME-Version: 1.0
-References: <20220120200735.2739543-1-atishp@rivosinc.com>
- <20220120200735.2739543-2-atishp@rivosinc.com>
- <fc833a66-c0fe-931a-ab7e-e81917a8d786@linaro.org>
- <CAHBxVyGOuLWPs1-10GTAtz6=QMDybOq4h5dXLq7NcDYOTn9nuA@mail.gmail.com>
-In-Reply-To: <CAHBxVyGOuLWPs1-10GTAtz6=QMDybOq4h5dXLq7NcDYOTn9nuA@mail.gmail.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Mon, 31 Jan 2022 16:33:44 +1000
-Message-ID: <CAKmqyKOG69wcrL0z8MMtjiyLjGrfwTx-mLM-KsSuMfWXZjCjkg@mail.gmail.com>
-Subject: Re: [RFC 1/5] target/riscv: Add the privileged spec version 1.12.0
-To: Atish Kumar Patra <atishp@rivosinc.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::d2f
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH 04/16] hw/arm: imx: Don't enable PSCI conduit when booting
+ guest in EL3
+Content-Language: en-US
+To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org
+References: <20220127154639.2090164-1-peter.maydell@linaro.org>
+ <20220127154639.2090164-5-peter.maydell@linaro.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20220127154639.2090164-5-peter.maydell@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::102c
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d2f;
- envelope-from=alistair23@gmail.com; helo=mail-io1-xd2f.google.com
-X-Spam_score_int: -10
-X-Spam_score: -1.1
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102c;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102c.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
 X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, PDS_HP_HELO_NORDNS=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -81,55 +94,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Anup Patel <anup@brainfault.org>, Bin Meng <bin.meng@windriver.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Alistair Francis <alistair.francis@wdc.com>,
- Palmer Dabbelt <palmer@dabbelt.com>
+Cc: Eduardo Habkost <eduardo@habkost.net>, Rob Herring <robh@kernel.org>,
+ Andrew Jeffery <andrew@aj.id.au>, Andre Przywara <andre.przywara@arm.com>,
+ Alistair Francis <alistair@alistair23.me>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ Jean-Christophe Dubois <jcd@tribudubois.net>,
+ Beniamino Galvani <b.galvani@gmail.com>, Tyrone Ting <kfting@nuvoton.com>,
+ Niek Linnenbank <nieklinnenbank@gmail.com>, Alexander Graf <agraf@csgraf.de>,
+ Igor Mitsyanko <i.mitsyanko@gmail.com>,
+ =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
+ Havard Skinnemoen <hskinnemoen@google.com>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ Yanan Wang <wangyanan55@huawei.com>, Andrey Smirnov <andrew.smirnov@gmail.com>,
+ Joel Stanley <joel@jms.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sat, Jan 29, 2022 at 10:57 AM Atish Kumar Patra <atishp@rivosinc.com> wrote:
->
->
->
-> On Sun, Jan 23, 2022 at 11:59 PM Richard Henderson <richard.henderson@linaro.org> wrote:
->>
->> On 1/21/22 7:07 AM, Atish Patra wrote:
->> > Add the definition for ratified privileged specification version v1.12
->> >
->> > Signed-off-by: Atish Patra <atishp@rivosinc.com>
->> > ---
->> >   target/riscv/cpu.h | 1 +
->> >   1 file changed, 1 insertion(+)
->> >
->> > diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
->> > index 4d630867650a..671f65100b1a 100644
->> > --- a/target/riscv/cpu.h
->> > +++ b/target/riscv/cpu.h
->> > @@ -82,6 +82,7 @@ enum {
->> >
->> >   #define PRIV_VERSION_1_10_0 0x00011000
->> >   #define PRIV_VERSION_1_11_0 0x00011100
->> > +#define PRIV_VERSION_1_12_0 0x00011200
->>
->> Is there any good reason for defining things this way, as opposed to a simple enumeration?
->> A simple enum would eliminate the need for
->>
->
-> Agreed. A simple enum would be much nicer. I was just following the previous definition of
-> PRIV_VERSION_1_10_0 & PRIV_VERSION_1_11_0.
->
-> I am not sure about the reason behind this scheme.
->
-> @Alistair Francis Is there any history behind this scheme ?
+On 1/28/22 02:46, Peter Maydell wrote:
+> Change the iMX-SoC based boards to use the new boot.c functionality
+> to allow us to enable psci-conduit only if the guest is being booted
+> in EL1 or EL2, so that if the user runs guest EL3 firmware code our
+> PSCI emulation doesn't get in its way.
+> 
+> To do this we stop setting the psci-conduit property on the CPU
+> objects in the SoC code, and instead set the psci_conduit field in
+> the arm_boot_info struct to tell the common boot loader code that
+> we'd like PSCI if the guest is starting at an EL that it makes
+> sense with.
+> 
+> This affects the mcimx6ul-evk and mcimx7d-sabre boards.
+> 
+> Note that for the mcimx7d board, this means that when running guest
+> code at EL3 there is currently no way to power on the secondary CPUs,
+> because we do not currently have a model of the system reset
+> controller module which should be used to do that for the imx7 SoC,
+> only for the imx6 SoC.  (Previously EL3 code which knew it was
+> running on QEMU could use a PSCI call to do this.) This doesn't
+> affect the imx6ul-evk board because it is uniprocessor.
+> 
+> Signed-off-by: Peter Maydell<peter.maydell@linaro.org>
+> ---
+> I don't have the i.mx7 manual to hand, so I'm partly making
+> assumptions based on the i.mx6 behaviour. If somebody with the
+> manual could double-check that it does indeed start up with the
+> secondary CPUs powered down via the SRC that would be great.
+> ---
+>   hw/arm/fsl-imx6ul.c    | 2 --
+>   hw/arm/fsl-imx7.c      | 8 ++++----
+>   hw/arm/mcimx6ul-evk.c  | 1 +
+>   hw/arm/mcimx7d-sabre.c | 1 +
+>   4 files changed, 6 insertions(+), 6 deletions(-)
 
-I don't think so
+Acked-by: Richard Henderson <richard.henderson@linaro.org>
 
-> or Are you okay if I change it ?
-
-Yep :)
-
-Alistair
+r~
 
