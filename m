@@ -2,82 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF9304A3F0B
-	for <lists+qemu-devel@lfdr.de>; Mon, 31 Jan 2022 10:07:47 +0100 (CET)
-Received: from localhost ([::1]:44156 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 31A604A3F09
+	for <lists+qemu-devel@lfdr.de>; Mon, 31 Jan 2022 10:07:45 +0100 (CET)
+Received: from localhost ([::1]:43974 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nESf4-0006wU-QJ
-	for lists+qemu-devel@lfdr.de; Mon, 31 Jan 2022 04:07:46 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:34552)
+	id 1nESf1-0006o5-Kj
+	for lists+qemu-devel@lfdr.de; Mon, 31 Jan 2022 04:07:43 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:34946)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1nESZx-0004eA-Rz
- for qemu-devel@nongnu.org; Mon, 31 Jan 2022 04:03:20 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:37012)
+ id 1nESbL-0004pK-14
+ for qemu-devel@nongnu.org; Mon, 31 Jan 2022 04:03:55 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:52236)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1nESZa-0003Mx-DB
- for qemu-devel@nongnu.org; Mon, 31 Jan 2022 04:02:12 -0500
+ id 1nESbH-0003fH-1W
+ for qemu-devel@nongnu.org; Mon, 31 Jan 2022 04:03:53 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1643619622;
+ s=mimecast20190719; t=1643619825;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=orOot2lrwexzeLQtb8k0N+ak6H+GPw7vMQbme+7gk/o=;
- b=ERC1cil8xhj6QHI6OrOlHXK4XCiRsluts0o/zs6IspzegMFYpQHUFJF2RDvqA+QA1/dKXC
- stL/KP10ZUb6nN2oeQDm6xsZf8/zQ7pbVjeq+TgTU7F+sauINEVl/3Wq5iQV9CWVvJbzlT
- vSg1uVkwjYJh9BZbmwn4SKFQ6e6Isg0=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=/tJNqqyd7R10N2YzyaNOpnCH3qAZTzi0reSjbfLddrU=;
+ b=R3lUFG+sAAslcEFnJZArbMuf0135hkwOab+4uoHY5eZkU4NG0HPVv9SLqpkpe12EotfnVt
+ 3KBgVgC1Xu9L+KBJXPs8k83yovN301ioiNhaiLYbIAUug0biENyOTJAg8pHlcVtIBNWAmt
+ 81f514RkqyV4mPwHZXfuBK8UL/LTED4=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-652-nqIKJAFnMQeG_d4FoD7GDQ-1; Mon, 31 Jan 2022 04:00:21 -0500
-X-MC-Unique: nqIKJAFnMQeG_d4FoD7GDQ-1
-Received: by mail-wr1-f69.google.com with SMTP id
- g17-20020adfa591000000b001da86c91c22so4554551wrc.5
- for <qemu-devel@nongnu.org>; Mon, 31 Jan 2022 01:00:21 -0800 (PST)
+ us-mta-219-Jn8vg6nYOxaHLX5A-VDPRQ-1; Mon, 31 Jan 2022 04:03:44 -0500
+X-MC-Unique: Jn8vg6nYOxaHLX5A-VDPRQ-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ r27-20020adfb1db000000b001d7567e33baso4516171wra.12
+ for <qemu-devel@nongnu.org>; Mon, 31 Jan 2022 01:03:44 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:in-reply-to:references
  :user-agent:reply-to:date:message-id:mime-version;
- bh=orOot2lrwexzeLQtb8k0N+ak6H+GPw7vMQbme+7gk/o=;
- b=P46lxNqj9lTNRHEA6JYRhpxgX4Xi95aSRsepV1dmkSXXx0Yn9WfX2CnqOhLqh1JxRx
- 8HtperH5ruLCFlbjbDdllFni3j3ZQiwyLTIlZJLspvbmVuJaM9IqMkmYdDez+CPlDihD
- PlDRYfOuNgxMsppi1acnZ7WAVroAagnbWqc2ic2efCRxYps2C7hRPNRSf9DMC7rFFDEy
- pegabF55QVkAssw5sC89CyVjrmLSNWEiXMPIEb3YW8aIQZf0qeo26xovAKNKDM+LQf+Y
- k2BPeifeWq3iir8qcFBm4OIPzZmgc0CwpWtW6PUfurwhwWpTCBgYjxm1hZzyoERCvuCu
- Lojw==
-X-Gm-Message-State: AOAM53183Pd8pp75QRBTYTRjy5Dp0uB0f4eYTdL0H/ZfLz5OCwQj6R7R
- ukq/qZN/e2WbJtm+HNldPM4kIy+2nnKwT/U7VaWfPI0ODrfJsvXHefv8ES4xdzK4IThgV3F+41t
- fv0mHg2S3d172a94=
-X-Received: by 2002:a1c:2b01:: with SMTP id r1mr17530069wmr.63.1643619620379; 
- Mon, 31 Jan 2022 01:00:20 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyQNZR0YEtvuN4Y8rEzC9A0bmcbRo3djIo3APvoDBzwvDVDXPieq7n4Dtk1DrOB4B0M8YF9/A==
-X-Received: by 2002:a1c:2b01:: with SMTP id r1mr17530050wmr.63.1643619620182; 
- Mon, 31 Jan 2022 01:00:20 -0800 (PST)
+ bh=/tJNqqyd7R10N2YzyaNOpnCH3qAZTzi0reSjbfLddrU=;
+ b=0Y7z7+8MbJpsiNtYFTkPdj8ZPJQnqR5c6ytpfvIgPMBTPj5FViWmK8pj+J0HcOpiwS
+ n7DB+69RYmbQJ1oh567ko0BWMOFv6IGUdMCwG8Lt8DGUkx87HsYUkIAJd0wJHzsB37ib
+ aUa5r1plyGjm870DV5GJYjvvdNPdS+dzR67jUJSXB88u+QcUwzp1xxNdpJfnvGnUoJqW
+ tmIwned+Kb2L0DX0BmnaXohfV9KUIcTbZswtWHXfTzvkIEnrJ5iSoB43DE/49FhspmsA
+ 8B/JtKOEnkEVMQKi/UaGbDQn0P5ay8R2Uu8mhKcF8v2GbK9ApGZJJ5Z5WHHdDge5WAmg
+ h0hA==
+X-Gm-Message-State: AOAM5305AipRyTZeKp5NvoG0vIXxgQKq7sshqu7KWM6zVVErAOhuOYVI
+ 2YwO+LlHDgjLWZn6LmfSjFNi5wRHlx3uk3o3tZlLzrtQ0GoqP7tjILX1sibRqkdIlTySppO/KjO
+ WIxiDGWooim3ihls=
+X-Received: by 2002:a5d:4d50:: with SMTP id a16mr16826521wru.182.1643619822822; 
+ Mon, 31 Jan 2022 01:03:42 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJw19bQ7zGkfuAFBr4ljXoSOmEEYeHpwThFFGclhTpT3mHwa8Bfrfmwcvw4k9jPe5HBi1Bl4NQ==
+X-Received: by 2002:a5d:4d50:: with SMTP id a16mr16826480wru.182.1643619822599; 
+ Mon, 31 Jan 2022 01:03:42 -0800 (PST)
 Received: from localhost ([47.61.17.76])
- by smtp.gmail.com with ESMTPSA id n10sm13749185wrf.96.2022.01.31.01.00.19
+ by smtp.gmail.com with ESMTPSA id i6sm8410343wma.22.2022.01.31.01.03.41
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 31 Jan 2022 01:00:19 -0800 (PST)
+ Mon, 31 Jan 2022 01:03:42 -0800 (PST)
 From: Juan Quintela <quintela@redhat.com>
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Subject: Re: [PATCH v2 3/3] migration: Perform vmsd structure check during
- tests
-In-Reply-To: <YfK+7LCJssDhie9O@work-vm> (David Alan Gilbert's message of "Thu, 
- 27 Jan 2022 15:49:00 +0000")
-References: <20220113194452.254011-1-dgilbert@redhat.com>
- <20220113194452.254011-4-dgilbert@redhat.com>
- <87ilu6nrqe.fsf@secure.mitica> <YfK+7LCJssDhie9O@work-vm>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PULL 00/38] Migration 20220127 patches
+In-Reply-To: <CAFEAcA9O_nZz=4VSvh+rFE4cXepUEBeUui2WdawBjjos+pqOeg@mail.gmail.com>
+ (Peter Maydell's message of "Fri, 28 Jan 2022 11:05:10 +0000")
+References: <20220127150548.20595-1-quintela@redhat.com>
+ <CAFEAcA9O_nZz=4VSvh+rFE4cXepUEBeUui2WdawBjjos+pqOeg@mail.gmail.com>
 User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
-Date: Mon, 31 Jan 2022 10:00:18 +0100
-Message-ID: <87mtjc8el9.fsf@secure.mitica>
+Date: Mon, 31 Jan 2022 10:03:41 +0100
+Message-ID: <87ilu08efm.fsf@secure.mitica>
 MIME-Version: 1.0
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=quintela@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=quintela@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -99,34 +97,74 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Reply-To: quintela@redhat.com
-Cc: peter.maydell@linaro.org, marcandre.lureau@gmail.com, qemu-devel@nongnu.org,
- peterx@redhat.com, lsoaresp@redhat.com
+Cc: Fam Zheng <fam@euphon.net>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Jason Wang <jasowang@redhat.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
+ Peter Xu <peterx@redhat.com>, Laurent Vivier <Laurent@vivier.eu>,
+ Gerd Hoffmann <kraxel@redhat.com>, Ani Sinha <ani@anisinha.ca>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>, Eric Blake <eblake@redhat.com>,
+ Hannes Reinecke <hare@suse.com>, Vikram Garhwal <fnu.vikram@xilinx.com>,
+ qemu-block@nongnu.org, Daniel Henrique Barboza <danielhb413@gmail.com>,
+ Markus Armbruster <armbru@redhat.com>, Artyom Tarasenko <atar4qemu@gmail.com>,
+ Pavel Pisa <pisa@cmp.felk.cvut.cz>, Alistair Francis <alistair@alistair23.me>,
+ "Dr. David Alan
+ Gilbert" <dgilbert@redhat.com>, Greg Kurz <groug@kaod.org>, qemu-arm@nongnu.org,
+ =?utf-8?Q?C=C3=A9dric?= Le Goater <clg@kaod.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, Stafford Horne <shorne@gmail.com>,
+ David Gibson <david@gibson.dropbear.id.au>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Andrew Baumann <Andrew.Baumann@microsoft.com>, qemu-ppc@nongnu.org,
+ Igor Mammedov <imammedo@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-"Dr. David Alan Gilbert" <dgilbert@redhat.com> wrote:
-> * Juan Quintela (quintela@redhat.com) wrote:
->> "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com> wrote:
->> > From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
->> >
->> > Perform a check on vmsd structures during test runs in the hope
->> > of catching any missing terminators and other simple screwups.
->> >
->> > Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
->> 
->> Reviewed-by: Juan Quintela <quintela@redhat.com>
->> 
->> queued.
+Peter Maydell <peter.maydell@linaro.org> wrote:
+> On Thu, 27 Jan 2022 at 15:06, Juan Quintela <quintela@redhat.com> wrote:
+>>
+>> The following changes since commit 48302d4eb628ff0bea4d7e92cbf6b726410eb4c3:
+>>
+>>   Merge remote-tracking branch
+>> 'remotes/dgilbert-gitlab/tags/pull-virtiofs-20220126' into staging
+>> (2022-01-26 10:59:50 +0000)
+>>
+>> are available in the Git repository at:
+>>
+>>   https://gitlab.com/juan.quintela/qemu.git tags/migration-20220127-pull-request
+>>
+>> for you to fetch changes up to 4e29a822de430e8d0d8bf5c61aaff0561a713d84:
+>>
+>>   migration: Move temp page setup and cleanup into separate functions (2022-01-27 13:37:55 +0100)
+>>
+>> ----------------------------------------------------------------
+>> Migration Pull request
+>>
+>> Hi
+>>
+>> This pull request includes every patch ack'd on the list for migration.  In no particular order:
+>>
+>> - ram_transferred_add() - (Edmondson)
+>> - vmstate canary (dgilbert)
+>> - minimum_version_id_old removal (peter maydell)
+>> - postcopy cleanups (peter xu)
+>> - more cleanups (Philippe)
+>> - yet more cleanups (zheng)
+>> - colo and cleanups (zhang)
 >
-> Careful; I think that'll break with slirp until libslirp gets updated
-> first.
+> Hi; this fails because we hit this assert in the vmstate canary check
+> on some of the CI jobs, for instance:
+> https://gitlab.com/qemu-project/qemu/-/jobs/2024872142
+> and also on the NetBSD VM in tests/vm.
 
-As expected, it broke it.
+I dropped them on my PULL request, but there is something fishy on
+aarch64 for migration.  It makes exactly zero sense to fail with this
+patch.  Or something is missing a VMSTATE_END that only happens on
+aarch64.
 
-I resend the PULL request wihtout that two patches.
-
-Once that we are here, how it is that make check didn't catch this?
+I will take a look.
 
 Later, Juan.
+
+PD.  As Dave said, the patch makes sense to drop because we need a new
+libslirp before pushing for it.
 
 
