@@ -2,67 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ACDB94A4048
-	for <lists+qemu-devel@lfdr.de>; Mon, 31 Jan 2022 11:34:11 +0100 (CET)
-Received: from localhost ([::1]:49864 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 65BB34A4063
+	for <lists+qemu-devel@lfdr.de>; Mon, 31 Jan 2022 11:43:45 +0100 (CET)
+Received: from localhost ([::1]:56460 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nEU0g-0003Db-C5
-	for lists+qemu-devel@lfdr.de; Mon, 31 Jan 2022 05:34:10 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:52462)
+	id 1nEU9v-00084w-SJ
+	for lists+qemu-devel@lfdr.de; Mon, 31 Jan 2022 05:43:43 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:54844)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nETyB-0002Km-Nu
- for qemu-devel@nongnu.org; Mon, 31 Jan 2022 05:31:35 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:50876)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1nEU6y-0006NT-JQ
+ for qemu-devel@nongnu.org; Mon, 31 Jan 2022 05:40:40 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:43591)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nETy8-0007nQ-NM
- for qemu-devel@nongnu.org; Mon, 31 Jan 2022 05:31:35 -0500
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1nEU6v-0000tC-Qn
+ for qemu-devel@nongnu.org; Mon, 31 Jan 2022 05:40:39 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1643625091;
+ s=mimecast20190719; t=1643625636;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=tv3MlH8D8l1wc27buT4ciUgqbtqEzXvxxeU1QHCYjI4=;
- b=BI5p9SEShthGaScB832pFpjQtzBYsfsKarAMxBB1ooyNjsRdCEVd0VAYS12KIXcKjYOIDX
- SG9np4BenIZE7ar+R64RQfTjoKrmhQWihXNoSBJXQJZTVxAbl3JfHGa+HdMS9YimbcmrtP
- DU/t6nvvmhtF8VBoNhSPcdPQ6qYCXC4=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=PtkZQe57BZqCD3cMISGM1BMNcBa5BWyG5fXpOkKA53U=;
+ b=WB84QeNYYUupRp+15p8LDqjJIq1v0UOTzgP/GoI0Buh35Xz9k5AUhiPjBOgyM29UzSpY6R
+ QAM7HSNf+RgvSLSG4PYMlk7+Z+qmal9TTdLDcVlKIepGoUpC8sHFNEnY5Ha21opbPu+oFK
+ 7Yxw/YCEQHoLOwSARckQLe2bGU8ubVE=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-85-ons9UlggMmmnxlre6nvfDg-1; Mon, 31 Jan 2022 05:31:28 -0500
-X-MC-Unique: ons9UlggMmmnxlre6nvfDg-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3EFF71B2C980;
- Mon, 31 Jan 2022 10:31:27 +0000 (UTC)
-Received: from localhost (unknown [10.39.194.217])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id B81DF1ABE5;
- Mon, 31 Jan 2022 10:31:26 +0000 (UTC)
-From: Hanna Reitz <hreitz@redhat.com>
-To: qemu-block@nongnu.org
-Subject: [PATCH v2] qsd: Document fuse's allow-other option
-Date: Mon, 31 Jan 2022 11:31:24 +0100
-Message-Id: <20220131103124.20325-1-hreitz@redhat.com>
+ us-mta-650-BHKddC0xM4SlqKdHBlxkeA-1; Mon, 31 Jan 2022 05:40:35 -0500
+X-MC-Unique: BHKddC0xM4SlqKdHBlxkeA-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ bg16-20020a05600c3c9000b0034bea12c043so10156651wmb.7
+ for <qemu-devel@nongnu.org>; Mon, 31 Jan 2022 02:40:35 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent
+ :content-language:to:cc:references:from:organization:subject
+ :in-reply-to:content-transfer-encoding;
+ bh=PtkZQe57BZqCD3cMISGM1BMNcBa5BWyG5fXpOkKA53U=;
+ b=SRy+PCrVcjJvEniy3lsZuA2wf6umpPcULpREp1luhro5hkdqBe1wKEKnuvRJnFEc4H
+ QUbacJ0YzZwUHr/yIxHc5E96ltz8ml0zrO1CpgwhpBRc0jBJNIACim/aY5wSZ4kCA8ri
+ qwZzNmdVDs1EwRdtFfNOZtzLnkIuWwcVJDv380UDBK5RBlwALJ/cxX0SnS8POSKd2x3p
+ zlrhQVeXjtB7+3+iVc0Q/Pi/Z1iB3uHIgjDPydCiTtyCQo6BJ2yGfhK9OVcUT3TbSVpr
+ PJ5GDu+qFWu9flCyyWWikWFuunfx7P7j+/G6x7ISVQQoTrSyxBf9tsjRScBCY1C3Zbni
+ azyQ==
+X-Gm-Message-State: AOAM531+rP0skGjaLMsLFvsr+J4Jcme8fz9lX46XtF1BECePdxfe2CW6
+ MxsCMyYENgJJ+O58UaOlVoZoxwwsCTJ2mx5TynftKgGyL56SZvGHIg2e/NwT5L4rSGcnuf5oxkd
+ tsj+8k6TiBdzNPrXLqcqf1MvrErJBCdYLur9+575WVtghiTmIGJMdBpW0F4ePSqs=
+X-Received: by 2002:a05:600c:1f06:: with SMTP id
+ bd6mr8256468wmb.98.1643625634180; 
+ Mon, 31 Jan 2022 02:40:34 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJylXSYdATJZuU3+RO1aJ+aiJJsez9xW/UfBX0WwQQ4EJQHh0zAx38XHBs60Lt6x9qiibUvz/A==
+X-Received: by 2002:a05:600c:1f06:: with SMTP id
+ bd6mr8256430wmb.98.1643625633830; 
+ Mon, 31 Jan 2022 02:40:33 -0800 (PST)
+Received: from ?IPV6:2003:cb:c709:b200:f007:5a26:32e7:8ef5?
+ (p200300cbc709b200f0075a2632e78ef5.dip0.t-ipconnect.de.
+ [2003:cb:c709:b200:f007:5a26:32e7:8ef5])
+ by smtp.gmail.com with ESMTPSA id f20sm9894920wmg.2.2022.01.31.02.40.32
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 31 Jan 2022 02:40:33 -0800 (PST)
+Message-ID: <83a45a1f-41aa-2e40-7927-cabaa5590457@redhat.com>
+Date: Mon, 31 Jan 2022 11:40:32 +0100
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.4.0
+To: qemu-devel@nongnu.org
+References: <20220125135734.134928-1-david@redhat.com>
+ <20220125135734.134928-3-david@redhat.com>
+From: David Hildenbrand <david@redhat.com>
+Organization: Red Hat
+Subject: Re: [PATCH v2 2/2] virtio-mem: Handle preallocation with migration
+In-Reply-To: <20220125135734.134928-3-david@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=hreitz@redhat.com;
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=david@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
 X-Spam_bar: --
 X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.088,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -75,69 +104,86 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
- qemu-devel@nongnu.org
+Cc: Michal Privoznik <mprivozn@redhat.com>,
+ "Michael S . Tsirkin" <mst@redhat.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Juan Quintela <quintela@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We did not add documentation to the storage daemon's man page for fuse's
-allow-other option when it was introduced, so do that now.
+On 25.01.22 14:57, David Hildenbrand wrote:
+> During precopy we usually write all plugged ares and essentially
+> allocate them. However, there are two corner cases:
+> 
+> 1) Migrating the zeropage
+> 
+> When the zeropage gets migrated, we first check if the destination range is
+> already zero and avoid performing a write in that case:
+> ram_handle_compressed(). If the memory backend, like anonymous RAM or
+> most filesystems, populate the shared zeropage when reading a (file) hole,
+> we don't preallocate backend memory. In that case, we have to explicitly
+> trigger the allocation to allocate actual backend memory.
+> 
+> 2) Excluding memory ranges during migration
+> 
+> For example, virtio-balloon free page hinting will exclude some pages
+> from getting migrated. In that case, we don't allocate memory for
+> plugged ranges when migrating.
+> 
+> So trigger allocation of all plugged ranges when restoring the device state
+> and fail gracefully if allocation fails.
+> 
+> Handling postcopy is a bit more tricky, as postcopy and preallocation
+> are problematic in general. To at least mimic what ordinary
+> preallocation does, temporarily try allocating the requested amount
+> of memory and fail postcopy in case the requested size on source and
+> destination doesn't match. This way, we at least checked that there isn't
+> a fundamental configuration issue and that we were able to preallocate
+> the required amount of memory at least once, instead of failing
+> unrecoverably during postcopy later. However, just as ordinary
+> preallocation with postcopy, it's racy.
+> 
+> Tested-by: Michal Privoznik <mprivozn@redhat.com>
+> Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+> Signed-off-by: David Hildenbrand <david@redhat.com>
 
-Fixes: 8fc54f9428b9763f800 ("export/fuse: Add allow-other option")
-Signed-off-by: Hanna Reitz <hreitz@redhat.com>
----
-v2:
-- Replaced instances of "QSD" by more generic descriptions, as suggested
-  by Kevin.
+While this patch improves the situation, I'm going to think about one
+prealloc case a bit more:
 
-v1 patch:
-https://lists.nongnu.org/archive/html/qemu-block/2022-01/msg00567.html
----
- docs/tools/qemu-storage-daemon.rst   | 9 +++++++--
- storage-daemon/qemu-storage-daemon.c | 2 +-
- 2 files changed, 8 insertions(+), 3 deletions(-)
+For precopy with ordinary preallocation, the order on the destination is:
 
-diff --git a/docs/tools/qemu-storage-daemon.rst b/docs/tools/qemu-storage-daemon.rst
-index 9b0eaba6e5..878e6a5c5c 100644
---- a/docs/tools/qemu-storage-daemon.rst
-+++ b/docs/tools/qemu-storage-daemon.rst
-@@ -76,7 +76,7 @@ Standard options:
- .. option:: --export [type=]nbd,id=<id>,node-name=<node-name>[,name=<export-name>][,writable=on|off][,bitmap=<name>]
-   --export [type=]vhost-user-blk,id=<id>,node-name=<node-name>,addr.type=unix,addr.path=<socket-path>[,writable=on|off][,logical-block-size=<block-size>][,num-queues=<num-queues>]
-   --export [type=]vhost-user-blk,id=<id>,node-name=<node-name>,addr.type=fd,addr.str=<fd>[,writable=on|off][,logical-block-size=<block-size>][,num-queues=<num-queues>]
--  --export [type=]fuse,id=<id>,node-name=<node-name>,mountpoint=<file>[,growable=on|off][,writable=on|off]
-+  --export [type=]fuse,id=<id>,node-name=<node-name>,mountpoint=<file>[,growable=on|off][,writable=on|off][,allow-other=on|off|auto]
- 
-   is a block export definition. ``node-name`` is the block node that should be
-   exported. ``writable`` determines whether or not the export allows write
-@@ -103,7 +103,12 @@ Standard options:
-   mounted). Consequently, applications that have opened the given file before
-   the export became active will continue to see its original content. If
-   ``growable`` is set, writes after the end of the exported file will grow the
--  block node to fit.
-+  block node to fit.  The ``allow-other`` option controls whether users other
-+  than the user running the process will be allowed to access the export.  Note
-+  that enabling this option as a non-root user requires enabling the
-+  user_allow_other option in the global fuse.conf configuration file.  Setting
-+  ``allow-other`` to auto (the default) will try enabling this option, and on
-+  error fall back to disabling it.
- 
- .. option:: --monitor MONITORDEF
- 
-diff --git a/storage-daemon/qemu-storage-daemon.c b/storage-daemon/qemu-storage-daemon.c
-index 9d76d1114d..a1dcc4aa2e 100644
---- a/storage-daemon/qemu-storage-daemon.c
-+++ b/storage-daemon/qemu-storage-daemon.c
-@@ -100,7 +100,7 @@ static void help(void)
- "\n"
- #ifdef CONFIG_FUSE
- "  --export [type=]fuse,id=<id>,node-name=<node-name>,mountpoint=<file>\n"
--"           [,growable=on|off][,writable=on|off]\n"
-+"           [,growable=on|off][,writable=on|off][,allow-other=on|off|auto]\n"
- "                         export the specified block node over FUSE\n"
- "\n"
- #endif /* CONFIG_FUSE */
+-> Preallocate RAM
+-> Restore RAM
+-> Restore devices
+
+For precopy with virtio-mem preallocation, the order is:
+
+-> Restore RAM
+-> Restore devices
+ -> Restore preallocation of virito-mem
+
+The end result is the same if preallocation succeeds. However, if
+preallocation would fail, for example, if there are insufficient huge
+pages around (i.e., user error), we'll crash with a SIGBUS during RAM
+migration, instead of failing earlier with "guest RAM allocation
+failed". In both events, the VM can continue running on the source,
+however, doing the preallocation earlier would be nicer.
+
+Ideally, we'd migrate the virtio-mem bitmap (+eventually other state)
+*before* migrating the RAM state. Saving and restoring it before
+saving/restoring RAM. The bitmap is effectively immutable while
+migration is active already.
+
+
+We'd simply preallcoate when restoring the state, which wouldn't require
+any postcopy specific handling anymore.
+
+I think it should be doable implementation-wise, I just have to think
+about possible implications.
+
 -- 
-2.34.1
+Thanks,
+
+David / dhildenb
 
 
