@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C0E74A4CD1
-	for <lists+qemu-devel@lfdr.de>; Mon, 31 Jan 2022 18:13:01 +0100 (CET)
-Received: from localhost ([::1]:46264 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C6B9A4A4CCD
+	for <lists+qemu-devel@lfdr.de>; Mon, 31 Jan 2022 18:11:22 +0100 (CET)
+Received: from localhost ([::1]:42542 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nEaEe-0002BW-9m
-	for lists+qemu-devel@lfdr.de; Mon, 31 Jan 2022 12:13:00 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:51322)
+	id 1nEaD3-00086H-CS
+	for lists+qemu-devel@lfdr.de; Mon, 31 Jan 2022 12:11:21 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:51376)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1nEa6g-0001Uj-Ho
- for qemu-devel@nongnu.org; Mon, 31 Jan 2022 12:04:46 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:42018)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1nEa6k-0001gW-Ve
+ for qemu-devel@nongnu.org; Mon, 31 Jan 2022 12:04:51 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:25116)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1nEa6e-0007Rr-P1
- for qemu-devel@nongnu.org; Mon, 31 Jan 2022 12:04:46 -0500
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1nEa6i-0007Si-Ow
+ for qemu-devel@nongnu.org; Mon, 31 Jan 2022 12:04:50 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1643648684;
+ s=mimecast20190719; t=1643648688;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=1AdQxXYwk5AHMGM0F/kmPdGc3RiSlXfSLnXvYCVVMcQ=;
- b=SkB6HjeKiBDe84C92Nh+pn8UAHDTOFQZ/4c+Hu+yBeEjB82nu04hRXSgspLNGuLYdOnUUl
- 43ZNSG3pguUKma7913AUhq9tuObI3F/YqZ2QP861WR6Wla+ml201hY81GoMP1PCp8iGzrd
- XIcdhM6jVl1e6AxJ0dD7SOQWt9qa+sk=
+ bh=MKdf8yOehZE/jWOSlPC4m+igdOOgUTO7o0AQoQ84QBM=;
+ b=CV4rtbf3JE/HGtxhAozMhZd85cCoVOZE0kRhrCqBf8Y56SLf/IoHQINu8jqmejuldcsmwG
+ JWRRqELjYUk0gjqpIRY57G8NtJrlh+XtzC9azxYcW+jRwW++c05fv5/QuI2CN8ShrnUd7V
+ bg6AGXkCKoctlwUWxWD5D2D6+O/fpZs=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-199-cJgcu5JLPUenijQs9zkQ7g-1; Mon, 31 Jan 2022 12:04:36 -0500
-X-MC-Unique: cJgcu5JLPUenijQs9zkQ7g-1
+ us-mta-618-sBi0eKICMGOi1IJjhmaTsQ-1; Mon, 31 Jan 2022 12:04:40 -0500
+X-MC-Unique: sBi0eKICMGOi1IJjhmaTsQ-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 497C18144E9;
- Mon, 31 Jan 2022 17:04:31 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BF85A100C672;
+ Mon, 31 Jan 2022 17:04:37 +0000 (UTC)
 Received: from merkur.redhat.com (unknown [10.39.193.138])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8092610A48D5;
- Mon, 31 Jan 2022 17:04:22 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 936A210A48D5;
+ Mon, 31 Jan 2022 17:04:31 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH 3/5] docs: Only mention ssh in the man page when available
-Date: Mon, 31 Jan 2022 18:04:09 +0100
-Message-Id: <20220131170411.125198-4-kwolf@redhat.com>
+Subject: [PATCH 4/5] docs: Only mention curl in the man page when available
+Date: Mon, 31 Jan 2022 18:04:10 +0100
+Message-Id: <20220131170411.125198-5-kwolf@redhat.com>
 In-Reply-To: <20220131170411.125198-1-kwolf@redhat.com>
 References: <20220131170411.125198-1-kwolf@redhat.com>
 MIME-Version: 1.0
@@ -56,7 +56,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=kwolf@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -82,49 +82,166 @@ Cc: kwolf@redhat.com, pbonzini@redhat.com, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-If libssh is disabled in the build, the man page shouldn't contain
-information on how to use the ssh block driver.
+If curl is disabled in the build, the man page shouldn't contain
+information on how to use the curl block drivers.
 
 This patch is best viewed with whitespace changes ignored.
 
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- docs/system/device-url-syntax.rst.inc | 18 ++++++++++--------
- 1 file changed, 10 insertions(+), 8 deletions(-)
+ docs/system/device-url-syntax.rst.inc | 114 +++++++++++++-------------
+ 1 file changed, 58 insertions(+), 56 deletions(-)
 
 diff --git a/docs/system/device-url-syntax.rst.inc b/docs/system/device-url-syntax.rst.inc
-index c882bce418..84a8145292 100644
+index 84a8145292..d55622847a 100644
 --- a/docs/system/device-url-syntax.rst.inc
 +++ b/docs/system/device-url-syntax.rst.inc
-@@ -74,18 +74,20 @@ special URL syntax.
+@@ -128,87 +128,89 @@ special URL syntax.
  
-       |qemu_system| --drive file=nbd:unix:/tmp/nbd-socket
+    See also http://www.gluster.org.
  
--``SSH``
--   QEMU supports SSH (Secure Shell) access to remote disks.
-+.. only:: not DISABLE_LIBSSH
+-``HTTP/HTTPS/FTP/FTPS``
+-   QEMU supports read-only access to files accessed over http(s) and
+-   ftp(s).
++.. only:: not DISABLE_CURL
  
--   Examples:
-+    ``SSH``
-+       QEMU supports SSH (Secure Shell) access to remote disks.
+-   Syntax using a single filename:
++    ``HTTP/HTTPS/FTP/FTPS``
++       QEMU supports read-only access to files accessed over http(s) and
++       ftp(s).
+ 
+-   ::
++       Syntax using a single filename:
+ 
+-      <protocol>://[<username>[:<password>]@]<host>/<path>
++       ::
+ 
+-   where:
++          <protocol>://[<username>[:<password>]@]<host>/<path>
+ 
+-   ``protocol``
+-      'http', 'https', 'ftp', or 'ftps'.
++       where:
+ 
+-   ``username``
+-      Optional username for authentication to the remote server.
++       ``protocol``
++          'http', 'https', 'ftp', or 'ftps'.
+ 
+-   ``password``
+-      Optional password for authentication to the remote server.
++       ``username``
++          Optional username for authentication to the remote server.
+ 
+-   ``host``
+-      Address of the remote server.
++       ``password``
++          Optional password for authentication to the remote server.
+ 
+-   ``path``
+-      Path on the remote server, including any query string.
++       ``host``
++          Address of the remote server.
+ 
+-   The following options are also supported:
++       ``path``
++          Path on the remote server, including any query string.
+ 
+-   ``url``
+-      The full URL when passing options to the driver explicitly.
++       The following options are also supported:
+ 
+-   ``readahead``
+-      The amount of data to read ahead with each range request to the
+-      remote server. This value may optionally have the suffix 'T', 'G',
+-      'M', 'K', 'k' or 'b'. If it does not have a suffix, it will be
+-      assumed to be in bytes. The value must be a multiple of 512 bytes.
+-      It defaults to 256k.
++       ``url``
++          The full URL when passing options to the driver explicitly.
+ 
+-   ``sslverify``
+-      Whether to verify the remote server's certificate when connecting
+-      over SSL. It can have the value 'on' or 'off'. It defaults to
+-      'on'.
++       ``readahead``
++          The amount of data to read ahead with each range request to the
++          remote server. This value may optionally have the suffix 'T', 'G',
++          'M', 'K', 'k' or 'b'. If it does not have a suffix, it will be
++          assumed to be in bytes. The value must be a multiple of 512 bytes.
++          It defaults to 256k.
+ 
+-   ``cookie``
+-      Send this cookie (it can also be a list of cookies separated by
+-      ';') with each outgoing request. Only supported when using
+-      protocols such as HTTP which support cookies, otherwise ignored.
++       ``sslverify``
++          Whether to verify the remote server's certificate when connecting
++          over SSL. It can have the value 'on' or 'off'. It defaults to
++          'on'.
+ 
+-   ``timeout``
+-      Set the timeout in seconds of the CURL connection. This timeout is
+-      the time that CURL waits for a response from the remote server to
+-      get the size of the image to be downloaded. If not set, the
+-      default timeout of 5 seconds is used.
++       ``cookie``
++          Send this cookie (it can also be a list of cookies separated by
++          ';') with each outgoing request. Only supported when using
++          protocols such as HTTP which support cookies, otherwise ignored.
+ 
+-   Note that when passing options to qemu explicitly, ``driver`` is the
+-   value of <protocol>.
++       ``timeout``
++          Set the timeout in seconds of the CURL connection. This timeout is
++          the time that CURL waits for a response from the remote server to
++          get the size of the image to be downloaded. If not set, the
++          default timeout of 5 seconds is used.
+ 
+-   Example: boot from a remote Fedora 20 live ISO image
++       Note that when passing options to qemu explicitly, ``driver`` is the
++       value of <protocol>.
  
 -   .. parsed-literal::
-+       Examples:
++       Example: boot from a remote Fedora 20 live ISO image
+ 
+-      |qemu_system_x86| --drive media=cdrom,file=https://archives.fedoraproject.org/pub/archive/fedora/linux/releases/20/Live/x86_64/Fedora-Live-Desktop-x86_64-20-1.iso,readonly
++       .. parsed-literal::
+ 
+-      |qemu_system_x86| --drive media=cdrom,file.driver=http,file.url=http://archives.fedoraproject.org/pub/fedora/linux/releases/20/Live/x86_64/Fedora-Live-Desktop-x86_64-20-1.iso,readonly
++          |qemu_system_x86| --drive media=cdrom,file=https://archives.fedoraproject.org/pub/archive/fedora/linux/releases/20/Live/x86_64/Fedora-Live-Desktop-x86_64-20-1.iso,readonly
+ 
+-   Example: boot from a remote Fedora 20 cloud image using a local
+-   overlay for writes, copy-on-read, and a readahead of 64k
++          |qemu_system_x86| --drive media=cdrom,file.driver=http,file.url=http://archives.fedoraproject.org/pub/fedora/linux/releases/20/Live/x86_64/Fedora-Live-Desktop-x86_64-20-1.iso,readonly
+ 
+-   .. parsed-literal::
++       Example: boot from a remote Fedora 20 cloud image using a local
++       overlay for writes, copy-on-read, and a readahead of 64k
+ 
+-      qemu-img create -f qcow2 -o backing_file='json:{"file.driver":"http",, "file.url":"http://archives.fedoraproject.org/pub/archive/fedora/linux/releases/20/Images/x86_64/Fedora-x86_64-20-20131211.1-sda.qcow2",, "file.readahead":"64k"}' /tmp/Fedora-x86_64-20-20131211.1-sda.qcow2
++       .. parsed-literal::
+ 
+-      |qemu_system_x86| -drive file=/tmp/Fedora-x86_64-20-20131211.1-sda.qcow2,copy-on-read=on
++          qemu-img create -f qcow2 -o backing_file='json:{"file.driver":"http",, "file.url":"http://archives.fedoraproject.org/pub/archive/fedora/linux/releases/20/Images/x86_64/Fedora-x86_64-20-20131211.1-sda.qcow2",, "file.readahead":"64k"}' /tmp/Fedora-x86_64-20-20131211.1-sda.qcow2
+ 
+-   Example: boot from an image stored on a VMware vSphere server with a
+-   self-signed certificate using a local overlay for writes, a readahead
+-   of 64k and a timeout of 10 seconds.
++          |qemu_system_x86| -drive file=/tmp/Fedora-x86_64-20-20131211.1-sda.qcow2,copy-on-read=on
+ 
+-   .. parsed-literal::
++       Example: boot from an image stored on a VMware vSphere server with a
++       self-signed certificate using a local overlay for writes, a readahead
++       of 64k and a timeout of 10 seconds.
 +
 +       .. parsed-literal::
  
--      |qemu_system| -drive file=ssh://user@host/path/to/disk.img
--      |qemu_system| -drive file.driver=ssh,file.user=user,file.host=host,file.port=22,file.path=/path/to/disk.img
-+          |qemu_system| -drive file=ssh://user@host/path/to/disk.img
-+          |qemu_system| -drive file.driver=ssh,file.user=user,file.host=host,file.port=22,file.path=/path/to/disk.img
+-      qemu-img create -f qcow2 -o backing_file='json:{"file.driver":"https",, "file.url":"https://user:password@vsphere.example.com/folder/test/test-flat.vmdk?dcPath=Datacenter&dsName=datastore1",, "file.sslverify":"off",, "file.readahead":"64k",, "file.timeout":10}' /tmp/test.qcow2
++          qemu-img create -f qcow2 -o backing_file='json:{"file.driver":"https",, "file.url":"https://user:password@vsphere.example.com/folder/test/test-flat.vmdk?dcPath=Datacenter&dsName=datastore1",, "file.sslverify":"off",, "file.readahead":"64k",, "file.timeout":10}' /tmp/test.qcow2
  
--   Currently authentication must be done using ssh-agent. Other
--   authentication methods may be supported in future.
-+       Currently authentication must be done using ssh-agent. Other
-+       authentication methods may be supported in future.
- 
- ``GlusterFS``
-    GlusterFS is a user space distributed file system. QEMU supports the
+-      |qemu_system_x86| -drive file=/tmp/test.qcow2
++          |qemu_system_x86| -drive file=/tmp/test.qcow2
 -- 
 2.31.1
 
