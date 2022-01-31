@@ -2,71 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 436F34A505C
-	for <lists+qemu-devel@lfdr.de>; Mon, 31 Jan 2022 21:42:34 +0100 (CET)
-Received: from localhost ([::1]:34472 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BCBC44A508F
+	for <lists+qemu-devel@lfdr.de>; Mon, 31 Jan 2022 21:52:27 +0100 (CET)
+Received: from localhost ([::1]:56218 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nEdVR-0007ho-AB
-	for lists+qemu-devel@lfdr.de; Mon, 31 Jan 2022 15:42:33 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:43222)
+	id 1nEdf0-00054r-GG
+	for lists+qemu-devel@lfdr.de; Mon, 31 Jan 2022 15:52:26 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:43046)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1nEcnj-00053h-TI
- for qemu-devel@nongnu.org; Mon, 31 Jan 2022 14:57:25 -0500
-Received: from [2607:f8b0:4864:20::d2d] (port=38805
- helo=mail-io1-xd2d.google.com)
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1nEcng-0004xT-5U
+ for qemu-devel@nongnu.org; Mon, 31 Jan 2022 14:57:20 -0500
+Received: from [2607:f8b0:4864:20::d34] (port=39860
+ helo=mail-io1-xd34.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1nEcnb-0002fs-O7
- for qemu-devel@nongnu.org; Mon, 31 Jan 2022 14:57:23 -0500
-Received: by mail-io1-xd2d.google.com with SMTP id w7so18427240ioj.5
- for <qemu-devel@nongnu.org>; Mon, 31 Jan 2022 11:57:04 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1nEcnb-0002g0-Hf
+ for qemu-devel@nongnu.org; Mon, 31 Jan 2022 14:57:19 -0500
+Received: by mail-io1-xd34.google.com with SMTP id c188so18404288iof.6
+ for <qemu-devel@nongnu.org>; Mon, 31 Jan 2022 11:57:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bsdimp-com.20210112.gappssmtp.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=r5D/XxRSLmmsB5rAEeVEsKXhTzCrfhyXP8EzMrhJHxQ=;
- b=VS7zOHLD5xKHelvh4Yc4YzIcLjD2iCzTWU1DQB5H1lgiv+g/WmRsiikr4ECwEVBj/J
- MbAT3Gh743EnOdRNa0CRM5cTFdIgiAmuHZnYofa/7phiQygNurF6wSJgXX05KlapVICx
- 1vfAslZ8QTey4IGffietANscoX56YwCCWp18+0q114akDvj4RBT71eNWM1/iq4ACe/Q8
- Uqy3Hp3Ymn/rNNc/Uf+WUlHnadt8da+UCm4WWg7IrqBChMixcqdubu3yfGOMiSKAzGBq
- o9aOrf3jN9yTJ09RWv8bjdxPdfmMWTpcUpIwYZTkpmmXiyJeOrmwomfI5YEPbwUXFSbs
- rREA==
+ bh=yFznSEKSLa4wr4LT6m629JqoMGJyil+XeLDgIrumdQM=;
+ b=UbOVK6+q8y5HMod4jvFX0eXD83YN1oQA8rQdJMXfc1bhcdEFb8/WrNZmZdgy6txIW9
+ BxcAg8ufgc3J+V6zVpa77xl6LVPVFLkO7rKi3Sird2sdH5aVDhXgPcefAorQO3AR0DiE
+ 6h2TZqmtTd05X1J/64a94pxJBOsbK/bqJG+WUWMAeJrwiXbQ9xc2ed/6ioPmhnWP/t8R
+ 5EZDaNIieKxs12p3iVvcsbwym7DH1Nbd2R6CMAKeZxOFirDNDJvcIWbaeaSyZyEWfIS8
+ VK83I3oHlBQ+6YKiuPwhzKlWF1aTOKDFiVPid8Yl4/8d8DTkMtajBoztoaA/xP592yki
+ mVWw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=r5D/XxRSLmmsB5rAEeVEsKXhTzCrfhyXP8EzMrhJHxQ=;
- b=lruOAq/E2NM7UKr0/hVgfZFMRduoi9J7griXI1q2XsRyFGQVjFH8p7Qm9h0eOAvkfb
- 1RgBCgg0zrG6EK4urOf4wY/NX4Fhsjk/FDTkQ5WPj1bGmSVIW6ZupjbXsMyTqJ+CILCF
- Q/jQ+zSxPcBZ3LCWPckoDuhfIxhBAWoYe6nn0QVQ89stUvkwsVlITJWKAlmUN3K3eAQY
- RMriyRQFKSgNb8zdxWxYIYVpKrhI/DvJDjSsDhitenZ8Qaa1bUB32a1s30cdu4LWbYu2
- iXN0s72amhK/xB2wFXAcOS3E9S06Qfnf0rfHGUPKnRl9PO5sRRTR44eL1ZzsUoxTMlGQ
- fEWw==
-X-Gm-Message-State: AOAM532TdX+LPdlbHmTqKlF1FQAg/XdiEQpq2o1NT3rPmqba3n8IPl5R
- LwnDAmMmoouLSHzlfwV2/jlqQsbIOp5vvw==
-X-Google-Smtp-Source: ABdhPJzHaY0h5y+du0Ki/IG1kF92I0XQx9+AENqXlVo5eKb7RbXu0F9w4fbq/4Pt5Fo44NQZV0TGaQ==
-X-Received: by 2002:a05:6638:38a0:: with SMTP id
- b32mr10157240jav.228.1643659023766; 
- Mon, 31 Jan 2022 11:57:03 -0800 (PST)
+ bh=yFznSEKSLa4wr4LT6m629JqoMGJyil+XeLDgIrumdQM=;
+ b=7LENEb1e43Pycba9FufACJLtrp7nGYdoewHmgtqciUa5VKcUsCFpMLT02THsZWcKrS
+ Re5Zouv6lWltKofdO/dccL5AFwwklBheL6WhK/Mm+hXoIqGs70Pa6y8dY6RA0BYk4gC9
+ 0S+PJV8/hBio4kWUQKeus69TioV5LOEFFZDTli5Daf2rSZ9FAGOVcVYxsd9kamAtEeYS
+ RfOL3KIgd4fS3dHJZFb/rCyOMbEgU7CFIJVDE+xgfvm1TcCgEzNt/RHwV+dYFqVba7Zx
+ RIuIm4uO2elnhcx6vQDFw3iusEC8/a+mjjnR+S/JYXch4xiiHxr2qgoW/rq31PWO6E0g
+ UN9w==
+X-Gm-Message-State: AOAM53247IWZjw4zk0WhSiqEx74/ps8PpRFLySXcExGiS1iO2gEM6Ipn
+ rNlZ5Fk1qyuAHRMtK5sh6HXyX8ezaJm79g==
+X-Google-Smtp-Source: ABdhPJw+lO5ryTJS5ySw4nqeeI2EW0ziKWe5q6gu1atKWc2bLrz41WXyBfRdeVafUXTHAXKFIySjOw==
+X-Received: by 2002:a02:a602:: with SMTP id c2mr4602171jam.220.1643659024973; 
+ Mon, 31 Jan 2022 11:57:04 -0800 (PST)
 Received: from dune.bsdimp.com (50-253-99-174-static.hfc.comcastbusiness.net.
  [50.253.99.174])
- by smtp.gmail.com with ESMTPSA id j2sm1972989ilu.82.2022.01.31.11.57.02
+ by smtp.gmail.com with ESMTPSA id j2sm1972989ilu.82.2022.01.31.11.57.03
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 31 Jan 2022 11:57:03 -0800 (PST)
+ Mon, 31 Jan 2022 11:57:04 -0800 (PST)
 From: Warner Losh <imp@bsdimp.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 33/40] bsd-user/signal.c: tswap_siginfo
-Date: Mon, 31 Jan 2022 12:56:29 -0700
-Message-Id: <20220131195636.31991-34-imp@bsdimp.com>
+Subject: [PULL 34/40] bsd-user/signal.c: process_pending_signals
+Date: Mon, 31 Jan 2022 12:56:30 -0700
+Message-Id: <20220131195636.31991-35-imp@bsdimp.com>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <20220131195636.31991-1-imp@bsdimp.com>
 References: <20220131195636.31991-1-imp@bsdimp.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::d2d
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::d34
  (failed)
-Received-SPF: none client-ip=2607:f8b0:4864:20::d2d;
- envelope-from=imp@bsdimp.com; helo=mail-io1-xd2d.google.com
+Received-SPF: none client-ip=2607:f8b0:4864:20::d34;
+ envelope-from=imp@bsdimp.com; helo=mail-io1-xd34.google.com
 X-Spam_score_int: -10
 X-Spam_score: -1.1
 X-Spam_bar: -
@@ -93,80 +92,84 @@ Cc: Peter Maydell <peter.maydell@linaro.org>, Stacey Son <sson@FreeBSD.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Convert siginfo from targer to host.
+Process the currently queued signals.
 
 Signed-off-by: Stacey Son <sson@FreeBSD.org>
 Signed-off-by: Kyle Evans <kevans@freebsd.org>
 Signed-off-by: Warner Losh <imp@bsdimp.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- bsd-user/signal.c | 53 +++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 53 insertions(+)
+ bsd-user/signal.c | 56 ++++++++++++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 55 insertions(+), 1 deletion(-)
 
 diff --git a/bsd-user/signal.c b/bsd-user/signal.c
-index 366e047cccc..34e8c811ad6 100644
+index 34e8c811ad6..4b398745f45 100644
 --- a/bsd-user/signal.c
 +++ b/bsd-user/signal.c
-@@ -256,6 +256,59 @@ static inline void host_to_target_siginfo_noswap(target_siginfo_t *tinfo,
-     tinfo->si_code = deposit32(si_code, 24, 8, si_type);
+@@ -756,8 +756,62 @@ static void handle_pending_signal(CPUArchState *env, int sig,
+     }
  }
  
-+static void tswap_siginfo(target_siginfo_t *tinfo, const target_siginfo_t *info)
-+{
-+    int si_type = extract32(info->si_code, 24, 8);
-+    int si_code = sextract32(info->si_code, 0, 24);
-+
-+    __put_user(info->si_signo, &tinfo->si_signo);
-+    __put_user(info->si_errno, &tinfo->si_errno);
-+    __put_user(si_code, &tinfo->si_code); /* Zero out si_type, it's internal */
-+    __put_user(info->si_pid, &tinfo->si_pid);
-+    __put_user(info->si_uid, &tinfo->si_uid);
-+    __put_user(info->si_status, &tinfo->si_status);
-+    __put_user(info->si_addr, &tinfo->si_addr);
-+    /*
-+     * Unswapped, because we passed it through mostly untouched.  si_value is
-+     * opaque to the kernel, so we didn't bother with potentially wasting cycles
-+     * to swap it into host byte order.
-+     */
-+    tinfo->si_value.sival_ptr = info->si_value.sival_ptr;
-+
-+    /*
-+     * We can use our internal marker of which fields in the structure
-+     * are valid, rather than duplicating the guesswork of
-+     * host_to_target_siginfo_noswap() here.
-+     */
-+    switch (si_type) {
-+    case QEMU_SI_NOINFO:        /* No additional info */
-+        break;
-+    case QEMU_SI_FAULT:
-+        __put_user(info->_reason._fault._trapno,
-+                   &tinfo->_reason._fault._trapno);
-+        break;
-+    case QEMU_SI_TIMER:
-+        __put_user(info->_reason._timer._timerid,
-+                   &tinfo->_reason._timer._timerid);
-+        __put_user(info->_reason._timer._overrun,
-+                   &tinfo->_reason._timer._overrun);
-+        break;
-+    case QEMU_SI_MESGQ:
-+        __put_user(info->_reason._mesgq._mqd, &tinfo->_reason._mesgq._mqd);
-+        break;
-+    case QEMU_SI_POLL:
-+        /* Note: Not generated on FreeBSD */
-+        __put_user(info->_reason._poll._band, &tinfo->_reason._poll._band);
-+        break;
-+    case QEMU_SI_CAPSICUM:
-+        __put_user(info->_reason._capsicum._syscall,
-+                   &tinfo->_reason._capsicum._syscall);
-+        break;
-+    default:
-+        g_assert_not_reached();
-+    }
-+}
-+
- /* Returns 1 if given signal should dump core if not handled. */
- static int core_dump_signal(int sig)
+-void process_pending_signals(CPUArchState *cpu_env)
++void process_pending_signals(CPUArchState *env)
  {
++    CPUState *cpu = env_cpu(env);
++    int sig;
++    sigset_t *blocked_set, set;
++    struct emulated_sigtable *k;
++    TaskState *ts = cpu->opaque;
++
++    while (qatomic_read(&ts->signal_pending)) {
++        sigfillset(&set);
++        sigprocmask(SIG_SETMASK, &set, 0);
++
++    restart_scan:
++        sig = ts->sync_signal.pending;
++        if (sig) {
++            /*
++             * Synchronous signals are forced by the emulated CPU in some way.
++             * If they are set to ignore, restore the default handler (see
++             * sys/kern_sig.c trapsignal() and execsigs() for this behavior)
++             * though maybe this is done only when forcing exit for non SIGCHLD.
++             */
++            if (sigismember(&ts->signal_mask, target_to_host_signal(sig)) ||
++                sigact_table[sig - 1]._sa_handler == TARGET_SIG_IGN) {
++                sigdelset(&ts->signal_mask, target_to_host_signal(sig));
++                sigact_table[sig - 1]._sa_handler = TARGET_SIG_DFL;
++            }
++            handle_pending_signal(env, sig, &ts->sync_signal);
++        }
++
++        k = ts->sigtab;
++        for (sig = 1; sig <= TARGET_NSIG; sig++, k++) {
++            blocked_set = ts->in_sigsuspend ?
++                &ts->sigsuspend_mask : &ts->signal_mask;
++            if (k->pending &&
++                !sigismember(blocked_set, target_to_host_signal(sig))) {
++                handle_pending_signal(env, sig, k);
++                /*
++                 * Restart scan from the beginning, as handle_pending_signal
++                 * might have resulted in a new synchronous signal (eg SIGSEGV).
++                 */
++                goto restart_scan;
++            }
++        }
++
++        /*
++         * Unblock signals and check one more time. Unblocking signals may cause
++         * us to take another host signal, which will set signal_pending again.
++         */
++        qatomic_set(&ts->signal_pending, 0);
++        ts->in_sigsuspend = false;
++        set = ts->signal_mask;
++        sigdelset(&set, SIGSEGV);
++        sigdelset(&set, SIGBUS);
++        sigprocmask(SIG_SETMASK, &set, 0);
++    }
++    ts->in_sigsuspend = false;
+ }
+ 
+ void cpu_loop_exit_sigsegv(CPUState *cpu, target_ulong addr,
 -- 
 2.33.1
 
