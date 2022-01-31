@@ -2,72 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E97E84A3D97
-	for <lists+qemu-devel@lfdr.de>; Mon, 31 Jan 2022 07:21:58 +0100 (CET)
-Received: from localhost ([::1]:36754 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 38C8C4A3DB5
+	for <lists+qemu-devel@lfdr.de>; Mon, 31 Jan 2022 07:36:24 +0100 (CET)
+Received: from localhost ([::1]:41258 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nEQ4b-0000Bt-Dk
-	for lists+qemu-devel@lfdr.de; Mon, 31 Jan 2022 01:21:57 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:59370)
+	id 1nEQIY-0004Nc-Qg
+	for lists+qemu-devel@lfdr.de; Mon, 31 Jan 2022 01:36:22 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:35572)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1nEQ03-0006yf-EY
- for qemu-devel@nongnu.org; Mon, 31 Jan 2022 01:17:15 -0500
-Received: from [2a00:1450:4864:20::635] (port=42733
- helo=mail-ej1-x635.google.com)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1nEQGV-0003c0-DF; Mon, 31 Jan 2022 01:34:15 -0500
+Received: from [2607:f8b0:4864:20::d2f] (port=37482
+ helo=mail-io1-xd2f.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1nEQ01-0005Is-HD
- for qemu-devel@nongnu.org; Mon, 31 Jan 2022 01:17:15 -0500
-Received: by mail-ej1-x635.google.com with SMTP id m4so39563602ejb.9
- for <qemu-devel@nongnu.org>; Sun, 30 Jan 2022 22:17:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1nEQGS-00082u-FC; Mon, 31 Jan 2022 01:34:13 -0500
+Received: by mail-io1-xd2f.google.com with SMTP id n17so15445703iod.4;
+ Sun, 30 Jan 2022 22:34:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=BRdd4MquKtfEaG70l3NEOQbNAz5yESxkjeT1q0mQUaA=;
- b=LdCPJjBSnBdcAM2B30w8wHQp4Y5QbjVgTUQzfLRTugVOav7R3CHm3PVNKyd2wqudJy
- ps9L2VDNEnlrIaQwomp/E6GnjpIM1xHq/FGmzhg8OWp9fTOPu37zXT2FtQn8v4NctNEG
- Yr3BZV4Ya8CwxeD/+OVytWXSp2lI1qOKhOuDDt764Cu3I68j6T2G8ay5M+7Wh1zIxOiZ
- y/KKiSIhcHpqFwGY9BRUuvM+HNZs0ICBlvW82gagtFNmW1wOZUvVnlkwatJrXWX7F75o
- kbbiTewdWDqDXYHSbp48QPtXBW1pPlTv2xVV6wq0dHc+QQRRjnhawRRaE7ORySa8Nr7b
- QFkQ==
+ :cc; bh=FQRGwxcjhZ7j5jntoCET/NSCqSVLiRF+K8hs9vX7USc=;
+ b=RqN4PtxC2RY1BpoikVMCbsw3BAkGTa40xwEDq8VGg1CYZY0wAISSri6lUgpVc6U1Dj
+ KcivoWVdGWCTkNvCyaURC1kx3Pg9u6qCsSN3oDt0lbjE8MTi+g+sC/I41s2527HJOuQC
+ Esek1MxKzyjuxqh7Cl7y9HwuBbsilnZw6AlZ+3NBibBCE3EVIvaMcW7D5/lvxwHj+XNj
+ jVnmhXn0c2fnI8AiGlTrSxLhSkdyBqNG+gMahys02D/En6xwrrTW73mvznykNuq08o8o
+ SBCvxH0r4wN2f/w0BRZIWxsP7VwO2de5O1xJ+kwvlV8KQ4/3UJK/xGkgKZ7TUGRFp1rA
+ ghfA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=BRdd4MquKtfEaG70l3NEOQbNAz5yESxkjeT1q0mQUaA=;
- b=E7WW4OCneO3aj90dj1+ZzoSmR4ytQmRm1YdzED//sx9ucLTI4N02wEUI1puPKeglwN
- WVIJxjYTyltfAqcG/NnOzkmfo+ksED5L3An5Mru56Iq7WB2IR0hnHPANBeHVhcyLC3x2
- Ba5UOMX1e3uw87Gh0Oa3Qs2yRIKn1jpvbJH8cnEQe25PAkLMaNpzsa2UTq85v4zD9/cP
- Q830k0y7NFJ0J/RDC0VDoEyQNWxccU++jcitlIPJFhPIbjFKh7fdWz1JwHmz8P5jGMqP
- U7An/NUSTqp+mtR67mbLDjXf6qWrFqKCfnUCte0y7UZq0lU780W9B6vE71gxBuTJYrtI
- sm5w==
-X-Gm-Message-State: AOAM532GVfh7qODEmWBpnHM/1TQKbif7b0RtSHKagYQmwqb0BV1ZtiPr
- zMYBWlyourUi/KDpFswBUJThdStxq8nLUQyAGelXvA==
-X-Google-Smtp-Source: ABdhPJyH6anEDNZAmS1/6S31JAZ0/8yYKRbq5AR2UEwnn5ZGibwWkVQ671VQtKbeQdrx1gTKc2IO+edUDBeackBH9ws=
-X-Received: by 2002:a17:907:9493:: with SMTP id
- dm19mr15800944ejc.51.1643609831255; 
- Sun, 30 Jan 2022 22:17:11 -0800 (PST)
+ bh=FQRGwxcjhZ7j5jntoCET/NSCqSVLiRF+K8hs9vX7USc=;
+ b=owOYUuwYW5tWpVVqasxDhZMu/fnOfq/lrvCp6g49KfLReWNIHziGOIdswhkm5HjL7X
+ M/U2ZiVvNMmmW2SKpqidYphojClCAWlZn5COSAqtUaWNWbZNhNhfIY63mFrb9isa7c6T
+ npWIJxsDLesg7re/tW0g4iVcO7is1TTUVRTiW9l58TUGoYx1vSX9M5q1CvL+lIiTA/JJ
+ yvxxAOpY7XhiaylKO/IwbOwU/aMDxrePkYiBQmpPScOK174AAGt5dVZLkBSSZOEiNf/d
+ HcrRBOmtopb++SF7phlV8hAtvgVu6XBEiLXtUBmDZbnY1Q0efFrjaL1Vow0t0hg5Mh6j
+ MrRA==
+X-Gm-Message-State: AOAM5306F/6YnFQ5YR9a5v8XBiljrGVbjxG5Z77PXFXWpmeD/e4hiula
+ KM1/AtzW906IywuplFALo8ZsVOIBi4nwuaukIeI=
+X-Google-Smtp-Source: ABdhPJzYa0iAdRdi+9xE79Pn/JDw7WOX7XrlbpgLfIocAaVJW8opXyi8am5LFQIXLCpUT3hNvNxg8tj9k2aOQxwb3fQ=
+X-Received: by 2002:a02:c956:: with SMTP id u22mr9751007jao.63.1643610850581; 
+ Sun, 30 Jan 2022 22:34:10 -0800 (PST)
 MIME-Version: 1.0
-References: <20220112130332.1648664-1-imammedo@redhat.com>
- <20220112130332.1648664-4-imammedo@redhat.com>
-In-Reply-To: <20220112130332.1648664-4-imammedo@redhat.com>
-From: Ani Sinha <ani@anisinha.ca>
-Date: Mon, 31 Jan 2022 11:47:00 +0530
-Message-ID: <CAARzgwyc4UkvDSfu_tg8PqvG9VUZWVuPgVv5NRWqAguJgc8Thw@mail.gmail.com>
-Subject: Re: [PATCH 3/4] acpi: fix OEM ID/OEM Table ID padding
-To: Igor Mammedov <imammedo@redhat.com>
+References: <20220120200735.2739543-1-atishp@rivosinc.com>
+ <20220120200735.2739543-2-atishp@rivosinc.com>
+ <fc833a66-c0fe-931a-ab7e-e81917a8d786@linaro.org>
+ <CAHBxVyGOuLWPs1-10GTAtz6=QMDybOq4h5dXLq7NcDYOTn9nuA@mail.gmail.com>
+In-Reply-To: <CAHBxVyGOuLWPs1-10GTAtz6=QMDybOq4h5dXLq7NcDYOTn9nuA@mail.gmail.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Mon, 31 Jan 2022 16:33:44 +1000
+Message-ID: <CAKmqyKOG69wcrL0z8MMtjiyLjGrfwTx-mLM-KsSuMfWXZjCjkg@mail.gmail.com>
+Subject: Re: [RFC 1/5] target/riscv: Add the privileged spec version 1.12.0
+To: Atish Kumar Patra <atishp@rivosinc.com>
 Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::635
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::d2f
  (failed)
-Received-SPF: none client-ip=2a00:1450:4864:20::635;
- envelope-from=ani@anisinha.ca; helo=mail-ej1-x635.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d2f;
+ envelope-from=alistair23@gmail.com; helo=mail-io1-xd2f.google.com
 X-Spam_score_int: -10
 X-Spam_score: -1.1
 X-Spam_bar: -
 X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_NONE=0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, PDS_HP_HELO_NORDNS=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -80,74 +81,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-stable@nongnu.org, "Michael S . Tsirkin" <mst@redhat.com>,
- qemu-devel@nongnu.org, "Dmitry V . Orekhov" <dima.orekhov@gmail.com>,
- Marian Postevca <posteuca@mutex.one>
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Anup Patel <anup@brainfault.org>, Bin Meng <bin.meng@windriver.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Jan 12, 2022 at 6:33 PM Igor Mammedov <imammedo@redhat.com> wrote:
+On Sat, Jan 29, 2022 at 10:57 AM Atish Kumar Patra <atishp@rivosinc.com> wrote:
 >
-> Commit [2] broke original '\0' padding of OEM ID and OEM Table ID
-> fields in headers of ACPI tables. While it doesn't have impact on
-> default values since QEMU uses 6 and 8 characters long values
-> respectively, it broke usecase where IDs are provided on QEMU CLI.
-> It shouldn't affect guest (but may cause licensing verification
-> issues in guest OS).
-> One of the broken usecases is user supplied SLIC table with IDs
-> shorter than max possible length, where [2] mangles IDs with extra
-> spaces in RSDT and FADT tables whereas guest OS expects those to
-> mirror the respective values of the used SLIC table.
 >
-> Fix it by replacing whitespace padding with '\0' padding in
-> accordance with [1] and expectations of guest OS
 >
-> 1) ACPI spec, v2.0b
->        17.2 AML Grammar Definition
->        ...
->        //OEM ID of up to 6 characters. If the OEM ID is
->        //shorter than 6 characters, it can be terminated
->        //with a NULL character.
+> On Sun, Jan 23, 2022 at 11:59 PM Richard Henderson <richard.henderson@linaro.org> wrote:
+>>
+>> On 1/21/22 7:07 AM, Atish Patra wrote:
+>> > Add the definition for ratified privileged specification version v1.12
+>> >
+>> > Signed-off-by: Atish Patra <atishp@rivosinc.com>
+>> > ---
+>> >   target/riscv/cpu.h | 1 +
+>> >   1 file changed, 1 insertion(+)
+>> >
+>> > diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+>> > index 4d630867650a..671f65100b1a 100644
+>> > --- a/target/riscv/cpu.h
+>> > +++ b/target/riscv/cpu.h
+>> > @@ -82,6 +82,7 @@ enum {
+>> >
+>> >   #define PRIV_VERSION_1_10_0 0x00011000
+>> >   #define PRIV_VERSION_1_11_0 0x00011100
+>> > +#define PRIV_VERSION_1_12_0 0x00011200
+>>
+>> Is there any good reason for defining things this way, as opposed to a simple enumeration?
+>> A simple enum would eliminate the need for
+>>
+>
+> Agreed. A simple enum would be much nicer. I was just following the previous definition of
+> PRIV_VERSION_1_10_0 & PRIV_VERSION_1_11_0.
+>
+> I am not sure about the reason behind this scheme.
+>
+> @Alistair Francis Is there any history behind this scheme ?
 
-On the other hand, from
-https://uefi.org/specs/ACPI/6.4/21_ACPI_Data_Tables_and_Table_Def_Language/ACPI_Data_Tables.html
-,
+I don't think so
 
-"For example, the OEM ID and OEM Table ID in the common ACPI table
-header (shown above) are fixed at six and eight characters,
-respectively. They are not necessarily null terminated"
+> or Are you okay if I change it ?
 
-I also checked version 5 and the verbiage is the same. I think not
-terminating with a null is not incorrect.
+Yep :)
 
->
-> 2)
-> Fixes: 602b458201 ("acpi: Permit OEM ID and OEM table ID fields to be changed")
-> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/707
-> Reported-by: Dmitry V. Orekhov <dima.orekhov@gmail.com>
-> Signed-off-by: Igor Mammedov <imammedo@redhat.com>
-> Cc: qemu-stable@nongnu.org
-> ---
->  hw/acpi/aml-build.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/hw/acpi/aml-build.c b/hw/acpi/aml-build.c
-> index b3b3310df3..65148d5b9d 100644
-> --- a/hw/acpi/aml-build.c
-> +++ b/hw/acpi/aml-build.c
-> @@ -1724,9 +1724,9 @@ void acpi_table_begin(AcpiTable *desc, GArray *array)
->      build_append_int_noprefix(array, 0, 4); /* Length */
->      build_append_int_noprefix(array, desc->rev, 1); /* Revision */
->      build_append_int_noprefix(array, 0, 1); /* Checksum */
-> -    build_append_padded_str(array, desc->oem_id, 6, ' '); /* OEMID */
-> +    build_append_padded_str(array, desc->oem_id, 6, '\0'); /* OEMID */
->      /* OEM Table ID */
-> -    build_append_padded_str(array, desc->oem_table_id, 8, ' ');
-> +    build_append_padded_str(array, desc->oem_table_id, 8, '\0');
->      build_append_int_noprefix(array, 1, 4); /* OEM Revision */
->      g_array_append_vals(array, ACPI_BUILD_APPNAME8, 4); /* Creator ID */
->      build_append_int_noprefix(array, 1, 4); /* Creator Revision */
-> --
-> 2.31.1
->
+Alistair
 
