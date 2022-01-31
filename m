@@ -2,57 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8B284A4C59
-	for <lists+qemu-devel@lfdr.de>; Mon, 31 Jan 2022 17:42:33 +0100 (CET)
-Received: from localhost ([::1]:60554 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D74F4A4C6F
+	for <lists+qemu-devel@lfdr.de>; Mon, 31 Jan 2022 17:49:27 +0100 (CET)
+Received: from localhost ([::1]:43134 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nEZlA-0006AY-Qi
-	for lists+qemu-devel@lfdr.de; Mon, 31 Jan 2022 11:42:32 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:36078)
+	id 1nEZrq-0005GN-4C
+	for lists+qemu-devel@lfdr.de; Mon, 31 Jan 2022 11:49:26 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:41368)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1nEZO2-0003Bn-RL
- for qemu-devel@nongnu.org; Mon, 31 Jan 2022 11:18:38 -0500
-Received: from kylie.crudebyte.com ([5.189.157.229]:41775)
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1nEZfw-0001Lr-LT
+ for qemu-devel@nongnu.org; Mon, 31 Jan 2022 11:37:08 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:36769)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1nEZO0-0007gd-E2
- for qemu-devel@nongnu.org; Mon, 31 Jan 2022 11:18:38 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
- MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
- Content-ID:Content-Description;
- bh=bMminvCdihyBEuCIzA+pIn1EoSMT1I1hGwBP5zDSwjo=; b=q9Xhh8vdzwIG2HkhiHS1JIWkHT
- 0ckIjgjjPBfrdBst6nsTUtWBGVvAYjb6P4J7FP6cITZV6kdpoibmp8L8VGs718NkgRe+TQGtdEilf
- y2iBcljckNIunmctsvOAZpXTTU7D6vQu/pxZa2njMFqCgpzx97yyxScH00alijOs4MEsbkI4hE7m3
- 8nXRlttet9IxgsIt3yhil9gQisDruhT1GtqD+Tl3To5zt240l1sGVmIgTTTau9vC1N9SpwQahOaAp
- idRoO9hY5hAKmO0WUVgfyaOW2KwvtwbR6hZ4w0oZ/4QK8EdHiAj/7lFiW1PWLErxNKDDwK7sE0nv8
- 2zttqSDavhDWQLmFqc6yqb2C5Q9djtLDE5GjSsKQeQYMuZe6lSzm1Oghf/ZbRxM0tXjtLTKiPzqd+
- oFOd4FecYk6rxcyljhhIFMM8TNKZknAk/bz2BzdOOZg94ngV9hnwKsNHh+IhIqiUnhQK6+0nUMeAL
- nL1mZVU/QSQbxi2cpzQ7Lc/EyD74u7xKGJGHVTciVGD+cZ5Qrd7W25wHaLtJyDqaY6Xrt9lB/xQz6
- dnXu8HeWzpMaoJbCq0toE2jkcJh2i5tHq6lfnzqC9jdg8vyH/WLLnaWe2kiXIGFAI8D7HCcNhwMkH
- /tQrTgHUUc8umevmPO9s8EeCMUhtZC4Wl9fdIl3UU=;
-From: Christian Schoenebeck <qemu_oss@crudebyte.com>
-To: Greg Kurz <groug@kaod.org>
-Cc: qemu-devel@nongnu.org, Laurent Vivier <lvivier@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>
-Subject: Re: [PATCH] tests/9pfs: Use g_autofree and g_autoptr where possible
-Date: Mon, 31 Jan 2022 17:18:33 +0100
-Message-ID: <6421822.Trfd2Djtnt@silver>
-In-Reply-To: <20220131170907.3a85de94@bahia>
-References: <20220126171136.672657-1-groug@kaod.org>
- <2777753.eeY9lOXx2E@silver> <20220131170907.3a85de94@bahia>
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1nEZfq-0002LB-KQ
+ for qemu-devel@nongnu.org; Mon, 31 Jan 2022 11:37:07 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1643647021;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=i4NFuUGEOt6ZMUpyh9ahSqcFwwTjx1XFLnPuhZvg/pc=;
+ b=hf3WAUWVO1ibVlAG6fwrES0vPOpdFoY9bGWsrHaw3ofdryXXGKmZfXLUcIkytw6l8Adz8q
+ JaDPsBWO2WekiQgmuSeSMxHSHJvfb40dmsvLvEU3MiNNeUC0THEkaXRvXVgidaAKOSvKo2
+ wOBYOBM/IYPROTXQuVnlDWR3U17l4nU=
+Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
+ [209.85.160.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-64-oCONUcE1NIqBX3r-n5LjIA-1; Mon, 31 Jan 2022 11:37:00 -0500
+X-MC-Unique: oCONUcE1NIqBX3r-n5LjIA-1
+Received: by mail-qt1-f197.google.com with SMTP id
+ 4-20020ac85744000000b002b2f329efc2so10697384qtx.12
+ for <qemu-devel@nongnu.org>; Mon, 31 Jan 2022 08:37:00 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=i4NFuUGEOt6ZMUpyh9ahSqcFwwTjx1XFLnPuhZvg/pc=;
+ b=FnxZEdg7r+Rtmadx4hnLZlp3P0yGbm/Eo3xnb1U+dvjN9KtZ2Oj8EDNH++Jk3HpAGd
+ lDq/rwNWrXKEq+Pql1WWo92va4WrQjW9XewReL5dsZAEztKo6LGMx784OTKy5uwI1maJ
+ 1Gu539BYrGDk5rKn8qZ9LrPeJT6xxdQ8QZ7q/TyoyPPVDeYIHhAu57iyctKFF5sQ7/qg
+ 3gHZ+RktDyAWmDxNTheEz7FJ32t++Pr/XtKJ7GLBhvScjLBfYvxXBXZje9FZCkXpgP9i
+ R/Rhf/t33+Rwlp78qLvguvlJjLm52bvhBdtBMkvjjZQqMvZksj4FY5JeVTlLvA7zbLt0
+ UbuQ==
+X-Gm-Message-State: AOAM531FdvkkTIBua2W89ODsEWn/LvGhMbWsAbM0kDg9ysIkS1cxAe/T
+ kxFo/LqilW7XrOb2z2uT8Xb5jbXK5CKkQMyTHxWPkJTsp06SO2IAIXAdQGSofvCCwl572dHuW7P
+ wQVlh7iGD2ofk4JUaVb2vOUC0GL5g5/E=
+X-Received: by 2002:ad4:5f8d:: with SMTP id jp13mr18083635qvb.70.1643647019701; 
+ Mon, 31 Jan 2022 08:36:59 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyKDl0SFTcMQST/rN99Zj8Tzgw1+d4siR4YiB1hG2YL45iLjs8zNBQJVcLeCiPDu2t5T5mbslfONkViYcqss8M=
+X-Received: by 2002:ad4:5f8d:: with SMTP id jp13mr18083593qvb.70.1643647019399; 
+ Mon, 31 Jan 2022 08:36:59 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
-Received-SPF: pass client-ip=5.189.157.229;
- envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+References: <20220121202733.404989-1-eperezma@redhat.com>
+ <20220121202733.404989-16-eperezma@redhat.com>
+ <04720687-f6b9-1ed9-c4da-30a965743065@redhat.com>
+In-Reply-To: <04720687-f6b9-1ed9-c4da-30a965743065@redhat.com>
+From: Eugenio Perez Martin <eperezma@redhat.com>
+Date: Mon, 31 Jan 2022 17:36:23 +0100
+Message-ID: <CAJaqyWeNwKpj3PS1r1T3g-TZivVni9jBsnh-h5eMk5bUxDQ6Tw@mail.gmail.com>
+Subject: Re: [PATCH 15/31] vdpa: Add vhost_svq_get_num
+To: Jason Wang <jasowang@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eperezma@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eperezma@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -66,84 +93,87 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Laurent Vivier <lvivier@redhat.com>, Parav Pandit <parav@mellanox.com>,
+ Cindy Lu <lulu@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Juan Quintela <quintela@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ qemu-level <qemu-devel@nongnu.org>, Gautam Dawar <gdawar@xilinx.com>,
+ Markus Armbruster <armbru@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ Harpreet Singh Anand <hanand@xilinx.com>, Xiao W Wang <xiao.w.wang@intel.com>,
+ Peter Xu <peterx@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Eli Cohen <eli@mellanox.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Zhu Lingshan <lingshan.zhu@intel.com>,
+ virtualization <virtualization@lists.linux-foundation.org>,
+ Eric Blake <eblake@redhat.com>, Stefano Garzarella <sgarzare@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Montag, 31. Januar 2022 17:09:07 CET Greg Kurz wrote:
-> On Mon, 31 Jan 2022 16:12:45 +0100
-> 
-> Christian Schoenebeck <qemu_oss@crudebyte.com> wrote:
-> > On Montag, 31. Januar 2022 15:44:46 CET Greg Kurz wrote:
-> > > On Mon, 31 Jan 2022 13:37:23 +0100
-> > > 
-> > > Christian Schoenebeck <qemu_oss@crudebyte.com> wrote:
-> > > > On Montag, 31. Januar 2022 08:35:24 CET Greg Kurz wrote:
-> > > > > > > > diff --git a/tests/qtest/libqos/virtio-9p.c
-> > > > > > > > b/tests/qtest/libqos/virtio-9p.c index
-> > > > > > > > ef96ef006adc..0a0d0d16709b
-> > > > > > > > 100644
-> > > > > > > > --- a/tests/qtest/libqos/virtio-9p.c
-> > > > > > > > +++ b/tests/qtest/libqos/virtio-9p.c
-> > > > > > > > @@ -40,14 +40,13 @@ static char *concat_path(const char* a,
-> > > > > > > > const
-> > > > > > > > char* b)
-> > > > > > > > 
-> > > > > > > >  void virtio_9p_create_local_test_dir(void)
-> > > > > > > >  {
-> > > > > > > >  
-> > > > > > > >      struct stat st;
-> > > > > > > > 
-> > > > > > > > -    char *pwd = g_get_current_dir();
-> > > > > > > > -    char *template = concat_path(pwd,
-> > > > > > > > "qtest-9p-local-XXXXXX");
-> > > > > > > > +    g_autofree char *pwd = g_get_current_dir();
-> > > > > > > > +    g_autofree char *template = concat_path(pwd,
-> > > > > > > > "qtest-9p-local-XXXXXX");
-> > > > > > > > 
-> > > > > > > >      local_test_path = mkdtemp(template);
-> > > > > > 
-> > > > > > ... mkdtemp() does not allocate a new buffer, it just modifies the
-> > > > > > character array passed, i.e. the address returned by mkdtemp()
-> > > > > > equals
-> > > > > > the
-> > > > > > address of variable 'template', and when
-> > > > > > virtio_9p_create_local_test_dir() scope is left, the global
-> > > > > > variable
-> > > > > > 'local_test_path' would then point to freed memory.
-> > > > > 
-> > > > > I hate global variables ;-) and the 'Returned result must be freed'
-> > > > > comment
-> > > > > in 'concat_path()' is slightly misleading in this respect.
-> > > > 
-> > > > About the global variable: sure, I am not happy about it either. What
-> > > > I
-> > > > disliked even more is that virtio_9p_create_local_test_dir() is called
-> > > > from a constructor, but as I described in [1] I did not find a
-> > > > realiable
-> > > > alternative. If somebody comes up with a working and reliable, clean
-> > > > alternative, very much appreciated!
-> > > 
-> > > An alternative might be to create/remove the test directory when
-> > > a virtio-9p device is started/destroyed, and keeping the string
-> > > under the QVirtio9p structure.
-> > 
-> > Yeah, I tried that already. Keep in mind it not only has to work
-> > sometimes, it has to work reliably, always, for everybody and commit
-> > history shows that this can be more hairy than one might think and
-> > observe.
-> 
-> Yeah it is more hairy... the temp directory must be created before the
-> device. We could maybe get rid of the constructor by creating the temp
-> direcotry in assign_9p_local_driver() since this is the first user. Then we
-> still need the destructor to do final cleanup.
+On Sat, Jan 29, 2022 at 9:15 AM Jason Wang <jasowang@redhat.com> wrote:
+>
+>
+> =E5=9C=A8 2022/1/22 =E4=B8=8A=E5=8D=884:27, Eugenio P=C3=A9rez =E5=86=99=
+=E9=81=93:
+> > This reports the guest's visible SVQ effective length, not the device's
+> > one.
+>
+>
+> I think we need to explain if there could be a case that the SVQ size is
+> not equal to the device queue size.
+>
 
-I save your time on that: it doesn't work. I tried that as well, plus probably 
-a bunch of other options that you haven't considered yet. I even reviewed the 
-entire libqos and glib test case code base to find a clean alternative, 
-without success.
+The description is actually misleading now that I re-read it. It
+reports the size that the guest negotiated with SVQ for the guest's
+vring, not the one that SVQ negotiates with the device for SVQ's
+vring. I'll reword for the next version so thanks for pointing it out.
 
-Best regards,
-Christian Schoenebeck
+Regarding your comment, the only case it can happen is if SVQ cannot
+get device's num, something that we could make an error as you point
+out later in the series.
 
+Thanks!
+
+> Thanks
+>
+>
+> >
+> > Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
+> > ---
+> >   hw/virtio/vhost-shadow-virtqueue.h | 1 +
+> >   hw/virtio/vhost-shadow-virtqueue.c | 5 +++++
+> >   2 files changed, 6 insertions(+)
+> >
+> > diff --git a/hw/virtio/vhost-shadow-virtqueue.h b/hw/virtio/vhost-shado=
+w-virtqueue.h
+> > index 3521e8094d..035207a469 100644
+> > --- a/hw/virtio/vhost-shadow-virtqueue.h
+> > +++ b/hw/virtio/vhost-shadow-virtqueue.h
+> > @@ -29,6 +29,7 @@ const EventNotifier *vhost_svq_get_svq_call_notifier(
+> >                                                 const VhostShadowVirtqu=
+eue *svq);
+> >   void vhost_svq_get_vring_addr(const VhostShadowVirtqueue *svq,
+> >                                 struct vhost_vring_addr *addr);
+> > +uint16_t vhost_svq_get_num(const VhostShadowVirtqueue *svq);
+> >   size_t vhost_svq_driver_area_size(const VhostShadowVirtqueue *svq);
+> >   size_t vhost_svq_device_area_size(const VhostShadowVirtqueue *svq);
+> >
+> > diff --git a/hw/virtio/vhost-shadow-virtqueue.c b/hw/virtio/vhost-shado=
+w-virtqueue.c
+> > index 0f2c2403ff..f129ec8395 100644
+> > --- a/hw/virtio/vhost-shadow-virtqueue.c
+> > +++ b/hw/virtio/vhost-shadow-virtqueue.c
+> > @@ -212,6 +212,11 @@ void vhost_svq_get_vring_addr(const VhostShadowVir=
+tqueue *svq,
+> >       addr->used_user_addr =3D (uint64_t)svq->vring.used;
+> >   }
+> >
+> > +uint16_t vhost_svq_get_num(const VhostShadowVirtqueue *svq)
+> > +{
+> > +    return svq->vring.num;
+> > +}
+> > +
+> >   size_t vhost_svq_driver_area_size(const VhostShadowVirtqueue *svq)
+> >   {
+> >       size_t desc_size =3D sizeof(vring_desc_t) * svq->vring.num;
+>
 
 
