@@ -2,74 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EBB624A4A7B
-	for <lists+qemu-devel@lfdr.de>; Mon, 31 Jan 2022 16:24:44 +0100 (CET)
-Received: from localhost ([::1]:59244 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 188A34A4AB0
+	for <lists+qemu-devel@lfdr.de>; Mon, 31 Jan 2022 16:35:42 +0100 (CET)
+Received: from localhost ([::1]:44404 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nEYXr-0001lJ-Ge
-	for lists+qemu-devel@lfdr.de; Mon, 31 Jan 2022 10:24:43 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:43066)
+	id 1nEYiS-0002oL-R6
+	for lists+qemu-devel@lfdr.de; Mon, 31 Jan 2022 10:35:40 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:48000)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kchamart@redhat.com>)
- id 1nEYV2-0007Ub-PR
- for qemu-devel@nongnu.org; Mon, 31 Jan 2022 10:21:48 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:56927)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kchamart@redhat.com>)
- id 1nEYV0-0005D8-4x
- for qemu-devel@nongnu.org; Mon, 31 Jan 2022 10:21:47 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1643642504;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=YhB0Qjf7NDFI/PnjBQS8ALRT4bXYiJu1xQeX6seATrQ=;
- b=a6PaCKzYx4n/yPB6ggwIOeHksYEvhL3IdCulcZEgR5OLdHYR4KEQiy0TxiB7chNEuuDphM
- 2HaNym4m+VhlV05f20Fhh8MaoibVeM/NZvF+lboABhJpHDvEuRxRXqTdCd6snivvZqQ7Nd
- NejDW6gfKKcCfnJnHdQK0G/NWlEtRx0=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-624-G5sDE_qYN8uJkUY65Ilhqw-1; Mon, 31 Jan 2022 10:21:41 -0500
-X-MC-Unique: G5sDE_qYN8uJkUY65Ilhqw-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5E04F1091DA1;
- Mon, 31 Jan 2022 15:21:40 +0000 (UTC)
-Received: from paraplu (unknown [10.39.195.135])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 4A3E57DE26;
- Mon, 31 Jan 2022 15:21:39 +0000 (UTC)
-Date: Mon, 31 Jan 2022 16:21:36 +0100
-From: Kashyap Chamarthy <kchamart@redhat.com>
-To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
-Subject: Re: [PATCH v2] docs: expand firmware descriptor to allow flash
- without NVRAM
-Message-ID: <Yff+gCndUlijqMsz@paraplu>
-References: <20220131125509.170307-1-berrange@redhat.com>
- <YffrgRRVCEWVLS41@paraplu> <Yffz/v/7b6jJOBwi@redhat.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nEYfZ-0000Wf-5K
+ for qemu-devel@nongnu.org; Mon, 31 Jan 2022 10:32:45 -0500
+Received: from [2a00:1450:4864:20::434] (port=35348
+ helo=mail-wr1-x434.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nEYfX-0007Ws-KR
+ for qemu-devel@nongnu.org; Mon, 31 Jan 2022 10:32:40 -0500
+Received: by mail-wr1-x434.google.com with SMTP id e2so26232120wra.2
+ for <qemu-devel@nongnu.org>; Mon, 31 Jan 2022 07:32:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=1dUdavbE8b6OGsd/FVUyFvW0rzMLB8ykgoS73s+GG8Q=;
+ b=DnTc15E9HPAMA4T8EjCB5Eprx1YZ6VOxbZuT+vvLaU9aEMGqpTU2doxnHmG1r3upGg
+ Z9z74TiUdexPaFcqPOJSq/6tvri0HO156abP3CoP+rPGE8fx3iqyPzOKJbtNU5r4xUCG
+ bWylN6TuKo2UtOmaXuvKWPWo3jNfjvMshWeW+TcKtkKHfiiN/2RVVEYowAwwp/R7hfuu
+ N+GQnGIvHB+Pn/NDuF9h3lkg2NZ5luVnlm28J19GczEA0vRRZpVO85flG+9IIWOgSl60
+ Ihz7Ho7RurilUuzcddu80GNhdyWDQAJXeIgV7BJGxu9jBNzwBj28sygTJxiZoeUjfwLp
+ zgcQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=1dUdavbE8b6OGsd/FVUyFvW0rzMLB8ykgoS73s+GG8Q=;
+ b=P+vcTBSyu10YSx5b8FqZLGOndBTvaFnNAEyYHJIXsnMW6Fc36Mcdn/TMJQcCePPhI2
+ DfKzWBuVBeE1NpORdp5V0rt878BMEJciG5xYLWZqgOAQVYyhgceU5d5rKKV+2+LBwIni
+ mwN2XHfx100QRPImRS775eJszBM3uoVXVv3Vq6UqER7stmkKWxqwrcomQwuVl4o1jZEH
+ ITi/vhWZBaq3/L7wlAkTzK4fjUdWeNnAQYSOFonmNQJ2rUMUCCw9i96JuT2WlX9X6ns5
+ J/pNYlu1en6oqvPX86Y2xySESzzr0Mokc00KymNPLcdbjIJnwAOSCVg+JrZ5jiZFcqF6
+ pQPw==
+X-Gm-Message-State: AOAM530KuT7dqG4IN/Ne81faK/52At0pAfhlDbk07yqXPPjHSR4d2H8M
+ H1dQyssxoGwn2oh4S4RmkDiW8lOdtX910xLPg7OADQ==
+X-Google-Smtp-Source: ABdhPJw/zagpOLealsp1dnxYumwyHGoMZJmPXKoAmAcAEohY2MxfBYIhP16/5EqDJy5lEUN8IMQUzmnytXLLlJUQ9Ys=
+X-Received: by 2002:a05:6000:1acb:: with SMTP id
+ i11mr18353502wry.172.1643643156517; 
+ Mon, 31 Jan 2022 07:32:36 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <Yffz/v/7b6jJOBwi@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kchamart@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kchamart@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.088,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+References: <20220130231206.34035-1-edgar.iglesias@gmail.com>
+ <20220130231206.34035-2-edgar.iglesias@gmail.com>
+In-Reply-To: <20220130231206.34035-2-edgar.iglesias@gmail.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 31 Jan 2022 15:32:25 +0000
+Message-ID: <CAFEAcA-UZp943LVdq5VMn9mvDxzieWMFn_3+B8F38g5x_nsKbw@mail.gmail.com>
+Subject: Re: [PATCH v1 1/6] hw/arm/xlnx-zynqmp: Add unimplemented SERDES area
+To: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::434
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::434;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x434.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -82,42 +82,24 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: libvir-list@redhat.com, qemu-devel@nongnu.org,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>
+Cc: edgar.iglesias@xilinx.com, luc@lmichel.fr, sai.pavan.boddu@xilinx.com,
+ frasse.iglesias@gmail.com, alistair@alistair23.me,
+ richard.henderson@linaro.org, qemu-devel@nongnu.org,
+ francisco.iglesias@xilinx.com, frederic.konrad@adacore.com,
+ qemu-arm@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Jan 31, 2022 at 02:36:46PM +0000, Daniel P. Berrangé wrote:
-> On Mon, Jan 31, 2022 at 03:00:33PM +0100, Kashyap Chamarthy wrote:
-> > On Mon, Jan 31, 2022 at 12:55:09PM +0000, Daniel P. Berrangé wrote:
+On Sun, 30 Jan 2022 at 23:12, Edgar E. Iglesias
+<edgar.iglesias@gmail.com> wrote:
+>
+> From: "Edgar E. Iglesias" <edgar.iglesias@xilinx.com>
+>
+> Add unimplemented SERDES area.
 
-[...]
+What's a SERDES ? A brief description might be helpful in
+the commit message or a comment.
 
-> > I briefly wondered if in this "combined" mode whether the no. of
-> > duplicate copies can ever fill up the storage.  I doubt that, as the
-> > combined size of _VARS + _CODE is just about 2MB.  So it only starts
-> > mattering if you're running tens of thousands of guests.
-> 
-> When guest root / data disk sizes are measured in 100's of MB, or
-> GBs, I struggle to get worried about even a 16 MB OVMF  blob being
-> copied per guest.
-
-Heh, fair enough.
-
-> The firmware can be provided in qcow2 format too, so if really
-> concerned, just create a qcow2 file with a backing store pointing
-> to the readonly master, so you're only paying the price of the
-> delta for any guest VARs writes. That's more efficient than what
-> we do today with copying the separate raw format VARS.fd file.
-
-That's nice, I didn't know the qcow2 possibility in this context.  For
-some reason I assumed the file format always has to be raw here.  Your
-qcow2 point above should  be documented, if it isn't already.  Although
-I don't know the right place for it.
-
-[...]
-
--- 
-/kashyap
-
+thanks
+-- PMM
 
