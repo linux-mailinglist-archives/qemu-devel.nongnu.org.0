@@ -2,99 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA5FC4A4C40
-	for <lists+qemu-devel@lfdr.de>; Mon, 31 Jan 2022 17:36:55 +0100 (CET)
-Received: from localhost ([::1]:49718 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DB3354A4C4A
+	for <lists+qemu-devel@lfdr.de>; Mon, 31 Jan 2022 17:38:36 +0100 (CET)
+Received: from localhost ([::1]:53412 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nEZfh-00076o-UC
-	for lists+qemu-devel@lfdr.de; Mon, 31 Jan 2022 11:36:54 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:35384)
+	id 1nEZhL-0001EJ-VJ
+	for lists+qemu-devel@lfdr.de; Mon, 31 Jan 2022 11:38:35 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:36072)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1nEZLy-0008Ag-Ss
- for qemu-devel@nongnu.org; Mon, 31 Jan 2022 11:16:30 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:59820)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1nEZLx-0007QQ-0C
- for qemu-devel@nongnu.org; Mon, 31 Jan 2022 11:16:30 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1643645787;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=iJfsF5okITdGpCnkjP1kIyDMcL5UOjML6gIjoqrjuwY=;
- b=Vqfqtqkv1E3gW1yiSS/DprjPL7RVAFYl7kkpoTzoZWKg5ylZLDoKndHqOqH1BMkwyMotK4
- Z3/hcqf4d1Mlv2tLi5qkMbb6iANvjgouh8a2WZGwc3rD/CM3OAMhww0529u17hYQzs0Gkt
- FaHB7HEsZZPzGp/7txIs8P7XtdBTsWM=
-Received: from mail-oo1-f70.google.com (mail-oo1-f70.google.com
- [209.85.161.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-107-FK_4WNIOPjmemsHd9vxOWw-1; Mon, 31 Jan 2022 11:16:26 -0500
-X-MC-Unique: FK_4WNIOPjmemsHd9vxOWw-1
-Received: by mail-oo1-f70.google.com with SMTP id
- f8-20020a4aa688000000b002ede70d37dbso4531057oom.16
- for <qemu-devel@nongnu.org>; Mon, 31 Jan 2022 08:16:26 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nEZO2-0003At-I0
+ for qemu-devel@nongnu.org; Mon, 31 Jan 2022 11:18:38 -0500
+Received: from [2a00:1450:4864:20::32a] (port=36752
+ helo=mail-wm1-x32a.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nEZO0-0007gj-NP
+ for qemu-devel@nongnu.org; Mon, 31 Jan 2022 11:18:38 -0500
+Received: by mail-wm1-x32a.google.com with SMTP id
+ i187-20020a1c3bc4000000b0034d2ed1be2aso14035762wma.1
+ for <qemu-devel@nongnu.org>; Mon, 31 Jan 2022 08:18:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=dw54WNcRmpsJkaETPuJi8xKiteM+n7oxdS4peL/4oE4=;
+ b=g5fpEw+4961t6KDFGAh7rHlZx3z0Ia1JsRCHAUScLw+6YK4nGDgUfbqX/YUTqkk7DC
+ gP+UHkmDgdeKWO9J4shkosRzOL9qDrWEy/EEsgxe8snMUXyUzjnre1RDTrE84nLvb2VJ
+ 9k0FCUZmfrhZQzcHZUY4Lr+s8FAVsfravWvC2gIrVT5QE53aCzIuYfSaA/iDo+F9gqpe
+ w2t+StLGnY+WFpdMU+njgQ6CmjcxkrPhfVxmdYJpUX4I9o/CBYK26B4azwG0C6gWi1P9
+ YSyU6QkuXxH/r7khEDPQ+8dX3xAgeo2fq92ICnbdvsqQKiB1EiPbmlnHAbpV/mgJEpSL
+ z58w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=iJfsF5okITdGpCnkjP1kIyDMcL5UOjML6gIjoqrjuwY=;
- b=pNpIJHplRMk9Yi9Vjn03WDlo6YsMcS/RgxnyWac8Ji7Tsq7qexnmLELrcXMHeKPxKM
- Xj3QfVuZWbeALzURkZ0Erv7OV1Mra9Uy1lER9Kvu9+rkxwzktlKAoIpMHXqUAuycDPdl
- MIZSCLhJj/b3Nk5uGqVlarTAlHAWKgNbW1Byger7pzqDDZiMa3fSFRrij3SeqZ+iRbk1
- raITAjIPKgAOk2QAf2Ao5uL/5WORBy8n/98XNZaE4RxPVYnVMcxkAatTgfbO431ppETU
- 9rGJ/87c3oES+1Wxkmp165LlKhQBsUO3G6/F2ozcZGl8/dUGxFHW1ItDo4TQKyi7vlBJ
- coxQ==
-X-Gm-Message-State: AOAM530gw+IbzLUi6ikRAncsKx4XvNNdChaygh/MaTvJn4bzQnL6xmVW
- CvGoLb+p+EjEwhs0D3CsSszpnaJK6kqM3VOex/3v90x8ioHnuxtu66ty4X6s6KyYHGgq6R29lE3
- KPBiSKM2YNDy18Vc=
-X-Received: by 2002:a4a:d44f:: with SMTP id p15mr10449773oos.6.1643645785692; 
- Mon, 31 Jan 2022 08:16:25 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJx4aSB3C74BrQokz+kkUn6ECO/u3Gch+o0XhnDbBUEIz8iMNvYn8GtuKH70tpw4HDiG1rOVwQ==
-X-Received: by 2002:a4a:d44f:: with SMTP id p15mr10449748oos.6.1643645785446; 
- Mon, 31 Jan 2022 08:16:25 -0800 (PST)
-Received: from redhat.com ([38.15.36.239])
- by smtp.gmail.com with ESMTPSA id v26sm11662812ooq.20.2022.01.31.08.16.24
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 31 Jan 2022 08:16:25 -0800 (PST)
-Date: Mon, 31 Jan 2022 09:16:23 -0700
-From: Alex Williamson <alex.williamson@redhat.com>
-To: Stefan Hajnoczi <stefanha@redhat.com>
-Subject: Re: [PATCH v5 03/18] pci: isolated address space for PCI bus
-Message-ID: <20220131091623.6739464e.alex.williamson@redhat.com>
-In-Reply-To: <YfO00O4sT2UgaW31@stefanha-x1.localdomain>
-References: <2971c1bec04acaac4eb3c1f2b104cbeabad01e22.1642626515.git.jag.raman@oracle.com>
- <20220119190742-mutt-send-email-mst@kernel.org>
- <1CACFB08-1BBC-4ECC-9C0B-6F377018D795@oracle.com>
- <YfBDqMuO/l/gWzL8@work-vm>
- <AE47B5D2-6515-4BD3-B541-23E5274174AC@oracle.com>
- <YfEYHBhrsdF9Edpp@stefanha-x1.localdomain>
- <YfGqCJeTD9bmkZx6@work-vm>
- <20220126161120-mutt-send-email-mst@kernel.org>
- <YfJYFbBVQzho7mGp@stefanha-x1.localdomain>
- <20220127142253.21ab0025.alex.williamson@redhat.com>
- <YfO00O4sT2UgaW31@stefanha-x1.localdomain>
-X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=dw54WNcRmpsJkaETPuJi8xKiteM+n7oxdS4peL/4oE4=;
+ b=ivqjBhAO6ix+bEbvb1/kGZzf/DLJqIVQw9pS9G1iRea+hiHC7DHvQzR0CKv6Q2qthG
+ VURguqkL8uobku+gBbsi1UBLnbBuLzuFg4h0ukqbZCpcWRWLo5Hpkd2niHIEeGG/uGla
+ WvBhkLn0MUe2XScsv6hu49UdSUvLXZjKBSy+HrDSwo462jqlARByI3tl1IxKwPZRr3WE
+ 2IxPCU8rCSn5voi5+GuOi3iQ322fu5X9oZ8m39oYyIvNl4aoQIYXZ6xanzAlASjf/GBR
+ QZL866FvJeeWGtHtKVejarnVr2IC/j/LCJuXkcv4seryWcm4+H6CItxtsIHFF5Lmfo5o
+ J15A==
+X-Gm-Message-State: AOAM5335BTVFtT/efCrUlHtjMUPRPJNYIzMhJ9Jmp8Zq9vIpcCEQIlyI
+ sJSberktjDXy1uCtXo/gKlBNtZcu7M+WoODeHPqX1w==
+X-Google-Smtp-Source: ABdhPJwmneHhuu0n7Hzsg3/SozwGx4NAJJObhFxYImqmfFachY6Zii8b0zNpAa5Kcrkm3/WEitpL/OShrzBmxLGEdZ8=
+X-Received: by 2002:a05:600c:4f0b:: with SMTP id
+ l11mr5861065wmq.126.1643645914847; 
+ Mon, 31 Jan 2022 08:18:34 -0800 (PST)
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=alex.williamson@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124;
- envelope-from=alex.williamson@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.088,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+References: <20220131154531.429533-1-eric.auger@redhat.com>
+ <20220131154531.429533-3-eric.auger@redhat.com>
+ <20220131155936.lm7jn32ihb2ndsf7@gator>
+ <CAFEAcA-K3cAPMiAfHNCOaceRN2csH26W4w9RDOUUVhpKPMNh2Q@mail.gmail.com>
+ <20220131161408.py2ncvkkxxhbkpjj@gator>
+In-Reply-To: <20220131161408.py2ncvkkxxhbkpjj@gator>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 31 Jan 2022 16:18:23 +0000
+Message-ID: <CAFEAcA9+cAYPbMfrFQ0_bGoxuc=nGvp9Ku7Ps7s7DV-OOBnPfA@mail.gmail.com>
+Subject: Re: [PATCH 2/2] tests/qtest: Special case sbsa-ref and
+ xlnx-versal-virt if !CONFIG_ARM_GIC_TCG
+To: Andrew Jones <drjones@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32a
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32a.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -107,80 +87,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "eduardo@habkost.net" <eduardo@habkost.net>,
- Elena Ufimtseva <elena.ufimtseva@oracle.com>, Jag Raman <jag.raman@oracle.com>,
- Beraldo Leal <bleal@redhat.com>, John Johnson <john.g.johnson@oracle.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
- "armbru@redhat.com" <armbru@redhat.com>,
- "quintela@redhat.com" <quintela@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?B?TWFyYy1BbmRyw6k=?= Lureau <marcandre.lureau@gmail.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- "thanos.makatos@nutanix.com" <thanos.makatos@nutanix.com>, "Daniel
- P. =?UTF-8?B?QmVycmFuZ8Op?=" <berrange@redhat.com>,
- Eric Blake <eblake@redhat.com>,
- "john.levon@nutanix.com" <john.levon@nutanix.com>,
- Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <f4bug@amsat.org>
+Cc: lvivier@redhat.com, thuth@redhat.com, f4bug@amsat.org,
+ qemu-devel@nongnu.org, Eric Auger <eric.auger@redhat.com>, qemu-arm@nongnu.org,
+ pbonzini@redhat.com, eric.auger.pro@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 28 Jan 2022 09:18:08 +0000
-Stefan Hajnoczi <stefanha@redhat.com> wrote:
+On Mon, 31 Jan 2022 at 16:14, Andrew Jones <drjones@redhat.com> wrote:
+>
+> On Mon, Jan 31, 2022 at 04:05:06PM +0000, Peter Maydell wrote:
+> > On Mon, 31 Jan 2022 at 15:59, Andrew Jones <drjones@redhat.com> wrote:
+> > > Hmm, if these machine types completely depend on userspace gicv3
+> > > emulation, i.e. no way to use in-kernel gic or another tcg gic
+> > > model, then I guess they shouldn't be built at all when ARM_GIC_TCG
+> > > isn't configured. I.e.
+> > >
+> > > diff --git a/hw/arm/Kconfig b/hw/arm/Kconfig
+> > > index 2e0049196d6c..d7cc028b049d 100644
+> > > --- a/hw/arm/Kconfig
+> > > +++ b/hw/arm/Kconfig
+> > > @@ -209,6 +209,7 @@ config REALVIEW
+> > >
+> > >  config SBSA_REF
+> > >      bool
+> > > +    depends on ARM_GIC_TCG
+> > >      imply PCI_DEVICES
+> > >      select AHCI
+> > >      select ARM_SMMUV3
+> > > @@ -378,6 +379,7 @@ config XLNX_ZYNQMP_ARM
+> > >
+> > >  config XLNX_VERSAL
+> > >      bool
+> > > +    depends on ARM_GIC_TCG
+> > >      select ARM_GIC
+> > >      select PL011
+> > >      select CADENCE
+> >
+> > I kind of agree, but isn't this kind of mixing two things?
+>
+> How about two dependencies?
+>
+> >
+> > (1) Both these machines require a GICv3 and a GICv2 won't do,
+> > so they should do something that says "if you want this
+> > machine type, you need a GICv3 device"
+>
+> depends on ARM_GIC_TCG   (IMO, could use a rename to be gicv3 specific)
 
-> On Thu, Jan 27, 2022 at 02:22:53PM -0700, Alex Williamson wrote:
-> > If the goal here is to restrict DMA between devices, ie. peer-to-peer
-> > (p2p), why are we trying to re-invent what an IOMMU already does?  
-> 
-> The issue Dave raised is that vfio-user servers run in separate
-> processses from QEMU with shared memory access to RAM but no direct
-> access to non-RAM MemoryRegions. The virtiofs DAX Window BAR is one
-> example of a non-RAM MemoryRegion that can be the source/target of DMA
-> requests.
-> 
-> I don't think IOMMUs solve this problem but luckily the vfio-user
-> protocol already has messages that vfio-user servers can use as a
-> fallback when DMA cannot be completed through the shared memory RAM
-> accesses.
-> 
-> > In
-> > fact, it seems like an IOMMU does this better in providing an IOVA
-> > address space per BDF.  Is the dynamic mapping overhead too much?  What
-> > physical hardware properties or specifications could we leverage to
-> > restrict p2p mappings to a device?  Should it be governed by machine
-> > type to provide consistency between devices?  Should each "isolated"
-> > bus be in a separate root complex?  Thanks,  
-> 
-> There is a separate issue in this patch series regarding isolating the
-> address space where BAR accesses are made (i.e. the global
-> address_space_memory/io). When one process hosts multiple vfio-user
-> server instances (e.g. a software-defined network switch with multiple
-> ethernet devices) then each instance needs isolated memory and io address
-> spaces so that vfio-user clients don't cause collisions when they map
-> BARs to the same address.
-> 
-> I think the the separate root complex idea is a good solution. This
-> patch series takes a different approach by adding the concept of
-> isolated address spaces into hw/pci/.
+ARM_GIC_TCG has a "depends on ARM_GIC && TCG", though.
+"I need a GICv3" ought in principle to be satisfiable by
+the KVM GICv3.
 
-This all still seems pretty sketchy, BARs cannot overlap within the
-same vCPU address space, perhaps with the exception of when they're
-being sized, but DMA should be disabled during sizing.
+Part of the problem here is that we've let ARM_GIC mean both
+GICv2 and GICv3.
 
-Devices within the same VM context with identical BARs would need to
-operate in different address spaces.  For example a translation offset
-in the vCPU address space would allow unique addressing to the devices,
-perhaps using the translation offset bits to address a root complex and
-masking those bits for downstream transactions.
+> > (2) Both these machines don't work with KVM or hvf, so if we're
+> > not building TCG then there's no point configuring in these
+> > machine models (a property they share with every other arm
+> > machine type except "virt", currently)
+>
+> depends on TCG
 
-In general, the device simply operates in an address space, ie. an
-IOVA.  When a mapping is made within that address space, we perform a
-translation as necessary to generate a guest physical address.  The
-IOVA itself is only meaningful within the context of the address space,
-there is no requirement or expectation for it to be globally unique.
+I would prefer a way of phrasing this that only required
+us to say it in the one machine that can handle not-TCG
+(virt) rather than in the large number of machines that cannot...
 
-If the vfio-user server is making some sort of requirement that IOVAs
-are unique across all devices, that seems very, very wrong.  Thanks,
-
-Alex
-
+-- PMM
 
