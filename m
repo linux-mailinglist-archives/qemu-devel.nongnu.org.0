@@ -2,67 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B55364A486D
-	for <lists+qemu-devel@lfdr.de>; Mon, 31 Jan 2022 14:38:37 +0100 (CET)
-Received: from localhost ([::1]:33158 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A9724A47F3
+	for <lists+qemu-devel@lfdr.de>; Mon, 31 Jan 2022 14:22:53 +0100 (CET)
+Received: from localhost ([::1]:48952 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nEWt9-0001Qa-Do
-	for lists+qemu-devel@lfdr.de; Mon, 31 Jan 2022 08:38:35 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:34724)
+	id 1nEWdw-0000QB-5v
+	for lists+qemu-devel@lfdr.de; Mon, 31 Jan 2022 08:22:52 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:34558)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1nEUZ9-0006Fh-NK; Mon, 31 Jan 2022 06:09:50 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:32098)
+ id 1nEUZ1-0006BF-BA; Mon, 31 Jan 2022 06:09:41 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:8726)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1nEUZ8-00054u-0w; Mon, 31 Jan 2022 06:09:47 -0500
+ id 1nEUYy-00055C-0q; Mon, 31 Jan 2022 06:09:39 -0500
 Received: from pps.filterd (m0187473.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 20VA5xOD002068; 
- Mon, 31 Jan 2022 11:08:24 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3dx5a6s1rx-1
+ by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 20VA60vD002300; 
+ Mon, 31 Jan 2022 11:08:34 GMT
+Received: from ppma05fra.de.ibm.com (6c.4a.5195.ip4.static.sl-reverse.com
+ [149.81.74.108])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3dx5a6s1us-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 31 Jan 2022 11:08:23 +0000
-Received: from m0187473.ppops.net (m0187473.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 20VAPYxV024444;
- Mon, 31 Jan 2022 11:08:23 GMT
-Received: from ppma06fra.de.ibm.com (48.49.7a9f.ip4.static.sl-reverse.com
- [159.122.73.72])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3dx5a6s1qv-1
+ Mon, 31 Jan 2022 11:08:34 +0000
+Received: from pps.filterd (ppma05fra.de.ibm.com [127.0.0.1])
+ by ppma05fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 20VB2Gw8004641;
+ Mon, 31 Jan 2022 11:08:31 GMT
+Received: from b06cxnps4076.portsmouth.uk.ibm.com
+ (d06relay13.portsmouth.uk.ibm.com [9.149.109.198])
+ by ppma05fra.de.ibm.com with ESMTP id 3dvw78suq3-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 31 Jan 2022 11:08:23 +0000
-Received: from pps.filterd (ppma06fra.de.ibm.com [127.0.0.1])
- by ppma06fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 20VB2Hdj024749;
- Mon, 31 Jan 2022 11:08:19 GMT
-Received: from b06avi18626390.portsmouth.uk.ibm.com
- (b06avi18626390.portsmouth.uk.ibm.com [9.149.26.192])
- by ppma06fra.de.ibm.com with ESMTP id 3dvvuhsygh-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 31 Jan 2022 11:08:19 +0000
+ Mon, 31 Jan 2022 11:08:31 +0000
 Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com
  [9.149.105.59])
- by b06avi18626390.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
- id 20VAwUgm40829408
+ by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 20VB8THm35914150
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 31 Jan 2022 10:58:31 GMT
+ Mon, 31 Jan 2022 11:08:29 GMT
 Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 3E8F2A4040;
- Mon, 31 Jan 2022 11:08:17 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 10227A4059;
+ Mon, 31 Jan 2022 11:08:29 +0000 (GMT)
 Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id BC580A404D;
- Mon, 31 Jan 2022 11:08:16 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id A46E8A4051;
+ Mon, 31 Jan 2022 11:08:28 +0000 (GMT)
 Received: from smtp.tlslab.ibm.com (unknown [9.101.4.1])
  by d06av23.portsmouth.uk.ibm.com (Postfix) with SMTP;
- Mon, 31 Jan 2022 11:08:16 +0000 (GMT)
+ Mon, 31 Jan 2022 11:08:28 +0000 (GMT)
 Received: from yukon.ibmuc.com (unknown [9.171.57.185])
- by smtp.tlslab.ibm.com (Postfix) with ESMTP id 965FC2201C1;
- Mon, 31 Jan 2022 12:08:15 +0100 (CET)
+ by smtp.tlslab.ibm.com (Postfix) with ESMTP id B273B2201C1;
+ Mon, 31 Jan 2022 12:08:27 +0100 (CET)
 From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 To: qemu-ppc@nongnu.org, qemu-devel@nongnu.org
-Subject: [PULL 03/41] target/ppc/mmu_common: Fix SRR1/MSR error code on Book-E
-Date: Mon, 31 Jan 2022 12:07:33 +0100
-Message-Id: <20220131110811.619053-4-clg@kaod.org>
+Subject: [PULL 17/41] target/ppc: Simplify powerpc_excp_40x
+Date: Mon, 31 Jan 2022 12:07:47 +0100
+Message-Id: <20220131110811.619053-18-clg@kaod.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220131110811.619053-1-clg@kaod.org>
 References: <20220131110811.619053-1-clg@kaod.org>
@@ -70,13 +63,13 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: 0MC8vO3WyGVq73AjNdp_pneZ_L2dTfPC
-X-Proofpoint-GUID: NZcBrZ1WAMQYMmejCJHqko8AVfBLuc_G
+X-Proofpoint-ORIG-GUID: WgwgoMEC9La_HY-hEB2V7JR1ihrMEgb6
+X-Proofpoint-GUID: WgwgoMEC9La_HY-hEB2V7JR1ihrMEgb6
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.816,Hydra:6.0.425,FMLib:17.11.62.513
  definitions=2022-01-31_04,2022-01-28_01,2021-12-02_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxlogscore=704 spamscore=0
+ mlxlogscore=376 spamscore=0
  lowpriorityscore=0 adultscore=0 clxscore=1034 priorityscore=1501
  bulkscore=0 phishscore=0 suspectscore=0 malwarescore=0 mlxscore=0
  impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
@@ -101,82 +94,361 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Peter Maydell <peter.maydell@linaro.org>,
- Daniel Henrique Barboza <danielhb413@gmail.com>,
- Richard Henderson <richard.henderson@linaro.org>, Greg Kurz <groug@kaod.org>,
- qemu-stable@nongnu.org, Vitaly Cheptsov <cheptsov@ispras.ru>,
+ David Gibson <david@gibson.dropbear.id.au>,
+ Richard Henderson <richard.henderson@linaro.org>,
  =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
- David Gibson <david@gibson.dropbear.id.au>
+ Fabiano Rosas <farosas@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Vitaly Cheptsov <cheptsov@ispras.ru>
+From: Fabiano Rosas <farosas@linux.ibm.com>
 
-Book-E architecture does not set the error code in 31:27 bits
-of SRR1, but instead uses these bits for custom fields such
-as GS (Guest Supervisor).
+Differences from the generic powerpc_excp code:
 
-Wrongly setting these fields will result in QEMU crashes
-when attempting to execute not executable code due to the attempts
-to use Guest Supervisor mode.
+- Not BookE, so some MSR bits are cleared at interrupt dispatch;
+- No MSR_HV or MSR_LE;
+- No power saving states;
+- No Hypervisor Emulation Assistance;
+- Not 64 bits;
+- No System call vectored;
+- No Interrupts Little Endian;
+- No Alternate Interrupt Location.
 
-Cc: "C=C3=A9dric Le Goater" <clg@kaod.org>
-Cc: Daniel Henrique Barboza <danielhb413@gmail.com>
-Cc: David Gibson <david@gibson.dropbear.id.au>
-Cc: Greg Kurz <groug@kaod.org>
-Cc: qemu-ppc@nongnu.org
-Cc: qemu-devel@nongnu.org
-Cc: qemu-stable@nongnu.org
-Signed-off-by: Vitaly Cheptsov <cheptsov@ispras.ru>
-Reviewed-by: C=C3=A9dric Le Goater <clg@kaod.org>
-Message-Id: <20220121093107.15478-1-cheptsov@ispras.ru>
+Exceptions used:
+
+POWERPC_EXCP_ALIGN
+POWERPC_EXCP_CRITICAL
+POWERPC_EXCP_DEBUG
+POWERPC_EXCP_DSI
+POWERPC_EXCP_DTLB
+POWERPC_EXCP_EXTERNAL
+POWERPC_EXCP_FIT
+POWERPC_EXCP_ISI
+POWERPC_EXCP_ITLB
+POWERPC_EXCP_MCHECK
+POWERPC_EXCP_PIT
+POWERPC_EXCP_PROGRAM
+POWERPC_EXCP_SYSCALL
+POWERPC_EXCP_WDT
+
+Signed-off-by: Fabiano Rosas <farosas@linux.ibm.com>
+Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
+Message-Id: <20220118184448.852996-5-farosas@linux.ibm.com>
 Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
 ---
- target/ppc/mmu_common.c | 18 +++++++++++++++---
- 1 file changed, 15 insertions(+), 3 deletions(-)
+ target/ppc/excp_helper.c | 205 ++-------------------------------------
+ 1 file changed, 10 insertions(+), 195 deletions(-)
 
-diff --git a/target/ppc/mmu_common.c b/target/ppc/mmu_common.c
-index 91270c1f17eb..6512ee031cfc 100644
---- a/target/ppc/mmu_common.c
-+++ b/target/ppc/mmu_common.c
-@@ -1367,22 +1367,34 @@ static bool ppc_jumbo_xlate(PowerPCCPU *cpu, vadd=
-r eaddr,
-             case -2:
-                 /* Access rights violation */
-                 cs->exception_index =3D POWERPC_EXCP_ISI;
--                env->error_code =3D 0x08000000;
-+                if ((env->mmu_model =3D=3D POWERPC_MMU_BOOKE) ||
-+                    (env->mmu_model =3D=3D POWERPC_MMU_BOOKE206)) {
-+                    env->error_code =3D 0;
-+                } else {
-+                    env->error_code =3D 0x08000000;
-+                }
-                 break;
-             case -3:
-                 /* No execute protection violation */
-                 if ((env->mmu_model =3D=3D POWERPC_MMU_BOOKE) ||
-                     (env->mmu_model =3D=3D POWERPC_MMU_BOOKE206)) {
-                     env->spr[SPR_BOOKE_ESR] =3D 0x00000000;
-+                    env->error_code =3D 0;
-+                } else {
-+                    env->error_code =3D 0x10000000;
-                 }
-                 cs->exception_index =3D POWERPC_EXCP_ISI;
--                env->error_code =3D 0x10000000;
-                 break;
-             case -4:
-                 /* Direct store exception */
-                 /* No code fetch is allowed in direct-store areas */
-                 cs->exception_index =3D POWERPC_EXCP_ISI;
--                env->error_code =3D 0x10000000;
-+                if ((env->mmu_model =3D=3D POWERPC_MMU_BOOKE) ||
-+                    (env->mmu_model =3D=3D POWERPC_MMU_BOOKE206)) {
-+                    env->error_code =3D 0;
-+                } else {
-+                    env->error_code =3D 0x10000000;
-+                }
-                 break;
-             }
-         } else {
+diff --git a/target/ppc/excp_helper.c b/target/ppc/excp_helper.c
+index 5dc948aec2bb..341a765bd49d 100644
+--- a/target/ppc/excp_helper.c
++++ b/target/ppc/excp_helper.c
+@@ -409,54 +409,26 @@ static void powerpc_excp_40x(PowerPCCPU *cpu, int e=
+xcp)
+                   excp, env->error_code);
+=20
+     /* new srr1 value excluding must-be-zero bits */
+-    if (excp_model =3D=3D POWERPC_EXCP_BOOKE) {
+-        msr =3D env->msr;
+-    } else {
+-        msr =3D env->msr & ~0x783f0000ULL;
+-    }
++    msr =3D env->msr & ~0x783f0000ULL;
+=20
+     /*
+-     * new interrupt handler msr preserves existing HV and ME unless
+-     * explicitly overriden
++     * new interrupt handler msr preserves existing ME unless
++     * explicitly overriden.
+      */
+-    new_msr =3D env->msr & (((target_ulong)1 << MSR_ME) | MSR_HVB);
++    new_msr =3D env->msr & (((target_ulong)1 << MSR_ME));
+=20
+     /* target registers */
+     srr0 =3D SPR_SRR0;
+     srr1 =3D SPR_SRR1;
+=20
+-    /*
+-     * check for special resume at 0x100 from doze/nap/sleep/winkle on
+-     * P7/P8/P9
+-     */
+-    if (env->resume_as_sreset) {
+-        excp =3D powerpc_reset_wakeup(cs, env, excp, &msr);
+-    }
+-
+     /*
+      * Hypervisor emulation assistance interrupt only exists on server
+-     * arch 2.05 server or later. We also don't want to generate it if
+-     * we don't have HVB in msr_mask (PAPR mode).
++     * arch 2.05 server or later.
+      */
+-    if (excp =3D=3D POWERPC_EXCP_HV_EMU
+-#if defined(TARGET_PPC64)
+-        && !(mmu_is_64bit(env->mmu_model) && (env->msr_mask & MSR_HVB))
+-#endif /* defined(TARGET_PPC64) */
+-
+-    ) {
++    if (excp =3D=3D POWERPC_EXCP_HV_EMU) {
+         excp =3D POWERPC_EXCP_PROGRAM;
+     }
+=20
+-#ifdef TARGET_PPC64
+-    /*
+-     * SPEU and VPU share the same IVOR but they exist in different
+-     * processors. SPEU is e500v1/2 only and VPU is e6500 only.
+-     */
+-    if (excp_model =3D=3D POWERPC_EXCP_BOOKE && excp =3D=3D POWERPC_EXCP=
+_VPU) {
+-        excp =3D POWERPC_EXCP_SPEU;
+-    }
+-#endif
+-
+     vector =3D env->excp_vectors[excp];
+     if (vector =3D=3D (target_ulong)-1ULL) {
+         cpu_abort(cs, "Raised an exception without defined vector %d\n",
+@@ -645,24 +617,7 @@ static void powerpc_excp_40x(PowerPCCPU *cpu, int ex=
+cp)
+             new_msr |=3D (target_ulong)MSR_HVB;
+         }
+         break;
+-    case POWERPC_EXCP_SYSCALL_VECTORED: /* scv exception                =
+     */
+-        lev =3D env->error_code;
+-        dump_syscall(env);
+-        env->nip +=3D 4;
+-        new_msr |=3D env->msr & ((target_ulong)1 << MSR_EE);
+-        new_msr |=3D env->msr & ((target_ulong)1 << MSR_RI);
+-
+-        vector +=3D lev * 0x20;
+-
+-        env->lr =3D env->nip;
+-        env->ctr =3D msr;
+-        break;
+-    case POWERPC_EXCP_FPU:       /* Floating-point unavailable exception=
+     */
+-    case POWERPC_EXCP_APU:       /* Auxiliary processor unavailable     =
+     */
+-    case POWERPC_EXCP_DECR:      /* Decrementer exception               =
+     */
+-        break;
+     case POWERPC_EXCP_FIT:       /* Fixed-interval timer interrupt      =
+     */
+-        /* FIT on 4xx */
+         trace_ppc_excp_print("FIT");
+         break;
+     case POWERPC_EXCP_WDT:       /* Watchdog timer interrupt            =
+     */
+@@ -693,119 +648,9 @@ static void powerpc_excp_40x(PowerPCCPU *cpu, int e=
+xcp)
+             cpu_abort(cs, "Debug exception triggered on unsupported mode=
+l\n");
+         }
+         break;
+-    case POWERPC_EXCP_SPEU:   /* SPE/embedded floating-point unavailable=
+/VPU  */
+-        env->spr[SPR_BOOKE_ESR] =3D ESR_SPV;
+-        break;
+-    case POWERPC_EXCP_DOORI:     /* Embedded doorbell interrupt         =
+     */
+-        break;
+-    case POWERPC_EXCP_DOORCI:    /* Embedded doorbell critical interrupt=
+     */
+-        srr0 =3D SPR_BOOKE_CSRR0;
+-        srr1 =3D SPR_BOOKE_CSRR1;
+-        break;
+-    case POWERPC_EXCP_RESET:     /* System reset exception              =
+     */
+-        /* A power-saving exception sets ME, otherwise it is unchanged *=
+/
+-        if (msr_pow) {
+-            /* indicate that we resumed from power save mode */
+-            msr |=3D 0x10000;
+-            new_msr |=3D ((target_ulong)1 << MSR_ME);
+-        }
+-        if (env->msr_mask & MSR_HVB) {
+-            /*
+-             * ISA specifies HV, but can be delivered to guest with HV
+-             * clear (e.g., see FWNMI in PAPR, NMI injection in QEMU).
+-             */
+-            new_msr |=3D (target_ulong)MSR_HVB;
+-        } else {
+-            if (msr_pow) {
+-                cpu_abort(cs, "Trying to deliver power-saving system res=
+et "
+-                          "exception %d with no HV support\n", excp);
+-            }
+-        }
+-        break;
+-    case POWERPC_EXCP_DSEG:      /* Data segment exception              =
+     */
+-    case POWERPC_EXCP_ISEG:      /* Instruction segment exception       =
+     */
+-    case POWERPC_EXCP_TRACE:     /* Trace exception                     =
+     */
+-        break;
+-    case POWERPC_EXCP_HISI:      /* Hypervisor instruction storage excep=
+tion */
+-        msr |=3D env->error_code;
+-        /* fall through */
+-    case POWERPC_EXCP_HDECR:     /* Hypervisor decrementer exception    =
+     */
+-    case POWERPC_EXCP_HDSI:      /* Hypervisor data storage exception   =
+     */
+-    case POWERPC_EXCP_HDSEG:     /* Hypervisor data segment exception   =
+     */
+-    case POWERPC_EXCP_HISEG:     /* Hypervisor instruction segment excep=
+tion */
+-    case POWERPC_EXCP_SDOOR_HV:  /* Hypervisor Doorbell interrupt       =
+     */
+-    case POWERPC_EXCP_HV_EMU:
+-    case POWERPC_EXCP_HVIRT:     /* Hypervisor virtualization           =
+     */
+-        srr0 =3D SPR_HSRR0;
+-        srr1 =3D SPR_HSRR1;
+-        new_msr |=3D (target_ulong)MSR_HVB;
+-        new_msr |=3D env->msr & ((target_ulong)1 << MSR_RI);
+-        break;
+-    case POWERPC_EXCP_VPU:       /* Vector unavailable exception        =
+     */
+-    case POWERPC_EXCP_VSXU:       /* VSX unavailable exception          =
+     */
+-    case POWERPC_EXCP_FU:         /* Facility unavailable exception     =
+     */
+-#ifdef TARGET_PPC64
+-        env->spr[SPR_FSCR] |=3D ((target_ulong)env->error_code << 56);
+-#endif
+-        break;
+-    case POWERPC_EXCP_HV_FU:     /* Hypervisor Facility Unavailable Exce=
+ption */
+-#ifdef TARGET_PPC64
+-        env->spr[SPR_HFSCR] |=3D ((target_ulong)env->error_code << FSCR_=
+IC_POS);
+-        srr0 =3D SPR_HSRR0;
+-        srr1 =3D SPR_HSRR1;
+-        new_msr |=3D (target_ulong)MSR_HVB;
+-        new_msr |=3D env->msr & ((target_ulong)1 << MSR_RI);
+-#endif
+-        break;
+     case POWERPC_EXCP_PIT:       /* Programmable interval timer interrup=
+t    */
+         trace_ppc_excp_print("PIT");
+         break;
+-    case POWERPC_EXCP_IFTLB:     /* Instruction fetch TLB error         =
+     */
+-    case POWERPC_EXCP_DLTLB:     /* Data load TLB miss                  =
+     */
+-    case POWERPC_EXCP_DSTLB:     /* Data store TLB miss                 =
+     */
+-        switch (excp_model) {
+-        case POWERPC_EXCP_602:
+-        case POWERPC_EXCP_603:
+-        case POWERPC_EXCP_G2:
+-            /* Swap temporary saved registers with GPRs */
+-            if (!(new_msr & ((target_ulong)1 << MSR_TGPR))) {
+-                new_msr |=3D (target_ulong)1 << MSR_TGPR;
+-                hreg_swap_gpr_tgpr(env);
+-            }
+-            /* fall through */
+-        case POWERPC_EXCP_7x5:
+-            ppc_excp_debug_sw_tlb(env, excp);
+-
+-            msr |=3D env->crf[0] << 28;
+-            msr |=3D env->error_code; /* key, D/I, S/L bits */
+-            /* Set way using a LRU mechanism */
+-            msr |=3D ((env->last_way + 1) & (env->nb_ways - 1)) << 17;
+-            break;
+-        default:
+-            cpu_abort(cs, "Invalid TLB miss exception\n");
+-            break;
+-        }
+-        break;
+-    case POWERPC_EXCP_EFPDI:     /* Embedded floating-point data interru=
+pt   */
+-    case POWERPC_EXCP_EFPRI:     /* Embedded floating-point round interr=
+upt  */
+-    case POWERPC_EXCP_EPERFM:    /* Embedded performance monitor interru=
+pt   */
+-    case POWERPC_EXCP_IO:        /* IO error exception                  =
+     */
+-    case POWERPC_EXCP_RUNM:      /* Run mode exception                  =
+     */
+-    case POWERPC_EXCP_EMUL:      /* Emulation trap exception            =
+     */
+-    case POWERPC_EXCP_FPA:       /* Floating-point assist exception     =
+     */
+-    case POWERPC_EXCP_DABR:      /* Data address breakpoint             =
+     */
+-    case POWERPC_EXCP_IABR:      /* Instruction address breakpoint      =
+     */
+-    case POWERPC_EXCP_SMI:       /* System management interrupt         =
+     */
+-    case POWERPC_EXCP_THERM:     /* Thermal interrupt                   =
+     */
+-    case POWERPC_EXCP_PERFM:     /* Embedded performance monitor interru=
+pt   */
+-    case POWERPC_EXCP_VPUA:      /* Vector assist exception             =
+     */
+-    case POWERPC_EXCP_SOFTP:     /* Soft patch exception                =
+     */
+-    case POWERPC_EXCP_MAINT:     /* Maintenance exception               =
+     */
+-    case POWERPC_EXCP_MEXTBR:    /* Maskable external breakpoint        =
+     */
+-    case POWERPC_EXCP_NMEXTBR:   /* Non maskable external breakpoint    =
+     */
+-        cpu_abort(cs, "%s exception not implemented\n",
+-                  powerpc_excp_name(excp));
+-        break;
+     default:
+     excp_invalid:
+         cpu_abort(cs, "Invalid PowerPC exception %d. Aborting\n", excp);
+@@ -824,41 +669,11 @@ static void powerpc_excp_40x(PowerPCCPU *cpu, int e=
+xcp)
+         }
+     }
+=20
+-    /*
+-     * Sort out endianness of interrupt, this differs depending on the
+-     * CPU, the HV mode, etc...
+-     */
+-    if (ppc_interrupts_little_endian(cpu, !!(new_msr & MSR_HVB))) {
+-        new_msr |=3D (target_ulong)1 << MSR_LE;
+-    }
+-
+-#if defined(TARGET_PPC64)
+-    if (excp_model =3D=3D POWERPC_EXCP_BOOKE) {
+-        if (env->spr[SPR_BOOKE_EPCR] & EPCR_ICM) {
+-            /* Cat.64-bit: EPCR.ICM is copied to MSR.CM */
+-            new_msr |=3D (target_ulong)1 << MSR_CM;
+-        } else {
+-            vector =3D (uint32_t)vector;
+-        }
+-    } else {
+-        if (!msr_isf && !mmu_is_64bit(env->mmu_model)) {
+-            vector =3D (uint32_t)vector;
+-        } else {
+-            new_msr |=3D (target_ulong)1 << MSR_SF;
+-        }
+-    }
+-#endif
+-
+-    if (excp !=3D POWERPC_EXCP_SYSCALL_VECTORED) {
+-        /* Save PC */
+-        env->spr[srr0] =3D env->nip;
+-
+-        /* Save MSR */
+-        env->spr[srr1] =3D msr;
+-    }
++    /* Save PC */
++    env->spr[srr0] =3D env->nip;
+=20
+-    /* This can update new_msr and vector if AIL applies */
+-    ppc_excp_apply_ail(cpu, excp_model, excp, msr, &new_msr, &vector);
++    /* Save MSR */
++    env->spr[srr1] =3D msr;
+=20
+     powerpc_set_excp_state(cpu, vector, new_msr);
+ }
 --=20
 2.34.1
 
