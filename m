@@ -2,59 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7A9C4A3E4C
-	for <lists+qemu-devel@lfdr.de>; Mon, 31 Jan 2022 08:44:06 +0100 (CET)
-Received: from localhost ([::1]:38892 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A410B4A3E61
+	for <lists+qemu-devel@lfdr.de>; Mon, 31 Jan 2022 08:55:41 +0100 (CET)
+Received: from localhost ([::1]:45686 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nERM5-0001C5-R0
-	for lists+qemu-devel@lfdr.de; Mon, 31 Jan 2022 02:44:05 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:44374)
+	id 1nERXI-00073h-8G
+	for lists+qemu-devel@lfdr.de; Mon, 31 Jan 2022 02:55:40 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:46062)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1nERE9-0007Ty-Fo
- for qemu-devel@nongnu.org; Mon, 31 Jan 2022 02:35:58 -0500
-Received: from us-smtp-delivery-44.mimecast.com ([207.211.30.44]:37864)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>)
+ id 1nERO4-0003tl-1J; Mon, 31 Jan 2022 02:46:12 -0500
+Received: from smtpout3.mo529.mail-out.ovh.net ([46.105.54.81]:41923)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1nERDx-0007iX-OG
- for qemu-devel@nongnu.org; Mon, 31 Jan 2022 02:35:43 -0500
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-151-6paJSv4CMKKKVnFDjtO3uw-1; Mon, 31 Jan 2022 02:35:28 -0500
-X-MC-Unique: 6paJSv4CMKKKVnFDjtO3uw-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 43DE3801B04;
- Mon, 31 Jan 2022 07:35:27 +0000 (UTC)
-Received: from bahia (unknown [10.39.192.158])
- by smtp.corp.redhat.com (Postfix) with ESMTP id F21D31F2EB;
- Mon, 31 Jan 2022 07:35:25 +0000 (UTC)
-Date: Mon, 31 Jan 2022 08:35:24 +0100
-From: Greg Kurz <groug@kaod.org>
-To: Christian Schoenebeck <qemu_oss@crudebyte.com>
-Subject: Re: [PATCH] tests/9pfs: Use g_autofree and g_autoptr where possible
-Message-ID: <20220131083524.4a5d5a8d@bahia>
-In-Reply-To: <4981516.0zRxyBk1fS@silver>
-References: <20220126171136.672657-1-groug@kaod.org>
- <2336064.2jqZdHoEpY@silver> <4981516.0zRxyBk1fS@silver>
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>)
+ id 1nERNb-0000hG-DL; Mon, 31 Jan 2022 02:45:41 -0500
+Received: from mxplan5.mail.ovh.net (unknown [10.108.4.66])
+ by mo529.mail-out.ovh.net (Postfix) with ESMTPS id 03713DB2298B;
+ Mon, 31 Jan 2022 08:45:35 +0100 (CET)
+Received: from kaod.org (37.59.142.106) by DAG4EX1.mxp5.local (172.16.2.31)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.18; Mon, 31 Jan
+ 2022 08:45:35 +0100
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-106R006562598d1-200e-4348-82ed-e96e318ace24,
+ 4E4406098780EA2DD5F77ED28C3E8FA94DEDF1FC) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Message-ID: <20d584f8-54e4-e9ad-b125-77b25067532f@kaod.org>
+Date: Mon, 31 Jan 2022 08:45:34 +0100
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=groug@kaod.org
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: kaod.org
-Content-Type: text/plain; charset=WINDOWS-1252
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: softfail client-ip=207.211.30.44; envelope-from=groug@kaod.org;
- helo=us-smtp-delivery-44.mimecast.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.0
+Subject: Re: [PATCH] hw/ppc/vof: Add missing includes
+Content-Language: en-US
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ <qemu-devel@nongnu.org>
+References: <20220122003104.84391-1-f4bug@amsat.org>
+ <cac5809d-87d0-28dc-8681-e2b8c92a9534@amsat.org>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <cac5809d-87d0-28dc-8681-e2b8c92a9534@amsat.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [37.59.142.106]
+X-ClientProxiedBy: DAG2EX2.mxp5.local (172.16.2.12) To DAG4EX1.mxp5.local
+ (172.16.2.31)
+X-Ovh-Tracer-GUID: 3be00d90-cff8-4eb1-86df-8fda12cea897
+X-Ovh-Tracer-Id: 10637220845159091052
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvvddrgedtgdduuddvucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvfhfhjggtgfhisehtkeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepieegvdffkeegfeetuddttddtveduiefhgeduffekiedtkeekteekhfffleevleelnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrddutdeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhnsggprhgtphhtthhopedupdhrtghpthhtohepghhrohhugheskhgrohgurdhorhhg
+Received-SPF: pass client-ip=46.105.54.81; envelope-from=clg@kaod.org;
+ helo=smtpout3.mo529.mail-out.ovh.net
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
- SPF_HELO_NONE=0.001, SPF_SOFTFAIL=0.665,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -67,103 +71,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
+Cc: Alexey Kardashevskiy <aik@ozlabs.ru>,
+ Daniel Henrique Barboza <danielhb413@gmail.com>, Greg Kurz <groug@kaod.org>,
+ qemu-trivial@nongnu.org, qemu-ppc@nongnu.org,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sat, 29 Jan 2022 13:33:59 +0100
-Christian Schoenebeck <qemu_oss@crudebyte.com> wrote:
+On 1/30/22 20:38, Philippe Mathieu-Daudé wrote:
+> Cc'ing qemu-trivial@
+>
 
-> On Freitag, 28. Januar 2022 12:49:58 CET Christian Schoenebeck wrote:
-> > On Mittwoch, 26. Januar 2022 18:11:36 CET Greg Kurz wrote:
-> > > The template pointer in virtio_9p_create_local_test_dir() is leaked.
-> > > Add the g_autofree annotation to fix that. While here, convert the
-> > > rest of the virtio 9p test code to using g_autofree or g_autoptr
-> > > where possible, since this is the preferred approach to avoid potenti=
-al
-> > > leaks in the future.
-> > >=20
-> > > Based-on:
-> > > <f6602123c6f7d0d593466231b04fba087817abbd.1642879848.git.qemu_oss@cru=
-debyt
-> > > e
-> > > .com> Signed-off-by: Greg Kurz <groug@kaod.org>
-> > > ---
-> > >=20
-> > >  tests/qtest/libqos/virtio-9p.c | 15 +++++----------
-> > >  1 file changed, 5 insertions(+), 10 deletions(-)
-> >=20
-> > I fear there is something wrong with this patch:
-> >=20
-> > # Start of local tests
-> > # starting QEMU: exec x86_64-softmmu/qemu-system-x86_64 -qtest
-> > unix:/tmp/qtest-4234.sock -qtest-log /dev/null -chardev
-> > socket,path=3D/tmp/qtest-4234.qmp,id=3Dchar0 -mon chardev=3Dchar0,mode=
-=3Dcontrol
-> > -display none -M pc  -fsdev
-> > local,id=3Dfsdev0,path=3D'',security_model=3Dmapped-xattr -device
-> > virtio-9p-pci,fsdev=3Dfsdev0,addr=3D04.0,mount_tag=3Dqtest -accel qtest
-> > qemu-system-x86_64: -device
-> > virtio-9p-pci,fsdev=3Dfsdev0,addr=3D04.0,mount_tag=3Dqtest: cannot init=
-ialize
-> > fsdev 'fsdev0': failed to open '': No such file or directory Broken pip=
-e
-> > Aborted
->=20
-> Reason ...
->=20
-> > > diff --git a/tests/qtest/libqos/virtio-9p.c
-> > > b/tests/qtest/libqos/virtio-9p.c index ef96ef006adc..0a0d0d16709b 100=
-644
-> > > --- a/tests/qtest/libqos/virtio-9p.c
-> > > +++ b/tests/qtest/libqos/virtio-9p.c
-> > > @@ -40,14 +40,13 @@ static char *concat_path(const char* a, const cha=
-r* b)
-> > >=20
-> > >  void virtio_9p_create_local_test_dir(void)
-> > >  {
-> > > =20
-> > >      struct stat st;
-> > >=20
-> > > -    char *pwd =3D g_get_current_dir();
-> > > -    char *template =3D concat_path(pwd, "qtest-9p-local-XXXXXX");
-> > > +    g_autofree char *pwd =3D g_get_current_dir();
-> > > +    g_autofree char *template =3D concat_path(pwd,
-> > > "qtest-9p-local-XXXXXX");
-> > >=20
-> > >      local_test_path =3D mkdtemp(template);
->=20
-> ... mkdtemp() does not allocate a new buffer, it just modifies the charac=
-ter=20
-> array passed, i.e. the address returned by mkdtemp() equals the address o=
-f=20
-> variable 'template', and when virtio_9p_create_local_test_dir() scope is =
-left,=20
-> the global variable 'local_test_path' would then point to freed memory.
->=20
+It is queued in ppc-7.0. I should send a PR today or tomorrow.
 
-I hate global variables ;-) and the 'Returned result must be freed' comment
-in 'concat_path()' is slightly misleading in this respect.
+Thanks,
 
-> I would drop g_autofree from template:
->=20
->     char *template =3D concat_path(pwd, "qtest-9p-local-XXXXXX");
->=20
-> And if it helps to silence a leak warning (haven't tested), to prepend=20
-> g_autofree to the global variable instead:
->=20
-> static g_autofree char *local_test_path;
->=20
+C.
 
-The way to go is either drop the g_autofree annotation as you're
-suggesting, but this would make the comment in 'concat_path()'
-even more awkward, or go forward with the glib way and use
-g_steal_pointer() which maps exactly to what the code is doing.
-
-> Best regards,
-> Christian Schoenebeck
->=20
->=20
+> On 22/1/22 01:31, Philippe Mathieu-Daudé wrote:
+>> vof.h requires "qom/object.h" for DECLARE_CLASS_CHECKERS(),
+>> "exec/memory.h" for address_space_read/write(),
+>> "exec/address-spaces.h" for address_space_memory
+>> and more importantly "cpu.h" for target_ulong.
+>>
+>> vof.c doesn't need "exec/ram_addr.h".
+>>
+>> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+>> ---
+>>   hw/ppc/vof.c         | 1 -
+>>   include/hw/ppc/vof.h | 5 +++++
+>>   2 files changed, 5 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/hw/ppc/vof.c b/hw/ppc/vof.c
+>> index 73adc44ec2..2b63a62875 100644
+>> --- a/hw/ppc/vof.c
+>> +++ b/hw/ppc/vof.c
+>> @@ -16,7 +16,6 @@
+>>   #include "qemu/units.h"
+>>   #include "qemu/log.h"
+>>   #include "qapi/error.h"
+>> -#include "exec/ram_addr.h"
+>>   #include "exec/address-spaces.h"
+>>   #include "hw/ppc/vof.h"
+>>   #include "hw/ppc/fdt.h"
+>> diff --git a/include/hw/ppc/vof.h b/include/hw/ppc/vof.h
+>> index 97fdef758b..f8c0effcaf 100644
+>> --- a/include/hw/ppc/vof.h
+>> +++ b/include/hw/ppc/vof.h
+>> @@ -6,6 +6,11 @@
+>>   #ifndef HW_VOF_H
+>>   #define HW_VOF_H
+>> +#include "qom/object.h"
+>> +#include "exec/address-spaces.h"
+>> +#include "exec/memory.h"
+>> +#include "cpu.h"
+>> +
+>>   typedef struct Vof {
+>>       uint64_t top_addr; /* copied from rma_size */
+>>       GArray *claimed; /* array of SpaprOfClaimed */
+> 
 
 
