@@ -2,59 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 116E54A6038
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Feb 2022 16:34:58 +0100 (CET)
-Received: from localhost ([::1]:51424 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 058294A5FA2
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Feb 2022 16:09:34 +0100 (CET)
+Received: from localhost ([::1]:51840 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nEvBI-0003he-JK
-	for lists+qemu-devel@lfdr.de; Tue, 01 Feb 2022 10:34:56 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:43584)
+	id 1nEumi-0005zC-Ey
+	for lists+qemu-devel@lfdr.de; Tue, 01 Feb 2022 10:09:32 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:51600)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1nEs0K-0002Bn-4O
- for qemu-devel@nongnu.org; Tue, 01 Feb 2022 07:11:24 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:31216)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1nEsT1-0008AS-0t
+ for qemu-devel@nongnu.org; Tue, 01 Feb 2022 07:41:05 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:45840)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1nEs0G-0004tA-MS
- for qemu-devel@nongnu.org; Tue, 01 Feb 2022 07:11:22 -0500
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1nEsSy-0001yx-8K
+ for qemu-devel@nongnu.org; Tue, 01 Feb 2022 07:41:02 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1643717479;
+ s=mimecast20190719; t=1643719257;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=xN27N7O8t3VbuO+yO0K/qtPfL3IL+QLyt3IfNbXN37M=;
- b=dxF2Mt7Xu/zC3nUJRTgOIKJmGNH5P5DgNdEjWgLCYvT2Ke3tmPfi8aQ7fAA2Bh6P85WYSU
- sMsmLMlzriUpX66NI2yhl5SWufkjSucrRosicdRVYLjr7AIIU+eWYqYU8g9SZ7P12LX9L1
- k/DkWRYVUe/B8fAFDOvmMxkoKKuSApY=
+ bh=Awlc8qK2tj1ypvdEgRjME5oRSyTOMzXGzhkMJQ4PmPA=;
+ b=FSs9v1BYbYJJx/dM7VtgUvvgx4K6nC1fSOUbZ/+OGPxx54WL1TJNGDj4JIp8dyIAEODFsQ
+ 003xC2pWMUaHfqk9Yebjsg68X06KQAfVfJSDC3g6vNtAeVS61GO3Q/n1ARmkRjeWBgQUsT
+ jvEXvg3gbXZBNMpreWv1MxaJbfjFhj0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-110-V8LB1UXUOM-1DUW4sr565w-1; Tue, 01 Feb 2022 07:11:18 -0500
-X-MC-Unique: V8LB1UXUOM-1DUW4sr565w-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-618-rXKMgGvkNXy5d7-1LvCAlg-1; Tue, 01 Feb 2022 07:40:56 -0500
+X-MC-Unique: rXKMgGvkNXy5d7-1LvCAlg-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 56C7F86A8A1;
- Tue,  1 Feb 2022 12:11:16 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4F384874982;
+ Tue,  1 Feb 2022 12:40:55 +0000 (UTC)
 Received: from redhat.com (unknown [10.39.194.45])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 075FC6F9C6;
- Tue,  1 Feb 2022 12:10:43 +0000 (UTC)
-Date: Tue, 1 Feb 2022 13:10:42 +0100
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 668D87BB67;
+ Tue,  1 Feb 2022 12:40:54 +0000 (UTC)
+Date: Tue, 1 Feb 2022 13:40:52 +0100
 From: Kevin Wolf <kwolf@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH v6 01/33] main-loop.h: introduce qemu_in_main_thread()
-Message-ID: <YfkjQicHUv7X+Y10@redhat.com>
-References: <20220121170544.2049944-1-eesposit@redhat.com>
- <20220121170544.2049944-2-eesposit@redhat.com>
- <YfJ6dsVcmB4Uc2rO@redhat.com>
- <7ada78d2-0978-8f5a-f0f8-318d2f26ba41@redhat.com>
- <YffzLaIhjgfBkcXf@redhat.com>
- <3fa2d527-91f6-0869-d6b0-c82bdd04884c@redhat.com>
- <YfkfndfaOha/fZZU@redhat.com>
+To: Hanna Reitz <hreitz@redhat.com>
+Subject: Re: [PATCH v2] qsd: Document fuse's allow-other option
+Message-ID: <YfkqVC3/pqS7aYN4@redhat.com>
+References: <20220131103124.20325-1-hreitz@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <YfkfndfaOha/fZZU@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+In-Reply-To: <20220131103124.20325-1-hreitz@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -82,71 +76,18 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, qemu-devel@nongnu.org,
- "Denis V. Lunev" <den@openvz.org>, Eric Blake <eblake@redhat.com>,
- Emanuele Giuseppe Esposito <eesposit@redhat.com>, qemu-block@nongnu.org,
- Juan Quintela <quintela@redhat.com>,
- Daniel Henrique Barboza <danielhb413@gmail.com>,
- Markus Armbruster <armbru@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, Greg Kurz <groug@kaod.org>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>,
- Stefan Hajnoczi <stefanha@redhat.com>, John Snow <jsnow@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>,
- Eduardo Habkost <eduardo@habkost.net>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>,
- Hanna Reitz <hreitz@redhat.com>, qemu-ppc@nongnu.org
+Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 01.02.2022 um 12:55 hat Kevin Wolf geschrieben:
-> Am 31.01.2022 um 16:49 hat Paolo Bonzini geschrieben:
-> > > > However, commit 5f50be9b5810293141bb53cfd0cb46e765367d56 changed the
-> > > > stub to return false for a specific reason.
-> > > 
-> > > I must admit I don't really understand the reasoning there:
-> > > 
-> > >      With this change, the stub qemu_mutex_iothread_locked() must be changed
-> > >      from true to false.  The previous value of true was needed because the
-> > >      main thread did not have an AioContext in the thread-local variable,
-> > >      but now it does have one.
-> > > 
-> > > This explains why it _can_ be changed to false for this caller, but not
-> > > why it _must_ be changed.
-> > 
-> > See above: because it returns the wrong value for all threads except one,
-> > and there are better ways to do a meaningful check in that one thread: using
-> > qemu_get_current_aio_context(), which is what aio_co_enter did at the time
-> > and qemu_in_main_thread() does with Emanuele's change.
-> > 
-> > > So is the problem with the unit tests really just that they never call
-> > > qemu_init_main_loop() and therefore never set the AioContext for the
-> > > main thread?
-> > 
-> > No, most of them do (and if some are missing it we can add it).
+Am 31.01.2022 um 11:31 hat Hanna Reitz geschrieben:
+> We did not add documentation to the storage daemon's man page for fuse's
+> allow-other option when it was introduced, so do that now.
 > 
-> But if they do, why doesn't qemu_get_current_aio_context() already
-> return the right result? In this case, my_aiocontext is set and it
-> should never even call qemu_mutex_iothread_locked() - at least not in
-> any case where qemu_in_main_thread() would return true.
-> 
-> So provided that qemu_init_main_loop() is called, both functions should
-> be equivalent and we wouldn't need a second one.
+> Fixes: 8fc54f9428b9763f800 ("export/fuse: Add allow-other option")
+> Signed-off-by: Hanna Reitz <hreitz@redhat.com>
 
-Sorry, I was confused and comparing the wrong two functions.
-qemu_get_current_aio_context() does return the right result and it's
-exactly what qemu_in_main_thread() uses. So yes, it's right and it's
-different from qemu_mutex_iothread_locked().
-
-It would be less confusing if qemu_get_current_aio_context() used
-qemu_in_main_thread() (with two different implementations of
-qemu_in_main_thread() for the system emulator and tools) instead of the
-other way around, but I guess that's harder to implement because we
-would need a different way to figure out whether we're in the main
-thread, at least as long as my_aiocontext is static and can't be
-accessed in stubs. We could probably make it public, though.
+Thanks, applied to the block branch.
 
 Kevin
 
