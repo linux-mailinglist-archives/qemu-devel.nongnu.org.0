@@ -2,76 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4144F4A69EC
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Feb 2022 03:28:32 +0100 (CET)
-Received: from localhost ([::1]:44290 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A4C24A69DC
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Feb 2022 03:14:53 +0100 (CET)
+Received: from localhost ([::1]:60088 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nF5Nn-0001C2-0v
-	for lists+qemu-devel@lfdr.de; Tue, 01 Feb 2022 21:28:31 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:48934)
+	id 1nF5AV-0000SG-Do
+	for lists+qemu-devel@lfdr.de; Tue, 01 Feb 2022 21:14:47 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:51766)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jinpu.wang@ionos.com>)
- id 1nF006-0003RK-Kz
- for qemu-devel@nongnu.org; Tue, 01 Feb 2022 15:43:43 -0500
-Received: from [2a00:1450:4864:20::535] (port=34499
- helo=mail-ed1-x535.google.com)
+ (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1nF0DK-0007Hq-MD
+ for qemu-devel@nongnu.org; Tue, 01 Feb 2022 15:57:23 -0500
+Received: from [2607:f8b0:4864:20::92c] (port=42649
+ helo=mail-ua1-x92c.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <jinpu.wang@ionos.com>)
- id 1nF004-0004kU-RB
- for qemu-devel@nongnu.org; Tue, 01 Feb 2022 15:43:42 -0500
-Received: by mail-ed1-x535.google.com with SMTP id r10so37248623edt.1
- for <qemu-devel@nongnu.org>; Tue, 01 Feb 2022 12:43:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ionos.com; s=google;
+ (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1nF0DI-0006iI-Ht
+ for qemu-devel@nongnu.org; Tue, 01 Feb 2022 15:57:22 -0500
+Received: by mail-ua1-x92c.google.com with SMTP id e17so15441391uad.9
+ for <qemu-devel@nongnu.org>; Tue, 01 Feb 2022 12:57:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=bsdimp-com.20210112.gappssmtp.com; s=20210112;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=wviIzEOfyAJo0w9xZ6Wc0Lf5VgBz9MgL+VKAzP5XuVo=;
- b=iDsk9Kpx61Nmbx5T2l/38fTsP0AZYsnN+4BeDW4V3lG1GDcE59uCoPk9bjbkoo0LHA
- UxF0dKCT96VnOWRp73A0dTNFY+GfpI0Tu1qMJBMMwLup9bbULYw+BMwOjBpeBcQw8B3U
- vQN1TvN8Q87GI2H27lulDaBvvydY8n/mYnZkrIP8sD2pK7DuiIjWuSuh0bUrDK3CtR19
- 9XwY5QmWzIi4rMNWlWiKCxccmLjWPIw00O1UpF/ByAZsHDWLwrYMuovXzv0Z4qmWQZN9
- i1mkYI2I2Jd7eAtbSx2zeLFAr9Pq8QHOAbQwsItZNh4t0UfPkJeLGmUb6xMZfikRiuJT
- 4Vkw==
+ :cc; bh=7kUbP8Oq7luBxAbSFJ7hQdpByJ3uqfJJMSdl3s2uHog=;
+ b=4rujRKr23Fg+9cgIpRGLHBDEcuTym6wdxFfoD48E+BhVg70Ma57z4cyFEv8RGa1GpR
+ J4bWqafYwlrFSJWoTpObzM+boFTYibnUETJazpeowyYFl4yGSF//Fuv/9QTeHqga+HFt
+ 2okdmXb+AQ+iPoByGBC6B89VcE8ADAXvdYCbDfwe3Q9gcw9I2mMBUHhdL9cAuPfag726
+ 0jfneTFvF0/DHTXD/JQKqnLYO7HR910lqBjZWxGAvqxgV2mHCvTrMQ6WuorPgXX3SrtS
+ 0eQe8XaUnwaMgVEKxWr+mneOPyOCtKAveZnzIUsHBEJACB29BUfEsYH5t5QaCCNrVb1n
+ 85XQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=wviIzEOfyAJo0w9xZ6Wc0Lf5VgBz9MgL+VKAzP5XuVo=;
- b=2A4iawkbCY/xEPMThuWlToQCq66N6U6XhMKT4eqa3orbgJ9QDmofOBzFMn9nWkDybm
- ebTBvnkyIqfKkN4BXAWGjv+TGmKzL/o1YicGpd6N2Pju1UdXt4txPA392YtzUKGUd/Qw
- i79MMnN6qxTRZb8CY6PggmCAwoptQU+J8qOQYUwCQTHpV90FDyAGSbhijEL2kVMxShMM
- NJBOziXob2ljAkZ8kCklIUjGHXHAQE5LiQxpJe0Gfy0kQXQBAUs9mCJRQfaIdgMjFWoZ
- q8SpqlLhZoJ3kFBK25Qkmag2hUsQ3Xwv68iCeyYH6MgMHY3hds5PRSc40V4D2vBkvrir
- I/Lw==
-X-Gm-Message-State: AOAM530JMjnQOj4zBxBDhLr6H5qD9sYQP4h6bnfFHxXL3Q2K1lU6ESs2
- 6/TIsgNR3dFP3g58wtZBRVw52/B6UlbxAr4IgU747A==
-X-Google-Smtp-Source: ABdhPJyLSbHE1sLiAaE6W05BZtv2LLw9+niyRqKo2FIqKSnb6zJtp9dci1TQxL8A1L0EOWUmayiJdX2/DMkWe5rMc3w=
-X-Received: by 2002:a05:6402:1290:: with SMTP id
- w16mr27133809edv.331.1643748218732; 
- Tue, 01 Feb 2022 12:43:38 -0800 (PST)
+ bh=7kUbP8Oq7luBxAbSFJ7hQdpByJ3uqfJJMSdl3s2uHog=;
+ b=pFcz3d+pOJoXx/7TpCVsVaD23FqHY61736t6pzn9yYvW4g14/g0IKLfkOOWCa2wDFo
+ 7wWrboAs5EvqNSqvF6dsWKwSrQAMud4nXWHY4F1+R3czBkSzxS1jXFESszrgj0iptmWL
+ AJJTQVDyNe+9+4D8BbCQkyoxHVvgWrLGBF4x9vNyb5Q6f0dzw7UPPZ8R0aBpxs5bx1Qi
+ HviKIUITXVMxIteNx/ItPU12YXawKeBey9wIcV8khIuexRapCFrkyq/ZxlpDGbVfYCwg
+ DPcGADqmmoyszM6MJDVzj25MS2zr50Z0IXq3/TUQjHQ4j69G7ZzEQT5cDJjljiwC/J1D
+ dP0w==
+X-Gm-Message-State: AOAM5335HMdTueDIpPBjx3i0Wr5Xd2i5ChDhp8eDbJkEpbk+XLuyleBo
+ kuDW0AkBmjXDQNRYvqZv8zysWKYsbhGZjmco0ppHLnzxZcg=
+X-Google-Smtp-Source: ABdhPJzD5hC4CcSNzNJgwFYTItp2V1hovH2xeKsT+B4SGOkH/v1lwzXflkymY+jaQTeqkQ7Bc5K2gRCAI9eIe2PwQv0=
+X-Received: by 2002:a67:fac3:: with SMTP id g3mr11639134vsq.6.1643749038805;
+ Tue, 01 Feb 2022 12:57:18 -0800 (PST)
 MIME-Version: 1.0
-References: <20220201151136.52157-1-jinpu.wang@ionos.com>
- <20220201151136.52157-2-jinpu.wang@ionos.com>
- <CALzYo305jDix2huY4jSX+-gtwumRTtqQyCtYbfHpNs3TdAmwrg@mail.gmail.com>
-In-Reply-To: <CALzYo305jDix2huY4jSX+-gtwumRTtqQyCtYbfHpNs3TdAmwrg@mail.gmail.com>
-From: Jinpu Wang <jinpu.wang@ionos.com>
-Date: Tue, 1 Feb 2022 21:43:28 +0100
-Message-ID: <CAMGffEmC6cORyNmQfq6x8i8PRi_Z1eB=GYWc6yz3S6xo_PyBmg@mail.gmail.com>
-Subject: Re: [PATCH 2/2] migration/rdma: set the REUSEADDR option for
- destination
-To: Pankaj Gupta <pankaj.gupta@ionos.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::535
+References: <20220201205251.57691-1-imp@bsdimp.com>
+In-Reply-To: <20220201205251.57691-1-imp@bsdimp.com>
+From: Warner Losh <imp@bsdimp.com>
+Date: Tue, 1 Feb 2022 13:57:07 -0700
+Message-ID: <CANCZdfpjUSdZ0aZKOxtg4_96XtS81tfaDcEe4FDO89t8-oofRw@mail.gmail.com>
+Subject: Re: [PATCH] bsd-user/signal.c: Only copy the _capsicum for
+ FreeBSD_version > 1400026
+To: QEMU Developers <qemu-devel@nongnu.org>
+Content-Type: multipart/alternative; boundary="0000000000008ee6c805d6fb259d"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::92c
  (failed)
-Received-SPF: permerror client-ip=2a00:1450:4864:20::535;
- envelope-from=jinpu.wang@ionos.com; helo=mail-ed1-x535.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
+Received-SPF: none client-ip=2607:f8b0:4864:20::92c;
+ envelope-from=wlosh@bsdimp.com; helo=mail-ua1-x92c.google.com
+X-Spam_score_int: -10
+X-Spam_score: -1.1
 X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01,
- T_SPF_PERMERROR=0.01 autolearn=no autolearn_force=no
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, HTML_MESSAGE=0.001, PDS_HP_HELO_NORDNS=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -84,72 +79,129 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, dgilbert@redhat.com, quintela@redhat.com
+Cc: Kyle Evans <kevans@freebsd.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
+ Peter Maydell <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Feb 1, 2022 at 7:39 PM Pankaj Gupta <pankaj.gupta@ionos.com> wrote:
->
-> > This allow address could be reused to avoid rdma_bind_addr error
-> > out.
->
-> Seems we are proposing to allow multiple connections on same source ip
-> port pair?
-according to the man page, it's more about the destination side which
-is the incoming side.[1]
-We hit the error on the migration target when there are many migration
-tests in parallel:
-"RDMA ERROR: Error: could not rdma_bind_addr!"
+--0000000000008ee6c805d6fb259d
+Content-Type: text/plain; charset="UTF-8"
 
-[1]https://manpages.debian.org/testing/librdmacm-dev/rdma_set_option.3.en.html
-> >
-> > Signed-off-by: Jack Wang <jinpu.wang@ionos.com>
-> > ---
-> >  migration/rdma.c | 7 +++++++
-> >  1 file changed, 7 insertions(+)
-> >
-> > diff --git a/migration/rdma.c b/migration/rdma.c
-> > index 2e223170d06d..b498ef013c77 100644
-> > --- a/migration/rdma.c
-> > +++ b/migration/rdma.c
-> > @@ -2705,6 +2705,7 @@ static int qemu_rdma_dest_init(RDMAContext *rdma, Error **errp)
-> >      char ip[40] = "unknown";
-> >      struct rdma_addrinfo *res, *e;
-> >      char port_str[16];
-> > +    int reuse = 1;
-> >
-> >      for (idx = 0; idx < RDMA_WRID_MAX; idx++) {
-> >          rdma->wr_data[idx].control_len = 0;
-> > @@ -2740,6 +2741,12 @@ static int qemu_rdma_dest_init(RDMAContext *rdma, Error **errp)
-> >          goto err_dest_init_bind_addr;
-> >      }
-> >
-> > +    ret = rdma_set_option(listen_id, RDMA_OPTION_ID, RDMA_OPTION_ID_REUSEADDR,
-> > +                         &reuse, sizeof reuse);
->
-> maybe we can just write '1' directly on the argument list of 'rdma_set_option'.
-> Assuming reuseaddr does not effect core rdma transport? change seems ok to me.
-I feel it's cleaner to do it with a variable than force conversion of
-1 to void *.
+This fixes a build regression. The _capsicum member was added on -current
+recently, and isn't in FreeBSD 12 or 13. This fixes the build regression
+there.
 
-It's bound to the cm_id which is newly created a few lines above, so
-does not affect core rdma transport.
+My apologies...
 
->
-> Thanks,
-> Pankaj
-Thanks for the review!
+Warner
 
-Jinpu Wang
+On Tue, Feb 1, 2022 at 1:52 PM Warner Losh <imp@bsdimp.com> wrote:
+
+> The capsicum signal stuff is new with FreeBSD 14, rev 1400026, so only
+> copy them on a new enough system.
 >
-> > +    if (ret) {
-> > +        ERROR(errp, "Error: could not set REUSEADDR option");
-> > +        goto err_dest_init_bind_addr;
-> > +    }
-> >      for (e = res; e != NULL; e = e->ai_next) {
-> >          inet_ntop(e->ai_family,
-> >              &((struct sockaddr_in *) e->ai_dst_addr)->sin_addr, ip, sizeof ip);
-> > --
-> > 2.25.1
-> >
+> Signed-off-by: Warner Losh <imp@bsdimp.com>
+> ---
+>  bsd-user/signal.c | 4 ++++
+>  1 file changed, 4 insertions(+)
+>
+> diff --git a/bsd-user/signal.c b/bsd-user/signal.c
+> index ad22ba9d90d..b43266e6e06 100644
+> --- a/bsd-user/signal.c
+> +++ b/bsd-user/signal.c
+> @@ -242,8 +242,10 @@ static inline void
+> host_to_target_siginfo_noswap(target_siginfo_t *tinfo,
+>           * one, then we know what to save.
+>           */
+>          if (sig == TARGET_SIGTRAP) {
+> +#if defined(__FreeBSD_version) && __FreeBSD_version >= 1400026
+>              tinfo->_reason._capsicum._syscall =
+>                  info->_reason._capsicum._syscall;
+> +#endif
+>              si_type = QEMU_SI_CAPSICUM;
+>          }
+>          break;
+> @@ -296,8 +298,10 @@ static void tswap_siginfo(target_siginfo_t *tinfo,
+> const target_siginfo_t *info)
+>          __put_user(info->_reason._poll._band,
+> &tinfo->_reason._poll._band);
+>          break;
+>      case QEMU_SI_CAPSICUM:
+> +#if defined(__FreeBSD_version) && __FreeBSD_version >= 1400026
+>          __put_user(info->_reason._capsicum._syscall,
+>                     &tinfo->_reason._capsicum._syscall);
+> +#endif
+>          break;
+>      default:
+>          g_assert_not_reached();
+> --
+> 2.33.1
+>
+>
+
+--0000000000008ee6c805d6fb259d
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">This fixes a build regression. The _capsicum member was ad=
+ded on -current recently, and isn&#39;t in FreeBSD 12 or 13. This fixes the=
+ build regression there.<div><br></div><div>My apologies...</div><div><br><=
+/div><div>Warner</div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr"=
+ class=3D"gmail_attr">On Tue, Feb 1, 2022 at 1:52 PM Warner Losh &lt;<a hre=
+f=3D"mailto:imp@bsdimp.com">imp@bsdimp.com</a>&gt; wrote:<br></div><blockqu=
+ote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px=
+ solid rgb(204,204,204);padding-left:1ex">The capsicum signal stuff is new =
+with FreeBSD 14, rev 1400026, so only<br>
+copy them on a new enough system.<br>
+<br>
+Signed-off-by: Warner Losh &lt;<a href=3D"mailto:imp@bsdimp.com" target=3D"=
+_blank">imp@bsdimp.com</a>&gt;<br>
+---<br>
+=C2=A0bsd-user/signal.c | 4 ++++<br>
+=C2=A01 file changed, 4 insertions(+)<br>
+<br>
+diff --git a/bsd-user/signal.c b/bsd-user/signal.c<br>
+index ad22ba9d90d..b43266e6e06 100644<br>
+--- a/bsd-user/signal.c<br>
++++ b/bsd-user/signal.c<br>
+@@ -242,8 +242,10 @@ static inline void host_to_target_siginfo_noswap(targe=
+t_siginfo_t *tinfo,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * one, then we know what to save.<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 */<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (sig =3D=3D TARGET_SIGTRAP) {<br>
++#if defined(__FreeBSD_version) &amp;&amp; __FreeBSD_version &gt;=3D 140002=
+6<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0tinfo-&gt;_reason._capsicum=
+._syscall =3D<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0info-&gt;_rea=
+son._capsicum._syscall;<br>
++#endif<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0si_type =3D QEMU_SI_CAPSICU=
+M;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0break;<br>
+@@ -296,8 +298,10 @@ static void tswap_siginfo(target_siginfo_t *tinfo, con=
+st target_siginfo_t *info)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0__put_user(info-&gt;_reason._poll._band, =
+&amp;tinfo-&gt;_reason._poll._band);<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0break;<br>
+=C2=A0 =C2=A0 =C2=A0case QEMU_SI_CAPSICUM:<br>
++#if defined(__FreeBSD_version) &amp;&amp; __FreeBSD_version &gt;=3D 140002=
+6<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0__put_user(info-&gt;_reason._capsicum._sy=
+scall,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &amp;=
+tinfo-&gt;_reason._capsicum._syscall);<br>
++#endif<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0break;<br>
+=C2=A0 =C2=A0 =C2=A0default:<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0g_assert_not_reached();<br>
+-- <br>
+2.33.1<br>
+<br>
+</blockquote></div>
+
+--0000000000008ee6c805d6fb259d--
 
