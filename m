@@ -2,85 +2,102 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7CCE74A6A79
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Feb 2022 04:17:55 +0100 (CET)
-Received: from localhost ([::1]:51294 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C01294A6A67
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Feb 2022 04:03:40 +0100 (CET)
+Received: from localhost ([::1]:33720 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nF69Z-0003V8-Sd
-	for lists+qemu-devel@lfdr.de; Tue, 01 Feb 2022 22:17:54 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:32898)
+	id 1nF5vn-0007zw-Fg
+	for lists+qemu-devel@lfdr.de; Tue, 01 Feb 2022 22:03:39 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:38426)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nF0lx-0004Bi-IF
- for qemu-devel@nongnu.org; Tue, 01 Feb 2022 16:33:09 -0500
-Received: from [2607:f8b0:4864:20::1032] (port=52089
- helo=mail-pj1-x1032.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nF0lw-0003yj-54
- for qemu-devel@nongnu.org; Tue, 01 Feb 2022 16:33:09 -0500
-Received: by mail-pj1-x1032.google.com with SMTP id q63so18354083pja.1
- for <qemu-devel@nongnu.org>; Tue, 01 Feb 2022 13:33:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=DVTkrg7mlxAd4tSSV735yNiLvsNg7ebvQYJ0crEVRiw=;
- b=LoqelIcO6w8DSBBICa3t8sa2cHlgdkyQfomA6Oh/Mjd3NFluSU869ktrQ0nbvjFION
- 3+/fZK8lbPb9UnGEPYiIFpBThNphSInUSTVsJATR/ghANhSMaSBcPjha1QrcfgY1gbwA
- GYy93baKePOVXsfTRt9YSgB8t0FN5Jux4dCKZgjy4UPjAvPXyID/GDly6sxKorSFBU9N
- p0yKnUXp4CauWUm2Clw/I3EGL1zNfZe7t6gH3wRJ8AyAfzypKPOAE1WjCT2ZSjGuvLJZ
- ISYHGWMospx+BAdrlEDhZuvr/FbAoy19owzy080sFFVUwyNOH7BPc8Wm+0TFmrIFWFyl
- pE+Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=DVTkrg7mlxAd4tSSV735yNiLvsNg7ebvQYJ0crEVRiw=;
- b=2nAvtF8QmVcPmlEzi1I7AFL9lYqwG4MiJ/uwLmQ8dLsk4e5xgp64dKSgQ2gcVRGhk0
- hm9G3odASaXN4VBSGvopdBq/utP5q0eHclVDTH9lvknayQKW3pKVH1Ak16YZJFSgGv3d
- duoOM15EcKqlOzyK1ShGEgJ00X4G0/Wd0QwVkRl4KWigqjOWrkveXI/ZIjBi7Aw2NwMB
- dnObKIG605G0dVulPm/U1rAbkC2ys5vITxpw9ZqmgN0rgxK7HAJdGHn/wclXFUAYdLuW
- JTF9sQ1XTlTI13o/SJUbDoXY50+5L3PlZJGgHxBM792D5gQmybPloVB9Qz+j1EEg6eRu
- Zfyw==
-X-Gm-Message-State: AOAM530JbedxpEopc2ObLXqFEBfn6o3P+J8p4raHUBwxEM+zE19zBAS0
- HJJkCtPfjN3Ra8ZZM840RkVV5w==
-X-Google-Smtp-Source: ABdhPJzeUhpykhRtQNvrv9x3er3v61sZ1txdJZXPhuAZKzFE9GWXtnCTe3gVTjoAJ7Ar1Met5jEvpQ==
-X-Received: by 2002:a17:902:e550:: with SMTP id
- n16mr28172644plf.60.1643751186940; 
- Tue, 01 Feb 2022 13:33:06 -0800 (PST)
-Received: from ?IPV6:2001:8003:3a49:fd00:4f14:faaf:dae:66e4?
- ([2001:8003:3a49:fd00:4f14:faaf:dae:66e4])
- by smtp.gmail.com with ESMTPSA id o21sm19294550pfu.100.2022.02.01.13.33.03
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 01 Feb 2022 13:33:06 -0800 (PST)
-Message-ID: <067f9d76-9050-0276-e396-4a204073e41d@linaro.org>
-Date: Wed, 2 Feb 2022 08:33:00 +1100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH 18/22] bsd-user: Define target_arg64
-Content-Language: en-US
-To: Warner Losh <imp@bsdimp.com>, qemu-devel@nongnu.org
-References: <20220201111455.52511-1-imp@bsdimp.com>
- <20220201111455.52511-19-imp@bsdimp.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220201111455.52511-19-imp@bsdimp.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+ (Exim 4.90_1) (envelope-from <sbhat@linux.ibm.com>)
+ id 1nF19z-0005DL-TE; Tue, 01 Feb 2022 16:58:02 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:28864)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <sbhat@linux.ibm.com>)
+ id 1nF19w-0007rQ-TR; Tue, 01 Feb 2022 16:57:59 -0500
+Received: from pps.filterd (m0098394.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 211KNUaQ006560; 
+ Tue, 1 Feb 2022 21:57:41 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=subject : from : to : cc
+ : date : message-id : content-type : content-transfer-encoding :
+ mime-version; s=pp1; bh=vxmbPa1j3mh8wncoYWRaW9IhMjvklFaHZPnW7X72DPo=;
+ b=P49qbscRWA3Wtiw5cMcoDgsCJvcs57QhVnCHFV0HkphfUhXDX2n2/IuK63m5ryJcg++l
+ CwvD7xGvO6+EPGVCpQ3DFzsZZWiG5/zzpU/AguBpLbeyXP9qjRiBh7+3TpdnToFjXvm8
+ rZFfBPHINT+1h05AJD0vWyUrEQoYQALAA7y5e9VMadHvxlg2f/3nQYxbKa1n2/DAH+CL
+ aDgLoMhX1n2bZTkKMXDcvrukYgOCN5E44DpEMzLaDZnKIucLNvm27FYbNzqTL5TEg8zD
+ DHwaa/mlk+In57VcrdeDZD3I4AkyoJD87Sw8B6aAPD9klBmgRlJVqNyUrSCMkwdEsXGf 0A== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3dybuyhdd8-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 01 Feb 2022 21:57:40 +0000
+Received: from m0098394.ppops.net (m0098394.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 211Lven3030573;
+ Tue, 1 Feb 2022 21:57:40 GMT
+Received: from ppma02fra.de.ibm.com (47.49.7a9f.ip4.static.sl-reverse.com
+ [159.122.73.71])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3dybuyhdcp-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 01 Feb 2022 21:57:40 +0000
+Received: from pps.filterd (ppma02fra.de.ibm.com [127.0.0.1])
+ by ppma02fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 211Lv93Z027631;
+ Tue, 1 Feb 2022 21:57:37 GMT
+Received: from b06cxnps4074.portsmouth.uk.ibm.com
+ (d06relay11.portsmouth.uk.ibm.com [9.149.109.196])
+ by ppma02fra.de.ibm.com with ESMTP id 3dvw79f347-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 01 Feb 2022 21:57:37 +0000
+Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com
+ [9.149.105.58])
+ by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 211LvY0Y33161674
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 1 Feb 2022 21:57:35 GMT
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id D1FB04C04A;
+ Tue,  1 Feb 2022 21:57:34 +0000 (GMT)
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 117884C046;
+ Tue,  1 Feb 2022 21:57:33 +0000 (GMT)
+Received: from [10.88.2.5] (unknown [9.40.194.150])
+ by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Tue,  1 Feb 2022 21:57:32 +0000 (GMT)
+Subject: [PATCH v6 0/3] spapr: nvdimm: Introduce spapr-nvdimm device
+From: Shivaprasad G Bhat <sbhat@linux.ibm.com>
+To: clg@kaod.org, mst@redhat.com, ani@anisinha.ca, danielhb413@gmail.com,
+ david@gibson.dropbear.id.au, groug@kaod.org, imammedo@redhat.com,
+ xiaoguangrong.eric@gmail.com, david@gibson.dropbear.id.au,
+ qemu-ppc@nongnu.org
+Date: Tue, 01 Feb 2022 21:57:32 +0000
+Message-ID: <164375265242.118489.1350738893986283213.stgit@82dbe1ffb256>
+User-Agent: StGit/1.1
+Content-Type: text/plain; charset="utf-8"
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: jdLUEBeys9ZLkygRntU4gYsYHh2dP6e0
+X-Proofpoint-GUID: Um-zfQD_j-oo82OIhcedYTJ6bOGmDOgk
 Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1032
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1032;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1032.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+MIME-Version: 1.0
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.816,Hydra:6.0.425,FMLib:17.11.62.513
+ definitions=2022-02-01_10,2022-02-01_01,2021-12-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxscore=0 bulkscore=0
+ adultscore=0 suspectscore=0 spamscore=0 priorityscore=1501 mlxlogscore=999
+ malwarescore=0 phishscore=0 impostorscore=0 lowpriorityscore=0
+ clxscore=1011 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2201110000 definitions=main-2202010118
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=sbhat@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,25 +110,126 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Stacey Son <sson@FreeBSD.org>,
- arrowd@FreeBSD.org, Kyle Evans <kevans@freebsd.org>, def@FreeBSD.org,
- jrtc27@FreeBSD.org, Brad Smith <brad@comstyle.com>
+Cc: aneesh.kumar@linux.ibm.com, qemu-devel@nongnu.org, kvm-ppc@vger.kernel.org,
+ nvdimm@lists.linux.dev
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/1/22 22:14, Warner Losh wrote:
-> target_arg64 is a generic way to extract 64-bits from a pair of
-> arguments. On 32-bit platforms, it returns them joined together as
-> appropriate. On 64-bit platforms, it returns the first arg because it's
-> already 64-bits.
-> 
-> Signed-off-by: Stacey Son<sson@FreeBSD.org>
-> Signed-off-by: Warner Losh<imp@bsdimp.com>
-> ---
->   bsd-user/qemu.h | 13 +++++++++++++
->   1 file changed, 13 insertions(+)
+If the device backend is not persistent memory for the nvdimm, there
+is need for explicit IO flushes to ensure persistence.
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+On SPAPR, the issue is addressed by adding a new hcall to request for
+an explicit flush from the guest when the backend is not pmem.
+So, the approach here is to convey when the hcall flush is required
+in a device tree property. The guest once it knows the device needs
+explicit flushes, makes the hcall as and when required.
 
-r~
+It was suggested to create a new device type to address the
+explicit flush for such backends on PPC instead of extending the
+generic nvdimm device with new property. So, the patch introduces
+the spapr-nvdimm device. The new device inherits the nvdimm device
+with the new bahviour such that if the backend has pmem=no, the
+device tree property is set by default.
+
+The below demonstration shows the map_sync behavior for non-pmem
+backends.
+(https://github.com/avocado-framework-tests/avocado-misc-tests/blob/master/memory/ndctl.py.data/map_sync.c)
+
+The pmem0 is from spapr-nvdimm with with backend pmem=on, and pmem1 is
+from spapr-nvdimm with pmem=off, mounted as
+/dev/pmem0 on /mnt1 type xfs (rw,relatime,attr2,dax=always,inode64,logbufs=8,logbsize=32k,noquota)
+/dev/pmem1 on /mnt2 type xfs (rw,relatime,attr2,dax=always,inode64,logbufs=8,logbsize=32k,noquota)
+
+[root@atest-guest ~]# ./mapsync /mnt1/newfile ----> When pmem=on
+[root@atest-guest ~]# ./mapsync /mnt2/newfile ----> when pmem=off
+Failed to mmap  with Operation not supported
+
+First patch adds the realize/unrealize call backs to the generic device
+for the new device's vmstate registration. The second patch implements
+the hcall, adds the necessary vmstate properties to spapr machine structure
+for carrying the hcall status during save-restore. The nature of the hcall
+being asynchronus, the patch uses aio utilities to offload the flush. The
+the third patch introduces the spapr-nvdimm device, adds the device tree
+property for the guest when spapr-nvdimm is used with pmem=no on the
+backend. Also adds new property pmem-override(?, suggest if you have better
+name) to the spapr-nvdimm which hints at forcing the hcall based flushes even
+on pmem backed devices.
+
+The kernel changes to exploit this hcall is at
+https://github.com/linuxppc/linux/commit/75b7c05ebf9026.patch
+
+---
+v5 - https://lists.gnu.org/archive/html/qemu-devel/2021-07/msg01741.html
+Changes from v5:
+      - Taken care of all comments from David
+      - Moved the flush lists from spapr machine into the spapr-nvdimm device
+        state structures. So, all corresponding data structures adjusted
+	accordingly as required.
+      - New property pmem-overrride is added to the spapr-nvdimm device. The
+        hcall flushes are allowed when pmem-override is set for the device.
+      - The flush for pmem backend devices are made to use pmem_persist().
+      - The vmstate structures are also made part of device state instead of
+        global spapr.
+      - Passing the flush token to destination during migration, I think its
+        better than finding, deriving it from the outstanding ones.
+
+v4 - https://lists.gnu.org/archive/html/qemu-devel/2021-04/msg05982.html
+Changes from v4:
+      - Introduce spapr-nvdimm device with nvdimm device as the parent.
+      - The new spapr-nvdimm has no new properties. As this is a new
+        device and there is no migration related dependencies to be
+        taken care of, the device behavior is made to set the device tree
+        property and enable hcall when the device type spapr-nvdimm is
+        used with pmem=off
+      - Fixed commit messages
+      - Added checks to ensure the backend is actualy file and not memory
+      - Addressed things pointed out by Eric
+
+v3 - https://lists.gnu.org/archive/html/qemu-devel/2021-03/msg07916.html
+Changes from v3:
+      - Fixed the forward declaration coding guideline violations in 1st patch.
+      - Removed the code waiting for the flushes to complete during migration,
+        instead restart the flush worker on destination qemu in post load.
+      - Got rid of the randomization of the flush tokens, using simple
+        counter.
+      - Got rid of the redundant flush state lock, relying on the BQL now.
+      - Handling the memory-backend-ram usage
+      - Changed the sync-dax symantics from on/off to 'unsafe','writeback' and 'direct'.
+	Added prevention code using 'writeback' on arm and x86_64.
+      - Fixed all the miscellaneous comments.
+
+v2 - https://lists.gnu.org/archive/html/qemu-devel/2020-11/msg07031.html
+Changes from v2:
+      - Using the thread pool based approach as suggested
+      - Moved the async hcall handling code to spapr_nvdimm.c along
+        with some simplifications
+      - Added vmstate to preserve the hcall status during save-restore
+        along with pre_save handler code to complete all ongoning flushes.
+      - Added hw_compat magic for sync-dax 'on' on previous machines.
+      - Miscellanious minor fixes.
+
+v1 - https://lists.gnu.org/archive/html/qemu-devel/2020-11/msg06330.html
+Changes from v1
+      - Fixed a missed-out unlock
+      - using QLIST_FOREACH instead of QLIST_FOREACH_SAFE while generating token
+
+Shivaprasad G Bhat (3):
+      nvdimm: Add realize, unrealize callbacks to NVDIMMDevice class
+      spapr: nvdimm: Implement H_SCM_FLUSH hcall
+      spapr: nvdimm: Introduce spapr-nvdimm device
+
+
+ hw/mem/nvdimm.c               |  16 ++
+ hw/mem/pc-dimm.c              |   5 +
+ hw/ppc/spapr.c                |   2 +
+ hw/ppc/spapr_nvdimm.c         | 394 ++++++++++++++++++++++++++++++++++
+ include/hw/mem/nvdimm.h       |   2 +
+ include/hw/mem/pc-dimm.h      |   1 +
+ include/hw/ppc/spapr.h        |   4 +-
+ include/hw/ppc/spapr_nvdimm.h |   1 +
+ 8 files changed, 424 insertions(+), 1 deletion(-)
+
+--
+Signature
+
 
