@@ -2,71 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 793194A5B16
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Feb 2022 12:23:31 +0100 (CET)
-Received: from localhost ([::1]:36128 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5633A4A5B53
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Feb 2022 12:39:32 +0100 (CET)
+Received: from localhost ([::1]:40750 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nErFy-0008GG-KC
-	for lists+qemu-devel@lfdr.de; Tue, 01 Feb 2022 06:23:30 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:56834)
+	id 1nErVT-0005pt-ED
+	for lists+qemu-devel@lfdr.de; Tue, 01 Feb 2022 06:39:31 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:56966)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1nEr7m-0004sC-9g
- for qemu-devel@nongnu.org; Tue, 01 Feb 2022 06:15:02 -0500
-Received: from [2607:f8b0:4864:20::12a] (port=38664
- helo=mail-il1-x12a.google.com)
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1nEr7p-00051z-FF
+ for qemu-devel@nongnu.org; Tue, 01 Feb 2022 06:15:05 -0500
+Received: from [2607:f8b0:4864:20::d2c] (port=33295
+ helo=mail-io1-xd2c.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1nEr7k-0003XQ-6j
- for qemu-devel@nongnu.org; Tue, 01 Feb 2022 06:15:01 -0500
-Received: by mail-il1-x12a.google.com with SMTP id i1so13977529ils.5
- for <qemu-devel@nongnu.org>; Tue, 01 Feb 2022 03:14:57 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1nEr7k-0003XX-8g
+ for qemu-devel@nongnu.org; Tue, 01 Feb 2022 06:15:04 -0500
+Received: by mail-io1-xd2c.google.com with SMTP id y84so20788426iof.0
+ for <qemu-devel@nongnu.org>; Tue, 01 Feb 2022 03:14:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bsdimp-com.20210112.gappssmtp.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=4kADzTN0Wer67ApqMOj+RmImF1jg1CJ8Ks/jZVYJzOM=;
- b=RLzhsyBwgZPNo0G4sAGZ5ac2WuVtnyb8W2jy9gcjIoN6l+KLgTQQbar6LRliXrmw1R
- Ma/n9bqaPdEaOo6xzXnpq+E6eRywGT8nRtubGszR8JFePwXDnULs+PODkAHLlRSdcXPh
- fqk3sLIDQOVaBZmVIyXIGDcSF0o5DlMN36kX3+vxbHe0Dra3Rq0tpuDJaeZPD1vtEHYm
- gWr1YFcrPd5MqQFK5QlFTvNflcfJjwj4WNwWt371teDbhyyTWLQHHJUT064eHVXfBDAx
- EnsTGt7kAwTXG2tkGfD6vephUI7Uh1D9nmwKvoHo9Ix0qIipWGSoHN3Op++8ZTAlCB42
- d1fg==
+ bh=YZBADdyHloLLRfcWgOJjkztwEPB9T1oDoqbT7HXyib0=;
+ b=mU1ejld1xxXUtkJeelptK0Cr2z2QDG7Wr3A4VfaChef1CumnChhZWEV06ztB2139ZV
+ nx0+gmP8Wd1T4Pr6eBs/eQevYJT2Q/+fhnT8b9tGOcQANpr0qkLCLBF97ctAs9nz4ttn
+ us22MFGSIPKcrFmBnxHao3Oz0QWUYR1fbA9XtigMZSrlaC884GNht03VDMVBUhQOr+8T
+ OiqYNSKkAE0M5GqiRSfFxf8Ng/XQSq75jGKB69Ubtn3IG0KNnsVkLfGsCoM8+ZLjMN8f
+ J3CD3YB2/X7pM6G0XyvndnGpCjd6qpd6H6WaY+c/sh383TpjKx6Ymv6SozBmY+UVLXGg
+ boZw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=4kADzTN0Wer67ApqMOj+RmImF1jg1CJ8Ks/jZVYJzOM=;
- b=i0KnHEMzjIQvvgTUcHrR1JTT7qVwXPA+HwEo9NLLX+zgRsXjfZE6TEHVKl7ofculhk
- 7pbFXTkc57nyrTBWx+bvVjUYg49sBlvzFhl2I5QksuTpgeZFp2a03lcVkvQVM6uZ6Hwm
- i9EDMwcqKpP03xSGV9p6oaXV6acHNqIebJHhh13dHcyADhLxaCfjqXWq99/4H486cqpC
- Bv8+spT/YaVkvGLo6GVaACJs3vvzFFWZM1PeFkOoDBzrfaEdJ7oJBp49KvGsoh3bYbw6
- huFxWq9/3vHGx8YrQWZsdYoadkih39lS5ocrsvoDDheVKIhck25WhYtzTcRFoyQCPg5X
- TXoQ==
-X-Gm-Message-State: AOAM531Cd3AuZGONBLGIu7yjnYjaNBVhjU96G2xaKw/feOPj1zprHQU+
- Ysl0Q1u5BZStx3kjWbfAc5Z6n4fX0cnpXA==
-X-Google-Smtp-Source: ABdhPJxK6qLLkJj5GNrGpHLOIAv7e/38sEYxWdfLPf/ErrqegGVTz5k9jXvlNBnTxCw25yJei9lH3g==
-X-Received: by 2002:a05:6e02:1aaf:: with SMTP id
- l15mr14127213ilv.31.1643714096235; 
- Tue, 01 Feb 2022 03:14:56 -0800 (PST)
+ bh=YZBADdyHloLLRfcWgOJjkztwEPB9T1oDoqbT7HXyib0=;
+ b=mHBeyCIrv/TIVnLcGELHwqDNQfMpMWZZICkr4vuq5NTB8AoZE0H48/z3MlIvopUzPL
+ /qxU+s0wDc0dUm3u3Ynk7DogqRu572PH9iXyjvW4aNefNpWhs+JiAH7MB0hBVTQLh11i
+ cvsntdn8RBv9SMtvNIpEsbReMNDl0jfwSmMaYClrqQAeBN5VvWvXLVoUS84QaBaHpZVJ
+ Yl6Qo3rN66zyJBLglimmIm9nZPMITF0QcvcnmwWg9L64NNCHRXubq4klkq6FSOctkSt7
+ 7MCiu16/H1L6w/4AvKbEAG6zGjV0hdE9NrO49Firgv3V/bijQNEqzrtnLOWCNWHocu/y
+ 5xpg==
+X-Gm-Message-State: AOAM533g0s3cUT4FYQLhLyrHSKtlYkJXg82LzyaAQDx8dvaNrLWjmhOe
+ 70doJhPN8dudV8iVRueXYGV1qAeaAtYTcA==
+X-Google-Smtp-Source: ABdhPJyrLD3PP6MNOZ8O2ucU+KBotyJRgAXa299Hpnw67j76XAYGKjyoLxVUZjVLgtmXn24ikDwQlA==
+X-Received: by 2002:a05:6602:2d4b:: with SMTP id
+ d11mr13024625iow.50.1643714097019; 
+ Tue, 01 Feb 2022 03:14:57 -0800 (PST)
 Received: from dune.bsdimp.com (50-253-99-174-static.hfc.comcastbusiness.net.
  [50.253.99.174])
- by smtp.gmail.com with ESMTPSA id w5sm13526852ilu.83.2022.02.01.03.14.55
+ by smtp.gmail.com with ESMTPSA id w5sm13526852ilu.83.2022.02.01.03.14.56
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 01 Feb 2022 03:14:55 -0800 (PST)
+ Tue, 01 Feb 2022 03:14:56 -0800 (PST)
 From: Warner Losh <imp@bsdimp.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 08/22] bsd-user: Remove bsd_type
-Date: Tue,  1 Feb 2022 04:14:41 -0700
-Message-Id: <20220201111455.52511-9-imp@bsdimp.com>
+Subject: [PATCH 09/22] bsd-user/freebsd/os-syscall.c: Move syscall processing
+ here
+Date: Tue,  1 Feb 2022 04:14:42 -0700
+Message-Id: <20220201111455.52511-10-imp@bsdimp.com>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <20220201111455.52511-1-imp@bsdimp.com>
 References: <20220201111455.52511-1-imp@bsdimp.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::12a
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::d2c
  (failed)
-Received-SPF: none client-ip=2607:f8b0:4864:20::12a;
- envelope-from=imp@bsdimp.com; helo=mail-il1-x12a.google.com
+Received-SPF: none client-ip=2607:f8b0:4864:20::d2c;
+ envelope-from=imp@bsdimp.com; helo=mail-io1-xd2c.google.com
 X-Spam_score_int: -10
 X-Spam_score: -1.1
 X-Spam_bar: -
@@ -94,57 +95,96 @@ Cc: Peter Maydell <peter.maydell@linaro.org>, arrowd@FreeBSD.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Remove keeping track of which type of bsd we're running on. It's no
-longer referenced in the code. Building bsd-user on NetBSD or OpenBSD
-isn't possible, let alone running that code. Stop pretending that we can
-do the cross BSD thing since there's been a large divergence since 2000
-that makes this nearly impossible between FreeBSD and {Net,Open}BSD and
-at least quite difficult between NetBSD and OpenBSD.
+While there is some commonality between *BSD syscall processing, there's
+a number of differences and the system call numbers and ABIs have been
+independent since the late 90s. Move FreeBSD's proessing here and delete
+it.
+
+The upstream implementation is somewhat different than the current
+implementation. It will be much easier to upstream these from scratch,
+justifying the final result, rather than working out the diffs and
+justifying the changes. Also tweak a comment to qemu standard form.
 
 Signed-off-by: Warner Losh <imp@bsdimp.com>
 ---
- bsd-user/main.c | 2 --
- bsd-user/qemu.h | 7 -------
- 2 files changed, 9 deletions(-)
+ bsd-user/freebsd/os-syscall.c | 68 +++++++++++++++++++++++++++++++++++
+ 1 file changed, 68 insertions(+)
+ create mode 100644 bsd-user/freebsd/os-syscall.c
 
-diff --git a/bsd-user/main.c b/bsd-user/main.c
-index bddb830e99b..88d347d05eb 100644
---- a/bsd-user/main.c
-+++ b/bsd-user/main.c
-@@ -96,7 +96,6 @@ unsigned long reserved_va;
- 
- static const char *interp_prefix = CONFIG_QEMU_INTERP_PREFIX;
- const char *qemu_uname_release;
--enum BSDType bsd_type;
- char qemu_proc_pathname[PATH_MAX];  /* full path to exeutable */
- 
- unsigned long target_maxtsiz = TARGET_MAXTSIZ;   /* max text size */
-@@ -284,7 +283,6 @@ int main(int argc, char **argv)
-     const char *gdbstub = NULL;
-     char **target_environ, **wrk;
-     envlist_t *envlist = NULL;
--    bsd_type = HOST_DEFAULT_BSD_TYPE;
-     char *argv0 = NULL;
- 
-     adjust_ssize();
-diff --git a/bsd-user/qemu.h b/bsd-user/qemu.h
-index 02921ac8b3b..e5742bd6c03 100644
---- a/bsd-user/qemu.h
-+++ b/bsd-user/qemu.h
-@@ -29,13 +29,6 @@
- 
- extern char **environ;
- 
--enum BSDType {
--    target_freebsd,
--    target_netbsd,
--    target_openbsd,
--};
--extern enum BSDType bsd_type;
--
- #include "exec/user/thunk.h"
- #include "target_arch.h"
- #include "syscall_defs.h"
+diff --git a/bsd-user/freebsd/os-syscall.c b/bsd-user/freebsd/os-syscall.c
+new file mode 100644
+index 00000000000..7e2bedb918d
+--- /dev/null
++++ b/bsd-user/freebsd/os-syscall.c
+@@ -0,0 +1,68 @@
++/*
++ *  BSD syscalls
++ *
++ *  Copyright (c) 2003-2008 Fabrice Bellard
++ *  Copyright (c) 2013-2014 Stacey D. Son
++ *
++ *  This program is free software; you can redistribute it and/or modify
++ *  it under the terms of the GNU General Public License as published by
++ *  the Free Software Foundation; either version 2 of the License, or
++ *  (at your option) any later version.
++ *
++ *  This program is distributed in the hope that it will be useful,
++ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
++ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++ *  GNU General Public License for more details.
++ *
++ *  You should have received a copy of the GNU General Public License
++ *  along with this program; if not, see <http://www.gnu.org/licenses/>.
++ */
++
++/*
++ * We need the FreeBSD "legacy" definitions. Rust needs the FreeBSD 11 system
++ * calls, so we have to emulate that despite FreeBSD being EOL'd.
++ */
++#define _WANT_FREEBSD11_STAT
++#define _WANT_FREEBSD11_STATFS
++#define _WANT_FREEBSD11_DIRENT
++#define _WANT_KERNEL_ERRNO
++#define _WANT_SEMUN
++#include "qemu/osdep.h"
++#include "qemu/cutils.h"
++#include "qemu/path.h"
++#include <sys/syscall.h>
++#include <sys/param.h>
++#include <sys/sysctl.h>
++#include <utime.h>
++
++#include "qemu.h"
++#include "qemu-common.h"
++#include "signal-common.h"
++#include "user/syscall-trace.h"
++
++void target_set_brk(abi_ulong new_brk)
++{
++}
++
++bool is_error(abi_long ret)
++{
++
++    return (abi_ulong)ret >= (abi_ulong)(-4096);
++}
++
++/*
++ * do_syscall() should always have a single exit point at the end so that
++ * actions, such as logging of syscall results, can be performed.  All errnos
++ * that do_syscall() returns must be -TARGET_<errcode>.
++ */
++abi_long do_freebsd_syscall(void *cpu_env, int num, abi_long arg1,
++                            abi_long arg2, abi_long arg3, abi_long arg4,
++                            abi_long arg5, abi_long arg6, abi_long arg7,
++                            abi_long arg8)
++{
++    return 0;
++}
++
++void syscall_init(void)
++{
++}
 -- 
 2.33.1
 
