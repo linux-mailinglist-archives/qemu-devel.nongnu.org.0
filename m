@@ -2,75 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC0074A66C9
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Feb 2022 22:04:47 +0100 (CET)
-Received: from localhost ([::1]:42876 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AF4AD4A6786
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Feb 2022 23:07:35 +0100 (CET)
+Received: from localhost ([::1]:54870 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nF0KU-000403-FH
-	for lists+qemu-devel@lfdr.de; Tue, 01 Feb 2022 16:04:46 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:46090)
+	id 1nF1JF-0005VS-Oy
+	for lists+qemu-devel@lfdr.de; Tue, 01 Feb 2022 17:07:33 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:44298)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nExtv-0002gz-Ev
- for qemu-devel@nongnu.org; Tue, 01 Feb 2022 13:29:11 -0500
-Received: from [2a00:1450:4864:20::433] (port=35716
- helo=mail-wr1-x433.google.com)
+ id 1nExnX-0008Cw-6T
+ for qemu-devel@nongnu.org; Tue, 01 Feb 2022 13:22:36 -0500
+Received: from [2a00:1450:4864:20::62c] (port=44712
+ helo=mail-ej1-x62c.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nExtt-0001gQ-KO
- for qemu-devel@nongnu.org; Tue, 01 Feb 2022 13:29:11 -0500
-Received: by mail-wr1-x433.google.com with SMTP id e2so33780380wra.2
- for <qemu-devel@nongnu.org>; Tue, 01 Feb 2022 10:29:07 -0800 (PST)
+ id 1nExmZ-0000ee-3W
+ for qemu-devel@nongnu.org; Tue, 01 Feb 2022 13:21:40 -0500
+Received: by mail-ej1-x62c.google.com with SMTP id ka4so56674495ejc.11
+ for <qemu-devel@nongnu.org>; Tue, 01 Feb 2022 10:21:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=7MhMTi1pxN3EWkNN5Z96EF/V4GjjGNATp/VG7QnEpIk=;
- b=AH3oCIZSNWi0zbnwYzFtbygBh0mGJkAN8rSo6XDUO3vXRG0zGOX6gEZHaejXsjv5Ex
- q10B+AKegCDVF1enK0GZXGA2aCkFuJP9qbVIoRQkNPoJt3lqhfJJJVlKAjumwHIV/qiq
- 3O1r6kEXvr0rf5kgKDrsEV1kLPZ5H9LpOC3A1eDNZ9wiE2HXjfOadomuHnzt7Rx/vTJp
- xVqF1RwubY9vWdQciAMgmmwcO46x3Aj6uf0kLRgzoM0ojSP2/puo25jCLzOisSQdDI2Q
- XscDfgbACrYsxlZvCXkjAtGlHtrWtL3Mh+Ll7naachbzi1G9h9nFwUT6C55z5XH/RL2l
- kdig==
+ bh=PFUAsUoSTLSeQuqg2QwwUHrYnKbfkML1QApeyrZ65Rw=;
+ b=zeN6W+lp1n2niGGHs8+E8n/QaxXCaIVFJbsXpAQOIMTkGloY7Pj5t8oy3gAYvycHmZ
+ L0r/AM/J3W0YoUQuyfBzfL2wap1ZW9E0wgTi+9Ho5tJgJiv2UcffrruXNvX5ywJuzWIk
+ 4hxgEGQi+4d+zW80tdTtc7rzn2lYJDNRS1XE+GCkmRIhVlTBZ/yrJOF1EIfWU9EGkeEg
+ 0RLB7vIhGy1zwjTnHhKcutdTWtDiA9N9t3qPwdr9SvykpgdFtrgdz9jm1L1RI+SLHFov
+ 4t8jFrlxgY807op+ZwjFuXi0jd8ZQC+nZSFW7UeR4H9clDvcK2dkch11UNmcAk5L4QH6
+ Nr8w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=7MhMTi1pxN3EWkNN5Z96EF/V4GjjGNATp/VG7QnEpIk=;
- b=eQGBtYIRxZY04oCAvyhSNPEfx8tvDw73fg9vU2dkZEW9fCjqcuaydc4dbWypZu2Dja
- vWStHDcDgewS52DiN3QtFiBPzdo5zO+4Er76ecPEZXRZ52wBZ32vsoDCd0tFJ0Puc53r
- BMXM/HJ5Q4wLpUbBEG+N+z7Pv8u4YwDtahqHdl/wpL5OzC1EaZgw9IG4ByZAoqREz7tQ
- MrQiORrsYGSQ8kh1fItvlh70O3dZfMjCv6AlgNtWkKUPQKDaoqjoxL9IE+IOXwDu2NwP
- 3mPiXb70hFOFH5R8ypqweMoBoCEneU3ItLbpvo6vn9wpc0W1MBn3yshT8Vuof+e5x4fl
- 2SYw==
-X-Gm-Message-State: AOAM533ushdaO1QqFTHdcKFVpEyqb3Gjma3ZG1Ehi16D9AUGr4Woxf8l
- WPfzJQ6hTpROGy/ClNw6aiTtnA==
-X-Google-Smtp-Source: ABdhPJxXXiuHb8pUVPWtDmjPH1gLxmVjJVogGUMtKVyp3s8nJfECtnpJtUzZ5kMutdO5ZJ4OVOxK5Q==
-X-Received: by 2002:a05:6000:11cb:: with SMTP id
- i11mr22498805wrx.19.1643740146991; 
- Tue, 01 Feb 2022 10:29:06 -0800 (PST)
+ bh=PFUAsUoSTLSeQuqg2QwwUHrYnKbfkML1QApeyrZ65Rw=;
+ b=DhNKZUPaF9/w7aSEMO+SCfKOeQd0X9gRCG+8oUrD6QyvdjIrovFNCcbTGcY2foLYv1
+ w6QGUBnY5JU8Ld3LiBM9/KLhBcYnnkTy578mJGRQqsIPO8nie3r5IFe4ICtjITG8/yf5
+ 7OS8Pt8B0qFISrCWhLkF97ObnH2jcPUWfjl3Q9J63z5ibg8yRhbmMq2czURetR58ixS5
+ VrQRRx0Fz5a6jFblu5XObQR6oJ0xb6NI6s0xAIda7E9ROD2yxVj1+VKcOypJsk8Oih4G
+ r8QqXJopawbBmyMdojiTRF0pMGmosSgJNOeMLoAuOLNLZvZGTqSjDArbb2NQNTBvSS9S
+ BXxQ==
+X-Gm-Message-State: AOAM533G9Qsmv2JxA0zNzse9IQT4fYOOLcrzplNP+sHMdG/FE/3r9T4k
+ Y/yi30eL45omaueqeEhN/dUUlQ==
+X-Google-Smtp-Source: ABdhPJxKtNGZZqCh+8f/Sqtbv4oCvF2vVrylj+gEiT5hn5drBLAZOMome4+hZiXQPPemIV1lm8Kegg==
+X-Received: by 2002:a17:907:1c8e:: with SMTP id
+ nb14mr22122265ejc.323.1643739670081; 
+ Tue, 01 Feb 2022 10:21:10 -0800 (PST)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id g9sm10190954wri.95.2022.02.01.10.29.00
+ by smtp.gmail.com with ESMTPSA id w26sm19735870edq.81.2022.02.01.10.20.57
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 01 Feb 2022 10:29:05 -0800 (PST)
+ Tue, 01 Feb 2022 10:21:02 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id AFC171FFC2;
+ by zen.linaroharston (Postfix) with ESMTP id EF5D41FFC5;
  Tue,  1 Feb 2022 18:20:51 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH  v2 10/25] tests: Manually remove libxml2 on MSYS2 runners
-Date: Tue,  1 Feb 2022 18:20:35 +0000
-Message-Id: <20220201182050.15087-11-alex.bennee@linaro.org>
+Subject: [PATCH v2 13/25] gitlab: fall back to commit hash in qemu-setup
+ filename
+Date: Tue,  1 Feb 2022 18:20:38 +0000
+Message-Id: <20220201182050.15087-14-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220201182050.15087-1-alex.bennee@linaro.org>
 References: <20220201182050.15087-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::433
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::62c
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::433;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x433.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::62c;
+ envelope-from=alex.bennee@linaro.org; helo=mail-ej1-x62c.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -92,66 +93,57 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: fam@euphon.net, Luke.Craig@ll.mit.edu, mahmoudabdalghany@outlook.com,
- minyihh@uci.edu, Wainer dos Santos Moschetta <wainersm@redhat.com>,
- aaron@os.amperecomputing.com, cota@braap.org, Thomas Huth <thuth@redhat.com>,
- Ed Maste <emaste@freebsd.org>, stefanha@redhat.com, crosa@redhat.com,
- kuhn.chenqun@huawei.com,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Li-Wen Hsu <lwhsu@freebsd.org>, berrange@redhat.com,
+ Gerd Hoffmann <kraxel@redhat.com>, minyihh@uci.edu,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ aaron@os.amperecomputing.com, cota@braap.org,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, Greg Kurz <groug@kaod.org>,
+ stefanha@redhat.com, crosa@redhat.com, kuhn.chenqun@huawei.com,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, berrange@redhat.com,
  Beraldo Leal <bleal@redhat.com>, f4bug@amsat.org, robhenry@microsoft.com,
- Yonggang Luo <luoyonggang@gmail.com>, pbonzini@redhat.com,
- ma.mandourr@gmail.com, aurelien@aurel32.net
+ pbonzini@redhat.com, ma.mandourr@gmail.com, aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <f4bug@amsat.org>
+From: Stefan Hajnoczi <stefanha@redhat.com>
 
-lcitool doesn't support MSYS2 targets, so manually remove
-this now unnecessary library.
+Personal repos may not have release tags (v6.0.0, v6.1.0, etc) and this
+causes cross_system_build_job to fail when pretty-printing a unique
+qemu-setup-*.exe name:
 
-Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+  version="$(git describe --match v[0-9]*)";
+             ^^^^^^^^^^ fails ^^^^^^^^^^^
+  mv -v qemu-setup*.exe qemu-setup-${version}.exe;
+
+Fall back to the short commit hash if necessary. This fixes CI failures
+that Greg Kurz and I experienced in our personal repos.
+
+Cc: Greg Kurz <groug@kaod.org>
+Cc: Gerd Hoffmann <kraxel@redhat.com>
+Cc: Philippe Mathieu-Daudé <philmd@redhat.com>
+Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+Reviewed-by: Greg Kurz <groug@kaod.org>
 Reviewed-by: Thomas Huth <thuth@redhat.com>
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Message-Id: <20220125173454.10381-1-stefanha@redhat.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20220121154134.315047-7-f4bug@amsat.org>
-Message-Id: <20220124201608.604599-11-alex.bennee@linaro.org>
 ---
- .cirrus.yml              | 1 -
- .gitlab-ci.d/windows.yml | 2 --
- 2 files changed, 3 deletions(-)
+ .gitlab-ci.d/crossbuild-template.yml | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/.cirrus.yml b/.cirrus.yml
-index 02c43a074a..7552d70974 100644
---- a/.cirrus.yml
-+++ b/.cirrus.yml
-@@ -32,7 +32,6 @@ windows_msys2_task:
-       mingw-w64-x86_64-libgcrypt
-       mingw-w64-x86_64-libpng
-       mingw-w64-x86_64-libssh
--      mingw-w64-x86_64-libxml2
-       mingw-w64-x86_64-snappy
-       mingw-w64-x86_64-libusb
-       mingw-w64-x86_64-usbredir
-diff --git a/.gitlab-ci.d/windows.yml b/.gitlab-ci.d/windows.yml
-index 62dd9ed832..1df1630349 100644
---- a/.gitlab-ci.d/windows.yml
-+++ b/.gitlab-ci.d/windows.yml
-@@ -44,7 +44,6 @@ msys2-64bit:
-       mingw-w64-x86_64-libssh
-       mingw-w64-x86_64-libtasn1
-       mingw-w64-x86_64-libusb
--      mingw-w64-x86_64-libxml2
-       mingw-w64-x86_64-nettle
-       mingw-w64-x86_64-ninja
-       mingw-w64-x86_64-pixman
-@@ -80,7 +79,6 @@ msys2-32bit:
-       mingw-w64-i686-libssh
-       mingw-w64-i686-libtasn1
-       mingw-w64-i686-libusb
--      mingw-w64-i686-libxml2
-       mingw-w64-i686-lzo2
-       mingw-w64-i686-ninja
-       mingw-w64-i686-pixman
+diff --git a/.gitlab-ci.d/crossbuild-template.yml b/.gitlab-ci.d/crossbuild-template.yml
+index 10d22dcf6c..29c3c2b826 100644
+--- a/.gitlab-ci.d/crossbuild-template.yml
++++ b/.gitlab-ci.d/crossbuild-template.yml
+@@ -14,7 +14,7 @@
+     - make -j$(expr $(nproc) + 1) all check-build $MAKE_CHECK_ARGS
+     - if grep -q "EXESUF=.exe" config-host.mak;
+       then make installer;
+-      version="$(git describe --match v[0-9]*)";
++      version="$(git describe --match v[0-9]* 2>/dev/null || git rev-parse --short HEAD)";
+       mv -v qemu-setup*.exe qemu-setup-${version}.exe;
+       fi
+ 
 -- 
 2.30.2
 
