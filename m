@@ -2,63 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59D194A58DF
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Feb 2022 09:59:57 +0100 (CET)
-Received: from localhost ([::1]:43750 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7ECCE4A58A5
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Feb 2022 09:42:45 +0100 (CET)
+Received: from localhost ([::1]:58854 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nEp11-0005iT-VB
-	for lists+qemu-devel@lfdr.de; Tue, 01 Feb 2022 03:59:55 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:52750)
+	id 1nEokO-0004L9-Ae
+	for lists+qemu-devel@lfdr.de; Tue, 01 Feb 2022 03:42:44 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:53334)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1nEoax-00081r-GM
- for qemu-devel@nongnu.org; Tue, 01 Feb 2022 03:32:59 -0500
-Received: from 7.mo548.mail-out.ovh.net ([46.105.33.25]:38131)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1nEoau-0005FN-TM
- for qemu-devel@nongnu.org; Tue, 01 Feb 2022 03:32:59 -0500
-Received: from mxplan5.mail.ovh.net (unknown [10.108.4.83])
- by mo548.mail-out.ovh.net (Postfix) with ESMTPS id 807CE21D0F;
- Tue,  1 Feb 2022 08:32:52 +0000 (UTC)
-Received: from kaod.org (37.59.142.104) by DAG4EX1.mxp5.local (172.16.2.31)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.18; Tue, 1 Feb
- 2022 09:32:51 +0100
-Authentication-Results: garm.ovh; auth=pass
- (GARM-104R0056f5597bc-9346-400d-a9de-2cb0edc4de79,
- FC28BB27814F05D37416E671BAFA2F1ED858982E) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Message-ID: <17b82ef5-5ac7-a6ec-a7e7-0553483cf939@kaod.org>
-Date: Tue, 1 Feb 2022 09:32:50 +0100
+ (Exim 4.90_1) (envelope-from <philipp.tomsich@vrull.eu>)
+ id 1nEoes-0001ZF-1H
+ for qemu-devel@nongnu.org; Tue, 01 Feb 2022 03:37:07 -0500
+Received: from [2a00:1450:4864:20::431] (port=39541
+ helo=mail-wr1-x431.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philipp.tomsich@vrull.eu>)
+ id 1nEoep-0005rA-EY
+ for qemu-devel@nongnu.org; Tue, 01 Feb 2022 03:37:01 -0500
+Received: by mail-wr1-x431.google.com with SMTP id s9so30381417wrb.6
+ for <qemu-devel@nongnu.org>; Tue, 01 Feb 2022 00:36:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vrull.eu; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=KxKJJSurY2L0ozQwU7J8T2Ch/yUeCD59ZpGQn+pSQno=;
+ b=Uy2aC1ARoSvor1XV2OWrVwTMjqarfFuqWGX6fTHfNSYxEFmBHDszBPXwLEQ7ff6iyF
+ 66Lj1EVPBAjntyJW85dVhqQmtfvkeV7wFw9czUnQxHfT/fbXEFwe4JXjYPMihvLWFJi8
+ WWx/cY7+Pe2qeK4Q0YVlp3v9U0A3FBjYpT/36G14CI3Kj9MwdcIxzWc1SLB6/KFXxBbA
+ A6jEqd0rrY0ps+R4p5sLJutMQY+hUg8q1trRnOPWKv8d8rzZuesNvHSr8SBCzEupjVwh
+ QCjUxswgeAsF0X39SIrMWnkOqVlv6xOk61LbeCibAp3BobY+gnF/+ZFi94tgCPN7kRSI
+ Nyeg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=KxKJJSurY2L0ozQwU7J8T2Ch/yUeCD59ZpGQn+pSQno=;
+ b=YW6+DHF/1EIQu8Vm5eeVDx11o+/h5TIHh9pUKzzx8rbLHAHjD72uQqT6IqV6J8W5yS
+ EWL04X6006HRm1lEN4inQ5KHwYNhPT9nc2X/N0UiW0KN5kfr1Dq4WhenKYGjsmdvsXkb
+ JEKDVLgpJ+SYpHsxVhGF1wZ8/t3MkrKfJ9aTN1/2DiTvHN2gGrfUeXDMuP90cZHU21eL
+ c8xVdyCl5oQnR8ia1fU7VlY23R0e381pX1teIJDQ7ve5ncXp0nzS4PlzwCRCq8+afU9x
+ uoBJJdRKRmHI2zdbObkAgxqxOqIfCE/ptTG6S792U2yKcpWQFdSuilmu2lJco4aO1txE
+ e6Kw==
+X-Gm-Message-State: AOAM531VerPVprYS2ZhVOl5dnkOzZyEzl/+G+gab5DNiFAI6IQ9YrsO6
+ G35sRMP876PV4o+4d25ztXpdmQlFcba43sKS/yiIIg==
+X-Google-Smtp-Source: ABdhPJzPoJIqdC3SRj+TCmSfIaXNfSc/BDT0d70oCUliwLV+TGGgtzi9k6Fy6tQ+pR5XCQaHSYFpY9vM2GBoKvZ49Z4=
+X-Received: by 2002:a05:6000:18a4:: with SMTP id
+ b4mr20907411wri.641.1643704616325; 
+ Tue, 01 Feb 2022 00:36:56 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.0
-Subject: Re: [PATCH 00/16] arm: Fix handling of unrecognized functions in PSCI
- emulation
-Content-Language: en-US
-To: Peter Maydell <peter.maydell@linaro.org>, <qemu-arm@nongnu.org>,
- <qemu-devel@nongnu.org>
-References: <20220127154639.2090164-1-peter.maydell@linaro.org>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <20220127154639.2090164-1-peter.maydell@linaro.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.104]
-X-ClientProxiedBy: DAG9EX2.mxp5.local (172.16.2.82) To DAG4EX1.mxp5.local
- (172.16.2.31)
-X-Ovh-Tracer-GUID: 70abd411-27cf-4eab-8c18-36e27cef8fdd
-X-Ovh-Tracer-Id: 17308459268668820435
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvvddrgedvgdduvddvucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvfhfhjggtgfhisehtkeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepieegvdffkeegfeetuddttddtveduiefhgeduffekiedtkeekteekhfffleevleelnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrddutdegnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhnsggprhgtphhtthhopedupdhrtghpthhtoheprghnughrvgdrphhriiihfigrrhgrsegrrhhmrdgtohhm
-Received-SPF: pass client-ip=46.105.33.25; envelope-from=clg@kaod.org;
- helo=7.mo548.mail-out.ovh.net
-X-Spam_score_int: -18
-X-Spam_score: -1.9
+References: <20220131110201.2303275-1-philipp.tomsich@vrull.eu>
+ <20220131110201.2303275-7-philipp.tomsich@vrull.eu>
+ <CAKmqyKPo+fk0piXOoifbCpNvGZahRpKaKPsEqBEOQWQDGg2+Yw@mail.gmail.com>
+In-Reply-To: <CAKmqyKPo+fk0piXOoifbCpNvGZahRpKaKPsEqBEOQWQDGg2+Yw@mail.gmail.com>
+From: Philipp Tomsich <philipp.tomsich@vrull.eu>
+Date: Tue, 1 Feb 2022 09:36:45 +0100
+Message-ID: <CAAeLtUApihoyOa1wmx-LN_OZtu5YaM_x0e+2ETFjBCKMD+z+Lg@mail.gmail.com>
+Subject: Re: [PATCH v5 6/7] target/riscv: Add XVentanaCondOps custom extension
+To: Alistair Francis <alistair23@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::431
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::431;
+ envelope-from=philipp.tomsich@vrull.eu; helo=mail-wr1-x431.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -71,183 +83,228 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <eduardo@habkost.net>,
- Beniamino Galvani <b.galvani@gmail.com>,
- Alistair Francis <alistair@alistair23.me>, Rob Herring <robh@kernel.org>,
- Andrew Jeffery <andrew@aj.id.au>, Andre Przywara <andre.przywara@arm.com>,
- Tyrone Ting <kfting@nuvoton.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- Jean-Christophe Dubois <jcd@tribudubois.net>,
- Yanan Wang <wangyanan55@huawei.com>, Igor Mitsyanko <i.mitsyanko@gmail.com>,
- Niek Linnenbank <nieklinnenbank@gmail.com>, Alexander Graf <agraf@csgraf.de>,
- Joel Stanley <joel@jms.id.au>, "Edgar
- E. Iglesias" <edgar.iglesias@gmail.com>,
- Havard Skinnemoen <hskinnemoen@google.com>,
- Andrey Smirnov <andrew.smirnov@gmail.com>
+Cc: Richard Henderson <richard.henderson@linaro.org>,
+ Greg Favor <gfavor@ventanamicro.com>,
+ Alistair Francis <Alistair.Francis@wdc.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Kito Cheng <kito.cheng@sifive.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/27/22 16:46, Peter Maydell wrote:
-> This series fixes our handling of PSCI calls where the function ID is
-> not recognized. These are supposed to return an error value, but
-> currently we instead emulate the SMC or HVC instruction to trap to the
-> guest at EL3 or EL2. Particularly of note for code review:
->   * patches 4-9 include some "is this the right behaviour for
->     this hardware" questions for the maintainers of those boards
->   * patch 15 has a DTB API question, as well as being a change in
->     what we edit in a DTB we are passed by the user
->   * testing of the affected machines would be welcome
-> 
-> We tried to fix that bug in commit 9fcd15b9193e819b, but ran into
-> regressions and so reverted it in commit 4825eaae4fdd56fba0f for
-> release 7.0.  This series fixes the underlying problems causing the
-> regressions and reverts the revert.  It also fixes some other bugs
-> that were preventing booting of guests on the midway board and that
-> meant that the Linux kernel I tested couldn't bring up the secondary
-> CPUs when running with more than one guest CPU.
-> 
-> The regressions happened on boards which enabled PSCI emulation while
-> still running guest code at EL3. This used to work (as long as the
-> guest code itself wasn't trying to implement PSCI!)  because of the
-> fall-through-to-emulate-the-insn behaviour, but once the PSCI
-> emulation handles all SMC calls, most EL3 guest code will stop working
-> correctly. The solution this patchset adopts is to avoid enabling
-> QEMU's PSCI emulation when running guest code at EL3.
-> 
-> The affected boards are:
->   * orangepi-pc, mcimx6ul-evk, mcimx7d-sabre, highbank, midway,
->     xlnx-zcu102 (for any EL3 guest code)
->   * xlnx-versal-virt (only for EL3 code run via -kernel)
->   * virt (only for EL3 code run via -kernel or generic-loader)
-> For all these cases we will no longer enable PSCI emulation.
-> (This might in theory break guest code that used to work because
-> it was relying on running under QEMU and having the PSCI emulation
-> despite being at EL3 itself, but hopefully such code is rare.)
-> 
-> In order to only enable PSCI emulation when the guest is running at an
-> exception level lower than the level that our PSCI emulation
-> "firmware" would be running at, we make the arm_load_kernel() code in
-> boot.c responsible for setting the CPU properties psci-conduit and
-> start-powered-off. This is because only that code knows what EL it is
-> going to start the guest at (which depends on things like whether it
-> has decided that the guest is a Linux kernel or not).
-> 
-> The complicated case in all of this is the highbank and midway board
-> models, because of all the boards which enable QEMU's PSCI emulation
-> only these also use the boot.c secure_board_setup flag to say "run a
-> fragment of QEMU-provided boot code in the guest at EL3 to set
-> something up before running the guest at EL2 or EL1". That fragment of
-> code includes use of the SMC instruction, so when PSCI emulation
-> starts making that a NOP rather than a trap-to-guest-EL3 the setup
-> code will change behaviour. Fortunately, for this specific board's use
-> case the NOP is fine. The purpose of the setup code is to arrange that
-> unknown SMCs act as NOPs, because guest code may use a
-> highbank/midway-specific SMC ABI to enable the L2x0 cache
-> controller. So when the PSCI emulation starts to NOP the unknown SMCs
-> the setup code won't actively break, and the guest behaviour will
-> still be OK. (See patch 11's commit message for fuller details.)
-> 
-> Patches 1 and 2 make the relevant CPU properties settable after the
-> CPU object has been realized. This is necessary because
-> arm_load_kernel() runs very late, after the whole machine (including
-> the CPU objects) has been fully initialized.  (It was the restriction
-> on setting these properties before realize that previously led us to
-> set them in the SoC emulation code and thus to do it unconditionally.)
-> 
-> Patch 3 provides the "set up psci conduit" functionality in the boot.c
-> code; this is opt-in per board by setting a field in the arm_boot_info
-> struct.
-> 
-> Patches 4 to 9 move the individual boards across to using the new
-> approach. In each case I had to make a decision about the behaviour of
-> secondary CPUs when running guest firmware at EL3 -- should the
-> secondaries start off powered-down (waiting for the guest to power
-> them up via some kind of emulated power-control device), or powered-up
-> (so they all start running the firmware at once)? In a few cases I was
-> able to find the answer to this; in the rest I have erred on the side
-> of retaining the current "start powered down" behaviour, and added a
-> TODO comment to that effect. If you know the actual hardware
-> behaviour, let me know.
-> 
-> Patch 10 is the revert-the-revert patch.
-> 
-> Patch 11 removes the highbank/midway board use of the secure_board_setup
-> functionality; the commit message has the details about why this is safe.
-> 
-> Patches 12 to 14 are more minor cleanups that allow, and follow on from,
-> dropping the highbank-specific secondary CPU boot stub code.
-> 
-> Patch 15 is a change that is somewhat unrelated, but is necessary to
-> get the highbank board to successfully boot in SMP and to get the
-> midway board to start a Linux guest at all.
-> 
-> I have tested this with make check/check-acceptance and also with some
-> test images I have locally (including highbank and midway), but I
-> don't have test images for most of these boards, and in particular I
-> don't really have anything that exercises "run guest EL3 code" for
-> most of them. Testing would be welcome.
+On Tue, 1 Feb 2022 at 04:22, Alistair Francis <alistair23@gmail.com> wrote:
+>
+> On Mon, Jan 31, 2022 at 9:23 PM Philipp Tomsich
+> <philipp.tomsich@vrull.eu> wrote:
+> >
+> > This adds the decoder and translation for the XVentanaCondOps custom
+> > extension (vendor-defined by Ventana Micro Systems), which is
+> > documented at https://github.com/ventanamicro/ventana-custom-extensions/releases/download/v1.0.0/ventana-custom-extensions-v1.0.0.pdf
+> >
+> > This commit then also adds a guard-function (has_XVentanaCondOps_p)
+> > and the decoder function to the table of decoders, enabling the
+> > support for the XVentanaCondOps extension.
+> >
+> > Signed-off-by: Philipp Tomsich <philipp.tomsich@vrull.eu>
+> > Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+> >
+> > ---
+> >
+> > (no changes since v3)
+> >
+> > Changes in v3:
+> > - rename to trans_xventanacondops.c.inc (i.e. with the '.c')
+> > - (in MATERIALISE_EXT_PREDICATE) don't annotate the predicate function
+> >   for testing the availability of individual extensions as 'inline'
+> >   and don't make CPURISCVState* visible to these predicate functions
+> >
+> > Changes in v2:
+> > - Split off decode table into XVentanaCondOps.decode
+> > - Wire up XVentanaCondOps in the decoder-table
+> >
+> >  target/riscv/XVentanaCondOps.decode           | 25 ++++++++++++
+> >  target/riscv/cpu.c                            |  3 ++
+> >  target/riscv/cpu.h                            |  3 ++
+> >  .../insn_trans/trans_xventanacondops.c.inc    | 39 +++++++++++++++++++
+> >  target/riscv/meson.build                      |  1 +
+> >  target/riscv/translate.c                      | 12 ++++++
+> >  6 files changed, 83 insertions(+)
+> >  create mode 100644 target/riscv/XVentanaCondOps.decode
+> >  create mode 100644 target/riscv/insn_trans/trans_xventanacondops.c.inc
+> >
+> > diff --git a/target/riscv/XVentanaCondOps.decode b/target/riscv/XVentanaCondOps.decode
+> > new file mode 100644
+> > index 0000000000..5aef7c3d72
+> > --- /dev/null
+> > +++ b/target/riscv/XVentanaCondOps.decode
+> > @@ -0,0 +1,25 @@
+> > +#
+> > +# RISC-V translation routines for the XVentanaCondOps extension
+> > +#
+> > +# Copyright (c) 2022 Dr. Philipp Tomsich, philipp.tomsich@vrull.eu
+> > +#
+> > +# SPDX-License-Identifier: LGPL-2.1-or-later
+> > +#
+> > +# Reference: VTx-family custom instructions
+> > +#            Custom ISA extensions for Ventana Micro Systems RISC-V cores
+> > +#            (https://github.com/ventanamicro/ventana-custom-extensions/releases/download/v1.0.0/ventana-custom-extensions-v1.0.0.pdf)
+> > +
+> > +# Fields
+> > +%rs2  20:5
+> > +%rs1  15:5
+> > +%rd    7:5
+> > +
+> > +# Argument sets
+> > +&r    rd rs1 rs2  !extern
+> > +
+> > +# Formats
+> > +@r         .......  ..... ..... ... ..... ....... &r                %rs2 %rs1 %rd
+> > +
+> > +# *** RV64 Custom-3 Extension ***
+> > +vt_maskc   0000000  ..... ..... 110 ..... 1111011 @r
+> > +vt_maskcn  0000000  ..... ..... 111 ..... 1111011 @r
+> > diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+> > index 1cb0436187..6df07b8289 100644
+> > --- a/target/riscv/cpu.c
+> > +++ b/target/riscv/cpu.c
+> > @@ -734,6 +734,9 @@ static Property riscv_cpu_properties[] = {
+> >      DEFINE_PROP_BOOL("zbc", RISCVCPU, cfg.ext_zbc, true),
+> >      DEFINE_PROP_BOOL("zbs", RISCVCPU, cfg.ext_zbs, true),
+> >
+> > +    /* Vendor-specific custom extensions */
+> > +    DEFINE_PROP_BOOL("xventanacondops", RISCVCPU, cfg.ext_XVentanaCondOps, false),
+> > +
+> >      /* These are experimental so mark with 'x-' */
+> >      DEFINE_PROP_BOOL("x-j", RISCVCPU, cfg.ext_j, false),
+> >      /* ePMP 0.9.3 */
+> > diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+> > index 1175915c0d..aacc997d56 100644
+> > --- a/target/riscv/cpu.h
+> > +++ b/target/riscv/cpu.h
+> > @@ -329,6 +329,9 @@ struct RISCVCPUConfig {
+> >      bool ext_zve32f;
+> >      bool ext_zve64f;
+> >
+> > +    /* Vendor-specific custom extensions */
+> > +    bool ext_XVentanaCondOps;
+> > +
+> >      char *priv_spec;
+> >      char *user_spec;
+> >      char *bext_spec;
+> > diff --git a/target/riscv/insn_trans/trans_xventanacondops.c.inc b/target/riscv/insn_trans/trans_xventanacondops.c.inc
+> > new file mode 100644
+> > index 0000000000..b8a5d031b5
+> > --- /dev/null
+> > +++ b/target/riscv/insn_trans/trans_xventanacondops.c.inc
+> > @@ -0,0 +1,39 @@
+> > +/*
+> > + * RISC-V translation routines for the XVentanaCondOps extension.
+> > + *
+> > + * Copyright (c) 2021-2022 VRULL GmbH.
+> > + *
+> > + * This program is free software; you can redistribute it and/or modify it
+> > + * under the terms and conditions of the GNU General Public License,
+> > + * version 2 or later, as published by the Free Software Foundation.
+> > + *
+> > + * This program is distributed in the hope it will be useful, but WITHOUT
+> > + * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+> > + * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
+> > + * more details.
+> > + *
+> > + * You should have received a copy of the GNU General Public License along with
+> > + * this program.  If not, see <http://www.gnu.org/licenses/>.
+> > + */
+> > +
+> > +static bool gen_condmask(DisasContext *ctx, arg_r *a, TCGCond cond)
+>
+> This should also have a vendor prefix
 
-for the Aspeed machines,
-
-Tested-by: Cédric Le Goater <clg@kaod.org>
+This one is a static helper function inside a file
+..._xventanacondops..._ and not visible outside the compilation unit.
+Do we really want to prefix such functions that have local scope as well?
 
 Thanks,
+Philipp.
 
-C.
-
-> 
-> thanks
-> -- PMM
-> 
-> Peter Maydell (16):
->    target/arm: make psci-conduit settable after realize
->    cpu.c: Make start-powered-off settable after realize
->    hw/arm/boot: Support setting psci-conduit based on guest EL
->    hw/arm: imx: Don't enable PSCI conduit when booting guest in EL3
->    hw/arm: allwinner: Don't enable PSCI conduit when booting guest in EL3
->    hw/arm/xlnx-zcu102: Don't enable PSCI conduit when booting guest in
->      EL3
->    hw/arm/versal: Let boot.c handle PSCI enablement
->    hw/arm/virt: Let boot.c handle PSCI enablement
->    hw/arm: highbank: For EL3 guests, don't enable PSCI, start all cores
->    Revert "Revert "arm: tcg: Adhere to SMCCC 1.3 section 5.2""
->    hw/arm/highbank: Drop use of secure_board_setup
->    hw/arm/boot: Prevent setting both psci_conduit and secure_board_setup
->    hw/arm/boot: Don't write secondary boot stub if using PSCI
->    hw/arm/highbank: Drop unused secondary boot stub code
->    hw/arm/boot: Drop nb_cpus field from arm_boot_info
->    hw/arm/boot: Drop existing dtb /psci node rather than retaining it
-> 
->   include/hw/arm/boot.h        |  14 ++++-
->   include/hw/arm/xlnx-versal.h |   1 -
->   cpu.c                        |  22 ++++++-
->   hw/arm/allwinner-h3.c        |   9 ++-
->   hw/arm/aspeed.c              |   1 -
->   hw/arm/boot.c                | 107 +++++++++++++++++++++++++++++------
->   hw/arm/exynos4_boards.c      |   1 -
->   hw/arm/fsl-imx6ul.c          |   2 -
->   hw/arm/fsl-imx7.c            |   8 +--
->   hw/arm/highbank.c            |  72 +----------------------
->   hw/arm/imx25_pdk.c           |   3 +-
->   hw/arm/kzm.c                 |   1 -
->   hw/arm/mcimx6ul-evk.c        |   2 +-
->   hw/arm/mcimx7d-sabre.c       |   2 +-
->   hw/arm/npcm7xx.c             |   3 -
->   hw/arm/orangepi.c            |   5 +-
->   hw/arm/raspi.c               |   1 -
->   hw/arm/realview.c            |   1 -
->   hw/arm/sabrelite.c           |   1 -
->   hw/arm/sbsa-ref.c            |   1 -
->   hw/arm/vexpress.c            |   1 -
->   hw/arm/virt.c                |  13 +----
->   hw/arm/xilinx_zynq.c         |   1 -
->   hw/arm/xlnx-versal-virt.c    |   6 +-
->   hw/arm/xlnx-versal.c         |   5 +-
->   hw/arm/xlnx-zcu102.c         |   1 +
->   hw/arm/xlnx-zynqmp.c         |  13 +++--
->   target/arm/cpu.c             |   6 +-
->   target/arm/psci.c            |  35 ++----------
->   29 files changed, 164 insertions(+), 174 deletions(-)
-> 
-
+> Otherwise:
+>
+> Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+>
+> Alistair
+>
+> > +{
+> > +    TCGv dest = dest_gpr(ctx, a->rd);
+> > +    TCGv src1 = get_gpr(ctx, a->rs1, EXT_NONE);
+> > +    TCGv src2 = get_gpr(ctx, a->rs2, EXT_NONE);
+> > +
+> > +    tcg_gen_movcond_tl(cond, dest, src2, ctx->zero, src1, ctx->zero);
+> > +
+> > +    gen_set_gpr(ctx, a->rd, dest);
+> > +    return true;
+> > +}
+> > +
+> > +static bool trans_vt_maskc(DisasContext *ctx, arg_r *a)
+> > +{
+> > +    return gen_condmask(ctx, a, TCG_COND_NE);
+> > +}
+> > +
+> > +static bool trans_vt_maskcn(DisasContext *ctx, arg_r *a)
+> > +{
+> > +    return gen_condmask(ctx, a, TCG_COND_EQ);
+> > +}
+> > diff --git a/target/riscv/meson.build b/target/riscv/meson.build
+> > index a3997ed580..91f0ac32ff 100644
+> > --- a/target/riscv/meson.build
+> > +++ b/target/riscv/meson.build
+> > @@ -4,6 +4,7 @@ dir = meson.current_source_dir()
+> >  gen = [
+> >    decodetree.process('insn16.decode', extra_args: ['--static-decode=decode_insn16', '--insnwidth=16']),
+> >    decodetree.process('insn32.decode', extra_args: '--static-decode=decode_insn32'),
+> > +  decodetree.process('XVentanaCondOps.decode', extra_args: '--static-decode=decode_XVentanaCodeOps'),
+> >  ]
+> >
+> >  riscv_ss = ss.source_set()
+> > diff --git a/target/riscv/translate.c b/target/riscv/translate.c
+> > index 30b1b68341..eaf5a72c81 100644
+> > --- a/target/riscv/translate.c
+> > +++ b/target/riscv/translate.c
+> > @@ -116,6 +116,14 @@ static bool always_true_p(DisasContext *ctx  __attribute__((__unused__)))
+> >      return true;
+> >  }
+> >
+> > +#define MATERIALISE_EXT_PREDICATE(ext)  \
+> > +    static bool has_ ## ext ## _p(DisasContext *ctx)    \
+> > +    { \
+> > +        return ctx->cfg_ptr->ext_ ## ext ; \
+> > +    }
+> > +
+> > +MATERIALISE_EXT_PREDICATE(XVentanaCondOps);
+> > +
+> >  #ifdef TARGET_RISCV32
+> >  #define get_xl(ctx)    MXL_RV32
+> >  #elif defined(CONFIG_USER_ONLY)
+> > @@ -854,9 +862,12 @@ static uint32_t opcode_at(DisasContextBase *dcbase, target_ulong pc)
+> >  #include "insn_trans/trans_rvb.c.inc"
+> >  #include "insn_trans/trans_rvzfh.c.inc"
+> >  #include "insn_trans/trans_privileged.c.inc"
+> > +#include "insn_trans/trans_xventanacondops.c.inc"
+> >
+> >  /* Include the auto-generated decoder for 16 bit insn */
+> >  #include "decode-insn16.c.inc"
+> > +/* Include decoders for factored-out extensions */
+> > +#include "decode-XVentanaCondOps.c.inc"
+> >
+> >  static void decode_opc(CPURISCVState *env, DisasContext *ctx, uint16_t opcode)
+> >  {
+> > @@ -869,6 +880,7 @@ static void decode_opc(CPURISCVState *env, DisasContext *ctx, uint16_t opcode)
+> >          bool (*decode_func)(DisasContext *, uint32_t);
+> >      } decoders[] = {
+> >          { always_true_p,  decode_insn32 },
+> > +        { has_XVentanaCondOps_p,  decode_XVentanaCodeOps },
+> >      };
+> >
+> >      /* Check for compressed insn */
+> > --
+> > 2.33.1
+> >
+> >
 
