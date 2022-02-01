@@ -2,58 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 431F04A61E4
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Feb 2022 18:06:51 +0100 (CET)
-Received: from localhost ([::1]:56424 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 194FD4A61DA
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Feb 2022 18:04:18 +0100 (CET)
+Received: from localhost ([::1]:54440 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nEwcE-0005Gj-CM
-	for lists+qemu-devel@lfdr.de; Tue, 01 Feb 2022 12:06:50 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:41780)
+	id 1nEwZk-0003iG-Tx
+	for lists+qemu-devel@lfdr.de; Tue, 01 Feb 2022 12:04:16 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:46466)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1nEusy-0004eC-GA
- for qemu-devel@nongnu.org; Tue, 01 Feb 2022 10:16:04 -0500
-Received: from us-smtp-delivery-44.mimecast.com ([205.139.111.44]:36810)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1nEuyD-0002XD-Cw
+ for qemu-devel@nongnu.org; Tue, 01 Feb 2022 10:21:25 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:58617)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1nEusu-00029e-5O
- for qemu-devel@nongnu.org; Tue, 01 Feb 2022 10:16:00 -0500
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1nEuy8-0003tJ-PC
+ for qemu-devel@nongnu.org; Tue, 01 Feb 2022 10:21:24 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1643728880;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=CG7TIW4E6YOX0nYZ9aayIvp0Z2Odx6wFehYesDJlNKY=;
+ b=AMqJArHL3EVRtA9XjKUbXWtpw4y5cN6yPDm8bz6P2n2mCA7EUpjrRmrcW8/BvS9EzwkKy1
+ URJ4xheHgFcHAyy3f/1HPfyhE3ymaBwbHmy9kZ5E3Ud0nCgfgmGS+M0rgVHmQLqZJk8Dvx
+ pX3eN6Blv7N7t8PkJR3IAO7YqpO9MU4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-364-8SbFdvbPN3WRtlrznFAQ_g-1; Tue, 01 Feb 2022 10:15:39 -0500
-X-MC-Unique: 8SbFdvbPN3WRtlrznFAQ_g-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-461-kmnLXfhAPtC-aC_KAKnJaQ-1; Tue, 01 Feb 2022 10:21:16 -0500
+X-MC-Unique: kmnLXfhAPtC-aC_KAKnJaQ-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 50EAF51082;
- Tue,  1 Feb 2022 15:15:38 +0000 (UTC)
-Received: from bahia.redhat.com (unknown [10.39.192.203])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0177810A4B2B;
- Tue,  1 Feb 2022 15:15:36 +0000 (UTC)
-From: Greg Kurz <groug@kaod.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v3 2/2] tests/9pfs: Use g_autofree and g_autoptr where possible
-Date: Tue,  1 Feb 2022 16:15:08 +0100
-Message-Id: <20220201151508.190035-3-groug@kaod.org>
-In-Reply-To: <20220201151508.190035-1-groug@kaod.org>
-References: <20220201151508.190035-1-groug@kaod.org>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CB6D784DA41;
+ Tue,  1 Feb 2022 15:21:15 +0000 (UTC)
+Received: from merkur.redhat.com (unknown [10.39.194.45])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id BA05974E98;
+ Tue,  1 Feb 2022 15:21:14 +0000 (UTC)
+From: Kevin Wolf <kwolf@redhat.com>
+To: qemu-block@nongnu.org
+Subject: [PULL 00/10] Block layer patches
+Date: Tue,  1 Feb 2022 16:20:58 +0100
+Message-Id: <20220201152108.171898-1-kwolf@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=groug@kaod.org
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
 X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: kaod.org
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=WINDOWS-1252
-Received-SPF: softfail client-ip=205.139.111.44; envelope-from=groug@kaod.org;
- helo=us-smtp-delivery-44.mimecast.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
- SPF_HELO_NONE=0.001, SPF_SOFTFAIL=0.665,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.081,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -66,82 +75,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Thomas Huth <thuth@redhat.com>, Christian Schoenebeck <qemu_oss@crudebyte.com>,
- Greg Kurz <groug@kaod.org>
+Cc: kwolf@redhat.com, peter.maydell@linaro.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-It is recommended to use g_autofree or g_autoptr as it reduces
-the odds of introducing memory leaks in future changes.
+The following changes since commit 804b30d25f8d70dc2dea951883ea92235274a50c:
 
-Signed-off-by: Greg Kurz <groug@kaod.org>
----
- tests/qtest/libqos/virtio-9p.c | 13 ++++---------
- 1 file changed, 4 insertions(+), 9 deletions(-)
+  Merge remote-tracking branch 'remotes/legoater/tags/pull-ppc-20220130' into staging (2022-01-31 11:10:08 +0000)
 
-diff --git a/tests/qtest/libqos/virtio-9p.c b/tests/qtest/libqos/virtio-9p.=
-c
-index 5d18e5eae544..f51f0635cc0c 100644
---- a/tests/qtest/libqos/virtio-9p.c
-+++ b/tests/qtest/libqos/virtio-9p.c
-@@ -41,7 +41,7 @@ void virtio_9p_create_local_test_dir(void)
- {
-     g_assert(local_test_path =3D=3D NULL);
-     struct stat st;
--    char *pwd =3D g_get_current_dir();
-+    g_autofree char *pwd =3D g_get_current_dir();
-     /*
-      * template gets cached into local_test_path and freed in
-      * virtio_9p_remove_local_test_dir().
-@@ -52,7 +52,6 @@ void virtio_9p_create_local_test_dir(void)
-     if (!local_test_path) {
-         g_test_message("mkdtemp('%s') failed: %s", template, strerror(errn=
-o));
-     }
--    g_free(pwd);
-=20
-     g_assert(local_test_path !=3D NULL);
-=20
-@@ -65,12 +64,11 @@ void virtio_9p_create_local_test_dir(void)
- void virtio_9p_remove_local_test_dir(void)
- {
-     g_assert(local_test_path !=3D NULL);
--    char *cmd =3D g_strdup_printf("rm -fr '%s'\n", local_test_path);
-+    g_autofree char *cmd =3D g_strdup_printf("rm -fr '%s'\n", local_test_p=
-ath);
-     int res =3D system(cmd);
-     if (res < 0) {
-         /* ignore error, dummy check to prevent compiler error */
-     }
--    g_free(cmd);
-     g_free(local_test_path);
-     local_test_path =3D NULL;
- }
-@@ -216,8 +214,8 @@ static void *virtio_9p_pci_create(void *pci_bus, QGuest=
-Allocator *t_alloc,
- static void regex_replace(GString *haystack, const char *pattern,
-                           const char *replace_fmt, ...)
- {
--    GRegex *regex;
--    char *replace, *s;
-+    g_autoptr(GRegex) regex =3D NULL;
-+    g_autofree char *replace =3D NULL, *s =3D NULL;
-     va_list argp;
-=20
-     va_start(argp, replace_fmt);
-@@ -227,9 +225,6 @@ static void regex_replace(GString *haystack, const char=
- *pattern,
-     regex =3D g_regex_new(pattern, 0, 0, NULL);
-     s =3D g_regex_replace(regex, haystack->str, -1, 0, replace, 0, NULL);
-     g_string_assign(haystack, s);
--    g_free(s);
--    g_regex_unref(regex);
--    g_free(replace);
- }
-=20
- void virtio_9p_assign_local_driver(GString *cmd_line, const char *args)
---=20
-2.34.1
+are available in the Git repository at:
+
+  https://gitlab.com/kmwolf/qemu.git tags/for-upstream
+
+for you to fetch changes up to fc176116cdea816ceb8dd969080b2b95f58edbc0:
+
+  block/rbd: workaround for ceph issue #53784 (2022-02-01 15:16:32 +0100)
+
+----------------------------------------------------------------
+Block layer patches
+
+- rbd: fix handling of holes in .bdrv_co_block_status
+- Fix potential crash in bdrv_set_backing_hd()
+- vhost-user-blk export: Fix shutdown with requests in flight
+- FUSE export: Fix build failure on FreeBSD
+- Documentation improvements
+
+----------------------------------------------------------------
+Emanuele Giuseppe Esposito (1):
+      block.h: remove outdated comment
+
+Hanna Reitz (2):
+      qsd: Document fuse's allow-other option
+      qemu-img: Unify [-b [-F]] documentation
+
+Kevin Wolf (2):
+      qemu-storage-daemon: Fix typo in vhost-user-blk help
+      block/export: Fix vhost-user-blk shutdown with requests in flight
+
+Peter Lieven (2):
+      block/rbd: fix handling of holes in .bdrv_co_block_status
+      block/rbd: workaround for ceph issue #53784
+
+Philippe Mathieu-Daudé (2):
+      block/export/fuse: Rearrange if-else-if ladder in fuse_fallocate()
+      block/export/fuse: Fix build failure on FreeBSD
+
+Vladimir Sementsov-Ogievskiy (1):
+      block: bdrv_set_backing_hd(): use drained section
+
+ docs/tools/qemu-img.rst              |  2 +-
+ docs/tools/qemu-storage-daemon.rst   |  9 +++++--
+ include/block/block.h                |  1 -
+ include/qemu/vhost-user-server.h     |  5 ++++
+ block.c                              |  4 +++
+ block/export/fuse.c                  | 45 +++++++++++++++++--------------
+ block/export/vhost-user-blk-server.c |  5 ++++
+ block/rbd.c                          | 52 +++++++++++++++++++++++++++++++-----
+ storage-daemon/qemu-storage-daemon.c |  4 +--
+ util/vhost-user-server.c             | 22 +++++++++++++++
+ qemu-img-cmds.hx                     |  4 +--
+ 11 files changed, 118 insertions(+), 35 deletions(-)
 
 
