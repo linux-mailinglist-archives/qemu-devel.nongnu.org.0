@@ -2,81 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C8EE4A683E
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Feb 2022 23:53:48 +0100 (CET)
-Received: from localhost ([::1]:53812 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 692204A67CB
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Feb 2022 23:22:48 +0100 (CET)
+Received: from localhost ([::1]:49918 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nF21z-0005Ts-6X
-	for lists+qemu-devel@lfdr.de; Tue, 01 Feb 2022 17:53:47 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:44918)
+	id 1nF1Xz-0004uR-6t
+	for lists+qemu-devel@lfdr.de; Tue, 01 Feb 2022 17:22:47 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:43552)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nExow-0000HR-Sn
- for qemu-devel@nongnu.org; Tue, 01 Feb 2022 13:24:02 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:34152)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nExov-0000yf-6V
- for qemu-devel@nongnu.org; Tue, 01 Feb 2022 13:24:02 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1643739840;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=3Xz2QdPg1ca9MUaTupeP9p9z4RplzqojqScy0zbocJM=;
- b=DabgPR+oue+wptHaYovKmkTJ5DebR4jx5VhUw3ZBvlYaPWsoDW0xufs88f1osXY/Xw9xkR
- JgxEFEGumUyYHpvRNbJXbtrS8EtM4NPrH7lFhsWDNG+TszmGcfI2GcvSMhB32gvTKNTba4
- m7Fu4mAkxXxJu+sxGTUqdjVklag4L2Y=
-Received: from mail-yb1-f199.google.com (mail-yb1-f199.google.com
- [209.85.219.199]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-613-StxaaTS1OzuVYfL-ey2ZKw-1; Tue, 01 Feb 2022 13:23:59 -0500
-X-MC-Unique: StxaaTS1OzuVYfL-ey2ZKw-1
-Received: by mail-yb1-f199.google.com with SMTP id
- i10-20020a25540a000000b0061391789216so34748297ybb.2
- for <qemu-devel@nongnu.org>; Tue, 01 Feb 2022 10:23:59 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <pankaj.gupta@ionos.com>)
+ id 1nExkv-0007gE-F2
+ for qemu-devel@nongnu.org; Tue, 01 Feb 2022 13:19:56 -0500
+Received: from [2a00:1450:4864:20::132] (port=44756
+ helo=mail-lf1-x132.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <pankaj.gupta@ionos.com>)
+ id 1nExkt-0000Ek-SV
+ for qemu-devel@nongnu.org; Tue, 01 Feb 2022 13:19:53 -0500
+Received: by mail-lf1-x132.google.com with SMTP id u14so35583897lfo.11
+ for <qemu-devel@nongnu.org>; Tue, 01 Feb 2022 10:19:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ionos.com; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=qlHRmIrl60vP75tj/K08c2Lmxld5T+lwHGfUNoiXZPA=;
+ b=i3Sgqs/8tPiioKDbPA2CwkaikwTwEJUeDOryCx1uXsSuy6dGdPLTRgnaiRoG5bvpnu
+ EbG7x7EXkdZQvJzGEV3CEl3cLgeUbfx1o1xVi0/2a/Czf210ZZsA28g3waxDh/5EHoFU
+ ClNJsl7ZygiDUZ4jjd6D66leaUy7IA97WjyM9K/vB9TkVQn4TXYptb/R6df0wQzUy44A
+ 87L/jK0hgjXglKkbupBhQnit42BLY7t5dD6ydGt6tECjVdlNYj8V1VwjpC0cuyYWHL6i
+ gRS+uq5E9u935f6TwTvwehqO2E/nkDMGz+nKm/aDgnNC5YfnwTvLOjaVRPHF5jZLynXY
+ bnFw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=3Xz2QdPg1ca9MUaTupeP9p9z4RplzqojqScy0zbocJM=;
- b=4BC9aXbr33j/nbAg3xphttnt6tNrL1Gd08ZUqPEL8zgIRJgb0WfoRYbhkUn7U6R1Oa
- pwq56lV+mHy7+ripUywdT7rSfQzPGKnv0QRXXByZl63f9fVZXWX7ChdyRKNMc1i242YY
- 26gbZ5MecsuNB2Pb4cF6za+QCqW+7xajW0dJlDhHUChbkjs2/AxhcZ4IxDeKW9hCFp/f
- H0yHJPV3YcClbWojG00ZWIEH8CgnvnEXeOAxW/3AbR5VWaF0c8SrMkxIAwy9soE5LVHy
- RHTOexTuIeCF2f4fMKYMZCpuMevPFWt+LVyCDuUYixWAOT2up+F3wmruFRePSx9sdJT/
- cVsA==
-X-Gm-Message-State: AOAM533u8JuQqZosL9TfbKiC4EulkYNUaJgqV5ObZ1DOqwnTqvsBavSm
- jbWgBFwMn3VYk4op1hkCFrlaXg+O0TidWbJ1D2dtifL0EWDX2LIPd379mZY2Z0JiyUdi1ZlWKW4
- gM51Is28GOeZCy+6reUlDV03PpSOSvGg=
-X-Received: by 2002:a5b:d41:: with SMTP id f1mr36746234ybr.225.1643739839140; 
- Tue, 01 Feb 2022 10:23:59 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxFd5UuPyJbfn1SPuOOIT8HL1osW+VFIUtynQVJOx3FKh4kjpuVlS2g2ZyBoUw41C3bGb6XIVbEuGxcrr1lI58=
-X-Received: by 2002:ab0:6f11:: with SMTP id r17mr12438977uah.128.1643739400793; 
- Tue, 01 Feb 2022 10:16:40 -0800 (PST)
+ bh=qlHRmIrl60vP75tj/K08c2Lmxld5T+lwHGfUNoiXZPA=;
+ b=yfGAJPO3Copx2wBkdkMeyaSgDkQpQk5KFZGcuJZ9SdE5InE3kJ18eYIApd0h0iFc7U
+ JFZpkw4c8boxsF4Y/JAmIlps0s1FYnTDP4sxS1AFXtcpdjUZMkOpO6EVuI9qlOIwt7d1
+ RU6NMBFnpwuHbs2UFyXQ1IdNJRdmsbrGzODBIQM6uM9AiP3ZR/FgDcN+/CqN1yxZyQZC
+ GD0CIkdNV1OfkBl3OfzsM8z0DBaSxSiry9M/XxN93AAqHWEA1UET9nB4DGype5DhyPUv
+ 3kHoueQWVJeCYKNVS3zZKUOx2P1nRZs9Iy5VWnKSTCKy1HubqG1bssx5Ek9SfE4yIkhE
+ HE/g==
+X-Gm-Message-State: AOAM530q1hS99xYd57oKBpiL2Tw4aVDcckarTnbYlDFTT369JgWWHtq9
+ C8ijruZhjfpHlwmT7V0nG0TpUVcy2RhjkkfifNPhCw==
+X-Google-Smtp-Source: ABdhPJzrHsQhuPlpfPyvDQ7+2ETyEVIQBL4/NNKe3wr+gkDm4YNn8WYLB3kOeICxv5SMO3T6KiTcuxE9ht3CkA+yRBw=
+X-Received: by 2002:ac2:44ac:: with SMTP id c12mr20561966lfm.589.1643739588703; 
+ Tue, 01 Feb 2022 10:19:48 -0800 (PST)
 MIME-Version: 1.0
-References: <20220201041134.1237016-1-jsnow@redhat.com>
- <Yfk1ZhkhFIcx7fZY@redhat.com>
-In-Reply-To: <Yfk1ZhkhFIcx7fZY@redhat.com>
-From: John Snow <jsnow@redhat.com>
-Date: Tue, 1 Feb 2022 13:16:30 -0500
-Message-ID: <CAFn=p-YjmqQ2zF7eWkTu0WXPMaruV7QOoYzoWRUwDitEqjMSLQ@mail.gmail.com>
-Subject: Re: [PATCH v4 0/4] Python: Improvements for iotest 040,041
-To: Kevin Wolf <kwolf@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+References: <20220201151136.52157-1-jinpu.wang@ionos.com>
+In-Reply-To: <20220201151136.52157-1-jinpu.wang@ionos.com>
+From: Pankaj Gupta <pankaj.gupta@ionos.com>
+Date: Tue, 1 Feb 2022 19:19:37 +0100
+Message-ID: <CALzYo30ED+8De9SPaTz_Lct=pwvhA8xwwH6dAc=vRjMvRq0dKA@mail.gmail.com>
+Subject: Re: [PATCH 1/2] migration/rdma: Increase the backlog from 5 to 128
+To: Jack Wang <jinpu.wang@ionos.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=jsnow@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.081,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::132
+ (failed)
+Received-SPF: permerror client-ip=2a00:1450:4864:20::132;
+ envelope-from=pankaj.gupta@ionos.com; helo=mail-lf1-x132.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01,
+ T_SPF_PERMERROR=0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -89,66 +80,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <eduardo@habkost.net>,
- Peter Maydell <peter.maydell@linaro.org>, Beraldo Leal <bleal@redhat.com>,
- Qemu-block <qemu-block@nongnu.org>, Markus Armbruster <armbru@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>, Hanna Reitz <hreitz@redhat.com>,
- Cleber Rosa <crosa@redhat.com>
+Cc: qemu-devel@nongnu.org, dgilbert@redhat.com, quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Feb 1, 2022 at 8:28 AM Kevin Wolf <kwolf@redhat.com> wrote:
+> So it can handle more incoming requests.
 >
-> Am 01.02.2022 um 05:11 hat John Snow geschrieben:
-> > GitLab: https://gitlab.com/jsnow/qemu/-/commits/python-aqmp-fixes
-> > CI: https://gitlab.com/jsnow/qemu/-/pipelines/455146881
-> >
-> > Fixes and improvements all relating to "iotest 040,041, intermittent
-> > failure in netbsd VM"
-> > https://lists.gnu.org/archive/html/qemu-devel/2022-01/msg01975.html
-> >
-> > See each patch for details.
+> Signed-off-by: Jack Wang <jinpu.wang@ionos.com>
+> ---
+>  migration/rdma.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> Thanks, the new output when QEMU fails to start looks really useful!
+> diff --git a/migration/rdma.c b/migration/rdma.c
+> index c7c7a384875b..2e223170d06d 100644
+> --- a/migration/rdma.c
+> +++ b/migration/rdma.c
+> @@ -4238,7 +4238,7 @@ void rdma_start_incoming_migration(const char *host_port, Error **errp)
 >
-> The only thing we could probably still improve is detecting that the
-> QEMU process has exited instead of waiting for the socket connection to
-> time out. But since it only happens in case of failure, the additional
-> seconds of waiting are probably only a bit annoying for debugging, but
-> not a big problem.
+>      trace_rdma_start_incoming_migration_after_dest_init();
+>
+> -    ret = rdma_listen(rdma->listen_id, 5);
+> +    ret = rdma_listen(rdma->listen_id, 128);
 
-That's absolutely on my radar, I assure you!
+128 backlog seems too much to me. Any reason for choosing this number.
+Any rationale to choose this number?
 
-It's something that is easy to solve with asyncio:
-
-async def launch(self, ...):
-    task1 = asyncio.create_task(self.qmp.accept(...))
-    task2 = asyncio.create_subprocess_exec(...)
-    ret = asyncio.wait_for((task1, task2))
-    ...
-
-If either task raises, then the wait_for will also end prematurely
-(and cancel the other task). I'm sure it won't actually be this easy,
-but that's the general idea.
-
-Though, that's a pretty big upheaval to the Python code again, so it's
-not something I can jam in quickly. I have some light sketches that
-examine a "what-if" for an asyncio-native machine.py using the asyncio
-QMP code, but there are some design concerns there -- if I go through
-the effort of doing this, I will want to publish that python package
-upstream as well, and if I do that, it needs to be carefully thought
-through in terms of a supportable interface.
-
-Well, I'm thinking about it, anyway. For right now I am interested in
-getting the qemu.qmp project out the door and onto PyPI.org, and then
-I'll worry about machine improvements. If in the meantime you have a
-good idea for how to fix up the machine.py code we already have, I'm
-happy to take patches. Otherwise, I'll try to get to it "soon".
+Thanks,
+Pankaj
 
 >
-> Reviewed-by: Kevin Wolf <kwolf@redhat.com>
+>      if (ret) {
+>          ERROR(errp, "listening on socket!");
+> --
+> 2.25.1
 >
-
-Thanks!
-
 
