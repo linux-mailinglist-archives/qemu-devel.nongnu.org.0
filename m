@@ -2,30 +2,30 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B60B94A652D
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Feb 2022 20:49:43 +0100 (CET)
-Received: from localhost ([::1]:40000 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DA0BD4A6580
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Feb 2022 21:14:51 +0100 (CET)
+Received: from localhost ([::1]:41622 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nEz9q-0006eY-Id
-	for lists+qemu-devel@lfdr.de; Tue, 01 Feb 2022 14:49:42 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:44814)
+	id 1nEzYA-0003CD-PQ
+	for lists+qemu-devel@lfdr.de; Tue, 01 Feb 2022 15:14:51 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:44928)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kevans@freebsd.org>)
- id 1nEw8Z-0005gp-VH
- for qemu-devel@nongnu.org; Tue, 01 Feb 2022 11:36:15 -0500
-Received: from mx2.freebsd.org ([96.47.72.81]:22612)
+ id 1nEw8y-0005uE-Q7
+ for qemu-devel@nongnu.org; Tue, 01 Feb 2022 11:36:36 -0500
+Received: from mx2.freebsd.org ([96.47.72.81]:26756)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kevans@freebsd.org>)
- id 1nEw8Y-0000Wh-Ev
- for qemu-devel@nongnu.org; Tue, 01 Feb 2022 11:36:11 -0500
-Received: from mx1.freebsd.org (mx1.freebsd.org [96.47.72.80])
+ id 1nEw8x-0000cp-AZ
+ for qemu-devel@nongnu.org; Tue, 01 Feb 2022 11:36:36 -0500
+Received: from mx1.freebsd.org (mx1.freebsd.org [IPv6:2610:1c1:1:606c::19:1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits)
  client-signature RSA-PSS (4096 bits))
  (Client CN "mx1.freebsd.org", Issuer "R3" (verified OK))
- by mx2.freebsd.org (Postfix) with ESMTPS id 9E1577F4F8
- for <qemu-devel@nongnu.org>; Tue,  1 Feb 2022 16:36:00 +0000 (UTC)
+ by mx2.freebsd.org (Postfix) with ESMTPS id EB3F17FE4B
+ for <qemu-devel@nongnu.org>; Tue,  1 Feb 2022 16:36:30 +0000 (UTC)
  (envelope-from kevans@freebsd.org)
 Received: from smtp.freebsd.org (smtp.freebsd.org
  [IPv6:2610:1c1:1:606c::24b:4])
@@ -33,64 +33,65 @@ Received: from smtp.freebsd.org (smtp.freebsd.org
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256
  client-signature RSA-PSS (4096 bits) client-digest SHA256)
  (Client CN "smtp.freebsd.org", Issuer "R3" (verified OK))
- by mx1.freebsd.org (Postfix) with ESMTPS id 4Jp9Xw2Rywz4dvB
- for <qemu-devel@nongnu.org>; Tue,  1 Feb 2022 16:36:00 +0000 (UTC)
+ by mx1.freebsd.org (Postfix) with ESMTPS id 4Jp9YV5mwkz4fCw
+ for <qemu-devel@nongnu.org>; Tue,  1 Feb 2022 16:36:30 +0000 (UTC)
  (envelope-from kevans@freebsd.org)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=freebsd.org; s=dkim;
- t=1643733360;
+ t=1643733390;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=nOp3TuIvWbYQDqx2SBuda4kR6a7hCLBD+cepM0jSRJE=;
- b=u9BJt5tCDaTCzYXA3fha/vCEPbQsTzVv7XeG/W5DbWrX4CPDUE7Xj0QlLtiDCcLVoIEnQH
- XNKdtPRlaipsrfEdq8FYbyJ90lVjGUE1yq9P8kVUdM+Ux/CvVRmJTu8UAJ7UdN741dl6WV
- 7KJ0cALVRvSzO3V0lQ7soe2PB94uopgLcSYsn6pZgJIcMXf2BDIrM01CybVvhg/yHRrhm3
- HHmjmib4wt+t9KMwUKY0q5vPjEZWUINbr6nWZTbfuE5rjvUVk70Z800EAZsvqiKRrkMN22
- 4cdjxE/4H6WzKNWk/bvyjtQ7ZF7JgFkb21LqplT2+NfokPzapxgnCqnFBd0YPQ==
-Received: from mail-qv1-f49.google.com (mail-qv1-f49.google.com
- [209.85.219.49])
+ bh=jrZUmTexJ4TLGlUbRdQYTcWnu1+5dsfT8vOaOUaAI9g=;
+ b=WijX7K3gnbtp04nfixfReUBDNYnYSxgqQM+Zy91kBqKvYwuGIGg4Uz/7VPEpcOmdb4zODF
+ dkSE5wYvXx7wSwmkxTgkgVXgt+J/Lzt+wwBipCfEqR9YfGRSgsHgoGGxco3jNgeGw8f3Si
+ 5G7IaT5iyeB8G9Zat4qCIyvYWxUwZrmPGdD+O+tMX/AqQq7twjvLsBWZ6+cPJyfhrc8NVt
+ FqZ3V0Wp4JdIAUNtJHC2tH5CCmEWHLd2nMyAICOqoBYpMkTi04xNq66jxWrJPg+VfhseVO
+ jDDOb4bKy6l43jdCVG0fWHLA/VPSuWqp+OdKMaoLomxE8hfR8LwwKnDiIyyTGw==
+Received: from mail-qt1-f178.google.com (mail-qt1-f178.google.com
+ [209.85.160.178])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (Client CN "smtp.gmail.com", Issuer "GTS CA 1D4" (verified OK))
  (Authenticated sender: kevans)
- by smtp.freebsd.org (Postfix) with ESMTPSA id 2F7702EEE7
- for <qemu-devel@nongnu.org>; Tue,  1 Feb 2022 16:36:00 +0000 (UTC)
+ by smtp.freebsd.org (Postfix) with ESMTPSA id A77692EBD3
+ for <qemu-devel@nongnu.org>; Tue,  1 Feb 2022 16:36:30 +0000 (UTC)
  (envelope-from kevans@freebsd.org)
-Received: by mail-qv1-f49.google.com with SMTP id k9so16460685qvv.9
- for <qemu-devel@nongnu.org>; Tue, 01 Feb 2022 08:36:00 -0800 (PST)
-X-Gm-Message-State: AOAM5315llypXJ7upSEmqek5eFYXy2tEb1fMFZsjIfNzCkxwnXCs9Jfr
- sPeASsuiiMVmP7VNVnAdOJ7fTbtVPPYeyNbYybA=
-X-Google-Smtp-Source: ABdhPJwYVGrewBroKXEM7TVUHp23zFhN/tuuXXWXwA8DAmVke4FmKKnJC7cZbOe3xsZDEoBJqG4jpmiWcJOrt7SN7QY=
-X-Received: by 2002:ad4:5f8d:: with SMTP id jp13mr22783924qvb.70.1643733359856; 
- Tue, 01 Feb 2022 08:35:59 -0800 (PST)
+Received: by mail-qt1-f178.google.com with SMTP id s1so1727538qtw.9
+ for <qemu-devel@nongnu.org>; Tue, 01 Feb 2022 08:36:30 -0800 (PST)
+X-Gm-Message-State: AOAM532L2tY1zeIseU4qX4f6eRAZeYoiP/SxkpVayopBl4mmO17yqG/L
+ 8VTpKlTxu1HXxd+cyQ1MwtnWNRA9SBUqKHi998Y=
+X-Google-Smtp-Source: ABdhPJwb9omOdp6ROG9/T7mu36yBri7qhbu4y3eKiFkh0bWkB7CDiOM6fWf9pfPMnwUYG/7E5oqsO6/zdkS0EDMf+4k=
+X-Received: by 2002:a05:622a:ca:: with SMTP id
+ p10mr14596499qtw.123.1643733390190; 
+ Tue, 01 Feb 2022 08:36:30 -0800 (PST)
 MIME-Version: 1.0
 References: <20220201111455.52511-1-imp@bsdimp.com>
- <20220201111455.52511-13-imp@bsdimp.com>
-In-Reply-To: <20220201111455.52511-13-imp@bsdimp.com>
+ <20220201111455.52511-8-imp@bsdimp.com>
+In-Reply-To: <20220201111455.52511-8-imp@bsdimp.com>
 From: Kyle Evans <kevans@freebsd.org>
-Date: Tue, 1 Feb 2022 10:35:48 -0600
-X-Gmail-Original-Message-ID: <CACNAnaFhksVCVFLq08z+DdMFaM+OHmUaKa+uppNLkniz2gUzcg@mail.gmail.com>
-Message-ID: <CACNAnaFhksVCVFLq08z+DdMFaM+OHmUaKa+uppNLkniz2gUzcg@mail.gmail.com>
-Subject: Re: [PATCH 12/22] bsd-user/freebsd/os-syscall.c: Add get_errno and
- host_to_target_errno
+Date: Tue, 1 Feb 2022 10:36:19 -0600
+X-Gmail-Original-Message-ID: <CACNAnaEz+D4cPJocCKGe0+QmkQm=KCx1c1_4b_O4yRhW46UJQg@mail.gmail.com>
+Message-ID: <CACNAnaEz+D4cPJocCKGe0+QmkQm=KCx1c1_4b_O4yRhW46UJQg@mail.gmail.com>
+Subject: Re: [PATCH 07/22] bsd-user/x86_64/target_arch_thread.h: Assume a
+ FreeBSD target
 To: Warner Losh <imp@bsdimp.com>
 Content-Type: text/plain; charset="UTF-8"
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=freebsd.org;
- s=dkim; t=1643733360;
+ s=dkim; t=1643733390;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=nOp3TuIvWbYQDqx2SBuda4kR6a7hCLBD+cepM0jSRJE=;
- b=V2vUF7ue2bZ/LVzS2mgCFZgPGnuGDZMR5mItf3LxdfOXOyuXDNB5XdDEh3gYXXHdl1ez3M
- OARivKpOv5YAO38NdlPBGSXCGV3umSsa6HDZOz+gHX91POzq2VazFIpkBqtqRSYRLwWV2Y
- bHlzPa0nFy2MuZOkVb3f7wKr8sf0Xzh+Ud/CwiU1zbKOl+trjwYGI9ww6XG45tpe50KAWK
- vBZCuxQ/JwOR6Rjqx9SHHjrajJ1odIZsW08NfJfvMsTZdRqt1V6H0bPsNyIUlsK3vXyFsQ
- iEzhckKQrB8xKhahWFmep2LeydgpN2oY1w7CLyxKIzo2wY98jkd+vBCR1qp0xA==
-ARC-Seal: i=1; s=dkim; d=freebsd.org; t=1643733360; a=rsa-sha256; cv=none;
- b=MTuTqIYFm9NWPNWZHtSFeFFQKy0RHRUMkQ05TurI0+OmYNljKiUoZ0mh9kHQkrnmOX9v2O
- +mb/2rpe7ufD8Qac6tu/HKtmIQ6Dzd7XaIz5RHziGJY89WtBasUx32/cucFhXfRo+6otgE
- fFE62tesff4VyUtsam0QoO9OWG4GVTQzlFZXNwUTCDgIKmd9Rc3YoP5KIRC4WmVjg6qUPq
- w0S49CYZ7qfOLPIySZ3JPAaB0+Ha1pqCJry9ql542oWuzeqgQs/vHPJdAU5ah/OqmSd1Ts
- cgdGER1MhQputZ15SMD7cs7M+5+isiT7TDqXL/2Q0MLRoDDk223eHOhz/8TJjA==
+ bh=jrZUmTexJ4TLGlUbRdQYTcWnu1+5dsfT8vOaOUaAI9g=;
+ b=sYL3oA2WLkwQrY0zTsnaBBnzxI3Q7uQ6euuogyF7G2HZ5ATkOBZU7V9+wpUevVHXlas0fU
+ 5eJPxx/O8ATO8YIkWszepVyKLiTgtok64JLMlURfddPmLszXjAKSwKj398Bl+PgC6NqcWa
+ 0SMwAUiGhHMNR3ZayMcSo8ESXwDD1p9PLv6EC54TZjkuDO290z/2lzzr1CAW/mRLWMbAAM
+ Y8zO8J0UjSc/6pjSmuyW6G0xkA4gKcE5+G50ELs4FVZNbdO6bPefRsy4k6W6LiESomAfQg
+ CjKNWgU+plCkZLgLj1QgqqOzECPzPFAN5QyJjWr63jr6LPj2gwWpNu0ZhOBctQ==
+ARC-Seal: i=1; s=dkim; d=freebsd.org; t=1643733390; a=rsa-sha256; cv=none;
+ b=d8Sd2KiXA8Cs/1ZzTA3Jj6YSJe1k/6Vzwr9H3lvec2F9NohGFatRUNZ+gx/tXbjc+F96AX
+ Jg0Gv/Ar+5cAmGuONP6G90LRyrKumrhNReu/KEiPdZqDafLldtQZU/9kY1+lQiK5tB5iqC
+ A9rs4OAW8XsYnLcOFB2Fln8HsPKQGkbLnlb5ssyFJx2idVsAR9usy1gUgENQnxYmOzPhbm
+ ioL4R/j18qVQvv6VXcgMoyQ3m7JPwbB3o4RrfZiuVBv0PtR01G+3aNdln/hnj+Gi95jcky
+ sBDCeXk7WM0AUfsfO/TrrvWRNPicqZVboeGzTnWGVvFTcwL9jzr8LNQyQvfGdg==
 ARC-Authentication-Results: i=1;
 	mx1.freebsd.org;
 	none
@@ -125,71 +126,35 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On Tue, Feb 1, 2022 at 5:15 AM Warner Losh <imp@bsdimp.com> wrote:
 >
-> Add the helper functions get_errno and host_to_target_errno. get_errno
-> returns either the system call results, or the -errno when system call
-> indicates failure by returning -1. Host_to_target_errno returns errno
-> (since on FreeBSD they are the same on all architectures) along with a
-> comment about why it's the identity.
+> Since we can't run on anything else, assume for the moment that this is
+> a FreeBSD target. In the future, we'll need to handle this properly via
+> some include file in bsd-user/*bsd/x86_64/mumble.h. There's a number of
+> other diffs that would be needed to make things work on OtherBSD, so it
+> doesn't make sense to preseve this one detail today.
 >
 > Signed-off-by: Warner Losh <imp@bsdimp.com>
 > ---
->  bsd-user/freebsd/os-syscall.c | 23 +++++++++++++++++++++++
->  bsd-user/qemu.h               |  3 ++-
->  2 files changed, 25 insertions(+), 1 deletion(-)
+>  bsd-user/x86_64/target_arch_thread.h | 4 +---
+>  1 file changed, 1 insertion(+), 3 deletions(-)
 >
 
 Reviewed-by: Kyle Evans <kevans@FreeBSD.org>
 
-> diff --git a/bsd-user/freebsd/os-syscall.c b/bsd-user/freebsd/os-syscall.c
-> index 7e2bedb918d..2e84cf350b1 100644
-> --- a/bsd-user/freebsd/os-syscall.c
-> +++ b/bsd-user/freebsd/os-syscall.c
-> @@ -44,6 +44,29 @@ void target_set_brk(abi_ulong new_brk)
->  {
+> diff --git a/bsd-user/x86_64/target_arch_thread.h b/bsd-user/x86_64/target_arch_thread.h
+> index d105e43fd35..b745d7ffeb7 100644
+> --- a/bsd-user/x86_64/target_arch_thread.h
+> +++ b/bsd-user/x86_64/target_arch_thread.h
+> @@ -32,9 +32,7 @@ static inline void target_thread_init(struct target_pt_regs *regs,
+>      regs->rax = 0;
+>      regs->rsp = infop->start_stack;
+>      regs->rip = infop->entry;
+> -    if (bsd_type == target_freebsd) {
+> -        regs->rdi = infop->start_stack;
+> -    }
+> +    regs->rdi = infop->start_stack;
 >  }
 >
-> +/*
-> + * errno conversion.
-> + */
-> +abi_long get_errno(abi_long ret)
-> +{
-> +
-> +    if (ret == -1) {
-> +        return -host_to_target_errno(errno);
-> +    } else {
-> +        return ret;
-> +    }
-> +}
-> +
-> +int host_to_target_errno(int err)
-> +{
-> +    /*
-> +     * All the BSDs have the property that the error numbers are uniform across
-> +     * all architectures for a given BSD, though they may vary between different
-> +     * BSDs.
-> +     */
-> +    return err;
-> +}
-> +
->  bool is_error(abi_long ret)
->  {
->
-> diff --git a/bsd-user/qemu.h b/bsd-user/qemu.h
-> index e5742bd6c03..56042ddbc5d 100644
-> --- a/bsd-user/qemu.h
-> +++ b/bsd-user/qemu.h
-> @@ -246,9 +246,10 @@ extern unsigned long target_dflssiz;
->  extern unsigned long target_maxssiz;
->  extern unsigned long target_sgrowsiz;
->
-> -/* syscall.c */
-> +/* os-syscall.c */
->  abi_long get_errno(abi_long ret);
->  bool is_error(abi_long ret);
-> +int host_to_target_errno(int err);
->
->  /* os-sys.c */
->  abi_long do_freebsd_sysarch(void *cpu_env, abi_long arg1, abi_long arg2);
+>  #endif /* !_TARGET_ARCH_THREAD_H_ */
 > --
 > 2.33.1
 >
