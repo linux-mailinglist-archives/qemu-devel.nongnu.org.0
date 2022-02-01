@@ -2,105 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C8594A653B
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Feb 2022 20:58:27 +0100 (CET)
-Received: from localhost ([::1]:57698 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3ADFB4A6549
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Feb 2022 21:02:45 +0100 (CET)
+Received: from localhost ([::1]:36206 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nEzIH-0006PM-Tp
-	for lists+qemu-devel@lfdr.de; Tue, 01 Feb 2022 14:58:25 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:35662)
+	id 1nEzMR-0000q7-Ua
+	for lists+qemu-devel@lfdr.de; Tue, 01 Feb 2022 15:02:43 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:38618)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pasic@linux.ibm.com>)
- id 1nExIj-0003GA-Qi; Tue, 01 Feb 2022 12:50:48 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:5166
- helo=mx0a-001b2d01.pphosted.com)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1nExUa-0006cE-8W
+ for qemu-devel@nongnu.org; Tue, 01 Feb 2022 13:03:00 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:55623)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pasic@linux.ibm.com>)
- id 1nExIV-0003wZ-Td; Tue, 01 Feb 2022 12:50:39 -0500
-Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 211Gv5Lr002612; 
- Tue, 1 Feb 2022 17:50:10 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=date : from : to : cc :
- subject : message-id : in-reply-to : references : mime-version :
- content-type : content-transfer-encoding; s=pp1;
- bh=lG6zHDnCzy+qsJfcEQqMYzd//hKgtZ2WbYtHY42i36s=;
- b=ao2qF6RIE1KIRBjK9IKKbF3G6RMPrqTTZKyVJibQcuh8bNGlK/0wTcJcddFLPRD4a2k5
- e3TlV54dvw86Mn6K0n3+vlbFUtHC2mJoy7CptAnb9cYQIqjPx//B1gQF2R0a3BPFWjg9
- rOT/c4KTU/yYhog4dHYttPSpaaSo0UGWWrN0h06MOXAbF85ndI95ub2UIwbqDpVIcDTq
- uoXRbfbevn1U1RLkedPtyc5AUSBHUi6BizsqsaSGfWa0oE+J39QjvSd6GU47QlBZdPIC
- soJxCtQ1RWuUEMi+2Rq/ZYR/DDN8pvBTop0sq0gMCWAsuA9M0brPemCkgIaDqRAmJIbt OA== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com with ESMTP id 3dy8u7h0dc-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 01 Feb 2022 17:50:09 +0000
-Received: from m0098419.ppops.net (m0098419.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 211GvnBo004847;
- Tue, 1 Feb 2022 17:50:09 GMT
-Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.102])
- by mx0b-001b2d01.pphosted.com with ESMTP id 3dy8u7h0cs-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 01 Feb 2022 17:50:09 +0000
-Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
- by ppma06ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 211Hl6SR005094;
- Tue, 1 Feb 2022 17:50:07 GMT
-Received: from b06cxnps4076.portsmouth.uk.ibm.com
- (d06relay13.portsmouth.uk.ibm.com [9.149.109.198])
- by ppma06ams.nl.ibm.com with ESMTP id 3dvvujf0c9-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 01 Feb 2022 17:50:07 +0000
-Received: from d06av24.portsmouth.uk.ibm.com (d06av24.portsmouth.uk.ibm.com
- [9.149.105.60])
- by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 211Ho4Zw37617940
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 1 Feb 2022 17:50:04 GMT
-Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 5F0E64204B;
- Tue,  1 Feb 2022 17:50:04 +0000 (GMT)
-Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id D8DD642041;
- Tue,  1 Feb 2022 17:50:03 +0000 (GMT)
-Received: from li-e979b1cc-23ba-11b2-a85c-dfd230f6cf82 (unknown [9.171.90.234])
- by d06av24.portsmouth.uk.ibm.com (Postfix) with SMTP;
- Tue,  1 Feb 2022 17:50:03 +0000 (GMT)
-Date: Tue, 1 Feb 2022 18:50:01 +0100
-From: Halil Pasic <pasic@linux.ibm.com>
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Subject: Re: [PATCH v3 1/1] virtio: fix the condition for iommu_platform not
- supported
-Message-ID: <20220201185001.41d467a3.pasic@linux.ibm.com>
-In-Reply-To: <20220201115136-mutt-send-email-mst@kernel.org>
-References: <20220201133915.3764972-1-pasic@linux.ibm.com>
- <87h79iy1nn.fsf@redhat.com>
- <20220201115136-mutt-send-email-mst@kernel.org>
-Organization: IBM
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1nExUY-0005rn-BU
+ for qemu-devel@nongnu.org; Tue, 01 Feb 2022 13:02:59 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1643738577;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=LehamqzVfxWQ9BedoVSKBvt8FZCJlAoJWzhTqAFcEkg=;
+ b=fxDqG0b0dfYD/vOFZAP6aTcFCx5Kmtvxe+7l5+zDZKmHFwOLRhVOYrF3TcJdtRnzp1hqv4
+ cVYfU93azClEaD9ChOHlN/vd71GRz3009RYh9Ap1PdGNnvIpSpK6Bn5T1cp4RE3QDscAuP
+ OzXim9JjcEn0rNukHerVuAMjPBApq6U=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-316-AuNcrW9rMUGAIqL2dJjmrw-1; Tue, 01 Feb 2022 13:02:50 -0500
+X-MC-Unique: AuNcrW9rMUGAIqL2dJjmrw-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 669398143EB;
+ Tue,  1 Feb 2022 18:02:48 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.195.27])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 6A423348F3;
+ Tue,  1 Feb 2022 18:02:24 +0000 (UTC)
+Date: Tue, 1 Feb 2022 18:02:21 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Andrea Bolognani <abologna@redhat.com>
+Subject: Re: [PATCH 2/2] tests: Update CentOS 8 container to CentOS Stream 8
+Message-ID: <Yfl1rZN6yKCyQ1O0@redhat.com>
+References: <20220201101911.97900-1-thuth@redhat.com>
+ <CABJz62Osah308O2pHFMWs+D2X+Mq=aOf1NAKFcUaWF5bGzwJEw@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: omDbysy3t_j62UAmJSk056_kDNiyFXAW
-X-Proofpoint-GUID: TvuwSnExE2I6v_w8MD-u-WEtPH_kMK7o
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.816,Hydra:6.0.425,FMLib:17.11.62.513
- definitions=2022-02-01_08,2022-02-01_01,2021-12-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0
- impostorscore=0 lowpriorityscore=0 adultscore=0 clxscore=1015 bulkscore=0
- spamscore=0 mlxscore=0 phishscore=0 priorityscore=1501 malwarescore=0
- mlxlogscore=873 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2201110000 definitions=main-2202010098
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=pasic@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+In-Reply-To: <CABJz62Osah308O2pHFMWs+D2X+Mq=aOf1NAKFcUaWF5bGzwJEw@mail.gmail.com>
+User-Agent: Mutt/2.1.5 (2021-12-30)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.081,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -114,26 +80,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Brijesh Singh <brijesh.singh@amd.com>,
- Daniel Henrique Barboza <danielhb@linux.ibm.com>,
- Cornelia Huck <cohuck@redhat.com>, qemu-stable@nongnu.org,
- qemu-devel@nongnu.org, Halil Pasic <pasic@linux.ibm.com>,
- Jakob Naucke <Jakob.Naucke@ibm.com>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Thomas Huth <thuth@redhat.com>, Beraldo Leal <bleal@redhat.com>,
+ qemu-devel@nongnu.org, Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 1 Feb 2022 11:52:06 -0500
-"Michael S. Tsirkin" <mst@redhat.com> wrote:
-
-> > > +    bool vdev_has_iommu = false;  
-> > 
-> > Isn't vdev_has_iommu set unconditionally before you try to use it?  
+On Tue, Feb 01, 2022 at 09:08:22AM -0800, Andrea Bolognani wrote:
+> On Tue, Feb 01, 2022 at 11:19:11AM +0100, Thomas Huth wrote:
+> > +++ b/tests/docker/dockerfiles/centos8.docker
+> > @@ -1,10 +1,10 @@
+> >  # THIS FILE WAS AUTO-GENERATED
+> >  #
+> > -#  $ lcitool dockerfile centos-8 qemu
+> > +#  $ lcitool dockerfile centos-stream-8 qemu
+> >  #
+> >  # https://gitlab.com/libvirt/libvirt-ci
+> >
+> > -FROM docker.io/library/centos:8
+> > +FROM quay.io/centos/centos:stream8
+> [...]
+> > +++ b/tests/lcitool/refresh
+> > @@ -77,7 +77,7 @@ ubuntu2004_tsanhack = [
+> >  ]
+> >
+> >  try:
+> > -   generate_dockerfile("centos8", "centos-8")
+> > +   generate_dockerfile("centos8", "centos-stream-8")
 > 
-> I'd like to know too.
+> I'm not convinced this is a good idea.
+> 
+> CentOS 8 and CentOS Stream 8 are two pretty distinct operating
+> systems in terms of update cadence and stability expectations, so I
+> think that using the label "centos8" for containers and CI jobs that
+> are actually consuming CentOS Stream 8 is going to be a source of
+> confusion.
 
-Yes it is. Was meant as a conservative thing. AFAIR in C stuff on stack
-is not initialized to anything in particular so the idea was better
-use false than garbage if someone made a mistake. But on the other
-hand compilers can warn about that, and this defeats the compiler
-warning. So uninitialized is indeed better.
+Given the EOL of what I call the "traditional" CentOS model at the
+end of 2021, both "CentOS" and "CentOS Stream" terms effectively
+mean the same thing now.
+
+If we were trying to support CI for both traditional CentOS and
+CentOS Stream at the same time, then using the distinct naming
+is sensible.  libvirt-ci.git is in this situation
+
+Since QEMU should only care about CentOS Stream from this point
+forwards, then I don't think we neccesarily[1] need to make the
+naming more verbose by adding the word 'stream' everywhere.
+
+The caveat is that aside from this dockerfile, we also have a
+VM config in test/vm/ that historically used traditional CentOS.
+That may also need updating to point to Stream unless it has
+seemlessly transitioned to using Stream content without us
+needing to change anything. I've not looked closely at that yet.
+
+Regards,
+Daniel
+
+[1] what would make me change my mind is if we renamed all the
+    QEMU dockerfiles so use the same distro naming convention
+    as libvirt-ci.git rather than having QEMU's own naming. I've
+    thought about suggesting it but it wasn't a high priority
+    since lcitool usage is in its infancy in QEMU still
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+
 
