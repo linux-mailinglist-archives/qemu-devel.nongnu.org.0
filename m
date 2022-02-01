@@ -2,77 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D2804A582D
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Feb 2022 09:00:54 +0100 (CET)
-Received: from localhost ([::1]:35164 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B1E54A587E
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Feb 2022 09:26:54 +0100 (CET)
+Received: from localhost ([::1]:45256 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nEo5t-00035c-2i
-	for lists+qemu-devel@lfdr.de; Tue, 01 Feb 2022 03:00:53 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:46718)
+	id 1nEoV3-0002tb-3I
+	for lists+qemu-devel@lfdr.de; Tue, 01 Feb 2022 03:26:53 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:47364)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1nEnvB-0000ai-Re
- for qemu-devel@nongnu.org; Tue, 01 Feb 2022 02:49:49 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:33019)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1nEnv8-00080d-N7
- for qemu-devel@nongnu.org; Tue, 01 Feb 2022 02:49:47 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1643701785;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=wM6s2TfKOMJaTxAljJuhufk4v0bFflDYzhSXJ7ehgiA=;
- b=EQ7XnewBuNUu3hsaiscOrCvBb+OdmabHdqaeZGF9/gLLMWlXXgSDN7yXH6WwJqz63HWscB
- zGBCZx8b+LitweQnEHsJckCinjJ2NWgv0kG2ffpvxFallRxlIdq69DZ5FHYPS6RyoUtGSo
- lDakSgMHTdnktgz/XWFM3ArdZfyh9uc=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-356-dHc2wbJYNBaFQizxZfeNgQ-1; Tue, 01 Feb 2022 02:49:44 -0500
-X-MC-Unique: dHc2wbJYNBaFQizxZfeNgQ-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BB5E5343CB;
- Tue,  1 Feb 2022 07:49:43 +0000 (UTC)
-Received: from sirius.home.kraxel.org (unknown [10.39.193.47])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 28FED105C88B;
- Tue,  1 Feb 2022 07:49:13 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 714E71800632; Tue,  1 Feb 2022 08:49:11 +0100 (CET)
-Date: Tue, 1 Feb 2022 08:49:11 +0100
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: Stefano Brivio <sbrivio@redhat.com>
-Subject: Re: "make check-acceptance" takes way too long
-Message-ID: <20220201074911.cu6phs45gh7kpqel@sirius.home.kraxel.org>
-References: <CAFEAcA9cMZoj18gq7Ksv5PRoU1wRmXvW_e9UE73C_MEB7wTroQ@mail.gmail.com>
- <CAFEAcA9_d5jw5-HOrZA6dsG1vMqxzqmrfHA7Jo0KsDcaEXmB_Q@mail.gmail.com>
- <6c90ca3d-eaec-d7e8-5941-4deb83b58fd0@redhat.com>
- <87zgnp4b32.fsf@dusky.pond.sub.org>
- <CAFEAcA_kxrCgyxWPFLw6VZ-rKx-res0C8L2BWRvfB81cR+keLg@mail.gmail.com>
- <875yqd6zib.fsf@linaro.org> <YerPk2ABMHQf/3QP@redhat.com>
- <20220125092011.dq2t4ryl632vrvsf@sirius.home.kraxel.org>
- <20220201073139.7896e10b@elisabeth>
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1nEo0h-0002bp-Py
+ for qemu-devel@nongnu.org; Tue, 01 Feb 2022 02:55:31 -0500
+Received: from [2607:f8b0:4864:20::102f] (port=44023
+ helo=mail-pj1-x102f.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1nEo0e-0000AZ-Bq
+ for qemu-devel@nongnu.org; Tue, 01 Feb 2022 02:55:31 -0500
+Received: by mail-pj1-x102f.google.com with SMTP id
+ qe6-20020a17090b4f8600b001b7aaad65b9so1626199pjb.2
+ for <qemu-devel@nongnu.org>; Mon, 31 Jan 2022 23:55:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
+ h=from:date:to:cc:subject:in-reply-to:message-id:references
+ :user-agent:mime-version;
+ bh=iwq5UgV9PZB6aurBg6ZP0D3jOAE+xpJ5cVHSNnedr/Y=;
+ b=o1XzIAsZStOhHZNXk1TmTGBjw1SQm3rSIRkUXRsloODiqY8zSjEozYwKbnaSmKNA3r
+ ByTzVGKGW6nuH9ghg7GdVeQ0cJikq1M+aN3m9ZZqgMwGz/yWJdMP4rtpqqOfaaOrBmHf
+ y2nYubVDuSIWRjfgOwGAfZb11lEoLo5qfg4wABxHv/8Z+vNX+AyI8FJprbXX70YD06+r
+ UC1X1G2yrWF26+amPSkypE+u8kHyki7m0UDgXtKMV+V9SX9pca2LKlNgUhAHKk+IwH7s
+ dmisR+P/n2RyUjrMiVTRe26v3HuNh9Bv2JwTmgZuo79cc+Rm1XWAq/9uh/5F8KysbCD4
+ UO0Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:date:to:cc:subject:in-reply-to:message-id
+ :references:user-agent:mime-version;
+ bh=iwq5UgV9PZB6aurBg6ZP0D3jOAE+xpJ5cVHSNnedr/Y=;
+ b=kYKzbJxTyeYVnac3OWUHgR5huoxiTipMUniR1QXRIF1ftsVHRT+tbtXKWamg8sAGe7
+ aXf04laCatcXG4cycKaXn/AJQFvzNOLxgFkPeFBDIKrK1ORol4pB6NAmrL2fcVFIThMl
+ 6m7g8/6QjgUgGOrej2jtHbCnzfExSltRaOdGZSF0pjkMTdyylJeLTx8Ck6QOp7vkwEZF
+ RRp8Jgdt/lv/DHoGje/lE1pqtktPuhGPAsE8WL7XmcKke7rZqWbNEH8rDyqk65rT+MhC
+ vj8NzpLKjzKaNR3MaPfB5NfVaNhZLDHBCtmgUKfQUpAWAM6cbKQE5IIWGRg1cmhrKgeu
+ CfzQ==
+X-Gm-Message-State: AOAM532qfb62W/m57ASIIC7704uy9MMO1s59CcYAFvc0S+xeC31GDCOx
+ BEpp5TXmDji9XqHPzz+zZEa3cw==
+X-Google-Smtp-Source: ABdhPJzIYNrLJJ8oDNp0Iq4MrnOgXLRx5q/H496vjFKCWguAfaQc6l/gkjsnfI0C2Zs34/Psy/N/tA==
+X-Received: by 2002:a17:90b:255:: with SMTP id
+ fz21mr918668pjb.226.1643702126268; 
+ Mon, 31 Jan 2022 23:55:26 -0800 (PST)
+Received: from anisinha-lenovo ([115.96.137.127])
+ by smtp.googlemail.com with ESMTPSA id h6sm22191636pfk.110.2022.01.31.23.55.23
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 31 Jan 2022 23:55:25 -0800 (PST)
+From: Ani Sinha <ani@anisinha.ca>
+X-Google-Original-From: Ani Sinha <anisinha@anisinha.ca>
+Date: Tue, 1 Feb 2022 13:25:20 +0530 (IST)
+X-X-Sender: anisinha@anisinha-lenovo
+To: Igor Mammedov <imammedo@redhat.com>
+Subject: Re: [PATCH 3/4] acpi: fix OEM ID/OEM Table ID padding
+In-Reply-To: <20220201083922.73428015@redhat.com>
+Message-ID: <alpine.DEB.2.22.394.2202011314320.1532434@anisinha-lenovo>
+References: <20220112130332.1648664-1-imammedo@redhat.com>
+ <20220112130332.1648664-4-imammedo@redhat.com>
+ <CAARzgwyc4UkvDSfu_tg8PqvG9VUZWVuPgVv5NRWqAguJgc8Thw@mail.gmail.com>
+ <20220131142015.5e73ff90@redhat.com>
+ <alpine.DEB.2.22.394.2201311854290.1478493@anisinha-lenovo>
+ <20220131151024.15070c15@redhat.com>
+ <alpine.DEB.2.22.394.2201311942130.1491657@anisinha-lenovo>
+ <20220201083922.73428015@redhat.com>
+User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
 MIME-Version: 1.0
-In-Reply-To: <20220201073139.7896e10b@elisabeth>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kraxel@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.081,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=US-ASCII
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::102f
+ (failed)
+Received-SPF: none client-ip=2607:f8b0:4864:20::102f;
+ envelope-from=ani@anisinha.ca; helo=mail-pj1-x102f.google.com
+X-Spam_score_int: -10
+X-Spam_score: -1.1
+X-Spam_bar: -
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_NONE=0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -85,41 +95,119 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>,
- Beraldo Leal <bleal@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>, Cleber Rosa <crosa@redhat.com>,
- Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: "Michael S . Tsirkin" <mst@redhat.com>, qemu-stable@nongnu.org,
+ qemu-devel@nongnu.org, Marian Postevca <posteuca@mutex.one>,
+ "Dmitry V . Orekhov" <dima.orekhov@gmail.com>, Ani Sinha <ani@anisinha.ca>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-  Hi,
 
-> I'm not sure you can recycle something from it, but my (ugly) approach
-> to make this fast (for a different purpose -- I'm using qemu to run
-> tests in guests, not testing qemu) is to build an initramfs by copying
-> the host binaries I need (a shell, ip, jq) and recursively sourcing
-> libraries using ldd (I guess I mentioned it's ugly).
 
-By design limited to the host architecture, but might be good enough
-depending on what you want test ...
+On Tue, 1 Feb 2022, Igor Mammedov wrote:
 
-> No downloads, systemd, dracut, etc., guest boots in half a second
-> (x86_64 on x86_64, KVM -- no idea with TCG). Host kernel with a few
-> modules packed and loaded by a custom init script.
+> On Mon, 31 Jan 2022 19:51:24 +0530 (IST)
+> Ani Sinha <ani@anisinha.ca> wrote:
+>
+> > On Mon, 31 Jan 2022, Igor Mammedov wrote:
+> >
+> > > On Mon, 31 Jan 2022 18:58:57 +0530 (IST)
+> > > Ani Sinha <ani@anisinha.ca> wrote:
+> > >
+> > > > On Mon, 31 Jan 2022, Igor Mammedov wrote:
+> > > >
+> > > > > On Mon, 31 Jan 2022 11:47:00 +0530
+> > > > > Ani Sinha <ani@anisinha.ca> wrote:
+> > > > >
+> > > > > > On Wed, Jan 12, 2022 at 6:33 PM Igor Mammedov <imammedo@redhat.com> wrote:
+> > > > > > >
+> > > > > > > Commit [2] broke original '\0' padding of OEM ID and OEM Table ID
+> > > > > > > fields in headers of ACPI tables. While it doesn't have impact on
+> > > > > > > default values since QEMU uses 6 and 8 characters long values
+> > > > > > > respectively, it broke usecase where IDs are provided on QEMU CLI.
+> > > > > > > It shouldn't affect guest (but may cause licensing verification
+> > > > > > > issues in guest OS).
+> > > > > > > One of the broken usecases is user supplied SLIC table with IDs
+> > > > > > > shorter than max possible length, where [2] mangles IDs with extra
+> > > > > > > spaces in RSDT and FADT tables whereas guest OS expects those to
+> > > > > > > mirror the respective values of the used SLIC table.
+> > > > > > >
+> > > > > > > Fix it by replacing whitespace padding with '\0' padding in
+> > > > > > > accordance with [1] and expectations of guest OS
+> > > > > > >
+> > > > > > > 1) ACPI spec, v2.0b
+> > > > > > >        17.2 AML Grammar Definition
+> > > > > > >        ...
+> > > > > > >        //OEM ID of up to 6 characters. If the OEM ID is
+> > > > > > >        //shorter than 6 characters, it can be terminated
+> > > > > > >        //with a NULL character.
+> > > > > >
+> > > > > > On the other hand, from
+> > > > > > https://uefi.org/specs/ACPI/6.4/21_ACPI_Data_Tables_and_Table_Def_Language/ACPI_Data_Tables.html
+> > > > > > ,
+> > > > > >
+> > > > > > "For example, the OEM ID and OEM Table ID in the common ACPI table
+> > > > > > header (shown above) are fixed at six and eight characters,
+> > > > > > respectively. They are not necessarily null terminated"
+> > > > > >
+> > > > > > I also checked version 5 and the verbiage is the same. I think not
+> > > > > > terminating with a null is not incorrect.
+> > > > >
+> > > > > I have a trouble with too much 'not' within the sentence.
+> > > >
+> > > > :-)
+> > > >
+> > > > > So what's the point of this comment and how it's related to
+> > > > > this patch?
+> > > >
+> > > > My understanding of the spec is that null termination of both those IDs is
+> > > > not mandatory. Guests may get confused or expect the strings to be null
+> > > > termimated but they should really be open to expecting non-null terminated
+> > > > strings as well. What is important is that the number of chars of those
+> > > > two strings are fixed and well defined in the spec and qemu
+> > > > implementation.
+> > > >
+> > > > In any case, I think we can leave the patch as is for now and see if the
+> > > > change causes trouble with other guests.
+> > >
+> > >
+> > > these fields have a fixed length so one doesn't need terminating NULL
+> > > in case the full length of the field is utilized, otherwise in case of
+> > > where the value is shorter than max length it has to be null terminated
+> > > to express a shorter value. That way QEMU worked for years until
+> > > 602b458201 introduced regression.
+> > >
+> >
+> > My comment was based on what I interpreted from reading the latest
+> > version of the specs. I guess the spec does not explicitly say what the
+> > padding
+> > bytes would be in case the length of the IDs are less the max length. I
+> > interpreted the wording to mean that whether or not the
+> > length of the string is shorter, one should not expect it to terminate with null.
+>
+> that's what AML grmamar quoted in commit message clarifies
+> for specific field(s), as opposed to your generic string
+> type description
 
-I've simply used dracut for that in the past.  Recursively sourcing
-libraries is one of the things it does which I didn't have to code up
-myself that way. Used to work pretty well.
+Ah yes, my bad. In
+https://uefi.org/specs/ACPI/6.4/20_AML_Specification/AML_Specification.html ,
+section 20.2.1 has this also :
 
-But these days dracut doesn't want give you a shell prompt without
-asking for a password beforehand, which is annoying if all you want
-do is run some simple tests, and there was to easy way to turn that
-off last time I checked ...
+ByteData(6) // OEM ID of up to 6 characters. If the OEM ID is shorter than
+6 characters,
+it can be terminated with a NULL character.
 
-take care,
-  Gerd
+etc. Somehow I missed it.
+>
+> PS:
+> you were asking the other day if there is any bugs left in ACPI,
+> (the answer is that I'm not aware of any).
 
+Yes spoke to Gerd offline. On native side also he is unaware of any issues
+post 6.2.
+
+> But there are issues with SMBIOS tables that need to be fixed
+> (it's corner cases with large VM configurations), are you
+> interested in trying to fix it?
+
+Yes sure. I will try my best.
 
