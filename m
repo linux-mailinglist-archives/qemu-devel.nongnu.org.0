@@ -2,72 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D64D34A5732
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Feb 2022 07:27:39 +0100 (CET)
-Received: from localhost ([::1]:59356 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E5CCC4A5760
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Feb 2022 07:52:29 +0100 (CET)
+Received: from localhost ([::1]:35858 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nEmde-00027a-Uv
-	for lists+qemu-devel@lfdr.de; Tue, 01 Feb 2022 01:27:39 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:35558)
+	id 1nEn1g-00062F-EM
+	for lists+qemu-devel@lfdr.de; Tue, 01 Feb 2022 01:52:28 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:36332)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1nEmZ8-0001Bu-Td; Tue, 01 Feb 2022 01:22:58 -0500
-Received: from [2607:f8b0:4864:20::12b] (port=44631
- helo=mail-il1-x12b.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1nEmZ7-0005tr-Af; Tue, 01 Feb 2022 01:22:58 -0500
-Received: by mail-il1-x12b.google.com with SMTP id q11so5263341ild.11;
- Mon, 31 Jan 2022 22:22:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Aa4ZdSlgRZ8MhLbGVS9JTsBuvPwZ0tX7KIRYiE7d8JI=;
- b=hO5EM8hAyjTtmJRri57jwpXjgfMfaDCLfMDLeeu/qK25ETFPr3QuchCIMZ8wNcdy87
- 3pyt9kg5YE7expeP6MbBIcLr00fyrAUs1kqka4nd3kBPVjG44zdM/s1W9TMNoTRn+NwZ
- Xe+4sh0jqm1QF9H0DbgdweZphGWtPqEBGSZXnvKEHuyixT1FBCj66RGYJbhbXB0fTWcG
- jshNBA3QKKDHDyCAM8Dr1A0HwEpkZhDytvZ83uShaSy3BFNZ7RuwbbRXavhH8lvP+y0c
- GmnPRod1hq+0DL8bPwsuL5U/QKyo7acX7vvadhrWpW6hsaqEba6i7Y1Y/huN/iQZOouS
- 3heQ==
+ (Exim 4.90_1) (envelope-from <leobras@redhat.com>)
+ id 1nEmfi-00038m-VH
+ for qemu-devel@nongnu.org; Tue, 01 Feb 2022 01:29:49 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:50052)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <leobras@redhat.com>)
+ id 1nEmfc-0006Wr-Tv
+ for qemu-devel@nongnu.org; Tue, 01 Feb 2022 01:29:43 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1643696979;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=oBlNJ4NPkIV9bKqSrwGUz247h+rmQsOHwyWQtbGjKQw=;
+ b=IPCRcpUUHS+TJuy7B5UBXcR7KB9I0nB/yVB0mA8phw6F33KMgWTR9q60JpD8CcKcBZ3Op0
+ oi0LOzhRdj90xvlNPbgQ8bukQFE3ujmODMdn5cxzpWABraQspfmDpSdOpXPMZ/dKLE9kGq
+ Gd2rKdxD5pGwYSxN8tfN+GuX/NeqJqU=
+Received: from mail-oi1-f199.google.com (mail-oi1-f199.google.com
+ [209.85.167.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-437-MT2CBas5MGSAwLj79CA_hg-1; Tue, 01 Feb 2022 01:29:36 -0500
+X-MC-Unique: MT2CBas5MGSAwLj79CA_hg-1
+Received: by mail-oi1-f199.google.com with SMTP id
+ w8-20020aca6208000000b002c7da950057so9809032oib.5
+ for <qemu-devel@nongnu.org>; Mon, 31 Jan 2022 22:29:36 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=Aa4ZdSlgRZ8MhLbGVS9JTsBuvPwZ0tX7KIRYiE7d8JI=;
- b=eTZOqbpCfz9anm+y2GtLm9VXry4pK0KIYRKj8QcxfussWRrT83ThJCfn4WJMpORVDV
- ayda/PxA++jWHTcyo3R2hISVfAAPU1dXu8G35CljhXK3lbAdXgjSlivy5GNHKBQHMNjW
- Z6n2zMBNlJEaIfuRxxoo06wYVZABfOTYoMiqS2hyVAOuU9KXMJRcQ5MhGtcDNsGaCSyZ
- yWbY+TR648NNEXfIVSIWEElX98k7IW1Gkks1KRDZ8mhTafil2Fyd3GjZ6P+BA0TAciFa
- /LHQ8CkB/gIDndt0SkIjh4+QMK0+tDnacWHPByOAce6wNgjLc4AR92YRCdjfxXLykWkO
- Z4vA==
-X-Gm-Message-State: AOAM5309BXTwlQaCBD0xkTPPpVYBT5Zl4G+sAuGeYZ4y8uDLWAN+e6nY
- BaXotc2W7bfrebKgtcjCq9rm6yumOlTUdATOHAE=
-X-Google-Smtp-Source: ABdhPJzz0qZbPcrLCgsflC8UeAba5kwD4vRoLQscbAelORTLss+4uJe4pWxkJI2gjPqM1dFbtnv8IPvtMerFm3Jneik=
-X-Received: by 2002:a05:6e02:1307:: with SMTP id
- g7mr3335619ilr.46.1643696575491; 
- Mon, 31 Jan 2022 22:22:55 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=oBlNJ4NPkIV9bKqSrwGUz247h+rmQsOHwyWQtbGjKQw=;
+ b=0myvxYRvxPh5Fl/35V866cfzhpvWN2WuZUpxXUc4VCAEVqW9mC7ptyBdLixjx6+XuG
+ qKaE05hTqwS1NUFL7UKvN5dfTHtVpk5B6E6DfNagEyuSS9GprxxpnsgJrzO8mb+xR6Hi
+ 1r0d0EzSQwJ7+83f2EGoO4PDB5eQTTtaBpvHh5a7nDJsGDTkq0rZhs9zq5zS8d2wKeBt
+ OrvqTVLYykifYZt+mJWTOkmFZLMKjqjFZHM0D3ntgVkY0B/Nz8Z3kuYC/nJCO6qd/ouQ
+ O28tGYbvLbpc+ewki9KQ7/Ztknj0iACOfkD4mKDwOU8zmi+vaQ53uzxdFXXzC6pBJolm
+ ih1Q==
+X-Gm-Message-State: AOAM531tmhLw0S0MNNZPmtiBHxCRih4cDI3RUbGVCP1q+vVKD1ubkcSL
+ Ix9Lg4aw617ATKCxUhZYFfrUTlcuTq+FdL+xiO1Zzgg0Qxtmv7qvYg4Q4OJcoNZpbJ2yz/sH7yY
+ 7HHjz8zH5QcDol3M=
+X-Received: by 2002:aca:ad97:: with SMTP id w145mr342205oie.238.1643696975387; 
+ Mon, 31 Jan 2022 22:29:35 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJz/O4JYGhF1UbYBASWaPoe6mowSjEHU+tXRRm46XGRBJmlSr8p227q6eJqGqUWoc48czITnXw==
+X-Received: by 2002:aca:ad97:: with SMTP id w145mr342196oie.238.1643696975166; 
+ Mon, 31 Jan 2022 22:29:35 -0800 (PST)
+Received: from LeoBras.redhat.com ([2804:431:c7f1:95e9:6da1:67bd:fdc3:e12e])
+ by smtp.gmail.com with ESMTPSA id l14sm14424720ooq.12.2022.01.31.22.29.31
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 31 Jan 2022 22:29:34 -0800 (PST)
+From: Leonardo Bras <leobras@redhat.com>
+To: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Elena Ufimtseva <elena.ufimtseva@oracle.com>,
+ Jagannathan Raman <jag.raman@oracle.com>,
+ John G Johnson <john.g.johnson@oracle.com>,
+ =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Juan Quintela <quintela@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Eric Blake <eblake@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ Fam Zheng <fam@euphon.net>, Peter Xu <peterx@redhat.com>
+Subject: [PATCH v8 0/5] MSG_ZEROCOPY + multifd
+Date: Tue,  1 Feb 2022 03:28:57 -0300
+Message-Id: <20220201062901.428838-1-leobras@redhat.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-References: <20220128085501.8014-1-liweiwei@iscas.ac.cn>
- <20220128085501.8014-4-liweiwei@iscas.ac.cn>
-In-Reply-To: <20220128085501.8014-4-liweiwei@iscas.ac.cn>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Tue, 1 Feb 2022 16:22:28 +1000
-Message-ID: <CAKmqyKN_iCjfhk=pb1uP=j1=H_Y2FZRmoWoahj5d9_RRYoFpvw@mail.gmail.com>
-Subject: Re: [PATCH v7 3/5] target/riscv: add support for svnapot extension
-To: Weiwei Li <liweiwei@iscas.ac.cn>
-Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::12b
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::12b;
- envelope-from=alistair23@gmail.com; helo=mail-il1-x12b.google.com
-X-Spam_score_int: -10
-X-Spam_score: -1.1
-X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, PDS_HP_HELO_NORDNS=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=leobras@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=leobras@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.081,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -80,101 +103,152 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?B?V2VpIFd1ICjlkLTkvJ8p?= <lazyparser@gmail.com>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>, Anup Patel <anup@brainfault.org>,
- wangjunqiang <wangjunqiang@iscas.ac.cn>, Bin Meng <bin.meng@windriver.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Alistair Francis <alistair.francis@wdc.com>, Guo Ren <ren_guo@c-sky.com>,
- Palmer Dabbelt <palmer@dabbelt.com>
+Cc: Leonardo Bras <leobras@redhat.com>, qemu-devel@nongnu.org,
+ qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Jan 28, 2022 at 6:57 PM Weiwei Li <liweiwei@iscas.ac.cn> wrote:
->
-> - add PTE_N bit
-> - add PTE_N bit check for inner PTE
-> - update address translation to support 64KiB continuous region (napot_bits = 4)
->
-> Signed-off-by: Weiwei Li <liweiwei@iscas.ac.cn>
-> Signed-off-by: Junqiang Wang <wangjunqiang@iscas.ac.cn>
-> Reviewed-by: Anup Patel <anup@brainfault.org>
-> ---
->  target/riscv/cpu.c        |  2 ++
->  target/riscv/cpu_bits.h   |  1 +
->  target/riscv/cpu_helper.c | 17 ++++++++++++++---
->  3 files changed, 17 insertions(+), 3 deletions(-)
->
-> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-> index 1cb0436187..8752fa1544 100644
-> --- a/target/riscv/cpu.c
-> +++ b/target/riscv/cpu.c
-> @@ -729,6 +729,8 @@ static Property riscv_cpu_properties[] = {
->      DEFINE_PROP_UINT16("vlen", RISCVCPU, cfg.vlen, 128),
->      DEFINE_PROP_UINT16("elen", RISCVCPU, cfg.elen, 64),
->
-> +    DEFINE_PROP_BOOL("svnapot", RISCVCPU, cfg.ext_svnapot, false),
-> +
->      DEFINE_PROP_BOOL("zba", RISCVCPU, cfg.ext_zba, true),
->      DEFINE_PROP_BOOL("zbb", RISCVCPU, cfg.ext_zbb, true),
->      DEFINE_PROP_BOOL("zbc", RISCVCPU, cfg.ext_zbc, true),
-> diff --git a/target/riscv/cpu_bits.h b/target/riscv/cpu_bits.h
-> index 6ea3944423..f6ff1c5012 100644
-> --- a/target/riscv/cpu_bits.h
-> +++ b/target/riscv/cpu_bits.h
-> @@ -489,6 +489,7 @@ typedef enum {
->  #define PTE_A               0x040 /* Accessed */
->  #define PTE_D               0x080 /* Dirty */
->  #define PTE_SOFT            0x300 /* Reserved for Software */
-> +#define PTE_N               0x8000000000000000 /* NAPOT translation */
+This patch series intends to enable MSG_ZEROCOPY in QIOChannel, and make
+use of it for multifd migration performance improvement, by reducing cpu
+usage.
 
-This should be 0x8000000000000000ULL to avoid casting
+Patch #1 creates new callbacks for QIOChannel, allowing the implementation
+of zero copy writing.
 
->
->  /* Page table PPN shift amount */
->  #define PTE_PPN_SHIFT       10
-> diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
-> index b820166dc5..6262d157e2 100644
-> --- a/target/riscv/cpu_helper.c
-> +++ b/target/riscv/cpu_helper.c
-> @@ -641,7 +641,7 @@ restart:
->              return TRANSLATE_FAIL;
->          } else if (!(pte & (PTE_R | PTE_W | PTE_X))) {
->              /* Inner PTE, continue walking */
-> -            if (pte & (PTE_D | PTE_A | PTE_U)) {
-> +            if (pte & (target_ulong)(PTE_D | PTE_A | PTE_U | PTE_N)) {
->                  return TRANSLATE_FAIL;
->              }
->              base = ppn << PGSHIFT;
-> @@ -717,8 +717,19 @@ restart:
->              /* for superpage mappings, make a fake leaf PTE for the TLB's
->                 benefit. */
->              target_ulong vpn = addr >> PGSHIFT;
-> -            *physical = ((ppn | (vpn & ((1L << ptshift) - 1))) << PGSHIFT) |
-> -                        (addr & ~TARGET_PAGE_MASK);
-> +
-> +            int napot_bits = 0;
-> +            if (cpu->cfg.ext_svnapot && (pte & (target_ulong)PTE_N)) {
-> +                napot_bits = ctzl(ppn) + 1;
-> +                if ((i != (levels - 1)) || (napot_bits != 4)) {
-> +                    return TRANSLATE_FAIL;
-> +                }
-> +            }
-> +
-> +            *physical = (((ppn & ~(((target_ulong)1 << napot_bits) - 1)) |
+Patch #2 implements io_writev flags and io_flush() on QIOChannelSocket,
+making use of MSG_ZEROCOPY on Linux.
 
-It might be clearer to create the mask as a variable, there are a lot
-of brackets here :)
+Patch #3 adds a "zero_copy_send" migration property, only available with
+CONFIG_LINUX, and compiled-out in any other architectures.
+This migration property has to be enabled before multifd migration starts.
 
-Alistair
+Patch #4 adds a helper function that allows to see if TLS is going to be used.
+This helper will be later used in patch #5.
 
-> +                          (vpn & (((target_ulong)1 << napot_bits) - 1)) |
-> +                          (vpn & (((target_ulong)1 << ptshift) - 1))
-> +                        ) << PGSHIFT) | (addr & ~TARGET_PAGE_MASK);
->
->              /* set permissions on the TLB entry */
->              if ((pte & PTE_R) || ((pte & PTE_X) && mxr)) {
-> --
-> 2.17.1
->
->
+Patch #5 Makes use of QIOChannelSocket zero_copy implementation on
+nocomp multifd migration.
+
+Results:
+In preliminary tests, the resource usage of __sys_sendmsg() reduced 15 times,
+and the overall migration took 13-22% less time, based in synthetic cpu
+workload.
+
+In further tests, it was noted that, on multifd migration with 8 channels:
+- On idle hosts, migration time reduced in 10% to 21%.
+- On hosts busy with heavy cpu stress (1 stress thread per cpu, but
+  not cpu-pinned) migration time reduced in ~25% by enabling zero-copy.
+- On hosts with heavy cpu-pinned workloads (1 stress thread per cpu, 
+  cpu-pinned), migration time reducted in ~66% by enabling zero-copy.
+
+Above tests setup:
+- Sending and Receiving hosts:
+  - CPU : Intel(R) Xeon(R) Platinum 8276L CPU @ 2.20GHz (448 CPUS)
+  - Network card: E810-C (100Gbps)
+  - >1TB RAM
+  - QEMU: Upstream master branch + This patchset
+  - Linux: Upstream v5.15 
+- VM configuration:
+  - 28 VCPUs
+  - 512GB RAM
+
+
+---
+Changes since v7:
+- Migration property renamed from zero-copy to zero-copy-send
+- A few early tests added to help misconfigurations to fail earlier
+- qio_channel_full*_flags() renamed back to qio_channel_full*()
+- multifd_send_sync_main() reverted back to not receiving a flag,
+  so it always sync zero-copy when enabled.
+- Improve code quality on a few points
+
+
+Changes since v6:
+- Remove io_writev_zero_copy(), and makes use of io_writev() new flags
+  to achieve the same results.
+- Rename io_flush_zero_copy() to io_flush()
+- Previous patch #2 became too small, so it was squashed in previous
+  patch #3 (now patch #2)
+
+Changes since v5:
+- flush_zero_copy now returns -1 on fail, 0 on success, and 1 when all
+  processed writes were not able to use zerocopy in kernel.
+- qio_channel_socket_poll() removed, using qio_channel_wait() instead
+- ENOBUFS is now processed inside qio_channel_socket_writev_flags()
+- Most zerocopy parameter validation moved to migrate_params_check(),
+  leaving only feature test to socket_outgoing_migration() callback
+- Naming went from *zerocopy to *zero_copy or *zero-copy, due to QAPI/QMP
+  preferences
+- Improved docs
+
+Changes since v4:
+- 3 patches got splitted in 6
+- Flush is used for syncing after each iteration, instead of only at the end
+- If zerocopy is not available, fail in connect instead of failing on write
+- 'multifd-zerocopy' property renamed to 'zerocopy'
+- Fail migrations that don't support zerocopy, if it's enabled.
+- Instead of checking for zerocopy at each write, save the flags in
+  MultiFDSendParams->write_flags and use them on write
+- Reorganized flag usage in QIOChannelSocket 
+- A lot of typos fixed
+- More doc on buffer restrictions
+
+Changes since v3:
+- QIOChannel interface names changed from io_async_{writev,flush} to
+  io_{writev,flush}_zerocopy
+- Instead of falling back in case zerocopy is not implemented, return
+  error and abort operation.
+- Flush now waits as long as needed, or return error in case anything
+  goes wrong, aborting the operation.
+- Zerocopy is now conditional in multifd, being set by parameter
+  multifd-zerocopy
+- Moves zerocopy_flush to multifd_send_sync_main() from multifd_save_cleanup
+  so migration can abort if flush goes wrong.
+- Several other small improvements
+
+Changes since v2:
+- Patch #1: One more fallback
+- Patch #2: Fall back to sync if fails to lock buffer memory in MSG_ZEROCOPY send.
+
+Changes since v1:
+- Reimplemented the patchset using async_write + async_flush approach.
+- Implemented a flush to be able to tell whenever all data was written.
+
+
+Leonardo Bras (5):
+  QIOChannel: Add flags on io_writev and introduce io_flush callback
+  QIOChannelSocket: Implement io_writev zero copy flag & io_flush for
+    CONFIG_LINUX
+  migration: Add zero-copy-send parameter for QMP/HMP for Linux
+  migration: Add migrate_use_tls() helper
+  multifd: Implement zero copy write in multifd migration
+    (multifd-zero-copy)
+
+ qapi/migration.json                 |  24 ++++++
+ include/io/channel-socket.h         |   2 +
+ include/io/channel.h                |  38 +++++++++-
+ migration/migration.h               |   6 ++
+ migration/multifd.h                 |   4 +-
+ chardev/char-io.c                   |   2 +-
+ hw/remote/mpqemu-link.c             |   2 +-
+ io/channel-buffer.c                 |   1 +
+ io/channel-command.c                |   1 +
+ io/channel-file.c                   |   1 +
+ io/channel-socket.c                 | 110 +++++++++++++++++++++++++++-
+ io/channel-tls.c                    |   1 +
+ io/channel-websock.c                |   1 +
+ io/channel.c                        |  53 +++++++++++---
+ migration/channel.c                 |   3 +-
+ migration/migration.c               |  52 ++++++++++++-
+ migration/multifd.c                 |  46 +++++++++---
+ migration/ram.c                     |  29 ++++++--
+ migration/rdma.c                    |   1 +
+ migration/socket.c                  |   6 ++
+ monitor/hmp-cmds.c                  |   6 ++
+ scsi/pr-manager-helper.c            |   2 +-
+ tests/unit/test-io-channel-socket.c |   1 +
+ 23 files changed, 353 insertions(+), 39 deletions(-)
+
+-- 
+2.34.1
+
 
