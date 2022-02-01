@@ -2,88 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A6844A5AD6
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Feb 2022 12:05:11 +0100 (CET)
-Received: from localhost ([::1]:46876 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C580B4A5B08
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Feb 2022 12:20:55 +0100 (CET)
+Received: from localhost ([::1]:59392 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nEqyE-0004B1-9B
-	for lists+qemu-devel@lfdr.de; Tue, 01 Feb 2022 06:05:10 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:53752)
+	id 1nErDN-0004V8-Ft
+	for lists+qemu-devel@lfdr.de; Tue, 01 Feb 2022 06:20:52 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:53826)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nEqui-00018Y-IY
- for qemu-devel@nongnu.org; Tue, 01 Feb 2022 06:01:32 -0500
-Received: from [2a00:1450:4864:20::436] (port=34583
- helo=mail-wr1-x436.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nEqug-0001gW-K6
- for qemu-devel@nongnu.org; Tue, 01 Feb 2022 06:01:32 -0500
-Received: by mail-wr1-x436.google.com with SMTP id f17so31236131wrx.1
- for <qemu-devel@nongnu.org>; Tue, 01 Feb 2022 03:01:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=BLLWFeM9WfiiYnd9gOi6bSZTkP5h1e5vO6qhOxxL2dg=;
- b=dOEwSKZFZV0Neeswwlt0dUptd7MDZ5cYu5qZuE9kqv3YCgl3bJE/0BzBpqV+MlYmuV
- sSxM0wUJCecdqMSBkL3LZ73gDNxnO3vrm5PBOnbi+lcWe1wC9xgHNWli6TnOr+qJzOlA
- pynUMPfoFJIoF+67uXufmCTgqRdhjX+N9ZVaVu8gCXPEN8cgcqmHPPqMTIEKUFfcdZPp
- gl0X9blp5sC9ueHHK2okr7dZrxH0i0gxRDqilzFYcfpu4FhN5CMxIdQ5LOb2k53OoZFW
- vNUgRVOrraV7wnetlo0itOtBc5aLdOaIlCTNFKRcB11ydj4ae3lilRvH1gbTsIjU7cpC
- rUaA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=BLLWFeM9WfiiYnd9gOi6bSZTkP5h1e5vO6qhOxxL2dg=;
- b=FnPtW/jUfB2CjM+fTimd3x5tJV1ebiHucDE1acpp7oTwyKwbxmmn9Uw+SALi74UzVc
- H/NIopAoVv65tnYns/dI5SblNiaqetekHHa0qk+uzE4EJXvN5e/DdKNpNhcV9xdbyzW7
- Z79+jUkrRILQ92oluBY7v0mfhJB84ePyiyhP2ErWjXOEW4GR/Pk0gyUKChhijR5lzadI
- hiW8hab+dieUI7trGvec+kW/IBr6JGmfUfV5nilPJAA4RsFmSsZYQdqPOvi7fUsRY7qj
- 50XunBbu2fIvOU3Th3lW3NPnPTL6wyzuwljj8HbgEY+Vau0HJMtrXw8OwFJFKOQDW68/
- 2xSg==
-X-Gm-Message-State: AOAM531iHlHEu26ljXOnw/wpRlAO3G6zYQCpfxxnKYevMQXHF2SA6iCb
- 5pGO15aPjPMrNkuzXNPqWKI=
-X-Google-Smtp-Source: ABdhPJxyVl77BbCmAUZ0xJX5TUzDvTkCmI7fsV1FCHvX9JN6/g6lFCvwpQjYIQRUcnvNAClkc5p9Ug==
-X-Received: by 2002:a5d:6d03:: with SMTP id e3mr20716346wrq.41.1643713285785; 
- Tue, 01 Feb 2022 03:01:25 -0800 (PST)
-Received: from [192.168.1.40] (154.red-83-50-83.dynamicip.rima-tde.net.
- [83.50.83.154])
- by smtp.gmail.com with ESMTPSA id o2sm1847696wmq.21.2022.02.01.03.01.25
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 01 Feb 2022 03:01:25 -0800 (PST)
-Message-ID: <581bf100-ec9e-2f5c-25d9-b4d3fae85cd8@amsat.org>
-Date: Tue, 1 Feb 2022 12:01:24 +0100
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1nEqus-0001ay-OC
+ for qemu-devel@nongnu.org; Tue, 01 Feb 2022 06:01:42 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:43471)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1nEquq-0001nW-Q5
+ for qemu-devel@nongnu.org; Tue, 01 Feb 2022 06:01:42 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1643713300;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=WhM9Ck9Q49VBT2kByx0r5VB3ERuXdr4cSRomdY6dWUY=;
+ b=QBTKOwz2tE6ZYOiag9vIjND7kt2A0jc/BhKE4Q/VdGaYPgbTmupTzSulLF7jMi6Q1M3SXk
+ OpmsyqNxISjEo/Tm6HkzJSoilzKPeo2krQbDCmKpZXmH9G5t7bgMZBfjWUXiQ1szwcPvjJ
+ uIp/iSas5UY4KQiPseyq6Y4JEbl08/s=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-557-dkSRs4zyPGubKWJxpuNdUg-1; Tue, 01 Feb 2022 06:01:33 -0500
+X-MC-Unique: dkSRs4zyPGubKWJxpuNdUg-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 605481B18BCA;
+ Tue,  1 Feb 2022 11:01:32 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.195.27])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 32E7A6D039;
+ Tue,  1 Feb 2022 11:01:31 +0000 (UTC)
+Date: Tue, 1 Feb 2022 11:01:28 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH v3 1/3] qmp: Support for querying stats
+Message-ID: <YfkTCCFU0vg/PwgQ@redhat.com>
+References: <20220131194312.1192626-1-mark.kanda@oracle.com>
+ <20220131194312.1192626-2-mark.kanda@oracle.com>
+ <5c635615-e5be-8c3c-6146-cac70c326cf5@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH 2/2] tests: Update CentOS 8 container to CentOS Stream 8
-Content-Language: en-US
-To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
-Cc: Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Beraldo Leal <bleal@redhat.com>, =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?=
- <berrange@redhat.com>
-References: <20220201101911.97900-1-thuth@redhat.com>
-In-Reply-To: <20220201101911.97900-1-thuth@redhat.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::436
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::436;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x436.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.248, NICE_REPLY_A=-0.001,
- PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+In-Reply-To: <5c635615-e5be-8c3c-6146-cac70c326cf5@redhat.com>
+User-Agent: Mutt/2.1.5 (2021-12-30)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.081,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -96,23 +81,72 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: qemu-devel@nongnu.org, armbru@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
-On 2/1/22 11:19, Thomas Huth wrote:
-> Support for CentOS 8 has stopped at the end of 2021, so let's
-> switch to the Stream variant instead.
+On Tue, Feb 01, 2022 at 11:51:26AM +0100, Paolo Bonzini wrote:
+> On 1/31/22 20:43, Mark Kanda wrote:
+> > 
+> > { "execute": "query-stats", "arguments" : { "target": "vm" } }
+> > { "return": {
+> >      "list": [
+> >        { "provider": "kvm",
+> >          "stats": [
+> >            { "name": "max_mmu_page_hash_collisions", "value": 0 },
+> >            { "name": "max_mmu_rmap_size", "value": 0 },
+> >            { "name": "nx_lpage_splits", "value": 131 },
+> >           ...
+> >          ] }
+> >        { "provider": "provider XYZ",
+> >        ...
+> >      ],
+> >      "target": "vm"
+> >    }
+> > }
+> 
+> Perhaps it's better to have a better name than "list" for clarity, like you
+> already did with 'stats':
+> 
+> { 'struct': 'VCPUResultsEntry',
+>   'data': { 'path': 'str',
+>             'providers': [ 'StatsResultsEntry' ] } }
+> 
+> { 'struct': 'VCPUStatsResults',
+>   'data': { 'objects': [ 'VCPUResultsEntry' ] } }
+> 
+> 
+> { 'struct': 'VMStatsResults',
+>   'data': { 'providers' : [ 'StatsResultsEntry' ] } }
+> 
+> Also, here:
+> 
+> > +{ 'alternate': 'StatsValue',
+> > +  'data': { 'scalar': 'uint64',
+> > +            'list': 'StatsValueArray' } }
+> 
+> is it possible to just do
+> 
+> { 'alternate': 'StatsValue',
+>   'data': { 'scalar': 'uint64',
+>             'list': ['uint64'] } }
 
-"Run 'make lcitool-refresh' to update the generated centos8.docker."
+No, the QAPI generator throws its toys out of the pram.
 
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
-> ---
->  tests/docker/dockerfiles/centos8.docker | 4 ++--
->  tests/lcitool/refresh                   | 2 +-
->  2 files changed, 3 insertions(+), 3 deletions(-)
+It claims you can have any set of data types which have a
+distinct representation on the wire, so this is valid from
+that POV.  Something about the parser/code generator can't
+cope with this inline array though - it wants a named type
+which means a built-in scalar, or a compound type, but not
+an array :-(
 
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Tested-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+
 
