@@ -2,98 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F8AF4A57BB
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Feb 2022 08:28:01 +0100 (CET)
-Received: from localhost ([::1]:50964 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E99484A5802
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Feb 2022 08:44:40 +0100 (CET)
+Received: from localhost ([::1]:56530 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nEna4-0001iF-1s
-	for lists+qemu-devel@lfdr.de; Tue, 01 Feb 2022 02:28:00 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:36592)
+	id 1nEnqA-0005wb-5P
+	for lists+qemu-devel@lfdr.de; Tue, 01 Feb 2022 02:44:39 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:37190)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <leobras@redhat.com>)
- id 1nEmgA-0003DX-BD
- for qemu-devel@nongnu.org; Tue, 01 Feb 2022 01:30:18 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:25640)
+ (Exim 4.90_1) (envelope-from <sbrivio@redhat.com>)
+ id 1nEmjr-00046o-E7
+ for qemu-devel@nongnu.org; Tue, 01 Feb 2022 01:34:05 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:22273)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <leobras@redhat.com>)
- id 1nEmg6-0006dH-MZ
- for qemu-devel@nongnu.org; Tue, 01 Feb 2022 01:30:12 -0500
+ (Exim 4.90_1) (envelope-from <sbrivio@redhat.com>)
+ id 1nEmjp-0007BF-NT
+ for qemu-devel@nongnu.org; Tue, 01 Feb 2022 01:34:03 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1643697009;
+ s=mimecast20190719; t=1643697240;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=9AmGAz4qTlgfGRFAixOe2SM28q3/GkCDL2jrBc1WW8c=;
- b=YUyfVux6W5CeSP5yTuVRWpW89PulUV5edz2l6V3WcSM11rZ32RM1z4zPf+DW1qlRbrSWCc
- 9CK4CrL4A3eZCQFe3gCXLrmgFo15pb3+SXYasC+L0kB/Ms7kdUgCFH2PI92mhvdg9102du
- nAzFpAcmwNt2QZ4Db3RTVJRg7gAwdS0=
-Received: from mail-oo1-f72.google.com (mail-oo1-f72.google.com
- [209.85.161.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=cg3mIiWd/9TFrtq2QWoRRKwZQy1JE98GgJa2hs+6QeQ=;
+ b=OwqaTOBmM4gqcNA5hc5ylwNNU6NKf3JRrWt0iYC0KmJ+IvhqEI0aTUB8Is7ePui+A4Az7g
+ 5/fgOQY1Kq1IJRuQjvXiAimIst0VIodMJMMWSvHW2lpnQZ75mOH4IFYtlYh4oG+AFzGJad
+ lK5jbihnv7oGkERU9nqdT0PAYtWArew=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-376-CmCledQVNOe-RtyAEFef1Q-1; Tue, 01 Feb 2022 01:30:09 -0500
-X-MC-Unique: CmCledQVNOe-RtyAEFef1Q-1
-Received: by mail-oo1-f72.google.com with SMTP id
- e14-20020a056820060e00b002edda9f237bso5654471oow.22
- for <qemu-devel@nongnu.org>; Mon, 31 Jan 2022 22:30:08 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=9AmGAz4qTlgfGRFAixOe2SM28q3/GkCDL2jrBc1WW8c=;
- b=HvM+GAYJw/NXLrFhmosEdAduaixc09eClDtPQiirDCnU+pezBZzgXq67Oj7wpEd6vW
- uhmPmC38qFj3R745mg7VworE17L81Mi8AqjXkZ4ahudLEtkc5PEcL+HQkfjX9/adJyBc
- BjWDwZT77zJ31zAExhe3X31X8sbw8hXDCYgaVVxg1ekmF9UyAj4oGGzY6Bm5W2O+tnGI
- zEb8BHB3WNZZX2cUeuQOeYr1YCXG3/WSZjL/v0zeZqy8UeoaHkhxDWxETc/OQrG3l0KD
- UIGVXBkU8E1rOGc5nbxwt2yAh2cYC45E/LJu+BCrwdewHatURWKTgXzr3wUbOd1GYB3v
- oEGg==
-X-Gm-Message-State: AOAM532oWazdO72dis7ETF0K3QbeVYYQS3Zdw11cCNMCuGOeUrNfKYEm
- 3ZQRUWRZ3LgRYzaFVq3bV4EjahgxW3dxS8oZwYOLiCM7PFS1+wNzU5ePE4O2OnwXAe3aXYwi38/
- ubgD0AyDqnotOlMI=
-X-Received: by 2002:a9d:7341:: with SMTP id l1mr9328093otk.36.1643697008190;
- Mon, 31 Jan 2022 22:30:08 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwPXx64vx07YOTrMOjj7oaY/VtW4YwuLvzw3N5kUQlXqdw+HU6TPGIRCLb0+5vwnR9+VXA2lA==
-X-Received: by 2002:a9d:7341:: with SMTP id l1mr9328080otk.36.1643697007988;
- Mon, 31 Jan 2022 22:30:07 -0800 (PST)
-Received: from LeoBras.redhat.com ([2804:431:c7f1:95e9:6da1:67bd:fdc3:e12e])
- by smtp.gmail.com with ESMTPSA id l14sm14424720ooq.12.2022.01.31.22.30.04
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 31 Jan 2022 22:30:07 -0800 (PST)
-From: Leonardo Bras <leobras@redhat.com>
-To: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Elena Ufimtseva <elena.ufimtseva@oracle.com>,
- Jagannathan Raman <jag.raman@oracle.com>,
- John G Johnson <john.g.johnson@oracle.com>,
- =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Juan Quintela <quintela@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Eric Blake <eblake@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- Fam Zheng <fam@euphon.net>, Peter Xu <peterx@redhat.com>
-Subject: [PATCH v8 5/5] multifd: Implement zero copy write in multifd
- migration (multifd-zero-copy)
-Date: Tue,  1 Feb 2022 03:29:03 -0300
-Message-Id: <20220201062901.428838-6-leobras@redhat.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220201062901.428838-1-leobras@redhat.com>
-References: <20220201062901.428838-1-leobras@redhat.com>
+ us-mta-214-40h_9PGPOJ6R5TR16Fq_2w-1; Tue, 01 Feb 2022 01:32:38 -0500
+X-MC-Unique: 40h_9PGPOJ6R5TR16Fq_2w-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E4FCE2FD1C;
+ Tue,  1 Feb 2022 06:32:36 +0000 (UTC)
+Received: from maya.cloud.tilaa.com (unknown [10.40.208.3])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 026E36C1A5;
+ Tue,  1 Feb 2022 06:31:41 +0000 (UTC)
+Date: Tue, 1 Feb 2022 07:31:39 +0100
+From: Stefano Brivio <sbrivio@redhat.com>
+To: Gerd Hoffmann <kraxel@redhat.com>
+Subject: Re: "make check-acceptance" takes way too long
+Message-ID: <20220201073139.7896e10b@elisabeth>
+In-Reply-To: <20220125092011.dq2t4ryl632vrvsf@sirius.home.kraxel.org>
+References: <CAFEAcA9cMZoj18gq7Ksv5PRoU1wRmXvW_e9UE73C_MEB7wTroQ@mail.gmail.com>
+ <CAFEAcA9_d5jw5-HOrZA6dsG1vMqxzqmrfHA7Jo0KsDcaEXmB_Q@mail.gmail.com>
+ <6c90ca3d-eaec-d7e8-5941-4deb83b58fd0@redhat.com>
+ <87zgnp4b32.fsf@dusky.pond.sub.org>
+ <CAFEAcA_kxrCgyxWPFLw6VZ-rKx-res0C8L2BWRvfB81cR+keLg@mail.gmail.com>
+ <875yqd6zib.fsf@linaro.org> <YerPk2ABMHQf/3QP@redhat.com>
+ <20220125092011.dq2t4ryl632vrvsf@sirius.home.kraxel.org>
+Organization: Red Hat
 MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=leobras@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=sbrivio@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=leobras@redhat.com;
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=sbrivio@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.081,
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.081,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ PDS_OTHER_BAD_TLD=1.625, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -106,262 +87,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Leonardo Bras <leobras@redhat.com>, qemu-devel@nongnu.org,
- qemu-block@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ "Daniel P. =?UTF-8?B?QmVycmFuZ8Op?=" <berrange@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, Cleber Rosa <crosa@redhat.com>,
+ Alex =?UTF-8?B?QmVubsOpZQ==?= <alex.bennee@linaro.org>,
+ Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Implement zero copy send on nocomp_send_write(), by making use of QIOChannel
-writev + flags & flush interface.
+Hi,
 
-Change multifd_send_sync_main() so flush_zero_copy() can be called
-after each iteration in order to make sure all dirty pages are sent before
-a new iteration is started. It will also flush at the beginning and at the
-end of migration.
+On Tue, 25 Jan 2022 10:20:11 +0100
+Gerd Hoffmann <kraxel@redhat.com> wrote:
 
-Also make it return -1 if flush_zero_copy() fails, in order to cancel
-the migration process, and avoid resuming the guest in the target host
-without receiving all current RAM.
+>   Hi,
+> 
+> > IMHO the ideal scenario would be for us to have a kernel, initrd
+> > containing just busybox tools for the key arch targets we care
+> > about. Those could be used with direct kernel boot or stuffed
+> > into a disk iamge. Either way, they would boot in ~1 second,
+> > even with TCG, and would be able to execute simple shell scripts
+> > to test a decent amount of QEMU functionality.  
+> 
+> I have some test images based on buildroot which are essentially that.
+> https://gitlab.com/kraxel/br-kraxel/
+> 
+> Still a significant download, but much smaller than a full fedora or
+> ubuntu cloud image and it boots much faster too.  Not down to only one
+> second though.
 
-This will work fine on RAM migration because the RAM pages are not usually freed,
-and there is no problem on changing the pages content between writev_zero_copy() and
-the actual sending of the buffer, because this change will dirty the page and
-cause it to be re-sent on a next iteration anyway.
+I'm not sure you can recycle something from it, but my (ugly) approach
+to make this fast (for a different purpose -- I'm using qemu to run
+tests in guests, not testing qemu) is to build an initramfs by copying
+the host binaries I need (a shell, ip, jq) and recursively sourcing
+libraries using ldd (I guess I mentioned it's ugly).
 
-A lot of locked memory may be needed in order to use multid migration
-with zero-copy enabled, so disabling the feature should be necessary for
-low-privileged users trying to perform multifd migrations.
+No downloads, systemd, dracut, etc., guest boots in half a second
+(x86_64 on x86_64, KVM -- no idea with TCG). Host kernel with a few
+modules packed and loaded by a custom init script.
 
-Signed-off-by: Leonardo Bras <leobras@redhat.com>
----
- migration/multifd.h   |  4 +++-
- migration/migration.c | 11 ++++++++++-
- migration/multifd.c   | 41 +++++++++++++++++++++++++++++++++++------
- migration/ram.c       | 29 ++++++++++++++++++++++-------
- migration/socket.c    |  5 +++--
- 5 files changed, 73 insertions(+), 17 deletions(-)
+If you're interested, you can see it in operation at 3:11:17 (ah, the
+sarcasm) of: https://passt.top/passt/about/#continuous-integration
+(click on the "udp/pasta" anchor below, it's a few seconds in), or in
+slow motion at 0:51 of https://passt.top/passt/about/#passt_2.
 
-diff --git a/migration/multifd.h b/migration/multifd.h
-index 4dda900a0b..7ec688fb4f 100644
---- a/migration/multifd.h
-+++ b/migration/multifd.h
-@@ -22,7 +22,7 @@ int multifd_load_cleanup(Error **errp);
- bool multifd_recv_all_channels_created(void);
- bool multifd_recv_new_channel(QIOChannel *ioc, Error **errp);
- void multifd_recv_sync_main(void);
--void multifd_send_sync_main(QEMUFile *f);
-+int multifd_send_sync_main(QEMUFile *f);
- int multifd_queue_page(QEMUFile *f, RAMBlock *block, ram_addr_t offset);
- 
- /* Multifd Compression flags */
-@@ -96,6 +96,8 @@ typedef struct {
-     uint32_t packet_len;
-     /* pointer to the packet */
-     MultiFDPacket_t *packet;
-+    /* multifd flags for sending ram */
-+    int write_flags;
-     /* multifd flags for each packet */
-     uint32_t flags;
-     /* size of the next packet that contains pages */
-diff --git a/migration/migration.c b/migration/migration.c
-index 3e0a25bb5b..1450fd0370 100644
---- a/migration/migration.c
-+++ b/migration/migration.c
-@@ -1479,7 +1479,16 @@ static bool migrate_params_check(MigrationParameters *params, Error **errp)
-         error_prepend(errp, "Invalid mapping given for block-bitmap-mapping: ");
-         return false;
-     }
--
-+#ifdef CONFIG_LINUX
-+    if (params->zero_copy_send &&
-+        (!migrate_use_multifd() ||
-+         params->multifd_compression != MULTIFD_COMPRESSION_NONE ||
-+         (params->tls_creds && *params->tls_creds))) {
-+        error_setg(errp,
-+                   "Zero copy only available for non-compressed non-TLS multifd migration");
-+        return false;
-+    }
-+#endif
-     return true;
- }
- 
-diff --git a/migration/multifd.c b/migration/multifd.c
-index 43998ad117..2d68b9cf4f 100644
---- a/migration/multifd.c
-+++ b/migration/multifd.c
-@@ -568,19 +568,28 @@ void multifd_save_cleanup(void)
-     multifd_send_state = NULL;
- }
- 
--void multifd_send_sync_main(QEMUFile *f)
-+int multifd_send_sync_main(QEMUFile *f)
- {
-     int i;
-+    bool flush_zero_copy;
- 
-     if (!migrate_use_multifd()) {
--        return;
-+        return 0;
-     }
-     if (multifd_send_state->pages->num) {
-         if (multifd_send_pages(f) < 0) {
-             error_report("%s: multifd_send_pages fail", __func__);
--            return;
-+            return 0;
-         }
-     }
-+
-+    /*
-+     * When using zero-copy, it's necessary to flush after each iteration to
-+     * make sure pages from earlier iterations don't end up replacing newer
-+     * pages.
-+     */
-+    flush_zero_copy = migrate_use_zero_copy_send();
-+
-     for (i = 0; i < migrate_multifd_channels(); i++) {
-         MultiFDSendParams *p = &multifd_send_state->params[i];
- 
-@@ -591,7 +600,7 @@ void multifd_send_sync_main(QEMUFile *f)
-         if (p->quit) {
-             error_report("%s: channel %d has already quit", __func__, i);
-             qemu_mutex_unlock(&p->mutex);
--            return;
-+            return 0;
-         }
- 
-         p->packet_num = multifd_send_state->packet_num++;
-@@ -602,6 +611,17 @@ void multifd_send_sync_main(QEMUFile *f)
-         ram_counters.transferred += p->packet_len;
-         qemu_mutex_unlock(&p->mutex);
-         qemu_sem_post(&p->sem);
-+
-+        if (flush_zero_copy) {
-+            int ret;
-+            Error *err = NULL;
-+
-+            ret = qio_channel_flush(p->c, &err);
-+            if (ret < 0) {
-+                error_report_err(err);
-+                return -1;
-+            }
-+        }
-     }
-     for (i = 0; i < migrate_multifd_channels(); i++) {
-         MultiFDSendParams *p = &multifd_send_state->params[i];
-@@ -610,6 +630,8 @@ void multifd_send_sync_main(QEMUFile *f)
-         qemu_sem_wait(&p->sem_sync);
-     }
-     trace_multifd_send_sync_main(multifd_send_state->packet_num);
-+
-+    return 0;
- }
- 
- static void *multifd_send_thread(void *opaque)
-@@ -668,8 +690,8 @@ static void *multifd_send_thread(void *opaque)
-             p->iov[0].iov_len = p->packet_len;
-             p->iov[0].iov_base = p->packet;
- 
--            ret = qio_channel_writev_all(p->c, p->iov, p->iovs_num,
--                                         &local_err);
-+            ret = qio_channel_writev_full_all(p->c, p->iov, p->iovs_num, NULL,
-+                                              0, p->write_flags, &local_err);
-             if (ret != 0) {
-                 break;
-             }
-@@ -910,6 +932,13 @@ int multifd_save_setup(Error **errp)
-         /* We need one extra place for the packet header */
-         p->iov = g_new0(struct iovec, page_count + 1);
-         p->normal = g_new0(ram_addr_t, page_count);
-+
-+        if (migrate_use_zero_copy_send()) {
-+            p->write_flags = QIO_CHANNEL_WRITE_FLAG_ZERO_COPY;
-+        } else {
-+            p->write_flags = 0;
-+        }
-+
-         socket_send_channel_create(multifd_new_send_channel_async, p);
-     }
- 
-diff --git a/migration/ram.c b/migration/ram.c
-index 91ca743ac8..d8c215e43a 100644
---- a/migration/ram.c
-+++ b/migration/ram.c
-@@ -2902,6 +2902,7 @@ static int ram_save_setup(QEMUFile *f, void *opaque)
- {
-     RAMState **rsp = opaque;
-     RAMBlock *block;
-+    int ret;
- 
-     if (compress_threads_save_setup()) {
-         return -1;
-@@ -2936,7 +2937,11 @@ static int ram_save_setup(QEMUFile *f, void *opaque)
-     ram_control_before_iterate(f, RAM_CONTROL_SETUP);
-     ram_control_after_iterate(f, RAM_CONTROL_SETUP);
- 
--    multifd_send_sync_main(f);
-+    ret =  multifd_send_sync_main(f);
-+    if (ret < 0) {
-+        return ret;
-+    }
-+
-     qemu_put_be64(f, RAM_SAVE_FLAG_EOS);
-     qemu_fflush(f);
- 
-@@ -3045,7 +3050,11 @@ static int ram_save_iterate(QEMUFile *f, void *opaque)
- out:
-     if (ret >= 0
-         && migration_is_setup_or_active(migrate_get_current()->state)) {
--        multifd_send_sync_main(rs->f);
-+        ret = multifd_send_sync_main(rs->f);
-+        if (ret < 0) {
-+            return ret;
-+        }
-+
-         qemu_put_be64(f, RAM_SAVE_FLAG_EOS);
-         qemu_fflush(f);
-         ram_transferred_add(8);
-@@ -3105,13 +3114,19 @@ static int ram_save_complete(QEMUFile *f, void *opaque)
-         ram_control_after_iterate(f, RAM_CONTROL_FINISH);
-     }
- 
--    if (ret >= 0) {
--        multifd_send_sync_main(rs->f);
--        qemu_put_be64(f, RAM_SAVE_FLAG_EOS);
--        qemu_fflush(f);
-+    if (ret < 0) {
-+        return ret;
-     }
- 
--    return ret;
-+    ret = multifd_send_sync_main(rs->f);
-+    if (ret < 0) {
-+        return ret;
-+    }
-+
-+    qemu_put_be64(f, RAM_SAVE_FLAG_EOS);
-+    qemu_fflush(f);
-+
-+    return 0;
- }
- 
- static void ram_save_pending(QEMUFile *f, void *opaque, uint64_t max_size,
-diff --git a/migration/socket.c b/migration/socket.c
-index f586f983b7..c49431425e 100644
---- a/migration/socket.c
-+++ b/migration/socket.c
-@@ -78,8 +78,9 @@ static void socket_outgoing_migration(QIOTask *task,
-         trace_migration_socket_outgoing_connected(data->hostname);
-     }
- 
--    if (migrate_use_zero_copy_send()) {
--        error_setg(&err, "Zero copy send not available in migration");
-+    if (migrate_use_zero_copy_send() &&
-+        !qio_channel_has_feature(sioc, QIO_CHANNEL_FEATURE_WRITE_ZERO_COPY)) {
-+        error_setg(&err, "Zero copy send feature not detected in host kernel");
-     }
- 
-     migration_channel_connect(data->s, sioc, data->hostname, err);
+It's basically:
+
+  git clone https://mbuto.lameexcu.se/mbuto/ && cd mbuto
+  ./mbuto -c lz4 -p passt -f img # Profiles define sets of binaries
+  ${qemu} -kernel /boot/vmlinuz-$(uname -r) -initrd img
+
 -- 
-2.34.1
+Stefano
 
 
