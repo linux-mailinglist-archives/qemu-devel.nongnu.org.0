@@ -2,81 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4EFB04A681A
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Feb 2022 23:39:51 +0100 (CET)
-Received: from localhost ([::1]:54660 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B57594A682E
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Feb 2022 23:47:49 +0100 (CET)
+Received: from localhost ([::1]:37824 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nF1oU-0003G2-41
-	for lists+qemu-devel@lfdr.de; Tue, 01 Feb 2022 17:39:50 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:47498)
+	id 1nF1wC-0002vW-RJ
+	for lists+qemu-devel@lfdr.de; Tue, 01 Feb 2022 17:47:48 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:49318)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nExye-0006Fh-1S
- for qemu-devel@nongnu.org; Tue, 01 Feb 2022 13:34:04 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:38927)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nExyb-0002Tx-Vl
- for qemu-devel@nongnu.org; Tue, 01 Feb 2022 13:34:03 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1643740441;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=7KlLi9vW4cHA9QtkuWbaU1QUlCwsjMFp+TmQ4dtcyb0=;
- b=RVewGYWPLv/syi8/klx8SYxydqF1vDfJAByewCXSb5ApH+27dsKnaRrly6x4Q3d+sQBD8d
- aLrxxfaGKj0y+18FMJNySDeoFwLkVDiopUcixPLZySBU2N/zmwfVvr0u+ABxT5ODEAJRyw
- Q0ZofnU+lCcOHcqJ3+MGP+hI2u+tozg=
-Received: from mail-ua1-f71.google.com (mail-ua1-f71.google.com
- [209.85.222.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-222-ZOvT7ZU8O7Kt3764_qt9aQ-1; Tue, 01 Feb 2022 13:34:00 -0500
-X-MC-Unique: ZOvT7ZU8O7Kt3764_qt9aQ-1
-Received: by mail-ua1-f71.google.com with SMTP id
- j25-20020ab02519000000b0030fb16c943fso8046225uan.16
- for <qemu-devel@nongnu.org>; Tue, 01 Feb 2022 10:34:00 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <pankaj.gupta@ionos.com>)
+ id 1nEy4P-0001Mh-SF
+ for qemu-devel@nongnu.org; Tue, 01 Feb 2022 13:40:01 -0500
+Received: from [2a00:1450:4864:20::134] (port=45873
+ helo=mail-lf1-x134.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <pankaj.gupta@ionos.com>)
+ id 1nEy3j-0003Pj-6g
+ for qemu-devel@nongnu.org; Tue, 01 Feb 2022 13:40:00 -0500
+Received: by mail-lf1-x134.google.com with SMTP id o12so35677968lfg.12
+ for <qemu-devel@nongnu.org>; Tue, 01 Feb 2022 10:39:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ionos.com; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=j8ErnqvWLswzqnZZszn5WjwfXMvmiwAdaqFKW2IX8GY=;
+ b=Cp9hELAC9pKMZEYQ4EngCJuxGFmdaMTxCLU4Bt0nQymMAQXryJnfpwFS4zUlHDR6fG
+ 4VqjevBYtcLGAkUOYnT6aWYijBNOT49kA9wZyXQXMpoALHfpKp3zekp33WjqFr5hkzvI
+ WloEY+BoHUTQB50DoQBRT+gDZEePVsTdS3rreWProUrhLwaaaMwcz1uKOd1aIbu7IS30
+ XQ5lXMiUnzbYU5Wfc5VbONI0xVIVNPs3vGC2kGXpvlSEmqlsezzvT1+zqhxFu7qR/ktv
+ r6TDS9MHiErmPFmTJCNivVG/yl2wydICca0ta9aFg82Bt7MoDCnULbWbb5UcqeaVH2a4
+ 0hfg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=7KlLi9vW4cHA9QtkuWbaU1QUlCwsjMFp+TmQ4dtcyb0=;
- b=B391TsDA+lBS/9Dq3N1mv3E+RJPuiwuhOMHB+zeugLDwMusgy+Oa639jH0H7uiuwFB
- IDMK5XwYZGgiABk1oHFe99ZPub6F5m0XIplbvFiLoDZb59eejoFq55dqVJKNs4nmKSpX
- sruWLNZkCi8VHQ1be9Czi/YSugMGu8YsZUBa2rMQJcxxcD6t6peyYeL0AuEYLj++GC3c
- T1NDBotSQvTpE9VVy+S192a/7XlJWkR8lkfAuR/xzzkJ2l/e5K8++EWrrVPCGOaU8oCW
- zSy0eqhSn3UO5QWvwuQQPbFHmOo3X6RPkLT+oblp7QuRInONf3SQolf0JK+fZ6rsdk8x
- vtRw==
-X-Gm-Message-State: AOAM530SUi7t4QoVV64MT1Nh6NVjBHS4M7o4PWJtkmj1NgQOQr47aV5G
- CC2P0Me3n18yOuhz9ayQf+CeJf/RQtzobBmKXcT5pkeav+fO1J1BYkeQ8HP0j/+fhm+tHmsklLC
- wx8j2Y4ukwLaUKsvrGOp//z/uVF3Zyjk=
-X-Received: by 2002:a67:a449:: with SMTP id p9mr9844290vsh.61.1643740439618;
- Tue, 01 Feb 2022 10:33:59 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzkQ0GfYXRufqWoBs7XuZq8neRjV7SKmaqyRb7Ct5oZFtp/jcngH4Jo/jWpZIh82oYEmqnZruwJHjBBbU65RsE=
-X-Received: by 2002:a67:a449:: with SMTP id p9mr9844280vsh.61.1643740439464;
- Tue, 01 Feb 2022 10:33:59 -0800 (PST)
+ bh=j8ErnqvWLswzqnZZszn5WjwfXMvmiwAdaqFKW2IX8GY=;
+ b=enuXJl7TKhriAO0UC7jeMmB4Fy/FeNo0/71hueAy1MftdioZ/VrkCh5YH0rK+xTp4H
+ lJUA5IQExb5kIODTEwsIoRw83jh8NkKy0nDtOQoTwy+tMFXVKHjdtci+gv6jDYYc0nEQ
+ 6bCzFPeeocEiL9mBzD+eK73CrGOoco1Z1DRahgvq/yDUIZRUa/VMzXICxTUpF0E+kv6C
+ bClrc8QT97hdf0R8+fxfjIQvddtLcA176rcpXyhGqg+9J6fIeX3d5ry5APtXrngHHCr/
+ r5lLq+tyZEQbSnn3ULJcs2LfPuMeLNXT4Y2DaLgkx1fEcofLicMIxiqGb/1YGXvdcs1i
+ zJKg==
+X-Gm-Message-State: AOAM5328jsehCzyA7rF2HAl6ZOBkcHofalK9FZOBM5ahfUgR6Jk+gU/1
+ Y0Tc6846IqTvdM52ZcOOVYg9GczOPGN7VkNkLN3kzA==
+X-Google-Smtp-Source: ABdhPJzGCovtM8kGtRdqCdFygfQTbXO+BLX2ZXjOXhKBpR+9qsW/gc9BmkLLPQdw+RWU/10r+7REIb2qZW9P3TnK0po=
+X-Received: by 2002:a05:6512:3487:: with SMTP id
+ v7mr19872781lfr.310.1643740755044; 
+ Tue, 01 Feb 2022 10:39:15 -0800 (PST)
 MIME-Version: 1.0
-References: <20220201041134.1237016-1-jsnow@redhat.com>
- <20220201041134.1237016-2-jsnow@redhat.com>
- <YfkurVhVj0L0Il1p@redhat.com>
-In-Reply-To: <YfkurVhVj0L0Il1p@redhat.com>
-From: John Snow <jsnow@redhat.com>
-Date: Tue, 1 Feb 2022 13:33:48 -0500
-Message-ID: <CAFn=p-bJQV+2-Wcn8NnQ0H1FuUk7TUacqjcXA-cqZBZu3q9seg@mail.gmail.com>
-Subject: Re: [PATCH v4 1/4] python/aqmp: Fix negotiation with pre-"oob" QEMU
-To: Kevin Wolf <kwolf@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+References: <20220201151136.52157-1-jinpu.wang@ionos.com>
+ <20220201151136.52157-2-jinpu.wang@ionos.com>
+In-Reply-To: <20220201151136.52157-2-jinpu.wang@ionos.com>
+From: Pankaj Gupta <pankaj.gupta@ionos.com>
+Date: Tue, 1 Feb 2022 19:39:04 +0100
+Message-ID: <CALzYo305jDix2huY4jSX+-gtwumRTtqQyCtYbfHpNs3TdAmwrg@mail.gmail.com>
+Subject: Re: [PATCH 2/2] migration/rdma: set the REUSEADDR option for
+ destination
+To: Jack Wang <jinpu.wang@ionos.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.081,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::134
+ (failed)
+Received-SPF: permerror client-ip=2a00:1450:4864:20::134;
+ envelope-from=pankaj.gupta@ionos.com; helo=mail-lf1-x134.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01,
+ T_SPF_PERMERROR=0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -89,57 +83,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <eduardo@habkost.net>,
- Peter Maydell <peter.maydell@linaro.org>, Beraldo Leal <bleal@redhat.com>,
- Qemu-block <qemu-block@nongnu.org>, Markus Armbruster <armbru@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>, Hanna Reitz <hreitz@redhat.com>,
- Cleber Rosa <crosa@redhat.com>
+Cc: qemu-devel@nongnu.org, dgilbert@redhat.com, quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Feb 1, 2022 at 7:59 AM Kevin Wolf <kwolf@redhat.com> wrote:
->
-> Am 01.02.2022 um 05:11 hat John Snow geschrieben:
-> > QEMU versions prior to the "oob" capability *also* can't accept the
-> > "enable" keyword argument at all. Fix the handshake process with older
-> > QEMU versions.
-> >
-> > Signed-off-by: John Snow <jsnow@redhat.com>
-> > Reviewed-by: Hanna Reitz <hreitz@redhat.com>
-> > ---
-> >  python/qemu/aqmp/qmp_client.py | 4 ++--
-> >  1 file changed, 2 insertions(+), 2 deletions(-)
-> >
-> > diff --git a/python/qemu/aqmp/qmp_client.py b/python/qemu/aqmp/qmp_client.py
-> > index f1a845cc82..90a8737f03 100644
-> > --- a/python/qemu/aqmp/qmp_client.py
-> > +++ b/python/qemu/aqmp/qmp_client.py
-> > @@ -292,9 +292,9 @@ async def _negotiate(self) -> None:
-> >          """
-> >          self.logger.debug("Negotiating capabilities ...")
-> >
-> > -        arguments: Dict[str, List[str]] = {'enable': []}
-> > +        arguments: Dict[str, List[str]] = {}
-> >          if self._greeting and 'oob' in self._greeting.QMP.capabilities:
-> > -            arguments['enable'].append('oob')
-> > +            arguments.setdefault('enable', []).append('oob')
-> >          msg = self.make_execute_msg('qmp_capabilities', arguments=arguments)
->
-> In case you have some interest in bike sheds:
->
-> As long as we only ever append a single capability, it doesn't really
-> make a difference and an explicit setdefault() when adding it is fine.
-> But if we had more than one, maybe making arguments a defaultdict(list)
-> would be nicer.
->
-> Not worth respinning, of course, if you don't for another reason.
->
-> Kevin
->
+> This allow address could be reused to avoid rdma_bind_addr error
+> out.
 
-Nope, no reason. I just forget that there's a fancier doodad. I'll add
-a patch to a less-important series to shine this up.
+Seems we are proposing to allow multiple connections on same source ip
+port pair?
+>
+> Signed-off-by: Jack Wang <jinpu.wang@ionos.com>
+> ---
+>  migration/rdma.c | 7 +++++++
+>  1 file changed, 7 insertions(+)
+>
+> diff --git a/migration/rdma.c b/migration/rdma.c
+> index 2e223170d06d..b498ef013c77 100644
+> --- a/migration/rdma.c
+> +++ b/migration/rdma.c
+> @@ -2705,6 +2705,7 @@ static int qemu_rdma_dest_init(RDMAContext *rdma, Error **errp)
+>      char ip[40] = "unknown";
+>      struct rdma_addrinfo *res, *e;
+>      char port_str[16];
+> +    int reuse = 1;
+>
+>      for (idx = 0; idx < RDMA_WRID_MAX; idx++) {
+>          rdma->wr_data[idx].control_len = 0;
+> @@ -2740,6 +2741,12 @@ static int qemu_rdma_dest_init(RDMAContext *rdma, Error **errp)
+>          goto err_dest_init_bind_addr;
+>      }
+>
+> +    ret = rdma_set_option(listen_id, RDMA_OPTION_ID, RDMA_OPTION_ID_REUSEADDR,
+> +                         &reuse, sizeof reuse);
 
---js
+maybe we can just write '1' directly on the argument list of 'rdma_set_option'.
+Assuming reuseaddr does not effect core rdma transport? change seems ok to me.
 
+Thanks,
+Pankaj
+
+> +    if (ret) {
+> +        ERROR(errp, "Error: could not set REUSEADDR option");
+> +        goto err_dest_init_bind_addr;
+> +    }
+>      for (e = res; e != NULL; e = e->ai_next) {
+>          inet_ntop(e->ai_family,
+>              &((struct sockaddr_in *) e->ai_dst_addr)->sin_addr, ip, sizeof ip);
+> --
+> 2.25.1
+>
 
