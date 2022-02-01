@@ -2,54 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EED144A6048
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Feb 2022 16:39:29 +0100 (CET)
-Received: from localhost ([::1]:33274 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DEBD84A60BB
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Feb 2022 16:52:27 +0100 (CET)
+Received: from localhost ([::1]:59130 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nEvFg-00025U-HX
-	for lists+qemu-devel@lfdr.de; Tue, 01 Feb 2022 10:39:28 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:35356)
+	id 1nEvSF-0003Un-00
+	for lists+qemu-devel@lfdr.de; Tue, 01 Feb 2022 10:52:27 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:35820)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nEuQT-0002aJ-VU
- for qemu-devel@nongnu.org; Tue, 01 Feb 2022 09:46:59 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:37108)
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nEuQe-0002c1-RF
+ for qemu-devel@nongnu.org; Tue, 01 Feb 2022 09:47:01 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:51546)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nEuP9-0002zW-NH
- for qemu-devel@nongnu.org; Tue, 01 Feb 2022 09:45:39 -0500
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nEuQT-0002z6-Si
+ for qemu-devel@nongnu.org; Tue, 01 Feb 2022 09:46:38 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1643726621;
+ s=mimecast20190719; t=1643726619;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=BxTg8+Zl5VwK6DHgyv6b9D4ZtUAc9Q6t6tamv9d5U68=;
- b=StUUlqrKnLeau37LwL3YpqBR+hwyJnMw37u+MhVZCdNZ47SyoVBSHsEhIp84OHFRed3m2z
- IB771oMznluT5WGdDzY0Db3heto7dyH3HQue2k9ZwxGF9+ssMEYL3lbA1LnqOSh7sutUyG
- sTUvc10MHKBwc234rTYVzvrM+tYpRaA=
+ bh=854rwWUreTRnIeKG4zqgS+c5n6snTNOkmYZ84f2nvRc=;
+ b=C6ekw7RGlXwHZdNcmcr56jHduGaMKGBo7n+rgedPtqp6Ht+0bA6BqlxZWU+UXNR0rxjnHs
+ d0PY8wso/CyH8OFzoZbbnTeKGlzXK+Hk/t2jNeJJC1tfrOHukmthNQaN3Zbag4YX8X7Nqc
+ BiDHcX/NE3w158tENui3fT2HyBWj9Xk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-482-xcC7Lm6aMOO4kODi0bHBeg-1; Tue, 01 Feb 2022 09:43:33 -0500
-X-MC-Unique: xcC7Lm6aMOO4kODi0bHBeg-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-542-9xxCxw5XPYivCqdtwXIv9A-1; Tue, 01 Feb 2022 09:43:35 -0500
+X-MC-Unique: 9xxCxw5XPYivCqdtwXIv9A-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2CC141018720;
- Tue,  1 Feb 2022 14:43:32 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9AD746409E;
+ Tue,  1 Feb 2022 14:43:34 +0000 (UTC)
 Received: from localhost (unknown [10.39.193.129])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C31205DBB7;
- Tue,  1 Feb 2022 14:43:31 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E2F047B9DA;
+ Tue,  1 Feb 2022 14:43:33 +0000 (UTC)
 From: Hanna Reitz <hreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 10/24] iotest 065: explicit compression type
-Date: Tue,  1 Feb 2022 15:42:19 +0100
-Message-Id: <20220201144233.617021-11-hreitz@redhat.com>
+Subject: [PULL 11/24] iotests.py: filter out successful output of qemu-img
+ create
+Date: Tue,  1 Feb 2022 15:42:20 +0100
+Message-Id: <20220201144233.617021-12-hreitz@redhat.com>
 In-Reply-To: <20220201144233.617021-1-hreitz@redhat.com>
 References: <20220201144233.617021-1-hreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -85,77 +86,446 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 
-The test checks different options. It of course fails if set
-IMGOPTS='compression_type=zstd'. So, let's be explicit in what
-compression type we want and independent of IMGOPTS. Test both existing
-compression types.
+The only "feature" of this "Formatting ..." line is that we have to
+update it every time we add new option. Let's drop it.
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 Reviewed-by: Hanna Reitz <hreitz@redhat.com>
-Message-Id: <20211223160144.1097696-9-vsementsov@virtuozzo.com>
+Message-Id: <20211223160144.1097696-10-vsementsov@virtuozzo.com>
 Signed-off-by: Hanna Reitz <hreitz@redhat.com>
 ---
- tests/qemu-iotests/065 | 16 ++++++++--------
- 1 file changed, 8 insertions(+), 8 deletions(-)
+ tests/qemu-iotests/149.out    | 21 ---------------------
+ tests/qemu-iotests/237.out    |  3 ---
+ tests/qemu-iotests/255.out    |  4 ----
+ tests/qemu-iotests/274.out    | 29 -----------------------------
+ tests/qemu-iotests/280.out    |  1 -
+ tests/qemu-iotests/296.out    | 10 +++-------
+ tests/qemu-iotests/iotests.py | 10 ++++++++--
+ 7 files changed, 11 insertions(+), 67 deletions(-)
 
-diff --git a/tests/qemu-iotests/065 b/tests/qemu-iotests/065
-index dc7716275f..f7c1b68dad 100755
---- a/tests/qemu-iotests/065
-+++ b/tests/qemu-iotests/065
-@@ -88,7 +88,7 @@ class TestQMP(TestImageInfoSpecific):
+diff --git a/tests/qemu-iotests/149.out b/tests/qemu-iotests/149.out
+index 6877ab6c4a..ab879596ce 100644
+--- a/tests/qemu-iotests/149.out
++++ b/tests/qemu-iotests/149.out
+@@ -61,7 +61,6 @@ unlink TEST_DIR/luks-aes-256-xts-plain64-sha1.img
+ # ================= qemu-img aes-256-xts-plain64-sha1 =================
+ # Create image
+ qemu-img create -f luks --object secret,id=sec0,data=MTIzNDU2,format=base64 -o key-secret=sec0,iter-time=10,cipher-alg=aes-256,cipher-mode=xts,ivgen-alg=plain64,hash-alg=sha1 TEST_DIR/luks-aes-256-xts-plain64-sha1.img 4194304M
+-Formatting 'TEST_DIR/luks-aes-256-xts-plain64-sha1.img', fmt=luks size=4398046511104 key-secret=sec0 cipher-alg=aes-256 cipher-mode=xts ivgen-alg=plain64 hash-alg=sha1 iter-time=10
  
- class TestQCow2(TestQemuImgInfo):
-     '''Testing a qcow2 version 2 image'''
--    img_options = 'compat=0.10'
-+    img_options = 'compat=0.10,compression_type=zlib'
-     json_compare = { 'compat': '0.10', 'refcount-bits': 16,
-                      'compression-type': 'zlib' }
-     human_compare = [ 'compat: 0.10', 'compression type: zlib',
-@@ -96,17 +96,17 @@ class TestQCow2(TestQemuImgInfo):
+ # Open dev
+ sudo cryptsetup -q -v luksOpen TEST_DIR/luks-aes-256-xts-plain64-sha1.img qiotest-145-aes-256-xts-plain64-sha1
+@@ -181,7 +180,6 @@ unlink TEST_DIR/luks-twofish-256-xts-plain64-sha1.img
+ # ================= qemu-img twofish-256-xts-plain64-sha1 =================
+ # Create image
+ qemu-img create -f luks --object secret,id=sec0,data=MTIzNDU2,format=base64 -o key-secret=sec0,iter-time=10,cipher-alg=twofish-256,cipher-mode=xts,ivgen-alg=plain64,hash-alg=sha1 TEST_DIR/luks-twofish-256-xts-plain64-sha1.img 4194304M
+-Formatting 'TEST_DIR/luks-twofish-256-xts-plain64-sha1.img', fmt=luks size=4398046511104 key-secret=sec0 cipher-alg=twofish-256 cipher-mode=xts ivgen-alg=plain64 hash-alg=sha1 iter-time=10
  
- class TestQCow3NotLazy(TestQemuImgInfo):
-     '''Testing a qcow2 version 3 image with lazy refcounts disabled'''
--    img_options = 'compat=1.1,lazy_refcounts=off'
-+    img_options = 'compat=1.1,lazy_refcounts=off,compression_type=zstd'
-     json_compare = { 'compat': '1.1', 'lazy-refcounts': False,
-                      'refcount-bits': 16, 'corrupt': False,
--                     'compression-type': 'zlib', 'extended-l2': False }
--    human_compare = [ 'compat: 1.1', 'compression type: zlib',
-+                     'compression-type': 'zstd', 'extended-l2': False }
-+    human_compare = [ 'compat: 1.1', 'compression type: zstd',
-                       'lazy refcounts: false', 'refcount bits: 16',
-                       'corrupt: false', 'extended l2: false' ]
+ # Open dev
+ sudo cryptsetup -q -v luksOpen TEST_DIR/luks-twofish-256-xts-plain64-sha1.img qiotest-145-twofish-256-xts-plain64-sha1
+@@ -301,7 +299,6 @@ unlink TEST_DIR/luks-serpent-256-xts-plain64-sha1.img
+ # ================= qemu-img serpent-256-xts-plain64-sha1 =================
+ # Create image
+ qemu-img create -f luks --object secret,id=sec0,data=MTIzNDU2,format=base64 -o key-secret=sec0,iter-time=10,cipher-alg=serpent-256,cipher-mode=xts,ivgen-alg=plain64,hash-alg=sha1 TEST_DIR/luks-serpent-256-xts-plain64-sha1.img 4194304M
+-Formatting 'TEST_DIR/luks-serpent-256-xts-plain64-sha1.img', fmt=luks size=4398046511104 key-secret=sec0 cipher-alg=serpent-256 cipher-mode=xts ivgen-alg=plain64 hash-alg=sha1 iter-time=10
  
- class TestQCow3Lazy(TestQemuImgInfo):
-     '''Testing a qcow2 version 3 image with lazy refcounts enabled'''
--    img_options = 'compat=1.1,lazy_refcounts=on'
-+    img_options = 'compat=1.1,lazy_refcounts=on,compression_type=zlib'
-     json_compare = { 'compat': '1.1', 'lazy-refcounts': True,
-                      'refcount-bits': 16, 'corrupt': False,
-                      'compression-type': 'zlib', 'extended-l2': False }
-@@ -117,7 +117,7 @@ class TestQCow3Lazy(TestQemuImgInfo):
- class TestQCow3NotLazyQMP(TestQMP):
-     '''Testing a qcow2 version 3 image with lazy refcounts disabled, opening
-        with lazy refcounts enabled'''
--    img_options = 'compat=1.1,lazy_refcounts=off'
-+    img_options = 'compat=1.1,lazy_refcounts=off,compression_type=zlib'
-     qemu_options = 'lazy-refcounts=on'
-     compare = { 'compat': '1.1', 'lazy-refcounts': False,
-                 'refcount-bits': 16, 'corrupt': False,
-@@ -127,11 +127,11 @@ class TestQCow3NotLazyQMP(TestQMP):
- class TestQCow3LazyQMP(TestQMP):
-     '''Testing a qcow2 version 3 image with lazy refcounts enabled, opening
-        with lazy refcounts disabled'''
--    img_options = 'compat=1.1,lazy_refcounts=on'
-+    img_options = 'compat=1.1,lazy_refcounts=on,compression_type=zstd'
-     qemu_options = 'lazy-refcounts=off'
-     compare = { 'compat': '1.1', 'lazy-refcounts': True,
-                 'refcount-bits': 16, 'corrupt': False,
--                'compression-type': 'zlib', 'extended-l2': False }
-+                'compression-type': 'zstd', 'extended-l2': False }
+ # Open dev
+ sudo cryptsetup -q -v luksOpen TEST_DIR/luks-serpent-256-xts-plain64-sha1.img qiotest-145-serpent-256-xts-plain64-sha1
+@@ -421,7 +418,6 @@ unlink TEST_DIR/luks-cast5-128-cbc-plain64-sha1.img
+ # ================= qemu-img cast5-128-cbc-plain64-sha1 =================
+ # Create image
+ qemu-img create -f luks --object secret,id=sec0,data=MTIzNDU2,format=base64 -o key-secret=sec0,iter-time=10,cipher-alg=cast5-128,cipher-mode=cbc,ivgen-alg=plain64,hash-alg=sha1 TEST_DIR/luks-cast5-128-cbc-plain64-sha1.img 4194304M
+-Formatting 'TEST_DIR/luks-cast5-128-cbc-plain64-sha1.img', fmt=luks size=4398046511104 key-secret=sec0 cipher-alg=cast5-128 cipher-mode=cbc ivgen-alg=plain64 hash-alg=sha1 iter-time=10
  
- TestImageInfoSpecific = None
- TestQemuImgInfo = None
+ # Open dev
+ sudo cryptsetup -q -v luksOpen TEST_DIR/luks-cast5-128-cbc-plain64-sha1.img qiotest-145-cast5-128-cbc-plain64-sha1
+@@ -542,7 +538,6 @@ unlink TEST_DIR/luks-aes-256-cbc-plain-sha1.img
+ # ================= qemu-img aes-256-cbc-plain-sha1 =================
+ # Create image
+ qemu-img create -f luks --object secret,id=sec0,data=MTIzNDU2,format=base64 -o key-secret=sec0,iter-time=10,cipher-alg=aes-256,cipher-mode=cbc,ivgen-alg=plain,hash-alg=sha1 TEST_DIR/luks-aes-256-cbc-plain-sha1.img 4194304M
+-Formatting 'TEST_DIR/luks-aes-256-cbc-plain-sha1.img', fmt=luks size=4398046511104 key-secret=sec0 cipher-alg=aes-256 cipher-mode=cbc ivgen-alg=plain hash-alg=sha1 iter-time=10
+ 
+ # Open dev
+ sudo cryptsetup -q -v luksOpen TEST_DIR/luks-aes-256-cbc-plain-sha1.img qiotest-145-aes-256-cbc-plain-sha1
+@@ -662,7 +657,6 @@ unlink TEST_DIR/luks-aes-256-cbc-plain64-sha1.img
+ # ================= qemu-img aes-256-cbc-plain64-sha1 =================
+ # Create image
+ qemu-img create -f luks --object secret,id=sec0,data=MTIzNDU2,format=base64 -o key-secret=sec0,iter-time=10,cipher-alg=aes-256,cipher-mode=cbc,ivgen-alg=plain64,hash-alg=sha1 TEST_DIR/luks-aes-256-cbc-plain64-sha1.img 4194304M
+-Formatting 'TEST_DIR/luks-aes-256-cbc-plain64-sha1.img', fmt=luks size=4398046511104 key-secret=sec0 cipher-alg=aes-256 cipher-mode=cbc ivgen-alg=plain64 hash-alg=sha1 iter-time=10
+ 
+ # Open dev
+ sudo cryptsetup -q -v luksOpen TEST_DIR/luks-aes-256-cbc-plain64-sha1.img qiotest-145-aes-256-cbc-plain64-sha1
+@@ -782,7 +776,6 @@ unlink TEST_DIR/luks-aes-256-cbc-essiv-sha256-sha1.img
+ # ================= qemu-img aes-256-cbc-essiv-sha256-sha1 =================
+ # Create image
+ qemu-img create -f luks --object secret,id=sec0,data=MTIzNDU2,format=base64 -o key-secret=sec0,iter-time=10,cipher-alg=aes-256,cipher-mode=cbc,ivgen-alg=essiv,hash-alg=sha1,ivgen-hash-alg=sha256 TEST_DIR/luks-aes-256-cbc-essiv-sha256-sha1.img 4194304M
+-Formatting 'TEST_DIR/luks-aes-256-cbc-essiv-sha256-sha1.img', fmt=luks size=4398046511104 key-secret=sec0 cipher-alg=aes-256 cipher-mode=cbc ivgen-alg=essiv ivgen-hash-alg=sha256 hash-alg=sha1 iter-time=10
+ 
+ # Open dev
+ sudo cryptsetup -q -v luksOpen TEST_DIR/luks-aes-256-cbc-essiv-sha256-sha1.img qiotest-145-aes-256-cbc-essiv-sha256-sha1
+@@ -902,7 +895,6 @@ unlink TEST_DIR/luks-aes-256-xts-essiv-sha256-sha1.img
+ # ================= qemu-img aes-256-xts-essiv-sha256-sha1 =================
+ # Create image
+ qemu-img create -f luks --object secret,id=sec0,data=MTIzNDU2,format=base64 -o key-secret=sec0,iter-time=10,cipher-alg=aes-256,cipher-mode=xts,ivgen-alg=essiv,hash-alg=sha1,ivgen-hash-alg=sha256 TEST_DIR/luks-aes-256-xts-essiv-sha256-sha1.img 4194304M
+-Formatting 'TEST_DIR/luks-aes-256-xts-essiv-sha256-sha1.img', fmt=luks size=4398046511104 key-secret=sec0 cipher-alg=aes-256 cipher-mode=xts ivgen-alg=essiv ivgen-hash-alg=sha256 hash-alg=sha1 iter-time=10
+ 
+ # Open dev
+ sudo cryptsetup -q -v luksOpen TEST_DIR/luks-aes-256-xts-essiv-sha256-sha1.img qiotest-145-aes-256-xts-essiv-sha256-sha1
+@@ -1022,7 +1014,6 @@ unlink TEST_DIR/luks-aes-128-xts-plain64-sha256-sha1.img
+ # ================= qemu-img aes-128-xts-plain64-sha256-sha1 =================
+ # Create image
+ qemu-img create -f luks --object secret,id=sec0,data=MTIzNDU2,format=base64 -o key-secret=sec0,iter-time=10,cipher-alg=aes-128,cipher-mode=xts,ivgen-alg=plain64,hash-alg=sha1 TEST_DIR/luks-aes-128-xts-plain64-sha256-sha1.img 4194304M
+-Formatting 'TEST_DIR/luks-aes-128-xts-plain64-sha256-sha1.img', fmt=luks size=4398046511104 key-secret=sec0 cipher-alg=aes-128 cipher-mode=xts ivgen-alg=plain64 hash-alg=sha1 iter-time=10
+ 
+ # Open dev
+ sudo cryptsetup -q -v luksOpen TEST_DIR/luks-aes-128-xts-plain64-sha256-sha1.img qiotest-145-aes-128-xts-plain64-sha256-sha1
+@@ -1142,7 +1133,6 @@ unlink TEST_DIR/luks-aes-192-xts-plain64-sha256-sha1.img
+ # ================= qemu-img aes-192-xts-plain64-sha256-sha1 =================
+ # Create image
+ qemu-img create -f luks --object secret,id=sec0,data=MTIzNDU2,format=base64 -o key-secret=sec0,iter-time=10,cipher-alg=aes-192,cipher-mode=xts,ivgen-alg=plain64,hash-alg=sha1 TEST_DIR/luks-aes-192-xts-plain64-sha256-sha1.img 4194304M
+-Formatting 'TEST_DIR/luks-aes-192-xts-plain64-sha256-sha1.img', fmt=luks size=4398046511104 key-secret=sec0 cipher-alg=aes-192 cipher-mode=xts ivgen-alg=plain64 hash-alg=sha1 iter-time=10
+ 
+ # Open dev
+ sudo cryptsetup -q -v luksOpen TEST_DIR/luks-aes-192-xts-plain64-sha256-sha1.img qiotest-145-aes-192-xts-plain64-sha256-sha1
+@@ -1262,7 +1252,6 @@ unlink TEST_DIR/luks-twofish-128-xts-plain64-sha1.img
+ # ================= qemu-img twofish-128-xts-plain64-sha1 =================
+ # Create image
+ qemu-img create -f luks --object secret,id=sec0,data=MTIzNDU2,format=base64 -o key-secret=sec0,iter-time=10,cipher-alg=twofish-128,cipher-mode=xts,ivgen-alg=plain64,hash-alg=sha1 TEST_DIR/luks-twofish-128-xts-plain64-sha1.img 4194304M
+-Formatting 'TEST_DIR/luks-twofish-128-xts-plain64-sha1.img', fmt=luks size=4398046511104 key-secret=sec0 cipher-alg=twofish-128 cipher-mode=xts ivgen-alg=plain64 hash-alg=sha1 iter-time=10
+ 
+ # Open dev
+ sudo cryptsetup -q -v luksOpen TEST_DIR/luks-twofish-128-xts-plain64-sha1.img qiotest-145-twofish-128-xts-plain64-sha1
+@@ -1383,7 +1372,6 @@ unlink TEST_DIR/luks-serpent-128-xts-plain64-sha1.img
+ # ================= qemu-img serpent-128-xts-plain64-sha1 =================
+ # Create image
+ qemu-img create -f luks --object secret,id=sec0,data=MTIzNDU2,format=base64 -o key-secret=sec0,iter-time=10,cipher-alg=serpent-128,cipher-mode=xts,ivgen-alg=plain64,hash-alg=sha1 TEST_DIR/luks-serpent-128-xts-plain64-sha1.img 4194304M
+-Formatting 'TEST_DIR/luks-serpent-128-xts-plain64-sha1.img', fmt=luks size=4398046511104 key-secret=sec0 cipher-alg=serpent-128 cipher-mode=xts ivgen-alg=plain64 hash-alg=sha1 iter-time=10
+ 
+ # Open dev
+ sudo cryptsetup -q -v luksOpen TEST_DIR/luks-serpent-128-xts-plain64-sha1.img qiotest-145-serpent-128-xts-plain64-sha1
+@@ -1503,7 +1491,6 @@ unlink TEST_DIR/luks-serpent-192-xts-plain64-sha1.img
+ # ================= qemu-img serpent-192-xts-plain64-sha1 =================
+ # Create image
+ qemu-img create -f luks --object secret,id=sec0,data=MTIzNDU2,format=base64 -o key-secret=sec0,iter-time=10,cipher-alg=serpent-192,cipher-mode=xts,ivgen-alg=plain64,hash-alg=sha1 TEST_DIR/luks-serpent-192-xts-plain64-sha1.img 4194304M
+-Formatting 'TEST_DIR/luks-serpent-192-xts-plain64-sha1.img', fmt=luks size=4398046511104 key-secret=sec0 cipher-alg=serpent-192 cipher-mode=xts ivgen-alg=plain64 hash-alg=sha1 iter-time=10
+ 
+ # Open dev
+ sudo cryptsetup -q -v luksOpen TEST_DIR/luks-serpent-192-xts-plain64-sha1.img qiotest-145-serpent-192-xts-plain64-sha1
+@@ -1625,7 +1612,6 @@ unlink TEST_DIR/luks-aes-256-xts-plain64-sha224.img
+ # ================= qemu-img aes-256-xts-plain64-sha224 =================
+ # Create image
+ qemu-img create -f luks --object secret,id=sec0,data=MTIzNDU2,format=base64 -o key-secret=sec0,iter-time=10,cipher-alg=aes-256,cipher-mode=xts,ivgen-alg=plain64,hash-alg=sha224 TEST_DIR/luks-aes-256-xts-plain64-sha224.img 4194304M
+-Formatting 'TEST_DIR/luks-aes-256-xts-plain64-sha224.img', fmt=luks size=4398046511104 key-secret=sec0 cipher-alg=aes-256 cipher-mode=xts ivgen-alg=plain64 hash-alg=sha224 iter-time=10
+ 
+ # Open dev
+ sudo cryptsetup -q -v luksOpen TEST_DIR/luks-aes-256-xts-plain64-sha224.img qiotest-145-aes-256-xts-plain64-sha224
+@@ -1745,7 +1731,6 @@ unlink TEST_DIR/luks-aes-256-xts-plain64-sha256.img
+ # ================= qemu-img aes-256-xts-plain64-sha256 =================
+ # Create image
+ qemu-img create -f luks --object secret,id=sec0,data=MTIzNDU2,format=base64 -o key-secret=sec0,iter-time=10,cipher-alg=aes-256,cipher-mode=xts,ivgen-alg=plain64,hash-alg=sha256 TEST_DIR/luks-aes-256-xts-plain64-sha256.img 4194304M
+-Formatting 'TEST_DIR/luks-aes-256-xts-plain64-sha256.img', fmt=luks size=4398046511104 key-secret=sec0 cipher-alg=aes-256 cipher-mode=xts ivgen-alg=plain64 hash-alg=sha256 iter-time=10
+ 
+ # Open dev
+ sudo cryptsetup -q -v luksOpen TEST_DIR/luks-aes-256-xts-plain64-sha256.img qiotest-145-aes-256-xts-plain64-sha256
+@@ -1865,7 +1850,6 @@ unlink TEST_DIR/luks-aes-256-xts-plain64-sha384.img
+ # ================= qemu-img aes-256-xts-plain64-sha384 =================
+ # Create image
+ qemu-img create -f luks --object secret,id=sec0,data=MTIzNDU2,format=base64 -o key-secret=sec0,iter-time=10,cipher-alg=aes-256,cipher-mode=xts,ivgen-alg=plain64,hash-alg=sha384 TEST_DIR/luks-aes-256-xts-plain64-sha384.img 4194304M
+-Formatting 'TEST_DIR/luks-aes-256-xts-plain64-sha384.img', fmt=luks size=4398046511104 key-secret=sec0 cipher-alg=aes-256 cipher-mode=xts ivgen-alg=plain64 hash-alg=sha384 iter-time=10
+ 
+ # Open dev
+ sudo cryptsetup -q -v luksOpen TEST_DIR/luks-aes-256-xts-plain64-sha384.img qiotest-145-aes-256-xts-plain64-sha384
+@@ -1985,7 +1969,6 @@ unlink TEST_DIR/luks-aes-256-xts-plain64-sha512.img
+ # ================= qemu-img aes-256-xts-plain64-sha512 =================
+ # Create image
+ qemu-img create -f luks --object secret,id=sec0,data=MTIzNDU2,format=base64 -o key-secret=sec0,iter-time=10,cipher-alg=aes-256,cipher-mode=xts,ivgen-alg=plain64,hash-alg=sha512 TEST_DIR/luks-aes-256-xts-plain64-sha512.img 4194304M
+-Formatting 'TEST_DIR/luks-aes-256-xts-plain64-sha512.img', fmt=luks size=4398046511104 key-secret=sec0 cipher-alg=aes-256 cipher-mode=xts ivgen-alg=plain64 hash-alg=sha512 iter-time=10
+ 
+ # Open dev
+ sudo cryptsetup -q -v luksOpen TEST_DIR/luks-aes-256-xts-plain64-sha512.img qiotest-145-aes-256-xts-plain64-sha512
+@@ -2105,7 +2088,6 @@ unlink TEST_DIR/luks-aes-256-xts-plain64-ripemd160.img
+ # ================= qemu-img aes-256-xts-plain64-ripemd160 =================
+ # Create image
+ qemu-img create -f luks --object secret,id=sec0,data=MTIzNDU2,format=base64 -o key-secret=sec0,iter-time=10,cipher-alg=aes-256,cipher-mode=xts,ivgen-alg=plain64,hash-alg=ripemd160 TEST_DIR/luks-aes-256-xts-plain64-ripemd160.img 4194304M
+-Formatting 'TEST_DIR/luks-aes-256-xts-plain64-ripemd160.img', fmt=luks size=4398046511104 key-secret=sec0 cipher-alg=aes-256 cipher-mode=xts ivgen-alg=plain64 hash-alg=ripemd160 iter-time=10
+ 
+ # Open dev
+ sudo cryptsetup -q -v luksOpen TEST_DIR/luks-aes-256-xts-plain64-ripemd160.img qiotest-145-aes-256-xts-plain64-ripemd160
+@@ -2299,7 +2281,6 @@ unlink TEST_DIR/luks-aes-256-xts-plain-sha1-pwallslots.img
+ # ================= qemu-img aes-256-xts-plain-sha1-pwallslots =================
+ # Create image
+ qemu-img create -f luks --object secret,id=sec0,data=c2xvdDE=,format=base64 -o key-secret=sec0,iter-time=10,cipher-alg=aes-256,cipher-mode=xts,ivgen-alg=plain,hash-alg=sha1 TEST_DIR/luks-aes-256-xts-plain-sha1-pwallslots.img 4194304M
+-Formatting 'TEST_DIR/luks-aes-256-xts-plain-sha1-pwallslots.img', fmt=luks size=4398046511104 key-secret=sec0 cipher-alg=aes-256 cipher-mode=xts ivgen-alg=plain hash-alg=sha1 iter-time=10
+ 
+ # Open dev
+ sudo cryptsetup -q -v luksOpen TEST_DIR/luks-aes-256-xts-plain-sha1-pwallslots.img qiotest-145-aes-256-xts-plain-sha1-pwallslots
+@@ -2419,7 +2400,6 @@ unlink TEST_DIR/luks-aes-256-cbc-essiv-auto-sha1.img
+ # ================= qemu-img aes-256-cbc-essiv-auto-sha1 =================
+ # Create image
+ qemu-img create -f luks --object secret,id=sec0,data=MTIzNDU2,format=base64 -o key-secret=sec0,iter-time=10,cipher-alg=aes-256,cipher-mode=cbc,ivgen-alg=essiv,hash-alg=sha1 TEST_DIR/luks-aes-256-cbc-essiv-auto-sha1.img 4194304M
+-Formatting 'TEST_DIR/luks-aes-256-cbc-essiv-auto-sha1.img', fmt=luks size=4398046511104 key-secret=sec0 cipher-alg=aes-256 cipher-mode=cbc ivgen-alg=essiv hash-alg=sha1 iter-time=10
+ 
+ # Open dev
+ sudo cryptsetup -q -v luksOpen TEST_DIR/luks-aes-256-cbc-essiv-auto-sha1.img qiotest-145-aes-256-cbc-essiv-auto-sha1
+@@ -2539,7 +2519,6 @@ unlink TEST_DIR/luks-aes-256-cbc-plain64-sha256-sha1.img
+ # ================= qemu-img aes-256-cbc-plain64-sha256-sha1 =================
+ # Create image
+ qemu-img create -f luks --object secret,id=sec0,data=MTIzNDU2,format=base64 -o key-secret=sec0,iter-time=10,cipher-alg=aes-256,cipher-mode=cbc,ivgen-alg=plain64,hash-alg=sha1,ivgen-hash-alg=sha256 TEST_DIR/luks-aes-256-cbc-plain64-sha256-sha1.img 4194304M
+-Formatting 'TEST_DIR/luks-aes-256-cbc-plain64-sha256-sha1.img', fmt=luks size=4398046511104 key-secret=sec0 cipher-alg=aes-256 cipher-mode=cbc ivgen-alg=plain64 ivgen-hash-alg=sha256 hash-alg=sha1 iter-time=10
+ 
+ # Open dev
+ sudo cryptsetup -q -v luksOpen TEST_DIR/luks-aes-256-cbc-plain64-sha256-sha1.img qiotest-145-aes-256-cbc-plain64-sha256-sha1
+diff --git a/tests/qemu-iotests/237.out b/tests/qemu-iotests/237.out
+index 2f09ff5512..aeb9724492 100644
+--- a/tests/qemu-iotests/237.out
++++ b/tests/qemu-iotests/237.out
+@@ -129,11 +129,8 @@ Job failed: Cannot find device='this doesn't exist' nor node-name='this doesn't
+ 
+ === Other subformats ===
+ 
+-Formatting 'TEST_DIR/PID-t.vmdk.1', fmt=vmdk size=0 compat6=off hwversion=undefined
+ 
+-Formatting 'TEST_DIR/PID-t.vmdk.2', fmt=vmdk size=0 compat6=off hwversion=undefined
+ 
+-Formatting 'TEST_DIR/PID-t.vmdk.3', fmt=vmdk size=0 compat6=off hwversion=undefined
+ 
+ == Missing extent ==
+ 
+diff --git a/tests/qemu-iotests/255.out b/tests/qemu-iotests/255.out
+index 33b7f22de3..11a05a5213 100644
+--- a/tests/qemu-iotests/255.out
++++ b/tests/qemu-iotests/255.out
+@@ -3,9 +3,7 @@ Finishing a commit job with background reads
+ 
+ === Create backing chain and start VM ===
+ 
+-Formatting 'TEST_DIR/PID-t.qcow2.mid', fmt=qcow2 cluster_size=65536 extended_l2=off compression_type=zlib size=134217728 lazy_refcounts=off refcount_bits=16
+ 
+-Formatting 'TEST_DIR/PID-t.qcow2', fmt=qcow2 cluster_size=65536 extended_l2=off compression_type=zlib size=134217728 lazy_refcounts=off refcount_bits=16
+ 
+ === Start background read requests ===
+ 
+@@ -23,9 +21,7 @@ Closing the VM while a job is being cancelled
+ 
+ === Create images and start VM ===
+ 
+-Formatting 'TEST_DIR/PID-src.qcow2', fmt=qcow2 cluster_size=65536 extended_l2=off compression_type=zlib size=134217728 lazy_refcounts=off refcount_bits=16
+ 
+-Formatting 'TEST_DIR/PID-dst.qcow2', fmt=qcow2 cluster_size=65536 extended_l2=off compression_type=zlib size=134217728 lazy_refcounts=off refcount_bits=16
+ 
+ wrote 1048576/1048576 bytes at offset 0
+ 1 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+diff --git a/tests/qemu-iotests/274.out b/tests/qemu-iotests/274.out
+index 16a95a4850..1d2928e14d 100644
+--- a/tests/qemu-iotests/274.out
++++ b/tests/qemu-iotests/274.out
+@@ -1,9 +1,6 @@
+ == Commit tests ==
+-Formatting 'TEST_DIR/PID-base', fmt=qcow2 cluster_size=65536 extended_l2=off compression_type=zlib size=2097152 lazy_refcounts=off refcount_bits=16
+ 
+-Formatting 'TEST_DIR/PID-mid', fmt=qcow2 cluster_size=65536 extended_l2=off compression_type=zlib size=1048576 backing_file=TEST_DIR/PID-base backing_fmt=qcow2 lazy_refcounts=off refcount_bits=16
+ 
+-Formatting 'TEST_DIR/PID-top', fmt=qcow2 cluster_size=65536 extended_l2=off compression_type=zlib size=2097152 backing_file=TEST_DIR/PID-mid backing_fmt=qcow2 lazy_refcounts=off refcount_bits=16
+ 
+ wrote 2097152/2097152 bytes at offset 0
+ 2 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+@@ -66,11 +63,8 @@ read 1048576/1048576 bytes at offset 1048576
+ 1 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+ 
+ === Testing HMP commit (top -> mid) ===
+-Formatting 'TEST_DIR/PID-base', fmt=qcow2 cluster_size=65536 extended_l2=off compression_type=zlib size=2097152 lazy_refcounts=off refcount_bits=16
+ 
+-Formatting 'TEST_DIR/PID-mid', fmt=qcow2 cluster_size=65536 extended_l2=off compression_type=zlib size=1048576 backing_file=TEST_DIR/PID-base backing_fmt=qcow2 lazy_refcounts=off refcount_bits=16
+ 
+-Formatting 'TEST_DIR/PID-top', fmt=qcow2 cluster_size=65536 extended_l2=off compression_type=zlib size=2097152 backing_file=TEST_DIR/PID-mid backing_fmt=qcow2 lazy_refcounts=off refcount_bits=16
+ 
+ wrote 2097152/2097152 bytes at offset 0
+ 2 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+@@ -98,11 +92,8 @@ read 1048576/1048576 bytes at offset 1048576
+ 1 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+ 
+ === Testing QMP active commit (top -> mid) ===
+-Formatting 'TEST_DIR/PID-base', fmt=qcow2 cluster_size=65536 extended_l2=off compression_type=zlib size=2097152 lazy_refcounts=off refcount_bits=16
+ 
+-Formatting 'TEST_DIR/PID-mid', fmt=qcow2 cluster_size=65536 extended_l2=off compression_type=zlib size=1048576 backing_file=TEST_DIR/PID-base backing_fmt=qcow2 lazy_refcounts=off refcount_bits=16
+ 
+-Formatting 'TEST_DIR/PID-top', fmt=qcow2 cluster_size=65536 extended_l2=off compression_type=zlib size=2097152 backing_file=TEST_DIR/PID-mid backing_fmt=qcow2 lazy_refcounts=off refcount_bits=16
+ 
+ wrote 2097152/2097152 bytes at offset 0
+ 2 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+@@ -136,11 +127,8 @@ read 1048576/1048576 bytes at offset 1048576
+ 1 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+ 
+ === Testing qemu-img commit (top -> base) ===
+-Formatting 'TEST_DIR/PID-base', fmt=qcow2 cluster_size=65536 extended_l2=off compression_type=zlib size=2097152 lazy_refcounts=off refcount_bits=16
+ 
+-Formatting 'TEST_DIR/PID-mid', fmt=qcow2 cluster_size=65536 extended_l2=off compression_type=zlib size=1048576 backing_file=TEST_DIR/PID-base backing_fmt=qcow2 lazy_refcounts=off refcount_bits=16
+ 
+-Formatting 'TEST_DIR/PID-top', fmt=qcow2 cluster_size=65536 extended_l2=off compression_type=zlib size=2097152 backing_file=TEST_DIR/PID-mid backing_fmt=qcow2 lazy_refcounts=off refcount_bits=16
+ 
+ wrote 2097152/2097152 bytes at offset 0
+ 2 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+@@ -166,11 +154,8 @@ read 1048576/1048576 bytes at offset 1048576
+ 1 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+ 
+ === Testing QMP active commit (top -> base) ===
+-Formatting 'TEST_DIR/PID-base', fmt=qcow2 cluster_size=65536 extended_l2=off compression_type=zlib size=2097152 lazy_refcounts=off refcount_bits=16
+ 
+-Formatting 'TEST_DIR/PID-mid', fmt=qcow2 cluster_size=65536 extended_l2=off compression_type=zlib size=1048576 backing_file=TEST_DIR/PID-base backing_fmt=qcow2 lazy_refcounts=off refcount_bits=16
+ 
+-Formatting 'TEST_DIR/PID-top', fmt=qcow2 cluster_size=65536 extended_l2=off compression_type=zlib size=2097152 backing_file=TEST_DIR/PID-mid backing_fmt=qcow2 lazy_refcounts=off refcount_bits=16
+ 
+ wrote 2097152/2097152 bytes at offset 0
+ 2 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+@@ -205,9 +190,7 @@ read 1048576/1048576 bytes at offset 1048576
+ 
+ == Resize tests ==
+ === preallocation=off ===
+-Formatting 'TEST_DIR/PID-base', fmt=qcow2 cluster_size=65536 extended_l2=off compression_type=zlib size=6442450944 lazy_refcounts=off refcount_bits=16
+ 
+-Formatting 'TEST_DIR/PID-top', fmt=qcow2 cluster_size=65536 extended_l2=off compression_type=zlib size=1073741824 backing_file=TEST_DIR/PID-base backing_fmt=qcow2 lazy_refcounts=off refcount_bits=16
+ 
+ wrote 65536/65536 bytes at offset 5368709120
+ 64 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+@@ -224,9 +207,7 @@ read 65536/65536 bytes at offset 5368709120
+ { "start": 1073741824, "length": 7516192768, "depth": 0, "present": true, "zero": true, "data": false}]
+ 
+ === preallocation=metadata ===
+-Formatting 'TEST_DIR/PID-base', fmt=qcow2 cluster_size=65536 extended_l2=off compression_type=zlib size=34359738368 lazy_refcounts=off refcount_bits=16
+ 
+-Formatting 'TEST_DIR/PID-top', fmt=qcow2 cluster_size=65536 extended_l2=off compression_type=zlib size=32212254720 backing_file=TEST_DIR/PID-base backing_fmt=qcow2 lazy_refcounts=off refcount_bits=16
+ 
+ wrote 65536/65536 bytes at offset 33285996544
+ 64 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+@@ -248,9 +229,7 @@ read 65536/65536 bytes at offset 33285996544
+ { "start": 34896609280, "length": 536870912, "depth": 0, "present": true, "zero": true, "data": false, "offset": 2685075456}]
+ 
+ === preallocation=falloc ===
+-Formatting 'TEST_DIR/PID-base', fmt=qcow2 cluster_size=65536 extended_l2=off compression_type=zlib size=10485760 lazy_refcounts=off refcount_bits=16
+ 
+-Formatting 'TEST_DIR/PID-top', fmt=qcow2 cluster_size=65536 extended_l2=off compression_type=zlib size=5242880 backing_file=TEST_DIR/PID-base backing_fmt=qcow2 lazy_refcounts=off refcount_bits=16
+ 
+ wrote 65536/65536 bytes at offset 9437184
+ 64 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+@@ -267,9 +246,7 @@ read 65536/65536 bytes at offset 9437184
+ { "start": 5242880, "length": 10485760, "depth": 0, "present": true, "zero": false, "data": true, "offset": 327680}]
+ 
+ === preallocation=full ===
+-Formatting 'TEST_DIR/PID-base', fmt=qcow2 cluster_size=65536 extended_l2=off compression_type=zlib size=16777216 lazy_refcounts=off refcount_bits=16
+ 
+-Formatting 'TEST_DIR/PID-top', fmt=qcow2 cluster_size=65536 extended_l2=off compression_type=zlib size=8388608 backing_file=TEST_DIR/PID-base backing_fmt=qcow2 lazy_refcounts=off refcount_bits=16
+ 
+ wrote 65536/65536 bytes at offset 11534336
+ 64 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+@@ -286,9 +263,7 @@ read 65536/65536 bytes at offset 11534336
+ { "start": 8388608, "length": 4194304, "depth": 0, "present": true, "zero": false, "data": true, "offset": 327680}]
+ 
+ === preallocation=off ===
+-Formatting 'TEST_DIR/PID-base', fmt=qcow2 cluster_size=65536 extended_l2=off compression_type=zlib size=393216 lazy_refcounts=off refcount_bits=16
+ 
+-Formatting 'TEST_DIR/PID-top', fmt=qcow2 cluster_size=65536 extended_l2=off compression_type=zlib size=259072 backing_file=TEST_DIR/PID-base backing_fmt=qcow2 lazy_refcounts=off refcount_bits=16
+ 
+ wrote 65536/65536 bytes at offset 259072
+ 64 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+@@ -306,9 +281,7 @@ read 65536/65536 bytes at offset 259072
+ { "start": 262144, "length": 262144, "depth": 0, "present": true, "zero": true, "data": false}]
+ 
+ === preallocation=off ===
+-Formatting 'TEST_DIR/PID-base', fmt=qcow2 cluster_size=65536 extended_l2=off compression_type=zlib size=409600 lazy_refcounts=off refcount_bits=16
+ 
+-Formatting 'TEST_DIR/PID-top', fmt=qcow2 cluster_size=65536 extended_l2=off compression_type=zlib size=262144 backing_file=TEST_DIR/PID-base backing_fmt=qcow2 lazy_refcounts=off refcount_bits=16
+ 
+ wrote 65536/65536 bytes at offset 344064
+ 64 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+@@ -325,9 +298,7 @@ read 65536/65536 bytes at offset 344064
+ { "start": 262144, "length": 262144, "depth": 0, "present": true, "zero": true, "data": false}]
+ 
+ === preallocation=off ===
+-Formatting 'TEST_DIR/PID-base', fmt=qcow2 cluster_size=65536 extended_l2=off compression_type=zlib size=524288 lazy_refcounts=off refcount_bits=16
+ 
+-Formatting 'TEST_DIR/PID-top', fmt=qcow2 cluster_size=65536 extended_l2=off compression_type=zlib size=262144 backing_file=TEST_DIR/PID-base backing_fmt=qcow2 lazy_refcounts=off refcount_bits=16
+ 
+ wrote 65536/65536 bytes at offset 446464
+ 64 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+diff --git a/tests/qemu-iotests/280.out b/tests/qemu-iotests/280.out
+index 09a0f1a7cb..e39164c579 100644
+--- a/tests/qemu-iotests/280.out
++++ b/tests/qemu-iotests/280.out
+@@ -1,4 +1,3 @@
+-Formatting 'TEST_DIR/PID-base', fmt=qcow2 cluster_size=65536 extended_l2=off compression_type=zlib size=67108864 lazy_refcounts=off refcount_bits=16
+ 
+ === Launch VM ===
+ Enabling migration QMP events on VM...
+diff --git a/tests/qemu-iotests/296.out b/tests/qemu-iotests/296.out
+index 6c69735604..42205cc981 100644
+--- a/tests/qemu-iotests/296.out
++++ b/tests/qemu-iotests/296.out
+@@ -1,4 +1,3 @@
+-Formatting 'TEST_DIR/test.img', fmt=luks size=1048576 key-secret=keysec0 iter-time=10
+ 
+ {"execute": "job-dismiss", "arguments": {"id": "job0"}}
+ {"return": {}}
+@@ -13,8 +12,7 @@ Job failed: Failed to get shared "consistent read" lock
+ qemu-img: Failed to get shared "consistent read" lock
+ Is another process using the image [TEST_DIR/test.img]?
+ 
+-.Formatting 'TEST_DIR/test.img', fmt=luks size=1048576 key-secret=keysec0 iter-time=10
+-
++.
+ Job failed: Block node is read-only
+ {"execute": "job-dismiss", "arguments": {"id": "job0"}}
+ {"return": {}}
+@@ -26,12 +24,10 @@ Job failed: Failed to get shared "consistent read" lock
+ {"return": {}}
+ {"execute": "job-dismiss", "arguments": {"id": "job0"}}
+ {"return": {}}
+-.Formatting 'TEST_DIR/test.img', fmt=luks size=1048576 key-secret=keysec0 iter-time=10
+-
++.
+ {"return": {}}
+ {"error": {"class": "GenericError", "desc": "Failed to get \"write\" lock"}}
+-.Formatting 'TEST_DIR/test.img', fmt=luks size=1048576 key-secret=keysec0 iter-time=10
+-
++.
+ {"return": {}}
+ {"return": {}}
+ .
+diff --git a/tests/qemu-iotests/iotests.py b/tests/qemu-iotests/iotests.py
+index c382c527c8..65780c6098 100644
+--- a/tests/qemu-iotests/iotests.py
++++ b/tests/qemu-iotests/iotests.py
+@@ -150,7 +150,9 @@ def qemu_tool_popen(args: Sequence[str],
+ 
+ 
+ def qemu_tool_pipe_and_status(tool: str, args: Sequence[str],
+-                              connect_stderr: bool = True) -> Tuple[str, int]:
++                              connect_stderr: bool = True,
++                              drop_successful_output: bool = False) \
++        -> Tuple[str, int]:
+     """
+     Run a tool and return both its output and its exit code
+     """
+@@ -160,6 +162,8 @@ def qemu_tool_pipe_and_status(tool: str, args: Sequence[str],
+             cmd = ' '.join(args)
+             sys.stderr.write(f'{tool} received signal \
+                                {-subp.returncode}: {cmd}\n')
++        if drop_successful_output and subp.returncode == 0:
++            output = ''
+         return (output, subp.returncode)
+ 
+ def qemu_img_create_prepare_args(args: List[str]) -> List[str]:
+@@ -204,8 +208,10 @@ def qemu_img_pipe_and_status(*args: str) -> Tuple[str, int]:
+     """
+     Run qemu-img and return both its output and its exit code
+     """
++    is_create = bool(args and args[0] == 'create')
+     full_args = qemu_img_args + qemu_img_create_prepare_args(list(args))
+-    return qemu_tool_pipe_and_status('qemu-img', full_args)
++    return qemu_tool_pipe_and_status('qemu-img', full_args,
++                                     drop_successful_output=is_create)
+ 
+ def qemu_img(*args: str) -> int:
+     '''Run qemu-img and return the exit code'''
 -- 
 2.34.1
 
