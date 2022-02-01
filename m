@@ -2,75 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6EF7F4A677C
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Feb 2022 23:02:49 +0100 (CET)
-Received: from localhost ([::1]:46094 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4889A4A683C
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Feb 2022 23:53:40 +0100 (CET)
+Received: from localhost ([::1]:52952 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nF1Ee-0007Wx-4e
-	for lists+qemu-devel@lfdr.de; Tue, 01 Feb 2022 17:02:48 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:44278)
+	id 1nF21r-0004uZ-Ck
+	for lists+qemu-devel@lfdr.de; Tue, 01 Feb 2022 17:53:39 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:46058)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nExnX-0008Cq-4k
- for qemu-devel@nongnu.org; Tue, 01 Feb 2022 13:22:36 -0500
-Received: from [2a00:1450:4864:20::62c] (port=44713
- helo=mail-ej1-x62c.google.com)
+ id 1nExtt-0002gx-Tj
+ for qemu-devel@nongnu.org; Tue, 01 Feb 2022 13:29:11 -0500
+Received: from [2a00:1450:4864:20::430] (port=37882
+ helo=mail-wr1-x430.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nExmZ-0000fL-Pt
- for qemu-devel@nongnu.org; Tue, 01 Feb 2022 13:21:41 -0500
-Received: by mail-ej1-x62c.google.com with SMTP id ka4so56675180ejc.11
- for <qemu-devel@nongnu.org>; Tue, 01 Feb 2022 10:21:15 -0800 (PST)
+ id 1nExtq-0001gC-M6
+ for qemu-devel@nongnu.org; Tue, 01 Feb 2022 13:29:08 -0500
+Received: by mail-wr1-x430.google.com with SMTP id w11so33669778wra.4
+ for <qemu-devel@nongnu.org>; Tue, 01 Feb 2022 10:29:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=RF5y4dzhS8bG68f7NLy4ZRBD5ccx4mYs0zSlmwkW1WI=;
- b=xyxrSKhNUyh+NMnKYYa2suYiu4kaXxRCx32UlgYvL3T3D3YdmjYzC7bKujkhU/2nav
- DQQJjnFHAqPWKxCTR0O6LAGYx7VINMB4KA4TSszadOeb3ymeWwpLo+A7tEONbRQ33baU
- dQJrVvLNs6c4m4PgCrKDrIymQGljTThhgFYaHPKtfLxEBtCpVbpsZg1ABnRc3nk2LROs
- 3RqP88ZrZJ10KuchBsOtB465kPMFCsw9Q6EFC+a9QvwRsvsLuQj8raHjfr7CHktY2Txq
- n9hnjdhzuNIg/fsyvdRyJMsqzK5Z4lOUETMI2m5O2PFdh24Q4a2CLDXlp1QOXa0a1GFI
- 39eQ==
+ bh=o1JoCjdpm4Qor6Fl3CKDKbDr8nFRznjbGpAA21RdRCk=;
+ b=zztVMUMEPAHePQQpF/X5UUi8iPPeyc3fCFoE0ZVIdVl3xxRLz3PjcehCJRhtJ1MCv8
+ TjAA3eASxSrFjwjITOw4DC5ezVfB7KSWzavORkGH99UaJo2rgEOoAJW4rFYivD+h8P5+
+ tfmKlEBXe6+8vMaADniWYkRcDzcyDwF80Q0VEUBrxi5miKgqibnlTt2fRy9V+5Yjhnvn
+ aJ9yr+9lh2i3LB1cziwYmyvJJnQhpxPkIRGe0cezJzMOIwm5mVFOEoi88Mz92CpWlDs7
+ SdpuBuuGVMMb6hZMx8hsjyyFBmRwXMZHrriW4gft0pyBzx2m4U2UhfpxP3ej1WjA0vmw
+ D/Wg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=RF5y4dzhS8bG68f7NLy4ZRBD5ccx4mYs0zSlmwkW1WI=;
- b=ezNORb95UM/QVpkpi+uXbplvA4a1gKGPL392IxS7r2eQvSpNs6kyIUVewb2Dt4RIEP
- 3wmyJdRLbMMdqcsM5FGkYRpz86cDFdnMBPBArlpDE19qdry/Q0ZjkGr9AnAXuvsm9Rmk
- o0I356oPFd1X6K4tLsU3PyCrdo8M+3dcPWf7mI2rmiDsg4CpSai2aFvrYThTOYkyK5db
- 1BIGM5Pu6YwR/yoM8TwaJeMmU4SHYH/g5Ggw19oP+7+OjV0Hv7RMknHqxHN7Mn3+EZJB
- hCo46lRmFw+U9+ni9NifuRawKGZllvP9Pq/Mw1ks3NxZHgc0137KfPFLhaElVH44qLCJ
- ESVQ==
-X-Gm-Message-State: AOAM532DFIliWBeqK6OFINEK1llDWXAEzkYfXlNmB7d68GqiXNLzgJ/9
- lPjJnUiUwpVkko+d+z4psH1evw==
-X-Google-Smtp-Source: ABdhPJzZgZlPVxalo/dypQeWv4Cwppyshto4X+oJyhUotLChHHAfc/2T7uQBH4Jll0VagBpYCxynwA==
-X-Received: by 2002:a17:907:1623:: with SMTP id
- hb35mr22011728ejc.209.1643739674758; 
- Tue, 01 Feb 2022 10:21:14 -0800 (PST)
+ bh=o1JoCjdpm4Qor6Fl3CKDKbDr8nFRznjbGpAA21RdRCk=;
+ b=2ZzPxeWvT2y+KvOUZC33v1YWvpaCn8zv5nwfJfr656ZtgOEuxjkITQPJpZ6WDIJelx
+ cM+/FIB0umA4q2wG29LpXV0um+8rBAUBza46MqOBuv02MKZD5lPX7AirZXVDrpZSvj6n
+ 0RYot3EEEqbvGlkd9Fu70tW/R0etFbTH8pqkm5ysRu6mm6qYrsfWET+Xh2oZJTf6OLpe
+ 6lG4XorctZ88r9kgPB7QGLaaBQmZguUrRsxhCePCx+Eqpg3VKHjJmVqEGvpjYVwv6tva
+ PMj5yz0wXavOetMI7k22UpIuuab7dAimVzXB4Rn3athvDn5r6wO9tR1aW/M0DzrQI0og
+ xwmA==
+X-Gm-Message-State: AOAM530Gc16Hdph4ZRAELGWwi/j0bBSD0YyzIXdMNLnCRJRJ2cMBSzHR
+ 88tJophQunr4cfZQUVtyLwO7fQ==
+X-Google-Smtp-Source: ABdhPJxq6/5M87/KsZDZiba30RITm7uTchcY07YEHcq1RfupwaP7omjkgyCRDHMrGStpuzVw18RUPw==
+X-Received: by 2002:adf:d0d1:: with SMTP id z17mr22724860wrh.301.1643740144874; 
+ Tue, 01 Feb 2022 10:29:04 -0800 (PST)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id ry6sm6601713ejc.45.2022.02.01.10.20.58
+ by smtp.gmail.com with ESMTPSA id v124sm2723182wme.30.2022.02.01.10.28.59
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 01 Feb 2022 10:21:08 -0800 (PST)
+ Tue, 01 Feb 2022 10:28:59 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 391C01FFC8;
+ by zen.linaroharston (Postfix) with ESMTP id 5ED7E1FFC9;
  Tue,  1 Feb 2022 18:20:52 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH  v2 16/25] docs: remove references to TCG tracing
-Date: Tue,  1 Feb 2022 18:20:41 +0000
-Message-Id: <20220201182050.15087-17-alex.bennee@linaro.org>
+Subject: [PATCH  v2 17/25] tracing: remove TCG memory access tracing
+Date: Tue,  1 Feb 2022 18:20:42 +0000
+Message-Id: <20220201182050.15087-18-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220201182050.15087-1-alex.bennee@linaro.org>
 References: <20220201182050.15087-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::62c
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::430
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::62c;
- envelope-from=alex.bennee@linaro.org; helo=mail-ej1-x62c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::430;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x430.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -91,7 +90,8 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, berrange@redhat.com, stefanha@redhat.com, crosa@redhat.com,
+Cc: fam@euphon.net, Riku Voipio <riku.voipio@iki.fi>, berrange@redhat.com,
+ stefanha@redhat.com, crosa@redhat.com,
  Richard Henderson <richard.henderson@linaro.org>, aaron@os.amperecomputing.com,
  robhenry@microsoft.com, f4bug@amsat.org,
  Luis Vilanova <vilanova@imperial.ac.uk>, mahmoudabdalghany@outlook.com,
@@ -101,136 +101,378 @@ Cc: fam@euphon.net, berrange@redhat.com, stefanha@redhat.com, crosa@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Users wanting this sort of functionality should turn to TCG plugins
-instead.
+If you really want to trace all memory operations TCG plugins gives
+you a more flexible interface for doing so.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Cc: Luis Vilanova <vilanova@imperial.ac.uk>
 Cc: Stefan Hajnoczi <stefanha@redhat.com>
-Message-Id: <20220124201608.604599-14-alex.bennee@linaro.org>
----
- docs/about/removed-features.rst | 13 +++++
- docs/devel/tracing.rst          | 85 ---------------------------------
- 2 files changed, 13 insertions(+), 85 deletions(-)
 
-diff --git a/docs/about/removed-features.rst b/docs/about/removed-features.rst
-index 4c4da20d0f..b0156e0f25 100644
---- a/docs/about/removed-features.rst
-+++ b/docs/about/removed-features.rst
-@@ -601,6 +601,19 @@ the upstream Linux kernel in 2018, and it has also been dropped from glibc, so
- there is no new Linux development taking place with this architecture. For
- running the old binaries, you can use older versions of QEMU.
+--
+v2
+  - dropped extra line
+
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Message-Id: <20220124201608.604599-15-alex.bennee@linaro.org>
+---
+ accel/tcg/atomic_template.h   | 12 ------------
+ accel/tcg/cputlb.c            |  2 --
+ accel/tcg/user-exec.c         | 14 --------------
+ tcg/tcg-op.c                  |  5 -----
+ accel/tcg/atomic_common.c.inc | 20 --------------------
+ trace-events                  | 14 --------------
+ 6 files changed, 67 deletions(-)
+
+diff --git a/accel/tcg/atomic_template.h b/accel/tcg/atomic_template.h
+index 2d917b6b1f..fc165031e8 100644
+--- a/accel/tcg/atomic_template.h
++++ b/accel/tcg/atomic_template.h
+@@ -77,7 +77,6 @@ ABI_TYPE ATOMIC_NAME(cmpxchg)(CPUArchState *env, target_ulong addr,
+                                          PAGE_READ | PAGE_WRITE, retaddr);
+     DATA_TYPE ret;
  
-+TCG introspection features
-+--------------------------
-+
-+TCG trace-events (since 6.2)
-+''''''''''''''''''''''''''''
-+
-+The ability to add new TCG trace points had bit rotted and as the
-+feature can be replicated with TCG plugins it was removed. If
-+any user is currently using this feature and needs help with
-+converting to using TCG plugins they should contact the qemu-devel
-+mailing list.
-+
-+
- System emulator devices
- -----------------------
+-    atomic_trace_rmw_pre(env, addr, oi);
+ #if DATA_SIZE == 16
+     ret = atomic16_cmpxchg(haddr, cmpv, newv);
+ #else
+@@ -97,7 +96,6 @@ ABI_TYPE ATOMIC_NAME(ld)(CPUArchState *env, target_ulong addr,
+                                          PAGE_READ, retaddr);
+     DATA_TYPE val;
  
-diff --git a/docs/devel/tracing.rst b/docs/devel/tracing.rst
-index 4290ac42ee..ec9a687cfd 100644
---- a/docs/devel/tracing.rst
-+++ b/docs/devel/tracing.rst
-@@ -413,88 +413,3 @@ disabled, this check will have no performance impact.
-         return ptr;
-     }
+-    atomic_trace_ld_pre(env, addr, oi);
+     val = atomic16_read(haddr);
+     ATOMIC_MMU_CLEANUP;
+     atomic_trace_ld_post(env, addr, oi);
+@@ -110,7 +108,6 @@ void ATOMIC_NAME(st)(CPUArchState *env, target_ulong addr, ABI_TYPE val,
+     DATA_TYPE *haddr = atomic_mmu_lookup(env, addr, oi, DATA_SIZE,
+                                          PAGE_WRITE, retaddr);
  
--"tcg"
-------
+-    atomic_trace_st_pre(env, addr, oi);
+     atomic16_set(haddr, val);
+     ATOMIC_MMU_CLEANUP;
+     atomic_trace_st_post(env, addr, oi);
+@@ -124,7 +121,6 @@ ABI_TYPE ATOMIC_NAME(xchg)(CPUArchState *env, target_ulong addr, ABI_TYPE val,
+                                          PAGE_READ | PAGE_WRITE, retaddr);
+     DATA_TYPE ret;
+ 
+-    atomic_trace_rmw_pre(env, addr, oi);
+     ret = qatomic_xchg__nocheck(haddr, val);
+     ATOMIC_MMU_CLEANUP;
+     atomic_trace_rmw_post(env, addr, oi);
+@@ -138,7 +134,6 @@ ABI_TYPE ATOMIC_NAME(X)(CPUArchState *env, target_ulong addr,       \
+     DATA_TYPE *haddr = atomic_mmu_lookup(env, addr, oi, DATA_SIZE,  \
+                                          PAGE_READ | PAGE_WRITE, retaddr); \
+     DATA_TYPE ret;                                                  \
+-    atomic_trace_rmw_pre(env, addr, oi);                            \
+     ret = qatomic_##X(haddr, val);                                  \
+     ATOMIC_MMU_CLEANUP;                                             \
+     atomic_trace_rmw_post(env, addr, oi);                           \
+@@ -171,7 +166,6 @@ ABI_TYPE ATOMIC_NAME(X)(CPUArchState *env, target_ulong addr,       \
+     XDATA_TYPE *haddr = atomic_mmu_lookup(env, addr, oi, DATA_SIZE, \
+                                           PAGE_READ | PAGE_WRITE, retaddr); \
+     XDATA_TYPE cmp, old, new, val = xval;                           \
+-    atomic_trace_rmw_pre(env, addr, oi);                            \
+     smp_mb();                                                       \
+     cmp = qatomic_read__nocheck(haddr);                             \
+     do {                                                            \
+@@ -216,7 +210,6 @@ ABI_TYPE ATOMIC_NAME(cmpxchg)(CPUArchState *env, target_ulong addr,
+                                          PAGE_READ | PAGE_WRITE, retaddr);
+     DATA_TYPE ret;
+ 
+-    atomic_trace_rmw_pre(env, addr, oi);
+ #if DATA_SIZE == 16
+     ret = atomic16_cmpxchg(haddr, BSWAP(cmpv), BSWAP(newv));
+ #else
+@@ -236,7 +229,6 @@ ABI_TYPE ATOMIC_NAME(ld)(CPUArchState *env, target_ulong addr,
+                                          PAGE_READ, retaddr);
+     DATA_TYPE val;
+ 
+-    atomic_trace_ld_pre(env, addr, oi);
+     val = atomic16_read(haddr);
+     ATOMIC_MMU_CLEANUP;
+     atomic_trace_ld_post(env, addr, oi);
+@@ -249,7 +241,6 @@ void ATOMIC_NAME(st)(CPUArchState *env, target_ulong addr, ABI_TYPE val,
+     DATA_TYPE *haddr = atomic_mmu_lookup(env, addr, oi, DATA_SIZE,
+                                          PAGE_WRITE, retaddr);
+ 
+-    atomic_trace_st_pre(env, addr, oi);
+     val = BSWAP(val);
+     atomic16_set(haddr, val);
+     ATOMIC_MMU_CLEANUP;
+@@ -264,7 +255,6 @@ ABI_TYPE ATOMIC_NAME(xchg)(CPUArchState *env, target_ulong addr, ABI_TYPE val,
+                                          PAGE_READ | PAGE_WRITE, retaddr);
+     ABI_TYPE ret;
+ 
+-    atomic_trace_rmw_pre(env, addr, oi);
+     ret = qatomic_xchg__nocheck(haddr, BSWAP(val));
+     ATOMIC_MMU_CLEANUP;
+     atomic_trace_rmw_post(env, addr, oi);
+@@ -278,7 +268,6 @@ ABI_TYPE ATOMIC_NAME(X)(CPUArchState *env, target_ulong addr,       \
+     DATA_TYPE *haddr = atomic_mmu_lookup(env, addr, oi, DATA_SIZE,  \
+                                          PAGE_READ | PAGE_WRITE, retaddr); \
+     DATA_TYPE ret;                                                  \
+-    atomic_trace_rmw_pre(env, addr, oi);                            \
+     ret = qatomic_##X(haddr, BSWAP(val));                           \
+     ATOMIC_MMU_CLEANUP;                                             \
+     atomic_trace_rmw_post(env, addr, oi);                           \
+@@ -308,7 +297,6 @@ ABI_TYPE ATOMIC_NAME(X)(CPUArchState *env, target_ulong addr,       \
+     XDATA_TYPE *haddr = atomic_mmu_lookup(env, addr, oi, DATA_SIZE, \
+                                           PAGE_READ | PAGE_WRITE, retaddr); \
+     XDATA_TYPE ldo, ldn, old, new, val = xval;                      \
+-    atomic_trace_rmw_pre(env, addr, oi);                            \
+     smp_mb();                                                       \
+     ldn = qatomic_read__nocheck(haddr);                             \
+     do {                                                            \
+diff --git a/accel/tcg/cputlb.c b/accel/tcg/cputlb.c
+index 5e0d0eebc3..82adefe574 100644
+--- a/accel/tcg/cputlb.c
++++ b/accel/tcg/cputlb.c
+@@ -2140,7 +2140,6 @@ static inline uint64_t cpu_load_helper(CPUArchState *env, abi_ptr addr,
+ {
+     uint64_t ret;
+ 
+-    trace_guest_ld_before_exec(env_cpu(env), addr, oi);
+     ret = full_load(env, addr, oi, retaddr);
+     qemu_plugin_vcpu_mem_cb(env_cpu(env), addr, oi, QEMU_PLUGIN_MEM_R);
+     return ret;
+@@ -2487,7 +2486,6 @@ static inline void cpu_store_helper(CPUArchState *env, target_ulong addr,
+                                     uint64_t val, MemOpIdx oi, uintptr_t ra,
+                                     FullStoreHelper *full_store)
+ {
+-    trace_guest_st_before_exec(env_cpu(env), addr, oi);
+     full_store(env, addr, val, oi, ra);
+     qemu_plugin_vcpu_mem_cb(env_cpu(env), addr, oi, QEMU_PLUGIN_MEM_W);
+ }
+diff --git a/accel/tcg/user-exec.c b/accel/tcg/user-exec.c
+index 6f5d4933f0..8edf0bbaa1 100644
+--- a/accel/tcg/user-exec.c
++++ b/accel/tcg/user-exec.c
+@@ -250,7 +250,6 @@ uint8_t cpu_ldb_mmu(CPUArchState *env, abi_ptr addr,
+     uint8_t ret;
+ 
+     validate_memop(oi, MO_UB);
+-    trace_guest_ld_before_exec(env_cpu(env), addr, oi);
+     haddr = cpu_mmu_lookup(env, addr, oi, ra, MMU_DATA_LOAD);
+     ret = ldub_p(haddr);
+     clear_helper_retaddr();
+@@ -265,7 +264,6 @@ uint16_t cpu_ldw_be_mmu(CPUArchState *env, abi_ptr addr,
+     uint16_t ret;
+ 
+     validate_memop(oi, MO_BEUW);
+-    trace_guest_ld_before_exec(env_cpu(env), addr, oi);
+     haddr = cpu_mmu_lookup(env, addr, oi, ra, MMU_DATA_LOAD);
+     ret = lduw_be_p(haddr);
+     clear_helper_retaddr();
+@@ -280,7 +278,6 @@ uint32_t cpu_ldl_be_mmu(CPUArchState *env, abi_ptr addr,
+     uint32_t ret;
+ 
+     validate_memop(oi, MO_BEUL);
+-    trace_guest_ld_before_exec(env_cpu(env), addr, oi);
+     haddr = cpu_mmu_lookup(env, addr, oi, ra, MMU_DATA_LOAD);
+     ret = ldl_be_p(haddr);
+     clear_helper_retaddr();
+@@ -295,7 +292,6 @@ uint64_t cpu_ldq_be_mmu(CPUArchState *env, abi_ptr addr,
+     uint64_t ret;
+ 
+     validate_memop(oi, MO_BEUQ);
+-    trace_guest_ld_before_exec(env_cpu(env), addr, oi);
+     haddr = cpu_mmu_lookup(env, addr, oi, ra, MMU_DATA_LOAD);
+     ret = ldq_be_p(haddr);
+     clear_helper_retaddr();
+@@ -310,7 +306,6 @@ uint16_t cpu_ldw_le_mmu(CPUArchState *env, abi_ptr addr,
+     uint16_t ret;
+ 
+     validate_memop(oi, MO_LEUW);
+-    trace_guest_ld_before_exec(env_cpu(env), addr, oi);
+     haddr = cpu_mmu_lookup(env, addr, oi, ra, MMU_DATA_LOAD);
+     ret = lduw_le_p(haddr);
+     clear_helper_retaddr();
+@@ -325,7 +320,6 @@ uint32_t cpu_ldl_le_mmu(CPUArchState *env, abi_ptr addr,
+     uint32_t ret;
+ 
+     validate_memop(oi, MO_LEUL);
+-    trace_guest_ld_before_exec(env_cpu(env), addr, oi);
+     haddr = cpu_mmu_lookup(env, addr, oi, ra, MMU_DATA_LOAD);
+     ret = ldl_le_p(haddr);
+     clear_helper_retaddr();
+@@ -340,7 +334,6 @@ uint64_t cpu_ldq_le_mmu(CPUArchState *env, abi_ptr addr,
+     uint64_t ret;
+ 
+     validate_memop(oi, MO_LEUQ);
+-    trace_guest_ld_before_exec(env_cpu(env), addr, oi);
+     haddr = cpu_mmu_lookup(env, addr, oi, ra, MMU_DATA_LOAD);
+     ret = ldq_le_p(haddr);
+     clear_helper_retaddr();
+@@ -354,7 +347,6 @@ void cpu_stb_mmu(CPUArchState *env, abi_ptr addr, uint8_t val,
+     void *haddr;
+ 
+     validate_memop(oi, MO_UB);
+-    trace_guest_st_before_exec(env_cpu(env), addr, oi);
+     haddr = cpu_mmu_lookup(env, addr, oi, ra, MMU_DATA_STORE);
+     stb_p(haddr, val);
+     clear_helper_retaddr();
+@@ -367,7 +359,6 @@ void cpu_stw_be_mmu(CPUArchState *env, abi_ptr addr, uint16_t val,
+     void *haddr;
+ 
+     validate_memop(oi, MO_BEUW);
+-    trace_guest_st_before_exec(env_cpu(env), addr, oi);
+     haddr = cpu_mmu_lookup(env, addr, oi, ra, MMU_DATA_STORE);
+     stw_be_p(haddr, val);
+     clear_helper_retaddr();
+@@ -380,7 +371,6 @@ void cpu_stl_be_mmu(CPUArchState *env, abi_ptr addr, uint32_t val,
+     void *haddr;
+ 
+     validate_memop(oi, MO_BEUL);
+-    trace_guest_st_before_exec(env_cpu(env), addr, oi);
+     haddr = cpu_mmu_lookup(env, addr, oi, ra, MMU_DATA_STORE);
+     stl_be_p(haddr, val);
+     clear_helper_retaddr();
+@@ -393,7 +383,6 @@ void cpu_stq_be_mmu(CPUArchState *env, abi_ptr addr, uint64_t val,
+     void *haddr;
+ 
+     validate_memop(oi, MO_BEUQ);
+-    trace_guest_st_before_exec(env_cpu(env), addr, oi);
+     haddr = cpu_mmu_lookup(env, addr, oi, ra, MMU_DATA_STORE);
+     stq_be_p(haddr, val);
+     clear_helper_retaddr();
+@@ -406,7 +395,6 @@ void cpu_stw_le_mmu(CPUArchState *env, abi_ptr addr, uint16_t val,
+     void *haddr;
+ 
+     validate_memop(oi, MO_LEUW);
+-    trace_guest_st_before_exec(env_cpu(env), addr, oi);
+     haddr = cpu_mmu_lookup(env, addr, oi, ra, MMU_DATA_STORE);
+     stw_le_p(haddr, val);
+     clear_helper_retaddr();
+@@ -419,7 +407,6 @@ void cpu_stl_le_mmu(CPUArchState *env, abi_ptr addr, uint32_t val,
+     void *haddr;
+ 
+     validate_memop(oi, MO_LEUL);
+-    trace_guest_st_before_exec(env_cpu(env), addr, oi);
+     haddr = cpu_mmu_lookup(env, addr, oi, ra, MMU_DATA_STORE);
+     stl_le_p(haddr, val);
+     clear_helper_retaddr();
+@@ -432,7 +419,6 @@ void cpu_stq_le_mmu(CPUArchState *env, abi_ptr addr, uint64_t val,
+     void *haddr;
+ 
+     validate_memop(oi, MO_LEUQ);
+-    trace_guest_st_before_exec(env_cpu(env), addr, oi);
+     haddr = cpu_mmu_lookup(env, addr, oi, ra, MMU_DATA_STORE);
+     stq_le_p(haddr, val);
+     clear_helper_retaddr();
+diff --git a/tcg/tcg-op.c b/tcg/tcg-op.c
+index 61b492d89f..65e1c94c2d 100644
+--- a/tcg/tcg-op.c
++++ b/tcg/tcg-op.c
+@@ -27,7 +27,6 @@
+ #include "tcg/tcg.h"
+ #include "tcg/tcg-op.h"
+ #include "tcg/tcg-mo.h"
+-#include "trace-tcg.h"
+ #include "exec/plugin-gen.h"
+ 
+ /* Reduce the number of ifdefs below.  This assumes that all uses of
+@@ -2877,7 +2876,6 @@ void tcg_gen_qemu_ld_i32(TCGv_i32 val, TCGv addr, TCGArg idx, MemOp memop)
+     tcg_gen_req_mo(TCG_MO_LD_LD | TCG_MO_ST_LD);
+     memop = tcg_canonicalize_memop(memop, 0, 0);
+     oi = make_memop_idx(memop, idx);
+-    trace_guest_ld_before_tcg(tcg_ctx->cpu, cpu_env, addr, oi);
+ 
+     orig_memop = memop;
+     if (!TCG_TARGET_HAS_MEMORY_BSWAP && (memop & MO_BSWAP)) {
+@@ -2916,7 +2914,6 @@ void tcg_gen_qemu_st_i32(TCGv_i32 val, TCGv addr, TCGArg idx, MemOp memop)
+     tcg_gen_req_mo(TCG_MO_LD_ST | TCG_MO_ST_ST);
+     memop = tcg_canonicalize_memop(memop, 0, 1);
+     oi = make_memop_idx(memop, idx);
+-    trace_guest_st_before_tcg(tcg_ctx->cpu, cpu_env, addr, oi);
+ 
+     if (!TCG_TARGET_HAS_MEMORY_BSWAP && (memop & MO_BSWAP)) {
+         swap = tcg_temp_new_i32();
+@@ -2965,7 +2962,6 @@ void tcg_gen_qemu_ld_i64(TCGv_i64 val, TCGv addr, TCGArg idx, MemOp memop)
+     tcg_gen_req_mo(TCG_MO_LD_LD | TCG_MO_ST_LD);
+     memop = tcg_canonicalize_memop(memop, 1, 0);
+     oi = make_memop_idx(memop, idx);
+-    trace_guest_ld_before_tcg(tcg_ctx->cpu, cpu_env, addr, oi);
+ 
+     orig_memop = memop;
+     if (!TCG_TARGET_HAS_MEMORY_BSWAP && (memop & MO_BSWAP)) {
+@@ -3013,7 +3009,6 @@ void tcg_gen_qemu_st_i64(TCGv_i64 val, TCGv addr, TCGArg idx, MemOp memop)
+     tcg_gen_req_mo(TCG_MO_LD_ST | TCG_MO_ST_ST);
+     memop = tcg_canonicalize_memop(memop, 1, 1);
+     oi = make_memop_idx(memop, idx);
+-    trace_guest_st_before_tcg(tcg_ctx->cpu, cpu_env, addr, oi);
+ 
+     if (!TCG_TARGET_HAS_MEMORY_BSWAP && (memop & MO_BSWAP)) {
+         swap = tcg_temp_new_i64();
+diff --git a/accel/tcg/atomic_common.c.inc b/accel/tcg/atomic_common.c.inc
+index 1df1f243e9..6602d7689f 100644
+--- a/accel/tcg/atomic_common.c.inc
++++ b/accel/tcg/atomic_common.c.inc
+@@ -13,14 +13,6 @@
+  * See the COPYING file in the top-level directory.
+  */
+ 
+-static void atomic_trace_rmw_pre(CPUArchState *env, target_ulong addr,
+-                                 MemOpIdx oi)
+-{
+-    CPUState *cpu = env_cpu(env);
 -
--Guest code generated by TCG can be traced by defining an event with the "tcg"
--event property. Internally, this property generates two events:
--"<eventname>_trans" to trace the event at translation time, and
--"<eventname>_exec" to trace the event at execution time.
+-    trace_guest_rmw_before_exec(cpu, addr, oi);
+-}
 -
--Instead of using these two events, you should instead use the function
--"trace_<eventname>_tcg" during translation (TCG code generation). This function
--will automatically call "trace_<eventname>_trans", and will generate the
--necessary TCG code to call "trace_<eventname>_exec" during guest code execution.
+ static void atomic_trace_rmw_post(CPUArchState *env, target_ulong addr,
+                                   MemOpIdx oi)
+ {
+@@ -28,24 +20,12 @@ static void atomic_trace_rmw_post(CPUArchState *env, target_ulong addr,
+ }
+ 
+ #if HAVE_ATOMIC128
+-static void atomic_trace_ld_pre(CPUArchState *env, target_ulong addr,
+-                                MemOpIdx oi)
+-{
+-    trace_guest_ld_before_exec(env_cpu(env), addr, oi);
+-}
 -
--Events with the "tcg" property can be declared in the "trace-events" file with a
--mix of native and TCG types, and "trace_<eventname>_tcg" will gracefully forward
--them to the "<eventname>_trans" and "<eventname>_exec" events. Since TCG values
--are not known at translation time, these are ignored by the "<eventname>_trans"
--event. Because of this, the entry in the "trace-events" file needs two printing
--formats (separated by a comma)::
+ static void atomic_trace_ld_post(CPUArchState *env, target_ulong addr,
+                                  MemOpIdx oi)
+ {
+     qemu_plugin_vcpu_mem_cb(env_cpu(env), addr, oi, QEMU_PLUGIN_MEM_R);
+ }
+ 
+-static void atomic_trace_st_pre(CPUArchState *env, target_ulong addr,
+-                                MemOpIdx oi)
+-{
+-    trace_guest_st_before_exec(env_cpu(env), addr, oi);
+-}
 -
--    tcg foo(uint8_t a1, TCGv_i32 a2) "a1=%d", "a1=%d a2=%d"
+ static void atomic_trace_st_post(CPUArchState *env, target_ulong addr,
+                                  MemOpIdx oi)
+ {
+diff --git a/trace-events b/trace-events
+index a637a61eba..bc71006675 100644
+--- a/trace-events
++++ b/trace-events
+@@ -117,20 +117,6 @@ vcpu guest_cpu_exit(void)
+ # Targets: all
+ vcpu guest_cpu_reset(void)
+ 
+-# tcg/tcg-op.c
 -
--For example::
+-# @vaddr: Access' virtual address.
+-# @memopidx: Access' information (see below).
+-#
+-# Start virtual memory access (before any potential access violation).
+-# Does not include memory accesses performed by devices.
+-#
+-# Mode: user, softmmu
+-# Targets: TCG(all)
+-vcpu tcg guest_ld_before(TCGv vaddr, uint32_t memopidx) "info=%d", "vaddr=0x%016"PRIx64" memopidx=0x%x"
+-vcpu tcg guest_st_before(TCGv vaddr, uint32_t memopidx) "info=%d", "vaddr=0x%016"PRIx64" memopidx=0x%x"
+-vcpu tcg guest_rmw_before(TCGv vaddr, uint32_t memopidx) "info=%d", "vaddr=0x%016"PRIx64" memopidx=0x%x"
 -
--    #include "trace-tcg.h"
--    
--    void some_disassembly_func (...)
--    {
--        uint8_t a1 = ...;
--        TCGv_i32 a2 = ...;
--        trace_foo_tcg(a1, a2);
--    }
--
--This will immediately call::
--
--    void trace_foo_trans(uint8_t a1);
--
--and will generate the TCG code to call::
--
--    void trace_foo(uint8_t a1, uint32_t a2);
--
--"vcpu"
--------
--
--Identifies events that trace vCPU-specific information. It implicitly adds a
--"CPUState*" argument, and extends the tracing print format to show the vCPU
--information. If used together with the "tcg" property, it adds a second
--"TCGv_env" argument that must point to the per-target global TCG register that
--points to the vCPU when guest code is executed (usually the "cpu_env" variable).
--
--The "tcg" and "vcpu" properties are currently only honored in the root
--./trace-events file.
--
--The following example events::
--
--    foo(uint32_t a) "a=%x"
--    vcpu bar(uint32_t a) "a=%x"
--    tcg vcpu baz(uint32_t a) "a=%x", "a=%x"
--
--Can be used as::
--
--    #include "trace-tcg.h"
--    
--    CPUArchState *env;
--    TCGv_ptr cpu_env;
--    
--    void some_disassembly_func(...)
--    {
--        /* trace emitted at this point */
--        trace_foo(0xd1);
--        /* trace emitted at this point */
--        trace_bar(env_cpu(env), 0xd2);
--        /* trace emitted at this point (env) and when guest code is executed (cpu_env) */
--        trace_baz_tcg(env_cpu(env), cpu_env, 0xd3);
--    }
--
--If the translating vCPU has address 0xc1 and code is later executed by vCPU
--0xc2, this would be an example output::
--
--    // at guest code translation
--    foo a=0xd1
--    bar cpu=0xc1 a=0xd2
--    baz_trans cpu=0xc1 a=0xd3
--    // at guest code execution
--    baz_exec cpu=0xc2 a=0xd3
+ # include/user/syscall-trace.h
+ 
+ # @num: System call number.
 -- 
 2.30.2
 
