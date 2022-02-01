@@ -2,88 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93E2E4A6740
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Feb 2022 22:47:30 +0100 (CET)
-Received: from localhost ([::1]:56110 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A03BE4A6780
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Feb 2022 23:03:29 +0100 (CET)
+Received: from localhost ([::1]:48148 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nF0zp-0002pn-Mj
-	for lists+qemu-devel@lfdr.de; Tue, 01 Feb 2022 16:47:29 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:35088)
+	id 1nF1FI-0000kL-Nd
+	for lists+qemu-devel@lfdr.de; Tue, 01 Feb 2022 17:03:28 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:37704)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1nExGB-00082y-EW
- for qemu-devel@nongnu.org; Tue, 01 Feb 2022 12:48:07 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:34901)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1nExRA-0004bn-HJ
+ for qemu-devel@nongnu.org; Tue, 01 Feb 2022 12:59:29 -0500
+Received: from 9.mo552.mail-out.ovh.net ([87.98.180.222]:51849)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1nExG8-0003cb-DF
- for qemu-devel@nongnu.org; Tue, 01 Feb 2022 12:48:05 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1643737683;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Ip7aZiJAmcno+tG7bGGEtATq+FcPl1+Pf7aelUnURzY=;
- b=V6v6jgA+kdN2sXdVZCvLaMOzBzlBLesMxNGK2LXRQwjfPkZGHey6ji/3JiJSFQAE+HXbmh
- mB0Q8f4tgoRDZrNrq8EoKSdp3cnrvK7ERn2bNhAwVKRjx7z+ucrHqOVgDCMPsZk3B9Fuqv
- ugkgO5XzGp9oFbPnIiZlg3K0F5yvUtE=
-Received: from mail-ua1-f70.google.com (mail-ua1-f70.google.com
- [209.85.222.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-352-Vin6NsgKMo6x_YSmEQ4FbQ-1; Tue, 01 Feb 2022 12:48:00 -0500
-X-MC-Unique: Vin6NsgKMo6x_YSmEQ4FbQ-1
-Received: by mail-ua1-f70.google.com with SMTP id
- q19-20020ab04a13000000b002fef2f854a6so9183538uae.7
- for <qemu-devel@nongnu.org>; Tue, 01 Feb 2022 09:48:00 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=Ip7aZiJAmcno+tG7bGGEtATq+FcPl1+Pf7aelUnURzY=;
- b=JnH2MZUoCIERVMNy5H2e95EM7/ndjDrmbq4P+lyLP7FW5szXa+gv/g8VcFiADcRXpt
- ra/q4k6UeuqsNRks9eJT60tInhQVjbHGb8S0dwYWq6w0ucY2ws1qNVSOK+eW7Eta+LMF
- QTZzNI6ceiKVLiy8jh+PmFjNRzERNZXogdNYevTdDbjJSYmF/8ZM3YCVqzounqAnMkpw
- N/Ey+Wr+7rB5EZ+fxdYhp3/XAsuOv1jj7mcT7J/I0mjbMPA9loars+LR0PjOmRvhtqKK
- TK5L6sjt9Inh5VhOY54cgn2kK5/gMY0MTNS+e0rKsbwStP+MSkg7M9C79psoaNWvQOpD
- g/hw==
-X-Gm-Message-State: AOAM5318QRtGt7GRvdaGxvMyKsXgLYRSvVl5KAvLhzRK/VSOY6RCoNFP
- XO/k9PmplyVZHL+aFbs0UXmyCTOx4A5uX7hLlsk61RpR6ZSPlbEneRDjX5+AdUC6+JHYv409ypA
- MvZNxXLrIBjwxteBXWaQvHSIm2fO/f0E=
-X-Received: by 2002:a67:b10b:: with SMTP id w11mr10062614vsl.75.1643737679514; 
- Tue, 01 Feb 2022 09:47:59 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxkrWiKYwaqw5WUqFqbiURidZQ8MYVx0bWObGbUlLnd7iKcy7aOv6VhBRisSCOBWB19efQxISfrrg0eqXSUPH0=
-X-Received: by 2002:a67:b10b:: with SMTP id w11mr10062601vsl.75.1643737679276; 
- Tue, 01 Feb 2022 09:47:59 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1nExR8-0005CZ-DX
+ for qemu-devel@nongnu.org; Tue, 01 Feb 2022 12:59:28 -0500
+Received: from mxplan5.mail.ovh.net (unknown [10.108.20.48])
+ by mo552.mail-out.ovh.net (Postfix) with ESMTPS id 5C4AD221CC;
+ Tue,  1 Feb 2022 17:59:14 +0000 (UTC)
+Received: from kaod.org (37.59.142.95) by DAG4EX1.mxp5.local (172.16.2.31)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.18; Tue, 1 Feb
+ 2022 18:59:13 +0100
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-95G0010d974c86-d670-4402-a4e4-88e33808c793,
+ FC28BB27814F05D37416E671BAFA2F1ED858982E) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Message-ID: <4dda34d4-a84c-183c-52e7-dd996bb610f8@kaod.org>
+Date: Tue, 1 Feb 2022 18:59:12 +0100
 MIME-Version: 1.0
-References: <87zgnp4b32.fsf@dusky.pond.sub.org>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.0
+Subject: Re: "make check-acceptance" takes way too long
+Content-Language: en-US
+To: Cleber Rosa <crosa@redhat.com>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
+ <alex.bennee@linaro.org>
+References: <CAFEAcA9cMZoj18gq7Ksv5PRoU1wRmXvW_e9UE73C_MEB7wTroQ@mail.gmail.com>
+ <CAFEAcA9_d5jw5-HOrZA6dsG1vMqxzqmrfHA7Jo0KsDcaEXmB_Q@mail.gmail.com>
+ <6c90ca3d-eaec-d7e8-5941-4deb83b58fd0@redhat.com>
+ <87zgnp4b32.fsf@dusky.pond.sub.org>
  <CAFEAcA_kxrCgyxWPFLw6VZ-rKx-res0C8L2BWRvfB81cR+keLg@mail.gmail.com>
  <875yqd6zib.fsf@linaro.org> <YerPk2ABMHQf/3QP@redhat.com>
  <20220125092011.dq2t4ryl632vrvsf@sirius.home.kraxel.org>
  <20220201073139.7896e10b@elisabeth> <Yfj4ERdAvmCF4ZzY@redhat.com>
  <20220201112720.4ac9b8df@elisabeth> <87wnieygjp.fsf@linaro.org>
  <CA+bd_6JF5iRKufxVa=6TEtR-eH65iiiG-oarWRHkavX-3E-p1Q@mail.gmail.com>
- <Yfldie06h92qxqf3@redhat.com>
-In-Reply-To: <Yfldie06h92qxqf3@redhat.com>
-From: Cleber Rosa <crosa@redhat.com>
-Date: Tue, 1 Feb 2022 12:47:48 -0500
-Message-ID: <CA+bd_6Jnp846dL4FBUaduHGtnDJN29qQjSuS96V7aPS2iuqF0Q@mail.gmail.com>
-Subject: Re: "make check-acceptance" takes way too long
-To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=crosa@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=crosa@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.081,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <CA+bd_6JF5iRKufxVa=6TEtR-eH65iiiG-oarWRHkavX-3E-p1Q@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [37.59.142.95]
+X-ClientProxiedBy: DAG2EX2.mxp5.local (172.16.2.12) To DAG4EX1.mxp5.local
+ (172.16.2.31)
+X-Ovh-Tracer-GUID: 9a60d5bf-78a2-4593-8c4a-4a2f8a6060be
+X-Ovh-Tracer-Id: 8426797853916302328
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvvddrgeefgddutdejucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvfhfhjggtgfhisehtkeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepueevledvjeetgeetfeeiveeftefffedvvdeikeetveelfeeglefgueetvdefvdefnecuffhomhgrihhnpehgihhthhhusgdrtghomhenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddrleehnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhnsggprhgtphhtthhopedupdhrtghpthhtohepfhegsghughesrghmshgrthdrohhrgh
+Received-SPF: pass client-ip=87.98.180.222; envelope-from=clg@kaod.org;
+ helo=9.mo552.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -97,87 +80,87 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
  Beraldo Leal <bleal@redhat.com>, Markus Armbruster <armbru@redhat.com>,
  Wainer dos Santos Moschetta <wainersm@redhat.com>,
  QEMU Developers <qemu-devel@nongnu.org>, Stefano Brivio <sbrivio@redhat.com>,
  Gerd Hoffmann <kraxel@redhat.com>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Feb 1, 2022 at 11:20 AM Daniel P. Berrang=C3=A9 <berrange@redhat.co=
-m> wrote:
->
-> On Tue, Feb 01, 2022 at 11:01:43AM -0500, Cleber Rosa wrote:
-> > On Tue, Feb 1, 2022 at 6:25 AM Alex Benn=C3=A9e <alex.bennee@linaro.org=
-> wrote:
-> > >
-> > > We have up to now tried really hard as a project to avoid building an=
-d
-> > > hosting our own binaries to avoid theoretical* GPL compliance issues.
-> > > This is why we've ended up relying so much on distros to build and ho=
-st
-> > > binaries we can use. Most QEMU developers have their own personal zoo=
- of
-> > > kernels and userspaces which they use for testing. I use custom kerne=
-ls
-> > > with a buildroot user space in initramfs for example. We even use the
-> > > qemu advent calendar for a number of our avocado tests but we basical=
-ly
-> > > push responsibility for GPL compliance to the individual developers i=
-n
-> > > that case.
-> > >
-> > > *theoretical in so far I suspect most people would be happy with a
-> > > reference to an upstream repo/commit and .config even if that is not =
-to
-> > > the letter of the "offer of source code" required for true compliance=
-.
-> > >
-> >
-> > Yes, it'd be fine (great, really!) if a lightweight distro (or
-> > kernels/initrd) were to
-> > be maintained and identified as an "official" QEMU pick.  Putting the b=
-inaries
-> > in the source tree though, brings all sorts of compliance issues.
->
-> All that's really needed is to have the source + build recipes
-> in a separate git repo. A pipeline can build them periodically
-> and publish artifacts, which QEMU can then consume in its pipeline.
->
+On 2/1/22 17:01, Cleber Rosa wrote:
+> On Tue, Feb 1, 2022 at 6:25 AM Alex Bennée <alex.bennee@linaro.org> wrote:
+>>
+>> We have up to now tried really hard as a project to avoid building and
+>> hosting our own binaries to avoid theoretical* GPL compliance issues.
+>> This is why we've ended up relying so much on distros to build and host
+>> binaries we can use. Most QEMU developers have their own personal zoo of
+>> kernels and userspaces which they use for testing. I use custom kernels
+>> with a buildroot user space in initramfs for example. We even use the
+>> qemu advent calendar for a number of our avocado tests but we basically
+>> push responsibility for GPL compliance to the individual developers in
+>> that case.
+>>
+>> *theoretical in so far I suspect most people would be happy with a
+>> reference to an upstream repo/commit and .config even if that is not to
+>> the letter of the "offer of source code" required for true compliance.
+>>
+> 
+> Yes, it'd be fine (great, really!) if a lightweight distro (or
+> kernels/initrd) were to
+> be maintained and identified as an "official" QEMU pick.  Putting the binaries
+> in the source tree though, brings all sorts of compliance issues.
 
-I get your point, but then to acquire the artifacts one needs to:
+FWIW, before avocado, I am using linux+buildroot images for PPC
+and running a simple "boot-net-login-poweroff" script for each
+machine/CPU QEMU can test :
 
-1. depend on the CI system to deploy the artifacts in subsequent job
-stages (a limitation IMO), OR
-2. if outside the CI, implement a download/cache mechanism for those
-artifacts, which gets us back to the previous point, only with a
-different distro/kernel+initrd.
 
-With that, the value proposal has to be in the characteristics of
-distro/kernel+initrd itself. It has to have enough differentiation to
-justify the development/maintenance work, as opposed to using existing
-ones.
+ref405ep : Linux /init login DONE (PASSED)
+bamboo : Linux /init net login DONE (PASSED)
+sam460ex : Linux Linux /init net login DONE (PASSED)
+g3beige-604 : FW Linux Linux /init net login DONE (PASSED)
+g3beige-g3 : FW Linux Linux /init net login DONE (PASSED)
+mac99-g4 : FW Linux Linux /init net login DONE (PASSED)
+mac99-7447 : FW Linux Linux /init net login DONE (PASSED)
+mac99-7448 : FW Linux Linux /init net login DONE (PASSED)
+mac99-7450 : FW Linux Linux /init net login DONE (PASSED)
+mpc8544ds : Linux /init net login DONE (PASSED)
+e500mc : Linux /init net login DONE (PASSED)
+40p : FW login DONE (PASSED) # this one is a special case
+e5500 : Linux /init net login DONE (PASSED)
+e6500 : Linux /init net login DONE (PASSED)
+g5-32 : FW Linux Linux /init net login DONE (PASSED)
+g5-64 : FW Linux Linux /init net login DONE (PASSED)
+pseries-970 : FW Linux Linux /init net login DONE (PASSED)
+pseries-970mp : FW Linux Linux /init net login DONE (PASSED)
+pseries-POWER5+ : FW Linux Linux /init net login DONE (PASSED)
+pseries : FW Linux Linux /init net login DONE (PASSED)
+pseriesle8 : FW Linux Linux /init net login DONE (PASSED)
+pseriesle9 : FW Linux Linux /init net login DONE (PASSED)
+pseriesle10 : FW Linux Linux /init net login DONE (PASSED)
+powernv8 : FW Linux /init net login DONE (PASSED)
+powernv9 : FW Linux /init net login DONE (PASSED)
 
-FWIW, my non-scientific tests booting on my 3+ YO machine:
+Images are here :
 
-* CirrOS x86_64+KVM: ~2 seconds
-* CirroOS aarch64+TCG: ~20 seconds
-* Fedora kernel+initrd aarch64+TCG
-(tests/avocado/boot_linux_console.py:BootLinuxConsole.test_aarch64_virt):
-~1 second
+   https://github.com/legoater/qemu-ppc-boot/tree/main/buildroot
 
-I would imagine that CirrOS aarch64+KVM on an adequate system would be
-similar to the CirrOS x86_64+KVM.  We can develop/maintain a slimmer
-distro, and/or set the default test workloads where they perform the
-best.  The development cost of the latter is quite small.  I've added
-a missing bit to the filtering capabilities in Avocado[1] and will
-send a proposal to QEMU along these lines.
+Buildroot has a testsuite using QEMU and they have been nice enough
+to take new QEMU boards for PPC.
 
-Regards,
-- Cleber.
+Thanks,
 
-[1] https://github.com/avocado-framework/avocado/pull/5245
+C.
+
+
+> 
+> The downloading of the images at test "setup time" is still a better approach,
+> given that tests will simply skip if the download is not possible.
+> 
+> - Cleber.
+> 
+> 
 
 
