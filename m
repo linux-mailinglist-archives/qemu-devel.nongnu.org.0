@@ -2,71 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6105C4A5B2C
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Feb 2022 12:29:43 +0100 (CET)
-Received: from localhost ([::1]:45190 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4BD274A5B4A
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Feb 2022 12:36:21 +0100 (CET)
+Received: from localhost ([::1]:34798 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nErLy-0006D0-4u
-	for lists+qemu-devel@lfdr.de; Tue, 01 Feb 2022 06:29:42 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:56942)
+	id 1nErSO-0001TS-6E
+	for lists+qemu-devel@lfdr.de; Tue, 01 Feb 2022 06:36:20 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:56876)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1nEr7o-0004zx-VN
- for qemu-devel@nongnu.org; Tue, 01 Feb 2022 06:15:04 -0500
-Received: from [2607:f8b0:4864:20::12a] (port=41542
- helo=mail-il1-x12a.google.com)
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1nEr7n-0004vt-Nq
+ for qemu-devel@nongnu.org; Tue, 01 Feb 2022 06:15:03 -0500
+Received: from [2607:f8b0:4864:20::132] (port=46838
+ helo=mail-il1-x132.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1nEr7k-0003Wp-6e
- for qemu-devel@nongnu.org; Tue, 01 Feb 2022 06:15:04 -0500
-Received: by mail-il1-x12a.google.com with SMTP id 15so13954451ilg.8
- for <qemu-devel@nongnu.org>; Tue, 01 Feb 2022 03:14:50 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1nEr7k-0003Wu-64
+ for qemu-devel@nongnu.org; Tue, 01 Feb 2022 06:15:03 -0500
+Received: by mail-il1-x132.google.com with SMTP id e8so13933477ilm.13
+ for <qemu-devel@nongnu.org>; Tue, 01 Feb 2022 03:14:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bsdimp-com.20210112.gappssmtp.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=A0lUDFAMoJs0uwGgwRvS9AqQpOcBmDEXb/Re9WXU5VE=;
- b=7u+Ja6/PEOrhzInaamhOrIZlWNI+pgKu6ZrR1C2aLerqKeOUSW9N39yZWTfHP6tR1m
- k36st9IZZClVCmxleTtZnXSlU52urAaw21kfQ6yWkAE/YxNrmjy+LLkyPvjBTJadOl41
- OGNpKn9DiLxl30NrIO0pv+1eeihYjNqBE7GZXe9LIF2HzAv43F5X7vYYzJs7v+SoPq6x
- i8kroCFTs1Z/m9AawYyjxqmwkxQyDvvpHJCAgNn3dJSniE+mlQ2oJTs2ufRVtpJMOGM/
- fv9YP+oUoiavYCFuc/LAAm3Mrhh0u7pRVeEoG2ucNqUg+YEIJdvtkos8ug7qNbFDh1vy
- +wgg==
+ bh=Nc0IiVmtMU6CkZSHSIc0Rennc5vkDh9M9cpSmLz0+iA=;
+ b=hNDvjT4gF3dc0aIN0ndnGbDiCJffPgbxmHZaRa7Ft8yEtsF5aTS04sM3fALUTvq5yK
+ MoOoXSXAl7WniUA11PbjT5iQai7TlTD1hpkMhOPykJ0J1exSb/WwuRXr4Mh3Q34YHjNa
+ pOOd+nDnjgzFmQshlnIhP8SxXSnPu6hCkmnKiLL3soRaEEj+p2opinNJSctKycODzv1e
+ QCWzBf143Okq247DAerC9EX5+4j9u28Avq8QLAO0J84sYwOfLZu0YrEzMPQbP/JFaoZU
+ ko1s/6D78mbWaxBCOde/UHgcx8k5XTTPQFe/suyq1HahoDVRrwL9Q7YPEoN4sxUr5qNy
+ 0NdQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=A0lUDFAMoJs0uwGgwRvS9AqQpOcBmDEXb/Re9WXU5VE=;
- b=TCEwe+k8xqdfDF+3D+HIY72oPo3LpBo3NvBKsSv5StJ7xtgdc4iDrlEE6AqEly65Of
- WEU6QCXoQ++auaU0v+/1kWZzgnOydB3vS04cBRlOQU2QmXxUqQpO9qywgbABz+9jHltw
- XHxuJsSE6Q47skJ8LJxXurUo3z3kudVx5q6WJVukoRYVHEfnK8NqK4BpuVLjDyEmq13V
- boi+Az0ULcIHf3YkpHM+aRtteOeq0ivgQGDa3AUl8ea5U3ETIT0+CpgLqjXF5yNx1gmp
- b6+njskvavkarHHUEAej4SjxT8/hgKX2TbEj55gLV0HnqJ70BbLKQGyshwYcOoj7V+qj
- Xs4A==
-X-Gm-Message-State: AOAM531CD9cYzS8KUc+Z3ErS1qa4UjlU3hgebQpeFICDHKSQ/jVQZn9Q
- m3vHzYBHtYrJYolowrKz9Uhs0zPOyiVDBg==
-X-Google-Smtp-Source: ABdhPJzyFTv0YvpOVCiRqxrWEkdHAW+I3VhyqVoMY0KZ3CIuO2dyOPCWhEKlSARRum5ddBWu1z0H6w==
-X-Received: by 2002:a05:6e02:1a27:: with SMTP id
- g7mr14985225ile.284.1643714089306; 
- Tue, 01 Feb 2022 03:14:49 -0800 (PST)
+ bh=Nc0IiVmtMU6CkZSHSIc0Rennc5vkDh9M9cpSmLz0+iA=;
+ b=EWt7FdT9qMrtYv4HR17nmdWs9Eo8Dke/Djywo9/xGh9ARbzrCm1oU88u/8yLwfTkx0
+ 5tgDRWGsZYWwjCaAcPyZsh7ikCuWd9quKs61Kdur423spRsM7Ib0tEOh2+e0VMTjflzZ
+ guu2XNF4O3YWLpuGfTlmxFJS7/4ZLv8c2x+QwuAHV+Di90zVXcww7Fcl4GYlB+C2F9mk
+ 1HyZWN31M0HTLgYlPJBquaVkuEjlYOdsLW6y0zZ/w1BtYSlero0MSD2wjGkI7PJ7dLa6
+ CbZD6aYTbffs0qYbvRa9PEaw371CzAcHLaLfLxOT1GWWUXcLDdDHtQiDy8ripNvSL58x
+ P4VQ==
+X-Gm-Message-State: AOAM530UiycDPQk0w2DqKI4m5+Ny6muJ7OoOg90/EKmNmDKlyIuY7ucn
+ FBvm6lkyCmk9rhCW3uZW0S8rbU1v+Baq5Q==
+X-Google-Smtp-Source: ABdhPJxxUsGhj7JN6fLTJFYXkaLJampETLlFmPK1Wl1yCkNSV3V59zKEwXhtFEnTUbt7cLiPz6OLiA==
+X-Received: by 2002:a05:6e02:17c6:: with SMTP id
+ z6mr2224260ilu.229.1643714090672; 
+ Tue, 01 Feb 2022 03:14:50 -0800 (PST)
 Received: from dune.bsdimp.com (50-253-99-174-static.hfc.comcastbusiness.net.
  [50.253.99.174])
- by smtp.gmail.com with ESMTPSA id w5sm13526852ilu.83.2022.02.01.03.14.47
+ by smtp.gmail.com with ESMTPSA id w5sm13526852ilu.83.2022.02.01.03.14.49
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 01 Feb 2022 03:14:48 -0800 (PST)
+ Tue, 01 Feb 2022 03:14:50 -0800 (PST)
 From: Warner Losh <imp@bsdimp.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 01/22] bsd-user/main.c: Drop syscall flavor arg -bsd
-Date: Tue,  1 Feb 2022 04:14:34 -0700
-Message-Id: <20220201111455.52511-2-imp@bsdimp.com>
+Subject: [PATCH 02/22] bsd-user/x86_64/target_arch_cpu.h: int $80 never was a
+ BSD system call on amd64
+Date: Tue,  1 Feb 2022 04:14:35 -0700
+Message-Id: <20220201111455.52511-3-imp@bsdimp.com>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <20220201111455.52511-1-imp@bsdimp.com>
 References: <20220201111455.52511-1-imp@bsdimp.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::12a
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::132
  (failed)
-Received-SPF: none client-ip=2607:f8b0:4864:20::12a;
- envelope-from=imp@bsdimp.com; helo=mail-il1-x12a.google.com
+Received-SPF: none client-ip=2607:f8b0:4864:20::132;
+ envelope-from=imp@bsdimp.com; helo=mail-il1-x132.google.com
 X-Spam_score_int: -10
 X-Spam_score: -1.1
 X-Spam_bar: -
@@ -94,46 +95,83 @@ Cc: Peter Maydell <peter.maydell@linaro.org>, arrowd@FreeBSD.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We've not realistically been able to actually run any bsd program on any
-other bsd program. They are too diverged to do this easily. The current
-code is setup to do it, but implementing it is hard. Stop pretending
-that we can do this.
+Although initial versions of NetBSD did use int $80, it was replaced by
+syscall before any releases. OpenBSD and FreeBSD always did syscall.
 
 Signed-off-by: Warner Losh <imp@bsdimp.com>
 ---
- bsd-user/main.c | 12 ------------
- 1 file changed, 12 deletions(-)
+ bsd-user/x86_64/target_arch_cpu.h | 58 -------------------------------
+ 1 file changed, 58 deletions(-)
 
-diff --git a/bsd-user/main.c b/bsd-user/main.c
-index f1d58e905e7..bddb830e99b 100644
---- a/bsd-user/main.c
-+++ b/bsd-user/main.c
-@@ -164,7 +164,6 @@ static void usage(void)
-            "-E var=value      sets/modifies targets environment variable(s)\n"
-            "-U var            unsets targets environment variable(s)\n"
-            "-B address        set guest_base address to address\n"
--           "-bsd type         select emulated BSD type FreeBSD/NetBSD/OpenBSD (default)\n"
-            "\n"
-            "Debug options:\n"
-            "-d item1[,...]    enable logging of specified items\n"
-@@ -392,17 +391,6 @@ int main(int argc, char **argv)
-             have_guest_base = true;
-         } else if (!strcmp(r, "drop-ld-preload")) {
-             (void) envlist_unsetenv(envlist, "LD_PRELOAD");
--        } else if (!strcmp(r, "bsd")) {
--            if (!strcasecmp(argv[optind], "freebsd")) {
--                bsd_type = target_freebsd;
--            } else if (!strcasecmp(argv[optind], "netbsd")) {
--                bsd_type = target_netbsd;
--            } else if (!strcasecmp(argv[optind], "openbsd")) {
--                bsd_type = target_openbsd;
--            } else {
--                usage();
+diff --git a/bsd-user/x86_64/target_arch_cpu.h b/bsd-user/x86_64/target_arch_cpu.h
+index 0a9c0f08946..9dc52d5afc4 100644
+--- a/bsd-user/x86_64/target_arch_cpu.h
++++ b/bsd-user/x86_64/target_arch_cpu.h
+@@ -124,64 +124,6 @@ static inline void target_cpu_loop(CPUX86State *env)
+         process_queued_cpu_work(cs);
+ 
+         switch (trapnr) {
+-        case 0x80:
+-            /* syscall from int $0x80 */
+-            if (bsd_type == target_freebsd) {
+-                abi_ulong params = (abi_ulong) env->regs[R_ESP] +
+-                    sizeof(int32_t);
+-                int32_t syscall_nr = env->regs[R_EAX];
+-                int32_t arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8;
+-
+-                if (syscall_nr == TARGET_FREEBSD_NR_syscall) {
+-                    get_user_s32(syscall_nr, params);
+-                    params += sizeof(int32_t);
+-                } else if (syscall_nr == TARGET_FREEBSD_NR___syscall) {
+-                    get_user_s32(syscall_nr, params);
+-                    params += sizeof(int64_t);
+-                }
+-                get_user_s32(arg1, params);
+-                params += sizeof(int32_t);
+-                get_user_s32(arg2, params);
+-                params += sizeof(int32_t);
+-                get_user_s32(arg3, params);
+-                params += sizeof(int32_t);
+-                get_user_s32(arg4, params);
+-                params += sizeof(int32_t);
+-                get_user_s32(arg5, params);
+-                params += sizeof(int32_t);
+-                get_user_s32(arg6, params);
+-                params += sizeof(int32_t);
+-                get_user_s32(arg7, params);
+-                params += sizeof(int32_t);
+-                get_user_s32(arg8, params);
+-                env->regs[R_EAX] = do_freebsd_syscall(env,
+-                                                      syscall_nr,
+-                                                      arg1,
+-                                                      arg2,
+-                                                      arg3,
+-                                                      arg4,
+-                                                      arg5,
+-                                                      arg6,
+-                                                      arg7,
+-                                                      arg8);
+-            } else { /* if (bsd_type == target_openbsd) */
+-                env->regs[R_EAX] = do_openbsd_syscall(env,
+-                                                      env->regs[R_EAX],
+-                                                      env->regs[R_EBX],
+-                                                      env->regs[R_ECX],
+-                                                      env->regs[R_EDX],
+-                                                      env->regs[R_ESI],
+-                                                      env->regs[R_EDI],
+-                                                      env->regs[R_EBP]);
 -            }
--            optind++;
-         } else if (!strcmp(r, "seed")) {
-             seed_optarg = optarg;
-         } else if (!strcmp(r, "singlestep")) {
+-            if (((abi_ulong)env->regs[R_EAX]) >= (abi_ulong)(-515)) {
+-                env->regs[R_EAX] = -env->regs[R_EAX];
+-                env->eflags |= CC_C;
+-            } else {
+-                env->eflags &= ~CC_C;
+-            }
+-            break;
+-
+         case EXCP_SYSCALL:
+             /* syscall from syscall instruction */
+             if (bsd_type == target_freebsd) {
 -- 
 2.33.1
 
