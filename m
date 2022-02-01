@@ -2,91 +2,100 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 716064A5A74
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Feb 2022 11:47:12 +0100 (CET)
-Received: from localhost ([::1]:55844 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EAAF74A5A6A
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Feb 2022 11:45:02 +0100 (CET)
+Received: from localhost ([::1]:54788 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nEqgp-0007CF-Ia
-	for lists+qemu-devel@lfdr.de; Tue, 01 Feb 2022 05:47:11 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:49644)
+	id 1nEqej-0006Si-IR
+	for lists+qemu-devel@lfdr.de; Tue, 01 Feb 2022 05:45:01 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:49928)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nEqbJ-0004Dn-Oq; Tue, 01 Feb 2022 05:41:33 -0500
-Received: from [2a00:1450:4864:20::62b] (port=38585
- helo=mail-ej1-x62b.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nEqbH-0007Ky-DE; Tue, 01 Feb 2022 05:41:29 -0500
-Received: by mail-ej1-x62b.google.com with SMTP id k25so52402634ejp.5;
- Tue, 01 Feb 2022 02:41:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=d1z1zHXUxH5+JmA82xf2mzmko4BDuRsqcAi+TM92SOY=;
- b=kdcZ/8ztX8jCCm0QH1Q3BS2YJwDLZ966RqeYzXizKfrO1Rk1P1f5a3qW8+pSEJGr9F
- xkjBib9ecBX+1xr/NjSyxal70YbhEwaVGCj967wheB2DpcwJMmgKiamjYVuTZj4ZxVGd
- KB6XZvHNuAmx0OqABAovoMzijscBsdU4QCGRP+7q/Rm4kptbaN0j5e85oBnBWNfEBYOf
- JSPP2+RFSz9VUQjg8g0ngpMW4AsxlGE6hiAYU3Wk6GU37jUIgotXa6RLdV+xL/3oCKIh
- 6FQ3n0xUNJWJ47vlT/SpfwE2//5AnYbPnXJgHexi8GGXDR07wmQW0iEshr/t/HGC6SyU
- bunw==
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1nEqc4-0004Ta-5w
+ for qemu-devel@nongnu.org; Tue, 01 Feb 2022 05:42:16 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:60172)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1nEqc1-0007SA-5T
+ for qemu-devel@nongnu.org; Tue, 01 Feb 2022 05:42:14 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1643712131;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Ab0x73CmqbzaohvHoq5Nca0k3DiCFIBcEFlit0v+o2M=;
+ b=Opor/83evRroSBRWLIo7iiGHt+lLEcci55TIBL5b5OWQ4+EBoiZlW3wVzWNW4gS0FPlLRr
+ Wr/y+YLOIJSHbvFzaC8wAGooGdB1Zy1NzJ5vG9AUNVvYlrwDSNuNirl1gBjPp+JH3wCoTP
+ vnv7KDON+Vf7E3CXrYoxVoa6Y0NIHpc=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-592-hxYxnslrMF68Oh5rLooCtQ-1; Tue, 01 Feb 2022 05:42:08 -0500
+X-MC-Unique: hxYxnslrMF68Oh5rLooCtQ-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ n7-20020a1c7207000000b0034ec3d8ce0aso784475wmc.8
+ for <qemu-devel@nongnu.org>; Tue, 01 Feb 2022 02:42:08 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=d1z1zHXUxH5+JmA82xf2mzmko4BDuRsqcAi+TM92SOY=;
- b=r19OzdZChdVdsXVvQYtPdr8Wl4QPBLc6qzMHTPT+Fp/+fF35Upbvwv+v5+CxPSAnF9
- lTbY/bi6bO3Kveaj3JPTUjeQLqGpC5tFmhkhs2YSXpxVGnElFdEnJhxrCh5XcicyBx5M
- K/5ADvX/Fm1NwV76hT543aKXMv+XjYICRo+qUNVqIXzH7s22IUg4l1YHGzPxwS8UxK6T
- +YscundktmGBvDNi4pKKGMjBAlmHwUPK3tXWt/YJ5NbbB1qsi2lgJQzSf3zyRLoEMeej
- f+YonFBUElerEwjtRuFF1WrQ4VpMyPt4q5xGAZX9n9lByzovHv2yCYSVvgdnqxOvJ2m9
- 3Stg==
-X-Gm-Message-State: AOAM533Iy2aCNfKu2bhOuzsRyJVDwV/QK0+VL59ynojC1krmmvc6aSgi
- PV66L+qL3mbkuuTlaomMXAc=
-X-Google-Smtp-Source: ABdhPJz6jMIM+xURNaUq+OEXyNKYeuuEKgwTl8tVn5RYy33DZ6EqcgWihPFh9RXsj4h1uQJUlny4TQ==
-X-Received: by 2002:a17:907:3e8d:: with SMTP id
- hs13mr20802415ejc.0.1643712079190; 
- Tue, 01 Feb 2022 02:41:19 -0800 (PST)
-Received: from ?IPV6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
- ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.googlemail.com with ESMTPSA id
- bx18sm15916215edb.93.2022.02.01.02.41.17
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 01 Feb 2022 02:41:18 -0800 (PST)
-Message-ID: <0465db20-b572-417a-a3d8-f556b90a00c0@redhat.com>
-Date: Tue, 1 Feb 2022 11:41:17 +0100
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to:user-agent;
+ bh=Ab0x73CmqbzaohvHoq5Nca0k3DiCFIBcEFlit0v+o2M=;
+ b=ogbQiS8+zVEEy5xehmLAw5C95hR8gzhW37/sd3E2kpyA4owc/7/xo25jh3Mk8ZFnNM
+ 0/BGrayzlQVnigiNHPOqRPG6G1TJT6VTAQOeQugDdgMyO59APWvGDy2MY3278AJiZGnu
+ Hi0dbOQmJ9Zwz30SCFulS9tg5VswrTtjguY6bk7EEgzborgXYzKZV9+I0tVNRT+W5cuo
+ 7KUEqoiLrYgUotg/iDaIvgLWtHtbZL/Ifq3p1RCCEL6iltZ1EF04U9+/jytSdDxpl1Rn
+ wXX+bnXrxwCPAxsCNeCfKBglzwCLpsPysursiuL/W4rmCF4sK2fZry3u6Y1w7CyjvOWF
+ t21Q==
+X-Gm-Message-State: AOAM532oEl3OGTozXucN274MP6ZdQCOMT1snZkNTwRJOBr1+qVgL12EO
+ aTHPSGD6cyRjzdjNsmWT+iUCay3+bFcNkzZ1sp5SGHGOjMla4w5lZ9kgikE3hFlaA8ikX1tTRLq
+ BfbS7WEqREEOfAZU=
+X-Received: by 2002:adf:d239:: with SMTP id k25mr20770289wrh.164.1643712127159; 
+ Tue, 01 Feb 2022 02:42:07 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJy85oVCnzYQSHbKZ3Mii48jbn+mb7nWZHc9Jh/PDbkVmxJ17/LAOpz/0sOHkecNbCYyV7nkYA==
+X-Received: by 2002:adf:d239:: with SMTP id k25mr20770248wrh.164.1643712126861; 
+ Tue, 01 Feb 2022 02:42:06 -0800 (PST)
+Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
+ [82.30.61.225])
+ by smtp.gmail.com with ESMTPSA id f12sm14225201wrs.1.2022.02.01.02.42.05
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 01 Feb 2022 02:42:06 -0800 (PST)
+Date: Tue, 1 Feb 2022 10:42:04 +0000
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Alex Williamson <alex.williamson@redhat.com>
+Subject: Re: [PATCH v5 03/18] pci: isolated address space for PCI bus
+Message-ID: <YfkOfI0fAW0ZCpOu@work-vm>
+References: <2971c1bec04acaac4eb3c1f2b104cbeabad01e22.1642626515.git.jag.raman@oracle.com>
+ <20220119190742-mutt-send-email-mst@kernel.org>
+ <1CACFB08-1BBC-4ECC-9C0B-6F377018D795@oracle.com>
+ <YfBDqMuO/l/gWzL8@work-vm>
+ <AE47B5D2-6515-4BD3-B541-23E5274174AC@oracle.com>
+ <YfEYHBhrsdF9Edpp@stefanha-x1.localdomain>
+ <YfGqCJeTD9bmkZx6@work-vm>
+ <20220126161120-mutt-send-email-mst@kernel.org>
+ <YfJYFbBVQzho7mGp@stefanha-x1.localdomain>
+ <20220127142253.21ab0025.alex.williamson@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH v6 01/33] main-loop.h: introduce qemu_in_main_thread()
-Content-Language: en-US
-To: Emanuele Giuseppe Esposito <eesposit@redhat.com>,
- Kevin Wolf <kwolf@redhat.com>
-References: <20220121170544.2049944-1-eesposit@redhat.com>
- <20220121170544.2049944-2-eesposit@redhat.com> <YfJ6dsVcmB4Uc2rO@redhat.com>
- <7ada78d2-0978-8f5a-f0f8-318d2f26ba41@redhat.com>
- <YffzLaIhjgfBkcXf@redhat.com>
- <3fa2d527-91f6-0869-d6b0-c82bdd04884c@redhat.com>
- <31dc1b10-655b-7465-4f55-c0b28b09b784@redhat.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-In-Reply-To: <31dc1b10-655b-7465-4f55-c0b28b09b784@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::62b
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::62b;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x62b.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.248, NICE_REPLY_A=-0.001,
- PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+In-Reply-To: <20220127142253.21ab0025.alex.williamson@redhat.com>
+User-Agent: Mutt/2.1.5 (2021-12-30)
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.081,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -99,73 +108,135 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Eduardo Habkost <eduardo@habkost.net>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- qemu-block@nongnu.org, Juan Quintela <quintela@redhat.com>,
- Markus Armbruster <armbru@redhat.com>,
- Daniel Henrique Barboza <danielhb413@gmail.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- Eric Blake <eblake@redhat.com>, qemu-devel@nongnu.org,
- Hanna Reitz <hreitz@redhat.com>, qemu-ppc@nongnu.org,
- =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
- Stefan Hajnoczi <stefanha@redhat.com>, "Denis V. Lunev" <den@openvz.org>,
- David Gibson <david@gibson.dropbear.id.au>, John Snow <jsnow@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Greg Kurz <groug@kaod.org>
+Cc: "eduardo@habkost.net" <eduardo@habkost.net>,
+ Elena Ufimtseva <elena.ufimtseva@oracle.com>, Jag Raman <jag.raman@oracle.com>,
+ Beraldo Leal <bleal@redhat.com>, John Johnson <john.g.johnson@oracle.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
+ "armbru@redhat.com" <armbru@redhat.com>,
+ "quintela@redhat.com" <quintela@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@gmail.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>,
+ "thanos.makatos@nutanix.com" <thanos.makatos@nutanix.com>,
+ Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
+ Eric Blake <eblake@redhat.com>,
+ "john.levon@nutanix.com" <john.levon@nutanix.com>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/1/22 10:08, Emanuele Giuseppe Esposito wrote:
+* Alex Williamson (alex.williamson@redhat.com) wrote:
+> On Thu, 27 Jan 2022 08:30:13 +0000
+> Stefan Hajnoczi <stefanha@redhat.com> wrote:
 > 
-> + *
-> + * This function should never be used in the block layer, please
-> + * instead refer to qemu_in_main_thread().
+> > On Wed, Jan 26, 2022 at 04:13:33PM -0500, Michael S. Tsirkin wrote:
+> > > On Wed, Jan 26, 2022 at 08:07:36PM +0000, Dr. David Alan Gilbert wrote:  
+> > > > * Stefan Hajnoczi (stefanha@redhat.com) wrote:  
+> > > > > On Wed, Jan 26, 2022 at 05:27:32AM +0000, Jag Raman wrote:  
+> > > > > > 
+> > > > > >   
+> > > > > > > On Jan 25, 2022, at 1:38 PM, Dr. David Alan Gilbert <dgilbert@redhat.com> wrote:
+> > > > > > > 
+> > > > > > > * Jag Raman (jag.raman@oracle.com) wrote:  
+> > > > > > >> 
+> > > > > > >>   
+> > > > > > >>> On Jan 19, 2022, at 7:12 PM, Michael S. Tsirkin <mst@redhat.com> wrote:
+> > > > > > >>> 
+> > > > > > >>> On Wed, Jan 19, 2022 at 04:41:52PM -0500, Jagannathan Raman wrote:  
+> > > > > > >>>> Allow PCI buses to be part of isolated CPU address spaces. This has a
+> > > > > > >>>> niche usage.
+> > > > > > >>>> 
+> > > > > > >>>> TYPE_REMOTE_MACHINE allows multiple VMs to house their PCI devices in
+> > > > > > >>>> the same machine/server. This would cause address space collision as
+> > > > > > >>>> well as be a security vulnerability. Having separate address spaces for
+> > > > > > >>>> each PCI bus would solve this problem.  
+> > > > > > >>> 
+> > > > > > >>> Fascinating, but I am not sure I understand. any examples?  
+> > > > > > >> 
+> > > > > > >> Hi Michael!
+> > > > > > >> 
+> > > > > > >> multiprocess QEMU and vfio-user implement a client-server model to allow
+> > > > > > >> out-of-process emulation of devices. The client QEMU, which makes ioctls
+> > > > > > >> to the kernel and runs VCPUs, could attach devices running in a server
+> > > > > > >> QEMU. The server QEMU needs access to parts of the client’s RAM to
+> > > > > > >> perform DMA.  
+> > > > > > > 
+> > > > > > > Do you ever have the opposite problem? i.e. when an emulated PCI device  
+> > > > > > 
+> > > > > > That’s an interesting question.
+> > > > > >   
+> > > > > > > exposes a chunk of RAM-like space (frame buffer, or maybe a mapped file)
+> > > > > > > that the client can see.  What happens if two emulated devices need to
+> > > > > > > access each others emulated address space?  
+> > > > > > 
+> > > > > > In this case, the kernel driver would map the destination’s chunk of internal RAM into
+> > > > > > the DMA space of the source device. Then the source device could write to that
+> > > > > > mapped address range, and the IOMMU should direct those writes to the
+> > > > > > destination device.
+> > > > > > 
+> > > > > > I would like to take a closer look at the IOMMU implementation on how to achieve
+> > > > > > this, and get back to you. I think the IOMMU would handle this. Could you please
+> > > > > > point me to the IOMMU implementation you have in mind?  
+> > > > > 
+> > > > > I don't know if the current vfio-user client/server patches already
+> > > > > implement device-to-device DMA, but the functionality is supported by
+> > > > > the vfio-user protocol.
+> > > > > 
+> > > > > Basically: if the DMA regions lookup inside the vfio-user server fails,
+> > > > > fall back to VFIO_USER_DMA_READ/WRITE messages instead.
+> > > > > https://github.com/nutanix/libvfio-user/blob/master/docs/vfio-user.rst#vfio-user-dma-read
+> > > > > 
+> > > > > Here is the flow:
+> > > > > 1. The vfio-user server with device A sends a DMA read to QEMU.
+> > > > > 2. QEMU finds the MemoryRegion associated with the DMA address and sees
+> > > > >    it's a device.
+> > > > >    a. If it's emulated inside the QEMU process then the normal
+> > > > >       device emulation code kicks in.
+> > > > >    b. If it's another vfio-user PCI device then the vfio-user PCI proxy
+> > > > >       device forwards the DMA to the second vfio-user server's device B.  
+> > > > 
+> > > > I'm starting to be curious if there's a way to persuade the guest kernel
+> > > > to do it for us; in general is there a way to say to PCI devices that
+> > > > they can only DMA to the host and not other PCI devices?  
+> > > 
+> > > 
+> > > But of course - this is how e.g. VFIO protects host PCI devices from
+> > > each other when one of them is passed through to a VM.  
+> > 
+> > Michael: Are you saying just turn on vIOMMU? :)
+> > 
+> > Devices in different VFIO groups have their own IOMMU context, so their
+> > IOVA space is isolated. Just don't map other devices into the IOVA space
+> > and those other devices will be inaccessible.
+> 
+> Devices in different VFIO *containers* have their own IOMMU context.
+> Based on the group attachment to a container, groups can either have
+> shared or isolated IOVA space.  That determination is made by looking
+> at the address space of the bus, which is governed by the presence of a
+> vIOMMU.
+> 
+> If the goal here is to restrict DMA between devices, ie. peer-to-peer
+> (p2p), why are we trying to re-invent what an IOMMU already does?
 
+That was what I was curious about - is it possible to get an IOMMU to do
+that, and how? (Not knowing much about IOMMUs).
+In my DAX/virtiofs case, I want the device to be able to DMA to guest
+RAM but for other devices not to try to DMA to it and in particular for
+it not to have to DMA to other devices.
 
-This function should never be used in the block layer, because unit 
-tests, block layer tools and qemu-storage-daemon do not have a BQL.
-Please instead refer to qemu_in_main_thread().
+>  In
+> fact, it seems like an IOMMU does this better in providing an IOVA
+> address space per BDF.  Is the dynamic mapping overhead too much?  What
+> physical hardware properties or specifications could we leverage to
+> restrict p2p mappings to a device?  Should it be governed by machine
+> type to provide consistency between devices?  Should each "isolated"
+> bus be in a separate root complex?  Thanks,
 
-> +
-> +/**
-> + * qemu_in_main_thread: same as qemu_mutex_iothread_locked when
-> + * softmmu/cpus.c implementation is linked. Otherwise this function
-> + * checks that the current AioContext is the global AioContext
-> + * (main loop).
-> + *
-> + * This is useful when checking that the BQL is held as a
-> + * replacement of qemu_mutex_iothread_locked() usege in the
-> + * block layer, since the former returns false when invoked by
-> + * unit tests or other users like qemu-storage-daemon that end
-> + * up using the stubs/iothread-lock.c implementation.
-> + *
-> + * This function should only be used in the block layer.
-> + * Use this function to determine whether it is possible to safely
-> + * access the block layer's globals.
-> + */
-> +bool qemu_in_main_thread(void);
+Dave
 
-I think the reference to qemu_mutex_iothread_locked() complicates 
-things.  It's enough to explain the different policies in my opinion:
+> Alex
+> 
+-- 
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
-/**
-  * qemu_in_main_thread: return whether it's possible to safely access
-  * the global state of the block layer.
-  *
-  * Global state of the block layer is not accessible from I/O threads
-  * or worker threads; only from threads that "own" the default
-  * AioContext that qemu_get_aio_context() returns.  For tests, block
-  * layer tools and qemu-storage-daemon there is a designated thread that
-  * runs the event loop for qemu_get_aio_context(), and that is the
-  * main thread.
-  *
-  * For emulators, however, any thread that holds the BQL can act
-  * as the block layer main thread; this will be any of the actual
-  * main thread, the vCPU threads or the RCU thread.
-  *
-  * For clarity, do not use this function outside the block layer.
-  */
-
-Paolo
 
