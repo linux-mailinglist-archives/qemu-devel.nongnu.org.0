@@ -2,66 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3704A4A5FE6
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Feb 2022 16:21:16 +0100 (CET)
-Received: from localhost ([::1]:34996 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C13524A6052
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Feb 2022 16:43:32 +0100 (CET)
+Received: from localhost ([::1]:42692 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nEuy3-0008AH-7j
-	for lists+qemu-devel@lfdr.de; Tue, 01 Feb 2022 10:21:15 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:55332)
+	id 1nEvJb-00007x-Sx
+	for lists+qemu-devel@lfdr.de; Tue, 01 Feb 2022 10:43:31 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:55906)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
- id 1nEsio-0003BB-2D; Tue, 01 Feb 2022 07:57:26 -0500
-Received: from smtp25.cstnet.cn ([159.226.251.25]:58528 helo=cstnet.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <liweiwei@iscas.ac.cn>)
- id 1nEsiY-00045z-Hg; Tue, 01 Feb 2022 07:57:14 -0500
-Received: from [192.168.0.107] (unknown [180.156.147.178])
- by APP-05 (Coremail) with SMTP id zQCowAC3mfLdLflhemxCAA--.16958S2;
- Tue, 01 Feb 2022 20:55:58 +0800 (CST)
-Subject: Re: [PATCH v7 3/5] target/riscv: add support for svnapot extension
-To: Alistair Francis <alistair23@gmail.com>
-References: <20220128085501.8014-1-liweiwei@iscas.ac.cn>
- <20220128085501.8014-4-liweiwei@iscas.ac.cn>
- <CAKmqyKN_iCjfhk=pb1uP=j1=H_Y2FZRmoWoahj5d9_RRYoFpvw@mail.gmail.com>
-From: Weiwei Li <liweiwei@iscas.ac.cn>
-Message-ID: <cb6b0a58-d36f-6fa4-c93a-510e43041f7b@iscas.ac.cn>
-Date: Tue, 1 Feb 2022 20:55:58 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1nEsl6-0003ng-P9
+ for qemu-devel@nongnu.org; Tue, 01 Feb 2022 07:59:56 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:32982)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1nEsl4-0004h7-4Z
+ for qemu-devel@nongnu.org; Tue, 01 Feb 2022 07:59:44 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1643720380;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=PLHlYVsCAvye/GUh+667pfBpHMsw/XofDNK3Q9gk9CE=;
+ b=LDdUEoG2LluR5Dx9mu+GPE+Aim7YwOVzXuIlBjJusbMFA9ePw8nhgtwIO5dRVU0ceckLrt
+ OiMcouF2AT8Lwii52n9hYNpTESba75PwYgsepFdB/cLdSNPH65GwNVvynq/l1CeMdgQy2Y
+ kP/A2naK1Z6VnyKetF7yrEaQ9Dld7+8=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-645-tfGGmt3pPtuzNtGJJLBnvw-1; Tue, 01 Feb 2022 07:59:37 -0500
+X-MC-Unique: tfGGmt3pPtuzNtGJJLBnvw-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 56DF419251A0;
+ Tue,  1 Feb 2022 12:59:36 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.194.45])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 5E9177D3F4;
+ Tue,  1 Feb 2022 12:59:26 +0000 (UTC)
+Date: Tue, 1 Feb 2022 13:59:25 +0100
+From: Kevin Wolf <kwolf@redhat.com>
+To: John Snow <jsnow@redhat.com>
+Subject: Re: [PATCH v4 1/4] python/aqmp: Fix negotiation with pre-"oob" QEMU
+Message-ID: <YfkurVhVj0L0Il1p@redhat.com>
+References: <20220201041134.1237016-1-jsnow@redhat.com>
+ <20220201041134.1237016-2-jsnow@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <CAKmqyKN_iCjfhk=pb1uP=j1=H_Y2FZRmoWoahj5d9_RRYoFpvw@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-CM-TRANSID: zQCowAC3mfLdLflhemxCAA--.16958S2
-X-Coremail-Antispam: 1UD129KBjvJXoWxZFyUXFWDAFyrur4rAF48Crg_yoW5ZrWfpr
- Z5Gay2kFZ7JFW2kayxKF1qqw18Gw4YkF4rCw4xJw47Aw4rJrWrG3WDKws09F4UXF48Zr1j
- 9a1UuF1YyFWjvaDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnRJUUUB214x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
- rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
- 1l84ACjcxK6xIIjxv20xvE14v26r1I6r4UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
- 6F4UM28EF7xvwVC2z280aVAFwI0_Cr1j6rxdM28EF7xvwVC2z280aVCY1x0267AKxVWxJr
- 0_GcWle2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E
- 2Ix0cI8IcVAFwI0_JrI_JrylYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJV
- W8JwACjcxG0xvEwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lFIxGxcIEc7CjxVA2Y2ka
- 0xkIwI1lc7I2V7IY0VAS07AlzVAYIcxG8wCY1x0264kExVAvwVAq07x20xyl42xK82IYc2
- Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s02
- 6x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0x
- vE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r4j6F4UMIIF0xvE
- 42xK8VAvwI8IcIk0rVW8JVW3JwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6x
- kF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjfUnXdbUUUUU
-X-Originating-IP: [180.156.147.178]
-X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
-Received-SPF: pass client-ip=159.226.251.25; envelope-from=liweiwei@iscas.ac.cn;
- helo=cstnet.cn
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+In-Reply-To: <20220201041134.1237016-2-jsnow@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.081,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -74,102 +77,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?B?V2VpIFd1ICjlkLTkvJ8p?= <lazyparser@gmail.com>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>, Anup Patel <anup@brainfault.org>,
- wangjunqiang <wangjunqiang@iscas.ac.cn>, Bin Meng <bin.meng@windriver.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Alistair Francis <alistair.francis@wdc.com>, Guo Ren <ren_guo@c-sky.com>,
- Palmer Dabbelt <palmer@dabbelt.com>
+Cc: Eduardo Habkost <eduardo@habkost.net>,
+ Peter Maydell <peter.maydell@linaro.org>, Beraldo Leal <bleal@redhat.com>,
+ qemu-block@nongnu.org, Markus Armbruster <armbru@redhat.com>,
+ qemu-devel@nongnu.org, Hanna Reitz <hreitz@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Am 01.02.2022 um 05:11 hat John Snow geschrieben:
+> QEMU versions prior to the "oob" capability *also* can't accept the
+> "enable" keyword argument at all. Fix the handshake process with older
+> QEMU versions.
+> 
+> Signed-off-by: John Snow <jsnow@redhat.com>
+> Reviewed-by: Hanna Reitz <hreitz@redhat.com>
+> ---
+>  python/qemu/aqmp/qmp_client.py | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/python/qemu/aqmp/qmp_client.py b/python/qemu/aqmp/qmp_client.py
+> index f1a845cc82..90a8737f03 100644
+> --- a/python/qemu/aqmp/qmp_client.py
+> +++ b/python/qemu/aqmp/qmp_client.py
+> @@ -292,9 +292,9 @@ async def _negotiate(self) -> None:
+>          """
+>          self.logger.debug("Negotiating capabilities ...")
+>  
+> -        arguments: Dict[str, List[str]] = {'enable': []}
+> +        arguments: Dict[str, List[str]] = {}
+>          if self._greeting and 'oob' in self._greeting.QMP.capabilities:
+> -            arguments['enable'].append('oob')
+> +            arguments.setdefault('enable', []).append('oob')
+>          msg = self.make_execute_msg('qmp_capabilities', arguments=arguments)
 
-在 2022/2/1 下午2:22, Alistair Francis 写道:
-> On Fri, Jan 28, 2022 at 6:57 PM Weiwei Li <liweiwei@iscas.ac.cn> wrote:
->> - add PTE_N bit
->> - add PTE_N bit check for inner PTE
->> - update address translation to support 64KiB continuous region (napot_bits = 4)
->>
->> Signed-off-by: Weiwei Li <liweiwei@iscas.ac.cn>
->> Signed-off-by: Junqiang Wang <wangjunqiang@iscas.ac.cn>
->> Reviewed-by: Anup Patel <anup@brainfault.org>
->> ---
->>   target/riscv/cpu.c        |  2 ++
->>   target/riscv/cpu_bits.h   |  1 +
->>   target/riscv/cpu_helper.c | 17 ++++++++++++++---
->>   3 files changed, 17 insertions(+), 3 deletions(-)
->>
->> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
->> index 1cb0436187..8752fa1544 100644
->> --- a/target/riscv/cpu.c
->> +++ b/target/riscv/cpu.c
->> @@ -729,6 +729,8 @@ static Property riscv_cpu_properties[] = {
->>       DEFINE_PROP_UINT16("vlen", RISCVCPU, cfg.vlen, 128),
->>       DEFINE_PROP_UINT16("elen", RISCVCPU, cfg.elen, 64),
->>
->> +    DEFINE_PROP_BOOL("svnapot", RISCVCPU, cfg.ext_svnapot, false),
->> +
->>       DEFINE_PROP_BOOL("zba", RISCVCPU, cfg.ext_zba, true),
->>       DEFINE_PROP_BOOL("zbb", RISCVCPU, cfg.ext_zbb, true),
->>       DEFINE_PROP_BOOL("zbc", RISCVCPU, cfg.ext_zbc, true),
->> diff --git a/target/riscv/cpu_bits.h b/target/riscv/cpu_bits.h
->> index 6ea3944423..f6ff1c5012 100644
->> --- a/target/riscv/cpu_bits.h
->> +++ b/target/riscv/cpu_bits.h
->> @@ -489,6 +489,7 @@ typedef enum {
->>   #define PTE_A               0x040 /* Accessed */
->>   #define PTE_D               0x080 /* Dirty */
->>   #define PTE_SOFT            0x300 /* Reserved for Software */
->> +#define PTE_N               0x8000000000000000 /* NAPOT translation */
-> This should be 0x8000000000000000ULL to avoid casting
-OK. I'll fix it.
->
->>   /* Page table PPN shift amount */
->>   #define PTE_PPN_SHIFT       10
->> diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
->> index b820166dc5..6262d157e2 100644
->> --- a/target/riscv/cpu_helper.c
->> +++ b/target/riscv/cpu_helper.c
->> @@ -641,7 +641,7 @@ restart:
->>               return TRANSLATE_FAIL;
->>           } else if (!(pte & (PTE_R | PTE_W | PTE_X))) {
->>               /* Inner PTE, continue walking */
->> -            if (pte & (PTE_D | PTE_A | PTE_U)) {
->> +            if (pte & (target_ulong)(PTE_D | PTE_A | PTE_U | PTE_N)) {
->>                   return TRANSLATE_FAIL;
->>               }
->>               base = ppn << PGSHIFT;
->> @@ -717,8 +717,19 @@ restart:
->>               /* for superpage mappings, make a fake leaf PTE for the TLB's
->>                  benefit. */
->>               target_ulong vpn = addr >> PGSHIFT;
->> -            *physical = ((ppn | (vpn & ((1L << ptshift) - 1))) << PGSHIFT) |
->> -                        (addr & ~TARGET_PAGE_MASK);
->> +
->> +            int napot_bits = 0;
->> +            if (cpu->cfg.ext_svnapot && (pte & (target_ulong)PTE_N)) {
->> +                napot_bits = ctzl(ppn) + 1;
->> +                if ((i != (levels - 1)) || (napot_bits != 4)) {
->> +                    return TRANSLATE_FAIL;
->> +                }
->> +            }
->> +
->> +            *physical = (((ppn & ~(((target_ulong)1 << napot_bits) - 1)) |
-> It might be clearer to create the mask as a variable, there are a lot
-> of brackets here :)
-OK.
->
-> Alistair
->
->> +                          (vpn & (((target_ulong)1 << napot_bits) - 1)) |
->> +                          (vpn & (((target_ulong)1 << ptshift) - 1))
->> +                        ) << PGSHIFT) | (addr & ~TARGET_PAGE_MASK);
->>
->>               /* set permissions on the TLB entry */
->>               if ((pte & PTE_R) || ((pte & PTE_X) && mxr)) {
->> --
->> 2.17.1
->>
->>
+In case you have some interest in bike sheds:
+
+As long as we only ever append a single capability, it doesn't really
+make a difference and an explicit setdefault() when adding it is fine.
+But if we had more than one, maybe making arguments a defaultdict(list)
+would be nicer.
+
+Not worth respinning, of course, if you don't for another reason.
+
+Kevin
 
 
