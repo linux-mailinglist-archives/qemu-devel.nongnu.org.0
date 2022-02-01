@@ -2,75 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 964BD4A55F3
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Feb 2022 05:43:27 +0100 (CET)
-Received: from localhost ([::1]:42248 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0BDA94A56F8
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Feb 2022 06:33:34 +0100 (CET)
+Received: from localhost ([::1]:40838 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nEl0o-0008Pu-1z
-	for lists+qemu-devel@lfdr.de; Mon, 31 Jan 2022 23:43:26 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:49604)
+	id 1nElnI-0003cF-K9
+	for lists+qemu-devel@lfdr.de; Tue, 01 Feb 2022 00:33:32 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:56826)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1nEky8-00072H-45; Mon, 31 Jan 2022 23:40:40 -0500
-Received: from [2607:f8b0:4864:20::d2c] (port=33448
- helo=mail-io1-xd2c.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1nEky6-0000OS-Hf; Mon, 31 Jan 2022 23:40:39 -0500
-Received: by mail-io1-xd2c.google.com with SMTP id y84so19808505iof.0;
- Mon, 31 Jan 2022 20:40:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=b2jnqckeZ/6TLfasN+xZyDJXiHIkS5FYYOTHKUJgduc=;
- b=fHtsuVwl/1diMAZt+TqC2pOt97tiT6HP7gFWnHAdlCxDdONkU1GMQY4u8ZJ3ECkCIv
- AvrjE23w9GwO+tMAwxYGqz9mSNN7+Xu/2Wv7WXuydZeGYW+yAyxc1MzbxSF57d2UT9z+
- A0luIXz4OvvAeBok8+/K7RAyEiPmcVnsc+sxBR4Vq2RBk9TcwFbBscl1xnLQezSlLe+v
- sLdw09CaTpF0I2mg7H466NAcM4/iY+ARD1I6DdZA+Y9Q7vdeUYpbl75rix0+HlBlW76A
- 9tvmQy1BiTzFzBFldLkQTJSMu13D7pds4GP2PEu7NKaZ207M7X120BW3+h6PLBqWBwrM
- fwPQ==
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1nElkB-0002Hj-97
+ for qemu-devel@nongnu.org; Tue, 01 Feb 2022 00:30:19 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:21001)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1nElk7-0007Hw-4U
+ for qemu-devel@nongnu.org; Tue, 01 Feb 2022 00:30:16 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1643693413;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=hQZr8gyGsura/jQ0STxR0Ud6oVr1JfOOlu2oUq7KaLc=;
+ b=brdskkf0xTUmHNnce8ztKse3F3wOuP1JL0JaSYftFV32NjMbyUjSFjcdHwoiDBgl9/6ja5
+ fqDbCHuwf4O5l8BqH2Il5jBCGpxu4nOalHlYyXheluqB+VJrxYAUUK6TlIR8WZvZPVGVHw
+ GCNY1+iHYvI8ojjx9x3ab6GS+m6lYtg=
+Received: from mail-ua1-f69.google.com (mail-ua1-f69.google.com
+ [209.85.222.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-382-3kf3fKmVMwWB_9p3y6FQ7w-1; Tue, 01 Feb 2022 00:30:08 -0500
+X-MC-Unique: 3kf3fKmVMwWB_9p3y6FQ7w-1
+Received: by mail-ua1-f69.google.com with SMTP id
+ i25-20020ab03759000000b00308e68dcb1fso8571862uat.22
+ for <qemu-devel@nongnu.org>; Mon, 31 Jan 2022 21:30:07 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=b2jnqckeZ/6TLfasN+xZyDJXiHIkS5FYYOTHKUJgduc=;
- b=GPnXNTCw2rCb73oiBptD/q9mslUTynyP6wIFtTQ1zznQLqosLvDx6tU/hGT2OdcR9N
- TYpahhOOGeFnup04MZI4QCy9/1l9GM3caovmGI4sEQUmPpQyvXxmB8heGrdnkRTAggdc
- DQEEK71moLLQH7cmKoQdv7xY8PfQcKv/FRtghtwS75koz/a7vDKR6J0SkTLYhbRXIanm
- A+VlMNfbPIMuKYK7IVwVpzzoQFYy+GZaJWPDFB3syzWWOFfRHrG7dQrOEx8R7Nc5U5Xc
- m2zOlgkyJI6PxXrmESl0b3cXRKmZfMhOZlXXL2JNrkFKewshbpWcNEynyFpbqTGhqwGh
- RnNQ==
-X-Gm-Message-State: AOAM532SK0ThhpXNlqcnDtQMvoT19LwGaxrX6JL4sbXf4EGufwUC06Ct
- DsvSd2ZPRvjsdNil2DEjGeKBQaaBtrZrSX49bqk=
-X-Google-Smtp-Source: ABdhPJyOecxkxs7RlRi1PG6z91vyjVL3rSALBf/kT9z8BncN4f5AGEzbScDx/MQTcYftYW/ALa1JZZnGeYhY0xXyZW8=
-X-Received: by 2002:a05:6638:1028:: with SMTP id
- n8mr12531953jan.318.1643690437091; 
- Mon, 31 Jan 2022 20:40:37 -0800 (PST)
+ bh=hQZr8gyGsura/jQ0STxR0Ud6oVr1JfOOlu2oUq7KaLc=;
+ b=Lo9eEg+QG6czN/vtuKZfv2foW7+BSFs/lA9wb9sDwfvuDKw4yIdC0q8nedHERfjCI4
+ LzHY8E+kJ09d/3/ez3jL7qBtb1w80J2HoiUa9o0yVO9NROV0uOf14Dux5nX7WT9ywKV6
+ PgPbn+aLZYQkYKtE4uOj3qgkla6VBOStbEejQERXQy46mJVRMrbq2w2qTQL5/SBZGn0+
+ ufmU1Oeg80mzlp/2JTUx6GZSFXvswsJ3L0WmyZiOzv22a/9sxIDfuenThQnZNvra9nOw
+ nV57ArGnVhZq+FHEIAKIg6uSIww3ArqDM2L+tB6wYQvd60u6DHWAQbMVjSR9UA2RiPQd
+ JhLw==
+X-Gm-Message-State: AOAM533JPix2JDDen4cT+hilYWZhRngh0DZ3cXnoG7b6BFcsxdvmz00W
+ zOwxpVCBGpbe9t6qgkoejf9otYkNKw4bpu51qQxBUQRSM9x4V8DKI9RijWSg4efsKK8lRyOodUZ
+ FEyhiP7inwEuyNvA5ojKna/uYXnZ2BI8=
+X-Received: by 2002:a1f:20e:: with SMTP id 14mr9567946vkc.8.1643693407215;
+ Mon, 31 Jan 2022 21:30:07 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJynbZQ25UwUa+NBuqgClTZyHsNvMYvUaAp7wH5KnR/8c1lKHCScUXrVcZBsX3HE5ZOwCFkZ5/ikH0cH5c6sANM=
+X-Received: by 2002:a1f:20e:: with SMTP id 14mr9567941vkc.8.1643693406956;
+ Mon, 31 Jan 2022 21:30:06 -0800 (PST)
 MIME-Version: 1.0
-References: <20220124005958.38848-1-alistair.francis@opensource.wdc.com>
- <bdc7e993-1baa-0ce9-75f9-fc078617ed4f@c-sky.com>
- <9fe41ac9-f0d9-1122-7ec3-3f20e3667826@linaro.org>
-In-Reply-To: <9fe41ac9-f0d9-1122-7ec3-3f20e3667826@linaro.org>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Tue, 1 Feb 2022 14:40:10 +1000
-Message-ID: <CAKmqyKNpefaQMZcW1CsKK22wKMRUxbkPjPAOumei+5NCQsLEVQ@mail.gmail.com>
-Subject: Re: [PATCH 0/2] RISC-V: Correctly generate store/amo faults
-To: Richard Henderson <richard.henderson@linaro.org>
+References: <CAFEAcA9cMZoj18gq7Ksv5PRoU1wRmXvW_e9UE73C_MEB7wTroQ@mail.gmail.com>
+ <CAFEAcA9_d5jw5-HOrZA6dsG1vMqxzqmrfHA7Jo0KsDcaEXmB_Q@mail.gmail.com>
+ <6c90ca3d-eaec-d7e8-5941-4deb83b58fd0@redhat.com>
+ <87zgnp4b32.fsf@dusky.pond.sub.org>
+ <CAFEAcA_kxrCgyxWPFLw6VZ-rKx-res0C8L2BWRvfB81cR+keLg@mail.gmail.com>
+ <875yqd6zib.fsf@linaro.org> <YerPk2ABMHQf/3QP@redhat.com>
+In-Reply-To: <YerPk2ABMHQf/3QP@redhat.com>
+From: Cleber Rosa <crosa@redhat.com>
+Date: Tue, 1 Feb 2022 00:29:56 -0500
+Message-ID: <CA+bd_6KgJ_tG9r9Nhn5p6bDsdiXKRckGiZ75srxTNZj4bdd2UA@mail.gmail.com>
+Subject: Re: "make check-acceptance" takes way too long
+To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=crosa@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::d2c
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d2c;
- envelope-from=alistair23@gmail.com; helo=mail-io1-xd2c.google.com
-X-Spam_score_int: -10
-X-Spam_score: -1.1
-X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, PDS_HP_HELO_NORDNS=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=crosa@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.088,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -83,113 +94,183 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alistair Francis <alistair.francis@opensource.wdc.com>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>,
- David Hildenbrand <david@redhat.com>, Bin Meng <bin.meng@windriver.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Peter Xu <peterx@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
- Palmer Dabbelt <palmer@dabbelt.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Bin Meng <bmeng.cn@gmail.com>,
- LIU Zhiwei <zhiwei_liu@c-sky.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Jan 26, 2022 at 10:09 AM Richard Henderson
-<richard.henderson@linaro.org> wrote:
+On Fri, Jan 21, 2022 at 10:22 AM Daniel P. Berrang=C3=A9 <berrange@redhat.c=
+om> wrote:
 >
-> On 1/24/22 4:17 PM, LIU Zhiwei wrote:
+> On Fri, Jan 21, 2022 at 12:23:23PM +0000, Alex Benn=C3=A9e wrote:
 > >
-> > On 2022/1/24 =E4=B8=8A=E5=8D=888:59, Alistair Francis wrote:
-> >> From: Alistair Francis <alistair.francis@wdc.com>
-> >>
-> >> This series adds a MO_ op to specify that a load instruction should
-> >> produce a store fault. This is used on RISC-V to produce a store/amo
-> >> fault when an atomic access fails.
+> > Peter Maydell <peter.maydell@linaro.org> writes:
 > >
-> > Hi Alistair,
+> > > On Fri, 21 Jan 2022 at 10:50, Markus Armbruster <armbru@redhat.com> w=
+rote:
+> > >> No objection, but it's no replacement for looking into why these tes=
+ts
+> > >> are so slow.
+> > >>
+> > >> The #1 reason for things being slow is not giving a damn :)
+> > >
+> > > See previous messages in the thread -- the test starts a
+> > > full-fat guest OS including UEFI boot, and it takes forever to
+> > > get to the login prompt because systemd is starting everything
+> > > including the kitchen sink.
 > >
-> > As Richard said,  we  can address this issue in two ways, probe_read(I =
-think probe_write
-> > is typo)
+> > There has to be a half-way house between booting a kernel until it fail=
+s
+> > to find a rootfs and running a full Ubuntu distro. Maybe just asking
+> > systemd to reach "rescue.target" would be enough to show the disks are
+> > up and userspace works.
 >
-> It is not a typo: we want to verify that the memory is writable before we=
- perform the
-> load.  This will raise a write fault on a no-access page before a read fa=
-ult would be
-> generated by the load.  This may still generate the wrong fault for a wri=
-te-only page.
-> (Is such a page permission encoding possible with RISCV?  Not all cpus su=
-pport that, since
-
-It's not. RISC-V doesn't have write only pages, at least not in the
-current priv spec (maybe some extension allows it).
-
-> at first blush it seems to be mostly useless.  But some do, and a generic=
- tcg feature
-> should be designed with those in mind.)
+> Booting up full OS distros is useful, but at the same time I feel it
+> is too much as something to expect developers to do on any kind of
+> regular basis.
 >
-> > In my opinion use MO_op in io_readx may be not right because the issue =
-is not only with IO
-> > access. And MO_ op in io_readx is too later because the exception has b=
-een created when
-> > tlb_fill.
+
+Agreed.  The solution IMO can be as simple as having different "test
+job profiles".
+
+> Ideally some decent amount of acceptance testing could be a standard
+> part of the 'make check', but that's impossible as long as we're
+> downloading large disk images or booting things that are very slow,
+> especially so with TCG.
 >
-> You are correct that changing only io_readx is insufficient.  Very much s=
-o.
+> IMHO the ideal scenario would be for us to have a kernel, initrd
+> containing just busybox tools for the key arch targets we care
+> about. Those could be used with direct kernel boot or stuffed
+> into a disk iamge. Either way, they would boot in ~1 second,
+> even with TCG, and would be able to execute simple shell scripts
+> to test a decent amount of QEMU functionality.
 >
-> Alistair, you're only changing the reporting of MMIO faults for which rea=
-d permission is
-> missing.  Importantly, the actual permission check is done elsewhere, and=
- you aren't
-> changing that to perform a write access check.  Also, you very much need =
-to handle normal
 
-I'm a little confused with this part.
+I see different use cases here:
 
-Looking at tcg_gen_atomic_cmpxchg_i64() for example we either:
- 1. call tcg_gen_qemu_ld_i64() then tcg_gen_qemu_st_i64()
- 2. call table_cmpxchg[] which eventually calls atomic_mmu_lookup()
- 3. call tcg_gen_atomic_cmpxchg_i32() which is pretty much the same as
-the above two
+A) Testing that QEMU can boot a full distro
 
-That means in both cases we end up performing a load or tlb_fill(..,
-MMU_DATA_LOAD, ..) operation as well as a store operation.
+For testing purposes, the more different subsystems the "boot" process
+depends on, the better.  Currently the "boot_linux.py" tests require the en=
+tire
+guest boot to complete and have a networking configuration and interaction.
 
-So we are already performing a write permission check, if that fails
-on RISC-V we correctly generate the RISCV_EXCP_STORE_AMO_ACCESS_FAULT
-fault. I guess on some architectures there might be a specific atomic
-fault, which we will still not correctly trigger though.
+B) Using something as a base OS for scripts (tests) to run on it
 
-The part we are interested in is the load, and ensuring that we
-generate a store fault if that fails. At least for RISC-V.
+Here's where there's the most benefit in having a more lightweight distro
+(or kernel + initrd).  But, this requirement will also come in
+different "optimal"
+sizes for different people.  Some of the existing tests require not
+only a Fedora
+system, but a given version that has given capabilities.
 
-> memory not just MMIO.  Which will require changes across all tcg/arch/, a=
-s well as in all
-> of the memory access helpers in accel/tcg/.
+For a sustainable, framework-like solution, tests should be able to determi=
+ne
+the guest they need with minimal setup from test writers[1].  If a Fedora-l=
+ike
+system is not needed, maybe a lightweight system like CirrOS[2] is enough.
+CirrOS, unfortunately, can not be used Today as the distro in most of the
+acceptance tests because the cloud-init mechanism used to configure the
+networking is not currently supported, although there have been discussions
+to consider implementing it[3].
 
-Argh, yeah
-
+> It wouldn't eliminate the need to test with full OS, but it
+> would let us have some acceptance testing run as standard with
+> 'make check' in a decently fast time.  It would then be less
+> critical if the more thorough full OS tests were somewhat
+> slower than we'd like. We could just leave those as a scheduled
+> job to run overnight post-merge. If they do detect any problems
+> post-merge, then write a dedicated test scenario to replicate it
+> under the minimal kernel/initrd acceptance test so it'll be
+> caught pre-merge in future.
 >
-> We may not want to add this check along the normal hot path of a normal l=
-oad, but create
 
-Can't we just do the check in the slow path? By the time we get to the
-fast path shouldn't we already have permissions?
+Assuming this is about "Testing that QEMU can boot a full distro", I wouldn=
+'t
+try to solve the problem by making the distro too slim to get to the
+point of becoming
+an unrealistic system.
 
-> separate helpers for "load with write-permission-check".  And we should a=
-nswer the
+IMO the deal breaker with regards to test time can be solved more cheaply b=
+y
+having and using KVM where these tests will run, and not running them by
+default otherwise.  With the tagging mechanism we should be able to set a
+condition such as: "If using TCG, exclude tests that boot a full blown dist=
+ro.
+If using KVM, do not criticize what gets booted".  Resulting in something
+like:
 
-As in add a new INDEX_op_qemu_ld_write_perm_i32/i64, make edits to
-atomic_mmu_lookup() and all of the plumbing for those?
+$ avocado list -t accel:tcg,boots:-distro -t accel:kvm
+~/src/qemu/tests/avocado/{boot_linux.py,boot_linux_console.py}
+avocado-instrumented
+/home/cleber/src/qemu/tests/avocado/boot_linux.py:BootLinuxX8664.test_pc_i4=
+40fx_kvm
+avocado-instrumented
+/home/cleber/src/qemu/tests/avocado/boot_linux.py:BootLinuxX8664.test_pc_q3=
+5_kvm
+avocado-instrumented
+/home/cleber/src/qemu/tests/avocado/boot_linux.py:BootLinuxAarch64.test_vir=
+t_kvm
+avocado-instrumented
+/home/cleber/src/qemu/tests/avocado/boot_linux_console.py:BootLinuxConsole.=
+test_aarch64_virt
+avocado-instrumented
+/home/cleber/src/qemu/tests/avocado/boot_linux_console.py:BootLinuxConsole.=
+test_aarch64_xlnx_versal_virt
+avocado-instrumented
+/home/cleber/src/qemu/tests/avocado/boot_linux_console.py:BootLinuxConsole.=
+test_arm_virt
+avocado-instrumented
+/home/cleber/src/qemu/tests/avocado/boot_linux_console.py:BootLinuxConsole.=
+test_arm_emcraft_sf2
+avocado-instrumented
+/home/cleber/src/qemu/tests/avocado/boot_linux_console.py:BootLinuxConsole.=
+test_arm_raspi2_uart0
+avocado-instrumented
+/home/cleber/src/qemu/tests/avocado/boot_linux_console.py:BootLinuxConsole.=
+test_arm_exynos4210_initrd
+avocado-instrumented
+/home/cleber/src/qemu/tests/avocado/boot_linux_console.py:BootLinuxConsole.=
+test_arm_cubieboard_initrd
+avocado-instrumented
+/home/cleber/src/qemu/tests/avocado/boot_linux_console.py:BootLinuxConsole.=
+test_arm_cubieboard_sata
+avocado-instrumented
+/home/cleber/src/qemu/tests/avocado/boot_linux_console.py:BootLinuxConsole.=
+test_arm_quanta_gsj
+avocado-instrumented
+/home/cleber/src/qemu/tests/avocado/boot_linux_console.py:BootLinuxConsole.=
+test_arm_quanta_gsj_initrd
+avocado-instrumented
+/home/cleber/src/qemu/tests/avocado/boot_linux_console.py:BootLinuxConsole.=
+test_arm_orangepi
+avocado-instrumented
+/home/cleber/src/qemu/tests/avocado/boot_linux_console.py:BootLinuxConsole.=
+test_arm_orangepi_initrd
+avocado-instrumented
+/home/cleber/src/qemu/tests/avocado/boot_linux_console.py:BootLinuxConsole.=
+test_arm_orangepi_sd
 
-Alistair
+Does that sound like something appropriate?
 
-> question of whether it should really be "load with read-write-permission-=
-check", which
-> will make the changes to tcg/arch/ harder.
->
->
-> r~
+BTW, on the topic of "Using something as a base OS for scripts (tests) to r=
+un
+on it", another possibility for using full blown OS would be to save
+their initialized
+state, and load it to memory for each test, saving the guest boot time.  Th=
+is
+should of course be done at the framework level and transparent to tests.
+
+Best,
+- Cleber.
+
+[1] https://avocado-framework.readthedocs.io/en/94.0/guides/writer/libs/vmi=
+mage.html#supported-images
+[2] https://launchpad.net/cirros
+[3] https://github.com/cirros-dev/cirros/issues/67
+
 
