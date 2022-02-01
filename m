@@ -2,103 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6FC964A6022
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Feb 2022 16:29:23 +0100 (CET)
-Received: from localhost ([::1]:43704 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8EAE54A5FEE
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Feb 2022 16:24:35 +0100 (CET)
+Received: from localhost ([::1]:36288 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nEv5u-0006fa-GE
-	for lists+qemu-devel@lfdr.de; Tue, 01 Feb 2022 10:29:22 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:55342)
+	id 1nEv1F-0000pt-LU
+	for lists+qemu-devel@lfdr.de; Tue, 01 Feb 2022 10:24:33 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:55344)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
- id 1nEsio-0003BC-3N; Tue, 01 Feb 2022 07:57:26 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:46362)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
- id 1nEsiY-0003yt-3n; Tue, 01 Feb 2022 07:57:12 -0500
-Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 211CUsF0026974; 
- Tue, 1 Feb 2022 12:54:06 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=from : to : cc : subject
- : in-reply-to : references : date : message-id : content-type :
- content-transfer-encoding : mime-version; s=pp1;
- bh=gk9jdjARctTy0Suv72h5Et4KXzXoVGgAFXoBbzeu3aA=;
- b=AWT1LeDBizE6xA0Y2cgfKRn+O89ZR541tw7oSwOln501bOdttYSyp7Z07WHckuoXYKaa
- OqbaB30GrTVJHrFUHPGEV0sh6k/RQgMiOXEbtWmfjmQq80zjgQlqpW2KY30rEbTEI6YL
- TMGvn3ukVHHQJbVhoXpa7MnBR9B2knuwhqPnASzCPpjNWRoHI8ow9jeAg7W65zhAOLC7
- ehH0G6e1E56OruCBsMTzl1WuLXQ8VJC1MCxzN5ANcnAF9QJz7dUXcU27+w+F0cZ7B6ka
- KrdxUlyD8Y8/ocgNSteDyjg834c/6IKXR/Zn58yXZDtb28aW0LH3RYGIEj9mEiV9KCG0 5A== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3dy1v9m00w-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 01 Feb 2022 12:54:05 +0000
-Received: from m0098396.ppops.net (m0098396.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 211ChsQH013191;
- Tue, 1 Feb 2022 12:54:05 GMT
-Received: from ppma05wdc.us.ibm.com (1b.90.2fa9.ip4.static.sl-reverse.com
- [169.47.144.27])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3dy1v9m00j-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 01 Feb 2022 12:54:05 +0000
-Received: from pps.filterd (ppma05wdc.us.ibm.com [127.0.0.1])
- by ppma05wdc.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 211CmO05012597;
- Tue, 1 Feb 2022 12:54:04 GMT
-Received: from b03cxnp07027.gho.boulder.ibm.com
- (b03cxnp07027.gho.boulder.ibm.com [9.17.130.14])
- by ppma05wdc.us.ibm.com with ESMTP id 3dvw7aqtbe-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 01 Feb 2022 12:54:04 +0000
-Received: from b03ledav005.gho.boulder.ibm.com
- (b03ledav005.gho.boulder.ibm.com [9.17.130.236])
- by b03cxnp07027.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 211Cs3n837224890
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 1 Feb 2022 12:54:03 GMT
-Received: from b03ledav005.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 11679BE059;
- Tue,  1 Feb 2022 12:54:03 +0000 (GMT)
-Received: from b03ledav005.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 6C81BBE051;
- Tue,  1 Feb 2022 12:54:02 +0000 (GMT)
-Received: from localhost (unknown [9.211.97.90])
- by b03ledav005.gho.boulder.ibm.com (Postfix) with ESMTPS;
- Tue,  1 Feb 2022 12:54:02 +0000 (GMT)
-From: Fabiano Rosas <farosas@linux.ibm.com>
-To: BALATON Zoltan <balaton@eik.bme.hu>, =?utf-8?Q?C=C3=A9dric?= Le Goater
- <clg@kaod.org>
-Subject: Re: [PATCH 00/11] target/ppc: powerpc_excp improvements [BookE] (6/n)
-In-Reply-To: <2f5661b4-cbca-748f-e5e0-47935e7cf050@eik.bme.hu>
-References: <20220128224018.1228062-1-farosas@linux.ibm.com>
- <c9bb63f8-c2e8-31e5-fe24-b9923c2c1821@eik.bme.hu>
- <4c9d1067-441c-7640-09cb-5e3a26b7e8e2@kaod.org>
- <2f5661b4-cbca-748f-e5e0-47935e7cf050@eik.bme.hu>
-Date: Tue, 01 Feb 2022 09:54:00 -0300
-Message-ID: <87y22un3x3.fsf@linux.ibm.com>
-Content-Type: text/plain; charset=utf-8
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: Jueca2CbjFmB0TSDpTsChFQaQJLZLjFa
-X-Proofpoint-GUID: cwGZlIE2I3aYEmWyajuE1yj6zhU0mwa1
-Content-Transfer-Encoding: quoted-printable
-X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+ (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
+ id 1nEsio-0003BD-94; Tue, 01 Feb 2022 07:57:26 -0500
+Received: from smtp25.cstnet.cn ([159.226.251.25]:58446 helo=cstnet.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <liweiwei@iscas.ac.cn>)
+ id 1nEsiY-000419-Hs; Tue, 01 Feb 2022 07:57:14 -0500
+Received: from [192.168.0.107] (unknown [180.156.147.178])
+ by APP-05 (Coremail) with SMTP id zQCowAAnCfKtLflh9WpCAA--.16824S2;
+ Tue, 01 Feb 2022 20:55:10 +0800 (CST)
+Subject: Re: [PATCH v7 1/5] target/riscv: Ignore reserved bits in PTE for RV64
+To: Alistair Francis <alistair23@gmail.com>
+References: <20220128085501.8014-1-liweiwei@iscas.ac.cn>
+ <20220128085501.8014-2-liweiwei@iscas.ac.cn>
+ <CAKmqyKO4KS-=1mENTOAOMJ4soo+cWoMVVzCMn=AuuS_PPWijfg@mail.gmail.com>
+From: Weiwei Li <liweiwei@iscas.ac.cn>
+Message-ID: <86b649d7-4b56-d5dd-9fb0-e78dd356b029@iscas.ac.cn>
+Date: Tue, 1 Feb 2022 20:55:09 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.816,Hydra:6.0.425,FMLib:17.11.62.513
- definitions=2022-02-01_03,2022-02-01_01,2021-12-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 adultscore=0
- lowpriorityscore=0 suspectscore=0 bulkscore=0 clxscore=1015 phishscore=0
- priorityscore=1501 mlxscore=0 spamscore=0 mlxlogscore=918 malwarescore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2201110000
- definitions=main-2202010068
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=farosas@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+In-Reply-To: <CAKmqyKO4KS-=1mENTOAOMJ4soo+cWoMVVzCMn=AuuS_PPWijfg@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+X-CM-TRANSID: zQCowAAnCfKtLflh9WpCAA--.16824S2
+X-Coremail-Antispam: 1UD129KBjvJXoWxCw48Zw1UJFWxKw1kCrW5GFg_yoW5tw47pr
+ W8Ga13ArWDJr97Ca4SqF15tw1rtws2kr1rCw4xCrnrta1rXrZ5WFnFkw4a9F9rXF18uF1Y
+ v3Wj9F13CF4qvFJanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUUBa14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+ rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+ 1l84ACjcxK6xIIjxv20xvE14v26r1I6r4UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
+ 6F4UM28EF7xvwVC2z280aVAFwI0_Cr1j6rxdM28EF7xvwVC2z280aVCY1x0267AKxVWxJr
+ 0_GcWle2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E
+ 2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJV
+ W8JwACjcxG0xvEwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lFIxGxcIEc7CjxVA2Y2ka
+ 0xkIwI1lc7I2V7IY0VAS07AlzVAYIcxG8wCY1x0264kExVAvwVAq07x20xyl42xK82IYc2
+ Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s02
+ 6x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0x
+ vE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r4j6F4UMIIF0xvE
+ 42xK8VAvwI8IcIk0rVWrZr1j6s0DMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2js
+ IEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x0JU2fOwUUUUU=
+X-Originating-IP: [180.156.147.178]
+X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
+Received-SPF: pass client-ip=159.226.251.25; envelope-from=liweiwei@iscas.ac.cn;
+ helo=cstnet.cn
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -112,51 +74,135 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: danielhb413@gmail.com, qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
- david@gibson.dropbear.id.au
+Cc: =?UTF-8?B?V2VpIFd1ICjlkLTkvJ8p?= <lazyparser@gmail.com>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>, Anup Patel <anup@brainfault.org>,
+ wangjunqiang <wangjunqiang@iscas.ac.cn>, Bin Meng <bin.meng@windriver.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Alistair Francis <alistair.francis@wdc.com>, Guo Ren <ren_guo@c-sky.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>, Bin Meng <bmeng.cn@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-BALATON Zoltan <balaton@eik.bme.hu> writes:
 
-> On Tue, 1 Feb 2022, C=C3=A9dric Le Goater wrote:
->> On 1/29/22 01:07, BALATON Zoltan wrote:
->>> On Fri, 28 Jan 2022, Fabiano Rosas wrote:
->>>> This series handles the BookE exception code.
->>>>=20
->>>> Tested the following machines/CPUs:
->>>>=20
->>>> =3D=3D bamboo =3D=3D
->>>> 440ep, 460ex, 440-xilinx-w-dfpu
->>>>=20
->>>> =3D=3D sam460ex =3D=3D
->>>> 440ep, 460ex, 440-xilinx-w-dfpu
->>>=20
->>> What OS did you test with? Other than the 460ex may not make much sense=
- on=20
->>> this board but checking it never hurts. If you only tried Linux kernel =
-then=20
->>> something else to give more coverage could be the same MorphOS iso that=
-=20
->>> used for pegasos2 which should also boot on sam460ex as shown here:
->>>=20
->>> http://zero.eik.bme.hu/~balaton/qemu/amiga/#morphos
->>>=20
->>> or the AROS iso further up that page that should also boot on sam460ex.
+在 2022/2/1 上午11:31, Alistair Francis 写道:
+> On Fri, Jan 28, 2022 at 7:11 PM Weiwei Li <liweiwei@iscas.ac.cn> wrote:
+>> From: Guo Ren <ren_guo@c-sky.com>
 >>
->> I didn't see any issue.
+>> Highest bits of PTE has been used for svpbmt, ref: [1], [2], so we
+>> need to ignore them. They cannot be a part of ppn.
 >>
->> Could you please give a try to this branch :
+>> 1: The RISC-V Instruction Set Manual, Volume II: Privileged Architecture
+>>     4.4 Sv39: Page-Based 39-bit Virtual-Memory System
+>>     4.5 Sv48: Page-Based 48-bit Virtual-Memory System
 >>
->>  https://gitlab.com/legoater/qemu/-/tree/ppc-7.0
+>> 2: https://github.com/riscv/virtual-memory/blob/main/specs/663-Svpbmt-diff.pdf
+>>
+>> Signed-off-by: Guo Ren <ren_guo@c-sky.com>
+>> Reviewed-by: Liu Zhiwei <zhiwei_liu@c-sky.com>
+>> Cc: Bin Meng <bmeng.cn@gmail.com>
+>> Cc: Alistair Francis <alistair.francis@wdc.com>
+>> ---
+>>   target/riscv/cpu.h        | 15 +++++++++++++++
+>>   target/riscv/cpu_bits.h   |  3 +++
+>>   target/riscv/cpu_helper.c | 14 +++++++++++++-
+>>   3 files changed, 31 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+>> index 55635d68d5..336fe8e3d5 100644
+>> --- a/target/riscv/cpu.h
+>> +++ b/target/riscv/cpu.h
+>> @@ -341,6 +341,8 @@ struct RISCVCPU {
+>>           bool ext_counters;
+>>           bool ext_ifencei;
+>>           bool ext_icsr;
+>> +        bool ext_svnapot;
+>> +        bool ext_svpbmt;
+>>           bool ext_zfh;
+>>           bool ext_zfhmin;
+>>           bool ext_zve32f;
+> Hello, thanks for the patches.
 >
-> Thanks for testing. It should be fine if it still boots so just go ahead=
-=20
-> and put the series in the next pull request. If I find anything I'll=20
-> report when it's in master, I don't have the resources to follow branches=
-=20
-> but we have a long freeze time to find any bugs so ir should be OK.
+> This looks good, but you might need to rebase it as there are patches
+> on list that move this into a different struct.
 
-I tested it but forgot to post here. It boots fine until the little
-ballons screen and I can click around. So I'd say were good. =3D)
+Thanks for your review.
+
+I'll rebase it.
+
+>
+>> @@ -495,6 +497,19 @@ static inline int riscv_cpu_xlen(CPURISCVState *env)
+>>       return 16 << env->xl;
+>>   }
+>>
+>> +#ifdef TARGET_RISCV32
+>> +#define riscv_cpu_sxl(env)  ((void)(env), MXL_RV32)
+>> +#else
+>> +static inline RISCVMXL riscv_cpu_sxl(CPURISCVState *env)
+>> +{
+>> +#ifdef CONFIG_USER_ONLY
+>> +    return env->misa_mxl;
+>> +#else
+>> +    return get_field(env->mstatus, MSTATUS64_SXL);
+>> +#endif
+>> +}
+>> +#endif
+>> +
+>>   /*
+>>    * Encode LMUL to lmul as follows:
+>>    *     LMUL    vlmul    lmul
+>> diff --git a/target/riscv/cpu_bits.h b/target/riscv/cpu_bits.h
+>> index 7c87433645..6ea3944423 100644
+>> --- a/target/riscv/cpu_bits.h
+>> +++ b/target/riscv/cpu_bits.h
+>> @@ -493,6 +493,9 @@ typedef enum {
+>>   /* Page table PPN shift amount */
+>>   #define PTE_PPN_SHIFT       10
+>>
+>> +/* Page table PPN mask */
+>> +#define PTE_PPN_MASK        0x3FFFFFFFFFFC00ULL
+>> +
+>>   /* Leaf page shift amount */
+>>   #define PGSHIFT             12
+>>
+>> diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
+>> index 327a2c4f1d..5a1c0e239e 100644
+>> --- a/target/riscv/cpu_helper.c
+>> +++ b/target/riscv/cpu_helper.c
+>> @@ -622,7 +622,19 @@ restart:
+>>               return TRANSLATE_FAIL;
+>>           }
+>>
+>> -        hwaddr ppn = pte >> PTE_PPN_SHIFT;
+>> +        hwaddr ppn;
+>> +        RISCVCPU *cpu = env_archcpu(env);
+> I know there is existing code in this function that does this, but
+> please don't initiate variables mid function. Can you move this to the
+> top of the function?
+OK.
+>
+> Otherwise:
+>
+> Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+>
+> Alistair
+>
+>> +
+>> +        if (riscv_cpu_sxl(env) == MXL_RV32) {
+>> +            ppn = pte >> PTE_PPN_SHIFT;
+>> +        } else if (cpu->cfg.ext_svpbmt || cpu->cfg.ext_svnapot) {
+>> +            ppn = (pte & (target_ulong)PTE_PPN_MASK) >> PTE_PPN_SHIFT;
+>> +        } else {
+>> +            ppn = pte >> PTE_PPN_SHIFT;
+>> +            if ((pte & ~(target_ulong)PTE_PPN_MASK) >> PTE_PPN_SHIFT) {
+>> +                return TRANSLATE_FAIL;
+>> +            }
+>> +        }
+>>
+>>           if (!(pte & PTE_V)) {
+>>               /* Invalid PTE */
+>> --
+>> 2.17.1
+>>
+>>
+
 
