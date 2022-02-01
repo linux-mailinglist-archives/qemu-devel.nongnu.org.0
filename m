@@ -2,58 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41ABD4A55D7
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Feb 2022 05:13:15 +0100 (CET)
-Received: from localhost ([::1]:55386 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A9CC4A55D9
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Feb 2022 05:15:04 +0100 (CET)
+Received: from localhost ([::1]:60808 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nEkXa-0005Iq-Bh
-	for lists+qemu-devel@lfdr.de; Mon, 31 Jan 2022 23:13:14 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:46456)
+	id 1nEkZL-0000VE-3t
+	for lists+qemu-devel@lfdr.de; Mon, 31 Jan 2022 23:15:03 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:46496)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nEkW8-000340-6T
- for qemu-devel@nongnu.org; Mon, 31 Jan 2022 23:11:44 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:44636)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nEkW9-00034H-I3
+ for qemu-devel@nongnu.org; Mon, 31 Jan 2022 23:11:45 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:57968)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nEkW5-0005F1-FE
- for qemu-devel@nongnu.org; Mon, 31 Jan 2022 23:11:43 -0500
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nEkW6-0005FA-Rm
+ for qemu-devel@nongnu.org; Mon, 31 Jan 2022 23:11:44 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1643688700;
+ s=mimecast20190719; t=1643688702;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=2Ao6Qhg+Xeuj9MiAcCrZ2YLmhxWdHX+YKPZe6Iic+VA=;
- b=M8zMNOLcYsSWyuoR+s+OjvyCSrx0/p2ii1CTbn5SrFxU2L8Xo4ObfpWlHEYnM/kESE8MPe
- jx0UGMFOGvq1YxEUX9H9PPGNbkcbArltmYY4Yk0ODPjXUQ89CJAR8RvHqukje5jMm6rskf
- zVq4aO4t3MgBBP+zTvAQdpW/ykKd4co=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=lwjgRx/LL2BqV8qc0W5A6ZGjTnB3dTPdQNDkRIaBHgQ=;
+ b=Z5wGG8S9FY64hgWtEAz3GRC82Oj/021jA9B1mlHqYJG6jRLY38MbxH7ozWJk0GunrRKLMF
+ /igSN1V/5qeYKOGLJVX/dwHEOnQU+LrYA4ktvw/dCysoxmTYpHDS4YJt8+E3JGxdAwR/GI
+ JjNpowXwBNT0IBnGo8hpE6R4EswrxuM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-279-z5FMADl3NlWxQrH_ANOARw-1; Mon, 31 Jan 2022 23:11:37 -0500
-X-MC-Unique: z5FMADl3NlWxQrH_ANOARw-1
+ us-mta-468-Zm2WFi0WPKaTyChGv1yrpA-1; Mon, 31 Jan 2022 23:11:38 -0500
+X-MC-Unique: Zm2WFi0WPKaTyChGv1yrpA-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 35C9718397A7;
- Tue,  1 Feb 2022 04:11:36 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 84CE5802931;
+ Tue,  1 Feb 2022 04:11:37 +0000 (UTC)
 Received: from scv.redhat.com (unknown [10.22.10.166])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C72AF4E2A4;
- Tue,  1 Feb 2022 04:11:34 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 60F665E480;
+ Tue,  1 Feb 2022 04:11:36 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 0/4] Python: Improvements for iotest 040,041
-Date: Mon, 31 Jan 2022 23:11:30 -0500
-Message-Id: <20220201041134.1237016-1-jsnow@redhat.com>
+Subject: [PATCH v4 1/4] python/aqmp: Fix negotiation with pre-"oob" QEMU
+Date: Mon, 31 Jan 2022 23:11:31 -0500
+Message-Id: <20220201041134.1237016-2-jsnow@redhat.com>
+In-Reply-To: <20220201041134.1237016-1-jsnow@redhat.com>
+References: <20220201041134.1237016-1-jsnow@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=jsnow@redhat.com;
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -83,40 +86,33 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Eduardo Habkost <eduardo@habkost.net>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-GitLab: https://gitlab.com/jsnow/qemu/-/commits/python-aqmp-fixes=0D
-CI: https://gitlab.com/jsnow/qemu/-/pipelines/455146881=0D
-=0D
-Fixes and improvements all relating to "iotest 040,041, intermittent=0D
-failure in netbsd VM"=0D
-https://lists.gnu.org/archive/html/qemu-devel/2022-01/msg01975.html=0D
-=0D
-See each patch for details.=0D
-=0D
-V4:=0D
- - Just commit message changes, and applying Hanna's RBs.=0D
-=0D
-V3:=0D
- - Retitled series=0D
- - Dropped patch that was already merged=0D
- - Reworded some comments, docstrings, etc.=0D
-=0D
-John Snow (4):=0D
-  python/aqmp: Fix negotiation with pre-"oob" QEMU=0D
-  python/machine: raise VMLaunchFailure exception from launch()=0D
-  python: upgrade mypy to 0.780=0D
-  python/aqmp: add socket bind step to legacy.py=0D
-=0D
- python/Pipfile.lock                       | 66 +++++++++++++----------=0D
- python/qemu/aqmp/legacy.py                |  3 ++=0D
- python/qemu/aqmp/protocol.py              | 41 ++++++++++++--=0D
- python/qemu/aqmp/qmp_client.py            |  4 +-=0D
- python/qemu/machine/machine.py            | 45 +++++++++++++---=0D
- python/setup.cfg                          |  2 +-=0D
- tests/qemu-iotests/tests/mirror-top-perms |  3 +-=0D
- 7 files changed, 123 insertions(+), 41 deletions(-)=0D
-=0D
---=20=0D
-2.31.1=0D
-=0D
+QEMU versions prior to the "oob" capability *also* can't accept the
+"enable" keyword argument at all. Fix the handshake process with older
+QEMU versions.
+
+Signed-off-by: John Snow <jsnow@redhat.com>
+Reviewed-by: Hanna Reitz <hreitz@redhat.com>
+---
+ python/qemu/aqmp/qmp_client.py | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/python/qemu/aqmp/qmp_client.py b/python/qemu/aqmp/qmp_client.py
+index f1a845cc82..90a8737f03 100644
+--- a/python/qemu/aqmp/qmp_client.py
++++ b/python/qemu/aqmp/qmp_client.py
+@@ -292,9 +292,9 @@ async def _negotiate(self) -> None:
+         """
+         self.logger.debug("Negotiating capabilities ...")
+ 
+-        arguments: Dict[str, List[str]] = {'enable': []}
++        arguments: Dict[str, List[str]] = {}
+         if self._greeting and 'oob' in self._greeting.QMP.capabilities:
+-            arguments['enable'].append('oob')
++            arguments.setdefault('enable', []).append('oob')
+         msg = self.make_execute_msg('qmp_capabilities', arguments=arguments)
+ 
+         # It's not safe to use execute() here, because the reader/writers
+-- 
+2.31.1
 
 
