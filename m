@@ -2,72 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 61E4B4A5B2B
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Feb 2022 12:29:41 +0100 (CET)
-Received: from localhost ([::1]:44536 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B025E4A5B3F
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Feb 2022 12:34:25 +0100 (CET)
+Received: from localhost ([::1]:60384 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nErLv-0005ua-Uv
-	for lists+qemu-devel@lfdr.de; Tue, 01 Feb 2022 06:29:39 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:56958)
+	id 1nErQW-00088x-Nd
+	for lists+qemu-devel@lfdr.de; Tue, 01 Feb 2022 06:34:24 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:56938)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1nEr7p-00051s-FC
- for qemu-devel@nongnu.org; Tue, 01 Feb 2022 06:15:05 -0500
-Received: from [2607:f8b0:4864:20::135] (port=41553
- helo=mail-il1-x135.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1nEr7k-0003XB-65
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1nEr7o-0004zd-RC
  for qemu-devel@nongnu.org; Tue, 01 Feb 2022 06:15:04 -0500
-Received: by mail-il1-x135.google.com with SMTP id 15so13954580ilg.8
- for <qemu-devel@nongnu.org>; Tue, 01 Feb 2022 03:14:54 -0800 (PST)
+Received: from [2607:f8b0:4864:20::d2e] (port=38681
+ helo=mail-io1-xd2e.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1nEr7k-0003XD-6b
+ for qemu-devel@nongnu.org; Tue, 01 Feb 2022 06:15:04 -0500
+Received: by mail-io1-xd2e.google.com with SMTP id w7so20717268ioj.5
+ for <qemu-devel@nongnu.org>; Tue, 01 Feb 2022 03:14:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bsdimp-com.20210112.gappssmtp.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=ncWnqsf+UN/vyTIxU3XOpWl26IcR1Ir0CJ6FYV9kHjk=;
- b=WsYlcgV8rDZQYoO4LtYd5nvESi/HctmamCRVeW6WkNnGtjdQxn2XkyhfCFQ2Qa7lke
- jsad4M75XuaErmv+A+Dj+2OiOz1XGenApSigxX7Tq/lGfyoy0oFxSTo/VLkYzcuhRM8s
- 9Zqs0t9UJgVSmCIacNRsxBi1Tu5l0eK0ZIYa2MC/uZK0JZRN+Hq58pjE9eOoQ0y54rv2
- iyjWBLDyDj2XGcMQBJ+F5eAfGi149S+l6B+ZaUV4jXNyWsh6SeydCyQGcMTSexkymLGn
- e1QjIX/XXHDhg7PXBfNSQcRY68KkBX6oRfT5/m+x4KRW3hDasrn+3jOr3ehoVFqOGjGk
- wiGw==
+ bh=SeIissd9yu6sr1EpyUUZEaaK6kIza5Vpduyt6eMziNI=;
+ b=dG2RwdFmh5jSpgQcSqgXnNibD/LupeCO5WrMuau+PQvqPO7q3jh3OlISmBK0vnDrig
+ OF/r4goH16kGXEvlQp1H9Z00wPv30OckWmarE3C9OM3oOLBG19N48T9s1mdbIQL3kBSP
+ GEoNEqFlv7uvzGRU4BZTMT+G1fYzn4o1/yj9uM/8X5D/UeaoUFmDwHFCineRfrr1Hm4T
+ uS5LWpkF2hzXQBrut8H/QcmgLj0vMOrLDIWoA4ckY6oYjMdGU67DWGuESs01TCehBWsN
+ y3RJ9UE5UD8vJCJVfVljXDYYsfgoHxDlOUwLuuTaZvqH5hKldPQ4vx0cLVT/ON+oOI4p
+ +WoQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=ncWnqsf+UN/vyTIxU3XOpWl26IcR1Ir0CJ6FYV9kHjk=;
- b=qNvLqoTJ9MgopIRHFY8SEHYX8DCA7L5ziQxgloSMaX1hNVAdRMMtF+IHBiRJcl5k50
- YbF8mWhs6U570fE0O37EfB39mdJoTgoIgar9+K6YAzKzpPxi6VusVtInXO3uqpBiBPK9
- 0mCxTtK9wUeDCyPIZDvj8FnAgqriMdAR7CjWogJr+2G3RbGbej+9r/8haFzKGo0Px7MM
- Ch14aUsWsNf84BfnEYzB69pFaCcF7gd8pxxLIKaXfexY7MAQjQesUpoGY5NNjcaEeUII
- YhAXdVp4lH3Z9Nqe58cY9q9UbN8Vj0afHUEOOPRgN3oE61h9U1/y0o40wl4xxILZxrO5
- PZwQ==
-X-Gm-Message-State: AOAM5313g8a+yVjEqFsSqFdCfE/GTiI2ZCbTosNcWOu5Bdqv2Pqqm0UN
- gV2ynmuahY5eQd8TVLUc6v4yk1pjWtcOkA==
-X-Google-Smtp-Source: ABdhPJxcLyIjXRCtVogEUjbhUC40uAds2717xINVKF1k9Wbt1oOKnNxyESgZTIUveBU/DqJTO89k4Q==
-X-Received: by 2002:a05:6e02:b41:: with SMTP id
- f1mr15109068ilu.193.1643714093502; 
- Tue, 01 Feb 2022 03:14:53 -0800 (PST)
+ bh=SeIissd9yu6sr1EpyUUZEaaK6kIza5Vpduyt6eMziNI=;
+ b=iC0csU+vzL6Zrz6Xabn5Mah49L6UzaMq3Mq3rvAvEbSWg929r9tyQhRd2yalLzDCge
+ geLVqMgGPSHIduaGBvWjJQl94T9h4oZKxubCg4I1gUQx2oQIINHN0RQ+lUdDI+Z+VPVP
+ PHRWwkiBXGd4MqsRmK6L8esp5fgrxsalanVnrxlai4PGvnT5uci2D+574KQlVehOZq7J
+ hLWH9syloVMz9i2fT/JZf3jzqS2C50Y0Z1RPjLcAMGP+Y+14kXGzjbxuFj/P9Et2UANr
+ nKpJQ/Y6LDOuFLc7iEBhfnZiTnHUqTfNys3mXd4QAIPe/xVx8NdfYiRXsxOZCaRQkuI1
+ O8bQ==
+X-Gm-Message-State: AOAM532xcrCsU9Xc6HF+Pc2RSlTDg+r3iEslGoJjcan/nQBpitly+OXb
+ WS1mVYMFFNlOIaQn7oikEw1QXaJX4CQqmg==
+X-Google-Smtp-Source: ABdhPJwRV772UJ8ajp/eClpFdzYMVrBYdN9H5bRXfu5bpDXUtNkyoj6ywVpX3VMheMJhohvLHaUOmA==
+X-Received: by 2002:a6b:760c:: with SMTP id g12mr13656908iom.27.1643714094213; 
+ Tue, 01 Feb 2022 03:14:54 -0800 (PST)
 Received: from dune.bsdimp.com (50-253-99-174-static.hfc.comcastbusiness.net.
  [50.253.99.174])
- by smtp.gmail.com with ESMTPSA id w5sm13526852ilu.83.2022.02.01.03.14.52
+ by smtp.gmail.com with ESMTPSA id w5sm13526852ilu.83.2022.02.01.03.14.53
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Tue, 01 Feb 2022 03:14:53 -0800 (PST)
 From: Warner Losh <imp@bsdimp.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 05/22] bsd-user/arm/target_arch_cpu.h: Only support FreeBSD
- sys calls
-Date: Tue,  1 Feb 2022 04:14:38 -0700
-Message-Id: <20220201111455.52511-6-imp@bsdimp.com>
+Subject: [PATCH 06/22] bsd-user/arm/target_arch_thread.h: Assume a FreeBSD
+ target
+Date: Tue,  1 Feb 2022 04:14:39 -0700
+Message-Id: <20220201111455.52511-7-imp@bsdimp.com>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <20220201111455.52511-1-imp@bsdimp.com>
 References: <20220201111455.52511-1-imp@bsdimp.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::135
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::d2e
  (failed)
-Received-SPF: none client-ip=2607:f8b0:4864:20::135;
- envelope-from=imp@bsdimp.com; helo=mail-il1-x135.google.com
+Received-SPF: none client-ip=2607:f8b0:4864:20::d2e;
+ envelope-from=imp@bsdimp.com; helo=mail-io1-xd2e.google.com
 X-Spam_score_int: -10
 X-Spam_score: -1.1
 X-Spam_bar: -
@@ -95,177 +94,32 @@ Cc: Peter Maydell <peter.maydell@linaro.org>, arrowd@FreeBSD.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Since we don't build on OpenBSD, only do FreeBSD system calls here. In
-the future, we'll need to move this to some place like
-bsd-user/freebsd/arm/mumble.h, but until then just leave this
-inline. This reflects changes to the upstream.
+Since we can't run on anything else, assume for the moment that this is
+a FreeBSD target. In the future, we'll need to handle this properly
+via some include file in bsd-user/*bsd/arm/mumble.h. There's a number
+of other diffs that would be needed to make things work on OtherBSD,
+so it doesn't make sense to preseve this one detail today.
 
 Signed-off-by: Warner Losh <imp@bsdimp.com>
 ---
- bsd-user/arm/target_arch_cpu.h | 139 ++++++++++++++++-----------------
- 1 file changed, 66 insertions(+), 73 deletions(-)
+ bsd-user/arm/target_arch_thread.h | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
-diff --git a/bsd-user/arm/target_arch_cpu.h b/bsd-user/arm/target_arch_cpu.h
-index b087db48fa4..afb7814a8d1 100644
---- a/bsd-user/arm/target_arch_cpu.h
-+++ b/bsd-user/arm/target_arch_cpu.h
-@@ -40,7 +40,6 @@ static inline void target_cpu_init(CPUARMState *env,
- static inline void target_cpu_loop(CPUARMState *env)
- {
-     int trapnr, si_signo, si_code;
--    unsigned int n;
-     CPUState *cs = env_cpu(env);
- 
-     for (;;) {
-@@ -66,82 +65,76 @@ static inline void target_cpu_loop(CPUARMState *env)
-             break;
-         case EXCP_SWI:
-             {
--                n = env->regs[7];
--                if (bsd_type == target_freebsd) {
--                    int ret;
--                    abi_ulong params = get_sp_from_cpustate(env);
--                    int32_t syscall_nr = n;
--                    int32_t arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8;
-+                int ret;
-+                abi_ulong params = get_sp_from_cpustate(env);
-+                int32_t syscall_nr = env->regs[7];
-+                int32_t arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8;
- 
--                    /* See arm/arm/syscall.c cpu_fetch_syscall_args() */
--                    if (syscall_nr == TARGET_FREEBSD_NR_syscall) {
--                        syscall_nr = env->regs[0];
--                        arg1 = env->regs[1];
--                        arg2 = env->regs[2];
--                        arg3 = env->regs[3];
--                        get_user_s32(arg4, params);
--                        params += sizeof(int32_t);
--                        get_user_s32(arg5, params);
--                        params += sizeof(int32_t);
--                        get_user_s32(arg6, params);
--                        params += sizeof(int32_t);
--                        get_user_s32(arg7, params);
--                        arg8 = 0;
--                    } else if (syscall_nr == TARGET_FREEBSD_NR___syscall) {
--                        syscall_nr = env->regs[0];
--                        arg1 = env->regs[2];
--                        arg2 = env->regs[3];
--                        get_user_s32(arg3, params);
--                        params += sizeof(int32_t);
--                        get_user_s32(arg4, params);
--                        params += sizeof(int32_t);
--                        get_user_s32(arg5, params);
--                        params += sizeof(int32_t);
--                        get_user_s32(arg6, params);
--                        arg7 = 0;
--                        arg8 = 0;
--                    } else {
--                        arg1 = env->regs[0];
--                        arg2 = env->regs[1];
--                        arg3 = env->regs[2];
--                        arg4 = env->regs[3];
--                        get_user_s32(arg5, params);
--                        params += sizeof(int32_t);
--                        get_user_s32(arg6, params);
--                        params += sizeof(int32_t);
--                        get_user_s32(arg7, params);
--                        params += sizeof(int32_t);
--                        get_user_s32(arg8, params);
--                    }
--                    ret = do_freebsd_syscall(env, syscall_nr, arg1, arg2, arg3,
--                            arg4, arg5, arg6, arg7, arg8);
-+                /* See arm/arm/syscall.c cpu_fetch_syscall_args() */
-+                if (syscall_nr == TARGET_FREEBSD_NR_syscall) {
-+                    syscall_nr = env->regs[0];
-+                    arg1 = env->regs[1];
-+                    arg2 = env->regs[2];
-+                    arg3 = env->regs[3];
-+                    get_user_s32(arg4, params);
-+                    params += sizeof(int32_t);
-+                    get_user_s32(arg5, params);
-+                    params += sizeof(int32_t);
-+                    get_user_s32(arg6, params);
-+                    params += sizeof(int32_t);
-+                    get_user_s32(arg7, params);
-+                    arg8 = 0;
-+                } else if (syscall_nr == TARGET_FREEBSD_NR___syscall) {
-+                    syscall_nr = env->regs[0];
-+                    arg1 = env->regs[2];
-+                    arg2 = env->regs[3];
-+                    get_user_s32(arg3, params);
-+                    params += sizeof(int32_t);
-+                    get_user_s32(arg4, params);
-+                    params += sizeof(int32_t);
-+                    get_user_s32(arg5, params);
-+                    params += sizeof(int32_t);
-+                    get_user_s32(arg6, params);
-+                    arg7 = 0;
-+                    arg8 = 0;
-+                } else {
-+                    arg1 = env->regs[0];
-+                    arg2 = env->regs[1];
-+                    arg3 = env->regs[2];
-+                    arg4 = env->regs[3];
-+                    get_user_s32(arg5, params);
-+                    params += sizeof(int32_t);
-+                    get_user_s32(arg6, params);
-+                    params += sizeof(int32_t);
-+                    get_user_s32(arg7, params);
-+                    params += sizeof(int32_t);
-+                    get_user_s32(arg8, params);
-+                }
-+                ret = do_freebsd_syscall(env, syscall_nr, arg1, arg2, arg3,
-+                                         arg4, arg5, arg6, arg7, arg8);
-+                /*
-+                 * Compare to arm/arm/vm_machdep.c
-+                 * cpu_set_syscall_retval()
-+                 */
-+                if (-TARGET_EJUSTRETURN == ret) {
-                     /*
--                     * Compare to arm/arm/vm_machdep.c
--                     * cpu_set_syscall_retval()
-+                     * Returning from a successful sigreturn syscall.
-+                     * Avoid clobbering register state.
-                      */
--                    if (-TARGET_EJUSTRETURN == ret) {
--                        /*
--                         * Returning from a successful sigreturn syscall.
--                         * Avoid clobbering register state.
--                         */
--                        break;
--                    }
--                    if (-TARGET_ERESTART == ret) {
--                        env->regs[15] -= env->thumb ? 2 : 4;
--                        break;
--                    }
--                    if ((unsigned int)ret >= (unsigned int)(-515)) {
--                        ret = -ret;
--                        cpsr_write(env, CPSR_C, CPSR_C, CPSRWriteByInstr);
--                        env->regs[0] = ret;
--                    } else {
--                        cpsr_write(env, 0, CPSR_C, CPSRWriteByInstr);
--                        env->regs[0] = ret; /* XXX need to handle lseek()? */
--                        /* env->regs[1] = 0; */
--                    }
-+                    break;
-+                }
-+                if (-TARGET_ERESTART == ret) {
-+                    env->regs[15] -= env->thumb ? 2 : 4;
-+                    break;
-+                }
-+                if ((unsigned int)ret >= (unsigned int)(-515)) {
-+                    ret = -ret;
-+                    cpsr_write(env, CPSR_C, CPSR_C, CPSRWriteByInstr);
-+                    env->regs[0] = ret;
-                 } else {
--                    fprintf(stderr, "qemu: bsd_type (= %d) syscall "
--                            "not supported\n", bsd_type);
-+                    cpsr_write(env, 0, CPSR_C, CPSRWriteByInstr);
-+                    env->regs[0] = ret; /* XXX need to handle lseek()? */
-+                    /* env->regs[1] = 0; */
-                 }
-             }
-             break;
+diff --git a/bsd-user/arm/target_arch_thread.h b/bsd-user/arm/target_arch_thread.h
+index 11c7f765838..fcafca2408c 100644
+--- a/bsd-user/arm/target_arch_thread.h
++++ b/bsd-user/arm/target_arch_thread.h
+@@ -62,9 +62,7 @@ static inline void target_thread_init(struct target_pt_regs *regs,
+     }
+     regs->ARM_pc = infop->entry & 0xfffffffe;
+     regs->ARM_sp = stack;
+-    if (bsd_type == target_freebsd) {
+-        regs->ARM_lr = infop->entry & 0xfffffffe;
+-    }
++    regs->ARM_lr = infop->entry & 0xfffffffe;
+     /*
+      * FreeBSD kernel passes the ps_strings pointer in r0. This is used by some
+      * programs to set status messages that we see in ps. bsd-user doesn't
 -- 
 2.33.1
 
