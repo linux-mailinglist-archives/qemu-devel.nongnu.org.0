@@ -2,84 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 400C94A66E5
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Feb 2022 22:18:13 +0100 (CET)
-Received: from localhost ([::1]:33696 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 46D874A6717
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Feb 2022 22:31:38 +0100 (CET)
+Received: from localhost ([::1]:56724 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nF0XU-0000cN-9i
-	for lists+qemu-devel@lfdr.de; Tue, 01 Feb 2022 16:18:12 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:38976)
+	id 1nF0kS-0008JL-4t
+	for lists+qemu-devel@lfdr.de; Tue, 01 Feb 2022 16:31:36 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:51780)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jinpu.wang@ionos.com>)
- id 1nEuos-00025Q-LD
- for qemu-devel@nongnu.org; Tue, 01 Feb 2022 10:11:47 -0500
-Received: from [2a00:1450:4864:20::635] (port=43864
- helo=mail-ej1-x635.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <jinpu.wang@ionos.com>)
- id 1nEuop-00013R-5b
- for qemu-devel@nongnu.org; Tue, 01 Feb 2022 10:11:44 -0500
-Received: by mail-ej1-x635.google.com with SMTP id d10so55205449eje.10
- for <qemu-devel@nongnu.org>; Tue, 01 Feb 2022 07:11:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ionos.com; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=qKAPQ925A3iagi2u2oRvWVOBWJHKtoWqMar3gEwKfkY=;
- b=egh0xZCeYE+L0yS7BKtY1KcZPuuGejrP7to+3cA1R8FM5ukdxKdzQyMK6EAZW0HZFM
- MhG3qNEzYOwRJEVBnauyWCpZ8Ik7Sqfzk57Zzwfdx/g/Lu4QteYHEGMVLSzZEhxF31Bs
- HkL2m9/emY2l8sDwh0PVfwiglBej1SRLbRtNnkLP0X+f0cPxr2WjFEUorqJzAzKOgimy
- iQIvXLk1vmZeiKYtPtbzj/kGKLBA1TL+gdqUKBBHkJNwRhRbl6TFbwOHhePSaUjLvuY6
- kyKNeN6B8+9JMI3RPHPrWdxAXl79BZVYZRogm+m6HSztUDj+2PydCti7TcMZSkOOelZd
- lg5g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=qKAPQ925A3iagi2u2oRvWVOBWJHKtoWqMar3gEwKfkY=;
- b=J06eV9GlENO5pzjSlmLGFN3c8n4vTV10EmatgML3sQfu2egCEZ2Y4OZoLEpuMKcqFW
- 7ktbyXb0fmYUCu+UCRGfvZZhhSuf1mGo7q3C816ryhY4VZCYrPn+094vPd/ObovoMuKp
- 9LuuoMMetYG6BUozVSxX2/a0xoxmB9SqHNR+rMLL5pcOeQJpByPGLK+lZbHba+lDJH9B
- QaO4xVHeCfNP7N7Giro442t/H+S+sZXU6xD/GVCHEEs9SpjcWaxOzhkFDPD33aMPg0fo
- kBCrpBgATDPPfBGFs9COFvtxT2m0CqwChzTL/SVNAAL8Zql9mjG0zE0XuSVkqWz/Dn+M
- SZbw==
-X-Gm-Message-State: AOAM533FOoTVdR7HlYJLh0ozLvNLufvNLkvvJw4DMci/I4Hs5P8vH3j5
- XiOk+mOaMEsMgT01p53sZ9i74g==
-X-Google-Smtp-Source: ABdhPJzU23U5vpaEEkCCRfe8aX+Rhz/e0f6Fd1ygbTfLOTvIxok2Kt6zDGAI0LV4IObH9HuyagAWDw==
-X-Received: by 2002:a17:907:1c02:: with SMTP id
- nc2mr22109723ejc.661.1643728297753; 
- Tue, 01 Feb 2022 07:11:37 -0800 (PST)
-Received: from jwang-Latitude-5491.fkb.profitbricks.net
- (200116b845f5be00b5688dd60ec5628d.dip.versatel-1u1.de.
- [2001:16b8:45f5:be00:b568:8dd6:ec5:628d])
- by smtp.gmail.com with ESMTPSA id m22sm13444793ejn.194.2022.02.01.07.11.37
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 01 Feb 2022 07:11:37 -0800 (PST)
-From: Jack Wang <jinpu.wang@ionos.com>
-To: quintela@redhat.com,
-	dgilbert@redhat.com
-Subject: [PATCH 2/2] migration/rdma: set the REUSEADDR option for destination
-Date: Tue,  1 Feb 2022 16:11:36 +0100
-Message-Id: <20220201151136.52157-2-jinpu.wang@ionos.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220201151136.52157-1-jinpu.wang@ionos.com>
-References: <20220201151136.52157-1-jinpu.wang@ionos.com>
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1nEwYE-0004hh-1A
+ for qemu-devel@nongnu.org; Tue, 01 Feb 2022 12:02:42 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:37401)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1nEwY3-0004nq-Lx
+ for qemu-devel@nongnu.org; Tue, 01 Feb 2022 12:02:39 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1643734915;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=ubXrtP9Gti/4IN+QHdUh2aveeDczH8c6Bw/e4h6oFNU=;
+ b=HYnXvXnnpPI9uWH0Wr8bNLL2/QPMErcldt/iMtlcOqzkUEX9pfcpyyNB9M3yx8dy3k+PUI
+ OF3OPydCOOI5oECEKHiRQOzSOdrv3kQ2z5lV3w2GoH+P/3nw3dd4pMHjgnkBBeZ7Nj9eAe
+ Dy0tJ1Z/VljDTozz6I5a4X+j12xrWPc=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-621-RjMjhaDNMLuD6h5-r7w9BA-1; Tue, 01 Feb 2022 12:01:47 -0500
+X-MC-Unique: RjMjhaDNMLuD6h5-r7w9BA-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 454CE1091DA1;
+ Tue,  1 Feb 2022 17:01:46 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.195.27])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id EBFF07574F;
+ Tue,  1 Feb 2022 17:01:43 +0000 (UTC)
+Date: Tue, 1 Feb 2022 17:01:40 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Cleber Rosa <crosa@redhat.com>
+Subject: Re: "make check-acceptance" takes way too long
+Message-ID: <YflndOiIn8JbjuOS@redhat.com>
+References: <CAFEAcA9cMZoj18gq7Ksv5PRoU1wRmXvW_e9UE73C_MEB7wTroQ@mail.gmail.com>
+ <CAFEAcA9_d5jw5-HOrZA6dsG1vMqxzqmrfHA7Jo0KsDcaEXmB_Q@mail.gmail.com>
+ <6c90ca3d-eaec-d7e8-5941-4deb83b58fd0@redhat.com>
+ <87zgnp4b32.fsf@dusky.pond.sub.org>
+ <CAFEAcA_kxrCgyxWPFLw6VZ-rKx-res0C8L2BWRvfB81cR+keLg@mail.gmail.com>
+ <875yqd6zib.fsf@linaro.org> <YerPk2ABMHQf/3QP@redhat.com>
+ <CA+bd_6KgJ_tG9r9Nhn5p6bDsdiXKRckGiZ75srxTNZj4bdd2UA@mail.gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::635
- (failed)
-Received-SPF: permerror client-ip=2a00:1450:4864:20::635;
- envelope-from=jinpu.wang@ionos.com; helo=mail-ej1-x635.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01,
- T_SPF_PERMERROR=0.01 autolearn=no autolearn_force=no
+In-Reply-To: <CA+bd_6KgJ_tG9r9Nhn5p6bDsdiXKRckGiZ75srxTNZj4bdd2UA@mail.gmail.com>
+User-Agent: Mutt/2.1.5 (2021-12-30)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.081,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Tue, 01 Feb 2022 13:49:42 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,44 +85,112 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, pankaj.gupta@ionos.com
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This allow address could be reused to avoid rdma_bind_addr error
-out.
+On Tue, Feb 01, 2022 at 12:29:56AM -0500, Cleber Rosa wrote:
+> 
+> Assuming this is about "Testing that QEMU can boot a full distro", I wouldn't
+> try to solve the problem by making the distro too slim to get to the
+> point of becoming
+> an unrealistic system.
 
-Signed-off-by: Jack Wang <jinpu.wang@ionos.com>
----
- migration/rdma.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+At a high level our with acceptance (integration) testing is of
+course to make sure that QEMU is correctly emulating a full virtual
+machine, such that we have confidence that it can run real world
+operating systems.
 
-diff --git a/migration/rdma.c b/migration/rdma.c
-index 2e223170d06d..b498ef013c77 100644
---- a/migration/rdma.c
-+++ b/migration/rdma.c
-@@ -2705,6 +2705,7 @@ static int qemu_rdma_dest_init(RDMAContext *rdma, Error **errp)
-     char ip[40] = "unknown";
-     struct rdma_addrinfo *res, *e;
-     char port_str[16];
-+    int reuse = 1;
- 
-     for (idx = 0; idx < RDMA_WRID_MAX; idx++) {
-         rdma->wr_data[idx].control_len = 0;
-@@ -2740,6 +2741,12 @@ static int qemu_rdma_dest_init(RDMAContext *rdma, Error **errp)
-         goto err_dest_init_bind_addr;
-     }
- 
-+    ret = rdma_set_option(listen_id, RDMA_OPTION_ID, RDMA_OPTION_ID_REUSEADDR,
-+			  &reuse, sizeof reuse);
-+    if (ret) {
-+        ERROR(errp, "Error: could not set REUSEADDR option");
-+        goto err_dest_init_bind_addr;
-+    }
-     for (e = res; e != NULL; e = e->ai_next) {
-         inet_ntop(e->ai_family,
-             &((struct sockaddr_in *) e->ai_dst_addr)->sin_addr, ip, sizeof ip);
+There are a number of approaches to achieve that with varying
+tradeoffs.
+
+  - Testing with very specific tailored environments, running
+    very specific userspace tools and minimal kernel setup.
+
+    This can give us a pretty decent amount of coverage of
+    the core features of the emulated environment in a tightly
+    controlled amount of wallclock time. When it fails it ought
+    to be relatively easy to understand and debug.
+
+    The downside is that it is the QEMU code paths it hits are
+    going to be fairly static.
+
+
+  - Testing with arbitrary execution of real world OS images.
+
+    I think of this as a bit of scattergun approach. We're not
+    trying to tightly control what runs, we actually want it
+    to run alot of arbitrarily complex and unusual stuff.
+
+    This is going to be time consuming and is likely to have
+    higher false positive failure rates. It is worthwhile
+    because it is going to find the edge cases that you simply
+    won't detect any other way, because you can't even imagine
+    the problems that you're trying to uncover until you uncover
+    them by accident with a real OS workload.
+
+    It is kinda like fuzzing QEMU with an entire OS :-)
+
+
+Both of these approaches are valid/complementary and we should
+want to have both.
+
+Any test suite is only going to find bugs though if it is
+actually executed.
+
+As a contributor though the former is stuff I'm likely to be
+willing to run myself before sending patches, while the latter
+is stuff I'm just always going to punt to merge testing infra.
+
+We want to be wary of leaving too much to be caught at time
+of merge tests, because that puts a significant burden on the
+person responsible for merging code in QEMU.  We need our
+contributors to be motivated to run as much testing as possible
+ahead of submitting patches.
+
+> IMO the deal breaker with regards to test time can be solved more cheaply by
+> having and using KVM where these tests will run, and not running them by
+> default otherwise.  With the tagging mechanism we should be able to set a
+> condition such as: "If using TCG, exclude tests that boot a full blown distro.
+> If using KVM, do not criticize what gets booted".  Resulting in something
+> like:
+
+> Does that sound like something appropriate?
+
+Depends whether you only care about KVM or not. From a POV of QEMU
+community CI, I think it is valid to want to test TCG functionality
+
+
+> BTW, on the topic of "Using something as a base OS for scripts (tests) to run
+> on it", another possibility for using full blown OS would be to save
+> their initialized
+> state, and load it to memory for each test, saving the guest boot time.  This
+> should of course be done at the framework level and transparent to tests.
+
+There is *massive* virtue in simplicity & predictability for testing.
+
+Building more complex infrastructure to pre-initialize caches with
+clever techniques like saving running OS state is clever, but is
+certainly not simple or predictable. When that kind of stuff goes
+wrong, whoever gets to debug it is going to have a really bad day.
+
+This can be worth doing if there's no other viable approach to achieve
+the desired end goal. I don't think that's the case for our integration
+testing needs in QEMU though. There's masses of scope for us to explore
+testing with minimal tailored guest images/environments, before we need
+to resort to building more complex optimization strategies.
+
+Regards,
+Daniel
 -- 
-2.25.1
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
