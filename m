@@ -2,79 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63CC04A5A09
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Feb 2022 11:30:33 +0100 (CET)
-Received: from localhost ([::1]:44498 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 213C44A5A17
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Feb 2022 11:34:46 +0100 (CET)
+Received: from localhost ([::1]:47844 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nEqQh-0007FL-VL
-	for lists+qemu-devel@lfdr.de; Tue, 01 Feb 2022 05:30:31 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:46772)
+	id 1nEqUm-0001J9-U8
+	for lists+qemu-devel@lfdr.de; Tue, 01 Feb 2022 05:34:44 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:47310)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sbrivio@redhat.com>)
- id 1nEqOQ-0006Y7-J7
- for qemu-devel@nongnu.org; Tue, 01 Feb 2022 05:28:10 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:46332)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sbrivio@redhat.com>)
- id 1nEqOM-0005EN-Pi
- for qemu-devel@nongnu.org; Tue, 01 Feb 2022 05:28:09 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1643711277;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=vJ24sWrV8rRA8y+xzrjr3WhwPPWUBlTXUVfbn2L+Dwo=;
- b=CDMg60hThxjpyUgB/LlmrXQd1YblSErXaWqiZ71IrTF4wkjFauXr047DdIUn0LVAxxcsXG
- GwrGvYKPKoGoiu9vH8VybQ0z4E8V8kaWZy7Ik1LrzGRVYfNso9O1+1LTpFyJURbW0zSI58
- 6vkqVqOD9c6FuD7J5ALk64hbE0ELS4o=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-245-2VQO9L6dN2WkLtwXk-MbFw-1; Tue, 01 Feb 2022 05:27:56 -0500
-X-MC-Unique: 2VQO9L6dN2WkLtwXk-MbFw-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D63641091DA0;
- Tue,  1 Feb 2022 10:27:54 +0000 (UTC)
-Received: from maya.cloud.tilaa.com (unknown [10.40.208.3])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C5DD16D036;
- Tue,  1 Feb 2022 10:27:23 +0000 (UTC)
-Date: Tue, 1 Feb 2022 11:27:20 +0100
-From: Stefano Brivio <sbrivio@redhat.com>
-To: "Daniel P. =?UTF-8?B?QmVycmFuZ8Op?=" <berrange@redhat.com>
-Subject: Re: "make check-acceptance" takes way too long
-Message-ID: <20220201112720.4ac9b8df@elisabeth>
-In-Reply-To: <Yfj4ERdAvmCF4ZzY@redhat.com>
-References: <CAFEAcA9cMZoj18gq7Ksv5PRoU1wRmXvW_e9UE73C_MEB7wTroQ@mail.gmail.com>
- <CAFEAcA9_d5jw5-HOrZA6dsG1vMqxzqmrfHA7Jo0KsDcaEXmB_Q@mail.gmail.com>
- <6c90ca3d-eaec-d7e8-5941-4deb83b58fd0@redhat.com>
- <87zgnp4b32.fsf@dusky.pond.sub.org>
- <CAFEAcA_kxrCgyxWPFLw6VZ-rKx-res0C8L2BWRvfB81cR+keLg@mail.gmail.com>
- <875yqd6zib.fsf@linaro.org> <YerPk2ABMHQf/3QP@redhat.com>
- <20220125092011.dq2t4ryl632vrvsf@sirius.home.kraxel.org>
- <20220201073139.7896e10b@elisabeth> <Yfj4ERdAvmCF4ZzY@redhat.com>
-Organization: Red Hat
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1nEqRD-00086M-Qp; Tue, 01 Feb 2022 05:31:04 -0500
+Received: from [2a00:1450:4864:20::42f] (port=39615
+ helo=mail-wr1-x42f.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1nEqRC-0005j0-11; Tue, 01 Feb 2022 05:31:03 -0500
+Received: by mail-wr1-x42f.google.com with SMTP id s9so31001756wrb.6;
+ Tue, 01 Feb 2022 02:31:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=U5rxB2/eJedDAwB06DJu8ZJl5lUy7yKcfqbN3VCLTUI=;
+ b=FRaoBahVIlv9wiMBx6nHdxwys+8pk/I5MV6LTKqLWDGXM9ns1EJpS/7a1ScW6z8zRh
+ LDx61o5q9Xp8UsHfo5pgR2XqADiP+sKdpFwaSZALEcVGgLk1YUasFy5jbz5qJFh6xjRd
+ EKwCiF/aVvzj13SOGXhAG977o9u9eg+4GZtMILLDXos8Q2JwEiJ3Ef4K5qotcgW/ySNI
+ 7JRBbdIruBG1UkhrVJJ//nKHdH5Du2wY1hawOcqztsA8ujZUwab64oIYoJosVGgeVMOO
+ cwr6VAZj57lbBHZEMjGfjTkwo0xCu/iHkKP5QmGsdcFk3qNdV5USzU+jzrKCulYLraty
+ d5gw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+ :subject:content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=U5rxB2/eJedDAwB06DJu8ZJl5lUy7yKcfqbN3VCLTUI=;
+ b=BGllaefel9NSdpX4isce6xLR0OYz+TMHrVCkVRXSLo8ctKqrkX0WIdamQYMDJxoECK
+ F/Z2m7+OwUxVUi7zVK0ap2MHwHeqRrb5bZDoyzh/hJ1Ov1no9gAdcH1IQt9RQyiiuRu5
+ YpE5avBlTEekeMfBs/DAEjA9idVaYaGXwVlpZ0sIpqNtR43Snjzsf5c2gFfOi2yS8uDt
+ vrfqxZFvJaGmfRbVA2WH5vgYFKgl1s3Op/873FveobvoTux7KSg1Iqc9N/3NdaF3iQ2D
+ EnovgTp5mp1Y134zGDj3swSldZoWGT28NjQMXUsW0mTIXZnutmEypwv7/Y2tWLp+y9SF
+ r/sA==
+X-Gm-Message-State: AOAM533I+momIa1iZ9NAcDls5OrcLamy/G+DV6sEOIb4R2oiZPlNdLc3
+ XSSi2A08XNQ+RB/m9F9qb8w=
+X-Google-Smtp-Source: ABdhPJyYGSET4QiINq7M/gUt5RZq8wL81wi+qNrp1TeLGe3s/E8cqVdDzus4RfADmDyCJszaoeWrPQ==
+X-Received: by 2002:adf:fa50:: with SMTP id y16mr11823499wrr.177.1643711459222; 
+ Tue, 01 Feb 2022 02:30:59 -0800 (PST)
+Received: from ?IPV6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
+ ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.googlemail.com with ESMTPSA id m14sm17653532wrp.4.2022.02.01.02.30.57
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 01 Feb 2022 02:30:58 -0800 (PST)
+Message-ID: <bf72c7db-6f0a-e291-2f79-a061293dc810@redhat.com>
+Date: Tue, 1 Feb 2022 11:30:56 +0100
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=sbrivio@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=sbrivio@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.081,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH v6 02/33] include/block/block: split header into I/O and
+ global state API
+Content-Language: en-US
+To: Emanuele Giuseppe Esposito <eesposit@redhat.com>,
+ Kevin Wolf <kwolf@redhat.com>
+References: <20220121170544.2049944-1-eesposit@redhat.com>
+ <20220121170544.2049944-3-eesposit@redhat.com> <YfJ7pbLDuwP2hgnw@redhat.com>
+ <ac8b0576-4c03-4eb6-9ef6-c0a6b20b6184@redhat.com>
+ <Yff4Dl6bpHhTxAfB@redhat.com>
+ <1653fd9d-e1e9-5f32-3bd1-62abecd09601@redhat.com>
+ <feb30385-a222-166f-ad82-19307c980a0d@redhat.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+In-Reply-To: <feb30385-a222-166f-ad82-19307c980a0d@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42f
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x42f.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.248, NICE_REPLY_A=-0.001,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -87,74 +98,87 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- Beraldo Leal <bleal@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>, Gerd Hoffmann <kraxel@redhat.com>,
- Cleber Rosa <crosa@redhat.com>,
- Alex =?UTF-8?B?QmVubsOpZQ==?= <alex.bennee@linaro.org>,
- Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <f4bug@amsat.org>
+Cc: Fam Zheng <fam@euphon.net>, Eduardo Habkost <eduardo@habkost.net>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ qemu-block@nongnu.org, Juan Quintela <quintela@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>,
+ Daniel Henrique Barboza <danielhb413@gmail.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ Eric Blake <eblake@redhat.com>, qemu-devel@nongnu.org,
+ Hanna Reitz <hreitz@redhat.com>, qemu-ppc@nongnu.org,
+ =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
+ Stefan Hajnoczi <stefanha@redhat.com>, "Denis V. Lunev" <den@openvz.org>,
+ David Gibson <david@gibson.dropbear.id.au>, John Snow <jsnow@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Greg Kurz <groug@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 1 Feb 2022 09:06:25 +0000
-Daniel P. Berrang=C3=A9 <berrange@redhat.com> wrote:
+On 2/1/22 10:45, Emanuele Giuseppe Esposito wrote:
+>> That said, even if they are a different category, I think it makes sense
+>> to leave them in the same header file as I/O functions, because I/O
+>> functions are locked out between drained_begin and drained_end.
+> 
+> Proposed category description:
+> /*
+>   * "Global OR I/O" API functions. These functions can run without
+>   * the BQL, but only in one specific iothread/main loop.
+>   *
+>   * More specifically, these functions use BDRV_POLL_WHILE(bs), which
+>   * requires the caller to be either in the main thread and hold
+>   * the BlockdriverState (bs) AioContext lock, or directly in the
+>   * home thread that runs the bs AioContext. Calling them from
+>   * another thread in another AioContext would cause deadlocks.
+>   *
+>   * Therefore, these functions are not proper I/O, because they
+>   * can't run in *any* iothreads, but only in a specific one.
+>   */
+> 
+> Functions that will surely go under this category:
+> 
+> BDRV_POLL_WHILE
+> bdrv_parent_drained_begin_single
+> bdrv_parent_drained_end_single
+> bdrv_drain_poll
+> bdrv_drained_begin
+> bdrv_do_drained_begin_quiesce
+> bdrv_subtree_drained_begin
+> bdrv_drained_end
+> bdrv_drained_end_no_poll
+> bdrv_subtree_drained_end
+> 
+> (all generated_co_wrapper)
+> bdrv_truncate
+> bdrv_check
+> bdrv_invalidate_cache
+> bdrv_flush
+> bdrv_pdiscard
+> bdrv_readv_vmstate
+> bdrv_writev_vmstate
+> 
+> 
+> What I am not sure:
+> 
+> * bdrv_drain_all_begin - bdrv_drain_all_end - bdrv_drain_all: these were
+> classified as GS, because thay are always called from the main loop.
+> Should they go in this new category?
 
-> On Tue, Feb 01, 2022 at 07:31:39AM +0100, Stefano Brivio wrote:
-> > Hi,
-> >=20
-> > On Tue, 25 Jan 2022 10:20:11 +0100
-> > Gerd Hoffmann <kraxel@redhat.com> wrote:
-> >  =20
-> > >   Hi,
-> > >  =20
-> > > > IMHO the ideal scenario would be for us to have a kernel, initrd
-> > > > containing just busybox tools for the key arch targets we care
-> > > > about. Those could be used with direct kernel boot or stuffed
-> > > > into a disk iamge. Either way, they would boot in ~1 second,
-> > > > even with TCG, and would be able to execute simple shell scripts
-> > > > to test a decent amount of QEMU functionality.   =20
-> > >=20
-> > > I have some test images based on buildroot which are essentially that=
-.
-> > > https://gitlab.com/kraxel/br-kraxel/
-> > >=20
-> > > Still a significant download, but much smaller than a full fedora or
-> > > ubuntu cloud image and it boots much faster too.  Not down to only on=
-e
-> > > second though. =20
-> >=20
-> > I'm not sure you can recycle something from it, but my (ugly) approach
-> > to make this fast (for a different purpose -- I'm using qemu to run
-> > tests in guests, not testing qemu) is to build an initramfs by copying
-> > the host binaries I need (a shell, ip, jq) and recursively sourcing
-> > libraries using ldd (I guess I mentioned it's ugly).
-> >=20
-> > No downloads, systemd, dracut, etc., guest boots in half a second
-> > (x86_64 on x86_64, KVM -- no idea with TCG). Host kernel with a few
-> > modules packed and loaded by a custom init script. =20
->=20
-> That is such a good idea, that it is exactly what I do too :-)
->=20
->   https://gitlab.com/berrange/tiny-vm-tools/-/blob/master/make-tiny-image=
-.py
->=20
-> it works incredibly well for the simple case of host-arch=3D=3Dguest-arch=
-.
+1) They look at the list of BDS's, and 2) you can't in general be sure 
+that all BDS's are in *your* AioContext if you call them from a specific 
+AioContext.
 
-Ah-ha, I feel better now. ;)
+So they should be GS.
 
-> It could be made to work for foreign arch easily enough - just need
-> to have a foreign chroot lieing around somewhere you can point it
-> to.
+> * how should I interpret "all the callers of BDRV_POLL_WHILE"?
+> Meaning, if I consider also the callers of the callers, we end up
+> covering much much more functions. Should I only consider the direct
+> callers (ie the above)?
 
-By the way, stage3 archives from:
+In general it is safe to make a function GS even if it is potentially 
+"GS or I/O", because that _reduces_ the number of places you can call it 
+from.  It's likewise safe to make it I/O-only, but probably it makes 
+less sense.
 
-=09https://www.gentoo.org/downloads/#other-arches
-
-get quite close to it ...no kernel binaries though.
-
---=20
-Stefano
-
+Paolo
 
