@@ -2,90 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B63A4A5924
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Feb 2022 10:24:41 +0100 (CET)
-Received: from localhost ([::1]:54996 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6BFFD4A595D
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Feb 2022 10:40:01 +0100 (CET)
+Received: from localhost ([::1]:49982 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nEpOx-0005tV-Pz
-	for lists+qemu-devel@lfdr.de; Tue, 01 Feb 2022 04:24:39 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:59886)
+	id 1nEpdo-0005lH-E8
+	for lists+qemu-devel@lfdr.de; Tue, 01 Feb 2022 04:40:00 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:60758)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1nEpFI-0004As-Bv
- for qemu-devel@nongnu.org; Tue, 01 Feb 2022 04:14:40 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:22681)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1nEpJn-0006VY-95
+ for qemu-devel@nongnu.org; Tue, 01 Feb 2022 04:19:23 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:42726)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1nEpFG-0002Zc-F9
- for qemu-devel@nongnu.org; Tue, 01 Feb 2022 04:14:40 -0500
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1nEpJl-0003GU-3E
+ for qemu-devel@nongnu.org; Tue, 01 Feb 2022 04:19:18 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1643706877;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ s=mimecast20190719; t=1643707153;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Nl7Hs3G2Ao4ROOtVHHaiYQuD032oENcqJmyFEPRC+Gc=;
- b=eaQWE7aA/vbiritGzU1gfSrt9uGrwVAShJby658EU4wPWZMhjG4ZCtz1/8HrKjqOY8mO2L
- KKk/04NShyMBCIzE+BQvMBLaE+3/rNaeEkfA41KdjutEuQGE0l6QfNXWhYxoM1luia9baZ
- uOliJAxej2/ULBN8G0U5nmyslKiMUSs=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=p4F3QfhYQny+qF7mmtLii/jveeg/oKcQ+v4twmwYnfE=;
+ b=BYDVSReK0CzgnSMY5i9dQ9/DAD/xBEodev4WYOKRh84Hc8Kd4MHe8akTcrW8yeBMz7cdYP
+ uVyRistZ17FWcz7c0zg74JhUGADtg5uNfiKckaMVZG+b6HEypSwnc1lOqX45aBZscSX9q+
+ hwshop3AqeMtRUi3re2FGW29p1GVF5g=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-428-7g_7xBsHMSmiorZJzTOEkA-1; Tue, 01 Feb 2022 04:14:30 -0500
-X-MC-Unique: 7g_7xBsHMSmiorZJzTOEkA-1
-Received: by mail-ed1-f72.google.com with SMTP id
- k10-20020a50cb8a000000b00403c8326f2aso8376466edi.6
- for <qemu-devel@nongnu.org>; Tue, 01 Feb 2022 01:14:30 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=Nl7Hs3G2Ao4ROOtVHHaiYQuD032oENcqJmyFEPRC+Gc=;
- b=1xos3atq6Uv+5jJ6YJ5W7U62gSXNnLTXswBvTH8RNfIMsM3yfOvkQ0Gg7kqVY0cfKT
- 9pb/aUCotiXR49V0rULGCNbBLEEvLDAd4OtfVA+kGWxEhA8+/nuR6YMSsDnTVuXnLFz7
- 5owD2O1PlEg9po84Levi0aWUUr7anJrKufc5BgFWvNfRuNd9W9vOChq7XOurA+MnsMe6
- raerDtETuByCeSqWe8D66PdRrqcG1uDqKbEGArLeSZT1uWzzoibOR+bVHZxWNLLE529C
- 3k2mmdVl1GimOsYwrCncAkG1ZeKuefJiPS7QsSDdV4//4kifwItgpxg4IEpRhibBrDjD
- Mobw==
-X-Gm-Message-State: AOAM5320AOB6yjnZdtWH3BMAII2+1buDXG83WtBKMS1k3NFJB7Me88SF
- tj9ZPJJ2Xqcz1znIFAvS3xfRJ9ON2bW61B1efsh1wIWuAQBIrsIQX98K6KCgxOid1zys6Diqdit
- CaFDHmb8nAyczki0=
-X-Received: by 2002:a17:907:1622:: with SMTP id
- hb34mr20464635ejc.280.1643706869535; 
- Tue, 01 Feb 2022 01:14:29 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzCYMN4nBGfyup2Uker2k8igvx1TE+HFR7Dy5GaKdf2fhnHeoRx2NmQJ+EP6LXfXa1OPWezqg==
-X-Received: by 2002:a17:907:1622:: with SMTP id
- hb34mr20464602ejc.280.1643706869168; 
- Tue, 01 Feb 2022 01:14:29 -0800 (PST)
-Received: from localhost (nat-pool-brq-t.redhat.com. [213.175.37.10])
- by smtp.gmail.com with ESMTPSA id b16sm14373680eja.211.2022.02.01.01.14.27
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 01 Feb 2022 01:14:28 -0800 (PST)
-Date: Tue, 1 Feb 2022 10:14:27 +0100
-From: Igor Mammedov <imammedo@redhat.com>
-To: Ani Sinha <ani@anisinha.ca>
-Subject: Re: [PATCH 3/4] acpi: fix OEM ID/OEM Table ID padding
-Message-ID: <20220201101427.5748d6be@redhat.com>
-In-Reply-To: <alpine.DEB.2.22.394.2202011314320.1532434@anisinha-lenovo>
-References: <20220112130332.1648664-1-imammedo@redhat.com>
- <20220112130332.1648664-4-imammedo@redhat.com>
- <CAARzgwyc4UkvDSfu_tg8PqvG9VUZWVuPgVv5NRWqAguJgc8Thw@mail.gmail.com>
- <20220131142015.5e73ff90@redhat.com>
- <alpine.DEB.2.22.394.2201311854290.1478493@anisinha-lenovo>
- <20220131151024.15070c15@redhat.com>
- <alpine.DEB.2.22.394.2201311942130.1491657@anisinha-lenovo>
- <20220201083922.73428015@redhat.com>
- <alpine.DEB.2.22.394.2202011314320.1532434@anisinha-lenovo>
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.31; x86_64-redhat-linux-gnu)
+ us-mta-639-Ypj9hHNgOEyEYOAXl49i2w-1; Tue, 01 Feb 2022 04:19:12 -0500
+X-MC-Unique: Ypj9hHNgOEyEYOAXl49i2w-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0E8E083DD2B;
+ Tue,  1 Feb 2022 09:19:11 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.195.27])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id D58FD1084266;
+ Tue,  1 Feb 2022 09:18:20 +0000 (UTC)
+Date: Tue, 1 Feb 2022 09:18:16 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Leonardo Bras Soares Passos <leobras@redhat.com>
+Subject: Re: [RFC PATCH 1/1] i386: Remove features from Epyc-Milan cpu
+Message-ID: <Yfj62JWk7/VqOFDa@redhat.com>
+References: <20220129102336.387460-1-leobras@redhat.com>
+ <Yfem3s94EwIxqO1a@redhat.com>
+ <CAJ6HWG7RvW6ofKRf7RAK2d8Kw0sOTX7UoYKBBJOy9Yw3yJhZaA@mail.gmail.com>
+ <Yfgkdij1x2gSTdXt@redhat.com>
+ <CAJ6HWG5uHnG50DPaDEZw1hbpnB3ygXzNA6PaPDT5PiKBYv6b9w@mail.gmail.com>
 MIME-Version: 1.0
+In-Reply-To: <CAJ6HWG5uHnG50DPaDEZw1hbpnB3ygXzNA6PaPDT5PiKBYv6b9w@mail.gmail.com>
+User-Agent: Mutt/2.1.5 (2021-12-30)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=imammedo@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -106,129 +86,112 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-stable@nongnu.org, "Michael S
- . Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
- "Dmitry V . Orekhov" <dima.orekhov@gmail.com>,
- Marian Postevca <posteuca@mutex.one>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Yang Zhong <yang.zhong@intel.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ qemu-devel <qemu-devel@nongnu.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Peter Xu <peterx@redhat.com>, "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Babu Moger <babu.moger@amd.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 1 Feb 2022 13:25:20 +0530 (IST)
-Ani Sinha <ani@anisinha.ca> wrote:
-
-> On Tue, 1 Feb 2022, Igor Mammedov wrote:
-> 
-> > On Mon, 31 Jan 2022 19:51:24 +0530 (IST)
-> > Ani Sinha <ani@anisinha.ca> wrote:
-> >  
-> > > On Mon, 31 Jan 2022, Igor Mammedov wrote:
-> > >  
-> > > > On Mon, 31 Jan 2022 18:58:57 +0530 (IST)
-> > > > Ani Sinha <ani@anisinha.ca> wrote:
-> > > >  
-> > > > > On Mon, 31 Jan 2022, Igor Mammedov wrote:
-> > > > >  
-> > > > > > On Mon, 31 Jan 2022 11:47:00 +0530
-> > > > > > Ani Sinha <ani@anisinha.ca> wrote:
-> > > > > >  
-> > > > > > > On Wed, Jan 12, 2022 at 6:33 PM Igor Mammedov <imammedo@redhat.com> wrote:  
-> > > > > > > >
-> > > > > > > > Commit [2] broke original '\0' padding of OEM ID and OEM Table ID
-> > > > > > > > fields in headers of ACPI tables. While it doesn't have impact on
-> > > > > > > > default values since QEMU uses 6 and 8 characters long values
-> > > > > > > > respectively, it broke usecase where IDs are provided on QEMU CLI.
-> > > > > > > > It shouldn't affect guest (but may cause licensing verification
-> > > > > > > > issues in guest OS).
-> > > > > > > > One of the broken usecases is user supplied SLIC table with IDs
-> > > > > > > > shorter than max possible length, where [2] mangles IDs with extra
-> > > > > > > > spaces in RSDT and FADT tables whereas guest OS expects those to
-> > > > > > > > mirror the respective values of the used SLIC table.
-> > > > > > > >
-> > > > > > > > Fix it by replacing whitespace padding with '\0' padding in
-> > > > > > > > accordance with [1] and expectations of guest OS
-> > > > > > > >
-> > > > > > > > 1) ACPI spec, v2.0b
-> > > > > > > >        17.2 AML Grammar Definition
-> > > > > > > >        ...
-> > > > > > > >        //OEM ID of up to 6 characters. If the OEM ID is
-> > > > > > > >        //shorter than 6 characters, it can be terminated
-> > > > > > > >        //with a NULL character.  
-> > > > > > >
-> > > > > > > On the other hand, from
-> > > > > > > https://uefi.org/specs/ACPI/6.4/21_ACPI_Data_Tables_and_Table_Def_Language/ACPI_Data_Tables.html
-> > > > > > > ,
-> > > > > > >
-> > > > > > > "For example, the OEM ID and OEM Table ID in the common ACPI table
-> > > > > > > header (shown above) are fixed at six and eight characters,
-> > > > > > > respectively. They are not necessarily null terminated"
-> > > > > > >
-> > > > > > > I also checked version 5 and the verbiage is the same. I think not
-> > > > > > > terminating with a null is not incorrect.  
-> > > > > >
-> > > > > > I have a trouble with too much 'not' within the sentence.  
-> > > > >
-> > > > > :-)
-> > > > >  
-> > > > > > So what's the point of this comment and how it's related to
-> > > > > > this patch?  
-> > > > >
-> > > > > My understanding of the spec is that null termination of both those IDs is
-> > > > > not mandatory. Guests may get confused or expect the strings to be null
-> > > > > termimated but they should really be open to expecting non-null terminated
-> > > > > strings as well. What is important is that the number of chars of those
-> > > > > two strings are fixed and well defined in the spec and qemu
-> > > > > implementation.
-> > > > >
-> > > > > In any case, I think we can leave the patch as is for now and see if the
-> > > > > change causes trouble with other guests.  
-> > > >
-> > > >
-> > > > these fields have a fixed length so one doesn't need terminating NULL
-> > > > in case the full length of the field is utilized, otherwise in case of
-> > > > where the value is shorter than max length it has to be null terminated
-> > > > to express a shorter value. That way QEMU worked for years until
-> > > > 602b458201 introduced regression.
-> > > >  
-> > >
-> > > My comment was based on what I interpreted from reading the latest
-> > > version of the specs. I guess the spec does not explicitly say what the
-> > > padding
-> > > bytes would be in case the length of the IDs are less the max length. I
-> > > interpreted the wording to mean that whether or not the
-> > > length of the string is shorter, one should not expect it to terminate with null.  
+On Mon, Jan 31, 2022 at 05:18:04PM -0300, Leonardo Bras Soares Passos wrote:
+> On Mon, Jan 31, 2022 at 3:04 PM Daniel P. Berrangé <berrange@redhat.com> wrote:
 > >
-> > that's what AML grmamar quoted in commit message clarifies
-> > for specific field(s), as opposed to your generic string
-> > type description  
-> 
-> Ah yes, my bad. In
-> https://uefi.org/specs/ACPI/6.4/20_AML_Specification/AML_Specification.html ,
-> section 20.2.1 has this also :
-> 
-> ByteData(6) // OEM ID of up to 6 characters. If the OEM ID is shorter than
-> 6 characters,
-> it can be terminated with a NULL character.
-> 
-> etc. Somehow I missed it.
+> > On Mon, Jan 31, 2022 at 02:56:38PM -0300, Leonardo Bras Soares Passos wrote:
+> > > What I meant here is:
+> > > 1 - Host with these feature bits start a VM with EPYC-Milan cpu (and
+> > > thus have those bits enabled)
+> > > 2 - Guest is migrated to a host such as the above, which does not
+> > > support those features (bits disabled), but does support EPYC-Milan
+> > > cpus (without those features).
+> > > 3 - The migration should be allowed, given the same cpu types. Then
+> > > either we have:
+> > > 3a : The guest vcpu stays with the flag enabled (case I tried to
+> > > explain above), possibly crashing if the new feature is used, or
+> > > 3b: The guest vcpu disables the flag due to incompatibility,  which
+> > > may make the guest confuse due to cpu change, and even end up trying
+> > > to use the new feature on the guest, even if it's disabled.
 > >
-> > PS:
-> > you were asking the other day if there is any bugs left in ACPI,
-> > (the answer is that I'm not aware of any).  
+> > Neither should happen with a correctly written mgmt app in charge.
+> >
+> > When launching a QEMU process for an incoming migration, it is expected
+> > that the mgmt app has first queried QEMU on the source to get the precise
+> > CPU model + flags that were added/removed on the source. The QEMU on
+> > the target is then launched with this exact set of flags, and the
+> > 'check' flag is also set for -cpu. That will cause QEMU on the target
+> > to refuse to start unless it can give the guest the 100% identical
+> > CPUID to what has been requested on the CLI, and thus matching the
+> > source.
+> >
+> > Libvirt will ensure all this is done correctly. If not using libvirt
+> > then you've got a bunch of work to do to achieve this. It certainly
+> > isn't sufficient to merely use the same plain '-cpu' arg that the
+> > soruce was original booted with, unless you have 100% identical
+> > hardware, microcode, and software on both hosts, or the target host
+> > offers a superset of features.
 > 
-> Yes spoke to Gerd offline. On native side also he is unaware of any issues
-> post 6.2.
->
-> > But there are issues with SMBIOS tables that need to be fixed
-> > (it's corner cases with large VM configurations), are you
-> > interested in trying to fix it?  
+> Oh, that is very interesting! Thanks for sharing!
 > 
-> Yes sure. I will try my best.
+> Well, then at least one unexpected scenario should happen:
+> - VM with EPYC-Milan cpu, created in source host
+> - Source host with EPYC-Milan cpu. Support for 'extra features'
+> enabled ( erms / fsrm in this ex.)
+> - Target host with EPYC-Milan cpu. No support for 'extra features'.
+> Since the VM will be created with support for 'extra features', trying
+> to migrate from source host to target host should fail, right?
 > 
+> Which is, IMHO, odd. I imagine questions like:
 
-Thanks,
-here is SMBIOS corruption bug from backlog, created by
-Eduardo when he was investigating the issue
-https://bugzilla.redhat.com/show_bug.cgi?id=2023977
+Yes, it can certainly be surprising to users. It is a never ending
+source of support requests from users. Note this isn't an AMD problem,
+it affects Intel too, and indeed any scenario where features can be
+hidden/visible based on firmware settings or microcode updates.
 
+The classic is Intel removing the TSX related features in microcode
+updates, which results in their CPUs loosing the hle and rtm features.
+This has caused migration compatibility pain for so many people.
+
+> - "How does a host with EPYC-Milan cpu does not offer support to
+> receive a live migration of some VMs with EPYC-Milan cpu?", or even
+> - "If I can create a VM with EPYC-Milan cpu on that host, why can't I
+> receive (via migration) some VMs with EPYC-Milan CPU ?"
+
+Yes, these are exactly the questions we get from users quite
+frequently.
+
+Ultimately we need to explain that there's more to CPU compatibility
+than merely the physical hardware, rather it covers
+
+ - Physical CPU
+ - Microcode update
+ - Firmware settings
+ - Host kernel version
+ - QEMU version
+
+Any one of those pieces can prevent a given feature being usable
+by the guest, and so be the cause of live migration compatibility
+trouble.
+
+The number 1 priority is that mgmt apps don't allow the migration
+to start if there is such an incompatibility, and we're pretty
+good at that now.
+
+After that is becomes a documentation and training problem. It is
+important to understand that if users have a cluster of machines that
+they want to live migrate between, keeping those 5 pieces in sync
+across all machines is very important. Microcode is usually the most
+trouble, since it is the one that actively removes existing features
+most frequently. We've had the kernel remove features proactively
+though, to prevent VMs using them, in the expectation that a future
+microcode update might later remove the same feature.
+
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
