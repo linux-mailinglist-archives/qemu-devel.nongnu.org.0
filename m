@@ -2,74 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B287C4A6797
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Feb 2022 23:13:41 +0100 (CET)
-Received: from localhost ([::1]:40522 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D9EC64A678B
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Feb 2022 23:09:51 +0100 (CET)
+Received: from localhost ([::1]:60104 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nF1PA-0006ej-7u
-	for lists+qemu-devel@lfdr.de; Tue, 01 Feb 2022 17:13:40 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:60750)
+	id 1nF1LS-0000bM-TH
+	for lists+qemu-devel@lfdr.de; Tue, 01 Feb 2022 17:09:50 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:60698)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nEytL-0001rQ-Qj
+ id 1nEytK-0001rN-Mu
  for qemu-devel@nongnu.org; Tue, 01 Feb 2022 14:32:39 -0500
-Received: from [2a00:1450:4864:20::334] (port=38900
- helo=mail-wm1-x334.google.com)
+Received: from [2a00:1450:4864:20::42c] (port=35422
+ helo=mail-wr1-x42c.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nEytI-0002Xo-1R
- for qemu-devel@nongnu.org; Tue, 01 Feb 2022 14:32:39 -0500
-Received: by mail-wm1-x334.google.com with SMTP id
- o30-20020a05600c511e00b0034f4c3186f4so2818468wms.3
- for <qemu-devel@nongnu.org>; Tue, 01 Feb 2022 11:32:20 -0800 (PST)
+ id 1nEytH-0002Y7-Qf
+ for qemu-devel@nongnu.org; Tue, 01 Feb 2022 14:32:38 -0500
+Received: by mail-wr1-x42c.google.com with SMTP id e2so34081640wra.2
+ for <qemu-devel@nongnu.org>; Tue, 01 Feb 2022 11:32:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=nPzzTIMjX8+LmKQr0pPoJuhI0Z54vBV3jrfkNEOyMpQ=;
- b=Oojr49ptSEYDc2UEYTipQgMfjRt/UNcm4OqFRkXC6pQb6P7JNCwP/oYdgDsjNOBtCr
- CPTiMNNDlEfoD4p2idxWxqn0mWR1q6iK+D+wjtfd8AqHfUJnv3iJmqVQJS3hN8LVGp1R
- AV2pstxjV0bIyRMuFlp9hAXXoJdYX5VqL/T1h5xr2TsV42uLGQSouuArdKPjRJmVZR8V
- q7aUnAo+QSRFeCi0ZjsSyZIsGPfrtr/jdLJ5bU6ccb0a3AAHb/mRJ9/zoG4JwbBEMOp4
- Y6XtXrpBIh/6qtlt2RRa/oOxw6txvdnZ8j6xBSFel1Lnv5C0K2X1QXysMKrk2IcMKEbP
- TUFw==
+ bh=blUi2JCgQAd+TDFPkf/imnCCaFxJVC4UZRRy+Dtpxxo=;
+ b=Epm9qyHDdpnxH7Z88f8KwOkgSGjMCXSRBY8G7Lyr47NzN3KxePExIUIVWbAZ7SF8bj
+ /PNHB2KTLr9oDsVDwdJWr1br25bG7uwEy3BvXZi70O/O3GpnYMVn7JbI+3SM1bFkE81Q
+ k8HBdrHI6zk7o9ccNbeX9HsOm8ToLGb5VB1o9S9VoNhwMEUPMGLV+gz0bAYQa1MesyBh
+ xrV7UA71TrFqV/eOFOKI6VxXOEDTqkX17io4Y+wT/78lEnwHkzApHNheuK2zt9On4sKp
+ MvY1rrZK4z1m9xKc+hw0iW2ipU8xyreBglUkqqE+Hp4b6RyEBUIrLtW7StW3UHp1NcIS
+ 6SPA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=nPzzTIMjX8+LmKQr0pPoJuhI0Z54vBV3jrfkNEOyMpQ=;
- b=FWLHiDff8DpJISLSNAeF7kEhinhxpje6KQK2ZjmNmL4E+Um+sxyB0gui7cyClkxm1c
- tm/+ffySCAv7nqHIVOwWJQTjFybTd3tacJOu6sUV4KgVqBoZy9F56csF36PXzCAw8hUp
- ogg/VgBr7EdygRdAsg5owBJQyCSYBWs151ho2s0TIMo6D+KreF5NxCPRpkf22koIW3kT
- jVSlQ3HAlPZJ2pg/PLDECrZqx1q05EChOdOE35ZwWGTdKwv2lahOhGZshHQJg2WDni3Z
- itVeXcU/ewy/RRbV8f2scNRbviE6vMpfywBBNIQX4HVJIwuZ1j0m7e5ia4ixnKhxhmtA
- U7Ng==
-X-Gm-Message-State: AOAM533nkBEE0DnXkjzsqb9T7OFDGpPEDTW+b9RCH/gAemibi0YSQlk/
- ZOh6DXryEajA7afNmJrdZ3GG0w==
-X-Google-Smtp-Source: ABdhPJwLvw482/QHDjdabL6RHWYokOnjB7qshV5QFlECJVTiwabJPRSt3eU5JIF8Fy5n90WTBeFMqw==
-X-Received: by 2002:a05:600c:ac7:: with SMTP id
- c7mr3128130wmr.61.1643743939232; 
- Tue, 01 Feb 2022 11:32:19 -0800 (PST)
+ bh=blUi2JCgQAd+TDFPkf/imnCCaFxJVC4UZRRy+Dtpxxo=;
+ b=41jK18RVziUoqHtE8Jy+93EJMf/nn+YA2l72+KatJiufLbWntkhNjGeksWkWSZA5ms
+ 5x7UIzFnu7NAClJEeaLEg9IDXX6i42nd/dZSHWV9AUYaDRrg6j6zBytH8xAaZn/+SbHn
+ P4PLkfyafPy4kf8R8+1w363cpfD1mzGKDdkICnyGUDUc0u4lvuCbzslAlFYIA/Ds1oDc
+ ENqq1ebfQZbAF02f3sz2VJ2c1uVIPe0bXbzn+1hUvZFQCFv0F6F8nYrnGskL/q25di80
+ 87qFqTpZagoHgNEMktXeTpTfbggMssa4vN9DFjLOl8iL3Q9t2XomF+0pQ11S2sBE0ZcO
+ RyEA==
+X-Gm-Message-State: AOAM530AuzJKKh7q7vChClkmAZxZN1uDiT+/rIr+Q8g8mKzzAEPGMXf+
+ HGLBS16HEUnxjPDWHeoGN2DZ6w==
+X-Google-Smtp-Source: ABdhPJztY4hlw7tj2DNUREwQ9koDN1FczEpkO004+Rp5PdYypWIq8PJrI5JiBzH2L6wT0ueOY5XGKQ==
+X-Received: by 2002:adf:d1e9:: with SMTP id g9mr17579790wrd.645.1643743940740; 
+ Tue, 01 Feb 2022 11:32:20 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
- by smtp.gmail.com with ESMTPSA id z5sm3491265wmp.10.2022.02.01.11.32.18
+ by smtp.gmail.com with ESMTPSA id z5sm3491265wmp.10.2022.02.01.11.32.20
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 01 Feb 2022 11:32:18 -0800 (PST)
+ Tue, 01 Feb 2022 11:32:20 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
-Subject: [PATCH 11/13] hw/intc/arm_gicv3_its: In MAPC with V=0,
- don't check rdbase field
-Date: Tue,  1 Feb 2022 19:32:05 +0000
-Message-Id: <20220201193207.2771604-12-peter.maydell@linaro.org>
+Subject: [PATCH 13/13] hw/intc/arm_gicv3_its: Split error checks
+Date: Tue,  1 Feb 2022 19:32:07 +0000
+Message-Id: <20220201193207.2771604-14-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220201193207.2771604-1-peter.maydell@linaro.org>
 References: <20220201193207.2771604-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::334
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42c
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::334;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x334.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42c.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -96,57 +93,86 @@ Cc: Richard Henderson <richard.henderson@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In the MAPC command, if V=0 this is a request to delete a collection
-table entry and the rdbase field of the command packet will not be
-used.  In particular, the specification says that the "UNPREDICTABLE
-if rdbase is not valid" only applies for V=1.
-
-We were doing a check-and-log-guest-error on rdbase regardless of
-whether the V bit was set, and also (harmlessly but confusingly)
-storing the contents of the rdbase field into the updated collection
-table entry.  Update the code so that if V=0 we don't check or use
-the rdbase field value.
+In most of the ITS command processing, we check different error
+possibilities one at a time and log them appropriately. In
+process_mapti() and process_mapd() we have code which checks
+multiple error cases at once, which means the logging is less
+specific than it could be. Split those cases up.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- hw/intc/arm_gicv3_its.c | 24 ++++++++++++------------
- 1 file changed, 12 insertions(+), 12 deletions(-)
+ hw/intc/arm_gicv3_its.c | 52 ++++++++++++++++++++++++-----------------
+ 1 file changed, 31 insertions(+), 21 deletions(-)
 
 diff --git a/hw/intc/arm_gicv3_its.c b/hw/intc/arm_gicv3_its.c
-index 9735d609df2..069991f7f36 100644
+index 8dade9440ac..4f598d3c14f 100644
 --- a/hw/intc/arm_gicv3_its.c
 +++ b/hw/intc/arm_gicv3_its.c
-@@ -468,21 +468,21 @@ static ItsCmdResult process_mapc(GICv3ITSState *s, const uint64_t *cmdpkt)
-     CTEntry cte;
+@@ -404,19 +404,29 @@ static ItsCmdResult process_mapti(GICv3ITSState *s, const uint64_t *cmdpkt,
+     num_eventids = 1ULL << (dte.size + 1);
+     num_intids = 1ULL << (GICD_TYPER_IDBITS + 1);
  
-     icid = cmdpkt[2] & ICID_MASK;
--
--    cte.rdbase = (cmdpkt[2] & R_MAPC_RDBASE_MASK) >> R_MAPC_RDBASE_SHIFT;
--    cte.rdbase &= RDBASE_PROCNUM_MASK;
--
-     cte.valid = cmdpkt[2] & CMD_FIELD_VALID_MASK;
-+    if (cte.valid) {
-+        cte.rdbase = (cmdpkt[2] & R_MAPC_RDBASE_MASK) >> R_MAPC_RDBASE_SHIFT;
-+        cte.rdbase &= RDBASE_PROCNUM_MASK;
-+    } else {
-+        cte.rdbase = 0;
-+    }
- 
--    if ((icid >= s->ct.num_entries) || (cte.rdbase >= s->gicv3->num_cpu)) {
+-    if ((icid >= s->ct.num_entries)
+-            || !dte.valid || (eventid >= num_eventids) ||
+-            (((pIntid < GICV3_LPI_INTID_START) || (pIntid >= num_intids)))) {
 +    if (icid >= s->ct.num_entries) {
-+        qemu_log_mask(LOG_GUEST_ERROR, "ITS MAPC: invalid ICID 0x%d", icid);
-+        return CMD_CONTINUE;
-+    }
-+    if (cte.valid && cte.rdbase >= s->gicv3->num_cpu) {
          qemu_log_mask(LOG_GUEST_ERROR,
--                      "ITS MAPC: invalid collection table attributes "
--                      "icid %d rdbase %u\n",  icid, cte.rdbase);
+-                      "%s: invalid command attributes "
+-                      "icid %d or eventid %d or pIntid %d or"
+-                      "unmapped dte %d\n", __func__, icid, eventid,
+-                      pIntid, dte.valid);
 -        /*
 -         * in this implementation, in case of error
 -         * we ignore this command and move onto the next
 -         * command in the queue
 -         */
-+                      "ITS MAPC: invalid RDBASE %u ", cte.rdbase);
++                      "%s: invalid ICID 0x%x >= 0x%x\n",
++                      __func__, icid, s->ct.num_entries);
++        return CMD_CONTINUE;
++    }
++
++    if (!dte.valid) {
++        qemu_log_mask(LOG_GUEST_ERROR,
++                      "%s: no valid DTE for devid 0x%x\n", __func__, devid);
++        return CMD_CONTINUE;
++    }
++
++    if (eventid >= num_eventids) {
++        qemu_log_mask(LOG_GUEST_ERROR,
++                      "%s: invalid event ID 0x%x >= 0x%" PRIx64 "\n",
++                      __func__, eventid, num_eventids);
++        return CMD_CONTINUE;
++    }
++
++    if (pIntid < GICV3_LPI_INTID_START || pIntid >= num_intids) {
++        qemu_log_mask(LOG_GUEST_ERROR,
++                      "%s: invalid interrupt ID 0x%x\n", __func__, pIntid);
+         return CMD_CONTINUE;
+     }
+ 
+@@ -529,16 +539,16 @@ static ItsCmdResult process_mapd(GICv3ITSState *s, const uint64_t *cmdpkt)
+     dte.ittaddr = (cmdpkt[2] & ITTADDR_MASK) >> ITTADDR_SHIFT;
+     dte.valid = cmdpkt[2] & CMD_FIELD_VALID_MASK;
+ 
+-    if ((devid >= s->dt.num_entries) ||
+-        (dte.size > FIELD_EX64(s->typer, GITS_TYPER, IDBITS))) {
++    if (devid >= s->dt.num_entries) {
+         qemu_log_mask(LOG_GUEST_ERROR,
+-                      "ITS MAPD: invalid device table attributes "
+-                      "devid %d or size %d\n", devid, dte.size);
+-        /*
+-         * in this implementation, in case of error
+-         * we ignore this command and move onto the next
+-         * command in the queue
+-         */
++                      "ITS MAPD: invalid device ID field 0x%x >= 0x%x\n",
++                      devid, s->dt.num_entries);
++        return CMD_CONTINUE;
++    }
++
++    if (dte.size > FIELD_EX64(s->typer, GITS_TYPER, IDBITS)) {
++        qemu_log_mask(LOG_GUEST_ERROR,
++                      "ITS MAPD: invalid size %d\n", dte.size);
          return CMD_CONTINUE;
      }
  
