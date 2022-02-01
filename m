@@ -2,78 +2,108 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4267C4A6346
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Feb 2022 19:11:54 +0100 (CET)
-Received: from localhost ([::1]:36222 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 12F6A4A63FA
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Feb 2022 19:34:21 +0100 (CET)
+Received: from localhost ([::1]:36212 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nExdB-0007UV-2t
-	for lists+qemu-devel@lfdr.de; Tue, 01 Feb 2022 13:11:53 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:44834)
+	id 1nExyt-0002IT-Fx
+	for lists+qemu-devel@lfdr.de; Tue, 01 Feb 2022 13:34:19 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:44076)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from
- <3EWD5YQcKCswDw5BC9wy66y3w.u648w4C-vwDw3565y5C.69y@flex--venture.bounces.google.com>)
- id 1nEw8b-0005gu-FN
- for qemu-devel@nongnu.org; Tue, 01 Feb 2022 11:36:17 -0500
-Received: from [2607:f8b0:4864:20::b4a] (port=33540
- helo=mail-yb1-xb4a.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from
- <3EWD5YQcKCswDw5BC9wy66y3w.u648w4C-vwDw3565y5C.69y@flex--venture.bounces.google.com>)
- id 1nEw8Y-0000Wc-SR
- for qemu-devel@nongnu.org; Tue, 01 Feb 2022 11:36:13 -0500
-Received: by mail-yb1-xb4a.google.com with SMTP id
- u185-20020a2560c2000000b0060fd98540f7so34199968ybb.0
- for <qemu-devel@nongnu.org>; Tue, 01 Feb 2022 08:36:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
- h=date:message-id:mime-version:subject:from:to:cc;
- bh=7qgTSv2Qca38AF58tQe7sG2bmCZn6VioTVSnDScd/KU=;
- b=I3N+O9s+cJ/rxN7JHsvgKB7jxdZJA7Ifi4KA0ptB/nzGh4pkj2DDIAInK/bGekm4A+
- ZcTivAUZfa19JsnUJ6XlEuxsJ8clUnZ9w/YoUaQ8/KVnIXyCuS2m9wxSo2f8Ct4ULB5J
- kDpr5ztbNC7Bn3kmpK00g8yQ/IBMeFv4t7Bl6PzCAjLbYQ/bV5zM5ZltiyNyZAVZ9euS
- a0nQHb//91jiTK8NH+0Il1R3K5OLXDk0pHo/FTKeXiVGBr5/897kyzhpFRHl4/fmwURc
- Iy2SmUEFj2DqPPAad4rNiNOirHi9jHCyU1JqhNL+8dHSXFtAoLn5esz9p7rPCsMoVhCu
- mN/Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
- bh=7qgTSv2Qca38AF58tQe7sG2bmCZn6VioTVSnDScd/KU=;
- b=B9KVDCxhVtBzYn8G5/RyTLmtiWoXpnT9EG9trG2fw8v5hPamJS3okteZLhEay+sGvG
- lSd2J5ecWSbSZv80/YFinv+ZisD2xYQGopRL2MQlYHbzCkFptcK0E1Bdwzlgwlq74S+e
- uDu7hFa38J4HHpMAutR4OLVbi2Df9G0A93eWPbmn2wedhuqvyPL51gWTjsl2siJdiOaW
- EeE4efPIp8KyJ+luRzA/VOTq0MXv8NBEUQ4gZX5MgSdEjlUmEgggFvscQkd0qhqvMmE8
- dqOqUer7+vn7noJNVYTxmgvAI7OaV1wsGIZpwhJXDCfMX0jxr0ZSgJctUA3C87BxMpDE
- Gcyw==
-X-Gm-Message-State: AOAM532AE0ilZmI9IzaJPcMB0dXOhvFpc2CU3sekc+Zf8b0mUIFuA6Mq
- sZA26acWMaQcX/JLlmeeZCKn/gKS6aND
-X-Google-Smtp-Source: ABdhPJwPiE0FCf1Zt/LnnuVZ6UnGd78t7amm+fcNLWrt1FktI6MwF6RjYsPs61FAZ4QcWyRFabMhiw/F1egj
-X-Received: from venture.svl.corp.google.com
- ([2620:15c:2a3:200:5780:bdf0:5f14:9c50])
- (user=venture job=sendgmr) by 2002:a81:24d8:: with SMTP id
- k207mr67ywk.151.1643733009606; Tue, 01 Feb 2022 08:30:09 -0800 (PST)
-Date: Tue,  1 Feb 2022 08:30:05 -0800
-Message-Id: <20220201163005.989457-1-venture@google.com>
-Mime-Version: 1.0
-X-Mailer: git-send-email 2.35.0.rc2.247.g8bbb082509-goog
-Subject: [PATCH] hw/i2c: flatten pca954x mux device
-From: Patrick Venture <venture@google.com>
-To: cminyard@mvista.com
-Cc: qemu-devel@nongnu.org, Patrick Venture <venture@google.com>,
- Hao Wu <wuhaotsh@google.com>
+ (Exim 4.90_1) (envelope-from <kevans@freebsd.org>)
+ id 1nEw6H-0003PJ-6E
+ for qemu-devel@nongnu.org; Tue, 01 Feb 2022 11:33:49 -0500
+Received: from mx2.freebsd.org ([96.47.72.81]:64302)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kevans@freebsd.org>)
+ id 1nEw6E-00007t-JQ
+ for qemu-devel@nongnu.org; Tue, 01 Feb 2022 11:33:48 -0500
+Received: from mx1.freebsd.org (mx1.freebsd.org [96.47.72.80])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits)
+ client-signature RSA-PSS (4096 bits))
+ (Client CN "mx1.freebsd.org", Issuer "R3" (verified OK))
+ by mx2.freebsd.org (Postfix) with ESMTPS id 608DB7E544
+ for <qemu-devel@nongnu.org>; Tue,  1 Feb 2022 16:33:44 +0000 (UTC)
+ (envelope-from kevans@freebsd.org)
+Received: from smtp.freebsd.org (smtp.freebsd.org
+ [IPv6:2610:1c1:1:606c::24b:4])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256
+ client-signature RSA-PSS (4096 bits) client-digest SHA256)
+ (Client CN "smtp.freebsd.org", Issuer "R3" (verified OK))
+ by mx1.freebsd.org (Postfix) with ESMTPS id 4Jp9VH6CG5z4ctS
+ for <qemu-devel@nongnu.org>; Tue,  1 Feb 2022 16:33:43 +0000 (UTC)
+ (envelope-from kevans@freebsd.org)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=freebsd.org; s=dkim;
+ t=1643733223;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=wi5+GSn0Pb7vbA5WTJ/CKGXeeu3XirPe1GPwumeq9iA=;
+ b=g5K/6Zprnfvcf271IucJilcWhL3agYLNsn8kNqSMZKqwdVNRj6tdOzoaPTtesXkEhHY+55
+ rsg5n+fq9PWit3qGLqwMX5wYW/oarOVDWm5700nPfBvILSNfqpNprujB6c7p0+aUYCoujS
+ 4pVy7QSCIoXUgEykyG2RfmObhi7gxJTB9pvklPv8kU5isRb9PM6FMntkR/2Ayp7bbLOSrJ
+ xNawYh1ZaGDAj9XHdzuqH1jVJvCU1gEgghBtQnuGcu+J5jWNLbd6PkPVm61zvuIDq53uXh
+ MvCl7nVotWxYSZ5ecfXym1/D997aDFOne9O03iLs1W8vxRQx/RcQ6seM+MNpMw==
+Received: from mail-qk1-f170.google.com (mail-qk1-f170.google.com
+ [209.85.222.170])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (Client CN "smtp.gmail.com", Issuer "GTS CA 1D4" (verified OK))
+ (Authenticated sender: kevans)
+ by smtp.freebsd.org (Postfix) with ESMTPSA id B70222F10F
+ for <qemu-devel@nongnu.org>; Tue,  1 Feb 2022 16:33:43 +0000 (UTC)
+ (envelope-from kevans@freebsd.org)
+Received: by mail-qk1-f170.google.com with SMTP id 71so15599760qkf.4
+ for <qemu-devel@nongnu.org>; Tue, 01 Feb 2022 08:33:43 -0800 (PST)
+X-Gm-Message-State: AOAM533IMvH/X7JR5xYk3W1G3FXM1+UJAA4sNtmPhb2pEKQNHr8EYVXh
+ zoVubJZyZZwFJKUL8RkCRaAbi92wt1iGRXOSiAs=
+X-Google-Smtp-Source: ABdhPJxgHEky/k49PQCfSKBzvkbNdyPLdWNkJbBj3NWc0ALGZhhfvr0EYJulg5PG9W6CAXeSzenTKDlReFaSZ38MNn4=
+X-Received: by 2002:a05:620a:f0e:: with SMTP id
+ v14mr17312077qkl.365.1643733220908; 
+ Tue, 01 Feb 2022 08:33:40 -0800 (PST)
+MIME-Version: 1.0
+References: <20220201111455.52511-1-imp@bsdimp.com>
+ <20220201111455.52511-7-imp@bsdimp.com>
+In-Reply-To: <20220201111455.52511-7-imp@bsdimp.com>
+From: Kyle Evans <kevans@freebsd.org>
+Date: Tue, 1 Feb 2022 10:33:29 -0600
+X-Gmail-Original-Message-ID: <CACNAnaHuHhBwz+uBL=vBhDWthajyH2Rf9BxyuzyCFrHP3VzSVg@mail.gmail.com>
+Message-ID: <CACNAnaHuHhBwz+uBL=vBhDWthajyH2Rf9BxyuzyCFrHP3VzSVg@mail.gmail.com>
+Subject: Re: [PATCH 06/22] bsd-user/arm/target_arch_thread.h: Assume a FreeBSD
+ target
+To: Warner Losh <imp@bsdimp.com>
 Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::b4a
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b4a;
- envelope-from=3EWD5YQcKCswDw5BC9wy66y3w.u648w4C-vwDw3565y5C.69y@flex--venture.bounces.google.com;
- helo=mail-yb1-xb4a.google.com
-X-Spam_score_int: -87
-X-Spam_score: -8.8
-X-Spam_bar: --------
-X-Spam_report: (-8.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=freebsd.org;
+ s=dkim; t=1643733223;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=wi5+GSn0Pb7vbA5WTJ/CKGXeeu3XirPe1GPwumeq9iA=;
+ b=YtOPthckkt2YGeXJGIcZ4DAFt7zR2EmhSKOfpOouKJGZ9lwhmn0pq7AqDd1E5flgNJUmyG
+ 2di2skWeN+cN9Cdfzq01K6A8SrbI84v1C1Cxk1GSdMqVKshS7rGd6w0IPBlAGy8hbak5xj
+ 78CsXSJ5WC9m8zNRiw7PI1v1fNsLcqk3FlhL6U+G5j42MkP64hB4WxtrtCGR0FasQ5/8OW
+ UFfpkTJyWFTy9a2hZueBN4DCrlrNGYaDf3iALVF4ynbJG6xQFdSfYLp4NCAOGulYHlYyJx
+ fuuHR6FPjkxoohuDvTLWl1qNPFvHuTc0kgqwwi2QqDnsJnXP/58B1MDOI9YT4w==
+ARC-Seal: i=1; s=dkim; d=freebsd.org; t=1643733223; a=rsa-sha256; cv=none;
+ b=d3osE0pRahmcM2XtmHJjQsC5GifP+b46DY3buztjwKIu7GYDBywCbBUg0ONfbs+fIWY0BQ
+ A7MzwvPYLHjakBan1fg41HJcBfu8636i9rRp1Humn0OCPKzfxFgclKsd05QJOErJOTFl4Z
+ zCk8igW/GWx3iGCgQ87qnuCl7EnJ7WBbRqtHmx1xipwoSL/zOvCbRgveXgkAxFN8yFhZHJ
+ 5HtsbjLIBefUaUa79aGuqYYUQkbff+4xEm0t9fkvvbZ3Pxf5Mb4NulwepzjrF62ag4kjXs
+ cw77a2g9M5FGkGCuOAlbqEVORO1W3nGUhJbHBZ8ZSt1VUpMfz3GV7DQceo4FgA==
+ARC-Authentication-Results: i=1;
+	mx1.freebsd.org;
+	none
+Received-SPF: pass client-ip=96.47.72.81; envelope-from=kevans@freebsd.org;
+ helo=mx2.freebsd.org
+X-Spam_score_int: -71
+X-Spam_score: -7.2
+X-Spam_bar: -------
+X-Spam_report: (-7.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.081,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01,
- USER_IN_DEF_DKIM_WL=-7.5 autolearn=no autolearn_force=no
+ RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -86,168 +116,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Peter Maydell <peter.maydell@linaro.org>, arrowd@freebsd.org,
+ Kyle Evans <kevans@freebsd.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, def@freebsd.org,
+ Jessica Clarke <jrtc27@freebsd.org>, Brad Smith <brad@comstyle.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Previously this device created N subdevices which each owned an i2c bus.
-Now this device simply owns the N i2c busses directly.
+On Tue, Feb 1, 2022 at 5:14 AM Warner Losh <imp@bsdimp.com> wrote:
+>
+> Since we can't run on anything else, assume for the moment that this is
+> a FreeBSD target. In the future, we'll need to handle this properly
+> via some include file in bsd-user/*bsd/arm/mumble.h. There's a number
+> of other diffs that would be needed to make things work on OtherBSD,
+> so it doesn't make sense to preseve this one detail today.
+>
+> Signed-off-by: Warner Losh <imp@bsdimp.com>
+> ---
+>  bsd-user/arm/target_arch_thread.h | 4 +---
+>  1 file changed, 1 insertion(+), 3 deletions(-)
+>
 
-Tested: Verified devices behind mux are still accessible via qmp and i2c
-from within an arm32 SoC.
+Reviewed-by: Kyle Evans <kevans@FreeBSD.org>
 
-Reviewed-by: Hao Wu <wuhaotsh@google.com>
-Signed-off-by: Patrick Venture <venture@google.com>
----
- hw/i2c/i2c_mux_pca954x.c | 75 ++++++----------------------------------
- 1 file changed, 11 insertions(+), 64 deletions(-)
-
-diff --git a/hw/i2c/i2c_mux_pca954x.c b/hw/i2c/i2c_mux_pca954x.c
-index 847c59921c..f9ce633b3a 100644
---- a/hw/i2c/i2c_mux_pca954x.c
-+++ b/hw/i2c/i2c_mux_pca954x.c
-@@ -30,24 +30,6 @@
- #define PCA9548_CHANNEL_COUNT 8
- #define PCA9546_CHANNEL_COUNT 4
- 
--/*
-- * struct Pca954xChannel - The i2c mux device will have N of these states
-- * that own the i2c channel bus.
-- * @bus: The owned channel bus.
-- * @enabled: Is this channel active?
-- */
--typedef struct Pca954xChannel {
--    SysBusDevice parent;
--
--    I2CBus       *bus;
--
--    bool         enabled;
--} Pca954xChannel;
--
--#define TYPE_PCA954X_CHANNEL "pca954x-channel"
--#define PCA954X_CHANNEL(obj) \
--    OBJECT_CHECK(Pca954xChannel, (obj), TYPE_PCA954X_CHANNEL)
--
- /*
-  * struct Pca954xState - The pca954x state object.
-  * @control: The value written to the mux control.
-@@ -59,8 +41,8 @@ typedef struct Pca954xState {
- 
-     uint8_t control;
- 
--    /* The channel i2c buses. */
--    Pca954xChannel channel[PCA9548_CHANNEL_COUNT];
-+    bool enabled[PCA9548_CHANNEL_COUNT];
-+    I2CBus *bus[PCA9548_CHANNEL_COUNT];
- } Pca954xState;
- 
- /*
-@@ -98,11 +80,11 @@ static bool pca954x_match(I2CSlave *candidate, uint8_t address,
-     }
- 
-     for (i = 0; i < mc->nchans; i++) {
--        if (!mux->channel[i].enabled) {
-+        if (!mux->enabled[i]) {
-             continue;
-         }
- 
--        if (i2c_scan_bus(mux->channel[i].bus, address, broadcast,
-+        if (i2c_scan_bus(mux->bus[i], address, broadcast,
-                          current_devs)) {
-             if (!broadcast) {
-                 return true;
-@@ -125,9 +107,9 @@ static void pca954x_enable_channel(Pca954xState *s, uint8_t enable_mask)
-      */
-     for (i = 0; i < mc->nchans; i++) {
-         if (enable_mask & (1 << i)) {
--            s->channel[i].enabled = true;
-+            s->enabled[i] = true;
-         } else {
--            s->channel[i].enabled = false;
-+            s->enabled[i] = false;
-         }
-     }
- }
-@@ -184,23 +166,7 @@ I2CBus *pca954x_i2c_get_bus(I2CSlave *mux, uint8_t channel)
-     Pca954xState *pca954x = PCA954X(mux);
- 
-     g_assert(channel < pc->nchans);
--    return I2C_BUS(qdev_get_child_bus(DEVICE(&pca954x->channel[channel]),
--                                      "i2c-bus"));
--}
--
--static void pca954x_channel_init(Object *obj)
--{
--    Pca954xChannel *s = PCA954X_CHANNEL(obj);
--    s->bus = i2c_init_bus(DEVICE(s), "i2c-bus");
--
--    /* Start all channels as disabled. */
--    s->enabled = false;
--}
--
--static void pca954x_channel_class_init(ObjectClass *klass, void *data)
--{
--    DeviceClass *dc = DEVICE_CLASS(klass);
--    dc->desc = "Pca954x Channel";
-+    return pca954x->bus[channel];
- }
- 
- static void pca9546_class_init(ObjectClass *klass, void *data)
-@@ -215,28 +181,17 @@ static void pca9548_class_init(ObjectClass *klass, void *data)
-     s->nchans = PCA9548_CHANNEL_COUNT;
- }
- 
--static void pca954x_realize(DeviceState *dev, Error **errp)
--{
--    Pca954xState *s = PCA954X(dev);
--    Pca954xClass *c = PCA954X_GET_CLASS(s);
--    int i;
--
--    /* SMBus modules. Cannot fail. */
--    for (i = 0; i < c->nchans; i++) {
--        sysbus_realize(SYS_BUS_DEVICE(&s->channel[i]), &error_abort);
--    }
--}
--
- static void pca954x_init(Object *obj)
- {
-     Pca954xState *s = PCA954X(obj);
-     Pca954xClass *c = PCA954X_GET_CLASS(obj);
-     int i;
- 
--    /* Only initialize the children we expect. */
-+    /* SMBus modules. Cannot fail. */
-     for (i = 0; i < c->nchans; i++) {
--        object_initialize_child(obj, "channel[*]", &s->channel[i],
--                                TYPE_PCA954X_CHANNEL);
-+        /* start all channels as disabled. */
-+        s->enabled[i] = false;
-+        s->bus[i] = i2c_init_bus(DEVICE(s), "channel[*]");
-     }
- }
- 
-@@ -252,7 +207,6 @@ static void pca954x_class_init(ObjectClass *klass, void *data)
-     rc->phases.enter = pca954x_enter_reset;
- 
-     dc->desc = "Pca954x i2c-mux";
--    dc->realize = pca954x_realize;
- 
-     k->write_data = pca954x_write_data;
-     k->receive_byte = pca954x_read_byte;
-@@ -278,13 +232,6 @@ static const TypeInfo pca954x_info[] = {
-         .parent        = TYPE_PCA954X,
-         .class_init    = pca9548_class_init,
-     },
--    {
--        .name = TYPE_PCA954X_CHANNEL,
--        .parent = TYPE_SYS_BUS_DEVICE,
--        .class_init = pca954x_channel_class_init,
--        .instance_size = sizeof(Pca954xChannel),
--        .instance_init = pca954x_channel_init,
--    }
- };
- 
- DEFINE_TYPES(pca954x_info)
--- 
-2.35.0.rc2.247.g8bbb082509-goog
-
+> diff --git a/bsd-user/arm/target_arch_thread.h b/bsd-user/arm/target_arch_thread.h
+> index 11c7f765838..fcafca2408c 100644
+> --- a/bsd-user/arm/target_arch_thread.h
+> +++ b/bsd-user/arm/target_arch_thread.h
+> @@ -62,9 +62,7 @@ static inline void target_thread_init(struct target_pt_regs *regs,
+>      }
+>      regs->ARM_pc = infop->entry & 0xfffffffe;
+>      regs->ARM_sp = stack;
+> -    if (bsd_type == target_freebsd) {
+> -        regs->ARM_lr = infop->entry & 0xfffffffe;
+> -    }
+> +    regs->ARM_lr = infop->entry & 0xfffffffe;
+>      /*
+>       * FreeBSD kernel passes the ps_strings pointer in r0. This is used by some
+>       * programs to set status messages that we see in ps. bsd-user doesn't
+> --
+> 2.33.1
+>
 
