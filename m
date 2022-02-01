@@ -2,63 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7026A4A5B9D
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Feb 2022 12:54:50 +0100 (CET)
-Received: from localhost ([::1]:37726 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C0D1C4A5B38
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Feb 2022 12:32:45 +0100 (CET)
+Received: from localhost ([::1]:53732 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nErkH-0006fH-I2
-	for lists+qemu-devel@lfdr.de; Tue, 01 Feb 2022 06:54:49 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:57086)
+	id 1nErOr-0003dl-5h
+	for lists+qemu-devel@lfdr.de; Tue, 01 Feb 2022 06:32:41 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:57094)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1nEr7r-0005BC-Sk
- for qemu-devel@nongnu.org; Tue, 01 Feb 2022 06:15:07 -0500
-Received: from [2607:f8b0:4864:20::d31] (port=35496
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1nEr7r-0005BY-Vq
+ for qemu-devel@nongnu.org; Tue, 01 Feb 2022 06:15:11 -0500
+Received: from [2607:f8b0:4864:20::d31] (port=42851
  helo=mail-io1-xd31.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1nEr7m-0003YW-M2
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1nEr7n-0003Zm-FH
  for qemu-devel@nongnu.org; Tue, 01 Feb 2022 06:15:07 -0500
-Received: by mail-io1-xd31.google.com with SMTP id 9so20767143iou.2
- for <qemu-devel@nongnu.org>; Tue, 01 Feb 2022 03:15:02 -0800 (PST)
+Received: by mail-io1-xd31.google.com with SMTP id r144so20673053iod.9
+ for <qemu-devel@nongnu.org>; Tue, 01 Feb 2022 03:15:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bsdimp-com.20210112.gappssmtp.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=P+hwpRasrlBwRhMd/TMNJlUBlbRLqHxNn2N1IM+WvmM=;
- b=n3EHe1t1Auw6xRddKBbo8HxG1Dy4ZJg5RhCF/q4SrF3eto9kOamgNpuwWLy14hWOH9
- lulmoJE9OpvxQIY/1rOA1NK0BBtskdpYjL3i6eQ394hQ7yjAWyODJPRniBvXwx6TjUuy
- K1bgmFCrqvvCIU9szHSUCvWrg+NFDYr6TuuFYuymynV0O3Xz0Ad0SNOWd/1AiLXb1Xi3
- EI8J6HSYXi6NNO2vmthaaGP6p0eukKXylEu3FnTRdh3JATt4R6s5wQU3K8uBVhoSPiHk
- CQZmyu4p5MqV1SynYG9upiamkb8uIsqEm/gQvtH+uNhVBSWuGG5f3RsvTxuFjsVTe38W
- Jx1Q==
+ bh=014KLrrmpCxLSaIFhafJ91o/j0d6EMkAjz6oEw/jXuM=;
+ b=Inpwt/xsqB72GDfJqD4MfEvw/cZe6TPf4GBsjTNkicm6pQJ/M0tAwKRcKZLOtomckA
+ 095I4nZQpRRwGlvJ1QBEy3+K0pcUBgvmZu7VfF8C3M+xAGvLH70n4kTWmtC4x30Ql/BO
+ q+fv0dyzL8fcp4ayNF7WrOuxT92lJATczl+jPJuYy81S5rVjMPfHxM9a6EU8f4pNI55y
+ D4Q6smjvc7MLVhM7c5F1RYUI+yc4m385cqC7+rCHnVRqvdGxJUdt5rcRx1zXq+ZIBE1w
+ QjaghgNjb5YKb6o3rcTofw2nmcaDAyNqUJcvS0W2oSvVcyqiWZ2WNowHZ5A1BfCTubMX
+ f6pg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=P+hwpRasrlBwRhMd/TMNJlUBlbRLqHxNn2N1IM+WvmM=;
- b=QlISaVP+J5sfVcMm1z5pz1dMlDAf1RD12bQVrIxP4tfd3ykaZetwQtj9F0Eck6KSB1
- 6tKNRtxv1b9CPsLZizutrqCiJv8wO7C6KSVVyxmTvdgKn+1v6J4dvX7SlDld7nEI+Ipq
- BISuUM2433lri3qSpbBuKJc0C52rgiQRMkz0bFUv0oQ0ZwPKX5UwFe9VWnsqSUOcdGHS
- /FbzpHyDZ5Rc9kz6fQpthY+r94BT/w27+GJUaqV4Y7s9P3242nZWF2DYhKOkYRmQsmII
- QVzNDq4L/J2U7kl06c7QO+BwPfQ/kNog4cilpyeWGMkyJvxFpUXiyejPjZWGrFY2CSuT
- kbow==
-X-Gm-Message-State: AOAM532+esnbblMeaxsSTFNMJynOoT9ad9amRpONEnwH7Bxg6hRa9zUr
- mXq8QVDRXKIhjQ2MpXAuoIDJG0giB1exqw==
-X-Google-Smtp-Source: ABdhPJyTKPOlLTFRF7FT0k1JB0U2Dbbuiz4ZPSPOvNn97F4z2wU0p4a0fZhmRbZxWPRsAyGKQRNCHA==
-X-Received: by 2002:a05:6602:1345:: with SMTP id
- i5mr13288894iov.143.1643714101185; 
- Tue, 01 Feb 2022 03:15:01 -0800 (PST)
+ bh=014KLrrmpCxLSaIFhafJ91o/j0d6EMkAjz6oEw/jXuM=;
+ b=BKGfN8OuQfj/xMO54pRaZXlhElzsPqA465nLJRvjXJyduw3MfJHdlLoNBu6orI5Deq
+ cMAwtYW4tnbURM+3x+SL0Ab5dEbrHYWfcV0dwipzTKDDtSD3zcjk8lwtjVzCPhPvjofj
+ Ww7tkNxxY6IIw0KMjsZnTD+xy3QSDzB5AMMeDFS/8bcyneDaMyKn/hD41caeQsFJwg3O
+ xsotOkwOmLxeYVPb1mBWaZAMUK9XrhVfBqpd2MW8zQd4KpxzM0EOIxIU2SYW+57T/63Y
+ iIZYbIE06ZtQfxy0vtobP86kayP+yrEGEWP3DlY74Peu9D587ArTZqP8vev0NzJja0Jj
+ MIpg==
+X-Gm-Message-State: AOAM532p7Tm1cpexDkubKMGWhFyrPM5+7n2vgZoVrNXNzSY3YJrTpm5p
+ B3Cpc5df4DvGkGi237pxd1BSQMFqrabq6w==
+X-Google-Smtp-Source: ABdhPJz/CS4NVU8FB2xXLkthW8T4rdTnBi9Hlo96TkQr+Z1M3pPdDON09BZY5Ewfj66Rfpr7I0qyrg==
+X-Received: by 2002:a05:6638:250a:: with SMTP id
+ v10mr8733006jat.56.1643714102191; 
+ Tue, 01 Feb 2022 03:15:02 -0800 (PST)
 Received: from dune.bsdimp.com (50-253-99-174-static.hfc.comcastbusiness.net.
  [50.253.99.174])
- by smtp.gmail.com with ESMTPSA id w5sm13526852ilu.83.2022.02.01.03.15.00
+ by smtp.gmail.com with ESMTPSA id w5sm13526852ilu.83.2022.02.01.03.15.01
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 01 Feb 2022 03:15:00 -0800 (PST)
+ Tue, 01 Feb 2022 03:15:01 -0800 (PST)
 From: Warner Losh <imp@bsdimp.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 13/22] bsd-user/bsd-file.h: Implementation details for the
- filesystem calls
-Date: Tue,  1 Feb 2022 04:14:46 -0700
-Message-Id: <20220201111455.52511-14-imp@bsdimp.com>
+Subject: [PATCH 14/22] bsd-user/freebsd/os-syscall.c: lock_iovec
+Date: Tue,  1 Feb 2022 04:14:47 -0700
+Message-Id: <20220201111455.52511-15-imp@bsdimp.com>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <20220201111455.52511-1-imp@bsdimp.com>
 References: <20220201111455.52511-1-imp@bsdimp.com>
@@ -95,76 +94,118 @@ Cc: Peter Maydell <peter.maydell@linaro.org>, arrowd@FreeBSD.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-An include file that pulls in all the definitions needed for the file
-related system calls. This also includes the host definitions to
-implement the system calls and some helper routines to lock/unlock
-different aspects of the system call arguments.
+lock_iovec will lock an I/O vec and the memory to which it referrs and
+create a iovec in the host space that referrs to it, with full error
+unwinding.
 
 Signed-off-by: Warner Losh <imp@bsdimp.com>
 ---
- bsd-user/bsd-file.h           | 39 +++++++++++++++++++++++++++++++++++
- bsd-user/freebsd/os-syscall.c |  2 ++
- 2 files changed, 41 insertions(+)
- create mode 100644 bsd-user/bsd-file.h
+ bsd-user/freebsd/os-syscall.c | 92 +++++++++++++++++++++++++++++++++++
+ 1 file changed, 92 insertions(+)
 
-diff --git a/bsd-user/bsd-file.h b/bsd-user/bsd-file.h
-new file mode 100644
-index 00000000000..2f743db38e1
---- /dev/null
-+++ b/bsd-user/bsd-file.h
-@@ -0,0 +1,39 @@
-+/*
-+ *  file related system call shims and definitions
-+ *
-+ *  Copyright (c) 2013 Stacey D. Son
-+ *
-+ *  This program is free software; you can redistribute it and/or modify
-+ *  it under the terms of the GNU General Public License as published by
-+ *  the Free Software Foundation; either version 2 of the License, or
-+ *  (at your option) any later version.
-+ *
-+ *  This program is distributed in the hope that it will be useful,
-+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
-+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+ *  GNU General Public License for more details.
-+ *
-+ *  You should have received a copy of the GNU General Public License
-+ *  along with this program; if not, see <http://www.gnu.org/licenses/>.
-+ */
-+
-+#ifndef BSD_FILE_H_
-+#define BSD_FILE_H_
-+
-+#include <sys/types.h>
-+#include <sys/mount.h>
-+#include <sys/uio.h>
-+#include <fcntl.h>
-+#include <poll.h>
-+#include <stdio.h>
-+#include <stdlib.h>
-+#include <unistd.h>
-+
-+#include "qemu/path.h"
-+
-+extern struct iovec *lock_iovec(int type, abi_ulong target_addr, int count,
-+        int copy);
-+extern void unlock_iovec(struct iovec *vec, abi_ulong target_addr, int count,
-+        int copy);
-+
-+#endif /* !BSD_FILE_H_ */
 diff --git a/bsd-user/freebsd/os-syscall.c b/bsd-user/freebsd/os-syscall.c
-index 2e84cf350b1..060134a9ecd 100644
+index 060134a9ecd..c21759ae7ce 100644
 --- a/bsd-user/freebsd/os-syscall.c
 +++ b/bsd-user/freebsd/os-syscall.c
-@@ -40,6 +40,8 @@
- #include "signal-common.h"
- #include "user/syscall-trace.h"
- 
-+#include "bsd-file.h"
-+
- void target_set_brk(abi_ulong new_brk)
- {
+@@ -75,6 +75,98 @@ bool is_error(abi_long ret)
+     return (abi_ulong)ret >= (abi_ulong)(-4096);
  }
+ 
++struct iovec *lock_iovec(int type, abi_ulong target_addr,
++        int count, int copy)
++{
++    struct target_iovec *target_vec;
++    struct iovec *vec;
++    abi_ulong total_len, max_len;
++    int i;
++    int err = 0;
++    bool bad_address = false;
++
++    if (count == 0) {
++        errno = 0;
++        return NULL;
++    }
++    if (count < 0 || count > IOV_MAX) {
++        errno = EINVAL;
++        return NULL;
++    }
++
++    vec = calloc(count, sizeof(struct iovec));
++    if (vec == NULL) {
++        errno = ENOMEM;
++        return NULL;
++    }
++
++    target_vec = lock_user(VERIFY_READ, target_addr,
++                           count * sizeof(struct target_iovec), 1);
++    if (target_vec == NULL) {
++        err = EFAULT;
++        goto fail2;
++    }
++
++    /*
++     * ??? If host page size > target page size, this will result in a value
++     * larger than what we can actually support.
++     */
++    max_len = 0x7fffffff & TARGET_PAGE_MASK;
++    total_len = 0;
++
++    for (i = 0; i < count; i++) {
++        abi_ulong base = tswapal(target_vec[i].iov_base);
++        abi_long len = tswapal(target_vec[i].iov_len);
++
++        if (len < 0) {
++            err = EINVAL;
++            goto fail;
++        } else if (len == 0) {
++            /* Zero length pointer is ignored.  */
++            vec[i].iov_base = 0;
++        } else {
++            vec[i].iov_base = lock_user(type, base, len, copy);
++            /*
++             * If the first buffer pointer is bad, this is a fault.  But
++             * subsequent bad buffers will result in a partial write; this is
++             * realized by filling the vector with null pointers and zero
++             * lengths.
++             */
++            if (!vec[i].iov_base) {
++                if (i == 0) {
++                    err = EFAULT;
++                    goto fail;
++                } else {
++                    bad_address = true;
++                }
++            }
++            if (bad_address) {
++                len = 0;
++            }
++            if (len > max_len - total_len) {
++                len = max_len - total_len;
++            }
++        }
++        vec[i].iov_len = len;
++        total_len += len;
++    }
++
++    unlock_user(target_vec, target_addr, 0);
++    return vec;
++
++ fail:
++    while (--i >= 0) {
++        if (tswapal(target_vec[i].iov_len) > 0) {
++            unlock_user(vec[i].iov_base, tswapal(target_vec[i].iov_base), 0);
++        }
++    }
++    unlock_user(target_vec, target_addr, 0);
++ fail2:
++    free(vec);
++    errno = err;
++    return NULL;
++}
++
+ /*
+  * do_syscall() should always have a single exit point at the end so that
+  * actions, such as logging of syscall results, can be performed.  All errnos
 -- 
 2.33.1
 
