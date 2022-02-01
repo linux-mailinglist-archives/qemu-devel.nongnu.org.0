@@ -2,71 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4BD74A69E6
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Feb 2022 03:25:15 +0100 (CET)
-Received: from localhost ([::1]:38738 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5FE944A6A16
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Feb 2022 03:44:33 +0100 (CET)
+Received: from localhost ([::1]:33984 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nF5KZ-0005iq-Qn
-	for lists+qemu-devel@lfdr.de; Tue, 01 Feb 2022 21:25:13 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:54634)
+	id 1nF5dI-0005Tg-Gh
+	for lists+qemu-devel@lfdr.de; Tue, 01 Feb 2022 21:44:32 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:57058)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1nF0KE-0005yV-Vo
- for qemu-devel@nongnu.org; Tue, 01 Feb 2022 16:04:31 -0500
-Received: from [2607:f8b0:4864:20::936] (port=38733
- helo=mail-ua1-x936.google.com)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nF0Wl-0001by-1x
+ for qemu-devel@nongnu.org; Tue, 01 Feb 2022 16:17:27 -0500
+Received: from [2607:f8b0:4864:20::102f] (port=45632
+ helo=mail-pj1-x102f.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1nF0K9-0007ol-Rl
- for qemu-devel@nongnu.org; Tue, 01 Feb 2022 16:04:30 -0500
-Received: by mail-ua1-x936.google.com with SMTP id n15so15514306uaq.5
- for <qemu-devel@nongnu.org>; Tue, 01 Feb 2022 13:03:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bsdimp-com.20210112.gappssmtp.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=ci7EjIgMCbzdSg6cmZntgT+S/pIvfSG+zZnq+psoKVU=;
- b=mpOsK0amxBrOoVt244mEzKvX9vjg6DXTS6xUEcgtaUt7AL2AFT1qy+ztNv7ISyyAqX
- DR+TmLeZbU/y91aQsVdfIbTDvFwq6Cyf6GSlL/WqlRnC1xvMIsxB0248vOAYcM/GDCkK
- Y5lH27YnEBR4qEOWWT4tQ7EA/z3wRmzM1sno4VWyULttHZZI9puw10CXpZWhVkCeKZxP
- 7Tq//q8GTaIJFx3WmjUANlfxMVuXBJNzHg30fa8OGfrUTosEKhnbuc9R/UxaJb9t3eth
- yktReIWCGx1qXc93HAgheI+AD6WX00VJgaMmal+4zAtJ7pr3eM1cgkJ9ykR8GWQSFftR
- Z+7g==
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nF0Wi-0001O0-80
+ for qemu-devel@nongnu.org; Tue, 01 Feb 2022 16:17:26 -0500
+Received: by mail-pj1-x102f.google.com with SMTP id
+ g15-20020a17090a67cf00b001b7d5b6bedaso3932173pjm.4
+ for <qemu-devel@nongnu.org>; Tue, 01 Feb 2022 13:16:55 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=De6IIe3KMzuSpddoPfFJu3iw1r6Xx/AMA5I8+A69b4U=;
+ b=MJwFVU7eyFqL6Xi5xnyp7d1hakJ/s+UO98Epm/+3EbG6oc1/UzoA9AkJFOMWffa+kg
+ sxb5X1Zw2SLQRUAl158AJJBV2a2Gq7C/fjDv7hL9e3ulU6rc+q2/dd+oy6c60pGM9Dyt
+ l7hdtJM+5E0J0fxyG+R9/7jYhigcxrXwVV78DjGtJ4fuYFeNR5c8MgLBUgVqvolpHU+l
+ M0qIw9RIm4bolNC+xs3Do2S4RztMW1vCr8hagVRUeauix3k6TsFBrTif2vWIASaR85Et
+ N4QE2SM/6iiFI1ai1vr3WNwQxWgX6m+JpNFi2M67cufcx4mBBZYaqoqWJ3IOVr34XDTu
+ 4W9g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=ci7EjIgMCbzdSg6cmZntgT+S/pIvfSG+zZnq+psoKVU=;
- b=bODuJsCLY0UYBBH0GftiiZAwwX0HPXwqlO0BGteNxRp6BMv8sD1n0wSVyzkX2Qp2eM
- zti6M5nLesJSv2Pr9EthdNtZ5Y8YnwdP374G5JbE1ZTlRa0UflWtyt+Vw8fY4GbvA+k9
- VicW9Nu6vaz+ipNtV1OCYvEwTqXVvvGszuDH4M8rG6ZOygL5RZVYmCMtmiYN+1kJTKgk
- nU4/flU2RrDqCeKD45LTzy1r0jQMH9BAXB4iTqATKTbWOgK2T+WYRW9PR9EV4TnEcuLX
- ZPqyFM7tS1cAtVHIJxHPR+cyYC1AL0xn9XnflDwffAh35ZbxZDsXUWlhxGdXAoRgV+7A
- 7bog==
-X-Gm-Message-State: AOAM530oIKOGcbByPOrrL6LKq3lw76L77C4CNjG8DXRoJMdeEJiEO/vy
- Dn+BCFzDBp3WUkjO0GXfiXaCW9S4lTSu+ln3jxUhUA==
-X-Google-Smtp-Source: ABdhPJx+z+2DopGffCmiZvzCl9zFhWAiV3j+7vpLERQ4coAv1XZ2KuAli7UEPZgITVqnWW16C7TejAT/9yzUlKczKTA=
-X-Received: by 2002:a67:33c9:: with SMTP id z192mr11023204vsz.42.1643749412151; 
- Tue, 01 Feb 2022 13:03:32 -0800 (PST)
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=De6IIe3KMzuSpddoPfFJu3iw1r6Xx/AMA5I8+A69b4U=;
+ b=hp/4bJXd9XOTjx8AUyMKG9QOYdL5MQKIa+v6F2YMpwKANkCR5WqJ4UXLgmbMjHf2YK
+ LQkiFDbBtjThZLYY1a2+E+3JHpuxzeL3OoGvCmqtLdWvN8we+keDMXBwoZqh3sCwEQ1x
+ /AS+MtcLiN7qm0cGS0eQUSraHAR5brCQE8tX8LB8eqMPVPHsSfNYoUZ9JBiTzxC6vyIQ
+ 5S6Vt6y7RsQq4SlL6madXQmb9rhZFAPsbCprtJWsJbiOYw5hJ9XpLTzo8ZD4+86KOSjb
+ Uv+QoJqGvU2nP61ITkQtlC/ioE8Wx8qDOzcUCacHDVwM1k9haauHZYqYAN9o7yVyBm1U
+ ZK6g==
+X-Gm-Message-State: AOAM533bCeKjLVYyzueW9LYfHKbtNyKxOPkdXPj9nVeVsZ5zjBH/SLB/
+ va0LDbN9pdUMnbwrjCx6Sd9kZQ==
+X-Google-Smtp-Source: ABdhPJzXnbbsIjslNKQf3Wmc5gGW7CjP9nAhoF6h+Ri4UN/H9V66LlUbP3HowkYdMrkTv8v0bd8e+w==
+X-Received: by 2002:a17:90a:5982:: with SMTP id
+ l2mr4492923pji.100.1643750214365; 
+ Tue, 01 Feb 2022 13:16:54 -0800 (PST)
+Received: from ?IPV6:2001:8003:3a49:fd00:4f14:faaf:dae:66e4?
+ ([2001:8003:3a49:fd00:4f14:faaf:dae:66e4])
+ by smtp.gmail.com with ESMTPSA id q17sm23224030pfk.108.2022.02.01.13.16.50
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 01 Feb 2022 13:16:53 -0800 (PST)
+Message-ID: <3f3af9ba-513e-6f69-7010-9eafd0720180@linaro.org>
+Date: Wed, 2 Feb 2022 08:16:47 +1100
 MIME-Version: 1.0
-References: <20220131195636.31991-1-imp@bsdimp.com>
- <CAFEAcA9Fdn55E8qbzVb_SMLrwvuqsexXXGZA8A7D2qEcho07NA@mail.gmail.com>
-In-Reply-To: <CAFEAcA9Fdn55E8qbzVb_SMLrwvuqsexXXGZA8A7D2qEcho07NA@mail.gmail.com>
-From: Warner Losh <imp@bsdimp.com>
-Date: Tue, 1 Feb 2022 14:03:21 -0700
-Message-ID: <CANCZdfq47r5B8QZEOrqh5bBH3Z2D4OmQjTrUNhj_fMv4kpCX=Q@mail.gmail.com>
-Subject: Re: [PULL 00/40] Bsd user arm 2022q1 patches
-To: Peter Maydell <peter.maydell@linaro.org>
-Content-Type: multipart/alternative; boundary="000000000000cfbc3d05d6fb3be1"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::936
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH 14/22] bsd-user/freebsd/os-syscall.c: lock_iovec
+Content-Language: en-US
+To: Warner Losh <imp@bsdimp.com>, qemu-devel@nongnu.org
+References: <20220201111455.52511-1-imp@bsdimp.com>
+ <20220201111455.52511-15-imp@bsdimp.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20220201111455.52511-15-imp@bsdimp.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::102f
  (failed)
-Received-SPF: none client-ip=2607:f8b0:4864:20::936;
- envelope-from=wlosh@bsdimp.com; helo=mail-ua1-x936.google.com
-X-Spam_score_int: -10
-X-Spam_score: -1.1
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102f;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102f.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
 X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, HTML_MESSAGE=0.001, PDS_HP_HELO_NORDNS=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -79,169 +94,113 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kyle Evans <kevans@freebsd.org>, Konrad Witaszczyk <def@freebsd.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>, Jessica Clarke <jrtc27@freebsd.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>, arrowd@FreeBSD.org,
+ Kyle Evans <kevans@freebsd.org>, def@FreeBSD.org, jrtc27@FreeBSD.org,
+ Brad Smith <brad@comstyle.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000cfbc3d05d6fb3be1
-Content-Type: text/plain; charset="UTF-8"
+On 2/1/22 22:14, Warner Losh wrote:
+> lock_iovec will lock an I/O vec and the memory to which it referrs and
+> create a iovec in the host space that referrs to it, with full error
+> unwinding.
+> 
+> Signed-off-by: Warner Losh <imp@bsdimp.com>
+> ---
+>   bsd-user/freebsd/os-syscall.c | 92 +++++++++++++++++++++++++++++++++++
+>   1 file changed, 92 insertions(+)
+> 
+> diff --git a/bsd-user/freebsd/os-syscall.c b/bsd-user/freebsd/os-syscall.c
+> index 060134a9ecd..c21759ae7ce 100644
+> --- a/bsd-user/freebsd/os-syscall.c
+> +++ b/bsd-user/freebsd/os-syscall.c
+> @@ -75,6 +75,98 @@ bool is_error(abi_long ret)
+>       return (abi_ulong)ret >= (abi_ulong)(-4096);
+>   }
+>   
+> +struct iovec *lock_iovec(int type, abi_ulong target_addr,
+> +        int count, int copy)
+> +{
+> +    struct target_iovec *target_vec;
+> +    struct iovec *vec;
+> +    abi_ulong total_len, max_len;
+> +    int i;
+> +    int err = 0;
+> +    bool bad_address = false;
+> +
+> +    if (count == 0) {
+> +        errno = 0;
+> +        return NULL;
+> +    }
+> +    if (count < 0 || count > IOV_MAX) {
+> +        errno = EINVAL;
+> +        return NULL;
+> +    }
+> +
+> +    vec = calloc(count, sizeof(struct iovec));
 
-On Tue, Feb 1, 2022 at 9:32 AM Peter Maydell <peter.maydell@linaro.org>
-wrote:
+g_try_new0.
 
-> On Mon, 31 Jan 2022 at 19:56, Warner Losh <imp@bsdimp.com> wrote:
-> >
-> > The following changes since commit
-> 7a1043cef91739ff4b59812d30f1ed2850d3d34e:
-> >
-> >   Merge remote-tracking branch
-> 'remotes/bonzini-gitlab/tags/for-upstream' into staging (2022-01-28
-> 14:04:01 +0000)
-> >
-> > are available in the Git repository at:
-> >
-> >   git@gitlab.com:bsdimp/qemu.git tags/bsd-user-arm-2022q1-pull-request
-> >
-> > for you to fetch changes up to 1103d59caaa82c94b4223a5429c31895d2f05217:
-> >
-> >   bsd-user/freebsd/target_os_ucontext.h: Prefer env as arg name for
-> CPUArchState args (2022-01-30 17:13:50 -0700)
-> >
-> > ----------------------------------------------------------------
-> > bsd-user: upstream signal implementation
-> >
-> > Upstream the bsd-user fork signal implementation, for the most part.
-> This
-> > series of commits represents nearly all of the infrastructure that
-> surround
-> > signals, except the actual system call glue (that was also reworked in
-> the
-> > fork and needs its own series). In addition, this adds the sigsegv and
-> sigbus
-> > code to arm. Even in the fork, we don't have good x86 signal
-> implementation,
-> > so there's little to upstream for that at the moment.
-> >
-> > bsd-user's signal implementation is similar to linux-user's. The full
-> context
-> > can be found in the bsd-user's fork's 'blitz branch' at
-> > https://github.com/qemu-bsd-user/qemu-bsd-user/tree/blitz which shows
-> how these
-> > are used to implement various system calls. Since this was built from
-> > linux-user's stack stuff, evolved for BSD with the passage of a few
-> years, it
-> > no-doubt missed some bug fixes from linux-user (though nothing obvious
-> stood out
-> > in the quick comparison I made). After the first round of reviews, many
-> of these
-> > improvements have been incorporated.
-> >
-> > Patchew history:
-> https://patchew.org/QEMU/20220125012947.14974-1-imp@bsdimp.com/
-> >
->
->
->
-> Applied, thanks.
->
-> Please update the changelog at https://wiki.qemu.org/ChangeLog/7.0
-> for any user-visible changes.
->
+You may want to use g_autofree to simplify error handling, which then requires you use
 
-There was a testing escape, so please see
+     return g_steal_pointer(&vec);
 
-[PATCH] bsd-user/signal.c: Only copy the _capsicum for FreeBSD_version >
-1400026
+on the success path.
 
-that I just posted to fix the build on older FreeBSD systems.
+> +    if (vec == NULL) {
+> +        errno = ENOMEM;
+> +        return NULL;
+> +    }
+> +
+> +    target_vec = lock_user(VERIFY_READ, target_addr,
+> +                           count * sizeof(struct target_iovec), 1);
+> +    if (target_vec == NULL) {
+> +        err = EFAULT;
+> +        goto fail2;
+> +    }
+> +
+> +    /*
+> +     * ??? If host page size > target page size, this will result in a value
+> +     * larger than what we can actually support.
+> +     */
+> +    max_len = 0x7fffffff & TARGET_PAGE_MASK;
+> +    total_len = 0;
+> +
+> +    for (i = 0; i < count; i++) {
+> +        abi_ulong base = tswapal(target_vec[i].iov_base);
+> +        abi_long len = tswapal(target_vec[i].iov_len);
+> +
+> +        if (len < 0) {
+> +            err = EINVAL;
+> +            goto fail;
+> +        } else if (len == 0) {
+> +            /* Zero length pointer is ignored.  */
+> +            vec[i].iov_base = 0;
+> +        } else {
+> +            vec[i].iov_base = lock_user(type, base, len, copy);
+> +            /*
+> +             * If the first buffer pointer is bad, this is a fault.  But
+> +             * subsequent bad buffers will result in a partial write; this is
+> +             * realized by filling the vector with null pointers and zero
+> +             * lengths.
+> +             */
+> +            if (!vec[i].iov_base) {
+> +                if (i == 0) {
+> +                    err = EFAULT;
+> +                    goto fail;
+> +                } else {
+> +                    bad_address = true;
+> +                }
+> +            }
+> +            if (bad_address) {
+> +                len = 0;
+> +            }
 
-Warner
+Surely this bad_address check should happen earlier, before we attempt the lock above?
+E.g.
 
---000000000000cfbc3d05d6fb3be1
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+     else if (len == 0 || bad_address)
 
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Tue, Feb 1, 2022 at 9:32 AM Peter =
-Maydell &lt;<a href=3D"mailto:peter.maydell@linaro.org">peter.maydell@linar=
-o.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"ma=
-rgin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:=
-1ex">On Mon, 31 Jan 2022 at 19:56, Warner Losh &lt;<a href=3D"mailto:imp@bs=
-dimp.com" target=3D"_blank">imp@bsdimp.com</a>&gt; wrote:<br>
-&gt;<br>
-&gt; The following changes since commit 7a1043cef91739ff4b59812d30f1ed2850d=
-3d34e:<br>
-&gt;<br>
-&gt;=C2=A0 =C2=A0Merge remote-tracking branch &#39;remotes/bonzini-gitlab/t=
-ags/for-upstream&#39; into staging (2022-01-28 14:04:01 +0000)<br>
-&gt;<br>
-&gt; are available in the Git repository at:<br>
-&gt;<br>
-&gt;=C2=A0 =C2=A0git@gitlab.com:bsdimp/qemu.git tags/bsd-user-arm-2022q1-pu=
-ll-request<br>
-&gt;<br>
-&gt; for you to fetch changes up to 1103d59caaa82c94b4223a5429c31895d2f0521=
-7:<br>
-&gt;<br>
-&gt;=C2=A0 =C2=A0bsd-user/freebsd/target_os_ucontext.h: Prefer env as arg n=
-ame for CPUArchState args (2022-01-30 17:13:50 -0700)<br>
-&gt;<br>
-&gt; ----------------------------------------------------------------<br>
-&gt; bsd-user: upstream signal implementation<br>
-&gt;<br>
-&gt; Upstream the bsd-user fork signal implementation, for the most part.=
-=C2=A0 This<br>
-&gt; series of commits represents nearly all of the infrastructure that sur=
-round<br>
-&gt; signals, except the actual system call glue (that was also reworked in=
- the<br>
-&gt; fork and needs its own series). In addition, this adds the sigsegv and=
- sigbus<br>
-&gt; code to arm. Even in the fork, we don&#39;t have good x86 signal imple=
-mentation,<br>
-&gt; so there&#39;s little to upstream for that at the moment.<br>
-&gt;<br>
-&gt; bsd-user&#39;s signal implementation is similar to linux-user&#39;s. T=
-he full context<br>
-&gt; can be found in the bsd-user&#39;s fork&#39;s &#39;blitz branch&#39; a=
-t<br>
-&gt; <a href=3D"https://github.com/qemu-bsd-user/qemu-bsd-user/tree/blitz" =
-rel=3D"noreferrer" target=3D"_blank">https://github.com/qemu-bsd-user/qemu-=
-bsd-user/tree/blitz</a> which shows how these<br>
-&gt; are used to implement various system calls. Since this was built from<=
-br>
-&gt; linux-user&#39;s stack stuff, evolved for BSD with the passage of a fe=
-w years, it<br>
-&gt; no-doubt missed some bug fixes from linux-user (though nothing obvious=
- stood out<br>
-&gt; in the quick comparison I made). After the first round of reviews, man=
-y of these<br>
-&gt; improvements have been incorporated.<br>
-&gt;<br>
-&gt; Patchew history: <a href=3D"https://patchew.org/QEMU/20220125012947.14=
-974-1-imp@bsdimp.com/" rel=3D"noreferrer" target=3D"_blank">https://patchew=
-.org/QEMU/20220125012947.14974-1-imp@bsdimp.com/</a><br>
-&gt;<br>
-<br>
-<br>
-<br>
-Applied, thanks.<br>
-<br>
-Please update the changelog at <a href=3D"https://wiki.qemu.org/ChangeLog/7=
-.0" rel=3D"noreferrer" target=3D"_blank">https://wiki.qemu.org/ChangeLog/7.=
-0</a><br>
-for any user-visible changes.<br></blockquote><div><br></div><div>There was=
- a testing escape, so please see</div><table cellpadding=3D"0" class=3D"gma=
-il-ajC" style=3D"border-spacing:0px;line-height:20px;font-family:Roboto,Rob=
-otoDraft,Helvetica,Arial,sans-serif;font-size:14px"><tbody><tr class=3D"gma=
-il-ajv"><td colspan=3D"2" tabindex=3D"0" class=3D"gmail-gL" style=3D"vertic=
-al-align:top;width:auto;padding:2px 0px"><span class=3D"gmail-gI" style=3D"=
-vertical-align:top"><br class=3D"gmail-Apple-interchange-newline">[PATCH] b=
-sd-user/signal.c: Only copy the _capsicum for FreeBSD_version &gt; 1400026<=
-br><br>that I just posted to fix the build on older FreeBSD systems.<br><br=
->Warner</span></td></tr></tbody></table><div>=C2=A0</div></div></div>
 
---000000000000cfbc3d05d6fb3be1--
+r~
 
