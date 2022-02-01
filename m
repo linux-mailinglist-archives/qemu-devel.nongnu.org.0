@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8EED24A6197
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Feb 2022 17:49:55 +0100 (CET)
-Received: from localhost ([::1]:37240 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ED3DB4A61BD
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Feb 2022 17:58:38 +0100 (CET)
+Received: from localhost ([::1]:48282 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nEwLq-00008Y-M8
-	for lists+qemu-devel@lfdr.de; Tue, 01 Feb 2022 11:49:54 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:46546)
+	id 1nEwUH-0007uv-J8
+	for lists+qemu-devel@lfdr.de; Tue, 01 Feb 2022 11:58:37 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:47372)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1nEuyF-0002bv-QB
- for qemu-devel@nongnu.org; Tue, 01 Feb 2022 10:21:29 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:53711)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1nEuyw-00037z-63
+ for qemu-devel@nongnu.org; Tue, 01 Feb 2022 10:22:10 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:40244)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1nEuyD-0003vm-MV
- for qemu-devel@nongnu.org; Tue, 01 Feb 2022 10:21:27 -0500
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1nEuyu-0004FR-Pn
+ for qemu-devel@nongnu.org; Tue, 01 Feb 2022 10:22:09 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1643728885;
+ s=mimecast20190719; t=1643728928;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ViTw8i4erguFvdZCmPX25joBBbN5ll/sJJHS5FjbR9U=;
- b=YEiUM64cKLGUkV8B5BCv4WacRAPNXlobwfpWTo0FNKBA4aYclUaSrcssFv04cKpCXEYWXQ
- XWJtJrRPgNQkOf2u5p+lXaN9SiUI/5lkLJyUs3Au50aDOQy1v9rP0wTitj7fNlZNMMvGJa
- mL72Pr1UprQ1S37HOw12+zvpH3sVsp8=
+ bh=07v9n6aFpox4B8MQtYAPY1l8TjV74mHKf+/dwqV4DNI=;
+ b=Ic0ItfY1tpjj8rAZn83nTBJzzszU8K87UvvaAghvBJtxov4exIikAIbhSlrzJlqJnSIpi3
+ pvlqMcGlS1H3j9uIjo4L1p5MWhO1tRQAE5fwpp6cfSPdVfA+MTGyDCIPjnt3o0SbV9XJmo
+ NnWj9VbB62LC9/Hw17JS4HkRHk3hA7Y=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-657-0qFbjPJ7OGOcFS4LscdIHA-1; Tue, 01 Feb 2022 10:21:24 -0500
-X-MC-Unique: 0qFbjPJ7OGOcFS4LscdIHA-1
+ us-mta-121-LoYqSASQOROwnQqoQ2LA_A-1; Tue, 01 Feb 2022 10:21:25 -0500
+X-MC-Unique: LoYqSASQOROwnQqoQ2LA_A-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DF244101F000;
- Tue,  1 Feb 2022 15:21:22 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4664C84DA40;
+ Tue,  1 Feb 2022 15:21:24 +0000 (UTC)
 Received: from merkur.redhat.com (unknown [10.39.194.45])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E646674E98;
- Tue,  1 Feb 2022 15:21:21 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 344E874E9B;
+ Tue,  1 Feb 2022 15:21:23 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 05/10] block/export/fuse: Fix build failure on FreeBSD
-Date: Tue,  1 Feb 2022 16:21:03 +0100
-Message-Id: <20220201152108.171898-6-kwolf@redhat.com>
+Subject: [PULL 06/10] block.h: remove outdated comment
+Date: Tue,  1 Feb 2022 16:21:04 +0100
+Message-Id: <20220201152108.171898-7-kwolf@redhat.com>
 In-Reply-To: <20220201152108.171898-1-kwolf@redhat.com>
 References: <20220201152108.171898-1-kwolf@redhat.com>
 MIME-Version: 1.0
@@ -81,75 +81,34 @@ Cc: kwolf@redhat.com, peter.maydell@linaro.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <f4bug@amsat.org>
+From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 
-When building on FreeBSD we get:
+The comment "disk I/O throttling" doesn't make any sense at all
+any more. It was added in commit 0563e191516 to describe
+bdrv_io_limits_enable()/disable(), which were removed in commit
+97148076, so the comment is just a forgotten leftover.
 
-  [816/6851] Compiling C object libblockdev.fa.p/block_export_fuse.c.o
-  ../block/export/fuse.c:628:16: error: use of undeclared identifier 'FALLOC_FL_KEEP_SIZE'
-      if (mode & FALLOC_FL_KEEP_SIZE) {
-                 ^
-  ../block/export/fuse.c:651:16: error: use of undeclared identifier 'FALLOC_FL_PUNCH_HOLE'
-      if (mode & FALLOC_FL_PUNCH_HOLE) {
-                 ^
-  ../block/export/fuse.c:652:22: error: use of undeclared identifier 'FALLOC_FL_KEEP_SIZE'
-          if (!(mode & FALLOC_FL_KEEP_SIZE)) {
-                       ^
-  3 errors generated.
-  FAILED: libblockdev.fa.p/block_export_fuse.c.o
-
-Meson indeed reported FALLOC_FL_PUNCH_HOLE is not available:
-
-  C compiler for the host machine: cc (clang 10.0.1 "FreeBSD clang version 10.0.1")
-  Checking for function "fallocate" : NO
-  Checking for function "posix_fallocate" : YES
-  Header <linux/falloc.h> has symbol "FALLOC_FL_PUNCH_HOLE" : NO
-  Header <linux/falloc.h> has symbol "FALLOC_FL_ZERO_RANGE" : NO
-  ...
-
-Similarly to commit 304332039 ("block/export/fuse.c: fix musl build"),
-guard the code requiring FALLOC_FL_KEEP_SIZE / FALLOC_FL_PUNCH_HOLE
-definitions under CONFIG_FALLOCATE_PUNCH_HOLE #ifdef'ry.
-
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-Id: <20220201112655.344373-3-f4bug@amsat.org>
+Suggested-by: Kevin Wolf <kwolf@redhat.com>
+Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+Message-Id: <20220131125615.74612-1-eesposit@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- block/export/fuse.c | 4 ++++
- 1 file changed, 4 insertions(+)
+ include/block/block.h | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/block/export/fuse.c b/block/export/fuse.c
-index d25e478c0a..fdda8e3c81 100644
---- a/block/export/fuse.c
-+++ b/block/export/fuse.c
-@@ -625,9 +625,11 @@ static void fuse_fallocate(fuse_req_t req, fuse_ino_t inode, int mode,
-         return;
-     }
+diff --git a/include/block/block.h b/include/block/block.h
+index 9d4050220b..e1713ee306 100644
+--- a/include/block/block.h
++++ b/include/block/block.h
+@@ -344,7 +344,6 @@ typedef unsigned int BdrvChildRole;
+ char *bdrv_perm_names(uint64_t perm);
+ uint64_t bdrv_qapi_perm_to_blk_perm(BlockPermission qapi_perm);
  
-+#ifdef CONFIG_FALLOCATE_PUNCH_HOLE
-     if (mode & FALLOC_FL_KEEP_SIZE) {
-         length = MIN(length, blk_len - offset);
-     }
-+#endif /* CONFIG_FALLOCATE_PUNCH_HOLE */
- 
-     if (!mode) {
-         /* We can only fallocate at the EOF with a truncate */
-@@ -648,6 +650,7 @@ static void fuse_fallocate(fuse_req_t req, fuse_ino_t inode, int mode,
-         ret = fuse_do_truncate(exp, offset + length, true,
-                                PREALLOC_MODE_FALLOC);
-     }
-+#ifdef CONFIG_FALLOCATE_PUNCH_HOLE
-     else if (mode & FALLOC_FL_PUNCH_HOLE) {
-         if (!(mode & FALLOC_FL_KEEP_SIZE)) {
-             fuse_reply_err(req, EINVAL);
-@@ -662,6 +665,7 @@ static void fuse_fallocate(fuse_req_t req, fuse_ino_t inode, int mode,
-             length -= size;
-         } while (ret == 0 && length > 0);
-     }
-+#endif /* CONFIG_FALLOCATE_PUNCH_HOLE */
- #ifdef CONFIG_FALLOCATE_ZERO_RANGE
-     else if (mode & FALLOC_FL_ZERO_RANGE) {
-         if (!(mode & FALLOC_FL_KEEP_SIZE) && offset + length > blk_len) {
+-/* disk I/O throttling */
+ void bdrv_init(void);
+ void bdrv_init_with_whitelist(void);
+ bool bdrv_uses_whitelist(void);
 -- 
 2.31.1
 
