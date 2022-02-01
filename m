@@ -2,86 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0BDA94A56F8
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Feb 2022 06:33:34 +0100 (CET)
-Received: from localhost ([::1]:40838 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 044DF4A5723
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Feb 2022 07:09:49 +0100 (CET)
+Received: from localhost ([::1]:52750 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nElnI-0003cF-K9
-	for lists+qemu-devel@lfdr.de; Tue, 01 Feb 2022 00:33:32 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:56826)
+	id 1nEmMN-0004zx-8E
+	for lists+qemu-devel@lfdr.de; Tue, 01 Feb 2022 01:09:47 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:60932)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1nElkB-0002Hj-97
- for qemu-devel@nongnu.org; Tue, 01 Feb 2022 00:30:19 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:21001)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1nElk7-0007Hw-4U
- for qemu-devel@nongnu.org; Tue, 01 Feb 2022 00:30:16 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1643693413;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=hQZr8gyGsura/jQ0STxR0Ud6oVr1JfOOlu2oUq7KaLc=;
- b=brdskkf0xTUmHNnce8ztKse3F3wOuP1JL0JaSYftFV32NjMbyUjSFjcdHwoiDBgl9/6ja5
- fqDbCHuwf4O5l8BqH2Il5jBCGpxu4nOalHlYyXheluqB+VJrxYAUUK6TlIR8WZvZPVGVHw
- GCNY1+iHYvI8ojjx9x3ab6GS+m6lYtg=
-Received: from mail-ua1-f69.google.com (mail-ua1-f69.google.com
- [209.85.222.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-382-3kf3fKmVMwWB_9p3y6FQ7w-1; Tue, 01 Feb 2022 00:30:08 -0500
-X-MC-Unique: 3kf3fKmVMwWB_9p3y6FQ7w-1
-Received: by mail-ua1-f69.google.com with SMTP id
- i25-20020ab03759000000b00308e68dcb1fso8571862uat.22
- for <qemu-devel@nongnu.org>; Mon, 31 Jan 2022 21:30:07 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <npiggin@gmail.com>)
+ id 1nEmFn-0003Vy-LS; Tue, 01 Feb 2022 01:03:00 -0500
+Received: from [2607:f8b0:4864:20::62d] (port=44859
+ helo=mail-pl1-x62d.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <npiggin@gmail.com>)
+ id 1nEmFl-0003Ew-Jm; Tue, 01 Feb 2022 01:02:59 -0500
+Received: by mail-pl1-x62d.google.com with SMTP id c9so14513632plg.11;
+ Mon, 31 Jan 2022 22:02:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=date:from:subject:to:cc:references:in-reply-to:mime-version
+ :message-id:content-transfer-encoding;
+ bh=i8nvtj+MdABVCT7tIJYUq9z1oRwVfL9WysN+QICk/sA=;
+ b=hmLy0l7UNm2XtPomTpk/0otzgtZV/yhOvUIHT41zjSdGXaL+w20PBckp9kLtGA/omP
+ TMQelIJ91xGR1l0/MmnXosFr/rXcJPFv5DuUTuasDdRyLB0Lk0oUuojwVecew2nPiLtx
+ +RTUZ3t96JJ7cAfk9kjsjSKDGEvTneN2uimrcmuwKxTEBe6FWWFkfEvgqA6OEDb7OklK
+ lzKwZmH807d8zKYTP7vKTDCqH55RZRtvMaEhQ/xXr3OY4oBXXd+SFeG8axycadVDNFVa
+ BeR0vitaDOYW/5+EtCoRbshG0djbwRFAAVSJp2R7TMXmDZhKqZw+Rre8Ax+Gyc3YBliH
+ Jwog==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=hQZr8gyGsura/jQ0STxR0Ud6oVr1JfOOlu2oUq7KaLc=;
- b=Lo9eEg+QG6czN/vtuKZfv2foW7+BSFs/lA9wb9sDwfvuDKw4yIdC0q8nedHERfjCI4
- LzHY8E+kJ09d/3/ez3jL7qBtb1w80J2HoiUa9o0yVO9NROV0uOf14Dux5nX7WT9ywKV6
- PgPbn+aLZYQkYKtE4uOj3qgkla6VBOStbEejQERXQy46mJVRMrbq2w2qTQL5/SBZGn0+
- ufmU1Oeg80mzlp/2JTUx6GZSFXvswsJ3L0WmyZiOzv22a/9sxIDfuenThQnZNvra9nOw
- nV57ArGnVhZq+FHEIAKIg6uSIww3ArqDM2L+tB6wYQvd60u6DHWAQbMVjSR9UA2RiPQd
- JhLw==
-X-Gm-Message-State: AOAM533JPix2JDDen4cT+hilYWZhRngh0DZ3cXnoG7b6BFcsxdvmz00W
- zOwxpVCBGpbe9t6qgkoejf9otYkNKw4bpu51qQxBUQRSM9x4V8DKI9RijWSg4efsKK8lRyOodUZ
- FEyhiP7inwEuyNvA5ojKna/uYXnZ2BI8=
-X-Received: by 2002:a1f:20e:: with SMTP id 14mr9567946vkc.8.1643693407215;
- Mon, 31 Jan 2022 21:30:07 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJynbZQ25UwUa+NBuqgClTZyHsNvMYvUaAp7wH5KnR/8c1lKHCScUXrVcZBsX3HE5ZOwCFkZ5/ikH0cH5c6sANM=
-X-Received: by 2002:a1f:20e:: with SMTP id 14mr9567941vkc.8.1643693406956;
- Mon, 31 Jan 2022 21:30:06 -0800 (PST)
+ h=x-gm-message-state:date:from:subject:to:cc:references:in-reply-to
+ :mime-version:message-id:content-transfer-encoding;
+ bh=i8nvtj+MdABVCT7tIJYUq9z1oRwVfL9WysN+QICk/sA=;
+ b=EQDPvZsxUkZN19xqDXiYrz5FmEOMx9prQC2AkSKXUXrg08b6Lmg6hfShn+oEawp1fP
+ gcaVQ4BGoz4EEqJbM0iHOvZ1iY9ampaACihJ9pjgiYpcWtQ5KHQSUvkdWui0Wmb2SUq7
+ 3yUSYJ1NOOCfDH6bal1RCNxadelJjqtlXFuHUfViu4wSlTx7CfUOHKNsgd6uaAIB64Mv
+ sYetG77T4cojK1Clpr/+Pf6s4A8i8W7T72mApfvlji30ki3U741NUC3+wLXbGmqJ94ae
+ JGo0lANIjuYqcUBnXxVcZUbn5ZVy3pjokxHH8Eqwc+v7nlKjpAvRLgO7ZpLJhd7qUtRJ
+ DclQ==
+X-Gm-Message-State: AOAM531NabwPUw6857VmrKd7cchCp+23aAahP0dyKddj9JWABgV3Ml1d
+ 3CG0pSXfPgr0GRhECRt4NNQ=
+X-Google-Smtp-Source: ABdhPJzdwH6u4mCM9rbxgXDfcPfmeBXs4yAnFcVaWvzHTrpiDToyDcXyp3m+CsBmKvO7XWJXyKTdsQ==
+X-Received: by 2002:a17:902:c101:: with SMTP id
+ 1mr24338522pli.70.1643695375166; 
+ Mon, 31 Jan 2022 22:02:55 -0800 (PST)
+Received: from localhost ([203.111.178.100])
+ by smtp.gmail.com with ESMTPSA id h5sm20569325pfi.111.2022.01.31.22.02.53
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 31 Jan 2022 22:02:54 -0800 (PST)
+Date: Tue, 01 Feb 2022 16:02:49 +1000
+From: Nicholas Piggin <npiggin@gmail.com>
+Subject: Re: [RFC PATCH] spapr: Add SPAPR_CAP_AIL_MODES for supported AIL
+ modes for H_SET_MODE hcall
+To: Fabiano Rosas <farosas@linux.ibm.com>, qemu-ppc@nongnu.org
+References: <20220129065007.103681-1-npiggin@gmail.com>
+ <87y22vdhuj.fsf@linux.ibm.com>
+In-Reply-To: <87y22vdhuj.fsf@linux.ibm.com>
 MIME-Version: 1.0
-References: <CAFEAcA9cMZoj18gq7Ksv5PRoU1wRmXvW_e9UE73C_MEB7wTroQ@mail.gmail.com>
- <CAFEAcA9_d5jw5-HOrZA6dsG1vMqxzqmrfHA7Jo0KsDcaEXmB_Q@mail.gmail.com>
- <6c90ca3d-eaec-d7e8-5941-4deb83b58fd0@redhat.com>
- <87zgnp4b32.fsf@dusky.pond.sub.org>
- <CAFEAcA_kxrCgyxWPFLw6VZ-rKx-res0C8L2BWRvfB81cR+keLg@mail.gmail.com>
- <875yqd6zib.fsf@linaro.org> <YerPk2ABMHQf/3QP@redhat.com>
-In-Reply-To: <YerPk2ABMHQf/3QP@redhat.com>
-From: Cleber Rosa <crosa@redhat.com>
-Date: Tue, 1 Feb 2022 00:29:56 -0500
-Message-ID: <CA+bd_6KgJ_tG9r9Nhn5p6bDsdiXKRckGiZ75srxTNZj4bdd2UA@mail.gmail.com>
-Subject: Re: "make check-acceptance" takes way too long
-To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=crosa@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
+Message-Id: <1643694992.q6ka0bg4i9.astroid@bobo.none>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=crosa@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.088,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::62d
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62d;
+ envelope-from=npiggin@gmail.com; helo=mail-pl1-x62d.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,183 +87,109 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- Beraldo Leal <bleal@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Cc: qemu-devel@nongnu.org, David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Jan 21, 2022 at 10:22 AM Daniel P. Berrang=C3=A9 <berrange@redhat.c=
-om> wrote:
->
-> On Fri, Jan 21, 2022 at 12:23:23PM +0000, Alex Benn=C3=A9e wrote:
-> >
-> > Peter Maydell <peter.maydell@linaro.org> writes:
-> >
-> > > On Fri, 21 Jan 2022 at 10:50, Markus Armbruster <armbru@redhat.com> w=
-rote:
-> > >> No objection, but it's no replacement for looking into why these tes=
-ts
-> > >> are so slow.
-> > >>
-> > >> The #1 reason for things being slow is not giving a damn :)
-> > >
-> > > See previous messages in the thread -- the test starts a
-> > > full-fat guest OS including UEFI boot, and it takes forever to
-> > > get to the login prompt because systemd is starting everything
-> > > including the kitchen sink.
-> >
-> > There has to be a half-way house between booting a kernel until it fail=
-s
-> > to find a rootfs and running a full Ubuntu distro. Maybe just asking
-> > systemd to reach "rescue.target" would be enough to show the disks are
-> > up and userspace works.
->
-> Booting up full OS distros is useful, but at the same time I feel it
-> is too much as something to expect developers to do on any kind of
-> regular basis.
->
+Excerpts from Fabiano Rosas's message of February 1, 2022 1:51 am:
+> Nicholas Piggin <npiggin@gmail.com> writes:
+>=20
+>> The behaviour of the Address Translation Mode on Interrupt resource is
+>> not consistently supported by all CPU versions or all KVM versions.  In
+>> particular KVM HV only supports mode 0 on POWER7 processors, and does
+>> not support mode 2 on any processors. KVM PR only supports mode 0. TCG
+>> can support all modes (0,2,3).
+>>
+>> This leads to inconsistencies in guest behaviour and could cause
+>> problems migrating guests.
+>>
+>> This was not too noticable for Linux guests for a long time because the
+>> kernel only used mode 0 or 3, and it used to consider AIL to be somewhat
+>> advisory (KVM would not always honor it either) and it kept both sets of
+>> interrupt vectors around.
+>>
+>> Recent Linux guests depend on the AIL mode working as defined by the ISA
+>> to support the SCV facility interrupt. If AIL mode 3 can not be provided=
+,
+>> then Linux must be given an error so it can disable the SCV facility.
+>>
+>> Add the ail-modes capability which is a bitmap of the supported values
+>> for the H_SET_MODE Address Translation Mode on Interrupt resource. Add
+>> a new KVM CAP that exports the same thing, and provide defaults for PR
+>> and HV KVM that predate the cap.
+>> ---
+>>
+>> I just wanted to get some feedback on the approach before submitting a
+>> patch for the KVM cap.
+>=20
+> Could you expand a bit on what is the use case for setting this in the
+> QEMU cmdline? I looks to me we already have all the information we need
+> with just the KVM cap.
 
-Agreed.  The solution IMO can be as simple as having different "test
-job profiles".
+To be able to match TCG with KVM HV or PR behaviour here.
+I guess I'm not sure how much that is actually needed though.
 
-> Ideally some decent amount of acceptance testing could be a standard
-> part of the 'make check', but that's impossible as long as we're
-> downloading large disk images or booting things that are very slow,
-> especially so with TCG.
->
-> IMHO the ideal scenario would be for us to have a kernel, initrd
-> containing just busybox tools for the key arch targets we care
-> about. Those could be used with direct kernel boot or stuffed
-> into a disk iamge. Either way, they would boot in ~1 second,
-> even with TCG, and would be able to execute simple shell scripts
-> to test a decent amount of QEMU functionality.
->
+>> +    if (kvm_enabled()) {
+>> +        if (val & (0x01 << 2)) {
+>> +            error_setg(errp, "KVM does not support cap-ail-modes mode A=
+IL=3D2");
+>=20
+> Isn't this something KVM should tell us via the capability?
 
-I see different use cases here:
+Yeah, might as well do that. I changed some of the interfaces halfway
+through and didn't clean this up.
 
-A) Testing that QEMU can boot a full distro
+>> +            error_append_hint(errp,
+>> +                              "Ensure bit 2 (value 4) is clear in cap-a=
+il-modes\n");
+>> +            if (kvmppc_has_cap_ail_3()) {
+>> +                error_append_hint(errp, "Try appending -machine cap-ail=
+-modes=3D9\n");
+>> +            } else {
+>> +                error_append_hint(errp, "Try appending -machine cap-ail=
+-modes=3D1\n");
+>> +            }
+>> +            return;
+>> +        }
+>> +        if ((val & (0x01 << 3)) && !kvmppc_has_cap_ail_3()) {
+>> +            error_setg(errp, "KVM implementation does not support cap-a=
+il-modes AIL=3D3");
+>> +            error_append_hint(errp,
+>> +                              "Ensure bit 3 (value 8) is clear in cap-a=
+il-modes\n");
+>> +            error_append_hint(errp, "Try appending -machine cap-ail-mod=
+es=3D1\n");
+>> +            return;
+>> +        }
+>> +    }
+>> +}
+>=20
+> I think the error reporting here is too complex. A user who just wants
+> to make their guest start will not bother thinking about binary
+> representation. There's also some room for confusion in having three
+> numbers present in the error message (bit #, decimal value and AIL
+> mode). Imagine dealing with this in a bug report, for instance.
+>=20
+> I would just tell outright what the supported values are. Perhaps in a
+> little table:
+>=20
+> Supported AIL modes:
+>  AIL =3D 0   | cap-ail-modes=3D1
+>  AIL =3D 2   | cap-ail-modes=3D5
+>  AIL =3D 3   | cap-ail-modes=3D9
+>  AIL =3D 2&3 | cap-ail-modes=3D13
+>=20
+> We could then make the code a bit more generic. Roughly:
 
-For testing purposes, the more different subsystems the "boot" process
-depends on, the better.  Currently the "boot_linux.py" tests require the en=
-tire
-guest boot to complete and have a networking configuration and interaction.
+Yeah I didn't like the interface either :P
 
-B) Using something as a base OS for scripts (tests) to run on it
+The nicest option I guess is to be able to give it a list
 
-Here's where there's the most benefit in having a more lightweight distro
-(or kernel + initrd).  But, this requirement will also come in
-different "optimal"
-sizes for different people.  Some of the existing tests require not
-only a Fedora
-system, but a given version that has given capabilities.
+cap-ail-modes=3D0,2,3
 
-For a sustainable, framework-like solution, tests should be able to determi=
-ne
-the guest they need with minimal setup from test writers[1].  If a Fedora-l=
-ike
-system is not needed, maybe a lightweight system like CirrOS[2] is enough.
-CirrOS, unfortunately, can not be used Today as the distro in most of the
-acceptance tests because the cloud-init mechanism used to configure the
-networking is not currently supported, although there have been discussions
-to consider implementing it[3].
+Maybe there's already some parsing to be able to do that. I'll
+look a bit harder.
 
-> It wouldn't eliminate the need to test with full OS, but it
-> would let us have some acceptance testing run as standard with
-> 'make check' in a decently fast time.  It would then be less
-> critical if the more thorough full OS tests were somewhat
-> slower than we'd like. We could just leave those as a scheduled
-> job to run overnight post-merge. If they do detect any problems
-> post-merge, then write a dedicated test scenario to replicate it
-> under the minimal kernel/initrd acceptance test so it'll be
-> caught pre-merge in future.
->
-
-Assuming this is about "Testing that QEMU can boot a full distro", I wouldn=
-'t
-try to solve the problem by making the distro too slim to get to the
-point of becoming
-an unrealistic system.
-
-IMO the deal breaker with regards to test time can be solved more cheaply b=
-y
-having and using KVM where these tests will run, and not running them by
-default otherwise.  With the tagging mechanism we should be able to set a
-condition such as: "If using TCG, exclude tests that boot a full blown dist=
-ro.
-If using KVM, do not criticize what gets booted".  Resulting in something
-like:
-
-$ avocado list -t accel:tcg,boots:-distro -t accel:kvm
-~/src/qemu/tests/avocado/{boot_linux.py,boot_linux_console.py}
-avocado-instrumented
-/home/cleber/src/qemu/tests/avocado/boot_linux.py:BootLinuxX8664.test_pc_i4=
-40fx_kvm
-avocado-instrumented
-/home/cleber/src/qemu/tests/avocado/boot_linux.py:BootLinuxX8664.test_pc_q3=
-5_kvm
-avocado-instrumented
-/home/cleber/src/qemu/tests/avocado/boot_linux.py:BootLinuxAarch64.test_vir=
-t_kvm
-avocado-instrumented
-/home/cleber/src/qemu/tests/avocado/boot_linux_console.py:BootLinuxConsole.=
-test_aarch64_virt
-avocado-instrumented
-/home/cleber/src/qemu/tests/avocado/boot_linux_console.py:BootLinuxConsole.=
-test_aarch64_xlnx_versal_virt
-avocado-instrumented
-/home/cleber/src/qemu/tests/avocado/boot_linux_console.py:BootLinuxConsole.=
-test_arm_virt
-avocado-instrumented
-/home/cleber/src/qemu/tests/avocado/boot_linux_console.py:BootLinuxConsole.=
-test_arm_emcraft_sf2
-avocado-instrumented
-/home/cleber/src/qemu/tests/avocado/boot_linux_console.py:BootLinuxConsole.=
-test_arm_raspi2_uart0
-avocado-instrumented
-/home/cleber/src/qemu/tests/avocado/boot_linux_console.py:BootLinuxConsole.=
-test_arm_exynos4210_initrd
-avocado-instrumented
-/home/cleber/src/qemu/tests/avocado/boot_linux_console.py:BootLinuxConsole.=
-test_arm_cubieboard_initrd
-avocado-instrumented
-/home/cleber/src/qemu/tests/avocado/boot_linux_console.py:BootLinuxConsole.=
-test_arm_cubieboard_sata
-avocado-instrumented
-/home/cleber/src/qemu/tests/avocado/boot_linux_console.py:BootLinuxConsole.=
-test_arm_quanta_gsj
-avocado-instrumented
-/home/cleber/src/qemu/tests/avocado/boot_linux_console.py:BootLinuxConsole.=
-test_arm_quanta_gsj_initrd
-avocado-instrumented
-/home/cleber/src/qemu/tests/avocado/boot_linux_console.py:BootLinuxConsole.=
-test_arm_orangepi
-avocado-instrumented
-/home/cleber/src/qemu/tests/avocado/boot_linux_console.py:BootLinuxConsole.=
-test_arm_orangepi_initrd
-avocado-instrumented
-/home/cleber/src/qemu/tests/avocado/boot_linux_console.py:BootLinuxConsole.=
-test_arm_orangepi_sd
-
-Does that sound like something appropriate?
-
-BTW, on the topic of "Using something as a base OS for scripts (tests) to r=
-un
-on it", another possibility for using full blown OS would be to save
-their initialized
-state, and load it to memory for each test, saving the guest boot time.  Th=
-is
-should of course be done at the framework level and transparent to tests.
-
-Best,
-- Cleber.
-
-[1] https://avocado-framework.readthedocs.io/en/94.0/guides/writer/libs/vmi=
-mage.html#supported-images
-[2] https://launchpad.net/cirros
-[3] https://github.com/cirros-dev/cirros/issues/67
-
+Thanks,
+Nick
 
