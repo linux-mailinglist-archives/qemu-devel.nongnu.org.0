@@ -2,72 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3ADFB4A6549
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Feb 2022 21:02:45 +0100 (CET)
-Received: from localhost ([::1]:36206 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A922C4A6563
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Feb 2022 21:08:31 +0100 (CET)
+Received: from localhost ([::1]:42026 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nEzMR-0000q7-Ua
-	for lists+qemu-devel@lfdr.de; Tue, 01 Feb 2022 15:02:43 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:38618)
+	id 1nEzS2-0003Mg-PO
+	for lists+qemu-devel@lfdr.de; Tue, 01 Feb 2022 15:08:30 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:39778)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nExUa-0006cE-8W
- for qemu-devel@nongnu.org; Tue, 01 Feb 2022 13:03:00 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:55623)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nExUY-0005rn-BU
- for qemu-devel@nongnu.org; Tue, 01 Feb 2022 13:02:59 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1643738577;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=LehamqzVfxWQ9BedoVSKBvt8FZCJlAoJWzhTqAFcEkg=;
- b=fxDqG0b0dfYD/vOFZAP6aTcFCx5Kmtvxe+7l5+zDZKmHFwOLRhVOYrF3TcJdtRnzp1hqv4
- cVYfU93azClEaD9ChOHlN/vd71GRz3009RYh9Ap1PdGNnvIpSpK6Bn5T1cp4RE3QDscAuP
- OzXim9JjcEn0rNukHerVuAMjPBApq6U=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-316-AuNcrW9rMUGAIqL2dJjmrw-1; Tue, 01 Feb 2022 13:02:50 -0500
-X-MC-Unique: AuNcrW9rMUGAIqL2dJjmrw-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 669398143EB;
- Tue,  1 Feb 2022 18:02:48 +0000 (UTC)
-Received: from redhat.com (unknown [10.39.195.27])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 6A423348F3;
- Tue,  1 Feb 2022 18:02:24 +0000 (UTC)
-Date: Tue, 1 Feb 2022 18:02:21 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Andrea Bolognani <abologna@redhat.com>
-Subject: Re: [PATCH 2/2] tests: Update CentOS 8 container to CentOS Stream 8
-Message-ID: <Yfl1rZN6yKCyQ1O0@redhat.com>
-References: <20220201101911.97900-1-thuth@redhat.com>
- <CABJz62Osah308O2pHFMWs+D2X+Mq=aOf1NAKFcUaWF5bGzwJEw@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1nExXf-0001Kv-P0
+ for qemu-devel@nongnu.org; Tue, 01 Feb 2022 13:06:11 -0500
+Received: from [2a00:1450:4864:20::435] (port=37623
+ helo=mail-wr1-x435.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1nExXc-0006Qc-Ss
+ for qemu-devel@nongnu.org; Tue, 01 Feb 2022 13:06:11 -0500
+Received: by mail-wr1-x435.google.com with SMTP id w11so33561796wra.4
+ for <qemu-devel@nongnu.org>; Tue, 01 Feb 2022 10:06:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=lzU/TG9AwZwdupdEA69hLaNvw9cFrDKVpFVyevunExA=;
+ b=fvDNGvnim8rhhZbQv8yhv+dRjIi2jOkfVpqX+MAJOOB0pwhIGGZ81x4M8KNPaFOezh
+ JAYJ5slJV1hNi9NVzWQQQgaz1uhflH6FH7jVYh323SsSYS9K9w/yEpUGsu+n4cxl9rOI
+ wF0U3VxzxbNgaQFik/68/WoOPM9+GASxwvEvnarQZ+o6p3qForylP69CoB5CBKgJKcJi
+ 36xoDSEUH2pupofJSJtMZ22V9CRoADJUpGNOWFji25mhgDgsa/HZuQIQg2JRXkWexD1Y
+ BM0Py201UtnPv0wJE6Zdoai39QuJBKSw8swDPPoT7HsDibxYSY1TiMpGg4ru/dyMC+lm
+ QPZg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=lzU/TG9AwZwdupdEA69hLaNvw9cFrDKVpFVyevunExA=;
+ b=XIa4gu58j/rlcvYOYhilh+mgl7Ww04qxV09sRUNJcdcMHGOLoE7WbM1dQJ7EHAyaSl
+ +oove5G5W7uiugqVYUeCWkV50JRwlATDDoOzjBwIJmAIWBktiQunAVRbTQslrwNoRgvu
+ PbcN/SrDMobW41P3wL7VC04CYgjGeNqfJLYYSEXNAKRSAVngPJiknhw2bunfGVpaFRsW
+ AbggWMk6lAyHH1rnW603Lum9AZiC18HbKsXX82xgz42QWCky7OnIOmlDyXM70hWhTwKD
+ +KdYdZODiF0FK8D9+vpC7FPjAOwD0mDQLcVc7bSyDpiMAlzBgofXDkeR1eyKIEzEKiXz
+ tILg==
+X-Gm-Message-State: AOAM532WtVsCMIAixFg7D9P4OrvtiwGnAQ2zpDfWYApjAS/NxWpApu7L
+ Tq2BomZE/LUDi/SGNpry0ozreQ==
+X-Google-Smtp-Source: ABdhPJz3ELcCe8dcCizQTjEzu+X6nuyjmoB7gMw92w0uqzBTsUtfoQQRjVKfi6Qv0PG2ZjeUmfusLA==
+X-Received: by 2002:a5d:5552:: with SMTP id g18mr23085227wrw.343.1643738765846; 
+ Tue, 01 Feb 2022 10:06:05 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id t4sm2622114wmj.10.2022.02.01.10.06.03
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 01 Feb 2022 10:06:04 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 6AC711FFB7;
+ Tue,  1 Feb 2022 18:06:03 +0000 (GMT)
+References: <87zgnp4b32.fsf@dusky.pond.sub.org>
+ <CAFEAcA_kxrCgyxWPFLw6VZ-rKx-res0C8L2BWRvfB81cR+keLg@mail.gmail.com>
+ <875yqd6zib.fsf@linaro.org> <YerPk2ABMHQf/3QP@redhat.com>
+ <20220125092011.dq2t4ryl632vrvsf@sirius.home.kraxel.org>
+ <20220201073139.7896e10b@elisabeth> <Yfj4ERdAvmCF4ZzY@redhat.com>
+ <20220201112720.4ac9b8df@elisabeth> <87wnieygjp.fsf@linaro.org>
+ <CA+bd_6JF5iRKufxVa=6TEtR-eH65iiiG-oarWRHkavX-3E-p1Q@mail.gmail.com>
+ <Yfldie06h92qxqf3@redhat.com>
+ <CA+bd_6Jnp846dL4FBUaduHGtnDJN29qQjSuS96V7aPS2iuqF0Q@mail.gmail.com>
+User-agent: mu4e 1.7.6; emacs 28.0.91
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Cleber Rosa <crosa@redhat.com>
+Subject: Re: "make check-acceptance" takes way too long
+Date: Tue, 01 Feb 2022 18:03:12 +0000
+In-reply-to: <CA+bd_6Jnp846dL4FBUaduHGtnDJN29qQjSuS96V7aPS2iuqF0Q@mail.gmail.com>
+Message-ID: <87fsp2xy0k.fsf@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <CABJz62Osah308O2pHFMWs+D2X+Mq=aOf1NAKFcUaWF5bGzwJEw@mail.gmail.com>
-User-Agent: Mutt/2.1.5 (2021-12-30)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.081,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: quoted-printable
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::435
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::435;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x435.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -80,73 +98,102 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Thomas Huth <thuth@redhat.com>, Beraldo Leal <bleal@redhat.com>,
- qemu-devel@nongnu.org, Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ =?utf-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, Stefano Brivio <sbrivio@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Feb 01, 2022 at 09:08:22AM -0800, Andrea Bolognani wrote:
-> On Tue, Feb 01, 2022 at 11:19:11AM +0100, Thomas Huth wrote:
-> > +++ b/tests/docker/dockerfiles/centos8.docker
-> > @@ -1,10 +1,10 @@
-> >  # THIS FILE WAS AUTO-GENERATED
-> >  #
-> > -#  $ lcitool dockerfile centos-8 qemu
-> > +#  $ lcitool dockerfile centos-stream-8 qemu
-> >  #
-> >  # https://gitlab.com/libvirt/libvirt-ci
-> >
-> > -FROM docker.io/library/centos:8
-> > +FROM quay.io/centos/centos:stream8
-> [...]
-> > +++ b/tests/lcitool/refresh
-> > @@ -77,7 +77,7 @@ ubuntu2004_tsanhack = [
-> >  ]
-> >
-> >  try:
-> > -   generate_dockerfile("centos8", "centos-8")
-> > +   generate_dockerfile("centos8", "centos-stream-8")
-> 
-> I'm not convinced this is a good idea.
-> 
-> CentOS 8 and CentOS Stream 8 are two pretty distinct operating
-> systems in terms of update cadence and stability expectations, so I
-> think that using the label "centos8" for containers and CI jobs that
-> are actually consuming CentOS Stream 8 is going to be a source of
-> confusion.
 
-Given the EOL of what I call the "traditional" CentOS model at the
-end of 2021, both "CentOS" and "CentOS Stream" terms effectively
-mean the same thing now.
+Cleber Rosa <crosa@redhat.com> writes:
 
-If we were trying to support CI for both traditional CentOS and
-CentOS Stream at the same time, then using the distinct naming
-is sensible.  libvirt-ci.git is in this situation
+> On Tue, Feb 1, 2022 at 11:20 AM Daniel P. Berrang=C3=A9 <berrange@redhat.=
+com> wrote:
+>>
+>> On Tue, Feb 01, 2022 at 11:01:43AM -0500, Cleber Rosa wrote:
+>> > On Tue, Feb 1, 2022 at 6:25 AM Alex Benn=C3=A9e <alex.bennee@linaro.or=
+g> wrote:
+>> > >
+>> > > We have up to now tried really hard as a project to avoid building a=
+nd
+>> > > hosting our own binaries to avoid theoretical* GPL compliance issues.
+>> > > This is why we've ended up relying so much on distros to build and h=
+ost
+>> > > binaries we can use. Most QEMU developers have their own personal zo=
+o of
+>> > > kernels and userspaces which they use for testing. I use custom kern=
+els
+>> > > with a buildroot user space in initramfs for example. We even use the
+>> > > qemu advent calendar for a number of our avocado tests but we basica=
+lly
+>> > > push responsibility for GPL compliance to the individual developers =
+in
+>> > > that case.
+>> > >
+>> > > *theoretical in so far I suspect most people would be happy with a
+>> > > reference to an upstream repo/commit and .config even if that is not=
+ to
+>> > > the letter of the "offer of source code" required for true complianc=
+e.
+>> > >
+>> >
+>> > Yes, it'd be fine (great, really!) if a lightweight distro (or
+>> > kernels/initrd) were to
+>> > be maintained and identified as an "official" QEMU pick.  Putting the =
+binaries
+>> > in the source tree though, brings all sorts of compliance issues.
+>>
+>> All that's really needed is to have the source + build recipes
+>> in a separate git repo. A pipeline can build them periodically
+>> and publish artifacts, which QEMU can then consume in its pipeline.
+>>
+>
+> I get your point, but then to acquire the artifacts one needs to:
+>
+> 1. depend on the CI system to deploy the artifacts in subsequent job
+> stages (a limitation IMO), OR
+> 2. if outside the CI, implement a download/cache mechanism for those
+> artifacts, which gets us back to the previous point, only with a
+> different distro/kernel+initrd.
+>
+> With that, the value proposal has to be in the characteristics of
+> distro/kernel+initrd itself. It has to have enough differentiation to
+> justify the development/maintenance work, as opposed to using existing
+> ones.
+>
+> FWIW, my non-scientific tests booting on my 3+ YO machine:
+>
+> * CirrOS x86_64+KVM: ~2 seconds
+> * CirroOS aarch64+TCG: ~20 seconds
+> * Fedora kernel+initrd aarch64+TCG
+> (tests/avocado/boot_linux_console.py:BootLinuxConsole.test_aarch64_virt):
+> ~1 second
+>
+> I would imagine that CirrOS aarch64+KVM on an adequate system would be
+> similar to the CirrOS x86_64+KVM.  We can develop/maintain a slimmer
+> distro, and/or set the default test workloads where they perform the
+> best.  The development cost of the latter is quite small.  I've added
+> a missing bit to the filtering capabilities in Avocado[1] and will
+> send a proposal to QEMU along these lines.
 
-Since QEMU should only care about CentOS Stream from this point
-forwards, then I don't think we neccesarily[1] need to make the
-naming more verbose by adding the word 'stream' everywhere.
+FWIW the bit I'm interested in for the slow test in question here is
+that it does a full boot through the EDK2 bios (EL3->EL2->EL1). I'm not
+overly concerned about what gets run in userspace as long as something
+is run that shows EL0 can be executed and handle task switching. I
+suspect most of the userspace startup of a full distro basically just
+ends up testing the same code paths over and over again.
 
-The caveat is that aside from this dockerfile, we also have a
-VM config in test/vm/ that historically used traditional CentOS.
-That may also need updating to point to Stream unless it has
-seemlessly transitioned to using Stream content without us
-needing to change anything. I've not looked closely at that yet.
+>
+> Regards,
+> - Cleber.
+>
+> [1] https://github.com/avocado-framework/avocado/pull/5245
 
-Regards,
-Daniel
 
-[1] what would make me change my mind is if we renamed all the
-    QEMU dockerfiles so use the same distro naming convention
-    as libvirt-ci.git rather than having QEMU's own naming. I've
-    thought about suggesting it but it wasn't a high priority
-    since lcitool usage is in its infancy in QEMU still
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
-
+--=20
+Alex Benn=C3=A9e
 
