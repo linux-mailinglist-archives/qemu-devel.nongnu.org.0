@@ -2,107 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3A2F4A63CE
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Feb 2022 19:28:13 +0100 (CET)
-Received: from localhost ([::1]:53690 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4267C4A6346
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Feb 2022 19:11:54 +0100 (CET)
+Received: from localhost ([::1]:36222 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nExsy-0007QT-Fr
-	for lists+qemu-devel@lfdr.de; Tue, 01 Feb 2022 13:28:12 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:41896)
+	id 1nExdB-0007UV-2t
+	for lists+qemu-devel@lfdr.de; Tue, 01 Feb 2022 13:11:53 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:44834)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kevans@freebsd.org>)
- id 1nEvxT-0002aS-Rr
- for qemu-devel@nongnu.org; Tue, 01 Feb 2022 11:24:44 -0500
-Received: from mx2.freebsd.org ([96.47.72.81]:37653)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kevans@freebsd.org>)
- id 1nEvxS-00075Q-5E
- for qemu-devel@nongnu.org; Tue, 01 Feb 2022 11:24:43 -0500
-Received: from mx1.freebsd.org (mx1.freebsd.org [96.47.72.80])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits)
- client-signature RSA-PSS (4096 bits))
- (Client CN "mx1.freebsd.org", Issuer "R3" (verified OK))
- by mx2.freebsd.org (Postfix) with ESMTPS id 966EE7BF08
- for <qemu-devel@nongnu.org>; Tue,  1 Feb 2022 16:24:40 +0000 (UTC)
- (envelope-from kevans@freebsd.org)
-Received: from smtp.freebsd.org (smtp.freebsd.org [96.47.72.83])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256
- client-signature RSA-PSS (4096 bits) client-digest SHA256)
- (Client CN "smtp.freebsd.org", Issuer "R3" (verified OK))
- by mx1.freebsd.org (Postfix) with ESMTPS id 4Jp9Hr3K0Nz4ZG7
- for <qemu-devel@nongnu.org>; Tue,  1 Feb 2022 16:24:40 +0000 (UTC)
- (envelope-from kevans@freebsd.org)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=freebsd.org; s=dkim;
- t=1643732680;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=FJ6bBlGz7zDSpWToQYvoHZ/hjJSENjm3ANKW9boDbok=;
- b=nAzUhOHlN1ScrRL7vmtKa/du0fa1+MqTCn8agV45uzKXfq6SyOlW5HLh3herQcvltDcrzR
- Ho0Dxwty0pSF25qMpdb3pCBSBuR3k3rfY9ZFZN/L+En9woSm7iOztkWLFPyfNBPqXT4Xym
- ayW8kl2d8ob8GXxlCDsNvg4RkeDaEp4/FtrIJSa5uYYfX/hevWlnsWT7Jc3n80pNDLoctp
- lR1XBqPQpzqr03xHleYSyHtsgPOKYmn4k9Gs9shHyPurGxALWqlBvpPVNNF//mwamaQ88g
- zLS8ahdHVXSY8Pzyz61UsEcNakFXlHyEp96Y1l7vIlchhyznyrpETQGHTSWZMw==
-Received: from mail-qk1-f172.google.com (mail-qk1-f172.google.com
- [209.85.222.172])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (Client CN "smtp.gmail.com", Issuer "GTS CA 1D4" (verified OK))
- (Authenticated sender: kevans)
- by smtp.freebsd.org (Postfix) with ESMTPSA id 4DA732E746
- for <qemu-devel@nongnu.org>; Tue,  1 Feb 2022 16:24:40 +0000 (UTC)
- (envelope-from kevans@freebsd.org)
-Received: by mail-qk1-f172.google.com with SMTP id 71so15571426qkf.4
- for <qemu-devel@nongnu.org>; Tue, 01 Feb 2022 08:24:40 -0800 (PST)
-X-Gm-Message-State: AOAM531TVt0wpE5R5Ycqy/zTlJjcrC0f+EUlsTzMbN01IqFq3ycxLIbo
- 4HqP1Shly5BdiTOWoTH07Mh0Xhh4BdSblV2FCZI=
-X-Google-Smtp-Source: ABdhPJwnDK+QyY3fVaHFxyN9rRfsr5LagRmXv55Ofd8ZD0C2HflZGMqNVWazXf3cre5ni49L4l9og0SfuzMZsSCcsZ0=
-X-Received: by 2002:a05:620a:1997:: with SMTP id
- bm23mr17306936qkb.488.1643732679572; 
- Tue, 01 Feb 2022 08:24:39 -0800 (PST)
-MIME-Version: 1.0
-References: <20220201111455.52511-1-imp@bsdimp.com>
- <20220201111455.52511-5-imp@bsdimp.com>
-In-Reply-To: <20220201111455.52511-5-imp@bsdimp.com>
-From: Kyle Evans <kevans@freebsd.org>
-Date: Tue, 1 Feb 2022 10:24:28 -0600
-X-Gmail-Original-Message-ID: <CACNAnaHnmAM540NxaejZyK0cJ=gpvaBZL9JbFQOvJy23y0=UMQ@mail.gmail.com>
-Message-ID: <CACNAnaHnmAM540NxaejZyK0cJ=gpvaBZL9JbFQOvJy23y0=UMQ@mail.gmail.com>
-Subject: Re: [PATCH 04/22] bsd-user/i386/target_arch_cpu.h: Remove openbsd
- syscall
-To: Warner Losh <imp@bsdimp.com>
+ (Exim 4.90_1) (envelope-from
+ <3EWD5YQcKCswDw5BC9wy66y3w.u648w4C-vwDw3565y5C.69y@flex--venture.bounces.google.com>)
+ id 1nEw8b-0005gu-FN
+ for qemu-devel@nongnu.org; Tue, 01 Feb 2022 11:36:17 -0500
+Received: from [2607:f8b0:4864:20::b4a] (port=33540
+ helo=mail-yb1-xb4a.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from
+ <3EWD5YQcKCswDw5BC9wy66y3w.u648w4C-vwDw3565y5C.69y@flex--venture.bounces.google.com>)
+ id 1nEw8Y-0000Wc-SR
+ for qemu-devel@nongnu.org; Tue, 01 Feb 2022 11:36:13 -0500
+Received: by mail-yb1-xb4a.google.com with SMTP id
+ u185-20020a2560c2000000b0060fd98540f7so34199968ybb.0
+ for <qemu-devel@nongnu.org>; Tue, 01 Feb 2022 08:36:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
+ h=date:message-id:mime-version:subject:from:to:cc;
+ bh=7qgTSv2Qca38AF58tQe7sG2bmCZn6VioTVSnDScd/KU=;
+ b=I3N+O9s+cJ/rxN7JHsvgKB7jxdZJA7Ifi4KA0ptB/nzGh4pkj2DDIAInK/bGekm4A+
+ ZcTivAUZfa19JsnUJ6XlEuxsJ8clUnZ9w/YoUaQ8/KVnIXyCuS2m9wxSo2f8Ct4ULB5J
+ kDpr5ztbNC7Bn3kmpK00g8yQ/IBMeFv4t7Bl6PzCAjLbYQ/bV5zM5ZltiyNyZAVZ9euS
+ a0nQHb//91jiTK8NH+0Il1R3K5OLXDk0pHo/FTKeXiVGBr5/897kyzhpFRHl4/fmwURc
+ Iy2SmUEFj2DqPPAad4rNiNOirHi9jHCyU1JqhNL+8dHSXFtAoLn5esz9p7rPCsMoVhCu
+ mN/Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
+ bh=7qgTSv2Qca38AF58tQe7sG2bmCZn6VioTVSnDScd/KU=;
+ b=B9KVDCxhVtBzYn8G5/RyTLmtiWoXpnT9EG9trG2fw8v5hPamJS3okteZLhEay+sGvG
+ lSd2J5ecWSbSZv80/YFinv+ZisD2xYQGopRL2MQlYHbzCkFptcK0E1Bdwzlgwlq74S+e
+ uDu7hFa38J4HHpMAutR4OLVbi2Df9G0A93eWPbmn2wedhuqvyPL51gWTjsl2siJdiOaW
+ EeE4efPIp8KyJ+luRzA/VOTq0MXv8NBEUQ4gZX5MgSdEjlUmEgggFvscQkd0qhqvMmE8
+ dqOqUer7+vn7noJNVYTxmgvAI7OaV1wsGIZpwhJXDCfMX0jxr0ZSgJctUA3C87BxMpDE
+ Gcyw==
+X-Gm-Message-State: AOAM532AE0ilZmI9IzaJPcMB0dXOhvFpc2CU3sekc+Zf8b0mUIFuA6Mq
+ sZA26acWMaQcX/JLlmeeZCKn/gKS6aND
+X-Google-Smtp-Source: ABdhPJwPiE0FCf1Zt/LnnuVZ6UnGd78t7amm+fcNLWrt1FktI6MwF6RjYsPs61FAZ4QcWyRFabMhiw/F1egj
+X-Received: from venture.svl.corp.google.com
+ ([2620:15c:2a3:200:5780:bdf0:5f14:9c50])
+ (user=venture job=sendgmr) by 2002:a81:24d8:: with SMTP id
+ k207mr67ywk.151.1643733009606; Tue, 01 Feb 2022 08:30:09 -0800 (PST)
+Date: Tue,  1 Feb 2022 08:30:05 -0800
+Message-Id: <20220201163005.989457-1-venture@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.35.0.rc2.247.g8bbb082509-goog
+Subject: [PATCH] hw/i2c: flatten pca954x mux device
+From: Patrick Venture <venture@google.com>
+To: cminyard@mvista.com
+Cc: qemu-devel@nongnu.org, Patrick Venture <venture@google.com>,
+ Hao Wu <wuhaotsh@google.com>
 Content-Type: text/plain; charset="UTF-8"
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=freebsd.org;
- s=dkim; t=1643732680;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=FJ6bBlGz7zDSpWToQYvoHZ/hjJSENjm3ANKW9boDbok=;
- b=q3GyXMOXqND93I7oyXxeNxteuvlnabDrFNyF3qrpk5Fy5DrVmichzYQPObZ5ayvPF1J307
- T9sfOZAlsRWyI4SzHX+Jj9uIKKJTTxyvKvCUMmZcJOulH0dcMV1DYvT9hDZGfdlfysBrzj
- i/hBSYx0O3hbvVXHdXMHn+EpOJRIBmxmqE2yGph9vj5/3OOQrZpCrLzLimFDAvFyfEwugH
- HhbYd+mw+KG8uD0BB/ZBoHW75WyI0S85QTemaxksyDy8IKpX2bSV9Xc+3B1LEamAgmy8IX
- ALNTQUe60V0jXZBZu3Dq7ysgN7Pap46quedNwFqpaHuvmwA9jJPLLfDiOumDDg==
-ARC-Seal: i=1; s=dkim; d=freebsd.org; t=1643732680; a=rsa-sha256; cv=none;
- b=ktLPgcZHoNSnck4Z91cX+zQwygSJ3snrpbGHJFdhi52s/RzafUQLW+Uespv/yXNksRyVnH
- hXnI6HgE68S7PnU7KS5yjsvofc/zWY5c7anHMviDvXbs4rIJDxvnmEpbe2cpskxWwgcguS
- /DiujSmoA+6mZ1NLZtpMOOue2YfGzsJyXWL2cbKkAKTnlhB01mBbnmpqIr0eXIifJW9Umq
- qiQT6YL2zOaoGrUrMS1ewVMfwOPhwMt62R3ga3Jv5R7OXGHhAXW1vbuLd+uOfcI3VTkZlm
- 3CLf+cpX9mYn5Yq9HSlENXbxeS1RzMQYdNLruGDkgzXnpKx+pSKWpjVCJzk6Rw==
-ARC-Authentication-Results: i=1;
-	mx1.freebsd.org;
-	none
-Received-SPF: pass client-ip=96.47.72.81; envelope-from=kevans@freebsd.org;
- helo=mx2.freebsd.org
-X-Spam_score_int: -71
-X-Spam_score: -7.2
-X-Spam_bar: -------
-X-Spam_report: (-7.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.081,
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::b4a
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b4a;
+ envelope-from=3EWD5YQcKCswDw5BC9wy66y3w.u648w4C-vwDw3565y5C.69y@flex--venture.bounces.google.com;
+ helo=mail-yb1-xb4a.google.com
+X-Spam_score_int: -87
+X-Spam_score: -8.8
+X-Spam_bar: --------
+X-Spam_report: (-8.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01,
+ USER_IN_DEF_DKIM_WL=-7.5 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -115,129 +86,168 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, arrowd@freebsd.org,
- Kyle Evans <kevans@freebsd.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>, def@freebsd.org,
- Jessica Clarke <jrtc27@freebsd.org>, Brad Smith <brad@comstyle.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Feb 1, 2022 at 5:14 AM Warner Losh <imp@bsdimp.com> wrote:
->
-> This doesn't build on openbsd at the moment, and this could
-> should arguably be in bsd-user/*bsd/i386 somewhere. Until
+Previously this device created N subdevices which each owned an i2c bus.
+Now this device simply owns the N i2c busses directly.
 
-could or should, let's pick one and drop the other. :-)
+Tested: Verified devices behind mux are still accessible via qmp and i2c
+from within an arm32 SoC.
 
-> we refactor to support OpenBSD/NetBSD again, drop it here.
->
-> Signed-off-by: Warner Losh <imp@bsdimp.com>
-> ---
->  bsd-user/i386/target_arch_cpu.h | 84 +++++++++++++++------------------
->  1 file changed, 37 insertions(+), 47 deletions(-)
->
+Reviewed-by: Hao Wu <wuhaotsh@google.com>
+Signed-off-by: Patrick Venture <venture@google.com>
+---
+ hw/i2c/i2c_mux_pca954x.c | 75 ++++++----------------------------------
+ 1 file changed, 11 insertions(+), 64 deletions(-)
 
-Reviewed-by: Kyle Evans <kevans@FreeBSD.org>
+diff --git a/hw/i2c/i2c_mux_pca954x.c b/hw/i2c/i2c_mux_pca954x.c
+index 847c59921c..f9ce633b3a 100644
+--- a/hw/i2c/i2c_mux_pca954x.c
++++ b/hw/i2c/i2c_mux_pca954x.c
+@@ -30,24 +30,6 @@
+ #define PCA9548_CHANNEL_COUNT 8
+ #define PCA9546_CHANNEL_COUNT 4
+ 
+-/*
+- * struct Pca954xChannel - The i2c mux device will have N of these states
+- * that own the i2c channel bus.
+- * @bus: The owned channel bus.
+- * @enabled: Is this channel active?
+- */
+-typedef struct Pca954xChannel {
+-    SysBusDevice parent;
+-
+-    I2CBus       *bus;
+-
+-    bool         enabled;
+-} Pca954xChannel;
+-
+-#define TYPE_PCA954X_CHANNEL "pca954x-channel"
+-#define PCA954X_CHANNEL(obj) \
+-    OBJECT_CHECK(Pca954xChannel, (obj), TYPE_PCA954X_CHANNEL)
+-
+ /*
+  * struct Pca954xState - The pca954x state object.
+  * @control: The value written to the mux control.
+@@ -59,8 +41,8 @@ typedef struct Pca954xState {
+ 
+     uint8_t control;
+ 
+-    /* The channel i2c buses. */
+-    Pca954xChannel channel[PCA9548_CHANNEL_COUNT];
++    bool enabled[PCA9548_CHANNEL_COUNT];
++    I2CBus *bus[PCA9548_CHANNEL_COUNT];
+ } Pca954xState;
+ 
+ /*
+@@ -98,11 +80,11 @@ static bool pca954x_match(I2CSlave *candidate, uint8_t address,
+     }
+ 
+     for (i = 0; i < mc->nchans; i++) {
+-        if (!mux->channel[i].enabled) {
++        if (!mux->enabled[i]) {
+             continue;
+         }
+ 
+-        if (i2c_scan_bus(mux->channel[i].bus, address, broadcast,
++        if (i2c_scan_bus(mux->bus[i], address, broadcast,
+                          current_devs)) {
+             if (!broadcast) {
+                 return true;
+@@ -125,9 +107,9 @@ static void pca954x_enable_channel(Pca954xState *s, uint8_t enable_mask)
+      */
+     for (i = 0; i < mc->nchans; i++) {
+         if (enable_mask & (1 << i)) {
+-            s->channel[i].enabled = true;
++            s->enabled[i] = true;
+         } else {
+-            s->channel[i].enabled = false;
++            s->enabled[i] = false;
+         }
+     }
+ }
+@@ -184,23 +166,7 @@ I2CBus *pca954x_i2c_get_bus(I2CSlave *mux, uint8_t channel)
+     Pca954xState *pca954x = PCA954X(mux);
+ 
+     g_assert(channel < pc->nchans);
+-    return I2C_BUS(qdev_get_child_bus(DEVICE(&pca954x->channel[channel]),
+-                                      "i2c-bus"));
+-}
+-
+-static void pca954x_channel_init(Object *obj)
+-{
+-    Pca954xChannel *s = PCA954X_CHANNEL(obj);
+-    s->bus = i2c_init_bus(DEVICE(s), "i2c-bus");
+-
+-    /* Start all channels as disabled. */
+-    s->enabled = false;
+-}
+-
+-static void pca954x_channel_class_init(ObjectClass *klass, void *data)
+-{
+-    DeviceClass *dc = DEVICE_CLASS(klass);
+-    dc->desc = "Pca954x Channel";
++    return pca954x->bus[channel];
+ }
+ 
+ static void pca9546_class_init(ObjectClass *klass, void *data)
+@@ -215,28 +181,17 @@ static void pca9548_class_init(ObjectClass *klass, void *data)
+     s->nchans = PCA9548_CHANNEL_COUNT;
+ }
+ 
+-static void pca954x_realize(DeviceState *dev, Error **errp)
+-{
+-    Pca954xState *s = PCA954X(dev);
+-    Pca954xClass *c = PCA954X_GET_CLASS(s);
+-    int i;
+-
+-    /* SMBus modules. Cannot fail. */
+-    for (i = 0; i < c->nchans; i++) {
+-        sysbus_realize(SYS_BUS_DEVICE(&s->channel[i]), &error_abort);
+-    }
+-}
+-
+ static void pca954x_init(Object *obj)
+ {
+     Pca954xState *s = PCA954X(obj);
+     Pca954xClass *c = PCA954X_GET_CLASS(obj);
+     int i;
+ 
+-    /* Only initialize the children we expect. */
++    /* SMBus modules. Cannot fail. */
+     for (i = 0; i < c->nchans; i++) {
+-        object_initialize_child(obj, "channel[*]", &s->channel[i],
+-                                TYPE_PCA954X_CHANNEL);
++        /* start all channels as disabled. */
++        s->enabled[i] = false;
++        s->bus[i] = i2c_init_bus(DEVICE(s), "channel[*]");
+     }
+ }
+ 
+@@ -252,7 +207,6 @@ static void pca954x_class_init(ObjectClass *klass, void *data)
+     rc->phases.enter = pca954x_enter_reset;
+ 
+     dc->desc = "Pca954x i2c-mux";
+-    dc->realize = pca954x_realize;
+ 
+     k->write_data = pca954x_write_data;
+     k->receive_byte = pca954x_read_byte;
+@@ -278,13 +232,6 @@ static const TypeInfo pca954x_info[] = {
+         .parent        = TYPE_PCA954X,
+         .class_init    = pca9548_class_init,
+     },
+-    {
+-        .name = TYPE_PCA954X_CHANNEL,
+-        .parent = TYPE_SYS_BUS_DEVICE,
+-        .class_init = pca954x_channel_class_init,
+-        .instance_size = sizeof(Pca954xChannel),
+-        .instance_init = pca954x_channel_init,
+-    }
+ };
+ 
+ DEFINE_TYPES(pca954x_info)
+-- 
+2.35.0.rc2.247.g8bbb082509-goog
 
-> diff --git a/bsd-user/i386/target_arch_cpu.h b/bsd-user/i386/target_arch_cpu.h
-> index 3cbf69d8af2..9da22202d48 100644
-> --- a/bsd-user/i386/target_arch_cpu.h
-> +++ b/bsd-user/i386/target_arch_cpu.h
-> @@ -116,55 +116,45 @@ static inline void target_cpu_loop(CPUX86State *env)
->          process_queued_cpu_work(cs);
->
->          switch (trapnr) {
-> -        case 0x80:
-> +        case 0x80: {
->              /* syscall from int $0x80 */
-> -            if (bsd_type == target_freebsd) {
-> -                abi_ulong params = (abi_ulong) env->regs[R_ESP] +
-> -                    sizeof(int32_t);
-> -                int32_t syscall_nr = env->regs[R_EAX];
-> -                int32_t arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8;
-> -
-> -                if (syscall_nr == TARGET_FREEBSD_NR_syscall) {
-> -                    get_user_s32(syscall_nr, params);
-> -                    params += sizeof(int32_t);
-> -                } else if (syscall_nr == TARGET_FREEBSD_NR___syscall) {
-> -                    get_user_s32(syscall_nr, params);
-> -                    params += sizeof(int64_t);
-> -                }
-> -                get_user_s32(arg1, params);
-> -                params += sizeof(int32_t);
-> -                get_user_s32(arg2, params);
-> -                params += sizeof(int32_t);
-> -                get_user_s32(arg3, params);
-> -                params += sizeof(int32_t);
-> -                get_user_s32(arg4, params);
-> -                params += sizeof(int32_t);
-> -                get_user_s32(arg5, params);
-> -                params += sizeof(int32_t);
-> -                get_user_s32(arg6, params);
-> -                params += sizeof(int32_t);
-> -                get_user_s32(arg7, params);
-> +            abi_ulong params = (abi_ulong) env->regs[R_ESP] +
-> +                sizeof(int32_t);
-> +            int32_t syscall_nr = env->regs[R_EAX];
-> +            int32_t arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8;
-> +
-> +            if (syscall_nr == TARGET_FREEBSD_NR_syscall) {
-> +                get_user_s32(syscall_nr, params);
->                  params += sizeof(int32_t);
-> -                get_user_s32(arg8, params);
-> -                env->regs[R_EAX] = do_freebsd_syscall(env,
-> -                                                      syscall_nr,
-> -                                                      arg1,
-> -                                                      arg2,
-> -                                                      arg3,
-> -                                                      arg4,
-> -                                                      arg5,
-> -                                                      arg6,
-> -                                                      arg7,
-> -                                                      arg8);
-> -            } else { /* if (bsd_type == target_openbsd) */
-> -                env->regs[R_EAX] = do_openbsd_syscall(env,
-> -                                                      env->regs[R_EAX],
-> -                                                      env->regs[R_EBX],
-> -                                                      env->regs[R_ECX],
-> -                                                      env->regs[R_EDX],
-> -                                                      env->regs[R_ESI],
-> -                                                      env->regs[R_EDI],
-> -                                                      env->regs[R_EBP]);
-> +            } else if (syscall_nr == TARGET_FREEBSD_NR___syscall) {
-> +                get_user_s32(syscall_nr, params);
-> +                params += sizeof(int64_t);
-> +            }
-> +            get_user_s32(arg1, params);
-> +            params += sizeof(int32_t);
-> +            get_user_s32(arg2, params);
-> +            params += sizeof(int32_t);
-> +            get_user_s32(arg3, params);
-> +            params += sizeof(int32_t);
-> +            get_user_s32(arg4, params);
-> +            params += sizeof(int32_t);
-> +            get_user_s32(arg5, params);
-> +            params += sizeof(int32_t);
-> +            get_user_s32(arg6, params);
-> +            params += sizeof(int32_t);
-> +            get_user_s32(arg7, params);
-> +            params += sizeof(int32_t);
-> +            get_user_s32(arg8, params);
-> +            env->regs[R_EAX] = do_freebsd_syscall(env,
-> +                                                  syscall_nr,
-> +                                                  arg1,
-> +                                                  arg2,
-> +                                                  arg3,
-> +                                                  arg4,
-> +                                                  arg5,
-> +                                                  arg6,
-> +                                                  arg7,
-> +                                                  arg8);
->              }
->              if (((abi_ulong)env->regs[R_EAX]) >= (abi_ulong)(-515)) {
->                  env->regs[R_EAX] = -env->regs[R_EAX];
-> --
-> 2.33.1
->
 
