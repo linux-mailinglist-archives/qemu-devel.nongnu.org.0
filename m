@@ -2,76 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 749634A6A8B
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Feb 2022 04:31:33 +0100 (CET)
-Received: from localhost ([::1]:41448 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A2A414A6A82
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Feb 2022 04:24:47 +0100 (CET)
+Received: from localhost ([::1]:59882 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nF6Mm-0007wI-Cp
-	for lists+qemu-devel@lfdr.de; Tue, 01 Feb 2022 22:31:32 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:39006)
+	id 1nF6GE-00013M-Do
+	for lists+qemu-devel@lfdr.de; Tue, 01 Feb 2022 22:24:46 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:50758)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1nF1BN-0007CF-Q6
- for qemu-devel@nongnu.org; Tue, 01 Feb 2022 16:59:26 -0500
-Received: from [2607:f8b0:4864:20::130] (port=47067
- helo=mail-il1-x130.google.com)
+ (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1nF24g-0002rw-4G
+ for qemu-devel@nongnu.org; Tue, 01 Feb 2022 17:56:34 -0500
+Received: from [2607:f8b0:4864:20::936] (port=34594
+ helo=mail-ua1-x936.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1nF1BI-000800-Qy
- for qemu-devel@nongnu.org; Tue, 01 Feb 2022 16:59:25 -0500
-Received: by mail-il1-x130.google.com with SMTP id e8so15431085ilm.13
- for <qemu-devel@nongnu.org>; Tue, 01 Feb 2022 13:59:17 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1nF24c-0008E3-TZ
+ for qemu-devel@nongnu.org; Tue, 01 Feb 2022 17:56:33 -0500
+Received: by mail-ua1-x936.google.com with SMTP id y4so16024866uad.1
+ for <qemu-devel@nongnu.org>; Tue, 01 Feb 2022 14:56:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bsdimp-com.20210112.gappssmtp.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=momofGoAiDMCZqpb5CI96XowGVKHQtzt1h1h2tRhHgc=;
- b=quH8aTeVtOw6hDwlsYq9iywJM0bs9WQDXnLbCYAC7rAMuZ1i7gpFfbbYJFVDCRnlVI
- HBQmnCHfQ2dbEdZgQVjqDBM1d1nTz4BdpTxYTykeFtk+althSBWCjnj+18gxgEoUAzie
- 0/a8D+gvLIwJdYMusJvkR5/Or2+E2EZAv34cKqyPskIRCwRnwPshyRf+XXnK8mV5mr2P
- bHqaES7myGw2m3Fv2b+E72JjXjEV/ZIipwn0rgG8ZWoNKCXfHigP20cd0L1LKB+101LX
- VQVfy6eRwlJJuy5mi6/RB0VsqLHzBEx/jDPL7lCaR5fZR3A9Lo0huLnAjiIOY5TIoMCf
- lWSQ==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=7LMq4VL5oUuhxG22sw29Dv8tlIEyW2QQh0UunsIFRYQ=;
+ b=ZBAFWvdxCMUHwZYxTmQFrdwkpzWxkc8pPmAXTinqHyh6nh8HKnsAD7b2NllkKwlRez
+ n4GdB18VN9891a7cm8Qkx/QTetEB0wvOFlRMzyZfgleST29ATeGHp2lFhFqeNkf8r/fU
+ 6zB8uSFSbT0AteaLPrUmuZLaBcQv5UagcaIOY76xZCEwi8yOj1Ceui3WTlQj53BTqRe3
+ Ap4H5KwpuD6PLXo/IgmWKcLIb0VgzorSjpofg7gPWPmKsxh6e2m7XEZx/jB1Lil194KJ
+ rouxNXYWys2fWlwRalDxOz5tM/RFhkf0xxgm3Cv5BZeHRFspv/QkgfjeHRnyMjfF8TT8
+ kgmw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=momofGoAiDMCZqpb5CI96XowGVKHQtzt1h1h2tRhHgc=;
- b=YQVDhQhpNARGxPCQZEgZpFO6zP++rnkaFDDcBWF+hk1rO6wnJeu5ZZ9bSoGrURqtXm
- s7nSrr4AkB5HrtWIjBJV+YlzkVZizeW9e0P6VLipoWN1rfczoBfaYdhgFtJr/A74n2bl
- +ELghgN0EfkDvODY5DjItNTbZkUEr4dWaUuv01ZpFrsBcljptXX3W4LF4d1E4Zl/j3R9
- UrUvkqu3jw17Yhjtj0rA9TxaalKyIbgxJj839HbzNtoDidbniTF9Lc1kPqMLShDIRWlp
- 8tW5BCF4YuUA9l+5ZPiax6lSdqr6K+PE5QOx9m9u/Geq3j3IGjngge1RFIm7pmwaJLng
- d+7Q==
-X-Gm-Message-State: AOAM532RmFRDYrfLGrXHyb5MPYNQr/cGUHxXokjB6m5SjK6GZKbPM2cR
- qHuS+umpGwcO+FcxT33UzrPakV7AwddKWg==
-X-Google-Smtp-Source: ABdhPJxibWxiPta425SCP8Pde5iFNhGdZfE10VX22CiCyownmscG3IBYl4Jn/ggLNP5+azYkfgU/VQ==
-X-Received: by 2002:a92:c687:: with SMTP id o7mr15826000ilg.88.1643752756415; 
- Tue, 01 Feb 2022 13:59:16 -0800 (PST)
-Received: from dune.bsdimp.com (50-253-99-174-static.hfc.comcastbusiness.net.
- [50.253.99.174])
- by smtp.gmail.com with ESMTPSA id 193sm14960836iob.17.2022.02.01.13.59.15
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 01 Feb 2022 13:59:16 -0800 (PST)
-From: Warner Losh <imp@bsdimp.com>
-To: qemu-devel@nongnu.org
-Subject: [PULL 0/1] Bsd user fix patches
-Date: Tue,  1 Feb 2022 14:58:56 -0700
-Message-Id: <20220201215857.61820-1-imp@bsdimp.com>
-X-Mailer: git-send-email 2.33.1
-Content-Type: text/plain; charset="utf-8"
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=7LMq4VL5oUuhxG22sw29Dv8tlIEyW2QQh0UunsIFRYQ=;
+ b=1im/JklNykEzvs8Qj3tXNvIh0VEuXinoHFFq3a+0GlDz2cfMbE9Oyz5mrXAxEnSx4a
+ Hkmq/Vo4z/7fVDke731lBdS6JsndZMUF3ZUsIDCpwxQkCNXVXzYhQ2ZQokVPKUaro0Kn
+ AcS6RAst7W+bGKYnFjldt+OY0TotxSIVpi3CaFyRiZ5NsN9ErLg9cckY5XnH2GDQ3VcQ
+ lZg11bvO1WwztfL6mV0AgQ9yAHH313hX73mnVe7dPsJZzFWrjc+H6X0DSCPcAig6/YE+
+ GO+Kh/KLam6Zra9ilfwugQL49BRy9++0silHKm4itzgD2UXuW2Tn2CZ0XitZjDTHRFQv
+ Vmkg==
+X-Gm-Message-State: AOAM533rVGzn/UTlLGGPzP8c55M2wHGQqG+T2J8SwiMgrPTf/vuzIrsC
+ NNS4oIYglZVhK6GY78wcsRAar/QDBjwJLp10ZgLDIA==
+X-Google-Smtp-Source: ABdhPJyO8qzzi+pgo0sacN0s05wCQ3XIiwcdjG2JESnDd6Cfv8LWjJ58Eq1+fwgsyXUy4iNS85HCFdWASS2wh4xTZJQ=
+X-Received: by 2002:a67:fac3:: with SMTP id g3mr11800883vsq.6.1643756183219;
+ Tue, 01 Feb 2022 14:56:23 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::130
+References: <20220201212809.59518-1-imp@bsdimp.com>
+ <42f97813-b487-d57a-89db-561558f95dc9@linaro.org>
+In-Reply-To: <42f97813-b487-d57a-89db-561558f95dc9@linaro.org>
+From: Warner Losh <imp@bsdimp.com>
+Date: Tue, 1 Feb 2022 15:56:12 -0700
+Message-ID: <CANCZdfpr1O09Cng4Cq3o_3V99S2uwZnqUhhYL0ve7SHTCKTjxQ@mail.gmail.com>
+Subject: Re: [PATCH v2] bsd-user/signal.c: Only copy the _capsicum for
+ FreeBSD_version > 1400026
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: multipart/alternative; boundary="0000000000006606d305d6fccf31"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::936
  (failed)
-Received-SPF: none client-ip=2607:f8b0:4864:20::130;
- envelope-from=imp@bsdimp.com; helo=mail-il1-x130.google.com
+Received-SPF: none client-ip=2607:f8b0:4864:20::936;
+ envelope-from=wlosh@bsdimp.com; helo=mail-ua1-x936.google.com
 X-Spam_score_int: -10
 X-Spam_score: -1.1
 X-Spam_bar: -
 X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_NONE=0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+ DKIM_VALID=-0.1, HTML_MESSAGE=0.001, PDS_HP_HELO_NORDNS=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -84,40 +80,72 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, richard.henderson@linaro.org,
- alex.bennee@linaro.org, Warner Losh <imp@bsdimp.com>,
- Kyle Evans <kevans@freebsd.org>
+Cc: Kyle Evans <kevans@freebsd.org>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ Peter Maydell <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit 3bbe296c1c7a6ddce7a294e006b8c4a53b385292:
+--0000000000006606d305d6fccf31
+Content-Type: text/plain; charset="UTF-8"
 
-  Merge remote-tracking branch 'remotes/hreitz-gitlab/tags/pull-block-2022-02-01' into staging (2022-02-01 16:32:54 +0000)
+On Tue, Feb 1, 2022 at 2:40 PM Richard Henderson <
+richard.henderson@linaro.org> wrote:
 
-are available in the Git repository at:
+> On 2/2/22 08:28, Warner Losh wrote:
+> > The capsicum signal stuff is new with FreeBSD 14, rev 1400026, so only
+> > define QEMU_SI_CAPSICUM there. Only copy _capsicum when QEMU_SI_CAPSICUM
+> > is defined. Default to no info being passed for signals we make no guess
+> > about.
+> >
+> > Signed-off-by: Warner Losh<imp@bsdimp.com>
+> > ---
+> >   bsd-user/signal-common.h | 5 +++++
+> >   bsd-user/signal.c        | 5 +++++
+> >   2 files changed, 10 insertions(+)
+>
+> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+>
 
-  git@gitlab.com:bsdimp/qemu.git tags/bsd-user-fix-pull-request
+thanks!
 
-for you to fetch changes up to eb9d35f686ed1279d57463d9e6f289988f594c19:
 
-  bsd-user/signal.c: Only copy the _capsicum for FreeBSD_version > 1400026 (2022-02-01 14:43:20 -0700)
+> r~
+>
 
-----------------------------------------------------------------
-Pull request
+--0000000000006606d305d6fccf31
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Fix FreeBSD 12 and 13 builds.
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Tue, Feb 1, 2022 at 2:40 PM Richar=
+d Henderson &lt;<a href=3D"mailto:richard.henderson@linaro.org">richard.hen=
+derson@linaro.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote"=
+ style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);p=
+adding-left:1ex">On 2/2/22 08:28, Warner Losh wrote:<br>
+&gt; The capsicum signal stuff is new with FreeBSD 14, rev 1400026, so only=
+<br>
+&gt; define QEMU_SI_CAPSICUM there. Only copy _capsicum when QEMU_SI_CAPSIC=
+UM<br>
+&gt; is defined. Default to no info being passed for signals we make no gue=
+ss<br>
+&gt; about.<br>
+&gt; <br>
+&gt; Signed-off-by: Warner Losh&lt;<a href=3D"mailto:imp@bsdimp.com" target=
+=3D"_blank">imp@bsdimp.com</a>&gt;<br>
+&gt; ---<br>
+&gt;=C2=A0 =C2=A0bsd-user/signal-common.h | 5 +++++<br>
+&gt;=C2=A0 =C2=A0bsd-user/signal.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 | 5 +++++<br>
+&gt;=C2=A0 =C2=A02 files changed, 10 insertions(+)<br>
+<br>
+Reviewed-by: Richard Henderson &lt;<a href=3D"mailto:richard.henderson@lina=
+ro.org" target=3D"_blank">richard.henderson@linaro.org</a>&gt;<br></blockqu=
+ote><div>=C2=A0</div><div>thanks!</div><div>=C2=A0</div><blockquote class=
+=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rg=
+b(204,204,204);padding-left:1ex">
+r~<br>
+</blockquote></div></div>
 
-----------------------------------------------------------------
-
-Warner Losh (1):
-  bsd-user/signal.c: Only copy the _capsicum for FreeBSD_version >
-    1400026
-
- bsd-user/signal-common.h | 5 +++++
- bsd-user/signal.c        | 5 +++++
- 2 files changed, 10 insertions(+)
-
--- 
-2.33.1
-
+--0000000000006606d305d6fccf31--
 
