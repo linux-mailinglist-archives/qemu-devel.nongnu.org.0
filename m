@@ -2,106 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E97C4A6674
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Feb 2022 21:54:13 +0100 (CET)
-Received: from localhost ([::1]:45254 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B5904A65AA
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Feb 2022 21:30:31 +0100 (CET)
+Received: from localhost ([::1]:45154 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nF0AF-0004N4-Tm
-	for lists+qemu-devel@lfdr.de; Tue, 01 Feb 2022 15:54:12 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:48038)
+	id 1nEznJ-0003hd-Sx
+	for lists+qemu-devel@lfdr.de; Tue, 01 Feb 2022 15:30:29 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:48950)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kevans@freebsd.org>)
- id 1nEwKU-0000ui-A5
- for qemu-devel@nongnu.org; Tue, 01 Feb 2022 11:48:30 -0500
-Received: from mx2.freebsd.org ([96.47.72.81]:55376)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nEwOI-0005Md-Ic
+ for qemu-devel@nongnu.org; Tue, 01 Feb 2022 11:52:34 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:33639)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kevans@freebsd.org>)
- id 1nEwKS-0002W0-Lj
- for qemu-devel@nongnu.org; Tue, 01 Feb 2022 11:48:30 -0500
-Received: from mx1.freebsd.org (mx1.freebsd.org [IPv6:2610:1c1:1:606c::19:1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits)
- client-signature RSA-PSS (4096 bits))
- (Client CN "mx1.freebsd.org", Issuer "R3" (verified OK))
- by mx2.freebsd.org (Postfix) with ESMTPS id 420D78279D
- for <qemu-devel@nongnu.org>; Tue,  1 Feb 2022 16:48:28 +0000 (UTC)
- (envelope-from kevans@freebsd.org)
-Received: from smtp.freebsd.org (smtp.freebsd.org [96.47.72.83])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256
- client-signature RSA-PSS (4096 bits) client-digest SHA256)
- (Client CN "smtp.freebsd.org", Issuer "R3" (verified OK))
- by mx1.freebsd.org (Postfix) with ESMTPS id 4Jp9qJ0s1Rz4j2l
- for <qemu-devel@nongnu.org>; Tue,  1 Feb 2022 16:48:28 +0000 (UTC)
- (envelope-from kevans@freebsd.org)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=freebsd.org; s=dkim;
- t=1643734108;
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nEwOA-0003AR-Hh
+ for qemu-devel@nongnu.org; Tue, 01 Feb 2022 11:52:21 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1643734334;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=rKluUIQZQsqnSUN5Z+2ZFS6GkxEje3sjEHhwXi1oIfw=;
- b=mqxFG48GN4pJM2i1MwBrfvMi1hkeWFjo8/za+F/WvbOZblvZe46pvFLJ/twkh4gLyl2lJF
- FHDoEh3lCxc2MBfMTpgDsBGyAGsvly9mP3MYhHpBrdrP+24ddLlHVKdL94049N9J7Q007Z
- Mp6h6VXdQVxXtnh0uGCdtksXfFiXrR+pcqHaB3UZ2zkpKWosFf/3wZpJUi1CfsL6xo11CB
- hR+YKtmAnvMUcNWvlN5pB4b4t8XiTWKky0FZvLfq9/NaURoKX7Mc9p2P4EEe1rkDPqRrWE
- /PfUCAqU9Jc+adxQqJBQOe649kRu7Mbw+EC+gIiwgNNlEaciircAJRZ7AUfInw==
-Received: from mail-qk1-f181.google.com (mail-qk1-f181.google.com
- [209.85.222.181])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (Client CN "smtp.gmail.com", Issuer "GTS CA 1D4" (verified OK))
- (Authenticated sender: kevans)
- by smtp.freebsd.org (Postfix) with ESMTPSA id F1FE72F1DF
- for <qemu-devel@nongnu.org>; Tue,  1 Feb 2022 16:48:27 +0000 (UTC)
- (envelope-from kevans@freebsd.org)
-Received: by mail-qk1-f181.google.com with SMTP id bs32so4249224qkb.1
- for <qemu-devel@nongnu.org>; Tue, 01 Feb 2022 08:48:27 -0800 (PST)
-X-Gm-Message-State: AOAM5325xM9EOmgqdP/k5DJu8F+TVTphCC2ZZuFwcX1UDHKY7ShNWCTz
- 03Dhr/qAqnqjG2YIFIch6fdhM8CF6iGpAz83ouE=
-X-Google-Smtp-Source: ABdhPJxPcLFjzgWe/sJ0IUbwfDLcAg2DVKUbHa8YNnqnuF96ynhFeW1xoumEZpl/fbeUDdH5Zx/5U59xCmHPrkJaz/Y=
-X-Received: by 2002:a05:620a:2891:: with SMTP id
- j17mr17284402qkp.350.1643734107691; 
- Tue, 01 Feb 2022 08:48:27 -0800 (PST)
+ bh=/25eaLKN0ECgaWF5IFol8bM521AvRbZVedG2l/MxXW4=;
+ b=iatFrRwhpSqDb4G0wXS3MyLpqfu36WYseDpDJ0zMGG7/dCB/JjsatnqcPn5nH/JvKwSX4v
+ nofE1Gt4aOcQb2bPPqn0hU29clAXfJV6LGYHbwVgk2xOOVMjxFrohi0aYuCymm+yFj+oD6
+ 8bh1BpADticF24zRt1dLMZkpnylj68c=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-258-uk1u3uG5Nme73o8e_wpz8w-1; Tue, 01 Feb 2022 11:52:12 -0500
+X-MC-Unique: uk1u3uG5Nme73o8e_wpz8w-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ i25-20020adfaad9000000b001e01f5804abso3560100wrc.2
+ for <qemu-devel@nongnu.org>; Tue, 01 Feb 2022 08:52:12 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=/25eaLKN0ECgaWF5IFol8bM521AvRbZVedG2l/MxXW4=;
+ b=Ba9UPvOeXzMwQRB4kPkGGEDPIQV9XIjYqgaPlYiQeohUq/xphROTvaIipi5/ztwmm7
+ E51Iz0Xb6Gs6tC0/fAXYmg3JR2yYvfaZ3N7qYFFebKmpyZsKdx+CKHRZsu4XovYwPiom
+ csCJTUmdhNnzNutKwSnW0TZQr3kRRLfyMD+Nv2biVi/h22z9Mhnopmc0CZmUy0Q1Cdz0
+ YgLij0Q4cm7p2LQuaHYLbgZybkwnfIlQ8vdupI5T2HERkWnOL7fvQqj9y7US88evZAVn
+ S/h5BYydkCsXS1zICAvtRUzm3itYjs+1ggNkhv2hHnnAtFOabXkap4T8yOoTqv+hOFSk
+ 9+3g==
+X-Gm-Message-State: AOAM5312NeconfnSas3YGpd9ecWsVoka/9B36iIGEWQjPnpO8PUlIaog
+ 0GzpzBMl9iRLVQ4rN3vD0yZyfYi+eNdT39uVEA+4vcJiCHkKUmRy5ioTm8IkvC7pHAAwiMcngKz
+ iejUkIoOL2k1AtX4=
+X-Received: by 2002:a05:600c:27d2:: with SMTP id
+ l18mr2526189wmb.176.1643734331606; 
+ Tue, 01 Feb 2022 08:52:11 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyVyG1BrChNWmTi554gnsq/1DckppDN8VsteYVfxlUUAf9e5RjvAk5oO0xtqvnMncQA2Zga1w==
+X-Received: by 2002:a05:600c:27d2:: with SMTP id
+ l18mr2526164wmb.176.1643734331276; 
+ Tue, 01 Feb 2022 08:52:11 -0800 (PST)
+Received: from redhat.com ([2.55.147.35])
+ by smtp.gmail.com with ESMTPSA id f2sm15807461wri.49.2022.02.01.08.52.08
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 01 Feb 2022 08:52:10 -0800 (PST)
+Date: Tue, 1 Feb 2022 11:52:06 -0500
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Cornelia Huck <cohuck@redhat.com>
+Subject: Re: [PATCH v3 1/1] virtio: fix the condition for iommu_platform not
+ supported
+Message-ID: <20220201115136-mutt-send-email-mst@kernel.org>
+References: <20220201133915.3764972-1-pasic@linux.ibm.com>
+ <87h79iy1nn.fsf@redhat.com>
 MIME-Version: 1.0
-References: <20220201111455.52511-1-imp@bsdimp.com>
- <20220201111455.52511-23-imp@bsdimp.com>
-In-Reply-To: <20220201111455.52511-23-imp@bsdimp.com>
-From: Kyle Evans <kevans@freebsd.org>
-Date: Tue, 1 Feb 2022 10:48:16 -0600
-X-Gmail-Original-Message-ID: <CACNAnaFnN7+6dceZ=2j5cL9G4+tuTjVP43NPpewx5x_LCc3RSg@mail.gmail.com>
-Message-ID: <CACNAnaFnN7+6dceZ=2j5cL9G4+tuTjVP43NPpewx5x_LCc3RSg@mail.gmail.com>
-Subject: Re: [PATCH 22/22] bsd-user/freebsd/os-syscall.c: Implement exit
-To: Warner Losh <imp@bsdimp.com>
-Content-Type: text/plain; charset="UTF-8"
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=freebsd.org;
- s=dkim; t=1643734108;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=rKluUIQZQsqnSUN5Z+2ZFS6GkxEje3sjEHhwXi1oIfw=;
- b=wd65I6MhyXVPvUXZl1FxLHrJR3W5iQnz3cDTIVNHzqrle07Tejt8aTnVITBc6f2W1DhSvX
- C6uZrI7edmzA+CeamdTKqe5EdfdZKv5HQTfBcJgbkkICUCr3TkQyyglCB4Hft8UbNGcDOU
- BTF3sIHEjLqB2SgpwYzWoEG8/UaoQ0hdeaQaP+yg1/eT5TdSMVcIpLFkfaJuK9W858BWK6
- RkBOgcFW5zCTXduobaOxjjBBmi1lihjVr9AHy4lhY7BD05AtZSu90atucAWhs0UpZFqta9
- gtI+hYGLj6hjS7opIlcRx5TKdjkjz0+KvMXgxXHG08MGTABfvtGEcdrAVUkVyA==
-ARC-Seal: i=1; s=dkim; d=freebsd.org; t=1643734108; a=rsa-sha256; cv=none;
- b=qSpEPEYD/zYCSMb75Prz1+7c69HgiJM8snpXBedpxXfLqIJGOvyzVq9N1FzPidWMkClntS
- vcW0Buw66dPNYfU1XSpfhBrkSaeJEemF0F7YU5A0CoE2zseTPVBZCw2pQlt+nNFPCUGFf1
- ryNiEVyUTS6yOok8+2fE7So4MImeTxcaSwFTyslgdFchy4zjB9nCIgbk10YtJqg4Wit7EY
- JyGo2+nanq4zqPlOcPdJAETR+k5t+e3EM4/PgNo6KEMqTTw2XPfoYAmskehmZi7afg01Pq
- aYQXpkla4rLaFkBG8KZpt3n9Lc6pew8QyCbR7LtKwYjcHMisbOJ2x1LoP7rsjQ==
-ARC-Authentication-Results: i=1;
-	mx1.freebsd.org;
-	none
-Received-SPF: pass client-ip=96.47.72.81; envelope-from=kevans@freebsd.org;
- helo=mx2.freebsd.org
-X-Spam_score_int: -71
-X-Spam_score: -7.2
-X-Spam_bar: -------
-X-Spam_report: (-7.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.081,
+In-Reply-To: <87h79iy1nn.fsf@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.081,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -114,105 +96,134 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Stacey Son <sson@freebsd.org>,
- arrowd@freebsd.org, Kyle Evans <kevans@freebsd.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>, def@freebsd.org,
- Jessica Clarke <jrtc27@freebsd.org>, Brad Smith <brad@comstyle.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Brijesh Singh <brijesh.singh@amd.com>,
+ Daniel Henrique Barboza <danielhb@linux.ibm.com>, qemu-stable@nongnu.org,
+ qemu-devel@nongnu.org, Halil Pasic <pasic@linux.ibm.com>,
+ Jakob Naucke <Jakob.Naucke@ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Feb 1, 2022 at 5:15 AM Warner Losh <imp@bsdimp.com> wrote:
->
-> Implement the exit system call. Bring in bsd-proc.h to contain all the
-> process system call implementation and helper routines.
->
-> Signed-off-by: Stacey Son <sson@FreeBSD.org>
-> Signed-off-by: Warner Losh <imp@bsdimp.com>
-> ---
->  bsd-user/bsd-proc.h           | 43 +++++++++++++++++++++++++++++++++++
->  bsd-user/freebsd/os-syscall.c |  7 ++++++
->  2 files changed, 50 insertions(+)
->  create mode 100644 bsd-user/bsd-proc.h
->
+On Tue, Feb 01, 2022 at 05:47:24PM +0100, Cornelia Huck wrote:
+> On Tue, Feb 01 2022, Halil Pasic <pasic@linux.ibm.com> wrote:
+> 
+> > The commit 04ceb61a40 ("virtio: Fail if iommu_platform is requested, but
+> > unsupported") claims to fail the device hotplug when iommu_platform
+> > is requested, but not supported by the (vhost) device. On the first
+> > glance the condition for detecting that situation looks perfect, but
+> > because a certain peculiarity of virtio_platform it ain't.
+> >
+> > In fact the aforementioned commit introduces a regression. It breaks
+> > virtio-fs support for Secure Execution, and most likely also for AMD SEV
+> > or any other confidential guest scenario that relies encrypted guest
+> > memory.  The same also applies to any other vhost device that does not
+> > support _F_ACCESS_PLATFORM.
+> >
+> > The peculiarity is that iommu_platform and _F_ACCESS_PLATFORM collates
+> > "device can not access all of the guest RAM" and "iova != gpa, thus
+> > device needs to translate iova".
+> >
+> > Confidential guest technologies currently rely on the device/hypervisor
+> > offering _F_ACCESS_PLATFORM, so that, after the feature has been
+> > negotiated, the guest  grants access to the portions of memory the
+> > device needs to see. So in for confidential guests, generally,
+> > _F_ACCESS_PLATFORM is about the restricted access to memory, but not
+> > about the addresses used being something else than guest physical
+> > addresses.
+> >
+> > This is the very reason for which commit f7ef7e6e3b ("vhost: correctly
+> > turn on VIRTIO_F_IOMMU_PLATFORM") for, which fences _F_ACCESS_PLATFORM
+> 
+> s/for, which //
+> 
+> > form the vhost device that does not need it, because on the vhost
+> 
+> s/form/from/
+> 
+> > interface it only means "I/O address translation is needed".
+> >
+> > This patch takes inspiration from f7ef7e6e3b ("vhost: correctly turn on
+> > VIRTIO_F_IOMMU_PLATFORM"), and uses the same condition for detecting the
+> > situation when _F_ACCESS_PLATFORM is requested, but no I/O translation
+> > by the device, and thus no device capability is needed. In this
+> > situation claiming that the device does not support iommu_plattform=on
+> > is counter-productive. So let us stop doing that!
+> >
+> > Signed-off-by: Halil Pasic <pasic@linux.ibm.com>
+> > Reported-by: Jakob Naucke <Jakob.Naucke@ibm.com>
+> > Fixes: 04ceb61a40 ("virtio: Fail if iommu_platform is requested, but
+> > unsupported")
+> > Cc: Kevin Wolf <kwolf@redhat.com>
+> > Cc: qemu-stable@nongnu.org
+> >
+> > ---
+> >
+> > v2->v3:
+> > * Caught a bug: I tired to check if vdev has the feature
+> >    ACCESS_PLATFORM after we have forced it. Moved the check
+> >    to a better place
+> > v1->v2:
+> > * Commit message tweaks. Most notably fixed commit SHA (Michael)
+> >
+> > ---
+> > ---
+> >  hw/virtio/virtio-bus.c | 11 ++++++-----
+> >  1 file changed, 6 insertions(+), 5 deletions(-)
+> >
+> > diff --git a/hw/virtio/virtio-bus.c b/hw/virtio/virtio-bus.c
+> > index d23db98c56..34f5a0a664 100644
+> > --- a/hw/virtio/virtio-bus.c
+> > +++ b/hw/virtio/virtio-bus.c
+> > @@ -48,6 +48,7 @@ void virtio_bus_device_plugged(VirtIODevice *vdev, Error **errp)
+> >      VirtioBusClass *klass = VIRTIO_BUS_GET_CLASS(bus);
+> >      VirtioDeviceClass *vdc = VIRTIO_DEVICE_GET_CLASS(vdev);
+> >      bool has_iommu = virtio_host_has_feature(vdev, VIRTIO_F_IOMMU_PLATFORM);
+> > +    bool vdev_has_iommu = false;
+> 
+> Isn't vdev_has_iommu set unconditionally before you try to use it?
 
-Reviewed-by: Kyle Evans <kevans@FreeBSD.org>
+I'd like to know too.
 
-> diff --git a/bsd-user/bsd-proc.h b/bsd-user/bsd-proc.h
-> new file mode 100644
-> index 00000000000..8f0b6990d14
-> --- /dev/null
-> +++ b/bsd-user/bsd-proc.h
-> @@ -0,0 +1,43 @@
-> +/*
-> + *  process related system call shims and definitions
-> + *
-> + *  Copyright (c) 2013-2014 Stacey D. Son
-> + *
-> + *  This program is free software; you can redistribute it and/or modify
-> + *  it under the terms of the GNU General Public License as published by
-> + *  the Free Software Foundation; either version 2 of the License, or
-> + *  (at your option) any later version.
-> + *
-> + *  This program is distributed in the hope that it will be useful,
-> + *  but WITHOUT ANY WARRANTY; without even the implied warranty of
-> + *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-> + *  GNU General Public License for more details.
-> + *
-> + *  You should have received a copy of the GNU General Public License
-> + *  along with this program; if not, see <http://www.gnu.org/licenses/>.
-> + */
-> +
-> +#ifndef BSD_PROC_H_
-> +#define BSD_PROC_H_
-> +
-> +#include <sys/types.h>
-> +#include <sys/stat.h>
-> +#include <sys/time.h>
-> +#include <sys/resource.h>
-> +#include <unistd.h>
-> +
-> +/* exit(2) */
-> +static inline abi_long do_bsd_exit(void *cpu_env, abi_long arg1)
-> +{
-> +#ifdef TARGET_GPROF
-> +    _mcleanup();
-> +#endif
-> +    gdb_exit(arg1);
-> +    qemu_plugin_user_exit();
-> +    /* XXX: should free thread stack and CPU env here  */
-> +    _exit(arg1);
-> +
-> +    return 0;
-> +}
-> +
-> +#endif /* !BSD_PROC_H_ */
-> diff --git a/bsd-user/freebsd/os-syscall.c b/bsd-user/freebsd/os-syscall.c
-> index f52c9e3c306..f66b6a1b1f5 100644
-> --- a/bsd-user/freebsd/os-syscall.c
-> +++ b/bsd-user/freebsd/os-syscall.c
-> @@ -41,6 +41,7 @@
->  #include "user/syscall-trace.h"
->
->  #include "bsd-file.h"
-> +#include "bsd-proc.h"
->
->  /* I/O */
->  safe_syscall3(ssize_t, read, int, fd, void *, buf, size_t, nbytes);
-> @@ -227,6 +228,12 @@ abi_long do_freebsd_syscall(void *cpu_env, int num, abi_long arg1,
->      }
->
->      switch (num) {
-> +        /*
-> +         * process system calls
-> +         */
-> +    case TARGET_FREEBSD_NR_exit: /* exit(2) */
-> +        ret = do_bsd_exit(cpu_env, arg1);
-> +        break;
->
->          /*
->           * File system calls.
-> --
-> 2.33.1
->
+> >      Error *local_err = NULL;
+> >  
+> >      DPRINTF("%s: plug device.\n", qbus->name);
+> > @@ -69,11 +70,6 @@ void virtio_bus_device_plugged(VirtIODevice *vdev, Error **errp)
+> >          return;
+> >      }
+> >  
+> > -    if (has_iommu && !virtio_host_has_feature(vdev, VIRTIO_F_IOMMU_PLATFORM)) {
+> > -        error_setg(errp, "iommu_platform=true is not supported by the device");
+> > -        return;
+> > -    }
+> > -
+> >      if (klass->device_plugged != NULL) {
+> >          klass->device_plugged(qbus->parent, &local_err);
+> >      }
+> > @@ -82,9 +78,14 @@ void virtio_bus_device_plugged(VirtIODevice *vdev, Error **errp)
+> >          return;
+> >      }
+> >  
+> > +    vdev_has_iommu = virtio_host_has_feature(vdev, VIRTIO_F_IOMMU_PLATFORM);
+> >      if (klass->get_dma_as != NULL && has_iommu) {
+> >          virtio_add_feature(&vdev->host_features, VIRTIO_F_IOMMU_PLATFORM);
+> >          vdev->dma_as = klass->get_dma_as(qbus->parent);
+> > +        if (!vdev_has_iommu && vdev->dma_as != &address_space_memory) {
+> > +            error_setg(errp,
+> > +                       "iommu_platform=true is not supported by the device");
+> > +        }
+> >      } else {
+> 
+> I agree that a short comment would be nice here, but this is preexisting
+> code anyway...
+> 
+> >          vdev->dma_as = &address_space_memory;
+> >      }
+> >
+> > base-commit: 6621441db50d5bae7e34dbd04bf3c57a27a71b32
+> 
+> ...so (with or without fixing the nits):
+> 
+> Acked-by: Cornelia Huck <cohuck@redhat.com>
+> 
+> (i.e. looks sane, but I didn't follow all the paths)
+
 
