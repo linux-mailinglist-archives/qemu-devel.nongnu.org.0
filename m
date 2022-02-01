@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 774874A615A
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Feb 2022 17:28:06 +0100 (CET)
-Received: from localhost ([::1]:60336 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D3B3B4A6053
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Feb 2022 16:43:32 +0100 (CET)
+Received: from localhost ([::1]:42602 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nEw0j-00024K-3n
-	for lists+qemu-devel@lfdr.de; Tue, 01 Feb 2022 11:28:05 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:37164)
+	id 1nEvJb-0008V6-Um
+	for lists+qemu-devel@lfdr.de; Tue, 01 Feb 2022 10:43:31 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:35570)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nEuRM-0002jn-O5
- for qemu-devel@nongnu.org; Tue, 01 Feb 2022 09:47:37 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:37373)
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nEuQY-0002b3-PO
+ for qemu-devel@nongnu.org; Tue, 01 Feb 2022 09:46:54 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:36750)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nEuRK-00031N-Nd
- for qemu-devel@nongnu.org; Tue, 01 Feb 2022 09:47:28 -0500
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nEuQT-00031K-Sd
+ for qemu-devel@nongnu.org; Tue, 01 Feb 2022 09:46:37 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1643726635;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=+Xwk9DN7yU2PApPIvMf0rAeulFfnQk7+1peMIStoBRc=;
- b=gwE0TxvYtd3OGsXHBPnRGLFkSLIq0Iw+nK1crjXssm3zfO/OhfYPNFTTb3CFO31K/UesLA
- V2gHCfkdvuWta9vOTTRQ3rlWu7UML0Fx5Z0o9on+sIJffBm5W8FMaan8JzZMrHXoXv34uN
- AvBfho5gQ/G2Phzmy94CL/sG/20Z6A4=
+ bh=cDg7ACz8VSWYIqRUrrFSCevtN6+Wto/rpYvUubzNvY8=;
+ b=P78FDwPe6doRvhLPZ69mseD0zxAKtDtwV7eEz8VgSeGlurr/DFPWb/3VHLaNSPdsNi0aVz
+ CXES1I3J9/Kyj8Zf1muJFKKntqIiNvXPcIpLmAKSUIvqfXcCYTbXsXbRrK2Cj5VGzcRkah
+ zmuUax9P2idayAWljUjtVI93UY1oOgI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-524-U6kJkIP0MX-9qY2zJ56CTw-1; Tue, 01 Feb 2022 09:43:51 -0500
-X-MC-Unique: U6kJkIP0MX-9qY2zJ56CTw-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-471-GrfgoOG3N4mhXJR6syDfXA-1; Tue, 01 Feb 2022 09:43:54 -0500
+X-MC-Unique: GrfgoOG3N4mhXJR6syDfXA-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 88FD28519F2;
- Tue,  1 Feb 2022 14:43:50 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C4E7764083;
+ Tue,  1 Feb 2022 14:43:52 +0000 (UTC)
 Received: from localhost (unknown [10.39.193.129])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2E3E5752D9;
- Tue,  1 Feb 2022 14:43:50 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 3B15F5DBB7;
+ Tue,  1 Feb 2022 14:43:52 +0000 (UTC)
 From: Hanna Reitz <hreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 15/24] iotests/common.rc: introduce _qcow2_dump_header helper
-Date: Tue,  1 Feb 2022 15:42:24 +0100
-Message-Id: <20220201144233.617021-16-hreitz@redhat.com>
+Subject: [PULL 16/24] iotests: massive use _qcow2_dump_header
+Date: Tue,  1 Feb 2022 15:42:25 +0100
+Message-Id: <20220201144233.617021-17-hreitz@redhat.com>
 In-Reply-To: <20220201144233.617021-1-hreitz@redhat.com>
 References: <20220201144233.617021-1-hreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=hreitz@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=hreitz@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
 X-Spam_bar: --
 X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.081,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -85,37 +85,406 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 
-We'll use it in tests instead of explicit qcow2.py. Then we are going
-to add some filtering in _qcow2_dump_header.
+We are going to add filtering in _qcow2_dump_header and want all tests
+use it.
+
+The patch is generated by commands:
+  cd tests/qemu-iotests
+  sed -ie 's/$PYTHON qcow2.py "$TEST_IMG" dump-header\($\| \)/_qcow2_dump_header\1/' ??? tests/*
+
+(the difficulty is to avoid converting dump-header-exts)
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 Reviewed-by: Max Reitz <mreitz@redhat.com>
-Message-Id: <20211223160144.1097696-14-vsementsov@virtuozzo.com>
+Message-Id: <20211223160144.1097696-15-vsementsov@virtuozzo.com>
 Signed-off-by: Hanna Reitz <hreitz@redhat.com>
 ---
- tests/qemu-iotests/common.rc | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+ tests/qemu-iotests/031 |  6 +++---
+ tests/qemu-iotests/036 |  6 +++---
+ tests/qemu-iotests/039 | 20 ++++++++++----------
+ tests/qemu-iotests/060 | 20 ++++++++++----------
+ tests/qemu-iotests/061 | 36 ++++++++++++++++++------------------
+ tests/qemu-iotests/137 |  2 +-
+ tests/qemu-iotests/287 |  8 ++++----
+ 7 files changed, 49 insertions(+), 49 deletions(-)
 
-diff --git a/tests/qemu-iotests/common.rc b/tests/qemu-iotests/common.rc
-index d8582454de..5dea310ea0 100644
---- a/tests/qemu-iotests/common.rc
-+++ b/tests/qemu-iotests/common.rc
-@@ -996,5 +996,15 @@ _require_one_device_of()
-     _notrun "$* not available"
- }
+diff --git a/tests/qemu-iotests/031 b/tests/qemu-iotests/031
+index 58b57a0ef2..648112f796 100755
+--- a/tests/qemu-iotests/031
++++ b/tests/qemu-iotests/031
+@@ -58,21 +58,21 @@ for compat in "compat=0.10" "compat=1.1"; do
+     echo
+     _make_test_img -o $compat 64M
+     $PYTHON qcow2.py "$TEST_IMG" add-header-ext 0x12345678 "This is a test header extension"
+-    $PYTHON qcow2.py "$TEST_IMG" dump-header
++    _qcow2_dump_header
+     _check_test_img
  
-+_qcow2_dump_header()
-+{
-+    img="$1"
-+    if [ -z "$img" ]; then
-+        img="$TEST_IMG"
-+    fi
-+
-+    $PYTHON qcow2.py "$img" dump-header
-+}
-+
- # make sure this script returns success
- true
+     echo
+     echo === Rewrite header with no backing file ===
+     echo
+     $QEMU_IMG rebase -u -b "" "$TEST_IMG"
+-    $PYTHON qcow2.py "$TEST_IMG" dump-header
++    _qcow2_dump_header
+     _check_test_img
+ 
+     echo
+     echo === Add a backing file and format ===
+     echo
+     $QEMU_IMG rebase -u -b "/some/backing/file/path" -F host_device "$TEST_IMG"
+-    $PYTHON qcow2.py "$TEST_IMG" dump-header
++    _qcow2_dump_header
+ done
+ 
+ # success, all done
+diff --git a/tests/qemu-iotests/036 b/tests/qemu-iotests/036
+index 5e567012a8..f703605e44 100755
+--- a/tests/qemu-iotests/036
++++ b/tests/qemu-iotests/036
+@@ -58,7 +58,7 @@ $PYTHON qcow2.py "$TEST_IMG" set-feature-bit incompatible 63
+ 
+ # Without feature table
+ $PYTHON qcow2.py "$TEST_IMG" del-header-ext 0x6803f857
+-$PYTHON qcow2.py "$TEST_IMG" dump-header | grep features
++_qcow2_dump_header | grep features
+ $PYTHON qcow2.py "$TEST_IMG" dump-header-exts
+ _img_info
+ 
+@@ -107,7 +107,7 @@ echo === Create image with unknown autoclear feature bit ===
+ echo
+ _make_test_img 64M
+ $PYTHON qcow2.py "$TEST_IMG" set-feature-bit autoclear 63
+-$PYTHON qcow2.py "$TEST_IMG" dump-header | grep features
++_qcow2_dump_header | grep features
+ $PYTHON qcow2.py "$TEST_IMG" dump-header-exts
+ 
+ echo
+@@ -115,7 +115,7 @@ echo === Repair image ===
+ echo
+ _check_test_img -r all
+ 
+-$PYTHON qcow2.py "$TEST_IMG" dump-header | grep features
++_qcow2_dump_header | grep features
+ $PYTHON qcow2.py "$TEST_IMG" dump-header-exts
+ 
+ # success, all done
+diff --git a/tests/qemu-iotests/039 b/tests/qemu-iotests/039
+index 12b2c7fa7b..8e783a8380 100755
+--- a/tests/qemu-iotests/039
++++ b/tests/qemu-iotests/039
+@@ -59,7 +59,7 @@ _make_test_img -o "compat=1.1,lazy_refcounts=on" $size
+ $QEMU_IO -c "write -P 0x5a 0 512" "$TEST_IMG" | _filter_qemu_io
+ 
+ # The dirty bit must not be set
+-$PYTHON qcow2.py "$TEST_IMG" dump-header | grep incompatible_features
++_qcow2_dump_header | grep incompatible_features
+ _check_test_img
+ 
+ echo
+@@ -73,7 +73,7 @@ $QEMU_IO -c "write -P 0x5a 0 512" \
+     | _filter_qemu_io
+ 
+ # The dirty bit must be set
+-$PYTHON qcow2.py "$TEST_IMG" dump-header | grep incompatible_features
++_qcow2_dump_header | grep incompatible_features
+ _check_test_img
+ 
+ echo
+@@ -82,7 +82,7 @@ echo "== Read-only access must still work =="
+ $QEMU_IO -r -c "read -P 0x5a 0 512" "$TEST_IMG" | _filter_qemu_io
+ 
+ # The dirty bit must be set
+-$PYTHON qcow2.py "$TEST_IMG" dump-header | grep incompatible_features
++_qcow2_dump_header | grep incompatible_features
+ 
+ echo
+ echo "== Repairing the image file must succeed =="
+@@ -90,7 +90,7 @@ echo "== Repairing the image file must succeed =="
+ _check_test_img -r all
+ 
+ # The dirty bit must not be set
+-$PYTHON qcow2.py "$TEST_IMG" dump-header | grep incompatible_features
++_qcow2_dump_header | grep incompatible_features
+ 
+ echo
+ echo "== Data should still be accessible after repair =="
+@@ -108,12 +108,12 @@ $QEMU_IO -c "write -P 0x5a 0 512" \
+     | _filter_qemu_io
+ 
+ # The dirty bit must be set
+-$PYTHON qcow2.py "$TEST_IMG" dump-header | grep incompatible_features
++_qcow2_dump_header | grep incompatible_features
+ 
+ $QEMU_IO -c "write 0 512" "$TEST_IMG" | _filter_qemu_io
+ 
+ # The dirty bit must not be set
+-$PYTHON qcow2.py "$TEST_IMG" dump-header | grep incompatible_features
++_qcow2_dump_header | grep incompatible_features
+ 
+ echo
+ echo "== Creating an image file with lazy_refcounts=off =="
+@@ -126,7 +126,7 @@ $QEMU_IO -c "write -P 0x5a 0 512" \
+     | _filter_qemu_io
+ 
+ # The dirty bit must not be set since lazy_refcounts=off
+-$PYTHON qcow2.py "$TEST_IMG" dump-header | grep incompatible_features
++_qcow2_dump_header | grep incompatible_features
+ _check_test_img
+ 
+ echo
+@@ -141,7 +141,7 @@ $QEMU_IO -c "write 0 512" "$TEST_IMG" | _filter_qemu_io
+ $QEMU_IMG commit "$TEST_IMG"
+ 
+ # The dirty bit must not be set
+-$PYTHON qcow2.py "$TEST_IMG" dump-header | grep incompatible_features
++_qcow2_dump_header | grep incompatible_features
+ $PYTHON qcow2.py "$TEST_IMG".base dump-header | grep incompatible_features
+ 
+ _check_test_img
+@@ -159,7 +159,7 @@ $QEMU_IO -c "reopen -o lazy-refcounts=on" \
+     | _filter_qemu_io
+ 
+ # The dirty bit must be set
+-$PYTHON qcow2.py "$TEST_IMG" dump-header | grep incompatible_features
++_qcow2_dump_header | grep incompatible_features
+ _check_test_img
+ 
+ _make_test_img -o "compat=1.1,lazy_refcounts=on" $size
+@@ -171,7 +171,7 @@ $QEMU_IO -c "reopen -o lazy-refcounts=off" \
+     | _filter_qemu_io
+ 
+ # The dirty bit must not be set
+-$PYTHON qcow2.py "$TEST_IMG" dump-header | grep incompatible_features
++_qcow2_dump_header | grep incompatible_features
+ _check_test_img
+ 
+ 
+diff --git a/tests/qemu-iotests/060 b/tests/qemu-iotests/060
+index db26c6b246..d1e3204d4e 100755
+--- a/tests/qemu-iotests/060
++++ b/tests/qemu-iotests/060
+@@ -80,13 +80,13 @@ poke_file "$TEST_IMG" "$l1_offset" "\x80\x00\x00\x00\x00\x03\x00\x00"
+ _check_test_img
+ 
+ # The corrupt bit should not be set anyway
+-$PYTHON qcow2.py "$TEST_IMG" dump-header | grep incompatible_features
++_qcow2_dump_header | grep incompatible_features
+ 
+ # Try to write something, thereby forcing the corrupt bit to be set
+ $QEMU_IO -c "$OPEN_RW" -c "write -P 0x2a 0 512" | _filter_qemu_io
+ 
+ # The corrupt bit must now be set
+-$PYTHON qcow2.py "$TEST_IMG" dump-header | grep incompatible_features
++_qcow2_dump_header | grep incompatible_features
+ 
+ # This information should be available through qemu-img info
+ _img_info --format-specific
+@@ -114,19 +114,19 @@ poke_file "$TEST_IMG" "$(($rb_offset+8))" "\x00\x01"
+ # Redirect new data cluster onto refcount block
+ poke_file "$TEST_IMG" "$l2_offset" "\x80\x00\x00\x00\x00\x02\x00\x00"
+ _check_test_img
+-$PYTHON qcow2.py "$TEST_IMG" dump-header | grep incompatible_features
++_qcow2_dump_header | grep incompatible_features
+ $QEMU_IO -c "$OPEN_RW" -c "write -P 0x2a 0 512" | _filter_qemu_io
+-$PYTHON qcow2.py "$TEST_IMG" dump-header | grep incompatible_features
++_qcow2_dump_header | grep incompatible_features
+ 
+ # Try to fix it
+ _check_test_img -r all
+ 
+ # The corrupt bit should be cleared
+-$PYTHON qcow2.py "$TEST_IMG" dump-header | grep incompatible_features
++_qcow2_dump_header | grep incompatible_features
+ 
+ # Look if it's really really fixed
+ $QEMU_IO -c "$OPEN_RW" -c "write -P 0x2a 0 512" | _filter_qemu_io
+-$PYTHON qcow2.py "$TEST_IMG" dump-header | grep incompatible_features
++_qcow2_dump_header | grep incompatible_features
+ 
+ echo
+ echo "=== Testing cluster data reference into inactive L2 table ==="
+@@ -139,13 +139,13 @@ $QEMU_IO -c "$OPEN_RW" -c "write -P 2 0 512" | _filter_qemu_io
+ poke_file "$TEST_IMG" "$l2_offset_after_snapshot" \
+                       "\x80\x00\x00\x00\x00\x04\x00\x00"
+ _check_test_img
+-$PYTHON qcow2.py "$TEST_IMG" dump-header | grep incompatible_features
++_qcow2_dump_header | grep incompatible_features
+ $QEMU_IO -c "$OPEN_RW" -c "write -P 3 0 512" | _filter_qemu_io
+-$PYTHON qcow2.py "$TEST_IMG" dump-header | grep incompatible_features
++_qcow2_dump_header | grep incompatible_features
+ _check_test_img -r all
+-$PYTHON qcow2.py "$TEST_IMG" dump-header | grep incompatible_features
++_qcow2_dump_header | grep incompatible_features
+ $QEMU_IO -c "$OPEN_RW" -c "write -P 4 0 512" | _filter_qemu_io
+-$PYTHON qcow2.py "$TEST_IMG" dump-header | grep incompatible_features
++_qcow2_dump_header | grep incompatible_features
+ 
+ # Check data
+ $QEMU_IO -c "$OPEN_RO" -c "read -P 4 0 512" | _filter_qemu_io
+diff --git a/tests/qemu-iotests/061 b/tests/qemu-iotests/061
+index 9507c223bd..70edf1a163 100755
+--- a/tests/qemu-iotests/061
++++ b/tests/qemu-iotests/061
+@@ -55,9 +55,9 @@ echo "=== Testing version downgrade with zero expansion ==="
+ echo
+ _make_test_img -o "compat=1.1,lazy_refcounts=on" 64M
+ $QEMU_IO -c "write -z 0 128k" "$TEST_IMG" | _filter_qemu_io
+-$PYTHON qcow2.py "$TEST_IMG" dump-header
++_qcow2_dump_header
+ $QEMU_IMG amend -o "compat=0.10" "$TEST_IMG"
+-$PYTHON qcow2.py "$TEST_IMG" dump-header
++_qcow2_dump_header
+ $QEMU_IO -c "read -P 0 0 128k" "$TEST_IMG" | _filter_qemu_io
+ _check_test_img
+ 
+@@ -68,10 +68,10 @@ _make_test_img -o "compat=1.1,lazy_refcounts=on" 64M
+ $QEMU_IO -c "write -z 0 128k" "$TEST_IMG" | _filter_qemu_io
+ $QEMU_IO -c "write -z 32M 128k" "$TEST_IMG" | _filter_qemu_io
+ $QEMU_IO -c map "$TEST_IMG" | _filter_qemu_io
+-$PYTHON qcow2.py "$TEST_IMG" dump-header
++_qcow2_dump_header
+ $QEMU_IMG amend -o "compat=0.10" --image-opts \
+           driver=qcow2,file.filename=$TEST_IMG,l2-cache-entry-size=4096
+-$PYTHON qcow2.py "$TEST_IMG" dump-header
++_qcow2_dump_header
+ $QEMU_IO -c "read -P 0 0 128k" "$TEST_IMG" | _filter_qemu_io
+ $QEMU_IO -c "read -P 0 32M 128k" "$TEST_IMG" | _filter_qemu_io
+ $QEMU_IO -c map "$TEST_IMG" | _filter_qemu_io
+@@ -84,9 +84,9 @@ _make_test_img -o "compat=1.1,lazy_refcounts=on" 64M
+ _NO_VALGRIND \
+ $QEMU_IO -c "write -P 0x2a 0 128k" -c flush \
+          -c "sigraise $(kill -l KILL)" "$TEST_IMG" 2>&1 | _filter_qemu_io
+-$PYTHON qcow2.py "$TEST_IMG" dump-header
++_qcow2_dump_header
+ $QEMU_IMG amend -o "compat=0.10" "$TEST_IMG"
+-$PYTHON qcow2.py "$TEST_IMG" dump-header
++_qcow2_dump_header
+ $QEMU_IO -c "read -P 0x2a 0 128k" "$TEST_IMG" | _filter_qemu_io
+ _check_test_img
+ 
+@@ -96,9 +96,9 @@ echo
+ _make_test_img -o "compat=1.1" 64M
+ $PYTHON qcow2.py "$TEST_IMG" set-feature-bit compatible 42
+ $PYTHON qcow2.py "$TEST_IMG" set-feature-bit autoclear 42
+-$PYTHON qcow2.py "$TEST_IMG" dump-header
++_qcow2_dump_header
+ $QEMU_IMG amend -o "compat=0.10" "$TEST_IMG"
+-$PYTHON qcow2.py "$TEST_IMG" dump-header
++_qcow2_dump_header
+ _check_test_img
+ 
+ echo
+@@ -106,9 +106,9 @@ echo "=== Testing version upgrade and resize ==="
+ echo
+ _make_test_img -o "compat=0.10" 64M
+ $QEMU_IO -c "write -P 0x2a 42M 64k" "$TEST_IMG" | _filter_qemu_io
+-$PYTHON qcow2.py "$TEST_IMG" dump-header
++_qcow2_dump_header
+ $QEMU_IMG amend -o "compat=1.1,lazy_refcounts=on,size=128M" "$TEST_IMG"
+-$PYTHON qcow2.py "$TEST_IMG" dump-header
++_qcow2_dump_header
+ $QEMU_IO -c "read -P 0x2a 42M 64k" "$TEST_IMG" | _filter_qemu_io
+ _check_test_img
+ 
+@@ -120,29 +120,29 @@ $QEMU_IO -c "write -P 0x2a 24M 64k" "$TEST_IMG" | _filter_qemu_io
+ $QEMU_IMG snapshot -c foo "$TEST_IMG"
+ $QEMU_IMG resize "$TEST_IMG" 64M &&
+     echo "unexpected pass"
+-$PYTHON qcow2.py "$TEST_IMG" dump-header | grep '^\(version\|size\|nb_snap\)'
++_qcow2_dump_header | grep '^\(version\|size\|nb_snap\)'
+ 
+ $QEMU_IMG amend -o "compat=1.1,size=128M" "$TEST_IMG" ||
+     echo "unexpected fail"
+-$PYTHON qcow2.py "$TEST_IMG" dump-header | grep '^\(version\|size\|nb_snap\)'
++_qcow2_dump_header | grep '^\(version\|size\|nb_snap\)'
+ 
+ $QEMU_IMG snapshot -c bar "$TEST_IMG"
+ $QEMU_IMG resize --shrink "$TEST_IMG" 64M ||
+     echo "unexpected fail"
+-$PYTHON qcow2.py "$TEST_IMG" dump-header | grep '^\(version\|size\|nb_snap\)'
++_qcow2_dump_header | grep '^\(version\|size\|nb_snap\)'
+ 
+ $QEMU_IMG amend -o "compat=0.10,size=32M" "$TEST_IMG" &&
+     echo "unexpected pass"
+-$PYTHON qcow2.py "$TEST_IMG" dump-header | grep '^\(version\|size\|nb_snap\)'
++_qcow2_dump_header | grep '^\(version\|size\|nb_snap\)'
+ 
+ $QEMU_IMG snapshot -a bar "$TEST_IMG" ||
+     echo "unexpected fail"
+-$PYTHON qcow2.py "$TEST_IMG" dump-header | grep '^\(version\|size\|nb_snap\)'
++_qcow2_dump_header | grep '^\(version\|size\|nb_snap\)'
+ 
+ $QEMU_IMG snapshot -d bar "$TEST_IMG"
+ $QEMU_IMG amend -o "compat=0.10,size=32M" "$TEST_IMG" ||
+     echo "unexpected fail"
+-$PYTHON qcow2.py "$TEST_IMG" dump-header | grep '^\(version\|size\|nb_snap\)'
++_qcow2_dump_header | grep '^\(version\|size\|nb_snap\)'
+ 
+ _check_test_img
+ 
+@@ -154,9 +154,9 @@ _make_test_img -o "compat=1.1,lazy_refcounts=on" 64M
+ _NO_VALGRIND \
+ $QEMU_IO -c "write -P 0x2a 0 128k" -c flush \
+          -c "sigraise $(kill -l KILL)" "$TEST_IMG" 2>&1 | _filter_qemu_io
+-$PYTHON qcow2.py "$TEST_IMG" dump-header
++_qcow2_dump_header
+ $QEMU_IMG amend -o "lazy_refcounts=off" "$TEST_IMG"
+-$PYTHON qcow2.py "$TEST_IMG" dump-header
++_qcow2_dump_header
+ $QEMU_IO -c "read -P 0x2a 0 128k" "$TEST_IMG" | _filter_qemu_io
+ _check_test_img
+ 
+diff --git a/tests/qemu-iotests/137 b/tests/qemu-iotests/137
+index 4680d5df3d..52ee135184 100755
+--- a/tests/qemu-iotests/137
++++ b/tests/qemu-iotests/137
+@@ -140,7 +140,7 @@ $QEMU_IO \
+ 
+ # The dirty bit must not be set
+ # (Filter the external data file bit)
+-if $PYTHON qcow2.py "$TEST_IMG" dump-header | grep incompatible_features \
++if _qcow2_dump_header | grep incompatible_features \
+     | grep -q '\<0\>'
+ then
+     echo 'ERROR: Dirty bit set'
+diff --git a/tests/qemu-iotests/287 b/tests/qemu-iotests/287
+index 2d5334e8bf..5427ad5456 100755
+--- a/tests/qemu-iotests/287
++++ b/tests/qemu-iotests/287
+@@ -61,13 +61,13 @@ echo
+ echo "=== Testing compression type incompatible bit setting for zlib ==="
+ echo
+ _make_test_img -o compression_type=zlib 64M
+-$PYTHON qcow2.py "$TEST_IMG" dump-header | grep incompatible_features
++_qcow2_dump_header | grep incompatible_features
+ 
+ echo
+ echo "=== Testing compression type incompatible bit setting for zstd ==="
+ echo
+ _make_test_img -o compression_type=zstd 64M
+-$PYTHON qcow2.py "$TEST_IMG" dump-header | grep incompatible_features
++_qcow2_dump_header | grep incompatible_features
+ 
+ echo
+ echo "=== Testing zlib with incompatible bit set ==="
+@@ -75,7 +75,7 @@ echo
+ _make_test_img -o compression_type=zlib 64M
+ $PYTHON qcow2.py "$TEST_IMG" set-feature-bit incompatible 3
+ # to make sure the bit was actually set
+-$PYTHON qcow2.py "$TEST_IMG" dump-header | grep incompatible_features
++_qcow2_dump_header | grep incompatible_features
+ 
+ if $QEMU_IMG info "$TEST_IMG" >/dev/null 2>&1 ; then
+     echo "Error: The image opened successfully. The image must not be opened."
+@@ -87,7 +87,7 @@ echo
+ _make_test_img -o compression_type=zstd 64M
+ $PYTHON qcow2.py "$TEST_IMG" set-header incompatible_features 0
+ # to make sure the bit was actually unset
+-$PYTHON qcow2.py "$TEST_IMG" dump-header | grep incompatible_features
++_qcow2_dump_header | grep incompatible_features
+ 
+ if $QEMU_IMG info "$TEST_IMG" >/dev/null 2>&1 ; then
+     echo "Error: The image opened successfully. The image must not be opened."
 -- 
 2.34.1
 
