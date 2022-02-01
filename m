@@ -2,86 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA1894A5B3B
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Feb 2022 12:33:04 +0100 (CET)
-Received: from localhost ([::1]:54328 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DF3024A5B8B
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Feb 2022 12:48:56 +0100 (CET)
+Received: from localhost ([::1]:57956 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nErPA-00042r-9e
-	for lists+qemu-devel@lfdr.de; Tue, 01 Feb 2022 06:33:00 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:56620)
+	id 1nEreZ-0000tg-IS
+	for lists+qemu-devel@lfdr.de; Tue, 01 Feb 2022 06:48:55 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:57000)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nEr7C-0004cn-82; Tue, 01 Feb 2022 06:14:27 -0500
-Received: from [2a00:1450:4864:20::42a] (port=43631
- helo=mail-wr1-x42a.google.com)
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1nEr7q-00055F-Cf
+ for qemu-devel@nongnu.org; Tue, 01 Feb 2022 06:15:06 -0500
+Received: from [2607:f8b0:4864:20::d2a] (port=39714
+ helo=mail-io1-xd2a.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nEr79-0003TM-Or; Tue, 01 Feb 2022 06:14:25 -0500
-Received: by mail-wr1-x42a.google.com with SMTP id v13so31206876wrv.10;
- Tue, 01 Feb 2022 03:14:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1nEr7k-0003Wl-6X
+ for qemu-devel@nongnu.org; Tue, 01 Feb 2022 06:15:05 -0500
+Received: by mail-io1-xd2a.google.com with SMTP id c188so20692598iof.6
+ for <qemu-devel@nongnu.org>; Tue, 01 Feb 2022 03:14:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=bsdimp-com.20210112.gappssmtp.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=1Pqau15STyQj1RTIybvhWcMbvmLWawJh363OkkOBi6c=;
- b=YkElsx1cur/W1Q6OJ4gNbXOt5Fh7XoWEOmxVLmqiqQCBMBlVsAlht+eX/Nu6e52QBv
- n/JXgORIFxpv91lncDpWyIgIUw8wUjsT+M2zhbLzMLWgQ3brvnzpeSGUQ95YvLbRZe1U
- NwIzm+Gqht79rLD8K/ptYj1sRkBXWeNi53Y2sjtD2vMKyaMj9ou7J+k64yzjusFc0O2u
- DKWMu936U9jfMVilgg9gnaVfj4htxJJbuMLNikiO3ef1yO7FQOAtkEVjfsDTbigCSld6
- 2fibdxNZqtpIs2xWcV4BYevIqs0snwhuQmLFjGa6HMYFz51EfvqtpnRJP3JR8LFdw+1g
- 3K1w==
+ bh=B9w6wx8NG62rAfHCj0klZFbS9eHjIHQIXTL3hmS8I1I=;
+ b=aswagdrb/RRzKUFIGzPd4owlqLtzKYawpZmrOpAUSpSlP//aHylqpPtSN/sOmPvi5O
+ hRdI3Qsw78vK43BFqfm81sCsQk8vvKBRryZjn3cNFArKPhqXwvs0FlYwDAdz+bTHh+4u
+ atufn8IPOinHB0BQfYvVQOgxBeIAeMGzbGsEoAeI2Do1S2c2rcmMHCIqj021hGzZ67fv
+ IytxfFJ5ICF5Y40HN+T0tX+4JM/rl9gRj15XhKaO8agNdBmduoulRkjTDgnQq5sJ+3bl
+ 66fQ9VaRYR7ITgvJUaBdiYnB/D7h2HKorTO+lc1KVsPdxLHaKYwppEZZAcTOvP5aUg3F
+ XseQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:to:cc:references:from:in-reply-to
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=1Pqau15STyQj1RTIybvhWcMbvmLWawJh363OkkOBi6c=;
- b=jkrLsRimwgIWnEYNCPLGnYLybSRtp7pMPYbCubSoyDO3R0mSAlqX05LCbm1fk+X7He
- if/vBfjlRjENDFhvrDH7sGp6RSEy3Bf91U3MUCwTEttU5i85l51xhbqPh3OcVrRoz8yO
- QVQ9ArqsTIMXn6NGXaJCA3cVCZ5AV/H+1m02M8JgvMuiNdcqk7nSdaT0wgdAUyVhND8h
- bVsAcu9qWoR7CmH8e6CBQFiJEs/6uptXB1Z21gm9SFmFHjxk7gxFfE5eQo5CAZAkTpif
- SnEcDF1p6v8XgbqxZIa9aeNFnpcoMTFHOM2NnmrktLck+3ThlWiW6RSMSIBe5+EYbTUW
- mstA==
-X-Gm-Message-State: AOAM533laGCQbXCowmcAYLjQ2RSDfFDBubkEQojOaSAr6nW/tx9xmruI
- LMAt2fg4FsH2HE5Z/R9hzfA=
-X-Google-Smtp-Source: ABdhPJxVRdVD9nkaPd5iD0fY2hn3XULnrFlTLHvOiazUHltVA8celrtuqL46VosuRiUcKEQFhx60DQ==
-X-Received: by 2002:a5d:4112:: with SMTP id l18mr12288860wrp.37.1643714055693; 
- Tue, 01 Feb 2022 03:14:15 -0800 (PST)
-Received: from [192.168.1.40] (154.red-83-50-83.dynamicip.rima-tde.net.
- [83.50.83.154])
- by smtp.gmail.com with ESMTPSA id u14sm14165219wrm.58.2022.02.01.03.14.14
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 01 Feb 2022 03:14:15 -0800 (PST)
-Message-ID: <1bb88666-4f4f-b7c2-def2-7460ac1764fd@amsat.org>
-Date: Tue, 1 Feb 2022 12:14:13 +0100
+ bh=B9w6wx8NG62rAfHCj0klZFbS9eHjIHQIXTL3hmS8I1I=;
+ b=v5E59Z7lu/PHI9XufZWQrGJVjTLmiFXO1CCTcuwFOClgwQFtDfVppgdaCDWswOeabt
+ MXLcwv5w25BDt6ah1x7Z8oFHw28rypNHiWEfrSg3+wE31eGzFUSAyunXbe7UIxTAFEG0
+ wxwI4JzWgix7d29DFFmNwIlPvhRCVaa6xwwgTot1kq9qipwrx+J3/2QxBdtJSqPbWOMS
+ HzH6Ql05rhqmvHsLWrLEeS1hWOKvECr+c1Pax9LlyeiqmwQGT7kzmr6C8rF0Uo0HQWbe
+ l2qaEUwdyi7xTjUemr6WvjsrpzftJfyhV4r2cFTofFfvfjDvEGSHEclM93YMHM5fF77n
+ nyug==
+X-Gm-Message-State: AOAM530z2ifxF8YO4JQzBcFhK5oyShlT6C1n+KgfD2o+fzevz46Vi54v
+ G3CVkWod94nYNWyeGHn5MHZv5R+j5SxkJQ==
+X-Google-Smtp-Source: ABdhPJwDDWif4Av0/Quh8OPh94m/TNLXkjQdJh/GfDCStoNwigg/Kmp/DkF8w9//b74nTFSgHqptEg==
+X-Received: by 2002:a05:6638:2217:: with SMTP id
+ l23mr5066892jas.171.1643714087300; 
+ Tue, 01 Feb 2022 03:14:47 -0800 (PST)
+Received: from dune.bsdimp.com (50-253-99-174-static.hfc.comcastbusiness.net.
+ [50.253.99.174])
+ by smtp.gmail.com with ESMTPSA id w5sm13526852ilu.83.2022.02.01.03.14.46
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 01 Feb 2022 03:14:46 -0800 (PST)
+From: Warner Losh <imp@bsdimp.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 00/22] bsd-user: Start upstreaming the system calls.
+Date: Tue,  1 Feb 2022 04:14:33 -0700
+Message-Id: <20220201111455.52511-1-imp@bsdimp.com>
+X-Mailer: git-send-email 2.33.1
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [RFC PATCH] block/export/fuse: Fix build failure on FreeBSD
-Content-Language: en-US
-To: Kevin Wolf <kwolf@redhat.com>
-Cc: qemu-devel@nongnu.org, Hanna Reitz <hreitz@redhat.com>,
- Fabrice Fontaine <fontaine.fabrice@gmail.com>, qemu-block@nongnu.org,
- Ed Maste <emaste@freebsd.org>, Li-Wen Hsu <lwhsu@freebsd.org>,
- Kyle Evans <kevans@freebsd.org>
-References: <20220122134940.401590-1-f4bug@amsat.org>
- <YfLFLzOsqlzJUvNq@redhat.com>
-In-Reply-To: <YfLFLzOsqlzJUvNq@redhat.com>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42a
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::d2a
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42a.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.248, NICE_REPLY_A=-0.001,
- PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Received-SPF: none client-ip=2607:f8b0:4864:20::d2a;
+ envelope-from=imp@bsdimp.com; helo=mail-io1-xd2a.google.com
+X-Spam_score_int: -10
+X-Spam_score: -1.1
+X-Spam_bar: -
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_NONE=0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -95,48 +85,79 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Peter Maydell <peter.maydell@linaro.org>, arrowd@FreeBSD.org,
+ Kyle Evans <kevans@freebsd.org>,
+ Richard Henderson <richard.henderson@linaro.org>, def@FreeBSD.org,
+ jrtc27@FreeBSD.org, Warner Losh <imp@bsdimp.com>,
+ Brad Smith <brad@comstyle.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
-On 1/27/22 17:15, Kevin Wolf wrote:
-> Am 22.01.2022 um 14:49 hat Philippe Mathieu-Daudé geschrieben:
->> When building on FreeBSD we get:
->>
->>   [816/6851] Compiling C object libblockdev.fa.p/block_export_fuse.c.o
->>   ../block/export/fuse.c:628:16: error: use of undeclared identifier 'FALLOC_FL_KEEP_SIZE'
->>       if (mode & FALLOC_FL_KEEP_SIZE) {
->>                  ^
->>   ../block/export/fuse.c:632:16: error: use of undeclared identifier 'FALLOC_FL_PUNCH_HOLE'
->>       if (mode & FALLOC_FL_PUNCH_HOLE) {
->>                  ^
->>   ../block/export/fuse.c:633:22: error: use of undeclared identifier 'FALLOC_FL_KEEP_SIZE'
->>           if (!(mode & FALLOC_FL_KEEP_SIZE)) {
->>                        ^
->>   3 errors generated.
->>   FAILED: libblockdev.fa.p/block_export_fuse.c.o
->>
->> Meson indeed reported FALLOC_FL_PUNCH_HOLE is not available:
->>
->>   C compiler for the host machine: cc (clang 10.0.1 "FreeBSD clang version 10.0.1")
->>   Checking for function "fallocate" : NO
->>   Checking for function "posix_fallocate" : YES
->>   Header <linux/falloc.h> has symbol "FALLOC_FL_PUNCH_HOLE" : NO
->>   Header <linux/falloc.h> has symbol "FALLOC_FL_ZERO_RANGE" : NO
->>   ...
->>
->> Similarly to commit 304332039 ("block/export/fuse.c: fix musl build"),
->> guard the code requiring FALLOC_FL_KEEP_SIZE / FALLOC_FL_PUNCH_HOLE
->> definitions under CONFIG_FALLOCATE_PUNCH_HOLE #ifdef'ry.
->>
->> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
->> ---
->> Fragile #ifdef'ry... Any clever idea?
-> 
-> I guess we could reorder things. The last case (!mode) is mutually
-> exclusive with the other conditions, so checking it first doesn't make a
-> difference, and then you can #ifdef things out more cleanly.
+This series of patches does two things. First, it starts to give up on the idea
+that you can run FooBSD binaries on BarBSD. They are too different to make that
+happen any time soon, though I've kept the support for Net/OpenBSD, even though
+they haven't built. We'll need a lot of work to make that happen, though, and
+I need to simplify to get things upstream.
 
-This is indeed clever, thanks! v3 soon.
+Second, this upstreams the first 9 system calls. It deletes the old
+implementation and starts fresh with a new one that pulls some things from the
+old, updates some old things, etc. It's easier to understand this way.
+
+Finally, it starts to move some of the ifdef trees into target.h.
+
+Warner Losh (22):
+  bsd-user/main.c: Drop syscall flavor arg -bsd
+  bsd-user/x86_64/target_arch_cpu.h: int $80 never was a BSD system call
+    on amd64
+  bsd-user/x86_64/target_arch_cpu.h: Remove openbsd syscall
+  bsd-user/i386/target_arch_cpu.h: Remove openbsd syscall
+  bsd-user/arm/target_arch_cpu.h: Only support FreeBSD sys calls
+  bsd-user/arm/target_arch_thread.h: Assume a FreeBSD target
+  bsd-user/x86_64/target_arch_thread.h: Assume a FreeBSD target
+  bsd-user: Remove bsd_type
+  bsd-user/freebsd/os-syscall.c: Move syscall processing here
+  bsd-user: Move system call building to os-syscall.c
+  bsd-user/sycall.c: Now obsolete, remove
+  bsd-user/freebsd/os-syscall.c: Add get_errno and host_to_target_errno
+  bsd-user/bsd-file.h: Implementation details for the filesystem calls
+  bsd-user/freebsd/os-syscall.c: lock_iovec
+  bsd-user/freebsd/os-syscall.c: unlock_iovec
+  bsd-user/freebsd/os-syscall.c: Tracing and error boilerplate
+  bsd-user: introduce target.h
+  bsd-user: Define target_arg64
+  bsd-user: Add safe system call macros
+  bsd-user/bsd-file.h: Add implementations for read, pread, readv and
+    preadv
+  bsd-user/bsd-file.h: Meat of the write system calls
+  bsd-user/freebsd/os-syscall.c: Implement exit
+
+ bsd-user/arm/target.h                |  21 ++
+ bsd-user/arm/target_arch_cpu.h       | 139 ++++----
+ bsd-user/arm/target_arch_thread.h    |   4 +-
+ bsd-user/bsd-file.h                  | 203 +++++++++++
+ bsd-user/bsd-proc.h                  |  43 +++
+ bsd-user/freebsd/meson.build         |   1 +
+ bsd-user/freebsd/os-syscall.c        | 287 +++++++++++++++
+ bsd-user/i386/target.h               |  21 ++
+ bsd-user/i386/target_arch_cpu.h      |  84 ++---
+ bsd-user/main.c                      |  14 -
+ bsd-user/meson.build                 |   1 -
+ bsd-user/qemu.h                      |  24 +-
+ bsd-user/syscall.c                   | 516 ---------------------------
+ bsd-user/syscall_defs.h              |  47 +++
+ bsd-user/x86_64/target.h             |  21 ++
+ bsd-user/x86_64/target_arch_cpu.h    |  85 +----
+ bsd-user/x86_64/target_arch_thread.h |   4 +-
+ 17 files changed, 773 insertions(+), 742 deletions(-)
+ create mode 100644 bsd-user/arm/target.h
+ create mode 100644 bsd-user/bsd-file.h
+ create mode 100644 bsd-user/bsd-proc.h
+ create mode 100644 bsd-user/freebsd/os-syscall.c
+ create mode 100644 bsd-user/i386/target.h
+ delete mode 100644 bsd-user/syscall.c
+ create mode 100644 bsd-user/x86_64/target.h
+
+-- 
+2.33.1
+
 
