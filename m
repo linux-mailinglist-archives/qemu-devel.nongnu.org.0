@@ -2,54 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C3BB4A61C3
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Feb 2022 18:00:00 +0100 (CET)
-Received: from localhost ([::1]:51460 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8ADC34A6076
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Feb 2022 16:48:14 +0100 (CET)
+Received: from localhost ([::1]:50890 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nEwVa-0001fV-SC
-	for lists+qemu-devel@lfdr.de; Tue, 01 Feb 2022 11:59:58 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:38726)
+	id 1nEvO9-00060y-Cl
+	for lists+qemu-devel@lfdr.de; Tue, 01 Feb 2022 10:48:13 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:35910)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nEuSJ-00039f-Fv
- for qemu-devel@nongnu.org; Tue, 01 Feb 2022 09:48:28 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:48245)
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nEuQh-0002c7-4f
+ for qemu-devel@nongnu.org; Tue, 01 Feb 2022 09:47:05 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:54796)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nEuSE-0004DJ-IT
- for qemu-devel@nongnu.org; Tue, 01 Feb 2022 09:48:26 -0500
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nEuQX-0002xS-0l
+ for qemu-devel@nongnu.org; Tue, 01 Feb 2022 09:46:40 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1643726895;
+ s=mimecast20190719; t=1643726599;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=s2wzOihZP5C3rIIKL2dKDFa2nOpbebIXm0sZZf5BWX0=;
- b=GtwA5jnyVmjYKQuZzW37Lx8EoLKr+PJ3bEYXoxikMmmDdEVomBzlso8JOH6jVJWSNDmbXJ
- Avn9txIK+aOOXadpYWszuWeTQk66zaf64UHmTz4kY+YaADuSl3Kv8lI/tMieuwJcyUdbuH
- CppLVXCwk/EWjfUIKoCkr+1lg1Vgq90=
+ bh=/HDA6Sm4559s8h86JTuF5LdO6hZSpNSfF193DVVvakg=;
+ b=YPTL/FkeBhGZfrlIf6stuTnbiTRn3QkgSYmCFFZ1nK2AmK/rISoKu111LQVV8IGkTdqD0+
+ jgpWp1+2u8ZiIR/DKoynhUrZpGfCkjcZKdMRUak6CvcG5sDvLPCAoTxe4/7/JdXYKtGsZ+
+ 8y9hS+HG6zngZBw3AMKmpTq9KkrdAlk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-303-iFzkzsESNMy43rY5XJcoDQ-1; Tue, 01 Feb 2022 09:43:10 -0500
-X-MC-Unique: iFzkzsESNMy43rY5XJcoDQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-377-DK0wL0dNPNSihl_ct9YnYA-1; Tue, 01 Feb 2022 09:43:18 -0500
+X-MC-Unique: DK0wL0dNPNSihl_ct9YnYA-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 298481853022;
- Tue,  1 Feb 2022 14:43:09 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F2E326408E;
+ Tue,  1 Feb 2022 14:43:16 +0000 (UTC)
 Received: from localhost (unknown [10.39.193.129])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C118B75521;
- Tue,  1 Feb 2022 14:43:02 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 06A067B9E1;
+ Tue,  1 Feb 2022 14:43:10 +0000 (UTC)
 From: Hanna Reitz <hreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 02/24] iotests/MRCE: Write data to source
-Date: Tue,  1 Feb 2022 15:42:11 +0100
-Message-Id: <20220201144233.617021-3-hreitz@redhat.com>
+Subject: [PULL 03/24] iotests.py: img_info_log(): rename imgopts argument
+Date: Tue,  1 Feb 2022 15:42:12 +0100
+Message-Id: <20220201144233.617021-4-hreitz@redhat.com>
 In-Reply-To: <20220201144233.617021-1-hreitz@redhat.com>
 References: <20220201144233.617021-1-hreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -64,8 +64,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.081,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -84,60 +83,76 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This test assumes that mirror flushes the source when entering the READY
-state, and that the format level will pass that flush on to the protocol
-level (where we intercept it with blkdebug).
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 
-However, apparently that does not happen when using a VMDK image with
-zeroed_grain=on, which actually is the default set by testenv.py.  Right
-now, Python tests ignore IMGOPTS, though, so this has no effect; but
-Vladimir has a series that will change this, so we need to fix this test
-before that series lands.
+We are going to support IMGOPTS environment variable like in bash
+tests. Corresponding global variable in iotests.py should be called
+imgopts. So to not interfere with function argument, rename it in
+advance.
 
-We can fix it by writing data to the source before we start the mirror
-job; apparently that makes the (VMDK) format layer change its mind and
-pass on the pre-READY flush to the protocol level, so the test passes
-again.  (I presume, without any data written, mirror just does a 64M
-zero write on the target, which VMDK with zeroed_grain=on basically just
-ignores.)
-
-Without this, we do not get a flush, and so blkdebug only sees a single
-flush at the end of the job instead of two, and therefore does not
-inject an error, which makes the block job complete instead of raising
-an error.
-
+Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Reviewed-by: Max Reitz <mreitz@redhat.com>
+Message-Id: <20211223160144.1097696-2-vsementsov@virtuozzo.com>
 Signed-off-by: Hanna Reitz <hreitz@redhat.com>
-Message-Id: <20211223165308.103793-1-hreitz@redhat.com>
-Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- tests/qemu-iotests/tests/mirror-ready-cancel-error | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+ tests/qemu-iotests/210        | 8 ++++----
+ tests/qemu-iotests/iotests.py | 5 +++--
+ 2 files changed, 7 insertions(+), 6 deletions(-)
 
-diff --git a/tests/qemu-iotests/tests/mirror-ready-cancel-error b/tests/qemu-iotests/tests/mirror-ready-cancel-error
-index f2dc88881f..770ffca379 100755
---- a/tests/qemu-iotests/tests/mirror-ready-cancel-error
-+++ b/tests/qemu-iotests/tests/mirror-ready-cancel-error
-@@ -36,6 +36,11 @@ class TestMirrorReadyCancelError(iotests.QMPTestCase):
-         assert iotests.qemu_img_create('-f', iotests.imgfmt, target,
-                                        str(image_size)) == 0
+diff --git a/tests/qemu-iotests/210 b/tests/qemu-iotests/210
+index a4dcc5fe59..10b0a0b87c 100755
+--- a/tests/qemu-iotests/210
++++ b/tests/qemu-iotests/210
+@@ -62,7 +62,7 @@ with iotests.FilePath('t.luks') as disk_path, \
+         'driver=luks,file.driver=file,file.filename=%s,key-secret=keysec0' % (disk_path),
+         filter_path=disk_path,
+         extra_args=['--object', 'secret,id=keysec0,data=foo'],
+-        imgopts=True)
++        use_image_opts=True)
  
-+        # Ensure that mirror will copy something before READY so the
-+        # target format layer will forward the pre-READY flush to its
-+        # file child
-+        assert iotests.qemu_io_silent('-c', 'write -P 1 0 64k', source) == 0
-+
-         self.vm = iotests.VM()
-         self.vm.launch()
+     #
+     # Successful image creation (with non-default options)
+@@ -96,7 +96,7 @@ with iotests.FilePath('t.luks') as disk_path, \
+         'driver=luks,file.driver=file,file.filename=%s,key-secret=keysec0' % (disk_path),
+         filter_path=disk_path,
+         extra_args=['--object', 'secret,id=keysec0,data=foo'],
+-        imgopts=True)
++        use_image_opts=True)
  
-@@ -97,7 +102,7 @@ class TestMirrorReadyCancelError(iotests.QMPTestCase):
-         # Write something so will not leave the job immediately, but
-         # flush first (which will fail, thanks to blkdebug)
-         res = self.vm.qmp('human-monitor-command',
--                          command_line='qemu-io mirror-top "write 0 64k"')
-+                          command_line='qemu-io mirror-top "write -P 2 0 64k"')
-         self.assert_qmp(res, 'return', '')
+     #
+     # Invalid BlockdevRef
+@@ -132,7 +132,7 @@ with iotests.FilePath('t.luks') as disk_path, \
+         'driver=luks,file.driver=file,file.filename=%s,key-secret=keysec0' % (disk_path),
+         filter_path=disk_path,
+         extra_args=['--object', 'secret,id=keysec0,data=foo'],
+-        imgopts=True)
++        use_image_opts=True)
  
-         # Drain status change events
+     #
+     # Invalid sizes
+@@ -176,4 +176,4 @@ with iotests.FilePath('t.luks') as disk_path, \
+         'driver=luks,file.driver=file,file.filename=%s,key-secret=keysec0' % (disk_path),
+         filter_path=disk_path,
+         extra_args=['--object', 'secret,id=keysec0,data=foo'],
+-        imgopts=True)
++        use_image_opts=True)
+diff --git a/tests/qemu-iotests/iotests.py b/tests/qemu-iotests/iotests.py
+index 1e2f2391d1..30a8837ea2 100644
+--- a/tests/qemu-iotests/iotests.py
++++ b/tests/qemu-iotests/iotests.py
+@@ -227,9 +227,10 @@ def qemu_img_log(*args):
+     log(result, filters=[filter_testfiles])
+     return result
+ 
+-def img_info_log(filename, filter_path=None, imgopts=False, extra_args=()):
++def img_info_log(filename, filter_path=None, use_image_opts=False,
++                 extra_args=()):
+     args = ['info']
+-    if imgopts:
++    if use_image_opts:
+         args.append('--image-opts')
+     else:
+         args += ['-f', imgfmt]
 -- 
 2.34.1
 
