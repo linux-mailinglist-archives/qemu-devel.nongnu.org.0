@@ -2,75 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B57594A682E
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Feb 2022 23:47:49 +0100 (CET)
-Received: from localhost ([::1]:37824 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D5644A684A
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Feb 2022 23:58:14 +0100 (CET)
+Received: from localhost ([::1]:35230 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nF1wC-0002vW-RJ
-	for lists+qemu-devel@lfdr.de; Tue, 01 Feb 2022 17:47:48 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:49318)
+	id 1nF26G-0003ff-Px
+	for lists+qemu-devel@lfdr.de; Tue, 01 Feb 2022 17:58:12 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:54870)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pankaj.gupta@ionos.com>)
- id 1nEy4P-0001Mh-SF
- for qemu-devel@nongnu.org; Tue, 01 Feb 2022 13:40:01 -0500
-Received: from [2a00:1450:4864:20::134] (port=45873
- helo=mail-lf1-x134.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <pankaj.gupta@ionos.com>)
- id 1nEy3j-0003Pj-6g
- for qemu-devel@nongnu.org; Tue, 01 Feb 2022 13:40:00 -0500
-Received: by mail-lf1-x134.google.com with SMTP id o12so35677968lfg.12
- for <qemu-devel@nongnu.org>; Tue, 01 Feb 2022 10:39:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ionos.com; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=j8ErnqvWLswzqnZZszn5WjwfXMvmiwAdaqFKW2IX8GY=;
- b=Cp9hELAC9pKMZEYQ4EngCJuxGFmdaMTxCLU4Bt0nQymMAQXryJnfpwFS4zUlHDR6fG
- 4VqjevBYtcLGAkUOYnT6aWYijBNOT49kA9wZyXQXMpoALHfpKp3zekp33WjqFr5hkzvI
- WloEY+BoHUTQB50DoQBRT+gDZEePVsTdS3rreWProUrhLwaaaMwcz1uKOd1aIbu7IS30
- XQ5lXMiUnzbYU5Wfc5VbONI0xVIVNPs3vGC2kGXpvlSEmqlsezzvT1+zqhxFu7qR/ktv
- r6TDS9MHiErmPFmTJCNivVG/yl2wydICca0ta9aFg82Bt7MoDCnULbWbb5UcqeaVH2a4
- 0hfg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=j8ErnqvWLswzqnZZszn5WjwfXMvmiwAdaqFKW2IX8GY=;
- b=enuXJl7TKhriAO0UC7jeMmB4Fy/FeNo0/71hueAy1MftdioZ/VrkCh5YH0rK+xTp4H
- lJUA5IQExb5kIODTEwsIoRw83jh8NkKy0nDtOQoTwy+tMFXVKHjdtci+gv6jDYYc0nEQ
- 6bCzFPeeocEiL9mBzD+eK73CrGOoco1Z1DRahgvq/yDUIZRUa/VMzXICxTUpF0E+kv6C
- bClrc8QT97hdf0R8+fxfjIQvddtLcA176rcpXyhGqg+9J6fIeX3d5ry5APtXrngHHCr/
- r5lLq+tyZEQbSnn3ULJcs2LfPuMeLNXT4Y2DaLgkx1fEcofLicMIxiqGb/1YGXvdcs1i
- zJKg==
-X-Gm-Message-State: AOAM5328jsehCzyA7rF2HAl6ZOBkcHofalK9FZOBM5ahfUgR6Jk+gU/1
- Y0Tc6846IqTvdM52ZcOOVYg9GczOPGN7VkNkLN3kzA==
-X-Google-Smtp-Source: ABdhPJzGCovtM8kGtRdqCdFygfQTbXO+BLX2ZXjOXhKBpR+9qsW/gc9BmkLLPQdw+RWU/10r+7REIb2qZW9P3TnK0po=
-X-Received: by 2002:a05:6512:3487:: with SMTP id
- v7mr19872781lfr.310.1643740755044; 
- Tue, 01 Feb 2022 10:39:15 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <matheus.ferst@eldorado.org.br>)
+ id 1nEyRo-0006VO-8E; Tue, 01 Feb 2022 14:04:13 -0500
+Received: from [187.72.171.209] (port=23026 helo=outlook.eldorado.org.br)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <matheus.ferst@eldorado.org.br>)
+ id 1nEyRk-0006vW-0R; Tue, 01 Feb 2022 14:04:09 -0500
+Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
+ secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
+ Tue, 1 Feb 2022 16:02:21 -0300
+Received: from [127.0.0.1] (unknown [10.10.70.45])
+ by p9ibm (Postfix) with ESMTP id ED36580012A;
+ Tue,  1 Feb 2022 16:02:20 -0300 (-03)
+Message-ID: <0e544fb1-2d76-d1ae-8696-300521406e23@eldorado.org.br>
+Date: Tue, 1 Feb 2022 16:02:20 -0300
 MIME-Version: 1.0
-References: <20220201151136.52157-1-jinpu.wang@ionos.com>
- <20220201151136.52157-2-jinpu.wang@ionos.com>
-In-Reply-To: <20220201151136.52157-2-jinpu.wang@ionos.com>
-From: Pankaj Gupta <pankaj.gupta@ionos.com>
-Date: Tue, 1 Feb 2022 19:39:04 +0100
-Message-ID: <CALzYo305jDix2huY4jSX+-gtwumRTtqQyCtYbfHpNs3TdAmwrg@mail.gmail.com>
-Subject: Re: [PATCH 2/2] migration/rdma: set the REUSEADDR option for
- destination
-To: Jack Wang <jinpu.wang@ionos.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::134
- (failed)
-Received-SPF: permerror client-ip=2a00:1450:4864:20::134;
- envelope-from=pankaj.gupta@ionos.com; helo=mail-lf1-x134.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH v3 0/3] linux-user/ppc: Deliver SIGTRAP on tw[i]/td[i]
+Content-Language: en-US
+To: qemu-devel@nongnu.org, qemu-ppc@nongnu.org
+References: <20220113170456.1796911-1-matheus.ferst@eldorado.org.br>
+From: "Matheus K. Ferst" <matheus.ferst@eldorado.org.br>
+In-Reply-To: <20220113170456.1796911-1-matheus.ferst@eldorado.org.br>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-OriginalArrivalTime: 01 Feb 2022 19:02:21.0431 (UTC)
+ FILETIME=[3DAAE070:01D8179E]
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 187.72.171.209 (failed)
+Received-SPF: pass client-ip=187.72.171.209;
+ envelope-from=matheus.ferst@eldorado.org.br; helo=outlook.eldorado.org.br
+X-Spam_score_int: -10
+X-Spam_score: -1.1
 X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01,
- T_SPF_PERMERROR=0.01 autolearn=no autolearn_force=no
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ PDS_HP_HELO_NORDNS=0.001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -83,54 +59,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, dgilbert@redhat.com, quintela@redhat.com
+Cc: danielhb413@gmail.com, richard.henderson@linaro.org, laurent@vivier.eu,
+ groug@kaod.org, clg@kaod.org, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-> This allow address could be reused to avoid rdma_bind_addr error
-> out.
+Ping.
 
-Seems we are proposing to allow multiple connections on same source ip
-port pair?
->
-> Signed-off-by: Jack Wang <jinpu.wang@ionos.com>
-> ---
->  migration/rdma.c | 7 +++++++
->  1 file changed, 7 insertions(+)
->
-> diff --git a/migration/rdma.c b/migration/rdma.c
-> index 2e223170d06d..b498ef013c77 100644
-> --- a/migration/rdma.c
-> +++ b/migration/rdma.c
-> @@ -2705,6 +2705,7 @@ static int qemu_rdma_dest_init(RDMAContext *rdma, Error **errp)
->      char ip[40] = "unknown";
->      struct rdma_addrinfo *res, *e;
->      char port_str[16];
-> +    int reuse = 1;
->
->      for (idx = 0; idx < RDMA_WRID_MAX; idx++) {
->          rdma->wr_data[idx].control_len = 0;
-> @@ -2740,6 +2741,12 @@ static int qemu_rdma_dest_init(RDMAContext *rdma, Error **errp)
->          goto err_dest_init_bind_addr;
->      }
->
-> +    ret = rdma_set_option(listen_id, RDMA_OPTION_ID, RDMA_OPTION_ID_REUSEADDR,
-> +                         &reuse, sizeof reuse);
+The based-on series is already on master, only patch 3 is missing review.
 
-maybe we can just write '1' directly on the argument list of 'rdma_set_option'.
-Assuming reuseaddr does not effect core rdma transport? change seems ok to me.
-
-Thanks,
-Pankaj
-
-> +    if (ret) {
-> +        ERROR(errp, "Error: could not set REUSEADDR option");
-> +        goto err_dest_init_bind_addr;
-> +    }
->      for (e = res; e != NULL; e = e->ai_next) {
->          inet_ntop(e->ai_family,
->              &((struct sockaddr_in *) e->ai_dst_addr)->sin_addr, ip, sizeof ip);
-> --
-> 2.25.1
->
+On 13/01/2022 14:04, matheus.ferst@eldorado.org.br wrote:
+> From: Matheus Ferst <matheus.ferst@eldorado.org.br>
+> 
+> In the review of 66c6b40aba1, Richard Henderson suggested[1] using
+> "trap" instead of ".long 0x0" to generate the signal to test XER
+> save/restore behavior. However, linux-user aborts when a trap
+> exception is raised, so we kept the patch with SIGILL.
+> 
+> This patch series is a follow-up to remove the cpu_abort call, deliver
+> SIGTRAP instead (using TRAP_BRKPT as si_code), and apply the suggestion
+> to the signal_save_restore_xer test.
+> 
+> The first patch removes the "qemu: fatal: Tried to call a TRAP" reported
+> in issue #588[2]. The third patch is an RFC to address the other logged
+> messages of "Unknown privilege violation (03)".
+> 
+> [1] https://lists.gnu.org/archive/html/qemu-ppc/2021-10/msg00143.html
+> [2] https://gitlab.com/qemu-project/qemu/-/issues/588
+> 
+> v3:
+>   - RFC to address the "Unknown privilege violation (03)" in #588.
+> 
+> v2:
+>   - Based-on rth's patch to use force_sig_fault and avoid merge conflicts
+> 
+> Matheus Ferst (3):
+>    linux-user/ppc: deliver SIGTRAP on POWERPC_EXCP_TRAP
+>    tests/tcg/ppc64le: change signal_save_restore_xer to use SIGTRAP
+>    target/ppc: Fix gen_priv_exception error value in mfspr/mtspr
+> 
+>   linux-user/ppc/cpu_loop.c                   | 3 ++-
+>   target/ppc/translate.c                      | 8 ++++----
+>   tests/tcg/ppc64le/signal_save_restore_xer.c | 8 ++++----
+>   3 files changed, 10 insertions(+), 9 deletions(-)
+> 
 
