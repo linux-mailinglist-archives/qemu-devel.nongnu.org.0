@@ -2,71 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A03BE4A6780
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Feb 2022 23:03:29 +0100 (CET)
-Received: from localhost ([::1]:48148 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 829F04A6803
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Feb 2022 23:31:39 +0100 (CET)
+Received: from localhost ([::1]:38240 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nF1FI-0000kL-Nd
-	for lists+qemu-devel@lfdr.de; Tue, 01 Feb 2022 17:03:28 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:37704)
+	id 1nF1gY-00085C-JV
+	for lists+qemu-devel@lfdr.de; Tue, 01 Feb 2022 17:31:38 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:37840)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1nExRA-0004bn-HJ
- for qemu-devel@nongnu.org; Tue, 01 Feb 2022 12:59:29 -0500
-Received: from 9.mo552.mail-out.ovh.net ([87.98.180.222]:51849)
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1nExS0-00058X-Mv
+ for qemu-devel@nongnu.org; Tue, 01 Feb 2022 13:00:28 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:22172)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1nExR8-0005CZ-DX
- for qemu-devel@nongnu.org; Tue, 01 Feb 2022 12:59:28 -0500
-Received: from mxplan5.mail.ovh.net (unknown [10.108.20.48])
- by mo552.mail-out.ovh.net (Postfix) with ESMTPS id 5C4AD221CC;
- Tue,  1 Feb 2022 17:59:14 +0000 (UTC)
-Received: from kaod.org (37.59.142.95) by DAG4EX1.mxp5.local (172.16.2.31)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.18; Tue, 1 Feb
- 2022 18:59:13 +0100
-Authentication-Results: garm.ovh; auth=pass
- (GARM-95G0010d974c86-d670-4402-a4e4-88e33808c793,
- FC28BB27814F05D37416E671BAFA2F1ED858982E) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Message-ID: <4dda34d4-a84c-183c-52e7-dd996bb610f8@kaod.org>
-Date: Tue, 1 Feb 2022 18:59:12 +0100
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1nExRm-0005Sk-SY
+ for qemu-devel@nongnu.org; Tue, 01 Feb 2022 13:00:09 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1643738405;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=lAppDlWFd4kSM0H0SRdqSLBDDOAMTyzoaH6OWOIw+54=;
+ b=dV2BQIiFXJJGJNHxx2vFv37iAUF5sy+7/EFtndN02FWdmK1G2NiI7U06/qvMiRyTw+oY7+
+ BvegfmdyJvlo5ZfuexEbFc4HhJXHV8e6TlnEZDkOt01nhwosHSZGIGKlPKzZ/BrjbCDVT9
+ af3FVSFprUUvs9xZtULHRY30sUWnsew=
+Received: from mail-vk1-f200.google.com (mail-vk1-f200.google.com
+ [209.85.221.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-568-mhkq3eQ3PsChZZJMELlgBA-1; Tue, 01 Feb 2022 13:00:04 -0500
+X-MC-Unique: mhkq3eQ3PsChZZJMELlgBA-1
+Received: by mail-vk1-f200.google.com with SMTP id
+ s132-20020a1fa98a000000b0031b67c2dac0so2873281vke.23
+ for <qemu-devel@nongnu.org>; Tue, 01 Feb 2022 10:00:04 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=lAppDlWFd4kSM0H0SRdqSLBDDOAMTyzoaH6OWOIw+54=;
+ b=MoihShVfa2gtLmta950VYDBJQW89uwWtgXvEXr82zRAGQxyIVJuOvYgJT5WyqJQkmV
+ TxrNIxgrTtWIx0+CbM5A62ha+xJ2DVsF3nQjizJuN9ILC6cbyz89vYJRBS+O7vwocfBp
+ pQnFP4wJqCZJHwGC0Skz48ETY6iFgdrravKMzGq+ddTOrOz65FximwBKbLMZSko8Bz4O
+ HhGU+1axFY26e4w77UDzIGhHM3F6x95I7X+F5G2wuro3ji/aTZYzXwbgRYzQ+e9QVUNu
+ IK2wuPlpbqa3zkInneD33zGHQDChQzrOXcjHlCNQ7S/tID7lYyPBJ/wGRb4GN9Sgid6B
+ u2Jw==
+X-Gm-Message-State: AOAM533X+J8MNqWxI3Fu3sGHBnVQTT0lN+HYn8HlJMReqJ6cYGfiWuz6
+ nCN28DTRGFVsppBkWqgrok3khIqOx829R/7RsuiOB4J1yr9A+3ES1GvNFlduBEBjPVSx+o1XbLB
+ kIJN6GJHdRBNOCcKtD2Xr713/lMjekL8=
+X-Received: by 2002:a67:c309:: with SMTP id r9mr10346387vsj.83.1643738403987; 
+ Tue, 01 Feb 2022 10:00:03 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxSwo3QuLOwAfeTTMIpiLHhzPxTfRC1o0/KvNgQ+5+UqXgkFnale2pOvDQNx8HQvRnYEui9CVk1mjnGBH4ort8=
+X-Received: by 2002:a67:c309:: with SMTP id r9mr10346371vsj.83.1643738403597; 
+ Tue, 01 Feb 2022 10:00:03 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.0
-Subject: Re: "make check-acceptance" takes way too long
-Content-Language: en-US
-To: Cleber Rosa <crosa@redhat.com>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
- <alex.bennee@linaro.org>
 References: <CAFEAcA9cMZoj18gq7Ksv5PRoU1wRmXvW_e9UE73C_MEB7wTroQ@mail.gmail.com>
  <CAFEAcA9_d5jw5-HOrZA6dsG1vMqxzqmrfHA7Jo0KsDcaEXmB_Q@mail.gmail.com>
  <6c90ca3d-eaec-d7e8-5941-4deb83b58fd0@redhat.com>
  <87zgnp4b32.fsf@dusky.pond.sub.org>
  <CAFEAcA_kxrCgyxWPFLw6VZ-rKx-res0C8L2BWRvfB81cR+keLg@mail.gmail.com>
  <875yqd6zib.fsf@linaro.org> <YerPk2ABMHQf/3QP@redhat.com>
- <20220125092011.dq2t4ryl632vrvsf@sirius.home.kraxel.org>
- <20220201073139.7896e10b@elisabeth> <Yfj4ERdAvmCF4ZzY@redhat.com>
- <20220201112720.4ac9b8df@elisabeth> <87wnieygjp.fsf@linaro.org>
- <CA+bd_6JF5iRKufxVa=6TEtR-eH65iiiG-oarWRHkavX-3E-p1Q@mail.gmail.com>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <CA+bd_6JF5iRKufxVa=6TEtR-eH65iiiG-oarWRHkavX-3E-p1Q@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.95]
-X-ClientProxiedBy: DAG2EX2.mxp5.local (172.16.2.12) To DAG4EX1.mxp5.local
- (172.16.2.31)
-X-Ovh-Tracer-GUID: 9a60d5bf-78a2-4593-8c4a-4a2f8a6060be
-X-Ovh-Tracer-Id: 8426797853916302328
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvvddrgeefgddutdejucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvfhfhjggtgfhisehtkeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepueevledvjeetgeetfeeiveeftefffedvvdeikeetveelfeeglefgueetvdefvdefnecuffhomhgrihhnpehgihhthhhusgdrtghomhenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddrleehnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhnsggprhgtphhtthhopedupdhrtghpthhtohepfhegsghughesrghmshgrthdrohhrgh
-Received-SPF: pass client-ip=87.98.180.222; envelope-from=clg@kaod.org;
- helo=9.mo552.mail-out.ovh.net
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ <CA+bd_6KgJ_tG9r9Nhn5p6bDsdiXKRckGiZ75srxTNZj4bdd2UA@mail.gmail.com>
+ <YflndOiIn8JbjuOS@redhat.com>
+In-Reply-To: <YflndOiIn8JbjuOS@redhat.com>
+From: Cleber Rosa <crosa@redhat.com>
+Date: Tue, 1 Feb 2022 12:59:52 -0500
+Message-ID: <CA+bd_6K=ZA_-CWuDR=D9t4Y5br-ZuB2wM=p6tLC8fWjT8rfnrA@mail.gmail.com>
+Subject: Re: "make check-acceptance" takes way too long
+To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=crosa@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=crosa@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.081,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -80,87 +97,141 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Beraldo Leal <bleal@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
  Wainer dos Santos Moschetta <wainersm@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>, Stefano Brivio <sbrivio@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+ Markus Armbruster <armbru@redhat.com>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/1/22 17:01, Cleber Rosa wrote:
-> On Tue, Feb 1, 2022 at 6:25 AM Alex Bennée <alex.bennee@linaro.org> wrote:
->>
->> We have up to now tried really hard as a project to avoid building and
->> hosting our own binaries to avoid theoretical* GPL compliance issues.
->> This is why we've ended up relying so much on distros to build and host
->> binaries we can use. Most QEMU developers have their own personal zoo of
->> kernels and userspaces which they use for testing. I use custom kernels
->> with a buildroot user space in initramfs for example. We even use the
->> qemu advent calendar for a number of our avocado tests but we basically
->> push responsibility for GPL compliance to the individual developers in
->> that case.
->>
->> *theoretical in so far I suspect most people would be happy with a
->> reference to an upstream repo/commit and .config even if that is not to
->> the letter of the "offer of source code" required for true compliance.
->>
-> 
-> Yes, it'd be fine (great, really!) if a lightweight distro (or
-> kernels/initrd) were to
-> be maintained and identified as an "official" QEMU pick.  Putting the binaries
-> in the source tree though, brings all sorts of compliance issues.
+On Tue, Feb 1, 2022 at 12:01 PM Daniel P. Berrang=C3=A9 <berrange@redhat.co=
+m> wrote:
+>
+> On Tue, Feb 01, 2022 at 12:29:56AM -0500, Cleber Rosa wrote:
+> >
+> > Assuming this is about "Testing that QEMU can boot a full distro", I wo=
+uldn't
+> > try to solve the problem by making the distro too slim to get to the
+> > point of becoming
+> > an unrealistic system.
+>
+> At a high level our with acceptance (integration) testing is of
+> course to make sure that QEMU is correctly emulating a full virtual
+> machine, such that we have confidence that it can run real world
+> operating systems.
+>
+> There are a number of approaches to achieve that with varying
+> tradeoffs.
+>
+>   - Testing with very specific tailored environments, running
+>     very specific userspace tools and minimal kernel setup.
+>
+>     This can give us a pretty decent amount of coverage of
+>     the core features of the emulated environment in a tightly
+>     controlled amount of wallclock time. When it fails it ought
+>     to be relatively easy to understand and debug.
+>
+>     The downside is that it is the QEMU code paths it hits are
+>     going to be fairly static.
+>
+>
+>   - Testing with arbitrary execution of real world OS images.
+>
+>     I think of this as a bit of scattergun approach. We're not
+>     trying to tightly control what runs, we actually want it
+>     to run alot of arbitrarily complex and unusual stuff.
+>
+>     This is going to be time consuming and is likely to have
+>     higher false positive failure rates. It is worthwhile
+>     because it is going to find the edge cases that you simply
+>     won't detect any other way, because you can't even imagine
+>     the problems that you're trying to uncover until you uncover
+>     them by accident with a real OS workload.
+>
+>     It is kinda like fuzzing QEMU with an entire OS :-)
+>
+>
+> Both of these approaches are valid/complementary and we should
+> want to have both.
+>
 
-FWIW, before avocado, I am using linux+buildroot images for PPC
-and running a simple "boot-net-login-poweroff" script for each
-machine/CPU QEMU can test :
+Agreed.
 
+> Any test suite is only going to find bugs though if it is
+> actually executed.
+>
+> As a contributor though the former is stuff I'm likely to be
+> willing to run myself before sending patches, while the latter
+> is stuff I'm just always going to punt to merge testing infra.
+>
+> We want to be wary of leaving too much to be caught at time
+> of merge tests, because that puts a significant burden on the
+> person responsible for merging code in QEMU.  We need our
+> contributors to be motivated to run as much testing as possible
+> ahead of submitting patches.
+>
+> > IMO the deal breaker with regards to test time can be solved more cheap=
+ly by
+> > having and using KVM where these tests will run, and not running them b=
+y
+> > default otherwise.  With the tagging mechanism we should be able to set=
+ a
+> > condition such as: "If using TCG, exclude tests that boot a full blown =
+distro.
+> > If using KVM, do not criticize what gets booted".  Resulting in somethi=
+ng
+> > like:
+>
+> > Does that sound like something appropriate?
+>
+> Depends whether you only care about KVM or not. From a POV of QEMU
+> community CI, I think it is valid to want to test TCG functionality
+>
+>
 
-ref405ep : Linux /init login DONE (PASSED)
-bamboo : Linux /init net login DONE (PASSED)
-sam460ex : Linux Linux /init net login DONE (PASSED)
-g3beige-604 : FW Linux Linux /init net login DONE (PASSED)
-g3beige-g3 : FW Linux Linux /init net login DONE (PASSED)
-mac99-g4 : FW Linux Linux /init net login DONE (PASSED)
-mac99-7447 : FW Linux Linux /init net login DONE (PASSED)
-mac99-7448 : FW Linux Linux /init net login DONE (PASSED)
-mac99-7450 : FW Linux Linux /init net login DONE (PASSED)
-mpc8544ds : Linux /init net login DONE (PASSED)
-e500mc : Linux /init net login DONE (PASSED)
-40p : FW login DONE (PASSED) # this one is a special case
-e5500 : Linux /init net login DONE (PASSED)
-e6500 : Linux /init net login DONE (PASSED)
-g5-32 : FW Linux Linux /init net login DONE (PASSED)
-g5-64 : FW Linux Linux /init net login DONE (PASSED)
-pseries-970 : FW Linux Linux /init net login DONE (PASSED)
-pseries-970mp : FW Linux Linux /init net login DONE (PASSED)
-pseries-POWER5+ : FW Linux Linux /init net login DONE (PASSED)
-pseries : FW Linux Linux /init net login DONE (PASSED)
-pseriesle8 : FW Linux Linux /init net login DONE (PASSED)
-pseriesle9 : FW Linux Linux /init net login DONE (PASSED)
-pseriesle10 : FW Linux Linux /init net login DONE (PASSED)
-powernv8 : FW Linux /init net login DONE (PASSED)
-powernv9 : FW Linux /init net login DONE (PASSED)
+Maybe I wasn't clear enough.  I am suggesting that tests using TCG do
+not run by default (on a "make check-avocado") if, and only if, they
+are booting a complete OS.  That would  bring the time to run "make
+check-avocado" to a fifth of its current time.
 
-Images are here :
+And to be clear, there are a *lot* of tests running TCG, but they
+happen to boot kernel+initrd by default, so we're not necessarily
+abandoning TCG at all.
 
-   https://github.com/legoater/qemu-ppc-boot/tree/main/buildroot
+Also, we can have another target, or option as suggested by others in
+this thread, where those lengthy TCG based full fistro boot tests get
+to run.
 
-Buildroot has a testsuite using QEMU and they have been nice enough
-to take new QEMU boards for PPC.
+> > BTW, on the topic of "Using something as a base OS for scripts (tests) =
+to run
+> > on it", another possibility for using full blown OS would be to save
+> > their initialized
+> > state, and load it to memory for each test, saving the guest boot time.=
+  This
+> > should of course be done at the framework level and transparent to test=
+s.
+>
+> There is *massive* virtue in simplicity & predictability for testing.
+>
+> Building more complex infrastructure to pre-initialize caches with
+> clever techniques like saving running OS state is clever, but is
+> certainly not simple or predictable. When that kind of stuff goes
+> wrong, whoever gets to debug it is going to have a really bad day.
+>
+> This can be worth doing if there's no other viable approach to achieve
+> the desired end goal. I don't think that's the case for our integration
+> testing needs in QEMU though. There's masses of scope for us to explore
+> testing with minimal tailored guest images/environments, before we need
+> to resort to building more complex optimization strategies.
+>
 
-Thanks,
+I'm aware and second that. Avocado-VT tests transitioned from a model
+where VMs would, by default, be reused across tests, to a "start every
+VM from scratch".  But, users can still opt-in to the "reuse VM model"
+if they feel the tradeoff is valid.
 
-C.
-
-
-> 
-> The downloading of the images at test "setup time" is still a better approach,
-> given that tests will simply skip if the download is not possible.
-> 
-> - Cleber.
-> 
-> 
+Best regards!
+- Cleber
 
 
