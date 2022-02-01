@@ -2,77 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 117674A5B99
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Feb 2022 12:54:28 +0100 (CET)
-Received: from localhost ([::1]:36828 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1DC084A5BAD
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Feb 2022 13:01:02 +0100 (CET)
+Received: from localhost ([::1]:46144 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nErju-0005zi-O4
-	for lists+qemu-devel@lfdr.de; Tue, 01 Feb 2022 06:54:26 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:37534)
+	id 1nErqG-0004CG-MQ
+	for lists+qemu-devel@lfdr.de; Tue, 01 Feb 2022 07:01:01 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:40332)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1nErbT-0007K0-1d
- for qemu-devel@nongnu.org; Tue, 01 Feb 2022 06:45:43 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:52617)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1nErlc-0001ye-6N
+ for qemu-devel@nongnu.org; Tue, 01 Feb 2022 06:56:12 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:47815)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1nErbQ-0000TH-W6
- for qemu-devel@nongnu.org; Tue, 01 Feb 2022 06:45:42 -0500
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1nErlT-0002I8-NB
+ for qemu-devel@nongnu.org; Tue, 01 Feb 2022 06:56:11 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1643715940;
+ s=mimecast20190719; t=1643716554;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=RczpA0EPAGQEc6XH0BU19UWPVQsg8YC4mBwdl6OFFfc=;
- b=NnPYMj6C844qtRp1H9Dsf3XJHylm7emGhIsKPSFkgpuVv3aRw1VQoeQkq7aA9OBv2Oudoh
- MbChwWU2HVlGwOkBh6+FuaBdjZWGZ8+sn6rluwNT0UDzQznVgGim3FAPgUStcL3hf614lQ
- ZM1ELlWPZSHaivIGOb4217MqB18NXm4=
-Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
- [209.85.222.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=R6xlB4sCC2TfMqrM55Rcze2F7XlyKOJsKTuTMoa2X2M=;
+ b=YIjVxXsuPDQ+H/qTTIjQ0UCRWa6bdlmjwqiwDb0zaPep89v1tEZG9rr7m/yvpGG47nOY/8
+ aFmT6Gsykjbix2UH7fvM4+od5asBFx9SqNfCvUPtoZUDTZlixfhaa06G0quhOlf57d1+aG
+ UZlB/IPocFtjQikcTn7GXXrJHP54D1A=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-658-DGssEdjVMUuNPxF6QVK90A-1; Tue, 01 Feb 2022 06:45:39 -0500
-X-MC-Unique: DGssEdjVMUuNPxF6QVK90A-1
-Received: by mail-qk1-f200.google.com with SMTP id
- n3-20020ae9c303000000b00477e4f3dfd2so11807864qkg.21
- for <qemu-devel@nongnu.org>; Tue, 01 Feb 2022 03:45:39 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=RczpA0EPAGQEc6XH0BU19UWPVQsg8YC4mBwdl6OFFfc=;
- b=L+0Vi+4EUf0yNqxMgG9iH/cO/OAk4EqYSITrq88bIKfWyeYnbcRIATI+Y91GcF6jC9
- YhPXtQSFwDg7UsA1XB+yPQMONgjzRnE2O4XS/X5iNGa832Ea4WTebLH/a2x8Ge1UZ8dR
- mnGsR7Q19w7291V3ZdOdih7Lyuf28D+AIGlrsx0SAGQyNS8H7r8mTM6dWiZaB9ARtUQx
- CWk3XzvpalgvcEm2nBW+g6j5VJ9RkejuIAfO3blZreS0FMknwnOV4pagEg/WLeHu0ALk
- i7Or7Y257f5WnK9ntQfZbSPH++TKImN25D1rfyfUCgmYojULbSNsRpoOpYRPl2YId70S
- D7Og==
-X-Gm-Message-State: AOAM533Xsb4YMB8RcRUu0IXNKnkIWChtr9s8S3d8+G/FVP/D7Qhybay3
- uLacoGhHYGLmdqwelsr84sIHlexaBwi5a8nFJtnpMFgu0l9zwwlFlHBZRIDHVY0clueg4P8SUgw
- pLLJ5KgwZF8+w0U4hFlk3xD9sYoQNcsw=
-X-Received: by 2002:a37:ba45:: with SMTP id k66mr16238554qkf.632.1643715938715; 
- Tue, 01 Feb 2022 03:45:38 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyZ5pl1vVzb1JTxnxBPGpS8Gs4NyqqPYVbq43HDweQfJsRo0z0drt7AqLzmlgJ1uKTuHQQfwIHis9WcqGDoSsM=
-X-Received: by 2002:a37:ba45:: with SMTP id k66mr16238532qkf.632.1643715938438; 
- Tue, 01 Feb 2022 03:45:38 -0800 (PST)
+ us-mta-53-mVS7bZo9MBKvNvSx3DTy3A-1; Tue, 01 Feb 2022 06:55:51 -0500
+X-MC-Unique: mVS7bZo9MBKvNvSx3DTy3A-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D4953343CC;
+ Tue,  1 Feb 2022 11:55:15 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.194.45])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id DE12A66E3C;
+ Tue,  1 Feb 2022 11:55:10 +0000 (UTC)
+Date: Tue, 1 Feb 2022 12:55:09 +0100
+From: Kevin Wolf <kwolf@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH v6 01/33] main-loop.h: introduce qemu_in_main_thread()
+Message-ID: <YfkfndfaOha/fZZU@redhat.com>
+References: <20220121170544.2049944-1-eesposit@redhat.com>
+ <20220121170544.2049944-2-eesposit@redhat.com>
+ <YfJ6dsVcmB4Uc2rO@redhat.com>
+ <7ada78d2-0978-8f5a-f0f8-318d2f26ba41@redhat.com>
+ <YffzLaIhjgfBkcXf@redhat.com>
+ <3fa2d527-91f6-0869-d6b0-c82bdd04884c@redhat.com>
 MIME-Version: 1.0
-References: <20220121202733.404989-1-eperezma@redhat.com>
- <20220121202733.404989-29-eperezma@redhat.com>
- <42664143-6d0c-b107-ec90-8e6336bae29b@redhat.com>
-In-Reply-To: <42664143-6d0c-b107-ec90-8e6336bae29b@redhat.com>
-From: Eugenio Perez Martin <eperezma@redhat.com>
-Date: Tue, 1 Feb 2022 12:45:02 +0100
-Message-ID: <CAJaqyWdBLU+maEhByepzeH7iwLmqUba0rRb8PM4VwBy2P8Vtow@mail.gmail.com>
-Subject: Re: [PATCH 28/31] vdpa: Expose VHOST_F_LOG_ALL on SVQ
-To: Jason Wang <jasowang@redhat.com>
+In-Reply-To: <3fa2d527-91f6-0869-d6b0-c82bdd04884c@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eperezma@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eperezma@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=kwolf@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -80,7 +68,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.081,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,104 +81,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Parav Pandit <parav@mellanox.com>,
- Cindy Lu <lulu@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+Cc: Fam Zheng <fam@euphon.net>, qemu-devel@nongnu.org,
+ "Denis V. Lunev" <den@openvz.org>, Eric Blake <eblake@redhat.com>,
+ Emanuele Giuseppe Esposito <eesposit@redhat.com>, qemu-block@nongnu.org,
  Juan Quintela <quintela@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- qemu-level <qemu-devel@nongnu.org>, Gautam Dawar <gdawar@xilinx.com>,
- Markus Armbruster <armbru@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
- Harpreet Singh Anand <hanand@xilinx.com>, Xiao W Wang <xiao.w.wang@intel.com>,
- Peter Xu <peterx@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Eli Cohen <eli@mellanox.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Zhu Lingshan <lingshan.zhu@intel.com>,
- virtualization <virtualization@lists.linux-foundation.org>,
- Eric Blake <eblake@redhat.com>, Stefano Garzarella <sgarzare@redhat.com>
+ Daniel Henrique Barboza <danielhb413@gmail.com>,
+ Markus Armbruster <armbru@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, Greg Kurz <groug@kaod.org>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>,
+ Stefan Hajnoczi <stefanha@redhat.com>, John Snow <jsnow@redhat.com>,
+ David Gibson <david@gibson.dropbear.id.au>,
+ Eduardo Habkost <eduardo@habkost.net>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>,
+ Hanna Reitz <hreitz@redhat.com>, qemu-ppc@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, Jan 30, 2022 at 7:50 AM Jason Wang <jasowang@redhat.com> wrote:
->
->
-> =E5=9C=A8 2022/1/22 =E4=B8=8A=E5=8D=884:27, Eugenio P=C3=A9rez =E5=86=99=
-=E9=81=93:
-> > SVQ is able to log the dirty bits by itself, so let's use it to not
-> > block migration.
-> >
-> > Also, ignore set and clear of VHOST_F_LOG_ALL on set_features if SVQ is
-> > enabled. Even if the device supports it, the reports would be nonsense
-> > because SVQ memory is in the qemu region.
-> >
-> > The log region is still allocated. Future changes might skip that, but
-> > this series is already long enough.
-> >
-> > Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
-> > ---
-> >   hw/virtio/vhost-vdpa.c | 20 ++++++++++++++++++++
-> >   1 file changed, 20 insertions(+)
-> >
-> > diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
-> > index fb0a338baa..75090d65e8 100644
-> > --- a/hw/virtio/vhost-vdpa.c
-> > +++ b/hw/virtio/vhost-vdpa.c
-> > @@ -1022,6 +1022,9 @@ static int vhost_vdpa_get_features(struct vhost_d=
-ev *dev, uint64_t *features)
-> >       if (ret =3D=3D 0 && v->shadow_vqs_enabled) {
-> >           /* Filter only features that SVQ can offer to guest */
-> >           vhost_svq_valid_guest_features(features);
-> > +
-> > +        /* Add SVQ logging capabilities */
-> > +        *features |=3D BIT_ULL(VHOST_F_LOG_ALL);
-> >       }
-> >
-> >       return ret;
-> > @@ -1039,8 +1042,25 @@ static int vhost_vdpa_set_features(struct vhost_=
-dev *dev,
-> >
-> >       if (v->shadow_vqs_enabled) {
-> >           uint64_t dev_features, svq_features, acked_features;
-> > +        uint8_t status =3D 0;
-> >           bool ok;
-> >
-> > +        ret =3D vhost_vdpa_call(dev, VHOST_VDPA_GET_STATUS, &status);
-> > +        if (unlikely(ret)) {
-> > +            return ret;
-> > +        }
-> > +
-> > +        if (status & VIRTIO_CONFIG_S_DRIVER_OK) {
-> > +            /*
-> > +             * vhost is trying to enable or disable _F_LOG, and the de=
-vice
-> > +             * would report wrong dirty pages. SVQ handles it.
-> > +             */
->
->
-> I fail to understand this comment, I'd think there's no way to disable
-> dirty page tracking for SVQ.
->
+Am 31.01.2022 um 16:49 hat Paolo Bonzini geschrieben:
+> > > However, commit 5f50be9b5810293141bb53cfd0cb46e765367d56 changed the
+> > > stub to return false for a specific reason.
+> > 
+> > I must admit I don't really understand the reasoning there:
+> > 
+> >      With this change, the stub qemu_mutex_iothread_locked() must be changed
+> >      from true to false.  The previous value of true was needed because the
+> >      main thread did not have an AioContext in the thread-local variable,
+> >      but now it does have one.
+> > 
+> > This explains why it _can_ be changed to false for this caller, but not
+> > why it _must_ be changed.
+> 
+> See above: because it returns the wrong value for all threads except one,
+> and there are better ways to do a meaningful check in that one thread: using
+> qemu_get_current_aio_context(), which is what aio_co_enter did at the time
+> and qemu_in_main_thread() does with Emanuele's change.
+> 
+> > So is the problem with the unit tests really just that they never call
+> > qemu_init_main_loop() and therefore never set the AioContext for the
+> > main thread?
+> 
+> No, most of them do (and if some are missing it we can add it).
 
-vhost_log_global_{start,stop} are called at the beginning and end of
-migration. To inform the device that it should start logging, they set
-or clean VHOST_F_LOG_ALL at vhost_dev_set_log.
+But if they do, why doesn't qemu_get_current_aio_context() already
+return the right result? In this case, my_aiocontext is set and it
+should never even call qemu_mutex_iothread_locked() - at least not in
+any case where qemu_in_main_thread() would return true.
 
-While SVQ does not use VHOST_F_LOG_ALL, it exports the feature bit so
-vhost does not block migration. Maybe we need to look for another way
-to do this?
+So provided that qemu_init_main_loop() is called, both functions should
+be equivalent and we wouldn't need a second one.
 
-Thanks!
-
-> Thanks
->
->
-> > +            return 0;
-> > +        }
-> > +
-> > +        /* We must not ack _F_LOG if SVQ is enabled */
-> > +        features &=3D ~BIT_ULL(VHOST_F_LOG_ALL);
-> > +
-> >           ret =3D vhost_vdpa_get_dev_features(dev, &dev_features);
-> >           if (ret !=3D 0) {
-> >               error_report("Can't get vdpa device features, got (%d)", =
-ret);
->
+Kevin
 
 
