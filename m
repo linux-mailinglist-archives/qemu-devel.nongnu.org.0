@@ -2,72 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E9FCC4A696D
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Feb 2022 01:57:11 +0100 (CET)
-Received: from localhost ([::1]:46316 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B192E4A691B
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Feb 2022 01:14:08 +0100 (CET)
+Received: from localhost ([::1]:43088 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nF3xP-0007Hz-0F
-	for lists+qemu-devel@lfdr.de; Tue, 01 Feb 2022 19:57:11 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:60584)
+	id 1nF3Hj-0001Aq-BM
+	for lists+qemu-devel@lfdr.de; Tue, 01 Feb 2022 19:14:07 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:46526)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nEytI-0001p4-6x
- for qemu-devel@nongnu.org; Tue, 01 Feb 2022 14:32:37 -0500
-Received: from [2a00:1450:4864:20::431] (port=45612
- helo=mail-wr1-x431.google.com)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1nEzrG-0000op-Mm
+ for qemu-devel@nongnu.org; Tue, 01 Feb 2022 15:34:34 -0500
+Received: from [2a00:1450:4864:20::330] (port=55106
+ helo=mail-wm1-x330.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nEytC-0002Xx-70
- for qemu-devel@nongnu.org; Tue, 01 Feb 2022 14:32:35 -0500
-Received: by mail-wr1-x431.google.com with SMTP id m14so33787015wrg.12
- for <qemu-devel@nongnu.org>; Tue, 01 Feb 2022 11:32:20 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1nEzrB-000337-A3
+ for qemu-devel@nongnu.org; Tue, 01 Feb 2022 15:34:34 -0500
+Received: by mail-wm1-x330.google.com with SMTP id c192so13636606wma.4
+ for <qemu-devel@nongnu.org>; Tue, 01 Feb 2022 12:33:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=PyoYFz0rNK5fksgWbnYb2wlrhqu+KYVYudh2oRoiZhU=;
- b=DRJO4rd5AVFypEImjA7KJFFGxfCuH6D6v8JACNPRmzBOEsGeMwFOmUmKEJU0UhV+Zq
- 5jMSyUJM06eD/0WjLKttEfdnpxpnABPINsq/GYx+9BLXE1oQWLSD7azDdGj2JO13yeQQ
- dgQos0uFsG3ElJM6bXqnAxL4GjO0awqopx21nc8XI9Q1AM8bXoqWkswldPsxS25mnyK2
- Jorrc2DfcH7CAuK3eDCBgasnYMpZaHgUi+MWm2cHyri5s7UBWCJQZkgA3gEAUoYBUtPN
- CPaugd8AyiwJBvaVBWgLQb1YvxIlUBekGndKCLd2+qAgRAtuCpbEWL+gEGcSKBEWk/X0
- dUMQ==
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=kX/APOMTZT9B9dAN88pTnRh5A71LxrDbf7sUAwsed0M=;
+ b=TyWVP0O+lLVt0Lrgy/CBP8aoBr3xTTc3JWbOIksbbVoxkWzM/24JX8ynlyLljdwz8N
+ eUtH40tY0LLpCuv5tGmnuFASfulGXJ+INNXSD2Llo1QPY2rh2744Jw6yCp2OI+TIykSj
+ XR/H7ruOdwHnlHPqeHOqHGu5TBsYM2pUxyJ9iLylo7syntr/zR9V/rs7LkkPMXdlcjyv
+ cwwM/VIZy7R+Tf8XOjmgWlLJolRxFs+hFb1f3nCvTQhM7JC8Y7lJaV7wI/pg6l/TMkdX
+ trw3lO8e8/SfFlNmiUQZ1gBWd1rj0uPUA+j8xRidYigS6eVCgQ+UhLoiSk/CP9C5ZFrv
+ 2NCg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=PyoYFz0rNK5fksgWbnYb2wlrhqu+KYVYudh2oRoiZhU=;
- b=hNn+5VOXdH96RisqupVNSdgjZ3myZL2ObUoIwekJjZHiBoLHRzw+rjH0FvMXp2MkfP
- PV0AhcQ3yig55jhNesFS3Cci7tQ9FSzcJAG8sFjfbjyXihT1yXNag6Op5HDvi0TdYWsp
- NSAAKkFyRbD6BstSdV1qrt8W+kUHJesX14o5CwE0DBHvBQ/0QlzKGEV6I1X4dBwWbMn1
- 2JZqooid0b7LyHxmoSQzxkbuMHA7rmbGGaqMot81iuqIoCb3MXaJGgnIuGQyiDmJcQgU
- JwTq5D1OeU4MQTVChwxm2DuDPPaMZ7YnsXQE4klLutqM3cbd93wmCdKHIz3DS9h5zYvV
- oHjg==
-X-Gm-Message-State: AOAM531FpwvlCRhkImEnHZhpjTFYYT9c2HgEZSvRdXaMgKux/0n205Ql
- UhtV0Dm/w78QCsDpOc9Dc9EV4A==
-X-Google-Smtp-Source: ABdhPJygeBQuyX0J8zc2OlAfe+Y3XDaVTJShAHAQt+mmIOm0CG8UtQ2DcLiUlf7Sb1sXCrIY4wKqDw==
-X-Received: by 2002:adf:fb10:: with SMTP id c16mr22693982wrr.200.1643743940023; 
- Tue, 01 Feb 2022 11:32:20 -0800 (PST)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
- by smtp.gmail.com with ESMTPSA id z5sm3491265wmp.10.2022.02.01.11.32.19
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=kX/APOMTZT9B9dAN88pTnRh5A71LxrDbf7sUAwsed0M=;
+ b=Sp7Gw2OzjNgOTfGg3DQkOaru1b/ZUiutO48anRdvg+o0bZadPqLgDPTpWSxu3rxj5/
+ 2t4e+lP3uiconeKHHt2C2RS+Mommq9fOmV9RvbDrqMiZQO1fuNBkL0c2npFu9q3usf6S
+ SLGpqzSHALoQdDGHweSDmEBVs0eIqZKuS1Y958YPhsEQ6FXSEnltyxLztWyWIIZacDaQ
+ ExOHr0BsV34CcuOvC3I/hRI5K347my1XaRd8Zobqdc0MPjqLK504t5SpFj4tCJw3IVII
+ na4B8xvKlW5F3rYcQj8C00isPdPtK9w9X70G6ZpRJZ4kxA2yQDpz/vZl/QI+ZP/DBeFb
+ NMrQ==
+X-Gm-Message-State: AOAM532hyKOS1j2fe2oSY8iC70i+ee/dmTpuSpJcffw8ifitIfijiYsm
+ 8T5nvrFGRcw7Omhx02KyGStqlGsU4fWEVw==
+X-Google-Smtp-Source: ABdhPJzPecRfYwroEdGuUlWYngfPpDLl6GtcBLJs0DaxkjqMf6QzYGRobHKBR5jv0yiSNtDtK+SfIg==
+X-Received: by 2002:a05:600c:5027:: with SMTP id
+ n39mr3269224wmr.14.1643747614143; 
+ Tue, 01 Feb 2022 12:33:34 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id 44sm15449118wrm.103.2022.02.01.12.33.33
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 01 Feb 2022 11:32:19 -0800 (PST)
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-arm@nongnu.org,
-	qemu-devel@nongnu.org
-Subject: [PATCH 12/13] hw/intc/arm_gicv3_its: Don't allow intid 1023 in
- MAPI/MAPTI
-Date: Tue,  1 Feb 2022 19:32:06 +0000
-Message-Id: <20220201193207.2771604-13-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220201193207.2771604-1-peter.maydell@linaro.org>
-References: <20220201193207.2771604-1-peter.maydell@linaro.org>
+ Tue, 01 Feb 2022 12:33:33 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id B91501FFB7;
+ Tue,  1 Feb 2022 20:33:32 +0000 (GMT)
+References: <20211218194250.247633-1-richard.henderson@linaro.org>
+ <20211218194250.247633-9-richard.henderson@linaro.org>
+User-agent: mu4e 1.7.6; emacs 28.0.91
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Richard Henderson <richard.henderson@linaro.org>
+Subject: Re: [PATCH 08/20] tcg/i386: Implement avx512 variable shifts
+Date: Tue, 01 Feb 2022 20:33:29 +0000
+In-reply-to: <20211218194250.247633-9-richard.henderson@linaro.org>
+Message-ID: <87h79iwcmb.fsf@linaro.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::431
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::330
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::431;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x431.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::330;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x330.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -88,44 +92,94 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- Shashi Mallela <shashi.mallela@linaro.org>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When handling MAPI/MAPTI, we allow the supplied interrupt ID to be
-either 1023 or something in the valid LPI range.  This is a mistake:
-only a real valid LPI is allowed.  (The general behaviour of the ITS
-is that most interrupt ID fields require a value in the LPI range;
-the exception is that fields specifying a doorbell value, which are
-all in GICv4 commands, allow also 1023 to mean "no doorbell".)
-Remove the condition that incorrectly allows 1023 here.
 
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
----
-This one's my fault -- Shashi's original code did the right thing,
-IIRC. The spec text and pseudocode disagree here, and in code review
-I backed the wrong horse. Sorry.
----
- hw/intc/arm_gicv3_its.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+Richard Henderson <richard.henderson@linaro.org> writes:
 
-diff --git a/hw/intc/arm_gicv3_its.c b/hw/intc/arm_gicv3_its.c
-index 069991f7f36..8dade9440ac 100644
---- a/hw/intc/arm_gicv3_its.c
-+++ b/hw/intc/arm_gicv3_its.c
-@@ -406,8 +406,7 @@ static ItsCmdResult process_mapti(GICv3ITSState *s, const uint64_t *cmdpkt,
- 
-     if ((icid >= s->ct.num_entries)
-             || !dte.valid || (eventid >= num_eventids) ||
--            (((pIntid < GICV3_LPI_INTID_START) || (pIntid >= num_intids)) &&
--             (pIntid != INTID_SPURIOUS))) {
-+            (((pIntid < GICV3_LPI_INTID_START) || (pIntid >= num_intids)))) {
-         qemu_log_mask(LOG_GUEST_ERROR,
-                       "%s: invalid command attributes "
-                       "icid %d or eventid %d or pIntid %d or"
--- 
-2.25.1
+> AVX512VL has VPSRAVQ, and
+> AVX512BW has VPSLLVW, VPSRAVW, VPSRLVW.
+>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+
+> ---
+>  tcg/i386/tcg-target.c.inc | 32 ++++++++++++++++++++++++--------
+>  1 file changed, 24 insertions(+), 8 deletions(-)
+>
+> diff --git a/tcg/i386/tcg-target.c.inc b/tcg/i386/tcg-target.c.inc
+> index 316e550b38..7b9302fcc2 100644
+> --- a/tcg/i386/tcg-target.c.inc
+> +++ b/tcg/i386/tcg-target.c.inc
+> @@ -418,9 +418,13 @@ static bool tcg_target_const_match(int64_t val, TCGT=
+ype type, int ct)
+>  #define OPC_VPBROADCASTQ (0x59 | P_EXT38 | P_DATA16)
+>  #define OPC_VPERMQ      (0x00 | P_EXT3A | P_DATA16 | P_VEXW)
+>  #define OPC_VPERM2I128  (0x46 | P_EXT3A | P_DATA16 | P_VEXL)
+> +#define OPC_VPSLLVW     (0x12 | P_EXT38 | P_DATA16 | P_VEXW | P_EVEX)
+>  #define OPC_VPSLLVD     (0x47 | P_EXT38 | P_DATA16)
+>  #define OPC_VPSLLVQ     (0x47 | P_EXT38 | P_DATA16 | P_VEXW)
+> +#define OPC_VPSRAVW     (0x11 | P_EXT38 | P_DATA16 | P_VEXW | P_EVEX)
+>  #define OPC_VPSRAVD     (0x46 | P_EXT38 | P_DATA16)
+> +#define OPC_VPSRAVQ     (0x46 | P_EXT38 | P_DATA16 | P_VEXW | P_EVEX)
+> +#define OPC_VPSRLVW     (0x10 | P_EXT38 | P_DATA16 | P_VEXW | P_EVEX)
+>  #define OPC_VPSRLVD     (0x45 | P_EXT38 | P_DATA16)
+>  #define OPC_VPSRLVQ     (0x45 | P_EXT38 | P_DATA16 | P_VEXW)
+>  #define OPC_VZEROUPPER  (0x77 | P_EXT)
+> @@ -2742,16 +2746,13 @@ static void tcg_out_vec_op(TCGContext *s, TCGOpco=
+de opc,
+>          OPC_PMAXUB, OPC_PMAXUW, OPC_PMAXUD, OPC_UD2
+>      };
+>      static int const shlv_insn[4] =3D {
+> -        /* TODO: AVX512 adds support for MO_16.  */
+> -        OPC_UD2, OPC_UD2, OPC_VPSLLVD, OPC_VPSLLVQ
+> +        OPC_UD2, OPC_VPSLLVW, OPC_VPSLLVD, OPC_VPSLLVQ
+>      };
+>      static int const shrv_insn[4] =3D {
+> -        /* TODO: AVX512 adds support for MO_16.  */
+> -        OPC_UD2, OPC_UD2, OPC_VPSRLVD, OPC_VPSRLVQ
+> +        OPC_UD2, OPC_VPSRLVW, OPC_VPSRLVD, OPC_VPSRLVQ
+>      };
+>      static int const sarv_insn[4] =3D {
+> -        /* TODO: AVX512 adds support for MO_16, MO_64.  */
+> -        OPC_UD2, OPC_UD2, OPC_VPSRAVD, OPC_UD2
+> +        OPC_UD2, OPC_VPSRAVW, OPC_VPSRAVD, OPC_VPSRAVQ
+>      };
+>      static int const shls_insn[4] =3D {
+>          OPC_UD2, OPC_PSLLW, OPC_PSLLD, OPC_PSLLQ
+> @@ -3242,9 +3243,24 @@ int tcg_can_emit_vec_op(TCGOpcode opc, TCGType typ=
+e, unsigned vece)
+>=20=20
+>      case INDEX_op_shlv_vec:
+>      case INDEX_op_shrv_vec:
+> -        return have_avx2 && vece >=3D MO_32;
+> +        switch (vece) {
+> +        case MO_16:
+> +            return have_avx512bw;
+> +        case MO_32:
+> +        case MO_64:
+> +            return have_avx2;
+> +        }
+> +        return 0;
+>      case INDEX_op_sarv_vec:
+> -        return have_avx2 && vece =3D=3D MO_32;
+> +        switch (vece) {
+> +        case MO_16:
+> +            return have_avx512bw;
+> +        case MO_32:
+> +            return have_avx2;
+> +        case MO_64:
+> +            return have_avx512vl;
+> +        }
+> +        return 0;
+>      case INDEX_op_rotlv_vec:
+>      case INDEX_op_rotrv_vec:
+>          return have_avx2 && vece >=3D MO_32 ? -1 : 0;
+
+
+--=20
+Alex Benn=C3=A9e
 
