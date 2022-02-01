@@ -2,51 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F0B954A60B9
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Feb 2022 16:52:10 +0100 (CET)
-Received: from localhost ([::1]:57990 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 507404A613F
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Feb 2022 17:17:55 +0100 (CET)
+Received: from localhost ([::1]:51604 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nEvRy-0002gD-0U
-	for lists+qemu-devel@lfdr.de; Tue, 01 Feb 2022 10:52:10 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:36792)
+	id 1nEvqs-0004Ry-6y
+	for lists+qemu-devel@lfdr.de; Tue, 01 Feb 2022 11:17:54 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:37242)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nEuRG-0002ie-S8
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nEuRO-0002kQ-2w
  for qemu-devel@nongnu.org; Tue, 01 Feb 2022 09:47:37 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:51047)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:45040)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nEuR6-00033n-Qg
- for qemu-devel@nongnu.org; Tue, 01 Feb 2022 09:47:16 -0500
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nEuRK-000356-TF
+ for qemu-devel@nongnu.org; Tue, 01 Feb 2022 09:47:29 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1643726645;
+ s=mimecast20190719; t=1643726654;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=2sW42O4WbSGtiZVVHXKVJ30oeYi2esE3imjEpVkaKIY=;
- b=PTodWWRtDswSKwG4W2ktoJ8aNFEj5Oe67N9LU/lldRECb90oloIGURtIKHJc8mXfCmH2zu
- /r504YbW+e0aOEGPfTR3WfGom5xduglrywWNXY5M+tkmFs3ES8UvRx2W4sb4PP4aH3i4fZ
- 2jxXYb8i4+3rhs0rZcyRjtHNZvSNdEo=
+ bh=H+Pb8HokcDYno3dh4hvfbNVCAwktJ6kXptko6KLaw7Q=;
+ b=DFgz90nBEAWo+HS7/xpn2soFf9aoNLnxXOrOBrYvWNwt6/ZnTydFfXwYTccYYtGQ+8uWTR
+ 2scWByFpyEzl5exCCZtNLqM7imUKOElgYETbJOAX2o7Saa1fO9kdW93/4w0EpYJZnrJ7Yp
+ RP7knbsRGjGbbW/+ZxbuArDbHvM8xVk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-582-P_coUg61Px2ErTeqNKe0Dw-1; Tue, 01 Feb 2022 09:44:04 -0500
-X-MC-Unique: P_coUg61Px2ErTeqNKe0Dw-1
+ us-mta-7-2Lv4cCLwPLOIe1qLBgQ1vw-1; Tue, 01 Feb 2022 09:44:07 -0500
+X-MC-Unique: 2Lv4cCLwPLOIe1qLBgQ1vw-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BA44C1091DA6;
- Tue,  1 Feb 2022 14:44:03 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C40188519E1;
+ Tue,  1 Feb 2022 14:44:05 +0000 (UTC)
 Received: from localhost (unknown [10.39.193.129])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 5FA1B752D0;
- Tue,  1 Feb 2022 14:44:03 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 69B90752D0;
+ Tue,  1 Feb 2022 14:44:05 +0000 (UTC)
 From: Hanna Reitz <hreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 21/24] iotests: declare lack of support for compresion_type in
- IMGOPTS
-Date: Tue,  1 Feb 2022 15:42:30 +0100
-Message-Id: <20220201144233.617021-22-hreitz@redhat.com>
+Subject: [PULL 22/24] block-backend: Retain permissions after migration
+Date: Tue,  1 Feb 2022 15:42:31 +0100
+Message-Id: <20220201144233.617021-23-hreitz@redhat.com>
 In-Reply-To: <20220201144233.617021-1-hreitz@redhat.com>
 References: <20220201144233.617021-1-hreitz@redhat.com>
 MIME-Version: 1.0
@@ -55,17 +54,17 @@ Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=hreitz@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=hreitz@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
 X-Spam_bar: --
 X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.081,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -84,99 +83,68 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+After migration, the permissions the guest device wants to impose on its
+BlockBackend are stored in blk->perm and blk->shared_perm.  In
+blk_root_activate(), we take our permissions, but keep all shared
+permissions open by calling `blk_set_perm(blk->perm, BLK_PERM_ALL)`.
 
-compression_type can't be used if we want to create image with
-compat=0.10. So, skip these tests, not many of them.
+Only afterwards (immediately or later, depending on the runstate) do we
+restrict the shared permissions by calling
+`blk_set_perm(blk->perm, blk->shared_perm)`.  Unfortunately, our first
+call with shared_perm=BLK_PERM_ALL has overwritten blk->shared_perm to
+be BLK_PERM_ALL, so this is a no-op and the set of shared permissions is
+not restricted.
 
-Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Reviewed-by: Hanna Reitz <hreitz@redhat.com>
-Message-Id: <20211223160144.1097696-20-vsementsov@virtuozzo.com>
+Fix this bug by saving the set of shared permissions before invoking
+blk_set_perm() with BLK_PERM_ALL and restoring it afterwards.
+
+Fixes: 5f7772c4d0cf32f4e779fcd5a69ae4dae24aeebf
+       ("block-backend: Defer shared_perm tightening migration
+       completion")
+Reported-by: Peng Liang <liangpeng10@huawei.com>
 Signed-off-by: Hanna Reitz <hreitz@redhat.com>
+Message-Id: <20211125135317.186576-2-hreitz@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Tested-by: Peng Liang <liangpeng10@huawei.com>
 ---
- tests/qemu-iotests/031 | 5 +++--
- tests/qemu-iotests/051 | 5 +++--
- tests/qemu-iotests/061 | 6 +++++-
- tests/qemu-iotests/112 | 3 ++-
- tests/qemu-iotests/290 | 2 +-
- 5 files changed, 14 insertions(+), 7 deletions(-)
+ block/block-backend.c | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
-diff --git a/tests/qemu-iotests/031 b/tests/qemu-iotests/031
-index 648112f796..ee587b1606 100755
---- a/tests/qemu-iotests/031
-+++ b/tests/qemu-iotests/031
-@@ -42,8 +42,9 @@ trap "_cleanup; exit \$status" 0 1 2 3 15
- _supported_fmt qcow2
- _supported_proto file fuse
- # We want to test compat=0.10, which does not support external data
--# files or refcount widths other than 16
--_unsupported_imgopts data_file 'refcount_bits=\([^1]\|.\([^6]\|$\)\)'
-+# files or refcount widths other than 16 or compression type
-+_unsupported_imgopts data_file compression_type \
-+    'refcount_bits=\([^1]\|.\([^6]\|$\)\)'
- 
- CLUSTER_SIZE=65536
- 
-diff --git a/tests/qemu-iotests/051 b/tests/qemu-iotests/051
-index e9042a6214..f1a506518b 100755
---- a/tests/qemu-iotests/051
-+++ b/tests/qemu-iotests/051
-@@ -41,8 +41,9 @@ _supported_fmt qcow2
- _supported_proto file
- # A compat=0.10 image is created in this test which does not support anything
- # other than refcount_bits=16;
--# it also will not support an external data file
--_unsupported_imgopts 'refcount_bits=\([^1]\|.\([^6]\|$\)\)' data_file
-+# it also will not support an external data file and compression type
-+_unsupported_imgopts 'refcount_bits=\([^1]\|.\([^6]\|$\)\)' data_file \
-+    compression_type
- _require_drivers nbd
- 
- if [ "$QEMU_DEFAULT_MACHINE" = "pc" ]; then
-diff --git a/tests/qemu-iotests/061 b/tests/qemu-iotests/061
-index 70edf1a163..513fbec14c 100755
---- a/tests/qemu-iotests/061
-+++ b/tests/qemu-iotests/061
-@@ -48,7 +48,11 @@ _supported_os Linux
- # not work with it;
- # we have explicit tests for various cluster sizes, the remaining tests
- # require the default 64k cluster
--_unsupported_imgopts 'refcount_bits=\([^1]\|.\([^6]\|$\)\)' data_file cluster_size
-+# we don't have explicit tests for zstd qcow2 compression type, as zstd may be
-+# not compiled in. And we can't create compat images with comression type
-+# extension
-+_unsupported_imgopts 'refcount_bits=\([^1]\|.\([^6]\|$\)\)' data_file \
-+    cluster_size compression_type
- 
- echo
- echo "=== Testing version downgrade with zero expansion ==="
-diff --git a/tests/qemu-iotests/112 b/tests/qemu-iotests/112
-index 07ac74fb2c..5333212993 100755
---- a/tests/qemu-iotests/112
-+++ b/tests/qemu-iotests/112
-@@ -43,7 +43,8 @@ _supported_proto file fuse
- # This test will set refcount_bits on its own which would conflict with the
- # manual setting; compat will be overridden as well;
- # and external data files do not work well with our refcount testing
--_unsupported_imgopts refcount_bits 'compat=0.10' data_file
-+# also, compression type is not supported with compat=0.10 used in test
-+_unsupported_imgopts refcount_bits 'compat=0.10' data_file compression_type
- 
- print_refcount_bits()
+diff --git a/block/block-backend.c b/block/block-backend.c
+index 23e727199b..4ff6b4d785 100644
+--- a/block/block-backend.c
++++ b/block/block-backend.c
+@@ -190,6 +190,7 @@ static void blk_root_activate(BdrvChild *child, Error **errp)
  {
-diff --git a/tests/qemu-iotests/290 b/tests/qemu-iotests/290
-index ed80da2685..776b59de1b 100755
---- a/tests/qemu-iotests/290
-+++ b/tests/qemu-iotests/290
-@@ -41,7 +41,7 @@ trap "_cleanup; exit \$status" 0 1 2 3 15
- _supported_fmt qcow2
- _supported_proto file fuse
- _supported_os Linux
--_unsupported_imgopts 'compat=0.10' refcount_bits data_file
-+_unsupported_imgopts 'compat=0.10' refcount_bits data_file compression_type
+     BlockBackend *blk = child->opaque;
+     Error *local_err = NULL;
++    uint64_t saved_shared_perm;
  
- echo
- echo "### Test 'qemu-io -c discard' on a QCOW2 image without a backing file"
+     if (!blk->disable_perm) {
+         return;
+@@ -197,12 +198,22 @@ static void blk_root_activate(BdrvChild *child, Error **errp)
+ 
+     blk->disable_perm = false;
+ 
++    /*
++     * blk->shared_perm contains the permissions we want to share once
++     * migration is really completely done.  For now, we need to share
++     * all; but we also need to retain blk->shared_perm, which is
++     * overwritten by a successful blk_set_perm() call.  Save it and
++     * restore it below.
++     */
++    saved_shared_perm = blk->shared_perm;
++
+     blk_set_perm(blk, blk->perm, BLK_PERM_ALL, &local_err);
+     if (local_err) {
+         error_propagate(errp, local_err);
+         blk->disable_perm = true;
+         return;
+     }
++    blk->shared_perm = saved_shared_perm;
+ 
+     if (runstate_check(RUN_STATE_INMIGRATE)) {
+         /* Activation can happen when migration process is still active, for
 -- 
 2.34.1
 
