@@ -2,85 +2,98 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C38524A6981
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Feb 2022 02:13:14 +0100 (CET)
-Received: from localhost ([::1]:56888 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 147B44A699A
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Feb 2022 02:28:15 +0100 (CET)
+Received: from localhost ([::1]:38178 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nF4Cv-0007h6-De
-	for lists+qemu-devel@lfdr.de; Tue, 01 Feb 2022 20:13:13 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:34448)
+	id 1nF4RS-0006aW-6R
+	for lists+qemu-devel@lfdr.de; Tue, 01 Feb 2022 20:28:14 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:34566)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nF0t8-0006gX-7U
- for qemu-devel@nongnu.org; Tue, 01 Feb 2022 16:40:36 -0500
-Received: from [2607:f8b0:4864:20::1033] (port=55045
- helo=mail-pj1-x1033.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nF0t6-0005Ic-Or
- for qemu-devel@nongnu.org; Tue, 01 Feb 2022 16:40:33 -0500
-Received: by mail-pj1-x1033.google.com with SMTP id r59so18359059pjg.4
- for <qemu-devel@nongnu.org>; Tue, 01 Feb 2022 13:40:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=/+4XiE47HxdmM7HWg5hpYzUE5onrtY6AOuwWDWFgF9o=;
- b=jXggXBJGWZESaIs1aALB8SzTrFrKJ0dpFUSWIbctERFt689aRh/QSZAJCSvapQ83qW
- 5G1GFkbjInAsEN7iYA6MmjmNorGMz4Fi/q86HhcNshiJNT8EWfyh+JUXhon33g2y7B7r
- zhvrqlOCjQqOjte98vpsoE+FZ3AAmw5/6wOJmsda28aWV+d2deRsyBLl1IaQix9pIbWK
- 6VypFrC/rx2zeLOOnUec//pZ5MZqEIPxPeFp9Ot1ArmsAgKdI5NrCbcwYn0JBQecaGIM
- qsC5dP4umEWaHWgiC5mBvdkm0Fi8nOgmYBr6XKAdGTCEGsx5VOfYvt01+5l0OrBx2pY4
- p5IA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=/+4XiE47HxdmM7HWg5hpYzUE5onrtY6AOuwWDWFgF9o=;
- b=qdDd0g/W3SiMV56mFzPmMmhLq/Oe82El5+x9gIz8PzjEPkJVxmMBUCMemP72whcrBC
- rcfOVhP5l6c/9iNosOZBJSns0q14GUCAA4Jx0JgZIITZUPN1GrPbtrrapqrj9kzqPAJf
- k9VCXgQEgp9hgIFsy2F/TKvUVIEBV0AHNcTpg2GW9Bd0I0FtRmnY4fnWlDjhwQUQnwkG
- RUjPt6BnbHyY6W2123PI85yKl+NDM57stjJMF0KxC7khT+eBRG7jxlHHpNDn8LzE9jCH
- wZchvPw5hYtjoCSq48sXjnvDNuqJVEyH0oA3vyClPGk3sWSIauw7YsFXzLLrose0m1ov
- YLEA==
-X-Gm-Message-State: AOAM531ZGG7rJaHOxvBFyoucXupnbMHlJMKlzrVuV/+EdC1NQaBUD918
- 1ZHepKjVkrlMY/ydMDQfdcbwKg==
-X-Google-Smtp-Source: ABdhPJwvnSGqJUjtm+Vnr3xdsWZCwCICeO/l0cfgmmzQrP7AQVFLcUqe5tpTwrZwXOE2QxkkJquT/A==
-X-Received: by 2002:a17:902:6847:: with SMTP id
- f7mr6176758pln.26.1643751629000; 
- Tue, 01 Feb 2022 13:40:29 -0800 (PST)
-Received: from ?IPV6:2001:8003:3a49:fd00:4f14:faaf:dae:66e4?
- ([2001:8003:3a49:fd00:4f14:faaf:dae:66e4])
- by smtp.gmail.com with ESMTPSA id g19sm17524819pfv.4.2022.02.01.13.40.26
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 01 Feb 2022 13:40:28 -0800 (PST)
-Message-ID: <42f97813-b487-d57a-89db-561558f95dc9@linaro.org>
-Date: Wed, 2 Feb 2022 08:40:23 +1100
+ (Exim 4.90_1) (envelope-from <sbhat@linux.ibm.com>)
+ id 1nF0u2-0007WJ-VQ; Tue, 01 Feb 2022 16:41:31 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:26760)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <sbhat@linux.ibm.com>)
+ id 1nF0u0-0005Qe-Pi; Tue, 01 Feb 2022 16:41:30 -0500
+Received: from pps.filterd (m0098393.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 211JwZNo018844; 
+ Tue, 1 Feb 2022 21:41:15 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=8DZOlTGlBIN5bjX0KJwIZVdE5c2Hx4FSvrMAh6bXyDM=;
+ b=p4TvnewK2Pvyk8GfbyW9dlp5HVOPwrUktvmsrWMEQzllo/9r3wI6YsdSYRkpkF8i8SNd
+ LIw03HsSMllnuZg3wM0fQxCPaY+vPZfsuoMO/7laIR/8wT7JUynZ972qNKsJz+2NaGd/
+ D0WqIsRVoU+LtFLUPVnDcz9Fk1vyZL+TPgllrs2srMut+cy01t4z44tst3GKlzkuyAoK
+ j2PyM4/XWooKTTm2mxva1pO3nOx8Q/5nNsxMyXme2RVjhtc1pDBbNxdAY1CZP9zL2aAC
+ mhCKGQF/BCGtoI4rrAlGt4Gkxu+yzZHCfJY7Sn4oFW0gRuNMvKOTzkU6hEyaQCOeNT66 fg== 
+Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.98])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3dybg91pv0-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 01 Feb 2022 21:41:14 +0000
+Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
+ by ppma03ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 211LciE0015878;
+ Tue, 1 Feb 2022 21:41:12 GMT
+Received: from b06avi18626390.portsmouth.uk.ibm.com
+ (b06avi18626390.portsmouth.uk.ibm.com [9.149.26.192])
+ by ppma03ams.nl.ibm.com with ESMTP id 3dvw79r68f-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 01 Feb 2022 21:41:12 +0000
+Received: from d06av26.portsmouth.uk.ibm.com (d06av26.portsmouth.uk.ibm.com
+ [9.149.105.62])
+ by b06avi18626390.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
+ id 211LVKUV42926464
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 1 Feb 2022 21:31:20 GMT
+Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 48333AE053;
+ Tue,  1 Feb 2022 21:41:10 +0000 (GMT)
+Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 19E2EAE051;
+ Tue,  1 Feb 2022 21:41:08 +0000 (GMT)
+Received: from [9.43.60.126] (unknown [9.43.60.126])
+ by d06av26.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Tue,  1 Feb 2022 21:41:07 +0000 (GMT)
+Message-ID: <33114b36-15ca-3f6f-aa8d-8be9e69e8476@linux.ibm.com>
+Date: Wed, 2 Feb 2022 03:11:06 +0530
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH v2] bsd-user/signal.c: Only copy the _capsicum for
- FreeBSD_version > 1400026
+ Thunderbird/91.4.0
+Subject: Re: [PATCH REBASED v5 1/2] spapr: nvdimm: Implement H_SCM_FLUSH hcall
 Content-Language: en-US
-To: Warner Losh <imp@bsdimp.com>, qemu-devel@nongnu.org
-References: <20220201212809.59518-1-imp@bsdimp.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220201212809.59518-1-imp@bsdimp.com>
+To: David Gibson <david@gibson.dropbear.id.au>
+References: <162571302321.1030381.15196355582642786915.stgit@lep8c.aus.stglabs.ibm.com>
+ <162571303048.1030381.13893352223345979621.stgit@lep8c.aus.stglabs.ibm.com>
+ <YUl6bnSuWVsX4P1I@yekko>
+From: Shivaprasad G Bhat <sbhat@linux.ibm.com>
+In-Reply-To: <YUl6bnSuWVsX4P1I@yekko>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1033
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1033;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1033.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: gGr3E67fIuRCz7tgUPuugD94oSdsE96G
+X-Proofpoint-GUID: gGr3E67fIuRCz7tgUPuugD94oSdsE96G
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.816,Hydra:6.0.425,FMLib:17.11.62.513
+ definitions=2022-02-01_10,2022-02-01_01,2021-12-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501
+ lowpriorityscore=0 suspectscore=0 malwarescore=0 clxscore=1011
+ impostorscore=0 adultscore=0 phishscore=0 mlxlogscore=999 mlxscore=0
+ bulkscore=0 spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2201110000 definitions=main-2202010118
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=sbhat@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,24 +106,165 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kyle Evans <kevans@freebsd.org>, alex.bennee@linaro.org,
- Peter Maydell <peter.maydell@linaro.org>
+Cc: nvdimm@lists.linux.dev, aneesh.kumar@linux.ibm.com, groug@kaod.org,
+ kvm-ppc@vger.kernel.org, qemu-devel@nongnu.org, qemu-ppc@nongnu.org,
+ bharata@linux.vnet.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/2/22 08:28, Warner Losh wrote:
-> The capsicum signal stuff is new with FreeBSD 14, rev 1400026, so only
-> define QEMU_SI_CAPSICUM there. Only copy _capsicum when QEMU_SI_CAPSICUM
-> is defined. Default to no info being passed for signals we make no guess
-> about.
+Hi David,
+
+Thanks for comments. Sorry about the delay. Replies inline.
+
+On 9/21/21 11:53, David Gibson wrote:
+> On Wed, Jul 07, 2021 at 09:57:21PM -0500, Shivaprasad G Bhat wrote:
+>> The patch adds support for the SCM flush hcall for the nvdimm devices.
+>> To be available for exploitation by guest through the next patch.
+>>
+>> The hcall expects the semantics such that the flush to return
+>> with one of H_LONG_BUSY when the operation is expected to take longer
+>> time along with a continue_token. The hcall to be called again providing
+>> the continue_token to get the status. So, all fresh requests are put into
+>> a 'pending' list and flush worker is submitted to the thread pool. The
+>> thread pool completion callbacks move the requests to 'completed' list,
+>> which are cleaned up after reporting to guest in subsequent hcalls t
+
+<snip>
+
+>> @@ -30,6 +31,7 @@
+>>   #include "hw/ppc/fdt.h"
+>>   #include "qemu/range.h"
+>>   #include "hw/ppc/spapr_numa.h"
+>> +#include "block/thread-pool.h"
+>>   
+>>   /* DIMM health bitmap bitmap indicators. Taken from kernel's papr_scm.c */
+>>   /* SCM device is unable to persist memory contents */
+>> @@ -375,6 +377,243 @@ static target_ulong h_scm_bind_mem(PowerPCCPU *cpu, SpaprMachineState *spapr,
+>>       return H_SUCCESS;
+>>   }
+>>   
+>> +static uint64_t flush_token;
 > 
-> Signed-off-by: Warner Losh<imp@bsdimp.com>
-> ---
->   bsd-user/signal-common.h | 5 +++++
->   bsd-user/signal.c        | 5 +++++
->   2 files changed, 10 insertions(+)
+> Better to put this in the machine state structure than a global.
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Moved it to device state itself as suggested, the states list is per 
+device now.
 
-r~
+> 
+>> +static int flush_worker_cb(void *opaque)
+>> +{
+>> +    int ret = H_SUCCESS;
+>> +    SpaprNVDIMMDeviceFlushState *state = opaque;
+>> +
+>> +    /* flush raw backing image */
+>> +  
+
+<snip>
+
+>> +             !QLIST_EMPTY(&spapr->completed_flush_states));
+>> +}
+>> +
+>> +static int spapr_nvdimm_post_load(void *opaque, int version_id)
+>> +{
+>> +    SpaprMachineState *spapr = (SpaprMachineState *)opaque;
+>> +    SpaprNVDIMMDeviceFlushState *state, *next;
+>> +    PCDIMMDevice *dimm;
+>> +    HostMemoryBackend *backend = NULL;
+>> +    ThreadPool *pool = aio_get_thread_pool(qemu_get_aio_context());
+>> +    SpaprDrc *drc;
+>> +
+>> +    QLIST_FOREACH_SAFE(state, &spapr->completed_flush_states, node, next) {
+> 
+> I don't think you need FOREACH_SAFE here.  You're not removing entries
+> from the loop body.  If you're trying to protect against concurrent
+> removals, I don't think FOREACH_SAFE is sufficient, you'll need an
+> actual lock (but I think it's already protected by the BQL).
+
+Changing here, below and also at spapr_nvdimm_get_flush_status() while 
+traversing the pending list. Verified all these invocations are called 
+with BQL.
+
+> 
+>> +        if (flush_token < state->continue_token) {
+>> +            flush_token = state->continue_token;
+>> +        }
+>> +    }
+>> +
+>> +    QLIST_FOREACH_SAFE(state, &spapr->pending_flush_states, node, next) {
+> 
+> Sane comments here.
+> 
+>> +        if (flush_token < state->continue_token) {
+>> +            flush_token = state->continue_token;
+>> +        }
+>> +
+>> +        drc = spapr_drc_by_index(state->drcidx);
+>> +        dimm = PC_DIMM(drc->dev);
+>> +        backend = MEMORY_BACKEND(dimm->hostmem);
+>> +        state->backend_fd = memory_region_get_fd(&backend->mr);
+>> +
+>> +        thread_pool_submit_aio(pool, flush_worker_cb, state,
+>> +                               spapr_nvdimm_flush_completion_cb, state);
+>> +    }
+>> +
+>> +    return 0;
+>> +}
+>> +
+>> +const VMStateDescription vmstate_spapr_nvdimm_states = {
+>> +    .name = "spapr_nvdimm_states",
+>> +    .version_id = 1,
+>> +    .minimum_version_id = 1,
+>> +    .needed = spapr_nvdimm_states_needed,
+>> +    .post_load = spapr_nvdimm_post_load,
+>> +    .fields = (VMStateField[]) {
+>> +        VMSTATE_QLIST_V(completed_flush_states, SpaprMachineState, 1,
+>> +                        vmstate_spapr_nvdimm_flush_state,
+>> +                        SpaprNVDIMMDeviceFlushState, node),
+>> +        VMSTATE_QLIST_V(pending_flush_states, SpaprMachineState, 1,
+>> +                        vmstate_spapr_nvdimm_flush_state,
+>> +                        SpaprNVDIMMDeviceFlushState, node),
+>> +        VMSTATE_END_OF_LIST()
+>> +    },
+>> +};
+>> +
+>> +/*
+>> + * Assign a token and reserve it for the new flush state.
+>> + */
+>> +static SpaprNVDIMMDeviceFlushState *spapr_nvdimm_init_new_flush_state(
+>> +                                                      SpaprMachineState *spapr)
+>> +{
+>> +    SpaprNVDIMMDeviceFlushState *state;
+>> +
+>> +    state = g_malloc0(sizeof(*state));
+>> +
+>> +    flush_token++;
+>> +    /* Token zero is presumed as no job pending. Handle the overflow to zero */
+>> +    if (flush_token == 0) {
+>> +        flush_token++;
+> 
+> Hmm... strictly speaking, this isn't safe.  It's basically never going
+> to happen in practice, but in theory there's nothing preventing
+> continue_token 1 still being outstanding when the flush_token counter
+> overflows.
+> 
+> Come to think of it, since it's a uint64_t, I think an actual overflow
+> is also never going to happen in practice.  Maybe we should just
+> assert() on overflow, and fix it in the unlikely event that we ever
+> discover a case where it could happen.
+
+Have added the assert on overflow.
+
+> 
+>> +    }
+>> +    state->continue_token = flush_token;
+>> +
+>> +    QLIST_INSERT_HEAD(&spapr->pending_flush_states, state, node);
+>> +
+>> +    return state;
+>> +}
+>> +
+>> +/*
+>> + *
+
+Thanks!
 
