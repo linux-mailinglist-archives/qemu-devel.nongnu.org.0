@@ -2,84 +2,105 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 530974A684B
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Feb 2022 23:59:30 +0100 (CET)
-Received: from localhost ([::1]:40870 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF8994A6706
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Feb 2022 22:25:15 +0100 (CET)
+Received: from localhost ([::1]:41976 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nF27V-0007Vy-ER
-	for lists+qemu-devel@lfdr.de; Tue, 01 Feb 2022 17:59:29 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:46738)
+	id 1nF0eI-0006hf-Di
+	for lists+qemu-devel@lfdr.de; Tue, 01 Feb 2022 16:25:14 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:47292)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nExwc-0004Hy-Nh
- for qemu-devel@nongnu.org; Tue, 01 Feb 2022 13:31:58 -0500
-Received: from [2a00:1450:4864:20::32d] (port=35790
- helo=mail-wm1-x32d.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nExwa-0002FS-VN
- for qemu-devel@nongnu.org; Tue, 01 Feb 2022 13:31:58 -0500
-Received: by mail-wm1-x32d.google.com with SMTP id
- f80-20020a1c1f53000000b0035399b8bedcso2393025wmf.0
- for <qemu-devel@nongnu.org>; Tue, 01 Feb 2022 10:31:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=PhuciOTxGzyt42NozTpQG7KL1ETjDSYk2QrBi6IxQio=;
- b=k8A1cdLrBLmljn9DMF1rwPLWrLPeKKTdMm7zOpeqzSV+Y2WVn1Ns0WCEvb5XPM+/1y
- 6hds8tIYFLTI2RMhnSZxMzqkm8zUfYTan0iTeeyfC1+UklIch+Qz8IRdGPGs+k131a2p
- 7uVRCC093ZaKkji+qd/V93JJkCvC7ZvFQd6wyWp6xfHU7iDkvSoe223L7vROoNrEXnGN
- WNklMLpF6Esulnvwt/wf4n8MwySbt40TTqh/Mxb3AZROtqaO+/GGPfeX/XNu1uTuaQ0E
- I3dsatEZDvHzTrrwjdj6Zu+R4D1t7bF+NFQYfz/9Nq/+LeKjVPEWKwiwTw+8Bo+6gnSy
- U9uQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=PhuciOTxGzyt42NozTpQG7KL1ETjDSYk2QrBi6IxQio=;
- b=L2/TOA04OCuquOHYXNE+tqEBAfEboZqSLuq3UDOAP4w00LEw+cwJhpkNv2i8rEM7n8
- D6Hty6M1yIS1Z3vpGZNtXkKNih7/nhn47MhBUHJ/jj7/snj4zvdDPqMEzagkwF7QhTuS
- pMQ5qHeJ6SmbMxIZMshjvGYyS5qXmoUooG0632eLLTt2gv0dOfGb1aW8+QIjIbNUGCia
- hu4+Mqs+Hxzi/Kxkgjc/6D6OWJ95+D+SxpU30JJDiXENA/TDPW9CutcnWd65Us8sGobu
- nvqqKMJKdZ48hd1hKFq3G9CRcGVVvK/3txK0tcJa3nwQrcDEX4yeLdn78UojYLEsQNkt
- Opcg==
-X-Gm-Message-State: AOAM530H1jYsW/xUp3qAHkenCva0drRYFS5El/GEA30w6n+ZjZz6hN5G
- wzdjcSmyvMxgN2qY9pe0iQ0UnItBpxveNQ==
-X-Google-Smtp-Source: ABdhPJz2Dx7SvfvDOHWSv59+Z5isVKC2KKN8dFWGYVv++nW4FgWCn0S4hzFCOg2lgSBD8qCtX8WEtA==
-X-Received: by 2002:a7b:cb9a:: with SMTP id m26mr3007485wmi.18.1643740315406; 
- Tue, 01 Feb 2022 10:31:55 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id t4sm2671241wmj.10.2022.02.01.10.31.54
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 01 Feb 2022 10:31:54 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id CC5E51FFB7;
- Tue,  1 Feb 2022 18:31:53 +0000 (GMT)
-References: <20211218194250.247633-1-richard.henderson@linaro.org>
- <20211218194250.247633-5-richard.henderson@linaro.org>
-User-agent: mu4e 1.7.6; emacs 28.0.91
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Richard Henderson <richard.henderson@linaro.org>
-Subject: Re: [PATCH 04/20] tcg/s390x: Implement vector NAND, NOR, EQV
-Date: Tue, 01 Feb 2022 18:31:49 +0000
-In-reply-to: <20211218194250.247633-5-richard.henderson@linaro.org>
-Message-ID: <87y22uwi92.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <pasic@linux.ibm.com>)
+ id 1nExy7-0005KW-Mr; Tue, 01 Feb 2022 13:33:35 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:42500
+ helo=mx0a-001b2d01.pphosted.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <pasic@linux.ibm.com>)
+ id 1nExy4-0002Nk-Vv; Tue, 01 Feb 2022 13:33:30 -0500
+Received: from pps.filterd (m0098416.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 211ISJqZ002004; 
+ Tue, 1 Feb 2022 18:33:25 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=date : from : to : cc :
+ subject : message-id : in-reply-to : references : mime-version :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=u3VOvJFYSYZ5bN5v34ikHPyZ4vYnICqsBvOfSiwpNRo=;
+ b=bc/Zt5llc7wRGO8s40CqeC1jKnbQR8Em+TuPj4XiWyL6QOmfcDxQ8Ah2MBk/vmazip5x
+ LJvSnEOH0MuT0b+BnhiyY9a62wxpVGO36TP0bMHPiYYX+arsF+8Bkw/Ydi90MEZX1nTL
+ ehWgAQDPQUXZ4X1smgRt3erjUCLvUk2TOGs1Pd/q2PrSvCzcGbl75suas0K/xXGaLYAm
+ lKaAF5dTHANNQBKkw5FkTwf52MXTbJstB+3WWQKw38fhIaQ0Xb9Uj+Bp04XIqZ1TnYHb
+ Pzxg8D+FHS6qyEULRFsyUtj6+mNdzMvdW/1ZFzbstEM2kNIlPN6OmTzNswToYbwMvGEL CA== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 3dxkthuep1-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 01 Feb 2022 18:33:24 +0000
+Received: from m0098416.ppops.net (m0098416.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 211Hd9AB025633;
+ Tue, 1 Feb 2022 18:33:24 GMT
+Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.99])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 3dxkthuent-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 01 Feb 2022 18:33:24 +0000
+Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
+ by ppma04ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 211IMnbk025460;
+ Tue, 1 Feb 2022 18:33:22 GMT
+Received: from b06avi18626390.portsmouth.uk.ibm.com
+ (b06avi18626390.portsmouth.uk.ibm.com [9.149.26.192])
+ by ppma04ams.nl.ibm.com with ESMTP id 3dvw79q6jc-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 01 Feb 2022 18:33:22 +0000
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com
+ (b06wcsmtp001.portsmouth.uk.ibm.com [9.149.105.160])
+ by b06avi18626390.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
+ id 211INUbh49938862
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 1 Feb 2022 18:23:30 GMT
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 56AECA4060;
+ Tue,  1 Feb 2022 18:33:19 +0000 (GMT)
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id D5BECA405B;
+ Tue,  1 Feb 2022 18:33:18 +0000 (GMT)
+Received: from li-e979b1cc-23ba-11b2-a85c-dfd230f6cf82 (unknown [9.171.90.234])
+ by b06wcsmtp001.portsmouth.uk.ibm.com (Postfix) with SMTP;
+ Tue,  1 Feb 2022 18:33:18 +0000 (GMT)
+Date: Tue, 1 Feb 2022 19:33:09 +0100
+From: Halil Pasic <pasic@linux.ibm.com>
+To: Daniel Henrique Barboza <danielhb@linux.ibm.com>
+Subject: Re: [PATCH v3 1/1] virtio: fix the condition for iommu_platform not
+ supported
+Message-ID: <20220201193309.7da86258.pasic@linux.ibm.com>
+In-Reply-To: <f12eeebf-6c9a-d40f-09de-10eb86dd3c26@linux.ibm.com>
+References: <20220201133915.3764972-1-pasic@linux.ibm.com>
+ <f12eeebf-6c9a-d40f-09de-10eb86dd3c26@linux.ibm.com>
+Organization: IBM
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32d
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32d.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: YeXTZNtoWhCKB0XrygQOnZXP5sya7RU-
+X-Proofpoint-GUID: 3YzipGEhfdmDgCHtgUkovVxLc2I0gzZh
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.816,Hydra:6.0.425,FMLib:17.11.62.513
+ definitions=2022-02-01_09,2022-02-01_01,2021-12-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 suspectscore=0
+ mlxlogscore=999 clxscore=1015 phishscore=0 lowpriorityscore=0 spamscore=0
+ adultscore=0 bulkscore=0 mlxscore=0 impostorscore=0 priorityscore=1501
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2201110000
+ definitions=main-2202010104
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=pasic@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -92,17 +113,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>, Brijesh Singh <brijesh.singh@amd.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
+ qemu-stable@nongnu.org, qemu-devel@nongnu.org,
+ Halil Pasic <pasic@linux.ibm.com>, Jakob Naucke <Jakob.Naucke@ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Tue, 1 Feb 2022 12:36:25 -0300
+Daniel Henrique Barboza <danielhb@linux.ibm.com> wrote:
 
-Richard Henderson <richard.henderson@linaro.org> writes:
+> > +    vdev_has_iommu = virtio_host_has_feature(vdev, VIRTIO_F_IOMMU_PLATFORM);
+> >       if (klass->get_dma_as != NULL && has_iommu) {
+> >           virtio_add_feature(&vdev->host_features, VIRTIO_F_IOMMU_PLATFORM);
+> >           vdev->dma_as = klass->get_dma_as(qbus->parent);
+> > +        if (!vdev_has_iommu && vdev->dma_as != &address_space_memory) {
+> > +            error_setg(errp,
+> > +                       "iommu_platform=true is not supported by the device");
+> > +        }  
+> 
+> 
+> >       } else {
+> >           vdev->dma_as = &address_space_memory;
+> >       }  
+> 
+> 
+> I struggled to understand what this 'else' clause was doing and I assumed that it was
+> wrong. Searching through the ML I learned that this 'else' clause is intended to handle
+> legacy virtio devices that doesn't support the DMA API (introduced in 8607f5c3072caeebb)
+> and thus shouldn't set  VIRTIO_F_IOMMU_PLATFORM.
+> 
+> 
+> My suggestion, if a v4 is required for any other reason, is to add a small comment in this
+> 'else' clause explaining that this is the legacy virtio devices condition and those devices
+> don't set F_IOMMU_PLATFORM. This would make the code easier to read for a virtio casual like
+> myself.
 
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+I do not agree that this is about legacy virtio. In my understanding
+virtio-ccw simply does not need translation because CCW devices use
+guest physical addresses as per architecture. It may be considered
+legacy stuff form PCI perspective, but I don't think it is legacy
+in general.
 
-Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+And there is a good reason for virtio-ccw devices to use
+F_IOMMU_PLATFORM (secure execution).
 
---=20
-Alex Benn=C3=A9e
+Other opinions?
+
+Regards,
+Halil
 
