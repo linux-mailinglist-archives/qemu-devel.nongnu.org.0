@@ -2,72 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 973BD4A5C08
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Feb 2022 13:15:51 +0100 (CET)
-Received: from localhost ([::1]:55976 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 98F0B4A5C18
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Feb 2022 13:20:07 +0100 (CET)
+Received: from localhost ([::1]:35124 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nEs4c-00042Z-Mw
-	for lists+qemu-devel@lfdr.de; Tue, 01 Feb 2022 07:15:50 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:43150)
+	id 1nEs8k-00013O-Fc
+	for lists+qemu-devel@lfdr.de; Tue, 01 Feb 2022 07:20:06 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:44630)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nEry0-0000ME-Uz
- for qemu-devel@nongnu.org; Tue, 01 Feb 2022 07:09:01 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:23695)
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nEs4V-0006EU-5a
+ for qemu-devel@nongnu.org; Tue, 01 Feb 2022 07:15:50 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:60390)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nErxw-0004JU-VX
- for qemu-devel@nongnu.org; Tue, 01 Feb 2022 07:08:59 -0500
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nEs4S-00065y-V5
+ for qemu-devel@nongnu.org; Tue, 01 Feb 2022 07:15:42 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1643717335;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=3PuLN1ZKztqzCt+y/2/0/F5Nvtwhfe8MAF2F/AOX1Gk=;
- b=ORTmUP4CxIan41r+vpjWzFkQnuyPjl4O5HATvc0R+I/j/eEFLsbxvEe9zx1VPlbjNyIqot
- 8D95AGapaKmDsi+s+GBFdZ2PG0sfxYFUBZ9l6FqdS+UZi0sTIHyv5rskU3boyK/MRCS6LC
- UgWMtnHO6gE2MzKcsNAZqbV0Uvh5C3I=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ s=mimecast20190719; t=1643717739;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=2bPZYWph78tOlMwgIljXT0zd3xVwdlPs17bMY19cLcY=;
+ b=dXhHOrZwmk9GZRrDPaGPIe3JaT6mYSHiZclnhFJh1ywsaB1gfSZ8BZGLOSJKXaYNDoGZ9d
+ ZhydJgCLKY3sX0up0H7munVRFmf11hwSOloHKVMD5XWtaKQ4ma3oDMOkIkB4d/mOSCSli8
+ gvL7dOjbp4vm0nKfwCiIEO+yGy7NGHw=
+Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
+ [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-556-r1i1y0OwOcSSodIMrGtSwQ-1; Tue, 01 Feb 2022 07:08:48 -0500
-X-MC-Unique: r1i1y0OwOcSSodIMrGtSwQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7303593922;
- Tue,  1 Feb 2022 12:08:47 +0000 (UTC)
-Received: from redhat.com (unknown [10.39.195.27])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id F04B15F913;
- Tue,  1 Feb 2022 12:08:45 +0000 (UTC)
-Date: Tue, 1 Feb 2022 12:08:42 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Mark Kanda <mark.kanda@oracle.com>
-Subject: Re: [PATCH v3 1/3] qmp: Support for querying stats
-Message-ID: <YfkiyiK+jfrdbVcY@redhat.com>
-References: <20220131194312.1192626-1-mark.kanda@oracle.com>
- <20220131194312.1192626-2-mark.kanda@oracle.com>
+ us-mta-475-cfMZ38SSNbG01dbuRvlAUw-1; Tue, 01 Feb 2022 07:15:38 -0500
+X-MC-Unique: cfMZ38SSNbG01dbuRvlAUw-1
+Received: by mail-ej1-f70.google.com with SMTP id
+ rl11-20020a170907216b00b006b73a611c1aso6429253ejb.22
+ for <qemu-devel@nongnu.org>; Tue, 01 Feb 2022 04:15:38 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=2bPZYWph78tOlMwgIljXT0zd3xVwdlPs17bMY19cLcY=;
+ b=RYtz8t+4nvwY5bynkONRbntx15mcAz60pzSOB9S76homFO7g27vBjRlK7q/HRblNNi
+ lsyOGKlbhKKtvG9tPJ40BIpGNfPu7fckFhIoKVb8X0SekfIjkIVl22HvlTX5fYGyY8H7
+ x2lr0uQQGjxf1PiafH1JwXJzDHNlsg+a4x2NCuHcNVPfhWPUik+wk7Eb0WD7BbUZj714
+ jQFGWjxkvT65fNXrGSyr6Rh5I3ErBrA237Jvc5uDKIJOItdOLQOQZX+K/oqBdaIXDTtS
+ hfdBqVoxvOfFyxAV6nwXQ5aAqsG5otaFA1ajfMhloj8YNQEgcgfNuIy6anJwuQtidz1D
+ WCAw==
+X-Gm-Message-State: AOAM531K858ljAtk1wNZHxwZNjJH6alBIzvg7+gjVJwJ3JtHGuZOm6E6
+ eyyBARVCvo148qnq05xj4S/CqOneAgKck1PosOqTzDFVui/ejqPxv+vRfoLrohptZ9s8QFtrPxN
+ X5Ftny+/b4hdj3JY=
+X-Received: by 2002:a17:907:3ea9:: with SMTP id
+ hs41mr21815886ejc.727.1643717737483; 
+ Tue, 01 Feb 2022 04:15:37 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxlT4E5DKiEi1s0IlJGLj2xeanrCknGn3W+zzqNHUG3kEVYP00E9WJlKjQtj72JhIWJqBYexA==
+X-Received: by 2002:a17:907:3ea9:: with SMTP id
+ hs41mr21815866ejc.727.1643717737258; 
+ Tue, 01 Feb 2022 04:15:37 -0800 (PST)
+Received: from ?IPV6:2a02:8071:5055:3f20:7ad9:a400:6d51:83e6?
+ ([2a02:8071:5055:3f20:7ad9:a400:6d51:83e6])
+ by smtp.gmail.com with ESMTPSA id gh14sm14337248ejb.126.2022.02.01.04.15.36
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 01 Feb 2022 04:15:36 -0800 (PST)
+Message-ID: <9b67dbed-bced-1521-5044-38ed2cdf79e6@redhat.com>
+Date: Tue, 1 Feb 2022 13:15:36 +0100
 MIME-Version: 1.0
-In-Reply-To: <20220131194312.1192626-2-mark.kanda@oracle.com>
-User-Agent: Mutt/2.1.5 (2021-12-30)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH v3 2/2] block/export/fuse: Fix build failure on FreeBSD
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org
+References: <20220201112655.344373-1-f4bug@amsat.org>
+ <20220201112655.344373-3-f4bug@amsat.org>
+From: Hanna Reitz <hreitz@redhat.com>
+In-Reply-To: <20220201112655.344373-3-f4bug@amsat.org>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=hreitz@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
 X-Spam_bar: --
 X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.081,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -80,401 +102,86 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: pbonzini@redhat.com, qemu-devel@nongnu.org, armbru@redhat.com
+Cc: Kevin Wolf <kwolf@redhat.com>, Ed Maste <emaste@freebsd.org>,
+ qemu-block@nongnu.org, Kyle Evans <kevans@freebsd.org>,
+ Li-Wen Hsu <lwhsu@freebsd.org>, Fabrice Fontaine <fontaine.fabrice@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Jan 31, 2022 at 01:43:10PM -0600, Mark Kanda wrote:
-> Introduce QMP support for querying stats. Provide a framework for adding new
-> stats and support for the following commands:
-> 
-> - query-stats
-> Returns a list of all stats per target type (only VM and VCPU for now), with
-> additional options for specifying stat names, VCPU qom paths, and stat provider.
-> 
-> - query-stats-schemas
-> Returns a list of stats included in each schema type, with an option for
-> specifying the stat provider.
-> 
-> The framework provides a method to register callbacks for these QMP commands.
-> 
-> The first usecase will be for fd-based KVM stats (in an upcoming patch).
-> 
-> Examples (with fd-based KVM stats):
-> 
-> - Display all VM stats:
-> 
-> { "execute": "query-stats", "arguments" : { "target": "vm" } }
-> { "return": {
->     "list": [
->       { "provider": "kvm",
->         "stats": [
->           { "name": "max_mmu_page_hash_collisions", "value": 0 },
->           { "name": "max_mmu_rmap_size", "value": 0 },
->           { "name": "nx_lpage_splits", "value": 131 },
->          ...
->         ] }
->       { "provider": "provider XYZ",
->       ...
->     ],
->     "target": "vm"
->   }
-> }
-
-I still feel like this is rather verbose, and should be simplified
-down to.
-
- { "return": {
-     "vm": {
-       "kvm": [ ... ]
-       "provider-XYZ": [ ... ],
-       ...
-     }
- }
-
-
-While vCPU would need one extra nesting layer
-
- { "return": {
-     "vcpus": [
-       {
-         "path": "/vcpu0/path"
-         "kvm": [ ... ]
-         "provider-XYZ": [ ... ],
-         ...
-       },
-       {
-         "path": "/vcpu1/path"
-         "kvm": [ ... ]
-         "provider-XYZ": [ ... ],
-         ...
-       },
-       ...
-     ],
- }
-
-
-The notable difference here is that we'd be adding new
-keys to the StatsResultEntry struct, every time we gain
-a new provider, so your QMP code couldn't be entirely
-metadata driven - you'd need new code to wire up each
-stats provider. 
-
-
-> - Display 'exits' and 'l1d_flush' KVM stats for VCPUs at '/machine/unattached/device[2]'
-> and '/machine/unattached/device[4]':
-
-Shows the value of giving CPUs proper paths
-
-  https://lists.gnu.org/archive/html/qemu-devel/2022-01/msg06744.html
-
-> 
-> { "execute": "query-stats",
->   "arguments" : { "target": "vcpu",
->                   "fields": [ "exits", "l1d_flush" ],
-> 	          "paths": [ "/machine/unattached/device[2]",
-> 	                      "/machine/unattached/device[4]" ]
->                   "provider": "kvm" } }
-
-This design requires multiple query-stats calls to get data from
-multiple providers which I think is very undesirable from a
-performance POV.
-
-I'd like to see us able to query fields from many providers at
-once
-
-ie so we have something that looks like
- 
- { "execute": "query-stats",
-   "arguments" : { "target": "vcpu",
- 	           "vcpus": [ "/machine/unattached/device[2]",
- 	                      "/machine/unattached/device[4]" ]
-                   "kvm": [ "exits", "l1d_flush" ],
-		   "someprovider: [ "somefield" ] } }
-
-
-> 
-> { "return": {
->     "list": [
->       { "list": [
->           { "provider": "kvm",
->             "stats": [
->               { "name": "l1d_flush", "value": 14690 },
->               { "name": "exits", "value": 50898 }
->             ] }
->         ],
->         "path": "/machine/unattached/device[2]"
->       },
->       { "list": [
->           { "provider": "kvm",
->             "stats": [
->               { "name": "l1d_flush", "value": 24902 },
->               { "name": "exits", "value": 74374 }
->             ] }
-> 	 ],
->         "path": "/machine/unattached/device[4]"
->       }
->     ],
->     "target": "vcpu"
->   }
-> }
-> 
-> - Query stats schemas:
-> 
-> { "execute": "query-stats-schemas" }
-> { "return": {
->     "vcpu": [
->       { "provider": "kvm",
->         "stats": [
->            { "name": "guest_mode",
->              "unit": "none",
->              "base": 10,
->              "exponent": 0,
->              "type": "instant" },
-> 	   { "name": "directed_yield_successful",
->              "unit": "none",
->              "base": 10,
->              "exponent": 0,
->              "type": "cumulative" },
->              ...
-> 	"provider": "provider XYZ",
-> ...
->    "vm": [
->       { "provider": "kvm",
->         "stats": [
->            { "name": "max_mmu_page_hash_collisions",
->              "unit": "none",
->              "base": 10,
->              "exponent": 0,
->              "type": "peak" },
-> 	"provider": "provider XYZ",
-> ...
-> 
-> Signed-off-by: Mark Kanda <mark.kanda@oracle.com>
+On 01.02.22 12:26, Philippe Mathieu-Daudé wrote:
+> When building on FreeBSD we get:
+>
+>    [816/6851] Compiling C object libblockdev.fa.p/block_export_fuse.c.o
+>    ../block/export/fuse.c:628:16: error: use of undeclared identifier 'FALLOC_FL_KEEP_SIZE'
+>        if (mode & FALLOC_FL_KEEP_SIZE) {
+>                   ^
+>    ../block/export/fuse.c:651:16: error: use of undeclared identifier 'FALLOC_FL_PUNCH_HOLE'
+>        if (mode & FALLOC_FL_PUNCH_HOLE) {
+>                   ^
+>    ../block/export/fuse.c:652:22: error: use of undeclared identifier 'FALLOC_FL_KEEP_SIZE'
+>            if (!(mode & FALLOC_FL_KEEP_SIZE)) {
+>                         ^
+>    3 errors generated.
+>    FAILED: libblockdev.fa.p/block_export_fuse.c.o
+>
+> Meson indeed reported FALLOC_FL_PUNCH_HOLE is not available:
+>
+>    C compiler for the host machine: cc (clang 10.0.1 "FreeBSD clang version 10.0.1")
+>    Checking for function "fallocate" : NO
+>    Checking for function "posix_fallocate" : YES
+>    Header <linux/falloc.h> has symbol "FALLOC_FL_PUNCH_HOLE" : NO
+>    Header <linux/falloc.h> has symbol "FALLOC_FL_ZERO_RANGE" : NO
+>    ...
+>
+> Similarly to commit 304332039 ("block/export/fuse.c: fix musl build"),
+> guard the code requiring FALLOC_FL_KEEP_SIZE / FALLOC_FL_PUNCH_HOLE
+> definitions under CONFIG_FALLOCATE_PUNCH_HOLE #ifdef'ry.
+>
+> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 > ---
->  include/monitor/stats.h |  36 ++++++
->  monitor/qmp-cmds.c      | 183 +++++++++++++++++++++++++++++
->  qapi/misc.json          | 253 ++++++++++++++++++++++++++++++++++++++++
->  3 files changed, 472 insertions(+)
->  create mode 100644 include/monitor/stats.h
-> 
+>   block/export/fuse.c | 4 ++++
+>   1 file changed, 4 insertions(+)
+>
+> diff --git a/block/export/fuse.c b/block/export/fuse.c
+> index d25e478c0a2..fdda8e3c818 100644
+> --- a/block/export/fuse.c
+> +++ b/block/export/fuse.c
+> @@ -625,9 +625,11 @@ static void fuse_fallocate(fuse_req_t req, fuse_ino_t inode, int mode,
+>           return;
+>       }
+>   
+> +#ifdef CONFIG_FALLOCATE_PUNCH_HOLE
+>       if (mode & FALLOC_FL_KEEP_SIZE) {
+>           length = MIN(length, blk_len - offset);
+>       }
+> +#endif /* CONFIG_FALLOCATE_PUNCH_HOLE */
+>   
+>       if (!mode) {
+>           /* We can only fallocate at the EOF with a truncate */
+> @@ -648,6 +650,7 @@ static void fuse_fallocate(fuse_req_t req, fuse_ino_t inode, int mode,
+>           ret = fuse_do_truncate(exp, offset + length, true,
+>                                  PREALLOC_MODE_FALLOC);
+>       }
+> +#ifdef CONFIG_FALLOCATE_PUNCH_HOLE
+>       else if (mode & FALLOC_FL_PUNCH_HOLE) {
+>           if (!(mode & FALLOC_FL_KEEP_SIZE)) {
+>               fuse_reply_err(req, EINVAL);
+> @@ -662,6 +665,7 @@ static void fuse_fallocate(fuse_req_t req, fuse_ino_t inode, int mode,
+>               length -= size;
+>           } while (ret == 0 && length > 0);
+>       }
+> +#endif /* CONFIG_FALLOCATE_PUNCH_HOLE */
+>   #ifdef CONFIG_FALLOCATE_ZERO_RANGE
+>       else if (mode & FALLOC_FL_ZERO_RANGE) {
+>           if (!(mode & FALLOC_FL_KEEP_SIZE) && offset + length > blk_len) {
 
-> diff --git a/qapi/misc.json b/qapi/misc.json
-> index e8054f415b..8d326464f0 100644
-> --- a/qapi/misc.json
-> +++ b/qapi/misc.json
+I believe CONFIG_FALLOCATE_ZERO_RANGE only guarantees the presence of 
+FALLOC_FL_ZERO_RANGE, so we probably should check for 
+CONFIG_FALLOCATE_PUNCH_HOLE, too, here.
 
-I'd suggest we introduce a 'stats.json' file just for this. We have
-quite a few data types introduced, and its good to avoid 'misc.json'
-becoming a dumping ground for ranom unrelated stuff.
+(Maybe in practice FALLOC_FL_ZERO_RANGE guarantees that 
+FALLOC_FL_KEEP_SIZE exists, too, but then a check just wouldn’t hurt.)
 
-> @@ -527,3 +527,256 @@
->   'data': { '*option': 'str' },
->   'returns': ['CommandLineOptionInfo'],
->   'allow-preconfig': true }
-> +
-> +##
-> +# @StatType:
-
-There's inconsistency with naming through these changes. Can we
-ensure that everything uses 'Stats' (plural) as the prefix for
-every type.
-
-> +#
-> +# Enumeration of stat types
-> +# @cumulative: stat is cumulative; value can only increase.
-> +# @instant: stat is instantaneous; value can increase or decrease.
-> +# @peak: stat is the peak value; value can only increase.
-
-Not documenting all members
-
-> +#
-> +# Since: 7.0
-> +##
-> +{ 'enum' : 'StatType',
-> +  'data' : [ 'cumulative', 'instant', 'peak',
-> +             'linear-hist', 'log-hist', 'unknown' ] }
-
-IMHO 'unknown' shouldn't exist at all.
-
-> +##
-> +# @StatsVCPURequest:
-> +#
-> +# vcpu specific filter element.
-> +# @paths: list of qom paths.
-> +#
-> +# Since: 7.0
-> +##
-> +{ 'struct': 'StatsVCPURequest',
-> +  'base': 'StatsRequest',
-> +  'data': { '*paths': [ 'str' ] } }
-
-Call the field 'vcpus' instead of 'paths' to make it
-clear that we're listing VCPU paths here.
-
-> +##
-> +# @StatsRequest:
-> +#
-> +# Stats filter element.
-> +# @provider: stat provider.
-> +# @fields: list of stat names.
-> +#
-> +# Since: 7.0
-> +##
-> +{ 'struct': 'StatsRequest',
-> +  'data': { '*provider': 'StatsProvider',
-> +            '*fields': [ 'str' ] } }
-
-As mentioned earlier I think we need to have aility to query from
-many providers at once. It'd be better to have provider name as
-the field name, eg
-
- { 'struct': 'StatsRequest',
-   'data': { '*kvm': ['str'],
-             '*someprovider': [ 'str' ] } }
-
-> +
-> +##
-> +# @StatsFilter:
-> +#
-> +# Target specific filter.
-> +#
-> +# Since: 7.0
-> +##
-> +{ 'union': 'StatsFilter',
-> +  'base': { 'target': 'StatsTarget' },
-> +  'discriminator': 'target',
-> +  'data': { 'vcpu': 'StatsVCPURequest',
-> +            'vm': 'StatsRequest' } }
-
-> +##
-> +# @StatsValueArray:
-> +#
-> +# uint64 list for StatsValue.
-> +#
-> +# Since: 7.0
-> +##
-> +{ 'struct': 'StatsValueArray',
-> +  'data': { 'list' : [ 'uint64' ] } }
-
-'values' or 'elements' rather than repeating 'list'
-
-> +
-> +##
-> +# @StatsValue:
-> +#
-> +# @scalar: stat is single uint64.
-> +# @list: stat is a list of uint64.
-> +#
-> +# Since: 7.0
-> +##
-> +{ 'alternate': 'StatsValue',
-> +  'data': { 'scalar': 'uint64',
-> +            'list': 'StatsValueArray' } }
-> +
-> +##
-> +# @Stats:
-> +#
-> +# @name: name of stat.
-> +# @value: stat value.
-> +#
-> +# Since: 7.0
-> +##
-> +{ 'struct': 'Stats',
-> +  'data': { 'name': 'str',
-> +            'value' : 'StatsValue' } }
-> +
-> +##
-> +# @StatsResultsEntry:
-> +#
-> +# @provider: stat provider.
-> +# @stats: list of stats.
-> +#
-> +# Since: 7.0
-> +##
-> +{ 'struct': 'StatsResultsEntry',
-> +  'data': { 'provider': 'StatsProvider',
-> +            'stats': [ 'Stats' ] } }
-> +
-> +##
-> +# @VCPUResultsEntry:
-> +#
-> +# @path: qom path.
-> +# @list: per provider @StatsResultEntry list.
-> +#
-> +# Since: 7.0
-> +##
-> +{ 'struct': 'VCPUResultsEntry',
-> +  'data': { 'path': 'str',
-> +            'list': [ 'StatsResultsEntry' ] } }
-> +
-> +##
-> +# @VMStatsResults:
-> +#
-> +# Since: 7.0
-> +##
-> +{ 'struct': 'VMStatsResults',
-> +  'data': { 'list' : [ 'StatsResultsEntry' ] } }
-> +
-> +##
-> +# @VCPUStatsResults:
-> +#
-> +# Since: 7.0
-> +##
-> +{ 'struct': 'VCPUStatsResults',
-> +  'data': { 'list': [ 'VCPUResultsEntry' ] } }
-> +
-> +##
-> +# @StatsResults:
-> +#
-> +# Target specific results.
-> +#
-> +# Since: 7.0
-> +##
-> +{ 'union': 'StatsResults',
-> +  'base': { 'target': 'StatsTarget' },
-> +  'discriminator': 'target',
-> +  'data': { 'vcpu': 'VCPUStatsResults',
-> +            'vm': 'VMStatsResults' } }
-
-I feel we can simplify this all down somewhat, eliminating levels
-of redundant nesting
-
-{ 'struct': 'StatsResultsEntry',
-  'data': { '*kvm': [ 'Stats' ] } }
-
-{ 'struct': 'StatsResultsVCPUEntry',
-  'base': 'StatsResultsEntry',
-  'data': 'path': 'str' } }
-
-{ 'struct': 'StatsResults',
-  'data': {
-      '*vcpus': ['StatsResultsVCPUEntry'],
-      '*vm': 'StatsResultsEntry'
-  }
-}
-
-
-> +
-> +##
-> +# @query-stats:
-> +#
-> +# data: @StatsFilter
-> +# Returns: @StatsResults
-> +#
-> +# Since: 7.0
-> +##
-> +{ 'command': 'query-stats',
-> +  'data': 'StatsFilter',
-> +  'boxed': true,
-> +  'returns': 'StatsResults' }
-
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+Hanna
 
 
