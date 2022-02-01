@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A35794A60F0
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Feb 2022 17:04:16 +0100 (CET)
-Received: from localhost ([::1]:49918 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 899884A605A
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Feb 2022 16:44:36 +0100 (CET)
+Received: from localhost ([::1]:44922 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nEvdf-0000Hp-46
-	for lists+qemu-devel@lfdr.de; Tue, 01 Feb 2022 11:04:15 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:37556)
+	id 1nEvKd-0001il-Mq
+	for lists+qemu-devel@lfdr.de; Tue, 01 Feb 2022 10:44:35 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:37384)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nEuRW-0002n0-K8
- for qemu-devel@nongnu.org; Tue, 01 Feb 2022 09:47:48 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:48752)
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nEuRS-0002mJ-Bq
+ for qemu-devel@nongnu.org; Tue, 01 Feb 2022 09:47:37 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:28363)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nEuRL-00030f-3r
- for qemu-devel@nongnu.org; Tue, 01 Feb 2022 09:47:36 -0500
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nEuRL-00031Y-1I
+ for qemu-devel@nongnu.org; Tue, 01 Feb 2022 09:47:32 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1643726630;
+ s=mimecast20190719; t=1643726636;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=JeCkWUDsPMReqX8PROPWTVA1UQcsZbz/ulfWY0PXodM=;
- b=Sq18lulGCcNGs9UJy/QNIER0XxqPDrvSyldPORC5VtBwZlgtpyV5Z3ZpIzqFq+mAnmyJiG
- mKFt/0so3IccZUxUn9KFgBH0MV9uXSh96MLrbma9vPcG/167+bDXgsOl8+LPzacd8yzEX4
- jihGwQ+GT0XMMRb2rIcTvFLuzvGIG1k=
+ bh=dvtPQCatEZe0xC82XXY+CMWfvD5GlCP7wXvXV1nBZkQ=;
+ b=HQaFKMFEV1ms6r1zEsgWlTmYznoRs9XLoBRGyVwss7m9s8/8Vc+g1ZH3/hQHxuqsK0WVXk
+ djnBBAUAj4YnHA84QEr4sN5yTKz86x1CFRGu3iHwKrOU5KGsD2jr/tutRv7jt/oiNhiHna
+ WVQMCUaRebWpREF+ZMcJ3DYGgbC0ObI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-99-Wm6Y0iN1NHmgNh9fVXHfFA-1; Tue, 01 Feb 2022 09:43:47 -0500
-X-MC-Unique: Wm6Y0iN1NHmgNh9fVXHfFA-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-62-ndr_zvQhMgWcOAjH7FMaig-1; Tue, 01 Feb 2022 09:43:50 -0500
+X-MC-Unique: ndr_zvQhMgWcOAjH7FMaig-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 471D764093;
- Tue,  1 Feb 2022 14:43:46 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 78AB1640A3;
+ Tue,  1 Feb 2022 14:43:48 +0000 (UTC)
 Received: from localhost (unknown [10.39.193.129])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 6B91C74E89;
- Tue,  1 Feb 2022 14:43:38 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 1F75370D31;
+ Tue,  1 Feb 2022 14:43:47 +0000 (UTC)
 From: Hanna Reitz <hreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 13/24] iotest 302: use img_info_log() helper
-Date: Tue,  1 Feb 2022 15:42:22 +0100
-Message-Id: <20220201144233.617021-14-hreitz@redhat.com>
+Subject: [PULL 14/24] qcow2: simple case support for downgrading of qcow2
+ images with zstd
+Date: Tue,  1 Feb 2022 15:42:23 +0100
+Message-Id: <20220201144233.617021-15-hreitz@redhat.com>
 In-Reply-To: <20220201144233.617021-1-hreitz@redhat.com>
 References: <20220201144233.617021-1-hreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=hreitz@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=hreitz@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
 X-Spam_bar: --
 X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.081,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -86,81 +86,107 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 
-Instead of qemu_img_log("info", ..) use generic helper img_info_log().
+If image doesn't have any compressed cluster we can easily switch to
+zlib compression, which may allow to downgrade the image.
 
-img_info_log() has smarter logic. For example it use filter_img_info()
-to filter output, which in turns filter a compression type. So it will
-help us in future when we implement a possibility to use zstd
-compression by default (with help of some runtime config file or maybe
-build option). For now to test you should recompile qemu with a small
-addition into block/qcow2.c before
-"if (qcow2_opts->has_compression_type":
+That's mostly needed to support IMGOPTS='compression_type=zstd' in some
+iotests which do qcow2 downgrade.
 
-    if (!qcow2_opts->has_compression_type && version >= 3) {
-        qcow2_opts->has_compression_type = true;
-        qcow2_opts->compression_type = QCOW2_COMPRESSION_TYPE_ZSTD;
-    }
+While being here also fix checkpatch complain against '#' in printf
+formatting.
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 Reviewed-by: Max Reitz <mreitz@redhat.com>
-Message-Id: <20211223160144.1097696-12-vsementsov@virtuozzo.com>
+Message-Id: <20211223160144.1097696-13-vsementsov@virtuozzo.com>
 Signed-off-by: Hanna Reitz <hreitz@redhat.com>
 ---
- tests/qemu-iotests/302     | 4 +++-
- tests/qemu-iotests/302.out | 7 +++----
- 2 files changed, 6 insertions(+), 5 deletions(-)
+ block/qcow2.c | 58 +++++++++++++++++++++++++++++++++++++++++++++++++--
+ 1 file changed, 56 insertions(+), 2 deletions(-)
 
-diff --git a/tests/qemu-iotests/302 b/tests/qemu-iotests/302
-index 5695af4914..a6d79e727b 100755
---- a/tests/qemu-iotests/302
-+++ b/tests/qemu-iotests/302
-@@ -34,6 +34,7 @@ from iotests import (
-     qemu_img_measure,
-     qemu_io,
-     qemu_nbd_popen,
-+    img_info_log,
- )
+diff --git a/block/qcow2.c b/block/qcow2.c
+index d509016756..c8115e1cba 100644
+--- a/block/qcow2.c
++++ b/block/qcow2.c
+@@ -5279,6 +5279,38 @@ static int qcow2_load_vmstate(BlockDriverState *bs, QEMUIOVector *qiov,
+     return bs->drv->bdrv_co_preadv_part(bs, offset, qiov->size, qiov, 0, 0);
+ }
  
- iotests.script_initialize(supported_fmts=["qcow2"])
-@@ -88,6 +89,7 @@ with tarfile.open(tar_file, "w") as tar:
-             tar_file):
++static int qcow2_has_compressed_clusters(BlockDriverState *bs)
++{
++    int64_t offset = 0;
++    int64_t bytes = bdrv_getlength(bs);
++
++    if (bytes < 0) {
++        return bytes;
++    }
++
++    while (bytes != 0) {
++        int ret;
++        QCow2SubclusterType type;
++        unsigned int cur_bytes = MIN(INT_MAX, bytes);
++        uint64_t host_offset;
++
++        ret = qcow2_get_host_offset(bs, offset, &cur_bytes, &host_offset,
++                                    &type);
++        if (ret < 0) {
++            return ret;
++        }
++
++        if (type == QCOW2_SUBCLUSTER_COMPRESSED) {
++            return 1;
++        }
++
++        offset += cur_bytes;
++        bytes -= cur_bytes;
++    }
++
++    return 0;
++}
++
+ /*
+  * Downgrades an image's version. To achieve this, any incompatible features
+  * have to be removed.
+@@ -5336,9 +5368,10 @@ static int qcow2_downgrade(BlockDriverState *bs, int target_version,
+      * the first place; if that happens nonetheless, returning -ENOTSUP is the
+      * best thing to do anyway */
  
-         iotests.log("=== Target image info ===")
-+        # Not img_info_log as it enforces imgfmt, but now we print info on raw
-         qemu_img_log("info", nbd_uri)
+-    if (s->incompatible_features) {
++    if (s->incompatible_features & ~QCOW2_INCOMPAT_COMPRESSION) {
+         error_setg(errp, "Cannot downgrade an image with incompatible features "
+-                   "%#" PRIx64 " set", s->incompatible_features);
++                   "0x%" PRIx64 " set",
++                   s->incompatible_features & ~QCOW2_INCOMPAT_COMPRESSION);
+         return -ENOTSUP;
+     }
  
-         qemu_img(
-@@ -99,7 +101,7 @@ with tarfile.open(tar_file, "w") as tar:
-             nbd_uri)
+@@ -5356,6 +5389,27 @@ static int qcow2_downgrade(BlockDriverState *bs, int target_version,
+         return ret;
+     }
  
-         iotests.log("=== Converted image info ===")
--        qemu_img_log("info", nbd_uri)
-+        img_info_log(nbd_uri)
- 
-         iotests.log("=== Converted image check ===")
-         qemu_img_log("check", nbd_uri)
-diff --git a/tests/qemu-iotests/302.out b/tests/qemu-iotests/302.out
-index e2f6077e83..3e7c281b91 100644
---- a/tests/qemu-iotests/302.out
-+++ b/tests/qemu-iotests/302.out
-@@ -6,14 +6,13 @@ virtual size: 448 KiB (458752 bytes)
- disk size: unavailable
- 
- === Converted image info ===
--image: nbd+unix:///exp?socket=SOCK_DIR/PID-nbd-sock
--file format: qcow2
-+image: TEST_IMG
-+file format: IMGFMT
- virtual size: 1 GiB (1073741824 bytes)
--disk size: unavailable
- cluster_size: 65536
- Format specific information:
-     compat: 1.1
--    compression type: zlib
-+    compression type: COMPRESSION_TYPE
-     lazy refcounts: false
-     refcount bits: 16
-     corrupt: false
++    if (s->incompatible_features & QCOW2_INCOMPAT_COMPRESSION) {
++        ret = qcow2_has_compressed_clusters(bs);
++        if (ret < 0) {
++            error_setg(errp, "Failed to check block status");
++            return -EINVAL;
++        }
++        if (ret) {
++            error_setg(errp, "Cannot downgrade an image with zstd compression "
++                       "type and existing compressed clusters");
++            return -ENOTSUP;
++        }
++        /*
++         * No compressed clusters for now, so just chose default zlib
++         * compression.
++         */
++        s->incompatible_features &= ~QCOW2_INCOMPAT_COMPRESSION;
++        s->compression_type = QCOW2_COMPRESSION_TYPE_ZLIB;
++    }
++
++    assert(s->incompatible_features == 0);
++
+     s->qcow_version = target_version;
+     ret = qcow2_update_header(bs);
+     if (ret < 0) {
 -- 
 2.34.1
 
