@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A7564A5558
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Feb 2022 03:43:49 +0100 (CET)
-Received: from localhost ([::1]:35250 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B6A44A555B
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Feb 2022 03:49:51 +0100 (CET)
+Received: from localhost ([::1]:39528 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nEj91-0002Zt-Hx
-	for lists+qemu-devel@lfdr.de; Mon, 31 Jan 2022 21:43:47 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:33738)
+	id 1nEjEs-0005fy-4w
+	for lists+qemu-devel@lfdr.de; Mon, 31 Jan 2022 21:49:50 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:34900)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1nEj6T-0001oD-A6
- for qemu-devel@nongnu.org; Mon, 31 Jan 2022 21:41:09 -0500
-Received: from [2607:f8b0:4864:20::d31] (port=41717
- helo=mail-io1-xd31.google.com)
+ id 1nEjDx-0004nM-C2
+ for qemu-devel@nongnu.org; Mon, 31 Jan 2022 21:48:53 -0500
+Received: from [2607:f8b0:4864:20::d30] (port=43970
+ helo=mail-io1-xd30.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1nEj6M-0001Vj-FY
- for qemu-devel@nongnu.org; Mon, 31 Jan 2022 21:41:08 -0500
-Received: by mail-io1-xd31.google.com with SMTP id q204so19447202iod.8
- for <qemu-devel@nongnu.org>; Mon, 31 Jan 2022 18:40:59 -0800 (PST)
+ id 1nEjDv-0002UL-Ly
+ for qemu-devel@nongnu.org; Mon, 31 Jan 2022 21:48:52 -0500
+Received: by mail-io1-xd30.google.com with SMTP id z199so19469034iof.10
+ for <qemu-devel@nongnu.org>; Mon, 31 Jan 2022 18:48:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=u3DydThek7VIXVeI67ZPaXT28ZXeDB7gaep/LoC9LB8=;
- b=oMfbS+pD3v4wP44zTFUCT5DHdnScED9OpfyOVkbNIKWY/C0iIegTgPikkN3TAF8gYA
- QYk31GAvu60pNAFzza9LRcc8lFRi3zPYQFUAYM1gZey6I6RNaLZ9U/ndUI/p5iaynpIk
- cT+6gQqPelQ7pEpvkju7Zm3OdXMueASqn24RVBc6N+24QV9bAQAQLYwNn7f3PF57PpED
- 7B19SNnOvwUFoxkrkqT6or0wfatiE7TFqWcJXil9RPAr2qKvqOE3EXF0MGc2G14s0QEl
- PqPHeZMQKHN3l5yPl7rXNvDss0svXzMx2+K+AxZUKNXE/+ddBdBL1BqoethdArzPbid+
- SeEQ==
+ :cc; bh=EJj4+IOOJv9spZXKqCKGmZ754veLowzhtGw+rtrZ/Do=;
+ b=hY8EETnOKqEIdBA+3ZiO459muDSeOUJ+bw91pG64mY7wnNwtYALkp/3zuN0i2UwhDl
+ ZVHVg2Rlmmr/wBFyb6oYK1pd7s22BowxIkjASi3b9sVvXQRrcWYgj50hYgGWcsGHSgjA
+ CgNknTE1IZ3jxIGDfypEas3jlWMjvbCk8B54v+3MAdpc0VsXdmIew4Tcjn1SocZe9Tr/
+ EvB46p2uNqK2OxjM0PGirkq/D/8nZPwHBxCZSJMmt5tlaI8hW5W0jy8jqpk+cmpfsOcI
+ mzB7c+hqGECbzgNo3HuUOrqpRlZIWTGa0Q9f1vocxC1lluUehwUzRe35uU9BZKNv6mcl
+ FmdQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=u3DydThek7VIXVeI67ZPaXT28ZXeDB7gaep/LoC9LB8=;
- b=6uYmvY3itZ6EIZd5W3uTSmM+6LpI75jcUxZYW94vcPos+s88Y7SRv04XtoCKW9dvWp
- 3KIj7TCOfJ5SoTJUMzglbV5m57OD4GxmM3hmwolrRZBh8UVXlm1RG1uGhArr9DPXg5qx
- 9pIGqXoLFQCBDVNSGNTTsGGUAMr8n0h8SD/jZY3Yezb9AanWwZiu4+2ZfIiUd8wmNu1V
- TSrZqAvgGY0q/ztj66m/POjzXN1g8AG6yOi2hbpy2NztwlebHpEXIltWggyuzNV4gCH9
- +xe/VM4RhFQHe/feP54gnFU4L6B5yTetM4LQzNj5pEgf0ryu4PjJdjVTgbJuw1k+6Ou7
- kfcA==
-X-Gm-Message-State: AOAM533u8bTcD4FjhhqjV4cE90nVtb15kt+syfbrO4irp1mZd5klLTTB
- n4IlTJZMFVABTkZFugqmYEuJ6RpxuZTrZ6rMJO4=
-X-Google-Smtp-Source: ABdhPJydCLXULTlS38/gSNEfCUN4TtWFdT57ABzbyUxJIsMvC3Pj1hidz2bnr3xNGoNIvIiBHZINtYLUVWoQhyL5d4Q=
-X-Received: by 2002:a02:9606:: with SMTP id c6mr11477760jai.169.1643683258929; 
- Mon, 31 Jan 2022 18:40:58 -0800 (PST)
+ bh=EJj4+IOOJv9spZXKqCKGmZ754veLowzhtGw+rtrZ/Do=;
+ b=O4yxh1LJkmCnLuXbIbcmv4Gq/TamVQGXPErKAoP6tBUhrmUPh69ghQlb8siWQKatgI
+ jSgPXi7qoFjLsi9qL2nYdk8NLPXqJpmUONDPaTLGKBGJj1uUEcpk7XvsJUNxMIeXrUsw
+ xxX0Bmh690agw+K3g18T6pKadC/ZFHSwTTBbOwlE7FaGHiLDv4pnbrbrvn8Mz+AlaUrW
+ MADJ2pTe+Juzy1+dzXcqsWROXuEbLBkmtM7n3aZ0nh2aJlk5WZGjFZ4cawr/gQQDmdp3
+ rkMRphGQJdPLyhNWhDdcHOlfG3S1996bLopIVGRb7gpkag/JXP2oayC4ul2phL9wehGr
+ i/Ow==
+X-Gm-Message-State: AOAM530jvdDNQxWriV9dMbe1aqHz0LoS2o7tSgyI7+z2AN9YgHntqAKd
+ /DTnMYx2V/bp5GKQaG87ySnr1qvMO1+4KO7z2L8=
+X-Google-Smtp-Source: ABdhPJzQsjxKTIRslVVTboOGlQDx8xTima/21VMtQeDkgY8oaW6CMzS56wD1oPeFojPYJA6jeHqHrUmBZpK/ImUSe3w=
+X-Received: by 2002:a5e:da47:: with SMTP id o7mr12571625iop.91.1643683730615; 
+ Mon, 31 Jan 2022 18:48:50 -0800 (PST)
 MIME-Version: 1.0
 References: <20220131110201.2303275-1-philipp.tomsich@vrull.eu>
- <20220131110201.2303275-2-philipp.tomsich@vrull.eu>
-In-Reply-To: <20220131110201.2303275-2-philipp.tomsich@vrull.eu>
+ <20220131110201.2303275-3-philipp.tomsich@vrull.eu>
+In-Reply-To: <20220131110201.2303275-3-philipp.tomsich@vrull.eu>
 From: Alistair Francis <alistair23@gmail.com>
-Date: Tue, 1 Feb 2022 12:40:32 +1000
-Message-ID: <CAKmqyKMhxEiCYw+=J=jvDOcj0uf-wrWbr6QuaDMp+tET8TOzhg@mail.gmail.com>
-Subject: Re: [PATCH v5 1/7] target/riscv: refactor (anonymous struct)
- RISCVCPU.cfg into 'struct RISCVCPUConfig'
+Date: Tue, 1 Feb 2022 12:48:24 +1000
+Message-ID: <CAKmqyKNhN1qHMLOXXeFubyMWPmbWsWP-wr3-_AWvxwP0amZ0KQ@mail.gmail.com>
+Subject: Re: [PATCH v5 2/7] target/riscv: riscv_tr_init_disas_context: copy
+ pointer-to-cfg into cfg_ptr
 To: Philipp Tomsich <philipp.tomsich@vrull.eu>
 Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::d31
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::d30
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d31;
- envelope-from=alistair23@gmail.com; helo=mail-io1-xd31.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d30;
+ envelope-from=alistair23@gmail.com; helo=mail-io1-xd30.google.com
 X-Spam_score_int: -10
 X-Spam_score: -1.1
 X-Spam_bar: -
@@ -93,6 +93,16 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 On Mon, Jan 31, 2022 at 9:03 PM Philipp Tomsich
 <philipp.tomsich@vrull.eu> wrote:
 >
+> As the number of extensions is growing, copying them individiually
+> into the DisasContext will scale less and less... instead we populate
+> a pointer to the RISCVCPUConfig structure in the DisasContext.
+>
+> This adds an extra indirection when checking for the availability of
+> an extension (compared to copying the fields into DisasContext).
+> While not a performance problem today, we can always (shallow) copy
+> the entire structure into the DisasContext (instead of putting a
+> pointer to it) if this is ever deemed necessary.
+>
 > Signed-off-by: Philipp Tomsich <philipp.tomsich@vrull.eu>
 > Suggested-by: Richard Henderson <richard.henderson@linaro.org>
 > Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
@@ -104,115 +114,36 @@ Alistair
 >
 > ---
 >
-> (no changes since v4)
->
-> Changes in v4:
-> - use a typedef into 'RISCVCPUConfig' (instead of the explicit
->   'struct RISCVCPUConfig') to comply with the coding standard
->   (as suggested in Richard's review of v3)
+> Changes in v5:
+> - use the typedef in DisasContext instead of the naked struct
+>   for RISCVCPUConfig
 >
 > Changes in v3:
-> - (new patch) refactor 'struct RISCVCPUConfig'
+> - (new patch) copy pointer to element cfg into DisasContext
 >
->  target/riscv/cpu.h | 78 ++++++++++++++++++++++++----------------------
->  1 file changed, 41 insertions(+), 37 deletions(-)
+>  target/riscv/translate.c | 2 ++
+>  1 file changed, 2 insertions(+)
 >
-> diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-> index 55635d68d5..1175915c0d 100644
-> --- a/target/riscv/cpu.h
-> +++ b/target/riscv/cpu.h
-> @@ -303,6 +303,46 @@ struct RISCVCPUClass {
->      DeviceReset parent_reset;
->  };
->
-> +struct RISCVCPUConfig {
-> +    bool ext_i;
-> +    bool ext_e;
-> +    bool ext_g;
-> +    bool ext_m;
-> +    bool ext_a;
-> +    bool ext_f;
-> +    bool ext_d;
-> +    bool ext_c;
-> +    bool ext_s;
-> +    bool ext_u;
-> +    bool ext_h;
-> +    bool ext_j;
-> +    bool ext_v;
-> +    bool ext_zba;
-> +    bool ext_zbb;
-> +    bool ext_zbc;
-> +    bool ext_zbs;
-> +    bool ext_counters;
-> +    bool ext_ifencei;
-> +    bool ext_icsr;
-> +    bool ext_zfh;
-> +    bool ext_zfhmin;
-> +    bool ext_zve32f;
-> +    bool ext_zve64f;
-> +
-> +    char *priv_spec;
-> +    char *user_spec;
-> +    char *bext_spec;
-> +    char *vext_spec;
-> +    uint16_t vlen;
-> +    uint16_t elen;
-> +    bool mmu;
-> +    bool pmp;
-> +    bool epmp;
-> +    uint64_t resetvec;
-> +};
-> +
-> +typedef struct RISCVCPUConfig RISCVCPUConfig;
-> +
->  /**
->   * RISCVCPU:
->   * @env: #CPURISCVState
-> @@ -320,43 +360,7 @@ struct RISCVCPU {
->      char *dyn_vreg_xml;
->
->      /* Configuration Settings */
-> -    struct {
-> -        bool ext_i;
-> -        bool ext_e;
-> -        bool ext_g;
-> -        bool ext_m;
-> -        bool ext_a;
-> -        bool ext_f;
-> -        bool ext_d;
-> -        bool ext_c;
-> -        bool ext_s;
-> -        bool ext_u;
-> -        bool ext_h;
-> -        bool ext_j;
-> -        bool ext_v;
-> -        bool ext_zba;
-> -        bool ext_zbb;
-> -        bool ext_zbc;
-> -        bool ext_zbs;
-> -        bool ext_counters;
-> -        bool ext_ifencei;
-> -        bool ext_icsr;
-> -        bool ext_zfh;
-> -        bool ext_zfhmin;
-> -        bool ext_zve32f;
-> -        bool ext_zve64f;
-> -
-> -        char *priv_spec;
-> -        char *user_spec;
-> -        char *bext_spec;
-> -        char *vext_spec;
-> -        uint16_t vlen;
-> -        uint16_t elen;
-> -        bool mmu;
-> -        bool pmp;
-> -        bool epmp;
-> -        uint64_t resetvec;
-> -    } cfg;
-> +    RISCVCPUConfig cfg;
->  };
->
->  static inline int riscv_has_ext(CPURISCVState *env, target_ulong ext)
+> diff --git a/target/riscv/translate.c b/target/riscv/translate.c
+> index f0bbe80875..49e40735ce 100644
+> --- a/target/riscv/translate.c
+> +++ b/target/riscv/translate.c
+> @@ -76,6 +76,7 @@ typedef struct DisasContext {
+>      int frm;
+>      RISCVMXL ol;
+>      bool virt_enabled;
+> +    const RISCVCPUConfig *cfg_ptr;
+>      bool ext_ifencei;
+>      bool ext_zfh;
+>      bool ext_zfhmin;
+> @@ -908,6 +909,7 @@ static void riscv_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cs)
+>  #endif
+>      ctx->misa_ext = env->misa_ext;
+>      ctx->frm = -1;  /* unknown rounding mode */
+> +    ctx->cfg_ptr = &(cpu->cfg);
+>      ctx->ext_ifencei = cpu->cfg.ext_ifencei;
+>      ctx->ext_zfh = cpu->cfg.ext_zfh;
+>      ctx->ext_zfhmin = cpu->cfg.ext_zfhmin;
 > --
 > 2.33.1
 >
