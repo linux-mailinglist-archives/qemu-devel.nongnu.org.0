@@ -2,83 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 220B44A6801
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Feb 2022 23:29:45 +0100 (CET)
-Received: from localhost ([::1]:35676 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 596BF4A680C
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Feb 2022 23:34:58 +0100 (CET)
+Received: from localhost ([::1]:44552 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nF1eh-0006IA-Vz
-	for lists+qemu-devel@lfdr.de; Tue, 01 Feb 2022 17:29:44 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:46314)
+	id 1nF1jl-0004QP-Cc
+	for lists+qemu-devel@lfdr.de; Tue, 01 Feb 2022 17:34:57 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:46758)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nExud-00032L-Bw
- for qemu-devel@nongnu.org; Tue, 01 Feb 2022 13:29:55 -0500
-Received: from [2a00:1450:4864:20::429] (port=33314
- helo=mail-wr1-x429.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nExua-0001kt-SB
- for qemu-devel@nongnu.org; Tue, 01 Feb 2022 13:29:53 -0500
-Received: by mail-wr1-x429.google.com with SMTP id e8so33785379wrc.0
- for <qemu-devel@nongnu.org>; Tue, 01 Feb 2022 10:29:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=PhuciOTxGzyt42NozTpQG7KL1ETjDSYk2QrBi6IxQio=;
- b=yJBMm+aOLVfHJKdoanxgR+LVpK5h8ynM2gzEnK/J1uo07AYrN3GhZ75OP8xpj3zOFL
- +XOL/jQ9L4IA/MvZphxBmyXqM5E7pQ6J/JW24BjLbjXgnFIvwIAT4XJ1eO/i5xsXWL3P
- QKpsTMApfAZ7vTPWHK5z31O6ejKtNGlQH8tPb3aqvEZv8wadmVPD/RD4spDpRc9BwLSR
- /ro6mUpQF0nyWyd2emhmMHlsaNhJ1nZGnG4I8cpighwVD+qQChY6qqb9IZlXW2JcpzGf
- vW3zzoPJe3DWYl9AHhA2f/yTgyPbsWWOQAjOcqGyMuNhm7s2jtlshDQ64t+NJ48g5ajt
- zZxw==
+ (Exim 4.90_1) (envelope-from <lsoaresp@redhat.com>)
+ id 1nExwe-0004KP-L2
+ for qemu-devel@nongnu.org; Tue, 01 Feb 2022 13:32:05 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:30652)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <lsoaresp@redhat.com>)
+ id 1nExwc-0002FW-Lg
+ for qemu-devel@nongnu.org; Tue, 01 Feb 2022 13:32:00 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1643740317;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=Z0bO7/RIBD+J1mJ/5JCP0H5lHbXE+fFmHcCNBf1GOHc=;
+ b=RRoem7KOwi1AkTz3iu++4jCvzwfiGJPHntWOpl/otWUzi22fTUmTtFdDRRCsNEuL/YgQle
+ eaFsnTFNr1AbLf6GDN9F2AO7KZj4E/XKmNcGBpX/wKo5nUADSvZItJ2eKQ0Rva5mudS4Y8
+ Wa88LF6YwCLiO0aAEC1MULhJs5LCfW4=
+Received: from mail-lf1-f69.google.com (mail-lf1-f69.google.com
+ [209.85.167.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-481-t3Zhp6-tNsCgYfDjHmnwig-1; Tue, 01 Feb 2022 13:31:54 -0500
+X-MC-Unique: t3Zhp6-tNsCgYfDjHmnwig-1
+Received: by mail-lf1-f69.google.com with SMTP id
+ c7-20020ac24147000000b0042ac92336d1so6259546lfi.2
+ for <qemu-devel@nongnu.org>; Tue, 01 Feb 2022 10:31:54 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=PhuciOTxGzyt42NozTpQG7KL1ETjDSYk2QrBi6IxQio=;
- b=vkEtjQNYLqyusWfcFb0H5e2t3mFb9WEaXKNlXpt/sc4Wah9PHTeBdyfTHwPI5Oq+6n
- WH/mJ0BZUsLF0gpdWcbfhUKGu/w21L68gEX0NKdjVgzRIu1L3dDa4NvQZYgWgzb7qYD5
- SUZK6EDJDzW7VTxItGuHOMzOzfkdoXZBA9W/H+n0QowA97yCnE0NFeMFUaZimYz09qU7
- IMijtAO5+4h9PGAig9PpnfyjeMpenjLzLMRYffyjAsyTa3V9IAyG6DQK9H3S88M4UbS8
- avaotcGmN90YxxodWVWgONe+oN4TcFFPfeyDSfjy/UbfM/+gmjV2ctrN8EqlO3C4rFgU
- d05A==
-X-Gm-Message-State: AOAM533csPsIpsq6iz1FdteELJBelb9F48HNLrisFoqzVVhsC4T8w4Ig
- 7FS2otm3ZeC6zUo5aHLylu/OvMPB7D359g==
-X-Google-Smtp-Source: ABdhPJzEyBBtbe0JUC3j294RGG1LQqSzuKImQEW3IyzIvM2UDIgpPJH/fU6kqFrMM4oNdrjtYCt8MA==
-X-Received: by 2002:a5d:4888:: with SMTP id g8mr22400571wrq.65.1643740191528; 
- Tue, 01 Feb 2022 10:29:51 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id z5sm3362608wmp.10.2022.02.01.10.29.50
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 01 Feb 2022 10:29:50 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 4BAE71FFB7;
- Tue,  1 Feb 2022 18:29:50 +0000 (GMT)
-References: <20211218194250.247633-1-richard.henderson@linaro.org>
- <20211218194250.247633-5-richard.henderson@linaro.org>
-User-agent: mu4e 1.7.6; emacs 28.0.91
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Richard Henderson <richard.henderson@linaro.org>
-Subject: Re: [PATCH 04/20] tcg/s390x: Implement vector NAND, NOR, EQV
-Date: Tue, 01 Feb 2022 18:29:46 +0000
-In-reply-to: <20211218194250.247633-5-richard.henderson@linaro.org>
-Message-ID: <8735l2xwwx.fsf@linaro.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=Z0bO7/RIBD+J1mJ/5JCP0H5lHbXE+fFmHcCNBf1GOHc=;
+ b=136bp7zLiFdJrQZdGmDxkufxZ98rjQkvpJuwHkmaTyBM3uTP73288+FrpfpaZeo58y
+ 7+tZoepz7hSYKWwZQ5Pkq9r5Ko4VLcXpHNwzgyy/mevggAH+NbZBzP/LLvVMrfhVpLJM
+ OwFgW4itRUC1vfeINP/JnQCJG2Y0ztoEAOrX5imd7IYh6XAnKWGly47rmUNDjAjWrV/3
+ UyyN6zRG2OVFdIK1kQJtlfR058ybgUMeV4iNkgZQrvAevt+55uoLPakZ8B086kFtF6yE
+ fHSTM0NZ1WgG1Z2wAUI003hl5Db4Mbea+F+tJUb49J7zr0ibO+AHA61T+X2qgzqEGcgY
+ V7lw==
+X-Gm-Message-State: AOAM533RnnI3SOhgqHs1hm4DwKGjxVXOOQb9XNrBaAdJCQPl1Gjf6AAl
+ 8Hd/ByHtBMUpMZe+MNjdZowS4mPS78rG5M57WIGXO4JUEYtxqKnpKnVAozeT9T+ODV7sAqnGTwU
+ 1Y9bA8QMiQHPY+iXeRLItgX4ugiM3iDQ=
+X-Received: by 2002:a05:6512:ad1:: with SMTP id
+ n17mr11830544lfu.630.1643740312801; 
+ Tue, 01 Feb 2022 10:31:52 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwd/8qyC6VJEDwW9wANugGzfoT32r46d53AYikoCWixJvGScNBHgYOmXvcz2CepEyKh1WqpEuNfbrRk9t8+cgc=
+X-Received: by 2002:a05:6512:ad1:: with SMTP id
+ n17mr11830525lfu.630.1643740312539; 
+ Tue, 01 Feb 2022 10:31:52 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::429
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::429;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x429.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+References: <20220129094644.385841-1-leobras@redhat.com>
+In-Reply-To: <20220129094644.385841-1-leobras@redhat.com>
+From: Leonardo Bras Soares Passos <leobras@redhat.com>
+Date: Tue, 1 Feb 2022 15:31:41 -0300
+Message-ID: <CAJ6HWG5PjNiJ9U=6k9wdjs4JuBr7H+62r=-qTrsJTXgJ8frQzg@mail.gmail.com>
+Subject: Re: [PATCH v1 1/1] target/i386: Mask xstate_bv based on the cpu
+ enabled features
+To: Paolo Bonzini <pbonzini@redhat.com>,
+ David Edmondson <david.edmondson@oracle.com>, 
+ Leonardo Bras <leobras@redhat.com>, Peter Xu <peterx@redhat.com>, 
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Igor Mammedov <imammedo@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lsoaresp@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=lsoaresp@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.081,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -91,17 +96,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: qemu-devel <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Hello David Edmondson and Igor Memmedov,
 
-Richard Henderson <richard.henderson@linaro.org> writes:
+Thank you for the feedback!
 
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+For some reason I did not get your comments in my email.
+I could only notice them when I opened Patchwork to get the link.
 
-Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+Sorry for the delay. I will do my best to address them in a few minutes.
 
---=20
-Alex Benn=C3=A9e
+Best regards,
+Leo
+
+On Sat, Jan 29, 2022 at 6:47 AM Leonardo Bras <leobras@redhat.com> wrote:
+>
+> The following steps describe a migration bug:
+> 1 - Bring up a VM with -cpu EPYC on a host with EPYC-Milan cpu
+> 2 - Migrate to a host with EPYC-Naples cpu
+>
+> The guest kernel crashes shortly after the migration.
+>
+> The crash happens due to a fault caused by XRSTOR:
+> A set bit in XSTATE_BV is not set in XCR0.
+> The faulting bit is FEATURE_PKRU (enabled in Milan, but not in Naples)
+>
+> To avoid this kind of bug:
+> In kvm_get_xsave, mask-out from xstate_bv any bits that are not set in
+> current vcpu's features.
+>
+> This keeps cpu->env->xstate_bv with feature bits compatible with any
+> host machine capable of running the vcpu model.
+>
+> Signed-off-by: Leonardo Bras <leobras@redhat.com>
+> ---
+>  target/i386/xsave_helper.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/target/i386/xsave_helper.c b/target/i386/xsave_helper.c
+> index ac61a96344..0628226234 100644
+> --- a/target/i386/xsave_helper.c
+> +++ b/target/i386/xsave_helper.c
+> @@ -167,7 +167,7 @@ void x86_cpu_xrstor_all_areas(X86CPU *cpu, const void *buf, uint32_t buflen)
+>          env->xmm_regs[i].ZMM_Q(1) = ldq_p(xmm + 8);
+>      }
+>
+> -    env->xstate_bv = header->xstate_bv;
+> +    env->xstate_bv = header->xstate_bv & env->features[FEAT_XSAVE_COMP_LO];
+>
+>      e = &x86_ext_save_areas[XSTATE_YMM_BIT];
+>      if (e->size && e->offset) {
+> --
+> 2.34.1
+>
+
 
