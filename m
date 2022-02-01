@@ -2,85 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C2284A53BC
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Feb 2022 01:06:04 +0100 (CET)
-Received: from localhost ([::1]:48426 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6437C4A5531
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Feb 2022 03:16:47 +0100 (CET)
+Received: from localhost ([::1]:56190 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nEggM-000606-Rr
-	for lists+qemu-devel@lfdr.de; Mon, 31 Jan 2022 19:06:02 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:35864)
+	id 1nEiir-0004fK-TB
+	for lists+qemu-devel@lfdr.de; Mon, 31 Jan 2022 21:16:46 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:58726)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nEgbd-0004lj-KD
- for qemu-devel@nongnu.org; Mon, 31 Jan 2022 19:01:09 -0500
-Received: from [2607:f8b0:4864:20::535] (port=46077
- helo=mail-pg1-x535.google.com)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1nEif9-0003CD-2Q
+ for qemu-devel@nongnu.org; Mon, 31 Jan 2022 21:12:55 -0500
+Received: from [2607:f8b0:4864:20::d31] (port=42788
+ helo=mail-io1-xd31.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nEgbc-0003ms-3Y
- for qemu-devel@nongnu.org; Mon, 31 Jan 2022 19:01:09 -0500
-Received: by mail-pg1-x535.google.com with SMTP id z131so13702849pgz.12
- for <qemu-devel@nongnu.org>; Mon, 31 Jan 2022 16:00:59 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1nEif6-0006JF-JM
+ for qemu-devel@nongnu.org; Mon, 31 Jan 2022 21:12:54 -0500
+Received: by mail-io1-xd31.google.com with SMTP id r144so19372395iod.9
+ for <qemu-devel@nongnu.org>; Mon, 31 Jan 2022 18:12:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=LyoDHdkyc8EIEqH0Fyeb1D4z29vNMsblXqKeW+VEK8M=;
- b=qr/DAXmwKUhnF6Uai9NkBHIqSNtFqvbITHwSOkU+E7kNdzZY3g5VDCw0L6714f0BG7
- j5yDluSNL2wAtNOao3+OUY1IkLrXYBHcHAy7eBMWKoOp6zUHKouNK2+e5hw6IxlUsIm/
- 9sTCmK8Ja03xtsckT2xj9n3F31bavjh/FQWNZ+a1ulPH+gABIZPD+k/IcrtiLYiqgjZ6
- /cmvUKXgNyLRLUtB2dlv/gsW3ZDQ55WV4IbjSEC4swblrZyz1vxrsAbRM84C0I558xL6
- acWvB5fCAvr8yG2n+yK2TCJJGfam8GH04G5NEgZjzQe1b74NTYeZuvX8a5M1EkCAgn6a
- Mtcg==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=WYZTXjYAfp4en9c9b3IxmkxPaE39JxwEYQLTIGGZemM=;
+ b=JWtg0tX1ngCA7PccHnE4wN4ck8WgG71Q1hHEeJzODwKyCBOkKRRJl5GYokrUK52F42
+ mZTxg0bADETofEMWolbstfzw1CBili6uosvud5z7mipf4/WMFdDj668m/JZlLRT38khA
+ Y5cq93QpbA3hSx1m93R5yw/gI6kOQIWl5GoFzJPKd0mx6EvRm15zX9sSTPBZc33CXm36
+ 39geDMmzBGYkuzF5Z7fx8PtLvYLwbhSt5BRgE5IiQexNJJ3m4X3b37f3fn4vjX8vdsxI
+ N06/bd2nLPoGi6qjlP3Y8G0jyoslIpkg4E7McQ+lCwtB85+PI4z87nMUuYjMJItPtIQ6
+ 4oIw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=LyoDHdkyc8EIEqH0Fyeb1D4z29vNMsblXqKeW+VEK8M=;
- b=qbVrTtdLmPFwPpG+J3LQovF5k31tOd4i9+Ex4AKXLcOalYdd1oaa9tcG5+QLk5Vt7K
- N1tslmKkrL6XykD9AK0fqoINWxLZOcTNRWBmSToa+qKnXZ02twu/fe0RqF+jskWwmNAS
- du0wg0wBsVrtVcmVQqEcvaO4ROkCzM5S3iuDBRnyRMIts0SeHuLOyTYjj2e7OZXrR7L+
- XDTs9xCM1BhuPX6H7iGv9uzSdhRuKcMuf8Qe+/Qj0jdPC73Jm/BTbPjZ7ksabwdNgCAg
- RGVF2pR+0rT85pGt0Nx3FZmj2R+nCeiLXmhKr5W/Witgct4caVRM7t1pPSD6EvI6kBiA
- x0bQ==
-X-Gm-Message-State: AOAM532dmmg/k4zyp2dr08Jy1rnQDPYl6NRE5XLG8Jgp41V47TGtcJg7
- Lshec513Q87TzS43I+bMtJU=
-X-Google-Smtp-Source: ABdhPJzqQgsWsMfqJaOcYtG1DBJsOKjEEk9SaCQVFLPWEQumTiDn7Y3W+R7Vw0RzttjU/Umhv50mrw==
-X-Received: by 2002:a63:618d:: with SMTP id v135mr8437420pgb.613.1643673658801; 
- Mon, 31 Jan 2022 16:00:58 -0800 (PST)
-Received: from [192.168.1.33] (154.red-83-50-83.dynamicip.rima-tde.net.
- [83.50.83.154])
- by smtp.gmail.com with ESMTPSA id f5sm6902924pfc.0.2022.01.31.16.00.56
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 31 Jan 2022 16:00:58 -0800 (PST)
-Message-ID: <009e01b5-034d-6161-4c84-8644e4d0d741@amsat.org>
-Date: Tue, 1 Feb 2022 01:00:55 +0100
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=WYZTXjYAfp4en9c9b3IxmkxPaE39JxwEYQLTIGGZemM=;
+ b=aikc6Ol0AhkT6B61D32VUXlwSiUeWE5+i9g6PEIgX31023WM5iKp3bSiKBW+zvAXFs
+ syRMl6oDPB8g6rmEZoA+vtRfExjs3ybCPCntA3Zi+54g1QCGeaj0eIH6oZcqgQeXYPte
+ 0bA07GcJPm93ydyIXSVNyaCakPLmYkne7M/0qMExN7r4hr1k/YlmwjRt6xmra2XxJ4UR
+ DMTFB5fTYg53rs48UjM7ScIWEEcLUtVgNKB8oQxrc69qskorp4x7sHPQj3UQ+TkJH8YE
+ yEeOmrceLfPKGdrDqwp0hr5dhcbv+qYl8ZLfWl3SWmE7KyYB5CwrQybEUZ9vPS7JHYOw
+ rjIw==
+X-Gm-Message-State: AOAM530txATvL/PW+mzdqUjts6GYenHgZmlwbxkbx8JtgmNOVNGRNQoj
+ +xHjEwQiKukxHagJWk98uuNXCDTvmp2W9QrUbdM=
+X-Google-Smtp-Source: ABdhPJzJmqKgDpSX6u34e78fTv2Q23Ekrqp5djawYsVoe+7LWPgxNNrx4Ziz49LfOZElWw1B0N4qGD+VAMot+/to6oA=
+X-Received: by 2002:a05:6638:ccb:: with SMTP id
+ e11mr12637394jak.206.1643681569595; 
+ Mon, 31 Jan 2022 18:12:49 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.5.0
-Subject: Re: [PATCH v2] Use long endian options for ppc64
-Content-Language: en-US
-To: Miroslav Rezanina <mrezanin@redhat.com>, qemu-devel@nongnu.org
-Cc: pbonzini@redhat.com, richard.henderson@linaro.org
-References: <20220131091714.4825-1-mrezanin@redhat.com>
-In-Reply-To: <20220131091714.4825-1-mrezanin@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::535
+References: <20220121055830.3164408-1-alistair.francis@opensource.wdc.com>
+ <20220121055830.3164408-54-alistair.francis@opensource.wdc.com>
+ <CAFEAcA_V_L7_bD=_U9eKf_we2Q79tb_sJ2XAcGSzWgL-ooqg+Q@mail.gmail.com>
+In-Reply-To: <CAFEAcA_V_L7_bD=_U9eKf_we2Q79tb_sJ2XAcGSzWgL-ooqg+Q@mail.gmail.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Tue, 1 Feb 2022 12:12:23 +1000
+Message-ID: <CAKmqyKO9wVmvNJDc1T1pnVcyf7XEYsrLUxxqAOQ15=TbcLkdhw@mail.gmail.com>
+Subject: Re: [PULL 53/61] target/riscv: Split out the vill from vtype
+To: Peter Maydell <peter.maydell@linaro.org>, LIU Zhiwei <zhiwei_liu@c-sky.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::d31
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::535;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pg1-x535.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.248, NICE_REPLY_A=-0.001,
- PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d31;
+ envelope-from=alistair23@gmail.com; helo=mail-io1-xd31.google.com
+X-Spam_score_int: -10
+X-Spam_score: -1.1
+X-Spam_bar: -
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, PDS_HP_HELO_NORDNS=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,31 +83,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Richard Henderson <richard.henderson@linaro.org>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Alistair Francis <alistair.francis@opensource.wdc.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
-On 31/1/22 10:17, Miroslav Rezanina wrote:
-> GCC options pairs -mlittle/-mlittle-endian and -mbig/-mbig-endian are
-> equivalent on ppc64 architecture. However, Clang supports only long
-> version of the options.
-> 
-> Use longer form in configure to properly support both GCC and Clang
-> compiler. In addition, fix this issue in tcg test configure.
-> 
-> Signed-off-by: Miroslav Rezanina <mrezanin@redhat.com>
-> 
-> ---
-> This is v2 of configure: Use -mlittle-endian instead of -mlittle for ppc64.
-> 
-> v2:
->   - handle both -mlittle and -mbig usage
->   - fix tests/tcg/configure.sh
-> ---
->   configure              | 4 ++--
->   tests/tcg/configure.sh | 4 ++--
->   2 files changed, 4 insertions(+), 4 deletions(-)
+On Sat, Jan 29, 2022 at 2:10 AM Peter Maydell <peter.maydell@linaro.org> wrote:
+>
+> On Fri, 21 Jan 2022 at 09:42, Alistair Francis
+> <alistair.francis@opensource.wdc.com> wrote:
+> >
+> > From: LIU Zhiwei <zhiwei_liu@c-sky.com>
+> >
+> > We need not specially process vtype when XLEN changes.
+> >
+> > Signed-off-by: LIU Zhiwei <zhiwei_liu@c-sky.com>
+> > Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+> > Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+> > Message-id: 20220120122050.41546-16-zhiwei_liu@c-sky.com
+> > Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+>
+> Odd thing I noticed looking at this code: as far as I can see we
+> may set env->vill to 1 in the vsetvl helper, but there is nowhere
+> that we set it to 0, so once it transitions to 1 it's stuck there
+> until the system is reset. Is this really right?
 
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+This is really confusing. It implies that you can't set vill from
+software, but that just seems to be confusing wording.
+
+Reading https://lists.riscv.org/g/tech-vector-ext/topic/reliably_set_vtype_vill/86745728
+it seems that this is a QEMU bug and the guest should be able to set
+the bit as part of vsetvl
+
+@LIU Zhiwei are you able to fix this up?
+
+
+Alistair
 
