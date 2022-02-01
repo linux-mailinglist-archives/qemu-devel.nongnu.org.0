@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 516F14A6184
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Feb 2022 17:44:23 +0100 (CET)
-Received: from localhost ([::1]:55998 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8EED24A6197
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Feb 2022 17:49:55 +0100 (CET)
+Received: from localhost ([::1]:37240 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nEwGU-000215-5B
-	for lists+qemu-devel@lfdr.de; Tue, 01 Feb 2022 11:44:22 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:46464)
+	id 1nEwLq-00008Y-M8
+	for lists+qemu-devel@lfdr.de; Tue, 01 Feb 2022 11:49:54 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:46546)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1nEuyD-0002X1-BA
- for qemu-devel@nongnu.org; Tue, 01 Feb 2022 10:21:25 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:29113)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1nEuyF-0002bv-QB
+ for qemu-devel@nongnu.org; Tue, 01 Feb 2022 10:21:29 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:53711)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1nEuy9-0003tS-6a
- for qemu-devel@nongnu.org; Tue, 01 Feb 2022 10:21:24 -0500
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1nEuyD-0003vm-MV
+ for qemu-devel@nongnu.org; Tue, 01 Feb 2022 10:21:27 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1643728880;
+ s=mimecast20190719; t=1643728885;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=i/6COBUyvIszZcrXQPuZOU122eGtBCFH2syifxo5GsY=;
- b=ibwSbmOHjaF0N7QjvPx1mYd2XN2w97tU/cO8WWjV8GBPPc7BhqF+VWH2m/MBncjGoeMpvt
- DbFD+6iccdZisKqimm8bILk0D8yr1fmIpTBDLBJ96/0jhML8jNqmU+oc+pF54lkw4+8PyS
- BGSxrsc+h6l3Z7/Ot5Of1tCJl5yb14U=
+ bh=ViTw8i4erguFvdZCmPX25joBBbN5ll/sJJHS5FjbR9U=;
+ b=YEiUM64cKLGUkV8B5BCv4WacRAPNXlobwfpWTo0FNKBA4aYclUaSrcssFv04cKpCXEYWXQ
+ XWJtJrRPgNQkOf2u5p+lXaN9SiUI/5lkLJyUs3Au50aDOQy1v9rP0wTitj7fNlZNMMvGJa
+ mL72Pr1UprQ1S37HOw12+zvpH3sVsp8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-177-xTg8L20YPAmwnToTztmtow-1; Tue, 01 Feb 2022 10:21:19 -0500
-X-MC-Unique: xTg8L20YPAmwnToTztmtow-1
+ us-mta-657-0qFbjPJ7OGOcFS4LscdIHA-1; Tue, 01 Feb 2022 10:21:24 -0500
+X-MC-Unique: 0qFbjPJ7OGOcFS4LscdIHA-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6D88618C89DA;
- Tue,  1 Feb 2022 15:21:18 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DF244101F000;
+ Tue,  1 Feb 2022 15:21:22 +0000 (UTC)
 Received: from merkur.redhat.com (unknown [10.39.194.45])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6C47974E98;
- Tue,  1 Feb 2022 15:21:17 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E646674E98;
+ Tue,  1 Feb 2022 15:21:21 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 02/10] block: bdrv_set_backing_hd(): use drained section
-Date: Tue,  1 Feb 2022 16:21:00 +0100
-Message-Id: <20220201152108.171898-3-kwolf@redhat.com>
+Subject: [PULL 05/10] block/export/fuse: Fix build failure on FreeBSD
+Date: Tue,  1 Feb 2022 16:21:03 +0100
+Message-Id: <20220201152108.171898-6-kwolf@redhat.com>
 In-Reply-To: <20220201152108.171898-1-kwolf@redhat.com>
 References: <20220201152108.171898-1-kwolf@redhat.com>
 MIME-Version: 1.0
@@ -54,8 +54,8 @@ Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=kwolf@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
@@ -81,47 +81,75 @@ Cc: kwolf@redhat.com, peter.maydell@linaro.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-Graph modifications should be done in drained section. stream_prepare()
-handler of block stream job call bdrv_set_backing_hd() without using
-drained section and it's theoretically possible that some IO request
-will interleave with graph modification and will use outdated pointers
-to removed block nodes.
+When building on FreeBSD we get:
 
-Some other callers use bdrv_set_backing_hd() not caring about drained
-sections too. So it seems good to make a drained section exactly in
-bdrv_set_backing_hd().
+  [816/6851] Compiling C object libblockdev.fa.p/block_export_fuse.c.o
+  ../block/export/fuse.c:628:16: error: use of undeclared identifier 'FALLOC_FL_KEEP_SIZE'
+      if (mode & FALLOC_FL_KEEP_SIZE) {
+                 ^
+  ../block/export/fuse.c:651:16: error: use of undeclared identifier 'FALLOC_FL_PUNCH_HOLE'
+      if (mode & FALLOC_FL_PUNCH_HOLE) {
+                 ^
+  ../block/export/fuse.c:652:22: error: use of undeclared identifier 'FALLOC_FL_KEEP_SIZE'
+          if (!(mode & FALLOC_FL_KEEP_SIZE)) {
+                       ^
+  3 errors generated.
+  FAILED: libblockdev.fa.p/block_export_fuse.c.o
 
-Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Message-Id: <20220124173741.2984056-1-vsementsov@virtuozzo.com>
+Meson indeed reported FALLOC_FL_PUNCH_HOLE is not available:
+
+  C compiler for the host machine: cc (clang 10.0.1 "FreeBSD clang version 10.0.1")
+  Checking for function "fallocate" : NO
+  Checking for function "posix_fallocate" : YES
+  Header <linux/falloc.h> has symbol "FALLOC_FL_PUNCH_HOLE" : NO
+  Header <linux/falloc.h> has symbol "FALLOC_FL_ZERO_RANGE" : NO
+  ...
+
+Similarly to commit 304332039 ("block/export/fuse.c: fix musl build"),
+guard the code requiring FALLOC_FL_KEEP_SIZE / FALLOC_FL_PUNCH_HOLE
+definitions under CONFIG_FALLOCATE_PUNCH_HOLE #ifdef'ry.
+
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Message-Id: <20220201112655.344373-3-f4bug@amsat.org>
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- block.c | 4 ++++
+ block/export/fuse.c | 4 ++++
  1 file changed, 4 insertions(+)
 
-diff --git a/block.c b/block.c
-index 7b3ce415d8..b54d59d1fa 100644
---- a/block.c
-+++ b/block.c
-@@ -3341,6 +3341,8 @@ int bdrv_set_backing_hd(BlockDriverState *bs, BlockDriverState *backing_hd,
-     int ret;
-     Transaction *tran = tran_new();
+diff --git a/block/export/fuse.c b/block/export/fuse.c
+index d25e478c0a..fdda8e3c81 100644
+--- a/block/export/fuse.c
++++ b/block/export/fuse.c
+@@ -625,9 +625,11 @@ static void fuse_fallocate(fuse_req_t req, fuse_ino_t inode, int mode,
+         return;
+     }
  
-+    bdrv_drained_begin(bs);
-+
-     ret = bdrv_set_backing_noperm(bs, backing_hd, tran, errp);
-     if (ret < 0) {
-         goto out;
-@@ -3350,6 +3352,8 @@ int bdrv_set_backing_hd(BlockDriverState *bs, BlockDriverState *backing_hd,
- out:
-     tran_finalize(tran, ret);
++#ifdef CONFIG_FALLOCATE_PUNCH_HOLE
+     if (mode & FALLOC_FL_KEEP_SIZE) {
+         length = MIN(length, blk_len - offset);
+     }
++#endif /* CONFIG_FALLOCATE_PUNCH_HOLE */
  
-+    bdrv_drained_end(bs);
-+
-     return ret;
- }
- 
+     if (!mode) {
+         /* We can only fallocate at the EOF with a truncate */
+@@ -648,6 +650,7 @@ static void fuse_fallocate(fuse_req_t req, fuse_ino_t inode, int mode,
+         ret = fuse_do_truncate(exp, offset + length, true,
+                                PREALLOC_MODE_FALLOC);
+     }
++#ifdef CONFIG_FALLOCATE_PUNCH_HOLE
+     else if (mode & FALLOC_FL_PUNCH_HOLE) {
+         if (!(mode & FALLOC_FL_KEEP_SIZE)) {
+             fuse_reply_err(req, EINVAL);
+@@ -662,6 +665,7 @@ static void fuse_fallocate(fuse_req_t req, fuse_ino_t inode, int mode,
+             length -= size;
+         } while (ret == 0 && length > 0);
+     }
++#endif /* CONFIG_FALLOCATE_PUNCH_HOLE */
+ #ifdef CONFIG_FALLOCATE_ZERO_RANGE
+     else if (mode & FALLOC_FL_ZERO_RANGE) {
+         if (!(mode & FALLOC_FL_KEEP_SIZE) && offset + length > blk_len) {
 -- 
 2.31.1
 
