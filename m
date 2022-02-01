@@ -2,76 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9A2B4A6891
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Feb 2022 00:34:29 +0100 (CET)
-Received: from localhost ([::1]:54152 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6411F4A68B0
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Feb 2022 00:43:59 +0100 (CET)
+Received: from localhost ([::1]:37274 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nF2fM-00031b-BG
-	for lists+qemu-devel@lfdr.de; Tue, 01 Feb 2022 18:34:28 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:50058)
+	id 1nF2oY-0002RY-8U
+	for lists+qemu-devel@lfdr.de; Tue, 01 Feb 2022 18:43:58 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:52796)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nEy8P-00020h-8d
- for qemu-devel@nongnu.org; Tue, 01 Feb 2022 13:45:37 -0500
-Received: from [2a00:1450:4864:20::62c] (port=46680
- helo=mail-ej1-x62c.google.com)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nEyJX-0004cR-G0
+ for qemu-devel@nongnu.org; Tue, 01 Feb 2022 13:55:39 -0500
+Received: from [2a00:1450:4864:20::434] (port=40758
+ helo=mail-wr1-x434.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nEy6T-0003wy-14
- for qemu-devel@nongnu.org; Tue, 01 Feb 2022 13:42:11 -0500
-Received: by mail-ej1-x62c.google.com with SMTP id o12so56931829eju.13
- for <qemu-devel@nongnu.org>; Tue, 01 Feb 2022 10:41:54 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nEyJK-0005cN-Li
+ for qemu-devel@nongnu.org; Tue, 01 Feb 2022 13:55:31 -0500
+Received: by mail-wr1-x434.google.com with SMTP id s18so33797500wrv.7
+ for <qemu-devel@nongnu.org>; Tue, 01 Feb 2022 10:54:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=bfajV5BN1jnF39EYpBo7aZ9OujaWjQzxUcdzgDszWYA=;
- b=yLXdlL1qAYGzKKh56B46McT3LHO081wvE3pRBtSuvlyjneYencmUBoZeVuNoCDaGGl
- hdH/dvfapj/BtNS5UXV/YbwEyoLSktoDqM9Qm3KMo3S6/M70TX6jA1iCtMGyeBty55CQ
- esXhlvtw3oQCkv4GDX6QtjjA1sif+mL1eMEyC9yELXVuhtHdSdhbUO3bgmFJjG05nC+g
- 4VlTkWvWAzmaxNhh3AvKmgZu+8+hU7ZUu4Es2+7CQhRoA8UCKbn1DywK80vO6vMDviFM
- F8j0JJDRbJ02+pK60llaqfbw5+sgAZxOKf8orUigO/9QuZwwkZUV13Mvhrkqso3eSHyR
- mj6A==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=ETth6k4XC87n/TqvnRWbBST7tpgimvYITI34f8qsuzQ=;
+ b=vkxg0KUKXea5LTPtz293SeKuKaV2g8iexSQ+sz6enQXL4YIcEXsx0lmyMyZVBKX7Tk
+ yPKywjYR57x3schjFEeGCq0aKK6emn7u9FsdD2od/Jhd3DgCmlnzAsbjA2A0r/nnovHf
+ zpxd6KuVFtD9LrcRePArk+dXxpqT7HMJerGxgZqOUKchwh9ve8HuUXQ9kXbGJBRrvbta
+ dJen4rMfioUeYG2PdRxXNLxu4isXBhcoHafOTVT4rihEFCnETyZnd6kAodImyvEqVeAM
+ lfd9OYiS/G0zvfA63D9pc+3FrTDWhPf0G3T+ED3Yfc4RWrQDnLv7E5PuYAuoPXrmXbG8
+ yFow==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=bfajV5BN1jnF39EYpBo7aZ9OujaWjQzxUcdzgDszWYA=;
- b=2qiVyVuC+5MOViYdhJlw0nwDJ9J2O7N0tfgRSiTeNc6r/1NEreQ8QW8CeJIHObA+v6
- nmnrNMMrYJXvB7ct4p4A9HvUYrXUNAiVjFIcIV0NWF4nqlvHTamrE0/TyzKfH+Td5P8P
- oKS2eoDrwNC6o8Af6bXnROuTunuFNqA6ed8cjCSFoOsxPEq+SI+ccXdI7S0f1s5VS6/L
- o34w6EX4n/44n/U0PsXQAJFPqXbNk+2Z1zG8yCUqpxE5ulIsC/hzwwYP23+YrgRarvOJ
- tzCbxjOK506U+jKNsnqp9z4auT752JQInggUpbYdj9WMOYl7zLmvxCR0Rs+8sFTDgGNI
- 0Ddw==
-X-Gm-Message-State: AOAM530cwTHCOshvGqZ2PRJpz/7SJ/3hfcTrPSEud/ty6GkRPD288GS6
- gs+inNLp0X0+UfdZzSASye04FA==
-X-Google-Smtp-Source: ABdhPJxwZBpqyHMhoZuygpNWYUfbP5yvGM08Y0g7aV/KH3CKQQi1hktumJYy7eBhcZUEW+HdvPzMHg==
-X-Received: by 2002:a17:907:1b0b:: with SMTP id
- mp11mr22558285ejc.499.1643740912357; 
- Tue, 01 Feb 2022 10:41:52 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id k24sm13394530ejv.179.2022.02.01.10.41.51
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 01 Feb 2022 10:41:51 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 812CB1FFB7;
- Tue,  1 Feb 2022 18:41:50 +0000 (GMT)
-References: <20211218194250.247633-1-richard.henderson@linaro.org>
- <20211218194250.247633-6-richard.henderson@linaro.org>
-User-agent: mu4e 1.7.6; emacs 28.0.91
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Richard Henderson <richard.henderson@linaro.org>
-Subject: Re: [PATCH 05/20] tcg/i386: Detect AVX512
-Date: Tue, 01 Feb 2022 18:41:37 +0000
-In-reply-to: <20211218194250.247633-6-richard.henderson@linaro.org>
-Message-ID: <87tudiwhsh.fsf@linaro.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=ETth6k4XC87n/TqvnRWbBST7tpgimvYITI34f8qsuzQ=;
+ b=ihL2CXMq7/CCSu+i9Lp1piKKtftL3iDs/uUZgTO5Gj4FU1+A/ZD+o0D/tYQ1IjbBxV
+ TWTpGeanZEkTH6/oaip6y9jOERYgYw7mmnKxYnElkLo2c96qwFR1ZCauMsesR+tjA4WD
+ 2fTxzT1dT4HSBsedv7JFnNB/B0zc9S53WZCWzQuI8TOveAb7qPXNS5NoYwozjHvDDh9E
+ GlJMEFb+ojXzDRBdbspW8fgeg/4RJaRrj+ak22KJ3W91DvJ68bMr6qSXrp87vRvKmItH
+ 2tXKV2LKcc3GEeBLm52bLdCaS23QiK+2hby8WcL35jPjhsoFy9FpcWxCF/YTXIjH1Vx9
+ JhjA==
+X-Gm-Message-State: AOAM532FC13iQLVRUlTiEjV/2Tq70uI/lF/VaX7YXOxSL/ZH8ye/N/UX
+ NrttGUzN4E+BiBXcz3tCmOObxptbT8gspDhSj7P7+Q==
+X-Google-Smtp-Source: ABdhPJyfYgTqNhm1J4/B6tsedJMojC3XeOlAHYtplMewgA23ZNuFUhebXL9W+vxNHgJHBqIWsGczz2dmj23hz1+XzIw=
+X-Received: by 2002:a05:6000:258:: with SMTP id
+ m24mr23318682wrz.2.1643741696226; 
+ Tue, 01 Feb 2022 10:54:56 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::62c
+References: <20220131094246.772550-1-ysato@users.sourceforge.jp>
+ <de031f36-963c-8828-6724-450e9fbf48d6@redhat.com>
+ <s3x5ypy1t5o.wl-ysato@users.sourceforge.jp>
+In-Reply-To: <s3x5ypy1t5o.wl-ysato@users.sourceforge.jp>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 1 Feb 2022 18:54:45 +0000
+Message-ID: <CAFEAcA_eqh6An7u8uuBRevvFx3GOwbmzRAiGEcmRukGOzWsBhA@mail.gmail.com>
+Subject: Re: [PATCH 1/2] hw/char/renesas_sci: Add fifo buffer to backend
+ interface.
+To: Yoshinori Sato <ysato@users.sourceforge.jp>
+Content-Type: text/plain; charset="UTF-8"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::434
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::62c;
- envelope-from=alex.bennee@linaro.org; helo=mail-ej1-x62c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::434;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x434.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -92,22 +84,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: Thomas Huth <thuth@redhat.com>, Magnus Damm <magnus.damm@gmail.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-Richard Henderson <richard.henderson@linaro.org> writes:
-
-> There are some operation sizes in some subsets of AVX512 that
-> are missing from previous iterations of AVX.  Detect them.
+On Tue, 1 Feb 2022 at 17:47, Yoshinori Sato <ysato@users.sourceforge.jp> wrote:
 >
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> On Tue, 01 Feb 2022 15:48:58 +0900,
+> Thomas Huth wrote:
+> >
+> > On 31/01/2022 10.42, Yoshinori Sato wrote:
+> > If you describe it like this, it sounds like you're now emulating a
+> > buffer that is not there with real hardware? Is that really what you
+> > want here, i.e. wouldn't this hide problems with the real hardware
+> > that are mitigated in QEMU with this buffer?
+>
+> There is no such buffer in the real hardware.
+> It's not possible with real hardware, but the chardev backend passes
+> data faster than the bitrate.
+> There is no problem if the received data is supplied at the timing when
+> it can be received, but since it is difficult to match the timing accurately,
+> we expect that the buffer will absorb the difference in timing.
 
-Hard for me to test but the code looks sane
+If you can't accept receiving more data from the chardev backend,
+your serial device model should be returning 0 from can_receive.
 
-Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+I don't think we should model a FIFO that doesn't exist in
+the real hardware.
 
---=20
-Alex Benn=C3=A9e
+thanks
+-- PMM
 
