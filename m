@@ -2,101 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 507C74A61FF
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Feb 2022 18:12:41 +0100 (CET)
-Received: from localhost ([::1]:34944 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 10B5F4A624A
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Feb 2022 18:23:40 +0100 (CET)
+Received: from localhost ([::1]:50060 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nEwhp-0001Ua-FJ
-	for lists+qemu-devel@lfdr.de; Tue, 01 Feb 2022 12:12:37 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:48618)
+	id 1nEwsV-0003R4-0u
+	for lists+qemu-devel@lfdr.de; Tue, 01 Feb 2022 12:23:39 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:50778)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1nEv1R-0003t5-Gv
- for qemu-devel@nongnu.org; Tue, 01 Feb 2022 10:24:47 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:58057)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1nEv1P-0004Yn-5Q
- for qemu-devel@nongnu.org; Tue, 01 Feb 2022 10:24:44 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1643729082;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=J234qSNQJTN4WRTo2PGV3irO3afg6rv+R4eKW5UeSqI=;
- b=PonPwYpYlWOQPWlYinHDNUw+tIkg7/ey5OpH7pM7X10XNBWw2pFyH8MwJaG6t9Kh4S71X1
- Lo8UhO6x3rUHxFSec7EGgJWhZjxd/3JB9ShpgA6I3LiKGTtJ6FDjpsm9oppENOrXk5kT9k
- vZfzZwgxynZkKYKUxfBi49lxxFLIqgo=
-Received: from mail-ot1-f70.google.com (mail-ot1-f70.google.com
- [209.85.210.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-333-hSgSb1ZGP2--04u8tKWvHA-1; Tue, 01 Feb 2022 10:24:41 -0500
-X-MC-Unique: hSgSb1ZGP2--04u8tKWvHA-1
-Received: by mail-ot1-f70.google.com with SMTP id
- l47-20020a9d1caf000000b005a4713c5ef5so4975391ota.13
- for <qemu-devel@nongnu.org>; Tue, 01 Feb 2022 07:24:41 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1nEv7i-0002Tl-H8
+ for qemu-devel@nongnu.org; Tue, 01 Feb 2022 10:31:15 -0500
+Received: from [2a00:1450:4864:20::42d] (port=37676
+ helo=mail-wr1-x42d.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1nEv7g-0005nu-Cd
+ for qemu-devel@nongnu.org; Tue, 01 Feb 2022 10:31:13 -0500
+Received: by mail-wr1-x42d.google.com with SMTP id w11so32726839wra.4
+ for <qemu-devel@nongnu.org>; Tue, 01 Feb 2022 07:31:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=PLrowYvIwdakJXc4kkMY79btDwACPKZmwbjCKOosYJA=;
+ b=xh+o987coLsTupcVTXzHjsvzlAZXsAd6Sdj3W4nG1sYAB1szC0LyCfRytpp7TWot1q
+ mQAROKxhowbUp9kW8tPbpwufeearL0fGHopRip/ldXYQ7iIN2OnyuDMK9VX/pqYfp+D/
+ jh72PpnLqQ07Inq9Te4dTXqmVzwnr/XuCcv3+bdZSHkskIlyGpe0DsCNeLy8f+WP3lvf
+ bLKIBWSgNzg62wkI4SlBSqjSm4RICh6Mydz2h+Ecfy5jxDLNIEVpeLJ3+ex6uNSC/VKk
+ EN467uz+yMDgGIR2qAir4LShtA2G5D9JeWQWj0R6xkVun2sTy/0Or1cHQ622QRQaR3nl
+ avlQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=J234qSNQJTN4WRTo2PGV3irO3afg6rv+R4eKW5UeSqI=;
- b=EptWee8E2SaiBWw70xP/WkrrQQr6XWCtiTekjHM9tPneFvnqa44y1i6aNPEPKW9A2m
- kVfHpz47Swj4pVLGwS78t+kgWihfsQkd1bsJgmFA7FwdVPUABYB5vMgPDKLqXxxqDF8o
- HJT/aqsNsWviAe4Cp75NEBEdx68KydrWCqow09sP5JZjB5eayyEOZVHYsw9zd2KWa2Pt
- WJtRVj6fRnIyF1EqiBBhlMkvOjO7c/3cpGEVq6+rteNDlBHzxH1e8qKaBgtlmOZmV5ql
- vK1WiM9DCmkQjVGe/KdZodbvbl2H394vh2ff7yPjKQnOgSkCscQTkC50H+uhXlSlVsz4
- B84A==
-X-Gm-Message-State: AOAM533D/ygFuR8Thb5VO4hSmVTHECGf0onmtjWTUq8qCmPlvjKwnFyn
- sCTFsCPFqCXsg82O/TdjIb20pmNAZGYGZql5sDaqYO0qF3rnXjf60WZpUEPhEFEC6pc1KBA9aFt
- zlq6L7b8H6ihonGQ=
-X-Received: by 2002:a05:6808:1452:: with SMTP id
- x18mr1548698oiv.207.1643729080978; 
- Tue, 01 Feb 2022 07:24:40 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxrtWBAOD9Gwy40BqjMvMeURSFFCNM2FbWhlUW1/MpH59BzUA+rvld8hizgmYuFcQB/p2xL4w==
-X-Received: by 2002:a05:6808:1452:: with SMTP id
- x18mr1548670oiv.207.1643729080714; 
- Tue, 01 Feb 2022 07:24:40 -0800 (PST)
-Received: from redhat.com ([38.15.36.239])
- by smtp.gmail.com with ESMTPSA id c29sm10480166otk.16.2022.02.01.07.24.39
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=PLrowYvIwdakJXc4kkMY79btDwACPKZmwbjCKOosYJA=;
+ b=DwsMM0sQvm0H3tNRKGkj9sQJp3C0jXsSzGFxhStYE4FjNLW6a9OSXezahJmPtXPSwl
+ h/HdGt0yNhHq8sR98AkGeUB1M6QV+MdM1kWoZCLBbqA22YPJz+WF2gaW6Okfepbcjvcd
+ vUaIL2oJ7BJmcQ+Hd/FTeF3Da3hFogJ7OoHl/Q+d6jmekPDQ23FrVa0Ngc+vupgngnnL
+ 5/UQI+y64OmFbSqajfNLyvMF/lZneizgX+ToGv0T1s9Ju14c5krDsDQW3NhEtM34Td7R
+ Drej4wAloXt5Wcfrjo4xfPq0BPDXWDLhJnMxb0vAnCui/FOah0T7HvVoAW8s3D9MGQbD
+ KH0A==
+X-Gm-Message-State: AOAM532SkY9tznpjuH0OMzogikyoY+NINrhMsm2s9IofjowwkFL9Fsa+
+ H8MKY7e4Xb1Dl/W/DXIzFwyrfA==
+X-Google-Smtp-Source: ABdhPJw69FAKOoIOR2vpjpDVsj3iGxsH1XIXNVgYMbV++dUNaQeafv08gEFtT9eytKni+ZV40kAobA==
+X-Received: by 2002:a05:6000:1846:: with SMTP id
+ c6mr21981716wri.683.1643729470920; 
+ Tue, 01 Feb 2022 07:31:10 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id r2sm4949187wmq.0.2022.02.01.07.31.09
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 01 Feb 2022 07:24:40 -0800 (PST)
-Date: Tue, 1 Feb 2022 08:24:37 -0700
-From: Alex Williamson <alex.williamson@redhat.com>
-To: Stefan Hajnoczi <stefanha@redhat.com>
-Subject: Re: [PATCH v5 03/18] pci: isolated address space for PCI bus
-Message-ID: <20220201082437.7dd940eb.alex.williamson@redhat.com>
-In-Reply-To: <Yfj9u26F6/RdlhoB@stefanha-x1.localdomain>
-References: <1CACFB08-1BBC-4ECC-9C0B-6F377018D795@oracle.com>
- <YfBDqMuO/l/gWzL8@work-vm>
- <AE47B5D2-6515-4BD3-B541-23E5274174AC@oracle.com>
- <YfEYHBhrsdF9Edpp@stefanha-x1.localdomain>
- <YfGqCJeTD9bmkZx6@work-vm>
- <20220126161120-mutt-send-email-mst@kernel.org>
- <YfJYFbBVQzho7mGp@stefanha-x1.localdomain>
- <20220127142253.21ab0025.alex.williamson@redhat.com>
- <YfO00O4sT2UgaW31@stefanha-x1.localdomain>
- <20220131091623.6739464e.alex.williamson@redhat.com>
- <Yfj9u26F6/RdlhoB@stefanha-x1.localdomain>
-X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
+ Tue, 01 Feb 2022 07:31:10 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 701421FFB7;
+ Tue,  1 Feb 2022 15:31:09 +0000 (GMT)
+References: <20220124201608.604599-1-alex.bennee@linaro.org>
+ <20220124201608.604599-13-alex.bennee@linaro.org>
+ <YflK+fSCdRCzmNrS@strawberry.localdomain>
+User-agent: mu4e 1.7.6; emacs 28.0.91
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Aaron Lindsay <aaron@os.amperecomputing.com>
+Subject: Re: [PATCH  v1 12/22] plugins: stxp test case from Aaron (!upstream)
+Date: Tue, 01 Feb 2022 15:29:05 +0000
+In-reply-to: <YflK+fSCdRCzmNrS@strawberry.localdomain>
+Message-ID: <87o83qy56q.fsf@linaro.org>
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=alex.williamson@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124;
- envelope-from=alex.williamson@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.081,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42d
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42d.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -109,116 +93,170 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "eduardo@habkost.net" <eduardo@habkost.net>,
- Elena Ufimtseva <elena.ufimtseva@oracle.com>, Jag Raman <jag.raman@oracle.com>,
- Beraldo Leal <bleal@redhat.com>, John Johnson <john.g.johnson@oracle.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
- "armbru@redhat.com" <armbru@redhat.com>,
- "quintela@redhat.com" <quintela@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?B?TWFyYy1BbmRyw6k=?= Lureau <marcandre.lureau@gmail.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- "thanos.makatos@nutanix.com" <thanos.makatos@nutanix.com>, "Daniel
- P. =?UTF-8?B?QmVycmFuZ8Op?=" <berrange@redhat.com>,
- Eric Blake <eblake@redhat.com>,
- "john.levon@nutanix.com" <john.levon@nutanix.com>,
- Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <f4bug@amsat.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org,
+ robhenry@microsoft.com, mahmoudabdalghany@outlook.com, minyihh@uci.edu,
+ cota@braap.org, Luke.Craig@ll.mit.edu, Alexandre Iooss <erdnaxe@crans.org>,
+ kuhn.chenqun@huawei.com, ma.mandourr@gmail.com, "open
+ list:ARM TCG CPUs" <qemu-arm@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 1 Feb 2022 09:30:35 +0000
-Stefan Hajnoczi <stefanha@redhat.com> wrote:
 
-> On Mon, Jan 31, 2022 at 09:16:23AM -0700, Alex Williamson wrote:
-> > On Fri, 28 Jan 2022 09:18:08 +0000
-> > Stefan Hajnoczi <stefanha@redhat.com> wrote:
-> >   
-> > > On Thu, Jan 27, 2022 at 02:22:53PM -0700, Alex Williamson wrote:  
-> > > > If the goal here is to restrict DMA between devices, ie. peer-to-peer
-> > > > (p2p), why are we trying to re-invent what an IOMMU already does?    
-> > > 
-> > > The issue Dave raised is that vfio-user servers run in separate
-> > > processses from QEMU with shared memory access to RAM but no direct
-> > > access to non-RAM MemoryRegions. The virtiofs DAX Window BAR is one
-> > > example of a non-RAM MemoryRegion that can be the source/target of DMA
-> > > requests.
-> > > 
-> > > I don't think IOMMUs solve this problem but luckily the vfio-user
-> > > protocol already has messages that vfio-user servers can use as a
-> > > fallback when DMA cannot be completed through the shared memory RAM
-> > > accesses.
-> > >   
-> > > > In
-> > > > fact, it seems like an IOMMU does this better in providing an IOVA
-> > > > address space per BDF.  Is the dynamic mapping overhead too much?  What
-> > > > physical hardware properties or specifications could we leverage to
-> > > > restrict p2p mappings to a device?  Should it be governed by machine
-> > > > type to provide consistency between devices?  Should each "isolated"
-> > > > bus be in a separate root complex?  Thanks,    
-> > > 
-> > > There is a separate issue in this patch series regarding isolating the
-> > > address space where BAR accesses are made (i.e. the global
-> > > address_space_memory/io). When one process hosts multiple vfio-user
-> > > server instances (e.g. a software-defined network switch with multiple
-> > > ethernet devices) then each instance needs isolated memory and io address
-> > > spaces so that vfio-user clients don't cause collisions when they map
-> > > BARs to the same address.
-> > > 
-> > > I think the the separate root complex idea is a good solution. This
-> > > patch series takes a different approach by adding the concept of
-> > > isolated address spaces into hw/pci/.  
-> > 
-> > This all still seems pretty sketchy, BARs cannot overlap within the
-> > same vCPU address space, perhaps with the exception of when they're
-> > being sized, but DMA should be disabled during sizing.
-> > 
-> > Devices within the same VM context with identical BARs would need to
-> > operate in different address spaces.  For example a translation offset
-> > in the vCPU address space would allow unique addressing to the devices,
-> > perhaps using the translation offset bits to address a root complex and
-> > masking those bits for downstream transactions.
-> > 
-> > In general, the device simply operates in an address space, ie. an
-> > IOVA.  When a mapping is made within that address space, we perform a
-> > translation as necessary to generate a guest physical address.  The
-> > IOVA itself is only meaningful within the context of the address space,
-> > there is no requirement or expectation for it to be globally unique.
-> > 
-> > If the vfio-user server is making some sort of requirement that IOVAs
-> > are unique across all devices, that seems very, very wrong.  Thanks,  
-> 
-> Yes, BARs and IOVAs don't need to be unique across all devices.
-> 
-> The issue is that there can be as many guest physical address spaces as
-> there are vfio-user clients connected, so per-client isolated address
-> spaces are required. This patch series has a solution to that problem
-> with the new pci_isol_as_mem/io() API.
+Aaron Lindsay <aaron@os.amperecomputing.com> writes:
 
-Sorry, this still doesn't follow for me.  A server that hosts multiple
-devices across many VMs (I'm not sure if you're referring to the device
-or the VM as a client) needs to deal with different address spaces per
-device.  The server needs to be able to uniquely identify every DMA,
-which must be part of the interface protocol.  But I don't see how that
-imposes a requirement of an isolated address space.  If we want the
-device isolated because we don't trust the server, that's where an IOMMU
-provides per device isolation.  What is the restriction of the
-per-client isolated address space and why do we need it?  The server
-needing to support multiple clients is not a sufficient answer to
-impose new PCI bus types with an implicit restriction on the VM.
- 
-> What I find strange about this approach is that exported PCI devices are
-> on PCI root ports that are connected to the machine's main PCI bus. The
-> PCI devices don't interact with the main bus's IOVA space, guest
-> physical memory space, or interrupts. It seems hacky to graft isolated
-> devices onto a parent bus that provides nothing to its children. I
-> wonder if it would be cleaner for every vfio-user server to have its own
-> PCIHost. Then it may be possible to drop the new pci_isol_as_mem/io()
-> API.
+> On Jan 24 20:15, Alex Benn=C3=A9e wrote:
+>> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+>> Cc: Aaron Lindsay <aaron@os.amperecomputing.com>
+>> Message-ID: <YXCA62xdRDeueQR6@strawberry.localdomain>
+>>=20
+>> ---
+>> [AJB] this was for testing, I think you can show the same stuff with
+>> the much more complete execlog now.
+>
+> Is it true that execlog can also reproduce the duplicate loads which are
+> still an outstanding issue?
 
-This is getting a bit ridiculous, if vfio-user devices require this
-degree of manipulation of the VM topology into things that don't exist
-on bare metal, we've done something very wrong.  Thanks,
+Are we still seeing duplicate loads? I thought that had been fixed.
 
-Alex
+>
+> -Aaron
+>
+>> ---
+>>  contrib/plugins/stxp-plugin.c     | 50 +++++++++++++++++++++++++++++++
+>>  tests/tcg/aarch64/stxp.c          | 28 +++++++++++++++++
+>>  contrib/plugins/Makefile          |  1 +
+>>  tests/tcg/aarch64/Makefile.target |  3 ++
+>>  4 files changed, 82 insertions(+)
+>>  create mode 100644 contrib/plugins/stxp-plugin.c
+>>  create mode 100644 tests/tcg/aarch64/stxp.c
+>>=20
+>> diff --git a/contrib/plugins/stxp-plugin.c b/contrib/plugins/stxp-plugin=
+.c
+>> new file mode 100644
+>> index 0000000000..432cf8c1ed
+>> --- /dev/null
+>> +++ b/contrib/plugins/stxp-plugin.c
+>> @@ -0,0 +1,50 @@
+>> +#include <stdio.h>
+>> +#include <stdarg.h>
+>> +#include <qemu-plugin.h>
+>> +
+>> +QEMU_PLUGIN_EXPORT int qemu_plugin_version =3D QEMU_PLUGIN_VERSION;
+>> +
+>> +void qemu_logf(const char *str, ...)
+>> +{
+>> +    char message[1024];
+>> +    va_list args;
+>> +    va_start(args, str);
+>> +    vsnprintf(message, 1023, str, args);
+>> +
+>> +    qemu_plugin_outs(message);
+>> +
+>> +    va_end(args);
+>> +}
+>> +
+>> +void before_insn_cb(unsigned int cpu_index, void *udata)
+>> +{
+>> +    uint64_t pc =3D (uint64_t)udata;
+>> +    qemu_logf("Executing PC: 0x%" PRIx64 "\n", pc);
+>> +}
+>> +
+>> +static void mem_cb(unsigned int cpu_index, qemu_plugin_meminfo_t meminf=
+o, uint64_t va, void *udata)
+>> +{
+>> +    uint64_t pc =3D (uint64_t)udata;
+>> +    qemu_logf("PC 0x%" PRIx64 " accessed memory at 0x%" PRIx64 "\n", pc=
+, va);
+>> +}
+>> +
+>> +static void vcpu_tb_trans(qemu_plugin_id_t id, struct qemu_plugin_tb *t=
+b)
+>> +{
+>> +    size_t n =3D qemu_plugin_tb_n_insns(tb);
+>> +
+>> +    for (size_t i =3D 0; i < n; i++) {
+>> +        struct qemu_plugin_insn *insn =3D qemu_plugin_tb_get_insn(tb, i=
+);
+>> +        uint64_t pc =3D qemu_plugin_insn_vaddr(insn);
+>> +
+>> +        qemu_plugin_register_vcpu_insn_exec_cb(insn, before_insn_cb, QE=
+MU_PLUGIN_CB_R_REGS, (void *)pc);
+>> +        qemu_plugin_register_vcpu_mem_cb(insn, mem_cb, QEMU_PLUGIN_CB_N=
+O_REGS, QEMU_PLUGIN_MEM_RW, (void*)pc);
+>> +    }
+>> +}
+>> +
+>> +QEMU_PLUGIN_EXPORT
+>> +int qemu_plugin_install(qemu_plugin_id_t id, const qemu_info_t *info,
+>> +                        int argc, char **argv)
+>> +{
+>> +    qemu_plugin_register_vcpu_tb_trans_cb(id, vcpu_tb_trans);
+>> +    return 0;
+>> +}
+>> diff --git a/tests/tcg/aarch64/stxp.c b/tests/tcg/aarch64/stxp.c
+>> new file mode 100644
+>> index 0000000000..fb8ef6a46d
+>> --- /dev/null
+>> +++ b/tests/tcg/aarch64/stxp.c
+>> @@ -0,0 +1,28 @@
+>> +
+>> +
+>> +void stxp_issue_demo(void *arr)
+>> +{
+>> +    asm(".align 8\n\t"
+>> +        "    mov x0, %[in]\n\t"
+>> +        "    mov x18, 0x1000\n\t"
+>> +        "    mov x2, 0x0\n\t"
+>> +        "    mov x3, 0x0\n\t"
+>> +        "loop:\n\t"
+>> +        "    prfm  pstl1strm, [x0]\n\t"
+>> +        "    ldxp  x16, x17, [x0]\n\t"
+>> +        "    stxp  w16, x2, x3, [x0]\n\t"
+>> +        "\n\t"
+>> +        "    subs x18, x18, 1\n\t"
+>> +        "    beq done\n\t"
+>> +        "    b loop\n\t"
+>> +        "done:\n\t"
+>> +        : /* none out */
+>> +        : [in] "r" (arr) /* in */
+>> +        : "x0", "x2", "x3", "x16", "x17", "x18"); /* clobbers */
+>> +}
+>> +
+>> +int main()
+>> +{
+>> +    char arr[16];
+>> +    stxp_issue_demo(&arr);
+>> +}
+>> diff --git a/contrib/plugins/Makefile b/contrib/plugins/Makefile
+>> index 54ac5ccd9f..576ed5875a 100644
+>> --- a/contrib/plugins/Makefile
+>> +++ b/contrib/plugins/Makefile
+>> @@ -20,6 +20,7 @@ NAMES +=3D howvec
+>>  NAMES +=3D lockstep
+>>  NAMES +=3D hwprofile
+>>  NAMES +=3D cache
+>> +NAMES +=3D stxp-plugin
+>>=20=20
+>>  SONAMES :=3D $(addsuffix .so,$(addprefix lib,$(NAMES)))
+>>=20=20
+>> diff --git a/tests/tcg/aarch64/Makefile.target b/tests/tcg/aarch64/Makef=
+ile.target
+>> index 1d967901bd..54b2e90d00 100644
+>> --- a/tests/tcg/aarch64/Makefile.target
+>> +++ b/tests/tcg/aarch64/Makefile.target
+>> @@ -72,4 +72,7 @@ endif
+>>=20=20
+>>  endif
+>>=20=20
+>> +# Load/Store exclusive test
+>> +AARCH64_TESTS +=3D stxp
+>> +
+>>  TESTS +=3D $(AARCH64_TESTS)
+>> --=20
+>> 2.30.2
+>>=20
 
+
+--=20
+Alex Benn=C3=A9e
 
