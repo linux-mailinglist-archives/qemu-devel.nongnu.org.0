@@ -2,72 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6B354A5BEB
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Feb 2022 13:10:56 +0100 (CET)
-Received: from localhost ([::1]:50618 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B21B74A5BAE
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Feb 2022 13:01:13 +0100 (CET)
+Received: from localhost ([::1]:46212 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nErzq-0007mr-Fu
-	for lists+qemu-devel@lfdr.de; Tue, 01 Feb 2022 07:10:54 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:57124)
+	id 1nErqS-0004F7-Ci
+	for lists+qemu-devel@lfdr.de; Tue, 01 Feb 2022 07:01:12 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:57156)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1nEr7s-0005C0-Iz
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1nEr7t-0005C2-7L
  for qemu-devel@nongnu.org; Tue, 01 Feb 2022 06:15:11 -0500
-Received: from [2607:f8b0:4864:20::d36] (port=44954
- helo=mail-io1-xd36.google.com)
+Received: from [2607:f8b0:4864:20::12e] (port=39774
+ helo=mail-il1-x12e.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1nEr7p-0003bB-LW
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1nEr7q-0003bp-DL
  for qemu-devel@nongnu.org; Tue, 01 Feb 2022 06:15:08 -0500
-Received: by mail-io1-xd36.google.com with SMTP id p63so19849326iod.11
- for <qemu-devel@nongnu.org>; Tue, 01 Feb 2022 03:15:05 -0800 (PST)
+Received: by mail-il1-x12e.google.com with SMTP id z7so13965114ilb.6
+ for <qemu-devel@nongnu.org>; Tue, 01 Feb 2022 03:15:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bsdimp-com.20210112.gappssmtp.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=G4Vpw/I6iiWTN4s+j93oyFd2/tcBHu47g5sAn9S/ES0=;
- b=isHEHkKiNNbHew016kZen0+Heg2bYJTdAxx0ILhH3e4noiZquiUMsdG6AwQgBocnjH
- FtaL68tNyfEWG7LbC5+4mP/RRHEpdBGhkTvDRMO2fVnNSSB+CqJx9TPghEWAmQ0s0ZIQ
- 7e9QVPHaV9e7vE1GC/Cjmt7CqRSdBebB4Djg2LA6d70MVgtYmNFGKkxgbrkiSh4CbcTj
- H4FwQL0F5G4axVoFr32qdxrqPmsu2fU2sQYYKoL9/8M0xdVu+cMFrmdizTrQLgvzOhZc
- zCebBt4r8r74otYM47yU2AOpPCYCESF+86lGNSCVL6Z4fbbIINtFwbx7460CYEzAvXwq
- 0Opg==
+ bh=RSGQ/GmeXW/IFZq2u0G+wlHtpufwI4M6hwKbZgp8r+Y=;
+ b=EkFYLX68/ZjsPTbHsy4HZV4lKFTYd2s7aFqXUduQl8oGdt64iX/8e/FOp8xEE5OocQ
+ ZmQfhRGjrUvuQ1kAYhtd4hQN0x8IOOngcHq31dKG5Qw5U9Ltvk0Xe7ECQllbTt3Dezg4
+ 5UCAHwdlftgKdxtkgdOTLcv/yf/N0OG+9J/g3fjU5vYQqEHGKaEteP/KWkX3TtOpRvGi
+ NqCaEi+Qk7Mh6ZIO2jhEO9BxTW3cZy4W6ELteRQyDBLQK985xKhP41OdrC1WWZu6u9MM
+ wrlJ58sx9YOBHfNzpmqdGJGRbV7W/NWaBvwxWE66bgYcKwzxh6yqpyjrPJMQps0z9GyC
+ T3QQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=G4Vpw/I6iiWTN4s+j93oyFd2/tcBHu47g5sAn9S/ES0=;
- b=jN/mGemUGH5VVW0bhftrv1Pt/mHtODKritpbOMBCyRPDJa8HFcpd9iD5C9CguAtep6
- dtNVKPC/i47mAclF2HQFTdyt9WeDeHbIg2laW9eYgEX3CeNQI3auLnsnoZpkGIPVVv6n
- PJAMwYtvo0qmdBP82Nb+veV8cNo4BjqiTrvRtfEamfg7gxJf6onFuZjhF34Tl93V3Rws
- H4FDsW1tP0PPwuuAAzwGLTEK4Pm8eo/YpU/95er79pjeht6ZgbOUsPTTp2ewBEG6rNuh
- qgqeUMg5AwxohRGKbQffqFt543es0zTa3ODnnFE4j5dGGoZODx4kfaW5nryWNNqTx4o4
- bfuA==
-X-Gm-Message-State: AOAM533NutajzIEraFoQ1aQSEX4gZCaPojNQ4m39FSHYi6DNWmr5HgmI
- QWAmZf43ciaQqs4HZ0YRvz6JxoQ4siOyAg==
-X-Google-Smtp-Source: ABdhPJz20TFEqs3iRwKAEzaVD5lpnAoDmYZIX2S2QddPXiD1ekd5DoSFKoWfHxQpEdam6qzrn/Q2nA==
-X-Received: by 2002:a05:6602:72f:: with SMTP id
- g15mr13365435iox.25.1643714104307; 
- Tue, 01 Feb 2022 03:15:04 -0800 (PST)
+ bh=RSGQ/GmeXW/IFZq2u0G+wlHtpufwI4M6hwKbZgp8r+Y=;
+ b=Vtpk12Bzg4zklgTuN/g+NtbxB7bRqgU8PfSUFZ31a1MRnvB8u3yXDlCH6R+cRhKiqf
+ 8pVbjYJpZ0lUy77g1AzgNXAk57auQXLxdkzJXBKiO8lwagUd9EAySLMtAsfTBRHyAJ+X
+ NnVTvfCOo2+hFBEv9vHed1o0iILBWezoziOpi6k6xmH5w8fIsRjgotFy2CaIjIX0is2M
+ 0eYbVKlvUKbJ98GBYYA1Q+frxvc6sQZmFlodaJudRAYEUzpPi11aAd4gQmGgeG7ZYP4W
+ gy1fM0ITmegqYVPb2+BKmolUT2vwf5SU7hAClvcFOj9EjcMQZF/4QnsrZg0TFgtWr1QR
+ io/A==
+X-Gm-Message-State: AOAM533h5vLw8d+yA5FwOPfYqyAvbaR9tsdGh9nI7+aOtXAmKlRtsOsk
+ fEqg+j8HPWJ+vczmcQgJYgzCaQRWOEHZMA==
+X-Google-Smtp-Source: ABdhPJw9u1D5FjPVrtyZA2NxzflwZ8o48/bjpPFjnbg1sgzPhTVTW3/XxYE07cFNzTlY/Eh8aY6INA==
+X-Received: by 2002:a05:6e02:17ca:: with SMTP id
+ z10mr7313084ilu.100.1643714105107; 
+ Tue, 01 Feb 2022 03:15:05 -0800 (PST)
 Received: from dune.bsdimp.com (50-253-99-174-static.hfc.comcastbusiness.net.
  [50.253.99.174])
- by smtp.gmail.com with ESMTPSA id w5sm13526852ilu.83.2022.02.01.03.15.03
+ by smtp.gmail.com with ESMTPSA id w5sm13526852ilu.83.2022.02.01.03.15.04
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 01 Feb 2022 03:15:03 -0800 (PST)
+ Tue, 01 Feb 2022 03:15:04 -0800 (PST)
 From: Warner Losh <imp@bsdimp.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 16/22] bsd-user/freebsd/os-syscall.c: Tracing and error
- boilerplate
-Date: Tue,  1 Feb 2022 04:14:49 -0700
-Message-Id: <20220201111455.52511-17-imp@bsdimp.com>
+Subject: [PATCH 17/22] bsd-user: introduce target.h
+Date: Tue,  1 Feb 2022 04:14:50 -0700
+Message-Id: <20220201111455.52511-18-imp@bsdimp.com>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <20220201111455.52511-1-imp@bsdimp.com>
 References: <20220201111455.52511-1-imp@bsdimp.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::d36
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::12e
  (failed)
-Received-SPF: none client-ip=2607:f8b0:4864:20::d36;
- envelope-from=imp@bsdimp.com; helo=mail-io1-xd36.google.com
+Received-SPF: none client-ip=2607:f8b0:4864:20::12e;
+ envelope-from=imp@bsdimp.com; helo=mail-il1-x12e.google.com
 X-Spam_score_int: -10
 X-Spam_score: -1.1
 X-Spam_bar: -
@@ -95,51 +94,120 @@ Cc: Peter Maydell <peter.maydell@linaro.org>, arrowd@FreeBSD.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add in the tracing and this system call not implemented boilerplate.
+Create target.h. This file is intended to be simple and describe basic
+things about the architecture. If something is a basic feature of the
+architecture, it belongs here. Should we need something that's per-BSD
+there will be a target-os.h that will live in the per-bsd directories.
+
+Define regpairs_aligned to reflect whether or not registers are 'paired'
+for 64-bit arguments or not. This will be false for all 64-bit targets,
+and will be true on those architectures that pair (currently just armv7
+and powerpc on FreeBSD 14.x).
 
 Signed-off-by: Warner Losh <imp@bsdimp.com>
 ---
- bsd-user/freebsd/os-syscall.c | 27 ++++++++++++++++++++++++++-
- 1 file changed, 26 insertions(+), 1 deletion(-)
+ bsd-user/arm/target.h    | 21 +++++++++++++++++++++
+ bsd-user/i386/target.h   | 21 +++++++++++++++++++++
+ bsd-user/qemu.h          |  1 +
+ bsd-user/x86_64/target.h | 21 +++++++++++++++++++++
+ 4 files changed, 64 insertions(+)
+ create mode 100644 bsd-user/arm/target.h
+ create mode 100644 bsd-user/i386/target.h
+ create mode 100644 bsd-user/x86_64/target.h
 
-diff --git a/bsd-user/freebsd/os-syscall.c b/bsd-user/freebsd/os-syscall.c
-index d49945f0fcc..fcfa6221182 100644
---- a/bsd-user/freebsd/os-syscall.c
-+++ b/bsd-user/freebsd/os-syscall.c
-@@ -200,7 +200,32 @@ abi_long do_freebsd_syscall(void *cpu_env, int num, abi_long arg1,
-                             abi_long arg5, abi_long arg6, abi_long arg7,
-                             abi_long arg8)
- {
--    return 0;
-+    CPUState *cpu = env_cpu(cpu_env);
-+    abi_long ret;
+diff --git a/bsd-user/arm/target.h b/bsd-user/arm/target.h
+new file mode 100644
+index 00000000000..1f7ee49bfb4
+--- /dev/null
++++ b/bsd-user/arm/target.h
+@@ -0,0 +1,21 @@
++/*
++ * Intel general target stuff that's common to all i386 details
++ *
++ * Copyright (c) 2022 M. Warner Losh <imp@bsdimp.com>
++ *
++ * SPDX-License-Identifier: GPL-2.0-or-later
++ */
 +
-+#ifdef DEBUG
-+    gemu_log("freebsd syscall %d\n", num);
-+#endif
-+    trace_guest_user_syscall(cpu, num, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8);
-+    if (do_strace) {
-+        print_freebsd_syscall(num, arg1, arg2, arg3, arg4, arg5, arg6);
-+    }
++#ifndef TARGET_H
++#define TARGET_H
 +
-+    switch (num) {
-+    default:
-+        gemu_log("qemu: unsupported syscall: %d\n", num);
-+        ret = -TARGET_ENOSYS;
-+        break;
-+    }
++/*
++ * arm EABI 'lumps' the registers for 64-bit args.
++ */
++static inline int regpairs_aligned(void *cpu_env)
++{
++    return 1;
++}
 +
-+#ifdef DEBUG
-+    gemu_log(" = %ld\n", ret);
-+#endif
-+    if (do_strace) {
-+        print_freebsd_syscall_ret(num, ret);
-+    }
-+    trace_guest_user_syscall_ret(cpu, num, ret);
-+    return ret;
- }
++#endif /* ! TARGET_H */
++
+diff --git a/bsd-user/i386/target.h b/bsd-user/i386/target.h
+new file mode 100644
+index 00000000000..b0ab477d683
+--- /dev/null
++++ b/bsd-user/i386/target.h
+@@ -0,0 +1,21 @@
++/*
++ * Intel general target stuff that's common to all i386 details
++ *
++ * Copyright (c) 2022 M. Warner Losh <imp@bsdimp.com>
++ *
++ * SPDX-License-Identifier: GPL-2.0-or-later
++ */
++
++#ifndef TARGET_ARCH_H
++#define TARGET_ARCH_H
++
++/*
++ * i386 doesn't 'lump' the registers for 64-bit args.
++ */
++static inline int regpairs_aligned(void *cpu_env)
++{
++    return 0;
++}
++
++#endif /* ! TARGET_ARCH_H */
++
+diff --git a/bsd-user/qemu.h b/bsd-user/qemu.h
+index 56042ddbc5d..a9efa807b78 100644
+--- a/bsd-user/qemu.h
++++ b/bsd-user/qemu.h
+@@ -35,6 +35,7 @@ extern char **environ;
+ #include "target_syscall.h"
+ #include "target_os_vmparam.h"
+ #include "target_os_signal.h"
++#include "target.h"
+ #include "exec/gdbstub.h"
  
- void syscall_init(void)
+ /*
+diff --git a/bsd-user/x86_64/target.h b/bsd-user/x86_64/target.h
+new file mode 100644
+index 00000000000..6d3aef8fc49
+--- /dev/null
++++ b/bsd-user/x86_64/target.h
+@@ -0,0 +1,21 @@
++/*
++ * Intel general target stuff that's common to all x86_64 details
++ *
++ * Copyright (c) 2022 M. Warner Losh <imp@bsdimp.com>
++ *
++ * SPDX-License-Identifier: GPL-2.0-or-later
++ */
++
++#ifndef TARGET_H
++#define TARGET_H
++
++/*
++ * x86 doesn't 'lump' the registers for 64-bit args, all args are 64 bits.
++ */
++static inline int regpairs_aligned(void *cpu_env)
++{
++    return 0;
++}
++
++#endif /* ! TARGET_H */
++
 -- 
 2.33.1
 
