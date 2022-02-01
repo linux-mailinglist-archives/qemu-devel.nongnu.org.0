@@ -2,91 +2,103 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 040C94A62E9
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Feb 2022 18:48:34 +0100 (CET)
-Received: from localhost ([::1]:51544 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B7D024A62FA
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Feb 2022 18:51:29 +0100 (CET)
+Received: from localhost ([::1]:55796 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nExGb-0007cb-35
-	for lists+qemu-devel@lfdr.de; Tue, 01 Feb 2022 12:48:33 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:35084)
+	id 1nExJQ-00024s-RI
+	for lists+qemu-devel@lfdr.de; Tue, 01 Feb 2022 12:51:28 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:36994)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1nEvbW-0001n4-Hp
- for qemu-devel@nongnu.org; Tue, 01 Feb 2022 11:02:02 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:20154)
+ (Exim 4.90_1) (envelope-from <pasic@linux.ibm.com>)
+ id 1nEvfZ-00042Q-DY; Tue, 01 Feb 2022 11:06:13 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:18136)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1nEvbU-0003Q2-IO
- for qemu-devel@nongnu.org; Tue, 01 Feb 2022 11:02:01 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1643731318;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Ec2cGKzwPDgJ95xXCUatow9ne0HB995uNwaV4LzKg+Q=;
- b=flx179d6AYth3qry1kOMM8X2R5SsYHBiokauaGlggeltO9zaB0zfKY7DZ+xT2iiF8dneZ5
- kgjbC+Y4SyC2w0M9yMnBA3Kaq5h3iFiqkGm7dvxmN87WiHztm1+q3s9n9jOi4mXKyKeODC
- OD0dzc16UyKzp0rMU9xw4qtPmwCXUI0=
-Received: from mail-vk1-f199.google.com (mail-vk1-f199.google.com
- [209.85.221.199]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-237-CPTW6E6NNiOe4Fbdfi7xYQ-1; Tue, 01 Feb 2022 11:01:57 -0500
-X-MC-Unique: CPTW6E6NNiOe4Fbdfi7xYQ-1
-Received: by mail-vk1-f199.google.com with SMTP id
- d185-20020a1fe6c2000000b0031e50f180f9so2729501vkh.19
- for <qemu-devel@nongnu.org>; Tue, 01 Feb 2022 08:01:57 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=Ec2cGKzwPDgJ95xXCUatow9ne0HB995uNwaV4LzKg+Q=;
- b=eY821dm7bT9USS63hOERhoKw12kMJKWBGeb9Q72Va5ntvtNbK1+Hm7x69QTPLJaw27
- vyKkFuRsdP61uG5/COkBkvkVIwg/HzM5dbFnSOzAuYXLnbCEza17vwgFCSFd7nVtuyP0
- wepWdSlA5o4EB28zAxwYm0kiH17DLkkCC0yYGc3haAhJWYpeU1UHr6VVY76Ejjqtweqk
- O+3QIhHnv3kd7f+tLYBWuKZF+TLpzzdykM8zDC3If0kpDbSTe+Fqw6hZx+1HeXZZ8dVo
- WdfdrvFYv4wgkj/WCSZNUZK+ujws5W7SsXES6IwADf1eW/phqF67+sppGykcwlr9jr5M
- w8KQ==
-X-Gm-Message-State: AOAM53242IozTKnfHHb0ysjBr8Wk073mkJlebE8BpdnNd0oM56weRL0F
- sFte9q+BDb5JWqUgnj1/TZlgEGUnwPOpVallHNjfYPGp9FJ4842XduV53flXung0kLHQYoZTQEk
- jvYfU5FbDkCWsZhMdyRztWuB2e8j+oSQ=
-X-Received: by 2002:a05:6122:883:: with SMTP id
- 3mr10814849vkf.38.1643731315066; 
- Tue, 01 Feb 2022 08:01:55 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxWXvHVAKsuhby5yaYdf0NTcPVqKCpVe3jvPJmrMcD2DuETtsOG7k2LyQ0C68689JmtDCEMcXZEkPj7vrGVelc=
-X-Received: by 2002:a05:6122:883:: with SMTP id
- 3mr10814731vkf.38.1643731314305; 
- Tue, 01 Feb 2022 08:01:54 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <pasic@linux.ibm.com>)
+ id 1nEvfW-0004CS-02; Tue, 01 Feb 2022 11:06:12 -0500
+Received: from pps.filterd (m0098410.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 211FTvfG024671; 
+ Tue, 1 Feb 2022 16:05:59 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=date : from : to : cc :
+ subject : message-id : in-reply-to : references : mime-version :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=IcLi2MXfDQXxRVQOd5BYSwuoT89miCSVcHlB/386g0g=;
+ b=KxTAMuoZrznPUPUGlhx5Di7BjRxZ+CUEU/fGtx7pcLgoqxIKrVwXIbO5NHM2J/vODLMu
+ G+dY3YH8NrSQsLIzuipaIaoeaek3Sr9ljfkbeR3lowiSZ57MVpVWaknieVc7vroaGMzi
+ HL7pQWTkwbsOyxobRUti7oGaOa8loO9uZPHf9b6x3KZqRqdds9lLyJ/7Tn0+BgxlYeMX
+ 4Vl0mf31aLm5iwn0iX2KrmOaXOK4ZEXpEMAeYbBAbJ40f/mBfOafO+j47EAUjxH/yJLR
+ C2x740AhKUT8rxdCVH+SlrNmUhWr3/LGSijtQEK1gjXfc1BpPNzBPLEoNy2Xgy5gVOEG tQ== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3dxn4hxwkw-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 01 Feb 2022 16:05:59 +0000
+Received: from m0098410.ppops.net (m0098410.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 211E6mo9026296;
+ Tue, 1 Feb 2022 16:05:58 GMT
+Received: from ppma01fra.de.ibm.com (46.49.7a9f.ip4.static.sl-reverse.com
+ [159.122.73.70])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3dxn4hxwjr-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 01 Feb 2022 16:05:58 +0000
+Received: from pps.filterd (ppma01fra.de.ibm.com [127.0.0.1])
+ by ppma01fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 211FwLMx025237;
+ Tue, 1 Feb 2022 16:05:56 GMT
+Received: from b06cxnps4074.portsmouth.uk.ibm.com
+ (d06relay11.portsmouth.uk.ibm.com [9.149.109.196])
+ by ppma01fra.de.ibm.com with ESMTP id 3dvw79d1pu-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 01 Feb 2022 16:05:56 +0000
+Received: from d06av26.portsmouth.uk.ibm.com (d06av26.portsmouth.uk.ibm.com
+ [9.149.105.62])
+ by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 211G5h8737224834
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 1 Feb 2022 16:05:43 GMT
+Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 8B205AE058;
+ Tue,  1 Feb 2022 16:05:43 +0000 (GMT)
+Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 066FCAE056;
+ Tue,  1 Feb 2022 16:05:43 +0000 (GMT)
+Received: from li-e979b1cc-23ba-11b2-a85c-dfd230f6cf82 (unknown [9.171.90.234])
+ by d06av26.portsmouth.uk.ibm.com (Postfix) with SMTP;
+ Tue,  1 Feb 2022 16:05:42 +0000 (GMT)
+Date: Tue, 1 Feb 2022 17:05:40 +0100
+From: Halil Pasic <pasic@linux.ibm.com>
+To: "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org
+Subject: Re: [PATCH v3 1/1] virtio: fix the condition for iommu_platform not
+ supported
+Message-ID: <20220201170540.2264d235.pasic@linux.ibm.com>
+In-Reply-To: <20220201133915.3764972-1-pasic@linux.ibm.com>
+References: <20220201133915.3764972-1-pasic@linux.ibm.com>
+Organization: IBM
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-References: <CAFEAcA9cMZoj18gq7Ksv5PRoU1wRmXvW_e9UE73C_MEB7wTroQ@mail.gmail.com>
- <CAFEAcA9_d5jw5-HOrZA6dsG1vMqxzqmrfHA7Jo0KsDcaEXmB_Q@mail.gmail.com>
- <6c90ca3d-eaec-d7e8-5941-4deb83b58fd0@redhat.com>
- <87zgnp4b32.fsf@dusky.pond.sub.org>
- <CAFEAcA_kxrCgyxWPFLw6VZ-rKx-res0C8L2BWRvfB81cR+keLg@mail.gmail.com>
- <875yqd6zib.fsf@linaro.org> <YerPk2ABMHQf/3QP@redhat.com>
- <20220125092011.dq2t4ryl632vrvsf@sirius.home.kraxel.org>
- <20220201073139.7896e10b@elisabeth> <Yfj4ERdAvmCF4ZzY@redhat.com>
- <20220201112720.4ac9b8df@elisabeth> <87wnieygjp.fsf@linaro.org>
-In-Reply-To: <87wnieygjp.fsf@linaro.org>
-From: Cleber Rosa <crosa@redhat.com>
-Date: Tue, 1 Feb 2022 11:01:43 -0500
-Message-ID: <CA+bd_6JF5iRKufxVa=6TEtR-eH65iiiG-oarWRHkavX-3E-p1Q@mail.gmail.com>
-Subject: Re: "make check-acceptance" takes way too long
-To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=crosa@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=crosa@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: Dfi6CbPxUDt5jOLYi2Jd2fqPNl6cswkK
+X-Proofpoint-ORIG-GUID: 5KnOGral7rFySfy6Pwsj4zuX8Q61dwI9
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.816,Hydra:6.0.425,FMLib:17.11.62.513
+ definitions=2022-02-01_08,2022-02-01_01,2021-12-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501
+ bulkscore=0 mlxscore=0 mlxlogscore=999 lowpriorityscore=0 suspectscore=0
+ impostorscore=0 adultscore=0 phishscore=0 malwarescore=0 spamscore=0
+ clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2201110000 definitions=main-2202010091
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=pasic@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.081,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -99,44 +111,19 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
- Beraldo Leal <bleal@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>, Stefano Brivio <sbrivio@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Cc: Kevin Wolf <kwolf@redhat.com>, danielhb413@gmail.com,
+ Brijesh Singh <brijesh.singh@amd.com>,
+ Daniel Henrique Barboza <danielhb@linux.ibm.com>,
+ Cornelia Huck <cohuck@redhat.com>, qemu-stable@nongnu.org,
+ Halil Pasic <pasic@linux.ibm.com>, Jakob Naucke <Jakob.Naucke@ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Feb 1, 2022 at 6:25 AM Alex Benn=C3=A9e <alex.bennee@linaro.org> wr=
-ote:
->
-> We have up to now tried really hard as a project to avoid building and
-> hosting our own binaries to avoid theoretical* GPL compliance issues.
-> This is why we've ended up relying so much on distros to build and host
-> binaries we can use. Most QEMU developers have their own personal zoo of
-> kernels and userspaces which they use for testing. I use custom kernels
-> with a buildroot user space in initramfs for example. We even use the
-> qemu advent calendar for a number of our avocado tests but we basically
-> push responsibility for GPL compliance to the individual developers in
-> that case.
->
-> *theoretical in so far I suspect most people would be happy with a
-> reference to an upstream repo/commit and .config even if that is not to
-> the letter of the "offer of source code" required for true compliance.
->
+On Tue,  1 Feb 2022 14:39:15 +0100
+Halil Pasic <pasic@linux.ibm.com> wrote:
 
-Yes, it'd be fine (great, really!) if a lightweight distro (or
-kernels/initrd) were to
-be maintained and identified as an "official" QEMU pick.  Putting the binar=
-ies
-in the source tree though, brings all sorts of compliance issues.
+> The commit 04ceb61a40 ("virtio: Fail if iommu_platform is requested, but
+> unsupported") claims to fail the device hotplug when iommu_platform
 
-The downloading of the images at test "setup time" is still a better approa=
-ch,
-given that tests will simply skip if the download is not possible.
-
-- Cleber.
-
+CC-ing Daniel with his new email address.
 
