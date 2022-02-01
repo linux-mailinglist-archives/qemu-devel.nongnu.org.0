@@ -2,54 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7987B4A60DB
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Feb 2022 16:58:59 +0100 (CET)
-Received: from localhost ([::1]:45478 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A35794A60F0
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Feb 2022 17:04:16 +0100 (CET)
+Received: from localhost ([::1]:49918 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nEvYY-0005l4-FK
-	for lists+qemu-devel@lfdr.de; Tue, 01 Feb 2022 10:58:58 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:36512)
+	id 1nEvdf-0000Hp-46
+	for lists+qemu-devel@lfdr.de; Tue, 01 Feb 2022 11:04:15 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:37556)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nEuR5-0002g2-6V
- for qemu-devel@nongnu.org; Tue, 01 Feb 2022 09:47:29 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:36596)
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nEuRW-0002n0-K8
+ for qemu-devel@nongnu.org; Tue, 01 Feb 2022 09:47:48 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:48752)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nEuQz-0002z9-Q0
- for qemu-devel@nongnu.org; Tue, 01 Feb 2022 09:47:08 -0500
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nEuRL-00030f-3r
+ for qemu-devel@nongnu.org; Tue, 01 Feb 2022 09:47:36 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1643726619;
+ s=mimecast20190719; t=1643726630;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=y1Sr6Q+drHIUg8sjpecirbU02ibC7yPeZoah9O3blFA=;
- b=ha3NhwhVnP2fFBs9drRrLEG5v1KLsFNqhwlYv6V7fmGwo8KrBeLpuLRRz1bcEDKnu7y8rp
- U5QCzAmoZyWNEFlkVJdewthIsjHxUCM2nsXTAbVpkAvi4eemqyUh4pFvyjfjH2y42cV2VW
- uGw8iR4SD9y4oiPlwXp4Ec1rQkZR3Fo=
+ bh=JeCkWUDsPMReqX8PROPWTVA1UQcsZbz/ulfWY0PXodM=;
+ b=Sq18lulGCcNGs9UJy/QNIER0XxqPDrvSyldPORC5VtBwZlgtpyV5Z3ZpIzqFq+mAnmyJiG
+ mKFt/0so3IccZUxUn9KFgBH0MV9uXSh96MLrbma9vPcG/167+bDXgsOl8+LPzacd8yzEX4
+ jihGwQ+GT0XMMRb2rIcTvFLuzvGIG1k=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-311-CGe8m3SoMUqc84eEDxmvGA-1; Tue, 01 Feb 2022 09:43:37 -0500
-X-MC-Unique: CGe8m3SoMUqc84eEDxmvGA-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-99-Wm6Y0iN1NHmgNh9fVXHfFA-1; Tue, 01 Feb 2022 09:43:47 -0500
+X-MC-Unique: Wm6Y0iN1NHmgNh9fVXHfFA-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B4F538143E5;
- Tue,  1 Feb 2022 14:43:36 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 471D764093;
+ Tue,  1 Feb 2022 14:43:46 +0000 (UTC)
 Received: from localhost (unknown [10.39.193.129])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 580FE7DE23;
- Tue,  1 Feb 2022 14:43:36 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 6B91C74E89;
+ Tue,  1 Feb 2022 14:43:38 +0000 (UTC)
 From: Hanna Reitz <hreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 12/24] iotests.py: filter compression type out
-Date: Tue,  1 Feb 2022 15:42:21 +0100
-Message-Id: <20220201144233.617021-13-hreitz@redhat.com>
+Subject: [PULL 13/24] iotest 302: use img_info_log() helper
+Date: Tue,  1 Feb 2022 15:42:22 +0100
+Message-Id: <20220201144233.617021-14-hreitz@redhat.com>
 In-Reply-To: <20220201144233.617021-1-hreitz@redhat.com>
 References: <20220201144233.617021-1-hreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -86,185 +86,81 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 
-We want iotests pass with both the default zlib compression and with
-IMGOPTS='compression_type=zstd'.
+Instead of qemu_img_log("info", ..) use generic helper img_info_log().
 
-Actually the only test that is interested in real compression type in
-test output is 287 (test for qcow2 compression type) and it's in bash.
-So for now we can safely filter out compression type in all qcow2
-tests.
+img_info_log() has smarter logic. For example it use filter_img_info()
+to filter output, which in turns filter a compression type. So it will
+help us in future when we implement a possibility to use zstd
+compression by default (with help of some runtime config file or maybe
+build option). For now to test you should recompile qemu with a small
+addition into block/qcow2.c before
+"if (qcow2_opts->has_compression_type":
+
+    if (!qcow2_opts->has_compression_type && version >= 3) {
+        qcow2_opts->has_compression_type = true;
+        qcow2_opts->compression_type = QCOW2_COMPRESSION_TYPE_ZSTD;
+    }
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Reviewed-by: Hanna Reitz <hreitz@redhat.com>
-Message-Id: <20211223160144.1097696-11-vsementsov@virtuozzo.com>
+Reviewed-by: Max Reitz <mreitz@redhat.com>
+Message-Id: <20211223160144.1097696-12-vsementsov@virtuozzo.com>
 Signed-off-by: Hanna Reitz <hreitz@redhat.com>
 ---
- tests/qemu-iotests/206.out    | 10 +++++-----
- tests/qemu-iotests/242.out    | 10 +++++-----
- tests/qemu-iotests/274.out    | 10 +++++-----
- tests/qemu-iotests/iotests.py |  2 ++
- 4 files changed, 17 insertions(+), 15 deletions(-)
+ tests/qemu-iotests/302     | 4 +++-
+ tests/qemu-iotests/302.out | 7 +++----
+ 2 files changed, 6 insertions(+), 5 deletions(-)
 
-diff --git a/tests/qemu-iotests/206.out b/tests/qemu-iotests/206.out
-index 80cd274223..7e95694777 100644
---- a/tests/qemu-iotests/206.out
-+++ b/tests/qemu-iotests/206.out
-@@ -18,7 +18,7 @@ virtual size: 128 MiB (134217728 bytes)
- cluster_size: 65536
- Format specific information:
-     compat: 1.1
--    compression type: zlib
-+    compression type: COMPRESSION_TYPE
-     lazy refcounts: false
-     refcount bits: 16
-     corrupt: false
-@@ -42,7 +42,7 @@ virtual size: 64 MiB (67108864 bytes)
- cluster_size: 65536
- Format specific information:
-     compat: 1.1
--    compression type: zlib
-+    compression type: COMPRESSION_TYPE
-     lazy refcounts: false
-     refcount bits: 16
-     corrupt: false
-@@ -66,7 +66,7 @@ virtual size: 32 MiB (33554432 bytes)
- cluster_size: 2097152
- Format specific information:
-     compat: 1.1
--    compression type: zlib
-+    compression type: COMPRESSION_TYPE
-     lazy refcounts: true
-     refcount bits: 1
-     corrupt: false
-@@ -92,7 +92,7 @@ backing file: TEST_IMG.base
- backing file format: IMGFMT
- Format specific information:
-     compat: 0.10
--    compression type: zlib
-+    compression type: COMPRESSION_TYPE
-     refcount bits: 16
+diff --git a/tests/qemu-iotests/302 b/tests/qemu-iotests/302
+index 5695af4914..a6d79e727b 100755
+--- a/tests/qemu-iotests/302
++++ b/tests/qemu-iotests/302
+@@ -34,6 +34,7 @@ from iotests import (
+     qemu_img_measure,
+     qemu_io,
+     qemu_nbd_popen,
++    img_info_log,
+ )
  
- === Successful image creation (encrypted) ===
-@@ -109,7 +109,7 @@ encrypted: yes
- cluster_size: 65536
- Format specific information:
-     compat: 1.1
--    compression type: zlib
-+    compression type: COMPRESSION_TYPE
-     lazy refcounts: false
-     refcount bits: 16
-     encrypt:
-diff --git a/tests/qemu-iotests/242.out b/tests/qemu-iotests/242.out
-index 3759c99284..ce231424a7 100644
---- a/tests/qemu-iotests/242.out
-+++ b/tests/qemu-iotests/242.out
-@@ -12,7 +12,7 @@ virtual size: 1 MiB (1048576 bytes)
- cluster_size: 65536
- Format specific information:
-     compat: 1.1
--    compression type: zlib
-+    compression type: COMPRESSION_TYPE
-     lazy refcounts: false
-     refcount bits: 16
-     corrupt: false
-@@ -34,7 +34,7 @@ virtual size: 1 MiB (1048576 bytes)
- cluster_size: 65536
- Format specific information:
-     compat: 1.1
--    compression type: zlib
-+    compression type: COMPRESSION_TYPE
-     lazy refcounts: false
-     bitmaps:
-         [0]:
-@@ -68,7 +68,7 @@ virtual size: 1 MiB (1048576 bytes)
- cluster_size: 65536
- Format specific information:
-     compat: 1.1
--    compression type: zlib
-+    compression type: COMPRESSION_TYPE
-     lazy refcounts: false
-     bitmaps:
-         [0]:
-@@ -110,7 +110,7 @@ virtual size: 1 MiB (1048576 bytes)
- cluster_size: 65536
- Format specific information:
-     compat: 1.1
--    compression type: zlib
-+    compression type: COMPRESSION_TYPE
-     lazy refcounts: false
-     bitmaps:
-         [0]:
-@@ -161,7 +161,7 @@ virtual size: 1 MiB (1048576 bytes)
- cluster_size: 65536
- Format specific information:
-     compat: 1.1
--    compression type: zlib
-+    compression type: COMPRESSION_TYPE
-     lazy refcounts: false
-     bitmaps:
-         [0]:
-diff --git a/tests/qemu-iotests/274.out b/tests/qemu-iotests/274.out
-index 1d2928e14d..1ce40d839a 100644
---- a/tests/qemu-iotests/274.out
-+++ b/tests/qemu-iotests/274.out
-@@ -50,7 +50,7 @@ backing file: TEST_DIR/PID-base
- backing file format: IMGFMT
- Format specific information:
-     compat: 1.1
--    compression type: zlib
-+    compression type: COMPRESSION_TYPE
-     lazy refcounts: false
-     refcount bits: 16
-     corrupt: false
-@@ -79,7 +79,7 @@ backing file: TEST_DIR/PID-base
- backing file format: IMGFMT
- Format specific information:
-     compat: 1.1
--    compression type: zlib
-+    compression type: COMPRESSION_TYPE
-     lazy refcounts: false
-     refcount bits: 16
-     corrupt: false
-@@ -114,7 +114,7 @@ backing file: TEST_DIR/PID-base
- backing file format: IMGFMT
- Format specific information:
-     compat: 1.1
--    compression type: zlib
-+    compression type: COMPRESSION_TYPE
-     lazy refcounts: false
-     refcount bits: 16
-     corrupt: false
-@@ -141,7 +141,7 @@ virtual size: 2 MiB (2097152 bytes)
- cluster_size: 65536
- Format specific information:
-     compat: 1.1
--    compression type: zlib
-+    compression type: COMPRESSION_TYPE
-     lazy refcounts: false
-     refcount bits: 16
-     corrupt: false
-@@ -176,7 +176,7 @@ backing file: TEST_DIR/PID-base
- backing file format: IMGFMT
- Format specific information:
-     compat: 1.1
--    compression type: zlib
-+    compression type: COMPRESSION_TYPE
-     lazy refcounts: false
-     refcount bits: 16
-     corrupt: false
-diff --git a/tests/qemu-iotests/iotests.py b/tests/qemu-iotests/iotests.py
-index 65780c6098..8cdb381f2a 100644
---- a/tests/qemu-iotests/iotests.py
-+++ b/tests/qemu-iotests/iotests.py
-@@ -497,6 +497,8 @@ def filter_img_info(output, filename):
-                       'uuid: XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX',
-                       line)
-         line = re.sub('cid: [0-9]+', 'cid: XXXXXXXXXX', line)
-+        line = re.sub('(compression type: )(zlib|zstd)', r'\1COMPRESSION_TYPE',
-+                      line)
-         lines.append(line)
-     return '\n'.join(lines)
+ iotests.script_initialize(supported_fmts=["qcow2"])
+@@ -88,6 +89,7 @@ with tarfile.open(tar_file, "w") as tar:
+             tar_file):
  
+         iotests.log("=== Target image info ===")
++        # Not img_info_log as it enforces imgfmt, but now we print info on raw
+         qemu_img_log("info", nbd_uri)
+ 
+         qemu_img(
+@@ -99,7 +101,7 @@ with tarfile.open(tar_file, "w") as tar:
+             nbd_uri)
+ 
+         iotests.log("=== Converted image info ===")
+-        qemu_img_log("info", nbd_uri)
++        img_info_log(nbd_uri)
+ 
+         iotests.log("=== Converted image check ===")
+         qemu_img_log("check", nbd_uri)
+diff --git a/tests/qemu-iotests/302.out b/tests/qemu-iotests/302.out
+index e2f6077e83..3e7c281b91 100644
+--- a/tests/qemu-iotests/302.out
++++ b/tests/qemu-iotests/302.out
+@@ -6,14 +6,13 @@ virtual size: 448 KiB (458752 bytes)
+ disk size: unavailable
+ 
+ === Converted image info ===
+-image: nbd+unix:///exp?socket=SOCK_DIR/PID-nbd-sock
+-file format: qcow2
++image: TEST_IMG
++file format: IMGFMT
+ virtual size: 1 GiB (1073741824 bytes)
+-disk size: unavailable
+ cluster_size: 65536
+ Format specific information:
+     compat: 1.1
+-    compression type: zlib
++    compression type: COMPRESSION_TYPE
+     lazy refcounts: false
+     refcount bits: 16
+     corrupt: false
 -- 
 2.34.1
 
