@@ -2,76 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21EC04A6513
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Feb 2022 20:36:46 +0100 (CET)
-Received: from localhost ([::1]:59384 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 971F34A6660
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Feb 2022 21:53:01 +0100 (CET)
+Received: from localhost ([::1]:52580 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nEyxI-0002t2-LF
-	for lists+qemu-devel@lfdr.de; Tue, 01 Feb 2022 14:36:44 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:59654)
+	id 1nF096-0000WP-EV
+	for lists+qemu-devel@lfdr.de; Tue, 01 Feb 2022 15:53:00 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:59742)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nEx36-0005rN-07
- for qemu-devel@nongnu.org; Tue, 01 Feb 2022 12:34:37 -0500
-Received: from [2607:f8b0:4864:20::12e] (port=38542
- helo=mail-il1-x12e.google.com)
+ id 1nEx3K-0005xP-6L
+ for qemu-devel@nongnu.org; Tue, 01 Feb 2022 12:34:51 -0500
+Received: from [2607:f8b0:4864:20::d2c] (port=45820
+ helo=mail-io1-xd2c.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nEx33-0001Ka-NC
- for qemu-devel@nongnu.org; Tue, 01 Feb 2022 12:34:35 -0500
-Received: by mail-il1-x12e.google.com with SMTP id i1so14912667ils.5
- for <qemu-devel@nongnu.org>; Tue, 01 Feb 2022 09:34:33 -0800 (PST)
+ id 1nEx3I-0001M2-Oa
+ for qemu-devel@nongnu.org; Tue, 01 Feb 2022 12:34:49 -0500
+Received: by mail-io1-xd2c.google.com with SMTP id s18so22105756ioa.12
+ for <qemu-devel@nongnu.org>; Tue, 01 Feb 2022 09:34:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=cHddvGxgqNXxys1EJ5OMfbMHOWHAhniGSdhAQ/JYirg=;
- b=QouOz1pCRc82n9YnYbQb1Mg5jx1WT3q37XNIXOzjaKkpfJom7+xmgJ0mWQBgHdlY8W
- Xq7v1Zn8fCrkSwi8Md2fcCstywDVKXyB4m52iYOuUYzWMfjFyk7D/Lmnnm6+TmB/NEcw
- LH/JdwJFltFmD+LhGC+FvWD6ZFiRtkDi1gWwxSe1BzsCYuK1Q3ob8aD6FREtka4l2dkO
- w+gq6sQOlpVCFpdE0AiSjdOzIXWGBYCZb6pkVDRv0M67ikuBktYA32VDw4Mg3NTOQRdo
- Xb1ap0w/pjfHKizvGwCCWcjaI9bWnxfNw1y7zP25xuisCT/i/ylA1KFpftSiQYjQggor
- WnPw==
+ bh=Ps0qnp9KhZzw3gXlAIkpCzYSEhXoXIUwQRV4Ae7ZRF8=;
+ b=lcEDoRMBiwuJ+z3cKnnRyBERMHrGV2x/7o3nAKtmQdmKtzSQLr3b5MZEUZuSSWo/7e
+ ZGwdoaGsMqvsHKMAwEpQ1B6iPvcrMmv0dupQaeeQ3j3Pb6p1VheReu8SWyQ52uIfrYiA
+ xydv8D7UMXRHzxlU/vqsIce0m3d+sro2/5pQ3VXlIYOBmcm+ubxli5O4OkOZ0+sG8wi1
+ YLmMbBBFw+j6vZCQisKfi87/cqWMzwnhP4wFTfGIDgS0JnD8IKVnhHwyBoQteXsl+Yac
+ hWMu9xwxeYuGuVIs6B5ie6bH6gbg96xSHE1vtw23h7x8muCx9LQgJc4HxYSBnZcOeBAe
+ piXg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=cHddvGxgqNXxys1EJ5OMfbMHOWHAhniGSdhAQ/JYirg=;
- b=UL3IL6KdZd4JKKEQ/rdEm6yA/D/BTACACTrQA5gQXB5xQPZbGjfqWyVucMqqssXr0g
- JxdYyF+iWnuai9J4z7Ns71YyB3D1ytLyikwO09N8C1nLFDq5qIXVFm05pw+06YI5Xv7V
- h/ciStRfPgKU+s1KXTXYkBUTXYSsjKqOiXHMMPPj7uHQr0vtfga6o7d0SG0kkejRlPG8
- s1ro4ntFoCij4Jk5vx1A5mOHhIJzusWwc3iCEtgInRJs1UodDzMjt2HJsDRMHQiM9T+y
- /6cYjQ4cMiyNYp754WsHjIogjORs/TUYs8D7Yle0RkfkbmsvI+UcrxQx9Kz2Q5Se5epH
- fnEA==
-X-Gm-Message-State: AOAM532u1obmGcECTOGZlyKAn11eazr/rODhjGNGgHDGX2DM6CB0IPVQ
- JTEv1RncKW/jr+hreUTMF7TKQA==
-X-Google-Smtp-Source: ABdhPJy4S6YXXw/l07MmPdU1QIb2HUOUB6JOGpLVLeHjerBn+HLuWbTLafWKXpdhjPlAlvV/5MlWmQ==
-X-Received: by 2002:a92:3609:: with SMTP id d9mr1944771ila.282.1643736872057; 
- Tue, 01 Feb 2022 09:34:32 -0800 (PST)
+ bh=Ps0qnp9KhZzw3gXlAIkpCzYSEhXoXIUwQRV4Ae7ZRF8=;
+ b=JzMIjOWWnVWViFF7o0aN+HTfh5hjM+w0kb4v2hk8I2+nz9ey0qb9dlcpSTfxJsD16c
+ C2k7Efxr48Ga3gJjsLONGRBmpN6JKxlRZubGWg33GyeQ3cXaP/K0LhB8gxNUffONzsIV
+ AtoVhu7sN2ih0DeaEXsSCoLb02/I+TrxZbJmXqzfJCWYJeVh/uZCV5VUwtOU4Vz0lVIh
+ XLP3VZJJkoDI8WA+PnYm99n17CniXq2pb8MSxFwmYIjPotMlA8YzhGB2UwTfErK5rW/s
+ hlD8KN9Kd8qMGLtJ58UXn/rM5oP3sU1KqKi1/nIRJXevOy7DBs12vEKCYScRUzgOZrHH
+ HdMg==
+X-Gm-Message-State: AOAM533aOsMqdIL2STkg78FoLabjEfvm3NJGRmSYdJK7skPuyzuUb2aN
+ z++K2FSTyWhRVYHotnBiMLjOEg==
+X-Google-Smtp-Source: ABdhPJyoyWyFXsXm0wZ6/7dLiPVzPEqojQo/78D9ZEgsOoIz6WbJkTAPqmsFf18jJc5rR/bbqWSFvQ==
+X-Received: by 2002:a02:7f53:: with SMTP id r80mr13668969jac.295.1643736887685; 
+ Tue, 01 Feb 2022 09:34:47 -0800 (PST)
 Received: from [192.168.62.227] ([172.58.160.76])
- by smtp.gmail.com with ESMTPSA id h3sm4578237ilj.81.2022.02.01.09.34.25
+ by smtp.gmail.com with ESMTPSA id m5sm6436684iov.36.2022.02.01.09.34.41
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 01 Feb 2022 09:34:31 -0800 (PST)
-Message-ID: <398586c6-0e34-0ede-2b6a-033198c4c7a4@linaro.org>
-Date: Wed, 2 Feb 2022 04:34:18 +1100
+ Tue, 01 Feb 2022 09:34:47 -0800 (PST)
+Message-ID: <ca0f83ea-7c84-086d-760b-eb8adc9f5290@linaro.org>
+Date: Wed, 2 Feb 2022 04:34:35 +1100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.5.0
-Subject: Re: [PATCH 06/22] bsd-user/arm/target_arch_thread.h: Assume a FreeBSD
- target
+Subject: Re: [PATCH 07/22] bsd-user/x86_64/target_arch_thread.h: Assume a
+ FreeBSD target
 Content-Language: en-US
 To: Warner Losh <imp@bsdimp.com>, qemu-devel@nongnu.org
 References: <20220201111455.52511-1-imp@bsdimp.com>
- <20220201111455.52511-7-imp@bsdimp.com>
+ <20220201111455.52511-8-imp@bsdimp.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220201111455.52511-7-imp@bsdimp.com>
+In-Reply-To: <20220201111455.52511-8-imp@bsdimp.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::12e
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::d2c
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::12e;
- envelope-from=richard.henderson@linaro.org; helo=mail-il1-x12e.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d2c;
+ envelope-from=richard.henderson@linaro.org; helo=mail-io1-xd2c.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -100,14 +100,14 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 2/1/22 22:14, Warner Losh wrote:
 > Since we can't run on anything else, assume for the moment that this is
-> a FreeBSD target. In the future, we'll need to handle this properly
-> via some include file in bsd-user/*bsd/arm/mumble.h. There's a number
-> of other diffs that would be needed to make things work on OtherBSD,
-> so it doesn't make sense to preseve this one detail today.
+> a FreeBSD target. In the future, we'll need to handle this properly via
+> some include file in bsd-user/*bsd/x86_64/mumble.h. There's a number of
+> other diffs that would be needed to make things work on OtherBSD, so it
+> doesn't make sense to preseve this one detail today.
 > 
 > Signed-off-by: Warner Losh<imp@bsdimp.com>
 > ---
->   bsd-user/arm/target_arch_thread.h | 4 +---
+>   bsd-user/x86_64/target_arch_thread.h | 4 +---
 >   1 file changed, 1 insertion(+), 3 deletions(-)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
