@@ -2,87 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F0C644A6866
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Feb 2022 00:13:17 +0100 (CET)
-Received: from localhost ([::1]:53720 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E2874A685A
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Feb 2022 00:06:13 +0100 (CET)
+Received: from localhost ([::1]:48854 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nF2Kq-0008Jd-LK
-	for lists+qemu-devel@lfdr.de; Tue, 01 Feb 2022 18:13:16 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:46274)
+	id 1nF2Dz-0004ms-FH
+	for lists+qemu-devel@lfdr.de; Tue, 01 Feb 2022 18:06:11 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:46986)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <abologna@redhat.com>)
- id 1nExuP-0002tt-1W
- for qemu-devel@nongnu.org; Tue, 01 Feb 2022 13:29:42 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:24924)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nExxQ-0004fr-Sl
+ for qemu-devel@nongnu.org; Tue, 01 Feb 2022 13:32:48 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:22818)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <abologna@redhat.com>)
- id 1nExuN-0001il-Id
- for qemu-devel@nongnu.org; Tue, 01 Feb 2022 13:29:40 -0500
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nExxE-0002Hn-Hl
+ for qemu-devel@nongnu.org; Tue, 01 Feb 2022 13:32:38 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1643740179;
+ s=mimecast20190719; t=1643740355;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=EmL0QcRjWoY3CGK0mw5HzT3PNLj4U8fH4fVMnSEnfhU=;
- b=BKTPedlnjHJfw39rqRTz+KW4NxvfiN3kT+CzNyW+F8Q3lhfUfDxzrv5QKLCGkIilh2xvhb
- xsm+B2/HnnNiNXjwdqL1bfV2V8U6sGEhncLkFvT+eZQxndk5X9o/v8th/4HPP9QFkqoiTy
- 3zylO6j0PCjJYk/c8Hkb1Wc+wE1hbx8=
-Received: from mail-yb1-f197.google.com (mail-yb1-f197.google.com
- [209.85.219.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=Rqme4kKHJ2/wK3dAQ/2+DAAfn9IVDY6ktn5lRIhJG+Y=;
+ b=RgaFIH1uweX5TxW6IYWCDY2O6KfZEYbLCr8A2fgRyUo1AaKinC9lJzM2yvzhMnthEfVrAQ
+ jnbjvUBso2M2X4Xfnq+ak/JYGEZ3i7I2fvaqxYLMicJwuWWvwbUGtbKQ/RL6jI5SvA3HOO
+ xNn53/RzyTAXbte3INlPQva0240Wx60=
+Received: from mail-vk1-f200.google.com (mail-vk1-f200.google.com
+ [209.85.221.200]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-651-DOKKWn48OKujoCr4MlM2yg-1; Tue, 01 Feb 2022 13:29:38 -0500
-X-MC-Unique: DOKKWn48OKujoCr4MlM2yg-1
-Received: by mail-yb1-f197.google.com with SMTP id
- y4-20020a5b0f44000000b00611862e546dso34705271ybr.7
- for <qemu-devel@nongnu.org>; Tue, 01 Feb 2022 10:29:37 -0800 (PST)
+ us-mta-612-cHh81DZ5O-C7I-Xc7Xty2Q-1; Tue, 01 Feb 2022 13:32:31 -0500
+X-MC-Unique: cHh81DZ5O-C7I-Xc7Xty2Q-1
+Received: by mail-vk1-f200.google.com with SMTP id
+ b65-20020a1f1b44000000b0031e531f939fso2909245vkb.15
+ for <qemu-devel@nongnu.org>; Tue, 01 Feb 2022 10:32:31 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:references:mime-version:in-reply-to:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=EmL0QcRjWoY3CGK0mw5HzT3PNLj4U8fH4fVMnSEnfhU=;
- b=KEgfAXPJfjaCiJr2S7LruSG+KZaFhcJIYMXL7nwaaLuc8JaiK2QfRn7TFuNyU2sx1p
- Yj7h6RfU4kv2fzh0eSRVeChNMdg1lCmUy83f2eY8pKLPmOHAdplqrOKr//HPnUA/l3FA
- hsBVsL5r3lbWqTsYj17VhTeCLUX4zkOH+qZwrpOdHDxTguq/c8l4EeIh4GYhwi1hdvJZ
- c8Be8ppqjCM/1JyplLO6p+TtuUWp5iC0EPdqGhM7r4LU/MNwpj0tHFI/gusPkRrAiHyi
- 7GLkl0LxWFdHpCjSRy5WJmQaubzEiwF+0itf/JTGmEjZzQ1JdQ8HTwfD34W8498OwZpp
- yrSA==
-X-Gm-Message-State: AOAM530BTcphOViYDcRQ8mNuMYz49A1bg8e5BaimUeaRkKKI0qcRY//K
- 0JZNGhjvuRqRjEOExekMqjf89FV/N43bMbTIdqOYf80zi0IUaNkDWU1Lx0XorifbbZVyFXXwZ8h
- 87Gn0Aeo9xHbyu4H1INPyrU4f1Y+upi8=
-X-Received: by 2002:a25:244e:: with SMTP id k75mr33712283ybk.635.1643740177554; 
- Tue, 01 Feb 2022 10:29:37 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJw2zNmAKl3yN4otxNRnM7EpjuFSYcOaIuSuTxyedgRGhfFK5a783JOMZIl956yui+R5WKLwp1ahF6fLSMHsNJA=
-X-Received: by 2002:a25:244e:: with SMTP id k75mr33712256ybk.635.1643740177360; 
- Tue, 01 Feb 2022 10:29:37 -0800 (PST)
-Received: from 744723338238 named unknown by gmailapi.google.com with
- HTTPREST; Tue, 1 Feb 2022 10:29:36 -0800
-From: Andrea Bolognani <abologna@redhat.com>
-References: <20220201101911.97900-1-thuth@redhat.com>
- <CABJz62Osah308O2pHFMWs+D2X+Mq=aOf1NAKFcUaWF5bGzwJEw@mail.gmail.com>
- <Yfl1rZN6yKCyQ1O0@redhat.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=Rqme4kKHJ2/wK3dAQ/2+DAAfn9IVDY6ktn5lRIhJG+Y=;
+ b=L8NbLIYeI7BfIKocRUSKXAmFScMcjO+ocpdeN9krcvQ0AlOtevVTBpzsaeMKeXvv3q
+ qfgzDbgR5YEct9clK64zwL4kt/lN7dpnCdcjY0R11+Y8U0sIM+8ao0d8teV5qGQllY2Z
+ ucWAiCBczcXwFOjiCRkgduPP+ZfhzcK+NUYcJ31MROvIttIOkSC1r86DqfUyNYogFLOY
+ 6hP9VeQcOzp6thlkB8XiwmBqcrrwp+BNxVnxvDrkZ2kNCXwWSBvwaCVdNkWxOk9lFeC1
+ gTzMzwfT0sIKJNdqSq/kFOrt2YqeyQwkHFilrUU1Mpj7udvL5mx15Mds1hpqO4cpesVK
+ UkWA==
+X-Gm-Message-State: AOAM530pUMmc+hL3P8mlu6CLv9afXi1uaBqYW6KRf7mWI3UL+cvpncwd
+ XR1QadzUgthESwAGsEexFIsm6VhMHXPlYgLOCHM2MKneDLYbLguDNwyEZCt2DFsfiSBwQc21f9O
+ 95B2HxWK8urjc9p5xs57aaZWeQd0MOxk=
+X-Received: by 2002:ab0:986:: with SMTP id x6mr10757999uag.50.1643740350573;
+ Tue, 01 Feb 2022 10:32:30 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzRJDgW5uGFG9eYj+kkO9Xd5xmfThpHLTAVxuY7Q9W5uW3y4Ym+SiticfSzYnXXkPAUSxJ5cCIfid5SuyHHucI=
+X-Received: by 2002:ab0:986:: with SMTP id x6mr10757986uag.50.1643740350280;
+ Tue, 01 Feb 2022 10:32:30 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <Yfl1rZN6yKCyQ1O0@redhat.com>
-Date: Tue, 1 Feb 2022 10:29:36 -0800
-Message-ID: <CABJz62Nf4RCeiq0=+G1ZqPA48dBR1dVwWhL0b7LPdu1R7m3x5Q@mail.gmail.com>
-Subject: Re: [PATCH 2/2] tests: Update CentOS 8 container to CentOS Stream 8
-To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
+References: <20220201041134.1237016-1-jsnow@redhat.com>
+ <20220201041134.1237016-5-jsnow@redhat.com>
+ <YfkzwdbIaGF5TcVZ@redhat.com>
+In-Reply-To: <YfkzwdbIaGF5TcVZ@redhat.com>
+From: John Snow <jsnow@redhat.com>
+Date: Tue, 1 Feb 2022 13:32:19 -0500
+Message-ID: <CAFn=p-YKS8UXm3+LPsbjKh-_EkQ--efTW60KfQDa8ZAOVMmHjQ@mail.gmail.com>
+Subject: Re: [PATCH v4 4/4] python/aqmp: add socket bind step to legacy.py
+To: Kevin Wolf <kwolf@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=abologna@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=abologna@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
 X-Spam_bar: --
 X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.081,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,39 +89,93 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Beraldo Leal <bleal@redhat.com>,
- qemu-devel@nongnu.org, Wainer dos Santos Moschetta <wainersm@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Cc: Eduardo Habkost <eduardo@habkost.net>,
+ Peter Maydell <peter.maydell@linaro.org>, Beraldo Leal <bleal@redhat.com>,
+ Qemu-block <qemu-block@nongnu.org>, Markus Armbruster <armbru@redhat.com>,
+ qemu-devel <qemu-devel@nongnu.org>, Hanna Reitz <hreitz@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Feb 01, 2022 at 06:02:21PM +0000, Daniel P. Berrang=C3=A9 wrote:
-> On Tue, Feb 01, 2022 at 09:08:22AM -0800, Andrea Bolognani wrote:
-> > CentOS 8 and CentOS Stream 8 are two pretty distinct operating
-> > systems in terms of update cadence and stability expectations, so I
-> > think that using the label "centos8" for containers and CI jobs that
-> > are actually consuming CentOS Stream 8 is going to be a source of
-> > confusion.
+On Tue, Feb 1, 2022 at 8:21 AM Kevin Wolf <kwolf@redhat.com> wrote:
 >
-> Given the EOL of what I call the "traditional" CentOS model at the
-> end of 2021, both "CentOS" and "CentOS Stream" terms effectively
-> mean the same thing now.
+> Am 01.02.2022 um 05:11 hat John Snow geschrieben:
+> > The synchronous QMP library would bind to the server address during
+> > __init__(). The new library delays this to the accept() call, because
+> > binding occurs inside of the call to start_[unix_]server(), which is an
+> > async method -- so it cannot happen during __init__ anymore.
+> >
+> > Python 3.7+ adds the ability to create the server (and thus the bind()
+> > call) and begin the active listening in separate steps, but we don't
+> > have that functionality in 3.6, our current minimum.
+> >
+> > Therefore ... Add a temporary workaround that allows the synchronous
+> > version of the client to bind the socket in advance, guaranteeing that
+> > there will be a UNIX socket in the filesystem ready for the QEMU client
+> > to connect to without a race condition.
+> >
+> > (Yes, it's a bit ugly. Fixing it more nicely will have to wait until our
+> > minimum Python version is 3.7+.)
+> >
+> > Signed-off-by: John Snow <jsnow@redhat.com>
+> > ---
+> >  python/qemu/aqmp/legacy.py   |  3 +++
+> >  python/qemu/aqmp/protocol.py | 41 +++++++++++++++++++++++++++++++++---
+> >  2 files changed, 41 insertions(+), 3 deletions(-)
+> >
+> > diff --git a/python/qemu/aqmp/legacy.py b/python/qemu/aqmp/legacy.py
+> > index 0890f95b16..6baa5f3409 100644
+> > --- a/python/qemu/aqmp/legacy.py
+> > +++ b/python/qemu/aqmp/legacy.py
+> > @@ -56,6 +56,9 @@ def __init__(self, address: SocketAddrT,
+> >          self._address = address
+> >          self._timeout: Optional[float] = None
+> >
+> > +        if server:
+> > +            self._aqmp._bind_hack(address)  # pylint: disable=protected-access
+>
+> I feel that this is the only part that really makes it ugly. Do you
+> really think this way is so bad that we can't make it an official public
+> interface in the library?
+>
+> Kevin
+>
 
-Note that while CentOS 7 is no longer targeted by QEMU, it still is
-very much relevant as an OS and will keep receiving updates for ~2.5
-more years.
+Good question.
 
-> The caveat is that aside from this dockerfile, we also have a
-> VM config in test/vm/ that historically used traditional CentOS.
-> That may also need updating to point to Stream unless it has
-> seemlessly transitioned to using Stream content without us
-> needing to change anything. I've not looked closely at that yet.
+I felt like I'd rather use the 'start_serving' parameter of
+loop.create_server(...), added in python 3.7; see
+https://docs.python.org/3/library/asyncio-eventloop.html#asyncio.loop.create_server
+Python 3.6 is already EOL, but we still depend on it for our build and
+I wasn't prepared to write the series that forces us on to 3.7,
+because RHEL uses 3.6 as its native python. I'll have to update the
+docker files, etc -- and I'm sure people will be kind of unhappy with
+this, so I am putting it off. People were unhappy enough with the move
+to Python 3.6.
 
-This example IMO only highlights the need for names to match reality
-and why overloading existing names is a bad idea.
+I also felt as though the async version has no real need for a
+separate bind step -- you can just start the server in a coroutine and
+wait until it yields, then proceed to launch QEMU. It's easy in that
+paradigm. If this bind step is only for the benefit of the legacy.py
+interface, I thought maybe it wasn't wise to commit to supporting it
+if it was something I wanted to get rid of soon anyway. There's also
+the ugliness that if you use the early bind step, the arguments passed
+to accept() are now ignored, which is kind of ugly, too. It's not a
+*great* interface. It doesn't spark joy.
 
---=20
-Andrea Bolognani / Red Hat / Virtualization
+I have some patches that are building a "sync.py" module that's meant
+to replace "legacy.py", and it's in the development of that module
+that I expect to either remove the bits I am unhappy with, or commit
+to supporting necessary infrastructure that's just simply required for
+a functional synchronous interface to work. I planned to start
+versioning the "qemu.qmp" package at 0.0.1, and the version that drops
+legacy.py I intend to version at 0.1.0.
+
+All that said, I'm fairly wishy-washy on it, so if you have some
+strong feelings, lemme know. There may be some real utility in just
+doubling down on always creating our own socket object. I just haven't
+thought through everything here, admittedly.
+
+--js
 
 
