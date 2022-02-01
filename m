@@ -2,76 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B181A4A595A
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Feb 2022 10:39:38 +0100 (CET)
-Received: from localhost ([::1]:49592 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A5EB4A5966
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Feb 2022 10:43:14 +0100 (CET)
+Received: from localhost ([::1]:55860 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nEpdR-0005VH-QE
-	for lists+qemu-devel@lfdr.de; Tue, 01 Feb 2022 04:39:37 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:35676)
+	id 1nEpgv-0001Tz-FG
+	for lists+qemu-devel@lfdr.de; Tue, 01 Feb 2022 04:43:13 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:35890)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nEpZG-0002dN-EF
- for qemu-devel@nongnu.org; Tue, 01 Feb 2022 04:35:18 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:54739)
+ (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1nEpba-0004Rq-3N
+ for qemu-devel@nongnu.org; Tue, 01 Feb 2022 04:37:50 -0500
+Received: from mout.gmx.net ([212.227.17.20]:57499)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nEpZE-0005VD-F0
- for qemu-devel@nongnu.org; Tue, 01 Feb 2022 04:35:18 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1643708115;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=NmWOsRK4InqPZkTqmwP3ZcEJjLEll2w1Q9dwu+V+J2E=;
- b=WsXx3RnUX1VUWrwu3+11nRM28Kvb8X+6F5imFft8/OM5O93uG9GKcoA+oGdKtqArPUpowy
- BxbN3z+16o5O2D2wpnM8tNWxreftsOmAukmxeZoNxlF8NYTJGTSp8nFypanLvscJ1BDbeY
- 78wpAKa7DJI43CVgLHA3YcbBff3de74=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-447-_Ujhgp_VMiOGML8wCl8BkA-1; Tue, 01 Feb 2022 04:35:12 -0500
-X-MC-Unique: _Ujhgp_VMiOGML8wCl8BkA-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 907EF8143EA;
- Tue,  1 Feb 2022 09:35:11 +0000 (UTC)
-Received: from redhat.com (unknown [10.39.195.27])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 831F95F910;
- Tue,  1 Feb 2022 09:35:08 +0000 (UTC)
-Date: Tue, 1 Feb 2022 09:35:05 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Leonardo Bras <leobras@redhat.com>
-Subject: Re: [PATCH v8 1/5] QIOChannel: Add flags on io_writev and introduce
- io_flush callback
-Message-ID: <Yfj+yTzzNgL80scj@redhat.com>
-References: <20220201062901.428838-1-leobras@redhat.com>
- <20220201062901.428838-2-leobras@redhat.com>
+ (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1nEpbR-0005uU-D7
+ for qemu-devel@nongnu.org; Tue, 01 Feb 2022 04:37:40 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+ s=badeba3b8450; t=1643708222;
+ bh=Tugx6kEklUIbyqOE3S8i4OxkjzUfBd6amuJbQtcPaQ8=;
+ h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:In-Reply-To;
+ b=OjMgh6z2qyY78rd642XacvdObGEfpxXQgexbmWiNuA7vBs5lb+mtXqEB7n/2ieID1
+ /gsm7FyLiGgrgEwMC0rosHX41K5NqfAECFbYmiLXfaJoJ1YdvC0DWTkPtGaKmHKQ7c
+ 8DPZYXCKTeHicr+XevRzHneeqc5zrUGHF7258f+A=
+X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
+Received: from [192.168.20.60] ([92.116.146.124]) by mail.gmx.net (mrgmx104
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1MUGiJ-1mp9Sf2rEx-00RFvN; Tue, 01
+ Feb 2022 10:37:02 +0100
+Message-ID: <31459e62-32f7-13fb-ad93-a96bd0095f76@gmx.de>
+Date: Tue, 1 Feb 2022 10:37:00 +0100
 MIME-Version: 1.0
-In-Reply-To: <20220201062901.428838-2-leobras@redhat.com>
-User-Agent: Mutt/2.1.5 (2021-12-30)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.0
+Subject: Re: [PATCH v2 2/6] hw/hppa: Allow up to 16 emulated CPUs
+Content-Language: en-US
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20220131213529.17404-1-deller@gmx.de>
+ <20220131213529.17404-3-deller@gmx.de>
+ <11f84353-dccb-60d8-77f0-2b0f7cb030a6@linaro.org>
+From: Helge Deller <deller@gmx.de>
+In-Reply-To: <11f84353-dccb-60d8-77f0-2b0f7cb030a6@linaro.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:EwmFiVhJ75DyaGHTmvE2lSpyVKEGXZgjRwN1QAWgnrkW/iKxQJA
+ 14xmgyRwGjTAhWgPrh8s8YenjKWdGozxeZMIiBpJp5918Btcba4JQ/mTnIuCfSsjRe/x54F
+ BzqVteAsdHyrh6MCivBkNDi1WfiQmxIJPwUgygUHNIPllUbBcKoGpcjMuicjCafeQiYUaGO
+ G2DczQOZmSRq4rnRKk7FA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:xKZvChggQ1o=:/s5T1X4138RCdZBnS6dfiD
+ +9DwAMrChSthQG1PcoiW0DYKZ6YN/KvQxxLA498Usz6EFKR++qAN8J5DsvCVbckcTAZQJngLu
+ U2stguZ4XdYZVukb5Xl5Jw9aq9sD+lBviVEhU8N7+bAttNei3o0+4qxFiHao8Do9SkvT3melM
+ xAgsJ7AtcqbR64msSML29UnlJUIjRUEMQz4morYXdbvQzNgvzg/fnEXz1uv1Ju/P5LJOpxiNz
+ qdRpcj1s6DARMo44JbdryvyS3ZDbE73w5zYLnlAN/k65YAt006vjtP8B7N/yeMkX/T4D5rIKp
+ gJvDIZw7Ok35h6VMQQResQa0F/GAsqLliRf0dnRRWuUaGE98YbQg/4JwtPEWo7VFzhuDWwNBy
+ QzUkTQA5wthzERPxGcNhhgJVEW96Z/n6qYeGLaA2eg08dyMoeZfLJ1M63jnHcEtJOBKQIBfYB
+ uvanKcU+xtQJqYaKUkO31VY7agtlJIuRlfr6sdVREHJidbiigJYJf0KkWf+F0qZg1rXXqsmYN
+ kXSdnjkHjgdt5/g9mY41QqjbH0qlKz1v80wRwQ75kmDTeC5cBue8WUmA533clBrk8Zw2Dxzkp
+ Rj4CTupIgZ+qo9FLKfg2MxsfmsfcU5afsvGTiJ03HLx6vTFpbHQ2tv7IfFIH9qV8XXmTy2f65
+ 8L/H7rGpHROYNSndEPOurwNjL3M9vjWzzZkSKhuO4p7E1jefyXJX54MpE1e1yKWERUDBnLXHO
+ tg51OEhwR7N8bXbpT2OcZa+re8IrUF9BORhnx3KXPC8p6JWj5C9hrTXufIZl0AgqAy947/bAO
+ pweNcFPOkx3RQAdwhZARNHtEZJSmMKWqfowPz1tHwZQ33sJYWwuxdQC/B2wfL5mF1/SUNa3gy
+ RFvEdZjhCydG/jYLcqBi2ZHgGUqxHvpXqGL9qGreawoXS3ajr/MGYutBnWi96KlmBMARCjM8N
+ oUDqgBmUxXp8a+t/3uGK7v0UuMnWjPkE6K6gUk4VhiZ/vXANVIjp7iVTpxtLxNq6TUtQQekn6
+ OS6BGeXAv2C3uHc019pOgwWN9ZMRKS7dfH7WMKfTYp6cCEzRNPacOn6UtBLSKVIUuSJ66t3nz
+ KkiN0Dn8CnTS74=
+Received-SPF: pass client-ip=212.227.17.20; envelope-from=deller@gmx.de;
+ helo=mout.gmx.net
+X-Spam_score_int: -25
+X-Spam_score: -2.6
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.081,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -84,113 +85,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Elena Ufimtseva <elena.ufimtseva@oracle.com>,
- John G Johnson <john.g.johnson@oracle.com>,
- Jagannathan Raman <jag.raman@oracle.com>, qemu-block@nongnu.org,
- Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Peter Xu <peterx@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
- Fam Zheng <fam@euphon.net>, Eric Blake <eblake@redhat.com>
+Cc: Sven Schnelle <svens@stackframe.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Feb 01, 2022 at 03:28:59AM -0300, Leonardo Bras wrote:
-> Add flags to io_writev and introduce io_flush as optional callback to
-> QIOChannelClass, allowing the implementation of zero copy writes by
-> subclasses.
-> 
-> How to use them:
-> - Write data using qio_channel_writev*(...,QIO_CHANNEL_WRITE_FLAG_ZERO_COPY),
-> - Wait write completion with qio_channel_flush().
-> 
-> Notes:
-> As some zero copy write implementations work asynchronously, it's
-> recommended to keep the write buffer untouched until the return of
-> qio_channel_flush(), to avoid the risk of sending an updated buffer
-> instead of the buffer state during write.
-> 
-> As io_flush callback is optional, if a subclass does not implement it, then:
-> - io_flush will return 0 without changing anything.
-> 
-> Also, some functions like qio_channel_writev_full_all() were adapted to
-> receive a flag parameter. That allows shared code between zero copy and
-> non-zero copy writev, and also an easier implementation on new flags.
-> 
-> Signed-off-by: Leonardo Bras <leobras@redhat.com>
-> ---
->  include/io/channel.h                | 38 ++++++++++++++++++++-
->  chardev/char-io.c                   |  2 +-
->  hw/remote/mpqemu-link.c             |  2 +-
->  io/channel-buffer.c                 |  1 +
->  io/channel-command.c                |  1 +
->  io/channel-file.c                   |  1 +
->  io/channel-socket.c                 |  2 ++
->  io/channel-tls.c                    |  1 +
->  io/channel-websock.c                |  1 +
->  io/channel.c                        | 53 +++++++++++++++++++++++------
->  migration/rdma.c                    |  1 +
->  scsi/pr-manager-helper.c            |  2 +-
->  tests/unit/test-io-channel-socket.c |  1 +
->  13 files changed, 92 insertions(+), 14 deletions(-)
-> 
-> diff --git a/io/channel.c b/io/channel.c
-> index e8b019dc36..b8b99fdc4c 100644
-> --- a/io/channel.c
-> +++ b/io/channel.c
-> @@ -72,18 +72,32 @@ ssize_t qio_channel_writev_full(QIOChannel *ioc,
->                                  size_t niov,
->                                  int *fds,
->                                  size_t nfds,
-> +                                int flags,
->                                  Error **errp)
->  {
->      QIOChannelClass *klass = QIO_CHANNEL_GET_CLASS(ioc);
->  
-> -    if ((fds || nfds) &&
-> -        !qio_channel_has_feature(ioc, QIO_CHANNEL_FEATURE_FD_PASS)) {
-> +    if (fds || nfds) {
-> +        if (!qio_channel_has_feature(ioc, QIO_CHANNEL_FEATURE_FD_PASS)) {
-> +            error_setg_errno(errp, EINVAL,
-> +                             "Channel does not support file descriptor passing");
-> +            return -1;
-> +        }
-> +        if (flags & QIO_CHANNEL_WRITE_FLAG_ZERO_COPY) {
-> +            error_setg_errno(errp, EINVAL,
-> +                             "Zero Copy does not support file descriptor passing");
-> +            return -1;
-> +        }
+On 1/31/22 23:05, Richard Henderson wrote:
+> On 2/1/22 08:35, Helge Deller wrote:
+>> This brings the hppa_hardware.h file in sync with the copy in the
+>> SeaBIOS-hppa sources.
+>>
+>> In order to support up to 16 CPUs, it's required to move the HPA for
+>> MEMORY_HPA out of the address space of the 16th CPU.
+>>
+>> Signed-off-by: Helge Deller<deller@gmx.de>
+>> ---
+>> =C2=A0 hw/hppa/hppa_hardware.h | 5 +++--
+>> =C2=A0 1 file changed, 3 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/hw/hppa/hppa_hardware.h b/hw/hppa/hppa_hardware.h
+>> index bc258895c9..5edf577563 100644
+>> --- a/hw/hppa/hppa_hardware.h
+>> +++ b/hw/hppa/hppa_hardware.h
+>> @@ -25,7 +25,7 @@
+>> =C2=A0 #define LASI_GFX_HPA=C2=A0=C2=A0=C2=A0 0xf8000000
+>> =C2=A0 #define ARTIST_FB_ADDR=C2=A0 0xf9000000
+>> =C2=A0 #define CPU_HPA=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =
+0xfffb0000
+>> -#define MEMORY_HPA=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 0xfffbf000
+>> +#define MEMORY_HPA=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 0xfffff000
+>
+> You could mention that you're moving it *well* out of the way,
+> perhaps.  I was first confused about why the gap between the two
+> numbers was so large.
 
-Here you gracefully reject FD passing when zero copy is requested
-which is good.
+Yes, I will add that info to the commit message.
 
-> +    }
-> +
 
-> @@ -235,10 +249,16 @@ int qio_channel_writev_full_all(QIOChannel *ioc,
->                            iov, niov,
->                            0, iov_size(iov, niov));
->  
-> +    if (flags & QIO_CHANNEL_WRITE_FLAG_ZERO_COPY) {
-> +        assert(fds == NULL && nfds == 0);
-> +    }
+>> +#define PIM_STORAGE_SIZE 600=C2=A0=C2=A0=C2=A0 /* storage size of pdc_=
+pim_toc_struct (64bit) */
+>
+> Belongs to the next patch?=C2=A0 Completely unused?
 
-But here you  abort QEMU if FD passing is requested when zero copy
-is set.
+No, it's used internally in various places inside the SeaBIOS sources (and
+is relevant for the TOC/NMI feature).
+It's part of this patch, because this patch syncs the SeaBIOS and qemu fil=
+es
+(as stated in the first sentence of this commit message).
 
-AFAICT, if you just delete this assert, the code to gracefully
-report errors will do the right thing.
+> Otherwise,
+> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-Without the assert:
+Thanks!
 
-  Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
-
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
-
+Helge
 
