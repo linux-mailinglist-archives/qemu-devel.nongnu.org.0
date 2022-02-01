@@ -2,86 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68FDB4A6849
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Feb 2022 23:57:52 +0100 (CET)
-Received: from localhost ([::1]:35766 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F0C644A6866
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Feb 2022 00:13:17 +0100 (CET)
+Received: from localhost ([::1]:53720 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nF25v-00041N-Gx
-	for lists+qemu-devel@lfdr.de; Tue, 01 Feb 2022 17:57:51 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:55158)
+	id 1nF2Kq-0008Jd-LK
+	for lists+qemu-devel@lfdr.de; Tue, 01 Feb 2022 18:13:16 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:46274)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nF0MQ-0000Op-Rc
- for qemu-devel@nongnu.org; Tue, 01 Feb 2022 16:06:47 -0500
-Received: from [2607:f8b0:4864:20::1034] (port=34443
- helo=mail-pj1-x1034.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nF0MP-0008OM-6T
- for qemu-devel@nongnu.org; Tue, 01 Feb 2022 16:06:46 -0500
-Received: by mail-pj1-x1034.google.com with SMTP id
- l24-20020a17090aec1800b001b55738f633so2496454pjy.1
- for <qemu-devel@nongnu.org>; Tue, 01 Feb 2022 13:06:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=GncSM3UTT8yCWufXlSwnVqqpIcQX4tfctubHHLWxHTU=;
- b=PLce8Wnk2KB6Ku+LLF7Ia577pEgjLAvWTPoyeT9xXAM0Nfxi9rZWOtJVFSyVWNEKkk
- 3r3NcnHvrLfej04vl6ecQmDW9J7j5WTaSEY1N87eN76jNUygufPxMNx3tDA8k3t7Uu1i
- g0mIVCT3olOwsLK7VEUvXD0K1J8CTAYQ2DeWkalBYoiPDRVZoMOL+A5m+MfBbggPYqxA
- /QSs7FfHmBIOnPgb6ee+EF2evz3AAlA9SDE8DDGlFbJB+6KGRZeLkO9gxipdBqcelQ3O
- 9aeH1ybq/w6ayvAIBKoH846hx4dAUxLaOXYgx8fVoFWaPPnB6ZjXao/PYwtyiyQ24d6x
- rowg==
+ (Exim 4.90_1) (envelope-from <abologna@redhat.com>)
+ id 1nExuP-0002tt-1W
+ for qemu-devel@nongnu.org; Tue, 01 Feb 2022 13:29:42 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:24924)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <abologna@redhat.com>)
+ id 1nExuN-0001il-Id
+ for qemu-devel@nongnu.org; Tue, 01 Feb 2022 13:29:40 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1643740179;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=EmL0QcRjWoY3CGK0mw5HzT3PNLj4U8fH4fVMnSEnfhU=;
+ b=BKTPedlnjHJfw39rqRTz+KW4NxvfiN3kT+CzNyW+F8Q3lhfUfDxzrv5QKLCGkIilh2xvhb
+ xsm+B2/HnnNiNXjwdqL1bfV2V8U6sGEhncLkFvT+eZQxndk5X9o/v8th/4HPP9QFkqoiTy
+ 3zylO6j0PCjJYk/c8Hkb1Wc+wE1hbx8=
+Received: from mail-yb1-f197.google.com (mail-yb1-f197.google.com
+ [209.85.219.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-651-DOKKWn48OKujoCr4MlM2yg-1; Tue, 01 Feb 2022 13:29:38 -0500
+X-MC-Unique: DOKKWn48OKujoCr4MlM2yg-1
+Received: by mail-yb1-f197.google.com with SMTP id
+ y4-20020a5b0f44000000b00611862e546dso34705271ybr.7
+ for <qemu-devel@nongnu.org>; Tue, 01 Feb 2022 10:29:37 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=GncSM3UTT8yCWufXlSwnVqqpIcQX4tfctubHHLWxHTU=;
- b=3d5f7UfpJkkSR0XlRuqLS0tQ7uOWnsoqcD0ouQwD1hpEs8KGFTQyA8zv0+EfFo0dIo
- ApBbHUA2K+PJ9lS3AVPb2dIogENwANI8poCLWFZ89BQzoh62mvwAl3kEQG2BgSNIy+nm
- Y6XEKM3aE2yTXf64wNr+zQBC8idoK/6GQSohp7eMnr66aVycOvg8Vy0Yug5lHQLwwHCn
- Lb7sLIJ0H5txgeEjYpQ9iauy05PSXaPMZmqcM6Ak7Mfvk/XBycFlo8ftmNxC9We32CJP
- BRb091z/+MBKw8TM56EyOYuSk8redvJy9wBQbjcxTnTgM0wvEW3vv+zhPeWOZkFNYMry
- ovtw==
-X-Gm-Message-State: AOAM532LWLyf2A/xVUXUHqyH2l2r4IBVGYWADaG78FEn8KMG2dW++sYO
- O4i0VXra1NVEahXo9Ud5AHXmKQ==
-X-Google-Smtp-Source: ABdhPJwv8TT4cOHcIUbOgo3nrwsGpT7YJYRPPiJi3X0jfA879A0gqXujdqYIQQU7WLVlC6/pgFofog==
-X-Received: by 2002:a17:90b:4ad2:: with SMTP id
- mh18mr4480877pjb.51.1643749603400; 
- Tue, 01 Feb 2022 13:06:43 -0800 (PST)
-Received: from ?IPV6:2001:8003:3a49:fd00:4f14:faaf:dae:66e4?
- ([2001:8003:3a49:fd00:4f14:faaf:dae:66e4])
- by smtp.gmail.com with ESMTPSA id x1sm23151281pfh.167.2022.02.01.13.06.40
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 01 Feb 2022 13:06:42 -0800 (PST)
-Message-ID: <a56162d7-bb87-f86c-cb48-8ef26ace0ad4@linaro.org>
-Date: Wed, 2 Feb 2022 08:06:37 +1100
+ h=x-gm-message-state:from:references:mime-version:in-reply-to:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=EmL0QcRjWoY3CGK0mw5HzT3PNLj4U8fH4fVMnSEnfhU=;
+ b=KEgfAXPJfjaCiJr2S7LruSG+KZaFhcJIYMXL7nwaaLuc8JaiK2QfRn7TFuNyU2sx1p
+ Yj7h6RfU4kv2fzh0eSRVeChNMdg1lCmUy83f2eY8pKLPmOHAdplqrOKr//HPnUA/l3FA
+ hsBVsL5r3lbWqTsYj17VhTeCLUX4zkOH+qZwrpOdHDxTguq/c8l4EeIh4GYhwi1hdvJZ
+ c8Be8ppqjCM/1JyplLO6p+TtuUWp5iC0EPdqGhM7r4LU/MNwpj0tHFI/gusPkRrAiHyi
+ 7GLkl0LxWFdHpCjSRy5WJmQaubzEiwF+0itf/JTGmEjZzQ1JdQ8HTwfD34W8498OwZpp
+ yrSA==
+X-Gm-Message-State: AOAM530BTcphOViYDcRQ8mNuMYz49A1bg8e5BaimUeaRkKKI0qcRY//K
+ 0JZNGhjvuRqRjEOExekMqjf89FV/N43bMbTIdqOYf80zi0IUaNkDWU1Lx0XorifbbZVyFXXwZ8h
+ 87Gn0Aeo9xHbyu4H1INPyrU4f1Y+upi8=
+X-Received: by 2002:a25:244e:: with SMTP id k75mr33712283ybk.635.1643740177554; 
+ Tue, 01 Feb 2022 10:29:37 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJw2zNmAKl3yN4otxNRnM7EpjuFSYcOaIuSuTxyedgRGhfFK5a783JOMZIl956yui+R5WKLwp1ahF6fLSMHsNJA=
+X-Received: by 2002:a25:244e:: with SMTP id k75mr33712256ybk.635.1643740177360; 
+ Tue, 01 Feb 2022 10:29:37 -0800 (PST)
+Received: from 744723338238 named unknown by gmailapi.google.com with
+ HTTPREST; Tue, 1 Feb 2022 10:29:36 -0800
+From: Andrea Bolognani <abologna@redhat.com>
+References: <20220201101911.97900-1-thuth@redhat.com>
+ <CABJz62Osah308O2pHFMWs+D2X+Mq=aOf1NAKFcUaWF5bGzwJEw@mail.gmail.com>
+ <Yfl1rZN6yKCyQ1O0@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH] bsd-user/signal.c: Only copy the _capsicum for
- FreeBSD_version > 1400026
-Content-Language: en-US
-To: Warner Losh <imp@bsdimp.com>, qemu-devel@nongnu.org
-References: <20220201205251.57691-1-imp@bsdimp.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220201205251.57691-1-imp@bsdimp.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1034
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1034;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1034.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+In-Reply-To: <Yfl1rZN6yKCyQ1O0@redhat.com>
+Date: Tue, 1 Feb 2022 10:29:36 -0800
+Message-ID: <CABJz62Nf4RCeiq0=+G1ZqPA48dBR1dVwWhL0b7LPdu1R7m3x5Q@mail.gmail.com>
+Subject: Re: [PATCH 2/2] tests: Update CentOS 8 container to CentOS Stream 8
+To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=abologna@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=abologna@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.081,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,52 +95,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kyle Evans <kevans@freebsd.org>, alex.bennee@linaro.org,
- Peter Maydell <peter.maydell@linaro.org>
+Cc: Thomas Huth <thuth@redhat.com>, Beraldo Leal <bleal@redhat.com>,
+ qemu-devel@nongnu.org, Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/2/22 07:52, Warner Losh wrote:
-> The capsicum signal stuff is new with FreeBSD 14, rev 1400026, so only
-> copy them on a new enough system.
-> 
-> Signed-off-by: Warner Losh <imp@bsdimp.com>
-> ---
->   bsd-user/signal.c | 4 ++++
->   1 file changed, 4 insertions(+)
-> 
-> diff --git a/bsd-user/signal.c b/bsd-user/signal.c
-> index ad22ba9d90d..b43266e6e06 100644
-> --- a/bsd-user/signal.c
-> +++ b/bsd-user/signal.c
-> @@ -242,8 +242,10 @@ static inline void host_to_target_siginfo_noswap(target_siginfo_t *tinfo,
->            * one, then we know what to save.
->            */
->           if (sig == TARGET_SIGTRAP) {
-> +#if defined(__FreeBSD_version) && __FreeBSD_version >= 1400026
->               tinfo->_reason._capsicum._syscall =
->                   info->_reason._capsicum._syscall;
-> +#endif
->               si_type = QEMU_SI_CAPSICUM;
->           }
+On Tue, Feb 01, 2022 at 06:02:21PM +0000, Daniel P. Berrang=C3=A9 wrote:
+> On Tue, Feb 01, 2022 at 09:08:22AM -0800, Andrea Bolognani wrote:
+> > CentOS 8 and CentOS Stream 8 are two pretty distinct operating
+> > systems in terms of update cadence and stability expectations, so I
+> > think that using the label "centos8" for containers and CI jobs that
+> > are actually consuming CentOS Stream 8 is going to be a source of
+> > confusion.
+>
+> Given the EOL of what I call the "traditional" CentOS model at the
+> end of 2021, both "CentOS" and "CentOS Stream" terms effectively
+> mean the same thing now.
 
-Do you really want the entire IF inside the ifdef?
-Setting QEMU_SI_CAPSICUM doesn't make sense for earlier versions...
+Note that while CentOS 7 is no longer targeted by QEMU, it still is
+very much relevant as an OS and will keep receiving updates for ~2.5
+more years.
 
+> The caveat is that aside from this dockerfile, we also have a
+> VM config in test/vm/ that historically used traditional CentOS.
+> That may also need updating to point to Stream unless it has
+> seemlessly transitioned to using Stream content without us
+> needing to change anything. I've not looked closely at that yet.
 
-r~
+This example IMO only highlights the need for names to match reality
+and why overloading existing names is a bad idea.
 
->           break;
-> @@ -296,8 +298,10 @@ static void tswap_siginfo(target_siginfo_t *tinfo, const target_siginfo_t *info)
->           __put_user(info->_reason._poll._band, &tinfo->_reason._poll._band);
->           break;
->       case QEMU_SI_CAPSICUM:
-> +#if defined(__FreeBSD_version) && __FreeBSD_version >= 1400026
->           __put_user(info->_reason._capsicum._syscall,
->                      &tinfo->_reason._capsicum._syscall);
-> +#endif
->           break;
->       default:
->           g_assert_not_reached();
+--=20
+Andrea Bolognani / Red Hat / Virtualization
 
 
