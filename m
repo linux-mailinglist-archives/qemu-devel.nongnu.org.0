@@ -2,76 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42A974A681C
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Feb 2022 23:39:56 +0100 (CET)
-Received: from localhost ([::1]:55154 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 082674A66E4
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Feb 2022 22:17:25 +0100 (CET)
+Received: from localhost ([::1]:59838 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nF1oZ-0003s1-CM
-	for lists+qemu-devel@lfdr.de; Tue, 01 Feb 2022 17:39:55 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:45840)
+	id 1nF0Wh-0007YV-PT
+	for lists+qemu-devel@lfdr.de; Tue, 01 Feb 2022 16:17:23 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:46238)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nExt7-0002Bf-WE
- for qemu-devel@nongnu.org; Tue, 01 Feb 2022 13:28:22 -0500
-Received: from [2a00:1450:4864:20::531] (port=43590
- helo=mail-ed1-x531.google.com)
+ id 1nExuN-0002sc-74
+ for qemu-devel@nongnu.org; Tue, 01 Feb 2022 13:29:39 -0500
+Received: from [2a00:1450:4864:20::429] (port=43979
+ helo=mail-wr1-x429.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nExt5-0001cY-OJ
- for qemu-devel@nongnu.org; Tue, 01 Feb 2022 13:28:21 -0500
-Received: by mail-ed1-x531.google.com with SMTP id w14so36286434edd.10
- for <qemu-devel@nongnu.org>; Tue, 01 Feb 2022 10:28:19 -0800 (PST)
+ id 1nExuL-0001iC-R9
+ for qemu-devel@nongnu.org; Tue, 01 Feb 2022 13:29:38 -0500
+Received: by mail-wr1-x429.google.com with SMTP id v13so33639218wrv.10
+ for <qemu-devel@nongnu.org>; Tue, 01 Feb 2022 10:29:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=references:user-agent:from:to:cc:subject:date:in-reply-to
  :message-id:mime-version:content-transfer-encoding;
- bh=r14SxrV+UihwQ7OTgqeRlVFuNAPONqm+Am8RHXQWA9c=;
- b=uMXefrsf/a5t6Y4IfttRg9rLAsDebQyK13151YXGimE05hLrNeNmvHl5aNr3khuMLs
- ysNB5ni+U+tM11ZiqcVEbwMw3pZbtng0F4npJlbH6W19wxep/i35buudE91FOVUdEYBJ
- N4zflvb+6i3eBH4vWneq9E8yq/Od6/RyQPLk27daImQukw53FQs89tOZfDPqI0VPFHM2
- lzuyS340qHhglJpRG09IfcJaeNLswDtyplA2OzyTYiTFxEIwL332MHcPgSvZkjbsM7K4
- hV+JpjczzXJQCuWLwg6OYRzJF04kbjstGdTW1bKyx9Wlxe5wUeP+v3/AduKkUraoa6mt
- la5A==
+ bh=PhuciOTxGzyt42NozTpQG7KL1ETjDSYk2QrBi6IxQio=;
+ b=fQpeyfkzd9TFVIUn7ElwK8JYz4Ha8k/I0+NDEJUw4RtOOMcXG4O9DUtVoZZKCIMpT2
+ qn0z9yiU8sOrJGj2fZkKIgoOS2+axZdhE1sw7LcDwCRB3cDp4sbzj+25Qei+uX1L6zu/
+ LGGTKuaHOOk2lpv80BIhSUfak4gWXoHFTReiUNZvbUUsqhYcUYgGo/Oiw54cxotLvXfc
+ /nr/0W3JdVaL5zBvsBuX3R77yuw7uFRkNEBSC4r80rXImusp5i6CJ1rd/pcGdKE41mV9
+ USDX7G9XpMkp74RgCyIdORv83iHOoOophw8VMeL6LgyYwjYgEyXwSimVme+e1oIPmXEw
+ ah6A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
  :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=r14SxrV+UihwQ7OTgqeRlVFuNAPONqm+Am8RHXQWA9c=;
- b=QvaOIeTIt2b6bdH4VsOEaMp6ZPU2QMIhVu6CDmC98fxjgzPfHFpUHoWUgVvjpbRzVU
- w+XzPeTymZl/GLNqInnQ3yCc6svHCuQoAayvD9jEuA8PV4vDkDqZjRWtdhvY0cB0qtT6
- kX9jC1vjs6kvX/lbRgyBDObc9UxRSfDdD/QMt8tTwgFNh/rruGQm/cHEkvUhvADGSLr3
- mCr4nDN56ii6tTZuC7qy77az+vwTokaj02+eTjjEOjR544KrpiZDTGy1AgIxlrxQxJ8X
- v20i5pgHlaxOCr5ypdJolKZk+9UBrp/DIk+kcropBFR5spwaRW/tAF0GvWEcGxqk8akg
- iTcg==
-X-Gm-Message-State: AOAM531m11YP3kQHFehWA+lvkWKjpOlkBHFqS/VUO9MvZ41R0MF7NcMx
- 94QfdEAxedEM95oM5oKuvvuKx6YSw/h6MA==
-X-Google-Smtp-Source: ABdhPJzcpHAN/K5NJUuFjISFAy1OLvb+295XG04/WAh05YAf5pxKE4RMyn29WeiFjHZ85sF4aqslhg==
-X-Received: by 2002:a05:6402:1ac5:: with SMTP id
- ba5mr26880499edb.337.1643740098404; 
- Tue, 01 Feb 2022 10:28:18 -0800 (PST)
+ bh=PhuciOTxGzyt42NozTpQG7KL1ETjDSYk2QrBi6IxQio=;
+ b=YW4pF0LV3JoSSPuhiB0j4bG27/LsbqdfoL0epXcQC57DJL9JbbqWGnmAFjRXFhKJgr
+ YjAtbIIYrQsrDTlsXn9bf7UdDXvx40ZY/A5d9SkKsH+2Imsa85P0BmYdU0Gxw8czK6Wr
+ 7caVOcB24ofdEvuPze8uPXmstUcLd9q4dzUBAGCHTwykSMUiZOJXKG/p+tNBuvhY7Rkg
+ l/uVcKGCh/qTokylJDRcWFB+wA6rbk1MkW5EWJ3NWPuzRr6CVpxOxgvu3iwf7fXvefp+
+ ACfRQHeNABuPOOMAWli7RIVAcuVs30Ye0vdQDK3rQ1TrIP5bq2RA3kHlqUVCcPCRFPtq
+ UeYQ==
+X-Gm-Message-State: AOAM531N0721dJnZIbuGw9wjFTxDj6ZkKG8zxq2huQHYJGdcmt8n16nt
+ MIPQXTv3lUgPu9QaBlIzXk/+eB/r3Ev67g==
+X-Google-Smtp-Source: ABdhPJzK+Avcf2vtCyE1jjZMSOOpbBk8ij6HMSZrNs6xU6bQPSxuuZer+fojc1/AcHGuCWVQQ/VXeQ==
+X-Received: by 2002:a5d:548a:: with SMTP id h10mr13595882wrv.221.1643740166696; 
+ Tue, 01 Feb 2022 10:29:26 -0800 (PST)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id lt12sm14745375ejb.166.2022.02.01.10.28.17
+ by smtp.gmail.com with ESMTPSA id x13sm15299488wru.28.2022.02.01.10.29.25
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 01 Feb 2022 10:28:17 -0800 (PST)
+ Tue, 01 Feb 2022 10:29:25 -0800 (PST)
 Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id C6AD71FFBD;
- Tue,  1 Feb 2022 18:28:16 +0000 (GMT)
+ by zen.linaroharston (Postfix) with ESMTP id D96BE1FFB7;
+ Tue,  1 Feb 2022 18:29:24 +0000 (GMT)
 References: <20211218194250.247633-1-richard.henderson@linaro.org>
- <20211218194250.247633-3-richard.henderson@linaro.org>
+ <20211218194250.247633-4-richard.henderson@linaro.org>
 User-agent: mu4e 1.7.6; emacs 28.0.91
 From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: Richard Henderson <richard.henderson@linaro.org>
-Subject: Re: [PATCH 02/20] tcg: Add opcodes for vector nand, nor, eqv
-Date: Tue, 01 Feb 2022 18:28:12 +0000
-In-reply-to: <20211218194250.247633-3-richard.henderson@linaro.org>
-Message-ID: <87bkzqxwzj.fsf@linaro.org>
+Subject: Re: [PATCH 03/20] tcg/ppc: Implement vector NAND, NOR, EQV
+Date: Tue, 01 Feb 2022 18:29:19 +0000
+In-reply-to: <20211218194250.247633-4-richard.henderson@linaro.org>
+Message-ID: <877daexwxn.fsf@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::531
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::429
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::531;
- envelope-from=alex.bennee@linaro.org; helo=mail-ed1-x531.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::429;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x429.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -99,9 +98,6 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Richard Henderson <richard.henderson@linaro.org> writes:
 
-> We've had placeholders for these opcodes for a while,
-> and should have support on ppc, s390x and avx512 hosts.
->
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 
 Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
