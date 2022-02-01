@@ -2,60 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E08C4A5FA7
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Feb 2022 16:10:32 +0100 (CET)
-Received: from localhost ([::1]:53582 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E69434A5FE4
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Feb 2022 16:20:17 +0100 (CET)
+Received: from localhost ([::1]:33516 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nEund-0007Ma-MB
-	for lists+qemu-devel@lfdr.de; Tue, 01 Feb 2022 10:10:29 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:52282)
+	id 1nEux6-0006HT-D9
+	for lists+qemu-devel@lfdr.de; Tue, 01 Feb 2022 10:20:16 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:52836)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1nEsWR-0008P6-A5
- for qemu-devel@nongnu.org; Tue, 01 Feb 2022 07:44:39 -0500
-Received: from kylie.crudebyte.com ([5.189.157.229]:41527)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1nEsYk-0000L1-Aj
+ for qemu-devel@nongnu.org; Tue, 01 Feb 2022 07:46:58 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:55059)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1nEsWK-0002Gx-16
- for qemu-devel@nongnu.org; Tue, 01 Feb 2022 07:44:31 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
- MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
- Content-ID:Content-Description;
- bh=9cnpef1OTXb7a3sX3wDx1NruUGI2/wOxLasY1MNcnhU=; b=XhEBdZd7ySEo/acLDe/4vuy5ut
- qUwMolV9iCZHjzQqHUiKkMiOywlCwmNKHtMyla2+0GtyFW64gJySfvZ1b//Bkw4soHkm+n8umt9MT
- OhqjUsLzK3uVe83YyIehneHxLTbSsAuBE3CZ0WJ7zhpY2Vs1qh5mGMzFvcWmOCm0p5z02BsnvOwHc
- P3+N7fFblwLWIbvFX6ZXhDFZViaCHyllTrD7pjnHVbpqlr9YYq8C6DrO1cYehXVEjNYAZ4P+1I8m3
- z9zu442wHlr4nyVD7g4umToTeDt9zqa/zUlwLCNLDVDRqehByj3ZmQgYkB0X3y/WSjnGf5rSgyHl3
- ZBFnj4WK+UherjIF9o2proxJzFQlfDc5XvwQN/iqCK5uWyllMUDEhx0+KpuBEQMF4zmyhlfl3ejir
- CIa6SyM8u09baSptLkSIe1B9IskEwiYPOHTmHoVeu40epm8gc3gW9eqqNQXKXIKw/BMPgpuqT5xBG
- 9/hyMxkPT6kM65Yyg1tw/BmrOYkt2yKbTNDzXwpU94DNsBvu9e49x/isQjrOSkMF5wgoj03ljfBTq
- F4g1t0tpd+pyx0+w0K+sA7tzevRiz9h0cYUxwE8uctS59aIiqw4gnS3EWzaBhUAl94Pl1UJ1W/psg
- U5T8kOC1fuuuZ+iMzqozFvfUxs0qaB6RoF0FNjypQ=;
-From: Christian Schoenebeck <qemu_oss@crudebyte.com>
-To: qemu-devel@nongnu.org
-Cc: Will Cohen <wwcohen@gmail.com>, Keno Fischer <keno@juliacomputing.com>,
- Michael Roitzsch <reactorcontrol@icloud.com>, hi@alyssa.is,
- Greg Kurz <groug@kaod.org>, Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PATCH v2 10/11] 9p: darwin: Implement compatibility for mknodat
-Date: Tue, 01 Feb 2022 13:44:01 +0100
-Message-ID: <1820026.hqzvqzRMiJ@silver>
-In-Reply-To: <CAB26zV3_oQ-tAfOrRefJNG8w6DPOiNhn5VBwahLPOmrKsO1LTA@mail.gmail.com>
-References: <20211122004913.20052-1-wwcohen@gmail.com>
- <CAB26zV0Lf==9f62RM10vaLHEMcjPwVshs51Z9oNLu17GYV2kDw@mail.gmail.com>
- <CAB26zV3_oQ-tAfOrRefJNG8w6DPOiNhn5VBwahLPOmrKsO1LTA@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1nEsYe-0002ap-Iw
+ for qemu-devel@nongnu.org; Tue, 01 Feb 2022 07:46:56 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1643719526;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=LNTVb7q+HaWpkfq33rfrxk373PF4oDyG6jZnW1mPjMI=;
+ b=ALmjW7ruUptTbG70S4RMjoGnZwoo1DAP1kBti7gFF2gitDmRbskJblO73ubgTbn46HtPgR
+ 2+i+bwief0wv2rFIQvUMpNxdPcs1au8q88Ql0R9kZ1FElZ2uu/sujaXjCcVFkR4dz4vNHc
+ y4mnNFx17D/NdBda6dedJEVrDp4K2F0=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-88-7-uOOYnKMLelB58SOv5IFA-1; Tue, 01 Feb 2022 07:45:23 -0500
+X-MC-Unique: 7-uOOYnKMLelB58SOv5IFA-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A3FAE101F002;
+ Tue,  1 Feb 2022 12:45:22 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.194.45])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id C489F752A0;
+ Tue,  1 Feb 2022 12:45:01 +0000 (UTC)
+Date: Tue, 1 Feb 2022 13:44:59 +0100
+From: Kevin Wolf <kwolf@redhat.com>
+To: Hanna Reitz <hreitz@redhat.com>
+Subject: Re: [PATCH] qemu-img: Unify [-b [-F]] documentation
+Message-ID: <YfkrS78iHNVUdL0L@redhat.com>
+References: <20220131135908.32393-1-hreitz@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
-Received-SPF: pass client-ip=5.189.157.229;
- envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+In-Reply-To: <20220131135908.32393-1-hreitz@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.081,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -68,46 +76,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Eric Blake <eblake@redhat.com>, qemu-devel@nongnu.org,
+ qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Montag, 31. Januar 2022 23:26:46 CET Will Cohen wrote:
-> Upon further review, it looks like since 10.12 there's actually a
-> (not-heavily-documented) function that wraps this syscall and avoids the
-> need to call the private syscall directly:
-> https://opensource.apple.com/source/libpthread/libpthread-218.51.1/src/pthre
-> ad_cwd.c.auto.html. Chromium uses it too (
-> https://chromium.googlesource.com/chromium/src/+/lkgr/base/process/launch_ma
-> c.cc#110) -- given that we're not looking for pre-10.12 compatibility, I'm a
-> little less worried about the workaround breaking in the future if this
-> wrapper gets used instead.
+Am 31.01.2022 um 14:59 hat Hanna Reitz geschrieben:
+> qemu-img convert documents the backing file and backing format options
+> as follows:
+>     [-B backing_file [-F backing_fmt]]
+> whereas qemu-img create has this:
+>     [-b backing_file] [-F backing_fmt]
 > 
-> Would it work to change to pthread_fchdir_np, remove all the syscall
-> discussion in the comment, and add a meson check for pthread_fchdir_np as a
-> prereq for virtfs on darwin?
+> That is, for convert, we document that -F cannot be given without -B,
+> while for create, way say that they are independent.
+> 
+> Indeed, it is technically possible to give -F without -b, because it is
+> left to the block driver to decide whether this is an error or not, so
+> sometimes it is:
+> 
+> $ qemu-img create -f qed -F qed test.qed 64M
+> Formatting 'test.qed', fmt=qed size=67108864 backing_fmt=qed [...]
+> 
+> And sometimes it is not:
+> 
+> $ qemu-img create -f qcow2 -F qcow2 test.qcow2 64M
+> Formatting 'test.qcow2', fmt=qcow2 cluster_size=65536 [...]
+> qemu-img: test.qcow2: Backing format cannot be used without backing file
+> 
+> Generally, it does not make much sense, though, and users should only
+> give -F with -b, so document it that way, as we have already done for
+> qemu-img convert (commit 1899bf47375ad40555dcdff12ba49b4b8b82df38).
+> 
+> Reported-by: Tingting Mao <timao@redhat.com>
+> Signed-off-by: Hanna Reitz <hreitz@redhat.com>
 
-Using pthread_fchdir_np() looks like a better solution, yes. It still seems to 
-be a private macOS API though. I can't find the function in any of Apple's 
-publicly released header file, and Chromium therefore declares the function by 
-itself (directly in launch_mac.cc):
+Thanks, applied to the block branch.
 
-extern "C" {
-// Changes the current thread's directory to a path or directory file
-// descriptor. libpthread only exposes a syscall wrapper starting in
-// macOS 10.12, but the system call dates back to macOS 10.5. On older OSes,
-// the syscall is issued directly.
-int pthread_chdir_np(const char* dir) API_AVAILABLE(macosx(10.12));
-int pthread_fchdir_np(int fd) API_AVAILABLE(macosx(10.12));
-...
-}  // extern "C"
-
-But if you are guarding this with a meson check then sure, no objections from 
-my side at least.
-
-Adding Peter on CC just in case.
-
-Best regards,
-Christian Schoenebeck
-
+Kevin
 
 
