@@ -2,77 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46D874A6717
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Feb 2022 22:31:38 +0100 (CET)
-Received: from localhost ([::1]:56724 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A9F0B4A671C
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Feb 2022 22:34:52 +0100 (CET)
+Received: from localhost ([::1]:36400 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nF0kS-0008JL-4t
-	for lists+qemu-devel@lfdr.de; Tue, 01 Feb 2022 16:31:36 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:51780)
+	id 1nF0nb-0005R3-MP
+	for lists+qemu-devel@lfdr.de; Tue, 01 Feb 2022 16:34:51 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:53946)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nEwYE-0004hh-1A
- for qemu-devel@nongnu.org; Tue, 01 Feb 2022 12:02:42 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:37401)
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1nEwgC-0002Wy-UD
+ for qemu-devel@nongnu.org; Tue, 01 Feb 2022 12:10:57 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:49125)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nEwY3-0004nq-Lx
- for qemu-devel@nongnu.org; Tue, 01 Feb 2022 12:02:39 -0500
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1nEwgB-00068z-4u
+ for qemu-devel@nongnu.org; Tue, 01 Feb 2022 12:10:56 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1643734915;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=ubXrtP9Gti/4IN+QHdUh2aveeDczH8c6Bw/e4h6oFNU=;
- b=HYnXvXnnpPI9uWH0Wr8bNLL2/QPMErcldt/iMtlcOqzkUEX9pfcpyyNB9M3yx8dy3k+PUI
- OF3OPydCOOI5oECEKHiRQOzSOdrv3kQ2z5lV3w2GoH+P/3nw3dd4pMHjgnkBBeZ7Nj9eAe
- Dy0tJ1Z/VljDTozz6I5a4X+j12xrWPc=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ s=mimecast20190719; t=1643735453;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=b/jC7x+xbQqCmoHhAz/duzz7bR95ONGhMBRABeR9RP8=;
+ b=PpO0zgxtQrj7bS8MvNQozbR/8cUvnk//vG9yMSFaL+LvE0CbpYnTgZhvb4Os3Ba5t7mFHp
+ NBruyBtclQNWt746f30m+qy/4sotuelHCHE/yPwbNvn00cUWlolgyLqaqJ81okue8EQrY5
+ RlFSLwj14U5eHHY6aXYHg8aCbP/hCRA=
+Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
+ [209.85.222.200]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-621-RjMjhaDNMLuD6h5-r7w9BA-1; Tue, 01 Feb 2022 12:01:47 -0500
-X-MC-Unique: RjMjhaDNMLuD6h5-r7w9BA-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 454CE1091DA1;
- Tue,  1 Feb 2022 17:01:46 +0000 (UTC)
-Received: from redhat.com (unknown [10.39.195.27])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id EBFF07574F;
- Tue,  1 Feb 2022 17:01:43 +0000 (UTC)
-Date: Tue, 1 Feb 2022 17:01:40 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Cleber Rosa <crosa@redhat.com>
-Subject: Re: "make check-acceptance" takes way too long
-Message-ID: <YflndOiIn8JbjuOS@redhat.com>
-References: <CAFEAcA9cMZoj18gq7Ksv5PRoU1wRmXvW_e9UE73C_MEB7wTroQ@mail.gmail.com>
- <CAFEAcA9_d5jw5-HOrZA6dsG1vMqxzqmrfHA7Jo0KsDcaEXmB_Q@mail.gmail.com>
- <6c90ca3d-eaec-d7e8-5941-4deb83b58fd0@redhat.com>
- <87zgnp4b32.fsf@dusky.pond.sub.org>
- <CAFEAcA_kxrCgyxWPFLw6VZ-rKx-res0C8L2BWRvfB81cR+keLg@mail.gmail.com>
- <875yqd6zib.fsf@linaro.org> <YerPk2ABMHQf/3QP@redhat.com>
- <CA+bd_6KgJ_tG9r9Nhn5p6bDsdiXKRckGiZ75srxTNZj4bdd2UA@mail.gmail.com>
+ us-mta-590-cseVGVySONaMjcgJxG1EPg-1; Tue, 01 Feb 2022 12:10:52 -0500
+X-MC-Unique: cseVGVySONaMjcgJxG1EPg-1
+Received: by mail-qk1-f200.google.com with SMTP id
+ u9-20020ae9c009000000b0049ae89c924aso12602946qkk.9
+ for <qemu-devel@nongnu.org>; Tue, 01 Feb 2022 09:10:52 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=b/jC7x+xbQqCmoHhAz/duzz7bR95ONGhMBRABeR9RP8=;
+ b=eVRoavHa239oWe6Nbj8LdwOZHKmkvB5uLbKwspIS43mjIYNVhCfJQXuKKGpy3QTAAg
+ 7SSritNoexEI4aUIBUABtaypFslRb9EbP9UFAAcCmRBxPQBdNBPYEEsv3w8mqz2aZ+Mp
+ X8ldF3UfD8tdpJj6GTTF1snOJ1rKItbgCaaB6FBTGuVgpQsUVfZlTYeVyCSoO2lLQcIQ
+ fyrnXFisen9okMy1L+LneW1ypYYo9KKsYbzvewPnFCdiKxSfW3GifvCs+aT5TfLJE1yP
+ dBLsaqibgfS8MLUGrXG23OzZ9Vz/GF+zlHzJJe4+vaV2Vcp/cjNBdZ2baCmIed5MLFQp
+ J54Q==
+X-Gm-Message-State: AOAM533k5hmRpF6nDK8sURkpNl2A4RzRqwbXWl/DOxU5KqEHSRWGAGL+
+ utW1iNmDg5GbrkB/iw3+t42Tq15+NS8X1GcwUNsw/Y9G1hZFGhKVzONXHY7y5Tay+AGFkOhTZ2l
+ HAvOqjE4eVJxLuEFewoW5q/ob4Dp3mfw=
+X-Received: by 2002:a05:620a:40cc:: with SMTP id
+ g12mr17360088qko.308.1643735452304; 
+ Tue, 01 Feb 2022 09:10:52 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJw376giDCzeh/R98fJLJshlsZVozHnI3p3kbLdJxX32uFEWquxL0Qce7LRIqGjk4MVZs9wMcnWrXWOoZeqdqLQ=
+X-Received: by 2002:a05:620a:40cc:: with SMTP id
+ g12mr17360060qko.308.1643735452057; 
+ Tue, 01 Feb 2022 09:10:52 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <CA+bd_6KgJ_tG9r9Nhn5p6bDsdiXKRckGiZ75srxTNZj4bdd2UA@mail.gmail.com>
-User-Agent: Mutt/2.1.5 (2021-12-30)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+References: <20220121202733.404989-1-eperezma@redhat.com>
+ <20220121202733.404989-30-eperezma@redhat.com>
+ <2391fb35-15df-abd4-192e-7b124c289c6e@redhat.com>
+In-Reply-To: <2391fb35-15df-abd4-192e-7b124c289c6e@redhat.com>
+From: Eugenio Perez Martin <eperezma@redhat.com>
+Date: Tue, 1 Feb 2022 18:10:16 +0100
+Message-ID: <CAJaqyWdK+G_hcsQO4MNHyPH=0Ebj6irVC0r=AcmGeuQ+=tHQWg@mail.gmail.com>
+Subject: Re: [PATCH 29/31] vdpa: Make ncs autofree
+To: Jason Wang <jasowang@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eperezma@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eperezma@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
 X-Spam_bar: --
 X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.081,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -85,112 +95,78 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- Beraldo Leal <bleal@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Markus Armbruster <armbru@redhat.com>,
- Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: Laurent Vivier <lvivier@redhat.com>, Parav Pandit <parav@mellanox.com>,
+ Cindy Lu <lulu@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Juan Quintela <quintela@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ qemu-level <qemu-devel@nongnu.org>, Gautam Dawar <gdawar@xilinx.com>,
+ Markus Armbruster <armbru@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ Harpreet Singh Anand <hanand@xilinx.com>, Xiao W Wang <xiao.w.wang@intel.com>,
+ Peter Xu <peterx@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Eli Cohen <eli@mellanox.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Zhu Lingshan <lingshan.zhu@intel.com>,
+ virtualization <virtualization@lists.linux-foundation.org>,
+ Eric Blake <eblake@redhat.com>, Stefano Garzarella <sgarzare@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Feb 01, 2022 at 12:29:56AM -0500, Cleber Rosa wrote:
-> 
-> Assuming this is about "Testing that QEMU can boot a full distro", I wouldn't
-> try to solve the problem by making the distro too slim to get to the
-> point of becoming
-> an unrealistic system.
+On Sun, Jan 30, 2022 at 7:52 AM Jason Wang <jasowang@redhat.com> wrote:
+>
+>
+> =E5=9C=A8 2022/1/22 =E4=B8=8A=E5=8D=884:27, Eugenio P=C3=A9rez =E5=86=99=
+=E9=81=93:
+> > Simplifying memory management.
+> >
+> > Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
+>
+>
+> To reduce the size of this series. This can be sent as an separate patch
+> if I was not wrong.
+>
 
-At a high level our with acceptance (integration) testing is of
-course to make sure that QEMU is correctly emulating a full virtual
-machine, such that we have confidence that it can run real world
-operating systems.
+Sure, I'll send separately to trivial maillist.
 
-There are a number of approaches to achieve that with varying
-tradeoffs.
+Thanks!
 
-  - Testing with very specific tailored environments, running
-    very specific userspace tools and minimal kernel setup.
-
-    This can give us a pretty decent amount of coverage of
-    the core features of the emulated environment in a tightly
-    controlled amount of wallclock time. When it fails it ought
-    to be relatively easy to understand and debug.
-
-    The downside is that it is the QEMU code paths it hits are
-    going to be fairly static.
-
-
-  - Testing with arbitrary execution of real world OS images.
-
-    I think of this as a bit of scattergun approach. We're not
-    trying to tightly control what runs, we actually want it
-    to run alot of arbitrarily complex and unusual stuff.
-
-    This is going to be time consuming and is likely to have
-    higher false positive failure rates. It is worthwhile
-    because it is going to find the edge cases that you simply
-    won't detect any other way, because you can't even imagine
-    the problems that you're trying to uncover until you uncover
-    them by accident with a real OS workload.
-
-    It is kinda like fuzzing QEMU with an entire OS :-)
-
-
-Both of these approaches are valid/complementary and we should
-want to have both.
-
-Any test suite is only going to find bugs though if it is
-actually executed.
-
-As a contributor though the former is stuff I'm likely to be
-willing to run myself before sending patches, while the latter
-is stuff I'm just always going to punt to merge testing infra.
-
-We want to be wary of leaving too much to be caught at time
-of merge tests, because that puts a significant burden on the
-person responsible for merging code in QEMU.  We need our
-contributors to be motivated to run as much testing as possible
-ahead of submitting patches.
-
-> IMO the deal breaker with regards to test time can be solved more cheaply by
-> having and using KVM where these tests will run, and not running them by
-> default otherwise.  With the tagging mechanism we should be able to set a
-> condition such as: "If using TCG, exclude tests that boot a full blown distro.
-> If using KVM, do not criticize what gets booted".  Resulting in something
-> like:
-
-> Does that sound like something appropriate?
-
-Depends whether you only care about KVM or not. From a POV of QEMU
-community CI, I think it is valid to want to test TCG functionality
-
-
-> BTW, on the topic of "Using something as a base OS for scripts (tests) to run
-> on it", another possibility for using full blown OS would be to save
-> their initialized
-> state, and load it to memory for each test, saving the guest boot time.  This
-> should of course be done at the framework level and transparent to tests.
-
-There is *massive* virtue in simplicity & predictability for testing.
-
-Building more complex infrastructure to pre-initialize caches with
-clever techniques like saving running OS state is clever, but is
-certainly not simple or predictable. When that kind of stuff goes
-wrong, whoever gets to debug it is going to have a really bad day.
-
-This can be worth doing if there's no other viable approach to achieve
-the desired end goal. I don't think that's the case for our integration
-testing needs in QEMU though. There's masses of scope for us to explore
-testing with minimal tailored guest images/environments, before we need
-to resort to building more complex optimization strategies.
-
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+> Thanks
+>
+>
+> > ---
+> >   net/vhost-vdpa.c | 5 ++---
+> >   1 file changed, 2 insertions(+), 3 deletions(-)
+> >
+> > diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
+> > index 4125d13118..4befba5cc7 100644
+> > --- a/net/vhost-vdpa.c
+> > +++ b/net/vhost-vdpa.c
+> > @@ -264,7 +264,8 @@ int net_init_vhost_vdpa(const Netdev *netdev, const=
+ char *name,
+> >   {
+> >       const NetdevVhostVDPAOptions *opts;
+> >       int vdpa_device_fd;
+> > -    NetClientState **ncs, *nc;
+> > +    g_autofree NetClientState **ncs =3D NULL;
+> > +    NetClientState *nc;
+> >       int queue_pairs, i, has_cvq =3D 0;
+> >
+> >       assert(netdev->type =3D=3D NET_CLIENT_DRIVER_VHOST_VDPA);
+> > @@ -302,7 +303,6 @@ int net_init_vhost_vdpa(const Netdev *netdev, const=
+ char *name,
+> >               goto err;
+> >       }
+> >
+> > -    g_free(ncs);
+> >       return 0;
+> >
+> >   err:
+> > @@ -310,7 +310,6 @@ err:
+> >           qemu_del_net_client(ncs[0]);
+> >       }
+> >       qemu_close(vdpa_device_fd);
+> > -    g_free(ncs);
+> >
+> >       return -1;
+> >   }
+>
 
 
