@@ -2,83 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 071C84A7937
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Feb 2022 21:10:06 +0100 (CET)
-Received: from localhost ([::1]:59606 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 418464A798B
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Feb 2022 21:34:04 +0100 (CET)
+Received: from localhost ([::1]:42224 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nFLx6-0005qn-QO
-	for lists+qemu-devel@lfdr.de; Wed, 02 Feb 2022 15:10:04 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:49812)
+	id 1nFMKJ-0007wN-5p
+	for lists+qemu-devel@lfdr.de; Wed, 02 Feb 2022 15:34:03 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:56392)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nFL3m-0000sc-Jx
- for qemu-devel@nongnu.org; Wed, 02 Feb 2022 14:12:55 -0500
-Received: from [2a00:1450:4864:20::433] (port=37703
- helo=mail-wr1-x433.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nFL3j-000776-F8
- for qemu-devel@nongnu.org; Wed, 02 Feb 2022 14:12:54 -0500
-Received: by mail-wr1-x433.google.com with SMTP id w11so466296wra.4
- for <qemu-devel@nongnu.org>; Wed, 02 Feb 2022 11:12:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=Dwxi45ylVlVmohtVMhPGgDq2cZ2Znxxnv1eEMPMfHBc=;
- b=Zj7bUH3XGiL4ex9JFjf/GZrJWlkpVAeGzF9hJwMSy+FEGiYdyj1FFK29/ZXxqkJdb5
- T6kffCZ09Nzg39wPyWseP4KKiS4PEdCRAKzhf11OxjOsX4t3UV69WObaoWdKRbDGOzqj
- 2qaU5JvqBKUpcdeu8aqc1hryfoTcNhWgGtGjm96eFcTBe663hk1MS6WJtrPpO4fIsMhS
- vKiY3/eWBXv22xFGLPXKqHJ65zN74Ii8x7SqGt/2Sb2YkGk7Tepzah+ZdWHBcfSxxJBs
- 5Zr2Hb2w0RumI7kz2Zn24ZKLLsW8jc8mi3fslPGAd4hqJz+2Cxc5gIbePGkG91iIK9G1
- RQSg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=Dwxi45ylVlVmohtVMhPGgDq2cZ2Znxxnv1eEMPMfHBc=;
- b=13A5OTjO4mOR2BA2H133zN7QUC3mNuX5lZsH8rN4dvSWBhrQbt9i5XfnILdft9lErT
- vauNle2q5McLX2ZAQbrj7PU0uxqiJ8L0BqJotx/oyMmogaDS4NtyeYWiv25+nWG/WEQv
- 6cXQ8ThDn+W4dpTRLbZYMbeY7cNQ4UoCuR+HyJqJx1eoPIPnDeIIYGd3YSfGXmz6np2n
- d5mVR1BeiVEp5W0pbSxHiLeBu4YV0rz7IRGSCePXxAYv1ewoJq9MQYAFnBb+kqqBQdE1
- WO1YUycDytNkK6w46uT3hKBKvry3OsUbEIrHWJ6/W3L6cbvv8Ymy1fkXS2BoqxLUfgzw
- +uTg==
-X-Gm-Message-State: AOAM531WsrwxifesI2JQf77amarCn32bzAKh75zp/Wk66oNABm6OY623
- jY+uHDwIzH/7nXNwdIAExuT1tg==
-X-Google-Smtp-Source: ABdhPJzbtsTA+uX1MQlLpFOTFISpD5m9gdE+xErZ3pWu5Xpw3twHVbiD8j7jEgF5Nmn0n3q9fDMczQ==
-X-Received: by 2002:adf:e80d:: with SMTP id o13mr23657391wrm.532.1643829169795; 
- Wed, 02 Feb 2022 11:12:49 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id o27sm5789777wms.4.2022.02.02.11.12.43
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 02 Feb 2022 11:12:47 -0800 (PST)
-Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 2768C1FFBC;
- Wed,  2 Feb 2022 19:12:43 +0000 (GMT)
-From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: richard.henderson@linaro.org,
-	qemu-devel@nongnu.org
-Subject: [RFC PATCH  4/4] tests/tcg: add vectorised sha512 versions
-Date: Wed,  2 Feb 2022 19:12:42 +0000
-Message-Id: <20220202191242.652607-5-alex.bennee@linaro.org>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20220202191242.652607-1-alex.bennee@linaro.org>
-References: <20220202191242.652607-1-alex.bennee@linaro.org>
+ (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1nFLU9-0004XF-0t
+ for qemu-devel@nongnu.org; Wed, 02 Feb 2022 14:40:12 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:24705)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1nFLU1-00045a-5X
+ for qemu-devel@nongnu.org; Wed, 02 Feb 2022 14:40:08 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1643830800;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=rud894fgEPbsJSAWuYgVkQzhLrwjuf4zm11nRklcvP8=;
+ b=Af8b460qV4nNuAvGXa53AxvPXG3VFpf67XdidosGa22lFa81W4DmsOoXDWwo0M5LRSS/AX
+ SaMdfzDmXZLaYiEznHkic4obMxBzFY7GTCzOPQL2sPxAM2+T/NLBh1sMbV7m5U9iTXO48Q
+ RubqGEoDk0iiKVnU1VSMhWFH/+nGH1g=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-665-Pu2ttWSSMaqlN13fNsjR8Q-1; Wed, 02 Feb 2022 14:39:59 -0500
+X-MC-Unique: Pu2ttWSSMaqlN13fNsjR8Q-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 44599192AB6D
+ for <qemu-devel@nongnu.org>; Wed,  2 Feb 2022 19:39:58 +0000 (UTC)
+Received: from horse.redhat.com (unknown [10.22.32.185])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4A0A65F707;
+ Wed,  2 Feb 2022 19:39:42 +0000 (UTC)
+Received: by horse.redhat.com (Postfix, from userid 10451)
+ id B9D4522053F; Wed,  2 Feb 2022 14:39:41 -0500 (EST)
+From: Vivek Goyal <vgoyal@redhat.com>
+To: qemu-devel@nongnu.org,
+	virtio-fs@redhat.com
+Subject: [PATCH v5 0/9] virtiofsd: Add support for file security context at
+ file creation
+Date: Wed,  2 Feb 2022 14:39:26 -0500
+Message-Id: <20220202193935.268777-1-vgoyal@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=vgoyal@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::433
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::433;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x433.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=vgoyal@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -23
+X-Spam_score: -2.4
+X-Spam_bar: --
+X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIM_INVALID=0.1,
+ DKIM_SIGNED=0.1, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -91,119 +77,88 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, Peter Maydell <peter.maydell@linaro.org>,
- berrange@redhat.com, David Hildenbrand <david@redhat.com>, f4bug@amsat.org,
- Eduardo Habkost <eduardo@habkost.net>,
- "open list:S390 TCG CPUs" <qemu-s390x@nongnu.org>, qemu-arm@nongnu.org,
- stefanha@redhat.com, crosa@redhat.com, pbonzini@redhat.com,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, aurelien@aurel32.net
+Cc: mszeredi@redhat.com, dgilbert@redhat.com, vgoyal@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This builds vectorised versions of sha512 to exercise the vector code:
+Hi,
 
-  - aarch64 (sve and sve2)
-  - i385 (SSE)
-  - s390x (MVX)
-  - ppc64 (vector)
+This is V5 of the patches. I posted V4 here.
 
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
----
- tests/tcg/aarch64/Makefile.target | 11 +++++++++++
- tests/tcg/i386/Makefile.target    |  6 ++++++
- tests/tcg/ppc64le/Makefile.target |  5 ++++-
- tests/tcg/s390x/Makefile.target   |  9 +++++++++
- tests/tcg/x86_64/Makefile.target  |  7 +++++++
- 5 files changed, 37 insertions(+), 1 deletion(-)
+https://listman.redhat.com/archives/virtio-fs/2022-January/msg00041.html
 
-diff --git a/tests/tcg/aarch64/Makefile.target b/tests/tcg/aarch64/Makefile.target
-index a03844ce48..33e3cea7fd 100644
---- a/tests/tcg/aarch64/Makefile.target
-+++ b/tests/tcg/aarch64/Makefile.target
-@@ -62,6 +62,17 @@ run-sha1-vector: sha1-vector run-sha1
+These will allow us to support SELinux with virtiofs. This will send
+SELinux context at file creation to server and server can set it on
+file.
+
+Changes since V4
+----------------
+- Parse only known current size of fuse_init_in. This will make sure
+  that future extension does not break existing code upon header
+  update. (David Gilbert)
+
+- Changed order of one of the patch. It is first patch in series. This
+  will help fix the breakage before header update patch and code remains
+  git bisectable. (David Gilbert)
+
+- Changed %lx to %llx at one place. (David Gilbert).
+
+Thanks
+Vivek
  
- TESTS += sha1-vector
- 
-+# SVE versions of sha512
-+sha512-sve: CFLAGS=-march=armv8.1-a+sve -O3
-+sha512-sve: sha512.c
-+	$(CC) $(CFLAGS) $(EXTRA_CFLAGS) $< -o $@ $(LDFLAGS)
-+
-+sha512-sve2: CFLAGS=-march=armv8.1-a+sve2 -O3
-+sha512-sve2: sha512.c
-+	$(CC) $(CFLAGS) $(EXTRA_CFLAGS) $< -o $@ $(LDFLAGS)
-+
-+TESTS += sha512-sve sha512-sve2
-+
- ifneq ($(HAVE_GDB_BIN),)
- GDB_SCRIPT=$(SRC_PATH)/tests/guest-debug/run-test.py
- 
-diff --git a/tests/tcg/i386/Makefile.target b/tests/tcg/i386/Makefile.target
-index 38c10379af..0ff7e1bfcc 100644
---- a/tests/tcg/i386/Makefile.target
-+++ b/tests/tcg/i386/Makefile.target
-@@ -71,3 +71,9 @@ TESTS=$(MULTIARCH_TESTS) $(I386_TESTS)
- 
- # On i386 and x86_64 Linux only supports 4k pages (large pages are a different hack)
- EXTRA_RUNS+=run-test-mmap-4096
-+
-+sha512-sse: CFLAGS=-march=pentium4 -O3
-+sha512-sse: sha512.c
-+	$(CC) $(CFLAGS) $(EXTRA_CFLAGS) $< -o $@ $(LDFLAGS)
-+
-+TESTS+=sha512-sse
-diff --git a/tests/tcg/ppc64le/Makefile.target b/tests/tcg/ppc64le/Makefile.target
-index 480ff0898d..4f1d03dfcf 100644
---- a/tests/tcg/ppc64le/Makefile.target
-+++ b/tests/tcg/ppc64le/Makefile.target
-@@ -5,10 +5,13 @@
- VPATH += $(SRC_PATH)/tests/tcg/ppc64le
- 
- ifneq ($(DOCKER_IMAGE)$(CROSS_CC_HAS_POWER8_VECTOR),)
--PPC64LE_TESTS=bcdsub non_signalling_xscv
-+PPC64LE_TESTS=bcdsub non_signalling_xscv sha512-vector
- endif
- $(PPC64LE_TESTS): CFLAGS += -mpower8-vector
- 
-+sha512-vector: sha512.c
-+	$(CC) $(CFLAGS) $(EXTRA_CFLAGS) $< -o $@ $(LDFLAGS)
-+
- ifneq ($(DOCKER_IMAGE)$(CROSS_CC_HAS_POWER10),)
- PPC64LE_TESTS += byte_reverse
- endif
-diff --git a/tests/tcg/s390x/Makefile.target b/tests/tcg/s390x/Makefile.target
-index 1a7238b4eb..e53b599b22 100644
---- a/tests/tcg/s390x/Makefile.target
-+++ b/tests/tcg/s390x/Makefile.target
-@@ -25,3 +25,12 @@ run-gdbstub-signals-s390x: signals-s390x
- 
- EXTRA_RUNS += run-gdbstub-signals-s390x
- endif
-+
-+# MVX versions of sha512
-+sha512-mvx: CFLAGS=-march=z13 -mvx -O3
-+sha512-mvx: sha512.c
-+	$(CC) $(CFLAGS) $(EXTRA_CFLAGS) $< -o $@ $(LDFLAGS)
-+
-+run-sha512-mvx: QEMU_OPTS+=-cpu max
-+
-+TESTS+=sha512-mvx
-diff --git a/tests/tcg/x86_64/Makefile.target b/tests/tcg/x86_64/Makefile.target
-index 4a8a464c57..17cf168f0a 100644
---- a/tests/tcg/x86_64/Makefile.target
-+++ b/tests/tcg/x86_64/Makefile.target
-@@ -22,3 +22,10 @@ test-x86_64: test-i386.c test-i386.h test-i386-shift.h test-i386-muldiv.h
- 
- vsyscall: $(SRC_PATH)/tests/tcg/x86_64/vsyscall.c
- 	$(CC) $(CFLAGS) $< -o $@ $(LDFLAGS)
-+
-+# TCG does not yet support all SSE (SIGILL on pshufb)
-+# sha512-sse: CFLAGS=-march=core2 -O3
-+# sha512-sse: sha512.c
-+# 	$(CC) $(CFLAGS) $(EXTRA_CFLAGS) $< -o $@ $(LDFLAGS)
-+
-+TESTS+=sha512-sse
+Vivek Goyal (9):
+  virtiofsd: Fix breakage due to fuse_init_in size change
+  linux-headers: Update headers to v5.17-rc1
+  virtiofsd: Parse extended "struct fuse_init_in"
+  virtiofsd: Extend size of fuse_conn_info->capable and ->want fields
+  virtiofsd, fuse_lowlevel.c: Add capability to parse security context
+  virtiofsd: Move core file creation code in separate function
+  virtiofsd: Create new file with fscreate set
+  virtiofsd: Create new file using O_TMPFILE and set security context
+  virtiofsd: Add an option to enable/disable security label
+
+ docs/tools/virtiofsd.rst                      |   7 +
+ include/standard-headers/asm-x86/kvm_para.h   |   1 +
+ include/standard-headers/drm/drm_fourcc.h     |  11 +
+ include/standard-headers/linux/ethtool.h      |   1 +
+ include/standard-headers/linux/fuse.h         |  60 ++-
+ include/standard-headers/linux/pci_regs.h     | 142 +++---
+ include/standard-headers/linux/virtio_gpio.h  |  72 +++
+ include/standard-headers/linux/virtio_i2c.h   |  47 ++
+ include/standard-headers/linux/virtio_iommu.h |   8 +-
+ .../standard-headers/linux/virtio_pcidev.h    |  65 +++
+ include/standard-headers/linux/virtio_scmi.h  |  24 +
+ linux-headers/asm-generic/unistd.h            |   5 +-
+ linux-headers/asm-mips/unistd_n32.h           |   2 +
+ linux-headers/asm-mips/unistd_n64.h           |   2 +
+ linux-headers/asm-mips/unistd_o32.h           |   2 +
+ linux-headers/asm-powerpc/unistd_32.h         |   2 +
+ linux-headers/asm-powerpc/unistd_64.h         |   2 +
+ linux-headers/asm-riscv/bitsperlong.h         |  14 +
+ linux-headers/asm-riscv/mman.h                |   1 +
+ linux-headers/asm-riscv/unistd.h              |  44 ++
+ linux-headers/asm-s390/unistd_32.h            |   2 +
+ linux-headers/asm-s390/unistd_64.h            |   2 +
+ linux-headers/asm-x86/kvm.h                   |  16 +-
+ linux-headers/asm-x86/unistd_32.h             |   1 +
+ linux-headers/asm-x86/unistd_64.h             |   1 +
+ linux-headers/asm-x86/unistd_x32.h            |   1 +
+ linux-headers/linux/kvm.h                     |  17 +
+ tools/virtiofsd/fuse_common.h                 |   9 +-
+ tools/virtiofsd/fuse_i.h                      |   7 +
+ tools/virtiofsd/fuse_lowlevel.c               | 162 +++++--
+ tools/virtiofsd/helper.c                      |   1 +
+ tools/virtiofsd/passthrough_ll.c              | 414 ++++++++++++++++--
+ 32 files changed, 1013 insertions(+), 132 deletions(-)
+ create mode 100644 include/standard-headers/linux/virtio_gpio.h
+ create mode 100644 include/standard-headers/linux/virtio_i2c.h
+ create mode 100644 include/standard-headers/linux/virtio_pcidev.h
+ create mode 100644 include/standard-headers/linux/virtio_scmi.h
+ create mode 100644 linux-headers/asm-riscv/bitsperlong.h
+ create mode 100644 linux-headers/asm-riscv/mman.h
+ create mode 100644 linux-headers/asm-riscv/unistd.h
+
 -- 
-2.30.2
+2.34.1
 
 
