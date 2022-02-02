@@ -2,84 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E0EB44A7196
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Feb 2022 14:32:27 +0100 (CET)
-Received: from localhost ([::1]:37962 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE7254A71B3
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Feb 2022 14:39:42 +0100 (CET)
+Received: from localhost ([::1]:41664 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nFFkH-0000l1-VN
-	for lists+qemu-devel@lfdr.de; Wed, 02 Feb 2022 08:32:26 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:55688)
+	id 1nFFrH-0003oj-NM
+	for lists+qemu-devel@lfdr.de; Wed, 02 Feb 2022 08:39:41 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:33028)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nFF1n-0002Rv-5Y; Wed, 02 Feb 2022 07:46:27 -0500
-Received: from [2a00:1450:4864:20::32d] (port=44982
- helo=mail-wm1-x32d.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nFF1l-00045z-Mu; Wed, 02 Feb 2022 07:46:26 -0500
-Received: by mail-wm1-x32d.google.com with SMTP id
- l35-20020a05600c1d2300b0034d477271c1so3819470wms.3; 
- Wed, 02 Feb 2022 04:46:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:to:references:from:in-reply-to
- :content-transfer-encoding;
- bh=JXqoHZx9RaJNH8Wfq3ehf5pr/WkCIRGEXeRLTufmAZs=;
- b=JcnpYZvS3a/ZDUK94C/ipi9dDDhYIf67tY28cLXGWJJp94lGQDI7RzkqztgxlIlF93
- Nm7V2hHjjphxxl4o/MGmfaWjqtY0faKptZfXSOmWYedgGZmiJYCq9Vrqg0733K+hPfRe
- F1WKgyrRwRR4Ofxkmk1iV7rfwVRDo+JnXVGMghA0MIl2zUftaDhgfoQBPlhsM9eTBi8w
- EHxB2ivsZnoiKm03hrQqa3MP3iUSbJzQQmwma9F10lfbuBDJmZjKBA2GJ9GRRPeCU/c9
- PWsXu3UM2oB49kJIEWK32kzRYYIoO0eJwSyY6TCR6tsoOFMjTwNETrNhxXLDVClGAse8
- ESgg==
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1nFFOm-0000vm-14
+ for qemu-devel@nongnu.org; Wed, 02 Feb 2022 08:10:14 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:52851)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1nFFOQ-0001tD-TM
+ for qemu-devel@nongnu.org; Wed, 02 Feb 2022 08:09:54 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1643807366;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=nFdb2AX2dR+vsoBwFAct0/JT7jpQv60lrztJ9yO1abE=;
+ b=Xsfb8Eg8LYBxWu3x/Boi0H5dYx2Wch0NeGa6C5yfFTKLByLnuAt2x1ShLzSsf2ksZfIGV/
+ 3xZnKz5j9pem2aN56me5Yab/zspC9PWUCPpHULw718mlgYL7AAs4t7xQ0skh1b/oaEkLTq
+ fMfVTl4RISOmuMsPbwzETewTO7Tk+h0=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-663-aw0l41JrMdCIdCq_N2wjig-1; Wed, 02 Feb 2022 08:09:21 -0500
+X-MC-Unique: aw0l41JrMdCIdCq_N2wjig-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ 189-20020a1c02c6000000b0035399bb7e85so1877139wmc.4
+ for <qemu-devel@nongnu.org>; Wed, 02 Feb 2022 05:09:21 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:to:references:from:in-reply-to
- :content-transfer-encoding;
- bh=JXqoHZx9RaJNH8Wfq3ehf5pr/WkCIRGEXeRLTufmAZs=;
- b=23rqAuc8yFOOsL6/+l1YDo63aJjYvGhh/yxURghnVoB2QjJERUOL0RUU5qdCWBXQ4P
- YiQcOMV3h0qxaF5+rSALyytEel2wAPPypTLvFhkvCWxOUkD78q9Uxo9gNYqJe4Glk4F5
- iTLTpTbDAlwxvADeGnY3WfZwnBl0H3/jyUuLkGbapUsbGzDho1VO4bPy1D23sc7AH1lP
- d6inVPjGuFJi86vNa68dcuCsxBnxlUZ2b28dYnHNafYrAII7+I9QwHSGlZjyYgt/J1ia
- b4BsXMuIjDzsYaruGciB/r0kJmbY+koBt/Yh+lFe+YHrx5i80QOqUTeFwcJP6qyuFzPv
- 61kg==
-X-Gm-Message-State: AOAM530H3N5feQk7gfpRWm04iZo2AEjvh+xER4RFX9ugFnchSh+d4ngf
- ss3/bh3AFcvBIjoqiPdQ5GM=
-X-Google-Smtp-Source: ABdhPJwbNawwnLwoljXG39kvBi3Ilmx/dVbAJThYriefysTCXUOnYIFq5bkKwDzyGtPWcvc1YxW7pw==
-X-Received: by 2002:a7b:c0d0:: with SMTP id s16mr6015303wmh.169.1643805983818; 
- Wed, 02 Feb 2022 04:46:23 -0800 (PST)
-Received: from [192.168.1.33] (154.red-83-50-83.dynamicip.rima-tde.net.
- [83.50.83.154])
- by smtp.gmail.com with ESMTPSA id h11sm4548236wmb.12.2022.02.02.04.46.23
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 02 Feb 2022 04:46:23 -0800 (PST)
-Message-ID: <b68c1a68-9404-2031-e729-ac0b1cb1c263@amsat.org>
-Date: Wed, 2 Feb 2022 13:46:22 +0100
+ h=x-gm-message-state:from:to:cc:subject:in-reply-to:references
+ :user-agent:reply-to:date:message-id:mime-version;
+ bh=nFdb2AX2dR+vsoBwFAct0/JT7jpQv60lrztJ9yO1abE=;
+ b=IsdC4Z0J0LXEKbV56jkg2CdzLdpCWmhUGto4U1dTPs1IP6I4+iJRzl0BINt23vHCCU
+ HyiSZbXaMJHd1u3sQK8ZUjdCuQv/ffgbLxNPG8bLYxRKIGpukoLpNtUzpWpCTITnHbnv
+ XJc9WwKSWqG9dHOewl14PllsvDcs3MkGSpJLklZZbC1cLgz5xLZy8uZRYSxd5QEOT4uS
+ N0aXEKCD4945c44sIZv7agiOU4zz6NIuo+tcUFS/GibWXIsJyag9kGmhoJAMrpH5P09B
+ ffyMGUfZp6pCD3W/Z/fR2XktFhmKe6J6+gQ/5YIjTupIYN7WizLi2h/0tsheSpJ3CZ4+
+ 0DWw==
+X-Gm-Message-State: AOAM5334JHcktzPicByamXO/FGM6y7cmYr8o8t/ssbpF+r0hOtHstAFL
+ J1n3FjkMVWbDs9/mL7C4jULus6lUnrJsTA41/2caaWanLK600+zWoKwJIIsK4D8ZarC/26UYZ8V
+ pUfuVPp9rZXuah3Y=
+X-Received: by 2002:a5d:4532:: with SMTP id j18mr15009319wra.602.1643807360394; 
+ Wed, 02 Feb 2022 05:09:20 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzaOmhwe6OGH7eMlHW/i0W0bOXGMbEW/SYj5ZHhLNJg8+poJBGn/9NeML6rNtMG89hOyKpL+Q==
+X-Received: by 2002:a5d:4532:: with SMTP id j18mr15009302wra.602.1643807360179; 
+ Wed, 02 Feb 2022 05:09:20 -0800 (PST)
+Received: from localhost ([47.61.17.76])
+ by smtp.gmail.com with ESMTPSA id c11sm20528032wri.43.2022.02.02.05.09.18
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 02 Feb 2022 05:09:19 -0800 (PST)
+From: Juan Quintela <quintela@redhat.com>
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Subject: Re: [PATCH v2 3/3] migration: Perform vmsd structure check during
+ tests
+In-Reply-To: <Yfprvld4Y/GoJbhh@work-vm> (David Alan Gilbert's message of "Wed, 
+ 2 Feb 2022 11:32:14 +0000")
+References: <20220113194452.254011-1-dgilbert@redhat.com>
+ <20220113194452.254011-4-dgilbert@redhat.com>
+ <87ilu6nrqe.fsf@secure.mitica> <YfK+7LCJssDhie9O@work-vm>
+ <87mtjc8el9.fsf@secure.mitica> <Yfprvld4Y/GoJbhh@work-vm>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+Date: Wed, 02 Feb 2022 14:09:18 +0100
+Message-ID: <87czk5h0u9.fsf@secure.mitica>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.5.0
-Subject: Re: [PATCH v2] hw/rx: rx-gdbsim DTB load address aligned of 16byte.
-Content-Language: en-US
-To: Yoshinori Sato <ysato@users.sourceforge.jp>, qemu-devel@nongnu.org,
- qemu-trivial@nongnu.org
-References: <20220202103023.788916-1-ysato@users.sourceforge.jp>
-In-Reply-To: <20220202103023.788916-1-ysato@users.sourceforge.jp>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32d
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32d.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.001,
- PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=quintela@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=quintela@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.086,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -92,35 +99,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: quintela@redhat.com
+Cc: peter.maydell@linaro.org, marcandre.lureau@gmail.com, qemu-devel@nongnu.org,
+ peterx@redhat.com, lsoaresp@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
-On 2/2/22 11:30, Yoshinori Sato wrote:
-> Linux kernel required alined address of DTB.
-> But missing align in dtb load function.
-> Fixed to load to the correct address.
-> 
-> v2 changes.
-> Use ROUND_DOWN macro.
-> 
-> Signed-off-by: Yoshinori Sato <ysato@users.sourceforge.jp>
-> Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-> ---
->   hw/rx/rx-gdbsim.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/hw/rx/rx-gdbsim.c b/hw/rx/rx-gdbsim.c
-> index 75d1fec6ca..2356af83a0 100644
-> --- a/hw/rx/rx-gdbsim.c
-> +++ b/hw/rx/rx-gdbsim.c
-> @@ -142,7 +142,7 @@ static void rx_gdbsim_init(MachineState *machine)
->                   exit(1);
->               }
->               /* DTB is located at the end of SDRAM space. */
-> -            dtb_offset = machine->ram_size - dtb_size;
-> +            dtb_offset = ROUND_DOWN(machine->ram_size - dtb_size, 16 - 1);
+"Dr. David Alan Gilbert" <dgilbert@redhat.com> wrote:
+> * Juan Quintela (quintela@redhat.com) wrote:
+>> "Dr. David Alan Gilbert" <dgilbert@redhat.com> wrote:
+>> > * Juan Quintela (quintela@redhat.com) wrote:
+>> >> "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com> wrote:
+>> >> > From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+>> >> >
+>> >> > Perform a check on vmsd structures during test runs in the hope
+>> >> > of catching any missing terminators and other simple screwups.
+>> >> >
+>> >> > Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+>> >> 
+>> >> Reviewed-by: Juan Quintela <quintela@redhat.com>
+>> >> 
+>> >> queued.
+>> >
+>> > Careful; I think that'll break with slirp until libslirp gets updated
+>> > first.
+>> 
+>> As expected, it broke it.
+>> 
+>> I resend the PULL request wihtout that two patches.
+>> 
+>> Once that we are here, how it is that make check didn't catch this?
+>
+> Because in my local world I did the changes to libslirp; I wanted to
+> make sure qemu people were happy with the changes before proposing them
+> to libslirp.
+>
+> Which I've just done:
+>
+> https://gitlab.freedesktop.org/slirp/libslirp/-/merge_requests/112
 
-Why did you add '-1'?
+I mean make check.
+
+It worked for me on my PULL request.  I would have assumed that it
+checks slirp.
+
+Later, Juan.
+
 
