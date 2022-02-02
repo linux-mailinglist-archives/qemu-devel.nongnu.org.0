@@ -2,61 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B01E4A788E
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Feb 2022 20:13:55 +0100 (CET)
-Received: from localhost ([::1]:50722 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2BBD24A7898
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Feb 2022 20:17:46 +0100 (CET)
+Received: from localhost ([::1]:54400 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nFL4j-0007qd-DX
-	for lists+qemu-devel@lfdr.de; Wed, 02 Feb 2022 14:13:53 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:55788)
+	id 1nFL8T-0002Fu-A6
+	for lists+qemu-devel@lfdr.de; Wed, 02 Feb 2022 14:17:45 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:56374)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1nFJZq-0000uM-Kj
- for qemu-devel@nongnu.org; Wed, 02 Feb 2022 12:37:56 -0500
-Received: from kylie.crudebyte.com ([5.189.157.229]:52433)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1nFJZm-0004UC-5L
- for qemu-devel@nongnu.org; Wed, 02 Feb 2022 12:37:53 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
- MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
- Content-ID:Content-Description;
- bh=DNFpbriaW/sJeuET+PytZhwCekiTy5WR94y/+uyaGPU=; b=sBBy1Xd9xA10SmGapidMJb5gZG
- dAZSSYowb6UzPqBxGoGWI+tUmIV83dO17wtgsvY8LqAXltZxfnpo3k78Ks0YoMrq8Qa1kMMdPmD42
- A4kvSVjbxExKUQW7xNBMp9jZBaLleCobSXJ88pgijSHcG0ANEFytaIwQHbscsCDw6FqJKKv4ZAUMU
- Q2FNiuur81R/xRBWNIkRhMFfluwWrHcNMxZLV/AanMjm6j33dfXxUb1m0tCk9hrxBYP/V+ydSLHGE
- txQmQTCbshBnw+zrpvNdYqKP+y32mPTPypaBH1o0HHw5wQE1E84UtPCMzqlEfb4cU/bWuhNLg3tr1
- DDE+ItHk/pidH7TsCmL+VGcZOZsu2ZzRA3FNHh43zOAJX+ElGlq0PKYAOQkBeZwmlVMIy9R3BpsXH
- D1NJpt2uiVFYJwRhg5dnPjJF9tfqcDfJG/DU4uqIR5EWc6z/APX8FdRkPYwTYcsCqJs2G8umo7OhZ
- sb46z49ilZpB8K8mOFsx+CknypPbHZo1i2WBgwEWk4GHPmjpZjqZY/0OFdmxTXjnCzHlXEOyI1oX6
- geAHFt4GgbWKAoRbgwM8sYqxbmvmkfn4ZpxerKayRVWMMWFirMrl/sfchx0L5jJ93a1M8oo1a5P7r
- Bxx0/9FUwuL/a+wpvYzDzokrvqcY6Z5z80WLnVMt8=;
-From: Christian Schoenebeck <qemu_oss@crudebyte.com>
-To: qemu-devel@nongnu.org
-Cc: Will Cohen <wwcohen@gmail.com>, Laurent Vivier <lvivier@redhat.com>,
- Thomas Huth <thuth@redhat.com>, Greg Kurz <groug@kaod.org>, hi@alyssa.is,
- Michael Roitzsch <reactorcontrol@icloud.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Keno Fischer <keno@juliacomputing.com>
-Subject: Re: [PATCH v3 04/11] 9p: darwin: Handle struct dirent differences
-Date: Wed, 02 Feb 2022 18:37:37 +0100
-Message-ID: <4982610.5BtrrgmkuT@silver>
-In-Reply-To: <CAB26zV0zKNzQ-Fk-TAq-UzqyuThW_aubHR+5+iE+SNZonRALQA@mail.gmail.com>
-References: <20220128005611.87185-1-wwcohen@gmail.com>
- <20220128005611.87185-5-wwcohen@gmail.com>
- <CAB26zV0zKNzQ-Fk-TAq-UzqyuThW_aubHR+5+iE+SNZonRALQA@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1nFJb1-0001Rb-5h; Wed, 02 Feb 2022 12:39:07 -0500
+Received: from [2a00:1450:4864:20::32a] (port=41800
+ helo=mail-wm1-x32a.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1nFJay-0007zR-9E; Wed, 02 Feb 2022 12:39:06 -0500
+Received: by mail-wm1-x32a.google.com with SMTP id
+ bg21-20020a05600c3c9500b0035283e7a012so116398wmb.0; 
+ Wed, 02 Feb 2022 09:39:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=Nl44S9nLCIdosevnqIOHcgJWbM4T8fJZfXLjX+P5WpY=;
+ b=Y4Bg7cLzF1v12ozd96EJpriFVgrbec/+t2ITTpPTU5V0Kmonlnl0WV62dgDtsgOgw8
+ EPicO71lgodpkEruvStiXNc3mdOfZxwF9OBbdGuurZTA1xRhDNmeZ9D8RFH3bgLFv2yE
+ 4xzTKCA3ThdK8TGMJkNI7T6ws0wnzs+d3vGyU+e071/wBWoQvs5FY5ADMBq+11O0mOVQ
+ c25wa1uSQpfdqFpf66kYUjAXCskomcrhgeJI1Nm50+VKF+PwRTnMY7ELH+Ztnf+QkseE
+ FWfi6E6dBF1JrAo/99n0bEfeVoqvO90Ak4xl+SDfD2YljZ4mlPpsV8pZK/7wiWPRJTaC
+ pr/g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+ :subject:content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=Nl44S9nLCIdosevnqIOHcgJWbM4T8fJZfXLjX+P5WpY=;
+ b=STUH9FL5CEEULJJvfVKHUPl0oGoQD9180EI79eFgGjSXD86F/Dm2ycNjAV51Mw1UgO
+ vhvPa85TEDq5RlgAK3x8PwZWt1W1kpul3EHmqmEdll5gPtLi9ZC3BYIjyATale0cUv/p
+ Bj+5fYyOP8TNXf8vIJE/HLG5wzApSwAPVE5/BpR2bQsHUiDG7rkAMDa0Ovu2CtRKzaU0
+ zVnUyLyUG/rkESEyVrOS2hF7MbZGo0mT+15OcW+Le6y1qh2cF7e1F2SCM2fjFDuman49
+ fKMAxRAhLV4Ou4dL+sI6WIhmYZhGnxZUiGmX++krIRBOjuUdeWLjovFWnj3hG/9an6ZJ
+ YfKg==
+X-Gm-Message-State: AOAM532/4QX/53kZvg9AzMIfBPJcsJ+gYXLhEaYZDq82CKJaRStYNYYP
+ DhCZUSEZFp3DtN0Lb/ILrCQ=
+X-Google-Smtp-Source: ABdhPJy2jL83v0LjzG/6skOtXFBRlzDnCG9Lbk7O+hEa9vt9vV/W9uWk/Y4jhocKg19iGRGfsDQlZQ==
+X-Received: by 2002:a05:600c:a03:: with SMTP id
+ z3mr6971960wmp.73.1643823542410; 
+ Wed, 02 Feb 2022 09:39:02 -0800 (PST)
+Received: from ?IPV6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
+ ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.googlemail.com with ESMTPSA id l6sm19224790wrs.51.2022.02.02.09.38.59
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 02 Feb 2022 09:39:01 -0800 (PST)
+Message-ID: <fbc50950-5124-87a2-a876-6e22e5a10404@redhat.com>
+Date: Wed, 2 Feb 2022 18:38:58 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
-Received-SPF: pass client-ip=5.189.157.229;
- envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH 10/12] block.c: add subtree_drains where needed
+Content-Language: en-US
+To: Emanuele Giuseppe Esposito <eesposit@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-block@nongnu.org
+References: <20220118162738.1366281-1-eesposit@redhat.com>
+ <20220118162738.1366281-11-eesposit@redhat.com>
+ <52eff922-0ca4-fc12-0edb-8eb963ac306c@virtuozzo.com>
+ <a2e77f99-3138-0a24-9ced-79f441d42ca4@redhat.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+In-Reply-To: <a2e77f99-3138-0a24-9ced-79f441d42ca4@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32a
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x32a.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.001,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -69,51 +98,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
+ qemu-devel@nongnu.org, Hanna Reitz <hreitz@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mittwoch, 2. Februar 2022 16:07:09 CET Will Cohen wrote:
-> Does the version proposed in v3 address the V9fsFidState issues? In 9p.c
-> for v2 to v3, we propose
+On 2/2/22 16:37, Emanuele Giuseppe Esposito wrote:
+> So we have disk B with backing file C, and new disk A that wants to have
+> backing file C.
 > 
-> -    return telldir(fidp->fs.dir.stream);
-> +    return v9fs_co_telldir(pdu, fidp);
+> I think I understand what you mean, so in theory the operation would be
+> - create new child
+> - add child to A->children list
+> - add child to C->parents list
 > 
-> and in codir.c from v2 to v3 we propose
-> -        saved_dir_pos = telldir(fidp->fs.dir.stream);
-> +        saved_dir_pos = s->ops->telldir(&s->ctx, &fidp->fs);
-> 
-> This removes the direct access to fidp->, and we hope this should be
-> sufficient to avoid the concurrency
-> and undefined behaviors you noted in the v2 review.
+> So in theory we need to
+> * drain A (without subtree), because it can't happen that child nodes of
+>    A have in-flight requests that look at A status (children list), right?
+>    In other words, if A has another node X, can a request in X inspect
+>    A->children
+> * drain C, as parents can inspect C status (like B). Same assumption
+>    here, C->children[x]->bs cannot have requests inspecting C->parents
+>    list?
 
-I am not sure why you think that you are no longer accessing fidp, you still 
-do, just in a slightly different way.
+In that case (i.e. if parents have to be drained, but children need not) 
+bdrv_drained_begin_unlocked would be enough, right?
 
-Let me propose a different solution: on macOS there is 'd_seekoff' in struct 
-dirent. As already discussed that dirent field is apparently unused (zero) by 
-macOS. So what about filling this dirent field (early, on driver level, not on 
-server/controller level [9p.c]) with telldir() for macOS, then you have the 
-same info as other systems provide with dirent field 'd_off' later on.
+That would mean that ->children is I/O state but ->parents is global 
+state.  I think it's quite a bit more complicated to analyze and to 
+understand.
 
-Then you can add an inline helper function or a macro to deal with macOS vs. 
-RoW, e.g.:
-
-inline
-off_t qemu_dirent_off(struct dirent *dent)
-{
-#ifdef CONFIG_DARWIN
-    return dent->d_seekoff;
-#else
-    return dent->d_off;
-#endif
-}
-
-And in 9p.c at all locations where dent->d_off is currently accessed, you 
-would just use that helper instead.
-
-Best regards,
-Christian Schoenebeck
-
-
+Paolo
 
