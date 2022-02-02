@@ -2,73 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7CCF34A795A
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Feb 2022 21:26:52 +0100 (CET)
-Received: from localhost ([::1]:52894 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B9384A79AD
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Feb 2022 21:44:09 +0100 (CET)
+Received: from localhost ([::1]:57204 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nFMDL-0004Fv-Kw
-	for lists+qemu-devel@lfdr.de; Wed, 02 Feb 2022 15:26:51 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:56286)
+	id 1nFMU3-0001c2-Tw
+	for lists+qemu-devel@lfdr.de; Wed, 02 Feb 2022 15:44:07 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:59756)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1nFLU1-0004QF-TO
- for qemu-devel@nongnu.org; Wed, 02 Feb 2022 14:40:02 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:41533)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1nFLU0-00044o-36
- for qemu-devel@nongnu.org; Wed, 02 Feb 2022 14:40:01 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1643830796;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=0Pbf01RDpcSpdpnFrAgDAyRGc1ZzEEOCG1A2PM9mztY=;
- b=bwRawrKZ1E8XZ3oaHXaXR7uKJNDLAxLz5bEJ9o2Tadi/SsSa/jHlhtpombbBmyokC/g+ff
- Yuuz8oQHmyu1iZzXtiBcm+AEDFAMt7cyo+113kKca3AQBK6oiGizfqvZNjJD72CCgBRhqz
- +DONz6BuVumSQn34MrXY/vWKniW1giU=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-499-3T-KpKPfOmeAxYsfhwQglA-1; Wed, 02 Feb 2022 14:39:54 -0500
-X-MC-Unique: 3T-KpKPfOmeAxYsfhwQglA-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0FD42192AB95
- for <qemu-devel@nongnu.org>; Wed,  2 Feb 2022 19:39:54 +0000 (UTC)
-Received: from horse.redhat.com (unknown [10.22.32.185])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E257F5DB85;
- Wed,  2 Feb 2022 19:39:53 +0000 (UTC)
-Received: by horse.redhat.com (Postfix, from userid 10451)
- id DF53E224B40; Wed,  2 Feb 2022 14:39:41 -0500 (EST)
-From: Vivek Goyal <vgoyal@redhat.com>
-To: qemu-devel@nongnu.org,
-	virtio-fs@redhat.com
-Subject: [PATCH v5 9/9] virtiofsd: Add an option to enable/disable security
- label
-Date: Wed,  2 Feb 2022 14:39:35 -0500
-Message-Id: <20220202193935.268777-10-vgoyal@redhat.com>
-In-Reply-To: <20220202193935.268777-1-vgoyal@redhat.com>
-References: <20220202193935.268777-1-vgoyal@redhat.com>
+ (Exim 4.90_1) (envelope-from <venture@google.com>)
+ id 1nFLhk-0004gS-9X
+ for qemu-devel@nongnu.org; Wed, 02 Feb 2022 14:54:12 -0500
+Received: from [2607:f8b0:4864:20::92d] (port=39488
+ helo=mail-ua1-x92d.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <venture@google.com>)
+ id 1nFLha-0002VY-Ew
+ for qemu-devel@nongnu.org; Wed, 02 Feb 2022 14:54:04 -0500
+Received: by mail-ua1-x92d.google.com with SMTP id p7so1207059uao.6
+ for <qemu-devel@nongnu.org>; Wed, 02 Feb 2022 11:54:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=cX2blC5KhRCYRUM2x9po4Ja4u0c/2I/cGmVPTsdOfrU=;
+ b=UBEeHYVxNZcIZHjS80qVaWQtD0pfByoIp3/7q1pRay1DZjZcmsQlc6KUYq9+mBwDbS
+ G2qLb90xchp4W1P+36j7yC0MYTRdVGQ3w8JGEuiZzv4JV/W3u7egma7KIzkLNDDUsdoy
+ crycDSRFbgj20CaysAzGmhBw2rbBqGm+jeOzeOZYq4TjUNSzW7xMSxWGQuZRcwYmnWCY
+ aBk2e9rWQ2XX33EKamZIiBk8jvuvhSxZK64PyUZ52q6RW4hR0Cwb1Hv71OcHfwP156Li
+ 1xdih+rnDGp9V/N023Kxk0UdsCPhFrwZY0h0q3x7CtWSFnsvYFTIpUwfkMR/zDjE78rQ
+ UAjw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=cX2blC5KhRCYRUM2x9po4Ja4u0c/2I/cGmVPTsdOfrU=;
+ b=Py4O6p30LgO774LEim537o0clV37svMWVhVYqhK4uRqHmyxSXPiXtYMi/uPpUBi8z2
+ 6WnMSHkmAA6U8QAt+HJSs7YAgT2Li08cUiCbshX0B5RYmoc/TFD1P5YFVzxigFSs9cuZ
+ 3cAIgoXlHJ0AN4laMvuVDq2qdB9ZNw1Jby6BhPSVgCDb108vff/07smd+j0uV4ylyP0O
+ 96o/RotsqCLDzUhQsP3TyqQQeas1ko0BDzba9gb0BlIfFrMoLWagZoXP6MsK9vraVT6L
+ rZibQd25wCArAZF5D+6Yef0yH1iBd5uV2s/GgFG34vwBLJpIQ12R05peX3DIt6r4rFJ6
+ YdMA==
+X-Gm-Message-State: AOAM533zBw/fIHL9lWNz275OFVZNjLM8IC494ibFxEeZYREKMlDhPxbC
+ RHtwrDXhkIw/upVY85k+sFMvQprPV/ktV7vHO/q6og==
+X-Google-Smtp-Source: ABdhPJxl16NuT9+WgCWke0mZYTpcXL4UkR1BuH6JaKYJ2kw1H0utqaHjv93D74Zpwnst8T4gldHGqyPMLVV7JEr7mLg=
+X-Received: by 2002:a67:6ec5:: with SMTP id j188mr718740vsc.36.1643831641261; 
+ Wed, 02 Feb 2022 11:54:01 -0800 (PST)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=vgoyal@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=vgoyal@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.086,
+References: <20220201163005.989457-1-venture@google.com>
+ <59040e43-2375-1f73-15bb-ce1a47165145@amsat.org>
+ <CAO=notxPP8+b6S6UnUX7s4yWQsEhaAS0CZbn1my0HEN2idL6tA@mail.gmail.com>
+ <CAO=notw9jYSc6xGr3_kwuAWHG2J3VJ7WxJT+tL_fbXFfTRrhpw@mail.gmail.com>
+ <CAO=notzLfum_zkXhP+xQ9RTxcpG3oNxwFMPYWz+o1vYdF8ynQg@mail.gmail.com>
+ <CAFEAcA-N3BwSNsXSidXK6PgmjDrGfOQabyfVRv03nnyLpsBURw@mail.gmail.com>
+In-Reply-To: <CAFEAcA-N3BwSNsXSidXK6PgmjDrGfOQabyfVRv03nnyLpsBURw@mail.gmail.com>
+From: Patrick Venture <venture@google.com>
+Date: Wed, 2 Feb 2022 11:53:50 -0800
+Message-ID: <CAO=notzSLm-Huy6nHShd+QzpGb2bWLysWuiwBxb5JGueeuUouQ@mail.gmail.com>
+Subject: Re: [PATCH] hw/i2c: flatten pca954x mux device
+To: Peter Maydell <peter.maydell@linaro.org>
+Cc: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>, 
+ Corey Minyard <cminyard@mvista.com>, QEMU Developers <qemu-devel@nongnu.org>, 
+ Hao Wu <wuhaotsh@google.com>
+Content-Type: multipart/alternative; boundary="0000000000000cda7105d70e6144"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::92d
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::92d;
+ envelope-from=venture@google.com; helo=mail-ua1-x92d.google.com
+X-Spam_score_int: -167
+X-Spam_score: -16.8
+X-Spam_bar: ----------------
+X-Spam_report: (-16.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ ENV_AND_HDR_SPF_MATCH=-0.5, HTML_MESSAGE=0.001, PDS_HP_HELO_NORDNS=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01, USER_IN_DEF_DKIM_WL=-7.5,
+ USER_IN_DEF_SPF_WL=-7.5 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -81,104 +89,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: mszeredi@redhat.com, dgilbert@redhat.com, vgoyal@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Provide an option "-o security_label/no_security_label" to enable/disable
-security label functionality. By default these are turned off.
+--0000000000000cda7105d70e6144
+Content-Type: text/plain; charset="UTF-8"
 
-If enabled, server will indicate to client that it is capable of handling
-one security label during file creation. Typically this is expected to
-be a SELinux label. File server will set this label on the file. It will
-try to set it atomically wherever possible. But its not possible in
-all the cases.
+On Wed, Feb 2, 2022 at 11:01 AM Peter Maydell <peter.maydell@linaro.org>
+wrote:
 
-Signed-off-by: Vivek Goyal <vgoyal@redhat.com>
----
- docs/tools/virtiofsd.rst         |  7 +++++++
- tools/virtiofsd/helper.c         |  1 +
- tools/virtiofsd/passthrough_ll.c | 15 +++++++++++++++
- 3 files changed, 23 insertions(+)
+> On Wed, 2 Feb 2022 at 17:36, Patrick Venture <venture@google.com> wrote:
+> > Just saw your reply, and found a bunch of other non-spam in my
+> > spam folder.  I sent the message to the anti-spam team, hopefully
+> > that'll resolve this for myself and presumably others.
+>
+> I dunno if you folk get a specially tuned version or just
+> the standard gmail spam filter, but IME it's not very good
+> with mailing list traffic. In particular "this is a patch"
+> should be a really really easy thing to detect as not-spam
+> but it doesn't always manage it. I have my filters set to
+> "Do not send to spam" for mailing list traffic...
+>
 
-diff --git a/docs/tools/virtiofsd.rst b/docs/tools/virtiofsd.rst
-index 07ac0be551..a2c005f4a0 100644
---- a/docs/tools/virtiofsd.rst
-+++ b/docs/tools/virtiofsd.rst
-@@ -104,6 +104,13 @@ Options
-   * posix_acl|no_posix_acl -
-     Enable/disable posix acl support.  Posix ACLs are disabled by default.
- 
-+  * security_label|no_security_label -
-+    Enable/disable security label support. Security labels are disabled by
-+    default. This will allow client to send a MAC label of file during
-+    file creation. Typically this is expected to be SELinux security
-+    label. Server will try to set that label on newly created file
-+    atomically wherever possible.
-+
- .. option:: --socket-path=PATH
- 
-   Listen on vhost-user UNIX domain socket at PATH.
-diff --git a/tools/virtiofsd/helper.c b/tools/virtiofsd/helper.c
-index a8295d975a..e226fc590f 100644
---- a/tools/virtiofsd/helper.c
-+++ b/tools/virtiofsd/helper.c
-@@ -187,6 +187,7 @@ void fuse_cmdline_help(void)
-            "                               default: no_allow_direct_io\n"
-            "    -o announce_submounts      Announce sub-mount points to the guest\n"
-            "    -o posix_acl/no_posix_acl  Enable/Disable posix_acl. (default: disabled)\n"
-+           "    -o security_label/no_security_label  Enable/Disable security label. (default: disabled)\n"
-            );
- }
- 
-diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrough_ll.c
-index 43c9b6dbe5..fe8f3ccbb6 100644
---- a/tools/virtiofsd/passthrough_ll.c
-+++ b/tools/virtiofsd/passthrough_ll.c
-@@ -181,6 +181,7 @@ struct lo_data {
-     int user_posix_acl, posix_acl;
-     /* Keeps track if /proc/<pid>/attr/fscreate should be used or not */
-     bool use_fscreate;
-+    int user_security_label;
- };
- 
- static const struct fuse_opt lo_opts[] = {
-@@ -215,6 +216,8 @@ static const struct fuse_opt lo_opts[] = {
-     { "no_killpriv_v2", offsetof(struct lo_data, user_killpriv_v2), 0 },
-     { "posix_acl", offsetof(struct lo_data, user_posix_acl), 1 },
-     { "no_posix_acl", offsetof(struct lo_data, user_posix_acl), 0 },
-+    { "security_label", offsetof(struct lo_data, user_security_label), 1 },
-+    { "no_security_label", offsetof(struct lo_data, user_security_label), 0 },
-     FUSE_OPT_END
- };
- static bool use_syslog = false;
-@@ -771,6 +774,17 @@ static void lo_init(void *userdata, struct fuse_conn_info *conn)
-         fuse_log(FUSE_LOG_DEBUG, "lo_init: disabling posix_acl\n");
-         conn->want &= ~FUSE_CAP_POSIX_ACL;
-     }
-+
-+    if (lo->user_security_label == 1) {
-+        if (!(conn->capable & FUSE_CAP_SECURITY_CTX)) {
-+            fuse_log(FUSE_LOG_ERR, "lo_init: Can not enable security label."
-+                     " kernel does not support FUSE_SECURITY_CTX capability.\n");
-+        }
-+        conn->want |= FUSE_CAP_SECURITY_CTX;
-+    } else {
-+        fuse_log(FUSE_LOG_DEBUG, "lo_init: disabling security label\n");
-+        conn->want &= ~FUSE_CAP_SECURITY_CTX;
-+    }
- }
- 
- static void lo_getattr(fuse_req_t req, fuse_ino_t ino,
-@@ -4279,6 +4293,7 @@ int main(int argc, char *argv[])
-         .proc_self_task = -1,
-         .user_killpriv_v2 = -1,
-         .user_posix_acl = -1,
-+        .user_security_label = -1,
-     };
-     struct lo_map_elem *root_elem;
-     struct lo_map_elem *reserve_elem;
--- 
-2.34.1
+I'm sure we have some dogfood version.  I have a rule set to all
+mailing list from qemu-devel to go into a label and everything... but it
+gets the label and then is sometimes sent right to spam, even in messages
+where it's an active thread (like this one).  And I just saw some other
+messages I missed.
 
+
+>
+> -- PMM
+>
+
+--0000000000000cda7105d70e6144
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Wed, Feb 2, 2022 at 11:01 AM Peter=
+ Maydell &lt;<a href=3D"mailto:peter.maydell@linaro.org">peter.maydell@lina=
+ro.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"m=
+argin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left=
+:1ex">On Wed, 2 Feb 2022 at 17:36, Patrick Venture &lt;<a href=3D"mailto:ve=
+nture@google.com" target=3D"_blank">venture@google.com</a>&gt; wrote:<br>
+&gt; Just saw your reply, and found a bunch of other non-spam in my<br>
+&gt; spam folder.=C2=A0 I sent the message to the anti-spam team, hopefully=
+<br>
+&gt; that&#39;ll resolve this for myself and presumably others.<br>
+<br>
+I dunno if you folk get a specially tuned version or just<br>
+the standard gmail spam filter, but IME it&#39;s not very good<br>
+with mailing list traffic. In particular &quot;this is a patch&quot;<br>
+should be a really really easy thing to detect as not-spam<br>
+but it doesn&#39;t always manage it. I have my filters set to<br>
+&quot;Do not send to spam&quot; for mailing list traffic...<br></blockquote=
+><div><br></div><div>I&#39;m sure we have some dogfood=C2=A0version.=C2=A0 =
+I have a rule set to all mailing=C2=A0list from qemu-devel to go into a lab=
+el and everything... but it gets the label and then is sometimes sent right=
+ to spam, even in messages where it&#39;s an active thread (like this one).=
+=C2=A0 And I just saw some other messages I missed.</div><div>=C2=A0</div><=
+blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-l=
+eft:1px solid rgb(204,204,204);padding-left:1ex">
+<br>
+-- PMM<br>
+</blockquote></div></div>
+
+--0000000000000cda7105d70e6144--
 
