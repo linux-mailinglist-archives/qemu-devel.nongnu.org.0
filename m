@@ -2,108 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4095E4A6AD2
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Feb 2022 05:16:27 +0100 (CET)
-Received: from localhost ([::1]:59102 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 176D34A6ADF
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Feb 2022 05:28:33 +0100 (CET)
+Received: from localhost ([::1]:40770 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nF74D-000635-KD
-	for lists+qemu-devel@lfdr.de; Tue, 01 Feb 2022 23:16:26 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:48612)
+	id 1nF7Fv-0004nz-Ip
+	for lists+qemu-devel@lfdr.de; Tue, 01 Feb 2022 23:28:31 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:49010)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pasic@linux.ibm.com>)
- id 1nF4GV-00038P-GY; Tue, 01 Feb 2022 20:16:56 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:62848
- helo=mx0a-001b2d01.pphosted.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pasic@linux.ibm.com>)
- id 1nF4GS-0006yN-0q; Tue, 01 Feb 2022 20:16:54 -0500
-Received: from pps.filterd (m0098416.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 211Mt94N014693; 
- Wed, 2 Feb 2022 01:16:15 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=date : from : to : cc :
- subject : message-id : in-reply-to : references : mime-version :
- content-type : content-transfer-encoding; s=pp1;
- bh=ftBMUTs5HN3HlXaP9lJGyiR24wFV4IrEqHuQ8m8h/9s=;
- b=QO+ju7QR36Omy0gKcVzbtJH/CNSxrb4daKcogkYf70d+m2MCpUcYvaVeIoFp7Qq/Z06m
- dmXgNG4Ajf48vS7SRq76pFjJlGouEHRkCIIgKSvb1yulgQ9nvL6JM0VzBcm5dRRGHSH9
- j94J7fmEWKDZFR4rhM+PDYc/9B5ght0ES0TfAb2fyEJQvp6mgyCeWxv8IBCJ3Ece+q1N
- IakqBYmc7G69XMRYSVkYmQwmsk75tamQXcukgg3KF+4oNgM1LAT0TW6jjbYiCKApGQ77
- 7779gTdu98qJs1TLyf95yKmHhyRs4P+1c8LJHHHlq74gMRCk/lLb3J9nEwA4991zfiNw rQ== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com with ESMTP id 3dye31hv3q-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 02 Feb 2022 01:16:15 +0000
-Received: from m0098416.ppops.net (m0098416.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 2121CZNk019105;
- Wed, 2 Feb 2022 01:16:14 GMT
-Received: from ppma02fra.de.ibm.com (47.49.7a9f.ip4.static.sl-reverse.com
- [159.122.73.71])
- by mx0b-001b2d01.pphosted.com with ESMTP id 3dye31hv3b-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 02 Feb 2022 01:16:14 +0000
-Received: from pps.filterd (ppma02fra.de.ibm.com [127.0.0.1])
- by ppma02fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 2121Cx51031969;
- Wed, 2 Feb 2022 01:16:12 GMT
-Received: from b06cxnps4076.portsmouth.uk.ibm.com
- (d06relay13.portsmouth.uk.ibm.com [9.149.109.198])
- by ppma02fra.de.ibm.com with ESMTP id 3dvw79fqeu-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 02 Feb 2022 01:16:12 +0000
-Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com
- [9.149.105.61])
- by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 2121G9Vo45285882
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 2 Feb 2022 01:16:09 GMT
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 2622311C04C;
- Wed,  2 Feb 2022 01:16:09 +0000 (GMT)
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 94C8A11C058;
- Wed,  2 Feb 2022 01:16:08 +0000 (GMT)
-Received: from li-e979b1cc-23ba-11b2-a85c-dfd230f6cf82 (unknown [9.171.90.234])
- by d06av25.portsmouth.uk.ibm.com (Postfix) with SMTP;
- Wed,  2 Feb 2022 01:16:08 +0000 (GMT)
-Date: Wed, 2 Feb 2022 02:15:47 +0100
-From: Halil Pasic <pasic@linux.ibm.com>
-To: Daniel Henrique Barboza <danielhb413@gmail.com>, "Michael S. Tsirkin"
- <mst@redhat.com>, Jason Wang <jasowang@redhat.com>
-Subject: Re: [PATCH v3 1/1] virtio: fix the condition for iommu_platform not
- supported
-Message-ID: <20220202021547.20dc65c9.pasic@linux.ibm.com>
-In-Reply-To: <365305e3-4224-965d-2cb6-496a95802f0e@gmail.com>
-References: <20220201133915.3764972-1-pasic@linux.ibm.com>
- <f12eeebf-6c9a-d40f-09de-10eb86dd3c26@linux.ibm.com>
- <20220201193309.7da86258.pasic@linux.ibm.com>
- <365305e3-4224-965d-2cb6-496a95802f0e@gmail.com>
-Organization: IBM
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1nF4IR-0004BU-Ix
+ for qemu-devel@nongnu.org; Tue, 01 Feb 2022 20:18:55 -0500
+Received: from [2607:f8b0:4864:20::82a] (port=42893
+ helo=mail-qt1-x82a.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1nF4IP-0007RZ-4E
+ for qemu-devel@nongnu.org; Tue, 01 Feb 2022 20:18:54 -0500
+Received: by mail-qt1-x82a.google.com with SMTP id s1so2924946qtw.9
+ for <qemu-devel@nongnu.org>; Tue, 01 Feb 2022 17:18:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=oXJZCXpPvAUhOmNk61/LMmh7qSftq29XY9v2J/Wx2mU=;
+ b=J0fdUObhD9YhfT3K8ZBK78IyFQY4hHCFtNnTGygJxaw2uCdlnu0IOxJEhLFd7N6Q7V
+ orzY00ZhFh4NAEwO8GQVKSmdqZTaps5+MRsMa9g2Itff7jKLMl7sOv6QmHrXyxL28Ds3
+ V08YYGVUcCGfYYX0Tp8YuOm4tnHjiR8WqNcRsT/M7bpX6E2X0zIB9MDYrELt8iHlobSi
+ ogWvXGw64/oasyNARQLQ1bHyXYMsCE++A9lYGUy3eKKburUfJmG+VkNnGV4n0Z0cfRNP
+ UJjQoA5TzREsI2Ao8LUABnJswcXU13KTNWWgX9YuvZ80u+ergZqfy19nf9+m/UMP5No2
+ pa1w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+ :subject:content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=oXJZCXpPvAUhOmNk61/LMmh7qSftq29XY9v2J/Wx2mU=;
+ b=cmiyyjDl7YbNWh+HxauyFF+ZryBra7Mvn3qobUMwgiYzacMIambfbgfyAlWSKYpTnv
+ EqhLTxK515pKAK6Euf8TGCieV61bcE0Kqi9fYSNg0pP9BNIvLnLMv/RXWptbwLomcKVW
+ wvlAZBf+8cfYH5qR8QtVeQTyX32BDicjLns1UhWxzkLPVQ/PKNEPbP8QoDgdYZ6LWe2A
+ hEQQ3sygP0LzZs4C5um84I/aUv+2l+qSajjunjN59RZK8EQfXfDDqzvJ4X01kWJZ1eeU
+ tb6yuHENCK+bDnPafMcEOgc6kA39aNVKONybhk764dqBlUrv2Htghl2raorPf2y+t3WB
+ oWMQ==
+X-Gm-Message-State: AOAM531andeV/GZL1OnBUbgCGNsW1ladMKR2UHviOxrxA04OwYqRHK1g
+ OOJC5oQ3PCY59FK5QiLvd+Q=
+X-Google-Smtp-Source: ABdhPJyMSIHxgQHAMqWmK0t2XDNsBvZ3RZlT2wjz6DMdX7VKMJBsIVILgHJTzgLAE4kXZDpjIxtW7Q==
+X-Received: by 2002:a05:622a:494:: with SMTP id
+ p20mr7356567qtx.652.1643764731752; 
+ Tue, 01 Feb 2022 17:18:51 -0800 (PST)
+Received: from [192.168.1.33] (154.red-83-50-83.dynamicip.rima-tde.net.
+ [83.50.83.154])
+ by smtp.gmail.com with ESMTPSA id bq33sm12479167qkb.64.2022.02.01.17.18.48
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 01 Feb 2022 17:18:51 -0800 (PST)
+Message-ID: <7f660c06-e966-9ff8-5b89-bec9b63e8149@amsat.org>
+Date: Wed, 2 Feb 2022 02:18:46 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.5.0
+Subject: Re: [PATCH v2 12/25] docs/devel: mention our .editorconfig
+Content-Language: en-US
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
+Cc: minyihh@uci.edu, ma.mandourr@gmail.com, Luke.Craig@ll.mit.edu,
+ cota@braap.org, aaron@os.amperecomputing.com, kuhn.chenqun@huawei.com,
+ robhenry@microsoft.com, mahmoudabdalghany@outlook.com, fam@euphon.net,
+ berrange@redhat.com, aurelien@aurel32.net, pbonzini@redhat.com,
+ stefanha@redhat.com, crosa@redhat.com,
+ Richard Henderson <richard.henderson@linaro.org>
+References: <20220201182050.15087-1-alex.bennee@linaro.org>
+ <20220201182050.15087-13-alex.bennee@linaro.org>
+In-Reply-To: <20220201182050.15087-13-alex.bennee@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: rK1bFqLpmKSAQH_8n-Prv5P3hmvdDir5
-X-Proofpoint-ORIG-GUID: eWH9UyRoJYC5Z0Nm_W15Npqhw60d0goc
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.816,Hydra:6.0.425,FMLib:17.11.62.513
- definitions=2022-02-01_10,2022-02-01_01,2021-12-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0
- clxscore=1015 adultscore=0 mlxlogscore=999 priorityscore=1501 spamscore=0
- suspectscore=0 mlxscore=0 impostorscore=0 bulkscore=0 phishscore=0
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2201110000 definitions=main-2202020002
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=pasic@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::82a
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::82a;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-qt1-x82a.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.248, NICE_REPLY_A=-0.001,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -116,152 +101,22 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Brijesh Singh <brijesh.singh@amd.com>,
- Daniel Henrique Barboza <danielhb@linux.ibm.com>,
- Cornelia Huck <cohuck@redhat.com>, qemu-stable@nongnu.org,
- qemu-devel@nongnu.org, Halil Pasic <pasic@linux.ibm.com>,
- Jakob Naucke <Jakob.Naucke@ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
-On Tue, 1 Feb 2022 16:31:22 -0300
-Daniel Henrique Barboza <danielhb413@gmail.com> wrote:
+On 1/2/22 19:20, Alex Bennée wrote:
+> Ideally we should keep all our automatic formatting gubins in here.
+> 
+> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+> Message-Id: <20220127150159.1489286-1-alex.bennee@linaro.org>
+> ---
+>   docs/devel/style.rst | 4 ++++
+>   1 file changed, 4 insertions(+)
 
-> On 2/1/22 15:33, Halil Pasic wrote:
-> > On Tue, 1 Feb 2022 12:36:25 -0300
-> > Daniel Henrique Barboza <danielhb@linux.ibm.com> wrote:
-> >   
-> >>> +    vdev_has_iommu = virtio_host_has_feature(vdev, VIRTIO_F_IOMMU_PLATFORM);
-> >>>        if (klass->get_dma_as != NULL && has_iommu) {
-> >>>            virtio_add_feature(&vdev->host_features, VIRTIO_F_IOMMU_PLATFORM);
-> >>>            vdev->dma_as = klass->get_dma_as(qbus->parent);
-> >>> +        if (!vdev_has_iommu && vdev->dma_as != &address_space_memory) {
-> >>> +            error_setg(errp,
-> >>> +                       "iommu_platform=true is not supported by the device");
-> >>> +        }  
-> >>
-> >>  
-> >>>        } else {
-> >>>            vdev->dma_as = &address_space_memory;
-> >>>        }  
-> >>
-> >>
-> >> I struggled to understand what this 'else' clause was doing and I assumed that it was
-> >> wrong. Searching through the ML I learned that this 'else' clause is intended to handle
-> >> legacy virtio devices that doesn't support the DMA API (introduced in 8607f5c3072caeebb)
-> >> and thus shouldn't set  VIRTIO_F_IOMMU_PLATFORM.
-> >>
-> >>
-> >> My suggestion, if a v4 is required for any other reason, is to add a small comment in this
-> >> 'else' clause explaining that this is the legacy virtio devices condition and those devices
-> >> don't set F_IOMMU_PLATFORM. This would make the code easier to read for a virtio casual like
-> >> myself.  
-> > 
-> > I do not agree that this is about legacy virtio. In my understanding
-> > virtio-ccw simply does not need translation because CCW devices use
-> > guest physical addresses as per architecture. It may be considered
-> > legacy stuff form PCI perspective, but I don't think it is legacy
-> > in general.  
-> 
-> 
-> I wasn't talking about virtio-ccw. I was talking about this piece of code:
-> 
-> 
->      if (klass->get_dma_as != NULL && has_iommu) {
->          virtio_add_feature(&vdev->host_features, VIRTIO_F_IOMMU_PLATFORM);
->          vdev->dma_as = klass->get_dma_as(qbus->parent);
->      } else {
->          vdev->dma_as = &address_space_memory;
->      }
-> 
-> 
-> I suggested something like this:
-> 
-> 
-> 
->      if (klass->get_dma_as != NULL && has_iommu) {
->          virtio_add_feature(&vdev->host_features, VIRTIO_F_IOMMU_PLATFORM);
->          vdev->dma_as = klass->get_dma_as(qbus->parent);
->      } else {
->          /*
->           * We don't force VIRTIO_F_IOMMU_PLATFORM for legacy devices, i.e.
->           * devices that don't implement klass->get_dma_as, regardless of
->           * 'has_iommu' setting.
->           */
->          vdev->dma_as = &address_space_memory;
->      }
-> 
-> 
-> At least from my reading of commits 8607f5c3072 and 2943b53f682 this seems to be
-> the case. I spent some time thinking that this IF/ELSE was wrong because I wasn't
-> aware of this history.
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Tested-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-With virtio-ccw we take the else branch because we don't implement
-->get_dma_as(). I don't consider all the virtio-ccw to be legacy.
-
-IMHO there are two ways to think about this: 
-a) The commit that introduced this needs a fix which implemets
-get_dma_as() for virtio-ccw in a way that it simply returns
-address_space_memory.
-b) The presence of ->get_dma_as() is not indicative of "legacy".
-
-BTW in virtospeak "legacy" has a special meaning: pre-1.0 virtio. Do you
-mean that legacy. And if I read the virtio-pci code correctly
-->get_dma_as is set for legacy, transitional and modern devices alike.
-
-IMHO the important thing to figure out is what impact that
-virtio_add_feature(&vdev->host_features, VIRTIO_F_IOMMU_PLATFORM);
-in the first branch (of the if-else) has. IMHO if one examines the
-commits 8607f5c307 ("virtio: convert to use DMA api") and 2943b53f68
-("virtio: force VIRTIO_F_IOMMU_PLATFORM") very carefully, one will
-probably reach the conclusion that the objective of the latter, is
-to prevent the guest form not negotiating the IOMMU_PLATFORM feature
-(clearing it as part of the feature negotiation) and trying to use
-the device without that feature. In other words, virtio features are
-usually optional for the guest for the sake of compatibility, but
-IOMMU_PLATFORM is not: for very good reasons. Neither the commit message
-nor the patch does mention legacy anywhere. 
-
-In my opinion not forcing the guest to negotiate IOMMU_PLATFORM when
-->get_dma_as() is not set is at least unfortunate. Please observe, that
-virtio-pci is not affected by this omission because for virtio-pci
-devices ->get_dma_as != NULL always holds. And what is the deal for
-devices that don't implement get_dma_as() (and don't need address
-translation)? If iommu_platform=on is justified (no user error) then
-the device does not have access to the entire guest memory. Which
-means it more than likely needs cooperation form the guest (driver).
-So detecting that the guest does not support IOMMU_PLATFORM and failing
-gracefully via virtio_validate_features() instead of carrying on
-in good faith and failing in ugly ways when the host attempts to access
-guest memory to which it does not have access to. If we assume user
-error, that is the host can access at least all the memory it needs
-to access to make that device work, then it is probably still a
-good idea to fail the device and thus help the user correct his
-error.
-
-IMHO the best course of action is
-diff --git a/hw/virtio/virtio-bus.c b/hw/virtio/virtio-bus.c
-index 34f5a0a664..1d0eb16d1c 100644
---- a/hw/virtio/virtio-bus.c
-+++ b/hw/virtio/virtio-bus.c
-@@ -80,7 +80,6 @@ void virtio_bus_device_plugged(VirtIODevice *vdev, Error **errp)
- 
-     vdev_has_iommu = virtio_host_has_feature(vdev, VIRTIO_F_IOMMU_PLATFORM);
-     if (klass->get_dma_as != NULL && has_iommu) {
--        virtio_add_feature(&vdev->host_features, VIRTIO_F_IOMMU_PLATFORM);
-         vdev->dma_as = klass->get_dma_as(qbus->parent);
-         if (!vdev_has_iommu && vdev->dma_as != &address_space_memory) {
-             error_setg(errp,
-@@ -89,6 +88,7 @@ void virtio_bus_device_plugged(VirtIODevice *vdev, Error **errp)
-     } else {
-         vdev->dma_as = &address_space_memory;
-     }
-+    virtio_add_feature(&vdev->host_features, VIRTIO_F_IOMMU_PLATFORM);
- }
-
-which would be a separate patch, as this is a separate issue. Jason,
-Michael, Connie, what do you think?
-
-Regards,
-Halil
 
