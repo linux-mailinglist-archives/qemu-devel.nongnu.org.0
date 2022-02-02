@@ -2,58 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ABF704A7271
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Feb 2022 14:58:58 +0100 (CET)
-Received: from localhost ([::1]:56600 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 23CE94A72CF
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Feb 2022 15:15:14 +0100 (CET)
+Received: from localhost ([::1]:48752 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nFG9x-0007Om-M4
-	for lists+qemu-devel@lfdr.de; Wed, 02 Feb 2022 08:58:57 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:39468)
+	id 1nFGPg-00056d-IS
+	for lists+qemu-devel@lfdr.de; Wed, 02 Feb 2022 09:15:12 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:43620)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1nFFjI-0003Ct-SQ
- for qemu-devel@nongnu.org; Wed, 02 Feb 2022 08:31:26 -0500
-Received: from kylie.crudebyte.com ([5.189.157.229]:60501)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1nFFjG-0007pD-0a
- for qemu-devel@nongnu.org; Wed, 02 Feb 2022 08:31:24 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
- MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
- Content-ID:Content-Description;
- bh=S5kyPzh1DQSBm7t4Uu8F6Ru/ZercJfFBLo4eZhTBQkg=; b=NboRnrqABjpi+pAiPMwFzlZ6sl
- 3QmbFmBo2nVIb2RPOHLBCf1J5VvibeMJG2RzBpHTd0QyUz5cww5U7NF0WrLbunib5TmR7RzDag+2W
- PhkKU05zl5ltG9wlwotAw+5CwtDxRNmgU51Naqy+67zX0bD4Irl5qcSk4XuiS1TjawAbWcgNWZ1Ls
- cQshaf2Gk6SWxpBmZXuAW1fgJ+JVrWMbNN+Q76GeDm0ckkWJ2BP+GDZvukKVlMR/xNuxyNHB1mWPI
- ArZCnp3RaQfuEZgzDhf9liBmjLEpRtoZMu+9ZOlu+ALF4xQB6Z/wZWLU9/C66l6iswyCx9sjBHfvV
- Q+axzlfTnM0LUBzvinGlTD4OxCQ6laZ9tNPDCQ/3lPbqk6tXwMWcb7jocIXDcdUedXlUEwcZ9smcE
- c4rOXriSM0dBSDL89GFen9SBckLOlBfU4+qHxSWw4Ntkw/FyPCJqPM6RzwKyYMeoUUX4ty4HYJCN4
- hfRIDmLRxt4/Rn9JjnJ1VtM8vb57vKqH/JdY1rrgUm05w02QXB4RLsmtzYhF47jNsn4GBHeJwLYB0
- Efx062c5yA6MLgYKvQynGd+ONlleChHOgXprfZfQAka4AieLuVNfWIQiq2UMLQQm5JxNsPFLV24KC
- GaxLKE4hnNqJ5FrhBunswjJePOwlRuOS/fV0fIlCU=;
-From: Christian Schoenebeck <qemu_oss@crudebyte.com>
-To: qemu-devel@nongnu.org
-Cc: Greg Kurz <groug@kaod.org>, Laurent Vivier <lvivier@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>
-Subject: Re: [PATCH v3 0/2] tests/9pfs: Fix leak and add some more g_auto*
- annotations
-Date: Wed, 02 Feb 2022 14:31:08 +0100
-Message-ID: <27398562.sBfFiq9GLZ@silver>
-In-Reply-To: <20220201151508.190035-1-groug@kaod.org>
-References: <20220201151508.190035-1-groug@kaod.org>
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1nFFzo-0001yo-Ss
+ for qemu-devel@nongnu.org; Wed, 02 Feb 2022 08:48:34 -0500
+Received: from [2a00:1450:4864:20::535] (port=44618
+ helo=mail-ed1-x535.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1nFFzn-0006jO-8x
+ for qemu-devel@nongnu.org; Wed, 02 Feb 2022 08:48:28 -0500
+Received: by mail-ed1-x535.google.com with SMTP id u24so41812544eds.11
+ for <qemu-devel@nongnu.org>; Wed, 02 Feb 2022 05:48:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=4e6Bol9pBCE5KZ9gejbvABmpFNlKubJNgfHHwQtXTqU=;
+ b=y/+8SQbWHKSa7QDNOLOMbKmUcb407jHJ26ZLaAlLQuqqL7WQQSXYNioYEMt0F7GgpY
+ ZF0S87W7hJOE/Mp3qT6ZTir7T7g3BfNH5Shw0mP+l5tkM+se3pm3lv9sHE3kzcJj9ejg
+ oq1cPuoAxbyKl6PWDlwcdCx+UzRwZ30hIA1qRuBs5fd3zWsKbXA3czZ7O4lJUjUqz7eI
+ KZLVzaV8z11U4T1HV9FbZBPFENGtouQS04RRLEPPLXNZHErm6ii6dOTL4AyrHmXaGtkP
+ 5oRyhugytgnQZahVNOGT+aYJvzqCZItjajXe0navZcNF5UoUVX7uHm+7KZwQNfdaN4Yn
+ RsNg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=4e6Bol9pBCE5KZ9gejbvABmpFNlKubJNgfHHwQtXTqU=;
+ b=U/gmXz7RQS+A84vHChWZeLp4sHcNtel19O3YQgtImIccTSUQjCmD1Y7xtaJQJLZDAG
+ iU7hI+RuWaxUbY6M+nfA+VHGnRvS9AnRI938tRYM/Et8nNOesz6L32D1+uUfmOZsYhVg
+ yv/FzRqNa4bEy/ksJQosHpFJ2qFABS3Oa+ZKF1bkLlVM89lgiX29zhVbniAE4X0Y/uiA
+ MlM3nekI9xTqgLkXi4374vFzlOJTpWtFtjmn3xUxfYuY8D95bGbjVYqVV6cA5RRnjKKw
+ Tj4rE232siiY72/kH5/uB/EDCyLFBeiiJ12umwRRPoC/zQMV2xfcarKBPnOnFRSn58W7
+ rk4Q==
+X-Gm-Message-State: AOAM530slf4SgGncQMZZKGS8AfcZ354YEWIJKdq9s304JdBTs7oTbNfj
+ SLEe6+qX/muI1n00zdpdbtEUeQ==
+X-Google-Smtp-Source: ABdhPJyphWt/Z8plbYQOdZj72Jl7Zxn8zA5Wv9AsRqk3Gx+XtzEeaV0Et9zqCJWCPjNFEMsHPsG92A==
+X-Received: by 2002:a05:6402:350d:: with SMTP id
+ b13mr30339089edd.125.1643809704494; 
+ Wed, 02 Feb 2022 05:48:24 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id qb30sm15610638ejc.27.2022.02.02.05.48.23
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 02 Feb 2022 05:48:23 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 02CE61FFB7;
+ Wed,  2 Feb 2022 13:48:23 +0000 (GMT)
+References: <20211218194250.247633-1-richard.henderson@linaro.org>
+ <20211218194250.247633-10-richard.henderson@linaro.org>
+User-agent: mu4e 1.7.6; emacs 28.0.91
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Richard Henderson <richard.henderson@linaro.org>
+Subject: Re: [PATCH 09/20] tcg/i386: Implement avx512 scalar shift
+Date: Wed, 02 Feb 2022 13:48:18 +0000
+In-reply-to: <20211218194250.247633-10-richard.henderson@linaro.org>
+Message-ID: <875ypxwfa1.fsf@linaro.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
-Received-SPF: pass client-ip=5.189.157.229;
- envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::535
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::535;
+ envelope-from=alex.bennee@linaro.org; helo=mail-ed1-x535.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -66,34 +92,19 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Dienstag, 1. Februar 2022 16:15:06 CET Greg Kurz wrote:
-> This is the continuation of:
-> 
-> https://lore.kernel.org/qemu-devel/20220201111137.732325b4@bahia/T/#t
-> 
-> v3: - fix leak in its own patch
-> 
-> Greg Kurz (2):
->   tests/9pfs: Fix leak of local_test_path
->   tests/9pfs: Use g_autofree and g_autoptr where possible
-> 
->  tests/qtest/libqos/virtio-9p.c | 20 +++++++++++---------
->  1 file changed, 11 insertions(+), 9 deletions(-)
-> 
-> -- 
-> 2.34.1
-> 
 
-Queued on 9p.next:
-https://github.com/cschoenebeck/qemu/commits/9p.next
+Richard Henderson <richard.henderson@linaro.org> writes:
 
-Thanks!
+> AVX512VL has VPSRAQ.
+>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 
-Best regards,
-Christian Schoenebeck
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
 
-
+--=20
+Alex Benn=C3=A9e
 
