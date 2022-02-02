@@ -2,93 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A25114A74F4
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Feb 2022 16:52:21 +0100 (CET)
-Received: from localhost ([::1]:57210 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B74A4A7489
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Feb 2022 16:24:01 +0100 (CET)
+Received: from localhost ([::1]:53828 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nFHvg-0000iO-AD
-	for lists+qemu-devel@lfdr.de; Wed, 02 Feb 2022 10:52:20 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:57270)
+	id 1nFHUG-0002ec-BS
+	for lists+qemu-devel@lfdr.de; Wed, 02 Feb 2022 10:24:00 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:59826)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nFGWZ-0004PO-5q
- for qemu-devel@nongnu.org; Wed, 02 Feb 2022 09:22:20 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:24269)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nFGWO-0000et-La
- for qemu-devel@nongnu.org; Wed, 02 Feb 2022 09:22:12 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1643811720;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=FseRkDL02Sv7aO0UklHxVTdAWo+MDFN2K+/wJMze+TY=;
- b=T21elZjs1bcR2iCyFxbfh0HZAhEPOGP6J+n9qLAooqghXzoIre2f6xSF4/glZaVaOnRJ1R
- Haf/ss4JPqDfvp2AuAkDo8Fix499A8yDOdD5Esf0ux1VBVW6U8XORpvSAXBJoAXGnlcqXF
- 9sQQ0HBG/fuhhKXIhotMKQGHdlVZeUs=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-380--mG3q2SsNhKprMYvJum9fQ-1; Wed, 02 Feb 2022 09:21:43 -0500
-X-MC-Unique: -mG3q2SsNhKprMYvJum9fQ-1
-Received: by mail-ed1-f70.google.com with SMTP id
- ed6-20020a056402294600b004090fd8a936so10502280edb.23
- for <qemu-devel@nongnu.org>; Wed, 02 Feb 2022 06:21:43 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1nFGcL-0007Ib-9I
+ for qemu-devel@nongnu.org; Wed, 02 Feb 2022 09:28:17 -0500
+Received: from [2a00:1450:4864:20::635] (port=40470
+ helo=mail-ej1-x635.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1nFGcD-0002CL-86
+ for qemu-devel@nongnu.org; Wed, 02 Feb 2022 09:28:16 -0500
+Received: by mail-ej1-x635.google.com with SMTP id p15so66075530ejc.7
+ for <qemu-devel@nongnu.org>; Wed, 02 Feb 2022 06:28:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=RuXnq7tkVa+CVgC5EszKvt7PaDj6mn9ujF9ckd2R8Ro=;
+ b=gBEx2l31DBiYattUh4dGU9+gARlvfZdwqERKDqNRsqKs1cPDb9LZFDVfPpHuKAFWpy
+ hh/OJsrDsfZjZNHujmip2qv0K+0RPT4J8eF6gz80tYxYLXtDeChPDfkBKS+qmJK6SW9x
+ KiIjQS7M7++pRdKqPAI3xUwG8B/MwvnPlHYhdul34boP57sT2CK3inSeLSuFv0j74SxH
+ 8g9EkFsStCP73iyjw49lNqK2JWC3I0k+zcIA725aLQ8b3ZTlA0jPdgSCZSD/EeweUsEv
+ corrYkHEifDxwKMs+DOno8vufEfYXZWohkvmFhzUrVWbfLD9lFNTrtXwXL77PSSJnOo7
+ OhVw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=FseRkDL02Sv7aO0UklHxVTdAWo+MDFN2K+/wJMze+TY=;
- b=FiToZrEqTCf68U79sXOGLZy18F2yWe+Dz3DOWkLUkSWQ8+K9jevImkD7WkBFtg8Ugc
- 9+keZmDVvfFa75Qpjq0baKJO/fnYHUQTFL9ny82nUOcwm33G89FgAmK7j6gALMbweEeX
- jjIPIeNcc8W3GxSCtin0NJhaUxYFnzlIjolRHYyOtp8i8K1AySp0hR2TXMNf9euw6813
- OuX2kxz8SSz9h2/3VcynlwLzjKLIMQEJlnZ8p0j2PQuk5NQDUlKh1R6I3zCG6DZMzp5X
- y+ytJRDkmQpCXR0/qfOTnijxowIWFpdGCEB6XuwadebM42V/fphTKuUhT+a2gyb4l7RH
- KPmA==
-X-Gm-Message-State: AOAM5302cBg2KPup+yYYGQQEUr6c+NbC9q/i8UKyFck5VvLQEmG0aQwb
- 5qRsIJS2FMICA8SANrMtaTiCduSXOzmuejk0AlET+JawDbcZ2AJSsGr2xefsxFjaf7aDPX4hYpb
- hfthQxPdBmylbGMU=
-X-Received: by 2002:aa7:d949:: with SMTP id l9mr30778901eds.153.1643811702152; 
- Wed, 02 Feb 2022 06:21:42 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyC64lLdvxNe4//JWwEIsiLFpDKuV2pJs3eEhNKM1zcpbhqwqMLnXxGMemZNEjjqMFBhXhvOg==
-X-Received: by 2002:aa7:d949:: with SMTP id l9mr30778876eds.153.1643811701908; 
- Wed, 02 Feb 2022 06:21:41 -0800 (PST)
-Received: from ?IPV6:2a02:8071:5055:3f20:7ad9:a400:6d51:83e6?
- ([2a02:8071:5055:3f20:7ad9:a400:6d51:83e6])
- by smtp.gmail.com with ESMTPSA id v23sm13075535ejf.21.2022.02.02.06.21.40
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 02 Feb 2022 06:21:41 -0800 (PST)
-Message-ID: <f041ee3b-e910-9fa1-a5ff-45ed38b6967f@redhat.com>
-Date: Wed, 2 Feb 2022 15:21:40 +0100
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=RuXnq7tkVa+CVgC5EszKvt7PaDj6mn9ujF9ckd2R8Ro=;
+ b=oPqMjtpqRgIyWVn1HeiiDKb2OxccDigT5zpavh9P8028gor4CXkfJsM8+NeyPUBKRf
+ GOVSUU9z6w3kjsQIppuH7jMqebfoJjaA8XkT19Y22PeKIrrw/5hEht90k+tXkO5mWrtR
+ SwwK655QiY4FR+qfQ4rk9lPOUeyF+SmhnloRlXKxt+TuuEuOr0iR7nfK89XrM5T5jMkT
+ t+bS8HxH+oG0gGh0izSQq/lIqj4cQdixB2j+Of6+Is2Br4o8fhcsZS/pa+RW1xwKW2Ce
+ 7FOsUGmL6yVg/B0rldeb9Jea6Cv+r8HEakv8OrGP8skvTjWNGV65muFQKkXfkuUM5YRE
+ bvVw==
+X-Gm-Message-State: AOAM530aqZ4IhSH3L5w6I4Hz41XaVsSwrQPwwjWBrhUJ2Vuh0pf0qSgJ
+ TcN44vRtK++FOpLaYhWf1gYzTw==
+X-Google-Smtp-Source: ABdhPJy0NKAblCAKiJ0kKiXk1g4b2gZRwEUSxC8NVwAQFXdPWc09LCsx8RBeU3die5Jhs/o7NgHN9A==
+X-Received: by 2002:a17:906:99c1:: with SMTP id
+ s1mr21739730ejn.298.1643812087370; 
+ Wed, 02 Feb 2022 06:28:07 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id i14sm3710880ejp.181.2022.02.02.06.28.06
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 02 Feb 2022 06:28:06 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 8D31E1FFB7;
+ Wed,  2 Feb 2022 14:28:05 +0000 (GMT)
+References: <20211218194250.247633-1-richard.henderson@linaro.org>
+ <20211218194250.247633-14-richard.henderson@linaro.org>
+User-agent: mu4e 1.7.6; emacs 28.0.91
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Richard Henderson <richard.henderson@linaro.org>
+Subject: Re: [PATCH 13/20] tcg/i386: Support avx512vbmi2 vector shift-double
+ instructions
+Date: Wed, 02 Feb 2022 14:28:00 +0000
+In-reply-to: <20211218194250.247633-14-richard.henderson@linaro.org>
+Message-ID: <87o83puyve.fsf@linaro.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PULL 18/20] block/nbd: drop connection_co
-To: Eric Blake <eblake@redhat.com>, Fabian Ebner <f.ebner@proxmox.com>
-References: <20210927215545.3930309-1-eblake@redhat.com>
- <20210927215545.3930309-19-eblake@redhat.com>
- <8e8b69e4-a178-aff1-4de3-e697b942f3b3@proxmox.com>
- <20220202135353.dau24mip4zwib47z@redhat.com>
-From: Hanna Reitz <hreitz@redhat.com>
-In-Reply-To: <20220202135353.dau24mip4zwib47z@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=hreitz@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.086,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::635
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::635;
+ envelope-from=alex.bennee@linaro.org; helo=mail-ej1-x635.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -101,93 +93,19 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-devel@nongnu.org,
- "open list:Network Block Dev..." <qemu-block@nongnu.org>,
- Thomas Lamprecht <t.lamprecht@proxmox.com>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 02.02.22 14:53, Eric Blake wrote:
-> On Wed, Feb 02, 2022 at 12:49:36PM +0100, Fabian Ebner wrote:
->> Am 27.09.21 um 23:55 schrieb Eric Blake:
->>> From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
->>>
->>> OK, that's a big rewrite of the logic.
->>>
->>> Pre-patch we have an always running coroutine - connection_co. It does
->>> reply receiving and reconnecting. And it leads to a lot of difficult
->>> and unobvious code around drained sections and context switch. We also
->>> abuse bs->in_flight counter which is increased for connection_co and
->>> temporary decreased in points where we want to allow drained section to
->>> begin. One of these place is in another file: in nbd_read_eof() in
->>> nbd/client.c.
->>>
->>> We also cancel reconnect and requests waiting for reconnect on drained
->>> begin which is not correct. And this patch fixes that.
->>>
->>> Let's finally drop this always running coroutine and go another way:
->>> do both reconnect and receiving in request coroutines.
->>>
->> Hi,
->>
->> while updating our stack to 6.2, one of our live-migration tests stopped
->> working (backtrace is below) and bisecting led me to this patch.
->>
->> The VM has a single qcow2 disk (converting to raw doesn't make a
->> difference) and the issue only appears when using iothread (for both
->> virtio-scsi-pci and virtio-block-pci).
->>
->> Reverting 1af7737871fb3b66036f5e520acb0a98fc2605f7 (which lives on top)
->> and 4ddb5d2fde6f22b2cf65f314107e890a7ca14fcf (the commit corresponding
->> to this patch) in v6.2.0 makes the migration work again.
->>
->> Backtrace:
->>
->> Thread 1 (Thread 0x7f9d93458fc0 (LWP 56711) "kvm"):
->> #0  __GI_raise (sig=sig@entry=6) at ../sysdeps/unix/sysv/linux/raise.c:50
->> #1  0x00007f9d9d6bc537 in __GI_abort () at abort.c:79
->> #2  0x00007f9d9d6bc40f in __assert_fail_base (fmt=0x7f9d9d825128
->> "%s%s%s:%u: %s%sAssertion `%s' failed.\n%n", assertion=0x5579153763f8
->> "qemu_get_current_aio_context() == qemu_coroutine_get_aio_context(co)",
->> file=0x5579153764f9 "../io/channel.c", line=483, function=<optimized
->> out>) at assert.c:92
-> Given that this assertion is about which aio context is set, I wonder
-> if the conversation at
-> https://lists.gnu.org/archive/html/qemu-devel/2022-02/msg00096.html is
-> relevant; if so, Vladimir may already be working on the patch.
 
-It should be exactly that patch:
+Richard Henderson <richard.henderson@linaro.org> writes:
 
-https://lists.gnu.org/archive/html/qemu-devel/2022-01/msg06222.html
+> We will use VPSHLD, VPSHLDV and VPSHRDV for 16-bit rotates.
+>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 
-(From the discussion it appears that for v1 I need to ensure the 
-reconnection timer is deleted immediately once reconnecting succeeds, 
-and then that should be good to move out of the RFC state.)
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
 
-Basically, I expect qemu to crash every time that you try to use an NBD 
-block device in an I/O thread (unless you don’t do any I/O), for example 
-this is the simplest reproducer I know of:
-
-$ qemu-nbd --fork -k /tmp/nbd.sock -f raw null-co://
-
-$ qemu-system-x86_64 \
-     -object iothread,id=iothr0 \
-     -device virtio-scsi,id=vscsi,iothread=iothr0 \
-     -blockdev '{
-         "driver": "nbd",
-         "node-name": "nbd",
-         "server": {
-             "type": "unix",
-             "path": "/tmp/nbd.sock"
-         } }' \
-     -device scsi-hd,bus=vscsi.0,drive=nbd
-qemu-system-x86_64: ../qemu-6.2.0/io/channel.c:483: 
-qio_channel_restart_read: Assertion `qemu_get_current_aio_context() == 
-qemu_coroutine_get_aio_context(co)' failed.
-qemu-nbd: Disconnect client, due to: Unable to read from socket: 
-Connection reset by peer
-[1]    108747 abort (core dumped)  qemu-system-x86_64 -object 
-iothread,id=iothr0 -device  -blockdev  -device
-
+--=20
+Alex Benn=C3=A9e
 
