@@ -2,77 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 337CE4A791D
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Feb 2022 20:59:05 +0100 (CET)
-Received: from localhost ([::1]:50540 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F5CD4A791B
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Feb 2022 20:59:02 +0100 (CET)
+Received: from localhost ([::1]:50422 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nFLmR-0007VD-Am
-	for lists+qemu-devel@lfdr.de; Wed, 02 Feb 2022 14:59:03 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:49694)
+	id 1nFLmP-0007Q3-0N
+	for lists+qemu-devel@lfdr.de; Wed, 02 Feb 2022 14:59:01 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:49782)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nFL3f-0000p3-He
- for qemu-devel@nongnu.org; Wed, 02 Feb 2022 14:12:48 -0500
-Received: from [2a00:1450:4864:20::329] (port=35715
- helo=mail-wm1-x329.google.com)
+ id 1nFL3k-0000sB-Ha
+ for qemu-devel@nongnu.org; Wed, 02 Feb 2022 14:12:53 -0500
+Received: from [2a00:1450:4864:20::42e] (port=42632
+ helo=mail-wr1-x42e.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nFL3d-00076B-P6
- for qemu-devel@nongnu.org; Wed, 02 Feb 2022 14:12:47 -0500
-Received: by mail-wm1-x329.google.com with SMTP id
- f80-20020a1c1f53000000b0035399b8bedcso5089813wmf.0
- for <qemu-devel@nongnu.org>; Wed, 02 Feb 2022 11:12:45 -0800 (PST)
+ id 1nFL3i-00076o-4f
+ for qemu-devel@nongnu.org; Wed, 02 Feb 2022 14:12:52 -0500
+Received: by mail-wr1-x42e.google.com with SMTP id a13so423183wrh.9
+ for <qemu-devel@nongnu.org>; Wed, 02 Feb 2022 11:12:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=cVqzLTk554WZOO+XZFbwn8o1c5aR1NKLbErrI/M/iPM=;
- b=x1aKfjiaWMxkQBB6DM+ClwgQPa5KtgysGU4+rWyRRySKbUwQFtFsfrTbj/Y911zYTk
- WnPu5rsDu3enr33rT5tqp3DK0dcoJUVXW7SJlKI8zwRZk/1YPVJj/adFFd8oW6C4JZ6C
- +gKiQQXhDISoq3Jq0e50WOA/YPny3g66mnzZqqhzSVdMiWw4hJIcIb+blHZRetMwInFQ
- uC0rn7Kf8U+K0+JS2d/seJsb8K2lod03hpchtYpo6qF6UzwVEHz0hMo0fw60Qhvgwfer
- s879gmVFyw9nXYUCgXbyEmc0MqbGFzNggVz7S3ocsrLNhcrrZyHvOrobG2FMzd0w0UXX
- zWiA==
+ bh=5ciwtQRYp+ZkYZFOyVCHc04Xgk2L4OSDwdO0wrIkxEI=;
+ b=I7feO50uieaWShuFhY8FRcQdY8NbWpCW64t2xFEgqIhsl6kq22u21f1iaUJj+gkgAs
+ vB7gnBOM2Rvr3tFpTjPaEswn/h+FVMHFRw7Mu0x5WB4IPMd2Q148VWKCAGTUV2PpLKEQ
+ lf0MR1vAayhDh2lULpTIa6AfAlV+wbgNF7dwa0JJt5fxNDBaePfM8yyBOVPHfpy3wxHh
+ z61taVaqivZ++RnM3/bjDFRDVKO9DHIfLV9xm7JM2fBkL1QGBY69y0rwloFxHFLjd8/b
+ UJoV+hy8HHUuevpKcbOaopE21DWR2YKEQlEpMfKzD8Lk/w9MLu0oeNbxxHrQ5D/kaBhH
+ 085w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=cVqzLTk554WZOO+XZFbwn8o1c5aR1NKLbErrI/M/iPM=;
- b=PAduta3WJjiJoPauUU1xYS5EGRqxDeG+1P94O4TAammasFnAjsvMDvaWKBxnmFXmky
- e+v2BbYn7X5UivB8g5ZdrdLT06WLi+rjXTjbLfHrm3i5AJtbPEMCFlYfSMbSJ4ZPMSE6
- edMh2gzKA/aD3fEaObvopw6Q5zpC99WaZiuyjcaK53g7JSMn4dkfE8ReXbco11D3nbCK
- NIU67769DBdqiKew4gnMvCwhnOqDiKWdyFpIr89WybSbUo5aQSByyOEhakutM4L0kSi6
- 49bHeaYip9lINfpAOOfCZzpnhELcQkQGwOY0vThsJ+9J9FapP26rw/962yBS2w3BQqGW
- IDsA==
-X-Gm-Message-State: AOAM530Sy8ZUDMbXmubp5ac5XyDS/GMq2ttp/ktpnEWScbvD6vFm27aQ
- ngGZxKAp5cgxaiTxPYqI9gd3nw==
-X-Google-Smtp-Source: ABdhPJyevkyqI3m49x0q8F/U3gn/UWRG/oPowzykY0/rwL4IV8JDi/41ptt4l9EaAvVc2Bru5/RUZw==
-X-Received: by 2002:a05:600c:4341:: with SMTP id
- r1mr7412505wme.99.1643829164259; 
- Wed, 02 Feb 2022 11:12:44 -0800 (PST)
+ bh=5ciwtQRYp+ZkYZFOyVCHc04Xgk2L4OSDwdO0wrIkxEI=;
+ b=40vX1eqdl1PuGMasykp36eKxiJxKaoakK2Z3NGociXolzyo+8ze2KGIbjG+SWHSs9V
+ PPgvkaLlGsPCt1SQkqtY8cJMfZgfsPSsoN9Onj69nKT76O/i/HGkvJp4wMYza0Y4yfk8
+ jymoa4RCIAOnpaC/mwHu5rL+z64Tis+SbM/oJqiiLgfNtFQWTMOO2RlJxh9D7nabKhGI
+ cZ32jHRrVP4EkLILo0XXua6uylGp+1RPBszq2lA+/HdSB7FbY5lwEizQDijaNElMO66k
+ qH+cN8Jy633lOmoGUF9S+TDdo+bSzjsPYPNwa0fhxDIkh0B+xonbcJMF/BKHotYOlpH6
+ OXvw==
+X-Gm-Message-State: AOAM533yvT+TgbGhi8g2QPp4KZim9a0QJ+D+/hBPsdITJIodg96FShuW
+ g5tbO07Kty3uTI+Ik5a0Qvz7AQ==
+X-Google-Smtp-Source: ABdhPJymLfdRrfdHNaifp11L7q37+pwJnsf3nyT/V31rFMXtmLo34MTnvEM6udaeC7q71J1CkC56Eg==
+X-Received: by 2002:a5d:4643:: with SMTP id j3mr25696918wrs.356.1643829167474; 
+ Wed, 02 Feb 2022 11:12:47 -0800 (PST)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id f13sm17900966wrp.105.2022.02.02.11.12.43
+ by smtp.gmail.com with ESMTPSA id x5sm5287399wmh.27.2022.02.02.11.12.43
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Wed, 02 Feb 2022 11:12:43 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id D96591FFB8;
+ by zen.linaroharston (Postfix) with ESMTP id E4E9C1FFBA;
  Wed,  2 Feb 2022 19:12:42 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: richard.henderson@linaro.org,
 	qemu-devel@nongnu.org
-Subject: [RFC PATCH  1/4] tests/tcg: cleanup sha1 source code
-Date: Wed,  2 Feb 2022 19:12:39 +0000
-Message-Id: <20220202191242.652607-2-alex.bennee@linaro.org>
+Subject: [RFC PATCH  2/4] tests/tcg: build sha1-vector for SVE and compare
+Date: Wed,  2 Feb 2022 19:12:40 +0000
+Message-Id: <20220202191242.652607-3-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220202191242.652607-1-alex.bennee@linaro.org>
 References: <20220202191242.652607-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::329
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42e
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::329;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x329.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42e.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -93,138 +91,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, berrange@redhat.com, f4bug@amsat.org, qemu-arm@nongnu.org,
- stefanha@redhat.com, crosa@redhat.com, pbonzini@redhat.com,
+Cc: fam@euphon.net, Peter Maydell <peter.maydell@linaro.org>,
+ berrange@redhat.com, f4bug@amsat.org, qemu-arm@nongnu.org, stefanha@redhat.com,
+ crosa@redhat.com, pbonzini@redhat.com,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We have a lot of legacy mess in this imported code which makes
-figuring out what is going on harder. Clean it up:
+The aim of this is to test code generation for vectorised operations.
+Unfortunately gcc struggles to do much with the messy sha1 code (try
+-fopt-info-vec-missed to see why). However it's better than nothing.
 
-  - delete non-SHA1HANDSOFF legs, remove symbol
-  - don't bother clearing variables at the end
-  - remove #if 0 dead code
-  - some light indentation fixes
+We assume the non-vectorised output is gold and baring compiler bugs
+the outputs should match.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- tests/tcg/multiarch/sha1.c | 67 ++++++++++----------------------------
- 1 file changed, 17 insertions(+), 50 deletions(-)
+ tests/tcg/aarch64/Makefile.target | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
 
-diff --git a/tests/tcg/multiarch/sha1.c b/tests/tcg/multiarch/sha1.c
-index 0081bd7657..3b1e18f3d4 100644
---- a/tests/tcg/multiarch/sha1.c
-+++ b/tests/tcg/multiarch/sha1.c
-@@ -17,9 +17,6 @@ A million repetitions of "a"
- */
+diff --git a/tests/tcg/aarch64/Makefile.target b/tests/tcg/aarch64/Makefile.target
+index 1d967901bd..a03844ce48 100644
+--- a/tests/tcg/aarch64/Makefile.target
++++ b/tests/tcg/aarch64/Makefile.target
+@@ -50,6 +50,18 @@ sysregs: CFLAGS+=-march=armv8.1-a+sve
+ AARCH64_TESTS += sve-ioctls
+ sve-ioctls: CFLAGS+=-march=armv8.1-a+sve
  
- /* #define LITTLE_ENDIAN * This should be #define'd already, if true. */
--/* #define SHA1HANDSOFF * Copies data before messing with it. */
--
--#define SHA1HANDSOFF
- 
- #include <stdio.h>
- #include <string.h>
-@@ -69,24 +66,17 @@ void SHA1Final(unsigned char digest[20], SHA1_CTX* context);
- 
- /* Hash a single 512-bit block. This is the core of the algorithm. */
- 
--void SHA1Transform(uint32_t state[5], const unsigned char buffer[64])
-+inline void SHA1Transform(uint32_t state[5], const unsigned char buffer[64])
- {
--uint32_t a, b, c, d, e;
--typedef union {
--    unsigned char c[64];
--    uint32_t l[16];
--} CHAR64LONG16;
--#ifdef SHA1HANDSOFF
--CHAR64LONG16 block[1];  /* use array to appear as a pointer */
--    memcpy(block, buffer, 64);
--#else
--    /* The following had better never be used because it causes the
--     * pointer-to-const buffer to be cast into a pointer to non-const.
--     * And the result is written through.  I threw a "const" in, hoping
--     * this will cause a diagnostic.
--     */
--CHAR64LONG16* block = (const CHAR64LONG16*)buffer;
--#endif
-+    uint32_t a, b, c, d, e;
-+    typedef union {
-+        unsigned char c[64];
-+        uint32_t l[16];
-+    } CHAR64LONG16;
++# Vector SHA1
 +
-+    CHAR64LONG16 block[1];  /* use array to appear as a pointer */
-+    memcpy(&block[0], buffer, sizeof(block));
++sha1-vector: CFLAGS=-march=armv8.1-a+sve -O3
++sha1-vector: sha1.c
++	$(CC) $(CFLAGS) $(EXTRA_CFLAGS) $< -o $@ $(LDFLAGS)
 +
-     /* Copy context->state[] to working vars */
-     a = state[0];
-     b = state[1];
-@@ -120,14 +110,8 @@ CHAR64LONG16* block = (const CHAR64LONG16*)buffer;
-     state[2] += c;
-     state[3] += d;
-     state[4] += e;
--    /* Wipe variables */
--    a = b = c = d = e = 0;
--#ifdef SHA1HANDSOFF
--    memset(block, '\0', sizeof(block));
--#endif
- }
- 
--
- /* SHA1Init - Initialize new context */
- 
- void SHA1Init(SHA1_CTX* context)
-@@ -146,8 +130,8 @@ void SHA1Init(SHA1_CTX* context)
- 
- void SHA1Update(SHA1_CTX* context, const unsigned char* data, uint32_t len)
- {
--uint32_t i;
--uint32_t j;
-+    uint32_t i;
-+    uint32_t j;
- 
-     j = context->count[0];
-     if ((context->count[0] += len << 3) < j)
-@@ -171,32 +155,15 @@ uint32_t j;
- 
- void SHA1Final(unsigned char digest[20], SHA1_CTX* context)
- {
--unsigned i;
--unsigned char finalcount[8];
--unsigned char c;
--
--#if 0	/* untested "improvement" by DHR */
--    /* Convert context->count to a sequence of bytes
--     * in finalcount.  Second element first, but
--     * big-endian order within element.
--     * But we do it all backwards.
--     */
--    unsigned char *fcp = &finalcount[8];
--
--    for (i = 0; i < 2; i++)
--    {
--        uint32_t t = context->count[i];
--        int j;
--
--        for (j = 0; j < 4; t >>= 8, j++)
--            *--fcp = (unsigned char) t;
--    }
--#else
-+    unsigned i;
-+    unsigned char finalcount[8];
-+    unsigned char c;
++run-sha1-vector: sha1-vector run-sha1
++	$(call run-test, $<, $(QEMU) $(QEMU_OPTS) $<, "$< on $(TARGET_NAME)")
++	$(call diff-out, sha1-vector, sha1.out)
 +
-     for (i = 0; i < 8; i++) {
-         finalcount[i] = (unsigned char)((context->count[(i >= 4 ? 0 : 1)]
-          >> ((3-(i & 3)) * 8) ) & 255);  /* Endian independent */
-     }
--#endif
++TESTS += sha1-vector
 +
-     c = 0200;
-     SHA1Update(context, &c, 1);
-     while ((context->count[0] & 504) != 448) {
+ ifneq ($(HAVE_GDB_BIN),)
+ GDB_SCRIPT=$(SRC_PATH)/tests/guest-debug/run-test.py
+ 
 -- 
 2.30.2
 
