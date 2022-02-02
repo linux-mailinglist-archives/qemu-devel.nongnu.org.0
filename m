@@ -2,75 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28EED4A6DD8
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Feb 2022 10:33:29 +0100 (CET)
-Received: from localhost ([::1]:58266 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EADA74A6E0A
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Feb 2022 10:46:19 +0100 (CET)
+Received: from localhost ([::1]:36936 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nFC11-0007QZ-Iu
-	for lists+qemu-devel@lfdr.de; Wed, 02 Feb 2022 04:33:27 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:33946)
+	id 1nFCDS-0004XA-Au
+	for lists+qemu-devel@lfdr.de; Wed, 02 Feb 2022 04:46:18 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:34142)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1nFBqx-0004VV-Ij
- for qemu-devel@nongnu.org; Wed, 02 Feb 2022 04:23:07 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:48271)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1nFBqo-0005fo-B2
- for qemu-devel@nongnu.org; Wed, 02 Feb 2022 04:23:01 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1643793773;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=hMgvPoUiNdLw8qZOaS66ohgCOaiDxw8jPXW4CwiWehE=;
- b=aGIELEWvjgflHajyVngfGCSPHcLyOUqOT3nLo6QtKqJf+aEhUKGHpY//9djzZ0VzgqwGpc
- pD9EYG7XADrqVGdSphQtymqNE1cTxqbly6bnXo6g7XNlXXoMEftVEu8QaqC1JGhQ75kaga
- coUcV8i8nzNms3LsQnUw+i4XQu+b7Qo=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-669-MkTg9-CDOx6kfCSfwLc9jw-1; Wed, 02 Feb 2022 04:22:50 -0500
-X-MC-Unique: MkTg9-CDOx6kfCSfwLc9jw-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7C7F081424F;
- Wed,  2 Feb 2022 09:22:48 +0000 (UTC)
-Received: from localhost (unknown [10.39.194.233])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0D9687B6E8;
- Wed,  2 Feb 2022 09:22:22 +0000 (UTC)
-Date: Wed, 2 Feb 2022 09:22:21 +0000
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Alex Williamson <alex.williamson@redhat.com>
-Subject: Re: [PATCH v5 03/18] pci: isolated address space for PCI bus
-Message-ID: <YfpNTfyQ3Y/Q7Tf4@stefanha-x1.localdomain>
-References: <YfJYFbBVQzho7mGp@stefanha-x1.localdomain>
- <20220127142253.21ab0025.alex.williamson@redhat.com>
- <YfO00O4sT2UgaW31@stefanha-x1.localdomain>
- <20220131091623.6739464e.alex.williamson@redhat.com>
- <Yfj9u26F6/RdlhoB@stefanha-x1.localdomain>
- <20220201082437.7dd940eb.alex.williamson@redhat.com>
- <9BD98DD7-CC28-49E1-8150-BDECF0324FFA@oracle.com>
- <20220201154736.576e2a7e.alex.williamson@redhat.com>
- <BA348811-5C6D-4F9F-AC3C-824AC1681F1D@oracle.com>
- <20220201223432.4f58518f.alex.williamson@redhat.com>
+ (Exim 4.90_1) (envelope-from <steven.price@arm.com>)
+ id 1nFBrO-0004q2-Lp
+ for qemu-devel@nongnu.org; Wed, 02 Feb 2022 04:23:34 -0500
+Received: from foss.arm.com ([217.140.110.172]:38870)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <steven.price@arm.com>) id 1nFBrL-0005nm-CH
+ for qemu-devel@nongnu.org; Wed, 02 Feb 2022 04:23:29 -0500
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 949B71FB;
+ Wed,  2 Feb 2022 01:23:24 -0800 (PST)
+Received: from [10.57.10.145] (unknown [10.57.10.145])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 0DB623F40C;
+ Wed,  2 Feb 2022 01:23:17 -0800 (PST)
+Message-ID: <74a4a56f-539e-c51b-d90b-d2d6f55a34a3@arm.com>
+Date: Wed, 2 Feb 2022 09:23:16 +0000
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="wI21tKL6ukhTRmRP"
-Content-Disposition: inline
-In-Reply-To: <20220201223432.4f58518f.alex.williamson@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.086,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH v4 00/12] KVM: mm: fd-based approach for supporting KVM
+ guest private memory
+Content-Language: en-GB
+To: "Nakajima, Jun" <jun.nakajima@intel.com>
+References: <20220118132121.31388-1-chao.p.peng@linux.intel.com>
+ <3326f57a-169d-8eb8-2b8b-0379c33ba7a5@arm.com>
+ <08A0882C-2E35-4CFD-9176-FCB6665D1F3E@intel.com>
+From: Steven Price <steven.price@arm.com>
+In-Reply-To: <08A0882C-2E35-4CFD-9176-FCB6665D1F3E@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=217.140.110.172;
+ envelope-from=steven.price@arm.com; helo=foss.arm.com
+X-Spam_score_int: -68
+X-Spam_score: -6.9
+X-Spam_bar: ------
+X-Spam_report: (-6.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -84,269 +60,145 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "eduardo@habkost.net" <eduardo@habkost.net>,
- Elena Ufimtseva <elena.ufimtseva@oracle.com>, Jag Raman <jag.raman@oracle.com>,
- Beraldo Leal <bleal@redhat.com>, John Johnson <john.g.johnson@oracle.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
- "armbru@redhat.com" <armbru@redhat.com>,
- "quintela@redhat.com" <quintela@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@gmail.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- "thanos.makatos@nutanix.com" <thanos.makatos@nutanix.com>,
- Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
- Eric Blake <eblake@redhat.com>,
- "john.levon@nutanix.com" <john.levon@nutanix.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>
+Cc: Wanpeng Li <wanpengli@tencent.com>, KVM list <kvm@vger.kernel.org>,
+ "david@redhat.com" <david@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "J . Bruce Fields" <bfields@fieldses.org>,
+ Linux Memory Management List <linux-mm@kvack.org>,
+ "H . Peter Anvin" <hpa@zytor.com>, Chao Peng <chao.p.peng@linux.intel.com>,
+ "ak@linux.intel.com" <ak@linux.intel.com>, Jonathan Corbet <corbet@lwn.net>,
+ Joerg Roedel <joro@8bytes.org>, "x86@kernel.org" <x86@kernel.org>,
+ Hugh Dickins <hughd@google.com>, Ingo Molnar <mingo@redhat.com>,
+ Suzuki K Poulose <suzuki.poulose@arm.com>, Borislav Petkov <bp@alien8.de>,
+ "Lutomirski, Andy" <luto@kernel.org>, Thomas Gleixner <tglx@linutronix.de>,
+ Vitaly Kuznetsov <vkuznets@redhat.com>, Jim Mattson <jmattson@google.com>,
+ "Hansen, Dave" <dave.hansen@intel.com>, "Christopherson, ,
+ Sean" <seanjc@google.com>, Jeff Layton <jlayton@kernel.org>,
+ LKML <linux-kernel@vger.kernel.org>, Yu Zhang <yu.c.zhang@linux.intel.com>,
+ "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, Andrew Morton <akpm@linux-foundation.org>,
+ "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Hi Jun,
 
---wI21tKL6ukhTRmRP
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 02/02/2022 02:28, Nakajima, Jun wrote:
+> 
+>> On Jan 28, 2022, at 8:47 AM, Steven Price <steven.price@arm.com> wrote:
+>>
+>> On 18/01/2022 13:21, Chao Peng wrote:
+>>> This is the v4 of this series which try to implement the fd-based KVM
+>>> guest private memory. The patches are based on latest kvm/queue branch
+>>> commit:
+>>>
+>>>  fea31d169094 KVM: x86/pmu: Fix available_event_types check for
+>>>               REF_CPU_CYCLES event
+>>>
+>>> Introduction
+>>> ------------
+>>> In general this patch series introduce fd-based memslot which provides
+>>> guest memory through memory file descriptor fd[offset,size] instead of
+>>> hva/size. The fd can be created from a supported memory filesystem
+>>> like tmpfs/hugetlbfs etc. which we refer as memory backing store. KVM
+>>> and the the memory backing store exchange callbacks when such memslot
+>>> gets created. At runtime KVM will call into callbacks provided by the
+>>> backing store to get the pfn with the fd+offset. Memory backing store
+>>> will also call into KVM callbacks when userspace fallocate/punch hole
+>>> on the fd to notify KVM to map/unmap secondary MMU page tables.
+>>>
+>>> Comparing to existing hva-based memslot, this new type of memslot allows
+>>> guest memory unmapped from host userspace like QEMU and even the kernel
+>>> itself, therefore reduce attack surface and prevent bugs.
+>>>
+>>> Based on this fd-based memslot, we can build guest private memory that
+>>> is going to be used in confidential computing environments such as Intel
+>>> TDX and AMD SEV. When supported, the memory backing store can provide
+>>> more enforcement on the fd and KVM can use a single memslot to hold both
+>>> the private and shared part of the guest memory. 
+>>
+>> This looks like it will be useful for Arm's Confidential Compute
+>> Architecture (CCA) too - in particular we need a way of ensuring that
+>> user space cannot 'trick' the kernel into accessing memory which has
+>> been delegated to a realm (i.e. protected guest), and a memfd seems like
+>> a good match.
+> 
+> Good to hear that it will be useful for ARM’s CCA as well.
+> 
+>>
+>> Some comments below.
+>>
+>>> mm extension
+>>> ---------------------
+>>> Introduces new F_SEAL_INACCESSIBLE for shmem and new MFD_INACCESSIBLE
+>>> flag for memfd_create(), the file created with these flags cannot read(),
+>>> write() or mmap() etc via normal MMU operations. The file content can
+>>> only be used with the newly introduced memfile_notifier extension.
+>>
+>> For Arm CCA we are expecting to seed the realm with an initial memory
+>> contents (e.g. kernel and initrd) which will then be measured before
+>> execution starts. The 'obvious' way of doing this with a memfd would be
+>> to populate parts of the memfd then seal it with F_SEAL_INACCESSIBLE.
+> 
+> As far as I understand, we have the same problem with TDX, where a guest TD (Trust Domain) starts in private memory. We seed the private memory typically with a guest firmware, and the initial image (plaintext) is copied to somewhere in QEMU memory (from disk, for example) for that purpose; this location is not associated with the target GPA.
+> 
+> Upon a (new) ioctl from QEMU, KVM requests the TDX Module to copy the pages to private memory (by encrypting) specifying the target GPA, using a TDX interface function (TDH.MEM.PAGE.ADD). The actual pages for the private memory is allocated by the callbacks provided by the backing store during the “copy” operation.
+> 
+> We extended the existing KVM_MEMORY_ENCRYPT_OP (ioctl) for the above. 
 
-On Tue, Feb 01, 2022 at 10:34:32PM -0700, Alex Williamson wrote:
-> On Wed, 2 Feb 2022 01:13:22 +0000
-> Jag Raman <jag.raman@oracle.com> wrote:
->=20
-> > > On Feb 1, 2022, at 5:47 PM, Alex Williamson <alex.williamson@redhat.c=
-om> wrote:
-> > >=20
-> > > On Tue, 1 Feb 2022 21:24:08 +0000
-> > > Jag Raman <jag.raman@oracle.com> wrote:
-> > >  =20
-> > >>> On Feb 1, 2022, at 10:24 AM, Alex Williamson <alex.williamson@redha=
-t.com> wrote:
-> > >>>=20
-> > >>> On Tue, 1 Feb 2022 09:30:35 +0000
-> > >>> Stefan Hajnoczi <stefanha@redhat.com> wrote:
-> > >>>  =20
-> > >>>> On Mon, Jan 31, 2022 at 09:16:23AM -0700, Alex Williamson wrote:  =
- =20
-> > >>>>> On Fri, 28 Jan 2022 09:18:08 +0000
-> > >>>>> Stefan Hajnoczi <stefanha@redhat.com> wrote:
-> > >>>>>  =20
-> > >>>>>> On Thu, Jan 27, 2022 at 02:22:53PM -0700, Alex Williamson wrote:=
-     =20
-> > >>>>>>> If the goal here is to restrict DMA between devices, ie. peer-t=
-o-peer
-> > >>>>>>> (p2p), why are we trying to re-invent what an IOMMU already doe=
-s?       =20
-> > >>>>>>=20
-> > >>>>>> The issue Dave raised is that vfio-user servers run in separate
-> > >>>>>> processses from QEMU with shared memory access to RAM but no dir=
-ect
-> > >>>>>> access to non-RAM MemoryRegions. The virtiofs DAX Window BAR is =
-one
-> > >>>>>> example of a non-RAM MemoryRegion that can be the source/target =
-of DMA
-> > >>>>>> requests.
-> > >>>>>>=20
-> > >>>>>> I don't think IOMMUs solve this problem but luckily the vfio-user
-> > >>>>>> protocol already has messages that vfio-user servers can use as a
-> > >>>>>> fallback when DMA cannot be completed through the shared memory =
-RAM
-> > >>>>>> accesses.
-> > >>>>>>  =20
-> > >>>>>>> In
-> > >>>>>>> fact, it seems like an IOMMU does this better in providing an I=
-OVA
-> > >>>>>>> address space per BDF.  Is the dynamic mapping overhead too muc=
-h?  What
-> > >>>>>>> physical hardware properties or specifications could we leverag=
-e to
-> > >>>>>>> restrict p2p mappings to a device?  Should it be governed by ma=
-chine
-> > >>>>>>> type to provide consistency between devices?  Should each "isol=
-ated"
-> > >>>>>>> bus be in a separate root complex?  Thanks,       =20
-> > >>>>>>=20
-> > >>>>>> There is a separate issue in this patch series regarding isolati=
-ng the
-> > >>>>>> address space where BAR accesses are made (i.e. the global
-> > >>>>>> address_space_memory/io). When one process hosts multiple vfio-u=
-ser
-> > >>>>>> server instances (e.g. a software-defined network switch with mu=
-ltiple
-> > >>>>>> ethernet devices) then each instance needs isolated memory and i=
-o address
-> > >>>>>> spaces so that vfio-user clients don't cause collisions when the=
-y map
-> > >>>>>> BARs to the same address.
-> > >>>>>>=20
-> > >>>>>> I think the the separate root complex idea is a good solution. T=
-his
-> > >>>>>> patch series takes a different approach by adding the concept of
-> > >>>>>> isolated address spaces into hw/pci/.     =20
-> > >>>>>=20
-> > >>>>> This all still seems pretty sketchy, BARs cannot overlap within t=
-he
-> > >>>>> same vCPU address space, perhaps with the exception of when they'=
-re
-> > >>>>> being sized, but DMA should be disabled during sizing.
-> > >>>>>=20
-> > >>>>> Devices within the same VM context with identical BARs would need=
- to
-> > >>>>> operate in different address spaces.  For example a translation o=
-ffset
-> > >>>>> in the vCPU address space would allow unique addressing to the de=
-vices,
-> > >>>>> perhaps using the translation offset bits to address a root compl=
-ex and
-> > >>>>> masking those bits for downstream transactions.
-> > >>>>>=20
-> > >>>>> In general, the device simply operates in an address space, ie. an
-> > >>>>> IOVA.  When a mapping is made within that address space, we perfo=
-rm a
-> > >>>>> translation as necessary to generate a guest physical address.  T=
-he
-> > >>>>> IOVA itself is only meaningful within the context of the address =
-space,
-> > >>>>> there is no requirement or expectation for it to be globally uniq=
-ue.
-> > >>>>>=20
-> > >>>>> If the vfio-user server is making some sort of requirement that I=
-OVAs
-> > >>>>> are unique across all devices, that seems very, very wrong.  Than=
-ks,     =20
-> > >>>>=20
-> > >>>> Yes, BARs and IOVAs don't need to be unique across all devices.
-> > >>>>=20
-> > >>>> The issue is that there can be as many guest physical address spac=
-es as
-> > >>>> there are vfio-user clients connected, so per-client isolated addr=
-ess
-> > >>>> spaces are required. This patch series has a solution to that prob=
-lem
-> > >>>> with the new pci_isol_as_mem/io() API.   =20
-> > >>>=20
-> > >>> Sorry, this still doesn't follow for me.  A server that hosts multi=
-ple
-> > >>> devices across many VMs (I'm not sure if you're referring to the de=
-vice
-> > >>> or the VM as a client) needs to deal with different address spaces =
-per
-> > >>> device.  The server needs to be able to uniquely identify every DMA,
-> > >>> which must be part of the interface protocol.  But I don't see how =
-that
-> > >>> imposes a requirement of an isolated address space.  If we want the
-> > >>> device isolated because we don't trust the server, that's where an =
-IOMMU
-> > >>> provides per device isolation.  What is the restriction of the
-> > >>> per-client isolated address space and why do we need it?  The server
-> > >>> needing to support multiple clients is not a sufficient answer to
-> > >>> impose new PCI bus types with an implicit restriction on the VM.   =
-=20
-> > >>=20
-> > >> Hi Alex,
-> > >>=20
-> > >> I believe there are two separate problems with running PCI devices in
-> > >> the vfio-user server. The first one is concerning memory isolation a=
-nd
-> > >> second one is vectoring of BAR accesses (as explained below).
-> > >>=20
-> > >> In our previous patches (v3), we used an IOMMU to isolate memory
-> > >> spaces. But we still had trouble with the vectoring. So we implement=
-ed
-> > >> separate address spaces for each PCIBus to tackle both problems
-> > >> simultaneously, based on the feedback we got.
-> > >>=20
-> > >> The following gives an overview of issues concerning vectoring of
-> > >> BAR accesses.
-> > >>=20
-> > >> The device=E2=80=99s BAR regions are mapped into the guest physical =
-address
-> > >> space. The guest writes the guest PA of each BAR into the device=E2=
-=80=99s BAR
-> > >> registers. To access the BAR regions of the device, QEMU uses
-> > >> address_space_rw() which vectors the physical address access to the
-> > >> device BAR region handlers. =20
-> > >=20
-> > > The guest physical address written to the BAR is irrelevant from the
-> > > device perspective, this only serves to assign the BAR an offset with=
-in
-> > > the address_space_mem, which is used by the vCPU (and possibly other
-> > > devices depending on their address space).  There is no reason for the
-> > > device itself to care about this address. =20
-> >=20
-> > Thank you for the explanation, Alex!
-> >=20
-> > The confusion at my part is whether we are inside the device already wh=
-en
-> > the server receives a request to access BAR region of a device. Based on
-> > your explanation, I get that your view is the BAR access request has
-> > propagated into the device already, whereas I was under the impression
-> > that the request is still on the CPU side of the PCI root complex.
->=20
-> If you are getting an access through your MemoryRegionOps, all the
-> translations have been made, you simply need to use the hwaddr as the
-> offset into the MemoryRegion for the access.  Perform the read/write to
-> your device, no further translations required.
+Ok, so if I understand correctly QEMU would do something along the lines of:
 
-The access comes via libvfio-user's vfu_region_access_cb_t callback, not
-via MemoryRegionOps. The callback is currently implemented by calling
-address_space_rw() on the pci_isol_as_mem/io() address space, depending
-on the BAR type. The code in "[PATCH v5 15/18] vfio-user: handle PCI BAR
-accesses".
+1. Use memfd_create(...MFD_INACCESSIBLE) to allocate private memory for
+the guest.
 
-It's possible to reimplement the patch to directly call
-memory_region_dispatch_read/write() on r->memory instead of
-address_space_rw() as you've described.
+2. ftruncate/fallocate the memfd to back the appropriate areas of the memfd.
 
-> > Your view makes sense to me - once the BAR access request reaches the
-> > client (on the other side), we could consider that the request has reac=
-hed
-> > the device.
-> >=20
-> > On a separate note, if devices don=E2=80=99t care about the values in B=
-AR
-> > registers, why do the default PCI config handlers intercept and map
-> > the BAR region into address_space_mem?
-> > (pci_default_write_config() -> pci_update_mappings())
->=20
-> This is the part that's actually placing the BAR MemoryRegion as a
-> sub-region into the vCPU address space.  I think if you track it,
-> you'll see PCIDevice.io_regions[i].address_space is actually
-> system_memory, which is used to initialize address_space_system.
->=20
-> The machine assembles PCI devices onto buses as instructed by the
-> command line or hot plug operations.  It's the responsibility of the
-> guest firmware and guest OS to probe those devices, size the BARs, and
-> place the BARs into the memory hierarchy of the PCI bus, ie. system
-> memory.  The BARs are necessarily in the "guest physical memory" for
-> vCPU access, but it's essentially only coincidental that PCI devices
-> might be in an address space that provides a mapping to their own BAR.
-> There's no reason to ever use it.
+3. Create a memslot in KVM pointing to the memfd
 
-Good, I think nothing uses address_space_system/io when BAR dispatch is
-implemented with memory_region_dispatch_read/write() as you suggested.
+4. Load the 'guest firmware' (kernel/initrd or similar) into VMM memory
 
-It would be nice if there was a way to poison address_space_system/io to
-abort on dispatch - nothing should use them.
+5. Use the KVM_MEMORY_ENCRYPT_OP to request the 'guest firmware' be
+copied into the private memory. The ioctl would temporarily pin the
+pages and ask the TDX module to copy (& encrypt) the data into the
+private memory, unpinning after the copy.
 
-We now have the option of dropping pci_isol_as_mem/io() again and using
-->iommu_fn() to return an isolated memory address space containing the
-vfio-user client's VFIO_USER_DMA_MAP regions.
+6. QEMU can then free the unencrypted copy of the guest firmware.
 
-Stefan
+>>
+>> However as things stand it's not possible to set the INACCESSIBLE seal
+>> after creating a memfd (F_ALL_SEALS hasn't been updated to include it).
+>>
+>> One potential workaround would be for arm64 to provide a custom KVM
+>> ioctl to effectively memcpy() into the guest's protected memory which
+>> would only be accessible before the guest has started. The drawback is
+>> that it requires two copies of the data during guest setup.
+> 
+> So, the guest pages are not encrypted in the realm?
 
---wI21tKL6ukhTRmRP
-Content-Type: application/pgp-signature; name="signature.asc"
+The pages are likely to be encrypted, but architecturally it doesn't
+matter - the hardware prevents the 'Normal World' accessing the pages
+when they are assigned to the realm. Encryption is only necessary to
+protect against hardware attacks (e.g. bus snooping).
 
------BEGIN PGP SIGNATURE-----
+> I think you could do the same thing, i.e. KVM copies the pages to the realm, where pages are allocated by the backing store. But, yes, it will have two copies of the data at that time unless encrypted. .
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmH6TUwACgkQnKSrs4Gr
-c8jdHggAw3tylPyKY5dE/QQWcbD/PdQ1jZafpHo9tnKmTzyY3TOY44xVD73UCPz/
-4UQPZ7O1FU+KmAxzn7YLS84Eti8ce2Q8hV16KBDjpb5Biifgfgz5zWv3zyTvr9WY
-s4B3pwAZUuCyM4S5myhZUg+8DgNdifqDPxKi0ICueOhncd1nkLFeUEEocR+ykMx1
-27Fs1qXrtSIII1MFAAUbjcjNSDzrTe/Df7LdTyQKsjvYjO2GvbODTJBjj7QW1P41
-Q3QwLMoAYd/qa5wihl+NJZ/OuL3A9/cm66l6xbPIbbIJakBu1AmSBc/UZTwt2Cgg
-U/WL51HMJPyRV2z/l8TYRiC1Cz0jvA==
-=5r17
------END PGP SIGNATURE-----
+I'm not sure I follow the "unless encrypted" part of that.
 
---wI21tKL6ukhTRmRP--
+>>
+>> Do you think things could be relaxed so the F_SEAL_INACCESSIBLE flag
+>> could be set after a memfd has been created (and partially populated)?
+>>
+> 
+> I think F_SEAL_INACCESSIBLE could be deferred to the point where measurement of the initial image is done (we call “build-time” measurement in TDX). For example, if we add a callback to activate F_SEAL_INACCESSIBLE and KVM calls it before such the measurement time, does that work for you?
 
+Yes, if it's possible to defer setting the F_SEAL_INACCESSIBLE then it
+should be possible for QEMU to load the initial 'guest firmware'
+straight into the memfd. Then to launch the guest the trusted component
+only needs to protect and measure the populated pages - there's no need
+to copy the data from one set of pages to another. This removes the need
+to have two copies of the initial image in memory at the point of measuring.
+
+Thanks,
+
+Steve
 
