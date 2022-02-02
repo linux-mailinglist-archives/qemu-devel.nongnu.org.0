@@ -2,90 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2BBD24A7898
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Feb 2022 20:17:46 +0100 (CET)
-Received: from localhost ([::1]:54400 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C6684A78B7
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Feb 2022 20:29:26 +0100 (CET)
+Received: from localhost ([::1]:38914 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nFL8T-0002Fu-A6
-	for lists+qemu-devel@lfdr.de; Wed, 02 Feb 2022 14:17:45 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:56374)
+	id 1nFLJk-0003Vv-Tu
+	for lists+qemu-devel@lfdr.de; Wed, 02 Feb 2022 14:29:24 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:58728)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nFJb1-0001Rb-5h; Wed, 02 Feb 2022 12:39:07 -0500
-Received: from [2a00:1450:4864:20::32a] (port=41800
- helo=mail-wm1-x32a.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nFJay-0007zR-9E; Wed, 02 Feb 2022 12:39:06 -0500
-Received: by mail-wm1-x32a.google.com with SMTP id
- bg21-20020a05600c3c9500b0035283e7a012so116398wmb.0; 
- Wed, 02 Feb 2022 09:39:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=Nl44S9nLCIdosevnqIOHcgJWbM4T8fJZfXLjX+P5WpY=;
- b=Y4Bg7cLzF1v12ozd96EJpriFVgrbec/+t2ITTpPTU5V0Kmonlnl0WV62dgDtsgOgw8
- EPicO71lgodpkEruvStiXNc3mdOfZxwF9OBbdGuurZTA1xRhDNmeZ9D8RFH3bgLFv2yE
- 4xzTKCA3ThdK8TGMJkNI7T6ws0wnzs+d3vGyU+e071/wBWoQvs5FY5ADMBq+11O0mOVQ
- c25wa1uSQpfdqFpf66kYUjAXCskomcrhgeJI1Nm50+VKF+PwRTnMY7ELH+Ztnf+QkseE
- FWfi6E6dBF1JrAo/99n0bEfeVoqvO90Ak4xl+SDfD2YljZ4mlPpsV8pZK/7wiWPRJTaC
- pr/g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=Nl44S9nLCIdosevnqIOHcgJWbM4T8fJZfXLjX+P5WpY=;
- b=STUH9FL5CEEULJJvfVKHUPl0oGoQD9180EI79eFgGjSXD86F/Dm2ycNjAV51Mw1UgO
- vhvPa85TEDq5RlgAK3x8PwZWt1W1kpul3EHmqmEdll5gPtLi9ZC3BYIjyATale0cUv/p
- Bj+5fYyOP8TNXf8vIJE/HLG5wzApSwAPVE5/BpR2bQsHUiDG7rkAMDa0Ovu2CtRKzaU0
- zVnUyLyUG/rkESEyVrOS2hF7MbZGo0mT+15OcW+Le6y1qh2cF7e1F2SCM2fjFDuman49
- fKMAxRAhLV4Ou4dL+sI6WIhmYZhGnxZUiGmX++krIRBOjuUdeWLjovFWnj3hG/9an6ZJ
- YfKg==
-X-Gm-Message-State: AOAM532/4QX/53kZvg9AzMIfBPJcsJ+gYXLhEaYZDq82CKJaRStYNYYP
- DhCZUSEZFp3DtN0Lb/ILrCQ=
-X-Google-Smtp-Source: ABdhPJy2jL83v0LjzG/6skOtXFBRlzDnCG9Lbk7O+hEa9vt9vV/W9uWk/Y4jhocKg19iGRGfsDQlZQ==
-X-Received: by 2002:a05:600c:a03:: with SMTP id
- z3mr6971960wmp.73.1643823542410; 
- Wed, 02 Feb 2022 09:39:02 -0800 (PST)
-Received: from ?IPV6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
- ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.googlemail.com with ESMTPSA id l6sm19224790wrs.51.2022.02.02.09.38.59
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 02 Feb 2022 09:39:01 -0800 (PST)
-Message-ID: <fbc50950-5124-87a2-a876-6e22e5a10404@redhat.com>
-Date: Wed, 2 Feb 2022 18:38:58 +0100
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1nFJkT-0005LM-7R
+ for qemu-devel@nongnu.org; Wed, 02 Feb 2022 12:48:53 -0500
+Received: from kylie.crudebyte.com ([5.189.157.229]:43013)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1nFJkQ-0002dg-NT
+ for qemu-devel@nongnu.org; Wed, 02 Feb 2022 12:48:52 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
+ MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+ Content-ID:Content-Description;
+ bh=gMYHFO+mVi4A6wWiFBMslrY6UsbpYBMmU5Fa09M1J+0=; b=nAvGLv6Sr5oB9HBh3mEBDrifqA
+ 99WXCD5N8hziPPUViCs8qLF0UF5+6x5wQSTtSfIPzWWH/T1vZa9qbUjN8By0h2sFZC+jzwhNqMX80
+ CdGjPZURBCiYBZmdO9OdKnhrUlcd25fTeU7JKWKs7vDrjWluf4T9iQFPw6fOy4mWElG1R+JcC3aYR
+ iT0/KXjIZnLyNCZBWlb4Nq3eJv9np2JFhMMtlVZPzdoJbA7jkYA6EtgKJaK5UuzDHy1ucZIOj+Ngh
+ W3InZLcUlkLiH0/2MHeRFIdwRVkETr07fjCuUF2oGSsyzsWYk3hkC3cfVeTLOtT8lU55q/Y1yVEcY
+ hJQtuhL7kejJKTgi2ByrFlxtIxCPsI+w8no5f2biWllxMtAMltRyfpkLaZ0+3UcMBBEfoveBPoPGH
+ BJdnsEIFYL+n8gIoDjJqDzCvvVhU76WBCPOMdqYrJ7I+TnV4FQPi2SESMBe8/m2jH+IRtQR05u4Xn
+ YKqgrKZb5CWOfqKrVmrbDXq7U//iYGlTTxv81ph4vLG6c2JWTX5FcOMCufidHmS0+qQ6ifz3kY5se
+ tMF3bX43DqZyJAyHqg1pEYzIL8zRH/MTVgIEmNXClK81xnXH6WAorYIfMznkTWx2yVs0nLs6VfRDt
+ jd8d0iXoFLgGGKDCVbYtEMwF8Ho5nctQN6fzlW5iU=;
+From: Christian Schoenebeck <qemu_oss@crudebyte.com>
+To: qemu-devel@nongnu.org
+Cc: Will Cohen <wwcohen@gmail.com>, Laurent Vivier <lvivier@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, Greg Kurz <groug@kaod.org>, hi@alyssa.is,
+ Michael Roitzsch <reactorcontrol@icloud.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Keno Fischer <keno@juliacomputing.com>
+Subject: Re: [PATCH v3 03/11] 9p: darwin: Handle struct stat(fs) differences
+Date: Wed, 02 Feb 2022 18:48:39 +0100
+Message-ID: <3243583.xhL7s5NutC@silver>
+In-Reply-To: <20220128005611.87185-4-wwcohen@gmail.com>
+References: <20220128005611.87185-1-wwcohen@gmail.com>
+ <20220128005611.87185-4-wwcohen@gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH 10/12] block.c: add subtree_drains where needed
-Content-Language: en-US
-To: Emanuele Giuseppe Esposito <eesposit@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-block@nongnu.org
-References: <20220118162738.1366281-1-eesposit@redhat.com>
- <20220118162738.1366281-11-eesposit@redhat.com>
- <52eff922-0ca4-fc12-0edb-8eb963ac306c@virtuozzo.com>
- <a2e77f99-3138-0a24-9ced-79f441d42ca4@redhat.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-In-Reply-To: <a2e77f99-3138-0a24-9ced-79f441d42ca4@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32a
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x32a.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.001,
- PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
+Received-SPF: pass client-ip=5.189.157.229;
+ envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -98,36 +68,134 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
- qemu-devel@nongnu.org, Hanna Reitz <hreitz@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/2/22 16:37, Emanuele Giuseppe Esposito wrote:
-> So we have disk B with backing file C, and new disk A that wants to have
-> backing file C.
+On Freitag, 28. Januar 2022 01:56:03 CET Will Cohen wrote:
+> From: Keno Fischer <keno@juliacomputing.com>
 > 
-> I think I understand what you mean, so in theory the operation would be
-> - create new child
-> - add child to A->children list
-> - add child to C->parents list
+> Signed-off-by: Keno Fischer <keno@juliacomputing.com>
+> Signed-off-by: Michael Roitzsch <reactorcontrol@icloud.com>
+> [Will Cohen: - Note lack of f_namelen and f_frsize on Darwin]
+> Signed-off-by: Will Cohen <wwcohen@gmail.com>
+> ---
+>  hw/9pfs/9p-proxy.c | 18 +++++++++++++++---
+>  hw/9pfs/9p-synth.c |  2 ++
+>  hw/9pfs/9p.c       | 16 ++++++++++++++--
+>  3 files changed, 31 insertions(+), 5 deletions(-)
 > 
-> So in theory we need to
-> * drain A (without subtree), because it can't happen that child nodes of
->    A have in-flight requests that look at A status (children list), right?
->    In other words, if A has another node X, can a request in X inspect
->    A->children
-> * drain C, as parents can inspect C status (like B). Same assumption
->    here, C->children[x]->bs cannot have requests inspecting C->parents
->    list?
+> diff --git a/hw/9pfs/9p-proxy.c b/hw/9pfs/9p-proxy.c
+> index 09bd9f1464..f5aade21b5 100644
+> --- a/hw/9pfs/9p-proxy.c
+> +++ b/hw/9pfs/9p-proxy.c
+> @@ -123,10 +123,16 @@ static void prstatfs_to_statfs(struct statfs *stfs,
+> ProxyStatFS *prstfs) stfs->f_bavail = prstfs->f_bavail;
+>      stfs->f_files = prstfs->f_files;
+>      stfs->f_ffree = prstfs->f_ffree;
+> +#ifdef CONFIG_DARWIN
+> +    /* f_namelen and f_frsize do not exist on Darwin */
+> +    stfs->f_fsid.val[0] = prstfs->f_fsid[0] & 0xFFFFFFFFU;
+> +    stfs->f_fsid.val[1] = prstfs->f_fsid[1] >> 32 & 0xFFFFFFFFU;
+> +#else
+>      stfs->f_fsid.__val[0] = prstfs->f_fsid[0] & 0xFFFFFFFFU;
+>      stfs->f_fsid.__val[1] = prstfs->f_fsid[1] >> 32 & 0xFFFFFFFFU;
+>      stfs->f_namelen = prstfs->f_namelen;
+>      stfs->f_frsize = prstfs->f_frsize;
+> +#endif
+>  }
+> 
+>  /* Converts proxy_stat structure to VFS stat structure */
+> @@ -143,12 +149,18 @@ static void prstat_to_stat(struct stat *stbuf,
+> ProxyStat *prstat) stbuf->st_size = prstat->st_size;
+>     stbuf->st_blksize = prstat->st_blksize;
+>     stbuf->st_blocks = prstat->st_blocks;
+> -   stbuf->st_atim.tv_sec = prstat->st_atim_sec;
 
-In that case (i.e. if parents have to be drained, but children need not) 
-bdrv_drained_begin_unlocked would be enough, right?
+Like already mentioned in v2: please assign some value to
+stbuf->st_atim.tv_sec as well, i.e. don't just delete it.
 
-That would mean that ->children is I/O state but ->parents is global 
-state.  I think it's quite a bit more complicated to analyze and to 
-understand.
+On most systems there is a workaround in place like:
 
-Paolo
+           #define st_atime st_atim.tv_sec      /* Backward compatibility */
+           #define st_mtime st_mtim.tv_sec
+           #define st_ctime st_ctim.tv_sec
+
+In that case your changes would work, but I would not rely on that.
+
+Best regards,
+Christian Schoenebeck
+
+> -   stbuf->st_atim.tv_nsec = prstat->st_atim_nsec;
+> +   stbuf->st_atime = prstat->st_atim_sec;
+>     stbuf->st_mtime = prstat->st_mtim_sec;
+> -   stbuf->st_mtim.tv_nsec = prstat->st_mtim_nsec;
+>     stbuf->st_ctime = prstat->st_ctim_sec;
+> +#ifdef CONFIG_DARWIN
+> +   stbuf->st_atimespec.tv_nsec = prstat->st_atim_nsec;
+> +   stbuf->st_mtimespec.tv_nsec = prstat->st_mtim_nsec;
+> +   stbuf->st_ctimespec.tv_nsec = prstat->st_ctim_nsec;
+> +#else
+> +   stbuf->st_atim.tv_nsec = prstat->st_atim_nsec;
+> +   stbuf->st_mtim.tv_nsec = prstat->st_mtim_nsec;
+>     stbuf->st_ctim.tv_nsec = prstat->st_ctim_nsec;
+> +#endif
+>  }
+> 
+>  /*
+> diff --git a/hw/9pfs/9p-synth.c b/hw/9pfs/9p-synth.c
+> index b38088e066..4a4a776d06 100644
+> --- a/hw/9pfs/9p-synth.c
+> +++ b/hw/9pfs/9p-synth.c
+> @@ -427,7 +427,9 @@ static int synth_statfs(FsContext *s, V9fsPath *fs_path,
+> stbuf->f_bsize = 512;
+>      stbuf->f_blocks = 0;
+>      stbuf->f_files = synth_node_count;
+> +#ifndef CONFIG_DARWIN
+>      stbuf->f_namelen = NAME_MAX;
+> +#endif
+>      return 0;
+>  }
+> 
+> diff --git a/hw/9pfs/9p.c b/hw/9pfs/9p.c
+> index 9c63e14b28..1563d7b7c6 100644
+> --- a/hw/9pfs/9p.c
+> +++ b/hw/9pfs/9p.c
+> @@ -1313,11 +1313,17 @@ static int stat_to_v9stat_dotl(V9fsPDU *pdu, const
+> struct stat *stbuf, v9lstat->st_blksize = stat_to_iounit(pdu, stbuf);
+>      v9lstat->st_blocks = stbuf->st_blocks;
+>      v9lstat->st_atime_sec = stbuf->st_atime;
+> -    v9lstat->st_atime_nsec = stbuf->st_atim.tv_nsec;
+>      v9lstat->st_mtime_sec = stbuf->st_mtime;
+> -    v9lstat->st_mtime_nsec = stbuf->st_mtim.tv_nsec;
+>      v9lstat->st_ctime_sec = stbuf->st_ctime;
+> +#ifdef CONFIG_DARWIN
+> +    v9lstat->st_atime_nsec = stbuf->st_atimespec.tv_nsec;
+> +    v9lstat->st_mtime_nsec = stbuf->st_mtimespec.tv_nsec;
+> +    v9lstat->st_ctime_nsec = stbuf->st_ctimespec.tv_nsec;
+> +#else
+> +    v9lstat->st_atime_nsec = stbuf->st_atim.tv_nsec;
+> +    v9lstat->st_mtime_nsec = stbuf->st_mtim.tv_nsec;
+>      v9lstat->st_ctime_nsec = stbuf->st_ctim.tv_nsec;
+> +#endif
+>      /* Currently we only support BASIC fields in stat */
+>      v9lstat->st_result_mask = P9_STATS_BASIC;
+> 
+> @@ -3519,9 +3525,15 @@ static int v9fs_fill_statfs(V9fsState *s, V9fsPDU
+> *pdu, struct statfs *stbuf) f_bavail = stbuf->f_bavail / bsize_factor;
+>      f_files  = stbuf->f_files;
+>      f_ffree  = stbuf->f_ffree;
+> +#ifdef CONFIG_DARWIN
+> +    fsid_val = (unsigned int)stbuf->f_fsid.val[0] |
+> +               (unsigned long long)stbuf->f_fsid.val[1] << 32;
+> +    f_namelen = NAME_MAX;
+> +#else
+>      fsid_val = (unsigned int) stbuf->f_fsid.__val[0] |
+>                 (unsigned long long)stbuf->f_fsid.__val[1] << 32;
+>      f_namelen = stbuf->f_namelen;
+> +#endif
+> 
+>      return pdu_marshal(pdu, offset, "ddqqqqqqd",
+>                         f_type, f_bsize, f_blocks, f_bfree,
+
+
 
