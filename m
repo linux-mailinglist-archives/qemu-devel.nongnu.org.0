@@ -2,73 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23D864A78AF
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Feb 2022 20:26:51 +0100 (CET)
-Received: from localhost ([::1]:34694 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 601CF4A78CF
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Feb 2022 20:39:57 +0100 (CET)
+Received: from localhost ([::1]:48232 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nFLHF-0000Hm-PA
-	for lists+qemu-devel@lfdr.de; Wed, 02 Feb 2022 14:26:49 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:36160)
+	id 1nFLTv-0002DE-Vr
+	for lists+qemu-devel@lfdr.de; Wed, 02 Feb 2022 14:39:56 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:39872)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <deller@gmx.de>)
- id 1nFK6e-0006sc-Te; Wed, 02 Feb 2022 13:11:50 -0500
-Received: from mout.gmx.net ([212.227.17.21]:38697)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1nFKLr-0002XW-L9
+ for qemu-devel@nongnu.org; Wed, 02 Feb 2022 13:27:31 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:21360)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <deller@gmx.de>)
- id 1nFK6b-0007CL-Ux; Wed, 02 Feb 2022 13:11:48 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
- s=badeba3b8450; t=1643825502;
- bh=MIIiyQepJPQNxy7Y4i69XROYn8tWU8Z5FcYyk0egEm4=;
- h=X-UI-Sender-Class:From:To:Cc:Subject:Date:In-Reply-To:References;
- b=U3pzfTgLwJnuj7xP99NzxldYpP7eC6O8RAJOV3J/YNLAiErVaXD0LM5iebKnsC9ek
- d23mWKN7lBbfvqNs9yX48glCX7GcAhh/kflwwcBAdwCC6o174iKGVyTeneV3dhLOAf
- 3Zn7H6D9H9oQ/+xySRb7Xw0d4/8rQ6yPKaQ7Bq/s=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from p100.fritz.box ([92.116.163.171]) by mail.gmx.net (mrgmx104
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1N6bfq-1m9WMq2TRG-017z0Z; Wed, 02
- Feb 2022 19:11:42 +0100
-From: Helge Deller <deller@gmx.de>
-To: peter.maydell@linaro.org,
-	qemu-devel@nongnu.org
-Subject: [PULL 6/6] hw/display/artist: Fix draw_line() artefacts
-Date: Wed,  2 Feb 2022 19:11:39 +0100
-Message-Id: <20220202181139.124485-7-deller@gmx.de>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220202181139.124485-1-deller@gmx.de>
-References: <20220202181139.124485-1-deller@gmx.de>
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1nFKLn-00066w-DD
+ for qemu-devel@nongnu.org; Wed, 02 Feb 2022 13:27:29 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1643826445;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=f5qYFPMjtYkAUE9Qa0NU8b8mGdM0TlpjBtYLXIva0Jw=;
+ b=iKorghC/aBr0w/uAii9hfV01FajsmkTlx/p2ynWovLQAjFH5yVMlLBBGTZWjgXcbLAngf3
+ gq1cwsVuqSOPQCFn1NmWOMGZEfK4gsSS8vyYBZAbjA96nBl+DsVW0Ck+FSG6LVG+RdF9aa
+ OMb9IIqZJ4OI6C3XsRJSylSy5KXEd5c=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-107-p1DrynA8MKy5aB4OtFIs0g-1; Wed, 02 Feb 2022 13:27:25 -0500
+X-MC-Unique: p1DrynA8MKy5aB4OtFIs0g-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 671EC18252A2;
+ Wed,  2 Feb 2022 18:27:13 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.193.150])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 7581B77465;
+ Wed,  2 Feb 2022 18:27:05 +0000 (UTC)
+Date: Wed, 2 Feb 2022 19:27:03 +0100
+From: Kevin Wolf <kwolf@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH v6 21/33] block: move BQL logic of
+ bdrv_co_invalidate_cache in bdrv_activate
+Message-ID: <YfrM93kYJq4Eh7ED@redhat.com>
+References: <20220121170544.2049944-1-eesposit@redhat.com>
+ <20220121170544.2049944-22-eesposit@redhat.com>
+ <YfJ79zaea6yFFh4w@redhat.com>
+ <dbb3943a-ebb7-5979-8199-8808fa6953b7@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:+0YMqEdubNeUTwnR3SuoWbRnYisU4idS56yN74wh46eQ1OcLSGI
- UXxvwfD+eNWz/OsVBkiqDrSyAFECn2xPYNJypZrzRFuJsqj2vwSGAkNOlW6yHwrDJP0vFLq
- NMNflewf3ZU9Gq7LRgeOs9Y7ID/AxLrM5MjdrKfNkh0r61aVUk6a/fT5tykKIC7W7BB5dUF
- 0L2qncbv234K5HYsFKr/g==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:5vPjtJqxrNQ=:rnfGOAbMUCdBy3WALVKMWx
- eYP8ySZyfu4wUIzyJf/Dzd5LePvAlziM0n8xJ4YONDmHgzl/Ki8M3Luv3MrZPpuI9EZvZKHIG
- oWWDj+NwZ13KmEQ53DfSNtRO+l7diHB2JdJSGIdHUdD2OQFrq1mX9BIWAq++vXKvG03PfcFMv
- NTwSC/x7Iwr0QGmfd23czqbW3+lCPiicKEkWpkVOk8nCchYTNPUEm2qB3bPq8hZR5uVjXLiTL
- Jh/U9FM41bW5QwDdmn45XrJAC1fVAmF/R/b50542ZWSaM1ZJZ0wZJDT7RG2+iYToUdjPVG5v7
- +gePhIVBVKIc27pdqs8nkOEGxWjrak1q5/f+4WaQ+frmlDGYYAL176AymoVthTOyg0viVItoU
- t4WcwmJBfcMYUO6rgj0qWsoAY2GHFxJn8Ui33cQF2i87FjjXre7G87i3qSDfS6tfZX54zDV/L
- JnhT7RotRz4iOfQaaI5tZ+WM4PY+JEZPrGs/xRAL/Nc432QsWug8gkS9I3Q5q9zSsyyPLyze8
- D675bNN449aekqHtywwMNalT6qQ1NbdndUjP8kZm84Kzri6EQSxIIbfO/M/UaQa57y1kTbbqx
- JwLVJneBiQWTsR3uNfZtdeK/lYXys8XruhOV1tlBtGBLNL6/d8AYaA6Ow3CsYKSesrLSm+juR
- 0uDVzeYMYh9WzTLz1f7jvy7EDOMFwMjpyoSnzAzQQhrBARGiKMNmp9MNIGqKc0EQ2CgJOV+U6
- /WhEox5ORHORF0z68Jr6QQ4nSNHr9NYNJAv48boirgg3RK6WGO0lnYanmBmdeHYCLqDZVHDe1
- GddLKYXmT970ubup4rc8fEdJnJC+klwXK4rKobkmD/Tl/lhsRYYKn71G/RJhlVrAO+FMBflZ5
- hQwds8NcHXe3f7yxczZmUWSf44UzDtZB7VXrYUCgivLPQt1BpmpwFwOQSelHyRLynvDIZpzId
- DSdECeYNSsZCR/4FhOUwZ3EK/EayLQPCZ7RHeK4QmL1i3m4bKZsr0ks6//WRcJb8rxzep+1Rj
- drRE65+X9FOmvckHO/5v4cexA8EOjT15plQSelZztL1dI1VDqqNweociniJJnFiBNJ+PbiddK
- JftfMjR39eRX64=
-Received-SPF: pass client-ip=212.227.17.21; envelope-from=deller@gmx.de;
- helo=mout.gmx.net
-X-Spam_score_int: -25
-X-Spam_score: -2.6
+In-Reply-To: <dbb3943a-ebb7-5979-8199-8808fa6953b7@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, FREEMAIL_FROM=0.001, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.086,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -81,47 +80,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- Helge Deller <deller@gmx.de>, Sven Schnelle <svens@stackframe.org>,
- qemu-stable@nongnu.org
+Cc: Fam Zheng <fam@euphon.net>, qemu-devel@nongnu.org,
+ "Denis V. Lunev" <den@openvz.org>, Eric Blake <eblake@redhat.com>,
+ Emanuele Giuseppe Esposito <eesposit@redhat.com>, qemu-block@nongnu.org,
+ Juan Quintela <quintela@redhat.com>,
+ Daniel Henrique Barboza <danielhb413@gmail.com>,
+ Markus Armbruster <armbru@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, Greg Kurz <groug@kaod.org>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>,
+ Stefan Hajnoczi <stefanha@redhat.com>, John Snow <jsnow@redhat.com>,
+ David Gibson <david@gibson.dropbear.id.au>,
+ Eduardo Habkost <eduardo@habkost.net>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>,
+ Hanna Reitz <hreitz@redhat.com>, qemu-ppc@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Sven Schnelle <svens@stackframe.org>
+Am 02.02.2022 um 18:27 hat Paolo Bonzini geschrieben:
+> On 1/27/22 12:03, Kevin Wolf wrote:
+> > > +int coroutine_fn bdrv_co_invalidate_cache(BlockDriverState *bs, Error **errp)
+> > > +{
+> > > +    Error *local_err = NULL;
+> > > +
+> > > +    if (bs->drv->bdrv_co_invalidate_cache) {
+> > > +        bs->drv->bdrv_co_invalidate_cache(bs, &local_err);
+> > > +        if (local_err) {
+> > > +            bs->open_flags |= BDRV_O_INACTIVE;
+> > 
+> > This doesn't feel like the right place. The flag is cleared by the
+> > caller, so it should also be set again on failure by the caller and not
+> > by this function.
+> > 
+> > What bdrv_co_invalidate_cache() could do is assert that BDRV_O_INACTIVE
+> > is cleared when it's called.
+> 
+> Do you think this would be handled more easily into its own series?
+> 
+> In general, the work in this series is more incremental than its size
+> suggests.  Perhaps it should be flushed out in smaller pieces.
 
-The draw_line() function left artefacts on the screen because it was using=
- the
-x/y variables which were incremented in the loop before. Fix it by using t=
-he
-unmodified x1/x2 variables instead.
+Smaller pieces are always easier to handle, so if things make sense
+independently, splitting them off is usually a good idea.
 
-Signed-off-by: Sven Schnelle <svens@stackframe.org>
-Signed-off-by: Helge Deller <deller@gmx.de>
-Cc: qemu-stable@nongnu.org
-Signed-off-by: Helge Deller <deller@gmx.de>
-=2D--
- hw/display/artist.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
-
-diff --git a/hw/display/artist.c b/hw/display/artist.c
-index 8a9fa482d0..1d877998b9 100644
-=2D-- a/hw/display/artist.c
-+++ b/hw/display/artist.c
-@@ -553,10 +553,11 @@ static void draw_line(ARTISTState *s,
-         }
-         x++;
-     } while (x <=3D x2 && (max_pix =3D=3D -1 || --max_pix > 0));
-+
-     if (c1)
--        artist_invalidate_lines(buf, x, dy+1);
-+        artist_invalidate_lines(buf, x1, x2 - x1);
-     else
--        artist_invalidate_lines(buf, y, dx+1);
-+        artist_invalidate_lines(buf, y1 > y2 ? y2 : y1, x2 - x1);
- }
-
- static void draw_line_pattern_start(ARTISTState *s)
-=2D-
-2.34.1
+Kevin
 
 
