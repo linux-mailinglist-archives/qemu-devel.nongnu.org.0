@@ -2,72 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1945A4A7B14
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Feb 2022 23:28:48 +0100 (CET)
-Received: from localhost ([::1]:48654 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DB7A44A7B31
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Feb 2022 23:40:18 +0100 (CET)
+Received: from localhost ([::1]:53568 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nFO7K-0006rV-Lv
-	for lists+qemu-devel@lfdr.de; Wed, 02 Feb 2022 17:28:46 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:37488)
+	id 1nFOIM-0002KC-Vn
+	for lists+qemu-devel@lfdr.de; Wed, 02 Feb 2022 17:40:13 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:39898)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1nFO5D-0005zR-3Z; Wed, 02 Feb 2022 17:26:35 -0500
-Received: from [2607:f8b0:4864:20::12c] (port=43746
- helo=mail-il1-x12c.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1nFO55-0002xH-RR; Wed, 02 Feb 2022 17:26:30 -0500
-Received: by mail-il1-x12c.google.com with SMTP id d3so579225ilr.10;
- Wed, 02 Feb 2022 14:26:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=d59NW68X7p/w5KkKVH+M/3fV0X4MobPPYVl4bxV2RUk=;
- b=N+7zSsGszQrS4k8jgdUDaaZXigyzxWL3MuT8rmQckgFRgFdUiNTXuE1+CR1sRS1R+6
- gMPQ4+9ez2OIa8uEZIHPekhJrx2AW0ZgdaFa9XRDMBFLhHPLn0HYLxQ0RPbOkl7HS7kn
- TDIohxhm23HZoqTEtG+t/Oj1jg8JsgQP1tuOavOc5zggmW7PtcRhaz4nSluMG03NXFOK
- 6SgkxgQtawbNIbGaYxlOt65hhKYVFrgPJu+CD1fjXZvTsv81g3JdW+ke5qPTF/3u0I8s
- tlf0CBvPWtNn9sTE07Iuq+wBIiGFhBYv1GBiyC8Zt1ke4bFoE7ipmzWtpbRANQWa9JCd
- qxLg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=d59NW68X7p/w5KkKVH+M/3fV0X4MobPPYVl4bxV2RUk=;
- b=SPY19kGzUYfQGSfMrZyoFhNAV/dQBztf9ycuFUZpjRkjmdNnMLa9Hn1g/Ei24ocU72
- ebZ7pWR37nUwevB6xr5lf8PyP1O+5r74romc77H5K4pT4M+tZo9nQWpTKKCe7txcTAH3
- ayLIIorxLZzWtLW29+i7D2YAPIGfGyQBUWFzgL8sGFx35N4vonIOGLYnkd0wv1Me8+rv
- Vhj6gJJ4ebiQFdwVtXCjrCGSP08l98bTcdMyOcUM7ogyaxAgg1c1Pb5TfKZmXE3Umj3u
- ywBkPVhSspsOQZgr3QyjWfe7IEv+slNG7BU/zh5MNyCbyeFSwDik1II510pKkdeX2n8W
- wQ2Q==
-X-Gm-Message-State: AOAM532OE4SULo+0a9LRF1FJRl7dhxNm2QuQNFagLzbqeqwM9gDSqFsd
- +AmOiwM5cBchrFLWU6jz6gFN+GIpr0UxjU4SGUA=
-X-Google-Smtp-Source: ABdhPJyG3qeLIvI0Zmh1HMwPaTB/89V52SE/yQhaZHdA9D3HZZzlFzP5cxtqbfkcM2wgO8huAmC8vviI5AIo1fGbMWg=
-X-Received: by 2002:a05:6e02:1307:: with SMTP id
- g7mr7887018ilr.46.1643840781109; 
- Wed, 02 Feb 2022 14:26:21 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1nFOEF-0008Py-UJ
+ for qemu-devel@nongnu.org; Wed, 02 Feb 2022 17:35:55 -0500
+Received: from mout.kundenserver.de ([217.72.192.74]:40093)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1nFOEA-0004QA-45
+ for qemu-devel@nongnu.org; Wed, 02 Feb 2022 17:35:55 -0500
+Received: from quad ([82.142.10.94]) by mrelayeu.kundenserver.de (mreue108
+ [212.227.15.183]) with ESMTPSA (Nemesis) id 1MlwFp-1mWjjN1UoN-00izjt; Wed, 02
+ Feb 2022 23:35:30 +0100
+From: Laurent Vivier <laurent@vivier.eu>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 0/3] m68k: virt: add a firmware to the virt machine (petit
+ boot)
+Date: Wed,  2 Feb 2022 23:35:25 +0100
+Message-Id: <20220202223528.1260154-1-laurent@vivier.eu>
+X-Mailer: git-send-email 2.34.1
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-References: <20220201142415.29980-1-liweiwei@iscas.ac.cn>
- <20220201142415.29980-4-liweiwei@iscas.ac.cn>
-In-Reply-To: <20220201142415.29980-4-liweiwei@iscas.ac.cn>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Thu, 3 Feb 2022 08:25:54 +1000
-Message-ID: <CAKmqyKNp-D5ijraM+-r7ZU3eYzZ7Wf_kViAjc_7GW=RUp28V-Q@mail.gmail.com>
-Subject: Re: [PATCH v8 3/5] target/riscv: add support for svnapot extension
-To: Weiwei Li <liweiwei@iscas.ac.cn>
-Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::12c
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::12c;
- envelope-from=alistair23@gmail.com; helo=mail-il1-x12c.google.com
-X-Spam_score_int: -10
-X-Spam_score: -1.1
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:NjGUJK8RzmeRmpdiKfkwJ/8ElhO2kkdA2d6lXTnOGQr1qG9h5we
+ +jIbfI/XR5YDVVB/SyKi200rRkqSNY+LZJzxNuzb/LbmiVkpdAUY2vq3lWRsGE3zbx5UlQg
+ InyFLQV4REo1xtKKtlzBLSTdZLT7hgCSjBMimMGMMH5onyGMr67bRajZD/vmcBeGdyapLEH
+ C0fbzaiZiZpNM27HJcR5w==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:ozfbZrLLIfc=:QVYC4ZkS0r8DBT77bUVBMe
+ aPFNsJt6V/RywNKfZaaJvhR2TbMF9V8K6WJUDwQrlQwrWSQ56NYbq/ADU05RY/0hFe2px29xU
+ dS4TglG3jq2tZZ1WYXeCQPKNK1GQ9YbjP/F7YSyKzKrOM/jpV0YTXps9z0D3h6Y5sWirPN+ZT
+ V4lTYK1CQehqPROCsaECaxFm8n5L7DyqADg5H7+gaIYtacYlq+VKQRNcy5el207co5ba8r9UG
+ /G04/XiBZe+7bVRmS2aQUUFmzFyR7sZhWMeuxgE5Gs9tWUUoMaHBTBj129fNE9odi/UAaFjBP
+ ELjlLAGYHaPkV+MkDHrUeDOI1MQj8Iwc8+3D3iOrn6sgIWiFmubeRta0hH4gXCz0nG2HjHeE8
+ 4q+e3L0zyn4okrXrOsJhPOoCdMulUm69ADymcVmEtCA5z5cfbP6cfZ7rHAERuE9Hhxjndwol1
+ 9ebnizrv8/I67pT1NRG1G8bpNuYw232bkWB0C+LEgrhrHyyJvflOuXm8tJQNolmMXwnJMphuQ
+ 8IK0cg6OOudeZ4LEGJRYIKL2spXqeU8NAjRX5t6UsKIRCMCGB2kIKwEuTISGh67O/0H0XxFGm
+ 0gedhVYCJwUzcjwBljd0SzkVRdQzLKobEztqdaSGRkiB1B99wo8GeSUs8/VeDfkeR8MVX80DS
+ b6M7pORx6PeRuvFiKcnLF9Kb387B06ZYooEZhbNITXSeFO5soZGihfpOnp8//y36wn+U=
+Received-SPF: none client-ip=217.72.192.74; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
+X-Spam_score_int: -18
+X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, PDS_HP_HELO_NORDNS=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -80,112 +65,80 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?B?V2VpIFd1ICjlkLTkvJ8p?= <lazyparser@gmail.com>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>, Anup Patel <anup@brainfault.org>,
- wangjunqiang <wangjunqiang@iscas.ac.cn>, Bin Meng <bin.meng@windriver.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Alistair Francis <alistair.francis@wdc.com>, Guo Ren <ren_guo@c-sky.com>,
- Palmer Dabbelt <palmer@dabbelt.com>
+Cc: Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Feb 2, 2022 at 3:24 AM Weiwei Li <liweiwei@iscas.ac.cn> wrote:
->
-> - add PTE_N bit
-> - add PTE_N bit check for inner PTE
-> - update address translation to support 64KiB continuous region (napot_bits = 4)
->
-> Signed-off-by: Weiwei Li <liweiwei@iscas.ac.cn>
-> Signed-off-by: Junqiang Wang <wangjunqiang@iscas.ac.cn>
-> Reviewed-by: Anup Patel <anup@brainfault.org>
-> ---
->  target/riscv/cpu.c        |  2 ++
->  target/riscv/cpu_bits.h   |  1 +
->  target/riscv/cpu_helper.c | 18 +++++++++++++++---
->  3 files changed, 18 insertions(+), 3 deletions(-)
->
-> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-> index 6df07b8289..cfaccdfc72 100644
-> --- a/target/riscv/cpu.c
-> +++ b/target/riscv/cpu.c
-> @@ -729,6 +729,8 @@ static Property riscv_cpu_properties[] = {
->      DEFINE_PROP_UINT16("vlen", RISCVCPU, cfg.vlen, 128),
->      DEFINE_PROP_UINT16("elen", RISCVCPU, cfg.elen, 64),
->
-> +    DEFINE_PROP_BOOL("svnapot", RISCVCPU, cfg.ext_svnapot, false),
-> +
->      DEFINE_PROP_BOOL("zba", RISCVCPU, cfg.ext_zba, true),
->      DEFINE_PROP_BOOL("zbb", RISCVCPU, cfg.ext_zbb, true),
->      DEFINE_PROP_BOOL("zbc", RISCVCPU, cfg.ext_zbc, true),
-> diff --git a/target/riscv/cpu_bits.h b/target/riscv/cpu_bits.h
-> index 6ea3944423..7abe9607ff 100644
-> --- a/target/riscv/cpu_bits.h
-> +++ b/target/riscv/cpu_bits.h
-> @@ -489,6 +489,7 @@ typedef enum {
->  #define PTE_A               0x040 /* Accessed */
->  #define PTE_D               0x080 /* Dirty */
->  #define PTE_SOFT            0x300 /* Reserved for Software */
-> +#define PTE_N               0x8000000000000000ULL /* NAPOT translation */
->
->  /* Page table PPN shift amount */
->  #define PTE_PPN_SHIFT       10
-> diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
-> index 61c3a9a4ad..77b263c37e 100644
-> --- a/target/riscv/cpu_helper.c
-> +++ b/target/riscv/cpu_helper.c
-> @@ -456,6 +456,8 @@ static int get_physical_address(CPURISCVState *env, hwaddr *physical,
->      bool use_background = false;
->      hwaddr ppn;
->      RISCVCPU *cpu = env_archcpu(env);
-> +    int napot_bits = 0;
-> +    target_ulong napot_mask;
->
->      /*
->       * Check if we should use the background registers for the two
-> @@ -640,7 +642,7 @@ restart:
->              return TRANSLATE_FAIL;
->          } else if (!(pte & (PTE_R | PTE_W | PTE_X))) {
->              /* Inner PTE, continue walking */
-> -            if (pte & (PTE_D | PTE_A | PTE_U)) {
-> +            if (pte & (target_ulong)(PTE_D | PTE_A | PTE_U | PTE_N)) {
-
-You shouldn't need this cast
-
->                  return TRANSLATE_FAIL;
->              }
->              base = ppn << PGSHIFT;
-> @@ -716,8 +718,18 @@ restart:
->              /* for superpage mappings, make a fake leaf PTE for the TLB's
->                 benefit. */
->              target_ulong vpn = addr >> PGSHIFT;
-> -            *physical = ((ppn | (vpn & ((1L << ptshift) - 1))) << PGSHIFT) |
-> -                        (addr & ~TARGET_PAGE_MASK);
-> +
-> +            if (cpu->cfg.ext_svnapot && (pte & (target_ulong)PTE_N)) {
-
-Same here
-
-Otherwise:
-
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-
-Alistair
-
-> +                napot_bits = ctzl(ppn) + 1;
-> +                if ((i != (levels - 1)) || (napot_bits != 4)) {
-> +                    return TRANSLATE_FAIL;
-> +                }
-> +            }
-> +
-> +            napot_mask = (1 << napot_bits) - 1;
-> +            *physical = (((ppn & ~napot_mask) | (vpn & napot_mask) |
-> +                          (vpn & (((target_ulong)1 << ptshift) - 1))
-> +                         ) << PGSHIFT) | (addr & ~TARGET_PAGE_MASK);
->
->              /* set permissions on the TLB entry */
->              if ((pte & PTE_R) || ((pte & PTE_X) && mxr)) {
-> --
-> 2.17.1
->
->
+For the moment, the virt machine can only be started by using=0D
+QEMU "-kernel" parameter, and thus can only load the kernel/initramfs=0D
+from the host filesystem.=0D
+=0D
+Adding a firmware is a good way to allow the machine to boot and update=0D
+a kernel from the guest point of view (disk, network, cdrom, ...).=0D
+=0D
+As I don't want to port a firmware to this machine, the easy way to do=0D
+that is to use linux. This approach is already in use by petit boot on=0D
+the bare metal POWER systems.=0D
+=0D
+This series adds a bootstrap ROM to load the firmware (petit boot),=0D
+and a buildroot environment to build the petit boot firmware for=0D
+the m68k virt machine.=0D
+=0D
+To build the bootstram ROM:=0D
+=0D
+$ git submodule init roms/m68k-virt=0D
+$ git submodule updage roms/m68k-virt=0D
+$ make -C roms m68k-virt-bootrom=0D
+=0D
+To build the firmware:=0D
+=0D
+$ git submodule init roms/buildroot=0D
+$ git submodule update roms/buildroot=0D
+$ make -C roms m68k-virt-firmware=0D
+=0D
+Build qemu-system-m68k and then you can start QEMU and=0D
+play with petit boot:=0D
+$ ./qemu-system-m68k -M virt -nographic=0D
+=0D
+Petit boot supports various bootloader configuration files, like=0D
+grub, pxe, kboot, syslinux...=0D
+=0D
+For instance:=0D
+=0D
+menuentry "Linux 5.16.0-virt (debian 10.0)" {=0D
+	search --set=3Droot --label root=0D
+	linux /boot/vmlinux-5.16.0-virt ro root=3D/dev/vda2 console=3DttyGF0=0D
+}=0D
+=0D
+default=3D"vmlinux-5.16.0-virt"=0D
+vmlinux-5.16.0-virt=3D'/boot/vmlinux-5.16.0-virt root=3D/dev/vda2 console=
+=3DttyGF0'=0D
+=0D
+default vmlinux-5.16.0-virt (debian 10.0)=0D
+label vmlinux-5.16.0-virt (debian 10.0)=0D
+ kernel /boot/vmlinux-5.16.0-virt=0D
+ append root=3D/dev/vda2 console=3DttyGF0=0D
+=0D
+Laurent Vivier (3):=0D
+  m68k: bootinfo entry size must be aligned on 4 bytes=0D
+  m68k: virt: add a bootstrap ROM=0D
+  m68k: virt: add a firmware (petitboot)=0D
+=0D
+ configure                   |   3 +-=0D
+ hw/m68k/bootinfo.h          |   4 +-=0D
+ include/hw/misc/virt_ctrl.h |   6 ++=0D
+ hw/m68k/virt.c              |  38 ++++++++++++=0D
+ hw/misc/virt_ctrl.c         | 111 +++++++++++++++++++++++++++++++++++-=0D
+ .gitmodules                 |   6 ++=0D
+ pc-bios/meson.build         |   3 +=0D
+ roms/Makefile               |  15 +++++=0D
+ roms/buildroot              |   1 +=0D
+ roms/m68k-virt              |   1 +=0D
+ 10 files changed, 183 insertions(+), 5 deletions(-)=0D
+ create mode 160000 roms/buildroot=0D
+ create mode 160000 roms/m68k-virt=0D
+=0D
+-- =0D
+2.34.1=0D
+=0D
 
