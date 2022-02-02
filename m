@@ -2,76 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71F284A6F2F
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Feb 2022 11:54:27 +0100 (CET)
-Received: from localhost ([::1]:42692 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 88E9F4A6FDC
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Feb 2022 12:22:59 +0100 (CET)
+Received: from localhost ([::1]:46992 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nFDHO-0005Xh-1g
-	for lists+qemu-devel@lfdr.de; Wed, 02 Feb 2022 05:54:26 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:55988)
+	id 1nFDj0-0001oO-3q
+	for lists+qemu-devel@lfdr.de; Wed, 02 Feb 2022 06:22:58 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:34346)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jinpu.wang@ionos.com>)
- id 1nFDFQ-0004nY-2E
- for qemu-devel@nongnu.org; Wed, 02 Feb 2022 05:52:24 -0500
-Received: from [2a00:1450:4864:20::62b] (port=41707
- helo=mail-ej1-x62b.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <jinpu.wang@ionos.com>)
- id 1nFDFD-0008RP-FJ
- for qemu-devel@nongnu.org; Wed, 02 Feb 2022 05:52:13 -0500
-Received: by mail-ej1-x62b.google.com with SMTP id a8so63967260ejc.8
- for <qemu-devel@nongnu.org>; Wed, 02 Feb 2022 02:51:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ionos.com; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=TKzaLcmxo/LYxnNeTiqslH9m6nmTIR2FbaJYTdNWfu4=;
- b=gtZ5ywYocPyPB/nKwR3rwx6Hccb9EfA5aju8serBi5hNgipXlgtLufp0mLNNJ+FEES
- uhU1HMMlXKh3EP0U5WQPSFEtuL70NAHeas7BnKxDBZP75dTcIrbn0cVjDsvgdIcIQChV
- KuNpY6GgZLqOFtlNkhxdxdnm1hJO+sqPYM/Y6J4zlmw8rNwG9PhnA7tPVmSWotvRbR1f
- xRtrSLf/p4TDs5S3x5yzpK+ZGI94fd/kdxIIqw6AavWZ0NUS6MvMOqL5yVz7uX62ej6G
- r9hfGUQQ/ObNcPMoLUWMbAgnAxsYyVYXuAgMTR9H9zEh1Nxk9T3pJcCwNg62fqWonjj5
- D3Rw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=TKzaLcmxo/LYxnNeTiqslH9m6nmTIR2FbaJYTdNWfu4=;
- b=wN1WjAHapFHKR7psu/sUPvB7eUIHG8zYpGjrgYbU5fk7wc0e4PbhTMT8vHxvofWOwl
- AmmXfT/Pi2GOs00rS6UGyFtXSvKc4KRSbBr5j3IiKww0JNcTMt+gTgn40+lD1XAOIXWH
- upeZgVNZsQlRNN9yhpunO4IphB0vSO+PDWoDVlsEa1/QLdy3DOXDpV3gM1FEYQbAHEnf
- QcxJ7v8aFTBXmtUSjxA35oWCOeCRHpYWZHXB3kwDjCMi4A+FNg8577AD9p7sndCd/BJR
- cxLLXQRSsJ4q7do/N7uw3Bf58KS78z7x3CtydElVwyKPKAtnZv7HscgVrss42uIPv7op
- 9QAw==
-X-Gm-Message-State: AOAM531BfVSMBq48BJeuNpzF0+LVfshv2in8oiYbRcd5mvwAaCfEyXMg
- c2X4JHGfAt6oydqBeBJn2omrE1wlUkeOwv6H1Z7CQQ==
-X-Google-Smtp-Source: ABdhPJw0QljW1XzT12PXAz1XwHfGzgH6nvJ4NskpF9PJoiWQ4vGf/QeVdhP22VMED/qlzWQlZVlI9pvm6F62Xv9EsGs=
-X-Received: by 2002:a17:907:3e9c:: with SMTP id
- hs28mr24147896ejc.735.1643799110130; 
- Wed, 02 Feb 2022 02:51:50 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
+ id 1nFDcq-0000aE-K6
+ for qemu-devel@nongnu.org; Wed, 02 Feb 2022 06:16:37 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:31303)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
+ id 1nFDcl-0008Th-J2
+ for qemu-devel@nongnu.org; Wed, 02 Feb 2022 06:16:35 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1643800573;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=SDCBaptvTdJ6MaGIqN5dCST/Vb0ziTlxyPLO2sqP+W8=;
+ b=bfb1ZtkcpVoDEa0bFC9mCvVI09Pq9cfMkRIMgXPcGyO17dQOdD+FzZY5zBfmDNIUONa5OI
+ iWj60iGeumydsJK3mTWOnT5W+P7+k6ztRKfVOJ86+go1s2DcoXHfA7WwCyHkZnbl0IjTGv
+ eZVk9bGX3ocTL0g5ZdXlylh4B+C653g=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-551-G3U6wVDwORGVvGn5CNQMlA-1; Wed, 02 Feb 2022 06:16:10 -0500
+X-MC-Unique: G3U6wVDwORGVvGn5CNQMlA-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 353471091DA3;
+ Wed,  2 Feb 2022 11:16:09 +0000 (UTC)
+Received: from laptop.redhat.com (unknown [10.39.192.53])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7D20410840C8;
+ Wed,  2 Feb 2022 11:16:07 +0000 (UTC)
+From: Eric Auger <eric.auger@redhat.com>
+To: eric.auger.pro@gmail.com, eric.auger@redhat.com, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org, peter.maydell@linaro.org
+Subject: [PATCH] hw/arm/smmuv3: Fix device reset
+Date: Wed,  2 Feb 2022 12:16:02 +0100
+Message-Id: <20220202111602.627429-1-eric.auger@redhat.com>
 MIME-Version: 1.0
-References: <20220201151136.52157-1-jinpu.wang@ionos.com>
- <20220201151136.52157-2-jinpu.wang@ionos.com>
- <YfpZ1Wp5DsQLejOj@work-vm>
-In-Reply-To: <YfpZ1Wp5DsQLejOj@work-vm>
-From: Jinpu Wang <jinpu.wang@ionos.com>
-Date: Wed, 2 Feb 2022 11:51:39 +0100
-Message-ID: <CAMGffEn-tyeq2zzOprp-nQeQjifDwVpQTaHV+CM5gzTnxur3xg@mail.gmail.com>
-Subject: Re: [PATCH 2/2] migration/rdma: set the REUSEADDR option for
- destination
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::62b
- (failed)
-Received-SPF: permerror client-ip=2a00:1450:4864:20::62b;
- envelope-from=jinpu.wang@ionos.com; helo=mail-ej1-x62b.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01,
- T_SPF_PERMERROR=0.01 autolearn=no autolearn_force=no
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eric.auger@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=170.10.129.124;
+ envelope-from=eric.auger@redhat.com; helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.086,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -84,65 +77,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, pankaj.gupta@ionos.com, quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Feb 2, 2022 at 11:15 AM Dr. David Alan Gilbert
-<dgilbert@redhat.com> wrote:
->
-> * Jack Wang (jinpu.wang@ionos.com) wrote:
-> > This allow address could be reused to avoid rdma_bind_addr error
-> > out.
->
-> In what case do you get the error - after a failed migrate and then a
-> retry?
+We currently miss a bunch of register resets in the device reset
+function. This sometimes prevents the guest from rebooting after
+a system_reset (with virtio-blk-pci). For instance, we may get
+the following errors:
 
-Yes, what I saw is in case of error, mgmt daemon pick one migration port,
-incoming rdma:[::]:8089: RDMA ERROR: Error: could not rdma_bind_addr
+invalid STE
+smmuv3-iommu-memory-region-0-0 translation failed for iova=0x13a9d2000(SMMU_EVT_C_BAD_STE)
+Invalid read at addr 0x13A9D2000, size 2, region '(null)', reason: rejected
+invalid STE
+smmuv3-iommu-memory-region-0-0 translation failed for iova=0x13a9d2000(SMMU_EVT_C_BAD_STE)
+Invalid write at addr 0x13A9D2000, size 2, region '(null)', reason: rejected
+invalid STE
 
-Then try another -incoming rdma:[::]:8103, sometime it worked,
-sometimes need another try with other ports number.
+Signed-off-by: Eric Auger <eric.auger@redhat.com>
+Fixes: 10a83cb988 ("hw/arm/smmuv3: Skeleton")
+---
+ hw/arm/smmuv3.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-with this patch, I don't see the error anymore.
->
-> Dave
-Thanks!
->
-> > Signed-off-by: Jack Wang <jinpu.wang@ionos.com>
-> > ---
-> >  migration/rdma.c | 7 +++++++
-> >  1 file changed, 7 insertions(+)
-> >
-> > diff --git a/migration/rdma.c b/migration/rdma.c
-> > index 2e223170d06d..b498ef013c77 100644
-> > --- a/migration/rdma.c
-> > +++ b/migration/rdma.c
-> > @@ -2705,6 +2705,7 @@ static int qemu_rdma_dest_init(RDMAContext *rdma, Error **errp)
-> >      char ip[40] = "unknown";
-> >      struct rdma_addrinfo *res, *e;
-> >      char port_str[16];
-> > +    int reuse = 1;
-> >
-> >      for (idx = 0; idx < RDMA_WRID_MAX; idx++) {
-> >          rdma->wr_data[idx].control_len = 0;
-> > @@ -2740,6 +2741,12 @@ static int qemu_rdma_dest_init(RDMAContext *rdma, Error **errp)
-> >          goto err_dest_init_bind_addr;
-> >      }
-> >
-> > +    ret = rdma_set_option(listen_id, RDMA_OPTION_ID, RDMA_OPTION_ID_REUSEADDR,
-> > +                       &reuse, sizeof reuse);
-> > +    if (ret) {
-> > +        ERROR(errp, "Error: could not set REUSEADDR option");
-> > +        goto err_dest_init_bind_addr;
-> > +    }
-> >      for (e = res; e != NULL; e = e->ai_next) {
-> >          inet_ntop(e->ai_family,
-> >              &((struct sockaddr_in *) e->ai_dst_addr)->sin_addr, ip, sizeof ip);
-> > --
-> > 2.25.1
-> >
-> --
-> Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
->
+diff --git a/hw/arm/smmuv3.c b/hw/arm/smmuv3.c
+index 3b43368be0f..674623aabea 100644
+--- a/hw/arm/smmuv3.c
++++ b/hw/arm/smmuv3.c
+@@ -278,6 +278,12 @@ static void smmuv3_init_regs(SMMUv3State *s)
+     s->features = 0;
+     s->sid_split = 0;
+     s->aidr = 0x1;
++    s->cr[0] = 0;
++    s->cr0ack = 0;
++    s->irq_ctrl = 0;
++    s->gerror = 0;
++    s->gerrorn = 0;
++    s->statusr = 0;
+ }
+ 
+ static int smmu_get_ste(SMMUv3State *s, dma_addr_t addr, STE *buf,
+-- 
+2.26.3
+
 
