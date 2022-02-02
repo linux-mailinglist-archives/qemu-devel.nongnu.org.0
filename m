@@ -2,56 +2,103 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D19C14A7768
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Feb 2022 19:01:28 +0100 (CET)
-Received: from localhost ([::1]:46084 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 322ED4A77FE
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Feb 2022 19:34:23 +0100 (CET)
+Received: from localhost ([::1]:55520 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nFJwb-0004iU-PS
-	for lists+qemu-devel@lfdr.de; Wed, 02 Feb 2022 13:01:25 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:44930)
+	id 1nFKSQ-0006X6-3r
+	for lists+qemu-devel@lfdr.de; Wed, 02 Feb 2022 13:34:18 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:49446)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1nFIvM-0002Ly-MP; Wed, 02 Feb 2022 11:56:04 -0500
-Received: from kylie.crudebyte.com ([5.189.157.229]:35895)
+ (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
+ id 1nFJBd-0003h7-Jq
+ for qemu-devel@nongnu.org; Wed, 02 Feb 2022 12:12:54 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:33344)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1nFIv7-0000VD-Ms; Wed, 02 Feb 2022 11:55:56 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
- MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
- Content-ID:Content-Description;
- bh=ULtCxNs//n9ZMEmRCIvPLZBHi9Bdb8xa3sonQ72zdN8=; b=NmSHqc6TFdqY7e5vHJjwkEfTHY
- HqQ9OakAshbbl4wYO6t/UGNS3zfq1jcE00chCXD40mrxB/wbN1/EI+n/FKpzO7PnmRtw6NFi3NodO
- rw3LZ10epXOxd161tzFq6774PPpCzvl80KkCcfpxmZSM1Oc2i0TUlvb5lyyRoA6426ISmMY2lAGHG
- xO3HUq98/4HrwyxGOnLjfr+YMAK4UJeg43HTGujmccs9UBZyzTDZIBoRml/sed1h84okU1HfS5slE
- FYGKlpn94DvJ4yZDLJOo2fb6h2AkqvKrT4x9Ye+7GfZ9ZgWIi2zb1AcyJhmaaoxunt2wQMYbRov5e
- X/6raADvqDa+nuXwb2fIDNKw5D0Y1TMRHZIM8fzJDgznmITox4VJw0PXQvaQ/GJ54d6/flKXAe3hX
- jfjO1Jv/8eV4ZsYECj2waqCgm9qJZKKNZ9MKH2UBcjU92hzIDP26yAKtou6mYl07eno2cwwbLGRPN
- JM/K6L+IDtzgFIne4l2FQBh1m07Y9jeQkWN+VErcomXIjT9XkAD3HmWpMJzBD1oAhAgPl8OAZHJ+e
- GKxgjwOOQ5JzTr3zwpYw85by4Yw671sj/jsD1YrJJ7lE4I1PmezPtrDgLH/PjpKltjQSNYMEp7Gym
- pe9Yfh1WPoXY+7DyxBEtdxul01xhbj1PBcJtHK1ls=;
-From: Christian Schoenebeck <qemu_oss@crudebyte.com>
-To: qemu-devel@nongnu.org
-Cc: Vitaly Chikunov <vt@altlinux.org>, Greg Kurz <groug@kaod.org>,
- qemu-stable@nongnu.org, ldv@altlinux.org
-Subject: Re: [PATCH v2] 9pfs: Fix segfault in do_readdir_many caused by struct
- dirent overread
-Date: Wed, 02 Feb 2022 17:55:45 +0100
-Message-ID: <2369945.Qq089p3Et8@silver>
-In-Reply-To: <20220128223326.927132-1-vt@altlinux.org>
-References: <20220128223326.927132-1-vt@altlinux.org>
+ (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
+ id 1nFJBL-0008Q7-6O
+ for qemu-devel@nongnu.org; Wed, 02 Feb 2022 12:12:38 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1643821953;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=kpvIOvmLYmgBhzHPIZvPPNn3cQ1hvmffT2zlB6Tu4Co=;
+ b=LM11QtajgHPLNV/Ree8UbZdoXH5EKNYmPRzKCeOhqSjlqRxeJsTo/jZGAqLIBt/0Swv08s
+ ty0YSiFXBEmX7cP1/s3ovDFizzl7xXZD/qE1aBd4oQEs8+teY06akyh387ZW20j5t3/7L4
+ +e9cVT0/RylnkP/QcUVgenArbfQ2ae4=
+Received: from mail-oi1-f197.google.com (mail-oi1-f197.google.com
+ [209.85.167.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-423-I_maRL6mNxSgwANYb4mC6w-1; Wed, 02 Feb 2022 12:12:32 -0500
+X-MC-Unique: I_maRL6mNxSgwANYb4mC6w-1
+Received: by mail-oi1-f197.google.com with SMTP id
+ bg40-20020a05680817a800b002d0a77a0a16so2383089oib.6
+ for <qemu-devel@nongnu.org>; Wed, 02 Feb 2022 09:12:31 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=kpvIOvmLYmgBhzHPIZvPPNn3cQ1hvmffT2zlB6Tu4Co=;
+ b=kjATtjBUj3h91qTB5GdhXrnoazqbYXaZ7CNdGYEV8WCaSZCdWTE6LaMiIJBKgA1XbZ
+ dq7h5kON9CXeOojDgt5ouZqgJNaCvknjVT+3Z28NuMGybH0c/R4ie4k+MzfDwXBXOLQt
+ 83hLwsfV742z1W9Xzn2mcVufa7MKsXESu4oQi7L6yIRbyhjMOFOfuNjXEq0iinEUzxBT
+ MwGxX38VAsxbbopk9S2QDLWfNRqbsXlr1GTyao9wi+F5B98Y80DMXbjvXUUT8Yw20++j
+ 1tM8hsxqI/+o+++yyRQCeDKaz7aETQm+YhC58zc2+cAaUaQF74jA4JliB6EvMOtadNrM
+ HysQ==
+X-Gm-Message-State: AOAM530YctgCGTAJ2dAsDIZ7Co+SNuKL7XB5rdHKF0YX7dB+JN5AUY89
+ fC3BQYG/AyQsEbOMar2rqUrJhQl4w2EdjaVin7Qe//J64C8KHwE6OdhEJr4PK85S5zW+/9qj3wK
+ oW9kIL8Vfzcpc/3k=
+X-Received: by 2002:a4a:a5c5:: with SMTP id k5mr15428669oom.66.1643821950794; 
+ Wed, 02 Feb 2022 09:12:30 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJw6wMEKImd9IIj8k526XlQHxl4HARLXlcou1Kc/OacVeb66IpVVtzH+QT2u4zgVKLVVDgxuzw==
+X-Received: by 2002:a4a:a5c5:: with SMTP id k5mr15428637oom.66.1643821950565; 
+ Wed, 02 Feb 2022 09:12:30 -0800 (PST)
+Received: from redhat.com ([38.15.36.239])
+ by smtp.gmail.com with ESMTPSA id p82sm10655207oib.25.2022.02.02.09.12.29
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 02 Feb 2022 09:12:30 -0800 (PST)
+Date: Wed, 2 Feb 2022 10:12:28 -0700
+From: Alex Williamson <alex.williamson@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PATCH v5 03/18] pci: isolated address space for PCI bus
+Message-ID: <20220202101228.54b7e46c.alex.williamson@redhat.com>
+In-Reply-To: <CAFEAcA-f6ZBgAtKr-nUFTR8nfMGVWF=uExoRaMajN7t6wU7f7g@mail.gmail.com>
+References: <1CACFB08-1BBC-4ECC-9C0B-6F377018D795@oracle.com>
+ <YfBDqMuO/l/gWzL8@work-vm>
+ <AE47B5D2-6515-4BD3-B541-23E5274174AC@oracle.com>
+ <YfEYHBhrsdF9Edpp@stefanha-x1.localdomain>
+ <YfGqCJeTD9bmkZx6@work-vm>
+ <20220126161120-mutt-send-email-mst@kernel.org>
+ <YfJYFbBVQzho7mGp@stefanha-x1.localdomain>
+ <20220127142253.21ab0025.alex.williamson@redhat.com>
+ <YfO00O4sT2UgaW31@stefanha-x1.localdomain>
+ <20220131091623.6739464e.alex.williamson@redhat.com>
+ <Yfj9u26F6/RdlhoB@stefanha-x1.localdomain>
+ <20220201082437.7dd940eb.alex.williamson@redhat.com>
+ <9BD98DD7-CC28-49E1-8150-BDECF0324FFA@oracle.com>
+ <20220201154736.576e2a7e.alex.williamson@redhat.com>
+ <CAFEAcA-f6ZBgAtKr-nUFTR8nfMGVWF=uExoRaMajN7t6wU7f7g@mail.gmail.com>
+X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
-Received-SPF: pass client-ip=5.189.157.229;
- envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=alex.williamson@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.129.124;
+ envelope-from=alex.williamson@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.086,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -64,77 +111,84 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: "eduardo@habkost.net" <eduardo@habkost.net>,
+ Elena Ufimtseva <elena.ufimtseva@oracle.com>, Jag Raman <jag.raman@oracle.com>,
+ Beraldo Leal <bleal@redhat.com>,
+ "john.levon@nutanix.com" <john.levon@nutanix.com>,
+ John Johnson <john.g.johnson@oracle.com>, "Michael S.
+ Tsirkin" <mst@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
+ "armbru@redhat.com" <armbru@redhat.com>,
+ "quintela@redhat.com" <quintela@redhat.com>,
+ "thanos.makatos@nutanix.com" <thanos.makatos@nutanix.com>,
+ =?UTF-8?B?TWFyYy1BbmRyw6k=?= Lureau <marcandre.lureau@gmail.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ "Daniel P. =?UTF-8?B?QmVycmFuZ8Op?=" <berrange@redhat.com>,
+ Eric Blake <eblake@redhat.com>, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Freitag, 28. Januar 2022 23:33:26 CET Vitaly Chikunov wrote:
-> `struct dirent' returned from readdir(3) could be shorter than
-> `sizeof(struct dirent)', thus memcpy of sizeof length will overread
-> into unallocated page causing SIGSEGV. Example stack trace:
+On Wed, 2 Feb 2022 09:30:42 +0000
+Peter Maydell <peter.maydell@linaro.org> wrote:
+
+> On Tue, 1 Feb 2022 at 23:51, Alex Williamson <alex.williamson@redhat.com> wrote:
+> >
+> > On Tue, 1 Feb 2022 21:24:08 +0000
+> > Jag Raman <jag.raman@oracle.com> wrote:  
+> > > The PCIBus data structure already has address_space_mem and
+> > > address_space_io to contain the BAR regions of devices attached
+> > > to it. I understand that these two PCIBus members form the
+> > > PCI address space.  
+> >
+> > These are the CPU address spaces.  When there's no IOMMU, the PCI bus is
+> > identity mapped to the CPU address space.  When there is an IOMMU, the
+> > device address space is determined by the granularity of the IOMMU and
+> > may be entirely separate from address_space_mem.  
 > 
->  #0  0x00005555559ebeed v9fs_co_readdir_many (/usr/bin/qemu-system-x86_64 +
-> 0x497eed) #1  0x00005555559ec2e9 v9fs_readdir (/usr/bin/qemu-system-x86_64
-> + 0x4982e9) #2  0x0000555555eb7983 coroutine_trampoline
-> (/usr/bin/qemu-system-x86_64 + 0x963983) #3  0x00007ffff73e0be0 n/a (n/a +
-> 0x0)
+> Note that those fields in PCIBus are just whatever MemoryRegions
+> the pci controller model passed in to the call to pci_root_bus_init()
+> or equivalent. They may or may not be specifically the CPU's view
+> of anything. (For instance on the versatilepb board, the PCI controller
+> is visible to the CPU via several MMIO "windows" at known addresses,
+> which let the CPU access into the PCI address space at a programmable
+> offset. We model that by creating a couple of container MRs which
+> we pass to pci_root_bus_init() to be the PCI memory and IO spaces,
+> and then using alias MRs to provide the view into those at the
+> guest-programmed offset. The CPU sees those windows, and doesn't
+> have direct access to the whole PCIBus::address_space_mem.)
+> I guess you could say they're the PCI controller's view of the PCI
+> address space ?
+
+Sure, that's fair.
+
+> We have a tendency to be a bit sloppy with use of AddressSpaces
+> within QEMU where it happens that the view of the world that a
+> DMA-capable device matches that of the CPU, but conceptually
+> they can definitely be different, especially in the non-x86 world.
+> (Linux also confuses matters here by preferring to program a 1:1
+> mapping even if the hardware is more flexible and can do other things.
+> The model of the h/w in QEMU should support the other cases too, not
+> just 1:1.)
+
+Right, this is why I prefer to look at the device address space as
+simply an IOVA.  The IOVA might be a direct physical address or
+coincidental identity mapped physical address via an IOMMU, but none of
+that should be the concern of the device.
+ 
+> > I/O port space is always the identity mapped CPU address space unless
+> > sparse translations are used to create multiple I/O port spaces (not
+> > implemented).  I/O port space is only accessed by the CPU, there are no
+> > device initiated I/O port transactions, so the address space relative
+> > to the device is irrelevant.  
 > 
-> While fixing, provide a helper for any future `struct dirent' cloning.
-> 
-> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/841
-> Cc: qemu-stable@nongnu.org
-> Co-authored-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
-> Signed-off-by: Vitaly Chikunov <vt@altlinux.org>
-> ---
-> Tested on x86-64 Linux.
+> Does the PCI spec actually forbid any master except the CPU from
+> issuing I/O port transactions, or is it just that in practice nobody
+> makes a PCI device that does weird stuff like that ?
 
-I was too optimistic. Looks like this needs more work. With this patch applied
-the 9p test cases [1] are crashing now:
+As realized in reply to MST, more the latter.  Not used, no point to
+enabling, no means to enable depending on the physical IOMMU
+implementation.  Thanks,
 
-$ gdb --args tests/qtest/qos-test -m slow
-...
-# Start of flush tests
-ok 50 /x86_64/pc/i440FX-pcihost/pci-bus-pc/pci-bus/virtio-9p-pci/virtio-9p/virtio-9p-tests/synth/flush/success
-ok 51 /x86_64/pc/i440FX-pcihost/pci-bus-pc/pci-bus/virtio-9p-pci/virtio-9p/virtio-9p-tests/synth/flush/ignored
-# End of flush tests
-# Start of readdir tests
-Broken pipe
-
-Thread 1 "qos-test" received signal SIGABRT, Aborted.
-__GI_raise (sig=sig@entry=6) at ../sysdeps/unix/sysv/linux/raise.c:50
-50      ../sysdeps/unix/sysv/linux/raise.c: No such file or directory.
-(gdb) bt
-#0  __GI_raise (sig=sig@entry=6) at ../sysdeps/unix/sysv/linux/raise.c:50
-#1  0x00007ffff7b7d537 in __GI_abort () at abort.c:79
-#2  0x00005555555ba495 in qtest_client_socket_recv_line (s=0x5555557663c0) at ../tests/qtest/libqtest.c:503
-#3  0x00005555555ba5b3 in qtest_rsp_args (s=0x5555557663c0, expected_args=2) at ../tests/qtest/libqtest.c:523
-#4  0x00005555555bbdb4 in qtest_clock_rsp (s=0x5555557663c0) at ../tests/qtest/libqtest.c:970
-#5  0x00005555555bbe55 in qtest_clock_step (s=0x5555557663c0, step=100) at ../tests/qtest/libqtest.c:985
-#6  0x00005555555cdc21 in qvirtio_wait_used_elem (qts=0x5555557663c0, d=0x555555779b48, vq=0x5555557b0480, desc_idx=8, len=0x0, timeout_us=10000000)
-    at ../tests/qtest/libqos/virtio.c:220
-#7  0x00005555555ae79f in v9fs_req_wait_for_reply (req=0x5555557899a0, len=0x0) at ../tests/qtest/virtio-9p-test.c:278
-#8  0x00005555555b03bf in fs_readdir (obj=0x555555779bb0, data=0x0, t_alloc=0x5555557448b8) at ../tests/qtest/virtio-9p-test.c:851
-#9  0x00005555555990c4 in run_one_test (arg=0x5555557ac600) at ../tests/qtest/qos-test.c:182
-#10 0x00007ffff7f02b9e in ?? () from /lib/x86_64-linux-gnu/libglib-2.0.so.0
-#11 0x00007ffff7f0299b in ?? () from /lib/x86_64-linux-gnu/libglib-2.0.so.0
-#12 0x00007ffff7f0299b in ?? () from /lib/x86_64-linux-gnu/libglib-2.0.so.0
-#13 0x00007ffff7f0299b in ?? () from /lib/x86_64-linux-gnu/libglib-2.0.so.0
-#14 0x00007ffff7f0299b in ?? () from /lib/x86_64-linux-gnu/libglib-2.0.so.0
-#15 0x00007ffff7f0299b in ?? () from /lib/x86_64-linux-gnu/libglib-2.0.so.0
-#16 0x00007ffff7f0299b in ?? () from /lib/x86_64-linux-gnu/libglib-2.0.so.0
-#17 0x00007ffff7f0299b in ?? () from /lib/x86_64-linux-gnu/libglib-2.0.so.0
-#18 0x00007ffff7f0299b in ?? () from /lib/x86_64-linux-gnu/libglib-2.0.so.0
-#19 0x00007ffff7f0299b in ?? () from /lib/x86_64-linux-gnu/libglib-2.0.so.0
-#20 0x00007ffff7f0299b in ?? () from /lib/x86_64-linux-gnu/libglib-2.0.so.0
-#21 0x00007ffff7f0308a in g_test_run_suite () from /lib/x86_64-linux-gnu/libglib-2.0.so.0
-#22 0x00007ffff7f030a1 in g_test_run () from /lib/x86_64-linux-gnu/libglib-2.0.so.0
-#23 0x00005555555995a3 in main (argc=1, argv=0x7fffffffe508, envp=0x7fffffffe528) at ../tests/qtest/qos-test.c:338
-(gdb)
-
-[1] https://wiki.qemu.org/Documentation/9p#Test_Cases
-
-Best regards,
-Christian Schoenebeck
-
-
+Alex
 
 
