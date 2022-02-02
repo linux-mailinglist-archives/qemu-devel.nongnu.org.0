@@ -2,108 +2,97 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 732444A7239
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Feb 2022 14:52:48 +0100 (CET)
-Received: from localhost ([::1]:50844 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 214C94A720A
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Feb 2022 14:50:56 +0100 (CET)
+Received: from localhost ([::1]:47236 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nFG3z-0003Eq-82
-	for lists+qemu-devel@lfdr.de; Wed, 02 Feb 2022 08:52:47 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:36082)
+	id 1nFG2A-00082r-Ol
+	for lists+qemu-devel@lfdr.de; Wed, 02 Feb 2022 08:50:54 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:37156)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pasic@linux.ibm.com>)
- id 1nFFWJ-0004rg-Fr; Wed, 02 Feb 2022 08:17:59 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:35634)
+ (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
+ id 1nFFa7-0006aM-CD
+ for qemu-devel@nongnu.org; Wed, 02 Feb 2022 08:21:56 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:60180)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pasic@linux.ibm.com>)
- id 1nFFWG-0005AB-23; Wed, 02 Feb 2022 08:17:59 -0500
-Received: from pps.filterd (m0098404.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 212CHjS9014151; 
- Wed, 2 Feb 2022 13:17:31 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=date : from : to : cc :
- subject : message-id : in-reply-to : references : mime-version :
- content-type : content-transfer-encoding; s=pp1;
- bh=K0XEdaO3GIDtvTx8WJjl7qJgyNpVN9q1KQ3+twGDFgQ=;
- b=kGcGBBXhcJuLbu9fR06LFdwuWMqnH1v4tJHiC0foxA+BWs5kqkD82DrP7aufW2EONlvs
- R/vZSV83A+lTmkZGDl2qwt1QhSTBGK5WznNEWkcT40Oh54GJl5VSZ+W3ozaBwEKojH0T
- yCfhdvdlmwrn9SNqvEWU+fx+RquB9mbqvBn7lFkj+/aRh43jlZoOgKJF1bEW1PU7uKx2
- x6Hd3YBcgsNQGAeBwNZhtIvn7Vdh815nzTkQC9PzQZmzR7KD3Ug1HZsgUKyLIA5AQz3Q
- eJ7igJiEsrksZR0t8EqdRo3o+ELH43GFqaOnGWKnIKW+mp14K205ieXatkuWLh9dG+Z8 cw== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3dysbnst0f-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 02 Feb 2022 13:17:31 +0000
-Received: from m0098404.ppops.net (m0098404.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 212DHRta021258;
- Wed, 2 Feb 2022 13:17:30 GMT
-Received: from ppma02fra.de.ibm.com (47.49.7a9f.ip4.static.sl-reverse.com
- [159.122.73.71])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3dysbnssyg-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 02 Feb 2022 13:17:30 +0000
-Received: from pps.filterd (ppma02fra.de.ibm.com [127.0.0.1])
- by ppma02fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 212DD3hQ005461;
- Wed, 2 Feb 2022 13:17:28 GMT
-Received: from b06cxnps3074.portsmouth.uk.ibm.com
- (d06relay09.portsmouth.uk.ibm.com [9.149.109.194])
- by ppma02fra.de.ibm.com with ESMTP id 3dvw79kud3-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 02 Feb 2022 13:17:28 +0000
-Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com
- [9.149.105.59])
- by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 212DHOej46858676
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 2 Feb 2022 13:17:24 GMT
-Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 8EDA5A404D;
- Wed,  2 Feb 2022 13:17:24 +0000 (GMT)
-Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id F190DA4055;
- Wed,  2 Feb 2022 13:17:23 +0000 (GMT)
-Received: from li-e979b1cc-23ba-11b2-a85c-dfd230f6cf82 (unknown [9.171.6.30])
- by d06av23.portsmouth.uk.ibm.com (Postfix) with SMTP;
- Wed,  2 Feb 2022 13:17:23 +0000 (GMT)
-Date: Wed, 2 Feb 2022 14:16:45 +0100
-From: Halil Pasic <pasic@linux.ibm.com>
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Subject: Re: [PATCH v3 1/1] virtio: fix the condition for iommu_platform not
- supported
-Message-ID: <20220202141645.1f784f19.pasic@linux.ibm.com>
-In-Reply-To: <20220202020543-mutt-send-email-mst@kernel.org>
-References: <20220201133915.3764972-1-pasic@linux.ibm.com>
- <f12eeebf-6c9a-d40f-09de-10eb86dd3c26@linux.ibm.com>
- <20220201193309.7da86258.pasic@linux.ibm.com>
- <365305e3-4224-965d-2cb6-496a95802f0e@gmail.com>
- <20220202021547.20dc65c9.pasic@linux.ibm.com>
- <20220202020543-mutt-send-email-mst@kernel.org>
-Organization: IBM
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+ (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
+ id 1nFFZv-0006On-Ts
+ for qemu-devel@nongnu.org; Wed, 02 Feb 2022 08:21:47 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1643808101;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=bPv9gFbDjs33QO++j2gd98D0RI5hpiG8oSGPrHbz7Ak=;
+ b=fXcVWEfHtEjVF231u1Qdmzv8A41hJXH5ZjjVkbmNFwCqKA5194IH5QfvVSqMhHfX8U27mR
+ znjaqXVDnHbgujenl8ja4FRgtzg8GLe+T2TEYubHUKI0hvJap9nvN9n/vPzqZ1irPvjPIW
+ D9L3+kYBdJFWyuFFweHbirL/s9pRd8o=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-551-VjABRkrSOMekEYxtXVhatA-1; Wed, 02 Feb 2022 08:21:40 -0500
+X-MC-Unique: VjABRkrSOMekEYxtXVhatA-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ o3-20020a1c4d03000000b003539520b248so2410378wmh.3
+ for <qemu-devel@nongnu.org>; Wed, 02 Feb 2022 05:21:40 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:reply-to:subject:to:cc:references:from
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-transfer-encoding:content-language;
+ bh=bPv9gFbDjs33QO++j2gd98D0RI5hpiG8oSGPrHbz7Ak=;
+ b=vy5M77vSIfLkCd4c1DNGs8rDhd1VfeiBmhFKUBjkYH7Pv2XMZGhYzfadkv++Vfh4kV
+ 0c2tAUjno+W7a7G5IIsXfiRvWiHrZ88MM85dJCqPALHx728zMvcAt2gYKxcEyQHZuIhj
+ yHzBUR4E9UTbHt2mMQze9/wHb1eb0f3fdiVLBOsAzOcolt+4tup9w1+pl19OruCZgFKG
+ Lgrd02DThkwwAX/Jk4qnJeAUk43AErns/s+jU3tQs4BJftKtyVVB+vY9te4BSSQYLUK4
+ trgAcS99xicJKBAcdED1yamGSXQDEEF622+m+ZIsQcJR3XOXJx+LKSpUSkpRmpoPtQGd
+ 263g==
+X-Gm-Message-State: AOAM532+DIQmWSlClWz188AOdez35BvCVVvU7Vph+E/G93fswQEMaKG0
+ MHNmyleionSc5K2COXPj1Ssm7L/iQ46GV4GWpCVVURuCjUZKOCRDWBxTVYVfv3APjwfMi2cLhB3
+ 6gA2tx0cB3/tDMWY=
+X-Received: by 2002:a05:6000:1569:: with SMTP id
+ 9mr25681525wrz.512.1643808099594; 
+ Wed, 02 Feb 2022 05:21:39 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyyQ/NuaHxnKwz7Hh6kAdnpwhqgi10t3aX27i9qonesY3ko6KuEy7i25P1SFhIwmwD8S/ahSQ==
+X-Received: by 2002:a05:6000:1569:: with SMTP id
+ 9mr25681503wrz.512.1643808099329; 
+ Wed, 02 Feb 2022 05:21:39 -0800 (PST)
+Received: from ?IPv6:2a01:e0a:59e:9d80:527b:9dff:feef:3874?
+ ([2a01:e0a:59e:9d80:527b:9dff:feef:3874])
+ by smtp.gmail.com with ESMTPSA id x6sm20365519wrn.18.2022.02.02.05.21.38
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 02 Feb 2022 05:21:38 -0800 (PST)
+Subject: Re: [PATCH v2 3/4] virtio-iommu: Support bypass domain
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+References: <20220127142940.671333-1-jean-philippe@linaro.org>
+ <20220127142940.671333-4-jean-philippe@linaro.org>
+ <bf447d9b-c039-ccdc-f24f-ab8b56c1b196@redhat.com> <YfffLBO47Sh3uq1b@work-vm>
+From: Eric Auger <eric.auger@redhat.com>
+Message-ID: <140a23d7-d128-1273-6f07-0883e13c4600@redhat.com>
+Date: Wed, 2 Feb 2022 14:21:37 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: QYIZisRXSguBcPXYO_yfN8FBT3DqzeZZ
-X-Proofpoint-ORIG-GUID: PYoc40tdDYHU93S4xAQaqoJpjvj0aNNv
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.816,Hydra:6.0.425,FMLib:17.11.62.513
- definitions=2022-02-02_06,2022-02-01_01,2021-12-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501
- mlxlogscore=999 malwarescore=0 mlxscore=0 lowpriorityscore=0
- impostorscore=0 spamscore=0 clxscore=1015 suspectscore=0 bulkscore=0
- adultscore=0 phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2201110000 definitions=main-2202020072
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=pasic@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+In-Reply-To: <YfffLBO47Sh3uq1b@work-vm>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eric.auger@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+Received-SPF: pass client-ip=170.10.129.124;
+ envelope-from=eric.auger@redhat.com; helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.086,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -116,76 +105,157 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
- Brijesh Singh <brijesh.singh@amd.com>, Jason Wang <jasowang@redhat.com>,
- Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-devel@nongnu.org,
- qemu-stable@nongnu.org, Halil Pasic <pasic@linux.ibm.com>,
- Daniel Henrique Barboza <danielhb@linux.ibm.com>,
- Jakob Naucke <Jakob.Naucke@ibm.com>
+Reply-To: eric.auger@redhat.com
+Cc: lvivier@redhat.com, Peter Maydell <peter.maydell@linaro.org>,
+ thuth@redhat.com, Jean-Philippe Brucker <jean-philippe@linaro.org>,
+ cohuck@redhat.com, qemu-devel@nongnu.org, pasic@linux.ibm.com,
+ Juan Quintela <quintela@redhat.com>, mst@redhat.com, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 2 Feb 2022 02:06:12 -0500
-"Michael S. Tsirkin" <mst@redhat.com> wrote:
+Hi Dave,
 
-[..]
-> > In my opinion not forcing the guest to negotiate IOMMU_PLATFORM when  
-> > ->get_dma_as() is not set is at least unfortunate. Please observe, that  
-> > virtio-pci is not affected by this omission because for virtio-pci
-> > devices ->get_dma_as != NULL always holds. And what is the deal for
-> > devices that don't implement get_dma_as() (and don't need address
-> > translation)? If iommu_platform=on is justified (no user error) then
-> > the device does not have access to the entire guest memory. Which
-> > means it more than likely needs cooperation form the guest (driver).
-> > So detecting that the guest does not support IOMMU_PLATFORM and failing
-> > gracefully via virtio_validate_features() instead of carrying on
-> > in good faith and failing in ugly ways when the host attempts to access
-> > guest memory to which it does not have access to. If we assume user
-> > error, that is the host can access at least all the memory it needs
-> > to access to make that device work, then it is probably still a
-> > good idea to fail the device and thus help the user correct his
-> > error.
-> > 
-> > IMHO the best course of action is
-> > diff --git a/hw/virtio/virtio-bus.c b/hw/virtio/virtio-bus.c
-> > index 34f5a0a664..1d0eb16d1c 100644
-> > --- a/hw/virtio/virtio-bus.c
-> > +++ b/hw/virtio/virtio-bus.c
-> > @@ -80,7 +80,6 @@ void virtio_bus_device_plugged(VirtIODevice *vdev, Error **errp)
-> >  
-> >      vdev_has_iommu = virtio_host_has_feature(vdev, VIRTIO_F_IOMMU_PLATFORM);
-> >      if (klass->get_dma_as != NULL && has_iommu) {
-> > -        virtio_add_feature(&vdev->host_features, VIRTIO_F_IOMMU_PLATFORM);
-> >          vdev->dma_as = klass->get_dma_as(qbus->parent);
-> >          if (!vdev_has_iommu && vdev->dma_as != &address_space_memory) {
-> >              error_setg(errp,
-> > @@ -89,6 +88,7 @@ void virtio_bus_device_plugged(VirtIODevice *vdev, Error **errp)
-> >      } else {
-> >          vdev->dma_as = &address_space_memory;
-> >      }
-> > +    virtio_add_feature(&vdev->host_features, VIRTIO_F_IOMMU_PLATFORM);
-> >  }
-> > 
-> > which would be a separate patch, as this is a separate issue. Jason,
-> > Michael, Connie, what do you think?  
-> 
-> Do you mean just force VIRTIO_F_IOMMU_PLATFORM for everyone?
-> Or am I misreading the patch?
+On 1/31/22 2:07 PM, Dr. David Alan Gilbert wrote:
+> * Eric Auger (eric.auger@redhat.com) wrote:
+>> Hi Jean,
+>>
+>> On 1/27/22 3:29 PM, Jean-Philippe Brucker wrote:
+>>> The driver can create a bypass domain by passing the
+>>> VIRTIO_IOMMU_ATTACH_F_BYPASS flag on the ATTACH request. Bypass domains
+>>> perform slightly better than domains with identity mappings since they
+>>> skip translation.
+>>>
+>>> Signed-off-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
+>>> ---
+>>>  hw/virtio/virtio-iommu.c | 32 ++++++++++++++++++++++++++++++--
+>>>  1 file changed, 30 insertions(+), 2 deletions(-)
+>>>
+>>> diff --git a/hw/virtio/virtio-iommu.c b/hw/virtio/virtio-iommu.c
+>>> index ec02029bb6..a112428c65 100644
+>>> --- a/hw/virtio/virtio-iommu.c
+>>> +++ b/hw/virtio/virtio-iommu.c
+>>> @@ -43,6 +43,7 @@
+>>>  
+>>>  typedef struct VirtIOIOMMUDomain {
+>>>      uint32_t id;
+>>> +    bool bypass;
+>> I am afraid this will break the migration if you don't change
+>> vmstate_domain.
+>>
+>> See static const VMStateDescription vmstate_domain.
+>> Also you need to migrate the new bypass field.
+>>
+>> Logically we should handle this with a vmstate subsection I think to
+>> handle migration of older devices. However I doubt the device has been
+>> used in production environment supporting migration so my guess is we
+>> may skip that burden and just add the missing field. Adding Juan, Dave &
+>> Peter for advices.
+> I'm not sure about users of this; if no one has used it then yeh; you
+> could bump up the version_id to make it a bit clearer.
 
-Yes. Where force means: prevent the driver from setting FEATURES_OK
-if it cleared VIRTIO_F_IOMMU_PLATFORM. I really don't see the case
-where the device offering but the driver not accepting
-VIRTIO_F_IOMMU_PLATFORM is good and useful.
+Thank you for your input. Yes to me it sounds OK to only bump the
+version_id while adding the new field.
 
-Regards,
-Halil
-
-
-> 
-> 
-> > Regards,
-> > Halil  
-> 
-> 
+Eric
+>
+> Dave
+>
+>> Thanks
+>>
+>> Eric
+>>
+>>>      GTree *mappings;
+>>>      QLIST_HEAD(, VirtIOIOMMUEndpoint) endpoint_list;
+>>>  } VirtIOIOMMUDomain;
+>>> @@ -258,12 +259,16 @@ static void virtio_iommu_put_endpoint(gpointer data)
+>>>  }
+>>>  
+>>>  static VirtIOIOMMUDomain *virtio_iommu_get_domain(VirtIOIOMMU *s,
+>>> -                                                  uint32_t domain_id)
+>>> +                                                  uint32_t domain_id,
+>>> +                                                  bool bypass)
+>>>  {
+>>>      VirtIOIOMMUDomain *domain;
+>>>  
+>>>      domain = g_tree_lookup(s->domains, GUINT_TO_POINTER(domain_id));
+>>>      if (domain) {
+>>> +        if (domain->bypass != bypass) {
+>>> +            return NULL;
+>>> +        }
+>>>          return domain;
+>>>      }
+>>>      domain = g_malloc0(sizeof(*domain));
+>>> @@ -271,6 +276,7 @@ static VirtIOIOMMUDomain *virtio_iommu_get_domain(VirtIOIOMMU *s,
+>>>      domain->mappings = g_tree_new_full((GCompareDataFunc)interval_cmp,
+>>>                                     NULL, (GDestroyNotify)g_free,
+>>>                                     (GDestroyNotify)g_free);
+>>> +    domain->bypass = bypass;
+>>>      g_tree_insert(s->domains, GUINT_TO_POINTER(domain_id), domain);
+>>>      QLIST_INIT(&domain->endpoint_list);
+>>>      trace_virtio_iommu_get_domain(domain_id);
+>>> @@ -334,11 +340,16 @@ static int virtio_iommu_attach(VirtIOIOMMU *s,
+>>>  {
+>>>      uint32_t domain_id = le32_to_cpu(req->domain);
+>>>      uint32_t ep_id = le32_to_cpu(req->endpoint);
+>>> +    uint32_t flags = le32_to_cpu(req->flags);
+>>>      VirtIOIOMMUDomain *domain;
+>>>      VirtIOIOMMUEndpoint *ep;
+>>>  
+>>>      trace_virtio_iommu_attach(domain_id, ep_id);
+>>>  
+>>> +    if (flags & ~VIRTIO_IOMMU_ATTACH_F_BYPASS) {
+>>> +        return VIRTIO_IOMMU_S_INVAL;
+>>> +    }
+>>> +
+>>>      ep = virtio_iommu_get_endpoint(s, ep_id);
+>>>      if (!ep) {
+>>>          return VIRTIO_IOMMU_S_NOENT;
+>>> @@ -356,7 +367,12 @@ static int virtio_iommu_attach(VirtIOIOMMU *s,
+>>>          }
+>>>      }
+>>>  
+>>> -    domain = virtio_iommu_get_domain(s, domain_id);
+>>> +    domain = virtio_iommu_get_domain(s, domain_id,
+>>> +                                     flags & VIRTIO_IOMMU_ATTACH_F_BYPASS);
+>>> +    if (!domain) {
+>>> +        /* Incompatible bypass flag */
+>>> +        return VIRTIO_IOMMU_S_INVAL;
+>>> +    }
+>>>      QLIST_INSERT_HEAD(&domain->endpoint_list, ep, next);
+>>>  
+>>>      ep->domain = domain;
+>>> @@ -419,6 +435,10 @@ static int virtio_iommu_map(VirtIOIOMMU *s,
+>>>          return VIRTIO_IOMMU_S_NOENT;
+>>>      }
+>>>  
+>>> +    if (domain->bypass) {
+>>> +        return VIRTIO_IOMMU_S_INVAL;
+>>> +    }
+>>> +
+>>>      interval = g_malloc0(sizeof(*interval));
+>>>  
+>>>      interval->low = virt_start;
+>>> @@ -464,6 +484,11 @@ static int virtio_iommu_unmap(VirtIOIOMMU *s,
+>>>      if (!domain) {
+>>>          return VIRTIO_IOMMU_S_NOENT;
+>>>      }
+>>> +
+>>> +    if (domain->bypass) {
+>>> +        return VIRTIO_IOMMU_S_INVAL;
+>>> +    }
+>>> +
+>>>      interval.low = virt_start;
+>>>      interval.high = virt_end;
+>>>  
+>>> @@ -780,6 +805,9 @@ static IOMMUTLBEntry virtio_iommu_translate(IOMMUMemoryRegion *mr, hwaddr addr,
+>>>              entry.perm = flag;
+>>>          }
+>>>          goto unlock;
+>>> +    } else if (ep->domain->bypass) {
+>>> +        entry.perm = flag;
+>>> +        goto unlock;
+>>>      }
+>>>  
+>>>      found = g_tree_lookup_extended(ep->domain->mappings, (gpointer)(&interval),
 
 
