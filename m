@@ -2,76 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68FC24A6C14
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Feb 2022 08:08:12 +0100 (CET)
-Received: from localhost ([::1]:47930 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B62D94A6C17
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Feb 2022 08:09:14 +0100 (CET)
+Received: from localhost ([::1]:48924 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nF9kQ-0005Kb-Vf
-	for lists+qemu-devel@lfdr.de; Wed, 02 Feb 2022 02:08:11 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:55570)
+	id 1nF9lR-0006DY-Ik
+	for lists+qemu-devel@lfdr.de; Wed, 02 Feb 2022 02:09:13 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:55880)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pankaj.gupta@ionos.com>)
- id 1nF9Gp-0002hr-7S
- for qemu-devel@nongnu.org; Wed, 02 Feb 2022 01:37:35 -0500
-Received: from [2a00:1450:4864:20::129] (port=46874
- helo=mail-lf1-x129.google.com)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1nF9Iy-0003Et-P8; Wed, 02 Feb 2022 01:40:29 -0500
+Received: from [2607:f8b0:4864:20::130] (port=44892
+ helo=mail-il1-x130.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <pankaj.gupta@ionos.com>)
- id 1nF9Gn-0007yG-HR
- for qemu-devel@nongnu.org; Wed, 02 Feb 2022 01:37:34 -0500
-Received: by mail-lf1-x129.google.com with SMTP id z19so38479494lfq.13
- for <qemu-devel@nongnu.org>; Tue, 01 Feb 2022 22:37:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ionos.com; s=google;
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1nF9Il-0000ZP-IT; Wed, 02 Feb 2022 01:39:40 -0500
+Received: by mail-il1-x130.google.com with SMTP id q11so8058234ild.11;
+ Tue, 01 Feb 2022 22:39:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=EAUJn5TAbaJIdH37bMy2tSWgRxaBH2DhqtpPqZxunIw=;
- b=CYh9zjtA7EDPesN82d1QxaOZLDZttehlnCzhfzrFA+OcRdZdRHAIK+1CmhMnjqtiZ2
- v95PrIkZQ9S50tmJmDon4qyggzrWGs4WPNRzUSPZdmbDoC0/R0drhCaMkmZz/8GSeuxu
- CrALbGso8wcwwYeXFdEIh3gAfeqM8E8piZtk2YtaNWal/2HhrLyrgt9xx6wfKUeOuxaf
- lhSHe/7OEfYCeXj9g3hVd5sgTN8o5envW7dFEZj+fAE5nf+sfgd0q6njQ4FgzL8oAnQD
- ZGPIVq5YZxc3zaU8gvwqM9rQ9OJUky/GwUl+AhmgwfAePBaavZZqe/Cnq/tjY/3LYiJz
- yTDw==
+ :cc; bh=/e4Eu8RH67F4NV8x9qFUzHoXeWEBN+3hF6UOMldwYGM=;
+ b=WVOywRk8vWxS0Bu4FDcvXuh9aEFfDsv9iIu1a07py4PiAAjd+kUxGKCNZVD5ehkX0o
+ qd+cBtTIBwCBD9O4pXpXvBPPhtBYliKnS95bKskjd55D5yvoP9P3jLiMmIUYEGQVAlQL
+ PFZ5bFNklrtHk18ncb+7GiaBrqQBHD3bVoh0neCxRtYt3iv5B5xxuUSbQY5H6pjAgTa0
+ 19579ecBmCKtayOBDlnvETKSJYvISzX++3unKrBW2RecUUGfr7DeswFZKfumD+JFKCC7
+ KsUcUAwnh+YfePHYY8whv/L0kGRSVaXYsTQ2G/hwMd5hyYIYV6Zq5z7tHRTkfF6I+F4Y
+ 2LaA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=EAUJn5TAbaJIdH37bMy2tSWgRxaBH2DhqtpPqZxunIw=;
- b=UOZX83SYzj67/0gULnBA6FdmfUzWpLnYgqp6/j1fgFOOHslhMq0Ovulh7wNEmFgYzS
- jDqeFDNbjGKEm+AFGnyZmwwHxmAGTfZc1c1cnM5Tn/msbaNVMhxUN/Ef0j3XmhE1aYZx
- J/iIVWVCHu2DuPHdDfu7Qkzn9ZxF8XtnDIjpG29YRQbLVPH8Rb9dQqf6pnfI3D/e9iGI
- GVIeaZOLB++znn2+BplEnlIXE5C+rcoZJaYASHcWgJW7vhof8yYW5dvEPjLKxlTi5hwI
- 8OFNuq+p7Zks6LuKenN2ZGjXWjWETiaZsHpmsn5fDCNoIFwVXxe1a1OvB5UGtSxYv8Fq
- TZJw==
-X-Gm-Message-State: AOAM530DGNwiIavC2ewNH4YMqp8lbVeOdgRRuTnwMdBPnFdZDnyr/TTa
- NnpavgnCnO78c6sSNAV63r0rz9AMZhh77IByNCelUQ==
-X-Google-Smtp-Source: ABdhPJzbyqJzYTinkHIlyrvIJpapM4EXEYub5UwFUKGcxfmvfSU/dfKrwFSnysrv46UNwEQMe73cuOELfyO0pinPL5o=
-X-Received: by 2002:a05:6512:3487:: with SMTP id
- v7mr21634934lfr.310.1643783850994; 
- Tue, 01 Feb 2022 22:37:30 -0800 (PST)
+ bh=/e4Eu8RH67F4NV8x9qFUzHoXeWEBN+3hF6UOMldwYGM=;
+ b=m1liAVCXZRK6XXVzHONfW04XLIr2XrT8dWvtFm8BxSHWugS1ArPe0I1YZNx2gppNF3
+ zDZKuO6Chg0ZPGMipoVqHTVPlWHzsHa1kMk3ca+j+lv27myoVbKK4z1HrkhhHOjd9Zc1
+ DUrxGEwjUeBZipaOsHRKyFapTPI1nxkqLJd97Wh1iC/cvBaeYQIe3g8NJYGTW0o7FYXc
+ D62o7HJWqnqIuJ2WPNabNBwMGEsHsBM6/K/KFm4f9/s6vErNn3XuwyZ1LYU/c9a1kbPG
+ TYP+V2iJYxLtQFbRwb5u6i3UISCIYXu8vWMfdCbbcZ5YkmMpAuL/ILiZv+LqLVfQnR1W
+ xFHw==
+X-Gm-Message-State: AOAM532WGdPfC6SFjrqq0HoCZdpnch9pU7nB+EPw/qp42FkqxpYcjCHn
+ 30RTh+puTP7jr2+sRK7g1n3iXeDmT3kP+R4mI/8=
+X-Google-Smtp-Source: ABdhPJzRsTWENuT5uSlbQUZ7c0aNQuUYKj13Zq/OBeePH4ZZH1v6gi4QJtPQCCI34TaszHFgCgRoNzlay2OEdysbtOs=
+X-Received: by 2002:a05:6e02:1ba7:: with SMTP id
+ n7mr17525323ili.290.1643783945295; 
+ Tue, 01 Feb 2022 22:39:05 -0800 (PST)
 MIME-Version: 1.0
-References: <20220201151136.52157-1-jinpu.wang@ionos.com>
- <CALzYo30ED+8De9SPaTz_Lct=pwvhA8xwwH6dAc=vRjMvRq0dKA@mail.gmail.com>
- <CAMGffE=4uVDmkL0Qi66xaoEyQSBDStU2Nmb0YzDyxcXQwU2m9A@mail.gmail.com>
- <CALzYo33PQZxQRpattNsobAqsJ89qSyV1GyJKAqTeQR09gkaE6g@mail.gmail.com>
-In-Reply-To: <CALzYo33PQZxQRpattNsobAqsJ89qSyV1GyJKAqTeQR09gkaE6g@mail.gmail.com>
-From: Pankaj Gupta <pankaj.gupta@ionos.com>
-Date: Wed, 2 Feb 2022 07:37:20 +0100
-Message-ID: <CALzYo31esyL6pZ+LCy4qAGw9AZPj4ZdRpxLAxO9uYWzrQ63N2A@mail.gmail.com>
-Subject: Re: [PATCH 1/2] migration/rdma: Increase the backlog from 5 to 128
-To: Jinpu Wang <jinpu.wang@ionos.com>
+References: <20220201064601.41143-1-zhiwei_liu@c-sky.com>
+In-Reply-To: <20220201064601.41143-1-zhiwei_liu@c-sky.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Wed, 2 Feb 2022 16:38:38 +1000
+Message-ID: <CAKmqyKN0LtNwhtvgpCUO53Vr4t9EcJox4G2RPwT25n_pcs0VrA@mail.gmail.com>
+Subject: Re: [PATCH] target/riscv: Fix vill field write in vtype
+To: LIU Zhiwei <zhiwei_liu@c-sky.com>
 Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::129
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::130
  (failed)
-Received-SPF: permerror client-ip=2a00:1450:4864:20::129;
- envelope-from=pankaj.gupta@ionos.com; helo=mail-lf1-x129.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
+Received-SPF: pass client-ip=2607:f8b0:4864:20::130;
+ envelope-from=alistair23@gmail.com; helo=mail-il1-x130.google.com
+X-Spam_score_int: -10
+X-Spam_score: -1.1
 X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01,
- T_SPF_PERMERROR=0.01 autolearn=no autolearn_force=no
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, PDS_HP_HELO_NORDNS=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -84,42 +79,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, dgilbert@redhat.com, quintela@redhat.com
+Cc: Palmer Dabbelt <palmer@dabbelt.com>,
+ Alistair Francis <Alistair.Francis@wdc.com>, Bin Meng <bin.meng@windriver.com>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-> > > >  migration/rdma.c | 2 +-
-> > > >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > > >
-> > > > diff --git a/migration/rdma.c b/migration/rdma.c
-> > > > index c7c7a384875b..2e223170d06d 100644
-> > > > --- a/migration/rdma.c
-> > > > +++ b/migration/rdma.c
-> > > > @@ -4238,7 +4238,7 @@ void rdma_start_incoming_migration(const char *host_port, Error **errp)
-> > > >
-> > > >      trace_rdma_start_incoming_migration_after_dest_init();
-> > > >
-> > > > -    ret = rdma_listen(rdma->listen_id, 5);
-> > > > +    ret = rdma_listen(rdma->listen_id, 128);
-> > >
-> > > 128 backlog seems too much to me. Any reason for choosing this number.
-> > > Any rationale to choose this number?
-> > >
-> > 128 is the default value of SOMAXCONN, I can use that if it is preferred.
+On Tue, Feb 1, 2022 at 5:08 PM LIU Zhiwei <zhiwei_liu@c-sky.com> wrote:
 >
-> AFAICS backlog is only applicable with RDMA iWARP CM mode. Maybe we
-> can increase it to 128.these many
+> The guest should be able to set the vill bit as part of vsetvl.
+>
+> Currently we may set env->vill to 1 in the vsetvl helper, but there
+> is nowhere that we set it to 0, so once it transitions to 1 it's stuck
+> there until the system is reset.
+>
+> Signed-off-by: LIU Zhiwei <zhiwei_liu@c-sky.com>
 
-Or maybe we first increase it to 20 or 32? or so to avoid memory
-overhead if we are not
-using these many connections at the same time.
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
-> Maybe you can also share any testing data for multiple concurrent live
-> migrations using RDMA, please.
+Alistair
+
+> ---
+>  target/riscv/vector_helper.c | 1 +
+>  1 file changed, 1 insertion(+)
 >
-> Thanks,
-> Pankaj
+> diff --git a/target/riscv/vector_helper.c b/target/riscv/vector_helper.c
+> index 020d2e841f..3bd4aac9c9 100644
+> --- a/target/riscv/vector_helper.c
+> +++ b/target/riscv/vector_helper.c
+> @@ -71,6 +71,7 @@ target_ulong HELPER(vsetvl)(CPURISCVState *env, target_ulong s1,
+>      env->vl = vl;
+>      env->vtype = s2;
+>      env->vstart = 0;
+> +    env->vill = 0;
+>      return vl;
+>  }
 >
-> Thanks,
-> Pankaj
+> --
+> 2.25.1
+>
+>
 
