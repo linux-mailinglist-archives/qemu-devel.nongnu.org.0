@@ -2,91 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79BDB4A787E
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Feb 2022 20:06:06 +0100 (CET)
-Received: from localhost ([::1]:44904 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B01E4A788E
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Feb 2022 20:13:55 +0100 (CET)
+Received: from localhost ([::1]:50722 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nFKxA-0003jN-W6
-	for lists+qemu-devel@lfdr.de; Wed, 02 Feb 2022 14:06:05 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:53964)
+	id 1nFL4j-0007qd-DX
+	for lists+qemu-devel@lfdr.de; Wed, 02 Feb 2022 14:13:53 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:55788)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nFJTH-0002D7-3k
- for qemu-devel@nongnu.org; Wed, 02 Feb 2022 12:31:07 -0500
-Received: from [2607:f8b0:4864:20::1035] (port=55952
- helo=mail-pj1-x1035.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nFJT9-00037e-Lg
- for qemu-devel@nongnu.org; Wed, 02 Feb 2022 12:31:06 -0500
-Received: by mail-pj1-x1035.google.com with SMTP id d5so20814557pjk.5
- for <qemu-devel@nongnu.org>; Wed, 02 Feb 2022 09:30:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=hupKhPynLq1Bf3qlTLC4Kz0Lfmt5cTR5vZzYauE5o9o=;
- b=GFLGtErYAc2e9Ca+9es6uTpBLgahV9MpIoOOsarpStDCTLvX+yg5PnOn6Axu9IcqR9
- vx9yAET13X/RGK/4Z+tMosdTUrLlZknW996KvXdn0uDyRbO0sb/WhUcbX8WC/XJFjvrE
- JMWo/wEwG8xC2Js+m3ppdwzZ+iQYMnTXdG4tZyC2RGTTcgqE+qFi7hivd+rtpISbj9NT
- QmRiEDiAvr1GKiIdaGmRck5EkfeGq6Xs+7JsR9aQOsosPOHzqkQAvlU7+APxhri2n90M
- A9aiDUDg9f7x0xuZTMj3wkrtcAKhiX/Tep3KhbRzI9ECqbLwv5Kjf0LlKWTebeIz72N2
- ieIw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=hupKhPynLq1Bf3qlTLC4Kz0Lfmt5cTR5vZzYauE5o9o=;
- b=q2uBCbY3IVO6cKy+Xn7pAxzfbsrCHhS6Hg+1jrEc4VqN9wrKLaqIn8aiC3DlYjEpwS
- Uhe43lylP2rNqC5i10rdJ34ifvf0rEGY9lnLNP1XRGTvvOI2hvTAdTiWnu8mxFF21TGs
- WpDMVopmVBHKIzuzgLxeimBdojVxBgzJcw7eYUNvE8qJiNuqbPcQPIOEVZY3Fg+ybsXs
- 0zcc/eOkjoTLuELTsHTVDpmPHH0oozs+D+6m41LfUSyZAzlmE2vWCefyvPR2OTOvasWm
- i/f5USenyW6ChewYWJFzLNNpT0F/ROF2vMW9uBFy46F+4HbwJmy6fU8+lQf7NYosLj7H
- ba2g==
-X-Gm-Message-State: AOAM530kJ01Lp3gusiugETd8v3/5rMg0aA+6V7Xxin7QrtBzRz+3Vc1U
- 5sQJN15Nb9ZCsPyxBSD7iu4=
-X-Google-Smtp-Source: ABdhPJwpi9tZZn55K+KLXQi9Ghe9h8sXQXItUIk2yRhg0NJW/CWKTNzKIoir2q0VUzRbCpWRnxQ/fA==
-X-Received: by 2002:a17:90b:1c85:: with SMTP id
- oo5mr9309183pjb.142.1643823057104; 
- Wed, 02 Feb 2022 09:30:57 -0800 (PST)
-Received: from [192.168.1.33] (154.red-83-50-83.dynamicip.rima-tde.net.
- [83.50.83.154])
- by smtp.gmail.com with ESMTPSA id m26sm10439512pfe.162.2022.02.02.09.30.55
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 02 Feb 2022 09:30:56 -0800 (PST)
-Message-ID: <f10cbf13-ac56-cbe0-02f8-1d96a687700e@amsat.org>
-Date: Wed, 2 Feb 2022 18:30:53 +0100
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1nFJZq-0000uM-Kj
+ for qemu-devel@nongnu.org; Wed, 02 Feb 2022 12:37:56 -0500
+Received: from kylie.crudebyte.com ([5.189.157.229]:52433)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1nFJZm-0004UC-5L
+ for qemu-devel@nongnu.org; Wed, 02 Feb 2022 12:37:53 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
+ MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+ Content-ID:Content-Description;
+ bh=DNFpbriaW/sJeuET+PytZhwCekiTy5WR94y/+uyaGPU=; b=sBBy1Xd9xA10SmGapidMJb5gZG
+ dAZSSYowb6UzPqBxGoGWI+tUmIV83dO17wtgsvY8LqAXltZxfnpo3k78Ks0YoMrq8Qa1kMMdPmD42
+ A4kvSVjbxExKUQW7xNBMp9jZBaLleCobSXJ88pgijSHcG0ANEFytaIwQHbscsCDw6FqJKKv4ZAUMU
+ Q2FNiuur81R/xRBWNIkRhMFfluwWrHcNMxZLV/AanMjm6j33dfXxUb1m0tCk9hrxBYP/V+ydSLHGE
+ txQmQTCbshBnw+zrpvNdYqKP+y32mPTPypaBH1o0HHw5wQE1E84UtPCMzqlEfb4cU/bWuhNLg3tr1
+ DDE+ItHk/pidH7TsCmL+VGcZOZsu2ZzRA3FNHh43zOAJX+ElGlq0PKYAOQkBeZwmlVMIy9R3BpsXH
+ D1NJpt2uiVFYJwRhg5dnPjJF9tfqcDfJG/DU4uqIR5EWc6z/APX8FdRkPYwTYcsCqJs2G8umo7OhZ
+ sb46z49ilZpB8K8mOFsx+CknypPbHZo1i2WBgwEWk4GHPmjpZjqZY/0OFdmxTXjnCzHlXEOyI1oX6
+ geAHFt4GgbWKAoRbgwM8sYqxbmvmkfn4ZpxerKayRVWMMWFirMrl/sfchx0L5jJ93a1M8oo1a5P7r
+ Bxx0/9FUwuL/a+wpvYzDzokrvqcY6Z5z80WLnVMt8=;
+From: Christian Schoenebeck <qemu_oss@crudebyte.com>
+To: qemu-devel@nongnu.org
+Cc: Will Cohen <wwcohen@gmail.com>, Laurent Vivier <lvivier@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, Greg Kurz <groug@kaod.org>, hi@alyssa.is,
+ Michael Roitzsch <reactorcontrol@icloud.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Keno Fischer <keno@juliacomputing.com>
+Subject: Re: [PATCH v3 04/11] 9p: darwin: Handle struct dirent differences
+Date: Wed, 02 Feb 2022 18:37:37 +0100
+Message-ID: <4982610.5BtrrgmkuT@silver>
+In-Reply-To: <CAB26zV0zKNzQ-Fk-TAq-UzqyuThW_aubHR+5+iE+SNZonRALQA@mail.gmail.com>
+References: <20220128005611.87185-1-wwcohen@gmail.com>
+ <20220128005611.87185-5-wwcohen@gmail.com>
+ <CAB26zV0zKNzQ-Fk-TAq-UzqyuThW_aubHR+5+iE+SNZonRALQA@mail.gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.5.0
-Subject: Re: [PATCH] hw/i2c: flatten pca954x mux device
-Content-Language: en-US
-To: Patrick Venture <venture@google.com>
-Cc: Corey Minyard <cminyard@mvista.com>,
- QEMU Developers <qemu-devel@nongnu.org>, Hao Wu <wuhaotsh@google.com>
-References: <20220201163005.989457-1-venture@google.com>
- <59040e43-2375-1f73-15bb-ce1a47165145@amsat.org>
- <CAO=notxPP8+b6S6UnUX7s4yWQsEhaAS0CZbn1my0HEN2idL6tA@mail.gmail.com>
- <CAO=notw9jYSc6xGr3_kwuAWHG2J3VJ7WxJT+tL_fbXFfTRrhpw@mail.gmail.com>
- <CAO=notzLfum_zkXhP+xQ9RTxcpG3oNxwFMPYWz+o1vYdF8ynQg@mail.gmail.com>
-In-Reply-To: <CAO=notzLfum_zkXhP+xQ9RTxcpG3oNxwFMPYWz+o1vYdF8ynQg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1035
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1035;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pj1-x1035.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.001,
- PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01,
- T_SPF_HELO_TEMPERROR=0.01 autolearn=no autolearn_force=no
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
+Received-SPF: pass client-ip=5.189.157.229;
+ envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -101,83 +71,49 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
-On 2/2/22 17:40, Patrick Venture wrote:
+On Mittwoch, 2. Februar 2022 16:07:09 CET Will Cohen wrote:
+> Does the version proposed in v3 address the V9fsFidState issues? In 9p.c
+> for v2 to v3, we propose
+> 
+> -    return telldir(fidp->fs.dir.stream);
+> +    return v9fs_co_telldir(pdu, fidp);
+> 
+> and in codir.c from v2 to v3 we propose
+> -        saved_dir_pos = telldir(fidp->fs.dir.stream);
+> +        saved_dir_pos = s->ops->telldir(&s->ctx, &fidp->fs);
+> 
+> This removes the direct access to fidp->, and we hope this should be
+> sufficient to avoid the concurrency
+> and undefined behaviors you noted in the v2 review.
 
->     Philippe,
-> 
->     I0202 08:29:45.380384  6641 stream.go:31] qemu: child buses at
->     "pca9546": "channel[*]", "channel[*]", "channel[*]", "channel[*]"
-> 
->     Ok, so that's interesting.  In one system (using qom-list) it's
->     correct, but then when using it to do path assignment
->     (qdev-monitor), it fails...
-> 
->     I'm not as fond of the name i2c-bus.%d, since they're referred to as
->     channels in the datasheet.  If I do the manual name creation, can I
->     keep the name channel or should I pivot over?
-> 
->     Thanks
-> 
-> 
->             -- >8 --
->             diff --git a/hw/i2c/i2c_mux_pca954x.c b/hw/i2c/i2c_mux_pca954x.c
->             index f9ce633b3a..a9517b612a 100644
->             --- a/hw/i2c/i2c_mux_pca954x.c
->             +++ b/hw/i2c/i2c_mux_pca954x.c
->             @@ -189,9 +189,11 @@ static void pca954x_init(Object *obj)
-> 
->                    /* SMBus modules. Cannot fail. */
->                    for (i = 0; i < c->nchans; i++) {
->             +        g_autofree gchar *bus_name =
->             g_strdup_printf("i2c.%d", i);
->             +
->                        /* start all channels as disabled. */
->                        s->enabled[i] = false;
->             -        s->bus[i] = i2c_init_bus(DEVICE(s), "channel[*]");
->             +        s->bus[i] = i2c_init_bus(DEVICE(s), bus_name);
->                    }
->                }
-> 
->             ---
-> 
->             (look at HMP 'info qtree' output).
-> 
->              >       }
->              >   }
-> 
->             With the change:
->             Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org
->             <mailto:f4bug@amsat.org>>
->             Tested-by: Philippe Mathieu-Daudé <f4bug@amsat.org
->             <mailto:f4bug@amsat.org>>
-> 
-> 
-> Just saw your reply, and found a bunch of other non-spam in my spam 
-> folder.  I sent the message to the anti-spam team, hopefully that'll 
-> resolve this for myself and presumably others.
+I am not sure why you think that you are no longer accessing fidp, you still 
+do, just in a slightly different way.
 
-Thanks. I suppose the problem is the amsat.org domain.
+Let me propose a different solution: on macOS there is 'd_seekoff' in struct 
+dirent. As already discussed that dirent field is apparently unused (zero) by 
+macOS. So what about filling this dirent field (early, on driver level, not on 
+server/controller level [9p.c]) with telldir() for macOS, then you have the 
+same info as other systems provide with dirent field 'd_off' later on.
 
-> I definitely see the same result with the qdev-monitor, but was really 
-> surprised that the qom-list worked.  I'll explicitly set the name, and 
-> i2c.%d is fine.  The detail that they're channels is not really 
-> important to the end user presumably.
+Then you can add an inline helper function or a macro to deal with macOS vs. 
+RoW, e.g.:
 
-I agree it is better to follow datasheets, thus I am fine if you
-change and use channel. How would it look like? "channel.0"?
-FYI qdev busses are described in docs/qdev-device-use.txt.
+inline
+off_t qemu_dirent_off(struct dirent *dent)
+{
+#ifdef CONFIG_DARWIN
+    return dent->d_seekoff;
+#else
+    return dent->d_off;
+#endif
+}
 
-We should be able to plug a device using some command line
-such "-device i2c_test_dev,bus=channel.0,addr=0x55".
-I wonder how to select the base PCA9548 ...
+And in 9p.c at all locations where dent->d_off is currently accessed, you 
+would just use that helper instead.
 
-Maybe we need to pass the PCA ID to pca954x_init(), so we can
-name "channel.2.0" for the 1st channel on the 2nd PCA?
+Best regards,
+Christian Schoenebeck
 
-Regards,
 
-Phil.
 
