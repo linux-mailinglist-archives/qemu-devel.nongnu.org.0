@@ -2,69 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E6214A6AC1
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Feb 2022 05:10:25 +0100 (CET)
-Received: from localhost ([::1]:50864 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4214C4A6AB7
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Feb 2022 05:03:07 +0100 (CET)
+Received: from localhost ([::1]:47324 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nF6yI-0001CJ-Gh
-	for lists+qemu-devel@lfdr.de; Tue, 01 Feb 2022 23:10:24 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:44604)
+	id 1nF6rJ-0007Cn-Q0
+	for lists+qemu-devel@lfdr.de; Tue, 01 Feb 2022 23:03:05 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:44606)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philipp.tomsich@vrull.eu>)
- id 1nF3tL-0000cO-Sm
+ id 1nF3tL-0000cQ-Sq
  for qemu-devel@nongnu.org; Tue, 01 Feb 2022 19:53:00 -0500
-Received: from [2a00:1450:4864:20::231] (port=45831
- helo=mail-lj1-x231.google.com)
+Received: from [2a00:1450:4864:20::22b] (port=43525
+ helo=mail-lj1-x22b.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philipp.tomsich@vrull.eu>)
- id 1nF3tI-0003DI-N3
+ id 1nF3tI-0003DK-CJ
  for qemu-devel@nongnu.org; Tue, 01 Feb 2022 19:52:59 -0500
-Received: by mail-lj1-x231.google.com with SMTP id t9so26522687lji.12
+Received: by mail-lj1-x22b.google.com with SMTP id t7so26532633ljc.10
  for <qemu-devel@nongnu.org>; Tue, 01 Feb 2022 16:52:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vrull.eu; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=2BoMvhLTnJEafHl4MHGo5h8JU627Oo0i/1ru96c3ktE=;
- b=pzv+2fnQzs9Rwik8olA+5kmk48ETU3cPlgUlKRdX8skV75zqQaJNY25kEr+bf+7qNN
- TadDnZo2BqakD5cScCtcKHZ1kZ/K/uR+eLX/8Yxg0l48kiQy4F8f8SIt+8pgfVMcJmk4
- 5LuAtLeIZI71RGcuhBgMlu0M7g15IfVbhGN+pieMn31WPkQfHG0eddLOo2QYXqmAOhdd
- E7E7xNJVqT3zj2HKiK6a9NNXYqCm7v/Me/GFWWshS8EBoKWPJmb7KATcEDX6u4eeehOQ
- eOc3qvJMzSZ2BdANSN3o0aBuGr0W9BZgW1LYfzayeEZzYS1BfGKK5o3Yv0s7XeWdnpZg
- 1HRw==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=OiVT0bM4NtspWL25PM05AeUoZSR1WRY5chXXsAksmeU=;
+ b=NPDNd9b+YlrT1VVOnWPnp7dtxKHk1V/eb0F+mbhBBm27ZSA+Tt0gMEwzlGeCnzZ5Zv
+ xtkdCimWMLaRG0qNYxpWXaMyWXKk+J59c3/UcQcmgRDhApiqJoMBexR8QStZCkhmPvV0
+ /GWAuwQPRvb1+jR/xjkzDHQsNDPNukb+tLoSwckDew9fQqexobL5YV3PenkOlCAxjcWU
+ PEBbALAkyUXS8jRgqKRiATGZyKOi8tKeBe90WKHrU0bFTmnSOAA8rz78gzK3hl0rmfye
+ 2CoL9pXIznKL0jRIIDuD/Xnwn9Z7zK2eSaDp5IUznWv0mKKGwp6DLvL4/X/sVKFbwFl6
+ RRIw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=2BoMvhLTnJEafHl4MHGo5h8JU627Oo0i/1ru96c3ktE=;
- b=JUsZYhSt+SlU0UEdsgcQvwf14plI4T05ejC0t4LeKnASv+kwbRW96GBseFj2tGoy8x
- /j6KZboQwdh9UGXJeXTzt34B8I9rgfcL4m1icFlQufXNt45OZxy/4mQ+j7I7lrVwWcGg
- poUPLAGoROITQ7Ip1pq8KaQw2fw/8SYO1fonqOtKT0qYJp0TBmQjE/+T2F+f+6xkIsrS
- /fWTb0Nzaf0SwLd9Ir86yn43CCdI0ERQ+3t6+iH0JUrbjLQJgByzBfTVQ3mAFjIpiOzU
- OKqu5K1mpzOdibegdTpg+erRJuE2aYCs8jHOk5z3hKp/c6a9vrFM2uesliCb6zVhpl2V
- sNsA==
-X-Gm-Message-State: AOAM53223GNS8U6CAeeWmBEmvHe12dItwDDDFk1K59OlfBLDBtu4qP/T
- Ayk/CqoHKpfrEVNSirX87/jX+XIrM99FynDT
-X-Google-Smtp-Source: ABdhPJyKkCYq19DMGYlpeuTpn+l9UIl76PJloCiHU4ENISTWc8Kg+WrW5r9TY1zUf/uEF3/k5LVeqg==
-X-Received: by 2002:a2e:8789:: with SMTP id n9mr17898269lji.277.1643763173286; 
- Tue, 01 Feb 2022 16:52:53 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=OiVT0bM4NtspWL25PM05AeUoZSR1WRY5chXXsAksmeU=;
+ b=vVGqndhKFyEkB+3UUJLQf57xW29XGaO6Mqv8IabLeJOK0wZRRLDIJZ2rgcH+hIzcvb
+ 1f5n02iGG+zu8W/X4slj2nuNmwEEsH05fg5JRmaHmLWQHvfWb3SVa6LDLJawlhwuG76Y
+ OhVBkpR9X7EmvoDvrzU96c22Zq+/OyatIJzMhem4AEys95wV7N3aVNBsChgxiFhaOsEH
+ t/e24BcKreI1O9EKoqkYUcm4ZASyzFY+Ry9i9muz4ivGSetPlw2seV8Lj9VtP1x2/Dj3
+ C6twz5C8D7Noo6wrsCxeehlI/aZpfYKWMhylOGqgCTh7dMUSTEWjxbKTbvQosPRS2KZd
+ Utxg==
+X-Gm-Message-State: AOAM5326mXkzPCrvlUInTJK+S5X41eoV5lSeMWrsUDXXaxfcL9QGjWom
+ MorK5BbbSDjKdwwZCVFZZObMKeYnD2jxILyO
+X-Google-Smtp-Source: ABdhPJyrap/inaVJR67+cWfWqUg9XXaOdHaajOTStmY3G2dr6MdXfnD8/X50dn6+E6yoXsSo2IF1fg==
+X-Received: by 2002:a05:651c:1604:: with SMTP id
+ f4mr11101696ljq.220.1643763174184; 
+ Tue, 01 Feb 2022 16:52:54 -0800 (PST)
 Received: from ubuntu-focal.. ([2a01:4f9:3a:1e26::2])
- by smtp.gmail.com with ESMTPSA id bt22sm4305297lfb.262.2022.02.01.16.52.52
+ by smtp.gmail.com with ESMTPSA id bt22sm4305297lfb.262.2022.02.01.16.52.53
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 01 Feb 2022 16:52:52 -0800 (PST)
+ Tue, 01 Feb 2022 16:52:53 -0800 (PST)
 From: Philipp Tomsich <philipp.tomsich@vrull.eu>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v6 0/7] target/riscv: Add XVentanaCondOps and supporting
- infrastructure changes
-Date: Wed,  2 Feb 2022 01:52:42 +0100
-Message-Id: <20220202005249.3566542-1-philipp.tomsich@vrull.eu>
+Subject: [PATCH v6 1/7] target/riscv: refactor (anonymous struct) RISCVCPU.cfg
+ into 'struct RISCVCPUConfig'
+Date: Wed,  2 Feb 2022 01:52:43 +0100
+Message-Id: <20220202005249.3566542-2-philipp.tomsich@vrull.eu>
 X-Mailer: git-send-email 2.33.1
+In-Reply-To: <20220202005249.3566542-1-philipp.tomsich@vrull.eu>
+References: <20220202005249.3566542-1-philipp.tomsich@vrull.eu>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::231
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::22b
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::231;
- envelope-from=philipp.tomsich@vrull.eu; helo=mail-lj1-x231.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::22b;
+ envelope-from=philipp.tomsich@vrull.eu; helo=mail-lj1-x22b.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -93,86 +96,122 @@ Cc: Richard Henderson <richard.henderson@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Signed-off-by: Philipp Tomsich <philipp.tomsich@vrull.eu>
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+Suggested-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-In adding our first X-extension (i.e., vendor-defined) on RISC-V with
-XVentanaCondOps, we need to add a few instructure improvements to make
-it easier to add similar vendor-defined extensions in the future:
-- refactor access to the cfg->ext_* fields by making a pointer to the
-  cfg structure (as cfg_ptr) available via DisasContext
-- add a table-based list of decoders to invoke, each being guarded by
-  a guard/predicate-function, that can be used to either add vendor
-  extensions, large extensions or override (by listing the decoder
-  before the one for standard extensions) patterns to handle errata
+---
 
-
-Changes in v6:
-- add the 'vt' prefix to gen_condmask, renaming it to gen_vt_condmask
-
-Changes in v5:
-- use the typedef in DisasContext instead of the nakes struct
-  for RISCVCPUConfig
-- manually picked up those Reviewed-by tags from Richard that patman
-  missed
+(no changes since v4)
 
 Changes in v4:
 - use a typedef into 'RISCVCPUConfig' (instead of the explicit
   'struct RISCVCPUConfig') to comply with the coding standard
   (as suggested in Richard's review of v3)
-- add braces to comply with coding standard (as suggested by Richard)
-- merge the two if-statements to reduce clutter after (now that the
-  braces have been added)
 
 Changes in v3:
 - (new patch) refactor 'struct RISCVCPUConfig'
-- (new patch) copy pointer to element cfg into DisasContext
-- (new patch) test extension-availability through cfg_ptr in
-  DisasContext, removing the fields that have been copied into
-  DisasContext directly
-- (new patch) change Zb[abcs] implementation to use cfg_ptr (copied
-  into DisasContext) instead of going throuhg RISCV_CPU
-- expose only the DisasContext* to predicate functions
-- mark the table of decoder functions as static
-- drop the inline from always_true_p, until the need arises (i.e.,
-  someone finds a use for it and calls it directly)
-- rewrite to drop the 'handled' temporary in iterating over the
-  decoder table, removing the assignment in the condition of the if
-- rename to trans_xventanacondops.c.inc (i.e. with the '.c')
-- (in MATERIALISE_EXT_PREDICATE) don't annotate the predicate function
-  for testing the availability of individual extensions as 'inline'
-  and don't make CPURISCVState* visible to these predicate functions
-- add a MAINTAINERS entry for XVentanaCondOps
 
-Changes in v2:
-- (new patch) iterate over a table of guarded decoder functions
-- Split off decode table into XVentanaCondOps.decode
-- Wire up XVentanaCondOps in the decoder-table
+ target/riscv/cpu.h | 78 ++++++++++++++++++++++++----------------------
+ 1 file changed, 41 insertions(+), 37 deletions(-)
 
-Philipp Tomsich (7):
-  target/riscv: refactor (anonymous struct) RISCVCPU.cfg into 'struct
-    RISCVCPUConfig'
-  target/riscv: riscv_tr_init_disas_context: copy pointer-to-cfg into
-    cfg_ptr
-  target/riscv: access configuration through cfg_ptr in DisasContext
-  target/riscv: access cfg structure through DisasContext
-  target/riscv: iterate over a table of decoders
-  target/riscv: Add XVentanaCondOps custom extension
-  target/riscv: add a MAINTAINERS entry for XVentanaCondOps
-
- MAINTAINERS                                   |   7 ++
- target/riscv/XVentanaCondOps.decode           |  25 +++++
- target/riscv/cpu.c                            |   3 +
- target/riscv/cpu.h                            |  81 +++++++-------
- target/riscv/insn_trans/trans_rvb.c.inc       |   8 +-
- target/riscv/insn_trans/trans_rvi.c.inc       |   2 +-
- target/riscv/insn_trans/trans_rvv.c.inc       | 104 +++++++++---------
- target/riscv/insn_trans/trans_rvzfh.c.inc     |   4 +-
- .../insn_trans/trans_xventanacondops.c.inc    |  39 +++++++
- target/riscv/meson.build                      |   1 +
- target/riscv/translate.c                      |  60 ++++++----
- 11 files changed, 219 insertions(+), 115 deletions(-)
- create mode 100644 target/riscv/XVentanaCondOps.decode
- create mode 100644 target/riscv/insn_trans/trans_xventanacondops.c.inc
-
+diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+index 55635d68d5..1175915c0d 100644
+--- a/target/riscv/cpu.h
++++ b/target/riscv/cpu.h
+@@ -303,6 +303,46 @@ struct RISCVCPUClass {
+     DeviceReset parent_reset;
+ };
+ 
++struct RISCVCPUConfig {
++    bool ext_i;
++    bool ext_e;
++    bool ext_g;
++    bool ext_m;
++    bool ext_a;
++    bool ext_f;
++    bool ext_d;
++    bool ext_c;
++    bool ext_s;
++    bool ext_u;
++    bool ext_h;
++    bool ext_j;
++    bool ext_v;
++    bool ext_zba;
++    bool ext_zbb;
++    bool ext_zbc;
++    bool ext_zbs;
++    bool ext_counters;
++    bool ext_ifencei;
++    bool ext_icsr;
++    bool ext_zfh;
++    bool ext_zfhmin;
++    bool ext_zve32f;
++    bool ext_zve64f;
++
++    char *priv_spec;
++    char *user_spec;
++    char *bext_spec;
++    char *vext_spec;
++    uint16_t vlen;
++    uint16_t elen;
++    bool mmu;
++    bool pmp;
++    bool epmp;
++    uint64_t resetvec;
++};
++
++typedef struct RISCVCPUConfig RISCVCPUConfig;
++
+ /**
+  * RISCVCPU:
+  * @env: #CPURISCVState
+@@ -320,43 +360,7 @@ struct RISCVCPU {
+     char *dyn_vreg_xml;
+ 
+     /* Configuration Settings */
+-    struct {
+-        bool ext_i;
+-        bool ext_e;
+-        bool ext_g;
+-        bool ext_m;
+-        bool ext_a;
+-        bool ext_f;
+-        bool ext_d;
+-        bool ext_c;
+-        bool ext_s;
+-        bool ext_u;
+-        bool ext_h;
+-        bool ext_j;
+-        bool ext_v;
+-        bool ext_zba;
+-        bool ext_zbb;
+-        bool ext_zbc;
+-        bool ext_zbs;
+-        bool ext_counters;
+-        bool ext_ifencei;
+-        bool ext_icsr;
+-        bool ext_zfh;
+-        bool ext_zfhmin;
+-        bool ext_zve32f;
+-        bool ext_zve64f;
+-
+-        char *priv_spec;
+-        char *user_spec;
+-        char *bext_spec;
+-        char *vext_spec;
+-        uint16_t vlen;
+-        uint16_t elen;
+-        bool mmu;
+-        bool pmp;
+-        bool epmp;
+-        uint64_t resetvec;
+-    } cfg;
++    RISCVCPUConfig cfg;
+ };
+ 
+ static inline int riscv_has_ext(CPURISCVState *env, target_ulong ext)
 -- 
 2.33.1
 
