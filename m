@@ -2,78 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 595024A6E51
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Feb 2022 11:02:46 +0100 (CET)
-Received: from localhost ([::1]:45128 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B0104A6E70
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Feb 2022 11:12:36 +0100 (CET)
+Received: from localhost ([::1]:48344 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nFCTM-0002uf-UU
-	for lists+qemu-devel@lfdr.de; Wed, 02 Feb 2022 05:02:44 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:42274)
+	id 1nFCcs-0005Rt-Od
+	for lists+qemu-devel@lfdr.de; Wed, 02 Feb 2022 05:12:34 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:45192)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jinpu.wang@ionos.com>)
- id 1nFCN6-0001L2-4y
- for qemu-devel@nongnu.org; Wed, 02 Feb 2022 04:56:17 -0500
-Received: from [2a00:1450:4864:20::629] (port=33314
- helo=mail-ej1-x629.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <jinpu.wang@ionos.com>)
- id 1nFCN2-0006ur-Ea
- for qemu-devel@nongnu.org; Wed, 02 Feb 2022 04:56:14 -0500
-Received: by mail-ej1-x629.google.com with SMTP id jx6so64148956ejb.0
- for <qemu-devel@nongnu.org>; Wed, 02 Feb 2022 01:56:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ionos.com; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=G0nGtCnkjKM5ne69UFF6oCNinvlfENcCT/80h3HBGiQ=;
- b=YuAfgrW5p0einiY4DQK0amL62Gwg+EiuXh7ceUaB+8mLFoMObPPxUN8Q3U1ikxtdHW
- JUOx+CTArcJ1N6FHH5muaKLY3WVReMFMmY4Hu0wJNyKgDXo4ZLkfNZTJMzkocboXa2MP
- 5/UdNU+scAKKn15gGOtoN5AYD63JD97VvOvYgqZmhavwUlhtApzYXFBCLUiDhnHa2d/H
- luaINu9J/hNk22cytnDVpaugEbQwkmBQzr5g0JAagllADaPq5UDylyXFWRV9wc7STfnF
- KsS++g02ZkkoBEmwYPGn5tVdnXjss9mOLtCSsaWN7TjuiXQSgKeZr8NppvZygLisHAtt
- PMdA==
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nFCXY-0004Xt-O3
+ for qemu-devel@nongnu.org; Wed, 02 Feb 2022 05:07:09 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:43711)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nFCXV-0000Zh-TH
+ for qemu-devel@nongnu.org; Wed, 02 Feb 2022 05:07:03 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1643796420;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=bYOwJGiOleSFKBiigA+akn+lzOPscYMZU5oJgoiTG+s=;
+ b=biep63fDY8MDDLZWbNneo3i81Aelb1GJf0aYQlBWo2YVHfhD3ZqEX0HkUU/fA8vWbkVM5l
+ lRbjZWubU7bonee2r/kkLgebZdAW9in65MtKQt9ZqvfU1BvuzcllNHVSC58IELb/nVVihh
+ rIeeWgTOWtNKg9l2J7nG18ltmhAwPJc=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-187-P8q1i76YOyibiub8qmg_Ug-1; Wed, 02 Feb 2022 05:06:59 -0500
+X-MC-Unique: P8q1i76YOyibiub8qmg_Ug-1
+Received: by mail-ed1-f70.google.com with SMTP id
+ f21-20020a50d555000000b00407a8d03b5fso10063685edj.9
+ for <qemu-devel@nongnu.org>; Wed, 02 Feb 2022 02:06:59 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=G0nGtCnkjKM5ne69UFF6oCNinvlfENcCT/80h3HBGiQ=;
- b=12lCpRng2ipIo5ULbAP3sSORij0J6267/n3Ufrdtu9JxgpZjPDERcGDFU7DLDhtfac
- 0m29AqvjMxeOQDCK7Kl6OuQLtZ5d2UBZIxtZoM0B4G5KaL9ZqdP90bom/w16/7sJ7gdG
- i0EmUkIkW55m+fW88WwTQPTLGXfnlxmFzTisBH5zLddkO5SCWQ2JFeBl/3VN4qBK1WtR
- VDsnPwXJszUKIlFh+q1mUlHJCUMysnDrUl/d/WZOfKfHQLgz8qTulf5qDkC8m3Jh7glY
- K2fuoVUxrw8Ue0P5v7qrLi4DVMe/dyUJ18USbNL8R1Rm5vhWIvnXijgkO0rOr8cqkuh3
- 8E9w==
-X-Gm-Message-State: AOAM531uZsOOBmeFabLpU1iA7Ld7fPFwnVcIKe0h9dMS+4oDJzGN7oZG
- DNQphRBiCo+LqLljiUEjH0XaWSyymVZ+ysfeLb8h9Q==
-X-Google-Smtp-Source: ABdhPJzuLj6rSyaWWZqJY9o/TYEExQKFXwdo7hTb9IZozLBKTzF+nNVk/hHurIe0q6w8P/To/1wiTrm9ub2Zev3qSSI=
-X-Received: by 2002:a17:906:1611:: with SMTP id
- m17mr24881600ejd.443.1643795770022; 
- Wed, 02 Feb 2022 01:56:10 -0800 (PST)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=bYOwJGiOleSFKBiigA+akn+lzOPscYMZU5oJgoiTG+s=;
+ b=cmkM5dNV6VRkqLLNzZAdM/5NaZGWNdiQMxU/ste5lN+2d44l9MUVj3rQ4rqmhU1K2U
+ gUjiwyKnvtTkXXSzcoJkMNU5AXD75dPl3Tx4wbUIY0EHEP0CzwKDFnMD96hs6anGKBxu
+ JsCcf1h/3vdOxv3wGmuEkFOrBQRgGPHdgNFg0YvxDTwDanPR5INd3fpMz5QeoWbfr7vh
+ s4Uh/VnUuaWiwfVr1Zl8PuMQB0sqUsUvHdYqTFDFTFYq/9Du13Ictv4maEx18scNURt4
+ RuCT8GS5Cy++EWvjQe1yd1sRrUJdZvQbRYPAtM9Ue64r2IwvSBDytJ19QAsUDvAvJVQK
+ phyQ==
+X-Gm-Message-State: AOAM531ChUWJjT0yeM4qrgo3SrK0eY6S5BA8WM8Y0R7RdKK5nQ4HGrRR
+ N4oDCstsMFKX51JYWIWbEW4McT4GO+yh51gHDTqBDtPe3oBds+AF2rWP4cR1+o5TfYtS1Ho8L6R
+ 38fRTKD7LuRlZTDg=
+X-Received: by 2002:a05:6402:438d:: with SMTP id
+ o13mr29025842edc.258.1643796418075; 
+ Wed, 02 Feb 2022 02:06:58 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwpnuZ8hKYADuB3wUCQCcOlbQ2oNxBJ6qmZ+9mYgACreeAtlgoT39xYevDI0YEa/RwrkO/oPw==
+X-Received: by 2002:a05:6402:438d:: with SMTP id
+ o13mr29025816edc.258.1643796417892; 
+ Wed, 02 Feb 2022 02:06:57 -0800 (PST)
+Received: from redhat.com ([2.52.5.34])
+ by smtp.gmail.com with ESMTPSA id s9sm20734814edj.48.2022.02.02.02.06.51
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 02 Feb 2022 02:06:56 -0800 (PST)
+Date: Wed, 2 Feb 2022 05:06:49 -0500
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PATCH v5 03/18] pci: isolated address space for PCI bus
+Message-ID: <20220202050526-mutt-send-email-mst@kernel.org>
+References: <20220126161120-mutt-send-email-mst@kernel.org>
+ <YfJYFbBVQzho7mGp@stefanha-x1.localdomain>
+ <20220127142253.21ab0025.alex.williamson@redhat.com>
+ <YfO00O4sT2UgaW31@stefanha-x1.localdomain>
+ <20220131091623.6739464e.alex.williamson@redhat.com>
+ <Yfj9u26F6/RdlhoB@stefanha-x1.localdomain>
+ <20220201082437.7dd940eb.alex.williamson@redhat.com>
+ <9BD98DD7-CC28-49E1-8150-BDECF0324FFA@oracle.com>
+ <20220201154736.576e2a7e.alex.williamson@redhat.com>
+ <CAFEAcA-f6ZBgAtKr-nUFTR8nfMGVWF=uExoRaMajN7t6wU7f7g@mail.gmail.com>
 MIME-Version: 1.0
-References: <20220201151136.52157-1-jinpu.wang@ionos.com>
- <CALzYo30ED+8De9SPaTz_Lct=pwvhA8xwwH6dAc=vRjMvRq0dKA@mail.gmail.com>
- <CAMGffE=4uVDmkL0Qi66xaoEyQSBDStU2Nmb0YzDyxcXQwU2m9A@mail.gmail.com>
- <CALzYo33PQZxQRpattNsobAqsJ89qSyV1GyJKAqTeQR09gkaE6g@mail.gmail.com>
- <CALzYo31esyL6pZ+LCy4qAGw9AZPj4ZdRpxLAxO9uYWzrQ63N2A@mail.gmail.com>
- <YfpMw1yvYUHkIMqV@work-vm>
-In-Reply-To: <YfpMw1yvYUHkIMqV@work-vm>
-From: Jinpu Wang <jinpu.wang@ionos.com>
-Date: Wed, 2 Feb 2022 10:55:59 +0100
-Message-ID: <CAMGffEk9WZLrCkZBir0_Ti3JBgTL44ke4pyUY-=70wDsZgmx+A@mail.gmail.com>
-Subject: Re: [PATCH 1/2] migration/rdma: Increase the backlog from 5 to 128
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::629
- (failed)
-Received-SPF: permerror client-ip=2a00:1450:4864:20::629;
- envelope-from=jinpu.wang@ionos.com; helo=mail-ej1-x629.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01,
- T_SPF_PERMERROR=0.01 autolearn=no autolearn_force=no
+In-Reply-To: <CAFEAcA-f6ZBgAtKr-nUFTR8nfMGVWF=uExoRaMajN7t6wU7f7g@mail.gmail.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.086,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -86,69 +103,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, Pankaj Gupta <pankaj.gupta@ionos.com>,
- quintela@redhat.com
+Cc: "eduardo@habkost.net" <eduardo@habkost.net>,
+ Elena Ufimtseva <elena.ufimtseva@oracle.com>, Jag Raman <jag.raman@oracle.com>,
+ Beraldo Leal <bleal@redhat.com>,
+ "john.levon@nutanix.com" <john.levon@nutanix.com>,
+ John Johnson <john.g.johnson@oracle.com>,
+ "quintela@redhat.com" <quintela@redhat.com>,
+ qemu-devel <qemu-devel@nongnu.org>, "armbru@redhat.com" <armbru@redhat.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ "thanos.makatos@nutanix.com" <thanos.makatos@nutanix.com>,
+ =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@gmail.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
+ Eric Blake <eblake@redhat.com>, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Feb 2, 2022 at 10:20 AM Dr. David Alan Gilbert
-<dgilbert@redhat.com> wrote:
->
-> * Pankaj Gupta (pankaj.gupta@ionos.com) wrote:
-> > > > > >  migration/rdma.c | 2 +-
-> > > > > >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > > > > >
-> > > > > > diff --git a/migration/rdma.c b/migration/rdma.c
-> > > > > > index c7c7a384875b..2e223170d06d 100644
-> > > > > > --- a/migration/rdma.c
-> > > > > > +++ b/migration/rdma.c
-> > > > > > @@ -4238,7 +4238,7 @@ void rdma_start_incoming_migration(const char *host_port, Error **errp)
-> > > > > >
-> > > > > >      trace_rdma_start_incoming_migration_after_dest_init();
-> > > > > >
-> > > > > > -    ret = rdma_listen(rdma->listen_id, 5);
-> > > > > > +    ret = rdma_listen(rdma->listen_id, 128);
-> > > > >
-> > > > > 128 backlog seems too much to me. Any reason for choosing this number.
-> > > > > Any rationale to choose this number?
-> > > > >
-> > > > 128 is the default value of SOMAXCONN, I can use that if it is preferred.
-> > >
-> > > AFAICS backlog is only applicable with RDMA iWARP CM mode. Maybe we
-> > > can increase it to 128.these many
-> >
-> > Or maybe we first increase it to 20 or 32? or so to avoid memory
-> > overhead if we are not
-> > using these many connections at the same time.
->
-> Can you explain why you're requiring more than 1?  Is this with multifd
-> patches?
+On Wed, Feb 02, 2022 at 09:30:42AM +0000, Peter Maydell wrote:
+> > I/O port space is always the identity mapped CPU address space unless
+> > sparse translations are used to create multiple I/O port spaces (not
+> > implemented).  I/O port space is only accessed by the CPU, there are no
+> > device initiated I/O port transactions, so the address space relative
+> > to the device is irrelevant.
+> 
+> Does the PCI spec actually forbid any master except the CPU from
+> issuing I/O port transactions, or is it just that in practice nobody
+> makes a PCI device that does weird stuff like that ?
+> 
+> thanks
+> -- PMM
 
-no, I'm not using multifs patches, just code reading, I feel 5 is too
-small for the backlog setting.
+Hmm, the only thing vaguely related in the spec that I know of is this:
 
-As Pankaj rightly mentioned, in RDMA, only iWARP CM will take some
-effect, it does nothing for InfiniBand
-and RoCE.
+	PCI Express supports I/O Space for compatibility with legacy devices which require their use.
+	Future revisions of this specification may deprecate the use of I/O Space.
 
-Please ignore this patch, we can revisit this when we introduce
-multifid with RDMA.
+Alex, what did you refer to?
 
-Thanks!
-Jinpu Wang
->
-> Dave
->
-> > > Maybe you can also share any testing data for multiple concurrent live
-> > > migrations using RDMA, please.
-> > >
-> > > Thanks,
-> > > Pankaj
-> > >
-> > > Thanks,
-> > > Pankaj
-> >
-> --
-> Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
->
+-- 
+MST
+
 
