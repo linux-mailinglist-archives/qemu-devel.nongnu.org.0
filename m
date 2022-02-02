@@ -2,93 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 663CB4A6BA3
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Feb 2022 07:23:43 +0100 (CET)
-Received: from localhost ([::1]:38452 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E2134A6BA8
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Feb 2022 07:33:12 +0100 (CET)
+Received: from localhost ([::1]:41546 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nF93N-0005Yx-VF
-	for lists+qemu-devel@lfdr.de; Wed, 02 Feb 2022 01:23:41 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:53100)
+	id 1nF9CZ-0008Ez-4E
+	for lists+qemu-devel@lfdr.de; Wed, 02 Feb 2022 01:33:11 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:54710)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nF8xy-0003Zp-Kx
- for qemu-devel@nongnu.org; Wed, 02 Feb 2022 01:18:07 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:48574)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nF8xv-00057g-Gb
- for qemu-devel@nongnu.org; Wed, 02 Feb 2022 01:18:05 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1643782681;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=kKyo7CwIWzdYLX+uMza+CZPWglMnyjb+JQMLfSr84es=;
- b=fcNZB3t/ilYuqg2UssSatBBog/EjWK89JdFZe6Cl9jtNOGJoeSYMgCq396OIjPdsrmgrMM
- CnUX9rZygE7EiWwAg3cxI9spRdP1IkVwWk24kDPAPIP1Yhr4t254pW3ID7Jje/iGOvqta7
- C51l4Pwg3fmOIgD0rnYOKCNss9n8a68=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-135-BD_bo0RbOrOo3F2Yj50VUQ-1; Wed, 02 Feb 2022 01:18:00 -0500
-X-MC-Unique: BD_bo0RbOrOo3F2Yj50VUQ-1
-Received: by mail-ed1-f70.google.com with SMTP id
- i22-20020a50fd16000000b00405039f2c59so9875282eds.1
- for <qemu-devel@nongnu.org>; Tue, 01 Feb 2022 22:18:00 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <pankaj.gupta@ionos.com>)
+ id 1nF97g-0007MB-MV
+ for qemu-devel@nongnu.org; Wed, 02 Feb 2022 01:28:08 -0500
+Received: from [2a00:1450:4864:20::134] (port=38560
+ helo=mail-lf1-x134.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <pankaj.gupta@ionos.com>)
+ id 1nF97e-0006cs-RU
+ for qemu-devel@nongnu.org; Wed, 02 Feb 2022 01:28:08 -0500
+Received: by mail-lf1-x134.google.com with SMTP id bu18so38549053lfb.5
+ for <qemu-devel@nongnu.org>; Tue, 01 Feb 2022 22:28:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ionos.com; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=fSWW0tGt26MOK9vyMsv/MbLupqLfmqlqy7PuR9GpH8g=;
+ b=FFtAHlmHGYSQYOFxp2Lc+IW1BQZzewIUYfK3mWE+krDOKzLtLqc5n0ZAbAHZTlHmla
+ hnH/mcznh1Ank7JKWh5w604ubspMIxwEUmh4QX/VlkiIjCU/hNw7SQBfCP1PeYFuqm06
+ I4du+VgvHQl27YHq+HUxW/7KOJ9VnMaj1zZF3jVcWG7PzlsK7hj2a9XkCXM9L9AaxYe3
+ gdhCrqtTbb+sZ/ZGnmW35pRdQCfPkDiJgAb5SutLQgVGl4wNfpwuzDKXsm+R0HWgiZGy
+ RyHKDycWqKdJ20Yj4KdLCfGKqhdblSauD3zWc6dXfi30Z7HbFd/KnFBxB+leB6lbY5+Q
+ /D7w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=kKyo7CwIWzdYLX+uMza+CZPWglMnyjb+JQMLfSr84es=;
- b=aFSvOfhiRCWrJhWoSXt7aMiRiZi24I8ZID8Yh6vNPFDfzsmA486ir7oUKjI8SoiGWr
- NL5vxO2lqCfk5e+XBz76VWlEOesCRmXKoVvQtRHFBusWz8rqj0/m1FKnVpVvMN5rBP8k
- IdXeIW4SYWwyYjOuuNKobRK0R50q1x50yYfDqyTAzDze64L1DggFNNnjUfcyPLxtCx44
- uQfwNRHKYfJf03xjZ5vRXFmVpdkELX+I0VI7Xt3xiDYW9QVkqJU2hbQE9ilJdcNQc553
- wm9UgOqkngedcp11ArCMnwnZl3D8rzAuOl1JO5Ue25EIKDIJu615c5rmsZLje2Zoft61
- 3dZQ==
-X-Gm-Message-State: AOAM5307p8vUREGEnGbgVktDdZ7Ziehg2Ej27r+DTOPZLBOgIfyLvzIB
- U5h27UlBQRcOtPemg51JxwNt6NAZkcZR10PTf81Q6TDLDgwfKthWKrabRU8zwvRB+EPIOSYTTRx
- 0tWfx5ToS2xdMrJA=
-X-Received: by 2002:a17:907:c82:: with SMTP id
- gi2mr23872975ejc.260.1643782679499; 
- Tue, 01 Feb 2022 22:17:59 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxjWQ9jyTgwdjmWj4JDlem5W0wO6sL+4gvZHXJ2dpMdVowiFQVXgf5A/enMH7Z7Kppr7H3Q6A==
-X-Received: by 2002:a17:907:c82:: with SMTP id
- gi2mr23872966ejc.260.1643782679320; 
- Tue, 01 Feb 2022 22:17:59 -0800 (PST)
-Received: from [192.168.8.100] (tmo-096-196.customers.d1-online.com.
- [80.187.96.196])
- by smtp.gmail.com with ESMTPSA id gj10sm10963366ejb.192.2022.02.01.22.17.58
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 01 Feb 2022 22:17:58 -0800 (PST)
-Message-ID: <8e0f2ab3-d7f4-f1a8-b463-a88eb7b3e0cc@redhat.com>
-Date: Wed, 2 Feb 2022 07:17:57 +0100
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=fSWW0tGt26MOK9vyMsv/MbLupqLfmqlqy7PuR9GpH8g=;
+ b=pK46NLH1umfFB0e/0UYXxkkgLCLYRN8vR148LvwzNZ2S4mP6pSh45rEJCcK8aMUdJd
+ ilVQStQluta9heP07xDadiE7ht7FWkoc+x/1Cu3dwiKi0u3+eUTAiNeNlISULoE27+5E
+ KjcKCTuX1a3qQ8Klu+I8rstvxUxIS3sV2u6pfyJvt4gs0xApz2PYu7qAf9in6D62OHbo
+ GFiMfBnnsaio1jaDB3XkGMqKvdLCUd/ks/k7vu61nn5kxZdCa0WKqrOgmKT5X8Ot1teM
+ p15bEq03FbO9WGuOffIt96buTLyBE5DHe/nl6kLS6kR4bcyFnd6IiSyLvq8akw40O+Yx
+ 6IAQ==
+X-Gm-Message-State: AOAM532GVLULmNMzqsw1ZDo0nartpKJ/0QC/4k54jjLB8X8o/MPaOpDU
+ u9IzJa6BTK9YXqFns+o/sDSrRJtGgLriNTJHlj796A==
+X-Google-Smtp-Source: ABdhPJxq+xUv2dRQun6jQysTGcXTTexo+HvhrNJWycL4E6xIt8DwJNcGqHdmhjevrUqrryhBzAKQA5jpqw2pR3W2ArE=
+X-Received: by 2002:a05:6512:3487:: with SMTP id
+ v7mr21615830lfr.310.1643783284527; 
+ Tue, 01 Feb 2022 22:28:04 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH] target/hexagon: remove unused variable
-To: Zongyuan Li <zongyuan.li@smartx.com>, qemu-devel@nongnu.org,
- QEMU Trivial <qemu-trivial@nongnu.org>
-References: <20220124064339.56027-1-zongyuan.li@smartx.com>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <20220124064339.56027-1-zongyuan.li@smartx.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.086,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+References: <20220201151136.52157-1-jinpu.wang@ionos.com>
+ <CALzYo30ED+8De9SPaTz_Lct=pwvhA8xwwH6dAc=vRjMvRq0dKA@mail.gmail.com>
+ <CAMGffE=4uVDmkL0Qi66xaoEyQSBDStU2Nmb0YzDyxcXQwU2m9A@mail.gmail.com>
+In-Reply-To: <CAMGffE=4uVDmkL0Qi66xaoEyQSBDStU2Nmb0YzDyxcXQwU2m9A@mail.gmail.com>
+From: Pankaj Gupta <pankaj.gupta@ionos.com>
+Date: Wed, 2 Feb 2022 07:27:53 +0100
+Message-ID: <CALzYo33PQZxQRpattNsobAqsJ89qSyV1GyJKAqTeQR09gkaE6g@mail.gmail.com>
+Subject: Re: [PATCH 1/2] migration/rdma: Increase the backlog from 5 to 128
+To: Jinpu Wang <jinpu.wang@ionos.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::134
+ (failed)
+Received-SPF: permerror client-ip=2a00:1450:4864:20::134;
+ envelope-from=pankaj.gupta@ionos.com; helo=mail-lf1-x134.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01,
+ T_SPF_PERMERROR=0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -101,51 +83,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Taylor Simpson <tsimpson@quicinc.com>
+Cc: qemu-devel@nongnu.org, dgilbert@redhat.com, quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 24/01/2022 07.43, Zongyuan Li wrote:
-> When building with clang version 13.0.0 (eg. Fedora 13.0.0-3.fc35),
-> two unused variables introduced by macro GATHER_FUNCTION and
-> SCATTER_FUNCTION will cause building process failure due to
-> [-Werror -Wunused-variable].
-> 
-> Signed-off-by: Zongyuan Li <zongyuan.li@smartx.com>
-> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/831
-> ---
->   target/hexagon/mmvec/macros.h | 4 ----
->   1 file changed, 4 deletions(-)
-> 
-> diff --git a/target/hexagon/mmvec/macros.h b/target/hexagon/mmvec/macros.h
-> index 10f4630364..44781cfb4a 100644
-> --- a/target/hexagon/mmvec/macros.h
-> +++ b/target/hexagon/mmvec/macros.h
-> @@ -164,11 +164,9 @@
->           target_ulong va = EA; \
->           target_ulong va_high = EA + LEN; \
->           uintptr_t ra = GETPC(); \
-> -        int log_bank = 0; \
->           int log_byte = 0; \
->           for (i0 = 0; i0 < ELEMENT_SIZE; i0++) { \
->               log_byte = ((va + i0) <= va_high) && QVAL; \
-> -            log_bank |= (log_byte << i0); \
->               uint8_t B; \
->               B = cpu_ldub_data_ra(env, EA + i0, ra); \
->               env->tmp_VRegs[0].ub[ELEMENT_SIZE * IDX + i0] = B; \
-> @@ -243,11 +241,9 @@
->           int i0; \
->           target_ulong va = EA; \
->           target_ulong va_high = EA + LEN; \
-> -        int log_bank = 0; \
->           int log_byte = 0; \
->           for (i0 = 0; i0 < ELEM_SIZE; i0++) { \
->               log_byte = ((va + i0) <= va_high) && QVAL; \
-> -            log_bank |= (log_byte << i0); \
->               LOG_VTCM_BYTE(va + i0, log_byte, IN.ub[ELEM_SIZE * IDX + i0], \
->                             ELEM_SIZE * IDX + i0); \
->           } \
+> > > So it can handle more incoming requests.
+> > >
+> > > Signed-off-by: Jack Wang <jinpu.wang@ionos.com>
+> > > ---
+> > >  migration/rdma.c | 2 +-
+> > >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > >
+> > > diff --git a/migration/rdma.c b/migration/rdma.c
+> > > index c7c7a384875b..2e223170d06d 100644
+> > > --- a/migration/rdma.c
+> > > +++ b/migration/rdma.c
+> > > @@ -4238,7 +4238,7 @@ void rdma_start_incoming_migration(const char *host_port, Error **errp)
+> > >
+> > >      trace_rdma_start_incoming_migration_after_dest_init();
+> > >
+> > > -    ret = rdma_listen(rdma->listen_id, 5);
+> > > +    ret = rdma_listen(rdma->listen_id, 128);
+> >
+> > 128 backlog seems too much to me. Any reason for choosing this number.
+> > Any rationale to choose this number?
+> >
+> 128 is the default value of SOMAXCONN, I can use that if it is preferred.
 
-Reviewed-by: Thomas Huth <thuth@redhat.com>
+AFAICS backlog is only applicable with RDMA iWARP CM mode. Maybe we
+can increase it to 128.
+Maybe you can also share any testing data for multiple concurrent live
+migrations using RDMA, please.
 
+Thanks,
+Pankaj
+
+Thanks,
+Pankaj
 
