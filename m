@@ -2,76 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23CE94A72CF
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Feb 2022 15:15:14 +0100 (CET)
-Received: from localhost ([::1]:48752 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A8C54A72D4
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Feb 2022 15:17:23 +0100 (CET)
+Received: from localhost ([::1]:50822 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nFGPg-00056d-IS
-	for lists+qemu-devel@lfdr.de; Wed, 02 Feb 2022 09:15:12 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:43620)
+	id 1nFGRl-0006rm-Ud
+	for lists+qemu-devel@lfdr.de; Wed, 02 Feb 2022 09:17:22 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:44896)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nFFzo-0001yo-Ss
- for qemu-devel@nongnu.org; Wed, 02 Feb 2022 08:48:34 -0500
-Received: from [2a00:1450:4864:20::535] (port=44618
- helo=mail-ed1-x535.google.com)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nFG41-0005dx-I7
+ for qemu-devel@nongnu.org; Wed, 02 Feb 2022 08:52:49 -0500
+Received: from [2a00:1450:4864:20::432] (port=38905
+ helo=mail-wr1-x432.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nFFzn-0006jO-8x
- for qemu-devel@nongnu.org; Wed, 02 Feb 2022 08:48:28 -0500
-Received: by mail-ed1-x535.google.com with SMTP id u24so41812544eds.11
- for <qemu-devel@nongnu.org>; Wed, 02 Feb 2022 05:48:26 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nFG3z-0007Zl-8g
+ for qemu-devel@nongnu.org; Wed, 02 Feb 2022 08:52:49 -0500
+Received: by mail-wr1-x432.google.com with SMTP id h7so6722552wrc.5
+ for <qemu-devel@nongnu.org>; Wed, 02 Feb 2022 05:52:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=4e6Bol9pBCE5KZ9gejbvABmpFNlKubJNgfHHwQtXTqU=;
- b=y/+8SQbWHKSa7QDNOLOMbKmUcb407jHJ26ZLaAlLQuqqL7WQQSXYNioYEMt0F7GgpY
- ZF0S87W7hJOE/Mp3qT6ZTir7T7g3BfNH5Shw0mP+l5tkM+se3pm3lv9sHE3kzcJj9ejg
- oq1cPuoAxbyKl6PWDlwcdCx+UzRwZ30hIA1qRuBs5fd3zWsKbXA3czZ7O4lJUjUqz7eI
- KZLVzaV8z11U4T1HV9FbZBPFENGtouQS04RRLEPPLXNZHErm6ii6dOTL4AyrHmXaGtkP
- 5oRyhugytgnQZahVNOGT+aYJvzqCZItjajXe0navZcNF5UoUVX7uHm+7KZwQNfdaN4Yn
- RsNg==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=yz596dWyUiyom/dOoePJTlli0ghKkRw31PGwTQoYzPE=;
+ b=UtvsduCHUdvrC8LRX2+CffLQ1Gfc3vLMslCLDVmJvLhBV5u0RBtp02/9WqjBLl3z9k
+ KmCsusobOQ3UIL/PkbgOKJ9nl6sKxs9kQ74xQ7iI6M/ebZ2o/C8YCs/Lw3mLf3If3FjH
+ Cbdft9RMmSGbe1i6as+9iLZLDJLGXHIdOnUFcmTnj2EIQ37RzZVSoeGUnUjZX9kSeLOJ
+ cX0Qo6wL26YeOBa5teAzwmjiEyeXiARYEEwBGGVuMzq2oF3sKdPVt9MKogwaMSM58k3Q
+ +XXueA9WMJQZyEtdqxSKOqL9RHuaeK+4hI12P/fJpvFoDtCDGq2bew2FOPJSZk53TFhy
+ Q/Vw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=4e6Bol9pBCE5KZ9gejbvABmpFNlKubJNgfHHwQtXTqU=;
- b=U/gmXz7RQS+A84vHChWZeLp4sHcNtel19O3YQgtImIccTSUQjCmD1Y7xtaJQJLZDAG
- iU7hI+RuWaxUbY6M+nfA+VHGnRvS9AnRI938tRYM/Et8nNOesz6L32D1+uUfmOZsYhVg
- yv/FzRqNa4bEy/ksJQosHpFJ2qFABS3Oa+ZKF1bkLlVM89lgiX29zhVbniAE4X0Y/uiA
- MlM3nekI9xTqgLkXi4374vFzlOJTpWtFtjmn3xUxfYuY8D95bGbjVYqVV6cA5RRnjKKw
- Tj4rE232siiY72/kH5/uB/EDCyLFBeiiJ12umwRRPoC/zQMV2xfcarKBPnOnFRSn58W7
- rk4Q==
-X-Gm-Message-State: AOAM530slf4SgGncQMZZKGS8AfcZ354YEWIJKdq9s304JdBTs7oTbNfj
- SLEe6+qX/muI1n00zdpdbtEUeQ==
-X-Google-Smtp-Source: ABdhPJyphWt/Z8plbYQOdZj72Jl7Zxn8zA5Wv9AsRqk3Gx+XtzEeaV0Et9zqCJWCPjNFEMsHPsG92A==
-X-Received: by 2002:a05:6402:350d:: with SMTP id
- b13mr30339089edd.125.1643809704494; 
- Wed, 02 Feb 2022 05:48:24 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id qb30sm15610638ejc.27.2022.02.02.05.48.23
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 02 Feb 2022 05:48:23 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 02CE61FFB7;
- Wed,  2 Feb 2022 13:48:23 +0000 (GMT)
-References: <20211218194250.247633-1-richard.henderson@linaro.org>
- <20211218194250.247633-10-richard.henderson@linaro.org>
-User-agent: mu4e 1.7.6; emacs 28.0.91
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Richard Henderson <richard.henderson@linaro.org>
-Subject: Re: [PATCH 09/20] tcg/i386: Implement avx512 scalar shift
-Date: Wed, 02 Feb 2022 13:48:18 +0000
-In-reply-to: <20211218194250.247633-10-richard.henderson@linaro.org>
-Message-ID: <875ypxwfa1.fsf@linaro.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=yz596dWyUiyom/dOoePJTlli0ghKkRw31PGwTQoYzPE=;
+ b=taRHYo9/IukaXEKr25ypcDrNqG2QTzb4wFF0BYtdmbgwr3VAiQyT3Uuzfh3XeKPXme
+ 1PE1+N8n44o3PilncOfb9ByvsU35Olfz+SKaWbpMliNwzbohriFDHOhLONUkq0OeJT0i
+ Zbkz/dRdvTo0On0Ali8jj/AFChshsSNLGoaS8RE/c3QdceQCHSgwdEW1FyvDbdmvb+7v
+ VtYkgNIcb09awlWWDugFH7YvL+0E6z3vNpdrsCf+E8nfvZWjibkd1wAx9ByzLwr+HFTp
+ rGoFHe1BVD/cPuuknBGLH18GnFa0CnD+Awim5d1EWieuSHqR7u96kqhpM07KlThLAAfj
+ a3SQ==
+X-Gm-Message-State: AOAM533GwbgC2t23XnsBNu3TsDKVEddLrS1zBY+X1syKh0LQRCK8JtwO
+ 1ls/VoyU1ZWrxwR/RDzMl6Cql3yle8JmoQIGiOUcHg==
+X-Google-Smtp-Source: ABdhPJxpXTs9500VZsaNRHyqgEVl0SK7ICSpXWJ68nzbqJ19aOB/H9pT2I8Qb3kG8i4b/StzzY8qyeN4/Ul7rd+FJQ8=
+X-Received: by 2002:a05:6000:258:: with SMTP id
+ m24mr26248406wrz.2.1643809965569; 
+ Wed, 02 Feb 2022 05:52:45 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::535
+References: <20220113194452.254011-1-dgilbert@redhat.com>
+ <20220113194452.254011-4-dgilbert@redhat.com>
+ <87ilu6nrqe.fsf@secure.mitica> <YfK+7LCJssDhie9O@work-vm>
+ <87mtjc8el9.fsf@secure.mitica> <Yfprvld4Y/GoJbhh@work-vm>
+In-Reply-To: <Yfprvld4Y/GoJbhh@work-vm>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Wed, 2 Feb 2022 13:52:34 +0000
+Message-ID: <CAFEAcA8SEed=crJr1_gpRCQwAkTn+bgAqfbUEGch9JZo8EAnvA@mail.gmail.com>
+Subject: Re: [PATCH v2 3/3] migration: Perform vmsd structure check during
+ tests
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::432
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::535;
- envelope-from=alex.bennee@linaro.org; helo=mail-ed1-x535.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::432;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x432.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -92,19 +85,31 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: lsoaresp@redhat.com, marcandre.lureau@gmail.com, qemu-devel@nongnu.org,
+ peterx@redhat.com, Juan Quintela <quintela@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-Richard Henderson <richard.henderson@linaro.org> writes:
-
-> AVX512VL has VPSRAQ.
+On Wed, 2 Feb 2022 at 11:32, Dr. David Alan Gilbert <dgilbert@redhat.com> wrote:
+> Because in my local world I did the changes to libslirp; I wanted to
+> make sure qemu people were happy with the changes before proposing them
+> to libslirp.
 >
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> Which I've just done:
+>
+> https://gitlab.freedesktop.org/slirp/libslirp/-/merge_requests/112
 
-Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+Does QEMU's own vmstate handling code see the libslirp vmstate
+structures ? Looking at the code it seems to me like QEMU's
+migration code only interacts with slirp via the
+slirp_state_save() and slirp_state_load() functions.
+Internally those work with some use of a vmstate structure,
+but the code that iterates over field arrays in those is
+all inside slirp itself (in src/slirp/vmstate.c if you're
+looking at the in-tree copy).
 
---=20
-Alex Benn=C3=A9e
+So maybe I'm missing something but I'm not sure there really
+is a dependency on the libslirp change here...
+
+-- PMM
 
