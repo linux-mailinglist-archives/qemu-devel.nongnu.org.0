@@ -2,77 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01D654A7870
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Feb 2022 20:02:31 +0100 (CET)
-Received: from localhost ([::1]:41124 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 79BDB4A787E
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Feb 2022 20:06:06 +0100 (CET)
+Received: from localhost ([::1]:44904 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nFKtb-000082-J1
-	for lists+qemu-devel@lfdr.de; Wed, 02 Feb 2022 14:02:23 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:53056)
+	id 1nFKxA-0003jN-W6
+	for lists+qemu-devel@lfdr.de; Wed, 02 Feb 2022 14:06:05 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:53964)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nFJQ1-0000JX-BL; Wed, 02 Feb 2022 12:27:48 -0500
-Received: from [2a00:1450:4864:20::536] (port=43793
- helo=mail-ed1-x536.google.com)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1nFJTH-0002D7-3k
+ for qemu-devel@nongnu.org; Wed, 02 Feb 2022 12:31:07 -0500
+Received: from [2607:f8b0:4864:20::1035] (port=55952
+ helo=mail-pj1-x1035.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nFJPz-0002Vw-Jh; Wed, 02 Feb 2022 12:27:45 -0500
-Received: by mail-ed1-x536.google.com with SMTP id w14so112598edd.10;
- Wed, 02 Feb 2022 09:27:42 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1nFJT9-00037e-Lg
+ for qemu-devel@nongnu.org; Wed, 02 Feb 2022 12:31:06 -0500
+Received: by mail-pj1-x1035.google.com with SMTP id d5so20814557pjk.5
+ for <qemu-devel@nongnu.org>; Wed, 02 Feb 2022 09:30:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=MikMA0d22y+q/AQEIA7ZjbnDwR6XV2zr4rJLRAkfXAc=;
- b=jSL1mVQDyQ7ARXZcAYup9iYgNeCUIiXC3VnDDb5IEy5m/B76tbiBoK8fgKxxbfZ8wS
- P7Dt+PHoYRhsoigQTGiB+n+IhkYqdMgJgOaLuhWBszOws5ktEV6tOu65UYQ1gK0evQg7
- sVkg4b5LK88kwumlMjixquTZaxyllhtBxtac3yFQShqGrXVFiHXSxcNCDbUwfgD2byvA
- eCZOSjs6Uakg6AIVdDE8Slw0yWq26I+pGpQkJhwvcDdsumdn+n9WTgGZL4AwUy8LytRQ
- 7UJAi7TdSyCdVzPZx5jeg0NPonxOSY7NCBwFo4O/myhFLEaX4YQ7dhGL8fLe0KwExpJv
- 0ueA==
+ bh=hupKhPynLq1Bf3qlTLC4Kz0Lfmt5cTR5vZzYauE5o9o=;
+ b=GFLGtErYAc2e9Ca+9es6uTpBLgahV9MpIoOOsarpStDCTLvX+yg5PnOn6Axu9IcqR9
+ vx9yAET13X/RGK/4Z+tMosdTUrLlZknW996KvXdn0uDyRbO0sb/WhUcbX8WC/XJFjvrE
+ JMWo/wEwG8xC2Js+m3ppdwzZ+iQYMnTXdG4tZyC2RGTTcgqE+qFi7hivd+rtpISbj9NT
+ QmRiEDiAvr1GKiIdaGmRck5EkfeGq6Xs+7JsR9aQOsosPOHzqkQAvlU7+APxhri2n90M
+ A9aiDUDg9f7x0xuZTMj3wkrtcAKhiX/Tep3KhbRzI9ECqbLwv5Kjf0LlKWTebeIz72N2
+ ieIw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
  :subject:content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=MikMA0d22y+q/AQEIA7ZjbnDwR6XV2zr4rJLRAkfXAc=;
- b=NHzIwFXnnArlYKdIEcpLxneBaorSn6aJ/9fTkirKyr7qRQfEU2o9855obHewVHs7EL
- 5y6ElxtCTU699T7JFE04lg77P6+QP19wxS8d5vY04/gIt1+f2xSU9h6YraTbUZodVz3Y
- TZZJLjSB6r+0j+hYMlfgeuqYZ4eYmJKfn7kr0cy+NauH05KoBVIh0XnJ72xFfQUORb/5
- OhoAOrw7TY4D6+9c5SeqQbSqpZY4Ohh5Gk0mNXcetlanHwctNH8K00YzoDNpjZDBRoqA
- 8Eju1k+9CTLfkrMOTuRviseWJEqWlc0cGmJjX067jYoMrAXt4BQylV5q8nMiCRQTjHI1
- cVaw==
-X-Gm-Message-State: AOAM533BfM8i4qO9q1npuy7AqeaNfYBATJHc04B0BlORYNA8otG/KYqJ
- TSFbxDxAAT3GSYb/yyiq+dg=
-X-Google-Smtp-Source: ABdhPJwDLS+ZE3FuSzajpq5KkV7i/Nyj4O0Jg+oxaaE01buqrTXSjJxS2cvHBsXA4w2LtkQGfmWjKA==
-X-Received: by 2002:a50:eb82:: with SMTP id y2mr30905487edr.133.1643822860740; 
- Wed, 02 Feb 2022 09:27:40 -0800 (PST)
-Received: from ?IPV6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
- ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.googlemail.com with ESMTPSA id a17sm21236149edt.19.2022.02.02.09.27.34
+ bh=hupKhPynLq1Bf3qlTLC4Kz0Lfmt5cTR5vZzYauE5o9o=;
+ b=q2uBCbY3IVO6cKy+Xn7pAxzfbsrCHhS6Hg+1jrEc4VqN9wrKLaqIn8aiC3DlYjEpwS
+ Uhe43lylP2rNqC5i10rdJ34ifvf0rEGY9lnLNP1XRGTvvOI2hvTAdTiWnu8mxFF21TGs
+ WpDMVopmVBHKIzuzgLxeimBdojVxBgzJcw7eYUNvE8qJiNuqbPcQPIOEVZY3Fg+ybsXs
+ 0zcc/eOkjoTLuELTsHTVDpmPHH0oozs+D+6m41LfUSyZAzlmE2vWCefyvPR2OTOvasWm
+ i/f5USenyW6ChewYWJFzLNNpT0F/ROF2vMW9uBFy46F+4HbwJmy6fU8+lQf7NYosLj7H
+ ba2g==
+X-Gm-Message-State: AOAM530kJ01Lp3gusiugETd8v3/5rMg0aA+6V7Xxin7QrtBzRz+3Vc1U
+ 5sQJN15Nb9ZCsPyxBSD7iu4=
+X-Google-Smtp-Source: ABdhPJwpi9tZZn55K+KLXQi9Ghe9h8sXQXItUIk2yRhg0NJW/CWKTNzKIoir2q0VUzRbCpWRnxQ/fA==
+X-Received: by 2002:a17:90b:1c85:: with SMTP id
+ oo5mr9309183pjb.142.1643823057104; 
+ Wed, 02 Feb 2022 09:30:57 -0800 (PST)
+Received: from [192.168.1.33] (154.red-83-50-83.dynamicip.rima-tde.net.
+ [83.50.83.154])
+ by smtp.gmail.com with ESMTPSA id m26sm10439512pfe.162.2022.02.02.09.30.55
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 02 Feb 2022 09:27:40 -0800 (PST)
-Message-ID: <dbb3943a-ebb7-5979-8199-8808fa6953b7@redhat.com>
-Date: Wed, 2 Feb 2022 18:27:32 +0100
+ Wed, 02 Feb 2022 09:30:56 -0800 (PST)
+Message-ID: <f10cbf13-ac56-cbe0-02f8-1d96a687700e@amsat.org>
+Date: Wed, 2 Feb 2022 18:30:53 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH v6 21/33] block: move BQL logic of
- bdrv_co_invalidate_cache in bdrv_activate
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.5.0
+Subject: Re: [PATCH] hw/i2c: flatten pca954x mux device
 Content-Language: en-US
-To: Kevin Wolf <kwolf@redhat.com>,
- Emanuele Giuseppe Esposito <eesposit@redhat.com>
-References: <20220121170544.2049944-1-eesposit@redhat.com>
- <20220121170544.2049944-22-eesposit@redhat.com> <YfJ79zaea6yFFh4w@redhat.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-In-Reply-To: <YfJ79zaea6yFFh4w@redhat.com>
+To: Patrick Venture <venture@google.com>
+Cc: Corey Minyard <cminyard@mvista.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, Hao Wu <wuhaotsh@google.com>
+References: <20220201163005.989457-1-venture@google.com>
+ <59040e43-2375-1f73-15bb-ce1a47165145@amsat.org>
+ <CAO=notxPP8+b6S6UnUX7s4yWQsEhaAS0CZbn1my0HEN2idL6tA@mail.gmail.com>
+ <CAO=notw9jYSc6xGr3_kwuAWHG2J3VJ7WxJT+tL_fbXFfTRrhpw@mail.gmail.com>
+ <CAO=notzLfum_zkXhP+xQ9RTxcpG3oNxwFMPYWz+o1vYdF8ynQg@mail.gmail.com>
+In-Reply-To: <CAO=notzLfum_zkXhP+xQ9RTxcpG3oNxwFMPYWz+o1vYdF8ynQg@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::536
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1035
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::536;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x536.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1035;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pj1-x1035.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -80,8 +85,8 @@ X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
  FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.001,
  PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01,
+ T_SPF_HELO_TEMPERROR=0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,43 +99,85 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Eduardo Habkost <eduardo@habkost.net>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-block@nongnu.org, Juan Quintela <quintela@redhat.com>,
- John Snow <jsnow@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
- Daniel Henrique Barboza <danielhb413@gmail.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Markus Armbruster <armbru@redhat.com>, Greg Kurz <groug@kaod.org>,
- qemu-ppc@nongnu.org, =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
- Stefan Hajnoczi <stefanha@redhat.com>, "Denis V. Lunev" <den@openvz.org>,
- Eric Blake <eblake@redhat.com>, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
-On 1/27/22 12:03, Kevin Wolf wrote:
->> +int coroutine_fn bdrv_co_invalidate_cache(BlockDriverState *bs, Error **errp)
->> +{
->> +    Error *local_err = NULL;
->> +
->> +    if (bs->drv->bdrv_co_invalidate_cache) {
->> +        bs->drv->bdrv_co_invalidate_cache(bs, &local_err);
->> +        if (local_err) {
->> +            bs->open_flags |= BDRV_O_INACTIVE;
+On 2/2/22 17:40, Patrick Venture wrote:
+
+>     Philippe,
 > 
-> This doesn't feel like the right place. The flag is cleared by the
-> caller, so it should also be set again on failure by the caller and not
-> by this function.
+>     I0202 08:29:45.380384  6641 stream.go:31] qemu: child buses at
+>     "pca9546": "channel[*]", "channel[*]", "channel[*]", "channel[*]"
 > 
-> What bdrv_co_invalidate_cache() could do is assert that BDRV_O_INACTIVE
-> is cleared when it's called.
+>     Ok, so that's interesting.  In one system (using qom-list) it's
+>     correct, but then when using it to do path assignment
+>     (qdev-monitor), it fails...
+> 
+>     I'm not as fond of the name i2c-bus.%d, since they're referred to as
+>     channels in the datasheet.  If I do the manual name creation, can I
+>     keep the name channel or should I pivot over?
+> 
+>     Thanks
+> 
+> 
+>             -- >8 --
+>             diff --git a/hw/i2c/i2c_mux_pca954x.c b/hw/i2c/i2c_mux_pca954x.c
+>             index f9ce633b3a..a9517b612a 100644
+>             --- a/hw/i2c/i2c_mux_pca954x.c
+>             +++ b/hw/i2c/i2c_mux_pca954x.c
+>             @@ -189,9 +189,11 @@ static void pca954x_init(Object *obj)
+> 
+>                    /* SMBus modules. Cannot fail. */
+>                    for (i = 0; i < c->nchans; i++) {
+>             +        g_autofree gchar *bus_name =
+>             g_strdup_printf("i2c.%d", i);
+>             +
+>                        /* start all channels as disabled. */
+>                        s->enabled[i] = false;
+>             -        s->bus[i] = i2c_init_bus(DEVICE(s), "channel[*]");
+>             +        s->bus[i] = i2c_init_bus(DEVICE(s), bus_name);
+>                    }
+>                }
+> 
+>             ---
+> 
+>             (look at HMP 'info qtree' output).
+> 
+>              >       }
+>              >   }
+> 
+>             With the change:
+>             Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org
+>             <mailto:f4bug@amsat.org>>
+>             Tested-by: Philippe Mathieu-Daudé <f4bug@amsat.org
+>             <mailto:f4bug@amsat.org>>
+> 
+> 
+> Just saw your reply, and found a bunch of other non-spam in my spam 
+> folder.  I sent the message to the anti-spam team, hopefully that'll 
+> resolve this for myself and presumably others.
 
-Do you think this would be handled more easily into its own series?
+Thanks. I suppose the problem is the amsat.org domain.
 
-In general, the work in this series is more incremental than its size 
-suggests.  Perhaps it should be flushed out in smaller pieces.
+> I definitely see the same result with the qdev-monitor, but was really 
+> surprised that the qom-list worked.  I'll explicitly set the name, and 
+> i2c.%d is fine.  The detail that they're channels is not really 
+> important to the end user presumably.
 
-Paolo
+I agree it is better to follow datasheets, thus I am fine if you
+change and use channel. How would it look like? "channel.0"?
+FYI qdev busses are described in docs/qdev-device-use.txt.
+
+We should be able to plug a device using some command line
+such "-device i2c_test_dev,bus=channel.0,addr=0x55".
+I wonder how to select the base PCA9548 ...
+
+Maybe we need to pass the PCA ID to pca954x_init(), so we can
+name "channel.2.0" for the 1st channel on the 2nd PCA?
+
+Regards,
+
+Phil.
 
