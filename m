@@ -2,79 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B6CF4A7A23
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Feb 2022 22:21:26 +0100 (CET)
-Received: from localhost ([::1]:43212 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 342114A7A25
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Feb 2022 22:21:56 +0100 (CET)
+Received: from localhost ([::1]:45246 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nFN49-0004u3-8i
-	for lists+qemu-devel@lfdr.de; Wed, 02 Feb 2022 16:21:25 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:51924)
+	id 1nFN4d-0006ZD-26
+	for lists+qemu-devel@lfdr.de; Wed, 02 Feb 2022 16:21:55 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:52106)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nFN1M-0003jE-84
- for qemu-devel@nongnu.org; Wed, 02 Feb 2022 16:18:32 -0500
-Received: from [2607:f8b0:4864:20::102b] (port=37479
- helo=mail-pj1-x102b.google.com)
+ id 1nFN29-0004eF-UF
+ for qemu-devel@nongnu.org; Wed, 02 Feb 2022 16:19:21 -0500
+Received: from [2607:f8b0:4864:20::42e] (port=44005
+ helo=mail-pf1-x42e.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nFN1I-0007V2-Cl
- for qemu-devel@nongnu.org; Wed, 02 Feb 2022 16:18:31 -0500
-Received: by mail-pj1-x102b.google.com with SMTP id
- s2-20020a17090ad48200b001b501977b23so8040566pju.2
- for <qemu-devel@nongnu.org>; Wed, 02 Feb 2022 13:18:28 -0800 (PST)
+ id 1nFN1x-0007Yg-HQ
+ for qemu-devel@nongnu.org; Wed, 02 Feb 2022 16:19:21 -0500
+Received: by mail-pf1-x42e.google.com with SMTP id d187so385133pfa.10
+ for <qemu-devel@nongnu.org>; Wed, 02 Feb 2022 13:19:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=KPjoAuIHgpRFNPC1FBrX0D2EYcqa2vADIu71GbGLf5s=;
- b=qMhdU1cRCKrxAtBv1vgtGVPqvAzB2RnKPudvbeXFc7aUM/dfj7jRTaRdiSBcZiDDIb
- 5Rk+bj9VSjKvcEVHipus1KDbls8pz6zd5MxMdkrjN9fzC/xsttkdGPoZfhrrI4PM3CWm
- ouo1HMbEIZ6XE8Su5VarLmqZT/8TldPPi4d5pwbt99J0iLSnxngkSd/zSsIzCh/No967
- IQm6Y9rR2u291E/30nCLtlyrYNTaILnrVoM5fjUDWFnxxNJr1s+0LEPNBOL2m4crkvrL
- TWuUYNgw3ocXnd/CKe43rKqDEeCDgGfBPWsd10o4zgw7PN/m/j94SZiAnx+GgGOML9Zi
- Cfnw==
+ bh=W08u8gWV2kdB1gWVk9clc7MVV2ByJqztbieghMKqd88=;
+ b=dtQTBZ9E/WxLfWwENLRJmtM7P/eplbQKhi/+A4Q/oeFsZ8NdA8GGDcO/WDNbFECMfV
+ ERz1EJl7BdfIe/THxfk0IcjdC1ess6JllyRrwBnxD+7oQrcSI4zcP0/qcDHIrR5HzEv0
+ lU47Z/dxyXsOry9//OgGp8NkA1WKS43Dp4nd/wvLu1UQOk8arJnqdSYZ9UtgzNDGvqfA
+ 1Dry6xT5Cz+6mxfxIAIC19HYT9VBxWRvcYd0RTC5d5qVMnr0tv/LP2dW36tpctmQsiJR
+ 8c7Dwoiqtf6pGKSNdHrp2IPaV2RwsJnpVNBUXj5Cn6wp2kv+R+xWBO5c0MnpfstqsKPe
+ Ksfg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=KPjoAuIHgpRFNPC1FBrX0D2EYcqa2vADIu71GbGLf5s=;
- b=IJGhRENCJ/1wHes/NKkmNgAhGJjwYL6vzhONBiCZ5hcVt1ViDxIQlL83H22DKJU8cZ
- +g+Zqen2UjNLLd4lkvVbYbXfYthyxyhHC7vNIEUpuWDH+kMmYvMzKjZGabAAciQm0h5Q
- BUW2y7+7vh+Lat9eH/wE0oi35H4yFJYrYQvOfoSYXsl3i7W4nXb2QqeO8RC6KTNky49b
- X1njCuFOqhg92RmGQZNsTuSiFrjMnUa2OUdDfkJ3OL48xGaM+o6RBUe/mWAAb72cw56Y
- VaTPdfmoOWErxTALt/FVhukDYfnxLTxOtWZv8ZopTzIvIA/5kCFv2JKb7YK6C942xOQx
- ePqw==
-X-Gm-Message-State: AOAM53276zCyhgXsJrp4QaC1YA6AvA45iTJpNXFY17yRvsrjjtoSZ10q
- 2bUN5NcqsLTRpuEf8VovoAIsKg==
-X-Google-Smtp-Source: ABdhPJzwhYgbLxOAMglA5jafiACAqlRz9IQbyakACrgrQgOnUxUVX4pyT0GS52X89tQo/IS+zVlkyA==
-X-Received: by 2002:a17:90b:3b42:: with SMTP id
- ot2mr10155426pjb.204.1643836706904; 
- Wed, 02 Feb 2022 13:18:26 -0800 (PST)
+ bh=W08u8gWV2kdB1gWVk9clc7MVV2ByJqztbieghMKqd88=;
+ b=H6pSTppuc0KjRvJyBeO6Ib0IoNVebaDXfZ4Guyc4aj6uZSP6YuRQVY2SaNyzJ90K8d
+ fOZglXeTfYaPEvxqfbWb16bKBMiCgMnbAC95f6rnmJF+d2lg0JgQFCm7Ni4VQEOxgKec
+ VTY95DZC2SiMrdN+CwtCCVKHUm91yUWn97ZP6r2mTGmgs9gh72ACHILgfo05crSoYPe8
+ 1f7g1VajhArcYmKdWGHPve6bmg7yExkYThH2RHwzrqC4z6idTljuV/tICHN873eJnbfl
+ ap5iefNoeAb04cexiv5nKOfmNZLhMxxi/8mApqUxN44g6n6GGcxw8VlB6dz+msCRLysa
+ 3RKw==
+X-Gm-Message-State: AOAM531oxG1/Qfo1KIB7ydEHPNqPy569GHlI0KO7AJ1lkmhdZt3DqbGW
+ tWiJULuTcq4ReUfAQDE8kqXTFQ==
+X-Google-Smtp-Source: ABdhPJxfO6OzfiRHWI/Q1K6QMkASbHHoz1L46ouaUdRv08Cwyalx1rPRsBKJx1r517sdCfck1fptDg==
+X-Received: by 2002:a62:750d:: with SMTP id q13mr31322503pfc.43.1643836748135; 
+ Wed, 02 Feb 2022 13:19:08 -0800 (PST)
 Received: from ?IPV6:2001:8003:3a49:fd00:420b:54a2:470e:6ebd?
  ([2001:8003:3a49:fd00:420b:54a2:470e:6ebd])
- by smtp.gmail.com with ESMTPSA id ne23sm4000424pjb.57.2022.02.02.13.18.21
+ by smtp.gmail.com with ESMTPSA id lt17sm6957073pjb.41.2022.02.02.13.19.04
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 02 Feb 2022 13:18:25 -0800 (PST)
-Message-ID: <be64d2d6-b80f-704c-933d-e998c8096fd4@linaro.org>
-Date: Thu, 3 Feb 2022 08:18:17 +1100
+ Wed, 02 Feb 2022 13:19:07 -0800 (PST)
+Message-ID: <2b280d2e-cc74-f02d-8b55-1c089cc16d4e@linaro.org>
+Date: Thu, 3 Feb 2022 08:19:01 +1100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.5.0
-Subject: Re: [RFC PATCH 4/4] tests/tcg: add vectorised sha512 versions
+Subject: Re: [RFC PATCH 3/4] tests/tcg: add sha512 test
 Content-Language: en-US
 To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
  qemu-devel@nongnu.org
 References: <20220202191242.652607-1-alex.bennee@linaro.org>
- <20220202191242.652607-5-alex.bennee@linaro.org>
+ <20220202191242.652607-4-alex.bennee@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220202191242.652607-5-alex.bennee@linaro.org>
+In-Reply-To: <20220202191242.652607-4-alex.bennee@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::102b
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::42e
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102b;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102b.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42e;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42e.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -95,30 +93,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, Peter Maydell <peter.maydell@linaro.org>,
- berrange@redhat.com, David Hildenbrand <david@redhat.com>, f4bug@amsat.org,
- Eduardo Habkost <eduardo@habkost.net>,
- "open list:S390 TCG CPUs" <qemu-s390x@nongnu.org>, qemu-arm@nongnu.org,
+Cc: fam@euphon.net, berrange@redhat.com, f4bug@amsat.org, qemu-arm@nongnu.org,
  stefanha@redhat.com, crosa@redhat.com, pbonzini@redhat.com,
  aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 2/3/22 06:12, Alex Bennée wrote:
-> This builds vectorised versions of sha512 to exercise the vector code:
+> This imports the sha512 algorithm and related tests from ccan which
+> offers a cleaner hash implementation with its own validation tests
+> with which we can exercise TCG code generations.
 > 
->    - aarch64 (sve and sve2)
+> [AJB: this exercise in copy and paste does raise the question of
+> should we add ccan as a module to use for writing TCG tests?]
+> 
+> Signed-off-by: Alex Bennée<alex.bennee@linaro.org>
+> ---
+>   tests/tcg/multiarch/sha512.c | 990 +++++++++++++++++++++++++++++++++++
+>   1 file changed, 990 insertions(+)
+>   create mode 100644 tests/tcg/multiarch/sha512.c
 
-Again, I think you want to test advsimd as well.
+I glanced through and didn't see anything odd.
+Could be a decent enough test.
 
->    - i385 (SSE)
-
-s/5/6/.
-Here, might as well enable as much as we can: -msse4.
-Oh, I see, the pshufb comment later.  Ug.
-
-Otherwise,
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Acked-by: Richard Henderson <richard.henderson@linaro.org>
 
 
 r~
