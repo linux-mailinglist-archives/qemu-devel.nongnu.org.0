@@ -2,66 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 093724A73A5
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Feb 2022 15:51:28 +0100 (CET)
-Received: from localhost ([::1]:51748 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E80B04A7363
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Feb 2022 15:41:52 +0100 (CET)
+Received: from localhost ([::1]:40322 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nFGyj-0004mV-Ok
-	for lists+qemu-devel@lfdr.de; Wed, 02 Feb 2022 09:51:26 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:55798)
+	id 1nFGpS-0004VP-Gm
+	for lists+qemu-devel@lfdr.de; Wed, 02 Feb 2022 09:41:51 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:53710)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1nFGUX-0003Ln-9y
- for qemu-devel@nongnu.org; Wed, 02 Feb 2022 09:20:14 -0500
-Received: from frasgout.his.huawei.com ([185.176.79.56]:2246)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1nFGUA-0008Po-Gy
- for qemu-devel@nongnu.org; Wed, 02 Feb 2022 09:20:12 -0500
-Received: from fraeml701-chm.china.huawei.com (unknown [172.18.147.207])
- by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4JpkNw5Bq2z67NpT;
- Wed,  2 Feb 2022 22:16:00 +0800 (CST)
-Received: from lhreml710-chm.china.huawei.com (10.201.108.61) by
- fraeml701-chm.china.huawei.com (10.206.15.50) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.2308.21; Wed, 2 Feb 2022 15:19:48 +0100
-Received: from SecurePC-101-06.china.huawei.com (10.122.247.231) by
- lhreml710-chm.china.huawei.com (10.201.108.61) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.21; Wed, 2 Feb 2022 14:19:47 +0000
-To: <qemu-devel@nongnu.org>, =?UTF-8?q?Alex=20Benn=C3=A9e?=
- <alex.bennee@linaro.org>, Marcel Apfelbaum <marcel@redhat.com>, "Michael S .
- Tsirkin" <mst@redhat.com>, Igor Mammedov <imammedo@redhat.com>
-CC: <linux-cxl@vger.kernel.org>, Ben Widawsky <ben.widawsky@intel.com>, "Peter
- Maydell" <peter.maydell@linaro.org>, <linuxarm@huawei.com>, "Shameerali
- Kolothum Thodi" <shameerali.kolothum.thodi@huawei.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>, Saransh Gupta1
- <saransh@ibm.com>, Shreyas Shah <shreyas.shah@elastics.cloud>, Chris Browy
- <cbrowy@avery-design.com>, Samarth Saxena <samarths@cadence.com>, "Dan
- Williams" <dan.j.williams@intel.com>
-Subject: [PATCH v5 18/43] hw/cxl/component: Implement host bridge MMIO (8.2.5,
- table 142)
-Date: Wed, 2 Feb 2022 14:10:12 +0000
-Message-ID: <20220202141037.17352-19-Jonathan.Cameron@huawei.com>
-X-Mailer: git-send-email 2.32.0
-In-Reply-To: <20220202141037.17352-1-Jonathan.Cameron@huawei.com>
-References: <20220202141037.17352-1-Jonathan.Cameron@huawei.com>
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1nFGQB-00007q-90
+ for qemu-devel@nongnu.org; Wed, 02 Feb 2022 09:15:44 -0500
+Received: from [2a00:1450:4864:20::62e] (port=44731
+ helo=mail-ej1-x62e.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1nFGPu-0005vY-Pc
+ for qemu-devel@nongnu.org; Wed, 02 Feb 2022 09:15:38 -0500
+Received: by mail-ej1-x62e.google.com with SMTP id ka4so65854307ejc.11
+ for <qemu-devel@nongnu.org>; Wed, 02 Feb 2022 06:15:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=fI6cdO2WqRJVIfZJFdvQpUVBjomfwJnewGTBvVOz3RI=;
+ b=fcOTMezz9dPgHu9DrLFS+axPn4VzQfU/EkVHIh1qQnB12u96A5c7rBRyKWphENh+pL
+ kmn6RrDpg/bTdYUGwv/FeStuPm+hMjP4PbQgqdIcfQQxQ3j4KeoeWnvyXmyrBloMLHFL
+ a8Y84T2W07CQMJ5uHGIqF3s1ceVd2SFiOPG5tTuzcANbb6VDdvZnJpGDmPbB2TeOL0p+
+ v+sAwF4U1vlxFUAMndQXaJIMSl1C9Xw4jdmr03PKY7+mjGRRfULF20eGQDBwrHpN1SJ4
+ 0oYVet5s9geeVM0enrzhpJY5IPaSYZVkmEe/oNekjNKP22kPx7yNa2JBi7WxNIproXjq
+ viOg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=fI6cdO2WqRJVIfZJFdvQpUVBjomfwJnewGTBvVOz3RI=;
+ b=N7abyC2enG9l6ZSXWxZgeiMTPZvmzkS3plGzHwr6LSEo0t2Y/8hZNeS9yN0icumbnD
+ wXBySuEr6Wv/UvtDxkusKZ50m35El/RC1fv02dz/w/9HwcBPMO4Aos8b7c6I6Lz87F7o
+ xFZwYAq1Ts3mxUmiJbuINHDdkFcXvB+gvMN7gOLD6z4acGxMPzsmLkEC23Qs78EOyDhf
+ hOgM0rW1w6JhuwhZRNmldZ5SDNMtNh1aoW6w7bufpvVtfe6keX3MKPaR2MjNCjIeWk4i
+ /NbElzeG1ZytRsPA+/TchZ4Dcyqr0KkXY+VXpWJplT5HrSzHkWKFto7k1tosJGFgJA7W
+ vCXw==
+X-Gm-Message-State: AOAM532XGQia0SQIcZJjjqn0FruriS+kOg/DCfXGKI9TzIauxNt2alIt
+ x5LpPhQkNWLMOYKvjUxz6HlbAQ==
+X-Google-Smtp-Source: ABdhPJzH8blAuVDX3H0eq3tl6/6vQKt3E93zEHw8lex2vL7uHbkx5IDnH+gr3/MMHHgmrmszpPjLdA==
+X-Received: by 2002:a17:906:d555:: with SMTP id
+ cr21mr26611600ejc.458.1643811325166; 
+ Wed, 02 Feb 2022 06:15:25 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id gu2sm15779427ejb.221.2022.02.02.06.15.23
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 02 Feb 2022 06:15:23 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 51CBD1FFB7;
+ Wed,  2 Feb 2022 14:15:23 +0000 (GMT)
+References: <20211218194250.247633-1-richard.henderson@linaro.org>
+ <20211218194250.247633-13-richard.henderson@linaro.org>
+User-agent: mu4e 1.7.6; emacs 28.0.91
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Richard Henderson <richard.henderson@linaro.org>
+Subject: Re: [PATCH 12/20] tcg/i386: Implement avx512 variable rotate
+Date: Wed, 02 Feb 2022 14:14:45 +0000
+In-reply-to: <20211218194250.247633-13-richard.henderson@linaro.org>
+Message-ID: <87sft1uzgk.fsf@linaro.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.122.247.231]
-X-ClientProxiedBy: lhreml743-chm.china.huawei.com (10.201.108.193) To
- lhreml710-chm.china.huawei.com (10.201.108.61)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=185.176.79.56;
- envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::62e
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::62e;
+ envelope-from=alex.bennee@linaro.org; helo=mail-ej1-x62e.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -74,253 +92,22 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  Jonathan Cameron <Jonathan.Cameron@huawei.com>
-From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 
-From: Ben Widawsky <ben.widawsky@intel.com>
 
-CXL host bridges themselves may have MMIO. Since host bridges don't have
-a BAR they are treated as special for MMIO.  This patch includes
-i386/pc support.
+Richard Henderson <richard.henderson@linaro.org> writes:
 
-Signed-off-by: Ben Widawsky <ben.widawsky@intel.com>
-Co-developed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
----
- hw/i386/acpi-build.c                | 26 +++++++++++---
- hw/i386/pc.c                        | 27 ++++++++++++++-
- hw/pci-bridge/pci_expander_bridge.c | 53 ++++++++++++++++++++++++++++-
- include/hw/cxl/cxl.h                |  4 +++
- 4 files changed, 104 insertions(+), 6 deletions(-)
+> AVX512VL has VPROLVQ and VPRORVQ.
+>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 
-diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
-index 09940f6e84..1e1e9b9d38 100644
---- a/hw/i386/acpi-build.c
-+++ b/hw/i386/acpi-build.c
-@@ -28,6 +28,7 @@
- #include "qemu/bitmap.h"
- #include "qemu/error-report.h"
- #include "hw/pci/pci.h"
-+#include "hw/cxl/cxl.h"
- #include "hw/core/cpu.h"
- #include "target/i386/cpu.h"
- #include "hw/misc/pvpanic.h"
-@@ -1398,7 +1399,7 @@ static void build_smb0(Aml *table, I2CBus *smbus, int devnr, int func)
-     aml_append(table, scope);
- }
- 
--typedef enum { PCI, PCIE } PCIBusType;
-+typedef enum { PCI, PCIE, CXL } PCIBusType;
- static void init_pci_acpi(Aml *dev, int uid, PCIBusType type,
-                           bool native_pcie_hp)
- {
-@@ -1562,22 +1563,30 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
-         QLIST_FOREACH(bus, &bus->child, sibling) {
-             uint8_t bus_num = pci_bus_num(bus);
-             uint8_t numa_node = pci_bus_numa_node(bus);
-+            int32_t uid = bus_num; /* TODO: Explicit uid */
-+            int type;
- 
-             /* look only for expander root buses */
-             if (!pci_bus_is_root(bus)) {
-                 continue;
-             }
- 
-+            type = pci_bus_is_cxl(bus) ? CXL :
-+                                         pci_bus_is_express(bus) ? PCIE : PCI;
-+
-             if (bus_num < root_bus_limit) {
-                 root_bus_limit = bus_num - 1;
-             }
- 
-             scope = aml_scope("\\_SB");
--            dev = aml_device("PC%.02X", bus_num);
-+            if (type == CXL) {
-+                dev = aml_device("CL%.02X", uid);
-+            } else {
-+                dev = aml_device("PC%.02X", bus_num);
-+            }
-             aml_append(dev, aml_name_decl("_BBN", aml_int(bus_num)));
- 
--            init_pci_acpi(dev, bus_num,
--                          pci_bus_is_express(bus) ? PCIE : PCI, true);
-+            init_pci_acpi(dev, uid, type, true);
- 
-             if (numa_node != NUMA_NODE_UNASSIGNED) {
-                 aml_append(dev, aml_name_decl("_PXM", aml_int(numa_node)));
-@@ -1589,6 +1598,15 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
-             aml_append(dev, aml_name_decl("_CRS", crs));
-             aml_append(scope, dev);
-             aml_append(dsdt, scope);
-+
-+            /* Handle the ranges for the PXB expanders */
-+            if (type == CXL) {
-+                MemoryRegion *mr = &machine->cxl_devices_state->host_mr;
-+                uint64_t base = mr->addr;
-+
-+                crs_range_insert(crs_range_set.mem_ranges, base,
-+                                 base + memory_region_size(mr) - 1);
-+            }
-         }
-     }
- 
-diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-index b6800a511a..7a18dce529 100644
---- a/hw/i386/pc.c
-+++ b/hw/i386/pc.c
-@@ -75,6 +75,7 @@
- #include "acpi-build.h"
- #include "hw/mem/pc-dimm.h"
- #include "hw/mem/nvdimm.h"
-+#include "hw/cxl/cxl.h"
- #include "qapi/error.h"
- #include "qapi/qapi-visit-common.h"
- #include "qapi/qapi-visit-machine.h"
-@@ -815,6 +816,7 @@ void pc_memory_init(PCMachineState *pcms,
-     MachineClass *mc = MACHINE_GET_CLASS(machine);
-     PCMachineClass *pcmc = PC_MACHINE_GET_CLASS(pcms);
-     X86MachineState *x86ms = X86_MACHINE(pcms);
-+    hwaddr cxl_base;
- 
-     assert(machine->ram_size == x86ms->below_4g_mem_size +
-                                 x86ms->above_4g_mem_size);
-@@ -904,6 +906,26 @@ void pc_memory_init(PCMachineState *pcms,
-                                     &machine->device_memory->mr);
-     }
- 
-+    if (machine->cxl_devices_state->is_enabled) {
-+        MemoryRegion *mr = &machine->cxl_devices_state->host_mr;
-+        hwaddr cxl_size = MiB;
-+
-+        if (pcmc->has_reserved_memory && machine->device_memory->base) {
-+            cxl_base = machine->device_memory->base;
-+            if (!pcmc->broken_reserved_end) {
-+                cxl_base += memory_region_size(&machine->device_memory->mr);
-+            }
-+        } else if (pcms->sgx_epc.size != 0) {
-+            cxl_base = sgx_epc_above_4g_end(&pcms->sgx_epc);
-+        } else {
-+            cxl_base = 0x100000000ULL + x86ms->above_4g_mem_size;
-+        }
-+
-+        e820_add_entry(cxl_base, cxl_size, E820_RESERVED);
-+        memory_region_init(mr, OBJECT(machine), "cxl_host_reg", cxl_size);
-+        memory_region_add_subregion(system_memory, cxl_base, mr);
-+    }
-+
-     /* Initialize PC system firmware */
-     pc_system_firmware_init(pcms, rom_memory);
- 
-@@ -964,7 +986,10 @@ uint64_t pc_pci_hole64_start(void)
-     X86MachineState *x86ms = X86_MACHINE(pcms);
-     uint64_t hole64_start = 0;
- 
--    if (pcmc->has_reserved_memory && ms->device_memory->base) {
-+    if (ms->cxl_devices_state->host_mr.addr) {
-+        hole64_start = ms->cxl_devices_state->host_mr.addr +
-+            memory_region_size(&ms->cxl_devices_state->host_mr);
-+    } else if (pcmc->has_reserved_memory && ms->device_memory->base) {
-         hole64_start = ms->device_memory->base;
-         if (!pcmc->broken_reserved_end) {
-             hole64_start += memory_region_size(&ms->device_memory->mr);
-diff --git a/hw/pci-bridge/pci_expander_bridge.c b/hw/pci-bridge/pci_expander_bridge.c
-index c7a28c7b2e..164bdeff9f 100644
---- a/hw/pci-bridge/pci_expander_bridge.c
-+++ b/hw/pci-bridge/pci_expander_bridge.c
-@@ -204,6 +204,56 @@ static const TypeInfo pxb_host_info = {
-     .class_init    = pxb_host_class_init,
- };
- 
-+static void pxb_cxl_realize(DeviceState *dev, Error **errp)
-+{
-+    MachineState *ms = MACHINE(qdev_get_machine());
-+    SysBusDevice *sbd = SYS_BUS_DEVICE(dev);
-+    CXLHost *cxl = PXB_CXL_HOST(dev);
-+    CXLComponentState *cxl_cstate = &cxl->cxl_cstate;
-+    struct MemoryRegion *mr = &cxl_cstate->crb.component_registers;
-+    hwaddr offset;
-+
-+    if (!ms->cxl_devices_state->is_enabled) {
-+        error_setg(errp, "Machine does not have cxl=on");
-+        return;
-+    }
-+    cxl_component_register_block_init(OBJECT(dev), cxl_cstate,
-+                                      TYPE_PXB_CXL_HOST);
-+    sysbus_init_mmio(sbd, mr);
-+
-+    offset = memory_region_size(mr) * ms->cxl_devices_state->next_mr_idx;
-+    if (offset > memory_region_size(&ms->cxl_devices_state->host_mr)) {
-+        error_setg(errp, "Insufficient space for pxb cxl host register space");
-+        return;
-+    }
-+
-+    memory_region_add_subregion(&ms->cxl_devices_state->host_mr, offset, mr);
-+    ms->cxl_devices_state->next_mr_idx++;
-+}
-+
-+static void pxb_cxl_host_class_init(ObjectClass *class, void *data)
-+{
-+    DeviceClass *dc = DEVICE_CLASS(class);
-+    PCIHostBridgeClass *hc = PCI_HOST_BRIDGE_CLASS(class);
-+
-+    hc->root_bus_path = pxb_host_root_bus_path;
-+    dc->fw_name = "cxl";
-+    dc->realize = pxb_cxl_realize;
-+    /* Reason: Internal part of the pxb/pxb-pcie device, not usable by itself */
-+    dc->user_creatable = false;
-+}
-+
-+/*
-+ * This is a device to handle the MMIO for a CXL host bridge. It does nothing
-+ * else.
-+ */
-+static const TypeInfo cxl_host_info = {
-+    .name          = TYPE_PXB_CXL_HOST,
-+    .parent        = TYPE_PCI_HOST_BRIDGE,
-+    .instance_size = sizeof(CXLHost),
-+    .class_init    = pxb_cxl_host_class_init,
-+};
-+
- /*
-  * Registers the PXB bus as a child of pci host root bus.
-  */
-@@ -294,7 +344,7 @@ static void pxb_dev_realize_common(PCIDevice *dev, enum BusType type,
-         dev_name = dev->qdev.id;
-     }
- 
--    ds = qdev_new(TYPE_PXB_HOST);
-+    ds = qdev_new(type == CXL ? TYPE_PXB_CXL_HOST : TYPE_PXB_HOST);
-     if (type == PCIE) {
-         bus = pci_root_bus_new(ds, dev_name, NULL, NULL, 0, TYPE_PXB_PCIE_BUS);
-     } else if (type == CXL) {
-@@ -484,6 +534,7 @@ static void pxb_register_types(void)
-     type_register_static(&pxb_pcie_bus_info);
-     type_register_static(&pxb_cxl_bus_info);
-     type_register_static(&pxb_host_info);
-+    type_register_static(&cxl_host_info);
-     type_register_static(&pxb_dev_info);
-     type_register_static(&pxb_pcie_dev_info);
-     type_register_static(&pxb_cxl_dev_info);
-diff --git a/include/hw/cxl/cxl.h b/include/hw/cxl/cxl.h
-index 31af92fd5e..75e5bf71e1 100644
---- a/include/hw/cxl/cxl.h
-+++ b/include/hw/cxl/cxl.h
-@@ -17,8 +17,12 @@
- #define CXL_COMPONENT_REG_BAR_IDX 0
- #define CXL_DEVICE_REG_BAR_IDX 2
- 
-+#define CXL_WINDOW_MAX 10
-+
- typedef struct CXLState {
-     bool is_enabled;
-+    MemoryRegion host_mr;
-+    unsigned int next_mr_idx;
- } CXLState;
- 
- #endif
--- 
-2.32.0
+I could make the same comment from the previous patch about the goto
+gen_simd stuff. Anyway:
 
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+
+--=20
+Alex Benn=C3=A9e
 
