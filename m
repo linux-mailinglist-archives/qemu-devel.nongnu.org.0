@@ -2,81 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 828584A772B
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Feb 2022 18:57:29 +0100 (CET)
-Received: from localhost ([::1]:41236 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD10F4A77B4
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Feb 2022 19:17:34 +0100 (CET)
+Received: from localhost ([::1]:36196 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nFJsk-0001K4-US
-	for lists+qemu-devel@lfdr.de; Wed, 02 Feb 2022 12:57:27 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:44016)
+	id 1nFKCD-00015m-Dv
+	for lists+qemu-devel@lfdr.de; Wed, 02 Feb 2022 13:17:33 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:43370)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from
- <3MbX6YQcKCpwRAJPQNACKKCHA.8KIMAIQ-9ARAHJKJCJQ.KNC@flex--venture.bounces.google.com>)
- id 1nFIsh-0001WC-MX
- for qemu-devel@nongnu.org; Wed, 02 Feb 2022 11:53:19 -0500
-Received: from [2607:f8b0:4864:20::b4a] (port=37577
- helo=mail-yb1-xb4a.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from
- <3MbX6YQcKCpwRAJPQNACKKCHA.8KIMAIQ-9ARAHJKJCJQ.KNC@flex--venture.bounces.google.com>)
- id 1nFIsg-0008Ss-0e
- for qemu-devel@nongnu.org; Wed, 02 Feb 2022 11:53:19 -0500
-Received: by mail-yb1-xb4a.google.com with SMTP id
- v70-20020a25c549000000b006130de5790aso316829ybe.4
- for <qemu-devel@nongnu.org>; Wed, 02 Feb 2022 08:53:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
- h=date:message-id:mime-version:subject:from:to:cc
- :content-transfer-encoding;
- bh=MQ2S156eOgRWeJiqeIsSamn7bmB1bOc4oCVgdMb1WJw=;
- b=h6s6Pph4rHX0aJOw065G+3XZwMuvGZP16yIICXlstOQrXW05kWd2ZyLLrgyI3lbVS1
- ASGIbj/Uoq6EvZmPXUrRsgqVhe/JlWYUW8MIAscSruL3RvObsYclZFg+93/w8OlrZKwO
- YHSe4KjXKOMTtYitt+UIm/5D0ThKMpXHv5zcP4NnmBvyjN+btSCO9kqwF/FMsLJaUDG4
- l9v+cLv0awhHXz62gzzGNSJQj2lkltHzEa82dNCgOd5thM3XOMgNJJrbeDU6pYeopdjG
- ylOdZgCNLo3Nriy4vGKoQKi9W7nLRS9k6LBacX+6F+GwWVkJUlfFOO08UvplHywSOPUj
- 82sw==
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nFIqV-0007wl-E3
+ for qemu-devel@nongnu.org; Wed, 02 Feb 2022 11:51:04 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:29448)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nFIqO-000864-72
+ for qemu-devel@nongnu.org; Wed, 02 Feb 2022 11:51:01 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1643820654;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=cHsTIv6Sfj4fkE+D4qsi8l1MPF4E2dTF6429A+1kmiM=;
+ b=e3d6OwBUlXncvsTtk99j5+V/lxzFo5q9QKQiHfCDD2kdfoCrLqlBhrqQQzlCVP+cSGhfGx
+ zQXaQ/VL/817zfFV6b08BOL26wxnJNf65nm3FEE8VC9bn+6+ZDRAY+kDKfhIRM6MzrgjrR
+ X+4mdt0vAuL4uTUBrNBm39KblevSVDU=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-564-B75qj8B8NfKVfRb3_-tr3w-1; Wed, 02 Feb 2022 11:50:53 -0500
+X-MC-Unique: B75qj8B8NfKVfRb3_-tr3w-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ q71-20020a1ca74a000000b003507f38e330so4229667wme.9
+ for <qemu-devel@nongnu.org>; Wed, 02 Feb 2022 08:50:53 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc
- :content-transfer-encoding;
- bh=MQ2S156eOgRWeJiqeIsSamn7bmB1bOc4oCVgdMb1WJw=;
- b=WxdsdpqsstsBI6TboswukopRGMKa4K97K+lOczk3HxV5Mo0tf4BKfFZY3QPbdw7rKK
- 8GP8Vh2vge+6G1z4vwvc8AdbjN9ISduTOUIMAINMszSLPiAZsz2BwH+/Cx7xCjdInKyW
- 2E5wIIU2MdiEsQfZQqtMdixqQFNx13g2TjZbRSBAhbkOAzzcucCzICi2mwWIYQTn8UAX
- SbhFED9eczl+4XtDjtM22XrWevBR8npnjoE3KAE3G9XD6LaVCAm1tmzaNLOJqyAyiP7X
- V44yFIYv4s8uegM4DuhwK3y7ciAGcWbfyopdK/w8cRPhEmD0B5sZDWX7A2DrP5Eiof4W
- MlCg==
-X-Gm-Message-State: AOAM5307fgXeMZ+8An+NbcxH5iOgPFqn2FHfxY7poQIP+5ohnNiAl6l1
- N4grWm6SFJ1DzxkN87v283H6q7ACgh78
-X-Google-Smtp-Source: ABdhPJyM6iJs6+I434Ltdnhhg5eSUcBL+YxRhdP+gAOq8akzXZlkY4ed6hf/ekUbPjTw0JmibZzBAEheSQrr
-X-Received: from venture.svl.corp.google.com
- ([2620:15c:2a3:200:2897:f5c5:6f11:c159])
- (user=venture job=sendgmr) by 2002:a81:1051:: with SMTP id
- 78mr1632185ywq.527.1643820337634; Wed, 02 Feb 2022 08:45:37 -0800 (PST)
-Date: Wed,  2 Feb 2022 08:45:33 -0800
-Message-Id: <20220202164533.1283668-1-venture@google.com>
-Mime-Version: 1.0
-X-Mailer: git-send-email 2.35.0.rc2.247.g8bbb082509-goog
-Subject: [PATCH v2] hw/i2c: flatten pca954x mux device
-From: Patrick Venture <venture@google.com>
-To: cminyard@mvista.com, f4bug@amsat.org
-Cc: qemu-devel@nongnu.org, Patrick Venture <venture@google.com>,
- Hao Wu <wuhaotsh@google.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::b4a
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b4a;
- envelope-from=3MbX6YQcKCpwRAJPQNACKKCHA.8KIMAIQ-9ARAHJKJCJQ.KNC@flex--venture.bounces.google.com;
- helo=mail-yb1-xb4a.google.com
-X-Spam_score_int: -87
-X-Spam_score: -8.8
-X-Spam_bar: --------
-X-Spam_report: (-8.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=cHsTIv6Sfj4fkE+D4qsi8l1MPF4E2dTF6429A+1kmiM=;
+ b=Qhdcv9JH/kdaE5MFB5WL6cBnD33ZaHZf0UdaEAvocgkCm/COlURkuYfEZG1BWNgTlE
+ ZR/4UWs41vS4NYzq7WJNbpZuC7IAxtXGHoohrq2ZypUspGp3byLJOtGEGjxB3s10c21B
+ Qy3kYJ7VElLY/fPqzgiTaSzYI6AY3OO+rxYK4NBJEcnBJmshSWSCf54zBBNanB+ahT2c
+ gpWl9idHGwFv17m7cI6mHqbe/026+jW7tPGbaXqNi8p/ANR+7fblnjnj8YucDhN2Gpnj
+ NSYxJx7Q8VxFioXLKFA+dfL0oA80SIGXS+q2fCddwQvmKezKVfbapKiP0DqDIZCf8XyU
+ +p3w==
+X-Gm-Message-State: AOAM532LYp0EMxEPTbDGDBVZZucBEIBAYxh9luDS1GcL9dfOC9Vp+6Aw
+ V+TtgBDVolxsHVsGVtdWP452EanSnRW/CPchKOYPGs2ainAwYANm8+Rd9n4mHahRkIj76CArFLP
+ YwEvsd2UQFkA1BGA=
+X-Received: by 2002:a05:600c:3b92:: with SMTP id
+ n18mr6748555wms.86.1643820652021; 
+ Wed, 02 Feb 2022 08:50:52 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJw3WmGrmRFDxdzoq18kguZOG4+a6g/fA3e5+xNgdbNnv3xPJPn4HKIJQDvw6ereb4mRYJkBDA==
+X-Received: by 2002:a05:600c:3b92:: with SMTP id
+ n18mr6748519wms.86.1643820651638; 
+ Wed, 02 Feb 2022 08:50:51 -0800 (PST)
+Received: from redhat.com ([2.52.5.34])
+ by smtp.gmail.com with ESMTPSA id z3sm6586674wmp.42.2022.02.02.08.50.48
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 02 Feb 2022 08:50:50 -0800 (PST)
+Date: Wed, 2 Feb 2022 11:50:46 -0500
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Halil Pasic <pasic@linux.ibm.com>
+Subject: Re: [PATCH v3 1/1] virtio: fix the condition for iommu_platform not
+ supported
+Message-ID: <20220202115034-mutt-send-email-mst@kernel.org>
+References: <20220201133915.3764972-1-pasic@linux.ibm.com>
+ <f12eeebf-6c9a-d40f-09de-10eb86dd3c26@linux.ibm.com>
+ <20220201193309.7da86258.pasic@linux.ibm.com>
+ <365305e3-4224-965d-2cb6-496a95802f0e@gmail.com>
+ <20220202021547.20dc65c9.pasic@linux.ibm.com>
+ <eccb1d4e-dea1-56b7-98d5-78867970a6d4@gmail.com>
+ <20220202172353.65ad8325.pasic@linux.ibm.com>
+MIME-Version: 1.0
+In-Reply-To: <20220202172353.65ad8325.pasic@linux.ibm.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.086,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01,
- USER_IN_DEF_DKIM_WL=-7.5 autolearn=no autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -89,179 +101,228 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Kevin Wolf <kwolf@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
+ Brijesh Singh <brijesh.singh@amd.com>, Jason Wang <jasowang@redhat.com>,
+ Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-devel@nongnu.org,
+ Jakob Naucke <Jakob.Naucke@ibm.com>, qemu-stable@nongnu.org,
+ Daniel Henrique Barboza <danielhb@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Previously this device created N subdevices which each owned an i2c bus.
-Now this device simply owns the N i2c busses directly.
+On Wed, Feb 02, 2022 at 05:23:53PM +0100, Halil Pasic wrote:
+> On Wed, 2 Feb 2022 10:24:51 -0300
+> Daniel Henrique Barboza <danielhb413@gmail.com> wrote:
+> 
+> > On 2/1/22 22:15, Halil Pasic wrote:
+> > > On Tue, 1 Feb 2022 16:31:22 -0300
+> > > Daniel Henrique Barboza <danielhb413@gmail.com> wrote:
+> > >   
+> > >> On 2/1/22 15:33, Halil Pasic wrote:  
+> > >>> On Tue, 1 Feb 2022 12:36:25 -0300
+> > >>> Daniel Henrique Barboza <danielhb@linux.ibm.com> wrote:
+> > >>>      
+> > >>>>> +    vdev_has_iommu = virtio_host_has_feature(vdev, VIRTIO_F_IOMMU_PLATFORM);
+> > >>>>>         if (klass->get_dma_as != NULL && has_iommu) {
+> > >>>>>             virtio_add_feature(&vdev->host_features, VIRTIO_F_IOMMU_PLATFORM);
+> > >>>>>             vdev->dma_as = klass->get_dma_as(qbus->parent);
+> > >>>>> +        if (!vdev_has_iommu && vdev->dma_as != &address_space_memory) {
+> > >>>>> +            error_setg(errp,
+> > >>>>> +                       "iommu_platform=true is not supported by the device");
+> > >>>>> +        }  
+> > >>>>
+> > >>>>     
+> > >>>>>         } else {
+> > >>>>>             vdev->dma_as = &address_space_memory;
+> > >>>>>         }  
+> > >>>>
+> > >>>>
+> > >>>> I struggled to understand what this 'else' clause was doing and I assumed that it was
+> > >>>> wrong. Searching through the ML I learned that this 'else' clause is intended to handle
+> > >>>> legacy virtio devices that doesn't support the DMA API (introduced in 8607f5c3072caeebb)
+> > >>>> and thus shouldn't set  VIRTIO_F_IOMMU_PLATFORM.
+> > >>>>
+> > >>>>
+> > >>>> My suggestion, if a v4 is required for any other reason, is to add a small comment in this
+> > >>>> 'else' clause explaining that this is the legacy virtio devices condition and those devices
+> > >>>> don't set F_IOMMU_PLATFORM. This would make the code easier to read for a virtio casual like
+> > >>>> myself.  
+> > >>>
+> > >>> I do not agree that this is about legacy virtio. In my understanding
+> > >>> virtio-ccw simply does not need translation because CCW devices use
+> > >>> guest physical addresses as per architecture. It may be considered
+> > >>> legacy stuff form PCI perspective, but I don't think it is legacy
+> > >>> in general.  
+> > >>
+> > >>
+> > >> I wasn't talking about virtio-ccw. I was talking about this piece of code:
+> > >>
+> > >>
+> > >>       if (klass->get_dma_as != NULL && has_iommu) {
+> > >>           virtio_add_feature(&vdev->host_features, VIRTIO_F_IOMMU_PLATFORM);
+> > >>           vdev->dma_as = klass->get_dma_as(qbus->parent);
+> > >>       } else {
+> > >>           vdev->dma_as = &address_space_memory;
+> > >>       }
+> > >>
+> > >>
+> > >> I suggested something like this:
+> > >>
+> > >>
+> > >>
+> > >>       if (klass->get_dma_as != NULL && has_iommu) {
+> > >>           virtio_add_feature(&vdev->host_features, VIRTIO_F_IOMMU_PLATFORM);
+> > >>           vdev->dma_as = klass->get_dma_as(qbus->parent);
+> > >>       } else {
+> > >>           /*
+> > >>            * We don't force VIRTIO_F_IOMMU_PLATFORM for legacy devices, i.e.
+> > >>            * devices that don't implement klass->get_dma_as, regardless of
+> > >>            * 'has_iommu' setting.
+> > >>            */
+> > >>           vdev->dma_as = &address_space_memory;
+> > >>       }
+> > >>
+> > >>
+> > >> At least from my reading of commits 8607f5c3072 and 2943b53f682 this seems to be
+> > >> the case. I spent some time thinking that this IF/ELSE was wrong because I wasn't
+> > >> aware of this history.  
+> > > 
+> > > With virtio-ccw we take the else branch because we don't implement  
+> > > ->get_dma_as(). I don't consider all the virtio-ccw to be legacy.  
+> > > 
+> > > IMHO there are two ways to think about this:
+> > > a) The commit that introduced this needs a fix which implemets
+> > > get_dma_as() for virtio-ccw in a way that it simply returns
+> > > address_space_memory.
+> > > b) The presence of ->get_dma_as() is not indicative of "legacy".
+> > > 
+> > > BTW in virtospeak "legacy" has a special meaning: pre-1.0 virtio. Do you
+> > > mean that legacy. And if I read the virtio-pci code correctly  
+> > > ->get_dma_as is set for legacy, transitional and modern devices alike.  
+> > 
+> > 
+> > Oh ok. I'm not well versed into virtiospeak. My "legacy" comment was a poor choice of
+> > word for the situation.
+> > 
+> > We can ignore the "legacy" bit. My idea/suggestion is to put a comment at that point
+> > explaining the logic behind into not forcing VIRTIO_F_IOMMU_PLATFORM in devices that
+> > doesn't implement ->get_dma_as().
+> > 
+> > I am assuming that this is an intended design that was introduced by 2943b53f682
+> > ("virtio: force VIRTIO_F_IOMMU_PLATFORM"), meaning that the implementation of the
+> > ->get_dma_as is being used as a parameter to force the feature in the device. And with  
+> > this code:
+> > 
+> > 
+> >      if (klass->get_dma_as != NULL && has_iommu) {
+> >          virtio_add_feature(&vdev->host_features, VIRTIO_F_IOMMU_PLATFORM);
+> >          vdev->dma_as = klass->get_dma_as(qbus->parent);
+> >      } else {
+> >          vdev->dma_as = &address_space_memory;
+> >      }
+> > 
+> > It is possible that we have 2 vdev devices where ->dma_as = &address_space_memory, but one
+> > of them is sitting in a bus where "klass->get_dma_as(qbus->parent) = &address_space_memory",
+> > and this device will have VIRTIO_F_IOMMU_PLATFORM forced onto it and the former won't.
+> > 
+> > 
+> > If this is not an intended design I can only speculate how to fix it. Forcing VIRTIO_F_IOMMU_PLATFORM
+> > in all devices, based only on has_iommu, can break stuff. Setting VIRTIO_F_IOMMU_PLATFORM only
+> > if "vdev->dma_as != &address_space_memory" make some sense but I am fairly certain it will
+> > break stuff the other way. Or perhaps the fix is something else entirely.
+> > 
+> > 
+> > 
+> > 
+> > > 
+> > > IMHO the important thing to figure out is what impact that
+> > > virtio_add_feature(&vdev->host_features, VIRTIO_F_IOMMU_PLATFORM);
+> > > in the first branch (of the if-else) has. IMHO if one examines the
+> > > commits 8607f5c307 ("virtio: convert to use DMA api") and 2943b53f68
+> > > ("virtio: force VIRTIO_F_IOMMU_PLATFORM") very carefully, one will
+> > > probably reach the conclusion that the objective of the latter, is
+> > > to prevent the guest form not negotiating the IOMMU_PLATFORM feature
+> > > (clearing it as part of the feature negotiation) and trying to use
+> > > the device without that feature. In other words, virtio features are
+> > > usually optional for the guest for the sake of compatibility, but
+> > > IOMMU_PLATFORM is not: for very good reasons. Neither the commit message
+> > > nor the patch does mention legacy anywhere.
+> > > 
+> > > In my opinion not forcing the guest to negotiate IOMMU_PLATFORM when  
+> > > ->get_dma_as() is not set is at least unfortunate. Please observe, that  
+> > > virtio-pci is not affected by this omission because for virtio-pci
+> > > devices ->get_dma_as != NULL always holds. And what is the deal for
+> > > devices that don't implement get_dma_as() (and don't need address
+> > > translation)? If iommu_platform=on is justified (no user error) then
+> > > the device does not have access to the entire guest memory. Which
+> > > means it more than likely needs cooperation form the guest (driver).
+> > > So detecting that the guest does not support IOMMU_PLATFORM and failing
+> > > gracefully via virtio_validate_features() instead of carrying on
+> > > in good faith and failing in ugly ways when the host attempts to access
+> > > guest memory to which it does not have access to. If we assume user
+> > > error, that is the host can access at least all the memory it needs
+> > > to access to make that device work, then it is probably still a
+> > > good idea to fail the device and thus help the user correct his
+> > > error.  
+> > 
+> > Yeah, this go back on what I've said about 2943b53f682 up there. There are assumptions
+> > being made on the ->get_dma_as() existence that aren't clear.
+> > 
+> 
+> I agree. The commit message does not explain.
+> 
+> > 
+> > > 
+> > > IMHO the best course of action is
+> > > diff --git a/hw/virtio/virtio-bus.c b/hw/virtio/virtio-bus.c
+> > > index 34f5a0a664..1d0eb16d1c 100644
+> > > --- a/hw/virtio/virtio-bus.c
+> > > +++ b/hw/virtio/virtio-bus.c
+> > > @@ -80,7 +80,6 @@ void virtio_bus_device_plugged(VirtIODevice *vdev, Error **errp)
+> > >   
+> > >       vdev_has_iommu = virtio_host_has_feature(vdev, VIRTIO_F_IOMMU_PLATFORM);
+> > >       if (klass->get_dma_as != NULL && has_iommu) {
+> > > -        virtio_add_feature(&vdev->host_features, VIRTIO_F_IOMMU_PLATFORM);
+> > >           vdev->dma_as = klass->get_dma_as(qbus->parent);
+> > >           if (!vdev_has_iommu && vdev->dma_as != &address_space_memory) {
+> > >               error_setg(errp,
+> > > @@ -89,6 +88,7 @@ void virtio_bus_device_plugged(VirtIODevice *vdev, Error **errp)
+> > >       } else {
+> > >           vdev->dma_as = &address_space_memory;
+> > >       }
+> > > +    virtio_add_feature(&vdev->host_features, VIRTIO_F_IOMMU_PLATFORM);
+> > >   }  
+> > 
+> > 
+> > I am fairly confident that forcing VIRTIO_F_IOMMU_PLATFORM all around, based on has_iommu
+> 
+> Yes I should have made that conditional on has_iommu. It was very late
+> when I finished that email.
+> 
+> > alone, will have consequences all around. This code has been around for almost 5 years and a
+> > lot of stuff has been developed on top of it.
+> > 
+> 
+> Do you have any particular examples in mind?
+> 
+> > All that said, if this is the proper way of fixing it I'd say to do it now, document it properly
+> > and fix the breakages as they come along. The alternative - hacking around and around a codebase
+> > that might not be solid - is worse in the long run.
+> 
+> IMHO this is a good discussion you triggered. But I see it out of scope
+> for the bug I'm trying to fix.
+> 
+> I can post a proper patch for "IOMMU_PLATFORM is non-negotiable for
+> all guests" and we can have proper review and discussion on that. But
+> I would like the bug I'm working on here fixed first. There are
+> people that want to use virtiofs with confidential guests, and
+> we should really make sure they can.
+> 
+> Regards,
+> Halil
 
-Tested: Verified devices behind mux are still accessible via qmp and i2c
-from within an arm32 SoC.
+I think I second that.
 
-Reviewed-by: Hao Wu <wuhaotsh@google.com>
-Signed-off-by: Patrick Venture <venture@google.com>
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
-Tested-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
----
-v2: explicitly create an incrementing name for the i2c busses (channels).
----
- hw/i2c/i2c_mux_pca954x.c | 77 +++++++---------------------------------
- 1 file changed, 13 insertions(+), 64 deletions(-)
-
-diff --git a/hw/i2c/i2c_mux_pca954x.c b/hw/i2c/i2c_mux_pca954x.c
-index 847c59921c..a9517b612a 100644
---- a/hw/i2c/i2c_mux_pca954x.c
-+++ b/hw/i2c/i2c_mux_pca954x.c
-@@ -30,24 +30,6 @@
- #define PCA9548_CHANNEL_COUNT 8
- #define PCA9546_CHANNEL_COUNT 4
-=20
--/*
-- * struct Pca954xChannel - The i2c mux device will have N of these states
-- * that own the i2c channel bus.
-- * @bus: The owned channel bus.
-- * @enabled: Is this channel active?
-- */
--typedef struct Pca954xChannel {
--    SysBusDevice parent;
--
--    I2CBus       *bus;
--
--    bool         enabled;
--} Pca954xChannel;
--
--#define TYPE_PCA954X_CHANNEL "pca954x-channel"
--#define PCA954X_CHANNEL(obj) \
--    OBJECT_CHECK(Pca954xChannel, (obj), TYPE_PCA954X_CHANNEL)
--
- /*
-  * struct Pca954xState - The pca954x state object.
-  * @control: The value written to the mux control.
-@@ -59,8 +41,8 @@ typedef struct Pca954xState {
-=20
-     uint8_t control;
-=20
--    /* The channel i2c buses. */
--    Pca954xChannel channel[PCA9548_CHANNEL_COUNT];
-+    bool enabled[PCA9548_CHANNEL_COUNT];
-+    I2CBus *bus[PCA9548_CHANNEL_COUNT];
- } Pca954xState;
-=20
- /*
-@@ -98,11 +80,11 @@ static bool pca954x_match(I2CSlave *candidate, uint8_t =
-address,
-     }
-=20
-     for (i =3D 0; i < mc->nchans; i++) {
--        if (!mux->channel[i].enabled) {
-+        if (!mux->enabled[i]) {
-             continue;
-         }
-=20
--        if (i2c_scan_bus(mux->channel[i].bus, address, broadcast,
-+        if (i2c_scan_bus(mux->bus[i], address, broadcast,
-                          current_devs)) {
-             if (!broadcast) {
-                 return true;
-@@ -125,9 +107,9 @@ static void pca954x_enable_channel(Pca954xState *s, uin=
-t8_t enable_mask)
-      */
-     for (i =3D 0; i < mc->nchans; i++) {
-         if (enable_mask & (1 << i)) {
--            s->channel[i].enabled =3D true;
-+            s->enabled[i] =3D true;
-         } else {
--            s->channel[i].enabled =3D false;
-+            s->enabled[i] =3D false;
-         }
-     }
- }
-@@ -184,23 +166,7 @@ I2CBus *pca954x_i2c_get_bus(I2CSlave *mux, uint8_t cha=
-nnel)
-     Pca954xState *pca954x =3D PCA954X(mux);
-=20
-     g_assert(channel < pc->nchans);
--    return I2C_BUS(qdev_get_child_bus(DEVICE(&pca954x->channel[channel]),
--                                      "i2c-bus"));
--}
--
--static void pca954x_channel_init(Object *obj)
--{
--    Pca954xChannel *s =3D PCA954X_CHANNEL(obj);
--    s->bus =3D i2c_init_bus(DEVICE(s), "i2c-bus");
--
--    /* Start all channels as disabled. */
--    s->enabled =3D false;
--}
--
--static void pca954x_channel_class_init(ObjectClass *klass, void *data)
--{
--    DeviceClass *dc =3D DEVICE_CLASS(klass);
--    dc->desc =3D "Pca954x Channel";
-+    return pca954x->bus[channel];
- }
-=20
- static void pca9546_class_init(ObjectClass *klass, void *data)
-@@ -215,28 +181,19 @@ static void pca9548_class_init(ObjectClass *klass, vo=
-id *data)
-     s->nchans =3D PCA9548_CHANNEL_COUNT;
- }
-=20
--static void pca954x_realize(DeviceState *dev, Error **errp)
--{
--    Pca954xState *s =3D PCA954X(dev);
--    Pca954xClass *c =3D PCA954X_GET_CLASS(s);
--    int i;
--
--    /* SMBus modules. Cannot fail. */
--    for (i =3D 0; i < c->nchans; i++) {
--        sysbus_realize(SYS_BUS_DEVICE(&s->channel[i]), &error_abort);
--    }
--}
--
- static void pca954x_init(Object *obj)
- {
-     Pca954xState *s =3D PCA954X(obj);
-     Pca954xClass *c =3D PCA954X_GET_CLASS(obj);
-     int i;
-=20
--    /* Only initialize the children we expect. */
-+    /* SMBus modules. Cannot fail. */
-     for (i =3D 0; i < c->nchans; i++) {
--        object_initialize_child(obj, "channel[*]", &s->channel[i],
--                                TYPE_PCA954X_CHANNEL);
-+        g_autofree gchar *bus_name =3D g_strdup_printf("i2c.%d", i);
-+
-+        /* start all channels as disabled. */
-+        s->enabled[i] =3D false;
-+        s->bus[i] =3D i2c_init_bus(DEVICE(s), bus_name);
-     }
- }
-=20
-@@ -252,7 +209,6 @@ static void pca954x_class_init(ObjectClass *klass, void=
- *data)
-     rc->phases.enter =3D pca954x_enter_reset;
-=20
-     dc->desc =3D "Pca954x i2c-mux";
--    dc->realize =3D pca954x_realize;
-=20
-     k->write_data =3D pca954x_write_data;
-     k->receive_byte =3D pca954x_read_byte;
-@@ -278,13 +234,6 @@ static const TypeInfo pca954x_info[] =3D {
-         .parent        =3D TYPE_PCA954X,
-         .class_init    =3D pca9548_class_init,
-     },
--    {
--        .name =3D TYPE_PCA954X_CHANNEL,
--        .parent =3D TYPE_SYS_BUS_DEVICE,
--        .class_init =3D pca954x_channel_class_init,
--        .instance_size =3D sizeof(Pca954xChannel),
--        .instance_init =3D pca954x_channel_init,
--    }
- };
-=20
- DEFINE_TYPES(pca954x_info)
---=20
-2.35.0.rc2.247.g8bbb082509-goog
+-- 
+MST
 
 
