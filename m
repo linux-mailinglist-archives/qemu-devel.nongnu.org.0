@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8D214A78E2
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Feb 2022 20:47:40 +0100 (CET)
-Received: from localhost ([::1]:59788 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B4B594A7913
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Feb 2022 20:58:14 +0100 (CET)
+Received: from localhost ([::1]:48788 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nFLbP-0002Lp-Tk
-	for lists+qemu-devel@lfdr.de; Wed, 02 Feb 2022 14:47:39 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:36166)
+	id 1nFLld-0006Dd-Qv
+	for lists+qemu-devel@lfdr.de; Wed, 02 Feb 2022 14:58:13 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:36168)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1nFK6f-0006se-C6
- for qemu-devel@nongnu.org; Wed, 02 Feb 2022 13:11:50 -0500
-Received: from mout.gmx.net ([212.227.17.20]:37577)
+ (Exim 4.90_1) (envelope-from <deller@gmx.de>)
+ id 1nFK6f-0006t6-Pd; Wed, 02 Feb 2022 13:11:50 -0500
+Received: from mout.gmx.net ([212.227.17.21]:40555)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1nFK6c-0007CC-H8
- for qemu-devel@nongnu.org; Wed, 02 Feb 2022 13:11:49 -0500
+ (Exim 4.90_1) (envelope-from <deller@gmx.de>)
+ id 1nFK6b-0007CI-Ni; Wed, 02 Feb 2022 13:11:49 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
  s=badeba3b8450; t=1643825502;
- bh=+bjlQRKildeSSXYeNLNggSy+frmkG7gRprVaAmJPm3I=;
+ bh=wWXuDkRScInuclDhq6OmOZoNhGxGL6K/53L0kOYts5Q=;
  h=X-UI-Sender-Class:From:To:Cc:Subject:Date:In-Reply-To:References;
- b=VPGOo50ePUFqWlekLLqupB/qQPG0G3DoVSVuihP/eeV1fbRrmaufB3IxdQz1OLxUp
- 9edt190i/Xouizqak0DoSSnfQM+e/Tny4WbT9GDiUDNQQowwZlXpGW+2/o1xuJkz+s
- R8vfuAhR7LFrmVu2hRAexPtlchafwf+/3RexdlGk=
+ b=U/FR6d3UAp6M14cG1P9bf0SbrFCEwfnHcjP7jR87hjVEoUtxhzY0cgsxRiIuYX1Cx
+ OSbupiV7xH4Wpw0a5oeBR6li1ue3E5RUVBI78XIjhFrZeBjRYN1ACKRPbyeICleVb2
+ FBc0JijzXYiPfG3lZWuo0UdxFzIW7LKOOY1bdSag=
 X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
 Received: from p100.fritz.box ([92.116.163.171]) by mail.gmx.net (mrgmx104
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1MJE6F-1mvAms3WzT-00KgDi; Wed, 02
- Feb 2022 19:11:41 +0100
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1Mo6ux-1mQMIX0TgR-00pdJC; Wed, 02
+ Feb 2022 19:11:42 +0100
 From: Helge Deller <deller@gmx.de>
 To: peter.maydell@linaro.org,
 	qemu-devel@nongnu.org
-Subject: [PULL 3/6] hppa: Add support for an emulated TOC/NMI button.
-Date: Wed,  2 Feb 2022 19:11:36 +0100
-Message-Id: <20220202181139.124485-4-deller@gmx.de>
+Subject: [PULL 4/6] hw/display/artist: rewrite vram access mode handling
+Date: Wed,  2 Feb 2022 19:11:37 +0100
+Message-Id: <20220202181139.124485-5-deller@gmx.de>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220202181139.124485-1-deller@gmx.de>
 References: <20220202181139.124485-1-deller@gmx.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:JFP9YTIpuRkUQc75R9MiTmu3uMqerH+aoJhQgkCG+rKeK/c7W1I
- m4lcgTQgmJhp8MJRKQbV0aRaqpksY/8ICmvCplVTVAy/odSpE0h94DTy1yH6jKmfFZIGjtZ
- qvZM9chm6cpfBuMB1sGOR4cP32BJNC5u16fXGsB7f4cFk7JyENaFI8IRLn4CKYfPb188aMB
- YOZpARaIYC/cdKro4GOEw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:3goAh661L8k=:uNnS+Nwf9IwEnIhi7QGpzv
- Wbjm1ACcBaXvm16GZrcVZ8nvoOwtutapadVLqtlJ3YU4japrelB8V5E0mbDQxT2C8S1atjMrn
- lo4e/2eQS0+N0hwgdc4ZI22gpI6bET7Gk83iQgzHHs+mW+4xwt5Z91ZW+OukQpIVtbeNptp2p
- ana2m9xVu69qUHi5v24mN8J9mtjkgPs8Um49FYSuTIdnk1ewID+v+iZ+yS0zjJSQbC4qfOfKF
- aZK7HnD06YK3ZtvDfRx1lAXzA1k6SB624bSqZBMHQQ86vFfnByoZSuUvkxppZCmHHCb83sc14
- STp6Ep3bt5a1O39bCBl3bnbdmvO1l35We6JK3yU7sRdaJbjodJfm8tzSeRT5fMXc3ZmuNTaE1
- WwuEj5ONAnXVRz9kUbubm0D6WQFlIVPAHrSnlUxg/wgMT+CmF1gmXyFLdKmzNObv/cTTu9LzL
- 8kNCUkwh9/na8fVNoYIpKYzFIPjDQauGqfK8KQT0YQDLq1uUc1m1e6WemPJOdqbDFqsQg3a8C
- iccBadXTrrL7jWxX7465KFplvC6Ff/Mc3dg9VycGIfyiuEtlZIgGR8QRBEGSVox/3ekbtoCMK
- DX8tpI4mjB0CX472QcqrXMV6taRek8Kvdt7yGr6XZ9aD/nTs/yP6R+SgnUBIAegJHowDr/3uB
- G7Cs/aOHlU2k4ur5d2MWSNM0mnFEm5tpAuffWFeANYYf/pufYQhbyy7EPIo0PYPrWxrLo9H+Z
- QHVhIPsWL9pR7W0SqF8zh5AbTsSKVZTKqHUNPt+j7xyMw7VLe/6A9BCJyoRa96cahjDXGfwiK
- GBAnVR2rHmeWIum5lUFYTc1MEAzdYf06lO75Edwm9Rcnzq+w4H5+o+WZVVP1O99zJvLIe0La5
- 3/6cSKUBlDax1q2AKSNTPJ1Enr4UbTAKfp5q6HlUIWpls5NVHtJvAPtacuf3TyVpelz3kxwFN
- /Lox/EoBhEx7V062WWF9JZ/QHAzsv68coz2bIE5ekwcciZoM4jmk5P4pR5gQ4NXYk62VJ3R4D
- lcf+2LILX2mLPwtqeJhoU+5ogJEu0wcAqBCy/dxQSjC6kIlUbvYJ/iMui813P0jhv0AwfgE9c
- OhmuVaLxtDsuO4=
-Received-SPF: pass client-ip=212.227.17.20; envelope-from=deller@gmx.de;
+X-Provags-ID: V03:K1:2xZFWWZuf8khtuFOYW7E+ajVLk3xUb6Hrb/sMsELph29BuyRpj4
+ 8Wd6BV+Pz5jVkafgGRge7L77tV1bFGC/2CsLmh20y4AZYFaIrBJSq6/+Br5McLOGOcRGnq3
+ +tM6qWwqb2HkwODwwfYja5qJ+Qp88oiDXtD+nqx/u/OCRbf0XOyTEKfi6FrLtZNsgC8ntGc
+ QARl4dWl3VEkZL4hcWi+A==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:0hNvRNYHrjA=:yjsK1U3kWAt+u3NByJD8sj
+ oNw0TtwlpmJN2H4yGq1blrHm2UTmBWXUVitPWcVRBR+gC1JiKbnit8MXtON+3aquHkUBPr0Vo
+ M+UGHpZqHRJuSLHt4BG5puxSxd9W54w6lupeFG9Nky7bobFsvsF3g4zhIw9CEUSRzHirgmOOZ
+ veZS7PqyW+lM2Y76Te8uompEfF3PP54JgZxrzDtgyUpTMn+9g6gk/NpbQHKv7r0sTFMychmgm
+ rLdtYjqwW6F+Fuzny+dVPOSUl4CnezP2C5FxdqQIPdmHh7/et1/s+1rn4+/P9801/tlBpw5Gs
+ 6IRxpnk+77hfoaWT4TzFrNQYkPzAJQ7RDH8LxJEcXlluLCwWPAjJUdqujDpyrhhpcGffeOTtZ
+ 8P8i+c8CiG9qcYtt8wFGXmMyvb3bvLwDwgSPCJ+XzlE5btKvNY8G6OIE5b5oRsvQi1iuEV7nd
+ qPxmcmWb62YRFnmivb5RV06BnJfI2I2PsJ06ViT0AUarxsC5Wwh2G7evSR+DuO68YH1BPuNT4
+ jYDNootIE1i3GPYH0TywP8Qstn03PZp9ZGsbI7M6KLl0jckZEHJVPwIZB9JlPqLVlWHtWi4Lg
+ y0RYrymT7h5O1JyC1+ueNYC71Kh4ssp+gBLMsGJ4/gL65UUzaP9HTkmg/DHXjQIF4uyXjVo7g
+ ZYKKYkFChrwndCxZbOtgwxJ6+Fj5zYQEz+PmKRcuyBG+wcfScOa73DYYskl2jI+BXkJhwabXR
+ /m7zh35oD9II4QhdpJO2MoZG5rpvrFeoKt4aI0q5nLAoimR/amnECUnPstSsrB+Lab/mIkvif
+ PagHmimrf4+sB0yFoufIc3HO4/u5hl9axoqTOlSoru6Dw203R6NhnZeR6evQMpxidWICTR2Vt
+ 93EfZrRrf3oMbWIwo99BIigse2iPkuzD5tq6w9jgswLgyAEs+Z3KL2RkfdH899T7ncTQUhYt1
+ dKCdKPUQ/Lum1H7vxfsYmdqjp7cpg6FTJyGj3EuB9xbONBP+we027pzsJU5p0h00E4Y1Dx/HN
+ 0vLBOW0d2NvwTvVyzoO7ENvDz99huPufs+8ywCpsdITNPNz+97E2nLrwLCLQxdk2IAbFGhTtw
+ 8O1Qj8DFuaMMYM=
+Received-SPF: pass client-ip=212.227.17.21; envelope-from=deller@gmx.de;
  helo=mout.gmx.net
 X-Spam_score_int: -25
 X-Spam_score: -2.6
 X-Spam_bar: --
 X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, FREEMAIL_FROM=0.001, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -82,281 +82,600 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Richard Henderson <richard.henderson@linaro.org>,
- Helge Deller <deller@gmx.de>, Sven Schnelle <svens@stackframe.org>
+ Helge Deller <deller@gmx.de>, Sven Schnelle <svens@stackframe.org>,
+ qemu-stable@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Almost all PA-RISC machines have either a button that is labeled with 'TOC=
-' or
-a BMC/GSP function to trigger a TOC.  TOC is a non-maskable interrupt that=
- is
-sent to the processor.  This can be used for diagnostic purposes like obta=
-ining
-a stack trace/register dump or to enter KDB/KGDB in Linux.
+From: Sven Schnelle <svens@stackframe.org>
 
-This patch adds support for such an emulated TOC button.
+When writing this code it was assumed that register 0x118000 is the
+buffer access mode for color map accesses. It turned out that this
+is wrong. Instead register 0x118000 sets both src and dst buffer
+access mode at the same time.
 
-It wires up the qemu monitor "nmi" command to trigger a TOC.  For that it
-provides the hppa_nmi function which is assigned to the nmi_monitor_handle=
-r
-function pointer.  When called it raises the EXCP_TOC hardware interrupt i=
-n the
-hppa_cpu_do_interrupt() function.  The interrupt function then calls the
-architecturally defined TOC function in SeaBIOS-hppa firmware (at fixed ad=
-dress
-0xf0000000).
+This required a larger rewrite of the code. The good thing is that
+both the linear framebuffer and the register based vram access can
+now be combined into one function.
 
-According to the PA-RISC PDC specification, the SeaBIOS firmware then writ=
-es
-the CPU registers into PIM (processor internal memmory) for later analysis=
-.  In
-order to write all registers it needs to know the contents of the CPU "sha=
-dow
-registers" and the IASQ- and IAOQ-back values. The IAOQ/IASQ values are
-provided by qemu in shadow registers when entering the SeaBIOS TOC functio=
-n.
-This patch adds a new aritificial opcode "getshadowregs" (0xfffdead2) whic=
-h
-restores the original values of the shadow registers. With this opcode Sea=
-BIOS
-can store those registers as well into PIM before calling an OS-provided T=
-OC
-handler.
+This makes the linux 'stifb' framebuffer work, and both HP-UX 10.20
+and HP-UX 11.11 are still working.
 
-To trigger a TOC, switch to the qemu monitor with Ctrl-A C, and type in th=
-e
-command "nmi".  After the TOC started the OS-debugger, exit the qemu monit=
-or
-with Ctrl-A C.
-
+Signed-off-by: Sven Schnelle <svens@stackframe.org>
 Signed-off-by: Helge Deller <deller@gmx.de>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Cc: qemu-stable@nongnu.org
+Signed-off-by: Helge Deller <deller@gmx.de>
 =2D--
- hw/hppa/machine.c        | 35 ++++++++++++++++++++++++++++++++++-
- target/hppa/cpu.c        |  2 +-
- target/hppa/cpu.h        |  5 +++++
- target/hppa/helper.h     |  1 +
- target/hppa/insns.decode |  1 +
- target/hppa/int_helper.c | 19 ++++++++++++++++++-
- target/hppa/op_helper.c  |  7 ++++++-
- target/hppa/translate.c  | 10 ++++++++++
- 8 files changed, 76 insertions(+), 4 deletions(-)
+ hw/display/artist.c     | 416 ++++++++++++++++------------------------
+ hw/display/trace-events |   8 +-
+ 2 files changed, 166 insertions(+), 258 deletions(-)
 
-diff --git a/hw/hppa/machine.c b/hw/hppa/machine.c
-index 2a46af5bc9..98b30e0395 100644
-=2D-- a/hw/hppa/machine.c
-+++ b/hw/hppa/machine.c
-@@ -17,6 +17,7 @@
- #include "hw/timer/i8254.h"
- #include "hw/char/serial.h"
- #include "hw/net/lasi_82596.h"
-+#include "hw/nmi.h"
- #include "hppa_sys.h"
- #include "qemu/units.h"
- #include "qapi/error.h"
-@@ -355,6 +356,14 @@ static void hppa_machine_reset(MachineState *ms)
-     cpu[0]->env.gr[19] =3D FW_CFG_IO_BASE;
- }
+diff --git a/hw/display/artist.c b/hw/display/artist.c
+index 21b7fd1b44..442bdbc130 100644
+=2D-- a/hw/display/artist.c
++++ b/hw/display/artist.c
+@@ -91,7 +91,6 @@ struct ARTISTState {
+     uint32_t reg_300208;
+     uint32_t reg_300218;
 
-+static void hppa_nmi(NMIState *n, int cpu_index, Error **errp)
-+{
-+    CPUState *cs;
-+
-+    CPU_FOREACH(cs) {
-+        cpu_interrupt(cs, CPU_INTERRUPT_NMI);
-+    }
-+}
-
- static void machine_hppa_machine_init(MachineClass *mc)
- {
-@@ -371,4 +380,28 @@ static void machine_hppa_machine_init(MachineClass *m=
-c)
-     mc->default_ram_id =3D "ram";
- }
-
--DEFINE_MACHINE("hppa", machine_hppa_machine_init)
-+static void machine_hppa_machine_init_class_init(ObjectClass *oc, void *d=
-ata)
-+{
-+    MachineClass *mc =3D MACHINE_CLASS(oc);
-+    machine_hppa_machine_init(mc);
-+
-+    NMIClass *nc =3D NMI_CLASS(oc);
-+    nc->nmi_monitor_handler =3D hppa_nmi;
-+}
-+
-+static const TypeInfo machine_hppa_machine_init_typeinfo =3D {
-+    .name =3D ("hppa" "-machine"),
-+    .parent =3D "machine",
-+    .class_init =3D machine_hppa_machine_init_class_init,
-+    .interfaces =3D (InterfaceInfo[]) {
-+        { TYPE_NMI },
-+        { }
-+    },
-+};
-+
-+static void machine_hppa_machine_init_register_types(void)
-+{
-+    type_register_static(&machine_hppa_machine_init_typeinfo);
-+}
-+
-+type_init(machine_hppa_machine_init_register_types)
-diff --git a/target/hppa/cpu.c b/target/hppa/cpu.c
-index 23eb254228..37b763fca0 100644
-=2D-- a/target/hppa/cpu.c
-+++ b/target/hppa/cpu.c
-@@ -62,7 +62,7 @@ static void hppa_cpu_synchronize_from_tb(CPUState *cs,
-
- static bool hppa_cpu_has_work(CPUState *cs)
- {
--    return cs->interrupt_request & CPU_INTERRUPT_HARD;
-+    return cs->interrupt_request & (CPU_INTERRUPT_HARD | CPU_INTERRUPT_NM=
-I);
- }
-
- static void hppa_cpu_disas_set_info(CPUState *cs, disassemble_info *info)
-diff --git a/target/hppa/cpu.h b/target/hppa/cpu.h
-index 45fd338b02..93c119532a 100644
-=2D-- a/target/hppa/cpu.h
-+++ b/target/hppa/cpu.h
-@@ -69,6 +69,11 @@
- #define EXCP_SYSCALL             30
- #define EXCP_SYSCALL_LWS         31
-
-+/* Emulated hardware TOC button */
-+#define EXCP_TOC                 32 /* TOC =3D Transfer of control (NMI) =
-*/
-+
-+#define CPU_INTERRUPT_NMI       CPU_INTERRUPT_TGT_EXT_3         /* TOC */
-+
- /* Taken from Linux kernel: arch/parisc/include/asm/psw.h */
- #define PSW_I            0x00000001
- #define PSW_D            0x00000002
-diff --git a/target/hppa/helper.h b/target/hppa/helper.h
-index 0a629ffa7c..fe8a9ce493 100644
-=2D-- a/target/hppa/helper.h
-+++ b/target/hppa/helper.h
-@@ -80,6 +80,7 @@ DEF_HELPER_FLAGS_0(read_interval_timer, TCG_CALL_NO_RWG,=
- tr)
- #ifndef CONFIG_USER_ONLY
- DEF_HELPER_1(halt, noreturn, env)
- DEF_HELPER_1(reset, noreturn, env)
-+DEF_HELPER_1(getshadowregs, void, env)
- DEF_HELPER_1(rfi, void, env)
- DEF_HELPER_1(rfi_r, void, env)
- DEF_HELPER_FLAGS_2(write_interval_timer, TCG_CALL_NO_RWG, void, env, tr)
-diff --git a/target/hppa/insns.decode b/target/hppa/insns.decode
-index d4eefc0d48..c7a7e997f9 100644
-=2D-- a/target/hppa/insns.decode
-+++ b/target/hppa/insns.decode
-@@ -111,6 +111,7 @@ rfi_r           000000 ----- ----- --- 01100101 00000
- # They are allocated from the unassigned instruction space.
- halt            1111 1111 1111 1101 1110 1010 1101 0000
- reset           1111 1111 1111 1101 1110 1010 1101 0001
-+getshadowregs   1111 1111 1111 1101 1110 1010 1101 0010
-
- ####
- # Memory Management
-diff --git a/target/hppa/int_helper.c b/target/hppa/int_helper.c
-index 13073ae2bd..f599dccfff 100644
-=2D-- a/target/hppa/int_helper.c
-+++ b/target/hppa/int_helper.c
-@@ -23,6 +23,7 @@
- #include "cpu.h"
- #include "exec/helper-proto.h"
- #include "hw/core/cpu.h"
-+#include "hw/hppa/hppa_hardware.h"
-
- #ifndef CONFIG_USER_ONLY
- static void eval_interrupt(HPPACPU *cpu)
-@@ -181,7 +182,14 @@ void hppa_cpu_do_interrupt(CPUState *cs)
+-    uint32_t cmap_bm_access;
+     uint32_t dst_bm_access;
+     uint32_t src_bm_access;
+     uint32_t control_plane;
+@@ -134,7 +133,7 @@ typedef enum {
+     PATTERN_LINE_START =3D 0x100ecc,
+     LINE_SIZE =3D 0x100e04,
+     LINE_END =3D 0x100e44,
+-    CMAP_BM_ACCESS =3D 0x118000,
++    DST_SRC_BM_ACCESS =3D 0x118000,
+     DST_BM_ACCESS =3D 0x118004,
+     SRC_BM_ACCESS =3D 0x118008,
+     CONTROL_PLANE =3D 0x11800c,
+@@ -176,7 +175,7 @@ static const char *artist_reg_name(uint64_t addr)
+     REG_NAME(TRANSFER_DATA);
+     REG_NAME(CONTROL_PLANE);
+     REG_NAME(IMAGE_BITMAP_OP);
+-    REG_NAME(CMAP_BM_ACCESS);
++    REG_NAME(DST_SRC_BM_ACCESS);
+     REG_NAME(DST_BM_ACCESS);
+     REG_NAME(SRC_BM_ACCESS);
+     REG_NAME(CURSOR_POS);
+@@ -222,40 +221,14 @@ static void artist_invalidate_lines(struct vram_buff=
+er *buf,
      }
-
-     /* step 7 */
--    env->iaoq_f =3D env->cr[CR_IVA] + 32 * i;
-+    if (i =3D=3D EXCP_TOC) {
-+        env->iaoq_f =3D FIRMWARE_START;
-+        /* help SeaBIOS and provide iaoq_b and iasq_back in shadow regs *=
-/
-+        env->gr[24] =3D env->cr_back[0];
-+        env->gr[25] =3D env->cr_back[1];
-+    } else {
-+        env->iaoq_f =3D env->cr[CR_IVA] + 32 * i;
-+    }
-     env->iaoq_b =3D env->iaoq_f + 4;
-     env->iasq_f =3D 0;
-     env->iasq_b =3D 0;
-@@ -219,6 +227,7 @@ void hppa_cpu_do_interrupt(CPUState *cs)
-             [EXCP_PER_INTERRUPT] =3D "performance monitor interrupt",
-             [EXCP_SYSCALL]       =3D "syscall",
-             [EXCP_SYSCALL_LWS]   =3D "syscall-lws",
-+            [EXCP_TOC]           =3D "TOC (transfer of control)",
-         };
-         static int count;
-         const char *name =3D NULL;
-@@ -248,6 +257,14 @@ bool hppa_cpu_exec_interrupt(CPUState *cs, int interr=
-upt_request)
-     HPPACPU *cpu =3D HPPA_CPU(cs);
-     CPUHPPAState *env =3D &cpu->env;
-
-+    if (interrupt_request & CPU_INTERRUPT_NMI) {
-+        /* Raise TOC (NMI) interrupt */
-+        cpu_reset_interrupt(cs, CPU_INTERRUPT_NMI);
-+        cs->exception_index =3D EXCP_TOC;
-+        hppa_cpu_do_interrupt(cs);
-+        return true;
-+    }
-+
-     /* If interrupts are requested and enabled, raise them.  */
-     if ((env->psw & PSW_I) && (interrupt_request & CPU_INTERRUPT_HARD)) {
-         cs->exception_index =3D EXCP_EXT_INTERRUPT;
-diff --git a/target/hppa/op_helper.c b/target/hppa/op_helper.c
-index 1b86557d5d..b0dec4ebf4 100644
-=2D-- a/target/hppa/op_helper.c
-+++ b/target/hppa/op_helper.c
-@@ -694,7 +694,7 @@ void HELPER(rfi)(CPUHPPAState *env)
-     cpu_hppa_put_psw(env, env->cr[CR_IPSW]);
  }
 
--void HELPER(rfi_r)(CPUHPPAState *env)
-+void HELPER(getshadowregs)(CPUHPPAState *env)
+-static int vram_write_pix_per_transfer(ARTISTState *s)
+-{
+-    if (s->cmap_bm_access) {
+-        return 1 << ((s->cmap_bm_access >> 27) & 0x0f);
+-    } else {
+-        return 1 << ((s->dst_bm_access >> 27) & 0x0f);
+-    }
+-}
+-
+-static int vram_pixel_length(ARTISTState *s)
+-{
+-    if (s->cmap_bm_access) {
+-        return (s->cmap_bm_access >> 24) & 0x07;
+-    } else {
+-        return (s->dst_bm_access >> 24) & 0x07;
+-    }
+-}
+-
+ static int vram_write_bufidx(ARTISTState *s)
  {
-     env->gr[1] =3D env->shadow[0];
-     env->gr[8] =3D env->shadow[1];
-@@ -703,6 +703,11 @@ void HELPER(rfi_r)(CPUHPPAState *env)
-     env->gr[17] =3D env->shadow[4];
-     env->gr[24] =3D env->shadow[5];
-     env->gr[25] =3D env->shadow[6];
+-    if (s->cmap_bm_access) {
+-        return (s->cmap_bm_access >> 12) & 0x0f;
+-    } else {
+-        return (s->dst_bm_access >> 12) & 0x0f;
+-    }
++    return (s->dst_bm_access >> 12) & 0x0f;
+ }
+
+ static int vram_read_bufidx(ARTISTState *s)
+ {
+-    if (s->cmap_bm_access) {
+-        return (s->cmap_bm_access >> 12) & 0x0f;
+-    } else {
+-        return (s->src_bm_access >> 12) & 0x0f;
+-    }
++    return (s->src_bm_access >> 12) & 0x0f;
+ }
+
+ static struct vram_buffer *vram_read_buffer(ARTISTState *s)
+@@ -352,130 +325,6 @@ static void artist_invalidate_cursor(ARTISTState *s)
+                             y, s->cursor_height);
+ }
+
+-static void vram_bit_write(ARTISTState *s, int posy, bool incr_x,
+-                           int size, uint32_t data)
+-{
+-    struct vram_buffer *buf;
+-    uint32_t vram_bitmask =3D s->vram_bitmask;
+-    int mask, i, pix_count, pix_length;
+-    unsigned int posx, offset, width;
+-    uint8_t *data8, *p;
+-
+-    pix_count =3D vram_write_pix_per_transfer(s);
+-    pix_length =3D vram_pixel_length(s);
+-
+-    buf =3D vram_write_buffer(s);
+-    width =3D buf->width;
+-
+-    if (s->cmap_bm_access) {
+-        offset =3D s->vram_pos;
+-    } else {
+-        posx =3D ADDR_TO_X(s->vram_pos >> 2);
+-        posy +=3D ADDR_TO_Y(s->vram_pos >> 2);
+-        offset =3D posy * width + posx;
+-    }
+-
+-    if (!buf->size || offset >=3D buf->size) {
+-        return;
+-    }
+-
+-    p =3D buf->data;
+-
+-    if (pix_count > size * 8) {
+-        pix_count =3D size * 8;
+-    }
+-
+-    switch (pix_length) {
+-    case 0:
+-        if (s->image_bitmap_op & 0x20000000) {
+-            data &=3D vram_bitmask;
+-        }
+-
+-        for (i =3D 0; i < pix_count; i++) {
+-            uint32_t off =3D offset + pix_count - 1 - i;
+-            if (off < buf->size) {
+-                artist_rop8(s, buf, off,
+-                            (data & 1) ? (s->plane_mask >> 24) : 0);
+-            }
+-            data >>=3D 1;
+-        }
+-        memory_region_set_dirty(&buf->mr, offset, pix_count);
+-        break;
+-
+-    case 3:
+-        if (s->cmap_bm_access) {
+-            if (offset + 3 < buf->size) {
+-                *(uint32_t *)(p + offset) =3D data;
+-            }
+-            break;
+-        }
+-        data8 =3D (uint8_t *)&data;
+-
+-        for (i =3D 3; i >=3D 0; i--) {
+-            if (!(s->image_bitmap_op & 0x20000000) ||
+-                s->vram_bitmask & (1 << (28 + i))) {
+-                uint32_t off =3D offset + 3 - i;
+-                if (off < buf->size) {
+-                    artist_rop8(s, buf, off, data8[ROP8OFF(i)]);
+-                }
+-            }
+-        }
+-        memory_region_set_dirty(&buf->mr, offset, 3);
+-        break;
+-
+-    case 6:
+-        switch (size) {
+-        default:
+-        case 4:
+-            vram_bitmask =3D s->vram_bitmask;
+-            break;
+-
+-        case 2:
+-            vram_bitmask =3D s->vram_bitmask >> 16;
+-            break;
+-
+-        case 1:
+-            vram_bitmask =3D s->vram_bitmask >> 24;
+-            break;
+-        }
+-
+-        for (i =3D 0; i < pix_count && offset + i < buf->size; i++) {
+-            mask =3D 1 << (pix_count - 1 - i);
+-
+-            if (!(s->image_bitmap_op & 0x20000000) ||
+-                (vram_bitmask & mask)) {
+-                if (data & mask) {
+-                    artist_rop8(s, buf, offset + i, s->fg_color);
+-                } else {
+-                    if (!(s->image_bitmap_op & 0x10000002)) {
+-                        artist_rop8(s, buf, offset + i, s->bg_color);
+-                    }
+-                }
+-            }
+-        }
+-        memory_region_set_dirty(&buf->mr, offset, pix_count);
+-        break;
+-
+-    default:
+-        qemu_log_mask(LOG_UNIMP, "%s: unknown pixel length %d\n",
+-                      __func__, pix_length);
+-        break;
+-    }
+-
+-    if (incr_x) {
+-        if (s->cmap_bm_access) {
+-            s->vram_pos +=3D 4;
+-        } else {
+-            s->vram_pos +=3D pix_count << 2;
+-        }
+-    }
+-
+-    if (vram_write_bufidx(s) =3D=3D ARTIST_BUFFER_CURSOR1 ||
+-        vram_write_bufidx(s) =3D=3D ARTIST_BUFFER_CURSOR2) {
+-        artist_invalidate_cursor(s);
+-    }
+-}
+-
+ static void block_move(ARTISTState *s,
+                        unsigned int source_x, unsigned int source_y,
+                        unsigned int dest_x,   unsigned int dest_y,
+@@ -860,6 +709,151 @@ static void combine_write_reg(hwaddr addr, uint64_t =
+val, int size, void *out)
+     }
+ }
+
++static void artist_vram_write4(ARTISTState *s, struct vram_buffer *buf,
++                               uint32_t offset, uint32_t data)
++{
++    int i;
++    int mask =3D s->vram_bitmask >> 28;
++
++    for (i =3D 0; i < 4; i++) {
++        if (!(s->image_bitmap_op & 0x20000000) || (mask & 8)) {
++            artist_rop8(s, buf, offset + i, data >> 24);
++            data <<=3D 8;
++            mask <<=3D 1;
++        }
++    }
++    memory_region_set_dirty(&buf->mr, offset, 3);
 +}
 +
-+void HELPER(rfi_r)(CPUHPPAState *env)
++static void artist_vram_write32(ARTISTState *s, struct vram_buffer *buf,
++                                uint32_t offset, int size, uint32_t data,
++                                int fg, int bg)
 +{
-+    helper_getshadowregs(env);
-     helper_rfi(env);
- }
- #endif
-diff --git a/target/hppa/translate.c b/target/hppa/translate.c
-index c6195590f8..5c0b1eb274 100644
-=2D-- a/target/hppa/translate.c
-+++ b/target/hppa/translate.c
-@@ -2393,6 +2393,16 @@ static bool trans_reset(DisasContext *ctx, arg_rese=
-t *a)
- #endif
- }
-
-+static bool trans_getshadowregs(DisasContext *ctx, arg_getshadowregs *a)
-+{
-+    CHECK_MOST_PRIVILEGED(EXCP_PRIV_OPR);
-+#ifndef CONFIG_USER_ONLY
-+    nullify_over(ctx);
-+    gen_helper_getshadowregs(cpu_env);
-+    return nullify_end(ctx);
-+#endif
++    uint32_t mask, vram_bitmask =3D s->vram_bitmask >> ((4 - size) * 8);
++    int i, pix_count =3D size * 8;
++
++    for (i =3D 0; i < pix_count && offset + i < buf->size; i++) {
++        mask =3D 1 << (pix_count - 1 - i);
++
++        if (!(s->image_bitmap_op & 0x20000000) || (vram_bitmask & mask)) =
+{
++            if (data & mask) {
++                artist_rop8(s, buf, offset + i, fg);
++            } else {
++                if (!(s->image_bitmap_op & 0x10000002)) {
++                    artist_rop8(s, buf, offset + i, bg);
++                }
++            }
++        }
++    }
++    memory_region_set_dirty(&buf->mr, offset, pix_count);
 +}
 +
- static bool trans_nop_addrx(DisasContext *ctx, arg_ldst *a)
++static int get_vram_offset(ARTISTState *s, struct vram_buffer *buf,
++                           int pos, int posy)
++{
++    unsigned int posx, width;
++
++    width =3D buf->width;
++    posx =3D ADDR_TO_X(pos);
++    posy +=3D ADDR_TO_Y(pos);
++    return posy * width + posx;
++}
++
++static int vram_bit_write(ARTISTState *s, uint32_t pos, int posy,
++                          uint32_t data, int size)
++{
++    struct vram_buffer *buf =3D vram_write_buffer(s);
++
++    switch (s->dst_bm_access >> 16) {
++    case 0x3ba0:
++    case 0xbbe0:
++        artist_vram_write4(s, buf, pos, bswap32(data));
++        pos +=3D 4;
++        break;
++
++    case 0x1360: /* linux */
++        artist_vram_write4(s, buf, get_vram_offset(s, buf, pos, posy), da=
+ta);
++        pos +=3D 4;
++        break;
++
++    case 0x13a0:
++        artist_vram_write4(s, buf, get_vram_offset(s, buf, pos >> 2, posy=
+),
++                           data);
++        pos +=3D 16;
++        break;
++
++    case 0x2ea0:
++        artist_vram_write32(s, buf, get_vram_offset(s, buf, pos >> 2, pos=
+y),
++                            size, data, s->fg_color, s->bg_color);
++        pos +=3D 4;
++        break;
++
++    case 0x28a0:
++        artist_vram_write32(s, buf, get_vram_offset(s, buf, pos >> 2, pos=
+y),
++                            size, data, 1, 0);
++        pos +=3D 4;
++        break;
++
++    default:
++        qemu_log_mask(LOG_UNIMP, "%s: unknown dst bm access %08x\n",
++                      __func__, s->dst_bm_access);
++        break;
++    }
++
++    if (vram_write_bufidx(s) =3D=3D ARTIST_BUFFER_CURSOR1 ||
++        vram_write_bufidx(s) =3D=3D ARTIST_BUFFER_CURSOR2) {
++        artist_invalidate_cursor(s);
++    }
++    return pos;
++}
++
++static void artist_vram_write(void *opaque, hwaddr addr, uint64_t val,
++                              unsigned size)
++{
++    ARTISTState *s =3D opaque;
++    s->vram_char_y =3D 0;
++    trace_artist_vram_write(size, addr, val);
++    vram_bit_write(opaque, addr, 0, val, size);
++}
++
++static uint64_t artist_vram_read(void *opaque, hwaddr addr, unsigned size=
+)
++{
++    ARTISTState *s =3D opaque;
++    struct vram_buffer *buf;
++    unsigned int offset;
++    uint64_t val;
++
++    buf =3D vram_read_buffer(s);
++    if (!buf->size) {
++        return 0;
++    }
++
++    offset =3D get_vram_offset(s, buf, addr >> 2, 0);
++
++    if (offset > buf->size) {
++        return 0;
++    }
++
++    switch (s->src_bm_access >> 16) {
++    case 0x3ba0:
++        val =3D *(uint32_t *)(buf->data + offset);
++        break;
++
++    case 0x13a0:
++    case 0x2ea0:
++        val =3D bswap32(*(uint32_t *)(buf->data + offset));
++        break;
++
++    default:
++        qemu_log_mask(LOG_UNIMP, "%s: unknown src bm access %08x\n",
++                      __func__, s->dst_bm_access);
++        val =3D -1ULL;
++        break;
++    }
++    trace_artist_vram_read(size, addr, val);
++    return val;
++}
++
+ static void artist_reg_write(void *opaque, hwaddr addr, uint64_t val,
+                              unsigned size)
  {
-     if (a->m) {
+@@ -886,12 +880,12 @@ static void artist_reg_write(void *opaque, hwaddr ad=
+dr, uint64_t val,
+         break;
+
+     case VRAM_WRITE_INCR_Y:
+-        vram_bit_write(s, s->vram_char_y++, false, size, val);
++        vram_bit_write(s, s->vram_pos, s->vram_char_y++, val, size);
+         break;
+
+     case VRAM_WRITE_INCR_X:
+     case VRAM_WRITE_INCR_X2:
+-        vram_bit_write(s, s->vram_char_y, true, size, val);
++        s->vram_pos =3D vram_bit_write(s, s->vram_pos, s->vram_char_y, va=
+l, size);
+         break;
+
+     case VRAM_IDX:
+@@ -993,18 +987,17 @@ static void artist_reg_write(void *opaque, hwaddr ad=
+dr, uint64_t val,
+         combine_write_reg(addr, val, size, &s->plane_mask);
+         break;
+
+-    case CMAP_BM_ACCESS:
+-        combine_write_reg(addr, val, size, &s->cmap_bm_access);
++    case DST_SRC_BM_ACCESS:
++        combine_write_reg(addr, val, size, &s->dst_bm_access);
++        combine_write_reg(addr, val, size, &s->src_bm_access);
+         break;
+
+     case DST_BM_ACCESS:
+         combine_write_reg(addr, val, size, &s->dst_bm_access);
+-        s->cmap_bm_access =3D 0;
+         break;
+
+     case SRC_BM_ACCESS:
+         combine_write_reg(addr, val, size, &s->src_bm_access);
+-        s->cmap_bm_access =3D 0;
+         break;
+
+     case CONTROL_PLANE:
+@@ -1152,98 +1145,6 @@ static uint64_t artist_reg_read(void *opaque, hwadd=
+r addr, unsigned size)
+     return val;
+ }
+
+-static void artist_vram_write(void *opaque, hwaddr addr, uint64_t val,
+-                              unsigned size)
+-{
+-    ARTISTState *s =3D opaque;
+-    struct vram_buffer *buf;
+-    unsigned int posy, posx;
+-    unsigned int offset;
+-    trace_artist_vram_write(size, addr, val);
+-
+-    if (s->cmap_bm_access) {
+-        buf =3D &s->vram_buffer[ARTIST_BUFFER_CMAP];
+-        if (addr + 3 < buf->size) {
+-            *(uint32_t *)(buf->data + addr) =3D val;
+-        }
+-        return;
+-    }
+-
+-    buf =3D vram_write_buffer(s);
+-    posy =3D ADDR_TO_Y(addr >> 2);
+-    posx =3D ADDR_TO_X(addr >> 2);
+-
+-    if (!buf->size) {
+-        return;
+-    }
+-
+-    if (posy > buf->height || posx > buf->width) {
+-        return;
+-    }
+-
+-    offset =3D posy * buf->width + posx;
+-    if (offset >=3D buf->size) {
+-        return;
+-    }
+-
+-    switch (size) {
+-    case 4:
+-        if (offset + 3 < buf->size) {
+-            *(uint32_t *)(buf->data + offset) =3D be32_to_cpu(val);
+-            memory_region_set_dirty(&buf->mr, offset, 4);
+-        }
+-        break;
+-    case 2:
+-        if (offset + 1 < buf->size) {
+-            *(uint16_t *)(buf->data + offset) =3D be16_to_cpu(val);
+-            memory_region_set_dirty(&buf->mr, offset, 2);
+-        }
+-        break;
+-    case 1:
+-        if (offset < buf->size) {
+-            *(uint8_t *)(buf->data + offset) =3D val;
+-            memory_region_set_dirty(&buf->mr, offset, 1);
+-        }
+-        break;
+-    default:
+-        break;
+-    }
+-}
+-
+-static uint64_t artist_vram_read(void *opaque, hwaddr addr, unsigned size=
+)
+-{
+-    ARTISTState *s =3D opaque;
+-    struct vram_buffer *buf;
+-    uint64_t val;
+-    unsigned int posy, posx;
+-
+-    if (s->cmap_bm_access) {
+-        buf =3D &s->vram_buffer[ARTIST_BUFFER_CMAP];
+-        val =3D 0;
+-        if (addr < buf->size && addr + 3 < buf->size) {
+-            val =3D *(uint32_t *)(buf->data + addr);
+-        }
+-        trace_artist_vram_read(size, addr, 0, 0, val);
+-        return val;
+-    }
+-
+-    buf =3D vram_read_buffer(s);
+-    if (!buf->size) {
+-        return 0;
+-    }
+-
+-    posy =3D ADDR_TO_Y(addr >> 2);
+-    posx =3D ADDR_TO_X(addr >> 2);
+-
+-    if (posy > buf->height || posx > buf->width) {
+-        return 0;
+-    }
+-
+-    val =3D cpu_to_be32(*(uint32_t *)(buf->data + posy * buf->width + pos=
+x));
+-    trace_artist_vram_read(size, addr, posx, posy, val);
+-    return val;
+-}
+-
+ static const MemoryRegionOps artist_reg_ops =3D {
+     .read =3D artist_reg_read,
+     .write =3D artist_reg_write,
+@@ -1410,6 +1311,14 @@ static void artist_realizefn(DeviceState *dev, Erro=
+r **errp)
+     s->cursor_height =3D 32;
+     s->cursor_width =3D 32;
+
++    /*
++     * These two registers are not initialized by seabios's STI implement=
+ation.
++     * Initialize them here to sane values so artist also works with olde=
+r
++     * (not-fixed) seabios versions.
++     */
++    s->image_bitmap_op =3D 0x23000300;
++    s->plane_mask =3D 0xff;
++
+     s->con =3D graphic_console_init(dev, 0, &artist_ops, s);
+     qemu_console_resize(s->con, s->width, s->height);
+ }
+@@ -1450,7 +1359,6 @@ static const VMStateDescription vmstate_artist =3D {
+         VMSTATE_UINT32(reg_300200, ARTISTState),
+         VMSTATE_UINT32(reg_300208, ARTISTState),
+         VMSTATE_UINT32(reg_300218, ARTISTState),
+-        VMSTATE_UINT32(cmap_bm_access, ARTISTState),
+         VMSTATE_UINT32(dst_bm_access, ARTISTState),
+         VMSTATE_UINT32(src_bm_access, ARTISTState),
+         VMSTATE_UINT32(control_plane, ARTISTState),
+diff --git a/hw/display/trace-events b/hw/display/trace-events
+index 3a7a2c957f..4a687d1b8e 100644
+=2D-- a/hw/display/trace-events
++++ b/hw/display/trace-events
+@@ -140,10 +140,10 @@ ati_mm_read(unsigned int size, uint64_t addr, const =
+char *name, uint64_t val) "%
+ ati_mm_write(unsigned int size, uint64_t addr, const char *name, uint64_t=
+ val) "%u 0x%"PRIx64 " %s <- 0x%"PRIx64
+
+ # artist.c
+-artist_reg_read(unsigned int size, uint64_t addr, const char *name, uint6=
+4_t val) "%u 0x%"PRIx64 "%s -> 0x%"PRIx64
+-artist_reg_write(unsigned int size, uint64_t addr, const char *name, uint=
+64_t val) "%u 0x%"PRIx64 "%s <- 0x%"PRIx64
+-artist_vram_read(unsigned int size, uint64_t addr, int posx, int posy, ui=
+nt64_t val) "%u 0x%"PRIx64 " %ux%u-> 0x%"PRIx64
+-artist_vram_write(unsigned int size, uint64_t addr, uint64_t val) "%u 0x%=
+"PRIx64 " <- 0x%"PRIx64
++artist_reg_read(unsigned int size, uint64_t addr, const char *name, uint6=
+4_t val) "%u 0x%"PRIx64 "%s -> 0x%08"PRIx64
++artist_reg_write(unsigned int size, uint64_t addr, const char *name, uint=
+64_t val) "%u 0x%"PRIx64 "%s <- 0x%08"PRIx64
++artist_vram_read(unsigned int size, uint64_t addr, uint64_t val) "%u 0x%0=
+8"PRIx64 " -> 0x%08"PRIx64
++artist_vram_write(unsigned int size, uint64_t addr, uint64_t val) "%u 0x%=
+08"PRIx64 " <- 0x%08"PRIx64
+ artist_fill_window(unsigned int start_x, unsigned int start_y, unsigned i=
+nt width, unsigned int height, uint32_t op, uint32_t ctlpln) "start=3D%ux%=
+u length=3D%ux%u op=3D0x%08x ctlpln=3D0x%08x"
+ artist_block_move(unsigned int start_x, unsigned int start_y, unsigned in=
+t dest_x, unsigned int dest_y, unsigned int width, unsigned int height) "s=
+ource %ux%u -> dest %ux%u size %ux%u"
+ artist_draw_line(unsigned int start_x, unsigned int start_y, unsigned int=
+ end_x, unsigned int end_y) "%ux%u %ux%u"
 =2D-
 2.34.1
 
