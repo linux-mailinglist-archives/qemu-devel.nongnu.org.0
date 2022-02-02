@@ -2,76 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB8984A76E9
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Feb 2022 18:34:51 +0100 (CET)
-Received: from localhost ([::1]:51192 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 828584A772B
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Feb 2022 18:57:29 +0100 (CET)
+Received: from localhost ([::1]:41236 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nFJWs-0004Yt-La
-	for lists+qemu-devel@lfdr.de; Wed, 02 Feb 2022 12:34:50 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:41144)
+	id 1nFJsk-0001K4-US
+	for lists+qemu-devel@lfdr.de; Wed, 02 Feb 2022 12:57:27 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:44016)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <venture@google.com>)
- id 1nFIhI-00021R-TQ
- for qemu-devel@nongnu.org; Wed, 02 Feb 2022 11:41:32 -0500
-Received: from [2607:f8b0:4864:20::934] (port=33357
- helo=mail-ua1-x934.google.com)
+ (Exim 4.90_1) (envelope-from
+ <3MbX6YQcKCpwRAJPQNACKKCHA.8KIMAIQ-9ARAHJKJCJQ.KNC@flex--venture.bounces.google.com>)
+ id 1nFIsh-0001WC-MX
+ for qemu-devel@nongnu.org; Wed, 02 Feb 2022 11:53:19 -0500
+Received: from [2607:f8b0:4864:20::b4a] (port=37577
+ helo=mail-yb1-xb4a.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <venture@google.com>)
- id 1nFIh1-00023L-2C
- for qemu-devel@nongnu.org; Wed, 02 Feb 2022 11:41:32 -0500
-Received: by mail-ua1-x934.google.com with SMTP id r8so333502uaj.0
- for <qemu-devel@nongnu.org>; Wed, 02 Feb 2022 08:41:00 -0800 (PST)
+ (Exim 4.90_1) (envelope-from
+ <3MbX6YQcKCpwRAJPQNACKKCHA.8KIMAIQ-9ARAHJKJCJQ.KNC@flex--venture.bounces.google.com>)
+ id 1nFIsg-0008Ss-0e
+ for qemu-devel@nongnu.org; Wed, 02 Feb 2022 11:53:19 -0500
+Received: by mail-yb1-xb4a.google.com with SMTP id
+ v70-20020a25c549000000b006130de5790aso316829ybe.4
+ for <qemu-devel@nongnu.org>; Wed, 02 Feb 2022 08:53:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=6UJYEuCm/8aV9ng3sAr9C2XDjFyqd7pqAQxImsQoknA=;
- b=aBlFD52oRGYB+HC29c5dh97aNqojMi0Qrog2SQxtKYeHuCCxXVJJZAjIt1y28zAH5y
- iuI8Zx4CFN57ZVYVkgzig+R2lrRnAOh0DX+REuAVaG5V1I6ybwl6iibBGBY4/3oV2aGj
- wuxMrdZlD874jSvulJjUdZa5tWEuTe04OjKslzVP+nGrrzfBmPv/npB8Rf/PQIFSlN2K
- uflWlLJRISmQe5ND0iB4dW7jVHja1sh8037lq51GFmaaFJlEWGX2GI7svjj+ByltZNQG
- DvAK4FsqXaExc32J9dZHfFaDLj3CvCa2ymQG/hGzvZmOnDn3t96koVkofwUIwMD3ZhBk
- zfow==
+ h=date:message-id:mime-version:subject:from:to:cc
+ :content-transfer-encoding;
+ bh=MQ2S156eOgRWeJiqeIsSamn7bmB1bOc4oCVgdMb1WJw=;
+ b=h6s6Pph4rHX0aJOw065G+3XZwMuvGZP16yIICXlstOQrXW05kWd2ZyLLrgyI3lbVS1
+ ASGIbj/Uoq6EvZmPXUrRsgqVhe/JlWYUW8MIAscSruL3RvObsYclZFg+93/w8OlrZKwO
+ YHSe4KjXKOMTtYitt+UIm/5D0ThKMpXHv5zcP4NnmBvyjN+btSCO9kqwF/FMsLJaUDG4
+ l9v+cLv0awhHXz62gzzGNSJQj2lkltHzEa82dNCgOd5thM3XOMgNJJrbeDU6pYeopdjG
+ ylOdZgCNLo3Nriy4vGKoQKi9W7nLRS9k6LBacX+6F+GwWVkJUlfFOO08UvplHywSOPUj
+ 82sw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=6UJYEuCm/8aV9ng3sAr9C2XDjFyqd7pqAQxImsQoknA=;
- b=1KmgWeD9U5qBdroOdpBzPmlbdbGSNndlwd7+8Cnmo4s68qTsSTX9IJVA/+cjmzJowF
- goGmdwXQ9xoT1XsYDvO58bm//kqQ6jT2ZpnIvu704hnN6yU/TUGRgwXfXIXswiX2Cgna
- NLu4SeT8JiymIAWaKQlECYuetprEDIKPjunMphKzpMbeAFoy6HJQMHMsKc6dgx0fJvlY
- UFCr0HHI7gVwvQFiXZHlCBu1Jt/c+drBke01SXdRrlH5e5sTiXipgdcHtfXDj3b5tC9Q
- HQqQ/S5X47QG/UK3wLlJSt48RWzLjdKa48cSRDZ7DQJ0rWyl/DZKl0hQKbxBo1030RPG
- NItg==
-X-Gm-Message-State: AOAM533LeglQu7Ixy/W/i1VFIeg+l9aPQzIXG0KKpLFrozpPO+b2yaN9
- A4oPZFKzdv09wT61NGyNTDcbmo4tOdUCqLuZzsGzcg==
-X-Google-Smtp-Source: ABdhPJxc0MDSHVaWxL6swp1ROfGA18igPwGT5suvsBuqyD+luD8x1WUyMfGvjHJMaLSOePc9qSCV2ZJbCDg5ng4OhOU=
-X-Received: by 2002:a67:ffcb:: with SMTP id w11mr11689104vsq.35.1643820059390; 
- Wed, 02 Feb 2022 08:40:59 -0800 (PST)
-MIME-Version: 1.0
-References: <20220201163005.989457-1-venture@google.com>
- <59040e43-2375-1f73-15bb-ce1a47165145@amsat.org>
- <CAO=notxPP8+b6S6UnUX7s4yWQsEhaAS0CZbn1my0HEN2idL6tA@mail.gmail.com>
- <CAO=notw9jYSc6xGr3_kwuAWHG2J3VJ7WxJT+tL_fbXFfTRrhpw@mail.gmail.com>
-In-Reply-To: <CAO=notw9jYSc6xGr3_kwuAWHG2J3VJ7WxJT+tL_fbXFfTRrhpw@mail.gmail.com>
+ h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc
+ :content-transfer-encoding;
+ bh=MQ2S156eOgRWeJiqeIsSamn7bmB1bOc4oCVgdMb1WJw=;
+ b=WxdsdpqsstsBI6TboswukopRGMKa4K97K+lOczk3HxV5Mo0tf4BKfFZY3QPbdw7rKK
+ 8GP8Vh2vge+6G1z4vwvc8AdbjN9ISduTOUIMAINMszSLPiAZsz2BwH+/Cx7xCjdInKyW
+ 2E5wIIU2MdiEsQfZQqtMdixqQFNx13g2TjZbRSBAhbkOAzzcucCzICi2mwWIYQTn8UAX
+ SbhFED9eczl+4XtDjtM22XrWevBR8npnjoE3KAE3G9XD6LaVCAm1tmzaNLOJqyAyiP7X
+ V44yFIYv4s8uegM4DuhwK3y7ciAGcWbfyopdK/w8cRPhEmD0B5sZDWX7A2DrP5Eiof4W
+ MlCg==
+X-Gm-Message-State: AOAM5307fgXeMZ+8An+NbcxH5iOgPFqn2FHfxY7poQIP+5ohnNiAl6l1
+ N4grWm6SFJ1DzxkN87v283H6q7ACgh78
+X-Google-Smtp-Source: ABdhPJyM6iJs6+I434Ltdnhhg5eSUcBL+YxRhdP+gAOq8akzXZlkY4ed6hf/ekUbPjTw0JmibZzBAEheSQrr
+X-Received: from venture.svl.corp.google.com
+ ([2620:15c:2a3:200:2897:f5c5:6f11:c159])
+ (user=venture job=sendgmr) by 2002:a81:1051:: with SMTP id
+ 78mr1632185ywq.527.1643820337634; Wed, 02 Feb 2022 08:45:37 -0800 (PST)
+Date: Wed,  2 Feb 2022 08:45:33 -0800
+Message-Id: <20220202164533.1283668-1-venture@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.35.0.rc2.247.g8bbb082509-goog
+Subject: [PATCH v2] hw/i2c: flatten pca954x mux device
 From: Patrick Venture <venture@google.com>
-Date: Wed, 2 Feb 2022 08:40:48 -0800
-Message-ID: <CAO=notzLfum_zkXhP+xQ9RTxcpG3oNxwFMPYWz+o1vYdF8ynQg@mail.gmail.com>
-Subject: Re: [PATCH] hw/i2c: flatten pca954x mux device
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
-Cc: Corey Minyard <cminyard@mvista.com>,
- QEMU Developers <qemu-devel@nongnu.org>, Hao Wu <wuhaotsh@google.com>
-Content-Type: multipart/alternative; boundary="000000000000b7450805d70baebe"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::934
+To: cminyard@mvista.com, f4bug@amsat.org
+Cc: qemu-devel@nongnu.org, Patrick Venture <venture@google.com>,
+ Hao Wu <wuhaotsh@google.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::b4a
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::934;
- envelope-from=venture@google.com; helo=mail-ua1-x934.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b4a;
+ envelope-from=3MbX6YQcKCpwRAJPQNACKKCHA.8KIMAIQ-9ARAHJKJCJQ.KNC@flex--venture.bounces.google.com;
+ helo=mail-yb1-xb4a.google.com
 X-Spam_score_int: -87
 X-Spam_score: -8.8
 X-Spam_bar: --------
 X-Spam_report: (-8.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HTML_MESSAGE=0.001, PDS_HP_HELO_NORDNS=0.001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01, T_SPF_TEMPERROR=0.01,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01,
  USER_IN_DEF_DKIM_WL=-7.5 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -88,276 +92,176 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000b7450805d70baebe
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Previously this device created N subdevices which each owned an i2c bus.
+Now this device simply owns the N i2c busses directly.
 
-On Wed, Feb 2, 2022 at 8:34 AM Patrick Venture <venture@google.com> wrote:
+Tested: Verified devices behind mux are still accessible via qmp and i2c
+from within an arm32 SoC.
 
->
->
-> On Tue, Feb 1, 2022 at 12:54 PM Patrick Venture <venture@google.com>
-> wrote:
->
->>
->>
->> On Tue, Feb 1, 2022 at 11:02 AM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat=
-.org>
->> wrote:
->>
->>> On 1/2/22 17:30, Patrick Venture wrote:
->>> > Previously this device created N subdevices which each owned an i2c
->>> bus.
->>> > Now this device simply owns the N i2c busses directly.
->>> >
->>> > Tested: Verified devices behind mux are still accessible via qmp and
->>> i2c
->>> > from within an arm32 SoC.
->>> >
->>> > Reviewed-by: Hao Wu <wuhaotsh@google.com>
->>> > Signed-off-by: Patrick Venture <venture@google.com>
->>> > ---
->>> >   hw/i2c/i2c_mux_pca954x.c | 75
->>> ++++++----------------------------------
->>> >   1 file changed, 11 insertions(+), 64 deletions(-)
->>>
->>> >   static void pca954x_init(Object *obj)
->>> >   {
->>> >       Pca954xState *s =3D PCA954X(obj);
->>> >       Pca954xClass *c =3D PCA954X_GET_CLASS(obj);
->>> >       int i;
->>> >
->>> > -    /* Only initialize the children we expect. */
->>> > +    /* SMBus modules. Cannot fail. */
->>> >       for (i =3D 0; i < c->nchans; i++) {
->>> > -        object_initialize_child(obj, "channel[*]", &s->channel[i],
->>> > -                                TYPE_PCA954X_CHANNEL);
->>> > +        /* start all channels as disabled. */
->>> > +        s->enabled[i] =3D false;
->>> > +        s->bus[i] =3D i2c_init_bus(DEVICE(s), "channel[*]");
->>>
->>> This is not a QOM property, so you need to initialize manually:
->>>
->>
->> that was my suspicion but this is the output I'm seeing:
->>
->> {'execute': 'qom-list', 'arguments': { 'path':
->> '/machine/soc/smbus[0]/i2c-bus/child[0]' }}
->>
->> {"return": [
->> {"name": "type", "type": "string"},
->> {"name": "parent_bus", "type": "link<bus>"},
->> {"name": "realized", "type": "bool"},
->> {"name": "hotplugged", "type": "bool"},
->> {"name": "hotpluggable", "type": "bool"},
->> {"name": "address", "type": "uint8"},
->> {"name": "channel[3]", "type": "child<i2c-bus>"},
->> {"name": "channel[0]", "type": "child<i2c-bus>"},
->> {"name": "channel[1]", "type": "child<i2c-bus>"},
->> {"name": "channel[2]", "type": "child<i2c-bus>"}
->> ]}
->>
->> It seems to be naming them via the order they're created.
->>
->> Is this not behaving how you expect?
->>
->
-> Philippe,
->
-> I0202 08:29:45.380384  6641 stream.go:31] qemu: child buses at "pca9546":
-> "channel[*]", "channel[*]", "channel[*]", "channel[*]"
->
-> Ok, so that's interesting.  In one system (using qom-list) it's correct,
-> but then when using it to do path assignment (qdev-monitor), it fails...
->
-> I'm not as fond of the name i2c-bus.%d, since they're referred to as
-> channels in the datasheet.  If I do the manual name creation, can I keep
-> the name channel or should I pivot over?
->
-> Thanks
->
->
->>
->>>
->>> -- >8 --
->>> diff --git a/hw/i2c/i2c_mux_pca954x.c b/hw/i2c/i2c_mux_pca954x.c
->>> index f9ce633b3a..a9517b612a 100644
->>> --- a/hw/i2c/i2c_mux_pca954x.c
->>> +++ b/hw/i2c/i2c_mux_pca954x.c
->>> @@ -189,9 +189,11 @@ static void pca954x_init(Object *obj)
->>>
->>>       /* SMBus modules. Cannot fail. */
->>>       for (i =3D 0; i < c->nchans; i++) {
->>> +        g_autofree gchar *bus_name =3D g_strdup_printf("i2c.%d", i);
->>> +
->>>           /* start all channels as disabled. */
->>>           s->enabled[i] =3D false;
->>> -        s->bus[i] =3D i2c_init_bus(DEVICE(s), "channel[*]");
->>> +        s->bus[i] =3D i2c_init_bus(DEVICE(s), bus_name);
->>>       }
->>>   }
->>>
->>> ---
->>>
->>> (look at HMP 'info qtree' output).
->>>
->>> >       }
->>> >   }
->>>
->>> With the change:
->>> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
->>> Tested-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
->>>
->>
-Just saw your reply, and found a bunch of other non-spam in my spam
-folder.  I sent the message to the anti-spam team, hopefully that'll
-resolve this for myself and presumably others.
+Reviewed-by: Hao Wu <wuhaotsh@google.com>
+Signed-off-by: Patrick Venture <venture@google.com>
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+Tested-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+---
+v2: explicitly create an incrementing name for the i2c busses (channels).
+---
+ hw/i2c/i2c_mux_pca954x.c | 77 +++++++---------------------------------
+ 1 file changed, 13 insertions(+), 64 deletions(-)
 
-I definitely see the same result with the qdev-monitor, but was really
-surprised that the qom-list worked.  I'll explicitly set the name, and
-i2c.%d is fine.  The detail that they're channels is not really important
-to the end user presumably.
+diff --git a/hw/i2c/i2c_mux_pca954x.c b/hw/i2c/i2c_mux_pca954x.c
+index 847c59921c..a9517b612a 100644
+--- a/hw/i2c/i2c_mux_pca954x.c
++++ b/hw/i2c/i2c_mux_pca954x.c
+@@ -30,24 +30,6 @@
+ #define PCA9548_CHANNEL_COUNT 8
+ #define PCA9546_CHANNEL_COUNT 4
+=20
+-/*
+- * struct Pca954xChannel - The i2c mux device will have N of these states
+- * that own the i2c channel bus.
+- * @bus: The owned channel bus.
+- * @enabled: Is this channel active?
+- */
+-typedef struct Pca954xChannel {
+-    SysBusDevice parent;
+-
+-    I2CBus       *bus;
+-
+-    bool         enabled;
+-} Pca954xChannel;
+-
+-#define TYPE_PCA954X_CHANNEL "pca954x-channel"
+-#define PCA954X_CHANNEL(obj) \
+-    OBJECT_CHECK(Pca954xChannel, (obj), TYPE_PCA954X_CHANNEL)
+-
+ /*
+  * struct Pca954xState - The pca954x state object.
+  * @control: The value written to the mux control.
+@@ -59,8 +41,8 @@ typedef struct Pca954xState {
+=20
+     uint8_t control;
+=20
+-    /* The channel i2c buses. */
+-    Pca954xChannel channel[PCA9548_CHANNEL_COUNT];
++    bool enabled[PCA9548_CHANNEL_COUNT];
++    I2CBus *bus[PCA9548_CHANNEL_COUNT];
+ } Pca954xState;
+=20
+ /*
+@@ -98,11 +80,11 @@ static bool pca954x_match(I2CSlave *candidate, uint8_t =
+address,
+     }
+=20
+     for (i =3D 0; i < mc->nchans; i++) {
+-        if (!mux->channel[i].enabled) {
++        if (!mux->enabled[i]) {
+             continue;
+         }
+=20
+-        if (i2c_scan_bus(mux->channel[i].bus, address, broadcast,
++        if (i2c_scan_bus(mux->bus[i], address, broadcast,
+                          current_devs)) {
+             if (!broadcast) {
+                 return true;
+@@ -125,9 +107,9 @@ static void pca954x_enable_channel(Pca954xState *s, uin=
+t8_t enable_mask)
+      */
+     for (i =3D 0; i < mc->nchans; i++) {
+         if (enable_mask & (1 << i)) {
+-            s->channel[i].enabled =3D true;
++            s->enabled[i] =3D true;
+         } else {
+-            s->channel[i].enabled =3D false;
++            s->enabled[i] =3D false;
+         }
+     }
+ }
+@@ -184,23 +166,7 @@ I2CBus *pca954x_i2c_get_bus(I2CSlave *mux, uint8_t cha=
+nnel)
+     Pca954xState *pca954x =3D PCA954X(mux);
+=20
+     g_assert(channel < pc->nchans);
+-    return I2C_BUS(qdev_get_child_bus(DEVICE(&pca954x->channel[channel]),
+-                                      "i2c-bus"));
+-}
+-
+-static void pca954x_channel_init(Object *obj)
+-{
+-    Pca954xChannel *s =3D PCA954X_CHANNEL(obj);
+-    s->bus =3D i2c_init_bus(DEVICE(s), "i2c-bus");
+-
+-    /* Start all channels as disabled. */
+-    s->enabled =3D false;
+-}
+-
+-static void pca954x_channel_class_init(ObjectClass *klass, void *data)
+-{
+-    DeviceClass *dc =3D DEVICE_CLASS(klass);
+-    dc->desc =3D "Pca954x Channel";
++    return pca954x->bus[channel];
+ }
+=20
+ static void pca9546_class_init(ObjectClass *klass, void *data)
+@@ -215,28 +181,19 @@ static void pca9548_class_init(ObjectClass *klass, vo=
+id *data)
+     s->nchans =3D PCA9548_CHANNEL_COUNT;
+ }
+=20
+-static void pca954x_realize(DeviceState *dev, Error **errp)
+-{
+-    Pca954xState *s =3D PCA954X(dev);
+-    Pca954xClass *c =3D PCA954X_GET_CLASS(s);
+-    int i;
+-
+-    /* SMBus modules. Cannot fail. */
+-    for (i =3D 0; i < c->nchans; i++) {
+-        sysbus_realize(SYS_BUS_DEVICE(&s->channel[i]), &error_abort);
+-    }
+-}
+-
+ static void pca954x_init(Object *obj)
+ {
+     Pca954xState *s =3D PCA954X(obj);
+     Pca954xClass *c =3D PCA954X_GET_CLASS(obj);
+     int i;
+=20
+-    /* Only initialize the children we expect. */
++    /* SMBus modules. Cannot fail. */
+     for (i =3D 0; i < c->nchans; i++) {
+-        object_initialize_child(obj, "channel[*]", &s->channel[i],
+-                                TYPE_PCA954X_CHANNEL);
++        g_autofree gchar *bus_name =3D g_strdup_printf("i2c.%d", i);
++
++        /* start all channels as disabled. */
++        s->enabled[i] =3D false;
++        s->bus[i] =3D i2c_init_bus(DEVICE(s), bus_name);
+     }
+ }
+=20
+@@ -252,7 +209,6 @@ static void pca954x_class_init(ObjectClass *klass, void=
+ *data)
+     rc->phases.enter =3D pca954x_enter_reset;
+=20
+     dc->desc =3D "Pca954x i2c-mux";
+-    dc->realize =3D pca954x_realize;
+=20
+     k->write_data =3D pca954x_write_data;
+     k->receive_byte =3D pca954x_read_byte;
+@@ -278,13 +234,6 @@ static const TypeInfo pca954x_info[] =3D {
+         .parent        =3D TYPE_PCA954X,
+         .class_init    =3D pca9548_class_init,
+     },
+-    {
+-        .name =3D TYPE_PCA954X_CHANNEL,
+-        .parent =3D TYPE_SYS_BUS_DEVICE,
+-        .class_init =3D pca954x_channel_class_init,
+-        .instance_size =3D sizeof(Pca954xChannel),
+-        .instance_init =3D pca954x_channel_init,
+-    }
+ };
+=20
+ DEFINE_TYPES(pca954x_info)
+--=20
+2.35.0.rc2.247.g8bbb082509-goog
 
-I'll have v2 out shortly.
-
-thanks,
-Patrick
-
---000000000000b7450805d70baebe
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Wed, Feb 2, 2022 at 8:34 AM Patric=
-k Venture &lt;<a href=3D"mailto:venture@google.com">venture@google.com</a>&=
-gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0=
-px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><div =
-dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote"><div =
-dir=3D"ltr" class=3D"gmail_attr">On Tue, Feb 1, 2022 at 12:54 PM Patrick Ve=
-nture &lt;<a href=3D"mailto:venture@google.com" target=3D"_blank">venture@g=
-oogle.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=
-=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding=
--left:1ex"><div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gm=
-ail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Tue, Feb 1, 2022 at 11:=
-02 AM Philippe Mathieu-Daud=C3=A9 &lt;<a href=3D"mailto:f4bug@amsat.org" ta=
-rget=3D"_blank">f4bug@amsat.org</a>&gt; wrote:<br></div><blockquote class=
-=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rg=
-b(204,204,204);padding-left:1ex">On 1/2/22 17:30, Patrick Venture wrote:<br=
->
-&gt; Previously this device created N subdevices which each owned an i2c bu=
-s.<br>
-&gt; Now this device simply owns the N i2c busses directly.<br>
-&gt; <br>
-&gt; Tested: Verified devices behind mux are still accessible via qmp and i=
-2c<br>
-&gt; from within an arm32 SoC.<br>
-&gt; <br>
-&gt; Reviewed-by: Hao Wu &lt;<a href=3D"mailto:wuhaotsh@google.com" target=
-=3D"_blank">wuhaotsh@google.com</a>&gt;<br>
-&gt; Signed-off-by: Patrick Venture &lt;<a href=3D"mailto:venture@google.co=
-m" target=3D"_blank">venture@google.com</a>&gt;<br>
-&gt; ---<br>
-&gt;=C2=A0 =C2=A0hw/i2c/i2c_mux_pca954x.c | 75 ++++++----------------------=
-------------<br>
-&gt;=C2=A0 =C2=A01 file changed, 11 insertions(+), 64 deletions(-)<br>
-<br>
-&gt;=C2=A0 =C2=A0static void pca954x_init(Object *obj)<br>
-&gt;=C2=A0 =C2=A0{<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0Pca954xState *s =3D PCA954X(obj);<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0Pca954xClass *c =3D PCA954X_GET_CLASS(obj);<=
-br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0int i;<br>
-&gt;=C2=A0 =C2=A0<br>
-&gt; -=C2=A0 =C2=A0 /* Only initialize the children we expect. */<br>
-&gt; +=C2=A0 =C2=A0 /* SMBus modules. Cannot fail. */<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0for (i =3D 0; i &lt; c-&gt;nchans; i++) {<br=
->
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 object_initialize_child(obj, &quot;channe=
-l[*]&quot;, &amp;s-&gt;channel[i],<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 TYPE_PCA954X_CHANNEL);<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 /* start all channels as disabled. */<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 s-&gt;enabled[i] =3D false;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 s-&gt;bus[i] =3D i2c_init_bus(DEVICE(s), =
-&quot;channel[*]&quot;);<br>
-<br>
-This is not a QOM property, so you need to initialize manually:<br></blockq=
-uote><div><br></div><div>that was my suspicion but this is the output I&#39=
-;m seeing:<br><br></div><div>{&#39;execute&#39;: &#39;qom-list&#39;, &#39;a=
-rguments&#39;: { &#39;path&#39;: &#39;/machine/soc/smbus[0]/i2c-bus/child[0=
-]&#39; }}<br><br>{&quot;return&quot;: [<br>{&quot;name&quot;: &quot;type&qu=
-ot;, &quot;type&quot;: &quot;string&quot;},<br>{&quot;name&quot;: &quot;par=
-ent_bus&quot;, &quot;type&quot;: &quot;link&lt;bus&gt;&quot;},<br>{&quot;na=
-me&quot;: &quot;realized&quot;, &quot;type&quot;: &quot;bool&quot;},<br>{&q=
-uot;name&quot;: &quot;hotplugged&quot;, &quot;type&quot;: &quot;bool&quot;}=
-,<br>{&quot;name&quot;: &quot;hotpluggable&quot;, &quot;type&quot;: &quot;b=
-ool&quot;},<br>{&quot;name&quot;: &quot;address&quot;, &quot;type&quot;: &q=
-uot;uint8&quot;},<br>{&quot;name&quot;: &quot;channel[3]&quot;, &quot;type&=
-quot;: &quot;child&lt;i2c-bus&gt;&quot;},<br>{&quot;name&quot;: &quot;chann=
-el[0]&quot;, &quot;type&quot;: &quot;child&lt;i2c-bus&gt;&quot;},<br>{&quot=
-;name&quot;: &quot;channel[1]&quot;, &quot;type&quot;: &quot;child&lt;i2c-b=
-us&gt;&quot;},<br>{&quot;name&quot;: &quot;channel[2]&quot;, &quot;type&quo=
-t;: &quot;child&lt;i2c-bus&gt;&quot;}<br>]}<br></div><div><br></div><div>It=
- seems to be naming them via the order they&#39;re created.</div><div><br><=
-/div><div>Is this not behaving how you expect?</div></div></div></blockquot=
-e><div><br></div><div>Philippe,<br></div><div><br>I0202 08:29:45.380384 =C2=
-=A06641 stream.go:31] qemu: child buses at &quot;pca9546&quot;: &quot;chann=
-el[*]&quot;, &quot;channel[*]&quot;, &quot;channel[*]&quot;, &quot;channel[=
-*]&quot;<br><br>Ok, so that&#39;s interesting.=C2=A0 In one system (using q=
-om-list) it&#39;s correct, but then when using it to do path assignment (qd=
-ev-monitor), it fails...</div><div><br></div><div>I&#39;m not as fond of th=
-e name i2c-bus.%d, since they&#39;re referred to as channels in the datashe=
-et.=C2=A0 If I do the manual name creation, can I keep the name channel or =
-should I pivot over?</div><div><br></div><div>Thanks<br><br></div><blockquo=
-te class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px =
-solid rgb(204,204,204);padding-left:1ex"><div dir=3D"ltr"><div class=3D"gma=
-il_quote"><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margi=
-n:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex=
-">
-<br>
--- &gt;8 --<br>
-diff --git a/hw/i2c/i2c_mux_pca954x.c b/hw/i2c/i2c_mux_pca954x.c<br>
-index f9ce633b3a..a9517b612a 100644<br>
---- a/hw/i2c/i2c_mux_pca954x.c<br>
-+++ b/hw/i2c/i2c_mux_pca954x.c<br>
-@@ -189,9 +189,11 @@ static void pca954x_init(Object *obj)<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0 /* SMBus modules. Cannot fail. */<br>
-=C2=A0 =C2=A0 =C2=A0 for (i =3D 0; i &lt; c-&gt;nchans; i++) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 g_autofree gchar *bus_name =3D g_strdup_printf=
-(&quot;i2c.%d&quot;, i);<br>
-+<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 /* start all channels as disabled. */<br=
->
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 s-&gt;enabled[i] =3D false;<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 s-&gt;bus[i] =3D i2c_init_bus(DEVICE(s), &quot=
-;channel[*]&quot;);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 s-&gt;bus[i] =3D i2c_init_bus(DEVICE(s), bus_n=
-ame);<br>
-=C2=A0 =C2=A0 =C2=A0 }<br>
-=C2=A0 }<br>
-<br>
----<br>
-<br>
-(look at HMP &#39;info qtree&#39; output).<br>
-<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
-&gt;=C2=A0 =C2=A0}<br>
-<br>
-With the change:<br>
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 &lt;<a href=3D"mailto:f4bug@amsat.=
-org" target=3D"_blank">f4bug@amsat.org</a>&gt;<br>
-Tested-by: Philippe Mathieu-Daud=C3=A9 &lt;<a href=3D"mailto:f4bug@amsat.or=
-g" target=3D"_blank">f4bug@amsat.org</a>&gt;<br></blockquote></div></div></=
-blockquote></div></div></blockquote><div><br></div><div>Just saw your reply=
-, and found a bunch of other non-spam in my spam folder.=C2=A0 I sent the m=
-essage to the anti-spam team, hopefully that&#39;ll resolve this for myself=
- and presumably others.</div><div><br></div><div>I definitely see the same =
-result with the qdev-monitor, but was really surprised that the qom-list wo=
-rked.=C2=A0 I&#39;ll explicitly set the name, and i2c.%d is fine.=C2=A0 The=
- detail that they&#39;re channels is not really important to the end user p=
-resumably.</div><div><br></div><div>I&#39;ll have v2 out shortly.</div><div=
-><br></div><div>thanks,</div><div>Patrick=C2=A0</div></div></div>
-
---000000000000b7450805d70baebe--
 
