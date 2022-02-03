@@ -2,64 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63E304A8332
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Feb 2022 12:33:34 +0100 (CET)
-Received: from localhost ([::1]:47922 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 500554A833A
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Feb 2022 12:33:50 +0100 (CET)
+Received: from localhost ([::1]:48212 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nFaMm-000749-5p
-	for lists+qemu-devel@lfdr.de; Thu, 03 Feb 2022 06:33:32 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:45632)
+	id 1nFaN3-0007FT-2o
+	for lists+qemu-devel@lfdr.de; Thu, 03 Feb 2022 06:33:49 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:45732)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nFaKt-0005l4-BL
- for qemu-devel@nongnu.org; Thu, 03 Feb 2022 06:31:35 -0500
-Received: from [2a00:1450:4864:20::435] (port=36771
+ (Exim 4.90_1) (envelope-from <peter.griffin@linaro.org>)
+ id 1nFaLH-0005qa-Q1
+ for qemu-devel@nongnu.org; Thu, 03 Feb 2022 06:31:59 -0500
+Received: from [2a00:1450:4864:20::435] (port=42719
  helo=mail-wr1-x435.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nFaKq-0007kc-Bc
- for qemu-devel@nongnu.org; Thu, 03 Feb 2022 06:31:34 -0500
-Received: by mail-wr1-x435.google.com with SMTP id u15so4451361wrt.3
- for <qemu-devel@nongnu.org>; Thu, 03 Feb 2022 03:31:31 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <peter.griffin@linaro.org>)
+ id 1nFaLF-0007lq-6C
+ for qemu-devel@nongnu.org; Thu, 03 Feb 2022 06:31:58 -0500
+Received: by mail-wr1-x435.google.com with SMTP id a13so4397646wrh.9
+ for <qemu-devel@nongnu.org>; Thu, 03 Feb 2022 03:31:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=5vY/OfNeXV6qkYQ0GOjDYDny9N+iKJUzGJsq6bSnxpg=;
- b=I5lrvhA6jqNWrDG1Kd4iefGdV+26dl36e5MpFYv+tzkr3RDcY79r7+WqhWIGbe3RK1
- +6sX+8rKW6oHJwL+CwkyVfXsVPiPqDH3g57KkZ0QmtPKBVy40G819Qaiq47cZmDsHz3T
- lMGSd7Y9Q3rJaYu5w0XW+5hQUksW2uhT4G+4Byf404IaFZ4Im+QumAGK9vqIBzpWf6jC
- v302wf+7qUYb/9JUIJpnyIDraagXZP8/hoOrVviMdQpEg2Db6F0LQGbDU/cr83hsZxyu
- 9AFosjI3SzFdy44uUXij44ruGoFOUftU1lfdloGQ6mA+aBswA9YU6WwIb6ExSMTTgWLV
- 0eqw==
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to;
+ bh=tANGkzr4PwooRPxppQ9gCT4LumGon7ZLSxe0z1IwpgE=;
+ b=eiE88RTQQBQOjFrPj91bktgBki972kbRKzLlARlGtFC0QAbWtpIUPhpGI9O1+ehvAK
+ yXKuEZnU6O4nbB+yRhUllFCRX2TRYe77iLoZ6Cex9apO5pWhJdt0szpxOuiBZw+TiABy
+ /kSKoZNyMKUxltJjLy5E27nPpBRRnBWDfNsXo37if5Z8tRd8j+PwopQbHMfBVfaK8BPa
+ T7cpTlzv+pyY5TKI0jJD+mFbLDfw4CKo2VRPS68jZ5rA9igpzdu5RR2R4rs3r/9ex3Uw
+ rMpaDbCnGPmzEwwBfj3hkWGTlBIGh4nfsbWha8Mj9KreFRt9RPwgsBJmo8eQ5fM2PLgO
+ jhTA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=5vY/OfNeXV6qkYQ0GOjDYDny9N+iKJUzGJsq6bSnxpg=;
- b=vEuLnqfGOkdZCgzQamm+HGmr2Ay3GzHJTgAz0nYgI8Dbp4M1bCfeU0gR7/1wah4JlK
- +dzuRn7Q0wC7KTe/9T/5T5eHI5usqFEXBoqeoLeX+Jx+k6JHAFBF4zKdGwgv5soHfFu1
- G/4JwLdLVg+7Pkfl4jrgEJiRqRC4YGfEahb+0af6bRIC3s8qkxBX5ATYold9SkIuRrP2
- /FOgJWP79DxDmBMaytFtZyk6mAAL1X1erbTVGknpbFe7rclIOotl0TJuS+UeCZ7hFgZX
- DsGPzu9FCSTXYqwO3sH0Ith28agVfURQI5feQ9l333k6t16nx/40T//GndXtai1ckboX
- iY2Q==
-X-Gm-Message-State: AOAM531zk/uvVqEhO27AgaZrdxaep/rCoEszkmODdMZ2f7Gho6ScV+sO
- 5efJOtDblyOogpEwYrmKE9UhRjI6aQNrvpVnv1RIQg==
-X-Google-Smtp-Source: ABdhPJyMC81GbsrXYsf4PwyaVNTyRWso3Eoq8VCj2AVvGVzg1PApiCms4WCP6gLJZblQPiTZ3D2eR+3s/rAu/WKvSkU=
-X-Received: by 2002:a5d:5343:: with SMTP id t3mr29734851wrv.521.1643887890565; 
- Thu, 03 Feb 2022 03:31:30 -0800 (PST)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=tANGkzr4PwooRPxppQ9gCT4LumGon7ZLSxe0z1IwpgE=;
+ b=bZwQy+ZVR4cnJdh9q83d9eH1pxazcTRdFu9H4CJNMrwmDBQZXVpAxGRGGjIUzYOXFC
+ Li8RsOc8cCqSB9kxIUtKax+KapabEcpVuMmSMsiHz5vNarI4mycY95niW5BDANSmlOuq
+ VFpTHedJ0JSOHRnaDFWrLK+kzGufOCLzkqbFkA+JXaF/WYhorj0gXeu444dOX/g0syGu
+ Bw1z42XHcaua/iFHB9P/KjyhfWFL4RofE4wvu5d0Hz9S3yTMyKACK9y+v3MpOJYOUhZX
+ on/iBytX2eI7r0HmhEg6VK4/q59eh2LnR7HZg5ZH638DFWCzuuvqzJQUXb8MbMIDpO2u
+ kqNw==
+X-Gm-Message-State: AOAM532BGmQ90S3nRpV+SaHlBdGE2UtFSjGhdDFpJlH1IxavLxGggTw2
+ ww4SahzJhELTwIv0XP//ZXIBI//c4BWr+g==
+X-Google-Smtp-Source: ABdhPJxNHPCJPcd32dd4pL2Mz8AzzXnkkyj9FyzOAIKZ+ZDYYA/B3Px8ifequ3M/G58p3Bwxh6AxzA==
+X-Received: by 2002:a5d:550f:: with SMTP id b15mr18659988wrv.384.1643887905490; 
+ Thu, 03 Feb 2022 03:31:45 -0800 (PST)
+Received: from xps15-9570.lan ([85.210.223.90])
+ by smtp.gmail.com with ESMTPSA id z6sm6848973wmf.37.2022.02.03.03.31.44
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 03 Feb 2022 03:31:45 -0800 (PST)
+Date: Thu, 3 Feb 2022 11:31:43 +0000
+From: Peter Griffin <peter.griffin@linaro.org>
+To: Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>
+Subject: Re: [PATCH 4/8] vhost-user-video: add meson subdir build logic
+Message-ID: <20220203113143.GC371411@xps15-9570.lan>
+References: <20211209145601.331477-1-peter.griffin@linaro.org>
+ <20211209145601.331477-5-peter.griffin@linaro.org>
+ <87sftub6o7.fsf@linaro.org>
 MIME-Version: 1.0
-References: <20220127063428.30212-1-richard.henderson@linaro.org>
-In-Reply-To: <20220127063428.30212-1-richard.henderson@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 3 Feb 2022 11:31:19 +0000
-Message-ID: <CAFEAcA9QNd+Jjprkxrt9rzX3QnP_CmnTURevT27uykjKdW=VxQ@mail.gmail.com>
-Subject: Re: [PATCH 0/4] target/arm: SVE fixes versus VHE
-To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <87sftub6o7.fsf@linaro.org>
 X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::435
  (failed)
 Received-SPF: pass client-ip=2a00:1450:4864:20::435;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x435.google.com
+ envelope-from=peter.griffin@linaro.org; helo=mail-wr1-x435.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -80,22 +90,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: yuzenghui@huawei.com, qemu-devel@nongnu.org
+Cc: marcandre.lureau@redhat.com, stratos-dev@op-lists.linaro.org,
+ qemu-devel@nongnu.org, mst@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 27 Jan 2022 at 06:34, Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> Fix two problems described in
->
-> https://lore.kernel.org/qemu-devel/6cdfd5de-2465-adca-73b3-9c66945cf18a@huawei.com/
->
-> with some other minor code cleanup.
+Hi Alex,
+
+Thanks for reviewing.
+
+On Tue, 11 Jan 2022, Alex Bennée wrote:
+
+> 
+> Peter Griffin <peter.griffin@linaro.org> writes:
+> 
+> > Signed-off-by: Peter Griffin <peter.griffin@linaro.org>
+> > ---
+> >  tools/meson.build | 9 +++++++++
+> >  1 file changed, 9 insertions(+)
+> >
+> > diff --git a/tools/meson.build b/tools/meson.build
+> > index 3e5a0abfa2..3314b5efc5 100644
+> > --- a/tools/meson.build
+> > +++ b/tools/meson.build
+> > @@ -24,3 +24,12 @@ endif
+> >  if have_virtiofsd
+> >    subdir('virtiofsd')
+> >  endif
+> > +
+> > +have_virtiovideo = (have_system and
+> > +    have_tools and
+> > +    'CONFIG_LINUX' in config_host)
+> 
+> Following the convention of cece116c939d219070b250338439c2d16f94e3da
+> 
+>   have_virtiovideo = (targetos == 'linux' and
+>       have_tools and
+>       'CONFIG_VHOST_USER' in config_host)
 >
 
+Will fix in v2
 
-Applied to target-arm.next, thanks.
+regards,
 
--- PMM
+Peter.
+
+> > +
+> > +if have_virtiovideo
+> > +  subdir('vhost-user-video')
+> > +endif
+> > +
+> 
+> 
+> -- 
+> Alex Bennée
 
