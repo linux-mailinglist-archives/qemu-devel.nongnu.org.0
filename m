@@ -2,73 +2,97 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2EA9B4A90BB
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Feb 2022 23:39:00 +0100 (CET)
-Received: from localhost ([::1]:46398 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E0974A90D0
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Feb 2022 23:47:41 +0100 (CET)
+Received: from localhost ([::1]:55588 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nFkkk-0005KD-A6
-	for lists+qemu-devel@lfdr.de; Thu, 03 Feb 2022 17:38:59 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:46654)
+	id 1nFktA-0003iL-AB
+	for lists+qemu-devel@lfdr.de; Thu, 03 Feb 2022 17:47:40 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:48060)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1nFkiG-0003UO-Lr
- for qemu-devel@nongnu.org; Thu, 03 Feb 2022 17:36:25 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:34333)
+ (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
+ id 1nFkon-0000aH-Ib; Thu, 03 Feb 2022 17:43:09 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:2652
+ helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1nFkiD-0001ae-1I
- for qemu-devel@nongnu.org; Thu, 03 Feb 2022 17:36:24 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1643927780;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=uoj3yMkT44z5dY36re4s/ng5u7FIo7QcLx+TkeGYECY=;
- b=CqcaqC/rnfy9w68EXfLdN3ALtixQY6K5Hl+Up36D7IhV8L9lMJESYQaHxmyNDBSuHCLpt2
- S9cp4SfbI+sjbqhzt0RlzBNQqwFVpPtItRF/RgFDEd8qrLqtuANWfzCSPK/SasEniV6gz9
- ULGZlbzgYpHAu02Ud1UEIDAg8QWufwI=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-589-4uifx_moP4qEi5EUG6wsMw-1; Thu, 03 Feb 2022 17:36:19 -0500
-X-MC-Unique: 4uifx_moP4qEi5EUG6wsMw-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2EEAC1091DA6;
- Thu,  3 Feb 2022 22:36:18 +0000 (UTC)
-Received: from [172.30.41.16] (unknown [10.2.16.230])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 82C1412E00;
- Thu,  3 Feb 2022 22:36:17 +0000 (UTC)
-Subject: [PULL 2/2] hw/vfio/common: Silence ram device offset alignment error
- traces
-From: Alex Williamson <alex.williamson@redhat.com>
+ (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
+ id 1nFkol-0004TJ-86; Thu, 03 Feb 2022 17:43:09 -0500
+Received: from pps.filterd (m0098414.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 213MYfnb023191; 
+ Thu, 3 Feb 2022 22:42:54 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=from : to : cc : subject
+ : date : message-id : mime-version : content-transfer-encoding; s=pp1;
+ bh=Gzd2gTttFMD3hKytD1Ugt1BVq+DiGyZVQ5QRdjDfyQk=;
+ b=hhjhJWHwQ1JTuYGmZDaxyu3vFelGJ7K78Q73h22wdyzuyefiZiMfCk4tzYcMrUkopwa+
+ 9ZBObDfjh42PsO8+cGx2yqH5useS/aQF5cl8WRundDJkq9SZZe/LvFTcmqLCqpFhMaov
+ xOsBDEJE6CDSE5fUO8lpBS1mIF9vEa8GDRETQ8aBk2NRR8asZMIz0agnofnEH58rHQhl
+ Y9jlGK37y2+uxtGAz0bgz8ghQ9EiaaWmXnTiZv+6sVfTVIf1mAgwycWI0CtT7E7MiV+p
+ yhh8Pz62yh2MFCl3zOVTKbQk+wZ51xm6/bk1mOUphPQtoorozzeA7cE6C1WowKF0agxQ 4w== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 3e0qyb847r-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 03 Feb 2022 22:42:54 +0000
+Received: from m0098414.ppops.net (m0098414.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 213MZU5m025627;
+ Thu, 3 Feb 2022 22:42:54 GMT
+Received: from ppma02wdc.us.ibm.com (aa.5b.37a9.ip4.static.sl-reverse.com
+ [169.55.91.170])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 3e0qyb847n-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 03 Feb 2022 22:42:54 +0000
+Received: from pps.filterd (ppma02wdc.us.ibm.com [127.0.0.1])
+ by ppma02wdc.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 213MgYKX011964;
+ Thu, 3 Feb 2022 22:42:53 GMT
+Received: from b03cxnp08027.gho.boulder.ibm.com
+ (b03cxnp08027.gho.boulder.ibm.com [9.17.130.19])
+ by ppma02wdc.us.ibm.com with ESMTP id 3e0r0jr2m1-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 03 Feb 2022 22:42:53 +0000
+Received: from b03ledav005.gho.boulder.ibm.com
+ (b03ledav005.gho.boulder.ibm.com [9.17.130.236])
+ by b03cxnp08027.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 213Mgqhp14549260
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 3 Feb 2022 22:42:52 GMT
+Received: from b03ledav005.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id BA3D5BE056;
+ Thu,  3 Feb 2022 22:42:52 +0000 (GMT)
+Received: from b03ledav005.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 1DED1BE04F;
+ Thu,  3 Feb 2022 22:42:51 +0000 (GMT)
+Received: from farosas.linux.ibm.com.com (unknown [9.211.67.28])
+ by b03ledav005.gho.boulder.ibm.com (Postfix) with ESMTP;
+ Thu,  3 Feb 2022 22:42:50 +0000 (GMT)
+From: Fabiano Rosas <farosas@linux.ibm.com>
 To: qemu-devel@nongnu.org
-Date: Thu, 03 Feb 2022 15:36:17 -0700
-Message-ID: <164392775914.1683127.7317712931347879063.stgit@omen>
-In-Reply-To: <164392758602.1683127.4327439310436541025.stgit@omen>
-References: <164392758602.1683127.4327439310436541025.stgit@omen>
-User-Agent: StGit/1.0-8-g6af9-dirty
+Subject: [PATCH 00/10] target/ppc: powerpc_excp improvements [7xx] (8/n)
+Date: Thu,  3 Feb 2022 19:42:36 -0300
+Message-Id: <20220203224246.1446652-1-farosas@linux.ibm.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=alex.williamson@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124;
- envelope-from=alex.williamson@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: uTZJLX8p_FeZh5IMEN0oGuRsWMLVZEHd
+X-Proofpoint-GUID: fGvjJuhTOQW0mmbDAqhjmMen09pyz-Bh
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.816,Hydra:6.0.425,FMLib:17.11.62.513
+ definitions=2022-02-03_07,2022-02-03_01,2021-12-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0 mlxscore=0
+ bulkscore=0 suspectscore=0 clxscore=1015 lowpriorityscore=0 spamscore=0
+ phishscore=0 mlxlogscore=442 adultscore=0 malwarescore=0
+ priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2201110000 definitions=main-2202030135
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=farosas@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.086,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H5=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -82,70 +106,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eric Auger <eric.auger@redhat.com>,
- =?utf-8?q?Philippe_Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Stefan Berger <stefanb@linux.ibm.com>
+Cc: danielhb413@gmail.com, qemu-ppc@nongnu.org, clg@kaod.org,
+ david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Eric Auger <eric.auger@redhat.com>
+This series handles the 7xx family: 740, 745, 750, 750cl, 750cx,
+750fx, 750gx and 755.
 
-Failing to DMA MAP a ram_device should not cause an error message.
-This is currently happening with the TPM CRB command region and
-this is causing confusion.
+Fabiano Rosas (10):
+  target/ppc: Merge 7x5 and 7x0 exception model IDs
+  target/ppc: Introduce powerpc_excp_7xx
+  target/ppc: Simplify powerpc_excp_7xx
+  target/ppc: 7xx: Machine Check exception cleanup
+  target/ppc: 7xx: External interrupt cleanup
+  target/ppc: 7xx: Program exception cleanup
+  target/ppc: 7xx: System Call exception cleanup
+  target/ppc: 7xx: System Reset cleanup
+  target/ppc: 7xx: Software TLB cleanup
+  target/ppc: 7xx: Set SRRs directly in exception code
 
-We may want to keep the trace for debug purpose though.
+ target/ppc/cpu-qom.h     |   6 +-
+ target/ppc/cpu_init.c    |  16 ++--
+ target/ppc/excp_helper.c | 185 ++++++++++++++++++++++++++++++++++++++-
+ 3 files changed, 194 insertions(+), 13 deletions(-)
 
-Signed-off-by: Eric Auger <eric.auger@redhat.com>
-Tested-by: Stefan Berger <stefanb@linux.ibm.com>
-Acked-by: Alex Williamson <alex.williamson@redhat.com>
-Acked-by: Stefan Berger <stefanb@linux.ibm.com>
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Link: https://lore.kernel.org/r/20220120001242.230082-3-f4bug@amsat.org
-Signed-off-by: Alex Williamson <alex.williamson@redhat.com>
----
- hw/vfio/common.c     |   15 ++++++++++++++-
- hw/vfio/trace-events |    1 +
- 2 files changed, 15 insertions(+), 1 deletion(-)
-
-diff --git a/hw/vfio/common.c b/hw/vfio/common.c
-index 080046e3f511..9caa560b0788 100644
---- a/hw/vfio/common.c
-+++ b/hw/vfio/common.c
-@@ -884,7 +884,20 @@ static void vfio_listener_region_add(MemoryListener *listener,
-     if (unlikely((section->offset_within_address_space &
-                   ~qemu_real_host_page_mask) !=
-                  (section->offset_within_region & ~qemu_real_host_page_mask))) {
--        error_report("%s received unaligned region", __func__);
-+        if (memory_region_is_ram_device(section->mr)) { /* just debug purpose */
-+            trace_vfio_listener_region_add_bad_offset_alignment(
-+                memory_region_name(section->mr),
-+                section->offset_within_address_space,
-+                section->offset_within_region, qemu_real_host_page_size);
-+        } else { /* error case we don't want to be fatal */
-+            error_report("%s received unaligned region %s iova=0x%"PRIx64
-+                         " offset_within_region=0x%"PRIx64
-+                         " qemu_real_host_page_mask=0x%"PRIx64,
-+                         __func__, memory_region_name(section->mr),
-+                         section->offset_within_address_space,
-+                         section->offset_within_region,
-+                         qemu_real_host_page_mask);
-+        }
-         return;
-     }
- 
-diff --git a/hw/vfio/trace-events b/hw/vfio/trace-events
-index 0ef1b5f4a65f..ccd9d7610d69 100644
---- a/hw/vfio/trace-events
-+++ b/hw/vfio/trace-events
-@@ -100,6 +100,7 @@ vfio_listener_region_add_skip(uint64_t start, uint64_t end) "SKIPPING region_add
- vfio_spapr_group_attach(int groupfd, int tablefd) "Attached groupfd %d to liobn fd %d"
- vfio_listener_region_add_iommu(uint64_t start, uint64_t end) "region_add [iommu] 0x%"PRIx64" - 0x%"PRIx64
- vfio_listener_region_add_ram(uint64_t iova_start, uint64_t iova_end, void *vaddr) "region_add [ram] 0x%"PRIx64" - 0x%"PRIx64" [%p]"
-+vfio_listener_region_add_bad_offset_alignment(const char *name, uint64_t iova, uint64_t offset_within_region, uint64_t page_size) "Region \"%s\" @0x%"PRIx64", offset_within_region=0x%"PRIx64", qemu_real_host_page_mask=0x%"PRIx64 " cannot be mapped for DMA"
- vfio_listener_region_add_no_dma_map(const char *name, uint64_t iova, uint64_t size, uint64_t page_size) "Region \"%s\" 0x%"PRIx64" size=0x%"PRIx64" is not aligned to 0x%"PRIx64" and cannot be mapped for DMA"
- vfio_listener_region_del_skip(uint64_t start, uint64_t end) "SKIPPING region_del 0x%"PRIx64" - 0x%"PRIx64
- vfio_listener_region_del(uint64_t start, uint64_t end) "region_del 0x%"PRIx64" - 0x%"PRIx64
-
+-- 
+2.34.1
 
 
