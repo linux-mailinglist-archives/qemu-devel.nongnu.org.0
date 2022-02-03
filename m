@@ -2,74 +2,100 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 530614A888E
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Feb 2022 17:29:36 +0100 (CET)
-Received: from localhost ([::1]:41558 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 771024A8892
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Feb 2022 17:30:03 +0100 (CET)
+Received: from localhost ([::1]:42430 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nFezG-0005m7-V5
-	for lists+qemu-devel@lfdr.de; Thu, 03 Feb 2022 11:29:34 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:37924)
+	id 1nFezi-0006PO-9Y
+	for lists+qemu-devel@lfdr.de; Thu, 03 Feb 2022 11:30:02 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:38370)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nFeuL-0003es-DK
- for qemu-devel@nongnu.org; Thu, 03 Feb 2022 11:24:30 -0500
-Received: from [2a00:1450:4864:20::42b] (port=34493
- helo=mail-wr1-x42b.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nFeuI-0007Ib-Vk
- for qemu-devel@nongnu.org; Thu, 03 Feb 2022 11:24:29 -0500
-Received: by mail-wr1-x42b.google.com with SMTP id f17so6098766wrx.1
- for <qemu-devel@nongnu.org>; Thu, 03 Feb 2022 08:24:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=6HZacZqdXx4u4KaRLwRyebg5A5+N6ALrTzUzWMe6iM8=;
- b=ALyY73JnTrzlfv9epO3kaWQbtgQeqTHfFXrR+kvJBDANiG12lWtLsdu9zs9NAxLJ8o
- uWVaqKwP++WBx6j2AdXfS9uK8clv1QQx6SfIFV0xI0VZqhk1bpw43CnUT/h3b4OA7MLi
- VTVXaYaY0dVHWPPLWjD25gwq07kDmbHW/aV3nIrsKiUyihgibbTmSminLqvLGrMlaG9S
- fAg4W10Ai0NslzxuP3PMbLuDZJgWvKvrVEKjr0s4F1/S7DyZY/3j9025Is5ww+cyQJRS
- VPQYk5qSj2JKt5XPsJZKANrTU63iUZpnTt6dtQg2uQa3lv69ZGq5EyCuTbjfpqF62I8N
- b52g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=6HZacZqdXx4u4KaRLwRyebg5A5+N6ALrTzUzWMe6iM8=;
- b=gcsOsk8SdsVnf5SWje8LjYXjOJbL4CZY4wIJ/x6WHO42+eiULzxYyNYevWfX5tmIv0
- kTk2lUzE3UnPMImsmsKYMYXWGeXTCQ9In4VgRHytUx7ihpVvjoXFnaBcm5/JsfCd2BDG
- Ncl2/QxvtBinuaqgm08FTAZyYPUhVqqfZgiheUh1ih9YuhcbeQHe3OE5fwwO/MZwHhNk
- 05stK9UHC/PryrtyayImFi4xn8uqFCBU3Rugo5Epgjjc1byodxxWw8gSG9lmdSVsQl3C
- 9zA0uNcb/9r5YF7llBvNTp+nQrRjA4/gawE+mWmYjYWS2GDtzF6wczYVTALxB6BAg0Jl
- xmlA==
-X-Gm-Message-State: AOAM530zzY0gVnAWWPr8Tv8NZUfaH16C5Qj6+n6sX4diROavgjxBSYDE
- McnD543OIJ/am/K1aOtz76xh/e7/IdZANI6t9s0El1t7Ph1c3Q==
-X-Google-Smtp-Source: ABdhPJzKu6nSJLm71qhIwW3riGA6atOOtW9hAUxFTdwaRy78QtiJIMhVOiV+XFyf2G4i+XaUZuHNKKJH0QU/mUdgw9Y=
-X-Received: by 2002:a05:6000:258:: with SMTP id
- m24mr30841539wrz.2.1643905464556; 
- Thu, 03 Feb 2022 08:24:24 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
+ id 1nFewC-0004ag-PB; Thu, 03 Feb 2022 11:26:26 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:51438)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
+ id 1nFewA-0007it-He; Thu, 03 Feb 2022 11:26:24 -0500
+Received: from pps.filterd (m0098393.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 213G8Cqe003412; 
+ Thu, 3 Feb 2022 16:26:10 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=from : to : cc : subject
+ : in-reply-to : references : date : message-id : mime-version :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=YvVGHuoHa196FH//jL86t4krPLWZgd0RbPN71QNAZqw=;
+ b=PlYvI3aHDBx4TxlvswdwczZjYDamUcXuQYwF+IM9ToSQNYmXC92T7QdxzJblzgNLA4KT
+ SYCplXbZjp8NyszLfs/mlgWR3hYtqBxLeKcbDDoK8bEqwC0T//0mUKhXjaIB68Xy4MSe
+ O2kKENA0/N58nh1kN09aIbC5fe7kPOG5Eh1cForvQljnjE05Dd1/S+w/gXVepzeFXAaP
+ sguBJVmxyKbrZKDbd7+bMIRqE87NYF4vHHCjCLqzZv8JXI3S3KgtUTvpMjyZdY2U/2QM
+ UFR882HVeBXsKIOtNjM5oWmPQ487smVbw/TTZpimS1FrLLuA2DQLtEskVYggeByAUd8b fA== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3dyygreptq-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 03 Feb 2022 16:26:09 +0000
+Received: from m0098393.ppops.net (m0098393.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 213GClqn019138;
+ Thu, 3 Feb 2022 16:26:09 GMT
+Received: from ppma04dal.us.ibm.com (7a.29.35a9.ip4.static.sl-reverse.com
+ [169.53.41.122])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3dyygreptb-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 03 Feb 2022 16:26:09 +0000
+Received: from pps.filterd (ppma04dal.us.ibm.com [127.0.0.1])
+ by ppma04dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 213GIsph020945;
+ Thu, 3 Feb 2022 16:26:08 GMT
+Received: from b01cxnp23034.gho.pok.ibm.com (b01cxnp23034.gho.pok.ibm.com
+ [9.57.198.29]) by ppma04dal.us.ibm.com with ESMTP id 3dvw7cqv5s-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 03 Feb 2022 16:26:08 +0000
+Received: from b01ledav006.gho.pok.ibm.com (b01ledav006.gho.pok.ibm.com
+ [9.57.199.111])
+ by b01cxnp23034.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 213GQ7UG29360586
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 3 Feb 2022 16:26:07 GMT
+Received: from b01ledav006.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 0156AAC064;
+ Thu,  3 Feb 2022 16:26:07 +0000 (GMT)
+Received: from b01ledav006.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 047E9AC060;
+ Thu,  3 Feb 2022 16:26:06 +0000 (GMT)
+Received: from localhost (unknown [9.211.67.28])
+ by b01ledav006.gho.pok.ibm.com (Postfix) with ESMTPS;
+ Thu,  3 Feb 2022 16:26:05 +0000 (GMT)
+From: Fabiano Rosas <farosas@linux.ibm.com>
+To: =?utf-8?Q?C=C3=A9dric?= Le Goater <clg@kaod.org>, qemu-ppc@nongnu.org,
+ qemu-devel@nongnu.org
+Subject: Re: [PATCH] target/ppc: Remove PowerPC 601 CPUs
+In-Reply-To: <20220203142756.1302515-1-clg@kaod.org>
+References: <20220203142756.1302515-1-clg@kaod.org>
+Date: Thu, 03 Feb 2022 13:26:03 -0300
+Message-ID: <87zgn79ask.fsf@linux.ibm.com>
 MIME-Version: 1.0
-References: <20220128101513.646792-1-pbonzini@redhat.com>
-In-Reply-To: <20220128101513.646792-1-pbonzini@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 3 Feb 2022 16:24:13 +0000
-Message-ID: <CAFEAcA_ttmvA0emS-41R5+k3w_KAbFvC30qdAShJfr7U+3q=CA@mail.gmail.com>
-Subject: Re: [PULL v2 00/14] Misc patches for 2022-01-27
-To: Paolo Bonzini <pbonzini@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42b
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42b.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: hDSuirLhUNm_JKNEv82hzlhh3-IALAlQ
+X-Proofpoint-GUID: TjVjJVFuZR5-cyk9wsgzIc_HpA8A7dNk
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.816,Hydra:6.0.425,FMLib:17.11.62.513
+ definitions=2022-02-03_05,2022-02-03_01,2021-12-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1011
+ lowpriorityscore=0 spamscore=0 malwarescore=0 suspectscore=0 bulkscore=0
+ mlxscore=0 mlxlogscore=824 adultscore=0 priorityscore=1501 impostorscore=0
+ phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2201110000 definitions=main-2202030097
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=farosas@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -9
+X-Spam_score: -1.0
 X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-1.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H5=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ TVD_SUBJ_WIPE_DEBT=1.004,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,44 +109,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: Daniel Henrique Barboza <danielhb413@gmail.com>,
+ Richard Henderson <richard.henderson@linaro.org>, Greg Kurz <groug@kaod.org>,
+ =?utf-8?Q?Her?= =?utf-8?Q?v=C3=A9?= Poussineau <hpoussin@reactos.org>,
+ =?utf-8?Q?C=C3=A9dric?= Le Goater <clg@kaod.org>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 28 Jan 2022 at 10:18, Paolo Bonzini <pbonzini@redhat.com> wrote:
->
-> The following changes since commit aeb0ae95b7f18c66158792641cb6ba0cde5789=
-ab:
->
->   Merge remote-tracking branch 'remotes/jsnow-gitlab/tags/python-pull-req=
-uest' into staging (2022-01-22 12:03:22 +0000)
->
-> are available in the Git repository at:
->
->   https://gitlab.com/bonzini/qemu.git tags/for-upstream
->
-> for you to fetch changes up to 479ca4ccd54afcd54b0163532709079233d64b97:
->
->   configure: fix parameter expansion of --cross-cc-cflags options (2022-0=
-1-28 11:13:33 +0100)
->
-> ----------------------------------------------------------------
-> * configure and meson fixes
-> * "meson test" switch for iotests
-> * deprecation of old SGX QAPI
-> * unexport InterruptStatsProviderClass-related functions
+C=C3=A9dric Le Goater <clg@kaod.org> writes:
 
-Has this switch to 'meson test' for the iotests broken the
-"V=3D1" support for 'make check'? I find that iotest failures
-now no longer print the useful information about what went wrong;
-instead you just get something like:
+> The PowerPC 601 processor is the first generation of processors to
+> implement the PowerPC architecture. It was designed as a bridge
+> processor and also could execute most of the instructions of the
+> previous POWER architecture. It was found on the first Macs and IBM
+> RS/6000 workstations.
+>
+> There is not much interest in keeping the CPU model of this
+> POWER-PowerPC bridge processor. We have the 603 and 604 CPU models of
+> the 60x family which implement the complete PowerPC instruction set.
+>
+> Cc: "Herv=C3=A9 Poussineau" <hpoussin@reactos.org>
+> Cc: Laurent Vivier <laurent@vivier.eu>
+> Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
 
-=E2=96=B6 1/1 qcow2 qsd-jobs                OK
-1/1 qemu:block / qemu-iotests qcow2 ERROR          243.14s   exit status 1
-
-which means we no longer are capturing enough information in
-build logs to be able to diagnose failures.
-
-thanks
--- PMM
+Reviewed-by: Fabiano Rosas <farosas@linux.ibm.com>
 
