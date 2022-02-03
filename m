@@ -2,77 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A3584A8C65
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Feb 2022 20:23:58 +0100 (CET)
-Received: from localhost ([::1]:50784 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EF6AC4A8C8F
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Feb 2022 20:38:24 +0100 (CET)
+Received: from localhost ([::1]:33094 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nFhi0-0001qv-HY
-	for lists+qemu-devel@lfdr.de; Thu, 03 Feb 2022 14:23:56 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:41832)
+	id 1nFhvz-0001Uh-24
+	for lists+qemu-devel@lfdr.de; Thu, 03 Feb 2022 14:38:23 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:42632)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nFgsq-0001g3-VP
- for qemu-devel@nongnu.org; Thu, 03 Feb 2022 13:31:05 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:46674)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nFgsl-0006Ou-JV
- for qemu-devel@nongnu.org; Thu, 03 Feb 2022 13:31:03 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1643913058;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=VFnwgNxSZ+kmEdyPE9Ef+WPGaNPa7BK5dd1idZLb4vo=;
- b=MSPT619dPyEpk7RSYK7UIClZWTfuNIzyZBha4B8NUU26R/RdkfVKSeWj8a7r9KTlIwvVGI
- m8ehhLae8X03yAJdSPHUPHvTbHvDCrVae3fX2yT/KtSRAXahXx3AyQ9aJGZMP2xNo6tdzn
- Zd5G1R3Tv/9MRx2/kpMJiH0qKMHvy0s=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-599-5UHEIrTPPeiOCcjBiW_-FQ-1; Thu, 03 Feb 2022 13:30:52 -0500
-X-MC-Unique: 5UHEIrTPPeiOCcjBiW_-FQ-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 47BE31124C40;
- Thu,  3 Feb 2022 18:30:51 +0000 (UTC)
-Received: from redhat.com (unknown [10.39.192.25])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 9829D753E6;
- Thu,  3 Feb 2022 18:30:49 +0000 (UTC)
-Date: Thu, 3 Feb 2022 18:30:46 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Mark Kanda <mark.kanda@oracle.com>
-Subject: Re: [PATCH v3 1/3] qmp: Support for querying stats
-Message-ID: <YfwfVtWdEovpSSAs@redhat.com>
-References: <20220131194312.1192626-1-mark.kanda@oracle.com>
- <20220131194312.1192626-2-mark.kanda@oracle.com>
- <YfkiyiK+jfrdbVcY@redhat.com>
- <b111f7a7-ab0c-8944-ec3a-9461eb0e4fb3@oracle.com>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1nFgw4-0005by-MW
+ for qemu-devel@nongnu.org; Thu, 03 Feb 2022 13:34:24 -0500
+Received: from [2607:f8b0:4864:20::62d] (port=34751
+ helo=mail-pl1-x62d.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1nFgw2-0006nP-Rv
+ for qemu-devel@nongnu.org; Thu, 03 Feb 2022 13:34:24 -0500
+Received: by mail-pl1-x62d.google.com with SMTP id h14so2915761plf.1
+ for <qemu-devel@nongnu.org>; Thu, 03 Feb 2022 10:34:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=hCl9RYKwQK5fAgFnylrYdZM6dHYfnBgAdB3yuikL1pI=;
+ b=XhJu+hSaKMtBgxp6RQ02x10JwgfbSRrJpdDz+lzalr6gYckrPDJxpY1lxg2sbHJdRh
+ uf+O23zzMixRH5iZwjR5GWFbmU3C/8p4hAtY283DOEalf30ePJA2GjP2W8SFnMQVQY2h
+ CaYwuTk5lpTDr/lgJexkWk4NuLYMXI6k57yDGmb2fu7eF68KKjjr5QDM6AHKDbQ664oz
+ V+w3bcYszlaJrtK6OQU9IYCKB/Hu0rfA9EEUfZ0n+fWfk91lUtW9hPwjUpKmqrHTpRy9
+ vOpGYMXTStWvCtRQjsUEO5YsqBlfxXLmg+wdwL9LEE6JjzUsK8KhoTI9GwiO+r8Lrb5J
+ QcNQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+ :subject:content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=hCl9RYKwQK5fAgFnylrYdZM6dHYfnBgAdB3yuikL1pI=;
+ b=RHti7U9Mx9Kjn66mh1fAxwxeiwVe9Tv8Nkj2ZW1/b9VlUHTpneDAzGCIGBViGyEcsk
+ xdkjakU41e1NyAgqRJdDW3dkokch0uhnR+eRACNyilbfJg4xLOQ1CdV08tSh4+uvX3b/
+ OKft3rlHva7RSJCqHjgON0qHrN4DU6y81SYvM64G60EgSZzxbmwmA9oVm3cO3KnRhJ/i
+ 2tJkr8gvmnt6F3S8BoPxvgNtxLnq6O5xcSgEhWCg3u/ei9XEpn/sMTG72ZDyFa8NNWvd
+ 0HOnsyViHKCi1mq0IjmOKNFx67P2yvoPkoiFGImOjIynAMvQwe4MCjk0vThPcU6fGck1
+ zSMA==
+X-Gm-Message-State: AOAM532B43zKc0s6BsMi7zL2IGk6HK9U6r4TD3HrI90q8Dx0wiHljpPu
+ ARZDGkNNhbgNnUPs4nhfM8E=
+X-Google-Smtp-Source: ABdhPJy4AH+j0S5uYtBL1wE9waaS+W9U+XYeVKCf7e7jfFofv4fo4kFQU+JjBTz2xLpMl2vNGl9SCg==
+X-Received: by 2002:a17:90a:d58b:: with SMTP id
+ v11mr15410950pju.100.1643913257402; 
+ Thu, 03 Feb 2022 10:34:17 -0800 (PST)
+Received: from [192.168.1.33] (154.red-83-50-83.dynamicip.rima-tde.net.
+ [83.50.83.154])
+ by smtp.gmail.com with ESMTPSA id ip5sm11324448pjb.13.2022.02.03.10.34.15
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 03 Feb 2022 10:34:16 -0800 (PST)
+Message-ID: <9b00f402-4262-bee7-9143-0ae60d82986f@amsat.org>
+Date: Thu, 3 Feb 2022 19:34:12 +0100
 MIME-Version: 1.0
-In-Reply-To: <b111f7a7-ab0c-8944-ec3a-9461eb0e4fb3@oracle.com>
-User-Agent: Mutt/2.1.5 (2021-12-30)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.5.1
+Subject: Re: [PATCH v1] hw/arm/xlnx-zynqmp: 'Or' the QSPI / QSPI DMA IRQs
+Content-Language: en-US
+To: Francisco Iglesias <francisco.iglesias@xilinx.com>, qemu-devel@nongnu.org
+Cc: edgar.iglesias@xilinx.com, frasse.iglesias@gmail.com,
+ alistair@alistair23.me, luc@lmichel.fr, peter.maydell@linaro.org
+References: <20220203151742.1457-1-francisco.iglesias@xilinx.com>
+In-Reply-To: <20220203151742.1457-1-francisco.iglesias@xilinx.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.086,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::62d
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62d;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pl1-x62d.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.001,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -85,45 +95,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: pbonzini@redhat.com, qemu-devel@nongnu.org, armbru@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
-On Thu, Feb 03, 2022 at 12:12:57PM -0600, Mark Kanda wrote:
-> Thanks Daniel,
+On 3/2/22 16:17, Francisco Iglesias wrote:
+> 'Or' the IRQs coming from the QSPI and QSPI DMA models. This is done for
+> avoiding the situation where one of the models incorrectly deasserts an
+> interrupt asserted from the other model (which will result in that the IRQ
+> is lost and will not reach guest SW).
 > 
-> On 2/1/2022 6:08 AM, Daniel P. Berrangé wrote:
-> > > +#
-> > > +# Since: 7.0
-> > > +##
-> > > +{ 'enum' : 'StatType',
-> > > +  'data' : [ 'cumulative', 'instant', 'peak',
-> > > +             'linear-hist', 'log-hist', 'unknown' ] }
-> > IMHO 'unknown' shouldn't exist at all.
-> > 
+> Signed-off-by: Francisco Iglesias <francisco.iglesias@xilinx.com>
+> ---
 > 
-> I added the 'unknown' member here (and in other enums) to handle situations
-> where QEMU is behind KVM in terms of enumerating the various stat types,
-> units, etc. I feel this will be a semi-common scenario (old QEMU on a new
-> kernel) and with 'unknown', QEMU can at least display the raw data.
+> Hi,
 > 
-> That said, I happy skip 'unknown' entries if you think that's better.
+> I noted this after receiving a review comment (from Peter Maydell) on a similar
+> issue on the Versal machine while working on the OSPI series.
+> 
+> Best regards,
+> Francisco Iglesias
+> 
+> 
+>   include/hw/arm/xlnx-zynqmp.h |  2 ++
+>   hw/arm/xlnx-zynqmp.c         | 14 ++++++++++++--
+>   2 files changed, 14 insertions(+), 2 deletions(-)
 
-Yep, I don't think we should be including 'unknown' stuff.
-
-An application could use this, and then we add support for the
-new type and the application will now break with new QEMU because
-it is presented in QMP in a different way.
-
-The same for the 'unknown' base and unit too for that matter.
-
-
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
-
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
