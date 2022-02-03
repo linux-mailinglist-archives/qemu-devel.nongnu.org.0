@@ -2,92 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 827E14A82D1
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Feb 2022 12:02:50 +0100 (CET)
-Received: from localhost ([::1]:34724 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5BF274A8302
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Feb 2022 12:16:47 +0100 (CET)
+Received: from localhost ([::1]:41150 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nFZt3-0004xh-ES
-	for lists+qemu-devel@lfdr.de; Thu, 03 Feb 2022 06:02:49 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:38208)
+	id 1nFa6S-0001fs-LG
+	for lists+qemu-devel@lfdr.de; Thu, 03 Feb 2022 06:16:44 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:41906)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1nFZqa-0003k2-8m
- for qemu-devel@nongnu.org; Thu, 03 Feb 2022 06:00:19 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:34002)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1nFZqM-00076d-SV
- for qemu-devel@nongnu.org; Thu, 03 Feb 2022 06:00:14 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1643885999;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=x0TIqe/cGRzEX4Izfvzgine/IdnHCG3xMi6YcFdp9gE=;
- b=X91rFxpgDMel/6teiuNMRQIs5yUcprtacnJXcEROVYOiHQyltGZf+rklFL1xhsni/Q2FKo
- lNB8MA0DGfS0QG8MnF6UYoRcPK8tHDw4WniM5Fd2/RXXrPxFwwbDwpU46sjsMaG1+od1bA
- hmg6jJpN6Uk1lIvb4DeG8fW25GIm35E=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-444-W9Sm2U2_McSXq6INJTRiTQ-1; Thu, 03 Feb 2022 05:59:58 -0500
-X-MC-Unique: W9Sm2U2_McSXq6INJTRiTQ-1
-Received: by mail-wr1-f69.google.com with SMTP id
- z1-20020adfbbc1000000b001df54394cebso514819wrg.20
- for <qemu-devel@nongnu.org>; Thu, 03 Feb 2022 02:59:57 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <peter.griffin@linaro.org>)
+ id 1nFa4S-0000oB-PX
+ for qemu-devel@nongnu.org; Thu, 03 Feb 2022 06:14:36 -0500
+Received: from [2a00:1450:4864:20::42d] (port=40452
+ helo=mail-wr1-x42d.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.griffin@linaro.org>)
+ id 1nFa4Q-0004n7-SR
+ for qemu-devel@nongnu.org; Thu, 03 Feb 2022 06:14:36 -0500
+Received: by mail-wr1-x42d.google.com with SMTP id s18so4325451wrv.7
+ for <qemu-devel@nongnu.org>; Thu, 03 Feb 2022 03:14:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to;
+ bh=mEUUJiO5+uMjULtZJtqhGga9ZLEanrPmRGzNOqiELKk=;
+ b=hIpKnUJRial9C+by2RZ80mfKNhiJ1equBFzR2bCaOTwhzjGYEYehJ+CnHPCWsQJVZ/
+ +gf7jpiWj9DSLp3n2SjQJGDBnUsbhbW+eBQmyv6zErseblf3WdNoK6+1DV65xFjEpvVa
+ VrfgQqnaYKvuzVnZ4CzqCh2rQUDwpRXu5NcR68BeslJrSEFck/LXEYBne1P3qHJ8RsEf
+ htjmVaHYd9J5vD0jCEojClR/Hu816byJiF614/g36xkmOX1C26PplsMAhCX3Nu2vsLMl
+ +9M8b8mPIPkdspsN/7qk50onvcM5O/Sh+64kVi5SxNlSdPGA9EdMdYpTgGy+WtLd29Sf
+ 9glA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to:user-agent;
- bh=x0TIqe/cGRzEX4Izfvzgine/IdnHCG3xMi6YcFdp9gE=;
- b=wtBHXmk6PF5qBIxz5k/iqLmfueEScbEXZG2rWXs3PoVjrI+6JX/q4O8tutUueHSEr3
- U4ipmT+EyyNE7S4MHcN8nMoDVghOqMfBzINCvFaBHnyHr8XMadgCNjvifIkQ6dgY3ArS
- 6n0YH03wE7il4JXUSZQP+dtL4Xav7uk7JwuOXHGIRXEjHlt0MCD9tehYxtbVuy5QtXxb
- Y+dY9p9VNZaz7Ccx4zeUK5NJKRTSS7dhCnEF0EhQd222WAnlqOwz+sFH6BivWFiVmUjq
- gc0VzO9P/M6qTjDlP81velFMGnrFvrEGCjAw4PoOmieUNjghz86m2EWSEyZGcOshKF/b
- UZuw==
-X-Gm-Message-State: AOAM532jBnWUQ24uhKcf11s+I8itB7PgWZ0DqrMajrBVLkh8aFPXPRyf
- amNG8HPCQfIJG7/qRBj87kTnIyolwDpY9C1STyO3eZ2dqJzeZM729R0O+ihqYUne0qoMsU7Vk2R
- lomEtYZkL/nX/6nM=
-X-Received: by 2002:a5d:6d82:: with SMTP id l2mr29002046wrs.236.1643885996764; 
- Thu, 03 Feb 2022 02:59:56 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJy3uL/ax4Zt2sU0H+lbsyq/8uxbjSF1o1MMdr9NurfOfWNY1WvFocxlA6GR+TOnftCvqiHGNA==
-X-Received: by 2002:a5d:6d82:: with SMTP id l2mr29002029wrs.236.1643885996521; 
- Thu, 03 Feb 2022 02:59:56 -0800 (PST)
-Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
- [82.30.61.225])
- by smtp.gmail.com with ESMTPSA id o14sm6812942wmr.3.2022.02.03.02.59.55
+ :in-reply-to;
+ bh=mEUUJiO5+uMjULtZJtqhGga9ZLEanrPmRGzNOqiELKk=;
+ b=SEUPWN3ajj1fsB32KFDjVY9AJJz3tRLM/jemmUUGxQrAsD8MpuyNG+K7xHP4xI5k6U
+ TmxHh4aevUxclKWp6+f8jOPAF8HN/zugJzVbr1A1qbGAV/IJ7D2vp8iLTBwdlhGIE4Pp
+ lgO0R85b3hUuZn2NwbQfAikus9eeCMa63OuDSZr6Mr8uxQjbl/clfmRW0+sQlh+D0IaZ
+ W725Ah8Y2s3kl8zEmtFzOLVsY8pe2ivFsqY+FfAiODdIQn/TSaeQlg8mxetwYSdOodsW
+ 7Rijncx5z/xp5WY0O22pCPcXyRpPpvCyuwnN6sP1hY54IfymeHQozHog/Ir0otgNMAj5
+ TNCg==
+X-Gm-Message-State: AOAM533KTtqgf0cgKGzXp3oXLphNXhsf9Sk6/xCW5JGcXhzhF90gFkqy
+ oQMMfqBi79Zp5iL2PYLZhS2VoA==
+X-Google-Smtp-Source: ABdhPJxGsL2lkRpIPqp33CBt8l6Uzo/zL/XVnZW2+M0VFeWhhsc76Cb1HBDWvJKhJ3FO3EOtR8f2HQ==
+X-Received: by 2002:adf:d1ec:: with SMTP id g12mr30191692wrd.8.1643886872931; 
+ Thu, 03 Feb 2022 03:14:32 -0800 (PST)
+Received: from xps15-9570.lan ([85.210.223.90])
+ by smtp.gmail.com with ESMTPSA id e13sm24032474wrq.35.2022.02.03.03.14.32
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 03 Feb 2022 02:59:55 -0800 (PST)
-Date: Thu, 3 Feb 2022 10:59:53 +0000
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>
-Subject: Re: [PATCH v2] Fix %#0 misuses
-Message-ID: <Yfu1qfCH73D4zA1l@work-vm>
-References: <20220202183417.116478-1-dgilbert@redhat.com>
- <77c6899b-5892-5aaa-97ee-a79a74928c09@amsat.org>
+ Thu, 03 Feb 2022 03:14:32 -0800 (PST)
+Date: Thu, 3 Feb 2022 11:14:30 +0000
+From: Peter Griffin <peter.griffin@linaro.org>
+To: Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>
+Subject: Re: [PATCH 3/8] vhost-user-video: boiler plate code for
+ vhost-user-video device
+Message-ID: <20220203111430.GB371411@xps15-9570.lan>
+References: <20211209145601.331477-1-peter.griffin@linaro.org>
+ <20211209145601.331477-4-peter.griffin@linaro.org>
+ <87wnj6b6rp.fsf@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <77c6899b-5892-5aaa-97ee-a79a74928c09@amsat.org>
-User-Agent: Mutt/2.1.5 (2021-12-30)
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.086,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+In-Reply-To: <87wnj6b6rp.fsf@linaro.org>
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42d
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
+ envelope-from=peter.griffin@linaro.org; helo=mail-wr1-x42d.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -100,93 +91,133 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, shorne@gmail.com, richard.henderson@linaro.org,
- qemu-devel@nongnu.org
+Cc: marcandre.lureau@redhat.com, stratos-dev@op-lists.linaro.org,
+ qemu-devel@nongnu.org, mst@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Philippe Mathieu-Daudé (f4bug@amsat.org) wrote:
-> On 2/2/22 19:34, Dr. David Alan Gilbert (git) wrote:
-> > From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-> > 
-> > Joe Perches pointed out on lkml [1] that the format special %# (which
-> > adds 0x) is included in the character count, i.e.:
-> > 
-> >    printf("0: %#08x\n0: %#08x\n", 0xabcdef01,1);
-> > gives:
-> > 0: 0xabcdef01
-> > 0: 0x000001
-> > 
-> > rather than padding to the expected 8 data characters.
-> > 
-> > Replace all the '%#08' cases by '0x%08' and
-> > also handle a '%#02'; there are some other cases mostly
-> > in testing and a few that look like the authors have
-> > thought about the size, that I've ignored for now.
-> > 
-> > (Note I've not managed to test most of these)
-> > 
-> > Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-> > 
-> > [1] https://lore.kernel.org/lkml/9499203f1e993872b384aabdec59ac223a8ab931.camel@perches.com/
-> > 
-> > Fixup %#
+Hi Alex,
+
+Thanks for reviewing.
+
+On Tue, 11 Jan 2022, Alex Bennée wrote:
+> 
+> Peter Griffin <peter.griffin@linaro.org> writes:
+> 
+> > Signed-off-by: Peter Griffin <peter.griffin@linaro.org>
 > > ---
-> >   chardev/baum.c          | 2 +-
-> >   disas/alpha.c           | 2 +-
-> >   disas/sparc.c           | 2 +-
-> >   hw/arm/omap1.c          | 2 +-
-> >   hw/timer/a9gtimer.c     | 4 ++--
-> >   include/hw/arm/omap.h   | 5 +++--
-> >   softmmu/device_tree.c   | 2 +-
-> >   target/openrisc/disas.c | 2 +-
-> >   8 files changed, 11 insertions(+), 10 deletions(-)
+> >  hw/display/Kconfig                   |   5 +
+> >  hw/display/meson.build               |   3 +
+> >  hw/display/vhost-user-video.c        | 386 +++++++++++++++++++++++++++
+> >  include/hw/virtio/vhost-user-video.h |  41 +++
+> >  4 files changed, 435 insertions(+)
+> >  create mode 100644 hw/display/vhost-user-video.c
+> >  create mode 100644 include/hw/virtio/vhost-user-video.h
+> >
+> > diff --git a/hw/display/Kconfig b/hw/display/Kconfig
+> > index a2306b67d8..186163b015 100644
+> > --- a/hw/display/Kconfig
+> > +++ b/hw/display/Kconfig
+> > @@ -118,6 +118,11 @@ config VHOST_USER_VGA
+> >      default y
+> >      depends on VIRTIO_VGA && VHOST_USER_GPU
+> >  
+> > +config VHOST_USER_VIDEO
+> > +    bool
+> > +    default y
+> > +    depends on VIRTIO && VHOST_USER
+> > +
+> >  config DPCD
+> >      bool
+> >      select AUX
+> > diff --git a/hw/display/meson.build b/hw/display/meson.build
+> > index 861c43ff98..48284528cf 100644
+> > --- a/hw/display/meson.build
+> > +++ b/hw/display/meson.build
+> > @@ -37,6 +37,9 @@ softmmu_ss.add(when: 'CONFIG_MACFB', if_true: files('macfb.c'))
+> >  softmmu_ss.add(when: 'CONFIG_NEXTCUBE', if_true: files('next-fb.c'))
+> >  
+> >  specific_ss.add(when: 'CONFIG_VGA', if_true: files('vga.c'))
+> > +specific_ss.add(when: 'CONFIG_VHOST_USER_VIDEO', if_true: files('vhost-user-video.c'))
+> > +specific_ss.add(when: ['CONFIG_VHOST_USER_VIDEO', 'CONFIG_VIRTIO_PCI' ],
+> > +  if_true: files('vhost-user-video-pci.c'))
+> >  
+> >  if config_all_devices.has_key('CONFIG_QXL')
+> >    qxl_ss = ss.source_set()
+> > diff --git a/hw/display/vhost-user-video.c b/hw/display/vhost-user-video.c
+> > new file mode 100644
+> > index 0000000000..506e350365
+> > --- /dev/null
+> > +++ b/hw/display/vhost-user-video.c
+> > @@ -0,0 +1,386 @@
+> > +/*
+> > + * Vhost-user VIDEO virtio device
+> > + *
+> > + * This is the boilerplate for instantiating a vhost-user device
+> > + * implementing a virtio-video device.
+> > + *
+> > + * The virtio video decoder and encoder devices are virtual devices that
+> > + * support encoding and decoding respectively.
+> > + *
+> > + * The actual back-end for this driver is the vhost-user-video daemon.
+> > + * The code here just connects up the device in QEMU and allows it to
+> > + * be instantiated.
+> > + *
+> > + * Copyright (c) 2021 Linaro Ltd
+> > + *
+> > + * SPDX-License-Identifier: GPL-2.0-or-later
+> > + */
+> > +
+> > +#include "qemu/osdep.h"
+> > +#include "qapi/error.h"
+> > +#include "hw/qdev-properties.h"
+> > +#include "hw/virtio/virtio-bus.h"
+> > +#include "hw/virtio/vhost-user-video.h"
+> > +#include "qemu/error-report.h"
+> > +
+> > +/* currently there is no VIDEO enc/dec defined in Linux virtio_ids.h */
+> > +#define VIRTIO_ID_VIDEO_ENC         30
+> > +#define VIRTIO_ID_VIDEO_DEC         31
+> > +#define MAX_CAPS_LEN 4096
+> > +
+> > +static void vhost_user_video_get_config(VirtIODevice *vdev, uint8_t *config)
+> > +{
+> > +    VHostUserVIDEO *video = VHOST_USER_VIDEO(vdev);
+> > +    struct virtio_video_config *vconfig = (struct virtio_video_config *)config;
+> > +    int ret;
+> > +    Error *local_err = NULL;
+> > +
+> > +    memset(config, 0, sizeof(struct virtio_video_config));
+> > +
+> > +    ret = vhost_dev_get_config(&video->vhost_dev, config,
+> > +                               sizeof(struct virtio_video_config), &local_err);
+> > +    if (ret) {
+> > +        error_report("vhost-user-video: get device config space failed");
+> > +
+> > +        /*TODO vhost_dev_get_config() fails so for now lets just set
+> >  it here */
 > 
-> Few more:
+> Is this a lifetime issue?
+
+I believe so. I spent some time trying to get it working, but then added this
+workaround so I could progress on the virtio-video implementation.
+
+I will take another look and see if I can get thie config coming from the daemon
+as intended.
+
+Looking at other examples, hw/display/vhost-user-gpu.c get_config() hook seems to call
+vhost_dev_config successfully like I'm doing here.
+
+But hw/block/vhost-user-blk.c and hw/virtio/vhost-user-vsock.c seem to have
+a slightly different mechanism of using VhostDevConfigOps
+.vhost_dev_config_notifier() which I don't recall having looked into that previously.
+
 > 
-> $ git grep -E '\%#[0-9]{1,2}[dDxX]'
-
-Thanks, actually 1,3 is worth it :-)
-
-> chardev/baum.c:369:            DPRINTF("Broken packet %#2x, tossing\n",
-> req); \
-
-Interestingly without the 0
-
-> disas/alpha.c:1854:  (*info->fprintf_func) (info->stream, ".long %#08x",
-> insn);
-> hw/audio/ac97.c:244:    dolog ("bd %2d addr=%#x ctl=%#06x len=%#x(%d
-> bytes)\n",
-> hw/dma/i8257.c:265:        linfo ("write_cont: nport %#06x, ichan % 2d, val
-> %#06x\n",
-> hw/dma/i8257.c:290:    ldebug ("read_cont: nport %#06x, iport %#04x val
-> %#x\n", nport, iport, val);
-
-So some of these are a bit weird and might need thinking about; I
-*think* they're 06 because the author realised the 0x was counted and
-bumped it up from 04; but that actually means I'd need to understand the
-device code before changing it.
-
-> softmmu/device_tree.c:372:        error_report("%s: Couldn't set %s/%s =
-> %#08x: %s", __func__,
-> target/openrisc/disas.c:48:        output(".long", "%#08x", insn);
-> tests/qemu-iotests/nbd-fault-injector.py:187: print('unrecognized command
-> type %#02x' % req.type)
-> tests/tcg/arm/fcvt.c:60:    printf("%02d   HALF: %#04x  (%#x => %s)\n",
-> tests/tcg/multiarch/libs/float_helpers.c:72:    asprintf(&fmt, "f16(%#04x)",
-> num);
+> Otherwise:
 > 
-> In mood to add a regexp to checkpatch? :)
+> Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 
-I think it already has one for new patches.
+kind regards,
 
-> Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-
-Thanks!
-
-Dave
-
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
-
+Peter.
 
