@@ -2,80 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A23F4A7DBC
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Feb 2022 03:16:59 +0100 (CET)
-Received: from localhost ([::1]:57426 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C5E74A7DE5
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Feb 2022 03:26:07 +0100 (CET)
+Received: from localhost ([::1]:35292 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nFRg9-0006gw-P7
-	for lists+qemu-devel@lfdr.de; Wed, 02 Feb 2022 21:16:57 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:47628)
+	id 1nFRoz-0002mp-Mk
+	for lists+qemu-devel@lfdr.de; Wed, 02 Feb 2022 21:26:05 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:48694)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nFRen-0005m4-BX
- for qemu-devel@nongnu.org; Wed, 02 Feb 2022 21:15:33 -0500
-Received: from [2607:f8b0:4864:20::1035] (port=39744
- helo=mail-pj1-x1035.google.com)
+ id 1nFRmW-0001A3-0M
+ for qemu-devel@nongnu.org; Wed, 02 Feb 2022 21:23:32 -0500
+Received: from [2607:f8b0:4864:20::62e] (port=43603
+ helo=mail-pl1-x62e.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nFRel-0007n5-8h
- for qemu-devel@nongnu.org; Wed, 02 Feb 2022 21:15:32 -0500
-Received: by mail-pj1-x1035.google.com with SMTP id
- s61-20020a17090a69c300b001b4d0427ea2so8607946pjj.4
- for <qemu-devel@nongnu.org>; Wed, 02 Feb 2022 18:15:30 -0800 (PST)
+ id 1nFRmR-0000OU-Ma
+ for qemu-devel@nongnu.org; Wed, 02 Feb 2022 21:23:31 -0500
+Received: by mail-pl1-x62e.google.com with SMTP id d1so911204plh.10
+ for <qemu-devel@nongnu.org>; Wed, 02 Feb 2022 18:23:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=odaOo4DJMCQfl7oKUK6USSyGGQog4w0fIWCrWvUQ7x8=;
- b=EKyxbXL39agnM0P9rHl1FfyqtFMnvmOcmxCLJzmjuRegdAcABO5DZ6tfPykJdu7wxS
- iQmzhw0HRVMIMWgqrU64pxJE6cHgCbNGgrkAcGJHlpcyoTgO+OrZI37zSJlZHyYscqti
- Uex9OUQSZip+prjelvlowLQrooYB5R6Zxcs4z8IHpiXQ92BuY5DolHkkBnOO8XL9hAZ4
- jQBULxY/VqDgJBrTRTwiC1MyquT6bH8SjOOiKzsH2SfoeEn2hdXvWp18SDpghmRPtsX1
- 2BRIMZ8+g0d6wLpC6SUtpPQSCNpsehJRoBXiXVRsKG4qonjxYyyKDBt59HIbTyW/hXNg
- Ouug==
+ bh=tIofPPFKxe5KjVvoF9VUePFaya6n4ldKVA9gyauPOAw=;
+ b=GkzxAmxQjs4BFwJfQYqxGhyZcfYsK3mMnUQjYahziyTmxLqTLZsKt4dO53yjk4Ftzx
+ PiJjC0bVUaiJsHASJf7GWuuXHB+3zEwlBxTgc3SScbNBYFaLBJfosth1gVYdlj61g6ik
+ UMv0tthUoCXI+75SdQKX70iowvnNj2xCUYxYrfTGbxP1qgFuUzpvejmqb6ZZEq5MscIH
+ J0fe6igDP+I+rIHnyllbWm0USgmLUT7ttVemblgJUmmN/jX3f84dqCPbq8z033NFnEA/
+ ONWyEgSGs3FcbeFmrp5wTbBm7z+0+2MN7Y9J8XnlK89YVogbyb2RS+SuMxo4kFq0dNdW
+ uUkw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=odaOo4DJMCQfl7oKUK6USSyGGQog4w0fIWCrWvUQ7x8=;
- b=DbQCsc2Pi+nAa7FxZgIySjC9P+LWX9nfVV2FulTN/nW6gm0Q2k2BAiF0MTT8Uo5uvs
- VxBOiyinQdiU8NoBZfgRBJc3BpoHdUXfxrnFwBYoVG6t6Ogq3ln8Bet+/EBjVdArrAOH
- RJrnPtw8eZ/yp4RaUDxY+c3UcvildyqycqqtseEmevmMSMCypheBuF3+Bgrd6ykPMnGX
- KgYVU1w1Mnuv0uPxsSjpdDnACZWm4fZn09lgBXOAQSiHoCLwEcQn1X8X1azDvhfhOXU7
- ethlRxNqf0STXPPg0ITE6NId1Q8PFEJSkpFfmQDlM7EtniRaQUMeDle5LdvA/A2lD3mt
- 3zRw==
-X-Gm-Message-State: AOAM530fZZW0zNA2zIA1pRF+BaAcsQyQHJTXj2EQMmMSMc6V/kZjXYZE
- 6iNlj4tYQBv5Q790NrHmjbZhhg==
-X-Google-Smtp-Source: ABdhPJy+o6UBvn9gYD1MMtMCNg2x8j3NXyiLdACpJJup594a1FhzGVuFE9MExockMD47PNyAHghJNw==
-X-Received: by 2002:a17:90a:e285:: with SMTP id
- d5mr2358857pjz.16.1643854529740; 
- Wed, 02 Feb 2022 18:15:29 -0800 (PST)
+ bh=tIofPPFKxe5KjVvoF9VUePFaya6n4ldKVA9gyauPOAw=;
+ b=vcoKEfcheuP95MrHFIWmSiPsOtUnNeAheL/GPF79CDhbcFEZ7UITaryt2733GQHI9I
+ 1avmmZkzkB0nFkSO+dcvZGUmddASMZ0gAjzgu7wV2dbDJ7L9V4mnK8+pUEObJE5aOCuK
+ Sp9p24ebwOhP9Hwd81/EeRGH17Wy3Mg0IBatrzfObxgBipCf03yBdB7+e5QfYZymJq/X
+ Ml77qU8MMELWs/HNWU0u8voNhfD7DN+PB5UZqYyHjOoRanAXe2ISvR+GjqJDJ1qzCDCM
+ sHTpjzxap99fC5UaDN7/aF+Z17xZa5dZOVKgBwVXfDcLfipEr3ZgeDgGVKRxT9JSqnI+
+ GKfg==
+X-Gm-Message-State: AOAM532tALEMIQGfLtKmh9lrf47/86Q0KoHUp6tqStOF6tq7Gl8G4XX6
+ cvUXGSfnI02fYc4bSRWvO+9ktg==
+X-Google-Smtp-Source: ABdhPJwZ0O0Hs7ESKHYCi44AMYSTFUZEB1Tp6Kn4j5yU0Y6vOai7vte5ni10yrH5vd00d/VX0OjB/w==
+X-Received: by 2002:a17:902:8c92:: with SMTP id
+ t18mr7404042plo.11.1643855005646; 
+ Wed, 02 Feb 2022 18:23:25 -0800 (PST)
 Received: from ?IPV6:2001:8003:3a49:fd00:801:72a7:386c:deca?
  ([2001:8003:3a49:fd00:801:72a7:386c:deca])
- by smtp.gmail.com with ESMTPSA id s15sm27656970pfg.145.2022.02.02.18.15.27
+ by smtp.gmail.com with ESMTPSA id pc4sm8954145pjb.3.2022.02.02.18.23.22
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 02 Feb 2022 18:15:29 -0800 (PST)
-Message-ID: <891811db-ee3c-a6f6-265e-1fd3ee9980bf@linaro.org>
-Date: Thu, 3 Feb 2022 13:15:23 +1100
+ Wed, 02 Feb 2022 18:23:25 -0800 (PST)
+Message-ID: <4d102117-f62c-825d-e686-d5b3331078c2@linaro.org>
+Date: Thu, 3 Feb 2022 13:23:19 +1100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.5.0
-Subject: Re: [PATCH 01/13] hw/intc/arm_gicv3_its: Use address_space_map() to
- access command queue packets
+Subject: Re: [PATCH 02/13] hw/intc/arm_gicv3_its: Keep DTEs as a struct, not a
+ raw uint64_t
 Content-Language: en-US
 To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
  qemu-devel@nongnu.org
 References: <20220201193207.2771604-1-peter.maydell@linaro.org>
- <20220201193207.2771604-2-peter.maydell@linaro.org>
+ <20220201193207.2771604-3-peter.maydell@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220201193207.2771604-2-peter.maydell@linaro.org>
+In-Reply-To: <20220201193207.2771604-3-peter.maydell@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1035
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::62e
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1035;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1035.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62e;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62e.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -102,33 +101,24 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 2/2/22 06:31, Peter Maydell wrote:
-> Currently the ITS accesses each 8-byte doubleword in a 4-doubleword
-> command packet with a separate address_space_ldq_le() call.  This is
-> awkward because the individual command processing functions have
-> ended up with code to handle "load more doublewords out of the
-> packet", which is both unwieldy and also a potential source of bugs
-> because it's not obvious when looking at a line that pulls a field
-> out of the 'value' variable which of the 4 doublewords that variable
-> currently holds.
+> In the ITS, a DTE is an entry in the device table, which contains
+> multiple fields. Currently the function get_dte() which reads one
+> entry from the device table returns it as a raw 64-bit integer,
+> which we then pass around in that form, only extracting fields
+> from it as we need them.
 > 
-> Switch to using address_space_map() to map the whole command packet
-> at once and fish the four doublewords out of it.  Then each process_*
-> function can start with a few lines of code that extract the fields
-> it cares about.
-> 
-> This requires us to split out the guts of process_its_cmd() into a
-> new do_process_its_cmd(), because we were previously overloading the
-> value and offset arguments as a backdoor way to directly pass the
-> devid and eventid from a write to GITS_TRANSLATER.  The new
-> do_process_its_cmd() takes those arguments directly, and
-> process_its_cmd() is just a wrapper that does the "read fields from
-> command packet" part.
+> Create a real C struct with the same fields as the DTE, and
+> populate it in get_dte(), so that that function and update_dte()
+> are the only ones that need to care about the in-guest-memory
+> format of the DTE.
 > 
 > Signed-off-by: Peter Maydell<peter.maydell@linaro.org>
 > ---
->   hw/intc/gicv3_internal.h |   4 +-
->   hw/intc/arm_gicv3_its.c  | 208 +++++++++++----------------------------
->   2 files changed, 62 insertions(+), 150 deletions(-)
+> This isn't a massive gain for the DTE, though I do think it
+> looks a bit nicer. The real benefit is in aligning all the
+> get_{cte,dte,ite} functions to have the same shaped API:
+> currently get_ite() is different from all the rest.
+> ---
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
