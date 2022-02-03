@@ -2,86 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2FE14A7EAD
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Feb 2022 05:28:47 +0100 (CET)
-Received: from localhost ([::1]:47502 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A5F584A7EC4
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Feb 2022 05:58:24 +0100 (CET)
+Received: from localhost ([::1]:54336 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nFTji-0005KU-Kv
-	for lists+qemu-devel@lfdr.de; Wed, 02 Feb 2022 23:28:46 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:37528)
+	id 1nFUCM-0002kq-Od
+	for lists+qemu-devel@lfdr.de; Wed, 02 Feb 2022 23:58:22 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:41270)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nFThm-0001xR-4n
- for qemu-devel@nongnu.org; Wed, 02 Feb 2022 23:26:46 -0500
-Received: from [2607:f8b0:4864:20::631] (port=39694
- helo=mail-pl1-x631.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nFThk-0002UM-AB
- for qemu-devel@nongnu.org; Wed, 02 Feb 2022 23:26:45 -0500
-Received: by mail-pl1-x631.google.com with SMTP id x11so1137792plg.6
- for <qemu-devel@nongnu.org>; Wed, 02 Feb 2022 20:26:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=iRCM7mXXnZuVOqkcLrXXLcCpWi6KRthzXINHZrPDhAI=;
- b=RS+pRBT7YwVg/wyNiMPrM8kX+Yj5QMy9r9fnaaCBmnnw9j6vvcfBAfgVMPMG4GQdA+
- MyOwnD4PQsE/ogbGbQocDwjnu1kPFoBXRdwlPCDzt3Vh0E+k7VfDWJZzLHMBoGuPK8l8
- nhmGD5/mjNL8eJOvWiPyqhgSkP+gQSiWGuFc/0I7vR3O4g+sdAR6U/rNSbdLptPYGodn
- 7XDupEmphlAhJcqDkTyMe3NtCabTwlwSxbbUpj+jwG/IzDBzu931i3rB70p9K+c9yp6v
- zLvTczlAfWpKJf5NrwU8ktO4/u4oOKcSRWWt5C9FXttxiQCjlTm8ploZWrPPRHET1QAy
- 8WbA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=iRCM7mXXnZuVOqkcLrXXLcCpWi6KRthzXINHZrPDhAI=;
- b=njz/JTW3h9gLj2B7uv+uG2Gg9CSHyNfj1C4YLU5vGda3xeIwrtqKe90QsuXtcB/zLb
- jT3NtIzr8m0e+AgOFcE456WK2PByfNop8wLTSPecbttbtDGBru+pFC3eNuBIvEMO4rSc
- 4pW3URJzWkDSyky3HPz2Qh/0MrDT7huWvSThDuucs76jAvelBsTZuQH5izfar7xsY3HY
- J9BYW2dlb4m+M91irZgTO8DBSt/eX6/IjwCj88tPh1kEUz7uhDhReLUY0b9KhUBQKSIH
- Ghjvm87BbfeUJIKqsuyijFBVicibCjeceiPsWyeGwBUmLwZKg5c9qtkZuUiBJFMw/ulp
- uYzg==
-X-Gm-Message-State: AOAM533oPXWZvCIqp+9d5n0Bv4b8YYVajHBWS8efoEmmQHLTa/WbNLYv
- lRbwJGbq8Hfz4VeZyWCjamC0Xg==
-X-Google-Smtp-Source: ABdhPJw63O5rF2Uh4AoE1qfQXGIfNR5inEsx0ZxMwJBSoRWkZNK37vfgeHXQR9S3tpfl95iM7gLMWw==
-X-Received: by 2002:a17:903:41ca:: with SMTP id
- u10mr28240821ple.71.1643862403015; 
- Wed, 02 Feb 2022 20:26:43 -0800 (PST)
-Received: from ?IPV6:2001:8003:3a49:fd00:801:72a7:386c:deca?
- ([2001:8003:3a49:fd00:801:72a7:386c:deca])
- by smtp.gmail.com with ESMTPSA id p1sm18421831pfh.98.2022.02.02.20.26.40
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 02 Feb 2022 20:26:42 -0800 (PST)
-Message-ID: <c1a0c0b5-2d91-ca81-d3dd-77fa8250f278@linaro.org>
-Date: Thu, 3 Feb 2022 15:26:37 +1100
+ (Exim 4.90_1) (envelope-from <vt@altlinux.org>)
+ id 1nFU9s-0001GG-Nn; Wed, 02 Feb 2022 23:55:48 -0500
+Received: from vmicros1.altlinux.org ([194.107.17.57]:41194)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <vt@altlinux.org>)
+ id 1nFU9p-0002ZO-Oi; Wed, 02 Feb 2022 23:55:48 -0500
+Received: from imap.altlinux.org (imap.altlinux.org [194.107.17.38])
+ by vmicros1.altlinux.org (Postfix) with ESMTP id 0C93472C8FA;
+ Thu,  3 Feb 2022 07:55:41 +0300 (MSK)
+Received: from altlinux.org (sole.flsd.net [185.75.180.6])
+ by imap.altlinux.org (Postfix) with ESMTPSA id E89034A46F0;
+ Thu,  3 Feb 2022 07:55:40 +0300 (MSK)
+Date: Thu, 3 Feb 2022 07:55:40 +0300
+From: Vitaly Chikunov <vt@altlinux.org>
+To: Christian Schoenebeck <qemu_oss@crudebyte.com>
+Subject: Re: [PATCH v2] 9pfs: Fix segfault in do_readdir_many caused by
+ struct dirent overread
+Message-ID: <20220203045540.3wmae6mp7cnjtzxm@altlinux.org>
+References: <20220128223326.927132-1-vt@altlinux.org>
+ <2369945.Qq089p3Et8@silver>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH 13/13] hw/intc/arm_gicv3_its: Split error checks
-Content-Language: en-US
-To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
- qemu-devel@nongnu.org
-References: <20220201193207.2771604-1-peter.maydell@linaro.org>
- <20220201193207.2771604-14-peter.maydell@linaro.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220201193207.2771604-14-peter.maydell@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::631
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::631;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x631.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
+Content-Type: text/plain; charset=koi8-r
+Content-Disposition: inline
+In-Reply-To: <2369945.Qq089p3Et8@silver>
+Received-SPF: pass client-ip=194.107.17.57; envelope-from=vt@altlinux.org;
+ helo=vmicros1.altlinux.org
+X-Spam_score_int: -18
+X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,24 +54,105 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Shashi Mallela <shashi.mallela@linaro.org>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+Cc: qemu-stable@nongnu.org, "Dmitry V. Levin" <ldv@altlinux.org>,
+ qemu-devel@nongnu.org, Greg Kurz <groug@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/2/22 06:32, Peter Maydell wrote:
-> In most of the ITS command processing, we check different error
-> possibilities one at a time and log them appropriately. In
-> process_mapti() and process_mapd() we have code which checks
-> multiple error cases at once, which means the logging is less
-> specific than it could be. Split those cases up.
+Christian,
+
+On Wed, Feb 02, 2022 at 05:55:45PM +0100, Christian Schoenebeck wrote:
+> On Freitag, 28. Januar 2022 23:33:26 CET Vitaly Chikunov wrote:
+> > `struct dirent' returned from readdir(3) could be shorter than
+> > `sizeof(struct dirent)', thus memcpy of sizeof length will overread
+> > into unallocated page causing SIGSEGV. Example stack trace:
+> > 
+> >  #0  0x00005555559ebeed v9fs_co_readdir_many (/usr/bin/qemu-system-x86_64 +
+> > 0x497eed) #1  0x00005555559ec2e9 v9fs_readdir (/usr/bin/qemu-system-x86_64
+> > + 0x4982e9) #2  0x0000555555eb7983 coroutine_trampoline
+> > (/usr/bin/qemu-system-x86_64 + 0x963983) #3  0x00007ffff73e0be0 n/a (n/a +
+> > 0x0)
+> > 
+> > While fixing, provide a helper for any future `struct dirent' cloning.
+> > 
+> > Resolves: https://gitlab.com/qemu-project/qemu/-/issues/841
+> > Cc: qemu-stable@nongnu.org
+> > Co-authored-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
+> > Signed-off-by: Vitaly Chikunov <vt@altlinux.org>
+> > ---
+> > Tested on x86-64 Linux.
 > 
-> Signed-off-by: Peter Maydell<peter.maydell@linaro.org>
-> ---
->   hw/intc/arm_gicv3_its.c | 52 ++++++++++++++++++++++++-----------------
->   1 file changed, 31 insertions(+), 21 deletions(-)
+> I was too optimistic. Looks like this needs more work. With this patch applied
+> the 9p test cases [1] are crashing now:
+> 
+> $ gdb --args tests/qtest/qos-test -m slow
+> ...
+> # Start of flush tests
+> ok 50 /x86_64/pc/i440FX-pcihost/pci-bus-pc/pci-bus/virtio-9p-pci/virtio-9p/virtio-9p-tests/synth/flush/success
+> ok 51 /x86_64/pc/i440FX-pcihost/pci-bus-pc/pci-bus/virtio-9p-pci/virtio-9p/virtio-9p-tests/synth/flush/ignored
+> # End of flush tests
+> # Start of readdir tests
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+I changed implementation from the one using dent->d_reclen to the one using
+strlen(dent->d_name) and it's passed readdir tests, but failed later:
 
-r~
+  # Start of readdir tests
+  ok 53 /x86_64/pc/i440FX-pcihost/pci-bus-pc/pci-bus/virtio-9p-pci/virtio-9p/virtio-9p-tests/synth/readdir/basic
+  ok 54 /x86_64/pc/i440FX-pcihost/pci-bus-pc/pci-bus/virtio-9p-pci/virtio-9p/virtio-9p-tests/synth/readdir/split_512
+  ok 55 /x86_64/pc/i440FX-pcihost/pci-bus-pc/pci-bus/virtio-9p-pci/virtio-9p/virtio-9p-tests/synth/readdir/split_256
+  ok 56 /x86_64/pc/i440FX-pcihost/pci-bus-pc/pci-bus/virtio-9p-pci/virtio-9p/virtio-9p-tests/synth/readdir/split_128
+  # End of readdir tests
+  # End of synth tests
+  # Start of local tests
+  # starting QEMU: exec x86_64-softmmu/qemu-system-x86_64 -qtest unix:/tmp/qtest-2822967.sock -qtest-log /dev/null -chardev socket,path=/tmp/qtest-2822967.qmp,id=char0 -mon chardev=char0,mode=control -display none -M pc  -fsdev local,id=fsdev0,path='/usr/src/RPM/BUILD/qemu-6.2.0/build-dynamic/qtest-9p-local-NpcZCR',security_model=mapped-xattr -device virtio-9p-pci,fsdev=fsdev0,addr=04.0,mount_tag=qtest -accel qtest
+  # GLib-DEBUG: setenv()/putenv() are not thread-safe and should not be used after threads are created
+  ok 57 /x86_64/pc/i440FX-pcihost/pci-bus-pc/pci-bus/virtio-9p-pci/virtio-9p/virtio-9p-tests/local/config
+  Received response 7 (RLERROR) instead of 73 (RMKDIR)
+  Rlerror has errno 95 (Operation not supported)
+  **
+  ERROR:../tests/qtest/virtio-9p-test.c:305:v9fs_req_recv: assertion failed (hdr.id == id): (7 == 73)
+  Bail out! ERROR:../tests/qtest/virtio-9p-test.c:305:v9fs_req_recv: assertion failed (hdr.id == id): (7 == 73)
+  Aborted
+
+Thanks,
+
+> Broken pipe
+> 
+> Thread 1 "qos-test" received signal SIGABRT, Aborted.
+> __GI_raise (sig=sig@entry=6) at ../sysdeps/unix/sysv/linux/raise.c:50
+> 50      ../sysdeps/unix/sysv/linux/raise.c: No such file or directory.
+> (gdb) bt
+> #0  __GI_raise (sig=sig@entry=6) at ../sysdeps/unix/sysv/linux/raise.c:50
+> #1  0x00007ffff7b7d537 in __GI_abort () at abort.c:79
+> #2  0x00005555555ba495 in qtest_client_socket_recv_line (s=0x5555557663c0) at ../tests/qtest/libqtest.c:503
+> #3  0x00005555555ba5b3 in qtest_rsp_args (s=0x5555557663c0, expected_args=2) at ../tests/qtest/libqtest.c:523
+> #4  0x00005555555bbdb4 in qtest_clock_rsp (s=0x5555557663c0) at ../tests/qtest/libqtest.c:970
+> #5  0x00005555555bbe55 in qtest_clock_step (s=0x5555557663c0, step=100) at ../tests/qtest/libqtest.c:985
+> #6  0x00005555555cdc21 in qvirtio_wait_used_elem (qts=0x5555557663c0, d=0x555555779b48, vq=0x5555557b0480, desc_idx=8, len=0x0, timeout_us=10000000)
+>     at ../tests/qtest/libqos/virtio.c:220
+> #7  0x00005555555ae79f in v9fs_req_wait_for_reply (req=0x5555557899a0, len=0x0) at ../tests/qtest/virtio-9p-test.c:278
+> #8  0x00005555555b03bf in fs_readdir (obj=0x555555779bb0, data=0x0, t_alloc=0x5555557448b8) at ../tests/qtest/virtio-9p-test.c:851
+> #9  0x00005555555990c4 in run_one_test (arg=0x5555557ac600) at ../tests/qtest/qos-test.c:182
+> #10 0x00007ffff7f02b9e in ?? () from /lib/x86_64-linux-gnu/libglib-2.0.so.0
+> #11 0x00007ffff7f0299b in ?? () from /lib/x86_64-linux-gnu/libglib-2.0.so.0
+> #12 0x00007ffff7f0299b in ?? () from /lib/x86_64-linux-gnu/libglib-2.0.so.0
+> #13 0x00007ffff7f0299b in ?? () from /lib/x86_64-linux-gnu/libglib-2.0.so.0
+> #14 0x00007ffff7f0299b in ?? () from /lib/x86_64-linux-gnu/libglib-2.0.so.0
+> #15 0x00007ffff7f0299b in ?? () from /lib/x86_64-linux-gnu/libglib-2.0.so.0
+> #16 0x00007ffff7f0299b in ?? () from /lib/x86_64-linux-gnu/libglib-2.0.so.0
+> #17 0x00007ffff7f0299b in ?? () from /lib/x86_64-linux-gnu/libglib-2.0.so.0
+> #18 0x00007ffff7f0299b in ?? () from /lib/x86_64-linux-gnu/libglib-2.0.so.0
+> #19 0x00007ffff7f0299b in ?? () from /lib/x86_64-linux-gnu/libglib-2.0.so.0
+> #20 0x00007ffff7f0299b in ?? () from /lib/x86_64-linux-gnu/libglib-2.0.so.0
+> #21 0x00007ffff7f0308a in g_test_run_suite () from /lib/x86_64-linux-gnu/libglib-2.0.so.0
+> #22 0x00007ffff7f030a1 in g_test_run () from /lib/x86_64-linux-gnu/libglib-2.0.so.0
+> #23 0x00005555555995a3 in main (argc=1, argv=0x7fffffffe508, envp=0x7fffffffe528) at ../tests/qtest/qos-test.c:338
+> (gdb)
+> 
+> [1] https://wiki.qemu.org/Documentation/9p#Test_Cases
+> 
+> Best regards,
+> Christian Schoenebeck
+> 
+> 
 
