@@ -2,56 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2DDA84A9009
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Feb 2022 22:38:40 +0100 (CET)
-Received: from localhost ([::1]:51890 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E3E9A4A9030
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Feb 2022 22:49:16 +0100 (CET)
+Received: from localhost ([::1]:33864 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nFjoM-0000ii-QL
-	for lists+qemu-devel@lfdr.de; Thu, 03 Feb 2022 16:38:38 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:42870)
+	id 1nFjyd-0007ut-94
+	for lists+qemu-devel@lfdr.de; Thu, 03 Feb 2022 16:49:15 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:43542)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <luc@lmichel.fr>)
- id 1nFj0J-0004Sw-GM; Thu, 03 Feb 2022 15:46:57 -0500
-Received: from pharaoh.lmichel.fr ([149.202.28.74]:50264)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1nFj3e-0000a3-48; Thu, 03 Feb 2022 15:50:23 -0500
+Received: from wnew2-smtp.messagingengine.com ([64.147.123.27]:37909)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <luc@lmichel.fr>)
- id 1nFj0A-0007Dc-LF; Thu, 03 Feb 2022 15:46:50 -0500
-Received: from localhost (sekoia-pc.home.lmichel.fr [192.168.61.100])
- by pharaoh.lmichel.fr (Postfix) with ESMTPSA id D1F46C60912;
- Thu,  3 Feb 2022 21:46:36 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lmichel.fr; s=pharaoh; 
- t=1643921196;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=z5zsn668D25SmDjjloLbdJI/Fei8Ao+RDEBHJgSojN0=;
- b=SQZk3HSuYFm1eyr/q8cyZY223UineroENAWeRSbFN/vU8lDLg3GBF5b25DDo+WD/j/qiWl
- 2yrDvAkWH2vu7ICJ14y6uMNK42dlICLIF0cKwifd2LSLWbQ2C3JS1p8GntWl1QenV8RAER
- zkTbDntvpm97g+DkETCUvmqaotUBQFY65+g7P5EYg7WYjNsuRblsahTBPYizc5f64q83s6
- xeqwQHb12jQ5SbsLOT9sCPUhGY/BQuHL0lfqhc1Nb+GvIEbe+ga4R7g70m7376x5xBFBVW
- 3HADROOgSR6AOuuJR9CoA0kEuwyl5n6cvPjBHd8JCQVIo7C3A2pz/NTTpbJTtg==
-Date: Thu, 3 Feb 2022 21:46:36 +0100
-From: Luc Michel <luc@lmichel.fr>
-To: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
-Subject: Re: [PATCH v2 6/6] hw/arm/xlnx-zynqmp: Connect the ZynqMP APU Control
-Message-ID: <Yfw/LIm8mk3WOuEO@sekoia-pc.home.lmichel.fr>
-References: <20220203140141.310870-1-edgar.iglesias@gmail.com>
- <20220203140141.310870-7-edgar.iglesias@gmail.com>
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1nFj3a-0007y0-3n; Thu, 03 Feb 2022 15:50:21 -0500
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+ by mailnew.west.internal (Postfix) with ESMTP id D09962B0021D;
+ Thu,  3 Feb 2022 15:50:03 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute2.internal (MEProxy); Thu, 03 Feb 2022 15:50:04 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
+ h=cc:cc:content-type:date:date:from:from:in-reply-to
+ :in-reply-to:message-id:mime-version:references:reply-to:sender
+ :subject:subject:to:to; s=fm2; bh=KWPwi6hjfKOr10LRfNzY8ZIT/DGKLh
+ iJh9xKrN70kY4=; b=kkCvAUAbxlozHSmFVfsGVa4OdAmrfIt27ZYCZCuW8V3fYq
+ +HF6rTvq4/TD5JFst9Aeo/KdvxEYqTVQzTwDTNq7WnYrUX5FQZfD8/qErTnmBQVT
+ khzlDjJUFuWdv/yKeybQGSYk9reFos4F8bTRPldLnl7EF8OybTNH1106tZrARqI6
+ aZrQTZDRxxogw/eWpP3LenKXy29H7toAn7iSYILkWsd4k5BVqrckFiRV+Xd8Nar/
+ K+Qsx/KLL+OTw1s5uA0DeXu9MyojgJRWu6E3edK4rDPODV8Y+Azgio4S3OdTDEoC
+ jnXh7JIgoLB1uRdSaq1TJN61GYOy1pb3GGioyPkg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-type:date:date:from:from
+ :in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=KWPwi6hjfKOr10LRf
+ NzY8ZIT/DGKLhiJh9xKrN70kY4=; b=AuCRv6Gty0dwXQbgj8e/q55GSTVVO6E/O
+ 5cTI1F0qCXgkUmZ6U92qEUdyviu3TKhWaokieePibN2rncE7rlXl58NtAJRNb64n
+ h5cJvUYKQR/oUV5DmoufTtrLAxoL/7eEl5jtc6RgESEBLirpvDbMuLjnyT8ROpCP
+ l1dDC7rmN1GTQgEmVNBGqSjNkfBORbACfLuC6jlrBWX4QLnCEVJedycOkhaCz7Bb
+ kb7/3kb/wI9BKuaH+4K1rZBzQbrSaaVPoSfTlPT8Yb3LKdJi632RV3wMapowJPmt
+ /JLqUUFwWQeHix3zpsz+MPG9RYkiBP0l9dzEhU/9M3Uafb5jICI8w==
+X-ME-Sender: <xms:-T_8YcjCZyBtVa6gINZEsoCorKDhmewlsDVj_-NQtWW45Heprusf9g>
+ <xme:-T_8YVC7g00J4d_EMqdaFkUux2GRqShYjGtiDPATGNb9O6J2ZooszVtQSfFWXWxkJ
+ M3W8a1MzC6vKIarzro>
+X-ME-Received: <xmr:-T_8YUH5gGCsuiMOKcTCS3RTY-rlKliK_PpU5c3QAoZ7HHKMPvWstwTKBaNhenrO3haHPwH9hbzJECCc9A>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrgeejgddugeduucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepfffhvffukfhfgggtuggjsehgtderredttdejnecuhfhrohhmpefmlhgruhhs
+ ucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtth
+ gvrhhnpeejgeduffeuieetkeeileekvdeuleetveejudeileduffefjeegfffhuddvudff
+ keenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehith
+ hssehirhhrvghlvghvrghnthdrughk
+X-ME-Proxy: <xmx:-T_8YdTyqWFJCJUdkZoZjiKYIinlNByT4ifUfn0IfH56b058Xz8BUg>
+ <xmx:-T_8YZygOjXVSW3FAW4o9G_vV3fGz1CqJMAffOu4U7EF3pBM83X6Rw>
+ <xmx:-T_8Yb4m-S6JwzCEEMlzk1dhot763EU5vXDRlBYZLe0i4lvTOvPYuQ>
+ <xmx:-z_8YZdwMcVGVh4zMWA6tkssYlQRfYTSdg2SlWoU1E9JkjDRbxFCqNbBV8Y>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 3 Feb 2022 15:50:00 -0500 (EST)
+Date: Thu, 3 Feb 2022 21:49:58 +0100
+From: Klaus Jensen <its@irrelevant.dk>
+To: qemu-devel@nongnu.org, qemu-block@nongnu.org
+Subject: Re: [PATCH v2 0/3] hw/nvme: zoned random write area
+Message-ID: <Yfw/9lM0Q+vSnv4Q@apples>
+References: <20220127081950.953572-1-its@irrelevant.dk>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="H4LU+37p4x3p+BFN"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220203140141.310870-7-edgar.iglesias@gmail.com>
-Received-SPF: pass client-ip=149.202.28.74; envelope-from=luc@lmichel.fr;
- helo=pharaoh.lmichel.fr
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+In-Reply-To: <20220127081950.953572-1-its@irrelevant.dk>
+Received-SPF: pass client-ip=64.147.123.27; envelope-from=its@irrelevant.dk;
+ helo=wnew2-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -64,124 +93,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: edgar.iglesias@xilinx.com, peter.maydell@linaro.org,
- sai.pavan.boddu@xilinx.com, frasse.iglesias@gmail.com, alistair@alistair23.me,
- richard.henderson@linaro.org, qemu-devel@nongnu.org, f4bug@amsat.org,
- francisco.iglesias@xilinx.com, frederic.konrad@adacore.com,
- qemu-arm@nongnu.org
+Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
+ Klaus Jensen <k.jensen@samsung.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Hanna Reitz <hreitz@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Keith Busch <kbusch@kernel.org>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Edgar,
 
-On 15:01 Thu 03 Feb     , Edgar E. Iglesias wrote:
-> From: "Edgar E. Iglesias" <edgar.iglesias@xilinx.com>
-> 
-> Connect the ZynqMP APU Control device.
+--H4LU+37p4x3p+BFN
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Somehow you don't seem to connect the "wfi_in" pins. I guess it's
-because currently QEMU ARM CPUs do not expose a "wfi_out" pin right?
+On Jan 27 09:19, Klaus Jensen wrote:
+> From: Klaus Jensen <k.jensen@samsung.com>
+>=20
+> This series adds support for a zoned random write area as standardized
+> in TP 4076 ("Zoned Random Write Area").
+>=20
+> v2:
+>   * fixed rsvd member in NvmeZoneSendCmd (Keith)
+>   * dropped patch 2 ("hw/nvme: add zone attribute get/set helpers")
+>   * amended patch 4 to open code the helpers removed from patch 2
+>=20
+> Klaus Jensen (3):
+>   hw/nvme: add struct for zone management send
+>   hw/nvme: add ozcs enum
+>   hw/nvme: add support for zoned random write area
+>=20
+>  hw/nvme/ctrl.c       | 181 +++++++++++++++++++++++++++++++++++++------
+>  hw/nvme/ns.c         |  61 ++++++++++++++-
+>  hw/nvme/nvme.h       |  10 +++
+>  hw/nvme/trace-events |   1 +
+>  include/block/nvme.h |  40 +++++++++-
+>  5 files changed, 266 insertions(+), 27 deletions(-)
+>=20
 
-Reviewed-by: Luc Michel <luc@lmichel.fr>
+Applied to nvme-next.
 
-> 
-> Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-> Reviewed-by: Francisco Iglesias <francisco.iglesias@xilinx.com>
-> Signed-off-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
-> ---
->  include/hw/arm/xlnx-zynqmp.h |  4 +++-
->  hw/arm/xlnx-zynqmp.c         | 25 +++++++++++++++++++++++--
->  2 files changed, 26 insertions(+), 3 deletions(-)
-> 
-> diff --git a/include/hw/arm/xlnx-zynqmp.h b/include/hw/arm/xlnx-zynqmp.h
-> index d5a3ad3df2..05cd2128f3 100644
-> --- a/include/hw/arm/xlnx-zynqmp.h
-> +++ b/include/hw/arm/xlnx-zynqmp.h
-> @@ -38,6 +38,7 @@
->  #include "hw/dma/xlnx_csu_dma.h"
->  #include "hw/nvram/xlnx-bbram.h"
->  #include "hw/nvram/xlnx-zynqmp-efuse.h"
-> +#include "hw/misc/xlnx-zynqmp-apu-ctrl.h"
->  #include "hw/misc/xlnx-zynqmp-crf.h"
->  
->  #define TYPE_XLNX_ZYNQMP "xlnx-zynqmp"
-> @@ -85,7 +86,7 @@ OBJECT_DECLARE_SIMPLE_TYPE(XlnxZynqMPState, XLNX_ZYNQMP)
->  /*
->   * Unimplemented mmio regions needed to boot some images.
->   */
-> -#define XLNX_ZYNQMP_NUM_UNIMP_AREAS 2
-> +#define XLNX_ZYNQMP_NUM_UNIMP_AREAS 1
->  
->  struct XlnxZynqMPState {
->      /*< private >*/
-> @@ -123,6 +124,7 @@ struct XlnxZynqMPState {
->      XlnxZDMA gdma[XLNX_ZYNQMP_NUM_GDMA_CH];
->      XlnxZDMA adma[XLNX_ZYNQMP_NUM_ADMA_CH];
->      XlnxCSUDMA qspi_dma;
-> +    XlnxZynqMPAPUCtrl apu_ctrl;
->      XlnxZynqMPCRF crf;
->  
->      char *boot_cpu;
-> diff --git a/hw/arm/xlnx-zynqmp.c b/hw/arm/xlnx-zynqmp.c
-> index 9f433ee5d8..2fa8c77dfd 100644
-> --- a/hw/arm/xlnx-zynqmp.c
-> +++ b/hw/arm/xlnx-zynqmp.c
-> @@ -65,7 +65,7 @@
->  #define DPDMA_IRQ           116
->  
->  #define APU_ADDR            0xfd5c0000
-> -#define APU_SIZE            0x100
-> +#define APU_IRQ             153
->  
->  #define IPI_ADDR            0xFF300000
->  #define IPI_IRQ             64
-> @@ -283,6 +283,27 @@ static void xlnx_zynqmp_create_efuse(XlnxZynqMPState *s, qemu_irq *gic)
->      sysbus_connect_irq(sbd, 0, gic[EFUSE_IRQ]);
->  }
->  
-> +static void xlnx_zynqmp_create_apu_ctrl(XlnxZynqMPState *s, qemu_irq *gic)
-> +{
-> +    SysBusDevice *sbd;
-> +    int i;
-> +
-> +    object_initialize_child(OBJECT(s), "apu-ctrl", &s->apu_ctrl,
-> +                            TYPE_XLNX_ZYNQMP_APU_CTRL);
-> +    sbd = SYS_BUS_DEVICE(&s->apu_ctrl);
-> +
-> +    for (i = 0; i < XLNX_ZYNQMP_NUM_APU_CPUS; i++) {
-> +        g_autofree gchar *name = g_strdup_printf("cpu%d", i);
-> +
-> +        object_property_set_link(OBJECT(&s->apu_ctrl), name,
-> +                                 OBJECT(&s->apu_cpu[i]), &error_abort);
-> +    }
-> +
-> +    sysbus_realize(sbd, &error_fatal);
-> +    sysbus_mmio_map(sbd, 0, APU_ADDR);
-> +    sysbus_connect_irq(sbd, 0, gic[APU_IRQ]);
-> +}
-> +
->  static void xlnx_zynqmp_create_crf(XlnxZynqMPState *s, qemu_irq *gic)
->  {
->      SysBusDevice *sbd;
-> @@ -302,7 +323,6 @@ static void xlnx_zynqmp_create_unimp_mmio(XlnxZynqMPState *s)
->          hwaddr base;
->          hwaddr size;
->      } unimp_areas[ARRAY_SIZE(s->mr_unimp)] = {
-> -        { .name = "apu", APU_ADDR, APU_SIZE },
->          { .name = "serdes", SERDES_ADDR, SERDES_SIZE },
->      };
->      unsigned int nr;
-> @@ -698,6 +718,7 @@ static void xlnx_zynqmp_realize(DeviceState *dev, Error **errp)
->  
->      xlnx_zynqmp_create_bbram(s, gic_spi);
->      xlnx_zynqmp_create_efuse(s, gic_spi);
-> +    xlnx_zynqmp_create_apu_ctrl(s, gic_spi);
->      xlnx_zynqmp_create_crf(s, gic_spi);
->      xlnx_zynqmp_create_unimp_mmio(s);
->  
-> -- 
-> 2.25.1
-> 
+--H4LU+37p4x3p+BFN
+Content-Type: application/pgp-signature; name="signature.asc"
 
--- 
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmH8P/QACgkQTeGvMW1P
+DekanQf/VuW8CXgdmrZyR0pXQpgS+tlU+Y7obhuD8lOrcFQl5Euzn08unkElnBvo
+TfgmzWye/6TgubZavnDGg4ZTz908Ts0loYgQ/9J5OmW4Q3AUzOllRZp5OttS/Wt4
+7mzgYICtxFsYCzCIS688IooheVJKJMw400KA8u9ZmOZxKGDyz/d96VJ5VzlFHQrK
+zLC0dlYuyxPQ5lwwwh4ZD6QgChjET/RLORLfXGSdqyUPihLpOhtWkMFcL+xkK98i
+hsJiKPKMQApN6Hw74w5CXmJOnnCm/FI2xs/+vb8kn1Tsp2jOk6QbcSUv+Oae/9jX
+/wFOMIUd8fwEVHODuu+VI2mS+Lw41A==
+=tqHM
+-----END PGP SIGNATURE-----
+
+--H4LU+37p4x3p+BFN--
 
