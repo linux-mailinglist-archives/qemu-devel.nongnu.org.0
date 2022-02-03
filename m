@@ -2,77 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89CF34A8CCB
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Feb 2022 20:56:44 +0100 (CET)
-Received: from localhost ([::1]:55050 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C58A14A8CCE
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Feb 2022 20:58:12 +0100 (CET)
+Received: from localhost ([::1]:57466 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nFiDj-00010Q-Lm
-	for lists+qemu-devel@lfdr.de; Thu, 03 Feb 2022 14:56:43 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:51530)
+	id 1nFiF0-0002ht-BT
+	for lists+qemu-devel@lfdr.de; Thu, 03 Feb 2022 14:58:05 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:51528)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nFhdn-0002mi-0n
+ id 1nFhdn-0002mh-0H
  for qemu-devel@nongnu.org; Thu, 03 Feb 2022 14:19:39 -0500
-Received: from [2607:f8b0:4864:20::1030] (port=39867
- helo=mail-pj1-x1030.google.com)
+Received: from [2607:f8b0:4864:20::42a] (port=35758
+ helo=mail-pf1-x42a.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nFhdc-0002Ij-9k
+ id 1nFhdh-0002JB-Rd
  for qemu-devel@nongnu.org; Thu, 03 Feb 2022 14:19:31 -0500
-Received: by mail-pj1-x1030.google.com with SMTP id
- s61-20020a17090a69c300b001b4d0427ea2so10927270pjj.4
- for <qemu-devel@nongnu.org>; Thu, 03 Feb 2022 11:19:09 -0800 (PST)
+Received: by mail-pf1-x42a.google.com with SMTP id u130so3045990pfc.2
+ for <qemu-devel@nongnu.org>; Thu, 03 Feb 2022 11:19:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Z6e7j9kocYjBLI6/AQ6OQvrdS8sBKMYiEoeoj10G7EU=;
- b=SZ3h1HkyvjIdgZQwN0feMbHhdyrQ4naVFetVXliqqiTQwnZdbnqC49PK0jqq4BhoaE
- xbOwIBjmficHf6ZTuwT17vn5wKFNjc+0fKmx+H7J6QePKnSwQYsUomEwYwGoBcitfHqe
- 3fRTsOCo7GAlpo7IfPWEVfKiNopRYZZAIxmw2U/K2f+/2OgGa5Q0URoA8cZhEo/qPl9M
- yvgVDmufgLjke9YCnCvejRWun3w4CbBbXVwu0+zMNr38ZI7Xy3eFxeGPlxkSSFsS3gVi
- cRftprmKyCtSNNWyI/62eOvEQwvODrZ93r07t3WNd7mkRU2/8ajEnWX2ee8cqJggqiS9
- jPgw==
+ bh=mgPtfvqDsNTLRxTRPmFW79qViytxlXTk2nJLw5OxqU0=;
+ b=jQQ5Vq9nDwNLDsgsH07rc2BoJlXkByXv9HRkqAgoCfrSYjym9VCWm9Bhn7GKdmEuwi
+ tCWKheUJUwSk8vpLhD4ZBWw/Es0KbuyG/d1aAx0XR1i4WAxAdtYFSxZ2tkqEP/xs02Ic
+ TpuG4oezTVxAxxhdEA0i5qMm12tk/ATBKMU2Fz/bmHLyApwHuko5yPrWEQXc8683m3pc
+ 7IQIi6l+H3UGGtWWPlwgxZGOFeDQGdpKs3yEx08tzOTPbVjmAPiiRgzNiI7jI+9tm5ye
+ 4kErVIPBqAtXCqt+51SLkYlkc8qdeDOv6iFiJC4NrmrHh+4E4ylwJfWrwZSWvGq+agMb
+ XRxQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=Z6e7j9kocYjBLI6/AQ6OQvrdS8sBKMYiEoeoj10G7EU=;
- b=p1Xa9xmS117qiCPWLnqn4wWHESAPU9NO1AXcNA5gGbthXgrK+m8OJR4v/FqemQCdS1
- i+nwOVmndrmVHeqOaHF7Fri2c98ZFE0epNrI6OhXW7EixIy0hUlEQNlFjO93T/U7vChM
- tTLK85Zub1LSUTIyjFzZFJHxfQgjPp+jGZF75rGUMJHB5IXXSywHXvX00MQQpOvLXgL4
- QzAEAwMXjbuVpuFMHgs/OBY39CzjN2BV45XO68VVa3sbr8VVNc1lgMjTxK4VAZINngqX
- MFelIlaRan+F5rp7CjpOrx0twV4WCME1AC78MzDG3HNSiYP0x8FQ456UOKj7nCbVdNH7
- kKQQ==
-X-Gm-Message-State: AOAM530zfvkZiIqna/tbi+zqjRh1+rNHP6eZss0c5F3uXFawyBb/63nY
- 2zZcnBgmJrBUS8JUxDd2zhlMXCPSaPE=
-X-Google-Smtp-Source: ABdhPJy1s6nr/rHDzuoSsUKx07qTdsQ7senKxo6zp8ktTGvRThwkUxJCoCokM3ShGmIJkIbjAS75aw==
-X-Received: by 2002:a17:90b:1c8d:: with SMTP id
- oo13mr602473pjb.244.1643915948582; 
- Thu, 03 Feb 2022 11:19:08 -0800 (PST)
+ bh=mgPtfvqDsNTLRxTRPmFW79qViytxlXTk2nJLw5OxqU0=;
+ b=0r4OM6EFBrg1oqaBfSuwfcmSHnnvOIrHmHvIuObrZO3rfUPy6q/l4YiS/f9CRtmHYy
+ nIzguT/OAElPINwL0o67rJNAlcu30u1ZqDMoJnniMFHhzeUmkSlKwQNZa12lFCd4H6JV
+ xnu/qurR64PUqmuKfuD2CIEJsv0auVXSm7NlGt79wS/xs2LsJ8Ef1p/WP5UM/7DD2XuK
+ ytfPMTVwzW6s999rydmRzfSNUhTZLSJA5Xd2rGk2PVRv0V43OP+w3QceyjH6iertNgk3
+ zX4ow2fRLBn8Rvydo2WjsrugXGEdlFhG+Ka37ctVGL5fcHywAujsT6Q/XpWPJCt0qla9
+ +JzQ==
+X-Gm-Message-State: AOAM530Dy4N27AezCOnfEXD2CZzlDVrV60r63E4SzjHS3eQokFzitT5z
+ Mq7hj/pTHKSk9VBOH4jBmobM3/8ORjs=
+X-Google-Smtp-Source: ABdhPJy2hVJahscY9apD9PgC5tnrBUn03MKSIyCe8Epno2ZfiMY0lwtrBD1UxeQOBe7VeZkOUoDq9g==
+X-Received: by 2002:aa7:9838:: with SMTP id q24mr35863865pfl.76.1643915956866; 
+ Thu, 03 Feb 2022 11:19:16 -0800 (PST)
 Received: from localhost.localdomain (154.red-83-50-83.dynamicip.rima-tde.net.
  [83.50.83.154])
- by smtp.gmail.com with ESMTPSA id nk11sm10777880pjb.55.2022.02.03.11.19.06
+ by smtp.gmail.com with ESMTPSA id my18sm8106103pjb.0.2022.02.03.11.19.14
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Thu, 03 Feb 2022 11:19:08 -0800 (PST)
+ Thu, 03 Feb 2022 11:19:16 -0800 (PST)
 To: qemu-devel@nongnu.org
 Cc: Richard Henderson <richard.henderson@linaro.org>,
  Thomas Huth <thuth@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: [PATCH v2 06/21] sysemu/kvm: Make kvm_on_sigbus() /
- kvm_on_sigbus_vcpu() target agnostic
-Date: Thu,  3 Feb 2022 20:17:59 +0100
-Message-Id: <20220203191814.45023-7-f4bug@amsat.org>
+Subject: [PATCH v2 07/21] accel/kvm: Simplify user-mode #ifdef'ry
+Date: Thu,  3 Feb 2022 20:18:00 +0100
+Message-Id: <20220203191814.45023-8-f4bug@amsat.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220203191814.45023-1-f4bug@amsat.org>
 References: <20220203191814.45023-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1030
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::42a
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1030;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pj1-x1030.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42a;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pf1-x42a.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -99,40 +96,43 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reply-to:  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 From:  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= via <qemu-devel@nongnu.org>
 
-kvm_on_sigbus() and kvm_on_sigbus_vcpu() prototypes don't have
-to be target specific. Remove this limitation to be able to build
-softmmu/cpus.c once for all targets.
+Now than we only build this stub with system emulation,
+remove the user-mode #ifdef'ry.
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- include/sysemu/kvm.h | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ accel/stubs/kvm-stub.c | 5 -----
+ 1 file changed, 5 deletions(-)
 
-diff --git a/include/sysemu/kvm.h b/include/sysemu/kvm.h
-index 6eb39a088b..a5bec96fb0 100644
---- a/include/sysemu/kvm.h
-+++ b/include/sysemu/kvm.h
-@@ -249,6 +249,9 @@ int kvm_has_intx_set_mask(void);
- bool kvm_arm_supports_user_irq(void);
+diff --git a/accel/stubs/kvm-stub.c b/accel/stubs/kvm-stub.c
+index 5319573e00..7e0fb884b9 100644
+--- a/accel/stubs/kvm-stub.c
++++ b/accel/stubs/kvm-stub.c
+@@ -12,10 +12,7 @@
  
- 
-+int kvm_on_sigbus_vcpu(CPUState *cpu, int code, void *addr);
-+int kvm_on_sigbus(int code, void *addr);
-+
- #ifdef NEED_CPU_H
- #include "cpu.h"
- 
-@@ -261,9 +264,6 @@ int kvm_remove_breakpoint(CPUState *cpu, target_ulong addr,
- void kvm_remove_all_breakpoints(CPUState *cpu);
- int kvm_update_guest_debug(CPUState *cpu, unsigned long reinject_trap);
- 
--int kvm_on_sigbus_vcpu(CPUState *cpu, int code, void *addr);
--int kvm_on_sigbus(int code, void *addr);
+ #include "qemu/osdep.h"
+ #include "sysemu/kvm.h"
 -
- /* internal API */
+-#ifndef CONFIG_USER_ONLY
+ #include "hw/pci/msi.h"
+-#endif
  
- int kvm_ioctl(KVMState *s, int type, ...);
+ KVMState *kvm_state;
+ bool kvm_kernel_irqchip;
+@@ -80,7 +77,6 @@ int kvm_on_sigbus(int code, void *addr)
+     return 1;
+ }
+ 
+-#ifndef CONFIG_USER_ONLY
+ int kvm_irqchip_add_msi_route(KVMState *s, int vector, PCIDevice *dev)
+ {
+     return -ENOSYS;
+@@ -152,4 +148,3 @@ bool kvm_dirty_ring_enabled(void)
+ {
+     return false;
+ }
+-#endif
 -- 
 2.34.1
 
