@@ -2,58 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE3104A83DC
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Feb 2022 13:33:48 +0100 (CET)
-Received: from localhost ([::1]:53100 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C8D1C4A8428
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Feb 2022 13:55:55 +0100 (CET)
+Received: from localhost ([::1]:59902 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nFbJ6-00088S-40
-	for lists+qemu-devel@lfdr.de; Thu, 03 Feb 2022 07:33:48 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:58116)
+	id 1nFbeU-0005hg-DO
+	for lists+qemu-devel@lfdr.de; Thu, 03 Feb 2022 07:55:54 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:59578)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1nFbHS-00071t-5b; Thu, 03 Feb 2022 07:32:06 -0500
-Received: from kylie.crudebyte.com ([5.189.157.229]:33679)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1nFbHN-0008MX-UF; Thu, 03 Feb 2022 07:32:04 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
- MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
- Content-ID:Content-Description;
- bh=86+sX0LEJxzbPl5hG2yNd0BN0taWSLUHj17iojHQDqg=; b=vgRNLXwu80QC5roCGFNXlQx9RW
- gLT+nBRXJ2lNvaVG2YOI0KS5gAwRQleiq2zL+j9UyTRVJiixZDC9ebacokqoIg/T4mlAjuflvYyCb
- 3kWRBl3ikrukaB2Qp5ZFPKFsurBiIitFqUGlkIP6IKuWJ/Ys9UCEEhhlAuMFeartN5jZ7k0sE2Kq4
- ENzeiTpE7/3LAcwGn/okfALNwMHOFrlm6Y38r1QKPuXsWojHFg9H1jT13JvD/D83v5rI5a2nBw2U4
- wbjIW4zeI2d0fGdjtvDKP2qRzNzVOpjmA6DfdmJHURpfR3fzN7EYTnpSR1bLReSs94IX3FaNDpCGn
- 37AX47EBWPYdotV0FrZGdBH7Ds5WT/cxpyVrOvDOdniopZUa/b1CHKRYM46R7KwkTEOp25s627usI
- HYc2WCcRrhwq5z1Mzorvalw/ujjcSZuQ5j8st0eaUxVSpin8eyslzMUm560E8SfCp3X6hni1wmO0n
- EXHGM4ZexZYA63CzVnjGlrdAwVwI6jojAILKLEy78FomsfwkPUMWQL5qihVDm1l9zoxVpdpw7wnqC
- uqBhEuaELuCBgHME8RIzLvy2AXPMsOYKQxqRc7EzctMzIFdyEyQsbvBSp1Ul9H1mW1KXY6eHzpjKd
- xtCuKJRArDoABosn3BKmd42/itEDUBzxpmaUox2T8=;
-From: Christian Schoenebeck <qemu_oss@crudebyte.com>
-To: qemu-devel@nongnu.org
-Cc: Vitaly Chikunov <vt@altlinux.org>, qemu-stable@nongnu.org,
- "Dmitry V. Levin" <ldv@altlinux.org>, Greg Kurz <groug@kaod.org>
-Subject: Re: [PATCH v2] 9pfs: Fix segfault in do_readdir_many caused by struct
- dirent overread
-Date: Thu, 03 Feb 2022 13:31:58 +0100
-Message-ID: <1731735.zDmDcn6TH7@silver>
-In-Reply-To: <20220203062005.chsjk5bb3pftlapn@altlinux.org>
-References: <20220128223326.927132-1-vt@altlinux.org>
- <20220203045540.3wmae6mp7cnjtzxm@altlinux.org>
- <20220203062005.chsjk5bb3pftlapn@altlinux.org>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1nFbMw-0002BN-2o
+ for qemu-devel@nongnu.org; Thu, 03 Feb 2022 07:37:46 -0500
+Received: from [2607:f8b0:4864:20::102d] (port=50913
+ helo=mail-pj1-x102d.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1nFbMu-0001F8-63
+ for qemu-devel@nongnu.org; Thu, 03 Feb 2022 07:37:45 -0500
+Received: by mail-pj1-x102d.google.com with SMTP id m7so2338086pjk.0
+ for <qemu-devel@nongnu.org>; Thu, 03 Feb 2022 04:37:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=lGvpg3AaFmuWPI5TWMqByEJf47m8kl2LLsuvjty1e6U=;
+ b=MIHPdwWTpTNS0OJ0gx7Fbi2rcRnEFwFVdFJ7czo/or0sFC/tILb63uJhvDOuL1QWGY
+ QAxmPwzthNONCSVfG7sNgEL1a0Tn9f0MqRCoNa8EzPMDTEG4Uho+SF6HLA0T62m5iBrm
+ /y1ZFf2IWliHJFpZvAJgGb2eHZi+bnzOpZ2E/TCxjEz/SSHVyC4TYutNl6fv3E6GE0Zm
+ TXMQvoCRer5fNB2wLDWF82Axu1hNb5UUBNu8Xl2HQIWZadxrrc7cLaKm5heSuWpsz1xz
+ XWCvFEhVCNPEtizAbT03ELotjqm5ruwuELWcdxotR2WE/B06t8ZSxyXM2yrl7AgQYwb6
+ d7Tw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+ :subject:content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=lGvpg3AaFmuWPI5TWMqByEJf47m8kl2LLsuvjty1e6U=;
+ b=MnaofFv11dpy2kz5A76j312wY9Q/nRRqLpnmAA1uO2vYFL+jqt0gqndYdxppCZcN5D
+ su/9asY0VXCuTluyFi0grMCwmFqa1sEibc69ScAIx0e7RqEqjUic43pg0s/QBlKtFSdM
+ oWoaJji2a3yNyQtP17vGlsPGdLArqFEWGBT2Romqfz6PxiPCK5R2xa0EyntEiU/IstvF
+ 28FYj2zYtSX8rdrOHZsVkXSiagWqp+OULl9dXHB+rErM+XXXoUgpZemcvAl5dORATbyq
+ JCExjNrwnEe6HNDrlyEu8BZe8VIE1jeF7jd4i6c0eEkx/BvtZseJOgxJ0mVEsWAGcPO7
+ +87A==
+X-Gm-Message-State: AOAM533cdaP0yDzpOeg4/U3bJVwZgSUDuW3oJMd3IurB+6miZGeylGmC
+ +FwFiYCIfgglfhGo+rVquXg=
+X-Google-Smtp-Source: ABdhPJySV3RpPamA0icF7I3wf21op9pHLTx4gxvd00m8qUN++VXwv8boYMTJX8yalXjXSbZKC7xLbw==
+X-Received: by 2002:a17:90a:bb01:: with SMTP id
+ u1mr13481714pjr.148.1643891862316; 
+ Thu, 03 Feb 2022 04:37:42 -0800 (PST)
+Received: from [192.168.1.33] (154.red-83-50-83.dynamicip.rima-tde.net.
+ [83.50.83.154])
+ by smtp.gmail.com with ESMTPSA id mp22sm9722609pjb.28.2022.02.03.04.37.40
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 03 Feb 2022 04:37:41 -0800 (PST)
+Message-ID: <24207fae-bd2f-46f5-7d5c-20add4670b0d@amsat.org>
+Date: Thu, 3 Feb 2022 13:37:37 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
-Received-SPF: pass client-ip=5.189.157.229;
- envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.5.1
+Subject: Re: [RFC PATCH 11/15] exec/cpu: Make
+ address_space_init/reloading_memory_map target agnostic
+Content-Language: en-US
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>
+References: <20210517115525.1088693-1-f4bug@amsat.org>
+ <20210517115525.1088693-12-f4bug@amsat.org>
+ <30a9e423-5d2b-ae00-3f40-2487f3a5b467@linaro.org>
+In-Reply-To: <30a9e423-5d2b-ae00-3f40-2487f3a5b467@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::102d
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102d;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pj1-x102d.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.001,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -68,110 +99,36 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
-On Donnerstag, 3. Februar 2022 07:20:05 CET Vitaly Chikunov wrote:
-> On Thu, Feb 03, 2022 at 07:55:41AM +0300, Vitaly Chikunov wrote:
-> > Christian,
-> > 
-> > On Wed, Feb 02, 2022 at 05:55:45PM +0100, Christian Schoenebeck wrote:
-> > > On Freitag, 28. Januar 2022 23:33:26 CET Vitaly Chikunov wrote:
-> > > > `struct dirent' returned from readdir(3) could be shorter than
-> > > > `sizeof(struct dirent)', thus memcpy of sizeof length will overread
-> > > > 
-> > > > into unallocated page causing SIGSEGV. Example stack trace:
-> > > >  #0  0x00005555559ebeed v9fs_co_readdir_many
-> > > >  (/usr/bin/qemu-system-x86_64 +
-> > > > 
-> > > > 0x497eed) #1  0x00005555559ec2e9 v9fs_readdir
-> > > > (/usr/bin/qemu-system-x86_64
-> > > > + 0x4982e9) #2  0x0000555555eb7983 coroutine_trampoline
-> > > > (/usr/bin/qemu-system-x86_64 + 0x963983) #3  0x00007ffff73e0be0 n/a
-> > > > (n/a +
-> > > > 0x0)
-> > > > 
-> > > > While fixing, provide a helper for any future `struct dirent' cloning.
-> > > > 
-> > > > Resolves: https://gitlab.com/qemu-project/qemu/-/issues/841
-> > > > Cc: qemu-stable@nongnu.org
-> > > > Co-authored-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
-> > > > Signed-off-by: Vitaly Chikunov <vt@altlinux.org>
-> > > > ---
-> > > > Tested on x86-64 Linux.
-> > > 
-> > > I was too optimistic. Looks like this needs more work. With this patch
-> > > applied the 9p test cases [1] are crashing now:
-> > > 
-> > > $ gdb --args tests/qtest/qos-test -m slow
-> > > ...
-> > > # Start of flush tests
-> > > ok 50
-> > > /x86_64/pc/i440FX-pcihost/pci-bus-pc/pci-bus/virtio-9p-pci/virtio-9p/vi
-> > > rtio-9p-tests/synth/flush/success ok 51
-> > > /x86_64/pc/i440FX-pcihost/pci-bus-pc/pci-bus/virtio-9p-pci/virtio-9p/vi
-> > > rtio-9p-tests/synth/flush/ignored # End of flush tests
-> > > # Start of readdir tests
-> > 
-> > I changed implementation from the one using dent->d_reclen to the one
-> > using
-> > 
-> > strlen(dent->d_name) and it's passed readdir tests, but failed later:
-> >   # Start of readdir tests
-> >   ok 53
-> >   /x86_64/pc/i440FX-pcihost/pci-bus-pc/pci-bus/virtio-9p-pci/virtio-9p/vi
-> >   rtio-9p-tests/synth/readdir/basic ok 54
-> >   /x86_64/pc/i440FX-pcihost/pci-bus-pc/pci-bus/virtio-9p-pci/virtio-9p/vi
-> >   rtio-9p-tests/synth/readdir/split_512 ok 55
-> >   /x86_64/pc/i440FX-pcihost/pci-bus-pc/pci-bus/virtio-9p-pci/virtio-9p/vi
-> >   rtio-9p-tests/synth/readdir/split_256 ok 56
-> >   /x86_64/pc/i440FX-pcihost/pci-bus-pc/pci-bus/virtio-9p-pci/virtio-9p/vi
-> >   rtio-9p-tests/synth/readdir/split_128 # End of readdir tests
-> >   # End of synth tests
-> >   # Start of local tests
-> >   # starting QEMU: exec x86_64-softmmu/qemu-system-x86_64 -qtest
-> >   unix:/tmp/qtest-2822967.sock -qtest-log /dev/null -chardev
-> >   socket,path=/tmp/qtest-2822967.qmp,id=char0 -mon
-> >   chardev=char0,mode=control -display none -M pc  -fsdev
-> >   local,id=fsdev0,path='/usr/src/RPM/BUILD/qemu-6.2.0/build-dynamic/qtest
-> >   -9p-local-NpcZCR',security_model=mapped-xattr -device
-> >   virtio-9p-pci,fsdev=fsdev0,addr=04.0,mount_tag=qtest -accel qtest #
-> >   GLib-DEBUG: setenv()/putenv() are not thread-safe and should not be
-> >   used after threads are created ok 57
-> >   /x86_64/pc/i440FX-pcihost/pci-bus-pc/pci-bus/virtio-9p-pci/virtio-9p/vi
-> >   rtio-9p-tests/local/config Received response 7 (RLERROR) instead of 73
-> >   (RMKDIR)
-> >   Rlerror has errno 95 (Operation not supported)
-> >   **
-> >   ERROR:../tests/qtest/virtio-9p-test.c:305:v9fs_req_recv: assertion
-> >   failed (hdr.id == id): (7 == 73) Bail out!
-> >   ERROR:../tests/qtest/virtio-9p-test.c:305:v9fs_req_recv: assertion
-> >   failed (hdr.id == id): (7 == 73) Aborted
+On 26/5/21 21:01, Richard Henderson wrote:
+> On 5/17/21 4:55 AM, Philippe Mathieu-Daudé wrote:
+>> cpu_address_space_init() and cpu_reloading_memory_map() don't
+>> have to be target specific. Remove this limitation to be able
+>> to build softmmu/cpus.c once for all targets.
+>>
+>> Signed-off-by: Philippe Mathieu-Daudé<f4bug@amsat.org>
+>> ---
+>>   include/exec/cpu-common.h | 23 +++++++++++++++++++++++
+>>   include/exec/exec-all.h   | 25 -------------------------
+>>   2 files changed, 23 insertions(+), 25 deletions(-)
 > 
-> I added some debugging output and in the bug case `d_reclen` is 0. Thus
-> this is not readdir's struct dirent, but something else (test-only
-> simulated dirent without accounting that we now have d_reclen logic).
+> It's not clear to me why the declarations moved file, instead of just 
+> droppig the surrounding ifdef.
 > 
-> This maybe related to the other bug in
-> 
->   static void synth_direntry(V9fsSynthNode *node,
-> 				  struct dirent *entry, off_t off)
->   {
->       strcpy(entry->d_name, node->name);
->       entry->d_ino = node->attr->inode;
->       entry->d_off = off + 1;
->   }
-> 
-> Where `d_reclen` is not updated.
+> If there's a good reason, fine, but the reason belongs in the commit 
+> message.
 
-The synth driver (used by the 'synth' 9p tests) intentionally just simulates a 
-filesystem. The synth driver does not call any real fs syscalls, it just has 
-its own very simple in-RAM-only structures that are used to simulate a fs and 
-therefore the synth driver populates the dirent structure by itself.
+What about:
 
-Could you try to resolve this issue in the synth driver and send a v3 of this 
-patch? I am currently busy with other tasks right now.
-
-Best regards,
-Christian Schoenebeck
-
-
+'''
+cpu_address_space_init() and cpu_reloading_memory_map() are
+target-agnostic, but are declared in "exec/exec-all.h" which
+contains target-specific declarations. Any target-agnostic
+source including "exec/exec-all.h" becomes target-specific
+and we have to compile it N times for the N targets built.
+In order to avoid that, move the declarations to "exec/cpu-common.h"
+which only contains target-agnostic declarations.
+'''
 
