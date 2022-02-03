@@ -2,70 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CFFC14A8A38
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Feb 2022 18:38:00 +0100 (CET)
-Received: from localhost ([::1]:42132 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B44D14A8A39
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Feb 2022 18:38:02 +0100 (CET)
+Received: from localhost ([::1]:42278 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nFg3T-0007ZI-GP
-	for lists+qemu-devel@lfdr.de; Thu, 03 Feb 2022 12:37:59 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:56984)
+	id 1nFg3V-0007fJ-Pg
+	for lists+qemu-devel@lfdr.de; Thu, 03 Feb 2022 12:38:01 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:56986)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nFfzi-0004kr-0m
+ id 1nFfzi-0004ky-8j
  for qemu-devel@nongnu.org; Thu, 03 Feb 2022 12:34:06 -0500
-Received: from [2a00:1450:4864:20::630] (port=36660
- helo=mail-ej1-x630.google.com)
+Received: from [2a00:1450:4864:20::62a] (port=37645
+ helo=mail-ej1-x62a.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nFfzf-0008ES-Nq
+ id 1nFfzf-0008EY-Tx
  for qemu-devel@nongnu.org; Thu, 03 Feb 2022 12:34:05 -0500
-Received: by mail-ej1-x630.google.com with SMTP id s13so11053468ejy.3
+Received: by mail-ej1-x62a.google.com with SMTP id ah7so10954134ejc.4
  for <qemu-devel@nongnu.org>; Thu, 03 Feb 2022 09:34:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=H9H9N+kG5pGxpKToPpsJsYrzR0IHZRGFKYL0I7BIFRw=;
- b=Q1x6E6Rl+AXaSXPodb3+ayLHXT3RpMSy+FXav2YEh4OgbVmmpWAbHnP0Dll3k9KQdv
- KjLqTAmQ0drgC7w9ai6F6BCkYWmlduVa13ZCfhu9MUfQVLSCpahd49jMzyKPwO1S2f4Z
- cgJMkyVyoU6ksQYZlP/xyJ7FWJXGZGFA182HNpNKcLqamCE+A3BMk/SUTe8Qnt9UYqw0
- B7F5+8kngHpigZ/CZiHR6QH1QxCbhrXoO7Z285AQvkgAFyUZC9W6kBtTMz6ng8TutV0O
- Ku4wMMh1OPHzVJRhv5ivOkT1cjnknIFqmvpIRowOfPvvL0c25I/fYqEl59BHkGp9WAe7
- XyVA==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=yyvCpeDksj6CAh++Ga/ZmKPlAI3Y8Jz7GLBG6NJLt1g=;
+ b=equnzJQSUysrj3D27xol5QVJ7lAni2tksR7qA/rTJiHYFd+cq90+GZt1Ani892XeRA
+ P79N4mYwDP4hYb7blMRjAN9AI1k51uXveoRcaWDSTIpo8GFHtbEr0rcqUbLyRbrIGpDg
+ SZ0+4cvjwIi3i6zG7cV562UMhV8DZhEo1xW+8p9Og0ZtpYK+TbJowlXV/Qch05XLK1Fr
+ /puhG2gsjnn+tw0mu1JT5iz8Itr89xFtULfZEjoEHgdXivIPQBz7XxiMAKV8eyDuFY35
+ RIaEPSk7PwdWXWqrB2THLJHBVLalJUm1ZvPkfphQn7mj0y3KpJJRw2eoiXrouqvuKStg
+ cPkQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=H9H9N+kG5pGxpKToPpsJsYrzR0IHZRGFKYL0I7BIFRw=;
- b=zBwtqdPYo/sqrler8rvamsLZ+4XNpiwwbbC9xdABj1dZ61DLCGHDqVubptBHNhBevU
- V+IckxqoNDkgFGWWSKu255RjbGqra3/1BFvnn2IvZ7uV23BydckJMYq18OUCQrFeerHC
- joGfjSdWbFrn3+Fyqg8CqnptWKVeONZJ5v56FV1VANjMEVTjP9HKib6920tOXyoSEi5n
- fP/zyTZzKv70WnjCX0H4X701OlwwXxQCVqc1694jTQA8QhSa2YSTV3P34FoymmmdY+na
- qzkLqV/nyfIzMB/RpKpSNXVxl0NcOuHcruk2wsugDPC8sN6k7IjHV9Vjon+d5MWZpmv2
- mtjQ==
-X-Gm-Message-State: AOAM530/0L2dAaFGtAGxdwFn0nrhrKFnXGN8T5qrjbnsyKc7D1o7iNM2
- I8rnb9H25T7zN45xJeTZRU2FP4Pb9QU=
-X-Google-Smtp-Source: ABdhPJxT72XUsn4BOGAYWwh5EvGFVMx4AGZIldcvrtW8hrybOs2nnzJvtwNwTjcVvtfxv4inFCC7aA==
-X-Received: by 2002:a17:906:4acf:: with SMTP id
- u15mr29776295ejt.469.1643909641547; 
- Thu, 03 Feb 2022 09:34:01 -0800 (PST)
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=yyvCpeDksj6CAh++Ga/ZmKPlAI3Y8Jz7GLBG6NJLt1g=;
+ b=z4T1m+4xgwgTkuMHXgWoQwp/WFmaJkEoF7JFDgpw4C3uFAZlQYiWiqqM3kFMvvFpS8
+ 9/6TKlcdUU032R06HnZWRw5raaPqmW4ZtajRQ7hE8knfrqnObiJwX2aGZwncOK+PpO1F
+ FS43Mceya1FHAcFyKGZTQ43Pib1k6D8X0XjInRmrf42/A2yX0zdsu5vTfK5SXC2j2rLa
+ KNRyQmPAvg3rwRJ2aOwBHgPf5IuImx6OZs5Fjn6m6oGedOEkC1ZrAwTLls1Qodu3eVD+
+ 07n6ChASQ1iXN5WDXnD+hDbr8cxpaD7FLX3A7xmT9kX2udvy/N6eGlfUZyc7HW+RbaBm
+ C9aQ==
+X-Gm-Message-State: AOAM531c4zbAnivLiYWhHBU8nEPMfEYLwzdXA0GfDiHc317Q5oCSbfrE
+ JPWBZ08v13VMqKlmbwVbUwDfVjmM4go=
+X-Google-Smtp-Source: ABdhPJzG4IlbCwbGidUhpbTkL35K9yfU58Pv+bpxoRJbwUKfJO9QHpi4xPT5AHTEQ9Xhissc+raeIA==
+X-Received: by 2002:a17:907:7ba0:: with SMTP id
+ ne32mr31589443ejc.540.1643909642214; 
+ Thu, 03 Feb 2022 09:34:02 -0800 (PST)
 Received: from avogadro.lan ([2001:b07:6468:f312:5e2c:eb9a:a8b6:fd3e])
- by smtp.gmail.com with ESMTPSA id a25sm6665279ejs.149.2022.02.03.09.34.00
+ by smtp.gmail.com with ESMTPSA id a25sm6665279ejs.149.2022.02.03.09.34.01
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 03 Feb 2022 09:34:00 -0800 (PST)
+ Thu, 03 Feb 2022 09:34:01 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 00/27] Next batch of Meson cleanups and conversions
-Date: Thu,  3 Feb 2022 18:33:32 +0100
-Message-Id: <20220203173359.292068-1-pbonzini@redhat.com>
+Subject: [PATCH 01/27] meson: use .allowed() method for features
+Date: Thu,  3 Feb 2022 18:33:33 +0100
+Message-Id: <20220203173359.292068-2-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20220203173359.292068-1-pbonzini@redhat.com>
+References: <20220203173359.292068-1-pbonzini@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::630
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::62a
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::630;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x630.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::62a;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x62a.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -91,89 +92,205 @@ Cc: marcandre.lureau@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The main news here are the usage of .allowed() and .require() methods for
-features.  These simplify a lot the generation of errors when features
-depend on the results of compile or OS tests.  The reduction in LoC is
-smaller than past conversions, but still not bad.
+The method is now in 0.59, using it simplifies some boolean conditions.
+The other new methods .require() and .disable_auto_if() can be used too,
+but introducing them is not just a matter of search-and-replace.
 
-There aren't many tests left in configure; the most complicated ones
-are for Xen and sanitizers.  The plan for configure is to host detection
-logic for cross compilers, which would enable cross-compilation of pc-bios
-etc. just like we do for TCG tests.
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+---
+ meson.build       | 42 +++++++++++++++++++++---------------------
+ tests/meson.build |  2 +-
+ 2 files changed, 22 insertions(+), 22 deletions(-)
 
-Paolo
-
-Based-on: <20220121154134.315047-1-f4bug@amsat.org>
-
-Marc-André Lureau (9):
-  qga/vss-win32: fix midl arguments
-  meson: drop --with-win-sdk
-  qga/vss-win32: use widl if available
-  qga/vss: use standard windows headers location
-  configure, meson: replace VSS SDK checks and options with
-    --enable-vss-sdk
-  meson: do not make qga/vss-win32/meson.build conditional on C++
-    presence
-  qga/vss-win32: require widl/midl, remove pre-built TLB file
-  meson: require dynamic linking for VSS support
-  meson, configure: move ntddscsi API check to meson
-
-Paolo Bonzini (18):
-  meson: use .allowed() method for features
-  meson: use .require() and .disable_auto_if() method for features
-  configure, meson: move AVX tests to meson
-  configure, meson: move membarrier test to meson
-  configure, meson: move AF_ALG test to meson
-  configure, meson: move libnuma detection to meson
-  configure, meson: move TPM check to meson
-  configure, meson: cleanup qemu-ga libraries
-  configure, meson: move image format options to meson_options.txt
-  configure, meson: move block layer options to meson_options.txt
-  meson: define qemu_cflags/qemu_ldflags
-  configure, meson: move some default-disabled options to
-    meson_options.txt
-  configure, meson: move coroutine options to meson_options.txt
-  configure, meson: move smbd options to meson_options.txt
-  configure, meson: move guest-agent, tools to meson
-  meson: refine check for whether to look for virglrenderer
-  configure, meson: move OpenGL check to meson
-  configure, meson: move CONFIG_IASL to a Meson option
-
- backends/tpm/meson.build           |  14 +-
- block/meson.build                  |  51 ++-
- configure                          | 638 +----------------------------
- contrib/vhost-user-gpu/meson.build |   3 +-
- crypto/meson.build                 |   6 +-
- docs/devel/kconfig.rst             |   2 +-
- docs/meson.build                   |   2 -
- hw/acpi/meson.build                |   4 +-
- meson.build                        | 445 +++++++++++++-------
- meson_options.txt                  |  66 +++
- migration/meson.build              |   4 +-
- net/slirp.c                        |  16 +-
- qga/commands-win32.c               |   6 +-
- qga/meson.build                    |  55 ++-
- qga/vss-win32/install.cpp          |   2 +-
- qga/vss-win32/meson.build          |  52 +--
- qga/vss-win32/provider.cpp         |   4 +-
- qga/vss-win32/qga-vss.tlb          | Bin 1528 -> 0 bytes
- qga/vss-win32/requester.cpp        |   4 +-
- qga/vss-win32/vss-common.h         |   6 +-
- scripts/meson-buildoptions.py      |   2 +
- scripts/meson-buildoptions.sh      |  92 +++++
- softmmu/meson.build                |   5 +-
- tests/Makefile.include             |   2 +-
- tests/check-block.sh               |   4 -
- tests/meson.build                  |   2 +-
- tests/qemu-iotests/meson.build     |   2 +-
- tests/unit/meson.build             |   6 +-
- tools/meson.build                  |  31 +-
- ui/meson.build                     |  16 +-
- util/meson.build                   |   4 +-
- 31 files changed, 637 insertions(+), 909 deletions(-)
- delete mode 100644 qga/vss-win32/qga-vss.tlb
-
+diff --git a/meson.build b/meson.build
+index 82db1e7e74..637ee08eb1 100644
+--- a/meson.build
++++ b/meson.build
+@@ -1,4 +1,4 @@
+-project('qemu', ['c'], meson_version: '>=0.58.2',
++project('qemu', ['c'], meson_version: '>=0.59.3',
+         default_options: ['warning_level=1', 'c_std=gnu11', 'cpp_std=gnu++11', 'b_colorout=auto',
+                           'b_staticpic=false', 'stdsplit=false'],
+         version: files('VERSION'))
+@@ -99,7 +99,7 @@ else
+ endif
+ 
+ kvm_targets_c = '""'
+-if not get_option('kvm').disabled() and targetos == 'linux'
++if get_option('kvm').allowed() and targetos == 'linux'
+   kvm_targets_c = '"' + '" ,"'.join(kvm_targets) + '"'
+ endif
+ config_host_data.set('CONFIG_KVM_TARGETS', kvm_targets_c)
+@@ -276,7 +276,7 @@ endif
+ if targetos != 'linux' and get_option('multiprocess').enabled()
+   error('Multiprocess QEMU is supported only on Linux')
+ endif
+-multiprocess_allowed = targetos == 'linux' and not get_option('multiprocess').disabled()
++multiprocess_allowed = targetos == 'linux' and get_option('multiprocess').allowed()
+ 
+ # Target-specific libraries and flags
+ libm = cc.find_library('m', required: false)
+@@ -313,7 +313,7 @@ elif targetos == 'haiku'
+             cc.find_library('network'),
+             cc.find_library('bsd')]
+ elif targetos == 'openbsd'
+-  if not get_option('tcg').disabled() and target_dirs.length() > 0
++  if get_option('tcg').allowed() and target_dirs.length() > 0
+     # Disable OpenBSD W^X if available
+     emulator_link_args = cc.get_supported_link_arguments('-Wl,-z,wxneeded')
+   endif
+@@ -321,16 +321,16 @@ endif
+ 
+ # Target-specific configuration of accelerators
+ accelerators = []
+-if not get_option('kvm').disabled() and targetos == 'linux'
++if get_option('kvm').allowed() and targetos == 'linux'
+   accelerators += 'CONFIG_KVM'
+ endif
+-if not get_option('xen').disabled() and 'CONFIG_XEN_BACKEND' in config_host
++if get_option('xen').allowed() and 'CONFIG_XEN_BACKEND' in config_host
+   accelerators += 'CONFIG_XEN'
+-  have_xen_pci_passthrough = not get_option('xen_pci_passthrough').disabled() and targetos == 'linux'
++  have_xen_pci_passthrough = get_option('xen_pci_passthrough').allowed() and targetos == 'linux'
+ else
+   have_xen_pci_passthrough = false
+ endif
+-if not get_option('whpx').disabled() and targetos == 'windows'
++if get_option('whpx').allowed() and targetos == 'windows'
+   if get_option('whpx').enabled() and host_machine.cpu() != 'x86_64'
+     error('WHPX requires 64-bit host')
+   elif cc.has_header('WinHvPlatform.h', required: get_option('whpx')) and \
+@@ -338,14 +338,14 @@ if not get_option('whpx').disabled() and targetos == 'windows'
+     accelerators += 'CONFIG_WHPX'
+   endif
+ endif
+-if not get_option('hvf').disabled()
++if get_option('hvf').allowed()
+   hvf = dependency('appleframeworks', modules: 'Hypervisor',
+                    required: get_option('hvf'))
+   if hvf.found()
+     accelerators += 'CONFIG_HVF'
+   endif
+ endif
+-if not get_option('hax').disabled()
++if get_option('hax').allowed()
+   if get_option('hax').enabled() or targetos in ['windows', 'darwin', 'netbsd']
+     accelerators += 'CONFIG_HAX'
+   endif
+@@ -358,7 +358,7 @@ if targetos == 'netbsd'
+ endif
+ 
+ tcg_arch = host_arch
+-if not get_option('tcg').disabled()
++if get_option('tcg').allowed()
+   if host_arch == 'unknown'
+     if get_option('tcg_interpreter')
+       warning('Unsupported CPU @0@, will use TCG with TCI (slow)'.format(cpu))
+@@ -472,7 +472,7 @@ libattr_test = '''
+ 
+ libattr = not_found
+ have_old_libattr = false
+-if not get_option('attr').disabled()
++if get_option('attr').allowed()
+   if cc.links(libattr_test)
+     libattr = declare_dependency()
+   else
+@@ -628,7 +628,7 @@ endif
+ mpathlibs = [libudev]
+ mpathpersist = not_found
+ mpathpersist_new_api = false
+-if targetos == 'linux' and have_tools and not get_option('mpath').disabled()
++if targetos == 'linux' and have_tools and get_option('mpath').allowed()
+   mpath_test_source_new = '''
+     #include <libudev.h>
+     #include <mpath_persist.h>
+@@ -697,7 +697,7 @@ endif
+ 
+ iconv = not_found
+ curses = not_found
+-if have_system and not get_option('curses').disabled()
++if have_system and get_option('curses').allowed()
+   curses_test = '''
+     #if defined(__APPLE__) || defined(__OpenBSD__)
+     #define _XOPEN_SOURCE_EXTENDED 1
+@@ -759,7 +759,7 @@ if have_system and not get_option('curses').disabled()
+       endforeach
+     endif
+   endif
+-  if not get_option('iconv').disabled()
++  if get_option('iconv').allowed()
+     foreach link_args : [ ['-liconv'], [] ]
+       # Programs will be linked with glib and this will bring in libiconv on FreeBSD.
+       # We need to use libiconv if available because mixing libiconv's headers with
+@@ -938,7 +938,7 @@ if liblzfse.found() and not cc.links('''
+ endif
+ 
+ oss = not_found
+-if have_system and not get_option('oss').disabled()
++if get_option('oss').allowed() and have_system
+   if not cc.has_header('sys/soundcard.h')
+     # not found
+   elif targetos == 'netbsd'
+@@ -1092,7 +1092,7 @@ vnc = not_found
+ png = not_found
+ jpeg = not_found
+ sasl = not_found
+-if have_system and not get_option('vnc').disabled()
++if get_option('vnc').allowed() and have_system
+   vnc = declare_dependency() # dummy dependency
+   png = dependency('libpng', required: get_option('vnc_png'),
+                    method: 'pkg-config', kwargs: static_kwargs)
+@@ -1236,7 +1236,7 @@ selinux = dependency('libselinux',
+ malloc = []
+ if get_option('malloc') == 'system'
+   has_malloc_trim = \
+-    not get_option('malloc_trim').disabled() and \
++    get_option('malloc_trim').allowed() and \
+     cc.links('''#include <malloc.h>
+                 int main(void) { malloc_trim(0); return 0; }''')
+ else
+@@ -1291,7 +1291,7 @@ fuse = dependency('fuse3', required: get_option('fuse'),
+                   kwargs: static_kwargs)
+ 
+ fuse_lseek = not_found
+-if not get_option('fuse_lseek').disabled()
++if get_option('fuse_lseek').allowed()
+   if fuse.version().version_compare('>=3.8')
+     # Dummy dependency
+     fuse_lseek = declare_dependency()
+@@ -1714,7 +1714,7 @@ config_host_data.set('HAVE_MLOCKALL', cc.links(gnu_source_prefix + '''
+   }'''))
+ 
+ have_l2tpv3 = false
+-if not get_option('l2tpv3').disabled() and have_system
++if get_option('l2tpv3').allowed() and have_system
+   have_l2tpv3 = cc.has_type('struct mmsghdr',
+     prefix: gnu_source_prefix + '''
+       #include <sys/socket.h>
+@@ -1723,7 +1723,7 @@ endif
+ config_host_data.set('CONFIG_L2TPV3', have_l2tpv3)
+ 
+ have_netmap = false
+-if not get_option('netmap').disabled() and have_system
++if get_option('netmap').allowed() and have_system
+   have_netmap = cc.compiles('''
+     #include <inttypes.h>
+     #include <net/if.h>
+diff --git a/tests/meson.build b/tests/meson.build
+index 079c8f3727..1d05109eb4 100644
+--- a/tests/meson.build
++++ b/tests/meson.build
+@@ -85,7 +85,7 @@ if 'CONFIG_TCG' in config_all
+   subdir('fp')
+ endif
+ 
+-if not get_option('tcg').disabled()
++if get_option('tcg').allowed()
+   if 'CONFIG_PLUGIN' in config_host
+     subdir('plugin')
+   endif
 -- 
 2.34.1
+
 
 
