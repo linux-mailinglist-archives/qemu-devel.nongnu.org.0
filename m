@@ -2,83 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5BF274A8302
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Feb 2022 12:16:47 +0100 (CET)
-Received: from localhost ([::1]:41150 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 06C614A8305
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Feb 2022 12:18:33 +0100 (CET)
+Received: from localhost ([::1]:43330 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nFa6S-0001fs-LG
-	for lists+qemu-devel@lfdr.de; Thu, 03 Feb 2022 06:16:44 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:41906)
+	id 1nFa8G-00038k-5o
+	for lists+qemu-devel@lfdr.de; Thu, 03 Feb 2022 06:18:32 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:42168)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.griffin@linaro.org>)
- id 1nFa4S-0000oB-PX
- for qemu-devel@nongnu.org; Thu, 03 Feb 2022 06:14:36 -0500
-Received: from [2a00:1450:4864:20::42d] (port=40452
- helo=mail-wr1-x42d.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.griffin@linaro.org>)
- id 1nFa4Q-0004n7-SR
- for qemu-devel@nongnu.org; Thu, 03 Feb 2022 06:14:36 -0500
-Received: by mail-wr1-x42d.google.com with SMTP id s18so4325451wrv.7
- for <qemu-devel@nongnu.org>; Thu, 03 Feb 2022 03:14:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=mEUUJiO5+uMjULtZJtqhGga9ZLEanrPmRGzNOqiELKk=;
- b=hIpKnUJRial9C+by2RZ80mfKNhiJ1equBFzR2bCaOTwhzjGYEYehJ+CnHPCWsQJVZ/
- +gf7jpiWj9DSLp3n2SjQJGDBnUsbhbW+eBQmyv6zErseblf3WdNoK6+1DV65xFjEpvVa
- VrfgQqnaYKvuzVnZ4CzqCh2rQUDwpRXu5NcR68BeslJrSEFck/LXEYBne1P3qHJ8RsEf
- htjmVaHYd9J5vD0jCEojClR/Hu816byJiF614/g36xkmOX1C26PplsMAhCX3Nu2vsLMl
- +9M8b8mPIPkdspsN/7qk50onvcM5O/Sh+64kVi5SxNlSdPGA9EdMdYpTgGy+WtLd29Sf
- 9glA==
+ (Exim 4.90_1) (envelope-from <eterrell@redhat.com>)
+ id 1nFa5d-0001Qd-54
+ for qemu-devel@nongnu.org; Thu, 03 Feb 2022 06:15:50 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:37881)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <eterrell@redhat.com>)
+ id 1nFa5X-00052c-0S
+ for qemu-devel@nongnu.org; Thu, 03 Feb 2022 06:15:47 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1643886922;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=qMbXuK6Ie1nsNFXBDKAV74v6CpdoYYU+a6xup0+8820=;
+ b=QHBAFc5S/lHJhWVnmwBnrb9tjq+TyOxI1pNBJ/6N5t3GFCz4qouP83x2qfxSBR8zO4sQs4
+ VeiCKAexQe4kJriCqirCqh1/5n8Nyror81VN4WlLbSNpdMl3Wp4GjWoHeiBXgcse17eDsp
+ 38kNO544G7OcPKlID7wTiH12aqXAOoc=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-10-756UkJVLN_SKqB5xyp0B3Q-1; Thu, 03 Feb 2022 06:15:21 -0500
+X-MC-Unique: 756UkJVLN_SKqB5xyp0B3Q-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ w5-20020a1cf605000000b00354d2d83490so626530wmc.4
+ for <qemu-devel@nongnu.org>; Thu, 03 Feb 2022 03:15:21 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=mEUUJiO5+uMjULtZJtqhGga9ZLEanrPmRGzNOqiELKk=;
- b=SEUPWN3ajj1fsB32KFDjVY9AJJz3tRLM/jemmUUGxQrAsD8MpuyNG+K7xHP4xI5k6U
- TmxHh4aevUxclKWp6+f8jOPAF8HN/zugJzVbr1A1qbGAV/IJ7D2vp8iLTBwdlhGIE4Pp
- lgO0R85b3hUuZn2NwbQfAikus9eeCMa63OuDSZr6Mr8uxQjbl/clfmRW0+sQlh+D0IaZ
- W725Ah8Y2s3kl8zEmtFzOLVsY8pe2ivFsqY+FfAiODdIQn/TSaeQlg8mxetwYSdOodsW
- 7Rijncx5z/xp5WY0O22pCPcXyRpPpvCyuwnN6sP1hY54IfymeHQozHog/Ir0otgNMAj5
- TNCg==
-X-Gm-Message-State: AOAM533KTtqgf0cgKGzXp3oXLphNXhsf9Sk6/xCW5JGcXhzhF90gFkqy
- oQMMfqBi79Zp5iL2PYLZhS2VoA==
-X-Google-Smtp-Source: ABdhPJxGsL2lkRpIPqp33CBt8l6Uzo/zL/XVnZW2+M0VFeWhhsc76Cb1HBDWvJKhJ3FO3EOtR8f2HQ==
-X-Received: by 2002:adf:d1ec:: with SMTP id g12mr30191692wrd.8.1643886872931; 
- Thu, 03 Feb 2022 03:14:32 -0800 (PST)
-Received: from xps15-9570.lan ([85.210.223.90])
- by smtp.gmail.com with ESMTPSA id e13sm24032474wrq.35.2022.02.03.03.14.32
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 03 Feb 2022 03:14:32 -0800 (PST)
-Date: Thu, 3 Feb 2022 11:14:30 +0000
-From: Peter Griffin <peter.griffin@linaro.org>
-To: Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>
-Subject: Re: [PATCH 3/8] vhost-user-video: boiler plate code for
- vhost-user-video device
-Message-ID: <20220203111430.GB371411@xps15-9570.lan>
-References: <20211209145601.331477-1-peter.griffin@linaro.org>
- <20211209145601.331477-4-peter.griffin@linaro.org>
- <87wnj6b6rp.fsf@linaro.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
+ :from:date:message-id:subject:to:cc:content-transfer-encoding;
+ bh=qMbXuK6Ie1nsNFXBDKAV74v6CpdoYYU+a6xup0+8820=;
+ b=CD8Uv5pUrYJKK7H31hCk/ys4fIkliocoxapi/ylykElsB4xxXMY0bMcISqtuy2yDku
+ VnzwLeO1w7XcauZlz9K2Ul6ff1mHNJQH1doT13oLyncJZHYc3vGpAlADgIWp9JNBPRjt
+ /KCzoB4MErSjbA3ayg3YbwHDZFIk+nbT/5U0DF89k/jFYnSUVQEJ38GbvICceavP+q3U
+ kdvLzjVXgSbq1KcuxGxnee/MtPjCGPKnaDsLUUBGI2vPp4oklljJl0v7hnBJktezRxCE
+ W4SuikM3pwKD2/9PaMd+j6tU+/dSYtZPNQ0pzQqupBReu2Pl1uLz0jLiYY5AaIbmWLtN
+ FMTw==
+X-Gm-Message-State: AOAM532IxX9kLwROGxGAyOgIybeN9DinsjAdrzYk13pKt4AV2cTEOa+6
+ 6BQaP1Yrslt5qg/hoDZmE/j6v6YPZ2oJfOCzXR+UnfVEMoS/s6WFGWwpnJO6Qm1dVVOv9/1afZp
+ HLzWUmXRRGcehkX/LcSa2fjT/CbythoE=
+X-Received: by 2002:a5d:64e6:: with SMTP id g6mr20421879wri.184.1643886920483; 
+ Thu, 03 Feb 2022 03:15:20 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzMV7a3tj6eVRCHehu4kIC+mdKIjWutkothUCvkJQBqd7KeT2Um49fagiHrH+jBMDPqmxWDsdfsOFVZRluKxNA=
+X-Received: by 2002:a5d:64e6:: with SMTP id g6mr20421864wri.184.1643886920279; 
+ Thu, 03 Feb 2022 03:15:20 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <87wnj6b6rp.fsf@linaro.org>
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42d
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
- envelope-from=peter.griffin@linaro.org; helo=mail-wr1-x42d.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+References: <20220203105118.520687-1-berrange@redhat.com>
+In-Reply-To: <20220203105118.520687-1-berrange@redhat.com>
+From: Eduardo Otubo <eterrell@redhat.com>
+Date: Thu, 3 Feb 2022 12:15:09 +0100
+Message-ID: <CAGMDDkc3cR4zUHLm6BxAnDcadVEZaRhdxP7ZRihLuMotgNPaDw@mail.gmail.com>
+Subject: Re: [PATCH] MAINTAINERS: take over seccomp from Eduardo Otubo
+To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eterrell@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eterrell@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.086,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -91,133 +92,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: marcandre.lureau@redhat.com, stratos-dev@op-lists.linaro.org,
- qemu-devel@nongnu.org, mst@redhat.com
+Reply-To: otubo@redhat.com
+Cc: Eduardo Otubo <otubo@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Alex,
+On Thu, Feb 3, 2022 at 11:51 AM Daniel P. Berrang=C3=A9 <berrange@redhat.co=
+m> wrote:
+>
+> Eduardo has indicated that he no longer has time to be involved in
+> a QEMU aintainership role. As one of the more frequent contributors
+> of patches and design ideas to seccomp, I'll take over.
+>
+> Signed-off-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
+> ---
+>  MAINTAINERS | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index bdb55924f4..2b0b400709 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -2973,8 +2973,8 @@ F: docs/sphinx/fakedbusdoc.py
+>  F: tests/qtest/dbus*
+>
+>  Seccomp
+> -M: Eduardo Otubo <otubo@redhat.com>
+> -S: Supported
+> +M: Daniel P. Berrange <berrange@redhat.com>
+> +S: Odd Fixes
+>  F: softmmu/qemu-seccomp.c
+>  F: include/sysemu/seccomp.h
+>  F: tests/unit/test-seccomp.c
+> --
+> 2.34.1
+>
 
-Thanks for reviewing.
+Acked-by: Eduardo Otubo <otubo@redhat.com>
 
-On Tue, 11 Jan 2022, Alex Bennée wrote:
-> 
-> Peter Griffin <peter.griffin@linaro.org> writes:
-> 
-> > Signed-off-by: Peter Griffin <peter.griffin@linaro.org>
-> > ---
-> >  hw/display/Kconfig                   |   5 +
-> >  hw/display/meson.build               |   3 +
-> >  hw/display/vhost-user-video.c        | 386 +++++++++++++++++++++++++++
-> >  include/hw/virtio/vhost-user-video.h |  41 +++
-> >  4 files changed, 435 insertions(+)
-> >  create mode 100644 hw/display/vhost-user-video.c
-> >  create mode 100644 include/hw/virtio/vhost-user-video.h
-> >
-> > diff --git a/hw/display/Kconfig b/hw/display/Kconfig
-> > index a2306b67d8..186163b015 100644
-> > --- a/hw/display/Kconfig
-> > +++ b/hw/display/Kconfig
-> > @@ -118,6 +118,11 @@ config VHOST_USER_VGA
-> >      default y
-> >      depends on VIRTIO_VGA && VHOST_USER_GPU
-> >  
-> > +config VHOST_USER_VIDEO
-> > +    bool
-> > +    default y
-> > +    depends on VIRTIO && VHOST_USER
-> > +
-> >  config DPCD
-> >      bool
-> >      select AUX
-> > diff --git a/hw/display/meson.build b/hw/display/meson.build
-> > index 861c43ff98..48284528cf 100644
-> > --- a/hw/display/meson.build
-> > +++ b/hw/display/meson.build
-> > @@ -37,6 +37,9 @@ softmmu_ss.add(when: 'CONFIG_MACFB', if_true: files('macfb.c'))
-> >  softmmu_ss.add(when: 'CONFIG_NEXTCUBE', if_true: files('next-fb.c'))
-> >  
-> >  specific_ss.add(when: 'CONFIG_VGA', if_true: files('vga.c'))
-> > +specific_ss.add(when: 'CONFIG_VHOST_USER_VIDEO', if_true: files('vhost-user-video.c'))
-> > +specific_ss.add(when: ['CONFIG_VHOST_USER_VIDEO', 'CONFIG_VIRTIO_PCI' ],
-> > +  if_true: files('vhost-user-video-pci.c'))
-> >  
-> >  if config_all_devices.has_key('CONFIG_QXL')
-> >    qxl_ss = ss.source_set()
-> > diff --git a/hw/display/vhost-user-video.c b/hw/display/vhost-user-video.c
-> > new file mode 100644
-> > index 0000000000..506e350365
-> > --- /dev/null
-> > +++ b/hw/display/vhost-user-video.c
-> > @@ -0,0 +1,386 @@
-> > +/*
-> > + * Vhost-user VIDEO virtio device
-> > + *
-> > + * This is the boilerplate for instantiating a vhost-user device
-> > + * implementing a virtio-video device.
-> > + *
-> > + * The virtio video decoder and encoder devices are virtual devices that
-> > + * support encoding and decoding respectively.
-> > + *
-> > + * The actual back-end for this driver is the vhost-user-video daemon.
-> > + * The code here just connects up the device in QEMU and allows it to
-> > + * be instantiated.
-> > + *
-> > + * Copyright (c) 2021 Linaro Ltd
-> > + *
-> > + * SPDX-License-Identifier: GPL-2.0-or-later
-> > + */
-> > +
-> > +#include "qemu/osdep.h"
-> > +#include "qapi/error.h"
-> > +#include "hw/qdev-properties.h"
-> > +#include "hw/virtio/virtio-bus.h"
-> > +#include "hw/virtio/vhost-user-video.h"
-> > +#include "qemu/error-report.h"
-> > +
-> > +/* currently there is no VIDEO enc/dec defined in Linux virtio_ids.h */
-> > +#define VIRTIO_ID_VIDEO_ENC         30
-> > +#define VIRTIO_ID_VIDEO_DEC         31
-> > +#define MAX_CAPS_LEN 4096
-> > +
-> > +static void vhost_user_video_get_config(VirtIODevice *vdev, uint8_t *config)
-> > +{
-> > +    VHostUserVIDEO *video = VHOST_USER_VIDEO(vdev);
-> > +    struct virtio_video_config *vconfig = (struct virtio_video_config *)config;
-> > +    int ret;
-> > +    Error *local_err = NULL;
-> > +
-> > +    memset(config, 0, sizeof(struct virtio_video_config));
-> > +
-> > +    ret = vhost_dev_get_config(&video->vhost_dev, config,
-> > +                               sizeof(struct virtio_video_config), &local_err);
-> > +    if (ret) {
-> > +        error_report("vhost-user-video: get device config space failed");
-> > +
-> > +        /*TODO vhost_dev_get_config() fails so for now lets just set
-> >  it here */
-> 
-> Is this a lifetime issue?
-
-I believe so. I spent some time trying to get it working, but then added this
-workaround so I could progress on the virtio-video implementation.
-
-I will take another look and see if I can get thie config coming from the daemon
-as intended.
-
-Looking at other examples, hw/display/vhost-user-gpu.c get_config() hook seems to call
-vhost_dev_config successfully like I'm doing here.
-
-But hw/block/vhost-user-blk.c and hw/virtio/vhost-user-vsock.c seem to have
-a slightly different mechanism of using VhostDevConfigOps
-.vhost_dev_config_notifier() which I don't recall having looked into that previously.
-
-> 
-> Otherwise:
-> 
-> Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
-
-kind regards,
-
-Peter.
 
