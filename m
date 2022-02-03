@@ -2,80 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C31604A8B03
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Feb 2022 18:56:22 +0100 (CET)
-Received: from localhost ([::1]:40286 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CECE44A8B6B
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Feb 2022 19:19:56 +0100 (CET)
+Received: from localhost ([::1]:49218 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nFgLF-0000hp-7f
-	for lists+qemu-devel@lfdr.de; Thu, 03 Feb 2022 12:56:21 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:57342)
+	id 1nFgi3-0001rE-Ua
+	for lists+qemu-devel@lfdr.de; Thu, 03 Feb 2022 13:19:55 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:58084)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nFg0S-0005HB-FO
- for qemu-devel@nongnu.org; Thu, 03 Feb 2022 12:34:52 -0500
-Received: from [2a00:1450:4864:20::62c] (port=43895
- helo=mail-ej1-x62c.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nFg0K-0008Jj-Px
- for qemu-devel@nongnu.org; Thu, 03 Feb 2022 12:34:52 -0500
-Received: by mail-ej1-x62c.google.com with SMTP id d10so11000668eje.10
- for <qemu-devel@nongnu.org>; Thu, 03 Feb 2022 09:34:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=uoavGsx5uHQgHv6smMXVvTdmy2n+xqG9XtRnmfuZ34U=;
- b=M/04lZcRGl1klSl/BqJiRo+n87/O5O62Afqw8LaSiOpeVmZrDFm5XrQKrsxNLz1fq0
- MeJOZUSkXKkYzkQPMl+xEEi/C5+1cuigOCteeHQba/wnYQBQQkNRv+p22QabzK/tsURl
- xeAzOzyoJcsQs155q6VRLllW9rUdETMQn8WZHI2yX9I6Wgao8fl/h6A0ur68Iyf2SV2K
- 5VjBMlSOGmPTB12WzN8C2HT4/3VsLwD1INIQDQFNWezzuJHnu0dVfXtGMzBY/wlTE+KP
- yCKgRxNyWvPaUAlF7b8QklpDE+9NF+SP2z7g/KXplzzvJaBGZXv/TOpjuIkMnF0eQETG
- 6D1w==
+ (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
+ id 1nFg2T-00082d-4o
+ for qemu-devel@nongnu.org; Thu, 03 Feb 2022 12:36:58 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:52223)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
+ id 1nFg2L-0000QT-Uq
+ for qemu-devel@nongnu.org; Thu, 03 Feb 2022 12:36:53 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1643909805;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=NaY1+Rcp4nI8Y7hTHNgTcgSz7crViekEdo/VLEb7EN0=;
+ b=cpTbkS/EZZ0e5p2eptzEc91ky4OUh5G8q9ACZ1BTdYUBzxSu8RUkGKbvIucEUqErHaxnX8
+ pNOt8ZSjgmxLs4Igx2oaB0eOYEt/G+p7DefY/AFOTfKyzQHkWCPRsa2DGhO277yuvtLRka
+ hRLzqmkRQRP6HKzEh213jnERPGTTgfQ=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-212-Iew3fnTDOoiAvvAs2NCZaA-1; Thu, 03 Feb 2022 12:36:44 -0500
+X-MC-Unique: Iew3fnTDOoiAvvAs2NCZaA-1
+Received: by mail-ed1-f71.google.com with SMTP id
+ k5-20020a508ac5000000b00408dec8390aso1811511edk.13
+ for <qemu-devel@nongnu.org>; Thu, 03 Feb 2022 09:36:44 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=uoavGsx5uHQgHv6smMXVvTdmy2n+xqG9XtRnmfuZ34U=;
- b=ubEryp093wUgrvNe7/f1INRNy4AHchkNpajcgUVSEWmlXbEgT99SFRoN+u8BsaUFVr
- 2mXj8b7ewMsNc+5AzyDW2cTGwnmW5NdCD8roJQZrdtIFf3ZttNVjBhaoI5zJ9HBz/jXo
- m0/+c3cHI6LwA6AaqOoRaYsWdhlgKtoBN9xXvXJtlRDXQfMzO03pGqKvqx5UU1+KGYzc
- kZ+MENB+3eMZWpVzadn30coJpflJYNptteWYZcLtjzexvpAL49ZLfx/LWMltgdw501RG
- YIdrIjxHg5K9fJRaQ+UVqlqK8poyqeoWAqZdz5DvolbT294MC1husNuvGZhwccpZipk3
- VVdA==
-X-Gm-Message-State: AOAM532JiL1q52IY12epsSIVNnQkDJ231SqSIQHIF//IjilE/QX4+lJb
- gH8uV5YPIpwSq8ZHD2YmeJ9dQty+F00=
-X-Google-Smtp-Source: ABdhPJyWEACMG39T9JLqGreYMwAmkhoTxooC7rVVFRh2WCgJZBoKNKXbmDkYBeeLZX0/d9umcfFdGA==
-X-Received: by 2002:a17:907:3e8a:: with SMTP id
- hs10mr30438230ejc.112.1643909661009; 
- Thu, 03 Feb 2022 09:34:21 -0800 (PST)
-Received: from avogadro.lan ([2001:b07:6468:f312:5e2c:eb9a:a8b6:fd3e])
- by smtp.gmail.com with ESMTPSA id a25sm6665279ejs.149.2022.02.03.09.34.20
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=NaY1+Rcp4nI8Y7hTHNgTcgSz7crViekEdo/VLEb7EN0=;
+ b=xELnytsGFu3UA655StXyLwkGcCnN59t4pEUTXKKDCgJFU2ZGDAsrwbAuCsEta5dYJs
+ kMLqf6yNgyW39MelIMTAzDIuF6ZPE6hVsC3WBjrRLONZsML9rZ1cycg0VyBOnRAH47o7
+ eB0GvD0VORU0vnQyyFIYJGEEm8drQnEAD1cr/2w3CALWLZNrWxYHiYLaaDHtXe1jKnX6
+ VF7xIGQr7P5sjXxVO13lh6do+lAnIRcFXMoY4BSNeCihuiTNoCl+UVilpFavESGNn3/D
+ YlWoGrgOOdDVbsEWIjgMaIBLeZMg7kU4HiUevErIKtQSygRqAgPtGgkvpgePrsC79VqR
+ PZsg==
+X-Gm-Message-State: AOAM532Qmps2T22/QF+1krjylNZPdzB5EBjDaxXAXyPaVtVkr7XGEpmE
+ xSm1xq6HRcsEJzfXzii5W7EE+c1ILv0kjIqhEJe3Lyi8Jz3Vf/JouD6GntHe6/ZJTqwqvCA7Gpb
+ Rpx85SV0AEo9gi2U=
+X-Received: by 2002:a17:907:8a24:: with SMTP id
+ sc36mr29847025ejc.318.1643909803304; 
+ Thu, 03 Feb 2022 09:36:43 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxkG3ipP7zL3kaeqi8DgE6r7zdEFx8uRA6B9NgaG+4IB5yxRF4fz8vE4DEHKMNMv1fViTewaA==
+X-Received: by 2002:a17:907:8a24:: with SMTP id
+ sc36mr29847008ejc.318.1643909803034; 
+ Thu, 03 Feb 2022 09:36:43 -0800 (PST)
+Received: from gator (cst2-173-70.cust.vodafone.cz. [31.30.173.70])
+ by smtp.gmail.com with ESMTPSA id v5sm22990257edb.15.2022.02.03.09.36.42
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 03 Feb 2022 09:34:20 -0800 (PST)
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 27/27] configure, meson: move CONFIG_IASL to a Meson option
-Date: Thu,  3 Feb 2022 18:33:59 +0100
-Message-Id: <20220203173359.292068-28-pbonzini@redhat.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220203173359.292068-1-pbonzini@redhat.com>
-References: <20220203173359.292068-1-pbonzini@redhat.com>
+ Thu, 03 Feb 2022 09:36:42 -0800 (PST)
+Date: Thu, 3 Feb 2022 18:36:40 +0100
+From: Andrew Jones <drjones@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PULL 09/11] target/arm/kvm: host cpu: Add support for sve<N>
+ properties
+Message-ID: <20220203173640.shxkmatdcsfzzvtj@gator>
+References: <20191101085140.5205-1-peter.maydell@linaro.org>
+ <20191101085140.5205-10-peter.maydell@linaro.org>
+ <CAFEAcA8pS6_SYWMFJ0=EyHVQ9V1MTiM_OCjkvqb5znqJ91w_qw@mail.gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::62c
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::62c;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x62c.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
- PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+In-Reply-To: <CAFEAcA8pS6_SYWMFJ0=EyHVQ9V1MTiM_OCjkvqb5znqJ91w_qw@mail.gmail.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=drjones@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=drjones@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.086,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -88,110 +99,106 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: marcandre.lureau@redhat.com
+Cc: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
----
- configure                     |  4 +---
- meson.build                   | 12 ++++++++----
- meson_options.txt             |  2 ++
- scripts/meson-buildoptions.py |  1 +
- 4 files changed, 12 insertions(+), 7 deletions(-)
+On Thu, Feb 03, 2022 at 04:46:21PM +0000, Peter Maydell wrote:
+> On Fri, 1 Nov 2019 at 08:51, Peter Maydell <peter.maydell@linaro.org> wrote:
+> >
+> > From: Andrew Jones <drjones@redhat.com>
+> >
+> > Allow cpu 'host' to enable SVE when it's available, unless the
+> > user chooses to disable it with the added 'sve=off' cpu property.
+> > Also give the user the ability to select vector lengths with the
+> > sve<N> properties. We don't adopt 'max' cpu's other sve property,
+> > sve-max-vq, because that property is difficult to use with KVM.
+> > That property assumes all vector lengths in the range from 1 up
+> > to and including the specified maximum length are supported, but
+> > there may be optional lengths not supported by the host in that
+> > range. With KVM one must be more specific when enabling vector
+> > lengths.
+> 
+> Hi; I've been looking at the '-cpu max' vs '-cpu host' code
+> as part of trying to sort out the 'hvf' accelerator doing
+> oddly different things with them. I noticed an oddity
+> introduced in this patch. In the commit message you say that
+> we deliberately leave the 'sve-max-vq' property out of the
+> new aarch64_add_sve_properties(), because it is difficult to
+> use with KVM. But in the code for handling '-cpu max' in
+> aarch64_max_initfn():
+> 
+> > @@ -602,17 +617,11 @@ static void cpu_arm_set_sve(Object *obj, Visitor *v, const char *name,
+> >  static void aarch64_max_initfn(Object *obj)
+> >  {
+> >      ARMCPU *cpu = ARM_CPU(obj);
+> > -    uint32_t vq;
+> > -    uint64_t t;
+> >
+> >      if (kvm_enabled()) {
+> >          kvm_arm_set_cpu_features_from_host(cpu);
+> > -        if (kvm_arm_sve_supported(CPU(cpu))) {
+> > -            t = cpu->isar.id_aa64pfr0;
+> > -            t = FIELD_DP64(t, ID_AA64PFR0, SVE, 1);
+> > -            cpu->isar.id_aa64pfr0 = t;
+> > -        }
+> 
+> because this 'if' doesn't exit the function early...
+> 
+> >      } else {
+> > +        uint64_t t;
+> >          uint32_t u;
+> >          aarch64_a57_initfn(obj);
+> >
+> > @@ -712,17 +721,9 @@ static void aarch64_max_initfn(Object *obj)
+> >  #endif
+> >      }
+> 
+> ...all this code at the tail of the function runs for both KVM
+> and TCG, and it still sets the sve-max-vq property, even for
+> using '-cpu max' with KVM.
+> 
+> > -    object_property_add(obj, "sve", "bool", cpu_arm_get_sve,
+> > -                        cpu_arm_set_sve, NULL, NULL, &error_fatal);
+> > +    aarch64_add_sve_properties(obj);
+> >      object_property_add(obj, "sve-max-vq", "uint32", cpu_max_get_sve_max_vq,
+> >                          cpu_max_set_sve_max_vq, NULL, NULL, &error_fatal);
+> > -
+> > -    for (vq = 1; vq <= ARM_MAX_VQ; ++vq) {
+> > -        char name[8];
+> > -        sprintf(name, "sve%d", vq * 128);
+> > -        object_property_add(obj, name, "bool", cpu_arm_get_sve_vq,
+> > -                            cpu_arm_set_sve_vq, NULL, NULL, &error_fatal);
+> > -    }
+> >  }
+> 
+> Was this intentional?
 
-diff --git a/configure b/configure
-index f6b9e5a1cd..b88942bd02 100755
---- a/configure
-+++ b/configure
-@@ -2950,9 +2950,6 @@ echo "MESON=$meson" >> $config_host_mak
- echo "NINJA=$ninja" >> $config_host_mak
- echo "CC=$cc" >> $config_host_mak
- echo "HOST_CC=$host_cc" >> $config_host_mak
--if $iasl -h > /dev/null 2>&1; then
--  echo "CONFIG_IASL=$iasl" >> $config_host_mak
--fi
- echo "AR=$ar" >> $config_host_mak
- echo "AS=$as" >> $config_host_mak
- echo "CCAS=$ccas" >> $config_host_mak
-@@ -3170,6 +3167,7 @@ if test "$skip_meson" = no; then
-         -Daudio_drv_list=$audio_drv_list \
-         -Ddefault_devices=$default_devices \
-         -Ddocdir="$docdir" \
-+        -Diasl="$($iasl -h >/dev/null 2>&1 && printf %s "$iasl")" \
-         -Dqemu_firmwarepath="$firmwarepath" \
-         -Dqemu_suffix="$qemu_suffix" \
-         -Dsmbd="$smbd" \
-diff --git a/meson.build b/meson.build
-index 98e795d21a..3ddbe6093f 100644
---- a/meson.build
-+++ b/meson.build
-@@ -1468,7 +1468,9 @@ foreach k : get_option('trace_backends')
-   config_host_data.set('CONFIG_TRACE_' + k.to_upper(), true)
- endforeach
- config_host_data.set_quoted('CONFIG_TRACE_FILE', get_option('trace_file'))
--
-+if get_option('iasl') != ''
-+  config_host_data.set_quoted('CONFIG_IASL', get_option('iasl'))
-+endif
- config_host_data.set_quoted('CONFIG_BINDIR', get_option('prefix') / get_option('bindir'))
- config_host_data.set_quoted('CONFIG_PREFIX', get_option('prefix'))
- config_host_data.set_quoted('CONFIG_QEMU_CONFDIR', get_option('prefix') / qemu_confdir)
-@@ -1963,7 +1965,6 @@ config_host_data.set('HAVE_NTDDSCSI', have_ntddscsi)
- ignored = ['CONFIG_QEMU_INTERP_PREFIX', # actually per-target
-     'HAVE_GDB_BIN']
- arrays = ['CONFIG_BDRV_RW_WHITELIST', 'CONFIG_BDRV_RO_WHITELIST']
--strings = ['CONFIG_IASL']
- foreach k, v: config_host
-   if ignored.contains(k)
-     # do nothing
-@@ -1972,8 +1973,6 @@ foreach k, v: config_host
-       v = '"' + '", "'.join(v.split()) + '", '
-     endif
-     config_host_data.set(k, v)
--  elif strings.contains(k)
--    config_host_data.set_quoted(k, v)
-   elif k.startswith('CONFIG_')
-     config_host_data.set(k, v == 'y' ? 1 : v)
-   endif
-@@ -3385,6 +3384,11 @@ summary_info += {'sphinx-build':      sphinx_build}
- if config_host.has_key('HAVE_GDB_BIN')
-   summary_info += {'gdb':             config_host['HAVE_GDB_BIN']}
- endif
-+if get_option('iasl') != ''
-+  summary_info += {'iasl':            get_option('iasl')}
-+else
-+  summary_info += {'iasl':            false}
-+endif
- summary_info += {'genisoimage':       config_host['GENISOIMAGE']}
- if targetos == 'windows' and have_ga
-   summary_info += {'wixl':            wixl}
-diff --git a/meson_options.txt b/meson_options.txt
-index aad337592d..30237917df 100644
---- a/meson_options.txt
-+++ b/meson_options.txt
-@@ -12,6 +12,8 @@ option('smbd', type : 'string', value : '',
-        description: 'Path to smbd for slirp networking')
- option('sphinx_build', type : 'string', value : '',
-        description: 'Use specified sphinx-build [$sphinx_build] for building document (default to be empty)')
-+option('iasl', type : 'string', value : '',
-+       description: 'Path to ACPI disassembler')
- option('default_devices', type : 'boolean', value : true,
-        description: 'Include a default selection of devices in emulators')
- option('audio_drv_list', type: 'array', value: ['default'],
-diff --git a/scripts/meson-buildoptions.py b/scripts/meson-buildoptions.py
-index 01b10f7ae0..693be7b966 100755
---- a/scripts/meson-buildoptions.py
-+++ b/scripts/meson-buildoptions.py
-@@ -30,6 +30,7 @@
-     "default_devices",
-     "docdir",
-     "fuzzing_engine",
-+    "iasl",
-     "qemu_firmwarepath",
-     "qemu_suffix",
-     "smbd",
--- 
-2.34.1
+No, darn. I don't know how many times I rebased that series and was always
+careful to ensure sve-max-vq was left in the non-kvm part of the above
+condition. I guess the final rebase finally got me...
+
+> 
+> I'd like to fix up the weird divergence between -cpu host and
+> -cpu max, either by moving sve-max-vq into aarch64_add_sve_properties()
+> so it's present on both, or by changing the aarch64_max_initfn() so
+> it only adds the property when using TCG.
+
+The later, please. sve-max-vq won't work for any of the machines that
+support SVE that I know of, so I think it's a bad idea for KVM.
+
+> 
+> (I think also this code may get the '-cpu max,aarch64=off' case wrong,
+> as it doesn't guard the calls to add the sve and pauth properties
+> with the "if aarch64" feature check.)
+
+Yes, but these property dependencies may need to be checked at property
+finalize time. That means that the properties may get added, but then
+they will error out if the user tried to enable them. Otherwise, they'll
+be disabled and the QMP query will inform the user that they cannot be
+enabled.
+
+Thanks,
+drew
 
 
