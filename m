@@ -2,68 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C6964A82C0
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Feb 2022 11:54:55 +0100 (CET)
-Received: from localhost ([::1]:52160 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0FBFD4A82BC
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Feb 2022 11:52:57 +0100 (CET)
+Received: from localhost ([::1]:46700 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nFZlO-0005oi-KY
-	for lists+qemu-devel@lfdr.de; Thu, 03 Feb 2022 05:54:54 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:34360)
+	id 1nFZjU-00025r-6v
+	for lists+qemu-devel@lfdr.de; Thu, 03 Feb 2022 05:52:56 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:35352)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nFZcc-0005F0-Dw
- for qemu-devel@nongnu.org; Thu, 03 Feb 2022 05:45:52 -0500
-Received: from [2a00:1450:4864:20::429] (port=44775
- helo=mail-wr1-x429.google.com)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1nFZgS-0008DN-9h
+ for qemu-devel@nongnu.org; Thu, 03 Feb 2022 05:49:48 -0500
+Received: from [2a00:1450:4864:20::330] (port=39817
+ helo=mail-wm1-x330.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nFZcX-0002fi-KI
- for qemu-devel@nongnu.org; Thu, 03 Feb 2022 05:45:49 -0500
-Received: by mail-wr1-x429.google.com with SMTP id k18so4135378wrg.11
- for <qemu-devel@nongnu.org>; Thu, 03 Feb 2022 02:45:32 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1nFZgO-0005N7-QS
+ for qemu-devel@nongnu.org; Thu, 03 Feb 2022 05:49:47 -0500
+Received: by mail-wm1-x330.google.com with SMTP id
+ o1-20020a1c4d01000000b0034d95625e1fso6804357wmh.4
+ for <qemu-devel@nongnu.org>; Thu, 03 Feb 2022 02:49:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=BCn/bBH/9rDiq4cqAadL0VdAEadNPEIEhhF2HZJ4TO0=;
- b=rhgLG1btCNuXGP2638V46xfUaCF3dmy7TCcoikko3FBxrFRz9xUpUxVLFxuHwtunnp
- 5+ZaCT/x2gE98Fu8RyfMaNKuA+NaSyV7DIpP+TiKT8KHc6e7rnf06TOgS6X4QW4iXSmZ
- GyQBPf2DHRuCRZnJnS2//uFrxN2WCfR09XmmJWw5aK3jBXQZfvMQoUD3mey1v/ZqvntZ
- v1RHiXHyph+7InFrSl7ZEevXFMxH96E533sp3uOaoDigjEut0E5GIQFjLDaW9fjAQhDw
- e3+RB4hkkDHpkbciLgzO/y0JKrmRwSajP67QlFgxqfr3RTVt7PQKkDyqDwxd1JLfRNHO
- j/gg==
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=S68Cs7vNDIP2wDA061YGhwUcNgVXSiU6U1Potee7cKE=;
+ b=j4tWtC+tswMZy6Sa2gPd2Pw+EzdH/b4EmW7RSkGSE9kK78QYUyIf8M0nTyGYsRciwK
+ SkiapqJ+qE5geN2udB1S+SFN5hKNOMFRGzQhF0E6BNEOy1NWXsQT0sqKt2b1WKqvsv3V
+ Sk3tp6wMi3l+cITeDTWLAA62xU2V8S6UGxiA9/46u1AuA7mLWQHDj59SNOeDek6gAvr5
+ fqStG87+JFbuDnqoQShJ22nvhUlkwogClhzaeyxrDXBg0UvyCjLiIJaj4wW1gmvlD+eH
+ Q0VwA8SauhEV0J98zvGGvnN1b/e1I9KleX+lNlUm2Zp7vT0qvMC0qkLKZw4OZv//OeI/
+ z3rw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=BCn/bBH/9rDiq4cqAadL0VdAEadNPEIEhhF2HZJ4TO0=;
- b=W167cvWVeLO3RdkF/y2Cu1meQELJf2Yjrce4Tw3jRs8OFAs+nix6czXr8cV1NqNlsU
- jJ1XYHvZwQD9CdteEqZwBtAdcWx9z/bvvA324k/IgkpFjLnAlUbqLzt8FUcigUdW+Zeg
- KfPr69d6R8Pqam9Wr/UrA4T1D3fTYwHrxWIHXQHvz6xWL2cGtXy6Sh/Hvs5Gc+QTd4M5
- YV42Sj7nXCwOvAxBZdqADoFVcPgxTzeSELlJ3dqJxTEzuF96tMe1LSYxk4P9deJ7NQVF
- K+ML2ad53nnFp2/rEs9werQr0m6KmZdMrLv9w4YW9F0/CTzZeKXk57Zo372ahlfv7roN
- C8kw==
-X-Gm-Message-State: AOAM532W/fWba7/ob3fsOzu5vl4KCozICoIBdzv1oYLy7byYkevF3Gq5
- grF5coxqs1+DZixEV+31Hm4dbT1aDKSgCo14DRN86Q==
-X-Google-Smtp-Source: ABdhPJzIETsTVyzHDV4S/CheMuhDu5lAV+4M5e/nnf/uX/Q7gRuTRfn/C2ACmiChu/1epuJ2LUFrATp+3KvNAMWdTKs=
-X-Received: by 2002:a05:6000:258:: with SMTP id
- m24mr29663952wrz.2.1643885131879; 
- Thu, 03 Feb 2022 02:45:31 -0800 (PST)
-MIME-Version: 1.0
-References: <20220201193207.2771604-1-peter.maydell@linaro.org>
- <20220201193207.2771604-7-peter.maydell@linaro.org>
- <afbbee74-b6fc-7b55-f7e4-c5ae926f7519@linaro.org>
-In-Reply-To: <afbbee74-b6fc-7b55-f7e4-c5ae926f7519@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 3 Feb 2022 10:45:20 +0000
-Message-ID: <CAFEAcA9Dj0K5T677__5wBA5=T5c1qOxNxwW5hkZU9-vDCP-76Q@mail.gmail.com>
-Subject: Re: [PATCH 06/13] hw/intc/arm_gicv3_its: Fix address calculation in
- get_ite() and update_ite()
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=S68Cs7vNDIP2wDA061YGhwUcNgVXSiU6U1Potee7cKE=;
+ b=RpZTW+/ZaSXbW/LdqneXpth9m+q4u5pSmVkOas1sDAriPaUQPdoRG14DHiswcHPswq
+ 8ctoieOGHtLPVnESdvHmIE1tfkJG1R578JJgr5QSlOMsDDk8evwjpSTqBPPJ9aXohWog
+ Q3e/l3zdypNcvIHS5oLvAK+fvaSgRQ//+lZInJFVx1zWx5ooDYGRgvAZXCFJ6UWRg6+z
+ 5Cwx00huq4MTyxyRbKT711diNMN67HMedeBu++Agb6kS6wXyKajUGVwdTkTuccZvLGhT
+ Ora2nf29wcfxP0sUMcCQNTwHcYx5Bb3S8ZIXBHvpXGndrheHlY24H6Igw+6ZUC8CmKq8
+ 11Qg==
+X-Gm-Message-State: AOAM5312X8+1ix3D6MbOA/MhbTwZW8OOTDy8UJBXc/vBmo+gYUbcl7x2
+ nXK8i1ZgwkuvhTeLWMAJLKDVDi65jkz7jg==
+X-Google-Smtp-Source: ABdhPJz5jVX6fNz7S23uYhaUeQA6utY2t1F3r9UfM3/jSr22d2Pjmynxgi7Z3HU6JkEWA/5mML34gQ==
+X-Received: by 2002:a05:600c:ac7:: with SMTP id
+ c7mr9847054wmr.61.1643885382917; 
+ Thu, 03 Feb 2022 02:49:42 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id r2sm1387815wra.57.2022.02.03.02.49.41
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 03 Feb 2022 02:49:41 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id DB2501FFB7;
+ Thu,  3 Feb 2022 10:49:40 +0000 (GMT)
+References: <20211218194250.247633-1-richard.henderson@linaro.org>
+ <20211218194250.247633-20-richard.henderson@linaro.org>
+User-agent: mu4e 1.7.6; emacs 28.0.91
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::429
+Subject: Re: [PATCH 19/20] tcg/i386: Implement more logical operations for
+ avx512
+Date: Thu, 03 Feb 2022 10:46:10 +0000
+In-reply-to: <20211218194250.247633-20-richard.henderson@linaro.org>
+Message-ID: <87leystebf.fsf@linaro.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::330
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::429;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x429.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::330;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x330.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -84,59 +94,23 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Shashi Mallela <shashi.mallela@linaro.org>, qemu-arm@nongnu.org,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 3 Feb 2022 at 03:59, Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> On 2/2/22 06:32, Peter Maydell wrote:
-> > In get_ite() and update_ite() we work with a 12-byte in-guest-memory
-> > table entry, which we intend to handle as an 8-byte value followed by
-> > a 4-byte value.  Unfortunately the calculation of the address of the
-> > 4-byte value is wrong, because we write it as:
-> >
-> >   table_base_address + (index * entrysize) + 4
-> > (obfuscated by the way the expression has been written)
-> >
-> > when it should be + 8.  This bug meant that we overwrote the top
-> > bytes of the 8-byte value with the 4-byte value.  There are no
-> > guest-visible effects because the top half of the 8-byte value
-> > contains only the doorbell interrupt field, which is used only in
-> > GICv4, and the two bugs in the "write ITE" and "read ITE" codepaths
-> > cancel each other out.
-> >
-> > We can't simply change the calculation, because this would break
-> > migration of a (TCG) guest from the old version of QEMU which had
-> > in-guest-memory interrupt tables written using the buggy version of
-> > update_ite().  We must also at the same time change the layout of the
-> > fields within the ITE_L and ITE_H values so that the in-memory
-> > locations of the fields we care about (VALID, INTTYPE, INTID and
-> > ICID) stay the same.
 
-> This is confusing: 5-3 is titled "example of the number of bits that might be stored in an
-> ITE"?  Surely there must be a true architected format for this table, the one real
-> hardware uses.  Surely tcg will simply have to suck it up and break migration to fix this
-> properly.
+Richard Henderson <richard.henderson@linaro.org> writes:
 
-No, the ITE format is implementation-defined, like that of the other
-in-guest-memory tables the ITS uses. It's UNPREDICTABLE for a guest
-to try to directly access the tables in memory -- they are only ever
-written or read by the ITS itself in response to incoming commands,
-so it's not a problem for the format in memory to be impdef. This
-flexibility in the spec allows implementations to minimize the size
-of their data tables based on how large an ID size they support and
-other potentially-configurable parameters. For instance if you look
-at the values for the GITS_BASER* for the GIC-700 in its TRM you
-can see that its Collection Table entry size is only 2 bytes, since
-it uses the "rdbase is a CPU number" format; an ITS that used the
-"rdbase is a physical address" implementation choice would need
-more bytes there. (QEMU also uses "rdbase is a CPU number", but
-we have rather profligately opted to use 8 bytes per collection
-table entry.)
+> The general ternary logic operation can implement
+> NOT, ORC, NAND, NOR, EQV.
 
-thanks
--- PMM
+Can we not fall back to expanding to use SSE if we don't have AVX512
+available or is that done by the exiting fallback expansion?
+
+Anyway:
+
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+
+--=20
+Alex Benn=C3=A9e
 
