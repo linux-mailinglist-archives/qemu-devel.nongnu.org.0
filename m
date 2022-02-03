@@ -2,56 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 312974A84E4
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Feb 2022 14:09:37 +0100 (CET)
-Received: from localhost ([::1]:41750 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 278B14A84FA
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Feb 2022 14:16:26 +0100 (CET)
+Received: from localhost ([::1]:45108 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nFbrj-00052U-R1
-	for lists+qemu-devel@lfdr.de; Thu, 03 Feb 2022 08:09:35 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:60464)
+	id 1nFbyK-0007ZZ-QI
+	for lists+qemu-devel@lfdr.de; Thu, 03 Feb 2022 08:16:24 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:39636)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1nFbRU-0003Q6-17; Thu, 03 Feb 2022 07:42:28 -0500
-Received: from kylie.crudebyte.com ([5.189.157.229]:56809)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1nFbRR-0004zp-Mi; Thu, 03 Feb 2022 07:42:27 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
- MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
- Content-ID:Content-Description;
- bh=1VF+49xzhuhB2W1hRLHICba6aTD4wBAuZ+SYp3ODFB0=; b=F40nFu1ly6540RrGON7pvxF4nf
- xFfNOrF39CZPQbdeBBc2hEOszaq2yogapDQ5UOulwdCsy6aYy0zhkab+okJ3F64A3JPkHE/L9YpaZ
- QnDvQVeX9Lbk6mrKrVq1SHu6KQGKi1D7n2rDbzSr+cYTaXKpTJHEz5giVq8EXujrGTHjvX+DEWLV0
- bQijFk95erWTTjXkWyLQVIvqSIwJtgJtJuBZMjcVnvh+1gjFHtzv0C/gieQ7Sy2a6rnq7USX1U847
- +V4yy7bfuIH845JMvPIOmNfRSiYTHLLLMf3GGlgwpjnSkKQN29/p37Nw94QtLxxTtKAdxSdj+g5Cv
- 5DqU4jokln/yYmXrydc258tHGekOvWSKLgHFqd7Oo1Dc0GCRbNQ+Pi2cohRDsiOfwOsqKJ2rsZd1B
- aDoX2tfIcx3jv8odqnsx35QgT/Lwyej+N0HsP/H8W7aiec9PdBhWsYJiJAErQmSx0TCAGdnuFhVMT
- 3b7Amb8s5rWv2Q/qYEcC+u8S1rPOnLsGgQrUoUDQ73mnCPPU3BL8kN5X/4lqZiGNyPpHNMWUd4FKy
- dwLgkaaJGsZ0AxhfeLMKrUtvYZucYRImecJ93JPNqj2z5Ef0OndzwI+K3LN8gXj1uy9kuatNlJyCn
- hqOb0PPuIEmT9+RX+JOM5lb5Vev50XJYxvxFGPGEk=;
-From: Christian Schoenebeck <qemu_oss@crudebyte.com>
-To: qemu-devel@nongnu.org
-Cc: Vitaly Chikunov <vt@altlinux.org>, Greg Kurz <groug@kaod.org>,
- qemu-stable@nongnu.org, ldv@altlinux.org
-Subject: Re: [PATCH v2] 9pfs: Fix segfault in do_readdir_many caused by struct
- dirent overread
-Date: Thu, 03 Feb 2022 13:42:19 +0100
-Message-ID: <2001191.mYrJCF7IzP@silver>
-In-Reply-To: <20220128223326.927132-1-vt@altlinux.org>
-References: <20220128223326.927132-1-vt@altlinux.org>
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1nFbsN-00062i-Bu
+ for qemu-devel@nongnu.org; Thu, 03 Feb 2022 08:10:15 -0500
+Received: from [2607:f8b0:4864:20::1032] (port=33642
+ helo=mail-pj1-x1032.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1nFbsI-0001My-VM
+ for qemu-devel@nongnu.org; Thu, 03 Feb 2022 08:10:14 -0500
+Received: by mail-pj1-x1032.google.com with SMTP id
+ cq9-20020a17090af98900b001b8262fe2d5so3980793pjb.0
+ for <qemu-devel@nongnu.org>; Thu, 03 Feb 2022 05:10:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
+ h=from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=VVEhAJ4R93/nCF4cOzEL7tQzRDyNJIL1M34Qe5YvW+M=;
+ b=ERXxQN8F6/oy1WhLonvT+AUGDJhJdTftfbUB1K0H1XyyoAn0UmqZUqU8MhY/ffKYoy
+ SPvY+3Dh/Swd6D6l9/xWGzrFSgphO3X3wI1lXQfSYRZWFuhxFned1FcgleS31InJwNNy
+ ZgH83CLJPFM6xHiOqlNcoEp+PKdpRbf1DfbERzPSX6xS59Zg/n2RKVgBYMiUM9HrdrNk
+ uJ4jsdAXpgXq9O5Feq2K2H4pdZI6aKGJFlgv/3iE0lqJFabezHh4D0l/pTylDL3q0dyH
+ NN00Tl0GW0hnGWlQaGmrCYgnDo8dUkQB4ziIerCUHRC7IoWGauB5IEMDA3HG8Pi7T0Q3
+ WyBg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=VVEhAJ4R93/nCF4cOzEL7tQzRDyNJIL1M34Qe5YvW+M=;
+ b=WWaZ2qeEiK0XElunZF3HpOwIIO+RbxwSeU88E4BhOC5nORzvjtmMFVhcBFLQa6Tz8F
+ +uXKQeDsmx9ut3Jvwh0bJFarWNTnK6/H1ZFzEYJFciSARWCET5O8R+221iMG3lrEX8Mv
+ EfhlunPTeHJKtG13LHZYeVPsfHPsJiYmwcYnPure64IfUmKgDH/QjmrQhHJwJI1ulS+E
+ E38DOMkCSk6oQfNRXAOWApTB2G1dqNnN1wMm20QeNFRu5FF+FuzT9703BZv31ovH5HVN
+ 1jcUknhPkdeMhN1gznInh8IFF5zU3nfiUuOkHGUBeDLC9/P8lk4Oe361NRe9MlDQZBiT
+ +1eQ==
+X-Gm-Message-State: AOAM5335VOeknnbb4WClu+myU/4UEAHQOKp1Dk2tiZsmmpfjPnOE3UJ4
+ vit6b8Am0Iz/1vnATkp0GuZnSiAo1+QpO7tq
+X-Google-Smtp-Source: ABdhPJyxq9XFmoPHAoP9NH83z42YesJXHluSixXcJ2U0QF5d9aERRieaIDkyGrQZWAkLsgim1RRrzA==
+X-Received: by 2002:a17:902:f549:: with SMTP id
+ h9mr35342076plf.62.1643893808455; 
+ Thu, 03 Feb 2022 05:10:08 -0800 (PST)
+Received: from anisinha-lenovo.ba.nuagenetworks.net ([115.96.110.152])
+ by smtp.googlemail.com with ESMTPSA id
+ e17sm18214327pfv.101.2022.02.03.05.10.06
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 03 Feb 2022 05:10:07 -0800 (PST)
+From: Ani Sinha <ani@anisinha.ca>
+To: qemu-devel@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>,
+ Igor Mammedov <imammedo@redhat.com>, Ani Sinha <ani@anisinha.ca>
+Subject: [PATCH v2] hw/smbios: fix memory corruption for large guests due to
+ handle overlap
+Date: Thu,  3 Feb 2022 18:39:57 +0530
+Message-Id: <20220203130957.2248949-1-ani@anisinha.ca>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
-Received-SPF: pass client-ip=5.189.157.229;
- envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1032
+ (failed)
+Received-SPF: none client-ip=2607:f8b0:4864:20::1032;
+ envelope-from=ani@anisinha.ca; helo=mail-pj1-x1032.google.com
+X-Spam_score_int: -10
+X-Spam_score: -1.1
+X-Spam_bar: -
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_NONE=0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -67,115 +90,108 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Freitag, 28. Januar 2022 23:33:26 CET Vitaly Chikunov wrote:
-> `struct dirent' returned from readdir(3) could be shorter than
-> `sizeof(struct dirent)', thus memcpy of sizeof length will overread
-> into unallocated page causing SIGSEGV. Example stack trace:
-> 
->  #0  0x00005555559ebeed v9fs_co_readdir_many (/usr/bin/qemu-system-x86_64 +
-> 0x497eed) #1  0x00005555559ec2e9 v9fs_readdir (/usr/bin/qemu-system-x86_64
-> + 0x4982e9) #2  0x0000555555eb7983 coroutine_trampoline
-> (/usr/bin/qemu-system-x86_64 + 0x963983) #3  0x00007ffff73e0be0 n/a (n/a +
-> 0x0)
-> 
-> While fixing, provide a helper for any future `struct dirent' cloning.
-> 
-> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/841
-> Cc: qemu-stable@nongnu.org
-> Co-authored-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
-> Signed-off-by: Vitaly Chikunov <vt@altlinux.org>
-> ---
-> Tested on x86-64 Linux.
-> 
-> Changes since v1:
-> - Update commentary text.
-> - Remove hanging of g_malloc "errors".
-> - Simplify qemu_dirent_dup.
-> 
->  hw/9pfs/codir.c      |  3 +--
->  include/qemu/osdep.h | 13 +++++++++++++
->  util/osdep.c         | 16 ++++++++++++++++
->  3 files changed, 30 insertions(+), 2 deletions(-)
-> 
-> diff --git a/hw/9pfs/codir.c b/hw/9pfs/codir.c
-> index 032cce04c4..c0873bde16 100644
-> --- a/hw/9pfs/codir.c
-> +++ b/hw/9pfs/codir.c
-> @@ -143,8 +143,7 @@ static int do_readdir_many(V9fsPDU *pdu, V9fsFidState
-> *fidp, } else {
->              e = e->next = g_malloc0(sizeof(V9fsDirEnt));
->          }
-> -        e->dent = g_malloc0(sizeof(struct dirent));
-> -        memcpy(e->dent, dent, sizeof(struct dirent));
-> +        e->dent = qemu_dirent_dup(dent);
-> 
->          /* perform a full stat() for directory entry if requested by caller
-> */ if (dostat) {
-> diff --git a/include/qemu/osdep.h b/include/qemu/osdep.h
-> index d1660d67fa..ce12f64853 100644
-> --- a/include/qemu/osdep.h
-> +++ b/include/qemu/osdep.h
-> @@ -805,6 +805,19 @@ static inline int
-> platform_does_not_support_system(const char *command) }
->  #endif /* !HAVE_SYSTEM_FUNCTION */
-> 
-> +/**
-> + * Duplicate directory entry @dent.
-> + *
-> + * It is highly recommended to use this function instead of open coding
-> + * duplication of @c dirent objects, because the actual @c struct @c dirent
-> + * size may be bigger or shorter than @c sizeof(struct dirent) and correct
-> + * handling is platform specific (see gitlab issue #841).
-> + *
-> + * @dent - original directory entry to be duplicated
-> + * @returns duplicated directory entry which should be freed with g_free()
-> + */
-> +struct dirent *qemu_dirent_dup(struct dirent *dent);
-> +
->  #ifdef __cplusplus
->  }
->  #endif
-> diff --git a/util/osdep.c b/util/osdep.c
-> index 42a0a4986a..0bc7ec1e22 100644
-> --- a/util/osdep.c
-> +++ b/util/osdep.c
-> @@ -33,6 +33,7 @@
->  extern int madvise(char *, size_t, int);
->  #endif
-> 
-> +#include <dirent.h>
->  #include "qemu-common.h"
->  #include "qemu/cutils.h"
->  #include "qemu/sockets.h"
-> @@ -615,3 +616,18 @@ writev(int fd, const struct iovec *iov, int iov_cnt)
->      return readv_writev(fd, iov, iov_cnt, true);
->  }
->  #endif
-> +
-> +struct dirent *
-> +qemu_dirent_dup(struct dirent *dent)
-> +{
-> +#if defined _DIRENT_HAVE_D_RECLEN
-> +    /* Avoid use of strlen() if there's d_reclen. */
-> +    const size_t sz = dent->d_reclen;
-> +#else
-> +    /* Fallback to a most portable way. */
-> +    const size_t sz = offsetof(struct dirent, d_name) +
-> +                      strlen(dent->d_name) + 1;
-> +#endif
+The current implementation of smbios table handle assignment does not leave
+enough gap between tables 17 and table 19 for guests with larger than 8 TB of
+memory. This change fixes this issue. This change calculates if additional
+space between the tables need to be set aside and then reserves that additional
+space.
 
-From the experience we just made, I would add in v3 something like
+Buglink: https://bugzilla.redhat.com/show_bug.cgi?id=2023977
 
-	assert(sz > 0);
+Signed-off-by: Ani Sinha <ani@anisinha.ca>
+---
+ hw/smbios/smbios.c | 29 +++++++++++++++++++++++------
+ 1 file changed, 23 insertions(+), 6 deletions(-)
 
-here.
+changelog:
+v2: make sure we do not overlap table 19 and table 32 addresses.
 
-> +    struct dirent *dst = g_malloc(sz);
-> +    return memcpy(dst, dent, sz);
-> +}
-
-Best regards,
-Christian Schoenebeck
-
+diff --git a/hw/smbios/smbios.c b/hw/smbios/smbios.c
+index 6013df1698..ccac4c1b3a 100644
+--- a/hw/smbios/smbios.c
++++ b/hw/smbios/smbios.c
+@@ -743,13 +743,16 @@ static void smbios_build_type_16_table(unsigned dimm_cnt)
+ 
+ #define MAX_T17_STD_SZ 0x7FFF /* (32G - 1M), in Megabytes */
+ #define MAX_T17_EXT_SZ 0x80000000 /* 2P, in Megabytes */
++#define T17_BASE 0x1100
++#define T19_BASE 0x1300
++#define T32_BASE 0x2000
+ 
+ static void smbios_build_type_17_table(unsigned instance, uint64_t size)
+ {
+     char loc_str[128];
+     uint64_t size_mb;
+ 
+-    SMBIOS_BUILD_TABLE_PRE(17, 0x1100 + instance, true); /* required */
++    SMBIOS_BUILD_TABLE_PRE(17, T17_BASE + instance, true); /* required */
+ 
+     t->physical_memory_array_handle = cpu_to_le16(0x1000); /* Type 16 above */
+     t->memory_error_information_handle = cpu_to_le16(0xFFFE); /* Not provided */
+@@ -785,12 +788,13 @@ static void smbios_build_type_17_table(unsigned instance, uint64_t size)
+     SMBIOS_BUILD_TABLE_POST;
+ }
+ 
+-static void smbios_build_type_19_table(unsigned instance,
++static void smbios_build_type_19_table(unsigned instance, unsigned offset,
+                                        uint64_t start, uint64_t size)
+ {
+     uint64_t end, start_kb, end_kb;
+ 
+-    SMBIOS_BUILD_TABLE_PRE(19, 0x1300 + instance, true); /* required */
++    SMBIOS_BUILD_TABLE_PRE(19, T19_BASE + \
++                           offset + instance, true); /* required */
+ 
+     end = start + size - 1;
+     assert(end > start);
+@@ -814,7 +818,7 @@ static void smbios_build_type_19_table(unsigned instance,
+ 
+ static void smbios_build_type_32_table(void)
+ {
+-    SMBIOS_BUILD_TABLE_PRE(32, 0x2000, true); /* required */
++    SMBIOS_BUILD_TABLE_PRE(32, T32_BASE, true); /* required */
+ 
+     memset(t->reserved, 0, 6);
+     t->boot_status = 0; /* No errors detected */
+@@ -982,7 +986,7 @@ void smbios_get_tables(MachineState *ms,
+                        uint8_t **anchor, size_t *anchor_len,
+                        Error **errp)
+ {
+-    unsigned i, dimm_cnt;
++    unsigned i, dimm_cnt, offset;
+ 
+     if (smbios_legacy) {
+         *tables = *anchor = NULL;
+@@ -1012,6 +1016,19 @@ void smbios_get_tables(MachineState *ms,
+ 
+         dimm_cnt = QEMU_ALIGN_UP(current_machine->ram_size, MAX_DIMM_SZ) / MAX_DIMM_SZ;
+ 
++        /*
++         * The offset determines if we need to keep additional space betweeen
++         * table 17 and table 19 so that they do not overlap. For example,
++         * for a VM with larger than 8 TB guest memory and DIMM size of 16 GiB,
++         * the default space between the two tables (T19_BASE - T17_BASE = 512)
++         * is not enough.
++         */
++        offset = (dimm_cnt > (T19_BASE - T17_BASE)) ? \
++                 dimm_cnt - (T19_BASE - T17_BASE) : 0;
++
++        /* we need to make sure table 19 and table 32 do not overlap */
++        assert((mem_array_size + offset) < (T32_BASE - T19_BASE));
++
+         smbios_build_type_16_table(dimm_cnt);
+ 
+         for (i = 0; i < dimm_cnt; i++) {
+@@ -1019,7 +1036,7 @@ void smbios_get_tables(MachineState *ms,
+         }
+ 
+         for (i = 0; i < mem_array_size; i++) {
+-            smbios_build_type_19_table(i, mem_array[i].address,
++            smbios_build_type_19_table(i, offset, mem_array[i].address,
+                                        mem_array[i].length);
+         }
+ 
+-- 
+2.25.1
 
 
