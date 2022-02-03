@@ -2,49 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47E334A817A
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Feb 2022 10:29:42 +0100 (CET)
-Received: from localhost ([::1]:49876 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D73B4A81AE
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Feb 2022 10:47:21 +0100 (CET)
+Received: from localhost ([::1]:33576 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nFYQu-0003yp-6f
-	for lists+qemu-devel@lfdr.de; Thu, 03 Feb 2022 04:29:40 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:38992)
+	id 1nFYi0-0004ve-Bb
+	for lists+qemu-devel@lfdr.de; Thu, 03 Feb 2022 04:47:20 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:44506)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1nFYH8-0002JL-0N
- for qemu-devel@nongnu.org; Thu, 03 Feb 2022 04:19:34 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:59927)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1nFYZu-0002LI-P9
+ for qemu-devel@nongnu.org; Thu, 03 Feb 2022 04:38:59 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:49188)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1nFYH2-000451-KS
- for qemu-devel@nongnu.org; Thu, 03 Feb 2022 04:19:32 -0500
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1nFYZr-0008Lb-AY
+ for qemu-devel@nongnu.org; Thu, 03 Feb 2022 04:38:57 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1643879967;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=uTbgMD7lMeZfocGySnF0bUWrQaDDX6Zf6B+F9PJdeeI=;
- b=GRrWmc7uZhVyXYbLek1tAOdvqlETrtiZLHX9QvrqSuxDHqp59FbZynEOWbS6IbH0dVB/s7
- jBH1djdkULziId9YtO1VIj5WSSnQTWjNsdmlAZp8AHDiNruIM0n8ASTMtnWp7Yb90v9fNT
- h9ZifPcOiObaMBYYtKsVt6xamE0cGB0=
+ s=mimecast20190719; t=1643881126;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=SslTK8QoyCTGVwAXAFE46fB/gCOWN7ta7zg4E3n+lVE=;
+ b=FSeasIri+F6xnZfLfpFNw7VjjzAKfLFFPt506iefEqzTovRleebhhqzugFRrkmsUqCqvnb
+ jD4Jv+D/QMv4P4YwaV4WfrBQ7PpdB354/6+nY3pIvY9TYSCS8lQJcTakngxNFGFvw6L46U
+ ZXuQHVId4g+9qSZ+6rYVNc20DckkcBA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-314-RNJayVYQMk-TI2duxm5mGw-1; Thu, 03 Feb 2022 04:19:22 -0500
-X-MC-Unique: RNJayVYQMk-TI2duxm5mGw-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-230-MiVPlTP6PBWlSYYVLBnkkg-1; Thu, 03 Feb 2022 04:38:38 -0500
+X-MC-Unique: MiVPlTP6PBWlSYYVLBnkkg-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C9B4C100C661;
- Thu,  3 Feb 2022 09:19:21 +0000 (UTC)
-Received: from redhat.com (unknown [10.39.195.6])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id BBF341062227;
- Thu,  3 Feb 2022 09:19:19 +0000 (UTC)
-Date: Thu, 3 Feb 2022 10:19:18 +0100
-From: Kevin Wolf <kwolf@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0C132874983;
+ Thu,  3 Feb 2022 09:38:37 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.192.25])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 6EAFD5E49C;
+ Thu,  3 Feb 2022 09:38:34 +0000 (UTC)
+Date: Thu, 3 Feb 2022 09:38:31 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 To: John Snow <jsnow@redhat.com>
 Subject: Re: [PATCH v4 4/4] python/aqmp: add socket bind step to legacy.py
-Message-ID: <YfueFuHpHx6TXCMR@redhat.com>
+Message-ID: <Yfuil8CJf6cgzMEv@redhat.com>
 References: <20220201041134.1237016-1-jsnow@redhat.com>
  <20220201041134.1237016-5-jsnow@redhat.com>
  <YfkzwdbIaGF5TcVZ@redhat.com>
@@ -53,14 +55,15 @@ References: <20220201041134.1237016-1-jsnow@redhat.com>
  <CAFn=p-bTFrJSF+TtkzyjQhBcTKe3AeWoJJT=O+mS-LiKZVHDnQ@mail.gmail.com>
 MIME-Version: 1.0
 In-Reply-To: <CAFn=p-bTFrJSF+TtkzyjQhBcTKe3AeWoJJT=O+mS-LiKZVHDnQ@mail.gmail.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+User-Agent: Mutt/2.1.5 (2021-12-30)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -81,15 +84,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <eduardo@habkost.net>,
- Peter Maydell <peter.maydell@linaro.org>, Beraldo Leal <bleal@redhat.com>,
- Qemu-block <qemu-block@nongnu.org>, Markus Armbruster <armbru@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>, Hanna Reitz <hreitz@redhat.com>,
- Cleber Rosa <crosa@redhat.com>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Eduardo Habkost <eduardo@habkost.net>,
+ Beraldo Leal <bleal@redhat.com>, Qemu-block <qemu-block@nongnu.org>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ Markus Armbruster <armbru@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
+ Hanna Reitz <hreitz@redhat.com>, Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 02.02.2022 um 20:08 hat John Snow geschrieben:
+On Wed, Feb 02, 2022 at 02:08:59PM -0500, John Snow wrote:
+> On Tue, Feb 1, 2022 at 2:46 PM Kevin Wolf <kwolf@redhat.com> wrote:
+> >
+> > Am 01.02.2022 um 19:32 hat John Snow geschrieben:
+> > > On Tue, Feb 1, 2022 at 8:21 AM Kevin Wolf <kwolf@redhat.com> wrote:
+> > > >
+> > > > Am 01.02.2022 um 05:11 hat John Snow geschrieben:
+> > > > > The synchronous QMP library would bind to the server address during
+> > > > > __init__(). The new library delays this to the accept() call, because
+> > > > > binding occurs inside of the call to start_[unix_]server(), which is an
+> > > > > async method -- so it cannot happen during __init__ anymore.
+> > > > >
+> > > > > Python 3.7+ adds the ability to create the server (and thus the bind()
+> > > > > call) and begin the active listening in separate steps, but we don't
+> > > > > have that functionality in 3.6, our current minimum.
+> > > > >
+> > > > > Therefore ... Add a temporary workaround that allows the synchronous
+> > > > > version of the client to bind the socket in advance, guaranteeing that
+> > > > > there will be a UNIX socket in the filesystem ready for the QEMU client
+> > > > > to connect to without a race condition.
+> > > > >
+> > > > > (Yes, it's a bit ugly. Fixing it more nicely will have to wait until our
+> > > > > minimum Python version is 3.7+.)
 > > I guess the relevant question in the context of this patch is whether
 > > sync.py will need a similar two-phase setup as legacy.py. Do you think
 > > you can do without it when you have to reintroduce this behaviour here
@@ -119,18 +145,22 @@ Am 02.02.2022 um 20:08 hat John Snow geschrieben:
 > address argument if you've already given it one, etc. Necessary
 > trade-off for the flexibility, though.
 
-Hm, how about copying the create_server() interface instead? So it
-would become:
+Doing a bind() inside an accept() call is really strange
+design IMHO.
 
-(1) qmp.create_server('/tmp/sock', start_serving=False)
-    qmp.start_serving()
+bind() is a one-time-only initialization operation for startup,
+where as accept() is a runtime operation invoked repeatedly.
 
-(2) qmp.create_server('/tmp/sock')
+bind() is also an op that is reasonably likely to fail
+due to something already holding the socket address, and thus
+an error condition that you want to report to an application
+during its early startup phase.
 
-Then you get the connection details only in a single place. (The names
-should probably be changed because we're still a QMP client even though
-we're technically the server on the socket level, but you get the idea.)
-
-Kevin
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
