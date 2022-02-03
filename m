@@ -2,72 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A0C44A8A6D
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Feb 2022 18:42:57 +0100 (CET)
-Received: from localhost ([::1]:50922 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0BE8C4A8A3C
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Feb 2022 18:38:06 +0100 (CET)
+Received: from localhost ([::1]:42608 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nFg8G-0005AM-Kl
-	for lists+qemu-devel@lfdr.de; Thu, 03 Feb 2022 12:42:56 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:57052)
+	id 1nFg3Z-0007sK-4H
+	for lists+qemu-devel@lfdr.de; Thu, 03 Feb 2022 12:38:05 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:57034)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nFfzk-0004o7-HB
- for qemu-devel@nongnu.org; Thu, 03 Feb 2022 12:34:09 -0500
-Received: from [2a00:1450:4864:20::530] (port=45847
- helo=mail-ed1-x530.google.com)
+ id 1nFfzj-0004ms-WB
+ for qemu-devel@nongnu.org; Thu, 03 Feb 2022 12:34:08 -0500
+Received: from [2a00:1450:4864:20::52c] (port=37559
+ helo=mail-ed1-x52c.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nFfzg-0008Eh-8U
- for qemu-devel@nongnu.org; Thu, 03 Feb 2022 12:34:08 -0500
-Received: by mail-ed1-x530.google.com with SMTP id p7so7423581edc.12
- for <qemu-devel@nongnu.org>; Thu, 03 Feb 2022 09:34:03 -0800 (PST)
+ id 1nFfzh-0008El-6V
+ for qemu-devel@nongnu.org; Thu, 03 Feb 2022 12:34:07 -0500
+Received: by mail-ed1-x52c.google.com with SMTP id c24so7629437edy.4
+ for <qemu-devel@nongnu.org>; Thu, 03 Feb 2022 09:34:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=juIZeRSO6SXa5bRhnso0ZwIYdjLmQr9FDPRnCV9jBBU=;
- b=I8DiYSHGS5CWUaEY7PP+PPtm6lgjaGmpZ+n3/UDDw6M5Zil8TC9aY8HRisx6GqB7NR
- nmrxZdhYzubSh6zhl6MtDM0mKt2Fx6AeO4+U38s0BHqmQrg+T8daErai41a+9awWmRM/
- at4ykZ2bt6RO0+SOjxaBEgpfkBlW+UCgZWVGGQhGQhd/digv3hyC3wR+l64hiOnaBAxJ
- /EaBnGcCgquryk+EgoPIJtPm0jnyUxY53fp1wDSNe9r3JGpyZ43w2PJEgIssIzUMQRAl
- vptoSnZsVbrq9oJNbt0I0Ely/QXyi6Tkx+Ko8QYD2oTyTJRNbcVRLLixmfFb5ZjfE/zv
- enRw==
+ bh=ikMwDyDVLO+cWRc3IGkvymgTBa1JT8ifSYvwRBGFStQ=;
+ b=ZODJ00DNCU+rZoS18Il3B5RZCDMh0hq5vEx5C0QfYhh2SOyN+xae/O7aDyI2biVF5r
+ WDoh2QO3UhGtTjEtm6ytqdIYAVnZnbFIn2UuQm7MEaLo7PJIBbPXizMLUxyNNpujjXN+
+ udb13x6sJItF3ggaY48gZ4Pe6rfe9/bmpQIBjfjk1nVmTdmjfoXR1LT34bicKkOFSMpk
+ 4oIvP+Z5NmzM+1mwbW+dSgkd9HtwT79sivec3/lIHfmvJkJorwPb0saqKQtV2lHqFUix
+ ToqVtCzyKQ72zEbGVeKdCdWOZ0wU1qG8rRM9K6Az70s+achav6ZFnBTSrQZmhHgIHaxG
+ Z1FQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=juIZeRSO6SXa5bRhnso0ZwIYdjLmQr9FDPRnCV9jBBU=;
- b=wslEOHovbYFLPJSXZlk4/B5FBytx9QMI+KVyulsDtxLIiNsC1vscJYsxCnXD1pp5er
- FVbcMpT8ahstllkl1WnfFbBIzW9iad+61JiRM5vOl1N8ryDvSH/jQtqCGe5DInc3uIYr
- xSlBzJVyi3RtUVpfY9KoGSYeMexSzErpWMLvgRt1Ne02IJjj+crIj3zrGsBHvvan2DPo
- zinc3yMT0MXSCteniBtOYUpU1O2gjqFWkKpsgMND7kcgWtZbRW7anm2f8Gp5QMtbO5KY
- w6tAjdT1h5dfHjZHL7DflCpNJe4JFt78s9IEGVCm/Y7A6PzZQJfdRn/eFSvBeFxY4Jzx
- +PSg==
-X-Gm-Message-State: AOAM532A6oxsKn0Jhjuu6yr3ejXX2HaB9z1VYwi1800xjPg2n8y3Uh+u
- 7J8zdrfc5XWKVT8qa6AkLurun4hMGes=
-X-Google-Smtp-Source: ABdhPJzGDk2WmszJ46PSNxLaDlV9nFRkRVszAHcgZGWs7SNED9H8qOmi/LVi0DZdw7feK/3YnL8xuw==
-X-Received: by 2002:a05:6402:22ed:: with SMTP id
- dn13mr14338149edb.430.1643909642912; 
- Thu, 03 Feb 2022 09:34:02 -0800 (PST)
+ bh=ikMwDyDVLO+cWRc3IGkvymgTBa1JT8ifSYvwRBGFStQ=;
+ b=ePCI7XU8nzp4NkvcC6Le9iqV5zdUQe9yNrwSG5bJAtHgbM4vY6jZAojT8MgrJnyOyL
+ GTNG4uZa3+wE+tzYuEiYZrS5b9Jbs4U8F8gojn37Afir4j2cR/aHIFD1wsBVUU9MKkwe
+ hBPB7lA+Sm/fCepKvtKdP5A0m0KA5S5Hv4MFsqm41K/Uqjui80pSFLho/Kqzs6/67iea
+ krkUwLObaGVQi37XSvDPVNNqnmOkrwtrfI8uJEhibqSNCn94elz1+jNVPBHGeToE9P0Z
+ Wd1/2VrSCCzeESGseOrkdafC3n7OpYWpuUytKIsRrenXkl2w6LFjoX4WDkxcd+GF6hyK
+ j2QA==
+X-Gm-Message-State: AOAM5333gEs3C2mGeHGmoAtktDkVAYAv8RuxXCeNEGvUP6pyveEt9sUQ
+ daZIx+Uk+6498Rpa0DWfmBiAb2qPqJE=
+X-Google-Smtp-Source: ABdhPJwSi8r1iKegsNCX6E3lfdlN0C8XvdS0tp7hKAur8NOmk9C5mZtTn8ILhp7LVso6wn8vNCGA+w==
+X-Received: by 2002:a05:6402:d0d:: with SMTP id
+ eb13mr35880984edb.6.1643909643578; 
+ Thu, 03 Feb 2022 09:34:03 -0800 (PST)
 Received: from avogadro.lan ([2001:b07:6468:f312:5e2c:eb9a:a8b6:fd3e])
  by smtp.gmail.com with ESMTPSA id a25sm6665279ejs.149.2022.02.03.09.34.02
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 03 Feb 2022 09:34:02 -0800 (PST)
+ Thu, 03 Feb 2022 09:34:03 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 02/27] meson: use .require() and .disable_auto_if() method for
- features
-Date: Thu,  3 Feb 2022 18:33:34 +0100
-Message-Id: <20220203173359.292068-3-pbonzini@redhat.com>
+Subject: [PATCH 03/27] configure, meson: move AVX tests to meson
+Date: Thu,  3 Feb 2022 18:33:35 +0100
+Message-Id: <20220203173359.292068-4-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220203173359.292068-1-pbonzini@redhat.com>
 References: <20220203173359.292068-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::530
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::52c
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::530;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x530.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::52c;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x52c.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -93,176 +92,273 @@ Cc: marcandre.lureau@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The method is now in 0.59, using it simplifies some conditionals.
-
-There is a small change, which is to build virtfs-proxy-helper in a
-tools-only build.  This is done for consistency with other tools,
-which are not culled by the absence of system emulator binaries.
-
-.disable_auto_if() would also be useful to check for packages,
-for example
-
--linux_io_uring = not_found
--if not get_option('linux_io_uring').auto() or have_block
--  linux_io_uring = dependency('liburing', required: get_option('linux_io_uring'),
--                              method: 'pkg-config', kwargs: static_kwargs)
--endif
-+linux_io_uring = dependency('liburing',
-+  required: get_option('linux_io_uring').disable_auto_if(not have_block),
-+  method: 'pkg-config', kwargs: static_kwargs)
-
-This change however is much larger and I am not sure about the improved
-readability, so I am not performing it right now.
+For consistency with other tests, --enable-avx2 and --enable-avx512f
+fail to compile on x86 systems if cpuid.h is not available.
 
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- meson.build       | 74 ++++++++++++++++++-----------------------------
- tools/meson.build | 31 ++++++--------------
- 2 files changed, 37 insertions(+), 68 deletions(-)
+ configure                     | 103 ----------------------------------
+ meson.build                   |  50 ++++++++++++++++-
+ meson_options.txt             |   4 ++
+ scripts/meson-buildoptions.sh |   6 ++
+ 4 files changed, 58 insertions(+), 105 deletions(-)
 
+diff --git a/configure b/configure
+index e6cfc0e4be..ebac59652b 100755
+--- a/configure
++++ b/configure
+@@ -323,8 +323,6 @@ qom_cast_debug="yes"
+ trace_backends="log"
+ trace_file="trace"
+ opengl="$default_feature"
+-cpuid_h="no"
+-avx2_opt="$default_feature"
+ guest_agent="$default_feature"
+ vss_win32_sdk="$default_feature"
+ win_sdk="no"
+@@ -1033,14 +1031,6 @@ for opt do
+   ;;
+   --disable-tools) want_tools="no"
+   ;;
+-  --disable-avx2) avx2_opt="no"
+-  ;;
+-  --enable-avx2) avx2_opt="yes"
+-  ;;
+-  --disable-avx512f) avx512f_opt="no"
+-  ;;
+-  --enable-avx512f) avx512f_opt="yes"
+-  ;;
+   --disable-virtio-blk-data-plane|--enable-virtio-blk-data-plane)
+       echo "$0: $opt is obsolete, virtio-blk data-plane is always on" >&2
+   ;;
+@@ -1420,8 +1410,6 @@ cat << EOF
+   coroutine-pool  coroutine freelist (better performance)
+   tpm             TPM support
+   numa            libnuma support
+-  avx2            AVX2 optimization support
+-  avx512f         AVX512F optimization support
+   replication     replication support
+   opengl          opengl support
+   qom-cast-debug  cast debugging support
+@@ -2761,85 +2749,6 @@ else # "$safe_stack" = ""
+ fi
+ fi
+ 
+-########################################
+-# check if cpuid.h is usable.
+-
+-cat > $TMPC << EOF
+-#include <cpuid.h>
+-int main(void) {
+-    unsigned a, b, c, d;
+-    int max = __get_cpuid_max(0, 0);
+-
+-    if (max >= 1) {
+-        __cpuid(1, a, b, c, d);
+-    }
+-
+-    if (max >= 7) {
+-        __cpuid_count(7, 0, a, b, c, d);
+-    }
+-
+-    return 0;
+-}
+-EOF
+-if compile_prog "" "" ; then
+-    cpuid_h=yes
+-fi
+-
+-##########################################
+-# avx2 optimization requirement check
+-#
+-# There is no point enabling this if cpuid.h is not usable,
+-# since we won't be able to select the new routines.
+-
+-if test "$cpuid_h" = "yes" && test "$avx2_opt" != "no"; then
+-  cat > $TMPC << EOF
+-#pragma GCC push_options
+-#pragma GCC target("avx2")
+-#include <cpuid.h>
+-#include <immintrin.h>
+-static int bar(void *a) {
+-    __m256i x = *(__m256i *)a;
+-    return _mm256_testz_si256(x, x);
+-}
+-int main(int argc, char *argv[]) { return bar(argv[0]); }
+-EOF
+-  if compile_object "-Werror" ; then
+-    avx2_opt="yes"
+-  else
+-    avx2_opt="no"
+-  fi
+-fi
+-
+-##########################################
+-# avx512f optimization requirement check
+-#
+-# There is no point enabling this if cpuid.h is not usable,
+-# since we won't be able to select the new routines.
+-# by default, it is turned off.
+-# if user explicitly want to enable it, check environment
+-
+-if test "$cpuid_h" = "yes" && test "$avx512f_opt" = "yes"; then
+-  cat > $TMPC << EOF
+-#pragma GCC push_options
+-#pragma GCC target("avx512f")
+-#include <cpuid.h>
+-#include <immintrin.h>
+-static int bar(void *a) {
+-    __m512i x = *(__m512i *)a;
+-    return _mm512_test_epi64_mask(x, x);
+-}
+-int main(int argc, char *argv[])
+-{
+-	return bar(argv[0]);
+-}
+-EOF
+-  if ! compile_object "-Werror" ; then
+-    avx512f_opt="no"
+-  fi
+-else
+-  avx512f_opt="no"
+-fi
+-
+ ########################################
+ # check if __[u]int128_t is usable.
+ 
+@@ -3440,14 +3349,6 @@ if test "$opengl" = "yes" ; then
+   echo "OPENGL_LIBS=$opengl_libs" >> $config_host_mak
+ fi
+ 
+-if test "$avx2_opt" = "yes" ; then
+-  echo "CONFIG_AVX2_OPT=y" >> $config_host_mak
+-fi
+-
+-if test "$avx512f_opt" = "yes" ; then
+-  echo "CONFIG_AVX512F_OPT=y" >> $config_host_mak
+-fi
+-
+ # XXX: suppress that
+ if [ "$bsd" = "yes" ] ; then
+   echo "CONFIG_BSD=y" >> $config_host_mak
+@@ -3480,10 +3381,6 @@ if test "$have_tsan" = "yes" && test "$have_tsan_iface_fiber" = "yes" ; then
+     echo "CONFIG_TSAN=y" >> $config_host_mak
+ fi
+ 
+-if test "$cpuid_h" = "yes" ; then
+-  echo "CONFIG_CPUID_H=y" >> $config_host_mak
+-fi
+-
+ if test "$int128" = "yes" ; then
+   echo "CONFIG_INT128=y" >> $config_host_mak
+ fi
 diff --git a/meson.build b/meson.build
-index 637ee08eb1..9ef0286f21 100644
+index 9ef0286f21..123121924e 100644
 --- a/meson.build
 +++ b/meson.build
-@@ -269,14 +269,12 @@ if 'syslog' in get_option('trace_backends') and not cc.compiles('''
- endif
+@@ -1762,6 +1762,52 @@ config_host_data.set('CONFIG_GETAUXVAL', cc.links(gnu_source_prefix + '''
+     return getauxval(AT_HWCAP) == 0;
+   }'''))
  
- # Miscellaneous Linux-only features
--if targetos != 'linux' and get_option('mpath').enabled()
--  error('Multipath is supported only on Linux')
--endif
-+get_option('mpath') \
-+  .require(targetos == 'linux', error_message: 'Multipath is supported only on Linux')
++have_cpuid_h = cc.links('''
++  #include <cpuid.h>
++  int main(void) {
++    unsigned a, b, c, d;
++    int max = __get_cpuid_max(0, 0);
++
++    if (max >= 1) {
++        __cpuid(1, a, b, c, d);
++    }
++
++    if (max >= 7) {
++        __cpuid_count(7, 0, a, b, c, d);
++    }
++
++    return 0;
++  }''')
++config_host_data.set('CONFIG_CPUID_H', have_cpuid_h)
++
++config_host_data.set('CONFIG_AVX2_OPT', get_option('avx2') \
++  .require(have_cpuid_h, error_message: 'cpuid.h not available, cannot enable AVX2') \
++  .require(cc.links('''
++    #pragma GCC push_options
++    #pragma GCC target("avx2")
++    #include <cpuid.h>
++    #include <immintrin.h>
++    static int bar(void *a) {
++      __m256i x = *(__m256i *)a;
++      return _mm256_testz_si256(x, x);
++    }
++    int main(int argc, char *argv[]) { return bar(argv[0]); }
++  '''), error_message: 'AVX2 not available').allowed())
++
++config_host_data.set('CONFIG_AVX512F_OPT', get_option('avx512f') \
++  .require(have_cpuid_h, error_message: 'cpuid.h not available, cannot enable AVX512F') \
++  .require(cc.links('''
++    #pragma GCC push_options
++    #pragma GCC target("avx512f")
++    #include <cpuid.h>
++    #include <immintrin.h>
++    static int bar(void *a) {
++      __m512i x = *(__m512i *)a;
++      return _mm512_test_epi64_mask(x, x);
++    }
++    int main(int argc, char *argv[]) { return bar(argv[0]); }
++  '''), error_message: 'AVX512F not available').allowed())
++
+ config_host_data.set('CONFIG_AF_VSOCK', cc.compiles(gnu_source_prefix + '''
+   #include <errno.h>
+   #include <sys/types.h>
+@@ -3293,8 +3339,8 @@ summary_info += {'membarrier':        config_host.has_key('CONFIG_MEMBARRIER')}
+ summary_info += {'debug stack usage': config_host.has_key('CONFIG_DEBUG_STACK_USAGE')}
+ summary_info += {'mutex debugging':   config_host.has_key('CONFIG_DEBUG_MUTEX')}
+ summary_info += {'memory allocator':  get_option('malloc')}
+-summary_info += {'avx2 optimization': config_host.has_key('CONFIG_AVX2_OPT')}
+-summary_info += {'avx512f optimization': config_host.has_key('CONFIG_AVX512F_OPT')}
++summary_info += {'avx2 optimization': config_host_data.get('CONFIG_AVX2_OPT')}
++summary_info += {'avx512f optimization': config_host_data.get('CONFIG_AVX512F_OPT')}
+ summary_info += {'gprof enabled':     config_host.has_key('CONFIG_GPROF')}
+ summary_info += {'gcov':              get_option('b_coverage')}
+ summary_info += {'thread sanitizer':  config_host.has_key('CONFIG_TSAN')}
+diff --git a/meson_options.txt b/meson_options.txt
+index 95d527f773..6ff349023c 100644
+--- a/meson_options.txt
++++ b/meson_options.txt
+@@ -68,6 +68,10 @@ option('multiprocess', type: 'feature', value: 'auto',
+        description: 'Out of process device emulation support')
+ option('dbus_display', type: 'feature', value: 'auto',
+        description: '-display dbus support')
++option('avx2', type: 'feature', value: 'auto',
++       description: 'AVX2 optimizations')
++option('avx512f', type: 'feature', value: 'disabled',
++       description: 'AVX512F optimizations')
  
--if targetos != 'linux' and get_option('multiprocess').enabled()
--  error('Multiprocess QEMU is supported only on Linux')
--endif
--multiprocess_allowed = targetos == 'linux' and get_option('multiprocess').allowed()
-+multiprocess_allowed = get_option('multiprocess') \
-+  .require(targetos == 'linux', error_message: 'Multiprocess QEMU is supported only on Linux') \
-+  .allowed()
- 
- # Target-specific libraries and flags
- libm = cc.find_library('m', required: false)
-@@ -1268,19 +1266,13 @@ statx_test = gnu_source_prefix + '''
- 
- has_statx = cc.links(statx_test)
- 
--have_vhost_user_blk_server = (targetos == 'linux' and
--    'CONFIG_VHOST_USER' in config_host)
--
--if get_option('vhost_user_blk_server').enabled()
--    if targetos != 'linux'
--        error('vhost_user_blk_server requires linux')
--    elif 'CONFIG_VHOST_USER' not in config_host
--        error('vhost_user_blk_server requires vhost-user support')
--    endif
--elif get_option('vhost_user_blk_server').disabled() or not have_system
--    have_vhost_user_blk_server = false
--endif
--
-+have_vhost_user_blk_server = get_option('vhost_user_blk_server') \
-+  .require(targetos == 'linux',
-+           error_message: 'vhost_user_blk_server requires linux') \
-+  .require('CONFIG_VHOST_USER' in config_host,
-+           error_message: 'vhost_user_blk_server requires vhost-user support') \
-+  .disable_auto_if(not have_system) \
-+  .allowed()
- 
- if get_option('fuse').disabled() and get_option('fuse_lseek').enabled()
-   error('Cannot enable fuse-lseek while fuse is disabled')
-@@ -1407,36 +1399,26 @@ endif
- have_host_block_device = (targetos != 'darwin' or
-     cc.has_header('IOKit/storage/IOMedia.h'))
- 
--dbus_display = false
--if not get_option('dbus_display').disabled()
--  # FIXME enable_modules shouldn't be necessary, but: https://github.com/mesonbuild/meson/issues/8333
--  dbus_display = gio.version().version_compare('>=2.64') and config_host.has_key('GDBUS_CODEGEN') and enable_modules
--  if get_option('dbus_display').enabled() and not dbus_display
--    error('Requirements missing to enable -display dbus (glib>=2.64 && --enable-modules)')
--  endif
--endif
-+# FIXME enable_modules shouldn't be necessary, but: https://github.com/mesonbuild/meson/issues/8333
-+dbus_display = get_option('dbus_display') \
-+  .require(gio.version().version_compare('>=2.64'),
-+           error_message: '-display dbus requires glib>=2.64') \
-+  .require(enable_modules,
-+           error_message: '-display dbus requires --enable-modules') \
-+  .require(config_host.has_key('GDBUS_CODEGEN'),
-+           error_message: '-display dbus requires gdbus-codegen') \
-+  .allowed()
- 
--have_virtfs = (targetos == 'linux' and
--    have_system and
--    libattr.found() and
--    libcap_ng.found())
-+have_virtfs = get_option('virtfs') \
-+    .require(targetos == 'linux',
-+             error_message: 'virtio-9p (virtfs) requires Linux') \
-+    .require(libattr.found() and libcap_ng.found(),
-+             error_message: 'virtio-9p (virtfs) requires libcap-ng-devel and libattr-devel') \
-+    .disable_auto_if(not have_tools and not have_system) \
-+    .allowed()
- 
- have_virtfs_proxy_helper = have_virtfs and have_tools
- 
--if get_option('virtfs').enabled()
--  if not have_virtfs
--    if targetos != 'linux'
--      error('virtio-9p (virtfs) requires Linux')
--    elif not libcap_ng.found() or not libattr.found()
--      error('virtio-9p (virtfs) requires libcap-ng-devel and libattr-devel')
--    elif not have_system
--      error('virtio-9p (virtfs) needs system emulation support')
--    endif
--  endif
--elif get_option('virtfs').disabled()
--  have_virtfs = false
--endif
--
- foreach k : get_option('trace_backends')
-   config_host_data.set('CONFIG_TRACE_' + k.to_upper(), true)
- endforeach
-diff --git a/tools/meson.build b/tools/meson.build
-index 3e5a0abfa2..46977af84f 100644
---- a/tools/meson.build
-+++ b/tools/meson.build
-@@ -1,25 +1,12 @@
--have_virtiofsd = (targetos == 'linux' and
--    have_tools and
--    seccomp.found() and
--    libcap_ng.found() and
--    'CONFIG_VHOST_USER' in config_host)
--
--if get_option('virtiofsd').enabled()
--  if not have_virtiofsd
--    if targetos != 'linux'
--      error('virtiofsd requires Linux')
--    elif not seccomp.found() or not libcap_ng.found()
--      error('virtiofsd requires libcap-ng-devel and seccomp-devel')
--    elif 'CONFIG_VHOST_USER' not in config_host
--      error('virtiofsd needs vhost-user support')
--    else
--      # Disabled all the tools but virtiofsd.
--      have_virtiofsd = true
--    endif
--  endif
--elif get_option('virtiofsd').disabled() or not have_system
--  have_virtiofsd = false
--endif
-+have_virtiofsd = get_option('virtiofsd') \
-+    .require(targetos == 'linux',
-+             error_message: 'virtiofsd requires Linux') \
-+    .require(seccomp.found() and libcap_ng.found(),
-+             error_message: 'virtiofsd requires libcap-ng-devel and seccomp-devel') \
-+    .require('CONFIG_VHOST_USER' in config_host,
-+             error_message: 'virtiofsd needs vhost-user-support') \
-+    .disable_auto_if(not have_tools and not have_system) \
-+    .allowed()
- 
- if have_virtiofsd
-   subdir('virtiofsd')
+ option('attr', type : 'feature', value : 'auto',
+        description: 'attr/xattr support')
+diff --git a/scripts/meson-buildoptions.sh b/scripts/meson-buildoptions.sh
+index a4af02c527..a5cbe0ea00 100644
+--- a/scripts/meson-buildoptions.sh
++++ b/scripts/meson-buildoptions.sh
+@@ -26,6 +26,8 @@ meson_options_help() {
+   printf "%s\n" '  alsa            ALSA sound support'
+   printf "%s\n" '  attr            attr/xattr support'
+   printf "%s\n" '  auth-pam        PAM access control'
++  printf "%s\n" '  avx2            AVX2 optimizations'
++  printf "%s\n" '  avx512f         AVX512F optimizations'
+   printf "%s\n" '  bpf             eBPF support'
+   printf "%s\n" '  brlapi          brlapi character device driver'
+   printf "%s\n" '  bzip2           bzip2 support for DMG images'
+@@ -110,6 +112,10 @@ _meson_option_parse() {
+     --disable-attr) printf "%s" -Dattr=disabled ;;
+     --enable-auth-pam) printf "%s" -Dauth_pam=enabled ;;
+     --disable-auth-pam) printf "%s" -Dauth_pam=disabled ;;
++    --enable-avx2) printf "%s" -Davx2=enabled ;;
++    --disable-avx2) printf "%s" -Davx2=disabled ;;
++    --enable-avx512f) printf "%s" -Davx512f=enabled ;;
++    --disable-avx512f) printf "%s" -Davx512f=disabled ;;
+     --enable-bpf) printf "%s" -Dbpf=enabled ;;
+     --disable-bpf) printf "%s" -Dbpf=disabled ;;
+     --enable-brlapi) printf "%s" -Dbrlapi=enabled ;;
 -- 
 2.34.1
 
