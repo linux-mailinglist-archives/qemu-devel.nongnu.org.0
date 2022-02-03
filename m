@@ -2,82 +2,98 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 500554A833A
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Feb 2022 12:33:50 +0100 (CET)
-Received: from localhost ([::1]:48212 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 848AB4A834D
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Feb 2022 12:48:07 +0100 (CET)
+Received: from localhost ([::1]:54414 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nFaN3-0007FT-2o
-	for lists+qemu-devel@lfdr.de; Thu, 03 Feb 2022 06:33:49 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:45732)
+	id 1nFaas-0003h3-2o
+	for lists+qemu-devel@lfdr.de; Thu, 03 Feb 2022 06:48:06 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:47692)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.griffin@linaro.org>)
- id 1nFaLH-0005qa-Q1
- for qemu-devel@nongnu.org; Thu, 03 Feb 2022 06:31:59 -0500
-Received: from [2a00:1450:4864:20::435] (port=42719
- helo=mail-wr1-x435.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.griffin@linaro.org>)
- id 1nFaLF-0007lq-6C
- for qemu-devel@nongnu.org; Thu, 03 Feb 2022 06:31:58 -0500
-Received: by mail-wr1-x435.google.com with SMTP id a13so4397646wrh.9
- for <qemu-devel@nongnu.org>; Thu, 03 Feb 2022 03:31:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=tANGkzr4PwooRPxppQ9gCT4LumGon7ZLSxe0z1IwpgE=;
- b=eiE88RTQQBQOjFrPj91bktgBki972kbRKzLlARlGtFC0QAbWtpIUPhpGI9O1+ehvAK
- yXKuEZnU6O4nbB+yRhUllFCRX2TRYe77iLoZ6Cex9apO5pWhJdt0szpxOuiBZw+TiABy
- /kSKoZNyMKUxltJjLy5E27nPpBRRnBWDfNsXo37if5Z8tRd8j+PwopQbHMfBVfaK8BPa
- T7cpTlzv+pyY5TKI0jJD+mFbLDfw4CKo2VRPS68jZ5rA9igpzdu5RR2R4rs3r/9ex3Uw
- rMpaDbCnGPmzEwwBfj3hkWGTlBIGh4nfsbWha8Mj9KreFRt9RPwgsBJmo8eQ5fM2PLgO
- jhTA==
+ (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
+ id 1nFaUR-0002KD-I6
+ for qemu-devel@nongnu.org; Thu, 03 Feb 2022 06:41:28 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:23954)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
+ id 1nFaUP-0002wo-Uu
+ for qemu-devel@nongnu.org; Thu, 03 Feb 2022 06:41:27 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1643888485;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=wXeVgfSMt/T9o0IRbAsjb8VR3VdMNzhR9Z/lrxZsbOM=;
+ b=e69fQH9NtYWQ/o5pOlx0qC0vZD1uKhJ0d7e1opxu9hwFTlHHHhJpGyKq08C8P5WfqhffRO
+ HszFKc3GGg+bVPrsu55vvq21irEno5NLaKouhE5d5BU+bFZ8Pql/KjjiTDf+CDhFr77dyC
+ +7e8WJt9MFPDD48oSr2N2mxO0Xu7jcU=
+Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
+ [209.85.222.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-453-d9UaWl4ZMMGWw4brMcMCTw-1; Thu, 03 Feb 2022 06:41:19 -0500
+X-MC-Unique: d9UaWl4ZMMGWw4brMcMCTw-1
+Received: by mail-qk1-f198.google.com with SMTP id
+ z1-20020ae9f441000000b00507a22b2d00so1876016qkl.8
+ for <qemu-devel@nongnu.org>; Thu, 03 Feb 2022 03:41:18 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=tANGkzr4PwooRPxppQ9gCT4LumGon7ZLSxe0z1IwpgE=;
- b=bZwQy+ZVR4cnJdh9q83d9eH1pxazcTRdFu9H4CJNMrwmDBQZXVpAxGRGGjIUzYOXFC
- Li8RsOc8cCqSB9kxIUtKax+KapabEcpVuMmSMsiHz5vNarI4mycY95niW5BDANSmlOuq
- VFpTHedJ0JSOHRnaDFWrLK+kzGufOCLzkqbFkA+JXaF/WYhorj0gXeu444dOX/g0syGu
- Bw1z42XHcaua/iFHB9P/KjyhfWFL4RofE4wvu5d0Hz9S3yTMyKACK9y+v3MpOJYOUhZX
- on/iBytX2eI7r0HmhEg6VK4/q59eh2LnR7HZg5ZH638DFWCzuuvqzJQUXb8MbMIDpO2u
- kqNw==
-X-Gm-Message-State: AOAM532BGmQ90S3nRpV+SaHlBdGE2UtFSjGhdDFpJlH1IxavLxGggTw2
- ww4SahzJhELTwIv0XP//ZXIBI//c4BWr+g==
-X-Google-Smtp-Source: ABdhPJxNHPCJPcd32dd4pL2Mz8AzzXnkkyj9FyzOAIKZ+ZDYYA/B3Px8ifequ3M/G58p3Bwxh6AxzA==
-X-Received: by 2002:a5d:550f:: with SMTP id b15mr18659988wrv.384.1643887905490; 
- Thu, 03 Feb 2022 03:31:45 -0800 (PST)
-Received: from xps15-9570.lan ([85.210.223.90])
- by smtp.gmail.com with ESMTPSA id z6sm6848973wmf.37.2022.02.03.03.31.44
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 03 Feb 2022 03:31:45 -0800 (PST)
-Date: Thu, 3 Feb 2022 11:31:43 +0000
-From: Peter Griffin <peter.griffin@linaro.org>
-To: Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>
-Subject: Re: [PATCH 4/8] vhost-user-video: add meson subdir build logic
-Message-ID: <20220203113143.GC371411@xps15-9570.lan>
-References: <20211209145601.331477-1-peter.griffin@linaro.org>
- <20211209145601.331477-5-peter.griffin@linaro.org>
- <87sftub6o7.fsf@linaro.org>
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=wXeVgfSMt/T9o0IRbAsjb8VR3VdMNzhR9Z/lrxZsbOM=;
+ b=ZC/1SyazWaKy6iKzatQw4M4jtadVJjWWYNfhRXCRVPuPZ+QazMifEx8+I1RGwAnyxS
+ C3N5fGXJw9vkdjgb7tbsY9ClLAj0u8xZEjOW7wxSKfITlHoIjgpRy/ruTnWNCBdUP6aW
+ Y5hx6FOSxtxBPobzhlJUcpTVWXwAzWVrlIFYx8S6SNPMMznkJxThOF+etmts4CONgzvo
+ AoirxWW0RO8KNMMIBPHnKwTyOw+uJr5mUMMFWEzd0KtSZLX+D8gYUUCMzDKL6eDXFqL1
+ F0/JQ5H6H2Jub+3+S3fVhQWCPYLRF7OrZdyhABxHY9oqUOR8QNKw1hiSUUOZYR8BHG53
+ LN+A==
+X-Gm-Message-State: AOAM530R2DsVrZxBbMUUIBgfelT0+aFcYr6pIiArSwN3UmxUe7AyFkuC
+ MjyS+MlqA1+mzhuu17qOg7A9yk4nuun+l9QyhqPPHuhF1wSdFtL+orsl5tGHFCXvKXYAJhWBTOB
+ MexCatMa7cAdGFwc=
+X-Received: by 2002:a05:622a:1805:: with SMTP id
+ t5mr26362717qtc.293.1643888478602; 
+ Thu, 03 Feb 2022 03:41:18 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJy67nShur/ZW39JjLNuZJD/GineWZJzgB5O9LbTn37GnvafyZvxY82cCmW6lRUY2pAf7fTOag==
+X-Received: by 2002:a05:622a:1805:: with SMTP id
+ t5mr26362701qtc.293.1643888478385; 
+ Thu, 03 Feb 2022 03:41:18 -0800 (PST)
+Received: from ?IPV6:2a04:ee41:4:31cb:e591:1e1e:abde:a8f1?
+ ([2a04:ee41:4:31cb:e591:1e1e:abde:a8f1])
+ by smtp.gmail.com with ESMTPSA id ay18sm5585893qkb.8.2022.02.03.03.41.15
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 03 Feb 2022 03:41:17 -0800 (PST)
+Message-ID: <a8c8bb77-0c6d-8240-1847-6c8ce561c0d7@redhat.com>
+Date: Thu, 3 Feb 2022 12:41:12 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.2.0
+Subject: Re: [PATCH 05/12] test-bdrv-drain.c: adapt test to the coming subtree
+ drains
+To: Paolo Bonzini <pbonzini@redhat.com>, qemu-block@nongnu.org
+References: <20220118162738.1366281-1-eesposit@redhat.com>
+ <20220118162738.1366281-6-eesposit@redhat.com>
+ <53900301-5b8c-a724-4e48-ba3fa003cc1e@redhat.com>
+From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+In-Reply-To: <53900301-5b8c-a724-4e48-ba3fa003cc1e@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eesposit@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <87sftub6o7.fsf@linaro.org>
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::435
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::435;
- envelope-from=peter.griffin@linaro.org; helo=mail-wr1-x435.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=eesposit@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.086,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -90,58 +106,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: marcandre.lureau@redhat.com, stratos-dev@op-lists.linaro.org,
- qemu-devel@nongnu.org, mst@redhat.com
+Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-devel@nongnu.org,
+ Hanna Reitz <hreitz@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Alex,
 
-Thanks for reviewing.
 
-On Tue, 11 Jan 2022, Alex Benn�e wrote:
+On 19/01/2022 10:18, Paolo Bonzini wrote:
+> On 1/18/22 17:27, Emanuele Giuseppe Esposito wrote:
+>> - First of all, inconsistency between block_job_create under
+>> aiocontext lock that internally calls blk_insert_bs and therefore
+>> bdrv_replace_child_noperm, and blk_insert_bs that is called two lines
+>> above in the same test without aiocontext. There seems to be no
+>> reason on why we need the lock there, so move the aiocontext lock further
+>> down.
+>>
+>> - test_detach_indirect: here it is simply a matter of wrong callbacks
+>> used. In the original test, there was only a subtree drain, so
+>> overriding .drained_begin was not a problem. Now that we want to have
+>> additional subtree drains, we risk to call the test callback
+>> to early, or multiple times. We do not want that, so override
+>> the callback only when we actually want to use it.
+> 
+> The language here is a bit overcomplicated.  Don't think that you're
+> writing Italian, instead use simple sentences.
+> 
+> First, the test is inconsistent about taking the AioContext lock when
+> calling bdrv_replace_child_noperm.  bdrv_replace_child_noperm is reached
+> in two places: from blk_insert_bs directly, and via block_job_create.
+> Only the second does it with the AioContext lock taken, and there seems
+> to be no reason why the lock is needed.  Move aio_context_acquire
+> further down.  [Any reason why you don't move it even further down, to
+> cover only job_start?]
+
+The lock is left just to cover block_job_add_bdrv, since it internally
+releases and then acquires the lock.
+Fixing that is a future TODO.
+
+job_start did not and does not need the AioContext lock :)
 
 > 
-> Peter Griffin <peter.griffin@linaro.org> writes:
+> Second, test_detach_indirect is only interested in observing the first
+> call to .drained_begin.  In the original test, there was only a single
+> subtree drain; however, with additional drains introduced in
+> bdrv_replace_child_noperm, the test callback would be called too early
+> and/or multiple times.  Override the callback only when we actually want
+> to use it, and put back the original after it's been invoked.
 > 
-> > Signed-off-by: Peter Griffin <peter.griffin@linaro.org>
-> > ---
-> >  tools/meson.build | 9 +++++++++
-> >  1 file changed, 9 insertions(+)
-> >
-> > diff --git a/tools/meson.build b/tools/meson.build
-> > index 3e5a0abfa2..3314b5efc5 100644
-> > --- a/tools/meson.build
-> > +++ b/tools/meson.build
-> > @@ -24,3 +24,12 @@ endif
-> >  if have_virtiofsd
-> >    subdir('virtiofsd')
-> >  endif
-> > +
-> > +have_virtiovideo = (have_system and
-> > +    have_tools and
-> > +    'CONFIG_LINUX' in config_host)
+> This could also be split in two commits.
 > 
-> Following the convention of cece116c939d219070b250338439c2d16f94e3da
-> 
->   have_virtiovideo = (targetos == 'linux' and
->       have_tools and
->       'CONFIG_VHOST_USER' in config_host)
->
 
-Will fix in v2
+Will update the commit message, thank you!
 
-regards,
+Emanuele
 
-Peter.
-
-> > +
-> > +if have_virtiovideo
-> > +  subdir('vhost-user-video')
-> > +endif
-> > +
-> 
-> 
-> -- 
-> Alex Benn�e
 
