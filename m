@@ -2,75 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DAE3E4A8FF2
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Feb 2022 22:31:21 +0100 (CET)
-Received: from localhost ([::1]:37562 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9695E4A8F7E
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Feb 2022 22:04:51 +0100 (CET)
+Received: from localhost ([::1]:53712 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nFjhI-0007Sg-VE
-	for lists+qemu-devel@lfdr.de; Thu, 03 Feb 2022 16:31:21 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:41780)
+	id 1nFjHd-0004CJ-JF
+	for lists+qemu-devel@lfdr.de; Thu, 03 Feb 2022 16:04:49 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:42526)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <atishp@rivosinc.com>)
- id 1nFitX-0006ZE-6F
- for qemu-devel@nongnu.org; Thu, 03 Feb 2022 15:39:55 -0500
-Received: from [2a00:1450:4864:20::52e] (port=34314
- helo=mail-ed1-x52e.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <atishp@rivosinc.com>)
- id 1nFitU-0005B4-I9
- for qemu-devel@nongnu.org; Thu, 03 Feb 2022 15:39:54 -0500
-Received: by mail-ed1-x52e.google.com with SMTP id w20so4633362edc.1
- for <qemu-devel@nongnu.org>; Thu, 03 Feb 2022 12:39:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=rivosinc-com.20210112.gappssmtp.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Cn3JBOPTkmzWDDsQcJOrN9rQ7hIGilL1vixPseHwSKY=;
- b=tQUCT14j4CoRFoRa7iKEkX4AaZRbqEaRoUAeSEj83hfVYk4QUzfdr7YVcYxm4no8Yi
- M4ubjNwUbME7O/0guJOgeVk8V6nspwKbm95hjuUtmMCPcqTuvq8kR8nHHToG6p5u9lxf
- q44Y8LN2Cc/nZBfhm1gtrDifH8seCfSlHTc27mAspyp/irdiiAcKeUSoB8h3e5RWnp7p
- JmOagO/Sym51xCmLvjB8esKVitpV3HQnfcBu+VmRjJyZ7WS4X8eGQ+gR+KGadkAwryNq
- MfY/TYlByO1Fl0k1nJw/XOiOFq+icgYKrn0uCaZ9gCzp8yNP2wvm7jcagdQ4HaixqbFq
- qp+g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=Cn3JBOPTkmzWDDsQcJOrN9rQ7hIGilL1vixPseHwSKY=;
- b=MMLsJhnobzYQkwfCLvyo/cEvr50PwRY06Rbu7h2EsMWYCMW/aOUlY3W8FRjaq6lP6k
- AUcovGDAkh2/Ba4gzONzfZ3hiFfVTl/G9c2wDpRS0/nvlk7xNaNAG8e9pkxTXJ/i1mYs
- 6d74qR+aZvzI8eaGcUbw6jBRifnTA+E21nkB+GM9xTAyn8TSAc5OLgB7Zst1/2a7P2Pl
- l6PYe5TFdKbbXouS0tlQquUC7X86HvinD5secAeIP/zUPKGQIWVzJ2JpUr9h/Fl+P0XC
- vBA4Bs4TL+QGyUW39bkCvuxJTU8daPu366fsAFphTEAwdY/qrYGA2dNSOT+Uy/XphvnY
- pKZQ==
-X-Gm-Message-State: AOAM5320eaeplcd7D6QrTo46bFtEWJTE2X0bJYXsP1zsnW+bNvnINkDi
- dSbp5j/4ndCmTHFNHJM4I2z8PK9N47pvVHKXbtUT3g==
-X-Google-Smtp-Source: ABdhPJwcyNH9cX59BRjdGSW1Z78sJjisPQ0a6DEOX+Pa9C3W83DmdMLzySRlY1ypjsWdHxLs4lPl8RbHv9+8fB/4rBY=
-X-Received: by 2002:a05:6402:19a9:: with SMTP id
- o9mr37099905edz.295.1643920790299; 
- Thu, 03 Feb 2022 12:39:50 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <luc@lmichel.fr>)
+ id 1nFixs-0003D7-Ot; Thu, 03 Feb 2022 15:44:24 -0500
+Received: from pharaoh.lmichel.fr ([149.202.28.74]:50262)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <luc@lmichel.fr>)
+ id 1nFixp-0006hd-Ed; Thu, 03 Feb 2022 15:44:24 -0500
+Received: from localhost (sekoia-pc.home.lmichel.fr [192.168.61.100])
+ by pharaoh.lmichel.fr (Postfix) with ESMTPSA id 14680C60912;
+ Thu,  3 Feb 2022 21:44:18 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lmichel.fr; s=pharaoh; 
+ t=1643921058;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=NoaL8r2zZGkS48EBKsBf9XqzK4gCZDYEGPsXVlV9nl4=;
+ b=joZBSCpTK5Ectmyv5QySh0XYpEGJDBK4tPp/b4M5ez8F/xynt1zHcB83dqsJ4lKVGz1MC6
+ E/M78EDhqPyBGUbjiLQzGkyWC4QZaPL8KYATTXoI7x7lUjQp8ErCEm54g8SSsneRRzeLKb
+ E/w2QT9temJyV3mqPVfjeU6W+WuK2/itvHRN5+0Q3oRa8ttufX4eKN5n6PBGaSPMJE9rvg
+ D0lrYXH/8DyTyob8jlxJmgsUU5q9Ejvu1xzfN+oV0ZidTZy0iZHN4PseyTIYeQqxmKgZLX
+ eE3xM6rfTVfN48FORgMA/XtcaRLX2fSgsRuNsJN+CVWmNQhJ51DfUJ8+zLyF0g==
+Date: Thu, 3 Feb 2022 21:44:17 +0100
+From: Luc Michel <luc@lmichel.fr>
+To: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
+Subject: Re: [PATCH v2 5/6] hw/misc: Add a model of the Xilinx ZynqMP APU
+ Control
+Message-ID: <Yfw+oaKngGR4qbu3@sekoia-pc.home.lmichel.fr>
+References: <20220203140141.310870-1-edgar.iglesias@gmail.com>
+ <20220203140141.310870-6-edgar.iglesias@gmail.com>
 MIME-Version: 1.0
-References: <20220120200735.2739543-1-atishp@rivosinc.com>
- <20220120200735.2739543-5-atishp@rivosinc.com>
- <2696860.3DGziXre4Q@diego>
-In-Reply-To: <2696860.3DGziXre4Q@diego>
-From: Atish Kumar Patra <atishp@rivosinc.com>
-Date: Thu, 3 Feb 2022 12:39:39 -0800
-Message-ID: <CAHBxVyESyQqLi0bvRUcH=4UCSfs5ZzN+EK5Uxjc71okXu2Nk1A@mail.gmail.com>
-Subject: Re: [RFC 4/5] target/riscv: Add *envcfg* CSRs support
-To: =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>
-Content-Type: multipart/alternative; boundary="000000000000beb7f705d7232237"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::52e
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::52e;
- envelope-from=atishp@rivosinc.com; helo=mail-ed1-x52e.google.com
-X-Spam_score_int: -10
-X-Spam_score: -1.1
-X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, HTML_MESSAGE=0.001, PDS_HP_HELO_NORDNS=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220203140141.310870-6-edgar.iglesias@gmail.com>
+Received-SPF: pass client-ip=149.202.28.74; envelope-from=luc@lmichel.fr;
+ helo=pharaoh.lmichel.fr
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -83,199 +63,407 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Anup Patel <anup@brainfault.org>, Bin Meng <bin.meng@windriver.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Alistair Francis <alistair.francis@wdc.com>,
- Palmer Dabbelt <palmer@dabbelt.com>
+Cc: edgar.iglesias@xilinx.com, peter.maydell@linaro.org,
+ sai.pavan.boddu@xilinx.com, frasse.iglesias@gmail.com, alistair@alistair23.me,
+ richard.henderson@linaro.org, qemu-devel@nongnu.org, f4bug@amsat.org,
+ francisco.iglesias@xilinx.com, frederic.konrad@adacore.com,
+ qemu-arm@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000beb7f705d7232237
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On 15:01 Thu 03 Feb     , Edgar E. Iglesias wrote:
+> From: "Edgar E. Iglesias" <edgar.iglesias@xilinx.com>
+> 
+> Add a model of the Xilinx ZynqMP APU Control.
+> 
+> Signed-off-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
 
-On Thu, Feb 3, 2022 at 4:23 AM Heiko St=C3=BCbner <heiko@sntech.de> wrote:
+Reviewed-by: Luc Michel <luc@lmichel.fr>
 
-> Hi Atish,
->
-> Am Donnerstag, 20. Januar 2022, 21:07:34 CET schrieb Atish Patra:
-> > The RISC-V privileged specification v1.12 defines few execution
-> > environment configuration CSRs that can be used enable/disable
-> > extensions per privilege levels.
-> >
-> > Add the basic support for these CSRs.
-> >
-> > Signed-off-by: Atish Patra <atishp@rivosinc.com>
-> > ---
-> >  target/riscv/cpu.h      |  8 ++++
-> >  target/riscv/cpu_bits.h | 31 +++++++++++++++
-> >  target/riscv/csr.c      | 84 +++++++++++++++++++++++++++++++++++++++++
-> >  target/riscv/machine.c  | 26 +++++++++++++
-> >  4 files changed, 149 insertions(+)
-> >
-> > diff --git a/target/riscv/cpu_bits.h b/target/riscv/cpu_bits.h
-> > index f6f90b5cbd52..afb237c2313b 100644
-> > --- a/target/riscv/cpu_bits.h
-> > +++ b/target/riscv/cpu_bits.h
->
-> [...]
->
-> > @@ -578,6 +589,26 @@ typedef enum RISCVException {
-> >  #define PM_EXT_CLEAN    0x00000002ULL
-> >  #define PM_EXT_DIRTY    0x00000003ULL
-> >
-> > +/* Execution enviornment configuration bits */
-> > +#define MENVCFG_FIOM                       (1 << 0)
->
-> > +#define MENVCFG_CBE                        0x30000ULL
->
-> Looking both at the cmo spec as well as the most recent privileged spec
-> (draft) the field is called CBIE it seems.
->
-> Also the shift looks wrong. Both cmo as well as privileged spec show
-> it at bits [5:4] and _not_ [17:16].
->
->
-This looks like a typo from my side. These bits are reserved in the spec!
-Apologies for such a silly mistake. Fixed it in v2.
+> ---
+>  include/hw/misc/xlnx-zynqmp-apu-ctrl.h |  95 +++++++++
+>  hw/misc/xlnx-zynqmp-apu-ctrl.c         | 254 +++++++++++++++++++++++++
+>  hw/misc/meson.build                    |   1 +
+>  3 files changed, 350 insertions(+)
+>  create mode 100644 include/hw/misc/xlnx-zynqmp-apu-ctrl.h
+>  create mode 100644 hw/misc/xlnx-zynqmp-apu-ctrl.c
+> 
+> diff --git a/include/hw/misc/xlnx-zynqmp-apu-ctrl.h b/include/hw/misc/xlnx-zynqmp-apu-ctrl.h
+> new file mode 100644
+> index 0000000000..b0c0adb881
+> --- /dev/null
+> +++ b/include/hw/misc/xlnx-zynqmp-apu-ctrl.h
+> @@ -0,0 +1,95 @@
+> +/*
+> + * QEMU model of ZynqMP APU Control.
+> + *
+> + * Copyright (c) 2013-2022 Xilinx Inc
+> + * SPDX-License-Identifier: GPL-2.0-or-later
+> + *
+> + * Written by Peter Crosthwaite <peter.crosthwaite@xilinx.com> and
+> + * Edgar E. Iglesias <edgar.iglesias@xilinx.com>
+> + *
+> + */
+> +#ifndef HW_MISC_XLNX_ZYNQMP_APU_CTRL_H
+> +#define HW_MISC_XLNX_ZYNQMP_APU_CTRL_H
+> +
+> +#include "hw/sysbus.h"
+> +#include "hw/register.h"
+> +#include "target/arm/cpu.h"
+> +
+> +#define TYPE_XLNX_ZYNQMP_APU_CTRL "xlnx.apu-ctrl"
+> +
+> +#define XLNX_ZYNQMP_APU(obj) \
+> +     OBJECT_CHECK(XlnxZynqMPAPUCtrl, (obj), TYPE_XLNX_ZYNQMP_APU_CTRL)
+> +
+> +REG32(APU_ERR_CTRL, 0x0)
+> +    FIELD(APU_ERR_CTRL, PSLVERR, 0, 1)
+> +REG32(ISR, 0x10)
+> +    FIELD(ISR, INV_APB, 0, 1)
+> +REG32(IMR, 0x14)
+> +    FIELD(IMR, INV_APB, 0, 1)
+> +REG32(IEN, 0x18)
+> +    FIELD(IEN, INV_APB, 0, 1)
+> +REG32(IDS, 0x1c)
+> +    FIELD(IDS, INV_APB, 0, 1)
+> +REG32(CONFIG_0, 0x20)
+> +    FIELD(CONFIG_0, CFGTE, 24, 4)
+> +    FIELD(CONFIG_0, CFGEND, 16, 4)
+> +    FIELD(CONFIG_0, VINITHI, 8, 4)
+> +    FIELD(CONFIG_0, AA64NAA32, 0, 4)
+> +REG32(CONFIG_1, 0x24)
+> +    FIELD(CONFIG_1, L2RSTDISABLE, 29, 1)
+> +    FIELD(CONFIG_1, L1RSTDISABLE, 28, 1)
+> +    FIELD(CONFIG_1, CP15DISABLE, 0, 4)
+> +REG32(RVBARADDR0L, 0x40)
+> +    FIELD(RVBARADDR0L, ADDR, 2, 30)
+> +REG32(RVBARADDR0H, 0x44)
+> +    FIELD(RVBARADDR0H, ADDR, 0, 8)
+> +REG32(RVBARADDR1L, 0x48)
+> +    FIELD(RVBARADDR1L, ADDR, 2, 30)
+> +REG32(RVBARADDR1H, 0x4c)
+> +    FIELD(RVBARADDR1H, ADDR, 0, 8)
+> +REG32(RVBARADDR2L, 0x50)
+> +    FIELD(RVBARADDR2L, ADDR, 2, 30)
+> +REG32(RVBARADDR2H, 0x54)
+> +    FIELD(RVBARADDR2H, ADDR, 0, 8)
+> +REG32(RVBARADDR3L, 0x58)
+> +    FIELD(RVBARADDR3L, ADDR, 2, 30)
+> +REG32(RVBARADDR3H, 0x5c)
+> +    FIELD(RVBARADDR3H, ADDR, 0, 8)
+> +REG32(ACE_CTRL, 0x60)
+> +    FIELD(ACE_CTRL, AWQOS, 16, 4)
+> +    FIELD(ACE_CTRL, ARQOS, 0, 4)
+> +REG32(SNOOP_CTRL, 0x80)
+> +    FIELD(SNOOP_CTRL, ACE_INACT, 4, 1)
+> +    FIELD(SNOOP_CTRL, ACP_INACT, 0, 1)
+> +REG32(PWRCTL, 0x90)
+> +    FIELD(PWRCTL, CLREXMONREQ, 17, 1)
+> +    FIELD(PWRCTL, L2FLUSHREQ, 16, 1)
+> +    FIELD(PWRCTL, CPUPWRDWNREQ, 0, 4)
+> +REG32(PWRSTAT, 0x94)
+> +    FIELD(PWRSTAT, CLREXMONACK, 17, 1)
+> +    FIELD(PWRSTAT, L2FLUSHDONE, 16, 1)
+> +    FIELD(PWRSTAT, DBGNOPWRDWN, 0, 4)
+> +
+> +#define APU_R_MAX ((R_PWRSTAT) + 1)
+> +
+> +#define APU_MAX_CPU    4
+> +
+> +typedef struct XlnxZynqMPAPUCtrl {
+> +    SysBusDevice busdev;
+> +
+> +    ARMCPU *cpus[APU_MAX_CPU];
+> +    /* WFIs towards PMU. */
+> +    qemu_irq wfi_out[4];
+> +    /* CPU Power status towards INTC Redirect. */
+> +    qemu_irq cpu_power_status[4];
+> +    qemu_irq irq_imr;
+> +
+> +    uint8_t cpu_pwrdwn_req;
+> +    uint8_t cpu_in_wfi;
+> +
+> +    RegisterInfoArray *reg_array;
+> +    uint32_t regs[APU_R_MAX];
+> +    RegisterInfo regs_info[APU_R_MAX];
+> +} XlnxZynqMPAPUCtrl;
+> +
+> +#endif
+> diff --git a/hw/misc/xlnx-zynqmp-apu-ctrl.c b/hw/misc/xlnx-zynqmp-apu-ctrl.c
+> new file mode 100644
+> index 0000000000..ea9032e0ed
+> --- /dev/null
+> +++ b/hw/misc/xlnx-zynqmp-apu-ctrl.c
+> @@ -0,0 +1,254 @@
+> +/*
+> + * QEMU model of the ZynqMP APU Control.
+> + *
+> + * Copyright (c) 2013-2022 Xilinx Inc
+> + * SPDX-License-Identifier: GPL-2.0-or-later
+> + *
+> + * Written by Peter Crosthwaite <peter.crosthwaite@xilinx.com> and
+> + * Edgar E. Iglesias <edgar.iglesias@xilinx.com>
+> + */
+> +
+> +#include "qemu/osdep.h"
+> +#include "qapi/error.h"
+> +#include "qemu/log.h"
+> +#include "migration/vmstate.h"
+> +#include "hw/qdev-properties.h"
+> +#include "hw/sysbus.h"
+> +#include "hw/irq.h"
+> +#include "hw/register.h"
+> +
+> +#include "qemu/bitops.h"
+> +#include "qapi/qmp/qerror.h"
+> +
+> +#include "hw/misc/xlnx-zynqmp-apu-ctrl.h"
+> +
+> +#ifndef XILINX_ZYNQMP_APU_ERR_DEBUG
+> +#define XILINX_ZYNQMP_APU_ERR_DEBUG 1
+> +#endif
+> +
+> +static void update_wfi_out(void *opaque)
+> +{
+> +    XlnxZynqMPAPUCtrl *s = XLNX_ZYNQMP_APU(opaque);
+> +    unsigned int i, wfi_pending;
+> +
+> +    wfi_pending = s->cpu_pwrdwn_req & s->cpu_in_wfi;
+> +    for (i = 0; i < APU_MAX_CPU; i++) {
+> +        qemu_set_irq(s->wfi_out[i], !!(wfi_pending & (1 << i)));
+> +    }
+> +}
+> +
+> +static void zynqmp_apu_rvbar_post_write(RegisterInfo *reg, uint64_t val)
+> +{
+> +    XlnxZynqMPAPUCtrl *s = XLNX_ZYNQMP_APU(reg->opaque);
+> +    int i;
+> +
+> +    for (i = 0; i < APU_MAX_CPU; ++i) {
+> +        uint64_t rvbar = s->regs[R_RVBARADDR0L + 2 * i] +
+> +                         ((uint64_t)s->regs[R_RVBARADDR0H + 2 * i] << 32);
+> +        if (s->cpus[i]) {
+> +            object_property_set_int(OBJECT(s->cpus[i]), "rvbar", rvbar,
+> +                                    &error_abort);
+> +        }
+> +    }
+> +}
+> +
+> +static void zynqmp_apu_pwrctl_post_write(RegisterInfo *reg, uint64_t val)
+> +{
+> +    XlnxZynqMPAPUCtrl *s = XLNX_ZYNQMP_APU(reg->opaque);
+> +    unsigned int i, new;
+> +
+> +    for (i = 0; i < APU_MAX_CPU; i++) {
+> +        new = val & (1 << i);
+> +        /* Check if CPU's CPUPWRDNREQ has changed. If yes, update GPIOs. */
+> +        if (new != (s->cpu_pwrdwn_req & (1 << i))) {
+> +            qemu_set_irq(s->cpu_power_status[i], !!new);
+> +        }
+> +        s->cpu_pwrdwn_req &= ~(1 << i);
+> +        s->cpu_pwrdwn_req |= new;
+> +    }
+> +    update_wfi_out(s);
+> +}
+> +
+> +static void imr_update_irq(XlnxZynqMPAPUCtrl *s)
+> +{
+> +    bool pending = s->regs[R_ISR] & ~s->regs[R_IMR];
+> +    qemu_set_irq(s->irq_imr, pending);
+> +}
+> +
+> +static void isr_postw(RegisterInfo *reg, uint64_t val64)
+> +{
+> +    XlnxZynqMPAPUCtrl *s = XLNX_ZYNQMP_APU(reg->opaque);
+> +    imr_update_irq(s);
+> +}
+> +
+> +static uint64_t ien_prew(RegisterInfo *reg, uint64_t val64)
+> +{
+> +    XlnxZynqMPAPUCtrl *s = XLNX_ZYNQMP_APU(reg->opaque);
+> +    uint32_t val = val64;
+> +
+> +    s->regs[R_IMR] &= ~val;
+> +    imr_update_irq(s);
+> +    return 0;
+> +}
+> +
+> +static uint64_t ids_prew(RegisterInfo *reg, uint64_t val64)
+> +{
+> +    XlnxZynqMPAPUCtrl *s = XLNX_ZYNQMP_APU(reg->opaque);
+> +    uint32_t val = val64;
+> +
+> +    s->regs[R_IMR] |= val;
+> +    imr_update_irq(s);
+> +    return 0;
+> +}
+> +
+> +static const RegisterAccessInfo zynqmp_apu_regs_info[] = {
+> +#define RVBAR_REGDEF(n) \
+> +    {   .name = "RVBAR CPU " #n " Low",  .addr = A_RVBARADDR ## n ## L,    \
+> +            .reset = 0xffff0000ul,                                         \
+> +            .post_write = zynqmp_apu_rvbar_post_write,                     \
+> +    },{ .name = "RVBAR CPU " #n " High", .addr = A_RVBARADDR ## n ## H,    \
+> +            .post_write = zynqmp_apu_rvbar_post_write,                     \
+> +    }
+> +    {   .name = "ERR_CTRL",  .addr = A_APU_ERR_CTRL,
+> +    },{ .name = "ISR",  .addr = A_ISR,
+> +        .w1c = 0x1,
+> +        .post_write = isr_postw,
+> +    },{ .name = "IMR",  .addr = A_IMR,
+> +        .reset = 0x1,
+> +        .ro = 0x1,
+> +    },{ .name = "IEN",  .addr = A_IEN,
+> +        .pre_write = ien_prew,
+> +    },{ .name = "IDS",  .addr = A_IDS,
+> +        .pre_write = ids_prew,
+> +    },{ .name = "CONFIG_0",  .addr = A_CONFIG_0,
+> +        .reset = 0xf0f,
+> +    },{ .name = "CONFIG_1",  .addr = A_CONFIG_1,
+> +    },
+> +    RVBAR_REGDEF(0),
+> +    RVBAR_REGDEF(1),
+> +    RVBAR_REGDEF(2),
+> +    RVBAR_REGDEF(3),
+> +    { .name = "ACE_CTRL",  .addr = A_ACE_CTRL,
+> +        .reset = 0xf000f,
+> +    },{ .name = "SNOOP_CTRL",  .addr = A_SNOOP_CTRL,
+> +    },{ .name = "PWRCTL",  .addr = A_PWRCTL,
+> +        .post_write = zynqmp_apu_pwrctl_post_write,
+> +    },{ .name = "PWRSTAT",  .addr = A_PWRSTAT,
+> +        .ro = 0x3000f,
+> +    }
+> +};
+> +
+> +static void zynqmp_apu_reset_enter(Object *obj, ResetType type)
+> +{
+> +    XlnxZynqMPAPUCtrl *s = XLNX_ZYNQMP_APU(obj);
+> +    int i;
+> +
+> +    for (i = 0; i < APU_R_MAX; ++i) {
+> +        register_reset(&s->regs_info[i]);
+> +    }
+> +
+> +    s->cpu_pwrdwn_req = 0;
+> +    s->cpu_in_wfi = 0;
+> +}
+> +
+> +static void zynqmp_apu_reset_hold(Object *obj)
+> +{
+> +    XlnxZynqMPAPUCtrl *s = XLNX_ZYNQMP_APU(obj);
+> +
+> +    update_wfi_out(s);
+> +    imr_update_irq(s);
+> +}
+> +
+> +static const MemoryRegionOps zynqmp_apu_ops = {
+> +    .read = register_read_memory,
+> +    .write = register_write_memory,
+> +    .endianness = DEVICE_LITTLE_ENDIAN,
+> +    .valid = {
+> +        .min_access_size = 4,
+> +        .max_access_size = 4,
+> +    }
+> +};
+> +
+> +static void zynqmp_apu_handle_wfi(void *opaque, int irq, int level)
+> +{
+> +    XlnxZynqMPAPUCtrl *s = XLNX_ZYNQMP_APU(opaque);
+> +
+> +    s->cpu_in_wfi = deposit32(s->cpu_in_wfi, irq, 1, level);
+> +    update_wfi_out(s);
+> +}
+> +
+> +static void zynqmp_apu_init(Object *obj)
+> +{
+> +    XlnxZynqMPAPUCtrl *s = XLNX_ZYNQMP_APU(obj);
+> +    int i;
+> +
+> +    s->reg_array =
+> +        register_init_block32(DEVICE(obj), zynqmp_apu_regs_info,
+> +                              ARRAY_SIZE(zynqmp_apu_regs_info),
+> +                              s->regs_info, s->regs,
+> +                              &zynqmp_apu_ops,
+> +                              XILINX_ZYNQMP_APU_ERR_DEBUG,
+> +                              APU_R_MAX * 4);
+> +    sysbus_init_mmio(SYS_BUS_DEVICE(obj), &s->reg_array->mem);
+> +    sysbus_init_irq(SYS_BUS_DEVICE(obj), &s->irq_imr);
+> +
+> +    for (i = 0; i < APU_MAX_CPU; ++i) {
+> +        g_autofree gchar *prop_name = g_strdup_printf("cpu%d", i);
+> +        object_property_add_link(obj, prop_name, TYPE_ARM_CPU,
+> +                                 (Object **)&s->cpus[i],
+> +                                 qdev_prop_allow_set_link_before_realize,
+> +                                 OBJ_PROP_LINK_STRONG);
+> +    }
+> +
+> +    /* wfi_out is used to connect to PMU GPIs. */
+> +    qdev_init_gpio_out_named(DEVICE(obj), s->wfi_out, "wfi_out", 4);
+> +    /* CPU_POWER_STATUS is used to connect to INTC redirect. */
+> +    qdev_init_gpio_out_named(DEVICE(obj), s->cpu_power_status,
+> +                             "CPU_POWER_STATUS", 4);
+> +    /* wfi_in is used as input from CPUs as wfi request. */
+> +    qdev_init_gpio_in_named(DEVICE(obj), zynqmp_apu_handle_wfi, "wfi_in", 4);
+> +}
+> +
+> +static void zynqmp_apu_finalize(Object *obj)
+> +{
+> +    XlnxZynqMPAPUCtrl *s = XLNX_ZYNQMP_APU(obj);
+> +    register_finalize_block(s->reg_array);
+> +}
+> +
+> +static const VMStateDescription vmstate_zynqmp_apu = {
+> +    .name = TYPE_XLNX_ZYNQMP_APU_CTRL,
+> +    .version_id = 1,
+> +    .minimum_version_id = 1,
+> +    .minimum_version_id_old = 1,
+> +    .fields = (VMStateField[]) {
+> +        VMSTATE_UINT32_ARRAY(regs, XlnxZynqMPAPUCtrl, APU_R_MAX),
+> +        VMSTATE_END_OF_LIST(),
+> +    }
+> +};
+> +
+> +static void zynqmp_apu_class_init(ObjectClass *klass, void *data)
+> +{
+> +    ResettableClass *rc = RESETTABLE_CLASS(klass);
+> +    DeviceClass *dc = DEVICE_CLASS(klass);
+> +
+> +    dc->vmsd = &vmstate_zynqmp_apu;
+> +
+> +    rc->phases.enter = zynqmp_apu_reset_enter;
+> +    rc->phases.hold = zynqmp_apu_reset_hold;
+> +}
+> +
+> +static const TypeInfo zynqmp_apu_info = {
+> +    .name              = TYPE_XLNX_ZYNQMP_APU_CTRL,
+> +    .parent            = TYPE_SYS_BUS_DEVICE,
+> +    .instance_size     = sizeof(XlnxZynqMPAPUCtrl),
+> +    .class_init        = zynqmp_apu_class_init,
+> +    .instance_init     = zynqmp_apu_init,
+> +    .instance_finalize = zynqmp_apu_finalize,
+> +};
+> +
+> +static void zynqmp_apu_register_types(void)
+> +{
+> +    type_register_static(&zynqmp_apu_info);
+> +}
+> +
+> +type_init(zynqmp_apu_register_types)
+> diff --git a/hw/misc/meson.build b/hw/misc/meson.build
+> index 1927f13a5e..cf9d4cc618 100644
+> --- a/hw/misc/meson.build
+> +++ b/hw/misc/meson.build
+> @@ -85,6 +85,7 @@ softmmu_ss.add(when: 'CONFIG_RASPI', if_true: files(
+>  softmmu_ss.add(when: 'CONFIG_SLAVIO', if_true: files('slavio_misc.c'))
+>  softmmu_ss.add(when: 'CONFIG_ZYNQ', if_true: files('zynq_slcr.c'))
+>  specific_ss.add(when: 'CONFIG_XLNX_ZYNQMP_ARM', if_true: files('xlnx-zynqmp-crf.c'))
+> +specific_ss.add(when: 'CONFIG_XLNX_ZYNQMP_ARM', if_true: files('xlnx-zynqmp-apu-ctrl.c'))
+>  softmmu_ss.add(when: 'CONFIG_XLNX_VERSAL', if_true: files(
+>    'xlnx-versal-xramc.c',
+>    'xlnx-versal-pmc-iou-slcr.c',
+> -- 
+> 2.25.1
+> 
 
-
-> Also wouldn't doing it like (_UL(3) << 4) be better to catch such things?
->
->
-Of course.
-
-
-> > +#define MENVCFG_CBCFE                      (1 << 6)
-> > +#define MENVCFG_CBZE                       (1 << 7)
-> > +#define MENVCFG_PBMTE                      (1 << 62)
-> > +#define MENVCFG_STCE                       (1 << 63)
-> > +
-> > +#define SENVCFG_FIOM                       MENVCFG_FIOM
-> > +#define SENVCFG_CBE                        MENVCFG_CBE
-> > +#define SENVCFG_CBCFE                      MENVCFG_CBCFE
-> > +#define SENVCFG_CBZE                       MENVCFG_CBZE
-> > +
-> > +#define HENVCFG_FIOM                       MENVCFG_FIOM
-> > +#define HENVCFG_CBE                        MENVCFG_CBE
-> > +#define HENVCFG_CBCFE                      MENVCFG_CBCFE
-> > +#define HENVCFG_CBZE                       MENVCFG_CBZE
-> > +#define HENVCFG_PBMTE                      MENVCFG_PBMTE
-> > +#define HENVCFG_STCE                       MENVCFG_STCE
-> > +
-> >  /* Offsets for every pair of control bits per each priv level */
-> >  #define XS_OFFSET    0ULL
-> >  #define U_OFFSET     2ULL
->
->
-> Heiko
->
->
->
-
---000000000000beb7f705d7232237
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Thu, Feb 3, 2022 at 4:23 AM Heiko =
-St=C3=BCbner &lt;<a href=3D"mailto:heiko@sntech.de">heiko@sntech.de</a>&gt;=
- wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px =
-0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Hi Atish=
-,<br>
-<br>
-Am Donnerstag, 20. Januar 2022, 21:07:34 CET schrieb Atish Patra:<br>
-&gt; The RISC-V privileged specification v1.12 defines few execution<br>
-&gt; environment configuration CSRs that can be used enable/disable<br>
-&gt; extensions per privilege levels.<br>
-&gt; <br>
-&gt; Add the basic support for these CSRs.<br>
-&gt; <br>
-&gt; Signed-off-by: Atish Patra &lt;<a href=3D"mailto:atishp@rivosinc.com" =
-target=3D"_blank">atishp@rivosinc.com</a>&gt;<br>
-&gt; ---<br>
-&gt;=C2=A0 target/riscv/cpu.h=C2=A0 =C2=A0 =C2=A0 |=C2=A0 8 ++++<br>
-&gt;=C2=A0 target/riscv/cpu_bits.h | 31 +++++++++++++++<br>
-&gt;=C2=A0 target/riscv/csr.c=C2=A0 =C2=A0 =C2=A0 | 84 ++++++++++++++++++++=
-+++++++++++++++++++++<br>
-&gt;=C2=A0 target/riscv/machine.c=C2=A0 | 26 +++++++++++++<br>
-&gt;=C2=A0 4 files changed, 149 insertions(+)<br>
-&gt; <br>
-&gt; diff --git a/target/riscv/cpu_bits.h b/target/riscv/cpu_bits.h<br>
-&gt; index f6f90b5cbd52..afb237c2313b 100644<br>
-&gt; --- a/target/riscv/cpu_bits.h<br>
-&gt; +++ b/target/riscv/cpu_bits.h<br>
-<br>
-[...]<br>
-<br>
-&gt; @@ -578,6 +589,26 @@ typedef enum RISCVException {<br>
-&gt;=C2=A0 #define PM_EXT_CLEAN=C2=A0 =C2=A0 0x00000002ULL<br>
-&gt;=C2=A0 #define PM_EXT_DIRTY=C2=A0 =C2=A0 0x00000003ULL<br>
-&gt;=C2=A0 <br>
-&gt; +/* Execution enviornment configuration bits */<br>
-&gt; +#define MENVCFG_FIOM=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0(1 &lt;&lt; 0)<br>
-<br>
-&gt; +#define MENVCFG_CBE=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 0x30000ULL<br>
-<br>
-Looking both at the cmo spec as well as the most recent privileged spec<br>
-(draft) the field is called CBIE it seems.<br>
-<br>
-Also the shift looks wrong. Both cmo as well as privileged spec show<br>
-it at bits [5:4] and _not_ [17:16].<br>
-<br></blockquote><div><br></div><div>This looks like a typo from my side. T=
-hese bits are reserved in the spec!</div><div>Apologies for such a silly mi=
-stake. Fixed it in v2.</div><div>=C2=A0</div><blockquote class=3D"gmail_quo=
-te" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204=
-);padding-left:1ex">
-Also wouldn&#39;t doing it like (_UL(3) &lt;&lt; 4) be better to catch such=
- things?<br>
-<br></blockquote><div><br></div><div>Of course.</div><div>=C2=A0</div><bloc=
-kquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:=
-1px solid rgb(204,204,204);padding-left:1ex">
-&gt; +#define MENVCFG_CBCFE=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 (1 &lt;&lt; 6)<br>
-&gt; +#define MENVCFG_CBZE=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0(1 &lt;&lt; 7)<br>
-&gt; +#define MENVCFG_PBMTE=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 (1 &lt;&lt; 62)<br>
-&gt; +#define MENVCFG_STCE=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0(1 &lt;&lt; 63)<br>
-&gt; +<br>
-&gt; +#define SENVCFG_FIOM=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0MENVCFG_FIOM<br>
-&gt; +#define SENVCFG_CBE=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 MENVCFG_CBE<br>
-&gt; +#define SENVCFG_CBCFE=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 MENVCFG_CBCFE<br>
-&gt; +#define SENVCFG_CBZE=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0MENVCFG_CBZE<br>
-&gt; +<br>
-&gt; +#define HENVCFG_FIOM=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0MENVCFG_FIOM<br>
-&gt; +#define HENVCFG_CBE=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 MENVCFG_CBE<br>
-&gt; +#define HENVCFG_CBCFE=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 MENVCFG_CBCFE<br>
-&gt; +#define HENVCFG_CBZE=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0MENVCFG_CBZE<br>
-&gt; +#define HENVCFG_PBMTE=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 MENVCFG_PBMTE<br>
-&gt; +#define HENVCFG_STCE=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0MENVCFG_STCE<br>
-&gt; +<br>
-&gt;=C2=A0 /* Offsets for every pair of control bits per each priv level */=
-<br>
-&gt;=C2=A0 #define XS_OFFSET=C2=A0 =C2=A0 0ULL<br>
-&gt;=C2=A0 #define U_OFFSET=C2=A0 =C2=A0 =C2=A02ULL<br>
-<br>
-<br>
-Heiko<br>
-<br>
-<br>
-</blockquote></div></div>
-
---000000000000beb7f705d7232237--
+-- 
 
