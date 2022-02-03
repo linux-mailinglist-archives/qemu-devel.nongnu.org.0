@@ -2,80 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E3F904A8C31
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Feb 2022 20:07:28 +0100 (CET)
-Received: from localhost ([::1]:39858 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E10134A8C97
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Feb 2022 20:39:44 +0100 (CET)
+Received: from localhost ([::1]:34122 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nFhS2-00028p-2A
-	for lists+qemu-devel@lfdr.de; Thu, 03 Feb 2022 14:07:26 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:43414)
+	id 1nFhxI-0002DF-1i
+	for lists+qemu-devel@lfdr.de; Thu, 03 Feb 2022 14:39:44 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:43820)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nFgzm-0000X1-TX
- for qemu-devel@nongnu.org; Thu, 03 Feb 2022 13:38:17 -0500
-Received: from [2a00:1450:4864:20::52b] (port=37809
- helo=mail-ed1-x52b.google.com)
+ id 1nFh0o-0000uy-RB
+ for qemu-devel@nongnu.org; Thu, 03 Feb 2022 13:39:18 -0500
+Received: from [2a00:1450:4864:20::629] (port=34419
+ helo=mail-ej1-x629.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nFgzj-0008DQ-TV
- for qemu-devel@nongnu.org; Thu, 03 Feb 2022 13:38:13 -0500
-Received: by mail-ed1-x52b.google.com with SMTP id c24so8008261edy.4
- for <qemu-devel@nongnu.org>; Thu, 03 Feb 2022 10:38:11 -0800 (PST)
+ id 1nFh0n-0008JM-Bi
+ for qemu-devel@nongnu.org; Thu, 03 Feb 2022 13:39:18 -0500
+Received: by mail-ej1-x629.google.com with SMTP id h7so11570795ejf.1
+ for <qemu-devel@nongnu.org>; Thu, 03 Feb 2022 10:39:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=wOMqUYSypuPK63MJ5uFjZhI2zODiDRfAU3a5XhA8yts=;
- b=obILn5ctyhmaAYcB2I4zntw3VRYiWYhLRUFravNAfCVLl43DWGHwkSjKbi+CxprdS5
- tKmdMuCADxi33yEa8F/GaSIhw1/K9qp7pvQsVhdEEg472YXmPqVyvOiqG8BC3aUkSeOg
- rpIYQOSxXAeJDAmBLB/mp+a4bJmjJt1dcbXBCPosl1QUcNx7cz+D4+TXwR2mqxgbbC1M
- /DRPhKI00DV9mBLi6LH7jVm6xOuWlzMcg4QZqfOyDP/IgY2BXrR81CoedKrlDyMb3Vcu
- t8H7I+lR9yYQDrzRitCmFyUVZuEB/t2b4D5F2IllkxGh42nrEs1SaQMDZjKvzZ/4YyJK
- Abdg==
+ bh=lGpDjeXAafoa/SxB6nilLYbOwMk3HmHkw9GV4YTxjMA=;
+ b=Gt+b1sU506pMO/kiTg3C4QLwJ8h4JmpEPMS+1Wk2upTPOwSRH9KBD5xNhgutT+XKxx
+ ADJATtaTib1eEtDVHTxvY8CcaNAokCAPhklY/VWF5j/fLo0xrnR4vJwXCmS7jt0pLdUB
+ jYmxt1bP5ob5i4LPFPo61CNQcU6VMBHpx4skAjB21YIJFRtRFQ9m4XTx1qGulNGBtKw0
+ Dyt3Dyb5x9hbhQmQG3+ZVZqs1hs+il6EDFLs8P9AF+UhalNi/MSwHeXBi70G8Ykafa80
+ Dd7sUr786n+w4t+1Iq6YZXSVn2a3zvrZoWszQjZQFDzz/THAi4426FcEp/84VLaYSErz
+ JlDA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
  :subject:content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=wOMqUYSypuPK63MJ5uFjZhI2zODiDRfAU3a5XhA8yts=;
- b=Shmg3Cm2xkHtbA7/WdO7s18oEttwlGRjUfmg/NzKdwE6xULFK/zvYvV/VUzVNp1NPH
- kqVvlCpMmMGu4ExYbvsD74j1jG78AYfaKwwVeMkPiNf05ukV45fPIkNlljiCnJo+tjZ2
- HS1evfQ5Qxu1Ak9VLBgaruV2GYU0F72P4oNzZ4i2gorMJ4krplkl2gsZrde8mFm4eXBc
- fOGewMsyNroQBKsd7ym8MVSXKc51xVAhSaiigZh1vGs/VlHZzKYQWVi6HczCwslQ2o8o
- D/N3r1zoGIgomYg9v53hnv1xpqTc+VnWTKQFeIVHelcMYlm9mqdz8bLPigp9LO1Xxqsv
- D+OQ==
-X-Gm-Message-State: AOAM533Dv/b2/jWT6yWd2RTf/UpuHBu2cK7Smp1uZQWCaturhhlfyDmc
- pEVFefdAaH2rt6ywY01iUUU=
-X-Google-Smtp-Source: ABdhPJyxNcaRCjmpA3cThflYsNcRNULJVK1KcTcQZLXYCfzuE0vKxBAnHnbyLX9WQhr/2b3KbvqCFw==
-X-Received: by 2002:a05:6402:7d7:: with SMTP id
- u23mr15089435edy.451.1643913489504; 
- Thu, 03 Feb 2022 10:38:09 -0800 (PST)
+ bh=lGpDjeXAafoa/SxB6nilLYbOwMk3HmHkw9GV4YTxjMA=;
+ b=bs29gICSoHHI2B/3syEhYvlpF3seTptA5KRGLxkbuCIpKid9YUDde6ZFLeWx6dcnit
+ QYEoFFJlny3XJ0983LyZMSS5ucZTXgr9120MKhoBDIesijKCGDrwaMtYX15GITar3Uc8
+ UNDI8bO0b9CkAiDl/eoGzhF3DciEJB6QxVmH+2fyyfhbSv4hkq/N+4wsa8hkXuJI0kiC
+ VaSVDkRpITWi4GJcCEF8hhBmrG7XlIqWy/ZckCtVIfDGEhLolh5o3N/CGXxb1ztmmWw/
+ PFCrwzrlrGsGKQ0A8hdkuvb5gWzBqS3uZ4cNt8OrM/+Z1YibeQgdbatRySZTdc6iN5Wm
+ 606A==
+X-Gm-Message-State: AOAM531V2n0TtmmqVDjOP6GlW4cZ5X+nP878ZyY2nkh23GPRrm9/BtEa
+ hxIU60XD2o2654BGfS6StV8=
+X-Google-Smtp-Source: ABdhPJyizT41ceP6AHAQ7BKyOklSPfA/7IHb+VcPOaBajKud74SrRKL1iRChMdAfvecT6pc+Vi5WZg==
+X-Received: by 2002:a17:906:7f90:: with SMTP id
+ f16mr30506247ejr.387.1643913545902; 
+ Thu, 03 Feb 2022 10:39:05 -0800 (PST)
 Received: from ?IPV6:2001:b07:6468:f312:5e2c:eb9a:a8b6:fd3e?
  ([2001:b07:6468:f312:5e2c:eb9a:a8b6:fd3e])
- by smtp.googlemail.com with ESMTPSA id c8sm22683423edr.70.2022.02.03.10.38.08
+ by smtp.googlemail.com with ESMTPSA id f6sm22671438edy.18.2022.02.03.10.39.03
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 03 Feb 2022 10:38:09 -0800 (PST)
-Message-ID: <c8b8434f-17c2-5a50-bc7f-49bb7fa9f7b9@redhat.com>
-Date: Thu, 3 Feb 2022 19:38:08 +0100
+ Thu, 03 Feb 2022 10:39:05 -0800 (PST)
+Message-ID: <e5092075-2c7f-d070-d59d-f82ceb02aec3@redhat.com>
+Date: Thu, 3 Feb 2022 19:39:02 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.5.0
 Subject: Re: [PATCH v3 1/3] qmp: Support for querying stats
 Content-Language: en-US
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Mark Kanda <mark.kanda@oracle.com>
+To: Mark Kanda <mark.kanda@oracle.com>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
 References: <20220131194312.1192626-1-mark.kanda@oracle.com>
  <20220131194312.1192626-2-mark.kanda@oracle.com>
  <YfkiyiK+jfrdbVcY@redhat.com>
+ <b111f7a7-ab0c-8944-ec3a-9461eb0e4fb3@oracle.com>
 From: Paolo Bonzini <pbonzini@redhat.com>
-In-Reply-To: <YfkiyiK+jfrdbVcY@redhat.com>
+In-Reply-To: <b111f7a7-ab0c-8944-ec3a-9461eb0e4fb3@oracle.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::52b
+Content-Transfer-Encoding: 7bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::629
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::52b;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x52b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::629;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x629.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -101,26 +102,17 @@ Cc: qemu-devel@nongnu.org, armbru@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/1/22 13:08, Daniel P. Berrangé wrote:
-> I still feel like this is rather verbose, and should be simplified
-> down to.
+On 2/3/22 19:12, Mark Kanda wrote:
 > 
->   { "return": {
->       "vm": {
->         "kvm": [ ... ]
->         "provider-XYZ": [ ... ],
->         ...
->       }
->   }
+> I added the 'unknown' member here (and in other enums) to handle 
+> situations where QEMU is behind KVM in terms of enumerating the various 
+> stat types, units, etc. I feel this will be a semi-common scenario (old 
+> QEMU on a new kernel) and with 'unknown', QEMU can at least display the 
+> raw data.
 
-My main qualm with this is that not just QEMU, but every layer above 
-then needs to either treat stats as a "dynamic" type unless they want to 
-only handle providers that they know.
-
-The main reason why I asked Mark to do all this work, was so that new 
-stats and stats providers could be added transparently, and only new 
-*targets* would need work all over the stack (but those are fewer, for 
-example blockdev/netdev/iothread).
+I think you can skip them, there aren't really plans for new types (the 
+"metaschema" is based on one that has been in use for quite some time at 
+Google).
 
 Paolo
 
