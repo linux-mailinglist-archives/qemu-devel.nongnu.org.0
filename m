@@ -2,67 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 599404A890E
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Feb 2022 17:49:45 +0100 (CET)
-Received: from localhost ([::1]:45416 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 65C0C4A8920
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Feb 2022 17:54:49 +0100 (CET)
+Received: from localhost ([::1]:54644 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nFfIm-0003Bw-E0
-	for lists+qemu-devel@lfdr.de; Thu, 03 Feb 2022 11:49:44 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:43678)
+	id 1nFfNf-00014G-H8
+	for lists+qemu-devel@lfdr.de; Thu, 03 Feb 2022 11:54:47 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:45628)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nFfG5-0000Ou-NB
- for qemu-devel@nongnu.org; Thu, 03 Feb 2022 11:46:58 -0500
-Received: from [2a00:1450:4864:20::435] (port=35429
- helo=mail-wr1-x435.google.com)
+ id 1nFfKw-0006qV-69
+ for qemu-devel@nongnu.org; Thu, 03 Feb 2022 11:51:59 -0500
+Received: from [2a00:1450:4864:20::32b] (port=56168
+ helo=mail-wm1-x32b.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nFfG3-0005jM-Rt
- for qemu-devel@nongnu.org; Thu, 03 Feb 2022 11:46:57 -0500
-Received: by mail-wr1-x435.google.com with SMTP id j25so5483752wrb.2
- for <qemu-devel@nongnu.org>; Thu, 03 Feb 2022 08:46:34 -0800 (PST)
+ id 1nFfKu-0006l7-1C
+ for qemu-devel@nongnu.org; Thu, 03 Feb 2022 11:51:57 -0500
+Received: by mail-wm1-x32b.google.com with SMTP id r7so2521232wmq.5
+ for <qemu-devel@nongnu.org>; Thu, 03 Feb 2022 08:51:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to;
- bh=IixX6o29BYZaBtvpwlQWbrJhi0PVxfPGBxOB9B310z0=;
- b=aUslcYj+W/Kr1nyAIStGL9hATe/vdqsoYumd2fd6INU/X3nhkxRd03yQQ8ocAQdEAk
- TwbQ93/d/aTX8Wx2FR4+j6Tm2xcSMqB6fWO5q5bWfFmzfnRo/w03QsKDnkYXd388MI1T
- Y6aKWoUxUgHrmpx2ld2jxl+u4K9T1FCV3ytpc+r2CiYp/Vm8gL87lTUJuv7C2EVPJbSy
- HyIQA2f3M171aGjGvFPo1QNruLu27pteazh+LKUh3hcoYfbdBUr9BHtzAZHWWFrgww8H
- xLLH3OXu+BtPbm/4GKy9HRjCGiaXCQk5IW6b8kMXMv80SAT/eyMJEeWt1oetK0tUSnX9
- XZLg==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=gbo//+VrPV1VSdkjqYHidaLn5P2qbnqdk88keFyG4CQ=;
+ b=fpaGawh6ZSIO7aWStwsN81kKU1dK8uXCSEEDWXqMRWtRMbMYHCvZldJPDy2jYWYBGQ
+ HDH+zv26BDNMGei2NtlZYSn4+1QdpfVs9t3NIYyhk6oFTWxfys6V2Z5Nzbft0alRLtik
+ MTMfkLrNM2Mz7gqDZvYJvj4e27CMuSaMQOsbIdq2UGKNkVvgrOQVGH0o0GDd/ynJykgk
+ vvNL1KdomwAGavrMMvI265ARzdMwmMpfSQKlQL9iUUM1WGhN0J5/6c5D5EyhA/DAeezE
+ iATvq6Q0G7kn/q/kSx3oaI7h06NlSOPJFdTNIGaK9QKbn2Gauo1HZWa4o2u7OPtyKKVg
+ rpIg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to;
- bh=IixX6o29BYZaBtvpwlQWbrJhi0PVxfPGBxOB9B310z0=;
- b=26ZxFvko6sRieDse/ClC7/Nw+y7QAJkmqbHumE9uwXCTDd68afZqIZablSpQVLCuT5
- U1WR7ISB+sFeNDe7UWPm/9gEX/SsrCt/WdQx9bg6jB2cz0QbUUmRRLCfxOhm/v1SmtN7
- 10QWGsXpkJY1Ynk5MbwoBLdnkdcY0h8FJlhtfXwMGr19yW1y0CRVmnqUSzCn7D53YQsW
- 6/Co8IL83jf9gIQLzmUb/Efn0kBj3JvRixze1gWdqzM7kzu6KsAaPfwDnyk402+/lu17
- tBS8KpfeZsdgIQGO+/Mut7iO0A+8wwxeXVmN8e/HT0lLRm/jHhf2UOBWOPZD5ka9Ej8L
- s0Lw==
-X-Gm-Message-State: AOAM533BSn1WqtaBLjch7Y6jCsjRrW/semfyeGryj0ecWjGm9NxKvkdP
- DzBDLsrrUWk9odT5wRnlzkpJVzOV3l0spHCmNLtGnX5lZHo=
-X-Google-Smtp-Source: ABdhPJwae5dYBNyUe/mmkOqwBWUt/ns//Kk+kae1Myanml21zEpgfGxoUBfisPz5ObhFVMv3Dqyrug6hSKu4R+kCGNw=
-X-Received: by 2002:a5d:438a:: with SMTP id i10mr29220690wrq.295.1643906793050; 
- Thu, 03 Feb 2022 08:46:33 -0800 (PST)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=gbo//+VrPV1VSdkjqYHidaLn5P2qbnqdk88keFyG4CQ=;
+ b=PKI8OFKHJRCOryJHHq9b3ObzCoJ2GqX1eu2VFyTTgZljTYx2nStk8PY7zXhApPfyLL
+ lSVszGrN/PXP7lGzFohhYH70X+lks2WkCtD0GD8x5jl4jNilE3aKeqDxsMXgCepkA1o+
+ ua6K1IirTWeFuSHTd6DSnqBVEhQ38gVmmLXu/+CJu1q0IhWZmGb6Y1MGaGJWiKQCbELC
+ fH/fH9TaOqZcwYGy35ge6zb5zZ8cBDEzfg/D+byWdZwZajz9ARnO7Comadc3FPCuGCXX
+ 1c6sV0dsCgxxjEZPefUGxo4Qbz6TeKDDdnkrxRVyMWMG5A2AYOQQhkB8MFJdOsFdAqVw
+ ckgg==
+X-Gm-Message-State: AOAM532JBIlCANlgssdH0nJqi3X1ManyrZ1AaNbgQ3ygc+28jcRM8GYH
+ 70MDgRIG6rhPkB+1ZGQdQqdMnbp0Xei3k4ggsI5LZA==
+X-Google-Smtp-Source: ABdhPJyx4CZnA+tRLrkHJ73cm0vhxNidTIPm4fIZjUTHLuLDzqaHd/ddZjEHYtTyZDui0a28+ajAWtirKtScOCGhga8=
+X-Received: by 2002:a05:600c:1e0f:: with SMTP id
+ ay15mr11159739wmb.133.1643907113979; 
+ Thu, 03 Feb 2022 08:51:53 -0800 (PST)
 MIME-Version: 1.0
-References: <20191101085140.5205-1-peter.maydell@linaro.org>
- <20191101085140.5205-10-peter.maydell@linaro.org>
-In-Reply-To: <20191101085140.5205-10-peter.maydell@linaro.org>
+References: <20220203015946.1330386-1-jsnow@redhat.com>
+ <CAFEAcA_OXJ6C1UTFXiy6x1gp4VRmaWQY7ntU8N-3-O+TGcsKQQ@mail.gmail.com>
+ <CAFn=p-ZeG2XM_cP3hpKN-Cagk4T1Sr05YEDhtwmR4+_VOjVt7w@mail.gmail.com>
+In-Reply-To: <CAFn=p-ZeG2XM_cP3hpKN-Cagk4T1Sr05YEDhtwmR4+_VOjVt7w@mail.gmail.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 3 Feb 2022 16:46:21 +0000
-Message-ID: <CAFEAcA8pS6_SYWMFJ0=EyHVQ9V1MTiM_OCjkvqb5znqJ91w_qw@mail.gmail.com>
-Subject: Re: [PULL 09/11] target/arm/kvm: host cpu: Add support for sve<N>
- properties
-To: qemu-devel@nongnu.org, Andrew Jones <drjones@redhat.com>, 
- Richard Henderson <richard.henderson@linaro.org>
+Date: Thu, 3 Feb 2022 16:51:43 +0000
+Message-ID: <CAFEAcA9fJMQizPmd1rUh7wPgPoz4dAXQPP07DzDFQK1ieN72VA@mail.gmail.com>
+Subject: Re: [PULL 0/4] Python patches
+To: John Snow <jsnow@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::435
+Content-Transfer-Encoding: quoted-printable
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32b
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::435;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x435.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32b.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -83,88 +85,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Eduardo Habkost <eduardo@habkost.net>, Kevin Wolf <kwolf@redhat.com>,
+ Qemu-block <qemu-block@nongnu.org>, qemu-devel <qemu-devel@nongnu.org>,
+ Markus Armbruster <armbru@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 1 Nov 2019 at 08:51, Peter Maydell <peter.maydell@linaro.org> wrote:
->
-> From: Andrew Jones <drjones@redhat.com>
->
-> Allow cpu 'host' to enable SVE when it's available, unless the
-> user chooses to disable it with the added 'sve=off' cpu property.
-> Also give the user the ability to select vector lengths with the
-> sve<N> properties. We don't adopt 'max' cpu's other sve property,
-> sve-max-vq, because that property is difficult to use with KVM.
-> That property assumes all vector lengths in the range from 1 up
-> to and including the specified maximum length are supported, but
-> there may be optional lengths not supported by the host in that
-> range. With KVM one must be more specific when enabling vector
-> lengths.
+On Thu, 3 Feb 2022 at 16:38, John Snow <jsnow@redhat.com> wrote:
 
-Hi; I've been looking at the '-cpu max' vs '-cpu host' code
-as part of trying to sort out the 'hvf' accelerator doing
-oddly different things with them. I noticed an oddity
-introduced in this patch. In the commit message you say that
-we deliberately leave the 'sve-max-vq' property out of the
-new aarch64_add_sve_properties(), because it is difficult to
-use with KVM. But in the code for handling '-cpu max' in
-aarch64_max_initfn():
+> On Thu, Feb 3, 2022, 11:20 AM Peter Maydell <peter.maydell@linaro.org> wr=
+ote:
+>> Summary of Failures:
+>>
+>> 1/1 qemu:block / qemu-iotests qcow2 ERROR          243.14s   exit status=
+ 1
+>>
+>>
+>> Ok:                 0
+>> Expected Fail:      0
+>> Fail:               1
+>> Unexpected Pass:    0
+>> Skipped:            0
+>> Timeout:            0
+>>
+>> Full log written to /home/qemu/qemu-test.yiYr4m/build/meson-logs/iotests=
+log.txt
+>> =E2=96=B6 147/704 /bdrv-drain/deletion/drain
+>>            OK
+>> =E2=96=B6 178/704 /crypto/task/complete
+>>            OK
+>> =E2=96=B6 178/704 /crypto/task/datafree
+>>            OK
+>> [etc]
 
-> @@ -602,17 +617,11 @@ static void cpu_arm_set_sve(Object *obj, Visitor *v, const char *name,
->  static void aarch64_max_initfn(Object *obj)
->  {
->      ARMCPU *cpu = ARM_CPU(obj);
-> -    uint32_t vq;
-> -    uint64_t t;
->
->      if (kvm_enabled()) {
->          kvm_arm_set_cpu_features_from_host(cpu);
-> -        if (kvm_arm_sve_supported(CPU(cpu))) {
-> -            t = cpu->isar.id_aa64pfr0;
-> -            t = FIELD_DP64(t, ID_AA64PFR0, SVE, 1);
-> -            cpu->isar.id_aa64pfr0 = t;
-> -        }
+> Any chance of seeing that meson-logs/iotestslog.txt file?
 
-because this 'if' doesn't exit the function early...
+Sorry, no. The VM runs, and it produces output to stdout, and
+then it goes away again. The test cases and test harnesses
+*must* output to standard output any information that might
+be useful for diagnosing problems. The same scenario applies
+for the gitlab CI jobs -- all we get is the job's output.
 
->      } else {
-> +        uint64_t t;
->          uint32_t u;
->          aarch64_a57_initfn(obj);
->
-> @@ -712,17 +721,9 @@ static void aarch64_max_initfn(Object *obj)
->  #endif
->      }
-
-...all this code at the tail of the function runs for both KVM
-and TCG, and it still sets the sve-max-vq property, even for
-using '-cpu max' with KVM.
-
-> -    object_property_add(obj, "sve", "bool", cpu_arm_get_sve,
-> -                        cpu_arm_set_sve, NULL, NULL, &error_fatal);
-> +    aarch64_add_sve_properties(obj);
->      object_property_add(obj, "sve-max-vq", "uint32", cpu_max_get_sve_max_vq,
->                          cpu_max_set_sve_max_vq, NULL, NULL, &error_fatal);
-> -
-> -    for (vq = 1; vq <= ARM_MAX_VQ; ++vq) {
-> -        char name[8];
-> -        sprintf(name, "sve%d", vq * 128);
-> -        object_property_add(obj, name, "bool", cpu_arm_get_sve_vq,
-> -                            cpu_arm_set_sve_vq, NULL, NULL, &error_fatal);
-> -    }
->  }
-
-Was this intentional?
-
-I'd like to fix up the weird divergence between -cpu host and
--cpu max, either by moving sve-max-vq into aarch64_add_sve_properties()
-so it's present on both, or by changing the aarch64_max_initfn() so
-it only adds the property when using TCG.
-
-(I think also this code may get the '-cpu max,aarch64=off' case wrong,
-as it doesn't guard the calls to add the sve and pauth properties
-with the "if aarch64" feature check.)
-
-thanks
 -- PMM
 
