@@ -2,101 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 771024A8892
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Feb 2022 17:30:03 +0100 (CET)
-Received: from localhost ([::1]:42430 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C348E4A88A2
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Feb 2022 17:35:03 +0100 (CET)
+Received: from localhost ([::1]:49466 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nFezi-0006PO-9Y
-	for lists+qemu-devel@lfdr.de; Thu, 03 Feb 2022 11:30:02 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:38370)
+	id 1nFf4Y-00032g-RY
+	for lists+qemu-devel@lfdr.de; Thu, 03 Feb 2022 11:35:02 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:39472)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
- id 1nFewC-0004ag-PB; Thu, 03 Feb 2022 11:26:26 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:51438)
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nFf0I-0007yb-Kv
+ for qemu-devel@nongnu.org; Thu, 03 Feb 2022 11:30:44 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:47014)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
- id 1nFewA-0007it-He; Thu, 03 Feb 2022 11:26:24 -0500
-Received: from pps.filterd (m0098393.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 213G8Cqe003412; 
- Thu, 3 Feb 2022 16:26:10 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=from : to : cc : subject
- : in-reply-to : references : date : message-id : mime-version :
- content-type : content-transfer-encoding; s=pp1;
- bh=YvVGHuoHa196FH//jL86t4krPLWZgd0RbPN71QNAZqw=;
- b=PlYvI3aHDBx4TxlvswdwczZjYDamUcXuQYwF+IM9ToSQNYmXC92T7QdxzJblzgNLA4KT
- SYCplXbZjp8NyszLfs/mlgWR3hYtqBxLeKcbDDoK8bEqwC0T//0mUKhXjaIB68Xy4MSe
- O2kKENA0/N58nh1kN09aIbC5fe7kPOG5Eh1cForvQljnjE05Dd1/S+w/gXVepzeFXAaP
- sguBJVmxyKbrZKDbd7+bMIRqE87NYF4vHHCjCLqzZv8JXI3S3KgtUTvpMjyZdY2U/2QM
- UFR882HVeBXsKIOtNjM5oWmPQ487smVbw/TTZpimS1FrLLuA2DQLtEskVYggeByAUd8b fA== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3dyygreptq-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 03 Feb 2022 16:26:09 +0000
-Received: from m0098393.ppops.net (m0098393.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 213GClqn019138;
- Thu, 3 Feb 2022 16:26:09 GMT
-Received: from ppma04dal.us.ibm.com (7a.29.35a9.ip4.static.sl-reverse.com
- [169.53.41.122])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3dyygreptb-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 03 Feb 2022 16:26:09 +0000
-Received: from pps.filterd (ppma04dal.us.ibm.com [127.0.0.1])
- by ppma04dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 213GIsph020945;
- Thu, 3 Feb 2022 16:26:08 GMT
-Received: from b01cxnp23034.gho.pok.ibm.com (b01cxnp23034.gho.pok.ibm.com
- [9.57.198.29]) by ppma04dal.us.ibm.com with ESMTP id 3dvw7cqv5s-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 03 Feb 2022 16:26:08 +0000
-Received: from b01ledav006.gho.pok.ibm.com (b01ledav006.gho.pok.ibm.com
- [9.57.199.111])
- by b01cxnp23034.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 213GQ7UG29360586
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 3 Feb 2022 16:26:07 GMT
-Received: from b01ledav006.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 0156AAC064;
- Thu,  3 Feb 2022 16:26:07 +0000 (GMT)
-Received: from b01ledav006.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 047E9AC060;
- Thu,  3 Feb 2022 16:26:06 +0000 (GMT)
-Received: from localhost (unknown [9.211.67.28])
- by b01ledav006.gho.pok.ibm.com (Postfix) with ESMTPS;
- Thu,  3 Feb 2022 16:26:05 +0000 (GMT)
-From: Fabiano Rosas <farosas@linux.ibm.com>
-To: =?utf-8?Q?C=C3=A9dric?= Le Goater <clg@kaod.org>, qemu-ppc@nongnu.org,
- qemu-devel@nongnu.org
-Subject: Re: [PATCH] target/ppc: Remove PowerPC 601 CPUs
-In-Reply-To: <20220203142756.1302515-1-clg@kaod.org>
-References: <20220203142756.1302515-1-clg@kaod.org>
-Date: Thu, 03 Feb 2022 13:26:03 -0300
-Message-ID: <87zgn79ask.fsf@linux.ibm.com>
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nFf0D-00006P-Js
+ for qemu-devel@nongnu.org; Thu, 03 Feb 2022 11:30:36 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1643905831;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=fpPjDMw+XksBUHc189TjVes1PMs4w6YASyCxAU2i1NM=;
+ b=Zf/7UTQlRso5yLaT8v2AaxXQT74b4icPnqPlSB+z7Z7sIGJ8UbHw+U6sTErZwSM0tYlg+G
+ LVEjDMHOpuPYpEGHTuvoSW8Nd8iv24cVLZaazwHwqftIOpmgs4luwPxPwtTv6xV+e7l0Kq
+ QGRYLgawOyBZCMW+c0LjKniLhUTEgkM=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-57-g2yFQifSNZeGLnzInhpnEA-1; Thu, 03 Feb 2022 11:30:28 -0500
+X-MC-Unique: g2yFQifSNZeGLnzInhpnEA-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9ED191923E22;
+ Thu,  3 Feb 2022 16:30:27 +0000 (UTC)
+Received: from localhost (unknown [10.39.193.247])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 0F7257E2FC;
+ Thu,  3 Feb 2022 16:30:26 +0000 (UTC)
+From: Hanna Reitz <hreitz@redhat.com>
+To: qemu-block@nongnu.org
+Subject: [PATCH 0/7] block/nbd: Move s->ioc on AioContext change
+Date: Thu,  3 Feb 2022 17:30:17 +0100
+Message-Id: <20220203163024.38913-1-hreitz@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: hDSuirLhUNm_JKNEv82hzlhh3-IALAlQ
-X-Proofpoint-GUID: TjVjJVFuZR5-cyk9wsgzIc_HpA8A7dNk
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.816,Hydra:6.0.425,FMLib:17.11.62.513
- definitions=2022-02-03_05,2022-02-03_01,2021-12-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1011
- lowpriorityscore=0 spamscore=0 malwarescore=0 suspectscore=0 bulkscore=0
- mlxscore=0 mlxlogscore=824 adultscore=0 priorityscore=1501 impostorscore=0
- phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2201110000 definitions=main-2202030097
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=farosas@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -9
-X-Spam_score: -1.0
-X-Spam_bar: -
-X-Spam_report: (-1.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- TVD_SUBJ_WIPE_DEBT=1.004,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=hreitz@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.086,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -109,29 +74,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Daniel Henrique Barboza <danielhb413@gmail.com>,
- Richard Henderson <richard.henderson@linaro.org>, Greg Kurz <groug@kaod.org>,
- =?utf-8?Q?Her?= =?utf-8?Q?v=C3=A9?= Poussineau <hpoussin@reactos.org>,
- =?utf-8?Q?C=C3=A9dric?= Le Goater <clg@kaod.org>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Eric Blake <eblake@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-C=C3=A9dric Le Goater <clg@kaod.org> writes:
+Hi,
 
-> The PowerPC 601 processor is the first generation of processors to
-> implement the PowerPC architecture. It was designed as a bridge
-> processor and also could execute most of the instructions of the
-> previous POWER architecture. It was found on the first Macs and IBM
-> RS/6000 workstations.
->
-> There is not much interest in keeping the CPU model of this
-> POWER-PowerPC bridge processor. We have the 603 and 604 CPU models of
-> the 60x family which implement the complete PowerPC instruction set.
->
-> Cc: "Herv=C3=A9 Poussineau" <hpoussin@reactos.org>
-> Cc: Laurent Vivier <laurent@vivier.eu>
-> Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
+I’ve sent an RFC for this before, which can be found here:
 
-Reviewed-by: Fabiano Rosas <farosas@linux.ibm.com>
+https://lists.nongnu.org/archive/html/qemu-block/2022-01/msg00765.html
+
+...and is basically patch 6 in this series.
+
+That was an RFC for two reasons:
+(1) I didn’t know what to do with the two timers that the NBD BDS has
+    (the open timer and the reconnect delay timer), and
+(2) it didn’t include a regression test.
+
+This v1 addresses (2) in the obvious manner (by adding a test), and (1)
+like Vladimir has proposed, namely by asserting there are no timers on
+AioContext change, because there shouldn’t by any.
+
+The problem is that that assertion is wrong for both timers.  As far as
+I can tell, both of them are created so they will cancel the respective
+(re-)connection attempt after a user-configurable interval.  However,
+they are not deleted when that attempt succeeds (or otherwise returns
+before the interval).  So if the attempt does succeed, both of them will
+persist for however long they are configured, and they are are never
+disarmed/deleted anywhere, not even when the BDS is freed.
+
+That’s a problem beyond “what do I do with them on AioContext change”,
+because it means if you delete the BDS when one of those timers is still
+active, the timer will still fire afterwards and access (and
+dereference!) freed data.
+
+The solution should be clear, though, because as Vladimir has said, they
+simply shouldn’t persist.  So once the respective (re-)connection
+attempt returns, this series makes it so they are deleted (patches 1 and
+2).
+
+Patch 3 adds an assertion that the timers are gone when the BDS is
+closed, so that we definitely won’t run into a situation where they
+access freed data.
+
+
+Hanna Reitz (7):
+  block/nbd: Delete reconnect delay timer when done
+  block/nbd: Delete open timer when done
+  block/nbd: Assert there are no timers when closed
+  iotests.py: Add QemuStorageDaemon class
+  iotests/281: Test lingering timers
+  block/nbd: Move s->ioc on AioContext change
+  iotests/281: Let NBD connection yield in iothread
+
+ block/nbd.c                   |  64 +++++++++++++++++++++
+ tests/qemu-iotests/281        | 101 +++++++++++++++++++++++++++++++++-
+ tests/qemu-iotests/281.out    |   4 +-
+ tests/qemu-iotests/iotests.py |  42 ++++++++++++++
+ 4 files changed, 207 insertions(+), 4 deletions(-)
+
+-- 
+2.34.1
+
 
