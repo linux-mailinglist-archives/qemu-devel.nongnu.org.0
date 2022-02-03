@@ -2,46 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9707A4A7F47
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Feb 2022 07:26:13 +0100 (CET)
-Received: from localhost ([::1]:38606 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BCD624A7FE8
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Feb 2022 08:38:25 +0100 (CET)
+Received: from localhost ([::1]:34444 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nFVZM-0007hg-9C
-	for lists+qemu-devel@lfdr.de; Thu, 03 Feb 2022 01:26:12 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:58596)
+	id 1nFWhD-0001rg-RW
+	for lists+qemu-devel@lfdr.de; Thu, 03 Feb 2022 02:38:23 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:41866)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vt@altlinux.org>)
- id 1nFVTY-0006P9-Iw; Thu, 03 Feb 2022 01:20:13 -0500
-Received: from vmicros1.altlinux.org ([194.107.17.57]:56816)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vt@altlinux.org>)
- id 1nFVTV-0002uW-2n; Thu, 03 Feb 2022 01:20:12 -0500
-Received: from imap.altlinux.org (imap.altlinux.org [194.107.17.38])
- by vmicros1.altlinux.org (Postfix) with ESMTP id 8F49972C905;
- Thu,  3 Feb 2022 09:20:06 +0300 (MSK)
-Received: from altlinux.org (sole.flsd.net [185.75.180.6])
- by imap.altlinux.org (Postfix) with ESMTPSA id 8BC3C4A46F0;
- Thu,  3 Feb 2022 09:20:05 +0300 (MSK)
-Date: Thu, 3 Feb 2022 09:20:05 +0300
-From: Vitaly Chikunov <vt@altlinux.org>
-To: Christian Schoenebeck <qemu_oss@crudebyte.com>
-Subject: Re: [PATCH v2] 9pfs: Fix segfault in do_readdir_many caused by
- struct dirent overread
-Message-ID: <20220203062005.chsjk5bb3pftlapn@altlinux.org>
-References: <20220128223326.927132-1-vt@altlinux.org>
- <2369945.Qq089p3Et8@silver>
- <20220203045540.3wmae6mp7cnjtzxm@altlinux.org>
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nFWWJ-0007uP-AB
+ for qemu-devel@nongnu.org; Thu, 03 Feb 2022 02:27:07 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:44108)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nFWWF-0004Bm-Db
+ for qemu-devel@nongnu.org; Thu, 03 Feb 2022 02:27:05 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1643873220;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=DXcTQx/rA3s+fT1k5T0A+hE6V+96fK7bFLzrVF7JGQc=;
+ b=XOVZobEw4VRPW7mptwlCQgqCcQETK0X5l5sTByjwIUdd6RX3EDBiaJaY2vmY7WZx1yZcJo
+ x3muR8BJ3EeYk910Pn0qxOxlufWSQqMSbiYGV02V2Mk5TEfdhj++6jBa7DVP1CmeStqrw6
+ RYYMLTao64VZpcJFM7BapFbP7BX/5Pk=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-207-szY6poNXNxeroS0GcskjCg-1; Thu, 03 Feb 2022 02:26:59 -0500
+X-MC-Unique: szY6poNXNxeroS0GcskjCg-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ l20-20020a05600c1d1400b0035153bf34c3so5429684wms.2
+ for <qemu-devel@nongnu.org>; Wed, 02 Feb 2022 23:26:59 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=DXcTQx/rA3s+fT1k5T0A+hE6V+96fK7bFLzrVF7JGQc=;
+ b=tAqmuY50yxa26AS9XE9w0DhQhICfEP2RKeCTddZqhPWoHQWTud9Hj66ImQB5R//NGC
+ KiXFzeLXH8GdbiqRERPNzp+xgT1z6xV+mdtIIqwFpNBZnbqKPVdl9h+k/f+bt3aEIkXq
+ 6WVB7x5AtSNMsLmumB6gcBTGs0Z2bt2UcG/ZvpZMi9qvyZJ5mFF09G1/7VBtzeZu7Y5E
+ TYF8uXk/bjac7pgMjjwHTt6qOxKddRgkTbqMaBAiRdCW3YtpaPNZHokQW2K006alNfj7
+ b7maFVpMJKoUaBhElLKFYVRJOAk4bx9wcNfMFSSNBrAqaqMdBNU+n8fwHBt19c8FNsbl
+ NvwA==
+X-Gm-Message-State: AOAM530JkxpKYnjQTpqeGMzjhD8g3zEar8h4Q6oJ6GR7ie8t/Hv2y9Im
+ T+Ahs2iMvcJv9TEW0sFu8emImIR/0Tai/NMxIcPUMBnuggVLye8DRo5G4qd4uBNa1AVqt2ilS+t
+ f4msrkASmkxCR6+8=
+X-Received: by 2002:a5d:524e:: with SMTP id k14mr27206960wrc.294.1643873218202; 
+ Wed, 02 Feb 2022 23:26:58 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxGD++hpmWpaphZxrKKt93OmAb7jTD7RMMkpqQuIuQ34CuTl1tOrdlkmHRv4fkJoCuGid204w==
+X-Received: by 2002:a5d:524e:: with SMTP id k14mr27206942wrc.294.1643873217911; 
+ Wed, 02 Feb 2022 23:26:57 -0800 (PST)
+Received: from [192.168.8.100] (tmo-096-196.customers.d1-online.com.
+ [80.187.96.196])
+ by smtp.gmail.com with ESMTPSA id n2sm14722842wrx.108.2022.02.02.23.26.56
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 02 Feb 2022 23:26:57 -0800 (PST)
+Message-ID: <50a980af-f67d-b093-4a62-d8b9806898e7@redhat.com>
+Date: Thu, 3 Feb 2022 08:26:56 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=koi8-r
-Content-Disposition: inline
-In-Reply-To: <20220203045540.3wmae6mp7cnjtzxm@altlinux.org>
-Received-SPF: pass client-ip=194.107.17.57; envelope-from=vt@altlinux.org;
- helo=vmicros1.altlinux.org
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH] qemu-options: fix incorrect description for '-drive
+ index='
+To: Laurent Vivier <lvivier@redhat.com>, qemu-devel@nongnu.org
+References: <20220202143422.912070-1-lvivier@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <20220202143422.912070-1-lvivier@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.086,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -55,126 +99,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-stable@nongnu.org, "Dmitry V. Levin" <ldv@altlinux.org>,
- qemu-devel@nongnu.org, Greg Kurz <groug@kaod.org>
+Cc: qemu-trivial@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Feb 03, 2022 at 07:55:41AM +0300, Vitaly Chikunov wrote:
-> Christian,
+On 02/02/2022 15.34, Laurent Vivier wrote:
+> qemu-options.hx contains grammar that a native English-speaking
+> person would never use.
 > 
-> On Wed, Feb 02, 2022 at 05:55:45PM +0100, Christian Schoenebeck wrote:
-> > On Freitag, 28. Januar 2022 23:33:26 CET Vitaly Chikunov wrote:
-> > > `struct dirent' returned from readdir(3) could be shorter than
-> > > `sizeof(struct dirent)', thus memcpy of sizeof length will overread
-> > > into unallocated page causing SIGSEGV. Example stack trace:
-> > > 
-> > >  #0  0x00005555559ebeed v9fs_co_readdir_many (/usr/bin/qemu-system-x86_64 +
-> > > 0x497eed) #1  0x00005555559ec2e9 v9fs_readdir (/usr/bin/qemu-system-x86_64
-> > > + 0x4982e9) #2  0x0000555555eb7983 coroutine_trampoline
-> > > (/usr/bin/qemu-system-x86_64 + 0x963983) #3  0x00007ffff73e0be0 n/a (n/a +
-> > > 0x0)
-> > > 
-> > > While fixing, provide a helper for any future `struct dirent' cloning.
-> > > 
-> > > Resolves: https://gitlab.com/qemu-project/qemu/-/issues/841
-> > > Cc: qemu-stable@nongnu.org
-> > > Co-authored-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
-> > > Signed-off-by: Vitaly Chikunov <vt@altlinux.org>
-> > > ---
-> > > Tested on x86-64 Linux.
-> > 
-> > I was too optimistic. Looks like this needs more work. With this patch applied
-> > the 9p test cases [1] are crashing now:
-> > 
-> > $ gdb --args tests/qtest/qos-test -m slow
-> > ...
-> > # Start of flush tests
-> > ok 50 /x86_64/pc/i440FX-pcihost/pci-bus-pc/pci-bus/virtio-9p-pci/virtio-9p/virtio-9p-tests/synth/flush/success
-> > ok 51 /x86_64/pc/i440FX-pcihost/pci-bus-pc/pci-bus/virtio-9p-pci/virtio-9p/virtio-9p-tests/synth/flush/ignored
-> > # End of flush tests
-> > # Start of readdir tests
+> Replace "This option defines where is connected the drive" by
+> "This option defines where the drive is connected".
 > 
-> I changed implementation from the one using dent->d_reclen to the one using
-> strlen(dent->d_name) and it's passed readdir tests, but failed later:
+> Fixes: https://gitlab.com/qemu-project/qemu/-/issues/853
+
+I'd prefer:
+
+Fixes: e0e7ada1d5 ("Update documention with '-drive' usage")
+Resolves: https://gitlab.com/qemu-project/qemu/-/issues/853
+
+but anyway:
+
+Reviewed-by: Thomas Huth <thuth@redhat.com>
+
+
+> Signed-off-by: Laurent Vivier <lvivier@redhat.com>
+> ---
+>   qemu-options.hx | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
 > 
->   # Start of readdir tests
->   ok 53 /x86_64/pc/i440FX-pcihost/pci-bus-pc/pci-bus/virtio-9p-pci/virtio-9p/virtio-9p-tests/synth/readdir/basic
->   ok 54 /x86_64/pc/i440FX-pcihost/pci-bus-pc/pci-bus/virtio-9p-pci/virtio-9p/virtio-9p-tests/synth/readdir/split_512
->   ok 55 /x86_64/pc/i440FX-pcihost/pci-bus-pc/pci-bus/virtio-9p-pci/virtio-9p/virtio-9p-tests/synth/readdir/split_256
->   ok 56 /x86_64/pc/i440FX-pcihost/pci-bus-pc/pci-bus/virtio-9p-pci/virtio-9p/virtio-9p-tests/synth/readdir/split_128
->   # End of readdir tests
->   # End of synth tests
->   # Start of local tests
->   # starting QEMU: exec x86_64-softmmu/qemu-system-x86_64 -qtest unix:/tmp/qtest-2822967.sock -qtest-log /dev/null -chardev socket,path=/tmp/qtest-2822967.qmp,id=char0 -mon chardev=char0,mode=control -display none -M pc  -fsdev local,id=fsdev0,path='/usr/src/RPM/BUILD/qemu-6.2.0/build-dynamic/qtest-9p-local-NpcZCR',security_model=mapped-xattr -device virtio-9p-pci,fsdev=fsdev0,addr=04.0,mount_tag=qtest -accel qtest
->   # GLib-DEBUG: setenv()/putenv() are not thread-safe and should not be used after threads are created
->   ok 57 /x86_64/pc/i440FX-pcihost/pci-bus-pc/pci-bus/virtio-9p-pci/virtio-9p/virtio-9p-tests/local/config
->   Received response 7 (RLERROR) instead of 73 (RMKDIR)
->   Rlerror has errno 95 (Operation not supported)
->   **
->   ERROR:../tests/qtest/virtio-9p-test.c:305:v9fs_req_recv: assertion failed (hdr.id == id): (7 == 73)
->   Bail out! ERROR:../tests/qtest/virtio-9p-test.c:305:v9fs_req_recv: assertion failed (hdr.id == id): (7 == 73)
->   Aborted
+> diff --git a/qemu-options.hx b/qemu-options.hx
+> index ba3ae6a42aa3..094a6c1d7c28 100644
+> --- a/qemu-options.hx
+> +++ b/qemu-options.hx
+> @@ -1377,7 +1377,7 @@ SRST
+>           the bus number and the unit id.
+>   
+>       ``index=index``
+> -        This option defines where is connected the drive by using an
+> +        This option defines where the drive is connected by using an
+>           index in the list of available connectors of a given interface
+>           type.
+>   
 
-I added some debugging output and in the bug case `d_reclen` is 0. Thus
-this is not readdir's struct dirent, but something else (test-only
-simulated dirent without accounting that we now have d_reclen logic).
-
-This maybe related to the other bug in 
-
-  static void synth_direntry(V9fsSynthNode *node,
-				  struct dirent *entry, off_t off)
-  {
-      strcpy(entry->d_name, node->name);
-      entry->d_ino = node->attr->inode;
-      entry->d_off = off + 1;
-  }
-
-Where `d_reclen` is not updated.
-
-Thanks,
-
-
-> 
-> Thanks,
-> 
-> > Broken pipe
-> > 
-> > Thread 1 "qos-test" received signal SIGABRT, Aborted.
-> > __GI_raise (sig=sig@entry=6) at ../sysdeps/unix/sysv/linux/raise.c:50
-> > 50      ../sysdeps/unix/sysv/linux/raise.c: No such file or directory.
-> > (gdb) bt
-> > #0  __GI_raise (sig=sig@entry=6) at ../sysdeps/unix/sysv/linux/raise.c:50
-> > #1  0x00007ffff7b7d537 in __GI_abort () at abort.c:79
-> > #2  0x00005555555ba495 in qtest_client_socket_recv_line (s=0x5555557663c0) at ../tests/qtest/libqtest.c:503
-> > #3  0x00005555555ba5b3 in qtest_rsp_args (s=0x5555557663c0, expected_args=2) at ../tests/qtest/libqtest.c:523
-> > #4  0x00005555555bbdb4 in qtest_clock_rsp (s=0x5555557663c0) at ../tests/qtest/libqtest.c:970
-> > #5  0x00005555555bbe55 in qtest_clock_step (s=0x5555557663c0, step=100) at ../tests/qtest/libqtest.c:985
-> > #6  0x00005555555cdc21 in qvirtio_wait_used_elem (qts=0x5555557663c0, d=0x555555779b48, vq=0x5555557b0480, desc_idx=8, len=0x0, timeout_us=10000000)
-> >     at ../tests/qtest/libqos/virtio.c:220
-> > #7  0x00005555555ae79f in v9fs_req_wait_for_reply (req=0x5555557899a0, len=0x0) at ../tests/qtest/virtio-9p-test.c:278
-> > #8  0x00005555555b03bf in fs_readdir (obj=0x555555779bb0, data=0x0, t_alloc=0x5555557448b8) at ../tests/qtest/virtio-9p-test.c:851
-> > #9  0x00005555555990c4 in run_one_test (arg=0x5555557ac600) at ../tests/qtest/qos-test.c:182
-> > #10 0x00007ffff7f02b9e in ?? () from /lib/x86_64-linux-gnu/libglib-2.0.so.0
-> > #11 0x00007ffff7f0299b in ?? () from /lib/x86_64-linux-gnu/libglib-2.0.so.0
-> > #12 0x00007ffff7f0299b in ?? () from /lib/x86_64-linux-gnu/libglib-2.0.so.0
-> > #13 0x00007ffff7f0299b in ?? () from /lib/x86_64-linux-gnu/libglib-2.0.so.0
-> > #14 0x00007ffff7f0299b in ?? () from /lib/x86_64-linux-gnu/libglib-2.0.so.0
-> > #15 0x00007ffff7f0299b in ?? () from /lib/x86_64-linux-gnu/libglib-2.0.so.0
-> > #16 0x00007ffff7f0299b in ?? () from /lib/x86_64-linux-gnu/libglib-2.0.so.0
-> > #17 0x00007ffff7f0299b in ?? () from /lib/x86_64-linux-gnu/libglib-2.0.so.0
-> > #18 0x00007ffff7f0299b in ?? () from /lib/x86_64-linux-gnu/libglib-2.0.so.0
-> > #19 0x00007ffff7f0299b in ?? () from /lib/x86_64-linux-gnu/libglib-2.0.so.0
-> > #20 0x00007ffff7f0299b in ?? () from /lib/x86_64-linux-gnu/libglib-2.0.so.0
-> > #21 0x00007ffff7f0308a in g_test_run_suite () from /lib/x86_64-linux-gnu/libglib-2.0.so.0
-> > #22 0x00007ffff7f030a1 in g_test_run () from /lib/x86_64-linux-gnu/libglib-2.0.so.0
-> > #23 0x00005555555995a3 in main (argc=1, argv=0x7fffffffe508, envp=0x7fffffffe528) at ../tests/qtest/qos-test.c:338
-> > (gdb)
-> > 
-> > [1] https://wiki.qemu.org/Documentation/9p#Test_Cases
-> > 
-> > Best regards,
-> > Christian Schoenebeck
-> > 
-> > 
 
