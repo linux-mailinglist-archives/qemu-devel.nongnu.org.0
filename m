@@ -2,47 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9695E4A8F7E
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Feb 2022 22:04:51 +0100 (CET)
-Received: from localhost ([::1]:53712 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2DDA84A9009
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Feb 2022 22:38:40 +0100 (CET)
+Received: from localhost ([::1]:51890 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nFjHd-0004CJ-JF
-	for lists+qemu-devel@lfdr.de; Thu, 03 Feb 2022 16:04:49 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:42526)
+	id 1nFjoM-0000ii-QL
+	for lists+qemu-devel@lfdr.de; Thu, 03 Feb 2022 16:38:38 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:42870)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <luc@lmichel.fr>)
- id 1nFixs-0003D7-Ot; Thu, 03 Feb 2022 15:44:24 -0500
-Received: from pharaoh.lmichel.fr ([149.202.28.74]:50262)
+ id 1nFj0J-0004Sw-GM; Thu, 03 Feb 2022 15:46:57 -0500
+Received: from pharaoh.lmichel.fr ([149.202.28.74]:50264)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <luc@lmichel.fr>)
- id 1nFixp-0006hd-Ed; Thu, 03 Feb 2022 15:44:24 -0500
+ id 1nFj0A-0007Dc-LF; Thu, 03 Feb 2022 15:46:50 -0500
 Received: from localhost (sekoia-pc.home.lmichel.fr [192.168.61.100])
- by pharaoh.lmichel.fr (Postfix) with ESMTPSA id 14680C60912;
- Thu,  3 Feb 2022 21:44:18 +0100 (CET)
+ by pharaoh.lmichel.fr (Postfix) with ESMTPSA id D1F46C60912;
+ Thu,  3 Feb 2022 21:46:36 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lmichel.fr; s=pharaoh; 
- t=1643921058;
+ t=1643921196;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=NoaL8r2zZGkS48EBKsBf9XqzK4gCZDYEGPsXVlV9nl4=;
- b=joZBSCpTK5Ectmyv5QySh0XYpEGJDBK4tPp/b4M5ez8F/xynt1zHcB83dqsJ4lKVGz1MC6
- E/M78EDhqPyBGUbjiLQzGkyWC4QZaPL8KYATTXoI7x7lUjQp8ErCEm54g8SSsneRRzeLKb
- E/w2QT9temJyV3mqPVfjeU6W+WuK2/itvHRN5+0Q3oRa8ttufX4eKN5n6PBGaSPMJE9rvg
- D0lrYXH/8DyTyob8jlxJmgsUU5q9Ejvu1xzfN+oV0ZidTZy0iZHN4PseyTIYeQqxmKgZLX
- eE3xM6rfTVfN48FORgMA/XtcaRLX2fSgsRuNsJN+CVWmNQhJ51DfUJ8+zLyF0g==
-Date: Thu, 3 Feb 2022 21:44:17 +0100
+ bh=z5zsn668D25SmDjjloLbdJI/Fei8Ao+RDEBHJgSojN0=;
+ b=SQZk3HSuYFm1eyr/q8cyZY223UineroENAWeRSbFN/vU8lDLg3GBF5b25DDo+WD/j/qiWl
+ 2yrDvAkWH2vu7ICJ14y6uMNK42dlICLIF0cKwifd2LSLWbQ2C3JS1p8GntWl1QenV8RAER
+ zkTbDntvpm97g+DkETCUvmqaotUBQFY65+g7P5EYg7WYjNsuRblsahTBPYizc5f64q83s6
+ xeqwQHb12jQ5SbsLOT9sCPUhGY/BQuHL0lfqhc1Nb+GvIEbe+ga4R7g70m7376x5xBFBVW
+ 3HADROOgSR6AOuuJR9CoA0kEuwyl5n6cvPjBHd8JCQVIo7C3A2pz/NTTpbJTtg==
+Date: Thu, 3 Feb 2022 21:46:36 +0100
 From: Luc Michel <luc@lmichel.fr>
 To: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
-Subject: Re: [PATCH v2 5/6] hw/misc: Add a model of the Xilinx ZynqMP APU
- Control
-Message-ID: <Yfw+oaKngGR4qbu3@sekoia-pc.home.lmichel.fr>
+Subject: Re: [PATCH v2 6/6] hw/arm/xlnx-zynqmp: Connect the ZynqMP APU Control
+Message-ID: <Yfw/LIm8mk3WOuEO@sekoia-pc.home.lmichel.fr>
 References: <20220203140141.310870-1-edgar.iglesias@gmail.com>
- <20220203140141.310870-6-edgar.iglesias@gmail.com>
+ <20220203140141.310870-7-edgar.iglesias@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20220203140141.310870-6-edgar.iglesias@gmail.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220203140141.310870-7-edgar.iglesias@gmail.com>
 Received-SPF: pass client-ip=149.202.28.74; envelope-from=luc@lmichel.fr;
  helo=pharaoh.lmichel.fr
 X-Spam_score_int: -20
@@ -71,396 +72,113 @@ Cc: edgar.iglesias@xilinx.com, peter.maydell@linaro.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Hi Edgar,
+
 On 15:01 Thu 03 Feb     , Edgar E. Iglesias wrote:
 > From: "Edgar E. Iglesias" <edgar.iglesias@xilinx.com>
 > 
-> Add a model of the Xilinx ZynqMP APU Control.
-> 
-> Signed-off-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
+> Connect the ZynqMP APU Control device.
+
+Somehow you don't seem to connect the "wfi_in" pins. I guess it's
+because currently QEMU ARM CPUs do not expose a "wfi_out" pin right?
 
 Reviewed-by: Luc Michel <luc@lmichel.fr>
 
-> ---
->  include/hw/misc/xlnx-zynqmp-apu-ctrl.h |  95 +++++++++
->  hw/misc/xlnx-zynqmp-apu-ctrl.c         | 254 +++++++++++++++++++++++++
->  hw/misc/meson.build                    |   1 +
->  3 files changed, 350 insertions(+)
->  create mode 100644 include/hw/misc/xlnx-zynqmp-apu-ctrl.h
->  create mode 100644 hw/misc/xlnx-zynqmp-apu-ctrl.c
 > 
-> diff --git a/include/hw/misc/xlnx-zynqmp-apu-ctrl.h b/include/hw/misc/xlnx-zynqmp-apu-ctrl.h
-> new file mode 100644
-> index 0000000000..b0c0adb881
-> --- /dev/null
-> +++ b/include/hw/misc/xlnx-zynqmp-apu-ctrl.h
-> @@ -0,0 +1,95 @@
-> +/*
-> + * QEMU model of ZynqMP APU Control.
-> + *
-> + * Copyright (c) 2013-2022 Xilinx Inc
-> + * SPDX-License-Identifier: GPL-2.0-or-later
-> + *
-> + * Written by Peter Crosthwaite <peter.crosthwaite@xilinx.com> and
-> + * Edgar E. Iglesias <edgar.iglesias@xilinx.com>
-> + *
-> + */
-> +#ifndef HW_MISC_XLNX_ZYNQMP_APU_CTRL_H
-> +#define HW_MISC_XLNX_ZYNQMP_APU_CTRL_H
-> +
-> +#include "hw/sysbus.h"
-> +#include "hw/register.h"
-> +#include "target/arm/cpu.h"
-> +
-> +#define TYPE_XLNX_ZYNQMP_APU_CTRL "xlnx.apu-ctrl"
-> +
-> +#define XLNX_ZYNQMP_APU(obj) \
-> +     OBJECT_CHECK(XlnxZynqMPAPUCtrl, (obj), TYPE_XLNX_ZYNQMP_APU_CTRL)
-> +
-> +REG32(APU_ERR_CTRL, 0x0)
-> +    FIELD(APU_ERR_CTRL, PSLVERR, 0, 1)
-> +REG32(ISR, 0x10)
-> +    FIELD(ISR, INV_APB, 0, 1)
-> +REG32(IMR, 0x14)
-> +    FIELD(IMR, INV_APB, 0, 1)
-> +REG32(IEN, 0x18)
-> +    FIELD(IEN, INV_APB, 0, 1)
-> +REG32(IDS, 0x1c)
-> +    FIELD(IDS, INV_APB, 0, 1)
-> +REG32(CONFIG_0, 0x20)
-> +    FIELD(CONFIG_0, CFGTE, 24, 4)
-> +    FIELD(CONFIG_0, CFGEND, 16, 4)
-> +    FIELD(CONFIG_0, VINITHI, 8, 4)
-> +    FIELD(CONFIG_0, AA64NAA32, 0, 4)
-> +REG32(CONFIG_1, 0x24)
-> +    FIELD(CONFIG_1, L2RSTDISABLE, 29, 1)
-> +    FIELD(CONFIG_1, L1RSTDISABLE, 28, 1)
-> +    FIELD(CONFIG_1, CP15DISABLE, 0, 4)
-> +REG32(RVBARADDR0L, 0x40)
-> +    FIELD(RVBARADDR0L, ADDR, 2, 30)
-> +REG32(RVBARADDR0H, 0x44)
-> +    FIELD(RVBARADDR0H, ADDR, 0, 8)
-> +REG32(RVBARADDR1L, 0x48)
-> +    FIELD(RVBARADDR1L, ADDR, 2, 30)
-> +REG32(RVBARADDR1H, 0x4c)
-> +    FIELD(RVBARADDR1H, ADDR, 0, 8)
-> +REG32(RVBARADDR2L, 0x50)
-> +    FIELD(RVBARADDR2L, ADDR, 2, 30)
-> +REG32(RVBARADDR2H, 0x54)
-> +    FIELD(RVBARADDR2H, ADDR, 0, 8)
-> +REG32(RVBARADDR3L, 0x58)
-> +    FIELD(RVBARADDR3L, ADDR, 2, 30)
-> +REG32(RVBARADDR3H, 0x5c)
-> +    FIELD(RVBARADDR3H, ADDR, 0, 8)
-> +REG32(ACE_CTRL, 0x60)
-> +    FIELD(ACE_CTRL, AWQOS, 16, 4)
-> +    FIELD(ACE_CTRL, ARQOS, 0, 4)
-> +REG32(SNOOP_CTRL, 0x80)
-> +    FIELD(SNOOP_CTRL, ACE_INACT, 4, 1)
-> +    FIELD(SNOOP_CTRL, ACP_INACT, 0, 1)
-> +REG32(PWRCTL, 0x90)
-> +    FIELD(PWRCTL, CLREXMONREQ, 17, 1)
-> +    FIELD(PWRCTL, L2FLUSHREQ, 16, 1)
-> +    FIELD(PWRCTL, CPUPWRDWNREQ, 0, 4)
-> +REG32(PWRSTAT, 0x94)
-> +    FIELD(PWRSTAT, CLREXMONACK, 17, 1)
-> +    FIELD(PWRSTAT, L2FLUSHDONE, 16, 1)
-> +    FIELD(PWRSTAT, DBGNOPWRDWN, 0, 4)
-> +
-> +#define APU_R_MAX ((R_PWRSTAT) + 1)
-> +
-> +#define APU_MAX_CPU    4
-> +
-> +typedef struct XlnxZynqMPAPUCtrl {
-> +    SysBusDevice busdev;
-> +
-> +    ARMCPU *cpus[APU_MAX_CPU];
-> +    /* WFIs towards PMU. */
-> +    qemu_irq wfi_out[4];
-> +    /* CPU Power status towards INTC Redirect. */
-> +    qemu_irq cpu_power_status[4];
-> +    qemu_irq irq_imr;
-> +
-> +    uint8_t cpu_pwrdwn_req;
-> +    uint8_t cpu_in_wfi;
-> +
-> +    RegisterInfoArray *reg_array;
-> +    uint32_t regs[APU_R_MAX];
-> +    RegisterInfo regs_info[APU_R_MAX];
-> +} XlnxZynqMPAPUCtrl;
-> +
-> +#endif
-> diff --git a/hw/misc/xlnx-zynqmp-apu-ctrl.c b/hw/misc/xlnx-zynqmp-apu-ctrl.c
-> new file mode 100644
-> index 0000000000..ea9032e0ed
-> --- /dev/null
-> +++ b/hw/misc/xlnx-zynqmp-apu-ctrl.c
-> @@ -0,0 +1,254 @@
-> +/*
-> + * QEMU model of the ZynqMP APU Control.
-> + *
-> + * Copyright (c) 2013-2022 Xilinx Inc
-> + * SPDX-License-Identifier: GPL-2.0-or-later
-> + *
-> + * Written by Peter Crosthwaite <peter.crosthwaite@xilinx.com> and
-> + * Edgar E. Iglesias <edgar.iglesias@xilinx.com>
-> + */
-> +
-> +#include "qemu/osdep.h"
-> +#include "qapi/error.h"
-> +#include "qemu/log.h"
-> +#include "migration/vmstate.h"
-> +#include "hw/qdev-properties.h"
-> +#include "hw/sysbus.h"
-> +#include "hw/irq.h"
-> +#include "hw/register.h"
-> +
-> +#include "qemu/bitops.h"
-> +#include "qapi/qmp/qerror.h"
-> +
+> Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> Reviewed-by: Francisco Iglesias <francisco.iglesias@xilinx.com>
+> Signed-off-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
+> ---
+>  include/hw/arm/xlnx-zynqmp.h |  4 +++-
+>  hw/arm/xlnx-zynqmp.c         | 25 +++++++++++++++++++++++--
+>  2 files changed, 26 insertions(+), 3 deletions(-)
+> 
+> diff --git a/include/hw/arm/xlnx-zynqmp.h b/include/hw/arm/xlnx-zynqmp.h
+> index d5a3ad3df2..05cd2128f3 100644
+> --- a/include/hw/arm/xlnx-zynqmp.h
+> +++ b/include/hw/arm/xlnx-zynqmp.h
+> @@ -38,6 +38,7 @@
+>  #include "hw/dma/xlnx_csu_dma.h"
+>  #include "hw/nvram/xlnx-bbram.h"
+>  #include "hw/nvram/xlnx-zynqmp-efuse.h"
 > +#include "hw/misc/xlnx-zynqmp-apu-ctrl.h"
-> +
-> +#ifndef XILINX_ZYNQMP_APU_ERR_DEBUG
-> +#define XILINX_ZYNQMP_APU_ERR_DEBUG 1
-> +#endif
-> +
-> +static void update_wfi_out(void *opaque)
+>  #include "hw/misc/xlnx-zynqmp-crf.h"
+>  
+>  #define TYPE_XLNX_ZYNQMP "xlnx-zynqmp"
+> @@ -85,7 +86,7 @@ OBJECT_DECLARE_SIMPLE_TYPE(XlnxZynqMPState, XLNX_ZYNQMP)
+>  /*
+>   * Unimplemented mmio regions needed to boot some images.
+>   */
+> -#define XLNX_ZYNQMP_NUM_UNIMP_AREAS 2
+> +#define XLNX_ZYNQMP_NUM_UNIMP_AREAS 1
+>  
+>  struct XlnxZynqMPState {
+>      /*< private >*/
+> @@ -123,6 +124,7 @@ struct XlnxZynqMPState {
+>      XlnxZDMA gdma[XLNX_ZYNQMP_NUM_GDMA_CH];
+>      XlnxZDMA adma[XLNX_ZYNQMP_NUM_ADMA_CH];
+>      XlnxCSUDMA qspi_dma;
+> +    XlnxZynqMPAPUCtrl apu_ctrl;
+>      XlnxZynqMPCRF crf;
+>  
+>      char *boot_cpu;
+> diff --git a/hw/arm/xlnx-zynqmp.c b/hw/arm/xlnx-zynqmp.c
+> index 9f433ee5d8..2fa8c77dfd 100644
+> --- a/hw/arm/xlnx-zynqmp.c
+> +++ b/hw/arm/xlnx-zynqmp.c
+> @@ -65,7 +65,7 @@
+>  #define DPDMA_IRQ           116
+>  
+>  #define APU_ADDR            0xfd5c0000
+> -#define APU_SIZE            0x100
+> +#define APU_IRQ             153
+>  
+>  #define IPI_ADDR            0xFF300000
+>  #define IPI_IRQ             64
+> @@ -283,6 +283,27 @@ static void xlnx_zynqmp_create_efuse(XlnxZynqMPState *s, qemu_irq *gic)
+>      sysbus_connect_irq(sbd, 0, gic[EFUSE_IRQ]);
+>  }
+>  
+> +static void xlnx_zynqmp_create_apu_ctrl(XlnxZynqMPState *s, qemu_irq *gic)
 > +{
-> +    XlnxZynqMPAPUCtrl *s = XLNX_ZYNQMP_APU(opaque);
-> +    unsigned int i, wfi_pending;
-> +
-> +    wfi_pending = s->cpu_pwrdwn_req & s->cpu_in_wfi;
-> +    for (i = 0; i < APU_MAX_CPU; i++) {
-> +        qemu_set_irq(s->wfi_out[i], !!(wfi_pending & (1 << i)));
-> +    }
-> +}
-> +
-> +static void zynqmp_apu_rvbar_post_write(RegisterInfo *reg, uint64_t val)
-> +{
-> +    XlnxZynqMPAPUCtrl *s = XLNX_ZYNQMP_APU(reg->opaque);
+> +    SysBusDevice *sbd;
 > +    int i;
 > +
-> +    for (i = 0; i < APU_MAX_CPU; ++i) {
-> +        uint64_t rvbar = s->regs[R_RVBARADDR0L + 2 * i] +
-> +                         ((uint64_t)s->regs[R_RVBARADDR0H + 2 * i] << 32);
-> +        if (s->cpus[i]) {
-> +            object_property_set_int(OBJECT(s->cpus[i]), "rvbar", rvbar,
-> +                                    &error_abort);
-> +        }
-> +    }
-> +}
+> +    object_initialize_child(OBJECT(s), "apu-ctrl", &s->apu_ctrl,
+> +                            TYPE_XLNX_ZYNQMP_APU_CTRL);
+> +    sbd = SYS_BUS_DEVICE(&s->apu_ctrl);
 > +
-> +static void zynqmp_apu_pwrctl_post_write(RegisterInfo *reg, uint64_t val)
-> +{
-> +    XlnxZynqMPAPUCtrl *s = XLNX_ZYNQMP_APU(reg->opaque);
-> +    unsigned int i, new;
+> +    for (i = 0; i < XLNX_ZYNQMP_NUM_APU_CPUS; i++) {
+> +        g_autofree gchar *name = g_strdup_printf("cpu%d", i);
 > +
-> +    for (i = 0; i < APU_MAX_CPU; i++) {
-> +        new = val & (1 << i);
-> +        /* Check if CPU's CPUPWRDNREQ has changed. If yes, update GPIOs. */
-> +        if (new != (s->cpu_pwrdwn_req & (1 << i))) {
-> +            qemu_set_irq(s->cpu_power_status[i], !!new);
-> +        }
-> +        s->cpu_pwrdwn_req &= ~(1 << i);
-> +        s->cpu_pwrdwn_req |= new;
-> +    }
-> +    update_wfi_out(s);
-> +}
-> +
-> +static void imr_update_irq(XlnxZynqMPAPUCtrl *s)
-> +{
-> +    bool pending = s->regs[R_ISR] & ~s->regs[R_IMR];
-> +    qemu_set_irq(s->irq_imr, pending);
-> +}
-> +
-> +static void isr_postw(RegisterInfo *reg, uint64_t val64)
-> +{
-> +    XlnxZynqMPAPUCtrl *s = XLNX_ZYNQMP_APU(reg->opaque);
-> +    imr_update_irq(s);
-> +}
-> +
-> +static uint64_t ien_prew(RegisterInfo *reg, uint64_t val64)
-> +{
-> +    XlnxZynqMPAPUCtrl *s = XLNX_ZYNQMP_APU(reg->opaque);
-> +    uint32_t val = val64;
-> +
-> +    s->regs[R_IMR] &= ~val;
-> +    imr_update_irq(s);
-> +    return 0;
-> +}
-> +
-> +static uint64_t ids_prew(RegisterInfo *reg, uint64_t val64)
-> +{
-> +    XlnxZynqMPAPUCtrl *s = XLNX_ZYNQMP_APU(reg->opaque);
-> +    uint32_t val = val64;
-> +
-> +    s->regs[R_IMR] |= val;
-> +    imr_update_irq(s);
-> +    return 0;
-> +}
-> +
-> +static const RegisterAccessInfo zynqmp_apu_regs_info[] = {
-> +#define RVBAR_REGDEF(n) \
-> +    {   .name = "RVBAR CPU " #n " Low",  .addr = A_RVBARADDR ## n ## L,    \
-> +            .reset = 0xffff0000ul,                                         \
-> +            .post_write = zynqmp_apu_rvbar_post_write,                     \
-> +    },{ .name = "RVBAR CPU " #n " High", .addr = A_RVBARADDR ## n ## H,    \
-> +            .post_write = zynqmp_apu_rvbar_post_write,                     \
-> +    }
-> +    {   .name = "ERR_CTRL",  .addr = A_APU_ERR_CTRL,
-> +    },{ .name = "ISR",  .addr = A_ISR,
-> +        .w1c = 0x1,
-> +        .post_write = isr_postw,
-> +    },{ .name = "IMR",  .addr = A_IMR,
-> +        .reset = 0x1,
-> +        .ro = 0x1,
-> +    },{ .name = "IEN",  .addr = A_IEN,
-> +        .pre_write = ien_prew,
-> +    },{ .name = "IDS",  .addr = A_IDS,
-> +        .pre_write = ids_prew,
-> +    },{ .name = "CONFIG_0",  .addr = A_CONFIG_0,
-> +        .reset = 0xf0f,
-> +    },{ .name = "CONFIG_1",  .addr = A_CONFIG_1,
-> +    },
-> +    RVBAR_REGDEF(0),
-> +    RVBAR_REGDEF(1),
-> +    RVBAR_REGDEF(2),
-> +    RVBAR_REGDEF(3),
-> +    { .name = "ACE_CTRL",  .addr = A_ACE_CTRL,
-> +        .reset = 0xf000f,
-> +    },{ .name = "SNOOP_CTRL",  .addr = A_SNOOP_CTRL,
-> +    },{ .name = "PWRCTL",  .addr = A_PWRCTL,
-> +        .post_write = zynqmp_apu_pwrctl_post_write,
-> +    },{ .name = "PWRSTAT",  .addr = A_PWRSTAT,
-> +        .ro = 0x3000f,
-> +    }
-> +};
-> +
-> +static void zynqmp_apu_reset_enter(Object *obj, ResetType type)
-> +{
-> +    XlnxZynqMPAPUCtrl *s = XLNX_ZYNQMP_APU(obj);
-> +    int i;
-> +
-> +    for (i = 0; i < APU_R_MAX; ++i) {
-> +        register_reset(&s->regs_info[i]);
+> +        object_property_set_link(OBJECT(&s->apu_ctrl), name,
+> +                                 OBJECT(&s->apu_cpu[i]), &error_abort);
 > +    }
 > +
-> +    s->cpu_pwrdwn_req = 0;
-> +    s->cpu_in_wfi = 0;
+> +    sysbus_realize(sbd, &error_fatal);
+> +    sysbus_mmio_map(sbd, 0, APU_ADDR);
+> +    sysbus_connect_irq(sbd, 0, gic[APU_IRQ]);
 > +}
 > +
-> +static void zynqmp_apu_reset_hold(Object *obj)
-> +{
-> +    XlnxZynqMPAPUCtrl *s = XLNX_ZYNQMP_APU(obj);
-> +
-> +    update_wfi_out(s);
-> +    imr_update_irq(s);
-> +}
-> +
-> +static const MemoryRegionOps zynqmp_apu_ops = {
-> +    .read = register_read_memory,
-> +    .write = register_write_memory,
-> +    .endianness = DEVICE_LITTLE_ENDIAN,
-> +    .valid = {
-> +        .min_access_size = 4,
-> +        .max_access_size = 4,
-> +    }
-> +};
-> +
-> +static void zynqmp_apu_handle_wfi(void *opaque, int irq, int level)
-> +{
-> +    XlnxZynqMPAPUCtrl *s = XLNX_ZYNQMP_APU(opaque);
-> +
-> +    s->cpu_in_wfi = deposit32(s->cpu_in_wfi, irq, 1, level);
-> +    update_wfi_out(s);
-> +}
-> +
-> +static void zynqmp_apu_init(Object *obj)
-> +{
-> +    XlnxZynqMPAPUCtrl *s = XLNX_ZYNQMP_APU(obj);
-> +    int i;
-> +
-> +    s->reg_array =
-> +        register_init_block32(DEVICE(obj), zynqmp_apu_regs_info,
-> +                              ARRAY_SIZE(zynqmp_apu_regs_info),
-> +                              s->regs_info, s->regs,
-> +                              &zynqmp_apu_ops,
-> +                              XILINX_ZYNQMP_APU_ERR_DEBUG,
-> +                              APU_R_MAX * 4);
-> +    sysbus_init_mmio(SYS_BUS_DEVICE(obj), &s->reg_array->mem);
-> +    sysbus_init_irq(SYS_BUS_DEVICE(obj), &s->irq_imr);
-> +
-> +    for (i = 0; i < APU_MAX_CPU; ++i) {
-> +        g_autofree gchar *prop_name = g_strdup_printf("cpu%d", i);
-> +        object_property_add_link(obj, prop_name, TYPE_ARM_CPU,
-> +                                 (Object **)&s->cpus[i],
-> +                                 qdev_prop_allow_set_link_before_realize,
-> +                                 OBJ_PROP_LINK_STRONG);
-> +    }
-> +
-> +    /* wfi_out is used to connect to PMU GPIs. */
-> +    qdev_init_gpio_out_named(DEVICE(obj), s->wfi_out, "wfi_out", 4);
-> +    /* CPU_POWER_STATUS is used to connect to INTC redirect. */
-> +    qdev_init_gpio_out_named(DEVICE(obj), s->cpu_power_status,
-> +                             "CPU_POWER_STATUS", 4);
-> +    /* wfi_in is used as input from CPUs as wfi request. */
-> +    qdev_init_gpio_in_named(DEVICE(obj), zynqmp_apu_handle_wfi, "wfi_in", 4);
-> +}
-> +
-> +static void zynqmp_apu_finalize(Object *obj)
-> +{
-> +    XlnxZynqMPAPUCtrl *s = XLNX_ZYNQMP_APU(obj);
-> +    register_finalize_block(s->reg_array);
-> +}
-> +
-> +static const VMStateDescription vmstate_zynqmp_apu = {
-> +    .name = TYPE_XLNX_ZYNQMP_APU_CTRL,
-> +    .version_id = 1,
-> +    .minimum_version_id = 1,
-> +    .minimum_version_id_old = 1,
-> +    .fields = (VMStateField[]) {
-> +        VMSTATE_UINT32_ARRAY(regs, XlnxZynqMPAPUCtrl, APU_R_MAX),
-> +        VMSTATE_END_OF_LIST(),
-> +    }
-> +};
-> +
-> +static void zynqmp_apu_class_init(ObjectClass *klass, void *data)
-> +{
-> +    ResettableClass *rc = RESETTABLE_CLASS(klass);
-> +    DeviceClass *dc = DEVICE_CLASS(klass);
-> +
-> +    dc->vmsd = &vmstate_zynqmp_apu;
-> +
-> +    rc->phases.enter = zynqmp_apu_reset_enter;
-> +    rc->phases.hold = zynqmp_apu_reset_hold;
-> +}
-> +
-> +static const TypeInfo zynqmp_apu_info = {
-> +    .name              = TYPE_XLNX_ZYNQMP_APU_CTRL,
-> +    .parent            = TYPE_SYS_BUS_DEVICE,
-> +    .instance_size     = sizeof(XlnxZynqMPAPUCtrl),
-> +    .class_init        = zynqmp_apu_class_init,
-> +    .instance_init     = zynqmp_apu_init,
-> +    .instance_finalize = zynqmp_apu_finalize,
-> +};
-> +
-> +static void zynqmp_apu_register_types(void)
-> +{
-> +    type_register_static(&zynqmp_apu_info);
-> +}
-> +
-> +type_init(zynqmp_apu_register_types)
-> diff --git a/hw/misc/meson.build b/hw/misc/meson.build
-> index 1927f13a5e..cf9d4cc618 100644
-> --- a/hw/misc/meson.build
-> +++ b/hw/misc/meson.build
-> @@ -85,6 +85,7 @@ softmmu_ss.add(when: 'CONFIG_RASPI', if_true: files(
->  softmmu_ss.add(when: 'CONFIG_SLAVIO', if_true: files('slavio_misc.c'))
->  softmmu_ss.add(when: 'CONFIG_ZYNQ', if_true: files('zynq_slcr.c'))
->  specific_ss.add(when: 'CONFIG_XLNX_ZYNQMP_ARM', if_true: files('xlnx-zynqmp-crf.c'))
-> +specific_ss.add(when: 'CONFIG_XLNX_ZYNQMP_ARM', if_true: files('xlnx-zynqmp-apu-ctrl.c'))
->  softmmu_ss.add(when: 'CONFIG_XLNX_VERSAL', if_true: files(
->    'xlnx-versal-xramc.c',
->    'xlnx-versal-pmc-iou-slcr.c',
+>  static void xlnx_zynqmp_create_crf(XlnxZynqMPState *s, qemu_irq *gic)
+>  {
+>      SysBusDevice *sbd;
+> @@ -302,7 +323,6 @@ static void xlnx_zynqmp_create_unimp_mmio(XlnxZynqMPState *s)
+>          hwaddr base;
+>          hwaddr size;
+>      } unimp_areas[ARRAY_SIZE(s->mr_unimp)] = {
+> -        { .name = "apu", APU_ADDR, APU_SIZE },
+>          { .name = "serdes", SERDES_ADDR, SERDES_SIZE },
+>      };
+>      unsigned int nr;
+> @@ -698,6 +718,7 @@ static void xlnx_zynqmp_realize(DeviceState *dev, Error **errp)
+>  
+>      xlnx_zynqmp_create_bbram(s, gic_spi);
+>      xlnx_zynqmp_create_efuse(s, gic_spi);
+> +    xlnx_zynqmp_create_apu_ctrl(s, gic_spi);
+>      xlnx_zynqmp_create_crf(s, gic_spi);
+>      xlnx_zynqmp_create_unimp_mmio(s);
+>  
 > -- 
 > 2.25.1
 > 
