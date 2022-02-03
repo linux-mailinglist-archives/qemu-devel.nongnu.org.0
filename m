@@ -2,92 +2,98 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34A214A890C
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Feb 2022 17:49:41 +0100 (CET)
-Received: from localhost ([::1]:44870 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 11DD54A8922
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Feb 2022 17:57:03 +0100 (CET)
+Received: from localhost ([::1]:57568 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nFfIi-0002pG-A8
-	for lists+qemu-devel@lfdr.de; Thu, 03 Feb 2022 11:49:40 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:43384)
+	id 1nFfPp-00039O-Tx
+	for lists+qemu-devel@lfdr.de; Thu, 03 Feb 2022 11:57:01 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:43614)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nFfEW-00085u-18
- for qemu-devel@nongnu.org; Thu, 03 Feb 2022 11:45:29 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:52177)
+ (Exim 4.90_1) (envelope-from <pasic@linux.ibm.com>)
+ id 1nFfFQ-0000BG-Ca
+ for qemu-devel@nongnu.org; Thu, 03 Feb 2022 11:46:16 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:56580
+ helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nFfEQ-0005Wb-NU
- for qemu-devel@nongnu.org; Thu, 03 Feb 2022 11:45:18 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1643906713;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=O/pw3S2KAenX3LpFVwMowXa+xj/0sUqvcRqGDYvYnTY=;
- b=WL7dSAuChIMNKmEN/vdcZrtD56bWUb/9HbOoyom614TVoJe+z+oGVU4Ok6EXgvXsxhHoMc
- YaBJovOxLbG/qcffsEhGhqKo0/X3OpiFYKmYh/ol1Y4+cjkyo52IeshSCdmwJvPgTJyN2/
- MQM2CfMMsyr/pHsp/sOQxGqP4ElyiZA=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-483-ZOz_5pzVNF2Z8a-CuFFtUQ-1; Thu, 03 Feb 2022 11:45:12 -0500
-X-MC-Unique: ZOz_5pzVNF2Z8a-CuFFtUQ-1
-Received: by mail-ed1-f71.google.com with SMTP id
- w23-20020a50d797000000b00406d33c039dso1753651edi.11
- for <qemu-devel@nongnu.org>; Thu, 03 Feb 2022 08:45:12 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=O/pw3S2KAenX3LpFVwMowXa+xj/0sUqvcRqGDYvYnTY=;
- b=AAfTC3bYFbH6/kwej+JmBPrNkfWoKEzqvPNCkR2ixxKr45Ijf3OE6LF7JNUJy5A9r0
- nlYnOmelcvDSOkjv5UhPt58PaMcTOiua3YN9yaSCZVVtY8hHe/E0BOr2QCsLX6an1q25
- PKg0d3N22eR8ro63dskMNLISpbThXMXkOOhTINBpUqVAR6j+EUaFGzL6OhDO5vxju9CD
- ud65aSnf3L6jMnB7YFNkIltkIUIefuezQBPSndCTPRYWE5dym81M+LMVbpf7umLbBrpA
- nTqk32jFnJBxEHKMTl53nI2hVlQK/ZCLuhzh66KUWy5WLsXJPsmdZt/E8kvyebd4fBmp
- 6GIQ==
-X-Gm-Message-State: AOAM533F15BW78gIp2djbrcAdZSZ5cl7olHo72qCmCJcKMqN3ycPxExz
- RdEyytx3Aebb96W4ixbe5ABLcMVnwn3tqXKnniY6yMMMv4ko5jpbzwOk4smmelhKh7ZHH0bdjdg
- s+CVG0DmGyud3TsU=
-X-Received: by 2002:aa7:cc09:: with SMTP id q9mr35965551edt.101.1643906711404; 
- Thu, 03 Feb 2022 08:45:11 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJx2Ik2ppnbyJWv0CLRkhQUPS1Hixkf49sczeZO551hwy/P9Wl1hwdFov+SBxuNpb6Xbog4igQ==
-X-Received: by 2002:aa7:cc09:: with SMTP id q9mr35965538edt.101.1643906711176; 
- Thu, 03 Feb 2022 08:45:11 -0800 (PST)
-Received: from ?IPV6:2a02:8071:5055:3f20:7ad9:a400:6d51:83e6?
- ([2a02:8071:5055:3f20:7ad9:a400:6d51:83e6])
- by smtp.gmail.com with ESMTPSA id k7sm16868259ejp.182.2022.02.03.08.45.10
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 03 Feb 2022 08:45:10 -0800 (PST)
-Message-ID: <1a3fc51d-ac2c-9c97-cb8c-673183ed2291@redhat.com>
-Date: Thu, 3 Feb 2022 17:45:10 +0100
+ (Exim 4.90_1) (envelope-from <pasic@linux.ibm.com>)
+ id 1nFfFO-0005bc-4l
+ for qemu-devel@nongnu.org; Thu, 03 Feb 2022 11:46:16 -0500
+Received: from pps.filterd (m0098416.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 213GVupJ023608; 
+ Thu, 3 Feb 2022 16:46:09 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=from : to : cc : subject
+ : date : message-id : content-transfer-encoding : mime-version; s=pp1;
+ bh=MMl/FEsTK4LiCk+zSAuIxooBG2YOqQt2JVUUdgbants=;
+ b=q1p6IEORuavTekbwwlJuNJIcWO/eq6b5b8mKRr6gQ/wDYvzdx+I3mESpIvyT8iuUaXuT
+ lgPuKh1AVyzWL1tSJZM7ii2k8kioR4WSlMNU/RnzYS06aWK9mwAzQXPybzQitjD3lUyT
+ Vo7K22CMubmYhYa/GBS3t2wJLWugVS/0fOWHvQ+npS5p13OYHVwmOJT8QZryluRLvHHA
+ w6KjwLDEpvViS3F7dQw4n3LOgDWPW+RHqs4uTnmGH9jTeqQQa9/jvourI3RxMEgs2MR8
+ nlEHm6ACAJTB+JLksK4ddHhU6VkJfglqwL+b0jHms0t8+l0M2uF7qY+6f3SDJzzT7hz6 8Q== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 3e0g16vq17-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 03 Feb 2022 16:46:08 +0000
+Received: from m0098416.ppops.net (m0098416.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 213FGkgn020483;
+ Thu, 3 Feb 2022 16:46:08 GMT
+Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.102])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 3e0g16vq0c-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 03 Feb 2022 16:46:08 +0000
+Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
+ by ppma06ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 213Gd2ST003364;
+ Thu, 3 Feb 2022 16:46:06 GMT
+Received: from b06cxnps4076.portsmouth.uk.ibm.com
+ (d06relay13.portsmouth.uk.ibm.com [9.149.109.198])
+ by ppma06ams.nl.ibm.com with ESMTP id 3dvvuk06hr-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 03 Feb 2022 16:46:06 +0000
+Received: from d06av21.portsmouth.uk.ibm.com (d06av21.portsmouth.uk.ibm.com
+ [9.149.105.232])
+ by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 213Gk4pf38207836
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 3 Feb 2022 16:46:04 GMT
+Received: from d06av21.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 67CA35204E;
+ Thu,  3 Feb 2022 16:46:04 +0000 (GMT)
+Received: from tuxmaker.boeblingen.de.ibm.com (unknown [9.152.85.9])
+ by d06av21.portsmouth.uk.ibm.com (Postfix) with ESMTP id 25A3E52059;
+ Thu,  3 Feb 2022 16:46:04 +0000 (GMT)
+From: Halil Pasic <pasic@linux.ibm.com>
+To: "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org
+Subject: [RFC PATCH 1/1] virtio: fix feature negotiation for ACCESS_PLATFORM
+Date: Thu,  3 Feb 2022 17:45:56 +0100
+Message-Id: <20220203164556.2666565-1-pasic@linux.ibm.com>
+X-Mailer: git-send-email 2.32.0
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: 9RN0Oz1qPcBwZqo17yetPcIrn59OhXgi
+X-Proofpoint-ORIG-GUID: KcoYoyvHoI12nYbd0Q1mE0w43vXdOxN5
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH 2/2] iotests: Test blockdev-reopen with iothreads and
- throttling
-To: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org
-References: <20220203140534.36522-1-kwolf@redhat.com>
- <20220203140534.36522-3-kwolf@redhat.com>
-From: Hanna Reitz <hreitz@redhat.com>
-In-Reply-To: <20220203140534.36522-3-kwolf@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=hreitz@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.816,Hydra:6.0.425,FMLib:17.11.62.513
+ definitions=2022-02-03_05,2022-02-03_01,2021-12-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0 mlxscore=0
+ lowpriorityscore=0 malwarescore=0 spamscore=0 suspectscore=0 adultscore=0
+ mlxlogscore=999 clxscore=1015 phishscore=0 bulkscore=0 priorityscore=1501
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2201110000
+ definitions=main-2202030100
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=pasic@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.086,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H5=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -100,23 +106,94 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: vsementsov@virtuozzo.com, qinwang@redhat.com, qemu-devel@nongnu.org
+Cc: Halil Pasic <pasic@linux.ibm.com>,
+ Daniel Henrique Barboza <danielhb413@gmail.com>,
+ Jason Wang <jasowang@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
+ Brijesh Singh <brijesh.singh@amd.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 03.02.22 15:05, Kevin Wolf wrote:
-> The 'throttle' block driver implements .bdrv_co_drain_end, so
-> blockdev-reopen will have to wait for it to complete in the polling
-> loop at the end of qmp_blockdev_reopen(). This makes AIO_WAIT_WHILE()
-> release the AioContext lock, which causes a crash if the lock hasn't
-> correctly been taken.
->
-> Signed-off-by: Kevin Wolf <kwolf@redhat.com>
-> ---
->   tests/qemu-iotests/245     | 36 +++++++++++++++++++++++++++++++++---
->   tests/qemu-iotests/245.out |  4 ++--
->   2 files changed, 35 insertions(+), 5 deletions(-)
+Unlike most virtio features ACCESS_PATFORM is considered mandatory, i.e.
+the driver must accept it if offered by the device. The virtio
+specification says that the driver SHOULD accept the ACCESS_PLATFORM
+feature if offered, and that the device MAY fail to operate if
+ACCESS_PLATFORM was offered but not negotiated.
 
-Reviewed-by: Hanna Reitz <hreitz@redhat.com>
+While a SHOULD ain't exactly a MUST, we are certainly allowed to fail
+the device when the driver fences ACCESS_PLATFORM. With commit
+2943b53f68 ("virtio: force VIRTIO_F_IOMMU_PLATFORM") we already made the
+decision to do so whenever the get_dma_as() callback is implemented (by
+the bus), which in practice means for the entirety of virtio-pci.
+
+That means, if the device needs to translate I/O addresses, then
+ACCESS_PLATFORM is mandatory. The aforementioned commit tells us
+in the commit message that this is for security reasons.
+
+If ACCESS_PLATFORM is offered not we want the device to utilize an
+IOMMU and do address translation, but because the device does not have
+access to the entire guest RAM, and needs the driver to grant access
+to the bits it needs access to (e.g. confidential guest support), we
+still require the guest to have the corresponding logic and to accept
+ACCESS_PLATFORM. If the driver does not accept ACCESS_PLATFORM, then
+things are bound to go wrong, and we may see failures much less graceful
+than failing the device because the driver didn't negotiate
+ACCESS_PLATFORM.
+
+So let us make ACCESS_PLATFORM mandatory for the driver regardless
+of whether the get_dma_as() callback is implemented or not.
+
+Signed-off-by: Halil Pasic <pasic@linux.ibm.com>
+Fixes: 2943b53f68 ("virtio: force VIRTIO_F_IOMMU_PLATFORM")
+
+---
+This patch is based on:
+https://www.mail-archive.com/qemu-devel@nongnu.org/msg866199.html
+
+During the review of "virtio: fix the condition for iommu_platform not
+supported" Daniel raised the question why do we "force IOMMU_PLATFORM"
+iff has_iommu && !!klass->get_dma_as. My answer to that was, that
+this logic ain't right.
+
+While at it I used the opportunity to re-organize the code a little
+and provide an explanatory comment.
+---
+ hw/virtio/virtio-bus.c | 17 ++++++++++-------
+ 1 file changed, 10 insertions(+), 7 deletions(-)
+
+diff --git a/hw/virtio/virtio-bus.c b/hw/virtio/virtio-bus.c
+index fbf0dd14b8..359430eb1c 100644
+--- a/hw/virtio/virtio-bus.c
++++ b/hw/virtio/virtio-bus.c
+@@ -78,16 +78,19 @@ void virtio_bus_device_plugged(VirtIODevice *vdev, Error **errp)
+         return;
+     }
+ 
+-    vdev_has_iommu = virtio_host_has_feature(vdev, VIRTIO_F_IOMMU_PLATFORM);
+-    if (klass->get_dma_as != NULL && has_iommu) {
++    vdev->dma_as = &address_space_memory;
++    if (has_iommu) {
++        vdev_has_iommu = virtio_host_has_feature(vdev, VIRTIO_F_IOMMU_PLATFORM);
++        /* Fail FEATURE_OK if the device tries to drop IOMMU_PLATFORM */
+         virtio_add_feature(&vdev->host_features, VIRTIO_F_IOMMU_PLATFORM);
+-        vdev->dma_as = klass->get_dma_as(qbus->parent);
+-        if (!vdev_has_iommu && vdev->dma_as != &address_space_memory) {
+-            error_setg(errp,
++        if (klass->get_dma_as) {
++            vdev->dma_as = klass->get_dma_as(qbus->parent);
++            if (!vdev_has_iommu && vdev->dma_as != &address_space_memory) {
++                error_setg(errp,
+                        "iommu_platform=true is not supported by the device");
++                return;
++            }
+         }
+-    } else {
+-        vdev->dma_as = &address_space_memory;
+     }
+ }
+ 
+
+base-commit: da89f242b4b774a25eaa16be125cf3e17299c127
+-- 
+2.32.0
 
 
