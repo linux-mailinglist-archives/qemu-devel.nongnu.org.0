@@ -2,85 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C7A04A82BD
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Feb 2022 11:53:08 +0100 (CET)
-Received: from localhost ([::1]:47336 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 95B394A82C9
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Feb 2022 11:58:49 +0100 (CET)
+Received: from localhost ([::1]:58962 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nFZjf-0002WQ-Ar
-	for lists+qemu-devel@lfdr.de; Thu, 03 Feb 2022 05:53:07 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:36002)
+	id 1nFZpA-00023v-OB
+	for lists+qemu-devel@lfdr.de; Thu, 03 Feb 2022 05:58:48 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:36090)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nFZi6-0000Ov-KW
- for qemu-devel@nongnu.org; Thu, 03 Feb 2022 05:51:30 -0500
-Received: from [2a00:1450:4864:20::330] (port=44863
- helo=mail-wm1-x330.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nFZhy-0005wx-SF
- for qemu-devel@nongnu.org; Thu, 03 Feb 2022 05:51:30 -0500
-Received: by mail-wm1-x330.google.com with SMTP id
- l35-20020a05600c1d2300b0034d477271c1so1513295wms.3
- for <qemu-devel@nongnu.org>; Thu, 03 Feb 2022 02:51:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=ELhWGSKbrI6B3I5WUff+QzhoQgFikpvy3Rhw2Cysrgo=;
- b=maCj2vb8RJPSouhTMVScQK/essegr99cBNEGEMsk/9EBfvRUFy5tuxWZF7VfZXFtOh
- mLd+Lb/Cs/j5R0muZ6+lS8CqFjZGEz4shSCi7aDJYXEZGrcqo6JXyscorSyRQDf5HWob
- 1DLc8kwjUJ1iZB4oePzaXagXOnOgJ4C6oop0vHbrwOCGPl+bXdqOHqXdHwHX2iyOoS3z
- x0oRossjnDQrxrHprL5JVYFEgJL1rbX3hmXU/wqUP6PxlmSijeTeqGB3RqoIgUD7tTcS
- eWcggtrLi4RiFpVZUm5jw39zAUFXQSmAvZ74dDJWJGv49tLAveJYoBR1SWdFk9VP4GsV
- 85+w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=ELhWGSKbrI6B3I5WUff+QzhoQgFikpvy3Rhw2Cysrgo=;
- b=ZGGShVEphoVI9NiKToR41sFpqBUsN3kY/+i3m7x6LMcehq4ElDS8bcNgMTno/8t2oz
- OD9R1lzALoQzmNpq3nz3ZapGNb98LhYQtXbER1dVekwhKpQJCqfGdFYe3UAQVuJAonZa
- zJbyjWf2FxK+TVHIP1dktU6yBLSyfe5/zsXXn/8JSu5VppkHj86HPQ3XSJs5ry1qFgnO
- mxe1E1d95ayxMt3pgNjuMwoWWZd68go30fsbT4r49EjWAoNfu1kRyQWjd9U2pn6Nq41D
- 9EWy72Oymx8hNd17xDodqwTnBIHr7upG63MqNTgC6+3eTUQrFDT57853GYiKJbOTnjAv
- bwtw==
-X-Gm-Message-State: AOAM530aKopRMDcbnmU2bQp16JSXYe/QLoAGDXUTu/1uu15Xf9BnadYG
- UC4mJcaWW3nW2pBjjw60KnIvug==
-X-Google-Smtp-Source: ABdhPJzlpxc/qwXXbhHncDpRDCmvVuH3WNOmBDi11X4/CfM3Mwyq+swb3LfIlMcgjIyLwg1iqR/c/A==
-X-Received: by 2002:a05:600c:3d8c:: with SMTP id
- bi12mr9824881wmb.109.1643885474599; 
- Thu, 03 Feb 2022 02:51:14 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id g6sm19092392wrq.97.2022.02.03.02.51.12
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 03 Feb 2022 02:51:12 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id B93A71FFB7;
- Thu,  3 Feb 2022 10:51:11 +0000 (GMT)
-References: <20211218194250.247633-1-richard.henderson@linaro.org>
- <20211218194250.247633-21-richard.henderson@linaro.org>
-User-agent: mu4e 1.7.6; emacs 28.0.91
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Richard Henderson <richard.henderson@linaro.org>
-Subject: Re: [PATCH 20/20] tcg/i386: Implement bitsel for avx512
-Date: Thu, 03 Feb 2022 10:51:06 +0000
-In-reply-to: <20211218194250.247633-21-richard.henderson@linaro.org>
-Message-ID: <87h79gte8w.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1nFZiM-0000wP-55
+ for qemu-devel@nongnu.org; Thu, 03 Feb 2022 05:51:46 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:58909)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1nFZiJ-0005yy-O4
+ for qemu-devel@nongnu.org; Thu, 03 Feb 2022 05:51:44 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1643885502;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=9q3m67X3wlhlfhxrtP+2LHiDiV1HbEf4+0+6wprYdhI=;
+ b=EiQQ4IgKtNOG4Qc3y8ovS4LkA9xK90tD4x4cF2Ts52pStlofgB9/lHPnvUUj0z6LNZXzZR
+ 0dfP3XMmw+xrrIWmQqnqJLw3cmZj+6RSyu4wzeyGX7OiNomu50eFpn9LHW55wY0EQNQE8c
+ B7ahO8Sv1Sha9YcObStiT8GX1USfkNk=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-539-8McFf7eENmCdaucJyRvJXg-1; Thu, 03 Feb 2022 05:51:41 -0500
+X-MC-Unique: 8McFf7eENmCdaucJyRvJXg-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 85177874982
+ for <qemu-devel@nongnu.org>; Thu,  3 Feb 2022 10:51:40 +0000 (UTC)
+Received: from localhost.localdomain.com (unknown [10.39.192.25])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 711B3108B7;
+ Thu,  3 Feb 2022 10:51:39 +0000 (UTC)
+From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] MAINTAINERS: take over seccomp from Eduardo Otubo
+Date: Thu,  3 Feb 2022 10:51:18 +0000
+Message-Id: <20220203105118.520687-1-berrange@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::330
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::330;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x330.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.086,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,21 +76,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: Eduardo Otubo <otubo@redhat.com>,
+ =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Eduardo has indicated that he no longer has time to be involved in
+a QEMU aintainership role. As one of the more frequent contributors
+of patches and design ideas to seccomp, I'll take over.
 
-Richard Henderson <richard.henderson@linaro.org> writes:
+Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+---
+ MAINTAINERS | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-> The general ternary logic operation can implement BITSEL.
-> Funnel the 4-operand operation into three variants of the
-> 3-operand instruction, depending on input operand overlap.
->
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+diff --git a/MAINTAINERS b/MAINTAINERS
+index bdb55924f4..2b0b400709 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -2973,8 +2973,8 @@ F: docs/sphinx/fakedbusdoc.py
+ F: tests/qtest/dbus*
+ 
+ Seccomp
+-M: Eduardo Otubo <otubo@redhat.com>
+-S: Supported
++M: Daniel P. Berrange <berrange@redhat.com>
++S: Odd Fixes
+ F: softmmu/qemu-seccomp.c
+ F: include/sysemu/seccomp.h
+ F: tests/unit/test-seccomp.c
+-- 
+2.34.1
 
-Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-
---=20
-Alex Benn=C3=A9e
 
