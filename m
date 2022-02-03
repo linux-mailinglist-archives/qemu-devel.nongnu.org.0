@@ -2,87 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C5E74A7DE5
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Feb 2022 03:26:07 +0100 (CET)
-Received: from localhost ([::1]:35292 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1EE374A7DE7
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Feb 2022 03:28:06 +0100 (CET)
+Received: from localhost ([::1]:38684 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nFRoz-0002mp-Mk
-	for lists+qemu-devel@lfdr.de; Wed, 02 Feb 2022 21:26:05 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:48694)
+	id 1nFRqv-0005an-8E
+	for lists+qemu-devel@lfdr.de; Wed, 02 Feb 2022 21:28:05 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:48862)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nFRmW-0001A3-0M
- for qemu-devel@nongnu.org; Wed, 02 Feb 2022 21:23:32 -0500
-Received: from [2607:f8b0:4864:20::62e] (port=43603
- helo=mail-pl1-x62e.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nFRmR-0000OU-Ma
- for qemu-devel@nongnu.org; Wed, 02 Feb 2022 21:23:31 -0500
-Received: by mail-pl1-x62e.google.com with SMTP id d1so911204plh.10
- for <qemu-devel@nongnu.org>; Wed, 02 Feb 2022 18:23:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=tIofPPFKxe5KjVvoF9VUePFaya6n4ldKVA9gyauPOAw=;
- b=GkzxAmxQjs4BFwJfQYqxGhyZcfYsK3mMnUQjYahziyTmxLqTLZsKt4dO53yjk4Ftzx
- PiJjC0bVUaiJsHASJf7GWuuXHB+3zEwlBxTgc3SScbNBYFaLBJfosth1gVYdlj61g6ik
- UMv0tthUoCXI+75SdQKX70iowvnNj2xCUYxYrfTGbxP1qgFuUzpvejmqb6ZZEq5MscIH
- J0fe6igDP+I+rIHnyllbWm0USgmLUT7ttVemblgJUmmN/jX3f84dqCPbq8z033NFnEA/
- ONWyEgSGs3FcbeFmrp5wTbBm7z+0+2MN7Y9J8XnlK89YVogbyb2RS+SuMxo4kFq0dNdW
- uUkw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=tIofPPFKxe5KjVvoF9VUePFaya6n4ldKVA9gyauPOAw=;
- b=vcoKEfcheuP95MrHFIWmSiPsOtUnNeAheL/GPF79CDhbcFEZ7UITaryt2733GQHI9I
- 1avmmZkzkB0nFkSO+dcvZGUmddASMZ0gAjzgu7wV2dbDJ7L9V4mnK8+pUEObJE5aOCuK
- Sp9p24ebwOhP9Hwd81/EeRGH17Wy3Mg0IBatrzfObxgBipCf03yBdB7+e5QfYZymJq/X
- Ml77qU8MMELWs/HNWU0u8voNhfD7DN+PB5UZqYyHjOoRanAXe2ISvR+GjqJDJ1qzCDCM
- sHTpjzxap99fC5UaDN7/aF+Z17xZa5dZOVKgBwVXfDcLfipEr3ZgeDgGVKRxT9JSqnI+
- GKfg==
-X-Gm-Message-State: AOAM532tALEMIQGfLtKmh9lrf47/86Q0KoHUp6tqStOF6tq7Gl8G4XX6
- cvUXGSfnI02fYc4bSRWvO+9ktg==
-X-Google-Smtp-Source: ABdhPJwZ0O0Hs7ESKHYCi44AMYSTFUZEB1Tp6Kn4j5yU0Y6vOai7vte5ni10yrH5vd00d/VX0OjB/w==
-X-Received: by 2002:a17:902:8c92:: with SMTP id
- t18mr7404042plo.11.1643855005646; 
- Wed, 02 Feb 2022 18:23:25 -0800 (PST)
-Received: from ?IPV6:2001:8003:3a49:fd00:801:72a7:386c:deca?
- ([2001:8003:3a49:fd00:801:72a7:386c:deca])
- by smtp.gmail.com with ESMTPSA id pc4sm8954145pjb.3.2022.02.02.18.23.22
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 02 Feb 2022 18:23:25 -0800 (PST)
-Message-ID: <4d102117-f62c-825d-e686-d5b3331078c2@linaro.org>
-Date: Thu, 3 Feb 2022 13:23:19 +1100
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nFRnc-0002mu-32
+ for qemu-devel@nongnu.org; Wed, 02 Feb 2022 21:24:40 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:29427)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nFRnZ-0000VQ-MO
+ for qemu-devel@nongnu.org; Wed, 02 Feb 2022 21:24:39 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1643855077;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=iIsejDdvuZ0ElTL2aDuIfP/ECnk1AUfXdYU5uf0AMMs=;
+ b=fk54Hz8g9RdHK1I2liT9wlue8N7JidPLpjOu4PDyMu31FP+Ro7PykyGO2aZg3KCkLbWZYR
+ yQ4RDtxRxyi3MAdEpB/4lK37/X5pabhoxeAzQL8nA1pVJBvXWMFftp5WYCw86QdcWJIYOf
+ trNHGatNVADZY2OB8AY6bu5kZtUYBXM=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-107-7ZJKsYZiNIW9JpB6ps3gpg-1; Wed, 02 Feb 2022 21:24:34 -0500
+X-MC-Unique: 7ZJKsYZiNIW9JpB6ps3gpg-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E5CE11091DB4;
+ Thu,  3 Feb 2022 02:24:32 +0000 (UTC)
+Received: from scv.redhat.com (unknown [10.22.16.25])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 768CE9A318;
+ Thu,  3 Feb 2022 02:24:06 +0000 (UTC)
+From: John Snow <jsnow@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 0/4] iotests: finalize switch to async QMP
+Date: Wed,  2 Feb 2022 21:24:01 -0500
+Message-Id: <20220203022405.1336635-1-jsnow@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH 02/13] hw/intc/arm_gicv3_its: Keep DTEs as a struct, not a
- raw uint64_t
-Content-Language: en-US
-To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
- qemu-devel@nongnu.org
-References: <20220201193207.2771604-1-peter.maydell@linaro.org>
- <20220201193207.2771604-3-peter.maydell@linaro.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220201193207.2771604-3-peter.maydell@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::62e
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62e;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62e.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=jsnow@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.086,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,32 +74,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Shashi Mallela <shashi.mallela@linaro.org>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+Cc: Kevin Wolf <kwolf@redhat.com>, Eduardo Habkost <eduardo@habkost.net>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-block@nongnu.org,
+ Hanna Reitz <hreitz@redhat.com>, Cleber Rosa <crosa@redhat.com>,
+ John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/2/22 06:31, Peter Maydell wrote:
-> In the ITS, a DTE is an entry in the device table, which contains
-> multiple fields. Currently the function get_dte() which reads one
-> entry from the device table returns it as a raw 64-bit integer,
-> which we then pass around in that form, only extracting fields
-> from it as we need them.
-> 
-> Create a real C struct with the same fields as the DTE, and
-> populate it in get_dte(), so that that function and update_dte()
-> are the only ones that need to care about the in-guest-memory
-> format of the DTE.
-> 
-> Signed-off-by: Peter Maydell<peter.maydell@linaro.org>
-> ---
-> This isn't a massive gain for the DTE, though I do think it
-> looks a bit nicer. The real benefit is in aligning all the
-> get_{cte,dte,ite} functions to have the same shaped API:
-> currently get_ite() is different from all the rest.
-> ---
+Based-on: <20220203015946.1330386-1-jsnow@redhat.com>=0D
+          [PULL 0/4] Python patches=0D
+GitLab: https://gitlab.com/jsnow/qemu/-/commits/python-qmp-legacy-switch-pt=
+1b=0D
+=0D
+This tiny series is a spiritual v4 to:=0D
+"[PATCH v3 00/31] Python: delete synchronous qemu.qmp package".=0D
+=0D
+I've isolated just the bits that touch iotests, and that's these four=0D
+patches. If this series is approved, I'll send the series that renames=0D
+"qemu.aqmp" to "qemu.qmp" separately. That series has a lot of churn,=0D
+but it doesn't meaningfully alter anything -- so I'll avoid cluttering=0D
+up qemu-block list with those.=0D
+=0D
+(Just be aware that I plan to finalize the switch soon!)=0D
+=0D
+John Snow (4):=0D
+  python/machine: permanently switch to AQMP=0D
+  scripts/bench-block-job: switch to AQMP=0D
+  iotests/mirror-top-perms: switch to AQMP=0D
+  iotests: switch to AQMP=0D
+=0D
+ python/qemu/machine/machine.py            | 18 +++++++-----------=0D
+ python/qemu/machine/qtest.py              |  2 +-=0D
+ scripts/simplebench/bench_block_job.py    |  3 +--=0D
+ tests/qemu-iotests/iotests.py             |  2 +-=0D
+ tests/qemu-iotests/tests/mirror-top-perms |  9 +++------=0D
+ 5 files changed, 13 insertions(+), 21 deletions(-)=0D
+=0D
+--=20=0D
+2.31.1=0D
+=0D
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-
-r~
 
