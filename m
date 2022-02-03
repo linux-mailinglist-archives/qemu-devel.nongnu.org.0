@@ -2,80 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 30C614A7E22
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Feb 2022 03:59:40 +0100 (CET)
-Received: from localhost ([::1]:35124 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5DBAD4A7E32
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Feb 2022 04:03:21 +0100 (CET)
+Received: from localhost ([::1]:38256 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nFSLS-0006sC-Op
-	for lists+qemu-devel@lfdr.de; Wed, 02 Feb 2022 21:59:38 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:53346)
+	id 1nFSP2-0000o1-85
+	for lists+qemu-devel@lfdr.de; Wed, 02 Feb 2022 22:03:20 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:53636)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nFSKB-0005zJ-UD
- for qemu-devel@nongnu.org; Wed, 02 Feb 2022 21:58:19 -0500
-Received: from [2607:f8b0:4864:20::1030] (port=40566
- helo=mail-pj1-x1030.google.com)
+ id 1nFSMc-0007hU-U8
+ for qemu-devel@nongnu.org; Wed, 02 Feb 2022 22:00:50 -0500
+Received: from [2607:f8b0:4864:20::42b] (port=38910
+ helo=mail-pf1-x42b.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nFSKA-0001d6-05
- for qemu-devel@nongnu.org; Wed, 02 Feb 2022 21:58:19 -0500
-Received: by mail-pj1-x1030.google.com with SMTP id
- z10-20020a17090acb0a00b001b520826011so8686418pjt.5
- for <qemu-devel@nongnu.org>; Wed, 02 Feb 2022 18:58:17 -0800 (PST)
+ id 1nFSMa-0002CD-AC
+ for qemu-devel@nongnu.org; Wed, 02 Feb 2022 22:00:50 -0500
+Received: by mail-pf1-x42b.google.com with SMTP id e28so1028291pfj.5
+ for <qemu-devel@nongnu.org>; Wed, 02 Feb 2022 19:00:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=OwMiNcFpEV9TQ18cpTwtoblYfWItwdN8HP6ecwJ3UBY=;
- b=PXHAOfN1bYQBdBKpPx16vywgyPQxyum4QCSmXGIIl8XaRFoqcSoJxAWZyMdc2WhGPX
- vfaT+36xeb1sW8/oEZFQyhtHHhH9IpXKzcGKx7fy/V/DKdtUKW+SSM67kwpteHLCPpQI
- lpZcCJasJ3LNGc97xjRcFHsTCUzvgabXO3SuoOounJpdUlLSsk1Wq290103iaBBghjn1
- QRMSAdRjvaCyOwyobQMx4jbpckES4vhZTeqMHwMXTCrz0Q0xg5a1WGHQBNJ/u49FI73G
- zCx3WHx1luTgrc2ysiI7MH7/NL2we1qlt20obsv87/ivUa4vzQID0IXifhKbHubkVm/a
- x9jA==
+ bh=pC5MO/b/XHy7CcW4lwsMv9vH0UZCr/PBAQ2khe6PfVQ=;
+ b=TnotnBObwfiT5zNtwiMTqjAdXiWFFc1luey1c3u2JQtmjudK2WWGEM+JDpnmR9OSGD
+ fWKu09sg3tIEzcXpYkLm7O7aXiORXvWA/sGRAPDoNW23bBdPrYX6ZEJT5qh0v06Oktm/
+ uuKPBh5MXYU0s5YDcDtlDzS2GzhVUEOrcuVjO/JM2TSteZIC0TLvrZtxXeGPfmEAL5lm
+ TVabNT4Ah5E+Enifj1tR4iHHxQMnTddM8eZcvAsjiuLfNZAMiMFRRNGkVbOqGxj7YrcL
+ Sz9SQKj1Xg2u6iEFIN454FXDJQDDR6npK/6WdCNru2G4yUOHSmBIKic8sPxV3ct28lX0
+ d/gA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=OwMiNcFpEV9TQ18cpTwtoblYfWItwdN8HP6ecwJ3UBY=;
- b=OGVJmYIfjWBem+o456083Ry0Se7Leko3pZ0zwrhpHhXai7hwKALdCCX/Ga0gtfL6Af
- Q7wAuwPhzMUM8YG+Alxp1mlhwrXNffRIJ4YksBZy8XhGbxcpt/HI7vCoYO3VudFp3hz3
- VzZRszWbdx3uq/q34JBIou2ULMNFACV+jJIWgGjUBwglds91Z6OdNuLWV9WagaQ0oOc5
- KaaEeMyB4s9zCl9Km7iP0LR/nzxY85+FNKsRQ3pu7mRARdZRThABuknvprfHaWJQPBMX
- 2vXIOd80D99yypS2TitiFl37gvWYTTSvyT30xHoZgx5vxgSXPdbIVdb0TOAyfuVyZg7a
- mTvg==
-X-Gm-Message-State: AOAM530w/8kWVVIc3Wa/Qkt0cF3BpWGKWQgkeIQ+LHbJ53RQ/nqHAIHX
- aMEfR4MJv6iq+TLiwI3kp3fpvQ==
-X-Google-Smtp-Source: ABdhPJwm/rLJsgReeusNU8lvOtCtpGbCXhiOVKkZ0xEWHpxFZwP51/Hu9KqNalk1K7rcUEm+TF16+A==
-X-Received: by 2002:a17:90a:df0e:: with SMTP id
- gp14mr11596392pjb.57.1643857096540; 
- Wed, 02 Feb 2022 18:58:16 -0800 (PST)
+ bh=pC5MO/b/XHy7CcW4lwsMv9vH0UZCr/PBAQ2khe6PfVQ=;
+ b=e0jC2mWXWYRQn328Y+oVr44+tvUtjIBbK0xqEddXpFh6bop6GOYZ4ZgaKv44RVZ8md
+ Y9KULZL6lLiSr8Iv/g5OzogcnYIJApeWGU6TAJTmyFG8AEI2uABIrNVDyQRqqSV1uzhJ
+ n1MdlyxIegi3LxJxeq1cCQLb+Y8dHkG/lTR/anxd/VPTcnmwz59oEWD4iqARbyh6DMdE
+ T1nB1XIdMEN7KG4KBh0Q9/miUNZoAXQ6YFgpg2PYe5DCRtOwFMGDE6lkaIVlRGfK8LUB
+ +q87gL6OY6B2UC+W6KsDA7OZfe8iO+Oli/g/McD1JE/4TTzRZZOJ46x9TTDYQVAkibCL
+ R5lQ==
+X-Gm-Message-State: AOAM531z6TVLPCnsVV9QKwSFaVtLtFb8lQJSLhWd8zl47uao2dJrm1TT
+ rglYZVfH7i2J9fn1H4TiT0jHBQ==
+X-Google-Smtp-Source: ABdhPJwJQesLBJdWBRk69+KJAAx3NCOAlm2lJdE8UrOrlFqWIewZRHGgUCQ/Ld4yLSGDXZIyUJ/IHw==
+X-Received: by 2002:a63:6a4a:: with SMTP id f71mr15522058pgc.252.1643857246476; 
+ Wed, 02 Feb 2022 19:00:46 -0800 (PST)
 Received: from ?IPV6:2001:8003:3a49:fd00:801:72a7:386c:deca?
  ([2001:8003:3a49:fd00:801:72a7:386c:deca])
- by smtp.gmail.com with ESMTPSA id na5sm8872752pjb.23.2022.02.02.18.58.13
+ by smtp.gmail.com with ESMTPSA id lb3sm8330399pjb.47.2022.02.02.19.00.44
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 02 Feb 2022 18:58:16 -0800 (PST)
-Message-ID: <36c9ebd7-69d9-f64d-4612-b519c1c40204@linaro.org>
-Date: Thu, 3 Feb 2022 13:58:10 +1100
+ Wed, 02 Feb 2022 19:00:46 -0800 (PST)
+Message-ID: <3fe945dd-e3bc-8473-2b7b-d3e03594ad0c@linaro.org>
+Date: Thu, 3 Feb 2022 14:00:41 +1100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.5.0
-Subject: Re: [PATCH 04/13] hw/intc/arm_gicv3_its: Keep CTEs as a struct, not a
- raw uint64_t
+Subject: Re: [PATCH 05/13] hw/intc/arm_gicv3_its: Pass CTEntry to update_cte()
 Content-Language: en-US
 To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
  qemu-devel@nongnu.org
 References: <20220201193207.2771604-1-peter.maydell@linaro.org>
- <20220201193207.2771604-5-peter.maydell@linaro.org>
+ <20220201193207.2771604-6-peter.maydell@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220201193207.2771604-5-peter.maydell@linaro.org>
+In-Reply-To: <20220201193207.2771604-6-peter.maydell@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1030
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::42b
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1030;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1030.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42b;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42b.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -102,23 +99,15 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 2/2/22 06:31, Peter Maydell wrote:
-> In the ITS, a CTE is an entry in the collection table, which contains
-> multiple fields. Currently the function get_cte() which reads one
-> entry from the device table returns a success/failure boolean and
-> passes back the raw 64-bit integer CTE value via a pointer argument.
-> We then extract fields from the CTE as we need them.
+> Make update_cte() take a CTEntry struct rather than all the fields
+> of the new CTE as separate arguments.
 > 
-> Create a real C struct with the same fields as the CTE, and
-> populate it in get_cte(), so that that function and update_cte()
-> are the only ones which need to care about the in-guest-memory
-> format of the CTE.
-> 
-> This brings get_cte()'s API into line with get_dte().
+> This brings it into line with the update_dte() API.
 > 
 > Signed-off-by: Peter Maydell<peter.maydell@linaro.org>
 > ---
->   hw/intc/arm_gicv3_its.c | 96 ++++++++++++++++++++++-------------------
->   1 file changed, 52 insertions(+), 44 deletions(-)
+>   hw/intc/arm_gicv3_its.c | 32 +++++++++++++++++---------------
+>   1 file changed, 17 insertions(+), 15 deletions(-)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
