@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28A3F4A8A6C
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Feb 2022 18:42:56 +0100 (CET)
-Received: from localhost ([::1]:50976 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D5DD04A8A6E
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Feb 2022 18:43:07 +0100 (CET)
+Received: from localhost ([::1]:51208 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nFg8E-0005Cp-UZ
-	for lists+qemu-devel@lfdr.de; Thu, 03 Feb 2022 12:42:54 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:57148)
+	id 1nFg8P-0005MK-Ar
+	for lists+qemu-devel@lfdr.de; Thu, 03 Feb 2022 12:43:06 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:57142)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nFfzo-0004wE-L5
+ id 1nFfzo-0004v9-Bh
  for qemu-devel@nongnu.org; Thu, 03 Feb 2022 12:34:12 -0500
-Received: from [2a00:1450:4864:20::533] (port=37567
- helo=mail-ed1-x533.google.com)
+Received: from [2a00:1450:4864:20::529] (port=40471
+ helo=mail-ed1-x529.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nFfzl-0008GH-Qx
- for qemu-devel@nongnu.org; Thu, 03 Feb 2022 12:34:12 -0500
-Received: by mail-ed1-x533.google.com with SMTP id c24so7630081edy.4
- for <qemu-devel@nongnu.org>; Thu, 03 Feb 2022 09:34:09 -0800 (PST)
+ id 1nFfzm-0008GS-H0
+ for qemu-devel@nongnu.org; Thu, 03 Feb 2022 12:34:11 -0500
+Received: by mail-ed1-x529.google.com with SMTP id w25so7503181edt.7
+ for <qemu-devel@nongnu.org>; Thu, 03 Feb 2022 09:34:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=MucpTZE/wQedR0UeC9D6hRTd++QCX1t2KymMGVhyZI8=;
- b=YmhIfcoJqCjx4fVPvnZ8k7BEwH2N7SSizhijAQgj+suLrEI+aUWMzPSqjNa9XDjM1y
- GSvq2lRrCHWJQPYkMM1JSNRgx1yOS6zNDpWqpbPsUorxVnP15bXVqaSh9fH6fIytJFB2
- Xq7pocMZMCkmL+rGDepBlg0IN213277rxcvs7K4qgVEQIGlDv47drCmD68JlTrjSLQsX
- dGmgqHBDAfnH4swGnEj55wzAbIUVjlJmvS5KiCeDO/63UtfBRErv9I2y33BCGlc0n2YA
- WtZ1/6Cp7C1mJV7qDdL1/Qe/gmruA9HDb4e1RQ8If1zeHWb4lOFYIyeIyCIAZseG0jqL
- H/xQ==
+ bh=g58WPJ8zdxCUyMoGJf6s4wpUFN+9TKuEYqIrdxAgx5g=;
+ b=b/9msbDJjV6vWTmFOmpN/VngkHIgbb9BXMEriG4lC7ZbxjCmrHWiefU9+KdoZRlw7V
+ vWto0y6ntuPNz0c/ofSDPTf0EwJgaZBkHdkx2swgALJC3JABzseC/of/JNSl7n7XPqGy
+ ov+VNydFpsBbOVRhalJsvSHSHIgeuy7/5ehwW8bT0pis47wpdTGZpCM8cukAtnQyCLVy
+ gWKF8xXDv1dktmf6IABgaKlY2CM+OQo5HpFUm8oK7+82pXWJbQPAhDQzinKYvIvwvH+6
+ +GlDDI2cOJB7jrTcVTtlL9yXfw3Br3SHfs7SOlf5pADpHoTXaZPWE+zRYHnDupuUfKOm
+ 2dOQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=MucpTZE/wQedR0UeC9D6hRTd++QCX1t2KymMGVhyZI8=;
- b=wAmoJ84YUjyDl4zgvmDqBrtP7TNyKwHWDN8N4L7JT+oYuV6rDgYEzIiTZChZASUE3Z
- zceW38kmzo1fsdi5Im4jGyGka8MEE0UGIxyk9DOPnd5ms9/fCPe8YQNiWDsFcQwuvKae
- Xa75r68N3u5wOYyFCTktTBHZ5Ylr3meTd6CVB3AVps/Aru5VIXD5oOljzoP3aw++BYzh
- s2cgG1QEjAXvAw8nJV5MG77VE7R+iNGwZ9mGN2k05pmho4/0obxmvQVQhsRoJcrC3T+B
- 3f3ic4JPihnGbwG5K1YOkRHbQ+ZkXnETnijSvwtnLi+1s0Z+9DfwUNxKPp/M7NRTL0bn
- aFLg==
-X-Gm-Message-State: AOAM533FhTr7VLo2PeAnvr/vUovbIseVxMEJablbJinjygM+p97K+o5M
- Zgoq1S/UtAxQQaTTT2Vv41t8Hil8mY0=
-X-Google-Smtp-Source: ABdhPJw7LBZTIEpjh1VKHmRivcUYN6rPAvS6/IUNZPIRi1joWp1p1TsrqnoQbnxRcKEGdwGmRvA7lw==
-X-Received: by 2002:aa7:d313:: with SMTP id p19mr37241980edq.380.1643909648560; 
- Thu, 03 Feb 2022 09:34:08 -0800 (PST)
+ bh=g58WPJ8zdxCUyMoGJf6s4wpUFN+9TKuEYqIrdxAgx5g=;
+ b=pU58UkubUou7Q0OWxuCAlDb5DdNTsSKyRy8Enmwc2idXonVJuvKSQb+eE/2B4ifMO3
+ Wsa2KZixyOh0AVlnqX2VvIXKmJ8B9f7HteOyrQ91OXx5C85s2yCtkrxwIY2qrgpbxOpD
+ 77ltLPbF1f9EHgScUZ+iM54y+2k83FH/X6sxtkEPWjb9gmiKpTaZCc0198XYabgAi1Yx
+ 6ukML71Xoh1uuW4SLTYk8NjBMk6yu/TBCcBESDbpc5DWVIxDJK9XoXbRASE860NGYjXr
+ JDths3q79lBChlJcDh+dVuXLI5jnkQusvBq5XBy/JzvpPLxBKK+m+lRweLCCwZDtnlOI
+ QR9A==
+X-Gm-Message-State: AOAM530me4luQPzphucYPZl7QCB+bN6cyW+b7KlpsJOA6p/09aRyiAz5
+ 9jpn25fpvc0/T9k6SiE9VS5CQvOXjxU=
+X-Google-Smtp-Source: ABdhPJzYMD5fXjRQ9RO27x0hiuQNnyY4MX31PaJi1sP1mQWI2NvFeEdldDGYfO34GM0/poEIayjnvQ==
+X-Received: by 2002:a05:6402:d64:: with SMTP id
+ ec36mr36159360edb.259.1643909649209; 
+ Thu, 03 Feb 2022 09:34:09 -0800 (PST)
 Received: from avogadro.lan ([2001:b07:6468:f312:5e2c:eb9a:a8b6:fd3e])
- by smtp.gmail.com with ESMTPSA id a25sm6665279ejs.149.2022.02.03.09.34.07
+ by smtp.gmail.com with ESMTPSA id a25sm6665279ejs.149.2022.02.03.09.34.08
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Thu, 03 Feb 2022 09:34:08 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 10/27] configure,
- meson: move block layer options to meson_options.txt
-Date: Thu,  3 Feb 2022 18:33:42 +0100
-Message-Id: <20220203173359.292068-11-pbonzini@redhat.com>
+Subject: [PATCH 11/27] meson: define qemu_cflags/qemu_ldflags
+Date: Thu,  3 Feb 2022 18:33:43 +0100
+Message-Id: <20220203173359.292068-12-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220203173359.292068-1-pbonzini@redhat.com>
 References: <20220203173359.292068-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::533
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::529
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::533;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x533.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::529;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x529.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -92,212 +92,46 @@ Cc: marcandre.lureau@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Unlike image formats, these also require an entry in config-host.h.
+Prepare for moving more compiler tests to Meson.  If the full set
+of compiler flags is needed in a cc.compiles/cc.links test, it will
+be handy to have a variable analogous to QEMU_CFLAGS.
 
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- block/meson.build             |  4 +++-
- configure                     | 20 --------------------
- meson.build                   | 11 ++++++++---
- meson_options.txt             |  4 ++++
- migration/meson.build         |  4 +++-
- scripts/meson-buildoptions.sh |  7 +++++++
- tests/unit/meson.build        |  2 +-
- 7 files changed, 26 insertions(+), 26 deletions(-)
+ meson.build | 13 +++++++------
+ 1 file changed, 7 insertions(+), 6 deletions(-)
 
-diff --git a/block/meson.build b/block/meson.build
-index 4afde2ebf8..8a1ce58c9c 100644
---- a/block/meson.build
-+++ b/block/meson.build
-@@ -80,7 +80,9 @@ block_ss.add(when: 'CONFIG_WIN32', if_true: files('file-win32.c', 'win32-aio.c')
- block_ss.add(when: 'CONFIG_POSIX', if_true: [files('file-posix.c'), coref, iokit])
- block_ss.add(when: libiscsi, if_true: files('iscsi-opts.c'))
- block_ss.add(when: 'CONFIG_LINUX', if_true: files('nvme.c'))
--block_ss.add(when: 'CONFIG_REPLICATION', if_true: files('replication.c'))
-+if not get_option('replication').disabled()
-+  block_ss.add(files('replication.c'))
-+endif
- block_ss.add(when: libaio, if_true: files('linux-aio.c'))
- block_ss.add(when: linux_io_uring, if_true: files('io_uring.c'))
- 
-diff --git a/configure b/configure
-index acee571fbc..785d52ef2b 100755
---- a/configure
-+++ b/configure
-@@ -329,8 +329,6 @@ coroutine=""
- coroutine_pool="$default_feature"
- debug_stack_usage="no"
- tls_priority="NORMAL"
--live_block_migration=${default_feature:-yes}
--replication=${default_feature:-yes}
- debug_mutex="no"
- plugins="$default_feature"
- rng_none="no"
-@@ -1028,14 +1026,6 @@ for opt do
-   ;;
-   --disable-pvrdma) pvrdma="no"
-   ;;
--  --disable-live-block-migration) live_block_migration="no"
--  ;;
--  --enable-live-block-migration) live_block_migration="yes"
--  ;;
--  --disable-replication) replication="no"
--  ;;
--  --enable-replication) replication="yes"
--  ;;
-   --disable-vhost-user) vhost_user="no"
-   ;;
-   --enable-vhost-user) vhost_user="yes"
-@@ -1343,9 +1333,7 @@ cat << EOF
-   vhost-kernel    vhost kernel backend support
-   vhost-user      vhost-user backend support
-   vhost-vdpa      vhost-vdpa kernel backend support
--  live-block-migration   Block migration in the main migration stream
-   coroutine-pool  coroutine freelist (better performance)
--  replication     replication support
-   opengl          opengl support
-   qom-cast-debug  cast debugging support
-   tools           build qemu-io, qemu-nbd and qemu-img tools
-@@ -3216,10 +3204,6 @@ if test "$cmpxchg128" = "yes" ; then
-   echo "CONFIG_CMPXCHG128=y" >> $config_host_mak
- fi
- 
--if test "$live_block_migration" = "yes" ; then
--  echo "CONFIG_LIVE_BLOCK_MIGRATION=y" >> $config_host_mak
--fi
--
- if test "$rdma" = "yes" ; then
-   echo "CONFIG_RDMA=y" >> $config_host_mak
-   echo "RDMA_LIBS=$rdma_libs" >> $config_host_mak
-@@ -3229,10 +3213,6 @@ if test "$pvrdma" = "yes" ; then
-   echo "CONFIG_PVRDMA=y" >> $config_host_mak
- fi
- 
--if test "$replication" = "yes" ; then
--  echo "CONFIG_REPLICATION=y" >> $config_host_mak
--fi
--
- if test "$debug_mutex" = "yes" ; then
-   echo "CONFIG_DEBUG_MUTEX=y" >> $config_host_mak
- fi
 diff --git a/meson.build b/meson.build
-index ba1c468620..1199279209 100644
+index 1199279209..f9aa9a1dab 100644
 --- a/meson.build
 +++ b/meson.build
-@@ -1539,6 +1539,9 @@ config_host_data.set_quoted('CONFIG_HOST_DSOSUF', host_dsosuf)
- config_host_data.set('HAVE_HOST_BLOCK_DEVICE', have_host_block_device)
- config_host_data.set('HOST_WORDS_BIGENDIAN', host_machine.endian() == 'big')
+@@ -163,6 +163,10 @@ endif
+ # Compiler flags #
+ ##################
  
-+config_host_data.set('CONFIG_LIVE_BLOCK_MIGRATION', get_option('live_block_migration').allowed())
-+config_host_data.set('CONFIG_REPLICATION', get_option('live_block_migration').allowed())
++qemu_cflags = config_host['QEMU_CFLAGS'].split()
++qemu_cxxflags = config_host['QEMU_CXXFLAGS'].split()
++qemu_ldflags = config_host['QEMU_LDFLAGS'].split()
 +
- # has_header
- config_host_data.set('CONFIG_EPOLL', cc.has_header('sys/epoll.h'))
- config_host_data.set('CONFIG_LINUX_MAGIC_H', cc.has_header('linux/magic.h'))
-@@ -2688,7 +2691,9 @@ if have_block
-     'job.c',
-     'qemu-io-cmds.c',
-   ))
--  block_ss.add(when: 'CONFIG_REPLICATION', if_true: files('replication.c'))
-+  if config_host_data.get('CONFIG_REPLICATION')
-+    block_ss.add(files('replication.c'))
-+  endif
- 
-   subdir('nbd')
-   subdir('scsi')
-@@ -3465,8 +3470,8 @@ if have_block
-   summary_info += {'Use block whitelist in tools': config_host.has_key('CONFIG_BDRV_WHITELIST_TOOLS')}
-   summary_info += {'VirtFS support':    have_virtfs}
-   summary_info += {'build virtiofs daemon': have_virtiofsd}
--  summary_info += {'Live block migration': config_host.has_key('CONFIG_LIVE_BLOCK_MIGRATION')}
--  summary_info += {'replication support': config_host.has_key('CONFIG_REPLICATION')}
-+  summary_info += {'Live block migration': config_host_data.get('CONFIG_LIVE_BLOCK_MIGRATION')}
-+  summary_info += {'replication support': config_host_data.get('CONFIG_REPLICATION')}
-   summary_info += {'bochs support':     get_option('bochs').allowed()}
-   summary_info += {'cloop support':     get_option('cloop').allowed()}
-   summary_info += {'dmg support':       get_option('dmg').allowed()}
-diff --git a/meson_options.txt b/meson_options.txt
-index aef951eba1..3bfaa77805 100644
---- a/meson_options.txt
-+++ b/meson_options.txt
-@@ -222,6 +222,10 @@ option('fdt', type: 'combo', value: 'auto',
- 
- option('selinux', type: 'feature', value: 'auto',
-        description: 'SELinux support in qemu-nbd')
-+option('live_block_migration', type: 'feature', value: 'auto',
-+       description: 'block migration in the main migration stream')
-+option('replication', type: 'feature', value: 'auto',
-+       description: 'replication support')
- option('bochs', type: 'feature', value: 'auto',
-        description: 'bochs image format support')
- option('cloop', type: 'feature', value: 'auto',
-diff --git a/migration/meson.build b/migration/meson.build
-index f8714dcb15..8b5ca5c047 100644
---- a/migration/meson.build
-+++ b/migration/meson.build
-@@ -28,7 +28,9 @@ softmmu_ss.add(files(
- ), gnutls)
- 
- softmmu_ss.add(when: ['CONFIG_RDMA', rdma], if_true: files('rdma.c'))
--softmmu_ss.add(when: 'CONFIG_LIVE_BLOCK_MIGRATION', if_true: files('block.c'))
-+if get_option('live_block_migration').allowed()
-+  softmmu_ss.add(files('block.c'))
-+endif
- softmmu_ss.add(when: zstd, if_true: files('multifd-zstd.c'))
- 
- specific_ss.add(when: 'CONFIG_SOFTMMU',
-diff --git a/scripts/meson-buildoptions.sh b/scripts/meson-buildoptions.sh
-index e72c5f582e..3ead845808 100644
---- a/scripts/meson-buildoptions.sh
-+++ b/scripts/meson-buildoptions.sh
-@@ -67,6 +67,8 @@ meson_options_help() {
-   printf "%s\n" '  libxml2         libxml2 support for Parallels image format'
-   printf "%s\n" '  linux-aio       Linux AIO support'
-   printf "%s\n" '  linux-io-uring  Linux io_uring support'
-+  printf "%s\n" '  live-block-migration'
-+  printf "%s\n" '                  block migration in the main migration stream'
-   printf "%s\n" '  lzfse           lzfse support for DMG images'
-   printf "%s\n" '  lzo             lzo compression support'
-   printf "%s\n" '  malloc-trim     enable libc malloc_trim() for memory optimization'
-@@ -83,6 +85,7 @@ meson_options_help() {
-   printf "%s\n" '  qcow1           qcow1 image format support'
-   printf "%s\n" '  qed             qed image format support'
-   printf "%s\n" '  rbd             Ceph block device driver'
-+  printf "%s\n" '  replication     replication support'
-   printf "%s\n" '  sdl             SDL user interface'
-   printf "%s\n" '  sdl-image       SDL Image support for icons'
-   printf "%s\n" '  seccomp         seccomp support'
-@@ -220,6 +223,8 @@ _meson_option_parse() {
-     --disable-linux-aio) printf "%s" -Dlinux_aio=disabled ;;
-     --enable-linux-io-uring) printf "%s" -Dlinux_io_uring=enabled ;;
-     --disable-linux-io-uring) printf "%s" -Dlinux_io_uring=disabled ;;
-+    --enable-live-block-migration) printf "%s" -Dlive_block_migration=enabled ;;
-+    --disable-live-block-migration) printf "%s" -Dlive_block_migration=disabled ;;
-     --enable-lzfse) printf "%s" -Dlzfse=enabled ;;
-     --disable-lzfse) printf "%s" -Dlzfse=disabled ;;
-     --enable-lzo) printf "%s" -Dlzo=enabled ;;
-@@ -253,6 +258,8 @@ _meson_option_parse() {
-     --disable-qed) printf "%s" -Dqed=disabled ;;
-     --enable-rbd) printf "%s" -Drbd=enabled ;;
-     --disable-rbd) printf "%s" -Drbd=disabled ;;
-+    --enable-replication) printf "%s" -Dreplication=enabled ;;
-+    --disable-replication) printf "%s" -Dreplication=disabled ;;
-     --enable-sdl) printf "%s" -Dsdl=enabled ;;
-     --disable-sdl) printf "%s" -Dsdl=disabled ;;
-     --enable-sdl-image) printf "%s" -Dsdl_image=enabled ;;
-diff --git a/tests/unit/meson.build b/tests/unit/meson.build
-index 64a5e7bfde..0959061faf 100644
---- a/tests/unit/meson.build
-+++ b/tests/unit/meson.build
-@@ -106,7 +106,7 @@ if have_block
-   if 'CONFIG_POSIX' in config_host
-     tests += {'test-image-locking': [testblock]}
+ # Specify linker-script with add_project_link_arguments so that it is not placed
+ # within a linker --start-group/--end-group pair
+ if get_option('fuzzing')
+@@ -198,12 +202,9 @@ if get_option('fuzzing')
    endif
--  if 'CONFIG_REPLICATION' in config_host
-+  if config_host_data.get('CONFIG_REPLICATION')
-     tests += {'test-replication': [testblock]}
-   endif
-   if nettle.found() or gcrypt.found()
+ endif
+ 
+-add_global_arguments(config_host['QEMU_CFLAGS'].split(),
+-                     native: false, language: ['c', 'objc'])
+-add_global_arguments(config_host['QEMU_CXXFLAGS'].split(),
+-                     native: false, language: 'cpp')
+-add_global_link_arguments(config_host['QEMU_LDFLAGS'].split(),
+-                          native: false, language: ['c', 'cpp', 'objc'])
++add_global_arguments(qemu_cflags, native: false, language: ['c', 'objc'])
++add_global_arguments(qemu_cxxflags, native: false, language: ['cpp'])
++add_global_link_arguments(qemu_ldflags, native: false, language: ['c', 'cpp', 'objc'])
+ 
+ if targetos == 'linux'
+   add_project_arguments('-isystem', meson.current_source_dir() / 'linux-headers',
 -- 
 2.34.1
 
