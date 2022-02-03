@@ -2,89 +2,103 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F8EF4A881E
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Feb 2022 16:56:32 +0100 (CET)
-Received: from localhost ([::1]:46380 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E3C2F4A8869
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Feb 2022 17:13:20 +0100 (CET)
+Received: from localhost ([::1]:57286 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nFeTG-0005Aa-Nf
-	for lists+qemu-devel@lfdr.de; Thu, 03 Feb 2022 10:56:30 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:57544)
+	id 1nFejY-0004t8-12
+	for lists+qemu-devel@lfdr.de; Thu, 03 Feb 2022 11:13:20 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:32900)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1nFeR0-0004Ro-3O
- for qemu-devel@nongnu.org; Thu, 03 Feb 2022 10:54:10 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:57924)
+ (Exim 4.90_1) (envelope-from <pasic@linux.ibm.com>)
+ id 1nFedF-0000gs-VX; Thu, 03 Feb 2022 11:06:53 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:7434
+ helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1nFeQw-0007Wr-5T
- for qemu-devel@nongnu.org; Thu, 03 Feb 2022 10:54:08 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1643903644;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=p/Ccp5OgkdqJWOMv0DdGinosaNMWZKK1FU8nlEI+Lv0=;
- b=Mg4ikIL7dnSS2ALGTO1hmKDtuQkZfZz+2YELDLUxiJc56FUCr7DGKSEBsXar5o65/hquzO
- kUzHSRelVtn8uxoMPJfHnnA0z42I+6NlDBmD1Anq27Z25psLNjsWwm9P1TCjjRRhvtMVG7
- yX4SpDsZnY9asvsMAcdCRX83dhnAX8w=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-461-P2dRqskFNAWEOITRkkQVdQ-1; Thu, 03 Feb 2022 10:54:03 -0500
-X-MC-Unique: P2dRqskFNAWEOITRkkQVdQ-1
-Received: by mail-wr1-f72.google.com with SMTP id
- r27-20020adfb1db000000b001d7567e33baso822839wra.12
- for <qemu-devel@nongnu.org>; Thu, 03 Feb 2022 07:54:03 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=p/Ccp5OgkdqJWOMv0DdGinosaNMWZKK1FU8nlEI+Lv0=;
- b=ex6Ub58EamJxH6R7rodD6rILEbrKte/ZSekaNYvPeQOzXZMtsCKQ0f7y/o/DuoCFNc
- G4B4JoaduIRRPlyaexDA/1ElnTwbXc/CcbLMq9jOgopPiEQhXJeD+vfYSiAm7JkuNxH4
- OhN5esomeYevcJTWJt+J6Y/diA9Td+e4UuIre6EaB9MZY8O2XV2/inctXua0TQERf5Ly
- 8PB6FhwxXnec1XdEFmpvA9wtTTgCALI/rkg9zNZ6+TDx3hRV/NdCUwKmcsOmY/e0mWyR
- HCEOKz/m5Z+2jQmHseocwmuN/BcLlWJgawsR/Uetn1zXBrUwoJ+WbypX2xZbRMXISVLo
- fX+w==
-X-Gm-Message-State: AOAM530Rs1e3dZ12PL7+YUJZ+BoUZB4hNWejFAyYwRGuHmZD+zbq0qpK
- OfEVJt9C7oHNB8N7+RJ/5lUUVQyrruSYfs/e0EXjNtrcuh2xoD2nMM31kaoih7zTAtZv794u5nH
- Ynx2bS63G2cLYwcc=
-X-Received: by 2002:a05:6000:170c:: with SMTP id
- n12mr30597533wrc.380.1643903642039; 
- Thu, 03 Feb 2022 07:54:02 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJx4SjtubNqSejzieNM/AudpAwxdm22k7tgN2r7xereb3Ca4tkvMy3XkF665Uu3soqa9FqweNQ==
-X-Received: by 2002:a05:6000:170c:: with SMTP id
- n12mr30597521wrc.380.1643903641894; 
- Thu, 03 Feb 2022 07:54:01 -0800 (PST)
-Received: from work-vm (82-132-239-190.dab.02.net. [82.132.239.190])
- by smtp.gmail.com with ESMTPSA id n10sm26387862wrf.96.2022.02.03.07.54.01
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 03 Feb 2022 07:54:01 -0800 (PST)
-Date: Thu, 3 Feb 2022 15:53:59 +0000
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Peter Xu <peterx@redhat.com>
-Subject: Re: [PATCH RFC 15/15] tests: Add postcopy preempt test
-Message-ID: <Yfv6l7m+sECyMdqe@work-vm>
-References: <20220119080929.39485-1-peterx@redhat.com>
- <20220119080929.39485-16-peterx@redhat.com>
+ (Exim 4.90_1) (envelope-from <pasic@linux.ibm.com>)
+ id 1nFedC-0001Oa-PQ; Thu, 03 Feb 2022 11:06:48 -0500
+Received: from pps.filterd (m0098416.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 213EWbcG023715; 
+ Thu, 3 Feb 2022 16:06:44 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=date : from : to : cc :
+ subject : message-id : in-reply-to : references : mime-version :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=hLMptZoPuHlIFdgd68OaCT6sEVq8WNGcOM2DzRuZvng=;
+ b=O3T9CTOWjl8Rl+QF8E9hlY+Ej0VbAfIGeyiRhYgiENwfJcp2te+hFxqF1Muew1EtlLGo
+ bR7+sLgSeDDSeD8buI8TV9C98bM0gyp1y9bDnzjaavNAVJOggnF1DsWWTGErByZ8bMSD
+ amxeHFrlSDHo7hUdNss9qT0XW+5dGtJuk/EqzI909JA8+Z9T2culszVgRMdHfnDYPeMa
+ pXHRUdLp0Ypp40gmKVvN7geEF8UyFdyr/HgCNOD2MbbSbT8WHqRC1R+owZesH7gJcOLI
+ 4H9hvEUGNUN3qWXMxL7qrIphu1yhF98uLsf/VKjLbWHt1zWewdrNM11zYSFgO+ZEdf6/ LQ== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 3e0g16upnu-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 03 Feb 2022 16:06:43 +0000
+Received: from m0098416.ppops.net (m0098416.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 213Fk7Og020500;
+ Thu, 3 Feb 2022 16:06:43 GMT
+Received: from ppma03fra.de.ibm.com (6b.4a.5195.ip4.static.sl-reverse.com
+ [149.81.74.107])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 3e0g16upmt-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 03 Feb 2022 16:06:43 +0000
+Received: from pps.filterd (ppma03fra.de.ibm.com [127.0.0.1])
+ by ppma03fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 213Fwl1X021786;
+ Thu, 3 Feb 2022 16:06:41 GMT
+Received: from b06avi18626390.portsmouth.uk.ibm.com
+ (b06avi18626390.portsmouth.uk.ibm.com [9.149.26.192])
+ by ppma03fra.de.ibm.com with ESMTP id 3dvw7a5vtn-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 03 Feb 2022 16:06:41 +0000
+Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com
+ [9.149.105.58])
+ by b06avi18626390.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
+ id 213FujB138601192
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 3 Feb 2022 15:56:45 GMT
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id E73E34C04A;
+ Thu,  3 Feb 2022 16:06:38 +0000 (GMT)
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 54AA34C050;
+ Thu,  3 Feb 2022 16:06:38 +0000 (GMT)
+Received: from li-e979b1cc-23ba-11b2-a85c-dfd230f6cf82 (unknown [9.171.19.59])
+ by d06av22.portsmouth.uk.ibm.com (Postfix) with SMTP;
+ Thu,  3 Feb 2022 16:06:38 +0000 (GMT)
+Date: Thu, 3 Feb 2022 17:06:35 +0100
+From: Halil Pasic <pasic@linux.ibm.com>
+To: "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org
+Subject: Re: [PATCH v4 1/1] virtio: fix the condition for iommu_platform not
+ supported
+Message-ID: <20220203170635.1dd2b98d.pasic@linux.ibm.com>
+In-Reply-To: <20220202195438.379753-1-pasic@linux.ibm.com>
+References: <20220202195438.379753-1-pasic@linux.ibm.com>
+Organization: IBM
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <20220119080929.39485-16-peterx@redhat.com>
-User-Agent: Mutt/2.1.5 (2021-12-30)
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: u_XN1lE-ip6-nd0UZOQHlRK9TmR-QSKh
+X-Proofpoint-ORIG-GUID: rvKiLUY9RLxomgPUX0jXVu4pJbHQL8wN
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.816,Hydra:6.0.425,FMLib:17.11.62.513
+ definitions=2022-02-03_05,2022-02-03_01,2021-12-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0 mlxscore=0
+ lowpriorityscore=0 malwarescore=0 spamscore=0 suspectscore=0 adultscore=0
+ mlxlogscore=999 clxscore=1015 phishscore=0 bulkscore=0 priorityscore=1501
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2201110000
+ definitions=main-2202030097
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=pasic@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.086,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H5=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -98,77 +112,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org,
- Leonardo Bras Soares Passos <lsoaresp@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
+ Brijesh Singh <brijesh.singh@amd.com>, Jason Wang <jasowang@redhat.com>,
+ Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-stable@nongnu.org,
+ Halil Pasic <pasic@linux.ibm.com>, Jakob Naucke <Jakob.Naucke@ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Peter Xu (peterx@redhat.com) wrote:
-> Signed-off-by: Peter Xu <peterx@redhat.com>
+On Wed,  2 Feb 2022 20:54:38 +0100
+Halil Pasic <pasic@linux.ibm.com> wrote:
 
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+>      }
+> @@ -82,9 +78,14 @@ void virtio_bus_device_plugged(VirtIODevice *vdev, Error **errp)
+>          return;
+>      }
+>  
+> +    vdev_has_iommu = virtio_host_has_feature(vdev, VIRTIO_F_IOMMU_PLATFORM);
+>      if (klass->get_dma_as != NULL && has_iommu) {
+>          virtio_add_feature(&vdev->host_features, VIRTIO_F_IOMMU_PLATFORM);
+>          vdev->dma_as = klass->get_dma_as(qbus->parent);
+> +        if (!vdev_has_iommu && vdev->dma_as != &address_space_memory) {
+> +            error_setg(errp,
+> +                       "iommu_platform=true is not supported by the device");
+> +        }
 
-> ---
->  tests/qtest/migration-test.c | 21 +++++++++++++++++++++
->  1 file changed, 21 insertions(+)
-> 
-> diff --git a/tests/qtest/migration-test.c b/tests/qtest/migration-test.c
-> index 7b42f6fd90..93ff43bb3f 100644
-> --- a/tests/qtest/migration-test.c
-> +++ b/tests/qtest/migration-test.c
-> @@ -470,6 +470,7 @@ typedef struct {
->       */
->      bool hide_stderr;
->      bool use_shmem;
-> +    bool postcopy_preempt;
->      /* only launch the target process */
->      bool only_target;
->      /* Use dirty ring if true; dirty logging otherwise */
-> @@ -673,6 +674,11 @@ static int migrate_postcopy_prepare(QTestState **from_ptr,
->      migrate_set_capability(to, "postcopy-ram", true);
->      migrate_set_capability(to, "postcopy-blocktime", true);
->  
-> +    if (args->postcopy_preempt) {
-> +        migrate_set_capability(from, "postcopy-preempt", true);
-> +        migrate_set_capability(to, "postcopy-preempt", true);
-> +    }
-> +
->      /* We want to pick a speed slow enough that the test completes
->       * quickly, but that it doesn't complete precopy even on a slow
->       * machine, so also set the downtime.
-> @@ -719,6 +725,20 @@ static void test_postcopy(void)
->      migrate_postcopy_complete(from, to);
->  }
->  
-> +static void test_postcopy_preempt(void)
-> +{
-> +    MigrateStart *args = migrate_start_new();
-> +    QTestState *from, *to;
-> +
-> +    args->postcopy_preempt = true;
-> +
-> +    if (migrate_postcopy_prepare(&from, &to, args)) {
-> +        return;
-> +    }
-> +    migrate_postcopy_start(from, to);
-> +    migrate_postcopy_complete(from, to);
-> +}
-> +
->  static void test_postcopy_recovery(void)
->  {
->      MigrateStart *args = migrate_start_new();
-> @@ -1458,6 +1478,7 @@ int main(int argc, char **argv)
->      module_call_init(MODULE_INIT_QOM);
->  
->      qtest_add_func("/migration/postcopy/unix", test_postcopy);
-> +    qtest_add_func("/migration/postcopy/preempt", test_postcopy_preempt);
->      qtest_add_func("/migration/postcopy/recovery", test_postcopy_recovery);
->      qtest_add_func("/migration/bad_dest", test_baddest);
->      qtest_add_func("/migration/precopy/unix", test_precopy_unix);
-> -- 
-> 2.32.0
-> 
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+I'm wondering, would it be wise to change the message? Since this is now
+dependent on the VM/bus the device is plugged into the message might be a
+little misleading: i.e. the very same device could work perfectly fine
+with iommu_platform=true if the "surroundings" are different.
 
+Maybe "the device has no IOMMU support (iommu_platform=true)" would be a
+better option. On the other hand changing the message has its downsides
+as well.
+
+Also I realized that keeping the return after error_setg() might have
+been a good idea for the case more logic is added at the end of the
+function.
+
+In any case I would like to address these, if necessary with a separate
+patch. I don't want the fix to experience any further delays.
+
+Regards,
+Halil
 
