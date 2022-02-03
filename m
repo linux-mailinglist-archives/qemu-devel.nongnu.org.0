@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D4E14A8F87
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Feb 2022 22:06:09 +0100 (CET)
-Received: from localhost ([::1]:54484 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9FBC24A9000
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Feb 2022 22:33:33 +0100 (CET)
+Received: from localhost ([::1]:43780 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nFjIt-0004jD-0s
-	for lists+qemu-devel@lfdr.de; Thu, 03 Feb 2022 16:06:07 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:38158)
+	id 1nFjjQ-0003UQ-8K
+	for lists+qemu-devel@lfdr.de; Thu, 03 Feb 2022 16:33:32 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:38862)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <luc@lmichel.fr>)
- id 1nFidh-0000He-Dt; Thu, 03 Feb 2022 15:23:33 -0500
-Received: from pharaoh.lmichel.fr ([149.202.28.74]:50252)
+ id 1nFigP-0004W1-SJ; Thu, 03 Feb 2022 15:26:21 -0500
+Received: from pharaoh.lmichel.fr ([149.202.28.74]:50254)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <luc@lmichel.fr>)
- id 1nFidf-0001hs-CU; Thu, 03 Feb 2022 15:23:33 -0500
+ id 1nFigL-0002B3-Hq; Thu, 03 Feb 2022 15:26:20 -0500
 Received: from localhost (sekoia-pc.home.lmichel.fr [192.168.61.100])
- by pharaoh.lmichel.fr (Postfix) with ESMTPSA id 6A82DC60912;
- Thu,  3 Feb 2022 21:23:29 +0100 (CET)
+ by pharaoh.lmichel.fr (Postfix) with ESMTPSA id 5164AC60912;
+ Thu,  3 Feb 2022 21:26:11 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lmichel.fr; s=pharaoh; 
- t=1643919809;
+ t=1643919971;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=S6pIafLwmXMhB4HxPHzMtVvhuYad7JK2VPHhJfX5tQo=;
- b=BpKANeOrkXOWJ9LscStDAqpb5IFKfzBj3Ez+59tjGCNytKFWhBVyV7bxmYd3AaS6kvjjwj
- COSUX1TaViEAYRyLHHGiwTcOZM3YV8m/8s0Ej6bqgzoF2jANL4wDnDOHnFfVXpj+T9848U
- xFZ4Kww4SPUAhiKP+IvhBPSA9O0yKcgFWGbDztU7v81ju/HcZ4YbxNXGnJQ5m1xMMYFlSc
- aKeeYm/bOiJmdBHq9rRtte1BnWlbr50Eifiz3b+tHyZz+Yhr12oT0TAE2fjFj2xW9scRE7
- 8+Y2w2IvVTywO9HHxk0Cgw07ywKZsuIGNyrSaq34WKctkiSZfA20QtwCdHp0bQ==
-Date: Thu, 3 Feb 2022 21:23:29 +0100
+ bh=3vXguq7PD9F7k4liOa9bZTi3OO9BnCz39Q9xD7dS0Tg=;
+ b=IG+1GEoZ5aEtH+xtsUPLog2Q1v2/8iXhH/ubw7cgxuI+51O2MXMvHTRiNYh8bOgmmPHWXY
+ RMXidfLNeaUjGKnN6cmeASTsqHKoNl3r4ilzicCvIEQDqYBNvW+MlZkH8R3VD02Jv0scWl
+ O+fQSvcgfPMbLP3vwhZis7z2+VWvk6ccqRccdikBjuRTuaDgwkL3eIxiAnpawm3hKPjRII
+ SeBOlMw5tpl8DnhMcONe6Su9D1PtY9+WBPfDLcPmX+FBy8SpivlxVUP10y3o+KlKnYBuHZ
+ 1+NOCC6A8Kq6+5PIXiAuyDCO4v2T+NGpZgU3FIENGRegwjxd4OuYFG76Q4R1gQ==
+Date: Thu, 3 Feb 2022 21:26:11 +0100
 From: Luc Michel <luc@lmichel.fr>
 To: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
-Subject: Re: [PATCH v1 4/6] hw/arm/xlnx-zynqmp: Connect the ZynqMP CRF
-Message-ID: <Yfw5wQu4QXiEyp/V@sekoia-pc.home.lmichel.fr>
+Subject: Re: [PATCH v1 6/6] hw/arm/xlnx-zynqmp: Connect the ZynqMP APU Control
+Message-ID: <Yfw6Y3k+oUVEe2CX@sekoia-pc.home.lmichel.fr>
 References: <20220130231206.34035-1-edgar.iglesias@gmail.com>
- <20220130231206.34035-5-edgar.iglesias@gmail.com>
+ <20220130231206.34035-7-edgar.iglesias@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220130231206.34035-5-edgar.iglesias@gmail.com>
+In-Reply-To: <20220130231206.34035-7-edgar.iglesias@gmail.com>
 Received-SPF: pass client-ip=149.202.28.74; envelope-from=luc@lmichel.fr;
  helo=pharaoh.lmichel.fr
 X-Spam_score_int: -20
@@ -73,78 +73,103 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 On 00:12 Mon 31 Jan     , Edgar E. Iglesias wrote:
 > From: "Edgar E. Iglesias" <edgar.iglesias@xilinx.com>
 > 
-> Connect the ZynqMP CRF - Clock Reset FPD device.
+> Connect the ZynqMP APU Control device.
 > 
 > Signed-off-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
 
 Reviewed-by: Luc Michel <luc@lmichel.fr>
 
 > ---
->  include/hw/arm/xlnx-zynqmp.h |  2 ++
->  hw/arm/xlnx-zynqmp.c         | 16 ++++++++++++++++
->  2 files changed, 18 insertions(+)
+>  include/hw/arm/xlnx-zynqmp.h |  4 +++-
+>  hw/arm/xlnx-zynqmp.c         | 25 +++++++++++++++++++++++--
+>  2 files changed, 26 insertions(+), 3 deletions(-)
 > 
 > diff --git a/include/hw/arm/xlnx-zynqmp.h b/include/hw/arm/xlnx-zynqmp.h
-> index 99ceb8a609..d5a3ad3df2 100644
+> index d5a3ad3df2..05cd2128f3 100644
 > --- a/include/hw/arm/xlnx-zynqmp.h
 > +++ b/include/hw/arm/xlnx-zynqmp.h
 > @@ -38,6 +38,7 @@
 >  #include "hw/dma/xlnx_csu_dma.h"
 >  #include "hw/nvram/xlnx-bbram.h"
 >  #include "hw/nvram/xlnx-zynqmp-efuse.h"
-> +#include "hw/misc/xlnx-zynqmp-crf.h"
+> +#include "hw/misc/xlnx-zynqmp-apu-ctrl.h"
+>  #include "hw/misc/xlnx-zynqmp-crf.h"
 >  
 >  #define TYPE_XLNX_ZYNQMP "xlnx-zynqmp"
->  OBJECT_DECLARE_SIMPLE_TYPE(XlnxZynqMPState, XLNX_ZYNQMP)
-> @@ -122,6 +123,7 @@ struct XlnxZynqMPState {
+> @@ -85,7 +86,7 @@ OBJECT_DECLARE_SIMPLE_TYPE(XlnxZynqMPState, XLNX_ZYNQMP)
+>  /*
+>   * Unimplemented mmio regions needed to boot some images.
+>   */
+> -#define XLNX_ZYNQMP_NUM_UNIMP_AREAS 2
+> +#define XLNX_ZYNQMP_NUM_UNIMP_AREAS 1
+>  
+>  struct XlnxZynqMPState {
+>      /*< private >*/
+> @@ -123,6 +124,7 @@ struct XlnxZynqMPState {
 >      XlnxZDMA gdma[XLNX_ZYNQMP_NUM_GDMA_CH];
 >      XlnxZDMA adma[XLNX_ZYNQMP_NUM_ADMA_CH];
 >      XlnxCSUDMA qspi_dma;
-> +    XlnxZynqMPCRF crf;
+> +    XlnxZynqMPAPUCtrl apu_ctrl;
+>      XlnxZynqMPCRF crf;
 >  
 >      char *boot_cpu;
->      ARMCPU *boot_cpu_ptr;
 > diff --git a/hw/arm/xlnx-zynqmp.c b/hw/arm/xlnx-zynqmp.c
-> index ba44e95899..857d3c9636 100644
+> index 857d3c9636..21c411cd77 100644
 > --- a/hw/arm/xlnx-zynqmp.c
 > +++ b/hw/arm/xlnx-zynqmp.c
-> @@ -51,6 +51,9 @@
->  #define QSPI_IRQ            15
->  #define QSPI_DMA_ADDR       0xff0f0800
+> @@ -64,7 +64,7 @@
+>  #define DPDMA_IRQ           116
 >  
-> +#define CRF_ADDR            0xfd1a0000
-> +#define CRF_IRQ             120
-> +
->  #define SERDES_ADDR         0xfd400000
->  #define SERDES_SIZE         0x20000
+>  #define APU_ADDR            0xfd5c0000
+> -#define APU_SIZE            0x100
+> +#define APU_IRQ             153
 >  
-> @@ -279,6 +282,18 @@ static void xlnx_zynqmp_create_efuse(XlnxZynqMPState *s, qemu_irq *gic)
+>  #define IPI_ADDR            0xFF300000
+>  #define IPI_IRQ             64
+> @@ -282,6 +282,27 @@ static void xlnx_zynqmp_create_efuse(XlnxZynqMPState *s, qemu_irq *gic)
 >      sysbus_connect_irq(sbd, 0, gic[EFUSE_IRQ]);
 >  }
 >  
-> +static void xlnx_zynqmp_create_crf(XlnxZynqMPState *s, qemu_irq *gic)
+> +static void xlnx_zynqmp_create_apu_ctrl(XlnxZynqMPState *s, qemu_irq *gic)
 > +{
 > +    SysBusDevice *sbd;
+> +    int i;
 > +
-> +    object_initialize_child(OBJECT(s), "crf", &s->crf, TYPE_XLNX_ZYNQMP_CRF);
-> +    sbd = SYS_BUS_DEVICE(&s->crf);
+> +    object_initialize_child(OBJECT(s), "apu-ctrl", &s->apu_ctrl,
+> +                            TYPE_XLNX_ZYNQMP_APU_CTRL);
+> +    sbd = SYS_BUS_DEVICE(&s->apu_ctrl);
+> +
+> +    for (i = 0; i < XLNX_ZYNQMP_NUM_APU_CPUS; i++) {
+> +        g_autofree gchar *name = g_strdup_printf("cpu%d", i);
+> +
+> +        object_property_set_link(OBJECT(&s->apu_ctrl), name,
+> +                                 OBJECT(&s->apu_cpu[i]), &error_abort);
+> +    }
 > +
 > +    sysbus_realize(sbd, &error_fatal);
-> +    sysbus_mmio_map(sbd, 0, CRF_ADDR);
-> +    sysbus_connect_irq(sbd, 0, gic[CRF_IRQ]);
+> +    sysbus_mmio_map(sbd, 0, APU_ADDR);
+> +    sysbus_connect_irq(sbd, 0, gic[APU_IRQ]);
 > +}
 > +
->  static void xlnx_zynqmp_create_unimp_mmio(XlnxZynqMPState *s)
+>  static void xlnx_zynqmp_create_crf(XlnxZynqMPState *s, qemu_irq *gic)
 >  {
->      static const struct UnimpInfo {
-> @@ -682,6 +697,7 @@ static void xlnx_zynqmp_realize(DeviceState *dev, Error **errp)
+>      SysBusDevice *sbd;
+> @@ -301,7 +322,6 @@ static void xlnx_zynqmp_create_unimp_mmio(XlnxZynqMPState *s)
+>          hwaddr base;
+>          hwaddr size;
+>      } unimp_areas[ARRAY_SIZE(s->mr_unimp)] = {
+> -        { .name = "apu", APU_ADDR, APU_SIZE },
+>          { .name = "serdes", SERDES_ADDR, SERDES_SIZE },
+>      };
+>      unsigned int nr;
+> @@ -697,6 +717,7 @@ static void xlnx_zynqmp_realize(DeviceState *dev, Error **errp)
 >  
 >      xlnx_zynqmp_create_bbram(s, gic_spi);
 >      xlnx_zynqmp_create_efuse(s, gic_spi);
-> +    xlnx_zynqmp_create_crf(s, gic_spi);
+> +    xlnx_zynqmp_create_apu_ctrl(s, gic_spi);
+>      xlnx_zynqmp_create_crf(s, gic_spi);
 >      xlnx_zynqmp_create_unimp_mmio(s);
 >  
->      for (i = 0; i < XLNX_ZYNQMP_NUM_GDMA_CH; i++) {
 > -- 
 > 2.25.1
 > 
