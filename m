@@ -2,54 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 220554A8FAC
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Feb 2022 22:17:26 +0100 (CET)
-Received: from localhost ([::1]:44894 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DAE3E4A8FF2
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Feb 2022 22:31:21 +0100 (CET)
+Received: from localhost ([::1]:37562 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nFjTo-00013u-Kl
-	for lists+qemu-devel@lfdr.de; Thu, 03 Feb 2022 16:17:24 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:40382)
+	id 1nFjhI-0007Sg-VE
+	for lists+qemu-devel@lfdr.de; Thu, 03 Feb 2022 16:31:21 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:41780)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <luc@lmichel.fr>)
- id 1nFinW-00053v-62; Thu, 03 Feb 2022 15:33:42 -0500
-Received: from pharaoh.lmichel.fr ([149.202.28.74]:50260)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <luc@lmichel.fr>)
- id 1nFinU-0003Ih-F5; Thu, 03 Feb 2022 15:33:41 -0500
-Received: from localhost (sekoia-pc.home.lmichel.fr [192.168.61.100])
- by pharaoh.lmichel.fr (Postfix) with ESMTPSA id 2D846C60912;
- Thu,  3 Feb 2022 21:33:36 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lmichel.fr; s=pharaoh; 
- t=1643920416;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=SG4mfTgcMbx+MjII4dHrn/5Edc9LwRsHIYmlJ+CMbwU=;
- b=ETll3oEpeUSAKVp49eD7XqNynxRay9lHopInJZNubOHRLn7b5Nu5n9vpYvGDOSJpfB3PNq
- wXwCosW1Ti3MI5wnhx4GQXo1zsn3lwEjc3+IetirbgwSZM7Pzk3myztAtVy0mGlfEvrWiV
- eRDMwixKt8+oPrNUkBkjUvsJoV6TalFv3FIVJI6OURvZPVTdBrsCCx99kmIvL3XC8Y7r1k
- nMZ8C6vCTd6oy/GYOeLCTI1RsA2b1Si6AfxOMsiib4RlCVo3lOHEqB9QXuTYaO8TlwjDA4
- 5NKYRyuMcur2dmU5DzxbWKVsWsnPNeDbC/NbhJDszfuUu/qsZrCbDspgA7RepA==
-Date: Thu, 3 Feb 2022 21:33:35 +0100
-From: Luc Michel <luc@lmichel.fr>
-To: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
-Subject: Re: [PATCH v2 2/6] target/arm: Make rvbar settable after realize
-Message-ID: <Yfw8H/zcSshP4omo@sekoia-pc.home.lmichel.fr>
-References: <20220203140141.310870-1-edgar.iglesias@gmail.com>
- <20220203140141.310870-3-edgar.iglesias@gmail.com>
+ (Exim 4.90_1) (envelope-from <atishp@rivosinc.com>)
+ id 1nFitX-0006ZE-6F
+ for qemu-devel@nongnu.org; Thu, 03 Feb 2022 15:39:55 -0500
+Received: from [2a00:1450:4864:20::52e] (port=34314
+ helo=mail-ed1-x52e.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <atishp@rivosinc.com>)
+ id 1nFitU-0005B4-I9
+ for qemu-devel@nongnu.org; Thu, 03 Feb 2022 15:39:54 -0500
+Received: by mail-ed1-x52e.google.com with SMTP id w20so4633362edc.1
+ for <qemu-devel@nongnu.org>; Thu, 03 Feb 2022 12:39:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=rivosinc-com.20210112.gappssmtp.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=Cn3JBOPTkmzWDDsQcJOrN9rQ7hIGilL1vixPseHwSKY=;
+ b=tQUCT14j4CoRFoRa7iKEkX4AaZRbqEaRoUAeSEj83hfVYk4QUzfdr7YVcYxm4no8Yi
+ M4ubjNwUbME7O/0guJOgeVk8V6nspwKbm95hjuUtmMCPcqTuvq8kR8nHHToG6p5u9lxf
+ q44Y8LN2Cc/nZBfhm1gtrDifH8seCfSlHTc27mAspyp/irdiiAcKeUSoB8h3e5RWnp7p
+ JmOagO/Sym51xCmLvjB8esKVitpV3HQnfcBu+VmRjJyZ7WS4X8eGQ+gR+KGadkAwryNq
+ MfY/TYlByO1Fl0k1nJw/XOiOFq+icgYKrn0uCaZ9gCzp8yNP2wvm7jcagdQ4HaixqbFq
+ qp+g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=Cn3JBOPTkmzWDDsQcJOrN9rQ7hIGilL1vixPseHwSKY=;
+ b=MMLsJhnobzYQkwfCLvyo/cEvr50PwRY06Rbu7h2EsMWYCMW/aOUlY3W8FRjaq6lP6k
+ AUcovGDAkh2/Ba4gzONzfZ3hiFfVTl/G9c2wDpRS0/nvlk7xNaNAG8e9pkxTXJ/i1mYs
+ 6d74qR+aZvzI8eaGcUbw6jBRifnTA+E21nkB+GM9xTAyn8TSAc5OLgB7Zst1/2a7P2Pl
+ l6PYe5TFdKbbXouS0tlQquUC7X86HvinD5secAeIP/zUPKGQIWVzJ2JpUr9h/Fl+P0XC
+ vBA4Bs4TL+QGyUW39bkCvuxJTU8daPu366fsAFphTEAwdY/qrYGA2dNSOT+Uy/XphvnY
+ pKZQ==
+X-Gm-Message-State: AOAM5320eaeplcd7D6QrTo46bFtEWJTE2X0bJYXsP1zsnW+bNvnINkDi
+ dSbp5j/4ndCmTHFNHJM4I2z8PK9N47pvVHKXbtUT3g==
+X-Google-Smtp-Source: ABdhPJwcyNH9cX59BRjdGSW1Z78sJjisPQ0a6DEOX+Pa9C3W83DmdMLzySRlY1ypjsWdHxLs4lPl8RbHv9+8fB/4rBY=
+X-Received: by 2002:a05:6402:19a9:: with SMTP id
+ o9mr37099905edz.295.1643920790299; 
+ Thu, 03 Feb 2022 12:39:50 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220203140141.310870-3-edgar.iglesias@gmail.com>
-Received-SPF: pass client-ip=149.202.28.74; envelope-from=luc@lmichel.fr;
- helo=pharaoh.lmichel.fr
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+References: <20220120200735.2739543-1-atishp@rivosinc.com>
+ <20220120200735.2739543-5-atishp@rivosinc.com>
+ <2696860.3DGziXre4Q@diego>
+In-Reply-To: <2696860.3DGziXre4Q@diego>
+From: Atish Kumar Patra <atishp@rivosinc.com>
+Date: Thu, 3 Feb 2022 12:39:39 -0800
+Message-ID: <CAHBxVyESyQqLi0bvRUcH=4UCSfs5ZzN+EK5Uxjc71okXu2Nk1A@mail.gmail.com>
+Subject: Re: [RFC 4/5] target/riscv: Add *envcfg* CSRs support
+To: =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>
+Content-Type: multipart/alternative; boundary="000000000000beb7f705d7232237"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::52e
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::52e;
+ envelope-from=atishp@rivosinc.com; helo=mail-ed1-x52e.google.com
+X-Spam_score_int: -10
+X-Spam_score: -1.1
+X-Spam_bar: -
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, HTML_MESSAGE=0.001, PDS_HP_HELO_NORDNS=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -62,70 +83,199 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: edgar.iglesias@xilinx.com, peter.maydell@linaro.org,
- sai.pavan.boddu@xilinx.com, frasse.iglesias@gmail.com, alistair@alistair23.me,
- richard.henderson@linaro.org, qemu-devel@nongnu.org, f4bug@amsat.org,
- francisco.iglesias@xilinx.com, frederic.konrad@adacore.com,
- qemu-arm@nongnu.org
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Anup Patel <anup@brainfault.org>, Bin Meng <bin.meng@windriver.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Edgar,
+--000000000000beb7f705d7232237
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Oops I mistakenly answered on v1 :)
+On Thu, Feb 3, 2022 at 4:23 AM Heiko St=C3=BCbner <heiko@sntech.de> wrote:
 
-On 15:01 Thu 03 Feb     , Edgar E. Iglesias wrote:
-> From: "Edgar E. Iglesias" <edgar.iglesias@xilinx.com>
-> 
-> Make the rvbar property settable after realize. This is done
-> in preparation to model the ZynqMP's runtime configurable rvbar.
-> 
-> Signed-off-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
-> ---
->  target/arm/cpu.c | 7 +++----
->  1 file changed, 3 insertions(+), 4 deletions(-)
-> 
-> diff --git a/target/arm/cpu.c b/target/arm/cpu.c
-> index 5a9c02a256..e30ae088fe 100644
-> --- a/target/arm/cpu.c
-> +++ b/target/arm/cpu.c
-> @@ -1128,9 +1128,6 @@ static Property arm_cpu_reset_cbar_property =
->  static Property arm_cpu_reset_hivecs_property =
->              DEFINE_PROP_BOOL("reset-hivecs", ARMCPU, reset_hivecs, false);
->  
-> -static Property arm_cpu_rvbar_property =
-> -            DEFINE_PROP_UINT64("rvbar", ARMCPU, rvbar, 0);
-> -
->  #ifndef CONFIG_USER_ONLY
->  static Property arm_cpu_has_el2_property =
->              DEFINE_PROP_BOOL("has_el2", ARMCPU, has_el2, true);
-> @@ -1233,7 +1230,9 @@ void arm_cpu_post_init(Object *obj)
->      }
->  
->      if (arm_feature(&cpu->env, ARM_FEATURE_AARCH64)) {
-> -        qdev_property_add_static(DEVICE(obj), &arm_cpu_rvbar_property);
-> +        object_property_add_uint64_ptr(obj, "rvbar",
-> +                                       &cpu->rvbar,
-> +                                       OBJ_PROP_FLAG_READWRITE);
-
-I think you may have a problem here. cpu->rvbar is used to define the
-reset value of the rvbar_elx registers in register_cp_regs_for_features.
-This is done at realize time. Changing the rvbar property after realize
-would fail to update the rvbar_elx register values.
-
-I guess you should also switch to a .readfn instead of a .resetvalue for
-those registers.
-
--- 
-Luc
+> Hi Atish,
+>
+> Am Donnerstag, 20. Januar 2022, 21:07:34 CET schrieb Atish Patra:
+> > The RISC-V privileged specification v1.12 defines few execution
+> > environment configuration CSRs that can be used enable/disable
+> > extensions per privilege levels.
+> >
+> > Add the basic support for these CSRs.
+> >
+> > Signed-off-by: Atish Patra <atishp@rivosinc.com>
+> > ---
+> >  target/riscv/cpu.h      |  8 ++++
+> >  target/riscv/cpu_bits.h | 31 +++++++++++++++
+> >  target/riscv/csr.c      | 84 +++++++++++++++++++++++++++++++++++++++++
+> >  target/riscv/machine.c  | 26 +++++++++++++
+> >  4 files changed, 149 insertions(+)
+> >
+> > diff --git a/target/riscv/cpu_bits.h b/target/riscv/cpu_bits.h
+> > index f6f90b5cbd52..afb237c2313b 100644
+> > --- a/target/riscv/cpu_bits.h
+> > +++ b/target/riscv/cpu_bits.h
+>
+> [...]
+>
+> > @@ -578,6 +589,26 @@ typedef enum RISCVException {
+> >  #define PM_EXT_CLEAN    0x00000002ULL
+> >  #define PM_EXT_DIRTY    0x00000003ULL
+> >
+> > +/* Execution enviornment configuration bits */
+> > +#define MENVCFG_FIOM                       (1 << 0)
+>
+> > +#define MENVCFG_CBE                        0x30000ULL
+>
+> Looking both at the cmo spec as well as the most recent privileged spec
+> (draft) the field is called CBIE it seems.
+>
+> Also the shift looks wrong. Both cmo as well as privileged spec show
+> it at bits [5:4] and _not_ [17:16].
+>
+>
+This looks like a typo from my side. These bits are reserved in the spec!
+Apologies for such a silly mistake. Fixed it in v2.
 
 
->      }
->  
->  #ifndef CONFIG_USER_ONLY
-> -- 
-> 2.25.1
-> 
+> Also wouldn't doing it like (_UL(3) << 4) be better to catch such things?
+>
+>
+Of course.
 
--- 
+
+> > +#define MENVCFG_CBCFE                      (1 << 6)
+> > +#define MENVCFG_CBZE                       (1 << 7)
+> > +#define MENVCFG_PBMTE                      (1 << 62)
+> > +#define MENVCFG_STCE                       (1 << 63)
+> > +
+> > +#define SENVCFG_FIOM                       MENVCFG_FIOM
+> > +#define SENVCFG_CBE                        MENVCFG_CBE
+> > +#define SENVCFG_CBCFE                      MENVCFG_CBCFE
+> > +#define SENVCFG_CBZE                       MENVCFG_CBZE
+> > +
+> > +#define HENVCFG_FIOM                       MENVCFG_FIOM
+> > +#define HENVCFG_CBE                        MENVCFG_CBE
+> > +#define HENVCFG_CBCFE                      MENVCFG_CBCFE
+> > +#define HENVCFG_CBZE                       MENVCFG_CBZE
+> > +#define HENVCFG_PBMTE                      MENVCFG_PBMTE
+> > +#define HENVCFG_STCE                       MENVCFG_STCE
+> > +
+> >  /* Offsets for every pair of control bits per each priv level */
+> >  #define XS_OFFSET    0ULL
+> >  #define U_OFFSET     2ULL
+>
+>
+> Heiko
+>
+>
+>
+
+--000000000000beb7f705d7232237
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Thu, Feb 3, 2022 at 4:23 AM Heiko =
+St=C3=BCbner &lt;<a href=3D"mailto:heiko@sntech.de">heiko@sntech.de</a>&gt;=
+ wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px =
+0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Hi Atish=
+,<br>
+<br>
+Am Donnerstag, 20. Januar 2022, 21:07:34 CET schrieb Atish Patra:<br>
+&gt; The RISC-V privileged specification v1.12 defines few execution<br>
+&gt; environment configuration CSRs that can be used enable/disable<br>
+&gt; extensions per privilege levels.<br>
+&gt; <br>
+&gt; Add the basic support for these CSRs.<br>
+&gt; <br>
+&gt; Signed-off-by: Atish Patra &lt;<a href=3D"mailto:atishp@rivosinc.com" =
+target=3D"_blank">atishp@rivosinc.com</a>&gt;<br>
+&gt; ---<br>
+&gt;=C2=A0 target/riscv/cpu.h=C2=A0 =C2=A0 =C2=A0 |=C2=A0 8 ++++<br>
+&gt;=C2=A0 target/riscv/cpu_bits.h | 31 +++++++++++++++<br>
+&gt;=C2=A0 target/riscv/csr.c=C2=A0 =C2=A0 =C2=A0 | 84 ++++++++++++++++++++=
++++++++++++++++++++++<br>
+&gt;=C2=A0 target/riscv/machine.c=C2=A0 | 26 +++++++++++++<br>
+&gt;=C2=A0 4 files changed, 149 insertions(+)<br>
+&gt; <br>
+&gt; diff --git a/target/riscv/cpu_bits.h b/target/riscv/cpu_bits.h<br>
+&gt; index f6f90b5cbd52..afb237c2313b 100644<br>
+&gt; --- a/target/riscv/cpu_bits.h<br>
+&gt; +++ b/target/riscv/cpu_bits.h<br>
+<br>
+[...]<br>
+<br>
+&gt; @@ -578,6 +589,26 @@ typedef enum RISCVException {<br>
+&gt;=C2=A0 #define PM_EXT_CLEAN=C2=A0 =C2=A0 0x00000002ULL<br>
+&gt;=C2=A0 #define PM_EXT_DIRTY=C2=A0 =C2=A0 0x00000003ULL<br>
+&gt;=C2=A0 <br>
+&gt; +/* Execution enviornment configuration bits */<br>
+&gt; +#define MENVCFG_FIOM=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0(1 &lt;&lt; 0)<br>
+<br>
+&gt; +#define MENVCFG_CBE=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 0x30000ULL<br>
+<br>
+Looking both at the cmo spec as well as the most recent privileged spec<br>
+(draft) the field is called CBIE it seems.<br>
+<br>
+Also the shift looks wrong. Both cmo as well as privileged spec show<br>
+it at bits [5:4] and _not_ [17:16].<br>
+<br></blockquote><div><br></div><div>This looks like a typo from my side. T=
+hese bits are reserved in the spec!</div><div>Apologies for such a silly mi=
+stake. Fixed it in v2.</div><div>=C2=A0</div><blockquote class=3D"gmail_quo=
+te" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204=
+);padding-left:1ex">
+Also wouldn&#39;t doing it like (_UL(3) &lt;&lt; 4) be better to catch such=
+ things?<br>
+<br></blockquote><div><br></div><div>Of course.</div><div>=C2=A0</div><bloc=
+kquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:=
+1px solid rgb(204,204,204);padding-left:1ex">
+&gt; +#define MENVCFG_CBCFE=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 (1 &lt;&lt; 6)<br>
+&gt; +#define MENVCFG_CBZE=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0(1 &lt;&lt; 7)<br>
+&gt; +#define MENVCFG_PBMTE=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 (1 &lt;&lt; 62)<br>
+&gt; +#define MENVCFG_STCE=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0(1 &lt;&lt; 63)<br>
+&gt; +<br>
+&gt; +#define SENVCFG_FIOM=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0MENVCFG_FIOM<br>
+&gt; +#define SENVCFG_CBE=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 MENVCFG_CBE<br>
+&gt; +#define SENVCFG_CBCFE=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 MENVCFG_CBCFE<br>
+&gt; +#define SENVCFG_CBZE=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0MENVCFG_CBZE<br>
+&gt; +<br>
+&gt; +#define HENVCFG_FIOM=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0MENVCFG_FIOM<br>
+&gt; +#define HENVCFG_CBE=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 MENVCFG_CBE<br>
+&gt; +#define HENVCFG_CBCFE=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 MENVCFG_CBCFE<br>
+&gt; +#define HENVCFG_CBZE=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0MENVCFG_CBZE<br>
+&gt; +#define HENVCFG_PBMTE=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 MENVCFG_PBMTE<br>
+&gt; +#define HENVCFG_STCE=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0MENVCFG_STCE<br>
+&gt; +<br>
+&gt;=C2=A0 /* Offsets for every pair of control bits per each priv level */=
+<br>
+&gt;=C2=A0 #define XS_OFFSET=C2=A0 =C2=A0 0ULL<br>
+&gt;=C2=A0 #define U_OFFSET=C2=A0 =C2=A0 =C2=A02ULL<br>
+<br>
+<br>
+Heiko<br>
+<br>
+<br>
+</blockquote></div></div>
+
+--000000000000beb7f705d7232237--
 
