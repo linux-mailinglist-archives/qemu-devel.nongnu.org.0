@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E45984A8755
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Feb 2022 16:12:10 +0100 (CET)
-Received: from localhost ([::1]:33696 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BFD5C4A877E
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Feb 2022 16:18:03 +0100 (CET)
+Received: from localhost ([::1]:40366 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nFdmK-0000am-HJ
-	for lists+qemu-devel@lfdr.de; Thu, 03 Feb 2022 10:12:08 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:45536)
+	id 1nFds1-0005Km-IZ
+	for lists+qemu-devel@lfdr.de; Thu, 03 Feb 2022 10:18:01 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:47268)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1nFdjD-00085i-Ty
- for qemu-devel@nongnu.org; Thu, 03 Feb 2022 10:08:55 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:59128)
+ id 1nFdpm-0004aB-Fx
+ for qemu-devel@nongnu.org; Thu, 03 Feb 2022 10:15:43 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:33290)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1nFdj8-0004Sf-1z
- for qemu-devel@nongnu.org; Thu, 03 Feb 2022 10:08:54 -0500
+ id 1nFdpi-0006lW-Bz
+ for qemu-devel@nongnu.org; Thu, 03 Feb 2022 10:15:40 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1643900926;
+ s=mimecast20190719; t=1643901336;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=AuYSEL6sKUoyw7+ZC4AtUjk7waClVM7SBeHB+/oUWQA=;
- b=OE+e3wN3bfFol1zaTvKrVAwlSL4yHILlp4J+zlowCFj8e6TnPb0zZHKOJJxzEEvPmgh1gG
- JEE2/Y5Cqvj7D3KLOaBOM6dhGfnFXOxjqaCIdALo7XdQki8WD3rHa43hj+MZsF4DBo84Nb
- tAmeSrdOgUcbYU8a2HRHhtSGEocaOtU=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=Chp0oQy6+633OCEnLORaVy2OVXwSaW8WowKZ59KZzRM=;
+ b=YWkhZpvl2h/e2JA5t/Frk3wCi6mHatk/LHxu+Ot5k02GDEteh36McRl4/KJ5ftXNLLpGTM
+ A1aV3RaS8zLN3LVLQv7bGM8kXQ6yV26O3JMWY+PkgkXF83FfVuxprUoGtJ131PKA/UbQve
+ opLcwYhLqTizHBDuFpTqysiAYd5X340=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-392-qbLbBGjPOyuB-3eR1UBW-A-1; Thu, 03 Feb 2022 10:08:45 -0500
-X-MC-Unique: qbLbBGjPOyuB-3eR1UBW-A-1
-Received: by mail-wm1-f70.google.com with SMTP id
- 7-20020a1c1907000000b003471d9bbe8dso1885379wmz.0
- for <qemu-devel@nongnu.org>; Thu, 03 Feb 2022 07:08:44 -0800 (PST)
+ us-mta-459-xvaEckugOjO5Vwuyu6tlXA-1; Thu, 03 Feb 2022 10:15:35 -0500
+X-MC-Unique: xvaEckugOjO5Vwuyu6tlXA-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ h2-20020adfa4c2000000b001e26b5f1ec5so753751wrb.13
+ for <qemu-devel@nongnu.org>; Thu, 03 Feb 2022 07:15:35 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to:user-agent;
- bh=AuYSEL6sKUoyw7+ZC4AtUjk7waClVM7SBeHB+/oUWQA=;
- b=QYsHodaAl0Hl9meyptdR2BX75tAJ30QqQELsxkjaCDpEbK8RNNPuBB7BMk5CbGYFja
- FtoX8ENhwATgX7KdtZ6YfqyTLTxBttuDpHGnPodPTa+hzINLk9QRcQD7JfG6l6/9kY6p
- LeJijBIxKAMbrx/VUuj/XsG2Gy5/Wi7bLyrVQy7h3Pa86u6Xt/xCRHC5yzafKEINmkrB
- kVvYdljNlqDi1fMwnBCHBAiYdeoGDjfL23N4jQsNPIXtOnnMBulZPgfoPIVIvcUhomcO
- lwQWSd/UAyOcAI+wwFRMGezYqn7K4oG7nCcu2oYyP2ul8+Ic9/2Rq8iss3mIx4a/ZyVN
- 3wyw==
-X-Gm-Message-State: AOAM531nQZGVdCTSQh9vWfjChrLRPfrgt7eZ5MDEvh2hjeT4EXvtylRL
- gDfEkgSMXw3PsOX+68sTmlunDdITf1i6HvS0Du6J3Y86CddgBBC6Alf5bZfsPyDCaJW67BZt3Fm
- xUcklX3Nq/um8omk=
-X-Received: by 2002:a7b:c84f:: with SMTP id c15mr10774946wml.181.1643900923778; 
- Thu, 03 Feb 2022 07:08:43 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxEZOhtSGEIoim/Nw4Qb5Q5FQCr7HrbpMIFR0DuN8Mi/RnH5FhsOWDp7BaayWkO3ok8vLgsmw==
-X-Received: by 2002:a7b:c84f:: with SMTP id c15mr10774907wml.181.1643900923354; 
- Thu, 03 Feb 2022 07:08:43 -0800 (PST)
+ bh=Chp0oQy6+633OCEnLORaVy2OVXwSaW8WowKZ59KZzRM=;
+ b=sOFzKRHeYPPTjGiVoRTyJrchppnRe1Mz6G7RHf2IiQjmdqX7bCROfdBoKHcqlLmfHF
+ iOPRugxL2/Y9/DnyC2HoMdGczdU3uLglhhlr6jXYgDYJbndwU6i93bx88DbNVBYGse4B
+ uH+o9vP1hRmeLnVxvT5bOxNdryO5N3SG/p7AmuewSFGQoIDlDsALMY3hh1W+J0bI2VDr
+ jPh0BF51Yc6ZTowrNm+2rKtGnDm1Aran243L3ML02PhOysTEK8A+rlvsGKTihIXMgT8w
+ cicAorPuE+VBx1pkN98Gocco64Hu0cn9V8WdnKdJceTamrFoEYCaDnLWIUzvd+LsAlk7
+ X7Ug==
+X-Gm-Message-State: AOAM533GFxK8K38QwYdmTiHZTrRs7NUn1E3t9YRqC7pVFNQB0j+9zKK7
+ 7AF9JkjfHk4I7+dmrxF+sl5WfktXt9VU+FJoBKKt+A8nfQCIPynY1TXzb2EvtEy06Qr+EyIWKtz
+ YLFNPpZ+Rt3F4jLI=
+X-Received: by 2002:a1c:4d0a:: with SMTP id o10mr11188499wmh.57.1643901334296; 
+ Thu, 03 Feb 2022 07:15:34 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyWjR9vRC+vsxfWOUuRvSJzkpdPkTK/wZCbelnSsjw2+x3t8Ix9Iuw1kMo/udUPBLa5F0pAZg==
+X-Received: by 2002:a1c:4d0a:: with SMTP id o10mr11188479wmh.57.1643901334065; 
+ Thu, 03 Feb 2022 07:15:34 -0800 (PST)
 Received: from work-vm (82-132-239-190.dab.02.net. [82.132.239.190])
- by smtp.gmail.com with ESMTPSA id l24sm8603585wms.24.2022.02.03.07.08.42
+ by smtp.gmail.com with ESMTPSA id m8sm19785634wrn.106.2022.02.03.07.15.32
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 03 Feb 2022 07:08:42 -0800 (PST)
-Date: Thu, 3 Feb 2022 15:08:39 +0000
+ Thu, 03 Feb 2022 07:15:33 -0800 (PST)
+Date: Thu, 3 Feb 2022 15:15:31 +0000
 From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 To: Peter Xu <peterx@redhat.com>
-Subject: Re: [PATCH RFC 07/15] migration: Introduce postcopy channels on dest
- node
-Message-ID: <Yfvv9zYcgJWg+Yy9@work-vm>
+Subject: Re: [PATCH RFC 08/15] migration: Dump ramblock and offset too when
+ non-same-page detected
+Message-ID: <YfvxkzSsjMGlEdzn@work-vm>
 References: <20220119080929.39485-1-peterx@redhat.com>
- <20220119080929.39485-8-peterx@redhat.com>
+ <20220119080929.39485-9-peterx@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20220119080929.39485-8-peterx@redhat.com>
+In-Reply-To: <20220119080929.39485-9-peterx@redhat.com>
 User-Agent: Mutt/2.1.5 (2021-12-30)
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
@@ -76,7 +76,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=dgilbert@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -103,310 +103,37 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 * Peter Xu (peterx@redhat.com) wrote:
-> Postcopy handles huge pages in a special way that currently we can only have
-> one "channel" to transfer the page.
+> In ram_load_postcopy() we'll try to detect non-same-page case and dump error.
+> This error is very helpful for debugging.  Adding ramblock & offset into the
+> error log too.
 > 
-> It's because when we install pages using UFFDIO_COPY, we need to have the whole
-> huge page ready, it also means we need to have a temp huge page when trying to
-> receive the whole content of the page.
-> 
-> Currently all maintainance around this tmp page is global: firstly we'll
-> allocate a temp huge page, then we maintain its status mostly within
-> ram_load_postcopy().
-> 
-> To enable multiple channels for postcopy, the first thing we need to do is to
-> prepare N temp huge pages as caching, one for each channel.
-> 
-> Meanwhile we need to maintain the tmp huge page status per-channel too.
-> 
-> To give some example, some local variables maintained in ram_load_postcopy()
-> are listed; they are responsible for maintaining temp huge page status:
-> 
->   - all_zero:     this keeps whether this huge page contains all zeros
->   - target_pages: this counts how many target pages have been copied
->   - host_page:    this keeps the host ptr for the page to install
-> 
-> Move all these fields to be together with the temp huge pages to form a new
-> structure called PostcopyTmpPage.  Then for each (future) postcopy channel, we
-> need one structure to keep the state around.
-> 
-> For vanilla postcopy, obviously there's only one channel.  It contains both
-> precopy and postcopy pages.
-> 
-> This patch teaches the dest migration node to start realize the possible number
-> of postcopy channels by introducing the "postcopy_channels" variable.  Its
-> value is calculated when setup postcopy on dest node (during POSTCOPY_LISTEN
-> phase).
-> 
-> Vanilla postcopy will have channels=1, but when postcopy-preempt capability is
-> enabled (in the future), we will boost it to 2 because even during partial
-> sending of a precopy huge page we still want to preempt it and start sending
-> the postcopy requested page right away (so we start to keep two temp huge
-> pages; more if we want to enable multifd).  In this patch there's a TODO marked
-> for that; so far the channels is always set to 1.
-> 
-> We need to send one "host huge page" on one channel only and we cannot split
-> them, because otherwise the data upon the same huge page can locate on more
-> than one channel so we need more complicated logic to manage.  One temp host
-> huge page for each channel will be enough for us for now.
-> 
-> Postcopy will still always use the index=0 huge page even after this patch.
-> However it prepares for the latter patches where it can start to use multiple
-> channels (which needs src intervention, because only src knows which channel we
-> should use).
-
-Generally OK, some minor nits.
-
 > Signed-off-by: Peter Xu <peterx@redhat.com>
+
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+
 > ---
->  migration/migration.h    | 35 +++++++++++++++++++++++++++-
->  migration/postcopy-ram.c | 50 +++++++++++++++++++++++++++++-----------
->  migration/ram.c          | 43 +++++++++++++++++-----------------
->  3 files changed, 91 insertions(+), 37 deletions(-)
+>  migration/ram.c | 8 ++++++--
+>  1 file changed, 6 insertions(+), 2 deletions(-)
 > 
-> diff --git a/migration/migration.h b/migration/migration.h
-> index 8130b703eb..8bb2931312 100644
-> --- a/migration/migration.h
-> +++ b/migration/migration.h
-> @@ -45,6 +45,24 @@ struct PostcopyBlocktimeContext;
->   */
->  #define CLEAR_BITMAP_SHIFT_MAX            31
->  
-> +/* This is an abstraction of a "temp huge page" for postcopy's purpose */
-> +typedef struct {
-> +    /*
-> +     * This points to a temporary huge page as a buffer for UFFDIO_COPY.  It's
-> +     * mmap()ed and needs to be freed when cleanup.
-> +     */
-> +    void *tmp_huge_page;
-> +    /*
-> +     * This points to the host page we're going to install for this temp page.
-> +     * It tells us after we've received the whole page, where we should put it.
-> +     */
-> +    void *host_addr;
-> +    /* Number of small pages copied (in size of TARGET_PAGE_SIZE) */
-> +    int target_pages;
-
-Can we take the opportunity to convert this to an unsigned?
-
-> +    /* Whether this page contains all zeros */
-> +    bool all_zero;
-> +} PostcopyTmpPage;
-> +
->  /* State for the incoming migration */
->  struct MigrationIncomingState {
->      QEMUFile *from_src_file;
-> @@ -81,7 +99,22 @@ struct MigrationIncomingState {
->      QemuMutex rp_mutex;    /* We send replies from multiple threads */
->      /* RAMBlock of last request sent to source */
->      RAMBlock *last_rb;
-> -    void     *postcopy_tmp_page;
-> +    /*
-> +     * Number of postcopy channels including the default precopy channel, so
-> +     * vanilla postcopy will only contain one channel which contain both
-> +     * precopy and postcopy streams.
-> +     *
-> +     * This is calculated when the src requests to enable postcopy but before
-> +     * it starts.  Its value can depend on e.g. whether postcopy preemption is
-> +     * enabled.
-> +     */
-> +    int       postcopy_channels;
-
-Also unsigned?
-
-> +    /*
-> +     * An array of temp host huge pages to be used, one for each postcopy
-> +     * channel.
-> +     */
-> +    PostcopyTmpPage *postcopy_tmp_pages;
-> +    /* This is shared for all postcopy channels */
->      void     *postcopy_tmp_zero_page;
->      /* PostCopyFD's for external userfaultfds & handlers of shared memory */
->      GArray   *postcopy_remote_fds;
-> diff --git a/migration/postcopy-ram.c b/migration/postcopy-ram.c
-> index e662dd05cc..d78e1b9373 100644
-> --- a/migration/postcopy-ram.c
-> +++ b/migration/postcopy-ram.c
-> @@ -525,9 +525,18 @@ int postcopy_ram_incoming_init(MigrationIncomingState *mis)
->  
->  static void postcopy_temp_pages_cleanup(MigrationIncomingState *mis)
->  {
-> -    if (mis->postcopy_tmp_page) {
-> -        munmap(mis->postcopy_tmp_page, mis->largest_page_size);
-> -        mis->postcopy_tmp_page = NULL;
-> +    int i;
-> +
-> +    if (mis->postcopy_tmp_pages) {
-> +        for (i = 0; i < mis->postcopy_channels; i++) {
-> +            if (mis->postcopy_tmp_pages[i].tmp_huge_page) {
-> +                munmap(mis->postcopy_tmp_pages[i].tmp_huge_page,
-> +                       mis->largest_page_size);
-> +                mis->postcopy_tmp_pages[i].tmp_huge_page = NULL;
-> +            }
-> +        }
-> +        g_free(mis->postcopy_tmp_pages);
-> +        mis->postcopy_tmp_pages = NULL;
->      }
->  
->      if (mis->postcopy_tmp_zero_page) {
-> @@ -1091,17 +1100,30 @@ retry:
->  
->  static int postcopy_temp_pages_setup(MigrationIncomingState *mis)
->  {
-> -    int err;
-> -
-> -    mis->postcopy_tmp_page = mmap(NULL, mis->largest_page_size,
-> -                                  PROT_READ | PROT_WRITE,
-> -                                  MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
-> -    if (mis->postcopy_tmp_page == MAP_FAILED) {
-> -        err = errno;
-> -        mis->postcopy_tmp_page = NULL;
-> -        error_report("%s: Failed to map postcopy_tmp_page %s",
-> -                     __func__, strerror(err));
-> -        return -err;
-> +    PostcopyTmpPage *tmp_page;
-> +    int err, i, channels;
-> +    void *temp_page;
-> +
-> +    /* TODO: will be boosted when enable postcopy preemption */
-> +    mis->postcopy_channels = 1;
-> +
-> +    channels = mis->postcopy_channels;
-> +    mis->postcopy_tmp_pages = g_malloc0(sizeof(PostcopyTmpPage) * channels);
-
-I noticed we've started using g_malloc0_n in a few places
-
-> +    for (i = 0; i < channels; i++) {
-> +        tmp_page = &mis->postcopy_tmp_pages[i];
-> +        temp_page = mmap(NULL, mis->largest_page_size, PROT_READ | PROT_WRITE,
-> +                         MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
-> +        if (temp_page == MAP_FAILED) {
-> +            err = errno;
-> +            error_report("%s: Failed to map postcopy_tmp_pages[%d]: %s",
-> +                         __func__, i, strerror(err));
-
-Please call postcopy_temp_pages_cleanup here to cleanup previous pages
-that were succesfully allocated.
-
-> +            return -err;
-> +        }
-> +        tmp_page->tmp_huge_page = temp_page;
-> +        /* Initialize default states for each tmp page */
-> +        tmp_page->all_zero = true;
-> +        tmp_page->target_pages = 0;
->      }
->  
->      /*
 > diff --git a/migration/ram.c b/migration/ram.c
-> index 0df15ff663..930e722e39 100644
+> index 930e722e39..3f823ffffc 100644
 > --- a/migration/ram.c
 > +++ b/migration/ram.c
-> @@ -3639,11 +3639,8 @@ static int ram_load_postcopy(QEMUFile *f)
->      bool place_needed = false;
->      bool matches_target_page_size = false;
->      MigrationIncomingState *mis = migration_incoming_get_current();
-> -    /* Temporary page that is later 'placed' */
-> -    void *postcopy_host_page = mis->postcopy_tmp_page;
-> -    void *host_page = NULL;
-> -    bool all_zero = true;
-> -    int target_pages = 0;
-> +    /* Currently we only use channel 0.  TODO: use all the channels */
-> +    PostcopyTmpPage *tmp_page = &mis->postcopy_tmp_pages[0];
->  
->      while (!ret && !(flags & RAM_SAVE_FLAG_EOS)) {
->          ram_addr_t addr;
-> @@ -3687,7 +3684,7 @@ static int ram_load_postcopy(QEMUFile *f)
->                  ret = -EINVAL;
->                  break;
->              }
-> -            target_pages++;
-> +            tmp_page->target_pages++;
->              matches_target_page_size = block->page_size == TARGET_PAGE_SIZE;
->              /*
->               * Postcopy requires that we place whole host pages atomically;
-> @@ -3699,15 +3696,16 @@ static int ram_load_postcopy(QEMUFile *f)
->               * however the source ensures it always sends all the components
->               * of a host page in one chunk.
->               */
-> -            page_buffer = postcopy_host_page +
-> +            page_buffer = tmp_page->tmp_huge_page +
->                            host_page_offset_from_ram_block_offset(block, addr);
->              /* If all TP are zero then we can optimise the place */
-> -            if (target_pages == 1) {
-> -                host_page = host_page_from_ram_block_offset(block, addr);
-> -            } else if (host_page != host_page_from_ram_block_offset(block,
-> -                                                                    addr)) {
-> +            if (tmp_page->target_pages == 1) {
-> +                tmp_page->host_addr =
-> +                    host_page_from_ram_block_offset(block, addr);
-> +            } else if (tmp_page->host_addr !=
-> +                       host_page_from_ram_block_offset(block, addr)) {
+> @@ -3705,8 +3705,12 @@ static int ram_load_postcopy(QEMUFile *f)
+>              } else if (tmp_page->host_addr !=
+>                         host_page_from_ram_block_offset(block, addr)) {
 >                  /* not the 1st TP within the HP */
-> -                error_report("Non-same host page %p/%p", host_page,
-> +                error_report("Non-same host page %p/%p", tmp_page->host_addr,
->                               host_page_from_ram_block_offset(block, addr));
+> -                error_report("Non-same host page %p/%p", tmp_page->host_addr,
+> -                             host_page_from_ram_block_offset(block, addr));
+> +                error_report("Non-same host page detected.  Target host page %p, "
+> +                             "received host page %p "
+> +                             "(rb %s offset 0x"RAM_ADDR_FMT" target_pages %d)",
+> +                             tmp_page->host_addr,
+> +                             host_page_from_ram_block_offset(block, addr),
+> +                             block->idstr, addr, tmp_page->target_pages);
 >                  ret = -EINVAL;
 >                  break;
-> @@ -3717,10 +3715,11 @@ static int ram_load_postcopy(QEMUFile *f)
->               * If it's the last part of a host page then we place the host
->               * page
->               */
-> -            if (target_pages == (block->page_size / TARGET_PAGE_SIZE)) {
-> +            if (tmp_page->target_pages ==
-> +                (block->page_size / TARGET_PAGE_SIZE)) {
->                  place_needed = true;
 >              }
-> -            place_source = postcopy_host_page;
-> +            place_source = tmp_page->tmp_huge_page;
->          }
->  
->          switch (flags & ~RAM_SAVE_FLAG_CONTINUE) {
-> @@ -3734,12 +3733,12 @@ static int ram_load_postcopy(QEMUFile *f)
->                  memset(page_buffer, ch, TARGET_PAGE_SIZE);
->              }
->              if (ch) {
-> -                all_zero = false;
-> +                tmp_page->all_zero = false;
->              }
->              break;
->  
->          case RAM_SAVE_FLAG_PAGE:
-> -            all_zero = false;
-> +            tmp_page->all_zero = false;
->              if (!matches_target_page_size) {
->                  /* For huge pages, we always use temporary buffer */
->                  qemu_get_buffer(f, page_buffer, TARGET_PAGE_SIZE);
-> @@ -3757,7 +3756,7 @@ static int ram_load_postcopy(QEMUFile *f)
->              }
->              break;
->          case RAM_SAVE_FLAG_COMPRESS_PAGE:
-> -            all_zero = false;
-> +            tmp_page->all_zero = false;
->              len = qemu_get_be32(f);
->              if (len < 0 || len > compressBound(TARGET_PAGE_SIZE)) {
->                  error_report("Invalid compressed data length: %d", len);
-> @@ -3789,16 +3788,16 @@ static int ram_load_postcopy(QEMUFile *f)
->          }
->  
->          if (!ret && place_needed) {
-> -            if (all_zero) {
-> -                ret = postcopy_place_page_zero(mis, host_page, block);
-> +            if (tmp_page->all_zero) {
-> +                ret = postcopy_place_page_zero(mis, tmp_page->host_addr, block);
->              } else {
-> -                ret = postcopy_place_page(mis, host_page, place_source,
-> +                ret = postcopy_place_page(mis, tmp_page->host_addr, place_source,
->                                            block);
->              }
->              place_needed = false;
-> -            target_pages = 0;
-> +            tmp_page->target_pages = 0;
->              /* Assume we have a zero page until we detect something different */
-> -            all_zero = true;
-> +            tmp_page->all_zero = true;
->          }
->      }
->  
 > -- 
 > 2.32.0
 > 
