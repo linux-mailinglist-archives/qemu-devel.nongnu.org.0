@@ -2,89 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB08D4A8C4C
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Feb 2022 20:12:30 +0100 (CET)
-Received: from localhost ([::1]:43520 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E6D8B4A8C67
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Feb 2022 20:26:43 +0100 (CET)
+Received: from localhost ([::1]:52648 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nFhWv-0004pY-G0
-	for lists+qemu-devel@lfdr.de; Thu, 03 Feb 2022 14:12:29 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:39638)
+	id 1nFhkg-0003Rl-K2
+	for lists+qemu-devel@lfdr.de; Thu, 03 Feb 2022 14:26:42 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:41732)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1nFghl-0002pE-5O
- for qemu-devel@nongnu.org; Thu, 03 Feb 2022 13:19:37 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:43719)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1nFghh-0004Rg-Oz
- for qemu-devel@nongnu.org; Thu, 03 Feb 2022 13:19:35 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1643912372;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=s8pjfXZhrbE0HJmFMdJ92D7P3ugrEAMvtww/NqpV7e0=;
- b=D9ATQjfC740aXIHvcHrJlzSYWHvS7nyqSy7Ny/ZNhGg8brRXlvhB2SjajEsZQnjha91ANw
- QdIQOpI0Rga5ZFYUoBNbnKdORK5tpQCU8LL5FpAYxiYZzurkiuKhZFjTfcr1Kmg+S1f0Q9
- jMumDtKT9p0NvMLWXckxC4qGv1uLVv8=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-393-1TRLamxJPy66LUVs7ZHC5g-1; Thu, 03 Feb 2022 13:19:26 -0500
-X-MC-Unique: 1TRLamxJPy66LUVs7ZHC5g-1
-Received: by mail-wm1-f71.google.com with SMTP id
- m18-20020a7bca52000000b003552c4e2550so1503475wml.0
- for <qemu-devel@nongnu.org>; Thu, 03 Feb 2022 10:19:26 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1nFgsY-0000wb-9B
+ for qemu-devel@nongnu.org; Thu, 03 Feb 2022 13:30:46 -0500
+Received: from [2607:f8b0:4864:20::534] (port=34318
+ helo=mail-pg1-x534.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1nFgsW-0006IC-MX
+ for qemu-devel@nongnu.org; Thu, 03 Feb 2022 13:30:45 -0500
+Received: by mail-pg1-x534.google.com with SMTP id v3so2993993pgc.1
+ for <qemu-devel@nongnu.org>; Thu, 03 Feb 2022 10:30:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=jmXWHfcZ46MI72djVkvm4qIlSx6rm5iEE9JNv22+ZAA=;
+ b=k31iFVW+xm1ZTGntmbHSNGhHGLS3E7YY4yW6avp8V3Pj8HeeGMtdY9MKVl2/ZlrDPn
+ GdroJQX7xYx+baTGP7JcZkdS7SDbhMSrz2hCYaIG5CseLLsnJZ41SEEn721fRZ152UXb
+ 2gusdytaysrzoSSKr/A1f5UUshLGm+sC11MZk3I3vmnp8suejYFrfzlTnsXm5Qe2etpf
+ ZUwGe78B8W+T4jy6B3dzdMsWLAwdguARwuri8UbMEMa92ft78+Snq2EUtf6SOwsNe8vr
+ bjVLanSDurV4tJH0Y45v75054Es+MelyGIt40Vng7+78DONHKbsdql87xGN4Kv9v62UO
+ qx9A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=s8pjfXZhrbE0HJmFMdJ92D7P3ugrEAMvtww/NqpV7e0=;
- b=PcIRSpwzX3Tor4viN4yRTJ3iXsIPj3Dy2GAxRMfL1Ba7rLwQez7B8YJYHppS2u7gIK
- xTKVxMcaU3nnwsCtZAmNySwmbaWX5kXZwgosKXEMWmVeZQNYZs4vTK7cHZwaOjoL8JbA
- oVirNKHN62vIBm1ynwAVKygXzwSaPs7Ab6g5VEcIYsIIuJP8OKUnw7DfXfViW/hupk99
- hNuihehy34pcs+j0KkUXnGDmFAjql23odR7Uo4WStF1xkCCm52JVaQbbqZXDqnAEsphS
- WVolm71PbPgDszyU0NJ4on0xjYfJ+8XwVyT7u3rLzJvHkYdsZMMNS+YFyOnkuud/8vw1
- +PLw==
-X-Gm-Message-State: AOAM531wIy7J1oYiok1x6cUahbItj2Fe77KaLG53HPbh+bN5moay6Bqn
- uiJuSW3qMLgTgQ4y1/8RQisTKQTtI/eyFDrL2Ax/LfaLKmo9l7TSIZ9pJkmfRY5OWHfVCyUQQKz
- ELzikpcOLCEodvkc=
-X-Received: by 2002:adf:f68a:: with SMTP id v10mr19890015wrp.687.1643912365387; 
- Thu, 03 Feb 2022 10:19:25 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzvPlaIH0lsIZB1g0nmbN+FWnfR+WpAc5r2tRGpOsO9qqabn3h8ubAnV3teOBrnjNQJ1+4msw==
-X-Received: by 2002:adf:f68a:: with SMTP id v10mr19890002wrp.687.1643912365194; 
- Thu, 03 Feb 2022 10:19:25 -0800 (PST)
-Received: from work-vm (82-132-239-190.dab.02.net. [82.132.239.190])
- by smtp.gmail.com with ESMTPSA id e17sm11408751wrt.27.2022.02.03.10.19.23
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 03 Feb 2022 10:19:24 -0800 (PST)
-Date: Thu, 3 Feb 2022 18:19:22 +0000
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Peter Xu <peterx@redhat.com>
-Subject: Re: [PATCH RFC 02/15] migration: Allow pss->page jump over clean pages
-Message-ID: <YfwcqgbYEVtfSAbH@work-vm>
-References: <20220119080929.39485-1-peterx@redhat.com>
- <20220119080929.39485-3-peterx@redhat.com>
- <YegVV6lmkkmKBv9p@work-vm> <YejE8+F1l0ugJruR@xz-m1.local>
+ h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+ :subject:content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=jmXWHfcZ46MI72djVkvm4qIlSx6rm5iEE9JNv22+ZAA=;
+ b=m0s5oYyPUy9GmqJWBlMd7h+WOIOfx8lyJ+y5P4A4pWnz66xYoSbkg8lCeCLJ5tCPnQ
+ ua00FOgvZkphjxTEjHKVQ0YnkK0KijzMIsccHO/nl7UU2GBkyhF+4kucXyTtxZ3402cc
+ 5MruWM5Z9Awhjbh/c1ZgU46CX4cMjKZIX2Lelj+5YP7P7mTld3eF6/6F+5GpiaWfJdCF
+ qilW+NF8Lx0Sf1zCEzE5P+Q1AbB9uS80tbJiNGtKtYDOZLPCt/gi3gT9a/I25Eyy+NCc
+ iBz39EURC4XmNrEEv3bKaRlCl3qa+4AQ4Ho1pRf99VeoFXXLaNaN3Gb9zzbEc3dWiDDE
+ P3xQ==
+X-Gm-Message-State: AOAM531C+pJK2glaDVZdFWpvlwX2IcGktNP6TEJsXYCdYTPUkahTsm/T
+ e9mTMfUzRxY5FcAYgfTmkco=
+X-Google-Smtp-Source: ABdhPJxQSozQ30XmA6f6ahuuCkY52oVOFl0DHJxwAFkjVLmv5pIhH+9JTFmZfgnPJ4TNWg7gMgJfuA==
+X-Received: by 2002:a05:6a00:2447:: with SMTP id
+ d7mr35110251pfj.64.1643913043176; 
+ Thu, 03 Feb 2022 10:30:43 -0800 (PST)
+Received: from [192.168.1.33] (154.red-83-50-83.dynamicip.rima-tde.net.
+ [83.50.83.154])
+ by smtp.gmail.com with ESMTPSA id q1sm10632756pjd.48.2022.02.03.10.30.41
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 03 Feb 2022 10:30:42 -0800 (PST)
+Message-ID: <2f00f260-f8c4-55b2-7bad-efb5b7876eb9@amsat.org>
+Date: Thu, 3 Feb 2022 19:30:39 +0100
 MIME-Version: 1.0
-In-Reply-To: <YejE8+F1l0ugJruR@xz-m1.local>
-User-Agent: Mutt/2.1.5 (2021-12-30)
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.086,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.5.1
+Subject: Re: [PATCH] audio/dbus: Fix building with modules enabled on macOS
+Content-Language: en-US
+To: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@gmail.com>
+Cc: QEMU <qemu-devel@nongnu.org>, Gerd Hoffmann <kraxel@redhat.com>
+References: <20220203165859.41066-1-f4bug@amsat.org>
+ <CAJ+F1CKgWg6rZMGHnvg_hX+7m-YXG7fCpVbTHPpCw0MoRE6c0Q@mail.gmail.com>
+In-Reply-To: <CAJ+F1CKgWg6rZMGHnvg_hX+7m-YXG7fCpVbTHPpCw0MoRE6c0Q@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::534
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::534;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pg1-x534.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.001,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -97,78 +95,76 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kunkun Jiang <jiangkunkun@huawei.com>, Juan Quintela <quintela@redhat.com>,
- Keqian Zhu <zhukeqian1@huawei.com>, qemu-devel@nongnu.org,
- Leonardo Bras Soares Passos <lsoaresp@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
-* Peter Xu (peterx@redhat.com) wrote:
-> On Wed, Jan 19, 2022 at 01:42:47PM +0000, Dr. David Alan Gilbert wrote:
-> > * Peter Xu (peterx@redhat.com) wrote:
-> > > Commit ba1b7c812c ("migration/ram: Optimize ram_save_host_page()") managed to
-> > > optimize host huge page use case by scanning the dirty bitmap when looking for
-> > > the next dirty small page to migrate.
-> > > 
-> > > However when updating the pss->page before returning from that function, we
-> > > used MIN() of these two values: (1) next dirty bit, or (2) end of current sent
-> > > huge page, to fix up pss->page.
-> > > 
-> > > That sounds unnecessary, because I see nowhere that requires pss->page to be
-> > > not going over current huge page boundary.
-> > > 
-> > > What we need here is probably MAX() instead of MIN() so that we'll start
-> > > scanning from the next dirty bit next time. Since pss->page can't be smaller
-> > > than hostpage_boundary (the loop guarantees it), it probably means we don't
-> > > need to fix it up at all.
-> > > 
-> > > Cc: Keqian Zhu <zhukeqian1@huawei.com>
-> > > Cc: Kunkun Jiang <jiangkunkun@huawei.com>
-> > > Signed-off-by: Peter Xu <peterx@redhat.com>
-> > 
-> > 
-> > Hmm, I think that's potentially necessary.  note that the start of
-> > ram_save_host_page stores the 'start_page' at entry.
-> > That' start_page' goes to the ram_save_release_protection and so
-> > I think it needs to be pagesize aligned for the mmap/uffd that happens.
+On 3/2/22 19:05, Marc-André Lureau wrote:
+> Hi
 > 
-> Right, that's indeed a functional change, but IMHO it's also fine.
+> On Thu, Feb 3, 2022 at 9:04 PM Philippe Mathieu-Daudé via 
+> <qemu-devel@nongnu.org <mailto:qemu-devel@nongnu.org>> wrote:
 > 
-> When reaching ram_save_release_protection(), what we guaranteed is that below
-> page range contains no dirty bits in ramblock dirty bitmap:
+>     When configuring QEMU with --enable-modules we get on macOS:
 > 
->   range0 = [start_page, pss->page)
+>        --- stderr ---
+>        Dependency ui-dbus cannot be satisfied
 > 
-> Side note: inclusive on start, but not inclusive on the end side of range0
-> (that is, pss->page can be pointing to a dirty page).
+>     ui-dbus depends on pixman and opengl, so add these dependencies
+>     to audio-dbus.
 > 
-> What ram_save_release_protection() does is to unprotect the pages and let them
-> run free.  If we're sure range0 contains no dirty page, it means we have
-> already copied them over into the snapshot, so IIUC it's safe to unprotect all
-> of it (even if it's already bigger than the host page size)?
+> 
+> Weird, why would the audio module need pixman and opengl, on macos?
 
-I think what's worrying me is the alignment of the address going into
-UFFDIO_WRITEPROTECT in uffd_change_protection - if it was previously
-huge page aligned and now isn't, what breaks? (Did it support
-hugepages?)
+audio/dbusaudio.c depends on module_dep("ui-dbus") which itself
+depends on it (ui/meson.build):
 
-> That can be slightly less efficient for live snapshot in some extreme cases
-> (when unprotect, we'll need to walk the pgtables in the uffd ioctl()), but I
-> don't assume live snapshot to be run on a huge VM, so hopefully it's still
-> fine?  Not to mention it should make live migration a little bit faster,
-> assuming that's more frequently used..
-
-Hmm I don't think I understand that statement.
-
-Dave
+if dbus_display
+   dbus_ss = ss.source_set()
+   ...
+   dbus_ss.add(when: [gio, pixman, opengl, 'CONFIG_GIO'],
+               if_true: [files(
+                 'dbus-chardev.c',
+                 'dbus-clipboard.c',
+                 'dbus-console.c',
+                 'dbus-error.c',
+                 'dbus-listener.c',
+                 'dbus.c',
+               ), dbus_display1])
+   ui_modules += {'dbus' : dbus_ss}
+endif
 
 > 
-> Thanks,
+> 
+>     Fixes: 739362d420 ("audio: add "dbus" audio backend")
+>     Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org
+>     <mailto:f4bug@amsat.org>>
+>     ---
+>       audio/meson.build | 2 +-
+>       1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+>     diff --git a/audio/meson.build b/audio/meson.build
+>     index 0ac3791d0b..d9b295514f 100644
+>     --- a/audio/meson.build
+>     +++ b/audio/meson.build
+>     @@ -28,7 +28,7 @@ endforeach
+> 
+>       if dbus_display
+>           module_ss = ss.source_set()
+>     -    module_ss.add(when: gio, if_true: files('dbusaudio.c'))
+>     +    module_ss.add(when: [gio, pixman, opengl, 'CONFIG_GIO'],
+>     if_true: files('dbusaudio.c'))
+>           audio_modules += {'dbus': module_ss}
+>       endif
+> 
+>     -- 
+>     2.34.1
+> 
+> 
+> 
 > 
 > -- 
-> Peter Xu
-> 
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+> Marc-André Lureau
 
 
