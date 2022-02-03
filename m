@@ -2,98 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BBF534A86CB
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Feb 2022 15:45:03 +0100 (CET)
-Received: from localhost ([::1]:60812 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A34284A86C6
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Feb 2022 15:43:58 +0100 (CET)
+Received: from localhost ([::1]:58966 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nFdM6-00042U-Qw
-	for lists+qemu-devel@lfdr.de; Thu, 03 Feb 2022 09:45:02 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:58892)
+	id 1nFdL3-0002mw-OL
+	for lists+qemu-devel@lfdr.de; Thu, 03 Feb 2022 09:43:57 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:59008)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1nFczX-0008Rb-IK
- for qemu-devel@nongnu.org; Thu, 03 Feb 2022 09:21:45 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:37045)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>)
+ id 1nFd0F-0000PF-HD; Thu, 03 Feb 2022 09:22:28 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:64642
+ helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1nFczV-00072X-3X
- for qemu-devel@nongnu.org; Thu, 03 Feb 2022 09:21:43 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1643898100;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=bFGT6kuqQlw0g/+wQRBjzcaLHkqDVfYAOjmI3MAZJuw=;
- b=dGk5/QykzRS46ZplAYb+6KzQjX4KJuhJ9qCzfPgkAn6I3Co2KenK16+U2yI5Rp5gi2qYDs
- rFpiQgyQiiTioZe8LbCqIqjM6Kdz8SIYktAq89Kwn75COtFUV0aCUxVjbS5UOgqFV9fPeG
- nTclYwvnkJsjWLDsAgT8p3Z+OTcmCqI=
-Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
- [209.85.160.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-584-XiCBlqgcOS2YgLukJOsurQ-1; Thu, 03 Feb 2022 09:21:39 -0500
-X-MC-Unique: XiCBlqgcOS2YgLukJOsurQ-1
-Received: by mail-qt1-f197.google.com with SMTP id
- x5-20020ac84d45000000b002cf826b1a18so2027145qtv.2
- for <qemu-devel@nongnu.org>; Thu, 03 Feb 2022 06:21:39 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=bFGT6kuqQlw0g/+wQRBjzcaLHkqDVfYAOjmI3MAZJuw=;
- b=GWxsP8KL3pc1p4Jo1xelXmmcS2G7tovxVxnJSeB7A4mYbLdQcfQaAkZ4DfdmIgkNgu
- 3hM2ijc/CShpMD8MptYDBIhVRuUBtOIkc9KbK74G2uEoPkkvXG3/ipveZA8NgqA2Saem
- dvjOnmzdewO26dubp4rRXx/CU6hlA1Ll+CXZcLZddt4l3jZ0jjyn5xbQaefDmu8cJkpt
- T/M0zJZv3HPBHo2ixeWUCvDLNZdLdWgEEGiH3pWgJYI12WaYatxZxVW1SK6cm0N4Dnvm
- bZweW+XZyrqxVMsf0B3x7UQS5s0j42E6TgXPq0mYFBe6BTAGHbWtIN/oXjnIJi10CYT7
- LeGA==
-X-Gm-Message-State: AOAM532V9ssXlk+7t480t0xY0Ey4JekC/0dnYDhALrXnktz53YAshTGm
- 7dFS4qH71w+7lAbslhx1VNC38GQBcSF060VySCttSwXQ5loOq1BvPDxh4X1bamh/INjPZCrPfWd
- EpwKyi5jpDiYgFLw=
-X-Received: by 2002:a37:a597:: with SMTP id
- o145mr23176135qke.457.1643898098973; 
- Thu, 03 Feb 2022 06:21:38 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzpVTvn4R4psgSK01xbXjnx5jUybpcsJX5BHUY050e4B0gWT6nPmgaHZaqXn6yoRN7q2AYZRw==
-X-Received: by 2002:a37:a597:: with SMTP id
- o145mr23176117qke.457.1643898098719; 
- Thu, 03 Feb 2022 06:21:38 -0800 (PST)
-Received: from ?IPV6:2a04:ee41:4:31cb:e591:1e1e:abde:a8f1?
- ([2a04:ee41:4:31cb:e591:1e1e:abde:a8f1])
- by smtp.gmail.com with ESMTPSA id bj24sm11948693qkb.115.2022.02.03.06.21.36
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 03 Feb 2022 06:21:38 -0800 (PST)
-Message-ID: <30445d7b-0020-84e1-9ff4-1e287748d65a@redhat.com>
-Date: Thu, 3 Feb 2022 15:21:35 +0100
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>)
+ id 1nFd0C-000781-L9; Thu, 03 Feb 2022 09:22:27 -0500
+Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 213Cc8xL002461; 
+ Thu, 3 Feb 2022 14:21:57 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 3dywrrnxju-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 03 Feb 2022 14:21:57 +0000
+Received: from m0098420.ppops.net (m0098420.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 213DObwX017807;
+ Thu, 3 Feb 2022 14:21:56 GMT
+Received: from ppma02fra.de.ibm.com (47.49.7a9f.ip4.static.sl-reverse.com
+ [159.122.73.71])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 3dywrrnxjd-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 03 Feb 2022 14:21:56 +0000
+Received: from pps.filterd (ppma02fra.de.ibm.com [127.0.0.1])
+ by ppma02fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 213ED92n001474;
+ Thu, 3 Feb 2022 14:21:54 GMT
+Received: from b06cxnps3075.portsmouth.uk.ibm.com
+ (d06relay10.portsmouth.uk.ibm.com [9.149.109.195])
+ by ppma02fra.de.ibm.com with ESMTP id 3dvw79vxdw-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 03 Feb 2022 14:21:54 +0000
+Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com
+ [9.149.105.61])
+ by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 213ELqR941288158
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 3 Feb 2022 14:21:52 GMT
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 75BE311C054;
+ Thu,  3 Feb 2022 14:21:52 +0000 (GMT)
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 33E1911C04C;
+ Thu,  3 Feb 2022 14:21:52 +0000 (GMT)
+Received: from smtp.tlslab.ibm.com (unknown [9.101.4.1])
+ by d06av25.portsmouth.uk.ibm.com (Postfix) with SMTP;
+ Thu,  3 Feb 2022 14:21:52 +0000 (GMT)
+Received: from yukon.ibmuc.com (unknown [9.171.38.172])
+ by smtp.tlslab.ibm.com (Postfix) with ESMTP id 76513220158;
+ Thu,  3 Feb 2022 15:21:51 +0100 (CET)
+From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
+To: qemu-ppc@nongnu.org, qemu-devel@nongnu.org
+Subject: [PATCH] target/ppc: Fix radix logging
+Date: Thu,  3 Feb 2022 15:21:45 +0100
+Message-Id: <20220203142145.1301749-1-clg@kaod.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [PATCH 09/12] jobs: ensure sleep in job_sleep_ns is fully
- performed
-To: Stefan Hajnoczi <stefanha@redhat.com>
-References: <20220118162738.1366281-1-eesposit@redhat.com>
- <20220118162738.1366281-10-eesposit@redhat.com>
- <YfEuu6AGUEN4/5PQ@stefanha-x1.localdomain>
-From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-In-Reply-To: <YfEuu6AGUEN4/5PQ@stefanha-x1.localdomain>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eesposit@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eesposit@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.086,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+Content-Transfer-Encoding: quoted-printable
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: QNGB8F3JPmwKTLXwuS1VZaKLBmhBz_0d
+X-Proofpoint-GUID: F10mTiZXT1_WZkIYP4WsEfSjOiFG0Y8p
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.816,Hydra:6.0.425,FMLib:17.11.62.513
+ definitions=2022-02-03_04,2022-02-03_01,2021-12-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0 phishscore=0
+ clxscore=1034 impostorscore=0 adultscore=0 mlxscore=0 lowpriorityscore=0
+ priorityscore=1501 mlxlogscore=679 suspectscore=0 spamscore=0
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2201110000 definitions=main-2202030088
+Received-SPF: softfail client-ip=148.163.158.5; envelope-from=clg@kaod.org;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -9
+X-Spam_score: -1.0
+X-Spam_bar: -
+X-Spam_report: (-1.0 / 5.0 requ) BAYES_00=-1.9, KHOP_HELO_FCRDNS=0.24,
+ RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_SOFTFAIL=0.665, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -106,64 +100,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-block@nongnu.org,
- qemu-devel@nongnu.org, Hanna Reitz <hreitz@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>
+Cc: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
+ Daniel Henrique Barboza <danielhb413@gmail.com>, Greg Kurz <groug@kaod.org>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+ppc_radix64_partition_scoped_xlate() logs the host page protection
+bits variable but it is uninitialized since it is set later in
+ppc_radix64_check_prot(). Remove the
 
+Fixes: Coverity CID 1468942
+Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
+---
+ target/ppc/mmu-radix64.c | 8 ++------
+ 1 file changed, 2 insertions(+), 6 deletions(-)
 
-On 26/01/2022 12:21, Stefan Hajnoczi wrote:
-> On Tue, Jan 18, 2022 at 11:27:35AM -0500, Emanuele Giuseppe Esposito wrote:
->> If a drain happens while a job is sleeping, the timeout
->> gets cancelled and the job continues once the drain ends.
->> This is especially bad for the sleep performed in commit and stream
->> jobs, since that is dictated by ratelimit to maintain a certain speed.
->>
->> Basically the execution path is the followig:
-> 
-> s/followig/following/
-> 
->> 1. job calls job_sleep_ns, and yield with a timer in @ns ns.
->> 2. meanwhile, a drain is executed, and
->>    child_job_drained_{begin/end} could be executed as ->drained_begin()
->>    and ->drained_end() callbacks.
->>    Therefore child_job_drained_begin() enters the job, that continues
->>    execution in job_sleep_ns() and calls job_pause_point_locked().
->> 3. job_pause_point_locked() detects that we are in the middle of a
->>    drain, and firstly deletes any existing timer and then yields again,
->>    waiting for ->drained_end().
->> 4. Once draining is finished, child_job_drained_end() runs and resumes
->>    the job. At this point, the timer has been lost and we just resume
->>    without checking if enough time has passed.
->>
->> This fix implies that from now onwards, job_sleep_ns will force the job
->> to sleep @ns, even if it is wake up (purposefully or not) in the middle
->> of the sleep. Therefore qemu-iotests test might run a little bit slower,
->> depending on the speed of the job. Setting a job speed to values like "1"
->> is not allowed anymore (unless you want to wait forever).
->>
->> Because of this fix, test_stream_parallel() in tests/qemu-iotests/030
->> takes too long, since speed of stream job is just 1024 and before
->> it was skipping all the wait thanks to the drains. Increase the
->> speed to 256 * 1024. Exactly the same happens for test 151.
->>
->> Instead we need to sleep less in test_cancel_ready() test-blockjob.c,
->> so that the job will be able to exit the sleep and transition to ready
->> before the main loop asserts.
-> 
-> I remember seeing Hanna and Kevin use carefully rate-limited jobs in
-> qemu-iotests. They might have thoughts on whether this patch is
-> acceptable or not.
-> 
-
-I think the speed was carefully set as "slow enough" just to give time
-to the operation to happen while the job was running. Anyways, all tests
-I run work as intended, I just increased their speed slightly.
-Having speed=1 would make e job really really slow.
-
-Emanuele
+diff --git a/target/ppc/mmu-radix64.c b/target/ppc/mmu-radix64.c
+index 040c055bff65..d4e16bd7db50 100644
+--- a/target/ppc/mmu-radix64.c
++++ b/target/ppc/mmu-radix64.c
+@@ -327,13 +327,9 @@ static int ppc_radix64_partition_scoped_xlate(PowerP=
+CCPU *cpu,
+     uint64_t pte;
+=20
+     qemu_log_mask(CPU_LOG_MMU, "%s for %s @0x%"VADDR_PRIx
+-                  " mmu_idx %u (prot %c%c%c) 0x%"HWADDR_PRIx"\n",
++                  " mmu_idx %u 0x%"HWADDR_PRIx"\n",
+                   __func__, access_str(access_type),
+-                  eaddr, mmu_idx,
+-                  *h_prot & PAGE_READ ? 'r' : '-',
+-                  *h_prot & PAGE_WRITE ? 'w' : '-',
+-                  *h_prot & PAGE_EXEC ? 'x' : '-',
+-                  g_raddr);
++                  eaddr, mmu_idx, g_raddr);
+=20
+     *h_page_size =3D PRTBE_R_GET_RTS(pate.dw0);
+     /* No valid pte or access denied due to protection */
+--=20
+2.34.1
 
 
