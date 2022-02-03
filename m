@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C80E54A8A6B
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Feb 2022 18:42:47 +0100 (CET)
-Received: from localhost ([::1]:50768 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 16A9E4A8AFA
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Feb 2022 18:54:47 +0100 (CET)
+Received: from localhost ([::1]:39818 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nFg86-000548-QT
-	for lists+qemu-devel@lfdr.de; Thu, 03 Feb 2022 12:42:46 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:57040)
+	id 1nFgJi-0000O7-2a
+	for lists+qemu-devel@lfdr.de; Thu, 03 Feb 2022 12:54:46 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:57084)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nFfzk-0004n7-6c
- for qemu-devel@nongnu.org; Thu, 03 Feb 2022 12:34:08 -0500
-Received: from [2a00:1450:4864:20::62f] (port=42766
- helo=mail-ej1-x62f.google.com)
+ id 1nFfzl-0004q0-VG
+ for qemu-devel@nongnu.org; Thu, 03 Feb 2022 12:34:09 -0500
+Received: from [2a00:1450:4864:20::632] (port=47073
+ helo=mail-ej1-x632.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nFfzh-0008Er-MY
- for qemu-devel@nongnu.org; Thu, 03 Feb 2022 12:34:07 -0500
-Received: by mail-ej1-x62f.google.com with SMTP id m4so11020097ejb.9
+ id 1nFfzi-0008Ew-9N
+ for qemu-devel@nongnu.org; Thu, 03 Feb 2022 12:34:09 -0500
+Received: by mail-ej1-x632.google.com with SMTP id o12so10939408eju.13
  for <qemu-devel@nongnu.org>; Thu, 03 Feb 2022 09:34:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Ry6LL0bKpcrkCS2cgM8W7MJUh+QXnhadtGtNpHWMkLo=;
- b=k/VfejHhhAx7bB9Gll1FOsSblX8ZGnlt2PD0T/JJJjAwhaWTYC5u+0nBRCKLJT1715
- KpaFlmBmBki4+ypm38FKx4IPSybOI8wzBMgIqMDxbrG7MfILpuvovybb5bQcmKPqUOKf
- MK8g9eiwSfnDquxxdnHguePLFXr4R5lf2JOPN0eiD/cx4MvYQx8bzcfcwOS46k/DbBk5
- 7nva/umPjG5uJJN7LXpAezTsMg5mZ6EsRzKubDNfAVH6PkrqQj7//SZgnXDqcRQUMytY
- pbEexHvG3A4qIxbZvbIGClbneGswaLwmfMSmVT6WIHmg1Ubr63wpE+nmmTmcKG2m5C4V
- MeKw==
+ bh=nu8kIltxv+Y+9cFk4li6c/c4F9agDzLDSz4VZtxJdu4=;
+ b=ozU4jkQXHShyhe5yLxxTT77VE2wlSCF97PzeYZQFhrkSZxQGKVrcL7YNUqGT5yWgAu
+ pQYUiZS6e2ZHv+9LLSycElN3pjhq1IKtynVBpSztndRWSshSvpAKTvdzqsdFIQt+oy6a
+ iX5GMfYMm5tvrfQvyWJIC9FbgZPkx9MkkVKCtTrd4xiM5dFn1Ps8knTO2lPTgTvv/4YL
+ DuMHiG94gvE8d1S34eg/5Gs32/sb5/zsa6zc3Lg0X5JDQGE3uTC2hcTBb8oDrGs2lW2U
+ Og2TZ1QXtp//h7h7cUjeLE3/F6ICzxkGs7a2CWMtHpL6yrT996EBVvuuZNvH44alCCWT
+ rlMw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=Ry6LL0bKpcrkCS2cgM8W7MJUh+QXnhadtGtNpHWMkLo=;
- b=JbfKP4UVH+dnfDjQgWTbZ6msUA8tWCozvRv30D0FEJ/icPiyQAPDrt3BOd13tLlj4O
- 0hAR86Omt5mSBnswl90KyyVXEdMqvUUWRV2r9kxJYIDTAbEuXJKfkKW+A8HTk8BGS/9/
- abOqe3A+GoQx8TvWiT0JunPspl9LHZriH9WcO8mEDbNTft4D+zQamCpqRpw/N7o3Tx+H
- yVK6ExIcucurg+3t3xhj8wwhcec11V4/zFQFHE4egkSPRmVD460z0jOOfWnW8oIy+34K
- 1n5za58fY/+eDyYlTFrMr37KS9zcpCWuHXNWV36qOGYDQPn+uVttPyG8lz9iapoxFIWp
- Pijg==
-X-Gm-Message-State: AOAM533FhElGeolqJx8pF/Z9uPcKNDVFHhRr2UrwFzg5s4jGL0aLXXVN
- DgfFWe6dJpcjnXeiFmDXfApwTFA02mc=
-X-Google-Smtp-Source: ABdhPJxPoXiAcK6WvsrwqW6Tk7SYRUJ4RplOdfJWVtXyzFSNoGtCbmbdokGqIYLj6P976wUvM/004Q==
-X-Received: by 2002:a17:907:7f1a:: with SMTP id
- qf26mr24304812ejc.20.1643909644225; 
+ bh=nu8kIltxv+Y+9cFk4li6c/c4F9agDzLDSz4VZtxJdu4=;
+ b=si3qsQ5nRSwEm6mNNI2TCh6UNM6475XwCsTdJ5BXU3OjgEYMLkwAMTgbtKHX77Qd6w
+ v+3jQc4RyVhRchlRLr8GiIh7e4UPsTytsX2DprXaCZ60HVq27kUX5lpFj41dbWH/b3ox
+ dsHY++wP3hImIK2i96ZaaHc9YZkQhuJcc40HlARmKc5oeHGBIYYf4E826zxjpG0grK99
+ /L/bUG9xxpP0VHYb36Y+OIJw925C8mhu5k1Pzw5R/bvkjoFt7XzD6PGYqhiMaKju4ah+
+ AF3FjffxFGIz2FAHGO1o6rH/uJNQQVBsy9aaozRL5TWrZvCjJ0HwObet6+v7yfhA/a+m
+ 6dew==
+X-Gm-Message-State: AOAM533MJlPR2YyRdvY60X2FALUNj6z7vZpc7nWHPar7HglNfU789rGL
+ /GxKc9Jpf2hb+ImEvN4/9m2cl6kwdLQ=
+X-Google-Smtp-Source: ABdhPJxw09LRFKSv+UD11lbAk8WnaQUp5Zw8X9daYkJUzOw2fZTh1EGm+n9V5K8klnauZYcATvEMdg==
+X-Received: by 2002:a17:906:478b:: with SMTP id
+ cw11mr31148282ejc.35.1643909644973; 
  Thu, 03 Feb 2022 09:34:04 -0800 (PST)
 Received: from avogadro.lan ([2001:b07:6468:f312:5e2c:eb9a:a8b6:fd3e])
- by smtp.gmail.com with ESMTPSA id a25sm6665279ejs.149.2022.02.03.09.34.03
+ by smtp.gmail.com with ESMTPSA id a25sm6665279ejs.149.2022.02.03.09.34.04
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 03 Feb 2022 09:34:03 -0800 (PST)
+ Thu, 03 Feb 2022 09:34:04 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 04/27] configure, meson: move membarrier test to meson
-Date: Thu,  3 Feb 2022 18:33:36 +0100
-Message-Id: <20220203173359.292068-5-pbonzini@redhat.com>
+Subject: [PATCH 05/27] configure, meson: move AF_ALG test to meson
+Date: Thu,  3 Feb 2022 18:33:37 +0100
+Message-Id: <20220203173359.292068-6-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220203173359.292068-1-pbonzini@redhat.com>
 References: <20220203173359.292068-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::62f
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::632
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::62f;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x62f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::632;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x632.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -92,191 +92,173 @@ Cc: marcandre.lureau@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The test is a bit different from the others, in that it does not run
-if $membarrier is empty.  For meson, the default can simply be disabled;
-if one day we will toggle the default, no change is needed in meson.build.
-
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- configure                     | 40 -----------------------------------
- meson.build                   | 22 ++++++++++++++++++-
- meson_options.txt             |  6 ++++++
+ configure                     | 36 -----------------------------------
+ crypto/meson.build            |  4 +++-
+ meson.build                   | 16 +++++++++++++++-
+ meson_options.txt             |  2 ++
  scripts/meson-buildoptions.sh |  3 +++
- util/meson.build              |  4 +++-
- 5 files changed, 33 insertions(+), 42 deletions(-)
+ 5 files changed, 23 insertions(+), 38 deletions(-)
 
 diff --git a/configure b/configure
-index ebac59652b..9dc0d79b0e 100755
+index 9dc0d79b0e..cdaab251c8 100755
 --- a/configure
 +++ b/configure
-@@ -290,7 +290,6 @@ EXTRA_CXXFLAGS=""
- EXTRA_LDFLAGS=""
- 
- xen_ctrl_version="$default_feature"
--membarrier="$default_feature"
- vhost_kernel="$default_feature"
- vhost_net="$default_feature"
- vhost_crypto="$default_feature"
-@@ -967,10 +966,6 @@ for opt do
+@@ -329,7 +329,6 @@ want_tools="$default_feature"
+ coroutine=""
+ coroutine_pool="$default_feature"
+ debug_stack_usage="no"
+-crypto_afalg="no"
+ tls_priority="NORMAL"
+ tpm="$default_feature"
+ live_block_migration=${default_feature:-yes}
+@@ -976,10 +975,6 @@ for opt do
    ;;
-   --enable-fdt=*) fdt="$optarg"
+   --enable-debug-stack-usage) debug_stack_usage="yes"
    ;;
--  --disable-membarrier) membarrier="no"
+-  --enable-crypto-afalg) crypto_afalg="yes"
 -  ;;
--  --enable-membarrier) membarrier="yes"
+-  --disable-crypto-afalg) crypto_afalg="no"
 -  ;;
-   --with-pkgversion=*) pkgversion="$optarg"
+   --disable-vhost-net) vhost_net="no"
    ;;
-   --with-coroutine=*) coroutine="$optarg"
-@@ -1396,7 +1391,6 @@ cat << EOF
-   lto             Enable Link-Time Optimization.
-   safe-stack      SafeStack Stack Smash Protection. Depends on
-                   clang/llvm >= 3.7 and requires coroutine backend ucontext.
--  membarrier      membarrier system call (for Linux 4.14+ or Windows)
-   rdma            Enable RDMA-based migration
-   pvrdma          Enable PVRDMA support
-   vhost-net       vhost-net kernel acceleration support
-@@ -2844,37 +2838,6 @@ if test "$fortify_source" != "no"; then
+   --enable-vhost-net) vhost_net="yes"
+@@ -1416,7 +1411,6 @@ cat << EOF
+   vvfat           vvfat image format support
+   qed             qed image format support
+   parallels       parallels image format support
+-  crypto-afalg    Linux AF_ALG crypto backend driver
+   debug-mutex     mutex debugging support
+   rng-none        dummy RNG, avoid using /dev/(u)random and getrandom()
+   gio             libgio support
+@@ -2838,32 +2832,6 @@ if test "$fortify_source" != "no"; then
    fi
  fi
  
 -##########################################
--# check for usable membarrier system call
--if test "$membarrier" = "yes"; then
--    have_membarrier=no
--    if test "$mingw32" = "yes" ; then
--        have_membarrier=yes
--    elif test "$linux" = "yes" ; then
--        cat > $TMPC << EOF
--    #include <linux/membarrier.h>
--    #include <sys/syscall.h>
--    #include <unistd.h>
--    #include <stdlib.h>
--    int main(void) {
--        syscall(__NR_membarrier, MEMBARRIER_CMD_QUERY, 0);
--        syscall(__NR_membarrier, MEMBARRIER_CMD_SHARED, 0);
--	exit(0);
--    }
+-# check for usable AF_ALG environment
+-have_afalg=no
+-cat > $TMPC << EOF
+-#include <errno.h>
+-#include <sys/types.h>
+-#include <sys/socket.h>
+-#include <linux/if_alg.h>
+-int main(void) {
+-    int sock;
+-    sock = socket(AF_ALG, SOCK_SEQPACKET, 0);
+-    return sock;
+-}
 -EOF
--        if compile_prog "" "" ; then
--            have_membarrier=yes
--        fi
+-if compile_prog "" "" ; then
+-    have_afalg=yes
+-fi
+-if test "$crypto_afalg" = "yes"
+-then
+-    if test "$have_afalg" != "yes"
+-    then
+-	error_exit "AF_ALG requested but could not be detected"
 -    fi
--    if test "$have_membarrier" = "no"; then
--      feature_not_found "membarrier" "membarrier system call not available"
--    fi
--else
--    # Do not enable it by default even for Mingw32, because it doesn't
--    # work on Wine.
--    membarrier=no
 -fi
 -
+-
  ##########################################
- # check for usable AF_ALG environment
- have_afalg=no
-@@ -3336,9 +3299,6 @@ fi
- if test "$vhost_user_fs" = "yes" ; then
-   echo "CONFIG_VHOST_USER_FS=y" >> $config_host_mak
+ # checks for sanitizers
+ 
+@@ -3329,10 +3297,6 @@ if test "$debug_stack_usage" = "yes" ; then
+   echo "CONFIG_DEBUG_STACK_USAGE=y" >> $config_host_mak
  fi
--if test "$membarrier" = "yes" ; then
--  echo "CONFIG_MEMBARRIER=y" >> $config_host_mak
+ 
+-if test "$crypto_afalg" = "yes" ; then
+-  echo "CONFIG_AF_ALG=y" >> $config_host_mak
 -fi
- if test "$tcg" = "enabled" -a "$tcg_interpreter" = "true" ; then
-   echo "CONFIG_TCG_INTERPRETER=y" >> $config_host_mak
+-
+ if test "$have_asan_iface_fiber" = "yes" ; then
+     echo "CONFIG_ASAN_IFACE_FIBER=y" >> $config_host_mak
  fi
+diff --git a/crypto/meson.build b/crypto/meson.build
+index 95a6a83504..9bf3a431fe 100644
+--- a/crypto/meson.build
++++ b/crypto/meson.build
+@@ -35,7 +35,9 @@ else
+ endif
+ 
+ crypto_ss.add(when: 'CONFIG_SECRET_KEYRING', if_true: files('secret_keyring.c'))
+-crypto_ss.add(when: 'CONFIG_AF_ALG', if_true: files('afalg.c', 'cipher-afalg.c', 'hash-afalg.c'))
++if have_afalg
++  crypto_ss.add(if_true: files('afalg.c', 'cipher-afalg.c', 'hash-afalg.c'))
++endif
+ crypto_ss.add(when: gnutls, if_true: files('tls-cipher-suites.c'))
+ 
+ util_ss.add(files('aes.c'))
 diff --git a/meson.build b/meson.build
-index 123121924e..16f7563360 100644
+index 16f7563360..1d4ba12f52 100644
 --- a/meson.build
 +++ b/meson.build
-@@ -1808,6 +1808,26 @@ config_host_data.set('CONFIG_AVX512F_OPT', get_option('avx512f') \
-     int main(int argc, char *argv[]) { return bar(argv[0]); }
-   '''), error_message: 'AVX512F not available').allowed())
+@@ -1828,6 +1828,20 @@ config_host_data.set('CONFIG_MEMBARRIER', get_option('membarrier') \
+   .require(have_membarrier, error_message: 'membarrier system call not available') \
+   .allowed())
  
-+if get_option('membarrier').disabled()
-+  have_membarrier = false
-+elif targetos == 'windows'
-+  have_membarrier = true
-+elif targetos == 'linux'
-+  have_membarrier = cc.compiles('''
-+    #include <linux/membarrier.h>
-+    #include <sys/syscall.h>
-+    #include <unistd.h>
-+    #include <stdlib.h>
++have_afalg = get_option('crypto_afalg') \
++  .require(cc.compiles(gnu_source_prefix + '''
++    #include <errno.h>
++    #include <sys/types.h>
++    #include <sys/socket.h>
++    #include <linux/if_alg.h>
 +    int main(void) {
-+        syscall(__NR_membarrier, MEMBARRIER_CMD_QUERY, 0);
-+        syscall(__NR_membarrier, MEMBARRIER_CMD_SHARED, 0);
-+        exit(0);
-+    }''')
-+endif
-+config_host_data.set('CONFIG_MEMBARRIER', get_option('membarrier') \
-+  .require(have_membarrier, error_message: 'membarrier system call not available') \
-+  .allowed())
++      int sock;
++      sock = socket(AF_ALG, SOCK_SEQPACKET, 0);
++      return sock;
++    }
++  '''), error_message: 'AF_ALG requested but could not be detected').allowed()
++config_host_data.set('CONFIG_AF_ALG', have_afalg)
 +
  config_host_data.set('CONFIG_AF_VSOCK', cc.compiles(gnu_source_prefix + '''
    #include <errno.h>
    #include <sys/types.h>
-@@ -3335,7 +3355,7 @@ summary_info += {'link-time optimization (LTO)': get_option('b_lto')}
- summary_info += {'PIE':               get_option('b_pie')}
- summary_info += {'static build':      config_host.has_key('CONFIG_STATIC')}
- summary_info += {'malloc trim support': has_malloc_trim}
--summary_info += {'membarrier':        config_host.has_key('CONFIG_MEMBARRIER')}
-+summary_info += {'membarrier':        have_membarrier}
- summary_info += {'debug stack usage': config_host.has_key('CONFIG_DEBUG_STACK_USAGE')}
- summary_info += {'mutex debugging':   config_host.has_key('CONFIG_DEBUG_MUTEX')}
- summary_info += {'memory allocator':  get_option('malloc')}
+@@ -3457,7 +3471,7 @@ summary_info += {'nettle':            nettle}
+ if nettle.found()
+    summary_info += {'  XTS':             xts != 'private'}
+ endif
+-summary_info += {'crypto afalg':      config_host.has_key('CONFIG_AF_ALG')}
++summary_info += {'AF_ALG support':    have_afalg}
+ summary_info += {'rng-none':          config_host.has_key('CONFIG_RNG_NONE')}
+ summary_info += {'Linux keyring':     config_host.has_key('CONFIG_SECRET_KEYRING')}
+ summary(summary_info, bool_yn: true, section: 'Crypto')
 diff --git a/meson_options.txt b/meson_options.txt
-index 6ff349023c..49f14f960e 100644
+index 49f14f960e..6efad01528 100644
 --- a/meson_options.txt
 +++ b/meson_options.txt
-@@ -68,6 +68,12 @@ option('multiprocess', type: 'feature', value: 'auto',
-        description: 'Out of process device emulation support')
- option('dbus_display', type: 'feature', value: 'auto',
-        description: '-display dbus support')
-+
-+# Do not enable it by default even for Mingw32, because it doesn't
-+# work on Wine.
-+option('membarrier', type: 'feature', value: 'disabled',
-+       description: 'membarrier system call (for Linux 4.14+ or Windows')
-+
- option('avx2', type: 'feature', value: 'auto',
-        description: 'AVX2 optimizations')
- option('avx512f', type: 'feature', value: 'disabled',
+@@ -113,6 +113,8 @@ option('nettle', type : 'feature', value : 'auto',
+        description: 'nettle cryptography support')
+ option('gcrypt', type : 'feature', value : 'auto',
+        description: 'libgcrypt cryptography support')
++option('crypto_afalg', type : 'feature', value : 'auto',
++       description: 'Linux AF_ALG crypto backend driver')
+ option('libdaxctl', type : 'feature', value : 'auto',
+        description: 'libdaxctl support')
+ option('libpmem', type : 'feature', value : 'auto',
 diff --git a/scripts/meson-buildoptions.sh b/scripts/meson-buildoptions.sh
-index a5cbe0ea00..61716e827c 100644
+index 61716e827c..c558fe6761 100644
 --- a/scripts/meson-buildoptions.sh
 +++ b/scripts/meson-buildoptions.sh
-@@ -66,6 +66,7 @@ meson_options_help() {
-   printf "%s\n" '  lzfse           lzfse support for DMG images'
-   printf "%s\n" '  lzo             lzo compression support'
-   printf "%s\n" '  malloc-trim     enable libc malloc_trim() for memory optimization'
-+  printf "%s\n" '  membarrier      membarrier system call (for Linux 4.14+ or Windows'
-   printf "%s\n" '  mpath           Multipath persistent reservation passthrough'
-   printf "%s\n" '  multiprocess    Out of process device emulation support'
-   printf "%s\n" '  netmap          netmap network backend support'
-@@ -207,6 +208,8 @@ _meson_option_parse() {
-     --enable-malloc=*) quote_sh "-Dmalloc=$2" ;;
-     --enable-malloc-trim) printf "%s" -Dmalloc_trim=enabled ;;
-     --disable-malloc-trim) printf "%s" -Dmalloc_trim=disabled ;;
-+    --enable-membarrier) printf "%s" -Dmembarrier=enabled ;;
-+    --disable-membarrier) printf "%s" -Dmembarrier=disabled ;;
-     --enable-mpath) printf "%s" -Dmpath=enabled ;;
-     --disable-mpath) printf "%s" -Dmpath=disabled ;;
-     --enable-multiprocess) printf "%s" -Dmultiprocess=enabled ;;
-diff --git a/util/meson.build b/util/meson.build
-index c9a9cc1cf5..3736988b9f 100644
---- a/util/meson.build
-+++ b/util/meson.build
-@@ -35,7 +35,9 @@ util_ss.add(files('crc32c.c'))
- util_ss.add(files('uuid.c'))
- util_ss.add(files('getauxval.c'))
- util_ss.add(files('rcu.c'))
--util_ss.add(when: 'CONFIG_MEMBARRIER', if_true: files('sys_membarrier.c'))
-+if have_membarrier
-+  util_ss.add(files('sys_membarrier.c'))
-+endif
- util_ss.add(files('log.c'))
- util_ss.add(files('pagesize.c'))
- util_ss.add(files('qdist.c'))
+@@ -34,6 +34,7 @@ meson_options_help() {
+   printf "%s\n" '  cap-ng          cap_ng support'
+   printf "%s\n" '  cocoa           Cocoa user interface (macOS only)'
+   printf "%s\n" '  coreaudio       CoreAudio sound support'
++  printf "%s\n" '  crypto-afalg    Linux AF_ALG crypto backend driver'
+   printf "%s\n" '  curl            CURL block device driver'
+   printf "%s\n" '  curses          curses UI'
+   printf "%s\n" '  dbus-display    -display dbus support'
+@@ -136,6 +137,8 @@ _meson_option_parse() {
+     --disable-cocoa) printf "%s" -Dcocoa=disabled ;;
+     --enable-coreaudio) printf "%s" -Dcoreaudio=enabled ;;
+     --disable-coreaudio) printf "%s" -Dcoreaudio=disabled ;;
++    --enable-crypto-afalg) printf "%s" -Dcrypto_afalg=enabled ;;
++    --disable-crypto-afalg) printf "%s" -Dcrypto_afalg=disabled ;;
+     --enable-curl) printf "%s" -Dcurl=enabled ;;
+     --disable-curl) printf "%s" -Dcurl=disabled ;;
+     --enable-curses) printf "%s" -Dcurses=enabled ;;
 -- 
 2.34.1
 
