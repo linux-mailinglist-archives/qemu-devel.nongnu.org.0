@@ -2,73 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A0934A7C5C
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Feb 2022 01:08:40 +0100 (CET)
-Received: from localhost ([::1]:55710 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A05B4A7CA1
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Feb 2022 01:17:50 +0100 (CET)
+Received: from localhost ([::1]:33032 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nFPfz-0002tW-53
-	for lists+qemu-devel@lfdr.de; Wed, 02 Feb 2022 19:08:39 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:58156)
+	id 1nFPoq-000737-Of
+	for lists+qemu-devel@lfdr.de; Wed, 02 Feb 2022 19:17:48 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:59414)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nFPe1-0002Aq-CY
- for qemu-devel@nongnu.org; Wed, 02 Feb 2022 19:06:37 -0500
-Received: from [2607:f8b0:4864:20::529] (port=47043
- helo=mail-pg1-x529.google.com)
+ id 1nFPkF-0004yb-3k; Wed, 02 Feb 2022 19:13:06 -0500
+Received: from [2607:f8b0:4864:20::42f] (port=45708
+ helo=mail-pf1-x42f.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nFPdz-0007T6-DC
- for qemu-devel@nongnu.org; Wed, 02 Feb 2022 19:06:37 -0500
-Received: by mail-pg1-x529.google.com with SMTP id s16so812336pgs.13
- for <qemu-devel@nongnu.org>; Wed, 02 Feb 2022 16:05:57 -0800 (PST)
+ id 1nFPkC-0002mY-Uu; Wed, 02 Feb 2022 19:13:02 -0500
+Received: by mail-pf1-x42f.google.com with SMTP id c194so704102pfb.12;
+ Wed, 02 Feb 2022 16:12:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=sNM0b1Hblbv13MBti61QiQCGZnjfK+gj+KEVibd6P3A=;
- b=m5IG52vpf8NttpfO+rVUf5+Ph2lMY1JrhPtVJ9+LV/cpIAai0HzzvOccR2CHHYXQUr
- AN6co3VAdm7GuPKgj8XWz4N0fEOqwE7KGFnM2LRLplB0MF61jcKPYBaNdc8XmRoUM80g
- mpdwfkzHS4xBS6sRQ0qMAxnXZjdNQwFE/soIuDr+xD6smPhob709WvmpjnIWxj1BKD6R
- SJCXig2q61kmeDpTLhvJrK9akT2PInAdYW2bEpeURCFBpS+KVwJTOWVxVaBda50+cCFd
- 2j0964p5YjMpIpAjry1cEAn3NG8nlnKS6EE9vNG0s/4n0/3A90PAuR3Qy4PToFkMewk5
- DfPA==
+ bh=EjzXuL3y2YoFIdi+KNk9WA9Cbvp6HbkIQojwuARtcZY=;
+ b=Rnw8kAV7fS457bvEtFHJGY/pj0sD4JfYo0akvQ/voL4DnR/WtggIo9qYKj4xMimk2o
+ JQmRMobRb6E7MmdrjdQrgFX2e6pPUDObPq41zHt9NVJNocpZWb+I8lLqdWUmQUmtJBT1
+ Ea4tV9bVwkhBUL6LbROh5PFYgVhx/cSLKPJZWDzAGQ4LAAURnqjDKd8EHoGIc+euW3t9
+ lxTF/xG4d0ap14lZM97033olj1nwCzo6Mgb6y07bnPzFO2Ae0tw9o8jNLhiJ/WUowBE8
+ 9thyUBUfk5sXIfY2+9qP233c8LeBvYZLaY1uObznVxAXZnSH2IvnCcNrb1oOOP+xTYPK
+ u4aQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :mime-version:content-transfer-encoding;
- bh=sNM0b1Hblbv13MBti61QiQCGZnjfK+gj+KEVibd6P3A=;
- b=g4rEk5fDKiZK6eeBsOnDamWoGPFjsTKbGxE1fpfELAoh0ffspj81lAtGEEfV6x8nd+
- KLTAPGQnEmx0iSmEAqY9d6gxCzLLQxvi3QwwD2inki2Bq2sVVfPGGjv7U12nFQjHLMRI
- K/8eiH09oxRKnj+3sLimltIwsM/rrM/q8Guu1ipRpLoB9UGJfRMtDNTwq6jNXuGHrk7U
- vr01+o9IqVl+rESMCruIfxWAC59uXPm3uWIS9q3y6z3UAWeKQexxPcqjobuHQUFfyHcp
- gf7Jjs833FNqCGIIRH+2O11XsGSeOaxvIGBasulkztqWVVuToxWgDPTyv2bUEvPrld0X
- kDVA==
-X-Gm-Message-State: AOAM533+QUarvM2JV55theyqK1nWUKJeWTtbQ5FcJq4ya+bmvsmeQEPW
- 5Rz3KFVHb798PqBGnI7xRFvGJZVPWAo=
-X-Google-Smtp-Source: ABdhPJzs4lphkqIS6FNoM9qmYIrmfca5CHO0FVz0n7rzT1P4z5SLwAYuAvlJy0ZGzJTFWyc1RVj9sg==
-X-Received: by 2002:a63:88c6:: with SMTP id
- l189mr26344179pgd.229.1643846756210; 
- Wed, 02 Feb 2022 16:05:56 -0800 (PST)
+ bh=EjzXuL3y2YoFIdi+KNk9WA9Cbvp6HbkIQojwuARtcZY=;
+ b=wjFPf+msoG4xqNBH/USgmP1nnMSoaD5ny7TGZK/TC89zDiM9limlepuDYdUftjmmNz
+ gJkJc1yTJM9E97BY/Bs+ZntpeeoZGDDST0WbWUlFTuiMuTweZti9wxcIqsS5nCvj+N4r
+ NDeQOqKvlUjyLpBeMECgXLNObxsNDPDvh7H1SUMhGQ75OlJL0+KRe4RWjO+OFgFlk6xI
+ hRX50I9kNvzbFhJmJ+dNB9hyMSjPPG0BIivrtXal2Q4SUwoN9SUh2X6HRaH+H8pnqBdp
+ S4VB44zxSQPyBkD61aD+LKk69B7Iqre3bO3MZPXinimVsEPMSZNCrtClqTbcwVxEgCRk
+ I0Vw==
+X-Gm-Message-State: AOAM533Pn0UCT89LRVhHL/WAM5BHR46BIyXYFibXz71kSdR7oI9kxT1O
+ GU/uY+LJW+AfAgYkPijAUpYgnoXHnIg=
+X-Google-Smtp-Source: ABdhPJxaKL5sVV0N1voNLJORX0I67VEojtfSgBitPzO9AHbRlTBH00t5XD/DfUoTNxjZg5QKWMsFaA==
+X-Received: by 2002:a05:6a00:1914:: with SMTP id
+ y20mr22852252pfi.41.1643847178306; 
+ Wed, 02 Feb 2022 16:12:58 -0800 (PST)
 Received: from localhost.localdomain (154.red-83-50-83.dynamicip.rima-tde.net.
  [83.50.83.154])
- by smtp.gmail.com with ESMTPSA id d2sm7495848pju.2.2022.02.02.16.05.53
+ by smtp.gmail.com with ESMTPSA id mp22sm7381028pjb.28.2022.02.02.16.12.56
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Wed, 02 Feb 2022 16:05:55 -0800 (PST)
+ Wed, 02 Feb 2022 16:12:58 -0800 (PST)
 To: qemu-devel@nongnu.org
-Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- Gerd Hoffmann <kraxel@redhat.com>, Andreas Gustafsson <gson@gson.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: [PATCH v2] hw/display/tcx: Mark the VRAM dirty upon reset
-Date: Thu,  3 Feb 2022 01:05:50 +0100
-Message-Id: <20220203000550.36711-1-f4bug@amsat.org>
+Cc: qemu-trivial@nongnu.org, Yoshinori Sato <ysato@users.sourceforge.jp>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Richard Henderson <richard.henderson@linaro.org>
+Subject: [PATCH v2] target/rx: Remove unused ENV_OFFSET definition
+Date: Thu,  3 Feb 2022 01:12:52 +0100
+Message-Id: <20220203001252.37982-1-f4bug@amsat.org>
 X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::529
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::42f
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::529;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pg1-x529.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42f;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pf1-x42f.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -95,35 +93,30 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reply-to:  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 From:  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= via <qemu-devel@nongnu.org>
 
-When resetting we don't want to *reset* the dirty bitmap,
-we want to *set* it to mark the entire VRAM dirty due to
-the memset() call.
+The last use of ENV_OFFSET was removed in 5e1401969b
+("cpu: Move icount_decr to CPUNegativeOffsetState");
+the commit of target/rx came in just afterward.
 
-Replace memory_region_reset_dirty() by tcx_set_dirty()
-which conveniently set the correct ranges dirty.
-
-Suggested-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Yoshinori Sato <ysato@users.sourceforge.jp>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
-Supersedes: <20220122000707.82918-1-f4bug@amsat.org>
----
- hw/display/tcx.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ target/rx/cpu.h | 2 --
+ 1 file changed, 2 deletions(-)
 
-diff --git a/hw/display/tcx.c b/hw/display/tcx.c
-index d4d09d0df8..90e2975e35 100644
---- a/hw/display/tcx.c
-+++ b/hw/display/tcx.c
-@@ -371,8 +371,7 @@ static void tcx_reset(DeviceState *d)
-     s->r[258] = s->g[258] = s->b[258] = 255;
-     update_palette_entries(s, 0, 260);
-     memset(s->vram, 0, MAXX*MAXY);
--    memory_region_reset_dirty(&s->vram_mem, 0, MAXX * MAXY * (1 + 4 + 4),
--                              DIRTY_MEMORY_VGA);
-+    tcx_set_dirty(s, 0, MAXX * MAXY);
-     s->dac_index = 0;
-     s->dac_state = 0;
-     s->cursx = 0xf000; /* Put cursor off screen */
+diff --git a/target/rx/cpu.h b/target/rx/cpu.h
+index 657db84ef0..58adf9edf6 100644
+--- a/target/rx/cpu.h
++++ b/target/rx/cpu.h
+@@ -116,8 +116,6 @@ struct RXCPU {
+ 
+ typedef RXCPU ArchCPU;
+ 
+-#define ENV_OFFSET offsetof(RXCPU, env)
+-
+ #define RX_CPU_TYPE_SUFFIX "-" TYPE_RX_CPU
+ #define RX_CPU_TYPE_NAME(model) model RX_CPU_TYPE_SUFFIX
+ #define CPU_RESOLVING_TYPE TYPE_RX_CPU
 -- 
 2.34.1
 
