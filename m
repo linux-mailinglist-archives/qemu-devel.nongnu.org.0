@@ -2,71 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 545984A7D64
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Feb 2022 02:23:03 +0100 (CET)
-Received: from localhost ([::1]:53504 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 77E2E4A7D72
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Feb 2022 02:36:14 +0100 (CET)
+Received: from localhost ([::1]:59986 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nFQpw-00073C-PG
-	for lists+qemu-devel@lfdr.de; Wed, 02 Feb 2022 20:23:00 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:38970)
+	id 1nFR2j-0003fK-1T
+	for lists+qemu-devel@lfdr.de; Wed, 02 Feb 2022 20:36:13 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:41628)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1nFQax-000127-IC; Wed, 02 Feb 2022 20:07:31 -0500
-Received: from [2607:f8b0:4864:20::d35] (port=34528
- helo=mail-io1-xd35.google.com)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nFQti-0001jV-SK
+ for qemu-devel@nongnu.org; Wed, 02 Feb 2022 20:26:55 -0500
+Received: from [2607:f8b0:4864:20::42f] (port=41709
+ helo=mail-pf1-x42f.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1nFQau-0000Ou-8U; Wed, 02 Feb 2022 20:07:29 -0500
-Received: by mail-io1-xd35.google.com with SMTP id i62so1359934ioa.1;
- Wed, 02 Feb 2022 17:07:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=3HB1gB/yuOf4CEhGdZ7fkITTEnh55XnTT8AC+/7KKnQ=;
- b=I5XvLyzElWa9kc6xWSvMfckFcR9h4o82+lruERa4LsjSh2nfA2NJu5EPNmfng3boQo
- g/arIH26yJOsos8uSQkSVV5EGhQCkLMkqvjMY9VD0Iybr/mG8zHSwb36JBWBN4LQIWO9
- DSQyBB+JhHURQfXsWx69qqB5JEIUaXx7J5POetxdiM6RLDqB6aBlOMfeVBpjTb+ukOMt
- GyYjxGBnezUoHjjw2bMk282o1SXGTyK7FI9035h8u3fnN2u5gyVQSTP7FGa5SWpS7xOb
- bMrC1gsDDd0av5+sgozHDjnaXSIbAZkYeUitaNGMezTlFooBWGvZ+7MkI5+aNR9mPNeR
- eG7Q==
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nFQtd-0007zC-Ev
+ for qemu-devel@nongnu.org; Wed, 02 Feb 2022 20:26:53 -0500
+Received: by mail-pf1-x42f.google.com with SMTP id i30so857595pfk.8
+ for <qemu-devel@nongnu.org>; Wed, 02 Feb 2022 17:26:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=Gy/wQenw7zrQXj989uJhhvM3PmbN190INllJ9w0WJpI=;
+ b=rQjRhkysfIzI3p/NgF60jf13/z4X0kgS/hR5NXj9CRTMbVL+QZ4Wh+esD9ELMMJLVN
+ tW22geu6A8DIgOol0azSCcQQnOg8+BUbQ7P7yWr3dJDlzi+Kow0FF8x3iQPmOQDdbEU9
+ A+YjXuIq+qdrQ/ZnwzOHQGSyGfh7+nnqB/7pAmyK7WRYCHWfkxl1kuw88VWiC6+EsTBZ
+ NMkU3xNeh/2pcjST0J7dBjPYXh9zlLhQAzPJ+QxRJ2xhJzjeYSuBu0VUvqukrCreFkoq
+ aL785d3p1+ocdugNFySuoBauZYAEPO3iihEAtekGbgmPMIEzAgmgbpFt8TQL/8XvdJ9T
+ usOg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=3HB1gB/yuOf4CEhGdZ7fkITTEnh55XnTT8AC+/7KKnQ=;
- b=YV5db+dS08iCb0GCrsveUPVpsGCjF4p6o2ym6AdcH9DAtNF5e8FV/3Ey7jAr66d+pO
- 9vh2sPer53aGfULCIKBqtDWVS7WIdGDiT2YJbuXMZVDrjJhS7zYMgSqERoAPpur4KOl/
- k8CixUGBLxNHXQ142+1uJQgLClTdDjXZuGJ35L4kWNwzjqBSNNrNXDxvB3hpMHHiPwPW
- qCvVTsecOz7BmF+lYjZssnsnTJG+7UpVrtTQyem9kzt5EnyUDT2Q5CocpBzhpKplp6g0
- Xo/csPlb93yjRdd1zj2WbbFEUPk0/wGDXamNjZOmenyurA1qiYf2lMD3+2AONFQGvMON
- z2IQ==
-X-Gm-Message-State: AOAM5313OnlZiToaCeQklgTrEyayADfnZ8SjMtMienCVeg8lS2sHfTop
- SldvhanZNizN2cei3hZsYIYU/H3m6NXAYl+kLBXmhLhjgyCdWA==
-X-Google-Smtp-Source: ABdhPJx0XKB0nq5fexfRSlzAuyWQJqFflsLnFcnlcg1b7+0NyCbfWLNo3iAyGNqyfFQlTDOyQeBAGfkq5zzI85V53y4=
-X-Received: by 2002:a02:9606:: with SMTP id c6mr15853099jai.169.1643850446303; 
- Wed, 02 Feb 2022 17:07:26 -0800 (PST)
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=Gy/wQenw7zrQXj989uJhhvM3PmbN190INllJ9w0WJpI=;
+ b=snnZhBNf6uDhmopp4YzJu9Wq0DpifMEzODDXUKO8+8iGWfuhNyVFxEUcP/zLK6OtCA
+ bkAccxj/0ji3IOQDZFu/2nsGmgXCnrz4UNxjhbLvaUHnZdb5PUDumV8METomg7KGdofb
+ 0z1V2yQ072mqmCRtoF9Xl+ioLZC3oqVdZj7chVX2XpqZIKYcSE+PlQjDtsoScqqMPaHP
+ WnK1KfOu1HhB99yRqHTdp3Q2ylqq67lhL9kcqwBYIqYvag7t4aZhJg93QO7b1YwPxK72
+ JEpKGnUDEs3Prc6tVQcvraFUIeow0YrvGO6uW7wS8xdJXSxBgcHQv9VQA+68U3AhlvvR
+ ri6w==
+X-Gm-Message-State: AOAM5323hoE0AIPoE0of1cs1wrYCOQzoKQ1YChASgQRFM+kNjTqUWRzz
+ OmMUBsuFUgonUOZ7kOlwez+tFA==
+X-Google-Smtp-Source: ABdhPJzqZCC+iKcRBmDuHmKdk7ijQAhdblquYjMUNXPDBAiRoa2/GRnMOvQPftJhsSaHYlg4T7+zLA==
+X-Received: by 2002:aa7:8c4a:: with SMTP id e10mr32256171pfd.43.1643851598673; 
+ Wed, 02 Feb 2022 17:26:38 -0800 (PST)
+Received: from ?IPV6:2001:8003:3a49:fd00:801:72a7:386c:deca?
+ ([2001:8003:3a49:fd00:801:72a7:386c:deca])
+ by smtp.gmail.com with ESMTPSA id l14sm420306pjf.1.2022.02.02.17.26.37
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 02 Feb 2022 17:26:38 -0800 (PST)
+Message-ID: <ee4077f0-ee9b-fc90-4608-14b3f8208fe8@linaro.org>
+Date: Thu, 3 Feb 2022 12:26:32 +1100
 MIME-Version: 1.0
-References: <20220201142415.29980-1-liweiwei@iscas.ac.cn>
- <20220201142415.29980-6-liweiwei@iscas.ac.cn>
-In-Reply-To: <20220201142415.29980-6-liweiwei@iscas.ac.cn>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Thu, 3 Feb 2022 11:07:00 +1000
-Message-ID: <CAKmqyKPUSqfJ2w=dgUcoPgeiHHj9DB3Fud-=MVdCZ+AriQzOpA@mail.gmail.com>
-Subject: Re: [PATCH v8 5/5] target/riscv: add support for svpbmt extension
-To: Weiwei Li <liweiwei@iscas.ac.cn>
-Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::d35
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH 11/20] tcg/i386: Implement avx512 immediate rotate
+Content-Language: en-US
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+References: <20211218194250.247633-1-richard.henderson@linaro.org>
+ <20211218194250.247633-12-richard.henderson@linaro.org>
+ <87wniduzko.fsf@linaro.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <87wniduzko.fsf@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::42f
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d35;
- envelope-from=alistair23@gmail.com; helo=mail-io1-xd35.google.com
-X-Spam_score_int: -10
-X-Spam_score: -1.1
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42f;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42f.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
 X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, PDS_HP_HELO_NORDNS=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -79,83 +93,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?B?V2VpIFd1ICjlkLTkvJ8p?= <lazyparser@gmail.com>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>, Anup Patel <anup@brainfault.org>,
- wangjunqiang <wangjunqiang@iscas.ac.cn>, Bin Meng <bin.meng@windriver.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Alistair Francis <alistair.francis@wdc.com>, Guo Ren <ren_guo@c-sky.com>,
- Palmer Dabbelt <palmer@dabbelt.com>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Feb 2, 2022 at 2:13 AM Weiwei Li <liweiwei@iscas.ac.cn> wrote:
->
-> - add PTE_PBMT bits: It uses two PTE bits, but otherwise has no effect on QEMU, since QEMU is sequentially consistent and doesn't model PMAs currently
-> - add PTE_PBMT bit check for inner PTE
->
-> Signed-off-by: Weiwei Li <liweiwei@iscas.ac.cn>
-> Signed-off-by: Junqiang Wang <wangjunqiang@iscas.ac.cn>
-> Reviewed-by: Anup Patel <anup@brainfault.org>
-> ---
->  target/riscv/cpu.c        | 1 +
->  target/riscv/cpu_bits.h   | 2 ++
->  target/riscv/cpu_helper.c | 4 +++-
->  3 files changed, 6 insertions(+), 1 deletion(-)
->
-> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-> index 4442c4b81d..e231708ffb 100644
-> --- a/target/riscv/cpu.c
-> +++ b/target/riscv/cpu.c
-> @@ -731,6 +731,7 @@ static Property riscv_cpu_properties[] = {
->
->      DEFINE_PROP_BOOL("svinval", RISCVCPU, cfg.ext_svinval, false),
->      DEFINE_PROP_BOOL("svnapot", RISCVCPU, cfg.ext_svnapot, false),
-> +    DEFINE_PROP_BOOL("svpbmt", RISCVCPU, cfg.ext_svpbmt, false),
->
->      DEFINE_PROP_BOOL("zba", RISCVCPU, cfg.ext_zba, true),
->      DEFINE_PROP_BOOL("zbb", RISCVCPU, cfg.ext_zbb, true),
-> diff --git a/target/riscv/cpu_bits.h b/target/riscv/cpu_bits.h
-> index 7abe9607ff..20ab4f4a0d 100644
-> --- a/target/riscv/cpu_bits.h
-> +++ b/target/riscv/cpu_bits.h
-> @@ -489,7 +489,9 @@ typedef enum {
->  #define PTE_A               0x040 /* Accessed */
->  #define PTE_D               0x080 /* Dirty */
->  #define PTE_SOFT            0x300 /* Reserved for Software */
-> +#define PTE_PBMT            0x6000000000000000ULL /* Page-based memory types */
->  #define PTE_N               0x8000000000000000ULL /* NAPOT translation */
-> +#define PTE_ATTR            (PTE_N | PTE_PBMT) /* All attributes bits */
->
->  /* Page table PPN shift amount */
->  #define PTE_PPN_SHIFT       10
-> diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
-> index 77b263c37e..f975de8213 100644
-> --- a/target/riscv/cpu_helper.c
-> +++ b/target/riscv/cpu_helper.c
-> @@ -640,9 +640,11 @@ restart:
->          if (!(pte & PTE_V)) {
->              /* Invalid PTE */
->              return TRANSLATE_FAIL;
-> +        } else if (!cpu->cfg.ext_svpbmt && (pte & (target_ulong)PTE_PBMT)) {
+On 2/3/22 01:05, Alex Bennée wrote:
+> Is there any reason why gen_shift couldn't be pushed into a helper
+> function so we just had:
+> 
+>      static void tcg_out_vec_shift(s, vece, insn, sub, a0, a1, a2) {
+>          tcg_debug_assert(vece != MO_8);
+>          if (type == TCG_TYPE_V256) {
+>              insn |= P_VEXL;
+>          }
+>          tcg_out_vex_modrm(s, insn, sub, a0, a1);
+>          tcg_out8(s, a2);
+>      }
+> 
+>      ...
+> 
+>      case INDEX_op_rotli_vec:
+>          insn = OPC_PSHIFTD_Ib | P_EVEX;  /* VPROL[DQ] */
+>          if (vece == MO_64) {
+>              insn |= P_VEXW;
+>          }
+>          tcg_out_vec_shift(s, vece, insn, 1, a0, a1, a2);
+>          break;
+> 
+> Surely the compiler would inline if needed (and even if it didn't it the
+> code generation that critical we care about a few cycles)?
 
-Same comment about the casts, I don't think they are required.
+Yes, I suppose I could pull out a helper or two.
+Just one of those things where something used to be cleaner, and then the code grew.
 
-Otherwise:
+r~
 
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-
-Alistair
-
-> +            return TRANSLATE_FAIL;
->          } else if (!(pte & (PTE_R | PTE_W | PTE_X))) {
->              /* Inner PTE, continue walking */
-> -            if (pte & (target_ulong)(PTE_D | PTE_A | PTE_U | PTE_N)) {
-> +            if (pte & (target_ulong)(PTE_D | PTE_A | PTE_U | PTE_ATTR)) {
->                  return TRANSLATE_FAIL;
->              }
->              base = ppn << PGSHIFT;
-> --
-> 2.17.1
->
->
 
