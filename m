@@ -2,73 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B85834A8F5E
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Feb 2022 21:49:11 +0100 (CET)
-Received: from localhost ([::1]:32804 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 30CEB4A8F6F
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Feb 2022 21:58:23 +0100 (CET)
+Received: from localhost ([::1]:41346 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nFj2U-0006L0-SD
-	for lists+qemu-devel@lfdr.de; Thu, 03 Feb 2022 15:49:10 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:56456)
+	id 1nFjBO-00048t-1W
+	for lists+qemu-devel@lfdr.de; Thu, 03 Feb 2022 15:58:22 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:56474)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nFhw1-00045I-JY
- for qemu-devel@nongnu.org; Thu, 03 Feb 2022 14:38:25 -0500
-Received: from [2607:f8b0:4864:20::42d] (port=44690
- helo=mail-pf1-x42d.google.com)
+ id 1nFhw2-000464-2m
+ for qemu-devel@nongnu.org; Thu, 03 Feb 2022 14:38:26 -0500
+Received: from [2607:f8b0:4864:20::635] (port=40595
+ helo=mail-pl1-x635.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nFhvz-0005qu-2C
+ id 1nFhvz-0005rW-3j
  for qemu-devel@nongnu.org; Thu, 03 Feb 2022 14:38:25 -0500
-Received: by mail-pf1-x42d.google.com with SMTP id n32so3059355pfv.11
- for <qemu-devel@nongnu.org>; Thu, 03 Feb 2022 11:38:10 -0800 (PST)
+Received: by mail-pl1-x635.google.com with SMTP id y17so3073178plg.7
+ for <qemu-devel@nongnu.org>; Thu, 03 Feb 2022 11:38:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=9tSzMtYT/Vhj3BbOr/PyLX3cmBBZ/u8xMQDD46l+2gQ=;
- b=HwBNTxrXJ4gp/YOlhVrY2ce5DUTbHVc8buOZIkWI0Jt1ksLeKTltInQ+TflQYq37Hq
- gf8IAJiMO+GR92iDVZXMEFQ3VzqyRAcfoe1pLoe+SnrLz2DrJZH8vg6QHM+vGuavKoxX
- m27smLbmvOT4chekjRxc3Q6mICY37LtUkFxT+BNlE88eBldPhCZFNQQGoo5wCSrnxoMl
- g8juPuZa359h9lX+ebPknj16XvIfrFVe33ialzWMKARM8W6JaLPw38fwAGawWVqWFHgJ
- szf6H23FrqHvFvMSvkKcn8gx1JVm0aKNqEsowglGPAgYw31ZRslaZBHWWBPDrvjAh9db
- cacA==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=wwui0+WgM4nUhQWC4QaU40VqiH7mK4rt3aliM0RxQg0=;
+ b=d3JVR5lfk3VJQDdDk2hZehXRy+Ff/OktDe07R8bYRvWYn8uJHyrc7aUff6LxDWoxCC
+ Ubgs+2Zn7lMEeWCL7lQAUWTYJsx3gR0FKmNUnFYVe8V1ZaAooPK3ynhPsVXbvROUqFxO
+ 3mKzaDT6zh3JcLZT17pXKUN5EKMs1PFFWj9VDoydsZOeZEbj4xO65bvDXXrCPqcOVLR5
+ xCld+4n9ODMRhCozSJKK3yJl8CCr1hjxJMh6WEHE3CF8JRxNA37w03xE+k406NhrrpBp
+ N47wFe6Sb5I98aCB/rf7fdkz9HItkR3l/iCAFksGl63tmJckyUMd8b88Y29Pwrsbh9z1
+ mGEw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=9tSzMtYT/Vhj3BbOr/PyLX3cmBBZ/u8xMQDD46l+2gQ=;
- b=5plLCZdUfFCJjJQbMNk4OjtA2S7BKLZJrkebSL7+Whi5nrNKQqW2+b2hkR5u5sEiyT
- UyYD6u4cLjfLzjmHbAeyanpNT6RI0dw/kidILCK2uKA22oUiNkCWwkawYI0l4x0riGCp
- h335zpK2RasPX4N3zcOWFcpqPT1anfjzV6pRg92RUbxTj45BhHqC7XknARDXVKRskGga
- hScRB1RywI83kugOH1NO2pZRBVKusYVvqUY5LtlfAjwlAvT6PRuhwd4XprpFRQiSxNHh
- 41HvFlQ/t2bek/0uou1kyWABVCUMOpJAMeWcioWGDBb2X4AmBzUNBPTYKY3o3POa0YCP
- EODA==
-X-Gm-Message-State: AOAM532muXgpHeiWU94PzfwlSgSgR8jmZRvOsTs5UQRQBejHFVbL9rbt
- dVvaCxkylYk4tKSEkXVbuV/Q1glgIzc=
-X-Google-Smtp-Source: ABdhPJw09Gn0mI+r6Cl7FsBGLn6HfvRU4VSBgWq1YOU1Qv6NyHTMTa9TrlctmCrS3C/HkSa9UoL8wA==
-X-Received: by 2002:a62:cd8f:: with SMTP id o137mr35579104pfg.64.1643917089343; 
- Thu, 03 Feb 2022 11:38:09 -0800 (PST)
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=wwui0+WgM4nUhQWC4QaU40VqiH7mK4rt3aliM0RxQg0=;
+ b=Gvoq7CW2i9C1rqYWA6SjqlgJRGdvNWYfUbg+nwkZYbKjZaMTcGxb8rCmD8eHfTAQrV
+ bF6CTfHyMgm3unsjf//v646lVbrOXur9opmFD2Mp6cjFG/MNRRuBar1eFQUYeWjcjkng
+ gQ4ACQtDaEvcFxf05DfaQP0eC8ssKsZM9SctGDN1q119ES4XBXqTOmRHO6MkaV62Wllu
+ mHKrI7N/YinUpw38o6l+jbYamKl91EQlbK9/VpfqfRNhPqpHbHbQ/FG8/CtlD9C9rlS2
+ EJ+qV3DlUmA7N7N34wOL0VOvrGykXWA6YRX3R2w+qpIgGSRpklKtyQKcQjlCqFghIN7d
+ Sz7w==
+X-Gm-Message-State: AOAM530ENZj9uiLerPY+9GoY9N/q3aAXin1MHcf4p2jIseK21gbOSRdB
+ Q+Cpjdv1//hPRaYjHhT4eMmfmn0JOA8=
+X-Google-Smtp-Source: ABdhPJx5fhgKd+KkP0z7cL6oAr9unGSh/GAOoxWH/aDROoWstL3lfY/XrySTtPb+7dEs2qgILD2nCw==
+X-Received: by 2002:a17:90b:3850:: with SMTP id
+ nl16mr15581872pjb.131.1643917097285; 
+ Thu, 03 Feb 2022 11:38:17 -0800 (PST)
 Received: from localhost.localdomain (154.red-83-50-83.dynamicip.rima-tde.net.
  [83.50.83.154])
- by smtp.gmail.com with ESMTPSA id t2sm27025295pfg.207.2022.02.03.11.38.07
+ by smtp.gmail.com with ESMTPSA id mm24sm10865058pjb.20.2022.02.03.11.38.15
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Thu, 03 Feb 2022 11:38:08 -0800 (PST)
+ Thu, 03 Feb 2022 11:38:17 -0800 (PST)
 To: qemu-devel@nongnu.org
 Cc: Paolo Bonzini <pbonzini@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>,
  Thomas Huth <thuth@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: [PATCH 00/10] exec: Remove 'qemu/log.h' from 'exec-all.h'
-Date: Thu,  3 Feb 2022 20:37:53 +0100
-Message-Id: <20220203193803.45671-1-f4bug@amsat.org>
+Subject: [PATCH 01/10] hw/tpm: Clean includes
+Date: Thu,  3 Feb 2022 20:37:54 +0100
+Message-Id: <20220203193803.45671-2-f4bug@amsat.org>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20220203193803.45671-1-f4bug@amsat.org>
+References: <20220203193803.45671-1-f4bug@amsat.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::42d
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::635
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42d;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pf1-x42d.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::635;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pl1-x635.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -95,88 +98,77 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reply-to:  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 From:  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= via <qemu-devel@nongnu.org>
 
-Yet another noisy/boring refactor, but it will allow us to better
-split exec/ includes as being target-agnostic/specific (the next
-series).
+"tpm_ppi.h" only requires to include "exec/memory.h" to get
+the MemoryRegion declaration.
 
-Based-on: <20220203191814.45023-1-f4bug@amsat.org>
-"softmmu: Make various objects target agnostic"
+tpm_ppi.c requires "hw/qdev-core.h" to use the DEVICE() macro,
+tpm_crb.c is the only source file requiring "exec/address-spaces.h".
 
-Philippe Mathieu-Daudé (10):
-  hw/tpm: Clean includes
-  hw/remote: Add missing include
-  hw/s390x/virtio: Add missing 'cpu.h' include
-  hw/acpi/memory_hotplug: Remove unused 'hw/acpi/pc-hotplug.h' header
-  qtest: Add missing 'hw/qdev-core.h' include
-  exec/ramblock: Add missing includes
-  core/ptimers: Remove unnecessary 'sysemu/cpus.h' include
-  target: Add missing "qemu/timer.h" include
-  linux-user: Add missing "qemu/timer.h" include
-  exec/exec-all: Move 'qemu/log.h' include in units requiring it
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+---
+ hw/tpm/tpm_crb.c | 1 +
+ hw/tpm/tpm_ppi.c | 4 ++--
+ hw/tpm/tpm_ppi.h | 4 ++--
+ 3 files changed, 5 insertions(+), 4 deletions(-)
 
- bsd-user/signal.c                       | 1 +
- hw/acpi/memory_hotplug.c                | 1 -
- hw/arm/omap1.c                          | 1 +
- hw/core/ptimer.c                        | 1 -
- hw/display/omap_dss.c                   | 1 +
- hw/gpio/omap_gpio.c                     | 1 +
- hw/input/tsc210x.c                      | 1 +
- hw/remote/proxy-memory-listener.c       | 1 +
- hw/s390x/s390-virtio-hcall.h            | 1 +
- hw/tpm/tpm_crb.c                        | 1 +
- hw/tpm/tpm_ppi.c                        | 4 ++--
- hw/tpm/tpm_ppi.h                        | 4 ++--
- include/exec/exec-all.h                 | 2 --
- include/exec/ramblock.h                 | 2 ++
- linux-user/i386/cpu_loop.c              | 1 +
- linux-user/ppc/cpu_loop.c               | 1 +
- monitor/misc.c                          | 1 +
- plugins/api.c                           | 1 +
- softmmu/qtest.c                         | 1 +
- softmmu/runstate.c                      | 1 +
- target/alpha/helper.c                   | 2 +-
- target/arm/cpu.c                        | 1 +
- target/arm/helper.c                     | 2 ++
- target/arm/m_helper.c                   | 1 +
- target/arm/mte_helper.c                 | 1 +
- target/avr/helper.c                     | 1 +
- target/cris/helper.c                    | 1 +
- target/hexagon/internal.h               | 2 ++
- target/hppa/cpu.c                       | 1 +
- target/hppa/helper.c                    | 2 +-
- target/hppa/mem_helper.c                | 1 +
- target/hppa/op_helper.c                 | 1 +
- target/i386/helper.c                    | 1 +
- target/i386/tcg/int_helper.c            | 1 +
- target/i386/tcg/misc_helper.c           | 1 +
- target/i386/tcg/sysemu/seg_helper.c     | 1 +
- target/i386/tcg/sysemu/svm_helper.c     | 1 +
- target/m68k/op_helper.c                 | 1 +
- target/microblaze/cpu.c                 | 1 +
- target/microblaze/mmu.c                 | 1 +
- target/microblaze/op_helper.c           | 1 +
- target/mips/tcg/exception.c             | 1 +
- target/mips/tcg/sysemu/special_helper.c | 1 +
- target/mips/tcg/translate.h             | 1 +
- target/openrisc/interrupt.c             | 1 +
- target/openrisc/mmu.c                   | 1 +
- target/ppc/excp_helper.c                | 1 +
- target/ppc/misc_helper.c                | 1 +
- target/riscv/csr.c                      | 1 +
- target/s390x/tcg/excp_helper.c          | 1 +
- target/s390x/tcg/mem_helper.c           | 1 +
- target/sparc/helper.c                   | 1 +
- target/sparc/ldst_helper.c              | 1 +
- target/sparc/mmu_helper.c               | 1 +
- target/tricore/helper.c                 | 2 +-
- target/xtensa/dbg_helper.c              | 1 +
- target/xtensa/exc_helper.c              | 1 +
- target/xtensa/fpu_helper.c              | 1 +
- target/xtensa/helper.c                  | 1 +
- target/xtensa/mmu_helper.c              | 1 +
- target/xtensa/win_helper.c              | 1 +
- 61 files changed, 63 insertions(+), 11 deletions(-)
-
+diff --git a/hw/tpm/tpm_crb.c b/hw/tpm/tpm_crb.c
+index 58ebd1469c..aa9c00aad3 100644
+--- a/hw/tpm/tpm_crb.c
++++ b/hw/tpm/tpm_crb.c
+@@ -18,6 +18,7 @@
+ 
+ #include "qemu/module.h"
+ #include "qapi/error.h"
++#include "exec/address-spaces.h"
+ #include "hw/qdev-properties.h"
+ #include "hw/pci/pci_ids.h"
+ #include "hw/acpi/tpm.h"
+diff --git a/hw/tpm/tpm_ppi.c b/hw/tpm/tpm_ppi.c
+index 274e9aa4b0..6dbb9f41e4 100644
+--- a/hw/tpm/tpm_ppi.c
++++ b/hw/tpm/tpm_ppi.c
+@@ -14,9 +14,9 @@
+ #include "qemu/osdep.h"
+ 
+ #include "qapi/error.h"
+-#include "cpu.h"
+ #include "sysemu/memory_mapping.h"
+ #include "migration/vmstate.h"
++#include "hw/qdev-core.h"
+ #include "hw/acpi/tpm.h"
+ #include "tpm_ppi.h"
+ #include "trace.h"
+@@ -44,7 +44,7 @@ void tpm_ppi_reset(TPMPPI *tpmppi)
+     }
+ }
+ 
+-void tpm_ppi_init(TPMPPI *tpmppi, struct MemoryRegion *m,
++void tpm_ppi_init(TPMPPI *tpmppi, MemoryRegion *m,
+                   hwaddr addr, Object *obj)
+ {
+     tpmppi->buf = qemu_memalign(qemu_real_host_page_size,
+diff --git a/hw/tpm/tpm_ppi.h b/hw/tpm/tpm_ppi.h
+index 6f773c25a0..bf5d4a300f 100644
+--- a/hw/tpm/tpm_ppi.h
++++ b/hw/tpm/tpm_ppi.h
+@@ -12,7 +12,7 @@
+ #ifndef TPM_TPM_PPI_H
+ #define TPM_TPM_PPI_H
+ 
+-#include "exec/address-spaces.h"
++#include "exec/memory.h"
+ 
+ typedef struct TPMPPI {
+     MemoryRegion ram;
+@@ -29,7 +29,7 @@ typedef struct TPMPPI {
+  * Register the TPM PPI memory region at @addr on the given address
+  * space for the object @obj.
+  **/
+-void tpm_ppi_init(TPMPPI *tpmppi, struct MemoryRegion *m,
++void tpm_ppi_init(TPMPPI *tpmppi, MemoryRegion *m,
+                   hwaddr addr, Object *obj);
+ 
+ /**
 -- 
 2.34.1
 
