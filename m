@@ -2,77 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86B2A4A8281
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Feb 2022 11:41:25 +0100 (CET)
-Received: from localhost ([::1]:60822 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0969D4A8280
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Feb 2022 11:41:01 +0100 (CET)
+Received: from localhost ([::1]:60594 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nFZYI-0000OG-EW
-	for lists+qemu-devel@lfdr.de; Thu, 03 Feb 2022 05:41:22 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:58492)
+	id 1nFZXv-0000F8-EO
+	for lists+qemu-devel@lfdr.de; Thu, 03 Feb 2022 05:40:59 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:58900)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nFZQX-0005uc-6N
- for qemu-devel@nongnu.org; Thu, 03 Feb 2022 05:33:21 -0500
-Received: from [2a00:1450:4864:20::62f] (port=42992
- helo=mail-ej1-x62f.google.com)
+ id 1nFZRf-0006mM-Ds
+ for qemu-devel@nongnu.org; Thu, 03 Feb 2022 05:34:31 -0500
+Received: from [2a00:1450:4864:20::52c] (port=46049
+ helo=mail-ed1-x52c.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nFZQV-0007S8-6z
- for qemu-devel@nongnu.org; Thu, 03 Feb 2022 05:33:20 -0500
-Received: by mail-ej1-x62f.google.com with SMTP id m4so7256079ejb.9
- for <qemu-devel@nongnu.org>; Thu, 03 Feb 2022 02:33:18 -0800 (PST)
+ id 1nFZRa-0007Zf-SY
+ for qemu-devel@nongnu.org; Thu, 03 Feb 2022 05:34:31 -0500
+Received: by mail-ed1-x52c.google.com with SMTP id p7so4852315edc.12
+ for <qemu-devel@nongnu.org>; Thu, 03 Feb 2022 02:34:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=references:user-agent:from:to:cc:subject:date:in-reply-to
  :message-id:mime-version:content-transfer-encoding;
- bh=KgNxCIEDBi9hi+Qq1x1b22NhFb04/1UdByFEOkgC6Ho=;
- b=Sji8PE9dIVlAhtfGRJ+ZHOOBrkqSqs1P0ndfbjMrZEQu3XL/WiKNBg2VTVX/wrFoyE
- w+9hleDkDuhRzWeg8jAW3yS45jiAUtjB8sktb6BMxpaodARDrZHUoJDdf2IM+NhCedVn
- 77r+1M/NaI6QKDa5bRYGwmggNj8UmMrQI0uEsYKrp7u8se+YXNkwzBRzOcw/ODV77JMr
- H6L8lwiNnfdTZ0E0Vwpl8YzeapDFYmPhlj97KiQhbuAN7DrrDMDLI0oMTaHWKV49t+ba
- oit2Rd4LLRTLfuY3KDOZQ/fjvhpRSrmRyuU10bbkOUNM13NBmT8e0DQ73BPWAq1AMG7F
- TsEg==
+ bh=zf9gAbZhgTGEauCb61t2//fncU3qSMldqO8iv51NA9s=;
+ b=N307MhizWYluor0KKpk7Saz0OQapK4d4EIWZiyvh1Em7Y0acYJ5eTBTyhaBrw7sFT9
+ A4GwWRuG7SbdvLp9DhO3M6512aLWfU1ENYe6F69TnsC5ymYuwFpIKWVNlxSyTniqIfmI
+ mAvg1zHxEry177U946zjKAraE+cn7kqJ2MEvmwn4D1NaHlC3upyJGbPY1A6w9cRJis4Q
+ 0u1SJ/IrNr2wUp8dS3RG7CAIl/eeOO6u5V6awSmDeCeFsazdFsGgsNKdMMV+GyqLwLP+
+ JW61Vxy2ERlWTbuj8ir8UfaxuNSbyaiTfWisu/jJgk3phaVsEE2FPAgOp71W9TmgNmeG
+ 2D7A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
  :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=KgNxCIEDBi9hi+Qq1x1b22NhFb04/1UdByFEOkgC6Ho=;
- b=uKhvME+uRdZ2JQm0IX5ybBA3mMAXtOWmzYaw+hUnAYIsEJuDfmAubLZTAzelR2qRy5
- ItLJh80a/eZ2oMG6BmKOunhQvB5EiaQIzSwwP+Lrk4CYnYz/D2gUPJrYIW5PCxdMcpBH
- 749oZTHO/QpIjPeiUGh+cvG+sIQMyoySF8sCDPk3WRIEwTv0Knqt9sYcmX9X8Pl71Cc/
- 8IKes4dr2LuvL7jTpquwDNueA3ltUQTSQof7FXvDPnvGhFHJ+MTQx8fl2luNOrCPq1Tk
- YNgY92/Md4tv+ksWThGjrn/JnaEaeOZ34sRPH/EHkxqSeJzFyVVu+q2uY49KqfFxr6HJ
- Ru/A==
-X-Gm-Message-State: AOAM533XVbqjkp0m9dk+TzfDk25d6JM5ZE++Z5bZT1wpQ+YSMPR7Ak6D
- ENH0A4KWpfiYTa9K4UUBv1w3PnqVk/R2Bw==
-X-Google-Smtp-Source: ABdhPJzjQ7e5lfKJOZVXr9Ltliu5f55jyyF2XsNqICNYFP6kdabCb4ydBR8oRA3hJHfSNXLL5X0IXw==
-X-Received: by 2002:a17:906:7948:: with SMTP id
- l8mr29463172ejo.752.1643884397090; 
- Thu, 03 Feb 2022 02:33:17 -0800 (PST)
+ bh=zf9gAbZhgTGEauCb61t2//fncU3qSMldqO8iv51NA9s=;
+ b=btBFx4gjcPEWpteH7UAuqubh6CI1rqRAQiOVJ0oJxD/2oRvbJ5fe/SpemKbeyBH3rL
+ p/sigMNTxTry3DpM96HZPu7ik/c8nChk3ifWiSjNRz/1ZhN/wcR1e46ZD/ezp4gryU36
+ EYlkvYZe+ELh7QViM0Tl+LXDKRqL1tzJQyBcCJ84pl8yUvrFcxHKQnK2WJ6/ZRD4701T
+ 4leNemqvQtyJmI3Er4WmgX9EzDHnkckAgZVb3pS/unn+rAVbc5AucuWYIwE97/gJyP6Q
+ 4UpFsTSFY8+Sar9J2LTk87BkIPXoITkf5KL+ZND5SWHyYs8GFR79PEQyV2SHPMBm8kEy
+ WbnA==
+X-Gm-Message-State: AOAM532+1AXsyfQd9tCvr23Uz7SHAF3YdHDOAyHiHmGE/EV+a5kbeJGu
+ bSfNqeCufbCLC6t5oW6+I4eDSF++f2Ggng==
+X-Google-Smtp-Source: ABdhPJxV2xdhzkzTDP22o0itIEWSMBRp9oncVqzZQxERLBzNNJF1bK9FKp8nP5BtrglJ1w4SWYCSbg==
+X-Received: by 2002:a50:d757:: with SMTP id i23mr12941204edj.446.1643884464705; 
+ Thu, 03 Feb 2022 02:34:24 -0800 (PST)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id v10sm21967537edx.36.2022.02.03.02.33.15
+ by smtp.gmail.com with ESMTPSA id v23sm16920268ejy.178.2022.02.03.02.34.23
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 03 Feb 2022 02:33:15 -0800 (PST)
+ Thu, 03 Feb 2022 02:34:23 -0800 (PST)
 Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 5D1741FFB7;
- Thu,  3 Feb 2022 10:33:15 +0000 (GMT)
+ by zen.linaroharston (Postfix) with ESMTP id 2F1AD1FFB7;
+ Thu,  3 Feb 2022 10:34:23 +0000 (GMT)
 References: <20211218194250.247633-1-richard.henderson@linaro.org>
- <20211218194250.247633-15-richard.henderson@linaro.org>
+ <20211218194250.247633-16-richard.henderson@linaro.org>
 User-agent: mu4e 1.7.6; emacs 28.0.91
 From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: Richard Henderson <richard.henderson@linaro.org>
-Subject: Re: [PATCH 14/20] tcg/i386: Expand vector word rotate as
- avx512vbmi2 shift-double
-Date: Thu, 03 Feb 2022 10:32:30 +0000
-In-reply-to: <20211218194250.247633-15-richard.henderson@linaro.org>
-Message-ID: <877dacutn8.fsf@linaro.org>
+Subject: Re: [PATCH 15/20] tcg/i386: Remove rotls_vec from tcg_target_op_def
+Date: Thu, 03 Feb 2022 10:34:17 +0000
+In-reply-to: <20211218194250.247633-16-richard.henderson@linaro.org>
+Message-ID: <8735l0utlc.fsf@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::62f
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::52c
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::62f;
- envelope-from=alex.bennee@linaro.org; helo=mail-ej1-x62f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::52c;
+ envelope-from=alex.bennee@linaro.org; helo=mail-ed1-x52c.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -100,13 +98,10 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Richard Henderson <richard.henderson@linaro.org> writes:
 
-> While there are no specific 16-bit rotate instructions, there
-> are double-word shifts, which can perform the same operation.
+> There is no such instruction on x86, so we should
+> not be pretending it has arguments.
 >
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-
-Even hackbox can't utilise these - maybe it's time to request a upgrade
-for my dev box ;-)
 
 Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
 
