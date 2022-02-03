@@ -2,73 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A24874A893C
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Feb 2022 18:06:17 +0100 (CET)
-Received: from localhost ([::1]:37028 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CFFC14A8A38
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Feb 2022 18:38:00 +0100 (CET)
+Received: from localhost ([::1]:42132 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nFfYm-0000T1-77
-	for lists+qemu-devel@lfdr.de; Thu, 03 Feb 2022 12:06:16 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:47632)
+	id 1nFg3T-0007ZI-GP
+	for lists+qemu-devel@lfdr.de; Thu, 03 Feb 2022 12:37:59 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:56984)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nFfS2-0006DZ-BP
- for qemu-devel@nongnu.org; Thu, 03 Feb 2022 11:59:19 -0500
-Received: from [2607:f8b0:4864:20::1033] (port=52015
- helo=mail-pj1-x1033.google.com)
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1nFfzi-0004kr-0m
+ for qemu-devel@nongnu.org; Thu, 03 Feb 2022 12:34:06 -0500
+Received: from [2a00:1450:4864:20::630] (port=36660
+ helo=mail-ej1-x630.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nFfRz-0007wf-IK
- for qemu-devel@nongnu.org; Thu, 03 Feb 2022 11:59:17 -0500
-Received: by mail-pj1-x1033.google.com with SMTP id q63so2990458pja.1
- for <qemu-devel@nongnu.org>; Thu, 03 Feb 2022 08:59:07 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1nFfzf-0008ES-Nq
+ for qemu-devel@nongnu.org; Thu, 03 Feb 2022 12:34:05 -0500
+Received: by mail-ej1-x630.google.com with SMTP id s13so11053468ejy.3
+ for <qemu-devel@nongnu.org>; Thu, 03 Feb 2022 09:34:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=HGAu/AjjiHjjy7OltnPVn1JOiJPHnYEy4kJJQtVjzJ8=;
- b=kCZRs3pYhpAc8LAsYorB8rJKtCN6cEo5oTrkYibVgVuHsg9Bwds5QNHeApvISjsaQs
- ahoxnAfCMCjnJZ7L64Q4vLtwYsniWaX8ypECQaovtDPyUV5LpsAMpjJ4oBhaYizgR8K7
- OFnjEtitQTweOhDLfpTR7MR7CnOb+eYVgkUMUyjTUnnclhMJH7DC8Ig7EWFZZrZNnZMq
- iByFqPdiSMUnr9nm+BpR3o8R6wDa+acxUeVMMVnWitUxG4mvFcVxMtDME+HxDwvF/tcm
- xI1XvlUfnprWfThGDsd/Ia0rlCFzCPHZRiatAA90+k3URENSqR6qjuwu25SuXBOCjOgZ
- QWxg==
+ bh=H9H9N+kG5pGxpKToPpsJsYrzR0IHZRGFKYL0I7BIFRw=;
+ b=Q1x6E6Rl+AXaSXPodb3+ayLHXT3RpMSy+FXav2YEh4OgbVmmpWAbHnP0Dll3k9KQdv
+ KjLqTAmQ0drgC7w9ai6F6BCkYWmlduVa13ZCfhu9MUfQVLSCpahd49jMzyKPwO1S2f4Z
+ cgJMkyVyoU6ksQYZlP/xyJ7FWJXGZGFA182HNpNKcLqamCE+A3BMk/SUTe8Qnt9UYqw0
+ B7F5+8kngHpigZ/CZiHR6QH1QxCbhrXoO7Z285AQvkgAFyUZC9W6kBtTMz6ng8TutV0O
+ Ku4wMMh1OPHzVJRhv5ivOkT1cjnknIFqmvpIRowOfPvvL0c25I/fYqEl59BHkGp9WAe7
+ XyVA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :mime-version:content-transfer-encoding;
- bh=HGAu/AjjiHjjy7OltnPVn1JOiJPHnYEy4kJJQtVjzJ8=;
- b=MIx2QDn4KxGMIkNrLERNGLU4e0Qs9+qcob1CvU51alLH2RhbrLk0pCYpa/K1hfbmhO
- refMkuFzaMsYWYHBFZ64qJmn9oEolSOIUDMwrG+GgDAsxhcJs/EUjZaGKB+Bsj2c+1gS
- a0D5nFQzQVRA/cUUgEkM4Ssa10t1g5m0jG7p84JX6xBUVRbK9jjrWTtL7N8Gh6fkRQWT
- F+jtvQIdFJpdz8FS2dl1AmkUjhReCyYZGkYX01BfGghIleWCfDNSLM6LejsEuSR4rVhz
- N5Ql63+fPvOLlJdVMo0NFgKo8f0vBxNOc9WOaZu9Ya++wQ1uDKWt/+leyEqvyBdNkbf1
- Qt1g==
-X-Gm-Message-State: AOAM532TpoZ1QrYrXKhgmynaufXf2/Zf0vL07F4HQnY5vwjgx5FoKQXc
- 9kQ/aK2HeHt5fPm0DfwfJRaMlSG+DWg=
-X-Google-Smtp-Source: ABdhPJzOw7iTX8Lc5j1KOovM0MycVWVwhk6e/b11PXiBNEBNGEx0ArBBHHm5zxPgdFJSX7aBVjwb4Q==
-X-Received: by 2002:a17:903:300d:: with SMTP id
- o13mr4553285pla.174.1643907545758; 
- Thu, 03 Feb 2022 08:59:05 -0800 (PST)
-Received: from localhost.localdomain (154.red-83-50-83.dynamicip.rima-tde.net.
- [83.50.83.154])
- by smtp.gmail.com with ESMTPSA id a13sm31407097pfv.97.2022.02.03.08.59.03
- (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Thu, 03 Feb 2022 08:59:05 -0800 (PST)
+ bh=H9H9N+kG5pGxpKToPpsJsYrzR0IHZRGFKYL0I7BIFRw=;
+ b=zBwtqdPYo/sqrler8rvamsLZ+4XNpiwwbbC9xdABj1dZ61DLCGHDqVubptBHNhBevU
+ V+IckxqoNDkgFGWWSKu255RjbGqra3/1BFvnn2IvZ7uV23BydckJMYq18OUCQrFeerHC
+ joGfjSdWbFrn3+Fyqg8CqnptWKVeONZJ5v56FV1VANjMEVTjP9HKib6920tOXyoSEi5n
+ fP/zyTZzKv70WnjCX0H4X701OlwwXxQCVqc1694jTQA8QhSa2YSTV3P34FoymmmdY+na
+ qzkLqV/nyfIzMB/RpKpSNXVxl0NcOuHcruk2wsugDPC8sN6k7IjHV9Vjon+d5MWZpmv2
+ mtjQ==
+X-Gm-Message-State: AOAM530/0L2dAaFGtAGxdwFn0nrhrKFnXGN8T5qrjbnsyKc7D1o7iNM2
+ I8rnb9H25T7zN45xJeTZRU2FP4Pb9QU=
+X-Google-Smtp-Source: ABdhPJxT72XUsn4BOGAYWwh5EvGFVMx4AGZIldcvrtW8hrybOs2nnzJvtwNwTjcVvtfxv4inFCC7aA==
+X-Received: by 2002:a17:906:4acf:: with SMTP id
+ u15mr29776295ejt.469.1643909641547; 
+ Thu, 03 Feb 2022 09:34:01 -0800 (PST)
+Received: from avogadro.lan ([2001:b07:6468:f312:5e2c:eb9a:a8b6:fd3e])
+ by smtp.gmail.com with ESMTPSA id a25sm6665279ejs.149.2022.02.03.09.34.00
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 03 Feb 2022 09:34:00 -0800 (PST)
+From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: [PATCH] audio/dbus: Fix building with modules enabled on macOS
-Date: Thu,  3 Feb 2022 17:58:59 +0100
-Message-Id: <20220203165859.41066-1-f4bug@amsat.org>
+Subject: [PATCH 00/27] Next batch of Meson cleanups and conversions
+Date: Thu,  3 Feb 2022 18:33:32 +0100
+Message-Id: <20220203173359.292068-1-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1033
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::630
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1033;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pj1-x1033.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::630;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x630.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -90,38 +87,92 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: marcandre.lureau@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-From:  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= via <qemu-devel@nongnu.org>
 
-When configuring QEMU with --enable-modules we get on macOS:
+The main news here are the usage of .allowed() and .require() methods for
+features.  These simplify a lot the generation of errors when features
+depend on the results of compile or OS tests.  The reduction in LoC is
+smaller than past conversions, but still not bad.
 
-  --- stderr ---
-  Dependency ui-dbus cannot be satisfied
+There aren't many tests left in configure; the most complicated ones
+are for Xen and sanitizers.  The plan for configure is to host detection
+logic for cross compilers, which would enable cross-compilation of pc-bios
+etc. just like we do for TCG tests.
 
-ui-dbus depends on pixman and opengl, so add these dependencies
-to audio-dbus.
+Paolo
 
-Fixes: 739362d420 ("audio: add "dbus" audio backend")
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
----
- audio/meson.build | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Based-on: <20220121154134.315047-1-f4bug@amsat.org>
 
-diff --git a/audio/meson.build b/audio/meson.build
-index 0ac3791d0b..d9b295514f 100644
---- a/audio/meson.build
-+++ b/audio/meson.build
-@@ -28,7 +28,7 @@ endforeach
- 
- if dbus_display
-     module_ss = ss.source_set()
--    module_ss.add(when: gio, if_true: files('dbusaudio.c'))
-+    module_ss.add(when: [gio, pixman, opengl, 'CONFIG_GIO'], if_true: files('dbusaudio.c'))
-     audio_modules += {'dbus': module_ss}
- endif
- 
+Marc-André Lureau (9):
+  qga/vss-win32: fix midl arguments
+  meson: drop --with-win-sdk
+  qga/vss-win32: use widl if available
+  qga/vss: use standard windows headers location
+  configure, meson: replace VSS SDK checks and options with
+    --enable-vss-sdk
+  meson: do not make qga/vss-win32/meson.build conditional on C++
+    presence
+  qga/vss-win32: require widl/midl, remove pre-built TLB file
+  meson: require dynamic linking for VSS support
+  meson, configure: move ntddscsi API check to meson
+
+Paolo Bonzini (18):
+  meson: use .allowed() method for features
+  meson: use .require() and .disable_auto_if() method for features
+  configure, meson: move AVX tests to meson
+  configure, meson: move membarrier test to meson
+  configure, meson: move AF_ALG test to meson
+  configure, meson: move libnuma detection to meson
+  configure, meson: move TPM check to meson
+  configure, meson: cleanup qemu-ga libraries
+  configure, meson: move image format options to meson_options.txt
+  configure, meson: move block layer options to meson_options.txt
+  meson: define qemu_cflags/qemu_ldflags
+  configure, meson: move some default-disabled options to
+    meson_options.txt
+  configure, meson: move coroutine options to meson_options.txt
+  configure, meson: move smbd options to meson_options.txt
+  configure, meson: move guest-agent, tools to meson
+  meson: refine check for whether to look for virglrenderer
+  configure, meson: move OpenGL check to meson
+  configure, meson: move CONFIG_IASL to a Meson option
+
+ backends/tpm/meson.build           |  14 +-
+ block/meson.build                  |  51 ++-
+ configure                          | 638 +----------------------------
+ contrib/vhost-user-gpu/meson.build |   3 +-
+ crypto/meson.build                 |   6 +-
+ docs/devel/kconfig.rst             |   2 +-
+ docs/meson.build                   |   2 -
+ hw/acpi/meson.build                |   4 +-
+ meson.build                        | 445 +++++++++++++-------
+ meson_options.txt                  |  66 +++
+ migration/meson.build              |   4 +-
+ net/slirp.c                        |  16 +-
+ qga/commands-win32.c               |   6 +-
+ qga/meson.build                    |  55 ++-
+ qga/vss-win32/install.cpp          |   2 +-
+ qga/vss-win32/meson.build          |  52 +--
+ qga/vss-win32/provider.cpp         |   4 +-
+ qga/vss-win32/qga-vss.tlb          | Bin 1528 -> 0 bytes
+ qga/vss-win32/requester.cpp        |   4 +-
+ qga/vss-win32/vss-common.h         |   6 +-
+ scripts/meson-buildoptions.py      |   2 +
+ scripts/meson-buildoptions.sh      |  92 +++++
+ softmmu/meson.build                |   5 +-
+ tests/Makefile.include             |   2 +-
+ tests/check-block.sh               |   4 -
+ tests/meson.build                  |   2 +-
+ tests/qemu-iotests/meson.build     |   2 +-
+ tests/unit/meson.build             |   6 +-
+ tools/meson.build                  |  31 +-
+ ui/meson.build                     |  16 +-
+ util/meson.build                   |   4 +-
+ 31 files changed, 637 insertions(+), 909 deletions(-)
+ delete mode 100644 qga/vss-win32/qga-vss.tlb
+
 -- 
 2.34.1
 
