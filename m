@@ -2,77 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C26624A8D3A
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Feb 2022 21:29:32 +0100 (CET)
-Received: from localhost ([::1]:52938 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 680B94A8D2E
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Feb 2022 21:26:32 +0100 (CET)
+Received: from localhost ([::1]:47782 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nFijT-0006Lh-PB
-	for lists+qemu-devel@lfdr.de; Thu, 03 Feb 2022 15:29:31 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:56762)
+	id 1nFigZ-0002XV-Hf
+	for lists+qemu-devel@lfdr.de; Thu, 03 Feb 2022 15:26:31 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:56796)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nFhwO-0004Gx-CQ
- for qemu-devel@nongnu.org; Thu, 03 Feb 2022 14:38:52 -0500
-Received: from [2607:f8b0:4864:20::633] (port=33672
- helo=mail-pl1-x633.google.com)
+ id 1nFhwZ-0004IW-8N
+ for qemu-devel@nongnu.org; Thu, 03 Feb 2022 14:39:01 -0500
+Received: from [2607:f8b0:4864:20::429] (port=47057
+ helo=mail-pf1-x429.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nFhwM-0005zd-Df
- for qemu-devel@nongnu.org; Thu, 03 Feb 2022 14:38:48 -0500
-Received: by mail-pl1-x633.google.com with SMTP id k17so3127004plk.0
- for <qemu-devel@nongnu.org>; Thu, 03 Feb 2022 11:38:42 -0800 (PST)
+ id 1nFhwR-00061m-OQ
+ for qemu-devel@nongnu.org; Thu, 03 Feb 2022 14:38:55 -0500
+Received: by mail-pf1-x429.google.com with SMTP id i17so3045456pfq.13
+ for <qemu-devel@nongnu.org>; Thu, 03 Feb 2022 11:38:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=JX7GM0LgHysT8Yf41piT5uOA6NfosJcHXGrxxDMG6iI=;
- b=BQLbLearPjO7iYTW/PMaZtNGWObR86p2XpdymMZ7fW1n7OzmGa8X4l9LFV8ZRCySXm
- ySJrcAxeQZgQrt6r8nwW108WoJZNnxU1RMoyQ3qPFY+8ANCJYsbqZwRQuxvqSJg57XBF
- LN35yZdaydtLo2AZ5Ljerp0jD/tPRFl/5TcJZMNJFkBKusblSSZ+sXj/S7pjnEamUbLR
- hiHs64iABSG8JUJmzG4OLcGvMFVUwZJqtL4HLgXWK6ksk3iRR2RpCWTku3vmy0PfvwMN
- d210I0p7K3BQ9oJCJE7lcizzXEnWP+zE8jzJrvjxGIurZ3h/cyopqf3tonpaePCBClpF
- 6a7g==
+ bh=sP7Ygr3KOhweObu1GSFi+Gm2T3Yd9wOfYj+MYupKOxE=;
+ b=JJKkjY8uBNRpqQlCq6x275ERYhYbgPLtxin8mHGtcqW0dJdKqx0OzMvA9wt2DbiPsW
+ onYLWRtJ1Nb5ZL50z25r42B1L8DdxaxOS+kJkuGCZlt+0QFdPUErVL2eVPe6IUut77Vw
+ JQnrzAugpSoZ1UCtei7JHBBp42CLFrdk+rV0QIWxwv70m6r3d0knDZ0BAPGPeC3pxjGB
+ CraAPSkEwnRFKw/oP1aEBIa5RV41VAXbvsZ8ZoEcI9XCSeZoBSd2FQUDShaH6rIigzbJ
+ cxDjluhVv1Ot3qdMO5jZdx90s4WLEViH396Nh86uKB3wys/lYR39QixNV1Raa5H/b1um
+ aMdA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=JX7GM0LgHysT8Yf41piT5uOA6NfosJcHXGrxxDMG6iI=;
- b=PTS94AJvqhnSsmOMujnGDmvL5016dR20iwvs0X2zeQubs7vLzx4Cta5O3ojgT21Tls
- dp/QnhSX5r7w7fV9IyRbBxZbI5Bo1UWpGIvq+Rldx0TjJS2l+asi7vFuunsYcYEXL7mR
- ayGCK1l2ZMuUu7X0lHbAEn5P7mhSyw33QGeYuQ21UxZEHfiFQ/rWG2i3qNiGmnNzhFtY
- kMplsrDJLkRBRsF2KJ4o5PP3SXnEjlqXVKp/XZ4ZC4sVsQ2X5arx/Q+zdSat683ccH8Q
- vzTDmOc3FYkAgZxy9uGnR1qK2ld9/MYawJZa1+4Kov9WzHFqMN4NS3nwK7v5qUq/XCBO
- RXKg==
-X-Gm-Message-State: AOAM532NPiuW546VBhySD6PfveBY3r1PJ18XXIryKkfK77Sr+zkAGKOZ
- NabLYza5SiuADeEX1CGYAoHerHH+7tk=
-X-Google-Smtp-Source: ABdhPJwRq2GHlwifz7DWa8UTXRl+usrxPBbU0bCbapQI4TuBEsTyc1Hgl0VlWPejpVut9WLXZ/HplQ==
-X-Received: by 2002:a17:902:b586:: with SMTP id
- a6mr13367580pls.150.1643917121104; 
- Thu, 03 Feb 2022 11:38:41 -0800 (PST)
+ bh=sP7Ygr3KOhweObu1GSFi+Gm2T3Yd9wOfYj+MYupKOxE=;
+ b=CcVzL0EZlS1HJ4I5JDAD327KC/iakSC++xR8rn4L2mbqz7UWVsdmz5hCuDGCnFXCt8
+ 1gW4wVbwfZToErG2HTSm7gz22H4qMQJ3EPmq/zqr7RWNTsRWIPRPiuHRlAIeDIt6dG7a
+ hpeQSGog5/afiIzTELR0WlohL2OcIOjGs3nTMUHVee9lWAtFTkfWy64qSHzM3v0+MumG
+ tYnJKTYNSsL7NiuF6IRHccwpuLawSRKGRWhOveICoUuKlnYuyBZq0F63GoqGZPBWPsn7
+ voEGmP8tfOxM6xpBEMXBS0BqVLycBnVQoKvIHrOnaFH7gwsRzVUHqpvahFTLjgxkCZVq
+ oX7w==
+X-Gm-Message-State: AOAM531PXudTeAzwHIeHO3n3VA+2qIByvUrLGRAY5sD5i66AOE656rBc
+ ajxDyBRVUQtBXZSYA0DIriRYvCd5JCc=
+X-Google-Smtp-Source: ABdhPJwG0q9+DdyfjO3uGDhgTnRcLKq+RMEpvMXWiyf/v4Ensd+VT0CB4tJiG8kacIlNjUHypRD9nA==
+X-Received: by 2002:a63:d1:: with SMTP id 200mr16804039pga.402.1643917128914; 
+ Thu, 03 Feb 2022 11:38:48 -0800 (PST)
 Received: from localhost.localdomain (154.red-83-50-83.dynamicip.rima-tde.net.
  [83.50.83.154])
- by smtp.gmail.com with ESMTPSA id l14sm3359056pjf.1.2022.02.03.11.38.39
+ by smtp.gmail.com with ESMTPSA id y20sm30914672pfi.78.2022.02.03.11.38.46
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Thu, 03 Feb 2022 11:38:40 -0800 (PST)
+ Thu, 03 Feb 2022 11:38:48 -0800 (PST)
 To: qemu-devel@nongnu.org
 Cc: Paolo Bonzini <pbonzini@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>,
  Thomas Huth <thuth@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: [PATCH 04/10] hw/acpi/memory_hotplug: Remove unused
- 'hw/acpi/pc-hotplug.h' header
-Date: Thu,  3 Feb 2022 20:37:57 +0100
-Message-Id: <20220203193803.45671-5-f4bug@amsat.org>
+Subject: [PATCH 05/10] qtest: Add missing 'hw/qdev-core.h' include
+Date: Thu,  3 Feb 2022 20:37:58 +0100
+Message-Id: <20220203193803.45671-6-f4bug@amsat.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220203193803.45671-1-f4bug@amsat.org>
 References: <20220203193803.45671-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::633
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::429
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::633;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pl1-x633.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::429;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pf1-x429.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -99,23 +97,29 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reply-to:  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 From:  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= via <qemu-devel@nongnu.org>
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Add "hw/qdev-core.h" to avoid when refactoring include/:
+
+  softmmu/qtest.c:404:9: error: use of undeclared identifier 'NamedGPIOList'
+        NamedGPIOList *ngl;
+        ^
+
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/acpi/memory_hotplug.c | 1 -
- 1 file changed, 1 deletion(-)
+ softmmu/qtest.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/hw/acpi/memory_hotplug.c b/hw/acpi/memory_hotplug.c
-index a581a2183b..0a7e89a13e 100644
---- a/hw/acpi/memory_hotplug.c
-+++ b/hw/acpi/memory_hotplug.c
-@@ -1,6 +1,5 @@
- #include "qemu/osdep.h"
- #include "hw/acpi/memory_hotplug.h"
--#include "hw/acpi/pc-hotplug.h"
- #include "hw/mem/pc-dimm.h"
- #include "hw/qdev-core.h"
- #include "migration/vmstate.h"
+diff --git a/softmmu/qtest.c b/softmmu/qtest.c
+index 72751e1fd8..8b7cb6aa8e 100644
+--- a/softmmu/qtest.c
++++ b/softmmu/qtest.c
+@@ -19,6 +19,7 @@
+ #include "chardev/char-fe.h"
+ #include "exec/ioport.h"
+ #include "exec/memory.h"
++#include "hw/qdev-core.h"
+ #include "hw/irq.h"
+ #include "qemu/accel.h"
+ #include "sysemu/cpu-timers.h"
 -- 
 2.34.1
 
