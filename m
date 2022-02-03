@@ -2,71 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B44D14A8A39
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Feb 2022 18:38:02 +0100 (CET)
-Received: from localhost ([::1]:42278 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A0C44A8A6D
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Feb 2022 18:42:57 +0100 (CET)
+Received: from localhost ([::1]:50922 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nFg3V-0007fJ-Pg
-	for lists+qemu-devel@lfdr.de; Thu, 03 Feb 2022 12:38:01 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:56986)
+	id 1nFg8G-0005AM-Kl
+	for lists+qemu-devel@lfdr.de; Thu, 03 Feb 2022 12:42:56 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:57052)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nFfzi-0004ky-8j
- for qemu-devel@nongnu.org; Thu, 03 Feb 2022 12:34:06 -0500
-Received: from [2a00:1450:4864:20::62a] (port=37645
- helo=mail-ej1-x62a.google.com)
+ id 1nFfzk-0004o7-HB
+ for qemu-devel@nongnu.org; Thu, 03 Feb 2022 12:34:09 -0500
+Received: from [2a00:1450:4864:20::530] (port=45847
+ helo=mail-ed1-x530.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nFfzf-0008EY-Tx
- for qemu-devel@nongnu.org; Thu, 03 Feb 2022 12:34:05 -0500
-Received: by mail-ej1-x62a.google.com with SMTP id ah7so10954134ejc.4
+ id 1nFfzg-0008Eh-8U
+ for qemu-devel@nongnu.org; Thu, 03 Feb 2022 12:34:08 -0500
+Received: by mail-ed1-x530.google.com with SMTP id p7so7423581edc.12
  for <qemu-devel@nongnu.org>; Thu, 03 Feb 2022 09:34:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=yyvCpeDksj6CAh++Ga/ZmKPlAI3Y8Jz7GLBG6NJLt1g=;
- b=equnzJQSUysrj3D27xol5QVJ7lAni2tksR7qA/rTJiHYFd+cq90+GZt1Ani892XeRA
- P79N4mYwDP4hYb7blMRjAN9AI1k51uXveoRcaWDSTIpo8GFHtbEr0rcqUbLyRbrIGpDg
- SZ0+4cvjwIi3i6zG7cV562UMhV8DZhEo1xW+8p9Og0ZtpYK+TbJowlXV/Qch05XLK1Fr
- /puhG2gsjnn+tw0mu1JT5iz8Itr89xFtULfZEjoEHgdXivIPQBz7XxiMAKV8eyDuFY35
- RIaEPSk7PwdWXWqrB2THLJHBVLalJUm1ZvPkfphQn7mj0y3KpJJRw2eoiXrouqvuKStg
- cPkQ==
+ bh=juIZeRSO6SXa5bRhnso0ZwIYdjLmQr9FDPRnCV9jBBU=;
+ b=I8DiYSHGS5CWUaEY7PP+PPtm6lgjaGmpZ+n3/UDDw6M5Zil8TC9aY8HRisx6GqB7NR
+ nmrxZdhYzubSh6zhl6MtDM0mKt2Fx6AeO4+U38s0BHqmQrg+T8daErai41a+9awWmRM/
+ at4ykZ2bt6RO0+SOjxaBEgpfkBlW+UCgZWVGGQhGQhd/digv3hyC3wR+l64hiOnaBAxJ
+ /EaBnGcCgquryk+EgoPIJtPm0jnyUxY53fp1wDSNe9r3JGpyZ43w2PJEgIssIzUMQRAl
+ vptoSnZsVbrq9oJNbt0I0Ely/QXyi6Tkx+Ko8QYD2oTyTJRNbcVRLLixmfFb5ZjfE/zv
+ enRw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=yyvCpeDksj6CAh++Ga/ZmKPlAI3Y8Jz7GLBG6NJLt1g=;
- b=z4T1m+4xgwgTkuMHXgWoQwp/WFmaJkEoF7JFDgpw4C3uFAZlQYiWiqqM3kFMvvFpS8
- 9/6TKlcdUU032R06HnZWRw5raaPqmW4ZtajRQ7hE8knfrqnObiJwX2aGZwncOK+PpO1F
- FS43Mceya1FHAcFyKGZTQ43Pib1k6D8X0XjInRmrf42/A2yX0zdsu5vTfK5SXC2j2rLa
- KNRyQmPAvg3rwRJ2aOwBHgPf5IuImx6OZs5Fjn6m6oGedOEkC1ZrAwTLls1Qodu3eVD+
- 07n6ChASQ1iXN5WDXnD+hDbr8cxpaD7FLX3A7xmT9kX2udvy/N6eGlfUZyc7HW+RbaBm
- C9aQ==
-X-Gm-Message-State: AOAM531c4zbAnivLiYWhHBU8nEPMfEYLwzdXA0GfDiHc317Q5oCSbfrE
- JPWBZ08v13VMqKlmbwVbUwDfVjmM4go=
-X-Google-Smtp-Source: ABdhPJzG4IlbCwbGidUhpbTkL35K9yfU58Pv+bpxoRJbwUKfJO9QHpi4xPT5AHTEQ9Xhissc+raeIA==
-X-Received: by 2002:a17:907:7ba0:: with SMTP id
- ne32mr31589443ejc.540.1643909642214; 
+ bh=juIZeRSO6SXa5bRhnso0ZwIYdjLmQr9FDPRnCV9jBBU=;
+ b=wslEOHovbYFLPJSXZlk4/B5FBytx9QMI+KVyulsDtxLIiNsC1vscJYsxCnXD1pp5er
+ FVbcMpT8ahstllkl1WnfFbBIzW9iad+61JiRM5vOl1N8ryDvSH/jQtqCGe5DInc3uIYr
+ xSlBzJVyi3RtUVpfY9KoGSYeMexSzErpWMLvgRt1Ne02IJjj+crIj3zrGsBHvvan2DPo
+ zinc3yMT0MXSCteniBtOYUpU1O2gjqFWkKpsgMND7kcgWtZbRW7anm2f8Gp5QMtbO5KY
+ w6tAjdT1h5dfHjZHL7DflCpNJe4JFt78s9IEGVCm/Y7A6PzZQJfdRn/eFSvBeFxY4Jzx
+ +PSg==
+X-Gm-Message-State: AOAM532A6oxsKn0Jhjuu6yr3ejXX2HaB9z1VYwi1800xjPg2n8y3Uh+u
+ 7J8zdrfc5XWKVT8qa6AkLurun4hMGes=
+X-Google-Smtp-Source: ABdhPJzGDk2WmszJ46PSNxLaDlV9nFRkRVszAHcgZGWs7SNED9H8qOmi/LVi0DZdw7feK/3YnL8xuw==
+X-Received: by 2002:a05:6402:22ed:: with SMTP id
+ dn13mr14338149edb.430.1643909642912; 
  Thu, 03 Feb 2022 09:34:02 -0800 (PST)
 Received: from avogadro.lan ([2001:b07:6468:f312:5e2c:eb9a:a8b6:fd3e])
- by smtp.gmail.com with ESMTPSA id a25sm6665279ejs.149.2022.02.03.09.34.01
+ by smtp.gmail.com with ESMTPSA id a25sm6665279ejs.149.2022.02.03.09.34.02
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 03 Feb 2022 09:34:01 -0800 (PST)
+ Thu, 03 Feb 2022 09:34:02 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 01/27] meson: use .allowed() method for features
-Date: Thu,  3 Feb 2022 18:33:33 +0100
-Message-Id: <20220203173359.292068-2-pbonzini@redhat.com>
+Subject: [PATCH 02/27] meson: use .require() and .disable_auto_if() method for
+ features
+Date: Thu,  3 Feb 2022 18:33:34 +0100
+Message-Id: <20220203173359.292068-3-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220203173359.292068-1-pbonzini@redhat.com>
 References: <20220203173359.292068-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::62a
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::530
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::62a;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x62a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::530;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x530.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -92,203 +93,176 @@ Cc: marcandre.lureau@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The method is now in 0.59, using it simplifies some boolean conditions.
-The other new methods .require() and .disable_auto_if() can be used too,
-but introducing them is not just a matter of search-and-replace.
+The method is now in 0.59, using it simplifies some conditionals.
+
+There is a small change, which is to build virtfs-proxy-helper in a
+tools-only build.  This is done for consistency with other tools,
+which are not culled by the absence of system emulator binaries.
+
+.disable_auto_if() would also be useful to check for packages,
+for example
+
+-linux_io_uring = not_found
+-if not get_option('linux_io_uring').auto() or have_block
+-  linux_io_uring = dependency('liburing', required: get_option('linux_io_uring'),
+-                              method: 'pkg-config', kwargs: static_kwargs)
+-endif
++linux_io_uring = dependency('liburing',
++  required: get_option('linux_io_uring').disable_auto_if(not have_block),
++  method: 'pkg-config', kwargs: static_kwargs)
+
+This change however is much larger and I am not sure about the improved
+readability, so I am not performing it right now.
 
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- meson.build       | 42 +++++++++++++++++++++---------------------
- tests/meson.build |  2 +-
- 2 files changed, 22 insertions(+), 22 deletions(-)
+ meson.build       | 74 ++++++++++++++++++-----------------------------
+ tools/meson.build | 31 ++++++--------------
+ 2 files changed, 37 insertions(+), 68 deletions(-)
 
 diff --git a/meson.build b/meson.build
-index 82db1e7e74..637ee08eb1 100644
+index 637ee08eb1..9ef0286f21 100644
 --- a/meson.build
 +++ b/meson.build
-@@ -1,4 +1,4 @@
--project('qemu', ['c'], meson_version: '>=0.58.2',
-+project('qemu', ['c'], meson_version: '>=0.59.3',
-         default_options: ['warning_level=1', 'c_std=gnu11', 'cpp_std=gnu++11', 'b_colorout=auto',
-                           'b_staticpic=false', 'stdsplit=false'],
-         version: files('VERSION'))
-@@ -99,7 +99,7 @@ else
+@@ -269,14 +269,12 @@ if 'syslog' in get_option('trace_backends') and not cc.compiles('''
  endif
  
- kvm_targets_c = '""'
--if not get_option('kvm').disabled() and targetos == 'linux'
-+if get_option('kvm').allowed() and targetos == 'linux'
-   kvm_targets_c = '"' + '" ,"'.join(kvm_targets) + '"'
- endif
- config_host_data.set('CONFIG_KVM_TARGETS', kvm_targets_c)
-@@ -276,7 +276,7 @@ endif
- if targetos != 'linux' and get_option('multiprocess').enabled()
-   error('Multiprocess QEMU is supported only on Linux')
- endif
--multiprocess_allowed = targetos == 'linux' and not get_option('multiprocess').disabled()
-+multiprocess_allowed = targetos == 'linux' and get_option('multiprocess').allowed()
+ # Miscellaneous Linux-only features
+-if targetos != 'linux' and get_option('mpath').enabled()
+-  error('Multipath is supported only on Linux')
+-endif
++get_option('mpath') \
++  .require(targetos == 'linux', error_message: 'Multipath is supported only on Linux')
+ 
+-if targetos != 'linux' and get_option('multiprocess').enabled()
+-  error('Multiprocess QEMU is supported only on Linux')
+-endif
+-multiprocess_allowed = targetos == 'linux' and get_option('multiprocess').allowed()
++multiprocess_allowed = get_option('multiprocess') \
++  .require(targetos == 'linux', error_message: 'Multiprocess QEMU is supported only on Linux') \
++  .allowed()
  
  # Target-specific libraries and flags
  libm = cc.find_library('m', required: false)
-@@ -313,7 +313,7 @@ elif targetos == 'haiku'
-             cc.find_library('network'),
-             cc.find_library('bsd')]
- elif targetos == 'openbsd'
--  if not get_option('tcg').disabled() and target_dirs.length() > 0
-+  if get_option('tcg').allowed() and target_dirs.length() > 0
-     # Disable OpenBSD W^X if available
-     emulator_link_args = cc.get_supported_link_arguments('-Wl,-z,wxneeded')
-   endif
-@@ -321,16 +321,16 @@ endif
+@@ -1268,19 +1266,13 @@ statx_test = gnu_source_prefix + '''
  
- # Target-specific configuration of accelerators
- accelerators = []
--if not get_option('kvm').disabled() and targetos == 'linux'
-+if get_option('kvm').allowed() and targetos == 'linux'
-   accelerators += 'CONFIG_KVM'
- endif
--if not get_option('xen').disabled() and 'CONFIG_XEN_BACKEND' in config_host
-+if get_option('xen').allowed() and 'CONFIG_XEN_BACKEND' in config_host
-   accelerators += 'CONFIG_XEN'
--  have_xen_pci_passthrough = not get_option('xen_pci_passthrough').disabled() and targetos == 'linux'
-+  have_xen_pci_passthrough = get_option('xen_pci_passthrough').allowed() and targetos == 'linux'
- else
-   have_xen_pci_passthrough = false
- endif
--if not get_option('whpx').disabled() and targetos == 'windows'
-+if get_option('whpx').allowed() and targetos == 'windows'
-   if get_option('whpx').enabled() and host_machine.cpu() != 'x86_64'
-     error('WHPX requires 64-bit host')
-   elif cc.has_header('WinHvPlatform.h', required: get_option('whpx')) and \
-@@ -338,14 +338,14 @@ if not get_option('whpx').disabled() and targetos == 'windows'
-     accelerators += 'CONFIG_WHPX'
-   endif
- endif
--if not get_option('hvf').disabled()
-+if get_option('hvf').allowed()
-   hvf = dependency('appleframeworks', modules: 'Hypervisor',
-                    required: get_option('hvf'))
-   if hvf.found()
-     accelerators += 'CONFIG_HVF'
-   endif
- endif
--if not get_option('hax').disabled()
-+if get_option('hax').allowed()
-   if get_option('hax').enabled() or targetos in ['windows', 'darwin', 'netbsd']
-     accelerators += 'CONFIG_HAX'
-   endif
-@@ -358,7 +358,7 @@ if targetos == 'netbsd'
- endif
+ has_statx = cc.links(statx_test)
  
- tcg_arch = host_arch
--if not get_option('tcg').disabled()
-+if get_option('tcg').allowed()
-   if host_arch == 'unknown'
-     if get_option('tcg_interpreter')
-       warning('Unsupported CPU @0@, will use TCG with TCI (slow)'.format(cpu))
-@@ -472,7 +472,7 @@ libattr_test = '''
+-have_vhost_user_blk_server = (targetos == 'linux' and
+-    'CONFIG_VHOST_USER' in config_host)
+-
+-if get_option('vhost_user_blk_server').enabled()
+-    if targetos != 'linux'
+-        error('vhost_user_blk_server requires linux')
+-    elif 'CONFIG_VHOST_USER' not in config_host
+-        error('vhost_user_blk_server requires vhost-user support')
+-    endif
+-elif get_option('vhost_user_blk_server').disabled() or not have_system
+-    have_vhost_user_blk_server = false
+-endif
+-
++have_vhost_user_blk_server = get_option('vhost_user_blk_server') \
++  .require(targetos == 'linux',
++           error_message: 'vhost_user_blk_server requires linux') \
++  .require('CONFIG_VHOST_USER' in config_host,
++           error_message: 'vhost_user_blk_server requires vhost-user support') \
++  .disable_auto_if(not have_system) \
++  .allowed()
  
- libattr = not_found
- have_old_libattr = false
--if not get_option('attr').disabled()
-+if get_option('attr').allowed()
-   if cc.links(libattr_test)
-     libattr = declare_dependency()
-   else
-@@ -628,7 +628,7 @@ endif
- mpathlibs = [libudev]
- mpathpersist = not_found
- mpathpersist_new_api = false
--if targetos == 'linux' and have_tools and not get_option('mpath').disabled()
-+if targetos == 'linux' and have_tools and get_option('mpath').allowed()
-   mpath_test_source_new = '''
-     #include <libudev.h>
-     #include <mpath_persist.h>
-@@ -697,7 +697,7 @@ endif
+ if get_option('fuse').disabled() and get_option('fuse_lseek').enabled()
+   error('Cannot enable fuse-lseek while fuse is disabled')
+@@ -1407,36 +1399,26 @@ endif
+ have_host_block_device = (targetos != 'darwin' or
+     cc.has_header('IOKit/storage/IOMedia.h'))
  
- iconv = not_found
- curses = not_found
--if have_system and not get_option('curses').disabled()
-+if have_system and get_option('curses').allowed()
-   curses_test = '''
-     #if defined(__APPLE__) || defined(__OpenBSD__)
-     #define _XOPEN_SOURCE_EXTENDED 1
-@@ -759,7 +759,7 @@ if have_system and not get_option('curses').disabled()
-       endforeach
-     endif
-   endif
--  if not get_option('iconv').disabled()
-+  if get_option('iconv').allowed()
-     foreach link_args : [ ['-liconv'], [] ]
-       # Programs will be linked with glib and this will bring in libiconv on FreeBSD.
-       # We need to use libiconv if available because mixing libiconv's headers with
-@@ -938,7 +938,7 @@ if liblzfse.found() and not cc.links('''
- endif
+-dbus_display = false
+-if not get_option('dbus_display').disabled()
+-  # FIXME enable_modules shouldn't be necessary, but: https://github.com/mesonbuild/meson/issues/8333
+-  dbus_display = gio.version().version_compare('>=2.64') and config_host.has_key('GDBUS_CODEGEN') and enable_modules
+-  if get_option('dbus_display').enabled() and not dbus_display
+-    error('Requirements missing to enable -display dbus (glib>=2.64 && --enable-modules)')
+-  endif
+-endif
++# FIXME enable_modules shouldn't be necessary, but: https://github.com/mesonbuild/meson/issues/8333
++dbus_display = get_option('dbus_display') \
++  .require(gio.version().version_compare('>=2.64'),
++           error_message: '-display dbus requires glib>=2.64') \
++  .require(enable_modules,
++           error_message: '-display dbus requires --enable-modules') \
++  .require(config_host.has_key('GDBUS_CODEGEN'),
++           error_message: '-display dbus requires gdbus-codegen') \
++  .allowed()
  
- oss = not_found
--if have_system and not get_option('oss').disabled()
-+if get_option('oss').allowed() and have_system
-   if not cc.has_header('sys/soundcard.h')
-     # not found
-   elif targetos == 'netbsd'
-@@ -1092,7 +1092,7 @@ vnc = not_found
- png = not_found
- jpeg = not_found
- sasl = not_found
--if have_system and not get_option('vnc').disabled()
-+if get_option('vnc').allowed() and have_system
-   vnc = declare_dependency() # dummy dependency
-   png = dependency('libpng', required: get_option('vnc_png'),
-                    method: 'pkg-config', kwargs: static_kwargs)
-@@ -1236,7 +1236,7 @@ selinux = dependency('libselinux',
- malloc = []
- if get_option('malloc') == 'system'
-   has_malloc_trim = \
--    not get_option('malloc_trim').disabled() and \
-+    get_option('malloc_trim').allowed() and \
-     cc.links('''#include <malloc.h>
-                 int main(void) { malloc_trim(0); return 0; }''')
- else
-@@ -1291,7 +1291,7 @@ fuse = dependency('fuse3', required: get_option('fuse'),
-                   kwargs: static_kwargs)
+-have_virtfs = (targetos == 'linux' and
+-    have_system and
+-    libattr.found() and
+-    libcap_ng.found())
++have_virtfs = get_option('virtfs') \
++    .require(targetos == 'linux',
++             error_message: 'virtio-9p (virtfs) requires Linux') \
++    .require(libattr.found() and libcap_ng.found(),
++             error_message: 'virtio-9p (virtfs) requires libcap-ng-devel and libattr-devel') \
++    .disable_auto_if(not have_tools and not have_system) \
++    .allowed()
  
- fuse_lseek = not_found
--if not get_option('fuse_lseek').disabled()
-+if get_option('fuse_lseek').allowed()
-   if fuse.version().version_compare('>=3.8')
-     # Dummy dependency
-     fuse_lseek = declare_dependency()
-@@ -1714,7 +1714,7 @@ config_host_data.set('HAVE_MLOCKALL', cc.links(gnu_source_prefix + '''
-   }'''))
+ have_virtfs_proxy_helper = have_virtfs and have_tools
  
- have_l2tpv3 = false
--if not get_option('l2tpv3').disabled() and have_system
-+if get_option('l2tpv3').allowed() and have_system
-   have_l2tpv3 = cc.has_type('struct mmsghdr',
-     prefix: gnu_source_prefix + '''
-       #include <sys/socket.h>
-@@ -1723,7 +1723,7 @@ endif
- config_host_data.set('CONFIG_L2TPV3', have_l2tpv3)
+-if get_option('virtfs').enabled()
+-  if not have_virtfs
+-    if targetos != 'linux'
+-      error('virtio-9p (virtfs) requires Linux')
+-    elif not libcap_ng.found() or not libattr.found()
+-      error('virtio-9p (virtfs) requires libcap-ng-devel and libattr-devel')
+-    elif not have_system
+-      error('virtio-9p (virtfs) needs system emulation support')
+-    endif
+-  endif
+-elif get_option('virtfs').disabled()
+-  have_virtfs = false
+-endif
+-
+ foreach k : get_option('trace_backends')
+   config_host_data.set('CONFIG_TRACE_' + k.to_upper(), true)
+ endforeach
+diff --git a/tools/meson.build b/tools/meson.build
+index 3e5a0abfa2..46977af84f 100644
+--- a/tools/meson.build
++++ b/tools/meson.build
+@@ -1,25 +1,12 @@
+-have_virtiofsd = (targetos == 'linux' and
+-    have_tools and
+-    seccomp.found() and
+-    libcap_ng.found() and
+-    'CONFIG_VHOST_USER' in config_host)
+-
+-if get_option('virtiofsd').enabled()
+-  if not have_virtiofsd
+-    if targetos != 'linux'
+-      error('virtiofsd requires Linux')
+-    elif not seccomp.found() or not libcap_ng.found()
+-      error('virtiofsd requires libcap-ng-devel and seccomp-devel')
+-    elif 'CONFIG_VHOST_USER' not in config_host
+-      error('virtiofsd needs vhost-user support')
+-    else
+-      # Disabled all the tools but virtiofsd.
+-      have_virtiofsd = true
+-    endif
+-  endif
+-elif get_option('virtiofsd').disabled() or not have_system
+-  have_virtiofsd = false
+-endif
++have_virtiofsd = get_option('virtiofsd') \
++    .require(targetos == 'linux',
++             error_message: 'virtiofsd requires Linux') \
++    .require(seccomp.found() and libcap_ng.found(),
++             error_message: 'virtiofsd requires libcap-ng-devel and seccomp-devel') \
++    .require('CONFIG_VHOST_USER' in config_host,
++             error_message: 'virtiofsd needs vhost-user-support') \
++    .disable_auto_if(not have_tools and not have_system) \
++    .allowed()
  
- have_netmap = false
--if not get_option('netmap').disabled() and have_system
-+if get_option('netmap').allowed() and have_system
-   have_netmap = cc.compiles('''
-     #include <inttypes.h>
-     #include <net/if.h>
-diff --git a/tests/meson.build b/tests/meson.build
-index 079c8f3727..1d05109eb4 100644
---- a/tests/meson.build
-+++ b/tests/meson.build
-@@ -85,7 +85,7 @@ if 'CONFIG_TCG' in config_all
-   subdir('fp')
- endif
- 
--if not get_option('tcg').disabled()
-+if get_option('tcg').allowed()
-   if 'CONFIG_PLUGIN' in config_host
-     subdir('plugin')
-   endif
+ if have_virtiofsd
+   subdir('virtiofsd')
 -- 
 2.34.1
 
