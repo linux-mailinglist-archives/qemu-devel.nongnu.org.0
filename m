@@ -2,100 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A15D64A90EB
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Feb 2022 23:54:36 +0100 (CET)
-Received: from localhost ([::1]:37598 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E21444A90F7
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Feb 2022 00:00:56 +0100 (CET)
+Received: from localhost ([::1]:46830 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nFkzr-0002zO-Mp
-	for lists+qemu-devel@lfdr.de; Thu, 03 Feb 2022 17:54:35 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:48236)
+	id 1nFl5y-0000uz-2t
+	for lists+qemu-devel@lfdr.de; Thu, 03 Feb 2022 18:00:55 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:49956)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
- id 1nFkpD-0001FP-Gh; Thu, 03 Feb 2022 17:43:35 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:32225
- helo=mx0a-001b2d01.pphosted.com)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nFkxp-0002Zd-LE
+ for qemu-devel@nongnu.org; Thu, 03 Feb 2022 17:52:29 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:20662)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
- id 1nFkpB-0004W8-EW; Thu, 03 Feb 2022 17:43:35 -0500
-Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 213MW7Xc024429; 
- Thu, 3 Feb 2022 22:43:14 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=from : to : cc : subject
- : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding; s=pp1;
- bh=tVFh5N4tR+PiU9Mugw8BgLE9CY5BbpRMmZl77DYpxeY=;
- b=MHFDALLcBWb5tjZ20+0kHvztVQVdek8axZJ0PFScKBA0VnOSd2vYWozaRewzJYJyxsbe
- BSMiQWWfJ0msDJQqNOgMpx/nFzXJ6A9VjM48gmNeVMtIzqFZ0TLzOAA1fqeSneALF8Xz
- IYmprTOtMD2b0oQ2aIUN4dZ1zqHze1k7c9rNCUJyvwWXRp5fItwe7rzB//tAa1mLh4gA
- ESyfBn0YEtr1A1DNbxFKP8GszMhUtK6zJ/VNo5NTSMKFVTmT57ZDQ3FcLtNsIpwM9zW9
- xQG21v4wqYLDVtgl3PcBUAtIcnVmzc+4w9m7o5u1YWgVhYRAI63mqNjhSJvaj4MKhZSX vw== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com with ESMTP id 3e0qx7r6pg-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 03 Feb 2022 22:43:14 +0000
-Received: from m0098420.ppops.net (m0098420.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 213MWKTn024961;
- Thu, 3 Feb 2022 22:43:13 GMT
-Received: from ppma05wdc.us.ibm.com (1b.90.2fa9.ip4.static.sl-reverse.com
- [169.47.144.27])
- by mx0b-001b2d01.pphosted.com with ESMTP id 3e0qx7r6pb-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 03 Feb 2022 22:43:13 +0000
-Received: from pps.filterd (ppma05wdc.us.ibm.com [127.0.0.1])
- by ppma05wdc.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 213MgcYQ015062;
- Thu, 3 Feb 2022 22:43:13 GMT
-Received: from b03cxnp08026.gho.boulder.ibm.com
- (b03cxnp08026.gho.boulder.ibm.com [9.17.130.18])
- by ppma05wdc.us.ibm.com with ESMTP id 3e0r0kg2ng-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 03 Feb 2022 22:43:13 +0000
-Received: from b03ledav005.gho.boulder.ibm.com
- (b03ledav005.gho.boulder.ibm.com [9.17.130.236])
- by b03cxnp08026.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 213MhCpD35586420
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 3 Feb 2022 22:43:12 GMT
-Received: from b03ledav005.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 2CA6CBE051;
- Thu,  3 Feb 2022 22:43:12 +0000 (GMT)
-Received: from b03ledav005.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id BEFFDBE056;
- Thu,  3 Feb 2022 22:43:10 +0000 (GMT)
-Received: from farosas.linux.ibm.com.com (unknown [9.211.67.28])
- by b03ledav005.gho.boulder.ibm.com (Postfix) with ESMTP;
- Thu,  3 Feb 2022 22:43:10 +0000 (GMT)
-From: Fabiano Rosas <farosas@linux.ibm.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 10/10] target/ppc: 7xx: Set SRRs directly in exception code
-Date: Thu,  3 Feb 2022 19:42:46 -0300
-Message-Id: <20220203224246.1446652-11-farosas@linux.ibm.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220203224246.1446652-1-farosas@linux.ibm.com>
-References: <20220203224246.1446652-1-farosas@linux.ibm.com>
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nFkxk-0006br-5U
+ for qemu-devel@nongnu.org; Thu, 03 Feb 2022 17:52:26 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1643928743;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=EKeDnbHM2GsSbHTni9FkK5opV3rCcPaKyJvpr5BGP8M=;
+ b=bpzEL6W4taAcdklD94+YoDJR1svjSAg4P8mxqzOgVqR+KOivnV3Xe/7cLR4oD1c80GVS4g
+ /NqB6C5RE6znx7yESVN+wcGAU5klZF2YCOl9r6cijGaWQdyDefpUiz8/KLvT6E/Likarv+
+ mDB8CXyFIczZ79YfwnrUvz/2iTiZMKE=
+Received: from mail-ua1-f72.google.com (mail-ua1-f72.google.com
+ [209.85.222.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-466-z2JVUwD9Pm21uaCgePwVew-1; Thu, 03 Feb 2022 17:52:22 -0500
+X-MC-Unique: z2JVUwD9Pm21uaCgePwVew-1
+Received: by mail-ua1-f72.google.com with SMTP id
+ i25-20020ab03759000000b00308e68dcb1fso2425416uat.22
+ for <qemu-devel@nongnu.org>; Thu, 03 Feb 2022 14:52:22 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=EKeDnbHM2GsSbHTni9FkK5opV3rCcPaKyJvpr5BGP8M=;
+ b=lYhQ+OmCnCghrzWScO8b8ICERXyeoKkqWPMahkBn4+FFTgrw3Fm2SeX03+5PPRF2wP
+ 7PBu4X3FxcZ9vvBt+bTwS1y4mUXrD5ONdjQ3B5Y4zhvGp8CCJ8egrwSBXYMb5duNWAj7
+ QaPMUMZPBI5KJVzYDaapNLSp6Fl6K7w46T0CuZuVBvjH6FBrkTnrB+ZQEdjN9eQFywsN
+ dBTD6OtpUcCmOcRJ+Ej8UstUiVHOSvlGHkCRUEJCjeSVZM43UQU1SHp13GRKQ/ldCHzG
+ x2yEUzf0w6vzaDcNVATfmNfQ07zKOfSe03Fl7ZJI90iqbCGrxcE1zJA0q5Ov1lYi6C1E
+ I4Ng==
+X-Gm-Message-State: AOAM533b2yJ4AboutI2NsYpX6+r13Vm4pg5Vj1gwbsUVxKOiq1X+9l7+
+ O6bwRUqrOGKXPciv8te+Y1RNn6Upy7zwQ4ygRQRC40i4/d7OrxvWxkApKYN6JftRamuIPFfeOZD
+ RL4h7pDcjoZx6PdZ05K0dY89W2fePzmE=
+X-Received: by 2002:a67:f70f:: with SMTP id m15mr8028vso.61.1643928741650;
+ Thu, 03 Feb 2022 14:52:21 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyDajrpzZ+BGXDVG7Ucoiqde1BRx2STa1i+xRblBO+fQZDgr48cPK2eOlKU93CLCoLmNVgVPQ6iyL9isjlmpfE=
+X-Received: by 2002:a67:f70f:: with SMTP id m15mr8023vso.61.1643928741403;
+ Thu, 03 Feb 2022 14:52:21 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: cs4ob87X-alnHWh6BnZJiLqnOXuzlH0C
-X-Proofpoint-ORIG-GUID: y7c7kLKax-c2fVKsdaVZQTGrd4eoKjHR
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.816,Hydra:6.0.425,FMLib:17.11.62.513
- definitions=2022-02-03_07,2022-02-03_01,2021-12-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 impostorscore=0
- lowpriorityscore=0 clxscore=1015 adultscore=0 priorityscore=1501
- mlxscore=0 suspectscore=0 phishscore=0 malwarescore=0 bulkscore=0
- mlxlogscore=679 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2201110000 definitions=main-2202030135
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=farosas@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+References: <CAFn=p-aminDYVjPgnR+4x9U3L=Loi55vsHbPq+EOK4AUE_fLeg@mail.gmail.com>
+ <Yfuw1gGPPf8IPzLB@redhat.com>
+In-Reply-To: <Yfuw1gGPPf8IPzLB@redhat.com>
+From: John Snow <jsnow@redhat.com>
+Date: Thu, 3 Feb 2022 17:52:10 -0500
+Message-ID: <CAFn=p-Yq_-MDW3kWXW+D9NNHXtunYREEMxjW5mfVtM48Hcj0AA@mail.gmail.com>
+Subject: Re: Notes on Generating Python signatures for QMP RPCs
+To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.086,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -109,67 +90,153 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: danielhb413@gmail.com, qemu-ppc@nongnu.org, clg@kaod.org,
- david@gibson.dropbear.id.au
+Cc: qemu-devel <qemu-devel@nongnu.org>,
+ =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>,
+ Victor Toso de Carvalho <victortoso@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, Andrea Bolognani <abologna@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The 7xx CPUs don't have alternate/hypervisor Save and Restore
-Registers, so we can set SRR0 and SRR1 directly.
+On Thu, Feb 3, 2022 at 5:40 AM Daniel P. Berrang=C3=A9 <berrange@redhat.com=
+> wrote:
+>
+> On Wed, Jan 26, 2022 at 01:58:19PM -0500, John Snow wrote:
+> > (1) QAPI types the return of many commands as an empty object. That's
+> > literally indeed what happens on the wire, and it makes sense in that
+> > if these commands were ever to return anything, it is a "compatible
+> > evolution" to include new fields in such an object. In Python, this
+> > does not make much sense, though; as this is somewhat hard to
+> > annotate:
+> >
+> > async def stop() -> Literal[{}]: ...
+> >
+> > The more pythonic signature is:
+> >
+> > async def stop() -> None: ...
+> >
+> > I feel like it's spiritually equivalent, but I am aware it is a
+> > distinct choice that is being made. It could theoretically interfere
+> > with a choice made in QAPI later to explicitly return Null. I don't
+> > think we'd do that, but it's still a choice of abstraction that
+> > reduces the resolution of distinct return signatures.
+>
+> As you mention though, bear in mind that a command returning
+> nothing today, might return something tomorrow. IOW, we'd be
+> going from a empty dict to a non-empty dict. If you use "None"
+> then it'd be gonig from None to a non-empty dict.
+>
+> I think you can argue both of these approaches are backwards
+> compatible. The python app is not likely to be looking at
+> the return type at all initially - unlike C, errors get
+> raised as exceptions, so you don't need to look at return
+> type to distinguish succes from failure.
+>
+> So I'd consider it merely a documentation problem to say
+> that a "None" return type might later change to a dict.
+> Dunno how you represent that in python type annotations,
+> but I presume there's a way.
 
-Signed-off-by: Fabiano Rosas <farosas@linux.ibm.com>
----
- target/ppc/excp_helper.c | 13 ++-----------
- 1 file changed, 2 insertions(+), 11 deletions(-)
+I don't think type hints offer a temporal dimension to them yet :)
 
-diff --git a/target/ppc/excp_helper.c b/target/ppc/excp_helper.c
-index 3872f3b7ad..0050c8447f 100644
---- a/target/ppc/excp_helper.c
-+++ b/target/ppc/excp_helper.c
-@@ -746,7 +746,6 @@ static void powerpc_excp_7xx(PowerPCCPU *cpu, int excp)
-     CPUState *cs = CPU(cpu);
-     CPUPPCState *env = &cpu->env;
-     target_ulong msr, new_msr, vector;
--    int srr0, srr1;
- 
-     if (excp <= POWERPC_EXCP_NONE || excp >= POWERPC_EXCP_NB) {
-         cpu_abort(cs, "Invalid PowerPC exception %d. Aborting\n", excp);
-@@ -765,10 +764,6 @@ static void powerpc_excp_7xx(PowerPCCPU *cpu, int excp)
-      */
-     new_msr = env->msr & ((target_ulong)1 << MSR_ME);
- 
--    /* target registers */
--    srr0 = SPR_SRR0;
--    srr1 = SPR_SRR1;
--
-     /*
-      * Hypervisor emulation assistance interrupt only exists on server
-      * arch 2.05 server or later.
-@@ -907,10 +902,6 @@ static void powerpc_excp_7xx(PowerPCCPU *cpu, int excp)
-             cpu_abort(cs, "Trying to deliver HV exception (MSR) %d with "
-                       "no HV support\n", excp);
-         }
--        if (srr0 == SPR_HSRR0) {
--            cpu_abort(cs, "Trying to deliver HV exception (HSRR) %d with "
--                      "no HV support\n", excp);
--        }
-     }
- 
-     /*
-@@ -922,10 +913,10 @@ static void powerpc_excp_7xx(PowerPCCPU *cpu, int excp)
-     }
- 
-     /* Save PC */
--    env->spr[srr0] = env->nip;
-+    env->spr[SPR_SRR0] = env->nip;
- 
-     /* Save MSR */
--    env->spr[srr1] = msr;
-+    env->spr[SPR_SRR1] = msr;
- 
-     powerpc_set_excp_state(cpu, vector, new_msr);
- }
--- 
-2.34.1
+I started writing a much lengthier response, but the subject of
+compatibility is really complex and I am not prepared to give a
+comprehensive response to some of the issues you raise ... so instead
+I will say "Wow, good points!" and I will get back to you on some of
+it. A lot of things will only make sense if we are talking about a
+very specific type of project, with very specific goals that are
+clearly established. I don't really have that ready, here; I am just
+experimenting to learn where some of the pain points are, still.
+
+So... I'll get back to you on this.
+
+> We do allow fields to be deleted, which is a *non-compatible*
+> evolution, but they MUST have been marked as deprecated for
+> 2 cycles first.
+
+Good point.
+
+> I'd say sorting required vs optional arguments is doomed as
+> a strategy. Stuff that is mandatory today can be made optional
+> tomorrow and I think that's reasonable to want todo as we
+> evolve an API design.
+
+Also a good point. Python requires all mandatory arguments precede all
+optional ones, so you're probably right that in order to maximize
+cross-version compatibility, keyword-only arguments for *all*
+arguments both mandatory and optional is the only real way to fly.
+
+I think this might cause problems for Marc-Andre in rust/dbus land,
+but it's tractable in Python. I am unclear on the ramifications for
+golang. (Victor, Marc-Andre, any input here?)
+
+[...]
+
+> So I think however you express API params in python needs
+> to cope with this scenario, which means not sorting
+> args based on optional vs required. Effectively need
+> to assume that all args are potentially optional on a
+> long enough timeframe.
+
+We still have to sort them to fulfill Python grammar requirements, but
+if they are *all* keyword-only, then the order the programmer uses to
+actually invoke the function isn't important.
+
+> I don't think you have any choice - they must all be keyword
+> only if you want protection from future schema changes.
+
+You're right, it's simply more robust.
+
+> It sounds like you need a wrapper type.  This StrOrNull scenario
+> is QMP's "alternate" type IIUC, but you're trying to avoid
+> expressing the existance fo the "alternate" type in the API
+
+Yes. This is a very clean way to type it, but it is a little more
+laborious for the user to have to remember to wrap certain strings in
+a special constructor first. Still, this is a good trick that I hadn't
+considered. I'll keep it in mind for future experiments.
+
+> I think it is not unreasonable to expose the struct names
+> on introspection though, and just accept that it ties our
+> hands a little more to avoid renaming structs. I don't
+> think we rename frequently enough that this matters.
+
+I feel like I don't have a real stake in this issue yet. Maybe we can
+discuss bolstering the introspection data if we decide that we really,
+really would like the ability to generate bindings dynamically on the
+client side. I'm not sure *I* even want that enough to really push for
+this change yet. (Again, I think I need to come forward with something
+more concrete than an experiment before I dive too deeply into this
+issue. I'll get back to you.)
+
+I wouldn't mind hearing from Markus on what he believes the value of
+anonymizing the types names is. My current understanding is: "The type
+names aren't necessary to speak QMP, so they aren't necessary to
+reveal. We operate on a need-to-know basis, and nobody has needed to
+know."
+
+(The most tangible story I can think of is that we don't want clients
+to do things like assume they can index the introspection data in a
+hashmap and rely on looking up specific type names.)
+
+> A "NORETURN" flag sounds like a reasonable idea.
+
+Markus has gently pointed out that we do have this information in the
+schema, but it isn't revealed over introspection data *and* we do not
+have introspection for QGA anyway.
+
+We /could/ remove success-response and add a 'NORETURN' feature flag,
+modifying the generator to use that flag (instead of
+success-response), and then we'd get away with not having to modify
+the introspection schema. But we'd still have to add introspection in
+general to QGA, which rather sounds like where the bulk of the work is
+anyway.
+
+>
+> Regards,
+> Daniel
+
+Thanks! I've got a lot to think about.
+
+--js
 
 
