@@ -2,78 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF6AC4A8C8F
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Feb 2022 20:38:24 +0100 (CET)
-Received: from localhost ([::1]:33094 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E3F904A8C31
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Feb 2022 20:07:28 +0100 (CET)
+Received: from localhost ([::1]:39858 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nFhvz-0001Uh-24
-	for lists+qemu-devel@lfdr.de; Thu, 03 Feb 2022 14:38:23 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:42632)
+	id 1nFhS2-00028p-2A
+	for lists+qemu-devel@lfdr.de; Thu, 03 Feb 2022 14:07:26 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:43414)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nFgw4-0005by-MW
- for qemu-devel@nongnu.org; Thu, 03 Feb 2022 13:34:24 -0500
-Received: from [2607:f8b0:4864:20::62d] (port=34751
- helo=mail-pl1-x62d.google.com)
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1nFgzm-0000X1-TX
+ for qemu-devel@nongnu.org; Thu, 03 Feb 2022 13:38:17 -0500
+Received: from [2a00:1450:4864:20::52b] (port=37809
+ helo=mail-ed1-x52b.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nFgw2-0006nP-Rv
- for qemu-devel@nongnu.org; Thu, 03 Feb 2022 13:34:24 -0500
-Received: by mail-pl1-x62d.google.com with SMTP id h14so2915761plf.1
- for <qemu-devel@nongnu.org>; Thu, 03 Feb 2022 10:34:18 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1nFgzj-0008DQ-TV
+ for qemu-devel@nongnu.org; Thu, 03 Feb 2022 13:38:13 -0500
+Received: by mail-ed1-x52b.google.com with SMTP id c24so8008261edy.4
+ for <qemu-devel@nongnu.org>; Thu, 03 Feb 2022 10:38:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=hCl9RYKwQK5fAgFnylrYdZM6dHYfnBgAdB3yuikL1pI=;
- b=XhJu+hSaKMtBgxp6RQ02x10JwgfbSRrJpdDz+lzalr6gYckrPDJxpY1lxg2sbHJdRh
- uf+O23zzMixRH5iZwjR5GWFbmU3C/8p4hAtY283DOEalf30ePJA2GjP2W8SFnMQVQY2h
- CaYwuTk5lpTDr/lgJexkWk4NuLYMXI6k57yDGmb2fu7eF68KKjjr5QDM6AHKDbQ664oz
- V+w3bcYszlaJrtK6OQU9IYCKB/Hu0rfA9EEUfZ0n+fWfk91lUtW9hPwjUpKmqrHTpRy9
- vOpGYMXTStWvCtRQjsUEO5YsqBlfxXLmg+wdwL9LEE6JjzUsK8KhoTI9GwiO+r8Lrb5J
- QcNQ==
+ bh=wOMqUYSypuPK63MJ5uFjZhI2zODiDRfAU3a5XhA8yts=;
+ b=obILn5ctyhmaAYcB2I4zntw3VRYiWYhLRUFravNAfCVLl43DWGHwkSjKbi+CxprdS5
+ tKmdMuCADxi33yEa8F/GaSIhw1/K9qp7pvQsVhdEEg472YXmPqVyvOiqG8BC3aUkSeOg
+ rpIYQOSxXAeJDAmBLB/mp+a4bJmjJt1dcbXBCPosl1QUcNx7cz+D4+TXwR2mqxgbbC1M
+ /DRPhKI00DV9mBLi6LH7jVm6xOuWlzMcg4QZqfOyDP/IgY2BXrR81CoedKrlDyMb3Vcu
+ t8H7I+lR9yYQDrzRitCmFyUVZuEB/t2b4D5F2IllkxGh42nrEs1SaQMDZjKvzZ/4YyJK
+ Abdg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
  :subject:content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=hCl9RYKwQK5fAgFnylrYdZM6dHYfnBgAdB3yuikL1pI=;
- b=RHti7U9Mx9Kjn66mh1fAxwxeiwVe9Tv8Nkj2ZW1/b9VlUHTpneDAzGCIGBViGyEcsk
- xdkjakU41e1NyAgqRJdDW3dkokch0uhnR+eRACNyilbfJg4xLOQ1CdV08tSh4+uvX3b/
- OKft3rlHva7RSJCqHjgON0qHrN4DU6y81SYvM64G60EgSZzxbmwmA9oVm3cO3KnRhJ/i
- 2tJkr8gvmnt6F3S8BoPxvgNtxLnq6O5xcSgEhWCg3u/ei9XEpn/sMTG72ZDyFa8NNWvd
- 0HOnsyViHKCi1mq0IjmOKNFx67P2yvoPkoiFGImOjIynAMvQwe4MCjk0vThPcU6fGck1
- zSMA==
-X-Gm-Message-State: AOAM532B43zKc0s6BsMi7zL2IGk6HK9U6r4TD3HrI90q8Dx0wiHljpPu
- ARZDGkNNhbgNnUPs4nhfM8E=
-X-Google-Smtp-Source: ABdhPJy4AH+j0S5uYtBL1wE9waaS+W9U+XYeVKCf7e7jfFofv4fo4kFQU+JjBTz2xLpMl2vNGl9SCg==
-X-Received: by 2002:a17:90a:d58b:: with SMTP id
- v11mr15410950pju.100.1643913257402; 
- Thu, 03 Feb 2022 10:34:17 -0800 (PST)
-Received: from [192.168.1.33] (154.red-83-50-83.dynamicip.rima-tde.net.
- [83.50.83.154])
- by smtp.gmail.com with ESMTPSA id ip5sm11324448pjb.13.2022.02.03.10.34.15
+ bh=wOMqUYSypuPK63MJ5uFjZhI2zODiDRfAU3a5XhA8yts=;
+ b=Shmg3Cm2xkHtbA7/WdO7s18oEttwlGRjUfmg/NzKdwE6xULFK/zvYvV/VUzVNp1NPH
+ kqVvlCpMmMGu4ExYbvsD74j1jG78AYfaKwwVeMkPiNf05ukV45fPIkNlljiCnJo+tjZ2
+ HS1evfQ5Qxu1Ak9VLBgaruV2GYU0F72P4oNzZ4i2gorMJ4krplkl2gsZrde8mFm4eXBc
+ fOGewMsyNroQBKsd7ym8MVSXKc51xVAhSaiigZh1vGs/VlHZzKYQWVi6HczCwslQ2o8o
+ D/N3r1zoGIgomYg9v53hnv1xpqTc+VnWTKQFeIVHelcMYlm9mqdz8bLPigp9LO1Xxqsv
+ D+OQ==
+X-Gm-Message-State: AOAM533Dv/b2/jWT6yWd2RTf/UpuHBu2cK7Smp1uZQWCaturhhlfyDmc
+ pEVFefdAaH2rt6ywY01iUUU=
+X-Google-Smtp-Source: ABdhPJyxNcaRCjmpA3cThflYsNcRNULJVK1KcTcQZLXYCfzuE0vKxBAnHnbyLX9WQhr/2b3KbvqCFw==
+X-Received: by 2002:a05:6402:7d7:: with SMTP id
+ u23mr15089435edy.451.1643913489504; 
+ Thu, 03 Feb 2022 10:38:09 -0800 (PST)
+Received: from ?IPV6:2001:b07:6468:f312:5e2c:eb9a:a8b6:fd3e?
+ ([2001:b07:6468:f312:5e2c:eb9a:a8b6:fd3e])
+ by smtp.googlemail.com with ESMTPSA id c8sm22683423edr.70.2022.02.03.10.38.08
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 03 Feb 2022 10:34:16 -0800 (PST)
-Message-ID: <9b00f402-4262-bee7-9143-0ae60d82986f@amsat.org>
-Date: Thu, 3 Feb 2022 19:34:12 +0100
+ Thu, 03 Feb 2022 10:38:09 -0800 (PST)
+Message-ID: <c8b8434f-17c2-5a50-bc7f-49bb7fa9f7b9@redhat.com>
+Date: Thu, 3 Feb 2022 19:38:08 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.5.1
-Subject: Re: [PATCH v1] hw/arm/xlnx-zynqmp: 'Or' the QSPI / QSPI DMA IRQs
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH v3 1/3] qmp: Support for querying stats
 Content-Language: en-US
-To: Francisco Iglesias <francisco.iglesias@xilinx.com>, qemu-devel@nongnu.org
-Cc: edgar.iglesias@xilinx.com, frasse.iglesias@gmail.com,
- alistair@alistair23.me, luc@lmichel.fr, peter.maydell@linaro.org
-References: <20220203151742.1457-1-francisco.iglesias@xilinx.com>
-In-Reply-To: <20220203151742.1457-1-francisco.iglesias@xilinx.com>
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Mark Kanda <mark.kanda@oracle.com>
+References: <20220131194312.1192626-1-mark.kanda@oracle.com>
+ <20220131194312.1192626-2-mark.kanda@oracle.com>
+ <YfkiyiK+jfrdbVcY@redhat.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+In-Reply-To: <YfkiyiK+jfrdbVcY@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::62d
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::52b
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62d;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pl1-x62d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::52b;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x52b.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -95,32 +97,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: qemu-devel@nongnu.org, armbru@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
-On 3/2/22 16:17, Francisco Iglesias wrote:
-> 'Or' the IRQs coming from the QSPI and QSPI DMA models. This is done for
-> avoiding the situation where one of the models incorrectly deasserts an
-> interrupt asserted from the other model (which will result in that the IRQ
-> is lost and will not reach guest SW).
+On 2/1/22 13:08, Daniel P. Berrangé wrote:
+> I still feel like this is rather verbose, and should be simplified
+> down to.
 > 
-> Signed-off-by: Francisco Iglesias <francisco.iglesias@xilinx.com>
-> ---
-> 
-> Hi,
-> 
-> I noted this after receiving a review comment (from Peter Maydell) on a similar
-> issue on the Versal machine while working on the OSPI series.
-> 
-> Best regards,
-> Francisco Iglesias
-> 
-> 
->   include/hw/arm/xlnx-zynqmp.h |  2 ++
->   hw/arm/xlnx-zynqmp.c         | 14 ++++++++++++--
->   2 files changed, 14 insertions(+), 2 deletions(-)
+>   { "return": {
+>       "vm": {
+>         "kvm": [ ... ]
+>         "provider-XYZ": [ ... ],
+>         ...
+>       }
+>   }
 
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+My main qualm with this is that not just QEMU, but every layer above 
+then needs to either treat stats as a "dynamic" type unless they want to 
+only handle providers that they know.
+
+The main reason why I asked Mark to do all this work, was so that new 
+stats and stats providers could be added transparently, and only new 
+*targets* would need work all over the stack (but those are fewer, for 
+example blockdev/netdev/iothread).
+
+Paolo
 
