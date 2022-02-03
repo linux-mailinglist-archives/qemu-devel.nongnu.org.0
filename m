@@ -2,91 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BCD624A7FE8
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Feb 2022 08:38:25 +0100 (CET)
-Received: from localhost ([::1]:34444 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1963A4A80A5
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Feb 2022 09:53:47 +0100 (CET)
+Received: from localhost ([::1]:41956 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nFWhD-0001rg-RW
-	for lists+qemu-devel@lfdr.de; Thu, 03 Feb 2022 02:38:23 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:41866)
+	id 1nFXs9-0005Me-LT
+	for lists+qemu-devel@lfdr.de; Thu, 03 Feb 2022 03:53:45 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:59276)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nFWWJ-0007uP-AB
- for qemu-devel@nongnu.org; Thu, 03 Feb 2022 02:27:07 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:44108)
+ (Exim 4.90_1) (envelope-from <f.ebner@proxmox.com>)
+ id 1nFXoP-0003aN-Az; Thu, 03 Feb 2022 03:49:55 -0500
+Received: from proxmox-new.maurer-it.com ([94.136.29.106]:25601)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nFWWF-0004Bm-Db
- for qemu-devel@nongnu.org; Thu, 03 Feb 2022 02:27:05 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1643873220;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=DXcTQx/rA3s+fT1k5T0A+hE6V+96fK7bFLzrVF7JGQc=;
- b=XOVZobEw4VRPW7mptwlCQgqCcQETK0X5l5sTByjwIUdd6RX3EDBiaJaY2vmY7WZx1yZcJo
- x3muR8BJ3EeYk910Pn0qxOxlufWSQqMSbiYGV02V2Mk5TEfdhj++6jBa7DVP1CmeStqrw6
- RYYMLTao64VZpcJFM7BapFbP7BX/5Pk=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-207-szY6poNXNxeroS0GcskjCg-1; Thu, 03 Feb 2022 02:26:59 -0500
-X-MC-Unique: szY6poNXNxeroS0GcskjCg-1
-Received: by mail-wm1-f70.google.com with SMTP id
- l20-20020a05600c1d1400b0035153bf34c3so5429684wms.2
- for <qemu-devel@nongnu.org>; Wed, 02 Feb 2022 23:26:59 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=DXcTQx/rA3s+fT1k5T0A+hE6V+96fK7bFLzrVF7JGQc=;
- b=tAqmuY50yxa26AS9XE9w0DhQhICfEP2RKeCTddZqhPWoHQWTud9Hj66ImQB5R//NGC
- KiXFzeLXH8GdbiqRERPNzp+xgT1z6xV+mdtIIqwFpNBZnbqKPVdl9h+k/f+bt3aEIkXq
- 6WVB7x5AtSNMsLmumB6gcBTGs0Z2bt2UcG/ZvpZMi9qvyZJ5mFF09G1/7VBtzeZu7Y5E
- TYF8uXk/bjac7pgMjjwHTt6qOxKddRgkTbqMaBAiRdCW3YtpaPNZHokQW2K006alNfj7
- b7maFVpMJKoUaBhElLKFYVRJOAk4bx9wcNfMFSSNBrAqaqMdBNU+n8fwHBt19c8FNsbl
- NvwA==
-X-Gm-Message-State: AOAM530JkxpKYnjQTpqeGMzjhD8g3zEar8h4Q6oJ6GR7ie8t/Hv2y9Im
- T+Ahs2iMvcJv9TEW0sFu8emImIR/0Tai/NMxIcPUMBnuggVLye8DRo5G4qd4uBNa1AVqt2ilS+t
- f4msrkASmkxCR6+8=
-X-Received: by 2002:a5d:524e:: with SMTP id k14mr27206960wrc.294.1643873218202; 
- Wed, 02 Feb 2022 23:26:58 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxGD++hpmWpaphZxrKKt93OmAb7jTD7RMMkpqQuIuQ34CuTl1tOrdlkmHRv4fkJoCuGid204w==
-X-Received: by 2002:a5d:524e:: with SMTP id k14mr27206942wrc.294.1643873217911; 
- Wed, 02 Feb 2022 23:26:57 -0800 (PST)
-Received: from [192.168.8.100] (tmo-096-196.customers.d1-online.com.
- [80.187.96.196])
- by smtp.gmail.com with ESMTPSA id n2sm14722842wrx.108.2022.02.02.23.26.56
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 02 Feb 2022 23:26:57 -0800 (PST)
-Message-ID: <50a980af-f67d-b093-4a62-d8b9806898e7@redhat.com>
-Date: Thu, 3 Feb 2022 08:26:56 +0100
+ (Exim 4.90_1) (envelope-from <f.ebner@proxmox.com>)
+ id 1nFXoK-0003cv-OF; Thu, 03 Feb 2022 03:49:52 -0500
+Received: from proxmox-new.maurer-it.com (localhost.localdomain [127.0.0.1])
+ by proxmox-new.maurer-it.com (Proxmox) with ESMTP id 2971B441C0;
+ Thu,  3 Feb 2022 09:49:25 +0100 (CET)
+Message-ID: <24e9c8ff-09ff-480a-d17c-e9301f229d48@proxmox.com>
+Date: Thu, 3 Feb 2022 09:49:16 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.5.0
-Subject: Re: [PATCH] qemu-options: fix incorrect description for '-drive
- index='
-To: Laurent Vivier <lvivier@redhat.com>, qemu-devel@nongnu.org
-References: <20220202143422.912070-1-lvivier@redhat.com>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <20220202143422.912070-1-lvivier@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+Subject: Re: [PULL 18/20] block/nbd: drop connection_co
 Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.086,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+To: Hanna Reitz <hreitz@redhat.com>, Eric Blake <eblake@redhat.com>
+References: <20210927215545.3930309-1-eblake@redhat.com>
+ <20210927215545.3930309-19-eblake@redhat.com>
+ <8e8b69e4-a178-aff1-4de3-e697b942f3b3@proxmox.com>
+ <20220202135353.dau24mip4zwib47z@redhat.com>
+ <f041ee3b-e910-9fa1-a5ff-45ed38b6967f@redhat.com>
+From: Fabian Ebner <f.ebner@proxmox.com>
+In-Reply-To: <f041ee3b-e910-9fa1-a5ff-45ed38b6967f@redhat.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=94.136.29.106; envelope-from=f.ebner@proxmox.com;
+ helo=proxmox-new.maurer-it.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -99,46 +57,105 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-devel@nongnu.org,
+ "open list:Network Block Dev..." <qemu-block@nongnu.org>,
+ Thomas Lamprecht <t.lamprecht@proxmox.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 02/02/2022 15.34, Laurent Vivier wrote:
-> qemu-options.hx contains grammar that a native English-speaking
-> person would never use.
+Am 02.02.22 um 15:21 schrieb Hanna Reitz:
+> On 02.02.22 14:53, Eric Blake wrote:
+>> On Wed, Feb 02, 2022 at 12:49:36PM +0100, Fabian Ebner wrote:
+>>> Am 27.09.21 um 23:55 schrieb Eric Blake:
+>>>> From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+>>>>
+>>>> OK, that's a big rewrite of the logic.
+>>>>
+>>>> Pre-patch we have an always running coroutine - connection_co. It does
+>>>> reply receiving and reconnecting. And it leads to a lot of difficult
+>>>> and unobvious code around drained sections and context switch. We also
+>>>> abuse bs->in_flight counter which is increased for connection_co and
+>>>> temporary decreased in points where we want to allow drained section to
+>>>> begin. One of these place is in another file: in nbd_read_eof() in
+>>>> nbd/client.c.
+>>>>
+>>>> We also cancel reconnect and requests waiting for reconnect on drained
+>>>> begin which is not correct. And this patch fixes that.
+>>>>
+>>>> Let's finally drop this always running coroutine and go another way:
+>>>> do both reconnect and receiving in request coroutines.
+>>>>
+>>> Hi,
+>>>
+>>> while updating our stack to 6.2, one of our live-migration tests stopped
+>>> working (backtrace is below) and bisecting led me to this patch.
+>>>
+>>> The VM has a single qcow2 disk (converting to raw doesn't make a
+>>> difference) and the issue only appears when using iothread (for both
+>>> virtio-scsi-pci and virtio-block-pci).
+>>>
+>>> Reverting 1af7737871fb3b66036f5e520acb0a98fc2605f7 (which lives on top)
+>>> and 4ddb5d2fde6f22b2cf65f314107e890a7ca14fcf (the commit corresponding
+>>> to this patch) in v6.2.0 makes the migration work again.
+>>>
+>>> Backtrace:
+>>>
+>>> Thread 1 (Thread 0x7f9d93458fc0 (LWP 56711) "kvm"):
+>>> #0  __GI_raise (sig=sig@entry=6) at
+>>> ../sysdeps/unix/sysv/linux/raise.c:50
+>>> #1  0x00007f9d9d6bc537 in __GI_abort () at abort.c:79
+>>> #2  0x00007f9d9d6bc40f in __assert_fail_base (fmt=0x7f9d9d825128
+>>> "%s%s%s:%u: %s%sAssertion `%s' failed.\n%n", assertion=0x5579153763f8
+>>> "qemu_get_current_aio_context() == qemu_coroutine_get_aio_context(co)",
+>>> file=0x5579153764f9 "../io/channel.c", line=483, function=<optimized
+>>> out>) at assert.c:92
+>> Given that this assertion is about which aio context is set, I wonder
+>> if the conversation at
+>> https://lists.gnu.org/archive/html/qemu-devel/2022-02/msg00096.html is
+>> relevant; if so, Vladimir may already be working on the patch.
 > 
-> Replace "This option defines where is connected the drive" by
-> "This option defines where the drive is connected".
+> It should be exactly that patch:
 > 
-> Fixes: https://gitlab.com/qemu-project/qemu/-/issues/853
-
-I'd prefer:
-
-Fixes: e0e7ada1d5 ("Update documention with '-drive' usage")
-Resolves: https://gitlab.com/qemu-project/qemu/-/issues/853
-
-but anyway:
-
-Reviewed-by: Thomas Huth <thuth@redhat.com>
-
-
-> Signed-off-by: Laurent Vivier <lvivier@redhat.com>
-> ---
->   qemu-options.hx | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
+> https://lists.gnu.org/archive/html/qemu-devel/2022-01/msg06222.html
 > 
-> diff --git a/qemu-options.hx b/qemu-options.hx
-> index ba3ae6a42aa3..094a6c1d7c28 100644
-> --- a/qemu-options.hx
-> +++ b/qemu-options.hx
-> @@ -1377,7 +1377,7 @@ SRST
->           the bus number and the unit id.
->   
->       ``index=index``
-> -        This option defines where is connected the drive by using an
-> +        This option defines where the drive is connected by using an
->           index in the list of available connectors of a given interface
->           type.
->   
+> (From the discussion it appears that for v1 I need to ensure the
+> reconnection timer is deleted immediately once reconnecting succeeds,
+> and then that should be good to move out of the RFC state.)
+
+Thanks for the quick responses and happy to hear you're already working
+on it! With the RFC, the issue is gone for me.
+
+> 
+> Basically, I expect qemu to crash every time that you try to use an NBD
+> block device in an I/O thread (unless you don’t do any I/O), for example
+> this is the simplest reproducer I know of:
+> 
+> $ qemu-nbd --fork -k /tmp/nbd.sock -f raw null-co://
+> 
+> $ qemu-system-x86_64 \
+>     -object iothread,id=iothr0 \
+>     -device virtio-scsi,id=vscsi,iothread=iothr0 \
+>     -blockdev '{
+>         "driver": "nbd",
+>         "node-name": "nbd",
+>         "server": {
+>             "type": "unix",
+>             "path": "/tmp/nbd.sock"
+>         } }' \
+>     -device scsi-hd,bus=vscsi.0,drive=nbd
+> qemu-system-x86_64: ../qemu-6.2.0/io/channel.c:483:
+> qio_channel_restart_read: Assertion `qemu_get_current_aio_context() ==
+> qemu_coroutine_get_aio_context(co)' failed.
+> qemu-nbd: Disconnect client, due to: Unable to read from socket:
+> Connection reset by peer
+> [1]    108747 abort (core dumped)  qemu-system-x86_64 -object
+> iothread,id=iothr0 -device  -blockdev  -device
+> 
+> 
+
+Interestingly, the reproducer didn't crash the very first time I tried
+it. I did get the same error after ^C-ing though, and on subsequent
+tries it mostly crashed immediately, but very occasionally it didn't.
 
 
