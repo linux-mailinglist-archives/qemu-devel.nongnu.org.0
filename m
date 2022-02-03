@@ -2,75 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96B1E4A8CBE
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Feb 2022 20:53:24 +0100 (CET)
-Received: from localhost ([::1]:49068 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1DB1C4A8D12
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Feb 2022 21:16:16 +0100 (CET)
+Received: from localhost ([::1]:57986 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nFiAV-0005Ha-EB
-	for lists+qemu-devel@lfdr.de; Thu, 03 Feb 2022 14:53:23 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:51300)
+	id 1nFiWb-0006Jm-Ke
+	for lists+qemu-devel@lfdr.de; Thu, 03 Feb 2022 15:16:15 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:51348)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nFhd9-0002Qs-9x
- for qemu-devel@nongnu.org; Thu, 03 Feb 2022 14:18:56 -0500
-Received: from [2607:f8b0:4864:20::42a] (port=46017
- helo=mail-pf1-x42a.google.com)
+ id 1nFhdB-0002Ts-TF
+ for qemu-devel@nongnu.org; Thu, 03 Feb 2022 14:18:58 -0500
+Received: from [2607:f8b0:4864:20::42d] (port=44569
+ helo=mail-pf1-x42d.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nFhd5-0002Fk-TF
- for qemu-devel@nongnu.org; Thu, 03 Feb 2022 14:18:54 -0500
-Received: by mail-pf1-x42a.google.com with SMTP id c194so3002642pfb.12
- for <qemu-devel@nongnu.org>; Thu, 03 Feb 2022 11:18:37 -0800 (PST)
+ id 1nFhd7-0002G6-AZ
+ for qemu-devel@nongnu.org; Thu, 03 Feb 2022 14:18:57 -0500
+Received: by mail-pf1-x42d.google.com with SMTP id n32so3015080pfv.11
+ for <qemu-devel@nongnu.org>; Thu, 03 Feb 2022 11:18:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=bq6XFRx7wAa9rcjDBKgvoofz6huJBBnqUxVQ/7FlcqA=;
- b=lsEDy39xHR1L333S8S+oroJtWLoT6PnlNqit8b2WLjvbN/rMyu4E6fAW8Ss/67XdoE
- zqlhnAvRYZvhxTByXoj//Di5+u+q1TuOQk23SnhH0G143K2Z4wotcRGAudurw7wBWuj6
- BOW8iMbh1b1fl3xL1z0yy3cJbnhKZxixqn5d55Tyber05/t7325mBsIFSm4fBpON82RP
- mMQ3MsSnVrP3o3z6B02l6k8Uplaw0oahrVrSDnooC1iZrwbk38z+2vcmFNIkzKgv0hvv
- qWTtWzZfm7LVrw9PgNA2kNxRvFQBIraKWgrgYG+dYZP4TBLb82MXUloLfJnD1KJwgE1G
- 1Zpg==
+ bh=65MPlr88/4m7n+vhG97F5TEU2DofKSKb0ifYE1MH9O8=;
+ b=Ndi3yJ23312H+t9HdhxgecchRpwBE+0XTUpdqjj6TsfI1zSkBDnXsZuErwuAbN+7sM
+ WA061GBoUZYT2sl/p7QhqY7ePi7yjwCW9I+OCXn3iCFxyVRcf6d0xgSA4zdavqErOvy6
+ DShzsE2qXPuHIsdAypNq37a+QMDM4n+R4X7X0mgXQFEEhE4Ln8Hfv+y4lwtxalKeMFyA
+ YMGD4vOGvxk/3A9JwSV83CX1ofCMR5mmSp2tkS+WWSl1lm13/jaGsFSqNUjR2cd4sJjt
+ hDVopWWGA+lDQB+kUiMqDQSkVi8m/Sqoph8W50MS5U1CYmcFRwvdSskyOir6P6Mz80x2
+ OyvQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=bq6XFRx7wAa9rcjDBKgvoofz6huJBBnqUxVQ/7FlcqA=;
- b=CQKB8XICtheEc0s1fM0oamPxPEIxcc008mHtX4Aznbz1+4uh5ddm4AVBdLcZF5Rcgk
- cBHo+JAhd9ao8OBlnQ5Zm9e3DIGjPmppO2v7Ex7DMhDkluEmG+Uf3xM72+eWxCpjAf/i
- 5G0ooNKsuGGc0/+2yp4vuId6EymbdNTvaYCm17g5N7fKjB8fugsfvKJFuDUhpCX5iHQu
- 3KEXBVACnBLvNiDiHPScXBNARfycT1m431ot33oxqVZ+/F1YcC+rwbGnmTtOGIYHw4kk
- Xguh1ADczlRnCSuY56xUsMlEMYaPqYbXB/CJdc5fZX7Sm1MLf0QhY7uli0E/vEBnQSe3
- LRcw==
-X-Gm-Message-State: AOAM532Gqyv9kuKUx/Uq95InRYEPuUSvoD2WM/fwff51ResyKz0pJ+nj
- LJVTtZVWUTLHsbbkp3rqIosQ/kPXuFE=
-X-Google-Smtp-Source: ABdhPJwwzjla+bGBOgYHjBb4QCDzaphovDxFeYkzXsb4D/S0OwWXNRxuMru3dhdxalusr8Gs3oqhDg==
-X-Received: by 2002:a65:4985:: with SMTP id r5mr29467662pgs.299.1643915916625; 
- Thu, 03 Feb 2022 11:18:36 -0800 (PST)
+ bh=65MPlr88/4m7n+vhG97F5TEU2DofKSKb0ifYE1MH9O8=;
+ b=DA9lgErErUL+PnDeb2uWTWfVWiLjaJ4u9fCstyMT2f9jFnQ2jUD2ON4q5lQYFvCE3Q
+ NqUCSh7c7e36+VYdNgqkbm8R52lukFOVFTGw+KZ9abNB1zrPVFXUFU8PxQOoyox8Fz2H
+ Q5Ey4SC8K+kahUuHsQ8lQBmU6cLQCRCMd1mWt/xOhtFw8REix9zzNCp9nspfPH4MerD3
+ 1jdSjIvrXTPAyxTkhwwLRAOx4I2j5402lCWCYeQ3wXRf30f7VXssoRdj4yJLBATzVK8+
+ mxz6u9wr1G+HUcmfERDCUVlXyMe2tWs3ZQ/bcysrS/OXXfiVziHTZ7+dSeVyM7jIB8ed
+ guBA==
+X-Gm-Message-State: AOAM532xz3kpDsvKZFX3QLa4VESut2xZsOLZw0bONKKHYyn6g+YasaGc
+ k1LLAJLfWTuXPSIqZ11CNC/MUH/2q1M=
+X-Google-Smtp-Source: ABdhPJw8T06zCMvC1vo5DozqDS4jrJmvOO1YkZyVWzhy0odMiU/h4zTUt1LhYWTpSCzfI8AvFAZoEQ==
+X-Received: by 2002:a63:9044:: with SMTP id a65mr28971068pge.325.1643915924682; 
+ Thu, 03 Feb 2022 11:18:44 -0800 (PST)
 Received: from localhost.localdomain (154.red-83-50-83.dynamicip.rima-tde.net.
  [83.50.83.154])
- by smtp.gmail.com with ESMTPSA id z27sm20913347pgk.78.2022.02.03.11.18.34
+ by smtp.gmail.com with ESMTPSA id ms14sm10803143pjb.15.2022.02.03.11.18.42
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Thu, 03 Feb 2022 11:18:36 -0800 (PST)
+ Thu, 03 Feb 2022 11:18:44 -0800 (PST)
 To: qemu-devel@nongnu.org
 Cc: Richard Henderson <richard.henderson@linaro.org>,
  Thomas Huth <thuth@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: [PATCH v2 02/21] accel/meson: Only build hw virtualization with
- system emulation
-Date: Thu,  3 Feb 2022 20:17:55 +0100
-Message-Id: <20220203191814.45023-3-f4bug@amsat.org>
+Subject: [PATCH v2 03/21] exec: Declare vaddr as a generic target-agnostic type
+Date: Thu,  3 Feb 2022 20:17:56 +0100
+Message-Id: <20220203191814.45023-4-f4bug@amsat.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220203191814.45023-1-f4bug@amsat.org>
 References: <20220203191814.45023-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::42a
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::42d
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42a;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pf1-x42a.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42d;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pf1-x42d.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -97,36 +96,68 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reply-to:  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 From:  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= via <qemu-devel@nongnu.org>
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Move vaddr type declaration to the generic "exec/cpu-common.h" header.
+
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- accel/meson.build | 12 +++++++-----
- 1 file changed, 7 insertions(+), 5 deletions(-)
+ include/exec/cpu-common.h | 12 ++++++++++++
+ include/hw/core/cpu.h     | 13 +------------
+ 2 files changed, 13 insertions(+), 12 deletions(-)
 
-diff --git a/accel/meson.build b/accel/meson.build
-index dfd808d2c8..b9a963cf80 100644
---- a/accel/meson.build
-+++ b/accel/meson.build
-@@ -2,12 +2,14 @@ specific_ss.add(files('accel-common.c'))
- softmmu_ss.add(files('accel-softmmu.c'))
- user_ss.add(files('accel-user.c'))
+diff --git a/include/exec/cpu-common.h b/include/exec/cpu-common.h
+index de5f444b19..cd1d7328a1 100644
+--- a/include/exec/cpu-common.h
++++ b/include/exec/cpu-common.h
+@@ -7,6 +7,18 @@
+ #include "exec/hwaddr.h"
+ #endif
  
--subdir('hvf')
--subdir('qtest')
--subdir('kvm')
- subdir('tcg')
--subdir('xen')
--subdir('stubs')
-+if have_system
-+  subdir('hvf')
-+  subdir('qtest')
-+  subdir('kvm')
-+  subdir('xen')
-+  subdir('stubs')
-+endif
++/**
++ * vaddr:
++ * Type wide enough to contain any #target_ulong virtual address.
++ */
++typedef uint64_t vaddr;
++#define VADDR_PRId PRId64
++#define VADDR_PRIu PRIu64
++#define VADDR_PRIo PRIo64
++#define VADDR_PRIx PRIx64
++#define VADDR_PRIX PRIX64
++#define VADDR_MAX UINT64_MAX
++
+ /* Using intptr_t ensures that qemu_*_page_mask is sign-extended even
+  * when intptr_t is 32-bit and we are aligning a long long.
+  */
+diff --git a/include/hw/core/cpu.h b/include/hw/core/cpu.h
+index 76ab3b851c..3f2b681281 100644
+--- a/include/hw/core/cpu.h
++++ b/include/hw/core/cpu.h
+@@ -22,6 +22,7 @@
  
- dummy_ss = ss.source_set()
- dummy_ss.add(files(
+ #include "hw/qdev-core.h"
+ #include "disas/dis-asm.h"
++#include "exec/cpu-common.h"
+ #include "exec/hwaddr.h"
+ #include "exec/memattrs.h"
+ #include "qapi/qapi-types-run-state.h"
+@@ -35,18 +36,6 @@
+ typedef int (*WriteCoreDumpFunction)(const void *buf, size_t size,
+                                      void *opaque);
+ 
+-/**
+- * vaddr:
+- * Type wide enough to contain any #target_ulong virtual address.
+- */
+-typedef uint64_t vaddr;
+-#define VADDR_PRId PRId64
+-#define VADDR_PRIu PRIu64
+-#define VADDR_PRIo PRIo64
+-#define VADDR_PRIx PRIx64
+-#define VADDR_PRIX PRIX64
+-#define VADDR_MAX UINT64_MAX
+-
+ /**
+  * SECTION:cpu
+  * @section_id: QEMU-cpu
 -- 
 2.34.1
 
