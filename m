@@ -2,84 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A3C74A8862
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Feb 2022 17:12:29 +0100 (CET)
-Received: from localhost ([::1]:55330 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F8EF4A881E
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Feb 2022 16:56:32 +0100 (CET)
+Received: from localhost ([::1]:46380 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nFeig-0003Qt-Sm
-	for lists+qemu-devel@lfdr.de; Thu, 03 Feb 2022 11:12:26 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:59254)
+	id 1nFeTG-0005Aa-Nf
+	for lists+qemu-devel@lfdr.de; Thu, 03 Feb 2022 10:56:30 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:57544)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from
- <3ZPr7YQ0KCl8S7IBKQFKDEFQ7DLLDIB.9LJNBJR-ABSBIKLKDKR.LOD@flex--valentinghita.bounces.google.com>)
- id 1nFeXH-0007WN-9m
- for qemu-devel@nongnu.org; Thu, 03 Feb 2022 11:00:39 -0500
-Received: from [2a00:1450:4864:20::149] (port=35755
- helo=mail-lf1-x149.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from
- <3ZPr7YQ0KCl8S7IBKQFKDEFQ7DLLDIB.9LJNBJR-ABSBIKLKDKR.LOD@flex--valentinghita.bounces.google.com>)
- id 1nFeXE-0000KB-DT
- for qemu-devel@nongnu.org; Thu, 03 Feb 2022 11:00:38 -0500
-Received: by mail-lf1-x149.google.com with SMTP id
- c7-20020ac24147000000b0042ac92336d1so1655953lfi.2
- for <qemu-devel@nongnu.org>; Thu, 03 Feb 2022 08:00:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
- h=date:message-id:mime-version:subject:from:to:cc;
- bh=hlcPZ7SXucwFodQrQPiBEc/tDIQ/hkwYn0I0gTD1PIQ=;
- b=oEjqBRJwGyXfTp9iotik1mjTnMok/fF9l6jRzBcU8Z3w223U3PDy5qMJtowJ9WL6qS
- /kIhrC78pKmYzC0c9vhxoe8yHNd7u2r2dyrGOq4F+LeqhnENfg9nZdJA1QXx8nAxYZAi
- O4IpU/Exs4jyWL+yuq7fOhemGx8j5ynLsVI7lvhKuDEAu9NJE8X3ldoJ7sOoFlo55C7v
- tLGHhvzQ+oazdhrVXX0FmDGelkU2LxkR6FSP5Itp+TG7JlxPycmwg44wameoUA/IhYqg
- Q1COFjpjsua43pViPzT4Tx4dJULBV33cSZNStalXWf+aLYLWRgENHEfDiKeX49wpEOTd
- d6SQ==
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1nFeR0-0004Ro-3O
+ for qemu-devel@nongnu.org; Thu, 03 Feb 2022 10:54:10 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:57924)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1nFeQw-0007Wr-5T
+ for qemu-devel@nongnu.org; Thu, 03 Feb 2022 10:54:08 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1643903644;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=p/Ccp5OgkdqJWOMv0DdGinosaNMWZKK1FU8nlEI+Lv0=;
+ b=Mg4ikIL7dnSS2ALGTO1hmKDtuQkZfZz+2YELDLUxiJc56FUCr7DGKSEBsXar5o65/hquzO
+ kUzHSRelVtn8uxoMPJfHnnA0z42I+6NlDBmD1Anq27Z25psLNjsWwm9P1TCjjRRhvtMVG7
+ yX4SpDsZnY9asvsMAcdCRX83dhnAX8w=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-461-P2dRqskFNAWEOITRkkQVdQ-1; Thu, 03 Feb 2022 10:54:03 -0500
+X-MC-Unique: P2dRqskFNAWEOITRkkQVdQ-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ r27-20020adfb1db000000b001d7567e33baso822839wra.12
+ for <qemu-devel@nongnu.org>; Thu, 03 Feb 2022 07:54:03 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
- bh=hlcPZ7SXucwFodQrQPiBEc/tDIQ/hkwYn0I0gTD1PIQ=;
- b=LlIhWjDx/v5wALncBNQ7P6Qib2frMvXtf6LwbJEdJ4T7MisVkfx3xZMnuRwcHpPFxp
- tc8SsVvffglgs1bg11MERPVKxCXOYMn0AEaCc+KsJhJZQnrXe2C4b7zgmgBcuj6h0C9O
- oOkpItf0IQf9TamdziQXb5xttAJ3/H3KCDAOqfzAajQhCBa2QC7Q2tyB/DnN47FIPi2W
- IapHYWB2uYHgUaTOkIQfBqjgHfQzSfKA5F21sPTmnKNiG3sNR1Ypj4kKWEzEyW6+IH70
- zkKzVmo5mhkJ+/nOGw69ofVOqOBxOTbX18QYQtxqDqABMG+fImD5xC+8hEQ9aJUMw8HG
- cHuw==
-X-Gm-Message-State: AOAM533t7DqFj44u55sWLM2MgNBEJUgnHUFebsCZGCwD7rrTgEncXDp0
- Amv8PSikO9mUhP/HpZhgloAMR8h8PI5d9vl8Bp9KLP5HkNcaZ7CgTVbcYsQTxzFPJr1uvNnLcpb
- i4r6PTTu0G5nc1Ytysr49Uxa8Mc7LaGagUDnLgHbobYwsDETNXM9Iv4NPZWED5VaBt+uwTwRmz2
- 43RRQ=
-X-Google-Smtp-Source: ABdhPJy/8G0GGD8SdbKSSTr86yO5UgCSa1yuHHjpxn14FvbxgdON/Z+RQU8pAd5fRy4onh/GhsEfbMjuoD2gtPc/GSqq
-X-Received: from valentinghita.c.googlers.com
- ([fda3:e722:ac3:cc00:28:9cb1:c0a8:1906])
- (user=valentinghita job=sendgmr) by 2002:a05:6000:1564:: with SMTP id
- 4mr24557965wrz.56.1643903588017; Thu, 03 Feb 2022 07:53:08 -0800 (PST)
-Date: Thu,  3 Feb 2022 15:53:04 +0000
-Message-Id: <20220203155304.2648009-1-valentinghita@google.com>
-Mime-Version: 1.0
-X-Mailer: git-send-email 2.35.0.263.gb82422642f-goog
-Subject: [PATCH] armv7m_nvic: set DHCSR.DEBUGEN when debugger is attached
-From: Valentin Ghita <valentinghita@google.com>
-To: qemu-devel@nongnu.org
-Cc: "=?UTF-8?q?Alex=20Benn=C3=A9e?=" <alex.bennee@linaro.org>, 
- "=?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?=" <f4bug@amsat.org>,
- Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org, 
- Valentin Ghita <valentinghita@google.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::149
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::149;
- envelope-from=3ZPr7YQ0KCl8S7IBKQFKDEFQ7DLLDIB.9LJNBJR-ABSBIKLKDKR.LOD@flex--valentinghita.bounces.google.com;
- helo=mail-lf1-x149.google.com
-X-Spam_score_int: -87
-X-Spam_score: -8.8
-X-Spam_bar: --------
-X-Spam_report: (-8.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=p/Ccp5OgkdqJWOMv0DdGinosaNMWZKK1FU8nlEI+Lv0=;
+ b=ex6Ub58EamJxH6R7rodD6rILEbrKte/ZSekaNYvPeQOzXZMtsCKQ0f7y/o/DuoCFNc
+ G4B4JoaduIRRPlyaexDA/1ElnTwbXc/CcbLMq9jOgopPiEQhXJeD+vfYSiAm7JkuNxH4
+ OhN5esomeYevcJTWJt+J6Y/diA9Td+e4UuIre6EaB9MZY8O2XV2/inctXua0TQERf5Ly
+ 8PB6FhwxXnec1XdEFmpvA9wtTTgCALI/rkg9zNZ6+TDx3hRV/NdCUwKmcsOmY/e0mWyR
+ HCEOKz/m5Z+2jQmHseocwmuN/BcLlWJgawsR/Uetn1zXBrUwoJ+WbypX2xZbRMXISVLo
+ fX+w==
+X-Gm-Message-State: AOAM530Rs1e3dZ12PL7+YUJZ+BoUZB4hNWejFAyYwRGuHmZD+zbq0qpK
+ OfEVJt9C7oHNB8N7+RJ/5lUUVQyrruSYfs/e0EXjNtrcuh2xoD2nMM31kaoih7zTAtZv794u5nH
+ Ynx2bS63G2cLYwcc=
+X-Received: by 2002:a05:6000:170c:: with SMTP id
+ n12mr30597533wrc.380.1643903642039; 
+ Thu, 03 Feb 2022 07:54:02 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJx4SjtubNqSejzieNM/AudpAwxdm22k7tgN2r7xereb3Ca4tkvMy3XkF665Uu3soqa9FqweNQ==
+X-Received: by 2002:a05:6000:170c:: with SMTP id
+ n12mr30597521wrc.380.1643903641894; 
+ Thu, 03 Feb 2022 07:54:01 -0800 (PST)
+Received: from work-vm (82-132-239-190.dab.02.net. [82.132.239.190])
+ by smtp.gmail.com with ESMTPSA id n10sm26387862wrf.96.2022.02.03.07.54.01
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 03 Feb 2022 07:54:01 -0800 (PST)
+Date: Thu, 3 Feb 2022 15:53:59 +0000
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Peter Xu <peterx@redhat.com>
+Subject: Re: [PATCH RFC 15/15] tests: Add postcopy preempt test
+Message-ID: <Yfv6l7m+sECyMdqe@work-vm>
+References: <20220119080929.39485-1-peterx@redhat.com>
+ <20220119080929.39485-16-peterx@redhat.com>
+MIME-Version: 1.0
+In-Reply-To: <20220119080929.39485-16-peterx@redhat.com>
+User-Agent: Mutt/2.1.5 (2021-12-30)
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.086,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01,
- USER_IN_DEF_DKIM_WL=-7.5 autolearn=no autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Thu, 03 Feb 2022 11:04:12 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,83 +98,77 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org,
+ Leonardo Bras Soares Passos <lsoaresp@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The DEBUGEN bit is set by the debugger when it is connected to the
-core.  Software can use this bit to check if a debug session is active.
+* Peter Xu (peterx@redhat.com) wrote:
+> Signed-off-by: Peter Xu <peterx@redhat.com>
 
-Add a function in gdbstub to check if the debugger is attached to a CPU
-and use this information when the DHCSR register is read in armv7m_nvic.
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 
-Signed-off-by: Valentin Ghita <valentinghita@google.com>
----
- gdbstub.c              | 10 ++++++++++
- hw/intc/armv7m_nvic.c  |  4 ++++
- include/exec/gdbstub.h |  6 ++++++
- 3 files changed, 20 insertions(+)
-
-diff --git a/gdbstub.c b/gdbstub.c
-index 3c14c6a038..d4e39db8e7 100644
---- a/gdbstub.c
-+++ b/gdbstub.c
-@@ -3585,6 +3585,16 @@ int gdbserver_start(const char *device)
-     return 0;
- }
- 
-+bool gdb_attached(CPUState *cpu)
-+{
-+    GDBProcess *process = gdb_get_cpu_process(cpu);
-+    if (process != NULL) {
-+        return process->attached;
-+    }
-+
-+    return false;
-+}
-+
- static void register_types(void)
- {
-     type_register_static(&char_gdb_type_info);
-diff --git a/hw/intc/armv7m_nvic.c b/hw/intc/armv7m_nvic.c
-index 13df002ce4..d6fff94bca 100644
---- a/hw/intc/armv7m_nvic.c
-+++ b/hw/intc/armv7m_nvic.c
-@@ -21,6 +21,7 @@
- #include "sysemu/runstate.h"
- #include "target/arm/cpu.h"
- #include "exec/exec-all.h"
-+#include "exec/gdbstub.h"
- #include "exec/memop.h"
- #include "qemu/log.h"
- #include "qemu/module.h"
-@@ -1510,6 +1511,9 @@ static uint32_t nvic_readl(NVICState *s, uint32_t offset, MemTxAttrs attrs)
-         }
-         /* We provide minimal-RAS only: RFSR is RAZ/WI */
-         return 0;
-+    case 0xdf0: /* DHCSR */
-+        /* Bit 0: DEBUGEN. */
-+        return gdb_attached(CPU(cpu)) ? 1 : 0;
-     case 0xf34: /* FPCCR */
-         if (!cpu_isar_feature(aa32_vfp_simd, cpu)) {
-             return 0;
-diff --git a/include/exec/gdbstub.h b/include/exec/gdbstub.h
-index a024a0350d..383f4e5224 100644
---- a/include/exec/gdbstub.h
-+++ b/include/exec/gdbstub.h
-@@ -177,6 +177,12 @@ static inline uint8_t * gdb_get_reg_ptr(GByteArray *buf, int len)
-  */
- int gdbserver_start(const char *port_or_device);
- 
-+/**
-+ * gdb_attached: check if GDB is attached to a given CPU.
-+ * @cpu: the CPU to check if GDB is attached to.
-+ */
-+bool gdb_attached(CPUState *cpu);
-+
- /**
-  * gdb_has_xml:
-  * This is an ugly hack to cope with both new and old gdb.
+> ---
+>  tests/qtest/migration-test.c | 21 +++++++++++++++++++++
+>  1 file changed, 21 insertions(+)
+> 
+> diff --git a/tests/qtest/migration-test.c b/tests/qtest/migration-test.c
+> index 7b42f6fd90..93ff43bb3f 100644
+> --- a/tests/qtest/migration-test.c
+> +++ b/tests/qtest/migration-test.c
+> @@ -470,6 +470,7 @@ typedef struct {
+>       */
+>      bool hide_stderr;
+>      bool use_shmem;
+> +    bool postcopy_preempt;
+>      /* only launch the target process */
+>      bool only_target;
+>      /* Use dirty ring if true; dirty logging otherwise */
+> @@ -673,6 +674,11 @@ static int migrate_postcopy_prepare(QTestState **from_ptr,
+>      migrate_set_capability(to, "postcopy-ram", true);
+>      migrate_set_capability(to, "postcopy-blocktime", true);
+>  
+> +    if (args->postcopy_preempt) {
+> +        migrate_set_capability(from, "postcopy-preempt", true);
+> +        migrate_set_capability(to, "postcopy-preempt", true);
+> +    }
+> +
+>      /* We want to pick a speed slow enough that the test completes
+>       * quickly, but that it doesn't complete precopy even on a slow
+>       * machine, so also set the downtime.
+> @@ -719,6 +725,20 @@ static void test_postcopy(void)
+>      migrate_postcopy_complete(from, to);
+>  }
+>  
+> +static void test_postcopy_preempt(void)
+> +{
+> +    MigrateStart *args = migrate_start_new();
+> +    QTestState *from, *to;
+> +
+> +    args->postcopy_preempt = true;
+> +
+> +    if (migrate_postcopy_prepare(&from, &to, args)) {
+> +        return;
+> +    }
+> +    migrate_postcopy_start(from, to);
+> +    migrate_postcopy_complete(from, to);
+> +}
+> +
+>  static void test_postcopy_recovery(void)
+>  {
+>      MigrateStart *args = migrate_start_new();
+> @@ -1458,6 +1478,7 @@ int main(int argc, char **argv)
+>      module_call_init(MODULE_INIT_QOM);
+>  
+>      qtest_add_func("/migration/postcopy/unix", test_postcopy);
+> +    qtest_add_func("/migration/postcopy/preempt", test_postcopy_preempt);
+>      qtest_add_func("/migration/postcopy/recovery", test_postcopy_recovery);
+>      qtest_add_func("/migration/bad_dest", test_baddest);
+>      qtest_add_func("/migration/precopy/unix", test_precopy_unix);
+> -- 
+> 2.32.0
+> 
 -- 
-2.35.0.263.gb82422642f-goog
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
