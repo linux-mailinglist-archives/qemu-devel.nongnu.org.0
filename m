@@ -2,54 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E5F74A8F9C
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Feb 2022 22:12:29 +0100 (CET)
-Received: from localhost ([::1]:36844 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 220554A8FAC
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Feb 2022 22:17:26 +0100 (CET)
+Received: from localhost ([::1]:44894 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nFjP1-0003nJ-5S
-	for lists+qemu-devel@lfdr.de; Thu, 03 Feb 2022 16:12:27 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:39494)
+	id 1nFjTo-00013u-Kl
+	for lists+qemu-devel@lfdr.de; Thu, 03 Feb 2022 16:17:24 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:40382)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <luc@lmichel.fr>) id 1nFij3-00085U-59
- for qemu-devel@nongnu.org; Thu, 03 Feb 2022 15:29:05 -0500
-Received: from pharaoh.lmichel.fr ([149.202.28.74]:50258)
+ (Exim 4.90_1) (envelope-from <luc@lmichel.fr>)
+ id 1nFinW-00053v-62; Thu, 03 Feb 2022 15:33:42 -0500
+Received: from pharaoh.lmichel.fr ([149.202.28.74]:50260)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <luc@lmichel.fr>) id 1nFiix-0002Yk-Tv
- for qemu-devel@nongnu.org; Thu, 03 Feb 2022 15:29:04 -0500
+ (Exim 4.90_1) (envelope-from <luc@lmichel.fr>)
+ id 1nFinU-0003Ih-F5; Thu, 03 Feb 2022 15:33:41 -0500
 Received: from localhost (sekoia-pc.home.lmichel.fr [192.168.61.100])
- by pharaoh.lmichel.fr (Postfix) with ESMTPSA id B01FDC60912;
- Thu,  3 Feb 2022 21:28:57 +0100 (CET)
+ by pharaoh.lmichel.fr (Postfix) with ESMTPSA id 2D846C60912;
+ Thu,  3 Feb 2022 21:33:36 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lmichel.fr; s=pharaoh; 
- t=1643920137;
+ t=1643920416;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=qFS1W8B3bgGqybtYcpsQfuqjpjK6p6R5oxPSzb+ORqE=;
- b=KXtcTnzP7IyRYqEBMETbyC4fIoZ+OTRc6WDN7paiMJKIPvS7puOf0uvA3mLrFFsMqmaDQQ
- mw63iZ2h7EnANADRoktGYwvQ5mXmz0YN/+T7YtTN3VtIezpdHZsCeOtgKjPq00vrM44obJ
- 33W5ILq/SxJAff2uyDfE3FdkSFOsxvBhOUE5hM9q3UjmdWiytJX8slEnA0h+bSAdvF5dE5
- AbObXEhm11v0xyASCJZ7t/IPVuXnHLu+3N7oRlmUzU6IR1qPn47PCIeRbhljSfjp1PnvFb
- xS64bvPfO379d6lcUlop3L2T87aANSzydgrRiTA6C/120oxTngx30bbGFOMStw==
-Date: Thu, 3 Feb 2022 21:28:57 +0100
+ bh=SG4mfTgcMbx+MjII4dHrn/5Edc9LwRsHIYmlJ+CMbwU=;
+ b=ETll3oEpeUSAKVp49eD7XqNynxRay9lHopInJZNubOHRLn7b5Nu5n9vpYvGDOSJpfB3PNq
+ wXwCosW1Ti3MI5wnhx4GQXo1zsn3lwEjc3+IetirbgwSZM7Pzk3myztAtVy0mGlfEvrWiV
+ eRDMwixKt8+oPrNUkBkjUvsJoV6TalFv3FIVJI6OURvZPVTdBrsCCx99kmIvL3XC8Y7r1k
+ nMZ8C6vCTd6oy/GYOeLCTI1RsA2b1Si6AfxOMsiib4RlCVo3lOHEqB9QXuTYaO8TlwjDA4
+ 5NKYRyuMcur2dmU5DzxbWKVsWsnPNeDbC/NbhJDszfuUu/qsZrCbDspgA7RepA==
+Date: Thu, 3 Feb 2022 21:33:35 +0100
 From: Luc Michel <luc@lmichel.fr>
-To: Francisco Iglesias <francisco.iglesias@xilinx.com>
-Subject: Re: [PATCH v1] hw/arm/xlnx-zynqmp: 'Or' the QSPI / QSPI DMA IRQs
-Message-ID: <Yfw7CVbRErmAvCYV@sekoia-pc.home.lmichel.fr>
-References: <20220203151742.1457-1-francisco.iglesias@xilinx.com>
+To: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
+Subject: Re: [PATCH v2 2/6] target/arm: Make rvbar settable after realize
+Message-ID: <Yfw8H/zcSshP4omo@sekoia-pc.home.lmichel.fr>
+References: <20220203140141.310870-1-edgar.iglesias@gmail.com>
+ <20220203140141.310870-3-edgar.iglesias@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220203151742.1457-1-francisco.iglesias@xilinx.com>
+In-Reply-To: <20220203140141.310870-3-edgar.iglesias@gmail.com>
 Received-SPF: pass client-ip=149.202.28.74; envelope-from=luc@lmichel.fr;
  helo=pharaoh.lmichel.fr
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01,
- T_SPF_HELO_TEMPERROR=0.01 autolearn=ham autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -62,111 +62,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: edgar.iglesias@xilinx.com, frasse.iglesias@gmail.com,
- alistair@alistair23.me, qemu-devel@nongnu.org, peter.maydell@linaro.org
+Cc: edgar.iglesias@xilinx.com, peter.maydell@linaro.org,
+ sai.pavan.boddu@xilinx.com, frasse.iglesias@gmail.com, alistair@alistair23.me,
+ richard.henderson@linaro.org, qemu-devel@nongnu.org, f4bug@amsat.org,
+ francisco.iglesias@xilinx.com, frederic.konrad@adacore.com,
+ qemu-arm@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 15:17 Thu 03 Feb     , Francisco Iglesias wrote:
-> 'Or' the IRQs coming from the QSPI and QSPI DMA models. This is done for
-> avoiding the situation where one of the models incorrectly deasserts an
-> interrupt asserted from the other model (which will result in that the IRQ
-> is lost and will not reach guest SW).
+Hi Edgar,
+
+Oops I mistakenly answered on v1 :)
+
+On 15:01 Thu 03 Feb     , Edgar E. Iglesias wrote:
+> From: "Edgar E. Iglesias" <edgar.iglesias@xilinx.com>
 > 
-> Signed-off-by: Francisco Iglesias <francisco.iglesias@xilinx.com>
-
-Reviewed-by: Luc Michel <luc@lmichel.fr>
-
+> Make the rvbar property settable after realize. This is done
+> in preparation to model the ZynqMP's runtime configurable rvbar.
+> 
+> Signed-off-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
 > ---
+>  target/arm/cpu.c | 7 +++----
+>  1 file changed, 3 insertions(+), 4 deletions(-)
 > 
-> Hi,
-> 
-> I noted this after receiving a review comment (from Peter Maydell) on a similar
-> issue on the Versal machine while working on the OSPI series.
-> 
-> Best regards,
-> Francisco Iglesias
-> 
-> 
->  include/hw/arm/xlnx-zynqmp.h |  2 ++
->  hw/arm/xlnx-zynqmp.c         | 14 ++++++++++++--
->  2 files changed, 14 insertions(+), 2 deletions(-)
-> 
-> diff --git a/include/hw/arm/xlnx-zynqmp.h b/include/hw/arm/xlnx-zynqmp.h
-> index 062e637fe4..9424f81c37 100644
-> --- a/include/hw/arm/xlnx-zynqmp.h
-> +++ b/include/hw/arm/xlnx-zynqmp.h
-> @@ -38,6 +38,7 @@
->  #include "hw/dma/xlnx_csu_dma.h"
->  #include "hw/nvram/xlnx-bbram.h"
->  #include "hw/nvram/xlnx-zynqmp-efuse.h"
-> +#include "hw/or-irq.h"
+> diff --git a/target/arm/cpu.c b/target/arm/cpu.c
+> index 5a9c02a256..e30ae088fe 100644
+> --- a/target/arm/cpu.c
+> +++ b/target/arm/cpu.c
+> @@ -1128,9 +1128,6 @@ static Property arm_cpu_reset_cbar_property =
+>  static Property arm_cpu_reset_hivecs_property =
+>              DEFINE_PROP_BOOL("reset-hivecs", ARMCPU, reset_hivecs, false);
 >  
->  #define TYPE_XLNX_ZYNQMP "xlnx-zynqmp"
->  OBJECT_DECLARE_SIMPLE_TYPE(XlnxZynqMPState, XLNX_ZYNQMP)
-> @@ -122,6 +123,7 @@ struct XlnxZynqMPState {
->      XlnxZDMA gdma[XLNX_ZYNQMP_NUM_GDMA_CH];
->      XlnxZDMA adma[XLNX_ZYNQMP_NUM_ADMA_CH];
->      XlnxCSUDMA qspi_dma;
-> +    qemu_or_irq qspi_irq_orgate;
->  
->      char *boot_cpu;
->      ARMCPU *boot_cpu_ptr;
-> diff --git a/hw/arm/xlnx-zynqmp.c b/hw/arm/xlnx-zynqmp.c
-> index 1c52a575aa..5fbf38c466 100644
-> --- a/hw/arm/xlnx-zynqmp.c
-> +++ b/hw/arm/xlnx-zynqmp.c
-> @@ -50,6 +50,7 @@
->  #define LQSPI_ADDR          0xc0000000
->  #define QSPI_IRQ            15
->  #define QSPI_DMA_ADDR       0xff0f0800
-> +#define NUM_QSPI_IRQ_LINES  2
->  
->  #define DP_ADDR             0xfd4a0000
->  #define DP_IRQ              113
-> @@ -362,6 +363,8 @@ static void xlnx_zynqmp_init(Object *obj)
+> -static Property arm_cpu_rvbar_property =
+> -            DEFINE_PROP_UINT64("rvbar", ARMCPU, rvbar, 0);
+> -
+>  #ifndef CONFIG_USER_ONLY
+>  static Property arm_cpu_has_el2_property =
+>              DEFINE_PROP_BOOL("has_el2", ARMCPU, has_el2, true);
+> @@ -1233,7 +1230,9 @@ void arm_cpu_post_init(Object *obj)
 >      }
 >  
->      object_initialize_child(obj, "qspi-dma", &s->qspi_dma, TYPE_XLNX_CSU_DMA);
-> +    object_initialize_child(obj, "qspi-irq-orgate",
-> +                            &s->qspi_irq_orgate, TYPE_OR_IRQ);
->  }
->  
->  static void xlnx_zynqmp_realize(DeviceState *dev, Error **errp)
-> @@ -709,6 +712,11 @@ static void xlnx_zynqmp_realize(DeviceState *dev, Error **errp)
->                             gic_spi[adma_ch_intr[i]]);
+>      if (arm_feature(&cpu->env, ARM_FEATURE_AARCH64)) {
+> -        qdev_property_add_static(DEVICE(obj), &arm_cpu_rvbar_property);
+> +        object_property_add_uint64_ptr(obj, "rvbar",
+> +                                       &cpu->rvbar,
+> +                                       OBJ_PROP_FLAG_READWRITE);
+
+I think you may have a problem here. cpu->rvbar is used to define the
+reset value of the rvbar_elx registers in register_cp_regs_for_features.
+This is done at realize time. Changing the rvbar property after realize
+would fail to update the rvbar_elx register values.
+
+I guess you should also switch to a .readfn instead of a .resetvalue for
+those registers.
+
+-- 
+Luc
+
+
 >      }
 >  
-> +    object_property_set_int(OBJECT(&s->qspi_irq_orgate),
-> +                            "num-lines", NUM_QSPI_IRQ_LINES, &error_fatal);
-> +    qdev_realize(DEVICE(&s->qspi_irq_orgate), NULL, &error_fatal);
-> +    qdev_connect_gpio_out(DEVICE(&s->qspi_irq_orgate), 0, gic_spi[QSPI_IRQ]);
-> +
->      if (!object_property_set_link(OBJECT(&s->qspi_dma), "dma",
->                                    OBJECT(system_memory), errp)) {
->          return;
-> @@ -718,7 +726,8 @@ static void xlnx_zynqmp_realize(DeviceState *dev, Error **errp)
->      }
->  
->      sysbus_mmio_map(SYS_BUS_DEVICE(&s->qspi_dma), 0, QSPI_DMA_ADDR);
-> -    sysbus_connect_irq(SYS_BUS_DEVICE(&s->qspi_dma), 0, gic_spi[QSPI_IRQ]);
-> +    sysbus_connect_irq(SYS_BUS_DEVICE(&s->qspi_dma), 0,
-> +                       qdev_get_gpio_in(DEVICE(&s->qspi_irq_orgate), 0));
->  
->      if (!object_property_set_link(OBJECT(&s->qspi), "stream-connected-dma",
->                                    OBJECT(&s->qspi_dma), errp)) {
-> @@ -729,7 +738,8 @@ static void xlnx_zynqmp_realize(DeviceState *dev, Error **errp)
->      }
->      sysbus_mmio_map(SYS_BUS_DEVICE(&s->qspi), 0, QSPI_ADDR);
->      sysbus_mmio_map(SYS_BUS_DEVICE(&s->qspi), 1, LQSPI_ADDR);
-> -    sysbus_connect_irq(SYS_BUS_DEVICE(&s->qspi), 0, gic_spi[QSPI_IRQ]);
-> +    sysbus_connect_irq(SYS_BUS_DEVICE(&s->qspi), 0,
-> +                       qdev_get_gpio_in(DEVICE(&s->qspi_irq_orgate), 1));
->  
->      for (i = 0; i < XLNX_ZYNQMP_NUM_QSPI_BUS; i++) {
->          g_autofree gchar *bus_name = g_strdup_printf("qspi%d", i);
+>  #ifndef CONFIG_USER_ONLY
 > -- 
-> 2.11.0
+> 2.25.1
 > 
 
 -- 
