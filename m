@@ -2,91 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC45B4A8B84
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Feb 2022 19:24:26 +0100 (CET)
-Received: from localhost ([::1]:58512 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 30A8F4A8BA6
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Feb 2022 19:28:55 +0100 (CET)
+Received: from localhost ([::1]:38224 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nFgmP-0008Kb-Os
-	for lists+qemu-devel@lfdr.de; Thu, 03 Feb 2022 13:24:25 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:60870)
+	id 1nFgqk-0005Nb-7n
+	for lists+qemu-devel@lfdr.de; Thu, 03 Feb 2022 13:28:54 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:33286)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1nFgDn-0005CP-5s
- for qemu-devel@nongnu.org; Thu, 03 Feb 2022 12:48:39 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:36779)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1nFgDl-0005AR-6b
- for qemu-devel@nongnu.org; Thu, 03 Feb 2022 12:48:38 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1643910516;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=K6C/WgMLRG4DH86nUBkwEHyt5ev+mvUwemK4r6tj/V0=;
- b=iucxwJpUjpQX8jiA7XzSJVpr7PtocZrpnvfvFPD+B2t2YCLFBsDxAT/RggaQ1axIDsp0dY
- Zcw/Pob0y9ETjtJAfUktx8OW/bpGv02M342uUnUQMdyoO7q/wUAAEQIsOyhb3F+go2dphC
- /uBhaoPbgZgRoAyTnEdS0oPGjZCyEnY=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-255-PudqIlANPaCn9zfIO3QgHQ-1; Thu, 03 Feb 2022 12:48:35 -0500
-X-MC-Unique: PudqIlANPaCn9zfIO3QgHQ-1
-Received: by mail-wm1-f70.google.com with SMTP id
- 189-20020a1c02c6000000b0035399bb7e85so4196196wmc.4
- for <qemu-devel@nongnu.org>; Thu, 03 Feb 2022 09:48:35 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1nFgGP-0007BP-01
+ for qemu-devel@nongnu.org; Thu, 03 Feb 2022 12:51:21 -0500
+Received: from [2a00:1450:4864:20::62b] (port=43655
+ helo=mail-ej1-x62b.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1nFgGJ-0005i9-Gn
+ for qemu-devel@nongnu.org; Thu, 03 Feb 2022 12:51:17 -0500
+Received: by mail-ej1-x62b.google.com with SMTP id d10so11132180eje.10
+ for <qemu-devel@nongnu.org>; Thu, 03 Feb 2022 09:51:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=IJ3OsA1v8pG5EUmHKlpXvf6RUBVyzrvZA1tqnEHLsS8=;
+ b=JOI8sZGNJVRHhbFvbfMrCivuA2E/JUL2zIpKJ1XSdTkpM+9/3YokMdNfBoT3fj2lmF
+ HjXCI1v6SVtPI1Mct+WJ/oIAoeP2dHoHzUGVJz3sAYwD1DI72WY8GeBn86SmEMvgosIx
+ jD6BcoaqS80761Q0fkGO2WRH7LBKjZsrIEwzRYHxFo9A4vgJdtfyCuTnxHxgv7XIOitu
+ xa1lc1zVgejy9oeskYTmGz8VG+kaxFyJMRkM0fagCfa4ceCg38a1+i+7ZcSXuctCQXRx
+ 2q0uCIsiyRWr05jJ5gxBlHOgpbwIr6TMtXjRaNr/o40nTReZeayFz/Q9Rwo3w2VMlq8t
+ njFQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=K6C/WgMLRG4DH86nUBkwEHyt5ev+mvUwemK4r6tj/V0=;
- b=fEqhGryMhhapEQF0hWJgT922JI+Gjxam6/1bnaXVcUg+AIy19aet1liKbUAI5Rx/Mq
- IScz9XFD1ev339IWnRiMjksp5/HQ2PhL/avegl7fjEeftorzguXGD+FEGLmQAdrfHdNF
- lnTfGCCtOjWvXOscmKWBJTmYHJLFb6hIvLZuNkqMJbg+brrdhUIM5PpYIY9gIWM5T2Lm
- esBlu/bAm0D21MjmvDfy+8c9DZjrNSozNSF4Ngxn1mOQG8HW9i1ZW9tMfOvjaVfPP5tZ
- 22tQTSgPjr7tZSNjzyFChC6ekehogoz9/dKbCEcwFnM9f+IFIs56ZNU92VPC+uS2jx8y
- h3rw==
-X-Gm-Message-State: AOAM532A1NK0LVivplP2PbLrVT7bpWC8Y492bp4qKoDVmO5ToXpxFKR7
- dfw1cC2vX0k4TWmX2visn3JEX0sD3f/Qeq0G3oGXKsIcpfyj+d+IGrSRQE4JqXMeU0BsyyT3LAp
- WAz+tuVHT7d2vOdw=
-X-Received: by 2002:a05:600c:3229:: with SMTP id
- r41mr11415101wmp.181.1643910514216; 
- Thu, 03 Feb 2022 09:48:34 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwB914ljpD5axTZsVn6h4BFMj0phnFvvwwNkXBjjJMS/WlwvO2O7d1c/1xvh3XI/nDJDTkm5Q==
-X-Received: by 2002:a05:600c:3229:: with SMTP id
- r41mr11415091wmp.181.1643910514024; 
- Thu, 03 Feb 2022 09:48:34 -0800 (PST)
-Received: from work-vm (82-132-239-190.dab.02.net. [82.132.239.190])
- by smtp.gmail.com with ESMTPSA id j15sm9830134wmq.19.2022.02.03.09.48.33
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=IJ3OsA1v8pG5EUmHKlpXvf6RUBVyzrvZA1tqnEHLsS8=;
+ b=j13FgLscA1R19jQ8b7EEVyFwHuwtZpl7n84IkrrT4bcMLFRFQFQAmI6moRpftElZOl
+ r9krOtsSi5f4DxTfhwiOatnauJ4oWB60+iZV7PhwCHrB/MUNGViydViUIFIhFhvEliFB
+ q1TYCx/p9DAT2Hw37U11ulVIqrD0IseMPuoYYc6LPR9pwwgd15861QiDNGutlMGzSIuS
+ 0TmOdu/DPsn/tqnLr4Hy+lWQ3nkb7R0NnjQc3qQzlQ3HPeUocyerxrFn6MIxVqfkn0bi
+ TwKAc3aGeIy+dDBAA7wfC7Wq7xD+sSeAiJVQvrBLTPybgbqHy2H+PeSsr1+3a8aTTJ4t
+ 935w==
+X-Gm-Message-State: AOAM530fvmKWE3EQcW4b+m2KpF+fpuK+1ad8/iFuErKM/l7ElfqfbVPi
+ wSFQ3qjB/uAbq3BGEUrN3wEb/g==
+X-Google-Smtp-Source: ABdhPJzw1MqlWqI15PWbsDqYEcVHUZ1DIJmSqaR0l5N8fq4DbnvP63itfe4x9XQox6PXxRLkfLeIeA==
+X-Received: by 2002:a17:907:9608:: with SMTP id
+ gb8mr30363487ejc.404.1643910664802; 
+ Thu, 03 Feb 2022 09:51:04 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id g12sm22862851edv.89.2022.02.03.09.51.03
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 03 Feb 2022 09:48:33 -0800 (PST)
-Date: Thu, 3 Feb 2022 17:48:31 +0000
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Peter Xu <peterx@redhat.com>
-Subject: Re: [PATCH RFC 10/15] migration: Move static var in
- ram_block_from_stream() into global
-Message-ID: <YfwVbwmjyoRL0B72@work-vm>
-References: <20220119080929.39485-1-peterx@redhat.com>
- <20220119080929.39485-11-peterx@redhat.com>
+ Thu, 03 Feb 2022 09:51:03 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 33F241FFB7;
+ Thu,  3 Feb 2022 17:51:03 +0000 (GMT)
+References: <20220202191242.652607-1-alex.bennee@linaro.org>
+ <87k0ecvoxu.fsf@linaro.org>
+ <SN4PR0201MB8808B91BF0F27E376C1872AEDE289@SN4PR0201MB8808.namprd02.prod.outlook.com>
+ <SN4PR0201MB88089C0A52C660DC7A6D71E6DE289@SN4PR0201MB8808.namprd02.prod.outlook.com>
+User-agent: mu4e 1.7.6; emacs 28.0.91
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Taylor Simpson <tsimpson@quicinc.com>
+Subject: Re: [RFC PATCH  0/4] improve coverage of vector backend
+Date: Thu, 03 Feb 2022 17:50:12 +0000
+In-reply-to: <SN4PR0201MB88089C0A52C660DC7A6D71E6DE289@SN4PR0201MB8808.namprd02.prod.outlook.com>
+Message-ID: <87pmo3sut4.fsf@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <20220119080929.39485-11-peterx@redhat.com>
-User-Agent: Mutt/2.1.5 (2021-12-30)
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.086,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::62b
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::62b;
+ envelope-from=alex.bennee@linaro.org; helo=mail-ej1-x62b.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -99,107 +94,83 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org,
- Leonardo Bras Soares Passos <lsoaresp@redhat.com>
+Cc: "fam@euphon.net" <fam@euphon.net>,
+ "berrange@redhat.com" <berrange@redhat.com>,
+ "richard.henderson@linaro.org" <richard.henderson@linaro.org>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "f4bug@amsat.org" <f4bug@amsat.org>,
+ "qemu-arm@nongnu.org" <qemu-arm@nongnu.org>,
+ "stefanha@redhat.com" <stefanha@redhat.com>,
+ "crosa@redhat.com" <crosa@redhat.com>,
+ "pbonzini@redhat.com" <pbonzini@redhat.com>,
+ "aurelien@aurel32.net" <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Peter Xu (peterx@redhat.com) wrote:
-> Static variable is very unfriendly to threading of ram_block_from_stream().
-> Move it into MigrationIncomingState.
-> 
-> Make the incoming state pointer to be passed over to ram_block_from_stream() on
-> both caller sites.
-> 
-> Signed-off-by: Peter Xu <peterx@redhat.com>
 
-OK, but I'm not sure if I noticed where you changed this to be per
-channel later?
+Taylor Simpson <tsimpson@quicinc.com> writes:
+
+>> -----Original Message-----
+>> From: Taylor Simpson
+>> Sent: Wednesday, February 2, 2022 7:45 PM
+>> To: Alex Benn=C3=A9e <alex.bennee@linaro.org>; richard.henderson@linaro.=
+org;
+>> qemu-devel@nongnu.org
+>> Cc: qemu-arm@nongnu.org; fam@euphon.net; berrange@redhat.com;
+>> f4bug@amsat.org; aurelien@aurel32.net; pbonzini@redhat.com;
+>> stefanha@redhat.com; crosa@redhat.com
+>> Subject: RE: [RFC PATCH 0/4] improve coverage of vector backend
+>>=20
+>>=20
+>> > -----Original Message-----
+>> > From: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+>> > Sent: Wednesday, February 2, 2022 5:16 PM
+>> > To: richard.henderson@linaro.org; qemu-devel@nongnu.org
+>> > Cc: qemu-arm@nongnu.org; fam@euphon.net; berrange@redhat.com;
+>> > f4bug@amsat.org; aurelien@aurel32.net; pbonzini@redhat.com;
+>> > stefanha@redhat.com; crosa@redhat.com; Alex Benn=C3=A9e
+>> > <alex.bennee@linaro.org>; Taylor Simpson <tsimpson@quicinc.com>
+>> > Subject: Re: [RFC PATCH 0/4] improve coverage of vector backend
+>> >
+>> > Alex Benn=C3=A9e <alex.bennee@linaro.org> writes:
+>> >
+>> > > Hi Richard,
+>> > >
+>> > > While reviewing the TCG vector clean-ups I tried to improve the
+>> > > range of instructions we tested. I couldn't get the existing hacky
+>> > > sha1 test to vectorise nicely so I snarfed the sha512 algorithm from
+>> > > CCAN. The sha512 test is good because it is all purely integer so we
+>> > > should be able to use native code on the backend. The test also has
+>> > > the nice property of validating behaviour.
+>> >
+>> > Hi Taylor,
+>> >
+>> > You might want to check this out:
+>> >
+>> > =E2=9C=97  ./qemu-hexagon ./tests/tcg/hexagon-linux-user/sha512
+>> > 1..10
+>> > not ok 1 - do_test(&tests[i])
+>> > #     Failed test
+>> > (/home/alex.bennee/lsrc/qemu.git/tests/tcg/multiarch/sha512.c:main()
+>> > at line 986) not ok 2 - do_test(&tests[i])
+>>=20
+>> Thanks for the heads-up.  I'll take a look
+>
+> Quick update - I ran the test on the hardware and have the same error mes=
+sages.
+>
+> So, it doesn't look like a QEMU problem.  I'll investigate if the
+> problem is due to something in the toolchain.
+
+That reminds me what is the status of the binary toolchain. The last
+attempt had some issues so we are still using the hand-built one
+upstream.
 
 
+>
+> Taylor
 
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 
-Dave
-> ---
->  migration/migration.h |  3 ++-
->  migration/ram.c       | 13 +++++++++----
->  2 files changed, 11 insertions(+), 5 deletions(-)
-> 
-> diff --git a/migration/migration.h b/migration/migration.h
-> index 35e7f7babe..34b79cb961 100644
-> --- a/migration/migration.h
-> +++ b/migration/migration.h
-> @@ -66,7 +66,8 @@ typedef struct {
->  /* State for the incoming migration */
->  struct MigrationIncomingState {
->      QEMUFile *from_src_file;
-> -
-> +    /* Previously received RAM's RAMBlock pointer */
-> +    RAMBlock *last_recv_block;
->      /* A hook to allow cleanup at the end of incoming migration */
->      void *transport_data;
->      void (*transport_cleanup)(void *data);
-> diff --git a/migration/ram.c b/migration/ram.c
-> index 3f823ffffc..3a7d943f9c 100644
-> --- a/migration/ram.c
-> +++ b/migration/ram.c
-> @@ -3183,12 +3183,14 @@ static int load_xbzrle(QEMUFile *f, ram_addr_t addr, void *host)
->   *
->   * Returns a pointer from within the RCU-protected ram_list.
->   *
-> + * @mis: the migration incoming state pointer
->   * @f: QEMUFile where to read the data from
->   * @flags: Page flags (mostly to see if it's a continuation of previous block)
->   */
-> -static inline RAMBlock *ram_block_from_stream(QEMUFile *f, int flags)
-> +static inline RAMBlock *ram_block_from_stream(MigrationIncomingState *mis,
-> +                                              QEMUFile *f, int flags)
->  {
-> -    static RAMBlock *block;
-> +    RAMBlock *block = mis->last_recv_block;
->      char id[256];
->      uint8_t len;
->  
-> @@ -3215,6 +3217,8 @@ static inline RAMBlock *ram_block_from_stream(QEMUFile *f, int flags)
->          return NULL;
->      }
->  
-> +    mis->last_recv_block = block;
-> +
->      return block;
->  }
->  
-> @@ -3667,7 +3671,7 @@ static int ram_load_postcopy(QEMUFile *f)
->          trace_ram_load_postcopy_loop((uint64_t)addr, flags);
->          if (flags & (RAM_SAVE_FLAG_ZERO | RAM_SAVE_FLAG_PAGE |
->                       RAM_SAVE_FLAG_COMPRESS_PAGE)) {
-> -            block = ram_block_from_stream(f, flags);
-> +            block = ram_block_from_stream(mis, f, flags);
->              if (!block) {
->                  ret = -EINVAL;
->                  break;
-> @@ -3881,6 +3885,7 @@ void colo_flush_ram_cache(void)
->   */
->  static int ram_load_precopy(QEMUFile *f)
->  {
-> +    MigrationIncomingState *mis = migration_incoming_get_current();
->      int flags = 0, ret = 0, invalid_flags = 0, len = 0, i = 0;
->      /* ADVISE is earlier, it shows the source has the postcopy capability on */
->      bool postcopy_advised = postcopy_is_advised();
-> @@ -3919,7 +3924,7 @@ static int ram_load_precopy(QEMUFile *f)
->  
->          if (flags & (RAM_SAVE_FLAG_ZERO | RAM_SAVE_FLAG_PAGE |
->                       RAM_SAVE_FLAG_COMPRESS_PAGE | RAM_SAVE_FLAG_XBZRLE)) {
-> -            RAMBlock *block = ram_block_from_stream(f, flags);
-> +            RAMBlock *block = ram_block_from_stream(mis, f, flags);
->  
->              host = host_from_ram_block_offset(block, addr);
->              /*
-> -- 
-> 2.32.0
-> 
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
-
+--=20
+Alex Benn=C3=A9e
 
