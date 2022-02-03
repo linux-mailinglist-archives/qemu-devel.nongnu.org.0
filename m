@@ -2,70 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E13AF4A8BA3
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Feb 2022 19:28:08 +0100 (CET)
-Received: from localhost ([::1]:35964 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 48FBD4A8BB0
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Feb 2022 19:31:58 +0100 (CET)
+Received: from localhost ([::1]:43070 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nFgq0-0003r6-1h
-	for lists+qemu-devel@lfdr.de; Thu, 03 Feb 2022 13:28:08 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:59048)
+	id 1nFgtg-0000U6-4K
+	for lists+qemu-devel@lfdr.de; Thu, 03 Feb 2022 13:31:57 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:59374)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nFg64-0004Z4-LV
- for qemu-devel@nongnu.org; Thu, 03 Feb 2022 12:40:44 -0500
-Received: from [2a00:1450:4864:20::32d] (port=41677
- helo=mail-wm1-x32d.google.com)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1nFg7Z-0005r0-Li
+ for qemu-devel@nongnu.org; Thu, 03 Feb 2022 12:42:13 -0500
+Received: from [2a00:1450:4864:20::62a] (port=46034
+ helo=mail-ej1-x62a.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nFg5z-00041w-1B
- for qemu-devel@nongnu.org; Thu, 03 Feb 2022 12:40:37 -0500
-Received: by mail-wm1-x32d.google.com with SMTP id
- bg21-20020a05600c3c9500b0035283e7a012so2298129wmb.0
- for <qemu-devel@nongnu.org>; Thu, 03 Feb 2022 09:40:32 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1nFg7W-0004Gc-Fz
+ for qemu-devel@nongnu.org; Thu, 03 Feb 2022 12:42:13 -0500
+Received: by mail-ej1-x62a.google.com with SMTP id me13so11056306ejb.12
+ for <qemu-devel@nongnu.org>; Thu, 03 Feb 2022 09:42:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=IbeOwU6l0q7vKDGRlMFK/6KVHA32SKmDPDLtWNBIdKA=;
- b=oqLFZdGVEQsgU84wsoOSH2mX/IdRAbze+fje2iAQFyz5wVzgpapQNaqPARheHY+VHA
- epBd7gHFzurVQdhnfiprF1QfmG2X26K9yLY020A7mQkCYzPwVbmQCQY3GgUSpUqEsYJW
- hgC7TMyy7TqzF+6FWWx0Lvar8lrIL7Nh/JN/zNggN1tJM1slQIg/IB3ZSSIvJeEZXckK
- 9DpPY46Zpy6whSKk2mkHQPYPFbiSXf/yJNqqymbgG4Kpo2G9q3Kbm4L/yWxtglabWVoZ
- CvwveO+9pkNyoWiojSx7CsCUi+KVIsRK+6bufCZBrrmfZjaLz6lnFjomqMBR/Ng+z/n7
- rneA==
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=KGIcJLtvJJX8CfGDzxFZD1S7FB+vrbgMLSfy7mPfp8E=;
+ b=ts5wiA8CDUP5Di8hVvktAAt1WWivCM+DxSSDOD9XJh5TjRchwmRhMtL3F/kT+8Na1D
+ 38QQ9KnLe0W7xMOH7pZ/QESPc3BH9ZbKVRV0hTpiPGflFORuAiW2OCzyPoZjOlUb0zJ/
+ 5i6BLXL3GVamAsjTioR3YEBlZkEZYl1B06OazlIZip3JYqztvMbjykDjwbtW6+YTiejN
+ yRUl/6NBATGoa9++R7LNjijgpFRMLQdu3edychut2HppaxQpaP78Og7MxfvhDd6YY+X+
+ oDQLhYSvtfby6FsBKouHYz0QL8cf6n6VwwSIBUiAy5pwY2VsaBAgSZdmwRDeiinIe3QJ
+ AClg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=IbeOwU6l0q7vKDGRlMFK/6KVHA32SKmDPDLtWNBIdKA=;
- b=i3+9TNvKyJB+XdvUQlREMqz5KzRLOI2H2+QGY1zs525R9DGPWgyj8scX4Jtj2eLTuL
- iiXC7/xPuL8zXYUxhqYFyMZmPAJMKbv3lTjvzpIEzLkknuRvTkcn+aX55sTofNAmgAXi
- cjZ/79J8UN/gQN31/4sqvHCLfw2f6nwKnwTUtlF+2N3uJcKJpAJwkS/SUU7BgP4dEeEJ
- NzCId6GhBIWzo/R4U3Mpn06CsFLiO6mjXinYR3pVxpUoeNCkIW9ce4CL4HnfZ2oc/wVw
- h0CeJg3UaFERRb2QKqi/LUHyZNxiEq+EdujAUkVCtLWYX4oRNUN7cUAcAJ96FDorKHa8
- wiRA==
-X-Gm-Message-State: AOAM533LNCTSJzGmFo5sGY1DDB87rLJcvDhBMDID07dJsk7nvLhHBfxA
- ErZ1D1tN5USwAy9Gvxfu3gyKTpZEr2yIknw4kTDQ2Q==
-X-Google-Smtp-Source: ABdhPJxC3uk9BPHp8v2wfR47YXg7CUz4q13OYrzaJTjasgyYsZ5kYG+DXdgG3o0zjttF4fNzphw05Gll1WcIqhsx1dQ=
-X-Received: by 2002:a05:600c:1443:: with SMTP id
- h3mr11477553wmi.37.1643910031836; 
- Thu, 03 Feb 2022 09:40:31 -0800 (PST)
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=KGIcJLtvJJX8CfGDzxFZD1S7FB+vrbgMLSfy7mPfp8E=;
+ b=ZMAb0QmMceKHOATWSiep2k5asjB5KeTfYZnMqYXjQD76ncyiF+mYe3ERNNBWZveYiq
+ aoZ0KJKjt7+ShaPW8E5bSO4gU1jFGUduTdyvcnyBxdwK1c2pty5nHWxACp1TtC7kzE2T
+ /hI2BsFFTHzk3p1Lw+YFp4TGOYoPVHd5XHosxkNcJsKvml+MAcHyZS2H7fhRH+LRl4gF
+ 1fpFfp3vLrlmCILbsGQJbFiwi/GysSnxiDCNWXu5a0J2/vX9N2mYU59Hf4oapZCfEn1y
+ DOWa5B1gQ91+yUXxYeGdxYb4HYbuUPJ/7kTMmn9NWqUNtjle6uvNQZWFk0cPsai/BX7b
+ uRqQ==
+X-Gm-Message-State: AOAM531TIQ0c/+rfatY58U0Zy4OcKahv0EjTlv3HkVVZhuaRS/iPgLQJ
+ I2TTKGyPWqunkKJ9zWvSncfuxA==
+X-Google-Smtp-Source: ABdhPJz7UFqX3BfCXMgHBVbdqtsv3gnVwoN1O7efHeWBOOXVEEyJn4nbrehUGHOHt5+Z9Gztzs4d6g==
+X-Received: by 2002:a17:907:8a05:: with SMTP id
+ sc5mr29763092ejc.316.1643910129039; 
+ Thu, 03 Feb 2022 09:42:09 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id gz19sm17036956ejc.10.2022.02.03.09.42.07
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 03 Feb 2022 09:42:07 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 213BD1FFB7;
+ Thu,  3 Feb 2022 17:42:07 +0000 (GMT)
+References: <20220203155304.2648009-1-valentinghita@google.com>
+User-agent: mu4e 1.7.6; emacs 28.0.91
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Valentin Ghita <valentinghita@google.com>
+Subject: Re: [PATCH] armv7m_nvic: set DHCSR.DEBUGEN when debugger is attached
+Date: Thu, 03 Feb 2022 17:40:49 +0000
+In-reply-to: <20220203155304.2648009-1-valentinghita@google.com>
+Message-ID: <87tudfsv80.fsf@linaro.org>
 MIME-Version: 1.0
-References: <20191101085140.5205-1-peter.maydell@linaro.org>
- <20191101085140.5205-10-peter.maydell@linaro.org>
- <CAFEAcA8pS6_SYWMFJ0=EyHVQ9V1MTiM_OCjkvqb5znqJ91w_qw@mail.gmail.com>
- <20220203173640.shxkmatdcsfzzvtj@gator>
-In-Reply-To: <20220203173640.shxkmatdcsfzzvtj@gator>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 3 Feb 2022 17:40:20 +0000
-Message-ID: <CAFEAcA9_3DNozRsH8+iXbs2Z4-ar=Eki3ENvZocSmfbp+g13qQ@mail.gmail.com>
-Subject: Re: [PULL 09/11] target/arm/kvm: host cpu: Add support for sve<N>
- properties
-To: Andrew Jones <drjones@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32d
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::62a
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::62a;
+ envelope-from=alex.bennee@linaro.org; helo=mail-ej1-x62a.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -86,44 +91,96 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 3 Feb 2022 at 17:36, Andrew Jones <drjones@redhat.com> wrote:
->
-> On Thu, Feb 03, 2022 at 04:46:21PM +0000, Peter Maydell wrote:
-> > Was this intentional?
->
-> No, darn. I don't know how many times I rebased that series and was always
-> careful to ensure sve-max-vq was left in the non-kvm part of the above
-> condition. I guess the final rebase finally got me...
->
-> >
-> > I'd like to fix up the weird divergence between -cpu host and
-> > -cpu max, either by moving sve-max-vq into aarch64_add_sve_properties()
-> > so it's present on both, or by changing the aarch64_max_initfn() so
-> > it only adds the property when using TCG.
->
-> The later, please. sve-max-vq won't work for any of the machines that
-> support SVE that I know of, so I think it's a bad idea for KVM.
->
-> >
-> > (I think also this code may get the '-cpu max,aarch64=off' case wrong,
-> > as it doesn't guard the calls to add the sve and pauth properties
-> > with the "if aarch64" feature check.)
->
-> Yes, but these property dependencies may need to be checked at property
-> finalize time. That means that the properties may get added, but then
-> they will error out if the user tried to enable them. Otherwise, they'll
-> be disabled and the QMP query will inform the user that they cannot be
-> enabled.
 
-Does 'max' need to do anything different from what we're doing
-already in arm_host_initfn() for 'host' ? (My proposal for
-fixing this stuff is basically to make aarch64_max_initfn()
-start with "if (kvm or hvf) { call arm_host_initfn(); return }".)
+Valentin Ghita <valentinghita@google.com> writes:
 
-thanks
--- PMM
+> The DEBUGEN bit is set by the debugger when it is connected to the
+> core.  Software can use this bit to check if a debug session is active.
+>
+> Add a function in gdbstub to check if the debugger is attached to a CPU
+> and use this information when the DHCSR register is read in armv7m_nvic.
+>
+> Signed-off-by: Valentin Ghita <valentinghita@google.com>
+
+Nack - use of the gdbstub should be transparent to the guest. It is not
+trying to model any real JTAG/External debug hardware here.
+
+> ---
+>  gdbstub.c              | 10 ++++++++++
+>  hw/intc/armv7m_nvic.c  |  4 ++++
+>  include/exec/gdbstub.h |  6 ++++++
+>  3 files changed, 20 insertions(+)
+>
+> diff --git a/gdbstub.c b/gdbstub.c
+> index 3c14c6a038..d4e39db8e7 100644
+> --- a/gdbstub.c
+> +++ b/gdbstub.c
+> @@ -3585,6 +3585,16 @@ int gdbserver_start(const char *device)
+>      return 0;
+>  }
+>=20=20
+> +bool gdb_attached(CPUState *cpu)
+> +{
+> +    GDBProcess *process =3D gdb_get_cpu_process(cpu);
+> +    if (process !=3D NULL) {
+> +        return process->attached;
+> +    }
+> +
+> +    return false;
+> +}
+> +
+>  static void register_types(void)
+>  {
+>      type_register_static(&char_gdb_type_info);
+> diff --git a/hw/intc/armv7m_nvic.c b/hw/intc/armv7m_nvic.c
+> index 13df002ce4..d6fff94bca 100644
+> --- a/hw/intc/armv7m_nvic.c
+> +++ b/hw/intc/armv7m_nvic.c
+> @@ -21,6 +21,7 @@
+>  #include "sysemu/runstate.h"
+>  #include "target/arm/cpu.h"
+>  #include "exec/exec-all.h"
+> +#include "exec/gdbstub.h"
+>  #include "exec/memop.h"
+>  #include "qemu/log.h"
+>  #include "qemu/module.h"
+> @@ -1510,6 +1511,9 @@ static uint32_t nvic_readl(NVICState *s, uint32_t o=
+ffset, MemTxAttrs attrs)
+>          }
+>          /* We provide minimal-RAS only: RFSR is RAZ/WI */
+>          return 0;
+> +    case 0xdf0: /* DHCSR */
+> +        /* Bit 0: DEBUGEN. */
+> +        return gdb_attached(CPU(cpu)) ? 1 : 0;
+>      case 0xf34: /* FPCCR */
+>          if (!cpu_isar_feature(aa32_vfp_simd, cpu)) {
+>              return 0;
+> diff --git a/include/exec/gdbstub.h b/include/exec/gdbstub.h
+> index a024a0350d..383f4e5224 100644
+> --- a/include/exec/gdbstub.h
+> +++ b/include/exec/gdbstub.h
+> @@ -177,6 +177,12 @@ static inline uint8_t * gdb_get_reg_ptr(GByteArray *=
+buf, int len)
+>   */
+>  int gdbserver_start(const char *port_or_device);
+>=20=20
+> +/**
+> + * gdb_attached: check if GDB is attached to a given CPU.
+> + * @cpu: the CPU to check if GDB is attached to.
+> + */
+> +bool gdb_attached(CPUState *cpu);
+> +
+>  /**
+>   * gdb_has_xml:
+>   * This is an ugly hack to cope with both new and old gdb.
+
+
+--=20
+Alex Benn=C3=A9e
 
