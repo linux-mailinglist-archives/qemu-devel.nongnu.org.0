@@ -2,87 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6D8B4A8C67
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Feb 2022 20:26:43 +0100 (CET)
-Received: from localhost ([::1]:52648 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A3584A8C65
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Feb 2022 20:23:58 +0100 (CET)
+Received: from localhost ([::1]:50784 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nFhkg-0003Rl-K2
-	for lists+qemu-devel@lfdr.de; Thu, 03 Feb 2022 14:26:42 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:41732)
+	id 1nFhi0-0001qv-HY
+	for lists+qemu-devel@lfdr.de; Thu, 03 Feb 2022 14:23:56 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:41832)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nFgsY-0000wb-9B
- for qemu-devel@nongnu.org; Thu, 03 Feb 2022 13:30:46 -0500
-Received: from [2607:f8b0:4864:20::534] (port=34318
- helo=mail-pg1-x534.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nFgsW-0006IC-MX
- for qemu-devel@nongnu.org; Thu, 03 Feb 2022 13:30:45 -0500
-Received: by mail-pg1-x534.google.com with SMTP id v3so2993993pgc.1
- for <qemu-devel@nongnu.org>; Thu, 03 Feb 2022 10:30:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=jmXWHfcZ46MI72djVkvm4qIlSx6rm5iEE9JNv22+ZAA=;
- b=k31iFVW+xm1ZTGntmbHSNGhHGLS3E7YY4yW6avp8V3Pj8HeeGMtdY9MKVl2/ZlrDPn
- GdroJQX7xYx+baTGP7JcZkdS7SDbhMSrz2hCYaIG5CseLLsnJZ41SEEn721fRZ152UXb
- 2gusdytaysrzoSSKr/A1f5UUshLGm+sC11MZk3I3vmnp8suejYFrfzlTnsXm5Qe2etpf
- ZUwGe78B8W+T4jy6B3dzdMsWLAwdguARwuri8UbMEMa92ft78+Snq2EUtf6SOwsNe8vr
- bjVLanSDurV4tJH0Y45v75054Es+MelyGIt40Vng7+78DONHKbsdql87xGN4Kv9v62UO
- qx9A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=jmXWHfcZ46MI72djVkvm4qIlSx6rm5iEE9JNv22+ZAA=;
- b=m0s5oYyPUy9GmqJWBlMd7h+WOIOfx8lyJ+y5P4A4pWnz66xYoSbkg8lCeCLJ5tCPnQ
- ua00FOgvZkphjxTEjHKVQ0YnkK0KijzMIsccHO/nl7UU2GBkyhF+4kucXyTtxZ3402cc
- 5MruWM5Z9Awhjbh/c1ZgU46CX4cMjKZIX2Lelj+5YP7P7mTld3eF6/6F+5GpiaWfJdCF
- qilW+NF8Lx0Sf1zCEzE5P+Q1AbB9uS80tbJiNGtKtYDOZLPCt/gi3gT9a/I25Eyy+NCc
- iBz39EURC4XmNrEEv3bKaRlCl3qa+4AQ4Ho1pRf99VeoFXXLaNaN3Gb9zzbEc3dWiDDE
- P3xQ==
-X-Gm-Message-State: AOAM531C+pJK2glaDVZdFWpvlwX2IcGktNP6TEJsXYCdYTPUkahTsm/T
- e9mTMfUzRxY5FcAYgfTmkco=
-X-Google-Smtp-Source: ABdhPJxQSozQ30XmA6f6ahuuCkY52oVOFl0DHJxwAFkjVLmv5pIhH+9JTFmZfgnPJ4TNWg7gMgJfuA==
-X-Received: by 2002:a05:6a00:2447:: with SMTP id
- d7mr35110251pfj.64.1643913043176; 
- Thu, 03 Feb 2022 10:30:43 -0800 (PST)
-Received: from [192.168.1.33] (154.red-83-50-83.dynamicip.rima-tde.net.
- [83.50.83.154])
- by smtp.gmail.com with ESMTPSA id q1sm10632756pjd.48.2022.02.03.10.30.41
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 03 Feb 2022 10:30:42 -0800 (PST)
-Message-ID: <2f00f260-f8c4-55b2-7bad-efb5b7876eb9@amsat.org>
-Date: Thu, 3 Feb 2022 19:30:39 +0100
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1nFgsq-0001g3-VP
+ for qemu-devel@nongnu.org; Thu, 03 Feb 2022 13:31:05 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:46674)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1nFgsl-0006Ou-JV
+ for qemu-devel@nongnu.org; Thu, 03 Feb 2022 13:31:03 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1643913058;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=VFnwgNxSZ+kmEdyPE9Ef+WPGaNPa7BK5dd1idZLb4vo=;
+ b=MSPT619dPyEpk7RSYK7UIClZWTfuNIzyZBha4B8NUU26R/RdkfVKSeWj8a7r9KTlIwvVGI
+ m8ehhLae8X03yAJdSPHUPHvTbHvDCrVae3fX2yT/KtSRAXahXx3AyQ9aJGZMP2xNo6tdzn
+ Zd5G1R3Tv/9MRx2/kpMJiH0qKMHvy0s=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-599-5UHEIrTPPeiOCcjBiW_-FQ-1; Thu, 03 Feb 2022 13:30:52 -0500
+X-MC-Unique: 5UHEIrTPPeiOCcjBiW_-FQ-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 47BE31124C40;
+ Thu,  3 Feb 2022 18:30:51 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.192.25])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 9829D753E6;
+ Thu,  3 Feb 2022 18:30:49 +0000 (UTC)
+Date: Thu, 3 Feb 2022 18:30:46 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Mark Kanda <mark.kanda@oracle.com>
+Subject: Re: [PATCH v3 1/3] qmp: Support for querying stats
+Message-ID: <YfwfVtWdEovpSSAs@redhat.com>
+References: <20220131194312.1192626-1-mark.kanda@oracle.com>
+ <20220131194312.1192626-2-mark.kanda@oracle.com>
+ <YfkiyiK+jfrdbVcY@redhat.com>
+ <b111f7a7-ab0c-8944-ec3a-9461eb0e4fb3@oracle.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.5.1
-Subject: Re: [PATCH] audio/dbus: Fix building with modules enabled on macOS
-Content-Language: en-US
-To: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@gmail.com>
-Cc: QEMU <qemu-devel@nongnu.org>, Gerd Hoffmann <kraxel@redhat.com>
-References: <20220203165859.41066-1-f4bug@amsat.org>
- <CAJ+F1CKgWg6rZMGHnvg_hX+7m-YXG7fCpVbTHPpCw0MoRE6c0Q@mail.gmail.com>
-In-Reply-To: <CAJ+F1CKgWg6rZMGHnvg_hX+7m-YXG7fCpVbTHPpCw0MoRE6c0Q@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+In-Reply-To: <b111f7a7-ab0c-8944-ec3a-9461eb0e4fb3@oracle.com>
+User-Agent: Mutt/2.1.5 (2021-12-30)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::534
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::534;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pg1-x534.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.001,
- PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.086,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,76 +85,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: pbonzini@redhat.com, qemu-devel@nongnu.org, armbru@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
-On 3/2/22 19:05, Marc-André Lureau wrote:
-> Hi
+On Thu, Feb 03, 2022 at 12:12:57PM -0600, Mark Kanda wrote:
+> Thanks Daniel,
 > 
-> On Thu, Feb 3, 2022 at 9:04 PM Philippe Mathieu-Daudé via 
-> <qemu-devel@nongnu.org <mailto:qemu-devel@nongnu.org>> wrote:
+> On 2/1/2022 6:08 AM, Daniel P. Berrangé wrote:
+> > > +#
+> > > +# Since: 7.0
+> > > +##
+> > > +{ 'enum' : 'StatType',
+> > > +  'data' : [ 'cumulative', 'instant', 'peak',
+> > > +             'linear-hist', 'log-hist', 'unknown' ] }
+> > IMHO 'unknown' shouldn't exist at all.
+> > 
 > 
->     When configuring QEMU with --enable-modules we get on macOS:
+> I added the 'unknown' member here (and in other enums) to handle situations
+> where QEMU is behind KVM in terms of enumerating the various stat types,
+> units, etc. I feel this will be a semi-common scenario (old QEMU on a new
+> kernel) and with 'unknown', QEMU can at least display the raw data.
 > 
->        --- stderr ---
->        Dependency ui-dbus cannot be satisfied
-> 
->     ui-dbus depends on pixman and opengl, so add these dependencies
->     to audio-dbus.
-> 
-> 
-> Weird, why would the audio module need pixman and opengl, on macos?
+> That said, I happy skip 'unknown' entries if you think that's better.
 
-audio/dbusaudio.c depends on module_dep("ui-dbus") which itself
-depends on it (ui/meson.build):
+Yep, I don't think we should be including 'unknown' stuff.
 
-if dbus_display
-   dbus_ss = ss.source_set()
-   ...
-   dbus_ss.add(when: [gio, pixman, opengl, 'CONFIG_GIO'],
-               if_true: [files(
-                 'dbus-chardev.c',
-                 'dbus-clipboard.c',
-                 'dbus-console.c',
-                 'dbus-error.c',
-                 'dbus-listener.c',
-                 'dbus.c',
-               ), dbus_display1])
-   ui_modules += {'dbus' : dbus_ss}
-endif
+An application could use this, and then we add support for the
+new type and the application will now break with new QEMU because
+it is presented in QMP in a different way.
 
-> 
-> 
->     Fixes: 739362d420 ("audio: add "dbus" audio backend")
->     Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org
->     <mailto:f4bug@amsat.org>>
->     ---
->       audio/meson.build | 2 +-
->       1 file changed, 1 insertion(+), 1 deletion(-)
-> 
->     diff --git a/audio/meson.build b/audio/meson.build
->     index 0ac3791d0b..d9b295514f 100644
->     --- a/audio/meson.build
->     +++ b/audio/meson.build
->     @@ -28,7 +28,7 @@ endforeach
-> 
->       if dbus_display
->           module_ss = ss.source_set()
->     -    module_ss.add(when: gio, if_true: files('dbusaudio.c'))
->     +    module_ss.add(when: [gio, pixman, opengl, 'CONFIG_GIO'],
->     if_true: files('dbusaudio.c'))
->           audio_modules += {'dbus': module_ss}
->       endif
-> 
->     -- 
->     2.34.1
-> 
-> 
-> 
-> 
-> -- 
-> Marc-André Lureau
+The same for the 'unknown' base and unit too for that matter.
+
+
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
