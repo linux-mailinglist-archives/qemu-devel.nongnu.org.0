@@ -2,54 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9FBC24A9000
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Feb 2022 22:33:33 +0100 (CET)
-Received: from localhost ([::1]:43780 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E5F74A8F9C
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Feb 2022 22:12:29 +0100 (CET)
+Received: from localhost ([::1]:36844 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nFjjQ-0003UQ-8K
-	for lists+qemu-devel@lfdr.de; Thu, 03 Feb 2022 16:33:32 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:38862)
+	id 1nFjP1-0003nJ-5S
+	for lists+qemu-devel@lfdr.de; Thu, 03 Feb 2022 16:12:27 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:39494)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <luc@lmichel.fr>)
- id 1nFigP-0004W1-SJ; Thu, 03 Feb 2022 15:26:21 -0500
-Received: from pharaoh.lmichel.fr ([149.202.28.74]:50254)
+ (Exim 4.90_1) (envelope-from <luc@lmichel.fr>) id 1nFij3-00085U-59
+ for qemu-devel@nongnu.org; Thu, 03 Feb 2022 15:29:05 -0500
+Received: from pharaoh.lmichel.fr ([149.202.28.74]:50258)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <luc@lmichel.fr>)
- id 1nFigL-0002B3-Hq; Thu, 03 Feb 2022 15:26:20 -0500
+ (Exim 4.90_1) (envelope-from <luc@lmichel.fr>) id 1nFiix-0002Yk-Tv
+ for qemu-devel@nongnu.org; Thu, 03 Feb 2022 15:29:04 -0500
 Received: from localhost (sekoia-pc.home.lmichel.fr [192.168.61.100])
- by pharaoh.lmichel.fr (Postfix) with ESMTPSA id 5164AC60912;
- Thu,  3 Feb 2022 21:26:11 +0100 (CET)
+ by pharaoh.lmichel.fr (Postfix) with ESMTPSA id B01FDC60912;
+ Thu,  3 Feb 2022 21:28:57 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lmichel.fr; s=pharaoh; 
- t=1643919971;
+ t=1643920137;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=3vXguq7PD9F7k4liOa9bZTi3OO9BnCz39Q9xD7dS0Tg=;
- b=IG+1GEoZ5aEtH+xtsUPLog2Q1v2/8iXhH/ubw7cgxuI+51O2MXMvHTRiNYh8bOgmmPHWXY
- RMXidfLNeaUjGKnN6cmeASTsqHKoNl3r4ilzicCvIEQDqYBNvW+MlZkH8R3VD02Jv0scWl
- O+fQSvcgfPMbLP3vwhZis7z2+VWvk6ccqRccdikBjuRTuaDgwkL3eIxiAnpawm3hKPjRII
- SeBOlMw5tpl8DnhMcONe6Su9D1PtY9+WBPfDLcPmX+FBy8SpivlxVUP10y3o+KlKnYBuHZ
- 1+NOCC6A8Kq6+5PIXiAuyDCO4v2T+NGpZgU3FIENGRegwjxd4OuYFG76Q4R1gQ==
-Date: Thu, 3 Feb 2022 21:26:11 +0100
+ bh=qFS1W8B3bgGqybtYcpsQfuqjpjK6p6R5oxPSzb+ORqE=;
+ b=KXtcTnzP7IyRYqEBMETbyC4fIoZ+OTRc6WDN7paiMJKIPvS7puOf0uvA3mLrFFsMqmaDQQ
+ mw63iZ2h7EnANADRoktGYwvQ5mXmz0YN/+T7YtTN3VtIezpdHZsCeOtgKjPq00vrM44obJ
+ 33W5ILq/SxJAff2uyDfE3FdkSFOsxvBhOUE5hM9q3UjmdWiytJX8slEnA0h+bSAdvF5dE5
+ AbObXEhm11v0xyASCJZ7t/IPVuXnHLu+3N7oRlmUzU6IR1qPn47PCIeRbhljSfjp1PnvFb
+ xS64bvPfO379d6lcUlop3L2T87aANSzydgrRiTA6C/120oxTngx30bbGFOMStw==
+Date: Thu, 3 Feb 2022 21:28:57 +0100
 From: Luc Michel <luc@lmichel.fr>
-To: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
-Subject: Re: [PATCH v1 6/6] hw/arm/xlnx-zynqmp: Connect the ZynqMP APU Control
-Message-ID: <Yfw6Y3k+oUVEe2CX@sekoia-pc.home.lmichel.fr>
-References: <20220130231206.34035-1-edgar.iglesias@gmail.com>
- <20220130231206.34035-7-edgar.iglesias@gmail.com>
+To: Francisco Iglesias <francisco.iglesias@xilinx.com>
+Subject: Re: [PATCH v1] hw/arm/xlnx-zynqmp: 'Or' the QSPI / QSPI DMA IRQs
+Message-ID: <Yfw7CVbRErmAvCYV@sekoia-pc.home.lmichel.fr>
+References: <20220203151742.1457-1-francisco.iglesias@xilinx.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220130231206.34035-7-edgar.iglesias@gmail.com>
+In-Reply-To: <20220203151742.1457-1-francisco.iglesias@xilinx.com>
 Received-SPF: pass client-ip=149.202.28.74; envelope-from=luc@lmichel.fr;
  helo=pharaoh.lmichel.fr
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01,
+ T_SPF_HELO_TEMPERROR=0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -62,116 +62,111 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: edgar.iglesias@xilinx.com, peter.maydell@linaro.org,
- sai.pavan.boddu@xilinx.com, frasse.iglesias@gmail.com, alistair@alistair23.me,
- richard.henderson@linaro.org, qemu-devel@nongnu.org,
- francisco.iglesias@xilinx.com, frederic.konrad@adacore.com,
- qemu-arm@nongnu.org
+Cc: edgar.iglesias@xilinx.com, frasse.iglesias@gmail.com,
+ alistair@alistair23.me, qemu-devel@nongnu.org, peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 00:12 Mon 31 Jan     , Edgar E. Iglesias wrote:
-> From: "Edgar E. Iglesias" <edgar.iglesias@xilinx.com>
+On 15:17 Thu 03 Feb     , Francisco Iglesias wrote:
+> 'Or' the IRQs coming from the QSPI and QSPI DMA models. This is done for
+> avoiding the situation where one of the models incorrectly deasserts an
+> interrupt asserted from the other model (which will result in that the IRQ
+> is lost and will not reach guest SW).
 > 
-> Connect the ZynqMP APU Control device.
-> 
-> Signed-off-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
+> Signed-off-by: Francisco Iglesias <francisco.iglesias@xilinx.com>
 
 Reviewed-by: Luc Michel <luc@lmichel.fr>
 
 > ---
->  include/hw/arm/xlnx-zynqmp.h |  4 +++-
->  hw/arm/xlnx-zynqmp.c         | 25 +++++++++++++++++++++++--
->  2 files changed, 26 insertions(+), 3 deletions(-)
+> 
+> Hi,
+> 
+> I noted this after receiving a review comment (from Peter Maydell) on a similar
+> issue on the Versal machine while working on the OSPI series.
+> 
+> Best regards,
+> Francisco Iglesias
+> 
+> 
+>  include/hw/arm/xlnx-zynqmp.h |  2 ++
+>  hw/arm/xlnx-zynqmp.c         | 14 ++++++++++++--
+>  2 files changed, 14 insertions(+), 2 deletions(-)
 > 
 > diff --git a/include/hw/arm/xlnx-zynqmp.h b/include/hw/arm/xlnx-zynqmp.h
-> index d5a3ad3df2..05cd2128f3 100644
+> index 062e637fe4..9424f81c37 100644
 > --- a/include/hw/arm/xlnx-zynqmp.h
 > +++ b/include/hw/arm/xlnx-zynqmp.h
 > @@ -38,6 +38,7 @@
 >  #include "hw/dma/xlnx_csu_dma.h"
 >  #include "hw/nvram/xlnx-bbram.h"
 >  #include "hw/nvram/xlnx-zynqmp-efuse.h"
-> +#include "hw/misc/xlnx-zynqmp-apu-ctrl.h"
->  #include "hw/misc/xlnx-zynqmp-crf.h"
+> +#include "hw/or-irq.h"
 >  
 >  #define TYPE_XLNX_ZYNQMP "xlnx-zynqmp"
-> @@ -85,7 +86,7 @@ OBJECT_DECLARE_SIMPLE_TYPE(XlnxZynqMPState, XLNX_ZYNQMP)
->  /*
->   * Unimplemented mmio regions needed to boot some images.
->   */
-> -#define XLNX_ZYNQMP_NUM_UNIMP_AREAS 2
-> +#define XLNX_ZYNQMP_NUM_UNIMP_AREAS 1
->  
->  struct XlnxZynqMPState {
->      /*< private >*/
-> @@ -123,6 +124,7 @@ struct XlnxZynqMPState {
+>  OBJECT_DECLARE_SIMPLE_TYPE(XlnxZynqMPState, XLNX_ZYNQMP)
+> @@ -122,6 +123,7 @@ struct XlnxZynqMPState {
 >      XlnxZDMA gdma[XLNX_ZYNQMP_NUM_GDMA_CH];
 >      XlnxZDMA adma[XLNX_ZYNQMP_NUM_ADMA_CH];
 >      XlnxCSUDMA qspi_dma;
-> +    XlnxZynqMPAPUCtrl apu_ctrl;
->      XlnxZynqMPCRF crf;
+> +    qemu_or_irq qspi_irq_orgate;
 >  
 >      char *boot_cpu;
+>      ARMCPU *boot_cpu_ptr;
 > diff --git a/hw/arm/xlnx-zynqmp.c b/hw/arm/xlnx-zynqmp.c
-> index 857d3c9636..21c411cd77 100644
+> index 1c52a575aa..5fbf38c466 100644
 > --- a/hw/arm/xlnx-zynqmp.c
 > +++ b/hw/arm/xlnx-zynqmp.c
-> @@ -64,7 +64,7 @@
->  #define DPDMA_IRQ           116
+> @@ -50,6 +50,7 @@
+>  #define LQSPI_ADDR          0xc0000000
+>  #define QSPI_IRQ            15
+>  #define QSPI_DMA_ADDR       0xff0f0800
+> +#define NUM_QSPI_IRQ_LINES  2
 >  
->  #define APU_ADDR            0xfd5c0000
-> -#define APU_SIZE            0x100
-> +#define APU_IRQ             153
+>  #define DP_ADDR             0xfd4a0000
+>  #define DP_IRQ              113
+> @@ -362,6 +363,8 @@ static void xlnx_zynqmp_init(Object *obj)
+>      }
 >  
->  #define IPI_ADDR            0xFF300000
->  #define IPI_IRQ             64
-> @@ -282,6 +282,27 @@ static void xlnx_zynqmp_create_efuse(XlnxZynqMPState *s, qemu_irq *gic)
->      sysbus_connect_irq(sbd, 0, gic[EFUSE_IRQ]);
+>      object_initialize_child(obj, "qspi-dma", &s->qspi_dma, TYPE_XLNX_CSU_DMA);
+> +    object_initialize_child(obj, "qspi-irq-orgate",
+> +                            &s->qspi_irq_orgate, TYPE_OR_IRQ);
 >  }
 >  
-> +static void xlnx_zynqmp_create_apu_ctrl(XlnxZynqMPState *s, qemu_irq *gic)
-> +{
-> +    SysBusDevice *sbd;
-> +    int i;
-> +
-> +    object_initialize_child(OBJECT(s), "apu-ctrl", &s->apu_ctrl,
-> +                            TYPE_XLNX_ZYNQMP_APU_CTRL);
-> +    sbd = SYS_BUS_DEVICE(&s->apu_ctrl);
-> +
-> +    for (i = 0; i < XLNX_ZYNQMP_NUM_APU_CPUS; i++) {
-> +        g_autofree gchar *name = g_strdup_printf("cpu%d", i);
-> +
-> +        object_property_set_link(OBJECT(&s->apu_ctrl), name,
-> +                                 OBJECT(&s->apu_cpu[i]), &error_abort);
-> +    }
-> +
-> +    sysbus_realize(sbd, &error_fatal);
-> +    sysbus_mmio_map(sbd, 0, APU_ADDR);
-> +    sysbus_connect_irq(sbd, 0, gic[APU_IRQ]);
-> +}
-> +
->  static void xlnx_zynqmp_create_crf(XlnxZynqMPState *s, qemu_irq *gic)
->  {
->      SysBusDevice *sbd;
-> @@ -301,7 +322,6 @@ static void xlnx_zynqmp_create_unimp_mmio(XlnxZynqMPState *s)
->          hwaddr base;
->          hwaddr size;
->      } unimp_areas[ARRAY_SIZE(s->mr_unimp)] = {
-> -        { .name = "apu", APU_ADDR, APU_SIZE },
->          { .name = "serdes", SERDES_ADDR, SERDES_SIZE },
->      };
->      unsigned int nr;
-> @@ -697,6 +717,7 @@ static void xlnx_zynqmp_realize(DeviceState *dev, Error **errp)
+>  static void xlnx_zynqmp_realize(DeviceState *dev, Error **errp)
+> @@ -709,6 +712,11 @@ static void xlnx_zynqmp_realize(DeviceState *dev, Error **errp)
+>                             gic_spi[adma_ch_intr[i]]);
+>      }
 >  
->      xlnx_zynqmp_create_bbram(s, gic_spi);
->      xlnx_zynqmp_create_efuse(s, gic_spi);
-> +    xlnx_zynqmp_create_apu_ctrl(s, gic_spi);
->      xlnx_zynqmp_create_crf(s, gic_spi);
->      xlnx_zynqmp_create_unimp_mmio(s);
+> +    object_property_set_int(OBJECT(&s->qspi_irq_orgate),
+> +                            "num-lines", NUM_QSPI_IRQ_LINES, &error_fatal);
+> +    qdev_realize(DEVICE(&s->qspi_irq_orgate), NULL, &error_fatal);
+> +    qdev_connect_gpio_out(DEVICE(&s->qspi_irq_orgate), 0, gic_spi[QSPI_IRQ]);
+> +
+>      if (!object_property_set_link(OBJECT(&s->qspi_dma), "dma",
+>                                    OBJECT(system_memory), errp)) {
+>          return;
+> @@ -718,7 +726,8 @@ static void xlnx_zynqmp_realize(DeviceState *dev, Error **errp)
+>      }
 >  
+>      sysbus_mmio_map(SYS_BUS_DEVICE(&s->qspi_dma), 0, QSPI_DMA_ADDR);
+> -    sysbus_connect_irq(SYS_BUS_DEVICE(&s->qspi_dma), 0, gic_spi[QSPI_IRQ]);
+> +    sysbus_connect_irq(SYS_BUS_DEVICE(&s->qspi_dma), 0,
+> +                       qdev_get_gpio_in(DEVICE(&s->qspi_irq_orgate), 0));
+>  
+>      if (!object_property_set_link(OBJECT(&s->qspi), "stream-connected-dma",
+>                                    OBJECT(&s->qspi_dma), errp)) {
+> @@ -729,7 +738,8 @@ static void xlnx_zynqmp_realize(DeviceState *dev, Error **errp)
+>      }
+>      sysbus_mmio_map(SYS_BUS_DEVICE(&s->qspi), 0, QSPI_ADDR);
+>      sysbus_mmio_map(SYS_BUS_DEVICE(&s->qspi), 1, LQSPI_ADDR);
+> -    sysbus_connect_irq(SYS_BUS_DEVICE(&s->qspi), 0, gic_spi[QSPI_IRQ]);
+> +    sysbus_connect_irq(SYS_BUS_DEVICE(&s->qspi), 0,
+> +                       qdev_get_gpio_in(DEVICE(&s->qspi_irq_orgate), 1));
+>  
+>      for (i = 0; i < XLNX_ZYNQMP_NUM_QSPI_BUS; i++) {
+>          g_autofree gchar *bus_name = g_strdup_printf("qspi%d", i);
 > -- 
-> 2.25.1
+> 2.11.0
 > 
 
 -- 
