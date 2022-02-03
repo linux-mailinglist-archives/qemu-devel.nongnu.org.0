@@ -2,79 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7FDC64A7EAB
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Feb 2022 05:28:13 +0100 (CET)
-Received: from localhost ([::1]:44214 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 86AC64A7EAC
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Feb 2022 05:28:19 +0100 (CET)
+Received: from localhost ([::1]:44970 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nFTjA-00035t-1e
-	for lists+qemu-devel@lfdr.de; Wed, 02 Feb 2022 23:28:12 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:37126)
+	id 1nFTjG-0003cc-J9
+	for lists+qemu-devel@lfdr.de; Wed, 02 Feb 2022 23:28:18 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:37352)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nFTfa-0007Ge-HC
- for qemu-devel@nongnu.org; Wed, 02 Feb 2022 23:24:30 -0500
-Received: from [2607:f8b0:4864:20::102a] (port=55271
- helo=mail-pj1-x102a.google.com)
+ id 1nFTgx-0000nn-2d
+ for qemu-devel@nongnu.org; Wed, 02 Feb 2022 23:25:55 -0500
+Received: from [2607:f8b0:4864:20::102b] (port=45599
+ helo=mail-pj1-x102b.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nFTfY-0001vv-TL
- for qemu-devel@nongnu.org; Wed, 02 Feb 2022 23:24:30 -0500
-Received: by mail-pj1-x102a.google.com with SMTP id r59so1294068pjg.4
- for <qemu-devel@nongnu.org>; Wed, 02 Feb 2022 20:24:28 -0800 (PST)
+ id 1nFTgr-0002Il-F4
+ for qemu-devel@nongnu.org; Wed, 02 Feb 2022 23:25:54 -0500
+Received: by mail-pj1-x102b.google.com with SMTP id
+ g15-20020a17090a67cf00b001b7d5b6bedaso1660647pjm.4
+ for <qemu-devel@nongnu.org>; Wed, 02 Feb 2022 20:25:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=J3WWggaqs2cslW7md4LjRz2oJZ3NxXGp9dbfD5rxGAs=;
- b=Yl7dIeQzyS9rlV3YVbBmfDtD9St28iS2JcoeNhO9u8uBa+wAb03c3UV2YmcXnwLIrf
- +sCEp/Z1b7RlHEdRC53U/2ABcRQ3jZGVZQYUB0pOM7v4hc9FhT4PPHw4XPTzHxkXt6Km
- 7C2fdyDVHlpUNNebSH7Mdiq8GN+NWS7E1JWH/x70IoPue789soDUBfcR5LkyZU1io7LZ
- EGTQwCCxFfrh3MKE/ff0uyqKP1/UoSLP4OOQj2n4eNJPPUzyT4rNvZeeek+79KA0zMv0
- YiKN2YWPsdS7u/AO6Kz/OMEf19RycnRebYvXzW9C5du1JGpE8SsgRZjQUDNSaowqro/h
- Pi6Q==
+ bh=Ob3c1nMnYia3yR9+nQFKOrstQ812bzQe8rceE0ZQykc=;
+ b=Vua0ym/E34RqXXPTETJA5EzZ84okQIG5dnLgo4lzOUf6P8pvlPBncxpFmodI9tePKS
+ ty3z2kPiOHE8TR6xic9EsSUm4Wvmbejw5KW7BQj5kF9OZWJ9fWmGUBXd85CKrYdArFEt
+ X5tRnw4Wegsk9TJGzRYGgW4S4ENgnPrgJ5SAGXuQLFSKMwqG7aHymQkWEV+QnP5alPKP
+ rqY5mcR3Pkd7AlTjHSglK/BU4fwIqkF3bbuYpdYK1HcOTqXEn3mAMiKLnAkRpAePhgj5
+ ZuO6gPU1b1CddFYeubuNvN0UF0filg7sx90F9cvG8pU8SDibBfraVadyjzKrz9N9SMRQ
+ EA6Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=J3WWggaqs2cslW7md4LjRz2oJZ3NxXGp9dbfD5rxGAs=;
- b=AUT0+wTvayWvAThlx4JBjV9TIAP73Y0VoIcQoSoQ9aAsSyCOut0O4nPc9Pxz9vM4TZ
- i5bwK4ogqgLtZG/Ma4DpLYXM/Yk3NuSWBmYaJgAyPK2ZVE5kn2ZJfbcqqXzCDdpioK2b
- 9U8d1xqQGZ5vnNcSvNcXyckQGWEoCl1ipwQvQuJD9cCoSJeg43vlxNvVWLVSlBM5lw4K
- 1mJfmivb96h1VuE6BwzSyv4z3FpnN6rhkfUyGhBSchM+NEXi3AM0HvegaCH+Uc24u0AV
- C52eeAN3rtp+QXfyjd6DrO8Rg/SHLW0X5fc5Afh8Ai3sGDZnEhBFVeINcNBMh7N4jE+1
- 8UWA==
-X-Gm-Message-State: AOAM5308A/fNOqXGT5wq2WGDzq/+Jduk2jaA39RWTJPg8wJofsHu/G/7
- LRhf2lIa5KJNteoU92bslBMxpg==
-X-Google-Smtp-Source: ABdhPJzI5WkUewWYvBH3G0q7MlyXq++VVVWRuLEEOc+mjiMvXO0BrrzrravyoWQcpa1H2KarIywvpQ==
-X-Received: by 2002:a17:90b:1c06:: with SMTP id
- oc6mr11963410pjb.213.1643862267427; 
- Wed, 02 Feb 2022 20:24:27 -0800 (PST)
+ bh=Ob3c1nMnYia3yR9+nQFKOrstQ812bzQe8rceE0ZQykc=;
+ b=VBQ6MQfB+DVX+xaQqqVw6rSn3/nSlzdv4aWmIVqnjwrNGE5eCGiq0bDBxw4x1Gba7u
+ a3nw8nUjziavyKANy2uu6RjzWLnmmq8FmdUxcZrHjCIVfUQFCm4g2l4D/vnH2jcb8GYe
+ TY73izSuYC5S4RBOmbNb267KujM8HEqtQ085FIUHToeRuPizMe9dLwmw/o+bhrflyfBe
+ IsnFaGypvrminN6gLk7REii+2auwGXtq1bk9/iTlVd87A0RY0gK2ew/QiLDobXRMXcAt
+ vosiyTO3FW4khxJKtUl8zW/bFJO/ntgWiMlOcOOnwFfuHsYUaHTAon5FVSFaXl4S+PuZ
+ LVDg==
+X-Gm-Message-State: AOAM532T9V+fwYdABOpH0jcdE9YESzpW7tfypsgSBtjEpcAvgYfkTwU5
+ TnEXXe10VbYGvmx1SjlRCD4XRQ==
+X-Google-Smtp-Source: ABdhPJx2ZJVK28nRLeYsxFamNktn580WD7oynKI5luq/3S5njWu9hSwqPwQLXgpvVLqN5PolIrClTQ==
+X-Received: by 2002:a17:90b:4b4a:: with SMTP id
+ mi10mr11556844pjb.103.1643862347627; 
+ Wed, 02 Feb 2022 20:25:47 -0800 (PST)
 Received: from ?IPV6:2001:8003:3a49:fd00:801:72a7:386c:deca?
  ([2001:8003:3a49:fd00:801:72a7:386c:deca])
- by smtp.gmail.com with ESMTPSA id ne23sm4643630pjb.57.2022.02.02.20.24.25
+ by smtp.gmail.com with ESMTPSA id kk17sm8996190pjb.21.2022.02.02.20.25.45
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 02 Feb 2022 20:24:27 -0800 (PST)
-Message-ID: <221f3e4b-20f9-a8cd-5999-038f8e68ab1c@linaro.org>
-Date: Thu, 3 Feb 2022 15:24:22 +1100
+ Wed, 02 Feb 2022 20:25:47 -0800 (PST)
+Message-ID: <28b4e3ab-c1a3-ae03-5ddd-cf3ae8fcf49c@linaro.org>
+Date: Thu, 3 Feb 2022 15:25:42 +1100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.5.0
-Subject: Re: [PATCH 11/13] hw/intc/arm_gicv3_its: In MAPC with V=0, don't
- check rdbase field
+Subject: Re: [PATCH 12/13] hw/intc/arm_gicv3_its: Don't allow intid 1023 in
+ MAPI/MAPTI
 Content-Language: en-US
 To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
  qemu-devel@nongnu.org
 References: <20220201193207.2771604-1-peter.maydell@linaro.org>
- <20220201193207.2771604-12-peter.maydell@linaro.org>
+ <20220201193207.2771604-13-peter.maydell@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220201193207.2771604-12-peter.maydell@linaro.org>
+In-Reply-To: <20220201193207.2771604-13-peter.maydell@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::102a
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::102b
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102a;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102a.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102b;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102b.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -101,21 +102,22 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 2/2/22 06:32, Peter Maydell wrote:
-> In the MAPC command, if V=0 this is a request to delete a collection
-> table entry and the rdbase field of the command packet will not be
-> used.  In particular, the specification says that the "UNPREDICTABLE
-> if rdbase is not valid" only applies for V=1.
-> 
-> We were doing a check-and-log-guest-error on rdbase regardless of
-> whether the V bit was set, and also (harmlessly but confusingly)
-> storing the contents of the rdbase field into the updated collection
-> table entry.  Update the code so that if V=0 we don't check or use
-> the rdbase field value.
+> When handling MAPI/MAPTI, we allow the supplied interrupt ID to be
+> either 1023 or something in the valid LPI range.  This is a mistake:
+> only a real valid LPI is allowed.  (The general behaviour of the ITS
+> is that most interrupt ID fields require a value in the LPI range;
+> the exception is that fields specifying a doorbell value, which are
+> all in GICv4 commands, allow also 1023 to mean "no doorbell".)
+> Remove the condition that incorrectly allows 1023 here.
 > 
 > Signed-off-by: Peter Maydell<peter.maydell@linaro.org>
 > ---
->   hw/intc/arm_gicv3_its.c | 24 ++++++++++++------------
->   1 file changed, 12 insertions(+), 12 deletions(-)
+> This one's my fault -- Shashi's original code did the right thing,
+> IIRC. The spec text and pseudocode disagree here, and in code review
+> I backed the wrong horse. Sorry.
+> ---
+>   hw/intc/arm_gicv3_its.c | 3 +--
+>   1 file changed, 1 insertion(+), 2 deletions(-)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
