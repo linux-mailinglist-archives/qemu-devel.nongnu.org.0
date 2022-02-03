@@ -2,93 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C2764A8F5F
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Feb 2022 21:49:48 +0100 (CET)
-Received: from localhost ([::1]:33452 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D6F9D4A8F9F
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Feb 2022 22:12:40 +0100 (CET)
+Received: from localhost ([::1]:37636 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nFj33-0006lO-SN
-	for lists+qemu-devel@lfdr.de; Thu, 03 Feb 2022 15:49:47 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:36026)
+	id 1nFjPC-0004JY-WC
+	for lists+qemu-devel@lfdr.de; Thu, 03 Feb 2022 16:12:40 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:35868)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
- id 1nFiRV-0000XB-DJ; Thu, 03 Feb 2022 15:10:57 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:26014
- helo=mx0a-001b2d01.pphosted.com)
+ id 1nFiQz-0000PG-0Y; Thu, 03 Feb 2022 15:10:26 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:54364)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
- id 1nFiRK-00063h-Va; Thu, 03 Feb 2022 15:10:56 -0500
-Received: from pps.filterd (m0098414.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 213K8FwT000355; 
- Thu, 3 Feb 2022 20:10:28 GMT
+ id 1nFiQu-0005iK-76; Thu, 03 Feb 2022 15:10:24 -0500
+Received: from pps.filterd (m0187473.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 213Hc4WW017455; 
+ Thu, 3 Feb 2022 20:10:09 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
  h=from : to : cc : subject
  : date : message-id : in-reply-to : references : mime-version :
  content-transfer-encoding; s=pp1;
- bh=1FHqH+BS1vZJ5l6Y0RHjt+rDsLlqh0ARWDETnR5fidU=;
- b=HrOuwLKX+4pOW/E2wM25i0N8ERTz4PKoe2I7GuPR+NLoO74+V4xIpOloSYlf2dWdmRxa
- ePUHUpmGFmDQt4XFsqthJIpbydHYBYXkd1gPjpIADmXGrjJl2e+1VjbAyx8UHg9Bqy+0
- Do0227ybVvyhBcZvPynKdKydyHzzgBk4jR/n6UuTuPUmvH1ZLu2cyJbzJ0OQysxQi9/2
- MIIw8QxmWIsrSAPurSYsG3rOKzx4C87DuACJmill1dG1LCr7o5EaifkCrVN4gEPSoK78
- zD8xFMr8ohzJCnCk2BJrpFHRb1YLAjKVl+68bafcOghG3tjgo+cABbBlHL6LQ7NqambO SA== 
+ bh=rCeng81JZsHjQ32x9w4YuFTaAX1+iTPMOfXlolWM4ZA=;
+ b=mTYZPxNKkNCoUIFuxHIxrq0h6PtqsjtLFivsyIex7ZTm6yUOMmb2zSUNSkkbbnv98OWH
+ cBkuZ39kno5twxJKKUKC5CPl3wswO/47/6y8kEcry0n82R/lRuCudnehQnFyPAvCWpDY
+ ufaUj+mwSkYIjCqV2uvg9Nll+tviSAkUWh/5Q0Dk8b3nykWRa3TBBNI7hMkMgDvXrHwI
+ lXZVUEZxBrlbrCQ+AkcjnVM2TzeYd73UlE9BGS9OpMCxFEEboUajW82XFJPiOXcNZTCb
+ 24AYxlVbMP3FjQXHCR4aWcKvCncvLuveSzRoatCsFDIiFFcXuPgYm5+O2L+7EAWmNViw fQ== 
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com with ESMTP id 3e03uqxc1h-1
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3e03fnf2a1-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 03 Feb 2022 20:10:27 +0000
-Received: from m0098414.ppops.net (m0098414.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 213K8WeL001063;
- Thu, 3 Feb 2022 20:10:27 GMT
-Received: from ppma04wdc.us.ibm.com (1a.90.2fa9.ip4.static.sl-reverse.com
- [169.47.144.26])
- by mx0b-001b2d01.pphosted.com with ESMTP id 3e03uqxc19-1
+ Thu, 03 Feb 2022 20:10:08 +0000
+Received: from m0187473.ppops.net (m0187473.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 213JkNxa022173;
+ Thu, 3 Feb 2022 20:10:08 GMT
+Received: from ppma03dal.us.ibm.com (b.bd.3ea9.ip4.static.sl-reverse.com
+ [169.62.189.11])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3e03fnf29m-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 03 Feb 2022 20:10:27 +0000
-Received: from pps.filterd (ppma04wdc.us.ibm.com [127.0.0.1])
- by ppma04wdc.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 213K9BaV024608;
- Thu, 3 Feb 2022 20:10:26 GMT
-Received: from b03cxnp07029.gho.boulder.ibm.com
- (b03cxnp07029.gho.boulder.ibm.com [9.17.130.16])
- by ppma04wdc.us.ibm.com with ESMTP id 3dvw7bvekt-1
+ Thu, 03 Feb 2022 20:10:08 +0000
+Received: from pps.filterd (ppma03dal.us.ibm.com [127.0.0.1])
+ by ppma03dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 213K8Wqe001834;
+ Thu, 3 Feb 2022 20:10:07 GMT
+Received: from b03cxnp07027.gho.boulder.ibm.com
+ (b03cxnp07027.gho.boulder.ibm.com [9.17.130.14])
+ by ppma03dal.us.ibm.com with ESMTP id 3dy0sy6fbw-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 03 Feb 2022 20:10:26 +0000
+ Thu, 03 Feb 2022 20:10:07 +0000
 Received: from b03ledav005.gho.boulder.ibm.com
  (b03ledav005.gho.boulder.ibm.com [9.17.130.236])
- by b03cxnp07029.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 213KAPsN14614946
+ by b03cxnp07027.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 213KA6cK24773038
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 3 Feb 2022 20:10:26 GMT
+ Thu, 3 Feb 2022 20:10:06 GMT
 Received: from b03ledav005.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id DF74FBE04F;
- Thu,  3 Feb 2022 20:10:25 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 4FFAABE054;
+ Thu,  3 Feb 2022 20:10:06 +0000 (GMT)
 Received: from b03ledav005.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 6FC68BE056;
- Thu,  3 Feb 2022 20:10:24 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id E2300BE065;
+ Thu,  3 Feb 2022 20:10:04 +0000 (GMT)
 Received: from farosas.linux.ibm.com.com (unknown [9.211.67.28])
  by b03ledav005.gho.boulder.ibm.com (Postfix) with ESMTP;
- Thu,  3 Feb 2022 20:10:24 +0000 (GMT)
+ Thu,  3 Feb 2022 20:10:04 +0000 (GMT)
 From: Fabiano Rosas <farosas@linux.ibm.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 11/11] target/ppc: 6xx: Set SRRs directly in exception code
-Date: Thu,  3 Feb 2022 17:09:57 -0300
-Message-Id: <20220203200957.1434641-12-farosas@linux.ibm.com>
+Subject: [PATCH 01/11] target/ppc: Merge exception model IDs for 6xx CPUs
+Date: Thu,  3 Feb 2022 17:09:47 -0300
+Message-Id: <20220203200957.1434641-2-farosas@linux.ibm.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220203200957.1434641-1-farosas@linux.ibm.com>
 References: <20220203200957.1434641-1-farosas@linux.ibm.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: 6zB5HmEZYt-gJOCY5LaAfrVEWTquYxUA
-X-Proofpoint-GUID: BVR6Y0bThhymGr5Gav2XBEQUcDhfYqfd
+X-Proofpoint-GUID: PduSVlTVi7qbQDlRaWygJrk9lXCGQT2v
+X-Proofpoint-ORIG-GUID: D4thIr0_HsKfH1LY0CdesXFtoj11VenV
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.816,Hydra:6.0.425,FMLib:17.11.62.513
  definitions=2022-02-03_06,2022-02-03_01,2021-12-02_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0
- lowpriorityscore=0 mlxscore=0 adultscore=0 suspectscore=0 mlxlogscore=682
- impostorscore=0 malwarescore=0 priorityscore=1501 spamscore=0
- clxscore=1015 bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ impostorscore=0 mlxscore=0
+ suspectscore=0 clxscore=1015 phishscore=0 adultscore=0 malwarescore=0
+ bulkscore=0 priorityscore=1501 mlxlogscore=940 spamscore=0
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2201110000 definitions=main-2202030120
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=farosas@linux.ibm.com;
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=farosas@linux.ibm.com;
  helo=mx0a-001b2d01.pphosted.com
 X-Spam_score_int: -19
 X-Spam_score: -2.0
@@ -114,61 +113,143 @@ Cc: danielhb413@gmail.com, qemu-ppc@nongnu.org, clg@kaod.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The 6xx CPUs don't have alternate/hypervisor Save and Restore
-Registers, so we can set SRR0 and SRR1 directly.
+We don't need three separate exception model IDs for the 603, 604 and
+G2.
 
 Signed-off-by: Fabiano Rosas <farosas@linux.ibm.com>
 ---
- target/ppc/excp_helper.c | 13 ++-----------
- 1 file changed, 2 insertions(+), 11 deletions(-)
+ target/ppc/cpu-qom.h     |  8 ++------
+ target/ppc/cpu_init.c    | 18 +++++++++---------
+ target/ppc/excp_helper.c |  5 ++---
+ 3 files changed, 13 insertions(+), 18 deletions(-)
 
+diff --git a/target/ppc/cpu-qom.h b/target/ppc/cpu-qom.h
+index 5d591ff6c5..3880fb3337 100644
+--- a/target/ppc/cpu-qom.h
++++ b/target/ppc/cpu-qom.h
+@@ -88,12 +88,8 @@ enum powerpc_excp_t {
+     POWERPC_EXCP_STD,
+     /* PowerPC 40x exception model      */
+     POWERPC_EXCP_40x,
+-    /* PowerPC 603 exception model      */
+-    POWERPC_EXCP_603,
+-    /* PowerPC G2 exception model       */
+-    POWERPC_EXCP_G2,
+-    /* PowerPC 604 exception model      */
+-    POWERPC_EXCP_604,
++    /* PowerPC 603/604/G2 exception model */
++    POWERPC_EXCP_6xx,
+     /* PowerPC 7x0 exception model      */
+     POWERPC_EXCP_7x0,
+     /* PowerPC 7x5 exception model      */
+diff --git a/target/ppc/cpu_init.c b/target/ppc/cpu_init.c
+index a5e1f5a3b2..95c5831ba6 100644
+--- a/target/ppc/cpu_init.c
++++ b/target/ppc/cpu_init.c
+@@ -2782,7 +2782,7 @@ POWERPC_FAMILY(MPC5xx)(ObjectClass *oc, void *data)
+                     (1ull << MSR_RI) |
+                     (1ull << MSR_LE);
+     pcc->mmu_model = POWERPC_MMU_REAL;
+-    pcc->excp_model = POWERPC_EXCP_603;
++    pcc->excp_model = POWERPC_EXCP_6xx;
+     pcc->bus_model = PPC_FLAGS_INPUT_RCPU;
+     pcc->bfd_mach = bfd_mach_ppc_505;
+     pcc->flags = POWERPC_FLAG_SE | POWERPC_FLAG_BE |
+@@ -2825,7 +2825,7 @@ POWERPC_FAMILY(MPC8xx)(ObjectClass *oc, void *data)
+                     (1ull << MSR_RI) |
+                     (1ull << MSR_LE);
+     pcc->mmu_model = POWERPC_MMU_MPC8xx;
+-    pcc->excp_model = POWERPC_EXCP_603;
++    pcc->excp_model = POWERPC_EXCP_6xx;
+     pcc->bus_model = PPC_FLAGS_INPUT_RCPU;
+     pcc->bfd_mach = bfd_mach_ppc_860;
+     pcc->flags = POWERPC_FLAG_SE | POWERPC_FLAG_BE |
+@@ -2906,7 +2906,7 @@ POWERPC_FAMILY(G2)(ObjectClass *oc, void *data)
+                     (1ull << MSR_DR) |
+                     (1ull << MSR_RI);
+     pcc->mmu_model = POWERPC_MMU_SOFT_6xx;
+-    pcc->excp_model = POWERPC_EXCP_G2;
++    pcc->excp_model = POWERPC_EXCP_6xx;
+     pcc->bus_model = PPC_FLAGS_INPUT_6xx;
+     pcc->bfd_mach = bfd_mach_ppc_ec603e;
+     pcc->flags = POWERPC_FLAG_TGPR | POWERPC_FLAG_SE |
+@@ -2988,7 +2988,7 @@ POWERPC_FAMILY(G2LE)(ObjectClass *oc, void *data)
+                     (1ull << MSR_RI) |
+                     (1ull << MSR_LE);
+     pcc->mmu_model = POWERPC_MMU_SOFT_6xx;
+-    pcc->excp_model = POWERPC_EXCP_G2;
++    pcc->excp_model = POWERPC_EXCP_6xx;
+     pcc->bus_model = PPC_FLAGS_INPUT_6xx;
+     pcc->bfd_mach = bfd_mach_ppc_ec603e;
+     pcc->flags = POWERPC_FLAG_TGPR | POWERPC_FLAG_SE |
+@@ -3243,7 +3243,7 @@ POWERPC_FAMILY(e300)(ObjectClass *oc, void *data)
+                     (1ull << MSR_RI) |
+                     (1ull << MSR_LE);
+     pcc->mmu_model = POWERPC_MMU_SOFT_6xx;
+-    pcc->excp_model = POWERPC_EXCP_603;
++    pcc->excp_model = POWERPC_EXCP_6xx;
+     pcc->bus_model = PPC_FLAGS_INPUT_6xx;
+     pcc->bfd_mach = bfd_mach_ppc_603;
+     pcc->flags = POWERPC_FLAG_TGPR | POWERPC_FLAG_SE |
+@@ -3772,7 +3772,7 @@ POWERPC_FAMILY(603)(ObjectClass *oc, void *data)
+                     (1ull << MSR_RI) |
+                     (1ull << MSR_LE);
+     pcc->mmu_model = POWERPC_MMU_SOFT_6xx;
+-    pcc->excp_model = POWERPC_EXCP_603;
++    pcc->excp_model = POWERPC_EXCP_6xx;
+     pcc->bus_model = PPC_FLAGS_INPUT_6xx;
+     pcc->bfd_mach = bfd_mach_ppc_603;
+     pcc->flags = POWERPC_FLAG_TGPR | POWERPC_FLAG_SE |
+@@ -3811,7 +3811,7 @@ POWERPC_FAMILY(603E)(ObjectClass *oc, void *data)
+                     (1ull << MSR_RI) |
+                     (1ull << MSR_LE);
+     pcc->mmu_model = POWERPC_MMU_SOFT_6xx;
+-    pcc->excp_model = POWERPC_EXCP_603;
++    pcc->excp_model = POWERPC_EXCP_6xx;
+     pcc->bus_model = PPC_FLAGS_INPUT_6xx;
+     pcc->bfd_mach = bfd_mach_ppc_ec603e;
+     pcc->flags = POWERPC_FLAG_TGPR | POWERPC_FLAG_SE |
+@@ -3872,7 +3872,7 @@ POWERPC_FAMILY(604)(ObjectClass *oc, void *data)
+                     (1ull << MSR_RI) |
+                     (1ull << MSR_LE);
+     pcc->mmu_model = POWERPC_MMU_32B;
+-    pcc->excp_model = POWERPC_EXCP_604;
++    pcc->excp_model = POWERPC_EXCP_6xx;
+     pcc->bus_model = PPC_FLAGS_INPUT_6xx;
+     pcc->bfd_mach = bfd_mach_ppc_604;
+     pcc->flags = POWERPC_FLAG_SE | POWERPC_FLAG_BE |
+@@ -3953,7 +3953,7 @@ POWERPC_FAMILY(604E)(ObjectClass *oc, void *data)
+                     (1ull << MSR_RI) |
+                     (1ull << MSR_LE);
+     pcc->mmu_model = POWERPC_MMU_32B;
+-    pcc->excp_model = POWERPC_EXCP_604;
++    pcc->excp_model = POWERPC_EXCP_6xx;
+     pcc->bus_model = PPC_FLAGS_INPUT_6xx;
+     pcc->bfd_mach = bfd_mach_ppc_604;
+     pcc->flags = POWERPC_FLAG_SE | POWERPC_FLAG_BE |
 diff --git a/target/ppc/excp_helper.c b/target/ppc/excp_helper.c
-index 80168355bd..7bdda6f165 100644
+index ae6871a3c0..935f547f25 100644
 --- a/target/ppc/excp_helper.c
 +++ b/target/ppc/excp_helper.c
-@@ -554,7 +554,6 @@ static void powerpc_excp_6xx(PowerPCCPU *cpu, int excp)
-     CPUState *cs = CPU(cpu);
-     CPUPPCState *env = &cpu->env;
-     target_ulong msr, new_msr, vector;
--    int srr0, srr1;
- 
-     if (excp <= POWERPC_EXCP_NONE || excp >= POWERPC_EXCP_NB) {
-         cpu_abort(cs, "Invalid PowerPC exception %d. Aborting\n", excp);
-@@ -573,10 +572,6 @@ static void powerpc_excp_6xx(PowerPCCPU *cpu, int excp)
-      */
-     new_msr = env->msr & ((target_ulong)1 << MSR_ME);
- 
--    /* target registers */
--    srr0 = SPR_SRR0;
--    srr1 = SPR_SRR1;
--
-     /*
-      * Hypervisor emulation assistance interrupt only exists on server
-      * arch 2.05 server or later.
-@@ -727,10 +722,6 @@ static void powerpc_excp_6xx(PowerPCCPU *cpu, int excp)
-             cpu_abort(cs, "Trying to deliver HV exception (MSR) %d with "
-                       "no HV support\n", excp);
-         }
--        if (srr0 == SPR_HSRR0) {
--            cpu_abort(cs, "Trying to deliver HV exception (HSRR) %d with "
--                      "no HV support\n", excp);
--        }
-     }
- 
-     /*
-@@ -742,10 +733,10 @@ static void powerpc_excp_6xx(PowerPCCPU *cpu, int excp)
-     }
- 
-     /* Save PC */
--    env->spr[srr0] = env->nip;
-+    env->spr[SPR_SRR0] = env->nip;
- 
-     /* Save MSR */
--    env->spr[srr1] = msr;
-+    env->spr[SPR_SRR1] = msr;
- 
-     powerpc_set_excp_state(cpu, vector, new_msr);
- }
+@@ -1357,7 +1357,7 @@ static inline void powerpc_excp_legacy(PowerPCCPU *cpu, int excp)
+             srr0 = SPR_BOOKE_CSRR0;
+             srr1 = SPR_BOOKE_CSRR1;
+             break;
+-        case POWERPC_EXCP_G2:
++        case POWERPC_EXCP_6xx:
+             break;
+         default:
+             goto excp_invalid;
+@@ -1645,8 +1645,7 @@ static inline void powerpc_excp_legacy(PowerPCCPU *cpu, int excp)
+     case POWERPC_EXCP_DLTLB:     /* Data load TLB miss                       */
+     case POWERPC_EXCP_DSTLB:     /* Data store TLB miss                      */
+         switch (excp_model) {
+-        case POWERPC_EXCP_603:
+-        case POWERPC_EXCP_G2:
++        case POWERPC_EXCP_6xx:
+             /* Swap temporary saved registers with GPRs */
+             if (!(new_msr & ((target_ulong)1 << MSR_TGPR))) {
+                 new_msr |= (target_ulong)1 << MSR_TGPR;
 -- 
 2.34.1
 
