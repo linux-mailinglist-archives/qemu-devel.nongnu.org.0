@@ -2,39 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A58694A9D0F
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Feb 2022 17:38:21 +0100 (CET)
-Received: from localhost ([::1]:43154 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BD9154A9D1F
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Feb 2022 17:46:23 +0100 (CET)
+Received: from localhost ([::1]:51970 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nG1bI-0007LC-HE
-	for lists+qemu-devel@lfdr.de; Fri, 04 Feb 2022 11:38:20 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:49056)
+	id 1nG1j4-0005Cc-Eo
+	for lists+qemu-devel@lfdr.de; Fri, 04 Feb 2022 11:46:22 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:50750)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1nG1ZJ-0005Ew-JT; Fri, 04 Feb 2022 11:36:19 -0500
-Received: from [2001:738:2001:2001::2001] (port=46691 helo=zero.eik.bme.hu)
+ id 1nG1fd-0003dN-Cy; Fri, 04 Feb 2022 11:42:52 -0500
+Received: from [2001:738:2001:2001::2001] (port=48522 helo=zero.eik.bme.hu)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1nG1ZA-0007ua-TC; Fri, 04 Feb 2022 11:36:13 -0500
+ id 1nG1fY-00010i-T0; Fri, 04 Feb 2022 11:42:48 -0500
 Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 48A0C745708;
- Fri,  4 Feb 2022 17:36:03 +0100 (CET)
+ by localhost (Postfix) with SMTP id 2143D746324;
+ Fri,  4 Feb 2022 17:42:30 +0100 (CET)
 Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 278AB745706; Fri,  4 Feb 2022 17:36:03 +0100 (CET)
+ id 011257457E7; Fri,  4 Feb 2022 17:42:30 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id 25BFE7456E3;
- Fri,  4 Feb 2022 17:36:03 +0100 (CET)
-Date: Fri, 4 Feb 2022 17:36:03 +0100 (CET)
+ by zero.eik.bme.hu (Postfix) with ESMTP id F3BC0745708;
+ Fri,  4 Feb 2022 17:42:29 +0100 (CET)
+Date: Fri, 4 Feb 2022 17:42:29 +0100 (CET)
 From: BALATON Zoltan <balaton@eik.bme.hu>
 To: Fabiano Rosas <farosas@linux.ibm.com>
-Subject: Re: [PATCH 10/11] target/ppc: 6xx: Software TLB exceptions cleanup
-In-Reply-To: <87tude8wio.fsf@linux.ibm.com>
-Message-ID: <6a2ee4e9-54d3-2ace-1a28-8f59ecaf761@eik.bme.hu>
-References: <20220203200957.1434641-1-farosas@linux.ibm.com>
- <20220203200957.1434641-11-farosas@linux.ibm.com>
- <4bb49bac-12a7-b3ae-e719-e257366d15d5@eik.bme.hu>
- <87tude8wio.fsf@linux.ibm.com>
+Subject: Re: [PATCH 03/10] target/ppc: Simplify powerpc_excp_7xx
+In-Reply-To: <87o83m8ve9.fsf@linux.ibm.com>
+Message-ID: <33ad21b4-8b80-151e-eb43-2d497d5fe66@eik.bme.hu>
+References: <20220203224246.1446652-1-farosas@linux.ibm.com>
+ <20220203224246.1446652-4-farosas@linux.ibm.com>
+ <b39f22a-d58f-1faa-3777-66ccbbc7b9dd@eik.bme.hu>
+ <87o83m8ve9.fsf@linux.ibm.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII; format=flowed
 X-Spam-Probability: 8%
@@ -68,74 +68,44 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 On Fri, 4 Feb 2022, Fabiano Rosas wrote:
 > BALATON Zoltan <balaton@eik.bme.hu> writes:
 >> On Thu, 3 Feb 2022, Fabiano Rosas wrote:
->>> This code applies only to the 6xx CPUs, so we can remove the switch
->>> statement.
+>>> Differences from the generic powerpc_excp code:
 >>>
->>> Signed-off-by: Fabiano Rosas <farosas@linux.ibm.com>
->>> ---
->>> target/ppc/excp_helper.c | 31 +++++++++++--------------------
->>> 1 file changed, 11 insertions(+), 20 deletions(-)
->>>
->>> diff --git a/target/ppc/excp_helper.c b/target/ppc/excp_helper.c
->>> index 538905c4dd..80168355bd 100644
->>> --- a/target/ppc/excp_helper.c
->>> +++ b/target/ppc/excp_helper.c
->>> @@ -553,7 +553,6 @@ static void powerpc_excp_6xx(PowerPCCPU *cpu, int excp)
->>> {
->>>     CPUState *cs = CPU(cpu);
->>>     CPUPPCState *env = &cpu->env;
->>> -    int excp_model = env->excp_model;
->>>     target_ulong msr, new_msr, vector;
->>>     int srr0, srr1;
->>>
->>> @@ -695,26 +694,18 @@ static void powerpc_excp_6xx(PowerPCCPU *cpu, int excp)
->>>     case POWERPC_EXCP_IFTLB:     /* Instruction fetch TLB error              */
->>>     case POWERPC_EXCP_DLTLB:     /* Data load TLB miss                       */
->>>     case POWERPC_EXCP_DSTLB:     /* Data store TLB miss                      */
->>> -        switch (excp_model) {
->>> -        case POWERPC_EXCP_6xx:
->>> -            /* Swap temporary saved registers with GPRs */
->>> -            if (!(new_msr & ((target_ulong)1 << MSR_TGPR))) {
->>> -                new_msr |= (target_ulong)1 << MSR_TGPR;
->>> -                hreg_swap_gpr_tgpr(env);
->>> -            }
->>> -            /* fall through */
->>> -        case POWERPC_EXCP_7x5:
->>> -            ppc_excp_debug_sw_tlb(env, excp);
->>> -
->>> -            msr |= env->crf[0] << 28;
->>> -            msr |= env->error_code; /* key, D/I, S/L bits */
->>> -            /* Set way using a LRU mechanism */
->>> -            msr |= ((env->last_way + 1) & (env->nb_ways - 1)) << 17;
->>> -            break;
->>> -        default:
->>> -            cpu_abort(cs, "Invalid TLB miss exception\n");
->>> -            break;
->>> +        /* Swap temporary saved registers with GPRs */
->>> +        if (!(new_msr & ((target_ulong)1 << MSR_TGPR))) {
->>> +            new_msr |= (target_ulong)1 << MSR_TGPR;
->>> +            hreg_swap_gpr_tgpr(env);
+>>> - Not BookE, so some MSR bits are cleared at interrupt dispatch;
+>>> - No MSR_HV;
+>>> - No power saving states;
+>>> - No Hypervisor Emulation Assistance;
 >>
->> I get this one...
->>
->>>         }
->>> +
->>> +        ppc_excp_debug_sw_tlb(env, excp);
->>> +
->>> +        msr |= env->crf[0] << 28;
->>> +        msr |= env->error_code; /* key, D/I, S/L bits */
->>> +        /* Set way using a LRU mechanism */
->>> +        msr |= ((env->last_way + 1) & (env->nb_ways - 1)) << 17;
->>
->> ...but not why this can be moved out from case or if. Is POWERPC_EXCP_7x5
->> the same as POWERPC_EXCP_6xx now?
+>> The pegasos2 can run with -cpu G3 as the real hardware had a processor
+>> card either with a G3 or a G4 so this will break VOF with that. I'm not
+>> sure if it's worth keeping support for this though as long as the default
+>> G4 works because most people would want to use a G4 anyway and those who
+>> want a G3 for some reason could still use a firmware rom image instead but
 >
-> There is a fallthrough in the original code after the first block. So
-> POWERPC_EXCP_6xx does the TGPR work and then falls through to the debug
-> print and SRR1 setting.
+> I'll bring 'sc 1' back then. I shouldn't mix the refactoring with
+> dropping support of things.
+>
+> If you think we can drop support for the pegasos2 on the G3 let me know
+> and I'll send a follow up patch. Or you can send one yourself if you'd
+> like.
 
-Indeed, I've missed that.
+I think the G3 is probably rarely used on pegasos2, G4 being the default 
+and preferred CPU so maybe only needed if somebody wants to test something 
+specifically with G3. That's why I said this is not critical, because 
+using a firmware rom image would still boot with -cpu G3 if sc 1 is 
+removed for G3 and older. We've made sure it still works with G4 so that's 
+fine. However leaving this around for now to keep previous behaviour until 
+VOF is changed to support a different hypercall method is nice to have if 
+it's not much trouble for you so I'm OK with any decision on this.
 
 Regards,
 BALATON Zoltan
+
+>> I wonder if there's another better place where sc 1 could be handled so it
+>> could work for these cpus without needing to change these excp helpers.
+>
+> I spoke to Alexey and the way forward here is to have a MMIO address for
+> VOF to use and remove the sc 1 usage altogether. At least for the CPUs
+> that wouldn't support it otherwise. I created a GitLab issue to track
+> that: https://gitlab.com/qemu-project/qemu/-/issues/859
+
 
