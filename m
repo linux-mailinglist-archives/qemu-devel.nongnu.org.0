@@ -2,89 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E94C4A95A1
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Feb 2022 09:53:35 +0100 (CET)
-Received: from localhost ([::1]:41104 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E7EE14A9583
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Feb 2022 09:49:52 +0100 (CET)
+Received: from localhost ([::1]:37280 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nFuLV-00013s-Ss
-	for lists+qemu-devel@lfdr.de; Fri, 04 Feb 2022 03:53:33 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:41890)
+	id 1nFuHv-0006ve-HQ
+	for lists+qemu-devel@lfdr.de; Fri, 04 Feb 2022 03:49:51 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:43044)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nFtPJ-00048f-53
- for qemu-devel@nongnu.org; Fri, 04 Feb 2022 02:53:25 -0500
-Received: from [2607:f8b0:4864:20::533] (port=40617
- helo=mail-pg1-x533.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nFtPH-000857-A8
- for qemu-devel@nongnu.org; Fri, 04 Feb 2022 02:53:24 -0500
-Received: by mail-pg1-x533.google.com with SMTP id q132so4399893pgq.7
- for <qemu-devel@nongnu.org>; Thu, 03 Feb 2022 23:53:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=4ukdfzSzESdkwcpPCLMr3wbqz7fessYWqmQ0FWlH+kA=;
- b=K25ncgND67XjImL5NefamhGnOcM982ZHOifHxcNt6m047Jp2kmueA4QjYc/LBLRNo0
- ytaSMteQWZUxojNLUumzFZdYi95QbVV48M651LBhnwX/YNGI3FwBxwZW/D6m6X8qhqWm
- 1gj2UQi+5XYuvzCwnpv+IlJYAw4iZpiMLS5HLVF2apoizerjTYZYnJsLczFrWXESeleK
- 6PskXLWvqTTuXXsp4Y6sLXgOvNf0rOkYVt8vSkTVSZ3Sm/twTRwe/DyhT0LIGmvUB05V
- djKj79CF1pjwT5WWsRbRvQGj/KYryDFKQ3jWy2lu+P2KEHzPSI0emmk/ptDmSyhJ1IGC
- 1OcA==
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nFtVu-0007pL-5j
+ for qemu-devel@nongnu.org; Fri, 04 Feb 2022 03:00:17 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:38857)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nFtVq-0000cp-8t
+ for qemu-devel@nongnu.org; Fri, 04 Feb 2022 03:00:12 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1643961609;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=LBC+urVGJNfXL8t8wlwBQ/WeKMjN98PPVM+Fy2AGeWk=;
+ b=epX27M+13zlU2is0vEkvte8l+rq2RfrzigPyALcIIuuPUkl1ETwLK59YDM5WN0gGLaYxn/
+ 1TuTykjUR2Z6IScJVGj0QtMI5B3XFCYV3lddIzMWLFIuhwjOB0yhIKwxmFr3m53+pNZNIt
+ rHKtuU0mcg4SUteAKksFovok1SQRKOA=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-13-mEa-cI0MPKC0YY6oShqQFw-1; Fri, 04 Feb 2022 03:00:03 -0500
+X-MC-Unique: mEa-cI0MPKC0YY6oShqQFw-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ c10-20020adfa30a000000b001d79c73b64bso1655919wrb.1
+ for <qemu-devel@nongnu.org>; Fri, 04 Feb 2022 00:00:03 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:to:cc:references:from:in-reply-to
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=4ukdfzSzESdkwcpPCLMr3wbqz7fessYWqmQ0FWlH+kA=;
- b=o0AM5XBGDBCvtezjz8xM/CYzzvb1aqWVjH8VjlD2a4LiE7+wyyNmuSIkue/FUSg6AQ
- qXkft4rsEg7VY9JaX8Td1OOdG6YyLqsv43SguUZUD+GtqoQbD3uUZkKZP6kbx58qazkF
- fNDDM/TROebr9Vmj64vcBea5zuJobnPG1moXglomdYDJnyx5kkdbhK6yXy7EDb46DMUj
- hCUDxH7ZP49uQhjFVismuLSvmY9fhN+UD5fnj44GazxsN7gDH8YxmSgfkWyUo3HG6P2X
- E6yfIu07W5HrcPCTUF09wSb2rZU88dixGTR9nx4ZfJkxNpFRDkzA4V5XRyjTKuxNiSzS
- JeoA==
-X-Gm-Message-State: AOAM530Nlb3tjYTzwcROW66A/L0tW3893wdCwvUMMxrgv715Y7D/CSog
- viSoTLkJqaetEA3CvMgjdkU=
-X-Google-Smtp-Source: ABdhPJxKg3se9QoKF3wSPAIeOyCFK+kbEelHqP/azPOD6AxzUUlPxH7tlZtTPlIS1Wo9APWUhT+RgQ==
-X-Received: by 2002:a05:6a00:894:: with SMTP id
- q20mr1793136pfj.79.1643961201843; 
- Thu, 03 Feb 2022 23:53:21 -0800 (PST)
-Received: from [192.168.1.33] (154.red-83-50-83.dynamicip.rima-tde.net.
- [83.50.83.154])
- by smtp.gmail.com with ESMTPSA id a1sm932147pgm.83.2022.02.03.23.53.20
+ bh=LBC+urVGJNfXL8t8wlwBQ/WeKMjN98PPVM+Fy2AGeWk=;
+ b=zSFaZjLlHMdJlyA8lBzzUbdtOfSINmXo8UxGqN1hG1uEfAvj7WlreU0xPWNNg8npd9
+ iTqTFMkLReA8v8o3vPGS7P+6NXPLJ/mXk9N8aHWl0oqCdSUm8c+oxSlA6PE9eNenJ0eR
+ OCoys2exAnZPW5dx4eCZ3SUh5YgE+31fiuMI33ICcw+pqfRuroymqtNVGXtiCB6lsfiz
+ 4eR0+TAhLQlEmeiop7Pi9iH3/iTn2H5Qa1fe1K+VBGEUDzpVBTXBj9IjKShhJgCStEab
+ 4E/2K/O8RycfFaQYZ81Dt+ULMghI7Wq72TzCWyy+zPrS3jvTRJY6Tp7hSt06CMckkEvm
+ dnjQ==
+X-Gm-Message-State: AOAM532A5NYUWWFIlKDS9xUCnHlq562903dNPtDySKC/mSRWEBNvgJTF
+ ozVw+teHS7JIE3h5g0SG5v00fhhJynuS9v1pvCKE8hbRqYlwbmzSxn9VljgdpFyYn/QV38IcZgX
+ dDk6DocPQJBGjd0o=
+X-Received: by 2002:adf:f64e:: with SMTP id x14mr1357591wrp.216.1643961602471; 
+ Fri, 04 Feb 2022 00:00:02 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzQMwTKBF2PsakzTMen77VgF+uxSfALpl6tjHQa/KiG/Xa6XTyLIvhHU0oXJ3rna8JGgZQ/Tw==
+X-Received: by 2002:adf:f64e:: with SMTP id x14mr1357571wrp.216.1643961602257; 
+ Fri, 04 Feb 2022 00:00:02 -0800 (PST)
+Received: from [192.168.8.100] (tmo-096-196.customers.d1-online.com.
+ [80.187.96.196])
+ by smtp.gmail.com with ESMTPSA id m28sm10004517wms.34.2022.02.04.00.00.01
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 03 Feb 2022 23:53:21 -0800 (PST)
-Message-ID: <b55d483b-5fbe-4eb9-4c8a-660b21f57aae@amsat.org>
-Date: Fri, 4 Feb 2022 08:53:18 +0100
+ Fri, 04 Feb 2022 00:00:01 -0800 (PST)
+Message-ID: <5cec360f-f2e6-8138-d53c-7834aec10870@redhat.com>
+Date: Fri, 4 Feb 2022 09:00:00 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.5.1
-Subject: Re: [PATCH 03/10] hw/s390x/virtio: Add missing 'cpu.h' include
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH v2 02/21] accel/meson: Only build hw virtualization with
+ system emulation
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org
+References: <20220203191814.45023-1-f4bug@amsat.org>
+ <20220203191814.45023-3-f4bug@amsat.org>
+ <f94843c9-c8f0-d78d-5e6e-a289d8bcb6a8@redhat.com>
+ <bf89f8c1-5f22-4941-0266-5f58b1ff93c9@amsat.org>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <bf89f8c1-5f22-4941-0266-5f58b1ff93c9@amsat.org>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Language: en-US
-To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>
-References: <20220203193803.45671-1-f4bug@amsat.org>
- <20220203193803.45671-4-f4bug@amsat.org>
- <a08ea7e0-6203-39d9-29b3-3c6684b4ddae@redhat.com>
-In-Reply-To: <a08ea7e0-6203-39d9-29b3-3c6684b4ddae@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::533
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::533;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pg1-x533.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
- PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.092,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -97,39 +103,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
-On 4/2/22 08:50, Thomas Huth wrote:
-> On 03/02/2022 20.37, Philippe Mathieu-Daudé wrote:
->> CPUS390XState is declared in "cpu.h".
-> 
-> And how is this related to your qemu/log.h refactoring / why is this 
-> patch needed now?
-
-Hmm I might have been too overzealous when splitting in 3 parts,
-this belong to the 3rd part then.
-
->> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
->> ---
->>   hw/s390x/s390-virtio-hcall.h | 1 +
->>   1 file changed, 1 insertion(+)
+On 04/02/2022 08.51, Philippe Mathieu-Daudé wrote:
+> On 4/2/22 08:37, Thomas Huth wrote:
+>> On 03/02/2022 20.17, Philippe Mathieu-Daudé wrote:
+>>> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+>>> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+>>> ---
+>>>   accel/meson.build | 12 +++++++-----
+>>>   1 file changed, 7 insertions(+), 5 deletions(-)
+>>>
+>>> diff --git a/accel/meson.build b/accel/meson.build
+>>> index dfd808d2c8..b9a963cf80 100644
+>>> --- a/accel/meson.build
+>>> +++ b/accel/meson.build
+>>> @@ -2,12 +2,14 @@ specific_ss.add(files('accel-common.c'))
+>>>   softmmu_ss.add(files('accel-softmmu.c'))
+>>>   user_ss.add(files('accel-user.c'))
+>>> -subdir('hvf')
+>>> -subdir('qtest')
+>>> -subdir('kvm')
+>>>   subdir('tcg')
+>>> -subdir('xen')
+>>> -subdir('stubs')
+>>> +if have_system
+>>> +  subdir('hvf')
+>>> +  subdir('qtest')
+>>> +  subdir('kvm')
+>>> +  subdir('xen')
+>>> +  subdir('stubs')
 >>
->> diff --git a/hw/s390x/s390-virtio-hcall.h b/hw/s390x/s390-virtio-hcall.h
->> index 9800c4b351..9773ed8a21 100644
->> --- a/hw/s390x/s390-virtio-hcall.h
->> +++ b/hw/s390x/s390-virtio-hcall.h
->> @@ -13,6 +13,7 @@
->>   #define HW_S390_VIRTIO_HCALL_H
->>   #include "standard-headers/asm-s390/virtio-ccw.h"
->> +#include "cpu.h"
->>   /* The only thing that we need from the old kvm_virtio.h file */
->>   #define KVM_S390_VIRTIO_NOTIFY 0
+>> Doesn't this render your first patch useless?
 > 
-> Anyway:
-> Acked-by: Thomas Huth <thuth@redhat.com>
-> 
+> No, we don't want to build non-TCG stubs in user-mode ;)
+
+Ah, well, looking at this twice, I think it's ok, indeed. I was confused by 
+the fact that "have_system" and the "CONFIG_SOFTMMU" from patch 01 can have 
+two different meanings if the QEMU build has been configured with both, 
+softmmu and user targets. So never mind, please!
+
+  Thomas
 
 
