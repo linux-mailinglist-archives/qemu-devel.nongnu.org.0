@@ -2,92 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05EBD4A992B
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Feb 2022 13:19:44 +0100 (CET)
-Received: from localhost ([::1]:60596 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F1864A992C
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Feb 2022 13:20:16 +0100 (CET)
+Received: from localhost ([::1]:33474 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nFxZ0-0002mo-Io
-	for lists+qemu-devel@lfdr.de; Fri, 04 Feb 2022 07:19:42 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:39170)
+	id 1nFxZW-0003d6-6C
+	for lists+qemu-devel@lfdr.de; Fri, 04 Feb 2022 07:20:14 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:39218)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1nFxRY-0000Hh-Oo
- for qemu-devel@nongnu.org; Fri, 04 Feb 2022 07:12:00 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:58710)
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1nFxRn-0000hu-Pe; Fri, 04 Feb 2022 07:12:15 -0500
+Received: from kylie.crudebyte.com ([5.189.157.229]:40351)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1nFxRT-00012q-8i
- for qemu-devel@nongnu.org; Fri, 04 Feb 2022 07:11:58 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1643976713;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=aMphTDq4MEPDWkLP5yY3WjgDY5AKriOFuutLNmeuDlc=;
- b=F5kqq/rtsRjyqZPVH3MrGPvfKtX1S6mmLmLYaGw7KDi3HSbD1ml72RnGpMSfGBQ9tmvgS+
- Y5WhxGj8sOtKr74MCw7Q/hlEYDlLH9c1Di4bzvAIcY8TAieTs/LBCfzGSNJcaxRzQKRy10
- PjofVwMfg06Zyvb8LVX2oyDmW8q4dl8=
-Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
- [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-403-KOU03AjRNtWdEhLQAC-6Dg-1; Fri, 04 Feb 2022 07:11:53 -0500
-X-MC-Unique: KOU03AjRNtWdEhLQAC-6Dg-1
-Received: by mail-ej1-f72.google.com with SMTP id
- o4-20020a170906768400b006a981625756so2496287ejm.0
- for <qemu-devel@nongnu.org>; Fri, 04 Feb 2022 04:11:52 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=aMphTDq4MEPDWkLP5yY3WjgDY5AKriOFuutLNmeuDlc=;
- b=NpobkZ11Bi7kI9tWGT7tQSvJmoWOdgI7qvMWZ9REhItag7gMa82nf6Y+6pcSodF39R
- hNXZSEFWUtdDv3N+BGc3B4k/+s23X9iyiRbaui3cvDe+vrgvurYHMn4imLQOFuHKnjkM
- +d295Eg+21jATwqDzJ+e9hB5JRRaGEYXaxD87Ys9sz22EpyasqBMNfcz1WZCfXF8u/s9
- PjcrnUWvbON+cvPC8h099784e9S95/6K0nZTO5P4ls2FW1vTTHk2oU1kvwnT9GjwEP1+
- /AwfdOJ3n0EEdVLMhtrVoblfOeJtVu7+kkg6eKnziRGSGSu7UCLv7kWmmnEARNhLQD7V
- ezWQ==
-X-Gm-Message-State: AOAM531KC+cMwhqOHLKUDOpsPiqJWudCxS1avmWinGDxpWw5HoLfv2Id
- wsBMa3fZz0bU0k3VLexb5WbGG91t3C5VbiOjrSDHpqa/4kh3zjn4ja/467Z+v2+PqthCQgN8BTo
- FBxq+PpkT7LfMK3gE9F7PhG6wDVklCa7si+rEJ669+LSqsDqAK9z0Q0ssR4LKmUVv/Ys=
-X-Received: by 2002:a17:906:9742:: with SMTP id
- o2mr2205575ejy.126.1643976711510; 
- Fri, 04 Feb 2022 04:11:51 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyj57lxOBwnPU6oEl8MujZNNZfr0Z6U3F893A+VpqxURKTUHW4VI7CzxqyLTu8dEybHwMDwIQ==
-X-Received: by 2002:a17:906:9742:: with SMTP id
- o2mr2205555ejy.126.1643976711266; 
- Fri, 04 Feb 2022 04:11:51 -0800 (PST)
-Received: from localhost (nat-pool-brq-t.redhat.com. [213.175.37.10])
- by smtp.gmail.com with ESMTPSA id cz6sm783330edb.4.2022.02.04.04.11.50
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 04 Feb 2022 04:11:50 -0800 (PST)
-Date: Fri, 4 Feb 2022 13:11:49 +0100
-From: Igor Mammedov <imammedo@redhat.com>
-To: Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= via <qemu-devel@nongnu.org>
-Subject: Re: [PATCH 04/10] hw/acpi/memory_hotplug: Remove unused
- 'hw/acpi/pc-hotplug.h' header
-Message-ID: <20220204131149.6c3f57d3@redhat.com>
-In-Reply-To: <20220203193803.45671-5-f4bug@amsat.org>
-References: <20220203193803.45671-1-f4bug@amsat.org>
- <20220203193803.45671-5-f4bug@amsat.org>
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.31; x86_64-redhat-linux-gnu)
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1nFxRl-000154-Vm; Fri, 04 Feb 2022 07:12:15 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
+ MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+ Content-ID:Content-Description;
+ bh=5XJF7H95m3k/1l831LRrvakROKBbfOfspmCpz5kcxo0=; b=AEWJYhOvZFcYrw7xxbevR9TQiJ
+ SJ7jWzap54dBQBbBJx+CZl81cVNnHoj0QjrmKbrQ4Q8JPs6YRxKMmHGjFeTHFNCYVO6ueL4rvongm
+ iO+n4y57iKkkY1DMF0umxNm6hpe1sXcvS6EpB+/jvImoPea0ifZBzdI576GR240XVlCHWrVJW+5I9
+ YQAyE54RZSYOoEd6wlsyzAAuFOHJ8EIu8qHcnA0n7u7WBcg/grjsFXoPaoe/P02zoAiNRL8oZJSCe
+ KEppzTjMY4a9StMSrMxY5nkpQVVv6JsGQ5IBlJl0L428pRknab7VStBsnBYonRjuFFifJ/fLWJfhw
+ G4mWmvaP+ZKdCHtYNiE/US+lJhl1C8uPXhJiCLOQKDT1EFLpFC36LUn+U2n1PizJhjjOgYvxVREed
+ 4YUAlmuSksEFpjcfTpatt8m0XHnRWYARhtNhQmXRvyNd4tUoRL2aB2U7jqiB3Lp7aHzUaeqGCUURl
+ /w0jWL232ZFAV20vBGEtru5cpSE0aLrNCzDfqHyY9IbJx3NI9QoLX1Q+QcmfVFUefc1O9+qbagZsF
+ QSk4T62Z0Uchp/9FLQgdmLFKdMInVSrLBI2StSuonAR5fUDPU3CNqYQ57lgkFwL59KVEUwJQmzEJh
+ OsunulO4U9N8zPyXqiiZh6LFql5WElhmIJikDHDKw=;
+From: Christian Schoenebeck <qemu_oss@crudebyte.com>
+To: qemu-devel@nongnu.org
+Cc: "Dmitry V. Levin" <ldv@altlinux.org>, Vitaly Chikunov <vt@altlinux.org>,
+ qemu-stable@nongnu.org, Greg Kurz <groug@kaod.org>
+Subject: Re: [PATCH v2] 9pfs: Fix segfault in do_readdir_many caused by struct
+ dirent overread
+Date: Fri, 04 Feb 2022 13:12:10 +0100
+Message-ID: <2627488.0S70g7mNYN@silver>
+In-Reply-To: <20220204002237.GD7780@altlinux.org>
+References: <20220128223326.927132-1-vt@altlinux.org>
+ <20220204001516.n5ma26x3wxsoixeb@altlinux.org>
+ <20220204002237.GD7780@altlinux.org>
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=imammedo@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
+Received-SPF: pass client-ip=5.189.157.229;
+ envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.092,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -100,34 +66,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu,  3 Feb 2022 20:37:57 +0100
-Philippe Mathieu-Daud=C3=A9 via <qemu-devel@nongnu.org> wrote:
+On Freitag, 4. Februar 2022 01:22:38 CET Dmitry V. Levin wrote:
+> On Fri, Feb 04, 2022 at 03:15:16AM +0300, Vitaly Chikunov wrote:
+> [...]
+> 
+> > Yes but this will cause another abort() call. I am thinking about v3 fix
+> > 
+> > like this:
+> >   struct dirent *
+> >   qemu_dirent_dup(struct dirent *dent)
+> >   {
+> >   
+> >       size_t sz = 0;
+> >   
+> >   #if defined _DIRENT_HAVE_D_RECLEN
+> >   
+> >       /* Avoid use of strlen() if there's d_reclen. */
+> >       sz = dent->d_reclen;
+> >   
+> >   #endif
+> >   
+> >       if (sz == 0) {
+> >       
+> >           /* Fallback to the most portable way. */
+> >           sz = offsetof(struct dirent, d_name) +
+> > 			
+> > 			strlen(dent->d_name) + 1;
+> > 			
+> >       }
+> >       struct dirent *dst = g_malloc(sz);
+> >       return memcpy(dst, dent, sz);
+> >   
+> >   }
+> > 
+> > Thus it will use strlen for simulated dirents and d_reclen for real ones
+> 
+> Makes sense.
 
-> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+Then maybe consider to leave your reviewed-by tag on today's v3 Dmitry, 
+thanks! :)
 
-Reviewed-by: Igor Mammedov <imammedo@redhat.com>
+Best regards,
+Christian Schoenebeck
 
-> ---
->  hw/acpi/memory_hotplug.c | 1 -
->  1 file changed, 1 deletion(-)
->=20
-> diff --git a/hw/acpi/memory_hotplug.c b/hw/acpi/memory_hotplug.c
-> index a581a2183b..0a7e89a13e 100644
-> --- a/hw/acpi/memory_hotplug.c
-> +++ b/hw/acpi/memory_hotplug.c
-> @@ -1,6 +1,5 @@
->  #include "qemu/osdep.h"
->  #include "hw/acpi/memory_hotplug.h"
-> -#include "hw/acpi/pc-hotplug.h"
->  #include "hw/mem/pc-dimm.h"
->  #include "hw/qdev-core.h"
->  #include "migration/vmstate.h"
 
 
