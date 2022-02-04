@@ -2,89 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 168314AA10B
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Feb 2022 21:17:00 +0100 (CET)
-Received: from localhost ([::1]:58574 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 877534AA0F0
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Feb 2022 21:09:34 +0100 (CET)
+Received: from localhost ([::1]:47500 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nG50s-0001Az-2x
-	for lists+qemu-devel@lfdr.de; Fri, 04 Feb 2022 15:16:58 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:33180)
+	id 1nG4th-00020C-Kt
+	for lists+qemu-devel@lfdr.de; Fri, 04 Feb 2022 15:09:33 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:33952)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nG4JC-00025X-AI; Fri, 04 Feb 2022 14:31:50 -0500
-Received: from [2607:f8b0:4864:20::1033] (port=44851
- helo=mail-pj1-x1033.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nG4J9-0003L8-JK; Fri, 04 Feb 2022 14:31:49 -0500
-Received: by mail-pj1-x1033.google.com with SMTP id
- y5-20020a17090aca8500b001b8127e3d3aso7008814pjt.3; 
- Fri, 04 Feb 2022 11:31:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=OS5/kgYKyZY8GoF8mnP+AEa4hVuol3XDlbw2YnI7xjY=;
- b=ocsJFp8u1j3bV3lCbBUcrIelBJiafYeEK0a6EAYm1rFmZz4wRG9ACO7il5cCuB96WW
- GZuPwymj1ND9pZGh53ev/K/Mb6ZstrFazDH5cYSv2F3VXv1+aH3TKJ6volucE4Dw83RY
- +VhX9VxBF1CHgeb8DW1qfyrnsCgkBghBCNv+9bTUTSPy5QbEIE6LudpEXHATcxWQiqsv
- 8XJeoX3fsSWguI6dkupLAPpq76SpfpLoaVtq0Otk2wHGMPgwy01XdVwxnYTP8CPvNYoO
- JfQtJVqeQWylgxxd7U9S+f0TC1k2rTf0Ahn0Zr/mCbTsOTKJPZGpdZvevvkD22wcXFDn
- 27sw==
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nG4M6-0005Yg-Oh
+ for qemu-devel@nongnu.org; Fri, 04 Feb 2022 14:34:51 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:42872)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nG4M3-0003eu-OP
+ for qemu-devel@nongnu.org; Fri, 04 Feb 2022 14:34:49 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1644003277;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=u+tCEtA6w3SRY5er+xrGrscKNfSldiA1o94TVdtexkI=;
+ b=Vf3HkhQwRWODX4vU3hKHaCrm0JpE/RCCSmO5Q2xx/OyAFKUlYbtgOTDWxdKE2oNLpCqIJb
+ xgpxcg4Vn3v7LY36RvwX+7Z0bfpGRVQsei7LPcqFDA4tbfc236lYyI72OOFB8w1vIZH+1j
+ itC2CMcWd78eevFWo9SK22TA2XgzOXE=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-621-CpTLjkG9N5il0TsI-FLVnw-1; Fri, 04 Feb 2022 14:34:35 -0500
+X-MC-Unique: CpTLjkG9N5il0TsI-FLVnw-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ 203-20020a1c02d4000000b0037b9ff5678cso738997wmc.4
+ for <qemu-devel@nongnu.org>; Fri, 04 Feb 2022 11:34:34 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=OS5/kgYKyZY8GoF8mnP+AEa4hVuol3XDlbw2YnI7xjY=;
- b=PwVeYhnLgYy10b+tV2WavPN1lWms/nlfd6bX0E7A/MoamAAl8tXrAPkgqkYIVTn8Bq
- 2207G9Vp1L14svtktjmwlUQpLpIXW8ZoEYzeZzQ9FYAlX3/5vZcwR8c7VHbdZpJWqa0N
- uBiseeco7v1KvM2SBIixmCCxTJYUVK5Bn0LCefYPrzYdEYmLg7SEW0lRVKD9pFUZkWG0
- s0zf8yVBORyyh+5WnHtdfTW/EvBe9aiR0lIk8tMFD6Y7zl/tynOEXd7KHHpYMCyxP10l
- VbzZY+jPnHFslR3YCKiTnZv2hWYML4Xfl/P6rHHEYHwM9/dhQkKeeNP2F+eDLAbQEPFL
- Xi6Q==
-X-Gm-Message-State: AOAM531Q5yAPv/xxjwMhfjjmb/TRcsWy3KD0RTev2PibpD8mW/dhMmz7
- fHrprZRCD7dW7EV9aajso1li4hKPvh8=
-X-Google-Smtp-Source: ABdhPJwsswKi58OMO9zB1uzpAIsCU0MUFlRmZEXK5xNx1PHQWbdIxprGDyuohKNPwL+sOTKKZuzARw==
-X-Received: by 2002:a17:90b:3889:: with SMTP id
- mu9mr4851301pjb.207.1644003105807; 
- Fri, 04 Feb 2022 11:31:45 -0800 (PST)
-Received: from [192.168.1.33] (154.red-83-50-83.dynamicip.rima-tde.net.
- [83.50.83.154])
- by smtp.gmail.com with ESMTPSA id n2sm2261689pgf.74.2022.02.04.11.31.43
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 04 Feb 2022 11:31:45 -0800 (PST)
-Message-ID: <12419d2c-25dd-1f00-2d67-9edcf64e1340@amsat.org>
-Date: Fri, 4 Feb 2022 20:31:41 +0100
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=u+tCEtA6w3SRY5er+xrGrscKNfSldiA1o94TVdtexkI=;
+ b=jODEYJLwrGSrP5k4o41W+B1IPOiVeMow015cYS1DKqeMVEmIlmFUtradlExoP+0PvK
+ oR4I8oPOALItBzMOBvUYyGVsiVq5AoCyErvwFxhjD8pjigh9uim3PaicP7gVeRiov8hs
+ mRVFwXvPCsOqz8ghQRasM+dUiQ/1rl0PMyhBMTqS7rxJ9eJAybrpZXLbZnMlSWHUVZxP
+ zJPEH/bCEKE/bkiK91qaVzprGz/pmNkm8XduzuN1CGnOsi3lMxNQotSuOW4YeeIHHPeL
+ BNrL9X/IELjcJBd87d+vfOQDub8F4Cz+jSyYBRqWmU+af1Uzukl4sX0tFkkqamOKpjlR
+ 145w==
+X-Gm-Message-State: AOAM530MZlnRUgMQGGzJdLPbjO2fQGkGpfoyVJn+pwpgh19HSkXqr+Z/
+ B+w7sqi13jbTRDM8PYKYjyULiouyCr480o1psOjowT+CGxBP3nky+Rq+reAcVY7vSjYJ8WvDlWl
+ mxbg3Dh19vlUWiL4=
+X-Received: by 2002:a1c:ed12:: with SMTP id l18mr3536982wmh.93.1644003273983; 
+ Fri, 04 Feb 2022 11:34:33 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzed6OnCr0aPeRykGxN0jxkXV9Wcn42qpQithZFYPZwlt5p5du9MA0j42q6ZcwXHnjQ0aLV0g==
+X-Received: by 2002:a1c:ed12:: with SMTP id l18mr3536966wmh.93.1644003273724; 
+ Fri, 04 Feb 2022 11:34:33 -0800 (PST)
+Received: from redhat.com ([2a10:8005:331d:0:5c51:c095:613e:277c])
+ by smtp.gmail.com with ESMTPSA id i19sm12623883wmq.45.2022.02.04.11.34.31
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 04 Feb 2022 11:34:32 -0800 (PST)
+Date: Fri, 4 Feb 2022 14:34:29 -0500
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Eric Auger <eric.auger@redhat.com>
+Subject: Re: [PATCH v2 4/6] tests/qtest/vhost-user-blk-test: Setup MSIx to
+ avoid error on aarch64
+Message-ID: <20220204143345-mutt-send-email-mst@kernel.org>
+References: <20220118203833.316741-1-eric.auger@redhat.com>
+ <20220118203833.316741-5-eric.auger@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.5.1
-Subject: Re: [PATCH v3] 9pfs: Fix segfault in do_readdir_many caused by struct
- dirent overread
-Content-Language: en-US
-To: Christian Schoenebeck <qemu_oss@crudebyte.com>
-Cc: "Dmitry V. Levin" <ldv@altlinux.org>, Vitaly Chikunov <vt@altlinux.org>,
- Greg Kurz <groug@kaod.org>, qemu-devel@nongnu.org, qemu-stable@nongnu.org
-References: <20220204050609.15510-1-vt@altlinux.org>
- <20220204155059.GA18407@altlinux.org>
- <5c9d8b95-30ec-0801-ab26-51f40958b357@amsat.org> <3780614.DPuHsZYPev@silver>
-In-Reply-To: <3780614.DPuHsZYPev@silver>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+In-Reply-To: <20220118203833.316741-5-eric.auger@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1033
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1033;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pj1-x1033.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
- PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.092,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -97,50 +97,102 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: lvivier@redhat.com, peter.maydell@linaro.org, thuth@redhat.com,
+ jean-philippe@linaro.org, eesposit@redhat.com, qemu-devel@nongnu.org,
+ qemu-arm@nongnu.org, clg@kaod.org, pbonzini@redhat.com,
+ david@gibson.dropbear.id.au, eric.auger.pro@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
-On 4/2/22 17:04, Christian Schoenebeck wrote:
-> On Freitag, 4. Februar 2022 16:54:12 CET Philippe Mathieu-Daudé wrote:
->> On 4/2/22 16:50, Dmitry V. Levin wrote:
->>> On Fri, Feb 04, 2022 at 06:32:07PM +0300, Vitaly Chikunov wrote:
->>> [...]
->>>
->>>>> struct dirent *
->>>>> qemu_dirent_dup(struct dirent *dent)
->>>>> {
->>>>>
->>>>>       size_t sz = offsetof(struct dirent, d_name) + _D_EXACT_NAMLEN(dent)
->>>>>       + 1;
->>>>
->>>> But d_namlen is not populated by synth_direntry, so this will lead to
->>>> a bug too. Idea is that qemu_dirent_dup handles real dirents and
->>>> simulated (underpopulated) dirents.
->>>>
->>>> Also Linux does not have d_namlen AFAIK, thus this code will not provide
->>>> any speed up in most cases (and always fallback to strlen), unlike if we
->>>> use d_reclen.
->>>>
->>>> Also, I m not sure if _D_EXACT_NAMLEN is defined on all systems, so this
->>>> needs ifdefs too.
->>>
->>> Yes, _D_EXACT_NAMLEN() is a GNU extension, it was introduced in glibc
->>> back in 1996 but some popular libcs available for Linux do not provide
->>> this macro.
->>
->> Can't we define _D_EXACT_NAMLEN() if not available?
+On Tue, Jan 18, 2022 at 09:38:31PM +0100, Eric Auger wrote:
+> When run on ARM, basic and indirect tests currently fail with the
+> following error:
 > 
-> It is not that trivial.
+> ERROR:../tests/qtest/libqos/virtio.c:224:qvirtio_wait_used_elem:
+> assertion failed (got_desc_idx == desc_idx): (50331648 == 0)
+> Bail out! ERROR:../tests/qtest/libqos/virtio.c:224: qvirtio_wait_used_elem:
+> assertion failed (got_desc_idx == desc_idx): (50331648 == 0)
 > 
-> With recent macOS patch set in mind: macOS does not have any of these macros
-> either. It does have d_namlen and d_reclen though. Keep in mind though that
-> macOS also has d_seekoff which is almost always zero though.
+> Setting up and enabling MSIX fixes the issue.
 > 
-> So please, don't blindly define something, test it! On doubt I stick with
-> Vitaly's solution, because it just works^TM.
+> Also remove the useless libqos/libqos-pc.h header inclusion.
+> 
+> Signed-off-by: Eric Auger <eric.auger@redhat.com>
+> Acked-by: Thomas Huth <thuth@redhat.com>
 
-Note I haven't NAck'ed this approach, I am simply looking at a better
-alternative if possible.
+Seems to cause a make check failure:
+
+▶  71/713 ERROR:../tests/qtest/libqos/pci.c:232:qpci_device_enable: assertion failed (cmd & PCI_COMMAND_IO == PCI_COMMAND_IO): (0x00000000
++== 0x00000001) ERROR
+^CWARNING: Received SIGTERM, exiting
+
+
+
+> ---
+>  tests/qtest/vhost-user-blk-test.c | 16 +++++++++++++++-
+>  1 file changed, 15 insertions(+), 1 deletion(-)
+> 
+> diff --git a/tests/qtest/vhost-user-blk-test.c b/tests/qtest/vhost-user-blk-test.c
+> index 1316aae0fa..2606428df3 100644
+> --- a/tests/qtest/vhost-user-blk-test.c
+> +++ b/tests/qtest/vhost-user-blk-test.c
+> @@ -19,7 +19,6 @@
+>  #include "standard-headers/linux/virtio_pci.h"
+>  #include "libqos/qgraph.h"
+>  #include "libqos/vhost-user-blk.h"
+> -#include "libqos/libqos-pc.h"
+>  
+>  #define TEST_IMAGE_SIZE         (64 * 1024 * 1024)
+>  #define QVIRTIO_BLK_TIMEOUT_US  (30 * 1000 * 1000)
+> @@ -224,6 +223,10 @@ static QVirtQueue *test_basic(QVirtioDevice *dev, QGuestAllocator *alloc)
+>      char *data;
+>      QTestState *qts = global_qtest;
+>      QVirtQueue *vq;
+> +    QVirtioPCIDevice *vpcidev = container_of(dev, QVirtioPCIDevice, vdev);
+> +
+> +    qpci_msix_enable(vpcidev->pdev);
+> +    qvirtio_pci_set_msix_configuration_vector(vpcidev, alloc, 0);
+>  
+>      features = qvirtio_get_features(dev);
+>      features = features & ~(QVIRTIO_F_BAD_FEATURE |
+> @@ -236,9 +239,12 @@ static QVirtQueue *test_basic(QVirtioDevice *dev, QGuestAllocator *alloc)
+>      g_assert_cmpint(capacity, ==, TEST_IMAGE_SIZE / 512);
+>  
+>      vq = qvirtqueue_setup(dev, alloc, 0);
+> +    qvirtqueue_pci_msix_setup(vpcidev, (QVirtQueuePCI *)vq, alloc, 1);
+>  
+>      qvirtio_set_driver_ok(dev);
+>  
+> +    qvirtio_wait_queue_isr(qts, dev, vq, QVIRTIO_BLK_TIMEOUT_US);
+> +
+>      /* Write and read with 3 descriptor layout */
+>      /* Write request */
+>      req.type = VIRTIO_BLK_T_OUT;
+> @@ -468,6 +474,10 @@ static void indirect(void *obj, void *u_data, QGuestAllocator *t_alloc)
+>      uint8_t status;
+>      char *data;
+>      QTestState *qts = global_qtest;
+> +    QVirtioPCIDevice *vpcidev = container_of(dev, QVirtioPCIDevice, vdev);
+> +
+> +    qpci_msix_enable(vpcidev->pdev);
+> +    qvirtio_pci_set_msix_configuration_vector(vpcidev, t_alloc, 0);
+>  
+>      features = qvirtio_get_features(dev);
+>      g_assert_cmphex(features & (1u << VIRTIO_RING_F_INDIRECT_DESC), !=, 0);
+> @@ -480,8 +490,12 @@ static void indirect(void *obj, void *u_data, QGuestAllocator *t_alloc)
+>      g_assert_cmpint(capacity, ==, TEST_IMAGE_SIZE / 512);
+>  
+>      vq = qvirtqueue_setup(dev, t_alloc, 0);
+> +    qvirtqueue_pci_msix_setup(vpcidev, (QVirtQueuePCI *)vq, t_alloc, 1);
+> +
+>      qvirtio_set_driver_ok(dev);
+>  
+> +    qvirtio_wait_queue_isr(qts, dev, vq, QVIRTIO_BLK_TIMEOUT_US);
+> +
+>      /* Write request */
+>      req.type = VIRTIO_BLK_T_OUT;
+>      req.ioprio = 1;
+> -- 
+> 2.26.3
+
 
