@@ -2,76 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41C844AA19A
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Feb 2022 22:09:20 +0100 (CET)
-Received: from localhost ([::1]:47378 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E89CF4AA191
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Feb 2022 22:07:03 +0100 (CET)
+Received: from localhost ([::1]:41554 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nG5pX-0002VM-Be
-	for lists+qemu-devel@lfdr.de; Fri, 04 Feb 2022 16:09:19 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:52580)
+	id 1nG5nL-0006vS-0r
+	for lists+qemu-devel@lfdr.de; Fri, 04 Feb 2022 16:07:03 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:52562)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nG5WB-0008Bb-AW
- for qemu-devel@nongnu.org; Fri, 04 Feb 2022 15:49:19 -0500
-Received: from [2a00:1450:4864:20::330] (port=37629
- helo=mail-wm1-x330.google.com)
+ id 1nG5W9-0008Af-Uh
+ for qemu-devel@nongnu.org; Fri, 04 Feb 2022 15:49:18 -0500
+Received: from [2a00:1450:4864:20::333] (port=54994
+ helo=mail-wm1-x333.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nG5W8-000896-NE
- for qemu-devel@nongnu.org; Fri, 04 Feb 2022 15:49:18 -0500
-Received: by mail-wm1-x330.google.com with SMTP id
- l12-20020a7bc34c000000b003467c58cbdfso10200236wmj.2
- for <qemu-devel@nongnu.org>; Fri, 04 Feb 2022 12:49:16 -0800 (PST)
+ id 1nG5W7-00088v-QU
+ for qemu-devel@nongnu.org; Fri, 04 Feb 2022 15:49:17 -0500
+Received: by mail-wm1-x333.google.com with SMTP id c192so5358699wma.4
+ for <qemu-devel@nongnu.org>; Fri, 04 Feb 2022 12:49:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=WxxlAQjFne43H7oMKEwUdOkD0mNmEgn9CffHZbyJIkk=;
- b=UzRVsQz9zPiMKQ6ioAnEp4PADRQH/s7ScGW0iv/6zk+siafbvjvqJ6iJVTlIbSxX8j
- V4PAv9Vt43CkasVi/HSX1oWIEb1TIuXyGpkp4cXlzfi4Y8JaRlXOTdEVBv8AjGM+kVOx
- wG45zohfpFbypSUMCE9jPDCNkFlbDnRlCWjhd0T0UGKXoP9gffK5ejAiHIIiM19RAfx2
- +BRwzv7e7xfQS20OyLmmx2N6CE24uZdSEgO10NO0hYRWfi5E+jo5TWvu5ogNrxLWEeo7
- C2C8WxHlou3pgoNc8aaWSfF67YytXeAHLb0kL0MIHFOubeWDs8QPqJ7XgL9RbFt2DBgC
- OlkA==
+ bh=JEfEtb4g9JFuRdRoJCsBM6RTHKvLT1onRYy1y1hxc1E=;
+ b=a5oew5cPIgnaxJ6WOl++/JN8xWmGLaWelJSjkYiYkNaq0de3shdsIYQug9SUkGa08c
+ diBNvjToWUp+CMOFiIPVsU67Xiya+TC9iH4Cb6Ej/Wyv6CjT7jppofRmoMCOuEKINqAl
+ MsTDh5aDP446/F5f3F8/fqZ9ZtWUXQ2G1Y6xnLmnVMHgTkMFUY3DTn/vi1kANXl3S4oI
+ Od1sbKrzWIsD4VyI+78xyAsJ5SBvwGgDDVfYdHgRi0fqLuomOVYPN0MLxnLesm8R2Pto
+ syiYQxE3U4srLGXlCazDxdIeG6M9FZjXAUGFeg9/+ymr9mnWzhyS5lW9aaslxQlOsecU
+ JYBQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=WxxlAQjFne43H7oMKEwUdOkD0mNmEgn9CffHZbyJIkk=;
- b=oIwx/HLeadZWW5oAnBLK4eiqtH92V0WOSrgxe7LJ9J/5qvWozDCiTIYSli/7IkmkUf
- bUMOWcTDNv7kAEAj/9WyWSFgrBvZGm6SerA9SXG5aSnw8MvbnCJZNB0pbox0UNGm/SFT
- hemBKEEZ3mA/Gfw+x2TF9Q5tuYJiCGYXF+eQT1FP+DSSAkHCGKmAK4hIZGt7hQJkVLfr
- 2WpJ8pDBvzvgt55nCwh0OS7NraqD0PzAHmeOaNmICDjS54GEhBkiQz8duwJHuDPu8/c5
- 8QOf4k4Y2nXpKW89jj9Com5FcHWoe2CqT1eN4mO55wIefVZqnLQik6QkofSZV0lCq4DA
- 9jyA==
-X-Gm-Message-State: AOAM533Gt2jNijETp8xgZCyGs7/byUQ1L8KwrcThyENCuUajFGoLOFoJ
- I77a/rz81AI+DMUKo9CPciNqmg==
-X-Google-Smtp-Source: ABdhPJzse+7S+hHQiLTONxAyYrujY8VykKXDhcKvct+T9ID/BRGUOocxM5mYYK/kA+M88p52ZlS/sQ==
-X-Received: by 2002:a1c:f413:: with SMTP id z19mr3725525wma.144.1644007755476; 
- Fri, 04 Feb 2022 12:49:15 -0800 (PST)
+ bh=JEfEtb4g9JFuRdRoJCsBM6RTHKvLT1onRYy1y1hxc1E=;
+ b=0X6wmcKLUomS83j8RQbr+hpsUWvVNYGJS0HcQ+WATudlBQsLrSESSxPcvDBnaDjfNP
+ PBhLsGVStUVWaxxcosn43ZQTa1Tbj2tNhmhif8eNs9zZveH7XtnLhhQ+hcqMtaMVWy/D
+ /OWFBylO3nHFPVP47vj3ApFPACGVLlQyDIa+sHh7VF7fsa7Qh3c2FaeN7CTu/dJsGRPD
+ DGTy8teTa5G1bruzvLk0mbinxW1+50jiRQ1eXOVVa5KjnEd+ooMreRrwzf2gdh8Iq24y
+ cOqqfvXXvCZIKFyEoGYgiowXxQCqIYLzwwk1h5np+tAj0dHz8Q//xYqUspI3Uc/eqOlo
+ I2aw==
+X-Gm-Message-State: AOAM531r1fc3ksj2hN2vXFHDIzussriDJHcTsO4nfXNGKbJOn4nyiG/p
+ gdtus6O9HAyGkK8hfKLs5KZG5A==
+X-Google-Smtp-Source: ABdhPJxmCRX+E6CYJ3od9q1dFS9vkY341JbIKP5+frHQrvj4rWWL0xPUmlmW3QEeboHD3hKDhKGEDg==
+X-Received: by 2002:a05:600c:35d4:: with SMTP id
+ r20mr3653316wmq.147.1644007754545; 
+ Fri, 04 Feb 2022 12:49:14 -0800 (PST)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id n2sm3241338wrw.63.2022.02.04.12.49.10
+ by smtp.gmail.com with ESMTPSA id k20sm11928096wmi.36.2022.02.04.12.49.10
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Fri, 04 Feb 2022 12:49:10 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 6FF0D1FFCD;
+ by zen.linaroharston (Postfix) with ESMTP id 9440B1FFCF;
  Fri,  4 Feb 2022 20:43:37 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: richard.henderson@linaro.org,
 	qemu-devel@nongnu.org
-Subject: [PATCH  v3 22/26] contrib/plugins: add a drcov plugin
-Date: Fri,  4 Feb 2022 20:43:31 +0000
-Message-Id: <20220204204335.1689602-23-alex.bennee@linaro.org>
+Subject: [PATCH v3 24/26] tests/plugins: add instruction matching to libinsn.so
+Date: Fri,  4 Feb 2022 20:43:33 +0000
+Message-Id: <20220204204335.1689602-25-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220204204335.1689602-1-alex.bennee@linaro.org>
 References: <20220204204335.1689602-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::330
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::333
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::330;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x330.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::333;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x333.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -93,212 +93,187 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: fam@euphon.net, berrange@redhat.com, Luke.Craig@ll.mit.edu,
- kuhn.chenqun@huawei.com, f4bug@amsat.org, robhenry@microsoft.com,
- aaron@os.amperecomputing.com, mahmoudabdalghany@outlook.com, minyihh@uci.edu,
- cota@braap.org, Ivanov Arkady <arkadiy.ivanov@ispras.ru>, stefanha@redhat.com,
- crosa@redhat.com, pbonzini@redhat.com, ma.mandourr@gmail.com,
- Alexandre Iooss <erdnaxe@crans.org>,
+ kuhn.chenqun@huawei.com, Vasilev Oleg <vasilev.oleg@huawei.com>,
+ f4bug@amsat.org, robhenry@microsoft.com, aaron@os.amperecomputing.com,
+ mahmoudabdalghany@outlook.com, minyihh@uci.edu, cota@braap.org,
+ stefanha@redhat.com, crosa@redhat.com, pbonzini@redhat.com,
+ ma.mandourr@gmail.com, Alexandre Iooss <erdnaxe@crans.org>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Ivanov Arkady <arkadiy.ivanov@ispras.ru>
+This adds simple instruction matching to the libinsn.so plugin which
+is useful for examining the execution distance between instructions.
+For example to track how often we flush in ARM due to TLB updates:
 
-This patch adds the ability to generate files in drcov format. Primary
-goal this script is to have coverage logfiles thatwork in Lighthouse.
+  -plugin ./tests/plugin/libinsn.so,match=tlbi
 
-Signed-off-by: Ivanov Arkady <arkadiy.ivanov@ispras.ru>
-Message-Id: <163491884553.304355.13246023070235438959.stgit@pc-System-Product-Name>
-[AJB: use g_ptr_array instead of slist]
+which leads to output like this:
+
+  0xffffffc01019a918, 'tlbi vale1is, x1', 5702 hits, 31825 match hits, Δ+8112 since last match, 68859 avg insns/match
+  0xffffffc01019a918, 'tlbi vale1is, x1', 5703 hits, 56593 match hits, Δ+17712125 since last match, 33455 avg insns/match
+  0xffffffc01019a918, 'tlbi vale1is, x1', 5704 hits, 56594 match hits, Δ+12689 since last match, 33454 avg insns/match
+  0xffffffc01019a918, 'tlbi vale1is, x1', 5705 hits, 56595 match hits, Δ+12585 since last match, 33454 avg insns/match
+  0xffffffc01019a918, 'tlbi vale1is, x1', 5706 hits, 56596 match hits, Δ+10491 since last match, 33454 avg insns/match
+  0xffffffc01019a918, 'tlbi vale1is, x1', 5707 hits, 56597 match hits, Δ+4721 since last match, 33453 avg insns/match
+  0xffffffc01019a918, 'tlbi vale1is, x1', 5708 hits, 56598 match hits, Δ+10733 since last match, 33453 avg insns/match
+  0xffffffc01019a918, 'tlbi vale1is, x1', 5709 hits, 56599 match hits, Δ+61959 since last match, 33453 avg insns/match
+  0xffffffc01019a918, 'tlbi vale1is, x1', 5710 hits, 56600 match hits, Δ+55235 since last match, 33454 avg insns/match
+  0xffffffc01019a918, 'tlbi vale1is, x1', 5711 hits, 56601 match hits, Δ+54373 since last match, 33454 avg insns/match
+  0xffffffc01019a918, 'tlbi vale1is, x1', 5712 hits, 56602 match hits, Δ+2705 since last match, 33453 avg insns/match
+  0xffffffc01019a918, 'tlbi vale1is, x1', 5713 hits, 56603 match hits, Δ+17262 since last match, 33453 avg insns/match
+  0xffffffc01019a918, 'tlbi vale1is, x1', 5714 hits, 56604 match hits, Δ+17206 since last match, 33453 avg insns/match
+  0xffffffc01019a918, 'tlbi vale1is, x1', 5715 hits, 56605 match hits, Δ+28940 since last match, 33453 avg insns/match
+  0xffffffc01019a918, 'tlbi vale1is, x1', 5716 hits, 56606 match hits, Δ+7370 since last match, 33452 avg insns/match
+  0xffffffc01019a918, 'tlbi vale1is, x1', 5717 hits, 56607 match hits, Δ+7066 since last match, 33452 avg insns/match
+
+showing we do some sort of TLBI invalidation every 33 thousand
+instructions.
+
+Cc: Vasilev Oleg <vasilev.oleg@huawei.com>
+Cc: Richard Henderson <richard.henderson@linaro.org>
+Cc: Emilio Cota <cota@braap.org>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20220124201608.604599-19-alex.bennee@linaro.org>
----
- contrib/plugins/drcov.c  | 163 +++++++++++++++++++++++++++++++++++++++
- contrib/plugins/Makefile |   1 +
- 2 files changed, 164 insertions(+)
- create mode 100644 contrib/plugins/drcov.c
+Message-Id: <20220124201608.604599-21-alex.bennee@linaro.org>
 
-diff --git a/contrib/plugins/drcov.c b/contrib/plugins/drcov.c
-new file mode 100644
-index 0000000000..b4a855adaf
---- /dev/null
-+++ b/contrib/plugins/drcov.c
-@@ -0,0 +1,163 @@
-+/*
-+ * Copyright (C) 2021, Ivanov Arkady <arkadiy.ivanov@ispras.ru>
-+ *
-+ * Drcov - a DynamoRIO-based tool that collects coverage information
-+ * from a binary. Primary goal this script is to have coverage log
-+ * files that work in Lighthouse.
-+ *
-+ * License: GNU GPL, version 2 or later.
-+ *   See the COPYING file in the top-level directory.
-+ */
+---
+v2
+  - quote disassembly
+  - try and improve formatting
+---
+ tests/plugin/insn.c | 89 ++++++++++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 88 insertions(+), 1 deletion(-)
+
+diff --git a/tests/plugin/insn.c b/tests/plugin/insn.c
+index d5a0a08cb4..cd5ea5d4ae 100644
+--- a/tests/plugin/insn.c
++++ b/tests/plugin/insn.c
+@@ -28,9 +28,25 @@ static uint64_t inline_insn_count;
+ 
+ static bool do_inline;
+ static bool do_size;
+-static bool do_frequency;
+ static GArray *sizes;
+ 
++typedef struct {
++    char *match_string;
++    uint64_t hits[MAX_CPUS];
++    uint64_t last_hit[MAX_CPUS];
++    uint64_t total_delta[MAX_CPUS];
++    GPtrArray *history[MAX_CPUS];
++} Match;
 +
-+#include <inttypes.h>
-+#include <assert.h>
-+#include <stdlib.h>
-+#include <inttypes.h>
-+#include <string.h>
-+#include <unistd.h>
-+#include <stdio.h>
-+#include <glib.h>
-+
-+#include <qemu-plugin.h>
-+
-+QEMU_PLUGIN_EXPORT int qemu_plugin_version = QEMU_PLUGIN_VERSION;
-+
-+static char header[] = "DRCOV VERSION: 2\n"
-+                "DRCOV FLAVOR: drcov-64\n"
-+                "Module Table: version 2, count 1\n"
-+                "Columns: id, base, end, entry, path\n";
-+
-+static FILE *fp;
-+static const char *file_name = "file.drcov.trace";
-+static GMutex lock;
++static GArray *matches;
 +
 +typedef struct {
-+    uint32_t start;
-+    uint16_t size;
-+    uint16_t mod_id;
-+    bool     exec;
-+} bb_entry_t;
++    Match *match;
++    uint64_t vaddr;
++    uint64_t hits;
++    char *disas;
++} Instruction;
 +
-+/* Translated blocks */
-+static GPtrArray *blocks;
-+
-+static void printf_header(unsigned long count)
+ static void vcpu_insn_exec_before(unsigned int cpu_index, void *udata)
+ {
+     unsigned int i = cpu_index % MAX_CPUS;
+@@ -45,6 +61,37 @@ static void vcpu_insn_exec_before(unsigned int cpu_index, void *udata)
+     c->insn_count++;
+ }
+ 
++static void vcpu_insn_matched_exec_before(unsigned int cpu_index, void *udata)
 +{
-+    fprintf(fp, "%s", header);
-+    const char *path = qemu_plugin_path_to_binary();
-+    uint64_t start_code = qemu_plugin_start_code();
-+    uint64_t end_code = qemu_plugin_end_code();
-+    uint64_t entry = qemu_plugin_entry_code();
-+    fprintf(fp, "0, 0x%lx, 0x%lx, 0x%lx, %s\n",
-+            start_code, end_code, entry, path);
-+    fprintf(fp, "BB Table: %ld bbs\n", count);
++    unsigned int i = cpu_index % MAX_CPUS;
++    Instruction *insn = (Instruction *) udata;
++    Match *match = insn->match;
++    g_autoptr(GString) ts = g_string_new("");
++
++    insn->hits++;
++    g_string_append_printf(ts, "0x%" PRIx64 ", '%s', %"PRId64 " hits",
++                           insn->vaddr, insn->disas, insn->hits);
++
++    uint64_t icount = counts[i].insn_count;
++    uint64_t delta = icount - match->last_hit[i];
++
++    match->hits[i]++;
++    match->total_delta[i] += delta;
++
++    g_string_append_printf(ts,
++                           ", %"PRId64" match hits, "
++                           "Δ+%"PRId64 " since last match,"
++                           " %"PRId64 " avg insns/match\n",
++                           match->hits[i], delta,
++                           match->total_delta[i] / match->hits[i]);
++
++    match->last_hit[i] = icount;
++
++    qemu_plugin_outs(ts->str);
++
++    g_ptr_array_add(match->history[i], insn);
 +}
 +
-+static void printf_char_array32(uint32_t data)
-+{
-+    const uint8_t *bytes = (const uint8_t *)(&data);
-+    fwrite(bytes, sizeof(char), sizeof(data), fp);
-+}
+ static void vcpu_tb_trans(qemu_plugin_id_t id, struct qemu_plugin_tb *tb)
+ {
+     size_t n = qemu_plugin_tb_n_insns(tb);
+@@ -71,6 +118,29 @@ static void vcpu_tb_trans(qemu_plugin_id_t id, struct qemu_plugin_tb *tb)
+             unsigned long *cnt = &g_array_index(sizes, unsigned long, sz);
+             (*cnt)++;
+         }
 +
-+static void printf_char_array16(uint16_t data)
-+{
-+    const uint8_t *bytes = (const uint8_t *)(&data);
-+    fwrite(bytes, sizeof(char), sizeof(data), fp);
-+}
-+
-+
-+static void printf_el(gpointer data, gpointer user_data)
-+{
-+    bb_entry_t *bb = (bb_entry_t *)data;
-+    if (bb->exec) {
-+        printf_char_array32(bb->start);
-+        printf_char_array16(bb->size);
-+        printf_char_array16(bb->mod_id);
-+    }
-+    g_free(bb);
-+}
-+
-+static void count_block(gpointer data, gpointer user_data)
-+{
-+    unsigned long *count = (unsigned long *) user_data;
-+    bb_entry_t *bb = (bb_entry_t *)data;
-+    if (bb->exec) {
-+        *count = *count + 1;
-+    }
-+}
-+
-+static void plugin_exit(qemu_plugin_id_t id, void *p)
-+{
-+    unsigned long count = 0;
-+    g_mutex_lock(&lock);
-+    g_ptr_array_foreach(blocks, count_block, &count);
-+
-+    /* Print function */
-+    printf_header(count);
-+    g_ptr_array_foreach(blocks, printf_el, NULL);
-+
-+    /* Clear */
-+    g_ptr_array_free(blocks, true);
-+
-+    fclose(fp);
-+
-+    g_mutex_unlock(&lock);
-+}
-+
-+static void plugin_init(void)
-+{
-+    fp = fopen(file_name, "wb");
-+    blocks = g_ptr_array_sized_new(128);
-+}
-+
-+static void vcpu_tb_exec(unsigned int cpu_index, void *udata)
-+{
-+    bb_entry_t *bb = (bb_entry_t *) udata;
-+
-+    g_mutex_lock(&lock);
-+    bb->exec = true;
-+    g_mutex_unlock(&lock);
-+}
-+
-+static void vcpu_tb_trans(qemu_plugin_id_t id, struct qemu_plugin_tb *tb)
-+{
-+    uint64_t pc = qemu_plugin_tb_vaddr(tb);
-+    size_t n = qemu_plugin_tb_n_insns(tb);
-+
-+    g_mutex_lock(&lock);
-+
-+    bb_entry_t *bb = g_new0(bb_entry_t, 1);
-+    for (int i = 0; i < n; i++) {
-+        bb->size += qemu_plugin_insn_size(qemu_plugin_tb_get_insn(tb, i));
-+    }
-+
-+    bb->start = pc;
-+    bb->mod_id = 0;
-+    bb->exec = false;
-+    g_ptr_array_add(blocks, bb);
-+
-+    g_mutex_unlock(&lock);
-+    qemu_plugin_register_vcpu_tb_exec_cb(tb, vcpu_tb_exec,
-+                                         QEMU_PLUGIN_CB_NO_REGS,
-+                                         (void *)bb);
-+
-+}
-+
-+QEMU_PLUGIN_EXPORT
-+int qemu_plugin_install(qemu_plugin_id_t id, const qemu_info_t *info,
-+                        int argc, char **argv)
-+{
-+    for (int i = 0; i < argc; i++) {
-+        g_autofree char **tokens = g_strsplit(argv[i], "=", 2);
-+        if (g_strcmp0(tokens[0], "filename") == 0) {
-+            file_name = g_strdup(tokens[1]);
++        /*
++         * If we are tracking certain instructions we will need more
++         * information about the instruction which we also need to
++         * save if there is a hit.
++         */
++        if (matches) {
++            char *insn_disas = qemu_plugin_insn_disas(insn);
++            int j;
++            for (j = 0; j < matches->len; j++) {
++                Match *m = &g_array_index(matches, Match, j);
++                if (g_str_has_prefix(insn_disas, m->match_string)) {
++                    Instruction *rec = g_new0(Instruction, 1);
++                    rec->disas = g_strdup(insn_disas);
++                    rec->vaddr = qemu_plugin_insn_vaddr(insn);
++                    rec->match = m;
++                    qemu_plugin_register_vcpu_insn_exec_cb(
++                        insn, vcpu_insn_matched_exec_before,
++                        QEMU_PLUGIN_CB_NO_REGS, rec);
++                }
++            }
++            g_free(insn_disas);
 +        }
+     }
+ }
+ 
+@@ -105,6 +175,21 @@ static void plugin_exit(qemu_plugin_id_t id, void *p)
+     qemu_plugin_outs(out->str);
+ }
+ 
++
++/* Add a match to the array of matches */
++static void parse_match(char *match)
++{
++    Match new_match = { .match_string = match };
++    int i;
++    for (i = 0; i < MAX_CPUS; i++) {
++        new_match.history[i] = g_ptr_array_new();
 +    }
-+
-+    plugin_init();
-+
-+    qemu_plugin_register_vcpu_tb_trans_cb(id, vcpu_tb_trans);
-+    qemu_plugin_register_atexit_cb(id, plugin_exit, NULL);
-+
-+    return 0;
++    if (!matches) {
++        matches = g_array_new(false, true, sizeof(Match));
++    }
++    g_array_append_val(matches, new_match);
 +}
-diff --git a/contrib/plugins/Makefile b/contrib/plugins/Makefile
-index 54ac5ccd9f..df3499f4f2 100644
---- a/contrib/plugins/Makefile
-+++ b/contrib/plugins/Makefile
-@@ -20,6 +20,7 @@ NAMES += howvec
- NAMES += lockstep
- NAMES += hwprofile
- NAMES += cache
-+NAMES += drcov
- 
- SONAMES := $(addsuffix .so,$(addprefix lib,$(NAMES)))
- 
++
+ QEMU_PLUGIN_EXPORT int qemu_plugin_install(qemu_plugin_id_t id,
+                                            const qemu_info_t *info,
+                                            int argc, char **argv)
+@@ -122,6 +207,8 @@ QEMU_PLUGIN_EXPORT int qemu_plugin_install(qemu_plugin_id_t id,
+                 fprintf(stderr, "boolean argument parsing failed: %s\n", opt);
+                 return -1;
+             }
++        } else if (g_strcmp0(tokens[0], "match") == 0) {
++            parse_match(tokens[1]);
+         } else {
+             fprintf(stderr, "option parsing failed: %s\n", opt);
+             return -1;
 -- 
 2.30.2
 
