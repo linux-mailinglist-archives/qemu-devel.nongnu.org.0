@@ -2,61 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 706074AA383
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Feb 2022 23:48:50 +0100 (CET)
-Received: from localhost ([::1]:51310 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 115DA4AA392
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Feb 2022 23:54:01 +0100 (CET)
+Received: from localhost ([::1]:54874 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nG7Np-0004Qm-9Z
-	for lists+qemu-devel@lfdr.de; Fri, 04 Feb 2022 17:48:49 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:50498)
+	id 1nG7Sq-00074C-0O
+	for lists+qemu-devel@lfdr.de; Fri, 04 Feb 2022 17:54:00 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:51970)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nG7IL-0000HR-7N
- for qemu-devel@nongnu.org; Fri, 04 Feb 2022 17:43:09 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:26399)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nG7Re-0006PF-Kc
+ for qemu-devel@nongnu.org; Fri, 04 Feb 2022 17:52:46 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:60418)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nG7IH-000150-V8
- for qemu-devel@nongnu.org; Fri, 04 Feb 2022 17:43:08 -0500
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nG7Rc-0002Td-4q
+ for qemu-devel@nongnu.org; Fri, 04 Feb 2022 17:52:45 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1644014585;
+ s=mimecast20190719; t=1644015162;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=fYSWsl1f3IWoJN4z1mH6BCn4zhh7RxF/ia1GCVj/qG0=;
- b=F2I/DcUj1sqpSBEUqmApVf92/+yi9Cse8d5f7asA/R1uHrOOqEFkyyn+g6wy8n7o/InvQR
- Ri6vZZ8bUb3+F1fspwvToaVUguMqoyBMEXeQGr56ePyDJEihKwYgORVuYQVN27sAXFSNGw
- 63YbTPrn+a3mGbiHoEHmr9jT9ZMuOqc=
+ content-transfer-encoding:content-transfer-encoding;
+ bh=SlqLrCjHVG2/S91c42UQXfYLoBSReDDoofvQ3g+BmAs=;
+ b=dm3swIkK46FDEvdazTYRRb29O41VZVup3O3g256ploRBCLa+5wP4+rTkXxnNvGN6KlyOXa
+ dGlSYzVN6axB+A63FXgkil3tD6pzwETiqQ0/DiEWRzNb/PFH3DOrzrzegPx9FjtJ7mdUGV
+ dJI949PDVsPqZdJOv9LpEASXsOPa9Lc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-332-UeKRew8-MwO_KgheaxeGqg-1; Fri, 04 Feb 2022 17:43:03 -0500
-X-MC-Unique: UeKRew8-MwO_KgheaxeGqg-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-253-zKTl7EzqOMCiyAG1BbLl5w-1; Fri, 04 Feb 2022 17:52:39 -0500
+X-MC-Unique: zKTl7EzqOMCiyAG1BbLl5w-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EFBA81091DA0
- for <qemu-devel@nongnu.org>; Fri,  4 Feb 2022 22:43:02 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 15FAC1853022;
+ Fri,  4 Feb 2022 22:52:38 +0000 (UTC)
 Received: from scv.redhat.com (unknown [10.22.16.166])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 559F91042A48;
- Fri,  4 Feb 2022 22:43:02 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 91C27D0E45;
+ Fri,  4 Feb 2022 22:52:31 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 2/2] [DO-NOT-MERGE]: Add some ad-hoc linting helpers.
-Date: Fri,  4 Feb 2022 17:42:56 -0500
-Message-Id: <20220204224256.2110500-3-jsnow@redhat.com>
-In-Reply-To: <20220204224256.2110500-1-jsnow@redhat.com>
-References: <20220204224256.2110500-1-jsnow@redhat.com>
+Subject: [PATCH] scripts/qapi: minor delinting
+Date: Fri,  4 Feb 2022 17:52:30 -0500
+Message-Id: <20220204225230.2114135-1-jsnow@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -77,82 +74,92 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- John Snow <jsnow@redhat.com>, Markus Armbruster <armbru@redhat.com>
+Cc: Michael Roth <michael.roth@amd.com>, John Snow <jsnow@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-These aren't ready for upstream inclusion, because they do not properly
-manage version dependencies, execution environment and so on. These are
-just the tools I use in my Own Special Environment :tm: for testing and
-debugging.
-
-I *think*, but can't exhaustively guarantee, that these should
-work:
-
-Python >= 3.6
-isort >= 5.7.0  (But possibly earlier)
-mypy >= 0.770   (Currently using 0.800)
-pylint >= 2.6.0 (Currently using 2.7.4)
-
-My python packaging series does a more exhaustive treatment and
-exploration of minimum package requirements; eventually these two series
-will converge and these dependencies will be handled in one place.
+Just cleaning up some cobwebs.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- scripts/qapi-lint.sh  | 29 +++++++++++++++++++++++++++++
- scripts/qapi/Makefile |  5 +++++
- 2 files changed, 34 insertions(+)
- create mode 100755 scripts/qapi-lint.sh
- create mode 100644 scripts/qapi/Makefile
+ scripts/qapi/commands.py | 2 +-
+ scripts/qapi/events.py   | 6 +++---
+ scripts/qapi/types.py    | 6 +++++-
+ scripts/qapi/visit.py    | 6 +++++-
+ 4 files changed, 14 insertions(+), 6 deletions(-)
 
-diff --git a/scripts/qapi-lint.sh b/scripts/qapi-lint.sh
-new file mode 100755
-index 0000000000..2c2f2808ca
---- /dev/null
-+++ b/scripts/qapi-lint.sh
-@@ -0,0 +1,29 @@
-+#!/usr/bin/env bash
-+set -e
-+
-+if [[ -f qapi/.flake8 ]]; then
-+    echo "flake8 --config=qapi/.flake8 qapi/"
-+    flake8 --config=qapi/.flake8 qapi/
-+fi
-+if [[ -f qapi/pylintrc ]]; then
-+    echo "pylint --rcfile=qapi/pylintrc qapi/"
-+    pylint --rcfile=qapi/pylintrc qapi/
-+fi
-+if [[ -f qapi/mypy.ini ]]; then
-+    echo "mypy --config-file=qapi/mypy.ini qapi/"
-+    mypy --config-file=qapi/mypy.ini qapi/
-+fi
-+
-+if [[ -f qapi/.isort.cfg ]]; then
-+    pushd qapi
-+    echo "isort -c ."
-+    isort -c .
-+    popd
-+fi
-+
-+pushd ../bin/git
-+make -j9
-+make check-qapi-schema
-+make docs
-+make sphinxdocs
-+popd
-diff --git a/scripts/qapi/Makefile b/scripts/qapi/Makefile
-new file mode 100644
-index 0000000000..314e8a5505
---- /dev/null
-+++ b/scripts/qapi/Makefile
-@@ -0,0 +1,5 @@
-+check:
-+	isort -c .
-+	flake8 .
-+	cd .. && pylint --rcfile=qapi/pylintrc qapi
-+	cd .. && mypy -p qapi --config-file=qapi/mypy.ini
+diff --git a/scripts/qapi/commands.py b/scripts/qapi/commands.py
+index 869d799ed2..38ca38a7b9 100644
+--- a/scripts/qapi/commands.py
++++ b/scripts/qapi/commands.py
+@@ -25,8 +25,8 @@
+     QAPIGenC,
+     QAPISchemaModularCVisitor,
+     build_params,
+-    ifcontext,
+     gen_special_features,
++    ifcontext,
+ )
+ from .schema import (
+     QAPISchema,
+diff --git a/scripts/qapi/events.py b/scripts/qapi/events.py
+index 27b44c49f5..8edf43d8da 100644
+--- a/scripts/qapi/events.py
++++ b/scripts/qapi/events.py
+@@ -109,15 +109,15 @@ def gen_event_send(name: str,
+         if not boxed:
+             ret += gen_param_var(arg_type)
+ 
+-    for f in features:
+-        if f.is_special():
++    for feat in features:
++        if feat.is_special():
+             ret += mcgen('''
+ 
+     if (compat_policy.%(feat)s_output == COMPAT_POLICY_OUTPUT_HIDE) {
+         return;
+     }
+ ''',
+-                         feat=f.name)
++                         feat=feat.name)
+ 
+     ret += mcgen('''
+ 
+diff --git a/scripts/qapi/types.py b/scripts/qapi/types.py
+index 3013329c24..477d027001 100644
+--- a/scripts/qapi/types.py
++++ b/scripts/qapi/types.py
+@@ -16,7 +16,11 @@
+ from typing import List, Optional
+ 
+ from .common import c_enum_const, c_name, mcgen
+-from .gen import QAPISchemaModularCVisitor, gen_special_features, ifcontext
++from .gen import (
++    QAPISchemaModularCVisitor,
++    gen_special_features,
++    ifcontext,
++)
+ from .schema import (
+     QAPISchema,
+     QAPISchemaEnumMember,
+diff --git a/scripts/qapi/visit.py b/scripts/qapi/visit.py
+index e13bbe4292..380fa197f5 100644
+--- a/scripts/qapi/visit.py
++++ b/scripts/qapi/visit.py
+@@ -21,7 +21,11 @@
+     indent,
+     mcgen,
+ )
+-from .gen import QAPISchemaModularCVisitor, gen_special_features, ifcontext
++from .gen import (
++    QAPISchemaModularCVisitor,
++    gen_special_features,
++    ifcontext,
++)
+ from .schema import (
+     QAPISchema,
+     QAPISchemaEnumMember,
 -- 
 2.34.1
 
