@@ -2,89 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 663014AA135
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Feb 2022 21:33:52 +0100 (CET)
-Received: from localhost ([::1]:43068 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E2C84AA14A
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Feb 2022 21:38:19 +0100 (CET)
+Received: from localhost ([::1]:45364 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nG5HD-0002DH-31
-	for lists+qemu-devel@lfdr.de; Fri, 04 Feb 2022 15:33:51 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:48948)
+	id 1nG5LW-0003sa-BG
+	for lists+qemu-devel@lfdr.de; Fri, 04 Feb 2022 15:38:18 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:49168)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
- id 1nG5G9-0001XZ-N2
- for qemu-devel@nongnu.org; Fri, 04 Feb 2022 15:32:45 -0500
-Received: from wout3-smtp.messagingengine.com ([64.147.123.19]:55315)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
- id 1nG5G2-0005aJ-I8
- for qemu-devel@nongnu.org; Fri, 04 Feb 2022 15:32:45 -0500
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.west.internal (Postfix) with ESMTP id E59873200D25;
- Fri,  4 Feb 2022 15:32:27 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute4.internal (MEProxy); Fri, 04 Feb 2022 15:32:28 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=flygoat.com; h=
- cc:cc:content-transfer-encoding:content-type:date:date:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to; s=fm1; bh=anA/sFVOktga8a
- QmnQdlp9xuE+8bV3uDwOsMav090cc=; b=uxlT31HR5TtJsRpTaJQT8i42i1AYwK
- 2R8xpec4a4Gw12Mj6YsiyR8cZi+spf0I7WF0lmBhitRuhWuUDrS0ME7Y72QRnRrh
- HrCquXl8KcoOhHJbXnU3zTItcuHbSpgyqVQ/gU1FhJ6uDDi1IPtCPybOGtDX87tw
- 1mm9xW2PXSpkPkZfff0ZmK+uno4H0DgeFlRzntviHt5NnEoE3fbKMPp0EXMHHXY4
- vLK1ijpKeOQiPAU3/EK1i9wQ2Ro6DoQvlReX1cEu2dtI9nJ8SdG2Q7MPUpiBhU+B
- XMUTDYrWweMCsZpqNMq8S70DbCChr3MIg9EMK3x+tLIeQseaWZ+X+1kg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-transfer-encoding
- :content-type:date:date:from:from:in-reply-to:in-reply-to
- :message-id:mime-version:references:reply-to:sender:subject
- :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=fm2; bh=anA/sFVOktga8aQmnQdlp9xuE+8bV3uDwOsMav090
- cc=; b=c61elK25IZlw8aVlaxEhm86GPgsMARPKoI7ooN4ezm3d3mR5unOwDeB1F
- n86w4V63T9kdbjAgavqqDgf6lDrfiEFIf19iY4rI3f3woRxXRcwWmm8hpGftA0Fv
- spB6/R7nff+/1v3riUa1nB5dWE7LIlG5WPYvvCYd484tX0Gk8fp3qVnEM6+LBQZX
- RO0LHQHVr72D241+odILEbbPVanBkXsjcUhrhfNFFCMfjSmB5qUd/n0ADIClIAue
- lQT07ZZL5ac0LXSzsWjR1o0J5LsaooWHkY9oM59kRb0E5FPZCBoELjPfb9vdLoi6
- RCbzF3694M2jO/ScsM9gpy8esaUcQ==
-X-ME-Sender: <xms:W439YSBTg99CSbbP5OEAZ0V2uD_P4Ce4SEUDPA_LPXD4QwT7YzGk9g>
- <xme:W439YchAD9Fyb89sMudTYt0IV9tbJ1wlamz4kA6HzaNQYI9fTRz5V2H6JKuE5XnJA
- 6TN2oG5UPKWzvnvEEM>
-X-ME-Received: <xmr:W439YVmdctfV3sWqg73XlfmkQHfcMYfmJNKm5aKvSaET5EcZ5t98121azRXbczA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrgeelgddufeekucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepkfffgggfuffvfhfhjggtgfesthekredttdefjeenucfhrhhomheplfhirgig
- uhhnucgjrghnghcuoehjihgrgihunhdrhigrnhhgsehflhihghhorghtrdgtohhmqeenuc
- ggtffrrghtthgvrhhnpeehieduvdevhfekjeeftddtkeeitefhudekvdeiueeulefgleei
- jeeghedvkeduleenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfh
- hrohhmpehjihgrgihunhdrhigrnhhgsehflhihghhorghtrdgtohhm
-X-ME-Proxy: <xmx:W439YQxhGjYNhdVWVOxMHWh5xKg8s-y15IOhzTQ7KxxO-so-FoOcKg>
- <xmx:W439YXTev9cIaBTpl8eRF7mLi9lJ10NW-Q8LaZdvi1u_czi0wkRjAA>
- <xmx:W439YbaLZGqKSD35XBvtVQvVYepESYnPqIlnzmbkmQmwIIf6cUTVdw>
- <xmx:W439YSfGdOpxA4TC-Y7HVI70YfyO_rMKSSGjHjAOYHau_Ot8U3kw9A>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 4 Feb 2022 15:32:26 -0500 (EST)
-Message-ID: <947933bf-3995-dce6-70be-21549628f97b@flygoat.com>
-Date: Fri, 4 Feb 2022 20:32:24 +0000
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nG5Gr-0002RX-Qv
+ for qemu-devel@nongnu.org; Fri, 04 Feb 2022 15:33:29 -0500
+Received: from [2607:f8b0:4864:20::529] (port=36359
+ helo=mail-pg1-x529.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nG5Gp-0005fE-S2
+ for qemu-devel@nongnu.org; Fri, 04 Feb 2022 15:33:29 -0500
+Received: by mail-pg1-x529.google.com with SMTP id h125so5951060pgc.3
+ for <qemu-devel@nongnu.org>; Fri, 04 Feb 2022 12:33:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=KqpTNMmFfys3C40DPRngPUWMearuow7Tf85/Nof3KlU=;
+ b=p81AHRRF6oqxHqzMIOtf8Jp1qGtxhXnQikwVYDrHpSGpJBd46kQljYf/7JdlWIkOAV
+ SmIyZWqPon7ZlJ3ZuS3Xx3/J2QjuYsd0Ln1x2kpfjNvPMeAwipAaG0LrWakJlml1pYuW
+ fa78NGFsLORBEqPT0ScVSVXEBV7lj8KEePLpOGCmIh/axJulECFaPjMRUghiSQbGCLgO
+ 81YK0AX3+uMpI6M4K6yS45wYR3i5HvB5xZPOLvb2SYoZbKaKixYDVfwKoJDTeP/efmKx
+ QJ90cSTBm9OxcB4k9W+BWiMBcahvki6vzoENcPNAUKjIElZopBq2lTR1ilqTdceW+OUE
+ hH7A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=KqpTNMmFfys3C40DPRngPUWMearuow7Tf85/Nof3KlU=;
+ b=L9lML50ycwBSoKg5b5+HI+EPGC4wstAmMyiDLGH+X1hbCfSSScucpN2PM52a9rWvyq
+ qoBfT+jh0DkLGsq68M9311pHkNeg7VluiR+sIaCSGVv7BORYv5OD63jnyJgX8JL5Rnci
+ wzyjtIoU+mYDckDAdgZhkcURb9a7pvM5m8grfcC6StnsWUceobcNEBWRHgKFmP0M9t7t
+ W18zQuH0sJCFi0JNpTYA6kJmukg2aIn2LPPv0cdkiRAqfQVbyfLHUMMkOGw2RgKTOeBW
+ KRt+7HY1JcOWc2G4EqT6kSZFGFkIsPTIWWWptjgSL+7ndjTpWmgQ0qzNhyrMrdwoF0fZ
+ Q5nA==
+X-Gm-Message-State: AOAM5307G78z/p7JFDSqiuMScfdFx6FASuJA1fihGFyGlHl4G9AGGV4o
+ 0CJnNrwYXo0YLeUlHPcPCOUX+A==
+X-Google-Smtp-Source: ABdhPJxIGeHcOF7/0VBplkwdvL6Zff5U7QPd322hq7/3bjcD0nYFxW+PEx0A1hrei4r7MJ0MJT5NVQ==
+X-Received: by 2002:a63:f006:: with SMTP id k6mr599786pgh.173.1644006806388;
+ Fri, 04 Feb 2022 12:33:26 -0800 (PST)
+Received: from ?IPV6:2001:8003:3a49:fd00:d2cd:dac2:7e7f:5850?
+ ([2001:8003:3a49:fd00:d2cd:dac2:7e7f:5850])
+ by smtp.gmail.com with ESMTPSA id 16sm3581265pfl.99.2022.02.04.12.33.21
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 04 Feb 2022 12:33:25 -0800 (PST)
+Message-ID: <d1efe6e1-083e-e419-87aa-7513ee3b28e9@linaro.org>
+Date: Sat, 5 Feb 2022 07:33:17 +1100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.1
-Subject: Re: [PATCH v5 0/2] tcg/mips: Unaligned access support
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20220201234107.316487-1-richard.henderson@linaro.org>
-From: Jiaxun Yang <jiaxun.yang@flygoat.com>
-In-Reply-To: <20220201234107.316487-1-richard.henderson@linaro.org>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH 0/2] RISC-V: Correctly generate store/amo faults
+Content-Language: en-US
+To: Alistair Francis <alistair23@gmail.com>
+References: <20220124005958.38848-1-alistair.francis@opensource.wdc.com>
+ <bdc7e993-1baa-0ce9-75f9-fc078617ed4f@c-sky.com>
+ <9fe41ac9-f0d9-1122-7ec3-3f20e3667826@linaro.org>
+ <CAKmqyKNpefaQMZcW1CsKK22wKMRUxbkPjPAOumei+5NCQsLEVQ@mail.gmail.com>
+ <2cb994f2-85e1-451f-c83c-a8403135cdc0@linaro.org>
+ <CAKmqyKMRmjwu_DQvZduYwnBwxp1KsY07wzKVLzdw30PWBBEjZA@mail.gmail.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <CAKmqyKMRmjwu_DQvZduYwnBwxp1KsY07wzKVLzdw30PWBBEjZA@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=64.147.123.19;
- envelope-from=jiaxun.yang@flygoat.com; helo=wout3-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+Content-Transfer-Encoding: 7bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::529
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::529;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x529.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -97,42 +96,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alex.bennee@linaro.org, f4bug@amsat.org
+Cc: Alistair Francis <alistair.francis@opensource.wdc.com>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ David Hildenbrand <david@redhat.com>, Bin Meng <bin.meng@windriver.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Peter Xu <peterx@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ Palmer Dabbelt <palmer@dabbelt.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Bin Meng <bmeng.cn@gmail.com>,
+ LIU Zhiwei <zhiwei_liu@c-sky.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 2/4/22 18:36, Alistair Francis wrote:
+>> So we need to check for write permission first, before performing the load.
+> 
+> Isn't that what this series does though, albeit for IO accesses only
 
-在 2022/2/1 23:41, Richard Henderson 写道:
-> Based-on: <20220104021543.396571-1-richard.henderson@linaro.org>
-> ("[PATCH v4 0/7] Unaligned access for user only")
->
-> Changes from v4:
->    * Rebase on master.
->    * Drop other cleanup for now.
->
-> Changes from v3:
->    * Rebase on master, which has some patches applied.
+No.
 
-For the whole series:
+> Using probe_write() solves part of this problem. If we have RAM at the
+> address but no permissions to access it, then probe_write() will
+> generate a store/AMO fault. But it won't help if nothing is mapped at
+> that address.
+> 
+> Let's say you are performing an atomic operation at an unmapped
+> address 0x00, in M mode (so no MMU). probe_write() will eventually
+> call riscv_cpu_tlb_fill() and get_physical_address(). On a system
+> without an MMU and no PMP enforcement we get full read/write/execute
+> permissions from riscv_cpu_tlb_fill(). So probe_write() succeeds.
 
-Reviewed-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
+True.
 
-Tested-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
+But there it's not a permission problem, per se.  What are you supposed to get here on 
+riscv?  On some other cpus you don't get a "normal" segv, but a machine check.  I suppose 
+you still want to see "store" rather than "load" in reporting that...
 
-Run some sample program with GCC unaligned-access enabled.
 
-Thanks.
+>>> Can't we just do the check in the slow path? By the time we get to the
+>>> fast path shouldn't we already have permissions?
+>>
+>> No, the fast path performs the permissions check on one bit [rwx] depending on which tlb
+>> comparator it loads.
+> 
+> If you have permissions then that's fine. I thought we went via the
+> slow path if the permission check fails?
 
->
->
-> r~
->
-> Richard Henderson (2):
->    tcg/mips: Support unaligned access for user-only
->    tcg/mips: Support unaligned access for softmmu
->
->   tcg/mips/tcg-target.h     |   2 -
->   tcg/mips/tcg-target.c.inc | 387 +++++++++++++++++++++++++++++++++++---
->   2 files changed, 360 insertions(+), 29 deletions(-)
->
+We do.  But you haven't changed any permissions checks, so you don't really know what 
+you're getting -- you may not arrive at the slow path at all.
+
+
+r~
 
