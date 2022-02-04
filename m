@@ -2,89 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A7D124A9B07
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Feb 2022 15:32:25 +0100 (CET)
-Received: from localhost ([::1]:45458 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 26A0A4A9AFD
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Feb 2022 15:31:12 +0100 (CET)
+Received: from localhost ([::1]:42848 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nFzdP-0000dm-JL
-	for lists+qemu-devel@lfdr.de; Fri, 04 Feb 2022 09:32:23 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:36438)
+	id 1nFzcF-0007Du-83
+	for lists+qemu-devel@lfdr.de; Fri, 04 Feb 2022 09:31:11 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:38108)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nFzFJ-0007sK-6T
- for qemu-devel@nongnu.org; Fri, 04 Feb 2022 09:07:32 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:51371)
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1nFzKL-0002Ah-EJ; Fri, 04 Feb 2022 09:12:41 -0500
+Received: from kylie.crudebyte.com ([5.189.157.229]:56267)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nFzF7-0005WQ-8D
- for qemu-devel@nongnu.org; Fri, 04 Feb 2022 09:07:28 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1643983627;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=KHwzSjcvTqXmGbshWtKVjCMRZJU6sjTCOuEqSUyG60U=;
- b=iVLa2elXKeezhYX7g2xdc5QmN2YQgRVhySuDAb8YVeL35fx2hYd8uXinbEoVFFG/4UaGt/
- vR2m8+9BbgwXd0hKCd6mPr+n3CDIJ6JB2mgEgQb7rTF5QvJn5zPDInb0m0C1QfnU/qhrAR
- C7K5CLdpPGJjONleMZh+2gLVKAQkHW0=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-362-c96HU9EIMiqUhD0J_6vp-Q-1; Fri, 04 Feb 2022 09:07:04 -0500
-X-MC-Unique: c96HU9EIMiqUhD0J_6vp-Q-1
-Received: by mail-wm1-f70.google.com with SMTP id
- bg32-20020a05600c3ca000b00349f2aca1beso2418643wmb.9
- for <qemu-devel@nongnu.org>; Fri, 04 Feb 2022 06:07:04 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=KHwzSjcvTqXmGbshWtKVjCMRZJU6sjTCOuEqSUyG60U=;
- b=kHFdcpBd+lgsekzqdxeaLoJ8jDJt0/fGKGUplRIlI0XwZ/QLZ16MY2XtuJAgci8/CQ
- T0M5xdodns8ofy3RX/oNst0tHCN9MtfxedRWkDJeQ7TMBmAs5Gu8hIA5YH3mPTyYj+ue
- kNZ+Ga6ce8I1PtlTumFpUF6AmKOcVNZSxX4fnjD41ZIxbWNNaCay+b4xI4+qozIkGZ4O
- ZH+kGNV+K1rRNe4Q5u4TLGfHvZaMkvfGct7XDTdEQsadqs7dtIWHnGSHrZA+5r0/gxAH
- Zhi1sEh04U40GqC0lcxPmmT0HEtqTGKhrVrpubNsm1IdrKfwzHEQrBka9EMF/iFJ7qOv
- e4dQ==
-X-Gm-Message-State: AOAM530TI4z9qAi26NFuG/dLCGpDQrZUN4k+mV/C+qcyCGBO3wCX/jHB
- k25vdj2kGz9bxnfYz0cK0Yn+iFnt0UYaZ/w/RkI3Gl+lgMwrsvMjluDVwpHTjhTKW/xW/efEWbQ
- KC03UBqXw4WpnJZU=
-X-Received: by 2002:adf:f306:: with SMTP id i6mr2650528wro.421.1643983623745; 
- Fri, 04 Feb 2022 06:07:03 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxaKQ//uSS1t3DBG34M3ZVsVdA4jPkjoWEuTB6GJl+uwe58ddpHrwTHCEJZajQFs28pYtx00A==
-X-Received: by 2002:adf:f306:: with SMTP id i6mr2650506wro.421.1643983623477; 
- Fri, 04 Feb 2022 06:07:03 -0800 (PST)
-Received: from redhat.com ([2a10:8005:331d:0:5c51:c095:613e:277c])
- by smtp.gmail.com with ESMTPSA id m14sm2693377wrp.4.2022.02.04.06.06.59
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 04 Feb 2022 06:06:59 -0800 (PST)
-Date: Fri, 4 Feb 2022 09:06:57 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>
-Subject: Re: [PATCH 0/2] virtio: Add vhost-user-gpio device's support
-Message-ID: <20220204090512-mutt-send-email-mst@kernel.org>
-References: <cover.1641987128.git.viresh.kumar@linaro.org>
- <20220204072104-mutt-send-email-mst@kernel.org>
- <874k5espp1.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1nFzKI-0006tn-18; Fri, 04 Feb 2022 09:12:40 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
+ MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+ Content-ID:Content-Description;
+ bh=u9LbUiOjdfzQByA3R529eZgnU1er4fpcZxCkWi4w4vE=; b=SH//RN193WHui/2gzG6pbLGG1w
+ dfpMI+vTPPwMVTC9tyRpLfZfILNhRrT7xxisMTgNQnVqirpNyPb3YsvG9fpnbGuC565LNCsPMOqHL
+ xXtkIZr8EVxr0l0UkYP6esIj7RijKzdohh/QmiRokHxRoxKV6us4RyeJgO0BDEFX4EYi5U/c+SMjq
+ dt+XzSR3PnL+4euv7VRCOq4uVFFg8vXuwfDSnVYkT7GWx1bn7JEN5BtUiBEhKh9AxgOQWHxx+2dsT
+ 0KRrE9fpoLfRcjciRSVBIbpgwWy2lUc+kXANXj+HlyuuRwdryxIDrBwK7mliAm1vc9PlBjMpX2ItT
+ XVtEHoA3s3aVVk6BuZo0XbHu86wN/VVdN1eX8ukNZp1v3jy6wWE2VDpBn4oOyju9haKbpbYEHCX3X
+ cXS44hqdrjFBYC/lyiOj4/4Ki1OhCtIFisRpvGCAThk9mJNJZV13WNNBhS3e65DsgweVhnMwfQRFb
+ n58Z7Jd7xQB/8EAEohaZE9UqTSCw95ITmVMziwHqRzQL7eBVJHDGqeDLGwRwl4KEHrPb4+QGBHj2/
+ xIOd9nW5XyNYAfr83jZiW56280a5GQf48LZNXlKAjb66YSqwVuIU/AJYYfevKr8Blj6WPnkKPwhuh
+ WCiRgZyAQym+1We2qyo7pE9yBxN/WiDMQwElrI4CY=;
+From: Christian Schoenebeck <qemu_oss@crudebyte.com>
+To: qemu-devel@nongnu.org,
+ Philippe =?ISO-8859-1?Q?Mathieu=2DDaud=E9?= <f4bug@amsat.org>
+Cc: Vitaly Chikunov <vt@altlinux.org>, Greg Kurz <groug@kaod.org>,
+ qemu-stable@nongnu.org, ldv@altlinux.org
+Subject: Re: [PATCH v3] 9pfs: Fix segfault in do_readdir_many caused by struct
+ dirent overread
+Date: Fri, 04 Feb 2022 15:12:18 +0100
+Message-ID: <28345882.VnrBaU8NEn@silver>
+In-Reply-To: <449c9c55-06e8-66ef-8755-3ab2e785851c@amsat.org>
+References: <20220204050609.15510-1-vt@altlinux.org>
+ <449c9c55-06e8-66ef-8755-3ab2e785851c@amsat.org>
 MIME-Version: 1.0
-In-Reply-To: <874k5espp1.fsf@linaro.org>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"
+Received-SPF: pass client-ip=5.189.157.229;
+ envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.092,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -97,66 +66,93 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Viresh Kumar <viresh.kumar@linaro.org>,
- Vincent Guittot <vincent.guittot@linaro.org>, qemu-devel@nongnu.org,
- stratos-dev@op-lists.linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Feb 04, 2022 at 01:52:47PM +0000, Alex Bennée wrote:
-> 
-> "Michael S. Tsirkin" <mst@redhat.com> writes:
-> 
-> > On Wed, Jan 12, 2022 at 05:04:57PM +0530, Viresh Kumar wrote:
-> >> Hello,
-> >> 
-> >> This patchset adds vhost-user-gpio device's support in Qemu. The support for the
-> >> same has already been added to virtio specification and Linux Kernel.
-> >> 
-> >> A Rust based backend is also in progress and is tested against this patchset:
-> >> 
-> >> https://github.com/rust-vmm/vhost-device/pull/76
-> >
-> > So I'm waiting for v2 of this, right?
-> 
-> If you can give any pointers for how to properly instantiate the stub in
-> qtest then we can spin v2 pretty quickly. I tried but it didn't work:
-> 
->   Subject: [RFC PATCH] tests/qtest: attempt to enable tests for virtio-gpio (!working)
->   Date: Fri, 21 Jan 2022 15:15:34 +0000
->   Message-Id: <20220121151534.3654562-1-alex.bennee@linaro.org>
->   X-Mailer: git-send-email 2.30.2
->   In-Reply-To: <20220120040234.ehcjcdr6wrvlz3yc@vireshk-i7>
->   References: <20220120040234.ehcjcdr6wrvlz3yc@vireshk-i7>
-> 
-> it's all a bit opaque as to why it didn't.
+On Freitag, 4. Februar 2022 14:55:45 CET Philippe Mathieu-Daud=E9 via wrote:
+> On 4/2/22 06:06, Vitaly Chikunov wrote:
+> > `struct dirent' returned from readdir(3) could be shorter (or longer)
+> > than `sizeof(struct dirent)', thus memcpy of sizeof length will overread
+> >=20
+> > into unallocated page causing SIGSEGV. Example stack trace:
+> >   #0  0x00005555559ebeed v9fs_co_readdir_many (/usr/bin/qemu-system-x86=
+_64
+> >   + 0x497eed) #1  0x00005555559ec2e9 v9fs_readdir
+> >   (/usr/bin/qemu-system-x86_64 + 0x4982e9) #2  0x0000555555eb7983
+> >   coroutine_trampoline (/usr/bin/qemu-system-x86_64 + 0x963983) #3=20
+> >   0x00007ffff73e0be0 n/a (n/a + 0x0)
+> >=20
+> > While fixing, provide a helper for any future `struct dirent' cloning.
+> >=20
+> > Resolves: https://gitlab.com/qemu-project/qemu/-/issues/841
+> > Cc: qemu-stable@nongnu.org
+> > Co-authored-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
+> > Signed-off-by: Vitaly Chikunov <vt@altlinux.org>
+> > ---
+> > Tested on x86-64 Linux again.
+> >=20
+> > Changes from v2:
+> > - Make it work with a simulated dirent where d_reclen is 0, which was
+> >=20
+> >    caused abort in readdir qos-test, by using fallback at runtime.
+> >  =20
+> >   hw/9pfs/codir.c      |  3 +--
+> >   include/qemu/osdep.h | 13 +++++++++++++
+> >   util/osdep.c         | 18 ++++++++++++++++++
+> >   3 files changed, 32 insertions(+), 2 deletions(-)
+> >=20
+> > +struct dirent *
+> > +qemu_dirent_dup(struct dirent *dent)
+> > +{
+> > +    size_t sz =3D 0;
+> > +#if defined _DIRENT_HAVE_D_RECLEN
+> > +    /* Avoid use of strlen() if there's d_reclen. */
+> > +    sz =3D dent->d_reclen;
+> > +#endif
+> > +    if (sz =3D=3D 0) {
+>=20
+> If _DIRENT_HAVE_D_RECLEN is defined, this case is unlikely...
+>=20
+> > +        /* Fallback to the most portable way. */
+> > +        sz =3D offsetof(struct dirent, d_name) +
+> > +                      strlen(dent->d_name) + 1;
+> > +    }
+> > +    struct dirent *dst =3D g_malloc(sz);
+> > +    return memcpy(dst, dent, sz);
+> > +}
+>=20
+> What about this?
+>=20
+> struct dirent *
+> qemu_dirent_dup(struct dirent *dent)
+> {
+>      size_t sz;
+>=20
+> #if defined _DIRENT_HAVE_D_RECLEN
+>      /* Avoid use of strlen() if there's d_reclen. */
+>      sz =3D dent->d_reclen;
+> #else
+>      /* Fallback to the most portable way. */
+>      sz =3D offsetof(struct dirent, d_name) +
+>                    strlen(dent->d_name) + 1;
+> #endif
+>=20
+>      return g_memdup(dent, sz);
+> }
 
-A bit rushed short term, it this isn't resolved soon I'll try to help.
-Maybe try CC other vhost-user maintainers (for blk,gpu etc) meanwhile.
+That was the intentional change v2 -> v3 Philippe. Previous v2 crashed the
+9p 'synth' tests:
 
-> >
-> >> --
-> >> Viresh
-> >> 
-> >> Viresh Kumar (2):
-> >>   hw/virtio: add boilerplate for vhost-user-gpio device
-> >>   hw/virtio: add vhost-user-gpio-pci boilerplate
-> >> 
-> >>  hw/virtio/Kconfig                   |   5 +
-> >>  hw/virtio/meson.build               |   2 +
-> >>  hw/virtio/vhost-user-gpio-pci.c     |  69 ++++++
-> >>  hw/virtio/vhost-user-gpio.c         | 343 ++++++++++++++++++++++++++++
-> >>  include/hw/virtio/vhost-user-gpio.h |  35 +++
-> >>  5 files changed, 454 insertions(+)
-> >>  create mode 100644 hw/virtio/vhost-user-gpio-pci.c
-> >>  create mode 100644 hw/virtio/vhost-user-gpio.c
-> >>  create mode 100644 include/hw/virtio/vhost-user-gpio.h
-> >> 
-> >> -- 
-> >> 2.31.1.272.g89b43f80a514
-> 
-> 
-> -- 
-> Alex Bennée
+https://lore.kernel.org/qemu-devel/2627488.0S70g7mNYN@silver/T/#ma09bedde59=
+a91e6435443e151f7e49fef8616e4c
+
+You might argue that the 9p 'synth' driver should instead populate d_reclen
+instead, but this v3 is a simpler solution and guarantees to always work. So
+I'd prefer to go with Vitaly's v3 for now, especially as this patch would go
+to the stable branches as well.
+
+Best regards,
+Christian Schoenebeck
+
 
 
