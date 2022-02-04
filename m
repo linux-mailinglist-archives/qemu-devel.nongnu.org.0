@@ -2,87 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B9154A9A83
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Feb 2022 14:59:52 +0100 (CET)
-Received: from localhost ([::1]:42408 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E24EA4A9AC7
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Feb 2022 15:16:00 +0100 (CET)
+Received: from localhost ([::1]:50350 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nFz7v-0003B4-00
-	for lists+qemu-devel@lfdr.de; Fri, 04 Feb 2022 08:59:51 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:33312)
+	id 1nFzNV-0000l1-Ps
+	for lists+qemu-devel@lfdr.de; Fri, 04 Feb 2022 09:15:58 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:34682)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nFz46-0001Tf-Gy; Fri, 04 Feb 2022 08:55:54 -0500
-Received: from [2607:f8b0:4864:20::102d] (port=39872
- helo=mail-pj1-x102d.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nFz43-0003jv-Vn; Fri, 04 Feb 2022 08:55:54 -0500
-Received: by mail-pj1-x102d.google.com with SMTP id
- x15-20020a17090a6b4f00b001b8778c9183so207047pjl.4; 
- Fri, 04 Feb 2022 05:55:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=qHtIov9zuqKKSV/A3xGqrclUdi5d01b+AAVZVixCJpE=;
- b=UuC7my6wIrHC6n02IPZgMWNcIHGy0tdAZ8IK7ssvEeB2NgBWKt/fFvC/xQ31RdGogp
- LpAlPp/CEtZxS3/C2JhKrrFkUVC9D7nGNYlrWFaoE5FnWSzSaadsAj1vpdqfyH95vZtF
- IKZmsSzL0ILYLdq+b1b/lJHl+14hAei0l+rexugSTfoOB7iYdfLapGEx7d8mlGxGpOO0
- 3VWMCF5gp9GeYBvESXUrFwGUbdMTg/9MAh1iH26VJRBYrXYWcBDb0hw6nt4hL2v06Jnv
- OOmdM8cnEXjDJLeKT4+QoNsp6Bh9AmlFJTnjdOuN5f1qiAZ+cp/2OUh0ORp0YhYbpk9h
- fhPw==
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nFzA8-0005iE-EK
+ for qemu-devel@nongnu.org; Fri, 04 Feb 2022 09:02:11 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:53534)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nFzA4-0004YW-Gu
+ for qemu-devel@nongnu.org; Fri, 04 Feb 2022 09:02:06 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1643983298;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=Wr44KBhJZAlMzB2mYfUkvIx625L/JEnm/ilbcFSSFJ0=;
+ b=gEml7aQQIX0Kuy/Uh7tziGzk24UIfYgeTTMG+uSIxmNhVlooLzlbZrbosscV2eC+KXHbro
+ T9LDhTMaYKE0gfF6zxLdsDLny1zzDtoq1NMP51aZOJw51zPx3qBda7bSiOPUV8vbj9lCjQ
+ XH4IWa4t+Eg9Lg+ucrnZe3KG5AAdB5w=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-132-MVWrw_ooMc6ufWYStNnEBQ-1; Fri, 04 Feb 2022 09:01:37 -0500
+X-MC-Unique: MVWrw_ooMc6ufWYStNnEBQ-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ f7-20020a1cc907000000b0034b63f314ccso2419775wmb.6
+ for <qemu-devel@nongnu.org>; Fri, 04 Feb 2022 06:01:37 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=qHtIov9zuqKKSV/A3xGqrclUdi5d01b+AAVZVixCJpE=;
- b=23+LpvpDhZp2ghqj/ZeXt7botAPuPxdq5NYr1wV8dn6do1M/tU+vbNZV//ci/Smp3j
- pRXyCAKFbwPIpeJ+GiResvRYOm73U6tc1X1DdOY72n/PIrWfYn24ftsHni0lwT1U+EGu
- hqGY1dyuNPkhk39uqhO7njgJ8ozvuTKyGe85x3NpvNkWPMNNe9BNmcLFK6/JyuMI5I2t
- 8rHdF71p/QNeJaPM4BBIZs06CRFFULhkF8VxBy/y3uIG+4JrGC4mVq8L4VGp/bWz+6d8
- byS+vE8lqg0bz17L1LfTww+7ElGM+xEf9ROiGA6c1T9sME/XT4EaduM2V5fet6qo/3dE
- IWvA==
-X-Gm-Message-State: AOAM53303klgqOc/vFG9m7iADUzvlklXcRHsn27m/K7UNtXuB5JzsyWh
- RX9ehJicQR8I38tPNtDREGY=
-X-Google-Smtp-Source: ABdhPJxj2Q63vJFHzaqOWedhNq8xDa6j3OpYHMv36hPs57wV7w8Y98EkgHrsnDV1CZTp7POSQZJn7g==
-X-Received: by 2002:a17:903:404b:: with SMTP id
- n11mr3285421pla.42.1643982949909; 
- Fri, 04 Feb 2022 05:55:49 -0800 (PST)
-Received: from [192.168.1.33] (154.red-83-50-83.dynamicip.rima-tde.net.
- [83.50.83.154])
- by smtp.gmail.com with ESMTPSA id pg2sm15386244pjb.54.2022.02.04.05.55.47
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 04 Feb 2022 05:55:49 -0800 (PST)
-Message-ID: <449c9c55-06e8-66ef-8755-3ab2e785851c@amsat.org>
-Date: Fri, 4 Feb 2022 14:55:45 +0100
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=Wr44KBhJZAlMzB2mYfUkvIx625L/JEnm/ilbcFSSFJ0=;
+ b=ZXiQd70OyFurB9vjARal3mcUWo5r7NyXSlIYykxrCKsz/H2Qa3OLrY9wVl8slcH7Xt
+ Ruc519qlWiaNuhFP4kDIdzwAjx1A3pGxD5Ja1ceRMLNq1PXC+DE9i98ZfeWbMh2WqsOq
+ whJvmYbJuTlaT0i+UIaNMxOEPiICB8jM7A4n31gKsKE3G8z6aY6+DQlAbKEtPc7G6+3+
+ CRjv6Fjk4W4EogbPDXj+DsHviVLTTXonMJv4EeKNa0LF0PUAwHDhDYoG8rsgPAecy++c
+ tmkahUi9rQueVclFjAOvToSYnG1Y7g33ETFekOrPLjFmBQbUrtFrP0UXB40xDzYhF3+2
+ vIpw==
+X-Gm-Message-State: AOAM532gKAo8sjcIxQFkx1DxSmSLdm1w5DSgxe8wtjM7zUv9PfuRTamX
+ 6HelL5uPesikpVvj3d3gVKJDRKIDwrj+KyfLURIlg5Lb9pChaMjd64S1Pbfg1tNEr2PAnTwNoiQ
+ IhKucP/jBydkAZM0=
+X-Received: by 2002:a1c:4484:: with SMTP id r126mr1703975wma.26.1643983296353; 
+ Fri, 04 Feb 2022 06:01:36 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJw4vxcDLw2avmIa/GSkgZ57y5FAFHMlJBeXuR9GY6/I+tq4UNNIvqt0ly336LScz55EktdR2w==
+X-Received: by 2002:a1c:4484:: with SMTP id r126mr1703946wma.26.1643983296028; 
+ Fri, 04 Feb 2022 06:01:36 -0800 (PST)
+Received: from redhat.com ([2a10:8005:331d:0:5c51:c095:613e:277c])
+ by smtp.gmail.com with ESMTPSA id o12sm2371993wry.115.2022.02.04.06.01.33
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 04 Feb 2022 06:01:35 -0800 (PST)
+Date: Fri, 4 Feb 2022 09:01:31 -0500
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Subject: Re: [PATCH v5 16/43] tests/acpi: Add update DSDT.viot
+Message-ID: <20220204085953-mutt-send-email-mst@kernel.org>
+References: <20220202141037.17352-1-Jonathan.Cameron@huawei.com>
+ <20220202141037.17352-17-Jonathan.Cameron@huawei.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.5.1
-Subject: Re: [PATCH v3] 9pfs: Fix segfault in do_readdir_many caused by struct
- dirent overread
-Content-Language: en-US
-To: Vitaly Chikunov <vt@altlinux.org>, Greg Kurz <groug@kaod.org>,
- Christian Schoenebeck <qemu_oss@crudebyte.com>, qemu-devel@nongnu.org
-Cc: qemu-stable@nongnu.org, ldv@altlinux.org
-References: <20220204050609.15510-1-vt@altlinux.org>
-In-Reply-To: <20220204050609.15510-1-vt@altlinux.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::102d
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102d;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pj1-x102d.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
- PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+In-Reply-To: <20220202141037.17352-17-Jonathan.Cameron@huawei.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.092,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,75 +93,75 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Ben Widawsky <ben.widawsky@intel.com>, Samarth Saxena <samarths@cadence.com>,
+ Chris Browy <cbrowy@avery-design.com>, qemu-devel@nongnu.org,
+ linux-cxl@vger.kernel.org, linuxarm@huawei.com,
+ Shreyas Shah <shreyas.shah@elastics.cloud>, Saransh Gupta1 <saransh@ibm.com>,
+ Shameerali Kolothum Thodi <shameerali.kolothum.thodi@huawei.com>,
+ Marcel Apfelbaum <marcel@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
+ Dan Williams <dan.j.williams@intel.com>,
+ Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
-On 4/2/22 06:06, Vitaly Chikunov wrote:
-> `struct dirent' returned from readdir(3) could be shorter (or longer)
-> than `sizeof(struct dirent)', thus memcpy of sizeof length will overread
-> into unallocated page causing SIGSEGV. Example stack trace:
+On Wed, Feb 02, 2022 at 02:10:10PM +0000, Jonathan Cameron wrote:
+> From: Jonathan Cameron <jonathan.cameron@huawei.com>
 > 
->   #0  0x00005555559ebeed v9fs_co_readdir_many (/usr/bin/qemu-system-x86_64 + 0x497eed)
->   #1  0x00005555559ec2e9 v9fs_readdir (/usr/bin/qemu-system-x86_64 + 0x4982e9)
->   #2  0x0000555555eb7983 coroutine_trampoline (/usr/bin/qemu-system-x86_64 + 0x963983)
->   #3  0x00007ffff73e0be0 n/a (n/a + 0x0)
+> The consolidation of DSDT AML generation for PCI host bridges
+> lead to some minor ordering changes and the addition of _ADR
+> with a default of 0 for those case that didn't already have it.
+> Only DSDT.viot test is affected.
 > 
-> While fixing, provide a helper for any future `struct dirent' cloning.
+> Changes all similar to:
 > 
-> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/841
-> Cc: qemu-stable@nongnu.org
-> Co-authored-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
-> Signed-off-by: Vitaly Chikunov <vt@altlinux.org>
+> Scope (\_SB)
+>      {
+>        Device (PC30)
+>        {
+> -        Name (_UID, 0x30)  // _UID: Unique ID
+>          Name (_BBN, 0x30)  // _BBN: BIOS Bus Number
+>          Name (_HID, EisaId ("PNP0A08") /* PCI Express Bus */)  // _HID: Hardware ID
+>          Name (_CID, EisaId ("PNP0A03") /* PCI Bus */)  // _CID: Compatible ID
+> +        Name (_ADR, Zero)  // _ADR: Address
+> +        Name (_UID, 0x30)  // _UID: Unique ID
+>          Method (_OSC, 4, NotSerialized)  // _OSC: Operating System Capabilities
+> 
+> Signed-off-by: Jonathan Cameron <jonathan.cameron@huawei.com>
+
+A bit worried about _ADR here.  It's probably fine as it should be
+unused but in the past some changes like that confused windows guests
+where they would lose e.g. a static ip config since from their
+POV device address changed.
+
+Igor, what do you think?
+
 > ---
-> Tested on x86-64 Linux again.
+>  tests/data/acpi/q35/DSDT.viot               | Bin 9398 -> 9416 bytes
+>  tests/qtest/bios-tables-test-allowed-diff.h |   1 -
+>  2 files changed, 1 deletion(-)
 > 
-> Changes from v2:
-> - Make it work with a simulated dirent where d_reclen is 0, which was
->    caused abort in readdir qos-test, by using fallback at runtime.
+> diff --git a/tests/data/acpi/q35/DSDT.viot b/tests/data/acpi/q35/DSDT.viot
+> index 1c3b4da5cbe81ecab5e1ef50d383b561c5e0f55f..207ac5b9ae4c3a4bc0094c2242d1a1b08771b784 100644
+> GIT binary patch
+> delta 139
+> zcmdnydBT&+CD<k8gbD)#<CBeCu5zLdVlnZ-PVv!A?xF$C#s(bmPELMY6KfQhxC}No
+> z$Z0Y1qbM*kn0!E9nwKNq(Itq1BR<sAg-ZdbOrCM_F9mK?rG^HRr4><?3V@Yv4pmBI
+> F0sxp4B{u*7
 > 
->   hw/9pfs/codir.c      |  3 +--
->   include/qemu/osdep.h | 13 +++++++++++++
->   util/osdep.c         | 18 ++++++++++++++++++
->   3 files changed, 32 insertions(+), 2 deletions(-)
+> delta 143
+> zcmX@%xy_TyCD<ion+gL1<MNGMu5zMYqA~HoPVv!Aj-mn1#s(bmp`I>WlVjy%CeC%7
+> z+^Kj^(SX5#0jQdxl0g7Ptr1kM!sPw((lEse3<_8k8$uNeOjb|?Dc;<vXwM7)8)+to
+> 
+> diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
+> index 08a8095432..dfb8523c8b 100644
+> --- a/tests/qtest/bios-tables-test-allowed-diff.h
+> +++ b/tests/qtest/bios-tables-test-allowed-diff.h
+> @@ -1,2 +1 @@
+>  /* List of comma-separated changed AML files to ignore */
+> -"tests/data/acpi/q35/DSDT.viot",
+> -- 
+> 2.32.0
 
-> +struct dirent *
-> +qemu_dirent_dup(struct dirent *dent)
-> +{
-> +    size_t sz = 0;
-> +#if defined _DIRENT_HAVE_D_RECLEN
-> +    /* Avoid use of strlen() if there's d_reclen. */
-> +    sz = dent->d_reclen;
-> +#endif
-> +    if (sz == 0) {
-
-If _DIRENT_HAVE_D_RECLEN is defined, this case is unlikely...
-
-> +        /* Fallback to the most portable way. */
-> +        sz = offsetof(struct dirent, d_name) +
-> +                      strlen(dent->d_name) + 1;
-> +    }
-> +    struct dirent *dst = g_malloc(sz);
-> +    return memcpy(dst, dent, sz);
-> +}
-
-What about this?
-
-struct dirent *
-qemu_dirent_dup(struct dirent *dent)
-{
-     size_t sz;
-
-#if defined _DIRENT_HAVE_D_RECLEN
-     /* Avoid use of strlen() if there's d_reclen. */
-     sz = dent->d_reclen;
-#else
-     /* Fallback to the most portable way. */
-     sz = offsetof(struct dirent, d_name) +
-                   strlen(dent->d_name) + 1;
-#endif
-
-     return g_memdup(dent, sz);
-}
 
