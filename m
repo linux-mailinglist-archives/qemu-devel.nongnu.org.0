@@ -2,76 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3EF8E4A9C16
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Feb 2022 16:39:26 +0100 (CET)
-Received: from localhost ([::1]:54102 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 090524A9C36
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Feb 2022 16:48:39 +0100 (CET)
+Received: from localhost ([::1]:38682 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nG0gH-0005xO-CU
-	for lists+qemu-devel@lfdr.de; Fri, 04 Feb 2022 10:39:25 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:33066)
+	id 1nG0pB-0006Xr-RJ
+	for lists+qemu-devel@lfdr.de; Fri, 04 Feb 2022 10:48:37 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:34190)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nG0cG-0001Ng-HO
- for qemu-devel@nongnu.org; Fri, 04 Feb 2022 10:35:16 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:47611)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nG0gB-0007qh-Bk
+ for qemu-devel@nongnu.org; Fri, 04 Feb 2022 10:39:21 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:60726)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nG0cE-0005Jx-Jw
- for qemu-devel@nongnu.org; Fri, 04 Feb 2022 10:35:16 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nG0g5-0005qs-3g
+ for qemu-devel@nongnu.org; Fri, 04 Feb 2022 10:39:18 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1643988913;
+ s=mimecast20190719; t=1643989134;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ZaQCTJI8hRRekk/jT+uKTGnSoziT0v6Nrh2OGyx0MQM=;
- b=jN0eGa99puOixbocAko4iQm0zZXc4rQx0MT+HsK/9Dtv0v/JC6D3+/ZJGUodb4rGnmc5KX
- fojEzyTz1V4zTRO0pbQSoquEgfpmKqs22uAWFbrUWalHV+D39uO3yzqyZznplRgaNz6gOj
- AafELglNCA/p6KygUjUwRkNGM6n69TM=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=q0ld7+bwgHCZA/uPYpkGVqXcO8duoPbdMZSSGWnmodg=;
+ b=Lnudfx/QXIdUthB1iC3t4bpyEi7jqqQ7Ir1Redy4jwds1Adm/SDo4cRvE8t4KXYPg9l8ts
+ Atp7crYaoY9JwwQ5MxVp7YsbHZNabFZA0crY33EqeeuhDTZ9gCpnlPlFK39Y2FQVkObGM+
+ e2p+wEPWnsl560utfnh+cd3kDPiVWfA=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-595-bm58dd8SP3SRiE_t4fjHwA-1; Fri, 04 Feb 2022 10:35:12 -0500
-X-MC-Unique: bm58dd8SP3SRiE_t4fjHwA-1
-Received: by mail-wm1-f71.google.com with SMTP id
- n6-20020a05600c3b8600b00350f4349a19so2016006wms.1
- for <qemu-devel@nongnu.org>; Fri, 04 Feb 2022 07:35:12 -0800 (PST)
+ us-mta-625-RM0-q_zONBOG5zOsrQUSgw-1; Fri, 04 Feb 2022 10:38:53 -0500
+X-MC-Unique: RM0-q_zONBOG5zOsrQUSgw-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ k7-20020adfb347000000b001dd761d46c7so2171019wrd.4
+ for <qemu-devel@nongnu.org>; Fri, 04 Feb 2022 07:38:53 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=ZaQCTJI8hRRekk/jT+uKTGnSoziT0v6Nrh2OGyx0MQM=;
- b=CXIo44GEswIddOi7pgJnSvR/DywtoJla2/7mbqlDqdHVfXNJKrFRTAHDgkJKLNWFlJ
- PhUyuNhYXvaW5sFaM+v+lDu/ZZabUD7iXfJ0OzsI/qhGMFP1cb4WojwuM7BYvkcbIH+V
- xDEcnlxDc416x++k6FCnh/VaNN9YDIDnDNxvf3R6YmuJG4mwouVxPaFcpxQ7mYKQBDz3
- 8h55fAU2KeP+FZtghAH8yrf68ADTn5l0phcugU1iFXyQipEHFbosMvZewAHUmh3Uwwio
- AHj1uhMsVY2frnKVXeLSj4p6l//ZMiMaVFXqscByYdGr4YS5U4UwoFCVwH7VNWkpl2ew
- f37A==
-X-Gm-Message-State: AOAM53311fOo/N6kejb4SUjg0hEv5ly7kV1DLd9sFYClYegXunP0KQSr
- MLkkKD3NnAWPMKqwFtwj3fN1IMx06dUil3gE3YGp+j3BDFtCVQfzH0ZwL84HMr1GUn95+INkGQV
- SGBiHEsAVy/hTDhg=
-X-Received: by 2002:a5d:46c1:: with SMTP id g1mr3051401wrs.111.1643988911509; 
- Fri, 04 Feb 2022 07:35:11 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwy/7gR6fqniP1LGbCK2+lwhNjnvxectJ6Vp3BHV3uUPqcYTlBZH+B300PJAsZEf+C+/O3LhQ==
-X-Received: by 2002:a5d:46c1:: with SMTP id g1mr3051377wrs.111.1643988911267; 
- Fri, 04 Feb 2022 07:35:11 -0800 (PST)
+ bh=q0ld7+bwgHCZA/uPYpkGVqXcO8duoPbdMZSSGWnmodg=;
+ b=w5rhA6/y33qqOzkM0Ky0VV/vDI3+5rv2K6pa0ua3ukIjUddAEtrMNRjhpHkFW5opyx
+ uDRQQqHAKGfYEFYo9kJXpkJqWLcvsAGmRS4DkHwX4YbXSJG2HH4mqy9dWVLkC8bVcLXP
+ dLFNaEh+uccRQCTuQXXabZPssINrC1uJ9gGVHEhmoSJYJTgj13ySNPNSyo//qP6nsZMj
+ KDcDR96TZFOcR4MIBvyQ2xOff/vt8n4kBztUlulWV1mZeaB9e1gBGhqULJjKyPFCtzIx
+ zItBavVYD/ySvPmgYTQblbJYxwGm35TP6hX3jNPX2LbM13GJpnphxJamAZ5eVr5Ki9Xt
+ 8h3w==
+X-Gm-Message-State: AOAM532PNTj0QZ/kMg9prJemo8lbh7VU2puNIAx5KPFpfHohiD+wuWV1
+ 8WMC1z8EXW7nBC3YZr1dAtcWgUdkC21POV8piYrzsBU+1Fe3VWwjQ/w0icmZ1pzmJVsAtcD839M
+ 1f1anjc3Uk8aPjZU=
+X-Received: by 2002:a05:600c:364f:: with SMTP id
+ y15mr2715922wmq.125.1643989132264; 
+ Fri, 04 Feb 2022 07:38:52 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwMJjJ5V3iv8jrIMH7bSaKtzvmUJa+m/QDhKQaK8TeSICSF8lGcyv4RP7gdIXd0A3dHWi9qCA==
+X-Received: by 2002:a05:600c:364f:: with SMTP id
+ y15mr2715902wmq.125.1643989132019; 
+ Fri, 04 Feb 2022 07:38:52 -0800 (PST)
 Received: from [192.168.8.100] (tmo-096-196.customers.d1-online.com.
  [80.187.96.196])
- by smtp.gmail.com with ESMTPSA id o14sm2547097wry.104.2022.02.04.07.35.09
+ by smtp.gmail.com with ESMTPSA id h9sm1894888wmq.8.2022.02.04.07.38.49
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 04 Feb 2022 07:35:10 -0800 (PST)
-Message-ID: <5c1d7c6d-c7f4-aef5-6045-77fbf32f319b@redhat.com>
-Date: Fri, 4 Feb 2022 16:35:09 +0100
+ Fri, 04 Feb 2022 07:38:50 -0800 (PST)
+Message-ID: <137a9a4f-c632-105b-315d-ca42dead942f@redhat.com>
+Date: Fri, 4 Feb 2022 16:38:48 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.5.0
-Subject: Re: [PATCH 1/4] configure: Restrict TCG to emulation
+Subject: Re: [PATCH 2/4] tests/fp: Do not build softfloat3 tests if TCG is
+ disabled
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
  qemu-devel@nongnu.org
 References: <20220204152924.6253-1-f4bug@amsat.org>
- <20220204152924.6253-2-f4bug@amsat.org>
+ <20220204152924.6253-3-f4bug@amsat.org>
 From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <20220204152924.6253-2-f4bug@amsat.org>
+In-Reply-To: <20220204152924.6253-3-f4bug@amsat.org>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -108,50 +111,34 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 04/02/2022 16.29, Philippe Mathieu-Daudé wrote:
-> If we don't need to emulate any target, we certainly don't need TCG.
+> Technically we don't need the TCG accelerator to run the
+> softfloat3 tests. However it is unlikely an interesting
+> build combination. Developers using softfloat3 likely use
+> TCG too. Similarly, developers disabling TCG shouldn't
+> mind much about softfloat3 tests.
+> 
+> This reduces a non-TCG build by 474 objects!
 > 
 > Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 > ---
->   configure | 12 ++++++++++--
->   1 file changed, 10 insertions(+), 2 deletions(-)
+>   tests/fp/meson.build | 3 +++
+>   1 file changed, 3 insertions(+)
 > 
-> diff --git a/configure b/configure
-> index 9f40d60196..4002f81ac9 100755
-> --- a/configure
-> +++ b/configure
-> @@ -370,7 +370,7 @@ slirp="auto"
->   default_devices="true"
->   
->   # 3. Automatically enable/disable other options
-> -tcg="enabled"
-> +tcg="auto"
->   cfi="false"
->   
->   # 4. Detection partly done in configure
-> @@ -1777,7 +1777,7 @@ EOF
->     fi
->   fi
->   
-> -if test "$tcg" = "enabled"; then
-> +if test "$tcg" != "disabled"; then
->       git_submodules="$git_submodules tests/fp/berkeley-testfloat-3"
->       git_submodules="$git_submodules tests/fp/berkeley-softfloat-3"
->   fi
-> @@ -1819,6 +1819,14 @@ case " $target_list " in
->     ;;
->   esac
->   
-> +if test "$tcg" = "auto"; then
-> +  if test -z "$target_list"; then
-> +    tcg="disabled"
-> +  else
-> +    tcg="enabled"
-> +  fi
-> +fi
-> +
->   feature_not_found() {
->     feature=$1
->     remedy=$2
+> diff --git a/tests/fp/meson.build b/tests/fp/meson.build
+> index 59776a00a7..60843fce85 100644
+> --- a/tests/fp/meson.build
+> +++ b/tests/fp/meson.build
+> @@ -1,3 +1,6 @@
+> +if 'CONFIG_TCG' not in config_all
+
+Alternatively "if not config_all.has_key('CONFIG_TCG')" ? ... not sure which 
+one is better, though
+
+> +  subdir_done()
+> +endif
+>   # There are namespace pollution issues on Windows, due to osdep.h
+>   # bringing in Windows headers that define a FLOAT128 type.
+>   if targetos == 'windows'
 
 Reviewed-by: Thomas Huth <thuth@redhat.com>
 
