@@ -2,37 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19C974A99BC
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Feb 2022 14:11:29 +0100 (CET)
-Received: from localhost ([::1]:37588 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E38C74A99C9
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Feb 2022 14:17:16 +0100 (CET)
+Received: from localhost ([::1]:44496 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nFyN5-0002nB-NL
-	for lists+qemu-devel@lfdr.de; Fri, 04 Feb 2022 08:11:27 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:45830)
+	id 1nFySh-0007ya-Ha
+	for lists+qemu-devel@lfdr.de; Fri, 04 Feb 2022 08:17:15 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:47038)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1nFxx7-00042a-Ub; Fri, 04 Feb 2022 07:44:38 -0500
-Received: from [2001:738:2001:2001::2001] (port=25999 helo=zero.eik.bme.hu)
+ id 1nFy3Z-0005dw-Pm; Fri, 04 Feb 2022 07:51:18 -0500
+Received: from [2001:738:2001:2001::2001] (port=26584 helo=zero.eik.bme.hu)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1nFxx5-0006rg-GY; Fri, 04 Feb 2022 07:44:37 -0500
+ id 1nFy3W-0007xw-Q5; Fri, 04 Feb 2022 07:51:17 -0500
 Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 29C09745708;
- Fri,  4 Feb 2022 13:43:43 +0100 (CET)
+ by localhost (Postfix) with SMTP id 5828C745708;
+ Fri,  4 Feb 2022 13:51:09 +0100 (CET)
 Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 0D971745706; Fri,  4 Feb 2022 13:43:43 +0100 (CET)
+ id 36C5A745706; Fri,  4 Feb 2022 13:51:09 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id 0B0D47456E3;
- Fri,  4 Feb 2022 13:43:43 +0100 (CET)
-Date: Fri, 4 Feb 2022 13:43:43 +0100 (CET)
+ by zero.eik.bme.hu (Postfix) with ESMTP id 354FE7456E3;
+ Fri,  4 Feb 2022 13:51:09 +0100 (CET)
+Date: Fri, 4 Feb 2022 13:51:09 +0100 (CET)
 From: BALATON Zoltan <balaton@eik.bme.hu>
 To: Fabiano Rosas <farosas@linux.ibm.com>
-Subject: Re: [PATCH 04/11] target/ppc: 6xx: Critical exception cleanup
-In-Reply-To: <20220203200957.1434641-5-farosas@linux.ibm.com>
-Message-ID: <9580615e-c7-9b40-6534-6f1d8abe9f3b@eik.bme.hu>
+Subject: Re: [PATCH 10/11] target/ppc: 6xx: Software TLB exceptions cleanup
+In-Reply-To: <20220203200957.1434641-11-farosas@linux.ibm.com>
+Message-ID: <4bb49bac-12a7-b3ae-e719-e257366d15d5@eik.bme.hu>
 References: <20220203200957.1434641-1-farosas@linux.ibm.com>
- <20220203200957.1434641-5-farosas@linux.ibm.com>
+ <20220203200957.1434641-11-farosas@linux.ibm.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII; format=flowed
 X-Spam-Probability: 8%
@@ -64,55 +64,73 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On Thu, 3 Feb 2022, Fabiano Rosas wrote:
-> This only applies to the G2s, the other 6xx CPUs will not have this
-> vector registered.
+> This code applies only to the 6xx CPUs, so we can remove the switch
+> statement.
 >
 > Signed-off-by: Fabiano Rosas <farosas@linux.ibm.com>
 > ---
-> target/ppc/excp_helper.c | 15 ---------------
-> 1 file changed, 15 deletions(-)
+> target/ppc/excp_helper.c | 31 +++++++++++--------------------
+> 1 file changed, 11 insertions(+), 20 deletions(-)
 >
 > diff --git a/target/ppc/excp_helper.c b/target/ppc/excp_helper.c
-> index d855a275ca..e27e1c3c70 100644
+> index 538905c4dd..80168355bd 100644
 > --- a/target/ppc/excp_helper.c
 > +++ b/target/ppc/excp_helper.c
-> @@ -596,20 +596,6 @@ static void powerpc_excp_6xx(PowerPCCPU *cpu, int excp)
+> @@ -553,7 +553,6 @@ static void powerpc_excp_6xx(PowerPCCPU *cpu, int excp)
+> {
+>     CPUState *cs = CPU(cpu);
+>     CPUPPCState *env = &cpu->env;
+> -    int excp_model = env->excp_model;
+>     target_ulong msr, new_msr, vector;
+>     int srr0, srr1;
 >
->     switch (excp) {
->     case POWERPC_EXCP_CRITICAL:    /* Critical input                         */
+> @@ -695,26 +694,18 @@ static void powerpc_excp_6xx(PowerPCCPU *cpu, int excp)
+>     case POWERPC_EXCP_IFTLB:     /* Instruction fetch TLB error              */
+>     case POWERPC_EXCP_DLTLB:     /* Data load TLB miss                       */
+>     case POWERPC_EXCP_DSTLB:     /* Data store TLB miss                      */
 > -        switch (excp_model) {
-> -        case POWERPC_EXCP_40x:
-> -            srr0 = SPR_40x_SRR2;
-> -            srr1 = SPR_40x_SRR3;
-> -            break;
-> -        case POWERPC_EXCP_BOOKE:
-> -            srr0 = SPR_BOOKE_CSRR0;
-> -            srr1 = SPR_BOOKE_CSRR1;
-> -            break;
 > -        case POWERPC_EXCP_6xx:
+> -            /* Swap temporary saved registers with GPRs */
+> -            if (!(new_msr & ((target_ulong)1 << MSR_TGPR))) {
+> -                new_msr |= (target_ulong)1 << MSR_TGPR;
+> -                hreg_swap_gpr_tgpr(env);
+> -            }
+> -            /* fall through */
+> -        case POWERPC_EXCP_7x5:
+> -            ppc_excp_debug_sw_tlb(env, excp);
+> -
+> -            msr |= env->crf[0] << 28;
+> -            msr |= env->error_code; /* key, D/I, S/L bits */
+> -            /* Set way using a LRU mechanism */
+> -            msr |= ((env->last_way + 1) & (env->nb_ways - 1)) << 17;
 > -            break;
 > -        default:
-> -            goto excp_invalid;
+> -            cpu_abort(cs, "Invalid TLB miss exception\n");
+> -            break;
+> +        /* Swap temporary saved registers with GPRs */
+> +        if (!(new_msr & ((target_ulong)1 << MSR_TGPR))) {
+> +            new_msr |= (target_ulong)1 << MSR_TGPR;
+> +            hreg_swap_gpr_tgpr(env);
 
-It may not be a problem but this seems to change previous behaviour. To 
-keep that you may need to test for G2 here, or rather move this whole case 
-before the default case to avoid goto and be able to just fall through to 
-invalid if CPU is not a G2 (unless we're Ok with an if the default case).
+I get this one...
+
+>         }
+> +
+> +        ppc_excp_debug_sw_tlb(env, excp);
+> +
+> +        msr |= env->crf[0] << 28;
+> +        msr |= env->error_code; /* key, D/I, S/L bits */
+> +        /* Set way using a LRU mechanism */
+> +        msr |= ((env->last_way + 1) & (env->nb_ways - 1)) << 17;
+
+...but not why this can be moved out from case or if. Is POWERPC_EXCP_7x5 
+the same as POWERPC_EXCP_6xx now?
 
 Regards,
 BALATON Zoltan
 
-> -        }
 >         break;
->     case POWERPC_EXCP_MCHECK:    /* Machine check exception                  */
->         if (msr_me == 0) {
-> @@ -836,7 +822,6 @@ static void powerpc_excp_6xx(PowerPCCPU *cpu, int excp)
->                   powerpc_excp_name(excp));
->         break;
->     default:
-> -    excp_invalid:
->         cpu_abort(cs, "Invalid PowerPC exception %d. Aborting\n", excp);
->         break;
->     }
+>     case POWERPC_EXCP_FPA:       /* Floating-point assist exception          */
+>     case POWERPC_EXCP_DABR:      /* Data address breakpoint                  */
 >
 
