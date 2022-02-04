@@ -2,75 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8CD114AA166
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Feb 2022 21:50:01 +0100 (CET)
-Received: from localhost ([::1]:33034 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 58DC54AA160
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Feb 2022 21:47:31 +0100 (CET)
+Received: from localhost ([::1]:53292 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nG5Wq-0006aZ-4X
-	for lists+qemu-devel@lfdr.de; Fri, 04 Feb 2022 15:50:00 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:51458)
+	id 1nG5UQ-0001IJ-Ei
+	for lists+qemu-devel@lfdr.de; Fri, 04 Feb 2022 15:47:30 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:51456)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nG5Qj-0006du-DD
+ id 1nG5Qj-0006ds-Cb
  for qemu-devel@nongnu.org; Fri, 04 Feb 2022 15:43:41 -0500
-Received: from [2a00:1450:4864:20::32d] (port=42862
- helo=mail-wm1-x32d.google.com)
+Received: from [2a00:1450:4864:20::32a] (port=37605
+ helo=mail-wm1-x32a.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nG5Qh-0007KT-77
- for qemu-devel@nongnu.org; Fri, 04 Feb 2022 15:43:41 -0500
-Received: by mail-wm1-x32d.google.com with SMTP id
- n40-20020a05600c3ba800b00353958feb16so4464180wms.1
+ id 1nG5Qh-0007Ka-H0
+ for qemu-devel@nongnu.org; Fri, 04 Feb 2022 15:43:40 -0500
+Received: by mail-wm1-x32a.google.com with SMTP id
+ l12-20020a7bc34c000000b003467c58cbdfso10193475wmj.2
  for <qemu-devel@nongnu.org>; Fri, 04 Feb 2022 12:43:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=tPvPWoZfoAx56JLHOzUdBlaOjsJcPoCCPRQ/mi4ruyE=;
- b=SPI5dRb5AKlUWT3SwS5N4GGlgwlBzrxI0IFnu5Mj05Hb9mSzHkuCGFem86pDTGFELR
- x+xijbQ8CPgguQiA3n5LI+c6igoylQi8kefIvzfEzFnK3bzfzd3TbV7PwpnCdIsJ79ki
- HwqmvRwQiXjg0Gl5AYOefqcqf6IXb9HaymAUx3yjYlzWGKVRiO8gyzBPaGWG7VbXFFQt
- XBSEJ+sN5j7WrE4238KfHMShsLA+mPPpT7B8EKMMdO2oLfsnxliehNmo/wm9ZmUr9qp2
- m0mcbO7t8+UfKK7v97s06fvYhAQZB05ageQghvzfGXYhCYEraB9+B7aWwTZIYUNOpdXP
- o3Gg==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=ynFU7GIrDRiFDHdJik7DGdtoBE+darFWUPkAFAGxRwg=;
+ b=F0wmGj8F0x+I8yCZLvVIzTd4ugE+QQGyCglb0V/mQo9FIlU26lmoiNnEzm9LBe/wXE
+ qDiHiDSYXkZFngU6dzsBuU2PKtbPKnTvN6qvJjN7CDRRABESVSkuuzEBpwcHxvXJCjaN
+ mI+KGjpyeR4AycUdzd11QrS8+S/H1y+ZPPEazA1a5LOwdSHB+URQGK4qYnXizRTAKgxX
+ 7dLo1hy5VDm1YeBKwzT1ShK712Mznn1+st1PjQekwkDrzEyhM9zZND3VWP8gepNVQwV/
+ rD4y+G0UeuFPhp5CKippjgriC2QqKgaahL5JgoumBjJ7wtmFh+rOzBYTW4C3jE8WnZLn
+ kn5A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=tPvPWoZfoAx56JLHOzUdBlaOjsJcPoCCPRQ/mi4ruyE=;
- b=S1qFxWP0/CWSAzgk+4YzUrvhqHyGHw9fCvlMAhudoR3MXdXmnBWweGOUg6tJ5+Pikg
- fUjUASK4U+SwA8HHMYVTDV5Oq0wNGfCWBZu/1a/tGzY/egfjC3inUnx7ds+5jGubN5Ss
- S1ZTrxnwB82Zu2seV/q+dgnPaeQKZq92ZyDh6GmpxnU3BKADxSjWkueT7px4S7KHmNqL
- WIwUaxbFEMyb7WhDzVolNOtHb2IS98GsL8Zad7ybVIs8dLqb0zVcMUfG1vcTQCfCR4lt
- eWfYLB/Jx4I7U812r7bNzXSkFqqzyRmR1xpIcU/QJYNH2WdOAUxm0LyajGYO+XmaHzlW
- Cxpw==
-X-Gm-Message-State: AOAM530haZ41pnr6q6co+zDMLDzQ8t+hWFVK229ETFr4620wVAzRTDE8
- Z021Qjd0qT84BUSZCvHCrG+Idw==
-X-Google-Smtp-Source: ABdhPJx4PGy8JCSd/DsZpYFzwPuFDELtF6P9MIuRZ1NXEb0CD643rWNrr22GPyZGNl7tCbeOBkAaIQ==
-X-Received: by 2002:a05:600c:a4b:: with SMTP id
- c11mr3726099wmq.135.1644007416742; 
- Fri, 04 Feb 2022 12:43:36 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=ynFU7GIrDRiFDHdJik7DGdtoBE+darFWUPkAFAGxRwg=;
+ b=qrSqE1k3q2S3M36sHugjPug1j8ihJ0LIJ8X7AFjrts1y+i9sxMyq/lai/cLjySPirc
+ bx+NCp4yOCaV/tOyvRrVeY5ccWk84TZs+qslgQtkNUGtg3G5vyPWXXI4ryoBXZ89UmlH
+ yxx2KehGQPWmnq/AM6uA6xb4SlrUfC4MyTAZNygNmoxYhZZlCfX0iWsEyaj73nsYDB0X
+ UaBv6OaXwLZ/Bw5Cf5P/YRN3N51jGpAm3uvSwSlJZYqHDbFaZIs+FQhRgPH8TNcuDvpA
+ kbmO/DTVml2sZkuXl3FfkWE1YCcLkvv/9Hl2i1vVhOlZCXqumXJeKf9i1iQyKEmAwEBd
+ d8ew==
+X-Gm-Message-State: AOAM533ggmfxFinhu8eEo/ZBlwi/VQLr79W8usuZnBFZ6pHne5QsMIxF
+ dmpPgz+CDlp/zIoNcL854B5Sig==
+X-Google-Smtp-Source: ABdhPJwrUp7J3N4bT0AEoPIj5vpYNDay2eIouihgQ1Kz+uz1Nj2Pro1GS7wTEaWJIJ/7jLHl/DzmJQ==
+X-Received: by 2002:a05:600c:4808:: with SMTP id
+ i8mr3695415wmo.23.1644007417714; 
+ Fri, 04 Feb 2022 12:43:37 -0800 (PST)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id o5sm3203522wrc.23.2022.02.04.12.43.35
+ by smtp.gmail.com with ESMTPSA id p8sm3228490wrr.16.2022.02.04.12.43.35
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Fri, 04 Feb 2022 12:43:35 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 223091FFB7;
+ by zen.linaroharston (Postfix) with ESMTP id 399351FFB8;
  Fri,  4 Feb 2022 20:43:35 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: richard.henderson@linaro.org,
 	qemu-devel@nongnu.org
-Subject: [PATCH  v3 00/26] testing and plugins pre-PR
-Date: Fri,  4 Feb 2022 20:43:09 +0000
-Message-Id: <20220204204335.1689602-1-alex.bennee@linaro.org>
+Subject: [PATCH  v3 01/26] tests/Makefile.include: clean-up old code
+Date: Fri,  4 Feb 2022 20:43:10 +0000
+Message-Id: <20220204204335.1689602-2-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20220204204335.1689602-1-alex.bennee@linaro.org>
+References: <20220204204335.1689602-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32d
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32a
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32a.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -100,126 +102,31 @@ Cc: fam@euphon.net, berrange@redhat.com, Luke.Craig@ll.mit.edu,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
+This is no longer needed since 5516623020 ("meson: convert migration
+directory to Meson")
 
-I plan to generate the PR for this next week so it's the last chance
-for any review comments. I've added one additional commit which
-disables the threadcount test for sh4-linux-user which is still pretty
-shaky for anything thread related. The following could still do with
-review:
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Message-Id: <20220124201608.604599-2-alex.bennee@linaro.org>
+---
+ tests/Makefile.include | 4 ----
+ 1 file changed, 4 deletions(-)
 
- - plugins: move reset of plugin data to tb_start
- - tests/plugins: add instruction matching to libinsn.so
- - tests/plugin: allow libinsn.so per-CPU counts
- - tests/tcg/sh4: disable another unreliable test
- - Makefile: also remove .gcno files when cleaning
- - tests/qtest: enable more vhost-user tests by default
-
-Alex Bennée (14):
-  tests/Makefile.include: clean-up old code
-  tests/qtest: enable more vhost-user tests by default
-  Makefile: also remove .gcno files when cleaning
-  .gitignore: add .gcov pattern
-  docs/devel: mention our .editorconfig
-  tests/tcg/sh4: disable another unreliable test
-  docs: remove references to TCG tracing
-  tracing: remove TCG memory access tracing
-  tracing: remove the trace-tcg includes from the build
-  tracing: excise the tcg related from tracetool
-  tests/plugin: allow libinsn.so per-CPU counts
-  tests/plugins: add instruction matching to libinsn.so
-  target/i386: use CPU_LOG_INT for IRQ servicing
-  plugins: move reset of plugin data to tb_start
-
-Ivanov Arkady (2):
-  plugins: add helper functions for coverage plugins
-  contrib/plugins: add a drcov plugin
-
-Michael Tokarev (1):
-  drop libxml2 checks since libxml is not actually used (for parallels)
-
-Philippe Mathieu-Daudé (6):
-  MAINTAINERS: Cover lcitool submodule with build test / automation
-  gitmodules: Correct libvirt-ci submodule URL
-  tests/lcitool: Include local qemu.yml when refreshing cirrus-ci files
-  tests/lcitool: Refresh submodule and remove libxml2
-  tests: Manually remove libxml2 on MSYS2 runners
-  tests/lcitool: Install libibumad to cover RDMA on Debian based distros
-
-Stefan Hajnoczi (1):
-  gitlab: fall back to commit hash in qemu-setup filename
-
-Thomas Huth (2):
-  tests/lcitool: Allow lcitool-refresh in out-of-tree builds, too
-  tests: Update CentOS 8 container to CentOS Stream 8
-
- docs/about/removed-features.rst               |  13 ++
- docs/devel/style.rst                          |   4 +
- docs/devel/tracing.rst                        |  85 ---------
- Makefile                                      |   3 +-
- meson.build                                   |  10 --
- accel/tcg/atomic_template.h                   |  12 --
- include/exec/helper-gen.h                     |   2 -
- include/exec/helper-proto.h                   |   1 -
- include/exec/helper-tcg.h                     |   1 -
- include/qemu/qemu-plugin.h                    |  34 ++++
- include/trace-tcg.h                           |   6 -
- accel/tcg/cputlb.c                            |   2 -
- accel/tcg/plugin-gen.c                        |  29 ++--
- accel/tcg/user-exec.c                         |  14 --
- contrib/plugins/drcov.c                       | 163 ++++++++++++++++++
- plugins/api.c                                 |  48 ++++++
- target/i386/tcg/sysemu/seg_helper.c           |   4 +-
- tcg/tcg-op.c                                  |   5 -
- tests/plugin/insn.c                           | 126 +++++++++++++-
- tests/qtest/vhost-user-test.c                 |  21 +--
- accel/tcg/atomic_common.c.inc                 |  20 ---
- .cirrus.yml                                   |   1 -
- .gitignore                                    |   1 +
- .gitlab-ci.d/cirrus/freebsd-12.vars           |   2 +-
- .gitlab-ci.d/cirrus/freebsd-13.vars           |   2 +-
- .gitlab-ci.d/cirrus/macos-11.vars             |   2 +-
- .gitlab-ci.d/crossbuild-template.yml          |   2 +-
- .gitlab-ci.d/windows.yml                      |   2 -
- .gitmodules                                   |   2 +-
- MAINTAINERS                                   |   1 +
- block/meson.build                             |   3 +-
- contrib/plugins/Makefile                      |   1 +
- meson_options.txt                             |   2 -
- plugins/qemu-plugins.symbols                  |   4 +
- scripts/checkpatch.pl                         |   1 -
- .../ci/org.centos/stream/8/x86_64/configure   |   1 -
- scripts/coverity-scan/coverity-scan.docker    |   1 -
- scripts/coverity-scan/run-coverity-scan       |   2 +-
- scripts/meson-buildoptions.sh                 |   3 -
- scripts/tracetool/__init__.py                 |  41 +----
- scripts/tracetool/format/tcg_h.py             |  83 ---------
- scripts/tracetool/format/tcg_helper_c.py      |  79 ---------
- scripts/tracetool/format/tcg_helper_h.py      |  48 ------
- .../tracetool/format/tcg_helper_wrapper_h.py  |  70 --------
- scripts/tracetool/vcpu.py                     |  14 +-
- tests/Makefile.include                        |   4 -
- tests/docker/dockerfiles/alpine.docker        |   4 +-
- tests/docker/dockerfiles/centos8.docker       |   6 +-
- tests/docker/dockerfiles/fedora.docker        |   4 +-
- tests/docker/dockerfiles/opensuse-leap.docker |   3 +-
- tests/docker/dockerfiles/ubuntu1804.docker    |   4 +-
- tests/docker/dockerfiles/ubuntu2004.docker    |   4 +-
- tests/lcitool/Makefile.include                |   2 +-
- tests/lcitool/libvirt-ci                      |   2 +-
- tests/lcitool/projects/qemu.yml               |   2 +-
- tests/lcitool/refresh                         |   4 +-
- tests/tcg/sh4/Makefile.target                 |   4 +
- trace-events                                  |  14 --
- trace/meson.build                             |  14 --
- 59 files changed, 448 insertions(+), 594 deletions(-)
- delete mode 100644 include/trace-tcg.h
- create mode 100644 contrib/plugins/drcov.c
- delete mode 100644 scripts/tracetool/format/tcg_h.py
- delete mode 100644 scripts/tracetool/format/tcg_helper_c.py
- delete mode 100644 scripts/tracetool/format/tcg_helper_h.py
- delete mode 100644 scripts/tracetool/format/tcg_helper_wrapper_h.py
-
+diff --git a/tests/Makefile.include b/tests/Makefile.include
+index 9157a57b1a..646c8b1334 100644
+--- a/tests/Makefile.include
++++ b/tests/Makefile.include
+@@ -34,10 +34,6 @@ endif
+ ifneq ($(wildcard config-host.mak),)
+ export SRC_PATH
+ 
+-# Get the list of all supported sysemu targets
+-SYSEMU_TARGET_LIST := $(subst -softmmu.mak,,$(notdir \
+-   $(wildcard $(SRC_PATH)/configs/*-softmmu.mak)))
+-
+ SPEED = quick
+ 
+ # Build up our target list from the filtered list of ninja targets
 -- 
 2.30.2
 
