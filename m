@@ -2,74 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5BA544A9A6B
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Feb 2022 14:57:01 +0100 (CET)
-Received: from localhost ([::1]:39290 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B6344A9A86
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Feb 2022 15:00:53 +0100 (CET)
+Received: from localhost ([::1]:43626 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nFz5A-0000ty-Ca
-	for lists+qemu-devel@lfdr.de; Fri, 04 Feb 2022 08:57:00 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:60912)
+	id 1nFz8u-00042M-JD
+	for lists+qemu-devel@lfdr.de; Fri, 04 Feb 2022 09:00:52 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:32834)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1nFz1H-0007P2-JN
- for qemu-devel@nongnu.org; Fri, 04 Feb 2022 08:52:59 -0500
-Received: from [2a00:1450:4864:20::535] (port=36732
- helo=mail-ed1-x535.google.com)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1nFz27-0008Pb-JS
+ for qemu-devel@nongnu.org; Fri, 04 Feb 2022 08:53:51 -0500
+Received: from [2a00:1450:4864:20::42f] (port=46907
+ helo=mail-wr1-x42f.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1nFz1F-0003Fl-1T
- for qemu-devel@nongnu.org; Fri, 04 Feb 2022 08:52:59 -0500
-Received: by mail-ed1-x535.google.com with SMTP id l5so13273461edv.3
- for <qemu-devel@nongnu.org>; Fri, 04 Feb 2022 05:52:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=HSLaBZfCNKEf76QZsK+ebuKgBeCTAZSW8LC/5sqKFqs=;
- b=kF6zHU46KIPsIwsiWQYZC5S5a6Q46yQ1d/krAfWcgh3Kcujrg2kiXaa1RLpyMI8Uer
- XnExPrjyIgrBKs6gbBjqZKsa+7ErT0hd30p2fGTZIjHibHQYIEEMxlSB/w8Z9eJC7V5o
- iXUvxUwzmCnBta3h/drScF7eag0hEbGTSruV7iHcx0l4nVRBcBa9ACBKAGLy0AaiulBI
- 9drerlxtx20CHVebi/V5wm1gvL6BXLNUmO8czejrWE2mXfVT6/vV8h2HZ+aFMCXR1ulD
- rbofASPVPkG1qeaz7ld5+EnleCEltA+y/WfjCIZ350L5F9go0V1iZLjCYZGCCescXAG0
- FNeQ==
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1nFz25-0003KS-Aj
+ for qemu-devel@nongnu.org; Fri, 04 Feb 2022 08:53:51 -0500
+Received: by mail-wr1-x42f.google.com with SMTP id l25so11409651wrb.13
+ for <qemu-devel@nongnu.org>; Fri, 04 Feb 2022 05:53:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=0piNcH9B7WFk5xOtqo8WHwxcT88mt9oJSrW6gEknXbM=;
+ b=kHxh+4E550cp1N/f1PsJLiMV9A/Ta9Dg+tCOpWGRLPjOrmDbxtKbDqBjfWRc+lM28m
+ mpKMy4OPR9krvqK9AL2UxCeibQuEng8vCv3zG7pcEhqCdgSkpPoKWdJJ6O3HupP5WdHZ
+ 5kEmFBFhlW3w83jHpcqNDNunzid+WSzOLi0TBK54q+Tc+41uhnu96t84rZGNOIGEd2Is
+ Dzej7oNExUnc3BBCwEIj3SIxeIAIGFfJpCibJcJiVPhOaQLyVGjHQpca0xU2NUpDgnce
+ dpdW0ZfeWj1LFMtgiroGrUtaeFyPVRKVM1prxdnhR5GMRkhfzQ37j1J9pqJVl0iQLb6t
+ wOWw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=HSLaBZfCNKEf76QZsK+ebuKgBeCTAZSW8LC/5sqKFqs=;
- b=Xp97TeKS0cU48ygppd1skQBTXyMQUSEJOETSbt4cfte1rgaNK7Li4mGPa1+11RIrRN
- FXe1mUtv0StO2yM1HYv0MmiDTFuFYQDOd07kvQQTl7NXYuNibdAiUNqwFIEcokQChaWJ
- iMJsref95JwRgft0fpxNoQLHa+IIZcBILy7HoHPLkrdRY+EhaY/NsN4kFP+5jVw1azhx
- PkP7vQ43kxnSPing9Xt3sqcREvAh7fMGIicS93nx7lJT2/D21qvVWyNEWFEHDiajVWr5
- mJiVeA9O7pn0c7UxANgU1JKNlivvPr9tDsQScAXTBfSBQj3qZM1+ZtKbuZJyI7EEhlh8
- epkw==
-X-Gm-Message-State: AOAM533cnwxVKVNJLfuuHDhrXSDEbnKsMAE4yYiFDjF9Z0UZ7s7HLWUo
- UohE6+9FnFhF/acjA/IcD4I2HGsX3kKo1EK35DQ11A==
-X-Google-Smtp-Source: ABdhPJz3XcbwvvSZZ9XTCONGA5FASerA8WpFD73uqV0KyQb0z4o7Vx5N+gOxmu91qlz/hwa0nja/YvB2r+6qgFAcpXY=
-X-Received: by 2002:aa7:da07:: with SMTP id r7mr3226071eds.246.1643982774402; 
- Fri, 04 Feb 2022 05:52:54 -0800 (PST)
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=0piNcH9B7WFk5xOtqo8WHwxcT88mt9oJSrW6gEknXbM=;
+ b=kHgrCzAz4k+A1XKR7GNK80eTHmMpFxKbxz8ExUSKKVW9HwyCi5uogqw6nNJIBoCDkV
+ fnBpwFE4fPGYYvhnAkAIviqctvp13b8zmOnbfw6rGx891M6Fl20QHC+WVarqrEAfgkK9
+ JuBvLeLwdTBQAJIq+dlgKIrNIl9LEITMr3oN4qFxmmB0azfE78NydF7fCvdurXTl/2Zx
+ keYoVUAK/opfSxfHm8NT9epkjG/FaF8TDWGEux+SyQPUdLqNHYJvK6aa9P/zlKKiNHtd
+ UD1PYPUBJHiab0FcWkfRLFT6GK+yjOI8r8v1JQdxE8GZhNfrKPn2way5Wtm9IqX9VDBW
+ /H4A==
+X-Gm-Message-State: AOAM530o4EPxTtFaARgk/Q1YdggJtuwjA474u5ITzQ9rWkiqpbDd0nOG
+ qzpeCeQ/7x52NX6OCVcFhrnx0Q==
+X-Google-Smtp-Source: ABdhPJxUbX6fO+8+P4GZ+kigPEWnXZrlcdmGOhaa/a4/j1oxVCGASCeJW1noQ6I+Zo9uJUwBgX2TNA==
+X-Received: by 2002:a05:6000:4d:: with SMTP id
+ k13mr2575026wrx.625.1643982827927; 
+ Fri, 04 Feb 2022 05:53:47 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id m11sm8813831wmi.16.2022.02.04.05.53.46
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 04 Feb 2022 05:53:46 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 21B2B1FFB7;
+ Fri,  4 Feb 2022 13:53:46 +0000 (GMT)
+References: <cover.1641987128.git.viresh.kumar@linaro.org>
+ <20220204072104-mutt-send-email-mst@kernel.org>
+User-agent: mu4e 1.7.6; emacs 28.0.91
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Subject: Re: [PATCH 0/2] virtio: Add vhost-user-gpio device's support
+Date: Fri, 04 Feb 2022 13:52:47 +0000
+In-reply-to: <20220204072104-mutt-send-email-mst@kernel.org>
+Message-ID: <874k5espp1.fsf@linaro.org>
 MIME-Version: 1.0
-References: <20220203130957.2248949-1-ani@anisinha.ca>
- <20220204103423.71ec5c6b@redhat.com>
- <20220204110558.h3246jyelrvhto5q@sirius.home.kraxel.org>
- <20220204131805.3a225566@redhat.com>
-In-Reply-To: <20220204131805.3a225566@redhat.com>
-From: Ani Sinha <ani@anisinha.ca>
-Date: Fri, 4 Feb 2022 19:22:43 +0530
-Message-ID: <CAARzgwzRRzt_oBaYFbmD+cpGeNgHMq5TcOvWiSVZ8eL159XERQ@mail.gmail.com>
-Subject: Re: [PATCH v2] hw/smbios: fix memory corruption for large guests due
- to handle overlap
-To: Igor Mammedov <imammedo@redhat.com>
-Content-Type: multipart/alternative; boundary="00000000000049153205d7319130"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::535
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42f
  (failed)
-Received-SPF: none client-ip=2a00:1450:4864:20::535;
- envelope-from=ani@anisinha.ca; helo=mail-ed1-x535.google.com
-X-Spam_score_int: -10
-X-Spam_score: -1.1
+Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42f.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
 X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, HTML_MESSAGE=0.001, PDS_HP_HELO_NORDNS=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -82,77 +92,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, gsomlo@gmail.com, Gerd Hoffmann <kraxel@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>
+Cc: Viresh Kumar <viresh.kumar@linaro.org>,
+ Vincent Guittot <vincent.guittot@linaro.org>, qemu-devel@nongnu.org,
+ stratos-dev@op-lists.linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---00000000000049153205d7319130
-Content-Type: text/plain; charset="UTF-8"
 
-On Fri, Feb 4, 2022 at 17:48 Igor Mammedov <imammedo@redhat.com> wrote:
+"Michael S. Tsirkin" <mst@redhat.com> writes:
 
-> On Fri, 4 Feb 2022 12:05:58 +0100
-> Gerd Hoffmann <kraxel@redhat.com> wrote:
+> On Wed, Jan 12, 2022 at 05:04:57PM +0530, Viresh Kumar wrote:
+>> Hello,
+>>=20
+>> This patchset adds vhost-user-gpio device's support in Qemu. The support=
+ for the
+>> same has already been added to virtio specification and Linux Kernel.
+>>=20
+>> A Rust based backend is also in progress and is tested against this patc=
+hset:
+>>=20
+>> https://github.com/rust-vmm/vhost-device/pull/76
 >
-> >   Hi,
-> >
-> > > Another question is why we split memory on 16Gb chunks, to begin with.
-> > > Maybe instead of doing so, we should just add 1 type17 entry describing
-> > > whole system RAM size. In which case we don't need this dance around
-> > > handle offsets anymore.
-> >
-> > Maybe to make the entries look like they do on physical hardware?
-> > i.e. DIMM size is a power of two?  Also physical 1TB DIMMs just
-> > don't exist?
->
-> Does it have to be a DIMM, we can make it Other/Unknown/Row of chips/Chip
-> to more close to builtin memory that's is our main ram is.
+> So I'm waiting for v2 of this, right?
 
+If you can give any pointers for how to properly instantiate the stub in
+qtest then we can spin v2 pretty quickly. I tried but it didn't work:
 
-My concern here is even though the spec has provisions for those form
-factors I wonder if the guests only expect dimm ? Will it break some guest
-operating system?
+  Subject: [RFC PATCH] tests/qtest: attempt to enable tests for virtio-gpio=
+ (!working)
+  Date: Fri, 21 Jan 2022 15:15:34 +0000
+  Message-Id: <20220121151534.3654562-1-alex.bennee@linaro.org>
+  X-Mailer: git-send-email 2.30.2
+  In-Reply-To: <20220120040234.ehcjcdr6wrvlz3yc@vireshk-i7>
+  References: <20220120040234.ehcjcdr6wrvlz3yc@vireshk-i7>
+
+it's all a bit opaque as to why it didn't.
 
 >
+>> --
+>> Viresh
+>>=20
+>> Viresh Kumar (2):
+>>   hw/virtio: add boilerplate for vhost-user-gpio device
+>>   hw/virtio: add vhost-user-gpio-pci boilerplate
+>>=20
+>>  hw/virtio/Kconfig                   |   5 +
+>>  hw/virtio/meson.build               |   2 +
+>>  hw/virtio/vhost-user-gpio-pci.c     |  69 ++++++
+>>  hw/virtio/vhost-user-gpio.c         | 343 ++++++++++++++++++++++++++++
+>>  include/hw/virtio/vhost-user-gpio.h |  35 +++
+>>  5 files changed, 454 insertions(+)
+>>  create mode 100644 hw/virtio/vhost-user-gpio-pci.c
+>>  create mode 100644 hw/virtio/vhost-user-gpio.c
+>>  create mode 100644 include/hw/virtio/vhost-user-gpio.h
+>>=20
+>> --=20
+>> 2.31.1.272.g89b43f80a514
 
---00000000000049153205d7319130
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-<div><br></div><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
-=3D"gmail_attr">On Fri, Feb 4, 2022 at 17:48 Igor Mammedov &lt;<a href=3D"m=
-ailto:imammedo@redhat.com">imammedo@redhat.com</a>&gt; wrote:<br></div><blo=
-ckquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left=
--width:1px;border-left-style:solid;padding-left:1ex;border-left-color:rgb(2=
-04,204,204)">On Fri, 4 Feb 2022 12:05:58 +0100<br>
-Gerd Hoffmann &lt;<a href=3D"mailto:kraxel@redhat.com" target=3D"_blank">kr=
-axel@redhat.com</a>&gt; wrote:<br>
-<br>
-&gt;=C2=A0 =C2=A0Hi,<br>
-&gt; <br>
-&gt; &gt; Another question is why we split memory on 16Gb chunks, to begin =
-with.<br>
-&gt; &gt; Maybe instead of doing so, we should just add 1 type17 entry desc=
-ribing<br>
-&gt; &gt; whole system RAM size. In which case we don&#39;t need this dance=
- around<br>
-&gt; &gt; handle offsets anymore.=C2=A0 <br>
-&gt; <br>
-&gt; Maybe to make the entries look like they do on physical hardware?<br>
-&gt; i.e. DIMM size is a power of two?=C2=A0 Also physical 1TB DIMMs just<b=
-r>
-&gt; don&#39;t exist?<br>
-<br>
-Does it have to be a DIMM, we can make it Other/Unknown/Row of chips/Chip<b=
-r>
-to more close to builtin memory that&#39;s is our main ram is.</blockquote>=
-<div dir=3D"auto"><br></div><div dir=3D"auto">My concern here is even thoug=
-h the spec has provisions for those form factors I wonder if the guests onl=
-y expect dimm ? Will it break some guest operating system?</div><blockquote=
- class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left-width:=
-1px;border-left-style:solid;padding-left:1ex;border-left-color:rgb(204,204,=
-204)" dir=3D"auto"></blockquote></div></div>
-
---00000000000049153205d7319130--
+--=20
+Alex Benn=C3=A9e
 
