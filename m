@@ -2,91 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F6434A9967
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Feb 2022 13:33:57 +0100 (CET)
-Received: from localhost ([::1]:53970 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E4B104A9983
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Feb 2022 13:55:31 +0100 (CET)
+Received: from localhost ([::1]:59730 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nFxml-0001IP-Ot
-	for lists+qemu-devel@lfdr.de; Fri, 04 Feb 2022 07:33:55 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:41982)
+	id 1nFy7e-0006Ez-Ng
+	for lists+qemu-devel@lfdr.de; Fri, 04 Feb 2022 07:55:30 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:45216)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nFxfF-0002YE-Rs
- for qemu-devel@nongnu.org; Fri, 04 Feb 2022 07:26:13 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:30066)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nFxf9-00032U-L1
- for qemu-devel@nongnu.org; Fri, 04 Feb 2022 07:26:05 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1643977563;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=fd5uEldKv+fpXgXUuEIma8udoZMAbLJJdTXm++Dgj0o=;
- b=RpnKc9ESLX3pT7zWofYmTZofJ9Q9b9zREOW9s+3jsIq9PM0zg9FDIJNRZj1fSnXktl9E6H
- 7Y2UuNQZSbFB1kAyOuqTtVSEJxuy1UgGW925Xo1bLFWTGLeTBuojjSJdGsdZadbsXvvPrT
- eK6o22tPLjFPlVY3BHAKAzw5W8JH7Fw=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-44-pp5lb492N_-3VHghKdZ0hw-1; Fri, 04 Feb 2022 07:26:02 -0500
-X-MC-Unique: pp5lb492N_-3VHghKdZ0hw-1
-Received: by mail-wr1-f72.google.com with SMTP id
- c9-20020adfa709000000b001dde29c3202so1958577wrd.22
- for <qemu-devel@nongnu.org>; Fri, 04 Feb 2022 04:26:01 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1nFxuH-0003NZ-V7
+ for qemu-devel@nongnu.org; Fri, 04 Feb 2022 07:41:45 -0500
+Received: from [2a00:1450:4864:20::62a] (port=40714
+ helo=mail-ej1-x62a.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1nFxtw-0006Ky-PE
+ for qemu-devel@nongnu.org; Fri, 04 Feb 2022 07:41:36 -0500
+Received: by mail-ej1-x62a.google.com with SMTP id p15so19018160ejc.7
+ for <qemu-devel@nongnu.org>; Fri, 04 Feb 2022 04:41:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=fo4pu+8PfY1FeFlkifo4PqLhXJHq8XMaEDaAKkBuNQQ=;
+ b=idv9+KW8TGfzmCHfJsGpcm5O8K7g6sA/G6g9SbVeVBMoa3SovCWJblwlZsDFCF8OMg
+ UEzdH5zhXNVWAQKTWcEoRbXTnaeqqm+1PR3Ee6j5aBu3kAOm4DOrxPswMTshePURCgVm
+ k5IE+gAIbKI84alodecV1knP/EZaO3FggeuJkEv6IDPMzvZfv7QGXgwafqMTibu2TIms
+ 8amh2xTq8KIX+pPiXXmDxcklMP9nl9KcGJud7qTYxKuYdjDkvtScvWrdHjhvVy54FMs7
+ q2JHLRK2rb6crsgkc5SKtBT2o61U9ng6WG2BCUHTV+E/AT1VSmvZKeAYs+2Rrj8m2fJC
+ wu2Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=fd5uEldKv+fpXgXUuEIma8udoZMAbLJJdTXm++Dgj0o=;
- b=0O0cwGnvOUM+gMeCSVVcrmBagZPNhMyaMJzKm6wv9z9kcurFhl4AQNAhDCsostE5nf
- EJkBQAFg9/cTsaVK/AA3m1rm+OtoaOfDe9W9kAtos93LxIppPt28y0OyZ2nTHDb1wwxE
- 1x9fA4AgUT1XBqvWOit/tm2Xo9gbT2LYxHcmc1fa9AHup+mjyHG9dJmTjyNjFaF2jjto
- d9v8mPL7fA38yWQhzikW+fHnEynLC3GYFl2Fp5Rx8tjYpYTnbNa/Llx1Dyni8ohz0TiV
- rxzz7O/hlQnVJte97xOoM8MqRCTEEX/vpJEz3DqawKU0pXHWPjroFGzflgRebGxjqU6C
- HfmA==
-X-Gm-Message-State: AOAM530QTgHADWs41cOCEkOKpxsudGa3P63WSJy3CBUiVpOaZ2O3gJte
- NpVckw6n106WdKp0Xb94loLMJn70N7K0fPVs1+dfWGgu4ENT7jUTRFzGh7X5qEw9alPDzD3lbxj
- LB1SSo5cJqYCdgvs=
-X-Received: by 2002:adf:ebc2:: with SMTP id v2mr2375973wrn.498.1643977560943; 
- Fri, 04 Feb 2022 04:26:00 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJw2mO3GfLPOvnixCveVg/nuIE8oh3uob2fX3auKt1KcHHiBOHn76CTc2KPp9/N68GT8grWQAA==
-X-Received: by 2002:adf:ebc2:: with SMTP id v2mr2375956wrn.498.1643977560736; 
- Fri, 04 Feb 2022 04:26:00 -0800 (PST)
-Received: from redhat.com ([2a10:8005:331d:0:5c51:c095:613e:277c])
- by smtp.gmail.com with ESMTPSA id g9sm1958019wri.95.2022.02.04.04.25.59
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=fo4pu+8PfY1FeFlkifo4PqLhXJHq8XMaEDaAKkBuNQQ=;
+ b=mHFKxNTEE3GKxsjlcJHkXQ6FmWWISncU3/S/tmcgGgwdb/kSJNR2H/Wh7RjoFkvoQA
+ 9oE8swgqJBFhj4cNct2+noQLOtvRdWuodYARvrl20O7MI5zv+F4/yjh1ZOR7KA0B9xJu
+ cEFiyq4ep5TA2uh5rBGQzq0OZQSRHdXw5+QGt2V1HUpMxB1Qq4MIaT+gTRKlsNIHzrOy
+ LgdV2FNg1q0BmuUwcKPDPuUp32wf1/6aMfnVmUpjCXJ7IXgJcMCfst5T3A/k43LvjAq6
+ LUzmGrKw9Q+eshaPIJp25rE3jlv+by2QLu6H62+U8lKsQc/j6VidvSViievM8Irv6uaB
+ nTqA==
+X-Gm-Message-State: AOAM530mfiSTgPCoausx2ZNCMlif5JgZ28mNrZtDT+MNMbo8jg7Fe9HV
+ FmGcHwmaadKdmnJHyBj3rQPZzw==
+X-Google-Smtp-Source: ABdhPJwcTWdEE1xdsmq24xOgF1Pxjp7b/doKEczxXd9HRHDRyfh2V6fcePwZzkeGIl5c0AMos3UfPw==
+X-Received: by 2002:a17:906:730c:: with SMTP id
+ di12mr2269873ejc.640.1643978462393; 
+ Fri, 04 Feb 2022 04:41:02 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id a14sm774220edx.96.2022.02.04.04.41.01
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 04 Feb 2022 04:26:00 -0800 (PST)
-Date: Fri, 4 Feb 2022 07:25:57 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: "Xueming(Steven) Li" <xuemingl@nvidia.com>
-Subject: Re: [PATCH v6 1/2] vhost-user: remove VirtQ notifier restore
-Message-ID: <20220204072503-mutt-send-email-mst@kernel.org>
-References: <20211101083813.1224522-1-xuemingl@nvidia.com>
- <20211101083813.1224522-2-xuemingl@nvidia.com>
- <20211101170506-mutt-send-email-mst@kernel.org>
- <f433ca338852f0aaad9e23cb47ee39dd53061310.camel@nvidia.com>
- <20211102024742-mutt-send-email-mst@kernel.org>
- <87c14dc604e49b2ae85e9dcf1de4e813106fad6b.camel@nvidia.com>
- <20211103162840-mutt-send-email-mst@kernel.org>
- <84ad13760fbd1857b91e49ee6af5a8b516c35b15.camel@nvidia.com>
+ Fri, 04 Feb 2022 04:41:01 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 169211FFB7;
+ Fri,  4 Feb 2022 12:41:01 +0000 (GMT)
+References: <20220203155304.2648009-1-valentinghita@google.com>
+ <87tudfsv80.fsf@linaro.org>
+ <CAKddhtYyZrEFveatS-o1YORdrUa-o53fBe3kwo9RVjXB2ovpyw@mail.gmail.com>
+ <87czk3rnfl.fsf@linaro.org>
+ <CAFEAcA9y1F5X1BQOwzbJgJKPYvroHFM7ivSUOE-07d3S-GE7DA@mail.gmail.com>
+User-agent: mu4e 1.7.6; emacs 28.0.91
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PATCH] armv7m_nvic: set DHCSR.DEBUGEN when debugger is attached
+Date: Fri, 04 Feb 2022 12:33:46 +0000
+In-reply-to: <CAFEAcA9y1F5X1BQOwzbJgJKPYvroHFM7ivSUOE-07d3S-GE7DA@mail.gmail.com>
+Message-ID: <878ruqst2a.fsf@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <84ad13760fbd1857b91e49ee6af5a8b516c35b15.camel@nvidia.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.092,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::62a
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::62a;
+ envelope-from=alex.bennee@linaro.org; helo=mail-ej1-x62a.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -99,161 +95,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "zhangyuwei.9149@bytedance.com" <zhangyuwei.9149@bytedance.com>,
- Raphael Norwitz <raphael.norwitz@nutanix.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "qemu-stable@nongnu.org" <qemu-stable@nongnu.org>
+Cc: Valentin Ghita <valentinghita@google.com>, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I dropped this for now as I'm a bit lost with this patchset.
-Cc Raphael maybe he'll understand it better.
 
-On Wed, Jan 12, 2022 at 03:05:15PM +0000, Xueming(Steven) Li wrote:
-> On Wed, 2021-11-03 at 16:30 -0400, Michael S. Tsirkin wrote:
-> > On Wed, Nov 03, 2021 at 02:48:41PM +0000, Xueming(Steven) Li wrote:
-> > > On Tue, 2021-11-02 at 02:49 -0400, Michael S. Tsirkin wrote:
-> > > > On Tue, Nov 02, 2021 at 06:08:39AM +0000, Xueming(Steven) Li wrote:
-> > > > > On Mon, 2021-11-01 at 17:06 -0400, Michael S. Tsirkin wrote:
-> > > > > > On Mon, Nov 01, 2021 at 04:38:12PM +0800, Xueming Li wrote:
-> > > > > > > When vhost-user vdpa client suspend, backend may close all resources,
-> > > > > > > VQ notifier mmap address become invalid, restore MR which contains
-> > > > > > > the invalid address is wrong. vdpa client will set VQ notifier after
-> > > > > > > reconnect.
-> > > > > > > 
-> > > > > > > This patch removes VQ notifier restore and related flags to avoid reusing
-> > > > > > > invalid address.
-> > > > > > > 
-> > > > > > > Fixes: 44866521bd6e ("vhost-user: support registering external host notifiers")
-> > > > > > > Cc: qemu-stable@nongnu.org
-> > > > > > > Cc: Yuwei Zhang <zhangyuwei.9149@bytedance.com>
-> > > > > > > Signed-off-by: Xueming Li <xuemingl@nvidia.com>
-> > > > > > > ---
-> > > > > > >  hw/virtio/vhost-user.c         | 19 +------------------
-> > > > > > >  include/hw/virtio/vhost-user.h |  1 -
-> > > > > > >  2 files changed, 1 insertion(+), 19 deletions(-)
-> > > > > > > 
-> > > > > > > diff --git a/hw/virtio/vhost-user.c b/hw/virtio/vhost-user.c
-> > > > > > > index bf6e50223c..c671719e9b 100644
-> > > > > > > --- a/hw/virtio/vhost-user.c
-> > > > > > > +++ b/hw/virtio/vhost-user.c
-> > > > > > > @@ -1143,19 +1143,6 @@ static int vhost_user_set_vring_num(struct vhost_dev *dev,
-> > > > > > >      return vhost_set_vring(dev, VHOST_USER_SET_VRING_NUM, ring);
-> > > > > > >  }
-> > > > > > >  
-> > > > > > > -static void vhost_user_host_notifier_restore(struct vhost_dev *dev,
-> > > > > > > -                                             int queue_idx)
-> > > > > > > -{
-> > > > > > > -    struct vhost_user *u = dev->opaque;
-> > > > > > > -    VhostUserHostNotifier *n = &u->user->notifier[queue_idx];
-> > > > > > > -    VirtIODevice *vdev = dev->vdev;
-> > > > > > > -
-> > > > > > > -    if (n->addr && !n->set) {
-> > > > > > > -        virtio_queue_set_host_notifier_mr(vdev, queue_idx, &n->mr, true);
-> > > > > > > -        n->set = true;
-> > > > > > > -    }
-> > > > > > > -}
-> > > > > > > -
-> > > > > > >  static void vhost_user_host_notifier_remove(struct vhost_dev *dev,
-> > > > > > >                                              int queue_idx)
-> > > > > > >  {
-> > > > > > > @@ -1163,17 +1150,14 @@ static void vhost_user_host_notifier_remove(struct vhost_dev *dev,
-> > > > > > >      VhostUserHostNotifier *n = &u->user->notifier[queue_idx];
-> > > > > > >      VirtIODevice *vdev = dev->vdev;
-> > > > > > >  
-> > > > > > > -    if (n->addr && n->set) {
-> > > > > > > +    if (n->addr) {
-> > > > > > >          virtio_queue_set_host_notifier_mr(vdev, queue_idx, &n->mr, false);
-> > > > > > > -        n->set = false;
-> > > > > > >      }
-> > > > > > >  }
-> > > > > > > 
-> > > > > > 
-> > > > > > So on vq stop we still remove the notifier...
-> > > > > >   
-> > > > > > >  static int vhost_user_set_vring_base(struct vhost_dev *dev,
-> > > > > > >                                       struct vhost_vring_state *ring)
-> > > > > > >  {
-> > > > > > > -    vhost_user_host_notifier_restore(dev, ring->index);
-> > > > > > > -
-> > > > > > >      return vhost_set_vring(dev, VHOST_USER_SET_VRING_BASE, ring);
-> > > > > > >  }
-> > > > > > >  
-> > > > > > 
-> > > > > > but on vq start we do not reinstate it? Does this not mean that
-> > > > > > notifiers won't work after stop then start?
-> > > > > 
-> > > > > 
-> > > > > Yes, backend initially work w/o host notifier, request VM driver to
-> > > > > install notifier if needed - call this function through slave socket.
-> > > > 
-> > > > I think it's cleaner if qemu handles this itself like it did before, it
-> > > > knows vm is stopped without getting called.
-> > > 
-> > > If vhost play as server, there are 2 scenario that remove the notifier:
-> > > 1. VM suspend: backend still there, it's okay to keep mmap address.
-> > > 2. vhost backend stopped or process killed: resources from backend
-> > > should be released. That's why patch 2/2 munmap in notifier remove
-> > > function. Then the restore function get nothing to restore, maybe I
-> > > shouldn't reverse patch order.
-> > 
-> > I can't say I understand what you mean here. Do you plan to change
-> > the patchset in some way?
-> > When you do, pls include a cover letter with a changelog and
-> > Cc all people you include on patches on the cover letter too. 
-> 
-> Here is the detail of the problem I encountered, my vhost backend is
-> DPDK vdpa user space application. Notifier address is set when vdpa ask
-> qemu to mmap a FD and an offset from vdpa, see function
-> vhost_user_slave_handle_vring_host_notifier(). If the vdpa application
-> restart of get killed for some reason,
-> vhost_user_host_notifier_remove() is called and notifier MR is
-> uninstalled, the notifier address that retrieved from mmap is
-> referencing to an invalid FD, not released. This will cause HW
-> resources on kernel side still referenced, most important, when vdpa
-> connection restored, this invalid notifier will be be restored as
-> notifier MR.
-> 
-> To resolve it, have to remove the notifer restore mechanism, vDPA
-> application will issue client socket request again to install notifier
-> to VM, so no concern that the notifier will be lost after resume.
-> 
-> Since vdpa might be killed, no chance to notify qemu to remove
-> notifier. An alternative solution is to detect sock disconnection and
-> unmmap notifier, but it looks more complex to me. How do you think?
-> 
-> 
-> > 
-> > > > 
-> > > > > > 
-> > > > > > 
-> > > > > > > @@ -1538,7 +1522,6 @@ static int vhost_user_slave_handle_vring_host_notifier(struct vhost_dev *dev,
-> > > > > > >      }
-> > > > > > >  
-> > > > > > >      n->addr = addr;
-> > > > > > > -    n->set = true;
-> > > > > > >  
-> > > > > > >      return 0;
-> > > > > > >  }
-> > > > > > > diff --git a/include/hw/virtio/vhost-user.h b/include/hw/virtio/vhost-user.h
-> > > > > > > index a9abca3288..f6012b2078 100644
-> > > > > > > --- a/include/hw/virtio/vhost-user.h
-> > > > > > > +++ b/include/hw/virtio/vhost-user.h
-> > > > > > > @@ -14,7 +14,6 @@
-> > > > > > >  typedef struct VhostUserHostNotifier {
-> > > > > > >      MemoryRegion mr;
-> > > > > > >      void *addr;
-> > > > > > > -    bool set;
-> > > > > > >  } VhostUserHostNotifier;
-> > > > > > >  
-> > > > > > >  typedef struct VhostUserState {
-> > > > > > > -- 
-> > > > > > > 2.33.0
-> > > > > > 
-> > > > > 
-> > > > 
-> > > 
-> > 
-> 
+Peter Maydell <peter.maydell@linaro.org> writes:
 
+> On Fri, 4 Feb 2022 at 09:28, Alex Benn=C3=A9e <alex.bennee@linaro.org> wr=
+ote:
+>> Assuming you are happy for the device to act as though a external
+>> debugger is attached regardless of the gdbstub state you could use a CPU
+>> property on the command line to enable this behaviour. We have some
+>> examples for SVE for the 64 bit CPUs (see object_property_add for
+>> sve-max-vq). So something like:
+>>
+>>   -cpu cortex-m3,dhscr=3Dtrue
+>>
+>> You would probably want to model the behaviour of DHSCR.C_HALT as well
+>> because that is something the core might do to itself if it detects it
+>> is running under debug.
+>
+> This is sounding pretty hacky to me. I think we should either have
+> a proper implementation of all of halting debug (probably opt-in,
+> with the default being that the gdbstub is transparent to the guest),
+
+So we could flip it and make it a property of gdbstub with transparency
+being the default. Then any architecture that wanted to have this
+behaviour could query the stub if enabled.
+
+> or we should just say that no, this isn't something we support,
+> and if you want gdb to get control when a particular bit of code
+> is executed then you should set a breakpoint there.
+
+It's a fairly niche use case but I don't see why we shouldn't assuming
+someone is willing to write the code. However I suspect there is quite a
+wide range of potential behaviours to model.
+
+> We don't even implement the guest-visible debug parts of the
+> architecture (eg architected single-step) yet, incidentally.
+
+Is this just for Aarch32? Because for Aarch64 as far as I'm aware the
+v8.0 debug works fine modulo bugs which I sent a fix for:
+
+  Subject: [RFC PATCH] arm: force flag recalculation when messing with DAIF
+  Date: Wed,  2 Feb 2022 12:23:53 +0000
+  Message-Id: <20220202122353.457084-1-alex.bennee@linaro.org>
+
+Implementing more of the debug functionality is on the list for
+supporting Neoverse. We don't currently have a plan for how to deal with
+the slowly growing series of PMU features though.
+
+>
+> -- PMM
+
+
+--=20
+Alex Benn=C3=A9e
 
