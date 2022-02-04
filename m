@@ -2,83 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82E0F4AA0C0
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Feb 2022 21:03:02 +0100 (CET)
-Received: from localhost ([::1]:40688 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 168314AA10B
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Feb 2022 21:17:00 +0100 (CET)
+Received: from localhost ([::1]:58574 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nG4nN-0005QD-6w
-	for lists+qemu-devel@lfdr.de; Fri, 04 Feb 2022 15:03:01 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:33100)
+	id 1nG50s-0001Az-2x
+	for lists+qemu-devel@lfdr.de; Fri, 04 Feb 2022 15:16:58 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:33180)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nG4Ir-0001JO-4W
- for qemu-devel@nongnu.org; Fri, 04 Feb 2022 14:31:29 -0500
-Received: from [2607:f8b0:4864:20::62e] (port=36357
- helo=mail-pl1-x62e.google.com)
+ id 1nG4JC-00025X-AI; Fri, 04 Feb 2022 14:31:50 -0500
+Received: from [2607:f8b0:4864:20::1033] (port=44851
+ helo=mail-pj1-x1033.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nG4Ip-0003Ih-3e
- for qemu-devel@nongnu.org; Fri, 04 Feb 2022 14:31:28 -0500
-Received: by mail-pl1-x62e.google.com with SMTP id x3so6012517pll.3
- for <qemu-devel@nongnu.org>; Fri, 04 Feb 2022 11:31:26 -0800 (PST)
+ id 1nG4J9-0003L8-JK; Fri, 04 Feb 2022 14:31:49 -0500
+Received: by mail-pj1-x1033.google.com with SMTP id
+ y5-20020a17090aca8500b001b8127e3d3aso7008814pjt.3; 
+ Fri, 04 Feb 2022 11:31:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=5idSbIxBHxqL6h4/luJir/uZUJaXsZCZ53cQklyH3dA=;
- b=EAqr2Gfq3sc2JLRnSUbJvK8kBOMgTF3j7mbpcw9uvtdFAEelzRYKPTZm5OlIXmoxau
- tt8ON3QbZM0E5iEv71rl6luCFpL9sAMplMZuzG2cSWo3EnSDMGtypOzJowO98Mjkra+V
- ppl/IT96orqTN7ucZYSLotlxEnzLnp+u0dJ06AXDMR89sJDIsWgd3L+hN0TiHAasjPtO
- /vvpzYCPZGc1t75TbEtoPu6b8CASHJ7iCRVMJer54lGB0c+4ugV5KTpGhynfTxquaKnF
- cgMIN+DCrq54j33RtZlf3ZjK/K1rZyshu1RiVz5UizHDZtmeOARtPRNLtmvkA7PGe8zo
- +jpA==
+ bh=OS5/kgYKyZY8GoF8mnP+AEa4hVuol3XDlbw2YnI7xjY=;
+ b=ocsJFp8u1j3bV3lCbBUcrIelBJiafYeEK0a6EAYm1rFmZz4wRG9ACO7il5cCuB96WW
+ GZuPwymj1ND9pZGh53ev/K/Mb6ZstrFazDH5cYSv2F3VXv1+aH3TKJ6volucE4Dw83RY
+ +VhX9VxBF1CHgeb8DW1qfyrnsCgkBghBCNv+9bTUTSPy5QbEIE6LudpEXHATcxWQiqsv
+ 8XJeoX3fsSWguI6dkupLAPpq76SpfpLoaVtq0Otk2wHGMPgwy01XdVwxnYTP8CPvNYoO
+ JfQtJVqeQWylgxxd7U9S+f0TC1k2rTf0Ahn0Zr/mCbTsOTKJPZGpdZvevvkD22wcXFDn
+ 27sw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
  :subject:content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=5idSbIxBHxqL6h4/luJir/uZUJaXsZCZ53cQklyH3dA=;
- b=hjK1fDosxcMDS3iTy4lNJfpJZjC4RPOwPF3+FU6o/NiSEOomodlxSL/hQhPShfywhl
- ZmAINCFqMfthsdBSo05sizCLOU9SmkHrHnSMws3mFzLpI/HHU0oy9O6psuSMrg1rrLVj
- koR2ufPWgixlDSb6KcOHp+FiAdAg+yHbSECgTD7uk5POaraM1hDcik7v3w+zgnSubfrQ
- wdwhnpLJz/AqFMHPHz1Y6HL5jTqe/PyhPMycEldrTHAd3PCHXXnmpFnNT/biGPEZ3Ybs
- RPHdTh/5fmE9QVIGjEP5arIv9PvwIJtI6v/8zkJOqsjOXc2n0S0fravLtcT5/cCvOAq7
- r4Gg==
-X-Gm-Message-State: AOAM530d7L6ugph+dlLITYaEoWJBg9LlMMfcCNjIg8A8RtOUFzdMcAIq
- 5lxTMPtIDOr576MjYfLv1EQ=
-X-Google-Smtp-Source: ABdhPJz8Y3P9ctCIOVH9+09/9+mVlpb06SJmL7/72pa6e3fn4sqNLQMFtbOuiGo+1qlIDlOjaHHf1Q==
-X-Received: by 2002:a17:90a:d188:: with SMTP id
- fu8mr4828401pjb.60.1644003085701; 
- Fri, 04 Feb 2022 11:31:25 -0800 (PST)
+ bh=OS5/kgYKyZY8GoF8mnP+AEa4hVuol3XDlbw2YnI7xjY=;
+ b=PwVeYhnLgYy10b+tV2WavPN1lWms/nlfd6bX0E7A/MoamAAl8tXrAPkgqkYIVTn8Bq
+ 2207G9Vp1L14svtktjmwlUQpLpIXW8ZoEYzeZzQ9FYAlX3/5vZcwR8c7VHbdZpJWqa0N
+ uBiseeco7v1KvM2SBIixmCCxTJYUVK5Bn0LCefYPrzYdEYmLg7SEW0lRVKD9pFUZkWG0
+ s0zf8yVBORyyh+5WnHtdfTW/EvBe9aiR0lIk8tMFD6Y7zl/tynOEXd7KHHpYMCyxP10l
+ VbzZY+jPnHFslR3YCKiTnZv2hWYML4Xfl/P6rHHEYHwM9/dhQkKeeNP2F+eDLAbQEPFL
+ Xi6Q==
+X-Gm-Message-State: AOAM531Q5yAPv/xxjwMhfjjmb/TRcsWy3KD0RTev2PibpD8mW/dhMmz7
+ fHrprZRCD7dW7EV9aajso1li4hKPvh8=
+X-Google-Smtp-Source: ABdhPJwsswKi58OMO9zB1uzpAIsCU0MUFlRmZEXK5xNx1PHQWbdIxprGDyuohKNPwL+sOTKKZuzARw==
+X-Received: by 2002:a17:90b:3889:: with SMTP id
+ mu9mr4851301pjb.207.1644003105807; 
+ Fri, 04 Feb 2022 11:31:45 -0800 (PST)
 Received: from [192.168.1.33] (154.red-83-50-83.dynamicip.rima-tde.net.
  [83.50.83.154])
- by smtp.gmail.com with ESMTPSA id mj23sm2793719pjb.54.2022.02.04.11.31.23
+ by smtp.gmail.com with ESMTPSA id n2sm2261689pgf.74.2022.02.04.11.31.43
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 04 Feb 2022 11:31:25 -0800 (PST)
-Message-ID: <7cd97d2e-30a6-3857-464e-f39ddd98a407@amsat.org>
-Date: Fri, 4 Feb 2022 20:31:20 +0100
+ Fri, 04 Feb 2022 11:31:45 -0800 (PST)
+Message-ID: <12419d2c-25dd-1f00-2d67-9edcf64e1340@amsat.org>
+Date: Fri, 4 Feb 2022 20:31:41 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
  Gecko/20100101 Thunderbird/91.5.1
-Subject: Re: [PATCH v3 1/2] hw/i386: Attach CPUs to machine
+Subject: Re: [PATCH v3] 9pfs: Fix segfault in do_readdir_many caused by struct
+ dirent overread
 Content-Language: en-US
-To: Paolo Bonzini <pbonzini@redhat.com>
-Cc: qemu-devel <qemu-devel@nongnu.org>, Yang Zhong <yang.zhong@intel.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Eduardo Habkost
- <eduardo@habkost.net>, Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>
-References: <20220131233507.334174-1-f4bug@amsat.org>
- <20220131233507.334174-2-f4bug@amsat.org>
- <CABgObfY6+-GjEi9hfFs2x6CRctPHFBt3hxwRK_73tL8Hm4on5A@mail.gmail.com>
-In-Reply-To: <CABgObfY6+-GjEi9hfFs2x6CRctPHFBt3hxwRK_73tL8Hm4on5A@mail.gmail.com>
+To: Christian Schoenebeck <qemu_oss@crudebyte.com>
+Cc: "Dmitry V. Levin" <ldv@altlinux.org>, Vitaly Chikunov <vt@altlinux.org>,
+ Greg Kurz <groug@kaod.org>, qemu-devel@nongnu.org, qemu-stable@nongnu.org
+References: <20220204050609.15510-1-vt@altlinux.org>
+ <20220204155059.GA18407@altlinux.org>
+ <5c9d8b95-30ec-0801-ab26-51f40958b357@amsat.org> <3780614.DPuHsZYPev@silver>
+In-Reply-To: <3780614.DPuHsZYPev@silver>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::62e
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1033
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62e;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pl1-x62e.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1033;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pj1-x1033.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -105,26 +102,45 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
 From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
-On 4/2/22 18:59, Paolo Bonzini wrote:
-> This is causing breakage in the acpi-tables-test, sorry.
+On 4/2/22 17:04, Christian Schoenebeck wrote:
+> On Freitag, 4. Februar 2022 16:54:12 CET Philippe Mathieu-Daudé wrote:
+>> On 4/2/22 16:50, Dmitry V. Levin wrote:
+>>> On Fri, Feb 04, 2022 at 06:32:07PM +0300, Vitaly Chikunov wrote:
+>>> [...]
+>>>
+>>>>> struct dirent *
+>>>>> qemu_dirent_dup(struct dirent *dent)
+>>>>> {
+>>>>>
+>>>>>       size_t sz = offsetof(struct dirent, d_name) + _D_EXACT_NAMLEN(dent)
+>>>>>       + 1;
+>>>>
+>>>> But d_namlen is not populated by synth_direntry, so this will lead to
+>>>> a bug too. Idea is that qemu_dirent_dup handles real dirents and
+>>>> simulated (underpopulated) dirents.
+>>>>
+>>>> Also Linux does not have d_namlen AFAIK, thus this code will not provide
+>>>> any speed up in most cases (and always fallback to strlen), unlike if we
+>>>> use d_reclen.
+>>>>
+>>>> Also, I m not sure if _D_EXACT_NAMLEN is defined on all systems, so this
+>>>> needs ifdefs too.
+>>>
+>>> Yes, _D_EXACT_NAMLEN() is a GNU extension, it was introduced in glibc
+>>> back in 1996 but some popular libcs available for Linux do not provide
+>>> this macro.
+>>
+>> Can't we define _D_EXACT_NAMLEN() if not available?
+> 
+> It is not that trivial.
+> 
+> With recent macOS patch set in mind: macOS does not have any of these macros
+> either. It does have d_namlen and d_reclen though. Keep in mind though that
+> macOS also has d_seekoff which is almost always zero though.
+> 
+> So please, don't blindly define something, test it! On doubt I stick with
+> Vitaly's solution, because it just works^TM.
 
-$ make check-qtest-x86_64
-
-Ok:                 49
-Expected Fail:      0
-Fail:               0
-Unexpected Pass:    0
-Skipped:            7
-Timeout:            0
-
-$ make check-qtest-i386
-
-Ok:                 52
-Expected Fail:      0
-Fail:               0
-Unexpected Pass:    0
-Skipped:            4
-Timeout:            0
-
-I am confuse, how do you run it?
+Note I haven't NAck'ed this approach, I am simply looking at a better
+alternative if possible.
 
