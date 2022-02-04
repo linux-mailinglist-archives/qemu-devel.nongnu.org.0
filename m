@@ -2,75 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 287954A9C0C
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Feb 2022 16:34:28 +0100 (CET)
-Received: from localhost ([::1]:42856 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CA6924A9C13
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Feb 2022 16:38:22 +0100 (CET)
+Received: from localhost ([::1]:51512 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nG0bT-0006bB-AH
-	for lists+qemu-devel@lfdr.de; Fri, 04 Feb 2022 10:34:27 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:59424)
+	id 1nG0fF-0004Di-Uw
+	for lists+qemu-devel@lfdr.de; Fri, 04 Feb 2022 10:38:21 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:59524)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nG0Wm-0003kR-O3
- for qemu-devel@nongnu.org; Fri, 04 Feb 2022 10:29:36 -0500
-Received: from [2607:f8b0:4864:20::102c] (port=50766
- helo=mail-pj1-x102c.google.com)
+ id 1nG0X9-0003tt-K6
+ for qemu-devel@nongnu.org; Fri, 04 Feb 2022 10:29:59 -0500
+Received: from [2607:f8b0:4864:20::1032] (port=42641
+ helo=mail-pj1-x1032.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nG0Wi-0004Ba-TK
- for qemu-devel@nongnu.org; Fri, 04 Feb 2022 10:29:36 -0500
-Received: by mail-pj1-x102c.google.com with SMTP id m7so5932110pjk.0
- for <qemu-devel@nongnu.org>; Fri, 04 Feb 2022 07:29:32 -0800 (PST)
+ id 1nG0X8-0004DA-1f
+ for qemu-devel@nongnu.org; Fri, 04 Feb 2022 10:29:59 -0500
+Received: by mail-pj1-x1032.google.com with SMTP id
+ my12-20020a17090b4c8c00b001b528ba1cd7so6470214pjb.1
+ for <qemu-devel@nongnu.org>; Fri, 04 Feb 2022 07:29:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=unMJI0hH6e9du6DGKKwYhEvMIsLNTZ3jY6vBAwU9dHM=;
- b=i0QUbhGcfDz/v93L8XJ745DhTvoZzjJfu5ppBGyGrZ+j0FNbTOnU2GewljrSetdlT6
- cW6Yw58BpIRMO7jEWZMZtNUQ2HEOnHJ4Trnz6Q4DdwvOyV+TMO9eJmVGH4plE0cgfFZC
- /myIpTIt+J/QcJATYdaIgN4kSllPQ9T6kd7Xqje4TooBuKrVwB7Be7CqruQiDL2Ynb2H
- Aujb143265+qU88o6jOL7X7wXaVOIBZ/sESvJvGA6NncoyccBKkvoBdWqz556CHz5I2J
- jTxfQv6/fXYfz41D865H+CcgB2LARDKw1x82eu0u1y7mty7yAcjyscljMGj5Qg9HtY9/
- oxtQ==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=vViy72WIqKVDTBMZhoKE8b8CYqiaPsCIpqcsGPJantY=;
+ b=IID5SAkPY4u+Ew6oYfIlhL4sEW4KywMUvMoN6+sUegBGXLgGvs9JcoK7//c6/f94HH
+ rWeFrnBRdvjuyiT4A9Df6bKz4txAr+JnJL4R6hcZ3H0y1Ei6KSD8dH3m+Rh5AC0rbTlW
+ 1yfPuIGBrOVcm5PlWBiv7MuBTyg1AJo6mFPPu/SabHGDdMjDlCM0ZyXGvQnXOgwrtaD6
+ 7Hd7rWY3FAjoFUgPIaf7s8Wq+ZvrDeAn3lbsgNqIMZ6WaQkfF8LdHqF8X1DZxYreEpzO
+ y5Z9CAxebdGL5+Q7WRKLrUp2I107OUP1xXwmDkaN3451QFDHxl2meY43qb4xYpmK3jIc
+ PpUw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=unMJI0hH6e9du6DGKKwYhEvMIsLNTZ3jY6vBAwU9dHM=;
- b=mPkjJgRfQzCVq66bsRLIdA2bqTi1qNkHSscQUJE/SMFtt2fvqwWR0J2O0ANGj/tVyR
- rrufLxIydYQa2sIIz/FQOlvGT/tjrb4I9jzblO+3h76EvnXu2KHecU+4wT3rf9JuRaCV
- MOiYpC4kRQSnaSdg5Xy+2zigl1RLG1265aTV2cBTcnjan4vcuMGhxVS3U9j2viUeCLN3
- h1WCn0A3nGOZxUecxAt5d1782i96ygbSM2RQKKk5FIu3BbEuw1pF+viwYfdM8XZNCo15
- Gs9qKr9AgqiO6ujuHH2eiAvhexq60KxRvRhzJPf5448ltk++1mFu69TYdp/C931oenp4
- HL1A==
-X-Gm-Message-State: AOAM532dijuGTR8ysyTi5Fzp7+60VkDYD0H4VzE+tl4CN/qwoGVhmgMD
- Xq7+UIFYQizMezsszwRKNTEAYSzKJA8=
-X-Google-Smtp-Source: ABdhPJwzPVXGQnR26L9/K04/+STe6Er0medIDlD+Xa/bpPrWpbE3bts6+y1hKe6UM5GBblXbY0d3Bg==
-X-Received: by 2002:a17:903:2307:: with SMTP id
- d7mr3780855plh.52.1643988571303; 
- Fri, 04 Feb 2022 07:29:31 -0800 (PST)
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=vViy72WIqKVDTBMZhoKE8b8CYqiaPsCIpqcsGPJantY=;
+ b=qRsCk9TTrhx1GLrMUlmymZfNuUeyort+SH6bue3eIH+857imLdC3gfvTpbEArXWXfq
+ vxgitWNIl68jjePMSnNX7OOCW1B9tiC5CosZlRY7+aONLyYWedIeYgVWLDA2c+yHrOoc
+ lNLcbQdY48iJ7o/Sieb6gUY/y7woThaJC7zFH1tJ6+9xtuauTTG9Ud/phUoGX+k0XuwQ
+ tfyIOkHwSM2VkUSCOG/lY30JxuxIcgK8JpRDf0fWfxAA1Etv+TlEF7nyIlRupnqoXLWa
+ K9WmukExtGrakoZ6/70D8dXLdXppHcjX1R4xYsQwGwwqrtNj62g/3AhoHLnUIcaVM3lj
+ EUVg==
+X-Gm-Message-State: AOAM531/2ideJLYnRBdrapP89Mp7qe55OkhtoOPaABGaE/cEMDpw7Zza
+ INaSQJcFHSomVLyK7fm2ltbIHaciUbY=
+X-Google-Smtp-Source: ABdhPJy3SGnRY4dDsowxPMeZI4AJ4X49/uSAr8XnP5awhjrELwe/U1lZ8EG05QM91RiRp8rnIAbKPg==
+X-Received: by 2002:a17:902:d918:: with SMTP id
+ c24mr3476259plz.1.1643988579843; 
+ Fri, 04 Feb 2022 07:29:39 -0800 (PST)
 Received: from localhost.localdomain (154.red-83-50-83.dynamicip.rima-tde.net.
  [83.50.83.154])
- by smtp.gmail.com with ESMTPSA id a3sm2901812pfk.73.2022.02.04.07.29.28
+ by smtp.gmail.com with ESMTPSA id m20sm3114019pfk.215.2022.02.04.07.29.37
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Fri, 04 Feb 2022 07:29:30 -0800 (PST)
+ Fri, 04 Feb 2022 07:29:39 -0800 (PST)
 To: qemu-devel@nongnu.org
 Cc: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
  Thomas Huth <thuth@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
  Markus Armbruster <armbru@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: [PATCH 0/4] buildsys: Avoid building unused objects
-Date: Fri,  4 Feb 2022 16:29:20 +0100
-Message-Id: <20220204152924.6253-1-f4bug@amsat.org>
+Subject: [PATCH 1/4] configure: Restrict TCG to emulation
+Date: Fri,  4 Feb 2022 16:29:21 +0100
+Message-Id: <20220204152924.6253-2-f4bug@amsat.org>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20220204152924.6253-1-f4bug@amsat.org>
+References: <20220204152924.6253-1-f4bug@amsat.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::102c
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1032
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102c;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pj1-x102c.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1032;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pj1-x1032.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -97,30 +100,50 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reply-to:  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 From:  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= via <qemu-devel@nongnu.org>
 
-Hi,
+If we don't need to emulate any target, we certainly don't need TCG.
 
-I already sent these patches few times. I am refactoring the whole
-tree and building over and over various combinations, and still see
-unuseful objects being built, so posting these patches again
-(rebased).
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+---
+ configure | 12 ++++++++++--
+ 1 file changed, 10 insertions(+), 2 deletions(-)
 
-Based-on: <20220203193803.45671-1-f4bug@amsat.org>
-
-Philippe Mathieu-Daudé (4):
-  configure: Restrict TCG to emulation
-  tests/fp: Do not build softfloat3 tests if TCG is disabled
-  qom: Remove user-creatable objects from user emulation
-  qapi/meson: Restrict machine-specific objects to sysemu
-
- configure                 | 12 ++++++++++--
- qapi/meson.build          | 20 ++++++++++----------
- qom/meson.build           |  7 ++++++-
- qom/user_creatable-stub.c |  8 ++++++++
- tests/fp/meson.build      |  3 +++
- tests/unit/meson.build    |  2 +-
- 6 files changed, 38 insertions(+), 14 deletions(-)
- create mode 100644 qom/user_creatable-stub.c
-
+diff --git a/configure b/configure
+index 9f40d60196..4002f81ac9 100755
+--- a/configure
++++ b/configure
+@@ -370,7 +370,7 @@ slirp="auto"
+ default_devices="true"
+ 
+ # 3. Automatically enable/disable other options
+-tcg="enabled"
++tcg="auto"
+ cfi="false"
+ 
+ # 4. Detection partly done in configure
+@@ -1777,7 +1777,7 @@ EOF
+   fi
+ fi
+ 
+-if test "$tcg" = "enabled"; then
++if test "$tcg" != "disabled"; then
+     git_submodules="$git_submodules tests/fp/berkeley-testfloat-3"
+     git_submodules="$git_submodules tests/fp/berkeley-softfloat-3"
+ fi
+@@ -1819,6 +1819,14 @@ case " $target_list " in
+   ;;
+ esac
+ 
++if test "$tcg" = "auto"; then
++  if test -z "$target_list"; then
++    tcg="disabled"
++  else
++    tcg="enabled"
++  fi
++fi
++
+ feature_not_found() {
+   feature=$1
+   remedy=$2
 -- 
 2.34.1
 
