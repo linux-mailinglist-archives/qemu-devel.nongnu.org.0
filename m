@@ -2,84 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6585C4A9122
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Feb 2022 00:25:12 +0100 (CET)
-Received: from localhost ([::1]:33650 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 05C6C4A9186
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Feb 2022 01:18:04 +0100 (CET)
+Received: from localhost ([::1]:43202 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nFlTS-0004Sz-TR
-	for lists+qemu-devel@lfdr.de; Thu, 03 Feb 2022 18:25:10 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:56166)
+	id 1nFmIc-00066X-M3
+	for lists+qemu-devel@lfdr.de; Thu, 03 Feb 2022 19:18:02 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:35130)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nFlRC-0003ct-6L
- for qemu-devel@nongnu.org; Thu, 03 Feb 2022 18:22:50 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:29555)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nFlR8-0005TR-Bk
- for qemu-devel@nongnu.org; Thu, 03 Feb 2022 18:22:48 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1643930565;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=IYJnluxBh2O6RyFvJpg5ZZJlxXVRHd/Sl5CCLugL93o=;
- b=C+kPVJfvgHBqtxJaLMnwk9/AjjEeie5KdhVb+A381hYxFWoPyP4OsPbJsqMqone1vvA2OM
- YU/RFCoMSJvURSIr56wYgTr8Nnd4wlDJZ2zPSe4ar/pxOuUYQPhKYQlT/Pk/k9V44wFcjz
- URb6wta2YgdnqaTrdjWDYKlrrvmP7XA=
-Received: from mail-ua1-f70.google.com (mail-ua1-f70.google.com
- [209.85.222.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-595-hoVqJh85Nyql1tb5e8hEzA-1; Thu, 03 Feb 2022 18:22:44 -0500
-X-MC-Unique: hoVqJh85Nyql1tb5e8hEzA-1
-Received: by mail-ua1-f70.google.com with SMTP id
- q19-20020ab04a13000000b002fef2f854a6so2487712uae.7
- for <qemu-devel@nongnu.org>; Thu, 03 Feb 2022 15:22:44 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=IYJnluxBh2O6RyFvJpg5ZZJlxXVRHd/Sl5CCLugL93o=;
- b=7F0SjgzzU/svTWRRYS7jv9tudS8/xz9PpM9xee4OSECxmyYSIE5RNoJCkIHL5CirRo
- VnzzxxRgY3/QR93tlnZgoQSsjg9IGdzjj0bi/a3/n+RS1gElT726xmPPjVfM6oO5DdrF
- WxXbOoApYI3zAIRD+sJ9954JlCKGY7S7OtrfvaYowBi4Ne22EQbI3/Yf9BdZFwJEusnq
- c4pKgDcx1iKd0FxgrOe8kFRc1SntdJSCn5y6tLb1NGTMlMs/ELAd6BaVjTOLc8GTFKTB
- xqzeA5yPw4O8J4nOpOznzXjERTq3mqNfOIAoAJZZ0zfgDJRZWE2dtVljvd6QjSSdYerS
- dMkg==
-X-Gm-Message-State: AOAM531HzKyReXclbMdXewupzFHg2LNuF0k09XldqFbJpVCBFrip4U9N
- THlCSNW+g/L+Eix01em1f3D1qp+D66rJbbeSDTFs/WxyipRg4WoiUHkP9xx4/4AKcWsR/ANx2V3
- j8M0/xk6F5iRBYIq7MCHCCGUPh6yx+Sw=
-X-Received: by 2002:a67:f70f:: with SMTP id m15mr38652vso.61.1643930563593;
- Thu, 03 Feb 2022 15:22:43 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxP/VCtkANtsOR1pbPbK7ETDXXhCVMdBCsESa56A+yKhK+REkI4OvwRlKN6ewBSayFj4IRHJrg48Hsyy7WLWg0=
-X-Received: by 2002:a67:f70f:: with SMTP id m15mr38649vso.61.1643930563399;
- Thu, 03 Feb 2022 15:22:43 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <vt@altlinux.org>)
+ id 1nFmG6-0004ZP-7w; Thu, 03 Feb 2022 19:15:26 -0500
+Received: from vmicros1.altlinux.org ([194.107.17.57]:54006)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <vt@altlinux.org>)
+ id 1nFmG0-0000Zf-VT; Thu, 03 Feb 2022 19:15:24 -0500
+Received: from imap.altlinux.org (imap.altlinux.org [194.107.17.38])
+ by vmicros1.altlinux.org (Postfix) with ESMTP id 8AC0172C905;
+ Fri,  4 Feb 2022 03:15:16 +0300 (MSK)
+Received: from altlinux.org (sole.flsd.net [185.75.180.6])
+ by imap.altlinux.org (Postfix) with ESMTPSA id 731AD4A46F0;
+ Fri,  4 Feb 2022 03:15:16 +0300 (MSK)
+Date: Fri, 4 Feb 2022 03:15:16 +0300
+From: Vitaly Chikunov <vt@altlinux.org>
+To: Christian Schoenebeck <qemu_oss@crudebyte.com>
+Subject: Re: [PATCH v2] 9pfs: Fix segfault in do_readdir_many caused by
+ struct dirent overread
+Message-ID: <20220204001516.n5ma26x3wxsoixeb@altlinux.org>
+References: <20220128223326.927132-1-vt@altlinux.org>
+ <2001191.mYrJCF7IzP@silver>
 MIME-Version: 1.0
-References: <20220203015946.1330386-1-jsnow@redhat.com>
- <CAFEAcA_OXJ6C1UTFXiy6x1gp4VRmaWQY7ntU8N-3-O+TGcsKQQ@mail.gmail.com>
- <CAFn=p-ZeG2XM_cP3hpKN-Cagk4T1Sr05YEDhtwmR4+_VOjVt7w@mail.gmail.com>
- <CAFEAcA9fJMQizPmd1rUh7wPgPoz4dAXQPP07DzDFQK1ieN72VA@mail.gmail.com>
-In-Reply-To: <CAFEAcA9fJMQizPmd1rUh7wPgPoz4dAXQPP07DzDFQK1ieN72VA@mail.gmail.com>
-From: John Snow <jsnow@redhat.com>
-Date: Thu, 3 Feb 2022 18:22:32 -0500
-Message-ID: <CAFn=p-Zpvf4W1zZtnv5a9sn=38=dgsa7HUMnYM7dk7xW7gRB3g@mail.gmail.com>
-Subject: Re: [PULL 0/4] Python patches
-To: Peter Maydell <peter.maydell@linaro.org>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=jsnow@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.086,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=koi8-r
+Content-Disposition: inline
+In-Reply-To: <2001191.mYrJCF7IzP@silver>
+Received-SPF: pass client-ip=194.107.17.57; envelope-from=vt@altlinux.org;
+ helo=vmicros1.altlinux.org
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -92,71 +54,149 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <eduardo@habkost.net>, Kevin Wolf <kwolf@redhat.com>,
- Qemu-block <qemu-block@nongnu.org>, qemu-devel <qemu-devel@nongnu.org>,
- Markus Armbruster <armbru@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
- Cleber Rosa <crosa@redhat.com>
+Cc: qemu-stable@nongnu.org, ldv@altlinux.org, qemu-devel@nongnu.org,
+ Greg Kurz <groug@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Feb 3, 2022 at 11:52 AM Peter Maydell <peter.maydell@linaro.org> wr=
-ote:
->
-> On Thu, 3 Feb 2022 at 16:38, John Snow <jsnow@redhat.com> wrote:
->
-> > On Thu, Feb 3, 2022, 11:20 AM Peter Maydell <peter.maydell@linaro.org> =
-wrote:
-> >> Summary of Failures:
-> >>
-> >> 1/1 qemu:block / qemu-iotests qcow2 ERROR          243.14s   exit stat=
-us 1
+Christian,
 
-I'm not too familiar with this new test runner, yet. (Is this error
-even anything to do with the python lib? I guess I can't rule it
-out...)
-I just got a clean run of 'make vm-build-netbsd', so I'm using that
-output as reference and making some guesses.
+On Thu, Feb 03, 2022 at 01:42:19PM +0100, Christian Schoenebeck wrote:
+> On Freitag, 28. Januar 2022 23:33:26 CET Vitaly Chikunov wrote:
+> > `struct dirent' returned from readdir(3) could be shorter than
+> > `sizeof(struct dirent)', thus memcpy of sizeof length will overread
+> > into unallocated page causing SIGSEGV. Example stack trace:
+> > 
+> >  #0  0x00005555559ebeed v9fs_co_readdir_many (/usr/bin/qemu-system-x86_64 +
+> > 0x497eed) #1  0x00005555559ec2e9 v9fs_readdir (/usr/bin/qemu-system-x86_64
+> > + 0x4982e9) #2  0x0000555555eb7983 coroutine_trampoline
+> > (/usr/bin/qemu-system-x86_64 + 0x963983) #3  0x00007ffff73e0be0 n/a (n/a +
+> > 0x0)
+> > 
+> > While fixing, provide a helper for any future `struct dirent' cloning.
+> > 
+> > Resolves: https://gitlab.com/qemu-project/qemu/-/issues/841
+> > Cc: qemu-stable@nongnu.org
+> > Co-authored-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
+> > Signed-off-by: Vitaly Chikunov <vt@altlinux.org>
+> > ---
+> > Tested on x86-64 Linux.
+> > 
+> > Changes since v1:
+> > - Update commentary text.
+> > - Remove hanging of g_malloc "errors".
+> > - Simplify qemu_dirent_dup.
+> > 
+> >  hw/9pfs/codir.c      |  3 +--
+> >  include/qemu/osdep.h | 13 +++++++++++++
+> >  util/osdep.c         | 16 ++++++++++++++++
+> >  3 files changed, 30 insertions(+), 2 deletions(-)
+> > 
+> > diff --git a/hw/9pfs/codir.c b/hw/9pfs/codir.c
+> > index 032cce04c4..c0873bde16 100644
+> > --- a/hw/9pfs/codir.c
+> > +++ b/hw/9pfs/codir.c
+> > @@ -143,8 +143,7 @@ static int do_readdir_many(V9fsPDU *pdu, V9fsFidState
+> > *fidp, } else {
+> >              e = e->next = g_malloc0(sizeof(V9fsDirEnt));
+> >          }
+> > -        e->dent = g_malloc0(sizeof(struct dirent));
+> > -        memcpy(e->dent, dent, sizeof(struct dirent));
+> > +        e->dent = qemu_dirent_dup(dent);
+> > 
+> >          /* perform a full stat() for directory entry if requested by caller
+> > */ if (dostat) {
+> > diff --git a/include/qemu/osdep.h b/include/qemu/osdep.h
+> > index d1660d67fa..ce12f64853 100644
+> > --- a/include/qemu/osdep.h
+> > +++ b/include/qemu/osdep.h
+> > @@ -805,6 +805,19 @@ static inline int
+> > platform_does_not_support_system(const char *command) }
+> >  #endif /* !HAVE_SYSTEM_FUNCTION */
+> > 
+> > +/**
+> > + * Duplicate directory entry @dent.
+> > + *
+> > + * It is highly recommended to use this function instead of open coding
+> > + * duplication of @c dirent objects, because the actual @c struct @c dirent
+> > + * size may be bigger or shorter than @c sizeof(struct dirent) and correct
+> > + * handling is platform specific (see gitlab issue #841).
+> > + *
+> > + * @dent - original directory entry to be duplicated
+> > + * @returns duplicated directory entry which should be freed with g_free()
+> > + */
+> > +struct dirent *qemu_dirent_dup(struct dirent *dent);
+> > +
+> >  #ifdef __cplusplus
+> >  }
+> >  #endif
+> > diff --git a/util/osdep.c b/util/osdep.c
+> > index 42a0a4986a..0bc7ec1e22 100644
+> > --- a/util/osdep.c
+> > +++ b/util/osdep.c
+> > @@ -33,6 +33,7 @@
+> >  extern int madvise(char *, size_t, int);
+> >  #endif
+> > 
+> > +#include <dirent.h>
+> >  #include "qemu-common.h"
+> >  #include "qemu/cutils.h"
+> >  #include "qemu/sockets.h"
+> > @@ -615,3 +616,18 @@ writev(int fd, const struct iovec *iov, int iov_cnt)
+> >      return readv_writev(fd, iov, iov_cnt, true);
+> >  }
+> >  #endif
+> > +
+> > +struct dirent *
+> > +qemu_dirent_dup(struct dirent *dent)
+> > +{
+> > +#if defined _DIRENT_HAVE_D_RECLEN
+> > +    /* Avoid use of strlen() if there's d_reclen. */
+> > +    const size_t sz = dent->d_reclen;
+> > +#else
+> > +    /* Fallback to a most portable way. */
+> > +    const size_t sz = offsetof(struct dirent, d_name) +
+> > +                      strlen(dent->d_name) + 1;
+> > +#endif
+> 
+> >From the experience we just made, I would add in v3 something like
+> 
+> 	assert(sz > 0);
+> 
+> here.
 
-If I search the output for 'qcow2', I see the following output (with
-possibly many lines between each hit):
+Yes but this will cause another abort() call. I am thinking about v3 fix
+like this:
 
-1/1 qemu:block / qemu-iotests qcow2        RUNNING
->>> MALLOC_PERTURB_=3D205 PYTHON=3D/usr/pkg/bin/python3.7 /bin/sh /home/qem=
-u/qemu-test.lj6FNa/build/../src/tests/qemu-iotests/../check-block.sh qcow2
-=E2=96=B6 1/1 qcow2 001                            OK
-=E2=96=B6 1/1 qcow2 002                            OK
-=E2=96=B6 1/1 qcow2 004                            OK
+  struct dirent *
+  qemu_dirent_dup(struct dirent *dent)
+  {
+      size_t sz = 0;
+  #if defined _DIRENT_HAVE_D_RECLEN
+      /* Avoid use of strlen() if there's d_reclen. */
+      sz = dent->d_reclen;
+  #endif
+      if (sz == 0) {
+          /* Fallback to a most portable way. */
+          sz = offsetof(struct dirent, d_name) +
+			strlen(dent->d_name) + 1;
+      }
+      struct dirent *dst = g_malloc(sz);
+      return memcpy(dst, dent, sz);
+  }
 
-... and so on and so forth ...
-
-=E2=96=B6 1/1 qcow2 299                            OK
-=E2=96=B6 1/1 qcow2 313                            SKIP
-=E2=96=B6 1/1 qcow2 nbd-qemu-allocation            SKIP
-=E2=96=B6 1/1 qcow2 qsd-jobs                       OK
-1/1 qemu:block / qemu-iotests qcow2        OK             176.35s   74
-subtests passed
-
-
-I tried modifying 040 to fail on purpose, and I see:
-
-=E2=96=B6 1/1 qcow2 039                            OK
-=E2=96=B6 1/1 qcow2 040                            FAIL
-=E2=96=B6 1/1 qcow2 041                            OK
-
-[...]
-
-=E2=96=B6 1/1 qcow2 nbd-qemu-allocation            OK
-=E2=96=B6 1/1 qcow2 qsd-jobs                       OK
-1/1 qemu:block / qemu-iotests qcow2        ERROR          106.06s
-exit status 1
-Summary of Failures:
-1/1 qemu:block / qemu-iotests qcow2 ERROR          106.06s   exit status 1
+Thus it will use strlen for simulated dirents and d_reclen for real ones
+(on Linux).
 
 
-I don't think I see it on the output you mailed, but can you point out
-which test is failing, at least? Grepping for 'FAIL' should be
-helpful.
+Thanks,
 
---js
-
+> 
+> > +    struct dirent *dst = g_malloc(sz);
+> > +    return memcpy(dst, dent, sz);
+> > +}
+> 
+> Best regards,
+> Christian Schoenebeck
+> 
 
