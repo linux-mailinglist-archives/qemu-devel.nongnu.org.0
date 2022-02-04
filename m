@@ -2,85 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A9044AA184
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Feb 2022 22:01:54 +0100 (CET)
-Received: from localhost ([::1]:60226 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C33CF4AA17F
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Feb 2022 21:59:59 +0100 (CET)
+Received: from localhost ([::1]:59070 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nG5iL-000051-Ix
-	for lists+qemu-devel@lfdr.de; Fri, 04 Feb 2022 16:01:53 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:52542)
+	id 1nG5gU-0007fL-SI
+	for lists+qemu-devel@lfdr.de; Fri, 04 Feb 2022 15:59:58 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:52706)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nG5W8-0008A2-A2
- for qemu-devel@nongnu.org; Fri, 04 Feb 2022 15:49:17 -0500
-Received: from [2a00:1450:4864:20::32d] (port=35463
- helo=mail-wm1-x32d.google.com)
+ id 1nG5WY-00004q-B4
+ for qemu-devel@nongnu.org; Fri, 04 Feb 2022 15:49:42 -0500
+Received: from [2a00:1450:4864:20::433] (port=44659
+ helo=mail-wr1-x433.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nG5W6-00088m-69
- for qemu-devel@nongnu.org; Fri, 04 Feb 2022 15:49:16 -0500
-Received: by mail-wm1-x32d.google.com with SMTP id
- l123-20020a1c2581000000b0037b9d960079so1438806wml.0
- for <qemu-devel@nongnu.org>; Fri, 04 Feb 2022 12:49:13 -0800 (PST)
+ id 1nG5WN-0008A8-HV
+ for qemu-devel@nongnu.org; Fri, 04 Feb 2022 15:49:42 -0500
+Received: by mail-wr1-x433.google.com with SMTP id k18so13422900wrg.11
+ for <qemu-devel@nongnu.org>; Fri, 04 Feb 2022 12:49:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=fVkkKUQPZonRdh16kBqKNrhk7t0iYwqgp7ZVrXtKCFU=;
- b=b/rEPXmIYzAmCmiIOHuIKjj5q3S8JqqmikGQtuwwOAgnljCeTkRbgpYme9Eil/6fdL
- gdjRYyx9i4YS8oEtHLtXrUpOi1OvwAyrxDtJGyL6dHUaPv5owxFtMdC4fp3yZIlTD6zw
- UZgAMqUIKRPQ6YR/9kkhDtrbuMe7Ve0COueHMDlsUf+ZCX5JU6KdzitWhkvrKuS/wfoH
- DukB5DkBk+CAxkmi4/GawgmiOidJ6amPFW5L4rkDqxNYKnj1x4QzZOTXPl6VOLq4OpQ7
- 3jiHJMBcyiLqOxG1AJSWaWjyIND10yBysuBAqzc8LbPfxi8V3vvz+cbRqM1X64p1DdnV
- mnXQ==
+ bh=LLRQf+EGiKb17sWi1iAuAKfuIJINjiQ+nmXe1hdPRTE=;
+ b=VRVByL+d/k68NmkgxLc8pLyACmxVuBDNdJ4EdI+LKnr8WiP+t/UikQs0vjgb2E8oZ7
+ zr9YCJKAIFfF9HRGxlUXiyqcDgkqP6p3pUCSMq1tAwqcrQifujdk8+qIICaieSTegP2y
+ zQS6pEu7iFTARr+ii8662Kgvf+d8a87uQa/TZVuHPJGEH5853THzSzt5gN6yT3eXuZfy
+ +cxWKv4mo0ERhfYzvsyTTjya/JuODX78Y46bDL1QXjy2Y4Jg3r5IFSD29UdXcaN2KQi8
+ Rh4sK0VuOKF7fHMlUlHNuaoLcErZopvudCqWO/fG5S6ZxnaaEAQ8eHV0eKKSzQKpamn+
+ KXag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=fVkkKUQPZonRdh16kBqKNrhk7t0iYwqgp7ZVrXtKCFU=;
- b=kDjRsoKLufAB7TzNJQ2Ew/3psKKsM8EFL6rTUqsraafbMOe/pv5Lo5OXzrfpYQPdqJ
- jY2mXa5QJbXgDwoUKzxYQUtj3gofq3lT2w+6h5uR07S7yW0BH3qClDXfrMJ+izAnVxzs
- 3o+dZqGXwayi/JYGBsN+M15zOUPWNR8l96dOu8JwmaOBtr8ubLLMbhV/shvWjPC3stf2
- NeOz/GHeVJj/ERZGSDHYOT+26LFQEBrZQ1pqh/OXK5XRfNx5ROjIE7hXKLzxMIPRKtFM
- zGvlDYvyIpAiFYNpxnLuHTOT82yjTObtv+6pspgcPDDXZj0zBThxVNczjvIFeepKqVp3
- T4/Q==
-X-Gm-Message-State: AOAM531CQPgxNyDO6eFVYcbe+UAwTCJZFL3zy2xSoK2GjgdRYAq2LxX9
- gLkhxa4KOdkxoy5799ejgvTXSA==
-X-Google-Smtp-Source: ABdhPJwhkOiXGYqA/ZubHuCN0EIwp9aAFFw4Xaf7KB9022wmXFsLjdD1MeU4dFm4Qua2eotWqD37xA==
-X-Received: by 2002:a05:600c:3845:: with SMTP id
- s5mr3705893wmr.134.1644007752906; 
- Fri, 04 Feb 2022 12:49:12 -0800 (PST)
+ bh=LLRQf+EGiKb17sWi1iAuAKfuIJINjiQ+nmXe1hdPRTE=;
+ b=v3jDkIe/TtvZKlb7+KwwFGUoar/eDe7+ZuzADUvwIJzZn65E3b6DnqrreC1ThCAar6
+ RTluMX3nvAZd8kkLl6je0Y3KIPGFPOb3DRLKRSLRbV81RUNdFX7LU9H8ojv/T8MWoJkA
+ B2iyRcLxiqXqthy1cypNeoOMY2wa9AfzCB5j0jnyfjNkHtvFOS3nVQu7/INmgb1T60vh
+ 5E7zieMGDMNZPOiiJWfyg+hDK7t0qQHDuk0Ytw3deZI+I4rUS5FEstZ0GLB835s6zLcT
+ 7wjGCse1gxzw71XN0GOvIe5BSv+He1rQOG2GAttcvBNb1ppkLDnGKX5XWmelPARw6jjN
+ NdFQ==
+X-Gm-Message-State: AOAM532L8ptkzeF5Nw/J/6szQLQlg3DHYwpx2a2RDbHS64Zv+PWhBA3k
+ z2xu6vA8SHZ/UHT+S6aNk9hufg==
+X-Google-Smtp-Source: ABdhPJzmhWK7BnfdkQ6LcrrWhO2OuloHfak3pciPuvISRJ76EJ/z2PIwy5qGEwNf9tyBYvN6F8XhUQ==
+X-Received: by 2002:a5d:4703:: with SMTP id y3mr553243wrq.277.1644007763957;
+ Fri, 04 Feb 2022 12:49:23 -0800 (PST)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id r2sm4234523wrz.99.2022.02.04.12.49.10
+ by smtp.gmail.com with ESMTPSA id e13sm3276118wrq.35.2022.02.04.12.49.14
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 04 Feb 2022 12:49:10 -0800 (PST)
+ Fri, 04 Feb 2022 12:49:17 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 929A11FFC7;
- Fri,  4 Feb 2022 20:43:36 +0000 (GMT)
+ by zen.linaroharston (Postfix) with ESMTP id 86AA81FFCE;
+ Fri,  4 Feb 2022 20:43:37 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: richard.henderson@linaro.org,
 	qemu-devel@nongnu.org
-Subject: [PATCH v3 15/26] tests: Update CentOS 8 container to CentOS Stream 8
-Date: Fri,  4 Feb 2022 20:43:24 +0000
-Message-Id: <20220204204335.1689602-16-alex.bennee@linaro.org>
+Subject: [PATCH  v3 23/26] tests/plugin: allow libinsn.so per-CPU counts
+Date: Fri,  4 Feb 2022 20:43:32 +0000
+Message-Id: <20220204204335.1689602-24-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220204204335.1689602-1-alex.bennee@linaro.org>
 References: <20220204204335.1689602-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32d
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::433
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::433;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x433.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
 X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+ PDS_HP_HELO_NORDNS=0.001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,62 +90,109 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, Thomas Huth <thuth@redhat.com>, berrange@redhat.com,
- Luke.Craig@ll.mit.edu, kuhn.chenqun@huawei.com, f4bug@amsat.org,
- robhenry@microsoft.com, aaron@os.amperecomputing.com,
- mahmoudabdalghany@outlook.com, minyihh@uci.edu, cota@braap.org,
- Wainer dos Santos Moschetta <wainersm@redhat.com>, stefanha@redhat.com,
- crosa@redhat.com, pbonzini@redhat.com, ma.mandourr@gmail.com,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, aurelien@aurel32.net,
- Beraldo Leal <bleal@redhat.com>
+Cc: fam@euphon.net, berrange@redhat.com, Luke.Craig@ll.mit.edu,
+ kuhn.chenqun@huawei.com, f4bug@amsat.org, robhenry@microsoft.com,
+ aaron@os.amperecomputing.com, mahmoudabdalghany@outlook.com, minyihh@uci.edu,
+ cota@braap.org, stefanha@redhat.com, crosa@redhat.com, pbonzini@redhat.com,
+ ma.mandourr@gmail.com, Alexandre Iooss <erdnaxe@crans.org>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Thomas Huth <thuth@redhat.com>
+We won't go fully flexible but for most system emulation 8 vCPUs
+resolution should be enough for anybody ;-)
 
-Support for CentOS 8 has stopped at the end of 2021, so let's
-switch to the Stream variant instead.
-
-Signed-off-by: Thomas Huth <thuth@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Tested-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-Id: <20220201101911.97900-1-thuth@redhat.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+Message-Id: <20220124201608.604599-20-alex.bennee@linaro.org>
 ---
- tests/docker/dockerfiles/centos8.docker | 4 ++--
- tests/lcitool/refresh                   | 2 +-
- 2 files changed, 3 insertions(+), 3 deletions(-)
+ tests/plugin/insn.c | 39 +++++++++++++++++++++++++++++++--------
+ 1 file changed, 31 insertions(+), 8 deletions(-)
 
-diff --git a/tests/docker/dockerfiles/centos8.docker b/tests/docker/dockerfiles/centos8.docker
-index 3abac7a8b1..3ede55d09b 100644
---- a/tests/docker/dockerfiles/centos8.docker
-+++ b/tests/docker/dockerfiles/centos8.docker
-@@ -1,10 +1,10 @@
- # THIS FILE WAS AUTO-GENERATED
- #
--#  $ lcitool dockerfile --layers all centos-8 qemu
-+#  $ lcitool dockerfile --layers all centos-stream-8 qemu
- #
- # https://gitlab.com/libvirt/libvirt-ci
+diff --git a/tests/plugin/insn.c b/tests/plugin/insn.c
+index d229fdc001..d5a0a08cb4 100644
+--- a/tests/plugin/insn.c
++++ b/tests/plugin/insn.c
+@@ -16,22 +16,33 @@
  
--FROM docker.io/library/centos:8
-+FROM quay.io/centos/centos:stream8
+ QEMU_PLUGIN_EXPORT int qemu_plugin_version = QEMU_PLUGIN_VERSION;
  
- RUN dnf update -y && \
-     dnf install 'dnf-command(config-manager)' -y && \
-diff --git a/tests/lcitool/refresh b/tests/lcitool/refresh
-index 25301f2ef0..4ab90a310a 100755
---- a/tests/lcitool/refresh
-+++ b/tests/lcitool/refresh
-@@ -77,7 +77,7 @@ ubuntu2004_tsanhack = [
- ]
+-static uint64_t insn_count;
++#define MAX_CPUS 8 /* lets not go nuts */
++
++typedef struct {
++    uint64_t last_pc;
++    uint64_t insn_count;
++} InstructionCount;
++
++static InstructionCount counts[MAX_CPUS];
++static uint64_t inline_insn_count;
++
+ static bool do_inline;
+ static bool do_size;
++static bool do_frequency;
+ static GArray *sizes;
  
- try:
--   generate_dockerfile("centos8", "centos-8")
-+   generate_dockerfile("centos8", "centos-stream-8")
-    generate_dockerfile("fedora", "fedora-35")
-    generate_dockerfile("ubuntu1804", "ubuntu-1804",
-                        trailer="".join(ubuntu1804_skipssh))
+ static void vcpu_insn_exec_before(unsigned int cpu_index, void *udata)
+ {
+-    static uint64_t last_pc;
++    unsigned int i = cpu_index % MAX_CPUS;
++    InstructionCount *c = &counts[i];
+     uint64_t this_pc = GPOINTER_TO_UINT(udata);
+-    if (this_pc == last_pc) {
++    if (this_pc == c->last_pc) {
+         g_autofree gchar *out = g_strdup_printf("detected repeat execution @ 0x%"
+                                                 PRIx64 "\n", this_pc);
+         qemu_plugin_outs(out);
+     }
+-    last_pc = this_pc;
+-    insn_count++;
++    c->last_pc = this_pc;
++    c->insn_count++;
+ }
+ 
+ static void vcpu_tb_trans(qemu_plugin_id_t id, struct qemu_plugin_tb *tb)
+@@ -44,7 +55,7 @@ static void vcpu_tb_trans(qemu_plugin_id_t id, struct qemu_plugin_tb *tb)
+ 
+         if (do_inline) {
+             qemu_plugin_register_vcpu_insn_exec_inline(
+-                insn, QEMU_PLUGIN_INLINE_ADD_U64, &insn_count, 1);
++                insn, QEMU_PLUGIN_INLINE_ADD_U64, &inline_insn_count, 1);
+         } else {
+             uint64_t vaddr = qemu_plugin_insn_vaddr(insn);
+             qemu_plugin_register_vcpu_insn_exec_cb(
+@@ -66,9 +77,9 @@ static void vcpu_tb_trans(qemu_plugin_id_t id, struct qemu_plugin_tb *tb)
+ static void plugin_exit(qemu_plugin_id_t id, void *p)
+ {
+     g_autoptr(GString) out = g_string_new(NULL);
++    int i;
+ 
+     if (do_size) {
+-        int i;
+         for (i = 0; i <= sizes->len; i++) {
+             unsigned long *cnt = &g_array_index(sizes, unsigned long, i);
+             if (*cnt) {
+@@ -76,8 +87,20 @@ static void plugin_exit(qemu_plugin_id_t id, void *p)
+                                        "len %d bytes: %ld insns\n", i, *cnt);
+             }
+         }
++    } else if (do_inline) {
++        g_string_append_printf(out, "insns: %" PRIu64 "\n", inline_insn_count);
+     } else {
+-        g_string_append_printf(out, "insns: %" PRIu64 "\n", insn_count);
++        uint64_t total_insns = 0;
++        for (i = 0; i < MAX_CPUS; i++) {
++            InstructionCount *c = &counts[i];
++            if (c->insn_count) {
++                g_string_append_printf(out, "cpu %d insns: %" PRIu64 "\n",
++                                       i, c->insn_count);
++                total_insns += c->insn_count;
++            }
++        }
++        g_string_append_printf(out, "total insns: %" PRIu64 "\n",
++                               total_insns);
+     }
+     qemu_plugin_outs(out->str);
+ }
 -- 
 2.30.2
 
