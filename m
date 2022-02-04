@@ -2,78 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 399534A934A
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Feb 2022 06:18:32 +0100 (CET)
-Received: from localhost ([::1]:53356 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 93EB44A9350
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Feb 2022 06:21:13 +0100 (CET)
+Received: from localhost ([::1]:56022 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nFqzP-0000rj-0I
-	for lists+qemu-devel@lfdr.de; Fri, 04 Feb 2022 00:18:31 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:49546)
+	id 1nFr20-0002lv-Md
+	for lists+qemu-devel@lfdr.de; Fri, 04 Feb 2022 00:21:12 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:49876)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nFqxe-00009q-Om
- for qemu-devel@nongnu.org; Fri, 04 Feb 2022 00:16:42 -0500
-Received: from [2607:f8b0:4864:20::635] (port=34575
- helo=mail-pl1-x635.google.com)
+ id 1nFqzq-0001zf-Mc
+ for qemu-devel@nongnu.org; Fri, 04 Feb 2022 00:18:58 -0500
+Received: from [2607:f8b0:4864:20::1030] (port=33580
+ helo=mail-pj1-x1030.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nFqxd-0003rZ-7L
- for qemu-devel@nongnu.org; Fri, 04 Feb 2022 00:16:42 -0500
-Received: by mail-pl1-x635.google.com with SMTP id h14so4218304plf.1
- for <qemu-devel@nongnu.org>; Thu, 03 Feb 2022 21:16:40 -0800 (PST)
+ id 1nFqzp-00042W-9j
+ for qemu-devel@nongnu.org; Fri, 04 Feb 2022 00:18:58 -0500
+Received: by mail-pj1-x1030.google.com with SMTP id
+ cq9-20020a17090af98900b001b8262fe2d5so5252303pjb.0
+ for <qemu-devel@nongnu.org>; Thu, 03 Feb 2022 21:18:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=zlNY5lAmZjQWr6uHyaMj+T4MOM9V7leeWFvS72Y6E7M=;
- b=PU48ng908hgpeja1VKrasgVqIjmz33af1arRA/pGQpn2SisFVutBZD/uO27cf2y9Ba
- ABG5XboMSDwEznB6GEoFvmQsdj+G4cEcZvX4+mxbn5AY8ZlbjIiCewNx981C8W7inUl7
- XrDshdV+k+8/BFFPhjErPElXFkzqdayXZgB+phLhm2x7A7yhedxKHR8k/RIS0IUxwGHM
- uynhY+AIZPo01zrc4wms/hzsSnA6RigqYb/H1jBQC/ZX5I7CdeFeBCgWcD8LPQLFCNU5
- WN0FRhH3FwtaPp93G9h2mealPvgyaeP0uTpWfekNxjtbMVh08GhLytGkh63HUBM8+Rc4
- 5zBw==
+ bh=JIbUw4DYqSXVHTJ7QbQC2hGSnddwR+oTjA2Jtvag9iw=;
+ b=AZXzwJKTO3TXPSdgY2M/x7/89BIvxv3g4VJ7O9xhi6gOnTGWCdrgFXbHPs04T0oPeu
+ a+WmQ9nCuwpoSlzwpsmLCY6BTQBJ9GeKRUrAmAvMtDOy5tJK4DhWwql6OFDOx3s7ImPa
+ rykybNNJi223SzaNGYoohfufd5SuiXPYD0FX0/DzhlgAblMPVV9qGjJEzX+x6bPloB+K
+ 9fiaucMPNhJPwyowD9v/Uh+rD4kLE+oat2WbWOArECAn+SnpLVBiZcj4DE4dJjeJh9XG
+ PP9NtfRhxfLSs9Pk+8cA6oxvKepDYVx9Vtg6TQiwcJddW8DdW3xfLIw7sWZrNqb/OlSK
+ s4tw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
  :subject:content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=zlNY5lAmZjQWr6uHyaMj+T4MOM9V7leeWFvS72Y6E7M=;
- b=hkCKwNFlaQwqJSeSRlUPyCqz13i/P2aIEb45MWKgMh7lKODe+IaH3MzK7lRfhiGDX6
- UfJOLi+jzlxqNDUrG15SJGtb4Vl7YpWk6HQTZ9BWhfmGQWVWIAZvbIByGhVCwUw5Qq4N
- FWsHSqfVj81UwDoOt0r54dhILzGkuOrHJoFq8R+ZyTx4t2bI4UUO+xHSbvKwgnNNAIeD
- 1ZLhl/t0iqx0aPA7Fe60kJt//p70Ih4O+st/eo3H2+6yzrf6UaILX+qN40KnNd1GKoa8
- ak0OX0ViCn3Ld6BSRAy7qU7a6n2+R7z3gKMp7+qZB2a1WVjLbY7YB4LUO46d+boFEwzi
- q5VQ==
-X-Gm-Message-State: AOAM530ZdJyezsi84gW5Y8tfVj5rKcQSUlDpRcCAq0OQtuGS/Itrw0Dt
- 38oDQRy/wSatkOsV+w/tDRo=
-X-Google-Smtp-Source: ABdhPJwAB7GZyjfaRNoTzdMCQJGJ/JMUUNQj6meSLN+HHx44hC37MT043VRoKIWM1mikex9Vz8rkNA==
-X-Received: by 2002:a17:902:da81:: with SMTP id
- j1mr1572452plx.14.1643951799803; 
- Thu, 03 Feb 2022 21:16:39 -0800 (PST)
+ bh=JIbUw4DYqSXVHTJ7QbQC2hGSnddwR+oTjA2Jtvag9iw=;
+ b=EwnuB/5mkJtoMgrR4WKVTf33a+bIvZEELgbMgF0YKc6lAlAyFePiUZTuSZqOjh3Za/
+ IdSAlKO1cfFpkz85TNHLQAXhe+u4NT80KVztpJ1XS1wLhYYEpOokZQIviY3T5FENPeJU
+ 7864WQsvyzZYW4hedrlt/3PibYIDHhoJVFrSmxuEUrJYlsx8qsZBOKtqeXD7JJ7cL+6N
+ dDvGQG4PyrFeBsn9dejRtBOf67TVCHICjhr+9OwbqIq9jHBEn2hGWByYE/8FI+F1I56l
+ Hv8HDadoGMn5ric5ZpiYk4igrtuyVfYTu/i6Bt29J7OuasgPBVjkWnvk7BKVeRtZ8lbe
+ tDow==
+X-Gm-Message-State: AOAM533Tb7yoGhZxLf/PzXoEpdi7t/8nSDzR/XGKJ1iL2c2vTgbbPxiC
+ m+ASbgjwodPsGb0F4ba2LuQ=
+X-Google-Smtp-Source: ABdhPJy3di25O6fEpl4rRTxjNu2a2LuxVcGLXC0V74Cdw3lrTF+4vYcKFFNlXpvll67i1IjP6axrEA==
+X-Received: by 2002:a17:902:9a42:: with SMTP id
+ x2mr1408595plv.58.1643951935702; 
+ Thu, 03 Feb 2022 21:18:55 -0800 (PST)
 Received: from [192.168.1.33] (154.red-83-50-83.dynamicip.rima-tde.net.
  [83.50.83.154])
- by smtp.gmail.com with ESMTPSA id oa5sm12401080pjb.0.2022.02.03.21.16.38
+ by smtp.gmail.com with ESMTPSA id nu7sm718664pjb.30.2022.02.03.21.18.54
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 03 Feb 2022 21:16:39 -0800 (PST)
-Message-ID: <23c4d174-f18e-2932-1c25-6698285b53bf@amsat.org>
-Date: Fri, 4 Feb 2022 06:16:36 +0100
+ Thu, 03 Feb 2022 21:18:55 -0800 (PST)
+Message-ID: <bc307f02-4d10-5136-dd05-d8257e25a52c@amsat.org>
+Date: Fri, 4 Feb 2022 06:18:52 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
  Gecko/20100101 Thunderbird/91.5.1
-Subject: Re: [PATCH 21/27] qga/vss: use standard windows headers location
+Subject: Re: [PATCH 24/27] qga/vss-win32: require widl/midl, remove pre-built
+ TLB file
 Content-Language: en-US
 To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
 Cc: marcandre.lureau@redhat.com
 References: <20220203173359.292068-1-pbonzini@redhat.com>
- <20220203173359.292068-22-pbonzini@redhat.com>
-In-Reply-To: <20220203173359.292068-22-pbonzini@redhat.com>
+ <20220203173359.292068-25-pbonzini@redhat.com>
+In-Reply-To: <20220203173359.292068-25-pbonzini@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::635
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1030
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::635;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pl1-x635.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1030;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pj1-x1030.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -103,26 +105,17 @@ From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 On 3/2/22 18:33, Paolo Bonzini wrote:
 > From: Marc-André Lureau <marcandre.lureau@redhat.com>
 > 
-> Stop using special paths with outdated headers from an old SDK.
-> 
-> Instead, use standard include paths.
-> 
-> You can still build against the old SDK by running configure with
-> --extra-cxxflags="-isystem `/path/to/inc/win2003/"
-
-Superfluous back quote.
-
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-
-> (this also allows to build against MinGW headers, which are currently
-> broken as in 9.0)
+> There are no good reason anymore to keep a pre-built file in the repository.
 > 
 > Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 > Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 > ---
->   qga/vss-win32/install.cpp   | 2 +-
->   qga/vss-win32/provider.cpp  | 4 ++--
->   qga/vss-win32/requester.cpp | 4 ++--
->   qga/vss-win32/vss-common.h  | 6 +-----
->   4 files changed, 6 insertions(+), 10 deletions(-)
+>   meson.build               |   4 ++++
+>   qga/meson.build           |   2 ++
+>   qga/vss-win32/meson.build |   9 +--------
+>   qga/vss-win32/qga-vss.tlb | Bin 1528 -> 0 bytes
+>   4 files changed, 7 insertions(+), 8 deletions(-)
+>   delete mode 100644 qga/vss-win32/qga-vss.tlb
+
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
