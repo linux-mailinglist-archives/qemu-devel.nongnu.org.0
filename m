@@ -2,89 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6CB54A9E95
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Feb 2022 19:04:18 +0100 (CET)
-Received: from localhost ([::1]:58044 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D47B04A9E58
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Feb 2022 18:51:28 +0100 (CET)
+Received: from localhost ([::1]:41090 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nG2wU-0002QH-22
-	for lists+qemu-devel@lfdr.de; Fri, 04 Feb 2022 13:04:18 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:35152)
+	id 1nG2k3-0007QC-Tz
+	for lists+qemu-devel@lfdr.de; Fri, 04 Feb 2022 12:51:27 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:35128)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
- id 1nG2UW-0000jX-G8; Fri, 04 Feb 2022 12:35:26 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:34530
+ id 1nG2UW-0000jU-4O; Fri, 04 Feb 2022 12:35:26 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:11960
  helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
- id 1nG2US-00016A-QH; Fri, 04 Feb 2022 12:35:24 -0500
-Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 214G3s5X011523; 
- Fri, 4 Feb 2022 17:34:53 GMT
+ id 1nG2UR-000161-CS; Fri, 04 Feb 2022 12:35:22 -0500
+Received: from pps.filterd (m0098416.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 214FTCAb000870; 
+ Fri, 4 Feb 2022 17:34:57 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
  h=from : to : cc : subject
  : date : message-id : in-reply-to : references : mime-version :
  content-transfer-encoding; s=pp1;
- bh=rwDT6IYBScJW4qtHj+pJWG0bEQ69Ps1MekAH46gFgrc=;
- b=PyY+x4gTHTENI5pxoO577w9swC75COKzNbIHDMXVGkMwravCWif0ekEt0j6FB5JBAPxQ
- 5MfRv8Uo1W3pOY+mbNEduuTRM6FjXtKuWPDnGdnXmw97q1d6CFpCOpBpzwujToiLj543
- /YT/o0a9/pQZX7F+EJvzljN/q8qhxzN2fa8JQenXSS+LEqXy1QxjSysPR9iq4pO6fOXi
- J2p1Ccyy3ZmDbLh909+TyTkeXgUvuBrZyzRSMvvx1RvZkfGhtqdBhpucXk179IbQVKqa
- GhWg1ZU9iS7a6bImHvT4jKNkGLHq1Trv1lpveXDnPdY6qo4g8pcm+2d6AvFT+/B//u4u tg== 
+ bh=b8O3maDFTW+i5MxJtSl7zO81Ra+E75WCJdrcGKl/1zo=;
+ b=Tf4tPXhG/E0Pc6euh6ATGf7EtgJ8CL7Zd4fiR42wu6KEstnOpkUaZQu+8PzRmi64r09M
+ EAO0WXHexeBHTruiHdmLHy4eVGiq+GXUlq8isOYMFmaRYGo20ZpKixgY5g9UeJSBOQnT
+ wfvSbOnTvFAYITq32nVmE2eCb3tlmvPrPyAJe6G7iTH08zIgDrxuq47isDtj1ivgusVk
+ GcfXrNKpiLAXq191r27d3NEI2fhBal3CG+Q+rNfPix5FR56M8EJ5Pfd8zlV7watCXEbL
+ Vw8f4mHrr/cIlUcpj2Jy9l/f13A5BWjXP+3MQ7CJP4r5ePj13/gGwLK7+aD7nXL3X0Wp Mg== 
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com with ESMTP id 3e0yu5ju48-1
+ by mx0b-001b2d01.pphosted.com with ESMTP id 3e0qxg2x2a-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 04 Feb 2022 17:34:53 +0000
-Received: from m0098419.ppops.net (m0098419.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 214HGHqP021023;
- Fri, 4 Feb 2022 17:34:52 GMT
-Received: from ppma02wdc.us.ibm.com (aa.5b.37a9.ip4.static.sl-reverse.com
- [169.55.91.170])
- by mx0b-001b2d01.pphosted.com with ESMTP id 3e0yu5ju3y-1
+ Fri, 04 Feb 2022 17:34:56 +0000
+Received: from m0098416.ppops.net (m0098416.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 214H9Aka016071;
+ Fri, 4 Feb 2022 17:34:56 GMT
+Received: from ppma04dal.us.ibm.com (7a.29.35a9.ip4.static.sl-reverse.com
+ [169.53.41.122])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 3e0qxg2x20-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 04 Feb 2022 17:34:52 +0000
-Received: from pps.filterd (ppma02wdc.us.ibm.com [127.0.0.1])
- by ppma02wdc.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 214HSZ9r019774;
- Fri, 4 Feb 2022 17:34:52 GMT
-Received: from b01cxnp22036.gho.pok.ibm.com (b01cxnp22036.gho.pok.ibm.com
- [9.57.198.26]) by ppma02wdc.us.ibm.com with ESMTP id 3e0r0k7c4h-1
+ Fri, 04 Feb 2022 17:34:56 +0000
+Received: from pps.filterd (ppma04dal.us.ibm.com [127.0.0.1])
+ by ppma04dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 214HSwvh031815;
+ Fri, 4 Feb 2022 17:34:55 GMT
+Received: from b01cxnp23034.gho.pok.ibm.com (b01cxnp23034.gho.pok.ibm.com
+ [9.57.198.29]) by ppma04dal.us.ibm.com with ESMTP id 3e0r0ru31n-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 04 Feb 2022 17:34:52 +0000
+ Fri, 04 Feb 2022 17:34:55 +0000
 Received: from b01ledav005.gho.pok.ibm.com (b01ledav005.gho.pok.ibm.com
  [9.57.199.110])
- by b01cxnp22036.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 214HYpE415925640
+ by b01cxnp23034.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 214HYsN223921002
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 4 Feb 2022 17:34:51 GMT
+ Fri, 4 Feb 2022 17:34:54 GMT
 Received: from b01ledav005.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 85135AE05C;
- Fri,  4 Feb 2022 17:34:51 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 9DDD2AE06B;
+ Fri,  4 Feb 2022 17:34:54 +0000 (GMT)
 Received: from b01ledav005.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 938D5AE067;
- Fri,  4 Feb 2022 17:34:49 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 1C0FAAE060;
+ Fri,  4 Feb 2022 17:34:52 +0000 (GMT)
 Received: from farosas.linux.ibm.com.com (unknown [9.211.79.16])
  by b01ledav005.gho.pok.ibm.com (Postfix) with ESMTP;
- Fri,  4 Feb 2022 17:34:49 +0000 (GMT)
+ Fri,  4 Feb 2022 17:34:51 +0000 (GMT)
 From: Fabiano Rosas <farosas@linux.ibm.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 04/10] target/ppc: 7xx: Machine Check exception cleanup
-Date: Fri,  4 Feb 2022 14:34:24 -0300
-Message-Id: <20220204173430.1457358-5-farosas@linux.ibm.com>
+Subject: [PATCH v2 05/10] target/ppc: 7xx: External interrupt cleanup
+Date: Fri,  4 Feb 2022 14:34:25 -0300
+Message-Id: <20220204173430.1457358-6-farosas@linux.ibm.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220204173430.1457358-1-farosas@linux.ibm.com>
 References: <20220204173430.1457358-1-farosas@linux.ibm.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: -A5QaHrySD9VEURDgtpnGm8Nwjtdx9qF
-X-Proofpoint-GUID: arL1_SIoWdgIkcqx_qKHdqKSFEVwL3j_
+X-Proofpoint-GUID: fspG01M0FZviMQYnOm2wyGIOo5eTmC5h
+X-Proofpoint-ORIG-GUID: TWkyh29kcFvne7VttCC7vhnPE2iNVBvc
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.816,Hydra:6.0.425,FMLib:17.11.62.513
  definitions=2022-02-04_07,2022-02-03_01,2021-12-02_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501
- suspectscore=0 phishscore=0 clxscore=1015 mlxscore=0 bulkscore=0
- malwarescore=0 spamscore=0 mlxlogscore=935 lowpriorityscore=0 adultscore=0
+ bulkscore=0 phishscore=0
+ mlxlogscore=976 clxscore=1015 lowpriorityscore=0 adultscore=0 mlxscore=0
+ spamscore=0 suspectscore=0 priorityscore=1501 malwarescore=0
  impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2201110000 definitions=main-2202040097
 Received-SPF: pass client-ip=148.163.158.5; envelope-from=farosas@linux.ibm.com;
@@ -113,54 +113,62 @@ Cc: danielhb413@gmail.com, qemu-ppc@nongnu.org, clg@kaod.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-There's no MSR_HV in the 7xx.
-
-Also remove 40x and BookE code.
+There is no MSR_HV in the 7xx so remove the LPES0 handling.
 
 Signed-off-by: Fabiano Rosas <farosas@linux.ibm.com>
 ---
- target/ppc/excp_helper.c | 24 ------------------------
- 1 file changed, 24 deletions(-)
+ target/ppc/excp_helper.c | 37 -------------------------------------
+ 1 file changed, 37 deletions(-)
 
 diff --git a/target/ppc/excp_helper.c b/target/ppc/excp_helper.c
-index 358c3f6206..4996b96616 100644
+index 4996b96616..5e2c2aa544 100644
 --- a/target/ppc/excp_helper.c
 +++ b/target/ppc/excp_helper.c
-@@ -802,34 +802,10 @@ static void powerpc_excp_7xx(PowerPCCPU *cpu, int excp)
-             cs->halted = 1;
-             cpu_interrupt_exittb(cs);
-         }
--        if (env->msr_mask & MSR_HVB) {
--            /*
--             * ISA specifies HV, but can be delivered to guest with HV
--             * clear (e.g., see FWNMI in PAPR).
--             */
--            new_msr |= (target_ulong)MSR_HVB;
--        }
- 
-         /* machine check exceptions don't have ME set */
-         new_msr &= ~((target_ulong)1 << MSR_ME);
- 
--        /* XXX: should also have something loaded in DAR / DSISR */
--        switch (excp_model) {
--        case POWERPC_EXCP_40x:
--            srr0 = SPR_40x_SRR2;
--            srr1 = SPR_40x_SRR3;
--            break;
--        case POWERPC_EXCP_BOOKE:
--            /* FIXME: choose one or the other based on CPU type */
--            srr0 = SPR_BOOKE_MCSRR0;
--            srr1 = SPR_BOOKE_MCSRR1;
+@@ -815,44 +815,7 @@ static void powerpc_excp_7xx(PowerPCCPU *cpu, int excp)
+         msr |= env->error_code;
+         break;
+     case POWERPC_EXCP_EXTERNAL:  /* External input                           */
+-    {
+-        bool lpes0;
 -
--            env->spr[SPR_BOOKE_CSRR0] = env->nip;
--            env->spr[SPR_BOOKE_CSRR1] = msr;
--            break;
--        default:
--            break;
+-        cs = CPU(cpu);
+-
+-        /*
+-         * Exception targeting modifiers
+-         *
+-         * LPES0 is supported on POWER7/8/9
+-         * LPES1 is not supported (old iSeries mode)
+-         *
+-         * On anything else, we behave as if LPES0 is 1
+-         * (externals don't alter MSR:HV)
+-         */
+-#if defined(TARGET_PPC64)
+-        if (excp_model == POWERPC_EXCP_POWER7 ||
+-            excp_model == POWERPC_EXCP_POWER8 ||
+-            excp_model == POWERPC_EXCP_POWER9 ||
+-            excp_model == POWERPC_EXCP_POWER10) {
+-            lpes0 = !!(env->spr[SPR_LPCR] & LPCR_LPES0);
+-        } else
+-#endif /* defined(TARGET_PPC64) */
+-        {
+-            lpes0 = true;
+-        }
+-
+-        if (!lpes0) {
+-            new_msr |= (target_ulong)MSR_HVB;
+-            new_msr |= env->msr & ((target_ulong)1 << MSR_RI);
+-            srr0 = SPR_HSRR0;
+-            srr1 = SPR_HSRR1;
+-        }
+-        if (env->mpic_proxy) {
+-            /* IACK the IRQ on delivery */
+-            env->spr[SPR_BOOKE_EPR] = ldl_phys(cs->as, env->mpic_iack);
 -        }
          break;
-     case POWERPC_EXCP_DSI:       /* Data storage exception                   */
-         trace_ppc_excp_dsi(env->spr[SPR_DSISR], env->spr[SPR_DAR]);
+-    }
+     case POWERPC_EXCP_ALIGN:     /* Alignment exception                      */
+         /* Get rS/rD and rA from faulting opcode */
+         /*
 -- 
 2.34.1
 
