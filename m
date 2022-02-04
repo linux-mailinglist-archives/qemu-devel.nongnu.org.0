@@ -2,83 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15EBD4A9358
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Feb 2022 06:23:28 +0100 (CET)
-Received: from localhost ([::1]:58168 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F25FA4A93E4
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Feb 2022 07:18:47 +0100 (CET)
+Received: from localhost ([::1]:43824 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nFr4B-0004NT-6t
-	for lists+qemu-devel@lfdr.de; Fri, 04 Feb 2022 00:23:27 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:49970)
+	id 1nFrvi-00076v-Jt
+	for lists+qemu-devel@lfdr.de; Fri, 04 Feb 2022 01:18:46 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:56908)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nFr0f-0002YD-EA
- for qemu-devel@nongnu.org; Fri, 04 Feb 2022 00:19:51 -0500
-Received: from [2607:f8b0:4864:20::42c] (port=35439
- helo=mail-pf1-x42c.google.com)
+ id 1nFrq6-0004oQ-SU
+ for qemu-devel@nongnu.org; Fri, 04 Feb 2022 01:13:00 -0500
+Received: from [2607:f8b0:4864:20::102d] (port=46056
+ helo=mail-pj1-x102d.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nFr0d-00044n-A9
- for qemu-devel@nongnu.org; Fri, 04 Feb 2022 00:19:48 -0500
-Received: by mail-pf1-x42c.google.com with SMTP id u130so4163517pfc.2
- for <qemu-devel@nongnu.org>; Thu, 03 Feb 2022 21:19:46 -0800 (PST)
+ id 1nFrq4-0006ir-TK
+ for qemu-devel@nongnu.org; Fri, 04 Feb 2022 01:12:58 -0500
+Received: by mail-pj1-x102d.google.com with SMTP id
+ g15-20020a17090a67cf00b001b7d5b6bedaso5226288pjm.4
+ for <qemu-devel@nongnu.org>; Thu, 03 Feb 2022 22:12:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=okcOhKRCnVGnnG6qRWZ0X10Df9KnuNKH3RGOscpigkA=;
- b=JrbiMUPHEvq+7P9iSQzgcu6dnZ48g1fwPU3+Z5JWCko/BMsfdMgCyZtKIJ5tEQM2XG
- KZP9QKDuZdPSf3D20PEHF68RGiMi9fAdhOLxZ0ZuxMvIDl9lfrtFBvFTgjaPzjKvlImO
- off6UN6FaeUIHr+UZdU7v2dncqsaOsrMxLujCxtFUEOmXBk+CHqrFm60/GDf1qLSVEnH
- Fb6COxhx4t4WZ6r5BydV31aRXzda7dXhjtljnxj1Mjz3qZdCFGKrA9xQy7ARy+TDXPT/
- /QkVvNY9nj4gymr88XtVddyuwaBnAoxHtJ5R4v82wvja8wdV6Nx5CrcVibbJ1yzG0iQR
- Gfmg==
+ bh=CCLgnvsm7vD+bh9/4ieK7Z0/Ure24bZCsNxp2wndBWU=;
+ b=my8R5tweNguO+kSXfLcoutGJj9QIo8DJkzoteKwiGwe3kfaozkVbywx2LFEX4gUCAj
+ eKR3zF3S6KhRdmiMVffsBoRWN0s6zIluv4fbM0z9xcpZ8mA6H6bnBBodJUWVRqY4Dt5m
+ EHZt+uV1ZUZ6hSUfoPf5ZA6u9r3NwDhwV41BJUlLGwTy/hPoMvUicHdHe3gWuiTys0sb
+ 4ScmOtgicZ9Al6iYrxTv+lmNh/VrVMXYpFZsmmVsXdPt/dRTP/ZN27qcUV5yD1QG83SJ
+ mjy76w3cxeF//s6jv1+LPYFTm1Hcvit5Wndkfv4ICM6Q+MNjCtt/1moAigJWn0ToB7on
+ Dcag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
  :subject:content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=okcOhKRCnVGnnG6qRWZ0X10Df9KnuNKH3RGOscpigkA=;
- b=rmaNqIRW22RjdJpnmfMOEzRq/B2km/prfuxaHRCUzamdnq5xSPURojyFHZsPZWSoZC
- EHGsV8hXqtX5C00phsGIgZtFWfulDRdnbBtqMMTcd2eweUW3aza32GWsZzYGRjBJ0wDO
- dEURloAOGlk4lLrFUbL/4BTcPEPJxazdTkM1p48izNvYIhgVuuVUBnOe3Mz/HFfoHrcW
- 60Zq1rVdZ6KEUeBEgaNwjIbnYLLu8plSsEd6q+vvcrmrg08HDy8tv+iCdxt8wJm/PXsG
- BqaQlx/YO9m2v80qQ7h+9Ynp7OwKG3j2my10k5dGYCzxGvKNRSSF8ZF/d1Q+ovuNXX8h
- JDZA==
-X-Gm-Message-State: AOAM530R9JJ8K1eMQ3oMqRzEbX6dSiwKkCD9GAJsr+HpTATIqc5Z7txV
- qRg1CmS6ybup17UsZoYp8yP/eMMYkFk=
-X-Google-Smtp-Source: ABdhPJzLI/dn3yI9LF6DFiVQ+s0HrZFUwi1EYL0/ZZxGRvVrtcZCotgKDdE6aez93/e9KtAnp0QBaw==
-X-Received: by 2002:a62:b40e:: with SMTP id h14mr1476881pfn.79.1643951985689; 
- Thu, 03 Feb 2022 21:19:45 -0800 (PST)
+ bh=CCLgnvsm7vD+bh9/4ieK7Z0/Ure24bZCsNxp2wndBWU=;
+ b=dNRSaBvtvEOUFqsiw0GRo62BVSrisDksdE/Wa81zEI3cCIYHhBm9DeSZkn8JP46ozo
+ OuYIwsYLY4SWNenHaa/XLeW0ggcYbkMgP/K7p75XG24GWFDA5u86BzZm+JSlRGMR/+3K
+ aTaxay6V6sC5RqZEY7bkcwe4wE2tfZs29jkodJRQ7wHZDjL5du0lw0RnG11cw7vVpWyu
+ PM0gJtYVzr0lIh05xavUUVpcCdq9i/idhZC5LxJZrgnPq2jqcZ7FoTkQ2MF5RL+fC0FZ
+ 7Ud4hdR7whs1OK5ryaw+IXPn4HaOimul0ib2YvjWblLPS4BOvPWknpuckBFcmKhnRsUb
+ cVIg==
+X-Gm-Message-State: AOAM531IHedPkAZ1DlzsaMZ98avn2k8hpGcuXi/k4nF5EQ3mZVxem19c
+ wS8WOPT+FXLOLVRwUfZ87oE=
+X-Google-Smtp-Source: ABdhPJzeKIjJT0oG/7ZtzBwr7J/UOKBMdbpozzCnFwIjIQjYJv0AODYCj9bp4N3rEubEzPJ2F84CaA==
+X-Received: by 2002:a17:902:e552:: with SMTP id
+ n18mr1520453plf.152.1643955166805; 
+ Thu, 03 Feb 2022 22:12:46 -0800 (PST)
 Received: from [192.168.1.33] (154.red-83-50-83.dynamicip.rima-tde.net.
  [83.50.83.154])
- by smtp.gmail.com with ESMTPSA id ot9sm753426pjb.47.2022.02.03.21.19.44
+ by smtp.gmail.com with ESMTPSA id y13sm970379pfi.2.2022.02.03.22.12.45
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 03 Feb 2022 21:19:45 -0800 (PST)
-Message-ID: <6358e5ce-9f4a-740b-2051-c4f8078d13fe@amsat.org>
-Date: Fri, 4 Feb 2022 06:19:42 +0100
+ Thu, 03 Feb 2022 22:12:46 -0800 (PST)
+Message-ID: <4f4fff9f-bc6b-1474-527b-4c4611e560bb@amsat.org>
+Date: Fri, 4 Feb 2022 07:12:42 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
  Gecko/20100101 Thunderbird/91.5.1
-Subject: Re: [PATCH 25/27] meson: require dynamic linking for VSS support
+Subject: Re: [PATCH v5 1/2] tcg/mips: Support unaligned access for user-only
 Content-Language: en-US
-To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
-Cc: marcandre.lureau@redhat.com
-References: <20220203173359.292068-1-pbonzini@redhat.com>
- <20220203173359.292068-26-pbonzini@redhat.com>
-In-Reply-To: <20220203173359.292068-26-pbonzini@redhat.com>
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+Cc: alex.bennee@linaro.org, Jiaxun Yang <jiaxun.yang@flygoat.com>
+References: <20220201234107.316487-1-richard.henderson@linaro.org>
+ <20220201234107.316487-2-richard.henderson@linaro.org>
+In-Reply-To: <20220201234107.316487-2-richard.henderson@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::42c
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::102d
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42c;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pf1-x42c.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102d;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pj1-x102d.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
 X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.001,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
  PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
@@ -99,19 +101,82 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
 From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
-On 3/2/22 18:33, Paolo Bonzini wrote:
-> From: Marc-André Lureau <marcandre.lureau@redhat.com>
+On 2/2/22 00:41, Richard Henderson wrote:
+> This is kinda sorta the opposite of the other tcg hosts, where
+> we get (normal) alignment checks for free with host SIGBUS and
+> need to add code to support unaligned accesses.
 > 
-> The glib_dynamic detection does not work because the dependency is
-> overridden in the main meson.build.
+> Fortunately, the ISA contains pairs of instructions that are
+> used to implement unaligned memory accesses.  Use them.
 > 
-> Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-> [Rewritten commit message, added requirement in qga/meson.build - Paolo]
-> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->   qga/meson.build           | 2 ++
->   qga/vss-win32/meson.build | 4 ++--
->   2 files changed, 4 insertions(+), 2 deletions(-)
+>   tcg/mips/tcg-target.h     |   2 -
+>   tcg/mips/tcg-target.c.inc | 334 +++++++++++++++++++++++++++++++++++++-
+>   2 files changed, 328 insertions(+), 8 deletions(-)
 
+> +static void __attribute__((unused))
+> +tcg_out_qemu_ld_unalign(TCGContext *s, TCGReg lo, TCGReg hi,
+> +                                    TCGReg base, MemOp opc, bool is_64)
+
+Unaligned style to honor the function name? ;)
+
+> +static void __attribute__((unused))
+> +tcg_out_qemu_st_unalign(TCGContext *s, TCGReg lo, TCGReg hi,
+> +                                    TCGReg base, MemOp opc)
+
+Ditto.
+
+> +    case MO_64 | MO_BSWAP:
+> +        if (TCG_TARGET_REG_BITS == 64) {
+> +            tcg_out_bswap64(s, TCG_TMP3, lo);
+> +            lo = TCG_TMP3;
+> +        } else if (use_mips32r2_instructions) {
+> +            tcg_out_opc_reg(s, OPC_WSBH, TCG_TMP0, 0, MIPS_BE ? hi : lo);
+> +            tcg_out_opc_reg(s, OPC_WSBH, TCG_TMP1, 0, MIPS_BE ? lo : hi);
+> +            tcg_out_opc_sa(s, OPC_ROTR, TCG_TMP0, TCG_TMP0, 16);
+> +            tcg_out_opc_sa(s, OPC_ROTR, TCG_TMP1, TCG_TMP1, 16);
+> +            hi = MIPS_BE ? TCG_TMP0 : TCG_TMP1;
+> +            lo = MIPS_BE ? TCG_TMP1 : TCG_TMP0;
+> +        } else {
+> +            tcg_out_bswap32(s, TCG_TMP3, MIPS_BE ? lo : hi, 0);
+> +            tcg_out_opc_imm(s, sw1, TCG_TMP3, base, 0);
+> +            tcg_out_opc_imm(s, sw2, TCG_TMP3, base, 3);
+
+I'd keep the parity with ld_unalign and use 0 + 0, 0 + 3, ...
+
+> +            tcg_out_bswap32(s, TCG_TMP3, MIPS_BE ? hi : lo, 0);
+> +            tcg_out_opc_imm(s, sw1, TCG_TMP3, base, 4);
+> +            tcg_out_opc_imm(s, sw2, TCG_TMP3, base, 7);
+
+4 + 0, 4 + 3, ...
+
+> +            break;
+> +        }
+> +        /* fall through */
+> +    case MO_64:
+> +        if (TCG_TARGET_REG_BITS == 64) {
+> +            tcg_out_opc_imm(s, sd1, lo, base, 0);
+> +            tcg_out_opc_imm(s, sd2, lo, base, 7);
+
+Ditto, ...
+> +        } else {
+> +            tcg_out_opc_imm(s, sw1, MIPS_BE ? hi : lo, base, 0);
+> +            tcg_out_opc_imm(s, sw2, MIPS_BE ? hi : lo, base, 3);
+> +            tcg_out_opc_imm(s, sw1, MIPS_BE ? lo : hi, base, 4);
+> +            tcg_out_opc_imm(s, sw2, MIPS_BE ? lo : hi, base, 7);
+
+Ditto.
+
+> +        }
+> +        break;
+> +
+> +    default:
+> +        tcg_abort();
+> +    }
+> +}
+
+Beside the nitpicking comments, nothing to say, hardcore!
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+
 
