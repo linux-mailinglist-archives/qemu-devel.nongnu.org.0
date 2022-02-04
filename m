@@ -2,82 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C33CF4AA17F
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Feb 2022 21:59:59 +0100 (CET)
-Received: from localhost ([::1]:59070 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 819414AA17E
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Feb 2022 21:59:44 +0100 (CET)
+Received: from localhost ([::1]:58576 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nG5gU-0007fL-SI
-	for lists+qemu-devel@lfdr.de; Fri, 04 Feb 2022 15:59:58 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:52706)
+	id 1nG5gF-0007H6-Kh
+	for lists+qemu-devel@lfdr.de; Fri, 04 Feb 2022 15:59:43 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:51744)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nG5WY-00004q-B4
- for qemu-devel@nongnu.org; Fri, 04 Feb 2022 15:49:42 -0500
-Received: from [2a00:1450:4864:20::433] (port=44659
- helo=mail-wr1-x433.google.com)
+ id 1nG5R6-0006vf-C7
+ for qemu-devel@nongnu.org; Fri, 04 Feb 2022 15:44:04 -0500
+Received: from [2a00:1450:4864:20::42b] (port=34550
+ helo=mail-wr1-x42b.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nG5WN-0008A8-HV
- for qemu-devel@nongnu.org; Fri, 04 Feb 2022 15:49:42 -0500
-Received: by mail-wr1-x433.google.com with SMTP id k18so13422900wrg.11
- for <qemu-devel@nongnu.org>; Fri, 04 Feb 2022 12:49:24 -0800 (PST)
+ id 1nG5R4-0007P4-7O
+ for qemu-devel@nongnu.org; Fri, 04 Feb 2022 15:44:03 -0500
+Received: by mail-wr1-x42b.google.com with SMTP id f17so13471889wrx.1
+ for <qemu-devel@nongnu.org>; Fri, 04 Feb 2022 12:44:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=LLRQf+EGiKb17sWi1iAuAKfuIJINjiQ+nmXe1hdPRTE=;
- b=VRVByL+d/k68NmkgxLc8pLyACmxVuBDNdJ4EdI+LKnr8WiP+t/UikQs0vjgb2E8oZ7
- zr9YCJKAIFfF9HRGxlUXiyqcDgkqP6p3pUCSMq1tAwqcrQifujdk8+qIICaieSTegP2y
- zQS6pEu7iFTARr+ii8662Kgvf+d8a87uQa/TZVuHPJGEH5853THzSzt5gN6yT3eXuZfy
- +cxWKv4mo0ERhfYzvsyTTjya/JuODX78Y46bDL1QXjy2Y4Jg3r5IFSD29UdXcaN2KQi8
- Rh4sK0VuOKF7fHMlUlHNuaoLcErZopvudCqWO/fG5S6ZxnaaEAQ8eHV0eKKSzQKpamn+
- KXag==
+ bh=EhmXOO/6q9XmPV09312oaXBgVpi24xyzc4IO4oCe4TQ=;
+ b=kNfY0pBzjxqa/tYlSv6xJMFD+J71gGGqieuTG2j5WigVe7pKOX2ZETHCVYrLigqlm3
+ FnqJyLQawQ6LlhZIu5iGsw0lnfVfOABgvTI6uJd4bqf3MZsSa8fgLFVsltHZtBErTN5F
+ xMJTJSvyqWrzuabVtJ0tTL91pggfwWPORMEd1xY/Zl+fp/f1+4O0ej1peWwJrq7mXWui
+ LBi9MGT7in+C6J16bciLo9P5JkgdR8Bp6GEk0dZHiqmeQ5WvAmZrYd/MwDmatZ6x3xus
+ rghbVDKeeTUecfHfNcl7BfTWocJlyO8B6ddyr/rRqlGCH5VYpowrmkrbnO6rOsMmFQsb
+ f3gg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=LLRQf+EGiKb17sWi1iAuAKfuIJINjiQ+nmXe1hdPRTE=;
- b=v3jDkIe/TtvZKlb7+KwwFGUoar/eDe7+ZuzADUvwIJzZn65E3b6DnqrreC1ThCAar6
- RTluMX3nvAZd8kkLl6je0Y3KIPGFPOb3DRLKRSLRbV81RUNdFX7LU9H8ojv/T8MWoJkA
- B2iyRcLxiqXqthy1cypNeoOMY2wa9AfzCB5j0jnyfjNkHtvFOS3nVQu7/INmgb1T60vh
- 5E7zieMGDMNZPOiiJWfyg+hDK7t0qQHDuk0Ytw3deZI+I4rUS5FEstZ0GLB835s6zLcT
- 7wjGCse1gxzw71XN0GOvIe5BSv+He1rQOG2GAttcvBNb1ppkLDnGKX5XWmelPARw6jjN
- NdFQ==
-X-Gm-Message-State: AOAM532L8ptkzeF5Nw/J/6szQLQlg3DHYwpx2a2RDbHS64Zv+PWhBA3k
- z2xu6vA8SHZ/UHT+S6aNk9hufg==
-X-Google-Smtp-Source: ABdhPJzmhWK7BnfdkQ6LcrrWhO2OuloHfak3pciPuvISRJ76EJ/z2PIwy5qGEwNf9tyBYvN6F8XhUQ==
-X-Received: by 2002:a5d:4703:: with SMTP id y3mr553243wrq.277.1644007763957;
- Fri, 04 Feb 2022 12:49:23 -0800 (PST)
+ bh=EhmXOO/6q9XmPV09312oaXBgVpi24xyzc4IO4oCe4TQ=;
+ b=Sd+Aze75WpMPPxlJHwIOxiPz5zV4sXmTX0eSY7tKeXXft9hwCXYZMU9OV43rKdfGia
+ P7DYR7iQhFtvzNYER6Vm7HvmvtpZ4GbPOm/G8LNPjYSQ7FZE4NWMViz+27R2PEDDxFvA
+ ZGtVN+mnwVyxCVHZ9k4cdHBR87U31UQ/Zv1wB6ocs7QngdyvaNwI3JU4oNRBfNAR5oHx
+ t+dNDMZ60eRTmlFTqNzGBsd0oskL8peyjP4O25BvKsAnlV1ogVt5Dc2ynuIb7CPEvmJY
+ nuH4co1C1OIoQV6071rmF9QhG0MFKNc3AljIU/2/5K1YtUxuz/uypaXcqrduQARa6QHt
+ OfdQ==
+X-Gm-Message-State: AOAM530vSnES0ZEkkdRX9mHm7hF2BPXpoRUg8Wln7vBU+FAocXfN9998
+ vB43ToA8Vg+FcK3AnH1Bffw6Ag==
+X-Google-Smtp-Source: ABdhPJzHj9nVcDZ09mwVi+LNTwEwDmwEgb+8Updh8mpmNAHW77p695RGZ0VqiTDlpG7BlCGD6BLkfg==
+X-Received: by 2002:a5d:5445:: with SMTP id w5mr536939wrv.680.1644007440926;
+ Fri, 04 Feb 2022 12:44:00 -0800 (PST)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id e13sm3276118wrq.35.2022.02.04.12.49.14
+ by smtp.gmail.com with ESMTPSA id d2sm2773031wru.40.2022.02.04.12.43.46
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 04 Feb 2022 12:49:17 -0800 (PST)
+ Fri, 04 Feb 2022 12:44:00 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 86AA81FFCE;
+ by zen.linaroharston (Postfix) with ESMTP id B8CEB1FFD1;
  Fri,  4 Feb 2022 20:43:37 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: richard.henderson@linaro.org,
 	qemu-devel@nongnu.org
-Subject: [PATCH  v3 23/26] tests/plugin: allow libinsn.so per-CPU counts
-Date: Fri,  4 Feb 2022 20:43:32 +0000
-Message-Id: <20220204204335.1689602-24-alex.bennee@linaro.org>
+Subject: [PATCH  v3 26/26] plugins: move reset of plugin data to tb_start
+Date: Fri,  4 Feb 2022 20:43:35 +0000
+Message-Id: <20220204204335.1689602-27-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220204204335.1689602-1-alex.bennee@linaro.org>
 References: <20220204204335.1689602-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::433
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42b
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::433;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x433.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42b.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
 X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- PDS_HP_HELO_NORDNS=0.001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,104 +95,84 @@ Cc: fam@euphon.net, berrange@redhat.com, Luke.Craig@ll.mit.edu,
  kuhn.chenqun@huawei.com, f4bug@amsat.org, robhenry@microsoft.com,
  aaron@os.amperecomputing.com, mahmoudabdalghany@outlook.com, minyihh@uci.edu,
  cota@braap.org, stefanha@redhat.com, crosa@redhat.com, pbonzini@redhat.com,
- ma.mandourr@gmail.com, Alexandre Iooss <erdnaxe@crans.org>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, aurelien@aurel32.net
+ ma.mandourr@gmail.com, =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We won't go fully flexible but for most system emulation 8 vCPUs
-resolution should be enough for anybody ;-)
+We can't always guarantee we get to the end of a translator loop.
+Although this can happen for a variety of reasons it does happen more
+often on x86 system emulation when an instruction spans across to an
+un-faulted page. This caused confusion of the instruction tracking
+data resulting in apparent reverse execution (at least from the
+plugins point of view).
 
+Fix this by moving the reset code to plugin_gen_tb_start so we always
+start with a clean slate.
+
+Resolves: https://gitlab.com/qemu-project/qemu/-/issues/824
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20220124201608.604599-20-alex.bennee@linaro.org>
+Message-Id: <20220124201608.604599-23-alex.bennee@linaro.org>
 ---
- tests/plugin/insn.c | 39 +++++++++++++++++++++++++++++++--------
- 1 file changed, 31 insertions(+), 8 deletions(-)
+ accel/tcg/plugin-gen.c | 29 ++++++++++++++++++-----------
+ 1 file changed, 18 insertions(+), 11 deletions(-)
 
-diff --git a/tests/plugin/insn.c b/tests/plugin/insn.c
-index d229fdc001..d5a0a08cb4 100644
---- a/tests/plugin/insn.c
-+++ b/tests/plugin/insn.c
-@@ -16,22 +16,33 @@
+diff --git a/accel/tcg/plugin-gen.c b/accel/tcg/plugin-gen.c
+index 22d95fe1c3..ae70e4a5b0 100644
+--- a/accel/tcg/plugin-gen.c
++++ b/accel/tcg/plugin-gen.c
+@@ -854,10 +854,21 @@ static void plugin_gen_inject(const struct qemu_plugin_tb *plugin_tb)
  
- QEMU_PLUGIN_EXPORT int qemu_plugin_version = QEMU_PLUGIN_VERSION;
- 
--static uint64_t insn_count;
-+#define MAX_CPUS 8 /* lets not go nuts */
-+
-+typedef struct {
-+    uint64_t last_pc;
-+    uint64_t insn_count;
-+} InstructionCount;
-+
-+static InstructionCount counts[MAX_CPUS];
-+static uint64_t inline_insn_count;
-+
- static bool do_inline;
- static bool do_size;
-+static bool do_frequency;
- static GArray *sizes;
- 
- static void vcpu_insn_exec_before(unsigned int cpu_index, void *udata)
+ bool plugin_gen_tb_start(CPUState *cpu, const TranslationBlock *tb, bool mem_only)
  {
--    static uint64_t last_pc;
-+    unsigned int i = cpu_index % MAX_CPUS;
-+    InstructionCount *c = &counts[i];
-     uint64_t this_pc = GPOINTER_TO_UINT(udata);
--    if (this_pc == last_pc) {
-+    if (this_pc == c->last_pc) {
-         g_autofree gchar *out = g_strdup_printf("detected repeat execution @ 0x%"
-                                                 PRIx64 "\n", this_pc);
-         qemu_plugin_outs(out);
-     }
--    last_pc = this_pc;
--    insn_count++;
-+    c->last_pc = this_pc;
-+    c->insn_count++;
- }
+-    struct qemu_plugin_tb *ptb = tcg_ctx->plugin_tb;
+     bool ret = false;
  
- static void vcpu_tb_trans(qemu_plugin_id_t id, struct qemu_plugin_tb *tb)
-@@ -44,7 +55,7 @@ static void vcpu_tb_trans(qemu_plugin_id_t id, struct qemu_plugin_tb *tb)
- 
-         if (do_inline) {
-             qemu_plugin_register_vcpu_insn_exec_inline(
--                insn, QEMU_PLUGIN_INLINE_ADD_U64, &insn_count, 1);
-+                insn, QEMU_PLUGIN_INLINE_ADD_U64, &inline_insn_count, 1);
-         } else {
-             uint64_t vaddr = qemu_plugin_insn_vaddr(insn);
-             qemu_plugin_register_vcpu_insn_exec_cb(
-@@ -66,9 +77,9 @@ static void vcpu_tb_trans(qemu_plugin_id_t id, struct qemu_plugin_tb *tb)
- static void plugin_exit(qemu_plugin_id_t id, void *p)
- {
-     g_autoptr(GString) out = g_string_new(NULL);
-+    int i;
- 
-     if (do_size) {
--        int i;
-         for (i = 0; i <= sizes->len; i++) {
-             unsigned long *cnt = &g_array_index(sizes, unsigned long, i);
-             if (*cnt) {
-@@ -76,8 +87,20 @@ static void plugin_exit(qemu_plugin_id_t id, void *p)
-                                        "len %d bytes: %ld insns\n", i, *cnt);
-             }
-         }
-+    } else if (do_inline) {
-+        g_string_append_printf(out, "insns: %" PRIu64 "\n", inline_insn_count);
-     } else {
--        g_string_append_printf(out, "insns: %" PRIu64 "\n", insn_count);
-+        uint64_t total_insns = 0;
-+        for (i = 0; i < MAX_CPUS; i++) {
-+            InstructionCount *c = &counts[i];
-+            if (c->insn_count) {
-+                g_string_append_printf(out, "cpu %d insns: %" PRIu64 "\n",
-+                                       i, c->insn_count);
-+                total_insns += c->insn_count;
+     if (test_bit(QEMU_PLUGIN_EV_VCPU_TB_TRANS, cpu->plugin_mask)) {
++        struct qemu_plugin_tb *ptb = tcg_ctx->plugin_tb;
++        int i;
++
++        /* reset callbacks */
++        for (i = 0; i < PLUGIN_N_CB_SUBTYPES; i++) {
++            if (ptb->cbs[i]) {
++                g_array_set_size(ptb->cbs[i], 0);
 +            }
 +        }
-+        g_string_append_printf(out, "total insns: %" PRIu64 "\n",
-+                               total_insns);
-     }
-     qemu_plugin_outs(out->str);
++        ptb->n = 0;
++        tcg_ctx->plugin_insn = NULL;
++
+         ret = true;
+ 
+         ptb->vaddr = tb->pc;
+@@ -904,23 +915,19 @@ void plugin_gen_insn_end(void)
+     plugin_gen_empty_callback(PLUGIN_GEN_AFTER_INSN);
+ }
+ 
++/*
++ * There are cases where we never get to finalise a translation - for
++ * example a page fault during translation. As a result we shouldn't
++ * do any clean-up here and make sure things are reset in
++ * plugin_gen_tb_start.
++ */
+ void plugin_gen_tb_end(CPUState *cpu)
+ {
+     struct qemu_plugin_tb *ptb = tcg_ctx->plugin_tb;
+-    int i;
+ 
+     /* collect instrumentation requests */
+     qemu_plugin_tb_trans_cb(cpu, ptb);
+ 
+     /* inject the instrumentation at the appropriate places */
+     plugin_gen_inject(ptb);
+-
+-    /* clean up */
+-    for (i = 0; i < PLUGIN_N_CB_SUBTYPES; i++) {
+-        if (ptb->cbs[i]) {
+-            g_array_set_size(ptb->cbs[i], 0);
+-        }
+-    }
+-    ptb->n = 0;
+-    tcg_ctx->plugin_insn = NULL;
  }
 -- 
 2.30.2
