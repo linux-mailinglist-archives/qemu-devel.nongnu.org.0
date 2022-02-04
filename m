@@ -2,76 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 61F6F4AA16E
+	by mail.lfdr.de (Postfix) with ESMTPS id BDBA34AA16F
 	for <lists+qemu-devel@lfdr.de>; Fri,  4 Feb 2022 21:53:06 +0100 (CET)
-Received: from localhost ([::1]:42084 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:42004 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nG5Zp-0004LK-FX
+	id 1nG5Zp-0004I4-R1
 	for lists+qemu-devel@lfdr.de; Fri, 04 Feb 2022 15:53:05 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:51594)
+Received: from eggs.gnu.org ([209.51.188.92]:51664)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nG5Qu-0006k2-IA
- for qemu-devel@nongnu.org; Fri, 04 Feb 2022 15:43:52 -0500
-Received: from [2a00:1450:4864:20::431] (port=39529
- helo=mail-wr1-x431.google.com)
+ id 1nG5Qz-0006nO-Gw
+ for qemu-devel@nongnu.org; Fri, 04 Feb 2022 15:43:58 -0500
+Received: from [2a00:1450:4864:20::42c] (port=39525
+ helo=mail-wr1-x42c.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nG5Qr-0007MA-SO
- for qemu-devel@nongnu.org; Fri, 04 Feb 2022 15:43:52 -0500
-Received: by mail-wr1-x431.google.com with SMTP id r17so4363670wrr.6
- for <qemu-devel@nongnu.org>; Fri, 04 Feb 2022 12:43:49 -0800 (PST)
+ id 1nG5Qw-0007My-U4
+ for qemu-devel@nongnu.org; Fri, 04 Feb 2022 15:43:56 -0500
+Received: by mail-wr1-x42c.google.com with SMTP id r17so4363981wrr.6
+ for <qemu-devel@nongnu.org>; Fri, 04 Feb 2022 12:43:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=fzrsHIr2UBl/pseqKFbHnJlYZQrcZbG/aifIugk8tsI=;
- b=OhHlu72dEWhPvaL63eUgRFi7Litig3J29J1BLN6Huv3854sUpau/NhvJMepYyn1ce9
- XGRPAC6EKIU8VW+BGd6gkYdn6oYGhU75+yL62lPXM9kMwmsXP3qaWIWMGkDbcLM39M1d
- vkUd1aOGGsfYB1Jv3Gxngr/iYrg8ECSwZAD0FDM4Y5KnYaqVD5Dr9ZRig6nME5rRZv/2
- EVpHh8lLN3IaynaCyBUQecrb3vtMy6fTt48YDvQbIjwyUwsf+ZfN+PTpvwOP8H99/tKo
- S3snEabGFoYQfiVy9+ATdO985U7uEjQYqbXopfh0DPnEiRhc6yThNLEO8pgQWmxalb+b
- czmg==
+ bh=OwYtA2KKG+0bbq8x95tFKhT0n1BvnQylT/23Qq8x4yM=;
+ b=QkApTYxHhHP0XanAKJ2Y6Qi5S2fdwAC1R86SFRJIwTGkRcstZiaFbMk4z/1TJRzLY0
+ LcEnLG5X4WOPxvfnfydFi/Ca7qYvr6XZ1gbJFeONyNmUeo8m4gGl/yvLE8gtwOWeUQZK
+ rNo0m+HAefE3WSNAbx8Ltr44D6cohlKEdTQNORCqca8jOJhKjZL3gmDGPq6qgL9krsop
+ 1xt7dbF82Ug1odJzGGWGynX5nm4r8n1uC4cDpA3Bxmeu7YDHW1vWcCiVI8bSRFv2Mv7U
+ cDuwZcRaeb70Qr4l3YSo9T58ij3ObG8xlFBSM1uebQsjvu/N+OxfAEWSUl+cC9P6YLQB
+ kDOw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=fzrsHIr2UBl/pseqKFbHnJlYZQrcZbG/aifIugk8tsI=;
- b=J+zNJNg978Iq6ZqQCoHMvbNer+pBYMZXaQUO75DqpoUgnck9tm6Qur7F/vy8E/7NRz
- E2A9a0okxi6R04cVCqn1nQg7Xin3Z1UtwcOOv82Y3/CKMrmPvNBABzcYolrLi0OXie9S
- nCqgwiqWWKZHJKphlk9dX+YQP19o0dVv8LkG5RFCzXIFlBtm+ZBBSGi892XwBJAjHDPP
- 6aHs5ZPIyosejioJDiNcVoL3iYbBYPP7xAgTzL+tBFX7xLiL023H4DnVltL99BJsUSAm
- vfTt+5Yhy6dkVIiCzE73iiMokuRklM3BdKdHLVmyC00bLAkbe12VriJmHXxvBSAeaKHl
- tePg==
-X-Gm-Message-State: AOAM530Sj1Hoh70lY4Ko+aXwMVYXAClncO7YymWWD8/I6LJmJmWZUE0+
- K4wMgZLBo8SIJ/cOjtAyzIv/8g==
-X-Google-Smtp-Source: ABdhPJxW2w7FawcwEhi/0umS6GXJGX9ut0HkORF214sjXTgrv5LVk/RqyGftJkdtsE9Re+N6+zdFWg==
-X-Received: by 2002:adf:dec3:: with SMTP id i3mr529622wrn.695.1644007428493;
- Fri, 04 Feb 2022 12:43:48 -0800 (PST)
+ bh=OwYtA2KKG+0bbq8x95tFKhT0n1BvnQylT/23Qq8x4yM=;
+ b=LnHir60ZT1VhfE/l5mIxbJ10AwYH7mP9hCQjiDeGf3aIWBUILOQT2UEMjK+WMsKxWt
+ hC1llmdB17f83sFlztQY/Z7F1ofVLGl70Pb417E/W33XzerfUq4FU8mEtnDtxAcxWZQn
+ kNEVanRCJRLHECSxxmU04FMHdykGDmT/6OWBEfjR+opuwfVVFJB1TYCYAJf8q08Eo0qW
+ RGKXx94HSvnaRudHhqedLsmSUaeadqbB9W+ArF3xnq2PhcHzpc2ONK9IJD5352N7vS49
+ WLmxt5yTBX76aDpLwzylA8k9oGesbFlvTdG9Vax4vYQmhIcC3XxTsMTp+XVtoIbDIHbD
+ 7GRw==
+X-Gm-Message-State: AOAM532syMGXQKeVHx3nsPs898Aip/rSzXjI/SuByZxy35ZsEEx60fLi
+ +XOGHZocAEpI4/DLl6q/jWNDAw==
+X-Google-Smtp-Source: ABdhPJy1veTBgYvD//Vx5znYI5SRGk8K4wVvuR/jSzzJebeY9C+mkvT906dW6KjpprUfFMcceEusjA==
+X-Received: by 2002:adf:ce8c:: with SMTP id r12mr494842wrn.623.1644007433639; 
+ Fri, 04 Feb 2022 12:43:53 -0800 (PST)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id r8sm2765724wrx.2.2022.02.04.12.43.38
+ by smtp.gmail.com with ESMTPSA id v3sm2770530wru.15.2022.02.04.12.43.40
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 04 Feb 2022 12:43:41 -0800 (PST)
+ Fri, 04 Feb 2022 12:43:42 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id D61391FFC0;
- Fri,  4 Feb 2022 20:43:35 +0000 (GMT)
+ by zen.linaroharston (Postfix) with ESMTP id 059E21FFC1;
+ Fri,  4 Feb 2022 20:43:36 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: richard.henderson@linaro.org,
 	qemu-devel@nongnu.org
-Subject: [PATCH v3 08/26] drop libxml2 checks since libxml is not actually
- used (for parallels)
-Date: Fri,  4 Feb 2022 20:43:17 +0000
-Message-Id: <20220204204335.1689602-9-alex.bennee@linaro.org>
+Subject: [PATCH v3 09/26] tests/lcitool: Refresh submodule and remove libxml2
+Date: Fri,  4 Feb 2022 20:43:18 +0000
+Message-Id: <20220204204335.1689602-10-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220204204335.1689602-1-alex.bennee@linaro.org>
 References: <20220204204335.1689602-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::431
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42c
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::431;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x431.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42c.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -92,184 +91,241 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, Peter Maydell <peter.maydell@linaro.org>,
- stefanha@redhat.com, Michael Tokarev <mjt@tls.msk.ru>,
- mahmoudabdalghany@outlook.com,
- "open list:Block layer core" <qemu-block@nongnu.org>, minyihh@uci.edu,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- aaron@os.amperecomputing.com, cota@braap.org, Thomas Huth <thuth@redhat.com>,
- Luke.Craig@ll.mit.edu, crosa@redhat.com, kuhn.chenqun@huawei.com,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Kevin Wolf <kwolf@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, berrange@redhat.com,
- Beraldo Leal <bleal@redhat.com>, f4bug@amsat.org, robhenry@microsoft.com,
- Hanna Reitz <hreitz@redhat.com>, pbonzini@redhat.com, ma.mandourr@gmail.com,
- aurelien@aurel32.net
+Cc: fam@euphon.net, Thomas Huth <thuth@redhat.com>, berrange@redhat.com,
+ Luke.Craig@ll.mit.edu, kuhn.chenqun@huawei.com, f4bug@amsat.org,
+ robhenry@microsoft.com, aaron@os.amperecomputing.com,
+ mahmoudabdalghany@outlook.com, minyihh@uci.edu, cota@braap.org,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>, stefanha@redhat.com,
+ crosa@redhat.com, pbonzini@redhat.com, ma.mandourr@gmail.com,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, aurelien@aurel32.net,
+ Beraldo Leal <bleal@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Michael Tokarev <mjt@tls.msk.ru>
+From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-For a long time, we assumed that libxml2 is necessary for parallels
-block format support (block/parallels*). However, this format actually
-does not use libxml [*]. Since this is the only user of libxml2 in
-whole QEMU tree, we can drop all libxml2 checks and dependencies too.
+The previous commit removed all uses of libxml2.
 
-It is even more: --enable-parallels configure option was the only
-option which was silently ignored when it's (fake) dependency
-(libxml2) isn't installed.
+Refresh lcitool submodule, update qemu.yml and refresh the generated
+files by running:
 
-Drop all mentions of libxml2.
+  $ make lcitool-refresh
 
-[*] Actually the basis for libxml use were introduced in commit
-    ed279a06c53 ("configure: add dependency") but the implementation
-    was never merged:
-    https://lore.kernel.org/qemu-devel/70227bbd-a517-70e9-714f-e6e0ec431be9@openvz.org/
+Note: This refreshment also removes libudev dependency on Fedora
+and CentOS due to libvirt-ci commit 18bfaee ("mappings: Improve
+mapping for libudev"), since "The udev project has been absorbed
+by the systemd project", and lttng-ust on FreeBSD runners due to
+libvirt-ci commit 6dd9b6f ("guests: drop lttng-ust from FreeBSD
+platform").
 
-Signed-off-by: Michael Tokarev <mjt@tls.msk.ru>
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
-Message-Id: <20220119090423.149315-1-mjt@msgid.tls.msk.ru>
-Tested-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-[PMD: Updated description and adapted to use lcitool]
-Reviewed-by: Thomas Huth <thuth@redhat.com>
+Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20220121154134.315047-5-f4bug@amsat.org>
-Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Message-Id: <20220124201608.604599-9-alex.bennee@linaro.org>
+Message-Id: <20220121154134.315047-6-f4bug@amsat.org>
+Message-Id: <20220124201608.604599-10-alex.bennee@linaro.org>
 ---
- meson.build                                     | 6 ------
- block/meson.build                               | 3 +--
- meson_options.txt                               | 2 --
- scripts/checkpatch.pl                           | 1 -
- scripts/ci/org.centos/stream/8/x86_64/configure | 1 -
- scripts/coverity-scan/coverity-scan.docker      | 1 -
- scripts/coverity-scan/run-coverity-scan         | 2 +-
- scripts/meson-buildoptions.sh                   | 3 ---
- 8 files changed, 2 insertions(+), 17 deletions(-)
+ .gitlab-ci.d/cirrus/freebsd-12.vars           | 2 +-
+ .gitlab-ci.d/cirrus/freebsd-13.vars           | 2 +-
+ .gitlab-ci.d/cirrus/macos-11.vars             | 2 +-
+ tests/docker/dockerfiles/alpine.docker        | 4 ++--
+ tests/docker/dockerfiles/centos8.docker       | 4 +---
+ tests/docker/dockerfiles/fedora.docker        | 4 +---
+ tests/docker/dockerfiles/opensuse-leap.docker | 3 +--
+ tests/docker/dockerfiles/ubuntu1804.docker    | 3 +--
+ tests/docker/dockerfiles/ubuntu2004.docker    | 3 +--
+ tests/lcitool/libvirt-ci                      | 2 +-
+ tests/lcitool/projects/qemu.yml               | 1 -
+ 11 files changed, 11 insertions(+), 19 deletions(-)
 
-diff --git a/meson.build b/meson.build
-index 5f43355071..82db1e7e74 100644
---- a/meson.build
-+++ b/meson.build
-@@ -453,11 +453,6 @@ if not get_option('linux_io_uring').auto() or have_block
-                               required: get_option('linux_io_uring'),
-                               method: 'pkg-config', kwargs: static_kwargs)
- endif
--libxml2 = not_found
--if not get_option('libxml2').auto() or have_block
--  libxml2 = dependency('libxml-2.0', required: get_option('libxml2'),
--                       method: 'pkg-config', kwargs: static_kwargs)
--endif
- libnfs = not_found
- if not get_option('libnfs').auto() or have_block
-   libnfs = dependency('libnfs', version: '>=1.9.3',
-@@ -3496,7 +3491,6 @@ summary_info += {'bzip2 support':     libbzip2}
- summary_info += {'lzfse support':     liblzfse}
- summary_info += {'zstd support':      zstd}
- summary_info += {'NUMA host support': config_host.has_key('CONFIG_NUMA')}
--summary_info += {'libxml2':           libxml2}
- summary_info += {'capstone':          capstone_opt == 'internal' ? capstone_opt : capstone}
- summary_info += {'libpmem support':   libpmem}
- summary_info += {'libdaxctl support': libdaxctl}
-diff --git a/block/meson.build b/block/meson.build
-index deb73ca389..90dc9983e5 100644
---- a/block/meson.build
-+++ b/block/meson.build
-@@ -58,8 +58,7 @@ block_ss.add(when: 'CONFIG_QED', if_true: files(
-   'qed-table.c',
-   'qed.c',
- ))
--block_ss.add(when: [libxml2, 'CONFIG_PARALLELS'],
--             if_true: files('parallels.c', 'parallels-ext.c'))
-+block_ss.add(when: 'CONFIG_PARALLELS', if_true: files('parallels.c', 'parallels-ext.c'))
- block_ss.add(when: 'CONFIG_WIN32', if_true: files('file-win32.c', 'win32-aio.c'))
- block_ss.add(when: 'CONFIG_POSIX', if_true: [files('file-posix.c'), coref, iokit])
- block_ss.add(when: libiscsi, if_true: files('iscsi-opts.c'))
-diff --git a/meson_options.txt b/meson_options.txt
-index 921967eddb..95d527f773 100644
---- a/meson_options.txt
-+++ b/meson_options.txt
-@@ -113,8 +113,6 @@ option('libudev', type : 'feature', value : 'auto',
-        description: 'Use libudev to enumerate host devices')
- option('libusb', type : 'feature', value : 'auto',
-        description: 'libusb support for USB passthrough')
--option('libxml2', type : 'feature', value : 'auto',
--       description: 'libxml2 support for Parallels image format')
- option('linux_aio', type : 'feature', value : 'auto',
-        description: 'Linux AIO support')
- option('linux_io_uring', type : 'feature', value : 'auto',
-diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
-index 5caa739db4..5e50111060 100755
---- a/scripts/checkpatch.pl
-+++ b/scripts/checkpatch.pl
-@@ -307,7 +307,6 @@ our @typeList = (
- 	qr{target_(?:u)?long},
- 	qr{hwaddr},
-         # external libraries
--	qr{xml${Ident}},
- 	qr{xen\w+_handle},
- 	# Glib definitions
- 	qr{gchar},
-diff --git a/scripts/ci/org.centos/stream/8/x86_64/configure b/scripts/ci/org.centos/stream/8/x86_64/configure
-index e05f2fddcc..9850dd4444 100755
---- a/scripts/ci/org.centos/stream/8/x86_64/configure
-+++ b/scripts/ci/org.centos/stream/8/x86_64/configure
-@@ -81,7 +81,6 @@
- --disable-libssh \
- --disable-libudev \
- --disable-libusb \
----disable-libxml2 \
- --disable-linux-aio \
- --disable-linux-io-uring \
- --disable-linux-user \
-diff --git a/scripts/coverity-scan/coverity-scan.docker b/scripts/coverity-scan/coverity-scan.docker
-index ecff6ac5b4..6f60a52d23 100644
---- a/scripts/coverity-scan/coverity-scan.docker
-+++ b/scripts/coverity-scan/coverity-scan.docker
-@@ -59,7 +59,6 @@ ENV PACKAGES \
-     libubsan \
-     libudev-devel \
-     libusbx-devel \
--    libxml2-devel \
-     libzstd-devel \
-     llvm \
-     lzo-devel \
-diff --git a/scripts/coverity-scan/run-coverity-scan b/scripts/coverity-scan/run-coverity-scan
-index 6d443250a9..181bdcb263 100755
---- a/scripts/coverity-scan/run-coverity-scan
-+++ b/scripts/coverity-scan/run-coverity-scan
-@@ -402,7 +402,7 @@ echo "Configuring..."
-     --enable-libiscsi --enable-libnfs --enable-seccomp \
-     --enable-tpm --enable-libssh --enable-lzo --enable-snappy --enable-bzip2 \
-     --enable-numa --enable-rdma --enable-smartcard --enable-virglrenderer \
--    --enable-mpath --enable-libxml2 --enable-glusterfs \
-+    --enable-mpath --enable-glusterfs \
-     --enable-virtfs --enable-zstd
+diff --git a/.gitlab-ci.d/cirrus/freebsd-12.vars b/.gitlab-ci.d/cirrus/freebsd-12.vars
+index 9c52266811..07f313aa3a 100644
+--- a/.gitlab-ci.d/cirrus/freebsd-12.vars
++++ b/.gitlab-ci.d/cirrus/freebsd-12.vars
+@@ -11,6 +11,6 @@ MAKE='/usr/local/bin/gmake'
+ NINJA='/usr/local/bin/ninja'
+ PACKAGING_COMMAND='pkg'
+ PIP3='/usr/local/bin/pip-3.8'
+-PKGS='alsa-lib bash bzip2 ca_root_nss capstone4 ccache cdrkit-genisoimage ctags curl cyrus-sasl dbus diffutils dtc gettext git glib gmake gnutls gsed gtk3 libepoxy libffi libgcrypt libjpeg-turbo libnfs libspice-server libssh libtasn1 libxml2 llvm lttng-ust lzo2 meson ncurses nettle ninja opencv p5-Test-Harness perl5 pixman pkgconf png py38-numpy py38-pillow py38-pip py38-sphinx py38-sphinx_rtd_theme py38-virtualenv py38-yaml python3 rpm2cpio sdl2 sdl2_image snappy spice-protocol tesseract texinfo usbredir virglrenderer vte3 zstd'
++PKGS='alsa-lib bash bzip2 ca_root_nss capstone4 ccache cdrkit-genisoimage ctags curl cyrus-sasl dbus diffutils dtc fusefs-libs3 gettext git glib gmake gnutls gsed gtk3 libepoxy libffi libgcrypt libjpeg-turbo libnfs libspice-server libssh libtasn1 llvm lzo2 meson ncurses nettle ninja opencv p5-Test-Harness perl5 pixman pkgconf png py38-numpy py38-pillow py38-pip py38-sphinx py38-sphinx_rtd_theme py38-virtualenv py38-yaml python3 rpm2cpio sdl2 sdl2_image snappy spice-protocol tesseract texinfo usbredir virglrenderer vte3 zstd'
+ PYPI_PKGS=''
+ PYTHON='/usr/local/bin/python3'
+diff --git a/.gitlab-ci.d/cirrus/freebsd-13.vars b/.gitlab-ci.d/cirrus/freebsd-13.vars
+index 7b44dba324..8a648dda1e 100644
+--- a/.gitlab-ci.d/cirrus/freebsd-13.vars
++++ b/.gitlab-ci.d/cirrus/freebsd-13.vars
+@@ -11,6 +11,6 @@ MAKE='/usr/local/bin/gmake'
+ NINJA='/usr/local/bin/ninja'
+ PACKAGING_COMMAND='pkg'
+ PIP3='/usr/local/bin/pip-3.8'
+-PKGS='alsa-lib bash bzip2 ca_root_nss capstone4 ccache cdrkit-genisoimage ctags curl cyrus-sasl dbus diffutils dtc gettext git glib gmake gnutls gsed gtk3 libepoxy libffi libgcrypt libjpeg-turbo libnfs libspice-server libssh libtasn1 libxml2 llvm lttng-ust lzo2 meson ncurses nettle ninja opencv p5-Test-Harness perl5 pixman pkgconf png py38-numpy py38-pillow py38-pip py38-sphinx py38-sphinx_rtd_theme py38-virtualenv py38-yaml python3 rpm2cpio sdl2 sdl2_image snappy spice-protocol tesseract texinfo usbredir virglrenderer vte3 zstd'
++PKGS='alsa-lib bash bzip2 ca_root_nss capstone4 ccache cdrkit-genisoimage ctags curl cyrus-sasl dbus diffutils dtc fusefs-libs3 gettext git glib gmake gnutls gsed gtk3 libepoxy libffi libgcrypt libjpeg-turbo libnfs libspice-server libssh libtasn1 llvm lzo2 meson ncurses nettle ninja opencv p5-Test-Harness perl5 pixman pkgconf png py38-numpy py38-pillow py38-pip py38-sphinx py38-sphinx_rtd_theme py38-virtualenv py38-yaml python3 rpm2cpio sdl2 sdl2_image snappy spice-protocol tesseract texinfo usbredir virglrenderer vte3 zstd'
+ PYPI_PKGS=''
+ PYTHON='/usr/local/bin/python3'
+diff --git a/.gitlab-ci.d/cirrus/macos-11.vars b/.gitlab-ci.d/cirrus/macos-11.vars
+index 613d1373c2..08183f8793 100644
+--- a/.gitlab-ci.d/cirrus/macos-11.vars
++++ b/.gitlab-ci.d/cirrus/macos-11.vars
+@@ -11,6 +11,6 @@ MAKE='/usr/local/bin/gmake'
+ NINJA='/usr/local/bin/ninja'
+ PACKAGING_COMMAND='brew'
+ PIP3='/usr/local/bin/pip3'
+-PKGS='bash bc bzip2 capstone ccache cpanminus ctags curl dbus diffutils dtc gcovr gettext git glib gnu-sed gnutls gtk+3 jemalloc jpeg-turbo libepoxy libffi libgcrypt libiscsi libnfs libpng libslirp libssh libtasn1 libusb libxml2 llvm lzo make meson ncurses nettle ninja perl pixman pkg-config python3 rpm2cpio sdl2 sdl2_image snappy sparse spice-protocol tesseract texinfo usbredir vde vte3 zlib zstd'
++PKGS='bash bc bzip2 capstone ccache cpanminus ctags curl dbus diffutils dtc gcovr gettext git glib gnu-sed gnutls gtk+3 jemalloc jpeg-turbo libepoxy libffi libgcrypt libiscsi libnfs libpng libslirp libssh libtasn1 libusb llvm lzo make meson ncurses nettle ninja perl pixman pkg-config python3 rpm2cpio sdl2 sdl2_image snappy sparse spice-protocol tesseract texinfo usbredir vde vte3 zlib zstd'
+ PYPI_PKGS='PyYAML numpy pillow sphinx sphinx-rtd-theme virtualenv'
+ PYTHON='/usr/local/bin/python3'
+diff --git a/tests/docker/dockerfiles/alpine.docker b/tests/docker/dockerfiles/alpine.docker
+index eb2251c81c..591af43d60 100644
+--- a/tests/docker/dockerfiles/alpine.docker
++++ b/tests/docker/dockerfiles/alpine.docker
+@@ -1,6 +1,6 @@
+ # THIS FILE WAS AUTO-GENERATED
+ #
+-#  $ lcitool dockerfile alpine-edge qemu
++#  $ lcitool dockerfile --layers all alpine-edge qemu
+ #
+ # https://gitlab.com/libvirt/libvirt-ci
  
- echo "Running cov-build..."
-diff --git a/scripts/meson-buildoptions.sh b/scripts/meson-buildoptions.sh
-index a4af02c527..48a454cece 100644
---- a/scripts/meson-buildoptions.sh
-+++ b/scripts/meson-buildoptions.sh
-@@ -58,7 +58,6 @@ meson_options_help() {
-   printf "%s\n" '  libssh          ssh block device support'
-   printf "%s\n" '  libudev         Use libudev to enumerate host devices'
-   printf "%s\n" '  libusb          libusb support for USB passthrough'
--  printf "%s\n" '  libxml2         libxml2 support for Parallels image format'
-   printf "%s\n" '  linux-aio       Linux AIO support'
-   printf "%s\n" '  linux-io-uring  Linux io_uring support'
-   printf "%s\n" '  lzfse           lzfse support for DMG images'
-@@ -188,8 +187,6 @@ _meson_option_parse() {
-     --disable-libudev) printf "%s" -Dlibudev=disabled ;;
-     --enable-libusb) printf "%s" -Dlibusb=enabled ;;
-     --disable-libusb) printf "%s" -Dlibusb=disabled ;;
--    --enable-libxml2) printf "%s" -Dlibxml2=enabled ;;
--    --disable-libxml2) printf "%s" -Dlibxml2=disabled ;;
-     --enable-linux-aio) printf "%s" -Dlinux_aio=enabled ;;
-     --disable-linux-aio) printf "%s" -Dlinux_aio=disabled ;;
-     --enable-linux-io-uring) printf "%s" -Dlinux_io_uring=enabled ;;
+@@ -56,7 +56,6 @@ RUN apk update && \
+         libtasn1-dev \
+         liburing-dev \
+         libusb-dev \
+-        libxml2-dev \
+         linux-pam-dev \
+         llvm11 \
+         lttng-ust-dev \
+@@ -109,6 +108,7 @@ RUN apk update && \
+         zlib-dev \
+         zlib-static \
+         zstd-dev && \
++    apk list | sort > /packages.txt && \
+     mkdir -p /usr/libexec/ccache-wrappers && \
+     ln -s /usr/bin/ccache /usr/libexec/ccache-wrappers/c++ && \
+     ln -s /usr/bin/ccache /usr/libexec/ccache-wrappers/cc && \
+diff --git a/tests/docker/dockerfiles/centos8.docker b/tests/docker/dockerfiles/centos8.docker
+index cbb909d02b..3abac7a8b1 100644
+--- a/tests/docker/dockerfiles/centos8.docker
++++ b/tests/docker/dockerfiles/centos8.docker
+@@ -1,6 +1,6 @@
+ # THIS FILE WAS AUTO-GENERATED
+ #
+-#  $ lcitool dockerfile centos-8 qemu
++#  $ lcitool dockerfile --layers all centos-8 qemu
+ #
+ # https://gitlab.com/libvirt/libvirt-ci
+ 
+@@ -69,10 +69,8 @@ RUN dnf update -y && \
+         libssh-devel \
+         libtasn1-devel \
+         libubsan \
+-        libudev-devel \
+         liburing-devel \
+         libusbx-devel \
+-        libxml2-devel \
+         libzstd-devel \
+         llvm \
+         lttng-ust-devel \
+diff --git a/tests/docker/dockerfiles/fedora.docker b/tests/docker/dockerfiles/fedora.docker
+index 60207f3da3..1d01cd9440 100644
+--- a/tests/docker/dockerfiles/fedora.docker
++++ b/tests/docker/dockerfiles/fedora.docker
+@@ -1,6 +1,6 @@
+ # THIS FILE WAS AUTO-GENERATED
+ #
+-#  $ lcitool dockerfile fedora-35 qemu
++#  $ lcitool dockerfile --layers all fedora-35 qemu
+ #
+ # https://gitlab.com/libvirt/libvirt-ci
+ 
+@@ -77,10 +77,8 @@ exec "$@"' > /usr/bin/nosync && \
+         libssh-devel \
+         libtasn1-devel \
+         libubsan \
+-        libudev-devel \
+         liburing-devel \
+         libusbx-devel \
+-        libxml2-devel \
+         libzstd-devel \
+         llvm \
+         lttng-ust-devel \
+diff --git a/tests/docker/dockerfiles/opensuse-leap.docker b/tests/docker/dockerfiles/opensuse-leap.docker
+index f57d8cfb29..1b78d8369a 100644
+--- a/tests/docker/dockerfiles/opensuse-leap.docker
++++ b/tests/docker/dockerfiles/opensuse-leap.docker
+@@ -1,6 +1,6 @@
+ # THIS FILE WAS AUTO-GENERATED
+ #
+-#  $ lcitool dockerfile opensuse-leap-152 qemu
++#  $ lcitool dockerfile --layers all opensuse-leap-152 qemu
+ #
+ # https://gitlab.com/libvirt/libvirt-ci
+ 
+@@ -71,7 +71,6 @@ RUN zypper update -y && \
+            libudev-devel \
+            liburing-devel \
+            libusb-1_0-devel \
+-           libxml2-devel \
+            libzstd-devel \
+            llvm \
+            lttng-ust-devel \
+diff --git a/tests/docker/dockerfiles/ubuntu1804.docker b/tests/docker/dockerfiles/ubuntu1804.docker
+index 0ffa3c4d4b..003ee2cfed 100644
+--- a/tests/docker/dockerfiles/ubuntu1804.docker
++++ b/tests/docker/dockerfiles/ubuntu1804.docker
+@@ -1,6 +1,6 @@
+ # THIS FILE WAS AUTO-GENERATED
+ #
+-#  $ lcitool dockerfile ubuntu-1804 qemu
++#  $ lcitool dockerfile --layers all ubuntu-1804 qemu
+ #
+ # https://gitlab.com/libvirt/libvirt-ci
+ 
+@@ -89,7 +89,6 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
+             libvirglrenderer-dev \
+             libvte-2.91-dev \
+             libxen-dev \
+-            libxml2-dev \
+             libzstd-dev \
+             llvm \
+             locales \
+diff --git a/tests/docker/dockerfiles/ubuntu2004.docker b/tests/docker/dockerfiles/ubuntu2004.docker
+index 4e562dfdcd..8993d2d9e0 100644
+--- a/tests/docker/dockerfiles/ubuntu2004.docker
++++ b/tests/docker/dockerfiles/ubuntu2004.docker
+@@ -1,6 +1,6 @@
+ # THIS FILE WAS AUTO-GENERATED
+ #
+-#  $ lcitool dockerfile ubuntu-2004 qemu
++#  $ lcitool dockerfile --layers all ubuntu-2004 qemu
+ #
+ # https://gitlab.com/libvirt/libvirt-ci
+ 
+@@ -91,7 +91,6 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
+             libvirglrenderer-dev \
+             libvte-2.91-dev \
+             libxen-dev \
+-            libxml2-dev \
+             libzstd-dev \
+             llvm \
+             locales \
+diff --git a/tests/lcitool/libvirt-ci b/tests/lcitool/libvirt-ci
+index 29cec2153b..6dd9b6fab1 160000
+--- a/tests/lcitool/libvirt-ci
++++ b/tests/lcitool/libvirt-ci
+@@ -1 +1 @@
+-Subproject commit 29cec2153b9a4dbb2e66f1cbc9866a4eff519cfd
++Subproject commit 6dd9b6fab1fe081b16bc975485d7a02c81ba5fbe
+diff --git a/tests/lcitool/projects/qemu.yml b/tests/lcitool/projects/qemu.yml
+index ed5ab1407a..de51a2f1dd 100644
+--- a/tests/lcitool/projects/qemu.yml
++++ b/tests/lcitool/projects/qemu.yml
+@@ -63,7 +63,6 @@ packages:
+  - liburing
+  - libusbx
+  - libvdeplug
+- - libxml2
+  - libzstd
+  - llvm
+  - lttng-ust
 -- 
 2.30.2
 
