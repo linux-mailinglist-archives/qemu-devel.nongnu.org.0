@@ -2,74 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56F634A9E5F
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Feb 2022 18:53:53 +0100 (CET)
-Received: from localhost ([::1]:44146 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B42DF4A9EF9
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Feb 2022 19:28:31 +0100 (CET)
+Received: from localhost ([::1]:32778 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nG2mO-00015P-DD
-	for lists+qemu-devel@lfdr.de; Fri, 04 Feb 2022 12:53:52 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:39076)
+	id 1nG3Ju-0007Hg-MA
+	for lists+qemu-devel@lfdr.de; Fri, 04 Feb 2022 13:28:30 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:39168)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <anup@brainfault.org>)
- id 1nG2gT-000464-Qr
- for qemu-devel@nongnu.org; Fri, 04 Feb 2022 12:47:45 -0500
-Received: from [2a00:1450:4864:20::429] (port=42720
- helo=mail-wr1-x429.google.com)
+ id 1nG2gZ-0004Ev-Nu
+ for qemu-devel@nongnu.org; Fri, 04 Feb 2022 12:47:51 -0500
+Received: from [2a00:1450:4864:20::435] (port=41586
+ helo=mail-wr1-x435.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <anup@brainfault.org>)
- id 1nG2gS-0003nV-B1
- for qemu-devel@nongnu.org; Fri, 04 Feb 2022 12:47:45 -0500
-Received: by mail-wr1-x429.google.com with SMTP id d15so3947477wrb.9
- for <qemu-devel@nongnu.org>; Fri, 04 Feb 2022 09:47:44 -0800 (PST)
+ id 1nG2gX-0003o5-MZ
+ for qemu-devel@nongnu.org; Fri, 04 Feb 2022 12:47:51 -0500
+Received: by mail-wr1-x435.google.com with SMTP id j16so12655733wrd.8
+ for <qemu-devel@nongnu.org>; Fri, 04 Feb 2022 09:47:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=brainfault-org.20210112.gappssmtp.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=GQXbzJRGCAzi7ppy9JRHchfsyush4KC9W9dGSjxVrXU=;
- b=vficyNrpaMIydVJ5oAUF3g2+4/TaY2UGa7tsxDJKUwE27Pq6BlTaG/V2uCZYpOYEd3
- jqrDKQwUz8tFwz4BASZkSIWRkkjv1ZdJTgpn+uSMXaMdroZfmHt8i7nmtWfaCCjOlsp/
- uoSQPo+juo6bNUqOy+MT6owB/+yIRwDLO2P8WDncK1ca11pwQNr/gBH8bDi/GgwdgG2U
- wgwbw8W4Ou/B1ZQzJmI03f5tBr5QWXRyYcBUubSq5aePFtYE0hkxsdmO1Fy4MzYh1SIM
- 6cTLywq5wbcqao22OhYc/+tWf2JgwLA9/bf7rf5dNhpxwnjNz3SYa+v99fsj8JZB1LZI
- wJ/g==
+ bh=b0QDjjAPYD0UQvR3q14Aw0JJT1qatb8xExZJqX/BR7A=;
+ b=YqKgYeEKrw/QiQz7aRgZInCequLcATlQ6oSUtxmTTXh7gRAxT4JacpgSRQTV0qJbsY
+ Ove2RwDFjsSNUKWwDcEzMwXFR040EcRqOmf+bhhJ3KkssY7Gqv4+wvT5dMhaaZPY5Ags
+ lkIFaX0xk8uyK41kJhUGUbQ3DvOkO/Kk3vIs8uifKF/yGqIrbGP2f2JjghhulekkYC+X
+ Nl5NtgbrNa9FtMSnHCSd9pNfyx6NCkLbA281WGtdpqUiHeB0xgrUf5KiJjeSTKpCnzzS
+ HCw+9sCH/rjWcEhhMu6Sie4RhnYVHhbox9lwvTL3hXKJT+AfLYPXrZFJAIzbWhMTiuY0
+ kxnw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=GQXbzJRGCAzi7ppy9JRHchfsyush4KC9W9dGSjxVrXU=;
- b=W6mqtWsiPQVLDYcuk3A+1yeIwGqNyuKIdAoJGADBhltj7OKw7XTtJTsv1iffDibNCC
- KNDTaQwoBZ/toVQ4KH/QwEMpf3U+awkumIW6oT9U+ptHJlf6N2TILszQItipwBh8R9xi
- fTnWrvhzOsN+5efnKwlIRLA3StJCtPxLT9EkF+fKRRdscY3HYjQ7/91OCRfNFWydtQwH
- 5wfvoS40MTolr18ZkjyKb9S1hIP28NwIFYek6EQdCjA5OhgnK61wLkCJDrFhUBwGh1wk
- 5iCs5k6QUzW0etREO75BdXi6GFSgtbnQxRKN6FYCztJ8khGbyIUUw/NmPSt8AZqaFM+Q
- KOPw==
-X-Gm-Message-State: AOAM533i9I6aPfHVkYaVno4gaq4an462iIoWSlv0qt9nu4n/3gBjWhMw
- xJRBFW2qyTBrn12SbrfOW3EdrZ315GICkA==
-X-Google-Smtp-Source: ABdhPJyDQK6wibqWfv2U2aVY36pV62p+D+LFjisYJFaTxGMfdmpO2xHIqGky1DIRVSDERKMceQgOBQ==
-X-Received: by 2002:a5d:6409:: with SMTP id z9mr3347169wru.587.1643996863038; 
- Fri, 04 Feb 2022 09:47:43 -0800 (PST)
+ bh=b0QDjjAPYD0UQvR3q14Aw0JJT1qatb8xExZJqX/BR7A=;
+ b=nvho8B4jI7zDFho2/Or5zFN5juIjmO2nKI4UmvQWn/i8I18PBoOrC1KmfuLzfcfWsv
+ BPL3YubYKoniq1vqojgfNufLTuLnX/9qsZCMFsZOcsExCznWUJ5lZF/KMkDZemBgUhzY
+ CVih9MnV0v8W9Cnbx82Siux1FfQi3cH260kMDaYoCqIBfwdGErj/6Dme+li+N7oB7vMk
+ AHXyv1pG5FStUb4rICUSdXtTuN5+4MshViwTyLsRIykisYHJEP+NZs9LjtTIzzmY2NnI
+ 670Ib3UQ4TL7KcEkLcPq0995cERir1cgodRMPN1F4J5StFUAXLvBQdFylkGsI6Ws2v7a
+ RxzA==
+X-Gm-Message-State: AOAM533blA525IDGlMa5Uhwf6nyuDIc3CHfnvPIvx7nzkkSHdSV2/6vc
+ UDabKT7fa3wtOxC3LAR8eeCyxymMySxEYQ==
+X-Google-Smtp-Source: ABdhPJwcAj7PCM+Z4qiP1X8GmkojS2bL48/mQjyqAINV8kcq2MZrcrSC8uXOmHdc7D7ZvIRAqBq5QA==
+X-Received: by 2002:adf:e307:: with SMTP id b7mr3464171wrj.339.1643996868404; 
+ Fri, 04 Feb 2022 09:47:48 -0800 (PST)
 Received: from localhost.localdomain ([122.167.157.188])
- by smtp.gmail.com with ESMTPSA id f13sm11381876wmq.29.2022.02.04.09.47.37
+ by smtp.gmail.com with ESMTPSA id f13sm11381876wmq.29.2022.02.04.09.47.43
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 04 Feb 2022 09:47:42 -0800 (PST)
+ Fri, 04 Feb 2022 09:47:47 -0800 (PST)
 From: Anup Patel <anup@brainfault.org>
 To: Peter Maydell <peter.maydell@linaro.org>,
  Palmer Dabbelt <palmer@dabbelt.com>,
  Alistair Francis <Alistair.Francis@wdc.com>,
  Sagar Karandikar <sagark@eecs.berkeley.edu>
-Subject: [PATCH v9 06/23] target/riscv: Add AIA cpu feature
-Date: Fri,  4 Feb 2022 23:16:42 +0530
-Message-Id: <20220204174700.534953-7-anup@brainfault.org>
+Subject: [PATCH v9 07/23] target/riscv: Add defines for AIA CSRs
+Date: Fri,  4 Feb 2022 23:16:43 +0530
+Message-Id: <20220204174700.534953-8-anup@brainfault.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220204174700.534953-1-anup@brainfault.org>
 References: <20220204174700.534953-1-anup@brainfault.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::429
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::435
  (failed)
-Received-SPF: none client-ip=2a00:1450:4864:20::429;
- envelope-from=anup@brainfault.org; helo=mail-wr1-x429.google.com
+Received-SPF: none client-ip=2a00:1450:4864:20::435;
+ envelope-from=anup@brainfault.org; helo=mail-wr1-x435.google.com
 X-Spam_score_int: -10
 X-Spam_score: -1.1
 X-Spam_bar: -
@@ -98,33 +98,166 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Anup Patel <anup.patel@wdc.com>
 
-We define a CPU feature for AIA CSR support in RISC-V CPUs which
-can be set by machine/device emulation. The RISC-V CSR emulation
-will also check this feature for emulating AIA CSRs.
+The RISC-V AIA specification extends RISC-V local interrupts and
+introduces new CSRs. This patch adds defines for the new AIA CSRs.
 
 Signed-off-by: Anup Patel <anup.patel@wdc.com>
 Signed-off-by: Anup Patel <anup@brainfault.org>
-Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 Reviewed-by: Frank Chang <frank.chang@sifive.com>
 ---
- target/riscv/cpu.h | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ target/riscv/cpu_bits.h | 119 ++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 119 insertions(+)
 
-diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-index 283a3cda4b..8838c61ae4 100644
---- a/target/riscv/cpu.h
-+++ b/target/riscv/cpu.h
-@@ -78,7 +78,8 @@ enum {
-     RISCV_FEATURE_MMU,
-     RISCV_FEATURE_PMP,
-     RISCV_FEATURE_EPMP,
--    RISCV_FEATURE_MISA
-+    RISCV_FEATURE_MISA,
-+    RISCV_FEATURE_AIA
- };
+diff --git a/target/riscv/cpu_bits.h b/target/riscv/cpu_bits.h
+index a541705760..068c4d8034 100644
+--- a/target/riscv/cpu_bits.h
++++ b/target/riscv/cpu_bits.h
+@@ -168,6 +168,31 @@
+ #define CSR_MTVAL           0x343
+ #define CSR_MIP             0x344
  
- #define PRIV_VERSION_1_10_0 0x00011000
++/* Machine-Level Window to Indirectly Accessed Registers (AIA) */
++#define CSR_MISELECT        0x350
++#define CSR_MIREG           0x351
++
++/* Machine-Level Interrupts (AIA) */
++#define CSR_MTOPI           0xfb0
++
++/* Machine-Level IMSIC Interface (AIA) */
++#define CSR_MSETEIPNUM      0x358
++#define CSR_MCLREIPNUM      0x359
++#define CSR_MSETEIENUM      0x35a
++#define CSR_MCLREIENUM      0x35b
++#define CSR_MTOPEI          0x35c
++
++/* Virtual Interrupts for Supervisor Level (AIA) */
++#define CSR_MVIEN           0x308
++#define CSR_MVIP            0x309
++
++/* Machine-Level High-Half CSRs (AIA) */
++#define CSR_MIDELEGH        0x313
++#define CSR_MIEH            0x314
++#define CSR_MVIENH          0x318
++#define CSR_MVIPH           0x319
++#define CSR_MIPH            0x354
++
+ /* Supervisor Trap Setup */
+ #define CSR_SSTATUS         0x100
+ #define CSR_SEDELEG         0x102
+@@ -187,6 +212,24 @@
+ #define CSR_SPTBR           0x180
+ #define CSR_SATP            0x180
+ 
++/* Supervisor-Level Window to Indirectly Accessed Registers (AIA) */
++#define CSR_SISELECT        0x150
++#define CSR_SIREG           0x151
++
++/* Supervisor-Level Interrupts (AIA) */
++#define CSR_STOPI           0xdb0
++
++/* Supervisor-Level IMSIC Interface (AIA) */
++#define CSR_SSETEIPNUM      0x158
++#define CSR_SCLREIPNUM      0x159
++#define CSR_SSETEIENUM      0x15a
++#define CSR_SCLREIENUM      0x15b
++#define CSR_STOPEI          0x15c
++
++/* Supervisor-Level High-Half CSRs (AIA) */
++#define CSR_SIEH            0x114
++#define CSR_SIPH            0x154
++
+ /* Hpervisor CSRs */
+ #define CSR_HSTATUS         0x600
+ #define CSR_HEDELEG         0x602
+@@ -217,6 +260,35 @@
+ #define CSR_MTINST          0x34a
+ #define CSR_MTVAL2          0x34b
+ 
++/* Virtual Interrupts and Interrupt Priorities (H-extension with AIA) */
++#define CSR_HVIEN           0x608
++#define CSR_HVICTL          0x609
++#define CSR_HVIPRIO1        0x646
++#define CSR_HVIPRIO2        0x647
++
++/* VS-Level Window to Indirectly Accessed Registers (H-extension with AIA) */
++#define CSR_VSISELECT       0x250
++#define CSR_VSIREG          0x251
++
++/* VS-Level Interrupts (H-extension with AIA) */
++#define CSR_VSTOPI          0xeb0
++
++/* VS-Level IMSIC Interface (H-extension with AIA) */
++#define CSR_VSSETEIPNUM     0x258
++#define CSR_VSCLREIPNUM     0x259
++#define CSR_VSSETEIENUM     0x25a
++#define CSR_VSCLREIENUM     0x25b
++#define CSR_VSTOPEI         0x25c
++
++/* Hypervisor and VS-Level High-Half CSRs (H-extension with AIA) */
++#define CSR_HIDELEGH        0x613
++#define CSR_HVIENH          0x618
++#define CSR_HVIPH           0x655
++#define CSR_HVIPRIO1H       0x656
++#define CSR_HVIPRIO2H       0x657
++#define CSR_VSIEH           0x214
++#define CSR_VSIPH           0x254
++
+ /* Enhanced Physical Memory Protection (ePMP) */
+ #define CSR_MSECCFG         0x747
+ #define CSR_MSECCFGH        0x757
+@@ -635,4 +707,51 @@ typedef enum RISCVException {
+ #define UMTE_U_PM_INSN      U_PM_INSN
+ #define UMTE_MASK     (UMTE_U_PM_ENABLE | MMTE_U_PM_CURRENT | UMTE_U_PM_INSN)
+ 
++/* MISELECT, SISELECT, and VSISELECT bits (AIA) */
++#define ISELECT_IPRIO0                     0x30
++#define ISELECT_IPRIO15                    0x3f
++#define ISELECT_IMSIC_EIDELIVERY           0x70
++#define ISELECT_IMSIC_EITHRESHOLD          0x72
++#define ISELECT_IMSIC_EIP0                 0x80
++#define ISELECT_IMSIC_EIP63                0xbf
++#define ISELECT_IMSIC_EIE0                 0xc0
++#define ISELECT_IMSIC_EIE63                0xff
++#define ISELECT_IMSIC_FIRST                ISELECT_IMSIC_EIDELIVERY
++#define ISELECT_IMSIC_LAST                 ISELECT_IMSIC_EIE63
++#define ISELECT_MASK                       0x1ff
++
++/* Dummy [M|S|VS]ISELECT value for emulating [M|S|VS]TOPEI CSRs */
++#define ISELECT_IMSIC_TOPEI                (ISELECT_MASK + 1)
++
++/* IMSIC bits (AIA) */
++#define IMSIC_TOPEI_IID_SHIFT              16
++#define IMSIC_TOPEI_IID_MASK               0x7ff
++#define IMSIC_TOPEI_IPRIO_MASK             0x7ff
++#define IMSIC_EIPx_BITS                    32
++#define IMSIC_EIEx_BITS                    32
++
++/* MTOPI and STOPI bits (AIA) */
++#define TOPI_IID_SHIFT                     16
++#define TOPI_IID_MASK                      0xfff
++#define TOPI_IPRIO_MASK                    0xff
++
++/* Interrupt priority bits (AIA) */
++#define IPRIO_IRQ_BITS                     8
++#define IPRIO_MMAXIPRIO                    255
++#define IPRIO_DEFAULT_UPPER                4
++#define IPRIO_DEFAULT_MIDDLE               (IPRIO_DEFAULT_UPPER + 24)
++#define IPRIO_DEFAULT_M                    IPRIO_DEFAULT_MIDDLE
++#define IPRIO_DEFAULT_S                    (IPRIO_DEFAULT_M + 3)
++#define IPRIO_DEFAULT_SGEXT                (IPRIO_DEFAULT_S + 3)
++#define IPRIO_DEFAULT_VS                   (IPRIO_DEFAULT_SGEXT + 1)
++#define IPRIO_DEFAULT_LOWER                (IPRIO_DEFAULT_VS + 3)
++
++/* HVICTL bits (AIA) */
++#define HVICTL_VTI                         0x40000000
++#define HVICTL_IID                         0x0fff0000
++#define HVICTL_IPRIOM                      0x00000100
++#define HVICTL_IPRIO                       0x000000ff
++#define HVICTL_VALID_MASK                  \
++    (HVICTL_VTI | HVICTL_IID | HVICTL_IPRIOM | HVICTL_IPRIO)
++
+ #endif
 -- 
 2.25.1
 
