@@ -2,85 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C474F4A92ED
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Feb 2022 05:09:39 +0100 (CET)
-Received: from localhost ([::1]:38454 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A3164A9337
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Feb 2022 06:08:37 +0100 (CET)
+Received: from localhost ([::1]:48752 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nFpuk-0004JW-C0
-	for lists+qemu-devel@lfdr.de; Thu, 03 Feb 2022 23:09:38 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:41726)
+	id 1nFqpn-0005m8-MF
+	for lists+qemu-devel@lfdr.de; Fri, 04 Feb 2022 00:08:35 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:48044)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nFpsc-0003cD-3b
- for qemu-devel@nongnu.org; Thu, 03 Feb 2022 23:07:26 -0500
-Received: from [2607:f8b0:4864:20::1031] (port=52024
- helo=mail-pj1-x1031.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nFpsZ-0005tX-6M
- for qemu-devel@nongnu.org; Thu, 03 Feb 2022 23:07:25 -0500
-Received: by mail-pj1-x1031.google.com with SMTP id q63so4357863pja.1
- for <qemu-devel@nongnu.org>; Thu, 03 Feb 2022 20:07:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=NtXdSiO1A3BVUJVcVPqTcogj1meFE0v+0t5zpQ5nrJw=;
- b=RIP5h19ihQ+XO/bV8214S7E+RkNQd1ULNXNZaqJRF3DrHwxL/htHJGNLufUNzhHmEN
- cT0a4LTTbLogbMjEQMjNba4FMbOsy1KqBh61aXg89hyZuvzqBI/x/FEa2J7lWLIwbU8l
- 1oj1jzzDH+4NMRhdlsvRckSOGxQlKgAEDChyL/Z/6GgEmtFn6FkS2O72LGYKCPbwBs7B
- LKXxEiQoTNk1rgPLBb0ZmSMYBTdP/0U4czzpn/LwfYo6xL6URglks70IOsd1RErt33eB
- lVc03GZJuy8MSLxXrVyzD+kpEWo/ldchof1bpp79Uhu4oi6lu4LMZOXTxBk0nD4eWn9p
- C0qw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=NtXdSiO1A3BVUJVcVPqTcogj1meFE0v+0t5zpQ5nrJw=;
- b=bCay8/G8y+1wOX5w1kifo/ru/eEQNJ6UWCzaLAUaj43ZM1DmMW/4blljNeD1Qe3mXQ
- 9fsRSoxOrmYTWK4KXhvQ0Oq3sli84FaWdgG8akmbS7yRYOy5L08JfYNGplNKxCc4acdq
- Dll0Oi51aKYU5zkCjxcqIqieYPSwjLZRzp0kVvbhqK2/+KO0x1rLI+tqlZoHEs6W8xjK
- SfRi0aqS5IIeh4gFdu2mOyKn1p499QyEFI73F/xn4In6wQ2C3aC+pGK/Y9dKvSQRNpU3
- QTbeAm0B7NnUO3kC4Xy8drHuInzWOlOFewymtwgZGADU3Q1Y0ki2W5km5jQrU6RXb0pT
- DdsQ==
-X-Gm-Message-State: AOAM530SceAKf+C5CLFR8sj9JLb8xXrS8YPdK1x179Wi07eSAPwI1NzK
- IfhZHnCtklCU7IijIPiyNyHkjg==
-X-Google-Smtp-Source: ABdhPJxw0LH5Vjs9tPJWV/Ghmf71yDF/gWzd0oeHp56J5Zlocu2Ogy9fidltOjsnjOvWwduoyVwbtQ==
-X-Received: by 2002:a17:90b:1a92:: with SMTP id
- ng18mr1046873pjb.139.1643947641166; 
- Thu, 03 Feb 2022 20:07:21 -0800 (PST)
-Received: from ?IPV6:2001:8003:3a49:fd00:40f3:c91a:302f:9154?
- ([2001:8003:3a49:fd00:40f3:c91a:302f:9154])
- by smtp.gmail.com with ESMTPSA id s11sm551557pfu.58.2022.02.03.20.07.18
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 03 Feb 2022 20:07:20 -0800 (PST)
-Message-ID: <22d85c0b-5afe-62e4-ff53-59882aa8e0ec@linaro.org>
-Date: Fri, 4 Feb 2022 15:07:16 +1100
+ (Exim 4.90_1) (envelope-from <vt@altlinux.org>)
+ id 1nFqnp-0004Yl-45; Fri, 04 Feb 2022 00:06:33 -0500
+Received: from vmicros1.altlinux.org ([194.107.17.57]:53258)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <vt@altlinux.org>)
+ id 1nFqnm-0000dk-Fx; Fri, 04 Feb 2022 00:06:32 -0500
+Received: from imap.altlinux.org (imap.altlinux.org [194.107.17.38])
+ by vmicros1.altlinux.org (Postfix) with ESMTP id E543B72C905;
+ Fri,  4 Feb 2022 08:06:25 +0300 (MSK)
+Received: from beacon.altlinux.org (unknown [193.43.10.9])
+ by imap.altlinux.org (Postfix) with ESMTPSA id B8F5D4A46F0;
+ Fri,  4 Feb 2022 08:06:25 +0300 (MSK)
+From: Vitaly Chikunov <vt@altlinux.org>
+To: Greg Kurz <groug@kaod.org>, Christian Schoenebeck <qemu_oss@crudebyte.com>,
+ qemu-devel@nongnu.org
+Subject: [PATCH v3] 9pfs: Fix segfault in do_readdir_many caused by struct
+ dirent overread
+Date: Fri,  4 Feb 2022 08:06:09 +0300
+Message-Id: <20220204050609.15510-1-vt@altlinux.org>
+X-Mailer: git-send-email 2.33.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH 03/27] configure, meson: move AVX tests to meson
-Content-Language: en-US
-To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
-References: <20220203173359.292068-1-pbonzini@redhat.com>
- <20220203173359.292068-4-pbonzini@redhat.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220203173359.292068-4-pbonzini@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1031
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1031;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1031.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=194.107.17.57; envelope-from=vt@altlinux.org;
+ helo=vmicros1.altlinux.org
+X-Spam_score_int: -18
+X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,23 +52,109 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: marcandre.lureau@redhat.com
+Cc: Vitaly Chikunov <vt@altlinux.org>, qemu-stable@nongnu.org, ldv@altlinux.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/4/22 04:33, Paolo Bonzini wrote:
-> For consistency with other tests, --enable-avx2 and --enable-avx512f
-> fail to compile on x86 systems if cpuid.h is not available.
-> 
-> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-> ---
->   configure                     | 103 ----------------------------------
->   meson.build                   |  50 ++++++++++++++++-
->   meson_options.txt             |   4 ++
->   scripts/meson-buildoptions.sh |   6 ++
->   4 files changed, 58 insertions(+), 105 deletions(-)
+`struct dirent' returned from readdir(3) could be shorter (or longer)
+than `sizeof(struct dirent)', thus memcpy of sizeof length will overread
+into unallocated page causing SIGSEGV. Example stack trace:
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+ #0  0x00005555559ebeed v9fs_co_readdir_many (/usr/bin/qemu-system-x86_64 + 0x497eed)
+ #1  0x00005555559ec2e9 v9fs_readdir (/usr/bin/qemu-system-x86_64 + 0x4982e9)
+ #2  0x0000555555eb7983 coroutine_trampoline (/usr/bin/qemu-system-x86_64 + 0x963983)
+ #3  0x00007ffff73e0be0 n/a (n/a + 0x0)
 
-r~
+While fixing, provide a helper for any future `struct dirent' cloning.
+
+Resolves: https://gitlab.com/qemu-project/qemu/-/issues/841
+Cc: qemu-stable@nongnu.org
+Co-authored-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
+Signed-off-by: Vitaly Chikunov <vt@altlinux.org>
+---
+Tested on x86-64 Linux again.
+
+Changes from v2:
+- Make it work with a simulated dirent where d_reclen is 0, which was
+  caused abort in readdir qos-test, by using fallback at runtime.
+
+ hw/9pfs/codir.c      |  3 +--
+ include/qemu/osdep.h | 13 +++++++++++++
+ util/osdep.c         | 18 ++++++++++++++++++
+ 3 files changed, 32 insertions(+), 2 deletions(-)
+
+diff --git a/hw/9pfs/codir.c b/hw/9pfs/codir.c
+index 032cce04c4..c0873bde16 100644
+--- a/hw/9pfs/codir.c
++++ b/hw/9pfs/codir.c
+@@ -143,8 +143,7 @@ static int do_readdir_many(V9fsPDU *pdu, V9fsFidState *fidp,
+         } else {
+             e = e->next = g_malloc0(sizeof(V9fsDirEnt));
+         }
+-        e->dent = g_malloc0(sizeof(struct dirent));
+-        memcpy(e->dent, dent, sizeof(struct dirent));
++        e->dent = qemu_dirent_dup(dent);
+ 
+         /* perform a full stat() for directory entry if requested by caller */
+         if (dostat) {
+diff --git a/include/qemu/osdep.h b/include/qemu/osdep.h
+index d1660d67fa..ce12f64853 100644
+--- a/include/qemu/osdep.h
++++ b/include/qemu/osdep.h
+@@ -805,6 +805,19 @@ static inline int platform_does_not_support_system(const char *command)
+ }
+ #endif /* !HAVE_SYSTEM_FUNCTION */
+ 
++/**
++ * Duplicate directory entry @dent.
++ *
++ * It is highly recommended to use this function instead of open coding
++ * duplication of @c dirent objects, because the actual @c struct @c dirent
++ * size may be bigger or shorter than @c sizeof(struct dirent) and correct
++ * handling is platform specific (see gitlab issue #841).
++ *
++ * @dent - original directory entry to be duplicated
++ * @returns duplicated directory entry which should be freed with g_free()
++ */
++struct dirent *qemu_dirent_dup(struct dirent *dent);
++
+ #ifdef __cplusplus
+ }
+ #endif
+diff --git a/util/osdep.c b/util/osdep.c
+index 42a0a4986a..2c80528a61 100644
+--- a/util/osdep.c
++++ b/util/osdep.c
+@@ -33,6 +33,7 @@
+ extern int madvise(char *, size_t, int);
+ #endif
+ 
++#include <dirent.h>
+ #include "qemu-common.h"
+ #include "qemu/cutils.h"
+ #include "qemu/sockets.h"
+@@ -615,3 +616,20 @@ writev(int fd, const struct iovec *iov, int iov_cnt)
+     return readv_writev(fd, iov, iov_cnt, true);
+ }
+ #endif
++
++struct dirent *
++qemu_dirent_dup(struct dirent *dent)
++{
++    size_t sz = 0;
++#if defined _DIRENT_HAVE_D_RECLEN
++    /* Avoid use of strlen() if there's d_reclen. */
++    sz = dent->d_reclen;
++#endif
++    if (sz == 0) {
++        /* Fallback to the most portable way. */
++        sz = offsetof(struct dirent, d_name) +
++                      strlen(dent->d_name) + 1;
++    }
++    struct dirent *dst = g_malloc(sz);
++    return memcpy(dst, dent, sz);
++}
+-- 
+2.33.0
+
 
