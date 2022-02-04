@@ -2,58 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F1864A992C
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Feb 2022 13:20:16 +0100 (CET)
-Received: from localhost ([::1]:33474 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 89FBA4A993F
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Feb 2022 13:26:26 +0100 (CET)
+Received: from localhost ([::1]:41650 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nFxZW-0003d6-6C
-	for lists+qemu-devel@lfdr.de; Fri, 04 Feb 2022 07:20:14 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:39218)
+	id 1nFxfU-0000yx-KB
+	for lists+qemu-devel@lfdr.de; Fri, 04 Feb 2022 07:26:24 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:39460)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1nFxRn-0000hu-Pe; Fri, 04 Feb 2022 07:12:15 -0500
-Received: from kylie.crudebyte.com ([5.189.157.229]:40351)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1nFxRl-000154-Vm; Fri, 04 Feb 2022 07:12:15 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
- MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
- Content-ID:Content-Description;
- bh=5XJF7H95m3k/1l831LRrvakROKBbfOfspmCpz5kcxo0=; b=AEWJYhOvZFcYrw7xxbevR9TQiJ
- SJ7jWzap54dBQBbBJx+CZl81cVNnHoj0QjrmKbrQ4Q8JPs6YRxKMmHGjFeTHFNCYVO6ueL4rvongm
- iO+n4y57iKkkY1DMF0umxNm6hpe1sXcvS6EpB+/jvImoPea0ifZBzdI576GR240XVlCHWrVJW+5I9
- YQAyE54RZSYOoEd6wlsyzAAuFOHJ8EIu8qHcnA0n7u7WBcg/grjsFXoPaoe/P02zoAiNRL8oZJSCe
- KEppzTjMY4a9StMSrMxY5nkpQVVv6JsGQ5IBlJl0L428pRknab7VStBsnBYonRjuFFifJ/fLWJfhw
- G4mWmvaP+ZKdCHtYNiE/US+lJhl1C8uPXhJiCLOQKDT1EFLpFC36LUn+U2n1PizJhjjOgYvxVREed
- 4YUAlmuSksEFpjcfTpatt8m0XHnRWYARhtNhQmXRvyNd4tUoRL2aB2U7jqiB3Lp7aHzUaeqGCUURl
- /w0jWL232ZFAV20vBGEtru5cpSE0aLrNCzDfqHyY9IbJx3NI9QoLX1Q+QcmfVFUefc1O9+qbagZsF
- QSk4T62Z0Uchp/9FLQgdmLFKdMInVSrLBI2StSuonAR5fUDPU3CNqYQ57lgkFwL59KVEUwJQmzEJh
- OsunulO4U9N8zPyXqiiZh6LFql5WElhmIJikDHDKw=;
-From: Christian Schoenebeck <qemu_oss@crudebyte.com>
-To: qemu-devel@nongnu.org
-Cc: "Dmitry V. Levin" <ldv@altlinux.org>, Vitaly Chikunov <vt@altlinux.org>,
- qemu-stable@nongnu.org, Greg Kurz <groug@kaod.org>
-Subject: Re: [PATCH v2] 9pfs: Fix segfault in do_readdir_many caused by struct
- dirent overread
-Date: Fri, 04 Feb 2022 13:12:10 +0100
-Message-ID: <2627488.0S70g7mNYN@silver>
-In-Reply-To: <20220204002237.GD7780@altlinux.org>
-References: <20220128223326.927132-1-vt@altlinux.org>
- <20220204001516.n5ma26x3wxsoixeb@altlinux.org>
- <20220204002237.GD7780@altlinux.org>
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1nFxTg-00014N-Qb; Fri, 04 Feb 2022 07:14:13 -0500
+Received: from [2a00:1450:4864:20::52b] (port=34663
+ helo=mail-ed1-x52b.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1nFxTb-000199-0a; Fri, 04 Feb 2022 07:14:11 -0500
+Received: by mail-ed1-x52b.google.com with SMTP id w20so8772607edc.1;
+ Fri, 04 Feb 2022 04:13:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=GX7yMDbwkU0XQPgA4g2Flly6H3PTU3W5Dy6WwA/4r7s=;
+ b=OC/BTqHsUhkutM0tCBOAvaI3+/xRd8VYpx4jF7yzZQdXK4NbdRnb0yZ0Hl2ST3x6Eq
+ XTX3w1BcBQEgjwgpkoq6ZrOFMACAwXU1hhtikKdPGRq4TL+8xjqqu877G6rq+H2CkjJs
+ NvQvxln5Zq6BH7a8jTKU+RlvU6on4pTuZvF8iF4rwKTCfYu0EqRuO/PfvHxIXhfHulLC
+ iy/Gth17gK3ZmZgQglTk0BFAlSePN5IvbGPxvwN+FCxClVq5JxPD7dQY9P/JOAI3DC1s
+ TTiA37rjwAPxHZZLMq5QIZD1ZVyO/rmgZSBSM0et18ELbI8hTRY6a6B+4mDu3pmj5dnp
+ wDDw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+ :subject:content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=GX7yMDbwkU0XQPgA4g2Flly6H3PTU3W5Dy6WwA/4r7s=;
+ b=u/jhPMR0iZSAPCEjPRH+cYlxxmES4uhhV+khl6rWHVfAptxUnMhBXaUFcN+xvaRXNF
+ wIEt+VR6ou9xM9HKjFc17L+JaThN1t7yURUR+NpBonZQL4OVN+33OClP3zRQF5LSmtzh
+ Io+wvMPds8y+E/tVcWajxlOkrYxyKGAw1WnX3RBqeM7kEd7rh03nLNpNcnfpQf7Ry5wk
+ 9aCR6hOfkb+/tpWxLuyiE98gu88cpC8tEuDu3EbVeBrxH9qJIcOG1FYSMV0J4zEEoUaa
+ KuT3mkOoK+/wceiTJj3AZEErwzysqc1VL91xBchAUvKtPxHEPCT4TZPjJpVpGY31zSWl
+ 1uTw==
+X-Gm-Message-State: AOAM530U0dT/Bu2LD5hwOhRJlU7J0Wnd4dOqcmEpB9BbjFVXUc7Hd8lj
+ Wp4BpGOAk0smJ+cFZHXKekM=
+X-Google-Smtp-Source: ABdhPJxJTbm/eefqq0HpqMc1gxVVcw/8xCQXfBKVZtc04SS0UOp4LC9UqB5OWpNGWk04b0cXMmY49w==
+X-Received: by 2002:a50:d617:: with SMTP id x23mr366786edi.91.1643976815177;
+ Fri, 04 Feb 2022 04:13:35 -0800 (PST)
+Received: from ?IPV6:2001:b07:6468:f312:5e2c:eb9a:a8b6:fd3e?
+ ([2001:b07:6468:f312:5e2c:eb9a:a8b6:fd3e])
+ by smtp.googlemail.com with ESMTPSA id c5sm785255edk.43.2022.02.04.04.13.33
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 04 Feb 2022 04:13:34 -0800 (PST)
+Message-ID: <78359dcd-7edc-8238-47ba-3ac2e9a86757@redhat.com>
+Date: Fri, 4 Feb 2022 13:13:32 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
-Received-SPF: pass client-ip=5.189.157.229;
- envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH 01/12] introduce BDRV_POLL_WHILE_UNLOCKED
+Content-Language: en-US
+To: Emanuele Giuseppe Esposito <eesposit@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>
+References: <20220118162738.1366281-1-eesposit@redhat.com>
+ <20220118162738.1366281-2-eesposit@redhat.com>
+ <YfEnUG2m2AlvJqpE@stefanha-x1.localdomain>
+ <6aa2ea07-2b04-89bb-b170-1319c90d4181@redhat.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+In-Reply-To: <6aa2ea07-2b04-89bb-b170-1319c90d4181@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::52b
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::52b;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x52b.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -66,51 +95,24 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-block@nongnu.org,
+ qemu-devel@nongnu.org, Hanna Reitz <hreitz@redhat.com>,
+ John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Freitag, 4. Februar 2022 01:22:38 CET Dmitry V. Levin wrote:
-> On Fri, Feb 04, 2022 at 03:15:16AM +0300, Vitaly Chikunov wrote:
-> [...]
-> 
-> > Yes but this will cause another abort() call. I am thinking about v3 fix
-> > 
-> > like this:
-> >   struct dirent *
-> >   qemu_dirent_dup(struct dirent *dent)
-> >   {
-> >   
-> >       size_t sz = 0;
-> >   
-> >   #if defined _DIRENT_HAVE_D_RECLEN
-> >   
-> >       /* Avoid use of strlen() if there's d_reclen. */
-> >       sz = dent->d_reclen;
-> >   
-> >   #endif
-> >   
-> >       if (sz == 0) {
-> >       
-> >           /* Fallback to the most portable way. */
-> >           sz = offsetof(struct dirent, d_name) +
-> > 			
-> > 			strlen(dent->d_name) + 1;
-> > 			
-> >       }
-> >       struct dirent *dst = g_malloc(sz);
-> >       return memcpy(dst, dent, sz);
-> >   
-> >   }
-> > 
-> > Thus it will use strlen for simulated dirents and d_reclen for real ones
-> 
-> Makes sense.
+On 2/3/22 14:57, Emanuele Giuseppe Esposito wrote:
+>   * This function avoids taking the AioContext lock unnecessarly, so use
+>   * it only when sure that the lock is not taken already, otherwise it
+>   * might cause deadlocks.
 
-Then maybe consider to leave your reviewed-by tag on today's v3 Dmitry, 
-thanks! :)
+"so use" should be "but use". :)
 
-Best regards,
-Christian Schoenebeck
+Paolo
 
+>   *
+>   * @cond must be thread-safe.
+>   */
 
 
