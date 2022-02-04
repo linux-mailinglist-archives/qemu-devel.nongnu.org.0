@@ -2,74 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C11084A9519
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Feb 2022 09:29:35 +0100 (CET)
-Received: from localhost ([::1]:54162 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B7484A9555
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Feb 2022 09:42:43 +0100 (CET)
+Received: from localhost ([::1]:59862 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nFtyI-0006UQ-A0
-	for lists+qemu-devel@lfdr.de; Fri, 04 Feb 2022 03:29:34 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:39782)
+	id 1nFuAz-0002IG-Hr
+	for lists+qemu-devel@lfdr.de; Fri, 04 Feb 2022 03:42:41 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:39816)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1nFt9J-0008PN-3G; Fri, 04 Feb 2022 02:36:55 -0500
-Received: from [2607:f8b0:4864:20::d29] (port=37878
- helo=mail-io1-xd29.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1nFt9F-0004TZ-LX; Fri, 04 Feb 2022 02:36:52 -0500
-Received: by mail-io1-xd29.google.com with SMTP id n17so6331184iod.4;
- Thu, 03 Feb 2022 23:36:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=LSsJok1WBjpGawp96mw1W0MItezkTwdxqjv9Y6KbXQA=;
- b=fjl1Ef1l23zQJE6JO/y71pjN2C0+AMgPi83QxM3QXzp6XoI7bIqt0SONtIsWkCZlae
- SomTn6NZz6CWwN8U4y2wdm1sarOyeLLVR06A5NDCEIIo0eeQXnGfwM3w13TkMnQVJA6G
- 2YZdF9eO9jm8n6/O+3JGCcavqnZcFO6m8GAWTV2krXxtUpzc1e0TZAKe0kqrluG0MtgX
- s/4tjoDH5mUbCGmSZk6PjsFo9Yf4YiLFdENdpV2WOqv99vyben2YfuChN4obklkspdgL
- Bp4rAL0PGlqBXVLoDIUtE+7rfgtwzJWkhYPM9o083bgbiQYiO/VKWYQuX/Yiifz6lNhZ
- hvcg==
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nFt9j-0008Sn-9n
+ for qemu-devel@nongnu.org; Fri, 04 Feb 2022 02:37:21 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:31803)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nFt9e-0004Ve-VT
+ for qemu-devel@nongnu.org; Fri, 04 Feb 2022 02:37:16 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1643960233;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=UKaukM2NwL5B29048T+GodTeFv+1sZn2X98ezLQaW88=;
+ b=hO/apKXS2u6k92TuuHOevdF0N5KvdZutqYuRf4NGoylR0MSJ/YwkLiI4l3TFgf+cN7bh4r
+ jgj23S/9wbDHUoQR6kc90VepFGNeSE/KyUvlJanTnM9kpU8hkZuTfF975NeqYE6wQygTs9
+ OQMa1SqEw4S5Un9jPCO97AAOMckUt8s=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-107-HIP7JrJGOd20tijmlHftKw-1; Fri, 04 Feb 2022 02:37:12 -0500
+X-MC-Unique: HIP7JrJGOd20tijmlHftKw-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ w7-20020adfbac7000000b001d6f75e4faeso1630155wrg.7
+ for <qemu-devel@nongnu.org>; Thu, 03 Feb 2022 23:37:12 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=LSsJok1WBjpGawp96mw1W0MItezkTwdxqjv9Y6KbXQA=;
- b=s8E822AtKuefXnZB3bwxJArPaUEHU4RlMZQEjRxG9nfFk5jlnQf2roqg3bBWZeN12X
- NJRF8LwQlDoNwgtTiroMSEmPAscCcsEzXlyfehFU58mcpJn1DiPirPMrAuDsYPvJua0Y
- qj6p89s9Atm4DMvPyb7cOgLjzyAL/1DN51FE6CDnKQmVK4pN6GGemdSeLmKfdHuLju0p
- XwIjmMDsFdQq6knKx+9QsMAv/bFTjwOZXEki9Jp4URMUW2RYaZfMBw39hvSL4i+991lO
- SlF6BwQyryqzs/eafzh9kd+GaZvmsj1rtnYDRWePDxhuxlAHr8sbd5Aby+BtIYq1ykpB
- INkw==
-X-Gm-Message-State: AOAM533kmVio2uMFpIpM9+fgR1Gy9aa0jluAccG77JN/Wg2QQk298RsT
- bAAw4tQoCy1ia9QZdmpMgfyE7r7o+QGWg1ROzWQ=
-X-Google-Smtp-Source: ABdhPJxRc5bV8oDw/EPLKv/g1KIHEdqP1IKw5OLPF3XjEQI0q7J2STzosJjs/R/19ulCvHZCqpg2wxX4JVu8h52dPzc=
-X-Received: by 2002:a05:6602:727:: with SMTP id g7mr757686iox.90.1643960207774; 
- Thu, 03 Feb 2022 23:36:47 -0800 (PST)
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=UKaukM2NwL5B29048T+GodTeFv+1sZn2X98ezLQaW88=;
+ b=TUEcoSVBQ41+WzyFvdMKoOVzCVBAEprgRBEDnHF9nyqtm8GhbVwg1tuSRrP0j6bqLd
+ bv3ZSBotQpvmD9r0tAe0bqsrVUiw7KS5UC0mIKjb5p85VA4+lA57qXObR5yZnbRhEu9+
+ cbvs63ArKwQQAJ7mKwrsbfGVldj8kOM4XCZ6yqNnBgkr9RVUfaUxlZ8/jjeAeuM0Hr4F
+ hfgNn+anqcmAljB7aBps7oxPa0P7KjoXiXPev6frrKVvfMdeqtQU04BYUXOJY1phlcwy
+ G4Rgm46ry78gegHqeYcSEp3iI6ssymvw4Ps8hc+qpo+i7S0NYWDuSe7ahrT/GTCKrjCN
+ rKGQ==
+X-Gm-Message-State: AOAM53093frYqpoI3MwMaioY5+aY3JKstN2b1h2YYkUYnRjjyTHf2SfD
+ vUff76JyOKvOdP6hKFxM50oR73Y3C/YuWXBRD1Kh0OaPPEMVhGAR7S49NgF3d5m7Shj7KDupxtI
+ lJOCLeqW8NW9RIZ4=
+X-Received: by 2002:a5d:6f18:: with SMTP id ay24mr1357426wrb.668.1643960231418; 
+ Thu, 03 Feb 2022 23:37:11 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwVss6UWwBci9xgYKeHnCXT17pLMLz5ppqdsfHe4tcxEr/YyFF9WIm8+7IcHnSwRVTLmASC0w==
+X-Received: by 2002:a5d:6f18:: with SMTP id ay24mr1357404wrb.668.1643960231128; 
+ Thu, 03 Feb 2022 23:37:11 -0800 (PST)
+Received: from [192.168.8.100] (tmo-096-196.customers.d1-online.com.
+ [80.187.96.196])
+ by smtp.gmail.com with ESMTPSA id h4sm1351941wre.0.2022.02.03.23.37.10
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 03 Feb 2022 23:37:10 -0800 (PST)
+Message-ID: <f94843c9-c8f0-d78d-5e6e-a289d8bcb6a8@redhat.com>
+Date: Fri, 4 Feb 2022 08:37:08 +0100
 MIME-Version: 1.0
-References: <20220124005958.38848-1-alistair.francis@opensource.wdc.com>
- <bdc7e993-1baa-0ce9-75f9-fc078617ed4f@c-sky.com>
- <9fe41ac9-f0d9-1122-7ec3-3f20e3667826@linaro.org>
- <CAKmqyKNpefaQMZcW1CsKK22wKMRUxbkPjPAOumei+5NCQsLEVQ@mail.gmail.com>
- <2cb994f2-85e1-451f-c83c-a8403135cdc0@linaro.org>
-In-Reply-To: <2cb994f2-85e1-451f-c83c-a8403135cdc0@linaro.org>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Fri, 4 Feb 2022 17:36:21 +1000
-Message-ID: <CAKmqyKMRmjwu_DQvZduYwnBwxp1KsY07wzKVLzdw30PWBBEjZA@mail.gmail.com>
-Subject: Re: [PATCH 0/2] RISC-V: Correctly generate store/amo faults
-To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::d29
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d29;
- envelope-from=alistair23@gmail.com; helo=mail-io1-xd29.google.com
-X-Spam_score_int: -10
-X-Spam_score: -1.1
-X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, PDS_HP_HELO_NORDNS=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH v2 02/21] accel/meson: Only build hw virtualization with
+ system emulation
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org
+References: <20220203191814.45023-1-f4bug@amsat.org>
+ <20220203191814.45023-3-f4bug@amsat.org>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <20220203191814.45023-3-f4bug@amsat.org>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.092,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -82,81 +101,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alistair Francis <alistair.francis@opensource.wdc.com>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>,
- David Hildenbrand <david@redhat.com>, Bin Meng <bin.meng@windriver.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Peter Xu <peterx@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
- Palmer Dabbelt <palmer@dabbelt.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Bin Meng <bmeng.cn@gmail.com>,
- LIU Zhiwei <zhiwei_liu@c-sky.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Feb 2, 2022 at 10:37 AM Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> On 2/1/22 15:40, Alistair Francis wrote:
-> >> Alistair, you're only changing the reporting of MMIO faults for which read permission is
-> >> missing.  Importantly, the actual permission check is done elsewhere, and you aren't
-> >> changing that to perform a write access check.  Also, you very much need to handle normal
-> >
-> > I'm a little confused with this part.
-> >
-> > Looking at tcg_gen_atomic_cmpxchg_i64() for example we either:
-> >   1. call tcg_gen_qemu_ld_i64() then tcg_gen_qemu_st_i64()
-> >   2. call table_cmpxchg[] which eventually calls atomic_mmu_lookup()
-> >   3. call tcg_gen_atomic_cmpxchg_i32() which is pretty much the same as
-> > the above two
-> >
-> > That means in both cases we end up performing a load or tlb_fill(..,
-> > MMU_DATA_LOAD, ..) operation as well as a store operation.
->
-> Yep...
->
-> > So we are already performing a write permission check...
->
-> ... but we're doing so *after* the load.
->
-> Which means that for a completely unmapped page (as opposed to a read-only page) we will
-> generate a read fault, which generates RISCV_EXCP_LOAD_ACCESS_FAULT and *not*
-> RISCV_EXCP_STORE_AMO_ACCESS_FAULT.
->
-> So we need to check for write permission first, before performing the load.
+On 03/02/2022 20.17, Philippe Mathieu-Daudé wrote:
+> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> ---
+>   accel/meson.build | 12 +++++++-----
+>   1 file changed, 7 insertions(+), 5 deletions(-)
+> 
+> diff --git a/accel/meson.build b/accel/meson.build
+> index dfd808d2c8..b9a963cf80 100644
+> --- a/accel/meson.build
+> +++ b/accel/meson.build
+> @@ -2,12 +2,14 @@ specific_ss.add(files('accel-common.c'))
+>   softmmu_ss.add(files('accel-softmmu.c'))
+>   user_ss.add(files('accel-user.c'))
+>   
+> -subdir('hvf')
+> -subdir('qtest')
+> -subdir('kvm')
+>   subdir('tcg')
+> -subdir('xen')
+> -subdir('stubs')
+> +if have_system
+> +  subdir('hvf')
+> +  subdir('qtest')
+> +  subdir('kvm')
+> +  subdir('xen')
+> +  subdir('stubs')
 
-Isn't that what this series does though, albeit for IO accesses only
+Doesn't this render your first patch useless?
 
-Using probe_write() solves part of this problem. If we have RAM at the
-address but no permissions to access it, then probe_write() will
-generate a store/AMO fault. But it won't help if nothing is mapped at
-that address.
+> +endif
+>   
+>   dummy_ss = ss.source_set()
+>   dummy_ss.add(files(
 
-Let's say you are performing an atomic operation at an unmapped
-address 0x00, in M mode (so no MMU). probe_write() will eventually
-call riscv_cpu_tlb_fill() and get_physical_address(). On a system
-without an MMU and no PMP enforcement we get full read/write/execute
-permissions from riscv_cpu_tlb_fill(). So probe_write() succeeds.
+Reviewed-by: Thomas Huth <thuth@redhat.com>
 
->
-> > Can't we just do the check in the slow path? By the time we get to the
-> > fast path shouldn't we already have permissions?
->
-> No, the fast path performs the permissions check on one bit [rwx] depending on which tlb
-> comparator it loads.
-
-If you have permissions then that's fine. I thought we went via the
-slow path if the permission check fails?
-
-Alistair
-
->
-> > As in add a new INDEX_op_qemu_ld_write_perm_i32/i64, make edits to
-> > atomic_mmu_lookup() and all of the plumbing for those?
->
-> That's one possibility, sure.
->
->
-> r~
 
