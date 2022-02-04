@@ -2,81 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A67834A9EF2
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Feb 2022 19:26:12 +0100 (CET)
-Received: from localhost ([::1]:54796 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 40E004A9F0D
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Feb 2022 19:32:08 +0100 (CET)
+Received: from localhost ([::1]:42258 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nG3Hf-000317-PS
-	for lists+qemu-devel@lfdr.de; Fri, 04 Feb 2022 13:26:11 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:40302)
+	id 1nG3NP-0005PC-AI
+	for lists+qemu-devel@lfdr.de; Fri, 04 Feb 2022 13:32:07 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:47696)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <anup@brainfault.org>)
- id 1nG2hp-0006t8-Dv
- for qemu-devel@nongnu.org; Fri, 04 Feb 2022 12:49:09 -0500
-Received: from [2a00:1450:4864:20::436] (port=46918
- helo=mail-wr1-x436.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <anup@brainfault.org>)
- id 1nG2hm-00048G-UJ
- for qemu-devel@nongnu.org; Fri, 04 Feb 2022 12:49:09 -0500
-Received: by mail-wr1-x436.google.com with SMTP id q19so320515wrc.13
- for <qemu-devel@nongnu.org>; Fri, 04 Feb 2022 09:49:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=brainfault-org.20210112.gappssmtp.com; s=20210112;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=DRx0VTeaM/aZh8RqXq+BwZIQJXaXDHU7Rz2B8OTd9D8=;
- b=srtpihVr/njgZ+V8kIQvzg8Aw/QzqtKfC7WvInRaI7CxQ/sVVmu7/sHvWCL0759C9T
- e4lilH18TLy5ZcDPqPfQKnAYsz08lzY0+zIazEvnnpk8sjw2bf28fgjSHnL/TZX8x+YR
- Ej/kNViOYJfXwD1+CYHaEkO8uxiZJMpr+216yJh9hx3v7BrW/AmG+nG/IQXk+huDz5GY
- huRX8vZahN6QxAmTSAdFyEsBB0eNIXGfvXSp07bGPOsVRGUEcQJi5httG9K1xL0Cdp++
- c1RtzMEaQFvvVM30PxrxPBzxI06OPxvO4iXwlwaPGdMiXPBGniMJciaCNs3griQnEf86
- cBZA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=DRx0VTeaM/aZh8RqXq+BwZIQJXaXDHU7Rz2B8OTd9D8=;
- b=ZtbOU6dVu4aSjIB4jXz1EGATemNzn1ftm92DAgOvIV36IvmwUpqXeUjbHd0bO8WOto
- ynVlt00/Ha5+mr3PNbTs1TIEh0+P1K+KfhQib0tZPyBd1dB5qGknQs5I14PgNMOuI3F+
- x2gZwcsc6fvrGoagcLiYDGmCPcNH/BbXFbEyV/mWr3t2qGSFXpOhjcbDsVcvNnbBAV+W
- IZgb31EZksdlYv7IhWhzFdDId88dMCCYijYoe77ekXPLv11csZRxyQQpfL6qA5jIpYhn
- tluSJqQR22pemeXvPLd3f4x2hqqIZrmP+wIujihBAuA+A77Mz2z370/uMomh992fu3dm
- waYA==
-X-Gm-Message-State: AOAM5334poe14E/FI60rGpxLHi2TL52B9WoK+/fSo3MSj8nul6uIbYqZ
- ZkC3JdFYDD+e/dpfy12Ix7lgfQ==
-X-Google-Smtp-Source: ABdhPJz49xDNAlYzrsZr48Z6dDWbFBZFi+9keq+CfWvm/W6oHYhC2Pe24kpgpl0hjUmW5h2NNgLoOw==
-X-Received: by 2002:a5d:5589:: with SMTP id i9mr24405wrv.246.1643996945460;
- Fri, 04 Feb 2022 09:49:05 -0800 (PST)
-Received: from localhost.localdomain ([122.167.157.188])
- by smtp.gmail.com with ESMTPSA id f13sm11381876wmq.29.2022.02.04.09.48.53
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 04 Feb 2022 09:48:57 -0800 (PST)
-From: Anup Patel <anup@brainfault.org>
-To: Peter Maydell <peter.maydell@linaro.org>,
- Palmer Dabbelt <palmer@dabbelt.com>,
- Alistair Francis <Alistair.Francis@wdc.com>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>
-Subject: [PATCH v9 20/23] hw/intc: Add RISC-V AIA IMSIC device emulation
-Date: Fri,  4 Feb 2022 23:16:56 +0530
-Message-Id: <20220204174700.534953-21-anup@brainfault.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220204174700.534953-1-anup@brainfault.org>
-References: <20220204174700.534953-1-anup@brainfault.org>
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1nG3F4-0002QP-Oe
+ for qemu-devel@nongnu.org; Fri, 04 Feb 2022 13:23:30 -0500
+Received: from frasgout.his.huawei.com ([185.176.79.56]:2272)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1nG3F0-00013S-1Z
+ for qemu-devel@nongnu.org; Fri, 04 Feb 2022 13:23:30 -0500
+Received: from fraeml742-chm.china.huawei.com (unknown [172.18.147.201])
+ by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4Jr3mc6q4jz67Zjl;
+ Sat,  5 Feb 2022 02:22:40 +0800 (CST)
+Received: from lhreml710-chm.china.huawei.com (10.201.108.61) by
+ fraeml742-chm.china.huawei.com (10.206.15.223) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.21; Fri, 4 Feb 2022 19:23:17 +0100
+Received: from localhost (10.47.31.86) by lhreml710-chm.china.huawei.com
+ (10.201.108.61) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.21; Fri, 4 Feb
+ 2022 18:23:16 +0000
+Date: Fri, 4 Feb 2022 18:23:11 +0000
+To: "Michael S. Tsirkin" <mst@redhat.com>
+CC: <qemu-devel@nongnu.org>, Alex =?ISO-8859-1?Q?Benn=E9e?=
+ <alex.bennee@linaro.org>, Marcel Apfelbaum <marcel@redhat.com>, "Igor
+ Mammedov" <imammedo@redhat.com>, <linux-cxl@vger.kernel.org>, Ben Widawsky
+ <ben.widawsky@intel.com>, Peter Maydell <peter.maydell@linaro.org>,
+ <linuxarm@huawei.com>, Shameerali Kolothum Thodi
+ <shameerali.kolothum.thodi@huawei.com>, Philippe =?ISO-8859-1?Q?Mathieu-D?=
+ =?ISO-8859-1?Q?aud=E9?= <f4bug@amsat.org>, Saransh Gupta1 <saransh@ibm.com>,
+ Shreyas Shah <shreyas.shah@elastics.cloud>, Chris Browy
+ <cbrowy@avery-design.com>, Samarth Saxena <samarths@cadence.com>, "Dan
+ Williams" <dan.j.williams@intel.com>
+Subject: Re: [PATCH v5 00/43] CXl 2.0 emulation Support
+Message-ID: <20220204182311.00005fca@Huawei.com>
+In-Reply-To: <20220204092633-mutt-send-email-mst@kernel.org>
+References: <20220202141037.17352-1-Jonathan.Cameron@huawei.com>
+ <20220204090141-mutt-send-email-mst@kernel.org>
+ <20220204092633-mutt-send-email-mst@kernel.org>
+Organization: Huawei Technologies Research and Development (UK) Ltd.
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.29; i686-w64-mingw32)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::436
- (failed)
-Received-SPF: none client-ip=2a00:1450:4864:20::436;
- envelope-from=anup@brainfault.org; helo=mail-wr1-x436.google.com
-X-Spam_score_int: -10
-X-Spam_score: -1.1
-X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_NONE=0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+Content-Type: text/plain; charset="ISO-8859-1"
+Content-Transfer-Encoding: quoted-printable
+X-Originating-IP: [10.47.31.86]
+X-ClientProxiedBy: lhreml724-chm.china.huawei.com (10.201.108.75) To
+ lhreml710-chm.china.huawei.com (10.201.108.61)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=185.176.79.56;
+ envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -89,590 +77,535 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-riscv@nongnu.org, Frank Chang <frank.chang@sifive.com>,
- Anup Patel <anup@brainfault.org>, qemu-devel@nongnu.org,
- Atish Patra <atishp@atishpatra.org>, Bin Meng <bmeng.cn@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  Jonathan Cameron <Jonathan.Cameron@Huawei.com>
+From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 
-From: Anup Patel <anup.patel@wdc.com>
+On Fri, 4 Feb 2022 09:27:08 -0500
+"Michael S. Tsirkin" <mst@redhat.com> wrote:
 
-The RISC-V AIA (Advanced Interrupt Architecture) defines a new
-interrupt controller for MSIs (message signal interrupts) called
-IMSIC (Incoming Message Signal Interrupt Controller). The IMSIC
-is per-HART device and also suppport virtualizaiton of MSIs using
-dedicated VS-level guest interrupt files.
+> On Fri, Feb 04, 2022 at 09:03:27AM -0500, Michael S. Tsirkin wrote:
+> > On Wed, Feb 02, 2022 at 02:09:54PM +0000, Jonathan Cameron wrote: =20
+> > > Changes since v4:
+> > > https://lore.kernel.org/linux-cxl/20220124171705.10432-1-Jonathan.Cam=
+eron@huawei.com/
+> > >=20
+> > > Note documentation patch that Alex requested to follow.
+> > > I don't want to delay getting this out as Alex mentioned possibly
+> > > having time to continue reviewing in latter part of this week.
+> > >=20
+> > > Issues identified by CI / Alex Benn=E9e
+> > > - Stubs added for hw/cxl/cxl-host and hw/acpi/cxl plus related meson
+> > >   changes to use them as necessary.
+> > > - Drop uid from cxl-test (result of last minute change in v4 that was=
+ not
+> > >   carried through to the test)
+> > > - Fix naming clash with field name ERROR which on some arches is defi=
+ned
+> > >   and results in the string being replaced with 0 in some of the
+> > >   register field related defines.  Call it ERR instead.
+> > > - Fix type issue around mr->size by using 64 bit acessor functions.
+> > > - Add a new patch to exclude pxb-cxl from device-crash-test in similar
+> > >   fashion to pxb.
+> > >=20
+> > > CI tests now passing with exception of checkpatch which has what
+> > > I think is a false positive and build-oss-fuzz which keeps timing out.
+> > > https://gitlab.com/jic23/qemu/-/pipelines/460109208
+> > > There were a few tweaks to patch descriptions after I pushed that
+> > > out (I missed a few RB from Alex). =20
+> >=20
+> > There's an RFC patch that needs review from core memory maintainers,
+> > so I guess not all of it is for merge just yet?
 
-This patch adds device emulation for RISC-V AIA IMSIC which
-supports M-level, S-level, and VS-level MSIs.
+Yes, that patch definitely needs some input.  It 'works' but feels
+like a bit of a hack and raises questions around that is what else
+I might be breaking or whether the approach is maintainable long
+term.
 
-Signed-off-by: Anup Patel <anup.patel@wdc.com>
-Signed-off-by: Anup Patel <anup@brainfault.org>
-Reviewed-by: Frank Chang <frank.chang@sifive.com>
----
- hw/intc/Kconfig               |   3 +
- hw/intc/meson.build           |   1 +
- hw/intc/riscv_imsic.c         | 448 ++++++++++++++++++++++++++++++++++
- include/hw/intc/riscv_imsic.h |  68 ++++++
- 4 files changed, 520 insertions(+)
- create mode 100644 hw/intc/riscv_imsic.c
- create mode 100644 include/hw/intc/riscv_imsic.h
+> > Is there any way we can start applying this patchset gradually? =20
+>=20
+> For example, pick up patches 1-13 for now? They seem to be ready ...
 
-diff --git a/hw/intc/Kconfig b/hw/intc/Kconfig
-index 528e77b4a6..ec8d4cec29 100644
---- a/hw/intc/Kconfig
-+++ b/hw/intc/Kconfig
-@@ -73,6 +73,9 @@ config RISCV_ACLINT
- config RISCV_APLIC
-     bool
- 
-+config RISCV_IMSIC
-+    bool
-+
- config SIFIVE_PLIC
-     bool
- 
-diff --git a/hw/intc/meson.build b/hw/intc/meson.build
-index 7466024402..5caa337654 100644
---- a/hw/intc/meson.build
-+++ b/hw/intc/meson.build
-@@ -51,6 +51,7 @@ specific_ss.add(when: 'CONFIG_S390_FLIC_KVM', if_true: files('s390_flic_kvm.c'))
- specific_ss.add(when: 'CONFIG_SH_INTC', if_true: files('sh_intc.c'))
- specific_ss.add(when: 'CONFIG_RISCV_ACLINT', if_true: files('riscv_aclint.c'))
- specific_ss.add(when: 'CONFIG_RISCV_APLIC', if_true: files('riscv_aplic.c'))
-+specific_ss.add(when: 'CONFIG_RISCV_IMSIC', if_true: files('riscv_imsic.c'))
- specific_ss.add(when: 'CONFIG_SIFIVE_PLIC', if_true: files('sifive_plic.c'))
- specific_ss.add(when: 'CONFIG_XICS', if_true: files('xics.c'))
- specific_ss.add(when: ['CONFIG_KVM', 'CONFIG_XICS'],
-diff --git a/hw/intc/riscv_imsic.c b/hw/intc/riscv_imsic.c
-new file mode 100644
-index 0000000000..8615e4cc1d
---- /dev/null
-+++ b/hw/intc/riscv_imsic.c
-@@ -0,0 +1,448 @@
-+/*
-+ * RISC-V IMSIC (Incoming Message Signaled Interrupt Controller)
-+ *
-+ * Copyright (c) 2021 Western Digital Corporation or its affiliates.
-+ *
-+ * This program is free software; you can redistribute it and/or modify it
-+ * under the terms and conditions of the GNU General Public License,
-+ * version 2 or later, as published by the Free Software Foundation.
-+ *
-+ * This program is distributed in the hope it will be useful, but WITHOUT
-+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
-+ * more details.
-+ *
-+ * You should have received a copy of the GNU General Public License along with
-+ * this program.  If not, see <http://www.gnu.org/licenses/>.
-+ */
-+
-+#include "qemu/osdep.h"
-+#include "qapi/error.h"
-+#include "qemu/log.h"
-+#include "qemu/module.h"
-+#include "qemu/error-report.h"
-+#include "qemu/bswap.h"
-+#include "exec/address-spaces.h"
-+#include "hw/sysbus.h"
-+#include "hw/pci/msi.h"
-+#include "hw/boards.h"
-+#include "hw/qdev-properties.h"
-+#include "hw/intc/riscv_imsic.h"
-+#include "hw/irq.h"
-+#include "target/riscv/cpu.h"
-+#include "target/riscv/cpu_bits.h"
-+#include "sysemu/sysemu.h"
-+#include "migration/vmstate.h"
-+
-+#define IMSIC_MMIO_PAGE_LE             0x00
-+#define IMSIC_MMIO_PAGE_BE             0x04
-+
-+#define IMSIC_MIN_ID                   ((IMSIC_EIPx_BITS * 2) - 1)
-+#define IMSIC_MAX_ID                   (IMSIC_TOPEI_IID_MASK)
-+
-+#define IMSIC_EISTATE_PENDING          (1U << 0)
-+#define IMSIC_EISTATE_ENABLED          (1U << 1)
-+#define IMSIC_EISTATE_ENPEND           (IMSIC_EISTATE_ENABLED | \
-+                                        IMSIC_EISTATE_PENDING)
-+
-+static uint32_t riscv_imsic_topei(RISCVIMSICState *imsic, uint32_t page)
-+{
-+    uint32_t i, max_irq, base;
-+
-+    base = page * imsic->num_irqs;
-+    max_irq = (imsic->eithreshold[page] &&
-+               (imsic->eithreshold[page] <= imsic->num_irqs)) ?
-+               imsic->eithreshold[page] : imsic->num_irqs;
-+    for (i = 1; i < max_irq; i++) {
-+        if ((imsic->eistate[base + i] & IMSIC_EISTATE_ENPEND) ==
-+                IMSIC_EISTATE_ENPEND) {
-+            return (i << IMSIC_TOPEI_IID_SHIFT) | i;
-+        }
-+    }
-+
-+    return 0;
-+}
-+
-+static void riscv_imsic_update(RISCVIMSICState *imsic, uint32_t page)
-+{
-+    if (imsic->eidelivery[page] && riscv_imsic_topei(imsic, page)) {
-+        qemu_irq_raise(imsic->external_irqs[page]);
-+    } else {
-+        qemu_irq_lower(imsic->external_irqs[page]);
-+    }
-+}
-+
-+static int riscv_imsic_eidelivery_rmw(RISCVIMSICState *imsic, uint32_t page,
-+                                      target_ulong *val,
-+                                      target_ulong new_val,
-+                                      target_ulong wr_mask)
-+{
-+    target_ulong old_val = imsic->eidelivery[page];
-+
-+    if (val) {
-+        *val = old_val;
-+    }
-+
-+    wr_mask &= 0x1;
-+    imsic->eidelivery[page] = (old_val & ~wr_mask) | (new_val & wr_mask);
-+
-+    riscv_imsic_update(imsic, page);
-+    return 0;
-+}
-+
-+static int riscv_imsic_eithreshold_rmw(RISCVIMSICState *imsic, uint32_t page,
-+                                      target_ulong *val,
-+                                      target_ulong new_val,
-+                                      target_ulong wr_mask)
-+{
-+    target_ulong old_val = imsic->eithreshold[page];
-+
-+    if (val) {
-+        *val = old_val;
-+    }
-+
-+    wr_mask &= IMSIC_MAX_ID;
-+    imsic->eithreshold[page] = (old_val & ~wr_mask) | (new_val & wr_mask);
-+
-+    riscv_imsic_update(imsic, page);
-+    return 0;
-+}
-+
-+static int riscv_imsic_topei_rmw(RISCVIMSICState *imsic, uint32_t page,
-+                                 target_ulong *val, target_ulong new_val,
-+                                 target_ulong wr_mask)
-+{
-+    uint32_t base, topei = riscv_imsic_topei(imsic, page);
-+
-+    /* Read pending and enabled interrupt with highest priority */
-+    if (val) {
-+        *val = topei;
-+    }
-+
-+    /* Writes ignore value and clear top pending interrupt */
-+    if (topei && wr_mask) {
-+        topei >>= IMSIC_TOPEI_IID_SHIFT;
-+        base = page * imsic->num_irqs;
-+        if (topei) {
-+            imsic->eistate[base + topei] &= ~IMSIC_EISTATE_PENDING;
-+        }
-+
-+        riscv_imsic_update(imsic, page);
-+    }
-+
-+    return 0;
-+}
-+
-+static int riscv_imsic_eix_rmw(RISCVIMSICState *imsic,
-+                               uint32_t xlen, uint32_t page,
-+                               uint32_t num, bool pend, target_ulong *val,
-+                               target_ulong new_val, target_ulong wr_mask)
-+{
-+    uint32_t i, base;
-+    target_ulong mask;
-+    uint32_t state = (pend) ? IMSIC_EISTATE_PENDING : IMSIC_EISTATE_ENABLED;
-+
-+    if (xlen != 32) {
-+        if (num & 0x1) {
-+            return -EINVAL;
-+        }
-+        num >>= 1;
-+    }
-+    if (num >= (imsic->num_irqs / xlen)) {
-+        return -EINVAL;
-+    }
-+
-+    base = (page * imsic->num_irqs) + (num * xlen);
-+
-+    if (val) {
-+        *val = 0;
-+        for (i = 0; i < xlen; i++) {
-+            mask = (target_ulong)1 << i;
-+            *val |= (imsic->eistate[base + i] & state) ? mask : 0;
-+        }
-+    }
-+
-+    for (i = 0; i < xlen; i++) {
-+        /* Bit0 of eip0 and eie0 are read-only zero */
-+        if (!num && !i) {
-+            continue;
-+        }
-+
-+        mask = (target_ulong)1 << i;
-+        if (wr_mask & mask) {
-+            if (new_val & mask) {
-+                imsic->eistate[base + i] |= state;
-+            } else {
-+                imsic->eistate[base + i] &= ~state;
-+            }
-+        }
-+    }
-+
-+    riscv_imsic_update(imsic, page);
-+    return 0;
-+}
-+
-+static int riscv_imsic_rmw(void *arg, target_ulong reg, target_ulong *val,
-+                           target_ulong new_val, target_ulong wr_mask)
-+{
-+    RISCVIMSICState *imsic = arg;
-+    uint32_t isel, priv, virt, vgein, xlen, page;
-+
-+    priv = AIA_IREG_PRIV(reg);
-+    virt = AIA_IREG_VIRT(reg);
-+    isel = AIA_IREG_ISEL(reg);
-+    vgein = AIA_IREG_VGEIN(reg);
-+    xlen = AIA_IREG_XLEN(reg);
-+
-+    if (imsic->mmode) {
-+        if (priv == PRV_M && !virt) {
-+            page = 0;
-+        } else {
-+            goto err;
-+        }
-+    } else {
-+        if (priv == PRV_S) {
-+            if (virt) {
-+                if (vgein && vgein < imsic->num_pages) {
-+                    page = vgein;
-+                } else {
-+                    goto err;
-+                }
-+            } else {
-+                page = 0;
-+            }
-+        } else {
-+            goto err;
-+        }
-+    }
-+
-+    switch (isel) {
-+    case ISELECT_IMSIC_EIDELIVERY:
-+        return riscv_imsic_eidelivery_rmw(imsic, page, val,
-+                                          new_val, wr_mask);
-+    case ISELECT_IMSIC_EITHRESHOLD:
-+        return riscv_imsic_eithreshold_rmw(imsic, page, val,
-+                                           new_val, wr_mask);
-+    case ISELECT_IMSIC_TOPEI:
-+        return riscv_imsic_topei_rmw(imsic, page, val, new_val, wr_mask);
-+    case ISELECT_IMSIC_EIP0 ... ISELECT_IMSIC_EIP63:
-+        return riscv_imsic_eix_rmw(imsic, xlen, page,
-+                                   isel - ISELECT_IMSIC_EIP0,
-+                                   true, val, new_val, wr_mask);
-+    case ISELECT_IMSIC_EIE0 ... ISELECT_IMSIC_EIE63:
-+        return riscv_imsic_eix_rmw(imsic, xlen, page,
-+                                   isel - ISELECT_IMSIC_EIE0,
-+                                   false, val, new_val, wr_mask);
-+    default:
-+        break;
-+    };
-+
-+err:
-+    qemu_log_mask(LOG_GUEST_ERROR,
-+                  "%s: Invalid register priv=%d virt=%d isel=%d vgein=%d\n",
-+                  __func__, priv, virt, isel, vgein);
-+    return -EINVAL;
-+}
-+
-+static uint64_t riscv_imsic_read(void *opaque, hwaddr addr, unsigned size)
-+{
-+    RISCVIMSICState *imsic = opaque;
-+
-+    /* Reads must be 4 byte words */
-+    if ((addr & 0x3) != 0) {
-+        goto err;
-+    }
-+
-+    /* Reads cannot be out of range */
-+    if (addr > IMSIC_MMIO_SIZE(imsic->num_pages)) {
-+        goto err;
-+    }
-+
-+    return 0;
-+
-+err:
-+    qemu_log_mask(LOG_GUEST_ERROR,
-+                  "%s: Invalid register read 0x%" HWADDR_PRIx "\n",
-+                  __func__, addr);
-+    return 0;
-+}
-+
-+static void riscv_imsic_write(void *opaque, hwaddr addr, uint64_t value,
-+        unsigned size)
-+{
-+    RISCVIMSICState *imsic = opaque;
-+    uint32_t page;
-+
-+    /* Writes must be 4 byte words */
-+    if ((addr & 0x3) != 0) {
-+        goto err;
-+    }
-+
-+    /* Writes cannot be out of range */
-+    if (addr > IMSIC_MMIO_SIZE(imsic->num_pages)) {
-+        goto err;
-+    }
-+
-+    /* Writes only supported for MSI little-endian registers */
-+    page = addr >> IMSIC_MMIO_PAGE_SHIFT;
-+    if ((addr & (IMSIC_MMIO_PAGE_SZ - 1)) == IMSIC_MMIO_PAGE_LE) {
-+        if (value && (value < imsic->num_irqs)) {
-+            imsic->eistate[(page * imsic->num_irqs) + value] |=
-+                                                    IMSIC_EISTATE_PENDING;
-+        }
-+    }
-+
-+    /* Update CPU external interrupt status */
-+    riscv_imsic_update(imsic, page);
-+
-+    return;
-+
-+err:
-+    qemu_log_mask(LOG_GUEST_ERROR,
-+                  "%s: Invalid register write 0x%" HWADDR_PRIx "\n",
-+                  __func__, addr);
-+}
-+
-+static const MemoryRegionOps riscv_imsic_ops = {
-+    .read = riscv_imsic_read,
-+    .write = riscv_imsic_write,
-+    .endianness = DEVICE_LITTLE_ENDIAN,
-+    .valid = {
-+        .min_access_size = 4,
-+        .max_access_size = 4
-+    }
-+};
-+
-+static void riscv_imsic_realize(DeviceState *dev, Error **errp)
-+{
-+    RISCVIMSICState *imsic = RISCV_IMSIC(dev);
-+    RISCVCPU *rcpu = RISCV_CPU(qemu_get_cpu(imsic->hartid));
-+    CPUState *cpu = qemu_get_cpu(imsic->hartid);
-+    CPURISCVState *env = cpu ? cpu->env_ptr : NULL;
-+
-+    imsic->num_eistate = imsic->num_pages * imsic->num_irqs;
-+    imsic->eidelivery = g_new0(uint32_t, imsic->num_pages);
-+    imsic->eithreshold = g_new0(uint32_t, imsic->num_pages);
-+    imsic->eistate = g_new0(uint32_t, imsic->num_eistate);
-+
-+    memory_region_init_io(&imsic->mmio, OBJECT(dev), &riscv_imsic_ops,
-+                          imsic, TYPE_RISCV_IMSIC,
-+                          IMSIC_MMIO_SIZE(imsic->num_pages));
-+    sysbus_init_mmio(SYS_BUS_DEVICE(dev), &imsic->mmio);
-+
-+    /* Claim the CPU interrupt to be triggered by this IMSIC */
-+    if (riscv_cpu_claim_interrupts(rcpu,
-+            (imsic->mmode) ? MIP_MEIP : MIP_SEIP) < 0) {
-+        error_setg(errp, "%s already claimed",
-+                   (imsic->mmode) ? "MEIP" : "SEIP");
-+        return;
-+    }
-+
-+    /* Create output IRQ lines */
-+    imsic->external_irqs = g_malloc(sizeof(qemu_irq) * imsic->num_pages);
-+    qdev_init_gpio_out(dev, imsic->external_irqs, imsic->num_pages);
-+
-+    /* Force select AIA feature and setup CSR read-modify-write callback */
-+    if (env) {
-+        riscv_set_feature(env, RISCV_FEATURE_AIA);
-+        if (!imsic->mmode) {
-+            riscv_cpu_set_geilen(env, imsic->num_pages - 1);
-+        }
-+        riscv_cpu_set_aia_ireg_rmw_fn(env, (imsic->mmode) ? PRV_M : PRV_S,
-+                                      riscv_imsic_rmw, imsic);
-+    }
-+
-+    msi_nonbroken = true;
-+}
-+
-+static Property riscv_imsic_properties[] = {
-+    DEFINE_PROP_BOOL("mmode", RISCVIMSICState, mmode, 0),
-+    DEFINE_PROP_UINT32("hartid", RISCVIMSICState, hartid, 0),
-+    DEFINE_PROP_UINT32("num-pages", RISCVIMSICState, num_pages, 0),
-+    DEFINE_PROP_UINT32("num-irqs", RISCVIMSICState, num_irqs, 0),
-+    DEFINE_PROP_END_OF_LIST(),
-+};
-+
-+static const VMStateDescription vmstate_riscv_imsic = {
-+    .name = "riscv_imsic",
-+    .version_id = 1,
-+    .minimum_version_id = 1,
-+    .fields = (VMStateField[]) {
-+            VMSTATE_VARRAY_UINT32(eidelivery, RISCVIMSICState,
-+                                  num_pages, 0,
-+                                  vmstate_info_uint32, uint32_t),
-+            VMSTATE_VARRAY_UINT32(eithreshold, RISCVIMSICState,
-+                                  num_pages, 0,
-+                                  vmstate_info_uint32, uint32_t),
-+            VMSTATE_VARRAY_UINT32(eistate, RISCVIMSICState,
-+                                  num_eistate, 0,
-+                                  vmstate_info_uint32, uint32_t),
-+            VMSTATE_END_OF_LIST()
-+        }
-+};
-+
-+static void riscv_imsic_class_init(ObjectClass *klass, void *data)
-+{
-+    DeviceClass *dc = DEVICE_CLASS(klass);
-+
-+    device_class_set_props(dc, riscv_imsic_properties);
-+    dc->realize = riscv_imsic_realize;
-+    dc->vmsd = &vmstate_riscv_imsic;
-+}
-+
-+static const TypeInfo riscv_imsic_info = {
-+    .name          = TYPE_RISCV_IMSIC,
-+    .parent        = TYPE_SYS_BUS_DEVICE,
-+    .instance_size = sizeof(RISCVIMSICState),
-+    .class_init    = riscv_imsic_class_init,
-+};
-+
-+static void riscv_imsic_register_types(void)
-+{
-+    type_register_static(&riscv_imsic_info);
-+}
-+
-+type_init(riscv_imsic_register_types)
-+
-+/*
-+ * Create IMSIC device.
-+ */
-+DeviceState *riscv_imsic_create(hwaddr addr, uint32_t hartid, bool mmode,
-+                                uint32_t num_pages, uint32_t num_ids)
-+{
-+    DeviceState *dev = qdev_new(TYPE_RISCV_IMSIC);
-+    CPUState *cpu = qemu_get_cpu(hartid);
-+    uint32_t i;
-+
-+    assert(!(addr & (IMSIC_MMIO_PAGE_SZ - 1)));
-+    if (mmode) {
-+        assert(num_pages == 1);
-+    } else {
-+        assert(num_pages >= 1 && num_pages <= (IRQ_LOCAL_GUEST_MAX + 1));
-+    }
-+    assert(IMSIC_MIN_ID <= num_ids);
-+    assert(num_ids <= IMSIC_MAX_ID);
-+    assert((num_ids & IMSIC_MIN_ID) == IMSIC_MIN_ID);
-+
-+    qdev_prop_set_bit(dev, "mmode", mmode);
-+    qdev_prop_set_uint32(dev, "hartid", hartid);
-+    qdev_prop_set_uint32(dev, "num-pages", num_pages);
-+    qdev_prop_set_uint32(dev, "num-irqs", num_ids + 1);
-+
-+    sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
-+    sysbus_mmio_map(SYS_BUS_DEVICE(dev), 0, addr);
-+
-+    for (i = 0; i < num_pages; i++) {
-+        if (!i) {
-+            qdev_connect_gpio_out_named(dev, NULL, i,
-+                                        qdev_get_gpio_in(DEVICE(cpu),
-+                                            (mmode) ? IRQ_M_EXT : IRQ_S_EXT));
-+        } else {
-+            qdev_connect_gpio_out_named(dev, NULL, i,
-+                                        qdev_get_gpio_in(DEVICE(cpu),
-+                                            IRQ_LOCAL_MAX + i - 1));
-+        }
-+    }
-+
-+    return dev;
-+}
-diff --git a/include/hw/intc/riscv_imsic.h b/include/hw/intc/riscv_imsic.h
-new file mode 100644
-index 0000000000..58c2aaa8dc
---- /dev/null
-+++ b/include/hw/intc/riscv_imsic.h
-@@ -0,0 +1,68 @@
-+/*
-+ * RISC-V IMSIC (Incoming Message Signal Interrupt Controller) interface
-+ *
-+ * Copyright (c) 2021 Western Digital Corporation or its affiliates.
-+ *
-+ * This program is free software; you can redistribute it and/or modify it
-+ * under the terms and conditions of the GNU General Public License,
-+ * version 2 or later, as published by the Free Software Foundation.
-+ *
-+ * This program is distributed in the hope it will be useful, but WITHOUT
-+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
-+ * more details.
-+ *
-+ * You should have received a copy of the GNU General Public License along with
-+ * this program.  If not, see <http://www.gnu.org/licenses/>.
-+ */
-+
-+#ifndef HW_RISCV_IMSIC_H
-+#define HW_RISCV_IMSIC_H
-+
-+#include "hw/sysbus.h"
-+#include "qom/object.h"
-+
-+#define TYPE_RISCV_IMSIC "riscv.imsic"
-+
-+typedef struct RISCVIMSICState RISCVIMSICState;
-+DECLARE_INSTANCE_CHECKER(RISCVIMSICState, RISCV_IMSIC, TYPE_RISCV_IMSIC)
-+
-+#define IMSIC_MMIO_PAGE_SHIFT          12
-+#define IMSIC_MMIO_PAGE_SZ             (1UL << IMSIC_MMIO_PAGE_SHIFT)
-+#define IMSIC_MMIO_SIZE(__num_pages)   ((__num_pages) * IMSIC_MMIO_PAGE_SZ)
-+
-+#define IMSIC_MMIO_HART_GUEST_MAX_BTIS 6
-+#define IMSIC_MMIO_GROUP_MIN_SHIFT     24
-+
-+#define IMSIC_HART_NUM_GUESTS(__guest_bits)           \
-+    (1U << (__guest_bits))
-+#define IMSIC_HART_SIZE(__guest_bits)                 \
-+    (IMSIC_HART_NUM_GUESTS(__guest_bits) * IMSIC_MMIO_PAGE_SZ)
-+#define IMSIC_GROUP_NUM_HARTS(__hart_bits)            \
-+    (1U << (__hart_bits))
-+#define IMSIC_GROUP_SIZE(__hart_bits, __guest_bits)   \
-+    (IMSIC_GROUP_NUM_HARTS(__hart_bits) * IMSIC_HART_SIZE(__guest_bits))
-+
-+struct RISCVIMSICState {
-+    /*< private >*/
-+    SysBusDevice parent_obj;
-+    qemu_irq *external_irqs;
-+
-+    /*< public >*/
-+    MemoryRegion mmio;
-+    uint32_t num_eistate;
-+    uint32_t *eidelivery;
-+    uint32_t *eithreshold;
-+    uint32_t *eistate;
-+
-+    /* config */
-+    bool mmode;
-+    uint32_t hartid;
-+    uint32_t num_pages;
-+    uint32_t num_irqs;
-+};
-+
-+DeviceState *riscv_imsic_create(hwaddr addr, uint32_t hartid, bool mmode,
-+                                uint32_t num_pages, uint32_t num_ids);
-+
-+#endif
--- 
-2.25.1
+That would be great! but...
+
+*embarased cough* It doesn't boot at patch 13 (with a pxb-cxl device),
+I missed that fixing the reset problem that Alex pointed out in v4
+would result in calling into some infrastructure that isn't hooked up
+until we implement the host bridge MMIO in patch 18.  Fix is to
+just move the reset implementation forwards to patch 18. In meantime, up to
+patch 12 are fine.
+
+The latter patches (after 13) are ordered in a less than ideal fashion.
+To make it easier to take the rest gradually, they could (I think) be
+reordered to give us
+
+1) The device enablement (1-13 plus some later patches)=20
+   - type 3 device, pxb, root ports.  Mostly this is about dragging
+    feature enablement earlier in the series.
+   Should be fine to pick this up in several smaller chunks.
+2) Host enablement for the root bridges on x86 and ARM.
+3) The RFC bit around how to enable memory interleave.
+   Until we advertise a fixed memory window there will be a missing
+   component anyway so the OS won't try to enable the interleaving.
+
+Will result in a few additional patches because we'll update
+the CEDT ACPI table tests in two steps rather than just once.
+
+I'll have a go at the reorg next week and clearly highlight in the
+cover letter which steps make sense in applying gradually.
++ hit those steps with proper testing and at least check
+it boots after each patch :(=20
+
+Thanks for taking a look and your advice on moving this
+forwards.
+
+Jonathan
+
+
+>=20
+> >  =20
+> > > Other changes (mostly from Alex's review)
+> > > - Change component register handling to now report UNIMP and return 0
+> > >   for 8 byte registers as we currently don't implement any of them.
+> > >   Note that this means we need a kernel fix:
+> > >   https://lore.kernel.org/linux-cxl/20220201153437.2873-1-Jonathan.Ca=
+meron@huawei.com/
+> > > - Drop majority of the macros used in defining mailbox handlers in
+> > >   favour of written out code.
+> > > - Use REG64 where appropriate. This was introduced whilst this set
+> > >   has been underdevelopment so I missed it.
+> > > - Clarify some register access options wrt to CXL 2.0 Errata F4.
+> > > - Change timestamp to qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL)
+> > > - Use typed enums to enforce types of function arguements.
+> > > - Default to cxl being off in machine_class_init() removing
+> > >   need to set it to off in machines where there is no support as yet.
+> > > - Add Alex's RB where given.
+> > >=20
+> > > Looking in particular for:
+> > > * Review of the PCI interactions
+> > > * x86 and ARM machine interactions (particularly the memory maps)
+> > > * Review of the interleaving approach - is the basic idea
+> > >   acceptable?
+> > > * Review of the command line interface.
+> > > * CXL related review welcome but much of that got reviewed
+> > >   in earlier versions and hasn't changed substantially.
+> > >=20
+> > > Big TODOs:
+> > >=20
+> > > * Interleave boundary issues. I haven't yet solved this but didn't
+> > >   want to futher delay the review of the rest of the series.
+> > >=20
+> > > * Volatile memory devices (easy but it's more code so left for now).
+> > > * Switch support. Linux kernel support is under review currently,
+> > >   so there is now something to test against.
+> > > * Hotplug?  May not need much but it's not tested yet!
+> > > * More tests and tighter verification that values written to hardware
+> > >   are actually valid - stuff that real hardware would check.
+> > > * Testing, testing and more testing.  I have been running a basic
+> > >   set of ARM and x86 tests on this, but there is always room for
+> > >   more tests and greater automation.
+> > > * CFMWS flags as requested by Ben.
+> > >=20
+> > > Why do we want QEMU emulation of CXL?
+> > >=20
+> > > As Ben stated in V3, QEMU support has been critical to getting OS
+> > > software written given lack of availability of hardware supporting the
+> > > latest CXL features (coupled with very high demand for support being
+> > > ready in a timely fashion). What has become clear since Ben's v3
+> > > is that situation is a continuous one. Whilst we can't talk about
+> > > them yet, CXL 3.0 features and OS support have been prototyped on
+> > > top of this support and a lot of the ongoing kernel work is being
+> > > tested against these patches. The kernel CXL mocking code allows
+> > > some forms of testing, but QEMU provides a more versatile and
+> > > exensible platform.
+> > >=20
+> > > Other features on the qemu-list that build on these include PCI-DOE
+> > > /CDAT support from the Avery Design team further showing how this
+> > > code is useful. Whilst not directly related this is also the test
+> > > platform for work on PCI IDE/CMA + related DMTF SPDM as CXL both
+> > > utilizes and extends those technologies and is likely to be an early
+> > > adopter.
+> > > Refs:
+> > > CMA Kernel: https://lore.kernel.org/all/20210804161839.3492053-1-Jona=
+than.Cameron@huawei.com/
+> > > CMA Qemu: https://lore.kernel.org/qemu-devel/1624665723-5169-1-git-se=
+nd-email-cbrowy@avery-design.com/
+> > > DOE Qemu: https://lore.kernel.org/qemu-devel/1623329999-15662-1-git-s=
+end-email-cbrowy@avery-design.com/
+> > >=20
+> > > As can be seen there is non trivial interaction with other areas of
+> > > Qemu, particularly PCI and keeping this set up to date is proving
+> > > a burden we'd rather do without :)
+> > >=20
+> > > Ben mentioned a few other good reasons in v3:
+> > > https://lore.kernel.org/qemu-devel/20210202005948.241655-1-ben.widaws=
+ky@intel.com/
+> > >=20
+> > > The evolution of this series perhaps leave it in a less than
+> > > entirely obvious order and that may get tidied up in future postings.
+> > > I'm also open to this being considered in bite sized chunks.  What
+> > > we have here is about what you need for it to be useful for testing
+> > > currently kernel code.  Note the kernel code is moving fast so
+> > > since v4, some features have been introduced we don't yet support in
+> > > QEMU (e.g. use of the PCIe serial number extended capability).
+> > >=20
+> > > All comments welcome.
+> > >=20
+> > > qemu-system-aarch64 -M virt,gic-version=3D3,cxl=3Don \
+> > >  -m 4g,maxmem=3D8G,slots=3D8 \
+> > >  ...
+> > >  -object memory-backend-file,id=3Dcxl-mem1,share=3Don,mem-path=3D/tmp=
+/cxltest.raw,size=3D256M \
+> > >  -object memory-backend-file,id=3Dcxl-mem2,share=3Don,mem-path=3D/tmp=
+/cxltest2.raw,size=3D256M \
+> > >  -object memory-backend-file,id=3Dcxl-mem3,share=3Don,mem-path=3D/tmp=
+/cxltest3.raw,size=3D256M \
+> > >  -object memory-backend-file,id=3Dcxl-mem4,share=3Don,mem-path=3D/tmp=
+/cxltest4.raw,size=3D256M \
+> > >  -object memory-backend-file,id=3Dcxl-lsa1,share=3Don,mem-path=3D/tmp=
+/lsa.raw,size=3D256M \
+> > >  -object memory-backend-file,id=3Dcxl-lsa2,share=3Don,mem-path=3D/tmp=
+/lsa2.raw,size=3D256M \
+> > >  -object memory-backend-file,id=3Dcxl-lsa3,share=3Don,mem-path=3D/tmp=
+/lsa3.raw,size=3D256M \
+> > >  -object memory-backend-file,id=3Dcxl-lsa4,share=3Don,mem-path=3D/tmp=
+/lsa4.raw,size=3D256M \
+> > >  -device pxb-cxl,bus_nr=3D12,bus=3Dpcie.0,id=3Dcxl.1 \
+> > >  -device pxb-cxl,bus_nr=3D222,bus=3Dpcie.0,id=3Dcxl.2 \
+> > >  -device cxl-rp,port=3D0,bus=3Dcxl.1,id=3Droot_port13,chassis=3D0,slo=
+t=3D2 \
+> > >  -device cxl-type3,bus=3Droot_port13,memdev=3Dcxl-mem1,lsa=3Dcxl-lsa1=
+,id=3Dcxl-pmem0,size=3D256M \
+> > >  -device cxl-rp,port=3D1,bus=3Dcxl.1,id=3Droot_port14,chassis=3D0,slo=
+t=3D3 \
+> > >  -device cxl-type3,bus=3Droot_port14,memdev=3Dcxl-mem2,lsa=3Dcxl-lsa2=
+,id=3Dcxl-pmem1,size=3D256M \
+> > >  -device cxl-rp,port=3D0,bus=3Dcxl.2,id=3Droot_port15,chassis=3D0,slo=
+t=3D5 \
+> > >  -device cxl-type3,bus=3Droot_port15,memdev=3Dcxl-mem3,lsa=3Dcxl-lsa3=
+,id=3Dcxl-pmem2,size=3D256M \
+> > >  -device cxl-rp,port=3D1,bus=3Dcxl.2,id=3Droot_port16,chassis=3D0,slo=
+t=3D6 \
+> > >  -device cxl-type3,bus=3Droot_port16,memdev=3Dcxl-mem4,lsa=3Dcxl-lsa4=
+,id=3Dcxl-pmem3,size=3D256M \
+> > >  -cxl-fixed-memory-window targets=3Dcxl.1,size=3D4G,interleave-granul=
+arity=3D8k \
+> > >  -cxl-fixed-memory-window targets=3Dcxl.1,targets=3Dcxl.2,size=3D4G,i=
+nterleave-granularity=3D8k
+> > >=20
+> > > First CFMWS suitable for up to 2 way interleave, the second for 4 way=
+ (2 way
+> > > at host level and 2 way at the host bridge).
+> > > targets=3D<range of pxb-cxl uids> , multiple entries if range is disj=
+oint.
+> > >=20
+> > > With the v5.17-rc1 + patch series listed below.
+> > >=20
+> > >  cd /sys/bus/cxl/devices/
+> > >  region=3D$(cat decoder0.1/create_region)
+> > >  echo $region  > decoder0.1/create_region
+> > >  ls -lh
+> > > =20
+> > >  //Note the order of devices and adjust the following to make sure th=
+ey
+> > >  //are in order across the 4 root ports.  Easy to do in a tool, but
+> > >  //not easy to paste in a cover letter.
+> > >=20
+> > >  cd region0.1\:0
+> > >  echo 4 > interleave_ways
+> > >  echo mem2 > target0
+> > >  echo mem3 > target1
+> > >  echo mem0 > target2
+> > >  echo mem1 > target3
+> > >  echo $((1024<<20)) > size
+> > >  echo 4096 > interleave_granularity
+> > >  echo region0.1:0 > /sys/bus/cxl/drivers/cxl_region/bind
+> > >=20
+> > > Tested with devmem2 and files with known content.
+> > > Kernel tree is mainline + (I based on 5.17-rc1)
+> > > [PATCH] cxl/regs: Fix size of CXL Capabilty Header Register
+> > > https://lore.kernel.org/linux-cxl/20220201182934.jjvavjsf4h7oqngv@int=
+el.com/T/#t
+> > >=20
+> > > [PATCH v3 00/40] CXL.mem Topology Discovery and Hotplug Support
+> > > https://lore.kernel.org/linux-cxl/164298411792.3018233.74930099975253=
+60044.stgit@dwillia2-desk3.amr.corp.intel.com/
+> > > Note that series has a lot of v4/v5 patches are replies but b4 does
+> > > a good job of pulling out the latest.
+> > >=20
+> > > [PATCH 0/2] cxl/port: Robustness fixes for decoder enumeration
+> > > https://lore.kernel.org/linux-cxl/164317463887.3438644.40878197214935=
+02301.stgit@dwillia2-desk3.amr.corp.intel.com/
+> > >=20
+> > > [PATCH 0/4] Unify meaning of interleave attributes
+> > > https://lore.kernel.org/linux-cxl/20220127212911.127741-1-ben.widawsk=
+y@intel.com/
+> > >=20
+> > > [PATCH v3 00/14] CXL Region driver
+> > > https://lore.kernel.org/linux-cxl/20220128002707.391076-1-ben.widawsk=
+y@intel.com/
+> > >=20
+> > > What follows is a first attempt at explaining how all these components
+> > > fit together.  I'll write up some formal documentation shortly.
+> > >=20
+> > > Memory Address Map for CXL elements.  Note where exactly these regions
+> > > appear is Arch and platform dependent. =20
+> > >=20
+> > >   Base somewhere far up in the Host PA map.
+> > > _______________________________
+> > > |                              |
+> > > | CXL Host Bridge 0 Registers  |=20
+> > > | CXL Host Bridge 1 Registers  |
+> > > |       ...                    |  This bit is normal MMIO register sp=
+ace.
+> > > | CXL Host bridge N registers  |  including programmable interleave d=
+ecoders=20
+> > > |______________________________|  for interleave across root ports.
+> > > |                              |
+> > >               ....    =20
+> > > |                              |
+> > > |______________________________|
+> > > |                              |
+> > > |   CFMW 0,                    |  Note that there can be multiple reg=
+ions
+> > > |   Interleave 2 way, targets  |  of memory within this 1TB which can=
+ be
+> > > |   Hostbridge 0, Hostbridge 1 |  interleaved differently: in the hos=
+t bridges
+> > > |   Granularity 16KiB, 1TB     |  across root ports or in switches be=
+low the root.
+> > > |______________________________|  ports
+> > > |                              |
+> > > |   CFMW 1,                    |
+> > > |   Interleave 1 way, target   |
+> > > |   Hostbridge 0, 512GiB       |=20
+> > > |______________________________|
+> > > etc for all interleave combinations
+> > > configured, or built in to the
+> > > system before any generic software
+> > > sees it.
+> > >=20
+> > > System Topology considering CFMW 0 only to keep this simple.
+> > > x marks the match in each decoder level.
+> > > Switches have more interleave decoders and other features
+> > > that we haven't implemented yet in QEMU.
+> > >=20
+> > >                 Address Read to CFMW0 base + N
+> > >               _________________|________________
+> > >              |                                  |
+> > >              |  Host interconnect               | =20
+> > >              |  Configured to route CFM         |
+> > >              |  memory access to particular HB  |
+> > >              |_____x____________________________|
+> > >                    |                     |
+> > >              Interleave Decoder          |
+> > >              Matches this HB             | =20
+> > >                    |                     |
+> > >             _______|__________      _____|____________
+> > >            |                  |    |                  |
+> > >            | CXL HB 0         |    | CXL HB 1         | Only exist in=
+ PCI (mostly)
+> > >            | HB IntLv Decoder |    | HB IntLv Decoder | via ACPI desc=
+ription
+> > >            |  PCI Root Bus 0c |    | PCI Root Bus 0d  |
+> > >            |x_________________|    |__________________| In CXL have M=
+MIO
+> > >             |                |       |               |  at location g=
+iven in CEDT
+> > >             |                |       |               |  CHBS entry (A=
+CPI)
+> > > ____________|___   __________|__   __|_________   ___|_________=20
+> > > |  Root Port 0  | | Root Port 1 | | Root Port 2| | Root Port 3 |
+> > > |  Appears in   | | Appears in  | | Appears in | | Appear in   |
+> > > |  PCI topology | | PCI Topology| | PCI Topo   | | PCI Topo    |
+> > > |  As 0c:00.0   | | as 0c:01.0  | | as de:00.0 | | as de:01.0  |
+> > > |_______________| |_____________| |____________| |_____________|
+> > >       |                  |               |              |
+> > >       |                  |               |              |
+> > >  _____|_________   ______|______   ______|_____   ______|_______
+> > > |     x         | |             | |            | |              |
+> > > | CXL Type3 0   | | CXL Type3 1 | | CXL type3 2| | CLX Type 3 3 |
+> > > |               | |             | |            | |              |
+> > > | PMEM0(Vol LSA)| | PMEM1 (...) | | PMEM2 (...)| | PMEM3 (...)  |
+> > > | Decoder to go | |             | |            | |              |
+> > > | from host PA  | | PCI 0e:00.0 | | PCI df:00.0| | PCI e0:00.0  |
+> > > | to device PA  | |             | |            | |              |=20
+> > > | PCI as 0d:00.0| |             | |            | |              |
+> > > |_______________| |_____________| |____________| |______________|
+> > >=20
+> > >    Backed by        Backed by       Backed by       Backed by
+> > >     file 0           file 1           file 2          file 3
+> > >=20
+> > > LSA backed by additional files for each device (not yet supported)
+> > >=20
+> > > So currently we have decoders as follows for each interleaved access.
+> > > 1) CFMW decoder - fixed config so forms part of qemu command line.
+> > > 2) Host bridge decoders - programmable decoders that the system
+> > >    software will program either based on user command or based
+> > >    on info from the Label Storage Area (not yet emulated)
+> > > 3) Type 3 device decoders. Down to here the address used is the
+> > >    Host PA.  These decoders convert to the local device PA
+> > >    (in simple case - drop some bits in the middle of the address)
+> > >=20
+> > > Future patches will add decoders in switch upstream ports making
+> > > the above diagram have another layer between root ports and
+> > > the memory devices.
+> > >=20
+> > > Note, we've focused for now on Persistent Memory devices as they are =
+seen
+> > > as an early and important usecase (and are the most complex one).
+> > > But it should be straight forward to add volatile memory
+> > > support and indeed that would be backed by RAM.
+> > >=20
+> > > lspci -tv for above shows
+> > >=20
+> > > -+-[0000:00]-+-00.0 Red Hat, Inc. QEMU PCIe Host Bridge (this is the =
+cxl PXB)f
+> > >  |           \-OTHER STUFF
+> > >  +-[0000:0c]-+-00.0-[0d]----00.0  Intel Corporation Device 0d93
+> > >  |           \-01.0-[0e]----00.0  Intel Corporation Device 0d93
+> > >  \-[0000:de]-+-00.0-[df]----00.0  Intel Corporation Device 0d93
+> > >              \-01.0-[e0]----00.0  Intel Corporation Device 0d93
+> > >=20
+> > > Where those Intel parts are the type 3 devices.
+> > >=20
+> > > All comments welcome!
+> > >=20
+> > > Particular thanks to Alex Benn=E9e for his review of v4.
+> > >=20
+> > > Thanks,
+> > >=20
+> > > Jonathan
+> > >=20
+> > > Ben Widawsky (26):
+> > >   hw/pci/cxl: Add a CXL component type (interface)
+> > >   hw/cxl/component: Introduce CXL components (8.1.x, 8.2.5)
+> > >   hw/cxl/device: Introduce a CXL device (8.2.8)
+> > >   hw/cxl/device: Implement the CAP array (8.2.8.1-2)
+> > >   hw/cxl/device: Implement basic mailbox (8.2.8.4)
+> > >   hw/cxl/device: Add memory device utilities
+> > >   hw/cxl/device: Add cheap EVENTS implementation (8.2.9.1)
+> > >   hw/cxl/device: Timestamp implementation (8.2.9.3)
+> > >   hw/cxl/device: Add log commands (8.2.9.4) + CEL
+> > >   hw/pxb: Use a type for realizing expanders
+> > >   hw/pci/cxl: Create a CXL bus type
+> > >   hw/pxb: Allow creation of a CXL PXB (host bridge)
+> > >   acpi/pci: Consolidate host bridge setup
+> > >   hw/cxl/component: Implement host bridge MMIO (8.2.5, table 142)
+> > >   hw/cxl/rp: Add a root port
+> > >   hw/cxl/device: Add a memory device (8.2.8.5)
+> > >   hw/cxl/device: Implement MMIO HDM decoding (8.2.5.12)
+> > >   acpi/cxl: Add _OSC implementation (9.14.2)
+> > >   tests/acpi: allow CEDT table addition
+> > >   acpi/cxl: Create the CEDT (9.14.1)
+> > >   hw/cxl/device: Add some trivial commands
+> > >   hw/cxl/device: Plumb real Label Storage Area (LSA) sizing
+> > >   hw/cxl/device: Implement get/set Label Storage Area (LSA)
+> > >   acpi/cxl: Introduce CFMWS structures in CEDT
+> > >   hw/cxl/component Add a dumb HDM decoder handler
+> > >   qtest/cxl: Add very basic sanity tests
+> > >=20
+> > > Jonathan Cameron (17):
+> > >   MAINTAINERS: Add entry for Compute Express Link Emulation
+> > >   tests/acpi: allow DSDT.viot table changes.
+> > >   tests/acpi: Add update DSDT.viot
+> > >   cxl: Machine level control on whether CXL support is enabled
+> > >   hw/cxl/component: Add utils for interleave parameter encoding/decod=
+ing
+> > >   hw/cxl/host: Add support for CXL Fixed Memory Windows.
+> > >   hw/pci-host/gpex-acpi: Add support for dsdt construction for pxb-cxl
+> > >   pci/pcie_port: Add pci_find_port_by_pn()
+> > >   CXL/cxl_component: Add cxl_get_hb_cstate()
+> > >   mem/cxl_type3: Add read and write functions for associated hostmem.
+> > >   cxl/cxl-host: Add memops for CFMWS region.
+> > >   arm/virt: Allow virt/CEDT creation
+> > >   hw/arm/virt: Basic CXL enablement on pci_expander_bridge instances
+> > >     pxb-cxl
+> > >   RFC: softmmu/memory: Add ops to memory_region_ram_init_from_file
+> > >   i386/pc: Enable CXL fixed memory windows
+> > >   qtest/acpi: Add reference CEDT tables.
+> > >   scripts/device-crash-test: Add exception for pxb-cxl
+> > >=20
+> > >  MAINTAINERS                         |   7 +
+> > >  hw/Kconfig                          |   1 +
+> > >  hw/acpi/Kconfig                     |   5 +
+> > >  hw/acpi/cxl-stub.c                  |  12 +
+> > >  hw/acpi/cxl.c                       | 231 +++++++++++++
+> > >  hw/acpi/meson.build                 |   4 +-
+> > >  hw/arm/Kconfig                      |   1 +
+> > >  hw/arm/virt-acpi-build.c            |  30 ++
+> > >  hw/arm/virt.c                       |  40 ++-
+> > >  hw/core/machine.c                   |  28 ++
+> > >  hw/cxl/Kconfig                      |   3 +
+> > >  hw/cxl/cxl-component-utils.c        | 284 ++++++++++++++++
+> > >  hw/cxl/cxl-device-utils.c           | 271 ++++++++++++++++
+> > >  hw/cxl/cxl-host-stubs.c             |  22 ++
+> > >  hw/cxl/cxl-host.c                   | 263 +++++++++++++++
+> > >  hw/cxl/cxl-mailbox-utils.c          | 483 ++++++++++++++++++++++++++=
+++
+> > >  hw/cxl/meson.build                  |  12 +
+> > >  hw/i386/acpi-build.c                |  98 ++++--
+> > >  hw/i386/pc.c                        |  57 +++-
+> > >  hw/mem/Kconfig                      |   5 +
+> > >  hw/mem/cxl_type3.c                  | 353 ++++++++++++++++++++
+> > >  hw/mem/meson.build                  |   1 +
+> > >  hw/meson.build                      |   1 +
+> > >  hw/pci-bridge/Kconfig               |   5 +
+> > >  hw/pci-bridge/cxl_root_port.c       | 231 +++++++++++++
+> > >  hw/pci-bridge/meson.build           |   1 +
+> > >  hw/pci-bridge/pci_expander_bridge.c | 171 +++++++++-
+> > >  hw/pci-bridge/pcie_root_port.c      |   6 +-
+> > >  hw/pci-host/gpex-acpi.c             |  22 +-
+> > >  hw/pci/pci.c                        |  21 +-
+> > >  hw/pci/pcie_port.c                  |  25 ++
+> > >  include/hw/acpi/cxl.h               |  28 ++
+> > >  include/hw/arm/virt.h               |   1 +
+> > >  include/hw/boards.h                 |   2 +
+> > >  include/hw/cxl/cxl.h                |  51 +++
+> > >  include/hw/cxl/cxl_component.h      | 206 ++++++++++++
+> > >  include/hw/cxl/cxl_device.h         | 272 ++++++++++++++++
+> > >  include/hw/cxl/cxl_pci.h            | 160 +++++++++
+> > >  include/hw/pci/pci.h                |  14 +
+> > >  include/hw/pci/pci_bridge.h         |  20 ++
+> > >  include/hw/pci/pci_bus.h            |   7 +
+> > >  include/hw/pci/pci_ids.h            |   1 +
+> > >  include/hw/pci/pcie_port.h          |   2 +
+> > >  qapi/machine.json                   |  15 +
+> > >  qemu-options.hx                     |  37 +++
+> > >  scripts/device-crash-test           |   1 +
+> > >  softmmu/memory.c                    |   9 +
+> > >  softmmu/vl.c                        |  11 +
+> > >  tests/data/acpi/pc/CEDT             | Bin 0 -> 36 bytes
+> > >  tests/data/acpi/q35/CEDT            | Bin 0 -> 36 bytes
+> > >  tests/data/acpi/q35/DSDT.viot       | Bin 9398 -> 9416 bytes
+> > >  tests/data/acpi/virt/CEDT           | Bin 0 -> 36 bytes
+> > >  tests/qtest/cxl-test.c              | 151 +++++++++
+> > >  tests/qtest/meson.build             |   4 +
+> > >  54 files changed, 3645 insertions(+), 41 deletions(-)
+> > >  create mode 100644 hw/acpi/cxl-stub.c
+> > >  create mode 100644 hw/acpi/cxl.c
+> > >  create mode 100644 hw/cxl/Kconfig
+> > >  create mode 100644 hw/cxl/cxl-component-utils.c
+> > >  create mode 100644 hw/cxl/cxl-device-utils.c
+> > >  create mode 100644 hw/cxl/cxl-host-stubs.c
+> > >  create mode 100644 hw/cxl/cxl-host.c
+> > >  create mode 100644 hw/cxl/cxl-mailbox-utils.c
+> > >  create mode 100644 hw/cxl/meson.build
+> > >  create mode 100644 hw/mem/cxl_type3.c
+> > >  create mode 100644 hw/pci-bridge/cxl_root_port.c
+> > >  create mode 100644 include/hw/acpi/cxl.h
+> > >  create mode 100644 include/hw/cxl/cxl.h
+> > >  create mode 100644 include/hw/cxl/cxl_component.h
+> > >  create mode 100644 include/hw/cxl/cxl_device.h
+> > >  create mode 100644 include/hw/cxl/cxl_pci.h
+> > >  create mode 100644 tests/data/acpi/pc/CEDT
+> > >  create mode 100644 tests/data/acpi/q35/CEDT
+> > >  create mode 100644 tests/data/acpi/virt/CEDT
+> > >  create mode 100644 tests/qtest/cxl-test.c
+> > >=20
+> > > --=20
+> > > 2.32.0 =20
+>=20
 
 
