@@ -2,45 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA0F84A9933
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Feb 2022 13:24:02 +0100 (CET)
-Received: from localhost ([::1]:39244 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ABAA24A994C
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Feb 2022 13:29:25 +0100 (CET)
+Received: from localhost ([::1]:45740 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nFxdB-0007j6-QL
-	for lists+qemu-devel@lfdr.de; Fri, 04 Feb 2022 07:24:01 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:40214)
+	id 1nFxiO-0003uV-P8
+	for lists+qemu-devel@lfdr.de; Fri, 04 Feb 2022 07:29:24 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:40332)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ldv@altlinux.org>)
- id 1nFxXC-0002cY-Lq; Fri, 04 Feb 2022 07:17:50 -0500
-Received: from vmicros1.altlinux.org ([194.107.17.57]:38488)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <ldv@altlinux.org>)
- id 1nFxX9-0001nI-9O; Fri, 04 Feb 2022 07:17:50 -0500
-Received: from mua.local.altlinux.org (mua.local.altlinux.org [192.168.1.14])
- by vmicros1.altlinux.org (Postfix) with ESMTP id A8E4072C905;
- Fri,  4 Feb 2022 15:17:29 +0300 (MSK)
-Received: by mua.local.altlinux.org (Postfix, from userid 508)
- id 8575F7CD200; Fri,  4 Feb 2022 15:17:29 +0300 (MSK)
-Date: Fri, 4 Feb 2022 15:17:29 +0300
-From: "Dmitry V. Levin" <ldv@altlinux.org>
-To: Vitaly Chikunov <vt@altlinux.org>
-Subject: Re: [PATCH v3] 9pfs: Fix segfault in do_readdir_many caused by
- struct dirent overread
-Message-ID: <20220204121729.GA16432@altlinux.org>
-References: <20220204050609.15510-1-vt@altlinux.org>
- <20220204121538.GA16340@altlinux.org>
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1nFxXo-00030N-BZ
+ for qemu-devel@nongnu.org; Fri, 04 Feb 2022 07:18:33 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:57796)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1nFxXj-0001qj-UZ
+ for qemu-devel@nongnu.org; Fri, 04 Feb 2022 07:18:25 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1643977089;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=nJhAcAfLm35mXMdqa/8Jpp2fDywYmK3frznt1FGfz3c=;
+ b=KQNiYmp7yNxCD4EC1/u4kOrNfOCnaCYLYitbQuOiJgpD9d/3DSjcRCYG+wMSB9ojdbt8Nn
+ qOrssPImMcegIu1BDu+E2Y8YvVBdRjQekYuJ9zmO0eYjhLXJ2XqNHeshfVuG5bk88+8Gb5
+ JJM1tSCchfwgfYVSqUY9qDmPnY71HF4=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-621-iicaGROiME6D62-4Lvvyqw-1; Fri, 04 Feb 2022 07:18:08 -0500
+X-MC-Unique: iicaGROiME6D62-4Lvvyqw-1
+Received: by mail-ed1-f72.google.com with SMTP id
+ k10-20020a50cb8a000000b00403c8326f2aso3200774edi.6
+ for <qemu-devel@nongnu.org>; Fri, 04 Feb 2022 04:18:08 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=nJhAcAfLm35mXMdqa/8Jpp2fDywYmK3frznt1FGfz3c=;
+ b=H+gbxNumR7zmodEHXxKfeN6gWvwM3enZm5EtoX50qFxRrXGRELJCRb2F2EQqw3r0V2
+ WIyJdqwvywvRtOmS5q9oedrwFPApfwMgcv99dEl56ui5tqqN2TqSHzybkSmrlsdokzM2
+ eQVXmnIQYRAWrVaYDYWOT4TWjzxsUy6sZK8eH0FNyFTGrZ1xkBX/LdNBVWkCfDo4qNk3
+ JvsK9tb2uE/PQIFapNfX9CfcMUOq39hjDprWfrjfRKuXzYBp8x4ZO0PEwk4w3H59Bye0
+ 6exVuoMzF2ZpeUR2Mdaqn/I+oo6Q3y6UiK5je/7RbsrfwGvrAioFGjQ5p5MnHnwl6m1l
+ u+lQ==
+X-Gm-Message-State: AOAM533OhaLHudX8+vkC8sRLuzpP0nUFnZ2DnNi0ohTjv/guLYAz+4XG
+ WFLHi52FMyEylP2rq1sgqwIUP2UBcb6ofVXqVNs0wCW/hKHcIMepNrtzvb6cOYYgoK8Rf77ZZy0
+ +4/l0hCdQey9ThPc=
+X-Received: by 2002:a17:907:a40a:: with SMTP id
+ sg10mr2395962ejc.44.1643977086865; 
+ Fri, 04 Feb 2022 04:18:06 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzKhzxNHIN0/xSAVMup5eIE6YrCixXsP2UnmlZi0DBYPXu9E87PK5m0kxzFI18iOxZd5KOA0A==
+X-Received: by 2002:a17:907:a40a:: with SMTP id
+ sg10mr2395947ejc.44.1643977086704; 
+ Fri, 04 Feb 2022 04:18:06 -0800 (PST)
+Received: from localhost (nat-pool-brq-t.redhat.com. [213.175.37.10])
+ by smtp.gmail.com with ESMTPSA id gz19sm621278ejc.10.2022.02.04.04.18.05
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 04 Feb 2022 04:18:06 -0800 (PST)
+Date: Fri, 4 Feb 2022 13:18:05 +0100
+From: Igor Mammedov <imammedo@redhat.com>
+To: Gerd Hoffmann <kraxel@redhat.com>
+Subject: Re: [PATCH v2] hw/smbios: fix memory corruption for large guests
+ due to handle overlap
+Message-ID: <20220204131805.3a225566@redhat.com>
+In-Reply-To: <20220204110558.h3246jyelrvhto5q@sirius.home.kraxel.org>
+References: <20220203130957.2248949-1-ani@anisinha.ca>
+ <20220204103423.71ec5c6b@redhat.com>
+ <20220204110558.h3246jyelrvhto5q@sirius.home.kraxel.org>
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.31; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220204121538.GA16340@altlinux.org>
-Received-SPF: pass client-ip=194.107.17.57; envelope-from=ldv@altlinux.org;
- helo=vmicros1.altlinux.org
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=imammedo@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.092,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -53,119 +101,26 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-stable@nongnu.org, Christian Schoenebeck <qemu_oss@crudebyte.com>,
- Greg Kurz <groug@kaod.org>, qemu-devel@nongnu.org
+Cc: Ani Sinha <ani@anisinha.ca>, gsomlo@gmail.com, qemu-devel@nongnu.org,
+ "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Feb 04, 2022 at 03:15:38PM +0300, Dmitry V. Levin wrote:
-> On Fri, Feb 04, 2022 at 08:06:09AM +0300, Vitaly Chikunov wrote:
-> > `struct dirent' returned from readdir(3) could be shorter (or longer)
-> > than `sizeof(struct dirent)', thus memcpy of sizeof length will overread
-> > into unallocated page causing SIGSEGV. Example stack trace:
-> > 
-> >  #0  0x00005555559ebeed v9fs_co_readdir_many (/usr/bin/qemu-system-x86_64 + 0x497eed)
-> >  #1  0x00005555559ec2e9 v9fs_readdir (/usr/bin/qemu-system-x86_64 + 0x4982e9)
-> >  #2  0x0000555555eb7983 coroutine_trampoline (/usr/bin/qemu-system-x86_64 + 0x963983)
-> >  #3  0x00007ffff73e0be0 n/a (n/a + 0x0)
-> > 
-> > While fixing, provide a helper for any future `struct dirent' cloning.
-> > 
-> > Resolves: https://gitlab.com/qemu-project/qemu/-/issues/841
-> > Cc: qemu-stable@nongnu.org
-> > Co-authored-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
-> > Signed-off-by: Vitaly Chikunov <vt@altlinux.org>
-> > ---
-> > Tested on x86-64 Linux again.
-> > 
-> > Changes from v2:
-> > - Make it work with a simulated dirent where d_reclen is 0, which was
-> >   caused abort in readdir qos-test, by using fallback at runtime.
-> > 
-> >  hw/9pfs/codir.c      |  3 +--
-> >  include/qemu/osdep.h | 13 +++++++++++++
-> >  util/osdep.c         | 18 ++++++++++++++++++
-> >  3 files changed, 32 insertions(+), 2 deletions(-)
-> > 
-> > diff --git a/hw/9pfs/codir.c b/hw/9pfs/codir.c
-> > index 032cce04c4..c0873bde16 100644
-> > --- a/hw/9pfs/codir.c
-> > +++ b/hw/9pfs/codir.c
-> > @@ -143,8 +143,7 @@ static int do_readdir_many(V9fsPDU *pdu, V9fsFidState *fidp,
-> >          } else {
-> >              e = e->next = g_malloc0(sizeof(V9fsDirEnt));
-> >          }
-> > -        e->dent = g_malloc0(sizeof(struct dirent));
-> > -        memcpy(e->dent, dent, sizeof(struct dirent));
-> > +        e->dent = qemu_dirent_dup(dent);
-> >  
-> >          /* perform a full stat() for directory entry if requested by caller */
-> >          if (dostat) {
-> > diff --git a/include/qemu/osdep.h b/include/qemu/osdep.h
-> > index d1660d67fa..ce12f64853 100644
-> > --- a/include/qemu/osdep.h
-> > +++ b/include/qemu/osdep.h
-> > @@ -805,6 +805,19 @@ static inline int platform_does_not_support_system(const char *command)
-> >  }
-> >  #endif /* !HAVE_SYSTEM_FUNCTION */
-> >  
-> > +/**
-> > + * Duplicate directory entry @dent.
-> > + *
-> > + * It is highly recommended to use this function instead of open coding
-> > + * duplication of @c dirent objects, because the actual @c struct @c dirent
-> > + * size may be bigger or shorter than @c sizeof(struct dirent) and correct
-> > + * handling is platform specific (see gitlab issue #841).
-> > + *
-> > + * @dent - original directory entry to be duplicated
-> > + * @returns duplicated directory entry which should be freed with g_free()
-> > + */
-> > +struct dirent *qemu_dirent_dup(struct dirent *dent);
-> > +
-> >  #ifdef __cplusplus
-> >  }
-> >  #endif
-> > diff --git a/util/osdep.c b/util/osdep.c
-> > index 42a0a4986a..2c80528a61 100644
-> > --- a/util/osdep.c
-> > +++ b/util/osdep.c
-> > @@ -33,6 +33,7 @@
-> >  extern int madvise(char *, size_t, int);
-> >  #endif
-> >  
-> > +#include <dirent.h>
-> >  #include "qemu-common.h"
-> >  #include "qemu/cutils.h"
-> >  #include "qemu/sockets.h"
-> > @@ -615,3 +616,20 @@ writev(int fd, const struct iovec *iov, int iov_cnt)
-> >      return readv_writev(fd, iov, iov_cnt, true);
-> >  }
-> >  #endif
-> > +
-> > +struct dirent *
-> > +qemu_dirent_dup(struct dirent *dent)
-> > +{
-> > +    size_t sz = 0;
-> > +#if defined _DIRENT_HAVE_D_RECLEN
-> > +    /* Avoid use of strlen() if there's d_reclen. */
-> > +    sz = dent->d_reclen;
-> > +#endif
-> > +    if (sz == 0) {
-> > +        /* Fallback to the most portable way. */
-> > +        sz = offsetof(struct dirent, d_name) +
-> > +                      strlen(dent->d_name) + 1;
-> > +    }
-> > +    struct dirent *dst = g_malloc(sz);
-> > +    return memcpy(dst, dent, sz);
-> > +}
+On Fri, 4 Feb 2022 12:05:58 +0100
+Gerd Hoffmann <kraxel@redhat.com> wrote:
+
+>   Hi,
 > 
-> Reviewed-by: Dmitry V. Levin" <ldv@altlinux.org>
+> > Another question is why we split memory on 16Gb chunks, to begin with.
+> > Maybe instead of doing so, we should just add 1 type17 entry describing
+> > whole system RAM size. In which case we don't need this dance around
+> > handle offsets anymore.  
+> 
+> Maybe to make the entries look like they do on physical hardware?
+> i.e. DIMM size is a power of two?  Also physical 1TB DIMMs just
+> don't exist?
 
-Reviewed-by: Dmitry V. Levin <ldv@altlinux.org>
+Does it have to be a DIMM, we can make it Other/Unknown/Row of chips/Chip
+to more close to builtin memory that's is our main ram is.
 
-There should be no '"', sorry about that. :)
-
-
--- 
-ldv
 
