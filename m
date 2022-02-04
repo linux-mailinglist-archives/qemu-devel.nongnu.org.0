@@ -2,86 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E4354A9A66
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Feb 2022 14:54:40 +0100 (CET)
-Received: from localhost ([::1]:37028 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5BA544A9A6B
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Feb 2022 14:57:01 +0100 (CET)
+Received: from localhost ([::1]:39290 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nFz2r-0007Uf-3r
-	for lists+qemu-devel@lfdr.de; Fri, 04 Feb 2022 08:54:38 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:60508)
+	id 1nFz5A-0000ty-Ca
+	for lists+qemu-devel@lfdr.de; Fri, 04 Feb 2022 08:57:00 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:60912)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nFyzr-0006aP-Uw
- for qemu-devel@nongnu.org; Fri, 04 Feb 2022 08:51:32 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:56273)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nFyzo-00032b-1T
- for qemu-devel@nongnu.org; Fri, 04 Feb 2022 08:51:30 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1643982679;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=yOfmi1e4N3cuHy4uMQqPnABwHDOAXVx5evc05yrTlYs=;
- b=aJN/7cL1dWCkLUlQUiEtb95o76lex7f/XfzK9pddHWxGyEcSnZSTDZ75kM/AtTsSBdL5Rh
- fPSIBNwIed4gYcrtulHKRPsy8B1hNjPch1b8JtqF8yKPZ8klZtvtbEnsHZukg3wiktkT8b
- YYgivulC13eXKgyCXxmIt69JxvKqXSQ=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-55-VNKkFEOLPa6xXZZQKcxdKA-1; Fri, 04 Feb 2022 08:51:18 -0500
-X-MC-Unique: VNKkFEOLPa6xXZZQKcxdKA-1
-Received: by mail-wm1-f69.google.com with SMTP id
- l16-20020a1c7910000000b0034e4206ecb7so2403353wme.7
- for <qemu-devel@nongnu.org>; Fri, 04 Feb 2022 05:51:18 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1nFz1H-0007P2-JN
+ for qemu-devel@nongnu.org; Fri, 04 Feb 2022 08:52:59 -0500
+Received: from [2a00:1450:4864:20::535] (port=36732
+ helo=mail-ed1-x535.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1nFz1F-0003Fl-1T
+ for qemu-devel@nongnu.org; Fri, 04 Feb 2022 08:52:59 -0500
+Received: by mail-ed1-x535.google.com with SMTP id l5so13273461edv.3
+ for <qemu-devel@nongnu.org>; Fri, 04 Feb 2022 05:52:55 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=HSLaBZfCNKEf76QZsK+ebuKgBeCTAZSW8LC/5sqKFqs=;
+ b=kF6zHU46KIPsIwsiWQYZC5S5a6Q46yQ1d/krAfWcgh3Kcujrg2kiXaa1RLpyMI8Uer
+ XnExPrjyIgrBKs6gbBjqZKsa+7ErT0hd30p2fGTZIjHibHQYIEEMxlSB/w8Z9eJC7V5o
+ iXUvxUwzmCnBta3h/drScF7eag0hEbGTSruV7iHcx0l4nVRBcBa9ACBKAGLy0AaiulBI
+ 9drerlxtx20CHVebi/V5wm1gvL6BXLNUmO8czejrWE2mXfVT6/vV8h2HZ+aFMCXR1ulD
+ rbofASPVPkG1qeaz7ld5+EnleCEltA+y/WfjCIZ350L5F9go0V1iZLjCYZGCCescXAG0
+ FNeQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=yOfmi1e4N3cuHy4uMQqPnABwHDOAXVx5evc05yrTlYs=;
- b=6KQKvEbExxoFE8pdCaNcrJaGn3DS1kNyO7Kf9fAEnaHrRFJuhi+TnIBsAFpcOclKOF
- KYefbPlAesWVO8Ju5dZ7eL+yAXm3rIKIZzCEacocL/Xsn3ozwumoNtkt2OtkMygsGX6+
- NcKiYnz6zlzwljHVDY9pHOdLRzlvQOTADfFDh6zJCqHb2YgmgqT7hGtWCN4gILsf54Xh
- BSH9rONCL2ZygluRxC2X8D9X48PRHh+ThgwxsU12aSdYUHa1DGAqVZgt/QQuvB1rIhMF
- PlAlaCP45n+PLzgFxpheXKSP0tNgRMuTLseQBGCAEOXctT/vVd574qL7HDuijSprABkN
- GXQQ==
-X-Gm-Message-State: AOAM531N2JBD087rm0C8i2uZs08Pw7SE+xsJpOwFLN42+8rXOpoh36Q4
- CdZFdoi3iMDVXktQgvgExHsn84pEtQ9CDjlCK1LKQyGOkN4Nxpm6t8+3pFHJ+xy4iuXtl+liKe0
- KfszvUE8z2ZRtEd8=
-X-Received: by 2002:a5d:47c2:: with SMTP id o2mr2553130wrc.143.1643982677493; 
- Fri, 04 Feb 2022 05:51:17 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJylfJUYFeFTyB3+1MAYQd4Dmu/I9bRQxkb0I8YmWzq4ame6gZxkHttoRo2ui0sdetDtKbkZ1Q==
-X-Received: by 2002:a5d:47c2:: with SMTP id o2mr2553111wrc.143.1643982677291; 
- Fri, 04 Feb 2022 05:51:17 -0800 (PST)
-Received: from redhat.com ([2a10:8005:331d:0:5c51:c095:613e:277c])
- by smtp.gmail.com with ESMTPSA id c10sm1914819wrq.11.2022.02.04.05.51.15
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 04 Feb 2022 05:51:16 -0800 (PST)
-Date: Fri, 4 Feb 2022 08:51:13 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Igor Mammedov <imammedo@redhat.com>
-Subject: Re: [PATCH v2] hw/smbios: fix memory corruption for large guests due
- to handle overlap
-Message-ID: <20220204085001-mutt-send-email-mst@kernel.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=HSLaBZfCNKEf76QZsK+ebuKgBeCTAZSW8LC/5sqKFqs=;
+ b=Xp97TeKS0cU48ygppd1skQBTXyMQUSEJOETSbt4cfte1rgaNK7Li4mGPa1+11RIrRN
+ FXe1mUtv0StO2yM1HYv0MmiDTFuFYQDOd07kvQQTl7NXYuNibdAiUNqwFIEcokQChaWJ
+ iMJsref95JwRgft0fpxNoQLHa+IIZcBILy7HoHPLkrdRY+EhaY/NsN4kFP+5jVw1azhx
+ PkP7vQ43kxnSPing9Xt3sqcREvAh7fMGIicS93nx7lJT2/D21qvVWyNEWFEHDiajVWr5
+ mJiVeA9O7pn0c7UxANgU1JKNlivvPr9tDsQScAXTBfSBQj3qZM1+ZtKbuZJyI7EEhlh8
+ epkw==
+X-Gm-Message-State: AOAM533cnwxVKVNJLfuuHDhrXSDEbnKsMAE4yYiFDjF9Z0UZ7s7HLWUo
+ UohE6+9FnFhF/acjA/IcD4I2HGsX3kKo1EK35DQ11A==
+X-Google-Smtp-Source: ABdhPJz3XcbwvvSZZ9XTCONGA5FASerA8WpFD73uqV0KyQb0z4o7Vx5N+gOxmu91qlz/hwa0nja/YvB2r+6qgFAcpXY=
+X-Received: by 2002:aa7:da07:: with SMTP id r7mr3226071eds.246.1643982774402; 
+ Fri, 04 Feb 2022 05:52:54 -0800 (PST)
+MIME-Version: 1.0
 References: <20220203130957.2248949-1-ani@anisinha.ca>
  <20220204103423.71ec5c6b@redhat.com>
-MIME-Version: 1.0
-In-Reply-To: <20220204103423.71ec5c6b@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.092,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ <20220204110558.h3246jyelrvhto5q@sirius.home.kraxel.org>
+ <20220204131805.3a225566@redhat.com>
+In-Reply-To: <20220204131805.3a225566@redhat.com>
+From: Ani Sinha <ani@anisinha.ca>
+Date: Fri, 4 Feb 2022 19:22:43 +0530
+Message-ID: <CAARzgwzRRzt_oBaYFbmD+cpGeNgHMq5TcOvWiSVZ8eL159XERQ@mail.gmail.com>
+Subject: Re: [PATCH v2] hw/smbios: fix memory corruption for large guests due
+ to handle overlap
+To: Igor Mammedov <imammedo@redhat.com>
+Content-Type: multipart/alternative; boundary="00000000000049153205d7319130"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::535
+ (failed)
+Received-SPF: none client-ip=2a00:1450:4864:20::535;
+ envelope-from=ani@anisinha.ca; helo=mail-ed1-x535.google.com
+X-Spam_score_int: -10
+X-Spam_score: -1.1
+X-Spam_bar: -
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, HTML_MESSAGE=0.001, PDS_HP_HELO_NORDNS=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,36 +82,77 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Ani Sinha <ani@anisinha.ca>, gsomlo@gmail.com, qemu-devel@nongnu.org,
- kraxel@redhat.com
+Cc: qemu-devel@nongnu.org, gsomlo@gmail.com, Gerd Hoffmann <kraxel@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Feb 04, 2022 at 10:34:23AM +0100, Igor Mammedov wrote:
-> > @@ -982,7 +986,7 @@ void smbios_get_tables(MachineState *ms,
-> >                         uint8_t **anchor, size_t *anchor_len,
-> >                         Error **errp)
-> >  {
-> > -    unsigned i, dimm_cnt;
-> > +    unsigned i, dimm_cnt, offset;
-> >  
-> >      if (smbios_legacy) {
-> >          *tables = *anchor = NULL;
-> > @@ -1012,6 +1016,19 @@ void smbios_get_tables(MachineState *ms,
-> >  
-> >          dimm_cnt = QEMU_ALIGN_UP(current_machine->ram_size, MAX_DIMM_SZ) / MAX_DIMM_SZ;
-> 
-> Michael, Gerd,
-> 
-> Another question is why we split memory on 16Gb chunks, to begin with.
-> Maybe instead of doing so, we should just add 1 type17 entry describing
-> whole system RAM size. In which case we don't need this dance around
-> handle offsets anymore.
+--00000000000049153205d7319130
+Content-Type: text/plain; charset="UTF-8"
 
-I'm not sure - could be some guests just get confused if a chunk
-is too big ... we'd need a lot of testing if we change that ...
+On Fri, Feb 4, 2022 at 17:48 Igor Mammedov <imammedo@redhat.com> wrote:
 
--- 
-MST
+> On Fri, 4 Feb 2022 12:05:58 +0100
+> Gerd Hoffmann <kraxel@redhat.com> wrote:
+>
+> >   Hi,
+> >
+> > > Another question is why we split memory on 16Gb chunks, to begin with.
+> > > Maybe instead of doing so, we should just add 1 type17 entry describing
+> > > whole system RAM size. In which case we don't need this dance around
+> > > handle offsets anymore.
+> >
+> > Maybe to make the entries look like they do on physical hardware?
+> > i.e. DIMM size is a power of two?  Also physical 1TB DIMMs just
+> > don't exist?
+>
+> Does it have to be a DIMM, we can make it Other/Unknown/Row of chips/Chip
+> to more close to builtin memory that's is our main ram is.
 
+
+My concern here is even though the spec has provisions for those form
+factors I wonder if the guests only expect dimm ? Will it break some guest
+operating system?
+
+>
+
+--00000000000049153205d7319130
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div><br></div><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
+=3D"gmail_attr">On Fri, Feb 4, 2022 at 17:48 Igor Mammedov &lt;<a href=3D"m=
+ailto:imammedo@redhat.com">imammedo@redhat.com</a>&gt; wrote:<br></div><blo=
+ckquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left=
+-width:1px;border-left-style:solid;padding-left:1ex;border-left-color:rgb(2=
+04,204,204)">On Fri, 4 Feb 2022 12:05:58 +0100<br>
+Gerd Hoffmann &lt;<a href=3D"mailto:kraxel@redhat.com" target=3D"_blank">kr=
+axel@redhat.com</a>&gt; wrote:<br>
+<br>
+&gt;=C2=A0 =C2=A0Hi,<br>
+&gt; <br>
+&gt; &gt; Another question is why we split memory on 16Gb chunks, to begin =
+with.<br>
+&gt; &gt; Maybe instead of doing so, we should just add 1 type17 entry desc=
+ribing<br>
+&gt; &gt; whole system RAM size. In which case we don&#39;t need this dance=
+ around<br>
+&gt; &gt; handle offsets anymore.=C2=A0 <br>
+&gt; <br>
+&gt; Maybe to make the entries look like they do on physical hardware?<br>
+&gt; i.e. DIMM size is a power of two?=C2=A0 Also physical 1TB DIMMs just<b=
+r>
+&gt; don&#39;t exist?<br>
+<br>
+Does it have to be a DIMM, we can make it Other/Unknown/Row of chips/Chip<b=
+r>
+to more close to builtin memory that&#39;s is our main ram is.</blockquote>=
+<div dir=3D"auto"><br></div><div dir=3D"auto">My concern here is even thoug=
+h the spec has provisions for those form factors I wonder if the guests onl=
+y expect dimm ? Will it break some guest operating system?</div><blockquote=
+ class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left-width:=
+1px;border-left-style:solid;padding-left:1ex;border-left-color:rgb(204,204,=
+204)" dir=3D"auto"></blockquote></div></div>
+
+--00000000000049153205d7319130--
 
