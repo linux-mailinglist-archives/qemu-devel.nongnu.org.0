@@ -2,85 +2,147 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E24EA4A9AC7
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Feb 2022 15:16:00 +0100 (CET)
-Received: from localhost ([::1]:50350 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5447B4A9ADB
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Feb 2022 15:21:07 +0100 (CET)
+Received: from localhost ([::1]:59284 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nFzNV-0000l1-Ps
-	for lists+qemu-devel@lfdr.de; Fri, 04 Feb 2022 09:15:58 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:34682)
+	id 1nFzST-0007CB-NR
+	for lists+qemu-devel@lfdr.de; Fri, 04 Feb 2022 09:21:05 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:35032)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nFzA8-0005iE-EK
- for qemu-devel@nongnu.org; Fri, 04 Feb 2022 09:02:11 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:53534)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1nFzBC-00070b-Ql; Fri, 04 Feb 2022 09:03:15 -0500
+Received: from [2a01:111:f400:7e1b::70b] (port=46611
+ helo=EUR05-AM6-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nFzA4-0004YW-Gu
- for qemu-devel@nongnu.org; Fri, 04 Feb 2022 09:02:06 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1643983298;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=Wr44KBhJZAlMzB2mYfUkvIx625L/JEnm/ilbcFSSFJ0=;
- b=gEml7aQQIX0Kuy/Uh7tziGzk24UIfYgeTTMG+uSIxmNhVlooLzlbZrbosscV2eC+KXHbro
- T9LDhTMaYKE0gfF6zxLdsDLny1zzDtoq1NMP51aZOJw51zPx3qBda7bSiOPUV8vbj9lCjQ
- XH4IWa4t+Eg9Lg+ucrnZe3KG5AAdB5w=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-132-MVWrw_ooMc6ufWYStNnEBQ-1; Fri, 04 Feb 2022 09:01:37 -0500
-X-MC-Unique: MVWrw_ooMc6ufWYStNnEBQ-1
-Received: by mail-wm1-f72.google.com with SMTP id
- f7-20020a1cc907000000b0034b63f314ccso2419775wmb.6
- for <qemu-devel@nongnu.org>; Fri, 04 Feb 2022 06:01:37 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=Wr44KBhJZAlMzB2mYfUkvIx625L/JEnm/ilbcFSSFJ0=;
- b=ZXiQd70OyFurB9vjARal3mcUWo5r7NyXSlIYykxrCKsz/H2Qa3OLrY9wVl8slcH7Xt
- Ruc519qlWiaNuhFP4kDIdzwAjx1A3pGxD5Ja1ceRMLNq1PXC+DE9i98ZfeWbMh2WqsOq
- whJvmYbJuTlaT0i+UIaNMxOEPiICB8jM7A4n31gKsKE3G8z6aY6+DQlAbKEtPc7G6+3+
- CRjv6Fjk4W4EogbPDXj+DsHviVLTTXonMJv4EeKNa0LF0PUAwHDhDYoG8rsgPAecy++c
- tmkahUi9rQueVclFjAOvToSYnG1Y7g33ETFekOrPLjFmBQbUrtFrP0UXB40xDzYhF3+2
- vIpw==
-X-Gm-Message-State: AOAM532gKAo8sjcIxQFkx1DxSmSLdm1w5DSgxe8wtjM7zUv9PfuRTamX
- 6HelL5uPesikpVvj3d3gVKJDRKIDwrj+KyfLURIlg5Lb9pChaMjd64S1Pbfg1tNEr2PAnTwNoiQ
- IhKucP/jBydkAZM0=
-X-Received: by 2002:a1c:4484:: with SMTP id r126mr1703975wma.26.1643983296353; 
- Fri, 04 Feb 2022 06:01:36 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJw4vxcDLw2avmIa/GSkgZ57y5FAFHMlJBeXuR9GY6/I+tq4UNNIvqt0ly336LScz55EktdR2w==
-X-Received: by 2002:a1c:4484:: with SMTP id r126mr1703946wma.26.1643983296028; 
- Fri, 04 Feb 2022 06:01:36 -0800 (PST)
-Received: from redhat.com ([2a10:8005:331d:0:5c51:c095:613e:277c])
- by smtp.gmail.com with ESMTPSA id o12sm2371993wry.115.2022.02.04.06.01.33
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 04 Feb 2022 06:01:35 -0800 (PST)
-Date: Fri, 4 Feb 2022 09:01:31 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Subject: Re: [PATCH v5 16/43] tests/acpi: Add update DSDT.viot
-Message-ID: <20220204085953-mutt-send-email-mst@kernel.org>
-References: <20220202141037.17352-1-Jonathan.Cameron@huawei.com>
- <20220202141037.17352-17-Jonathan.Cameron@huawei.com>
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1nFzB9-0004o0-9n; Fri, 04 Feb 2022 09:03:13 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=WCiHKSkFhVxgH1A1YEVJ0FJZMen1pNIRHRh7UPRJmJc3puwiyWFbPwzpFfNKWBVzp8mrB7RH3f98+KEuWlLPQt5qOPzG7GN5uaIAWbVnXKF6tiXx4w7HXFBLn3qDL/Lw6bvmbnCsN2z/PGZX3U4pURbKF0fmJbYh/7JNfaQg7TfliyFEt+yyuAiId34xvuE8EWr6DGuZE/7gYN3rjWHDYSt7Dnkr5iidqjhOoIKUPwHzkMXhuIZ8DNi/HQdOZvsOvwEE7DQGTHFuqk8Gi8c4jg8TMFQWJGVtQ++WwcZd189ldcZFKClTBtDh5s2BbqjPAmvyIwv2cBTusL0A27E4HA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ibJ4AvWPUINWIipxa96G+clkwhph5cKCOglYiFLXPQ8=;
+ b=SGm2iK8F6XlLC2Feoty+1v8f4dpPmnwbLltKi9J0TUIfGgxah8M+D/7LUzMIL16G/ck0onXUKrsb7ydH0SlB56LlLRU4hAseuzpwNbGaC9X4IzBolhlU8ggHfDwogU04s23I9XndjovNRZYmZZjaQVwNkd1MrsZ4OTnv5NJ5Q8bVUyUx1jy7nyg81hO5CcK//enWv117QRjp5ejqfoFxwobKhU2jothsKf1qlWNscO0kjObtATjyr9+Bbt9bdmzI1WrSLOimeV6azmBYK50wKPU8kpzalvHQSP06/AZkvHk9EdtiyVMfGuZOTYwxXiZVd7hhMqCyEUTQ8rBEAh6u7w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ibJ4AvWPUINWIipxa96G+clkwhph5cKCOglYiFLXPQ8=;
+ b=bhDlSJp2tLGp2+jJ9v48z9nWaUAaTeRIjHOmas4TOZgwfDpPCyw21ohxYb/zSPeLojmb1rYGwGzsC+niEpuM/p8i/nEjVU6/WZPojug5zh6aXz7Ij5EK5p3IKe1g0RHmBsfY3u1kGVtYS6imjDdmlkbK3/JD/ZXFdRlwLXt49fA=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=virtuozzo.com;
+Received: from AM9PR08MB6737.eurprd08.prod.outlook.com (2603:10a6:20b:304::18)
+ by PAXPR08MB7232.eurprd08.prod.outlook.com (2603:10a6:102:1dc::16)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4951.12; Fri, 4 Feb
+ 2022 14:03:06 +0000
+Received: from AM9PR08MB6737.eurprd08.prod.outlook.com
+ ([fe80::49c:67e9:3e24:8714]) by AM9PR08MB6737.eurprd08.prod.outlook.com
+ ([fe80::49c:67e9:3e24:8714%3]) with mapi id 15.20.4930.022; Fri, 4 Feb 2022
+ 14:03:06 +0000
+Message-ID: <bb24b76a-86cd-f0f0-1345-e550e9d78e86@virtuozzo.com>
+Date: Fri, 4 Feb 2022 17:03:03 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.2.0
+Subject: Re: [PATCH 10/12] block.c: add subtree_drains where needed
+Content-Language: en-US
+To: Emanuele Giuseppe Esposito <eesposit@redhat.com>, qemu-block@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Fam Zheng <fam@euphon.net>, John Snow <jsnow@redhat.com>,
+ qemu-devel@nongnu.org
+References: <20220118162738.1366281-1-eesposit@redhat.com>
+ <20220118162738.1366281-11-eesposit@redhat.com>
+ <52eff922-0ca4-fc12-0edb-8eb963ac306c@virtuozzo.com>
+ <a2e77f99-3138-0a24-9ced-79f441d42ca4@redhat.com>
+ <13a6f342-3525-7929-e8c4-d82f6887ca49@virtuozzo.com>
+ <bd6aee9e-1627-94c9-bc92-a88769ea075b@redhat.com>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+In-Reply-To: <bd6aee9e-1627-94c9-bc92-a88769ea075b@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: FR3P281CA0011.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:1d::17) To AM9PR08MB6737.eurprd08.prod.outlook.com
+ (2603:10a6:20b:304::18)
 MIME-Version: 1.0
-In-Reply-To: <20220202141037.17352-17-Jonathan.Cameron@huawei.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.092,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: beb75c8c-0866-44ad-e242-08d9e7e71119
+X-MS-TrafficTypeDiagnostic: PAXPR08MB7232:EE_
+X-Microsoft-Antispam-PRVS: <PAXPR08MB723241533B2DB3E2C3BC695BC1299@PAXPR08MB7232.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: E7rdQywRTqj0lG0t0/sPUx+4flYOS2LyzrOrMViw+jIy0Zws7pg3md5HKlnwpoVEHYWxLaT1ln1qJ9CNNR9X0iNuiQ+9RWU6PIay/DR8ZmXrK9BEzGoNRBPMWLABSEfqMHdV4npF0TMOIgCIVj924+3FtY+ecGzE4962RUINH2sjw5ojZ0CAwQsT32DesrxU0xANOZvA739N3ZO1DMQwJO0yMBqE4OiXZD459Yf+lx1jAzYO0TW+5ILMg10BJm02mb2t06a+cMRNTOIdxPTKugPWWZwyhVCw8/DIB0zLUVS5+3HPN181EU4jQQC5qACpgpsnrobZelQz2ZsxlcIA6hqa6rq+nOeG/g2KRjEZ/LOZoLYmYrYe1aVvHVKqW+RLADi3Di0/iapoxbrFOpWRsp9MM/fX1FD8e78f/P00jNUp4f6uMnYtzDdI6yRmZHUhTP6wmGF0PZrklGejkzuPrIPdhAFCdYZqhkO3WqpQiThxW0qt3KoZzJmb7bF1Tt+r7ffq01poDe4eV89OJyTWLZuwGpZcfhQ5ZxQ5lZiRq8EBSA7c3VKqwI73e6swp0hsboYMJDCIWLo44Jbb7OPLEGea/cSiC9zabEswmuHubAwgo3HHt54wZIG73BATKxfgTMzcDQQ9YBm6bSN8fCVs9TekqmaWyOkUrpZL60/ChWZb3nhNEwHmYhAL43wtu8PypONgHB2GZf0r73TqmU9pWCnvZBOJOLLTBPRGyVSG2yusIbj9d0JWY8PlKpBLezbJpXze8BfrQBbkRw05MktC3A==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM9PR08MB6737.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230001)(4636009)(366004)(86362001)(83380400001)(6486002)(186003)(66946007)(4326008)(52116002)(38100700002)(5660300002)(38350700002)(31696002)(66476007)(66556008)(54906003)(8676002)(8936002)(6512007)(2906002)(316002)(6506007)(6666004)(2616005)(26005)(31686004)(508600001)(36756003)(45980500001)(43740500002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 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
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: beb75c8c-0866-44ad-e242-08d9e7e71119
+X-MS-Exchange-CrossTenant-AuthSource: AM9PR08MB6737.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Feb 2022 14:03:06.5486 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: +WNj8qRsPogkww+zEVwk4LtIhoxRhQjZWuUy6cXGsDbn7MrjEZV/urbJwyMv/sBKtv7ek7pTpNS5PIiC8ACSAqxl8IvSJDTKC4bQSy4DeTE=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAXPR08MB7232
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a01:111:f400:7e1b::70b
+ (failed)
+Received-SPF: pass client-ip=2a01:111:f400:7e1b::70b;
+ envelope-from=vsementsov@virtuozzo.com;
+ helo=EUR05-AM6-obe.outbound.protection.outlook.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,75 +155,81 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Ben Widawsky <ben.widawsky@intel.com>, Samarth Saxena <samarths@cadence.com>,
- Chris Browy <cbrowy@avery-design.com>, qemu-devel@nongnu.org,
- linux-cxl@vger.kernel.org, linuxarm@huawei.com,
- Shreyas Shah <shreyas.shah@elastics.cloud>, Saransh Gupta1 <saransh@ibm.com>,
- Shameerali Kolothum Thodi <shameerali.kolothum.thodi@huawei.com>,
- Marcel Apfelbaum <marcel@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
- Dan Williams <dan.j.williams@intel.com>,
- Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Feb 02, 2022 at 02:10:10PM +0000, Jonathan Cameron wrote:
-> From: Jonathan Cameron <jonathan.cameron@huawei.com>
+04.02.2022 16:30, Emanuele Giuseppe Esposito wrote:
+>>>
+>>>   From the other thread:
+>>>> So you mean that backing_hd is modified as its parent is changed, do
+>>>> I understand correctly?
+>>>
+>>> Yes
+>>>
+>>>>
+>>>> As we started to discuss in a thread started with my "[PATCH] block:
+>>>> bdrv_set_backing_hd(): use drained section", I think draining the whole
+>>>> subtree when we modify some parent-child relation is too much. In-flight
+>>>> requests in subtree don't touch these relations, so why to wait/stop
+>>>> them? Imagine two disks A and B with same backing file C. If we want to
+>>>> detach A from C, what is the reason to drain in-fligth read request of B
+>>>> in C?
+>>>
+>>> If I am not mistaken, bdrv_set_backing_hd adds a new node (yes removes
+>>> the old backing_hd, but let's not think about this for a moment).
+>>> So we have disk B with backing file C, and new disk A that wants to have
+>>> backing file C.
+>>>
+>>> I think I understand what you mean, so in theory the operation would be
+>>> - create new child
+>>> - add child to A->children list
+>>> - add child to C->parents list
+>>>
+>>> So in theory we need to
+>>> * drain A (without subtree), because it can't happen that child nodes of
+>>>     A have in-flight requests that look at A status (children list),
+>>> right?
+>>>     In other words, if A has another node X, can a request in X inspect
+>>>     A->children
+>>
+>> It should not happen. In my understanding, IO request never access
+>> parents of the node.
+>>
+>>> * drain C, as parents can inspect C status (like B). Same assumption
+>>>     here, C->children[x]->bs cannot have requests inspecting C->parents
+>>>     list?
+>>
+>> No, I think we should not drain C. IO requests don't inspect parents
+>> list. And if some _other_ operations do inspect it, drain will not help,
+>> as drain is only about IO requests.
 > 
-> The consolidation of DSDT AML generation for PCI host bridges
-> lead to some minor ordering changes and the addition of _ADR
-> with a default of 0 for those case that didn't already have it.
-> Only DSDT.viot test is affected.
+> I am still not convinced about this, because of the draining.
 > 
-> Changes all similar to:
-> 
-> Scope (\_SB)
->      {
->        Device (PC30)
->        {
-> -        Name (_UID, 0x30)  // _UID: Unique ID
->          Name (_BBN, 0x30)  // _BBN: BIOS Bus Number
->          Name (_HID, EisaId ("PNP0A08") /* PCI Express Bus */)  // _HID: Hardware ID
->          Name (_CID, EisaId ("PNP0A03") /* PCI Bus */)  // _CID: Compatible ID
-> +        Name (_ADR, Zero)  // _ADR: Address
-> +        Name (_UID, 0x30)  // _UID: Unique ID
->          Method (_OSC, 4, NotSerialized)  // _OSC: Operating System Capabilities
-> 
-> Signed-off-by: Jonathan Cameron <jonathan.cameron@huawei.com>
+> While drain can only be called by either main loop or the "home
+> iothread" (the one running the AioContext), it still means there are 2
+> threads involved. So while the iothread runs set_backing_hd, main loop
+> could easily drain one of the children of the nodes. Or the other way
+> around.
+> I am not saying that this happens, but it *might* happen.
 
-A bit worried about _ADR here.  It's probably fine as it should be
-unused but in the past some changes like that confused windows guests
-where they would lose e.g. a static ip config since from their
-POV device address changed.
+I agree that it might happen. So, parallel drains are a problem. But drain is always a part of graph modification, and any graph modifications running in parallel are already a problem, we should forbid it somehow.
 
-Igor, what do you think?
+When you drain node, you say: please no in-flight requests now at this node. But IO requests doesn't do drain themselves, so why to restrict them?
 
-> ---
->  tests/data/acpi/q35/DSDT.viot               | Bin 9398 -> 9416 bytes
->  tests/qtest/bios-tables-test-allowed-diff.h |   1 -
->  2 files changed, 1 deletion(-)
-> 
-> diff --git a/tests/data/acpi/q35/DSDT.viot b/tests/data/acpi/q35/DSDT.viot
-> index 1c3b4da5cbe81ecab5e1ef50d383b561c5e0f55f..207ac5b9ae4c3a4bc0094c2242d1a1b08771b784 100644
-> GIT binary patch
-> delta 139
-> zcmdnydBT&+CD<k8gbD)#<CBeCu5zLdVlnZ-PVv!A?xF$C#s(bmPELMY6KfQhxC}No
-> z$Z0Y1qbM*kn0!E9nwKNq(Itq1BR<sAg-ZdbOrCM_F9mK?rG^HRr4><?3V@Yv4pmBI
-> F0sxp4B{u*7
-> 
-> delta 143
-> zcmX@%xy_TyCD<ion+gL1<MNGMu5zMYqA~HoPVv!Aj-mn1#s(bmp`I>WlVjy%CeC%7
-> z+^Kj^(SX5#0jQdxl0g7Ptr1kM!sPw((lEse3<_8k8$uNeOjb|?Dc;<vXwM7)8)+to
-> 
-> diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
-> index 08a8095432..dfb8523c8b 100644
-> --- a/tests/qtest/bios-tables-test-allowed-diff.h
-> +++ b/tests/qtest/bios-tables-test-allowed-diff.h
-> @@ -1,2 +1 @@
->  /* List of comma-separated changed AML files to ignore */
-> -"tests/data/acpi/q35/DSDT.viot",
-> -- 
-> 2.32.0
+And anyway, I don't see how this help. Ok, assume you drain additional node C or even the whole subtree. What protect us from parallel drain from another thread?
 
+> 
+> I am a little bit confused about this, it would be nice to hear opinions
+> from others as well.
+> 
+> Once we figure this, I will know where exactly to put the assertions,
+> and consequently what to drain and with which function.
+> 
+> Emanuele
+> 
+
+
+-- 
+Best regards,
+Vladimir
 
