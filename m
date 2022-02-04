@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE9624A9D9F
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Feb 2022 18:28:51 +0100 (CET)
-Received: from localhost ([::1]:44390 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 86AC54A9DA5
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Feb 2022 18:34:17 +0100 (CET)
+Received: from localhost ([::1]:46680 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nG2OA-0006If-JE
-	for lists+qemu-devel@lfdr.de; Fri, 04 Feb 2022 12:28:50 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:55956)
+	id 1nG2TQ-0007uA-Cu
+	for lists+qemu-devel@lfdr.de; Fri, 04 Feb 2022 12:34:16 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:57206)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nG1zw-0002HG-0y
- for qemu-devel@nongnu.org; Fri, 04 Feb 2022 12:03:48 -0500
-Received: from [2a00:1450:4864:20::434] (port=44771
- helo=mail-wr1-x434.google.com)
+ id 1nG23s-0008Dh-7o
+ for qemu-devel@nongnu.org; Fri, 04 Feb 2022 12:07:52 -0500
+Received: from [2a00:1450:4864:20::42c] (port=34738
+ helo=mail-wr1-x42c.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nG1zt-0004R0-M1
- for qemu-devel@nongnu.org; Fri, 04 Feb 2022 12:03:47 -0500
-Received: by mail-wr1-x434.google.com with SMTP id k18so12494892wrg.11
- for <qemu-devel@nongnu.org>; Fri, 04 Feb 2022 09:03:45 -0800 (PST)
+ id 1nG23n-0005Cd-8U
+ for qemu-devel@nongnu.org; Fri, 04 Feb 2022 12:07:51 -0500
+Received: by mail-wr1-x42c.google.com with SMTP id f17so12580261wrx.1
+ for <qemu-devel@nongnu.org>; Fri, 04 Feb 2022 09:07:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=O2jqYOKNWblVtkH7FfNX9Bd8GniuLgA5X55w+Ur6EmE=;
- b=lNzGSPaLIdK+/Y54XfYSKjmx0moZrp0/mzXNsAX5GqZ2NLGUXAPbMX+Si1gBsKbXJH
- Sy9smvQcYMKq21M0rAY9kqeTSlxqBpNWGeJVFdrw4RHCFCVcrsLr+7cJVp0zKcVAVBQr
- NR1l/kuLeVHaFJ5V4j/xySP5zlDa866vzZRqDEZ3l1kNTnnDp/emgSzQVcMMvyZJcKZ/
- 5iwVTw5IQ5Rphdkd4GkR3dejHsY0KCAemQF/jhQHTIWAOltJqhZs0L+Dj5SiIefrdt3X
- 3cEUQJ+n9B7uTUIHl7yL50dPWlu+p046Z8iO5+JPO9Rwu3ngX1u/teq6NZr8CcN2wtLJ
- L2dw==
+ :cc; bh=KXHPCbSZG3TI6bJwdaAJwsoSLDtVrmWMx3HqLytKCw4=;
+ b=wAiuWI13PRgy3spHJ4d+45J5IMdQyndA3WdFMcIgYXugZa1t9Kn9lYQyUzoh77RYhw
+ CvDMcSWKtx6vY5rZIRfSCdy1c+OqPEMBABZboKmroSpj1qMYbNbhuGcJj9aVJR8NzxIH
+ 6P3GM5XQCD1pEAJyV7nVxR9/MZZcvTJRJrCXQ7qIWxG2HhOQHG5tIwHK2kiqWiOoZd/n
+ ofhH8T9qOH6T4H7dfHJeKvC/Jn0miGBw+mkYpecYmn71klrG8Ur/6ZhcQ0HDVXHY+Wq0
+ oBaWzecWor9p8cm178/ssgKf0tDS5PtvMtTTebwwzW98uxg3/mhcHH+3f3/KF3eNwvIc
+ hAKg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=O2jqYOKNWblVtkH7FfNX9Bd8GniuLgA5X55w+Ur6EmE=;
- b=WZRs859bgPTG4TCnmhP1QYWBkFSgyKy7dSRxa7cnFfAlsytBc8oiAcSG7swdw22VVM
- tkNpEwBA21EuDUGlA9pC2UMyC2M/EmOyyqeFPlTlTwIekoSL8/TiS70iOUtTpBbLWucN
- 9fAjj1WOs/++iMlqA/SsZQEWRGWvy3SBLjJwIjsSleshDCCIGKQ4+TpD4UEzwOwpAHC9
- /+e7I/blfZSaHPiFXT+cSyObw1+AISl6UfpPNH4u8y27peRAvzdGMaNB27uUwCvicCYE
- RLWGmBP9zOuxgJcT+sxUJkeeKXa0eUyiglSz/Dj/cfJYmqqLWI8TnMZOBO/+OwyBfOL2
- YFHA==
-X-Gm-Message-State: AOAM530gCZ6I5Yw0ZQy7In5e804DI6BrdQ3/0ZepqbTcJ7lRjElw30vl
- vRAnJ+fMbsSC7qD6NyMakp8zTlj/C6q5235VtxZe+A==
-X-Google-Smtp-Source: ABdhPJxLEkXGASZw1OZP14CZR2C+0KToML9mttBOUtBd5kFkn39n2kyTn+FFBseNESOH2V0yWc4GUmJt0HvM6/nhdyU=
-X-Received: by 2002:a5d:438a:: with SMTP id i10mr3145840wrq.295.1643994224307; 
- Fri, 04 Feb 2022 09:03:44 -0800 (PST)
+ bh=KXHPCbSZG3TI6bJwdaAJwsoSLDtVrmWMx3HqLytKCw4=;
+ b=1EHu5T6BMW40VOulBNk8PTBaKMhZrs78YCl0hPU3lEliyhLQ/zwtZAYVfgJEf+/vGR
+ GwBHaFk7VV7k/RgV2JUoNKK7AB38H8uO4swBnPj+O1EJQ3X5DpOZUimcWLsRGDsi1TuA
+ ExyRkDKVnfXTeMojW87K3FlDTMBeO2QLJm816aqmJYRKv6SffBmvV3+dF9y6KDbC+OUf
+ veOSz1G3sIjfOe90130yvTnYelTs9n4Ti4TF4+zZh/GvqjrASJZsDKPluqKSVG5SShn4
+ N/34G++PoNPpqWlH/0s9YluCcFJQ5tLzrHabkxuqp3NMZ2Wmvfmwo9+RZ0RDJvXrwVZR
+ Zd8g==
+X-Gm-Message-State: AOAM533mPovDuqio3xiVPnGIcd0/yinryt9xa9S3QQ1r5WO5AXplAYV4
+ TVSc3E/G79SLQZgc+hCt8aoixqSA3Q1iP5OsoHzs5A==
+X-Google-Smtp-Source: ABdhPJys0zRGM5Ba7tfOmgFDDtSTf5Yk7O6srNuFNy0++2uUCOLTwNH8XajzWque6oFjoaoreqE+OQIXXavbhnDcsY4=
+X-Received: by 2002:a5d:4c89:: with SMTP id z9mr2097956wrs.521.1643994461634; 
+ Fri, 04 Feb 2022 09:07:41 -0800 (PST)
 MIME-Version: 1.0
-References: <20220203015946.1330386-1-jsnow@redhat.com>
-In-Reply-To: <20220203015946.1330386-1-jsnow@redhat.com>
+References: <20220203151742.1457-1-francisco.iglesias@xilinx.com>
+In-Reply-To: <20220203151742.1457-1-francisco.iglesias@xilinx.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 4 Feb 2022 17:03:33 +0000
-Message-ID: <CAFEAcA9kueCpDM9MHNDHasAP=mjKNbNuZ-4_aX_8pdrjXPbACg@mail.gmail.com>
-Subject: Re: [PULL 0/4] Python patches
-To: John Snow <jsnow@redhat.com>
+Date: Fri, 4 Feb 2022 17:07:30 +0000
+Message-ID: <CAFEAcA9w8oU_fsOQHZxgV+=QWyvCzyHFtjNQ2RPUxNM_V9vXew@mail.gmail.com>
+Subject: Re: [PATCH v1] hw/arm/xlnx-zynqmp: 'Or' the QSPI / QSPI DMA IRQs
+To: Francisco Iglesias <francisco.iglesias@xilinx.com>
 Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::434
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42c
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::434;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x434.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42c.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -80,41 +80,24 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <eduardo@habkost.net>, Kevin Wolf <kwolf@redhat.com>,
- qemu-block@nongnu.org, qemu-devel@nongnu.org,
- Markus Armbruster <armbru@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
- Cleber Rosa <crosa@redhat.com>
+Cc: edgar.iglesias@xilinx.com, frasse.iglesias@gmail.com,
+ alistair@alistair23.me, luc@lmichel.fr, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 3 Feb 2022 at 01:59, John Snow <jsnow@redhat.com> wrote:
+On Thu, 3 Feb 2022 at 15:17, Francisco Iglesias
+<francisco.iglesias@xilinx.com> wrote:
 >
-> The following changes since commit 47cc1a3655135b89fa75c2824fbddd29df874612:
+> 'Or' the IRQs coming from the QSPI and QSPI DMA models. This is done for
+> avoiding the situation where one of the models incorrectly deasserts an
+> interrupt asserted from the other model (which will result in that the IRQ
+> is lost and will not reach guest SW).
 >
->   Merge remote-tracking branch 'remotes/kwolf-gitlab/tags/for-upstream' into staging (2022-02-01 19:48:15 +0000)
->
-> are available in the Git repository at:
->
->   https://gitlab.com/jsnow/qemu.git tags/python-pull-request
->
-> for you to fetch changes up to b0b662bb2b340d63529672b5bdae596a6243c4d0:
->
->   python/aqmp: add socket bind step to legacy.py (2022-02-02 14:12:22 -0500)
->
-> ----------------------------------------------------------------
-> Python patches
->
-> Peter: I expect this to address the iotest 040,041 failures you observed
-> on NetBSD. If it doesn't, let me know.
->
-> ----------------------------------------------------------------
+> Signed-off-by: Francisco Iglesias <francisco.iglesias@xilinx.com>
 
 
 
-Applied, thanks.
-
-Please update the changelog at https://wiki.qemu.org/ChangeLog/7.0
-for any user-visible changes.
+Applied to target-arm.next, thanks.
 
 -- PMM
 
