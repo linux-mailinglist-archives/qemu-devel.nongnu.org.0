@@ -2,77 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7D154AA165
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Feb 2022 21:48:45 +0100 (CET)
-Received: from localhost ([::1]:58588 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 307524AA167
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Feb 2022 21:50:05 +0100 (CET)
+Received: from localhost ([::1]:33290 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nG5Vc-0004oR-Sm
-	for lists+qemu-devel@lfdr.de; Fri, 04 Feb 2022 15:48:44 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:51554)
+	id 1nG5Wu-0006lM-8w
+	for lists+qemu-devel@lfdr.de; Fri, 04 Feb 2022 15:50:04 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:51536)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nG5Qr-0006hs-Bp
- for qemu-devel@nongnu.org; Fri, 04 Feb 2022 15:43:49 -0500
-Received: from [2a00:1450:4864:20::42c] (port=37423
- helo=mail-wr1-x42c.google.com)
+ id 1nG5Qq-0006gh-9K
+ for qemu-devel@nongnu.org; Fri, 04 Feb 2022 15:43:48 -0500
+Received: from [2a00:1450:4864:20::333] (port=42868
+ helo=mail-wm1-x333.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nG5Qp-0007La-Qt
- for qemu-devel@nongnu.org; Fri, 04 Feb 2022 15:43:49 -0500
-Received: by mail-wr1-x42c.google.com with SMTP id w11so13442039wra.4
- for <qemu-devel@nongnu.org>; Fri, 04 Feb 2022 12:43:47 -0800 (PST)
+ id 1nG5Qo-0007LM-DQ
+ for qemu-devel@nongnu.org; Fri, 04 Feb 2022 15:43:47 -0500
+Received: by mail-wm1-x333.google.com with SMTP id
+ n40-20020a05600c3ba800b00353958feb16so4464319wms.1
+ for <qemu-devel@nongnu.org>; Fri, 04 Feb 2022 12:43:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=NPKrcI0/I2FVrU5Z0FCwjKvMS6pS7fJ3mwu4LQOQL2E=;
- b=qu1u2MPbt1eX+jeolxO7vSa8+3NCc8Oj9wedCjtEl4NjxFBhJrFmq73su5JO8UggzX
- +S6Wjts5p/WW6sOesc0NdLbpUCXpwoJWgEjMePZjTiIWm0psX4i/cyaP723ScQUvN8w+
- PvFUXcxrRffq87Y1dUnmwvSbqxITjM7I7Ie6+z4KGcCytxHyPCdxKdM5RbRHLIqseCQm
- xe85T4iAIMlMfgyZmIAJjk4ht32dJKHTbkD3LfK/LK6X6NyFKEPuEAkccC2VVaj3nQaM
- VhLlJ9w4F9oOY0/fcWN3NTFyK2XowOK6hawNz6dmzFSdoaCXoxeZFyW3YqKHolAUwjq7
- xoiQ==
+ bh=DaG3zQiQZ36ycjnydoAdWjsIMQZNyRhwpx1B2DtbdXE=;
+ b=ZzFoL0iYjocxs78puY+y1PrPpwe4vMde3SRZubdsFTHEBQ0J0yajyd8LlI8Xu69/6c
+ Htqb5AxVUDrhwrjfoJQ/f7ObyrvusL+Vw6lXlPqEyOJHM7Pb5YkOPCnxbAoIa8m131Tg
+ cfBAWu8mf9IxpCqBwWUY/Wim/JqGT/mK5fZ0DNOjuf2vMvD4bKZHSZ94RgwbXmBI6IJm
+ rX/5di65djTamwuEikTPb+4ECr5pcBzzcgsI3YyvVViLVzk43wdYFxeYDB90QByUF9Bi
+ Kc8cLF1xP/LZOYLckEc4a04qGjJNNg4u41ZpO/lbrdoBb4pNRuCPHJ0GvPemHDY1Zu9Y
+ bRPA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=NPKrcI0/I2FVrU5Z0FCwjKvMS6pS7fJ3mwu4LQOQL2E=;
- b=Kdl6MLqZNNlTGnFVhyFKW00jI7bcsiN8K5EfB1oJPP3LsCSembzaLAIClzIo50BX3w
- m2CM+qoXhqAbJX4kBKug8xTYDFpk1jktYunDKPDlevGQvQdiZB+zj6ein3HUFhRgpZi0
- cPRarLt+PUf3J9zf+iTdCaGnvBXxabYjL/ugHEdsfpUQxOHal+Q0vN6/XoW27yOdUQep
- bDHrBdlQiR6CoKeC1d2DMsBnJEgoesubv/xppty0WZmfJQ3xX6IT4GiBHQlNpxhD54U5
- s8wmU5QLvP8XKhEgi3T9E5tkOCDur467SLLe9gTEKTkgGTxozqiin8BW1/QtCJHdr+PX
- 8RcQ==
-X-Gm-Message-State: AOAM530WNEzQnpk7VppHD4Yywh++jENJ9Wdm6QJM7/vMKz34bAYZvfAX
- zKdi7prrPAZzU+J3P/OBJdtXcA==
-X-Google-Smtp-Source: ABdhPJwZ/wF+d+ne+92XiHnsW95G4ddBxAtvbUPmdHXVERtuvEMdrIb0MKqoSyqEcPa7sSPUcOkeLg==
-X-Received: by 2002:a05:6000:18a4:: with SMTP id
- b4mr514240wri.641.1644007426580; 
- Fri, 04 Feb 2022 12:43:46 -0800 (PST)
+ bh=DaG3zQiQZ36ycjnydoAdWjsIMQZNyRhwpx1B2DtbdXE=;
+ b=Aufx4ZAZKwdRgLzXk+A9tRpWn6H33BUHu2jhY354C4K23pM+72I8g/Z0x1O1bfS/0l
+ 4ARUf7jUKqWzYWt/G4wqttrXruTRPPNyw2TYdx1qZmPo3/l78E/BJrNOCBOjeeqz01Dz
+ D2n24xqy/aLasZbaEQqHTbdrxOhuMqvqDxZEZbwZnVdOUTgbQ2MUUV8MZQbCr2INskau
+ oTwpTQOV7/YnOU1xdycpfEirU07scuOtErHXEb9Z9vceu1tSUijAIwhNN58xGJfrafZP
+ MSxnjsK+xiOMJEEw654gmkrxeZgvvI6IBovtFHvomSS53pPBu2Vn3LRz4PpP96cW8Gs7
+ EsFw==
+X-Gm-Message-State: AOAM5317dlzH9HzJxaMPRmsGHZ4r27tr+EG1C6kgaJ2PUHmd2ga/VuYo
+ FMRzPq4MyOdyVf7zFFLMbAEKYw==
+X-Google-Smtp-Source: ABdhPJy/sfp1hc4hCfKj9ahTCoA285bgxDol42SXaRuO0OXrkmvCEluAgBMmrquAb/16j+YxOa3LLA==
+X-Received: by 2002:a05:600c:3ac5:: with SMTP id
+ d5mr3727961wms.101.1644007425076; 
+ Fri, 04 Feb 2022 12:43:45 -0800 (PST)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id n11sm5977885wms.3.2022.02.04.12.43.38
+ by smtp.gmail.com with ESMTPSA id m11sm9462721wmi.16.2022.02.04.12.43.37
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Fri, 04 Feb 2022 12:43:41 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 7FAFD1FFBD;
+ by zen.linaroharston (Postfix) with ESMTP id 8B0751FFBE;
  Fri,  4 Feb 2022 20:43:35 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: richard.henderson@linaro.org,
 	qemu-devel@nongnu.org
-Subject: [PATCH v3 05/26] MAINTAINERS: Cover lcitool submodule with build test
- / automation
-Date: Fri,  4 Feb 2022 20:43:14 +0000
-Message-Id: <20220204204335.1689602-6-alex.bennee@linaro.org>
+Subject: [PATCH  v3 06/26] gitmodules: Correct libvirt-ci submodule URL
+Date: Fri,  4 Feb 2022 20:43:15 +0000
+Message-Id: <20220204204335.1689602-7-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220204204335.1689602-1-alex.bennee@linaro.org>
 References: <20220204204335.1689602-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42c
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::333
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::333;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x333.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -105,31 +105,32 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-lcitool is used by build test / automation, we want maintainers
-to get notified if the submodule is updated.
+Correct the libvirt-ci repository URL to avoid this warning when
+cloning / refreshing the submodule:
 
+  warning: redirecting to https://gitlab.com/libvirt/libvirt-ci.git/
+
+Fixes: 4ebb040f1fd ("tests: integrate lcitool for generating build env manifests")
 Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 Reviewed-by: Thomas Huth <thuth@redhat.com>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20220121154134.315047-2-f4bug@amsat.org>
-Message-Id: <20220124201608.604599-6-alex.bennee@linaro.org>
+Message-Id: <20220121154134.315047-3-f4bug@amsat.org>
+Message-Id: <20220124201608.604599-7-alex.bennee@linaro.org>
 ---
- MAINTAINERS | 1 +
- 1 file changed, 1 insertion(+)
+ .gitmodules | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 9814580975..b0b845f445 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -3585,6 +3585,7 @@ F: .travis.yml
- F: scripts/ci/
- F: tests/docker/
- F: tests/vm/
-+F: tests/lcitool/
- F: scripts/archive-source.sh
- W: https://gitlab.com/qemu-project/qemu/pipelines
- W: https://travis-ci.org/qemu/qemu
+diff --git a/.gitmodules b/.gitmodules
+index 84425d87e2..f4b6a9b401 100644
+--- a/.gitmodules
++++ b/.gitmodules
+@@ -66,4 +66,4 @@
+ 	url = https://gitlab.com/qemu-project/vbootrom.git
+ [submodule "tests/lcitool/libvirt-ci"]
+ 	path = tests/lcitool/libvirt-ci
+-	url = http://gitlab.com/libvirt/libvirt-ci
++	url = https://gitlab.com/libvirt/libvirt-ci.git
 -- 
 2.30.2
 
