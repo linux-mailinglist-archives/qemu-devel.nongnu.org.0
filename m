@@ -2,78 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 162384A9C12
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Feb 2022 16:37:59 +0100 (CET)
-Received: from localhost ([::1]:50336 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 04BEA4A9C0D
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Feb 2022 16:34:47 +0100 (CET)
+Received: from localhost ([::1]:43084 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nG0es-0003O2-0G
-	for lists+qemu-devel@lfdr.de; Fri, 04 Feb 2022 10:37:58 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:59546)
+	id 1nG0bj-0006mU-E2
+	for lists+qemu-devel@lfdr.de; Fri, 04 Feb 2022 10:34:43 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:59604)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nG0XA-0003uE-4a
- for qemu-devel@nongnu.org; Fri, 04 Feb 2022 10:30:00 -0500
-Received: from [2607:f8b0:4864:20::102d] (port=40663
- helo=mail-pj1-x102d.google.com)
+ id 1nG0XE-0003vE-Lp
+ for qemu-devel@nongnu.org; Fri, 04 Feb 2022 10:30:08 -0500
+Received: from [2607:f8b0:4864:20::430] (port=38636
+ helo=mail-pf1-x430.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nG0X8-0004Df-1p
- for qemu-devel@nongnu.org; Fri, 04 Feb 2022 10:29:59 -0500
-Received: by mail-pj1-x102d.google.com with SMTP id
- p22-20020a17090adf9600b001b8783b2647so220172pjv.5
- for <qemu-devel@nongnu.org>; Fri, 04 Feb 2022 07:29:49 -0800 (PST)
+ id 1nG0X8-0004Dp-3T
+ for qemu-devel@nongnu.org; Fri, 04 Feb 2022 10:30:01 -0500
+Received: by mail-pf1-x430.google.com with SMTP id e28so5400067pfj.5
+ for <qemu-devel@nongnu.org>; Fri, 04 Feb 2022 07:29:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=eha/TYHzse5/9u/DYqXS1oHE24NywDNmpUOtiVb/8oo=;
- b=HwpOEHdHf5XzrwtZEZ5mkQp4mFlmMtXShEDH226AIHDnjTvSWNoskm6iFHKmYdlH1e
- 8DeW6qgwlsKTx19k/0DfvKXts+REkHbsz2tuEpnVS0gHLFblcdhVQvCcUZMiwpqylfxh
- USxKOK325e2LXAJrgC452ZVIWYlXSPcXBEDMvzuXzE15h6FEYQUNsGQ+YRXlqJjbPsaS
- oyirWLU3JOkfIGN1ghgqnEtf9jaaliJwsjoMY4Bo92lG1W/ydBRk9Sjth5uKAYRFiieh
- uU70n8dMcVDNuYKn72AfFR74bGFJNGFVLkM+2OkGEGbCxDsZniLVa1Zo7gTHg5pNBDZD
- 7aVQ==
+ bh=c9ntEH4Bl9l8+RDYaNgJ6bnn3J0oNz9TjchIJzcfklw=;
+ b=CcQ12CnIkc+JvkzdfVZpkxla8UL2LL9iC4mLbCcunaq6Ti/+pCaptamaBal6y72vCO
+ 0BLwmfXXiRcnFE2xLjJ057LgF4ekYRHQwFXjyCJBUAyXH5Ewtf+Hf73QRzFn3XsoEchF
+ pOkRxB0ege3No2LXsnzc2dK5B1Zm7D1EmRzZiNqLsD2AgB34WlOUrkchygz9AtN3+LJ3
+ eRJbHOE3PyhvT3XDbJw2r4KNq1KaamIZxSggT+xlIrEAl527Rj4eTh31R0LdryxTy7Df
+ BqiXDeRFLuMe66CBt+Kiy0m1SlDFVwlaYdWPmr33C5sby+DaNHY/kTTNEsVb+LDjwoFz
+ r3JQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=eha/TYHzse5/9u/DYqXS1oHE24NywDNmpUOtiVb/8oo=;
- b=m+coYoG+QX3ceD7jGOs47SMQDn6NO7N2S+UCxqDJeTlVo6wEW4CS9SdXjBm/QrzlDU
- y+n8uvGL/3xmqMnrfLsU29e1WLcWxJhYgisUu/LNjROfwV/vEYvwptzzCWOD2hI+l2OP
- a0CKiWvIuugH4dT9/tWRWopJjWyfvNh4MonPV4OgTPE7WtHg8g6q/1x+e8ZMsFbwLwnj
- Bh+NyXjg7LqaUfOuetxwb/TkmamMmkqGtk/VxkoHQ51T85Jcih8qsJpA2UyYeQRkzaN2
- CZMFlBokiNc0hasa/SphtBCv7aaMOaTYQmAwMEobGw7v6GERsf4ukK36ogCZdqEfEzz3
- ZK8w==
-X-Gm-Message-State: AOAM530QMQyXqlK1dSUzZPgaETDz5XSykC9N03+0aIMK+Ftc5oFelYWI
- PvDJv9el2J7Hlm3O9/NsPgvyH2TAYCk=
-X-Google-Smtp-Source: ABdhPJwsJVVdJTNvl5yfvaBtHBDTkz/2ufjiPROW61adtPaYP3yc7B733m4j8OLo3zWN/i20hS35dg==
-X-Received: by 2002:a17:90a:5984:: with SMTP id
- l4mr3751872pji.80.1643988588179; 
- Fri, 04 Feb 2022 07:29:48 -0800 (PST)
+ bh=c9ntEH4Bl9l8+RDYaNgJ6bnn3J0oNz9TjchIJzcfklw=;
+ b=H2EL0A1aF8Eg8Ffth66/kyHJb8494Pw8Hol7I1YZ6AKjocC9ib1QhvBwGMaJmKZgam
+ tLwON/7QRO4bUvsK0D+VHjUBKyXGAND8ooK8Wuc7h10x2ZDpYcLrUwchG/CzIyjTOsgN
+ 891GzQYqUtaY7dwqunsYqpO+wwKw6hp7VjfG4ErbiGkUrwm5h+JqR8N7McWicON0eM+C
+ HxbatVlUCnbJ7/1VKe7xfpOtpJLV1do4iSeB13pL3itApVmFTDIZBVDx6QpN62WzfY2N
+ GUkKHBFRh/Q76lxS2fO02m3vFTZGouS0KEw1p3dKZs4eaSqNLHmpbyFduMz6HZFuPS5P
+ pCUA==
+X-Gm-Message-State: AOAM530lZ+NHCW2oHmOm10DiFQLBqMebFUZeCb3SzW5cbKpYf3ipQWUs
+ Y3EirE27cTrVTne0dZsR+SHHsT2NIq4=
+X-Google-Smtp-Source: ABdhPJxzYCVXb3KV3+FyFniQoMz53AZqVRru+jjPX9KdiZywY3ro6pQDjVCdIy+5z07b3jLTptzQiA==
+X-Received: by 2002:a05:6a00:b54:: with SMTP id
+ p20mr3608208pfo.49.1643988596667; 
+ Fri, 04 Feb 2022 07:29:56 -0800 (PST)
 Received: from localhost.localdomain (154.red-83-50-83.dynamicip.rima-tde.net.
  [83.50.83.154])
- by smtp.gmail.com with ESMTPSA id m14sm3135816pfc.170.2022.02.04.07.29.45
+ by smtp.gmail.com with ESMTPSA id y20sm3042144pfi.78.2022.02.04.07.29.54
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Fri, 04 Feb 2022 07:29:47 -0800 (PST)
+ Fri, 04 Feb 2022 07:29:56 -0800 (PST)
 To: qemu-devel@nongnu.org
 Cc: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
  Thomas Huth <thuth@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
  Markus Armbruster <armbru@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: [PATCH 2/4] tests/fp: Do not build softfloat3 tests if TCG is disabled
-Date: Fri,  4 Feb 2022 16:29:22 +0100
-Message-Id: <20220204152924.6253-3-f4bug@amsat.org>
+Subject: [PATCH 3/4] qom: Remove user-creatable objects from user emulation
+Date: Fri,  4 Feb 2022 16:29:23 +0100
+Message-Id: <20220204152924.6253-4-f4bug@amsat.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220204152924.6253-1-f4bug@amsat.org>
 References: <20220204152924.6253-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::102d
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::430
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102d;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pj1-x102d.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::430;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pf1-x430.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -100,30 +99,79 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reply-to:  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 From:  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= via <qemu-devel@nongnu.org>
 
-Technically we don't need the TCG accelerator to run the
-softfloat3 tests. However it is unlikely an interesting
-build combination. Developers using softfloat3 likely use
-TCG too. Similarly, developers disabling TCG shouldn't
-mind much about softfloat3 tests.
+user-mode don't use user-creatable objects. Restrict it to
+sysemu / tools.
 
-This reduces a non-TCG build by 474 objects!
+Add a stub to avoid a link failure with the global callback:
+
+  /usr/bin/ld: libqom.fa(qom_object.c.o): in function `object_initialize_child_with_propsv':
+  ../qom/object.c:578: undefined reference to `user_creatable_complete'
+  /usr/bin/ld: libqom.fa(qom_object.c.o): in function `object_new_with_propv':
+  ../qom/object.c:801: undefined reference to `user_creatable_complete'
+  collect2: error: ld returned 1 exit status
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- tests/fp/meson.build | 3 +++
- 1 file changed, 3 insertions(+)
+ qom/meson.build           | 7 ++++++-
+ qom/user_creatable-stub.c | 8 ++++++++
+ tests/unit/meson.build    | 2 +-
+ 3 files changed, 15 insertions(+), 2 deletions(-)
+ create mode 100644 qom/user_creatable-stub.c
 
-diff --git a/tests/fp/meson.build b/tests/fp/meson.build
-index 59776a00a7..60843fce85 100644
---- a/tests/fp/meson.build
-+++ b/tests/fp/meson.build
-@@ -1,3 +1,6 @@
-+if 'CONFIG_TCG' not in config_all
-+  subdir_done()
+diff --git a/qom/meson.build b/qom/meson.build
+index 062a3789d8..afc60cc19d 100644
+--- a/qom/meson.build
++++ b/qom/meson.build
+@@ -2,9 +2,14 @@ qom_ss.add(genh)
+ qom_ss.add(files(
+   'container.c',
+   'object.c',
+-  'object_interfaces.c',
+   'qom-qobject.c',
+ ))
+ 
++if have_system or have_tools
++  qom_ss.add(files('object_interfaces.c'))
++else
++  qom_ss.add(files('user_creatable-stub.c'))
 +endif
- # There are namespace pollution issues on Windows, due to osdep.h
- # bringing in Windows headers that define a FLOAT128 type.
- if targetos == 'windows'
++
+ qmp_ss.add(files('qom-qmp-cmds.c'))
+ softmmu_ss.add(files('qom-hmp-cmds.c'))
+diff --git a/qom/user_creatable-stub.c b/qom/user_creatable-stub.c
+new file mode 100644
+index 0000000000..cc3638e20d
+--- /dev/null
++++ b/qom/user_creatable-stub.c
+@@ -0,0 +1,8 @@
++#include "qemu/osdep.h"
++
++#include "qom/object_interfaces.h"
++
++bool user_creatable_complete(UserCreatable *uc, Error **errp)
++{
++    g_assert_not_reached();
++}
+diff --git a/tests/unit/meson.build b/tests/unit/meson.build
+index 64a5e7bfde..2cdcd136c9 100644
+--- a/tests/unit/meson.build
++++ b/tests/unit/meson.build
+@@ -39,7 +39,6 @@ tests = {
+   'test-bitcnt': [],
+   'test-qgraph': ['../qtest/libqos/qgraph.c'],
+   'check-qom-interface': [qom],
+-  'check-qom-proplist': [qom],
+   'test-qemu-opts': [],
+   'test-keyval': [testqapi],
+   'test-logging': [],
+@@ -51,6 +50,7 @@ tests = {
+ 
+ if have_system or have_tools
+   tests += {
++    'check-qom-proplist': [qom],
+     'test-qmp-event': [testqapi],
+   }
+ endif
 -- 
 2.34.1
 
