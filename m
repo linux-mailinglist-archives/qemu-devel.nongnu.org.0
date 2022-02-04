@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B08E64A9D82
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Feb 2022 18:15:04 +0100 (CET)
-Received: from localhost ([::1]:58184 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB57D4A9D60
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Feb 2022 18:06:56 +0100 (CET)
+Received: from localhost ([::1]:45436 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nG2Ap-0004Qe-D5
-	for lists+qemu-devel@lfdr.de; Fri, 04 Feb 2022 12:15:03 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:53834)
+	id 1nG22x-00047X-Sj
+	for lists+qemu-devel@lfdr.de; Fri, 04 Feb 2022 12:06:55 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:53812)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nG1sH-0002y5-Lt
+ id 1nG1sH-0002xR-FS
  for qemu-devel@nongnu.org; Fri, 04 Feb 2022 11:55:53 -0500
-Received: from [2a00:1450:4864:20::431] (port=45626
- helo=mail-wr1-x431.google.com)
+Received: from [2a00:1450:4864:20::32d] (port=50887
+ helo=mail-wm1-x32d.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nG1rr-0003Cg-Hk
- for qemu-devel@nongnu.org; Fri, 04 Feb 2022 11:55:39 -0500
-Received: by mail-wr1-x431.google.com with SMTP id m14so12416793wrg.12
- for <qemu-devel@nongnu.org>; Fri, 04 Feb 2022 08:55:11 -0800 (PST)
+ id 1nG1rt-0003D9-Gy
+ for qemu-devel@nongnu.org; Fri, 04 Feb 2022 11:55:40 -0500
+Received: by mail-wm1-x32d.google.com with SMTP id m26so4997078wms.0
+ for <qemu-devel@nongnu.org>; Fri, 04 Feb 2022 08:55:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=q3lEtc5flDNZqu3pjs5Zh2F0vIL0PpXE6vU56vUELAY=;
- b=qMiNaxDCdLYY+0bp2GFATzDbwVh9oh4no7rnM4RUGCQf9bqIOrLdiRabeI7iSA6RUY
- l21pkwzUHwxks9whV8LWWGDO/mcW94f7WkW+cG4ny82IFsweX6il0f3ZiuJfAQzgUQ25
- rSyK1QNlCgao38UCh55GmWx3KuSjJwjD48EWkm8CBirFdgnIbglwbe1PVLjLM8gj7BjN
- L80gq5T8/4chIVC4iG7wYcMvgZGOaokWygDxKeOrBhWHEPVObG9to7eqNuVW+FrVkuWr
- oPy63lppSGJEbzQHJUG0gynqExMBsU0PpmtLS+vNFYA+RK5DN27xKyrIA5uk/OTo/2BX
- mCUg==
+ bh=GEq+WVisRup7DDWYvHMkPo67hjMY0sbprx528SyyNTQ=;
+ b=PQW6Y+Khj/Qrk/sc1YwfoCROKa8j6BW6/7xmrhbN8wqRmSbSkVsTSnrD5ufGRVtcfa
+ ZfVORtiCLtcxI1/yTmDSQ/ZKSOZoyPkXHnI/9+TqSj2vSqMyzNGpeIWa9K5huorHG0PZ
+ rt8ET0hlnowomjeeY545wWe4f/1QtW0axvsSio2RdayhkzLMEYxp+CQjv/zbQqq2Xcpo
+ kixIi1HEQyEiRp3bVI3INtT7pnmBICcReryzz+X0FmVO86appphrGR2lqvRHD5iY9KCg
+ BELIJg/GUM0Kyz1V1xOFkWLvs2yVcK9lerlDcx1EOWi/tQ66iREdivNdbDQgUHMQbq7Z
+ VNQg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=q3lEtc5flDNZqu3pjs5Zh2F0vIL0PpXE6vU56vUELAY=;
- b=Pqg2GmfaTEJI0gmKME388shhda8fBK/4ECeUjPABk+RzPHFPxsqjc4SOqX8dMYD486
- KRvRI+SOCMSPOYXLjt+zQPz0AhWHeePeHKegCR+naXPV7+qdohqkXlBOP7jSNvH2kNg0
- kV29BPmKrIuWf8tTsk9P/ObgGWyn2cDKU3f9P77Iz4PnrNwlGwmGghRKIQ/PSfmtDt4B
- LbXJlk3wsLCJU1gjaDkvZh4dznjPAXw63gOpOPaprDq7oLHigV+PFUhUcYmE/p7j1KYg
- HRlMRVC9RRhbtwJBZ48hR6hJf+DQomOqPoLtlGrtANQZAlpzZTH4+7uWL1XbaU+v+cy6
- 0aXw==
-X-Gm-Message-State: AOAM5337Z5cjaUr7JbxdhkGYfFRQwSpd9QaZNr5w5Qux4DMP/56sKS6B
- jgdeLNYBZz/uS/9dYnI4onJ/N8vluEBbKQ==
-X-Google-Smtp-Source: ABdhPJyQstj8oRcDwEAVwouyYWZJxElRo5/9RBuWGS5PJHlDTUXbuzOF3Psb7TehPAaE0zmXrvg52w==
-X-Received: by 2002:a05:6000:184f:: with SMTP id
- c15mr3204888wri.218.1643993710666; 
- Fri, 04 Feb 2022 08:55:10 -0800 (PST)
+ bh=GEq+WVisRup7DDWYvHMkPo67hjMY0sbprx528SyyNTQ=;
+ b=OT8sxgAoClCenuLEsxBGfOO48lzf90PIlKbwhzj2ulZ9PC7ebDE+Ryybarcjcw2sCI
+ qP9yX/MYWHqOJgq9kXvwsMc6AFXkk4X/N1ZsIDrXOUSAzLKXSHTSQp5mpimrNlMk9CS7
+ xC0dlqbTDpSaHNMqIjv+hBP7xGvzmtNP/8XWPY83yEcRr5Y6E58eCveyaNbW2Ma/jNKa
+ whdndQ7SNcfmVjOCAqpVJ4H7fa8tWLYgsnGGCdoq4HhvpNr5L8i+9dXeD6V0COvLCf0s
+ j0cEzTVQwxnPfQ5QdzY6V9zoxnB2opreqzBLtI1Khq46qyUXLlz8flRMXmeNwNeR1F5i
+ lBDw==
+X-Gm-Message-State: AOAM533W47jJ4PBMqPX6F8iJsAFKYzbxrpXmQ5aR+W+ZHBX2KOCYpWxS
+ UruYruYR28irFEW4BgzvipBlaQ==
+X-Google-Smtp-Source: ABdhPJwpkb3wvZs40lgkIxZZlTznWlbfSjhuU1IRbP55uzE0LHu3C6zM9/TwW7jaHdDGmuyTA9nqoQ==
+X-Received: by 2002:a05:600c:3ac5:: with SMTP id
+ d5mr2997821wms.101.1643993712352; 
+ Fri, 04 Feb 2022 08:55:12 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
- by smtp.gmail.com with ESMTPSA id f12sm2486254wrs.1.2022.02.04.08.55.09
+ by smtp.gmail.com with ESMTPSA id f12sm2486254wrs.1.2022.02.04.08.55.11
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 04 Feb 2022 08:55:10 -0800 (PST)
+ Fri, 04 Feb 2022 08:55:12 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
-Subject: [PATCH 3/6] target/arm: Make KVM -cpu max exactly like -cpu host
-Date: Fri,  4 Feb 2022 16:55:03 +0000
-Message-Id: <20220204165506.2846058-4-peter.maydell@linaro.org>
+Subject: [PATCH 5/6] target/arm: Fix '-cpu max' for HVF
+Date: Fri,  4 Feb 2022 16:55:05 +0000
+Message-Id: <20220204165506.2846058-6-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220204165506.2846058-1-peter.maydell@linaro.org>
 References: <20220204165506.2846058-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::431
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32d
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::431;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x431.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32d.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -92,63 +92,42 @@ Cc: Andrew Jones <drjones@redhat.com>, Alexander Graf <agraf@csgraf.de>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Currently for KVM the intention is that '-cpu max' and '-cpu host'
-are the same thing, but because we did this with two separate
-pieces of code they have got a little bit out of sync. Specifically,
-'max' has a 'sve-max-vq' property, and 'host' does not.
+Currently when using hvf we mishandle '-cpu max': we fall through to
+the TCG version of its initfn, which then sets a lot of feature bits
+that the real host CPU doesn't have. The hvf accelerator code then
+exposes these bogus ID register values to the guest because it
+doesn't check that the host really has the features.
 
-Bring the two together by having the initfn for 'max' actually
-call the initfn for 'host'. This will result in 'max' no longer
-exposing the 'sve-max-vq' property when using KVM.
+Make '-cpu host' be like '-cpu max' for hvf, as we do with kvm.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/arm/cpu64.c | 14 ++++++++------
- 1 file changed, 8 insertions(+), 6 deletions(-)
+ target/arm/cpu64.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
 diff --git a/target/arm/cpu64.c b/target/arm/cpu64.c
-index 590ac562714..ae2e431247f 100644
+index bc25a2567bf..fd611c97116 100644
 --- a/target/arm/cpu64.c
 +++ b/target/arm/cpu64.c
-@@ -682,22 +682,22 @@ void aarch64_add_pauth_properties(Object *obj)
-     }
- }
- 
--#if defined(CONFIG_KVM) || defined(CONFIG_HVF)
- static void aarch64_host_initfn(Object *obj)
- {
-+#if defined(CONFIG_KVM)
-     ARMCPU *cpu = ARM_CPU(obj);
--
--#ifdef CONFIG_KVM
-     kvm_arm_set_cpu_features_from_host(cpu);
-     if (arm_feature(&cpu->env, ARM_FEATURE_AARCH64)) {
-         aarch64_add_sve_properties(obj);
-         aarch64_add_pauth_properties(obj);
-     }
--#else
-+#elif defined(CONFIG_HVF)
-+    ARMCPU *cpu = ARM_CPU(obj);
-     hvf_arm_set_cpu_features_from_host(cpu);
-+#else
-+    g_assert_not_reached();
+@@ -29,6 +29,7 @@
+ #include "hw/loader.h"
  #endif
- }
--#endif
+ #include "sysemu/kvm.h"
++#include "sysemu/hvf.h"
+ #include "kvm_arm.h"
+ #include "hvf_arm.h"
+ #include "qapi/visitor.h"
+@@ -710,8 +711,8 @@ static void aarch64_max_initfn(Object *obj)
+     uint64_t t;
+     uint32_t u;
  
- /* -cpu max: if KVM is enabled, like -cpu host (best possible with this host);
-  * otherwise, a CPU with as many features enabled as our emulation supports.
-@@ -709,7 +709,9 @@ static void aarch64_max_initfn(Object *obj)
-     ARMCPU *cpu = ARM_CPU(obj);
- 
-     if (kvm_enabled()) {
--        kvm_arm_set_cpu_features_from_host(cpu);
-+        /* With KVM, '-cpu max' is identical to '-cpu host' */
-+        aarch64_host_initfn(obj);
-+        return;
-     } else {
-         uint64_t t;
-         uint32_t u;
+-    if (kvm_enabled()) {
+-        /* With KVM, '-cpu max' is identical to '-cpu host' */
++    if (kvm_enabled() || hvf_enabled()) {
++        /* With KVM or HVF, '-cpu max' is identical to '-cpu host' */
+         aarch64_host_initfn(obj);
+         return;
+     }
 -- 
 2.25.1
 
