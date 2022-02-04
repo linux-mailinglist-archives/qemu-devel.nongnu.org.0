@@ -2,92 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 204124A9C4D
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Feb 2022 16:53:27 +0100 (CET)
-Received: from localhost ([::1]:47182 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C5DEA4A9C96
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Feb 2022 17:00:14 +0100 (CET)
+Received: from localhost ([::1]:32872 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nG0tp-0004DF-BT
-	for lists+qemu-devel@lfdr.de; Fri, 04 Feb 2022 10:53:25 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:36832)
+	id 1nG10P-0005Wg-9J
+	for lists+qemu-devel@lfdr.de; Fri, 04 Feb 2022 11:00:13 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:37820)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
- id 1nG0nl-00078z-56; Fri, 04 Feb 2022 10:47:11 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:49678
- helo=mx0a-001b2d01.pphosted.com)
+ id 1nG0sa-0002rh-2H; Fri, 04 Feb 2022 10:52:09 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:48440)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
- id 1nG0nj-00085s-4p; Fri, 04 Feb 2022 10:47:08 -0500
-Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 214ETqeW016005; 
- Fri, 4 Feb 2022 15:46:46 GMT
+ id 1nG0s4-0000HG-DH; Fri, 04 Feb 2022 10:52:07 -0500
+Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 214FKJZi024621; 
+ Fri, 4 Feb 2022 15:50:58 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
  h=from : to : cc : subject
  : in-reply-to : references : date : message-id : mime-version :
- content-type; s=pp1; bh=KrqYSVCUEYw+2W0eVmv1WLuEh8ViUrrkncCBTLXeRKM=;
- b=pQKqujjNRfD3HME3cWXsFLPJOuGHMvLHghG9dLDTQDhqTz90YbxIdTkawxWVxkbJwsJn
- SZnCdStyii2fGYX+Ih/ihzHiBYhMZ58KuefSw451frj0JK5kL9GsAZqR3ZdgoSjBqDar
- 45HTKyFJLhifi1LQUc2DBgQgNsnIGAeVP5UZ9Xw8xeU99wnbTlpGXmSOEmj+CsqvhTer
- 8larZUn5SXN8iwNeUsdUaKvZTO9yROayVNbc+bY6ky2kuMBP4q+QzeUNYWcFmDo8ZxaC
- mON8LtrtqKRl1R3OzclNWroKyNrStVZvxUIQKN/cF2hpPZuxUXFU6qNzUAJTqE61YC8e JA== 
+ content-type : content-transfer-encoding; s=pp1;
+ bh=Vt1hVqNIjf4Lerdv7ZOdLrNXN/aCj4mHmZFPCQv4bvk=;
+ b=Ih4wtjYrJXdvpkpTFjG4ZA7Nfvc3O8YOe9mi8frZFg7A8QtTtg+EuKZ64rgmPiOCUinl
+ +QHkCBNlVGmC+NdUoQTtzAuIjBgIQXLJhggT8Tahm8dF09hiW5JjkLdGPVDc1VIXJEHR
+ NxeNYofrx7h3dVLj9iVBPydYT1PKFknjxCY3BiE1QiWaeVfxhAKcmzwHkmQTZMiHbVZO
+ mPxlBmmDcu+T4HpWBsYCQEUPtGbNGfLo3aIYbg5uvg5rhLluBszzYLvpPishrrYWEUyV
+ vAayP9p0sprf2N8r1heKaw20lBqTtBOJAZjw77GEMJZQ0n9kCVArECN9n58MMCHNurL0 Jw== 
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com with ESMTP id 3e0rt5fcq9-1
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3e0qx0rfn0-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 04 Feb 2022 15:46:46 +0000
-Received: from m0098420.ppops.net (m0098420.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 214FiqGD018811;
- Fri, 4 Feb 2022 15:46:45 GMT
-Received: from ppma04dal.us.ibm.com (7a.29.35a9.ip4.static.sl-reverse.com
- [169.53.41.122])
- by mx0b-001b2d01.pphosted.com with ESMTP id 3e0rt5fcpu-1
+ Fri, 04 Feb 2022 15:50:58 +0000
+Received: from m0098409.ppops.net (m0098409.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 214Fkko1025971;
+ Fri, 4 Feb 2022 15:50:58 GMT
+Received: from ppma01dal.us.ibm.com (83.d6.3fa9.ip4.static.sl-reverse.com
+ [169.63.214.131])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3e0qx0rfmr-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 04 Feb 2022 15:46:45 +0000
-Received: from pps.filterd (ppma04dal.us.ibm.com [127.0.0.1])
- by ppma04dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 214FgvRS019169;
- Fri, 4 Feb 2022 15:46:45 GMT
-Received: from b01cxnp23033.gho.pok.ibm.com (b01cxnp23033.gho.pok.ibm.com
- [9.57.198.28]) by ppma04dal.us.ibm.com with ESMTP id 3e0r0rrqka-1
+ Fri, 04 Feb 2022 15:50:58 +0000
+Received: from pps.filterd (ppma01dal.us.ibm.com [127.0.0.1])
+ by ppma01dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 214Fn4hY028056;
+ Fri, 4 Feb 2022 15:50:57 GMT
+Received: from b03cxnp08025.gho.boulder.ibm.com
+ (b03cxnp08025.gho.boulder.ibm.com [9.17.130.17])
+ by ppma01dal.us.ibm.com with ESMTP id 3e0r0srtme-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 04 Feb 2022 15:46:45 +0000
-Received: from b01ledav006.gho.pok.ibm.com (b01ledav006.gho.pok.ibm.com
- [9.57.199.111])
- by b01cxnp23033.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 214Fkhb941353630
+ Fri, 04 Feb 2022 15:50:57 +0000
+Received: from b03ledav006.gho.boulder.ibm.com
+ (b03ledav006.gho.boulder.ibm.com [9.17.130.237])
+ by b03cxnp08025.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 214FotTC35389724
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 4 Feb 2022 15:46:43 GMT
-Received: from b01ledav006.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 844A8AC05F;
- Fri,  4 Feb 2022 15:46:43 +0000 (GMT)
-Received: from b01ledav006.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 60E2EAC066;
- Fri,  4 Feb 2022 15:46:42 +0000 (GMT)
+ Fri, 4 Feb 2022 15:50:55 GMT
+Received: from b03ledav006.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 15955C6062;
+ Fri,  4 Feb 2022 15:50:55 +0000 (GMT)
+Received: from b03ledav006.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 59E8CC605A;
+ Fri,  4 Feb 2022 15:50:54 +0000 (GMT)
 Received: from localhost (unknown [9.211.79.16])
- by b01ledav006.gho.pok.ibm.com (Postfix) with ESMTPS;
- Fri,  4 Feb 2022 15:46:41 +0000 (GMT)
+ by b03ledav006.gho.boulder.ibm.com (Postfix) with ESMTPS;
+ Fri,  4 Feb 2022 15:50:54 +0000 (GMT)
 From: Fabiano Rosas <farosas@linux.ibm.com>
-To: BALATON Zoltan <balaton@eik.bme.hu>
-Subject: Re: [PATCH 10/11] target/ppc: 6xx: Software TLB exceptions cleanup
-In-Reply-To: <4bb49bac-12a7-b3ae-e719-e257366d15d5@eik.bme.hu>
+To: =?utf-8?Q?C=C3=A9dric?= Le Goater <clg@kaod.org>, qemu-devel@nongnu.org
+Subject: Re: [PATCH 00/11] target/ppc: powerpc_excp improvements [6xx] (7/n)
+In-Reply-To: <f8a83c3d-be90-30bc-5cdf-752fe3d1b04c@kaod.org>
 References: <20220203200957.1434641-1-farosas@linux.ibm.com>
- <20220203200957.1434641-11-farosas@linux.ibm.com>
- <4bb49bac-12a7-b3ae-e719-e257366d15d5@eik.bme.hu>
-Date: Fri, 04 Feb 2022 12:46:39 -0300
-Message-ID: <87tude8wio.fsf@linux.ibm.com>
+ <f8a83c3d-be90-30bc-5cdf-752fe3d1b04c@kaod.org>
+Date: Fri, 04 Feb 2022 12:50:52 -0300
+Message-ID: <87r18i8wbn.fsf@linux.ibm.com>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: IV_qFF1phFhEQJmT0iJag9eIDIjSf_0K
-X-Proofpoint-ORIG-GUID: v2u69UkIihqkXcRC78_UsT8Rt0rkmEfu
+X-Proofpoint-GUID: mE8AKA-VKerRCKhDzqYHddamOkXeFdjj
+X-Proofpoint-ORIG-GUID: O9FJLET_kcKKWf7w7LmbQnnES09CFT2x
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.816,Hydra:6.0.425,FMLib:17.11.62.513
  definitions=2022-02-04_06,2022-02-03_01,2021-12-02_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxscore=0 clxscore=1015
- spamscore=0 bulkscore=0 mlxlogscore=922 malwarescore=0 suspectscore=0
- adultscore=0 phishscore=0 priorityscore=1501 impostorscore=0
+ bulkscore=0 clxscore=1015
+ mlxlogscore=899 suspectscore=0 spamscore=0 malwarescore=0 phishscore=0
+ priorityscore=1501 impostorscore=0 adultscore=0 mlxscore=0
  lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2201110000 definitions=main-2202040086
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=farosas@linux.ibm.com;
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=farosas@linux.ibm.com;
  helo=mx0a-001b2d01.pphosted.com
 X-Spam_score_int: -19
 X-Spam_score: -2.0
@@ -108,77 +109,26 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: clg@kaod.org, danielhb413@gmail.com, qemu-ppc@nongnu.org,
- qemu-devel@nongnu.org, david@gibson.dropbear.id.au
+Cc: danielhb413@gmail.com, qemu-ppc@nongnu.org, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-BALATON Zoltan <balaton@eik.bme.hu> writes:
+C=C3=A9dric Le Goater <clg@kaod.org> writes:
 
-> On Thu, 3 Feb 2022, Fabiano Rosas wrote:
->> This code applies only to the 6xx CPUs, so we can remove the switch
->> statement.
->>
->> Signed-off-by: Fabiano Rosas <farosas@linux.ibm.com>
->> ---
->> target/ppc/excp_helper.c | 31 +++++++++++--------------------
->> 1 file changed, 11 insertions(+), 20 deletions(-)
->>
->> diff --git a/target/ppc/excp_helper.c b/target/ppc/excp_helper.c
->> index 538905c4dd..80168355bd 100644
->> --- a/target/ppc/excp_helper.c
->> +++ b/target/ppc/excp_helper.c
->> @@ -553,7 +553,6 @@ static void powerpc_excp_6xx(PowerPCCPU *cpu, int excp)
->> {
->>     CPUState *cs = CPU(cpu);
->>     CPUPPCState *env = &cpu->env;
->> -    int excp_model = env->excp_model;
->>     target_ulong msr, new_msr, vector;
->>     int srr0, srr1;
->>
->> @@ -695,26 +694,18 @@ static void powerpc_excp_6xx(PowerPCCPU *cpu, int excp)
->>     case POWERPC_EXCP_IFTLB:     /* Instruction fetch TLB error              */
->>     case POWERPC_EXCP_DLTLB:     /* Data load TLB miss                       */
->>     case POWERPC_EXCP_DSTLB:     /* Data store TLB miss                      */
->> -        switch (excp_model) {
->> -        case POWERPC_EXCP_6xx:
->> -            /* Swap temporary saved registers with GPRs */
->> -            if (!(new_msr & ((target_ulong)1 << MSR_TGPR))) {
->> -                new_msr |= (target_ulong)1 << MSR_TGPR;
->> -                hreg_swap_gpr_tgpr(env);
->> -            }
->> -            /* fall through */
->> -        case POWERPC_EXCP_7x5:
->> -            ppc_excp_debug_sw_tlb(env, excp);
->> -
->> -            msr |= env->crf[0] << 28;
->> -            msr |= env->error_code; /* key, D/I, S/L bits */
->> -            /* Set way using a LRU mechanism */
->> -            msr |= ((env->last_way + 1) & (env->nb_ways - 1)) << 17;
->> -            break;
->> -        default:
->> -            cpu_abort(cs, "Invalid TLB miss exception\n");
->> -            break;
->> +        /* Swap temporary saved registers with GPRs */
->> +        if (!(new_msr & ((target_ulong)1 << MSR_TGPR))) {
->> +            new_msr |= (target_ulong)1 << MSR_TGPR;
->> +            hreg_swap_gpr_tgpr(env);
+> On 2/3/22 21:09, Fabiano Rosas wrote:
 >
-> I get this one...
+>> This series handles the 6xx family: 603, 604, G2, G2LE,=20
 >
->>         }
->> +
->> +        ppc_excp_debug_sw_tlb(env, excp);
->> +
->> +        msr |= env->crf[0] << 28;
->> +        msr |= env->error_code; /* key, D/I, S/L bits */
->> +        /* Set way using a LRU mechanism */
->> +        msr |= ((env->last_way + 1) & (env->nb_ways - 1)) << 17;
->
-> ...but not why this can be moved out from case or if. Is POWERPC_EXCP_7x5 
-> the same as POWERPC_EXCP_6xx now?
+> What about the e300 ? I guess it's only a 603 variant for QEMU.
 
-There is a fallthrough in the original code after the first block. So
-POWERPC_EXCP_6xx does the TGPR work and then falls through to the debug
-print and SRR1 setting.
+I forgot to mention.
+
+>> MPC5xx and MPC8xx.
+>
+> These are linux-user only, no MMU. I wonder if we shouldn't simply
+> drop support. At least we could remove POWERPC_MMU_MPC8xx.
+
+I know nothing about linux-user use cases, sorry. We have other CPUs
+that are linux-user only, though. And there's this TODO_USER_ONLY mess
+in cpu-models as well. We could probably tackle all of it at once.
 
