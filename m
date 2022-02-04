@@ -2,79 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE1CD4A93E3
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Feb 2022 07:18:08 +0100 (CET)
-Received: from localhost ([::1]:43472 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3CF9C4A93F9
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Feb 2022 07:28:30 +0100 (CET)
+Received: from localhost ([::1]:47476 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nFrv5-0006nP-BU
-	for lists+qemu-devel@lfdr.de; Fri, 04 Feb 2022 01:18:07 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:57112)
+	id 1nFs54-0001fO-As
+	for lists+qemu-devel@lfdr.de; Fri, 04 Feb 2022 01:28:27 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:58128)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nFrrX-0005Ns-Qi
- for qemu-devel@nongnu.org; Fri, 04 Feb 2022 01:14:27 -0500
-Received: from [2607:f8b0:4864:20::436] (port=33465
- helo=mail-pf1-x436.google.com)
+ id 1nFs1v-0000rt-7Q
+ for qemu-devel@nongnu.org; Fri, 04 Feb 2022 01:25:11 -0500
+Received: from [2607:f8b0:4864:20::1029] (port=42701
+ helo=mail-pj1-x1029.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nFrrU-0006qj-Uq
- for qemu-devel@nongnu.org; Fri, 04 Feb 2022 01:14:27 -0500
-Received: by mail-pf1-x436.google.com with SMTP id i186so4304706pfe.0
- for <qemu-devel@nongnu.org>; Thu, 03 Feb 2022 22:14:24 -0800 (PST)
+ id 1nFs1t-0008DG-AM
+ for qemu-devel@nongnu.org; Fri, 04 Feb 2022 01:25:10 -0500
+Received: by mail-pj1-x1029.google.com with SMTP id
+ my12-20020a17090b4c8c00b001b528ba1cd7so5296087pjb.1
+ for <qemu-devel@nongnu.org>; Thu, 03 Feb 2022 22:24:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=LoLsU9FSrEdLsaAUo5mR4PB2Z6j0tXhCV0ljgBfmsfg=;
- b=lAApuDWkc8H7sLJ/SEegw0aNAo6eml/I+vvkdDQBYz3Wz/oHrCGauVaRj0wzwhilf0
- utxfKeOnfLYsGT2hw/fJ8AvUyMUhW/GcjXclvhq4u/vWbpYQKhFyYa6LNIGtdh+bnyDw
- lw9qzTWvPk4Gn9budGpViD03H92VI8ghLJCGxL89aZUahIlyC5FApeEb8r9NCzemYuBT
- 5oowYhUsUBGjJ0zm0GGBb+WmaucDYSXc1sQnDox+9QfNWegdKx5O8I/Gj+WNW/esIa0Y
- H1YjOLuk4SlEIPLiFV6lnvgK2kTORxZGGSF8SsRjjc9SYlfcrGKMLlxJ9Eqv6UVAA0uM
- Jb2Q==
+ bh=Y0aK7Sxi2nnHDSeX0CQMASOUkk11wlR3YHBeezdyWgw=;
+ b=Tc2qC859pSvWj/HlGCJlWg/DChtqtqhjB17bz19b1ScTDopewU1pa5HzgPrSB4FCyl
+ hwJs0sR4U/7tzKK0H7IX1Imp6ZZc+xlZJWmp3krmTDjz8K2wwXBgq9y1zaBXYbWcFbjp
+ 9gvmzlq5Wivgrw/dyyKpoJyVGfD5X1LwwePeAOWsAtsfngH2qU2HD+i6PFoSCPBzJL1p
+ Eu1eomnJUvs2gkDEy8mbQb9c9v1KXzyc6gxPHIvHQwtdlpfkwvxJD1AVXera4E5zmYL6
+ 5U2QP3/p922ogIzgyPonWX/ThGlq2ao2l4/l8629uhR9ydBprCFkaiNqQ8PT9uSV6Ypp
+ wxtg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
  :subject:content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=LoLsU9FSrEdLsaAUo5mR4PB2Z6j0tXhCV0ljgBfmsfg=;
- b=wv72c1qFpjpUa+fUGAsP9lAHQOGbO1O+NzC3ibbcC1JGAYLjO8EC7gK2oFs50mRXiJ
- +9CUGrLC9nSoSGwfYx0LFndGF377l2iQmAbiEIxNRBzUrPO80gEOupYcAOxoh3ERlk9H
- ONztBBfvArNf/s/Sce9y3RQ1eJSf6BhmEoK8Wa/Ba7wJywYCnjjW2GPXx9r4QuP5CD6q
- wNzThwxwVyLnTVHEDx2i0VjFvgXjg9mGsoerMfB8Q3d6Tqdvrik7jsoEsLRHR2JTg/lr
- fRpgKbQvjNkJMw3aB6gBaeTUwNeBOM1eS47gSis0fsynkM4n+8Tt0lWwGsGn9+2D5+hp
- RyVg==
-X-Gm-Message-State: AOAM533SYkSlXrGfiybjg9CQ4wUxJJ4j28GZVtDGR8W+iUPWUQT1dB30
- ajAroqb9i5Tic422RBPtCcQ=
-X-Google-Smtp-Source: ABdhPJwwoIaSi/3R35Rb7SErIVUY1YV6o1lzYQb0OZzWX9r0NcLh7DMmcobVMt+bxXsNDJcXjtYOaw==
-X-Received: by 2002:a63:24a:: with SMTP id 71mr1265407pgc.300.1643955263172;
- Thu, 03 Feb 2022 22:14:23 -0800 (PST)
+ bh=Y0aK7Sxi2nnHDSeX0CQMASOUkk11wlR3YHBeezdyWgw=;
+ b=Ob9O1lMuWgtStcmPwFNRYySQnv+BN2Lf0Rsj7n0Ki23W8xbUi7ARTRA4gkLTrMJsMx
+ 5Dmne5EnoJT2D61viXdHlnljV2p6IIO0xtCt7etxrMrdy6TP4JI4CgsZ6kMvl5kn9Cqz
+ iyhxix0U8D8WGk5HxngpKJOdRlxnnIde5mrDWEW9mFUMjB4RZx9SRsu3jHTZwj3v/BqJ
+ WMBEE63xhC/FAFJOkCWJ8NmIfaYi3rt/HGxweMk2oSiNb3umcGPazirj4QCFaBc9/UXi
+ TsS5hN/FviUh/Mj9NHJJT3EEMZdk+K5U4n+/NpLcmHqRX9vi1jdajhoK3qKuRm8ym9Ec
+ lWYw==
+X-Gm-Message-State: AOAM533rOMJPtyPHV7MSZPQn9iwvfA5nsOyd2MB/mZJyqIcfX5eI1Ihi
+ AhzZCZkMR/II7JZwif1+mEg=
+X-Google-Smtp-Source: ABdhPJzitNhXwzsDktG+bkju/TXUdxUtGmNlzeAD7cbnr0jugel0k/6Z/vaxjnxNhc3tzIhWWz01tw==
+X-Received: by 2002:a17:90a:6407:: with SMTP id
+ g7mr1512249pjj.22.1643955896818; 
+ Thu, 03 Feb 2022 22:24:56 -0800 (PST)
 Received: from [192.168.1.33] (154.red-83-50-83.dynamicip.rima-tde.net.
  [83.50.83.154])
- by smtp.gmail.com with ESMTPSA id i10sm743543pgm.30.2022.02.03.22.14.20
+ by smtp.gmail.com with ESMTPSA id d9sm1054877pfl.69.2022.02.03.22.24.55
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 03 Feb 2022 22:14:22 -0800 (PST)
-Message-ID: <32825533-497c-f06e-50ff-c3f7142d2416@amsat.org>
-Date: Fri, 4 Feb 2022 07:14:18 +0100
+ Thu, 03 Feb 2022 22:24:56 -0800 (PST)
+Message-ID: <64c8a1f3-94be-5200-8d7c-3645f5e512b3@amsat.org>
+Date: Fri, 4 Feb 2022 07:24:52 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
  Gecko/20100101 Thunderbird/91.5.1
-Subject: Re: [PATCH v5 0/2] tcg/mips: Unaligned access support
+Subject: Re: [PATCH v5 2/2] tcg/mips: Support unaligned access for softmmu
 Content-Language: en-US
 To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-Cc: alex.bennee@linaro.org, Jiaxun Yang <jiaxun.yang@flygoat.com>,
- Huacai Chen <chenhuacai@kernel.org>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Aurelien Jarno <aurelien@aurel32.net>
+Cc: alex.bennee@linaro.org
 References: <20220201234107.316487-1-richard.henderson@linaro.org>
-In-Reply-To: <20220201234107.316487-1-richard.henderson@linaro.org>
+ <20220201234107.316487-3-richard.henderson@linaro.org>
+In-Reply-To: <20220201234107.316487-3-richard.henderson@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::436
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1029
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::436;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pf1-x436.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1029;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pj1-x1029.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -101,39 +101,65 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
 From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
-Cc'ing other reviewers:
-
-$ ./scripts/get_maintainer.pl -f tcg/mips/tcg-target.h
-"Philippe Mathieu-Daudé" <f4bug@amsat.org> (odd fixer:MIPS TCG target)
-Aurelien Jarno <aurelien@aurel32.net> (reviewer:MIPS TCG target)
-Huacai Chen <chenhuacai@kernel.org> (reviewer:MIPS TCG target)
-Jiaxun Yang <jiaxun.yang@flygoat.com> (reviewer:MIPS TCG target)
-Aleksandar Rikalo <aleksandar.rikalo@syrmia.com> (reviewer:MIPS TCG target)
-Richard Henderson <richard.henderson@linaro.org> (maintainer:Common TCG 
-code)
-qemu-devel@nongnu.org (open list:All patches CC here)
-
 On 2/2/22 00:41, Richard Henderson wrote:
-> Based-on: <20220104021543.396571-1-richard.henderson@linaro.org>
-> ("[PATCH v4 0/7] Unaligned access for user only")
+> We can use the routines just added for user-only to emit
+> unaligned accesses in softmmu mode too.
 > 
-> Changes from v4:
->    * Rebase on master.
->    * Drop other cleanup for now.
-> 
-> Changes from v3:
->    * Rebase on master, which has some patches applied.
-> 
-> 
-> r~
-> 
-> Richard Henderson (2):
->    tcg/mips: Support unaligned access for user-only
->    tcg/mips: Support unaligned access for softmmu
-> 
->   tcg/mips/tcg-target.h     |   2 -
->   tcg/mips/tcg-target.c.inc | 387 +++++++++++++++++++++++++++++++++++---
->   2 files changed, 360 insertions(+), 29 deletions(-)
-> 
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>   tcg/mips/tcg-target.c.inc | 91 ++++++++++++++++++++++-----------------
+>   1 file changed, 51 insertions(+), 40 deletions(-)
 
+>       /* Load the (low-half) tlb comparator.  */
+>       if (TCG_TARGET_REG_BITS < TARGET_LONG_BITS) {
+> -        tcg_out_ld(s, TCG_TYPE_I32, TCG_TMP0, TCG_TMP3, cmp_off + LO_OFF);
+> -        tcg_out_movi(s, TCG_TYPE_I32, TCG_TMP1, mask);
+> +        tcg_out_ldst(s, OPC_LW, TCG_TMP0, TCG_TMP3, cmp_off + LO_OFF);
+>       } else {
+>           tcg_out_ldst(s, (TARGET_LONG_BITS == 64 ? OPC_LD
+>                            : TCG_TARGET_REG_BITS == 64 ? OPC_LWU : OPC_LW),
+>                        TCG_TMP0, TCG_TMP3, cmp_off);
+> -        tcg_out_movi(s, TCG_TYPE_TL, TCG_TMP1, mask);
+> -        /* No second compare is required here;
+> -           load the tlb addend for the fast path.  */
+> -        tcg_out_ld(s, TCG_TYPE_PTR, TCG_TMP2, TCG_TMP3, add_off);
+>       }
+>   
+>       /* Zero extend a 32-bit guest address for a 64-bit host. */
+> @@ -1185,7 +1173,25 @@ static void tcg_out_tlb_load(TCGContext *s, TCGReg base, TCGReg addrl,
+>           tcg_out_ext32u(s, base, addrl);
+>           addrl = base;
+>       }
+> -    tcg_out_opc_reg(s, OPC_AND, TCG_TMP1, TCG_TMP1, addrl);
+> +
+> +    /*
+> +     * Mask the page bits, keeping the alignment bits to compare against.
+> +     * For unaligned accesses, compare against the end of the access to
+> +     * verify that it does not cross a page boundary.
+> +     */
+> +    tlb_mask = (target_ulong)TARGET_PAGE_MASK | a_mask;
+> +    tcg_out_movi(s, TCG_TYPE_I32, TCG_TMP1, tlb_mask);
+> +    if (a_mask >= s_mask) {
+> +        tcg_out_opc_reg(s, OPC_AND, TCG_TMP1, TCG_TMP1, addrl);
+> +    } else {
+> +        tcg_out_opc_imm(s, ALIAS_PADDI, TCG_TMP2, addrl, s_mask - a_mask);
+> +        tcg_out_opc_reg(s, OPC_AND, TCG_TMP1, TCG_TMP1, TCG_TMP2);
+> +    }
+> +
+> +    if (TCG_TARGET_REG_BITS >= TARGET_LONG_BITS) {
+> +        /* Load the tlb addend for the fast path.  */
+> +        tcg_out_ld(s, TCG_TYPE_PTR, TCG_TMP2, TCG_TMP3, add_off);
+> +    }
+
+Out of my confort zone but looks sane:
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+
+> -static void __attribute__((unused))
+> -tcg_out_qemu_ld_unalign(TCGContext *s, TCGReg lo, TCGReg hi,
+> +static void tcg_out_qemu_ld_unalign(TCGContext *s, TCGReg lo, TCGReg hi,
+
+Oh now I see why it was unaligned in the previous patch :)
+
+>                                       TCGReg base, MemOp opc, bool is_64)
+>   {
 
