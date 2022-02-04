@@ -2,78 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D78A4A9B8C
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Feb 2022 15:59:16 +0100 (CET)
-Received: from localhost ([::1]:36986 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F51A4A9BA1
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Feb 2022 16:08:04 +0100 (CET)
+Received: from localhost ([::1]:43190 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nG03O-0007S1-VK
-	for lists+qemu-devel@lfdr.de; Fri, 04 Feb 2022 09:59:14 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:50232)
+	id 1nG0Bv-0003cp-JW
+	for lists+qemu-devel@lfdr.de; Fri, 04 Feb 2022 10:08:03 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:50722)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nG01v-000669-PQ
- for qemu-devel@nongnu.org; Fri, 04 Feb 2022 09:57:43 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:52942)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nG03d-00086H-7Y
+ for qemu-devel@nongnu.org; Fri, 04 Feb 2022 09:59:29 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:42182)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nG01k-0006gD-O7
- for qemu-devel@nongnu.org; Fri, 04 Feb 2022 09:57:41 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nG03a-0006xD-42
+ for qemu-devel@nongnu.org; Fri, 04 Feb 2022 09:59:27 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1643986611;
+ s=mimecast20190719; t=1643986765;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=8XiA/A2EUwGu0NeqYr/Dadw/mCKCDv9rcbWgDGcA1iw=;
- b=ZuiCMY+GybsCKYS2Wo79yl9FGFPaV223UZaxDOZDSV2S8R/8E2O32Bt91NP0kMvs8KQScH
- zSlh2l9sZevbZ3Qhs5xGQmw6xK7ZbPeOPN1vFNM7HXMnCMNEuf616jrIkiVG2V3oQ5LnDj
- 7YaAjRs+Nl4zSAtHnFo71iu5VOGEZs0=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=AswyeELEJ5NiNrnqBw3nfutJruaS9gilG1FtGeFySGc=;
+ b=HVdNzkkdAG1EZeM1OBIe57ma3u9S4AvmzJTr3Wx6kuq3CBeNrMieONTPHbSy0lCafcsBJw
+ 8FMQP8nut27Vxhe4WKOP4v+5fuafrEK83aFfHGYd8PINuqZq7hReAZyE8S4iq2fcrLJhGw
+ 5GZUZ9XFeMy+aEmWoy7we40Agg1iAyI=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-360-jFPVJLUsOMqhNl_MhJ9ytQ-1; Fri, 04 Feb 2022 09:56:50 -0500
-X-MC-Unique: jFPVJLUsOMqhNl_MhJ9ytQ-1
-Received: by mail-wm1-f70.google.com with SMTP id
- h82-20020a1c2155000000b003552c13626cso3308770wmh.3
- for <qemu-devel@nongnu.org>; Fri, 04 Feb 2022 06:56:50 -0800 (PST)
+ us-mta-551-W9Y8aPorPSuuRxkGzMJIcw-1; Fri, 04 Feb 2022 09:59:24 -0500
+X-MC-Unique: W9Y8aPorPSuuRxkGzMJIcw-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ s25-20020adfa299000000b001d8d032255fso2115220wra.14
+ for <qemu-devel@nongnu.org>; Fri, 04 Feb 2022 06:59:24 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=8XiA/A2EUwGu0NeqYr/Dadw/mCKCDv9rcbWgDGcA1iw=;
- b=yivrf1BN7zu2GbAmBj2sA87wuN63PisE1isuBotGxhivf+axgC0lUmH3jqP2iXNn+U
- SfqRFJ1B7OBZSJ/pN468HXQjiBYVlIOZam70QL+M6EKRnGWRVF3DFwnA3c5RiOunAdfL
- FmJl+tevUBCmJ4VWmBI2gy+migrM7vG2rSiCR4OPDGk/en01d1823crL/ZHDvLYTMdrO
- joLgf41xZ0O8RxG/DJ+L7oWPPia4mWXNNHysdMtKDHdYEhHIkQnN621lyeHJqVRSH8L2
- GUYTuEvlM1tzPf1npikCYMtmrmp5rK3U+Sk/iE//8K3x+vn9Xsn8Gm3Yk5m8MPMY51zB
- DsPg==
-X-Gm-Message-State: AOAM530uYh54SwV5dSIMuCXxiTsrXVoVGwN30NpPz8kNRvyNIFV4OU3e
- Ysg4NZsP5qZ8kbhgNqjsXi5hq1h2ag/JFF7MqEx0ar9g4Cvyu1f8fX4xHdhzymJFK5yvwwRrx7g
- XUxc9qT+A7djLVc8=
-X-Received: by 2002:a05:6000:18af:: with SMTP id
- b15mr2668217wri.589.1643986609086; 
- Fri, 04 Feb 2022 06:56:49 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwZWeuj698X9HoAOG/SO1Rlo1CY2GnSJ73y+n3na1p4KxwGgVt7QqJycASZvn5stLCwJEhM8Q==
-X-Received: by 2002:a05:6000:18af:: with SMTP id
- b15mr2668199wri.589.1643986608868; 
- Fri, 04 Feb 2022 06:56:48 -0800 (PST)
+ bh=AswyeELEJ5NiNrnqBw3nfutJruaS9gilG1FtGeFySGc=;
+ b=pbKxmc6+ThWNjbZKVB6qZyqrzgjP3257sI5aKdsj+BsE6AfmbxvZP/G5Jmn3ZRU9Sg
+ 6CsO6Q11nfmM+k1uayUIWfJZNAuIJT/4UCRQWF7LTGJ6eFAYoCdbTBNDL00Xo8L6r8M/
+ 0NAIYhkvZqh5dfaW9K5AjqMxP3pj1C4XRg+Q5+kFYKKEjZH4rgQP0tbcCXQTiGndGxNC
+ QgB6pkHmRwoWuPd+iznWha9hurKuKEbWSO4INKsCW5XEme7E94vZuf7ylKyJjuhHiv5H
+ PzoXvXuxM81l8/D/NxNIPVlvlQP6y3MJt3W8m2vhNd3538V5LxuCF5XsUS9mBLPbgsKO
+ 85og==
+X-Gm-Message-State: AOAM531bkkLBPGFrOPJ9Igyl2LcARxa93Ml+HqIHb0Fo8eRWaOGflqn6
+ wmEX4dNX4IvOip2WcLkcJRXPIfMNvJMY5pgJiExwSmQwfCItW3pHYgUZK8iqqqcWfWVtaAekqdt
+ k9uixGsJDl9w0J3A=
+X-Received: by 2002:a05:6000:128c:: with SMTP id
+ f12mr2003161wrx.77.1643986763313; 
+ Fri, 04 Feb 2022 06:59:23 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxE0K0W7PwS+XwFyR+mWwT9g9A9J7klB2SLpJu7EzhLZeiuoSJ7AchJCXroSlL424u4MtLheQ==
+X-Received: by 2002:a05:6000:128c:: with SMTP id
+ f12mr2003148wrx.77.1643986763095; 
+ Fri, 04 Feb 2022 06:59:23 -0800 (PST)
 Received: from [192.168.8.100] (tmo-096-196.customers.d1-online.com.
  [80.187.96.196])
- by smtp.gmail.com with ESMTPSA id w3sm2178847wra.67.2022.02.04.06.56.47
+ by smtp.gmail.com with ESMTPSA id m64sm1794398wmm.31.2022.02.04.06.59.22
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 04 Feb 2022 06:56:48 -0800 (PST)
-Message-ID: <28c06259-1e41-e8f4-2a7c-88620c48fead@redhat.com>
-Date: Fri, 4 Feb 2022 15:56:46 +0100
+ Fri, 04 Feb 2022 06:59:22 -0800 (PST)
+Message-ID: <e3cb7d0e-17d8-daf8-f308-3f4007b6d8d2@redhat.com>
+Date: Fri, 4 Feb 2022 15:59:21 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.5.0
-Subject: Re: [PATCH 05/10] qtest: Add missing 'hw/qdev-core.h' include
+Subject: Re: [PATCH 06/10] exec/ramblock: Add missing includes
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
  qemu-devel@nongnu.org
 References: <20220203193803.45671-1-f4bug@amsat.org>
- <20220203193803.45671-6-f4bug@amsat.org>
+ <20220203193803.45671-7-f4bug@amsat.org>
 From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <20220203193803.45671-6-f4bug@amsat.org>
+In-Reply-To: <20220203193803.45671-7-f4bug@amsat.org>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -81,7 +81,7 @@ X-Mimecast-Originator: redhat.com
 Content-Language: en-US
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -108,29 +108,32 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 03/02/2022 20.37, Philippe Mathieu-Daudé wrote:
-> Add "hw/qdev-core.h" to avoid when refactoring include/:
+> Add missing includes to avoid when refactoring include/
 > 
->    softmmu/qtest.c:404:9: error: use of undeclared identifier 'NamedGPIOList'
->          NamedGPIOList *ngl;
->          ^
-> 
+>    include/exec/ramblock.h:26:21: error: field has incomplete type 'struct rcu_head'
+>      struct rcu_head rcu;
+>                      ^
+
+... and errors due to missing definition of RAMBlockNotifier.
+
 > Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 > ---
->   softmmu/qtest.c | 1 +
->   1 file changed, 1 insertion(+)
+>   include/exec/ramblock.h | 2 ++
+>   1 file changed, 2 insertions(+)
 > 
-> diff --git a/softmmu/qtest.c b/softmmu/qtest.c
-> index 72751e1fd8..8b7cb6aa8e 100644
-> --- a/softmmu/qtest.c
-> +++ b/softmmu/qtest.c
-> @@ -19,6 +19,7 @@
->   #include "chardev/char-fe.h"
->   #include "exec/ioport.h"
->   #include "exec/memory.h"
-> +#include "hw/qdev-core.h"
->   #include "hw/irq.h"
->   #include "qemu/accel.h"
->   #include "sysemu/cpu-timers.h"
+> diff --git a/include/exec/ramblock.h b/include/exec/ramblock.h
+> index 664701b759..6cbedf9e0c 100644
+> --- a/include/exec/ramblock.h
+> +++ b/include/exec/ramblock.h
+> @@ -21,6 +21,8 @@
+>   
+>   #ifndef CONFIG_USER_ONLY
+>   #include "cpu-common.h"
+> +#include "qemu/rcu.h"
+> +#include "exec/ramlist.h"
+>   
+>   struct RAMBlock {
+>       struct rcu_head rcu;
 
 Reviewed-by: Thomas Huth <thuth@redhat.com>
 
