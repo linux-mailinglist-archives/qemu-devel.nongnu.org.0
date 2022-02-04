@@ -2,84 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 767F14AA02A
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Feb 2022 20:34:07 +0100 (CET)
-Received: from localhost ([::1]:42452 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 44AED4A9FD1
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Feb 2022 20:13:14 +0100 (CET)
+Received: from localhost ([::1]:56446 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nG4LO-0002sF-3v
-	for lists+qemu-devel@lfdr.de; Fri, 04 Feb 2022 14:34:06 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:42718)
+	id 1nG41A-000819-PL
+	for lists+qemu-devel@lfdr.de; Fri, 04 Feb 2022 14:13:12 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:46586)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1nG2tJ-00013u-1x
- for qemu-devel@nongnu.org; Fri, 04 Feb 2022 13:01:01 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:25482)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1nG2sd-0005dn-D2
- for qemu-devel@nongnu.org; Fri, 04 Feb 2022 13:00:57 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1643997581;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=xXdsvhLxntdFnIgPxCP01TwxUt530X9TzIa0M/TkcEc=;
- b=T8EW7cGsNqAA8q+n6cQF2zaCBusFiM1t9GSoeoJ1tj/CSe2Eg9QTViVadYsUyc1DeokUq7
- WCGLdNHzebCzKjsLVDWbMsalIM6U9MkEk/arg71s5alIatYieQOfMqQx14YoeWGu+yObYx
- QLzHoJP2OL6ztBM/DS8ijd9lsJA7hcY=
-Received: from mail-pl1-f200.google.com (mail-pl1-f200.google.com
- [209.85.214.200]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-325-XZ9rcIBDNOa4oU8_3g64Rg-1; Fri, 04 Feb 2022 12:59:38 -0500
-X-MC-Unique: XZ9rcIBDNOa4oU8_3g64Rg-1
-Received: by mail-pl1-f200.google.com with SMTP id
- h11-20020a170902eecb00b0014cc91d4bc4so3454359plb.16
- for <qemu-devel@nongnu.org>; Fri, 04 Feb 2022 09:59:38 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nG3Ag-0004o7-J3
+ for qemu-devel@nongnu.org; Fri, 04 Feb 2022 13:18:58 -0500
+Received: from [2a00:1450:4864:20::432] (port=41928
+ helo=mail-wr1-x432.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nG3AF-0000IU-QH
+ for qemu-devel@nongnu.org; Fri, 04 Feb 2022 13:18:57 -0500
+Received: by mail-wr1-x432.google.com with SMTP id j16so12790548wrd.8
+ for <qemu-devel@nongnu.org>; Fri, 04 Feb 2022 10:18:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=ilaCvhI8LN7LFnBfr5DtV8orBzPH2VNvuZ9aTcwMYqE=;
+ b=qYthD/ju+/VxbKhAq1i/FQ8De834QCWGw+krfnIb5xpAy5jQlq/X7UoQGl+Bf2GXFG
+ /+3U9QrUIJAr80oQ8CuCfB6gqCqPbNQKMsNLwGzX0ImuYC+TSjAvamNEikd8oHZkdEWW
+ KQW+4DCgXp0Wrtax02vxCyFn5NYUfRZ55HUDGqoA5ok3LqUTFj1cTNNgSEQ9gIDGgdP6
+ JvNdgQeFtHxY/Du3bAIsAMDvhKARxtv2dlltEXysWRjSlk1n83pdFEfSBZhlGoA1u4a+
+ CbbiJoXzT4jfh91nzTBt3iHmiRwpPH3ZOJ3G9R08Uc/7G6hJgi2c1tumJtZOiiTzpmnp
+ TF7A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=xXdsvhLxntdFnIgPxCP01TwxUt530X9TzIa0M/TkcEc=;
- b=XtkakMFP2rP+1JjBRjgY5YxO9yEIYTFO89ZyzP22B+kVZ9u+6DEVkfjfJsn2+HYBFy
- zXtErzlmtCaNSaojrb+eEvj9XLdQ5xs5LhAJGpQ3YUwfVkDOOtIceSxHAmtHmbN6Qtc2
- WZEPGcPZbqsaYf0ORKf2dZ7lo0fiKWnrRGjwiqewNraeLDWwBmi4JWd3tvWv1N/OE5Fa
- u6wozSagJSUgK3ZMct+TxZW696SLuhfHLCT20saBVByp5GUJOfNN/OvYybxl9frsghfw
- pm456PKYspQknfpL3AEKJ22ygvhe6XcNbaIY+3jYJmtZy1ArbsKgpb/RwU5kUTK7rQmM
- 63Yg==
-X-Gm-Message-State: AOAM530w2r+OeqqZQRnMR/pd/dSXK6hYIIZSVlGQjWOeHk/zDjDDc+3Z
- Gs1bbLHh1GQv7NxJHUW0qjFokJGW9ENhlLOT0XM7IeBEy50uPV7DO9Mtu3+tvb8e/jhfZkkQDx+
- i0Wp1yf4H9+fCdVP/xZPjHxwyxEcJdk0=
-X-Received: by 2002:a17:90a:d203:: with SMTP id
- o3mr4438994pju.122.1643997577144; 
- Fri, 04 Feb 2022 09:59:37 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJytkWL2WtPPplaNuKr/wV8+W43xw2Od9blyU1kpQosRZrYMV5lkr2uXweI0aNM7eAd7Gb4/jS52qARoXFht3xE=
-X-Received: by 2002:a17:90a:d203:: with SMTP id
- o3mr4438961pju.122.1643997576881; 
- Fri, 04 Feb 2022 09:59:36 -0800 (PST)
+ bh=ilaCvhI8LN7LFnBfr5DtV8orBzPH2VNvuZ9aTcwMYqE=;
+ b=lsz5i47/3+/cCEpWPCXjsW3rim+4xWeHs1dpnniimNrjRFODfKL+SvVytcYz8Z+oZM
+ 0KJqd/5JCdhdEK6zDRbC258EZ0ft8zsjPSibbllpqlPOrjBjfyNMKfLYFzkEe6nSzzNY
+ WIgOQFC0GaWSwk7u80VwOo/62mN6PDAApcDbGWtTfE1MGn4bDat3lrK2mN9+cQXxnN6x
+ IEERN5FIbgcMpeJMx1h0bKMMqBep8pzE28v1NtITW/mHpHD/zqHJw5812MoK8guK/X0P
+ M1+peMBHK4dCbDU1miE3axHZaaTYnGs2ag7WfF2pveHq4OJU2Vcm1XKZ3N745Jzzmz83
+ gCMw==
+X-Gm-Message-State: AOAM532ukxNWBpe2VDX4LPjcli3qCrSFA3vW2JVjD/yWIs9qwkgCj6R7
+ SekMQtfhvhZQcmCXWfIbKL3nz7mMp2/4ABQdzpcafA==
+X-Google-Smtp-Source: ABdhPJyVNnBwTzaRPFKx01a1w31l3miB2RQpEmGBumZ/65D/Q2m9bnzCfSFTzKFN1jnzB5TbjtSHIPh6H/9TqIr8ynU=
+X-Received: by 2002:a05:6000:258:: with SMTP id m24mr141977wrz.2.1643998709187; 
+ Fri, 04 Feb 2022 10:18:29 -0800 (PST)
 MIME-Version: 1.0
-References: <20220131233507.334174-1-f4bug@amsat.org>
- <20220131233507.334174-2-f4bug@amsat.org>
-In-Reply-To: <20220131233507.334174-2-f4bug@amsat.org>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Date: Fri, 4 Feb 2022 18:59:23 +0100
-Message-ID: <CABgObfY6+-GjEi9hfFs2x6CRctPHFBt3hxwRK_73tL8Hm4on5A@mail.gmail.com>
-Subject: Re: [PATCH v3 1/2] hw/i386: Attach CPUs to machine
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/alternative; boundary="00000000000094fe7405d73503f7"
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.092,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+References: <20220204070011.573941-1-richard.henderson@linaro.org>
+ <20220204070011.573941-4-richard.henderson@linaro.org>
+In-Reply-To: <20220204070011.573941-4-richard.henderson@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 4 Feb 2022 18:18:18 +0000
+Message-ID: <CAFEAcA8YyrASZw7Wj1c5fLg-60KUKPsC7eVA8+YhNTsVM4t2kg@mail.gmail.com>
+Subject: Re: [PATCH v4 3/5] tcg/sparc: Use the constant pool for 64-bit
+ constants
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::432
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::432;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x432.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -92,114 +82,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Yang Zhong <yang.zhong@intel.com>, Eduardo Habkost <eduardo@habkost.net>,
- =?UTF-8?Q?Daniel_P_=2E_Berrang=C3=A9?= <berrange@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- qemu-devel <qemu-devel@nongnu.org>
+Cc: alex.bennee@linaro.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---00000000000094fe7405d73503f7
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-This is causing breakage in the acpi-tables-test, sorry.
-
-Paolo
-
-Il mar 1 feb 2022, 00:35 Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org> ha
-scritto:
-
-> Previously CPUs were exposed in the QOM tree at a path
+On Fri, 4 Feb 2022 at 07:53, Richard Henderson
+<richard.henderson@linaro.org> wrote:
 >
->   /machine/unattached/device[nn]
->
-> where the 'nn' of the first CPU is usually zero, but can
-> vary depending on what devices were already created.
->
-> With this change the CPUs are now at
->
->   /machine/cpu[nn]
->
-> where the 'nn' of the first CPU is always zero.
->
-> Suggested-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->  hw/i386/x86.c | 1 +
->  1 file changed, 1 insertion(+)
+>  tcg/sparc/tcg-target.c.inc | 15 +++++++++++++++
+>  1 file changed, 15 insertions(+)
 >
-> diff --git a/hw/i386/x86.c b/hw/i386/x86.c
-> index b84840a1bb9..50bf249c700 100644
-> --- a/hw/i386/x86.c
-> +++ b/hw/i386/x86.c
-> @@ -108,6 +108,7 @@ void x86_cpu_new(X86MachineState *x86ms, int64_t
-> apic_id, Error **errp)
->  {
->      Object *cpu =3D object_new(MACHINE(x86ms)->cpu_type);
->
-> +    object_property_add_child(OBJECT(x86ms), "cpu[*]", OBJECT(cpu));
->      if (!object_property_set_uint(cpu, "apic-id", apic_id, errp)) {
->          goto out;
+> diff --git a/tcg/sparc/tcg-target.c.inc b/tcg/sparc/tcg-target.c.inc
+> index 6349f750cc..47bdf314a0 100644
+> --- a/tcg/sparc/tcg-target.c.inc
+> +++ b/tcg/sparc/tcg-target.c.inc
+> @@ -332,6 +332,13 @@ static bool patch_reloc(tcg_insn_unit *src_rw, int type,
+>          insn &= ~INSN_OFF19(-1);
+>          insn |= INSN_OFF19(pcrel);
+>          break;
+> +    case R_SPARC_13:
+> +        if (!check_fit_ptr(value, 13)) {
+> +            return false;
+> +        }
+
+This code seems to contemplate that the offset might not fit
+into the 13-bit immediate field (unlike the other two reloc
+cases in this function, which just assert() that it fits)...
+
+> +        insn &= ~INSN_IMM13(-1);
+> +        insn |= INSN_IMM13(value);
+> +        break;
+>      default:
+>          g_assert_not_reached();
 >      }
+> @@ -469,6 +476,14 @@ static void tcg_out_movi_int(TCGContext *s, TCGType type, TCGReg ret,
+>          return;
+>      }
+>
+> +    /* Use the constant pool, if possible. */
+> +    if (!in_prologue && USE_REG_TB) {
+> +        new_pool_label(s, arg, R_SPARC_13, s->code_ptr,
+> +                       tcg_tbrel_diff(s, NULL));
+> +        tcg_out32(s, LDX | INSN_RD(ret) | INSN_RS1(TCG_REG_TB));
+> +        return;
+> +    }
+
+...but this code doesn't seem to have any mechanism for
+falling back to something else if it won't fit.
+
+> +
+>      /* A 64-bit constant decomposed into 2 32-bit pieces.  */
+>      if (check_fit_i32(lo, 13)) {
+>          hi = (arg - lo) >> 32;
 > --
-> 2.34.1
->
->
+> 2.25.1
 
---00000000000094fe7405d73503f7
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"auto">This is causing breakage in the acpi-tables-test, sorry.<=
-div dir=3D"auto"><br></div><div dir=3D"auto">Paolo</div></div><br><div clas=
-s=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">Il mar 1 feb 2022, =
-00:35 Philippe Mathieu-Daud=C3=A9 &lt;<a href=3D"mailto:f4bug@amsat.org">f4=
-bug@amsat.org</a>&gt; ha scritto:<br></div><blockquote class=3D"gmail_quote=
-" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">P=
-reviously CPUs were exposed in the QOM tree at a path<br>
-<br>
-=C2=A0 /machine/unattached/device[nn]<br>
-<br>
-where the &#39;nn&#39; of the first CPU is usually zero, but can<br>
-vary depending on what devices were already created.<br>
-<br>
-With this change the CPUs are now at<br>
-<br>
-=C2=A0 /machine/cpu[nn]<br>
-<br>
-where the &#39;nn&#39; of the first CPU is always zero.<br>
-<br>
-Suggested-by: Daniel P. Berrang=C3=A9 &lt;<a href=3D"mailto:berrange@redhat=
-.com" target=3D"_blank" rel=3D"noreferrer">berrange@redhat.com</a>&gt;<br>
-Signed-off-by: Philippe Mathieu-Daud=C3=A9 &lt;<a href=3D"mailto:f4bug@amsa=
-t.org" target=3D"_blank" rel=3D"noreferrer">f4bug@amsat.org</a>&gt;<br>
----<br>
-=C2=A0hw/i386/x86.c | 1 +<br>
-=C2=A01 file changed, 1 insertion(+)<br>
-<br>
-diff --git a/hw/i386/x86.c b/hw/i386/x86.c<br>
-index b84840a1bb9..50bf249c700 100644<br>
---- a/hw/i386/x86.c<br>
-+++ b/hw/i386/x86.c<br>
-@@ -108,6 +108,7 @@ void x86_cpu_new(X86MachineState *x86ms, int64_t apic_i=
-d, Error **errp)<br>
-=C2=A0{<br>
-=C2=A0 =C2=A0 =C2=A0Object *cpu =3D object_new(MACHINE(x86ms)-&gt;cpu_type)=
-;<br>
-<br>
-+=C2=A0 =C2=A0 object_property_add_child(OBJECT(x86ms), &quot;cpu[*]&quot;,=
- OBJECT(cpu));<br>
-=C2=A0 =C2=A0 =C2=A0if (!object_property_set_uint(cpu, &quot;apic-id&quot;,=
- apic_id, errp)) {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0goto out;<br>
-=C2=A0 =C2=A0 =C2=A0}<br>
--- <br>
-2.34.1<br>
-<br>
-</blockquote></div>
-
---00000000000094fe7405d73503f7--
-
+thanks
+-- PMM
 
