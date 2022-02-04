@@ -2,77 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA11B4AA15F
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Feb 2022 21:47:29 +0100 (CET)
-Received: from localhost ([::1]:53244 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 443E14AA168
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Feb 2022 21:50:16 +0100 (CET)
+Received: from localhost ([::1]:33432 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nG5UO-0001Gg-It
-	for lists+qemu-devel@lfdr.de; Fri, 04 Feb 2022 15:47:28 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:51510)
+	id 1nG5X4-0006r2-Bs
+	for lists+qemu-devel@lfdr.de; Fri, 04 Feb 2022 15:50:15 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:51514)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nG5Qo-0006fr-Vq
+ id 1nG5Qp-0006gF-Ex
  for qemu-devel@nongnu.org; Fri, 04 Feb 2022 15:43:48 -0500
-Received: from [2a00:1450:4864:20::32d] (port=45817
- helo=mail-wm1-x32d.google.com)
+Received: from [2a00:1450:4864:20::330] (port=35447
+ helo=mail-wm1-x330.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nG5Ql-0007L6-Gk
+ id 1nG5Qn-0007LF-AR
  for qemu-devel@nongnu.org; Fri, 04 Feb 2022 15:43:46 -0500
-Received: by mail-wm1-x32d.google.com with SMTP id
- j5-20020a05600c1c0500b0034d2e956aadso4441094wms.4
- for <qemu-devel@nongnu.org>; Fri, 04 Feb 2022 12:43:42 -0800 (PST)
+Received: by mail-wm1-x330.google.com with SMTP id
+ l123-20020a1c2581000000b0037b9d960079so1431948wml.0
+ for <qemu-devel@nongnu.org>; Fri, 04 Feb 2022 12:43:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=jLdaq4nPs26ioB8IxHlRj4MYiTrVXXpGcD6fwPTNScM=;
- b=hue3tg/rpwlhRHUHqIGH47ep7HTVMqN9NKHPyJCTSulkmBb1/5LpO9AJLmRVpOb4tK
- WlZh8lg4+1lFx3LqfBZjGAZs+NLPS7Iz9V3yFgujpTLRr+IAv/5MCs2x8TXJcw5u/9C7
- kILRhBV6vPPLmEhLFtj2h8xo9OQ1AW61CZ0izrg+RCFMbr10dikgASBZWDPJHxUqIkKy
- ZEHKbn1doBLmrE7GGvkUQjp3bCSeLa22JWNy0Ic3EHuWKqesw58dtHqj+KSArbGc6z6l
- mzyffv4lkp/LisDosi39x+r3FzHN25BEUTINsrV1moci4/XpWe15TjdSnTGYbJph7+or
- qwdg==
+ bh=dWP+twRL5MOC0yeCWZwM8XygbnhyPigiSEVdDfOE8/E=;
+ b=KQKMbjoYGnKySgADQZuuqs/pIsNmgWa2P2kxbVfnPyiu27qkLeJciAe1NLXuv3qsT/
+ RJaEr2bn1j8bM8yHPTnJoF/yJBWDsuzuNmkWKMdia1Gq+tN9SnRpx8UGQjCWu2WGYy2L
+ lj7FfFvZ9meI2fKfOwYKHE7KIp0aqGcsHZfXTtnqHiD6K4vY2fJ3VVc2lOo77RxCwZuH
+ hhtw8aWSuZp4QMPDSXQpZ6kZ74ONKDy3HbMfM4ZgrHsLPV3WHSLG/nJVzBPjc10IyOZJ
+ /zQQZ5NBBtysGWSl7vDSmwCCXMMFwVTYNw1wgcjAgTqDZxgBU4OnWqzcDxbuBLSI+ESg
+ d68Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=jLdaq4nPs26ioB8IxHlRj4MYiTrVXXpGcD6fwPTNScM=;
- b=hdNo8zzdU23EYPePTXX/dFFQwdfQrGyHWbcEQtqhL61Z3fHLHyzkkud3sYOKO0ULlF
- sWc4cX3HBZnRkuM7+jDZHCk/jgbgoEYSklDNRpY+DyY1FBGwfKjQmGcKqaNrMXd7MpR6
- 2XvbARPIv8SkhWZiUnC6FVG7Rlspc4aFj1eujWwUUkvqQez/ZOK8rs3DVPCFC1rEgCLN
- QjeShXQcFrzbfhoqO56LcIysvIgVWl2u3v4aLZYntjkvk1nZnRM4p7NxYdrKqPXtQwWS
- ZznxGeXs9pUAajoQQdMC0fKJIb8J9ZDibrmTblBLiav32wWFl0NZloAJNbJeEgu1fEpR
- JoNQ==
-X-Gm-Message-State: AOAM531Yv0/fMBDhENIfztT4xS6gXAW4rNmjeQHXHenLW04UsEEfo9L0
- h33/icB213Gk/irZQL71cUB1og==
-X-Google-Smtp-Source: ABdhPJwDxsmrYulY6UnVwHB+E9NUPxA3kIx5XZ6PB6p+S7ogAbwvibhYi5dnVJL7LPX/gljPzjANcg==
-X-Received: by 2002:a05:600c:19ce:: with SMTP id
- u14mr3702860wmq.92.1644007421490; 
- Fri, 04 Feb 2022 12:43:41 -0800 (PST)
+ bh=dWP+twRL5MOC0yeCWZwM8XygbnhyPigiSEVdDfOE8/E=;
+ b=TiRpZOpwMedpo4AmKLlm+63Ig9GveaYKOr9QGrnIuInaI5pksLx3QohvGSC/LTlODh
+ OEdWV1PvzDZh1AiQ7RVeaDg06hKYn7LuK7eKsxt0PtPprUM8LhaWhk447VsaEyKRp6e4
+ 8imEcC9pUhjMwzC3COqkYIwWj9kr3oKJyxiNLDhaQOAhSIDH/oduNKv22KHcnyEj5bqZ
+ IAjmiWixooJRxpWIDpUfgznxwgaE2ByaR40smRvzAt/Qgiwsi7TpFQvJkJjXKILc7RIW
+ IdsL869iEYHKnpnkbbEFhjBwK+nnl56xFDcbifiBLzeJAguLFP5vw2j6b3J0s3fV/OvH
+ xmVA==
+X-Gm-Message-State: AOAM530T+7bjQEo4xIMrvfBX9vq1ETHHkTlGL7ibhNieUB3Js4Olrw8d
+ O0BYq7Dh6bdbYupdqLAVykJkpw==
+X-Google-Smtp-Source: ABdhPJyEcohvP0YDv5WF3bItekarKQYuoW+gMPCmBq6lJUel5nBmhsVA2vDysmMab6FnTcRaVZID8w==
+X-Received: by 2002:a05:600c:1c23:: with SMTP id
+ j35mr414226wms.138.1644007423565; 
+ Fri, 04 Feb 2022 12:43:43 -0800 (PST)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id n14sm2904247wri.75.2022.02.04.12.43.35
+ by smtp.gmail.com with ESMTPSA id c8sm10098358wmq.39.2022.02.04.12.43.35
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 04 Feb 2022 12:43:35 -0800 (PST)
+ Fri, 04 Feb 2022 12:43:41 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 5C04D1FFBB;
+ by zen.linaroharston (Postfix) with ESMTP id 679981FFBC;
  Fri,  4 Feb 2022 20:43:35 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: richard.henderson@linaro.org,
 	qemu-devel@nongnu.org
-Subject: [PATCH  v3 03/26] Makefile: also remove .gcno files when cleaning
-Date: Fri,  4 Feb 2022 20:43:12 +0000
-Message-Id: <20220204204335.1689602-4-alex.bennee@linaro.org>
+Subject: [PATCH  v3 04/26] .gitignore: add .gcov pattern
+Date: Fri,  4 Feb 2022 20:43:13 +0000
+Message-Id: <20220204204335.1689602-5-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220204204335.1689602-1-alex.bennee@linaro.org>
 References: <20220204204335.1689602-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32d
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::330
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::330;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x330.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -102,33 +102,25 @@ Cc: fam@euphon.net, berrange@redhat.com, Luke.Craig@ll.mit.edu,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Left over .gcno files from old builds can really confuse gcov and the
-user expects a clean slate after "make clean". Make clean mean clean.
+The gcovr tool is very messy and can leave a lot of crap in the source
+tree even when using build directories.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20220124201608.604599-4-alex.bennee@linaro.org>
-
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Message-Id: <20220124201608.604599-5-alex.bennee@linaro.org>
 ---
-v2
-  - fix whitespace damage
----
- Makefile | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ .gitignore | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/Makefile b/Makefile
-index db9a788601..e5fd1ebdf6 100644
---- a/Makefile
-+++ b/Makefile
-@@ -206,7 +206,8 @@ recurse-clean: $(addsuffix /clean, $(ROM_DIRS))
- clean: recurse-clean
- 	-$(quiet-@)test -f build.ninja && $(NINJA) $(NINJAFLAGS) -t clean || :
- 	-$(quiet-@)test -f build.ninja && $(NINJA) $(NINJAFLAGS) clean-ctlist || :
--	find . \( -name '*.so' -o -name '*.dll' -o -name '*.[oda]' \) -type f \
-+	find . \( -name '*.so' -o -name '*.dll' -o \
-+		  -name '*.[oda]' -o -name '*.gcno' \) -type f \
- 		! -path ./roms/edk2/ArmPkg/Library/GccLto/liblto-aarch64.a \
- 		! -path ./roms/edk2/ArmPkg/Library/GccLto/liblto-arm.a \
- 		-exec rm {} +
+diff --git a/.gitignore b/.gitignore
+index eb2553026c..9726a778b3 100644
+--- a/.gitignore
++++ b/.gitignore
+@@ -15,3 +15,4 @@ GTAGS
+ *.depend_raw
+ *.swp
+ *.patch
++*.gcov
 -- 
 2.30.2
 
