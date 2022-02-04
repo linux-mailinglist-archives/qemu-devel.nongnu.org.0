@@ -2,74 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11D7C4AA31A
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Feb 2022 23:23:17 +0100 (CET)
-Received: from localhost ([::1]:57128 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A4B884AA31B
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Feb 2022 23:23:45 +0100 (CET)
+Received: from localhost ([::1]:57738 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nG6z6-0004mf-4d
-	for lists+qemu-devel@lfdr.de; Fri, 04 Feb 2022 17:23:16 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:45592)
+	id 1nG6zY-0005CV-Hf
+	for lists+qemu-devel@lfdr.de; Fri, 04 Feb 2022 17:23:44 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:45636)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nG6wS-00025h-AQ
- for qemu-devel@nongnu.org; Fri, 04 Feb 2022 17:20:34 -0500
-Received: from [2a00:1450:4864:20::32f] (port=40873
- helo=mail-wm1-x32f.google.com)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1nG6ws-0002UE-Cg
+ for qemu-devel@nongnu.org; Fri, 04 Feb 2022 17:20:59 -0500
+Received: from [2607:f8b0:4864:20::42a] (port=36524
+ helo=mail-pf1-x42a.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nG6wQ-0006DE-5Y
- for qemu-devel@nongnu.org; Fri, 04 Feb 2022 17:20:31 -0500
-Received: by mail-wm1-x32f.google.com with SMTP id
- s22-20020a1ca916000000b0037b91599cd0so1862622wme.5
- for <qemu-devel@nongnu.org>; Fri, 04 Feb 2022 14:20:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=mnBXHHbPtjJQsSPpKuXG3d0SJ7rkeE/PmiVU9oyitSY=;
- b=V1xRNn1Y5aUSQ8I/LqRprziydBe1gYX8uAdDqMldKl95F+aNxvoY015o88AReWjFO7
- gUf8CaFNu4lEgxIeIEjjC6wonpLcSrWhPFmkeLyIkslDgOEWtOKezTiYcX+hqSb4w3uM
- ZZebv9vPs86iwE1KR9zGs6EbSK9aSLWpXcU+U+uM/QNaxFKEbyhe5ItqILGFD7wdN7N9
- vV7NJD3pnbOI0oxB31RrxI+mb1yuzf6vCraopFk/BhkrhdK6V7uqUP+wCoEwVxJ7Fa6+
- 7bXjASF7y0E2Mqz1B7E42s8nVyCGEMqrajA4iUsGP3XnDXxneYLUFSS/iHEGMLAt8W2G
- Ugng==
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1nG6wr-0006Ji-0S
+ for qemu-devel@nongnu.org; Fri, 04 Feb 2022 17:20:58 -0500
+Received: by mail-pf1-x42a.google.com with SMTP id 192so6255377pfz.3
+ for <qemu-devel@nongnu.org>; Fri, 04 Feb 2022 14:20:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=WZE2XJggAfHaCr6wsWT5Pr7DhiCrcHKAyTtuZp0W+kg=;
+ b=Zk8jiFWgCEIlezrpWBAxDe4mLJKVMV9c4javVZkPD/CU+Wc8Qz2qu9tIdMPCFUqMTC
+ rvGt8VLrrTQai/ayksl0+Q3dL8v43CiJFE48nT9uiLMYJWXoykVMkn87t3EZtaABk+Vw
+ PcP0qThGaCjEF37cXDEFcPuMKnf7IftHVk3NXkcKHLbYpKs5j4x6KbbrXH2iJzUj6PS/
+ KBN1Vl7K06Lvkr5adgkZaVguZ14v2vJzSLbdohFgFBz+I7MOy40d0L8u5Cztg7FneMro
+ 93L2ORHsruXgOkCFRCg3dxKtulTNozOmUqWr9UwnDzilh1trwKtPpFUEWZmr//XPYMVQ
+ RHlQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=mnBXHHbPtjJQsSPpKuXG3d0SJ7rkeE/PmiVU9oyitSY=;
- b=KYaedq5QBBMrJCQywH3GiOburgJcdtXhG/X4EZMT/vmKXWIhXgPj/jlXoDTmIR3aW5
- Z+X23un9iK/J9Nqjp79UyJJAwoydMxX4NOLC0nVxpvH/TGBcO3WpwZv1w9ADmFMGh27e
- T9nPdAQoYrgWJZWNYKFtN/7HEDOqa8vDjLnzSvFl2rrFeESncnsXKl3bQL0u5/KjMGYM
- dg5aRRPbaNafavxH/xmHTtrAoDVtitsbJJ5pPPOZ8qUXyVRNLWy3J43tY8Cvei/Ia7EL
- l10TE/swulUXMT/y6JF7ynIsMFPZkwPVbDByqO7ayOdlrDbLqqXcS2G7l8RSzr/1dbQ0
- V/wQ==
-X-Gm-Message-State: AOAM5321eLErOP5KfEA0wO+ChOnEmK7S+c8kVDdHdxko8e5vuyUw65Yu
- KcuEnBLbSs/eAvHnFTzllLrf5DYM265eHyDTnBMoEA==
-X-Google-Smtp-Source: ABdhPJzjqct7gaZGySSlIxWMaHLJtqJzzG3ffLaxOjJfSN5TtsfSPTEnMwj4V8UzX2hu/oZ3+T+kRiz5Y5sNjsTvQX8=
-X-Received: by 2002:a7b:c5d1:: with SMTP id n17mr684940wmk.32.1644013227047;
- Fri, 04 Feb 2022 14:20:27 -0800 (PST)
+ h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+ :subject:content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=WZE2XJggAfHaCr6wsWT5Pr7DhiCrcHKAyTtuZp0W+kg=;
+ b=Aw4P6ZA+ebuG7AxlMgbZn3wRGBO1Vrjs8LOfBAuybmJYSZvPXYPXmab0m4uj7ep3BP
+ 8BlSLQ+ndoX/Z70Zd/zO8Xw6tvvnT0zkfYIhLtOt1M86sKMq8udc7pOpegIMTtAa/ZmM
+ PwOa9IcKxjjwlJery9SA/dizVfaWe0q856iSF2JZGjReOXCU7Do+62Q+k7P9DrvmzLsC
+ GfV7lEmSPxuE+k/GWQar32OqTjmMhTBehLzz77PvdajNrJT/s9861w5DtqBxt2MhybgO
+ +1SR45xTZ27yqS01VGNNEOZEO+AUZqKbuEmVQwVzi6D5ykNGuEsBNVCx4PJDsICJA+FA
+ 3uQw==
+X-Gm-Message-State: AOAM533pd9I9+D9yl0UD64p6in5E1Y+VVpBVhLAyXTNxs3RPZcbucpY7
+ xPdNb9DvPHnITFRbvml/Ps8=
+X-Google-Smtp-Source: ABdhPJyqOPsUtm81BI4u1D8uFNK+i2CTDVMJPeR8b3+EsmGLTMvvhzfx1UqZqzjG8/dWTvKgqEqMRA==
+X-Received: by 2002:a63:2bd1:: with SMTP id r200mr936520pgr.68.1644013255820; 
+ Fri, 04 Feb 2022 14:20:55 -0800 (PST)
+Received: from [192.168.1.33] (154.red-83-50-83.dynamicip.rima-tde.net.
+ [83.50.83.154])
+ by smtp.gmail.com with ESMTPSA id s2sm2599903pgq.38.2022.02.04.14.20.51
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 04 Feb 2022 14:20:55 -0800 (PST)
+Message-ID: <a30e53a8-7ca9-8733-1c65-363a9c656b4d@amsat.org>
+Date: Fri, 4 Feb 2022 23:20:49 +0100
 MIME-Version: 1.0
-References: <20220204070011.573941-1-richard.henderson@linaro.org>
- <20220204070011.573941-4-richard.henderson@linaro.org>
- <CAFEAcA8YyrASZw7Wj1c5fLg-60KUKPsC7eVA8+YhNTsVM4t2kg@mail.gmail.com>
- <0c47260f-7ecc-7b67-4d29-4e9b8c3cdabc@linaro.org>
-In-Reply-To: <0c47260f-7ecc-7b67-4d29-4e9b8c3cdabc@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 4 Feb 2022 22:20:15 +0000
-Message-ID: <CAFEAcA-mGymG5pBsXKhtvKSuTkV4bYQ1bxktyEPipH453QTvMA@mail.gmail.com>
-Subject: Re: [PATCH v4 3/5] tcg/sparc: Use the constant pool for 64-bit
- constants
-To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32f
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.5.1
+Subject: Re: [PATCH v3 03/26] Makefile: also remove .gcno files when cleaning
+Content-Language: en-US
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ richard.henderson@linaro.org, qemu-devel@nongnu.org
+Cc: fam@euphon.net, berrange@redhat.com, aurelien@aurel32.net,
+ pbonzini@redhat.com, stefanha@redhat.com, crosa@redhat.com, minyihh@uci.edu,
+ ma.mandourr@gmail.com, Luke.Craig@ll.mit.edu, cota@braap.org,
+ aaron@os.amperecomputing.com, kuhn.chenqun@huawei.com,
+ robhenry@microsoft.com, mahmoudabdalghany@outlook.com
+References: <20220204204335.1689602-1-alex.bennee@linaro.org>
+ <20220204204335.1689602-4-alex.bennee@linaro.org>
+In-Reply-To: <20220204204335.1689602-4-alex.bennee@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::42a
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32f.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42a;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pf1-x42a.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
  PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
@@ -85,62 +99,24 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alex.bennee@linaro.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
-On Fri, 4 Feb 2022 at 20:41, Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> On 2/5/22 05:18, Peter Maydell wrote:
-> > On Fri, 4 Feb 2022 at 07:53, Richard Henderson
-> > <richard.henderson@linaro.org> wrote:
-> >>
-> >> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> >> ---
-> >>   tcg/sparc/tcg-target.c.inc | 15 +++++++++++++++
-> >>   1 file changed, 15 insertions(+)
-> >>
-> >> diff --git a/tcg/sparc/tcg-target.c.inc b/tcg/sparc/tcg-target.c.inc
-> >> index 6349f750cc..47bdf314a0 100644
-> >> --- a/tcg/sparc/tcg-target.c.inc
-> >> +++ b/tcg/sparc/tcg-target.c.inc
-> >> @@ -332,6 +332,13 @@ static bool patch_reloc(tcg_insn_unit *src_rw, int type,
-> >>           insn &= ~INSN_OFF19(-1);
-> >>           insn |= INSN_OFF19(pcrel);
-> >>           break;
-> >> +    case R_SPARC_13:
-> >> +        if (!check_fit_ptr(value, 13)) {
-> >> +            return false;
-> >> +        }
-> >
-> > This code seems to contemplate that the offset might not fit
-> > into the 13-bit immediate field (unlike the other two reloc
-> > cases in this function, which just assert() that it fits)...
->
-> Ooo, thanks for noticing.  The other entries have not been updated for changes to tcg
-> relocations.  They should be returning false instead of asserting.
->
-> Returning false here tells generic code the relocation didn't fit, and to restart the TB
-> with half of the number of guest instructions.
->
-> >> +    /* Use the constant pool, if possible. */
-> >> +    if (!in_prologue && USE_REG_TB) {
-> >> +        new_pool_label(s, arg, R_SPARC_13, s->code_ptr,
-> >> +                       tcg_tbrel_diff(s, NULL));
-> >> +        tcg_out32(s, LDX | INSN_RD(ret) | INSN_RS1(TCG_REG_TB));
-> >> +        return;
-> >> +    }
-> >
-> > ...but this code doesn't seem to have any mechanism for
-> > falling back to something else if it won't fit.
->
-> It will fit, because we'll keep trying with smaller TBs until it does.  If for some reason
-> a target generates more than 8k for a single guest insn... it will go boom.
+On 4/2/22 21:43, Alex Bennée wrote:
+> Left over .gcno files from old builds can really confuse gcov and the
+> user expects a clean slate after "make clean". Make clean mean clean.
+> 
+> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+> Message-Id: <20220124201608.604599-4-alex.bennee@linaro.org>
+> 
+> ---
+> v2
+>    - fix whitespace damage
+> ---
+>   Makefile | 3 ++-
+>   1 file changed, 2 insertions(+), 1 deletion(-)
 
-Ah, I see. Then for this patch
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-
-thanks
--- PMM
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
