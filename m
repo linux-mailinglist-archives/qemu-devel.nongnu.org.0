@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86AC54A9DA5
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Feb 2022 18:34:17 +0100 (CET)
-Received: from localhost ([::1]:46680 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E9DD4A9D90
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Feb 2022 18:19:40 +0100 (CET)
+Received: from localhost ([::1]:34716 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nG2TQ-0007uA-Cu
-	for lists+qemu-devel@lfdr.de; Fri, 04 Feb 2022 12:34:16 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:57206)
+	id 1nG2FH-0007ym-2P
+	for lists+qemu-devel@lfdr.de; Fri, 04 Feb 2022 12:19:39 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:58860)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nG23s-0008Dh-7o
- for qemu-devel@nongnu.org; Fri, 04 Feb 2022 12:07:52 -0500
-Received: from [2a00:1450:4864:20::42c] (port=34738
- helo=mail-wr1-x42c.google.com)
+ id 1nG2AI-0005TO-Jn
+ for qemu-devel@nongnu.org; Fri, 04 Feb 2022 12:14:31 -0500
+Received: from [2a00:1450:4864:20::436] (port=42820
+ helo=mail-wr1-x436.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nG23n-0005Cd-8U
- for qemu-devel@nongnu.org; Fri, 04 Feb 2022 12:07:51 -0500
-Received: by mail-wr1-x42c.google.com with SMTP id f17so12580261wrx.1
- for <qemu-devel@nongnu.org>; Fri, 04 Feb 2022 09:07:42 -0800 (PST)
+ id 1nG2AG-0006Wm-QS
+ for qemu-devel@nongnu.org; Fri, 04 Feb 2022 12:14:30 -0500
+Received: by mail-wr1-x436.google.com with SMTP id d15so3791978wrb.9
+ for <qemu-devel@nongnu.org>; Fri, 04 Feb 2022 09:14:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=KXHPCbSZG3TI6bJwdaAJwsoSLDtVrmWMx3HqLytKCw4=;
- b=wAiuWI13PRgy3spHJ4d+45J5IMdQyndA3WdFMcIgYXugZa1t9Kn9lYQyUzoh77RYhw
- CvDMcSWKtx6vY5rZIRfSCdy1c+OqPEMBABZboKmroSpj1qMYbNbhuGcJj9aVJR8NzxIH
- 6P3GM5XQCD1pEAJyV7nVxR9/MZZcvTJRJrCXQ7qIWxG2HhOQHG5tIwHK2kiqWiOoZd/n
- ofhH8T9qOH6T4H7dfHJeKvC/Jn0miGBw+mkYpecYmn71klrG8Ur/6ZhcQ0HDVXHY+Wq0
- oBaWzecWor9p8cm178/ssgKf0tDS5PtvMtTTebwwzW98uxg3/mhcHH+3f3/KF3eNwvIc
- hAKg==
+ :cc; bh=3cMp5GXWifbsDRQz/PRIW9EDidnx8bTrMAZ88QWFGhs=;
+ b=mx4AEzxXO+KH4gqSV5pSxi+FtoG0k9daWV747HZDQ1BkUiDkvfgwaibWpWZwZZz5/K
+ sBiieHh01krhQn5JyuUkWVLYCMFiq6tOD4XR+Q9rv0SKO1BMdidTHUD0N/Zdb9QXU9rW
+ 9W4O+4wVXTDaeUf1u0Sq2utIi4KiP6ZXau6U4eh9V5Tw2PeaJR2ynLirgE8jz9Uf14Ft
+ kNFr4tBkoyXr56uCXce3FMfUP4rFeYsGj0uBNfBn57vMj1NL+V2/o89nS+27OCKtKhvf
+ wIVDkM4F7nNjww2hvRfATDeALwRxsHm7he9R1Un1mQFowlGkXuaTFlrqEfnRwSYI5X7q
+ L5bA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=KXHPCbSZG3TI6bJwdaAJwsoSLDtVrmWMx3HqLytKCw4=;
- b=1EHu5T6BMW40VOulBNk8PTBaKMhZrs78YCl0hPU3lEliyhLQ/zwtZAYVfgJEf+/vGR
- GwBHaFk7VV7k/RgV2JUoNKK7AB38H8uO4swBnPj+O1EJQ3X5DpOZUimcWLsRGDsi1TuA
- ExyRkDKVnfXTeMojW87K3FlDTMBeO2QLJm816aqmJYRKv6SffBmvV3+dF9y6KDbC+OUf
- veOSz1G3sIjfOe90130yvTnYelTs9n4Ti4TF4+zZh/GvqjrASJZsDKPluqKSVG5SShn4
- N/34G++PoNPpqWlH/0s9YluCcFJQ5tLzrHabkxuqp3NMZ2Wmvfmwo9+RZ0RDJvXrwVZR
- Zd8g==
-X-Gm-Message-State: AOAM533mPovDuqio3xiVPnGIcd0/yinryt9xa9S3QQ1r5WO5AXplAYV4
- TVSc3E/G79SLQZgc+hCt8aoixqSA3Q1iP5OsoHzs5A==
-X-Google-Smtp-Source: ABdhPJys0zRGM5Ba7tfOmgFDDtSTf5Yk7O6srNuFNy0++2uUCOLTwNH8XajzWque6oFjoaoreqE+OQIXXavbhnDcsY4=
-X-Received: by 2002:a5d:4c89:: with SMTP id z9mr2097956wrs.521.1643994461634; 
- Fri, 04 Feb 2022 09:07:41 -0800 (PST)
+ bh=3cMp5GXWifbsDRQz/PRIW9EDidnx8bTrMAZ88QWFGhs=;
+ b=RWrgglaH0l+0HHbG+3UERmy6wGIxRoMStVA+TrQS6d5d+kbdXTTNrJQL/tNRy7NH81
+ olWvhOgFuHF9+nc0gFcVki1MDwO++QkWjGf2DLemxUiqfSWWV4XnJjbATkqxHAMKyDWk
+ ADwSGW70ourdNoFfuew6LD/d1Kv4g0z8+jHmg3Pl7Tq4ktAmZX3pFJ4jmixU8Hbhk9ck
+ LptJMG0lXVGbGL7ziHw7P5/7MzcsQAYlvXDsP2Whcvwg82TlvElBTzXD3Sjzzt5ke6p3
+ ihcedNK0aZGkAh4W8Y6uUYaz2+mWY7/4aPLhxRndzc4x8FOAb8nqAIwMG6b3CLmfEAuD
+ 3eew==
+X-Gm-Message-State: AOAM533ZyAtfgZ7Eda66pK/JCnpxiT0+h7CzxokyouqBGFL/UKkth6C6
+ TWeoUmvH+8eo9glxCgam4r3Tg2cCNPSAO6r3+CrCHA==
+X-Google-Smtp-Source: ABdhPJx3RTarmmmmJ//ozLFnqVkcWHIKAa1f+l4RxbJAWUIZHUXPsUTN6ZBxAQPM+SRKaKqM3wJv8aBqAPZC1H0BmVo=
+X-Received: by 2002:a5d:448b:: with SMTP id j11mr3376410wrq.172.1643994866983; 
+ Fri, 04 Feb 2022 09:14:26 -0800 (PST)
 MIME-Version: 1.0
-References: <20220203151742.1457-1-francisco.iglesias@xilinx.com>
-In-Reply-To: <20220203151742.1457-1-francisco.iglesias@xilinx.com>
+References: <20220202152323.2529767-1-jimmy.brisson@linaro.org>
+In-Reply-To: <20220202152323.2529767-1-jimmy.brisson@linaro.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 4 Feb 2022 17:07:30 +0000
-Message-ID: <CAFEAcA9w8oU_fsOQHZxgV+=QWyvCzyHFtjNQ2RPUxNM_V9vXew@mail.gmail.com>
-Subject: Re: [PATCH v1] hw/arm/xlnx-zynqmp: 'Or' the QSPI / QSPI DMA IRQs
-To: Francisco Iglesias <francisco.iglesias@xilinx.com>
+Date: Fri, 4 Feb 2022 17:14:16 +0000
+Message-ID: <CAFEAcA-bn0mQw5Xsn4+-b6_Qa67TViKsVK4uVmNmNkkcq5FqTw@mail.gmail.com>
+Subject: Re: [PATCH v1] an547: Correct typo that swaps ahb and apb peripherals
+To: Jimmy Brisson <jimmy.brisson@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42c
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::436
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::436;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x436.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -80,24 +80,28 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: edgar.iglesias@xilinx.com, frasse.iglesias@gmail.com,
- alistair@alistair23.me, luc@lmichel.fr, qemu-devel@nongnu.org
+Cc: "open list:MPS2" <qemu-arm@nongnu.org>,
+ "open list:All patches CC here" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 3 Feb 2022 at 15:17, Francisco Iglesias
-<francisco.iglesias@xilinx.com> wrote:
+On Wed, 2 Feb 2022 at 15:23, Jimmy Brisson <jimmy.brisson@linaro.org> wrote:
 >
-> 'Or' the IRQs coming from the QSPI and QSPI DMA models. This is done for
-> avoiding the situation where one of the models incorrectly deasserts an
-> interrupt asserted from the other model (which will result in that the IRQ
-> is lost and will not reach guest SW).
+> Turns out that this manifests in being unable to configure
+> the ethernet access permissions, as the IotKitPPC looks
+> these up by name.
 >
-> Signed-off-by: Francisco Iglesias <francisco.iglesias@xilinx.com>
+> With this fix, eth is configurable
+>
+> Signed-off-by: Jimmy Brisson <jimmy.brisson@linaro.org>
 
+Can you explain the issue here in more detail, and maybe
+provide a repro case ? The AN547 document definitely thinks
+that APB PPC EXP 0 has the Memory Protection Controllers and
+AHB PPC EXP 0 has the GPIO, USB and Ethernet devices:
+https://developer.arm.com/-/media/Arm%20Developer%20Community/PDF/DAI0547B_SSE300_PLUS_U55_FPGA_for_mps3.pdf
+(tables 6-2 to 6-4 on pages 35, 36).
 
-
-Applied to target-arm.next, thanks.
-
+thanks
 -- PMM
 
