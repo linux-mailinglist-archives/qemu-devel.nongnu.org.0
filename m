@@ -2,61 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9BC814A9856
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Feb 2022 12:24:13 +0100 (CET)
-Received: from localhost ([::1]:33498 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C34804A9859
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Feb 2022 12:24:17 +0100 (CET)
+Received: from localhost ([::1]:33594 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nFwhI-0005yA-O8
-	for lists+qemu-devel@lfdr.de; Fri, 04 Feb 2022 06:24:12 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:54450)
+	id 1nFwhM-00062R-Ia
+	for lists+qemu-devel@lfdr.de; Fri, 04 Feb 2022 06:24:16 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:54460)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nFwU4-0003Qp-LL
- for qemu-devel@nongnu.org; Fri, 04 Feb 2022 06:10:33 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:40531)
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nFwU6-0003Ro-RA
+ for qemu-devel@nongnu.org; Fri, 04 Feb 2022 06:10:34 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:37721)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nFwU2-0004WP-Hk
- for qemu-devel@nongnu.org; Fri, 04 Feb 2022 06:10:32 -0500
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nFwU4-0004Wc-DG
+ for qemu-devel@nongnu.org; Fri, 04 Feb 2022 06:10:33 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1643973030;
+ s=mimecast20190719; t=1643973031;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Eg+ZkNoJ86eJKZQ/lVY/itQepQ82lEXeQ2wLQnHVDMQ=;
- b=SGlFSOB4wB+wwsWXL/cWy7N8Ah4DHcw5N3wjKLC5IPcWM0Wcr6WgMj3Iphc5l4Qw30lV5r
- UdyltP6bn7eurxhJuDoCM+VSD/BPukOj5IZkUYrYK46vbPsXaJgLwhnYa5a5Ank1c3VwdF
- a8BVhp9p0/Y0nOTqQ9P4Ddn81wI9tXY=
+ bh=+SDBrYGgBAEP1GIzJv2QShNv3zV8hieQEbr2gcKMCbc=;
+ b=EDcoUrkwfkG8Aoy/znCNhL9NapBN25VSwHkOzayLiXXMc6Vnsdj7MWN+B10qTTnTB1qomo
+ L7WkbVG6X4dPODaIYIVAmx1Su7zsqvs+BUA37xQ838tIg3yfkZ4ZJYAfvMF12FZY2rzkRC
+ 5awrEtqZj2XwrWZcgdg1VHY3JCJ9JPE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-606-Un19tZDnMIWAgDYGYvrwZA-1; Fri, 04 Feb 2022 06:10:28 -0500
-X-MC-Unique: Un19tZDnMIWAgDYGYvrwZA-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-247-CgHSOvqzOkGGblNoIj-dhw-1; Fri, 04 Feb 2022 06:10:31 -0500
+X-MC-Unique: CgHSOvqzOkGGblNoIj-dhw-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BDFDD8143EA;
- Fri,  4 Feb 2022 11:10:27 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D97F83E744;
+ Fri,  4 Feb 2022 11:10:29 +0000 (UTC)
 Received: from localhost (unknown [10.39.193.4])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 6372A7B6F2;
- Fri,  4 Feb 2022 11:10:27 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 75CE77D71B;
+ Fri,  4 Feb 2022 11:10:29 +0000 (UTC)
 From: Hanna Reitz <hreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH v2 6/7] block/nbd: Move s->ioc on AioContext change
-Date: Fri,  4 Feb 2022 12:10:11 +0100
-Message-Id: <20220204111012.34720-7-hreitz@redhat.com>
+Subject: [PATCH v2 7/7] iotests/281: Let NBD connection yield in iothread
+Date: Fri,  4 Feb 2022 12:10:12 +0100
+Message-Id: <20220204111012.34720-8-hreitz@redhat.com>
 In-Reply-To: <20220204111012.34720-1-hreitz@redhat.com>
 References: <20220204111012.34720-1-hreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=hreitz@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=hreitz@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -83,93 +83,95 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-s->ioc must always be attached to the NBD node's AioContext.  If that
-context changes, s->ioc must be attached to the new context.
+Put an NBD block device into an I/O thread, and then read data from it,
+hoping that the NBD connection will yield during that read.  When it
+does, the coroutine must be reentered in the block device's I/O thread,
+which will only happen if the NBD block driver attaches the connection's
+QIOChannel to the new AioContext.  It did not do that after 4ddb5d2fde
+("block/nbd: drop connection_co") and prior to "block/nbd: Move s->ioc
+on AioContext change", which would cause an assertion failure.
 
-Buglink: https://bugzilla.redhat.com/show_bug.cgi?id=2033626
+To improve our chances of yielding, the NBD server is throttled to
+reading 64 kB/s, and the NBD client reads 128 kB, so it should yield at
+some point.
+
 Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 Signed-off-by: Hanna Reitz <hreitz@redhat.com>
 ---
- block/nbd.c | 45 +++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 45 insertions(+)
+ tests/qemu-iotests/281     | 28 +++++++++++++++++++++++++---
+ tests/qemu-iotests/281.out |  4 ++--
+ 2 files changed, 27 insertions(+), 5 deletions(-)
 
-diff --git a/block/nbd.c b/block/nbd.c
-index dc6c3f3bbc..5853d85d60 100644
---- a/block/nbd.c
-+++ b/block/nbd.c
-@@ -2055,6 +2055,42 @@ static void nbd_cancel_in_flight(BlockDriverState *bs)
-     nbd_co_establish_connection_cancel(s->conn);
- }
+diff --git a/tests/qemu-iotests/281 b/tests/qemu-iotests/281
+index 4fb3cd30dd..5e1339bd75 100755
+--- a/tests/qemu-iotests/281
++++ b/tests/qemu-iotests/281
+@@ -253,8 +253,9 @@ class TestYieldingAndTimers(iotests.QMPTestCase):
+         self.create_nbd_export()
  
-+static void nbd_attach_aio_context(BlockDriverState *bs,
-+                                   AioContext *new_context)
-+{
-+    BDRVNBDState *s = bs->opaque;
-+
-+    /* The open_timer is used only during nbd_open() */
-+    assert(!s->open_timer);
-+
-+    /*
-+     * The reconnect_delay_timer is scheduled in I/O paths when the
-+     * connection is lost, to cancel the reconnection attempt after a
-+     * given time.  Once this attempt is done (successfully or not),
-+     * nbd_reconnect_attempt() ensures the timer is deleted before the
-+     * respective I/O request is resumed.
-+     * Since the AioContext can only be changed when a node is drained,
-+     * the reconnect_delay_timer cannot be active here.
-+     */
-+    assert(!s->reconnect_delay_timer);
-+
-+    if (s->ioc) {
-+        qio_channel_attach_aio_context(s->ioc, new_context);
-+    }
-+}
-+
-+static void nbd_detach_aio_context(BlockDriverState *bs)
-+{
-+    BDRVNBDState *s = bs->opaque;
-+
-+    assert(!s->open_timer);
-+    assert(!s->reconnect_delay_timer);
-+
-+    if (s->ioc) {
-+        qio_channel_detach_aio_context(s->ioc);
-+    }
-+}
-+
- static BlockDriver bdrv_nbd = {
-     .format_name                = "nbd",
-     .protocol_name              = "nbd",
-@@ -2078,6 +2114,9 @@ static BlockDriver bdrv_nbd = {
-     .bdrv_dirname               = nbd_dirname,
-     .strong_runtime_opts        = nbd_strong_runtime_opts,
-     .bdrv_cancel_in_flight      = nbd_cancel_in_flight,
-+
-+    .bdrv_attach_aio_context    = nbd_attach_aio_context,
-+    .bdrv_detach_aio_context    = nbd_detach_aio_context,
- };
+         # Simple VM with an NBD block device connected to the NBD export
+-        # provided by the QSD
++        # provided by the QSD, and an (initially unused) iothread
+         self.vm = iotests.VM()
++        self.vm.add_object('iothread,id=iothr')
+         self.vm.add_blockdev('nbd,node-name=nbd,server.type=unix,' +
+                              f'server.path={self.sock},export=exp,' +
+                              'reconnect-delay=1,open-timeout=1')
+@@ -299,19 +300,40 @@ class TestYieldingAndTimers(iotests.QMPTestCase):
+         # thus not see the error, and so the test will pass.)
+         time.sleep(2)
  
- static BlockDriver bdrv_nbd_tcp = {
-@@ -2103,6 +2142,9 @@ static BlockDriver bdrv_nbd_tcp = {
-     .bdrv_dirname               = nbd_dirname,
-     .strong_runtime_opts        = nbd_strong_runtime_opts,
-     .bdrv_cancel_in_flight      = nbd_cancel_in_flight,
++    def test_yield_in_iothread(self):
++        # Move the NBD node to the I/O thread; the NBD block driver should
++        # attach the connection's QIOChannel to that thread's AioContext, too
++        result = self.vm.qmp('x-blockdev-set-iothread',
++                             node_name='nbd', iothread='iothr')
++        self.assert_qmp(result, 'return', {})
 +
-+    .bdrv_attach_aio_context    = nbd_attach_aio_context,
-+    .bdrv_detach_aio_context    = nbd_detach_aio_context,
- };
- 
- static BlockDriver bdrv_nbd_unix = {
-@@ -2128,6 +2170,9 @@ static BlockDriver bdrv_nbd_unix = {
-     .bdrv_dirname               = nbd_dirname,
-     .strong_runtime_opts        = nbd_strong_runtime_opts,
-     .bdrv_cancel_in_flight      = nbd_cancel_in_flight,
++        # Do some I/O that will be throttled by the QSD, so that the network
++        # connection hopefully will yield here.  When it is resumed, it must
++        # then be resumed in the I/O thread's AioContext.
++        result = self.vm.qmp('human-monitor-command',
++                             command_line='qemu-io nbd "read 0 128K"')
++        self.assert_qmp(result, 'return', '')
 +
-+    .bdrv_attach_aio_context    = nbd_attach_aio_context,
-+    .bdrv_detach_aio_context    = nbd_detach_aio_context,
- };
+     def create_nbd_export(self):
+         assert self.qsd is None
  
- static void bdrv_nbd_init(void)
+-        # Simple NBD export of a null-co BDS
++        # Export a throttled null-co BDS: Reads are throttled (max 64 kB/s),
++        # writes are not.
+         self.qsd = QemuStorageDaemon(
++            '--object',
++            'throttle-group,id=thrgr,x-bps-read=65536,x-bps-read-max=65536',
++
+             '--blockdev',
+             'null-co,node-name=null,read-zeroes=true',
+ 
++            '--blockdev',
++            'throttle,node-name=thr,file=null,throttle-group=thrgr',
++
+             '--nbd-server',
+             f'addr.type=unix,addr.path={self.sock}',
+ 
+             '--export',
+-            'nbd,id=exp,node-name=null,name=exp,writable=true'
++            'nbd,id=exp,node-name=thr,name=exp,writable=true'
+         )
+ 
+     def stop_nbd_export(self):
+diff --git a/tests/qemu-iotests/281.out b/tests/qemu-iotests/281.out
+index 914e3737bd..3f8a935a08 100644
+--- a/tests/qemu-iotests/281.out
++++ b/tests/qemu-iotests/281.out
+@@ -1,5 +1,5 @@
+-.....
++......
+ ----------------------------------------------------------------------
+-Ran 5 tests
++Ran 6 tests
+ 
+ OK
 -- 
 2.34.1
 
