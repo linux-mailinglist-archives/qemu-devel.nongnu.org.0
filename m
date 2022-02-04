@@ -2,141 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2730F4A974A
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Feb 2022 10:59:28 +0100 (CET)
-Received: from localhost ([::1]:41332 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE9634A9739
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Feb 2022 10:57:44 +0100 (CET)
+Received: from localhost ([::1]:40066 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nFvNH-0000N7-82
-	for lists+qemu-devel@lfdr.de; Fri, 04 Feb 2022 04:59:27 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:58062)
+	id 1nFvLb-0007mU-H7
+	for lists+qemu-devel@lfdr.de; Fri, 04 Feb 2022 04:57:43 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:58278)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1nFumA-0008KC-Ao; Fri, 04 Feb 2022 04:21:07 -0500
-Received: from [2a01:111:f400:fe0c::72f] (port=8356
- helo=EUR04-DB3-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1nFunW-0000NY-4j
+ for qemu-devel@nongnu.org; Fri, 04 Feb 2022 04:22:31 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:23143)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1nFum6-0008Ov-20; Fri, 04 Feb 2022 04:21:06 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=i/3U7lW2n/J1U/In3kn9ADxXzZlPR29eIL0U46Ir7j1iKiKRJ38I+kKSOmuV5kCrYmIX4vqFe4WAJtnKmfQknpUKLZRiC7dOXL5lxKQLKJGsEajt84f6fGc5/V9nulqHteX44z8m32xaDf5fCnFMtPH1QvRUOnouyxfePh6ZNSoO7wkB/msPjmqKBikcEJpaBfEoYq1XJhQBBES8wNzsju1qgie20sMMvDmCtnSHzxJagX+iYRpT04H+g2hZWWe3D0i7JiZwRuLqG9mIsLn6Mo6GH7ZnQT/Ux3WyHL3rAJ3iscwfnT5QgPiuvLbRZeRZVWWUSxhcj5RKP4LFVs6ENg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Fts6Fjx0qb6NN55Iy6KyR/ax4zm5e5zvnlJsX5jV2cg=;
- b=Rtvf1N8XzagiDCTpDLRy6euf5cxDV6ysOvLPj31riwBDrLwe4UGITR8rt59Fb/njNcK34PMlvdiKN/7wOQlGKqTfccLnq+C9JlbchfEjR32qfnwLuQl3JUTa45Bfd56k2YqWkS0L3MpRGcJHnCFVW/b6vj/dRNk2FaLCyuXldCM2SiraDsGA7sxBQ64Ch0Tp4v+JvwDHMKpMTGKqpYGwf4DAJnnmawEhRDbnkTcjOLphgnikgIog1uWV5vBaGGl6b1dbB7Uq6AqKvgErOxiGYbHXZIsXsFatbcX8T43in3a57LPz+gOwo6ExGtpM9w75WMxi61yq+Kl9VEWZ1qOhXg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Fts6Fjx0qb6NN55Iy6KyR/ax4zm5e5zvnlJsX5jV2cg=;
- b=XHB0kXoGO2uYM6EntH3cUcxwIx5h3ZQH+Jfv3eh3KrOuVAkCcBr6Nb8Bv4yn065nu0ToDtK9pP/rcljJq8oTe4Jf80DfmtaLj460dhfjU82YbnKLpB5X+LjorSIm36bkFpVj4tpYjErX6XpJYhKPFN7b0Tv35dFBXdf0ZXkDY0A=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=virtuozzo.com;
-Received: from AM9PR08MB6737.eurprd08.prod.outlook.com (2603:10a6:20b:304::18)
- by HE1PR0801MB1754.eurprd08.prod.outlook.com (2603:10a6:3:84::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4951.12; Fri, 4 Feb
- 2022 09:20:57 +0000
-Received: from AM9PR08MB6737.eurprd08.prod.outlook.com
- ([fe80::49c:67e9:3e24:8714]) by AM9PR08MB6737.eurprd08.prod.outlook.com
- ([fe80::49c:67e9:3e24:8714%3]) with mapi id 15.20.4930.022; Fri, 4 Feb 2022
- 09:20:57 +0000
-Message-ID: <d1116f7e-7f7d-fc4d-f4c5-bf07d96a321e@virtuozzo.com>
-Date: Fri, 4 Feb 2022 12:20:55 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [PATCH 6/7] block/nbd: Move s->ioc on AioContext change
-Content-Language: en-US
-To: Hanna Reitz <hreitz@redhat.com>, qemu-block@nongnu.org
-Cc: qemu-devel@nongnu.org, Eric Blake <eblake@redhat.com>,
- Kevin Wolf <kwolf@redhat.com>
-References: <20220203163024.38913-1-hreitz@redhat.com>
- <20220203163024.38913-7-hreitz@redhat.com>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-In-Reply-To: <20220203163024.38913-7-hreitz@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: AS8P251CA0016.EURP251.PROD.OUTLOOK.COM
- (2603:10a6:20b:2f2::11) To AM9PR08MB6737.eurprd08.prod.outlook.com
- (2603:10a6:20b:304::18)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1nFunR-00007O-8W
+ for qemu-devel@nongnu.org; Fri, 04 Feb 2022 04:22:28 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1643966530;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=vvuNWKANAJzR8cE3oULlbzWvynTtW5037MxqQmdUnlE=;
+ b=TI9qErM5Fbq+E7EDuUj6uGJPmyAEop6rEooE/P2sx6YMOg9vOKxNuBh3IRuQ2cjsfRyhsN
+ BF+1Mv7DROtMTajzNn+N4ZWwtdx/VBm4x5ldbgfNjb/iZU9194D1gEuve9ZdNyi98t2vMf
+ grO8BK7U0a33VP3H6fZpnHK/6ymztxw=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-513-AarNKFwvNF6wRmQkdQypNw-1; Fri, 04 Feb 2022 04:22:09 -0500
+X-MC-Unique: AarNKFwvNF6wRmQkdQypNw-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8B62F1091DA1
+ for <qemu-devel@nongnu.org>; Fri,  4 Feb 2022 09:22:08 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.148])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E39F478DFA;
+ Fri,  4 Feb 2022 09:21:40 +0000 (UTC)
+Date: Fri, 4 Feb 2022 09:21:37 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: John Snow <jsnow@redhat.com>
+Subject: Re: Notes on Generating Python signatures for QMP RPCs
+Message-ID: <YfzwIfAYQub5LjdG@redhat.com>
+References: <CAFn=p-aminDYVjPgnR+4x9U3L=Loi55vsHbPq+EOK4AUE_fLeg@mail.gmail.com>
+ <Yfuw1gGPPf8IPzLB@redhat.com>
+ <CAFn=p-Yq_-MDW3kWXW+D9NNHXtunYREEMxjW5mfVtM48Hcj0AA@mail.gmail.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: baa23b56-4f8d-448b-01c1-08d9e7bfa6cf
-X-MS-TrafficTypeDiagnostic: HE1PR0801MB1754:EE_
-X-Microsoft-Antispam-PRVS: <HE1PR0801MB1754F1FDF0BA2CC97E55F2EDC1299@HE1PR0801MB1754.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:227;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 1KT/3jtgxl3oVIcgZXjILkKzQwupeUIpnRA/xvbsxP6BwMXu06ucEbZraNqjxd2mo8eKkMxdLHS6D3JN4L3VYlKlU9pn68vjLcAP8tKOdAMIETqr4m4gE7IXu7/T5WqmGNL/1G176jFyswAOtjIsgjGrt0ug05y8Q26wD1vHNxWq0MwxL166z0wVvfWn9oIehFNIrpa3qRrm0ZSVaTvCln772o10DV31CjALEEsTTpwJDApATM/cDB+FMslQ+RYFboosFE6vwJmWGFkl6ePRS1Taoq6oPMMbczxdl6BrdsNFjVE2fymC3V5/a5BbwiSAphUNHya0RbqFnbWak8wsGlgqmMB1AzKjbFSz5pj4g2/qQKdueUFgxtMF4nCLTNacXENOnLJ/XaWw0XBXpRSK8FIwUh8MFdm6KW7ZmdOp6gxvgJQs38zBzAZapvA8neD9iI+cH+erTg0K0ch2m7vrcs/DW9SFDqKzw6lHAiwydfNaLFabOaomVmztIiWDEifEwATOmZHpnTsPInjy2RGSAaZtWDdz7vAEUOs+VyGt9HxCR1REFcrkmJmLnAhOflaXihraxVxDsTa/j/P19wALO9F+W8o7wq+UmQCHuXNC3JP5d8cF9aXcLUGiC+9HHxGzbOpJ7pMqJRqScV44MBr8JPjq+mAPkaO8FFMznhnMNSI5UCMIgR8YkzwFRz9WIpYnn9rCLqgU5RCeGC0epI4+cdnH8GWieoSWKmieD9+iou6T+3wndH5spams+LinfXWuS0GIziPEEcc1XUUQ/Bi06b4hbIiyWrMdivNhqpA/SVFtUTo9Iq6SvWxwZ4oe6ljEL3beqmiZzopRKK+frMGTQwX+2J8VsM0WNT57E1QnPAI=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM9PR08MB6737.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230001)(4636009)(366004)(31686004)(508600001)(52116002)(36756003)(6486002)(2906002)(4744005)(5660300002)(38100700002)(316002)(54906003)(66476007)(66946007)(8676002)(66556008)(8936002)(4326008)(31696002)(186003)(2616005)(6506007)(6512007)(86362001)(38350700002)(26005)(43740500002)(45980500001);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?OWNmZk9rbHl1dm9zelhhRkx6RUdkUU96bllGOHllUThjVGd3aFd1elZaNWwy?=
- =?utf-8?B?ekdkS1ljY0ZIV3VENzlhaW9UUGFYQVFsSW5nbEJZVzdlcWlKbXZPbEphTFNo?=
- =?utf-8?B?djA0VmZrbFM5dm8vOGY3WFJCNFRkUExXaUFrQXUrbkpxMXVOenZmOVJyWTFh?=
- =?utf-8?B?STNaVnYxazcvU1hQMkF3UXZRN3h6cFBEK2wxdjdyS1lhUS9mOEtnZzdVRGxo?=
- =?utf-8?B?UDZhalAvaU8wSngrOTluQ1FIOC96R1pxQzhRU2RwV2dNcGxiOW1FeGg0SU5x?=
- =?utf-8?B?VGxTUkhGTWQ4T1FuUFN3cWNpYkRwTlVOaWgrMlBBRlBjN2dRU1B3bnBNZWhp?=
- =?utf-8?B?bWU3U2Z6aHJqR1BQcTMxanlGN3pCcE15ZGY0ZXJaWFl3UTJSUUdHUkxaZDlm?=
- =?utf-8?B?VE1FMlBlNjg3c2pYbHNzeEdVa3FWVjRhSThvald6TkxOTWR4cUtyNm81aXBK?=
- =?utf-8?B?MlVWazVVMytBbWhTbzVuckk3c1RGZ2tMM281RnB0ZUtqN3pRanAzdE1NbXRi?=
- =?utf-8?B?aFlpU1doK245SkJYMklDZ2gvOCtVN3ZRZEFBOXVEdUQ1d2RQVTZiQlBnNFl6?=
- =?utf-8?B?S3NHaEpZR1FjWk80MU1Za2EzU291NUFzZ1pGYWZXVkxCQXNuU1JFcHJ3Q1B0?=
- =?utf-8?B?VUxGK3VmZWtWMUNPdVFKYUx6S1lnSVE5NmFKNm5YeWdCSWNDbFltS0N6L3Yv?=
- =?utf-8?B?WjNkeUQrMW01cktnN3FuR2lJRElQSExzdWNVWTI1cUI5VzNNaEpmazBDNTg4?=
- =?utf-8?B?MXZuY2JkOGhlZFBhREZhb2hXcnEwYk1iaFNGRG8yN1RKUGRIcUprT2JkZWVY?=
- =?utf-8?B?NDFYc0svRDQwbVJLWCtzVmJhNkszMXFJaVBNRVc3dGR6bUMzd09xVzU5M0c4?=
- =?utf-8?B?ZDRrQVdmSTdISlkrcENLK3lWOVNTazJBWm9teGQ3N0dPSWhJUTJOWGxGaXhN?=
- =?utf-8?B?S25oVUQ5K0lNMktCQTNzaEJlYmN3SXJTQWlFSXZvTFBXWDVWWFRUWnUxTHUy?=
- =?utf-8?B?SkJVaUlTcWszR1ovTzlubzNNVWQyb21uRW5SSlI3VmlXa1pyMWY5THdkL0pM?=
- =?utf-8?B?YkJjTk5EakVSRUN4MnpKZFRBZmNtdWhWaWZxeElqMmI5STZ1TGdzdGxGcm9w?=
- =?utf-8?B?UWNLY2pDeXlCY2JVdUMrb3V6RVFaMEhWaWxMRFZWN2ptcmZDbGxmWUVYREFN?=
- =?utf-8?B?bGJkQ3lyalhCMlVoVWdDQlFxOUpXUm1WVDFyUGxZTDBTMjJvQXNVQm8yVXd3?=
- =?utf-8?B?ZXhjZWtEZVdZWlUxemQ1SmJMY3A4Rm11YU52RFR2UmZxQzFiL2h0dlBqdERN?=
- =?utf-8?B?bDZ6ckEzczlHNllpODJyUzVXUzQvL0U3ZEVEVjNWb2JENkxnMEYvRFZPd05U?=
- =?utf-8?B?a2lJaUIrUThKTWZUWUx6WjBWZmZtbEFpNlFvRm9vQkdzczV2VGtGSkRHSW4w?=
- =?utf-8?B?dXQ4N2YxTEZPNEcwb2toaThoM2F0MERKbENuRzJGZTM4empEN29yRlh3Ykk0?=
- =?utf-8?B?ckpPdmduT3Y2Y3QzNlVvbWoxUWpKMG1PeG5DTXBLck1GemVvTkhKblRweFRF?=
- =?utf-8?B?eXQ1a3Y1TGVzdGJwdHRGNDlteHhGLzMwajY2cTBKZnU4Mk1hY1JIYXFZak1w?=
- =?utf-8?B?MHZTMVpUeXZRRHJ5djBiNEZJZ3RvZnZ6QVUzaFJSRWw1UnBSUk1aNy9sY0ov?=
- =?utf-8?B?czZnWGFhRDFkeTk2SVpYN3JrM2thZnF5NDhEVWJqN0JHOCs2NWU1VGxrNVcv?=
- =?utf-8?B?UVQxZHB1V0RWZkV1dEd4TTBhdDJQTHcwY2pNc20vSG1uTTZ3TWU4aWdRaS81?=
- =?utf-8?B?RGdnTnlnclY3aS9PU2xNSDUxbHh2Z2NpMjhtN1BmVVFnSU5xaTNMZ1RwdHdU?=
- =?utf-8?B?cFg2STV6RXRCcUZibzJ5VUhERXNGakh5QnNpRUlLUHFVd21UamZhdGdGaUZy?=
- =?utf-8?B?VVgwT3J2VVlxajBPYk43NXdjUSsyN3M3anpkZU8zTXdKRWJxYkZiYnF0aUdp?=
- =?utf-8?B?bXZIWHhaSzlJajJmZFNjVnNRNzZIeUVGa0JFZVdsN2RLaU1qQ21OdGoyOVgw?=
- =?utf-8?B?MWRtV0ovYVNnMmhucTE4Vmtqbko0MmluV3pncU5HS3k2Wm9iaXRRcFJ1UUlX?=
- =?utf-8?B?YlIzeTdGdXdqT012QkJXTmYvWVR6end0alh4cWpRYUZzRlZwbVM3NzFwK0tM?=
- =?utf-8?B?QzdablNwT3BNK3d0aENDVnpGMTZ3NWQzZTRMUzBUZlpHS1hRUy9Bb3hhbmhN?=
- =?utf-8?B?eDNsUy9sYm9BWFdpVFp0bkdWWWFRPT0=?=
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: baa23b56-4f8d-448b-01c1-08d9e7bfa6cf
-X-MS-Exchange-CrossTenant-AuthSource: AM9PR08MB6737.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Feb 2022 09:20:57.4552 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: LgF57ot97NQSlwsZSP0ED0YtOxUb2hnFkrqjvthuJbQQmE42Qf7mtGbj7ingy3+9aReGQcAAeir0mL31QxuwtdkwVkl+SIUPtgXYXcqD+98=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: HE1PR0801MB1754
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a01:111:f400:fe0c::72f
- (failed)
-Received-SPF: pass client-ip=2a01:111:f400:fe0c::72f;
- envelope-from=vsementsov@virtuozzo.com;
- helo=EUR04-DB3-obe.outbound.protection.outlook.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+In-Reply-To: <CAFn=p-Yq_-MDW3kWXW+D9NNHXtunYREEMxjW5mfVtM48Hcj0AA@mail.gmail.com>
+User-Agent: Mutt/2.1.5 (2021-12-30)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.092,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -149,19 +84,150 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: qemu-devel <qemu-devel@nongnu.org>,
+ =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
+ Victor Toso de Carvalho <victortoso@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, Andrea Bolognani <abologna@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-03.02.2022 19:30, Hanna Reitz wrote:
-> s->ioc must always be attached to the NBD node's AioContext.  If that
-> context changes, s->ioc must be attached to the new context.
+On Thu, Feb 03, 2022 at 05:52:10PM -0500, John Snow wrote:
+> On Thu, Feb 3, 2022 at 5:40 AM Daniel P. Berrangé <berrange@redhat.com> wrote:
+> >
+> > On Wed, Jan 26, 2022 at 01:58:19PM -0500, John Snow wrote:
+> >
+> > As you mention though, bear in mind that a command returning
+> > nothing today, might return something tomorrow. IOW, we'd be
+> > going from a empty dict to a non-empty dict. If you use "None"
+> > then it'd be gonig from None to a non-empty dict.
+> >
+> > I think you can argue both of these approaches are backwards
+> > compatible. The python app is not likely to be looking at
+> > the return type at all initially - unlike C, errors get
+> > raised as exceptions, so you don't need to look at return
+> > type to distinguish succes from failure.
+> >
+> > So I'd consider it merely a documentation problem to say
+> > that a "None" return type might later change to a dict.
+> > Dunno how you represent that in python type annotations,
+> > but I presume there's a way.
 > 
-> Buglink:https://bugzilla.redhat.com/show_bug.cgi?id=2033626
-> Signed-off-by: Hanna Reitz<hreitz@redhat.com>
+> I don't think type hints offer a temporal dimension to them yet :)
+> 
+> I started writing a much lengthier response, but the subject of
+> compatibility is really complex and I am not prepared to give a
+> comprehensive response to some of the issues you raise ... so instead
+> I will say "Wow, good points!" and I will get back to you on some of
+> it. A lot of things will only make sense if we are talking about a
+> very specific type of project, with very specific goals that are
+> clearly established. I don't really have that ready, here; I am just
+> experimenting to learn where some of the pain points are, still.
+> 
+> So... I'll get back to you on this.
+> 
+> > We do allow fields to be deleted, which is a *non-compatible*
+> > evolution, but they MUST have been marked as deprecated for
+> > 2 cycles first.
+> 
+> Good point.
+> 
+> > I'd say sorting required vs optional arguments is doomed as
+> > a strategy. Stuff that is mandatory today can be made optional
+> > tomorrow and I think that's reasonable to want todo as we
+> > evolve an API design.
+> 
+> Also a good point. Python requires all mandatory arguments precede all
+> optional ones, so you're probably right that in order to maximize
+> cross-version compatibility, keyword-only arguments for *all*
+> arguments both mandatory and optional is the only real way to fly.
+> 
+> I think this might cause problems for Marc-Andre in rust/dbus land,
+> but it's tractable in Python. I am unclear on the ramifications for
+> golang. (Victor, Marc-Andre, any input here?)
 
-Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Well as a general point, if we consider usage outside of
+qemu.git, I'm far from convinced that generating code from
+the schema as it exists today is going to be broadly usable
+enough to make it worthwhile.
 
+The problem is precisely that the code that is generated is
+only ensured to work with the specific version of QEMU that
+it was generated from. The key problem here is the removal
+of features after deprecation.  That removal is fine if you
+only ever need an API to talk to the current QEMU, or only
+need to be able to introspect the current QEMU.
+
+Management apps are likely to want to write code that works
+with more than 1 version of QEMU, and be able to decide
+whether they provide the params needed by the old command
+or the new command.   The introspection data lets them
+make the decision about which command needs to be invoked,
+but it can't be used to generate the code needed for the
+old command.
+
+I don't know how exactly you're dealing with the Python
+mapping. If you're literally statically generating Python
+code you'll face this same problem. If on the other hand
+you've just got a stub object that does dynamic dispatch
+then it can dynamically adapt at runtime to work with
+whatever version of the schema it queried from the QEMU
+it is talking to. I'm hoping you're doing the latter
+for this reason.
+
+One strategy for compiled languages is to generate multiple
+copies of the APIs, one for each QEMU version. This could
+be made to work but I feel it is pretty horrific as an
+approach.  Libvirt has one set of client APIs that we've
+extended over time so they can be used to call both old
+and new variants of commands - we just need to use the
+introspected schema to decide which to use.
+
+To make the latter viable for generating compiled code
+though, we need to change how we deal with removals, by
+essentially never removing things at all. Instead we
+would need some way to express that "field A" or "type T"
+is not present after some point in time / release.
+
+Overall I don't think we're really in a position to use
+compiled auto generated bindings, except for QMP clients
+that are released in lockstep with specific QEMU versions,
+and I don't think lockstep releases are a viable strategy
+in general.
+
+> > It sounds like you need a wrapper type.  This StrOrNull scenario
+> > is QMP's "alternate" type IIUC, but you're trying to avoid
+> > expressing the existance fo the "alternate" type in the API
+> 
+> Yes. This is a very clean way to type it, but it is a little more
+> laborious for the user to have to remember to wrap certain strings in
+> a special constructor first. Still, this is a good trick that I hadn't
+> considered. I'll keep it in mind for future experiments.
+
+Bear in mind that this situation is pretty rare, so I don't think
+the user is especially burdened by needing an extra level of
+indirection for using 'alternate' types
+
+$ git grep "'alternate'" qapi
+qapi/block-core.json:{ 'alternate': 'BlockDirtyBitmapMergeSource',
+qapi/block-core.json:{ 'alternate': 'Qcow2OverlapChecks',
+qapi/block-core.json:{ 'alternate': 'BlockdevRef',
+qapi/block-core.json:{ 'alternate': 'BlockdevRefOrNull',
+qapi/common.json:{ 'alternate': 'StrOrNull',
+
+$ git grep "'StrOrNull'" qapi
+qapi/block-core.json:             'iothread': 'StrOrNull',
+qapi/common.json:{ 'alternate': 'StrOrNull',
+qapi/migration.json:            '*tls-creds': 'StrOrNull',
+qapi/migration.json:            '*tls-hostname': 'StrOrNull',
+qapi/migration.json:            '*tls-authz': 'StrOrNull',
+
+
+Regards,
+Daniel
 -- 
-Best regards,
-Vladimir
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+
 
