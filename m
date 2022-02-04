@@ -2,64 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB4994A9833
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Feb 2022 12:07:59 +0100 (CET)
-Received: from localhost ([::1]:44054 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 36F244A984B
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Feb 2022 12:16:41 +0100 (CET)
+Received: from localhost ([::1]:50188 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nFwRa-0001ju-9P
-	for lists+qemu-devel@lfdr.de; Fri, 04 Feb 2022 06:07:58 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:53264)
+	id 1nFwZz-00068Q-Pd
+	for lists+qemu-devel@lfdr.de; Fri, 04 Feb 2022 06:16:39 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:54252)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1nFwPr-0000vv-QR
- for qemu-devel@nongnu.org; Fri, 04 Feb 2022 06:06:11 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:21208)
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nFwTu-00038r-Qc
+ for qemu-devel@nongnu.org; Fri, 04 Feb 2022 06:10:23 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:32161)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1nFwPl-0003dC-Dp
- for qemu-devel@nongnu.org; Fri, 04 Feb 2022 06:06:10 -0500
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nFwTr-0004Ot-Bn
+ for qemu-devel@nongnu.org; Fri, 04 Feb 2022 06:10:21 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1643972762;
+ s=mimecast20190719; t=1643973018;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=DqNCQoyme6d/S+ebpWepVeDmjCAKttzZhhACHw+J4s4=;
- b=iKj0n85JmzLDQ1HizwMSIcPDh5bRkrCnb1XeBVPN/XJPzjPLhiyXUut3tID8dowOw7RemT
- EWr729MoRIGzzvJ8cfy549UWn20aSNSOVvRiK2FVGgTDeWoM3D4CwDesGhX+kQ7AcHD+ps
- eDN9cqPx79xe29b7v8/WCu8vPsIBuNA=
+ content-transfer-encoding:content-transfer-encoding;
+ bh=HLbxwL6e1Y6PTyFpfNFGHzAgPapKe6peuFCF+AZ7iyo=;
+ b=dV6MdiOg5N8H0cdfNqbX8t1wGITMD3GPR/fnp3hbyrdue+dBCRs3FxPgzYpqBTY5z+TMu2
+ 1jdjw6WCjkcKehqnLtlf0kuYvINNuAxBLQg1lWzG8Osv6HpuMjgDdKIuaQ3sZmAFYbthPg
+ Xwotl7iVcAFqsBredlwxrZF586QnILQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-14-ymBrx1gyO96Hz6mxNP1Bhg-1; Fri, 04 Feb 2022 06:06:01 -0500
-X-MC-Unique: ymBrx1gyO96Hz6mxNP1Bhg-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-433-sG3XF2D0ObCWEfJRD_G2Wg-1; Fri, 04 Feb 2022 06:10:15 -0500
+X-MC-Unique: sG3XF2D0ObCWEfJRD_G2Wg-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7518F83DEA7;
- Fri,  4 Feb 2022 11:06:00 +0000 (UTC)
-Received: from sirius.home.kraxel.org (unknown [10.39.193.47])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 201E1106C0FD;
- Fri,  4 Feb 2022 11:05:59 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 2B3D218000B2; Fri,  4 Feb 2022 12:05:58 +0100 (CET)
-Date: Fri, 4 Feb 2022 12:05:58 +0100
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: Igor Mammedov <imammedo@redhat.com>
-Subject: Re: [PATCH v2] hw/smbios: fix memory corruption for large guests due
- to handle overlap
-Message-ID: <20220204110558.h3246jyelrvhto5q@sirius.home.kraxel.org>
-References: <20220203130957.2248949-1-ani@anisinha.ca>
- <20220204103423.71ec5c6b@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A5D2A3E744;
+ Fri,  4 Feb 2022 11:10:14 +0000 (UTC)
+Received: from localhost (unknown [10.39.193.4])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 09E937B6F1;
+ Fri,  4 Feb 2022 11:10:13 +0000 (UTC)
+From: Hanna Reitz <hreitz@redhat.com>
+To: qemu-block@nongnu.org
+Subject: [PATCH v2 0/7] block/nbd: Move s->ioc on AioContext change
+Date: Fri,  4 Feb 2022 12:10:05 +0100
+Message-Id: <20220204111012.34720-1-hreitz@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20220204103423.71ec5c6b@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kraxel@redhat.com;
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=hreitz@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -80,23 +74,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Ani Sinha <ani@anisinha.ca>, gsomlo@gmail.com, qemu-devel@nongnu.org,
- "Michael S. Tsirkin" <mst@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Eric Blake <eblake@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-  Hi,
+Hi,
 
-> Another question is why we split memory on 16Gb chunks, to begin with.
-> Maybe instead of doing so, we should just add 1 type17 entry describing
-> whole system RAM size. In which case we don't need this dance around
-> handle offsets anymore.
+The original RFC is here:
+https://lists.nongnu.org/archive/html/qemu-block/2022-01/msg00765.html
 
-Maybe to make the entries look like they do on physical hardware?
-i.e. DIMM size is a power of two?  Also physical 1TB DIMMs just
-don't exist?
+And v1 (whose cover letter has some exposition) is here:
+https://lists.nongnu.org/archive/html/qemu-block/2022-02/msg00124.html
 
-take care,
-  Gerd
+
+In v2, I’ve fixed the QemuStorageDaemon class added in patch 4 as
+suggested by Vladimir:
+- Have `__init__()`’s `instance_id` parameter have its actual default
+  value instead of some weird `if instance_id is None` construct
+- Assert that the QSD class users won’t use --pidfile
+
+(And added Vladimir’s R-b to all patches.)
+
+git backport-diff against v1:
+
+Key:
+[----] : patches are identical
+[####] : number of functional differences between upstream/downstream patch
+[down] : patch is downstream-only
+The flags [FC] indicate (F)unctional and (C)ontextual differences, respectively
+
+001/7:[----] [--] 'block/nbd: Delete reconnect delay timer when done'
+002/7:[----] [--] 'block/nbd: Delete open timer when done'
+003/7:[----] [--] 'block/nbd: Assert there are no timers when closed'
+004/7:[0006] [FC] 'iotests.py: Add QemuStorageDaemon class'
+005/7:[----] [--] 'iotests/281: Test lingering timers'
+006/7:[----] [--] 'block/nbd: Move s->ioc on AioContext change'
+007/7:[----] [--] 'iotests/281: Let NBD connection yield in iothread'
+
+
+Hanna Reitz (7):
+  block/nbd: Delete reconnect delay timer when done
+  block/nbd: Delete open timer when done
+  block/nbd: Assert there are no timers when closed
+  iotests.py: Add QemuStorageDaemon class
+  iotests/281: Test lingering timers
+  block/nbd: Move s->ioc on AioContext change
+  iotests/281: Let NBD connection yield in iothread
+
+ block/nbd.c                   |  64 +++++++++++++++++++++
+ tests/qemu-iotests/281        | 101 +++++++++++++++++++++++++++++++++-
+ tests/qemu-iotests/281.out    |   4 +-
+ tests/qemu-iotests/iotests.py |  40 ++++++++++++++
+ 4 files changed, 205 insertions(+), 4 deletions(-)
+
+-- 
+2.34.1
 
 
