@@ -2,75 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51C624A947F
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Feb 2022 08:24:21 +0100 (CET)
-Received: from localhost ([::1]:56740 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 69ED34A9480
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Feb 2022 08:24:26 +0100 (CET)
+Received: from localhost ([::1]:56860 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nFsxA-0002Mn-38
-	for lists+qemu-devel@lfdr.de; Fri, 04 Feb 2022 02:24:20 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:34604)
+	id 1nFsxC-0002TU-Oy
+	for lists+qemu-devel@lfdr.de; Fri, 04 Feb 2022 02:24:22 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:35374)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nFsTz-0005IZ-V0
- for qemu-devel@nongnu.org; Fri, 04 Feb 2022 01:54:12 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:41626)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nFsTt-0005X8-1n
- for qemu-devel@nongnu.org; Fri, 04 Feb 2022 01:54:09 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1643957644;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=QAHwYg68pBpXMfBz3eTAztGN6c/5Bl2bMnRLtPuPwfM=;
- b=C8CZln4n63kitG5TQrSBpGcpKaKAtX6oxDnIh48c8t/G/HaWzkciRYJc0TaBhSLj6YBOsz
- 4Jd4TTwvpQ03Sk66YiM9k9jlElOtap9L8VGy/4Fe51+y5Obxbnk79JwlP1Ai3OhqULyxZO
- UJHzGYLa6IpolZ57C6wtWDl9eY8a26Q=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-44-mufn4pd6MiCgzopTqqbp7g-1; Fri, 04 Feb 2022 01:54:02 -0500
-X-MC-Unique: mufn4pd6MiCgzopTqqbp7g-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EAFE783DD20
- for <qemu-devel@nongnu.org>; Fri,  4 Feb 2022 06:54:01 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-3.ams2.redhat.com [10.36.112.3])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id EF87C7A240;
- Fri,  4 Feb 2022 06:53:47 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 403A921E6A28; Fri,  4 Feb 2022 07:53:46 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: John Snow <jsnow@redhat.com>
-Subject: Re: Notes on Generating Python signatures for QMP RPCs
-References: <CAFn=p-aminDYVjPgnR+4x9U3L=Loi55vsHbPq+EOK4AUE_fLeg@mail.gmail.com>
- <871r0tp96s.fsf@dusky.pond.sub.org>
- <CAFn=p-YEVpqMFUNt8-svhEMCvu4HEUvO06DUmJn3GZC0pTnf7Q@mail.gmail.com>
- <874k5g4687.fsf@pond.sub.org>
- <CAFn=p-YiXcYkdHwqRCvQDKP3vYwv5u4CFnxMCcBGnzSyNF9zVw@mail.gmail.com>
-Date: Fri, 04 Feb 2022 07:53:46 +0100
-In-Reply-To: <CAFn=p-YiXcYkdHwqRCvQDKP3vYwv5u4CFnxMCcBGnzSyNF9zVw@mail.gmail.com>
- (John Snow's message of "Thu, 3 Feb 2022 16:14:28 -0500")
-Message-ID: <87ee4jcebp.fsf@pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nFsZy-0006Xk-HY
+ for qemu-devel@nongnu.org; Fri, 04 Feb 2022 02:00:26 -0500
+Received: from [2607:f8b0:4864:20::1035] (port=54059
+ helo=mail-pj1-x1035.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nFsZv-0006Sr-7W
+ for qemu-devel@nongnu.org; Fri, 04 Feb 2022 02:00:20 -0500
+Received: by mail-pj1-x1035.google.com with SMTP id h12so4667224pjq.3
+ for <qemu-devel@nongnu.org>; Thu, 03 Feb 2022 23:00:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=N0/90KdghvF6SYqTTkjuKGlp10vLJQrjGaYMCFWOC9Q=;
+ b=IeBwV1e432NF7uraPMU8q2nm7A+dbezIC/uxGys1G3S1ROgvN5H3cOzjxKZZpDAO9B
+ wJXT8VCGPA7W4PmlG2ITLESUDo6J2ryBZCUN5n1oOpG/I7BYAU7th3CxE5eC0hclcL1I
+ mLWhqKH5NkDNDyBkLUxAfnO+qLcsZOgO5JXZIhyJEZCyPMnbo3ViZYcxK87k5tv8FXzJ
+ s2Cfs8cwoFSA9TtWirwJLOSSNwiSi4+tANYhVyetfoSEbVtuvkXC5lgu0KS4e4ph2Nfg
+ UEopR6dd5RhtbgDnypiargl5gStdEJehAjPyZdS10Jn3Z5ijoLEYbVqfzP6jiKJrACEi
+ /mgA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=N0/90KdghvF6SYqTTkjuKGlp10vLJQrjGaYMCFWOC9Q=;
+ b=BBQc9KOPcxw3Ot7KVYg+G/uMMz80yOf88UTRV+CwfO4svp7wKPlapmA9TXJar/vRj1
+ oz0FTFCezt4lQDDWUE8+D+y5uK1gDI+xU1k343sYqw/ELIn58U66yVD5pkPLskOKxIO+
+ sAAGXTFVOAlH9w0Uhhx+zalxJMoaoX51NcFCaeOzoGd23hFRk5lFC/FpfeQaSQR+E6PX
+ 9zb/Kj4+CbTdLZ8pIc+l0xgMaXJ+nUVVeduoObItAlIuCrJu4gpC8dZLXIAadg7OKXFe
+ +XHTWEpeQw92y4px7Ql/Z48mCsPdLbZgW0GsC9Fj1ESTSjN2UHiwnlhAEAhWsR+tBzNq
+ c+jg==
+X-Gm-Message-State: AOAM532IoLu3yYZkeGHb1diYAziuvGkRIZGlk+s8z3X9RdTXawMtByMM
+ 8e93UQHB5jjfjPxteyHWBeaAEVzAUL9833US
+X-Google-Smtp-Source: ABdhPJxr5zYVNllw7r15P7BGA0LJDfSiIU0oNuX7ATDSMql+NQUV5FTrp7PDYa3vUlu7+YCY8JBJgw==
+X-Received: by 2002:a17:903:120c:: with SMTP id
+ l12mr1760190plh.135.1643958017637; 
+ Thu, 03 Feb 2022 23:00:17 -0800 (PST)
+Received: from stoup.modem ([2001:8003:3a49:fd00:ed23:b22a:8415:8857])
+ by smtp.gmail.com with ESMTPSA id 9sm11808619pjg.50.2022.02.03.23.00.15
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 03 Feb 2022 23:00:17 -0800 (PST)
+From: Richard Henderson <richard.henderson@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v4 0/5] tcg/sparc: Unaligned access for user-only
+Date: Fri,  4 Feb 2022 18:00:06 +1100
+Message-Id: <20220204070011.573941-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.092,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1035
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1035;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1035.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -83,64 +85,28 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel <qemu-devel@nongnu.org>,
- =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
- Victor Toso de Carvalho <victortoso@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, Andrea Bolognani <abologna@redhat.com>
+Cc: alex.bennee@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-John Snow <jsnow@redhat.com> writes:
+Changes from v3:
+  * Rebase on master, two patches merged.
 
-> On Thu, Feb 3, 2022 at 5:04 AM Markus Armbruster <armbru@redhat.com> wrote:
->> John Snow <jsnow@redhat.com> writes:
->> > On Thu, Jan 27, 2022 at 9:03 AM Markus Armbruster <armbru@redhat.com> wrote:
->> >> John Snow <jsnow@redhat.com> writes:
->
->> >> > (7) I have no idea what to do about functions that "may not return".
->> >> > The QGA stuff in particular, I believe, is prone to some weirdness
->> >> > that violates the core principles of the QMP spec.
->> >>
->> >> Yes.
->> >>
->> >> docs/interop/qmp-spec.txt dictates a command sends either a success or
->> >> an error response.  Makes sense.
->> >>
->> >> QGA has a few commands that shut down the guest.  How could such a
->> >> command send a success response?  If it sends it before it initiates
->> >> shutdown, response transmission races with shutdown.  The easy way out
->> >> is violating qmp-spec.txt.  Thus, 'success-response': false.  Just for
->> >> QGA.
->> >>
->> >
->> > Oh, whoops, I already have the information we need. O:-)
->> > (Assuming that 'success-response' is visible in the introspection data, anyway.
->>
->> qapi/introspect.json:
->>
->>     ##
->>     # @SchemaInfoCommand:
->>     [...]
->>     # TODO: @success-response (currently irrelevant, because it's QGA, not QMP)
->>     #
->>     # Since: 2.5
->>     ##
->>     { 'struct': 'SchemaInfoCommand',
->>       'data': { 'arg-type': 'str', 'ret-type': 'str',
->>                 '*allow-oob': 'bool' } }
->>
->> The TODO neglects to spell out "and QGA doesn't support introspection so
->> far".
->
-> Oof, ouch, my bones.
->
-> What will it take to add introspection to QGA? (Is this GSoC/Outreachy
-> appropriate?)
-> (This is not critically important to me, just a backburner thought.)
 
-The QEMU/QGA part should be easy enough: implement and document a
-suitable introspection command, by stealing from query-qmp-schema.
+r~
 
-The much more interesting part is putting it to actual use.
+
+Richard Henderson (5):
+  tcg/sparc: Add scratch argument to tcg_out_movi_int
+  tcg/sparc: Improve code gen for shifted 32-bit constants
+  tcg/sparc: Use the constant pool for 64-bit constants
+  tcg/sparc: Add tcg_out_jmpl_const for better tail calls
+  tcg/sparc: Support unaligned access for user-only
+
+ tcg/sparc/tcg-target.c.inc | 390 +++++++++++++++++++++++++++++++++----
+ 1 file changed, 354 insertions(+), 36 deletions(-)
+
+-- 
+2.25.1
 
 
