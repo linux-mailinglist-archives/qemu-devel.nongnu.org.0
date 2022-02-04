@@ -2,83 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3E3C4AA19B
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Feb 2022 22:09:43 +0100 (CET)
-Received: from localhost ([::1]:49268 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 24AD74AA1E5
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Feb 2022 22:17:34 +0100 (CET)
+Received: from localhost ([::1]:59618 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nG5pu-0003pp-Uh
-	for lists+qemu-devel@lfdr.de; Fri, 04 Feb 2022 16:09:42 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:52694)
+	id 1nG5xU-0002VO-EZ
+	for lists+qemu-devel@lfdr.de; Fri, 04 Feb 2022 16:17:32 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:54062)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nG5WX-0008Vi-UY
- for qemu-devel@nongnu.org; Fri, 04 Feb 2022 15:49:42 -0500
-Received: from [2a00:1450:4864:20::42d] (port=44653
- helo=mail-wr1-x42d.google.com)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nG5ci-0003XM-9u
+ for qemu-devel@nongnu.org; Fri, 04 Feb 2022 15:56:05 -0500
+Received: from [2607:f8b0:4864:20::430] (port=36590
+ helo=mail-pf1-x430.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nG5WM-00089w-CI
- for qemu-devel@nongnu.org; Fri, 04 Feb 2022 15:49:40 -0500
-Received: by mail-wr1-x42d.google.com with SMTP id k18so13422748wrg.11
- for <qemu-devel@nongnu.org>; Fri, 04 Feb 2022 12:49:22 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nG5cg-00011K-NY
+ for qemu-devel@nongnu.org; Fri, 04 Feb 2022 15:56:03 -0500
+Received: by mail-pf1-x430.google.com with SMTP id 192so6101913pfz.3
+ for <qemu-devel@nongnu.org>; Fri, 04 Feb 2022 12:56:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=CJ53Uj6U+FB2fJ+hgAKxvbRBEP4EFyNBAoP2qiY8QbM=;
- b=VIR/wlTjqEtbrmTlSp7XM9IFtB3NBGY8PkdM/hgplre1n9zAxCt5oybyIRn11iIHIM
- QUU3CXJwr0rAa5ekxc4I97dVfnQlaGSMKWKkkt10RMiMiQlN82DHRsfv1wWJRdy1Te0J
- cbAnpC9MgGIbix8BPpOGlq9/yozGTBv9s9J2Xyu5zlsFocSRBHmNSHrBic7Q9AlN0rw6
- pkI+9FlqDY2S3Vge/9Sgdd074Jf/O6/8kxELWVa89q+KBbq3xWO+aUfh/6O5+zfxWaUO
- z7EC9gQ72IBPGE1NnS2tr5n3OBMoriwAdXaYPm1hm6Mt2BKSisOsmxcAwl4iAySE9dea
- 7pIw==
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=Y5jqZIG2FvVOZ5jKf2yRYEzLhREyFzTTwO3lyz3pvPs=;
+ b=rrIdAHJsQ85hNOugr4OfHH/Tat75MFw0UtR5+vQ7HSJZdj6VUAwD4ri6t6HXfi3Hvm
+ daC5FL+E76sdKfSWseSfFNjidnCzE6OEanvNHEtikR4hnx6L8AmAuJdQx24IzBnQ5MyJ
+ bzT0/kkzxLYeJt6A/f/1m8g0EXl718ybAHQxSJqMszgqEK4vVVGpMEzuLpZzrrVDZ1IW
+ iIYrb79MMXGTC7qL8L461m7xQqRK96gx943VTl9AwngnsBiZnQVju1ZvVuCrBADhMtpH
+ Oiu8jCdR6PgV+XpHqLfshoupXWWwPCiMip2jQLOQOTtoul8Q781jK/BcUDH+8oJKSOhW
+ xKdg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=CJ53Uj6U+FB2fJ+hgAKxvbRBEP4EFyNBAoP2qiY8QbM=;
- b=1Zolal57Vnn3wcouC6pUJP3ldDlYykVDUB2Xv3K+FLzYBVSMpb2GjIsa8BKEBG2Qoo
- +mWTaRpawAbHFfUmevlYxMJFaSLPK4gAB4Gqa4f9wFnZaN6o/AmotuI+db0i8H1AIz/2
- 08YDLJKiKdLFVqL21fv/C9TM/lupRHzMgHPDRw11ccLySl09SqMOzGJJOWS3zvwWZRAc
- 2zfQQIox9uRlQV677AwrGyumA3ZWXIpSZVRlnRK58JEuc6NG9GULzRX5H2L1UrrN/GPs
- EHLIfeZI2VpjJyaN63KfClhr3QyxhwVMc7Ih6PAWVyYSgrUxZtZ2eg5aY3/RKTqEQUuW
- /FWQ==
-X-Gm-Message-State: AOAM530u/xokuIKWwWe6waWsZWABjeeFLhl6tgqLn9xoE+De71lsRQ0V
- +ktiOZBHHJaZ/yVuP8hIy6govg==
-X-Google-Smtp-Source: ABdhPJyQb+YyIDvN5TiZ/DmPSyr7ZlD48oDgffDxGc+Vg2cuAL24oIsJKawO7t7s940zC9hBxOV7Iw==
-X-Received: by 2002:adf:ff83:: with SMTP id j3mr561469wrr.618.1644007761315;
- Fri, 04 Feb 2022 12:49:21 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id u14sm2866860wmq.41.2022.02.04.12.49.13
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 04 Feb 2022 12:49:17 -0800 (PST)
-Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id AC04A1FFD0;
- Fri,  4 Feb 2022 20:43:37 +0000 (GMT)
-From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: richard.henderson@linaro.org,
-	qemu-devel@nongnu.org
-Subject: [PATCH  v3 25/26] target/i386: use CPU_LOG_INT for IRQ servicing
-Date: Fri,  4 Feb 2022 20:43:34 +0000
-Message-Id: <20220204204335.1689602-26-alex.bennee@linaro.org>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20220204204335.1689602-1-alex.bennee@linaro.org>
-References: <20220204204335.1689602-1-alex.bennee@linaro.org>
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=Y5jqZIG2FvVOZ5jKf2yRYEzLhREyFzTTwO3lyz3pvPs=;
+ b=ZAeh/erDWx/ujRsoVSjh8GNTOndxX0ehAJs6aJw6bBBpJ+SS5jXYHURw1I/SfBy0CD
+ u7CmoIz9stb6u9644jVWUI6JAF/GwIUKexH8F3AGA0+o/V7tLtkmguYy0UafDzXiAG5y
+ X1+Cbe2czGzWcN3ODCsrTtw/qFba2vAfHM4m9Ru6eMnroIpV0MfS6n1hCPuPbLuMMW7+
+ /LoRWTtf/mUXuhsn7GIlKxzeROjH8cB+Trotgny5+w+pH8lIfVRUW5mn0C0rRAnZXchu
+ VYkX6oT8ny8KdlIloLQYvl2qaIjQp8j2a/rcyAK3tgLDh6St8kGIbzZYkmfa9oO6cKny
+ KCTA==
+X-Gm-Message-State: AOAM530BSqwOKjzNCjVxBdGK83//UeiHYJZULwz9loLVHglgo4ovFFLn
+ iGS57ztxB8rSNsKZj3Fhr/GOUA==
+X-Google-Smtp-Source: ABdhPJz0+H1LbNWfo9mcA1BYe68k1ArjdiVRHFHNWB/EvtILx3jg1q/+8CuiZeBSRCbJIvnMPy7/Wg==
+X-Received: by 2002:a63:8048:: with SMTP id j69mr620798pgd.557.1644008160347; 
+ Fri, 04 Feb 2022 12:56:00 -0800 (PST)
+Received: from ?IPV6:2001:8003:3a49:fd00:d2cd:dac2:7e7f:5850?
+ ([2001:8003:3a49:fd00:d2cd:dac2:7e7f:5850])
+ by smtp.gmail.com with ESMTPSA id l191sm2284642pga.65.2022.02.04.12.55.58
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 04 Feb 2022 12:55:59 -0800 (PST)
+Message-ID: <ab4a94d6-7d29-10f8-e7a6-c3d9c22cf567@linaro.org>
+Date: Sat, 5 Feb 2022 07:55:54 +1100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42d
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH v4 5/5] tcg/sparc: Support unaligned access for user-only
+Content-Language: en-US
+To: Peter Maydell <peter.maydell@linaro.org>
+References: <20220204070011.573941-1-richard.henderson@linaro.org>
+ <20220204070011.573941-6-richard.henderson@linaro.org>
+ <CAFEAcA97K-rXBJP9zo1nLFMdA5Rt1hjh1tqUyigcNV+ydSfZgQ@mail.gmail.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <CAFEAcA97K-rXBJP9zo1nLFMdA5Rt1hjh1tqUyigcNV+ydSfZgQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::430
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42d.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::430;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x430.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
 X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01,
- T_SPF_HELO_TEMPERROR=0.01 autolearn=no autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -91,51 +93,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, Eduardo Habkost <eduardo@habkost.net>, berrange@redhat.com,
- Luke.Craig@ll.mit.edu, kuhn.chenqun@huawei.com, f4bug@amsat.org,
- robhenry@microsoft.com, aaron@os.amperecomputing.com,
- mahmoudabdalghany@outlook.com, minyihh@uci.edu, cota@braap.org,
- stefanha@redhat.com, crosa@redhat.com, pbonzini@redhat.com,
- ma.mandourr@gmail.com, =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- aurelien@aurel32.net
+Cc: alex.bennee@linaro.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I think these have been wrong since f193c7979c (do not depend on
-thunk.h - more log items). Fix them so as not to confuse other
-debugging.
+On 2/5/22 06:07, Peter Maydell wrote:
+>> +    /*
+>> +     * Overalignment: When we're asking for really large alignment,
+>> +     * the actual access is always done above and all we need to do
+>> +     * here is invoke the handler for SIGBUS.
+>> +     */
+> 
+> I thought the access was in an annulled delay slot and so won't
+> be "done above" ?
 
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20220124201608.604599-22-alex.bennee@linaro.org>
----
- target/i386/tcg/sysemu/seg_helper.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Bad wording, I suppose.  If the alignment check succeeds, then access is done above.  If 
+the alignment check fails, there is no access to be performed, only to report failure.
 
-diff --git a/target/i386/tcg/sysemu/seg_helper.c b/target/i386/tcg/sysemu/seg_helper.c
-index bf3444c26b..824b9a5a26 100644
---- a/target/i386/tcg/sysemu/seg_helper.c
-+++ b/target/i386/tcg/sysemu/seg_helper.c
-@@ -167,7 +167,7 @@ bool x86_cpu_exec_interrupt(CPUState *cs, int interrupt_request)
-         cs->interrupt_request &= ~(CPU_INTERRUPT_HARD |
-                                    CPU_INTERRUPT_VIRQ);
-         intno = cpu_get_pic_interrupt(env);
--        qemu_log_mask(CPU_LOG_TB_IN_ASM,
-+        qemu_log_mask(CPU_LOG_INT,
-                       "Servicing hardware INT=0x%02x\n", intno);
-         do_interrupt_x86_hardirq(env, intno, 1);
-         break;
-@@ -175,7 +175,7 @@ bool x86_cpu_exec_interrupt(CPUState *cs, int interrupt_request)
-         cpu_svm_check_intercept_param(env, SVM_EXIT_VINTR, 0, 0);
-         intno = x86_ldl_phys(cs, env->vm_vmcb
-                              + offsetof(struct vmcb, control.int_vector));
--        qemu_log_mask(CPU_LOG_TB_IN_ASM,
-+        qemu_log_mask(CPU_LOG_INT,
-                       "Servicing virtual hardware INT=0x%02x\n", intno);
-         do_interrupt_x86_hardirq(env, intno, 1);
-         cs->interrupt_request &= ~CPU_INTERRUPT_VIRQ;
--- 
-2.30.2
+>> +    switch ((unsigned)memop) {
+>> +    case MO_BEUW | MO_UNALN:
+>> +    case MO_BESW | MO_UNALN:
+>> +    case MO_BEUL | MO_ALIGN_2:
+>> +    case MO_BESL | MO_ALIGN_2:
+>> +    case MO_BEUQ | MO_ALIGN_4:
+>> +        /* Two loads: shift and combine. */
+>> +        tcg_out_ldst(s, TCG_REG_T2, TCG_REG_T1, 0,
+>> +                        qemu_ld_opc[a_bits | MO_BE | (memop & MO_SIGN)]);
+>> +        tcg_out_ldst(s, data, TCG_REG_T1, 1 << a_bits,
+>> +                        qemu_ld_opc[a_bits | MO_BE]);
+>> +        tcg_out_arithi(s, TCG_REG_T2, TCG_REG_T2, 8 << a_bits, SHIFT_SLLX);
+> 
+> Why are we calculating the offset in memory of the second half of
+> the data and the amount to shift it by using the alignment-bits
+> rather than the size-bits ? Because of the cases we know that
+> here a_bits == s_bits - 1, but I think it would be clearer to
+> work in terms of the size.
 
+Ok.
+
+>> +        tcg_out_arithi(s, TCG_REG_T1, TCG_REG_T1, 3, ARITH_ANDN);
+>> +        tcg_out_ldst(s, TCG_REG_T2, TCG_REG_T1, 0, LDUW);
+> 
+> Doesn't this give the wrong fault-address value to the guest
+> (ie not the address it used for the load, but a rounded-down one)
+> if we take a SIGSEGV? Or do we fix that up elsewhere?
+
+Oops, no.  Perhaps a single byte load to the zero register would fix that, without having 
+to go to full load-by-parts.
+
+>> +    case MO_BEUQ | MO_ALIGN_2:
+>> +        /*
+>> +         * An extra test to verify alignment 2 is 5 insns, which
+>> +         * is more than we would save by using the slightly smaller
+>> +         * unaligned sequence above.
+>> +         */
+>> +        tcg_out_ldst(s, data, TCG_REG_T1, 0, LDUH);
+>> +        for (int i = 2; i < 8; i += 2) {
+>> +            tcg_out_ldst(s, TCG_REG_T2, TCG_REG_T1, i, LDUW);
+> 
+> Isn't this loading 2 + 3 * 4 == 14 bytes?
+
+Oops.  Got confused with the qemu vs sparc "word" there for a moment.
+
+
+r~
 
