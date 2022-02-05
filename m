@@ -2,57 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E9D34AA841
-	for <lists+qemu-devel@lfdr.de>; Sat,  5 Feb 2022 12:04:45 +0100 (CET)
-Received: from localhost ([::1]:42568 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2402C4AA845
+	for <lists+qemu-devel@lfdr.de>; Sat,  5 Feb 2022 12:10:14 +0100 (CET)
+Received: from localhost ([::1]:45718 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nGIs0-0005X8-5o
-	for lists+qemu-devel@lfdr.de; Sat, 05 Feb 2022 06:04:44 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:48930)
+	id 1nGIxI-0007zW-Vj
+	for lists+qemu-devel@lfdr.de; Sat, 05 Feb 2022 06:10:13 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:49548)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nGIps-0004Vb-Tb
- for qemu-devel@nongnu.org; Sat, 05 Feb 2022 06:02:35 -0500
-Received: from [2001:41c9:1:41f::167] (port=48614
- helo=mail.default.ilande.bv.iomart.io)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nGIpq-0007eu-DB
- for qemu-devel@nongnu.org; Sat, 05 Feb 2022 06:02:32 -0500
-Received: from [2a00:23c4:8ba0:ca00:d4eb:dbd5:5a41:aefe]
- by mail.default.ilande.bv.iomart.io with esmtpsa
- (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.92)
- (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nGIpH-00094M-Hs; Sat, 05 Feb 2022 11:01:59 +0000
-Message-ID: <c420951b-1162-ffc0-a967-a66d797f0c0f@ilande.co.uk>
-Date: Sat, 5 Feb 2022 11:02:21 +0000
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nGIuy-00078X-CI
+ for qemu-devel@nongnu.org; Sat, 05 Feb 2022 06:07:51 -0500
+Received: from [2a00:1450:4864:20::434] (port=34486
+ helo=mail-wr1-x434.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nGIuv-0008Me-UR
+ for qemu-devel@nongnu.org; Sat, 05 Feb 2022 06:07:47 -0500
+Received: by mail-wr1-x434.google.com with SMTP id f17so15963600wrx.1
+ for <qemu-devel@nongnu.org>; Sat, 05 Feb 2022 03:07:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=QsPNMHJLH8imATGSV8VGxBDxjYXkw4EGztCs0DwaSIQ=;
+ b=k8tilXsqsvJ0Lb28eo1vo3wnZGVXgktskOnlO0MuOvyFAuGKpk0fLqnypPhtbprbq3
+ Qmtoue+oCNAHAB7wqQXlWn+qFlzy0HCT+JaeLOViK1XWkNDCbkIBSvZGwFLhat7OlmE/
+ xBmGyZJ8795cMtKuTwUHtMABXHwc/TTNTk2UtmnpBZtYskJ/FhiRj5cDS4sOJxEC/cMK
+ 6sJB16EbbYFIk8tWyRTZ6Z4PzfRdW3rpshGtm+ri6LzhyRG5pgVe9eFbDOpkHXrJI/fr
+ OWqUB3MNxsvUsGuXCtue2/ioakcXJ6+vp8wcboOY+gIMmgtWIDgEMXJ2UXlaii28/O80
+ ZHdw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=QsPNMHJLH8imATGSV8VGxBDxjYXkw4EGztCs0DwaSIQ=;
+ b=hYDE7dGOkWlF4ogtDANJ8nMg0YmiAZyt+k++27g/1QTz4zWJCfPeb4Dg4C3nujAv+B
+ gfgmyv7Or04UxcJxtgFZOcnRybJv7bR1danJvXEyVCTr28obzIygn5GEHEdWHFPgW95J
+ QKeNvlmoI6dLlxDDQQwA7NxTrK2b0L9+JaQRyh/Q8htgXOCZUU2H0sy43jXaZb5gbqxw
+ ceIrf6Up1VBtvRzwB+irAIk7v8Cwe1yeG+qxYv9L05zfLBXkfhhUv7Fea59AubaDM5m5
+ JViCsdN88RS35n2gKb88uzgUiK34udpxJW1GFagQKMk5bFvBTTvvZbmiv0P8tI3vAztt
+ bkNA==
+X-Gm-Message-State: AOAM531fk8YNLw2NPeul11R9RdBJF29aIsjhwesIQsQ+vX00UvhLFWyc
+ xqmMFOnk1dQ6nW1K4HUzN260voCW0eTcgwJ+3NbwUA==
+X-Google-Smtp-Source: ABdhPJy2WLq0DOVLNsLqqWDEnIQ/yOdVKq8kF1vmsLFo96QkfiOUBuknDeElF6hHzxszcCgaIyffl96B3VU+rK82XxY=
+X-Received: by 2002:a5d:6d8d:: with SMTP id l13mr139887wrs.295.1644059264109; 
+ Sat, 05 Feb 2022 03:07:44 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Content-Language: en-US
-To: BALATON Zoltan <balaton@eik.bme.hu>, qemu-devel@nongnu.org
-References: <20210705123721.65BDC745708@zero.eik.bme.hu>
- <dc5e448d-e964-817d-013-6dea2be32a5d@eik.bme.hu>
-From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-In-Reply-To: <dc5e448d-e964-817d-013-6dea2be32a5d@eik.bme.hu>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a00:23c4:8ba0:ca00:d4eb:dbd5:5a41:aefe
-X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: Re: [PATCH] input/adb: Only include where needed
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on mail.default.ilande.bv.iomart.io)
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2001:41c9:1:41f::167
+References: <20220205014149.1189026-1-mst@redhat.com>
+In-Reply-To: <20220205014149.1189026-1-mst@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Sat, 5 Feb 2022 11:07:33 +0000
+Message-ID: <CAFEAcA91cVDym5fVCXgHFHJ8fkt8GhrOis-EPHN6YWpVn9TOCA@mail.gmail.com>
+Subject: Re: [PULL 00/32] virtio,pc: features, cleanups, fixes
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::434
  (failed)
-Received-SPF: pass client-ip=2001:41c9:1:41f::167;
- envelope-from=mark.cave-ayland@ilande.co.uk;
- helo=mail.default.ilande.bv.iomart.io
-X-Spam_score_int: -10
-X-Spam_score: -1.1
+Received-SPF: pass client-ip=2a00:1450:4864:20::434;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x434.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
 X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -66,150 +80,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <laurent@vivier.eu>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 27/01/2022 23:39, BALATON Zoltan wrote:
+On Sat, 5 Feb 2022 at 01:42, Michael S. Tsirkin <mst@redhat.com> wrote:
+>
+> The following changes since commit 8f3e5ce773c62bb5c4a847f3a9a5c98bbb3b359f:
+>
+>   Merge remote-tracking branch 'remotes/hdeller/tags/hppa-updates-pull-request' into staging (2022-02-02 19:54:30 +0000)
+>
+> are available in the Git repository at:
+>
+>   git://git.kernel.org/pub/scm/virt/kvm/mst/qemu.git tags/for_upstream
+>
+> for you to fetch changes up to 593a84174b09f0c8ae4d35ad014f93d1fb7cac00:
+>
+>   util/oslib-posix: Fix missing unlock in the error path of os_mem_prealloc() (2022-02-04 20:16:59 -0500)
+>
+> ----------------------------------------------------------------
+> virtio,pc: features, cleanups, fixes
+>
+> virtio introspection commands
+> Part of ACPI ERST support
+> fixes, cleanups
+>
+> Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 
-> On Mon, 5 Jul 2021, BALATON Zoltan wrote:
->> The header hw/input/adb.h is included by some files that don't need
->> it. Clean it up and include only where necessary.
-> 
-> When you're touching mos6522, I've also have this patch that cleans up includes 
-> that's somewhat related to mos6522 so you could consider it to be included in your 
-> series. I haven't checked but it should still apply. At least I got no problem with 
-> rebasing so at least with --3way should probably work but if not I can resend just 
-> let me know.
+Fails to compile for 32-bit, Windows and macos because of format
+string issues in hmp-cmds.c. Here's a sample job with the errors:
 
-I have a vague memory that someone was advocating a while back for the opposite of 
-this patch in the way it uses headers i.e. the .c file should contain the include for 
-the header as well as the .h file, so I'm not sure what the recommendation is here.
+https://gitlab.com/qemu-project/qemu/-/jobs/2058116754
 
-The parts related to tidying up the mos6522.c and mos6522.h includes look correct 
-though, as they shouldn't be referencing any ADB headers.
-
-
-ATB,
-
-Mark.
-
->> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
->> ---
->> hw/misc/macio/cuda.c         | 2 --
->> hw/misc/macio/pmu.c          | 3 ---
->> hw/misc/mos6522.c            | 1 -
->> hw/ppc/mac.h                 | 2 --
->> include/hw/misc/mac_via.h    | 1 +
->> include/hw/misc/macio/cuda.h | 1 +
->> include/hw/misc/macio/pmu.h  | 1 +
->> include/hw/misc/mos6522.h    | 3 +--
->> 8 files changed, 4 insertions(+), 10 deletions(-)
->>
->> diff --git a/hw/misc/macio/cuda.c b/hw/misc/macio/cuda.c
->> index edbd4186b2..584d81dc22 100644
->> --- a/hw/misc/macio/cuda.c
->> +++ b/hw/misc/macio/cuda.c
->> @@ -28,8 +28,6 @@
->> #include "hw/ppc/mac.h"
->> #include "hw/qdev-properties.h"
->> #include "migration/vmstate.h"
->> -#include "hw/input/adb.h"
->> -#include "hw/misc/mos6522.h"
->> #include "hw/misc/macio/cuda.h"
->> #include "qapi/error.h"
->> #include "qemu/timer.h"
->> diff --git a/hw/misc/macio/pmu.c b/hw/misc/macio/pmu.c
->> index 71924d4768..eb746aee34 100644
->> --- a/hw/misc/macio/pmu.c
->> +++ b/hw/misc/macio/pmu.c
->> @@ -33,10 +33,7 @@
->> #include "hw/ppc/mac.h"
->> #include "hw/qdev-properties.h"
->> #include "migration/vmstate.h"
->> -#include "hw/input/adb.h"
->> #include "hw/irq.h"
->> -#include "hw/misc/mos6522.h"
->> -#include "hw/misc/macio/gpio.h"
->> #include "hw/misc/macio/pmu.h"
->> #include "qapi/error.h"
->> #include "qemu/timer.h"
->> diff --git a/hw/misc/mos6522.c b/hw/misc/mos6522.c
->> index 1c57332b40..359bd64dea 100644
->> --- a/hw/misc/mos6522.c
->> +++ b/hw/misc/mos6522.c
->> @@ -25,7 +25,6 @@
->>  */
->>
->> #include "qemu/osdep.h"
->> -#include "hw/input/adb.h"
->> #include "hw/irq.h"
->> #include "hw/misc/mos6522.h"
->> #include "hw/qdev-properties.h"
->> diff --git a/hw/ppc/mac.h b/hw/ppc/mac.h
->> index 22c8408078..3fad371701 100644
->> --- a/hw/ppc/mac.h
->> +++ b/hw/ppc/mac.h
->> @@ -30,8 +30,6 @@
->> #include "exec/memory.h"
->> #include "hw/boards.h"
->> #include "hw/sysbus.h"
->> -#include "hw/input/adb.h"
->> -#include "hw/misc/mos6522.h"
->> #include "hw/pci/pci_host.h"
->> #include "hw/pci-host/uninorth.h"
->> #include "qom/object.h"
->> diff --git a/include/hw/misc/mac_via.h b/include/hw/misc/mac_via.h
->> index 3058b30685..ada338eff1 100644
->> --- a/include/hw/misc/mac_via.h
->> +++ b/include/hw/misc/mac_via.h
->> @@ -12,6 +12,7 @@
->> #include "exec/memory.h"
->> #include "hw/sysbus.h"
->> #include "hw/misc/mos6522.h"
->> +#include "hw/input/adb.h"
->> #include "qom/object.h"
->>
->>
->> diff --git a/include/hw/misc/macio/cuda.h b/include/hw/misc/macio/cuda.h
->> index a71deec968..8a6678c749 100644
->> --- a/include/hw/misc/macio/cuda.h
->> +++ b/include/hw/misc/macio/cuda.h
->> @@ -26,6 +26,7 @@
->> #ifndef CUDA_H
->> #define CUDA_H
->>
->> +#include "hw/input/adb.h"
->> #include "hw/misc/mos6522.h"
->> #include "qom/object.h"
->>
->> diff --git a/include/hw/misc/macio/pmu.h b/include/hw/misc/macio/pmu.h
->> index 78237d99a2..306e59ba6e 100644
->> --- a/include/hw/misc/macio/pmu.h
->> +++ b/include/hw/misc/macio/pmu.h
->> @@ -10,6 +10,7 @@
->> #ifndef PMU_H
->> #define PMU_H
->>
->> +#include "hw/input/adb.h"
->> #include "hw/misc/mos6522.h"
->> #include "hw/misc/macio/gpio.h"
->> #include "qom/object.h"
->> diff --git a/include/hw/misc/mos6522.h b/include/hw/misc/mos6522.h
->> index fc95d22b0f..862b3f5642 100644
->> --- a/include/hw/misc/mos6522.h
->> +++ b/include/hw/misc/mos6522.h
->> @@ -27,9 +27,8 @@
->> #ifndef MOS6522_H
->> #define MOS6522_H
->>
->> -#include "exec/memory.h"
->> +#include "exec/hwaddr.h"
->> #include "hw/sysbus.h"
->> -#include "hw/input/adb.h"
->> #include "qom/object.h"
->>
->> /* Bits in ACR */
->>
-
+thanks
+-- PMM
 
