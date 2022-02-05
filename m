@@ -2,87 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A5424AACF6
-	for <lists+qemu-devel@lfdr.de>; Sun,  6 Feb 2022 00:03:01 +0100 (CET)
-Received: from localhost ([::1]:56098 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BEC8E4AACF7
+	for <lists+qemu-devel@lfdr.de>; Sun,  6 Feb 2022 00:06:55 +0100 (CET)
+Received: from localhost ([::1]:58752 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nGU55-0003r8-U5
-	for lists+qemu-devel@lfdr.de; Sat, 05 Feb 2022 18:02:59 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:38212)
+	id 1nGU8s-0005yy-Sw
+	for lists+qemu-devel@lfdr.de; Sat, 05 Feb 2022 18:06:54 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:38822)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nGU2C-0002yi-6G
- for qemu-devel@nongnu.org; Sat, 05 Feb 2022 18:00:00 -0500
-Received: from [2a00:1450:4864:20::430] (port=43626
- helo=mail-wr1-x430.google.com)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nGU6f-0005AX-T5
+ for qemu-devel@nongnu.org; Sat, 05 Feb 2022 18:04:37 -0500
+Received: from [2607:f8b0:4864:20::52e] (port=42532
+ helo=mail-pg1-x52e.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nGU2A-0007RH-4Q
- for qemu-devel@nongnu.org; Sat, 05 Feb 2022 17:59:59 -0500
-Received: by mail-wr1-x430.google.com with SMTP id c19so3284382wrb.10
- for <qemu-devel@nongnu.org>; Sat, 05 Feb 2022 14:59:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=Z+owL9mTy8zPFTM5wHRFfsX0Oe6aLrEeBuSxWfWsnSI=;
- b=fYI8DJlzCNqlUlOR06VWF5Vh/UVSJ65QAIT16+VL1lRZPRJHJ4jEI9dtWVq4gkwRPy
- SqIvkAxCeTS7rzgJzMfnaw7l8INXhgeymFbgcU92fu03J9KRJRDv8B9U/eYeSwsdyAoK
- TvXPeh9Mvox8gGCDH+0ukApRwDGotk5wVTc5WEkA8f4eLHDnfU1LwvgwRcrijXYebkmZ
- hFfApibETkc2K0NShVwhYsiPTNGfQ3Hz5/kcWNXEBGogA/5G3zm4QhijdWfIM1Rnn56s
- 77hrpcD0HnZYUbxj/FvR8hu4Eo8BQVCaUzFIt81pINBRQ7yUBG8FMENRwOWZS4Gdny5g
- vAUA==
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nGU6e-00089E-0L
+ for qemu-devel@nongnu.org; Sat, 05 Feb 2022 18:04:37 -0500
+Received: by mail-pg1-x52e.google.com with SMTP id d186so8249357pgc.9
+ for <qemu-devel@nongnu.org>; Sat, 05 Feb 2022 15:04:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=7bpAmLRUeS0ebqdE51SLeukNIUhFLTCH0SebOhjV/bQ=;
+ b=Zao89ilmDiGrrvXjWtVgtO3G23m3NiBfBYPy8tdque4V5dBPghA8lbERJFr4VNAMO1
+ wxmfhA60pZ0NUcMA+W/jHRf37gWqFLyWn1uFwXMugHpXK0Sifw+enq7JAkFTRMC6wbig
+ OzgiuP5diQAuA6wmMKuj21AYW4rEt8nRRnvrn5X4gLN6Xj2mlDeGrcbabj4wRjTIRuj2
+ TtnIwu3jzePjAEcNIUUcptOqbR+RWVT++Wo5ft+82fd7AAIaECGJY+J2urPx6lgP/EgZ
+ LKHuq840cQbJ5eMsxXhiFchO23KyfttlANM8+FZLYD3c7d3in4L2mBodtAxqONifbKKh
+ JIdg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:to:cc:references:from:in-reply-to
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=Z+owL9mTy8zPFTM5wHRFfsX0Oe6aLrEeBuSxWfWsnSI=;
- b=x2P9KWQruYv61IAh//kFYsxvXvXtwnCVXq+9J3WB88+Ngn0022drgu+uOPUTOjKq9i
- ffv7sAkW5KxxIBhfdCz2hDIBYm4N4kMG3nmXyRmuz9Q//Mmr4rNuuPrpjK5EiCIDwb9W
- 2NTabY/AW8KWQKwxxo7jwTrphOPs8FwcpXOAW4cJjU5SbNiZOqClFbecAfHCzbmjUHph
- dEWI+xwU4ni/MKFVUbvNpCIMItsmaqHIppEDzioIdB2akMH5yVnjeqylcEc6tKXxWi8o
- gVRxnGoI+7cFx0Wx/CfZmOIA3SLKFJTfvrDNFVLLDUMf9viN3wPkwU2F5EVvnDZm15ji
- b8zA==
-X-Gm-Message-State: AOAM530UQSoe2j9qGM49UGXte+hDl2j0fgaVYp6VSV+8Cw6AcyfBYAm3
- IleOB2jvSKugx2GQD3HVyEE=
-X-Google-Smtp-Source: ABdhPJxHEmptcrcWo6MAUJh5q8xVOb6WxapxXTuE/y7KV13cgUiDLfiL5d5ls/sUKBcp1/zWzVHunw==
-X-Received: by 2002:a5d:64ce:: with SMTP id f14mr4501816wri.208.1644101996713; 
- Sat, 05 Feb 2022 14:59:56 -0800 (PST)
-Received: from [192.168.1.33] (154.red-83-50-83.dynamicip.rima-tde.net.
- [83.50.83.154])
- by smtp.gmail.com with ESMTPSA id t4sm5523934wro.71.2022.02.05.14.59.55
+ bh=7bpAmLRUeS0ebqdE51SLeukNIUhFLTCH0SebOhjV/bQ=;
+ b=GH0OobFIzUIJd4CfS0/wadkpBmMLGH1Yt3gBJPdeVaqatQRwsEZfCjW8SS0jNbqNeS
+ aXw8sdV8ut0e9Ugj8rfEwLTDRG1sUjlPCyn1+ICM8W2o1TtAtTLLeP56i2AWBPOCTVuM
+ FCRQxvR8HLWr491e5Q9VIqeQ/QDX2wzDc6mUXF/KpTcjybcCGrK93Q9yxyswAzppaVkf
+ qdQh6fXTvxl0hwYzWHYx0Un6haSvqGtFfNIL/xM5rcrQrYeIUyJTexRnOySm3mR38WUs
+ HxaNxSJ9umzNvwfp4UI/S0Nni+K+Y7nj9mlihSL90qOVJXIiSUKlEPzc2zQLynMV7IXL
+ 6qHg==
+X-Gm-Message-State: AOAM530w77tOB5D9itwvB88d6Wffo2zaUFAObMFaVcjnEs/rJvvQ3r36
+ O2MkRFW/PeDqMmhn71Vyqtas4w==
+X-Google-Smtp-Source: ABdhPJylFBu0FT4MyTGySv0VkLRk7X3qVJc2W9nh0juUFUTKPnm/PupcyJ4RtsBq53Q5niU2nQyN7A==
+X-Received: by 2002:aa7:85c6:: with SMTP id z6mr9509910pfn.45.1644102266104;
+ Sat, 05 Feb 2022 15:04:26 -0800 (PST)
+Received: from [192.168.1.118] ([220.235.247.127])
+ by smtp.gmail.com with ESMTPSA id k3sm7274254pfu.180.2022.02.05.15.04.23
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 05 Feb 2022 14:59:56 -0800 (PST)
-Message-ID: <77529e38-5ae5-5df1-4608-35ae02f9d627@amsat.org>
-Date: Sat, 5 Feb 2022 23:59:54 +0100
+ Sat, 05 Feb 2022 15:04:25 -0800 (PST)
+Message-ID: <f0a0a25c-060b-94a6-a4b4-8703aacfb10d@linaro.org>
+Date: Sun, 6 Feb 2022 10:04:20 +1100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.5.1
-Subject: Re: [PATCH 1/2] isa/piix4: Resolve RTCState attribute
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH v2 01/21] accel: Restrict sysemu stubs to system emulation
 Content-Language: en-US
-To: Peter Maydell <peter.maydell@linaro.org>,
- Bernhard Beschow <shentey@gmail.com>
-Cc: qemu-devel@nongnu.org, =?UTF-8?Q?Herv=c3=a9_Poussineau?=
- <hpoussin@reactos.org>, Aurelien Jarno <aurelien@aurel32.net>,
- Thomas Huth <thuth@redhat.com>
-References: <20220205175913.31738-1-shentey@gmail.com>
- <20220205175913.31738-2-shentey@gmail.com>
- <CAFEAcA_y69=iXMH75dHeNkxMa038Z7Xk63GW9fdcAFHJSWS=sA@mail.gmail.com>
-In-Reply-To: <CAFEAcA_y69=iXMH75dHeNkxMa038Z7Xk63GW9fdcAFHJSWS=sA@mail.gmail.com>
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org
+References: <20220203191814.45023-1-f4bug@amsat.org>
+ <20220203191814.45023-2-f4bug@amsat.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20220203191814.45023-2-f4bug@amsat.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::430
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::52e
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::430;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x430.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52e;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52e.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
@@ -98,94 +92,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
-On 5/2/22 19:53, Peter Maydell wrote:
-> On Sat, 5 Feb 2022 at 18:05, Bernhard Beschow <shentey@gmail.com> wrote:
->>
->> Assuming that mc146818_rtc_init() is "syntactic sugar" for code that could
->> be converted into configuration in the future, this patch is a step towards
->> this future by freeing piix4 to care about the inner details of mc146818.
->>
->> Furthermore, by reusing mc146818_rtc_init(), piix4's code becomes more
->> homogenious to other code using the mc146818. So piix4 can be refactored in
->> the same way as code already using mc146818_rtc_init().
->>
->> Signed-off-by: Bernhard Beschow <shentey@gmail.com>
->> ---
->>   hw/isa/piix4.c | 15 +--------------
->>   1 file changed, 1 insertion(+), 14 deletions(-)
->>
->> diff --git a/hw/isa/piix4.c b/hw/isa/piix4.c
->> index 0fe7b69bc4..08b4262467 100644
->> --- a/hw/isa/piix4.c
->> +++ b/hw/isa/piix4.c
->> @@ -46,7 +46,6 @@ struct PIIX4State {
->>       qemu_irq cpu_intr;
->>       qemu_irq *isa;
->>
->> -    RTCState rtc;
->>       /* Reset Control Register */
->>       MemoryRegion rcr_mem;
->>       uint8_t rcr;
->> @@ -193,22 +192,11 @@ static void piix4_realize(PCIDevice *dev, Error **errp)
->>       i8257_dma_init(isa_bus, 0);
->>
->>       /* RTC */
->> -    qdev_prop_set_int32(DEVICE(&s->rtc), "base_year", 2000);
->> -    if (!qdev_realize(DEVICE(&s->rtc), BUS(isa_bus), errp)) {
->> -        return;
->> -    }
->> -    isa_init_irq(ISA_DEVICE(&s->rtc), &s->rtc.irq, RTC_ISA_IRQ);
->> +    mc146818_rtc_init(isa_bus, 2000, NULL);
->>
->>       piix4_dev = dev;
->>   }
->>
->> -static void piix4_init(Object *obj)
->> -{
->> -    PIIX4State *s = PIIX4_PCI_DEVICE(obj);
->> -
->> -    object_initialize(&s->rtc, sizeof(s->rtc), TYPE_MC146818_RTC);
->> -}
->> -
->>   static void piix4_class_init(ObjectClass *klass, void *data)
->>   {
->>       DeviceClass *dc = DEVICE_CLASS(klass);
->> @@ -233,7 +221,6 @@ static const TypeInfo piix4_info = {
->>       .name          = TYPE_PIIX4_PCI_DEVICE,
->>       .parent        = TYPE_PCI_DEVICE,
->>       .instance_size = sizeof(PIIX4State),
->> -    .instance_init = piix4_init,
->>       .class_init    = piix4_class_init,
->>       .interfaces = (InterfaceInfo[]) {
->>           { INTERFACE_CONVENTIONAL_PCI_DEVICE },
+On 2/4/22 06:17, Philippe Mathieu-Daudé wrote:
+> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> ---
+>   accel/stubs/meson.build | 11 +++++++----
+>   1 file changed, 7 insertions(+), 4 deletions(-)
 > 
-> This looks like it's going backwards from the way we'd usually
-> write code for devices that contain other devices these days.
-> The "we have an init function that does stuff" is the older
-> style. The newer style has the inner-device as an embedded
-> struct in the container-device struct, which is initialized,
-> configured and realized using standard functions like object_initialize
-> and qdev_realize. (I do wonder whether that ought to be
-> object_initialize_child() here, incidentally, but haven't checked the
-> details to be certain.)
-> 
-> The existing uses of mc146818_rtc_init() are mostly in older
-> code, and also in board-initialization code, which traditionally
-> didn't have a convenient struct to embed the device-struct into.
-> hw/isa/vt82c686.c is the only use in another device model
-> (which could in theory be refactored to the embed-the-device-struct
-> style, though the benefit of making the change isn't large, which
-> is one reason we still have the mix of both in the tree).
+> diff --git a/accel/stubs/meson.build b/accel/stubs/meson.build
+> index 12dd1539af..0249b9258f 100644
+> --- a/accel/stubs/meson.build
+> +++ b/accel/stubs/meson.build
+> @@ -1,4 +1,7 @@
+> -specific_ss.add(when: 'CONFIG_HAX', if_false: files('hax-stub.c'))
+> -specific_ss.add(when: 'CONFIG_XEN', if_false: files('xen-stub.c'))
+> -specific_ss.add(when: 'CONFIG_KVM', if_false: files('kvm-stub.c'))
+> -specific_ss.add(when: 'CONFIG_TCG', if_false: files('tcg-stub.c'))
+> +sysemu_stubs_ss = ss.source_set()
+> +sysemu_stubs_ss.add(when: 'CONFIG_HAX', if_false: files('hax-stub.c'))
+> +sysemu_stubs_ss.add(when: 'CONFIG_XEN', if_false: files('xen-stub.c'))
+> +sysemu_stubs_ss.add(when: 'CONFIG_KVM', if_false: files('kvm-stub.c'))
+> +sysemu_stubs_ss.add(when: 'CONFIG_TCG', if_false: files('tcg-stub.c'))
+> +
+> +specific_ss.add_all(when: ['CONFIG_SOFTMMU'], if_true: sysemu_stubs_ss)
 
-I agree with Peter. The "future" is to remove the ${device}_init()
-helpers. Some contributors are helping toward that goal, but 1/ it
-involve work and 2/ there is no coordination; this is a "best effort"
-project maintenance.
-Maybe we should at least list these 'to be removed' functions as a
-bit-sized task in GitLab issues.
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+
+r~
 
