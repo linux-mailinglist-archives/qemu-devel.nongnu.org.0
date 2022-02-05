@@ -2,90 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3C104AA850
-	for <lists+qemu-devel@lfdr.de>; Sat,  5 Feb 2022 12:22:24 +0100 (CET)
-Received: from localhost ([::1]:60684 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CAB764AA855
+	for <lists+qemu-devel@lfdr.de>; Sat,  5 Feb 2022 12:30:16 +0100 (CET)
+Received: from localhost ([::1]:36820 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nGJ95-0001mJ-BC
-	for lists+qemu-devel@lfdr.de; Sat, 05 Feb 2022 06:22:23 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:51842)
+	id 1nGJGh-0005ri-HS
+	for lists+qemu-devel@lfdr.de; Sat, 05 Feb 2022 06:30:15 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:53068)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nGJ5w-0008D0-Bs
- for qemu-devel@nongnu.org; Sat, 05 Feb 2022 06:19:08 -0500
-Received: from [2607:f8b0:4864:20::1031] (port=45910
- helo=mail-pj1-x1031.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nGJ5u-0001So-0L
- for qemu-devel@nongnu.org; Sat, 05 Feb 2022 06:19:08 -0500
-Received: by mail-pj1-x1031.google.com with SMTP id
- g15-20020a17090a67cf00b001b7d5b6bedaso8556694pjm.4
- for <qemu-devel@nongnu.org>; Sat, 05 Feb 2022 03:19:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=qXoQsEYx48JAcXVGvMq4QeIZyqhwnnEuP6jKDGewOVA=;
- b=fRVoXVFTJZXB8RH5eSIw2EPGWEH8iKA87jayxiyiELS9LpA638TmtCAh6s524klVml
- tvjYFlP3Hyqj4SR4n5mdkMhy0B3l+S3frh88SXO6AKHTX0RNuiqk7aPOg20CIE1s8/sa
- Q852dIClWFkzqvQYknjTN/ZgAW3JX4GkoaWhtYl9EOiAx2+T5N2UC+I73EvNGCr3c18G
- bnB0JNL83ks7vPoaLrd6NhwdEw9zkfuLz0fFKePBQ5MEyKafPsUC9PSey+zW8vDjBBxj
- YxUvMKr3ztPvmUF+ad4WkPeypVgx10I0S5j+/sv6lrv4dLHbtr1whgKadbGxMVcZ2BKR
- EtZA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=qXoQsEYx48JAcXVGvMq4QeIZyqhwnnEuP6jKDGewOVA=;
- b=eckEb3oZ5WHU62SeT09mD6TOrpDUbYxjscTJdSmy6rzFB8xXcFvSekYZ9/Zj8dGqYi
- 5S80z4F9M18pRoB0CgLcdcKtp9NlLQbALjppyh5OuLN/3ihHbjKm83dmF/41H0p/sxsa
- yKOgrbKwXNaBOKauzMn1SCiQKVJjus6/bnHJJhOE0GRfF07RkbcGiSYZqcywG+Y5jWYl
- NMmCrisna590yY0jtx6NvquJWb34PlZfuQEaUAzgMo3Axed6igpH5J531Q/v9V8sSOnD
- 9QmLpHSsZmxyZzfPvGGVFeTt/pbNLxhjcLvJyWO4L8PW36JLlzktNDcZ2Jy0r1wxDiIh
- Gw8Q==
-X-Gm-Message-State: AOAM530EnNZqAg2Io9F7SqmNeMeUGTn/7vGtlcLfJJcpEmj/F8d58dUW
- Zp3+WFLoe3PdD06/Hxx7epI=
-X-Google-Smtp-Source: ABdhPJzaiL+j2uHcBjuTHItekshsSwad6lhH0t+yiuCbxc/Z+d4Vh58e6fQ1EDH+avA/hsqr0DNG4g==
-X-Received: by 2002:a17:902:9689:: with SMTP id
- n9mr7986009plp.33.1644059944714; 
- Sat, 05 Feb 2022 03:19:04 -0800 (PST)
-Received: from [192.168.1.33] (154.red-83-50-83.dynamicip.rima-tde.net.
- [83.50.83.154])
- by smtp.gmail.com with ESMTPSA id f5sm5477936pfc.0.2022.02.05.03.19.02
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 05 Feb 2022 03:19:04 -0800 (PST)
-Message-ID: <74d9a3d4-58e6-9fb3-cacc-e3b6067d2373@amsat.org>
-Date: Sat, 5 Feb 2022 12:19:00 +0100
+ (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
+ id 1nGJD6-0004rM-FP; Sat, 05 Feb 2022 06:26:33 -0500
+Received: from smtp23.cstnet.cn ([159.226.251.23]:60366 helo=cstnet.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <liweiwei@iscas.ac.cn>)
+ id 1nGJD2-0002tM-Mf; Sat, 05 Feb 2022 06:26:31 -0500
+Received: from [192.168.0.107] (unknown [180.156.147.178])
+ by APP-03 (Coremail) with SMTP id rQCowAB3f5vdXv5hY35SAA--.24879S2;
+ Sat, 05 Feb 2022 19:26:22 +0800 (CST)
+Subject: Re: [PATCH v2 4/6] target/riscv: Add support for mconfigptr
+To: Atish Patra <atishp@rivosinc.com>, qemu-devel@nongnu.org
+References: <20220205003605.1150143-1-atishp@rivosinc.com>
+ <20220205003605.1150143-5-atishp@rivosinc.com>
+From: Weiwei Li <liweiwei@iscas.ac.cn>
+Message-ID: <14f5fa7b-0f6f-4a40-fc19-281c87efa82f@iscas.ac.cn>
+Date: Sat, 5 Feb 2022 19:26:21 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.5.1
-Subject: Re: [PULL 0/2] VFIO fixes 2022-02-03
-Content-Language: en-US
-To: Eric Auger <eric.auger@redhat.com>
-Cc: qemu-devel@nongnu.org, Alex Williamson <alex.williamson@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>,
- Stefan Berger <stefanb@linux.ibm.com>
-References: <164392758602.1683127.4327439310436541025.stgit@omen>
- <CAFEAcA-CX6hPOEEr_Yjcd1=4AHfkYgnkQ_ruUJ4mFwBYz1fLQA@mail.gmail.com>
-In-Reply-To: <CAFEAcA-CX6hPOEEr_Yjcd1=4AHfkYgnkQ_ruUJ4mFwBYz1fLQA@mail.gmail.com>
+In-Reply-To: <20220205003605.1150143-5-atishp@rivosinc.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1031
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1031;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pj1-x1031.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
- PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+Content-Language: en-US
+X-CM-TRANSID: rQCowAB3f5vdXv5hY35SAA--.24879S2
+X-Coremail-Antispam: 1UD129KBjvJXoW7Zr47Jw4rAFy5Ww13Ww4rZrb_yoW8Ww1fpr
+ s3u3y09w4DXrW0gan3tw45GrnxZwn8WFW2k397Aw1kJrWrXrW8CFnFga1UJr95Wa18WryF
+ vFn09F13Aa1kZFUanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUU9214x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+ rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+ 1l84ACjcxK6xIIjxv20xvE14v26r1j6r1xM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r1j
+ 6r4UM28EF7xvwVC2z280aVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gr
+ 1j6F4UJwAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv
+ 7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r
+ 1j6r4UM4x0Y48IcVAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwCYjI0SjxkI62AI1cAE
+ 67vIY487MxkF7I0Ew4C26cxK6c8Ij28IcwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7x
+ kEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E
+ 67AF67kF1VAFwI0_JF0_Jw1lIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCw
+ CI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7xG6rWUJVWr
+ Zr1UMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYx
+ BIdaVFxhVjvjDU0xZFpf9x0JU2fOwUUUUU=
+X-Originating-IP: [180.156.147.178]
+X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
+Received-SPF: pass client-ip=159.226.251.23; envelope-from=liweiwei@iscas.ac.cn;
+ helo=cstnet.cn
+X-Spam_score_int: -25
+X-Spam_score: -2.6
+X-Spam_bar: --
+X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -98,53 +73,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Palmer Dabbelt <palmer@dabbelt.com>, Bin Meng <bin.meng@windriver.com>,
+ Alistair Francis <alistair.francis@wdc.com>, qemu-riscv@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
-On 5/2/22 11:49, Peter Maydell wrote:
-> On Thu, 3 Feb 2022 at 22:38, Alex Williamson <alex.williamson@redhat.com> wrote:
->>
->> The following changes since commit 8f3e5ce773c62bb5c4a847f3a9a5c98bbb3b359f:
->>
->>    Merge remote-tracking branch 'remotes/hdeller/tags/hppa-updates-pull-request' into staging (2022-02-02 19:54:30 +0000)
->>
->> are available in the Git repository at:
->>
->>    git://github.com/awilliam/qemu-vfio.git tags/vfio-fixes-20220203.0
->>
->> for you to fetch changes up to 36fe5d5836c8d5d928ef6d34e999d6991a2f732e:
->>
->>    hw/vfio/common: Silence ram device offset alignment error traces (2022-02-03 15:05:05 -0700)
->>
->> ----------------------------------------------------------------
->> VFIO fixes 2022-02-03
->>
->>   * Fix alignment warnings when using TPM CRB with vfio-pci devices
->>     (Eric Auger & Philippe Mathieu-Daudé)
-> 
-> Hi; this has a format-string issue that means it doesn't build
-> on 32-bit systems:
-> 
-> https://gitlab.com/qemu-project/qemu/-/jobs/2057116569
-> 
-> ../hw/vfio/common.c: In function 'vfio_listener_region_add':
-> ../hw/vfio/common.c:893:26: error: format '%llx' expects argument of
-> type 'long long unsigned int', but argument 6 has type 'intptr_t' {aka
-> 'int'} [-Werror=format=]
-> error_report("%s received unaligned region %s iova=0x%"PRIx64
-> ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> ../hw/vfio/common.c:899:26:
-> qemu_real_host_page_mask);
-> ~~~~~~~~~~~~~~~~~~~~~~~~
-> 
-> For intptr_t you want PRIxPTR.
 
-Thanks Peter.
+在 2022/2/5 上午8:36, Atish Patra 写道:
+> RISC-V privileged specification v1.12 introduced a mconfigptr
+> which will hold the physical address of a configuration data
+> structure. As Qemu doesn't have a configuration data structure,
+> is read as zero which is valid as per the priv spec.
+>
+> Signed-off-by: Atish Patra <atishp@rivosinc.com>
+> ---
+>   target/riscv/cpu_bits.h | 1 +
+>   target/riscv/csr.c      | 2 ++
+>   2 files changed, 3 insertions(+)
+>
+> diff --git a/target/riscv/cpu_bits.h b/target/riscv/cpu_bits.h
+> index f96d26399607..89440241632a 100644
+> --- a/target/riscv/cpu_bits.h
+> +++ b/target/riscv/cpu_bits.h
+> @@ -148,6 +148,7 @@
+>   #define CSR_MARCHID         0xf12
+>   #define CSR_MIMPID          0xf13
+>   #define CSR_MHARTID         0xf14
+> +#define CSR_MCONFIGPTR      0xf15
+>   
+>   /* Machine Trap Setup */
+>   #define CSR_MSTATUS         0x300
+> diff --git a/target/riscv/csr.c b/target/riscv/csr.c
+> index 25a0df498669..4366e5e95ce8 100644
+> --- a/target/riscv/csr.c
+> +++ b/target/riscv/csr.c
+> @@ -3020,6 +3020,8 @@ riscv_csr_operations csr_ops[CSR_TABLE_SIZE] = {
+>       [CSR_MARCHID]   = { "marchid",   any,   read_zero    },
+>       [CSR_MIMPID]    = { "mimpid",    any,   read_zero    },
+>       [CSR_MHARTID]   = { "mhartid",   any,   read_mhartid },
+> +    [CSR_MCONFIGPTR]   = { "mconfigptr", any, read_zero,
+> +                                         .min_priv_ver = PRIV_VERSION_1_12_0 },
+>   
+>       /* Machine Trap Setup */
+>       [CSR_MSTATUS]     = { "mstatus",    any,   read_mstatus,     write_mstatus, NULL,
 
-Eric, can you follow up on this series, looking at Igor comments wrt
-migration state?
+Additional spaces before '=' seems to align with other '='s in near lines.
 
-Phil.
+If you don't want to modify the previous lines, I think  it's better to 
+align with the '=' of CSR_MSTATUS  or  doesn't add any additional spaces.
+
+Regards,
+
+Weiwei Li
+
 
