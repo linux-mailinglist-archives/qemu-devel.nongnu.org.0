@@ -2,74 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94B314AAAC9
-	for <lists+qemu-devel@lfdr.de>; Sat,  5 Feb 2022 19:09:02 +0100 (CET)
-Received: from localhost ([::1]:42014 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 35ABF4AAC24
+	for <lists+qemu-devel@lfdr.de>; Sat,  5 Feb 2022 20:02:01 +0100 (CET)
+Received: from localhost ([::1]:36918 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nGPUb-00052K-9H
-	for lists+qemu-devel@lfdr.de; Sat, 05 Feb 2022 13:09:01 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:53876)
+	id 1nGQJr-0006Xz-H5
+	for lists+qemu-devel@lfdr.de; Sat, 05 Feb 2022 14:01:59 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:60548)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1nGPLx-0007F8-B9
- for qemu-devel@nongnu.org; Sat, 05 Feb 2022 13:00:05 -0500
-Received: from [2a00:1450:4864:20::531] (port=39507
- helo=mail-ed1-x531.google.com)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nGQC3-0003r1-0F
+ for qemu-devel@nongnu.org; Sat, 05 Feb 2022 13:53:56 -0500
+Received: from [2a00:1450:4864:20::431] (port=39465
+ helo=mail-wr1-x431.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1nGPLv-00010k-0o
- for qemu-devel@nongnu.org; Sat, 05 Feb 2022 13:00:04 -0500
-Received: by mail-ed1-x531.google.com with SMTP id u18so20186826edt.6
- for <qemu-devel@nongnu.org>; Sat, 05 Feb 2022 10:00:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=gdaiRf8PkxIZRVB4nxAd0RX/qVncmh/Pfk2cqHlLhF8=;
- b=HON3ferHI0+yyBFBDO8y7xjYpyhl+HZ87eyewHOXKtptYFaYTMT9eVOqfVxRCQsjK1
- +phR0C1YaQwBaWaloAbjOeg4RH5Xuhdvng6rdeh+sPK9wJgUudF4+4Xa86otnqwJ1O2v
- LhpkZNH5adnt4BRJEsUfwd8T5ROWZ2jYJT+ZKZnMdyxOsfRKERF1za6e7U8YmRobZoNo
- 7mDIwbcztoeZ5VgkoKZUwI5CXMns/K3KkLXxJZ36T5v6z/Rupwv0xK0bDDvxfwUnTVXt
- 8+qpxpbw417w4w67qrgoFDh7Rp9E1zKuwicYzXLFNUK9XR2YrBHKrbp2In5PyB1V1qro
- cP0g==
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nGQBz-00084v-NT
+ for qemu-devel@nongnu.org; Sat, 05 Feb 2022 13:53:53 -0500
+Received: by mail-wr1-x431.google.com with SMTP id v19so2526359wrv.6
+ for <qemu-devel@nongnu.org>; Sat, 05 Feb 2022 10:53:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=WsMT7yc0e3FIxzf42eAGRkG1JRT+7YCgiVQpwvXHuQo=;
+ b=fDKhlLyY0s+EndCe9XETaYXmWqxyQiCHLl4vGUZJKUHETTflSo2b6OmaW94uVf7V0j
+ /5TLdKM10vOe5EgoFIrcMeyvceHpASjuXTMpeFnflFBf8NXOD+T3ZTLT/jFEvbtPFdaK
+ 5Pb+jCCQxzFJpk0S8+Wwdw0FxuSNGQpctUiJfpbgxikAU4m+JohYdYLjY2iRcRRnMBqi
+ TgtEnQrx6OskZNyDFcTyu3YM72l3ZC1T/uoA/dgtJLApi1MReGY7FMy3G7SkRoF0s3C8
+ PqHhL8pNnNqP4ffh6a8v+u3UAQKZj9L8gaV2aiVP5wSGByVdR0WpyhkK/4+T2neXMgXV
+ K4gA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=gdaiRf8PkxIZRVB4nxAd0RX/qVncmh/Pfk2cqHlLhF8=;
- b=eBJAbYPy52G7nfGMaxDmJiJ1pypRkoFziPBomfbMJ28ppwoUov1uVDvimsYJg4JW/+
- P96vJtLtYqFSWIjutapSyobgNkE2f7HivGwysvOac+Fp5RSMDL8iAwNBqlMlE1teB9sC
- vTW03ALDxS25y4TsOEtfKo4nVKFkLnpqUo4pLv86g5tU1E/wTeRzGdTnZHR5wEaUEQuT
- oVQdV+gvrEmQx8z414Hepumo3SNJgDRCvfuMzXZPHnyMdwx2jC6iqLGIkKlydN57lKs2
- p2yCtzdDuGUFGxVbHIX3QhoWeeB/R+I3Bq/JucRNe4hzR62LDPhLM4yzn02MWifjUDSs
- 9ygQ==
-X-Gm-Message-State: AOAM532dRtgsOoXByRtyAFcGiBeY58YRg5JPH77xM7FCqkETFxES/aJ0
- CpMqHNkqcHkxl6751YNmWJPwFC6OUHO5LA==
-X-Google-Smtp-Source: ABdhPJwxMtetDhTBdKWQ9PfHMZvvc82n4qQNyEhMbemM3eZKsoO0fdLF9YyB6WSmtxFlArtMNaaGNw==
-X-Received: by 2002:aa7:dc05:: with SMTP id b5mr5576141edu.197.1644084001431; 
- Sat, 05 Feb 2022 10:00:01 -0800 (PST)
-Received: from Provence.localdomain
- (dynamic-089-012-230-134.89.12.pool.telefonica.de. [89.12.230.134])
- by smtp.gmail.com with ESMTPSA id e2sm1820660ejr.210.2022.02.05.10.00.00
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 05 Feb 2022 10:00:01 -0800 (PST)
-From: Bernhard Beschow <shentey@gmail.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 2/2] mc146818rtc: Unexport RTCState
-Date: Sat,  5 Feb 2022 18:59:13 +0100
-Message-Id: <20220205175913.31738-3-shentey@gmail.com>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220205175913.31738-1-shentey@gmail.com>
-References: <20220205175913.31738-1-shentey@gmail.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=WsMT7yc0e3FIxzf42eAGRkG1JRT+7YCgiVQpwvXHuQo=;
+ b=p2UxUb7En3jqg1ExxOb0bpPsLoKa5QtSRnajiFrzSHpriDV8Qyo0b8geEr4v0bVDja
+ GNJFcVC11XrTWvO8Hvl/hKjdRoiLAYJMWahTkDx9IzdRBU6XLiWSIV6q2NwK694hYCEU
+ ekMmfwo6x8+Yl2IK8LMqh6dei0AHXA2pJbbdjXx3/wWpKwuxYb/xvNMmdftxHJJvB7I5
+ BXET9rGtIuIsxFVYDBzlAsKKUVKiXnr9L/cVIZecVr9JC/bOViZ0krC2t92I+cJqQvKp
+ B2VJysADt4UBN+26oJMF0LDttyTug9TZtFXYptbQGp8+DKJfIvjAj6D924FxKHVXjgrG
+ o4ZQ==
+X-Gm-Message-State: AOAM531J12DmvROgTMCb33yDXkWL7TYNls5393czSmJ4m6DjGxV2JVsY
+ 0sp9oqtQZyuneZVT6DYXQmoXh21V4jBYXoZKAiPMhQ==
+X-Google-Smtp-Source: ABdhPJyUZRBqJl77JMUXHokIITdSY8zCCmdYiQejCvhZijd2K09YsjR9es1K801vLxnizuCvsVV82/afJQC1PXnlnQM=
+X-Received: by 2002:a05:6000:258:: with SMTP id
+ m24mr4076549wrz.2.1644087229749; 
+ Sat, 05 Feb 2022 10:53:49 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::531
+References: <20220205175913.31738-1-shentey@gmail.com>
+ <20220205175913.31738-2-shentey@gmail.com>
+In-Reply-To: <20220205175913.31738-2-shentey@gmail.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Sat, 5 Feb 2022 18:53:38 +0000
+Message-ID: <CAFEAcA_y69=iXMH75dHeNkxMa038Z7Xk63GW9fdcAFHJSWS=sA@mail.gmail.com>
+Subject: Re: [PATCH 1/2] isa/piix4: Resolve RTCState attribute
+To: Bernhard Beschow <shentey@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::431
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::531;
- envelope-from=shentey@gmail.com; helo=mail-ed1-x531.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::431;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x431.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
 X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
@@ -85,130 +82,90 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Bernhard Beschow <shentey@gmail.com>,
- "Michael S. Tsirkin" <mst@redhat.com>
+Cc: =?UTF-8?Q?Herv=C3=A9_Poussineau?= <hpoussin@reactos.org>,
+ qemu-devel@nongnu.org, Aurelien Jarno <aurelien@aurel32.net>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Now that RTCState isn't used outside mc146818rtc.c any more, it can be
-unexported to prevent outside code to depend on its details.
+On Sat, 5 Feb 2022 at 18:05, Bernhard Beschow <shentey@gmail.com> wrote:
+>
+> Assuming that mc146818_rtc_init() is "syntactic sugar" for code that could
+> be converted into configuration in the future, this patch is a step towards
+> this future by freeing piix4 to care about the inner details of mc146818.
+>
+> Furthermore, by reusing mc146818_rtc_init(), piix4's code becomes more
+> homogenious to other code using the mc146818. So piix4 can be refactored in
+> the same way as code already using mc146818_rtc_init().
+>
+> Signed-off-by: Bernhard Beschow <shentey@gmail.com>
+> ---
+>  hw/isa/piix4.c | 15 +--------------
+>  1 file changed, 1 insertion(+), 14 deletions(-)
+>
+> diff --git a/hw/isa/piix4.c b/hw/isa/piix4.c
+> index 0fe7b69bc4..08b4262467 100644
+> --- a/hw/isa/piix4.c
+> +++ b/hw/isa/piix4.c
+> @@ -46,7 +46,6 @@ struct PIIX4State {
+>      qemu_irq cpu_intr;
+>      qemu_irq *isa;
+>
+> -    RTCState rtc;
+>      /* Reset Control Register */
+>      MemoryRegion rcr_mem;
+>      uint8_t rcr;
+> @@ -193,22 +192,11 @@ static void piix4_realize(PCIDevice *dev, Error **errp)
+>      i8257_dma_init(isa_bus, 0);
+>
+>      /* RTC */
+> -    qdev_prop_set_int32(DEVICE(&s->rtc), "base_year", 2000);
+> -    if (!qdev_realize(DEVICE(&s->rtc), BUS(isa_bus), errp)) {
+> -        return;
+> -    }
+> -    isa_init_irq(ISA_DEVICE(&s->rtc), &s->rtc.irq, RTC_ISA_IRQ);
+> +    mc146818_rtc_init(isa_bus, 2000, NULL);
+>
+>      piix4_dev = dev;
+>  }
+>
+> -static void piix4_init(Object *obj)
+> -{
+> -    PIIX4State *s = PIIX4_PCI_DEVICE(obj);
+> -
+> -    object_initialize(&s->rtc, sizeof(s->rtc), TYPE_MC146818_RTC);
+> -}
+> -
+>  static void piix4_class_init(ObjectClass *klass, void *data)
+>  {
+>      DeviceClass *dc = DEVICE_CLASS(klass);
+> @@ -233,7 +221,6 @@ static const TypeInfo piix4_info = {
+>      .name          = TYPE_PIIX4_PCI_DEVICE,
+>      .parent        = TYPE_PCI_DEVICE,
+>      .instance_size = sizeof(PIIX4State),
+> -    .instance_init = piix4_init,
+>      .class_init    = piix4_class_init,
+>      .interfaces = (InterfaceInfo[]) {
+>          { INTERFACE_CONVENTIONAL_PCI_DEVICE },
 
-Signed-off-by: Bernhard Beschow <shentey@gmail.com>
----
- hw/rtc/mc146818rtc.c         | 34 ++++++++++++++++++++++++++++++++++
- include/hw/rtc/mc146818rtc.h | 35 +----------------------------------
- 2 files changed, 35 insertions(+), 34 deletions(-)
+This looks like it's going backwards from the way we'd usually
+write code for devices that contain other devices these days.
+The "we have an init function that does stuff" is the older
+style. The newer style has the inner-device as an embedded
+struct in the container-device struct, which is initialized,
+configured and realized using standard functions like object_initialize
+and qdev_realize. (I do wonder whether that ought to be
+object_initialize_child() here, incidentally, but haven't checked the
+details to be certain.)
 
-diff --git a/hw/rtc/mc146818rtc.c b/hw/rtc/mc146818rtc.c
-index e61a0cced4..e3980ac663 100644
---- a/hw/rtc/mc146818rtc.c
-+++ b/hw/rtc/mc146818rtc.c
-@@ -26,6 +26,7 @@
- #include "qemu/cutils.h"
- #include "qemu/module.h"
- #include "qemu/bcd.h"
-+#include "qemu/queue.h"
- #include "hw/acpi/aml-build.h"
- #include "hw/irq.h"
- #include "hw/qdev-properties.h"
-@@ -41,7 +42,9 @@
- #include "migration/vmstate.h"
- #include "qapi/error.h"
- #include "qapi/qapi-events-misc-target.h"
-+#include "qapi/qapi-types-machine.h"
- #include "qapi/visitor.h"
-+#include "qom/object.h"
- #include "hw/rtc/mc146818rtc_regs.h"
- 
- #ifdef TARGET_I386
-@@ -74,6 +77,37 @@
- #define RTC_CLOCK_RATE            32768
- #define UIP_HOLD_LENGTH           (8 * NANOSECONDS_PER_SECOND / 32768)
- 
-+OBJECT_DECLARE_SIMPLE_TYPE(RTCState, MC146818_RTC)
-+
-+struct RTCState {
-+    ISADevice parent_obj;
-+
-+    MemoryRegion io;
-+    MemoryRegion coalesced_io;
-+    uint8_t cmos_data[128];
-+    uint8_t cmos_index;
-+    int32_t base_year;
-+    uint64_t base_rtc;
-+    uint64_t last_update;
-+    int64_t offset;
-+    qemu_irq irq;
-+    int it_shift;
-+    /* periodic timer */
-+    QEMUTimer *periodic_timer;
-+    int64_t next_periodic_time;
-+    /* update-ended timer */
-+    QEMUTimer *update_timer;
-+    uint64_t next_alarm_time;
-+    uint16_t irq_reinject_on_ack_count;
-+    uint32_t irq_coalesced;
-+    uint32_t period;
-+    QEMUTimer *coalesced_timer;
-+    Notifier clock_reset_notifier;
-+    LostTickPolicy lost_tick_policy;
-+    Notifier suspend_notifier;
-+    QLIST_ENTRY(RTCState) link;
-+};
-+
- static void rtc_set_time(RTCState *s);
- static void rtc_update_time(RTCState *s);
- static void rtc_set_cmos(RTCState *s, const struct tm *tm);
-diff --git a/include/hw/rtc/mc146818rtc.h b/include/hw/rtc/mc146818rtc.h
-index 5b45b22924..0dc2cb2605 100644
---- a/include/hw/rtc/mc146818rtc.h
-+++ b/include/hw/rtc/mc146818rtc.h
-@@ -9,43 +9,10 @@
- #ifndef HW_RTC_MC146818RTC_H
- #define HW_RTC_MC146818RTC_H
- 
--#include "qapi/qapi-types-machine.h"
--#include "qemu/queue.h"
--#include "qemu/timer.h"
- #include "hw/isa/isa.h"
--#include "qom/object.h"
-+#include "qemu/typedefs.h"
- 
- #define TYPE_MC146818_RTC "mc146818rtc"
--OBJECT_DECLARE_SIMPLE_TYPE(RTCState, MC146818_RTC)
--
--struct RTCState {
--    ISADevice parent_obj;
--
--    MemoryRegion io;
--    MemoryRegion coalesced_io;
--    uint8_t cmos_data[128];
--    uint8_t cmos_index;
--    int32_t base_year;
--    uint64_t base_rtc;
--    uint64_t last_update;
--    int64_t offset;
--    qemu_irq irq;
--    int it_shift;
--    /* periodic timer */
--    QEMUTimer *periodic_timer;
--    int64_t next_periodic_time;
--    /* update-ended timer */
--    QEMUTimer *update_timer;
--    uint64_t next_alarm_time;
--    uint16_t irq_reinject_on_ack_count;
--    uint32_t irq_coalesced;
--    uint32_t period;
--    QEMUTimer *coalesced_timer;
--    Notifier clock_reset_notifier;
--    LostTickPolicy lost_tick_policy;
--    Notifier suspend_notifier;
--    QLIST_ENTRY(RTCState) link;
--};
- 
- #define RTC_ISA_IRQ 8
- #define RTC_ISA_BASE 0x70
--- 
-2.35.1
+The existing uses of mc146818_rtc_init() are mostly in older
+code, and also in board-initialization code, which traditionally
+didn't have a convenient struct to embed the device-struct into.
+hw/isa/vt82c686.c is the only use in another device model
+(which could in theory be refactored to the embed-the-device-struct
+style, though the benefit of making the change isn't large, which
+is one reason we still have the mix of both in the tree).
 
+thanks
+-- PMM
 
