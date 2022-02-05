@@ -2,67 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E810D4AA577
-	for <lists+qemu-devel@lfdr.de>; Sat,  5 Feb 2022 02:55:49 +0100 (CET)
-Received: from localhost ([::1]:54798 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 258854AA583
+	for <lists+qemu-devel@lfdr.de>; Sat,  5 Feb 2022 03:02:16 +0100 (CET)
+Received: from localhost ([::1]:42930 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nGAIm-00057T-Ns
-	for lists+qemu-devel@lfdr.de; Fri, 04 Feb 2022 20:55:48 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:50050)
+	id 1nGAP1-0007hq-8Z
+	for lists+qemu-devel@lfdr.de; Fri, 04 Feb 2022 21:02:15 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:50218)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nGA6q-0003km-Ka
- for qemu-devel@nongnu.org; Fri, 04 Feb 2022 20:43:31 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:56989)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nGA7F-0003sl-LG
+ for qemu-devel@nongnu.org; Fri, 04 Feb 2022 20:43:53 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:50071)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nGA6N-0003J4-Cf
- for qemu-devel@nongnu.org; Fri, 04 Feb 2022 20:43:00 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nGA6q-0003JG-EA
+ for qemu-devel@nongnu.org; Fri, 04 Feb 2022 20:43:33 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1644025378;
+ s=mimecast20190719; t=1644025381;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=Pdwtg4YsnAYbmN/x8hq/7VP0oKua1VQsoEaxNXs2NSc=;
- b=XxtDmbpfS9KDyNJzhyX/na1pGzmelKT00PWJ6d39EFjzSUNhnwlMtGPCIr29c0za8fW+Qd
- mcfWMbVvveqU68ZlH4B59m/kQEShzWjDk5hrMVbuPXaluZducsppmbTWPGjNKps+NQh5Se
- 3JLyraGoYt9HzWe49AtilVo3Xfv4R60=
+ bh=FMY8xR93DQQSXRTh9cIog6ZkSuUw4ea/EPUUeaxLWQ8=;
+ b=KPunbfBxY0o+pDFJa8pdrEmi5VGprLNGZ0SmYqnfzUqDU2e4OE8b2HLL13wgPozfavYPJi
+ 1GzGCDJyA+jOmi526aB4OSv6tH+SL33mwBo1EkwSncRawllebxfSTarQoig1y9mMmQH+h/
+ vgDVT4VTsVHn/swhVtyS/VNzibpaXqw=
 Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
  [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-379-iBWZW0DvOMCabgFJPtvH5A-1; Fri, 04 Feb 2022 20:42:57 -0500
-X-MC-Unique: iBWZW0DvOMCabgFJPtvH5A-1
+ us-mta-348-h4U_40saNfW5Xl41zyLbLw-1; Fri, 04 Feb 2022 20:43:00 -0500
+X-MC-Unique: h4U_40saNfW5Xl41zyLbLw-1
 Received: by mail-wr1-f71.google.com with SMTP id
- w7-20020adfbac7000000b001d6f75e4faeso2804183wrg.7
- for <qemu-devel@nongnu.org>; Fri, 04 Feb 2022 17:42:57 -0800 (PST)
+ g17-20020adfa591000000b001da86c91c22so2799838wrc.5
+ for <qemu-devel@nongnu.org>; Fri, 04 Feb 2022 17:43:00 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=Pdwtg4YsnAYbmN/x8hq/7VP0oKua1VQsoEaxNXs2NSc=;
- b=DADEb35W6JlhadqumeKEPJH5dUonI1DQrzmNnNPJsXR20YEBQgg1U82IjxpEO8ssUE
- 1ERNjTQsQUjobpRS/7DsFk/zaW/Z94aDnqC/3pTxNVeXzQn45nIDs7ZOqrggzPNFYFyP
- 8d9QX5+Ow/XDljaSsEzzY15+R3NCYhQ1XHZs2pOOANrV+i4I4TaF1WqEut9tdUxRu/hc
- SAJV9xug3jXB7saaH3wyIqU4/wL9MNLjLsjlcmGxkWlwDmR8s92Yy4LJol5SBzQkBTWZ
- 2Co7JRblyTgixqJsJ8Vta07rUzk+64vupARilpf9x2039m4345Snl1KdnN0K9KGFUL9b
- 4dyQ==
-X-Gm-Message-State: AOAM532s7jtv9TeKchEZoUWe1xHynO1W3ojvbgtz1cHPaj26qtJUNPPR
- Tkfo6isNkIhF17osGHUM1xvWiGwenJAOTmWsW8rCleZFnTrCZ/MyTbF3mqVBzonMrIqw/q0I3BM
- crZB+5GtjYlT/5F1ZudrbWqrk8scoI+bB7gnjb8GdAIrGCaa+G+jYqzsIW6fS
-X-Received: by 2002:a5d:6c67:: with SMTP id r7mr1214263wrz.514.1644025376085; 
- Fri, 04 Feb 2022 17:42:56 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyPPcx0oYITpHdK/gPYZzROn48FrA+v6vG8Aay7KWXBK5/ERq2oW65bzny0AhKLfjnRnQd9yg==
-X-Received: by 2002:a5d:6c67:: with SMTP id r7mr1214251wrz.514.1644025375780; 
- Fri, 04 Feb 2022 17:42:55 -0800 (PST)
+ bh=FMY8xR93DQQSXRTh9cIog6ZkSuUw4ea/EPUUeaxLWQ8=;
+ b=tyTJG5yozzUyWp3MtzVcUBwARqL7J52AyOBFMu7cYBjt5fdOUlIAxfwfX7l02yBvPE
+ LkB4BuXFE3Jzq07n9QeotkwvDmPT7YMSMQTeIeJ9O65o7h/Q5cq7StxRmWUtTW5Nu3Mc
+ d8WFrZJU+zfT0ClYi9i7X8wDt+oahFjp/TpONHlsdjDn6ooh9VDWJ8T5cG0/n8ZWrozB
+ mn7gfKgLvSxs+SGVszFoZAjs7/FPSChK4d0fxqdQlh11oyMSl7Jq3DdV7a9dSmHaJSUj
+ MVDjOsZPujXM6DEmwyWw+VTJWlapUSRgiNnZDX9xfyj6NCBH6jG1xsjmtdtcOJHAQvF0
+ mH4g==
+X-Gm-Message-State: AOAM531otJ5JgZ81Gfxaong6Jg6GWlaL75SDPiyDM1a5OhvH7WoB53fl
+ bxtx1ju+QhXrsbHfRlQR8sFo3UExHoFZXwtGcO6ba4YVCY1lLiUYHwHU5G1ypl1C75z0qlfr7Mk
+ oZbjCd5NnrH8ImVw2zXcJcT9wXWjreqUVr0s2vAatYA/2ZZuCuX8SiTw9dWCd
+X-Received: by 2002:a05:600c:34c2:: with SMTP id
+ d2mr4403607wmq.120.1644025378820; 
+ Fri, 04 Feb 2022 17:42:58 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzrfYEbaoiG95C5BLRbnE0gP+Kw9pwUzRpyl166yJtZJAUtD4mpZyBFjXy9FQXZyfotcidyeg==
+X-Received: by 2002:a05:600c:34c2:: with SMTP id
+ d2mr4403581wmq.120.1644025378482; 
+ Fri, 04 Feb 2022 17:42:58 -0800 (PST)
 Received: from redhat.com ([2a10:8005:331d:0:5c51:c095:613e:277c])
- by smtp.gmail.com with ESMTPSA id 5sm3673309wrb.113.2022.02.04.17.42.54
+ by smtp.gmail.com with ESMTPSA id g7sm3316797wmq.3.2022.02.04.17.42.57
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 04 Feb 2022 17:42:55 -0800 (PST)
-Date: Fri, 4 Feb 2022 20:42:53 -0500
+ Fri, 04 Feb 2022 17:42:57 -0800 (PST)
+Date: Fri, 4 Feb 2022 20:42:56 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 07/32] tests: acpi: test short OEM_ID/OEM_TABLE_ID values in
- test_oem_fields()
-Message-ID: <20220205014149.1189026-8-mst@redhat.com>
+Subject: [PULL 08/32] libvhost-user: Add vu_rem_mem_reg input validation
+Message-ID: <20220205014149.1189026-9-mst@redhat.com>
 References: <20220205014149.1189026-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20220205014149.1189026-1-mst@redhat.com>
@@ -74,7 +75,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -95,63 +96,74 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Ani Sinha <ani@anisinha.ca>, Peter Maydell <peter.maydell@linaro.org>,
- Igor Mammedov <imammedo@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ David Hildenbrand <david@redhat.com>,
+ =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Raphael Norwitz <raphael.norwitz@nutanix.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Igor Mammedov <imammedo@redhat.com>
+From: Raphael Norwitz <raphael.norwitz@nutanix.com>
 
-Previous patch [1] added explicit whitespace padding to OEM_ID/OEM_TABLE_ID
-values used in test_oem_fields() testcase to avoid false positive and
-bisection issues when QEMU is switched to \0' padding. As result
-testcase ceased to test values that were shorter than max possible
-length values.
+Today if multiple FDs are sent from the VMM to the backend in a
+VHOST_USER_REM_MEM_REG message, one FD will be unmapped and the remaining
+FDs will be leaked. Therefore if multiple FDs are sent we report an
+error and fail the operation, closing all FDs in the message.
 
-Update testcase to make sure that it's testing shorter IDs like it
-used to before [2].
+Likewise in case the VMM sends a message with a size less than that of a
+memory region descriptor, we add a check to gracefully report an error
+and fail the operation rather than crashing.
 
-1) "tests: acpi: manually pad OEM_ID/OEM_TABLE_ID for  test_oem_fields() test"
-2) 602b458201 ("acpi: Permit OEM ID and OEM table ID fields to be changed")
-
-Signed-off-by: Igor Mammedov <imammedo@redhat.com>
-Message-Id: <20220114142641.1727679-1-imammedo@redhat.com>
+Signed-off-by: Raphael Norwitz <raphael.norwitz@nutanix.com>
+Message-Id: <20220117041050.19718-2-raphael.norwitz@nutanix.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+Reviewed-by: David Hildenbrand <david@redhat.com>
 ---
- tests/qtest/bios-tables-test.c | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+ subprojects/libvhost-user/libvhost-user.h |  2 ++
+ subprojects/libvhost-user/libvhost-user.c | 15 +++++++++++++++
+ 2 files changed, 17 insertions(+)
 
-diff --git a/tests/qtest/bios-tables-test.c b/tests/qtest/bios-tables-test.c
-index 90c9f6a0a2..ad536fd7b1 100644
---- a/tests/qtest/bios-tables-test.c
-+++ b/tests/qtest/bios-tables-test.c
-@@ -71,10 +71,10 @@
+diff --git a/subprojects/libvhost-user/libvhost-user.h b/subprojects/libvhost-user/libvhost-user.h
+index 3d13dfadde..cde9f07bb3 100644
+--- a/subprojects/libvhost-user/libvhost-user.h
++++ b/subprojects/libvhost-user/libvhost-user.h
+@@ -129,6 +129,8 @@ typedef struct VhostUserMemoryRegion {
+     uint64_t mmap_offset;
+ } VhostUserMemoryRegion;
  
- #define ACPI_REBUILD_EXPECTED_AML "TEST_ACPI_REBUILD_AML"
++#define VHOST_USER_MEM_REG_SIZE (sizeof(VhostUserMemoryRegion))
++
+ typedef struct VhostUserMemory {
+     uint32_t nregions;
+     uint32_t padding;
+diff --git a/subprojects/libvhost-user/libvhost-user.c b/subprojects/libvhost-user/libvhost-user.c
+index 787f4d2d4f..b09b1c269e 100644
+--- a/subprojects/libvhost-user/libvhost-user.c
++++ b/subprojects/libvhost-user/libvhost-user.c
+@@ -801,6 +801,21 @@ vu_rem_mem_reg(VuDev *dev, VhostUserMsg *vmsg) {
+     VuDevRegion shadow_regions[VHOST_USER_MAX_RAM_SLOTS] = {};
+     VhostUserMemoryRegion m = vmsg->payload.memreg.region, *msg_region = &m;
  
--#define OEM_ID             "TEST  "
--#define OEM_TABLE_ID       "OEM     "
--#define OEM_TEST_ARGS      "-machine x-oem-id='" OEM_ID "',x-oem-table-id='" \
--                           OEM_TABLE_ID "'"
-+#define OEM_ID             "TEST"
-+#define OEM_TABLE_ID       "OEM"
-+#define OEM_TEST_ARGS      "-machine x-oem-id=" OEM_ID ",x-oem-table-id=" \
-+                           OEM_TABLE_ID
- 
- typedef struct {
-     bool tcg_only;
-@@ -1530,8 +1530,8 @@ static void test_oem_fields(test_data *data)
-             continue;
-         }
- 
--        g_assert(memcmp(sdt->aml + 10, OEM_ID, 6) == 0);
--        g_assert(memcmp(sdt->aml + 16, OEM_TABLE_ID, 8) == 0);
-+        g_assert(strncmp((char *)sdt->aml + 10, OEM_ID, 6) == 0);
-+        g_assert(strncmp((char *)sdt->aml + 16, OEM_TABLE_ID, 8) == 0);
-     }
- }
- 
++    if (vmsg->fd_num != 1) {
++        vmsg_close_fds(vmsg);
++        vu_panic(dev, "VHOST_USER_REM_MEM_REG received %d fds - only 1 fd "
++                      "should be sent for this message type", vmsg->fd_num);
++        return false;
++    }
++
++    if (vmsg->size < VHOST_USER_MEM_REG_SIZE) {
++        close(vmsg->fds[0]);
++        vu_panic(dev, "VHOST_USER_REM_MEM_REG requires a message size of at "
++                      "least %d bytes and only %d bytes were received",
++                      VHOST_USER_MEM_REG_SIZE, vmsg->size);
++        return false;
++    }
++
+     DPRINT("Removing region:\n");
+     DPRINT("    guest_phys_addr: 0x%016"PRIx64"\n",
+            msg_region->guest_phys_addr);
 -- 
 MST
 
