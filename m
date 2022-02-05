@@ -2,65 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CAB764AA855
-	for <lists+qemu-devel@lfdr.de>; Sat,  5 Feb 2022 12:30:16 +0100 (CET)
-Received: from localhost ([::1]:36820 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E7564AA864
+	for <lists+qemu-devel@lfdr.de>; Sat,  5 Feb 2022 12:40:20 +0100 (CET)
+Received: from localhost ([::1]:44322 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nGJGh-0005ri-HS
-	for lists+qemu-devel@lfdr.de; Sat, 05 Feb 2022 06:30:15 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:53068)
+	id 1nGJQR-0002o3-8s
+	for lists+qemu-devel@lfdr.de; Sat, 05 Feb 2022 06:40:19 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:54684)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
- id 1nGJD6-0004rM-FP; Sat, 05 Feb 2022 06:26:33 -0500
-Received: from smtp23.cstnet.cn ([159.226.251.23]:60366 helo=cstnet.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <liweiwei@iscas.ac.cn>)
- id 1nGJD2-0002tM-Mf; Sat, 05 Feb 2022 06:26:31 -0500
-Received: from [192.168.0.107] (unknown [180.156.147.178])
- by APP-03 (Coremail) with SMTP id rQCowAB3f5vdXv5hY35SAA--.24879S2;
- Sat, 05 Feb 2022 19:26:22 +0800 (CST)
-Subject: Re: [PATCH v2 4/6] target/riscv: Add support for mconfigptr
-To: Atish Patra <atishp@rivosinc.com>, qemu-devel@nongnu.org
-References: <20220205003605.1150143-1-atishp@rivosinc.com>
- <20220205003605.1150143-5-atishp@rivosinc.com>
-From: Weiwei Li <liweiwei@iscas.ac.cn>
-Message-ID: <14f5fa7b-0f6f-4a40-fc19-281c87efa82f@iscas.ac.cn>
-Date: Sat, 5 Feb 2022 19:26:21 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1nGJNG-0000yy-1i; Sat, 05 Feb 2022 06:37:02 -0500
+Received: from kylie.crudebyte.com ([5.189.157.229]:54423)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1nGJND-0004LL-8k; Sat, 05 Feb 2022 06:37:01 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
+ MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+ Content-ID:Content-Description;
+ bh=p3+Fr0k89qkEVGP4YS5bZESV/zuXNUO83P/Yku6caaY=; b=uMRrzOfP/GpBHVbPDzhyaX7TcA
+ bazdZbMwoaAqc/idGzTcTK3nKgjKQKp7N5s0Q1g68lYYS/cD7qL/Z2Tidu5+gloOfCBVXmlLf3PGX
+ jrXW3YSjigvERPIh/hyJh3fSCjf/DzvHLG0znrmyarm389gfeQqUVqpZIeWyCN/wpB1ua909Q6nzb
+ 85lYAVb2L0A/GrtWSun9bAdRTyyIx3lEV0LH+2W1Zl1wS2i7yf+vcGJfpqyGLJvqaEPypRrLm2uVS
+ Dupzb1nTYP+U0ZnYQSytFKu6d4GD5l+zDn2OHPjzJ/IijNq8oe3zpsFPJYTFkbDOuj15nyPXDxUZ8
+ vLh6pcEAC12VAdgK4h0HCo5ZqszemcEnu/Rm/MgnEj5yI1st1xii6XL1JyYrfuB65qVf4raE34B2x
+ vtz9ooaU25gjoWqJE0T0tmPxdbATQzntsJxMEbxmapHKE6uEM2mziOuROSeCTFpuREQngHxDegXHP
+ ffBqFif6529jb+fpGdSnXI56uwaq06QEaxc4E9bVV5US4zzBI92Yye2Wk3M4JVpiMdddLlFyNuIW6
+ Jq25M2ckh4vwLmuiq3cvXwkQrHs5TDi6Yn7u8iGYM5g7c66KxCf2Y9TLHzgQsJhoJFk2uE3EFo25q
+ 33dQ3EC9w9B7fiCDSyf36Db8dbTZqBf/2bL7PzyT0=;
+From: Christian Schoenebeck <qemu_oss@crudebyte.com>
+To: qemu-devel@nongnu.org,
+ Philippe =?ISO-8859-1?Q?Mathieu=2DDaud=E9?= via <qemu-devel@nongnu.org>
+Cc: Vitaly Chikunov <vt@altlinux.org>, Greg Kurz <groug@kaod.org>,
+ qemu-stable@nongnu.org, ldv@altlinux.org
+Subject: Re: [PATCH v3] 9pfs: Fix segfault in do_readdir_many caused by struct
+ dirent overread
+Date: Sat, 05 Feb 2022 12:36:55 +0100
+Message-ID: <2519450.KGbbELgHQX@silver>
+In-Reply-To: <20220204050609.15510-1-vt@altlinux.org>
+References: <20220204050609.15510-1-vt@altlinux.org>
 MIME-Version: 1.0
-In-Reply-To: <20220205003605.1150143-5-atishp@rivosinc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-CM-TRANSID: rQCowAB3f5vdXv5hY35SAA--.24879S2
-X-Coremail-Antispam: 1UD129KBjvJXoW7Zr47Jw4rAFy5Ww13Ww4rZrb_yoW8Ww1fpr
- s3u3y09w4DXrW0gan3tw45GrnxZwn8WFW2k397Aw1kJrWrXrW8CFnFga1UJr95Wa18WryF
- vFn09F13Aa1kZFUanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnRJUUU9214x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
- rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
- 1l84ACjcxK6xIIjxv20xvE14v26r1j6r1xM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r1j
- 6r4UM28EF7xvwVC2z280aVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gr
- 1j6F4UJwAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv
- 7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r
- 1j6r4UM4x0Y48IcVAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwCYjI0SjxkI62AI1cAE
- 67vIY487MxkF7I0Ew4C26cxK6c8Ij28IcwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7x
- kEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E
- 67AF67kF1VAFwI0_JF0_Jw1lIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCw
- CI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7xG6rWUJVWr
- Zr1UMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYx
- BIdaVFxhVjvjDU0xZFpf9x0JU2fOwUUUUU=
-X-Originating-IP: [180.156.147.178]
-X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
-Received-SPF: pass client-ip=159.226.251.23; envelope-from=liweiwei@iscas.ac.cn;
- helo=cstnet.cn
-X-Spam_score_int: -25
-X-Spam_score: -2.6
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
+Received-SPF: pass client-ip=5.189.157.229;
+ envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -73,57 +65,118 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Palmer Dabbelt <palmer@dabbelt.com>, Bin Meng <bin.meng@windriver.com>,
- Alistair Francis <alistair.francis@wdc.com>, qemu-riscv@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-在 2022/2/5 上午8:36, Atish Patra 写道:
-> RISC-V privileged specification v1.12 introduced a mconfigptr
-> which will hold the physical address of a configuration data
-> structure. As Qemu doesn't have a configuration data structure,
-> is read as zero which is valid as per the priv spec.
->
-> Signed-off-by: Atish Patra <atishp@rivosinc.com>
+On Freitag, 4. Februar 2022 06:06:09 CET Vitaly Chikunov wrote:
+> `struct dirent' returned from readdir(3) could be shorter (or longer)
+> than `sizeof(struct dirent)', thus memcpy of sizeof length will overread
+> into unallocated page causing SIGSEGV. Example stack trace:
+> 
+>  #0  0x00005555559ebeed v9fs_co_readdir_many (/usr/bin/qemu-system-x86_64 +
+> 0x497eed) #1  0x00005555559ec2e9 v9fs_readdir (/usr/bin/qemu-system-x86_64
+> + 0x4982e9) #2  0x0000555555eb7983 coroutine_trampoline
+> (/usr/bin/qemu-system-x86_64 + 0x963983) #3  0x00007ffff73e0be0 n/a (n/a +
+> 0x0)
+> 
+> While fixing, provide a helper for any future `struct dirent' cloning.
+> 
+> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/841
+> Cc: qemu-stable@nongnu.org
+> Co-authored-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
+> Signed-off-by: Vitaly Chikunov <vt@altlinux.org>
 > ---
->   target/riscv/cpu_bits.h | 1 +
->   target/riscv/csr.c      | 2 ++
->   2 files changed, 3 insertions(+)
->
-> diff --git a/target/riscv/cpu_bits.h b/target/riscv/cpu_bits.h
-> index f96d26399607..89440241632a 100644
-> --- a/target/riscv/cpu_bits.h
-> +++ b/target/riscv/cpu_bits.h
-> @@ -148,6 +148,7 @@
->   #define CSR_MARCHID         0xf12
->   #define CSR_MIMPID          0xf13
->   #define CSR_MHARTID         0xf14
-> +#define CSR_MCONFIGPTR      0xf15
->   
->   /* Machine Trap Setup */
->   #define CSR_MSTATUS         0x300
-> diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-> index 25a0df498669..4366e5e95ce8 100644
-> --- a/target/riscv/csr.c
-> +++ b/target/riscv/csr.c
-> @@ -3020,6 +3020,8 @@ riscv_csr_operations csr_ops[CSR_TABLE_SIZE] = {
->       [CSR_MARCHID]   = { "marchid",   any,   read_zero    },
->       [CSR_MIMPID]    = { "mimpid",    any,   read_zero    },
->       [CSR_MHARTID]   = { "mhartid",   any,   read_mhartid },
-> +    [CSR_MCONFIGPTR]   = { "mconfigptr", any, read_zero,
-> +                                         .min_priv_ver = PRIV_VERSION_1_12_0 },
->   
->       /* Machine Trap Setup */
->       [CSR_MSTATUS]     = { "mstatus",    any,   read_mstatus,     write_mstatus, NULL,
+> Tested on x86-64 Linux again.
+> 
+> Changes from v2:
+> - Make it work with a simulated dirent where d_reclen is 0, which was
+>   caused abort in readdir qos-test, by using fallback at runtime.
+> 
+>  hw/9pfs/codir.c      |  3 +--
+>  include/qemu/osdep.h | 13 +++++++++++++
+>  util/osdep.c         | 18 ++++++++++++++++++
+>  3 files changed, 32 insertions(+), 2 deletions(-)
+> 
+> diff --git a/hw/9pfs/codir.c b/hw/9pfs/codir.c
+> index 032cce04c4..c0873bde16 100644
+> --- a/hw/9pfs/codir.c
+> +++ b/hw/9pfs/codir.c
+> @@ -143,8 +143,7 @@ static int do_readdir_many(V9fsPDU *pdu, V9fsFidState
+> *fidp, } else {
+>              e = e->next = g_malloc0(sizeof(V9fsDirEnt));
+>          }
+> -        e->dent = g_malloc0(sizeof(struct dirent));
+> -        memcpy(e->dent, dent, sizeof(struct dirent));
+> +        e->dent = qemu_dirent_dup(dent);
+> 
+>          /* perform a full stat() for directory entry if requested by caller
+> */ if (dostat) {
+> diff --git a/include/qemu/osdep.h b/include/qemu/osdep.h
+> index d1660d67fa..ce12f64853 100644
+> --- a/include/qemu/osdep.h
+> +++ b/include/qemu/osdep.h
+> @@ -805,6 +805,19 @@ static inline int
+> platform_does_not_support_system(const char *command) }
+>  #endif /* !HAVE_SYSTEM_FUNCTION */
+> 
+> +/**
+> + * Duplicate directory entry @dent.
+> + *
+> + * It is highly recommended to use this function instead of open coding
+> + * duplication of @c dirent objects, because the actual @c struct @c dirent
+> + * size may be bigger or shorter than @c sizeof(struct dirent) and correct
+> + * handling is platform specific (see gitlab issue #841).
+> + *
+> + * @dent - original directory entry to be duplicated
+> + * @returns duplicated directory entry which should be freed with g_free()
+> + */
+> +struct dirent *qemu_dirent_dup(struct dirent *dent);
+> +
+>  #ifdef __cplusplus
+>  }
+>  #endif
+> diff --git a/util/osdep.c b/util/osdep.c
+> index 42a0a4986a..2c80528a61 100644
+> --- a/util/osdep.c
+> +++ b/util/osdep.c
+> @@ -33,6 +33,7 @@
+>  extern int madvise(char *, size_t, int);
+>  #endif
+> 
+> +#include <dirent.h>
+>  #include "qemu-common.h"
+>  #include "qemu/cutils.h"
+>  #include "qemu/sockets.h"
+> @@ -615,3 +616,20 @@ writev(int fd, const struct iovec *iov, int iov_cnt)
+>      return readv_writev(fd, iov, iov_cnt, true);
+>  }
+>  #endif
+> +
+> +struct dirent *
+> +qemu_dirent_dup(struct dirent *dent)
+> +{
+> +    size_t sz = 0;
+> +#if defined _DIRENT_HAVE_D_RECLEN
+> +    /* Avoid use of strlen() if there's d_reclen. */
+> +    sz = dent->d_reclen;
+> +#endif
+> +    if (sz == 0) {
 
-Additional spaces before '=' seems to align with other '='s in near lines.
+Philippe, Greg, apart from the additional comment, do you want to see this 
+check to be changed in v4 to this?
 
-If you don't want to modify the previous lines, I think  it's better to 
-align with the '=' of CSR_MSTATUS  or  doesn't add any additional spaces.
+	if (unlikely(sz == 0)) {
 
-Regards,
+Best regards,
+Christian Schoenebeck
 
-Weiwei Li
+> +        /* Fallback to the most portable way. */
+> +        sz = offsetof(struct dirent, d_name) +
+> +                      strlen(dent->d_name) + 1;
+> +    }
+> +    struct dirent *dst = g_malloc(sz);
+> +    return memcpy(dst, dent, sz);
+> +}
+
 
 
