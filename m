@@ -2,77 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8930A4AAD07
-	for <lists+qemu-devel@lfdr.de>; Sun,  6 Feb 2022 00:28:31 +0100 (CET)
-Received: from localhost ([::1]:49354 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 82D434AAD0D
+	for <lists+qemu-devel@lfdr.de>; Sun,  6 Feb 2022 00:33:40 +0100 (CET)
+Received: from localhost ([::1]:54436 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nGUTm-0002xD-D6
-	for lists+qemu-devel@lfdr.de; Sat, 05 Feb 2022 18:28:30 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:40890)
+	id 1nGUYl-0006X1-LA
+	for lists+qemu-devel@lfdr.de; Sat, 05 Feb 2022 18:33:39 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:41128)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nGUS8-0001iW-FD
- for qemu-devel@nongnu.org; Sat, 05 Feb 2022 18:26:48 -0500
-Received: from [2607:f8b0:4864:20::62f] (port=46940
- helo=mail-pl1-x62f.google.com)
+ id 1nGUVI-0003oQ-TB
+ for qemu-devel@nongnu.org; Sat, 05 Feb 2022 18:30:08 -0500
+Received: from [2607:f8b0:4864:20::102c] (port=50868
+ helo=mail-pj1-x102c.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nGUS7-0002fn-0d
- for qemu-devel@nongnu.org; Sat, 05 Feb 2022 18:26:48 -0500
-Received: by mail-pl1-x62f.google.com with SMTP id t9so6091530plg.13
- for <qemu-devel@nongnu.org>; Sat, 05 Feb 2022 15:26:46 -0800 (PST)
+ id 1nGUVG-0002p6-3C
+ for qemu-devel@nongnu.org; Sat, 05 Feb 2022 18:30:03 -0500
+Received: by mail-pj1-x102c.google.com with SMTP id m7so9213982pjk.0
+ for <qemu-devel@nongnu.org>; Sat, 05 Feb 2022 15:29:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=mXPS4mRkVfO/LTE16Dj/HAKe6V3Q4L/fdxhLc8z6FGs=;
- b=qsRFSTYKdzIFBghuCO8mKpZJwWuuuugVgyFyMpRzunSF55YJfmwalgFYAKRqbfOShZ
- b6z1lfp3iaAuz4JO1lbwxCCIe9xiXujdD28Xqblb/bO4sno0SwK5qbNhX4P8F9SrVKw+
- mw08GTfBeUFmie1Meg5qWscDHXAAUPCyV9m1331iM1IH48fEU54I/JNwbMC1menq26gY
- L7xKz027JRIDW1k18NtjICg0zNn92aNKBlL9cKpQRmgqr2XX+ZaOwuYlqgsg0UAks5e3
- taA45Fu7h1L5CpLca6vKdUKHGju3m943KP+lpXxIJjZmuWoDg9LopYb/hnUyeZ6ls+xw
- ENWA==
+ bh=k+YbnLXTwcQjPERhUMuwBBPoiI7C1qP77JCMU2dqHzs=;
+ b=GPGxd2Qc25xLMq7XvLfCPOe1Lt1ok5Hb6EAddg0ZdDp153gXAZh+Zjo808gY3ge37/
+ AUNjiWsrH12NNBmhG2irL/urYP8OrJnJqL3avkdl5uVFySmDU6CbnEhU7DAzhT1G7jTj
+ 4soQprGVESjFSjEfqaO+KOydDBYC1XTqKnAceYhinCmXqSV7HYfqITyy6K0tUbp95hPf
+ tADVmxKN0BzEpr543qGLIK8bKBQBQR6QRmqYuavsvELMeXlIrGvPv9IJ8HZPagxe4k1W
+ wjTFrK52El5ITIrrV8Z/k0F5FCJ/keGdcwCNqcRiFbhhL2behuhOYTf9WIjVKZ8uWYHe
+ 2rGQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=mXPS4mRkVfO/LTE16Dj/HAKe6V3Q4L/fdxhLc8z6FGs=;
- b=ie+0exGVnQ6dRpPFrkJyhGgoRCAEdKJzsZ+ui0YqkGXo8iohhlqHIII8pDQr/ZyKU7
- +YVB3fzanLZK5apH1INRfihxAZTR4FBsK/R/4t2jCj3BzyEzHfMgLy2fTMx1yhKhFimv
- Yi6zIMdumj/Tr27pA4xIhvbflCvPuI9cJ92CxoQfAKs1Y6EGa96hLZg4cxxa6KY9qOx6
- juwRi0r8aNGpCUErsjC//c4z2CF1ndgqgh0IIBBbizp2KMMCIYevC/4UWStojBCqs/kR
- +4OfdZqU8OBL7wn7L7aQPvopskUoFR18NRYoGjLsIDNcnG/3g79cmjQ7MdLh3/2YSbKm
- PQDg==
-X-Gm-Message-State: AOAM533Jc4FjFk1MdZwfVri44ZR70oxym39hdf7BkP/T3oyuyktUFvMK
- bjwODHelJyWdQfv9ajnabXnfvA==
-X-Google-Smtp-Source: ABdhPJz8Y1lnIaWhG8JlgNdkj75alOHmUzoCUhAYEnJ//qwIYNbmhRWhQ6fzUesYL8eHGVxJ6+zg/Q==
-X-Received: by 2002:a17:90b:4c0c:: with SMTP id
- na12mr10668510pjb.140.1644103605796; 
- Sat, 05 Feb 2022 15:26:45 -0800 (PST)
+ bh=k+YbnLXTwcQjPERhUMuwBBPoiI7C1qP77JCMU2dqHzs=;
+ b=3sL0CMDZia9I73ncHJxMBBd+ys8NttafpuR7z+KlmipgtneUJraQLc8/TGd4XNxT+h
+ g+yyXDEZf/oB60WiO6z3Zv3vKZGNBJajEB1hktcZqILDFGLbPV9SowShq/dJ6DttYxQt
+ JwX4DpuvTdxWvN9lQMrBSeoi9ZX0vgeLUTDYH0BFB6MDNIP1wghqhe96ydcoxLxth/kx
+ VVF+eDYV7dCiiZbwaCobPyzwpKxzm6bIdlFUzxZwkN4Gk+yE+f6LXPbIgy+gKs0nDJCO
+ qVpvfOKRVB81yhqtsgn70mqTAIgzp+IwkYLN1cjAQUa4whMVAx1WMBK4k6ga1XqJZH1N
+ +3aw==
+X-Gm-Message-State: AOAM530W2HwwHoIMD3peXqjdN8QQJaGLS1LN/yGf5+g1qyVBCgA2TJWc
+ gjlg5uVgECqcqSOvDPiOmdEL/w==
+X-Google-Smtp-Source: ABdhPJzxkWBNYWqlbuthhgTrM3eF5ysbJfc5XnIqlViAioon2uJvuFzFqeAaJ3LTpoT+J7Jkr/i6oQ==
+X-Received: by 2002:a17:902:714e:: with SMTP id
+ u14mr10172510plm.52.1644103794548; 
+ Sat, 05 Feb 2022 15:29:54 -0800 (PST)
 Received: from [192.168.1.118] ([220.235.247.127])
- by smtp.gmail.com with ESMTPSA id g17sm7088147pfj.148.2022.02.05.15.26.43
+ by smtp.gmail.com with ESMTPSA id g1sm6972003pfu.32.2022.02.05.15.29.52
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 05 Feb 2022 15:26:45 -0800 (PST)
-Message-ID: <ab3856b7-a75d-4f97-7ad0-87bd93ef3d4b@linaro.org>
-Date: Sun, 6 Feb 2022 10:26:41 +1100
+ Sat, 05 Feb 2022 15:29:54 -0800 (PST)
+Message-ID: <664dcd6c-a5af-2e37-2148-6cbb545e8b03@linaro.org>
+Date: Sun, 6 Feb 2022 10:29:49 +1100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.5.0
-Subject: Re: [PATCH v2 14/21] softmmu/physmem: Remove unnecessary include
+Subject: Re: [PATCH v2 16/21] misc: Remove unnecessary "sysemu/cpu-timers.h"
+ include
 Content-Language: en-US
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
  qemu-devel@nongnu.org
 References: <20220203191814.45023-1-f4bug@amsat.org>
- <20220203191814.45023-15-f4bug@amsat.org>
+ <20220203191814.45023-17-f4bug@amsat.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220203191814.45023-15-f4bug@amsat.org>
+In-Reply-To: <20220203191814.45023-17-f4bug@amsat.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::62f
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::102c
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62f;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62f.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102c;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102c.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -98,23 +99,12 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 2/4/22 06:18, Philippe Mathieu-Daudé wrote:
-> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> Signed-off-by: Philippe Mathieu-Daudé<f4bug@amsat.org>
 > ---
->   softmmu/physmem.c | 1 -
->   1 file changed, 1 deletion(-)
-> 
-> diff --git a/softmmu/physmem.c b/softmmu/physmem.c
-> index eb4b3bcae7..09951c0996 100644
-> --- a/softmmu/physmem.c
-> +++ b/softmmu/physmem.c
-> @@ -60,7 +60,6 @@
->   
->   #include "exec/memory-internal.h"
->   #include "exec/ram_addr.h"
-> -#include "exec/log.h"
->   
->   #include "qemu/pmem.h"
->   
+>   accel/qtest/qtest.c            | 1 -
+>   target/alpha/translate.c       | 1 -
+>   tests/unit/ptimer-test-stubs.c | 1 -
+>   3 files changed, 3 deletions(-)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
