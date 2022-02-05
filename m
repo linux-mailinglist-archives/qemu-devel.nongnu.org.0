@@ -2,74 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9EF744AA572
-	for <lists+qemu-devel@lfdr.de>; Sat,  5 Feb 2022 02:51:29 +0100 (CET)
-Received: from localhost ([::1]:45142 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E8DBD4AA575
+	for <lists+qemu-devel@lfdr.de>; Sat,  5 Feb 2022 02:55:01 +0100 (CET)
+Received: from localhost ([::1]:53744 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nGAEa-0006ze-9K
-	for lists+qemu-devel@lfdr.de; Fri, 04 Feb 2022 20:51:28 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:49886)
+	id 1nGAI1-0004NV-13
+	for lists+qemu-devel@lfdr.de; Fri, 04 Feb 2022 20:55:01 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:49902)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nGA6C-0003e2-PZ
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nGA6C-0003eI-Pm
  for qemu-devel@nongnu.org; Fri, 04 Feb 2022 20:42:49 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:54466)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:48320)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nGA67-0003HO-ME
- for qemu-devel@nongnu.org; Fri, 04 Feb 2022 20:42:46 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nGA69-0003Ha-PE
+ for qemu-devel@nongnu.org; Fri, 04 Feb 2022 20:42:47 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1644025362;
+ s=mimecast20190719; t=1644025364;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type;
- bh=JCYgq3z3a+JDgwSUOCX1g5fxqsQW3rZrBXxYmDyiBZw=;
- b=G8f/I7UiYXFWD3Qe4KfdHalb10ms/YdTbnly0eFTV5QEDxLpkTimGukmpjD3xexOpMPIdG
- SlLjXZhXeTOhHHVI8VmP4g9A7Wn21pmS6/j1yzs17FC4YF0DJ6r+oNTeuG+sCdhdCxOoTV
- lt9lpQAPQgDluC7O0E3i0OZB14FsbLM=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=EU2zPx6JC+R5DZIlP0yKSn9BYb3OIhPFICOQQCHTxuk=;
+ b=hIu49R/5dIxKjJGCpOxF59dmjWfD/Tr4TzmcK2OS9USslj/akaLGoxW5/sJ5YbEsFW0PjV
+ vw345kXM9qQRkig99v23MX5PpqufztpBAW0JfTdaXGCFUCEjAEVkmpcPRsbbdwpCAHw1sB
+ 49d303/jBR9QG7/Fx9e5Ts3Xd94ejz0=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-21-x7AQiZYBMKyhaa_BAW-v0Q-1; Fri, 04 Feb 2022 20:42:41 -0500
-X-MC-Unique: x7AQiZYBMKyhaa_BAW-v0Q-1
-Received: by mail-wm1-f71.google.com with SMTP id
- bg16-20020a05600c3c9000b0034bea12c043so8373859wmb.7
- for <qemu-devel@nongnu.org>; Fri, 04 Feb 2022 17:42:41 -0800 (PST)
+ us-mta-217-OI_pxKtiNACcZ6ckK7FlkA-1; Fri, 04 Feb 2022 20:42:43 -0500
+X-MC-Unique: OI_pxKtiNACcZ6ckK7FlkA-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ k7-20020adfb347000000b001dd761d46c7so2780670wrd.4
+ for <qemu-devel@nongnu.org>; Fri, 04 Feb 2022 17:42:43 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
- :content-disposition;
- bh=JCYgq3z3a+JDgwSUOCX1g5fxqsQW3rZrBXxYmDyiBZw=;
- b=VgN+ZIFrb3qV5TVMwumUZm2b3VjuSKVDWfoVpxVq+Clc+mvPSI8duMZw9xfSSCnSb2
- Cni7B0Zr7gOq69SHEMXpfdLsLTXCpsIOwAywHzYZpnA/1NSRKwy1UGpoKo4riBUq0+dq
- aw1XtEGbwrbm0SnYDZfK/Wqq9GGdhMGk8Pf41ExNE8L+O+1QcMjldNkbO4G8AkJt1i3O
- iDYMdMjBzw9qW4A9kKI/IYFnpeSPivDWkATWwetX65YFsDWr3fV8/sU0Fiv17dfJ2ZHM
- klx6Qa2Jska7tl9zoBfd2kq1oauMQ5NgKWrPfbi+g34MmyvF4MaVUNnORhNK3n0+kQR6
- NfjQ==
-X-Gm-Message-State: AOAM531XTP3QcjRU46HI9W/1MCTmo386+G2dtpgm1eaOsxhvyw8qVYQW
- TGk0qdAd9wBkAxg+wLq88L99lYJCnPZSffsQK42vST+7+U4GZhkzaivgsQgg7XrTndlq86PWmBJ
- Eqf+6Hglw2OkuK0Hk4Q2jUVd2IKjnsogj4ugLHPhG3pXM3CDfb60X39dNIKR/
-X-Received: by 2002:a5d:59af:: with SMTP id p15mr1274552wrr.488.1644025359912; 
- Fri, 04 Feb 2022 17:42:39 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwfqge7X7519Eeyzlf+dlf2ao6LMiJmhFJUDKHyLYfiSLMNVZbVTguJkLKCFV6ZTh1aPC8d4Q==
-X-Received: by 2002:a5d:59af:: with SMTP id p15mr1274530wrr.488.1644025359583; 
- Fri, 04 Feb 2022 17:42:39 -0800 (PST)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=EU2zPx6JC+R5DZIlP0yKSn9BYb3OIhPFICOQQCHTxuk=;
+ b=XL/x4YuSCtarhPtUCGLS3QRU/pMFZUTr8SeTSNBY9TfuWFcZoFHWkBsVblCE651X0h
+ gIKXLkCEtlHxwN5nzTjV5Ot6MjA+qq3hRYIjo3JvO39SplE1AJHBCdREpvfByWwzo+j7
+ +1Eum1RYfDc7C5lqiSs4vHXAF4HDM6LpD42lFOEV+xi++l7KdB/Gxd5OqowlA5xOFNZQ
+ DDCAvKt31vPgnOpmZOMglBvFlaMzgAsWThJObDkyavf/rPrJe17rdo6ZShX0q3uFunTu
+ 5l9JX9LGyBuCGQXUxQI/TrZGGtASaP8/B7DxFkPx1HM0B5w8aagGqigs1JXxV4J6PFrW
+ wDbw==
+X-Gm-Message-State: AOAM5321hq+s2vBaWpLTPSLeGldtiWXtaWsVyu4bbV/QcCn+a1SvnyJv
+ oXwUsqEOM6CdlPG1UVim02kxlnmfdN3lKhRTt47NSDocmDuYAonINVzgy08XNtumPTnY+cLU5TB
+ F0DWrK/Nvt6FRQK9yvFripEl3oYTCwxW7mJAmvyjR+hZR1U+cs5yFZAfQ2oUw
+X-Received: by 2002:a5d:6112:: with SMTP id v18mr1185020wrt.713.1644025362087; 
+ Fri, 04 Feb 2022 17:42:42 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwUlH3VquMQ0HTCYX8Bhkb9ae0C97Tkhr26hsMi7BXHUZ74wksRSMxh85c+n3yC/dkluv81Qw==
+X-Received: by 2002:a5d:6112:: with SMTP id v18mr1185003wrt.713.1644025361875; 
+ Fri, 04 Feb 2022 17:42:41 -0800 (PST)
 Received: from redhat.com ([2a10:8005:331d:0:5c51:c095:613e:277c])
- by smtp.gmail.com with ESMTPSA id u14sm3295439wmq.41.2022.02.04.17.42.38
+ by smtp.gmail.com with ESMTPSA id e17sm2584285wme.29.2022.02.04.17.42.40
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 04 Feb 2022 17:42:39 -0800 (PST)
-Date: Fri, 4 Feb 2022 20:42:36 -0500
+ Fri, 04 Feb 2022 17:42:41 -0800 (PST)
+Date: Fri, 4 Feb 2022 20:42:39 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 00/32] virtio,pc: features, cleanups, fixes
-Message-ID: <20220205014149.1189026-1-mst@redhat.com>
+Subject: [PULL 01/32] cpuid: use unsigned for max cpuid
+Message-ID: <20220205014149.1189026-2-mst@redhat.com>
+References: <20220205014149.1189026-1-mst@redhat.com>
 MIME-Version: 1.0
+In-Reply-To: <20220205014149.1189026-1-mst@redhat.com>
 X-Mailer: git-send-email 2.27.0.106.g8ac3dc51b1
 X-Mutt-Fcc: =sent
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
@@ -91,157 +97,67 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Richard Henderson <rth@twiddle.net>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit 8f3e5ce773c62bb5c4a847f3a9a5c98bbb3b359f:
+__get_cpuid_max returns an unsigned value.
+For consistency, store the result in an unsigned variable.
 
-  Merge remote-tracking branch 'remotes/hdeller/tags/hppa-updates-pull-request' into staging (2022-02-02 19:54:30 +0000)
-
-are available in the Git repository at:
-
-  git://git.kernel.org/pub/scm/virt/kvm/mst/qemu.git tags/for_upstream
-
-for you to fetch changes up to 593a84174b09f0c8ae4d35ad014f93d1fb7cac00:
-
-  util/oslib-posix: Fix missing unlock in the error path of os_mem_prealloc() (2022-02-04 20:16:59 -0500)
-
-----------------------------------------------------------------
-virtio,pc: features, cleanups, fixes
-
-virtio introspection commands
-Part of ACPI ERST support
-fixes, cleanups
-
+Cc: Paolo Bonzini <pbonzini@redhat.com>
+Cc: Richard Henderson <rth@twiddle.net>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+---
+ configure                 | 2 +-
+ util/bufferiszero.c       | 2 +-
+ tcg/i386/tcg-target.c.inc | 2 +-
+ 3 files changed, 3 insertions(+), 3 deletions(-)
 
-----------------------------------------------------------------
-David Hildenbrand (4):
-      libvhost-user: Simplify VHOST_USER_REM_MEM_REG
-      libvhost-user: fix VHOST_USER_REM_MEM_REG not closing the fd
-      libvhost-user: Map shared RAM with MAP_NORESERVE to support virtio-mem with hugetlb
-      util/oslib-posix: Fix missing unlock in the error path of os_mem_prealloc()
-
-Eric DeVolder (9):
-      ACPI ERST: bios-tables-test.c steps 1 and 2
-      ACPI ERST: PCI device_id for ERST
-      ACPI ERST: header file for ERST
-      ACPI ERST: support for ACPI ERST feature
-      ACPI ERST: build the ACPI ERST table
-      ACPI ERST: create ACPI ERST table for pc/x86 machines
-      ACPI ERST: qtest for ERST
-      ACPI ERST: bios-tables-test testcase
-      ACPI ERST: step 6 of bios-tables-test.c
-
-Igor Mammedov (5):
-      tests: acpi: manually pad OEM_ID/OEM_TABLE_ID for test_oem_fields() test
-      tests: acpi: whitelist nvdimm's SSDT and FACP.slic expected blobs
-      acpi: fix OEM ID/OEM Table ID padding
-      tests: acpi: update expected blobs
-      tests: acpi: test short OEM_ID/OEM_TABLE_ID values in test_oem_fields()
-
-Jonah Palmer (2):
-      virtio: drop name parameter for virtio_init()
-      virtio: add vhost support for virtio devices
-
-Laurent Vivier (6):
-      qmp: add QMP command x-query-virtio
-      qmp: add QMP command x-query-virtio-status
-      qmp: decode feature & status bits in virtio-status
-      qmp: add QMP commands for virtio/vhost queue-status
-      qmp: add QMP command x-query-virtio-queue-element
-      hmp: add virtio commands
-
-Michael S. Tsirkin (1):
-      cpuid: use unsigned for max cpuid
-
-Raphael Norwitz (4):
-      libvhost-user: Add vu_rem_mem_reg input validation
-      libvhost-user: Add vu_add_mem_reg input validation
-      libvhost-user: prevent over-running max RAM slots
-      libvhost-user: handle removal of identical regions
-
-Thomas Huth (1):
-      hw/i386: Add the possibility to disable the 'isapc' machine
-
- configure                                 |    2 +-
- qapi/qapi-schema.json                     |    1 +
- qapi/virtio.json                          |  841 +++++++++++++++++++++++
- include/hw/acpi/erst.h                    |   24 +
- include/hw/pci/pci.h                      |    1 +
- include/hw/virtio/vhost-vsock-common.h    |    2 +-
- include/hw/virtio/vhost.h                 |    3 +
- include/hw/virtio/virtio-gpu.h            |    3 +-
- include/hw/virtio/virtio.h                |   26 +-
- include/monitor/hmp.h                     |    5 +
- subprojects/libvhost-user/libvhost-user.h |    2 +
- hw/9pfs/virtio-9p-device.c                |    2 +-
- hw/acpi/aml-build.c                       |    4 +-
- hw/acpi/erst.c                            | 1055 +++++++++++++++++++++++++++++
- hw/block/vhost-user-blk.c                 |    9 +-
- hw/block/virtio-blk.c                     |   31 +-
- hw/char/virtio-serial-bus.c               |   14 +-
- hw/display/vhost-user-gpu.c               |    7 +
- hw/display/virtio-gpu-base.c              |   20 +-
- hw/i386/acpi-build.c                      |   15 +
- hw/i386/acpi-microvm.c                    |   15 +
- hw/i386/pc_piix.c                         |    5 +-
- hw/input/vhost-user-input.c               |    7 +
- hw/input/virtio-input.c                   |   13 +-
- hw/net/virtio-net.c                       |   58 +-
- hw/scsi/vhost-scsi.c                      |    8 +
- hw/scsi/virtio-scsi.c                     |   20 +-
- hw/virtio/vhost-user-fs.c                 |   20 +-
- hw/virtio/vhost-user-i2c.c                |    7 +-
- hw/virtio/vhost-user-rng.c                |    9 +-
- hw/virtio/vhost-user-vsock.c              |    2 +-
- hw/virtio/vhost-vsock-common.c            |   22 +-
- hw/virtio/vhost-vsock.c                   |    2 +-
- hw/virtio/vhost.c                         |    4 +-
- hw/virtio/virtio-balloon.c                |   17 +-
- hw/virtio/virtio-crypto.c                 |   22 +-
- hw/virtio/virtio-iommu.c                  |   17 +-
- hw/virtio/virtio-mem.c                    |   14 +-
- hw/virtio/virtio-pmem.c                   |    3 +-
- hw/virtio/virtio-rng.c                    |    2 +-
- hw/virtio/virtio-stub.c                   |   42 ++
- hw/virtio/virtio.c                        |  742 +++++++++++++++++++-
- monitor/hmp-cmds.c                        |  311 +++++++++
- subprojects/libvhost-user/libvhost-user.c |   86 ++-
- tests/qtest/bios-tables-test.c            |   65 +-
- tests/qtest/cdrom-test.c                  |    2 +-
- tests/qtest/erst-test.c                   |  172 +++++
- tests/qtest/qmp-cmd-test.c                |    1 +
- util/bufferiszero.c                       |    2 +-
- util/oslib-posix.c                        |    1 +
- hmp-commands-info.hx                      |   70 ++
- hw/acpi/Kconfig                           |    6 +
- hw/acpi/meson.build                       |    1 +
- hw/acpi/trace-events                      |   15 +
- hw/virtio/meson.build                     |    2 +
- qapi/meson.build                          |    1 +
- tcg/i386/tcg-target.c.inc                 |    2 +-
- tests/data/acpi/microvm/ERST.pcie         |  Bin 0 -> 912 bytes
- tests/data/acpi/pc/DSDT.acpierst          |  Bin 0 -> 5969 bytes
- tests/data/acpi/pc/ERST.acpierst          |  Bin 0 -> 912 bytes
- tests/data/acpi/pc/SSDT.dimmpxm           |  Bin 734 -> 734 bytes
- tests/data/acpi/q35/DSDT.acpierst         |  Bin 0 -> 8306 bytes
- tests/data/acpi/q35/ERST.acpierst         |  Bin 0 -> 912 bytes
- tests/data/acpi/q35/FACP.slic             |  Bin 244 -> 244 bytes
- tests/data/acpi/q35/SSDT.dimmpxm          |  Bin 734 -> 734 bytes
- tests/data/acpi/virt/SSDT.memhp           |  Bin 736 -> 736 bytes
- tests/qtest/meson.build                   |    2 +
- 67 files changed, 3776 insertions(+), 81 deletions(-)
- create mode 100644 qapi/virtio.json
- create mode 100644 include/hw/acpi/erst.h
- create mode 100644 hw/acpi/erst.c
- create mode 100644 hw/virtio/virtio-stub.c
- create mode 100644 tests/qtest/erst-test.c
- create mode 100644 tests/data/acpi/microvm/ERST.pcie
- create mode 100644 tests/data/acpi/pc/DSDT.acpierst
- create mode 100644 tests/data/acpi/pc/ERST.acpierst
- create mode 100644 tests/data/acpi/q35/DSDT.acpierst
- create mode 100644 tests/data/acpi/q35/ERST.acpierst
+diff --git a/configure b/configure
+index e6cfc0e4be..dfb9019b24 100755
+--- a/configure
++++ b/configure
+@@ -2768,7 +2768,7 @@ cat > $TMPC << EOF
+ #include <cpuid.h>
+ int main(void) {
+     unsigned a, b, c, d;
+-    int max = __get_cpuid_max(0, 0);
++    unsigned max = __get_cpuid_max(0, 0);
+ 
+     if (max >= 1) {
+         __cpuid(1, a, b, c, d);
+diff --git a/util/bufferiszero.c b/util/bufferiszero.c
+index 695bb4ce28..ec3cd4ca15 100644
+--- a/util/bufferiszero.c
++++ b/util/bufferiszero.c
+@@ -272,7 +272,7 @@ static void init_accel(unsigned cache)
+ 
+ static void __attribute__((constructor)) init_cpuid_cache(void)
+ {
+-    int max = __get_cpuid_max(0, NULL);
++    unsigned max = __get_cpuid_max(0, NULL);
+     int a, b, c, d;
+     unsigned cache = 0;
+ 
+diff --git a/tcg/i386/tcg-target.c.inc b/tcg/i386/tcg-target.c.inc
+index 875311f795..4dab09f265 100644
+--- a/tcg/i386/tcg-target.c.inc
++++ b/tcg/i386/tcg-target.c.inc
+@@ -3747,7 +3747,7 @@ static void tcg_target_init(TCGContext *s)
+ {
+ #ifdef CONFIG_CPUID_H
+     unsigned a, b, c, d, b7 = 0;
+-    int max = __get_cpuid_max(0, 0);
++    unsigned max = __get_cpuid_max(0, 0);
+ 
+     if (max >= 7) {
+         /* BMI1 is available on AMD Piledriver and Intel Haswell CPUs.  */
+-- 
+MST
 
 
