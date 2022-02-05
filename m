@@ -2,80 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3DC654AA84D
-	for <lists+qemu-devel@lfdr.de>; Sat,  5 Feb 2022 12:17:30 +0100 (CET)
-Received: from localhost ([::1]:55514 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B3C104AA850
+	for <lists+qemu-devel@lfdr.de>; Sat,  5 Feb 2022 12:22:24 +0100 (CET)
+Received: from localhost ([::1]:60684 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nGJ4L-0006bd-CJ
-	for lists+qemu-devel@lfdr.de; Sat, 05 Feb 2022 06:17:29 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:51528)
+	id 1nGJ95-0001mJ-BC
+	for lists+qemu-devel@lfdr.de; Sat, 05 Feb 2022 06:22:23 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:51842)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nGJ3D-0005vM-GH
- for qemu-devel@nongnu.org; Sat, 05 Feb 2022 06:16:19 -0500
-Received: from [2607:f8b0:4864:20::434] (port=41895
- helo=mail-pf1-x434.google.com)
+ id 1nGJ5w-0008D0-Bs
+ for qemu-devel@nongnu.org; Sat, 05 Feb 2022 06:19:08 -0500
+Received: from [2607:f8b0:4864:20::1031] (port=45910
+ helo=mail-pj1-x1031.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nGJ3B-0001Es-8s
- for qemu-devel@nongnu.org; Sat, 05 Feb 2022 06:16:19 -0500
-Received: by mail-pf1-x434.google.com with SMTP id i30so7347833pfk.8
- for <qemu-devel@nongnu.org>; Sat, 05 Feb 2022 03:16:16 -0800 (PST)
+ id 1nGJ5u-0001So-0L
+ for qemu-devel@nongnu.org; Sat, 05 Feb 2022 06:19:08 -0500
+Received: by mail-pj1-x1031.google.com with SMTP id
+ g15-20020a17090a67cf00b001b7d5b6bedaso8556694pjm.4
+ for <qemu-devel@nongnu.org>; Sat, 05 Feb 2022 03:19:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=Qwg5DSdttx2wPECrRmdydUWft1STu3XJ7d/KtS1taJ0=;
- b=SFTg9tQyLd84npjULEiHPs3g21/tTECpsVOnN0Mfs248wmYlUxVPAn+tRVLzkMCD2W
- G0E8jl8Oe/L71lkJaoCjktVfCETedIzNT/SMG4NoyDlMGcM89376uOG9novoujZw7nkQ
- JFph1lfhhcKJkfGnRZyi9IBqUW9XcRZJwAzQYAwysoDPFlxGvdVIhJLb4fwe4gsjje+t
- j1tttD4qauApWYviVD8a6p5UUW5lHR++FZJ3XIXR83b0kl1Z2m/v7KcFh61PxKxZY2a5
- h6q406zkFcvnS5vpv85g0/Dvh+SenNLfn4jf4F5MLE/7zIdpW1rC+eUs3bHvHO/zoEmj
- uixw==
+ bh=qXoQsEYx48JAcXVGvMq4QeIZyqhwnnEuP6jKDGewOVA=;
+ b=fRVoXVFTJZXB8RH5eSIw2EPGWEH8iKA87jayxiyiELS9LpA638TmtCAh6s524klVml
+ tvjYFlP3Hyqj4SR4n5mdkMhy0B3l+S3frh88SXO6AKHTX0RNuiqk7aPOg20CIE1s8/sa
+ Q852dIClWFkzqvQYknjTN/ZgAW3JX4GkoaWhtYl9EOiAx2+T5N2UC+I73EvNGCr3c18G
+ bnB0JNL83ks7vPoaLrd6NhwdEw9zkfuLz0fFKePBQ5MEyKafPsUC9PSey+zW8vDjBBxj
+ YxUvMKr3ztPvmUF+ad4WkPeypVgx10I0S5j+/sv6lrv4dLHbtr1whgKadbGxMVcZ2BKR
+ EtZA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
  :subject:content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=Qwg5DSdttx2wPECrRmdydUWft1STu3XJ7d/KtS1taJ0=;
- b=VQjkibrHs0G58n0sbqCfK9cDbeQufo2qoMwnVCsf/HrohqAUvuN3a6TZb0irEMIn+s
- 0HUwQQ9RwPJoVqKTVeQlMeqpBCIirH2E8Vk6ZvbtrBFXjJpd7ES9ILC9WU/gUrv/KxYm
- zEgSp9npUmY+PIqX6wtoB/En8MlYj6CA2oH307feSLfNHSEPMh+WFU1ApZ1ZpiN+0l2X
- cAIdolbLbrrjPuHBWYGsBj8B2WFPQsG98NpHua+8KBb3VDyhJcCvEXwe6PEgqjT7SutJ
- /hdtUNzK5R4OBdWvjEod9iZdVx/C38vGL3Dj4nhFDnKNnTzDP2tY39NW5Kf+aYrx0mn4
- fh6Q==
-X-Gm-Message-State: AOAM532I0yKnBzba9GOPVOq4T4kY3Ulo8J+M/UWWbFSmMr1mr9g6nT4B
- APTsBWbAPutKakXwAMwgUFw=
-X-Google-Smtp-Source: ABdhPJySNwZ4g1CROjWWRWCjt5UtHesdYGqUhOz8hmuInEl2jpNzLp2VYJvqNnwZzlPOXc4l0ckUNw==
-X-Received: by 2002:a63:91c2:: with SMTP id l185mr2608672pge.570.1644059775992; 
- Sat, 05 Feb 2022 03:16:15 -0800 (PST)
+ bh=qXoQsEYx48JAcXVGvMq4QeIZyqhwnnEuP6jKDGewOVA=;
+ b=eckEb3oZ5WHU62SeT09mD6TOrpDUbYxjscTJdSmy6rzFB8xXcFvSekYZ9/Zj8dGqYi
+ 5S80z4F9M18pRoB0CgLcdcKtp9NlLQbALjppyh5OuLN/3ihHbjKm83dmF/41H0p/sxsa
+ yKOgrbKwXNaBOKauzMn1SCiQKVJjus6/bnHJJhOE0GRfF07RkbcGiSYZqcywG+Y5jWYl
+ NMmCrisna590yY0jtx6NvquJWb34PlZfuQEaUAzgMo3Axed6igpH5J531Q/v9V8sSOnD
+ 9QmLpHSsZmxyZzfPvGGVFeTt/pbNLxhjcLvJyWO4L8PW36JLlzktNDcZ2Jy0r1wxDiIh
+ Gw8Q==
+X-Gm-Message-State: AOAM530EnNZqAg2Io9F7SqmNeMeUGTn/7vGtlcLfJJcpEmj/F8d58dUW
+ Zp3+WFLoe3PdD06/Hxx7epI=
+X-Google-Smtp-Source: ABdhPJzaiL+j2uHcBjuTHItekshsSwad6lhH0t+yiuCbxc/Z+d4Vh58e6fQ1EDH+avA/hsqr0DNG4g==
+X-Received: by 2002:a17:902:9689:: with SMTP id
+ n9mr7986009plp.33.1644059944714; 
+ Sat, 05 Feb 2022 03:19:04 -0800 (PST)
 Received: from [192.168.1.33] (154.red-83-50-83.dynamicip.rima-tde.net.
  [83.50.83.154])
- by smtp.gmail.com with ESMTPSA id g5sm5603945pfv.22.2022.02.05.03.16.14
+ by smtp.gmail.com with ESMTPSA id f5sm5477936pfc.0.2022.02.05.03.19.02
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 05 Feb 2022 03:16:15 -0800 (PST)
-Message-ID: <84db72ea-9aca-43f9-2876-28a5d6d840f4@amsat.org>
-Date: Sat, 5 Feb 2022 12:16:12 +0100
+ Sat, 05 Feb 2022 03:19:04 -0800 (PST)
+Message-ID: <74d9a3d4-58e6-9fb3-cacc-e3b6067d2373@amsat.org>
+Date: Sat, 5 Feb 2022 12:19:00 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
  Gecko/20100101 Thunderbird/91.5.1
-Subject: Re: [PATCH 01/11] mos6522: add defines for IFR bit flags
+Subject: Re: [PULL 0/2] VFIO fixes 2022-02-03
 Content-Language: en-US
-To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- BALATON Zoltan <balaton@eik.bme.hu>
-Cc: laurent@vivier.eu, qemu-devel@nongnu.org
-References: <20220127205405.23499-1-mark.cave-ayland@ilande.co.uk>
- <20220127205405.23499-2-mark.cave-ayland@ilande.co.uk>
- <9e5c4e86-8555-1a42-783f-dae53f114cd2@eik.bme.hu>
- <79a162bf-86f5-0ca4-5f14-822469606812@ilande.co.uk>
-In-Reply-To: <79a162bf-86f5-0ca4-5f14-822469606812@ilande.co.uk>
+To: Eric Auger <eric.auger@redhat.com>
+Cc: qemu-devel@nongnu.org, Alex Williamson <alex.williamson@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ Stefan Berger <stefanb@linux.ibm.com>
+References: <164392758602.1683127.4327439310436541025.stgit@omen>
+ <CAFEAcA-CX6hPOEEr_Yjcd1=4AHfkYgnkQ_ruUJ4mFwBYz1fLQA@mail.gmail.com>
+In-Reply-To: <CAFEAcA-CX6hPOEEr_Yjcd1=4AHfkYgnkQ_ruUJ4mFwBYz1fLQA@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::434
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1031
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::434;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pf1-x434.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1031;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pj1-x1031.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -102,61 +103,48 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
 From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
-On 5/2/22 11:51, Mark Cave-Ayland wrote:
-> On 27/01/2022 23:16, BALATON Zoltan wrote:
-> 
->> On Thu, 27 Jan 2022, Mark Cave-Ayland wrote:
->>> These are intended to make it easier to see how the physical control 
->>> lines
->>> are wired for each instance.
->>>
->>> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
->>> ---
->>> include/hw/misc/mos6522.h | 22 +++++++++++++++-------
->>> 1 file changed, 15 insertions(+), 7 deletions(-)
->>>
->>> diff --git a/include/hw/misc/mos6522.h b/include/hw/misc/mos6522.h
->>> index fc95d22b0f..12abd8b8d2 100644
->>> --- a/include/hw/misc/mos6522.h
->>> +++ b/include/hw/misc/mos6522.h
->>> @@ -41,13 +41,21 @@
->>> #define IER_SET            0x80    /* set bits in IER */
->>> #define IER_CLR            0       /* clear bits in IER */
->>>
->>> -#define CA2_INT            0x01
->>> -#define CA1_INT            0x02
->>> -#define SR_INT             0x04    /* Shift register full/empty */
->>> -#define CB2_INT            0x08
->>> -#define CB1_INT            0x10
->>> -#define T2_INT             0x20    /* Timer 2 interrupt */
->>> -#define T1_INT             0x40    /* Timer 1 interrupt */
->>> +#define CA2_INT_BIT        0
->>> +#define CA1_INT_BIT        1
->>> +#define SR_INT_BIT         2       /* Shift register full/empty */
->>> +#define CB2_INT_BIT        3
->>> +#define CB1_INT_BIT        4
->>> +#define T2_INT_BIT         5       /* Timer 2 interrupt */
->>> +#define T1_INT_BIT         6       /* Timer 1 interrupt */
->>> +
->>> +#define CA2_INT            (1 << CA2_INT_BIT)
->>> +#define CA1_INT            (1 << CA1_INT_BIT)
->>> +#define SR_INT             (1 << SR_INT_BIT)
->>> +#define CB2_INT            (1 << CB2_INT_BIT)
->>> +#define CB1_INT            (1 << CB1_INT_BIT)
->>> +#define T2_INT             (1 << T2_INT_BIT)
->>> +#define T1_INT             (1 << T1_INT_BIT)
+On 5/2/22 11:49, Peter Maydell wrote:
+> On Thu, 3 Feb 2022 at 22:38, Alex Williamson <alex.williamson@redhat.com> wrote:
 >>
->> Maybe you could leave the #defines called XX_INT and then use 
->> BIT(XX_INT) instead of the second set of #defines which would provide 
->> same readability but with less #defines needed.
+>> The following changes since commit 8f3e5ce773c62bb5c4a847f3a9a5c98bbb3b359f:
+>>
+>>    Merge remote-tracking branch 'remotes/hdeller/tags/hppa-updates-pull-request' into staging (2022-02-02 19:54:30 +0000)
+>>
+>> are available in the Git repository at:
+>>
+>>    git://github.com/awilliam/qemu-vfio.git tags/vfio-fixes-20220203.0
+>>
+>> for you to fetch changes up to 36fe5d5836c8d5d928ef6d34e999d6991a2f732e:
+>>
+>>    hw/vfio/common: Silence ram device offset alignment error traces (2022-02-03 15:05:05 -0700)
+>>
+>> ----------------------------------------------------------------
+>> VFIO fixes 2022-02-03
+>>
+>>   * Fix alignment warnings when using TPM CRB with vfio-pci devices
+>>     (Eric Auger & Philippe Mathieu-Daudé)
 > 
-> I'm not so keen on removing the _INT defines since that would require 
-> updating all users to use BIT() everywhere which I don't think gains us 
-> much. I could certainly replace these definitions with BIT(FOO) instead 
-> of (1 << FOO) if that helps readability though.
+> Hi; this has a format-string issue that means it doesn't build
+> on 32-bit systems:
+> 
+> https://gitlab.com/qemu-project/qemu/-/jobs/2057116569
+> 
+> ../hw/vfio/common.c: In function 'vfio_listener_region_add':
+> ../hw/vfio/common.c:893:26: error: format '%llx' expects argument of
+> type 'long long unsigned int', but argument 6 has type 'intptr_t' {aka
+> 'int'} [-Werror=format=]
+> error_report("%s received unaligned region %s iova=0x%"PRIx64
+> ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> ../hw/vfio/common.c:899:26:
+> qemu_real_host_page_mask);
+> ~~~~~~~~~~~~~~~~~~~~~~~~
+> 
+> For intptr_t you want PRIxPTR.
 
-Do you mean simply doing this?
+Thanks Peter.
 
--#define T1_INT             0x40    /* Timer 1 interrupt */
-+#define T1_INT             BIT(6)  /* Timer 1 interrupt */
+Eric, can you follow up on this series, looking at Igor comments wrt
+migration state?
+
+Phil.
 
