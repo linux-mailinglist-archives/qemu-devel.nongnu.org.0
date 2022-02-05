@@ -2,83 +2,117 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 880C94AAA49
-	for <lists+qemu-devel@lfdr.de>; Sat,  5 Feb 2022 17:54:16 +0100 (CET)
-Received: from localhost ([::1]:38408 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D44404AAA6E
+	for <lists+qemu-devel@lfdr.de>; Sat,  5 Feb 2022 18:12:05 +0100 (CET)
+Received: from localhost ([::1]:58730 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nGOKF-0003T8-6X
-	for lists+qemu-devel@lfdr.de; Sat, 05 Feb 2022 11:54:15 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:43562)
+	id 1nGObT-0000lR-NF
+	for lists+qemu-devel@lfdr.de; Sat, 05 Feb 2022 12:12:03 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:40476)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <liavalb@gmail.com>)
- id 1nGOIE-0002Qz-9h; Sat, 05 Feb 2022 11:52:12 -0500
-Received: from [2a00:1450:4864:20::42b] (port=36704
- helo=mail-wr1-x42b.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <liavalb@gmail.com>)
- id 1nGOIC-0000FO-0k; Sat, 05 Feb 2022 11:52:09 -0500
-Received: by mail-wr1-x42b.google.com with SMTP id u15so17113289wrt.3;
- Sat, 05 Feb 2022 08:52:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=3BcC+9bf4DyyMQ7kKSUC5JHu0aoY++0QEQtWgYjE9D4=;
- b=E3KC5HfqKyLNQsUZjSwIiWiP3Pu+ydd85HFJ/8nHP5VttGdRtnvGNZY+a1QepY99zW
- rQ1e01fk4W3YHr7uQj4SOhO8JvX1md+J2nDtDWW7IeGNjTS5hippoAXY4mj/abRc3Lny
- 5eGfS7ABvGSruHDmX3Xc0WT1cNPgFQlqxd1Jz6aWybBw5mmsbTrb3uSUO8kEAwTRQMgQ
- Tu7N606q7MqHgMYk4Hu2nj3TuYap1BWpBNnBuzt//wHaUBh9i8xh0Yf0GhRXCRcOtJb1
- TkONCIckoYoH6slfDgVqD/sqK2Ma5QlfjvCdhLrl0rmOUXVKwXSvnUz4rvM+KvJ8sor1
- fBRQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=3BcC+9bf4DyyMQ7kKSUC5JHu0aoY++0QEQtWgYjE9D4=;
- b=pbaq+A9UFvkWyJ5mtrSlNR+bB+wmERyEm3hn6e+9P4K1519v2hsraUthmUMoIJm7Wn
- Na7zUAPbadAVLtqDSXQS750GhOcYSTluDB7sbnYg5SOyVTfffmdtmBARsZE6tkVApgOO
- IpEYoZqBNwbviPPxNy8pI3PDQOnd7wG9BQbLPrL3u/CvAIn5dBJ1S3DWhtqtJ9d0i3si
- UhOGo9tcGbC1C76YaDNP9U393KUPqczwxt+q9nyvE0zFROCIeHQB9i7Zm4SapKPSx/VQ
- SFCe1cxxYJQzcPUnkoFjMR6uQX8IxByqTs02FFdWQqqwHFh210/ulBQWm8GvSnfuO83T
- krvQ==
-X-Gm-Message-State: AOAM533b1fqtc5mZWsmeDLHVYbrWnrNbZE7Ln1iivAfT4+/fj9Waq8uU
- kV5D6bBs+ahhDJd794Uvnag=
-X-Google-Smtp-Source: ABdhPJw3GBiiG5oF62L8wqyb8cIo5R3BioqHnrx/XrFlWgre6d9KNiUgKx/rOEXDVDtdCBlP+a9S5Q==
-X-Received: by 2002:adf:f746:: with SMTP id z6mr3584327wrp.352.1644079925055; 
- Sat, 05 Feb 2022 08:52:05 -0800 (PST)
-Received: from ?IPV6:2a10:8009:bec2:1:453f:a6ee:2ce5:8da6?
- ([2a10:8009:bec2:1:453f:a6ee:2ce5:8da6])
- by smtp.gmail.com with ESMTPSA id ay3sm12273126wmb.44.2022.02.05.08.52.04
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 05 Feb 2022 08:52:04 -0800 (PST)
-Message-ID: <61d057f7-e877-a8ff-1afc-1960902207e9@gmail.com>
-Date: Sat, 5 Feb 2022 18:52:03 +0200
+ (Exim 4.90_1) (envelope-from <gdawar@xilinx.com>) id 1nGNrV-00021R-6N
+ for qemu-devel@nongnu.org; Sat, 05 Feb 2022 11:24:33 -0500
+Received: from mail-mw2nam10on2050.outbound.protection.outlook.com
+ ([40.107.94.50]:22209 helo=NAM10-MW2-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <gdawar@xilinx.com>) id 1nGNrS-0004yf-TE
+ for qemu-devel@nongnu.org; Sat, 05 Feb 2022 11:24:32 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=bQ4ktbhPFI1CBvxRXatCuppxAoT/rUALiPn4vek2ZiBxMNuVAag4yA8PZeCbQuSJyVoHeTMczqVNrZyWOR58ghsWnTAdg4NKDauDQy3rtQkMoIovq5cNrEp9qPNOOUX5Zti4JcpyFgXccKIeeCSeXC4ybfvR4dQ7sdRKKfQqRfJvO120hCrdP+wem4Y5xPcQ/AXBF9JRVZPiVMvJG6vyjHTJCXDu4Zbols8zAN2oGhvuPVuuT/PqBBMu4BB1WMgr4cz9SWeW8TYsWZOH+OaQOPgEBlHuPZq+FzHd+pcRyd9xn++PnCqMVAzStAzkHGXZBLqG4/Jd1q79JVn9+JGc2w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Uxz43FHjKeqDRsRKaV250D6MrjZJsJRiBsFtOuLQ8Nk=;
+ b=nmjScchYsLFoRYshAshI1+FbEQXDuxaDqZq7nPVFhV8zYfHxGmkkww03iCPPf6JgvtbOHZ2LM4IS1meByjDEyP4uaH9SnGB0eLi/2szqj3etKsVeNiW34J9rjyILauJBtAI9/W0iSwkI5VTPmbbSVkGh9qdTGVp+oVCr2WNWwSoK/QAo8hK7Y+nMN6RApdG2Fip2wHkAg8XaPbuiWNc0dJMo2sJTcY80eEsQPZYXE96QSACOcELVYHjowowSt1Ed5uhSinU9cEsmqSlRS+zLRtEQSrRt4U7yWi/A5kHMVewAWliz6ErPGv9RxD4YUjAiC3IVipCA6WhBx8Jn2xmeDw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 149.199.62.198) smtp.rcpttodomain=nongnu.org smtp.mailfrom=xilinx.com;
+ dmarc=pass (p=none sp=none pct=100) action=none header.from=xilinx.com;
+ dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=xilinx.onmicrosoft.com; s=selector2-xilinx-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Uxz43FHjKeqDRsRKaV250D6MrjZJsJRiBsFtOuLQ8Nk=;
+ b=bFd5mRR/Me4adqc3XB38SKidFrPMgXcmoZiChDi6euIaReVbasUI+qUbTMtrRHwnvMRXdzlQGTI0DvKwtsnFjl+zTC6gkJIIcFyvfEV/QQjTOW5PvyA168tDE0Rr9tJax9AJgw0MpUXJ/Y0k8tehPHAQkWq8EYdogzjcg55Rumo=
+Received: from DM5PR17CA0054.namprd17.prod.outlook.com (2603:10b6:3:13f::16)
+ by MWHPR0201MB3595.namprd02.prod.outlook.com (2603:10b6:301:7a::31) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4930.15; Sat, 5 Feb
+ 2022 16:04:17 +0000
+Received: from DM3NAM02FT022.eop-nam02.prod.protection.outlook.com
+ (2603:10b6:3:13f:cafe::7b) by DM5PR17CA0054.outlook.office365.com
+ (2603:10b6:3:13f::16) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4951.18 via Frontend
+ Transport; Sat, 5 Feb 2022 16:04:17 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 149.199.62.198)
+ smtp.mailfrom=xilinx.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=xilinx.com;
+Received-SPF: Pass (protection.outlook.com: domain of xilinx.com designates
+ 149.199.62.198 as permitted sender) receiver=protection.outlook.com;
+ client-ip=149.199.62.198; helo=xsj-pvapexch02.xlnx.xilinx.com;
+Received: from xsj-pvapexch02.xlnx.xilinx.com (149.199.62.198) by
+ DM3NAM02FT022.mail.protection.outlook.com (10.13.5.89) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.4951.12 via Frontend Transport; Sat, 5 Feb 2022 16:04:17 +0000
+Received: from xsj-pvapexch02.xlnx.xilinx.com (172.19.86.41) by
+ xsj-pvapexch02.xlnx.xilinx.com (172.19.86.41) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2176.14; Sat, 5 Feb 2022 08:04:15 -0800
+Received: from smtp.xilinx.com (172.19.127.95) by
+ xsj-pvapexch02.xlnx.xilinx.com (172.19.86.41) with Microsoft SMTP Server id
+ 15.1.2176.14 via Frontend Transport; Sat, 5 Feb 2022 08:04:15 -0800
+Received: from [10.170.66.102] (port=50910 helo=xndengvm004102.xilinx.com)
+ by smtp.xilinx.com with esmtp (Exim 4.90)
+ (envelope-from <gautam.dawar@xilinx.com>)
+ id 1nGNXr-0001N0-Kn; Sat, 05 Feb 2022 08:04:15 -0800
+Received: by xndengvm004102.xilinx.com (Postfix, from userid 4129)
+ id B81F34120F; Sat,  5 Feb 2022 21:34:14 +0530 (IST)
+From: <gautam.dawar@xilinx.com>
+To: <mst@redhat.com>, <jasowang@redhat.com>, <qemu-devel@nongnu.org>,
+ <eperezma@redhat.com>
+Subject: [RFC PATCH] Allow VIRTIO_F_IN_ORDER to be negotiated for vdpa devices
+Date: Sat, 5 Feb 2022 21:33:49 +0530
+Message-ID: <20220205160349.712-1-gdawar@xilinx.com>
+X-Mailer: git-send-email 2.25.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.1
-Subject: Re: [PATCH] hw/ide: implement ich6 ide controller support
-Content-Language: en-US
-To: BALATON Zoltan <balaton@eik.bme.hu>
-References: <20220205111138.35194-1-liavalb@gmail.com>
- <65ad680-dc5a-6720-7ef4-84d3af3e4998@eik.bme.hu>
-From: Liav Albani <liavalb@gmail.com>
-In-Reply-To: <65ad680-dc5a-6720-7ef4-84d3af3e4998@eik.bme.hu>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42b
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
- envelope-from=liavalb@gmail.com; helo=mail-wr1-x42b.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
+Content-Type: text/plain
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: a295682b-88ff-4825-1709-08d9e8c129b2
+X-MS-TrafficTypeDiagnostic: MWHPR0201MB3595:EE_
+X-Microsoft-Antispam-PRVS: <MWHPR0201MB359566176D389C000D37B7E3B12A9@MWHPR0201MB3595.namprd02.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: gGHEX+N/H1ImPqa2uknqJPwdZbkZjihq0QYqHXF6owz+WRjf+tExNo3/dKuaiyyCeuPOoin6qXNQjfc5VoyzUXtWMcIqEtaVgcYT3qM7/yRMu4ETWGGBSPC88+ae5hR4yHPgYl2baL/+9jpge0Btv+OxkdyPO+QiFnGh90vKkRYjuSW3IdYjox3JGtLs1m/8xEriRDBB3q4uu90KuKUyEb/Q+6EK8ectbUz081OdQ1O7UMOZNPjKNyovY0HRsCDIrFNEqMCQzlZKAvlIkl5/S37OOjIjRSji9JuAZjfwJBRW0algzdRVQ6Hds24x7MSBvpGJ6aKDuLHqIN/Ngigo7QnArEhSAMF7+uD1b0bZFxDvAAbN7SZIy6q1kP3oo5X63DOQq1CRrc+P2E1bMXeWEtMXc3sCvPGHmdkPy0nAdpaibAf5+4LyZkl6m/6zjBtodrfOBmHjogtk4S27QrjHxo00TegkQFzAmpv1TqvGhGiS3+MrILO/hbRdICp1IkJWiYmCXxaHwA0AFG2IYlYCWajB3FNvN0Ty9UBug+tBIWxsy50HzfPPE/8OLG7YqirAouIoRQMBkRdYCPBB4a1PzlvnkY5ZZQvMsV50+zzRnZDL5LlPR2DemMK1lo0B7FTgD1ES3UJGF3d1WJ/AOvRz3JPTKIEBCgvIbEX22+/4JnopviIjK1p50Jupk5/UPdd5
+X-Forefront-Antispam-Report: CIP:149.199.62.198; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:xsj-pvapexch02.xlnx.xilinx.com;
+ PTR:unknown-62-198.xilinx.com; CAT:NONE;
+ SFS:(13230001)(4636009)(46966006)(36840700001)(36756003)(2616005)(186003)(110136005)(82310400004)(54906003)(508600001)(1076003)(6266002)(36860700001)(26005)(336012)(426003)(2876002)(2906002)(42186006)(47076005)(356005)(8936002)(70586007)(7636003)(316002)(107886003)(5660300002)(4326008)(8676002)(83380400001)(6666004)(70206006)(102446001);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: xilinx.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Feb 2022 16:04:17.4567 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: a295682b-88ff-4825-1709-08d9e8c129b2
+X-MS-Exchange-CrossTenant-Id: 657af505-d5df-48d0-8300-c31994686c5c
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=657af505-d5df-48d0-8300-c31994686c5c; Ip=[149.199.62.198];
+ Helo=[xsj-pvapexch02.xlnx.xilinx.com]
+X-MS-Exchange-CrossTenant-AuthSource: DM3NAM02FT022.eop-nam02.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR0201MB3595
+Received-SPF: pass client-ip=40.107.94.50; envelope-from=gdawar@xilinx.com;
+ helo=NAM10-MW2-obe.outbound.protection.outlook.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- NICE_REPLY_A=-0.001, PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Sat, 05 Feb 2022 12:08:34 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,217 +124,92 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: jsnow@redhat.com, qemu-devel@nongnu.org, qemu-block@nongnu.org
+Cc: martinh@xilinx.com, hanand@xilinx.com, tanujk@xilinx.com, gdawar@xilinx.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+From: Gautam Dawar <gdawar@xilinx.com>
 
-On 2/5/22 17:48, BALATON Zoltan wrote:
-> On Sat, 5 Feb 2022, Liav Albani wrote:
->> This type of IDE controller has support for relocating the IO ports and
->> doesn't use IRQ 14 and 15 but one allocated PCI IRQ for the controller.
->
-> I haven't looked at in detail so only a few comments I've got while 
-> reading it. What machine needs this? In QEMU I think we only have piix 
-> and ich9 emulated for pc and q35 machines but maybe ich6 is also used 
-> by some machine I don't know about. Otherwise it looks odd to have ide 
-> part of ich6 but not the other parts of this chip.
->
-Hi BALATON,
+Hi All,
 
-This is my first patch to QEMU and the first time I send patches over 
-the mail. I sent my github tree to John Snow (the maintainer of the IDE 
-code in QEMU) for advice if I should send them here and I was encouraged 
-to do that.
-For the next time patch I'll put a note on writing a descriptive cover 
-letter as it could have put more valuable details on why I sent this patch.
+The VIRTIO_F_IN_ORDER feature is implemented by DPDK's virtio_net
+driver but not by the Linux kernel's virtio_net driver.
+However, this feature still can't be tested using vhost-vdpa with
+hardware devices that implement it as VIRTIO_F_IN_ORDER isn't defined
+in kernel's virtio_config.h header file.
+This patch adds the ability to negotiate VIRTIO_F_IN_ORDER bit for
+vhost-vdpa backend when the underlying device supports this feature.
+This would be useful for benchmarking the performance improvements
+for HW devices that implement this feature. At the same time, it
+shouldn't have any negative impact as vhost-vdpa backend doesn't
+involve any userspace virtqueue operations.
+In the final patch, instead of making a direct change in
+virtio_config.h, it will be pushed in the kernel and then QEMU's
+file will be synced with it, as usual.
 
-There's no such machine type emulating the ICH6 chipset in QEMU. 
-However, I wrote this emulation component as a test for the SerenityOS 
-kernel because I have a machine from 2009 which has
-an ICH7 southbridge, so, I wanted to emulate such device with QEMU to 
-ease development on it.
+Signed-off-by: Gautam Dawar <gdawar@xilinx.com>
+---
+ hw/net/virtio-net.c                            | 10 ++++++++++
+ include/standard-headers/linux/virtio_config.h |  6 ++++++
+ net/vhost-vdpa.c                               |  1 +
+ 3 files changed, 17 insertions(+)
 
-I found out that Linux with libata was using the controller without any 
-noticeable problems, but the SerenityOS kernel struggled to use this 
-device, so I decided that
-I should send this patch to get it merged and then I can use it locally 
-and maybe other people will benefit from it.
-
-In regard to other components of the ICH6 chipset - I don't think it's 
-worth anybody's time to actually implement them as the ICH9 chipset is 
-quite close to what the ICH6 chipset offers as far as I can tell.
-The idea of implementing ich6-ide controller was to enable the option of 
-people like me and other OS developers to ensure their kernels operate 
-correctly on such type of device,
-which is legacy-free device in the aspect of PCI bus resource management 
-but still is a legacy device which belongs to chipsets of late 2000s.
-
->> Signed-off-by: Liav Albani <liavalb@gmail.com>
->> ---
->> hw/i386/Kconfig          |   2 +
->> hw/ide/Kconfig           |   5 +
->> hw/ide/bmdma.c           |  83 +++++++++++++++
->> hw/ide/ich6.c            | 211 +++++++++++++++++++++++++++++++++++++++
->> hw/ide/meson.build       |   3 +-
->> hw/ide/piix.c            |  50 +---------
->> include/hw/ide/pci.h     |   5 +
->> include/hw/pci/pci_ids.h |   1 +
->> 8 files changed, 311 insertions(+), 49 deletions(-)
->> create mode 100644 hw/ide/bmdma.c
->> create mode 100644 hw/ide/ich6.c
->>
->> diff --git a/hw/i386/Kconfig b/hw/i386/Kconfig
->> index d22ac4a4b9..a18de2d962 100644
->> --- a/hw/i386/Kconfig
->> +++ b/hw/i386/Kconfig
->> @@ -75,6 +75,7 @@ config I440FX
->>     select PCI_I440FX
->>     select PIIX3
->>     select IDE_PIIX
->> +    select IDE_ICH6
->>     select DIMM
->>     select SMBIOS
->>     select FW_CFG_DMA
->> @@ -101,6 +102,7 @@ config Q35
->>     select PCI_EXPRESS_Q35
->>     select LPC_ICH9
->>     select AHCI_ICH9
->> +    select IDE_ICH6
->>     select DIMM
->>     select SMBIOS
->>     select FW_CFG_DMA
->> diff --git a/hw/ide/Kconfig b/hw/ide/Kconfig
->> index dd85fa3619..63304325a5 100644
->> --- a/hw/ide/Kconfig
->> +++ b/hw/ide/Kconfig
->> @@ -38,6 +38,11 @@ config IDE_VIA
->>     select IDE_PCI
->>     select IDE_QDEV
->>
->> +config IDE_ICH6
->> +    bool
->> +    select IDE_PCI
->> +    select IDE_QDEV
->> +
->> config MICRODRIVE
->>     bool
->>     select IDE_QDEV
->> diff --git a/hw/ide/bmdma.c b/hw/ide/bmdma.c
->> new file mode 100644
->> index 0000000000..979f5974fd
->> --- /dev/null
->> +++ b/hw/ide/bmdma.c
->> @@ -0,0 +1,83 @@
->> +/*
->> + * QEMU IDE Emulation: PCI PIIX3/4 support.
->> + *
->> + * Copyright (c) 2003 Fabrice Bellard
->> + * Copyright (c) 2006 Openedhand Ltd.
->> + *
->> + * Permission is hereby granted, free of charge, to any person 
->> obtaining a copy
->> + * of this software and associated documentation files (the 
->> "Software"), to deal
->> + * in the Software without restriction, including without limitation 
->> the rights
->> + * to use, copy, modify, merge, publish, distribute, sublicense, 
->> and/or sell
->> + * copies of the Software, and to permit persons to whom the 
->> Software is
->> + * furnished to do so, subject to the following conditions:
->> + *
->> + * The above copyright notice and this permission notice shall be 
->> included in
->> + * all copies or substantial portions of the Software.
->> + *
->> + * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, 
->> EXPRESS OR
->> + * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF 
->> MERCHANTABILITY,
->> + * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT 
->> SHALL
->> + * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES 
->> OR OTHER
->> + * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, 
->> ARISING FROM,
->> + * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
->> DEALINGS IN
->> + * THE SOFTWARE.
->> + */
->> +
->> +#include "qemu/osdep.h"
->> +#include "hw/pci/pci.h"
->> +#include "migration/vmstate.h"
->> +#include "qapi/error.h"
->> +#include "qemu/module.h"
->> +#include "sysemu/block-backend.h"
->> +#include "sysemu/blockdev.h"
->> +#include "sysemu/dma.h"
->> +
->> +#include "hw/ide/pci.h"
->> +#include "trace.h"
->> +
->> +uint64_t piix_bmdma_read(void *opaque, hwaddr addr, unsigned size)
->
-> Moving these functions to avoid duplication is a good idea but a 
-> couple of points:
->
-> - Maybe this should be a separate patch just for moving these out then 
-> another patch adding ich6 for easier review of separate changes.
->
-I don't mind splitting this patch into a couple of "commits" (or series 
-of diffs? I don't understand the terminology yet) so one "commit" will 
-be a preparation - extract the
-functions to a separate file, and the next diff can implement the 
-ich6-ide controller.
-> - There are already several bmdma_* functions in pci.c and you add 
-> these to pci.h so maybe these should be moved near there in pci.c 
-> instead. (Or more of those bmdma_* functions moved in this new file 
-> and add its own header?)
->
-I'm not sure what is the best approach but maybe the latter suggestion 
-(new file and its own header) seems quite good to me.
-> - This is not piix specific so the name probably should not say that. 
-> Maybe somthing along the lines of pci_default_read_config so 
-> bmdma_default_read or similar. In fact it also appears in via.c and a 
-> more complex version in cmd646.c which could still reuse functions 
-> like these like we do with pci config write. Converting those other 
-> two to use the newly split off functions instead of duplicating it 
-> could be done in a follow up patch, if you don't want to do that I may 
-> look at via-ide but a patch is welcome if you have time for that, 
-> unless others think otherwise and we'll take a different route.
->
-I want to create the best possible patch so if it's desirable to rename 
-it to something more generic, that's OK for me.
-I'd like to address some of the issues you mentioned (such as avoiding 
-duplicates in how we use bus master DMA in the ide code) in future 
-patches though, so if possible, let's keep it simple now :)
-
->>
->> +static uint32_t ich6_pci_config_read(PCIDevice *d,
->> +                                       uint32_t address, int len)
->> +{
->> +    return pci_default_read_config(d, address, len);
->> +}
->
-> Why do you override this if you have nothing to do in it? Just use 
-> pci_default_read_config and only override ich6_pci_config_write where 
-> you actually has something to add to the default.
->
-You're right, I should not override this function. It was probably me 
-trying (I uploaded this patch to GitHub about 2 weeks ago so I don't 
-remember precisely) to override it for the sake of returning a value of 
-0x8000 when the guest OS tries to figure out if the IDE channel is 
-disabled or not in the 0x40 and 0x42 registers in the PCI config space 
-of the device.
-> Maybe also wait for a few days for other's comments (especially the 
-> maintainer's opinion on this) before sending a v2 so you get all 
-> comments and see what to do.
->
-Thank you very much for putting time into reviewing this! :)
-
-Best regards,
-Liav
+diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
+index cf8ab0f8af..a1089d06f6 100644
+--- a/hw/net/virtio-net.c
++++ b/hw/net/virtio-net.c
+@@ -3507,11 +3507,21 @@ static void virtio_net_device_realize(DeviceState *dev, Error **errp)
+     nc->rxfilter_notify_enabled = 1;
+ 
+    if (nc->peer && nc->peer->info->type == NET_CLIENT_DRIVER_VHOST_VDPA) {
++        uint64_t features = BIT_ULL(VIRTIO_F_IN_ORDER);
+         struct virtio_net_config netcfg = {};
++
+         memcpy(&netcfg.mac, &n->nic_conf.macaddr, ETH_ALEN);
+         vhost_net_set_config(get_vhost_net(nc->peer),
+             (uint8_t *)&netcfg, 0, ETH_ALEN, VHOST_SET_CONFIG_TYPE_MASTER);
++
++	/*
++         * For vhost-vdpa, if underlying device supports IN_ORDER feature,
++         * make it available for negotiation.
++         */
++	features = vhost_net_get_features(get_vhost_net(nc->peer), features);
++	n->host_features |= features;
+     }
++
+     QTAILQ_INIT(&n->rsc_chains);
+     n->qdev = dev;
+ 
+diff --git a/include/standard-headers/linux/virtio_config.h b/include/standard-headers/linux/virtio_config.h
+index 22e3a85f67..9ec3a8b54b 100644
+--- a/include/standard-headers/linux/virtio_config.h
++++ b/include/standard-headers/linux/virtio_config.h
+@@ -80,6 +80,12 @@
+ /* This feature indicates support for the packed virtqueue layout. */
+ #define VIRTIO_F_RING_PACKED		34
+ 
++/*
++ * Inorder feature indicates that all buffers are used by the device
++ * in the same order in which they have been made available.
++ */
++#define VIRTIO_F_IN_ORDER 35
++
+ /*
+  * This feature indicates that memory accesses by the driver and the
+  * device are ordered in a way described by the platform.
+diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
+index 25dd6dd975..2886cba5ec 100644
+--- a/net/vhost-vdpa.c
++++ b/net/vhost-vdpa.c
+@@ -62,6 +62,7 @@ const int vdpa_feature_bits[] = {
+     VIRTIO_NET_F_CTRL_VQ,
+     VIRTIO_F_IOMMU_PLATFORM,
+     VIRTIO_F_RING_PACKED,
++    VIRTIO_F_IN_ORDER,
+     VIRTIO_NET_F_RSS,
+     VIRTIO_NET_F_HASH_REPORT,
+     VIRTIO_NET_F_GUEST_ANNOUNCE,
+-- 
+2.30.1
 
 
