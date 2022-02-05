@@ -2,80 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A698D4AA53D
-	for <lists+qemu-devel@lfdr.de>; Sat,  5 Feb 2022 02:09:44 +0100 (CET)
-Received: from localhost ([::1]:51952 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1BB9D4AA53B
+	for <lists+qemu-devel@lfdr.de>; Sat,  5 Feb 2022 02:04:20 +0100 (CET)
+Received: from localhost ([::1]:46692 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nG9aB-0007Z2-29
-	for lists+qemu-devel@lfdr.de; Fri, 04 Feb 2022 20:09:43 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:42740)
+	id 1nG9Ux-0003pa-4L
+	for lists+qemu-devel@lfdr.de; Fri, 04 Feb 2022 20:04:19 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:41794)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <atishp@rivosinc.com>)
- id 1nG9Cl-0004X1-TD
- for qemu-devel@nongnu.org; Fri, 04 Feb 2022 19:45:31 -0500
-Received: from [2607:f8b0:4864:20::c33] (port=45843
- helo=mail-oo1-xc33.google.com)
+ id 1nG94k-0002ET-FH
+ for qemu-devel@nongnu.org; Fri, 04 Feb 2022 19:37:14 -0500
+Received: from [2607:f8b0:4864:20::32c] (port=42648
+ helo=mail-ot1-x32c.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <atishp@rivosinc.com>)
- id 1nG9CE-0002nK-Si
- for qemu-devel@nongnu.org; Fri, 04 Feb 2022 19:45:00 -0500
-Received: by mail-oo1-xc33.google.com with SMTP id
- u25-20020a4ad0d9000000b002e8d4370689so6532380oor.12
- for <qemu-devel@nongnu.org>; Fri, 04 Feb 2022 16:44:58 -0800 (PST)
+ id 1nG94V-0001nH-6E
+ for qemu-devel@nongnu.org; Fri, 04 Feb 2022 19:37:14 -0500
+Received: by mail-ot1-x32c.google.com with SMTP id
+ p3-20020a0568301d4300b005a7a702f921so6288489oth.9
+ for <qemu-devel@nongnu.org>; Fri, 04 Feb 2022 16:36:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=rivosinc-com.20210112.gappssmtp.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=O+UQgPTWo4oSI1lXL4qP4CNWV5vH/WcWtAOvp8yVUj8=;
- b=w17XdDKF1j0rYLuNdsuG075oPsqjU+JFepUG7YE84E2cbd4gBINzGq1SgKnrcClIzs
- 3HH3aUa0T2F+IHo0y5FDAuxidr0b+/V0YleKm8Ukgc/zzxgUjzpm1gyQSEkyTw9quBdk
- eiHBeCmt4Ww8EDzrjiwPmJa4BF6onBCIJEdv+KSA3cj0ba1Onr8h0aQxJ6F087AKvgqj
- VeNfdGRtxNwmgs2Dry/F454sZHam8CD5EtGkypP550Y5rBjxK3t/BKUSDHjeLi5fdqjF
- FnAADby3AyEBf3WXXVyL4pFldgVaWqR0wqfVyzGDhUdGSZG3IOz9jdrSgp3XAR8A5H3t
- WmEQ==
+ bh=tXHbWM3JuJ6npBKT11wxJghQ5QtuufX+d8uTeUApNww=;
+ b=ISMXLee2g7vdk6j57gDvekZqlB039HjHLcQj+5juLHqVhmn+c+Hlayeo4hFdKf3PJU
+ +xAA44/04Tv4qKzF71q2zuWxkdDzfzm2kNOkTgJJaiD6Ap7+pttSFwHB8foNKJwJGyCb
+ RcJMcQr9wGVxx6FvIY7EshOtL579kZGjXKXblmbm7J3+u5OCIEw5V3H10YiZyo6ICZZu
+ jsSXaCCVCiH9GEiJlZ6dceRMTCd0WM5BUUgd0JKOWSqFehXGnzPfORo5DgNJTe1tp96r
+ reQ0YfxziNEK2o0Ab3QWn0L+VeJ4INK5R9yAIor+CnBlnIWfoGz9KYjFj4eKpfT+eKPb
+ Zw+A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=O+UQgPTWo4oSI1lXL4qP4CNWV5vH/WcWtAOvp8yVUj8=;
- b=aCXjCLgqTezaXdhJ+yyCNSLZQq/+ULgVoHbxDZT0+CRuUEODHuVkDAsaZDVTj0lncn
- wbIhI2TbPe6/IFOS6w6whrGz20f1i99gidDuF58WWxegaFadp9ROJHQexzAlukU+j7rh
- 5E65OPcdsrnmfqj7E9Ep9GuywHm5+z2FZBpV6i/9DJh3l+ppHQQ39qHwk7BZJhFwqXsc
- OdQ5Qd2biOCQn10Zm7YoeALUVNMjHtsIi2jyt0w2iT7Gc6QN1XPDLkYzGkeVQ5p+cHT6
- GOwWs/Z70K2YGH1aZ429EBkBGqGqyu7Q+qi0UuKkIJytudphcl1lcxS7f8NzmNRKel+G
- Ix/w==
-X-Gm-Message-State: AOAM532ag3tatNypCS7gJgCXk5Df5nH3MNIsMW3Zv40sEmGSXvFM0mIz
- x7WRcbxw4RXLbAi5vvAlviT0bIf1zO+0C6iv
-X-Google-Smtp-Source: ABdhPJxYtxPUmxf0rxfmsjQLVAFLHcgpKjtCDI0MUDmH+L5V5p3+Ct0bjIeEE8q4MvkP2Sczeo2gaA==
-X-Received: by 2002:a05:6870:3845:: with SMTP id
- z5mr1380989oal.77.1644021416679; 
- Fri, 04 Feb 2022 16:36:56 -0800 (PST)
+ bh=tXHbWM3JuJ6npBKT11wxJghQ5QtuufX+d8uTeUApNww=;
+ b=3ZkmLyNeDEfKTpt5NNQxrIkUzXXxWST3xWjUzjjGc28bWSWnkNTRS8Fifytt68rO5N
+ /9cQZ6yDNFakSBhIIObZFL/wPDE0NI4uNWkzIK5PexiRQJtwlT9utW+xrvMONZ7y1bTN
+ ZWGEP28xpT6fHvtYSolztBwGa0ywaATj9xDwX67zgPemt8NCkd2ravuasBcsQBnCBLbr
+ x0DGvxV6adqlJU5eHee4P3Zhz75YBt6f8IX8JUsq2AK3rpEOq7hC766QSrAUYBMtb7Uf
+ NeMybPBdrac+bIuiLY8tdb041tj7YktVYrkdVi93BItpm39kjFVoM6HfCutTzTXODOgf
+ B0kg==
+X-Gm-Message-State: AOAM533vHQGL/Hl//ji1zssHFIVxfAlhIgmUOS+/CNjDrhERWESEv6rU
+ 3O+LblmjUviVawIShhyvrIXdwfat/ioO/r6C
+X-Google-Smtp-Source: ABdhPJz2X5wlhOrhuIQrl/hSZPdP9tl2YXzhy+XMJYDyZLx15enPDqmzeIe/qfi9hnzjkrjrG3Shqg==
+X-Received: by 2002:a9d:12d6:: with SMTP id g80mr551637otg.169.1644021417930; 
+ Fri, 04 Feb 2022 16:36:57 -0800 (PST)
 Received: from rivos-atish.. (adsl-70-228-75-190.dsl.akrnoh.ameritech.net.
  [70.228.75.190])
- by smtp.gmail.com with ESMTPSA id c22sm1148888oao.43.2022.02.04.16.36.55
+ by smtp.gmail.com with ESMTPSA id c22sm1148888oao.43.2022.02.04.16.36.56
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 04 Feb 2022 16:36:56 -0800 (PST)
+ Fri, 04 Feb 2022 16:36:57 -0800 (PST)
 From: Atish Patra <atishp@rivosinc.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 4/6] target/riscv: Add support for mconfigptr
-Date: Fri,  4 Feb 2022 16:36:03 -0800
-Message-Id: <20220205003605.1150143-5-atishp@rivosinc.com>
+Subject: [PATCH v2 5/6] target/riscv: Add *envcfg* CSRs support
+Date: Fri,  4 Feb 2022 16:36:04 -0800
+Message-Id: <20220205003605.1150143-6-atishp@rivosinc.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220205003605.1150143-1-atishp@rivosinc.com>
 References: <20220205003605.1150143-1-atishp@rivosinc.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::c33
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::32c
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::c33;
- envelope-from=atishp@rivosinc.com; helo=mail-oo1-xc33.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::32c;
+ envelope-from=atishp@rivosinc.com; helo=mail-ot1-x32c.google.com
 X-Spam_score_int: -10
 X-Spam_score: -1.1
 X-Spam_bar: -
 X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ DKIM_VALID=-0.1, PDS_HP_HELO_NORDNS=0.001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -95,42 +94,255 @@ Cc: Alistair Francis <alistair.francis@wdc.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-RISC-V privileged specification v1.12 introduced a mconfigptr
-which will hold the physical address of a configuration data
-structure. As Qemu doesn't have a configuration data structure,
-is read as zero which is valid as per the priv spec.
+The RISC-V privileged specification v1.12 defines few execution
+environment configuration CSRs that can be used enable/disable
+extensions per privilege levels.
+
+Add the basic support for these CSRs.
 
 Signed-off-by: Atish Patra <atishp@rivosinc.com>
 ---
- target/riscv/cpu_bits.h | 1 +
- target/riscv/csr.c      | 2 ++
- 2 files changed, 3 insertions(+)
+ target/riscv/cpu.h      |  6 +++
+ target/riscv/cpu_bits.h | 39 ++++++++++++++++++
+ target/riscv/csr.c      | 87 +++++++++++++++++++++++++++++++++++++++++
+ target/riscv/machine.c  | 24 ++++++++++++
+ 4 files changed, 156 insertions(+)
 
+diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+index 0741f9822cf0..675f8716b239 100644
+--- a/target/riscv/cpu.h
++++ b/target/riscv/cpu.h
+@@ -303,6 +303,12 @@ struct CPURISCVState {
+     target_ulong spmbase;
+     target_ulong upmmask;
+     target_ulong upmbase;
++
++    /* CSRs for execution enviornment configuration */
++
++    uint64_t menvcfg;
++    target_ulong senvcfg;
++    uint64_t henvcfg;
+ #endif
+ 
+     float_status fp_status;
 diff --git a/target/riscv/cpu_bits.h b/target/riscv/cpu_bits.h
-index f96d26399607..89440241632a 100644
+index 89440241632a..58a0a8d69f72 100644
 --- a/target/riscv/cpu_bits.h
 +++ b/target/riscv/cpu_bits.h
-@@ -148,6 +148,7 @@
- #define CSR_MARCHID         0xf12
- #define CSR_MIMPID          0xf13
- #define CSR_MHARTID         0xf14
-+#define CSR_MCONFIGPTR      0xf15
+@@ -202,6 +202,9 @@
+ #define CSR_STVEC           0x105
+ #define CSR_SCOUNTEREN      0x106
  
- /* Machine Trap Setup */
- #define CSR_MSTATUS         0x300
++/* Supervisor Configuration CSRs */
++#define CSR_SENVCFG         0x10A
++
+ /* Supervisor Trap Handling */
+ #define CSR_SSCRATCH        0x140
+ #define CSR_SEPC            0x141
+@@ -247,6 +250,10 @@
+ #define CSR_HTIMEDELTA      0x605
+ #define CSR_HTIMEDELTAH     0x615
+ 
++/* Hypervisor Configuration CSRs */
++#define CSR_HENVCFG         0x60A
++#define CSR_HENVCFGH        0x61A
++
+ /* Virtual CSRs */
+ #define CSR_VSSTATUS        0x200
+ #define CSR_VSIE            0x204
+@@ -290,6 +297,10 @@
+ #define CSR_VSIEH           0x214
+ #define CSR_VSIPH           0x254
+ 
++/* Machine Configuration CSRs */
++#define CSR_MENVCFG         0x30A
++#define CSR_MENVCFGH        0x31A
++
+ /* Enhanced Physical Memory Protection (ePMP) */
+ #define CSR_MSECCFG         0x747
+ #define CSR_MSECCFGH        0x757
+@@ -654,6 +665,34 @@ typedef enum RISCVException {
+ #define PM_EXT_CLEAN    0x00000002ULL
+ #define PM_EXT_DIRTY    0x00000003ULL
+ 
++/* Execution enviornment configuration bits */
++#define MENVCFG_FIOM                       BIT(0)
++#define MENVCFG_CBIE                       (3UL << 4)
++#define MENVCFG_CBCFE                      BIT(6)
++#define MENVCFG_CBZE                       BIT(7)
++#define MENVCFG_PBMTE                      BIT(62)
++#define MENVCFG_STCE                       BIT(63)
++
++/* For RV32 */
++#define MENVCFGH_PBMTE                     BIT(30)
++#define MENVCFGH_STCE                      BIT(31)
++
++#define SENVCFG_FIOM                       MENVCFG_FIOM
++#define SENVCFG_CBIE                       MENVCFG_CBIE
++#define SENVCFG_CBCFE                      MENVCFG_CBCFE
++#define SENVCFG_CBZE                       MENVCFG_CBZE
++
++#define HENVCFG_FIOM                       MENVCFG_FIOM
++#define HENVCFG_CBIE                       MENVCFG_CBIE
++#define HENVCFG_CBCFE                      MENVCFG_CBCFE
++#define HENVCFG_CBZE                       MENVCFG_CBZE
++#define HENVCFG_PBMTE                      MENVCFG_PBMTE
++#define HENVCFG_STCE                       MENVCFG_STCE
++
++/* For RV32 */
++#define HENVCFGH_PBMTE                      MENVCFGH_PBMTE
++#define HENVCFGH_STCE                       MENVCFGH_STCE
++
+ /* Offsets for every pair of control bits per each priv level */
+ #define XS_OFFSET    0ULL
+ #define U_OFFSET     2ULL
 diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-index 25a0df498669..4366e5e95ce8 100644
+index 4366e5e95ce8..88c839a5ffaa 100644
 --- a/target/riscv/csr.c
 +++ b/target/riscv/csr.c
-@@ -3020,6 +3020,8 @@ riscv_csr_operations csr_ops[CSR_TABLE_SIZE] = {
-     [CSR_MARCHID]   = { "marchid",   any,   read_zero    },
-     [CSR_MIMPID]    = { "mimpid",    any,   read_zero    },
-     [CSR_MHARTID]   = { "mhartid",   any,   read_mhartid },
-+    [CSR_MCONFIGPTR]   = { "mconfigptr", any, read_zero,
-+                                         .min_priv_ver = PRIV_VERSION_1_12_0 },
+@@ -1366,6 +1366,81 @@ static RISCVException write_mtval(CPURISCVState *env, int csrno,
+     return RISCV_EXCP_NONE;
+ }
  
-     /* Machine Trap Setup */
-     [CSR_MSTATUS]     = { "mstatus",    any,   read_mstatus,     write_mstatus, NULL,
++/* Execution environment configuration setup */
++static RISCVException read_menvcfg(CPURISCVState *env, int csrno,
++                                 target_ulong *val)
++{
++    *val = env->menvcfg;
++    return RISCV_EXCP_NONE;
++}
++
++static RISCVException write_menvcfg(CPURISCVState *env, int csrno,
++                                  target_ulong val)
++{
++    env->menvcfg = val;
++    return RISCV_EXCP_NONE;
++}
++
++static RISCVException read_menvcfgh(CPURISCVState *env, int csrno,
++                                 target_ulong *val)
++{
++    *val = env->menvcfg >> 32;
++    return RISCV_EXCP_NONE;
++}
++
++static RISCVException write_menvcfgh(CPURISCVState *env, int csrno,
++                                  target_ulong val)
++{
++    uint64_t valh = (uint64_t)val << 32;
++    env->menvcfg |= valh;
++
++    return RISCV_EXCP_NONE;
++}
++
++static RISCVException read_senvcfg(CPURISCVState *env, int csrno,
++                                 target_ulong *val)
++{
++    *val = env->senvcfg;
++    return RISCV_EXCP_NONE;
++}
++
++static RISCVException write_senvcfg(CPURISCVState *env, int csrno,
++                                  target_ulong val)
++{
++    env->senvcfg = val;
++    return RISCV_EXCP_NONE;
++}
++
++static RISCVException read_henvcfg(CPURISCVState *env, int csrno,
++                                 target_ulong *val)
++{
++    *val = env->henvcfg;
++    return RISCV_EXCP_NONE;
++}
++
++static RISCVException write_henvcfg(CPURISCVState *env, int csrno,
++                                  target_ulong val)
++{
++    env->henvcfg = val;
++    return RISCV_EXCP_NONE;
++}
++
++static RISCVException read_henvcfgh(CPURISCVState *env, int csrno,
++                                 target_ulong *val)
++{
++    *val = env->henvcfg >> 32;
++    return RISCV_EXCP_NONE;
++}
++
++static RISCVException write_henvcfgh(CPURISCVState *env, int csrno,
++                                  target_ulong val)
++{
++    uint64_t valh = (uint64_t)val << 32;
++    env->henvcfg |= valh;
++
++    return RISCV_EXCP_NONE;
++}
++
+ static RISCVException rmw_mip64(CPURISCVState *env, int csrno,
+                                 uint64_t *ret_val,
+                                 uint64_t new_val, uint64_t wr_mask)
+@@ -3069,6 +3144,18 @@ riscv_csr_operations csr_ops[CSR_TABLE_SIZE] = {
+     [CSR_MVIPH]    = { "mviph",    aia_any32, read_zero,  write_ignore },
+     [CSR_MIPH]     = { "miph",     aia_any32, NULL, NULL, rmw_miph     },
+ 
++    /* Execution environment configuration */
++    [CSR_MENVCFG]  = { "menvcfg",  any,   read_menvcfg,  write_menvcfg,
++                                          .min_priv_ver = PRIV_VERSION_1_12_0 },
++    [CSR_MENVCFGH] = { "menvcfgh", any32, read_menvcfgh, write_menvcfgh,
++                                          .min_priv_ver = PRIV_VERSION_1_12_0 },
++    [CSR_SENVCFG]  = { "senvcfg",  smode, read_senvcfg,  write_senvcfg,
++                                          .min_priv_ver = PRIV_VERSION_1_12_0 },
++    [CSR_HENVCFG]  = { "henvcfg",  hmode, read_henvcfg, write_henvcfg,
++                                          .min_priv_ver = PRIV_VERSION_1_12_0 },
++    [CSR_HENVCFGH] = { "henvcfgh", hmode32, read_henvcfgh, write_henvcfgh,
++                                          .min_priv_ver = PRIV_VERSION_1_12_0 },
++
+     /* Supervisor Trap Setup */
+     [CSR_SSTATUS]    = { "sstatus",    smode, read_sstatus,    write_sstatus, NULL,
+                                               read_sstatus_i128                 },
+diff --git a/target/riscv/machine.c b/target/riscv/machine.c
+index 9895930b2976..4a50a05937fa 100644
+--- a/target/riscv/machine.c
++++ b/target/riscv/machine.c
+@@ -220,6 +220,29 @@ static const VMStateDescription vmstate_kvmtimer = {
+     }
+ };
+ 
++/* TODO: henvcfg need both hyper_needed & envcfg_needed */
++static bool envcfg_needed(void *opaque)
++{
++    RISCVCPU *cpu = opaque;
++    CPURISCVState *env = &cpu->env;
++
++    return (env->priv_ver >= PRIV_VERSION_1_12_0 ? 1 : 0);
++}
++
++static const VMStateDescription vmstate_envcfg = {
++    .name = "cpu/envcfg",
++    .version_id = 1,
++    .minimum_version_id = 1,
++    .needed = envcfg_needed,
++    .fields = (VMStateField[]) {
++        VMSTATE_UINT64(env.menvcfg, RISCVCPU),
++        VMSTATE_UINTTL(env.senvcfg, RISCVCPU),
++        VMSTATE_UINT64(env.henvcfg, RISCVCPU),
++
++        VMSTATE_END_OF_LIST()
++    }
++};
++
+ const VMStateDescription vmstate_riscv_cpu = {
+     .name = "cpu",
+     .version_id = 3,
+@@ -280,6 +303,7 @@ const VMStateDescription vmstate_riscv_cpu = {
+         &vmstate_pointermasking,
+         &vmstate_rv128,
+         &vmstate_kvmtimer,
++        &vmstate_envcfg,
+         NULL
+     }
+ };
 -- 
 2.30.2
 
