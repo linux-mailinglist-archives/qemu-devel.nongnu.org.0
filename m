@@ -2,75 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0303F4AA832
-	for <lists+qemu-devel@lfdr.de>; Sat,  5 Feb 2022 11:52:05 +0100 (CET)
-Received: from localhost ([::1]:33750 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 869D94AA839
+	for <lists+qemu-devel@lfdr.de>; Sat,  5 Feb 2022 11:54:51 +0100 (CET)
+Received: from localhost ([::1]:37036 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nGIfk-0007SU-Kd
-	for lists+qemu-devel@lfdr.de; Sat, 05 Feb 2022 05:52:04 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:47176)
+	id 1nGIiQ-0001Eq-Mt
+	for lists+qemu-devel@lfdr.de; Sat, 05 Feb 2022 05:54:50 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:47542)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nGIdb-0006JD-8o
- for qemu-devel@nongnu.org; Sat, 05 Feb 2022 05:49:51 -0500
-Received: from [2a00:1450:4864:20::32b] (port=46709
- helo=mail-wm1-x32b.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nGIdY-0005kl-NZ
- for qemu-devel@nongnu.org; Sat, 05 Feb 2022 05:49:50 -0500
-Received: by mail-wm1-x32b.google.com with SMTP id
- l67-20020a1c2546000000b00353951c3f62so4729577wml.5
- for <qemu-devel@nongnu.org>; Sat, 05 Feb 2022 02:49:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=q3fB87e8ptoMGCHMMhkF/FpCfggnOF2P0vTU3MsPp9M=;
- b=BWrZV6JuJq68EHiCt3QVrNvnKjsRTE4UHFRtpEMlu4RHteqOt49ncBa97l5W5bVhNy
- vm86UVEsKGeHHdVavuJN3ycslO96TEJV5iYB6g8RhoDBlt7UsZ8VwldDNKn+hyr+bJZd
- LAzLQ8uIRGNW0a+WTOQbwqdNXlskvdLBcr1razrnmjD/uV3cYki0V/Kl5hQJzM4tivab
- KeFMOQp2LmTpRjNrkKwfTKlafipDBA2VvM/TZaLy0AC7o68LRgfgF2w6+vfBQRA2p6Ia
- 5W2brsGA3xfM9j4GwhtQPZEvEYusu61e1+3+IOeijDjdZ/b7n+vqjD1bTOP7jdcBLE7U
- Cx5g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=q3fB87e8ptoMGCHMMhkF/FpCfggnOF2P0vTU3MsPp9M=;
- b=v5hBH5qDdgatZJLC/h1+lUCX8A7W4aKIHLQl4ztLpkRFfv1kJ9lT470d8GZX9cThCR
- eijJYlqe/V2tlSI8za/mHMkUE4quoIWvlhfbAZ+cPM+TwkbfIwZfP27GC3dLP81iq4Af
- yZ4Zxe6Taz3kv/7qRse67o0qtNW4i87VcfZMMoifyCSjxvDP3EpIoQ+zTP5mLZBLZ4se
- v18mp8M+JwbBZHuE6JGAoxIPd+iy/VmMHllNpk4xUuCU4Twt2UwYkqIY4NS3GwSdAA4a
- 5nUeFOHngebVQO2Ft+Vb/iq7/dfOX3vuD951aOusw8dz/TxYtWLnXeCwPxTrJ6oWcPe9
- rtFA==
-X-Gm-Message-State: AOAM530VFYV9wr5LjDNl0fWUl+rhwYQJZAaWpvhEVZW5g1GfFH9lm4Co
- OFT7flzWbBW3kZa3olVnvmyoMoo1o9SiQd+Cya2NXA==
-X-Google-Smtp-Source: ABdhPJywPIvhFkTifjqfEFlvXHMYFxHhLC6j/oCFPa9GYfAs7AeD6Jw4JoiTuE1EiTBFfAQKa3w2GOEQOOwBoG8/g+8=
-X-Received: by 2002:a05:600c:2d05:: with SMTP id
- x5mr823576wmf.133.1644058186953; 
- Sat, 05 Feb 2022 02:49:46 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1nGIfk-0008Vl-RB
+ for qemu-devel@nongnu.org; Sat, 05 Feb 2022 05:52:04 -0500
+Received: from [2001:41c9:1:41f::167] (port=48606
+ helo=mail.default.ilande.bv.iomart.io)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1nGIff-0006EM-Bi
+ for qemu-devel@nongnu.org; Sat, 05 Feb 2022 05:52:02 -0500
+Received: from [2a00:23c4:8ba0:ca00:d4eb:dbd5:5a41:aefe]
+ by mail.default.ilande.bv.iomart.io with esmtpsa
+ (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.92)
+ (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1nGIeu-00091j-MD; Sat, 05 Feb 2022 10:51:16 +0000
+Message-ID: <79a162bf-86f5-0ca4-5f14-822469606812@ilande.co.uk>
+Date: Sat, 5 Feb 2022 10:51:38 +0000
 MIME-Version: 1.0
-References: <164392758602.1683127.4327439310436541025.stgit@omen>
-In-Reply-To: <164392758602.1683127.4327439310436541025.stgit@omen>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Sat, 5 Feb 2022 10:49:35 +0000
-Message-ID: <CAFEAcA-CX6hPOEEr_Yjcd1=4AHfkYgnkQ_ruUJ4mFwBYz1fLQA@mail.gmail.com>
-Subject: Re: [PULL 0/2] VFIO fixes 2022-02-03
-To: Alex Williamson <alex.williamson@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32b
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Content-Language: en-US
+To: BALATON Zoltan <balaton@eik.bme.hu>
+References: <20220127205405.23499-1-mark.cave-ayland@ilande.co.uk>
+ <20220127205405.23499-2-mark.cave-ayland@ilande.co.uk>
+ <9e5c4e86-8555-1a42-783f-dae53f114cd2@eik.bme.hu>
+From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+In-Reply-To: <9e5c4e86-8555-1a42-783f-dae53f114cd2@eik.bme.hu>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a00:23c4:8ba0:ca00:d4eb:dbd5:5a41:aefe
+X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
+Subject: Re: [PATCH 01/11] mos6522: add defines for IFR bit flags
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on mail.default.ilande.bv.iomart.io)
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2001:41c9:1:41f::167
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32b.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
+Received-SPF: pass client-ip=2001:41c9:1:41f::167;
+ envelope-from=mark.cave-ayland@ilande.co.uk;
+ helo=mail.default.ilande.bv.iomart.io
+X-Spam_score_int: -10
+X-Spam_score: -1.1
 X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -84,53 +67,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eric Auger <eric.auger@redhat.com>, Stefan Berger <stefanb@linux.ibm.com>,
- qemu-devel@nongnu.org,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Cc: laurent@vivier.eu, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 3 Feb 2022 at 22:38, Alex Williamson <alex.williamson@redhat.com> w=
-rote:
->
-> The following changes since commit 8f3e5ce773c62bb5c4a847f3a9a5c98bbb3b35=
-9f:
->
->   Merge remote-tracking branch 'remotes/hdeller/tags/hppa-updates-pull-re=
-quest' into staging (2022-02-02 19:54:30 +0000)
->
-> are available in the Git repository at:
->
->   git://github.com/awilliam/qemu-vfio.git tags/vfio-fixes-20220203.0
->
-> for you to fetch changes up to 36fe5d5836c8d5d928ef6d34e999d6991a2f732e:
->
->   hw/vfio/common: Silence ram device offset alignment error traces (2022-=
-02-03 15:05:05 -0700)
->
-> ----------------------------------------------------------------
-> VFIO fixes 2022-02-03
->
->  * Fix alignment warnings when using TPM CRB with vfio-pci devices
->    (Eric Auger & Philippe Mathieu-Daud=C3=A9)
+On 27/01/2022 23:16, BALATON Zoltan wrote:
 
-Hi; this has a format-string issue that means it doesn't build
-on 32-bit systems:
+> On Thu, 27 Jan 2022, Mark Cave-Ayland wrote:
+>> These are intended to make it easier to see how the physical control lines
+>> are wired for each instance.
+>>
+>> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+>> ---
+>> include/hw/misc/mos6522.h | 22 +++++++++++++++-------
+>> 1 file changed, 15 insertions(+), 7 deletions(-)
+>>
+>> diff --git a/include/hw/misc/mos6522.h b/include/hw/misc/mos6522.h
+>> index fc95d22b0f..12abd8b8d2 100644
+>> --- a/include/hw/misc/mos6522.h
+>> +++ b/include/hw/misc/mos6522.h
+>> @@ -41,13 +41,21 @@
+>> #define IER_SET            0x80    /* set bits in IER */
+>> #define IER_CLR            0       /* clear bits in IER */
+>>
+>> -#define CA2_INT            0x01
+>> -#define CA1_INT            0x02
+>> -#define SR_INT             0x04    /* Shift register full/empty */
+>> -#define CB2_INT            0x08
+>> -#define CB1_INT            0x10
+>> -#define T2_INT             0x20    /* Timer 2 interrupt */
+>> -#define T1_INT             0x40    /* Timer 1 interrupt */
+>> +#define CA2_INT_BIT        0
+>> +#define CA1_INT_BIT        1
+>> +#define SR_INT_BIT         2       /* Shift register full/empty */
+>> +#define CB2_INT_BIT        3
+>> +#define CB1_INT_BIT        4
+>> +#define T2_INT_BIT         5       /* Timer 2 interrupt */
+>> +#define T1_INT_BIT         6       /* Timer 1 interrupt */
+>> +
+>> +#define CA2_INT            (1 << CA2_INT_BIT)
+>> +#define CA1_INT            (1 << CA1_INT_BIT)
+>> +#define SR_INT             (1 << SR_INT_BIT)
+>> +#define CB2_INT            (1 << CB2_INT_BIT)
+>> +#define CB1_INT            (1 << CB1_INT_BIT)
+>> +#define T2_INT             (1 << T2_INT_BIT)
+>> +#define T1_INT             (1 << T1_INT_BIT)
+> 
+> Maybe you could leave the #defines called XX_INT and then use BIT(XX_INT) instead of 
+> the second set of #defines which would provide same readability but with less 
+> #defines needed.
 
-https://gitlab.com/qemu-project/qemu/-/jobs/2057116569
+I'm not so keen on removing the _INT defines since that would require updating all 
+users to use BIT() everywhere which I don't think gains us much. I could certainly 
+replace these definitions with BIT(FOO) instead of (1 << FOO) if that helps 
+readability though.
 
-../hw/vfio/common.c: In function 'vfio_listener_region_add':
-../hw/vfio/common.c:893:26: error: format '%llx' expects argument of
-type 'long long unsigned int', but argument 6 has type 'intptr_t' {aka
-'int'} [-Werror=3Dformat=3D]
-error_report("%s received unaligned region %s iova=3D0x%"PRIx64
-^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-../hw/vfio/common.c:899:26:
-qemu_real_host_page_mask);
-~~~~~~~~~~~~~~~~~~~~~~~~
 
-For intptr_t you want PRIxPTR.
+ATB,
 
-thanks
--- PMM
+Mark.
 
