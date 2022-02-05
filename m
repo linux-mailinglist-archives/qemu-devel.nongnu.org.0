@@ -2,77 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D79F64AAD18
-	for <lists+qemu-devel@lfdr.de>; Sun,  6 Feb 2022 00:51:23 +0100 (CET)
-Received: from localhost ([::1]:43130 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 34FDD4AAD1A
+	for <lists+qemu-devel@lfdr.de>; Sun,  6 Feb 2022 00:52:54 +0100 (CET)
+Received: from localhost ([::1]:46880 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nGUpv-0001kx-0m
-	for lists+qemu-devel@lfdr.de; Sat, 05 Feb 2022 18:51:23 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:43114)
+	id 1nGUrN-0004IK-BL
+	for lists+qemu-devel@lfdr.de; Sat, 05 Feb 2022 18:52:53 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:43246)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nGUoB-0000Ep-9o
- for qemu-devel@nongnu.org; Sat, 05 Feb 2022 18:49:35 -0500
-Received: from [2607:f8b0:4864:20::1034] (port=55053
- helo=mail-pj1-x1034.google.com)
+ id 1nGUp1-0001HU-Jq
+ for qemu-devel@nongnu.org; Sat, 05 Feb 2022 18:50:27 -0500
+Received: from [2607:f8b0:4864:20::102f] (port=43568
+ helo=mail-pj1-x102f.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nGUoA-0005bI-1z
- for qemu-devel@nongnu.org; Sat, 05 Feb 2022 18:49:35 -0500
-Received: by mail-pj1-x1034.google.com with SMTP id on2so889744pjb.4
- for <qemu-devel@nongnu.org>; Sat, 05 Feb 2022 15:49:33 -0800 (PST)
+ id 1nGUot-0005tt-B5
+ for qemu-devel@nongnu.org; Sat, 05 Feb 2022 18:50:20 -0500
+Received: by mail-pj1-x102f.google.com with SMTP id
+ v15-20020a17090a4ecf00b001b82db48754so9728310pjl.2
+ for <qemu-devel@nongnu.org>; Sat, 05 Feb 2022 15:50:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=8ZAdCW18x0h6Uree7OS/jsNHmJirEic8dH4RoYoG12U=;
- b=ZcWmtr34uCzAGZHblydHJz/MjCUOaNiD49ujxI5Fb9ELlYo1EYKN7Av12aw5hnpeKg
- gmQkUV6bFtoyNfLzZdHYsuzK4wqB3Bllzdi3aIdiDKGEXKkTvi4Zmw80nhpmXEOFAjKz
- XGpWOnQBKPYVsk3aJ4eiKFl02EOPFVcHy8k7jsO8uu6JcqOrFpiIda2AZ9qZqCIBXmJp
- VlD0i5XPAuCXRFzdK9gj+qtz4XG32S+wJesz7d5GcvetP7NOcmj6B3f9wD7hD+a/8pVd
- z7OPfgp/0LTvuXyEmRn8eRVcwzKnP1Q3Dau+dtanX1GIad2DQri08Ijrg0x1mBZXJR/L
- WMGA==
+ bh=CcTskkdcx+rrQ6DLiJKW8bTvuVJ8irZbSJawT5ad2ws=;
+ b=f1T2+I5MJHs7GJAm5kTdC6mmE35SySe0JyX2T/VD4x3FKHgbugUfTBfxgp4yppNULm
+ bf5yHJH9v8sQk6OG86pJ3vUlovyrRV2GLFJUNzPe0pEb6sAKuxbreVMBWxAbxz8Hf2lv
+ 59WtdBPyQi2Nu62q+WuUdYQoF7g//rb1+O5LTZvzEIrnu3FEls9He+KGLuOBC358q6MT
+ fvG5zA7ibLOdTGPpC+9zraM+Rs59HZpw/7KEMDXQKz3ismizSehbl/4bSYCyMa899Fpk
+ kW4twAlFxgzSXzjJfvzR8fnEO/VBxLqoRkNTtjl2DM8FGVaaCrFBN1RA4bC9JKreFOvh
+ KhEg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=8ZAdCW18x0h6Uree7OS/jsNHmJirEic8dH4RoYoG12U=;
- b=UuBg0QN6L4/VjjQdP5byvR2bue5XsQCxFYGfObnA02NmbfmQaB8X7WGvKJhYm2/CpT
- 6U8763osC84U/0xQB1JQmWGQURlv+IFnRusPar0IO4DZmajTKN9Qzt650RDnkX62ilyw
- zO0HZiTcoMEe9y2yA9JpWXuoqeOBk3/TeBG/0A9bFWg7BBvdUMEeDehw5VguIDOYGTc0
- gP0UV041GjmNATmqwAbVQ/n4zOnGO1DkLGD3/hJcBG51An4qCD+C0nOyZ52WeqpGL9uK
- f3h4WvhdlIBVf/7kkZeRrHwWCtFLhTrSLakKlT2uNvdmjeNzzaqBEhX2cCLOMfEEnm32
- OesA==
-X-Gm-Message-State: AOAM532T42270drTpJ0+tX0xbPvvW2pg+KcPGaPTm5r5swnuYJgMMP7V
- 8ZqvC1cGoYUFgFcdjezxJpCaJg==
-X-Google-Smtp-Source: ABdhPJxSS0Cq4Xshsxzktd2XcV4M8F3S47dKQAf+GXxnor0OipIWzrJr0uAWlj7XyyqxpBRRVdTjTg==
-X-Received: by 2002:a17:902:ea0f:: with SMTP id
- s15mr9623723plg.118.1644104972701; 
- Sat, 05 Feb 2022 15:49:32 -0800 (PST)
+ bh=CcTskkdcx+rrQ6DLiJKW8bTvuVJ8irZbSJawT5ad2ws=;
+ b=nBAfChGR6G64Aglc8cR4n/0EIl+b1jasRbMl7+aqDGP3+sTocJmQUmnY4nH5rL7mNp
+ I1iKtiU4ZhDEOGrDVckrzojIIy+vcTvIdFp7Uiifkra1f1KfjCDzG5uZ3jBD5CjHB+75
+ U52yP8a3FDe+kQzFktvY+4iRk6D3mBigNQA7z4fM29pG60Ul0qw1/Rbl+46Ua41PUQXS
+ Qrwww6t7d/O6NquZf4V/QodGLx0znlU++S3uPQTz1UAZwaRfDGiLiZ2J1Ky5Aa3ptUdl
+ xBpai+FFC5FnyRf0pFip67N55vFdySBlaRdiBVwZnbkFLDW4KJ+hQBDtLgmVfvdlQsZ2
+ lH8g==
+X-Gm-Message-State: AOAM532uNRYIuPCq0BgCAwD0zaHOuJ7zJ+boF4l9G0YQlNx+9wa68qxH
+ TLzrIkz+NvxObT7UAwULV3UrDX1kbKD5iKNc
+X-Google-Smtp-Source: ABdhPJwekdC19QxbyOdPMHOl7TIlhzAAyIvGM1FezQ7HTBJEjDjKKW2PdBWpBhD93wQH/3J4sSXYig==
+X-Received: by 2002:a17:90b:388d:: with SMTP id
+ mu13mr6500803pjb.226.1644105017859; 
+ Sat, 05 Feb 2022 15:50:17 -0800 (PST)
 Received: from [192.168.1.118] ([220.235.247.127])
- by smtp.gmail.com with ESMTPSA id j185sm6597226pfd.85.2022.02.05.15.49.30
+ by smtp.gmail.com with ESMTPSA id r7sm9128392pjp.2.2022.02.05.15.50.15
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 05 Feb 2022 15:49:32 -0800 (PST)
-Message-ID: <1d86a46c-8219-92a4-8fe8-59408d6651d4@linaro.org>
-Date: Sun, 6 Feb 2022 10:49:27 +1100
+ Sat, 05 Feb 2022 15:50:17 -0800 (PST)
+Message-ID: <4ea01ced-2c43-edd5-b42a-f3e3dc594ff4@linaro.org>
+Date: Sun, 6 Feb 2022 10:50:13 +1100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.5.0
-Subject: Re: [PATCH 03/10] hw/s390x/virtio: Add missing 'cpu.h' include
+Subject: Re: [PATCH 05/10] qtest: Add missing 'hw/qdev-core.h' include
 Content-Language: en-US
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
  qemu-devel@nongnu.org
 References: <20220203193803.45671-1-f4bug@amsat.org>
- <20220203193803.45671-4-f4bug@amsat.org>
+ <20220203193803.45671-6-f4bug@amsat.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220203193803.45671-4-f4bug@amsat.org>
+In-Reply-To: <20220203193803.45671-6-f4bug@amsat.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1034
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::102f
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1034;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1034.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102f;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102f.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -98,11 +99,15 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 2/4/22 06:37, Philippe Mathieu-Daudé wrote:
-> CPUS390XState is declared in "cpu.h".
+> Add "hw/qdev-core.h" to avoid when refactoring include/:
+> 
+>    softmmu/qtest.c:404:9: error: use of undeclared identifier 'NamedGPIOList'
+>          NamedGPIOList *ngl;
+>          ^
 > 
 > Signed-off-by: Philippe Mathieu-Daudé<f4bug@amsat.org>
 > ---
->   hw/s390x/s390-virtio-hcall.h | 1 +
+>   softmmu/qtest.c | 1 +
 >   1 file changed, 1 insertion(+)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
