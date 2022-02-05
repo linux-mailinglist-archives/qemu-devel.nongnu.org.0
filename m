@@ -2,76 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 437394AA96B
-	for <lists+qemu-devel@lfdr.de>; Sat,  5 Feb 2022 15:29:22 +0100 (CET)
-Received: from localhost ([::1]:51294 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A03B4AA8F6
+	for <lists+qemu-devel@lfdr.de>; Sat,  5 Feb 2022 14:03:52 +0100 (CET)
+Received: from localhost ([::1]:32950 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nGM40-0007PB-Vr
-	for lists+qemu-devel@lfdr.de; Sat, 05 Feb 2022 09:29:21 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:51224)
+	id 1nGKjH-0003v3-HK
+	for lists+qemu-devel@lfdr.de; Sat, 05 Feb 2022 08:03:51 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:35164)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <liavalb@gmail.com>)
- id 1nGJ1v-0004PM-1D; Sat, 05 Feb 2022 06:14:59 -0500
-Received: from [2a00:1450:4864:20::42e] (port=33741
- helo=mail-wr1-x42e.google.com)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1nGKSE-0000R9-Le
+ for qemu-devel@nongnu.org; Sat, 05 Feb 2022 07:46:15 -0500
+Received: from [2a00:1450:4864:20::42c] (port=36503
+ helo=mail-wr1-x42c.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <liavalb@gmail.com>)
- id 1nGJ1q-0000qx-TK; Sat, 05 Feb 2022 06:14:58 -0500
-Received: by mail-wr1-x42e.google.com with SMTP id e3so1965898wra.0;
- Sat, 05 Feb 2022 03:14:47 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1nGKSB-0006HW-Mb
+ for qemu-devel@nongnu.org; Sat, 05 Feb 2022 07:46:14 -0500
+Received: by mail-wr1-x42c.google.com with SMTP id u15so16286938wrt.3
+ for <qemu-devel@nongnu.org>; Sat, 05 Feb 2022 04:45:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=KGcqIriZWj5G8d2PJH6KZo3UaZvfeIlx8l2fAi+/XnE=;
- b=R7NHk/rIMOw5hxG3DWBKzslg2AmRTiq+4oexRAj43J/Y5SmhlMW0ZB5/Lu2B2C59q+
- ruVGsIdOxUpSS6ln10DjrAtWjGVhJIF3t1PJtLsTz2FzpjzN0DfdStb2zbua40yOIu7W
- MLeaEeJdHj3iLXNb3ApUaHjGx5UX7N0KGJYAOUUfW6AbAyOIwvXRzdrcXWCt4QtKjfIn
- vjU9ETRGah0E/snZQ2TXIgFUQuRT2o7EldOTrpKUfYFVor4focb8mEr8W6k7s+n19a3e
- 0mwSBm38YEq3WsmthWWnI8jvat8HYZqYYNMatuDhR4UsYdBPWhMIr2IbYbxdo8ZW3T/L
- ckSg==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=kqczEjmmxYGSgKtA86NCLgWxtCH+cJ1jSQOS+NjVnJA=;
+ b=fDqFx0ltiNbs89fm411axkE5NG4oNV0wwiQG/wBhovmd64qMexggvcmfle0aB8Ph7n
+ zY8A2LJ5SumGS4M2Uv95hGFGuYoxoN6YUeBYlY1m6kvLgb58EZBwM1JNbopWNKf+db25
+ ozbIV+Y6/rP5f4idPtQ6OSZFet+4Vc3EI5QBeK5LPbgIkjmUdAw2yZ1ThEY/kGU+uWyO
+ muz4fgg25D3ROE3C8zNx+cEuk/CZ3Gb5hEUMhySACBjA10svCd6Rss/ILNmbMZIutlCc
+ fIdVaTTVzrIX5f6SWO0fTIQDEMetQWgWQI7kKBeaQvGaOe8OIuJugtY2tUhCHMqlk+4V
+ e84A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=KGcqIriZWj5G8d2PJH6KZo3UaZvfeIlx8l2fAi+/XnE=;
- b=YF8fL5zRMVPJUtfxEX/l666DcLg1RggJu/sfbROokKMaS8p6r3sMD16WR3bluCzi6u
- FD5N2V4DzQ/msaxm7SNzbjDIKP0z73CzcwKiIr3bkK9jR6D/5td6XAJ5PRtgdkjvV7vh
- k5C51XYSjqnVS51fVqz+Q3cVI7caCynh3X9J+9PMfJbgEFSX9gUSwAUhz0pWfM9dOJiM
- /tSGQ7lXb7SVDr4/8dWD/Nb1zYOVNT5GMFaBV6Uk0JKBK70GRnOU/nQuV7/yh02rkngA
- 0XbprSYSXKBpJ98pCiCnctyPnACXGT7rWvDRwEmA1+CHu6mgpDKt92XclcB1yN6u7R4U
- B9pg==
-X-Gm-Message-State: AOAM533A/dRzrWzkkokhu3+WosrCmtGk1m3fDudyjRlg7zHqPv5P6U1t
- +A46Nj9fNVdaGCyRQl5qoUpOwy0wWuHqag==
-X-Google-Smtp-Source: ABdhPJwuDgGuHPkaqD3CeFo0mKbiddP6eqYadYwQl0agCEUcmfC59FXnbsGNABVlz06+y7qIOoPX2g==
-X-Received: by 2002:adf:fe90:: with SMTP id l16mr2680190wrr.84.1644059686384; 
- Sat, 05 Feb 2022 03:14:46 -0800 (PST)
-Received: from liavpc.localdomain ([2a10:8009:bec2:1:453f:a6ee:2ce5:8da6])
- by smtp.gmail.com with ESMTPSA id bi18sm10848686wmb.20.2022.02.05.03.14.45
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=kqczEjmmxYGSgKtA86NCLgWxtCH+cJ1jSQOS+NjVnJA=;
+ b=D5iF3n6zMEitoaFRHFGpmYZ+LzXFyX/Yx8GcNhlRcTZ5A2GYXIndOA8MlQlj/7zgmA
+ r2yEn+OT12O7G1Id52pEkaClZkf7TfeOWVQb+lIhcgXWlVEB0NAE0NFYb+EQYr0yxd+u
+ ixsn4uRwc+ngDv3VBpBixDi5+vUjs0VI8gfYtXGWBSUrOmZvjV1YmB9fPIPrNKTjis1O
+ 2Skyb3AsALZ9n4TKFz1v2Fy+sMrj7kOPihwF5Z1RerSJij7kjl+LSc0GLd2zt+Jw9LuU
+ /KvM2jMbJap5Kr2FB68D6RK/RLKHBB8RRtqz0V6YfL/O7sCvgaVlrRTlqXN79aeBDZYm
+ Ic5g==
+X-Gm-Message-State: AOAM531GTCiS9nTgiZdwqilCUofsQpi6bj1sdP4PP4ZFJ0f/EUhKpvOR
+ AWSb84llQSPmQuC5zC+EzG8zhQfhYi4=
+X-Google-Smtp-Source: ABdhPJywP3MGiFxe1+SuCNMt1DripYChSsg20LEXJcKDgrabHsFkgZ5XGnyHCez4aM9M/GuLuevFFw==
+X-Received: by 2002:a05:6000:2aa:: with SMTP id
+ l10mr2914067wry.191.1644065138835; 
+ Sat, 05 Feb 2022 04:45:38 -0800 (PST)
+Received: from nuc.. (154.red-83-50-83.dynamicip.rima-tde.net. [83.50.83.154])
+ by smtp.gmail.com with ESMTPSA id
+ q2sm4433669wrw.14.2022.02.05.04.45.37
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 05 Feb 2022 03:14:46 -0800 (PST)
-From: Liav Albani <liavalb@gmail.com>
+ Sat, 05 Feb 2022 04:45:38 -0800 (PST)
 To: qemu-devel@nongnu.org
-Subject: [PATCH] hw/ide: implement ich6 ide controller support
-Date: Sat,  5 Feb 2022 13:11:38 +0200
-Message-Id: <20220205111138.35194-1-liavalb@gmail.com>
-X-Mailer: git-send-email 2.35.1
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Yang Zhong <yang.zhong@intel.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Jean-Philippe Brucker <jean-philippe@linaro.org>,
+ =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Ani Sinha <ani@anisinha.ca>, Igor Mammedov <imammedo@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ libvir-list@redhat.com
+Subject: [PATCH v4 2/4] hw/i386: Attach CPUs to machine
+Date: Sat,  5 Feb 2022 13:45:24 +0100
+Message-Id: <20220205124526.500158-3-f4bug@amsat.org>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20220205124526.500158-1-f4bug@amsat.org>
+References: <20220205124526.500158-1-f4bug@amsat.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42e
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42c
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
- envelope-from=liavalb@gmail.com; helo=mail-wr1-x42e.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42c.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
  PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Sat, 05 Feb 2022 09:22:17 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,487 +96,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: jsnow@redhat.com, Liav Albani <liavalb@gmail.com>, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+From:  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= via <qemu-devel@nongnu.org>
 
-This type of IDE controller has support for relocating the IO ports and
-doesn't use IRQ 14 and 15 but one allocated PCI IRQ for the controller.
+Previously CPUs were exposed in the QOM tree at a path
 
-Signed-off-by: Liav Albani <liavalb@gmail.com>
+  /machine/unattached/device[nn]
+
+where the 'nn' of the first CPU is usually zero, but can
+vary depending on what devices were already created.
+
+With this change the CPUs are now at
+
+  /machine/cpu[nn]
+
+where the 'nn' of the first CPU is always zero.
+
+Note: This (intentionally) breaks compatibility with current
+libvirt code that looks for "/machine/unattached/device[0]"
+in the assumption it is the first CPU.
+
+Cc: libvir-list@redhat.com
+Suggested-by: Daniel P. Berrangé <berrange@redhat.com>
+Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/i386/Kconfig          |   2 +
- hw/ide/Kconfig           |   5 +
- hw/ide/bmdma.c           |  83 +++++++++++++++
- hw/ide/ich6.c            | 211 +++++++++++++++++++++++++++++++++++++++
- hw/ide/meson.build       |   3 +-
- hw/ide/piix.c            |  50 +---------
- include/hw/ide/pci.h     |   5 +
- include/hw/pci/pci_ids.h |   1 +
- 8 files changed, 311 insertions(+), 49 deletions(-)
- create mode 100644 hw/ide/bmdma.c
- create mode 100644 hw/ide/ich6.c
+ hw/i386/x86.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/hw/i386/Kconfig b/hw/i386/Kconfig
-index d22ac4a4b9..a18de2d962 100644
---- a/hw/i386/Kconfig
-+++ b/hw/i386/Kconfig
-@@ -75,6 +75,7 @@ config I440FX
-     select PCI_I440FX
-     select PIIX3
-     select IDE_PIIX
-+    select IDE_ICH6
-     select DIMM
-     select SMBIOS
-     select FW_CFG_DMA
-@@ -101,6 +102,7 @@ config Q35
-     select PCI_EXPRESS_Q35
-     select LPC_ICH9
-     select AHCI_ICH9
-+    select IDE_ICH6
-     select DIMM
-     select SMBIOS
-     select FW_CFG_DMA
-diff --git a/hw/ide/Kconfig b/hw/ide/Kconfig
-index dd85fa3619..63304325a5 100644
---- a/hw/ide/Kconfig
-+++ b/hw/ide/Kconfig
-@@ -38,6 +38,11 @@ config IDE_VIA
-     select IDE_PCI
-     select IDE_QDEV
+diff --git a/hw/i386/x86.c b/hw/i386/x86.c
+index b84840a1bb9..50bf249c700 100644
+--- a/hw/i386/x86.c
++++ b/hw/i386/x86.c
+@@ -108,6 +108,7 @@ void x86_cpu_new(X86MachineState *x86ms, int64_t apic_id, Error **errp)
+ {
+     Object *cpu = object_new(MACHINE(x86ms)->cpu_type);
  
-+config IDE_ICH6
-+    bool
-+    select IDE_PCI
-+    select IDE_QDEV
-+
- config MICRODRIVE
-     bool
-     select IDE_QDEV
-diff --git a/hw/ide/bmdma.c b/hw/ide/bmdma.c
-new file mode 100644
-index 0000000000..979f5974fd
---- /dev/null
-+++ b/hw/ide/bmdma.c
-@@ -0,0 +1,83 @@
-+/*
-+ * QEMU IDE Emulation: PCI PIIX3/4 support.
-+ *
-+ * Copyright (c) 2003 Fabrice Bellard
-+ * Copyright (c) 2006 Openedhand Ltd.
-+ *
-+ * Permission is hereby granted, free of charge, to any person obtaining a copy
-+ * of this software and associated documentation files (the "Software"), to deal
-+ * in the Software without restriction, including without limitation the rights
-+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-+ * copies of the Software, and to permit persons to whom the Software is
-+ * furnished to do so, subject to the following conditions:
-+ *
-+ * The above copyright notice and this permission notice shall be included in
-+ * all copies or substantial portions of the Software.
-+ *
-+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-+ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-+ * THE SOFTWARE.
-+ */
-+
-+#include "qemu/osdep.h"
-+#include "hw/pci/pci.h"
-+#include "migration/vmstate.h"
-+#include "qapi/error.h"
-+#include "qemu/module.h"
-+#include "sysemu/block-backend.h"
-+#include "sysemu/blockdev.h"
-+#include "sysemu/dma.h"
-+
-+#include "hw/ide/pci.h"
-+#include "trace.h"
-+
-+uint64_t piix_bmdma_read(void *opaque, hwaddr addr, unsigned size)
-+{
-+    BMDMAState *bm = opaque;
-+    uint32_t val;
-+
-+    if (size != 1) {
-+        return ((uint64_t)1 << (size * 8)) - 1;
-+    }
-+
-+    switch (addr & 3) {
-+    case 0:
-+        val = bm->cmd;
-+        break;
-+    case 2:
-+        val = bm->status;
-+        break;
-+    default:
-+        val = 0xff;
-+        break;
-+    }
-+
-+    trace_bmdma_read(addr, val);
-+    return val;
-+}
-+
-+void piix_bmdma_write(void *opaque, hwaddr addr,
-+                        uint64_t val, unsigned size)
-+{
-+    BMDMAState *bm = opaque;
-+
-+    if (size != 1) {
-+        return;
-+    }
-+
-+    trace_bmdma_write(addr, val);
-+
-+    switch (addr & 3) {
-+    case 0:
-+        bmdma_cmd_writeb(bm, val);
-+        break;
-+    case 2:
-+        uint8_t cur_val = bm->status;
-+        bm->status = (val & 0x60) | (cur_val & 1) | (cur_val & ~val & 0x06);
-+        break;
-+    }
-+}
-diff --git a/hw/ide/ich6.c b/hw/ide/ich6.c
-new file mode 100644
-index 0000000000..21dbc4906b
---- /dev/null
-+++ b/hw/ide/ich6.c
-@@ -0,0 +1,211 @@
-+/*
-+ * QEMU IDE Emulation: PCI ICH6/ICH7 IDE support.
-+ *
-+ * Copyright (c) 2022 Liav Albani
-+ *
-+ * Permission is hereby granted, free of charge, to any person obtaining a copy
-+ * of this software and associated documentation files (the "Software"), to deal
-+ * in the Software without restriction, including without limitation the rights
-+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-+ * copies of the Software, and to permit persons to whom the Software is
-+ * furnished to do so, subject to the following conditions:
-+ *
-+ * The above copyright notice and this permission notice shall be included in
-+ * all copies or substantial portions of the Software.
-+ *
-+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-+ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-+ * THE SOFTWARE.
-+ */
-+
-+#include "qemu/osdep.h"
-+#include "hw/pci/pci.h"
-+#include "migration/vmstate.h"
-+#include "qapi/error.h"
-+#include "qemu/module.h"
-+#include "sysemu/block-backend.h"
-+#include "sysemu/blockdev.h"
-+#include "sysemu/dma.h"
-+
-+#include "hw/ide/pci.h"
-+#include "trace.h"
-+
-+
-+
-+static const MemoryRegionOps ich6_bmdma_ops = {
-+    .read = piix_bmdma_read,
-+    .write = piix_bmdma_write,
-+};
-+
-+static void bmdma_setup_bar(PCIIDEState *d)
-+{
-+    int i;
-+
-+    memory_region_init(&d->bmdma_bar, OBJECT(d), "ich6-bmdma-container", 16);
-+    for (i = 0; i < 2; i++) {
-+        BMDMAState *bm = &d->bmdma[i];
-+
-+        memory_region_init_io(&bm->extra_io, OBJECT(d), &ich6_bmdma_ops, bm,
-+                              "ich6-bmdma", 4);
-+        memory_region_add_subregion(&d->bmdma_bar, i * 8, &bm->extra_io);
-+        memory_region_init_io(&bm->addr_ioport, OBJECT(d),
-+                              &bmdma_addr_ioport_ops, bm, "bmdma", 4);
-+        memory_region_add_subregion(&d->bmdma_bar, i * 8 + 4, &bm->addr_ioport);
-+    }
-+}
-+
-+static uint32_t ich6_pci_config_read(PCIDevice *d,
-+                                       uint32_t address, int len)
-+{
-+    return pci_default_read_config(d, address, len);
-+}
-+
-+static void ich6_pci_config_write(PCIDevice *d, uint32_t addr, uint32_t val,
-+                                    int l)
-+{
-+    uint32_t i;
-+
-+    pci_default_write_config(d, addr, val, l);
-+
-+    for (i = addr; i < addr + l; i++) {
-+        switch (i) {
-+        case 0x40:
-+            pci_default_write_config(d, i, 0x8000, 2);
-+            continue;
-+        case 0x42:
-+            pci_default_write_config(d, i, 0x8000, 2);
-+            continue;
-+        }
-+    }
-+}
-+
-+static void ich6_ide_reset(DeviceState *dev)
-+{
-+    PCIIDEState *d = PCI_IDE(dev);
-+    PCIDevice *pd = PCI_DEVICE(d);
-+    uint8_t *pci_conf = pd->config;
-+    int i;
-+
-+    for (i = 0; i < 2; i++) {
-+        ide_bus_reset(&d->bus[i]);
-+    }
-+
-+    /* TODO: this is the default. do not override. */
-+    pci_conf[PCI_COMMAND] = 0x00;
-+    /* TODO: this is the default. do not override. */
-+    pci_conf[PCI_COMMAND + 1] = 0x00;
-+    /* TODO: use pci_set_word */
-+    pci_conf[PCI_STATUS] = PCI_STATUS_FAST_BACK;
-+    pci_conf[PCI_STATUS + 1] = PCI_STATUS_DEVSEL_MEDIUM >> 8;
-+    pci_conf[0x20] = 0x01; /* BMIBA: 20-23h */
-+}
-+
-+static int pci_ich6_init_ports(PCIIDEState *d)
-+{
-+    int i;
-+
-+    for (i = 0; i < 2; i++) {
-+        ide_bus_init(&d->bus[i], sizeof(d->bus[i]), DEVICE(d), i, 2);
-+        ide_init2(&d->bus[i], d->native_irq);
-+
-+        bmdma_init(&d->bus[i], &d->bmdma[i], d);
-+        d->bmdma[i].bus = &d->bus[i];
-+        ide_register_restart_cb(&d->bus[i]);
-+    }
-+
-+    return 0;
-+}
-+
-+static void pci_ich6_ide_realize(PCIDevice *dev, Error **errp)
-+{
-+    PCIIDEState *d = PCI_IDE(dev);
-+    uint8_t *pci_conf = dev->config;
-+    int rc;
-+
-+    pci_conf[PCI_INTERRUPT_PIN] = 1; /* interrupt pin A */
-+
-+    /* PCI native mode-only controller, supports bus mastering */
-+    pci_conf[PCI_CLASS_PROG] = 0x85;
-+
-+    bmdma_setup_bar(d);
-+    pci_register_bar(dev, 4, PCI_BASE_ADDRESS_SPACE_IO, &d->bmdma_bar);
-+
-+    d->native_irq = pci_allocate_irq(&d->parent_obj);
-+    /* Address Map Register - Non Combined Mode, MAP.USCC = 0 */
-+    pci_conf[0x90]   = 0;
-+
-+    /* IDE Decode enabled by default */
-+    pci_set_long(pci_conf + 0x40, 0x80008000);
-+
-+    /* IDE Timing control - Disable UDMA controls */
-+    pci_set_long(pci_conf + 0x48, 0x00000000);
-+
-+    vmstate_register(VMSTATE_IF(dev), 0, &vmstate_ide_pci, d);
-+
-+    memory_region_init_io(&d->data_bar[0], OBJECT(d), &pci_ide_data_le_ops,
-+                          &d->bus[0], "ich6-ide0-data", 8);
-+    pci_register_bar(dev, 0, PCI_BASE_ADDRESS_SPACE_IO, &d->data_bar[0]);
-+
-+    memory_region_init_io(&d->cmd_bar[0], OBJECT(d), &pci_ide_cmd_le_ops,
-+                          &d->bus[0], "ich6-ide0-cmd", 4);
-+    pci_register_bar(dev, 1, PCI_BASE_ADDRESS_SPACE_IO, &d->cmd_bar[0]);
-+
-+    memory_region_init_io(&d->data_bar[1], OBJECT(d), &pci_ide_data_le_ops,
-+                          &d->bus[1], "ich6-ide1-data", 8);
-+    pci_register_bar(dev, 2, PCI_BASE_ADDRESS_SPACE_IO, &d->data_bar[1]);
-+
-+    memory_region_init_io(&d->cmd_bar[1], OBJECT(d), &pci_ide_cmd_le_ops,
-+                          &d->bus[1], "ich6-ide1-cmd", 4);
-+    pci_register_bar(dev, 3, PCI_BASE_ADDRESS_SPACE_IO, &d->cmd_bar[1]);
-+
-+    rc = pci_ich6_init_ports(d);
-+    if (rc) {
-+        error_setg_errno(errp, -rc, "Failed to realize %s",
-+                         object_get_typename(OBJECT(dev)));
-+    }
-+}
-+
-+static void pci_ich6_ide_exitfn(PCIDevice *dev)
-+{
-+    PCIIDEState *d = PCI_IDE(dev);
-+    unsigned i;
-+
-+    for (i = 0; i < 2; ++i) {
-+        memory_region_del_subregion(&d->bmdma_bar, &d->bmdma[i].extra_io);
-+        memory_region_del_subregion(&d->bmdma_bar, &d->bmdma[i].addr_ioport);
-+    }
-+}
-+
-+static void ich6_ide_class_init(ObjectClass *klass, void *data)
-+{
-+    DeviceClass *dc = DEVICE_CLASS(klass);
-+    PCIDeviceClass *k = PCI_DEVICE_CLASS(klass);
-+
-+    dc->reset = ich6_ide_reset;
-+    k->realize = pci_ich6_ide_realize;
-+    k->exit = pci_ich6_ide_exitfn;
-+    k->vendor_id = PCI_VENDOR_ID_INTEL;
-+    k->device_id = PCI_DEVICE_ID_INTEL_82801GB;
-+    k->class_id = PCI_CLASS_STORAGE_IDE;
-+    k->config_read = ich6_pci_config_read;
-+    k->config_write = ich6_pci_config_write;
-+    set_bit(DEVICE_CATEGORY_STORAGE, dc->categories);
-+    dc->hotpluggable = false;
-+}
-+
-+static const TypeInfo ich6_ide_info = {
-+    .name          = "ich6-ide",
-+    .parent        = TYPE_PCI_IDE,
-+    .class_init    = ich6_ide_class_init,
-+};
-+
-+static void ich6_ide_register_types(void)
-+{
-+    type_register_static(&ich6_ide_info);
-+}
-+
-+type_init(ich6_ide_register_types)
-diff --git a/hw/ide/meson.build b/hw/ide/meson.build
-index ddcb3b28d2..6899e082db 100644
---- a/hw/ide/meson.build
-+++ b/hw/ide/meson.build
-@@ -1,5 +1,6 @@
- softmmu_ss.add(when: 'CONFIG_AHCI', if_true: files('ahci.c'))
- softmmu_ss.add(when: 'CONFIG_AHCI_ICH9', if_true: files('ich.c'))
-+softmmu_ss.add(when: 'CONFIG_IDE_ICH6', if_true: files('ich6.c', 'bmdma.c'))
- softmmu_ss.add(when: 'CONFIG_ALLWINNER_A10', if_true: files('ahci-allwinner.c'))
- softmmu_ss.add(when: 'CONFIG_IDE_CMD646', if_true: files('cmd646.c'))
- softmmu_ss.add(when: 'CONFIG_IDE_CORE', if_true: files('core.c', 'atapi.c'))
-@@ -7,7 +8,7 @@ softmmu_ss.add(when: 'CONFIG_IDE_ISA', if_true: files('isa.c', 'ioport.c'))
- softmmu_ss.add(when: 'CONFIG_IDE_MACIO', if_true: files('macio.c'))
- softmmu_ss.add(when: 'CONFIG_IDE_MMIO', if_true: files('mmio.c'))
- softmmu_ss.add(when: 'CONFIG_IDE_PCI', if_true: files('pci.c'))
--softmmu_ss.add(when: 'CONFIG_IDE_PIIX', if_true: files('piix.c', 'ioport.c'))
-+softmmu_ss.add(when: 'CONFIG_IDE_PIIX', if_true: files('piix.c', 'ioport.c', 'bmdma.c'))
- softmmu_ss.add(when: 'CONFIG_IDE_QDEV', if_true: files('qdev.c'))
- softmmu_ss.add(when: 'CONFIG_IDE_SII3112', if_true: files('sii3112.c'))
- softmmu_ss.add(when: 'CONFIG_IDE_VIA', if_true: files('via.c'))
-diff --git a/hw/ide/piix.c b/hw/ide/piix.c
-index ce89fd0aa3..5a747e5845 100644
---- a/hw/ide/piix.c
-+++ b/hw/ide/piix.c
-@@ -35,55 +35,9 @@
- #include "hw/ide/pci.h"
- #include "trace.h"
- 
--static uint64_t bmdma_read(void *opaque, hwaddr addr, unsigned size)
--{
--    BMDMAState *bm = opaque;
--    uint32_t val;
--
--    if (size != 1) {
--        return ((uint64_t)1 << (size * 8)) - 1;
--    }
--
--    switch(addr & 3) {
--    case 0:
--        val = bm->cmd;
--        break;
--    case 2:
--        val = bm->status;
--        break;
--    default:
--        val = 0xff;
--        break;
--    }
--
--    trace_bmdma_read(addr, val);
--    return val;
--}
--
--static void bmdma_write(void *opaque, hwaddr addr,
--                        uint64_t val, unsigned size)
--{
--    BMDMAState *bm = opaque;
--
--    if (size != 1) {
--        return;
--    }
--
--    trace_bmdma_write(addr, val);
--
--    switch(addr & 3) {
--    case 0:
--        bmdma_cmd_writeb(bm, val);
--        break;
--    case 2:
--        bm->status = (val & 0x60) | (bm->status & 1) | (bm->status & ~val & 0x06);
--        break;
--    }
--}
--
- static const MemoryRegionOps piix_bmdma_ops = {
--    .read = bmdma_read,
--    .write = bmdma_write,
-+    .read = piix_bmdma_read,
-+    .write = piix_bmdma_write,
- };
- 
- static void bmdma_setup_bar(PCIIDEState *d)
-diff --git a/include/hw/ide/pci.h b/include/hw/ide/pci.h
-index d8384e1c42..00c86d9ef5 100644
---- a/include/hw/ide/pci.h
-+++ b/include/hw/ide/pci.h
-@@ -53,6 +53,7 @@ struct PCIIDEState {
-     MemoryRegion bmdma_bar;
-     MemoryRegion cmd_bar[2];
-     MemoryRegion data_bar[2];
-+    qemu_irq native_irq; /* used only for ich6-ide */
- };
- 
- static inline IDEState *bmdma_active_if(BMDMAState *bmdma)
-@@ -62,6 +63,10 @@ static inline IDEState *bmdma_active_if(BMDMAState *bmdma)
- }
- 
- void bmdma_init(IDEBus *bus, BMDMAState *bm, PCIIDEState *d);
-+
-+uint64_t piix_bmdma_read(void *opaque, hwaddr addr, unsigned size);
-+void piix_bmdma_write(void *opaque, hwaddr addr, uint64_t val, unsigned size);
-+
- void bmdma_cmd_writeb(BMDMAState *bm, uint32_t val);
- extern MemoryRegionOps bmdma_addr_ioport_ops;
- void pci_ide_create_devs(PCIDevice *dev);
-diff --git a/include/hw/pci/pci_ids.h b/include/hw/pci/pci_ids.h
-index 11abe22d46..cf8767977c 100644
---- a/include/hw/pci/pci_ids.h
-+++ b/include/hw/pci/pci_ids.h
-@@ -244,6 +244,7 @@
- #define PCI_DEVICE_ID_INTEL_82371AB      0x7111
- #define PCI_DEVICE_ID_INTEL_82371AB_2    0x7112
- #define PCI_DEVICE_ID_INTEL_82371AB_3    0x7113
-+#define PCI_DEVICE_ID_INTEL_82801GB      0x27c0
- 
- #define PCI_DEVICE_ID_INTEL_ICH9_0       0x2910
- #define PCI_DEVICE_ID_INTEL_ICH9_1       0x2917
++    object_property_add_child(OBJECT(x86ms), "cpu[*]", OBJECT(cpu));
+     if (!object_property_set_uint(cpu, "apic-id", apic_id, errp)) {
+         goto out;
+     }
 -- 
-2.35.1
+2.34.1
 
 
