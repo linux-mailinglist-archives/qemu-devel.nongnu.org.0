@@ -2,79 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DFB8E4AAEB8
-	for <lists+qemu-devel@lfdr.de>; Sun,  6 Feb 2022 10:58:32 +0100 (CET)
-Received: from localhost ([::1]:50442 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C0D664AAEBF
+	for <lists+qemu-devel@lfdr.de>; Sun,  6 Feb 2022 11:02:28 +0100 (CET)
+Received: from localhost ([::1]:59666 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nGeJT-0004Qb-SP
-	for lists+qemu-devel@lfdr.de; Sun, 06 Feb 2022 04:58:32 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:42314)
+	id 1nGeNG-0002H3-6p
+	for lists+qemu-devel@lfdr.de; Sun, 06 Feb 2022 05:02:27 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:43212)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <atishp@rivosinc.com>)
- id 1nGdhB-0008Bj-LM
- for qemu-devel@nongnu.org; Sun, 06 Feb 2022 04:18:57 -0500
-Received: from [2607:f8b0:4864:20::230] (port=42683
- helo=mail-oi1-x230.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <atishp@rivosinc.com>)
- id 1nGdhA-000158-1e
- for qemu-devel@nongnu.org; Sun, 06 Feb 2022 04:18:57 -0500
-Received: by mail-oi1-x230.google.com with SMTP id v67so13850059oie.9
- for <qemu-devel@nongnu.org>; Sun, 06 Feb 2022 01:18:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=rivosinc-com.20210112.gappssmtp.com; s=20210112;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=DpORpBZuRTgyXLMxgMIyGunVHEl3TZnt8/u2Ndv1j9A=;
- b=ZnFHX41mZA+eYqy36wCT4ZthuFYEk6lMIkhwNhqkJodbpf6nTab6jQ7VC2XjUBeCjk
- dmECiAj8kSXdb1tGlZm8XY3x/Fsm1hEwmQUcxyp66AJ6+3HqLUSYltnpuTKn+f+3ZBA1
- ru7f7IS4m4xLgj9lHWtGwBwqGXjeHOufWxcDf1R+FxCkGJnwhoWcW7DIniPQSdW8+cTu
- 80jtUk8aUibrTKbEQ1rec7ndZ366sNnl6PMjy1qq2tVVVkEIHwVHgT+RPVZ0hg2UAWDP
- eFqhcxV9lmj8Vj3sKAQWH13pm+Zfb+PVjRAdlw93TCj84whkqbsvi0HwkRHoznNXpm3U
- vS9Q==
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nGdrq-0002cR-1X
+ for qemu-devel@nongnu.org; Sun, 06 Feb 2022 04:29:58 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:45541)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nGdrl-0002Lx-9N
+ for qemu-devel@nongnu.org; Sun, 06 Feb 2022 04:29:55 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1644139791;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=2P5WM6D8tx5DF433WLJkjj//h9SIwMnj8ZwIpC0moXI=;
+ b=T9DQxVY1ewhISDlnWSLbkluv5pK4UPKJlzBPN3+NZQBQ+i3BLIJCIhxZZFlUkYFZFQ44Qk
+ +VUqq0b9ZfoF1voPTgsDQLObQwofnS1wbJFaF4nealv2CU30v/5gCgaa3aeYvheq/811o5
+ nAw12Kc8gZmDNXJQkvX/Pq/gNrklDVo=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-85-CO3WWNbvOGu0MtEIPx04Ew-1; Sun, 06 Feb 2022 04:29:50 -0500
+X-MC-Unique: CO3WWNbvOGu0MtEIPx04Ew-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ t2-20020a7bc3c2000000b003528fe59cb9so3933596wmj.5
+ for <qemu-devel@nongnu.org>; Sun, 06 Feb 2022 01:29:50 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=DpORpBZuRTgyXLMxgMIyGunVHEl3TZnt8/u2Ndv1j9A=;
- b=0DLaSTbpy2F8pfJwtCE+tlXPOECPLSq4NSgGzykUmuXVdhfnQmODClUir8KT3pX8J9
- Pma/U7/O20rwM9goWOtstu68ewnpzS6p71trO4rUd+XNWL2jCHks5GV/3V14B6nzDZH+
- x1/hcrTtYw2iUCWXyyBlTL2S4bmrfY92KXhfVNhwGDLgpdgTy6WcwpZP3Mplnf4s6SU/
- ISB8fEGqV71NY1rFWAXsZTy6YcSxgJOJw+YztaHSFEv0+pdd5wUhy+wWxdteLrNEYHQ4
- L9s/IxzmvlGhrQzi4hVCuupQ4qIcquwBciQw5GgS/ZbLm7s8lilgSdl7QWS3bqXH3b77
- alZA==
-X-Gm-Message-State: AOAM530L+VfR56VHydNrr18RXL3QKyOvIQ3hV9AkyDu6knCU10vonANP
- S1Imt53sJsP9wbeVa3C6uFwTnp8WPy6bSb+q
-X-Google-Smtp-Source: ABdhPJx/sNTvFtfld8wV9p7G2TMyGZmyvfzzT/zBiy9SEuvMF43l0aoa+H5iMEaH6OHRVrBNQsetlw==
-X-Received: by 2002:aca:a891:: with SMTP id r139mr4959191oie.337.1644139134819; 
- Sun, 06 Feb 2022 01:18:54 -0800 (PST)
-Received: from rivos-atish.. (adsl-70-228-75-190.dsl.akrnoh.ameritech.net.
- [70.228.75.190])
- by smtp.gmail.com with ESMTPSA id 1sm1596841oab.16.2022.02.06.01.18.53
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=2P5WM6D8tx5DF433WLJkjj//h9SIwMnj8ZwIpC0moXI=;
+ b=Jquf+V8/d8S47EqyqqYuiepuLZeqQ88Z4Pm/7VnmYZK5y/QyMc/jP0L+tPobQkA208
+ eGy9eqxqLlNhegfhzBmB1N/PKR9YQGXMUZXLv7TSxaZKsTeoJzPNDHx/Ffc01Y+Ch2gX
+ 33oB++190/DG4e9aY626c8nEqqgFOxwJNTgHtTxw2//Pm7E8QFcPSGxQ+CAt7U7L8ANj
+ VHpkADTD08b5B9DZbEtrvuRDroArNNyU5uk296/NOj5s/OtzBA2lGT6HrqCcRUwu/MvY
+ h5FVn1BaNSZKqksfMu5K07eecFHKWYmVK86i+4wT+oG6DxQtGoaAp3Ripd6C+rHAvax5
+ D9cQ==
+X-Gm-Message-State: AOAM530fISVV95QO3OlCE0LsRiVsVoZEXo6sPQdDtVM8ry3FoOu2qVNu
+ i2amtc81qlDfKNFVUSuRPtr8tsOfDrgdf65ajtAGDo+0qeOieWdUmcNtn/j7XqLY7S4nHcmfmuE
+ xPpMtl/6fbCEEmeA=
+X-Received: by 2002:adf:fa4b:: with SMTP id y11mr1252347wrr.221.1644139788892; 
+ Sun, 06 Feb 2022 01:29:48 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxnsudnLysSOaxl9z7ckx8Iwti0r3uj3lPmDzivSX8hP3xNQuw0aRUrhploQghIgvdTpeQrMQ==
+X-Received: by 2002:adf:fa4b:: with SMTP id y11mr1252336wrr.221.1644139788649; 
+ Sun, 06 Feb 2022 01:29:48 -0800 (PST)
+Received: from redhat.com ([2.52.12.81])
+ by smtp.gmail.com with ESMTPSA id z5sm16825183wmp.10.2022.02.06.01.29.44
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 06 Feb 2022 01:18:54 -0800 (PST)
-From: Atish Patra <atishp@rivosinc.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v3 6/6] target/riscv: Enable privileged spec version 1.12
-Date: Sun,  6 Feb 2022 01:18:35 -0800
-Message-Id: <20220206091835.1244296-7-atishp@rivosinc.com>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20220206091835.1244296-1-atishp@rivosinc.com>
-References: <20220206091835.1244296-1-atishp@rivosinc.com>
+ Sun, 06 Feb 2022 01:29:46 -0800 (PST)
+Date: Sun, 6 Feb 2022 04:29:42 -0500
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PULL 00/32] virtio,pc: features, cleanups, fixes
+Message-ID: <20220206042826-mutt-send-email-mst@kernel.org>
+References: <20220205014149.1189026-1-mst@redhat.com>
+ <CAFEAcA91cVDym5fVCXgHFHJ8fkt8GhrOis-EPHN6YWpVn9TOCA@mail.gmail.com>
+ <20220205072452-mutt-send-email-mst@kernel.org>
+ <CAFEAcA-RJ8OkwaXWx=bRHJCDoWrQvZbdSEuuyz1j9ZFod0kcfg@mail.gmail.com>
+ <20220205124235-mutt-send-email-mst@kernel.org>
+ <CAFEAcA_kbt0HOp=8w--ZR9g+EgZvownyrbWYseSxuArd1g4CBw@mail.gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::230
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::230;
- envelope-from=atishp@rivosinc.com; helo=mail-oi1-x230.google.com
-X-Spam_score_int: -10
-X-Spam_score: -1.1
-X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+In-Reply-To: <CAFEAcA_kbt0HOp=8w--ZR9g+EgZvownyrbWYseSxuArd1g4CBw@mail.gmail.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -87,79 +97,27 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alistair Francis <alistair.francis@wdc.com>,
- Bin Meng <bin.meng@windriver.com>, Atish Patra <atishp@rivosinc.com>,
- Palmer Dabbelt <palmer@dabbelt.com>, qemu-riscv@nongnu.org
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Virt machine uses privileged specification version 1.12 now.
-All other machine continue to use the default one defined for that
-machine unless changed to 1.12 by the user explicitly.
+On Sat, Feb 05, 2022 at 09:05:12PM +0000, Peter Maydell wrote:
+> On the build-tsan and build-cfi-x86_64 jobs and also on macos
+> (this is a "clang is pickier than gcc about unused functions" one):
+> https://gitlab.com/qemu-project/qemu/-/jobs/2058536617
+> https://gitlab.com/qemu-project/qemu/-/jobs/2058536571
+> 
+> ../tests/qtest/erst-test.c:91:20: error: unused function 'out_reg64'
+> [-Werror,-Wunused-function]
+> static inline void out_reg64(ERSTState *s, unsigned reg, uint64_t v)
+> ^
 
-Signed-off-by: Atish Patra <atishp@rivosinc.com>
----
- target/riscv/cpu.c | 8 +++++---
- target/riscv/csr.c | 5 +++++
- 2 files changed, 10 insertions(+), 3 deletions(-)
 
-diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-index 2668f9c358b2..1c72dfffdc61 100644
---- a/target/riscv/cpu.c
-+++ b/target/riscv/cpu.c
-@@ -150,7 +150,7 @@ static void riscv_any_cpu_init(Object *obj)
- #elif defined(TARGET_RISCV64)
-     set_misa(env, MXL_RV64, RVI | RVM | RVA | RVF | RVD | RVC | RVU);
- #endif
--    set_priv_version(env, PRIV_VERSION_1_11_0);
-+    set_priv_version(env, PRIV_VERSION_1_12_0);
- }
- 
- #if defined(TARGET_RISCV64)
-@@ -474,7 +474,9 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
-     }
- 
-     if (cpu->cfg.priv_spec) {
--        if (!g_strcmp0(cpu->cfg.priv_spec, "v1.11.0")) {
-+        if (!g_strcmp0(cpu->cfg.priv_spec, "v1.12.0")) {
-+            priv_version = PRIV_VERSION_1_12_0;
-+        } else if (!g_strcmp0(cpu->cfg.priv_spec, "v1.11.0")) {
-             priv_version = PRIV_VERSION_1_11_0;
-         } else if (!g_strcmp0(cpu->cfg.priv_spec, "v1.10.0")) {
-             priv_version = PRIV_VERSION_1_10_0;
-@@ -489,7 +491,7 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
-     if (priv_version) {
-         set_priv_version(env, priv_version);
-     } else if (!env->priv_ver) {
--        set_priv_version(env, PRIV_VERSION_1_11_0);
-+        set_priv_version(env, PRIV_VERSION_1_12_0);
-     }
- 
-     if (cpu->cfg.mmu) {
-diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-index ff7e36596447..1c70c19cf9bd 100644
---- a/target/riscv/csr.c
-+++ b/target/riscv/csr.c
-@@ -2886,6 +2886,7 @@ static inline RISCVException riscv_csrrw_check(CPURISCVState *env,
- {
-     /* check privileges and return RISCV_EXCP_ILLEGAL_INST if check fails */
-     int read_only = get_field(csrno, 0xC00) == 3;
-+    int csr_min_priv = csr_ops[csrno].min_priv_ver;
- #if !defined(CONFIG_USER_ONLY)
-     int effective_priv = env->priv;
- 
-@@ -2918,6 +2919,10 @@ static inline RISCVException riscv_csrrw_check(CPURISCVState *env,
-         return RISCV_EXCP_ILLEGAL_INST;
-     }
- 
-+    if (env->priv_ver < csr_min_priv) {
-+        return RISCV_EXCP_ILLEGAL_INST;
-+    }
-+
-     return csr_ops[csrno].predicate(env, csrno);
- }
- 
+That's a weird one - it's static inline, compiler should not warn I
+think. compiler bug? I can drop this for sure but still. Is this
+what we should be doing?
+
 -- 
-2.30.2
+MST
 
 
