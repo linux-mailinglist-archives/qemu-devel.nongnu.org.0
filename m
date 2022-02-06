@@ -2,71 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56D014AB18A
-	for <lists+qemu-devel@lfdr.de>; Sun,  6 Feb 2022 19:59:14 +0100 (CET)
-Received: from localhost ([::1]:48856 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 65F694AB162
+	for <lists+qemu-devel@lfdr.de>; Sun,  6 Feb 2022 19:51:45 +0100 (CET)
+Received: from localhost ([::1]:42968 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nGmkj-00085v-86
-	for lists+qemu-devel@lfdr.de; Sun, 06 Feb 2022 13:59:13 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:48154)
+	id 1nGmdO-0003MH-Ls
+	for lists+qemu-devel@lfdr.de; Sun, 06 Feb 2022 13:51:39 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:48166)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <carwynellis@gmail.com>)
- id 1nGmTA-0000sQ-IS; Sun, 06 Feb 2022 13:41:08 -0500
-Received: from [2a00:1450:4864:20::32f] (port=56213
- helo=mail-wm1-x32f.google.com)
+ id 1nGmTC-0000sZ-Jd; Sun, 06 Feb 2022 13:41:10 -0500
+Received: from [2a00:1450:4864:20::435] (port=42573
+ helo=mail-wr1-x435.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <carwynellis@gmail.com>)
- id 1nGmT5-0006cO-Ns; Sun, 06 Feb 2022 13:41:02 -0500
-Received: by mail-wm1-x32f.google.com with SMTP id r7so8414494wmq.5;
- Sun, 06 Feb 2022 10:40:01 -0800 (PST)
+ id 1nGmT5-0006cc-Ld; Sun, 06 Feb 2022 13:41:02 -0500
+Received: by mail-wr1-x435.google.com with SMTP id h6so2440421wrb.9;
+ Sun, 06 Feb 2022 10:40:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:signed-off-by:content-transfer-encoding;
- bh=jKL9qqUZeMzWh1oOcABKtOSBvwjikYZx8Li4HYOPrsI=;
- b=FZFJXtENLvR+ckCuic/CRudWUYvAwiFuzGX5HhfVWN+8hYM7DF/OLRkNge43xklW9V
- VbJFEmP0TjOzrMkjPOMDCjHdmBcR6Jhck+oiMDwCjZz/0G1F2iyKdNcv0beZJNdnEoFt
- 8fIQz33/4X43FKzlCFgLJzOzPXJrhHYG9PHxXsrJ1GLeJutw+L+SXMiFVkHqzhXQzH19
- OIrs/6UUBM91ONqO4zdtwoX2Xj9heNywf4Gw7M0RJpzmEWaQA3kekOSr6FmVqEK4+o0g
- /POzearTeLjXQ379iibCt/2lEsPyRzVfGDbuoMNc6xpTFyESKhsKs7l9aL8MqEwADrib
- UqbQ==
+ bh=A/HCs/kNXI7cJGLKEQ8PcT+uHPNHbpAq4h2rDiwNG1I=;
+ b=NNz3yZt402vcxzwC44FRqUjHq3hR+MRRd0aKu/FuT5LqXSDrUH3ZXs4EDtahaIDYpx
+ qYG6XN0mSIb3I71Opa4ogn4c2v+nLANLlHuS0Ccg5I3x53RGYETqCbF8bkn8hkrdwqPo
+ uz4xRASWJjOKQv8jj47OOx6EJklpnSw443iccQBHaZAU+YtXAWsQ+hx0LVfIY21PwrZp
+ +oR/S8ss6mytN9Qwk3lOjENFZuu71C/AEiaD08XZ+SVyiCJSPDyIrJpF4mQCAvJghmAo
+ lMGXoH6nqIU802psFlk4M3BLAdwfsfzi99zdT1z1lI+IvGoP6R48OTNlF8Sdj6L/UJzw
+ 7ApA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:signed-off-by:content-transfer-encoding;
- bh=jKL9qqUZeMzWh1oOcABKtOSBvwjikYZx8Li4HYOPrsI=;
- b=6ilX96fPF4a7itZM9AycLudJ84bY8RClhhhIF8pCVNi0nGpVAauGMRlukuSNrWjQut
- UQOjqBtEpyIlJcvgj6wFIgvWzHXxl4FpDnRzZW9y3K5LwE6eam0XTxu5IUXLNqqcTR/5
- hFSEE8G4pb6PVb12XnNRUgNEFBCokSSg42RWNhKc/P3kcC2qTU97KCqnTcO3NeRjLZVB
- EGSeW5MLgzQeC3zrlyY1/kt9f/T5xTuKgphvNHSEtVvOz007FLdpzK8ddyjisZT7NawF
- 1ZwqWJ0RUhfKrtJ/mrLzfE/1DLWyoQ8A4aTw4U/1B6Nbt6ZGldf0L7v0ep1KTBXr0GtU
- /NMQ==
-X-Gm-Message-State: AOAM533p7BzoQjqPNPHr5aRzAa0HIZq8dEApAR12zA4r4B+P4hhBNi+H
- tigN5yjJzwhJlLQtiAfVuzaC2JGnIVI=
-X-Google-Smtp-Source: ABdhPJw9xmq9ZDhdWkBtWF9ihxeGY4Av9U4Kc3slE8gylPyVS5Teharmz9gfTWaW9IlUR2Cs/344ag==
-X-Received: by 2002:a7b:c381:: with SMTP id s1mr8638067wmj.114.1644172800104; 
- Sun, 06 Feb 2022 10:40:00 -0800 (PST)
+ bh=A/HCs/kNXI7cJGLKEQ8PcT+uHPNHbpAq4h2rDiwNG1I=;
+ b=MuHWDtIKPPMPsL+GveVX9/b8vdUTGS1DodXsHuHFBPl2j+rrs1cGG2WTAOPTFcO+x3
+ DXZzG9uTP2aERQ8iZNvUVAB9mFwHBy4xVQy+h3XxzT45B6z3MDdcRp1jGZXIQeDwOvyS
+ T43T9L7hC1UIzzwZxeR5x3SsUiB5PF80qfN72OP8DgSU2LIBPIG+GdgUsFb+rimbOtnH
+ 3WHInZKmBNYI/Bux+dbURpDczPFLflCqc+tkBXd+e54B3TS9gxUJE38vlz5kano8vFfJ
+ 6J2lSD3I7hglflz5teOehS0RWht59SOuV5vgQ8Q2vxK1VjOyTioV53ngQIHXaUafIG1f
+ mS1A==
+X-Gm-Message-State: AOAM530rTx1qvSfCtuLfqT6a5TKsalMthSOvUuCv1wT1Sod+MU0yoI11
+ yl2NlzPfLtxodmZNIuf9dMyx/iAYK4s=
+X-Google-Smtp-Source: ABdhPJz1ZJUY1JbRPg4v4YwiealrsYpKdmryaiw4obInns1aI/YwJlcLY1dtfXsFy5WNnHppweN+OQ==
+X-Received: by 2002:adf:ee81:: with SMTP id b1mr2776057wro.149.1644172801391; 
+ Sun, 06 Feb 2022 10:40:01 -0800 (PST)
 Received: from localhost.localdomain (201.11.75.194.dyn.plus.net.
  [194.75.11.201])
- by smtp.googlemail.com with ESMTPSA id y8sm8695566wrd.32.2022.02.06.10.39.59
+ by smtp.googlemail.com with ESMTPSA id y8sm8695566wrd.32.2022.02.06.10.40.00
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 06 Feb 2022 10:39:59 -0800 (PST)
+ Sun, 06 Feb 2022 10:40:00 -0800 (PST)
 From: Carwyn Ellis <carwynellis@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 1/2] hw/display/vmware_vga: replace fprintf calls with
- trace events
-Date: Sun,  6 Feb 2022 18:39:55 +0000
-Message-Id: <20220206183956.10694-2-carwynellis@gmail.com>
+Subject: [PATCH v3 2/2] hw/display/vmware_vga: do not discard screen updates
+Date: Sun,  6 Feb 2022 18:39:56 +0000
+Message-Id: <20220206183956.10694-3-carwynellis@gmail.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220206183956.10694-1-carwynellis@gmail.com>
 References: <20220206183956.10694-1-carwynellis@gmail.com>
 MIME-Version: 1.0
 Signed-off-by: Carwyn Ellis <carwynellis@gmail.com>
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32f
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::435
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
- envelope-from=carwynellis@gmail.com; helo=mail-wm1-x32f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::435;
+ envelope-from=carwynellis@gmail.com; helo=mail-wr1-x435.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -91,98 +90,110 @@ Cc: qemu-trivial@nongnu.org, Carwyn Ellis <carwynellis@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Debug output was always being sent to STDERR.
+In certain circumstances, typically when there is lots changing on the
+screen, updates will be discarded resulting in garbled output.
 
-This has been replaced with trace events.
+This change simplifies the traversal of the display update FIFO queue
+when applying updates. We just track the queue length and iterate up to
+the end of the queue.
+
+Additionally when adding updates to the queue, if the buffer reaches
+capacity we force a flush before accepting further events.
 
 Signed-off-by: Carwyn Ellis <carwynellis@gmail.com>
 ---
- hw/display/trace-events |  3 +++
- hw/display/vmware_vga.c | 30 ++++++++++++++++++------------
- 2 files changed, 21 insertions(+), 12 deletions(-)
+ hw/display/trace-events |  1 +
+ hw/display/vmware_vga.c | 41 +++++++++++++++++++++++------------------
+ 2 files changed, 24 insertions(+), 18 deletions(-)
 
 diff --git a/hw/display/trace-events b/hw/display/trace-events
-index 4a687d1b8e..91efc88f04 100644
+index 91efc88f04..0c0ffcbe42 100644
 --- a/hw/display/trace-events
 +++ b/hw/display/trace-events
-@@ -21,6 +21,9 @@ vmware_palette_write(uint32_t index, uint32_t value) "index %d, value 0x%x"
- vmware_scratch_read(uint32_t index, uint32_t value) "index %d, value 0x%x"
- vmware_scratch_write(uint32_t index, uint32_t value) "index %d, value 0x%x"
- vmware_setmode(uint32_t w, uint32_t h, uint32_t bpp) "%dx%d @ %d bpp"
-+vmware_verify_rect_less_than_zero(const char *name, const char *param, int x) "%s: %s was < 0 (%d)"
-+vmware_verify_rect_greater_than_bound(const char *name, const char *param, int bound, int x) "%s: %s was > %d (%d)"
-+vmware_verify_rect_surface_bound_exceeded(const char *name, const char *component, int bound, const char *param1, int value1, const char *param2, int value2) "%s: %s > %d (%s: %d, %s: %d)"
+@@ -24,6 +24,7 @@ vmware_setmode(uint32_t w, uint32_t h, uint32_t bpp) "%dx%d @ %d bpp"
+ vmware_verify_rect_less_than_zero(const char *name, const char *param, int x) "%s: %s was < 0 (%d)"
+ vmware_verify_rect_greater_than_bound(const char *name, const char *param, int bound, int x) "%s: %s was > %d (%d)"
+ vmware_verify_rect_surface_bound_exceeded(const char *name, const char *component, int bound, const char *param1, int value1, const char *param2, int value2) "%s: %s > %d (%s: %d, %s: %d)"
++vmware_update_rect_delayed_flush(void) "display update FIFO full - forcing flush"
  
  # virtio-gpu-base.c
  virtio_gpu_features(bool virgl) "virgl %d"
 diff --git a/hw/display/vmware_vga.c b/hw/display/vmware_vga.c
-index e2969a6c81..0cc43a1f15 100644
+index 0cc43a1f15..8a3c3cb8f0 100644
 --- a/hw/display/vmware_vga.c
 +++ b/hw/display/vmware_vga.c
-@@ -297,46 +297,52 @@ static inline bool vmsvga_verify_rect(DisplaySurface *surface,
-                                       int x, int y, int w, int h)
- {
-     if (x < 0) {
--        fprintf(stderr, "%s: x was < 0 (%d)\n", name, x);
-+        trace_vmware_verify_rect_less_than_zero(name, "x", x);
-         return false;
-     }
-     if (x > SVGA_MAX_WIDTH) {
--        fprintf(stderr, "%s: x was > %d (%d)\n", name, SVGA_MAX_WIDTH, x);
-+        trace_vmware_verify_rect_greater_than_bound(name, "x", SVGA_MAX_WIDTH,
-+                                                    x);
-         return false;
-     }
-     if (w < 0) {
--        fprintf(stderr, "%s: w was < 0 (%d)\n", name, w);
-+        trace_vmware_verify_rect_less_than_zero(name, "w", w);
-         return false;
-     }
-     if (w > SVGA_MAX_WIDTH) {
--        fprintf(stderr, "%s: w was > %d (%d)\n", name, SVGA_MAX_WIDTH, w);
-+        trace_vmware_verify_rect_greater_than_bound(name, "w", SVGA_MAX_WIDTH,
-+                                                    w);
-         return false;
-     }
-     if (x + w > surface_width(surface)) {
--        fprintf(stderr, "%s: width was > %d (x: %d, w: %d)\n",
--                name, surface_width(surface), x, w);
-+        trace_vmware_verify_rect_surface_bound_exceeded(name, "width",
-+                                                        surface_width(surface),
-+                                                        "x", x, "w", w);
-         return false;
-     }
+@@ -80,7 +80,7 @@ struct vmsvga_state_s {
+     struct vmsvga_rect_s {
+         int x, y, w, h;
+     } redraw_fifo[REDRAW_FIFO_LEN];
+-    int redraw_fifo_first, redraw_fifo_last;
++    int redraw_fifo_last;
+ };
  
-     if (y < 0) {
--        fprintf(stderr, "%s: y was < 0 (%d)\n", name, y);
-+        trace_vmware_verify_rect_less_than_zero(name, "y", y);
-         return false;
+ #define TYPE_VMWARE_SVGA "vmware-svga"
+@@ -380,33 +380,39 @@ static inline void vmsvga_update_rect(struct vmsvga_state_s *s,
+     dpy_gfx_update(s->vga.con, x, y, w, h);
+ }
+ 
+-static inline void vmsvga_update_rect_delayed(struct vmsvga_state_s *s,
+-                int x, int y, int w, int h)
+-{
+-    struct vmsvga_rect_s *rect = &s->redraw_fifo[s->redraw_fifo_last++];
+-
+-    s->redraw_fifo_last &= REDRAW_FIFO_LEN - 1;
+-    rect->x = x;
+-    rect->y = y;
+-    rect->w = w;
+-    rect->h = h;
+-}
+-
+ static inline void vmsvga_update_rect_flush(struct vmsvga_state_s *s)
+ {
+     struct vmsvga_rect_s *rect;
+ 
+     if (s->invalidated) {
+-        s->redraw_fifo_first = s->redraw_fifo_last;
++        s->redraw_fifo_last = 0;
+         return;
      }
-     if (y > SVGA_MAX_HEIGHT) {
--        fprintf(stderr, "%s: y was > %d (%d)\n", name, SVGA_MAX_HEIGHT, y);
-+        trace_vmware_verify_rect_greater_than_bound(name, "y", SVGA_MAX_HEIGHT,
-+                                                    y);
-         return false;
+     /* Overlapping region updates can be optimised out here - if someone
+      * knows a smart algorithm to do that, please share.  */
+-    while (s->redraw_fifo_first != s->redraw_fifo_last) {
+-        rect = &s->redraw_fifo[s->redraw_fifo_first++];
+-        s->redraw_fifo_first &= REDRAW_FIFO_LEN - 1;
++    for (int i = 0; i < s->redraw_fifo_last; i++) {
++        rect = &s->redraw_fifo[i];
+         vmsvga_update_rect(s, rect->x, rect->y, rect->w, rect->h);
      }
-     if (h < 0) {
--        fprintf(stderr, "%s: h was < 0 (%d)\n", name, h);
-+        trace_vmware_verify_rect_less_than_zero(name, "h", h);
-         return false;
-     }
-     if (h > SVGA_MAX_HEIGHT) {
--        fprintf(stderr, "%s: h was > %d (%d)\n", name, SVGA_MAX_HEIGHT, h);
-+        trace_vmware_verify_rect_greater_than_bound(name, "y", SVGA_MAX_HEIGHT,
-+                                                    y);
-         return false;
-     }
-     if (y + h > surface_height(surface)) {
--        fprintf(stderr, "%s: update height > %d (y: %d, h: %d)\n",
--                name, surface_height(surface), y, h);
-+        trace_vmware_verify_rect_surface_bound_exceeded(name, "height",
-+                                                        surface_height(surface),
-+                                                        "y", y, "h", h);
-         return false;
-     }
++
++    s->redraw_fifo_last = 0;
++}
++
++static inline void vmsvga_update_rect_delayed(struct vmsvga_state_s *s,
++                int x, int y, int w, int h)
++{
++
++    if (s->redraw_fifo_last >= REDRAW_FIFO_LEN) {
++        trace_vmware_update_rect_delayed_flush();
++        vmsvga_update_rect_flush(s);
++    }
++
++    struct vmsvga_rect_s *rect = &s->redraw_fifo[s->redraw_fifo_last++];
++
++    rect->x = x;
++    rect->y = y;
++    rect->w = w;
++    rect->h = h;
+ }
+ 
+ #ifdef HW_RECT_ACCEL
+@@ -1159,7 +1165,6 @@ static void vmsvga_reset(DeviceState *dev)
+     s->config = 0;
+     s->svgaid = SVGA_ID;
+     s->cursor.on = 0;
+-    s->redraw_fifo_first = 0;
+     s->redraw_fifo_last = 0;
+     s->syncing = 0;
  
 -- 
 2.35.1
