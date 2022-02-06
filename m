@@ -2,66 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 37D5A4AAEE8
-	for <lists+qemu-devel@lfdr.de>; Sun,  6 Feb 2022 11:55:31 +0100 (CET)
-Received: from localhost ([::1]:38004 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 526634AAEE4
+	for <lists+qemu-devel@lfdr.de>; Sun,  6 Feb 2022 11:48:06 +0100 (CET)
+Received: from localhost ([::1]:54000 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nGfCY-0005k1-6Q
-	for lists+qemu-devel@lfdr.de; Sun, 06 Feb 2022 05:55:30 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:53522)
+	id 1nGf5R-0005ip-DQ
+	for lists+qemu-devel@lfdr.de; Sun, 06 Feb 2022 05:48:05 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:53762)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nGezk-0000Fb-ML
- for qemu-devel@nongnu.org; Sun, 06 Feb 2022 05:42:13 -0500
-Received: from [2a00:1450:4864:20::430] (port=45028
- helo=mail-wr1-x430.google.com)
+ id 1nGf1P-0001qk-91
+ for qemu-devel@nongnu.org; Sun, 06 Feb 2022 05:43:55 -0500
+Received: from [2a00:1450:4864:20::32d] (port=40691
+ helo=mail-wm1-x32d.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nGezi-00044T-Pi
- for qemu-devel@nongnu.org; Sun, 06 Feb 2022 05:42:12 -0500
-Received: by mail-wr1-x430.google.com with SMTP id k18so19745290wrg.11
- for <qemu-devel@nongnu.org>; Sun, 06 Feb 2022 02:41:59 -0800 (PST)
+ id 1nGf1N-0004B8-GV
+ for qemu-devel@nongnu.org; Sun, 06 Feb 2022 05:43:54 -0500
+Received: by mail-wm1-x32d.google.com with SMTP id
+ m126-20020a1ca384000000b0037bb8e379feso1375030wme.5
+ for <qemu-devel@nongnu.org>; Sun, 06 Feb 2022 02:43:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=rgos2MRD1ymHAXF2H7QIlSA/AJ/SS/QL8FJwHcs9yVQ=;
- b=Mdl7yJXD/3MrJGImbbccQHMFMdrhc/hxXZhR+0HPnP35v45BR+DT0BannZE/bsiWID
- 5myn72WoCgd5lEd0MOkOqE9hnJb+dcSlN4AY/LJBJ365Vgz8aRtJStIsnJT2PtvcgSG0
- eYP5H2HG9ylGxtlTabzMNs8b2wp523hWWp0X+lYoryjb+W9f8GFreWuM5R8qhZbOEWHe
- ZNnzblrMkrPhkgxmK4VTIqB8uskaQ93nxIGWS2HukL+MgJ1yduAy6e+mlaPIWo1r2CIv
- yAJwTqJ/dOG+y+hHubRrAZIGOAzeQcmrKe/H79O36qk/LKFEHUcd46LPfx/k1FtPaDE0
- 4wMg==
+ :cc; bh=F2AMYDC7c7A/N+6k/qgXiCpN68x4LOQmQpALrbth+/Y=;
+ b=q6staMq80Njonxbu6DmEli+EI7EEaXlw6DMVAxDKKb4rLYUJZI8KZs+gavshdGRCMa
+ 1h6fOjFepMNr+pELWibJkOV1+OLXAsYygCx8BnT2B/iUoMP08PxQs2zG5vCY36nCwByx
+ 121pkh42HyESn4P4GzILRYRJwllxOymEdlezfVomEoK7p4G3XvbI322JG8FNjhx2ufjB
+ FOjA2dqMByUaQzCtGm8/iYM6u/9OaZtDpM/WVxxuIiWGBYCPDGifEYw2m7OLnPaPwp4M
+ iIL+ziuwcTJRYhoHrAfQqtwwiRyKD51zSH9oNRyOKdsUyW54WJN2pqncfREnsMWaZ8Yh
+ aIZw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=rgos2MRD1ymHAXF2H7QIlSA/AJ/SS/QL8FJwHcs9yVQ=;
- b=rrvnZwwM2TPSwyNDSM2ys++rHIrUuHwpjY5wbMt5HxS5RVp/AluIKtB7xGu2h43iyM
- og+DABcwlCv7AbUuN8bT3TzCX/rjdLREye5L1cenlQLxYyPR9z81qB0iMcKX+gv8BZ6z
- KtnUhje28Ei9ZPc97CQKosCWLvF6Z1wNYY8bRyol3YMhMdSqiWnDMi1nfbEOJcW611PQ
- XE7OpiWzwKkWZoL5ChtgDxKxljwr+9PaWKuJymQsFVokN0SU0kYS5/WxW18QseAh5AV0
- tihEEpYRpagUw5p9U7d1hlR9SpSWnzc35V5ChgY1hrOaVlvX54aXsEZpXAUPTDXp9Wtw
- cj7g==
-X-Gm-Message-State: AOAM5326ZkmU3QFwWTWjNNv2byjclzFWtglGDwoU44xEzrRIR522Muo9
- eaEp+kH+nDhGaP7yTiuDELLs41I3CI65cnf/DwjM1w==
-X-Google-Smtp-Source: ABdhPJyUNyoYGAR27rch6z4RCjyNifRkL8CKl2knKE/pHA87g8BQZa1gcgOOYNbOYrpoeDm0iog80N2qw7l+6dowsDs=
-X-Received: by 2002:a5d:6d8d:: with SMTP id l13mr3405675wrs.295.1644144118376; 
- Sun, 06 Feb 2022 02:41:58 -0800 (PST)
+ bh=F2AMYDC7c7A/N+6k/qgXiCpN68x4LOQmQpALrbth+/Y=;
+ b=fOFKCP51tFgI/AfNDH1hcu6IkmvCtmgGIo1tCYnwvmfAfXssQTRl9r+bx2RqXBXDsP
+ FkAw8i9JrWyic8NmwPmNCg4kjYZnvMhUj7PksyR0ISHYCpcTs6/PSfW/aAOLviJaP+VJ
+ rdEf+o3NWA4v0DokcP/KGih2zSxr8LqQgCFGD2Tcn2viP6AggJV55sYAAz3eq9I/s38G
+ Lr1RJM7xGHIgEiYJGOqxCTIMwjfD/EErC91CK0kIN+1TLaCGoK63Qz89RJMM3AijPjHb
+ KiP1+tIkloigUJA0pCcOtwenxfepCOQxiWOVYdea5/GE7Q1Vl7LlUexlYPUkmmPhGtgw
+ GxgA==
+X-Gm-Message-State: AOAM532uiYQPbT8/QpE1T+tOA686WfmrLbG6+7o1ECXhj8BgHNT7k86P
+ l8aoI3cyZQR0DhXSVNJfrWtA/dcZqqE1R4oTj79+bg==
+X-Google-Smtp-Source: ABdhPJxdWzkg7GU3i//vuQ8UO0B27zZUrWF8lDFHT3K50i1K5kcWpEp1aI0rkKv90hiduM8HcZ3gEJNZdsjs/FaKkBA=
+X-Received: by 2002:a05:600c:4f0b:: with SMTP id
+ l11mr10190007wmq.126.1644144232284; 
+ Sun, 06 Feb 2022 02:43:52 -0800 (PST)
 MIME-Version: 1.0
-References: <20220204165506.2846058-1-peter.maydell@linaro.org>
- <20220204165506.2846058-7-peter.maydell@linaro.org>
- <06bc9314-2f23-4a0d-4ae5-8695a93778a2@linaro.org>
-In-Reply-To: <06bc9314-2f23-4a0d-4ae5-8695a93778a2@linaro.org>
+References: <20220203000550.36711-1-f4bug@amsat.org>
+ <3ba67c7d-f10b-ae22-61f4-962164ba37b4@ilande.co.uk>
+ <63bd68c2-2ae7-726d-616b-893afc71df0@eik.bme.hu>
+ <CAFEAcA820MLMqW4k89sgxiyzYdYajnTLfwQg3JoszuTMMSA3uA@mail.gmail.com>
+ <547de7d2-b7a0-5077-acf2-b72e326de544@ilande.co.uk>
+In-Reply-To: <547de7d2-b7a0-5077-acf2-b72e326de544@ilande.co.uk>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Sun, 6 Feb 2022 10:41:47 +0000
-Message-ID: <CAFEAcA-0-U0ugC_7O06f0PzzxzRtFWutCAKCsSDb0Ha19ZSzsg@mail.gmail.com>
-Subject: Re: [PATCH 6/6] target/arm: Support PAuth extension for hvf
-To: Richard Henderson <richard.henderson@linaro.org>
+Date: Sun, 6 Feb 2022 10:43:41 +0000
+Message-ID: <CAFEAcA_F-gLUqrez+bhs7OLgMR7GdR-05Ze9yBuoBdQftAdm3A@mail.gmail.com>
+Subject: Re: [PATCH v2] hw/display/tcx: Mark the VRAM dirty upon reset
+To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::430
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32d
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::430;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x430.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32d.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -82,38 +86,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Andrew Jones <drjones@redhat.com>, qemu-arm@nongnu.org,
- qemu-devel@nongnu.org, Alexander Graf <agraf@csgraf.de>
+Cc: Andreas Gustafsson <gson@gson.org>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
+ Gerd Hoffmann <kraxel@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, 6 Feb 2022 at 00:26, Richard Henderson
-<richard.henderson@linaro.org> wrote:
+On Sun, 6 Feb 2022 at 09:30, Mark Cave-Ayland
+<mark.cave-ayland@ilande.co.uk> wrote:
 >
-> On 2/5/22 03:55, Peter Maydell wrote:
-> > Currently we don't allow guests under hvf to use the PAuth extension,
-> > because we didn't have any special code to handle that, and therefore
-> > in arm_cpu_pauth_finalize() we will sanitize the ID_AA64ISAR1 value
-> > the guest sees to clear the PAuth related fields.
+> On 05/02/2022 15:39, Peter Maydell wrote:
+> > The handling of the vram buffer seems weird in this device overall,
+> > though -- the memory block is divided into three parts
+> >   * main vram, one byte per pixel
+> >   * vram24, four bytes per pixel
+> >   * cplane, four bytes per pixel
 > >
-> > Add support for this in the same way that KVM does it, by defaulting
-> > to "PAuth enabled" if the host CPU has it and allowing the user to
-> > disable it via '-cpu pauth=no' on the command line.
-> >
-> > Signed-off-by: Peter Maydell<peter.maydell@linaro.org>
-> > ---
-> >   target/arm/cpu64.c | 14 ++++++++++----
-> >   1 file changed, 10 insertions(+), 4 deletions(-)
+> > As far as I can see, only if depth=24 (fixed at device creation
+> > time) do we use the vram24 and cplane parts. But we create the
+> > memory block at the same size regardless of depth and we expose
+> > the vram24 and cplane parts to the guest as sysbus MMIO regions
+> > that are mapped into guest memory regardless of depth...
 >
-> Currently not a problem in practice because M1 doesn't support PAuth, so the ID fields are
-> already clear.  However, it is a confusing difference to kvm, and presumably some future
-> Apple chip will enable PAuth.
+> (goes and looks)
+>
+> It does look a bit odd certainly. Without Blue Swirl being around all I can only
+> guess as to why everything is configured to use an alias onto a single VRAM memory
+> region :/
+>
+> As for exposing the vram24 and cplane parts, I don't think it matters since 24-bit
+> mode is clearly designed to be backwards compatible with 8-bit mode. During
+> initialisation OpenBIOS reads the colour depth using the fw_cfg interface and adds
+> the registers for that mode into the DT as required so the correct information is
+> exposed to the guest.
 
-No, this is an actual bug that was reported to me. The M1
-does support PAuth, with an IMPDEF algorithm (and no
-support for QARMA5), and we were suppressing this by
-clearing the ID register fields.
+A guest won't notice if we expose stuff to it that it doesn't expect
+to be there -- but if the 8-bit-only device is not supposed to have
+those memory regions we shouldn't be creating them...
 
-thanks
 -- PMM
 
