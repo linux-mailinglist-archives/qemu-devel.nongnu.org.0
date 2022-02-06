@@ -2,67 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8900D4AB24B
-	for <lists+qemu-devel@lfdr.de>; Sun,  6 Feb 2022 22:17:55 +0100 (CET)
-Received: from localhost ([::1]:49058 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D4E3B4AB24C
+	for <lists+qemu-devel@lfdr.de>; Sun,  6 Feb 2022 22:19:17 +0100 (CET)
+Received: from localhost ([::1]:51222 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nGouw-000557-Kn
-	for lists+qemu-devel@lfdr.de; Sun, 06 Feb 2022 16:17:54 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:50004)
+	id 1nGowG-0006g9-VL
+	for lists+qemu-devel@lfdr.de; Sun, 06 Feb 2022 16:19:16 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:50062)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nGoto-0004Ov-Gb
- for qemu-devel@nongnu.org; Sun, 06 Feb 2022 16:16:44 -0500
-Received: from [2a00:1450:4864:20::32f] (port=37425
- helo=mail-wm1-x32f.google.com)
+ id 1nGou1-0004Tx-12
+ for qemu-devel@nongnu.org; Sun, 06 Feb 2022 16:16:57 -0500
+Received: from [2a00:1450:4864:20::435] (port=46690
+ helo=mail-wr1-x435.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nGotk-0002l8-AQ
- for qemu-devel@nongnu.org; Sun, 06 Feb 2022 16:16:43 -0500
-Received: by mail-wm1-x32f.google.com with SMTP id
- l12-20020a7bc34c000000b003467c58cbdfso13171505wmj.2
- for <qemu-devel@nongnu.org>; Sun, 06 Feb 2022 13:15:46 -0800 (PST)
+ id 1nGotz-0002ox-Gg
+ for qemu-devel@nongnu.org; Sun, 06 Feb 2022 16:16:56 -0500
+Received: by mail-wr1-x435.google.com with SMTP id r29so3551180wrr.13
+ for <qemu-devel@nongnu.org>; Sun, 06 Feb 2022 13:16:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=0TkYk6+Vr9rXFjmzIuMGZddcDRDN8JFULyIXK3m75mw=;
- b=hM4D/48GwzjaFxdHm8K4w0+s9C5a3Hanf0swEbWNO/3WYN/MHb4OzmKW7iF0EaI64J
- l6cE6P25w+GWMEuXR6mVIuMYDi7quEP7C6Trb78DET7Mx3u49p4t7ExezTxkwvhtMlwQ
- 3QdzH0EaartbQobFfQQkDOosyOI+4uCylpS+njekN2eUy+BRaIYUzTft2oq/1Z5d4llv
- yrZXOEBW+WnS1kWlZ0qNdudP8mnftpe2mkCfWepy45E//oUA00f4X8ezndLQzqkV013+
- Lf21dOI7fmko4qgPOXIdEDE6xh/ZIyKVkrpV2qrWZKXYBvGcf+1QHdoY/gS39vr9Ycsv
- X43g==
+ bh=1452MEhxjQUCP28Zr3QjS9BPuQv0w89FjDEq2YM3mfU=;
+ b=IhRpihGxtsBDBgLd65giEHTLrodr2bjFrZYDVfXpX/nYnmaWNTg8G82unmJFJLQ+jV
+ nQJtIZZQeNQRtNDoqU3FYayrqQIz3Do/LlF8LEEG4o4EUby+6ODYq3zpT6RNJz0qiAyW
+ u+LeRRDYzCTlPmUXEG4I2w1pBNceGZcM0hIzeRkLRf3mAGvn4oAIb0JV2C3zJRnHvW7+
+ ZvpNZcKL/Y3Fiq/h+q5Y+N+yJvGIrOkTzQlVjF+176Mgjbx8VCdwP2I035C5t2AiuC7c
+ FzJyaUIwSGw3GCEsTM4sMQvhYd5dpEwY3FCqjcZClN2tnd52u9q0M+FEoXf609kNR4FH
+ VlFQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
  :subject:content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=0TkYk6+Vr9rXFjmzIuMGZddcDRDN8JFULyIXK3m75mw=;
- b=RFFpfl2S+au31yfpdy5hysWTWRnIsmGNSJUSuN+FbJXxqImCvxnKthLxtt/ElghQf9
- JYJEqe+aPyRwg7RsS3qr+Wfs84s/liusT6wifv6TMM4Hwdqr20TGIvvHiRbbocx7cVvg
- VHgDL4xmf6TD0WjLabkqjf1qf8h85XfoVO3w7QhKAhAFPm0fxVdnj6bLr/0Yc42E60Ns
- RqyayOnfdz3P+GHGiiNCwNoT/F9ToFmbJTlVEUgb1Hw4Bws7NW2Ct+rg0CEoy1j/SmM6
- ROeq4GGYf2OwLhZ+n6bNfyq9dWVCSX0J+IEKdQRCrDlsCZWD+vdKTYj0hEf3D0YCcs3l
- 82/A==
-X-Gm-Message-State: AOAM533wineT58MmcZPmhDiEP+CNA6kxTZtgm2GD44j0tEOZZ1nPuWuI
- FTnNfgnUfA18puNaW8sE0bfaQMI2/+g=
-X-Google-Smtp-Source: ABdhPJwnl1fCJS73C+MpQo18aqb3TvVXJ6lnCCfhl6ON8P5XFgxmp9a28aXSg9pMFjUFUAkvbJx0nQ==
-X-Received: by 2002:a05:600c:4f06:: with SMTP id
- l6mr8168230wmq.126.1644182145039; 
- Sun, 06 Feb 2022 13:15:45 -0800 (PST)
+ bh=1452MEhxjQUCP28Zr3QjS9BPuQv0w89FjDEq2YM3mfU=;
+ b=g0Ow74ZWGEk2ntCeSZnuvNigOT9L7EnmNa0nj8gTn0Mw2K6r5lURlDd9nro5ADOs3G
+ SfS5tnCcMNxHUun90OaKjvOwZilxlrt/s+CZy8LDM7v3wmPy/NKogETroQTDh72AYUCN
+ i4yuOKs9hSEmqK2wFob0lrLEEa2Bhwzei9v7LMb2x0JcuX10QCwlPwz3hSb9W/mnj7pi
+ 6dM1ALVw3ZOgMlfzEhs13eIb0cr03oPvmvGJOLUMJtxTFBL8VUp3qmgT1hJiR58zBi51
+ S73HRoNmUdcPDk8AT4jTENLqBwNvtwo2U+8uiveerCyBJYLQIOkAmS4ZuOyNCQ6ra68h
+ cDzw==
+X-Gm-Message-State: AOAM533dnl55RUuLbZpBhm4X3Z5cFDRTpig+sm+lFTPGUsOvXbYoQPyt
+ U9Q8jBPj5N1rFi6zyUBi1C2Vcby5bzg=
+X-Google-Smtp-Source: ABdhPJxZwCaNuz0EuRN3HiEJkme51zK7huUsX74i59oz8PmDjiL6lD8WOGXYNE1Ir+cbn4I9VTVpBA==
+X-Received: by 2002:a5d:604f:: with SMTP id j15mr7678889wrt.404.1644182214124; 
+ Sun, 06 Feb 2022 13:16:54 -0800 (PST)
 Received: from [192.168.1.33] (154.red-83-50-83.dynamicip.rima-tde.net.
  [83.50.83.154])
- by smtp.gmail.com with ESMTPSA id j19sm17560292wmq.17.2022.02.06.13.15.44
+ by smtp.gmail.com with ESMTPSA id f12sm8132813wrs.1.2022.02.06.13.16.53
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 06 Feb 2022 13:15:44 -0800 (PST)
-Message-ID: <4106f0d9-06ad-e71d-1192-1bacd925a3f4@amsat.org>
-Date: Sun, 6 Feb 2022 22:15:43 +0100
+ Sun, 06 Feb 2022 13:16:53 -0800 (PST)
+Message-ID: <95250424-afe7-a5c3-6960-fb11b5da374c@amsat.org>
+Date: Sun, 6 Feb 2022 22:16:52 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
  Gecko/20100101 Thunderbird/91.5.1
-Subject: Re: [PATCH v4 01/11] 9p: linux: Fix a couple Linux assumptions
+Subject: Re: [PATCH v4 02/11] 9p: Rename 9p-util -> 9p-util-linux
 Content-Language: en-US
 To: Will Cohen <wwcohen@gmail.com>, qemu-devel@nongnu.org
 Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
@@ -70,14 +68,14 @@ Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
  hi@alyssa.is, Michael Roitzsch <reactorcontrol@icloud.com>,
  Paolo Bonzini <pbonzini@redhat.com>, Keno Fischer <keno@juliacomputing.com>
 References: <20220206200719.74464-1-wwcohen@gmail.com>
- <20220206200719.74464-2-wwcohen@gmail.com>
-In-Reply-To: <20220206200719.74464-2-wwcohen@gmail.com>
+ <20220206200719.74464-3-wwcohen@gmail.com>
+In-Reply-To: <20220206200719.74464-3-wwcohen@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32f
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::435
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::435;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x435.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -107,34 +105,21 @@ From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 On 6/2/22 21:07, Will Cohen wrote:
 > From: Keno Fischer <keno@juliacomputing.com>
 > 
->   - Guard Linux only headers.
->   - Add qemu/statfs.h header to abstract over the which
->     headers are needed for struct statfs
->   - Define `ENOATTR` only if not only defined
->     (it's defined in system headers on Darwin).
+> The current file only has the Linux versions of these functions.
+> Rename the file accordingly and update the Makefile to only build
+> it on Linux. A Darwin version of these will follow later in the
+> series.
 > 
 > Signed-off-by: Keno Fischer <keno@juliacomputing.com>
 > [Michael Roitzsch: - Rebase for NixOS]
 > Signed-off-by: Michael Roitzsch <reactorcontrol@icloud.com>
-> 
-> While it might at first appear that fsdev/virtfs-proxy-header.c would
-> need similar adjustment for darwin as file-op-9p here, a later patch in
-> this series disables virtfs-proxy-helper for non-Linux. Allowing
-> virtfs-proxy-helper on darwin could potentially be an additional
-> optimization later.
-> 
-> [Will Cohen: - Fix headers for Alpine
->               - Integrate statfs.h back into file-op-9p.h
->               - Remove superfluous header guards from file-opt-9p
->               - Add note about virtfs-proxy-helper being disabled
->                 on non-Linux for this patch series]
 > Signed-off-by: Will Cohen <wwcohen@gmail.com>
+> Reviewed-by: Greg Kurz <groug@kaod.org>
 > ---
->   fsdev/file-op-9p.h   | 9 ++++++++-
->   hw/9pfs/9p-local.c   | 2 ++
->   hw/9pfs/9p.c         | 4 ++++
->   include/qemu/xattr.h | 4 +++-
->   4 files changed, 17 insertions(+), 2 deletions(-)
+>   hw/9pfs/{9p-util.c => 9p-util-linux.c} | 2 +-
+>   hw/9pfs/meson.build                    | 2 +-
+>   2 files changed, 2 insertions(+), 2 deletions(-)
+>   rename hw/9pfs/{9p-util.c => 9p-util-linux.c} (97%)
 
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
