@@ -2,89 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0D664AAEBF
-	for <lists+qemu-devel@lfdr.de>; Sun,  6 Feb 2022 11:02:28 +0100 (CET)
-Received: from localhost ([::1]:59666 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 314794AAE9A
+	for <lists+qemu-devel@lfdr.de>; Sun,  6 Feb 2022 10:34:03 +0100 (CET)
+Received: from localhost ([::1]:42192 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nGeNG-0002H3-6p
-	for lists+qemu-devel@lfdr.de; Sun, 06 Feb 2022 05:02:27 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:43212)
+	id 1nGdvm-000475-BC
+	for lists+qemu-devel@lfdr.de; Sun, 06 Feb 2022 04:34:02 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:43330)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nGdrq-0002cR-1X
- for qemu-devel@nongnu.org; Sun, 06 Feb 2022 04:29:58 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:45541)
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1nGdsl-0002u8-QI
+ for qemu-devel@nongnu.org; Sun, 06 Feb 2022 04:30:59 -0500
+Received: from [2001:41c9:1:41f::167] (port=49242
+ helo=mail.default.ilande.bv.iomart.io)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nGdrl-0002Lx-9N
- for qemu-devel@nongnu.org; Sun, 06 Feb 2022 04:29:55 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1644139791;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=2P5WM6D8tx5DF433WLJkjj//h9SIwMnj8ZwIpC0moXI=;
- b=T9DQxVY1ewhISDlnWSLbkluv5pK4UPKJlzBPN3+NZQBQ+i3BLIJCIhxZZFlUkYFZFQ44Qk
- +VUqq0b9ZfoF1voPTgsDQLObQwofnS1wbJFaF4nealv2CU30v/5gCgaa3aeYvheq/811o5
- nAw12Kc8gZmDNXJQkvX/Pq/gNrklDVo=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-85-CO3WWNbvOGu0MtEIPx04Ew-1; Sun, 06 Feb 2022 04:29:50 -0500
-X-MC-Unique: CO3WWNbvOGu0MtEIPx04Ew-1
-Received: by mail-wm1-f72.google.com with SMTP id
- t2-20020a7bc3c2000000b003528fe59cb9so3933596wmj.5
- for <qemu-devel@nongnu.org>; Sun, 06 Feb 2022 01:29:50 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=2P5WM6D8tx5DF433WLJkjj//h9SIwMnj8ZwIpC0moXI=;
- b=Jquf+V8/d8S47EqyqqYuiepuLZeqQ88Z4Pm/7VnmYZK5y/QyMc/jP0L+tPobQkA208
- eGy9eqxqLlNhegfhzBmB1N/PKR9YQGXMUZXLv7TSxaZKsTeoJzPNDHx/Ffc01Y+Ch2gX
- 33oB++190/DG4e9aY626c8nEqqgFOxwJNTgHtTxw2//Pm7E8QFcPSGxQ+CAt7U7L8ANj
- VHpkADTD08b5B9DZbEtrvuRDroArNNyU5uk296/NOj5s/OtzBA2lGT6HrqCcRUwu/MvY
- h5FVn1BaNSZKqksfMu5K07eecFHKWYmVK86i+4wT+oG6DxQtGoaAp3Ripd6C+rHAvax5
- D9cQ==
-X-Gm-Message-State: AOAM530fISVV95QO3OlCE0LsRiVsVoZEXo6sPQdDtVM8ry3FoOu2qVNu
- i2amtc81qlDfKNFVUSuRPtr8tsOfDrgdf65ajtAGDo+0qeOieWdUmcNtn/j7XqLY7S4nHcmfmuE
- xPpMtl/6fbCEEmeA=
-X-Received: by 2002:adf:fa4b:: with SMTP id y11mr1252347wrr.221.1644139788892; 
- Sun, 06 Feb 2022 01:29:48 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxnsudnLysSOaxl9z7ckx8Iwti0r3uj3lPmDzivSX8hP3xNQuw0aRUrhploQghIgvdTpeQrMQ==
-X-Received: by 2002:adf:fa4b:: with SMTP id y11mr1252336wrr.221.1644139788649; 
- Sun, 06 Feb 2022 01:29:48 -0800 (PST)
-Received: from redhat.com ([2.52.12.81])
- by smtp.gmail.com with ESMTPSA id z5sm16825183wmp.10.2022.02.06.01.29.44
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 06 Feb 2022 01:29:46 -0800 (PST)
-Date: Sun, 6 Feb 2022 04:29:42 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PULL 00/32] virtio,pc: features, cleanups, fixes
-Message-ID: <20220206042826-mutt-send-email-mst@kernel.org>
-References: <20220205014149.1189026-1-mst@redhat.com>
- <CAFEAcA91cVDym5fVCXgHFHJ8fkt8GhrOis-EPHN6YWpVn9TOCA@mail.gmail.com>
- <20220205072452-mutt-send-email-mst@kernel.org>
- <CAFEAcA-RJ8OkwaXWx=bRHJCDoWrQvZbdSEuuyz1j9ZFod0kcfg@mail.gmail.com>
- <20220205124235-mutt-send-email-mst@kernel.org>
- <CAFEAcA_kbt0HOp=8w--ZR9g+EgZvownyrbWYseSxuArd1g4CBw@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1nGdsh-0002n5-0T
+ for qemu-devel@nongnu.org; Sun, 06 Feb 2022 04:30:54 -0500
+Received: from [2a00:23c4:8ba0:ca00:d4eb:dbd5:5a41:aefe]
+ by mail.default.ilande.bv.iomart.io with esmtpsa
+ (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.92)
+ (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1nGds6-0002bw-3t; Sun, 06 Feb 2022 09:30:18 +0000
+Message-ID: <547de7d2-b7a0-5077-acf2-b72e326de544@ilande.co.uk>
+Date: Sun, 6 Feb 2022 09:30:38 +0000
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA_kbt0HOp=8w--ZR9g+EgZvownyrbWYseSxuArd1g4CBw@mail.gmail.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Content-Language: en-US
+To: Peter Maydell <peter.maydell@linaro.org>,
+ BALATON Zoltan <balaton@eik.bme.hu>
+References: <20220203000550.36711-1-f4bug@amsat.org>
+ <3ba67c7d-f10b-ae22-61f4-962164ba37b4@ilande.co.uk>
+ <63bd68c2-2ae7-726d-616b-893afc71df0@eik.bme.hu>
+ <CAFEAcA820MLMqW4k89sgxiyzYdYajnTLfwQg3JoszuTMMSA3uA@mail.gmail.com>
+From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+In-Reply-To: <CAFEAcA820MLMqW4k89sgxiyzYdYajnTLfwQg3JoszuTMMSA3uA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a00:23c4:8ba0:ca00:d4eb:dbd5:5a41:aefe
+X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
+Subject: Re: [PATCH v2] hw/display/tcx: Mark the VRAM dirty upon reset
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on mail.default.ilande.bv.iomart.io)
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2001:41c9:1:41f::167
+ (failed)
+Received-SPF: pass client-ip=2001:41c9:1:41f::167;
+ envelope-from=mark.cave-ayland@ilande.co.uk;
+ helo=mail.default.ilande.bv.iomart.io
+X-Spam_score_int: -10
+X-Spam_score: -1.1
+X-Spam_bar: -
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -97,27 +69,100 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: Andreas Gustafsson <gson@gson.org>, Gerd Hoffmann <kraxel@redhat.com>,
+ qemu-devel@nongnu.org,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sat, Feb 05, 2022 at 09:05:12PM +0000, Peter Maydell wrote:
-> On the build-tsan and build-cfi-x86_64 jobs and also on macos
-> (this is a "clang is pickier than gcc about unused functions" one):
-> https://gitlab.com/qemu-project/qemu/-/jobs/2058536617
-> https://gitlab.com/qemu-project/qemu/-/jobs/2058536571
+On 05/02/2022 15:39, Peter Maydell wrote:
+
+> On Sat, 5 Feb 2022 at 14:24, BALATON Zoltan <balaton@eik.bme.hu> wrote:
+>>
+>> On Sat, 5 Feb 2022, Mark Cave-Ayland wrote:
+>>> On 03/02/2022 00:05, Philippe Mathieu-Daudé via wrote:
+>>>
+>>>> When resetting we don't want to *reset* the dirty bitmap,
+>>>> we want to *set* it to mark the entire VRAM dirty due to
+>>>> the memset() call.
+>>>>
+>>>> Replace memory_region_reset_dirty() by tcx_set_dirty()
+>>>> which conveniently set the correct ranges dirty.
+>>>>
+>>>> Suggested-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+>>>> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 > 
-> ../tests/qtest/erst-test.c:91:20: error: unused function 'out_reg64'
-> [-Werror,-Wunused-function]
-> static inline void out_reg64(ERSTState *s, unsigned reg, uint64_t v)
-> ^
+>>>> -    memory_region_reset_dirty(&s->vram_mem, 0, MAXX * MAXY * (1 + 4 + 4),
+>>>> -                              DIRTY_MEMORY_VGA);
+>>>> +    tcx_set_dirty(s, 0, MAXX * MAXY);
+>>>>        s->dac_index = 0;
+>>>>        s->dac_state = 0;
+>>>>        s->cursx = 0xf000; /* Put cursor off screen */
+>>>
+>>> I don't think the size calculation of MAXX * MAXY is correct when comparing
+>>> with above? I think it's easiest just to use the same approach as
+>>
+>> Xonsidering that the memset has the same length it should be correct as
+>> that's what has been changed (assuming tcx_set_dirty works correctly), but
+>> maybe there's some trick here I don't know about.
+> 
+> The memset chosen size seems odd -- MAXX and MAXY are
+> constants, but the size of the memory block here is
+> s->vram_size * 9, which might be smaller than MAXX * MAXY...
+> 
+>>> update_palette_entries() here e.g.
+>>>
+>>>     tcx_set_dirty(s, 0, memory_region_size(&s->vram_mem));
+>>
+>> This may be an overkill. Although probably does not matter but it's still
+>> cleaner to only set dirty what has been changed otherwise you've just
+>> disabled dirty tracking. On the other hand, if this is a reset routine do
+>> you only want to clear the displayable part of vram or the whole vram?
+> 
+> I think we should clear the whole of the vram -- it ought to go
+> back to the same state as when the device was completed. If I'm
+> reading the sun4m board code correctly, the other parts of
+> the vram are mapped into the guest address space too.
+> 
+> So I would go for
+>      memset(s->vram, 0, memory_region_size(&s->vram_mem));
+>      memory_region_set_dirty(&s->vram_mem, 0, memory_region_size(&s->vram_mem),
+>                              DIRTY_MEMORY_VGA);
+> 
+> We can then delete the MAXX and MAXY defines, which were
+> previously used only in these two lines and which don't actually
+> have any relationship to the maximum size of the framebuffer.
+
+That makes sense to me. My guess is that MAXX and MAXY were originally used for 
+calculations on the original 8-bit framebuffer and the size calculation wasn't 
+updated when 24-bit support was added.
+
+> The handling of the vram buffer seems weird in this device overall,
+> though -- the memory block is divided into three parts
+>   * main vram, one byte per pixel
+>   * vram24, four bytes per pixel
+>   * cplane, four bytes per pixel
+> 
+> As far as I can see, only if depth=24 (fixed at device creation
+> time) do we use the vram24 and cplane parts. But we create the
+> memory block at the same size regardless of depth and we expose
+> the vram24 and cplane parts to the guest as sysbus MMIO regions
+> that are mapped into guest memory regardless of depth...
+
+(goes and looks)
+
+It does look a bit odd certainly. Without Blue Swirl being around all I can only 
+guess as to why everything is configured to use an alias onto a single VRAM memory 
+region :/
+
+As for exposing the vram24 and cplane parts, I don't think it matters since 24-bit 
+mode is clearly designed to be backwards compatible with 8-bit mode. During 
+initialisation OpenBIOS reads the colour depth using the fw_cfg interface and adds 
+the registers for that mode into the DT as required so the correct information is 
+exposed to the guest.
 
 
-That's a weird one - it's static inline, compiler should not warn I
-think. compiler bug? I can drop this for sure but still. Is this
-what we should be doing?
+ATB,
 
--- 
-MST
-
+Mark.
 
