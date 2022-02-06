@@ -2,76 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25CBB4AB204
-	for <lists+qemu-devel@lfdr.de>; Sun,  6 Feb 2022 21:23:30 +0100 (CET)
-Received: from localhost ([::1]:53110 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 353D14AB20E
+	for <lists+qemu-devel@lfdr.de>; Sun,  6 Feb 2022 21:27:35 +0100 (CET)
+Received: from localhost ([::1]:57508 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nGo4H-0002MP-8N
-	for lists+qemu-devel@lfdr.de; Sun, 06 Feb 2022 15:23:29 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:36126)
+	id 1nGo8E-0005cm-B2
+	for lists+qemu-devel@lfdr.de; Sun, 06 Feb 2022 15:27:34 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:38024)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wwcohen@gmail.com>) id 1nGnpE-000145-1L
- for qemu-devel@nongnu.org; Sun, 06 Feb 2022 15:07:56 -0500
-Received: from [2607:f8b0:4864:20::f33] (port=36493
- helo=mail-qv1-xf33.google.com)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1nGo0J-0000bj-7F
+ for qemu-devel@nongnu.org; Sun, 06 Feb 2022 15:19:23 -0500
+Received: from [2a00:1450:4864:20::42e] (port=38754
+ helo=mail-wr1-x42e.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <wwcohen@gmail.com>) id 1nGnpB-0001Rv-V9
- for qemu-devel@nongnu.org; Sun, 06 Feb 2022 15:07:55 -0500
-Received: by mail-qv1-xf33.google.com with SMTP id o5so2319403qvm.3
- for <qemu-devel@nongnu.org>; Sun, 06 Feb 2022 12:07:53 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1nGo0H-0002qs-66
+ for qemu-devel@nongnu.org; Sun, 06 Feb 2022 15:19:22 -0500
+Received: by mail-wr1-x42e.google.com with SMTP id s10so18804803wra.5
+ for <qemu-devel@nongnu.org>; Sun, 06 Feb 2022 12:19:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=MGq4/Ht9AqWuy11QNx35IG6GRlK0CwA5Kr6JW4BVDuM=;
- b=pGZIvIuYnyhFp+ENY5UYk7sInlSvrNcK14XUybAmaVf7eBbLVyDAyVgkE5pGwYn4CR
- emuPmtJpM9xN6w6Zat2gZPmJ5nipq/QdGUlUJUZmQeGEGi7RmjLTeV4GrjK5Ckec+GiB
- LCUu/8laq3KWdUTz6sJ9Ip8ImJA9EX+SGjIs8R4CIgToOkJbE67mJ56kiOgmHYVgu02w
- 6H/4/4nucOr7T1+rS3A62jBzRtCgqwkJuafH36vJ0GhFi9JQ680INw1gl+EUd4KqKupJ
- HMiPcNSE4wXDnD4I+AaSoKcPyeJCxisTqaxUn5CQKKc5wj7QmGKQauddB58AlHgpHnPV
- Uj8Q==
+ h=sender:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=9LUjAIKjzb2MgRQ07C67MjnVTd4Gf+9PH267i9QV2Dg=;
+ b=AJvnYiJG4F0sXx2lWjwlHdzf+R09nryMktsBspf4ZwKWELm1qOZfbE3b2WbI/QrmLB
+ OEYmsnGAdsdL+ZuH3LI3VmwJ4pY6Qr7RKzFAZP+YqsGhVmqYSnTIs7eTZriIMW0yv0CH
+ aLu6qEt4J60TugSQDRExcYvMZE/6fGyr9LtQTVtQFTUI6wx1n2bSgM24ANyjiLnzd17B
+ Tlt5HzYWw8fxls56LNdqoiyAXEFChFRiHrKQ1JWOdvWI39EUrJiqZEyWJ1LdQV+djPoQ
+ Pj/mInyAcewWr+8jASWunT8rc71Z8QPs8WlvX2guPag1TfmITEkfC28Pvy0oKa2YKlgX
+ Tepw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=MGq4/Ht9AqWuy11QNx35IG6GRlK0CwA5Kr6JW4BVDuM=;
- b=lF2EmyWFHRsiT3YXhR7R+CVLW710fG4N1eMEFwLQbb88EOiaWCQslKyN+s2XlMp4+t
- lRkgtd9AB+97SxtS7HN1q5ry8Ke2fuxWabCUQ3y5mE+bpJK9gZJmQwj2daIHIlyFgrUH
- oEjqtovI5uhkXsj4SamNO/zw4rZHHfsClbW/IqSelfn43cqBcCh3YlJy0LJPbRk2ljLI
- d1qo4aXj6pG2QPimXIzyIkZihapi1PihNDVI5jPufeA9LiMMSQFnUmIvMiGf8y18QM60
- kyBps8wKL0VKTcePFwK/wRdGKux7wWdDfoGjBaJgvHeGwT6kvPk9oN2bspKRHCRnce0B
- p22Q==
-X-Gm-Message-State: AOAM532Fb4Awmsc/b9HaGsHxW30ikf+PC1rtzbfOPWbqtcORoiO9g/lQ
- CcdS9kHdKR24bKNFOunrLcvMM+xwqV8bwA==
-X-Google-Smtp-Source: ABdhPJz7nhbIwheahbjfYkjZy81AaokqHx/i2qLit0c/2dO5tOfR5+72HtliPhrQnVZIGT8n0JppUQ==
-X-Received: by 2002:a05:6214:d6a:: with SMTP id
- 10mr8517925qvs.59.1644178072742; 
- Sun, 06 Feb 2022 12:07:52 -0800 (PST)
-Received: from localhost.localdomain
- (209-6-248-219.s2265.c3-0.wrx-ubr1.sbo-wrx.ma.cable.rcncustomer.com.
- [209.6.248.219])
- by smtp.gmail.com with ESMTPSA id j11sm4625999qtj.74.2022.02.06.12.07.51
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 06 Feb 2022 12:07:52 -0800 (PST)
-From: Will Cohen <wwcohen@gmail.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v4 11/11] 9p: darwin: Adjust assumption on virtio-9p-test
-Date: Sun,  6 Feb 2022 15:07:19 -0500
-Message-Id: <20220206200719.74464-12-wwcohen@gmail.com>
-X-Mailer: git-send-email 2.32.0 (Apple Git-132)
-In-Reply-To: <20220206200719.74464-1-wwcohen@gmail.com>
-References: <20220206200719.74464-1-wwcohen@gmail.com>
+ h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+ :subject:content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=9LUjAIKjzb2MgRQ07C67MjnVTd4Gf+9PH267i9QV2Dg=;
+ b=f/vVsVIMK7nD1eagv0GhKm+5mhIzM+cJ7dvIVDjAJPAwdIosdzktdYO5V+ff7q4GXT
+ 3bq26dVTLHlVAxuW9yZrZUUXu140c3rcdQOxZHae8Vac1jMP1Xvbbz00j2QaRvhZbOiL
+ 14HRXsx5e/YFgWL/vhlOL8V5fA23TaNn7J92n+G6b4aRdGgpfEwCBX/fvFjeal0AVI2K
+ UpOPS0TSqYO7khE0gCmRmH6QGnb0ZiguKxBVW/v2DJC/DzokeIpNhda7x0rNb89PHr7T
+ odvKZlKY4uTtfsFdB5Mrs34WHHwlundzMG5nUZ6z8goyYK4o+dvTf3kcbdc6yDHp8WH0
+ x/9w==
+X-Gm-Message-State: AOAM530unr7XzOe5ZIW7bbfbv1bgWVnJW/ijSRaQDzdN3YXMu2l2/XCf
+ raZ+BFKmLQpp+rej7s4wYCQ=
+X-Google-Smtp-Source: ABdhPJzWHHFvKEdwUyH1rPlRD8S4947NgUySuLK//+unLuV/KdNwrs1Jx6A/pcQ9YZK1QPklcR2abg==
+X-Received: by 2002:a5d:64a3:: with SMTP id m3mr7421009wrp.412.1644178759238; 
+ Sun, 06 Feb 2022 12:19:19 -0800 (PST)
+Received: from [192.168.1.33] (154.red-83-50-83.dynamicip.rima-tde.net.
+ [83.50.83.154])
+ by smtp.gmail.com with ESMTPSA id t3sm5869109wrv.103.2022.02.06.12.19.17
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 06 Feb 2022 12:19:18 -0800 (PST)
+Message-ID: <704d269e-ed92-6918-677f-0a931f9ed9ad@amsat.org>
+Date: Sun, 6 Feb 2022 21:19:17 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.5.1
+Subject: Re: [PATCH v3 16/26] tests/tcg/sh4: disable another unreliable test
+Content-Language: en-US
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ richard.henderson@linaro.org, qemu-devel@nongnu.org
+Cc: fam@euphon.net, berrange@redhat.com, aurelien@aurel32.net,
+ pbonzini@redhat.com, stefanha@redhat.com, crosa@redhat.com, minyihh@uci.edu,
+ ma.mandourr@gmail.com, Luke.Craig@ll.mit.edu, cota@braap.org,
+ aaron@os.amperecomputing.com, kuhn.chenqun@huawei.com,
+ robhenry@microsoft.com, mahmoudabdalghany@outlook.com,
+ Yoshinori Sato <ysato@users.sourceforge.jp>,
+ Laurent Vivier <laurent@vivier.eu>
+References: <20220204204335.1689602-1-alex.bennee@linaro.org>
+ <20220204204335.1689602-17-alex.bennee@linaro.org>
+In-Reply-To: <20220204204335.1689602-17-alex.bennee@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::f33
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42e
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::f33;
- envelope-from=wwcohen@gmail.com; helo=mail-qv1-xf33.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42e.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
  PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
@@ -87,52 +101,24 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Fabian Franz <fabianfranz.oss@gmail.com>,
- Christian Schoenebeck <qemu_oss@crudebyte.com>, Greg Kurz <groug@kaod.org>,
- hi@alyssa.is, Will Cohen <wwcohen@gmail.com>,
- Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
-The previous test depended on the assumption that P9_DOTL_AT_REMOVEDIR
-and AT_REMOVEDIR have the same value.
+On 4/2/22 21:43, Alex Bennée wrote:
+> Given the other failures it looks like general thread handling on sh4
+> is sketchy. It fails more often on CI than on my developer machine
+> though. See https://gitlab.com/qemu-project/qemu/-/issues/856 for more
+> details.
+> 
+> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+> Cc: Yoshinori Sato <ysato@users.sourceforge.jp>
+> Cc: Laurent Vivier <laurent@vivier.eu>
+> ---
+>   tests/tcg/sh4/Makefile.target | 4 ++++
+>   1 file changed, 4 insertions(+)
 
-While this is true on Linux, it is not true everywhere, and leads to an
-incorrect test failure on unlink_at, noticed when adding 9p to darwin:
-
-Received response 7 (RLERROR) instead of 77 (RUNLINKAT)
-Rlerror has errno 22 (Invalid argument)
-**
-
-ERROR:../tests/qtest/virtio-9p-test.c:305:v9fs_req_recv: assertion
-failed (hdr.id == id): (7 == 77) Bail out!
-
-ERROR:../tests/qtest/virtio-9p-test.c:305:v9fs_req_recv: assertion
-failed (hdr.id == id): (7 == 77)
-
-Signed-off-by: Fabian Franz <fabianfranz.oss@gmail.com>
-[Will Cohen: - Add explanation of patch and description
-               of pre-patch test failure]
-Signed-off-by: Will Cohen <wwcohen@gmail.com>
----
- tests/qtest/virtio-9p-test.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/tests/qtest/virtio-9p-test.c b/tests/qtest/virtio-9p-test.c
-index 41fed41de1..6bcf89f0f8 100644
---- a/tests/qtest/virtio-9p-test.c
-+++ b/tests/qtest/virtio-9p-test.c
-@@ -1270,7 +1270,7 @@ static void fs_unlinkat_dir(void *obj, void *data, QGuestAllocator *t_alloc)
-     /* ... and is actually a directory */
-     g_assert((st.st_mode & S_IFMT) == S_IFDIR);
- 
--    do_unlinkat(v9p, "/", "02", AT_REMOVEDIR);
-+    do_unlinkat(v9p, "/", "02", P9_DOTL_AT_REMOVEDIR);
-     /* directory should be gone now */
-     g_assert(stat(new_dir, &st) != 0);
- 
--- 
-2.32.0 (Apple Git-132)
-
+Tested-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
