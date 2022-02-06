@@ -2,74 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB6594AAEEA
-	for <lists+qemu-devel@lfdr.de>; Sun,  6 Feb 2022 11:59:17 +0100 (CET)
-Received: from localhost ([::1]:43066 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E0E74AB050
+	for <lists+qemu-devel@lfdr.de>; Sun,  6 Feb 2022 16:41:20 +0100 (CET)
+Received: from localhost ([::1]:40806 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nGfGG-0000rg-Q5
-	for lists+qemu-devel@lfdr.de; Sun, 06 Feb 2022 05:59:16 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:54334)
+	id 1nGjfC-000308-Tq
+	for lists+qemu-devel@lfdr.de; Sun, 06 Feb 2022 10:41:18 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:43136)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nGf48-0004BA-OC
- for qemu-devel@nongnu.org; Sun, 06 Feb 2022 05:46:46 -0500
-Received: from [2a00:1450:4864:20::430] (port=40788
- helo=mail-wr1-x430.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nGf45-0004Si-3w
- for qemu-devel@nongnu.org; Sun, 06 Feb 2022 05:46:43 -0500
-Received: by mail-wr1-x430.google.com with SMTP id s18so19771643wrv.7
- for <qemu-devel@nongnu.org>; Sun, 06 Feb 2022 02:46:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=5QKBfnDP8K+IkDPhfsV8KUNVpW4VNpt4IzpvvjIBiLw=;
- b=lEM0msZarZTHF6GgnELPch9qQAao86KOOwJ3QVV8i3zXb9OTlzSc7AfCwPPF9I+YUh
- r3JNuESMP/OYj8E92xPQXpROffHF//f0NV2A9EZywf628pJremWpaLRe+rvlpNKWjH3S
- iv4BrIFmy9Xm15wo52mDa6DMe/Z9RcLmAnr+Ks9g4yBigK2Pk2D96lnNo2Mht1RVLnhg
- haB3cqJYyALEX9RwwFr5XXnSqgZ+62gjOMo3QblhXUbkOBoRKgkFFQL2jjcMLEeOjy3T
- YQXH7RK0EgDIy+iIpR8ZydANrbrRgZ2nZvWZEo8cdFNkC8Y0fA62b/tms5ghPJRrnLft
- HePQ==
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nGjcj-00029p-3N
+ for qemu-devel@nongnu.org; Sun, 06 Feb 2022 10:38:45 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:46053)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nGjcf-0006dI-2x
+ for qemu-devel@nongnu.org; Sun, 06 Feb 2022 10:38:43 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1644161918;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=iEjUmEeAvALaKPMKi/drjDKwoyBmJV3tjFgYyskkWho=;
+ b=ZsKU8/qOWMU6sar7gDodRZRzY0IAYcaDwQsj0wdhE6TkP2xaG2nU0u22IrqXyGScZwW3r/
+ YlP/MBq7By/tDECCb8vRh2hBoZ4WQtJf4eBuo8cjsYLyEcEhQd4pTQDTMELwNfxOKyMd7a
+ GVKxaMcK/1AF5LFtJwivpz8IvqM+YK4=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-458-hmcm-zG0OoWvpnmOVFxkIQ-1; Sun, 06 Feb 2022 10:38:37 -0500
+X-MC-Unique: hmcm-zG0OoWvpnmOVFxkIQ-1
+Received: by mail-ed1-f71.google.com with SMTP id
+ w15-20020a056402268f00b00408234dc1dfso6195342edd.16
+ for <qemu-devel@nongnu.org>; Sun, 06 Feb 2022 07:38:36 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=5QKBfnDP8K+IkDPhfsV8KUNVpW4VNpt4IzpvvjIBiLw=;
- b=ITrh6htOtO/n1ida+4MQskg08rqJ5rpQMBkoG21hZ/sbLVvOSjqU3BrFbbHcujq8gC
- 2SbP9dAy4FkWfZ0QXWdsbXDZcZiJ2YM02gaondyYrT0P3t8unalA0Azy3t7R3HPn8iMe
- ea7SQDnBvr83hVqKPZahNX9bnuX5vrlx/vfCBlA7fc5jh4oVEvCdRjePskFVAlG8h0QU
- TR1mqvRk5g6EApM6FEvkbphvWLyorpmsSWQHK0XbzCJ9gYEaYT5vAOulMssP6SmdVaWG
- Kd2mAJ8zXaiCv19FfBchUrjkEW+m4vFiSAkckIEBEJmywtRLcY1rQvo170/493ty0ILm
- +yaw==
-X-Gm-Message-State: AOAM533ChIg8HcKPA35Vui921F3/PcmEsIrN9FaHTSyB6YgSCp0J8PLP
- jSDYdv4gNsm70wPAuYE46Mr7nhcsLTJB7bKLeINwvA==
-X-Google-Smtp-Source: ABdhPJwKd0jF/rqu1uqWlaDwyybt9eS4WC50xCFZ+2Fm52ZQh3nYkwX90IXwR8WmcFCFZJeO3bmTzV5Q7mfV4ex1Wbs=
-X-Received: by 2002:a05:6000:258:: with SMTP id
- m24mr6165154wrz.2.1644144365704; 
- Sun, 06 Feb 2022 02:46:05 -0800 (PST)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=iEjUmEeAvALaKPMKi/drjDKwoyBmJV3tjFgYyskkWho=;
+ b=eYYk5nu2vk4ZqbgzqeBBuILL34fSZU2l16jbk+scK6e+O4M0DUI7W9AGpPVyizeenr
+ jZ9Fu2jPZPGv7APRZtVel9sE/h7T09KvWYJFF+4gaTPC0WgyjcqgI7kvRq2situ34q9K
+ 3CYeGd91Vc5dISnIuhADJGxyzo+ZOYhACSN7UIHfHgpKvf3PrNL+Oih8K13qTZ2aiFG+
+ MNGqYmn2CLZ6YfWeoOU5rcqKHre5C0yFtAkBPe22NQnNCIRCgojtCaNFGwcZXD2x12aU
+ UTb5+1xSf0f7uFkDXehyGtqPE8RZAb3bBDfO8x0SekhyL8UEmfAfLAEw9A7iLoMzGsGm
+ y4cA==
+X-Gm-Message-State: AOAM531j0uUENEoZNs6LYrclG0PnInWc0ijAmAVYdUfL7nclhe+z+GXz
+ 4FBIZWTkGqwxijixrHcAuNiopWQKHK5WdfxWyvr6tENYssbVo22Vp4c4v/6oj96lNaoyX3HC/A6
+ 60NfgLLzXQGRGays=
+X-Received: by 2002:a50:f099:: with SMTP id v25mr6623700edl.50.1644161915366; 
+ Sun, 06 Feb 2022 07:38:35 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzSM34ebsSGRZCtTnxxED0W3zp2hfuY1U7NG5knGxuw215P8arQcLAuLnH4I2sKoDa5MBIVng==
+X-Received: by 2002:a50:f099:: with SMTP id v25mr6623689edl.50.1644161915173; 
+ Sun, 06 Feb 2022 07:38:35 -0800 (PST)
+Received: from redhat.com ([2.52.12.81])
+ by smtp.gmail.com with ESMTPSA id ku15sm1393752ejc.25.2022.02.06.07.38.33
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 06 Feb 2022 07:38:34 -0800 (PST)
+Date: Sun, 6 Feb 2022 10:38:30 -0500
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PULL 00/32] virtio,pc: features, cleanups, fixes
+Message-ID: <20220206103806-mutt-send-email-mst@kernel.org>
+References: <20220205014149.1189026-1-mst@redhat.com>
+ <CAFEAcA91cVDym5fVCXgHFHJ8fkt8GhrOis-EPHN6YWpVn9TOCA@mail.gmail.com>
+ <20220205072452-mutt-send-email-mst@kernel.org>
+ <CAFEAcA-RJ8OkwaXWx=bRHJCDoWrQvZbdSEuuyz1j9ZFod0kcfg@mail.gmail.com>
+ <20220205124235-mutt-send-email-mst@kernel.org>
+ <CAFEAcA_kbt0HOp=8w--ZR9g+EgZvownyrbWYseSxuArd1g4CBw@mail.gmail.com>
+ <20220206042826-mutt-send-email-mst@kernel.org>
+ <CAFEAcA8gGj-QQRtRze4vq=cM4nges32QL5ac6vddEXC=GQ0TeQ@mail.gmail.com>
 MIME-Version: 1.0
-References: <20220206103138.36105-1-richard.henderson@linaro.org>
- <20220206103138.36105-4-richard.henderson@linaro.org>
-In-Reply-To: <20220206103138.36105-4-richard.henderson@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Sun, 6 Feb 2022 10:45:54 +0000
-Message-ID: <CAFEAcA-FgO6pHhwx8rzNWxZz1e=LJG9ZUSF=PDrh19P92Qt39g@mail.gmail.com>
-Subject: Re: [PATCH v5 3/6] tcg/sparc: Convert patch_reloc to return bool
-To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::430
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::430;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x430.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+In-Reply-To: <CAFEAcA8gGj-QQRtRze4vq=cM4nges32QL5ac6vddEXC=GQ0TeQ@mail.gmail.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -86,45 +103,38 @@ Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, 6 Feb 2022 at 10:31, Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> Since 7ecd02a06f8, if patch_reloc fails we restart translation
-> with a smaller TB.  Sparc had its function signature changed,
-> but not the logic.  Replace assert with return false.
->
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->  tcg/sparc/tcg-target.c.inc | 8 ++++++--
->  1 file changed, 6 insertions(+), 2 deletions(-)
->
-> diff --git a/tcg/sparc/tcg-target.c.inc b/tcg/sparc/tcg-target.c.inc
-> index f9afb1bffc..f3043e6833 100644
-> --- a/tcg/sparc/tcg-target.c.inc
-> +++ b/tcg/sparc/tcg-target.c.inc
-> @@ -323,12 +323,16 @@ static bool patch_reloc(tcg_insn_unit *src_rw, int type,
->
->      switch (type) {
->      case R_SPARC_WDISP16:
-> -        assert(check_fit_ptr(pcrel >> 2, 16));
-> +        if (!check_fit_ptr(pcrel >> 2, 16)) {
-> +            return false;
-> +        }
->          insn &= ~INSN_OFF16(-1);
->          insn |= INSN_OFF16(pcrel);
->          break;
->      case R_SPARC_WDISP19:
-> -        assert(check_fit_ptr(pcrel >> 2, 19));
-> +        if (!check_fit_ptr(pcrel >> 2, 19)) {
-> +            return false;
-> +        }
->          insn &= ~INSN_OFF19(-1);
->          insn |= INSN_OFF19(pcrel);
->          break;
-> --
-> 2.25.1
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+On Sun, Feb 06, 2022 at 10:44:47AM +0000, Peter Maydell wrote:
+> On Sun, 6 Feb 2022 at 09:29, Michael S. Tsirkin <mst@redhat.com> wrote:
+> >
+> > On Sat, Feb 05, 2022 at 09:05:12PM +0000, Peter Maydell wrote:
+> > > On the build-tsan and build-cfi-x86_64 jobs and also on macos
+> > > (this is a "clang is pickier than gcc about unused functions" one):
+> > > https://gitlab.com/qemu-project/qemu/-/jobs/2058536617
+> > > https://gitlab.com/qemu-project/qemu/-/jobs/2058536571
+> > >
+> > > ../tests/qtest/erst-test.c:91:20: error: unused function 'out_reg64'
+> > > [-Werror,-Wunused-function]
+> > > static inline void out_reg64(ERSTState *s, unsigned reg, uint64_t v)
+> > > ^
+> >
+> >
+> > That's a weird one - it's static inline, compiler should not warn I
+> > think. compiler bug? I can drop this for sure but still. Is this
+> > what we should be doing?
+> 
+> This is a gcc-vs-clang difference. gcc will not warn about any
+> unused "static inline" function. clang will not warn for them
+> in .h files but will warn for them in .c files.
+> 
+> In this case clang is entirely correct -- the function is defined
+> and never used, not even conditionally depending on #ifdefs.
+> 
+> thanks
+> -- PMM
 
-thanks
--- PMM
+I fixed it in pull v2, pls let me know.
+
+-- 
+MST
+
 
