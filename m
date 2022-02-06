@@ -2,69 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC0A84AAEA1
-	for <lists+qemu-devel@lfdr.de>; Sun,  6 Feb 2022 10:43:11 +0100 (CET)
-Received: from localhost ([::1]:57082 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 73CD34AAEA2
+	for <lists+qemu-devel@lfdr.de>; Sun,  6 Feb 2022 10:44:17 +0100 (CET)
+Received: from localhost ([::1]:60552 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nGe4d-0006Dr-0t
-	for lists+qemu-devel@lfdr.de; Sun, 06 Feb 2022 04:43:11 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:44568)
+	id 1nGe5g-0008VJ-Ip
+	for lists+qemu-devel@lfdr.de; Sun, 06 Feb 2022 04:44:16 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:44564)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nGdzs-00009T-Je
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nGdzs-00009R-K0
  for qemu-devel@nongnu.org; Sun, 06 Feb 2022 04:38:16 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:32413)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:55934)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nGdzn-0003dI-5k
- for qemu-devel@nongnu.org; Sun, 06 Feb 2022 04:38:15 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nGdzn-0003dR-7J
+ for qemu-devel@nongnu.org; Sun, 06 Feb 2022 04:38:16 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1644140276;
+ s=mimecast20190719; t=1644140278;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=djZWuMgvZEcanxSuVKi0jq5sfyl2x4cIrvJR3neBz+A=;
- b=VhxJIlo9HbY6QrD3+4N3j60l43HOA9GVjvtprTuPMmH0NMpBWc0O+L4Q9SePrHKDzkkUyM
- TimZO4GxjexDv3iABCWkDSjtG0Ihe/gOh+1Rt0xY93SDR1w0B+XSvYEs1y4jfF6Nv03I1e
- iTliQDBQ/7WIlYIyzjt3kLN92mFI1RU=
+ bh=Cys7fA3V9JqsHSWEFuxYME8lo9Xx2jeY6AGCu56+bB4=;
+ b=Z5de8+naCJV+36fnlJRmxk+jqARjF3UQwB6wvywR5L59rzKEdiLVF2tHqp2Ui8lUjjb+vC
+ ffHHUfkkP4s/sv5c2mY+wC4qRLHyCWBVDwK1TTxzAMtCmPMdL4s2YYLPWV7zXc6/45N3UW
+ e9GJKwmzj2mpSoE966akjrnkcKn37a8=
 Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
  [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-245-sDS0FTHoPi6MOvsJJZ3QSg-1; Sun, 06 Feb 2022 04:37:54 -0500
-X-MC-Unique: sDS0FTHoPi6MOvsJJZ3QSg-1
+ us-mta-613-7E-Xi93BOpm2H9fvr9TvGw-1; Sun, 06 Feb 2022 04:37:57 -0500
+X-MC-Unique: 7E-Xi93BOpm2H9fvr9TvGw-1
 Received: by mail-wm1-f70.google.com with SMTP id
- l4-20020a05600c4f0400b0037bb2ce79d8so1951558wmq.9
- for <qemu-devel@nongnu.org>; Sun, 06 Feb 2022 01:37:54 -0800 (PST)
+ bg16-20020a05600c3c9000b0034bea12c043so10235109wmb.7
+ for <qemu-devel@nongnu.org>; Sun, 06 Feb 2022 01:37:56 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=djZWuMgvZEcanxSuVKi0jq5sfyl2x4cIrvJR3neBz+A=;
- b=XCTr29AVKhjjnSNQfI/Cf47kHd470PwMcwqAoMnETL1i/GCd6KbbD4SKUgK51AeMCR
- 2Z7oiF6GQ85LdYwI4/KZjhdjKpHG1x4DNN0/rng1WL/HypR5mk6y+1FDT9wwZ9flXXk8
- wDXn7yJnwWxFC7gR8m2LBZ1nwbdJXttUblZkIFx/qCSrQ+QAL7IV4YeHvfsc3KD3OTp8
- +Eo70yNv6l/W9Qn/WhjfzSpI+YU0NWMJYK4u5FyrlaB13l28KCeIAsY79FNXGyqTtb+f
- B8x49nK30hOCVCvXCIr4Jw3iESup3+hODAiyWe+i3SvSGlldrCxefsNHsX5Tva51CtzO
- tImQ==
-X-Gm-Message-State: AOAM530lFLPBZSEKkuWRkS0JvAO7rkGFa/SmWQzOUL8m46O7FTAUjIeh
- J+xaRRqicLo788yw9TxhSGRF+mlDOHKfbWazqHCRRIc8BfpYITsJPSGa+tlooxfqqjmt9I6Tcy6
- /Nv6c7ysXgRGTkYyWHc/4nlEGbSrOmTQh4TrtY/3Gk9vkxOi6HW6y27V2HZ5k
-X-Received: by 2002:adf:eb05:: with SMTP id s5mr5934204wrn.298.1644140272971; 
- Sun, 06 Feb 2022 01:37:52 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJz5MxbZoHnBjb3rlieL3eSYbIOyVpnUWPU2Fbrxu2Lrz3rydC9lafWoRnbqYGcllMTTRJZx6w==
-X-Received: by 2002:adf:eb05:: with SMTP id s5mr5934184wrn.298.1644140272763; 
- Sun, 06 Feb 2022 01:37:52 -0800 (PST)
+ :mime-version:content-disposition:in-reply-to;
+ bh=Cys7fA3V9JqsHSWEFuxYME8lo9Xx2jeY6AGCu56+bB4=;
+ b=fiaeCQfjEpgXugGvjWlpW8JMQw+WXFn4rWBIeVMOpITK8gS1SjKMjdhqMmPTcSkUK/
+ bMIDpzNpcBFNNZlLjHo8L4I8oEG0YPKzVxmfFACmZgowDbAfaEpq8Qq3t52p8scdDySc
+ p4gpRxlYq1yLeWb9+XBDghdh6nZx89taRytDA7K2gZJT8towZNscn/DxYW5nGP6kBYuZ
+ MKqzteod1jY8yvTWi/t627tkrXGj2BxB1l2D/IraGdeDex7E+fUGgZgNnpUv1c0+DaCL
+ L03YjZLNm0dJzxg28CSSmEymKkN7an7rN5EMLJq4KIG6/cEw8hLdRgNyxJsIAUM48bo3
+ TrYw==
+X-Gm-Message-State: AOAM530y9tR/Q9CefIqlD3vUhj2G43t2pb79/T6OhZoHRDrV4As3wKSe
+ lz0E02Bw7A5TD6JMkAKS28LbVIIl7BAqFNYhRV3uMPblQhcJkVYgEKC1y21t92wQDh7J0+dWZxu
+ EXkXblez8x6DUlhYKhLP/lISSS3dh+OPnQzi/KReMmLiAzfZndsv7TxN8ziFc
+X-Received: by 2002:a5d:584a:: with SMTP id i10mr5867060wrf.75.1644140275483; 
+ Sun, 06 Feb 2022 01:37:55 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyR/IS8ZNdu1u4MY1tit4KaMPXEprd6Xxq6l+5UlooXIZhOakQ9sCQonHYOzYKFVNZfio3UPQ==
+X-Received: by 2002:a5d:584a:: with SMTP id i10mr5867038wrf.75.1644140275239; 
+ Sun, 06 Feb 2022 01:37:55 -0800 (PST)
 Received: from redhat.com ([2.52.12.81])
- by smtp.gmail.com with ESMTPSA id n8sm5896605wmk.18.2022.02.06.01.37.50
+ by smtp.gmail.com with ESMTPSA id o10sm339582wrq.63.2022.02.06.01.37.53
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 06 Feb 2022 01:37:52 -0800 (PST)
-Date: Sun, 6 Feb 2022 04:37:49 -0500
+ Sun, 06 Feb 2022 01:37:54 -0800 (PST)
+Date: Sun, 6 Feb 2022 04:37:52 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v2 02/24] hw/i386: Add the possibility to disable the 'isapc'
- machine
-Message-ID: <20220206093702.1282676-3-mst@redhat.com>
+Subject: [PULL v2 03/24] tests: acpi: manually pad OEM_ID/OEM_TABLE_ID for
+ test_oem_fields() test
+Message-ID: <20220206093702.1282676-4-mst@redhat.com>
 References: <20220206093702.1282676-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20220206093702.1282676-1-mst@redhat.com>
@@ -74,9 +72,8 @@ Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
@@ -85,7 +82,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -98,78 +95,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <eduardo@habkost.net>,
- Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- qemu-block@nongnu.org, Laurent Vivier <lvivier@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>
+Cc: Ani Sinha <ani@anisinha.ca>, Peter Maydell <peter.maydell@linaro.org>,
+ Igor Mammedov <imammedo@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Thomas Huth <thuth@redhat.com>
+From: Igor Mammedov <imammedo@redhat.com>
 
-We already have a CONFIG_ISAPC switch - but we're not using it yet.
-Add some "#ifdefs" to make it possible to disable this machine now.
+The next commit will revert OEM fields padding with whitespace to
+padding with '\0' as it was before [1]. As result test_oem_fields() will
+fail due to unexpectedly smaller ID sizes read from QEMU ACPI tables.
 
-Signed-off-by: Thomas Huth <thuth@redhat.com>
-Message-Id: <20220107160713.235918-1-thuth@redhat.com>
-Acked-by: Paolo Bonzini <pbonzini@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Pad OEM_ID/OEM_TABLE_ID manually with spaces so that values the test
+puts on QEMU CLI and expected values match.
+
+1) 602b458201 ("acpi: Permit OEM ID and OEM table ID fields to be changed")
+Signed-off-by: Igor Mammedov <imammedo@redhat.com>
+Message-Id: <20220112130332.1648664-2-imammedo@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- hw/i386/pc_piix.c        | 5 ++++-
- tests/qtest/cdrom-test.c | 2 +-
- 2 files changed, 5 insertions(+), 2 deletions(-)
+ tests/qtest/bios-tables-test.c | 15 ++++++---------
+ 1 file changed, 6 insertions(+), 9 deletions(-)
 
-diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
-index 7c7790a5ce..d9b344248d 100644
---- a/hw/i386/pc_piix.c
-+++ b/hw/i386/pc_piix.c
-@@ -357,10 +357,12 @@ static void pc_compat_1_4_fn(MachineState *machine)
-     pc_compat_1_5_fn(machine);
- }
+diff --git a/tests/qtest/bios-tables-test.c b/tests/qtest/bios-tables-test.c
+index e6b72d9026..90c9f6a0a2 100644
+--- a/tests/qtest/bios-tables-test.c
++++ b/tests/qtest/bios-tables-test.c
+@@ -71,9 +71,10 @@
  
-+#ifdef CONFIG_ISAPC
- static void pc_init_isa(MachineState *machine)
+ #define ACPI_REBUILD_EXPECTED_AML "TEST_ACPI_REBUILD_AML"
+ 
+-#define OEM_ID             "TEST"
+-#define OEM_TABLE_ID       "OEM"
+-#define OEM_TEST_ARGS      "-machine x-oem-id="OEM_ID",x-oem-table-id="OEM_TABLE_ID
++#define OEM_ID             "TEST  "
++#define OEM_TABLE_ID       "OEM     "
++#define OEM_TEST_ARGS      "-machine x-oem-id='" OEM_ID "',x-oem-table-id='" \
++                           OEM_TABLE_ID "'"
+ 
+ typedef struct {
+     bool tcg_only;
+@@ -1519,11 +1520,7 @@ static void test_acpi_q35_slic(void)
+ static void test_oem_fields(test_data *data)
  {
-     pc_init1(machine, TYPE_I440FX_PCI_HOST_BRIDGE, TYPE_I440FX_PCI_DEVICE);
- }
-+#endif
+     int i;
+-    char oem_id[6];
+-    char oem_table_id[8];
  
- #ifdef CONFIG_XEN
- static void pc_xen_hvm_init_pci(MachineState *machine)
-@@ -916,6 +918,7 @@ void igd_passthrough_isa_bridge_create(PCIBus *bus, uint16_t gpu_dev_id)
-     pci_config_set_revision(bridge_dev->config, pch_rev_id);
- }
+-    strpadcpy(oem_id, sizeof oem_id, OEM_ID, ' ');
+-    strpadcpy(oem_table_id, sizeof oem_table_id, OEM_TABLE_ID, ' ');
+     for (i = 0; i < data->tables->len; ++i) {
+         AcpiSdtTable *sdt;
  
-+#ifdef CONFIG_ISAPC
- static void isapc_machine_options(MachineClass *m)
- {
-     PCMachineClass *pcmc = PC_MACHINE_CLASS(m);
-@@ -935,7 +938,7 @@ static void isapc_machine_options(MachineClass *m)
+@@ -1533,8 +1530,8 @@ static void test_oem_fields(test_data *data)
+             continue;
+         }
  
- DEFINE_PC_MACHINE(isapc, "isapc", pc_init_isa,
-                   isapc_machine_options);
--
-+#endif
- 
- #ifdef CONFIG_XEN
- static void xenfv_4_2_machine_options(MachineClass *m)
-diff --git a/tests/qtest/cdrom-test.c b/tests/qtest/cdrom-test.c
-index cfca24fa94..fdd889a487 100644
---- a/tests/qtest/cdrom-test.c
-+++ b/tests/qtest/cdrom-test.c
-@@ -138,7 +138,7 @@ static void add_x86_tests(void)
-      * Unstable CI test under load
-      * See https://lists.gnu.org/archive/html/qemu-devel/2019-02/msg05509.html
-      */
--    if (g_test_slow()) {
-+    if (g_test_slow() && qtest_has_machine("isapc")) {
-         qtest_add_data_func("cdrom/boot/isapc", "-M isapc "
-                             "-drive if=ide,media=cdrom,file=", test_cdboot);
+-        g_assert(memcmp(sdt->aml + 10, oem_id, 6) == 0);
+-        g_assert(memcmp(sdt->aml + 16, oem_table_id, 8) == 0);
++        g_assert(memcmp(sdt->aml + 10, OEM_ID, 6) == 0);
++        g_assert(memcmp(sdt->aml + 16, OEM_TABLE_ID, 8) == 0);
      }
+ }
+ 
 -- 
 MST
 
