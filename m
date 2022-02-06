@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E592B4AAEBB
-	for <lists+qemu-devel@lfdr.de>; Sun,  6 Feb 2022 10:59:50 +0100 (CET)
-Received: from localhost ([::1]:56620 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 76A784AAED1
+	for <lists+qemu-devel@lfdr.de>; Sun,  6 Feb 2022 11:22:14 +0100 (CET)
+Received: from localhost ([::1]:38696 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nGeKj-0000Gs-PC
-	for lists+qemu-devel@lfdr.de; Sun, 06 Feb 2022 04:59:49 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:44748)
+	id 1nGegP-0001rl-IC
+	for lists+qemu-devel@lfdr.de; Sun, 06 Feb 2022 05:22:13 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:44798)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nGe0K-0000zp-Na
- for qemu-devel@nongnu.org; Sun, 06 Feb 2022 04:38:44 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:27070)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nGe0R-0001GZ-05
+ for qemu-devel@nongnu.org; Sun, 06 Feb 2022 04:38:51 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:46690)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nGe0I-0003jK-8y
- for qemu-devel@nongnu.org; Sun, 06 Feb 2022 04:38:44 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nGe0O-0003k8-Ag
+ for qemu-devel@nongnu.org; Sun, 06 Feb 2022 04:38:50 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1644140321;
+ s=mimecast20190719; t=1644140325;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=oudt/FBonwg9JyTuwLEnFya3I69aaC2gWjL/G+/psDs=;
- b=ivKeQ73WR2D0hL/Ru21jrGEUNG8kiI2FrjLmk0pZWkS3Wx2Py+GDR+N4H0uA2UFE7oS4/1
- 5M7FmscmMPX8LPn+oALVfKmUm6ieOdG8REJmgTMiBdiDQJOST5HTQmM6FQUARu0M1IIbEw
- ArLt9iVkt491xqecOYJUdD0Uh5gyw1s=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=Xdn3hH7GYkmOyJreuMxMec/MdQOpS7XbSzRxBzQ41Cg=;
+ b=X4o2OAoxQI1PV+ESlhmqPTxvnrqn2UH+OzqJG0GRwncUrZ5Y/r9CmoD6PpBwPBHwb9MpWh
+ 66HISlZJSzjLGUsMnt1D9B1jbGMn+Z2GaWcLYqw/W9CoQcooC/ItqlCApgLdB80xkrZaPi
+ UrQwrBz3TjGejWfdJpZp3EzsD13weSs=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-625-CdMVMhUZMA2dx73YVKfnpg-1; Sun, 06 Feb 2022 04:38:40 -0500
-X-MC-Unique: CdMVMhUZMA2dx73YVKfnpg-1
-Received: by mail-wm1-f70.google.com with SMTP id
- f7-20020a1cc907000000b0034b63f314ccso3941862wmb.6
- for <qemu-devel@nongnu.org>; Sun, 06 Feb 2022 01:38:40 -0800 (PST)
+ us-mta-111-c6V3DAGtMTmOdhFdDU9JYg-1; Sun, 06 Feb 2022 04:38:45 -0500
+X-MC-Unique: c6V3DAGtMTmOdhFdDU9JYg-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ z2-20020a05600c220200b0034d2eb95f27so3956972wml.1
+ for <qemu-devel@nongnu.org>; Sun, 06 Feb 2022 01:38:44 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=oudt/FBonwg9JyTuwLEnFya3I69aaC2gWjL/G+/psDs=;
- b=C0yjNiy8TUrkg4nE/TYgESQLhfgioewQ6jpnwHtl1CJnQ45Q45ypTcCOqzDZIU7aNZ
- FKTcKIQxGID1cExX6TnSURukFK6EAfYuw60Sc2x+H5T3dzGs2Q7qXfrWKEnuI1eoR0kv
- LnU3d/GxcjS9Z8b7DzIz6hc1ic90Zst8Hj60GIIIpO9syht6E9L5zDS5lULOEnIY032n
- heJ1iC0u4I1LTb/MbRZLhWRXF/xvz4EDsI+BbN6SEcIaQn8zUULveMu0btlJfBJC5H38
- j/S5iXN9qWO1QrGIHa2pvj2lGTAnt8urNJJbyQaiaIFZ44DLfDP8km3+xCMtGAnVytzP
- d74g==
-X-Gm-Message-State: AOAM530TP95vcMrZ0nYeMmnjBkgBfwpZM9HaaUZ9PrhX5EsYyKVzvseH
- JfCiQrrwr5qLy2JZE2BRG7jlUFJ1QkQJbaJ2B9u9fI02q2BZX5Z67BLJWYfMUaGNJdk/k5UUx0V
- RqfS4Cm/Pevsu4VMM2w1mh7DLancTmQYfPeXubl62DevWxLa24jjWAyQGqakB
-X-Received: by 2002:a7b:c8d1:: with SMTP id f17mr2940970wml.167.1644140319260; 
- Sun, 06 Feb 2022 01:38:39 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxu1wl1WmqQ/8NlcxqBxE90KF1L48Oztbp/6HAH6HUDZT1S5SL0+ToMsB+qMoTu1tFqN2f6oQ==
-X-Received: by 2002:a7b:c8d1:: with SMTP id f17mr2940950wml.167.1644140318976; 
- Sun, 06 Feb 2022 01:38:38 -0800 (PST)
+ bh=Xdn3hH7GYkmOyJreuMxMec/MdQOpS7XbSzRxBzQ41Cg=;
+ b=E4QvJalH25o9AzyAjtuyV72iprGZF93ZeCpRiiIYoGSkNg9m5PZJJJd/QAVQvJNnvO
+ s65BhuyCFDfvUI4F7c74SowuEXDmunys57rE430ViMiS01lpfYz8t0JxrUAzANLfSFgO
+ MmaQO1Reaq9c/RXxYWo47WXFm/uFrMtPphFy+vavopvAx33rLsRpjLY8P7CRfDADZ1mV
+ c3mElA4vTzh/g8bCQhPAAMD4NU2/wyP45gsiZetaJmPFwZSCKaN+SycTuoH6onSiKj1F
+ GXE0eCpsHgjqMtN39SFvj+0O4jEVMM6EcNtdJMqc+irH4C/KdtXnclhx7RiAFH+BOYuV
+ ebIA==
+X-Gm-Message-State: AOAM533X8rBR0rHO0sAr2zOaJu7AMPPkRSXrjZGUcuTV2BS3yTI/E1+b
+ r0Cwn7d7lfdq9O0SeZ9CfzHRJ2F35So45Szo4RYC3aGr8N5T0iooDqfreZ9MFijc2kevHwMY5ww
+ ZkVWLe69sqMF54i1hsHKlR8uqhfpxBJtV1YVsD8JyzpzptUy4dHp4p6CfmrHP
+X-Received: by 2002:adf:f001:: with SMTP id j1mr4113435wro.48.1644140322397;
+ Sun, 06 Feb 2022 01:38:42 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwP/bf5qKZfE1bquerEidiYi41CmG8JqRXwdrFMFwiSjk9VOz/h1kiTcCKkptCJ7TLlJno0AA==
+X-Received: by 2002:adf:f001:: with SMTP id j1mr4113404wro.48.1644140322104;
+ Sun, 06 Feb 2022 01:38:42 -0800 (PST)
 Received: from redhat.com ([2.52.12.81])
- by smtp.gmail.com with ESMTPSA id t4sm1823720wrx.65.2022.02.06.01.38.37
+ by smtp.gmail.com with ESMTPSA id e10sm7506404wrq.53.2022.02.06.01.38.40
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 06 Feb 2022 01:38:38 -0800 (PST)
-Date: Sun, 6 Feb 2022 04:38:36 -0500
+ Sun, 06 Feb 2022 01:38:41 -0800 (PST)
+Date: Sun, 6 Feb 2022 04:38:39 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v2 19/24] ACPI ERST: build the ACPI ERST table
-Message-ID: <20220206093702.1282676-20-mst@redhat.com>
+Subject: [PULL v2 20/24] ACPI ERST: create ACPI ERST table for pc/x86 machines
+Message-ID: <20220206093702.1282676-21-mst@redhat.com>
 References: <20220206093702.1282676-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20220206093702.1282676-1-mst@redhat.com>
@@ -94,254 +94,123 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Ani Sinha <ani@anisinha.ca>, Peter Maydell <peter.maydell@linaro.org>,
- Eric DeVolder <eric.devolder@oracle.com>, Igor Mammedov <imammedo@redhat.com>
+Cc: Eduardo Habkost <eduardo@habkost.net>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Igor Mammedov <imammedo@redhat.com>, Ani Sinha <ani@anisinha.ca>,
+ Paolo Bonzini <pbonzini@redhat.com>, Eric DeVolder <eric.devolder@oracle.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Eric DeVolder <eric.devolder@oracle.com>
 
-This builds the ACPI ERST table to inform OSPM how to communicate
-with the acpi-erst device.
+This change exposes ACPI ERST support for x86 guests.
 
 Signed-off-by: Eric DeVolder <eric.devolder@oracle.com>
 Reviewed-by: Ani Sinha <ani@anisinha.ca>
-Message-Id: <1643402289-22216-7-git-send-email-eric.devolder@oracle.com>
+Message-Id: <1643402289-22216-8-git-send-email-eric.devolder@oracle.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- hw/acpi/erst.c | 211 +++++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 211 insertions(+)
+ include/hw/acpi/erst.h |  5 +++++
+ hw/i386/acpi-build.c   | 15 +++++++++++++++
+ hw/i386/acpi-microvm.c | 15 +++++++++++++++
+ 3 files changed, 35 insertions(+)
 
-diff --git a/hw/acpi/erst.c b/hw/acpi/erst.c
-index 8a691cb5fe..c0a23cf467 100644
---- a/hw/acpi/erst.c
-+++ b/hw/acpi/erst.c
-@@ -55,6 +55,27 @@
- #define STATUS_RECORD_STORE_EMPTY     0x04
- #define STATUS_RECORD_NOT_FOUND       0x05
+diff --git a/include/hw/acpi/erst.h b/include/hw/acpi/erst.h
+index 9d637179fe..b747fe7739 100644
+--- a/include/hw/acpi/erst.h
++++ b/include/hw/acpi/erst.h
+@@ -16,4 +16,9 @@ void build_erst(GArray *table_data, BIOSLinker *linker, Object *erst_dev,
  
-+/* ACPI 4.0: Table 17-19 Serialization Instructions */
-+#define INST_READ_REGISTER                 0x00
-+#define INST_READ_REGISTER_VALUE           0x01
-+#define INST_WRITE_REGISTER                0x02
-+#define INST_WRITE_REGISTER_VALUE          0x03
-+#define INST_NOOP                          0x04
-+#define INST_LOAD_VAR1                     0x05
-+#define INST_LOAD_VAR2                     0x06
-+#define INST_STORE_VAR1                    0x07
-+#define INST_ADD                           0x08
-+#define INST_SUBTRACT                      0x09
-+#define INST_ADD_VALUE                     0x0A
-+#define INST_SUBTRACT_VALUE                0x0B
-+#define INST_STALL                         0x0C
-+#define INST_STALL_WHILE_TRUE              0x0D
-+#define INST_SKIP_NEXT_INSTRUCTION_IF_TRUE 0x0E
-+#define INST_GOTO                          0x0F
-+#define INST_SET_SRC_ADDRESS_BASE          0x10
-+#define INST_SET_DST_ADDRESS_BASE          0x11
-+#define INST_MOVE_DATA                     0x12
-+
- /* UEFI 2.1: Appendix N Common Platform Error Record */
- #define UEFI_CPER_RECORD_MIN_SIZE 128U
- #define UEFI_CPER_RECORD_LENGTH_OFFSET 20U
-@@ -166,6 +187,196 @@ typedef struct {
+ #define TYPE_ACPI_ERST "acpi-erst"
  
- } ERSTDeviceState;
- 
-+/*******************************************************************/
-+/*******************************************************************/
-+typedef struct {
-+    GArray *table_data;
-+    pcibus_t bar;
-+    uint8_t instruction;
-+    uint8_t flags;
-+    uint8_t register_bit_width;
-+    pcibus_t register_offset;
-+} BuildSerializationInstructionEntry;
-+
-+/* ACPI 4.0: 17.4.1.2 Serialization Instruction Entries */
-+static void build_serialization_instruction(
-+    BuildSerializationInstructionEntry *e,
-+    uint8_t serialization_action,
-+    uint64_t value)
++/* returns NULL unless there is exactly one device */
++static inline Object *find_erst_dev(void)
 +{
-+    /* ACPI 4.0: Table 17-18 Serialization Instruction Entry */
-+    struct AcpiGenericAddress gas;
-+    uint64_t mask;
-+
-+    /* Serialization Action */
-+    build_append_int_noprefix(e->table_data, serialization_action, 1);
-+    /* Instruction */
-+    build_append_int_noprefix(e->table_data, e->instruction, 1);
-+    /* Flags */
-+    build_append_int_noprefix(e->table_data, e->flags, 1);
-+    /* Reserved */
-+    build_append_int_noprefix(e->table_data, 0, 1);
-+    /* Register Region */
-+    gas.space_id = AML_SYSTEM_MEMORY;
-+    gas.bit_width = e->register_bit_width;
-+    gas.bit_offset = 0;
-+    gas.access_width = (uint8_t)ctz32(e->register_bit_width) - 2;
-+    gas.address = (uint64_t)(e->bar + e->register_offset);
-+    build_append_gas_from_struct(e->table_data, &gas);
-+    /* Value */
-+    build_append_int_noprefix(e->table_data, value, 8);
-+    /* Mask */
-+    mask = (1ULL << (e->register_bit_width - 1) << 1) - 1;
-+    build_append_int_noprefix(e->table_data, mask, 8);
++    return object_resolve_path_type("", TYPE_ACPI_ERST, NULL);
 +}
+ #endif
+diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
+index ce823e8fcb..ebd47aa26f 100644
+--- a/hw/i386/acpi-build.c
++++ b/hw/i386/acpi-build.c
+@@ -43,6 +43,7 @@
+ #include "sysemu/tpm.h"
+ #include "hw/acpi/tpm.h"
+ #include "hw/acpi/vmgenid.h"
++#include "hw/acpi/erst.h"
+ #include "sysemu/tpm_backend.h"
+ #include "hw/rtc/mc146818rtc_regs.h"
+ #include "migration/vmstate.h"
+@@ -74,6 +75,8 @@
+ #include "hw/acpi/hmat.h"
+ #include "hw/acpi/viot.h"
+ 
++#include CONFIG_DEVICES
 +
-+/* ACPI 4.0: 17.4.1 Serialization Action Table */
-+void build_erst(GArray *table_data, BIOSLinker *linker, Object *erst_dev,
-+    const char *oem_id, const char *oem_table_id)
-+{
-+    /*
-+     * Serialization Action Table
-+     * The serialization action table must be generated first
-+     * so that its size can be known in order to populate the
-+     * Instruction Entry Count field.
-+     */
-+    unsigned action;
-+    GArray *table_instruction_data = g_array_new(FALSE, FALSE, sizeof(char));
-+    pcibus_t bar0 = pci_get_bar_addr(PCI_DEVICE(erst_dev), 0);
-+    AcpiTable table = { .sig = "ERST", .rev = 1, .oem_id = oem_id,
-+                        .oem_table_id = oem_table_id };
-+    /* Contexts for the different ways ACTION and VALUE are accessed */
-+    BuildSerializationInstructionEntry rd_value_32_val = {
-+        .table_data = table_instruction_data, .bar = bar0, .flags = 0,
-+        .instruction = INST_READ_REGISTER_VALUE,
-+        .register_bit_width = 32,
-+        .register_offset = ERST_VALUE_OFFSET,
-+    };
-+    BuildSerializationInstructionEntry rd_value_32 = {
-+        .table_data = table_instruction_data, .bar = bar0, .flags = 0,
-+        .instruction = INST_READ_REGISTER,
-+        .register_bit_width = 32,
-+        .register_offset = ERST_VALUE_OFFSET,
-+    };
-+    BuildSerializationInstructionEntry rd_value_64 = {
-+        .table_data = table_instruction_data, .bar = bar0, .flags = 0,
-+        .instruction = INST_READ_REGISTER,
-+        .register_bit_width = 64,
-+        .register_offset = ERST_VALUE_OFFSET,
-+    };
-+    BuildSerializationInstructionEntry wr_value_32_val = {
-+        .table_data = table_instruction_data, .bar = bar0, .flags = 0,
-+        .instruction = INST_WRITE_REGISTER_VALUE,
-+        .register_bit_width = 32,
-+        .register_offset = ERST_VALUE_OFFSET,
-+    };
-+    BuildSerializationInstructionEntry wr_value_32 = {
-+        .table_data = table_instruction_data, .bar = bar0, .flags = 0,
-+        .instruction = INST_WRITE_REGISTER,
-+        .register_bit_width = 32,
-+        .register_offset = ERST_VALUE_OFFSET,
-+    };
-+    BuildSerializationInstructionEntry wr_value_64 = {
-+        .table_data = table_instruction_data, .bar = bar0, .flags = 0,
-+        .instruction = INST_WRITE_REGISTER,
-+        .register_bit_width = 64,
-+        .register_offset = ERST_VALUE_OFFSET,
-+    };
-+    BuildSerializationInstructionEntry wr_action = {
-+        .table_data = table_instruction_data, .bar = bar0, .flags = 0,
-+        .instruction = INST_WRITE_REGISTER_VALUE,
-+        .register_bit_width = 32,
-+        .register_offset = ERST_ACTION_OFFSET,
-+    };
+ /* These are used to size the ACPI tables for -M pc-i440fx-1.7 and
+  * -M pc-i440fx-2.0.  Even if the actual amount of AML generated grows
+  * a little bit, there should be plenty of free space since the DSDT
+@@ -2575,6 +2578,18 @@ void acpi_build(AcpiBuildTables *tables, MachineState *machine)
+                     ACPI_DEVICE_IF(x86ms->acpi_dev), x86ms->oem_id,
+                     x86ms->oem_table_id);
+ 
++#ifdef CONFIG_ACPI_ERST
++    {
++        Object *erst_dev;
++        erst_dev = find_erst_dev();
++        if (erst_dev) {
++            acpi_add_table(table_offsets, tables_blob);
++            build_erst(tables_blob, tables->linker, erst_dev,
++                       x86ms->oem_id, x86ms->oem_table_id);
++        }
++    }
++#endif
 +
-+    trace_acpi_erst_pci_bar_0(bar0);
+     vmgenid_dev = find_vmgenid_dev();
+     if (vmgenid_dev) {
+         acpi_add_table(table_offsets, tables_blob);
+diff --git a/hw/i386/acpi-microvm.c b/hw/i386/acpi-microvm.c
+index 196d318499..68ca7e7fc2 100644
+--- a/hw/i386/acpi-microvm.c
++++ b/hw/i386/acpi-microvm.c
+@@ -30,6 +30,7 @@
+ #include "hw/acpi/bios-linker-loader.h"
+ #include "hw/acpi/generic_event_device.h"
+ #include "hw/acpi/utils.h"
++#include "hw/acpi/erst.h"
+ #include "hw/i386/fw_cfg.h"
+ #include "hw/i386/microvm.h"
+ #include "hw/pci/pci.h"
+@@ -40,6 +41,8 @@
+ #include "acpi-common.h"
+ #include "acpi-microvm.h"
+ 
++#include CONFIG_DEVICES
 +
-+    /* Serialization Instruction Entries */
-+    action = ACTION_BEGIN_WRITE_OPERATION;
-+    build_serialization_instruction(&wr_action, action, action);
+ static void acpi_dsdt_add_virtio(Aml *scope,
+                                  MicrovmMachineState *mms)
+ {
+@@ -207,6 +210,18 @@ static void acpi_build_microvm(AcpiBuildTables *tables,
+                     ACPI_DEVICE_IF(x86ms->acpi_dev), x86ms->oem_id,
+                     x86ms->oem_table_id);
+ 
++#ifdef CONFIG_ACPI_ERST
++    {
++        Object *erst_dev;
++        erst_dev = find_erst_dev();
++        if (erst_dev) {
++            acpi_add_table(table_offsets, tables_blob);
++            build_erst(tables_blob, tables->linker, erst_dev,
++                       x86ms->oem_id, x86ms->oem_table_id);
++        }
++    }
++#endif
 +
-+    action = ACTION_BEGIN_READ_OPERATION;
-+    build_serialization_instruction(&wr_action, action, action);
-+
-+    action = ACTION_BEGIN_CLEAR_OPERATION;
-+    build_serialization_instruction(&wr_action, action, action);
-+
-+    action = ACTION_END_OPERATION;
-+    build_serialization_instruction(&wr_action, action, action);
-+
-+    action = ACTION_SET_RECORD_OFFSET;
-+    build_serialization_instruction(&wr_value_32, action, 0);
-+    build_serialization_instruction(&wr_action, action, action);
-+
-+    action = ACTION_EXECUTE_OPERATION;
-+    build_serialization_instruction(&wr_value_32_val, action,
-+        ERST_EXECUTE_OPERATION_MAGIC);
-+    build_serialization_instruction(&wr_action, action, action);
-+
-+    action = ACTION_CHECK_BUSY_STATUS;
-+    build_serialization_instruction(&wr_action, action, action);
-+    build_serialization_instruction(&rd_value_32_val, action, 0x01);
-+
-+    action = ACTION_GET_COMMAND_STATUS;
-+    build_serialization_instruction(&wr_action, action, action);
-+    build_serialization_instruction(&rd_value_32, action, 0);
-+
-+    action = ACTION_GET_RECORD_IDENTIFIER;
-+    build_serialization_instruction(&wr_action, action, action);
-+    build_serialization_instruction(&rd_value_64, action, 0);
-+
-+    action = ACTION_SET_RECORD_IDENTIFIER;
-+    build_serialization_instruction(&wr_value_64, action, 0);
-+    build_serialization_instruction(&wr_action, action, action);
-+
-+    action = ACTION_GET_RECORD_COUNT;
-+    build_serialization_instruction(&wr_action, action, action);
-+    build_serialization_instruction(&rd_value_32, action, 0);
-+
-+    action = ACTION_BEGIN_DUMMY_WRITE_OPERATION;
-+    build_serialization_instruction(&wr_action, action, action);
-+
-+    action = ACTION_GET_ERROR_LOG_ADDRESS_RANGE;
-+    build_serialization_instruction(&wr_action, action, action);
-+    build_serialization_instruction(&rd_value_64, action, 0);
-+
-+    action = ACTION_GET_ERROR_LOG_ADDRESS_LENGTH;
-+    build_serialization_instruction(&wr_action, action, action);
-+    build_serialization_instruction(&rd_value_64, action, 0);
-+
-+    action = ACTION_GET_ERROR_LOG_ADDRESS_RANGE_ATTRIBUTES;
-+    build_serialization_instruction(&wr_action, action, action);
-+    build_serialization_instruction(&rd_value_32, action, 0);
-+
-+    action = ACTION_GET_EXECUTE_OPERATION_TIMINGS;
-+    build_serialization_instruction(&wr_action, action, action);
-+    build_serialization_instruction(&rd_value_64, action, 0);
-+
-+    /* Serialization Header */
-+    acpi_table_begin(&table, table_data);
-+
-+    /* Serialization Header Size */
-+    build_append_int_noprefix(table_data, 48, 4);
-+
-+    /* Reserved */
-+    build_append_int_noprefix(table_data,  0, 4);
-+
-+    /*
-+     * Instruction Entry Count
-+     * Each instruction entry is 32 bytes
-+     */
-+    g_assert((table_instruction_data->len) % 32 == 0);
-+    build_append_int_noprefix(table_data,
-+        (table_instruction_data->len / 32), 4);
-+
-+    /* Serialization Instruction Entries */
-+    g_array_append_vals(table_data, table_instruction_data->data,
-+        table_instruction_data->len);
-+    g_array_free(table_instruction_data, TRUE);
-+
-+    acpi_table_end(linker, &table);
-+}
-+
- /*******************************************************************/
- /*******************************************************************/
- static uint8_t *get_nvram_ptr_by_index(ERSTDeviceState *s, unsigned index)
+     xsdt = tables_blob->len;
+     build_xsdt(tables_blob, tables->linker, table_offsets, x86ms->oem_id,
+                x86ms->oem_table_id);
 -- 
 MST
 
