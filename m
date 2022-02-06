@@ -2,72 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4236C4AAEE7
-	for <lists+qemu-devel@lfdr.de>; Sun,  6 Feb 2022 11:54:32 +0100 (CET)
-Received: from localhost ([::1]:36944 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DB6594AAEEA
+	for <lists+qemu-devel@lfdr.de>; Sun,  6 Feb 2022 11:59:17 +0100 (CET)
+Received: from localhost ([::1]:43066 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nGfBe-00051Q-UE
-	for lists+qemu-devel@lfdr.de; Sun, 06 Feb 2022 05:54:30 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:53942)
+	id 1nGfGG-0000rg-Q5
+	for lists+qemu-devel@lfdr.de; Sun, 06 Feb 2022 05:59:16 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:54334)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nGf2U-0003fN-76
- for qemu-devel@nongnu.org; Sun, 06 Feb 2022 05:45:02 -0500
-Received: from [2a00:1450:4864:20::333] (port=40701
- helo=mail-wm1-x333.google.com)
+ id 1nGf48-0004BA-OC
+ for qemu-devel@nongnu.org; Sun, 06 Feb 2022 05:46:46 -0500
+Received: from [2a00:1450:4864:20::430] (port=40788
+ helo=mail-wr1-x430.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nGf2R-0004Fm-PF
- for qemu-devel@nongnu.org; Sun, 06 Feb 2022 05:45:01 -0500
-Received: by mail-wm1-x333.google.com with SMTP id
- m126-20020a1ca384000000b0037bb8e379feso1376146wme.5
- for <qemu-devel@nongnu.org>; Sun, 06 Feb 2022 02:44:59 -0800 (PST)
+ id 1nGf45-0004Si-3w
+ for qemu-devel@nongnu.org; Sun, 06 Feb 2022 05:46:43 -0500
+Received: by mail-wr1-x430.google.com with SMTP id s18so19771643wrv.7
+ for <qemu-devel@nongnu.org>; Sun, 06 Feb 2022 02:46:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=+edp2yIAnXvWwGf29V0Q12tzpZVArxENIf5dnL+dD/E=;
- b=KVXPRa1mwhuprMel5m8VeIlcOVkQzjCT3QmobZuond33a3Xvd28daa5d5mmvOzkgRV
- wSNa37nyXUWmPiocdjSzeFnwgcQSIS3y6E0EAQmAu2Ab1gK+2X17eL7nZ4L9qFVEXxzh
- W3hTgF7kzTIDHpLLUPlmgpVBeo5dIBdDGrUwKN+BkpyomrYYypZ/nZvMxs/Hy0KKquJq
- kfpJvOTrg4ERvUO+YXjOB/adQtfErjjK9rsN3MbOUBRSx0UD/daGNUqfIDQB0CeFAze1
- YUyEMRZZsxA7FmIAB3EGmEZDrqYcSY5JzaWWeI0WXxEgqcBVrvlTsyoQSzDUIEtF3yRS
- MNtA==
+ :cc; bh=5QKBfnDP8K+IkDPhfsV8KUNVpW4VNpt4IzpvvjIBiLw=;
+ b=lEM0msZarZTHF6GgnELPch9qQAao86KOOwJ3QVV8i3zXb9OTlzSc7AfCwPPF9I+YUh
+ r3JNuESMP/OYj8E92xPQXpROffHF//f0NV2A9EZywf628pJremWpaLRe+rvlpNKWjH3S
+ iv4BrIFmy9Xm15wo52mDa6DMe/Z9RcLmAnr+Ks9g4yBigK2Pk2D96lnNo2Mht1RVLnhg
+ haB3cqJYyALEX9RwwFr5XXnSqgZ+62gjOMo3QblhXUbkOBoRKgkFFQL2jjcMLEeOjy3T
+ YQXH7RK0EgDIy+iIpR8ZydANrbrRgZ2nZvWZEo8cdFNkC8Y0fA62b/tms5ghPJRrnLft
+ HePQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=+edp2yIAnXvWwGf29V0Q12tzpZVArxENIf5dnL+dD/E=;
- b=HvsTXR6v1lP1a6/OcM1q441rPAUJ3fc7RPBXV2E70nW2f9JGostMXwUZHBvve0ZUjD
- bmd8BojnjDYE8IwXpejHWRnRh32x3RDpdwANDDZELVEhKwqTaj4yM4INHW+4qHhJOu9h
- LyY86eyd94rLdUXgsC4+01oyb3c8EGHBHn6LoQHc6X5QCyY9ev0NytDtyQusKPur4M/l
- sT0Yngph8PJvzAw6mtOkCG9yZPd/MnovOXUxQFiAO8UPQqE75S58vX6nbHoEIHr/tq0b
- FBNigG4KfCb2unZm6cL8X5BL/sDkXETwoRdnSl/AY3xttrzGnTzKtpL0/2iIbDyUaRWm
- 30kw==
-X-Gm-Message-State: AOAM533c0wFYz5HJzRzL2NcVlu/ZPGoCXBdd6ikR/3+e/H47363UQcyp
- GuDRrTnmi0F4exNws2EL+noMMEtLgIuqnwhUnHLtjoI17mQ=
-X-Google-Smtp-Source: ABdhPJwRQedwMV5e0dkSh5QAj5Lgjg7kCweLStsbA8h/Xg2F5gt+YD7Rtdwr74itnLBbxvkI/3OSU0Kz/AA6L28vgFU=
-X-Received: by 2002:a05:600c:2d05:: with SMTP id
- x5mr4750496wmf.133.1644144298448; 
- Sun, 06 Feb 2022 02:44:58 -0800 (PST)
+ bh=5QKBfnDP8K+IkDPhfsV8KUNVpW4VNpt4IzpvvjIBiLw=;
+ b=ITrh6htOtO/n1ida+4MQskg08rqJ5rpQMBkoG21hZ/sbLVvOSjqU3BrFbbHcujq8gC
+ 2SbP9dAy4FkWfZ0QXWdsbXDZcZiJ2YM02gaondyYrT0P3t8unalA0Azy3t7R3HPn8iMe
+ ea7SQDnBvr83hVqKPZahNX9bnuX5vrlx/vfCBlA7fc5jh4oVEvCdRjePskFVAlG8h0QU
+ TR1mqvRk5g6EApM6FEvkbphvWLyorpmsSWQHK0XbzCJ9gYEaYT5vAOulMssP6SmdVaWG
+ Kd2mAJ8zXaiCv19FfBchUrjkEW+m4vFiSAkckIEBEJmywtRLcY1rQvo170/493ty0ILm
+ +yaw==
+X-Gm-Message-State: AOAM533ChIg8HcKPA35Vui921F3/PcmEsIrN9FaHTSyB6YgSCp0J8PLP
+ jSDYdv4gNsm70wPAuYE46Mr7nhcsLTJB7bKLeINwvA==
+X-Google-Smtp-Source: ABdhPJwKd0jF/rqu1uqWlaDwyybt9eS4WC50xCFZ+2Fm52ZQh3nYkwX90IXwR8WmcFCFZJeO3bmTzV5Q7mfV4ex1Wbs=
+X-Received: by 2002:a05:6000:258:: with SMTP id
+ m24mr6165154wrz.2.1644144365704; 
+ Sun, 06 Feb 2022 02:46:05 -0800 (PST)
 MIME-Version: 1.0
-References: <20220205014149.1189026-1-mst@redhat.com>
- <CAFEAcA91cVDym5fVCXgHFHJ8fkt8GhrOis-EPHN6YWpVn9TOCA@mail.gmail.com>
- <20220205072452-mutt-send-email-mst@kernel.org>
- <CAFEAcA-RJ8OkwaXWx=bRHJCDoWrQvZbdSEuuyz1j9ZFod0kcfg@mail.gmail.com>
- <20220205124235-mutt-send-email-mst@kernel.org>
- <CAFEAcA_kbt0HOp=8w--ZR9g+EgZvownyrbWYseSxuArd1g4CBw@mail.gmail.com>
- <20220206042826-mutt-send-email-mst@kernel.org>
-In-Reply-To: <20220206042826-mutt-send-email-mst@kernel.org>
+References: <20220206103138.36105-1-richard.henderson@linaro.org>
+ <20220206103138.36105-4-richard.henderson@linaro.org>
+In-Reply-To: <20220206103138.36105-4-richard.henderson@linaro.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Sun, 6 Feb 2022 10:44:47 +0000
-Message-ID: <CAFEAcA8gGj-QQRtRze4vq=cM4nges32QL5ac6vddEXC=GQ0TeQ@mail.gmail.com>
-Subject: Re: [PULL 00/32] virtio,pc: features, cleanups, fixes
-To: "Michael S. Tsirkin" <mst@redhat.com>
+Date: Sun, 6 Feb 2022 10:45:54 +0000
+Message-ID: <CAFEAcA-FgO6pHhwx8rzNWxZz1e=LJG9ZUSF=PDrh19P92Qt39g@mail.gmail.com>
+Subject: Re: [PATCH v5 3/6] tcg/sparc: Convert patch_reloc to return bool
+To: Richard Henderson <richard.henderson@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::333
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::430
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::333;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x333.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::430;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x430.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -92,30 +86,44 @@ Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, 6 Feb 2022 at 09:29, Michael S. Tsirkin <mst@redhat.com> wrote:
+On Sun, 6 Feb 2022 at 10:31, Richard Henderson
+<richard.henderson@linaro.org> wrote:
 >
-> On Sat, Feb 05, 2022 at 09:05:12PM +0000, Peter Maydell wrote:
-> > On the build-tsan and build-cfi-x86_64 jobs and also on macos
-> > (this is a "clang is pickier than gcc about unused functions" one):
-> > https://gitlab.com/qemu-project/qemu/-/jobs/2058536617
-> > https://gitlab.com/qemu-project/qemu/-/jobs/2058536571
-> >
-> > ../tests/qtest/erst-test.c:91:20: error: unused function 'out_reg64'
-> > [-Werror,-Wunused-function]
-> > static inline void out_reg64(ERSTState *s, unsigned reg, uint64_t v)
-> > ^
+> Since 7ecd02a06f8, if patch_reloc fails we restart translation
+> with a smaller TB.  Sparc had its function signature changed,
+> but not the logic.  Replace assert with return false.
 >
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>  tcg/sparc/tcg-target.c.inc | 8 ++++++--
+>  1 file changed, 6 insertions(+), 2 deletions(-)
 >
-> That's a weird one - it's static inline, compiler should not warn I
-> think. compiler bug? I can drop this for sure but still. Is this
-> what we should be doing?
-
-This is a gcc-vs-clang difference. gcc will not warn about any
-unused "static inline" function. clang will not warn for them
-in .h files but will warn for them in .c files.
-
-In this case clang is entirely correct -- the function is defined
-and never used, not even conditionally depending on #ifdefs.
+> diff --git a/tcg/sparc/tcg-target.c.inc b/tcg/sparc/tcg-target.c.inc
+> index f9afb1bffc..f3043e6833 100644
+> --- a/tcg/sparc/tcg-target.c.inc
+> +++ b/tcg/sparc/tcg-target.c.inc
+> @@ -323,12 +323,16 @@ static bool patch_reloc(tcg_insn_unit *src_rw, int type,
+>
+>      switch (type) {
+>      case R_SPARC_WDISP16:
+> -        assert(check_fit_ptr(pcrel >> 2, 16));
+> +        if (!check_fit_ptr(pcrel >> 2, 16)) {
+> +            return false;
+> +        }
+>          insn &= ~INSN_OFF16(-1);
+>          insn |= INSN_OFF16(pcrel);
+>          break;
+>      case R_SPARC_WDISP19:
+> -        assert(check_fit_ptr(pcrel >> 2, 19));
+> +        if (!check_fit_ptr(pcrel >> 2, 19)) {
+> +            return false;
+> +        }
+>          insn &= ~INSN_OFF19(-1);
+>          insn |= INSN_OFF19(pcrel);
+>          break;
+> --
+> 2.25.1
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
 thanks
 -- PMM
