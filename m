@@ -2,71 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 35ECB4AAECC
-	for <lists+qemu-devel@lfdr.de>; Sun,  6 Feb 2022 11:18:27 +0100 (CET)
-Received: from localhost ([::1]:59820 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 54B744AAEC6
+	for <lists+qemu-devel@lfdr.de>; Sun,  6 Feb 2022 11:11:55 +0100 (CET)
+Received: from localhost ([::1]:45802 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nGeck-00053M-AU
-	for lists+qemu-devel@lfdr.de; Sun, 06 Feb 2022 05:18:26 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:44908)
+	id 1nGeWQ-0003kq-Fz
+	for lists+qemu-devel@lfdr.de; Sun, 06 Feb 2022 05:11:54 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:44626)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nGe0v-0002Bo-Ux
- for qemu-devel@nongnu.org; Sun, 06 Feb 2022 04:39:21 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:60884)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nGe01-0000J6-71
+ for qemu-devel@nongnu.org; Sun, 06 Feb 2022 04:38:25 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:49860)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nGe0t-0003nU-Lj
- for qemu-devel@nongnu.org; Sun, 06 Feb 2022 04:39:21 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nGdzz-0003hi-7x
+ for qemu-devel@nongnu.org; Sun, 06 Feb 2022 04:38:24 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1644140359;
+ s=mimecast20190719; t=1644140302;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Eumjoy2b3JuV2CT6O4JwajdWx+yglD5Kzegw38RNJ0M=;
- b=aOMkPRaSSGHKY4KsZtrKTSRgueaKtz/FuPXtz3X71fRfPX5pYtVMO3VJpOJCcgXTJc1Ulg
- hE+kowjMLSyjf/FXqzBRqW8gCsTMrcGZIuJQpDdjpcMRoc3TZy++A5ImDS3I+0YZIZyu0F
- B5A2L+2Kxur/ghet40pdD40J9XxDHX4=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=y7OKSfT1V8bnQJ29ZyLRYs/eX2kJnKtsDQ8zfEcJa6g=;
+ b=edHr5dJgJiM6B48DShnAqGQUfdL6y4Ptqgvp4EiGKWyCiyELChAinOVNQhcDRrd3IdoxTN
+ DPqbakEi5xmnD0F9orkbw9YpDJ+kLpVFf8ySQGLAM+vWJtI1q6uF9nOBO79Qi9MpVQYgJN
+ kZeCuBbK/iPC0PlJnqBhSpNdMPfAMSE=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-652-WB3k6PcKNGGeRehhWQm_-w-1; Sun, 06 Feb 2022 04:38:19 -0500
-X-MC-Unique: WB3k6PcKNGGeRehhWQm_-w-1
-Received: by mail-wm1-f69.google.com with SMTP id
- z2-20020a05600c220200b0034d2eb95f27so3956627wml.1
- for <qemu-devel@nongnu.org>; Sun, 06 Feb 2022 01:38:18 -0800 (PST)
+ us-mta-262-nnvAwZIaO_291mY9RmH-2Q-1; Sun, 06 Feb 2022 04:38:21 -0500
+X-MC-Unique: nnvAwZIaO_291mY9RmH-2Q-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ l16-20020a7bcf10000000b0034ffdd81e7aso3946822wmg.4
+ for <qemu-devel@nongnu.org>; Sun, 06 Feb 2022 01:38:21 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:content-transfer-encoding
  :in-reply-to;
- bh=Eumjoy2b3JuV2CT6O4JwajdWx+yglD5Kzegw38RNJ0M=;
- b=tW/2/w6Scq9TKbvLeA4loal768fPEs5OyMadnGo+wmZh9k8nv0ZhaBxNaM/nWYkuPt
- N5E5KixiD6YDn44yt00cS9L+jMIgmdHtbOCyWeR71EE/8bllYw+gorOyKZYCdlqegcJV
- 4DtmDvLPISd6WdG10woqH4LliwM9H5GiKT0zYmaq/XzdIh8qEEc57WiZ7qalt5J7o6FC
- Rf4ebb0wOwaKC/UvSWC1caqoD8g2vBEzt4o15DaV3GDAs7XMWHztPyYUEl2qaCwpG+6Z
- SZM40bESeGVU6gUc+wGKNbniXD7x+r1zinWckT46ZxhkoCEAX2Xolqld7riwQk0UDUnM
- XqtQ==
-X-Gm-Message-State: AOAM5338EQfHMvJEqb81ZTl1KZ0TsgcnI7tCgXBGMPEAHOGFVKiVkZqb
- H2PajEnhbve7viInQvD3yLQtKvNdmC811lj80Nb7gFrQAKbnMWm8bpV3e1/oJL3MvWeAEFtGzzT
- DIeiJo9C/6VE6sKeffxlxcCKoM9b9xtpHGzBEcwXempfh2qVa3AjzPlX76Spj
-X-Received: by 2002:a05:600c:1d85:: with SMTP id
- p5mr6307612wms.36.1644140297567; 
- Sun, 06 Feb 2022 01:38:17 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJw6uXurDT7ayBROU9yrIKFz4IAqvYUyzY4D08P984I5DgNBM8PTod2f+ljLxFCxBEgu65L7zw==
-X-Received: by 2002:a05:600c:1d85:: with SMTP id
- p5mr6307588wms.36.1644140297327; 
- Sun, 06 Feb 2022 01:38:17 -0800 (PST)
+ bh=y7OKSfT1V8bnQJ29ZyLRYs/eX2kJnKtsDQ8zfEcJa6g=;
+ b=0158c1ndl8Bf4xzs2jz4b3SQp5tENsXC+spiwswlrJMYav5NTm32anVwiK8GuGkEam
+ fpI9msIxcFiG3q++JAsSB3EY2NT29rXU4vnOoqvD3Xzv74a9jKQD2DFzp1aO00IhuCn0
+ 6L55vdebr0O2V/wGV5Ap78W0tcY/y9CkIVgJT9jKQn/E1uMepH7S7mPVWr1nbb+mnHzd
+ QAcLhFk+9/o4zjpEQlVq60yJppvu1/JxaG5i8Vo4itSn4X9xpSD3gJ5y8gZw8yrPdk3W
+ tFubnztGvOJW4dX1zyMMbl0qQjTIclxi12nAoYYCeUxfD8IK7JzEWvXUUrydAqflLJnG
+ D98Q==
+X-Gm-Message-State: AOAM533PSjH5+iQyha6Fk7qhEBbMJyBcQ0zS8ome28RaTvi0TjSi2W+8
+ i0yoqR9tX15WiuAGziHK6HQm7rkwhs/1tv8LTEN84Omv/Vp0I5EP0o1iz9Nre2yI1YoZPS30b4A
+ UJIpwzpzt7QeedFMyXP/TWn7DPFzWVKd3yUzZzq2BOVZaZpRtvU1ims57M81e
+X-Received: by 2002:a5d:548d:: with SMTP id h13mr5871360wrv.28.1644140300470; 
+ Sun, 06 Feb 2022 01:38:20 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwST1/AD6tWCTXkGdltt77b2csUNgZUwM+xFu4/YAQyjdGe2ERn35XpnDqmlrbOuw7nbSLUfQ==
+X-Received: by 2002:a5d:548d:: with SMTP id h13mr5871333wrv.28.1644140300240; 
+ Sun, 06 Feb 2022 01:38:20 -0800 (PST)
 Received: from redhat.com ([2.52.12.81])
- by smtp.gmail.com with ESMTPSA id g7sm6907360wmq.3.2022.02.06.01.38.15
+ by smtp.gmail.com with ESMTPSA id z1sm14132589wmk.32.2022.02.06.01.38.18
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 06 Feb 2022 01:38:16 -0800 (PST)
-Date: Sun, 6 Feb 2022 04:38:14 -0500
+ Sun, 06 Feb 2022 01:38:19 -0800 (PST)
+Date: Sun, 6 Feb 2022 04:38:17 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v2 11/24] libvhost-user: fix VHOST_USER_REM_MEM_REG not
- closing the fd
-Message-ID: <20220206093702.1282676-12-mst@redhat.com>
+Subject: [PULL v2 12/24] libvhost-user: prevent over-running max RAM slots
+Message-ID: <20220206093702.1282676-13-mst@redhat.com>
 References: <20220206093702.1282676-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20220206093702.1282676-1-mst@redhat.com>
@@ -101,7 +98,8 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Peter Maydell <peter.maydell@linaro.org>,
- David Hildenbrand <david@redhat.com>, Coiby Xu <coiby.xu@gmail.com>,
+ David Hildenbrand <david@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  Raphael Norwitz <raphael.norwitz@nutanix.com>,
  Stefan Hajnoczi <stefanha@redhat.com>,
  =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
@@ -109,40 +107,47 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: David Hildenbrand <david@redhat.com>
+From: Raphael Norwitz <raphael.norwitz@nutanix.com>
 
-We end up not closing the file descriptor, resulting in leaking one
-file descriptor for each VHOST_USER_REM_MEM_REG message.
+When VHOST_USER_PROTOCOL_F_CONFIGURE_MEM_SLOTS support was added to
+libvhost-user, no guardrails were added to protect against QEMU
+attempting to hot-add too many RAM slots to a VM with a libvhost-user
+based backed attached.
 
-Fixes: 875b9fd97b34 ("Support individual region unmap in libvhost-user")
-Cc: Michael S. Tsirkin <mst@redhat.com>
-Cc: Raphael Norwitz <raphael.norwitz@nutanix.com>
-Cc: "Marc-André Lureau" <marcandre.lureau@redhat.com>
-Cc: Stefan Hajnoczi <stefanha@redhat.com>
-Cc: Paolo Bonzini <pbonzini@redhat.com>
-Cc: Coiby Xu <coiby.xu@gmail.com>
-Signed-off-by: David Hildenbrand <david@redhat.com>
+This change adds the missing error handling by introducing a check on
+the number of RAM slots the device has available before proceeding to
+process the VHOST_USER_ADD_MEM_REG message.
+
+Suggested-by: Stefan Hajnoczi <stefanha@redhat.com>
 Signed-off-by: Raphael Norwitz <raphael.norwitz@nutanix.com>
-Message-Id: <20220117041050.19718-5-raphael.norwitz@nutanix.com>
+Message-Id: <20220117041050.19718-6-raphael.norwitz@nutanix.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+Reviewed-by: David Hildenbrand <david@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- subprojects/libvhost-user/libvhost-user.c | 2 ++
- 1 file changed, 2 insertions(+)
+ subprojects/libvhost-user/libvhost-user.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
 diff --git a/subprojects/libvhost-user/libvhost-user.c b/subprojects/libvhost-user/libvhost-user.c
-index 7dd8e918b4..3f4d7221ca 100644
+index 3f4d7221ca..2a1fa00a44 100644
 --- a/subprojects/libvhost-user/libvhost-user.c
 +++ b/subprojects/libvhost-user/libvhost-user.c
-@@ -868,6 +868,8 @@ vu_rem_mem_reg(VuDev *dev, VhostUserMsg *vmsg) {
-         vu_panic(dev, "Specified region not found\n");
+@@ -705,6 +705,14 @@ vu_add_mem_reg(VuDev *dev, VhostUserMsg *vmsg) {
+         return false;
      }
  
-+    close(vmsg->fds[0]);
++    if (dev->nregions == VHOST_USER_MAX_RAM_SLOTS) {
++        close(vmsg->fds[0]);
++        vu_panic(dev, "failing attempt to hot add memory via "
++                      "VHOST_USER_ADD_MEM_REG message because the backend has "
++                      "no free ram slots available");
++        return false;
++    }
 +
-     return true;
- }
- 
+     /*
+      * If we are in postcopy mode and we receive a u64 payload with a 0 value
+      * we know all the postcopy client bases have been received, and we
 -- 
 MST
 
