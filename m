@@ -2,76 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B9984AAEAE
-	for <lists+qemu-devel@lfdr.de>; Sun,  6 Feb 2022 10:51:52 +0100 (CET)
-Received: from localhost ([::1]:44396 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 45F214AAEBA
+	for <lists+qemu-devel@lfdr.de>; Sun,  6 Feb 2022 10:59:35 +0100 (CET)
+Received: from localhost ([::1]:55762 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nGeD1-0008Vh-MQ
-	for lists+qemu-devel@lfdr.de; Sun, 06 Feb 2022 04:51:51 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:44464)
+	id 1nGeKU-00087c-Cw
+	for lists+qemu-devel@lfdr.de; Sun, 06 Feb 2022 04:59:34 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:44580)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nGdzr-00008X-8m
- for qemu-devel@nongnu.org; Sun, 06 Feb 2022 04:38:16 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:41091)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nGdzt-0000AW-45
+ for qemu-devel@nongnu.org; Sun, 06 Feb 2022 04:38:17 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:34479)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nGdzi-0003d9-VR
- for qemu-devel@nongnu.org; Sun, 06 Feb 2022 04:38:13 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nGdzn-0003dD-7j
+ for qemu-devel@nongnu.org; Sun, 06 Feb 2022 04:38:16 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1644140270;
+ s=mimecast20190719; t=1644140272;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type;
- bh=3QXkctBIjWHJEIeJp09RberZiX1UN4oLnh8KlpS89T4=;
- b=Jcqg4Yz6rS0iTe0c9cU6ynuqwor5FNcJ+zb2KXd2ytKfZjm+0wbJQsaof6pRKAJ5Mxu57T
- Y3XV8zbXCMgotkLyFUKymEMdtVJDf4BKbgcIKsvJmgo+2+fffMZ3uWyFE+waXPxfUn1mQt
- NqwuV3QTmaapDubIML1a5XSXXZWagFc=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=EU2zPx6JC+R5DZIlP0yKSn9BYb3OIhPFICOQQCHTxuk=;
+ b=DuTUg6W/EcFU/pIfTr9tpuSQwhsSVDXsnQWmWXlBWyG1Lx4w0570Gs2os9i8f4MX1DUwd3
+ rFM0pTxaQimn2nPjzd02zLK4gM0oGlYjkYxbLyb8p+Tb7wyKByPoqYDHY48pUDN2g7eToI
+ ejQRwtM8XfBLlv5MNbaRZDX13anJSxo=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-98-RZArM5_VOpCRZpouh3pSSg-1; Sun, 06 Feb 2022 04:37:48 -0500
-X-MC-Unique: RZArM5_VOpCRZpouh3pSSg-1
-Received: by mail-wm1-f70.google.com with SMTP id
- 130-20020a1c0288000000b0037bc5cbd027so65017wmc.8
- for <qemu-devel@nongnu.org>; Sun, 06 Feb 2022 01:37:48 -0800 (PST)
+ us-mta-150-t7yI1fGXMqGrZ5SCDQk_kA-1; Sun, 06 Feb 2022 04:37:51 -0500
+X-MC-Unique: t7yI1fGXMqGrZ5SCDQk_kA-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ r8-20020a7bc088000000b0037bbf779d26so527468wmh.7
+ for <qemu-devel@nongnu.org>; Sun, 06 Feb 2022 01:37:51 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
- :content-disposition;
- bh=3QXkctBIjWHJEIeJp09RberZiX1UN4oLnh8KlpS89T4=;
- b=H/iMdHUY/pe6RCVqVMmUTfjmQ+jExIVS6m9MZhZxA6YimLoNL7yi9KQsZNf/Wp5ERX
- /P1IRZgq7YGttc7pBYGsoUMFXihpUwdNvHPtCidYvuKHfq3SOA6YX9nZmh/cnIoQWGb2
- ZG9BtqrVzTn4b2rtOWDsq8wPZt/ywy4C1eERE/UY2wN6gXCLXxc0r3B1h35x0dpXLeFO
- UGIIrJEwow3p5wHUHjL+U9GXviGsMaDKFiIEev5kp5Kel4um3lSIkZA0MevvtzNl+zMD
- bULNncJw5szOrkT1yAs84ujeTlwZzpf+kh+EgOGXyglnu9M4OZDw6yno013NsWNZ1I4P
- aH/w==
-X-Gm-Message-State: AOAM533OcVhF6XQgWcBA9j6fOkz8b19WcwYduBgtF3c/XqLcZnhO1kHD
- NWxJ9EvVpoUomVAQeMPCrdmpxV5d6qZkwMWZV2kGj0TCX1zKjrJ17miIkevWh1SFCQh721XwfAb
- Xx+d2pVSmI+URzEwcD8qGJrvE1UyqSirx+F2xvzWszuQAz6MF/0XHVMyxqXXK
-X-Received: by 2002:a05:600c:1509:: with SMTP id
- b9mr6391460wmg.144.1644140267311; 
- Sun, 06 Feb 2022 01:37:47 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJx9NkDCVKZdQ0WVGpmqPrXDmJeAOM1HBUg5xJGzlwVM3o0SFFQ27uEtRnveQ5DxwogBMlkJ2w==
-X-Received: by 2002:a05:600c:1509:: with SMTP id
- b9mr6391436wmg.144.1644140266999; 
- Sun, 06 Feb 2022 01:37:46 -0800 (PST)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=EU2zPx6JC+R5DZIlP0yKSn9BYb3OIhPFICOQQCHTxuk=;
+ b=G/RgEKh/wQUSvPcarFgYdC3vRXll2hfYwatK6nAOohJxUlVP/VcBHkXrikrG7DJ+q6
+ RSkl3t5hlHs6JymnLSHWJ83GKfISkFZyRjQXpVHk7Rt1+AqaaMl42vmoVhrI/ac9oEQ8
+ XUNdsecoTM15Rss1pCnNu8v7zg8c1MO3g4W865tzAdzxYGfhIEb4RPy1NNlVv1oVShOr
+ l86DE9rF4yl2Z5SiR5UHlpTzU3b7wnFzcs/nrpkkHYHnkc0bWMbpeQ7saoO4/b0N1QFE
+ bklbWg1C0wtfwa5qJskTKrwh7LOJtv6X9BBV/3Hc3aizmPoCAjABxC35BSOliL1zdOvE
+ K1Ng==
+X-Gm-Message-State: AOAM5311InMByGz4xj9M30nVlKZ97A2uJs0o06K3mlcjTJ+g74ePEZUp
+ hnq6WdTa41D8BsjgntbCE1p+UQrWLEaD+q+/au7Aq6iEh5DGoZRo3Q+8YMtH7svSnMqpLDtXG75
+ 0f9VhXTYKmxokZ3NVmTYCBBkDcRQ9G5s+wwyzt3gCPImMjLjdMYLF4gVR6oVv
+X-Received: by 2002:a5d:588c:: with SMTP id n12mr5934781wrf.496.1644140269945; 
+ Sun, 06 Feb 2022 01:37:49 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyhdzHuP6Xv50uPVIdzoXZeIQ+jSR57T2baOdDuIOZ9dm2teipDlOgdk2y3/o0sHvUU/sTAMQ==
+X-Received: by 2002:a5d:588c:: with SMTP id n12mr5934763wrf.496.1644140269701; 
+ Sun, 06 Feb 2022 01:37:49 -0800 (PST)
 Received: from redhat.com ([2.52.12.81])
- by smtp.gmail.com with ESMTPSA id v18sm3732474wrm.105.2022.02.06.01.37.45
+ by smtp.gmail.com with ESMTPSA id 16sm5813922wmj.12.2022.02.06.01.37.48
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 06 Feb 2022 01:37:46 -0800 (PST)
-Date: Sun, 6 Feb 2022 04:37:44 -0500
+ Sun, 06 Feb 2022 01:37:49 -0800 (PST)
+Date: Sun, 6 Feb 2022 04:37:47 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v2 00/24] virtio,pc: features, cleanups, fixes
-Message-ID: <20220206093702.1282676-1-mst@redhat.com>
+Subject: [PULL v2 01/24] cpuid: use unsigned for max cpuid
+Message-ID: <20220206093702.1282676-2-mst@redhat.com>
+References: <20220206093702.1282676-1-mst@redhat.com>
 MIME-Version: 1.0
+In-Reply-To: <20220206093702.1282676-1-mst@redhat.com>
 X-Mailer: git-send-email 2.27.0.106.g8ac3dc51b1
 X-Mutt-Fcc: =sent
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
@@ -93,108 +97,67 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Richard Henderson <rth@twiddle.net>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Changes from v1:
-erst patch fixups
-virtio introspection patches dropped
+__get_cpuid_max returns an unsigned value.
+For consistency, store the result in an unsigned variable.
 
-The following changes since commit 8f3e5ce773c62bb5c4a847f3a9a5c98bbb3b359f:
-
-  Merge remote-tracking branch 'remotes/hdeller/tags/hppa-updates-pull-request' into staging (2022-02-02 19:54:30 +0000)
-
-are available in the Git repository at:
-
-  git://git.kernel.org/pub/scm/virt/kvm/mst/qemu.git tags/for_upstream
-
-for you to fetch changes up to dd4fc6058557cd2a9e23a37da44d054f724ca3e8:
-
-  util/oslib-posix: Fix missing unlock in the error path of os_mem_prealloc() (2022-02-06 04:33:50 -0500)
-
-----------------------------------------------------------------
-virtio,pc: features, cleanups, fixes
-
-Part of ACPI ERST support
-fixes, cleanups
-
+Cc: Paolo Bonzini <pbonzini@redhat.com>
+Cc: Richard Henderson <rth@twiddle.net>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+---
+ configure                 | 2 +-
+ util/bufferiszero.c       | 2 +-
+ tcg/i386/tcg-target.c.inc | 2 +-
+ 3 files changed, 3 insertions(+), 3 deletions(-)
 
-----------------------------------------------------------------
-David Hildenbrand (4):
-      libvhost-user: Simplify VHOST_USER_REM_MEM_REG
-      libvhost-user: fix VHOST_USER_REM_MEM_REG not closing the fd
-      libvhost-user: Map shared RAM with MAP_NORESERVE to support virtio-mem with hugetlb
-      util/oslib-posix: Fix missing unlock in the error path of os_mem_prealloc()
-
-Eric DeVolder (9):
-      ACPI ERST: bios-tables-test.c steps 1 and 2
-      ACPI ERST: PCI device_id for ERST
-      ACPI ERST: header file for ERST
-      ACPI ERST: support for ACPI ERST feature
-      ACPI ERST: build the ACPI ERST table
-      ACPI ERST: create ACPI ERST table for pc/x86 machines
-      ACPI ERST: qtest for ERST
-      ACPI ERST: bios-tables-test testcase
-      ACPI ERST: step 6 of bios-tables-test.c
-
-Igor Mammedov (5):
-      tests: acpi: manually pad OEM_ID/OEM_TABLE_ID for test_oem_fields() test
-      tests: acpi: whitelist nvdimm's SSDT and FACP.slic expected blobs
-      acpi: fix OEM ID/OEM Table ID padding
-      tests: acpi: update expected blobs
-      tests: acpi: test short OEM_ID/OEM_TABLE_ID values in test_oem_fields()
-
-Michael S. Tsirkin (1):
-      cpuid: use unsigned for max cpuid
-
-Raphael Norwitz (4):
-      libvhost-user: Add vu_rem_mem_reg input validation
-      libvhost-user: Add vu_add_mem_reg input validation
-      libvhost-user: prevent over-running max RAM slots
-      libvhost-user: handle removal of identical regions
-
-Thomas Huth (1):
-      hw/i386: Add the possibility to disable the 'isapc' machine
-
- configure                                 |    2 +-
- include/hw/acpi/erst.h                    |   24 +
- include/hw/pci/pci.h                      |    1 +
- subprojects/libvhost-user/libvhost-user.h |    2 +
- hw/acpi/aml-build.c                       |    4 +-
- hw/acpi/erst.c                            | 1051 +++++++++++++++++++++++++++++
- hw/i386/acpi-build.c                      |   15 +
- hw/i386/acpi-microvm.c                    |   15 +
- hw/i386/pc_piix.c                         |    5 +-
- subprojects/libvhost-user/libvhost-user.c |   86 ++-
- tests/qtest/bios-tables-test.c            |   65 +-
- tests/qtest/cdrom-test.c                  |    2 +-
- tests/qtest/erst-test.c                   |  164 +++++
- util/bufferiszero.c                       |    2 +-
- util/oslib-posix.c                        |    1 +
- hw/acpi/Kconfig                           |    6 +
- hw/acpi/meson.build                       |    1 +
- hw/acpi/trace-events                      |   15 +
- tcg/i386/tcg-target.c.inc                 |    2 +-
- tests/data/acpi/microvm/ERST.pcie         |  Bin 0 -> 912 bytes
- tests/data/acpi/pc/DSDT.acpierst          |  Bin 0 -> 5969 bytes
- tests/data/acpi/pc/ERST.acpierst          |  Bin 0 -> 912 bytes
- tests/data/acpi/pc/SSDT.dimmpxm           |  Bin 734 -> 734 bytes
- tests/data/acpi/q35/DSDT.acpierst         |  Bin 0 -> 8306 bytes
- tests/data/acpi/q35/ERST.acpierst         |  Bin 0 -> 912 bytes
- tests/data/acpi/q35/FACP.slic             |  Bin 244 -> 244 bytes
- tests/data/acpi/q35/SSDT.dimmpxm          |  Bin 734 -> 734 bytes
- tests/data/acpi/virt/SSDT.memhp           |  Bin 736 -> 736 bytes
- tests/qtest/meson.build                   |    2 +
- 29 files changed, 1429 insertions(+), 36 deletions(-)
- create mode 100644 include/hw/acpi/erst.h
- create mode 100644 hw/acpi/erst.c
- create mode 100644 tests/qtest/erst-test.c
- create mode 100644 tests/data/acpi/microvm/ERST.pcie
- create mode 100644 tests/data/acpi/pc/DSDT.acpierst
- create mode 100644 tests/data/acpi/pc/ERST.acpierst
- create mode 100644 tests/data/acpi/q35/DSDT.acpierst
- create mode 100644 tests/data/acpi/q35/ERST.acpierst
+diff --git a/configure b/configure
+index e6cfc0e4be..dfb9019b24 100755
+--- a/configure
++++ b/configure
+@@ -2768,7 +2768,7 @@ cat > $TMPC << EOF
+ #include <cpuid.h>
+ int main(void) {
+     unsigned a, b, c, d;
+-    int max = __get_cpuid_max(0, 0);
++    unsigned max = __get_cpuid_max(0, 0);
+ 
+     if (max >= 1) {
+         __cpuid(1, a, b, c, d);
+diff --git a/util/bufferiszero.c b/util/bufferiszero.c
+index 695bb4ce28..ec3cd4ca15 100644
+--- a/util/bufferiszero.c
++++ b/util/bufferiszero.c
+@@ -272,7 +272,7 @@ static void init_accel(unsigned cache)
+ 
+ static void __attribute__((constructor)) init_cpuid_cache(void)
+ {
+-    int max = __get_cpuid_max(0, NULL);
++    unsigned max = __get_cpuid_max(0, NULL);
+     int a, b, c, d;
+     unsigned cache = 0;
+ 
+diff --git a/tcg/i386/tcg-target.c.inc b/tcg/i386/tcg-target.c.inc
+index 875311f795..4dab09f265 100644
+--- a/tcg/i386/tcg-target.c.inc
++++ b/tcg/i386/tcg-target.c.inc
+@@ -3747,7 +3747,7 @@ static void tcg_target_init(TCGContext *s)
+ {
+ #ifdef CONFIG_CPUID_H
+     unsigned a, b, c, d, b7 = 0;
+-    int max = __get_cpuid_max(0, 0);
++    unsigned max = __get_cpuid_max(0, 0);
+ 
+     if (max >= 7) {
+         /* BMI1 is available on AMD Piledriver and Intel Haswell CPUs.  */
+-- 
+MST
 
 
