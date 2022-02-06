@@ -2,70 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 597CD4AB125
-	for <lists+qemu-devel@lfdr.de>; Sun,  6 Feb 2022 19:04:41 +0100 (CET)
-Received: from localhost ([::1]:54744 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0480C4AB139
+	for <lists+qemu-devel@lfdr.de>; Sun,  6 Feb 2022 19:30:02 +0100 (CET)
+Received: from localhost ([::1]:36554 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nGltv-0006mi-WD
-	for lists+qemu-devel@lfdr.de; Sun, 06 Feb 2022 13:04:40 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:40468)
+	id 1nGmIS-0006Tu-IL
+	for lists+qemu-devel@lfdr.de; Sun, 06 Feb 2022 13:30:00 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:45036)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nGls7-0005lw-0o
- for qemu-devel@nongnu.org; Sun, 06 Feb 2022 13:02:47 -0500
-Received: from [2a00:1450:4864:20::430] (port=33674
- helo=mail-wr1-x430.google.com)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1nGmHC-0005od-3G
+ for qemu-devel@nongnu.org; Sun, 06 Feb 2022 13:28:42 -0500
+Received: from [2a00:1450:4864:20::42b] (port=42995
+ helo=mail-wr1-x42b.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nGls5-0001YP-CU
- for qemu-devel@nongnu.org; Sun, 06 Feb 2022 13:02:46 -0500
-Received: by mail-wr1-x430.google.com with SMTP id e3so7103139wra.0
- for <qemu-devel@nongnu.org>; Sun, 06 Feb 2022 10:02:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=C03QgUPJxzj4cRko9adPM3AY/Vzd6bs/VEroHJGjxpI=;
- b=USXvl4Ba7j934wpROmaMfmzMpSytw/z0AlQA+v2yWC9DOIWAwFTOLpomtBo7GsBcRZ
- aYzgozE1AXUhoO/1KG/EEodDlLQ6RBv6K7fPel9zWRRGYU4Bth5X/Z29wHfyNmKHrmPc
- zpq8wTkHhrkcVCTDhxblSggeWI1DU4EoDBZCc4kBRiENPF8rbvQXJzbSbm3tysTHWmwv
- DKKhGqgSRxKLHoDsinleaIrunTjzsQvO0J2LhAXAFBEUBuMXr9zY1R4pmDF9oh+p+ipz
- ZRPhIfk0gttsYZNPXP9ol29n+Qcrd46rF7JxsCMkW8v7gtVw6Z1pc5z3pLv84VHtJdKO
- 1IDw==
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1nGmH9-00054d-Pg
+ for qemu-devel@nongnu.org; Sun, 06 Feb 2022 13:28:41 -0500
+Received: by mail-wr1-x42b.google.com with SMTP id h6so2411567wrb.9
+ for <qemu-devel@nongnu.org>; Sun, 06 Feb 2022 10:28:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=HnHeUXNsazICCGUky4a/m0/OU+CHFO4VS4a/MwC4bLg=;
+ b=Wg1oS6I09m3FD/R6EX+qJ5k5dnUR1iH4VR26oOgvJFRC+EQwHhNc3gY+QnYf1O5C5K
+ I74t69X6VnP1JJ+OSxJKQDB/bSBfty9B81vIFOCFsRRLuzSLgLgDIOlcSuTZ3noWwHRV
+ gD0WASsE9XmlKX+xiKTFw9vYz1euPM+TB12trcKSrppUP3LwyDhYz9IZlLcEsqkZqKxC
+ 9fUzyqeg6CMhftoHLi+VA+2P5+3y06+O44J/6lKqAx5FYio1ZwfCBVCnJf47O0OEXqwx
+ G2JA8O2vvtXKwpVOxG3Zi+MvCDRnsu58QTOY7CWkvfca5OdRKWBQiHKhgIcm36LCLPxL
+ H/Pw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=C03QgUPJxzj4cRko9adPM3AY/Vzd6bs/VEroHJGjxpI=;
- b=wWpCRzvZuCmkNkxDSP6Yf1mTXcG79a1Q2Qkpm5qZEgwT3kOCuxuwh776mqcVhAkHYa
- uct9HxzduorKerfghAaBTC2A+rW5SPuKq63id+z3NDzblqB5oxQEyR4Rmf1/QVVLQxmA
- s+D7q4UHWLRNJTeH3vCf/JTww9InLO70NImzUOVB6BZIVaArC0WBsKNLlvnM35PievMr
- p/QfP3eYEo2rK1nK/ZDIOPYvrkm8MkhKBOqTZjBO51OXDTEptojJDRH5RR2FLELftt3A
- aBKyIo9BqmFwk8HsjllhcxGRAlMwGwINpJ2eVXHG8/cLRP3qeunz6f+FHiLsfPMRYf4p
- idHg==
-X-Gm-Message-State: AOAM530aZofn/9gIeKQID9feacXQXTcvi/0V1GFbqXs8Eko3Vl2/MgiM
- gA51+5U9HDL9PwMW0/vyPNtvTG1VRQp4GxtDw3Fipw==
-X-Google-Smtp-Source: ABdhPJw4E9NxqBsldJa3nwvXRqr0D9F/7KYscLVe4XPF0EB893l/oenYvwKlCiggZd4gRwyDJJ5aJCPyIll0zF1JlzI=
-X-Received: by 2002:a05:6000:15c7:: with SMTP id
- y7mr7239975wry.319.1644170563342; 
- Sun, 06 Feb 2022 10:02:43 -0800 (PST)
+ h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+ :subject:content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=HnHeUXNsazICCGUky4a/m0/OU+CHFO4VS4a/MwC4bLg=;
+ b=B4HceGdGn4Mlmm9dyvSaT2r5b4C9G4EeTg0eBL9L3M3DY2JIm2jSTYBtiS7nimEg1e
+ mTNCLl6CGJSwwIRAiWcPl0XrmQQoIUtlRtWpdbuUslugnPecba2ZYFhj03jzZMJ9tjmJ
+ a7CUDcQ4iAVu6OVfYvwq2MI8W+ngUO5j1tPJ9Z4tlDfDMybx9jadFPQ3R5Wo0jeuyR4a
+ 3bA2m1v0uH2cq/uFjTCFYIzOtfY+MA57Mf8D+1UFBSSmSm+5qwkLQuZqQxT45TpANHZu
+ 2l1nJ69L8pA5ASsRb9phKRtFKkOgRWQlXN5iq4GcB7zhQNwmoCfDF52UXBdp3k3wQO+O
+ Cg+Q==
+X-Gm-Message-State: AOAM531piOG6nUbcxiXbJ4fjqyLSdX2a4iUt8KdOw9Rglf7nSn3sckyy
+ 7u087+CCsdQq8N8Kt7xVvQ4=
+X-Google-Smtp-Source: ABdhPJzFPLwkgRlOFsuz6xb0If5lisbC+W56fFEOi9+DQFYU+WTKspJuyLC+7zsj+PaeHwiKXRxf2w==
+X-Received: by 2002:adf:d841:: with SMTP id k1mr7066750wrl.29.1644172117528;
+ Sun, 06 Feb 2022 10:28:37 -0800 (PST)
+Received: from [192.168.1.33] (154.red-83-50-83.dynamicip.rima-tde.net.
+ [83.50.83.154])
+ by smtp.gmail.com with ESMTPSA id z10sm2356506wmi.31.2022.02.06.10.28.36
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 06 Feb 2022 10:28:36 -0800 (PST)
+Message-ID: <cb82bed1-4baa-8bb3-747d-78affbd8769a@amsat.org>
+Date: Sun, 6 Feb 2022 19:28:35 +0100
 MIME-Version: 1.0
-References: <20220206093702.1282676-1-mst@redhat.com>
-In-Reply-To: <20220206093702.1282676-1-mst@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Sun, 6 Feb 2022 18:02:32 +0000
-Message-ID: <CAFEAcA_z+JsFdjVLg+MCRFPEh8e1ZmCjSngz4ZJsE6CRv=kvnQ@mail.gmail.com>
-Subject: Re: [PULL v2 00/24] virtio,pc: features, cleanups, fixes
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::430
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.5.1
+Subject: Re: [PATCH] erst: drop cast to long long
+Content-Language: en-US
+To: "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org
+Cc: Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>, 
+ Thomas Huth <thuth@redhat.com>, Eric DeVolder <eric.devolder@oracle.com>
+References: <20220206093547.1282513-1-mst@redhat.com>
+In-Reply-To: <20220206093547.1282513-1-mst@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42b
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::430;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x430.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42b.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
  PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
@@ -81,43 +94,21 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
-On Sun, 6 Feb 2022 at 09:37, Michael S. Tsirkin <mst@redhat.com> wrote:
->
-> Changes from v1:
-> erst patch fixups
-> virtio introspection patches dropped
->
-> The following changes since commit 8f3e5ce773c62bb5c4a847f3a9a5c98bbb3b359f:
->
->   Merge remote-tracking branch 'remotes/hdeller/tags/hppa-updates-pull-request' into staging (2022-02-02 19:54:30 +0000)
->
-> are available in the Git repository at:
->
->   git://git.kernel.org/pub/scm/virt/kvm/mst/qemu.git tags/for_upstream
->
-> for you to fetch changes up to dd4fc6058557cd2a9e23a37da44d054f724ca3e8:
->
->   util/oslib-posix: Fix missing unlock in the error path of os_mem_prealloc() (2022-02-06 04:33:50 -0500)
->
-> ----------------------------------------------------------------
-> virtio,pc: features, cleanups, fixes
->
-> Part of ACPI ERST support
-> fixes, cleanups
->
+On 6/2/22 10:35, Michael S. Tsirkin wrote:
+> The way to print uint64_t is with PRIx64, not with
+> a cast to long long.
+> 
+> Cc: Eric DeVolder <eric.devolder@oracle.com>
 > Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
->
+> ---
+>   tests/qtest/erst-test.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
 
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-
-Applied, thanks.
-
-Please update the changelog at https://wiki.qemu.org/ChangeLog/7.0
-for any user-visible changes.
-
--- PMM
 
