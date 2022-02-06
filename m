@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73CD34AAEA2
-	for <lists+qemu-devel@lfdr.de>; Sun,  6 Feb 2022 10:44:17 +0100 (CET)
-Received: from localhost ([::1]:60552 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B31074AAEAB
+	for <lists+qemu-devel@lfdr.de>; Sun,  6 Feb 2022 10:48:47 +0100 (CET)
+Received: from localhost ([::1]:39018 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nGe5g-0008VJ-Ip
-	for lists+qemu-devel@lfdr.de; Sun, 06 Feb 2022 04:44:16 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:44564)
+	id 1nGeA2-0004hM-SB
+	for lists+qemu-devel@lfdr.de; Sun, 06 Feb 2022 04:48:46 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:44522)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nGdzs-00009R-K0
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nGdzr-00009Q-7x
  for qemu-devel@nongnu.org; Sun, 06 Feb 2022 04:38:16 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:55934)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:37704)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nGdzn-0003dR-7J
- for qemu-devel@nongnu.org; Sun, 06 Feb 2022 04:38:16 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nGdzn-0003dV-3p
+ for qemu-devel@nongnu.org; Sun, 06 Feb 2022 04:38:14 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1644140278;
+ s=mimecast20190719; t=1644140280;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=Cys7fA3V9JqsHSWEFuxYME8lo9Xx2jeY6AGCu56+bB4=;
- b=Z5de8+naCJV+36fnlJRmxk+jqARjF3UQwB6wvywR5L59rzKEdiLVF2tHqp2Ui8lUjjb+vC
- ffHHUfkkP4s/sv5c2mY+wC4qRLHyCWBVDwK1TTxzAMtCmPMdL4s2YYLPWV7zXc6/45N3UW
- e9GJKwmzj2mpSoE966akjrnkcKn37a8=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=+T8qucJ387ei/9dUQXGMLrCgzMKuOac0iEv5x3VIdi8=;
+ b=gsvUSHKU13W+I6WcwrCd6JXKa1UKcktONWDyan8AUNTKcRbSPrGe8l2EZHX6QnUCq+42XH
+ TbNFL+qCz91Mnxb9W8mYdrqJEv2B+YPkJXrpMw+4A9A3gd0G/s0M+xQSxjQSxgc4pr3m5M
+ MNV9kzdIW7vH6eAe+lOz5ACKK76ILJI=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-613-7E-Xi93BOpm2H9fvr9TvGw-1; Sun, 06 Feb 2022 04:37:57 -0500
-X-MC-Unique: 7E-Xi93BOpm2H9fvr9TvGw-1
-Received: by mail-wm1-f70.google.com with SMTP id
- bg16-20020a05600c3c9000b0034bea12c043so10235109wmb.7
- for <qemu-devel@nongnu.org>; Sun, 06 Feb 2022 01:37:56 -0800 (PST)
+ us-mta-532-BSnAjnb2NKSQhyMffYc0kg-1; Sun, 06 Feb 2022 04:37:59 -0500
+X-MC-Unique: BSnAjnb2NKSQhyMffYc0kg-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ q4-20020adfbb84000000b001dd3cfddb2dso3785056wrg.11
+ for <qemu-devel@nongnu.org>; Sun, 06 Feb 2022 01:37:59 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=Cys7fA3V9JqsHSWEFuxYME8lo9Xx2jeY6AGCu56+bB4=;
- b=fiaeCQfjEpgXugGvjWlpW8JMQw+WXFn4rWBIeVMOpITK8gS1SjKMjdhqMmPTcSkUK/
- bMIDpzNpcBFNNZlLjHo8L4I8oEG0YPKzVxmfFACmZgowDbAfaEpq8Qq3t52p8scdDySc
- p4gpRxlYq1yLeWb9+XBDghdh6nZx89taRytDA7K2gZJT8towZNscn/DxYW5nGP6kBYuZ
- MKqzteod1jY8yvTWi/t627tkrXGj2BxB1l2D/IraGdeDex7E+fUGgZgNnpUv1c0+DaCL
- L03YjZLNm0dJzxg28CSSmEymKkN7an7rN5EMLJq4KIG6/cEw8hLdRgNyxJsIAUM48bo3
- TrYw==
-X-Gm-Message-State: AOAM530y9tR/Q9CefIqlD3vUhj2G43t2pb79/T6OhZoHRDrV4As3wKSe
- lz0E02Bw7A5TD6JMkAKS28LbVIIl7BAqFNYhRV3uMPblQhcJkVYgEKC1y21t92wQDh7J0+dWZxu
- EXkXblez8x6DUlhYKhLP/lISSS3dh+OPnQzi/KReMmLiAzfZndsv7TxN8ziFc
-X-Received: by 2002:a5d:584a:: with SMTP id i10mr5867060wrf.75.1644140275483; 
- Sun, 06 Feb 2022 01:37:55 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyR/IS8ZNdu1u4MY1tit4KaMPXEprd6Xxq6l+5UlooXIZhOakQ9sCQonHYOzYKFVNZfio3UPQ==
-X-Received: by 2002:a5d:584a:: with SMTP id i10mr5867038wrf.75.1644140275239; 
- Sun, 06 Feb 2022 01:37:55 -0800 (PST)
+ bh=+T8qucJ387ei/9dUQXGMLrCgzMKuOac0iEv5x3VIdi8=;
+ b=mKsDKlGRSOcx21jicZy8Ssvqtxd/0EyaIZUmYrqw1VLeFSQiE2H73Jv4qnOJVCpjSk
+ 98q/Eqi2VkkBQqcI5t63j4X2rU1NSvz0Mr0DmXf/iXJkQvSy3AxsIkHBrJTzH7v5A3lg
+ WzdjgHyu6h/BcsjxQWoTdBd3SHEbO7aKEOK7ohmgn6/i6KSvUe4jvPQCRadDIXZiPzLA
+ UjlpDkELS1dLQUWcNaAWXQR1vowRTJmWlpGtRqsS5AYDZOzjliHxyWVPuldqiwdZMGxG
+ 2vqbxdPgUVvftaOUgqqqSjpPj7w0B6QTg0r5zcgK4XTeT0cVTtf+1p9An1aN6qpcdf8T
+ ketw==
+X-Gm-Message-State: AOAM530eUJOli5+TpwA7+kxV4ZJDzPtk+G7Qcn7TA/yqj7X17HXa3Mac
+ ULewQGyW5/WrwQrubYbcjYOGVu+cwTkm+Ty66TT6t7IU6dgj/XabNRyU4Fr3XBKcWdyDZE136Iy
+ GfdixZffcfLBFIx2JGgorkLo4OPC1U+4lQpnvd/wC7Ns+8VSw0zQQ0NGaf0jQ
+X-Received: by 2002:a5d:4dcc:: with SMTP id f12mr994129wru.598.1644140277809; 
+ Sun, 06 Feb 2022 01:37:57 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzbewlkIsGqZlE/zpO5BJ9FW5pKJnEX146ZV+hkDr5W9u/4yC9Mr6J9i+8aweqEbOr/x4Z7ug==
+X-Received: by 2002:a5d:4dcc:: with SMTP id f12mr994114wru.598.1644140277617; 
+ Sun, 06 Feb 2022 01:37:57 -0800 (PST)
 Received: from redhat.com ([2.52.12.81])
- by smtp.gmail.com with ESMTPSA id o10sm339582wrq.63.2022.02.06.01.37.53
+ by smtp.gmail.com with ESMTPSA id t1sm8014997wre.45.2022.02.06.01.37.56
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 06 Feb 2022 01:37:54 -0800 (PST)
-Date: Sun, 6 Feb 2022 04:37:52 -0500
+ Sun, 06 Feb 2022 01:37:57 -0800 (PST)
+Date: Sun, 6 Feb 2022 04:37:55 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v2 03/24] tests: acpi: manually pad OEM_ID/OEM_TABLE_ID for
- test_oem_fields() test
-Message-ID: <20220206093702.1282676-4-mst@redhat.com>
+Subject: [PULL v2 04/24] tests: acpi: whitelist nvdimm's SSDT and FACP.slic
+ expected blobs
+Message-ID: <20220206093702.1282676-5-mst@redhat.com>
 References: <20220206093702.1282676-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20220206093702.1282676-1-mst@redhat.com>
@@ -74,7 +74,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -102,63 +102,36 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Igor Mammedov <imammedo@redhat.com>
 
-The next commit will revert OEM fields padding with whitespace to
-padding with '\0' as it was before [1]. As result test_oem_fields() will
-fail due to unexpectedly smaller ID sizes read from QEMU ACPI tables.
+The next commit will revert OEM fields whitespace padding to
+padding with '\0' as it was before [1]. That will change OEM
+Table ID for:
+  * SSDT.*: where it was padded from 6 characters to 8
+  * FACP.slic: where it was padded from 2 characters to 8
+after reverting whitespace padding, it will be replaced with
+'\0' which effectively will shorten OEM table ID to 6 and 2
+characters.
 
-Pad OEM_ID/OEM_TABLE_ID manually with spaces so that values the test
-puts on QEMU CLI and expected values match.
+Whitelist affected tables before introducing the change.
 
 1) 602b458201 ("acpi: Permit OEM ID and OEM table ID fields to be changed")
 Signed-off-by: Igor Mammedov <imammedo@redhat.com>
-Message-Id: <20220112130332.1648664-2-imammedo@redhat.com>
+Message-Id: <20220112130332.1648664-3-imammedo@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- tests/qtest/bios-tables-test.c | 15 ++++++---------
- 1 file changed, 6 insertions(+), 9 deletions(-)
+ tests/qtest/bios-tables-test-allowed-diff.h | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/tests/qtest/bios-tables-test.c b/tests/qtest/bios-tables-test.c
-index e6b72d9026..90c9f6a0a2 100644
---- a/tests/qtest/bios-tables-test.c
-+++ b/tests/qtest/bios-tables-test.c
-@@ -71,9 +71,10 @@
- 
- #define ACPI_REBUILD_EXPECTED_AML "TEST_ACPI_REBUILD_AML"
- 
--#define OEM_ID             "TEST"
--#define OEM_TABLE_ID       "OEM"
--#define OEM_TEST_ARGS      "-machine x-oem-id="OEM_ID",x-oem-table-id="OEM_TABLE_ID
-+#define OEM_ID             "TEST  "
-+#define OEM_TABLE_ID       "OEM     "
-+#define OEM_TEST_ARGS      "-machine x-oem-id='" OEM_ID "',x-oem-table-id='" \
-+                           OEM_TABLE_ID "'"
- 
- typedef struct {
-     bool tcg_only;
-@@ -1519,11 +1520,7 @@ static void test_acpi_q35_slic(void)
- static void test_oem_fields(test_data *data)
- {
-     int i;
--    char oem_id[6];
--    char oem_table_id[8];
- 
--    strpadcpy(oem_id, sizeof oem_id, OEM_ID, ' ');
--    strpadcpy(oem_table_id, sizeof oem_table_id, OEM_TABLE_ID, ' ');
-     for (i = 0; i < data->tables->len; ++i) {
-         AcpiSdtTable *sdt;
- 
-@@ -1533,8 +1530,8 @@ static void test_oem_fields(test_data *data)
-             continue;
-         }
- 
--        g_assert(memcmp(sdt->aml + 10, oem_id, 6) == 0);
--        g_assert(memcmp(sdt->aml + 16, oem_table_id, 8) == 0);
-+        g_assert(memcmp(sdt->aml + 10, OEM_ID, 6) == 0);
-+        g_assert(memcmp(sdt->aml + 16, OEM_TABLE_ID, 8) == 0);
-     }
- }
- 
+diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
+index dfb8523c8b..7faa8f53be 100644
+--- a/tests/qtest/bios-tables-test-allowed-diff.h
++++ b/tests/qtest/bios-tables-test-allowed-diff.h
+@@ -1 +1,5 @@
+ /* List of comma-separated changed AML files to ignore */
++"tests/data/acpi/virt/SSDT.memhp",
++"tests/data/acpi/pc/SSDT.dimmpxm",
++"tests/data/acpi/q35/SSDT.dimmpxm",
++"tests/data/acpi/q35/FACP.slic",
 -- 
 MST
 
