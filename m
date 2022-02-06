@@ -2,70 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2D364AAEDE
-	for <lists+qemu-devel@lfdr.de>; Sun,  6 Feb 2022 11:37:59 +0100 (CET)
-Received: from localhost ([::1]:36602 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BBF304AAEE2
+	for <lists+qemu-devel@lfdr.de>; Sun,  6 Feb 2022 11:45:14 +0100 (CET)
+Received: from localhost ([::1]:49898 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nGeve-00028H-2u
-	for lists+qemu-devel@lfdr.de; Sun, 06 Feb 2022 05:37:58 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:51778)
+	id 1nGf2f-0002j8-QU
+	for lists+qemu-devel@lfdr.de; Sun, 06 Feb 2022 05:45:13 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:51796)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nGepi-0004TU-Cv
- for qemu-devel@nongnu.org; Sun, 06 Feb 2022 05:31:50 -0500
-Received: from [2607:f8b0:4864:20::52a] (port=33470
- helo=mail-pg1-x52a.google.com)
+ id 1nGepk-0004V2-8G
+ for qemu-devel@nongnu.org; Sun, 06 Feb 2022 05:31:52 -0500
+Received: from [2607:f8b0:4864:20::435] (port=37795
+ helo=mail-pf1-x435.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nGepg-0002Nr-8g
- for qemu-devel@nongnu.org; Sun, 06 Feb 2022 05:31:49 -0500
-Received: by mail-pg1-x52a.google.com with SMTP id 77so6223829pgc.0
- for <qemu-devel@nongnu.org>; Sun, 06 Feb 2022 02:31:47 -0800 (PST)
+ id 1nGepi-0002OD-Dv
+ for qemu-devel@nongnu.org; Sun, 06 Feb 2022 05:31:51 -0500
+Received: by mail-pf1-x435.google.com with SMTP id y5so8218075pfe.4
+ for <qemu-devel@nongnu.org>; Sun, 06 Feb 2022 02:31:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=aVBv6wXuSbvaamtrblJpDcCL0BFzSBoSOUStalUh64I=;
- b=iDqTqcAcJUrN6B7JmxYsW/Or4AhFTMD0r05xC4UO8D8pljCPLTaDbUCv+F0zG1TUIi
- 3GAy4mo7g2vEO19J1rlHikP6z7KhEuqhoXCANjHk8sdlS5kqPkzxZ9sNsSDbiue2t7Hj
- qwrv6Wfauz1o6K5PapaVFdHJF6BZCvtPQRbs7DcOPHEN0qEXJ0IdyvgqpVWLQ0wMxaoO
- 4IXu4aTRlODnn3d3J+pFz3CJ6VQY9Hy/l4V2RsyHvYkHSC/GmaAD7vxpd0Z/bsXpvFXO
- bA4MZGSGEChLK320h8pb3pyLVNrcs/RPVZagnq3xOxy9CwdHFnhYHGhzFx29sSOkBQ04
- L40Q==
+ bh=bn51JgtZkfipNb1j4v1ZZK9UKAPKwd08pZI1+ol2wL8=;
+ b=cEEXS683kQUIKX+Q7O8VTvtlYUzLC0DXv0kOygqWTh5w9qU6FinSxoS3tkpJlWA0iq
+ UjTBfTtITlcAzYQy9CEJ9/V53XJyYWTST3HPDK7OZaX4dYyYAOTuNhGrjt9Kb7jjcGSI
+ +nf4jXQ/BTr1450zcHfq/Zr6nQTAXgBoBKYaeXE2ZysCjGGKowbhrMV8Oy8KuYrHdXP8
+ x8VVz+L+PTRfKV7OfVLTi5flrle/BEI2fYIgAE8E8sWMxUQc863SbL/qKDEJPI3VQF9V
+ Yr85LauFII56mNNP390yf1QtxxjKC8+RfurSd+QvNBrNxXJ1gFt66gZE1j97fZcg1OJR
+ SNzg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=aVBv6wXuSbvaamtrblJpDcCL0BFzSBoSOUStalUh64I=;
- b=pCJffqVSM59x8C1BpIjcE7o+xQrMKe0+XVJhggcay7AUYY7yqzC0RL8y+jr73v3OQA
- S/ONnkY19fHWN52Ms1XJ3UfTR7Hj4Z0DFnQK8UJLQ5oStA9Gdqz6LgE4p3a0jArHx1EB
- OeoCjGz9BwhxneK3DQpzt9+B6UqpNEIfGr3HfHtv1LmNKbx+yRkwiuPD9eboCZzX8B6i
- DZipfULiTDgxIMMPhFYTG6JbbS+MMNMywD1gbx1e/VhW93Fx51jNTMs5asA9q3aG36ez
- x/RVMU5jwsS4FA8RkZ/tYa6qIkIxq1OPjWRRRytW5sLnUVr/DI+UaAf5EoptdyJT5Blz
- pEaw==
-X-Gm-Message-State: AOAM530O0g7buzD4PAGrrc1XMkYtpUeI2vPbC/BYXostXMdGNppITNi6
- EXEqO8u8gMmRUS0NjAaYNfo2vFmwJzE405Ah
-X-Google-Smtp-Source: ABdhPJxLcBDtsfKfFioFDD4YBicZYviDKkxX/jsJD4+DjcU/sTaZPk0/bzB8GOObPpvUjsoL/hZA6Q==
-X-Received: by 2002:a63:8049:: with SMTP id j70mr931477pgd.295.1644143506756; 
- Sun, 06 Feb 2022 02:31:46 -0800 (PST)
+ bh=bn51JgtZkfipNb1j4v1ZZK9UKAPKwd08pZI1+ol2wL8=;
+ b=zYCFdlv58tq9eIrdqZSK8ZpNdgcS6JOj4nCmCrDVRv1xmydSskssbcb7fdMa0d0bRX
+ KB6j49i3P4i4KEgN1s4oLr+Dl6CP8km/flUaC+GDDXSUFPv4cISrt6mXJlXN5rHev6NW
+ WpBnoPxQyxhpBwpRx132HNcKu2vqAHCBU0kxMlnd9N3dh1RRdhL+EN0kjxZyaYF5QJZY
+ skZz6oVNujDrOqTZxdgp2JxUBluZKeztam87OujUQ6FLMkKe32MweEJWNgbLCgThRYGg
+ jiBi9D5RpadGY0wYxtCy7Cdnhcfzz+VhMZaHhM5j5Jc9Ve1rfSBM2P/8iOZI8ge1mgb9
+ IrUQ==
+X-Gm-Message-State: AOAM533Vlp99ZwgBu6gn68DCyzvrcPrV4HukPou6h/Wl8wzyxg7651P+
+ +1/nKnzaYcqe0WQdF4/MmawBElbP/BYwz+/p
+X-Google-Smtp-Source: ABdhPJxgUw2YDSSJW+rsPBQ7mPyS4YOu3Oum1KYTqNZTwT3EvtdTirmqLEPB4jZxYzvtvmGufBxGgw==
+X-Received: by 2002:a63:8649:: with SMTP id x70mr5505000pgd.564.1644143509200; 
+ Sun, 06 Feb 2022 02:31:49 -0800 (PST)
 Received: from localhost.localdomain ([220.235.247.127])
- by smtp.gmail.com with ESMTPSA id s2sm5605937pgl.21.2022.02.06.02.31.45
+ by smtp.gmail.com with ESMTPSA id s2sm5605937pgl.21.2022.02.06.02.31.47
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 06 Feb 2022 02:31:46 -0800 (PST)
+ Sun, 06 Feb 2022 02:31:48 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v5 1/6] tcg/sparc: Add scratch argument to tcg_out_movi_int
-Date: Sun,  6 Feb 2022 21:31:33 +1100
-Message-Id: <20220206103138.36105-2-richard.henderson@linaro.org>
+Subject: [PATCH v5 2/6] tcg/sparc: Improve code gen for shifted 32-bit
+ constants
+Date: Sun,  6 Feb 2022 21:31:34 +1100
+Message-Id: <20220206103138.36105-3-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220206103138.36105-1-richard.henderson@linaro.org>
 References: <20220206103138.36105-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::52a
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::435
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52a;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52a.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::435;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x435.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -86,84 +88,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org
+Cc: peter.maydell@linaro.org,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This will allow us to control exactly what scratch register is
-used for loading the constant.  Also, fix a theoretical problem
-in recursing through tcg_out_movi, which may provide a different
-value for in_prologue.
+We had code for checking for 13 and 21-bit shifted constants,
+but we can do better and allow 32-bit shifted constants.
+This is still 2 insns shorter than the full 64-bit sequence.
 
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- tcg/sparc/tcg-target.c.inc | 21 +++++++++++++--------
- 1 file changed, 13 insertions(+), 8 deletions(-)
+ tcg/sparc/tcg-target.c.inc | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
 diff --git a/tcg/sparc/tcg-target.c.inc b/tcg/sparc/tcg-target.c.inc
-index 0c062c60eb..8c3671f56a 100644
+index 8c3671f56a..f9afb1bffc 100644
 --- a/tcg/sparc/tcg-target.c.inc
 +++ b/tcg/sparc/tcg-target.c.inc
-@@ -414,7 +414,8 @@ static void tcg_out_movi_imm13(TCGContext *s, TCGReg ret, int32_t arg)
- }
+@@ -456,17 +456,17 @@ static void tcg_out_movi_int(TCGContext *s, TCGType type, TCGReg ret,
+         return;
+     }
  
- static void tcg_out_movi_int(TCGContext *s, TCGType type, TCGReg ret,
--                             tcg_target_long arg, bool in_prologue)
-+                             tcg_target_long arg, bool in_prologue,
-+                             TCGReg scratch)
- {
-     tcg_target_long hi, lo = (int32_t)arg;
-     tcg_target_long test, lsb;
-@@ -471,22 +472,25 @@ static void tcg_out_movi_int(TCGContext *s, TCGType type, TCGReg ret,
+-    /* A 21-bit constant, shifted.  */
++    /* A 32-bit constant, shifted.  */
+     lsb = ctz64(arg);
+     test = (tcg_target_long)arg >> lsb;
+-    if (check_fit_tl(test, 13)) {
+-        tcg_out_movi_imm13(s, ret, test);
+-        tcg_out_arithi(s, ret, ret, lsb, SHIFT_SLLX);
+-        return;
+-    } else if (lsb > 10 && test == extract64(test, 0, 21)) {
++    if (lsb > 10 && test == extract64(test, 0, 21)) {
+         tcg_out_sethi(s, ret, test << 10);
+         tcg_out_arithi(s, ret, ret, lsb - 10, SHIFT_SLLX);
+         return;
++    } else if (test == (uint32_t)test || test == (int32_t)test) {
++        tcg_out_movi_int(s, TCG_TYPE_I64, ret, test, in_prologue, scratch);
++        tcg_out_arithi(s, ret, ret, lsb, SHIFT_SLLX);
++        return;
+     }
+ 
      /* A 64-bit constant decomposed into 2 32-bit pieces.  */
-     if (check_fit_i32(lo, 13)) {
-         hi = (arg - lo) >> 32;
--        tcg_out_movi(s, TCG_TYPE_I32, ret, hi);
-+        tcg_out_movi_int(s, TCG_TYPE_I32, ret, hi, in_prologue, scratch);
-         tcg_out_arithi(s, ret, ret, 32, SHIFT_SLLX);
-         tcg_out_arithi(s, ret, ret, lo, ARITH_ADD);
-     } else {
-+        tcg_debug_assert(scratch != TCG_REG_G0);
-         hi = arg >> 32;
--        tcg_out_movi(s, TCG_TYPE_I32, ret, hi);
--        tcg_out_movi(s, TCG_TYPE_I32, TCG_REG_T2, lo);
-+        tcg_out_movi_int(s, TCG_TYPE_I32, ret, hi, in_prologue, scratch);
-+        tcg_out_movi_int(s, TCG_TYPE_I32, scratch, lo, in_prologue, TCG_REG_G0);
-         tcg_out_arithi(s, ret, ret, 32, SHIFT_SLLX);
--        tcg_out_arith(s, ret, ret, TCG_REG_T2, ARITH_OR);
-+        tcg_out_arith(s, ret, ret, scratch, ARITH_OR);
-     }
- }
- 
- static void tcg_out_movi(TCGContext *s, TCGType type,
-                          TCGReg ret, tcg_target_long arg)
- {
--    tcg_out_movi_int(s, type, ret, arg, false);
-+    /* When outputting to T2, we have no scratch available. */
-+    TCGReg scratch = ret != TCG_REG_T2 ? TCG_REG_T2 : TCG_REG_G0;
-+    tcg_out_movi_int(s, type, ret, arg, false, scratch);
- }
- 
- static void tcg_out_ldst_rr(TCGContext *s, TCGReg data, TCGReg a1,
-@@ -837,7 +841,7 @@ static void tcg_out_call_nodelay(TCGContext *s, const tcg_insn_unit *dest,
-     } else {
-         uintptr_t desti = (uintptr_t)dest;
-         tcg_out_movi_int(s, TCG_TYPE_PTR, TCG_REG_T1,
--                         desti & ~0xfff, in_prologue);
-+                         desti & ~0xfff, in_prologue, TCG_REG_O7);
-         tcg_out_arithi(s, TCG_REG_O7, TCG_REG_T1, desti & 0xfff, JMPL);
-     }
- }
-@@ -1013,7 +1017,8 @@ static void tcg_target_qemu_prologue(TCGContext *s)
- 
- #ifndef CONFIG_SOFTMMU
-     if (guest_base != 0) {
--        tcg_out_movi_int(s, TCG_TYPE_PTR, TCG_GUEST_BASE_REG, guest_base, true);
-+        tcg_out_movi_int(s, TCG_TYPE_PTR, TCG_GUEST_BASE_REG, guest_base,
-+                         true, TCG_REG_T1);
-         tcg_regset_set_reg(s->reserved_regs, TCG_GUEST_BASE_REG);
-     }
- #endif
 -- 
 2.25.1
 
