@@ -2,70 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B65A4AB1F0
-	for <lists+qemu-devel@lfdr.de>; Sun,  6 Feb 2022 21:11:10 +0100 (CET)
-Received: from localhost ([::1]:59336 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 899DB4AB1F9
+	for <lists+qemu-devel@lfdr.de>; Sun,  6 Feb 2022 21:15:15 +0100 (CET)
+Received: from localhost ([::1]:39716 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nGnsI-0003oj-Kv
-	for lists+qemu-devel@lfdr.de; Sun, 06 Feb 2022 15:11:08 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:36098)
+	id 1nGnwE-0001BI-9y
+	for lists+qemu-devel@lfdr.de; Sun, 06 Feb 2022 15:15:11 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:36116)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wwcohen@gmail.com>) id 1nGnp9-00011F-Lx
- for qemu-devel@nongnu.org; Sun, 06 Feb 2022 15:07:51 -0500
-Received: from [2607:f8b0:4864:20::f32] (port=37679
- helo=mail-qv1-xf32.google.com)
+ (Exim 4.90_1) (envelope-from <wwcohen@gmail.com>) id 1nGnpC-00013R-ED
+ for qemu-devel@nongnu.org; Sun, 06 Feb 2022 15:07:55 -0500
+Received: from [2607:f8b0:4864:20::730] (port=34661
+ helo=mail-qk1-x730.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <wwcohen@gmail.com>) id 1nGnp7-0001RG-VK
- for qemu-devel@nongnu.org; Sun, 06 Feb 2022 15:07:51 -0500
-Received: by mail-qv1-xf32.google.com with SMTP id a19so3179395qvm.4
- for <qemu-devel@nongnu.org>; Sun, 06 Feb 2022 12:07:49 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <wwcohen@gmail.com>) id 1nGnpA-0001Rg-KQ
+ for qemu-devel@nongnu.org; Sun, 06 Feb 2022 15:07:54 -0500
+Received: by mail-qk1-x730.google.com with SMTP id bs32so9456426qkb.1
+ for <qemu-devel@nongnu.org>; Sun, 06 Feb 2022 12:07:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=N8lMcBD/VnfwG9BkRPxYEUbTKuDoWhdtD4gEpoOssSE=;
- b=e6GvmrAsyuzuF0pvaJNE++qqAmSahj0pte0kM3hq/AlvkbrYrQzcMv6HLopeiTnWWF
- O2j+fRjU/km6BwyxZTYBcOCxxz3cP/400RMJeSf8+Ocqz3hu53OzfpNVvb2rMITCjBpp
- E4/fw7RPSzJfU4XWbDnbIEj6gE1wsFlEjCH8281mHsHcRrVXuvbsNAVO8+4jnj27iMSJ
- BF1tFCjewbN683+eVYLGkqBPMgBXGuzPBdSlCXPQryQ7aOnhNK0QdwBMwJHBYqa11MQU
- wRGgXOFg142LlgVjD52Z/RpVwyiP6rOdGEhPUkxmXdadu+pUUOU5VLUMM5Phn5IdEwBx
- RHTQ==
+ bh=8AYPOR8HAOhr1GFHfcmIMGeLF8f5x6f9nduyWsx8q3E=;
+ b=HKnfEzlu0FKuwX2Zx3f+O5sswQl28M7Rx2D7NDiSgbrhaV9N8eYPmg3lw78aJphDjM
+ yF7fv0nM3B7Q7azjtcHXWw1MMbw3vab9aZMRGMf7gRWgmh1uqgIzAdYqBSKhxBM3zkVA
+ ga2Yvxvk7vPqqUFRvg7uw/WVoh1Fx49I1Yk2DknkNDL8m8a3U+BPx1B7Fb8vgdC5NStG
+ HT09g5HuwCY8wknFCeh4LMFAbkMwUl1ejiUG+fBnD5xr/ZI62dcHpBocMpDGbhaJBNb3
+ b66ZrcwLA9H8b+uWQVituzOa0nUb282nTMyb9ZdV56QxD85qrGeIWFbfz5RQux3zdKTP
+ fPEQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=N8lMcBD/VnfwG9BkRPxYEUbTKuDoWhdtD4gEpoOssSE=;
- b=Ete3JeMPLH5rblV8dAgmPsmATotAHovlpQN2h5mOsbgkU9ZMolw19BTECiRYNo4mhE
- i/w2AsdWGtDha6JN5BPyvj9xlxXSsk98gWJW43FI8lt1c76CcuAiclqwhLpK/nEavlLu
- jiLGeku6Z4eOiQUtHvWgl3yZEJTKGCNi2dTWsym7VRDkRfg0Ns0OC+uw2x+BLNpCO56w
- REH7epiO/2LwXimNmIN9jZPCJ86KGHuW9e6d00wWomr8dBtCTaBCZgb6NE+y40BkpQ1i
- QFHAxon9j7GS0cNV5/LQHY7QVR3LirL/9ULcBfDAuCfYv93+63ohKPvBNikLrjEAYGIe
- aOqQ==
-X-Gm-Message-State: AOAM533Q6fH+lxXsMcB9JjSlzzjZsLI4+blKzwgskev7um/Dre9fjhPL
- xRe6rk+qnrfmkRTzI0M+I9LBMq9ZorNJ7g==
-X-Google-Smtp-Source: ABdhPJzKyHXJVmD/cSAV4Fx5Y/6+02u/Wnj3e/Vbz9y0EDzGDyWFKpTRBdc8/viACcMFDph6R6R4+g==
-X-Received: by 2002:ad4:5ca4:: with SMTP id q4mr8516147qvh.64.1644178068775;
- Sun, 06 Feb 2022 12:07:48 -0800 (PST)
+ bh=8AYPOR8HAOhr1GFHfcmIMGeLF8f5x6f9nduyWsx8q3E=;
+ b=t40VXUGdThRJgkYdwgsY7htp0v4cvjRkNqGqQJSZ/YLSL9H4iJUnjg+euXNTd5MiFK
+ tJ4wu1kz8uxWHqr4KIrqrA2KsSadOyoxiABaFJ6KcHi5PsA3pi+5jl60Uvza3YIc+AXi
+ c6XP29OFPW+PzmUc82aN1eDGHVSITmX7zZuN4Aq1156aEJWslkppcakdgoobz1SYw/Jf
+ 0uhuTjrTuE0B5mxL5pSRNf+o6BXhVGXXfEwETJHTPbcjKlX2eoQYX4cneYu+WPF+KN4h
+ T+O7D+t9RGqJgRxqYbSGsBdnmgH+UasRAssyj0d+/WEnJn4/W2XlscyTMAnY65nZTD0M
+ X7zg==
+X-Gm-Message-State: AOAM533dolZomXCYFnSIbtGijW9th/wkJlLBIogF/bm5aX+y9fvjdD3t
+ KFF+0kPXtmiKi6U1f8yWTUk7blEuK2CuJg==
+X-Google-Smtp-Source: ABdhPJwzURNLff58grYFFbTrLEU6CCSXegroz8/sltONYnTSIX9XgC4DWWXRV7w1+czH2t2NuQFNIw==
+X-Received: by 2002:a05:620a:4108:: with SMTP id
+ j8mr4944051qko.131.1644178071383; 
+ Sun, 06 Feb 2022 12:07:51 -0800 (PST)
 Received: from localhost.localdomain
  (209-6-248-219.s2265.c3-0.wrx-ubr1.sbo-wrx.ma.cable.rcncustomer.com.
  [209.6.248.219])
- by smtp.gmail.com with ESMTPSA id j11sm4625999qtj.74.2022.02.06.12.07.47
+ by smtp.gmail.com with ESMTPSA id j11sm4625999qtj.74.2022.02.06.12.07.49
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 06 Feb 2022 12:07:48 -0800 (PST)
+ Sun, 06 Feb 2022 12:07:50 -0800 (PST)
 From: Will Cohen <wwcohen@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 09/11] 9p: darwin: Implement compatibility for mknodat
-Date: Sun,  6 Feb 2022 15:07:17 -0500
-Message-Id: <20220206200719.74464-10-wwcohen@gmail.com>
+Subject: [PATCH v4 10/11] 9p: darwin: meson: Allow VirtFS on Darwin
+Date: Sun,  6 Feb 2022 15:07:18 -0500
+Message-Id: <20220206200719.74464-11-wwcohen@gmail.com>
 X-Mailer: git-send-email 2.32.0 (Apple Git-132)
 In-Reply-To: <20220206200719.74464-1-wwcohen@gmail.com>
 References: <20220206200719.74464-1-wwcohen@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::f32
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::730
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::f32;
- envelope-from=wwcohen@gmail.com; helo=mail-qv1-xf32.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::730;
+ envelope-from=wwcohen@gmail.com; helo=mail-qk1-x730.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -96,130 +97,63 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Keno Fischer <keno@juliacomputing.com>
 
-Darwin does not support mknodat. However, to avoid race conditions
-with later setting the permissions, we must avoid using mknod on
-the full path instead. We could try to fchdir, but that would cause
-problems if multiple threads try to call mknodat at the same time.
-However, luckily there is a solution: Darwin includes a function
-that sets the cwd for the current thread only.
-This should suffice to use mknod safely.
-
-This function (pthread_fchdir_np) is protected by a check in
-meson in a patch later in tihs series.
-
 Signed-off-by: Keno Fischer <keno@juliacomputing.com>
+[Michael Roitzsch: - Rebase for NixOS]
 Signed-off-by: Michael Roitzsch <reactorcontrol@icloud.com>
-[Will Cohen: - Adjust coding style
-             - Replace clang references with gcc
-             - Note radar filed with Apple for missing syscall
-             - Replace direct syscall with pthread_fchdir_np and
-               adjust patch notes accordingly]
+[Will Cohen: - Rebase to master]
+Signed-off-by: Will Cohen <wwcohen@gmail.com>
+Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
+[Will Cohen: - Add check for pthread_fchdir_np to virtfs]
 Signed-off-by: Will Cohen <wwcohen@gmail.com>
 ---
- hw/9pfs/9p-local.c       |  5 +++--
- hw/9pfs/9p-util-darwin.c | 27 +++++++++++++++++++++++++++
- hw/9pfs/9p-util-linux.c  |  5 +++++
- hw/9pfs/9p-util.h        |  2 ++
- 4 files changed, 37 insertions(+), 2 deletions(-)
+ fsdev/meson.build |  1 +
+ meson.build       | 14 ++++++++++----
+ 2 files changed, 11 insertions(+), 4 deletions(-)
 
-diff --git a/hw/9pfs/9p-local.c b/hw/9pfs/9p-local.c
-index ea3ded5fca..0569a8b4de 100644
---- a/hw/9pfs/9p-local.c
-+++ b/hw/9pfs/9p-local.c
-@@ -682,7 +682,7 @@ static int local_mknod(FsContext *fs_ctx, V9fsPath *dir_path,
+diff --git a/fsdev/meson.build b/fsdev/meson.build
+index adf57cc43e..b632b66348 100644
+--- a/fsdev/meson.build
++++ b/fsdev/meson.build
+@@ -7,6 +7,7 @@ fsdev_ss.add(when: ['CONFIG_FSDEV_9P'], if_true: files(
+   'qemu-fsdev.c',
+ ), if_false: files('qemu-fsdev-dummy.c'))
+ softmmu_ss.add_all(when: 'CONFIG_LINUX', if_true: fsdev_ss)
++softmmu_ss.add_all(when: 'CONFIG_DARWIN', if_true: fsdev_ss)
  
-     if (fs_ctx->export_flags & V9FS_SM_MAPPED ||
-         fs_ctx->export_flags & V9FS_SM_MAPPED_FILE) {
--        err = mknodat(dirfd, name, fs_ctx->fmode | S_IFREG, 0);
-+        err = qemu_mknodat(dirfd, name, fs_ctx->fmode | S_IFREG, 0);
-         if (err == -1) {
-             goto out;
-         }
-@@ -697,7 +697,7 @@ static int local_mknod(FsContext *fs_ctx, V9fsPath *dir_path,
-         }
-     } else if (fs_ctx->export_flags & V9FS_SM_PASSTHROUGH ||
-                fs_ctx->export_flags & V9FS_SM_NONE) {
--        err = mknodat(dirfd, name, credp->fc_mode, credp->fc_rdev);
-+        err = qemu_mknodat(dirfd, name, credp->fc_mode, credp->fc_rdev);
-         if (err == -1) {
-             goto out;
-         }
-@@ -710,6 +710,7 @@ static int local_mknod(FsContext *fs_ctx, V9fsPath *dir_path,
+ if have_virtfs_proxy_helper
+   executable('virtfs-proxy-helper',
+diff --git a/meson.build b/meson.build
+index 5f43355071..6b4adf7e15 100644
+--- a/meson.build
++++ b/meson.build
+@@ -1421,17 +1421,23 @@ if not get_option('dbus_display').disabled()
+   endif
+ endif
  
- err_end:
-     unlinkat_preserve_errno(dirfd, name, 0);
-+
- out:
-     close_preserve_errno(dirfd);
-     return err;
-diff --git a/hw/9pfs/9p-util-darwin.c b/hw/9pfs/9p-util-darwin.c
-index cdb4c9e24c..128b6d87e8 100644
---- a/hw/9pfs/9p-util-darwin.c
-+++ b/hw/9pfs/9p-util-darwin.c
-@@ -5,6 +5,7 @@
-  * See the COPYING file in the top-level directory.
-  */
+-have_virtfs = (targetos == 'linux' and
++if targetos == 'darwin' and cc.has_function('pthread_fchdir_np')
++  have_virtfs = have_system
++else
++  have_virtfs = (targetos == 'linux' and
+     have_system and
+     libattr.found() and
+     libcap_ng.found())
++endif
  
-+#include <os/availability.h>
- #include "qemu/osdep.h"
- #include "qemu/xattr.h"
- #include "9p-util.h"
-@@ -62,3 +63,29 @@ int fsetxattrat_nofollow(int dirfd, const char *filename, const char *name,
-     close_preserve_errno(fd);
-     return ret;
- }
-+
-+/*
-+ * As long as mknodat is not available on macOS, this workaround
-+ * using pthread_fchdir_np is needed.
-+ *
-+ * Radar filed with Apple for implementing mknodat:
-+ * rdar://FB9862426 (https://openradar.appspot.com/FB9862426)
-+ */
-+
-+int pthread_fchdir_np(int fd) API_AVAILABLE(macosx(10.12));
-+
-+int qemu_mknodat(int dirfd, const char *filename, mode_t mode, dev_t dev)
-+{
-+    int preserved_errno, err;
-+    if (pthread_fchdir_np(dirfd) < 0) {
-+        return -1;
-+    }
-+    err = mknod(filename, mode, dev);
-+    preserved_errno = errno;
-+    /* Stop using the thread-local cwd */
-+    pthread_fchdir_np(-1);
-+    if (err < 0) {
-+        errno = preserved_errno;
-+    }
-+    return err;
-+}
-diff --git a/hw/9pfs/9p-util-linux.c b/hw/9pfs/9p-util-linux.c
-index 398614a5d0..66e0ab1865 100644
---- a/hw/9pfs/9p-util-linux.c
-+++ b/hw/9pfs/9p-util-linux.c
-@@ -62,3 +62,8 @@ int fsetxattrat_nofollow(int dirfd, const char *filename, const char *name,
-     g_free(proc_path);
-     return ret;
- }
-+
-+int qemu_mknodat(int dirfd, const char *filename, mode_t mode, dev_t dev)
-+{
-+    return mknodat(dirfd, filename, mode, dev);
-+}
-diff --git a/hw/9pfs/9p-util.h b/hw/9pfs/9p-util.h
-index 8e610ad224..f6fed963bf 100644
---- a/hw/9pfs/9p-util.h
-+++ b/hw/9pfs/9p-util.h
-@@ -97,6 +97,8 @@ ssize_t flistxattrat_nofollow(int dirfd, const char *filename,
- ssize_t fremovexattrat_nofollow(int dirfd, const char *filename,
-                                 const char *name);
+-have_virtfs_proxy_helper = have_virtfs and have_tools
++have_virtfs_proxy_helper = targetos == 'linux' and have_virtfs and have_tools
  
-+int qemu_mknodat(int dirfd, const char *filename, mode_t mode, dev_t dev);
-+
- #endif
- 
- 
+ if get_option('virtfs').enabled()
+   if not have_virtfs
+-    if targetos != 'linux'
+-      error('virtio-9p (virtfs) requires Linux')
++    if targetos != 'linux' and targetos != 'darwin'
++      error('virtio-9p (virtfs) requires Linux or Darwin')
++    elif targetos == 'darwin' and not cc.has_function('pthread_fchdir_np')
++      error('virtio-9p (virtfs) on Darwin requires the presence of pthread_fchdir_np')
+     elif not libcap_ng.found() or not libattr.found()
+       error('virtio-9p (virtfs) requires libcap-ng-devel and libattr-devel')
+     elif not have_system
 -- 
 2.32.0 (Apple Git-132)
 
