@@ -2,50 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C42574AC4E4
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Feb 2022 17:07:26 +0100 (CET)
-Received: from localhost ([::1]:42660 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 863F14AC4EB
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Feb 2022 17:11:25 +0100 (CET)
+Received: from localhost ([::1]:47266 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nH6Y1-0003cs-1x
-	for lists+qemu-devel@lfdr.de; Mon, 07 Feb 2022 11:07:25 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:58796)
+	id 1nH6bs-0006yo-87
+	for lists+qemu-devel@lfdr.de; Mon, 07 Feb 2022 11:11:24 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:60592)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <agraf@csgraf.de>)
- id 1nH6Qh-0000lr-Jl; Mon, 07 Feb 2022 10:59:52 -0500
-Received: from mail.csgraf.de ([85.25.223.15]:33900 helo=zulu616.server4you.de)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <agraf@csgraf.de>)
- id 1nH6Qf-0006GD-5O; Mon, 07 Feb 2022 10:59:51 -0500
-Received: from [0.0.0.0] (ec2-3-122-114-9.eu-central-1.compute.amazonaws.com
- [3.122.114.9]) by csgraf.de (Postfix) with ESMTPSA id 593D4608119E;
- Mon,  7 Feb 2022 16:59:45 +0100 (CET)
-Content-Type: multipart/alternative;
- boundary="------------O2SEz3LzpOUt5MN2NwIyKpOa"
-Message-ID: <a6caa3b0-89ae-d482-62f5-2cada740a60e@csgraf.de>
-Date: Mon, 7 Feb 2022 16:59:44 +0100
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1nH6VX-0003s8-E6
+ for qemu-devel@nongnu.org; Mon, 07 Feb 2022 11:04:52 -0500
+Received: from kylie.crudebyte.com ([5.189.157.229]:55113)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1nH6VT-00078V-2l
+ for qemu-devel@nongnu.org; Mon, 07 Feb 2022 11:04:49 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
+ MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+ Content-ID:Content-Description;
+ bh=ss+JnL0iWFjA6awPQDdCL1EOm+QNHPgZ7V+ZgoGdgf8=; b=IHabjuqG6wwg9bc2MoFacoJLrO
+ 9gdh0OkqLZCxu1Qa1gRfS+fT82a1Q4OgJ3K+vxNVkONpU52oS2AWjxA2KPqdn6lteEISIDpgcv6SQ
+ +Uy89iSlny0lf7JnlSWypDkXzyqZkt2qvXMW7vRDcWzC1x+XOVJ3GcZpbvj3+yGVnmq025KcPAnP3
+ sEujV7iNd/Dka3OjqEDJhq2CxlwjV3bix08y/qxzhykBg93JrQb4XyLbWvwZt9/ejlXwDoi55qFIu
+ xEEM7EDRWK+x82m97kISxQJKQQAKNaDAPI5PvPefZLT0vXXju7Fk0qMyZv40AWviZZANMFqUe/H1u
+ bNDiEO2ipMlV4FjuEQg/SVTj/iYgS1FhODzOqPrPHejBJojvVkedxPt9ad9NE3mkPP6ItDfkIEtZn
+ b5Vbt6dBKHLlwKiNpUfHQYlmNLq1BFJdrvIHGnN9Q6NklhnZyY7GWKro1oICPJ5Lh/3+kEctAqGvc
+ JyFJCcjZ6NpcQ3FZ/zbSNKc5sja7uRKfqW7puS+XC6PpwPdUCzFa16zUcQpyfoEUk05p2tBlLAgk+
+ vvrYHOIAJ1M4f04oaw1/jjDiAF5UhK3ozXon4HJ43NS/zowjVR8UGExdBLlGKYk4vYj+GUu2hY6OF
+ 0NRanwZ49XjORZBBfT9t/FUv+FNjSVg6Fz6XkEYFE=;
+From: Christian Schoenebeck <qemu_oss@crudebyte.com>
+To: Greg Kurz <groug@kaod.org>
+Cc: qemu-devel@nongnu.org, Will Cohen <wwcohen@gmail.com>,
+ Philippe =?ISO-8859-1?Q?Mathieu=2DDaud=E9?= <f4bug@amsat.org>,
+ Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ hi@alyssa.is, Michael Roitzsch <reactorcontrol@icloud.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Keno Fischer <keno@juliacomputing.com>
+Subject: Re: [PATCH v4 10/11] 9p: darwin: meson: Allow VirtFS on Darwin
+Date: Mon, 07 Feb 2022 17:04:41 +0100
+Message-ID: <1645588.LEmmck51Vc@silver>
+In-Reply-To: <20220207153930.33b3ca1a@bahia>
+References: <20220206200719.74464-1-wwcohen@gmail.com>
+ <39149990.XXmQAQaIKb@silver> <20220207153930.33b3ca1a@bahia>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.5.1
-Subject: Re: [PATCH 06/16] hw/arm/xlnx-zcu102: Don't enable PSCI conduit when
- booting guest in EL3
-To: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
-References: <20220127154639.2090164-1-peter.maydell@linaro.org>
- <20220127154639.2090164-7-peter.maydell@linaro.org>
- <2c67bde5-65b2-0af0-afde-7353a4fe2a1b@csgraf.de>
- <CAFEAcA9DcHXRkA7gCihU6LrOc40EOHnVnTeEcf4+xSfG22eJ-g@mail.gmail.com>
- <44ec9504-a7ef-6805-ae94-4435e5a37735@csgraf.de>
- <CAJy5ezqUtLphzH_WKmW8dR34=k-g5dmuevuZY42GfnD-R-uCqg@mail.gmail.com>
-From: Alexander Graf <agraf@csgraf.de>
-In-Reply-To: <CAJy5ezqUtLphzH_WKmW8dR34=k-g5dmuevuZY42GfnD-R-uCqg@mail.gmail.com>
-Received-SPF: pass client-ip=85.25.223.15; envelope-from=agraf@csgraf.de;
- helo=zulu616.server4you.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, HTML_MESSAGE=0.001,
- NICE_REPLY_A=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"
+Received-SPF: pass client-ip=5.189.157.229;
+ envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -58,248 +69,86 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- qemu-devel <qemu-devel@nongnu.org>, Havard Skinnemoen <hskinnemoen@google.com>,
- Yanan Wang <wangyanan55@huawei.com>, Rob Herring <robh@kernel.org>,
- Stefano Stabellini <sstabellini@kernel.org>,
- Andrey Smirnov <andrew.smirnov@gmail.com>,
- Michal Simek <michal.simek@xilinx.com>, Joel Stanley <joel@jms.id.au>,
- Andre Przywara <andre.przywara@arm.com>,
- Alistair Francis <alistair@alistair23.me>,
- Beniamino Galvani <b.galvani@gmail.com>,
- Niek Linnenbank <nieklinnenbank@gmail.com>, qemu-arm <qemu-arm@nongnu.org>,
- Igor Mitsyanko <i.mitsyanko@gmail.com>,
- =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
- Eduardo Habkost <eduardo@habkost.net>, Andrew Jeffery <andrew@aj.id.au>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- Jean-Christophe Dubois <jcd@tribudubois.net>, Tyrone Ting <kfting@nuvoton.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is a multi-part message in MIME format.
---------------O2SEz3LzpOUt5MN2NwIyKpOa
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+On Montag, 7. Februar 2022 15:39:30 CET Greg Kurz wrote:
+> On Mon, 07 Feb 2022 15:15:46 +0100
+>=20
+> Christian Schoenebeck <qemu_oss@crudebyte.com> wrote:
+> > On Montag, 7. Februar 2022 02:05:32 CET Will Cohen wrote:
+> > > On Sun, Feb 6, 2022 at 4:22 PM Philippe Mathieu-Daud=E9 <f4bug@amsat.=
+org>
+> > >=20
+> > > wrote:
+> > > > On 6/2/22 21:07, Will Cohen wrote:
+> > > > > From: Keno Fischer <keno@juliacomputing.com>
+> > > > >=20
+> > > > > Signed-off-by: Keno Fischer <keno@juliacomputing.com>
+> > > > > [Michael Roitzsch: - Rebase for NixOS]
+> > > > > Signed-off-by: Michael Roitzsch <reactorcontrol@icloud.com>
+> > > > > [Will Cohen: - Rebase to master]
+> > > > > Signed-off-by: Will Cohen <wwcohen@gmail.com>
+> > > > > Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
+> > > > > [Will Cohen: - Add check for pthread_fchdir_np to virtfs]
+> > > > > Signed-off-by: Will Cohen <wwcohen@gmail.com>
+> > > > > ---
+> > > > >=20
+> > > > >   fsdev/meson.build |  1 +
+> > > > >   meson.build       | 14 ++++++++++----
+> > > > >   2 files changed, 11 insertions(+), 4 deletions(-)
+> > > > >=20
+> > > > > -have_virtfs_proxy_helper =3D have_virtfs and have_tools
+> > > > > +have_virtfs_proxy_helper =3D targetos =3D=3D 'linux' and have_vi=
+rtfs and
+> > > >=20
+> > > > have_tools
+> > > >=20
+> > > > Why do you restrict the proxy-helper to Linux?
+> > >=20
+> > > Only because porting the proxy-helper to macOS is outside the scope of
+> > > this
+> > > particular patch. While some initial concepts around it have been
+> > > considered by some of the contributors to this patch, those
+> > > implementations
+> > > weren't tested enough and the security implications weren't considered
+> > > in
+> > > full. We assume that this could be an additional implementation later
+> > > on,
+> > > if the functionality is considered important down the road.
+> >=20
+> > In general that's fine with me. I would have probably made that
+> > "targetos !=3D 'darwin'" instead of "targetos =3D=3D 'linux'", but I le=
+ave that
+> > up to you.
+> >=20
+> > On the long term we will probably deprecate the 9p 'proxy' fs driver
+> > anyway. While it had some good ideas, being realistic though: nobody has
+> > worked on the 9p proxy driver/backend for many years and it is not in
+> > good shape.
+> It definitely isn't indeed. Also it is super slow by design
+> since the round trip of a 9p request involves QEMU on both entry
+> and exit:
+>=20
+>    [guest] --> [QEMU]--> [virtfs-proxy-helper]-->[QEMU]-->[guest]
+>=20
+> A more modern and efficient approach would be to have a vhost-user-9p
+> implementation : requests would be directly handled by the external
+> process, without QEMU hops. But this a fair amount of work.
+
+That's already a bit offtopic, but how would you imagine that to work? You=
+=20
+mean a system dependent solution that e.g. plugs in into KVM or something?
+
+> > I can imagine that due to the ground being laid by these series, that we
+> > will also open 9p for BSD, but that should be done a bit later and hence
+> > does not belong into these series.
+> >=20
+> > But once again: it would not have hurt to make your intentions clear
+> > either in the commit log or by in-source comment. :)
+> >=20
+> > Best regards,
+> > Christian Schoenebeck
 
 
-On 07.02.22 16:52, Edgar E. Iglesias wrote:
->
->
-> On Mon, Feb 7, 2022 at 4:33 PM Alexander Graf <agraf@csgraf.de> wrote:
->
->
->     On 07.02.22 16:22, Peter Maydell wrote:
->     > On Mon, 7 Feb 2022 at 14:21, Alexander Graf <agraf@csgraf.de> wrote:
->     >>
->     >> On 27.01.22 16:46, Peter Maydell wrote:
->     >>> Change the Xilinx ZynqMP-based board xlnx-zcu102 to use the new
->     >>> boot.c functionality to allow us to enable psci-conduit only if
->     >>> the guest is being booted in EL1 or EL2, so that if the user runs
->     >>> guest EL3 firmware code our PSCI emulation doesn't get in its
->     >>> way.
->     >>>
->     >>> To do this we stop setting the psci-conduit property on the CPU
->     >>> objects in the SoC code, and instead set the psci_conduit field in
->     >>> the arm_boot_info struct to tell the common boot loader code that
->     >>> we'd like PSCI if the guest is starting at an EL that it makes
->     >>> sense with.
->     >>>
->     >>> Note that this means that EL3 guest code will have no way
->     >>> to power on secondary cores, because we don't model any
->     >>> kind of power controller that does that on this SoC.
->     >>>
->     >>> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
->     >>
->     >> It's been a while since I worked with ZynqMP, but typically
->     your ATF in
->     >> EL3 will want to talk to a microblaze firmware blob on the PMU.
->     >>
->     >> I only see a stand alone PMU machine for microblaze and a PMU IRQ
->     >> handling I/O block in QEMU, but nothing that would listen to
->     the events.
->     >> So I'm fairly sure it will be broken after this patch - and
->     really only
->     >> worked by accident before.
->     > Edgar submitted a power-control model patchset:
->     >
->     https://patchew.org/QEMU/20220203140141.310870-1-edgar.iglesias@gmail.com/
->
->
->     Ah, nice. Would this also work for Versal?
->
->
->     Thanks,
->
->     Alex
->
->
-> Hi,
->
-> Both Versal and ZynqMP require MicroBlaze firmware to run the 
-> reference implementations of Trusted Firmware. We never supported this 
-> in upstream QEMU but we do support it with our fork (by running 
-> multiple QEMU instances co-simulating).
->
-> Having said that, we do have tons of EL3 test-cases that we use to 
-> validate QEMU that run with EL3 enabled in upstream.
->
-> So there's two user flows:
-> 1. Direct boots using QEMUs builtin PSCI (Most users use this to run 
-> Linux, Xen, U-boot, etc)
-> 2. Firmware boot at EL3 without QEMUs builtin PSCI (Mostly used by 
-> test-code)
->
-> Number #2 is the one affected here and that by accident used to have 
-> the builtin PSCI support enabled but now requires more power control 
-> modelling to keep working.
-> Unless I'm missing something, the -kernel boots will continue to use 
-> the builtin PSCI implementation.
-
-
-So nobody is using upstream QEMU to validate and prototype ATF/EL1s/EL0s 
-code? That's a shame :). I suppose there is little value without the 
-bitstream emulation and R cluster. Do you have plans to bring multi 
-process emulation upstream some day to enable these there?
-
-
-Alex
-
---------------O2SEz3LzpOUt5MN2NwIyKpOa
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  </head>
-  <body>
-    <p><br>
-    </p>
-    <div class="moz-cite-prefix">On 07.02.22 16:52, Edgar E. Iglesias
-      wrote:<br>
-    </div>
-    <blockquote type="cite"
-cite="mid:CAJy5ezqUtLphzH_WKmW8dR34=k-g5dmuevuZY42GfnD-R-uCqg@mail.gmail.com">
-      <div dir="ltr">
-        <div dir="ltr"><br>
-        </div>
-        <br>
-        <div class="gmail_quote">
-          <div dir="ltr" class="gmail_attr">On Mon, Feb 7, 2022 at 4:33
-            PM Alexander Graf &lt;<a href="mailto:agraf@csgraf.de"
-              moz-do-not-send="true" class="moz-txt-link-freetext">agraf@csgraf.de</a>&gt;
-            wrote:<br>
-          </div>
-          <blockquote class="gmail_quote"><br>
-            On 07.02.22 16:22, Peter Maydell wrote:<br>
-            &gt; On Mon, 7 Feb 2022 at 14:21, Alexander Graf &lt;<a
-              href="mailto:agraf@csgraf.de" target="_blank"
-              moz-do-not-send="true" class="moz-txt-link-freetext">agraf@csgraf.de</a>&gt;
-            wrote:<br>
-            &gt;&gt;<br>
-            &gt;&gt; On 27.01.22 16:46, Peter Maydell wrote:<br>
-            &gt;&gt;&gt; Change the Xilinx ZynqMP-based board
-            xlnx-zcu102 to use the new<br>
-            &gt;&gt;&gt; boot.c functionality to allow us to enable
-            psci-conduit only if<br>
-            &gt;&gt;&gt; the guest is being booted in EL1 or EL2, so
-            that if the user runs<br>
-            &gt;&gt;&gt; guest EL3 firmware code our PSCI emulation
-            doesn't get in its<br>
-            &gt;&gt;&gt; way.<br>
-            &gt;&gt;&gt;<br>
-            &gt;&gt;&gt; To do this we stop setting the psci-conduit
-            property on the CPU<br>
-            &gt;&gt;&gt; objects in the SoC code, and instead set the
-            psci_conduit field in<br>
-            &gt;&gt;&gt; the arm_boot_info struct to tell the common
-            boot loader code that<br>
-            &gt;&gt;&gt; we'd like PSCI if the guest is starting at an
-            EL that it makes<br>
-            &gt;&gt;&gt; sense with.<br>
-            &gt;&gt;&gt;<br>
-            &gt;&gt;&gt; Note that this means that EL3 guest code will
-            have no way<br>
-            &gt;&gt;&gt; to power on secondary cores, because we don't
-            model any<br>
-            &gt;&gt;&gt; kind of power controller that does that on this
-            SoC.<br>
-            &gt;&gt;&gt;<br>
-            &gt;&gt;&gt; Signed-off-by: Peter Maydell &lt;<a
-              href="mailto:peter.maydell@linaro.org" target="_blank"
-              moz-do-not-send="true" class="moz-txt-link-freetext">peter.maydell@linaro.org</a>&gt;<br>
-            &gt;&gt;<br>
-            &gt;&gt; It's been a while since I worked with ZynqMP, but
-            typically your ATF in<br>
-            &gt;&gt; EL3 will want to talk to a microblaze firmware blob
-            on the PMU.<br>
-            &gt;&gt;<br>
-            &gt;&gt; I only see a stand alone PMU machine for microblaze
-            and a PMU IRQ<br>
-            &gt;&gt; handling I/O block in QEMU, but nothing that would
-            listen to the events.<br>
-            &gt;&gt; So I'm fairly sure it will be broken after this
-            patch - and really only<br>
-            &gt;&gt; worked by accident before.<br>
-            &gt; Edgar submitted a power-control model patchset:<br>
-            &gt; <a
-href="https://patchew.org/QEMU/20220203140141.310870-1-edgar.iglesias@gmail.com/"
-              rel="noreferrer" target="_blank" moz-do-not-send="true"
-              class="moz-txt-link-freetext">https://patchew.org/QEMU/20220203140141.310870-1-edgar.iglesias@gmail.com/</a><br>
-            <br>
-            <br>
-            Ah, nice. Would this also work for Versal?<br>
-            <br>
-            <br>
-            Thanks,<br>
-            <br>
-            Alex<br>
-          </blockquote>
-          <div><br>
-          </div>
-          <div>Hi,</div>
-          <div><br>
-          </div>
-          <div>Both Versal and ZynqMP require MicroBlaze firmware to run
-            the reference implementations of Trusted Firmware. We never
-            supported this in upstream QEMU but we do support it with
-            our fork (by running multiple QEMU instances co-simulating).</div>
-          <div><br>
-          </div>
-          <div>Having said that, we do have tons of EL3 test-cases that
-            we use to validate QEMU that run with EL3 enabled in
-            upstream.</div>
-          <div><br>
-          </div>
-          <div>So there's two user flows:</div>
-          <div>1. Direct boots using QEMUs builtin PSCI (Most users use
-            this to run Linux, Xen, U-boot, etc)</div>
-          <div>2. Firmware boot at EL3 without QEMUs builtin PSCI
-            (Mostly used by test-code)</div>
-          <div><br>
-          </div>
-          <div>Number #2 is the one affected here and that by accident
-            used to have the builtin PSCI support enabled but now
-            requires more power control modelling to keep working.</div>
-          <div>Unless I'm missing something, the -kernel boots will
-            continue to use the builtin PSCI implementation.</div>
-        </div>
-      </div>
-    </blockquote>
-    <p><br>
-    </p>
-    <p>So nobody is using upstream QEMU to validate and prototype
-      ATF/EL1s/EL0s code? That's a shame :). I suppose there is little
-      value without the bitstream emulation and R cluster. Do you have
-      plans to bring multi process emulation upstream some day to enable
-      these there?<br>
-      <br>
-      <br>
-      Alex<br>
-      <br>
-    </p>
-  </body>
-</html>
-
---------------O2SEz3LzpOUt5MN2NwIyKpOa--
 
