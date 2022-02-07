@@ -2,69 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8818C4AC7B8
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Feb 2022 18:34:47 +0100 (CET)
-Received: from localhost ([::1]:36556 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A5F874AC7C1
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Feb 2022 18:41:23 +0100 (CET)
+Received: from localhost ([::1]:46124 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nH7uY-0006VV-C6
-	for lists+qemu-devel@lfdr.de; Mon, 07 Feb 2022 12:34:46 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:41122)
+	id 1nH80v-0004hH-Rj
+	for lists+qemu-devel@lfdr.de; Mon, 07 Feb 2022 12:41:21 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:41840)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1nH7n9-0006Kw-R0
- for qemu-devel@nongnu.org; Mon, 07 Feb 2022 12:27:07 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:52859)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1nH7n6-0006dp-Cz
- for qemu-devel@nongnu.org; Mon, 07 Feb 2022 12:27:05 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1644254823;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=3gzXLMuRTZSij8xhU33hjf5ctoK78eQk9ftGfiLAyRQ=;
- b=Ci/rXHFw7qFGHUmgziNAFaLqNA1namHq3m4UlIJuHBXi7vP4C1sOVjTH7ydg2G4lCGGdDt
- baPeCF31IfTBQqf/P7ottHvIRdZbGnTCjlKhpoLichBbrRZ4Lxj1bpWzY23kOCRlQwrofp
- xK6agG5stk3aLwD5zs8TzmoA8MA45MQ=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-363-a0qrlkbSOmifp6rBeomNgw-1; Mon, 07 Feb 2022 12:27:02 -0500
-X-MC-Unique: a0qrlkbSOmifp6rBeomNgw-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6A5D684B9A7;
- Mon,  7 Feb 2022 17:27:00 +0000 (UTC)
-Received: from redhat.com (unknown [10.39.193.223])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 0BB092B5AC;
- Mon,  7 Feb 2022 17:26:55 +0000 (UTC)
-Date: Mon, 7 Feb 2022 18:26:54 +0100
-From: Kevin Wolf <kwolf@redhat.com>
-To: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-Subject: Re: [PATCH v6 13/33] include/block/blockjob.h: global state API
-Message-ID: <YgFWXiQgWbZeyr6v@redhat.com>
-References: <20220121170544.2049944-1-eesposit@redhat.com>
- <20220121170544.2049944-14-eesposit@redhat.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nH7oj-0000MK-2w
+ for qemu-devel@nongnu.org; Mon, 07 Feb 2022 12:28:45 -0500
+Received: from [2a00:1450:4864:20::436] (port=47061
+ helo=mail-wr1-x436.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nH7oh-0006sN-J5
+ for qemu-devel@nongnu.org; Mon, 07 Feb 2022 12:28:44 -0500
+Received: by mail-wr1-x436.google.com with SMTP id r29so8182499wrr.13
+ for <qemu-devel@nongnu.org>; Mon, 07 Feb 2022 09:28:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=GBBB/DBKZ7uUyw5CLkBoPlXKiTRYdO7D4mtZoMOhgNI=;
+ b=rot+/G/JD66wqz01r/R3C7hIjSm5K/qCs9N9nZoFr7XWBFTTtxgQPIn4g5FrvVt2ct
+ QEuU/MSLzMtG4MxvbZxrBuY/bpewGKwykF9nJpzNVYwehZjB/Pmp0uLqk37sKEBj5FuQ
+ SPMy6bfOXt1ilRPr2vMwhF3Yr8qyKJfqXkuW9maPtFYImpxT0+76HNdh4INWl/W9NWcU
+ FRPWwBolHCpJ8DBNVaqxuKpcBg4YfAmUv3pwmyVTWgr2oWl2gYrpqmXetF+vTHnh3xEZ
+ m3pr7Y+/cUcDFUGQivB77relkSgrU9x3mAg0KKmYRFPKkU+x7Z63qKK8LEM1T6GqIU3B
+ dONA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=GBBB/DBKZ7uUyw5CLkBoPlXKiTRYdO7D4mtZoMOhgNI=;
+ b=oNy7IiQLHKm4/vOyTfPbQgvbnF+A6iN8da7imogVQhfZyU9ua6m0+Pluh0IENuGO2q
+ tjdEvWQ0+e3g39K5gM3/x46+Cbcqfbl23TG1wDQCOIRVuruQ/kyARVe3TUYuQHPJ7gTN
+ ANtcysdPGCTVB3bksaxM+dLE8L76KrQnmudUr7H3rzkrQMdSK1Oyx9aoePX18xxe4bsO
+ //aHwCmBi7uV44ETMKN/BFeb+w69FlB7t+xosUH/xK4r0QdFJ+eMF/WuH2iwqvO/N2UJ
+ gY7PECSLBGdgKYWt26NOwyDmK2pODGTRqqBZ86XX7npMwG03oKDWWDfgC2CpSbB5Xjdx
+ BuDA==
+X-Gm-Message-State: AOAM530V4bGy3uIxTZmJEmuNeRLMf2bO5jgDZx0QFK/gZFAesT8TNhK4
+ W4UvMj/LmV1Uh32jFMTJvYiagTcDeVtG86FLDLi00g==
+X-Google-Smtp-Source: ABdhPJxpOvdb6gf3/NR7XPu0T3dVS9FOuNsAIl3rMLKG2O4I53WevVtcqOMf6nG+U+2EeLtWjD9YCzMQggDhu6/OWuU=
+X-Received: by 2002:adf:a51b:: with SMTP id i27mr423250wrb.172.1644254922273; 
+ Mon, 07 Feb 2022 09:28:42 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20220121170544.2049944-14-eesposit@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=kwolf@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+References: <20220202111602.627429-1-eric.auger@redhat.com>
+In-Reply-To: <20220202111602.627429-1-eric.auger@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 7 Feb 2022 17:28:31 +0000
+Message-ID: <CAFEAcA8EEB51ok2dsVbXsb3iAShCQA0EwazhtcWqd+dK1MUEMg@mail.gmail.com>
+Subject: Re: [PATCH] hw/arm/smmuv3: Fix device reset
+To: Eric Auger <eric.auger@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::436
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::436;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x436.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -77,76 +80,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, qemu-devel@nongnu.org,
- "Denis V. Lunev" <den@openvz.org>, Eric Blake <eblake@redhat.com>,
- qemu-block@nongnu.org, Juan Quintela <quintela@redhat.com>,
- Daniel Henrique Barboza <danielhb413@gmail.com>,
- Markus Armbruster <armbru@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, Greg Kurz <groug@kaod.org>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>,
- Stefan Hajnoczi <stefanha@redhat.com>, John Snow <jsnow@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>,
- Eduardo Habkost <eduardo@habkost.net>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>,
- Hanna Reitz <hreitz@redhat.com>, qemu-ppc@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org, eric.auger.pro@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 21.01.2022 um 18:05 hat Emanuele Giuseppe Esposito geschrieben:
-> blockjob functions run always under the BQL lock.
-> 
-> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-> Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+On Wed, 2 Feb 2022 at 11:16, Eric Auger <eric.auger@redhat.com> wrote:
+>
+> We currently miss a bunch of register resets in the device reset
+> function. This sometimes prevents the guest from rebooting after
+> a system_reset (with virtio-blk-pci). For instance, we may get
+> the following errors:
+>
+> invalid STE
+> smmuv3-iommu-memory-region-0-0 translation failed for iova=0x13a9d2000(SMMU_EVT_C_BAD_STE)
+> Invalid read at addr 0x13A9D2000, size 2, region '(null)', reason: rejected
+> invalid STE
+> smmuv3-iommu-memory-region-0-0 translation failed for iova=0x13a9d2000(SMMU_EVT_C_BAD_STE)
+> Invalid write at addr 0x13A9D2000, size 2, region '(null)', reason: rejected
+> invalid STE
+>
+> Signed-off-by: Eric Auger <eric.auger@redhat.com>
+> Fixes: 10a83cb988 ("hw/arm/smmuv3: Skeleton")
 > ---
->  include/block/blockjob.h | 9 +++++++++
->  1 file changed, 9 insertions(+)
-> 
-> diff --git a/include/block/blockjob.h b/include/block/blockjob.h
-> index 87fbb3985f..2373dfeb07 100644
-> --- a/include/block/blockjob.h
-> +++ b/include/block/blockjob.h
-> @@ -74,6 +74,13 @@ typedef struct BlockJob {
->      GSList *nodes;
->  } BlockJob;
->  
-> +/*
-> + * Global state (GS) API. These functions run under the BQL lock.
-> + *
-> + * See include/block/block-global-state.h for more information about
-> + * the GS API.
-> + */
-> +
->  /**
->   * block_job_next:
->   * @job: A block job, or %NULL.
-> @@ -155,6 +162,8 @@ BlockJobInfo *block_job_query(BlockJob *job, Error **errp);
->   */
->  void block_job_iostatus_reset(BlockJob *job);
->  
-> +/* Common functions that are neither I/O nor Global State */
-> +
->  /**
->   * block_job_is_internal:
->   * @job: The job to determine if it is user-visible or not.
 
-It's a bit random to comment on it for this patch specifically, but I
-feel that the comments that separate different categories of interfaces
-in a single file are not very easy to visually register.
 
-I don't think we're doing this anywhere yet, but I wonder if it wouldn't
-be helpful to use a comment style like this which gives more visibility
-to the start and end of sections:
 
-/***********************************************************************
- * Common functions that are neither I/O nor Global State
- */
+Applied to target-arm.next, thanks.
 
-Not sure what checkpatch thinks about it either... ;-)
-
-Kevin
-
+-- PMM
 
