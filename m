@@ -2,92 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F3DA4ABE2D
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Feb 2022 13:07:48 +0100 (CET)
-Received: from localhost ([::1]:40248 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7139F4ABE7B
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Feb 2022 13:18:12 +0100 (CET)
+Received: from localhost ([::1]:49092 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nH2o7-0004bY-5b
-	for lists+qemu-devel@lfdr.de; Mon, 07 Feb 2022 07:07:47 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:54054)
+	id 1nH2yB-0003IE-4w
+	for lists+qemu-devel@lfdr.de; Mon, 07 Feb 2022 07:18:11 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:56990)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <nsaenzju@redhat.com>)
- id 1nH2ho-0001dB-2e
- for qemu-devel@nongnu.org; Mon, 07 Feb 2022 07:01:16 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:33276)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <nsaenzju@redhat.com>)
- id 1nH2hh-0005zj-Cz
- for qemu-devel@nongnu.org; Mon, 07 Feb 2022 07:01:14 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1644235250;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=b8AUd4rwei61qxG7QGW8LB5yHxH+C4DBdKn3EsaOdCQ=;
- b=PkZUjgGvu66Ht/6ST+gRNut2m6HynfdrB20BwdUYkFDk4p6RbH1HNzS2pdugztmRBbgk0t
- 9OmqhEZ9jXceCvJDJbj+IJ3Jd+x9TdlWD9nNQwB6vOzj9FesYmigYIWTj0pvLW58ELLhrv
- qzB5v2Ao7wwO3XtpxtujKut4QRqABqI=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-459--FRrAXIaO9CzJmBZe-RGiQ-1; Mon, 07 Feb 2022 07:00:49 -0500
-X-MC-Unique: -FRrAXIaO9CzJmBZe-RGiQ-1
-Received: by mail-wm1-f71.google.com with SMTP id
- f26-20020a7bc8da000000b0037bd7f39dbbso80408wml.3
- for <qemu-devel@nongnu.org>; Mon, 07 Feb 2022 04:00:48 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
- :references:user-agent:mime-version:content-transfer-encoding;
- bh=b8AUd4rwei61qxG7QGW8LB5yHxH+C4DBdKn3EsaOdCQ=;
- b=0hAp8QmLW4At5IeHkWne+ASWuSHpiQzoImrDtnzFnw0UGyig0+3TsCW857Pvyad8Py
- 4ih2tgj2upSJrCxuctrpttwhAl2j2AkyR2+k02crcGWTusHTC2IvJa/+fnlm01UBzEfZ
- Jdganu6csVWHOVaZNBoskqRWrUx2Or2xYLdOyj8Yb5B6RjPkSR2qVLrrPGJNWaDTe1em
- 1la8Jz0wn82xTiXCLV4GEDRv5gtLinVbBg6rnmJHfg/8LMb1i0dpzkzGBs96cJ57JLV9
- yW+2Q7uJ3Vy/Svb31jRb44kbTJBlUjQIO+qsBn4jF5Wbd3XNivkPyUMGQMDdUP/dz9CN
- 670w==
-X-Gm-Message-State: AOAM530E/nNoDMyo3N4UdjNz6ps7U0Wa14DqslA8h3vMA4OQE7CZf2h0
- l5xPiTnO1c0gHwEXIkPCS9wS8Jinndu51ORKRtwQKcmqdK5g5Cgb3iy7JVDiZwoXclNT1lFYDse
- f7Lrd4z8v3daTZ1k=
-X-Received: by 2002:a05:600c:4195:: with SMTP id
- p21mr1636978wmh.130.1644235247980; 
- Mon, 07 Feb 2022 04:00:47 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxziTCBdbD4flrNnmgg1B6G96VLXH29VhBzeX0Fe9144R1feoqIoGVE/zPXiynTmHA10k6iew==
-X-Received: by 2002:a05:600c:4195:: with SMTP id
- p21mr1636950wmh.130.1644235247663; 
- Mon, 07 Feb 2022 04:00:47 -0800 (PST)
-Received: from ?IPv6:2a0c:5a80:1204:1500:37e7:8150:d9df:36f?
- ([2a0c:5a80:1204:1500:37e7:8150:d9df:36f])
- by smtp.gmail.com with ESMTPSA id m5sm9224915wrs.22.2022.02.07.04.00.46
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 07 Feb 2022 04:00:47 -0800 (PST)
-Message-ID: <aca18563999f3bf4b8c6bfee5f073f54beaacda4.camel@redhat.com>
-Subject: Re: [RFC] thread-pool: Add option to fix the pool size
-From: Nicolas Saenz Julienne <nsaenzju@redhat.com>
-To: Stefan Hajnoczi <stefanha@redhat.com>
-Date: Mon, 07 Feb 2022 13:00:46 +0100
-In-Reply-To: <Yfu0E5LwZ/x0EZrl@stefanha-x1.localdomain>
-References: <20220202175234.656711-1-nsaenzju@redhat.com>
- <Yfu0E5LwZ/x0EZrl@stefanha-x1.localdomain>
-User-Agent: Evolution 3.42.3 (3.42.3-1.fc35)
+ (Exim 4.90_1) (envelope-from <pavel.dovgalyuk@ispras.ru>)
+ id 1nH2tU-0001Wx-5X; Mon, 07 Feb 2022 07:13:20 -0500
+Received: from mail.ispras.ru ([83.149.199.84]:43928)
+ by eggs.gnu.org with esmtps (TLS1.2:DHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <pavel.dovgalyuk@ispras.ru>)
+ id 1nH2tQ-0000Le-P6; Mon, 07 Feb 2022 07:13:19 -0500
+Received: from [10.12.102.111] (unknown [85.142.117.226])
+ by mail.ispras.ru (Postfix) with ESMTPSA id 6553140D403E;
+ Mon,  7 Feb 2022 12:13:12 +0000 (UTC)
+From: Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>
+To: QEMU Developers <qemu-devel@nongnu.org>, qemu-arm <qemu-arm@nongnu.org>,
+ Peter Maydell <peter.maydell@linaro.org>
+Subject: target/arm: cp15.dacr migration
+Message-ID: <662aca02-da99-524f-d9df-cd61427ca520@ispras.ru>
+Date: Mon, 7 Feb 2022 15:13:12 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=nsaenzju@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=nsaenzju@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=83.149.199.84;
+ envelope-from=pavel.dovgalyuk@ispras.ru; helo=mail.ispras.ru
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -100,48 +51,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, qemu-block@nongnu.org, mtosatti@redhat.com,
- qemu-devel@nongnu.org, hreitz@redhat.com, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Stefan, thanks for the review. I took note of your comments.
+I recently encountered a problem with cp15.dacr register.
+It has _s and _ns versions. During the migration only dacr_ns is 
+saved/loaded.
+But both of the values are used in get_phys_addr_v5 and get_phys_addr_v6 
+functions. Therefore VM behavior becomes incorrect after loading the 
+vmstate.
 
-On Thu, 2022-02-03 at 10:53 +0000, Stefan Hajnoczi wrote:
-> > Some background on my workload: I'm using IDE emulation, the guest is an
-> > old RTOS that doesn't support virtio, using 'aio=native' isn't possible
-> > either (unaligned IO accesses).
-> 
-> I thought QEMU's block layer creates bounce buffers for unaligned
-> accesses, handling both memory buffer alignment and LBA alignment
-> necessary for aio=native,cache=none?
+I found that kvm_to_cpreg_id is responsible for disabling dacr_s 
+migration, because it always selects ns variant.
 
-See block/file-posix.c:raw_co_prw() {
+I used the following changes to solve the problem, but I'm not sure that 
+these changes do not break anything in KVM.
 
-    /*
-     * When using O_DIRECT, the request must be aligned to be able to use
-     * either libaio or io_uring interface. If not fail back to regular thread
-     * pool read/write code which emulates this for us if we set
-     * QEMU_AIO_MISALIGNED.
-     */
-    if (s->needs_alignment && !bdrv_qiov_is_aligned(bs, qiov))
-	type |= QEMU_AIO_MISALIGNED;
-    else if (s->use_linux_io_uring)
-        return luring_co_submit(...);
-    else if (s->use_linux_aio)
-        return laio_co_submit(...);
+Can anyone give me an advice about that?
 
-    return raw_thread_pool_submit(..., handle_aiocb_rw, ...);
-}
 
-bdrv_qiov_is_aligned() returns 'false' on my use-case.
+diff --git a/target/arm/cpu.h b/target/arm/cpu.h
+index c6a4d50e82..d3ffef3640 100644
+--- a/target/arm/cpu.h
++++ b/target/arm/cpu.h
+@@ -2510,11 +2510,6 @@ static inline uint32_t kvm_to_cpreg_id(uint64_t 
+kvmid)
+          if ((kvmid & CP_REG_SIZE_MASK) == CP_REG_SIZE_U64) {
+              cpregid |= (1 << 15);
+          }
+-
+-        /* KVM is always non-secure so add the NS flag on AArch32 register
+-         * entries.
+-         */
+-         cpregid |= 1 << CP_REG_NS_SHIFT;
+      }
+      return cpregid;
+  }
 
-I believe what you're referring to happens in handle_aiocb_rw(), but it's too
-late then.
 
-Thanks,
-
--- 
-Nicolás Sáenz
-
+--
+Pavel Dovgalyuk
 
