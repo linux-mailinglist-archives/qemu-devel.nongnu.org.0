@@ -2,76 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F4B14AC7E8
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Feb 2022 18:49:43 +0100 (CET)
-Received: from localhost ([::1]:57414 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 131284AC802
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Feb 2022 18:55:12 +0100 (CET)
+Received: from localhost ([::1]:37640 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nH88z-0004ql-Ir
-	for lists+qemu-devel@lfdr.de; Mon, 07 Feb 2022 12:49:41 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:35154)
+	id 1nH8EJ-0002c9-57
+	for lists+qemu-devel@lfdr.de; Mon, 07 Feb 2022 12:55:11 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:36314)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nH7Xw-0008EN-4k
- for qemu-devel@nongnu.org; Mon, 07 Feb 2022 12:11:24 -0500
-Received: from [2a00:1450:4864:20::336] (port=39913
- helo=mail-wm1-x336.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nH7Xu-0003hS-2E
- for qemu-devel@nongnu.org; Mon, 07 Feb 2022 12:11:23 -0500
-Received: by mail-wm1-x336.google.com with SMTP id
- o1-20020a1c4d01000000b0034d95625e1fso14776128wmh.4
- for <qemu-devel@nongnu.org>; Mon, 07 Feb 2022 09:11:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=IYBjSkPqiF1Q7aroSmlVM5LkIt2KNzS/cz62frb4mK4=;
- b=Mamss0LO8TnR91E1sfSb0j4AdQZ2KWMaBb+LRt8UpMKsDjeHjbxhOSGVpqDJoRqNKZ
- QqPPmE8E2b2wVE/x6W2VjWyFr1KfCdyn8zuRZEOUm/NV8fawdA4iyp1z2Bu72dNi6ipp
- yukQApR8HydO6O2I0L7qsNuwI5JedSdhnA/KmUkZ6DWceDCBGCXlynhwCjc6uuxUrHlV
- ISNBXskhoRMCoj1Qw7EOGLZcf4kM5GwOCwvDz4Tce3J4BoGKF3dTZ1whim5M4OsQXf4V
- dNqF1g0YLpqIIkOYqabgAyV0r6SPlzvi4yI6kfVHUtc8kFDSjskfUwkbiu0snfHFjJkF
- 6IvQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=IYBjSkPqiF1Q7aroSmlVM5LkIt2KNzS/cz62frb4mK4=;
- b=DCbNZtaEB+DWiOocBjcNjeWJtMMkdRiT3i6hy5Erh7YsM2nYz72IdcAooff67j06Bn
- 60Lx53pELNHPum4dbnIo/yWZxt2X/27Hkr6g7gjSr5DXuI7/yXY4URPa188sVSa9fdMs
- jBEWTPN4XGk4ImYQpXIc68zlH6WyDTJMF0KgDnJE+MzxK97vuQboiPEVgirPeOGipxsQ
- 8692JKkAFOkqpg6bsproX/2f3IIF4vqNDrcn0piVFkeO+9oQTSPNeUzZxmVgGVWUqbLq
- Uk7Ar88Tge0X2/XD8fbIulEnWAb4HaXEFW9sXTdAJdoHssLvW3fcT937y8FrUP7GK7jF
- mZtA==
-X-Gm-Message-State: AOAM533rQtnrhGE01/rbmdfvYhW3V6DwOcCndxARnwAjM27DO63cqA8g
- f3XGIw5CLgE5kmIlJO2hDq8+xM2KWME4R8mEmslcDA==
-X-Google-Smtp-Source: ABdhPJwG3ozAcGcz6p8MgWq64qv+wz5Zx88WLQR6dI8+yyQgdFs9T1lsiUjKUqIQNt0ARsQdyBXBtQglQBufK4WSZy8=
-X-Received: by 2002:a05:600c:3552:: with SMTP id
- i18mr15440359wmq.21.1644253880510; 
- Mon, 07 Feb 2022 09:11:20 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1nH7bO-0003l0-B3
+ for qemu-devel@nongnu.org; Mon, 07 Feb 2022 12:15:00 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:45261)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1nH7bI-0004Bh-U0
+ for qemu-devel@nongnu.org; Mon, 07 Feb 2022 12:14:57 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1644254092;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=YyNGPDMGS9oQHw1NTjwhW/9ckOh0yg7JwyQovGpBIks=;
+ b=e9Eh49QG7kcUN6xY5DpKpELyBYpErjU4IQ7/kte8Kq1GKBRhWlc9KFdPq2eSJnd8w5U8C+
+ uoGMy4Ms6iBUiwoGaHpWGKcI4nsoeR3//Wkj3hL3SWOwrkIGWWNgd0CeX0QSZn6yF4SfaA
+ itFXPCyfBGrOkgHuHdCiHbXYA4ye5tE=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-218-zrJNCltvNEGYypbx4V34cw-1; Mon, 07 Feb 2022 12:14:48 -0500
+X-MC-Unique: zrJNCltvNEGYypbx4V34cw-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A091181440E;
+ Mon,  7 Feb 2022 17:14:44 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.193.223])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 80EE72ED9C;
+ Mon,  7 Feb 2022 17:14:39 +0000 (UTC)
+Date: Mon, 7 Feb 2022 18:14:37 +0100
+From: Kevin Wolf <kwolf@redhat.com>
+To: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+Subject: Re: [PATCH v6 09/33] block: introduce assert_bdrv_graph_writable
+Message-ID: <YgFTfbE4QyU6D/5F@redhat.com>
+References: <20220121170544.2049944-1-eesposit@redhat.com>
+ <20220121170544.2049944-10-eesposit@redhat.com>
 MIME-Version: 1.0
-References: <20220202122353.457084-1-alex.bennee@linaro.org>
-In-Reply-To: <20220202122353.457084-1-alex.bennee@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 7 Feb 2022 17:11:09 +0000
-Message-ID: <CAFEAcA93k6k7LaX0jk=j5PXZRs769OhRKuObv5VTsMSb0=X0MA@mail.gmail.com>
-Subject: Re: [RFC PATCH] arm: force flag recalculation when messing with DAIF
-To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::336
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::336;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x336.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+In-Reply-To: <20220121170544.2049944-10-eesposit@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -84,28 +77,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Andrew Jones <drjones@redhat.com>, qemu-arm@nongnu.org,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+Cc: Fam Zheng <fam@euphon.net>, qemu-devel@nongnu.org,
+ "Denis V. Lunev" <den@openvz.org>, Eric Blake <eblake@redhat.com>,
+ qemu-block@nongnu.org, Juan Quintela <quintela@redhat.com>,
+ Daniel Henrique Barboza <danielhb413@gmail.com>,
+ Markus Armbruster <armbru@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, Greg Kurz <groug@kaod.org>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>,
+ Stefan Hajnoczi <stefanha@redhat.com>, John Snow <jsnow@redhat.com>,
+ David Gibson <david@gibson.dropbear.id.au>,
+ Eduardo Habkost <eduardo@habkost.net>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>,
+ Hanna Reitz <hreitz@redhat.com>, qemu-ppc@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 2 Feb 2022 at 12:24, Alex Benn=C3=A9e <alex.bennee@linaro.org> wrot=
-e:
->
-> The recently introduced debug tests in kvm-unit-tests exposed an error
-> in our handling of singlestep cause by stale hflags. This is caught by
-> --enable-debug-tcg when running the tests.
->
-> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-> Cc: Richard Henderson <richard.henderson@linaro.org>
-> Cc: Andrew Jones <drjones@redhat.com>
-> ---
->  target/arm/helper-a64.c | 2 ++
->  1 file changed, 2 insertions(+)
+Am 21.01.2022 um 18:05 hat Emanuele Giuseppe Esposito geschrieben:
+> We want to be sure that the functions that write the child and
+> parent list of a bs are under BQL and drain.
+> 
+> BQL prevents from concurrent writings from the GS API, while
+> drains protect from I/O.
+> 
+> TODO: drains are missing in some functions using this assert.
+> Therefore a proper assertion will fail. Because adding drains
+> requires additional discussions, they will be added in future
+> series.
+> 
+> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 
+> diff --git a/block/io.c b/block/io.c
+> index cb095deeec..3be08cad29 100644
+> --- a/block/io.c
+> +++ b/block/io.c
+> @@ -734,6 +734,17 @@ void bdrv_drain_all(void)
+>      bdrv_drain_all_end();
+>  }
+>  
+> +void assert_bdrv_graph_writable(BlockDriverState *bs)
+> +{
+> +    /*
+> +     * TODO: this function is incomplete. Because the users of this
+> +     * assert lack the necessary drains, check only for BQL.
+> +     * Once the necessary drains are added,
+> +     * assert also for qatomic_read(&bs->quiesce_counter) > 0
+> +     */
+> +    assert(qemu_in_main_thread());
+> +}
 
+This looks like a trivial function that could easily be static inline.
 
-Applied to target-arm.next, thanks.
+Kevin
 
--- PMM
 
