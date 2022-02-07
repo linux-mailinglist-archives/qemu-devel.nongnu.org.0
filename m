@@ -2,84 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6EE3E4AB7F0
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Feb 2022 10:49:12 +0100 (CET)
-Received: from localhost ([::1]:51652 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A06E4AB7F7
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Feb 2022 10:53:20 +0100 (CET)
+Received: from localhost ([::1]:59866 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nH0dz-0008LU-HN
-	for lists+qemu-devel@lfdr.de; Mon, 07 Feb 2022 04:49:11 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:59824)
+	id 1nH0hz-0005k9-Ht
+	for lists+qemu-devel@lfdr.de; Mon, 07 Feb 2022 04:53:19 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:59610)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nGzON-0006Pe-68
- for qemu-devel@nongnu.org; Mon, 07 Feb 2022 03:29:11 -0500
-Received: from [2a00:1450:4864:20::436] (port=39458
- helo=mail-wr1-x436.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nGzOF-0007Cw-GF
- for qemu-devel@nongnu.org; Mon, 07 Feb 2022 03:28:53 -0500
-Received: by mail-wr1-x436.google.com with SMTP id v19so8368180wrv.6
- for <qemu-devel@nongnu.org>; Mon, 07 Feb 2022 00:28:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=+/GMCFoh/637sxfOZ8qqqNowze1Ji9NqOJcB77QAJgM=;
- b=RsrEDOiKYXKobuWFpvg/Z4O33ANrlCJsA2btsYcXFloAjy5xK9iuLp6wBWatYvLH9E
- uu7/gh4comicu58G7kW/eRmnHR8jKVnKxiHRBRUE1uX51NQ7EplLWQD9FrePQT1EiPaH
- NZzxGY1ZjQDso1aMfeHCRwRsoR7VLBgTzkwev6MXwmMntx+vmRh9KOTndGeHXXwOzIuE
- I23mWG4nOYnx4FMFoJ5vrBrKbc57FPuwRFWgbVuNNonqv8UvyEW9sZ7DWDexlX3nnlC9
- yqwAqg6kXEze4bX188b4lNGg6K1JXzzcCpt3tdbyBHYSvptO8RV4D0AU0Mh3t0MOhYN0
- LzBQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=+/GMCFoh/637sxfOZ8qqqNowze1Ji9NqOJcB77QAJgM=;
- b=gsU/Tmixjzp7VZ6GI6XjVs+c4B8URnYQEy2/PipiBSEqswcEg69Vv0SJZa7q/Ly+3K
- tCEJpfhzDBjB8IJSzJvsRf93y6EIDrbo4j8CKgysZaf0JIDoUvd+K34k2L6QOpip+Xxx
- 5RmhBWrDusG86v1i2Qso5g5mAR7P02EkcbmOLuVbDtNprIaP5h5UY2KkWB1d+INo0HLR
- Qxkc4OBfTzhfRSgrP7dV2x0kWmdiM9SIGRViuRg6EURedQZ3diGsLRG7ovJwlO9n6y7Y
- 6iIdIDAtRklN5OH+2SVB7nxLlfrzl1yods+vi0F0AThza66+dnIgYu6Y5nHVL+yrGmZm
- vbSA==
-X-Gm-Message-State: AOAM5327MO6kt2OEuG02tfOpWHUOVVanOSiHEW+t+bvhvFYhPtap1a+p
- Pkhvt/IcE94fV6jGzxHYoYl9uH7KTDY=
-X-Google-Smtp-Source: ABdhPJyaTHaV9Mo4NjS3mMDi6GSmB42kTM2WjOQJdFILbTdAcVBTLoBCLZPhE7U2qVp9WXMeJ3upYw==
-X-Received: by 2002:adf:a4da:: with SMTP id h26mr9231228wrb.179.1644222515131; 
- Mon, 07 Feb 2022 00:28:35 -0800 (PST)
-Received: from localhost.localdomain (154.red-83-50-83.dynamicip.rima-tde.net.
- [83.50.83.154])
- by smtp.gmail.com with ESMTPSA id o3sm996595wrc.41.2022.02.07.00.28.34
- (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Mon, 07 Feb 2022 00:28:34 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1nGzNY-00065P-W6
+ for qemu-devel@nongnu.org; Mon, 07 Feb 2022 03:28:10 -0500
+Received: from mout.kundenserver.de ([212.227.17.13]:59409)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1nGzNV-00079k-FJ
+ for qemu-devel@nongnu.org; Mon, 07 Feb 2022 03:28:08 -0500
+Received: from quad ([82.142.19.58]) by mrelayeu.kundenserver.de (mreue109
+ [212.227.15.183]) with ESMTPSA (Nemesis) id 1MPooP-1ndjJx3yMd-00Ms6U; Mon, 07
+ Feb 2022 09:28:03 +0100
+From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Thomas Huth <thuth@redhat.com>
-Subject: [PATCH v2 8/9] linux-user: Add missing "qemu/timer.h" include
+Subject: [PULL 4/8] linux-user: rt_sigprocmask, check read perms first
 Date: Mon,  7 Feb 2022 09:27:55 +0100
-Message-Id: <20220207082756.82600-9-f4bug@amsat.org>
+Message-Id: <20220207082759.180431-5-laurent@vivier.eu>
 X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220207082756.82600-1-f4bug@amsat.org>
-References: <20220207082756.82600-1-f4bug@amsat.org>
+In-Reply-To: <20220207082759.180431-1-laurent@vivier.eu>
+References: <20220207082759.180431-1-laurent@vivier.eu>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::436
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::436;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x436.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+X-Provags-ID: V03:K1:2cTLxPYCwaWO7QuCVqzcudZI6dQKrGuRyp9Tg7YVoNq1qv+DT5O
+ UgmFUtRCodcmZWzVRfBFuplrSbGBl0W01ntw10Odk0yDXADcYRZfLQgf2K6TmIEIyH/N/gB
+ duQjJprrJ/A8D6mI1slcelIvJbZPSFXm186BC5CXdu3yPeJEf3BQyVyUHl6zWFATvL382ov
+ GpzAYrvcC3grcXUUSfPxA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:Zae7VvQajlQ=:bDAqzuOGZ4E3QmSRZPwkfE
+ LTDhLsNAYmxqh5uy5E6pXvyNohIGbnNe7cnz7utTOjT+kQGvg9ewKzhtQmkysZ0R7Jm2/j78u
+ Rp5oBEf6RoGIiq+nwWi1iFjAJJCVilUr3erIlHuPCLiJvJoRuOi624m/425WwkfMo2sbXUPIh
+ 8dAGetO3t2pb0bTryQ2qCQAytC0MRXNR8KpVAG1E98vtRCFRTR8RocwXSR+wAY3nauEn1cVJX
+ 90lYj395wBNxde6wAFBaAvfuT4VVYv10mci3+UqZq0PH4dxpBV2QV0ppVwE4jpMHx4UjtHwQY
+ /yBfPNoSV+tc0z23SLrNBP0y1F5lKj+LFyQSq8XILr0IRxjFNjOG2g8slykC5yzz252ujcpbo
+ 8GBU09Of4VKOF+eVmZHaDrkwsBjIgy3PMQ7ocCCfvHN/I1lyU8EbEX6TjMEbI1+3X6ryOrEiq
+ ZUJASiEM6X0viJ50f0LtGoazx+Mn9wn27t7SjrIfrW5WKN6k1Rbt9HeA9Avl2wbIOvkyMfX7G
+ aBH+0uoFM+yhjZ7CZOa4OBgniGUAL+MkI8N1/IpopeOB75whOWzPS7tyY0W3BeZ/3SwlaNGqj
+ w+R8S4pyj1L15bz4dKjVeBp9EqVMlwl4VPqiX4z9QlUAxnwrnyAIUX/E3Gz0K4xUMSVxKyXFt
+ FNgbOvspJaiJ48F1Wpg/HeMMlAwIZFMNq+zQ0p833a3nmHEGDa1H7INFw3WzPXJf3VI0=
+Received-SPF: none client-ip=212.227.17.13; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_MSPIKE_H5=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_NONE=0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -92,45 +65,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Patrick Venture <venture@google.com>, Shu-Chun Weng <scw@google.com>,
+ Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-From:  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= via <qemu-devel@nongnu.org>
 
-"qemu/timer.h" declares cpu_get_host_ticks().
+From: Shu-Chun Weng <scw@google.com>
 
-Reviewed-by: Thomas Huth <thuth@redhat.com>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Linux kernel does it this way (checks read permission before validating `how`)
+and the latest version of ABSL's `AddressIsReadable()` depends on this
+behavior.
+
+c.f.  https://github.com/torvalds/linux/blob/9539ba4308ad5bdca6cb41c7b73cbb9f796dcdd7/kernel/signal.c#L3147
+Reviewed-by: Patrick Venture <venture@google.com>
+Signed-off-by: Shu-Chun Weng <scw@google.com>
+Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+Signed-off-by: Patrick Venture <venture@google.com>
+Message-Id: <20220126212559.1936290-2-venture@google.com>
+Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- linux-user/i386/cpu_loop.c | 1 +
- linux-user/ppc/cpu_loop.c  | 1 +
- 2 files changed, 2 insertions(+)
+ linux-user/syscall.c | 12 +++++++-----
+ 1 file changed, 7 insertions(+), 5 deletions(-)
 
-diff --git a/linux-user/i386/cpu_loop.c b/linux-user/i386/cpu_loop.c
-index 29dfd7cd0c..90bffc1956 100644
---- a/linux-user/i386/cpu_loop.c
-+++ b/linux-user/i386/cpu_loop.c
-@@ -20,6 +20,7 @@
- #include "qemu/osdep.h"
- #include "qemu-common.h"
- #include "qemu.h"
-+#include "qemu/timer.h"
- #include "user-internals.h"
- #include "cpu_loop-common.h"
- #include "signal-common.h"
-diff --git a/linux-user/ppc/cpu_loop.c b/linux-user/ppc/cpu_loop.c
-index 46e6ffd6d3..ffe39851ed 100644
---- a/linux-user/ppc/cpu_loop.c
-+++ b/linux-user/ppc/cpu_loop.c
-@@ -20,6 +20,7 @@
- #include "qemu/osdep.h"
- #include "qemu-common.h"
- #include "qemu.h"
-+#include "qemu/timer.h"
- #include "user-internals.h"
- #include "cpu_loop-common.h"
- #include "signal-common.h"
+diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+index 2ca0f086dbfc..9f8b497fa353 100644
+--- a/linux-user/syscall.c
++++ b/linux-user/syscall.c
+@@ -9478,6 +9478,13 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
+             }
+ 
+             if (arg2) {
++                p = lock_user(VERIFY_READ, arg2, sizeof(target_sigset_t), 1);
++                if (!p) {
++                    return -TARGET_EFAULT;
++                }
++                target_to_host_sigset(&set, p);
++                unlock_user(p, arg2, 0);
++                set_ptr = &set;
+                 switch(how) {
+                 case TARGET_SIG_BLOCK:
+                     how = SIG_BLOCK;
+@@ -9491,11 +9498,6 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
+                 default:
+                     return -TARGET_EINVAL;
+                 }
+-                if (!(p = lock_user(VERIFY_READ, arg2, sizeof(target_sigset_t), 1)))
+-                    return -TARGET_EFAULT;
+-                target_to_host_sigset(&set, p);
+-                unlock_user(p, arg2, 0);
+-                set_ptr = &set;
+             } else {
+                 how = 0;
+                 set_ptr = NULL;
 -- 
 2.34.1
 
