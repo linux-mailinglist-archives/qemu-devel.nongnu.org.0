@@ -2,76 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 146C64AC167
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Feb 2022 15:41:09 +0100 (CET)
-Received: from localhost ([::1]:40902 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ACC304ABEC3
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Feb 2022 14:03:08 +0100 (CET)
+Received: from localhost ([::1]:47718 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nH5CV-0004eu-FU
-	for lists+qemu-devel@lfdr.de; Mon, 07 Feb 2022 09:41:07 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:49080)
+	id 1nH3fe-0007LM-8a
+	for lists+qemu-devel@lfdr.de; Mon, 07 Feb 2022 08:03:07 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:33778)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <fabianfranz.oss@gmail.com>)
- id 1nH0iY-000125-CI
- for qemu-devel@nongnu.org; Mon, 07 Feb 2022 04:53:54 -0500
-Received: from [2a00:1450:4864:20::630] (port=38848
- helo=mail-ej1-x630.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <fabianfranz.oss@gmail.com>)
- id 1nH0iV-00027g-8g
- for qemu-devel@nongnu.org; Mon, 07 Feb 2022 04:53:53 -0500
-Received: by mail-ej1-x630.google.com with SMTP id k25so39993503ejp.5
- for <qemu-devel@nongnu.org>; Mon, 07 Feb 2022 01:53:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=rY2WgiLHzEGTmDGobZzTbVJ2rds49SNAZkMlG0m4osI=;
- b=Qxhl9VUJ8h6rXxX0jd8bDHc5XQVI0MhMk7xyd4tkhCRnNsw9fQUyZPhGvnrsuJglcE
- ExiyLwzkezRGG4jmKp+IxTg/aX8KT8KBDRcYYV4E/7GdthEDArH4JKc6jk15Fhy6oBpa
- 9aYdK1lRwX6YE0e9jrYnMGPcvBmbd78Ek77ZG2+IzmcNxPl4iN9WTyJT7rNh1kBYGDYR
- beq8C+YnONiD1BGPGNxdtB8TmNgrdQroik29MlwVmtzyZ+8GP/hRz7ZZQCTGmDWQIjxp
- +8wi4zqOBXBD/sYmQb3y3leBvJXO4Tx+YOFu/8/rFembtmIHr8+fgVxKSzilJMZSCh86
- 5u8Q==
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1nH3L0-0003Kk-Uh
+ for qemu-devel@nongnu.org; Mon, 07 Feb 2022 07:41:47 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:22169)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1nH3Kl-0004E1-Ig
+ for qemu-devel@nongnu.org; Mon, 07 Feb 2022 07:41:39 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1644237626;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=KwgrAQ5FpGuSjeXA/lEtMv/kO0XyR6/mmzqAEZE/Qks=;
+ b=c+uR5lRxaloYPSttMPNCI5wPpLGwahUDxhXhhl3tIPVmJb5reqvHxDs6wrxVl+h0OykcR/
+ E+f2qq5OOG6ojqy2tH3z492cLufn4aKK52uVhTPOxObDSXCy9pn1qSQpVnMtofOVV8JWk2
+ nlonSM+aJLcKQmWG8KAKal6fLQsVAdU=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-551-9asA23IkPmu1ROsg57H4QQ-1; Mon, 07 Feb 2022 07:40:25 -0500
+X-MC-Unique: 9asA23IkPmu1ROsg57H4QQ-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ h82-20020a1c2155000000b003552c13626cso7808991wmh.3
+ for <qemu-devel@nongnu.org>; Mon, 07 Feb 2022 04:40:25 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=rY2WgiLHzEGTmDGobZzTbVJ2rds49SNAZkMlG0m4osI=;
- b=Wsq9oly0K1OeoDTJrnMy+jML/KOIzFCFAtqBR22cBfycSY64yUqmZR9zTKvDqom+Pq
- RPRvbC0SJR5w5nqsL6toUoXpzfgRxniZijkF8uCNropSYf+0LsdQN/qH+2SdxyM7/7u3
- xdYGCiL8aESFV/G5NbUNjgxjXc750Go53FueAKRlAlBmNfJg2cd7K7wOzOkXTZqtVnxc
- J2Y1hkKrkhoLsN9vlTLTMMRz9D0NKj8VgDe/ydrvduLvefDvDm5ZYXO+wnsrO0C7mtJL
- 6lj1SixjXa35vlPsNzs9ERiTgw7hGLo22kqPkZ83LXF0KDCLKOczABhFG0WtJSqLEU8t
- ekqA==
-X-Gm-Message-State: AOAM5325QGSNdx5N1H9j7wr2JQxkeMGk32+QahKT6MI5C6ylqyTp68cE
- diMxa9SGx/mRlAu6lIDY/G3QJM42YMs/xwk1nQ8=
-X-Google-Smtp-Source: ABdhPJxWphPsCCdRJy8h1z4KxkzkwCxjqG7px8IYHa96XWIrPTu/n8ruiqRJUYG8fD5i1X6KHSOC95k06QR5p1YePxw=
-X-Received: by 2002:a17:907:1b05:: with SMTP id
- mp5mr9232913ejc.527.1644227628101; 
- Mon, 07 Feb 2022 01:53:48 -0800 (PST)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=KwgrAQ5FpGuSjeXA/lEtMv/kO0XyR6/mmzqAEZE/Qks=;
+ b=JhtTUbgEk06A7hWoDFPJFb96735QDEaMbmdqKULSu/3XcinzQ7+NN3+etzewG3vRPW
+ GcLDh29JO8eCzw7Bq0uOtZBTinDzq4QdKIM2VQ5M2pkL6ikX4QUqrfQ/hwxDqkS2MuO7
+ j+GHAJSZATKngUZCMU+fhthjdspGz5p2kY9sw9o3X5ERUkZ1z+1ol2YnCtW7xY5kgPh5
+ MhbuJxIwuhDUvAIZtZcBt/47AvIpOKS95p1+bAYa1A89I/+PV0sysRx/WB6gNnOebmME
+ vuQGNxib0bi9fZm94jmTrO8DvaZiCWLhxndHl0V2ikMt05kMX8fYSpZ+a1chqGBesM8J
+ vL3A==
+X-Gm-Message-State: AOAM532X6uPxGlVCp8zGl48fgx74kfgi62SXXP8Ne4QIpcBzGm5mrhgD
+ JFdzxeLe4UkF1/mxET7eVSKBLfVEMqs6hyaD/E3SYrsrxJQnSm8wH7ZjFDWGudNKiAUXUx55Tx7
+ NfOdcQRjm/hDrFgA=
+X-Received: by 2002:a5d:6c61:: with SMTP id r1mr10223573wrz.414.1644237624157; 
+ Mon, 07 Feb 2022 04:40:24 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJy+wFG8K8+5Cs7kmNSyybWdDBEEEX3Gl8Vc7J4S2+iIzzaU4YmhRmT5EPVPqVbbJQ2F5FvgUQ==
+X-Received: by 2002:a5d:6c61:: with SMTP id r1mr10223558wrz.414.1644237623935; 
+ Mon, 07 Feb 2022 04:40:23 -0800 (PST)
+Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
+ [82.30.61.225])
+ by smtp.gmail.com with ESMTPSA id e10sm10998367wrq.53.2022.02.07.04.40.23
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 07 Feb 2022 04:40:23 -0800 (PST)
+Date: Mon, 7 Feb 2022 12:40:21 +0000
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Vivek Goyal <vgoyal@redhat.com>
+Subject: Re: [PATCH v5 9/9] virtiofsd: Add an option to enable/disable
+ security label
+Message-ID: <YgETNXv8AnnuLQR/@work-vm>
+References: <20220202193935.268777-1-vgoyal@redhat.com>
+ <20220202193935.268777-10-vgoyal@redhat.com>
 MIME-Version: 1.0
-References: <20220206200719.74464-1-wwcohen@gmail.com>
- <20220206200719.74464-5-wwcohen@gmail.com>
-In-Reply-To: <20220206200719.74464-5-wwcohen@gmail.com>
-From: Fabian Franz <fabianfranz.oss@gmail.com>
-Date: Mon, 7 Feb 2022 10:53:37 +0100
-Message-ID: <CAP+dFMJPB5RrYd3DjsX1YXeuw-grL+iW6yV5jmE_yiTRU-c5Rg@mail.gmail.com>
-Subject: Re: [PATCH v4 04/11] 9p: darwin: Handle struct dirent differences
-To: Will Cohen <wwcohen@gmail.com>
-Content-Type: multipart/alternative; boundary="000000000000b3f4fd05d76a930b"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::630
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::630;
- envelope-from=fabianfranz.oss@gmail.com; helo=mail-ej1-x630.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+In-Reply-To: <20220202193935.268777-10-vgoyal@redhat.com>
+User-Agent: Mutt/2.1.5 (2021-12-30)
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01,
+ T_SPF_HELO_TEMPERROR=0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Mon, 07 Feb 2022 09:22:53 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,427 +98,117 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Christian Schoenebeck <qemu_oss@crudebyte.com>, Greg Kurz <groug@kaod.org>,
- qemu-devel@nongnu.org, Keno Fischer <keno@juliacomputing.com>,
- Michael Roitzsch <reactorcontrol@icloud.com>,
- Paolo Bonzini <pbonzini@redhat.com>, hi@alyssa.is
+Cc: virtio-fs@redhat.com, mszeredi@redhat.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000b3f4fd05d76a930b
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+* Vivek Goyal (vgoyal@redhat.com) wrote:
+> Provide an option "-o security_label/no_security_label" to enable/disable
+> security label functionality. By default these are turned off.
+> 
+> If enabled, server will indicate to client that it is capable of handling
+> one security label during file creation. Typically this is expected to
+> be a SELinux label. File server will set this label on the file. It will
+> try to set it atomically wherever possible. But its not possible in
+> all the cases.
+> 
+> Signed-off-by: Vivek Goyal <vgoyal@redhat.com>
+> ---
+>  docs/tools/virtiofsd.rst         |  7 +++++++
+>  tools/virtiofsd/helper.c         |  1 +
+>  tools/virtiofsd/passthrough_ll.c | 15 +++++++++++++++
+>  3 files changed, 23 insertions(+)
+> 
+> diff --git a/docs/tools/virtiofsd.rst b/docs/tools/virtiofsd.rst
+> index 07ac0be551..a2c005f4a0 100644
+> --- a/docs/tools/virtiofsd.rst
+> +++ b/docs/tools/virtiofsd.rst
+> @@ -104,6 +104,13 @@ Options
+>    * posix_acl|no_posix_acl -
+>      Enable/disable posix acl support.  Posix ACLs are disabled by default.
+>  
+> +  * security_label|no_security_label -
+> +    Enable/disable security label support. Security labels are disabled by
+> +    default. This will allow client to send a MAC label of file during
+                                ^ the                        ^ a
+> +    file creation. Typically this is expected to be SELinux security
+                                                      ^ an
 
-Comments inline:
-
-diff --git a/hw/9pfs/9p-local.c b/hw/9pfs/9p-local.c
-> index 1a5e3eed73..7137a28109 100644
-> --- a/hw/9pfs/9p-local.c
-> +++ b/hw/9pfs/9p-local.c
-> @@ -559,6 +559,15 @@ static struct dirent *local_readdir(FsContext *ctx,
-> V9fsFidOpenState *fs)
->
->  again:
->      entry =3D readdir(fs->dir.stream);
-> +#ifdef CONFIG_DARWIN
-> +    int td;
-> +    td =3D telldir(fs->dir.stream);
-
-
-Maybe call this =E2=80=9Eoff=E2=80=9C?
-
->
-> +    /* If telldir fails, fail the entire readdir call */
-> +    if (td < 0) {
-> +        return NULL;
-> +    }
-> +    entry->d_seekoff =3D td;
-> +#endif
->      if (!entry) {
->          return NULL;
+> +    label. Server will try to set that label on newly created file
+              ^The server
+> +    atomically wherever possible.
+> +
+>  .. option:: --socket-path=PATH
+>  
+>    Listen on vhost-user UNIX domain socket at PATH.
+> diff --git a/tools/virtiofsd/helper.c b/tools/virtiofsd/helper.c
+> index a8295d975a..e226fc590f 100644
+> --- a/tools/virtiofsd/helper.c
+> +++ b/tools/virtiofsd/helper.c
+> @@ -187,6 +187,7 @@ void fuse_cmdline_help(void)
+>             "                               default: no_allow_direct_io\n"
+>             "    -o announce_submounts      Announce sub-mount points to the guest\n"
+>             "    -o posix_acl/no_posix_acl  Enable/Disable posix_acl. (default: disabled)\n"
+> +           "    -o security_label/no_security_label  Enable/Disable security label. (default: disabled)\n"
+>             );
+>  }
+>  
+> diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrough_ll.c
+> index 43c9b6dbe5..fe8f3ccbb6 100644
+> --- a/tools/virtiofsd/passthrough_ll.c
+> +++ b/tools/virtiofsd/passthrough_ll.c
+> @@ -181,6 +181,7 @@ struct lo_data {
+>      int user_posix_acl, posix_acl;
+>      /* Keeps track if /proc/<pid>/attr/fscreate should be used or not */
+>      bool use_fscreate;
+> +    int user_security_label;
+>  };
+>  
+>  static const struct fuse_opt lo_opts[] = {
+> @@ -215,6 +216,8 @@ static const struct fuse_opt lo_opts[] = {
+>      { "no_killpriv_v2", offsetof(struct lo_data, user_killpriv_v2), 0 },
+>      { "posix_acl", offsetof(struct lo_data, user_posix_acl), 1 },
+>      { "no_posix_acl", offsetof(struct lo_data, user_posix_acl), 0 },
+> +    { "security_label", offsetof(struct lo_data, user_security_label), 1 },
+> +    { "no_security_label", offsetof(struct lo_data, user_security_label), 0 },
+>      FUSE_OPT_END
+>  };
+>  static bool use_syslog = false;
+> @@ -771,6 +774,17 @@ static void lo_init(void *userdata, struct fuse_conn_info *conn)
+>          fuse_log(FUSE_LOG_DEBUG, "lo_init: disabling posix_acl\n");
+>          conn->want &= ~FUSE_CAP_POSIX_ACL;
 >      }
-
-
-This needs to be before the #ifdef!
-
-
-> diff --git a/hw/9pfs/9p-proxy.c b/hw/9pfs/9p-proxy.c
-> index b1664080d8..8b4b5cf7dc 100644
-> --- a/hw/9pfs/9p-proxy.c
-> +++ b/hw/9pfs/9p-proxy.c
-> @@ -706,7 +706,21 @@ static off_t proxy_telldir(FsContext *ctx,
-> V9fsFidOpenState *fs)
->
->  static struct dirent *proxy_readdir(FsContext *ctx, V9fsFidOpenState *fs=
-)
->  {
-> -    return readdir(fs->dir.stream);
-> +    struct dirent *entry;
-> +    entry =3D readdir(fs->dir.stream);
-> +#ifdef CONFIG_DARWIN
-> +    if (!entry) {
-> +        return NULL;
-> +    }
-> +    int td;
-> +    td =3D telldir(fs->dir.stream);
-> +    /* If telldir fails, fail the entire readdir call */
-> +    if (td < 0) {
-> +        return NULL;
-> +    }
-> +    entry->d_seekoff =3D td;
-> +#endif
-> +    return entry;
->  }
->
->  static void proxy_seekdir(FsContext *ctx, V9fsFidOpenState *fs, off_t of=
-f)
-> diff --git a/hw/9pfs/9p-synth.c b/hw/9pfs/9p-synth.c
-> index 4a4a776d06..e264a03eef 100644
-> --- a/hw/9pfs/9p-synth.c
-> +++ b/hw/9pfs/9p-synth.c
-> @@ -222,7 +222,11 @@ static void synth_direntry(V9fsSynthNode *node,
->  {
->      strcpy(entry->d_name, node->name);
->      entry->d_ino =3D node->attr->inode;
-> +#ifdef CONFIG_DARWIN
-> +    entry->d_seekoff =3D off + 1;
-> +#else
->      entry->d_off =3D off + 1;
-> +#endif
->  }
->
->  static struct dirent *synth_get_dentry(V9fsSynthNode *dir,
-> diff --git a/hw/9pfs/9p-util.h b/hw/9pfs/9p-util.h
-> index 546f46dc7d..accbec9987 100644
-> --- a/hw/9pfs/9p-util.h
-> +++ b/hw/9pfs/9p-util.h
-> @@ -79,3 +79,20 @@ ssize_t fremovexattrat_nofollow(int dirfd, const char
-> *filename,
->                                  const char *name);
->
->  #endif
 > +
-> +
-> +/**
-> + * Darwin has d_seekoff, which appears to function similarly to d_off.
-> + * However, it does not appear to be supported on all file systems,
-> + * so ensure it is manually injected earlier and call here when
-> + * needed.
-> + */
-> +
-> +inline off_t qemu_dirent_off(struct dirent *dent)
-> +{
-> +#ifdef CONFIG_DARWIN
-> +    return dent->d_seekoff;
-> +#else
-> +    return dent->d_off;
-> +#endif
-> +}
-
-
-Are we sure we want a helper for two times the same ifdef? Deferring to
-maintainers here however.
-
-diff --git a/hw/9pfs/9p.c b/hw/9pfs/9p.c
-> index 1563d7b7c6..cf694da354 100644
-> --- a/hw/9pfs/9p.c
-> +++ b/hw/9pfs/9p.c
-> @@ -27,6 +27,7 @@
->  #include "virtio-9p.h"
->  #include "fsdev/qemu-fsdev.h"
->  #include "9p-xattr.h"
-> +#include "9p-util.h"
->  #include "coth.h"
->  #include "trace.h"
->  #include "migration/blocker.h"
-> @@ -2281,7 +2282,11 @@ static int coroutine_fn
-> v9fs_do_readdir_with_stat(V9fsPDU *pdu,
->          count +=3D len;
->          v9fs_stat_free(&v9stat);
->          v9fs_path_free(&path);
-> -        saved_dir_pos =3D dent->d_off;
-> +        saved_dir_pos =3D qemu_dirent_off(dent);
-> +        if (saved_dir_pos < 0) {
-> +            err =3D saved_dir_pos;
-> +            break;
+> +    if (lo->user_security_label == 1) {
+> +        if (!(conn->capable & FUSE_CAP_SECURITY_CTX)) {
+> +            fuse_log(FUSE_LOG_ERR, "lo_init: Can not enable security label."
+> +                     " kernel does not support FUSE_SECURITY_CTX capability.\n");
 > +        }
 
+Do you need to exit in this case - or at least clear the flag?
 
-Do we still need this error-handling? I had removed it in my interdiff
-patch.
+Dave
 
->
->      }
->
->      v9fs_readdir_unlock(&fidp->fs.dir);
-> @@ -2420,6 +2425,7 @@ static int coroutine_fn v9fs_do_readdir(V9fsPDU
-> *pdu, V9fsFidState *fidp,
->      V9fsString name;
->      int len, err =3D 0;
->      int32_t count =3D 0;
-> +    off_t off;
->      struct dirent *dent;
->      struct stat *st;
->      struct V9fsDirEnt *entries =3D NULL;
-> @@ -2480,12 +2486,17 @@ static int coroutine_fn v9fs_do_readdir(V9fsPDU
-> *pdu, V9fsFidState *fidp,
->              qid.version =3D 0;
->          }
->
-> +        off =3D qemu_dirent_off(dent);
-> +        if (off < 0) {
-> +            err =3D off;
-> +            break;
-> +        }
+> +        conn->want |= FUSE_CAP_SECURITY_CTX;
+> +    } else {
+> +        fuse_log(FUSE_LOG_DEBUG, "lo_init: disabling security label\n");
+> +        conn->want &= ~FUSE_CAP_SECURITY_CTX;
+> +    }
+>  }
+>  
+>  static void lo_getattr(fuse_req_t req, fuse_ino_t ino,
+> @@ -4279,6 +4293,7 @@ int main(int argc, char *argv[])
+>          .proc_self_task = -1,
+>          .user_killpriv_v2 = -1,
+>          .user_posix_acl = -1,
+> +        .user_security_label = -1,
+>      };
+>      struct lo_map_elem *root_elem;
+>      struct lo_map_elem *reserve_elem;
+> -- 
+> 2.34.1
+> 
+-- 
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
-
-Same here - if this can never fail, why add the error handling?
-
-
->          v9fs_string_init(&name);
->          v9fs_string_sprintf(&name, "%s", dent->d_name);
->
->          /* 11 =3D 7 + 4 (7 =3D start offset, 4 =3D space for storing cou=
-nt) */
->          len =3D pdu_marshal(pdu, 11 + count, "Qqbs",
-> -                          &qid, dent->d_off,
-> +                          &qid, off,
->                            dent->d_type, &name);
->
->          v9fs_string_free(&name);
-> diff --git a/hw/9pfs/codir.c b/hw/9pfs/codir.c
-> index 032cce04c4..fac6759a64 100644
-> --- a/hw/9pfs/codir.c
-> +++ b/hw/9pfs/codir.c
-> @@ -167,7 +167,14 @@ static int do_readdir_many(V9fsPDU *pdu, V9fsFidStat=
-e
-> *fidp,
->          }
->
->          size +=3D len;
-> +        /* This conditional statement is identical in
-> +         * function to qemu_dirent_off, described in 9p-util.h,
-> +         * since that header cannot be included here. */
-> +#ifdef CONFIG_DARWIN
-> +        saved_dir_pos =3D dent->d_seekoff;
-> +#else
->          saved_dir_pos =3D dent->d_off;
-> +#endif
->      }
->
->      /* restore (last) saved position */
-> --
-> 2.32.0 (Apple Git-132)
->
->
-
---000000000000b3f4fd05d76a930b
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"auto">Comments inline:</div><div><br><div class=3D"gmail_quote"=
-><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1=
-px #ccc solid;padding-left:1ex" dir=3D"auto">
-diff --git a/hw/9pfs/9p-local.c b/hw/9pfs/9p-local.c<br>
-index 1a5e3eed73..7137a28109 100644<br>
---- a/hw/9pfs/9p-local.c<br>
-+++ b/hw/9pfs/9p-local.c<br>
-@@ -559,6 +559,15 @@ static struct dirent *local_readdir(FsContext *ctx, V9=
-fsFidOpenState *fs)<br>
-<br>
-=C2=A0again:<br>
-=C2=A0 =C2=A0 =C2=A0entry =3D readdir(fs-&gt;dir.stream);<br>
-+#ifdef CONFIG_DARWIN<br>
-+=C2=A0 =C2=A0 int td;<br>
-+=C2=A0 =C2=A0 td =3D telldir(fs-&gt;dir.stream);</blockquote><div dir=3D"a=
-uto"><br></div><div dir=3D"auto">Maybe call this =E2=80=9Eoff=E2=80=9C?</di=
-v><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:=
-1px #ccc solid;padding-left:1ex" dir=3D"auto"><br>
-+=C2=A0 =C2=A0 /* If telldir fails, fail the entire readdir call */<br>
-+=C2=A0 =C2=A0 if (td &lt; 0) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 return NULL;<br>
-+=C2=A0 =C2=A0 }<br>
-+=C2=A0 =C2=A0 entry-&gt;d_seekoff =3D td;<br>
-+#endif<br>
-=C2=A0 =C2=A0 =C2=A0if (!entry) {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return NULL;<br>
-=C2=A0 =C2=A0 =C2=A0}</blockquote><div dir=3D"auto"><br></div><div dir=3D"a=
-uto">This needs to be before the #ifdef!</div><div dir=3D"auto"><br></div><=
-blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px=
- #ccc solid;padding-left:1ex" dir=3D"auto"><br>
-diff --git a/hw/9pfs/9p-proxy.c b/hw/9pfs/9p-proxy.c<br>
-index b1664080d8..8b4b5cf7dc 100644<br>
---- a/hw/9pfs/9p-proxy.c<br>
-+++ b/hw/9pfs/9p-proxy.c<br>
-@@ -706,7 +706,21 @@ static off_t proxy_telldir(FsContext *ctx, V9fsFidOpen=
-State *fs)<br>
-<br>
-=C2=A0static struct dirent *proxy_readdir(FsContext *ctx, V9fsFidOpenState =
-*fs)<br>
-=C2=A0{<br>
--=C2=A0 =C2=A0 return readdir(fs-&gt;dir.stream);<br>
-+=C2=A0 =C2=A0 struct dirent *entry;<br>
-+=C2=A0 =C2=A0 entry =3D readdir(fs-&gt;dir.stream);<br>
-+#ifdef CONFIG_DARWIN<br>
-+=C2=A0 =C2=A0 if (!entry) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 return NULL;<br>
-+=C2=A0 =C2=A0 }<br>
-+=C2=A0 =C2=A0 int td;<br>
-+=C2=A0 =C2=A0 td =3D telldir(fs-&gt;dir.stream);<br>
-+=C2=A0 =C2=A0 /* If telldir fails, fail the entire readdir call */<br>
-+=C2=A0 =C2=A0 if (td &lt; 0) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 return NULL;<br>
-+=C2=A0 =C2=A0 }<br>
-+=C2=A0 =C2=A0 entry-&gt;d_seekoff =3D td;<br>
-+#endif<br>
-+=C2=A0 =C2=A0 return entry;<br>
-=C2=A0}<br>
-<br>
-=C2=A0static void proxy_seekdir(FsContext *ctx, V9fsFidOpenState *fs, off_t=
- off)<br>
-diff --git a/hw/9pfs/9p-synth.c b/hw/9pfs/9p-synth.c<br>
-index 4a4a776d06..e264a03eef 100644<br>
---- a/hw/9pfs/9p-synth.c<br>
-+++ b/hw/9pfs/9p-synth.c<br>
-@@ -222,7 +222,11 @@ static void synth_direntry(V9fsSynthNode *node,<br>
-=C2=A0{<br>
-=C2=A0 =C2=A0 =C2=A0strcpy(entry-&gt;d_name, node-&gt;name);<br>
-=C2=A0 =C2=A0 =C2=A0entry-&gt;d_ino =3D node-&gt;attr-&gt;inode;<br>
-+#ifdef CONFIG_DARWIN<br>
-+=C2=A0 =C2=A0 entry-&gt;d_seekoff =3D off + 1;<br>
-+#else<br>
-=C2=A0 =C2=A0 =C2=A0entry-&gt;d_off =3D off + 1;<br>
-+#endif<br>
-=C2=A0}<br>
-<br>
-=C2=A0static struct dirent *synth_get_dentry(V9fsSynthNode *dir,<br>
-diff --git a/hw/9pfs/9p-util.h b/hw/9pfs/9p-util.h<br>
-index 546f46dc7d..accbec9987 100644<br>
---- a/hw/9pfs/9p-util.h<br>
-+++ b/hw/9pfs/9p-util.h<br>
-@@ -79,3 +79,20 @@ ssize_t fremovexattrat_nofollow(int dirfd, const char *f=
-ilename,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0const char *name);<br>
-<br>
-=C2=A0#endif<br>
-+<br>
-+<br>
-+/**<br>
-+ * Darwin has d_seekoff, which appears to function similarly to d_off.<br>
-+ * However, it does not appear to be supported on all file systems,<br>
-+ * so ensure it is manually injected earlier and call here when<br>
-+ * needed.<br>
-+ */<br>
-+<br>
-+inline off_t qemu_dirent_off(struct dirent *dent)<br>
-+{<br>
-+#ifdef CONFIG_DARWIN<br>
-+=C2=A0 =C2=A0 return dent-&gt;d_seekoff;<br>
-+#else<br>
-+=C2=A0 =C2=A0 return dent-&gt;d_off;<br>
-+#endif<br>
-+}</blockquote><div dir=3D"auto"><br></div><div dir=3D"auto">Are we sure we=
- want a helper for two times the same ifdef? Deferring to maintainers here =
-however.</div><div dir=3D"auto"><br></div><blockquote class=3D"gmail_quote"=
- style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex" di=
-r=3D"auto">
-diff --git a/hw/9pfs/9p.c b/hw/9pfs/9p.c<br>
-index 1563d7b7c6..cf694da354 100644<br>
---- a/hw/9pfs/9p.c<br>
-+++ b/hw/9pfs/9p.c<br>
-@@ -27,6 +27,7 @@<br>
-=C2=A0#include &quot;virtio-9p.h&quot;<br>
-=C2=A0#include &quot;fsdev/qemu-fsdev.h&quot;<br>
-=C2=A0#include &quot;9p-xattr.h&quot;<br>
-+#include &quot;9p-util.h&quot;<br>
-=C2=A0#include &quot;coth.h&quot;<br>
-=C2=A0#include &quot;trace.h&quot;<br>
-=C2=A0#include &quot;migration/blocker.h&quot;<br>
-@@ -2281,7 +2282,11 @@ static int coroutine_fn v9fs_do_readdir_with_stat(V9=
-fsPDU *pdu,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0count +=3D len;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0v9fs_stat_free(&amp;v9stat);<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0v9fs_path_free(&amp;path);<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 saved_dir_pos =3D dent-&gt;d_off;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 saved_dir_pos =3D qemu_dirent_off(dent);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (saved_dir_pos &lt; 0) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 err =3D saved_dir_pos;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 }</blockquote><div dir=3D"auto"><br></div><div=
- dir=3D"auto">Do we still need this error-handling? I had removed it in my =
-interdiff patch.</div><blockquote class=3D"gmail_quote" style=3D"margin:0 0=
- 0 .8ex;border-left:1px #ccc solid;padding-left:1ex" dir=3D"auto"><br>
-=C2=A0 =C2=A0 =C2=A0}<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0v9fs_readdir_unlock(&amp;fidp-&gt;fs.dir);<br>
-@@ -2420,6 +2425,7 @@ static int coroutine_fn v9fs_do_readdir(V9fsPDU *pdu,=
- V9fsFidState *fidp,<br>
-=C2=A0 =C2=A0 =C2=A0V9fsString name;<br>
-=C2=A0 =C2=A0 =C2=A0int len, err =3D 0;<br>
-=C2=A0 =C2=A0 =C2=A0int32_t count =3D 0;<br>
-+=C2=A0 =C2=A0 off_t off;<br>
-=C2=A0 =C2=A0 =C2=A0struct dirent *dent;<br>
-=C2=A0 =C2=A0 =C2=A0struct stat *st;<br>
-=C2=A0 =C2=A0 =C2=A0struct V9fsDirEnt *entries =3D NULL;<br>
-@@ -2480,12 +2486,17 @@ static int coroutine_fn v9fs_do_readdir(V9fsPDU *pd=
-u, V9fsFidState *fidp,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0qid.version =3D 0;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
-<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 off =3D qemu_dirent_off(dent);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (off &lt; 0) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 err =3D off;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 }</blockquote><div dir=3D"auto"><br></div><div=
- dir=3D"auto">Same here - if this can never fail, why add the error handlin=
-g?</div><div dir=3D"auto"><br></div><blockquote class=3D"gmail_quote" style=
-=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex" dir=3D"a=
-uto"><br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0v9fs_string_init(&amp;name);<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0v9fs_string_sprintf(&amp;name, &quot;%s&q=
-uot;, dent-&gt;d_name);<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* 11 =3D 7 + 4 (7 =3D start offset, 4 =
-=3D space for storing count) */<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0len =3D pdu_marshal(pdu, 11 + count, &quo=
-t;Qqbs&quot;,<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 &amp;qid, dent-&gt;d_off,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 &amp;qid, off,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0dent-&gt;d_type, &amp;name);<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0v9fs_string_free(&amp;name);<br>
-diff --git a/hw/9pfs/codir.c b/hw/9pfs/codir.c<br>
-index 032cce04c4..fac6759a64 100644<br>
---- a/hw/9pfs/codir.c<br>
-+++ b/hw/9pfs/codir.c<br>
-@@ -167,7 +167,14 @@ static int do_readdir_many(V9fsPDU *pdu, V9fsFidState =
-*fidp,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0size +=3D len;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 /* This conditional statement is identical in<=
-br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* function to qemu_dirent_off, described=
- in 9p-util.h,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* since that header cannot be included h=
-ere. */<br>
-+#ifdef CONFIG_DARWIN<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 saved_dir_pos =3D dent-&gt;d_seekoff;<br>
-+#else<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0saved_dir_pos =3D dent-&gt;d_off;<br>
-+#endif<br>
-=C2=A0 =C2=A0 =C2=A0}<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0/* restore (last) saved position */<br>
--- <br>
-2.32.0 (Apple Git-132)<br>
-<br>
-</blockquote></div></div>
-
---000000000000b3f4fd05d76a930b--
 
