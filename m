@@ -2,58 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8FA004ACC95
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Feb 2022 00:22:55 +0100 (CET)
-Received: from localhost ([::1]:40834 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 24CA74ACCA6
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Feb 2022 00:47:59 +0100 (CET)
+Received: from localhost ([::1]:48534 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nHDLS-0007rL-7X
-	for lists+qemu-devel@lfdr.de; Mon, 07 Feb 2022 18:22:54 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:40410)
+	id 1nHDjh-0006tS-Nt
+	for lists+qemu-devel@lfdr.de; Mon, 07 Feb 2022 18:47:57 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:44656)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <agraf@csgraf.de>)
- id 1nHDIy-0006al-Gm; Mon, 07 Feb 2022 18:20:20 -0500
-Received: from mail.csgraf.de ([85.25.223.15]:34204 helo=zulu616.server4you.de)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <agraf@csgraf.de>)
- id 1nHDIv-00038O-2r; Mon, 07 Feb 2022 18:20:19 -0500
-Received: from [192.168.106.118]
- (dynamic-077-009-016-031.77.9.pool.telefonica.de [77.9.16.31])
- by csgraf.de (Postfix) with ESMTPSA id 9F39860803FE;
- Tue,  8 Feb 2022 00:20:13 +0100 (CET)
-Message-ID: <e331de80-0548-7bbd-b459-239d14b7b327@csgraf.de>
-Date: Tue, 8 Feb 2022 00:20:13 +0100
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1nHDgo-00062p-G9
+ for qemu-devel@nongnu.org; Mon, 07 Feb 2022 18:44:58 -0500
+Received: from kylie.crudebyte.com ([5.189.157.229]:50271)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1nHDgj-0006Ul-UI
+ for qemu-devel@nongnu.org; Mon, 07 Feb 2022 18:44:55 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
+ MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+ Content-ID:Content-Description;
+ bh=ev5fwvFvICu7RK+3KEb+Rcllw8dMdE2opTOu3H51EaU=; b=K8XUYhsmXU96VQMZnZDg6i7JUS
+ 8uL8lIwn4A8/9Nq0xL4sNKtaW3Rm+9uPKlWe0amxaxyrM0z4V6SAUQFC8arVc3uviJofMg4eKIrHs
+ xlNSaJNwqnWWYu/xDnBNsilN+61rBFIbJs3AIywGgeSE9s5+MVOx/7bi+Oaz46MARyi/TgCgi6Y5e
+ hA7/s8EW1aijOgV8p6r0Lg5a23Q484BWT7UswwHkyzrnTRmQlP2HOBDNgYRFfSHz+GHP5ifprldAf
+ oIYPYJ0WHTgC7bBmCS+hww9b65+7rjYxN8oD/3XLocZpG4jSSNUEJghshDnw5v4JwGOMAbhMAbXlT
+ uDHkFW+piarNsNYiydju8p2DVMAp13BEDYJYXSoZm6d6TGRoZZ3WbP1TQ4JKDbmZz1bI3Rrejpj9z
+ k69k26dDrqcvP+ICQs/cH4baTkGgGyvIl/4+BmLyUDEiXKd9HywtNnMDUGJRXfVzyB7ixsAD9XUll
+ 1nz6URF4iS5n/syCOUVUWmFUHj9HCKA4SyXVPMqkn4dgCPc05Xh0jMlQJSznBrVqWzm0RWdK3Q5Rl
+ 7namJL6bGyP5JMPNRAxF3wB+dEAaC/RYMIFGJofU6DLrBqOo87Ahsllo9dLiHHqTIjNFTn0H5SmZo
+ l7e0xUOuh9KrroZe0/mu5RiKV5l4W0rtp4kxN1sZg=;
+From: Christian Schoenebeck <qemu_oss@crudebyte.com>
+To: qemu-devel@nongnu.org
+Cc: Will Cohen <wwcohen@gmail.com>, Laurent Vivier <lvivier@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, Greg Kurz <groug@kaod.org>, hi@alyssa.is,
+ Michael Roitzsch <reactorcontrol@icloud.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Keno Fischer <keno@juliacomputing.com>
+Subject: Re: [PATCH v5 10/11] 9p: darwin: meson: Allow VirtFS on Darwin
+Date: Tue, 08 Feb 2022 00:44:40 +0100
+Message-ID: <4132679.VdUcmsAXi6@silver>
+In-Reply-To: <20220207224024.87745-11-wwcohen@gmail.com>
+References: <20220207224024.87745-1-wwcohen@gmail.com>
+ <20220207224024.87745-11-wwcohen@gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.5.1
-Subject: Re: [PATCH 06/16] hw/arm/xlnx-zcu102: Don't enable PSCI conduit when
- booting guest in EL3
-Content-Language: en-US
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
-References: <20220127154639.2090164-1-peter.maydell@linaro.org>
- <20220127154639.2090164-7-peter.maydell@linaro.org>
- <2c67bde5-65b2-0af0-afde-7353a4fe2a1b@csgraf.de>
- <CAFEAcA9DcHXRkA7gCihU6LrOc40EOHnVnTeEcf4+xSfG22eJ-g@mail.gmail.com>
- <44ec9504-a7ef-6805-ae94-4435e5a37735@csgraf.de>
- <CAJy5ezqUtLphzH_WKmW8dR34=k-g5dmuevuZY42GfnD-R-uCqg@mail.gmail.com>
- <a6caa3b0-89ae-d482-62f5-2cada740a60e@csgraf.de>
- <cc73e2f0-97e1-f9c5-1a89-45ff2b0a2aeb@amsat.org>
- <0da64aa5-97b3-540b-0fc9-cb9bf670d487@csgraf.de>
- <CAJy5ezrEFifPUWUmSmEmqqUsSdeQpEG+KjyCDJFJROFSKGFDVA@mail.gmail.com>
- <1d1cf0b8-d827-3d68-6b81-f334020d7606@amsat.org>
-From: Alexander Graf <agraf@csgraf.de>
-In-Reply-To: <1d1cf0b8-d827-3d68-6b81-f334020d7606@amsat.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=85.25.223.15; envelope-from=agraf@csgraf.de;
- helo=zulu616.server4you.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
+Received-SPF: pass client-ip=5.189.157.229;
+ envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -66,109 +68,86 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <eduardo@habkost.net>,
- Peter Maydell <peter.maydell@linaro.org>,
- Alistair Francis <alistair@alistair23.me>,
- Stefano Stabellini <sstabellini@kernel.org>, Rob Herring <robh@kernel.org>,
- Beniamino Galvani <b.galvani@gmail.com>,
- Andre Przywara <andre.przywara@arm.com>, Tyrone Ting <kfting@nuvoton.com>,
- qemu-devel <qemu-devel@nongnu.org>,
- Jean-Christophe Dubois <jcd@tribudubois.net>,
- Yanan Wang <wangyanan55@huawei.com>, Andrew Jeffery <andrew@aj.id.au>,
- Niek Linnenbank <nieklinnenbank@gmail.com>, qemu-arm <qemu-arm@nongnu.org>,
- Igor Mitsyanko <i.mitsyanko@gmail.com>,
- =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
- Havard Skinnemoen <hskinnemoen@google.com>,
- Andrey Smirnov <andrew.smirnov@gmail.com>,
- Michal Simek <michal.simek@xilinx.com>, Joel Stanley <joel@jms.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Montag, 7. Februar 2022 23:40:23 CET Will Cohen wrote:
+> From: Keno Fischer <keno@juliacomputing.com>
+> 
+> To allow VirtFS on darwin, we need to check that pthread_fchdir_np is
+> available, which has only been available since macOS 10.12.
+> 
+> Additionally, virtfs_proxy_helper is disabled on Darwin. This patch
+> series does not currently provide an implementation of the proxy-helper,
+> but this functionality could be implemented later on.
+> 
+> Signed-off-by: Keno Fischer <keno@juliacomputing.com>
+> [Michael Roitzsch: - Rebase for NixOS]
+> Signed-off-by: Michael Roitzsch <reactorcontrol@icloud.com>
+> [Will Cohen: - Rebase to master]
+> Signed-off-by: Will Cohen <wwcohen@gmail.com>
+> Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
+> [Will Cohen: - Add check for pthread_fchdir_np to virtfs
+>              - Add comments to patch commit
+>              - Note that virtfs_proxy_helper does not work
+>                on macOS
+>              - Adjust meson virtfs error note to specify macOS]
+> Signed-off-by: Will Cohen <wwcohen@gmail.com>
+> ---
+>  fsdev/meson.build |  1 +
+>  meson.build       | 14 ++++++++++----
+>  2 files changed, 11 insertions(+), 4 deletions(-)
+> 
+> diff --git a/fsdev/meson.build b/fsdev/meson.build
+> index adf57cc43e..b632b66348 100644
+> --- a/fsdev/meson.build
+> +++ b/fsdev/meson.build
+> @@ -7,6 +7,7 @@ fsdev_ss.add(when: ['CONFIG_FSDEV_9P'], if_true: files(
+>    'qemu-fsdev.c',
+>  ), if_false: files('qemu-fsdev-dummy.c'))
+>  softmmu_ss.add_all(when: 'CONFIG_LINUX', if_true: fsdev_ss)
+> +softmmu_ss.add_all(when: 'CONFIG_DARWIN', if_true: fsdev_ss)
+> 
+>  if have_virtfs_proxy_helper
+>    executable('virtfs-proxy-helper',
+> diff --git a/meson.build b/meson.build
+> index 5f43355071..c1d13209ff 100644
+> --- a/meson.build
+> +++ b/meson.build
+> @@ -1421,17 +1421,23 @@ if not get_option('dbus_display').disabled()
+>    endif
+>  endif
+> 
+> -have_virtfs = (targetos == 'linux' and
+> +if targetos == 'darwin' and cc.has_function('pthread_fchdir_np')
+> +  have_virtfs = have_system
+> +else
+> +  have_virtfs = (targetos == 'linux' and
+>      have_system and
+>      libattr.found() and
+>      libcap_ng.found())
+> +endif
+> 
+> -have_virtfs_proxy_helper = have_virtfs and have_tools
+> +have_virtfs_proxy_helper = targetos != 'darwin' and have_virtfs and
+> have_tools
+> 
+>  if get_option('virtfs').enabled()
+>    if not have_virtfs
+> -    if targetos != 'linux'
+> -      error('virtio-9p (virtfs) requires Linux')
+> +    if targetos != 'linux' and targetos != 'darwin'
+> +      error('virtio-9p (virtfs) requires Linux or macOS')
+> +    elif targetos == 'darwin' and not cc.has_function('pthread_fchdir_np')
+> +      error('virtio-9p (virtfs) on Darwin requires the presence of pthread_fchdir_np')
 
-On 07.02.22 19:59, Philippe Mathieu-Daudé wrote:
-> On 7/2/22 19:13, Edgar E. Iglesias wrote:
->>
->> On Mon, Feb 7, 2022 at 5:24 PM Alexander Graf <agraf@csgraf.de 
->> <mailto:agraf@csgraf.de>> wrote:
->>
->>
->>     On 07.02.22 17:06, Philippe Mathieu-Daudé wrote:
->>      > On 7/2/22 16:59, Alexander Graf wrote:
->>      >>
->>      >> On 07.02.22 16:52, Edgar E. Iglesias wrote:
->>      >
->>      >>> Both Versal and ZynqMP require MicroBlaze firmware to run the
->>      >>> reference implementations of Trusted Firmware. We never 
->> supported
->>      >>> this in upstream QEMU but we do support it with our fork (by
->>     running
->>      >>> multiple QEMU instances co-simulating).
->>      >>>
->>      >>> Having said that, we do have tons of EL3 test-cases that we 
->> use to
->>      >>> validate QEMU that run with EL3 enabled in upstream.
->>      >>>
->>      >>> So there's two user flows:
->>      >>> 1. Direct boots using QEMUs builtin PSCI (Most users use this
->>     to run
->>      >>> Linux, Xen, U-boot, etc)
->>      >>> 2. Firmware boot at EL3 without QEMUs builtin PSCI (Mostly 
->> used by
->>      >>> test-code)
->>      >>>
->>      >>> Number #2 is the one affected here and that by accident used to
->>     have
->>      >>> the builtin PSCI support enabled but now requires more power
->>     control
->>      >>> modelling to keep working.
->>      >>> Unless I'm missing something, the -kernel boots will continue
->>     to use
->>      >>> the builtin PSCI implementation.
->>      >>
->>      >>
->>      >> So nobody is using upstream QEMU to validate and prototype
->>      >> ATF/EL1s/EL0s code? That's a shame :). I suppose there is little
->>      >> value without the bitstream emulation and R cluster. Do you have
->>      >> plans to bring multi process emulation upstream some day to 
->> enable
->>      >> these there?
->>      >
->>      > The R cluster is already in mainstream, isn't it?
->>
->>
->>     In that case, wouldn't it make sense to build an emulation model 
->> of the
->>     PMU behavior so that normal ATF works out of the box?
->>
->>
->>     Thanks,
->>
->>     Alex
->>
->>
->> Yes, that makes sense and there are several ways to implement it. To 
->> fully support the programmability of the PMU we'd need to model the 
->> MicroBlazes together with the ARM cores.
->>
->> But PMU support does not really conflict with this patch series, or 
->> is there something I'm missing?
->
-> My understanding is Alex generically wonders about code coverage, not
-> about the ZynqMP in particular :)
+Maybe call this "macOS" in this error message as well?
 
+    error('virtio-9p (virtfs) requires the presence of pthread_fchdir_np on macOS')
 
-I'm more curious what the purpose of zynqmp / versal simulation in QEMU 
-is. What we're saying here is that we only care about "Linux at EL2 and 
-below" plus a Xilinx validation test suite. I understand how multi-QEMU 
-emulation may be difficult, but EL3 simulation with Cortex-A plus 
-Cortex-R clusters and a simulated PMU sounds like it would get you a 
-very long way on simulation coverage.
+>      elif not libcap_ng.found() or not libattr.found()
+>        error('virtio-9p (virtfs) requires libcap-ng-devel and
+> libattr-devel') elif not have_system
 
-That said, Xilinx probably knows their user base the best, so if they 
-decide that the ability to run TrustZone code is not something they 
-believe their users need in QEMU, I'm definitely happy with that stance.
-
-
-Alex
 
 
