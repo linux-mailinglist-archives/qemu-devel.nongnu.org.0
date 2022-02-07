@@ -2,92 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B70054AB843
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Feb 2022 11:07:07 +0100 (CET)
-Received: from localhost ([::1]:47288 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 769764AB846
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Feb 2022 11:11:19 +0100 (CET)
+Received: from localhost ([::1]:56132 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nH0vK-0007z0-IO
-	for lists+qemu-devel@lfdr.de; Mon, 07 Feb 2022 05:07:06 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:36508)
+	id 1nH0zJ-00069E-LP
+	for lists+qemu-devel@lfdr.de; Mon, 07 Feb 2022 05:11:15 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:40582)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nGzjp-0004O2-PU
- for qemu-devel@nongnu.org; Mon, 07 Feb 2022 03:51:09 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:57622)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nGzjo-000245-7L
- for qemu-devel@nongnu.org; Mon, 07 Feb 2022 03:51:09 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1644223866;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=fo4bp7LSg0FI5RutP3gD7ilyaX6iDu3gKyEnCHBI6x8=;
- b=T3xXZ0exUXKWiT8We1BkVb1Aeew52C8DTDmAKikPZn3M0NUJzlYQWJsq24A6FN9LId2BW4
- 6fqvSLmKFWIv/hP6SlrivG9Kvm/Ajg9KTaoc37roVUQkKx+TQ0Rpn67AhbcU4WqRMUKxHo
- HKeYp3ZHDu7i+ijgSojg7XGFXS6lNpg=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-379-JrbHIXmUNgi20o4fR2Lkbg-1; Mon, 07 Feb 2022 03:51:04 -0500
-X-MC-Unique: JrbHIXmUNgi20o4fR2Lkbg-1
-Received: by mail-wm1-f72.google.com with SMTP id
- f7-20020a1cc907000000b0034b63f314ccso5344281wmb.6
- for <qemu-devel@nongnu.org>; Mon, 07 Feb 2022 00:51:04 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1nH00w-0007vn-DR
+ for qemu-devel@nongnu.org; Mon, 07 Feb 2022 04:08:50 -0500
+Received: from [2a00:1450:4864:20::435] (port=45000
+ helo=mail-wr1-x435.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1nH00u-0004Te-6p
+ for qemu-devel@nongnu.org; Mon, 07 Feb 2022 04:08:50 -0500
+Received: by mail-wr1-x435.google.com with SMTP id k18so23429289wrg.11
+ for <qemu-devel@nongnu.org>; Mon, 07 Feb 2022 01:08:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=fo4bp7LSg0FI5RutP3gD7ilyaX6iDu3gKyEnCHBI6x8=;
- b=NnKJ0mm1JS4w5UXQXyxP+lHWHxQ8qYdRSiiSOul0Th56olr0Z6ZoLLo97GNJh9C3MM
- Uhc385QV9X7NQbD4f97esA0BdnCayYb7hKbPqjp1tkbjJ6NWQfONKh9xTTkwz79NaYjx
- aC+YNLgxLwOTGGJQOIwaZ9OezoOH2uQzc9sBWFcuLyC3foBtMIFrDGmrhh8YklmgfaB6
- GGWf9RiXYTF2/V9U7j0u4JdaPNNoH7a7XGo9tljBGaTHHccgLoEWmmD0fntXVQY1nPmn
- BxY1T8yN4omWumlq3FR/t3tF4t2S1UjZWZIBHolMIKDKozWzfQY8R3V3gJLscyDjcpz+
- ljPw==
-X-Gm-Message-State: AOAM533gkENw21NlEje2znEV7skmSGlJR1JibLlM3mH4fV+49A1fvpw/
- KySRzir0JVF7UiA3VHVgRM4R32kUImgMC2KJg0yZM3wbBJhmDzG2SK5Be34Ml3WzSqIfxUOPj0Q
- yhJJcjPIvo1lbg7U=
-X-Received: by 2002:a5d:4b83:: with SMTP id b3mr4260024wrt.311.1644223863257; 
- Mon, 07 Feb 2022 00:51:03 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyTOkSg5a2fkSdBoX1uJEbKTzYjITVHbR5nvDi+lJtQ35ZsoiXBNfN40nM7/mdzCWDBtlAclA==
-X-Received: by 2002:a5d:4b83:: with SMTP id b3mr4260017wrt.311.1644223863077; 
- Mon, 07 Feb 2022 00:51:03 -0800 (PST)
-Received: from [192.168.8.100] (tmo-096-196.customers.d1-online.com.
- [80.187.96.196])
- by smtp.gmail.com with ESMTPSA id g22sm3102305wmh.7.2022.02.07.00.51.01
+ bh=jaiYqcnw8WRcj2ZtweCDRcOX+97VQCqLRG3mtpIU1EM=;
+ b=I5B2Zx9J4p1IZrMnJqhBwv6dtqR1wlj7/VyE9D+m/4vA95yyj2DAGpYMHy+ckIzofO
+ 52xERuDvrivh+AJcznPXJ1dP4hUkSh8rVFvF4OzkOy/Lx4GkGZurxxU7HTsG2OBIuyIr
+ VqAy4HeL5h6hnoGUxHRouvrG54LPDd/fJ/NO/NvRgF2+dz2f5CY4mRlX17AlXZwmNouA
+ l0xd8Aqx0bG8gm7EtTufZTWlDMzzbadNUt5hgogeYpe+brnVQI1rMYJmyoNPEINMdAEY
+ pkBBSidrPoZ+Lejy0Wkvunt9KkZ4yvnQXQgvJHF77Zn288P0TeIHaVp855r6fujqJW/l
+ De3Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+ :subject:content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=jaiYqcnw8WRcj2ZtweCDRcOX+97VQCqLRG3mtpIU1EM=;
+ b=h69b2aWZaWoVLIYf+Yne89GLq8TP2+piVQFlai/w6CKpRHWyiyfyR2zRUXNvUs/+Jy
+ MM41GYGuqXAdyi6zUAPa9KK+/2bIkyQbuUlrgZPeSDPErqz+tK4YC2e3HxKjHkj1eIR9
+ IElUvQN0GdDLhsQtONQ/EYJTsP8AaHecGrsvExhvHMhyXgbTBTmNwxczkjmbEih8A2G+
+ ZiV91Ckv5WRLXsX0roEQKL1NUfrbCvuoTPr2tRLSud720cYqYL0SNtTorQtJUmunxMxK
+ dZ//kSF3OXZotV0o/50jXon0wokhTD6DCfKiAukXfGDG01o/kCTPcTkBJenAqAFolVwm
+ liUg==
+X-Gm-Message-State: AOAM532nlxZELCyaggni3+0CYEw0H5cJDboiv3P4zEK6DPE8QsIGu12c
+ QbsN/yTk4qifxKLCfxqO65I=
+X-Google-Smtp-Source: ABdhPJxejsQophtNpNi46/MZbN6v31uir9CYxzmdgM3z7kojgZT8kw31z+6N8mpbXSE/hdJ+SAmE5Q==
+X-Received: by 2002:a05:6000:1869:: with SMTP id
+ d9mr9109221wri.432.1644224926454; 
+ Mon, 07 Feb 2022 01:08:46 -0800 (PST)
+Received: from ?IPV6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
+ ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.googlemail.com with ESMTPSA id 24sm874613wmf.48.2022.02.07.01.08.45
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 07 Feb 2022 00:51:02 -0800 (PST)
-Message-ID: <2b8db685-ef24-cfd7-6942-526152cbe166@redhat.com>
-Date: Mon, 7 Feb 2022 09:51:00 +0100
+ Mon, 07 Feb 2022 01:08:45 -0800 (PST)
+Message-ID: <77520dd3-1e7c-efc5-0bea-d53dcea6261f@redhat.com>
+Date: Mon, 7 Feb 2022 10:08:44 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.5.0
-Subject: Re: [PULL 31/31] linux-user: Remove the deprecated ppc64abi32 target
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- peter.maydell@linaro.org
-References: <20220112112722.3641051-1-alex.bennee@linaro.org>
- <20220112112722.3641051-32-alex.bennee@linaro.org>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <20220112112722.3641051-32-alex.bennee@linaro.org>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+Subject: Re: [PATCH] memory: Fix qemu crash on starting dirty log twice with
+ stopped VM
 Content-Language: en-US
+To: Peter Xu <peterx@redhat.com>, qemu-devel@nongnu.org
+References: <20220207032622.19931-1-peterx@redhat.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+In-Reply-To: <20220207032622.19931-1-peterx@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 7bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::435
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::435;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x435.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -100,33 +95,100 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Beraldo Leal <bleal@redhat.com>,
- "reviewer:Incompatible changes" <libvir-list@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
+Cc: David Hildenbrand <david@redhat.com>, Juan Quintela <quintela@redhat.com>,
+ Hyman Huang <huangy81@chinatelecom.cn>,
  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>, qemu-devel@nongnu.org,
- =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
- Laurent Vivier <laurent@vivier.eu>
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Leonardo Bras Soares Passos <lsoaresp@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/01/2022 12.27, Alex Bennée wrote:
-> From: Thomas Huth <thuth@redhat.com>
+On 2/7/22 04:26, Peter Xu wrote:
+> QEMU can now easily crash with two continuous migration carried out:
 > 
-> It's likely broken, and nobody cared for picking it up again
-> during the deprecation phase, so let's remove this now.
+> (qemu) migrate -d exec:cat>out
+> (qemu) migrate_cancel
+> (qemu) migrate -d exec:cat>out
+> [crash] ../softmmu/memory.c:2782: memory_global_dirty_log_start: Assertion
+> `!(global_dirty_tracking & flags)' failed.
 > 
-> Since this is the last entry in deprecated_targets_list, remove
-> the related code in the configure script, too.
+> It's because memory API provides a way to postpone dirty log stop if the VM is
+> stopped, and that'll be re-done until the next VM start.  It was added in 2017
+> with commit 1931076077 ("migration: optimize the downtime", 2017-08-01).
 > 
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
+> However the recent work on allowing dirty tracking to be bitmask broke it,
+> which is commit 63b41db4bc ("memory: make global_dirty_tracking a bitmask",
+> 2021-11-01).
+> 
+> The fix proposed in this patch contains two things:
+> 
+>    (1) Instead of passing over the flags to postpone stop dirty track, we add a
+>        global variable (along with current vmstate_change variable) to record
+>        what flags to stop dirty tracking.
+> 
+>    (2) When start dirty tracking, instead if remove the vmstate hook directly,
+>        we also execute the postponed stop process so that we make sure all the
+>        starts and stops will be paired.
+> 
+> This procedure is overlooked in the bitmask-ify work in 2021.
+> 
+> Actually with the postponed stop flags, a smarter thing to do is when start
+> dirty logging with specific flag, we can ignore the start if the flag is
+> contained in the "postponed to stop" flags, however that'll slightly complicate
+> the code, and it shouldn't be a major use case for QEMU.  Considering that this
+> should also copy stable, keep it simple while fixing the crash.
+> 
+> Cc: Hyman Huang <huangy81@chinatelecom.cn>
+> Bugzilla: https://bugzilla.redhat.com/show_bug.cgi?id=2044818
+> Fixes: 63b41db4bc ("memory: make global_dirty_tracking a bitmask")
+> Signed-off-by: Peter Xu <peterx@redhat.com>
+> ---
+>   softmmu/memory.c | 53 ++++++++++++++++++++++++++++++++++--------------
+>   1 file changed, 38 insertions(+), 15 deletions(-)
+> 
+> diff --git a/softmmu/memory.c b/softmmu/memory.c
+> index 678dc62f06..cbb9b241ea 100644
+> --- a/softmmu/memory.c
+> +++ b/softmmu/memory.c
+> @@ -2790,16 +2790,25 @@ void memory_global_after_dirty_log_sync(void)
+>       MEMORY_LISTENER_CALL_GLOBAL(log_global_after_sync, Forward);
+>   }
+>   
+> +/*
+> + * Dirty track stop flags that are postponed due to VM being stopped.  Should
+> + * only be used within vmstate_change hook.
+> + */
+> +static unsigned int postponed_stop_flags;
+>   static VMChangeStateEntry *vmstate_change;
+> +static void memory_global_dirty_log_stop_postponed_run(void);
+>   
+>   void memory_global_dirty_log_start(unsigned int flags)
+>   {
+>       unsigned int old_flags = global_dirty_tracking;
+>   
+> -    if (vmstate_change) {
+> -        qemu_del_vm_change_state_handler(vmstate_change);
+> -        vmstate_change = NULL;
+> -    }
+> +    /*
+> +     * If there is postponed dirty log stop flags, do it, so that start/stop
+> +     * will always be paired.  A smarter thing to do is ignore start process if
+> +     * the same flag has got postponed on stop, but it shouldn't matter a lot
+> +     * in major user scenarios, so keep the code simple for now.
+> +     */
+> +    memory_global_dirty_log_stop_postponed_run();
 
-  Hi Alex!
+I think this should be as easy as doing here:
 
-What happened to this patch here? Seems like it got lost in v2 of the pull 
-request?
+     postponed_stop_flags &= ~flags;
+     memory_global_dirty_log_stop_postponed_run();
+     flags &= ~global_dirty_tracking_flags;
+     if (!flags) {
+         return;
+     }
 
-  Thomas
+plus adding an "if (postponed_stop_flags)" in 
+memory_global_dirty_log_stop_postponed_run?
 
-
+Paolo
 
