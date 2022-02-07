@@ -2,88 +2,154 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8DA84AC9FF
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Feb 2022 21:02:09 +0100 (CET)
-Received: from localhost ([::1]:52748 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B34384ACA78
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Feb 2022 21:31:58 +0100 (CET)
+Received: from localhost ([::1]:44170 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nHADA-0004Gq-Kc
-	for lists+qemu-devel@lfdr.de; Mon, 07 Feb 2022 15:02:08 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:51966)
+	id 1nHAg1-0002kv-RT
+	for lists+qemu-devel@lfdr.de; Mon, 07 Feb 2022 15:31:57 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:60604)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1nH9xy-0007yf-C1
- for qemu-devel@nongnu.org; Mon, 07 Feb 2022 14:46:27 -0500
-Received: from [2607:f8b0:4864:20::c33] (port=36834
- helo=mail-oo1-xc33.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1nH9xw-0004PW-7B
- for qemu-devel@nongnu.org; Mon, 07 Feb 2022 14:46:25 -0500
-Received: by mail-oo1-xc33.google.com with SMTP id
- r15-20020a4ae5cf000000b002edba1d3349so14986426oov.3
- for <qemu-devel@nongnu.org>; Mon, 07 Feb 2022 11:46:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=em5F2RWGp9J0Vaf7HYBFy+WeFuETcwx0HsCLTkU8z/o=;
- b=AWAB8i+nJ7hTZ9FNkwoZbPdC3QeyvF4O8z1m2H9V5aG7DmWM805LvBLFUGQkvSL/RE
- JNNwd8yGxMymPbz9qccYuSMM2dVHFvnBBazPkYoNNNHbaHzD+AoVTyNgYnW75yyPy+g4
- z1LQmQBi/PFAPL0bmeljzLSv9lXpY7DlOcFS2hwkkq7CvKnhXoDMeh6noznFJyhBZ6Co
- 1EhS5qZdGVkdUG1M5T/mTrCOp3Sm/p1hmbP7NzU44HJSWSb0QCBHGz2G3TORdmF9TEJh
- jIO6rb3YtyFMCf0Mor/Oi3nreAZe7+fIr0h19/xzav7Fl9bZgM8BcSbAfRzZ2zDfLTSC
- 5/5Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=em5F2RWGp9J0Vaf7HYBFy+WeFuETcwx0HsCLTkU8z/o=;
- b=dMBuUCxQ2xopqt/IU2KJyDFG1p9KpwsBMiu4XA9x9sgiMxpQmFVoMb1mJjYNmMZ1q/
- hOiaCcmNq/8TpuwCoA51F6gsthGoahg55YSjc+OAh5nprcVjC7/9QdX6wxcMksxhMBbD
- bKqteFsb/Sid/mcZPgDu/JcwqK/RbKojpc0QnXGh01/HO6XS8PBO7VQIUZXGcCktUXZD
- AsyLhkN03IkmtN3v8rXfrnvTgxgt5j+F2h0g+laMaJ5ZfBSlW5JtlMdGZFXGtvcM3i92
- UWJttZtlbYL00Rs75OBt45gRyxq6WW8ZHh/2kTWPOTds2iH4lSOvwKOMPbSotHChQEiO
- Rkzw==
-X-Gm-Message-State: AOAM5314rzTXrnBPLSfKAUVUIdZ5y2yyPEYlecmfJGlkoVtVJHBYAePH
- uM41eDQQpgLlDyvVVKFONHQ=
-X-Google-Smtp-Source: ABdhPJwNoi7lsnkszKiAlgzRFHTWw/6Veng398YN/1YTod4/47CNn2RGgzBsvwDObFxqD2dI5rSpzw==
-X-Received: by 2002:a05:6870:72c3:: with SMTP id
- o3mr182654oak.108.1644263168427; 
- Mon, 07 Feb 2022 11:46:08 -0800 (PST)
-Received: from [192.168.10.222] ([191.193.0.12])
- by smtp.gmail.com with ESMTPSA id bb16sm4467932oob.42.2022.02.07.11.46.06
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 07 Feb 2022 11:46:08 -0800 (PST)
-Message-ID: <e1566e82-6990-4d2b-952c-7d59886f7af5@gmail.com>
-Date: Mon, 7 Feb 2022 16:46:04 -0300
+ (Exim 4.90_1) (envelope-from <joao.m.martins@oracle.com>)
+ id 1nHAZq-00050j-QB
+ for qemu-devel@nongnu.org; Mon, 07 Feb 2022 15:25:35 -0500
+Received: from mx0a-00069f02.pphosted.com ([205.220.165.32]:16836)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <joao.m.martins@oracle.com>)
+ id 1nHAZj-0001uB-NJ
+ for qemu-devel@nongnu.org; Mon, 07 Feb 2022 15:25:30 -0500
+Received: from pps.filterd (m0246617.ppops.net [127.0.0.1])
+ by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 217IpOSn013338; 
+ Mon, 7 Feb 2022 20:24:41 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=from : to : cc :
+ subject : date : message-id : content-type : mime-version;
+ s=corp-2021-07-09; bh=BybzeQcufrT54wszFlXECjpBR8hWmEkE6RyWRmYTi20=;
+ b=G4PLPhNob2LvJGHdWXwLB5zZliQG33ACEOHji8hcw6SQQ8As6UU4X2X3H2j0fqqlyb8P
+ kLDoIl9d1j83JWONOAFk2XBs48cevXZXXyrZEHYTQhkQF13zRjDxMQa1STZz4B1wW2c8
+ CDIZP0VeAqN0Xa8uRc5BgHR4Z7Ow6bBKrSzbqfLFrkLypuU86alexD26O0cTrSuwu8Ec
+ GTsDGJNE1Es1vrUvEXgIK5IdFDBrhvKQpqRLhClv3UVeGWbKdj5yUlZ/Wi98ylyKwijD
+ Y0Irf7b1/kHLEL6pU1rTgeN19BBVrAsVtWC7mMWXdZ+Vi25ES1JGRXEiPA9tpDD6tR8p Iw== 
+Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
+ by mx0b-00069f02.pphosted.com with ESMTP id 3e1hsu7brc-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 07 Feb 2022 20:24:41 +0000
+Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
+ by aserp3030.oracle.com (8.16.1.2/8.16.1.2) with SMTP id 217KK14b024534;
+ Mon, 7 Feb 2022 20:24:40 GMT
+Received: from nam10-bn7-obe.outbound.protection.outlook.com
+ (mail-bn7nam10lp2109.outbound.protection.outlook.com [104.47.70.109])
+ by aserp3030.oracle.com with ESMTP id 3e1f9dxj7a-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 07 Feb 2022 20:24:39 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=D/soNMCYSqMC8+nI9AEujnZV2mveTfWEs4oHog7RI5rcZhaguTOpbThGARol9nJ8SofvJBcUL+ugf/CJJDwD+XU+BYjbBO0ETwM8KLJrmPPNjb9dFq3QlAYizFAJBzuu7klVumCGHhj8fCsU5S0Yoz6vwQUNPHd5uRDRP2YS7KYymQ62JM9JAhVQsTUvLqsuQsw0Hw4gCa0Nrh5KpcJjaxYqvhqKQgmklgR5jTAEnjDSW1ecUgRw9e+KZjPQVWuqreBY/fZNaecTcqm7p+MVu486vVelYBKBSeLfE7Hu3reW9gjvp9vxVJYYyHJ5EUFfIS+LlRzzCt6I66I81w7yOg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=BybzeQcufrT54wszFlXECjpBR8hWmEkE6RyWRmYTi20=;
+ b=H5hpmGFWBk+pGIrMlxwMqo3qahW2t4LpOXaI1DzJuGThWrNmTL1jSOZyNeFRTJ7Ch/5BLHEmPxAFr0sHhud4tMrdrG0pFWe8nCvPH157oUp7oJE2N0b81KJE1pTOrS/TZkDThwCnZCYgwOaS3bpPA0Ph1cK/uze2qoNq3CPMvCdKfwMk7b6vuAk8QTqtTbUU15NNdiTAPeSLh6OXZZiJY/JvQxDCqL574iJHe2x2rgFM5hYysrtyJthTm3NSyAKg318Swiay3b5/Xxpd/xlJ3qemZc5jCsQQWe+qeFaWdN8gTbaGEtnTo8Pqp6dilabRZxU8WakjejKez2bx02WoZA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=BybzeQcufrT54wszFlXECjpBR8hWmEkE6RyWRmYTi20=;
+ b=a+weWTb46eGXndZpr37WbSVh6N/F8ZvP0Q+phON3iwlDHa5bAwxJHKaL65uova/1N1ctldcvFrD37I5dq6JQY6eDaZkQ6V/hLVUyTEfOWLYaeI4O7mESpYMa0V5qnyOfDcFnsQ/WnvbJKPyIjOWMzLntGgDsXcm3ywMAg025L8s=
+Received: from BLAPR10MB4835.namprd10.prod.outlook.com (2603:10b6:208:331::11)
+ by BN6PR10MB1826.namprd10.prod.outlook.com (2603:10b6:404:fe::13)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4951.11; Mon, 7 Feb
+ 2022 20:24:38 +0000
+Received: from BLAPR10MB4835.namprd10.prod.outlook.com
+ ([fe80::4910:964a:4156:242a]) by BLAPR10MB4835.namprd10.prod.outlook.com
+ ([fe80::4910:964a:4156:242a%4]) with mapi id 15.20.4951.019; Mon, 7 Feb 2022
+ 20:24:38 +0000
+From: Joao Martins <joao.m.martins@oracle.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH RFCv2 0/4] i386/pc: Fix creation of >= 1010G guests on AMD
+ systems with IOMMU
+Date: Mon,  7 Feb 2022 20:24:18 +0000
+Message-Id: <20220207202422.31582-1-joao.m.martins@oracle.com>
+X-Mailer: git-send-email 2.11.0
+Content-Type: text/plain
+X-ClientProxiedBy: LO4P265CA0032.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:2ae::18) To BLAPR10MB4835.namprd10.prod.outlook.com
+ (2603:10b6:208:331::11)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [RFC PATCH 1/1] virtio: fix feature negotiation for
- ACCESS_PLATFORM
-Content-Language: en-US
-To: Halil Pasic <pasic@linux.ibm.com>
-References: <20220203164556.2666565-1-pasic@linux.ibm.com>
- <7df172fe-008a-0b98-2780-5155c98a71ba@gmail.com>
- <20220207154615.72b8756a.pasic@linux.ibm.com>
-From: Daniel Henrique Barboza <danielhb413@gmail.com>
-In-Reply-To: <20220207154615.72b8756a.pasic@linux.ibm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::c33
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::c33;
- envelope-from=danielhb413@gmail.com; helo=mail-oo1-xc33.google.com
-X-Spam_score_int: -10
-X-Spam_score: -1.1
-X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: c35596de-8cfa-4e4d-61fa-08d9ea77dcd2
+X-MS-TrafficTypeDiagnostic: BN6PR10MB1826:EE_
+X-Microsoft-Antispam-PRVS: <BN6PR10MB18268ECAFD60634DA4B959AABB2C9@BN6PR10MB1826.namprd10.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:7219;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: pyXaoyYW8t9xL0ROU7PewOFD0u7qfJmOY/X7MIrG8YSMjSBndT7Mc+RzIuBgUzQQaWh8YiurCKYBeJPeHHsX3daMyBF6EYNDjIrjAxcIUtljm6m5ZkwcPVCAQ/WY7qzmjuguboO4waqyL6waqOWspi0X6OUfM6+ZZvH0m8TjjLlJmRskg0EM/v0hkB9wQ5dA2/GLvZjulGhAnrSrW2myntNIpJQgdaxZq5Ar1UfNkDRNYCRaMyIpHMGXodgWb2i+wTX+iUsdavlIChHeJnVa6IMCpqx9fOyhcNiRZHvgQ350h3C4p3rV4AjUmXKcXM/vSTIO9UewwbQJP8wLxPbcPcStemVOoUOViBwW26kufrCoPEvUNACavAqMXhT38vICQFMuY3G0uiJz0bQelpLaojo/SCTOvzM8mxDvkB2uOSB5FDBL43PzrOemH0s9U/O53ToIb6qN6zRv42HAuDUWnTQEXVnknx+Pwpy+h3CStMGMI6moeT6Ibfx4to6ouXBES3f63fgmnHxohvoFaRxTk5RUeQrSw7RSZBHP8BOx6Zn0yI8Sn25igTiMWwKhMzJRSzJ6ApdVoNEtcVgoyFk5ZzDTuHTMQbess3UivIL5NeSEqfOFyE9WtkPlzduyu3jWXIPubpH8VGT29L82ZrAd/YJE1JHmVh1Di9VgdSaL8o9oLgCwEtimzjXdJKxQaBNZQFh7ZDjMfaCmW/EqQx5OGePN+kqUsee1cyMx5ACHd7HQ654oAIRLhKDVw2Fhbs922gwJDEiMN/8zwx4mkBhqMak/yDhRJeconJEDlnOIj5t2uepUBcnk+2Pmm2zfX0+8zR61PlKnc+nRI0yOQrwlPXaGkINH0t/U/WVhV1wgjEo=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BLAPR10MB4835.namprd10.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230001)(366004)(1076003)(186003)(2906002)(26005)(54906003)(4326008)(6916009)(8936002)(8676002)(52116002)(66946007)(107886003)(66556008)(66476007)(316002)(36756003)(5660300002)(7416002)(83380400001)(2616005)(6506007)(38350700002)(38100700002)(6512007)(6666004)(86362001)(508600001)(103116003)(6486002)(966005)(43620500001);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?wnsYecrsdYkEjoCibx4m0j/Ang6Oy4lNOiB8Qf3j78w2J9cPWLI9SpVUBPlm?=
+ =?us-ascii?Q?M4ahu4upMXcBNPQ1xIMhZ4iifZY2TAqzp9UJjUFoIS7TVO+DqGrBHu6eZnwv?=
+ =?us-ascii?Q?y6YSJtLNAyprd4w0DIkwqyceMSYiC5vOW98sut45mrLY1yKhCR5s7n1Vk6nG?=
+ =?us-ascii?Q?IA7bf/rfm31/BHDlWFzshGnVg5ENHAg5yfEVDvtcQArzeA4f1Tx4gbW4v7Qx?=
+ =?us-ascii?Q?kz+5mpHyyeK3NZ0VLsmtz0j2+Og0KGSxW0o6InVuneENXkvolIPOu+bEbO8M?=
+ =?us-ascii?Q?WjfpiqPUVn17YrFHSYVvWHgNw7JIjA/LTInvOi7tWfIM72w7InzVV99Lr/SD?=
+ =?us-ascii?Q?SeKcZD7VpVYj/bIZI5+OTQ9dAmqZPc3pPUDdd4GLCfYqyn5kYu2uo7LNPsuH?=
+ =?us-ascii?Q?L3vWXaFBTPiqE2hYA8Np/GHz4LODpqbFESJW00ThBwdNYAExTHfKnqFwskse?=
+ =?us-ascii?Q?LTLjEBZEEOLdchuMrYe2ZQ7XOcSiMlbNv7VTE2tTWIL8qtKjm+3OvN6dfVyr?=
+ =?us-ascii?Q?Wk4He7d2MpWvwUjWT6aaHruOA4I7fzSI5tsP91Ipnqx1yx0EB1tWX/NVh2Xr?=
+ =?us-ascii?Q?KRmn3gt7Rf6ZWMbEdUKqZcTBWHrLGpcv8lrrY1AhxXF66gGU4Y1tQTaI+ddu?=
+ =?us-ascii?Q?ji7MZR+IAgXRzRQprpzIrS2DMPwMZg7hTZ6aPut3zKd8H3HZJtuvy7dvs6KV?=
+ =?us-ascii?Q?kdIGtzfaNiV3FPIVR4yCCaAFn8EZJpqQMk07FCFKU+ZaspTmS7aTqfzkQP0B?=
+ =?us-ascii?Q?xHiYuzuxdpBUQFVfpRaGjGYfUuxO89ZFdXPRUW1kvdmv+TQEJwk6inKjpxPi?=
+ =?us-ascii?Q?j/oLRGYEiogUO74G3IGlZo5wXAXNUh9NdAAw72NyT408bu6TRk3YX07Q+lzS?=
+ =?us-ascii?Q?DdBCeLsiA8njAHSdUDZu9lqJKDryFw7Hl1IZdsodX3GKk2FzxBnIMIkPhxHy?=
+ =?us-ascii?Q?n1AebkZvBNMi00Tda8ba/ceMVnCS9mL6AEQDYZDtewYtQE5t8A2dodfqwcv/?=
+ =?us-ascii?Q?4Mmi/KPtZ/4MlyNS38RtaXuP78K9ZsluUtQus0gL45N5WYZPek6tNB6GhLF6?=
+ =?us-ascii?Q?Z71duMBZvec6N5NoqqStsoAMUcTMZghLfoof4MPOtC7dtOF0QvP+GjQiEZAM?=
+ =?us-ascii?Q?kKl69+/D6LIhMVGvGtWl3uzFYQLY2ox6PRI0kdp9zj+Mc5CNZ3OmKx1/t3GY?=
+ =?us-ascii?Q?jX7UeZMbxZlgBFAjFgVNP7hC3GSwp+Elovo8phDGnr8HWGjG1Phh2cpgQ7cO?=
+ =?us-ascii?Q?Jk3X1f/4z3n9lFtWgdACAJ78mkayE4Ygkh7ePmY5P5wXocIxxjyhgoDBfDYc?=
+ =?us-ascii?Q?OkV0BHQHVvlj2DTTEsKXepOeV/1czc2+N/sHqO/heeoi2fLv/5UU+mOsAaX1?=
+ =?us-ascii?Q?vfTVstTLM92PbaT3jdfRZvlMqPM3IccmXuviFmsnTlWP1sbbkPMcGFJbqMTc?=
+ =?us-ascii?Q?JTQ7iJsKCOWVBQjAGapo5mV2sapjmUfGpHWXn5R/ngpVjVPSIK/BSTYlNx2y?=
+ =?us-ascii?Q?E5/1VN2lwkw86ARgr6Rj81giUgNnlvWY4iliy9ekPMfGB+zNkqUu/89NUufT?=
+ =?us-ascii?Q?tRQ/9rvkf6rZA6oeAlUN6ZWV+HDVODxTC0aejGDNtrsnt6qj894iHEc4jcoc?=
+ =?us-ascii?Q?WLx/ceT75Va2IeXtIR190NrSUnGM6L38fXRurvdnStbz0O2rEQkRZmuHuMJs?=
+ =?us-ascii?Q?Qu+NgQ=3D=3D?=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: c35596de-8cfa-4e4d-61fa-08d9ea77dcd2
+X-MS-Exchange-CrossTenant-AuthSource: BLAPR10MB4835.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Feb 2022 20:24:37.9387 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: jFN+0Rmo+cD6K9IfqEo7+nnwX0Xf0aI2V3SpMuyC7/+tO2AQs4oG4Fm0OIxYWhL6O8pdcGl+Zc3qgrNL5tZnpVJptzQAOh/Usu1uxUCLd0E=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN6PR10MB1826
+X-Proofpoint-Virus-Version: vendor=nai engine=6300 definitions=10251
+ signatures=673430
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0
+ spamscore=0 adultscore=0
+ mlxlogscore=999 suspectscore=0 mlxscore=0 phishscore=0 malwarescore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2201110000
+ definitions=main-2202070119
+X-Proofpoint-ORIG-GUID: pgF3Z4vbVHH6wpRmmKIN0t4pBNMz5V6h
+X-Proofpoint-GUID: pgF3Z4vbVHH6wpRmmKIN0t4pBNMz5V6h
+Received-SPF: pass client-ip=205.220.165.32;
+ envelope-from=joao.m.martins@oracle.com; helo=mx0a-00069f02.pphosted.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.001,
- PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -96,151 +162,125 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jason Wang <jasowang@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
- Brijesh Singh <brijesh.singh@amd.com>, qemu-devel@nongnu.org,
- "Michael S. Tsirkin" <mst@redhat.com>
+Cc: Eduardo Habkost <ehabkost@redhat.com>,
+ "Michael S . Tsirkin" <mst@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Daniel Jordan <daniel.m.jordan@oracle.com>,
+ David Edmondson <david.edmondson@oracle.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Ani Sinha <ani@anisinha.ca>,
+ Igor Mammedov <imammedo@redhat.com>, Joao Martins <joao.m.martins@oracle.com>,
+ Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+RFC[0] -> RFCv2:
 
+* At Igor's suggestion in one of the patches I reworked the series enterily,
+and more or less as he was thinking it is far simpler to relocate the
+ram-above-4g to be at 1TiB where applicable. The changeset is 3x simpler,
+and less intrusive. (patch 1 & 2)
+* Check phys-bits is big enough prior to relocating (new patch 3)
+* Remove the machine property, and it's only internal and set by new machine
+version (Igor, patch 4).
+* Clarify whether it's GPA or HPA as a more clear meaning (Igor, patch 2)
+* Add IOMMU SDM in the commit message (Igor, patch 2)
 
-On 2/7/22 11:46, Halil Pasic wrote:
-> On Mon, 7 Feb 2022 08:46:34 -0300
-> Daniel Henrique Barboza <danielhb413@gmail.com> wrote:
-> 
->> On 2/3/22 13:45, Halil Pasic wrote:
->>> Unlike most virtio features ACCESS_PATFORM is considered mandatory, i.e.
->>> the driver must accept it if offered by the device. The virtio
->>> specification says that the driver SHOULD accept the ACCESS_PLATFORM
->>> feature if offered, and that the device MAY fail to operate if
->>> ACCESS_PLATFORM was offered but not negotiated.
->>>
->>> While a SHOULD ain't exactly a MUST, we are certainly allowed to fail
->>> the device when the driver fences ACCESS_PLATFORM. With commit
->>
->>
->> I believe a link to the virtio specification where this is being mentioned would
->> be good to have in the commit message.
-> 
-> I can add that if Michael agrees, and if the patch is deemed worthy.
->>
->>
->>> 2943b53f68 ("virtio: force VIRTIO_F_IOMMU_PLATFORM") we already made the
->>> decision to do so whenever the get_dma_as() callback is implemented (by
->>> the bus), which in practice means for the entirety of virtio-pci.
->>>
->>> That means, if the device needs to translate I/O addresses, then
->>> ACCESS_PLATFORM is mandatory. The aforementioned commit tells us
->>> in the commit message that this is for security reasons.
->>>
->>> If ACCESS_PLATFORM is offered not we want the device to utilize an
->>
->> I think you meant "If ACCESS_PLATFORM is offered".
-> 
-> I'm missing because. I.e. s/not/not becasue/
->>
->>
->>> IOMMU and do address translation, but because the device does not have
->>> access to the entire guest RAM, and needs the driver to grant access
->>> to the bits it needs access to (e.g. confidential guest support), we
->>> still require the guest to have the corresponding logic and to accept
->>> ACCESS_PLATFORM. If the driver does not accept ACCESS_PLATFORM, then
->>> things are bound to go wrong, and we may see failures much less graceful
->>> than failing the device because the driver didn't negotiate
->>> ACCESS_PLATFORM.
->>>
->>> So let us make ACCESS_PLATFORM mandatory for the driver regardless
->>> of whether the get_dma_as() callback is implemented or not.
->>>
->>> Signed-off-by: Halil Pasic <pasic@linux.ibm.com>
->>> Fixes: 2943b53f68 ("virtio: force VIRTIO_F_IOMMU_PLATFORM")
->>>
->>> ---
->>> This patch is based on:
->>> https://www.mail-archive.com/qemu-devel@nongnu.org/msg866199.html
->>>
->>> During the review of "virtio: fix the condition for iommu_platform not
->>> supported" Daniel raised the question why do we "force IOMMU_PLATFORM"
->>> iff has_iommu && !!klass->get_dma_as. My answer to that was, that
->>> this logic ain't right.
->>>
->>> While at it I used the opportunity to re-organize the code a little
->>> and provide an explanatory comment.
->>> ---
->>>    hw/virtio/virtio-bus.c | 17 ++++++++++-------
->>>    1 file changed, 10 insertions(+), 7 deletions(-)
->>>
->>> diff --git a/hw/virtio/virtio-bus.c b/hw/virtio/virtio-bus.c
->>> index fbf0dd14b8..359430eb1c 100644
->>> --- a/hw/virtio/virtio-bus.c
->>> +++ b/hw/virtio/virtio-bus.c
->>> @@ -78,16 +78,19 @@ void virtio_bus_device_plugged(VirtIODevice *vdev, Error **errp)
->>>            return;
->>>        }
->>>    
->>> -    vdev_has_iommu = virtio_host_has_feature(vdev, VIRTIO_F_IOMMU_PLATFORM);
->>> -    if (klass->get_dma_as != NULL && has_iommu) {
->>> +    vdev->dma_as = &address_space_memory;
->>
->> At this point you can also do:
->>
->>      if (!has_iommu) {
->>          return;
->>      }
->>
->> and the rest of the code will have one less indentation level.
-> 
-> I have considered this and decided against it. The reason why is
-> if that approach is taken, we can't really add more code to the
-> end of the function. An early return is good if we want to
-> abort the function with an error. My point is !has_iommu does
-> not necessarily mean we are done: after a block that handles
-> the has_iommu situation, in future, there could be a block that
-> handles something different.
+Note: It still makes me a tiny bit unconfortable to just remove memory from
+[4G  - 1010G] range, but it's a little baseless. It's definitely a lot
+better to maintain this set given its simplicity. For long term ideas proposed
+here, perhaps a Igor's pc-dimm based model idea or equivalent's Alex's
+suggestion of an option to control reserved address ranges could enable
+adjusting the 1Tb hole to be closer to baremetal. 
 
-And that's fine, but the way this patch is changing it I'm not sure it's better
-than what we already have. Today we have:
+The one downside of this approach is CMOS loosing its meaning of the above 4G
+ram blocks, but it was mentioned over RFC that CMOS is only useful for very
+old seabios. If so, either I leave it as is, or perhaps folks prefer that
+I just set the ram above 4G in CMOS as 0.
 
-if (has_iommu) {
-   (... assign vdev->dma_as in some cases ...)
-} else {
-    vdev->dma_as = &address_space_memory;
-}
+[0] https://lore.kernel.org/qemu-devel/20210622154905.30858-1-joao.m.martins@oracle.com/
 
+---
 
-Your patch is doing:
+This series lets Qemu properly spawn i386 guests with >= 1010G with VFIO,
+particularly when running on AMD systems with an IOMMU.
 
-vdev->dma_as = &address_space_memory;
+Since Linux v5.4, VFIO validates whether the IOVA in DMA_MAP ioctl is valid and it
+will return -EINVAL on those cases. On x86, Intel hosts aren't particularly
+affected by this extra validation. But AMD systems with IOMMU have a hole in
+the 1TB boundary which is *reserved* for HyperTransport I/O addresses located
+here: FD_0000_0000h - FF_FFFF_FFFFh. See IOMMU manual [1], specifically
+section '2.1.2 IOMMU Logical Topology', Table 3 on what those addresses mean.
 
-if (has_iommu) {
-   (... assign vdev->dma_as in some cases ...)
-}
+VFIO DMA_MAP calls in this IOVA address range fall through this check and hence return
+ -EINVAL, consequently failing the creation the guests bigger than 1010G. Example
+of the failure:
 
+qemu-system-x86_64: -device vfio-pci,host=0000:41:10.1,bootindex=-1: VFIO_MAP_DMA: -22
+qemu-system-x86_64: -device vfio-pci,host=0000:41:10.1,bootindex=-1: vfio 0000:41:10.1: 
+	failed to setup container for group 258: memory listener initialization failed:
+		Region pc.ram: vfio_dma_map(0x55ba53e7a9d0, 0x100000000, 0xff30000000, 0x7ed243e00000) = -22 (Invalid argument)
 
-You got rid of an 'else', but ended up adding a double "vdev->dma_as =" assignment
-depending on the case (has_iommu = true and klass->get_dma_as != NULL). This is why
-I proposed the early exit.
+Prior to v5.4, we could map to these IOVAs *but* that's still not the right thing
+to do and could trigger certain IOMMU events (e.g. INVALID_DEVICE_REQUEST), or
+spurious guest VF failures from the resultant IOMMU target abort (see Errata 1155[2])
+as documented on the links down below.
 
-If we're worried about adding more code in the future might as well leave the existing
-if/else as is.
-        
+This small series tries to address that by dealing with this AMD-specific 1Tb hole,
+but rather than dealing like the 4G hole, it instead relocates RAM above 4G
+to be above the 1T if the maximum RAM range crosses the HT reserved range.
+It is organized as following:
 
+patch 1: Introduce a @above_4g_mem_start which defaults to 4 GiB as starting
+address of the 4G boundary
 
-> 
-> Would this patch work for power? Or are there valid scenarios that
-> it breaks? I'm asking, because you voiced concern regarding this before.
+patch 2: Change @above_4g_mem_start to 1TiB /if we are on AMD and the max
+possible address acrosses the HT region.
 
+patch 3: Warns user if phys-bits is too low
 
-I'll test it when I have an opportunity and let you know.
+patch 4: Ensure valid IOVAs only on new machine types, but not older
+ones (<= v6.2.0)
 
+The 'consequence' of this approach is that we may need more than the default
+phys-bits e.g. a guest with >1010G, will have most of its RAM after the 1TB
+address, consequently needing 41 phys-bits as opposed to the default of 40
+(TCG_PHYS_BITS). Today there's already a precedent to depend on the user to
+pick the right value of phys-bits (regardless of this series), so we warn in
+case phys-bits aren't enough.
+
+Additionally, the reserved region is added to E820 if the relocation is done.
+
+Alternative options considered (RFCv1):
+
+a) Dealing with the 1T hole like the 4G hole -- which also represents what
+hardware closely does.
 
 Thanks,
+	Joao
 
+[1] https://www.amd.com/system/files/TechDocs/48882_IOMMU.pdf
+[2] https://developer.amd.com/wp-content/resources/56323-PUB_0.78.pdf
 
-Daniel
+Joao Martins (4):
+  hw/i386: add 4g boundary start to X86MachineState
+  i386/pc: relocate 4g start to 1T where applicable
+  i386/pc: warn if phys-bits is too low
+  i386/pc: Restrict AMD-only enforcing of valid IOVAs to new machine
+    type
 
-> 
-> Thanks for your feedback!
-> 
-> Halil
+ hw/i386/acpi-build.c  |  2 +-
+ hw/i386/pc.c          | 87 +++++++++++++++++++++++++++++++++++++++++--
+ hw/i386/pc_piix.c     |  2 +
+ hw/i386/pc_q35.c      |  2 +
+ hw/i386/sgx.c         |  2 +-
+ hw/i386/x86.c         |  1 +
+ include/hw/i386/pc.h  |  1 +
+ include/hw/i386/x86.h |  3 ++
+ target/i386/cpu.h     |  4 ++
+ 9 files changed, 98 insertions(+), 6 deletions(-)
+
+-- 
+2.17.2
+
 
