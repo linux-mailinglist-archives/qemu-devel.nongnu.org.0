@@ -2,72 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D1B3A4AC557
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Feb 2022 17:19:58 +0100 (CET)
-Received: from localhost ([::1]:57198 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EEB434AC3CD
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Feb 2022 16:35:34 +0100 (CET)
+Received: from localhost ([::1]:36146 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nH6kA-0006DT-01
-	for lists+qemu-devel@lfdr.de; Mon, 07 Feb 2022 11:19:58 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:46790)
+	id 1nH63B-00033T-PR
+	for lists+qemu-devel@lfdr.de; Mon, 07 Feb 2022 10:35:33 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:47144)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1nH5pw-0004hN-2Y
- for qemu-devel@nongnu.org; Mon, 07 Feb 2022 10:21:52 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:46667)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1nH5pj-0007vZ-5z
- for qemu-devel@nongnu.org; Mon, 07 Feb 2022 10:21:50 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1644247298;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=p6CH5JaVG3VPXs+qRmqp1CqADqgeEr1u/Dg8sWrW15Q=;
- b=PW2U0Oc1h6zDtEUyAdN5vf73BUgT0l4Igm6zB0966P4qdFh83f9zWfqVn4RzNvMsdF/4+7
- qbW/7FjWSr9Cd5TKnsHDVkXaiZLahuRfL14O8bZa2p7NLcmNEsr7aN0hOyKGG1qDezyhBm
- LRtx+IjZnGo69QQhxuFdscRD/ndKlaQ=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-263-pZ4U-MCCPg2xDJQn6QopWA-1; Mon, 07 Feb 2022 10:21:35 -0500
-X-MC-Unique: pZ4U-MCCPg2xDJQn6QopWA-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EE47C1091DA3;
- Mon,  7 Feb 2022 15:21:33 +0000 (UTC)
-Received: from localhost (unknown [10.39.193.241])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 8B6712BCDB;
- Mon,  7 Feb 2022 15:21:33 +0000 (UTC)
-From: Cornelia Huck <cohuck@redhat.com>
-To: Halil Pasic <pasic@linux.ibm.com>
-Subject: Re: [RFC PATCH 1/1] virtio: fix feature negotiation for
- ACCESS_PLATFORM
-In-Reply-To: <20220207160516.2aead931.pasic@linux.ibm.com>
-Organization: Red Hat GmbH
-References: <20220203164556.2666565-1-pasic@linux.ibm.com>
- <7df172fe-008a-0b98-2780-5155c98a71ba@gmail.com>
- <874k5ax07t.fsf@redhat.com> <20220207160516.2aead931.pasic@linux.ibm.com>
-User-Agent: Notmuch/0.34 (https://notmuchmail.org)
-Date: Mon, 07 Feb 2022 16:21:31 +0100
-Message-ID: <87v8xqvh1g.fsf@redhat.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nH5rC-0007MC-GY
+ for qemu-devel@nongnu.org; Mon, 07 Feb 2022 10:23:10 -0500
+Received: from [2a00:1450:4864:20::429] (port=41852
+ helo=mail-wr1-x429.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nH5rA-0008Ao-7E
+ for qemu-devel@nongnu.org; Mon, 07 Feb 2022 10:23:10 -0500
+Received: by mail-wr1-x429.google.com with SMTP id k1so8920010wrd.8
+ for <qemu-devel@nongnu.org>; Mon, 07 Feb 2022 07:23:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=17Y6SImHH3S/OQfwbWHmEwaQDhoZn7pbL9oytXMX2ew=;
+ b=xNc1mBDsLFha6//Og3LkPHo1X36T9/xnGIMy6Qc7nc32dvjkBbIjOJOXySRl4SSJq8
+ luqniylhM4bGfFV0AOog8GMN74zrGfL14wEtllrImxNrIFKMKoPJygZ0fw9C9Ub96g00
+ GU2Mi4kGDqTnjzZZZHHHJL9dbvEqZ6kcrwCHwcZzb0s6G77IBYFstUGDg/gL52fDWkCF
+ xWaXFwA9V3iEanF8NjeS+wAbwOw6WsBNqZLi/E0WyhklVlkXiqvla97dzOFolJ+zvOeJ
+ 3EhWZ5nGuaB4gHYbdFidJQ225hSJ6VGSYJY+BkfLzQzwMm51dYDQlMwtYqUdaljqynWd
+ mngQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=17Y6SImHH3S/OQfwbWHmEwaQDhoZn7pbL9oytXMX2ew=;
+ b=PLAE+P5BVzH2GgXOu1Zi00SGvkfWWcNTafJ89ay9amRMddzfc/XZYRmSOxKeQVwzAt
+ caK66L3tTJfcpTJiOt4tyvXFa/xrc8AXQFEVgeh2sMgNbePV1l4JppRP0GCAJSNXWifB
+ iD1ZcOd39XBLgUPoQuQPZlNomhzVT2fLDV6m4hs9ZL9WfGqnQZq8n8WTaGiJEoldMXIO
+ bZe+yPBKbewWlcbAJVF1sCWIbekf3C2AAAFB97QV2h3GDi8nHUnUD3b+7lM/tZDoN5eT
+ 4Nyh2f3Kw4NuPTRavAXV/voaxlXRtXGj1SdWrvDs39mBT5dJAm8y1GjyrrkGG6h+IeRM
+ kNlA==
+X-Gm-Message-State: AOAM533mSJYQPoVsBywsriwmEt3W7v3qi3WminAHV0vCXgaMDLmieg81
+ qlRNQ52eiyADkeoiV40rvda+Tu9LIzmdkYXcplETwQ==
+X-Google-Smtp-Source: ABdhPJzC8L7miytglhir6AId1731DdJd9DgpZvUHHTMtcRLan8IBPuH696eYwFcd6n/02nyxyB4S+BhNwmR70PWu7ds=
+X-Received: by 2002:a05:6000:258:: with SMTP id m24mr7708wrz.2.1644247386814; 
+ Mon, 07 Feb 2022 07:23:06 -0800 (PST)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=cohuck@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=cohuck@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+References: <20220127154639.2090164-1-peter.maydell@linaro.org>
+ <20220127154639.2090164-7-peter.maydell@linaro.org>
+ <2c67bde5-65b2-0af0-afde-7353a4fe2a1b@csgraf.de>
+In-Reply-To: <2c67bde5-65b2-0af0-afde-7353a4fe2a1b@csgraf.de>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 7 Feb 2022 15:22:55 +0000
+Message-ID: <CAFEAcA9DcHXRkA7gCihU6LrOc40EOHnVnTeEcf4+xSfG22eJ-g@mail.gmail.com>
+Subject: Re: [PATCH 06/16] hw/arm/xlnx-zcu102: Don't enable PSCI conduit when
+ booting guest in EL3
+To: Alexander Graf <agraf@csgraf.de>
+Content-Type: text/plain; charset="UTF-8"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::429
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::429;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x429.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -80,34 +83,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Brijesh Singh <brijesh.singh@amd.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
- Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-devel@nongnu.org,
- Halil Pasic <pasic@linux.ibm.com>
+Cc: qemu-devel@nongnu.org, Havard Skinnemoen <hskinnemoen@google.com>,
+ Yanan Wang <wangyanan55@huawei.com>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>, Rob Herring <robh@kernel.org>,
+ sstabellini@kernel.org, Andrey Smirnov <andrew.smirnov@gmail.com>,
+ michal.simek@xilinx.com, Joel Stanley <joel@jms.id.au>,
+ Andre Przywara <andre.przywara@arm.com>,
+ Alistair Francis <alistair@alistair23.me>,
+ Beniamino Galvani <b.galvani@gmail.com>,
+ Niek Linnenbank <nieklinnenbank@gmail.com>, qemu-arm@nongnu.org,
+ Igor Mitsyanko <i.mitsyanko@gmail.com>,
+ =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>,
+ Eduardo Habkost <eduardo@habkost.net>, Andrew Jeffery <andrew@aj.id.au>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
+ Jean-Christophe Dubois <jcd@tribudubois.net>, Tyrone Ting <kfting@nuvoton.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Feb 07 2022, Halil Pasic <pasic@linux.ibm.com> wrote:
-
-> On Mon, 07 Feb 2022 14:41:58 +0100
-> Cornelia Huck <cohuck@redhat.com> wrote:
-
->> OTOH, the decision to make it mandatory is certainly sound, and covered
->> by the spec. As the driver must be prepared for the device failing to
->> accept FEATURES_OK, we can make it mandatory here -- we should just not
->> say that it is considered mandatory from a spec standpoint. The spec
->> allows to make it mandatory, and we make it mandatory in our
->> implementation.
+On Mon, 7 Feb 2022 at 14:21, Alexander Graf <agraf@csgraf.de> wrote:
 >
-> Right. Was never my intention to say that it is considered mandatory
-> by the spec. I guess the spec considers it less optional than the
-> run of the mill features.
 >
-> Should I change the first sentence to something like "Unlike most virtio
-> features ACCESS_PATFORM is considered mandatory by QEMU, i.e. the driver
-> must accept it if offered by the device."
+> On 27.01.22 16:46, Peter Maydell wrote:
+> > Change the Xilinx ZynqMP-based board xlnx-zcu102 to use the new
+> > boot.c functionality to allow us to enable psci-conduit only if
+> > the guest is being booted in EL1 or EL2, so that if the user runs
+> > guest EL3 firmware code our PSCI emulation doesn't get in its
+> > way.
+> >
+> > To do this we stop setting the psci-conduit property on the CPU
+> > objects in the SoC code, and instead set the psci_conduit field in
+> > the arm_boot_info struct to tell the common boot loader code that
+> > we'd like PSCI if the guest is starting at an EL that it makes
+> > sense with.
+> >
+> > Note that this means that EL3 guest code will have no way
+> > to power on secondary cores, because we don't model any
+> > kind of power controller that does that on this SoC.
+> >
+> > Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+>
+>
+> It's been a while since I worked with ZynqMP, but typically your ATF in
+> EL3 will want to talk to a microblaze firmware blob on the PMU.
+>
+> I only see a stand alone PMU machine for microblaze and a PMU IRQ
+> handling I/O block in QEMU, but nothing that would listen to the events.
+> So I'm fairly sure it will be broken after this patch - and really only
+> worked by accident before.
 
-If you do s/PATFORM/PLATFORM/ :), yes. That's a much shorter way of
-expressing what I had been trying to argue in my reply :)
+Edgar submitted a power-control model patchset:
+https://patchew.org/QEMU/20220203140141.310870-1-edgar.iglesias@gmail.com/
 
+thanks
+-- PMM
 
