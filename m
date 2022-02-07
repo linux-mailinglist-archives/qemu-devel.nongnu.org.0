@@ -2,66 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A4524AC164
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Feb 2022 15:39:45 +0100 (CET)
-Received: from localhost ([::1]:39222 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 757904AC15B
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Feb 2022 15:36:50 +0100 (CET)
+Received: from localhost ([::1]:32898 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nH5B9-0003U1-Kl
-	for lists+qemu-devel@lfdr.de; Mon, 07 Feb 2022 09:39:43 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:57258)
+	id 1nH58L-0007TZ-51
+	for lists+qemu-devel@lfdr.de; Mon, 07 Feb 2022 09:36:49 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:57416)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1nH4tF-0000vy-Of
- for qemu-devel@nongnu.org; Mon, 07 Feb 2022 09:21:13 -0500
-Received: from frasgout.his.huawei.com ([185.176.79.56]:2273)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1nH4t2-00053a-Fo
- for qemu-devel@nongnu.org; Mon, 07 Feb 2022 09:21:13 -0500
-Received: from fraeml745-chm.china.huawei.com (unknown [172.18.147.200])
- by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4Jsp8l1p5Mz67YYY;
- Mon,  7 Feb 2022 22:16:07 +0800 (CST)
-Received: from lhreml710-chm.china.huawei.com (10.201.108.61) by
- fraeml745-chm.china.huawei.com (10.206.15.226) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.21; Mon, 7 Feb 2022 15:20:09 +0100
-Received: from localhost (10.122.247.231) by lhreml710-chm.china.huawei.com
- (10.201.108.61) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.21; Mon, 7 Feb
- 2022 14:20:08 +0000
-Date: Mon, 7 Feb 2022 14:20:07 +0000
-To: <qemu-devel@nongnu.org>, Alex =?ISO-8859-1?Q?Benn=E9e?=
- <alex.bennee@linaro.org>, Marcel Apfelbaum <marcel@redhat.com>, "Michael S .
- Tsirkin" <mst@redhat.com>, Igor Mammedov <imammedo@redhat.com>
-CC: <linux-cxl@vger.kernel.org>, Ben Widawsky <ben.widawsky@intel.com>, "Peter
- Maydell" <peter.maydell@linaro.org>, <linuxarm@huawei.com>, "Shameerali
- Kolothum Thodi" <shameerali.kolothum.thodi@huawei.com>, Philippe
- =?ISO-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>, Saransh Gupta1
- <saransh@ibm.com>, Shreyas Shah <shreyas.shah@elastics.cloud>, Chris Browy
- <cbrowy@avery-design.com>, Samarth Saxena <samarths@cadence.com>, "Dan
- Williams" <dan.j.williams@intel.com>
-Subject: Re: [PATCH v5 00/43] CXl 2.0 emulation Support
-Message-ID: <20220207142007.00004801@huawei.com>
-In-Reply-To: <20220202141037.17352-1-Jonathan.Cameron@huawei.com>
-References: <20220202141037.17352-1-Jonathan.Cameron@huawei.com>
-Organization: Huawei Technologies R&D (UK) Ltd.
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.29; x86_64-w64-mingw32)
+ (Exim 4.90_1) (envelope-from <agraf@csgraf.de>)
+ id 1nH4tY-00016r-5F; Mon, 07 Feb 2022 09:21:32 -0500
+Received: from mail.csgraf.de ([85.25.223.15]:33676 helo=zulu616.server4you.de)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <agraf@csgraf.de>)
+ id 1nH4tT-0005Tm-AV; Mon, 07 Feb 2022 09:21:29 -0500
+Received: from [0.0.0.0] (ec2-3-122-114-9.eu-central-1.compute.amazonaws.com
+ [3.122.114.9]) by csgraf.de (Postfix) with ESMTPSA id 5EB826080AD5;
+ Mon,  7 Feb 2022 15:21:17 +0100 (CET)
+Message-ID: <2c67bde5-65b2-0af0-afde-7353a4fe2a1b@csgraf.de>
+Date: Mon, 7 Feb 2022 15:21:16 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset="ISO-8859-1"
-Content-Transfer-Encoding: quoted-printable
-X-Originating-IP: [10.122.247.231]
-X-ClientProxiedBy: lhreml743-chm.china.huawei.com (10.201.108.193) To
- lhreml710-chm.china.huawei.com (10.201.108.61)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=185.176.79.56;
- envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.5.1
+Subject: Re: [PATCH 06/16] hw/arm/xlnx-zcu102: Don't enable PSCI conduit when
+ booting guest in EL3
+To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org
+References: <20220127154639.2090164-1-peter.maydell@linaro.org>
+ <20220127154639.2090164-7-peter.maydell@linaro.org>
+From: Alexander Graf <agraf@csgraf.de>
+In-Reply-To: <20220127154639.2090164-7-peter.maydell@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=85.25.223.15; envelope-from=agraf@csgraf.de;
+ helo=zulu616.server4you.de
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -74,96 +55,115 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Eduardo Habkost <eduardo@habkost.net>,
+ Beniamino Galvani <b.galvani@gmail.com>,
+ Alistair Francis <alistair@alistair23.me>, Rob Herring <robh@kernel.org>,
+ Andrew Jeffery <andrew@aj.id.au>, Andre Przywara <andre.przywara@arm.com>,
+ Tyrone Ting <kfting@nuvoton.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ Jean-Christophe Dubois <jcd@tribudubois.net>,
+ Yanan Wang <wangyanan55@huawei.com>, Igor Mitsyanko <i.mitsyanko@gmail.com>,
+ Niek Linnenbank <nieklinnenbank@gmail.com>, sstabellini@kernel.org,
+ =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ Havard Skinnemoen <hskinnemoen@google.com>,
+ Andrey Smirnov <andrew.smirnov@gmail.com>, michal.simek@xilinx.com,
+ Joel Stanley <joel@jms.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  Jonathan Cameron <Jonathan.Cameron@huawei.com>
-From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 
-On Wed, 2 Feb 2022 14:09:54 +0000
-Jonathan Cameron <Jonathan.Cameron@huawei.com> wrote:
 
-> Changes since v4:
-> https://lore.kernel.org/linux-cxl/20220124171705.10432-1-Jonathan.Cameron=
-@huawei.com/
->=20
-> Note documentation patch that Alex requested to follow.
-> I don't want to delay getting this out as Alex mentioned possibly
-> having time to continue reviewing in latter part of this week.
->=20
-> Issues identified by CI / Alex Benn=E9e
-> - Stubs added for hw/cxl/cxl-host and hw/acpi/cxl plus related meson
->   changes to use them as necessary.
-> - Drop uid from cxl-test (result of last minute change in v4 that was not
->   carried through to the test)
-> - Fix naming clash with field name ERROR which on some arches is defined
->   and results in the string being replaced with 0 in some of the
->   register field related defines.  Call it ERR instead.
-> - Fix type issue around mr->size by using 64 bit acessor functions.
-> - Add a new patch to exclude pxb-cxl from device-crash-test in similar
->   fashion to pxb.
->=20
-> CI tests now passing with exception of checkpatch which has what
-> I think is a false positive and build-oss-fuzz which keeps timing out.
-> https://gitlab.com/jic23/qemu/-/pipelines/460109208
-> There were a few tweaks to patch descriptions after I pushed that
-> out (I missed a few RB from Alex).
->=20
-> Other changes (mostly from Alex's review)
-> - Change component register handling to now report UNIMP and return 0
->   for 8 byte registers as we currently don't implement any of them.
->   Note that this means we need a kernel fix:
->   https://lore.kernel.org/linux-cxl/20220201153437.2873-1-Jonathan.Camero=
-n@huawei.com/
-> - Drop majority of the macros used in defining mailbox handlers in
->   favour of written out code.
-> - Use REG64 where appropriate. This was introduced whilst this set
->   has been underdevelopment so I missed it.
-> - Clarify some register access options wrt to CXL 2.0 Errata F4.
-> - Change timestamp to qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL)
-> - Use typed enums to enforce types of function arguements.
-> - Default to cxl being off in machine_class_init() removing
->   need to set it to off in machines where there is no support as yet.
-> - Add Alex's RB where given.
->=20
-> Looking in particular for:
-> * Review of the PCI interactions
-> * x86 and ARM machine interactions (particularly the memory maps)
-> * Review of the interleaving approach - is the basic idea
->   acceptable?
-> * Review of the command line interface.
-> * CXL related review welcome but much of that got reviewed
->   in earlier versions and hasn't changed substantially.
->=20
-> Big TODOs:
->=20
-> * Interleave boundary issues. I haven't yet solved this but didn't
->   want to futher delay the review of the rest of the series.
+On 27.01.22 16:46, Peter Maydell wrote:
+> Change the Xilinx ZynqMP-based board xlnx-zcu102 to use the new
+> boot.c functionality to allow us to enable psci-conduit only if
+> the guest is being booted in EL1 or EL2, so that if the user runs
+> guest EL3 firmware code our PSCI emulation doesn't get in its
+> way.
+>
+> To do this we stop setting the psci-conduit property on the CPU
+> objects in the SoC code, and instead set the psci_conduit field in
+> the arm_boot_info struct to tell the common boot loader code that
+> we'd like PSCI if the guest is starting at an EL that it makes
+> sense with.
+>
+> Note that this means that EL3 guest code will have no way
+> to power on secondary cores, because we don't model any
+> kind of power controller that does that on this SoC.
+>
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 
-So... After fixing my test, it became clear that Qemu won't issue
-unaligned memory accesses to device unless mr->ram =3D=3D true.
-We can't set that for a CXL Fixed Memory Window (CFMW) as we have only an
-indirect association with the CXL type3 memory devices and their
-backing RAM. The interleave decoding has to sit in between.
 
-So it 'kind of' works without any special handling as QEMU splits the
-accesses into two anyway.
+It's been a while since I worked with ZynqMP, but typically your ATF in 
+EL3 will want to talk to a microblaze firmware blob on the PMU.
 
-I don't yet understand fully the implications of this and whether
-it in any real way restricts what can be done with the interleaved
-memory under a CXL fixed memory region.  Would definitely appreciate
-inputs on this aspect.
+I only see a stand alone PMU machine for microblaze and a PMU IRQ 
+handling I/O block in QEMU, but nothing that would listen to the events. 
+So I'm fairly sure it will be broken after this patch - and really only 
+worked by accident before.
 
-The really short background story is:
+I've added Michal Simek and Stefano Stabellini (both Xilinx) to CC to 
+clarify and determine the best path forward here - either disallow EL3 
+in the model or build proper PMU emulation in QEMU which then handles 
+those PSCI triggered IPI events.
 
-1) Host PA memory region (CFMW) to which expectation is any access that
-would be fine to normal DDR/Ram or NVDIMMs should work as long
-as appropriate CXL topology and decoder configuration has been done
-to get the memory accesses to actual memory.
-2) The actual accesses to PAs in that region are interleaved
-via several decoders on path to memory - min granularity is 256
-bytes so any given access can only end up hitting 1 or 2 devices.
-3) Fun corner cases are unaligned access crossing the interleave
-boundary.=20
 
-Jonathan
+Alex
+
+[1] 
+https://github.com/Xilinx/arm-trusted-firmware/blob/master/plat/xilinx/zynqmp/plat_psci.c
+
+
+> ---
+> Again, if anybody knows the real-hardware EL3 behaviour for
+> CPUs that would be great.
+> ---
+>   hw/arm/xlnx-zcu102.c |  1 +
+>   hw/arm/xlnx-zynqmp.c | 13 ++++++++-----
+>   2 files changed, 9 insertions(+), 5 deletions(-)
+>
+> diff --git a/hw/arm/xlnx-zcu102.c b/hw/arm/xlnx-zcu102.c
+> index 45eb19ab3b7..4c84bb932aa 100644
+> --- a/hw/arm/xlnx-zcu102.c
+> +++ b/hw/arm/xlnx-zcu102.c
+> @@ -236,6 +236,7 @@ static void xlnx_zcu102_init(MachineState *machine)
+>       s->binfo.ram_size = ram_size;
+>       s->binfo.loader_start = 0;
+>       s->binfo.modify_dtb = zcu102_modify_dtb;
+> +    s->binfo.psci_conduit = QEMU_PSCI_CONDUIT_SMC;
+>       arm_load_kernel(s->soc.boot_cpu_ptr, machine, &s->binfo);
+>   }
+>   
+> diff --git a/hw/arm/xlnx-zynqmp.c b/hw/arm/xlnx-zynqmp.c
+> index 1c52a575aad..17305fe7b76 100644
+> --- a/hw/arm/xlnx-zynqmp.c
+> +++ b/hw/arm/xlnx-zynqmp.c
+> @@ -215,7 +215,10 @@ static void xlnx_zynqmp_create_rpu(MachineState *ms, XlnxZynqMPState *s,
+>   
+>           name = object_get_canonical_path_component(OBJECT(&s->rpu_cpu[i]));
+>           if (strcmp(name, boot_cpu)) {
+> -            /* Secondary CPUs start in PSCI powered-down state */
+> +            /*
+> +             * Secondary CPUs start in powered-down state.
+> +             * TODO: check this is what EL3 firmware expects.
+> +             */
+>               object_property_set_bool(OBJECT(&s->rpu_cpu[i]),
+>                                        "start-powered-off", true, &error_abort);
+>           } else {
+> @@ -435,12 +438,12 @@ static void xlnx_zynqmp_realize(DeviceState *dev, Error **errp)
+>       for (i = 0; i < num_apus; i++) {
+>           const char *name;
+>   
+> -        object_property_set_int(OBJECT(&s->apu_cpu[i]), "psci-conduit",
+> -                                QEMU_PSCI_CONDUIT_SMC, &error_abort);
+> -
+>           name = object_get_canonical_path_component(OBJECT(&s->apu_cpu[i]));
+>           if (strcmp(name, boot_cpu)) {
+> -            /* Secondary CPUs start in PSCI powered-down state */
+> +            /*
+> +             * Secondary CPUs start in powered-down state.
+> +             * TODO: check this is what EL3 firmware expects.
+> +             */
+>               object_property_set_bool(OBJECT(&s->apu_cpu[i]),
+>                                        "start-powered-off", true, &error_abort);
+>           } else {
 
