@@ -2,79 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7CF084ACC2F
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Feb 2022 23:43:46 +0100 (CET)
-Received: from localhost ([::1]:38166 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7FEF94ACC5C
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Feb 2022 23:57:15 +0100 (CET)
+Received: from localhost ([::1]:37680 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nHCjZ-000731-K0
-	for lists+qemu-devel@lfdr.de; Mon, 07 Feb 2022 17:43:45 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:33306)
+	id 1nHCwc-0001RJ-Kl
+	for lists+qemu-devel@lfdr.de; Mon, 07 Feb 2022 17:57:14 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:34474)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wwcohen@gmail.com>) id 1nHCgf-0003yt-I6
- for qemu-devel@nongnu.org; Mon, 07 Feb 2022 17:40:45 -0500
-Received: from [2607:f8b0:4864:20::72c] (port=34476
- helo=mail-qk1-x72c.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <wwcohen@gmail.com>) id 1nHCgd-0005jV-Ko
- for qemu-devel@nongnu.org; Mon, 07 Feb 2022 17:40:45 -0500
-Received: by mail-qk1-x72c.google.com with SMTP id bs32so12329398qkb.1
- for <qemu-devel@nongnu.org>; Mon, 07 Feb 2022 14:40:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=EuU6f2hsAisKalSy17XW/VmARf7CzBCyb+vigrLGnrQ=;
- b=mDcIkdQIPRA7YtIM/102EeTRyCxkcQmF87Jo5Y13hn3As1Pv+f7ho6MMwg/eJX22yQ
- g1iNZPEqEbXg0qhk78v64ijkJliOJ7ylvLr2rdrd6Vm4dEtbzgniiKZvMxTblDsm7v0G
- Ob5GLJHLM4yzQl2pstPkVjbITxJcbMFwJqaLGMDtIbLA6N3aJN+RbHKmtBBKmeyYCcln
- sCi536sh7MqgMw3hbMWpnQZUsV4f/AuwXiKl36ymI4+SsV8QbGBivdtqvWolskgEaTlu
- u3qMhcZN8BoURtQQ9Pc2OKG1sMI+sbG7pMyWCZtmYuzm4AFhrTsrji6+6d8Cj8iEa+2I
- zXfA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=EuU6f2hsAisKalSy17XW/VmARf7CzBCyb+vigrLGnrQ=;
- b=K5Xie1KD9QStKZL//n81W8Ziq6bl9sJy7B4RzbntfyHZnXcfjU1ernfddOhZR2oZLK
- fJO9SLxtFWh8INDry2JiHux5CAY93Xqh3DuPoPS0P2eg/lfHvmqvyATiSKUnLJCwcTv/
- YrWiUUCcXlEslWqFsozIC0VMDB+Wp0zxBoSyFNvZBaWydFs+esNkOZgC8u0jLL0MGHFs
- Y39/TLyPBBAswEn1iGHHyQbUFxMCakg8JvnzkwFWf7FBHgMQP2XgTwVupZg8GaTHQfIY
- rpX9jAxphC1KiggXk4hI/FHwXeaoVLlcnaapEV7VqTKbFDMpto9iSyFKn12VL67ryiNC
- NxKQ==
-X-Gm-Message-State: AOAM531G+ZVXHngHgQtlbNmTjgYvyJfoqw6W+Ypp1boK3UeR74OR4qZk
- 85XXt7ZzLV/hoEFB+5+XWIxU5irmi/ZOyw==
-X-Google-Smtp-Source: ABdhPJyBfSOjCc3SFDldBKj7WE4ozjwy5wym1ZFLg1bcXC5yKLcqP7rSHnty4hYKYxqdQENMyHKaaw==
-X-Received: by 2002:a05:620a:4151:: with SMTP id
- k17mr1178093qko.630.1644273641489; 
- Mon, 07 Feb 2022 14:40:41 -0800 (PST)
-Received: from localhost.localdomain
- (209-6-248-219.s2265.c3-0.wrx-ubr1.sbo-wrx.ma.cable.rcncustomer.com.
- [209.6.248.219])
- by smtp.gmail.com with ESMTPSA id j14sm6444744qko.10.2022.02.07.14.40.40
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 07 Feb 2022 14:40:40 -0800 (PST)
-From: Will Cohen <wwcohen@gmail.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v5 11/11] 9p: darwin: Adjust assumption on virtio-9p-test
-Date: Mon,  7 Feb 2022 17:40:24 -0500
-Message-Id: <20220207224024.87745-12-wwcohen@gmail.com>
-X-Mailer: git-send-email 2.32.0 (Apple Git-132)
-In-Reply-To: <20220207224024.87745-1-wwcohen@gmail.com>
-References: <20220207224024.87745-1-wwcohen@gmail.com>
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1nHCoD-0000Ht-A6
+ for qemu-devel@nongnu.org; Mon, 07 Feb 2022 17:48:34 -0500
+Received: from kylie.crudebyte.com ([5.189.157.229]:34043)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1nHCnl-0006jn-MY
+ for qemu-devel@nongnu.org; Mon, 07 Feb 2022 17:48:08 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
+ MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+ Content-ID:Content-Description;
+ bh=mPo/BlFt4qzVG3ctYcDDuTb11xRQOjuuKKzqRWP/i7s=; b=a6+BRiN/R6lOk69PAmLLjatRVW
+ xGoScRSmpLqYXHStL244lgkvq8YX6FAGqLb6n7cn+siZ19gy6B1NdA/m+gb2yp4iqzbeFcPrravKY
+ 4oCvYTTJm/tfWeuqhIF32pybvFH0Y46MM9eOAtGIt/3EL72y6PL30Ul4cg1A51cA+YjEJbcmwK4BA
+ Xs/MlbVl6fFIHSHIEIZQ2Pe9TH9x358TCIjYvC+LjbcafmOLpbSXKT4G+xpKoPtCVbbK1Rsol7akK
+ KWeERlK6j398oqwQeJ0lyWmCjulcNRAYmVEvOiCEeJTX8mgtqvRQiBZBnp3vC5jHpCyipK9eUVU72
+ Hd202AOeWrtlZGjQe0GlVolnAL/hNWFQ79c786d3dOa8LZXwb/2OOqXE50FBq7+5+GxYJ9eHo7/nz
+ XWSO33i3abs/bSPrz9LMYFZBB97QydZfHv4fMYuK/qpwYd/GGybiHJtsQzKbYwglROypWdaG/O3Q6
+ 7xfkdgb8JhV29ZNCugQHCng9iL2IdE7DnJ2LzrVazfLl3qRc835LzjtdxwntVA3d0sjIzBSGDNbH3
+ gOvj61dnRT4IaBLJFNvkwL8+R/CypO+/Cfhs3Z6XFSNiusL641MyVsMQT1oTdYKRSXJ2odEUrjk/L
+ KaJ0rmqMF+7bS1ZCVCiT/s4L7epmlRdfNf2tnmEjg=;
+From: Christian Schoenebeck <qemu_oss@crudebyte.com>
+To: Will Cohen <wwcohen@gmail.com>
+Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Greg Kurz <groug@kaod.org>,
+ Philippe =?ISO-8859-1?Q?Mathieu=2DDaud=E9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org, Laurent Vivier <lvivier@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, hi@alyssa.is,
+ Michael Roitzsch <reactorcontrol@icloud.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Keno Fischer <keno@juliacomputing.com>,
+ Vivek <vgoyal@redhat.com>
+Subject: Re: [PATCH v4 09/11] 9p: darwin: Implement compatibility for mknodat
+Date: Mon, 07 Feb 2022 23:47:58 +0100
+Message-ID: <8937604.n9ZydULHvW@silver>
+In-Reply-To: <CAB26zV23fCzmtQd+heort4rXkqU0SD-dSBVwzabxE-64edWFmg@mail.gmail.com>
+References: <20220206200719.74464-1-wwcohen@gmail.com>
+ <5204641.elYuxvqpol@silver>
+ <CAB26zV23fCzmtQd+heort4rXkqU0SD-dSBVwzabxE-64edWFmg@mail.gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::72c
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::72c;
- envelope-from=wwcohen@gmail.com; helo=mail-qk1-x72c.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"
+Received-SPF: pass client-ip=5.189.157.229;
+ envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -87,53 +72,221 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Fabian Franz <fabianfranz.oss@gmail.com>,
- Christian Schoenebeck <qemu_oss@crudebyte.com>, Greg Kurz <groug@kaod.org>,
- hi@alyssa.is, Will Cohen <wwcohen@gmail.com>,
- Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The previous test depended on the assumption that P9_DOTL_AT_REMOVEDIR
-and AT_REMOVEDIR have the same value.
+On Montag, 7. Februar 2022 22:07:34 CET Will Cohen wrote:
+> On Mon, Feb 7, 2022 at 9:21 AM Christian Schoenebeck
+> <qemu_oss@crudebyte.com>
+> wrote:
+> > On Montag, 7. Februar 2022 11:57:25 CET Dr. David Alan Gilbert wrote:
+> > > * Greg Kurz (groug@kaod.org) wrote:
+> > > > On Mon, 7 Feb 2022 11:30:18 +0100
+> > > >=20
+> > > > Philippe Mathieu-Daud=E9 <f4bug@amsat.org> wrote:
+> > > > > On 7/2/22 09:47, Greg Kurz wrote:
+> > > > > > On Sun, 6 Feb 2022 20:10:23 -0500
+> > > > > >=20
+> > > > > > Will Cohen <wwcohen@gmail.com> wrote:
+> > > > > >> This patch set currently places it in 9p-util only because 9p =
+is
+> >=20
+> > the
+> >=20
+> > > > > >> only
+> > > > > >> place where this issue seems to have come up so far and we were
+> >=20
+> > wary
+> >=20
+> > > > > >> of
+> > > > > >> editing files too far afield, but I have no attachment to its
+> > > > > >> specific
+> > > > > >> location!
+> > > > > >=20
+> > > > > > Inline comments are preferred on qemu-devel. Please don't top p=
+ost
+> >=20
+> > !
+> >=20
+> > > > > > This complicates the review a lot.
+> > > > > >=20
+> > > > > > This is indeed a good candidate for osdep. This being said, unl=
+ess
+> > > > > > there's
+> > > > > > some other user in the QEMU code base, it is acceptable to leave
+> > > > > > it
+> > > > > > under
+> > > > > > 9pfs.
+> > > > >=20
+> > > > > virtiofsd could eventually use it.
+> > > >=20
+> > > > Indeed but virtiofsd is for linux hosts only AFAICT and I'm not awa=
+re
+> >=20
+> > of
+> >=20
+> > > > any work to support any other host OS.
+> > > >=20
+> > > > Cc'ing virtio-fs people for inputs on this topic.
+> > >=20
+> > > Indeeed, there's a lot of Linux specific code in the virtiofsd - I kn=
+ow
+> > > people are interested in other platforms, but I'm not sure that's the
+> > > right starting point.
+> > >=20
+> > > Dave
+> >=20
+> > Agreeing with Greg here: i.e. I would have placed this into osdep, but I
+> > would
+> > not insist on it either.
+> >=20
+> > Best regards,
+> > Christian Schoenebeck
+>=20
+> This makes sense. A revised version of this patch, moving qemu_mknodat fr=
+om
+> 9p-util to osdep and os-posix, is attached below. I'd appreciate any
+> feedback from those looped in here, so that the context isn't lost before
+> resubmitting as a v5 patch, especially since this is starting to touch
+> files outside of 9p.
+>=20
+> From c9713c87163da7c96b5357d0d85ac318ae3d3051 Mon Sep 17 00:00:00 2001
+> From: Keno Fischer <keno@juliacomputing.com>
+> Date: Sat, 16 Jun 2018 20:56:55 -0400
+> Subject: [PATCH] 9p: darwin: Implement compatibility for mknodat
+>=20
+> Darwin does not support mknodat. However, to avoid race conditions
+> with later setting the permissions, we must avoid using mknod on
+> the full path instead. We could try to fchdir, but that would cause
+> problems if multiple threads try to call mknodat at the same time.
+> However, luckily there is a solution: Darwin includes a function
+> that sets the cwd for the current thread only.
+> This should suffice to use mknod safely.
+>=20
+> This function (pthread_fchdir_np) is protected by a check in
+> meson in a patch later in tihs series.
+>=20
+> Signed-off-by: Keno Fischer <keno@juliacomputing.com>
+> Signed-off-by: Michael Roitzsch <reactorcontrol@icloud.com>
+> [Will Cohen: - Adjust coding style
+>              - Replace clang references with gcc
+>              - Note radar filed with Apple for missing syscall
+>              - Replace direct syscall with pthread_fchdir_np and
+>                adjust patch notes accordingly
+>              - Move qemu_mknodat from 9p-util to osdep and os-posix]
+> Signed-off-by: Will Cohen <wwcohen@gmail.com>
+> ---
+>  hw/9pfs/9p-local.c   |  4 ++--
+>  include/qemu/osdep.h | 10 ++++++++++
+>  os-posix.c           | 34 ++++++++++++++++++++++++++++++++++
+>  3 files changed, 46 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/hw/9pfs/9p-local.c b/hw/9pfs/9p-local.c
+> index a0d08e5216..d42ce6d8b8 100644
+> --- a/hw/9pfs/9p-local.c
+> +++ b/hw/9pfs/9p-local.c
+> @@ -682,7 +682,7 @@ static int local_mknod(FsContext *fs_ctx, V9fsPath
+> *dir_path,
+>=20
+>      if (fs_ctx->export_flags & V9FS_SM_MAPPED ||
+>          fs_ctx->export_flags & V9FS_SM_MAPPED_FILE) {
+> -        err =3D mknodat(dirfd, name, fs_ctx->fmode | S_IFREG, 0);
+> +        err =3D qemu_mknodat(dirfd, name, fs_ctx->fmode | S_IFREG, 0);
+>          if (err =3D=3D -1) {
+>              goto out;
+>          }
+> @@ -697,7 +697,7 @@ static int local_mknod(FsContext *fs_ctx, V9fsPath
+> *dir_path,
+>          }
+>      } else if (fs_ctx->export_flags & V9FS_SM_PASSTHROUGH ||
+>                 fs_ctx->export_flags & V9FS_SM_NONE) {
+> -        err =3D mknodat(dirfd, name, credp->fc_mode, credp->fc_rdev);
+> +        err =3D qemu_mknodat(dirfd, name, credp->fc_mode, credp->fc_rdev=
+);
+>          if (err =3D=3D -1) {
+>              goto out;
+>          }
+> diff --git a/include/qemu/osdep.h b/include/qemu/osdep.h
+> index d1660d67fa..f3a8367ece 100644
+> --- a/include/qemu/osdep.h
+> +++ b/include/qemu/osdep.h
+> @@ -810,3 +810,13 @@ static inline int
+> platform_does_not_support_system(const char *command)
+>  #endif
+>=20
+>  #endif
+> +
+> +/*
+> + * As long as mknodat is not available on macOS, this workaround
+> + * using pthread_fchdir_np is needed. qemu_mknodat is defined in
+> + * os-posix.c
+> + */
+> +#ifdef CONFIG_DARWIN
+> +int pthread_fchdir_np(int fd);
+> +#endif
 
-While this is true on Linux, it is not true everywhere, and leads to an
-incorrect test failure on unlink_at, noticed when adding 9p to darwin:
+I would make that:
 
-Received response 7 (RLERROR) instead of 77 (RUNLINKAT)
-Rlerror has errno 22 (Invalid argument)
-**
+#ifdef CONFIG_DARWIN
+int pthread_fchdir_np(int fd) API_AVAILABLE(macosx(10.12));
+#endif
 
-ERROR:../tests/qtest/virtio-9p-test.c:305:v9fs_req_recv: assertion
-failed (hdr.id == id): (7 == 77) Bail out!
+here and ...
 
-ERROR:../tests/qtest/virtio-9p-test.c:305:v9fs_req_recv: assertion
-failed (hdr.id == id): (7 == 77)
+> +int qemu_mknodat(int dirfd, const char *filename, mode_t mode, dev_t dev=
+);
+> diff --git a/os-posix.c b/os-posix.c
+> index ae6c9f2a5e..95c1607065 100644
+> --- a/os-posix.c
+> +++ b/os-posix.c
+> @@ -24,6 +24,7 @@
+>   */
+>=20
+>  #include "qemu/osdep.h"
+> +#include <os/availability.h>
+>  #include <sys/wait.h>
+>  #include <pwd.h>
+>  #include <grp.h>
+> @@ -332,3 +333,36 @@ int os_mlock(void)
+>      return -ENOSYS;
+>  #endif
+>  }
+> +
+> +/*
+> + * As long as mknodat is not available on macOS, this workaround
+> + * using pthread_fchdir_np is needed.
+> + *
+> + * Radar filed with Apple for implementing mknodat:
+> + * rdar://FB9862426 (https://openradar.appspot.com/FB9862426)
+> + */
+> +#ifdef CONFIG_DARWIN
+> +
+> +int pthread_fchdir_np(int fd) API_AVAILABLE(macosx(10.12));
 
-Signed-off-by: Fabian Franz <fabianfranz.oss@gmail.com>
-[Will Cohen: - Add explanation of patch and description
-               of pre-patch test failure]
-Signed-off-by: Will Cohen <wwcohen@gmail.com>
-Acked-by: Thomas Huth <thuth@redhat.com>
----
- tests/qtest/virtio-9p-test.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+=2E.. drop the duplicate declaration of pthread_fchdir_np() here.
 
-diff --git a/tests/qtest/virtio-9p-test.c b/tests/qtest/virtio-9p-test.c
-index 41fed41de1..6bcf89f0f8 100644
---- a/tests/qtest/virtio-9p-test.c
-+++ b/tests/qtest/virtio-9p-test.c
-@@ -1270,7 +1270,7 @@ static void fs_unlinkat_dir(void *obj, void *data, QGuestAllocator *t_alloc)
-     /* ... and is actually a directory */
-     g_assert((st.st_mode & S_IFMT) == S_IFDIR);
- 
--    do_unlinkat(v9p, "/", "02", AT_REMOVEDIR);
-+    do_unlinkat(v9p, "/", "02", P9_DOTL_AT_REMOVEDIR);
-     /* directory should be gone now */
-     g_assert(stat(new_dir, &st) != 0);
- 
--- 
-2.32.0 (Apple Git-132)
+> +
+> +int qemu_mknodat(int dirfd, const char *filename, mode_t mode, dev_t dev)
+> +{
+> +    int preserved_errno, err;
+> +    if (pthread_fchdir_np(dirfd) < 0) {
+> +        return -1;
+> +    }
+> +    err =3D mknod(filename, mode, dev);
+> +    preserved_errno =3D errno;
+> +    /* Stop using the thread-local cwd */
+> +    pthread_fchdir_np(-1);
+> +    if (err < 0) {
+> +        errno =3D preserved_errno;
+> +    }
+> +    return err;
+> +}
+> +#else
+> +int qemu_mknodat(int dirfd, const char *filename, mode_t mode, dev_t dev)
+> +{
+> +    return mknodat(dirfd, filename, mode, dev);
+> +}
+> +#endif
+
 
 
