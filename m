@@ -2,82 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3351B4AB8D4
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Feb 2022 11:39:06 +0100 (CET)
-Received: from localhost ([::1]:45644 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C6B344AB8F3
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Feb 2022 11:44:50 +0100 (CET)
+Received: from localhost ([::1]:52296 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nH1QH-0004vO-0r
-	for lists+qemu-devel@lfdr.de; Mon, 07 Feb 2022 05:39:05 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:56342)
+	id 1nH1Vp-00010u-Nv
+	for lists+qemu-devel@lfdr.de; Mon, 07 Feb 2022 05:44:49 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:59206)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nH18a-0001yr-VY
- for qemu-devel@nongnu.org; Mon, 07 Feb 2022 05:20:51 -0500
-Received: from [2a00:1450:4864:20::436] (port=38432
- helo=mail-wr1-x436.google.com)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1nH1Hs-0003NH-5h
+ for qemu-devel@nongnu.org; Mon, 07 Feb 2022 05:30:24 -0500
+Received: from [2a00:1450:4864:20::42a] (port=34721
+ helo=mail-wr1-x42a.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nH18T-0006fj-Es
- for qemu-devel@nongnu.org; Mon, 07 Feb 2022 05:20:48 -0500
-Received: by mail-wr1-x436.google.com with SMTP id s10so21217396wra.5
- for <qemu-devel@nongnu.org>; Mon, 07 Feb 2022 02:20:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=+dxwU5fck146Df7Y2u19/HrEO+4gGr87S/lNsJrFUbM=;
- b=AAE5XSckpBzm6oeY4QKSNq+iWf/+KfprqlE3xVTAemeYqsGYoitEngpBXlnAEXnybv
- GiJuy6XRJI+3hSMwDiUfD2/ez7W4eemx7D1EB/nThhmsWASp3E5YIWrTxwe3cQwWO6qT
- /SsMl6pvjQVB50Ob84ZrOjthSIePKWnILrykKLIoxWbRbfEi6f8tRhuJa6hqrX7g5ICA
- V5vb/wBtIxt5mjJgDz0Xx9U6pbYXAqc97AUxhm3gc6RhpWK0aVfPv8p73V8v2pZl1XUf
- VJNp5FK+hlDy/SxXv3exVfLuAII1rkf5TvKIYwNNJICkiOsO8R9o1vGDFhmvhiaQXhkR
- 70ig==
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1nH1Hp-0008Cs-TU
+ for qemu-devel@nongnu.org; Mon, 07 Feb 2022 05:30:23 -0500
+Received: by mail-wr1-x42a.google.com with SMTP id f17so23891552wrx.1
+ for <qemu-devel@nongnu.org>; Mon, 07 Feb 2022 02:30:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=E3+oS3KcUriNFQOyz8LYFq2j0Jlv73biXoSD7kuvXUo=;
+ b=GiQEU3984SaeHlUEHF+Fcvwp8z9qXx53wZSW5LHjCyhiokkv5/SQ0/ROkOKlzw7BlM
+ SNFAztKCMPnUFF5llQMzr+NHvnFt4zwqKFs3jqRMKks5O3cnXGfFptbkHkMzBroddpJ+
+ 2JKh8x90WaGbEGXoG/xxUCrmsBQgXubJ22tZpjTeamLlhTREwPLvd7yN+gzTn1yTlBdq
+ uFC9/VmZX372bc5S1+Vyb0ULWzHiiQJ8fXdAS27uEAZQX96qwGkIRaHjJwLt08CtMB0+
+ ARW9AUJGfg/XYb2BmIqKI33eFbSjoijuqkUAgCRzrHq4xZH6vuhzlToH9cGtPzeNUvnV
+ mX0A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=+dxwU5fck146Df7Y2u19/HrEO+4gGr87S/lNsJrFUbM=;
- b=pIuIIB7IdjXSyOXjQcVaE1odJ6h3lWtQQvQwXdfJt1WX/+b5vnN0cA7TzxNezPSuNf
- 6+UMO8f6PQDFMY3OXYc3iP1Hhf39qMXa8SHY/4xjUe8JIribstKYv/j4HwiRe/xB30cV
- 8jAxsw/U8YNGrkxoviqjp3PbeYAwRVvsV2kWPmBoZ2dL5heKTBuwz3dbsOrkw5zBEJVg
- oyoqxleh5Vm/X12c3ZlzAS62vY2DSWm/UEJCIL6mu8wgR7BL2WGInZwlsNh5Bz0W3+MC
- uYPR4e9hN0k5twnQSQcO0ni+jdehKTj60J+2fyHeTTCck1MgsP0z5Io4JQiK68keFxaw
- qQ/Q==
-X-Gm-Message-State: AOAM532ucrIZ/hwMRS5E1opxvhgtxaCv3jVL5eGqerlWwQj+RRa5Zt6f
- Brudn0pDNoXWnS+TOImbVACDgg==
-X-Google-Smtp-Source: ABdhPJyGgYmJGcrwmIKXGXjOCnIgBk3lA8Kc7x0W5DAstPqO3ssyyYc9TK42IPcyBthcQ3MctMgIlg==
-X-Received: by 2002:a05:6000:18a2:: with SMTP id
- b2mr9692581wri.434.1644229232335; 
- Mon, 07 Feb 2022 02:20:32 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id n13sm17876739wms.8.2022.02.07.02.20.31
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 07 Feb 2022 02:20:31 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id A6FBB1FFB7;
- Mon,  7 Feb 2022 10:20:30 +0000 (GMT)
-References: <20220112112722.3641051-1-alex.bennee@linaro.org>
- <20220112112722.3641051-32-alex.bennee@linaro.org>
- <2b8db685-ef24-cfd7-6942-526152cbe166@redhat.com>
-User-agent: mu4e 1.7.7; emacs 28.0.91
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Thomas Huth <thuth@redhat.com>
-Subject: Re: [PULL 31/31] linux-user: Remove the deprecated ppc64abi32 target
-Date: Mon, 07 Feb 2022 10:20:13 +0000
-In-reply-to: <2b8db685-ef24-cfd7-6942-526152cbe166@redhat.com>
-Message-ID: <87leyngeq9.fsf@linaro.org>
+ h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+ :subject:content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=E3+oS3KcUriNFQOyz8LYFq2j0Jlv73biXoSD7kuvXUo=;
+ b=QbmIY4gXR4KxBiFsmIrMcodYdHit9Yd0vDgezJ53IcS0qSCoKCG9JNM5d9qFG4qo7t
+ HpUgvkxfEfCu6Fa5j7pc+KpNhkJLZ9T1lPU2AANq1YaxN8GaebWbNkTl7Kri9LLoKDx3
+ NiWMgTtrdhs36ePMiuUmfyR3mlgztk25vOPRdIdzktYytnz4LMgFZfU4RCum/azK1A3x
+ Lwuiu+7LxEFni0Xup0kTyFs3OjluxQXm6Jjz0y4U2yPaj14z/W7KtwM90e7OseEk0d07
+ QteG94qf2uDu3fdofjttxjqQu687VLaVnMQ/xtAdyBkmLicNKoNCH1p3lbTgKZcsPqBg
+ Iwcg==
+X-Gm-Message-State: AOAM532xtEInj5xX6e28t73NItwLeNWVNhKi822trpbUZcpzUGPOaC8J
+ Lki3owpYhVyy8cCeuwIFFzM=
+X-Google-Smtp-Source: ABdhPJwZTfsCtRWKULQ853jJFnFVmERJRjS+PIYdlFdUaD1Z2U0qk8ruQt8fhkmGnlfxerZUnM9Chw==
+X-Received: by 2002:adf:e784:: with SMTP id n4mr9369229wrm.215.1644229819692; 
+ Mon, 07 Feb 2022 02:30:19 -0800 (PST)
+Received: from [192.168.1.33] (154.red-83-50-83.dynamicip.rima-tde.net.
+ [83.50.83.154])
+ by smtp.gmail.com with ESMTPSA id 3sm2388966wrz.86.2022.02.07.02.30.18
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 07 Feb 2022 02:30:19 -0800 (PST)
+Message-ID: <a48d6e38-e420-fb34-899d-7d933b384089@amsat.org>
+Date: Mon, 7 Feb 2022 11:30:18 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::436
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.5.1
+Subject: Re: [PATCH v4 09/11] 9p: darwin: Implement compatibility for mknodat
+Content-Language: en-US
+To: Greg Kurz <groug@kaod.org>, Will Cohen <wwcohen@gmail.com>
+Cc: qemu-devel@nongnu.org, Laurent Vivier <lvivier@redhat.com>,
+ Thomas Huth <thuth@redhat.com>,
+ Christian Schoenebeck <qemu_oss@crudebyte.com>, hi@alyssa.is,
+ Michael Roitzsch <reactorcontrol@icloud.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Keno Fischer <keno@juliacomputing.com>
+References: <20220206200719.74464-1-wwcohen@gmail.com>
+ <20220206200719.74464-10-wwcohen@gmail.com>
+ <b32f0267-c8b1-2e50-b81f-65289c89e802@amsat.org>
+ <CAB26zV1ZmpODTqv20Ae77+SWvG5Cf1GWdi7FuR_L_aWjFcgfnA@mail.gmail.com>
+ <20220207094717.5f92da9d@bahia>
+In-Reply-To: <20220207094717.5f92da9d@bahia>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42a
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::436;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x436.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42a.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
  PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
@@ -93,38 +101,27 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, Beraldo Leal <bleal@redhat.com>,
- "reviewer:Incompatible changes" <libvir-list@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>, qemu-devel@nongnu.org,
- =?utf-8?Q?C=C3=A9dric?= Le Goater <clg@kaod.org>,
- Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
+On 7/2/22 09:47, Greg Kurz wrote:
+> On Sun, 6 Feb 2022 20:10:23 -0500
+> Will Cohen <wwcohen@gmail.com> wrote:
+> 
+>> This patch set currently places it in 9p-util only because 9p is the only
+>> place where this issue seems to have come up so far and we were wary of
+>> editing files too far afield, but I have no attachment to its specific
+>> location!
+>>
+> 
+> Inline comments are preferred on qemu-devel. Please don't top post !
+> This complicates the review a lot.
+> 
+> This is indeed a good candidate for osdep. This being said, unless there's
+> some other user in the QEMU code base, it is acceptable to leave it under
+> 9pfs.
 
-Thomas Huth <thuth@redhat.com> writes:
-
-> On 12/01/2022 12.27, Alex Benn=C3=A9e wrote:
->> From: Thomas Huth <thuth@redhat.com>
->> It's likely broken, and nobody cared for picking it up again
->> during the deprecation phase, so let's remove this now.
->> Since this is the last entry in deprecated_targets_list, remove
->> the related code in the configure script, too.
->> Signed-off-by: Thomas Huth <thuth@redhat.com>
->
->  Hi Alex!
->
-> What happened to this patch here? Seems like it got lost in v2 of the
-> pull request?
-
-Looks like... I'll include it in the PR I'll roll later today.
-
->
->  Thomas
-
-
---=20
-Alex Benn=C3=A9e
+virtiofsd could eventually use it.
 
