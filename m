@@ -2,106 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5BEA94AC468
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Feb 2022 16:54:15 +0100 (CET)
-Received: from localhost ([::1]:59162 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DFA584AC38A
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Feb 2022 16:32:14 +0100 (CET)
+Received: from localhost ([::1]:57818 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nH6LF-0003W8-BX
-	for lists+qemu-devel@lfdr.de; Mon, 07 Feb 2022 10:54:13 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:41844)
+	id 1nH5zy-0006wG-1i
+	for lists+qemu-devel@lfdr.de; Mon, 07 Feb 2022 10:32:14 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:43438)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pasic@linux.ibm.com>)
- id 1nH5bD-0004l1-Th
- for qemu-devel@nongnu.org; Mon, 07 Feb 2022 10:06:40 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:9058)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1nH5es-0002pD-KE
+ for qemu-devel@nongnu.org; Mon, 07 Feb 2022 10:10:28 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:52999)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pasic@linux.ibm.com>)
- id 1nH5aS-0004zR-4E
- for qemu-devel@nongnu.org; Mon, 07 Feb 2022 10:05:56 -0500
-Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 217EhnCG026217; 
- Mon, 7 Feb 2022 15:05:25 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=date : from : to : cc :
- subject : message-id : in-reply-to : references : mime-version :
- content-type : content-transfer-encoding; s=pp1;
- bh=AGdybD3GyaJSQsPoJC0rA/fcd1xmJZR4GnBbNKQacL4=;
- b=ClnrV8KXSzxyFXlqF/zOMQ+AnvdVxxWfEUTS9vj3HJuIb0rcWDj/+aZJiRp+j1TIDtJh
- prukjNpKZ8P51rT+MBlTbh0Vj5aZ5Veosv5CUCPIzZVmekHNaFdmD11HQsglTpNk8RuP
- E3LCLTYm0mxIwg4Cgj/omaFrJexrcwwmEUIACt75sdTG4/0+yP0sdXdDUUVlI0IlHZRy
- N3C8h1q4S09igDg3uVbjTF/qHKbE4nsmO32OFzb8tLSujCrh83Ye5IgiEiJnCYWL18oS
- zsGxBHXapOByyjcMXNVMpC5AVvqzewugdOM88erxdlXVSBixeRhl1Ee4RciOxnebT2h+ rA== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3e22st6ukq-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 07 Feb 2022 15:05:24 +0000
-Received: from m0098396.ppops.net (m0098396.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 217EjJF5031119;
- Mon, 7 Feb 2022 15:05:24 GMT
-Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.98])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3e22st6uhc-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 07 Feb 2022 15:05:24 +0000
-Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
- by ppma03ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 217F2Stx019647;
- Mon, 7 Feb 2022 15:05:21 GMT
-Received: from b06avi18878370.portsmouth.uk.ibm.com
- (b06avi18878370.portsmouth.uk.ibm.com [9.149.26.194])
- by ppma03ams.nl.ibm.com with ESMTP id 3e1gv95yxb-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 07 Feb 2022 15:05:21 +0000
-Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com
- [9.149.105.61])
- by b06avi18878370.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
- id 217F5JqX47317270
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 7 Feb 2022 15:05:19 GMT
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 6757A11C06E;
- Mon,  7 Feb 2022 15:05:19 +0000 (GMT)
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id EAB6911C04A;
- Mon,  7 Feb 2022 15:05:18 +0000 (GMT)
-Received: from li-e979b1cc-23ba-11b2-a85c-dfd230f6cf82 (unknown [9.171.70.169])
- by d06av25.portsmouth.uk.ibm.com (Postfix) with SMTP;
- Mon,  7 Feb 2022 15:05:18 +0000 (GMT)
-Date: Mon, 7 Feb 2022 16:05:16 +0100
-From: Halil Pasic <pasic@linux.ibm.com>
-To: Cornelia Huck <cohuck@redhat.com>
-Subject: Re: [RFC PATCH 1/1] virtio: fix feature negotiation for
- ACCESS_PLATFORM
-Message-ID: <20220207160516.2aead931.pasic@linux.ibm.com>
-In-Reply-To: <874k5ax07t.fsf@redhat.com>
-References: <20220203164556.2666565-1-pasic@linux.ibm.com>
- <7df172fe-008a-0b98-2780-5155c98a71ba@gmail.com>
- <874k5ax07t.fsf@redhat.com>
-Organization: IBM
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1nH5eo-0005oB-Do
+ for qemu-devel@nongnu.org; Mon, 07 Feb 2022 10:10:24 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1644246620;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=mtTdy4xIBlfAdZUmHlXSqagU/GHrBC6ynwM2vD77D9I=;
+ b=g5OCkQiKE6bBPuM5yDqE8eQyFIyM0yoedxGcavS3vnpGJQinp33ja5NtqihKMwbjVw+UtS
+ koeGRW7q2gWhix1yK5kwE0ETU6O6qpU7KGKKpmSagasBHTyc7vBEwtkz/yD26Hjul46TLP
+ 3aQNrf2GDssRbBMmsUXZu6HWvS3/mQs=
+Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
+ [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-446-ghq98dYgPIatAmKT55V3Fg-1; Mon, 07 Feb 2022 10:10:19 -0500
+X-MC-Unique: ghq98dYgPIatAmKT55V3Fg-1
+Received: by mail-ej1-f70.google.com with SMTP id
+ fy20-20020a170906b7d400b006c97d43badaso1187031ejb.14
+ for <qemu-devel@nongnu.org>; Mon, 07 Feb 2022 07:10:18 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=mtTdy4xIBlfAdZUmHlXSqagU/GHrBC6ynwM2vD77D9I=;
+ b=z4g+R4Vqsc0VEmB4SZ5/U8Cv4ujPxA8DNadr6ZXbVv3YMVWoHYVVPi8toqjkuNMm8S
+ +saA8tUippSkVPJArZoXtnFffUOSCdyREoygyKZ20mY8WusxlmpI5z5Pvj87ju46k2QR
+ DbzxvbsoKBbpyaW/Y8x/xS8P6LgfqcNyz6fm8J4oWJsOfrrg7FBLvgrxqSxlufzvcsia
+ DaM3mRIU+bs/3r2IIrLdoboobZVQ7zyBgzfBhShQRw55SCuh4auMgCdjVJFHByRUXTKE
+ iYCnf9Ah797yKxqcSRYuOHhgRKNhjvlgY+F+X0HHd6DrSyn00j4aALpboTHdPAjmrO0d
+ 6lqQ==
+X-Gm-Message-State: AOAM530Dhid5EbnYL62AImSLhGJ2hpSpUYKXRUMwHNjzwiXL75swoBIs
+ kktRNTAQZRHlspKSnWWtsLqJq2RXgyGg41ozpv2fACeWdDcaBFEfTq6OdWAut9zGhyU9YQQ7C2J
+ Q2gekCJ4tEAB9BM0=
+X-Received: by 2002:a05:6402:c15:: with SMTP id
+ co21mr14146513edb.185.1644246617912; 
+ Mon, 07 Feb 2022 07:10:17 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxq68DJmXQSYmZBFMGcL5pn8BU9ocDTrTyR50VUoi9siZ2+t8YNDjUoTVXEd82GgTyFaIfspw==
+X-Received: by 2002:a05:6402:c15:: with SMTP id
+ co21mr14146478edb.185.1644246617620; 
+ Mon, 07 Feb 2022 07:10:17 -0800 (PST)
+Received: from localhost (nat-pool-brq-t.redhat.com. [213.175.37.10])
+ by smtp.gmail.com with ESMTPSA id h21sm1677209edt.26.2022.02.07.07.10.15
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 07 Feb 2022 07:10:16 -0800 (PST)
+Date: Mon, 7 Feb 2022 16:10:14 +0100
+From: Igor Mammedov <imammedo@redhat.com>
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Subject: Re: [PATCH v5 16/43] tests/acpi: Add update DSDT.viot
+Message-ID: <20220207161014.0689ba4a@redhat.com>
+In-Reply-To: <20220204085953-mutt-send-email-mst@kernel.org>
+References: <20220202141037.17352-1-Jonathan.Cameron@huawei.com>
+ <20220202141037.17352-17-Jonathan.Cameron@huawei.com>
+ <20220204085953-mutt-send-email-mst@kernel.org>
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.31; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: 7ZDWdlmIOfOBreYiCuc5b0z9zrhdeftW
-X-Proofpoint-ORIG-GUID: DuPNFkKaOvWrGmY-W2nBjijFm739Rz2j
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.816,Hydra:6.0.425,FMLib:17.11.62.513
- definitions=2022-02-07_05,2022-02-07_02,2021-12-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0
- mlxlogscore=999 priorityscore=1501 malwarescore=0 phishscore=0
- suspectscore=0 adultscore=0 spamscore=0 bulkscore=0 lowpriorityscore=0
- mlxscore=0 clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2201110000 definitions=main-2202070097
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=pasic@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=imammedo@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -115,83 +100,105 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Brijesh Singh <brijesh.singh@amd.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
- Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-devel@nongnu.org,
- Halil Pasic <pasic@linux.ibm.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Ben Widawsky <ben.widawsky@intel.com>, Samarth Saxena <samarths@cadence.com>,
+ Chris Browy <cbrowy@avery-design.com>, qemu-devel@nongnu.org,
+ linux-cxl@vger.kernel.org, linuxarm@huawei.com,
+ Shreyas Shah <shreyas.shah@elastics.cloud>, Saransh Gupta1 <saransh@ibm.com>,
+ Shameerali Kolothum Thodi <shameerali.kolothum.thodi@huawei.com>,
+ Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+ Marcel Apfelbaum <marcel@redhat.com>, Dan Williams <dan.j.williams@intel.com>,
+ Alex =?UTF-8?B?QmVubsOpZQ==?= <alex.bennee@linaro.org>,
+ Philippe =?UTF-8?B?TWF0aGlldS1E?= =?UTF-8?B?YXVkw6k=?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 07 Feb 2022 14:41:58 +0100
-Cornelia Huck <cohuck@redhat.com> wrote:
+On Fri, 4 Feb 2022 09:01:31 -0500
+"Michael S. Tsirkin" <mst@redhat.com> wrote:
 
-> On Mon, Feb 07 2022, Daniel Henrique Barboza <danielhb413@gmail.com> wrote:
+> On Wed, Feb 02, 2022 at 02:10:10PM +0000, Jonathan Cameron wrote:
+> > From: Jonathan Cameron <jonathan.cameron@huawei.com>
+> > 
+> > The consolidation of DSDT AML generation for PCI host bridges
+> > lead to some minor ordering changes and the addition of _ADR
+> > with a default of 0 for those case that didn't already have it.
+> > Only DSDT.viot test is affected.
+> > 
+> > Changes all similar to:
+> > 
+> > Scope (\_SB)
+> >      {
+> >        Device (PC30)
+> >        {
+> > -        Name (_UID, 0x30)  // _UID: Unique ID
+> >          Name (_BBN, 0x30)  // _BBN: BIOS Bus Number
+> >          Name (_HID, EisaId ("PNP0A08") /* PCI Express Bus */)  // _HID: Hardware ID
+> >          Name (_CID, EisaId ("PNP0A03") /* PCI Bus */)  // _CID: Compatible ID
+> > +        Name (_ADR, Zero)  // _ADR: Address
+> > +        Name (_UID, 0x30)  // _UID: Unique ID
+> >          Method (_OSC, 4, NotSerialized)  // _OSC: Operating System Capabilities
+> > 
+> > Signed-off-by: Jonathan Cameron <jonathan.cameron@huawei.com>  
 > 
-> > On 2/3/22 13:45, Halil Pasic wrote:  
-> >> Unlike most virtio features ACCESS_PATFORM is considered mandatory, i.e.  
+> A bit worried about _ADR here.  It's probably fine as it should be
+> unused but in the past some changes like that confused windows guests
+> where they would lose e.g. a static ip config since from their
+> POV device address changed.
+
+Spec[1] doesn't mention _ADR in context of host bridge(s) at all,
+for all I know it shouldn't be there. QEMU inherited it from
+SeaBIOS where it is dated to 2008 (as part of large blob adding ACPI for PCI).
+
+Instead of spreading undefined field to other places,
+I'd prefer removing it from root host bridge.
+But as Michael said it should be very well tested with various guest
+OSes.
+
+Jonathan,
+Can you compare nic naming (as guest sees it) with current master
+and without _ADR on root host bridge?
+One way to test it could be
+  1. start QEMU(master) configure static IP addr on an interface,
+     and shutdown guest
+  2. start QEMU(-_ARR) with guest image from step 1 and see if
+     interface is still there with IP address it was configured.
+
+test matrix should be something like that:
+ PCI(pc machine),PCI-E (q35 machine)/
+   Windows 2012-whatever latest Windows, some contemporary linux,
+   ancient linux (pre 'stable' interface naming) (something like
+   RHEL6 or any other distro from that era)
+
+1) PCI_Firmware_v3.2_01-26-2015_ts_clean_Firmware_Final
+
+> Igor, what do you think?
+>
+> > ---
+> >  tests/data/acpi/q35/DSDT.viot               | Bin 9398 -> 9416 bytes
+> >  tests/qtest/bios-tables-test-allowed-diff.h |   1 -
+> >  2 files changed, 1 deletion(-)
+> > 
+> > diff --git a/tests/data/acpi/q35/DSDT.viot b/tests/data/acpi/q35/DSDT.viot
+> > index 1c3b4da5cbe81ecab5e1ef50d383b561c5e0f55f..207ac5b9ae4c3a4bc0094c2242d1a1b08771b784 100644
+> > GIT binary patch
+> > delta 139
+> > zcmdnydBT&+CD<k8gbD)#<CBeCu5zLdVlnZ-PVv!A?xF$C#s(bmPELMY6KfQhxC}No
+> > z$Z0Y1qbM*kn0!E9nwKNq(Itq1BR<sAg-ZdbOrCM_F9mK?rG^HRr4><?3V@Yv4pmBI
+> > F0sxp4B{u*7
+> > 
+> > delta 143
+> > zcmX@%xy_TyCD<ion+gL1<MNGMu5zMYqA~HoPVv!Aj-mn1#s(bmp`I>WlVjy%CeC%7
+> > z+^Kj^(SX5#0jQdxl0g7Ptr1kM!sPw((lEse3<_8k8$uNeOjb|?Dc;<vXwM7)8)+to
+> > 
+> > diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
+> > index 08a8095432..dfb8523c8b 100644
+> > --- a/tests/qtest/bios-tables-test-allowed-diff.h
+> > +++ b/tests/qtest/bios-tables-test-allowed-diff.h
+> > @@ -1,2 +1 @@
+> >  /* List of comma-separated changed AML files to ignore */
+> > -"tests/data/acpi/q35/DSDT.viot",
+> > -- 
+> > 2.32.0  
 > 
-> s/ACCESS_PATFORM/ACCESS_PLATFORM/
 
-Will fix.
-
-> 
-> >> the driver must accept it if offered by the device. The virtio
-> >> specification says that the driver SHOULD accept the ACCESS_PLATFORM
-> >> feature if offered, and that the device MAY fail to operate if
-> >> ACCESS_PLATFORM was offered but not negotiated.
-> >> 
-> >> While a SHOULD ain't exactly a MUST, we are certainly allowed to fail
-> >> the device when the driver fences ACCESS_PLATFORM. With commit  
-> >
-> >
-> > I believe a link to the virtio specification where this is being mentioned would
-> > be good to have in the commit message.  
-> 
-> It's in section 6.1 "Driver Requirements: Reserved Feature Bits": "A
-> driver SHOULD accept VIRTIO_F_ACCESS_PLATFORM if it is offered" and
-> section 6.2 "Device Requirements: Reserved Feature Bits": "A device MAY
-> fail to operate further if VIRTIO_F_ACCESS_PLATFORM is not accepted."
-> 
-> That said, I'm not sure the wording in the spec translates to
-> "mandatory"... if the driver fails to accept the bit, the device can
-> choose to not work with the driver, but it's not forced to.
-
-I didn't mean to claim that the spec makes this feature "mandatory", and
-this is why I paraphrased the spec. IMHO it is QEMU that considers it
-mandatory.
-
-> There are
-> other instances where the device may reject FEATURES_OK (e.g. when the
-> driver does not accept a feature that is a pre-req for another feature),
-> I'd say it is up to the device whether something is mandatory or not. If
-> the device/setup cannot work without it, it certainly is mandatory, but
-> the driver only knows when FEATURES_OK is rejected without the feature.
-
-Right but for the guys that write the drivers it is of interest to know
-what level of interoperability can  one can keep if certain
-	features are
-not implemented. Usually it is safe to fence delay implementing
-features, as long as the support for the features is implemented in the
-order mandated by the spec.
-
-> 
-> OTOH, the decision to make it mandatory is certainly sound, and covered
-> by the spec. As the driver must be prepared for the device failing to
-> accept FEATURES_OK, we can make it mandatory here -- we should just not
-> say that it is considered mandatory from a spec standpoint. The spec
-> allows to make it mandatory, and we make it mandatory in our
-> implementation.
-
-Right. Was never my intention to say that it is considered mandatory
-by the spec. I guess the spec considers it less optional than the
-run of the mill features.
-
-Should I change the first sentence to something like "Unlike most virtio
-features ACCESS_PATFORM is considered mandatory by QEMU, i.e. the driver
-must accept it if offered by the device."
-
-[..]
-
-Regards,
-Halil
 
