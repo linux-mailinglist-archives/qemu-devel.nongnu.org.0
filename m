@@ -2,57 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D9BC4AB77A
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Feb 2022 10:27:09 +0100 (CET)
-Received: from localhost ([::1]:53578 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E08104AB7EC
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Feb 2022 10:44:39 +0100 (CET)
+Received: from localhost ([::1]:43252 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nH0Id-0006lz-ID
-	for lists+qemu-devel@lfdr.de; Mon, 07 Feb 2022 04:27:08 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:59602)
+	id 1nH0Za-0002Yq-Fi
+	for lists+qemu-devel@lfdr.de; Mon, 07 Feb 2022 04:44:38 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:59830)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1nGzNY-00064J-Li
- for qemu-devel@nongnu.org; Mon, 07 Feb 2022 03:28:08 -0500
-Received: from mout.kundenserver.de ([212.227.17.10]:47615)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1nGzNV-00079O-4V
- for qemu-devel@nongnu.org; Mon, 07 Feb 2022 03:28:07 -0500
-Received: from quad ([82.142.19.58]) by mrelayeu.kundenserver.de (mreue109
- [212.227.15.183]) with ESMTPSA (Nemesis) id 1M8hMt-1nLeCp1p9V-004nHs; Mon, 07
- Feb 2022 09:28:02 +0100
-From: Laurent Vivier <laurent@vivier.eu>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1nGzON-0006Pk-5K
+ for qemu-devel@nongnu.org; Mon, 07 Feb 2022 03:29:11 -0500
+Received: from [2a00:1450:4864:20::435] (port=33310
+ helo=mail-wr1-x435.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1nGzOH-0007Ca-CJ
+ for qemu-devel@nongnu.org; Mon, 07 Feb 2022 03:28:58 -0500
+Received: by mail-wr1-x435.google.com with SMTP id e3so9307205wra.0
+ for <qemu-devel@nongnu.org>; Mon, 07 Feb 2022 00:28:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=hdBB/X6nviMUPi/3RiZOl4t1MJ3o93fU6/TxbiWLfrA=;
+ b=YVc8SUZDCP7NuFqmcM7TkkrEK2Ey9cb+CdR5d8H9gb8bYGKn8JKC/JxsU+8L5ufEhP
+ S+PxSiutA9GvLlcHr2zcQUI6i3Ce0KVBVCYk41VtkWex9+cOeULze1rzgxK1A4gfZlah
+ rFhrEv8WJuw6Q2DimR79Nh8HymLNioRRYxvcHCm2hmw/uozuN+AhKqiIuTxHtFlNzKvV
+ 2O6i4sGbXs7MxiSl8xLYOP1pDKA+KWdC9e3O/8RugMNOciHtggPj1Z22Fjj+gdUifi1n
+ OYisBnRSi/t1srtbAUDFctCNQ81H6xWd+wH7JS/e3XjTGhWnL15kTluyY3hbN1MfiZXP
+ XuoA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=hdBB/X6nviMUPi/3RiZOl4t1MJ3o93fU6/TxbiWLfrA=;
+ b=SeP7+lpnj5sdhqoaOCZNJbty+9mMXrWqFDxcV9YTe2zxmsDg9y0KvyL0RMUNeCIfYc
+ q/h8igs1z3ilUByqTUcV/yCdpi54FR7Pgzoq36BsEmVk4iokQ0q8A7DsGxDC0pbSVVPm
+ vVXXqo3f6Cbl/RoFy9U0UpzHxwhLT/+qvFxI2Dz4sMbHjNNULciXXbSMB3EO6dMg/ftr
+ 9wIGmQr5iUhmx4ocbY9uzEHZtxWpUWSJJEZfz6D8mlXKa0OqfS8+tUL8/ee/cUZMZtmR
+ S9EOXlL+m5r3HAmDJ+7sN8zB8T6EvfPVERdWUnyH+IsBLTuZ+WBcPhJCLmTQn0ICRE/L
+ fGZw==
+X-Gm-Message-State: AOAM530ETTH88EcekJ6DVXXs2/HSR2GzLrb8zc6rO+4ZbIh1w9jY1jFl
+ luEttL/saRYh+33Jksom6gRzBXdxA5M=
+X-Google-Smtp-Source: ABdhPJx4ghJoLUeUPyxqEWS3CIh+ka01mIJjf1Ow0Yy2UpPopOh24Qj0e6c72k8QpfO1CV0VieBegg==
+X-Received: by 2002:adf:f68d:: with SMTP id v13mr8785354wrp.426.1644222510481; 
+ Mon, 07 Feb 2022 00:28:30 -0800 (PST)
+Received: from localhost.localdomain (154.red-83-50-83.dynamicip.rima-tde.net.
+ [83.50.83.154])
+ by smtp.gmail.com with ESMTPSA id i19sm20250006wmq.45.2022.02.07.00.28.29
+ (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+ Mon, 07 Feb 2022 00:28:30 -0800 (PST)
 To: qemu-devel@nongnu.org
-Subject: [PULL 3/8] linux-user: Fix inotify on aarch64
+Cc: Richard Henderson <richard.henderson@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Thomas Huth <thuth@redhat.com>, Alistair Francis <alistair.francis@wdc.com>
+Subject: [PATCH v2 7/9] target: Add missing "qemu/timer.h" include
 Date: Mon,  7 Feb 2022 09:27:54 +0100
-Message-Id: <20220207082759.180431-4-laurent@vivier.eu>
+Message-Id: <20220207082756.82600-8-f4bug@amsat.org>
 X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220207082759.180431-1-laurent@vivier.eu>
-References: <20220207082759.180431-1-laurent@vivier.eu>
+In-Reply-To: <20220207082756.82600-1-f4bug@amsat.org>
+References: <20220207082756.82600-1-f4bug@amsat.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:aDxuC56Ae2yHsgEEFWcmtqbqr0Cs0bv9WP0MXBBSC3jCL5wuqBn
- +YzCPlDuj0Xqo8KLyjcjM3BwOtXzsBh3NOZyCOaqDTjTd/vEYxOUByRTGHp0PBF4OkZ/wF9
- wvOvYqc675jD9vK4OYIfuGqv3EunZCzJXNg8cCpSHddnJp478QK2gbsX6uN9u26IBAg48kw
- BIKWUtQPKs8ZB8MErXeSA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:lxvyslDvC34=:7WbOu8N7CX6rTjBZ1vy4Eg
- WOOg+9t4Z5EFbIKRX3FeERQ5oxu9xR8Wmu9HojS8ZmcTnPkV7g7HxkJzkyxc0Ec4Pg0obc1Pi
- qqf4arwCzRhg1GaCQeNHnAE3gZosZvYJqdiScwueJnAxRiv0a9Z3vnwzgLBlnplkAF+CCy4S/
- W5oZI8nh+1rjbXE9ynBQ37XY8G1Zp6SklI4mjxnJDnawtihMhlQ9fK44jrRwSLF2v7oh7vwa7
- FJliyjDYxFeLQhp1DzAb6KeaCKkjDT4kK8zfndpsedMsG+ohWVjyH1G4B6au2ASUu7lCEOi5A
- uyCvs0xuJe1zg5lIVu++olmYc08pPeIZ451AT+me9y0/1VLw2wmTt8J0NQE8DxTmZXlTfJNkg
- MQjBdOcA43+k357h8nnAcMrnsCnvF0n6pfwApsmohDhlP99ts8dPBPubjaheG7PnkeI9QrSgE
- 6Hl5iauyyyl2QlXrFhUaUKd9UZZW74v0bDLLPGPjBQMBbRQinuGNgHiLAh0TJ4JUlYEdafknA
- EAw/889nQ7k/ZTpO0jWe+p5r28gNRq0rx0PpW1afYFEkYNM53fj6FBSjmGZB7PMGA2kXFVMiu
- nvRiFux6DW7q98jSTpHFYx7hRFtal6Wq6T6vzohKDBHDz0jGtesHOhvpTlk0m2D3umlQ4YVYD
- o+oRbnbdHF6s94iQJG1ZBgj9W8WKS+OwFIuxUkONp8y1JIO/C3olbeAkzSboaxPi7YGs=
-Received-SPF: none client-ip=212.227.17.10; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::435
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::435;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x435.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -65,147 +92,86 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <laurent@vivier.eu>, Paul Brook <paul@nowt.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+From:  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= via <qemu-devel@nongnu.org>
 
-From: Paul Brook <paul@nowt.org>
+timer_new_ns(), cpu_get_host_ticks() and NANOSECONDS_PER_SECOND are
+declared in "qemu/timer.h".
 
-The inotify implementation originally called the raw host syscalls.
-Commit 3b3f24add0 changed this to use the glibc wrappers. However ifdefs
-in syscall.c still test for presence of the raw syscalls.
-
-This causes a problem on e.g. aarch64 hosts which never had the
-inotify_init syscall - it had been obsoleted by inotify_init1 before
-aarch64 was invented! However it does have a perfectly good glibc
-implementation of inotify_wait.
-
-Fix this by removing all the raw __NR_inotify_* tests, and instead check
-CONFIG_INOTIFY, which already tests for the glibc functionality we use.
-
-Also remove the now-pointless sys_inotify* wrappers.
-
-Tested using x86-64 inotifywatch on aarch64 host, and vice-versa
-
-Signed-off-by: Paul Brook <paul@nowt.org>
-Reviewed-by: Laurent Vivier <laurent@vivier.eu>
-Message-Id: <20220126202636.655289-1-paul@nowt.org>
-Signed-off-by: Laurent Vivier <laurent@vivier.eu>
+Reviewed-by: Thomas Huth <thuth@redhat.com>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- linux-user/fd-trans.c |  5 ++---
- linux-user/syscall.c  | 50 +++++++++----------------------------------
- 2 files changed, 12 insertions(+), 43 deletions(-)
+ target/arm/cpu.c      | 1 +
+ target/arm/helper.c   | 1 +
+ target/hppa/cpu.c     | 1 +
+ target/riscv/csr.c    | 1 +
+ target/sparc/helper.c | 1 +
+ 5 files changed, 5 insertions(+)
 
-diff --git a/linux-user/fd-trans.c b/linux-user/fd-trans.c
-index a17d05c07923..7b25468d0208 100644
---- a/linux-user/fd-trans.c
-+++ b/linux-user/fd-trans.c
-@@ -1644,9 +1644,8 @@ TargetFdTrans target_eventfd_trans = {
-     .target_to_host_data = swap_data_eventfd,
- };
+diff --git a/target/arm/cpu.c b/target/arm/cpu.c
+index cdbc4cdd01..9555f6707b 100644
+--- a/target/arm/cpu.c
++++ b/target/arm/cpu.c
+@@ -20,6 +20,7 @@
  
--#if (defined(TARGET_NR_inotify_init) && defined(__NR_inotify_init)) || \
--    (defined(CONFIG_INOTIFY1) && defined(TARGET_NR_inotify_init1) && \
--     defined(__NR_inotify_init1))
-+#if defined(CONFIG_INOTIFY) && (defined(TARGET_NR_inotify_init) || \
-+        defined(TARGET_NR_inotify_init1))
- static abi_long host_to_target_data_inotify(void *buf, size_t len)
- {
-     struct inotify_event *ev;
-diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index 5950222a77e0..2ca0f086dbfc 100644
---- a/linux-user/syscall.c
-+++ b/linux-user/syscall.c
-@@ -272,9 +272,6 @@ static type name (type1 arg1,type2 arg2,type3 arg3,type4 arg4,type5 arg5,	\
- #if defined(__NR_futex_time64)
- # define __NR_sys_futex_time64 __NR_futex_time64
- #endif
--#define __NR_sys_inotify_init __NR_inotify_init
--#define __NR_sys_inotify_add_watch __NR_inotify_add_watch
--#define __NR_sys_inotify_rm_watch __NR_inotify_rm_watch
- #define __NR_sys_statx __NR_statx
+ #include "qemu/osdep.h"
+ #include "qemu/qemu-print.h"
++#include "qemu/timer.h"
+ #include "qemu-common.h"
+ #include "target/arm/idau.h"
+ #include "qemu/module.h"
+diff --git a/target/arm/helper.c b/target/arm/helper.c
+index 6dd241fbef..e39faa2a98 100644
+--- a/target/arm/helper.c
++++ b/target/arm/helper.c
+@@ -15,6 +15,7 @@
+ #include "exec/helper-proto.h"
+ #include "qemu/host-utils.h"
+ #include "qemu/main-loop.h"
++#include "qemu/timer.h"
+ #include "qemu/bitops.h"
+ #include "qemu/crc32c.h"
+ #include "qemu/qemu-print.h"
+diff --git a/target/hppa/cpu.c b/target/hppa/cpu.c
+index 37b763fca0..5f46ba801e 100644
+--- a/target/hppa/cpu.c
++++ b/target/hppa/cpu.c
+@@ -21,6 +21,7 @@
+ #include "qemu/osdep.h"
+ #include "qapi/error.h"
+ #include "qemu/qemu-print.h"
++#include "qemu/timer.h"
+ #include "cpu.h"
+ #include "qemu/module.h"
+ #include "exec/exec-all.h"
+diff --git a/target/riscv/csr.c b/target/riscv/csr.c
+index a4db40769b..45f04c701a 100644
+--- a/target/riscv/csr.c
++++ b/target/riscv/csr.c
+@@ -19,6 +19,7 @@
  
- #if defined(__alpha__) || defined(__x86_64__) || defined(__s390x__)
-@@ -477,33 +474,6 @@ static int sys_renameat2(int oldfd, const char *old,
+ #include "qemu/osdep.h"
+ #include "qemu/log.h"
++#include "qemu/timer.h"
+ #include "cpu.h"
+ #include "qemu/main-loop.h"
+ #include "exec/exec-all.h"
+diff --git a/target/sparc/helper.c b/target/sparc/helper.c
+index c7bcaa3a20..c4358bba84 100644
+--- a/target/sparc/helper.c
++++ b/target/sparc/helper.c
+@@ -20,6 +20,7 @@
+ #include "qemu/osdep.h"
+ #include "cpu.h"
+ #include "exec/exec-all.h"
++#include "qemu/timer.h"
+ #include "qemu/host-utils.h"
+ #include "exec/helper-proto.h"
  
- #ifdef CONFIG_INOTIFY
- #include <sys/inotify.h>
--
--#if defined(TARGET_NR_inotify_init) && defined(__NR_inotify_init)
--static int sys_inotify_init(void)
--{
--  return (inotify_init());
--}
--#endif
--#if defined(TARGET_NR_inotify_add_watch) && defined(__NR_inotify_add_watch)
--static int sys_inotify_add_watch(int fd,const char *pathname, int32_t mask)
--{
--  return (inotify_add_watch(fd, pathname, mask));
--}
--#endif
--#if defined(TARGET_NR_inotify_rm_watch) && defined(__NR_inotify_rm_watch)
--static int sys_inotify_rm_watch(int fd, int32_t wd)
--{
--  return (inotify_rm_watch(fd, wd));
--}
--#endif
--#ifdef CONFIG_INOTIFY1
--#if defined(TARGET_NR_inotify_init1) && defined(__NR_inotify_init1)
--static int sys_inotify_init1(int flags)
--{
--  return (inotify_init1(flags));
--}
--#endif
--#endif
- #else
- /* Userspace can usually survive runtime without inotify */
- #undef TARGET_NR_inotify_init
-@@ -12341,35 +12311,35 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
-     case TARGET_NR_futex_time64:
-         return do_futex_time64(cpu, arg1, arg2, arg3, arg4, arg5, arg6);
- #endif
--#if defined(TARGET_NR_inotify_init) && defined(__NR_inotify_init)
-+#ifdef CONFIG_INOTIFY
-+#if defined(TARGET_NR_inotify_init)
-     case TARGET_NR_inotify_init:
--        ret = get_errno(sys_inotify_init());
-+        ret = get_errno(inotify_init());
-         if (ret >= 0) {
-             fd_trans_register(ret, &target_inotify_trans);
-         }
-         return ret;
- #endif
--#ifdef CONFIG_INOTIFY1
--#if defined(TARGET_NR_inotify_init1) && defined(__NR_inotify_init1)
-+#if defined(TARGET_NR_inotify_init1) && defined(CONFIG_INOTIFY1)
-     case TARGET_NR_inotify_init1:
--        ret = get_errno(sys_inotify_init1(target_to_host_bitmask(arg1,
-+        ret = get_errno(inotify_init1(target_to_host_bitmask(arg1,
-                                           fcntl_flags_tbl)));
-         if (ret >= 0) {
-             fd_trans_register(ret, &target_inotify_trans);
-         }
-         return ret;
- #endif
--#endif
--#if defined(TARGET_NR_inotify_add_watch) && defined(__NR_inotify_add_watch)
-+#if defined(TARGET_NR_inotify_add_watch)
-     case TARGET_NR_inotify_add_watch:
-         p = lock_user_string(arg2);
--        ret = get_errno(sys_inotify_add_watch(arg1, path(p), arg3));
-+        ret = get_errno(inotify_add_watch(arg1, path(p), arg3));
-         unlock_user(p, arg2, 0);
-         return ret;
- #endif
--#if defined(TARGET_NR_inotify_rm_watch) && defined(__NR_inotify_rm_watch)
-+#if defined(TARGET_NR_inotify_rm_watch)
-     case TARGET_NR_inotify_rm_watch:
--        return get_errno(sys_inotify_rm_watch(arg1, arg2));
-+        return get_errno(inotify_rm_watch(arg1, arg2));
-+#endif
- #endif
- 
- #if defined(TARGET_NR_mq_open) && defined(__NR_mq_open)
 -- 
 2.34.1
 
