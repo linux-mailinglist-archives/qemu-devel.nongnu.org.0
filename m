@@ -2,68 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 029494AC11A
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Feb 2022 15:26:59 +0100 (CET)
-Received: from localhost ([::1]:44038 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 10E3C4AC194
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Feb 2022 15:47:32 +0100 (CET)
+Received: from localhost ([::1]:51432 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nH4yn-00045d-Ld
-	for lists+qemu-devel@lfdr.de; Mon, 07 Feb 2022 09:26:57 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:51196)
+	id 1nH5Ih-0003yF-6I
+	for lists+qemu-devel@lfdr.de; Mon, 07 Feb 2022 09:47:31 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:51374)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1nH4Zy-0006YQ-9M
- for qemu-devel@nongnu.org; Mon, 07 Feb 2022 09:01:18 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:20272)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1nH4Zs-0001Wp-Hc
- for qemu-devel@nongnu.org; Mon, 07 Feb 2022 09:01:17 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1644242469;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=qMKE9+mmIgEN5ykAKq+Pc6oiHedGDy4nrxNKdyyi5tA=;
- b=eZw+jLXumvU7G1faAtgzD3luP6Ollv4SUfHjPSz9HJ5vFdiuyCIWfNp5wV00BlQBf1p4i2
- sOt0IMTfafTVn2Ff7nLn4MzndJjPqwuugWaTqJYnPTxhNNiyj4CQOPIGrhS5MBd5hsJwn+
- XpPShWZnUDYsL2ngT22zXb4kvF6sZNQ=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-189-LS1uzvTmPKyzfpeRAW38KQ-1; Mon, 07 Feb 2022 09:01:08 -0500
-X-MC-Unique: LS1uzvTmPKyzfpeRAW38KQ-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F0E808519E1;
- Mon,  7 Feb 2022 14:01:06 +0000 (UTC)
-Received: from localhost (unknown [10.39.194.244])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 06E0E6E20E;
- Mon,  7 Feb 2022 14:00:41 +0000 (UTC)
-Date: Mon, 7 Feb 2022 14:00:39 +0000
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Xie Yongji <xieyongji@bytedance.com>
-Subject: Re: [PATCH 2/5] libvduse: Add VDUSE (vDPA Device in Userspace) library
-Message-ID: <YgEmB0nsNGYKunh/@stefanha-x1.localdomain>
-References: <20220125131800.91-1-xieyongji@bytedance.com>
- <20220125131800.91-3-xieyongji@bytedance.com>
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1nH4ab-0007OH-Bb
+ for qemu-devel@nongnu.org; Mon, 07 Feb 2022 09:01:58 -0500
+Received: from [2607:f8b0:4864:20::235] (port=44805
+ helo=mail-oi1-x235.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1nH4aU-0001bm-Sz
+ for qemu-devel@nongnu.org; Mon, 07 Feb 2022 09:01:56 -0500
+Received: by mail-oi1-x235.google.com with SMTP id 4so16972061oil.11
+ for <qemu-devel@nongnu.org>; Mon, 07 Feb 2022 06:01:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=x7iKFxwuVbhRwc3HSEVEMmNBc7UtQfus31104s8i36I=;
+ b=nfV8dtajR6w5N9pQ9Z4chIjTWS7+708u7YjbDbUdozczPiP3OXA98V0glz2SgJo1mF
+ JtvlQeBLA1vv2YhXcZ18U53KHBhxddholyViuIscG0artFbrrU8PpgG16f2+DvegjYvA
+ rsZ84AqsiesVDfDN03xpu5QoGqhDhBTSdllBvP5Brqvc4aGsbcsFvpyjFqk3LE5eBdlY
+ Rl5FTjZ8YVDGDzGOhd4fqkZX5YR4pso34DdzKYAQWeS2qk8Ue4jqDUbw3A4ZjR4HPFnA
+ wn+dSi6PLkQ4YF1SXuoROHBVirsr/jLUsw+MjGdmRuFzMXGnXm7x/orRYbrITzniCj7L
+ zRmQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=x7iKFxwuVbhRwc3HSEVEMmNBc7UtQfus31104s8i36I=;
+ b=KIROg1D2cX6d57MqaSJkt2F5EAWaQ2oQt28CQ8I57fbetMO70c08MQjuJwAQrNcJec
+ Km/pvkqJLiWD8KR7hdEiuDkOJpLPvPoo7eqr/ebZWa3Ctb6ChxsXs7ncWtWzgy8xxX7A
+ dj4l2XWKo+8wh8ZjT9nLTWlEk6B90p5DdEUP6ovYqLp/M0RJHRHqwDxb8N17HDDW8TcT
+ FWhVeEEGCX3F2qTyPAtM/opNj61SRgKGku6RQkv27vcUYjpPLY3Evzo4Or0es7DocGl/
+ p1rwP065R2aDN/Swh2YWa1lRIwx7EMKGIJWPNYJNOnXxcYWF32pTWgTB2TWVNc+vljD1
+ Y9nA==
+X-Gm-Message-State: AOAM530Qs/hQSDzXvo6rW3/GsC+IeVON6J4oW7csovi27mS8XrGqnMH9
+ sz19AEIYfBf/bcIQtiQZgck=
+X-Google-Smtp-Source: ABdhPJxuKUryqXklzCnRsscN9DEMKcHOOKr4L9o2VpcUK86DgiYUXaFURg6Id/qYwEA84zwmGeK8dw==
+X-Received: by 2002:a05:6808:e82:: with SMTP id
+ k2mr5400867oil.10.1644242509431; 
+ Mon, 07 Feb 2022 06:01:49 -0800 (PST)
+Received: from [192.168.10.222] ([191.193.0.12])
+ by smtp.gmail.com with ESMTPSA id t22sm4311738oiw.2.2022.02.07.06.01.47
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 07 Feb 2022 06:01:49 -0800 (PST)
+Message-ID: <d213277a-0a5d-c046-0617-c29926022244@gmail.com>
+Date: Mon, 7 Feb 2022 11:01:46 -0300
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="4xwxcMz/F+QmyL8J"
-Content-Disposition: inline
-In-Reply-To: <20220125131800.91-3-xieyongji@bytedance.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [RFC PATCH 1/1] virtio: fix feature negotiation for
+ ACCESS_PLATFORM
+Content-Language: en-US
+To: Cornelia Huck <cohuck@redhat.com>, Halil Pasic <pasic@linux.ibm.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org
+References: <20220203164556.2666565-1-pasic@linux.ibm.com>
+ <7df172fe-008a-0b98-2780-5155c98a71ba@gmail.com> <874k5ax07t.fsf@redhat.com>
+From: Daniel Henrique Barboza <danielhb413@gmail.com>
+In-Reply-To: <874k5ax07t.fsf@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::235
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::235;
+ envelope-from=danielhb413@gmail.com; helo=mail-oi1-x235.google.com
+X-Spam_score_int: -10
+X-Spam_score: -1.1
+X-Spam_bar: -
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.001,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -76,1480 +95,175 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, qemu-block@nongnu.org, mst@redhat.com,
- jasowang@redhat.com, qemu-devel@nongnu.org, mreitz@redhat.com,
- mlureau@redhat.com, sgarzare@redhat.com
+Cc: Jason Wang <jasowang@redhat.com>, Brijesh Singh <brijesh.singh@amd.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---4xwxcMz/F+QmyL8J
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On Tue, Jan 25, 2022 at 09:17:57PM +0800, Xie Yongji wrote:
-> VDUSE [1] is a linux framework that makes it possible to implement
-> software-emulated vDPA devices in userspace. This adds a library
-> as a subproject to help implementing VDUSE backends in QEMU.
->=20
-> [1] https://www.kernel.org/doc/html/latest/userspace-api/vduse.html
+On 2/7/22 10:41, Cornelia Huck wrote:
+> On Mon, Feb 07 2022, Daniel Henrique Barboza <danielhb413@gmail.com> wrote:
+> 
+>> On 2/3/22 13:45, Halil Pasic wrote:
+>>> Unlike most virtio features ACCESS_PATFORM is considered mandatory, i.e.
+> 
+> s/ACCESS_PATFORM/ACCESS_PLATFORM/
+> 
+>>> the driver must accept it if offered by the device. The virtio
+>>> specification says that the driver SHOULD accept the ACCESS_PLATFORM
+>>> feature if offered, and that the device MAY fail to operate if
+>>> ACCESS_PLATFORM was offered but not negotiated.
+>>>
+>>> While a SHOULD ain't exactly a MUST, we are certainly allowed to fail
+>>> the device when the driver fences ACCESS_PLATFORM. With commit
+>>
+>>
+>> I believe a link to the virtio specification where this is being mentioned would
+>> be good to have in the commit message.
+> 
+> It's in section 6.1 "Driver Requirements: Reserved Feature Bits": "A
+> driver SHOULD accept VIRTIO_F_ACCESS_PLATFORM if it is offered" and
+> section 6.2 "Device Requirements: Reserved Feature Bits": "A device MAY
+> fail to operate further if VIRTIO_F_ACCESS_PLATFORM is not accepted."
 
-This library assumes that the program is allowed to access the control
-device (/dev/vduse/control). Is that always the case or should the
-library also support access to /dev/vduse/<name> only (maybe even with
-file descriptor passing) so a privileged process can create/destroy
-VDUSE devices?
+If we provide this info in the commit message we can skip adding a doc link.
 
-I didn't review the vring code in detail.
+> 
+> That said, I'm not sure the wording in the spec translates to
+> "mandatory"... if the driver fails to accept the bit, the device can
+> choose to not work with the driver, but it's not forced to. There are
+> other instances where the device may reject FEATURES_OK (e.g. when the
+> driver does not accept a feature that is a pre-req for another feature),
+> I'd say it is up to the device whether something is mandatory or not. If
+> the device/setup cannot work without it, it certainly is mandatory, but
+> the driver only knows when FEATURES_OK is rejected without the feature.
+> 
+> OTOH, the decision to make it mandatory is certainly sound, and covered
+> by the spec. As the driver must be prepared for the device failing to
+> accept FEATURES_OK, we can make it mandatory here -- we should just not
+> say that it is considered mandatory from a spec standpoint. The spec
+> allows to make it mandatory, and we make it mandatory in our
+> implementation.
 
->=20
-> Signed-off-by: Xie Yongji <xieyongji@bytedance.com>
-> ---
->  meson.build                                 |   15 +
->  meson_options.txt                           |    2 +
->  scripts/meson-buildoptions.sh               |    3 +
->  subprojects/libvduse/include/atomic.h       |    1 +
->  subprojects/libvduse/libvduse.c             | 1025 +++++++++++++++++++
->  subprojects/libvduse/libvduse.h             |  193 ++++
->  subprojects/libvduse/meson.build            |   10 +
->  subprojects/libvduse/standard-headers/linux |    1 +
->  8 files changed, 1250 insertions(+)
->  create mode 120000 subprojects/libvduse/include/atomic.h
->  create mode 100644 subprojects/libvduse/libvduse.c
->  create mode 100644 subprojects/libvduse/libvduse.h
->  create mode 100644 subprojects/libvduse/meson.build
->  create mode 120000 subprojects/libvduse/standard-headers/linux
->=20
-> diff --git a/meson.build b/meson.build
-> index 333c61deba..864fb50ade 100644
-> --- a/meson.build
-> +++ b/meson.build
-> @@ -1305,6 +1305,21 @@ if not get_option('fuse_lseek').disabled()
->    endif
->  endif
-> =20
-> +have_libvduse =3D (targetos =3D=3D 'linux')
-> +if get_option('libvduse').enabled()
-> +    if targetos !=3D 'linux'
-> +        error('libvduse requires linux')
-> +    endif
-> +elif get_option('libvduse').disabled()
-> +    have_libvduse =3D false
-> +endif
-> +
-> +libvduse =3D not_found
-> +if have_libvduse
-> +  libvduse_proj =3D subproject('libvduse')
-> +  libvduse =3D libvduse_proj.get_variable('libvduse_dep')
-> +endif
-> +
->  # libbpf
->  libbpf =3D dependency('libbpf', required: get_option('bpf'), method: 'pk=
-g-config')
->  if libbpf.found() and not cc.links('''
-> diff --git a/meson_options.txt b/meson_options.txt
-> index 921967eddb..16790d1814 100644
-> --- a/meson_options.txt
-> +++ b/meson_options.txt
-> @@ -195,6 +195,8 @@ option('virtfs', type: 'feature', value: 'auto',
->         description: 'virtio-9p support')
->  option('virtiofsd', type: 'feature', value: 'auto',
->         description: 'build virtiofs daemon (virtiofsd)')
-> +option('libvduse', type: 'feature', value: 'auto',
-> +       description: 'build VDUSE Library')
-> =20
->  option('capstone', type: 'combo', value: 'auto',
->         choices: ['disabled', 'enabled', 'auto', 'system', 'internal'],
-> diff --git a/scripts/meson-buildoptions.sh b/scripts/meson-buildoptions.sh
-> index a4af02c527..af5c75d758 100644
-> --- a/scripts/meson-buildoptions.sh
-> +++ b/scripts/meson-buildoptions.sh
-> @@ -58,6 +58,7 @@ meson_options_help() {
->    printf "%s\n" '  libssh          ssh block device support'
->    printf "%s\n" '  libudev         Use libudev to enumerate host devices'
->    printf "%s\n" '  libusb          libusb support for USB passthrough'
-> +  printf "%s\n" '  libvduse        build VDUSE Library'
->    printf "%s\n" '  libxml2         libxml2 support for Parallels image f=
-ormat'
->    printf "%s\n" '  linux-aio       Linux AIO support'
->    printf "%s\n" '  linux-io-uring  Linux io_uring support'
-> @@ -188,6 +189,8 @@ _meson_option_parse() {
->      --disable-libudev) printf "%s" -Dlibudev=3Ddisabled ;;
->      --enable-libusb) printf "%s" -Dlibusb=3Denabled ;;
->      --disable-libusb) printf "%s" -Dlibusb=3Ddisabled ;;
-> +    --enable-libvduse) printf "%s" -Dlibvduse=3Denabled ;;
-> +    --disable-libvduse) printf "%s" -Dlibvduse=3Ddisabled ;;
->      --enable-libxml2) printf "%s" -Dlibxml2=3Denabled ;;
->      --disable-libxml2) printf "%s" -Dlibxml2=3Ddisabled ;;
->      --enable-linux-aio) printf "%s" -Dlinux_aio=3Denabled ;;
-> diff --git a/subprojects/libvduse/include/atomic.h b/subprojects/libvduse=
-/include/atomic.h
-> new file mode 120000
-> index 0000000000..8c2be64f7b
-> --- /dev/null
-> +++ b/subprojects/libvduse/include/atomic.h
-> @@ -0,0 +1 @@
-> +../../../include/qemu/atomic.h
-> \ No newline at end of file
-> diff --git a/subprojects/libvduse/libvduse.c b/subprojects/libvduse/libvd=
-use.c
-> new file mode 100644
-> index 0000000000..7671864bca
-> --- /dev/null
-> +++ b/subprojects/libvduse/libvduse.c
-> @@ -0,0 +1,1025 @@
-> +/*
-> + * VDUSE (vDPA Device in Userspace) library
-> + *
-> + * Copyright (C) 2022 Bytedance Inc. and/or its affiliates. All rights r=
-eserved.
-> + *   Portions of codes and concepts borrowed from libvhost-user.c, so:
-> + *     Copyright IBM, Corp. 2007
-> + *     Copyright (c) 2016 Red Hat, Inc.
-> + *
-> + * Author:
-> + *   Xie Yongji <xieyongji@bytedance.com>
-> + *   Anthony Liguori <aliguori@us.ibm.com>
-> + *   Marc-Andr=E9 Lureau <mlureau@redhat.com>
-> + *   Victor Kaplansky <victork@redhat.com>
-> + *
-> + * This work is licensed under the terms of the GNU GPL, version 2 or
-> + * later.  See the COPYING file in the top-level directory.
-> + */
-> +
-> +#include <stdlib.h>
-> +#include <stdio.h>
-> +#include <stdbool.h>
-> +#include <stddef.h>
-> +#include <errno.h>
-> +#include <string.h>
-> +#include <assert.h>
-> +#include <endian.h>
-> +#include <unistd.h>
-> +#include <limits.h>
-> +#include <fcntl.h>
-> +
-> +#include <sys/ioctl.h>
-> +#include <sys/eventfd.h>
-> +#include <sys/mman.h>
-> +
-> +#include "include/atomic.h"
-> +#include "standard-headers/linux/vhost_types.h"
-> +#include "standard-headers/linux/vduse.h"
-> +#include "libvduse.h"
-> +
-> +#define VIRTQUEUE_MAX_SIZE 1024
-> +#define VDUSE_VQ_ALIGN 4096
-> +#define MAX_IOVA_REGIONS 256
-> +
-> +/* Round number down to multiple */
-> +#define ALIGN_DOWN(n, m) ((n) / (m) * (m))
-> +
-> +/* Round number up to multiple */
-> +#define ALIGN_UP(n, m) ALIGN_DOWN((n) + (m) - 1, (m))
-> +
-> +#ifndef unlikely
-> +#define unlikely(x)   __builtin_expect(!!(x), 0)
-> +#endif
-> +
-> +typedef struct VduseRing {
-> +    unsigned int num;
-> +    uint64_t desc_addr;
-> +    uint64_t avail_addr;
-> +    uint64_t used_addr;
-> +    struct vring_desc *desc;
-> +    struct vring_avail *avail;
-> +    struct vring_used *used;
-> +} VduseRing;
-> +
-> +struct VduseVirtq {
-> +    VduseRing vring;
-> +    uint16_t last_avail_idx;
-> +    uint16_t shadow_avail_idx;
-> +    uint16_t used_idx;
-> +    uint16_t signalled_used;
-> +    bool signalled_used_valid;
-> +    int index;
-> +    int inuse;
-> +    bool ready;
-> +    int fd;
-> +    VduseDev *dev;
-> +};
-> +
-> +typedef struct VduseIovaRegion {
-> +    uint64_t iova;
-> +    uint64_t size;
-> +    uint64_t mmap_offset;
-> +    uint64_t mmap_addr;
-> +} VduseIovaRegion;
-> +
-> +struct VduseDev {
-> +    VduseVirtq *vqs;
-> +    VduseIovaRegion regions[MAX_IOVA_REGIONS];
-> +    int num_regions;
-> +    char *name;
-> +    uint32_t device_id;
-> +    uint32_t vendor_id;
-> +    uint16_t num_queues;
-> +    uint16_t queue_size;
-> +    uint64_t features;
-> +    const VduseOps *ops;
-> +    int fd;
-> +    int ctrl_fd;
-> +    void *priv;
-> +};
-> +
-> +static inline bool has_feature(uint64_t features, unsigned int fbit)
-> +{
-> +    assert(fbit < 64);
-> +    return !!(features & (1ULL << fbit));
-> +}
-> +
-> +static inline bool vduse_dev_has_feature(VduseDev *dev, unsigned int fbi=
-t)
-> +{
-> +    return has_feature(dev->features, fbit);
-> +}
-> +
-> +VduseDev *vduse_queue_get_dev(VduseVirtq *vq)
-> +{
-> +    return vq->dev;
-> +}
-> +
-> +int vduse_queue_get_fd(VduseVirtq *vq)
-> +{
-> +    return vq->fd;
-> +}
-> +
-> +void *vduse_dev_get_priv(VduseDev *dev)
-> +{
-> +    return dev->priv;
-> +}
-> +
-> +VduseVirtq *vduse_dev_get_queue(VduseDev *dev, int index)
-> +{
-> +    return &dev->vqs[index];
-> +}
-> +
-> +int vduse_dev_get_fd(VduseDev *dev)
-> +{
-> +    return dev->fd;
-> +}
-> +
-> +static int vduse_inject_irq(VduseDev *dev, int index)
-> +{
-> +    return ioctl(dev->fd, VDUSE_VQ_INJECT_IRQ, &index);
-> +}
-> +
-> +static void vduse_iova_remove_region(VduseDev *dev, uint64_t start,
-> +                                     uint64_t last)
-> +{
-> +    int i;
-> +
-> +    if (last =3D=3D start) {
-> +        return;
-> +    }
-> +
-> +    for (i =3D 0; i < MAX_IOVA_REGIONS; i++) {
-> +        if (!dev->regions[i].mmap_addr) {
-> +            continue;
-> +        }
-> +
-> +        if (start <=3D dev->regions[i].iova &&
-> +            last >=3D (dev->regions[i].iova + dev->regions[i].size - 1))=
- {
-> +            munmap((void *)dev->regions[i].mmap_addr,
-> +                   dev->regions[i].mmap_offset + dev->regions[i].size);
-> +            dev->regions[i].mmap_addr =3D 0;
-> +            dev->num_regions--;
-> +        }
-> +    }
-> +}
-> +
-> +static int vduse_iova_add_region(VduseDev *dev, int fd,
-> +                                 uint64_t offset, uint64_t start,
-> +                                 uint64_t last, int prot)
-> +{
-> +    int i;
-> +    uint64_t size =3D last - start + 1;
-> +    void *mmap_addr =3D mmap(0, size + offset, prot, MAP_SHARED, fd, 0);
-> +
-> +    if (mmap_addr =3D=3D MAP_FAILED) {
-> +        return -EINVAL;
+Fair point.
 
-Missing close(fd). This function takes ownership of fd.
+> 
+>>
+>>
+>>> 2943b53f68 ("virtio: force VIRTIO_F_IOMMU_PLATFORM") we already made the
+>>> decision to do so whenever the get_dma_as() callback is implemented (by
+>>> the bus), which in practice means for the entirety of virtio-pci.
+>>>
+>>> That means, if the device needs to translate I/O addresses, then
+>>> ACCESS_PLATFORM is mandatory. The aforementioned commit tells us
+>>> in the commit message that this is for security reasons.
+>>>
+>>> If ACCESS_PLATFORM is offered not we want the device to utilize an
+>>
+>> I think you meant "If ACCESS_PLATFORM is offered".
+> 
+> I thought it should be "If ACCESS_PLATFORM is offered not because..." ?
+> 
+>>
+>>
+>>> IOMMU and do address translation, but because the device does not have
+>>> access to the entire guest RAM, and needs the driver to grant access
+>>> to the bits it needs access to (e.g. confidential guest support), we
+>>> still require the guest to have the corresponding logic and to accept
+>>> ACCESS_PLATFORM. If the driver does not accept ACCESS_PLATFORM, then
+>>> things are bound to go wrong, and we may see failures much less graceful
+>>> than failing the device because the driver didn't negotiate
+>>> ACCESS_PLATFORM.
+>>>
+>>> So let us make ACCESS_PLATFORM mandatory for the driver regardless
+>>> of whether the get_dma_as() callback is implemented or not.
+>>>
+>>> Signed-off-by: Halil Pasic <pasic@linux.ibm.com>
+>>> Fixes: 2943b53f68 ("virtio: force VIRTIO_F_IOMMU_PLATFORM")
+>>>
+>>> ---
+>>> This patch is based on:
+>>> https://www.mail-archive.com/qemu-devel@nongnu.org/msg866199.html
+>>>
+>>> During the review of "virtio: fix the condition for iommu_platform not
+>>> supported" Daniel raised the question why do we "force IOMMU_PLATFORM"
+>>> iff has_iommu && !!klass->get_dma_as. My answer to that was, that
+>>> this logic ain't right.
+>>>
+>>> While at it I used the opportunity to re-organize the code a little
+>>> and provide an explanatory comment.
+>>> ---
+>>>    hw/virtio/virtio-bus.c | 17 ++++++++++-------
+>>>    1 file changed, 10 insertions(+), 7 deletions(-)
+>>>
+>>> diff --git a/hw/virtio/virtio-bus.c b/hw/virtio/virtio-bus.c
+>>> index fbf0dd14b8..359430eb1c 100644
+>>> --- a/hw/virtio/virtio-bus.c
+>>> +++ b/hw/virtio/virtio-bus.c
+>>> @@ -78,16 +78,19 @@ void virtio_bus_device_plugged(VirtIODevice *vdev, Error **errp)
+>>>            return;
+>>>        }
+>>>    
+>>> -    vdev_has_iommu = virtio_host_has_feature(vdev, VIRTIO_F_IOMMU_PLATFORM);
+>>> -    if (klass->get_dma_as != NULL && has_iommu) {
+>>> +    vdev->dma_as = &address_space_memory;
+>>
+>> At this point you can also do:
+>>
+>>      if (!has_iommu) {
+>>          return;
+>>      }
+>>
+>> and the rest of the code will have one less indentation level.
+> 
+> It might make it harder to add code at the tail end of the function in
+> the future, though.
 
-> +    }
-> +
-> +    for (i =3D 0; i < MAX_IOVA_REGIONS; i++) {
-> +        if (!dev->regions[i].mmap_addr) {
-> +            dev->regions[i].mmap_addr =3D (uint64_t)(uintptr_t)mmap_addr;
-> +            dev->regions[i].mmap_offset =3D offset;
-> +            dev->regions[i].iova =3D start;
-> +            dev->regions[i].size =3D size;
-> +            dev->num_regions++;
-> +            break;
-> +        }
-> +    }
-> +    close(fd);
+True. I suggested that based on an assumption that the "!has_iommu" case is something
+that is already covered and we don't need to bother about it. IMO it's fine to keep
+the existing if/else code just in case we change our minds later on.
 
-assert(i < MAX_IOVA_REGIONS)? If we can really reach the end of the for
-loop then we must remember to call munmap(2).
 
-> +
-> +    return 0;
-> +}
-> +
-> +static int perm_to_prot(uint8_t perm)
-> +{
-> +    int prot =3D 0;
-> +
-> +    switch (perm) {
-> +    case VDUSE_ACCESS_WO:
-> +        prot |=3D PROT_WRITE;
-> +        break;
-> +    case VDUSE_ACCESS_RO:
-> +        prot |=3D PROT_READ;
-> +        break;
-> +    case VDUSE_ACCESS_RW:
-> +        prot |=3D PROT_READ | PROT_WRITE;
-> +        break;
-> +    default:
-> +        break;
-> +    }
-> +
-> +    return prot;
-> +}
-> +
-> +static inline void *iova_to_va(VduseDev *dev, uint64_t *plen, uint64_t i=
-ova)
-> +{
-> +    int i, ret;
-> +    struct vduse_iotlb_entry entry;
-> +
-> +    for (i =3D 0; i < MAX_IOVA_REGIONS; i++) {
-> +        VduseIovaRegion *r =3D &dev->regions[i];
-> +
-> +        if (!r->mmap_addr) {
-> +            continue;
-> +        }
-> +
-> +        if ((iova >=3D r->iova) && (iova < (r->iova + r->size))) {
-> +            if ((iova + *plen) > (r->iova + r->size)) {
-> +                *plen =3D r->iova + r->size - iova;
-> +            }
-> +            return (void *)(uintptr_t)(iova - r->iova +
-> +                   r->mmap_addr + r->mmap_offset);
-> +        }
-> +    }
-> +
-> +    entry.start =3D iova;
-> +    entry.last =3D iova + 1;
-> +    ret =3D ioctl(dev->fd, VDUSE_IOTLB_GET_FD, &entry);
-> +    if (ret < 0) {
-> +        return NULL;
-> +    }
-> +
-> +    if (!vduse_iova_add_region(dev, ret, entry.offset, entry.start,
-> +                               entry.last, perm_to_prot(entry.perm))) {
-> +        return iova_to_va(dev, plen, iova);
-> +    }
-> +
-> +    return NULL;
-> +}
-> +
-> +static inline uint16_t vring_avail_flags(VduseVirtq *vq)
-> +{
-> +    return le16toh(vq->vring.avail->flags);
+Thanks,
 
-I remember we discussed whether VDUSE should support Transitional
-devices. VIRTIO 1.0+ uses little-endian but legacy VIRTIO uses
-guest-endian, so le16toh() will not work for legacy VIRTIO vrings in a
-cross-endian configuration (e.g. big-endian guest on little-endian
-host).
 
-If cross-endian isn't supported please add an error during
-intialization so users get a clear error message.
+Daniel
 
-> +}
-> +
-> +static inline uint16_t vring_avail_idx(VduseVirtq *vq)
-> +{
-> +    vq->shadow_avail_idx =3D le16toh(vq->vring.avail->idx);
-> +
-> +    return vq->shadow_avail_idx;
-> +}
-> +
-> +static inline uint16_t vring_avail_ring(VduseVirtq *vq, int i)
-> +{
-> +    return le16toh(vq->vring.avail->ring[i]);
-> +}
-> +
-> +static inline uint16_t vring_get_used_event(VduseVirtq *vq)
-> +{
-> +    return vring_avail_ring(vq, vq->vring.num);
-> +}
-> +
-> +static bool vduse_queue_get_head(VduseVirtq *vq, unsigned int idx,
-> +                                 unsigned int *head)
-> +{
-> +    /*
-> +     * Grab the next descriptor number they're advertising, and increment
-> +     * the index we've seen.
-> +     */
-> +    *head =3D vring_avail_ring(vq, idx % vq->vring.num);
-> +
-> +    /* If their number is silly, that's a fatal mistake. */
-> +    if (*head >=3D vq->vring.num) {
-> +        fprintf(stderr, "Guest says index %u is available\n", *head);
-> +        return false;
-> +    }
-> +
-> +    return true;
-> +}
-> +
-> +static int
-> +vduse_queue_read_indirect_desc(VduseDev *dev, struct vring_desc *desc,
-> +                               uint64_t addr, size_t len)
-> +{
-> +    struct vring_desc *ori_desc;
-> +    uint64_t read_len;
-> +
-> +    if (len > (VIRTQUEUE_MAX_SIZE * sizeof(struct vring_desc))) {
-> +        return -1;
-> +    }
-> +
-> +    if (len =3D=3D 0) {
-> +        return -1;
-> +    }
-> +
-> +    while (len) {
-> +        read_len =3D len;
-> +        ori_desc =3D iova_to_va(dev, &read_len, addr);
-> +        if (!ori_desc) {
-> +            return -1;
-> +        }
-> +
-> +        memcpy(desc, ori_desc, read_len);
-> +        len -=3D read_len;
-> +        addr +=3D read_len;
-> +        desc +=3D read_len;
-> +    }
-> +
-> +    return 0;
-> +}
-> +
-> +enum {
-> +    VIRTQUEUE_READ_DESC_ERROR =3D -1,
-> +    VIRTQUEUE_READ_DESC_DONE =3D 0,   /* end of chain */
-> +    VIRTQUEUE_READ_DESC_MORE =3D 1,   /* more buffers in chain */
-> +};
-> +
-> +static int vduse_queue_read_next_desc(struct vring_desc *desc, int i,
-> +                                      unsigned int max, unsigned int *ne=
-xt)
-> +{
-> +    /* If this descriptor says it doesn't chain, we're done. */
-> +    if (!(le16toh(desc[i].flags) & VRING_DESC_F_NEXT)) {
-> +        return VIRTQUEUE_READ_DESC_DONE;
-> +    }
-> +
-> +    /* Check they're not leading us off end of descriptors. */
-> +    *next =3D desc[i].next;
-> +    /* Make sure compiler knows to grab that: we don't want it changing!=
- */
-> +    smp_wmb();
-> +
-> +    if (*next >=3D max) {
-> +        fprintf(stderr, "Desc next is %u\n", *next);
-> +        return VIRTQUEUE_READ_DESC_ERROR;
-> +    }
-> +
-> +    return VIRTQUEUE_READ_DESC_MORE;
-> +}
-> +
-> +/*
-> + * Fetch avail_idx from VQ memory only when we really need to know if
-> + * guest has added some buffers.
-> + */
-> +static bool vduse_queue_empty(VduseVirtq *vq)
-> +{
-> +    if (unlikely(!vq->vring.avail)) {
-> +        return true;
-> +    }
-> +
-> +    if (vq->shadow_avail_idx !=3D vq->last_avail_idx) {
-> +        return false;
-> +    }
-> +
-> +    return vring_avail_idx(vq) =3D=3D vq->last_avail_idx;
-> +}
-> +
-> +static bool vduse_queue_should_notify(VduseVirtq *vq)
-> +{
-> +    VduseDev *dev =3D vq->dev;
-> +    uint16_t old, new;
-> +    bool v;
-> +
-> +    /* We need to expose used array entries before checking used event. =
-*/
-> +    smp_mb();
-> +
-> +    /* Always notify when queue is empty (when feature acknowledge) */
-> +    if (vduse_dev_has_feature(dev, VIRTIO_F_NOTIFY_ON_EMPTY) &&
-> +        !vq->inuse && vduse_queue_empty(vq)) {
-> +        return true;
-> +    }
-> +
-> +    if (!vduse_dev_has_feature(dev, VIRTIO_RING_F_EVENT_IDX)) {
-> +        return !(vring_avail_flags(vq) & VRING_AVAIL_F_NO_INTERRUPT);
-> +    }
-> +
-> +    v =3D vq->signalled_used_valid;
-> +    vq->signalled_used_valid =3D true;
-> +    old =3D vq->signalled_used;
-> +    new =3D vq->signalled_used =3D vq->used_idx;
-> +    return !v || vring_need_event(vring_get_used_event(vq), new, old);
-> +}
-> +
-> +void vduse_queue_notify(VduseVirtq *vq)
-> +{
-> +    VduseDev *dev =3D vq->dev;
-> +
-> +    if (unlikely(!vq->vring.avail)) {
-> +        return;
-> +    }
-> +
-> +    if (!vduse_queue_should_notify(vq)) {
-> +        return;
-> +    }
-> +
-> +    if (vduse_inject_irq(dev, vq->index) < 0) {
-> +        fprintf(stderr, "Error inject irq for vq %d: %s\n",
-> +                vq->index, strerror(errno));
-> +    }
-> +}
-> +
-> +static inline void vring_used_flags_set_bit(VduseVirtq *vq, int mask)
-> +{
-> +    uint16_t *flags;
-> +
-> +    flags =3D (uint16_t *)((char*)vq->vring.used +
-> +                         offsetof(struct vring_used, flags));
-> +    *flags =3D htole16(le16toh(*flags) | mask);
-> +}
-> +
-> +static inline void vring_used_flags_unset_bit(VduseVirtq *vq, int mask)
-> +{
-> +    uint16_t *flags;
-> +
-> +    flags =3D (uint16_t *)((char*)vq->vring.used +
-> +                         offsetof(struct vring_used, flags));
-> +    *flags =3D htole16(le16toh(*flags) & ~mask);
-> +}
-> +
-> +static inline void vring_set_avail_event(VduseVirtq *vq, uint16_t val)
-> +{
-> +    *((uint16_t *)&vq->vring.used->ring[vq->vring.num]) =3D htole16(val);
-> +}
-> +
-> +static bool vduse_queue_map_single_desc(VduseVirtq *vq, unsigned int *p_=
-num_sg,
-> +                                   struct iovec *iov, unsigned int max_n=
-um_sg,
-> +                                   bool is_write, uint64_t pa, size_t sz)
-> +{
-> +    unsigned num_sg =3D *p_num_sg;
-> +    VduseDev *dev =3D vq->dev;
-> +
-> +    assert(num_sg <=3D max_num_sg);
-> +
-> +    if (!sz) {
-> +        fprintf(stderr, "virtio: zero sized buffers are not allowed\n");
-> +        return false;
-> +    }
-> +
-> +    while (sz) {
-> +        uint64_t len =3D sz;
-> +
-> +        if (num_sg =3D=3D max_num_sg) {
-> +            fprintf(stderr,
-> +                    "virtio: too many descriptors in indirect table\n");
-> +            return false;
-> +        }
-> +
-> +        iov[num_sg].iov_base =3D iova_to_va(dev, &len, pa);
-> +        if (iov[num_sg].iov_base =3D=3D NULL) {
-> +            fprintf(stderr, "virtio: invalid address for buffers\n");
-> +            return false;
-> +        }
-> +        iov[num_sg++].iov_len =3D len;
-> +        sz -=3D len;
-> +        pa +=3D len;
-> +    }
-> +
-> +    *p_num_sg =3D num_sg;
-> +    return true;
-> +}
-> +
-> +static void *vduse_queue_alloc_element(size_t sz, unsigned out_num,
-> +                                       unsigned in_num)
-> +{
-> +    VduseVirtqElement *elem;
-> +    size_t in_sg_ofs =3D ALIGN_UP(sz, __alignof__(elem->in_sg[0]));
-> +    size_t out_sg_ofs =3D in_sg_ofs + in_num * sizeof(elem->in_sg[0]);
-> +    size_t out_sg_end =3D out_sg_ofs + out_num * sizeof(elem->out_sg[0]);
-> +
-> +    assert(sz >=3D sizeof(VduseVirtqElement));
-> +    elem =3D malloc(out_sg_end);
 
-Missing malloc() NULL return value check.
 
-> +    elem->out_num =3D out_num;
-> +    elem->in_num =3D in_num;
-> +    elem->in_sg =3D (void *)elem + in_sg_ofs;
-> +    elem->out_sg =3D (void *)elem + out_sg_ofs;
-> +    return elem;
-> +}
-> +
-> +static void *vduse_queue_map_desc(VduseVirtq *vq, unsigned int idx, size=
-_t sz)
-> +{
-> +    struct vring_desc *desc =3D vq->vring.desc;
-> +    VduseDev *dev =3D vq->dev;
-> +    uint64_t desc_addr, read_len;
-> +    unsigned int desc_len;
-> +    unsigned int max =3D vq->vring.num;
-> +    unsigned int i =3D idx;
-> +    VduseVirtqElement *elem;
-> +    struct iovec iov[VIRTQUEUE_MAX_SIZE];
-> +    struct vring_desc desc_buf[VIRTQUEUE_MAX_SIZE];
-> +    unsigned int out_num =3D 0, in_num =3D 0;
-> +    int rc;
-> +
-> +    if (le16toh(desc[i].flags) & VRING_DESC_F_INDIRECT) {
-> +        if (le32toh(desc[i].len) % sizeof(struct vring_desc)) {
-> +            fprintf(stderr, "Invalid size for indirect buffer table\n");
-> +            return NULL;
-> +        }
-> +
-> +        /* loop over the indirect descriptor table */
-> +        desc_addr =3D le64toh(desc[i].addr);
-> +        desc_len =3D le32toh(desc[i].len);
-> +        max =3D desc_len / sizeof(struct vring_desc);
-> +        read_len =3D desc_len;
-> +        desc =3D iova_to_va(dev, &read_len, desc_addr);
-> +        if (unlikely(desc && read_len !=3D desc_len)) {
-> +            /* Failed to use zero copy */
-> +            desc =3D NULL;
-> +            if (!vduse_queue_read_indirect_desc(dev, desc_buf,
-> +                                                desc_addr,
-> +                                                desc_len)) {
-> +                desc =3D desc_buf;
-> +            }
-> +        }
-> +        if (!desc) {
-> +            fprintf(stderr, "Invalid indirect buffer table\n");
-> +            return NULL;
-> +        }
-> +        i =3D 0;
-> +    }
-> +
-> +    /* Collect all the descriptors */
-> +    do {
-> +        if (le16toh(desc[i].flags) & VRING_DESC_F_WRITE) {
-> +            if (!vduse_queue_map_single_desc(vq, &in_num, iov + out_num,
-> +                                             VIRTQUEUE_MAX_SIZE - out_nu=
-m,
-> +                                             true, le64toh(desc[i].addr),
-> +                                             le32toh(desc[i].len))) {
-> +                return NULL;
-> +            }
-> +        } else {
-> +            if (in_num) {
-> +                fprintf(stderr, "Incorrect order for descriptors\n");
-> +                return NULL;
-> +            }
-> +            if (!vduse_queue_map_single_desc(vq, &out_num, iov,
-> +                                             VIRTQUEUE_MAX_SIZE, false,
-> +                                             le64toh(desc[i].addr),
-> +                                             le32toh(desc[i].len))) {
-> +                return NULL;
-> +            }
-> +        }
-> +
-> +        /* If we've got too many, that implies a descriptor loop. */
-> +        if ((in_num + out_num) > max) {
-> +            fprintf(stderr, "Looped descriptor\n");
-> +            return NULL;
-> +        }
-> +        rc =3D vduse_queue_read_next_desc(desc, i, max, &i);
-> +    } while (rc =3D=3D VIRTQUEUE_READ_DESC_MORE);
-> +
-> +    if (rc =3D=3D VIRTQUEUE_READ_DESC_ERROR) {
-> +        fprintf(stderr, "read descriptor error\n");
-> +        return NULL;
-> +    }
-> +
-> +    /* Now copy what we have collected and mapped */
-> +    elem =3D vduse_queue_alloc_element(sz, out_num, in_num);
-> +    elem->index =3D idx;
-> +    for (i =3D 0; i < out_num; i++) {
-> +        elem->out_sg[i] =3D iov[i];
-> +    }
-> +    for (i =3D 0; i < in_num; i++) {
-> +        elem->in_sg[i] =3D iov[out_num + i];
-> +    }
-> +
-> +    return elem;
-> +}
-> +
-> +void *vduse_queue_pop(VduseVirtq *vq, size_t sz)
-> +{
-> +    unsigned int head;
-> +    VduseVirtqElement *elem;
-> +    VduseDev *dev =3D vq->dev;
-> +
-> +    if (unlikely(!vq->vring.avail)) {
-> +        return NULL;
-> +    }
-> +
-> +    if (vduse_queue_empty(vq)) {
-> +        return NULL;
-> +    }
-> +    /* Needed after virtio_queue_empty() */
-> +    smp_rmb();
-> +
-> +    if (vq->inuse >=3D vq->vring.num) {
-> +        fprintf(stderr, "Virtqueue size exceeded: %d\n", vq->inuse);
-> +        return NULL;
-> +    }
-> +
-> +    if (!vduse_queue_get_head(vq, vq->last_avail_idx++, &head)) {
-> +        return NULL;
-> +    }
-> +
-> +    if (vduse_dev_has_feature(dev, VIRTIO_RING_F_EVENT_IDX)) {
-> +        vring_set_avail_event(vq, vq->last_avail_idx);
-> +    }
-> +
-> +    elem =3D vduse_queue_map_desc(vq, head, sz);
-> +
-> +    if (!elem) {
-> +        return NULL;
-> +    }
-> +
-> +    vq->inuse++;
-> +
-> +    return elem;
-> +}
-> +
-> +static inline void vring_used_write(VduseVirtq *vq,
-> +                                    struct vring_used_elem *uelem, int i)
-> +{
-> +    struct vring_used *used =3D vq->vring.used;
-> +
-> +    used->ring[i] =3D *uelem;
-> +}
-> +
-> +static void vduse_queue_fill(VduseVirtq *vq, const VduseVirtqElement *el=
-em,
-> +                             unsigned int len, unsigned int idx)
-> +{
-> +    struct vring_used_elem uelem;
-> +
-> +    if (unlikely(!vq->vring.used)) {
-> +        return;
-> +    }
-> +
-> +    idx =3D (idx + vq->used_idx) % vq->vring.num;
-> +
-> +    uelem.id =3D htole32(elem->index);
-> +    uelem.len =3D htole32(len);
-> +    vring_used_write(vq, &uelem, idx);
-> +}
-> +
-> +static inline void vring_used_idx_set(VduseVirtq *vq, uint16_t val)
-> +{
-> +    vq->vring.used->idx =3D htole16(val);
-> +    vq->used_idx =3D val;
-> +}
-> +
-> +static void vduse_queue_flush(VduseVirtq *vq, unsigned int count)
-> +{
-> +    uint16_t old, new;
-> +
-> +    if (unlikely(!vq->vring.used)) {
-> +        return;
-> +    }
-> +
-> +    /* Make sure buffer is written before we update index. */
-> +    smp_wmb();
-> +
-> +    old =3D vq->used_idx;
-> +    new =3D old + count;
-> +    vring_used_idx_set(vq, new);
-> +    vq->inuse -=3D count;
-> +    if (unlikely((int16_t)(new - vq->signalled_used) < (uint16_t)(new - =
-old))) {
-> +        vq->signalled_used_valid =3D false;
-> +    }
-> +}
-> +
-> +void vduse_queue_push(VduseVirtq *vq, const VduseVirtqElement *elem,
-> +                      unsigned int len)
-> +{
-> +    vduse_queue_fill(vq, elem, len, 0);
-> +    vduse_queue_flush(vq, 1);
-> +}
-> +
-> +static int vduse_queue_update_vring(VduseVirtq *vq, uint64_t desc_addr,
-> +                                    uint64_t avail_addr, uint64_t used_a=
-ddr)
-> +{
-> +    struct VduseDev *dev =3D vq->dev;
-> +    uint64_t len;
-> +
-> +    len =3D sizeof(struct vring_desc);
-> +    vq->vring.desc =3D iova_to_va(dev, &len, desc_addr);
-> +    assert(len =3D=3D sizeof(struct vring_desc));
-> +
-> +    len =3D sizeof(struct vring_avail);
-> +    vq->vring.avail =3D iova_to_va(dev, &len, avail_addr);
-> +    assert(len =3D=3D sizeof(struct vring_avail));
-> +
-> +    len =3D sizeof(struct vring_used);
-> +    vq->vring.used =3D iova_to_va(dev, &len, used_addr);
-> +    assert(len =3D=3D sizeof(struct vring_used));
-> +
-> +    if (!vq->vring.desc || !vq->vring.avail || !vq->vring.used) {
-> +        fprintf(stderr, "Failed to get vq[%d] iova mapping\n", vq->index=
-);
-> +        return -EINVAL;
-> +    }
-> +
-> +    return 0;
-> +}
-> +
-> +static void vduse_queue_enable(VduseVirtq *vq)
-> +{
-> +    struct VduseDev *dev =3D vq->dev;
-> +    struct vduse_vq_info vq_info;
-> +    struct vduse_vq_eventfd vq_eventfd;
-> +    int fd;
-> +
-> +    vq_info.index =3D vq->index;
-> +    if (ioctl(dev->fd, VDUSE_VQ_GET_INFO, &vq_info)) {
-> +        fprintf(stderr, "Failed to get vq[%d] info: %s\n",
-> +                vq->index, strerror(errno));
-> +        return;
-> +    }
-> +
-> +    if (!vq_info.ready) {
-> +        return;
-> +    }
-> +
-> +    vq->vring.num =3D vq_info.num;
-> +    vq->vring.desc_addr =3D vq_info.desc_addr;
-> +    vq->vring.avail_addr =3D vq_info.driver_addr;
-> +    vq->vring.used_addr =3D vq_info.device_addr;
-> +
-> +    if (vduse_queue_update_vring(vq, vq_info.desc_addr,
-> +                                 vq_info.driver_addr, vq_info.device_add=
-r)) {
-> +        fprintf(stderr, "Failed to update vring for vq[%d]\n", vq->index=
-);
-> +        return;
-> +    }
-> +
-> +    fd =3D eventfd(0, EFD_NONBLOCK | EFD_CLOEXEC);
-> +    if (fd < 0) {
-> +        fprintf(stderr, "Failed to init eventfd for vq[%d]\n", vq->index=
-);
-> +        return;
-> +    }
-> +
-> +    vq_eventfd.index =3D vq->index;
-> +    vq_eventfd.fd =3D fd;
-> +    if (ioctl(dev->fd, VDUSE_VQ_SETUP_KICKFD, &vq_eventfd)) {
-> +        fprintf(stderr, "Failed to setup kick fd for vq[%d]\n", vq->inde=
-x);
-> +        close(fd);
-> +        return;
-> +    }
-> +
-> +    vq->fd =3D fd;
-> +    vq->shadow_avail_idx =3D vq->last_avail_idx =3D vq_info.split.avail_=
-index;
-> +    vq->inuse =3D 0;
-> +    vq->used_idx =3D 0;
-> +    vq->signalled_used_valid =3D false;
-> +    vq->ready =3D true;
-> +
-> +    dev->ops->enable_queue(dev, vq);
-> +}
-> +
-> +static void vduse_queue_disable(VduseVirtq *vq)
-> +{
-> +    struct VduseDev *dev =3D vq->dev;
-> +    struct vduse_vq_eventfd eventfd;
-> +
-> +    if (!vq->ready) {
-> +        return;
-> +    }
-> +
-> +    dev->ops->disable_queue(dev, vq);
-> +
-> +    eventfd.index =3D vq->index;
-> +    eventfd.fd =3D VDUSE_EVENTFD_DEASSIGN;
-> +    ioctl(dev->fd, VDUSE_VQ_SETUP_KICKFD, &eventfd);
-> +    close(vq->fd);
-> +
-> +    assert(vq->inuse =3D=3D 0);
-> +
-> +    vq->vring.num =3D 0;
-> +    vq->vring.desc_addr =3D 0;
-> +    vq->vring.avail_addr =3D 0;
-> +    vq->vring.used_addr =3D 0;
-> +    vq->vring.desc =3D 0;
-> +    vq->vring.avail =3D 0;
-> +    vq->vring.used =3D 0;
-> +    vq->ready =3D false;
-> +    vq->fd =3D -1;
-> +}
-> +
-> +static void vduse_dev_start_dataplane(VduseDev *dev)
-> +{
-> +    int i;
-> +
-> +    if (ioctl(dev->fd, VDUSE_DEV_GET_FEATURES, &dev->features)) {
-> +        fprintf(stderr, "Failed to get features: %s\n", strerror(errno));
-> +        return;
-> +    }
-> +
-> +    for (i =3D 0; i < dev->num_queues; i++) {
-> +        vduse_queue_enable(&dev->vqs[i]);
-> +    }
-> +}
-> +
-> +static void vduse_dev_stop_dataplane(VduseDev *dev)
-> +{
-> +    int i;
-> +
-> +    for (i =3D 0; i < dev->num_queues; i++) {
-> +        vduse_queue_disable(&dev->vqs[i]);
-> +    }
-> +    dev->features =3D 0;
-> +    vduse_iova_remove_region(dev, 0, ULONG_MAX);
-> +}
-> +
-> +int vduse_dev_handler(VduseDev *dev)
-> +{
-> +    struct vduse_dev_request req;
-> +    struct vduse_dev_response resp =3D { 0 };
-> +    VduseVirtq *vq;
-> +    int i, ret;
-> +
-> +    ret =3D read(dev->fd, &req, sizeof(req));
 
-This file descriptor is blocking? I guess the assumption is that the
-kernel VDUSE code always enqueues at least one struct vduse_dev_request,
-so userspace will not block when the file descriptor becomes readable?
 
-> +    if (ret !=3D sizeof(req)) {
-> +        fprintf(stderr, "Read request error [%d]: %s\n",
-> +                ret, strerror(errno));
-> +        return -errno;
-> +    }
-> +    resp.request_id =3D req.request_id;
-> +
-> +    switch (req.type) {
-> +    case VDUSE_GET_VQ_STATE:
-> +        vq =3D &dev->vqs[req.vq_state.index];
-> +        resp.vq_state.split.avail_index =3D vq->last_avail_idx;
-> +        resp.result =3D VDUSE_REQ_RESULT_OK;
-> +        break;
-> +    case VDUSE_SET_STATUS:
-> +        if (req.s.status & VIRTIO_CONFIG_S_DRIVER_OK) {
-> +            vduse_dev_start_dataplane(dev);
-> +        } else if (req.s.status =3D=3D 0) {
-> +            vduse_dev_stop_dataplane(dev);
-> +        }
-> +        resp.result =3D VDUSE_REQ_RESULT_OK;
-> +        break;
-> +    case VDUSE_UPDATE_IOTLB:
-> +        /* The iova will be updated by iova_to_va() later, so just remov=
-e it */
-> +        vduse_iova_remove_region(dev, req.iova.start, req.iova.last);
-> +        for (i =3D 0; i < dev->num_queues; i++) {
-> +            VduseVirtq *vq =3D &dev->vqs[i];
-> +            if (vq->ready) {
-> +                if (vduse_queue_update_vring(vq, vq->vring.desc_addr,
-> +                                             vq->vring.avail_addr,
-> +                                             vq->vring.used_addr)) {
-> +                    fprintf(stderr, "Failed to update vring for vq[%d]\n=
-",
-> +                            vq->index);
-> +                }
-> +            }
-> +        }
-> +        resp.result =3D VDUSE_REQ_RESULT_OK;
-> +        break;
-> +    default:
-> +        resp.result =3D VDUSE_REQ_RESULT_FAILED;
-> +        break;
-> +    }
-> +
-> +    ret =3D write(dev->fd, &resp, sizeof(resp));
-
-The kernel never blocks here?
-
-> +    if (ret !=3D sizeof(resp)) {
-> +        fprintf(stderr, "Write request %d error [%d]: %s\n",
-> +                req.type, ret, strerror(errno));
-> +        return -errno;
-> +    }
-> +    return 0;
-> +}
-> +
-> +int vduse_dev_update_config(VduseDev *dev, uint32_t size,
-> +                            uint32_t offset, char *buffer)
-> +{
-> +    int ret;
-> +    struct vduse_config_data *data;
-> +
-> +    data =3D malloc(offsetof(struct vduse_config_data, buffer) + size);
-> +    if (!data) {
-> +        return -ENOMEM;
-> +    }
-> +
-> +    data->offset =3D offset;
-> +    data->length =3D size;
-> +    memcpy(data->buffer, buffer, size);
-> +
-> +    ret =3D ioctl(dev->fd, VDUSE_DEV_SET_CONFIG, data);
-> +    free(data);
-> +
-> +    if (ret) {
-> +        return -errno;
-> +    }
-> +
-> +    if (ioctl(dev->fd, VDUSE_DEV_INJECT_CONFIG_IRQ)) {
-> +        return -errno;
-> +    }
-> +
-> +    return 0;
-> +}
-> +
-> +int vduse_dev_setup_queue(VduseDev *dev, int index, int max_size)
-> +{
-> +    VduseVirtq *vq =3D &dev->vqs[index];
-> +    struct vduse_vq_config vq_config =3D { 0 };
-> +
-> +    vq_config.index =3D vq->index;
-> +    vq_config.max_size =3D max_size;
-> +
-> +    if (ioctl(dev->fd, VDUSE_VQ_SETUP, &vq_config)) {
-> +        return -errno;
-> +    }
-> +
-> +    return 0;
-> +}
-> +
-> +VduseDev *vduse_dev_create(const char *name, uint32_t device_id,
-> +                           uint32_t vendor_id, uint64_t features,
-> +                           uint16_t num_queues, uint32_t config_size,
-> +                           char *config, const VduseOps *ops, void *priv)
-> +{
-> +    VduseDev *dev;
-> +    int i, ret, ctrl_fd, fd =3D -1;
-> +    uint64_t version;
-> +    char dev_path[VDUSE_NAME_MAX + 16];
-
-Why 16? It has to be at least strlen("/dev/vduse/"), but why more? I
-suggest including strlen("/dev/vduse/") instead of hardcoding a magic
-constant.
-
-> +    VduseVirtq *vqs =3D NULL;
-> +    struct vduse_dev_config *dev_config =3D NULL;
-> +    size_t size =3D offsetof(struct vduse_dev_config, config);
-> +
-> +    if (!name || strlen(name) > VDUSE_NAME_MAX || !config ||
-
-The NUL terminator needs to be taken into account:
-
-  strlen(name) + 1 > VDUSE_NAME_MAX
-
-> +        !config_size || !ops || !ops->enable_queue || !ops->disable_queu=
-e) {
-> +        fprintf(stderr, "Invalid parameter for vduse\n");
-> +        return NULL;
-> +    }
-> +
-> +    dev =3D malloc(sizeof(VduseDev));
-> +    if (!dev) {
-> +        fprintf(stderr, "Failed to allocate vduse device\n");
-> +        return NULL;
-> +    }
-> +    memset(dev, 0, sizeof(VduseDev));
-> +
-> +    ctrl_fd =3D open("/dev/vduse/control", O_RDWR);
-> +    if (ctrl_fd < 0) {
-> +        fprintf(stderr, "Failed to open /dev/vduse/control: %s\n",
-> +                strerror(errno));
-> +        goto err_ctrl;
-> +    }
-> +
-> +    version =3D VDUSE_API_VERSION;
-> +    if (ioctl(ctrl_fd, VDUSE_SET_API_VERSION, &version)) {
-> +        fprintf(stderr, "Failed to set api version %lu: %s\n",
-> +                version, strerror(errno));
-> +        goto err_dev;
-> +    }
-> +
-> +    dev_config =3D malloc(size + config_size);
-> +    if (!dev_config) {
-> +        fprintf(stderr, "Failed to allocate config space\n");
-> +        goto err_dev;
-> +    }
-> +    memset(dev_config, 0, size + config_size);
-> +
-> +    strcpy(dev_config->name, name);
-> +    dev_config->device_id =3D device_id;
-> +    dev_config->vendor_id =3D vendor_id;
-> +    dev_config->features =3D features;
-> +    dev_config->vq_num =3D num_queues;
-> +    dev_config->vq_align =3D VDUSE_VQ_ALIGN;
-> +    dev_config->config_size =3D config_size;
-> +    memcpy(dev_config->config, config, config_size);
-> +
-> +    ret =3D ioctl(ctrl_fd, VDUSE_CREATE_DEV, dev_config);
-> +    free(dev_config);
-> +    if (ret < 0) {
-> +        fprintf(stderr, "Failed to create vduse dev %s: %s\n",
-> +                name, strerror(errno));
-> +        goto err_dev;
-> +    }
-> +
-> +    sprintf(dev_path, "/dev/vduse/%s", name);
-> +    fd =3D open(dev_path, O_RDWR);
-
-Does the caller reject names with ".." path components? Maybe input
-validation should be performed before we call open(2)?
-
-> +    if (fd < 0) {
-> +        fprintf(stderr, "Failed to open vduse dev %s: %s\n",
-> +                name, strerror(errno));
-> +        goto err;
-> +    }
-> +
-> +    vqs =3D calloc(sizeof(VduseVirtq), num_queues);
-
-calloc() could be used instead of malloc + memset above as well.
-
-> +    if (!vqs) {
-> +        fprintf(stderr, "Failed to allocate virtqueues\n");
-> +        goto err;
-> +    }
-> +
-> +    for (i =3D 0; i < num_queues; i++) {
-> +        vqs[i].index =3D i;
-> +        vqs[i].dev =3D dev;
-> +        vqs[i].fd =3D -1;
-> +    }
-> +
-> +    dev->vqs =3D vqs;
-> +    dev->name =3D strdup(name);
-
-malloc(3) return values are checked elsewhere, strdup(3) should also be
-checked.
-
-> +    dev->num_queues =3D num_queues;
-> +    dev->ops =3D ops;
-> +    dev->ctrl_fd =3D ctrl_fd;
-> +    dev->fd =3D fd;
-> +    dev->priv =3D priv;
-> +
-> +    return dev;
-> +err:
-> +    if (fd > 0) {
-> +        close(fd);
-> +    }
-> +    ioctl(ctrl_fd, VDUSE_DESTROY_DEV, name);
-> +err_dev:
-> +    close(ctrl_fd);
-> +err_ctrl:
-> +    free(dev);
-> +
-> +    return NULL;
-> +}
-> +
-> +void vduse_dev_destroy(VduseDev *dev)
-> +{
-> +    free(dev->vqs);
-> +    close(dev->fd);
-> +    dev->fd =3D -1;
-> +    ioctl(dev->ctrl_fd, VDUSE_DESTROY_DEV, dev->name);
-> +    free(dev->name);
-> +    close(dev->ctrl_fd);
-> +    dev->ctrl_fd =3D -1;
-> +    free(dev);
-> +}
-> diff --git a/subprojects/libvduse/libvduse.h b/subprojects/libvduse/libvd=
-use.h
-> new file mode 100644
-> index 0000000000..f6bcb51b5a
-> --- /dev/null
-> +++ b/subprojects/libvduse/libvduse.h
-> @@ -0,0 +1,193 @@
-> +/*
-> + * VDUSE (vDPA Device in Userspace) library
-> + *
-> + * Copyright (C) 2022 Bytedance Inc. and/or its affiliates. All rights r=
-eserved.
-> + *
-> + * Author:
-> + *   Xie Yongji <xieyongji@bytedance.com>
-> + *
-> + * This work is licensed under the terms of the GNU GPL, version 2 or
-> + * later.  See the COPYING file in the top-level directory.
-> + */
-> +
-> +#ifndef LIBVDUSE_H
-> +#define LIBVDUSE_H
-> +
-> +#include <stdint.h>
-> +#include <sys/uio.h>
-> +
-> +/* VDUSE device structure */
-> +typedef struct VduseDev VduseDev;
-> +
-> +/* Virtqueue structure */
-> +typedef struct VduseVirtq VduseVirtq;
-> +
-> +/* Some operation of VDUSE backend */
-> +typedef struct VduseOps {
-> +    /* Called when virtqueue can be processed */
-> +    void (*enable_queue)(VduseDev *dev, VduseVirtq *vq);
-> +    /* Called when virtqueue processing should be stopped */
-> +    void (*disable_queue)(VduseDev *dev, VduseVirtq *vq);
-> +} VduseOps;
-> +
-> +/* Describing elements of the I/O buffer */
-> +typedef struct VduseVirtqElement {
-> +    /* Virtqueue index */
-> +    unsigned int index;
-
-Is this the descriptor table index or the virtqueue number?
-
-> +    /* Number of physically-contiguous device-readable descriptors */
-> +    unsigned int out_num;
-> +    /* Number of physically-contiguous device-writable descriptors */
-> +    unsigned int in_num;
-> +    /* Array to store physically-contiguous device-writable descriptors =
-*/
-> +    struct iovec *in_sg;
-> +    /* Array to store physically-contiguous device-readable descriptors =
-*/
-> +    struct iovec *out_sg;
-> +} VduseVirtqElement;
-> +
-> +/**
-> + * vduse_queue_get_dev:
-> + * @vq: specified virtqueue
-> + *
-> + * Get corresponding VDUSE device from the virtqueue.
-> + *
-> + * Returns: a pointer to VDUSE device on success, NULL on failure.
-> + */
-> +VduseDev *vduse_queue_get_dev(VduseVirtq *vq);
-> +
-> +/**
-> + * vduse_queue_get_fd:
-> + * @vq: specified virtqueue
-> + *
-> + * Get the kick fd for the virtqueue.
-> + *
-> + * Returns: file descriptor on success, -1 on failure.
-> + */
-> +int vduse_queue_get_fd(VduseVirtq *vq);
-> +
-> +/**
-> + * vduse_queue_pop:
-> + * @vq: specified virtqueue
-> + * @sz: the size of struct to return (must be >=3D VduseVirtqElement)
-> + *
-> + * Pop an element from virtqueue available ring.
-> + *
-> + * Returns: a pointer to a structure containing VduseVirtqElement on suc=
-cess,
-> + * NULL on failure.
-> + */
-> +void *vduse_queue_pop(VduseVirtq *vq, size_t sz);
-> +
-> +/**
-> + * vduse_queue_push:
-> + * @vq: specified virtqueue
-> + * @elem: pointer to VduseVirtqElement returned by vduse_queue_pop()
-> + * @len: length in bytes to write
-> + *
-> + * Push an element to virtqueue used ring.
-> + */
-> +void vduse_queue_push(VduseVirtq *vq, const VduseVirtqElement *elem,
-> +                      unsigned int len);
-> +/**
-> + * vduse_queue_notify:
-> + * @vq: specified virtqueue
-> + *
-> + * Request to notify the queue.
-> + */
-> +void vduse_queue_notify(VduseVirtq *vq);
-> +
-> +/**
-> + * vduse_dev_get_priv:
-> + * @dev: VDUSE device
-> + *
-> + * Get the private pointer passed to vduse_dev_create().
-> + *
-> + * Returns: private pointer on success, NULL on failure.
-> + */
-> +void *vduse_dev_get_priv(VduseDev *dev);
-> +
-> +/**
-> + * vduse_dev_get_queue:
-> + * @dev: VDUSE device
-> + * @index: virtqueue index
-> + *
-> + * Get the specified virtqueue.
-> + *
-> + * Returns: a pointer to the virtqueue on success, NULL on failure.
-> + */
-> +VduseVirtq *vduse_dev_get_queue(VduseDev *dev, int index);
-> +
-> +/**
-> + * vduse_dev_get_fd:
-> + * @dev: VDUSE device
-> + *
-> + * Get the control message fd for the VDUSE device.
-> + *
-> + * Returns: file descriptor on success, -1 on failure.
-> + */
-> +int vduse_dev_get_fd(VduseDev *dev);
-> +
-> +/**
-> + * vduse_dev_handler:
-> + * @dev: VDUSE device
-> + *
-> + * Used to process the control message.
-> + *
-> + * Returns: file descriptor on success, -errno on failure.
-> + */
-> +int vduse_dev_handler(VduseDev *dev);
-> +
-> +/**
-> + * vduse_dev_update_config:
-> + * @dev: VDUSE device
-> + * @size: the size to write to configuration space
-> + * @offset: the offset from the beginning of configuration space
-> + * @buffer: the buffer used to write from
-> + *
-> + * Update device configuration space and inject a config interrupt.
-> + *
-> + * Returns: 0 on success, -errno on failure.
-> + */
-> +int vduse_dev_update_config(VduseDev *dev, uint32_t size,
-> +                            uint32_t offset, char *buffer);
-> +
-> +/**
-> + * vduse_dev_setup_queue:
-> + * @dev: VDUSE device
-> + * @index: virtqueue index
-> + * @max_size: the max size of virtqueue
-> + *
-> + * Setup the specified virtqueue.
-> + *
-> + * Returns: 0 on success, -errno on failure.
-> + */
-> +int vduse_dev_setup_queue(VduseDev *dev, int index, int max_size);
-> +
-> +/**
-> + * vduse_dev_create:
-> + * @name: VDUSE device name
-> + * @device_id: virtio device id
-> + * @vendor_id: virtio vendor id
-> + * @features: virtio features
-> + * @num_queues: the number of virtqueues
-> + * @config_size: the size of the configuration space
-> + * @config: the buffer of the configuration space
-> + * @ops: the operation of VDUSE backend
-> + * @priv: private pointer
-> + *
-> + * Create VDUSE device.
-> + *
-> + * Returns: pointer to VDUSE device on success, NULL on failure.
-> + */
-> +VduseDev *vduse_dev_create(const char *name, uint32_t device_id,
-> +                           uint32_t vendor_id, uint64_t features,
-> +                           uint16_t num_queues, uint32_t config_size,
-> +                           char *config, const VduseOps *ops, void *priv=
-);
-> +
-> +/**
-> + * vduse_dev_destroy:
-> + * @dev: VDUSE device
-> + *
-> + * Destroy the VDUSE device.
-> + */
-> +void vduse_dev_destroy(VduseDev *dev);
-> +
-> +#endif
-> diff --git a/subprojects/libvduse/meson.build b/subprojects/libvduse/meso=
-n.build
-> new file mode 100644
-> index 0000000000..ba08f5ee1a
-> --- /dev/null
-> +++ b/subprojects/libvduse/meson.build
-> @@ -0,0 +1,10 @@
-> +project('libvduse', 'c',
-> +        license: 'GPL-2.0-or-later',
-> +        default_options: ['c_std=3Dgnu99'])
-> +
-> +libvduse =3D static_library('vduse',
-> +                          files('libvduse.c'),
-> +                          c_args: '-D_GNU_SOURCE')
-> +
-> +libvduse_dep =3D declare_dependency(link_with: libvduse,
-> +                                  include_directories: include_directori=
-es('.'))
-> diff --git a/subprojects/libvduse/standard-headers/linux b/subprojects/li=
-bvduse/standard-headers/linux
-> new file mode 120000
-> index 0000000000..c416f068ac
-> --- /dev/null
-> +++ b/subprojects/libvduse/standard-headers/linux
-> @@ -0,0 +1 @@
-> +../../../include/standard-headers/linux/
-> \ No newline at end of file
-> --=20
-> 2.20.1
->=20
-
---4xwxcMz/F+QmyL8J
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmIBJgcACgkQnKSrs4Gr
-c8jOkwgAmd9Wz9dDrsKhAKi9jxjxph6e/IIB3xt+wUVqQI1sX65GZTjGgqeVs7Nr
-j3+DWUGrKZYPzynD0hnARUeBDLabLH0A9g3EESOikoC19KjRLxzulWY3L2KHbrt4
-Vf+LBqrIPYNXrpUHs8BF2NXrqcNywdXmxdSwYaARhWpHYaj+aG3nWXghX/bKWCyY
-1VsoL4DCImTd6qBm0BfrziXz9e5uaJE2nC5G/c0EiJwRlr6GDZBX6BjJNW6HA0SF
-wiDg7FThT2Jv0uPMy9KawppphHq0Dj8wLmBhWsK/pZ4TtI7i9/tfGDiHCl1tlR1v
-sNYM9BLKiFCNixnodrAkb3BHMuNstQ==
-=2BI5
------END PGP SIGNATURE-----
-
---4xwxcMz/F+QmyL8J--
-
+> 
+>>
+>>
+>> Thanks,
+>>
+>>
+>> Daniel
+>>
+>>
+>>
+>>> +    if (has_iommu) {
+>>> +        vdev_has_iommu = virtio_host_has_feature(vdev, VIRTIO_F_IOMMU_PLATFORM);
+>>> +        /* Fail FEATURE_OK if the device tries to drop IOMMU_PLATFORM */
+>>>            virtio_add_feature(&vdev->host_features, VIRTIO_F_IOMMU_PLATFORM);
+>>> -        vdev->dma_as = klass->get_dma_as(qbus->parent);
+>>> -        if (!vdev_has_iommu && vdev->dma_as != &address_space_memory) {
+>>> -            error_setg(errp,
+>>> +        if (klass->get_dma_as) {
+>>> +            vdev->dma_as = klass->get_dma_as(qbus->parent);
+>>> +            if (!vdev_has_iommu && vdev->dma_as != &address_space_memory) {
+>>> +                error_setg(errp,
+>>>                           "iommu_platform=true is not supported by the device");
+>>> +                return;
+>>> +            }
+>>>            }
+>>> -    } else {
+>>> -        vdev->dma_as = &address_space_memory;
+>>>        }
+>>>    }
+>>>    
+>>>
+>>> base-commit: da89f242b4b774a25eaa16be125cf3e17299c127
+> 
 
