@@ -2,61 +2,105 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 863F14AC4EB
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Feb 2022 17:11:25 +0100 (CET)
-Received: from localhost ([::1]:47266 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6AFA24AC545
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Feb 2022 17:17:39 +0100 (CET)
+Received: from localhost ([::1]:53684 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nH6bs-0006yo-87
-	for lists+qemu-devel@lfdr.de; Mon, 07 Feb 2022 11:11:24 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:60592)
+	id 1nH6ht-0003Ef-W0
+	for lists+qemu-devel@lfdr.de; Mon, 07 Feb 2022 11:17:38 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:33066)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1nH6VX-0003s8-E6
- for qemu-devel@nongnu.org; Mon, 07 Feb 2022 11:04:52 -0500
-Received: from kylie.crudebyte.com ([5.189.157.229]:55113)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1nH6VT-00078V-2l
- for qemu-devel@nongnu.org; Mon, 07 Feb 2022 11:04:49 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
- MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
- Content-ID:Content-Description;
- bh=ss+JnL0iWFjA6awPQDdCL1EOm+QNHPgZ7V+ZgoGdgf8=; b=IHabjuqG6wwg9bc2MoFacoJLrO
- 9gdh0OkqLZCxu1Qa1gRfS+fT82a1Q4OgJ3K+vxNVkONpU52oS2AWjxA2KPqdn6lteEISIDpgcv6SQ
- +Uy89iSlny0lf7JnlSWypDkXzyqZkt2qvXMW7vRDcWzC1x+XOVJ3GcZpbvj3+yGVnmq025KcPAnP3
- sEujV7iNd/Dka3OjqEDJhq2CxlwjV3bix08y/qxzhykBg93JrQb4XyLbWvwZt9/ejlXwDoi55qFIu
- xEEM7EDRWK+x82m97kISxQJKQQAKNaDAPI5PvPefZLT0vXXju7Fk0qMyZv40AWviZZANMFqUe/H1u
- bNDiEO2ipMlV4FjuEQg/SVTj/iYgS1FhODzOqPrPHejBJojvVkedxPt9ad9NE3mkPP6ItDfkIEtZn
- b5Vbt6dBKHLlwKiNpUfHQYlmNLq1BFJdrvIHGnN9Q6NklhnZyY7GWKro1oICPJ5Lh/3+kEctAqGvc
- JyFJCcjZ6NpcQ3FZ/zbSNKc5sja7uRKfqW7puS+XC6PpwPdUCzFa16zUcQpyfoEUk05p2tBlLAgk+
- vvrYHOIAJ1M4f04oaw1/jjDiAF5UhK3ozXon4HJ43NS/zowjVR8UGExdBLlGKYk4vYj+GUu2hY6OF
- 0NRanwZ49XjORZBBfT9t/FUv+FNjSVg6Fz6XkEYFE=;
-From: Christian Schoenebeck <qemu_oss@crudebyte.com>
-To: Greg Kurz <groug@kaod.org>
-Cc: qemu-devel@nongnu.org, Will Cohen <wwcohen@gmail.com>,
- Philippe =?ISO-8859-1?Q?Mathieu=2DDaud=E9?= <f4bug@amsat.org>,
- Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- hi@alyssa.is, Michael Roitzsch <reactorcontrol@icloud.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Keno Fischer <keno@juliacomputing.com>
-Subject: Re: [PATCH v4 10/11] 9p: darwin: meson: Allow VirtFS on Darwin
-Date: Mon, 07 Feb 2022 17:04:41 +0100
-Message-ID: <1645588.LEmmck51Vc@silver>
-In-Reply-To: <20220207153930.33b3ca1a@bahia>
-References: <20220206200719.74464-1-wwcohen@gmail.com>
- <39149990.XXmQAQaIKb@silver> <20220207153930.33b3ca1a@bahia>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1nH6X0-0004Dg-7W; Mon, 07 Feb 2022 11:06:22 -0500
+Received: from [2607:f8b0:4864:20::436] (port=41644
+ helo=mail-pf1-x436.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1nH6Wx-0007YW-WF; Mon, 07 Feb 2022 11:06:21 -0500
+Received: by mail-pf1-x436.google.com with SMTP id i30so13715098pfk.8;
+ Mon, 07 Feb 2022 08:06:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=qJ/GakoKhkSqpKMIem6tPqLETidwhvfmDZeaIsRNjpM=;
+ b=ZnKYf6NffylCiV9ou4MYukvcUmf3dgS2T0uIiT7bYkON1PXvXBuEs/hWbEAlaDHSPz
+ KuXEQtt1+NH0U6zCEXpw3++GS/P1QH+z2rsX65w1twlN19yqd+LYnmZC29d/Bg+SO+5p
+ J9Me20AlyoQmTWxNt3jCA4c/byX8FzEOgHJZl4qUmPY9M6/mVK96b+JZOUs+mZLl9Srm
+ 9bvqVfRsZx7/6o58jSBov2SDV9yxYB4vktE0XXKd7luCqXe1DOzXo0HxYTWYKJNeo4tK
+ mSmmQxF7OiVz/iFwyevX+pAxsgmcqWodm2utphIqItSMqG9UQSVRP29Cpgvg2P9L5qhm
+ mP1Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+ :subject:content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=qJ/GakoKhkSqpKMIem6tPqLETidwhvfmDZeaIsRNjpM=;
+ b=QZwlDtd2XG9GIP623x4yygxeUhwjX6Zd5PNczIz0kj4OTrIxTs/r/ZMKwu5A4QiOS8
+ TLgiG9oJWbLhnR9M0p05OcQaLKvH2Efxnou66XTiT60pehZfA96oudEyzM1jah/aSjp4
+ YI6qZ0jTBurire2D4apSUGZ7wMbraIdWE8W41VikY3RW77XfUOTy0cfw9hStSUuhaOj4
+ QwsMPPmstqdmYlJ/dD0xZSZU+fgowVySJtmqvy+Qylvp8HotQqq5F/2UmCdFnXdLsjDb
+ 302xF54U1hKPHsxcb7ixWT3G7FBvQOZ0nW4n5rNk2zcNVNx1ABrea07Dvrl4ae8/eyth
+ opNQ==
+X-Gm-Message-State: AOAM532H13OdB+bNF+sfY7ufu3aX14N08MP1SbClF+8arjpCcFuNJ1xC
+ mNT6fDgPh1jY/fmU9XT1nuU=
+X-Google-Smtp-Source: ABdhPJyXbvEeyFvPRGoucUaIqjNLBn2klC4VyN6DYFGtxtz87ywKkH7kCf6ltSFfiqm+TCHR3HlVRQ==
+X-Received: by 2002:a63:96:: with SMTP id 144mr71909pga.19.1644249974881;
+ Mon, 07 Feb 2022 08:06:14 -0800 (PST)
+Received: from [192.168.1.33] (154.red-83-50-83.dynamicip.rima-tde.net.
+ [83.50.83.154])
+ by smtp.gmail.com with ESMTPSA id pf4sm24884455pjb.35.2022.02.07.08.06.08
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 07 Feb 2022 08:06:14 -0800 (PST)
+Message-ID: <cc73e2f0-97e1-f9c5-1a89-45ff2b0a2aeb@amsat.org>
+Date: Mon, 7 Feb 2022 17:06:06 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="iso-8859-1"
-Received-SPF: pass client-ip=5.189.157.229;
- envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.5.1
+Subject: Re: [PATCH 06/16] hw/arm/xlnx-zcu102: Don't enable PSCI conduit when
+ booting guest in EL3
+Content-Language: en-US
+To: Alexander Graf <agraf@csgraf.de>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-arm <qemu-arm@nongnu.org>, 
+ qemu-devel <qemu-devel@nongnu.org>, Eduardo Habkost <eduardo@habkost.net>, 
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Yanan Wang <wangyanan55@huawei.com>,
+ Niek Linnenbank <nieklinnenbank@gmail.com>,
+ Beniamino Galvani <b.galvani@gmail.com>, =?UTF-8?Q?C=c3=a9dric_Le_Goater?=
+ <clg@kaod.org>, Andrew Jeffery <andrew@aj.id.au>,
+ Joel Stanley <joel@jms.id.au>, Igor Mitsyanko <i.mitsyanko@gmail.com>,
+ Jean-Christophe Dubois <jcd@tribudubois.net>,
+ Andrey Smirnov <andrew.smirnov@gmail.com>, Rob Herring <robh@kernel.org>,
+ Havard Skinnemoen <hskinnemoen@google.com>, Tyrone Ting
+ <kfting@nuvoton.com>, Alistair Francis <alistair@alistair23.me>,
+ Andre Przywara <andre.przywara@arm.com>,
+ Michal Simek <michal.simek@xilinx.com>,
+ Stefano Stabellini <sstabellini@kernel.org>
+References: <20220127154639.2090164-1-peter.maydell@linaro.org>
+ <20220127154639.2090164-7-peter.maydell@linaro.org>
+ <2c67bde5-65b2-0af0-afde-7353a4fe2a1b@csgraf.de>
+ <CAFEAcA9DcHXRkA7gCihU6LrOc40EOHnVnTeEcf4+xSfG22eJ-g@mail.gmail.com>
+ <44ec9504-a7ef-6805-ae94-4435e5a37735@csgraf.de>
+ <CAJy5ezqUtLphzH_WKmW8dR34=k-g5dmuevuZY42GfnD-R-uCqg@mail.gmail.com>
+ <a6caa3b0-89ae-d482-62f5-2cada740a60e@csgraf.de>
+In-Reply-To: <a6caa3b0-89ae-d482-62f5-2cada740a60e@csgraf.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::436
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::436;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pf1-x436.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -71,84 +115,38 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
-On Montag, 7. Februar 2022 15:39:30 CET Greg Kurz wrote:
-> On Mon, 07 Feb 2022 15:15:46 +0100
->=20
-> Christian Schoenebeck <qemu_oss@crudebyte.com> wrote:
-> > On Montag, 7. Februar 2022 02:05:32 CET Will Cohen wrote:
-> > > On Sun, Feb 6, 2022 at 4:22 PM Philippe Mathieu-Daud=E9 <f4bug@amsat.=
-org>
-> > >=20
-> > > wrote:
-> > > > On 6/2/22 21:07, Will Cohen wrote:
-> > > > > From: Keno Fischer <keno@juliacomputing.com>
-> > > > >=20
-> > > > > Signed-off-by: Keno Fischer <keno@juliacomputing.com>
-> > > > > [Michael Roitzsch: - Rebase for NixOS]
-> > > > > Signed-off-by: Michael Roitzsch <reactorcontrol@icloud.com>
-> > > > > [Will Cohen: - Rebase to master]
-> > > > > Signed-off-by: Will Cohen <wwcohen@gmail.com>
-> > > > > Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
-> > > > > [Will Cohen: - Add check for pthread_fchdir_np to virtfs]
-> > > > > Signed-off-by: Will Cohen <wwcohen@gmail.com>
-> > > > > ---
-> > > > >=20
-> > > > >   fsdev/meson.build |  1 +
-> > > > >   meson.build       | 14 ++++++++++----
-> > > > >   2 files changed, 11 insertions(+), 4 deletions(-)
-> > > > >=20
-> > > > > -have_virtfs_proxy_helper =3D have_virtfs and have_tools
-> > > > > +have_virtfs_proxy_helper =3D targetos =3D=3D 'linux' and have_vi=
-rtfs and
-> > > >=20
-> > > > have_tools
-> > > >=20
-> > > > Why do you restrict the proxy-helper to Linux?
-> > >=20
-> > > Only because porting the proxy-helper to macOS is outside the scope of
-> > > this
-> > > particular patch. While some initial concepts around it have been
-> > > considered by some of the contributors to this patch, those
-> > > implementations
-> > > weren't tested enough and the security implications weren't considered
-> > > in
-> > > full. We assume that this could be an additional implementation later
-> > > on,
-> > > if the functionality is considered important down the road.
-> >=20
-> > In general that's fine with me. I would have probably made that
-> > "targetos !=3D 'darwin'" instead of "targetos =3D=3D 'linux'", but I le=
-ave that
-> > up to you.
-> >=20
-> > On the long term we will probably deprecate the 9p 'proxy' fs driver
-> > anyway. While it had some good ideas, being realistic though: nobody has
-> > worked on the 9p proxy driver/backend for many years and it is not in
-> > good shape.
-> It definitely isn't indeed. Also it is super slow by design
-> since the round trip of a 9p request involves QEMU on both entry
-> and exit:
->=20
->    [guest] --> [QEMU]--> [virtfs-proxy-helper]-->[QEMU]-->[guest]
->=20
-> A more modern and efficient approach would be to have a vhost-user-9p
-> implementation : requests would be directly handled by the external
-> process, without QEMU hops. But this a fair amount of work.
+On 7/2/22 16:59, Alexander Graf wrote:
+> 
+> On 07.02.22 16:52, Edgar E. Iglesias wrote:
 
-That's already a bit offtopic, but how would you imagine that to work? You=
-=20
-mean a system dependent solution that e.g. plugs in into KVM or something?
+>> Both Versal and ZynqMP require MicroBlaze firmware to run the 
+>> reference implementations of Trusted Firmware. We never supported this 
+>> in upstream QEMU but we do support it with our fork (by running 
+>> multiple QEMU instances co-simulating).
+>>
+>> Having said that, we do have tons of EL3 test-cases that we use to 
+>> validate QEMU that run with EL3 enabled in upstream.
+>>
+>> So there's two user flows:
+>> 1. Direct boots using QEMUs builtin PSCI (Most users use this to run 
+>> Linux, Xen, U-boot, etc)
+>> 2. Firmware boot at EL3 without QEMUs builtin PSCI (Mostly used by 
+>> test-code)
+>>
+>> Number #2 is the one affected here and that by accident used to have 
+>> the builtin PSCI support enabled but now requires more power control 
+>> modelling to keep working.
+>> Unless I'm missing something, the -kernel boots will continue to use 
+>> the builtin PSCI implementation.
+> 
+> 
+> So nobody is using upstream QEMU to validate and prototype ATF/EL1s/EL0s 
+> code? That's a shame :). I suppose there is little value without the 
+> bitstream emulation and R cluster. Do you have plans to bring multi 
+> process emulation upstream some day to enable these there?
 
-> > I can imagine that due to the ground being laid by these series, that we
-> > will also open 9p for BSD, but that should be done a bit later and hence
-> > does not belong into these series.
-> >=20
-> > But once again: it would not have hurt to make your intentions clear
-> > either in the commit log or by in-source comment. :)
-> >=20
-> > Best regards,
-> > Christian Schoenebeck
-
-
+The R cluster is already in mainstream, isn't it?
 
