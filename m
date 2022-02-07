@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D78CB4AB682
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Feb 2022 09:24:18 +0100 (CET)
-Received: from localhost ([::1]:54824 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B58894AB6E5
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Feb 2022 09:57:02 +0100 (CET)
+Received: from localhost ([::1]:44302 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nGzJp-0007sE-Sg
-	for lists+qemu-devel@lfdr.de; Mon, 07 Feb 2022 03:24:17 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:50656)
+	id 1nGzpV-0004pl-CC
+	for lists+qemu-devel@lfdr.de; Mon, 07 Feb 2022 03:57:01 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:50692)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nGyrj-0005qX-GU
- for qemu-devel@nongnu.org; Mon, 07 Feb 2022 02:55:16 -0500
-Received: from [2a00:1450:4864:20::429] (port=40841
- helo=mail-wr1-x429.google.com)
+ id 1nGyro-0005qv-5J
+ for qemu-devel@nongnu.org; Mon, 07 Feb 2022 02:55:32 -0500
+Received: from [2a00:1450:4864:20::32c] (port=34321
+ helo=mail-wm1-x32c.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nGyrb-0001vs-MO
- for qemu-devel@nongnu.org; Mon, 07 Feb 2022 02:55:15 -0500
-Received: by mail-wr1-x429.google.com with SMTP id s18so23109616wrv.7
- for <qemu-devel@nongnu.org>; Sun, 06 Feb 2022 23:55:01 -0800 (PST)
+ id 1nGyrh-0001zC-V8
+ for qemu-devel@nongnu.org; Mon, 07 Feb 2022 02:55:16 -0500
+Received: by mail-wm1-x32c.google.com with SMTP id
+ bg19-20020a05600c3c9300b0034565e837b6so6873347wmb.1
+ for <qemu-devel@nongnu.org>; Sun, 06 Feb 2022 23:55:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=2OU8P6R8cOV/pc2aoajDgbitoHFkQ19LKVNZC3+dKrk=;
- b=Sa2OPLhTja5GQrY8XgkMuBhxRxLKiCeVPka4L4GzrOMEXSiJH3qgbBg/ddBpW94lDl
- sOTBxtHichL1JYUxushUMvme4QN+2hnOOR7V28F9V7NqlZWDYkDR4Lt5M3mCVByTp1Eh
- MLUQS0C92aYF/Ciig5/HoLrZhbv4Rd2Vgn8VRvT/BSVjumNc08uNzcW5ow6wWXb+Vj9y
- j5IJbJEKpliRsIZtfoGXsFNjIC9Nkf9+oxLMtq8Ax7H95+SiN9bw0i015wgbEDT35bcr
- pjNNyPZxTdSh6Q9OfWiX9WrhUxnkg6mdYiw7c0IiFuK6f2HylmuyDwe5dzrPj8tnqXWU
- X2ng==
+ bh=ZQmsKcV4lDdhNynrPCvLrhHei6N11E8fzUtaypd1FmY=;
+ b=Nb9ilO3HChfAPk20eSSSkMmxNXKFItJCwMeqRrf6Rlduf/mDpQLlzW4XizjxXmTI6P
+ F1MhOFJPECjOd3ucfv90/lnhXHJes65EHa3imr6AQHiwU8mguzssn8gULLlFcYVOBZeY
+ nipwN4QYz3rrwgjq++xfoqkqJWhmYlT0N/1u8Jtc3891wzE4GLrqsoXKgEJaE2vhtiXa
+ ZWk4+aOfKhDXzdxovckRAcaSHXSfoAdzxjeIExy3manGmSCsnURNSYLWqOt8EAI6Um/T
+ 5iLcz+0UmqEsAnQmKjfr0DhKF7Sac6iU9f7HF5TA0JdoziEZIqUqB4WhL08Z+A0Ns5oj
+ dntQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=2OU8P6R8cOV/pc2aoajDgbitoHFkQ19LKVNZC3+dKrk=;
- b=kzM9/YffpK2KIgiwABWXXZNwSX/VbUf9O+dxFdPF6UbJOw4fDwnvw4qe4lcY8G1iJ9
- ujjJjGL6tuYmLgeMZEg6bQxCiEhpI9QkqyTo1Sy+d1frkcJ5t5wj84cqTKg7OeOl2lR/
- NkNXD/2jD5BUlLTOCAxTwrHFs4q1/orCCx4zNoS0YmjUVDfdK7IoMbCG/JcbUNM9ceTK
- ZvLgmoGf6hgHHCdTaL/88/kIfld0CU0JNT/nb9rL41e7apoN7ITF3NOdDt7Y0nSXtPMw
- sz+29DXDiY4n6/VGDD8baliOTzoUTOZ3oecOD4IZQEKxo+sCrii9kKmaI7DEFqCl7ypY
- ofGQ==
-X-Gm-Message-State: AOAM5325z3gfbJ3PDxEl+ot5BDXonFRYdlR27fK/BU4pj9fBmI0r/a1j
- vqlF5OMI2Lk75bqyQkevhhsIZ3zSpl8=
-X-Google-Smtp-Source: ABdhPJxhz4m2c9bi/1zImbRegi2R1JTS1IQUBE1xt/JcL8meYZsx4cqWx6NjKNQ9OoJwDOybLHMm7A==
-X-Received: by 2002:a05:6000:2a2:: with SMTP id
- l2mr8812364wry.306.1644220500150; 
- Sun, 06 Feb 2022 23:55:00 -0800 (PST)
+ bh=ZQmsKcV4lDdhNynrPCvLrhHei6N11E8fzUtaypd1FmY=;
+ b=rAfkbFhAFsNqggKUxv8lYikRizzDCDcFXUAPfmxhEfUi2yzm0Rw3A+ZEz+kFBQpRPO
+ h+a1ReJ2zRCNsTzeu1KFCcf7W8g2f5x7yruDxveyUsuarfZ9pkB+RQ4x1pU/zZWPl8/g
+ NUVH+VJIp5H5jfCfvjSsCDNNTUF7TGmx89Zx/kUuXl4OfDp8joJdaQJGwQtNMU+ZjmuZ
+ So2N3VDtYGHiAWogo1TnwOZNRvuzACyLEmZG+F9XzWhVYmR56dEKXVY96QihoYCL5ouS
+ Rrltbrbiari8p588TRAAbkhDskRVvq35BozOaaIdcKzTT2Zf8vUKl5mc3OJcNSfvIw2A
+ rthw==
+X-Gm-Message-State: AOAM532gqRGpMGmJKFjGc2VAwuhUrZSRrvfLDhTvqMk1KSDXj12uQ3Md
+ uzDM3h/pvpwlqFbZ/3OqmLidRIvvdWg=
+X-Google-Smtp-Source: ABdhPJwJnazx6SDyGNjuQ2Tt2GJo2a9sYuCY8wDIiPs18T7OERJ/MZARQj0IY+3iUqg5JB3QtkoDZQ==
+X-Received: by 2002:a7b:ce9a:: with SMTP id q26mr2766413wmj.141.1644220504587; 
+ Sun, 06 Feb 2022 23:55:04 -0800 (PST)
 Received: from localhost.localdomain (154.red-83-50-83.dynamicip.rima-tde.net.
  [83.50.83.154])
- by smtp.gmail.com with ESMTPSA id i13sm10678548wrf.3.2022.02.06.23.54.59
+ by smtp.gmail.com with ESMTPSA id b15sm1421622wri.96.2022.02.06.23.55.03
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Sun, 06 Feb 2022 23:54:59 -0800 (PST)
+ Sun, 06 Feb 2022 23:55:04 -0800 (PST)
 To: qemu-devel@nongnu.org
 Cc: Richard Henderson <richard.henderson@linaro.org>,
  Paolo Bonzini <pbonzini@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: [PATCH v3 07/21] accel/kvm: Simplify user-mode #ifdef'ry
-Date: Mon,  7 Feb 2022 08:54:12 +0100
-Message-Id: <20220207075426.81934-8-f4bug@amsat.org>
+Subject: [PATCH v3 08/21] accel/hax: Introduce CONFIG_HAX_IS_POSSIBLE
+Date: Mon,  7 Feb 2022 08:54:13 +0100
+Message-Id: <20220207075426.81934-9-f4bug@amsat.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220207075426.81934-1-f4bug@amsat.org>
 References: <20220207075426.81934-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::429
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32c
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::429;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x429.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32c.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -97,44 +97,90 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reply-to:  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 From:  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= via <qemu-devel@nongnu.org>
 
-Now than we only build this stub with system emulation,
-remove the user-mode #ifdef'ry.
+Mirror "sysemu/kvm.h" #ifdef'ry to define CONFIG_HAX_IS_POSSIBLE,
+expose hax_allowed to hax_enabled() macro.
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Suggested-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- accel/stubs/kvm-stub.c | 5 -----
- 1 file changed, 5 deletions(-)
+ accel/stubs/hax-stub.c    |  2 ++
+ include/sysemu/hax.h      | 18 ++++++++++++------
+ target/i386/hax/hax-all.c |  7 +------
+ 3 files changed, 15 insertions(+), 12 deletions(-)
 
-diff --git a/accel/stubs/kvm-stub.c b/accel/stubs/kvm-stub.c
-index 5319573e00..7e0fb884b9 100644
---- a/accel/stubs/kvm-stub.c
-+++ b/accel/stubs/kvm-stub.c
-@@ -12,10 +12,7 @@
- 
+diff --git a/accel/stubs/hax-stub.c b/accel/stubs/hax-stub.c
+index 49077f88e3..2fe31aaa9a 100644
+--- a/accel/stubs/hax-stub.c
++++ b/accel/stubs/hax-stub.c
+@@ -16,6 +16,8 @@
  #include "qemu/osdep.h"
- #include "sysemu/kvm.h"
+ #include "sysemu/hax.h"
+ 
++bool hax_allowed;
++
+ int hax_sync_vcpus(void)
+ {
+     return 0;
+diff --git a/include/sysemu/hax.h b/include/sysemu/hax.h
+index 247f0661d1..bf8f99a824 100644
+--- a/include/sysemu/hax.h
++++ b/include/sysemu/hax.h
+@@ -25,17 +25,23 @@
+ int hax_sync_vcpus(void);
+ 
+ #ifdef NEED_CPU_H
++# ifdef CONFIG_HAX
++#  define CONFIG_HAX_IS_POSSIBLE
++# endif
++#else /* !NEED_CPU_H */
++# define CONFIG_HAX_IS_POSSIBLE
++#endif
+ 
+-#ifdef CONFIG_HAX
++#ifdef CONFIG_HAX_IS_POSSIBLE
+ 
+-int hax_enabled(void);
++extern bool hax_allowed;
+ 
+-#else /* CONFIG_HAX */
++#define hax_enabled()               (hax_allowed)
+ 
+-#define hax_enabled() (0)
++#else /* !CONFIG_HAX_IS_POSSIBLE */
+ 
+-#endif /* CONFIG_HAX */
++#define hax_enabled()               (0)
+ 
+-#endif /* NEED_CPU_H */
++#endif /* CONFIG_HAX_IS_POSSIBLE */
+ 
+ #endif /* QEMU_HAX_H */
+diff --git a/target/i386/hax/hax-all.c b/target/i386/hax/hax-all.c
+index bf65ed6fa9..ccdcb6afab 100644
+--- a/target/i386/hax/hax-all.c
++++ b/target/i386/hax/hax-all.c
+@@ -49,18 +49,13 @@ const uint32_t hax_cur_version = 0x4; /* API v4: unmapping and MMIO moves */
+ /* Minimum HAX kernel version */
+ const uint32_t hax_min_version = 0x4; /* API v4: supports unmapping */
+ 
+-static bool hax_allowed;
++bool hax_allowed;
+ 
+ struct hax_state hax_global;
+ 
+ static void hax_vcpu_sync_state(CPUArchState *env, int modified);
+ static int hax_arch_get_registers(CPUArchState *env);
+ 
+-int hax_enabled(void)
+-{
+-    return hax_allowed;
+-}
 -
--#ifndef CONFIG_USER_ONLY
- #include "hw/pci/msi.h"
--#endif
- 
- KVMState *kvm_state;
- bool kvm_kernel_irqchip;
-@@ -80,7 +77,6 @@ int kvm_on_sigbus(int code, void *addr)
-     return 1;
- }
- 
--#ifndef CONFIG_USER_ONLY
- int kvm_irqchip_add_msi_route(KVMState *s, int vector, PCIDevice *dev)
+ int valid_hax_tunnel_size(uint16_t size)
  {
-     return -ENOSYS;
-@@ -152,4 +148,3 @@ bool kvm_dirty_ring_enabled(void)
- {
-     return false;
- }
--#endif
+     return size >= sizeof(struct hax_tunnel);
 -- 
 2.34.1
 
