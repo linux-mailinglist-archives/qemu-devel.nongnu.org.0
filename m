@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5DDE4AB7FB
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Feb 2022 10:54:44 +0100 (CET)
-Received: from localhost ([::1]:36710 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A75684AB78F
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Feb 2022 10:38:18 +0100 (CET)
+Received: from localhost ([::1]:33964 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nH0jM-0000km-18
-	for lists+qemu-devel@lfdr.de; Mon, 07 Feb 2022 04:54:44 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:59696)
+	id 1nH0TR-0004Vl-0X
+	for lists+qemu-devel@lfdr.de; Mon, 07 Feb 2022 04:38:17 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:59716)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nGzNj-0006Ez-D2
- for qemu-devel@nongnu.org; Mon, 07 Feb 2022 03:28:19 -0500
-Received: from [2a00:1450:4864:20::42c] (port=45965
+ id 1nGzNo-0006K3-TB
+ for qemu-devel@nongnu.org; Mon, 07 Feb 2022 03:28:25 -0500
+Received: from [2a00:1450:4864:20::42c] (port=37425
  helo=mail-wr1-x42c.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nGzNh-0007Bt-VD
- for qemu-devel@nongnu.org; Mon, 07 Feb 2022 03:28:19 -0500
-Received: by mail-wr1-x42c.google.com with SMTP id m14so23207959wrg.12
- for <qemu-devel@nongnu.org>; Mon, 07 Feb 2022 00:28:17 -0800 (PST)
+ id 1nGzNm-0007C4-H4
+ for qemu-devel@nongnu.org; Mon, 07 Feb 2022 03:28:24 -0500
+Received: by mail-wr1-x42c.google.com with SMTP id w11so23290375wra.4
+ for <qemu-devel@nongnu.org>; Mon, 07 Feb 2022 00:28:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=9lpGeFSPnxNjU9KBC1fpvy5OO+8NnRnkO3XQ2LG2wTo=;
- b=m7eptIRiJz0cv7V6jYVvcJUAPRIN7pqCUJxEQaK9RvFKYok7xVxA7SGkh3jipAY9kd
- oSAq007wx+1KhwcKGOwPMyzTVk7bf4zxKh/I9xbgpio5fhvbPZ6EGDJiAxoK65ypbq9E
- 5Fhr5/wLyM64AEqD38kvT5cmI3KNy8i1UB5qxAzfiI3AFxWzeDdpk/CTY3Xg1FkiZWC6
- 9xvlQyILHdCBJmdrn/NInDJAE/hA3Ywm1al+yFgek/oltvhSywXI3p4WC6xRWUIqA1Mi
- /XGH13z5Kz2YP+Ekfv3QRHqYoJY4s1wLiYv3SQPiHX+LISRxkHRJnNrAmjws0TYyd0v5
- xAcA==
+ bh=cOqfk9IZQw1y8ZVrMUlg+07oZzemQNJnEMix2Q34ruc=;
+ b=ecsxDsGkDxpg/CwVemYifApxfjM+j3g1NjrUk2N+eF7rdjVGSERgtHgAazVYPb5rP2
+ egpR3pr65zRY6mhxhxuabB4nfMuWTlrIdyuamQSRXeYebbcvHNsr7SKeDD8UjPT9NSDY
+ 4bHkROAxEFpWo2WP2+z8sAYDA/S9T8vIhPFM79iE8Do1qLb6EEpYab15ad7eDmVfXvzf
+ SD8uKd1xVX3Rjkpg/ANk0A0zZjH0/z6D+rqy+wn4YGVasvNCn2nx/bLkNMc6rbK5mjMo
+ 6D/PqBqnPf+ovFjXFz/9hYL3jdh15w1hWF8py6JPArOWRMJWva6FgPRY+IlCeU/E0n8x
+ IfLw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=9lpGeFSPnxNjU9KBC1fpvy5OO+8NnRnkO3XQ2LG2wTo=;
- b=ANoNKNuxLGQ55py3F9sSD14Y9iuJwmPQftCAT3zTW0mU8pSf/TSESKmxrGtgPHKceQ
- IQkWqnPuCWM7zS+0akDzhu11QM0Cz0j5CMKqTLJRhHa696kBRM8H5ZxA0vxS3IXiSg9U
- c9aS3LH6QCE9LkMBitcLO1xlX0pOg8xmIgqyLkVjRmha+mX4C3z4d6It5bfiwQeYMZFe
- LVUwz5p271x1tqED9FWVXrulV3r+D69UTST5wNzD8svc5k6jhn9zZfZbchY1xZnVGWhz
- 7fLsZE406qwRK423nSSs2aaYPjZIpPPN3RxrBP7YIxrGstx4knrlcEchDU+bn4mQk3uW
- Qrsg==
-X-Gm-Message-State: AOAM532a+k9nJqzbWTvR8vg+8a/KiLIaw1f7/9qHLQdQ8C2HMOgfVRYm
- d+W2QM+OKNu6OapCme6psYTik8z1n6o=
-X-Google-Smtp-Source: ABdhPJy/rmGE/u66K4pcxb//OHVne/Gv6RA7UA7pduhjflUkUNF9Ee4JqHCVgunntKh+QHgtjs9G+A==
-X-Received: by 2002:a5d:6486:: with SMTP id o6mr8507447wri.454.1644222496626; 
- Mon, 07 Feb 2022 00:28:16 -0800 (PST)
+ bh=cOqfk9IZQw1y8ZVrMUlg+07oZzemQNJnEMix2Q34ruc=;
+ b=ffCBY42NndMFwhGVcIj+LWbkHAEsWcUW34zATfh0dwxa2Yobb8XVw13XcAdK18A4Mg
+ 8o/aTgudW6udNfj7H8fMgYuuidLVTEIXN+wmaGROs4K/RfpQc85OhSPnpbwK1iSkCyIk
+ mFVgdLc2K/YrO9PDgr2kugOvRcaddQvqqzzsCcH/tFPzj2HsTjh99aopNz8w+J59gKwb
+ Xyw8eqOSydgODFKQWDwCTKE7yaHC8kgrh9QIdGfZnagcbciB6rdQvH/Jqifv5YpUgu+P
+ 811oglJicqyGXbghQMmfWoTKp3uMNYYtLFrEUvdQyo78JMBBxTLG+RQ4a/sA5S5m4us7
+ Gehw==
+X-Gm-Message-State: AOAM532VB69irhMY+RFQ0gwuR3SU71aCTJuks5TCGTrf258AdEiRNlSk
+ jTQjMRy632ACkXS3kEjSSzkguRJ1ytU=
+X-Google-Smtp-Source: ABdhPJzxdWIcWTwksco7peSbudg+lvE68aOewPUKtNGXjPyUN6FfYr7hQ+o/IOYyHx6iEhdiFpcZfQ==
+X-Received: by 2002:a5d:4247:: with SMTP id s7mr7191442wrr.704.1644222501223; 
+ Mon, 07 Feb 2022 00:28:21 -0800 (PST)
 Received: from localhost.localdomain (154.red-83-50-83.dynamicip.rima-tde.net.
  [83.50.83.154])
- by smtp.gmail.com with ESMTPSA id p15sm3135512wma.27.2022.02.07.00.28.15
+ by smtp.gmail.com with ESMTPSA id o12sm10358349wry.115.2022.02.07.00.28.20
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Mon, 07 Feb 2022 00:28:16 -0800 (PST)
+ Mon, 07 Feb 2022 00:28:20 -0800 (PST)
 To: qemu-devel@nongnu.org
 Cc: Richard Henderson <richard.henderson@linaro.org>,
  Paolo Bonzini <pbonzini@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  Thomas Huth <thuth@redhat.com>
-Subject: [PATCH v2 4/9] qtest: Add missing 'hw/qdev-core.h' include
-Date: Mon,  7 Feb 2022 09:27:51 +0100
-Message-Id: <20220207082756.82600-5-f4bug@amsat.org>
+Subject: [PATCH v2 5/9] exec/ramblock: Add missing includes
+Date: Mon,  7 Feb 2022 09:27:52 +0100
+Message-Id: <20220207082756.82600-6-f4bug@amsat.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220207082756.82600-1-f4bug@amsat.org>
 References: <20220207082756.82600-1-f4bug@amsat.org>
@@ -97,31 +97,34 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reply-to:  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 From:  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= via <qemu-devel@nongnu.org>
 
-Add "hw/qdev-core.h" to avoid when refactoring include/:
+"exec/ramblock.h" requires "qemu/rcu.h" for the definition of
+rcu_head, and "exec/ramlist.h" for the definition of RAMBlockNotifier.
+Add them to avoid when when refactoring include/:
 
-  softmmu/qtest.c:404:9: error: use of undeclared identifier 'NamedGPIOList'
-        NamedGPIOList *ngl;
-        ^
+  include/exec/ramblock.h:26:21: error: field has incomplete type 'struct rcu_head'
+    struct rcu_head rcu;
+                    ^
 
 Reviewed-by: Thomas Huth <thuth@redhat.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- softmmu/qtest.c | 1 +
- 1 file changed, 1 insertion(+)
+ include/exec/ramblock.h | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/softmmu/qtest.c b/softmmu/qtest.c
-index 72751e1fd8..8b7cb6aa8e 100644
---- a/softmmu/qtest.c
-+++ b/softmmu/qtest.c
-@@ -19,6 +19,7 @@
- #include "chardev/char-fe.h"
- #include "exec/ioport.h"
- #include "exec/memory.h"
-+#include "hw/qdev-core.h"
- #include "hw/irq.h"
- #include "qemu/accel.h"
- #include "sysemu/cpu-timers.h"
+diff --git a/include/exec/ramblock.h b/include/exec/ramblock.h
+index 664701b759..6cbedf9e0c 100644
+--- a/include/exec/ramblock.h
++++ b/include/exec/ramblock.h
+@@ -21,6 +21,8 @@
+ 
+ #ifndef CONFIG_USER_ONLY
+ #include "cpu-common.h"
++#include "qemu/rcu.h"
++#include "exec/ramlist.h"
+ 
+ struct RAMBlock {
+     struct rcu_head rcu;
 -- 
 2.34.1
 
