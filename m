@@ -2,66 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7288C4AC9B3
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Feb 2022 20:37:52 +0100 (CET)
-Received: from localhost ([::1]:53968 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D89004AC9E3
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Feb 2022 20:51:35 +0100 (CET)
+Received: from localhost ([::1]:38590 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nH9pc-0001BC-7E
-	for lists+qemu-devel@lfdr.de; Mon, 07 Feb 2022 14:37:50 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:48754)
+	id 1nHA2w-0002k0-Dh
+	for lists+qemu-devel@lfdr.de; Mon, 07 Feb 2022 14:51:34 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:48996)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nH9jG-0006lj-TE
- for qemu-devel@nongnu.org; Mon, 07 Feb 2022 14:31:15 -0500
-Received: from [2a00:1450:4864:20::42f] (port=39858
- helo=mail-wr1-x42f.google.com)
+ id 1nH9k6-0007Yu-0t
+ for qemu-devel@nongnu.org; Mon, 07 Feb 2022 14:32:08 -0500
+Received: from [2a00:1450:4864:20::42d] (port=34559
+ helo=mail-wr1-x42d.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nH9j7-000273-4j
- for qemu-devel@nongnu.org; Mon, 07 Feb 2022 14:31:11 -0500
-Received: by mail-wr1-x42f.google.com with SMTP id u23so2897193wru.6
- for <qemu-devel@nongnu.org>; Mon, 07 Feb 2022 11:31:04 -0800 (PST)
+ id 1nH9k4-0002JC-Fy
+ for qemu-devel@nongnu.org; Mon, 07 Feb 2022 14:32:05 -0500
+Received: by mail-wr1-x42d.google.com with SMTP id f17so26732720wrx.1
+ for <qemu-devel@nongnu.org>; Mon, 07 Feb 2022 11:32:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=ms30aRtLybppVnl+LsnaCt+oMOOUCgGJAClMaVt2msc=;
- b=D+sdEMnqMgP+4PPXtgc00wWS6Uc04XKv1MW6XMXHW1cjVrR2Aa4vn/hm3+ErY7dD+H
- 5cvuDa6NFbraS1svAdsARotIx3BFgMu3UvUlYCRY7YJeFoJCkAKjCZmODUDG8W5rsmy1
- xSbvEAMUJtw5jba+FTJlpPWmLf/YYK/8su1+XNEYUcPQzbyUGWn+49bhnG1eQblPq8Gs
- 89p9cXjxmbKxu+7IrwznMiJmdTC72gvOqQjum7d7IWPVET74WczpEjTjirck/48NFy1Q
- IeXEJpfbrOFkaJ/p1gcWV+bqu1hUKgZcp1F3y14/82OcIe5E7mG5AbEaYxGZKkaX6sk8
- 1tyg==
+ :cc; bh=xxyGRiQoVQ6pw+K+cRd9KLsv7U4UYJ25cQP9R4OC6H4=;
+ b=EeHgy4SWRzteRSp0pjGo3hCj1+uPWijwFW3p+joQqb+yqZtJgKuMMdT6VNo9kU/xwI
+ g1kVl9jaH7K+ZUPjfA1LiQxjv37jpUI5pWMUIeAwsMLylilAQ3h8y+vKsZNjSLV7ksxv
+ HpK+p/X0aEFo207f3jtYVSpVl7y2i/mf/Ydwle8hiR5Vgu+SAE2S5K4l7bNbgrQ7ThFB
+ eTAlIDBgBVWr2R9wwcc3AIU2OXs7XCbG/il6KHegTACulybTkn+IPxL/5xh6eqy1w5Z0
+ clnIGUNo01cR3sMncgay+pVHx2iJDnWA0aOIzVDe8Bc/rMMgihadWZjgmmyguAa5Bd6H
+ DLFQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=ms30aRtLybppVnl+LsnaCt+oMOOUCgGJAClMaVt2msc=;
- b=xyBBAD7CLeX1fVRFbymsBOR+LSf4KolVDepOipRBOI3UAhnvfHYoOC6ofKybk2AnEH
- FaoLJrKajBRE8Ex3Ysus7g/sfZIO51CLM/+/9SS5Jh9RIcQU3eHtpYwr8rsWMhsbtOCz
- czJDHp32zMsuIgYb2dbSLCULCaX4/VSVRNL32k4Jxf+slJdcNdQQ5p1bCyt48SqTpGvE
- Y8zVMsOFKnhgDTp5qP5vldZOKfcM8nCdUKQ154U3EjiIDzcDAu7PilqAdFxL+SeAh4/B
- HkquU9Xdnz+kKtVjfht47PPZTKQ3GVvaIH7c1r5T53ZehcVhYVQ6rQSXRDIfU56SzWbP
- e42w==
-X-Gm-Message-State: AOAM530bVvVHspqPfnHUcaSrFxuGJE22mKg8ZTSnLk64oVrdhRqlJTtu
- j5uF47yLWrAoa1miL20RyMIn4OtkinxHn7R6CkYcHas0QWk=
-X-Google-Smtp-Source: ABdhPJwjFKszvrrup9KXTZYjGxiCPYyo71blGFYXoaSLTicRotnAkfTFrDzFm8olzA2TbocTzRGpdQ0pcA3byDTtPHw=
-X-Received: by 2002:adf:a51b:: with SMTP id i27mr796332wrb.172.1644262263594; 
- Mon, 07 Feb 2022 11:31:03 -0800 (PST)
+ bh=xxyGRiQoVQ6pw+K+cRd9KLsv7U4UYJ25cQP9R4OC6H4=;
+ b=51ehu0RjFrO8xO5Y09wvMKpToFdzHIZ0Y5Ml2H8mwJIf+REMD7DvAbBrvykcJlJx0R
+ v0RuJqhdbubF/Ml7auZ4JVHYEngCMXphBH2IZv2NrdLwKTAiwznvRGZKtbx2/mnnA5Fw
+ jQ57kU83OzXWz0ao5aY6sytanCybNoKqR6bq3rYqayf1siBxIMRDfFKK0xIH1yDQWcgi
+ 5XR1jC0BnAQ97CGN5POGfowrYtvOVgUFkFp0wmQRowOeIy3LCHCcJ9iYvYVkHpQZnUC0
+ zDm7/gEaNYWsMYSgMCxSzDFVHxZ/S8mb4gSQn2n2+c7I9KFLaKRO6cSEZbvs6V42+b8G
+ xr1w==
+X-Gm-Message-State: AOAM530oQUIXrGG1QKU6+9nAWicPuGvHBkRWnEeRJV2dMEnGw0wt7PXR
+ jgjO1cj7zQDO6p3N+FosIdk0QTRx9/ZV7tE2wC/aEQ==
+X-Google-Smtp-Source: ABdhPJxyjT5fNYCZrHcAmrMLzAXgXWCXg1DsS4zn2i5BKCCQQMneGbETZ78+aIx194XRK+5S65Xz91mAwu2vqhbd80Q=
+X-Received: by 2002:a05:6000:15c7:: with SMTP id
+ y7mr766957wry.319.1644262323136; 
+ Mon, 07 Feb 2022 11:32:03 -0800 (PST)
 MIME-Version: 1.0
 References: <20220127205405.23499-1-mark.cave-ayland@ilande.co.uk>
- <20220127205405.23499-6-mark.cave-ayland@ilande.co.uk>
-In-Reply-To: <20220127205405.23499-6-mark.cave-ayland@ilande.co.uk>
+ <20220127205405.23499-7-mark.cave-ayland@ilande.co.uk>
+In-Reply-To: <20220127205405.23499-7-mark.cave-ayland@ilande.co.uk>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 7 Feb 2022 19:30:52 +0000
-Message-ID: <CAFEAcA9zWgAcNFOvPg3+qBRY0KFcan-_jY3tkDPWN2rmF=NPBg@mail.gmail.com>
-Subject: Re: [PATCH 05/11] mos6522: remove update_irq() and set_sr_int()
- methods from MOS6522DeviceClass
+Date: Mon, 7 Feb 2022 19:31:52 +0000
+Message-ID: <CAFEAcA-Aj51R2kbeotPL-EErPpsQG42ZiEVAzHsD5QMvZehAMw@mail.gmail.com>
+Subject: Re: [PATCH 06/11] mos6522: use device_class_set_parent_reset() to
+ propagate reset to parent
 To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42f
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42d
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42d.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -86,13 +87,20 @@ Cc: Laurent@vivier.eu, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 27 Jan 2022 at 21:03, Mark Cave-Ayland
+On Thu, 27 Jan 2022 at 21:04, Mark Cave-Ayland
 <mark.cave-ayland@ilande.co.uk> wrote:
 >
-> Now that the mos6522 IRQs are managed using standard qdev gpios these methods
-> are no longer required.
+> Switch from using a legacy approach to the more formal approach for propagating
+> device reset to the parent.
 >
 > Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+> ---
+>  hw/misc/mac_via.c    | 7 +++++--
+>  hw/misc/macio/cuda.c | 3 ++-
+>  hw/misc/macio/pmu.c  | 3 ++-
+>  hw/misc/mos6522.c    | 1 -
+>  4 files changed, 9 insertions(+), 5 deletions(-)
+>
 
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
