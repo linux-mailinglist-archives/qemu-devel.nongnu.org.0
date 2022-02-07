@@ -2,105 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6AFA24AC545
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Feb 2022 17:17:39 +0100 (CET)
-Received: from localhost ([::1]:53684 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C2B44AC546
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Feb 2022 17:17:44 +0100 (CET)
+Received: from localhost ([::1]:53972 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nH6ht-0003Ef-W0
-	for lists+qemu-devel@lfdr.de; Mon, 07 Feb 2022 11:17:38 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:33066)
+	id 1nH6hz-0003Rp-Gw
+	for lists+qemu-devel@lfdr.de; Mon, 07 Feb 2022 11:17:43 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:33264)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nH6X0-0004Dg-7W; Mon, 07 Feb 2022 11:06:22 -0500
-Received: from [2607:f8b0:4864:20::436] (port=41644
- helo=mail-pf1-x436.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nH6Wx-0007YW-WF; Mon, 07 Feb 2022 11:06:21 -0500
-Received: by mail-pf1-x436.google.com with SMTP id i30so13715098pfk.8;
- Mon, 07 Feb 2022 08:06:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=qJ/GakoKhkSqpKMIem6tPqLETidwhvfmDZeaIsRNjpM=;
- b=ZnKYf6NffylCiV9ou4MYukvcUmf3dgS2T0uIiT7bYkON1PXvXBuEs/hWbEAlaDHSPz
- KuXEQtt1+NH0U6zCEXpw3++GS/P1QH+z2rsX65w1twlN19yqd+LYnmZC29d/Bg+SO+5p
- J9Me20AlyoQmTWxNt3jCA4c/byX8FzEOgHJZl4qUmPY9M6/mVK96b+JZOUs+mZLl9Srm
- 9bvqVfRsZx7/6o58jSBov2SDV9yxYB4vktE0XXKd7luCqXe1DOzXo0HxYTWYKJNeo4tK
- mSmmQxF7OiVz/iFwyevX+pAxsgmcqWodm2utphIqItSMqG9UQSVRP29Cpgvg2P9L5qhm
- mP1Q==
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1nH6XJ-0004ev-Rs
+ for qemu-devel@nongnu.org; Mon, 07 Feb 2022 11:06:41 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:27538)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1nH6XE-0007fX-5u
+ for qemu-devel@nongnu.org; Mon, 07 Feb 2022 11:06:40 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1644249991;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=S9T/9U6dFcCsLNRB5TvIpSu+BBQiUK6B2nGjpy8Ljpc=;
+ b=e9dC+zQKlwGagq2+T57b5Il13lbXRjbJevWI+MDTKbm+0qRoedYdARtZVdNvW1WPwd7b/o
+ 7V0Lz06BEpqMj9F7WuiwC/5U/30XgmyN/8yhHKAHMoxK57rHxktxr1SfW4IlIK0+0Vnatl
+ Ct3z7zJJ28ejATAgZ+krcnKWX/tA3a4=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-622-AgOE4K6gNGGdaTwefWE4uA-1; Mon, 07 Feb 2022 11:06:30 -0500
+X-MC-Unique: AgOE4K6gNGGdaTwefWE4uA-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ v185-20020a1cacc2000000b0034906580813so12475994wme.1
+ for <qemu-devel@nongnu.org>; Mon, 07 Feb 2022 08:06:30 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=qJ/GakoKhkSqpKMIem6tPqLETidwhvfmDZeaIsRNjpM=;
- b=QZwlDtd2XG9GIP623x4yygxeUhwjX6Zd5PNczIz0kj4OTrIxTs/r/ZMKwu5A4QiOS8
- TLgiG9oJWbLhnR9M0p05OcQaLKvH2Efxnou66XTiT60pehZfA96oudEyzM1jah/aSjp4
- YI6qZ0jTBurire2D4apSUGZ7wMbraIdWE8W41VikY3RW77XfUOTy0cfw9hStSUuhaOj4
- QwsMPPmstqdmYlJ/dD0xZSZU+fgowVySJtmqvy+Qylvp8HotQqq5F/2UmCdFnXdLsjDb
- 302xF54U1hKPHsxcb7ixWT3G7FBvQOZ0nW4n5rNk2zcNVNx1ABrea07Dvrl4ae8/eyth
- opNQ==
-X-Gm-Message-State: AOAM532H13OdB+bNF+sfY7ufu3aX14N08MP1SbClF+8arjpCcFuNJ1xC
- mNT6fDgPh1jY/fmU9XT1nuU=
-X-Google-Smtp-Source: ABdhPJyXbvEeyFvPRGoucUaIqjNLBn2klC4VyN6DYFGtxtz87ywKkH7kCf6ltSFfiqm+TCHR3HlVRQ==
-X-Received: by 2002:a63:96:: with SMTP id 144mr71909pga.19.1644249974881;
- Mon, 07 Feb 2022 08:06:14 -0800 (PST)
-Received: from [192.168.1.33] (154.red-83-50-83.dynamicip.rima-tde.net.
- [83.50.83.154])
- by smtp.gmail.com with ESMTPSA id pf4sm24884455pjb.35.2022.02.07.08.06.08
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 07 Feb 2022 08:06:14 -0800 (PST)
-Message-ID: <cc73e2f0-97e1-f9c5-1a89-45ff2b0a2aeb@amsat.org>
-Date: Mon, 7 Feb 2022 17:06:06 +0100
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=S9T/9U6dFcCsLNRB5TvIpSu+BBQiUK6B2nGjpy8Ljpc=;
+ b=Z1qMYO7+Ow9GtHkfjwh6bl9f7u8sd3tWSMeQLtTIWqJKaJ1YDj7eK1DXcaCCemkEpq
+ JYgBoGV4JTu6+dnp6nlEPK267f322sWb5BtE4qZ2Hzy4UmrYv1wo+RQg8W3UgWifs1cN
+ 8CfIXfYR9kpQhfThNsFOUq5PsqCYHItyPA2qJaSE4UaDv51gMusk5KLXHvlUAonX0gdY
+ s8yu74JqGnr5AR1LxQFaW+WVKPIs7LDv3xQxMdZgKR/8kuEQQv2b5r+6RkOtcDOyQCve
+ T8/ZDfTkBx3kR+llpTE94N98kAQEA2BysKu5OE7a3fmA2nttNT4krD+pzFxGaM9HH9/V
+ 4e9w==
+X-Gm-Message-State: AOAM532EmweCmRsi7/Y/awkcxBeqylxLILA1SYh1KkUF3NJV0NQlTOPw
+ 21QQzW70ZoxbI2fMllSfMN7JO0qr8Y9ai0gPwyYY5PvVTHxdAyf63+sSkMksqRjymR/nkM3qXgU
+ qjj2eWqiin0zrm44=
+X-Received: by 2002:adf:f241:: with SMTP id b1mr128221wrp.444.1644249989336;
+ Mon, 07 Feb 2022 08:06:29 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzY7A7yuXIpW3y5GVp8VZpbukW1uXuCWCDgNsJKNpG/fV3JnsDYC7q81Sup5sUY76CFVote/Q==
+X-Received: by 2002:adf:f241:: with SMTP id b1mr128200wrp.444.1644249989120;
+ Mon, 07 Feb 2022 08:06:29 -0800 (PST)
+Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
+ [82.30.61.225])
+ by smtp.gmail.com with ESMTPSA id m6sm10218728wmq.6.2022.02.07.08.06.28
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 07 Feb 2022 08:06:28 -0800 (PST)
+Date: Mon, 7 Feb 2022 16:06:26 +0000
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Vivek Goyal <vgoyal@redhat.com>
+Subject: Re: [PATCH v5 0/9] virtiofsd: Add support for file security context
+ at file creation
+Message-ID: <YgFDgrALC2qVWe8U@work-vm>
+References: <20220202193935.268777-1-vgoyal@redhat.com>
+ <YgEVVLBv9eWbhcDV@work-vm> <YgEtH+MQquXg7CPN@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.5.1
-Subject: Re: [PATCH 06/16] hw/arm/xlnx-zcu102: Don't enable PSCI conduit when
- booting guest in EL3
-Content-Language: en-US
-To: Alexander Graf <agraf@csgraf.de>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-arm <qemu-arm@nongnu.org>, 
- qemu-devel <qemu-devel@nongnu.org>, Eduardo Habkost <eduardo@habkost.net>, 
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Yanan Wang <wangyanan55@huawei.com>,
- Niek Linnenbank <nieklinnenbank@gmail.com>,
- Beniamino Galvani <b.galvani@gmail.com>, =?UTF-8?Q?C=c3=a9dric_Le_Goater?=
- <clg@kaod.org>, Andrew Jeffery <andrew@aj.id.au>,
- Joel Stanley <joel@jms.id.au>, Igor Mitsyanko <i.mitsyanko@gmail.com>,
- Jean-Christophe Dubois <jcd@tribudubois.net>,
- Andrey Smirnov <andrew.smirnov@gmail.com>, Rob Herring <robh@kernel.org>,
- Havard Skinnemoen <hskinnemoen@google.com>, Tyrone Ting
- <kfting@nuvoton.com>, Alistair Francis <alistair@alistair23.me>,
- Andre Przywara <andre.przywara@arm.com>,
- Michal Simek <michal.simek@xilinx.com>,
- Stefano Stabellini <sstabellini@kernel.org>
-References: <20220127154639.2090164-1-peter.maydell@linaro.org>
- <20220127154639.2090164-7-peter.maydell@linaro.org>
- <2c67bde5-65b2-0af0-afde-7353a4fe2a1b@csgraf.de>
- <CAFEAcA9DcHXRkA7gCihU6LrOc40EOHnVnTeEcf4+xSfG22eJ-g@mail.gmail.com>
- <44ec9504-a7ef-6805-ae94-4435e5a37735@csgraf.de>
- <CAJy5ezqUtLphzH_WKmW8dR34=k-g5dmuevuZY42GfnD-R-uCqg@mail.gmail.com>
- <a6caa3b0-89ae-d482-62f5-2cada740a60e@csgraf.de>
-In-Reply-To: <a6caa3b0-89ae-d482-62f5-2cada740a60e@csgraf.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::436
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::436;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pf1-x436.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
- PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+In-Reply-To: <YgEtH+MQquXg7CPN@redhat.com>
+User-Agent: Mutt/2.1.5 (2021-12-30)
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -113,40 +98,133 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: virtio-fs@redhat.com, mszeredi@redhat.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
-On 7/2/22 16:59, Alexander Graf wrote:
+* Vivek Goyal (vgoyal@redhat.com) wrote:
+> On Mon, Feb 07, 2022 at 12:49:24PM +0000, Dr. David Alan Gilbert wrote:
+> > * Vivek Goyal (vgoyal@redhat.com) wrote:
+> > > Hi,
+> > > 
+> > > This is V5 of the patches. I posted V4 here.
+> > > 
+> > > https://listman.redhat.com/archives/virtio-fs/2022-January/msg00041.html
+> > > 
+> > > These will allow us to support SELinux with virtiofs. This will send
+> > > SELinux context at file creation to server and server can set it on
+> > > file.
+> > 
+> > I think that's pretty close; I've got some minor comments I've replied
+> > to on the individual patches.
+> > 
+> > I do worry that the number of different paths for each operation is now
+> > quite large so hard to test.
 > 
-> On 07.02.22 16:52, Edgar E. Iglesias wrote:
+> It is indeed many combinations to test. During development, I have made
+> sure to test every path atleast once to make sure it works.
+> 
+> > I also wonder what happens on something other than SELinux.
+> 
+> As of now this pretty much works only for SELinux. Especially usage of
+> fscreate knob is very specific to SELinux.
+> 
+> In some cases, it will work with some other LSM other than SELinux
+> as well. But lets not go there. 
+> 
+> If we want to support multiple security contexts at some point of time,
+> fuse procotol changes have been written in such a way so that fuse
+> can send mutiple security context and then we will have to modify
+> code to be able to deal with that.
+> 
+> In short, for now, this code is pretty much expectin one security
+> context that too SELinux. This is very much in line with ceph and
+> nfs.
 
->> Both Versal and ZynqMP require MicroBlaze firmware to run the 
->> reference implementations of Trusted Firmware. We never supported this 
->> in upstream QEMU but we do support it with our fork (by running 
->> multiple QEMU instances co-simulating).
->>
->> Having said that, we do have tons of EL3 test-cases that we use to 
->> validate QEMU that run with EL3 enabled in upstream.
->>
->> So there's two user flows:
->> 1. Direct boots using QEMUs builtin PSCI (Most users use this to run 
->> Linux, Xen, U-boot, etc)
->> 2. Firmware boot at EL3 without QEMUs builtin PSCI (Mostly used by 
->> test-code)
->>
->> Number #2 is the one affected here and that by accident used to have 
->> the builtin PSCI support enabled but now requires more power control 
->> modelling to keep working.
->> Unless I'm missing something, the -kernel boots will continue to use 
->> the builtin PSCI implementation.
-> 
-> 
-> So nobody is using upstream QEMU to validate and prototype ATF/EL1s/EL0s 
-> code? That's a shame :). I suppose there is little value without the 
-> bitstream emulation and R cluster. Do you have plans to bring multi 
-> process emulation upstream some day to enable these there?
+OK, as long as we have some feel for what we'd need to do if something
+hit that.
 
-The R cluster is already in mainstream, isn't it?
+Dave
+
+> Vivek
+> > 
+> > Dave
+> > 
+> > > Changes since V4
+> > > ----------------
+> > > - Parse only known current size of fuse_init_in. This will make sure
+> > >   that future extension does not break existing code upon header
+> > >   update. (David Gilbert)
+> > > 
+> > > - Changed order of one of the patch. It is first patch in series. This
+> > >   will help fix the breakage before header update patch and code remains
+> > >   git bisectable. (David Gilbert)
+> > > 
+> > > - Changed %lx to %llx at one place. (David Gilbert).
+> > > 
+> > > Thanks
+> > > Vivek
+> > >  
+> > > Vivek Goyal (9):
+> > >   virtiofsd: Fix breakage due to fuse_init_in size change
+> > >   linux-headers: Update headers to v5.17-rc1
+> > >   virtiofsd: Parse extended "struct fuse_init_in"
+> > >   virtiofsd: Extend size of fuse_conn_info->capable and ->want fields
+> > >   virtiofsd, fuse_lowlevel.c: Add capability to parse security context
+> > >   virtiofsd: Move core file creation code in separate function
+> > >   virtiofsd: Create new file with fscreate set
+> > >   virtiofsd: Create new file using O_TMPFILE and set security context
+> > >   virtiofsd: Add an option to enable/disable security label
+> > > 
+> > >  docs/tools/virtiofsd.rst                      |   7 +
+> > >  include/standard-headers/asm-x86/kvm_para.h   |   1 +
+> > >  include/standard-headers/drm/drm_fourcc.h     |  11 +
+> > >  include/standard-headers/linux/ethtool.h      |   1 +
+> > >  include/standard-headers/linux/fuse.h         |  60 ++-
+> > >  include/standard-headers/linux/pci_regs.h     | 142 +++---
+> > >  include/standard-headers/linux/virtio_gpio.h  |  72 +++
+> > >  include/standard-headers/linux/virtio_i2c.h   |  47 ++
+> > >  include/standard-headers/linux/virtio_iommu.h |   8 +-
+> > >  .../standard-headers/linux/virtio_pcidev.h    |  65 +++
+> > >  include/standard-headers/linux/virtio_scmi.h  |  24 +
+> > >  linux-headers/asm-generic/unistd.h            |   5 +-
+> > >  linux-headers/asm-mips/unistd_n32.h           |   2 +
+> > >  linux-headers/asm-mips/unistd_n64.h           |   2 +
+> > >  linux-headers/asm-mips/unistd_o32.h           |   2 +
+> > >  linux-headers/asm-powerpc/unistd_32.h         |   2 +
+> > >  linux-headers/asm-powerpc/unistd_64.h         |   2 +
+> > >  linux-headers/asm-riscv/bitsperlong.h         |  14 +
+> > >  linux-headers/asm-riscv/mman.h                |   1 +
+> > >  linux-headers/asm-riscv/unistd.h              |  44 ++
+> > >  linux-headers/asm-s390/unistd_32.h            |   2 +
+> > >  linux-headers/asm-s390/unistd_64.h            |   2 +
+> > >  linux-headers/asm-x86/kvm.h                   |  16 +-
+> > >  linux-headers/asm-x86/unistd_32.h             |   1 +
+> > >  linux-headers/asm-x86/unistd_64.h             |   1 +
+> > >  linux-headers/asm-x86/unistd_x32.h            |   1 +
+> > >  linux-headers/linux/kvm.h                     |  17 +
+> > >  tools/virtiofsd/fuse_common.h                 |   9 +-
+> > >  tools/virtiofsd/fuse_i.h                      |   7 +
+> > >  tools/virtiofsd/fuse_lowlevel.c               | 162 +++++--
+> > >  tools/virtiofsd/helper.c                      |   1 +
+> > >  tools/virtiofsd/passthrough_ll.c              | 414 ++++++++++++++++--
+> > >  32 files changed, 1013 insertions(+), 132 deletions(-)
+> > >  create mode 100644 include/standard-headers/linux/virtio_gpio.h
+> > >  create mode 100644 include/standard-headers/linux/virtio_i2c.h
+> > >  create mode 100644 include/standard-headers/linux/virtio_pcidev.h
+> > >  create mode 100644 include/standard-headers/linux/virtio_scmi.h
+> > >  create mode 100644 linux-headers/asm-riscv/bitsperlong.h
+> > >  create mode 100644 linux-headers/asm-riscv/mman.h
+> > >  create mode 100644 linux-headers/asm-riscv/unistd.h
+> > > 
+> > > -- 
+> > > 2.34.1
+> > > 
+> > -- 
+> > Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+> > 
+> 
+-- 
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+
 
