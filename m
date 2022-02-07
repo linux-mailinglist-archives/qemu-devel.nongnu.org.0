@@ -2,68 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 536EB4AC1E3
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Feb 2022 15:53:03 +0100 (CET)
-Received: from localhost ([::1]:60418 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6BD5B4AC14C
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Feb 2022 15:34:11 +0100 (CET)
+Received: from localhost ([::1]:58346 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nH5O2-0001sO-FF
-	for lists+qemu-devel@lfdr.de; Mon, 07 Feb 2022 09:53:02 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:55496)
+	id 1nH55m-0005f6-2q
+	for lists+qemu-devel@lfdr.de; Mon, 07 Feb 2022 09:34:10 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:56412)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1nH4oE-0001pi-Lb
- for qemu-devel@nongnu.org; Mon, 07 Feb 2022 09:16:03 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:23393)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1nH4oB-0004Pt-2x
- for qemu-devel@nongnu.org; Mon, 07 Feb 2022 09:16:01 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1644243358;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=nrkVjdO1LDIiRZt7W4IshryT6F86q70qwwqB4ZrCmgo=;
- b=OBx70tp+xi99z7LhTawHT7+7H7yWhw/ZsR9Hb+l2sMfNW2lZwwrP/hSAFzFFdCqK2nZ87u
- qgf6zrIg6SbWkJuxfGEhGtTmquklETrC8SES6QlzY1t7M4I2FYXDD6qbqeckVJuCfcC2W7
- Cobu2Oz4GODMZJxIt6T3j/azUH5kgso=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-112-oKhruE2_Pwa00VW839MLsw-1; Mon, 07 Feb 2022 09:15:54 -0500
-X-MC-Unique: oKhruE2_Pwa00VW839MLsw-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 83FF883DEA8;
- Mon,  7 Feb 2022 14:15:53 +0000 (UTC)
-Received: from localhost (unknown [10.39.194.244])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8CAF57DE21;
- Mon,  7 Feb 2022 14:15:52 +0000 (UTC)
-Date: Mon, 7 Feb 2022 14:15:50 +0000
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Xie Yongji <xieyongji@bytedance.com>
-Subject: Re: [PATCH 3/5] vduse-blk: implements vduse-blk export
-Message-ID: <YgEplgqZ9JWVPvEc@stefanha-x1.localdomain>
-References: <20220125131800.91-1-xieyongji@bytedance.com>
- <20220125131800.91-4-xieyongji@bytedance.com>
+ (Exim 4.90_1) (envelope-from <wwcohen@gmail.com>) id 1nH4qr-0006g2-Ou
+ for qemu-devel@nongnu.org; Mon, 07 Feb 2022 09:18:46 -0500
+Received: from [2a00:1450:4864:20::233] (port=41781
+ helo=mail-lj1-x233.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <wwcohen@gmail.com>) id 1nH4qp-0004tS-FG
+ for qemu-devel@nongnu.org; Mon, 07 Feb 2022 09:18:44 -0500
+Received: by mail-lj1-x233.google.com with SMTP id t14so19806361ljh.8
+ for <qemu-devel@nongnu.org>; Mon, 07 Feb 2022 06:18:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=AoRrIh2y8WK9w8PsZGjH4lTZy9wQDEb/tN8N51IxQrA=;
+ b=H6L+3BWF5m2Ykj9v9q0r7uXJmLKXPAgUP2ZOAA0OiUZ9MdGcpf4FCgj3uXNOno85Re
+ 97vNtJTt+QJATuEAps5RviQFheUdMSbtCmcZ0Gl/5v3vq6O+A2HCYlm5xtS/9E2yAwqk
+ Ta/Sf0kbO888o3E0TfH85vZlqVKFOkX2dAKN8+OmUceQgPb5xJGEk3vfwZoNzrNTV9Vk
+ 5FdGLlbG0ncgENV1u8wAxFa5ixHoUzyaCNFJE+W79241iGHYYcrGKiDlvPXEzC4vVZ+e
+ i5M9Y1MClYyGoxNhHHY7f6J9O3wxFEveFMZiLBg2uVcDlSROpRiEB815w7qxAqEX/WI1
+ csXg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=AoRrIh2y8WK9w8PsZGjH4lTZy9wQDEb/tN8N51IxQrA=;
+ b=bxDcRwp2P0VS+8MstrNpiB9edvm6xopTfQCyzveUuqN3vUS7GnH3PfLJiBBGqdbqrV
+ 9cbgRi/OCdFEIUqV1fAPxrKfscDjknVeCzIPo5ArN2lebM8rSdHKzlJiS9O7OUkUJoga
+ Z7YjNsI4rz3cmXKHOVJdmku1/pQxXgTBvcxsfi2/yIFMxgEoTXVAs7g9jLRjNtxdkVDG
+ mWdAWyBoB5ESmfvJm1Afz6sbMpOPGoY+8s/nD0DPhGcNkfUmMXhxD1t7k81kOu/tTuBI
+ pm5qgO4pTdpb/CpYgDBXnrEoO2Nao+gV1Lwl7EHhpC5JjfAw4FUmTqE37xoktkM2M8rf
+ tL5w==
+X-Gm-Message-State: AOAM532Mow5V2a54RKh+hiQt2b7RPqTkB8f7VyRaeOliUaREFToeOIKs
+ dyAbu8yISojWkzDibPmA5ZRo6OcuXwdgIaPptfY=
+X-Google-Smtp-Source: ABdhPJzkQ5DxVwvfnIJgSauMFVB/mEjsO2ueBPuR5X37lU7lPTR1WfanWnY1OvmPdUno2bTDY1PPa9ZYlv5gNNR3gj8=
+X-Received: by 2002:a05:651c:178e:: with SMTP id
+ bn14mr9175106ljb.12.1644243521196; 
+ Mon, 07 Feb 2022 06:18:41 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="h/by6pWcdyScrsTh"
-Content-Disposition: inline
-In-Reply-To: <20220125131800.91-4-xieyongji@bytedance.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+References: <20220206200719.74464-1-wwcohen@gmail.com>
+ <9265b724-d9c3-7c06-20ac-177feb63fee9@amsat.org>
+ <CAB26zV2sx-9PGhk5Rbz-q+sQJ8yxqOOO32J_k5vb7_sPNgFBnQ@mail.gmail.com>
+ <39149990.XXmQAQaIKb@silver>
+In-Reply-To: <39149990.XXmQAQaIKb@silver>
+From: Will Cohen <wwcohen@gmail.com>
+Date: Mon, 7 Feb 2022 09:18:29 -0500
+Message-ID: <CAB26zV26ggct7Tsa5=9vg-5_Z+Dbne07NEzUKNtMFpd8aH-TPA@mail.gmail.com>
+Subject: Re: [PATCH v4 10/11] 9p: darwin: meson: Allow VirtFS on Darwin
+To: Christian Schoenebeck <qemu_oss@crudebyte.com>
+Content-Type: multipart/alternative; boundary="000000000000015df705d76e47fb"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::233
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::233;
+ envelope-from=wwcohen@gmail.com; helo=mail-lj1-x233.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -76,737 +82,182 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, qemu-block@nongnu.org, mst@redhat.com,
- jasowang@redhat.com, qemu-devel@nongnu.org, mreitz@redhat.com,
- mlureau@redhat.com, sgarzare@redhat.com
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Greg Kurz <groug@kaod.org>, qemu-devel@nongnu.org, hi@alyssa.is,
+ Michael Roitzsch <reactorcontrol@icloud.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Keno Fischer <keno@juliacomputing.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
---h/by6pWcdyScrsTh
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+--000000000000015df705d76e47fb
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Jan 25, 2022 at 09:17:58PM +0800, Xie Yongji wrote:
-> This implements a VDUSE block backends based on
-> the libvduse library. We can use it to export the BDSs
-> for both VM and container (host) usage.
->=20
-> The new command-line syntax is:
->=20
-> $ qemu-storage-daemon \
->     --blockdev file,node-name=3Ddrive0,filename=3Dtest.img \
->     --export vduse-blk,node-name=3Ddrive0,id=3Dvduse-export0,writable=3Don
->=20
-> After the qemu-storage-daemon started, we need to use
-> the "vdpa" command to attach the device to vDPA bus:
->=20
-> $ vdpa dev add name vduse-export0 mgmtdev vduse
->=20
-> Also the device must be removed via the "vdpa" command
-> before we stop the qemu-storage-daemon.
->=20
-> Signed-off-by: Xie Yongji <xieyongji@bytedance.com>
-> ---
->  block/export/export.c         |   6 +
->  block/export/meson.build      |   5 +
->  block/export/vduse-blk.c      | 427 ++++++++++++++++++++++++++++++++++
->  block/export/vduse-blk.h      |  20 ++
->  meson.build                   |  13 ++
->  meson_options.txt             |   2 +
->  qapi/block-export.json        |  24 +-
->  scripts/meson-buildoptions.sh |   4 +
->  8 files changed, 499 insertions(+), 2 deletions(-)
->  create mode 100644 block/export/vduse-blk.c
->  create mode 100644 block/export/vduse-blk.h
->=20
-> diff --git a/block/export/export.c b/block/export/export.c
-> index 6d3b9964c8..00dd505540 100644
-> --- a/block/export/export.c
-> +++ b/block/export/export.c
-> @@ -26,6 +26,9 @@
->  #ifdef CONFIG_VHOST_USER_BLK_SERVER
->  #include "vhost-user-blk-server.h"
->  #endif
-> +#ifdef CONFIG_VDUSE_BLK_EXPORT
-> +#include "vduse-blk.h"
-> +#endif
-> =20
->  static const BlockExportDriver *blk_exp_drivers[] =3D {
->      &blk_exp_nbd,
-> @@ -35,6 +38,9 @@ static const BlockExportDriver *blk_exp_drivers[] =3D {
->  #ifdef CONFIG_FUSE
->      &blk_exp_fuse,
->  #endif
-> +#ifdef CONFIG_VDUSE_BLK_EXPORT
-> +    &blk_exp_vduse_blk,
-> +#endif
->  };
-> =20
->  /* Only accessed from the main thread */
-> diff --git a/block/export/meson.build b/block/export/meson.build
-> index 0a08e384c7..cf311d2b1b 100644
-> --- a/block/export/meson.build
-> +++ b/block/export/meson.build
-> @@ -5,3 +5,8 @@ if have_vhost_user_blk_server
->  endif
-> =20
->  blockdev_ss.add(when: fuse, if_true: files('fuse.c'))
-> +
-> +if have_vduse_blk_export
-> +    blockdev_ss.add(files('vduse-blk.c'))
-> +    blockdev_ss.add(libvduse)
-> +endif
-> diff --git a/block/export/vduse-blk.c b/block/export/vduse-blk.c
-> new file mode 100644
-> index 0000000000..5a8d289685
-> --- /dev/null
-> +++ b/block/export/vduse-blk.c
-> @@ -0,0 +1,427 @@
-> +/*
-> + * Export QEMU block device via VDUSE
-> + *
-> + * Copyright (C) 2022 Bytedance Inc. and/or its affiliates. All rights r=
-eserved.
-> + *   Portions of codes and concepts borrowed from vhost-user-blk-server.=
-c, so:
-> + *     Copyright (c) 2020 Red Hat, Inc.
-> + *
-> + * Author:
-> + *   Xie Yongji <xieyongji@bytedance.com>
-> + *   Coiby Xu <coiby.xu@gmail.com>
-> + *
-> + * This work is licensed under the terms of the GNU GPL, version 2 or
-> + * later.  See the COPYING file in the top-level directory.
-> + */
-> +
-> +#include <sys/eventfd.h>
-> +
-> +#include "qemu/osdep.h"
-> +#include "qapi/error.h"
-> +#include "sysemu/block-backend.h"
-> +#include "block/export.h"
-> +#include "qemu/error-report.h"
-> +#include "util/block-helpers.h"
-> +#include "subprojects/libvduse/libvduse.h"
-> +
-> +#include "standard-headers/linux/virtio_ring.h"
-> +#include "standard-headers/linux/virtio_blk.h"
-> +
-> +#define VIRTIO_BLK_SECTOR_BITS 9
-> +#define VIRTIO_BLK_SECTOR_SIZE (1ULL << VIRTIO_BLK_SECTOR_BITS)
-> +
-> +#define VDUSE_DEFAULT_NUM_QUEUE 1
-> +#define VDUSE_DEFAULT_QUEUE_SIZE 128
+On Mon, Feb 7, 2022 at 9:15 AM Christian Schoenebeck <qemu_oss@crudebyte.co=
+m>
+wrote:
 
-QEMU's virtio-blk emulation has increased this limit to 256 for better
-performance with large block size I/O patterns. I think it would be okay
-to increase it here too.
+> On Montag, 7. Februar 2022 02:05:32 CET Will Cohen wrote:
+> > On Sun, Feb 6, 2022 at 4:22 PM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat=
+.org>
+> >
+> > wrote:
+> > > On 6/2/22 21:07, Will Cohen wrote:
+> > > > From: Keno Fischer <keno@juliacomputing.com>
+> > > >
+> > > > Signed-off-by: Keno Fischer <keno@juliacomputing.com>
+> > > > [Michael Roitzsch: - Rebase for NixOS]
+> > > > Signed-off-by: Michael Roitzsch <reactorcontrol@icloud.com>
+> > > > [Will Cohen: - Rebase to master]
+> > > > Signed-off-by: Will Cohen <wwcohen@gmail.com>
+> > > > Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
+> > > > [Will Cohen: - Add check for pthread_fchdir_np to virtfs]
+> > > > Signed-off-by: Will Cohen <wwcohen@gmail.com>
+> > > > ---
+> > > >
+> > > >   fsdev/meson.build |  1 +
+> > > >   meson.build       | 14 ++++++++++----
+> > > >   2 files changed, 11 insertions(+), 4 deletions(-)
+> > > >
+> > > > -have_virtfs_proxy_helper =3D have_virtfs and have_tools
+> > > > +have_virtfs_proxy_helper =3D targetos =3D=3D 'linux' and have_virt=
+fs and
+> > >
+> > > have_tools
+> > >
+> > > Why do you restrict the proxy-helper to Linux?
+> >
+> > Only because porting the proxy-helper to macOS is outside the scope of
+> this
+> > particular patch. While some initial concepts around it have been
+> > considered by some of the contributors to this patch, those
+> implementations
+> > weren't tested enough and the security implications weren't considered =
+in
+> > full. We assume that this could be an additional implementation later o=
+n,
+> > if the functionality is considered important down the road.
+>
+> In general that's fine with me. I would have probably made that
+> "targetos !=3D 'darwin'" instead of "targetos =3D=3D 'linux'", but I leav=
+e that
+> up
+> to you.
+>
+> On the long term we will probably deprecate the 9p 'proxy' fs driver
+> anyway.
+> While it had some good ideas, being realistic though: nobody has worked o=
+n
+> the
+> 9p proxy driver/backend for many years and it is not in good shape.
+>
+> I can imagine that due to the ground being laid by these series, that we
+> will
+> also open 9p for BSD, but that should be done a bit later and hence does
+> not
+> belong into these series.
+>
+> But once again: it would not have hurt to make your intentions clear
+> either in
+> the commit log or by in-source comment. :)
+>
+> Best regards,
+> Christian Schoenebeck
+>
+>
+>
+Acknowledged! For v5 will change it to !=3D 'darwin' and note it as well, f=
+or
+clarity.
 
-> +
-> +typedef struct VduseBlkExport {
-> +    BlockExport export;
-> +    VduseDev *dev;
-> +    uint16_t num_queues;
-> +    uint32_t blk_size;
-> +    bool writable;
-> +} VduseBlkExport;
-> +
-> +struct virtio_blk_inhdr {
-> +    unsigned char status;
-> +};
-> +
-> +typedef struct VduseBlkReq {
-> +    VduseVirtqElement elem;
-> +    int64_t sector_num;
-> +    size_t in_len;
-> +    struct virtio_blk_inhdr *in;
-> +    struct virtio_blk_outhdr out;
-> +    VduseVirtq *vq;
-> +} VduseBlkReq;
-> +
-> +static void vduse_blk_req_complete(VduseBlkReq *req)
-> +{
-> +    vduse_queue_push(req->vq, &req->elem, req->in_len);
-> +    vduse_queue_notify(req->vq);
-> +
-> +    free(req);
-> +}
-> +
-> +static bool vduse_blk_sect_range_ok(VduseBlkExport *vblk_exp,
-> +                                    uint64_t sector, size_t size)
-> +{
-> +    uint64_t nb_sectors;
-> +    uint64_t total_sectors;
-> +
-> +    if (size % VIRTIO_BLK_SECTOR_SIZE) {
-> +        return false;
-> +    }
-> +
-> +    nb_sectors =3D size >> VIRTIO_BLK_SECTOR_BITS;
-> +
-> +    QEMU_BUILD_BUG_ON(BDRV_SECTOR_SIZE !=3D VIRTIO_BLK_SECTOR_SIZE);
-> +    if (nb_sectors > BDRV_REQUEST_MAX_SECTORS) {
-> +        return false;
-> +    }
-> +    if ((sector << VIRTIO_BLK_SECTOR_BITS) % vblk_exp->blk_size) {
-> +        return false;
-> +    }
-> +    blk_get_geometry(vblk_exp->export.blk, &total_sectors);
-> +    if (sector > total_sectors || nb_sectors > total_sectors - sector) {
-> +        return false;
-> +    }
-> +    return true;
-> +}
-> +
-> +static void coroutine_fn vduse_blk_virtio_process_req(void *opaque)
-> +{
-> +    VduseBlkReq *req =3D opaque;
-> +    VduseVirtq *vq =3D req->vq;
-> +    VduseDev *dev =3D vduse_queue_get_dev(vq);
-> +    VduseBlkExport *vblk_exp =3D vduse_dev_get_priv(dev);
-> +    BlockBackend *blk =3D vblk_exp->export.blk;
-> +    VduseVirtqElement *elem =3D &req->elem;
-> +    struct iovec *in_iov =3D elem->in_sg;
-> +    struct iovec *out_iov =3D elem->out_sg;
-> +    unsigned in_num =3D elem->in_num;
-> +    unsigned out_num =3D elem->out_num;
-> +    uint32_t type;
-> +
-> +    if (elem->out_num < 1 || elem->in_num < 1) {
-> +        error_report("virtio-blk request missing headers");
-> +        goto err;
-> +    }
-> +
-> +    if (unlikely(iov_to_buf(out_iov, out_num, 0, &req->out,
-> +                            sizeof(req->out)) !=3D sizeof(req->out))) {
-> +        error_report("virtio-blk request outhdr too short");
-> +        goto err;
-> +    }
-> +
-> +    iov_discard_front(&out_iov, &out_num, sizeof(req->out));
-> +
-> +    if (in_iov[in_num - 1].iov_len < sizeof(struct virtio_blk_inhdr)) {
-> +        error_report("virtio-blk request inhdr too short");
-> +        goto err;
-> +    }
-> +
-> +    /* We always touch the last byte, so just see how big in_iov is. */
-> +    req->in_len =3D iov_size(in_iov, in_num);
-> +    req->in =3D (void *)in_iov[in_num - 1].iov_base
-> +              + in_iov[in_num - 1].iov_len
-> +              - sizeof(struct virtio_blk_inhdr);
-> +    iov_discard_back(in_iov, &in_num, sizeof(struct virtio_blk_inhdr));
-> +
-> +    type =3D le32_to_cpu(req->out.type);
-> +    switch (type & ~VIRTIO_BLK_T_BARRIER) {
-> +    case VIRTIO_BLK_T_IN:
-> +    case VIRTIO_BLK_T_OUT: {
-> +        QEMUIOVector qiov;
-> +        int64_t offset;
-> +        ssize_t ret =3D 0;
-> +        bool is_write =3D type & VIRTIO_BLK_T_OUT;
-> +        req->sector_num =3D le64_to_cpu(req->out.sector);
-> +
-> +        if (is_write && !vblk_exp->writable) {
-> +            req->in->status =3D VIRTIO_BLK_S_IOERR;
-> +            break;
-> +        }
-> +
-> +        if (is_write) {
-> +            qemu_iovec_init_external(&qiov, out_iov, out_num);
-> +        } else {
-> +            qemu_iovec_init_external(&qiov, in_iov, in_num);
-> +        }
-> +
-> +        if (unlikely(!vduse_blk_sect_range_ok(vblk_exp,
-> +                                              req->sector_num,
-> +                                              qiov.size))) {
-> +            req->in->status =3D VIRTIO_BLK_S_IOERR;
-> +            break;
-> +        }
-> +
-> +        offset =3D req->sector_num << VIRTIO_BLK_SECTOR_BITS;
-> +
-> +        if (is_write) {
-> +            ret =3D blk_co_pwritev(blk, offset, qiov.size, &qiov, 0);
-> +        } else {
-> +            ret =3D blk_co_preadv(blk, offset, qiov.size, &qiov, 0);
-> +        }
-> +        if (ret >=3D 0) {
-> +            req->in->status =3D VIRTIO_BLK_S_OK;
-> +        } else {
-> +            req->in->status =3D VIRTIO_BLK_S_IOERR;
-> +        }
-> +        break;
-> +    }
-> +    case VIRTIO_BLK_T_FLUSH:
-> +        if (blk_co_flush(blk) =3D=3D 0) {
-> +            req->in->status =3D VIRTIO_BLK_S_OK;
-> +        } else {
-> +            req->in->status =3D VIRTIO_BLK_S_IOERR;
-> +        }
-> +        break;
-> +    case VIRTIO_BLK_T_GET_ID: {
-> +        size_t size =3D MIN(iov_size(&elem->in_sg[0], in_num),
-> +                          VIRTIO_BLK_ID_BYTES);
-> +        snprintf(elem->in_sg[0].iov_base, size, "%s", vblk_exp->export.i=
-d);
-> +        req->in->status =3D VIRTIO_BLK_S_OK;
-> +        break;
-> +    }
-> +    default:
-> +        req->in->status =3D VIRTIO_BLK_S_UNSUPP;
-> +        break;
-> +    }
-> +
-> +    vduse_blk_req_complete(req);
-> +    return;
-> +
-> +err:
-> +    free(req);
-> +}
-> +
-> +static void vduse_blk_vq_handler(VduseDev *dev, VduseVirtq *vq)
-> +{
-> +    while (1) {
-> +        VduseBlkReq *req;
-> +
-> +        req =3D vduse_queue_pop(vq, sizeof(VduseBlkReq));
-> +        if (!req) {
-> +            break;
-> +        }
-> +        req->vq =3D vq;
-> +
-> +        Coroutine *co =3D
-> +            qemu_coroutine_create(vduse_blk_virtio_process_req, req);
-> +        qemu_coroutine_enter(co);
-> +    }
-> +}
-> +
-> +static void on_vduse_vq_kick(void *opaque)
-> +{
-> +    VduseVirtq *vq =3D opaque;
-> +    VduseDev *dev =3D vduse_queue_get_dev(vq);
-> +    int fd =3D vduse_queue_get_fd(vq);
-> +    eventfd_t kick_data;
-> +
-> +    if (eventfd_read(fd, &kick_data) =3D=3D -1) {
-> +        error_report("failed to read data from eventfd");
-> +        return;
-> +    }
-> +
-> +    vduse_blk_vq_handler(dev, vq);
-> +}
-> +
-> +static void vduse_blk_enable_queue(VduseDev *dev, VduseVirtq *vq)
-> +{
-> +    VduseBlkExport *vblk_exp =3D vduse_dev_get_priv(dev);
-> +
-> +    aio_set_fd_handler(vblk_exp->export.ctx, vduse_queue_get_fd(vq),
-> +                       true, on_vduse_vq_kick, NULL, NULL, NULL, vq);
-> +}
-> +
-> +static void vduse_blk_disable_queue(VduseDev *dev, VduseVirtq *vq)
-> +{
-> +    VduseBlkExport *vblk_exp =3D vduse_dev_get_priv(dev);
-> +
-> +    aio_set_fd_handler(vblk_exp->export.ctx, vduse_queue_get_fd(vq),
-> +                       true, NULL, NULL, NULL, NULL, NULL);
-> +}
-> +
-> +static const VduseOps vduse_blk_ops =3D {
-> +    .enable_queue =3D vduse_blk_enable_queue,
-> +    .disable_queue =3D vduse_blk_disable_queue,
-> +};
-> +
-> +static void on_vduse_dev_kick(void *opaque)
-> +{
-> +    VduseDev *dev =3D opaque;
-> +
-> +    vduse_dev_handler(dev);
-> +}
-> +
-> +static void blk_aio_attached(AioContext *ctx, void *opaque)
-> +{
-> +    VduseBlkExport *vblk_exp =3D opaque;
-> +    int i;
-> +
-> +    vblk_exp->export.ctx =3D ctx;
-> +
-> +    aio_set_fd_handler(vblk_exp->export.ctx, vduse_dev_get_fd(vblk_exp->=
-dev),
-> +                       true, on_vduse_dev_kick, NULL, NULL, NULL,
-> +                       vblk_exp->dev);
-> +
-> +    for (i =3D 0; i < vblk_exp->num_queues; i++) {
-> +        VduseVirtq *vq =3D vduse_dev_get_queue(vblk_exp->dev, i);
-> +        int fd =3D vduse_queue_get_fd(vq);
-> +
-> +        if (fd < 0) {
-> +            continue;
-> +        }
-> +        aio_set_fd_handler(vblk_exp->export.ctx, fd, true,
-> +                           on_vduse_vq_kick, NULL, NULL, NULL, vq);
-> +    }
-> +}
-> +
-> +static void blk_aio_detach(void *opaque)
-> +{
-> +    VduseBlkExport *vblk_exp =3D opaque;
-> +    int i;
-> +
-> +    for (i =3D 0; i < vblk_exp->num_queues; i++) {
-> +        VduseVirtq *vq =3D vduse_dev_get_queue(vblk_exp->dev, i);
-> +        int fd =3D vduse_queue_get_fd(vq);
-> +
-> +        if (fd < 0) {
-> +            continue;
-> +        }
-> +        aio_set_fd_handler(vblk_exp->export.ctx, fd,
-> +                           true, NULL, NULL, NULL, NULL, NULL);
-> +    }
-> +    aio_set_fd_handler(vblk_exp->export.ctx, vduse_dev_get_fd(vblk_exp->=
-dev),
-> +                       true, NULL, NULL, NULL, NULL, NULL);
-> +    vblk_exp->export.ctx =3D NULL;
-> +}
-> +
-> +static int vduse_blk_exp_create(BlockExport *exp, BlockExportOptions *op=
-ts,
-> +                                Error **errp)
-> +{
-> +    VduseBlkExport *vblk_exp =3D container_of(exp, VduseBlkExport, expor=
-t);
-> +    BlockExportOptionsVduseBlk *vblk_opts =3D &opts->u.vduse_blk;
-> +    uint64_t logical_block_size =3D VIRTIO_BLK_SECTOR_SIZE;
-> +    uint16_t num_queues =3D VDUSE_DEFAULT_NUM_QUEUE;
-> +    uint16_t queue_size =3D VDUSE_DEFAULT_QUEUE_SIZE;
-> +    Error *local_err =3D NULL;
-> +    struct virtio_blk_config config;
+--000000000000015df705d76e47fb
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Please zero-initialize this with "=3D { 0 }" because this struct can grow
-when Linux adds virtio-blk features and our function may not have code
-to fill in the new fields.
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Mon, Feb 7, 2022 at 9:15 AM Christ=
+ian Schoenebeck &lt;<a href=3D"mailto:qemu_oss@crudebyte.com">qemu_oss@crud=
+ebyte.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=
+=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding=
+-left:1ex">On Montag, 7. Februar 2022 02:05:32 CET Will Cohen wrote:<br>
+&gt; On Sun, Feb 6, 2022 at 4:22 PM Philippe Mathieu-Daud=C3=A9 &lt;<a href=
+=3D"mailto:f4bug@amsat.org" target=3D"_blank">f4bug@amsat.org</a>&gt;<br>
+&gt; <br>
+&gt; wrote:<br>
+&gt; &gt; On 6/2/22 21:07, Will Cohen wrote:<br>
+&gt; &gt; &gt; From: Keno Fischer &lt;<a href=3D"mailto:keno@juliacomputing=
+.com" target=3D"_blank">keno@juliacomputing.com</a>&gt;<br>
+&gt; &gt; &gt; <br>
+&gt; &gt; &gt; Signed-off-by: Keno Fischer &lt;<a href=3D"mailto:keno@julia=
+computing.com" target=3D"_blank">keno@juliacomputing.com</a>&gt;<br>
+&gt; &gt; &gt; [Michael Roitzsch: - Rebase for NixOS]<br>
+&gt; &gt; &gt; Signed-off-by: Michael Roitzsch &lt;<a href=3D"mailto:reacto=
+rcontrol@icloud.com" target=3D"_blank">reactorcontrol@icloud.com</a>&gt;<br=
+>
+&gt; &gt; &gt; [Will Cohen: - Rebase to master]<br>
+&gt; &gt; &gt; Signed-off-by: Will Cohen &lt;<a href=3D"mailto:wwcohen@gmai=
+l.com" target=3D"_blank">wwcohen@gmail.com</a>&gt;<br>
+&gt; &gt; &gt; Reviewed-by: Paolo Bonzini &lt;<a href=3D"mailto:pbonzini@re=
+dhat.com" target=3D"_blank">pbonzini@redhat.com</a>&gt;<br>
+&gt; &gt; &gt; [Will Cohen: - Add check for pthread_fchdir_np to virtfs]<br=
+>
+&gt; &gt; &gt; Signed-off-by: Will Cohen &lt;<a href=3D"mailto:wwcohen@gmai=
+l.com" target=3D"_blank">wwcohen@gmail.com</a>&gt;<br>
+&gt; &gt; &gt; ---<br>
+&gt; &gt; &gt; <br>
+&gt; &gt; &gt;=C2=A0 =C2=A0fsdev/meson.build |=C2=A0 1 +<br>
+&gt; &gt; &gt;=C2=A0 =C2=A0meson.build=C2=A0 =C2=A0 =C2=A0 =C2=A0| 14 +++++=
++++++----<br>
+&gt; &gt; &gt;=C2=A0 =C2=A02 files changed, 11 insertions(+), 4 deletions(-=
+)<br>
+&gt; &gt; &gt; <br>
+&gt; &gt; &gt; -have_virtfs_proxy_helper =3D have_virtfs and have_tools<br>
+&gt; &gt; &gt; +have_virtfs_proxy_helper =3D targetos =3D=3D &#39;linux&#39=
+; and have_virtfs and<br>
+&gt; &gt; <br>
+&gt; &gt; have_tools<br>
+&gt; &gt; <br>
+&gt; &gt; Why do you restrict the proxy-helper to Linux?<br>
+&gt;<br>
+&gt; Only because porting the proxy-helper to macOS is outside the scope of=
+ this<br>
+&gt; particular patch. While some initial concepts around it have been<br>
+&gt; considered by some of the contributors to this patch, those implementa=
+tions<br>
+&gt; weren&#39;t tested enough and the security implications weren&#39;t co=
+nsidered in<br>
+&gt; full. We assume that this could be an additional implementation later =
+on,<br>
+&gt; if the functionality is considered important down the road.<br>
+<br>
+In general that&#39;s fine with me. I would have probably made that<br>
+&quot;targetos !=3D &#39;darwin&#39;&quot; instead of &quot;targetos =3D=3D=
+ &#39;linux&#39;&quot;, but I leave that up <br>
+to you.<br>
+<br>
+On the long term we will probably deprecate the 9p &#39;proxy&#39; fs drive=
+r anyway. <br>
+While it had some good ideas, being realistic though: nobody has worked on =
+the <br>
+9p proxy driver/backend for many years and it is not in good shape.<br>
+<br>
+I can imagine that due to the ground being laid by these series, that we wi=
+ll <br>
+also open 9p for BSD, but that should be done a bit later and hence does no=
+t <br>
+belong into these series.<br>
+<br>
+But once again: it would not have hurt to make your intentions clear either=
+ in <br>
+the commit log or by in-source comment. :)<br>
+<br>
+Best regards,<br>
+Christian Schoenebeck<br>
+<br>
+<br></blockquote><div><br></div><div>Acknowledged! For v5 will change it to=
+ !=3D &#39;darwin&#39; and note it as well, for clarity. <br></div></div></=
+div>
 
-> +    uint64_t features;
-> +    int i;
-> +
-> +    if (vblk_opts->has_num_queues) {
-> +        num_queues =3D vblk_opts->num_queues;
-> +        if (num_queues =3D=3D 0) {
-> +            error_setg(errp, "num-queues must be greater than 0");
-> +            return -EINVAL;
-> +        }
-> +    }
-> +
-> +    if (vblk_opts->has_queue_size) {
-> +        queue_size =3D vblk_opts->queue_size;
-> +        if (queue_size =3D=3D 0) {
-> +            error_setg(errp, "queue-size must be greater than 0");
-> +            return -EINVAL;
-> +        }
-> +    }
-> +
-> +    if (vblk_opts->has_logical_block_size) {
-> +        logical_block_size =3D vblk_opts->logical_block_size;
-> +        check_block_size(exp->id, "logical-block-size", logical_block_si=
-ze,
-> +                         &local_err);
-> +        if (local_err) {
-> +            error_propagate(errp, local_err);
-> +            return -EINVAL;
-> +        }
-> +    }
-> +    blk_set_guest_block_size(exp->blk, logical_block_size);
-> +
-> +    vblk_exp->blk_size =3D logical_block_size;
-> +    vblk_exp->writable =3D opts->writable;
-> +    vblk_exp->num_queues =3D num_queues;
-> +
-> +    config.capacity =3D
-> +            cpu_to_le64(blk_getlength(exp->blk) >> VIRTIO_BLK_SECTOR_BIT=
-S);
-> +    config.seg_max =3D cpu_to_le32(queue_size - 2);
-
-What is queue_size is 1 or 2?
-
-> +    config.size_max =3D cpu_to_le32(0);
-> +    config.min_io_size =3D cpu_to_le16(1);
-> +    config.opt_io_size =3D cpu_to_le32(1);
-> +    config.num_queues =3D cpu_to_le16(num_queues);
-> +    config.blk_size =3D cpu_to_le32(logical_block_size);
-> +
-> +    features =3D (1ULL << VIRTIO_F_IOMMU_PLATFORM) |
-> +               (1ULL << VIRTIO_F_VERSION_1) |
-> +               (1ULL << VIRTIO_RING_F_EVENT_IDX) |
-> +               (1ULL << VIRTIO_F_NOTIFY_ON_EMPTY) |
-> +               (1ULL << VIRTIO_RING_F_INDIRECT_DESC) |
-> +               (1ULL << VIRTIO_BLK_F_SIZE_MAX) |
-> +               (1ULL << VIRTIO_BLK_F_SEG_MAX) |
-> +               (1ULL << VIRTIO_BLK_F_TOPOLOGY) |
-> +               (1ULL << VIRTIO_BLK_F_BLK_SIZE);
-> +
-> +    if (num_queues > 1) {
-> +        features |=3D 1ULL << VIRTIO_BLK_F_MQ;
-> +    }
-> +    if (!vblk_exp->writable) {
-> +        features |=3D 1ULL << VIRTIO_BLK_F_RO;
-> +    }
-> +
-> +    vblk_exp->dev =3D vduse_dev_create(exp->id, VIRTIO_ID_BLOCK, 0,
-> +                                     features, num_queues,
-> +                                     sizeof(struct virtio_blk_config),
-> +                                     (char *)&config, &vduse_blk_ops,
-> +                                     vblk_exp);
-> +    if (!vblk_exp->dev) {
-> +        error_setg(errp, "failed to create vduse device");
-> +        return -ENOMEM;
-> +    }
-> +
-> +    for (i =3D 0; i < num_queues; i++) {
-> +        vduse_dev_setup_queue(vblk_exp->dev, i, queue_size);
-> +    }
-> +
-> +    aio_set_fd_handler(exp->ctx, vduse_dev_get_fd(vblk_exp->dev), true,
-> +                       on_vduse_dev_kick, NULL, NULL, NULL, vblk_exp->de=
-v);
-> +
-> +    blk_add_aio_context_notifier(exp->blk, blk_aio_attached, blk_aio_det=
-ach,
-> +                                 vblk_exp);
-> +
-> +    return 0;
-> +}
-> +
-> +static void vduse_blk_exp_delete(BlockExport *exp)
-> +{
-> +    VduseBlkExport *vblk_exp =3D container_of(exp, VduseBlkExport, expor=
-t);
-> +
-> +    vduse_dev_destroy(vblk_exp->dev);
-> +}
-> +
-> +static void vduse_blk_exp_request_shutdown(BlockExport *exp)
-> +{
-> +    VduseBlkExport *vblk_exp =3D container_of(exp, VduseBlkExport, expor=
-t);
-> +    int i;
-> +
-> +    blk_remove_aio_context_notifier(exp->blk, blk_aio_attached, blk_aio_=
-detach,
-> +                                    vblk_exp);
-> +
-> +    for (i =3D 0; i < vblk_exp->num_queues; i++) {
-> +        VduseVirtq *vq =3D vduse_dev_get_queue(vblk_exp->dev, i);
-> +        int fd =3D vduse_queue_get_fd(vq);
-> +
-> +        if (fd < 0) {
-> +            continue;
-> +        }
-> +        aio_set_fd_handler(exp->ctx, fd, true, NULL, NULL, NULL, NULL, N=
-ULL);
-> +    }
-> +    aio_set_fd_handler(exp->ctx, vduse_dev_get_fd(vblk_exp->dev),
-> +                       true, NULL, NULL, NULL, NULL, NULL);
-
-Call blk_aio_detach() instead of duplicating this code?
-
-> +}
-> +
-> +const BlockExportDriver blk_exp_vduse_blk =3D {
-> +    .type               =3D BLOCK_EXPORT_TYPE_VDUSE_BLK,
-> +    .instance_size      =3D sizeof(VduseBlkExport),
-> +    .create             =3D vduse_blk_exp_create,
-> +    .delete             =3D vduse_blk_exp_delete,
-> +    .request_shutdown   =3D vduse_blk_exp_request_shutdown,
-> +};
-> diff --git a/block/export/vduse-blk.h b/block/export/vduse-blk.h
-> new file mode 100644
-> index 0000000000..c4eeb1b70e
-> --- /dev/null
-> +++ b/block/export/vduse-blk.h
-> @@ -0,0 +1,20 @@
-> +/*
-> + * Export QEMU block device via VDUSE
-> + *
-> + * Copyright (C) 2022 Bytedance Inc. and/or its affiliates. All rights r=
-eserved.
-> + *
-> + * Author:
-> + *   Xie Yongji <xieyongji@bytedance.com>
-> + *
-> + * This work is licensed under the terms of the GNU GPL, version 2 or
-> + * later.  See the COPYING file in the top-level directory.
-> + */
-> +
-> +#ifndef VDUSE_BLK_H
-> +#define VDUSE_BLK_H
-> +
-> +#include "block/export.h"
-> +
-> +extern const BlockExportDriver blk_exp_vduse_blk;
-> +
-> +#endif /* VDUSE_BLK_H */
-> diff --git a/meson.build b/meson.build
-> index 864fb50ade..472e3947c6 100644
-> --- a/meson.build
-> +++ b/meson.build
-> @@ -1320,6 +1320,17 @@ if have_libvduse
->    libvduse =3D libvduse_proj.get_variable('libvduse_dep')
->  endif
-> =20
-> +have_vduse_blk_export =3D (have_libvduse and targetos =3D=3D 'linux')
-> +if get_option('vduse_blk_export').enabled()
-> +    if targetos !=3D 'linux'
-> +        error('vduse_blk_export requires linux')
-> +    elif have_libvduse
-> +        error('vduse_blk_export requires libvduse support')
-> +    endif
-> +elif get_option('vduse_blk_export').disabled()
-> +    have_vduse_blk_export =3D false
-> +endif
-> +
->  # libbpf
->  libbpf =3D dependency('libbpf', required: get_option('bpf'), method: 'pk=
-g-config')
->  if libbpf.found() and not cc.links('''
-> @@ -1514,6 +1525,7 @@ config_host_data.set('CONFIG_SNAPPY', snappy.found(=
-))
->  config_host_data.set('CONFIG_USB_LIBUSB', libusb.found())
->  config_host_data.set('CONFIG_VDE', vde.found())
->  config_host_data.set('CONFIG_VHOST_USER_BLK_SERVER', have_vhost_user_blk=
-_server)
-> +config_host_data.set('CONFIG_VDUSE_BLK_EXPORT', have_vduse_blk_export)
->  config_host_data.set('CONFIG_VNC', vnc.found())
->  config_host_data.set('CONFIG_VNC_JPEG', jpeg.found())
->  config_host_data.set('CONFIG_VNC_PNG', png.found())
-> @@ -3407,6 +3419,7 @@ if have_block
->    summary_info +=3D {'qed support':       config_host.has_key('CONFIG_QE=
-D')}
->    summary_info +=3D {'parallels support': config_host.has_key('CONFIG_PA=
-RALLELS')}
->    summary_info +=3D {'FUSE exports':      fuse}
-> +  summary_info +=3D {'VDUSE block exports': have_vduse_blk_export}
->  endif
->  summary(summary_info, bool_yn: true, section: 'Block layer support')
-> =20
-> diff --git a/meson_options.txt b/meson_options.txt
-> index 16790d1814..be1682c4d2 100644
-> --- a/meson_options.txt
-> +++ b/meson_options.txt
-> @@ -197,6 +197,8 @@ option('virtiofsd', type: 'feature', value: 'auto',
->         description: 'build virtiofs daemon (virtiofsd)')
->  option('libvduse', type: 'feature', value: 'auto',
->         description: 'build VDUSE Library')
-> +option('vduse_blk_export', type: 'feature', value: 'auto',
-> +       description: 'VDUSE block export support')
-> =20
->  option('capstone', type: 'combo', value: 'auto',
->         choices: ['disabled', 'enabled', 'auto', 'system', 'internal'],
-> diff --git a/qapi/block-export.json b/qapi/block-export.json
-> index f9ce79a974..f88e90baab 100644
-> --- a/qapi/block-export.json
-> +++ b/qapi/block-export.json
-> @@ -170,6 +170,22 @@
->              '*allow-other': 'FuseExportAllowOther' },
->    'if': 'CONFIG_FUSE' }
-> =20
-> +##
-> +# @BlockExportOptionsVduseBlk:
-> +#
-> +# A vduse-blk block export.
-> +#
-> +# @num-queues: the number of virtqueues. Defaults to 1.
-> +# @queue-size: the size of virtqueue. Defaults to 128.
-> +# @logical-block-size: Logical block size in bytes. Defaults to 512 byte=
-s.
-> +#
-> +# Since: 7.0
-> +##
-> +{ 'struct': 'BlockExportOptionsVduseBlk',
-> +  'data': { '*num-queues': 'uint16',
-> +            '*queue-size': 'uint16',
-> +            '*logical-block-size': 'size'} }
-> +
->  ##
->  # @NbdServerAddOptions:
->  #
-> @@ -273,13 +289,15 @@
->  # @nbd: NBD export
->  # @vhost-user-blk: vhost-user-blk export (since 5.2)
->  # @fuse: FUSE export (since: 6.0)
-> +# @vduse-blk: vduse-blk export (since 7.0)
->  #
->  # Since: 4.2
->  ##
->  { 'enum': 'BlockExportType',
->    'data': [ 'nbd',
->              { 'name': 'vhost-user-blk', 'if': 'CONFIG_VHOST_USER_BLK_SER=
-VER' },
-> -            { 'name': 'fuse', 'if': 'CONFIG_FUSE' } ] }
-> +            { 'name': 'fuse', 'if': 'CONFIG_FUSE' },
-> +            { 'name': 'vduse-blk', 'if': 'CONFIG_VDUSE_BLK_EXPORT' } ] }
-> =20
->  ##
->  # @BlockExportOptions:
-> @@ -323,7 +341,9 @@
->        'vhost-user-blk': { 'type': 'BlockExportOptionsVhostUserBlk',
->                            'if': 'CONFIG_VHOST_USER_BLK_SERVER' },
->        'fuse': { 'type': 'BlockExportOptionsFuse',
-> -                'if': 'CONFIG_FUSE' }
-> +                'if': 'CONFIG_FUSE' },
-> +      'vduse-blk': { 'type': 'BlockExportOptionsVduseBlk',
-> +                     'if': 'CONFIG_VDUSE_BLK_EXPORT' }
->     } }
-> =20
->  ##
-> diff --git a/scripts/meson-buildoptions.sh b/scripts/meson-buildoptions.sh
-> index af5c75d758..615fc17ec3 100644
-> --- a/scripts/meson-buildoptions.sh
-> +++ b/scripts/meson-buildoptions.sh
-> @@ -86,6 +86,8 @@ meson_options_help() {
->    printf "%s\n" '  u2f             U2F emulation support'
->    printf "%s\n" '  usb-redir       libusbredir support'
->    printf "%s\n" '  vde             vde network backend support'
-> +  printf "%s\n" '  vduse-blk-export'
-> +  printf "%s\n" '                  VDUSE block export support'
->    printf "%s\n" '  vhost-user-blk-server'
->    printf "%s\n" '                  build vhost-user-blk server'
->    printf "%s\n" '  virglrenderer   virgl rendering support'
-> @@ -254,6 +256,8 @@ _meson_option_parse() {
->      --disable-usb-redir) printf "%s" -Dusb_redir=3Ddisabled ;;
->      --enable-vde) printf "%s" -Dvde=3Denabled ;;
->      --disable-vde) printf "%s" -Dvde=3Ddisabled ;;
-> +    --enable-vduse-blk-export) printf "%s" -Dvduse_blk_export=3Denabled =
-;;
-> +    --disable-vduse-blk-export) printf "%s" -Dvduse_blk_export=3Ddisable=
-d ;;
->      --enable-vhost-user-blk-server) printf "%s" -Dvhost_user_blk_server=
-=3Denabled ;;
->      --disable-vhost-user-blk-server) printf "%s" -Dvhost_user_blk_server=
-=3Ddisabled ;;
->      --enable-virglrenderer) printf "%s" -Dvirglrenderer=3Denabled ;;
-> --=20
-> 2.20.1
->=20
-
---h/by6pWcdyScrsTh
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmIBKZYACgkQnKSrs4Gr
-c8h9sAgApClBE28+/qg5a3HzD1BT5opsZc7rqgi6e7XfnnDUVZOIcec0/rGlpnit
-OYFTHuS879dcJ3Buyk4BVSgVYFbhjpIc4S8b7zoh1l3NBBkAFWF8mv3JaufpjApP
-Q25O4iiRQwvwos10WpQ5HHjwHAx3k+2xkGgcpkY8G6uENobJrvqt9RA2qxgzZoUl
-v826IJrI7LP0Pu8Ex0Ouiq/FEv6RHesLwZbksrl9kHn0ilQWPvd3gX8O41KJsKPM
-nDT3S2/EPFECBEs5DcOjO0nnrT4r5wqUwgOZ6FMeNaYSmyOJbP5z07y0clW5TK+e
-YhDXVpV1+zk7B1rWaTJHGizvWUn9uQ==
-=aVl/
------END PGP SIGNATURE-----
-
---h/by6pWcdyScrsTh--
-
+--000000000000015df705d76e47fb--
 
