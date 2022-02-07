@@ -2,84 +2,106 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 24B4C4AC2B3
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Feb 2022 16:13:33 +0100 (CET)
-Received: from localhost ([::1]:56390 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5BEA94AC468
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Feb 2022 16:54:15 +0100 (CET)
+Received: from localhost ([::1]:59162 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nH5hr-0002c0-D2
-	for lists+qemu-devel@lfdr.de; Mon, 07 Feb 2022 10:13:31 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:41274)
+	id 1nH6LF-0003W8-BX
+	for lists+qemu-devel@lfdr.de; Mon, 07 Feb 2022 10:54:13 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:41844)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <andrew@aj.id.au>)
- id 1nH5ZK-0004Pw-98; Mon, 07 Feb 2022 10:04:42 -0500
-Received: from wout1-smtp.messagingengine.com ([64.147.123.24]:50263)
+ (Exim 4.90_1) (envelope-from <pasic@linux.ibm.com>)
+ id 1nH5bD-0004l1-Th
+ for qemu-devel@nongnu.org; Mon, 07 Feb 2022 10:06:40 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:9058)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <andrew@aj.id.au>)
- id 1nH5ZD-0004eJ-RO; Mon, 07 Feb 2022 10:04:38 -0500
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
- by mailout.west.internal (Postfix) with ESMTP id 3B3BE32019B4;
- Mon,  7 Feb 2022 10:04:32 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute2.internal (MEProxy); Mon, 07 Feb 2022 10:04:32 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=cc
- :cc:content-transfer-encoding:date:date:from:from:in-reply-to
- :in-reply-to:message-id:mime-version:references:reply-to:sender
- :subject:subject:to:to; s=fm2; bh=7MjPO5nUgLFK0Cvckcmu3g8aLoa3V5
- +ZQlcgb0uJvoE=; b=SeVOcPo9R09RynfzyZ7UA27yQB85OdMuFph1LWz07yuWmx
- shTJIUo1kdX2BbplS3k0ggY35w387k/cNUINbqe85SWSSVhHNZaCONkCpo0+rQlP
- w77tNNyeR1lLvxW3Sx3z3wvWsgWSCJwL1ta0QPlYL4eeR3phW534rmuv00uFDKrY
- w0Zagd6Jf+IJh+7aNTMFB9YKxtqvUgPuSJo/lW9k2yv0C0P++hopZCX3Jb/ftYEK
- AB3vfWoAgUIHMX+aR0JlQ50lTCPYX9bPGt6tLw5BS1jVh0NbO2LICMXvIL57ccuR
- KhPPvkAqFeA3H3OEBTqC5atBdgogiow6vtdhrpVg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
- :from:from:in-reply-to:in-reply-to:message-id:mime-version
- :references:reply-to:sender:subject:subject:to:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=7MjPO5
- nUgLFK0Cvckcmu3g8aLoa3V5+ZQlcgb0uJvoE=; b=m7ojEBZCcDb1ESP8XcUb1+
- g6rv+gsfrNRWI5FWdRM8sS7IqNqwqpNdMcL6RywwqDU746uJ+k3ArviMvZv7AVpk
- 5KPee0HhKMINgPlZaVeZT/WIJwUjYK1yUyxdQ8ERU7CyTLRyT8wzDTQt11BPqKXu
- +JrPBOgri+H9WQ+hITvmQWEEsHczo+/fyCfofH6O4b67DLGcN7XhmEzG1gqqVOfz
- LwCgXfv4VAc4wTUIdQS14jiWVwXvnLTHjp+k38bb0gm5deKSDa7T0KYg4upf/d3C
- 3y6zfM2ApJKxdcY81+FVHRxI1Fy3OTU2sAOQBzGD7jhbr+U1A8sk1j/Ufz5fOUrA
- ==
-X-ME-Sender: <xms:_zQBYgnQpfin5z--0wfcfrLE5yG0yL7PuEd_DumarR4Pdie6zjQWQA>
- <xme:_zQBYv3Fw7VW-fHefO2NEeGSJEBjSSVahnMuCkKtKM7lKfjcILyl-O0vSTfSLXl_Q
- VChAPNbIMbkD9_wgg>
-X-ME-Received: <xmr:_zQBYury2Co97epfpnBqt7FXzu1Bun6mNs1A_VvvR1q_mrJ4X9p0K7dI3JmaoEYfh1yY1QBcWf5doAPid8kh00RaFIhUQA2bxPGxDRUXdA88xVu9s0kvXnzGLMjuROJ9>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrheehgdeilecutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecunecujfgurhephffvufffkffojghfggfgsedtkeertd
- ertddtnecuhfhrohhmpeetnhgurhgvficulfgvfhhfvghrhicuoegrnhgurhgvfiesrghj
- rdhiugdrrghuqeenucggtffrrghtthgvrhhnpeejgfdvveehteekveeggeellefgleette
- ejffelffdvudduveeiffegteelvefhteenucevlhhushhtvghrufhiiigvpedunecurfgr
- rhgrmhepmhgrihhlfhhrohhmpegrnhgurhgvfiesrghjrdhiugdrrghu
-X-ME-Proxy: <xmx:_zQBYskVOUlxU4Atv_I0-Wclyf99JTiIXIdcNESDFsIwe5C1BacusQ>
- <xmx:_zQBYu2gcBasiq3YWJHojJXLVP_P8B2knxrnLvHMsGOM--AC6eyrUw>
- <xmx:_zQBYjsP7B-MJ4wafWegvvXvpBcTUJTHwgnl2jcaAqaMq1YmoRf_SA>
- <xmx:_zQBYhQOF6Sjd3lSaEgVSpafHeMnCvUaIo-rSO7kwFP5DvgMU5rYAg>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 7 Feb 2022 10:04:29 -0500 (EST)
-From: Andrew Jeffery <andrew@aj.id.au>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 3/3] hw: aspeed_gpio: Support the AST2600's indexed register
- interface
-Date: Tue,  8 Feb 2022 01:34:09 +1030
-Message-Id: <20220207150409.358888-4-andrew@aj.id.au>
-X-Mailer: git-send-email 2.32.0
-In-Reply-To: <20220207150409.358888-1-andrew@aj.id.au>
-References: <20220207150409.358888-1-andrew@aj.id.au>
+ (Exim 4.90_1) (envelope-from <pasic@linux.ibm.com>)
+ id 1nH5aS-0004zR-4E
+ for qemu-devel@nongnu.org; Mon, 07 Feb 2022 10:05:56 -0500
+Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 217EhnCG026217; 
+ Mon, 7 Feb 2022 15:05:25 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=date : from : to : cc :
+ subject : message-id : in-reply-to : references : mime-version :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=AGdybD3GyaJSQsPoJC0rA/fcd1xmJZR4GnBbNKQacL4=;
+ b=ClnrV8KXSzxyFXlqF/zOMQ+AnvdVxxWfEUTS9vj3HJuIb0rcWDj/+aZJiRp+j1TIDtJh
+ prukjNpKZ8P51rT+MBlTbh0Vj5aZ5Veosv5CUCPIzZVmekHNaFdmD11HQsglTpNk8RuP
+ E3LCLTYm0mxIwg4Cgj/omaFrJexrcwwmEUIACt75sdTG4/0+yP0sdXdDUUVlI0IlHZRy
+ N3C8h1q4S09igDg3uVbjTF/qHKbE4nsmO32OFzb8tLSujCrh83Ye5IgiEiJnCYWL18oS
+ zsGxBHXapOByyjcMXNVMpC5AVvqzewugdOM88erxdlXVSBixeRhl1Ee4RciOxnebT2h+ rA== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3e22st6ukq-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 07 Feb 2022 15:05:24 +0000
+Received: from m0098396.ppops.net (m0098396.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 217EjJF5031119;
+ Mon, 7 Feb 2022 15:05:24 GMT
+Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.98])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3e22st6uhc-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 07 Feb 2022 15:05:24 +0000
+Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
+ by ppma03ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 217F2Stx019647;
+ Mon, 7 Feb 2022 15:05:21 GMT
+Received: from b06avi18878370.portsmouth.uk.ibm.com
+ (b06avi18878370.portsmouth.uk.ibm.com [9.149.26.194])
+ by ppma03ams.nl.ibm.com with ESMTP id 3e1gv95yxb-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 07 Feb 2022 15:05:21 +0000
+Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com
+ [9.149.105.61])
+ by b06avi18878370.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
+ id 217F5JqX47317270
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 7 Feb 2022 15:05:19 GMT
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 6757A11C06E;
+ Mon,  7 Feb 2022 15:05:19 +0000 (GMT)
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id EAB6911C04A;
+ Mon,  7 Feb 2022 15:05:18 +0000 (GMT)
+Received: from li-e979b1cc-23ba-11b2-a85c-dfd230f6cf82 (unknown [9.171.70.169])
+ by d06av25.portsmouth.uk.ibm.com (Postfix) with SMTP;
+ Mon,  7 Feb 2022 15:05:18 +0000 (GMT)
+Date: Mon, 7 Feb 2022 16:05:16 +0100
+From: Halil Pasic <pasic@linux.ibm.com>
+To: Cornelia Huck <cohuck@redhat.com>
+Subject: Re: [RFC PATCH 1/1] virtio: fix feature negotiation for
+ ACCESS_PLATFORM
+Message-ID: <20220207160516.2aead931.pasic@linux.ibm.com>
+In-Reply-To: <874k5ax07t.fsf@redhat.com>
+References: <20220203164556.2666565-1-pasic@linux.ibm.com>
+ <7df172fe-008a-0b98-2780-5155c98a71ba@gmail.com>
+ <874k5ax07t.fsf@redhat.com>
+Organization: IBM
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=64.147.123.24; envelope-from=andrew@aj.id.au;
- helo=wout1-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: 7ZDWdlmIOfOBreYiCuc5b0z9zrhdeftW
+X-Proofpoint-ORIG-GUID: DuPNFkKaOvWrGmY-W2nBjijFm739Rz2j
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.816,Hydra:6.0.425,FMLib:17.11.62.513
+ definitions=2022-02-07_05,2022-02-07_02,2021-12-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0
+ mlxlogscore=999 priorityscore=1501 malwarescore=0 phishscore=0
+ suspectscore=0 adultscore=0 spamscore=0 bulkscore=0 lowpriorityscore=0
+ mlxscore=0 clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2201110000 definitions=main-2202070097
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=pasic@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H5=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -93,319 +115,83 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, openbmc@lists.ozlabs.org, qemu-arm@nongnu.org,
- clg@kaod.org, joel@jms.id.au
+Cc: Brijesh Singh <brijesh.singh@amd.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-devel@nongnu.org,
+ Halil Pasic <pasic@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-A new register interface was added to the AST2600 GPIO controller that
-allows a single 32 bit register to drive configuration of up to 208
-GPIOs. This makes way for a very simple driver implementation in
-early-boot firmware such as u-boot. The old register interface required
-drivers implement a tedious data model, but allowed efficient multi-line
-bit-banging.
+On Mon, 07 Feb 2022 14:41:58 +0100
+Cornelia Huck <cohuck@redhat.com> wrote:
 
-Either way, the hardware model in qemu becomes quite complex, though it
-would have been less so had the new interface been the only one
-available.
+> On Mon, Feb 07 2022, Daniel Henrique Barboza <danielhb413@gmail.com> wrote:
+> 
+> > On 2/3/22 13:45, Halil Pasic wrote:  
+> >> Unlike most virtio features ACCESS_PATFORM is considered mandatory, i.e.  
+> 
+> s/ACCESS_PATFORM/ACCESS_PLATFORM/
 
-Signed-off-by: Andrew Jeffery <andrew@aj.id.au>
----
- hw/gpio/aspeed_gpio.c         | 202 +++++++++++++++++++++++++++++++++-
- include/hw/gpio/aspeed_gpio.h |   3 +
- 2 files changed, 202 insertions(+), 3 deletions(-)
+Will fix.
 
-diff --git a/hw/gpio/aspeed_gpio.c b/hw/gpio/aspeed_gpio.c
-index 1d4d1aedc4b5..cee1a9a2e065 100644
---- a/hw/gpio/aspeed_gpio.c
-+++ b/hw/gpio/aspeed_gpio.c
-@@ -160,7 +160,42 @@
- #define GPIO_YZAAAB_DIRECTION      (0x1E4 >> 2)
- #define GPIO_AC_DATA_VALUE         (0x1E8 >> 2)
- #define GPIO_AC_DIRECTION          (0x1EC >> 2)
--#define GPIO_3_3V_MEM_SIZE         0x1F0
-+#define GPIO_INDEX                 (0x2AC >> 2)
-+#define  GPIO_INDEX_DATA_SHIFT     20
-+#define  GPIO_INDEX_DATA_LEN       12
-+#define   GPIO_INDEX_DATA_DATA     20
-+#define   GPIO_INDEX_DATA_DIR      20
-+#define   GPIO_INDEX_DATA_IRQ_EN   20
-+#define   GPIO_INDEX_DATA_IRQ_TY0  21
-+#define   GPIO_INDEX_DATA_IRQ_TY1  22
-+#define   GPIO_INDEX_DATA_IRQ_TY2  23
-+#define   GPIO_INDEX_DATA_IRQ_STS  24
-+#define   GPIO_INDEX_DATA_DB1      20
-+#define   GPIO_INDEX_DATA_DB2      21
-+#define   GPIO_INDEX_DATA_TOL      20
-+#define   GPIO_INDEX_DATA_SRC0     20
-+#define   GPIO_INDEX_DATA_SRC1     20
-+#define   GPIO_INDEX_DATA_INPUT    20
-+#define   GPIO_INDEX_DATA_WR_SRC   20
-+#define  GPIO_INDEX_TYPE_SHIFT     16
-+#define  GPIO_INDEX_TYPE_LEN       4
-+#define   GPIO_INDEX_TYPE_DATA     0
-+#define   GPIO_INDEX_TYPE_DIR      1
-+#define   GPIO_INDEX_TYPE_IRQ      2
-+#define   GPIO_INDEX_TYPE_DEBOUNCE 3
-+#define   GPIO_INDEX_TYPE_TOL      4
-+#define   GPIO_INDEX_TYPE_SRC      5
-+#define   GPIO_INDEX_TYPE_INPUT    6
-+#define   GPIO_INDEX_TYPE_RSVD     7
-+#define   GPIO_INDEX_TYPE_WR_SRC   8
-+#define   GPIO_INDEX_TYPE_RD_SRC   9
-+#define  GPIO_INDEX_CMD_SHIFT      12
-+#define  GPIO_INDEX_CMD_LEN        1
-+#define   GPIO_INDEX_CMD_WRITE     0
-+#define   GPIO_INDEX_CMD_READ      1
-+#define  GPIO_INDEX_NR_SHIFT       0
-+#define  GPIO_INDEX_NR_LEN         8
-+#define GPIO_3_3V_MEM_SIZE         0x2B0
- #define GPIO_3_3V_REG_ARRAY_SIZE   (GPIO_3_3V_MEM_SIZE >> 2)
- 
- /* AST2600 only - 1.8V gpios */
-@@ -571,6 +606,11 @@ static uint64_t aspeed_gpio_read(void *opaque, hwaddr offset, uint32_t size)
-         return (uint64_t) s->debounce_regs[idx];
-     }
- 
-+    /* This is a (new, indirect) register interface for configuring GPIOs */
-+    if (agc->have_index_reg && idx == GPIO_INDEX) {
-+        return (uint64_t) s->index;
-+    }
-+
-     reg = &agc->reg_table[idx];
-     if (reg->set_idx >= agc->nr_gpio_sets) {
-         qemu_log_mask(LOG_GUEST_ERROR, "%s: no getter for offset 0x%"
-@@ -581,8 +621,73 @@ static uint64_t aspeed_gpio_read(void *opaque, hwaddr offset, uint32_t size)
-     return aspeed_gpio_set_read(s, reg);
- }
- 
--static void aspeed_gpio_set_write(AspeedGPIOState *s, const AspeedGPIOReg *reg,
--                                  uint32_t data)
-+static int aspeed_gpio_set_offset_read(AspeedGPIOState *s, int set, enum GPIORegType reg,
-+                                       int offset)
-+{
-+    return !!(aspeed_gpio_set_read(s, &(AspeedGPIOReg){set, reg}) & BIT(offset));
-+}
-+
-+static const enum GPIORegType aspeed_gpio_index_type_map[] = {
-+   [GPIO_INDEX_TYPE_DATA] = gpio_reg_data_value,
-+   [GPIO_INDEX_TYPE_DIR] = gpio_reg_direction,
-+   [GPIO_INDEX_TYPE_TOL] = gpio_reg_reset_tolerant,
-+   [GPIO_INDEX_TYPE_INPUT] = gpio_reg_input_mask,
-+   [GPIO_INDEX_TYPE_WR_SRC] = gpio_reg_input_mask /* See GPIO2AC doc */
-+};
-+
-+static void
-+aspeed_gpio_index_read(AspeedGPIOState *s, uint32_t type, uint32_t number)
-+{
-+    int pin = number % 32;
-+    int set = number / 32;
-+
-+    /* Clear the data field so we can OR into it without further data dependencies */
-+    s->index = deposit32(s->index, GPIO_INDEX_DATA_SHIFT, GPIO_INDEX_DATA_LEN, 0);
-+
-+    switch (type) {
-+    case GPIO_INDEX_TYPE_DATA:
-+    case GPIO_INDEX_TYPE_DIR:
-+    case GPIO_INDEX_TYPE_TOL:
-+    case GPIO_INDEX_TYPE_INPUT:
-+    case GPIO_INDEX_TYPE_WR_SRC:
-+    {
-+        enum GPIORegType reg = aspeed_gpio_index_type_map[type];
-+        s->index |= deposit32(0, GPIO_INDEX_DATA_SHIFT, GPIO_INDEX_DATA_LEN,
-+                              aspeed_gpio_set_offset_read(s, set, reg, pin));
-+        break;
-+    }
-+    case GPIO_INDEX_TYPE_IRQ:
-+        s->index |= deposit32(0, GPIO_INDEX_DATA_IRQ_EN, 1,
-+                        aspeed_gpio_set_offset_read(s, set, gpio_reg_int_enable, pin));
-+        s->index |= deposit32(0, GPIO_INDEX_DATA_IRQ_TY0, 1,
-+                        aspeed_gpio_set_offset_read(s, set, gpio_reg_int_sens_0, pin));
-+        s->index |= deposit32(0, GPIO_INDEX_DATA_IRQ_TY1, 1,
-+                        aspeed_gpio_set_offset_read(s, set, gpio_reg_int_sens_1, pin));
-+        s->index |= deposit32(0, GPIO_INDEX_DATA_IRQ_TY2, 1,
-+                        aspeed_gpio_set_offset_read(s, set, gpio_reg_int_sens_2, pin));
-+        s->index |= deposit32(0, GPIO_INDEX_DATA_IRQ_STS, 1,
-+                        aspeed_gpio_set_offset_read(s, set, gpio_reg_int_status, pin));
-+        break;
-+    case GPIO_INDEX_TYPE_DEBOUNCE:
-+        s->index |= deposit32(0, GPIO_INDEX_DATA_DB1, 1,
-+                        aspeed_gpio_set_offset_read(s, set, gpio_reg_debounce_1, pin));
-+        s->index |= deposit32(0, GPIO_INDEX_DATA_DB2, 1,
-+                        aspeed_gpio_set_offset_read(s, set, gpio_reg_debounce_2, pin));
-+        break;
-+    case GPIO_INDEX_TYPE_SRC:
-+        s->index |= deposit32(0, GPIO_INDEX_DATA_SRC0, 1,
-+                        aspeed_gpio_set_offset_read(s, set, gpio_reg_cmd_source_0, pin));
-+        s->index |= deposit32(0, GPIO_INDEX_DATA_SRC1, 1,
-+                        aspeed_gpio_set_offset_read(s, set, gpio_reg_cmd_source_1, pin));
-+        break;
-+    default:
-+        qemu_log_mask(LOG_GUEST_ERROR, "%s: no such command type: %" PRIu32 "\n",
-+                      __func__, type);
-+    }
-+}
-+
-+static void
-+aspeed_gpio_set_write(AspeedGPIOState *s, const AspeedGPIOReg *reg, uint32_t data)
- {
-     AspeedGPIOClass *agc = ASPEED_GPIO_GET_CLASS(s);
-     const GPIOSetProperties *props;
-@@ -677,6 +782,87 @@ static void aspeed_gpio_set_write(AspeedGPIOState *s, const AspeedGPIOReg *reg,
-     aspeed_gpio_update(s, set, set->data_value);
- }
- 
-+static void
-+aspeed_gpio_set_offset_write(AspeedGPIOState *s, int set, enum GPIORegType reg,
-+                             int offset, int val)
-+{
-+    AspeedGPIOReg agr = { set, reg };
-+    uint32_t data;
-+
-+    data = aspeed_gpio_set_read(s, &agr);
-+    data = deposit32(data, offset, 1, val);
-+    aspeed_gpio_set_write(s, &agr, data);
-+}
-+
-+static void
-+aspeed_gpio_index_write(AspeedGPIOState *s, uint32_t type, uint32_t number, uint32_t data)
-+{
-+    int pin = number % 32;
-+    int set = number / 32;
-+
-+    switch (type) {
-+    case GPIO_INDEX_TYPE_DATA:
-+    case GPIO_INDEX_TYPE_DIR:
-+    case GPIO_INDEX_TYPE_TOL:
-+    case GPIO_INDEX_TYPE_INPUT:
-+    case GPIO_INDEX_TYPE_WR_SRC:
-+    {
-+        enum GPIORegType reg = aspeed_gpio_index_type_map[type];
-+        aspeed_gpio_set_offset_write(s, set, reg, pin, data);
-+        break;
-+    }
-+    case GPIO_INDEX_TYPE_IRQ:
-+        aspeed_gpio_set_offset_write(s, set, gpio_reg_int_enable, pin,
-+                                     extract32(data, GPIO_INDEX_DATA_IRQ_EN, 1));
-+        aspeed_gpio_set_offset_write(s, set, gpio_reg_int_sens_0, pin,
-+                                     extract32(data, GPIO_INDEX_DATA_IRQ_TY0, 1));
-+        aspeed_gpio_set_offset_write(s, set, gpio_reg_int_sens_1, pin,
-+                                     extract32(data, GPIO_INDEX_DATA_IRQ_TY1, 1));
-+        aspeed_gpio_set_offset_write(s, set, gpio_reg_int_sens_2, pin,
-+                                     extract32(data, GPIO_INDEX_DATA_IRQ_TY2, 1));
-+        aspeed_gpio_set_offset_write(s, set, gpio_reg_int_status, pin,
-+                                     extract32(data, GPIO_INDEX_DATA_IRQ_STS, 1));
-+        break;
-+    case GPIO_INDEX_TYPE_DEBOUNCE:
-+        aspeed_gpio_set_offset_write(s, set, gpio_reg_debounce_1, pin,
-+                                     extract32(data, GPIO_INDEX_DATA_DB1, 1));
-+        aspeed_gpio_set_offset_write(s, set, gpio_reg_debounce_2, pin,
-+                                     extract32(data, GPIO_INDEX_DATA_DB2, 1));
-+        break;
-+    case GPIO_INDEX_TYPE_SRC:
-+        aspeed_gpio_set_offset_write(s, set, gpio_reg_cmd_source_0, pin,
-+                                     extract32(data, GPIO_INDEX_DATA_SRC0, 1));
-+        aspeed_gpio_set_offset_write(s, set, gpio_reg_cmd_source_1, pin,
-+                                     extract32(data, GPIO_INDEX_DATA_SRC1, 1));
-+        break;
-+    default:
-+        qemu_log_mask(LOG_GUEST_ERROR, "%s: no such command type: %" PRIu32 "\n",
-+                      __func__, type);
-+    };
-+}
-+
-+static void aspeed_gpio_index_command(AspeedGPIOState *s, uint32_t index)
-+{
-+    uint32_t command, number, type;
-+
-+    s->index = index;
-+
-+    command = extract32(index, GPIO_INDEX_CMD_SHIFT, GPIO_INDEX_CMD_LEN);
-+    number = extract32(index, GPIO_INDEX_NR_SHIFT, GPIO_INDEX_NR_LEN);
-+    type = extract32(index, GPIO_INDEX_TYPE_SHIFT, GPIO_INDEX_TYPE_LEN);
-+
-+    if (command == GPIO_INDEX_CMD_WRITE) {
-+        uint32_t data;
-+
-+        data = extract32(index, GPIO_INDEX_DATA_SHIFT, GPIO_INDEX_DATA_LEN);
-+        aspeed_gpio_index_write(s, type, number, data);
-+
-+        return;
-+    }
-+
-+    aspeed_gpio_index_read(s, type, number);
-+}
-+
- static void aspeed_gpio_write(void *opaque, hwaddr offset, uint64_t data,
-                               uint32_t size)
- {
-@@ -692,6 +878,12 @@ static void aspeed_gpio_write(void *opaque, hwaddr offset, uint64_t data,
-         return;
-     }
- 
-+    /* This is a (new, indirect) register interface for configuring GPIOs */
-+    if (agc->have_index_reg && idx == GPIO_INDEX) {
-+        aspeed_gpio_index_command(s, data);
-+        return;
-+    }
-+
-     reg = &agc->reg_table[idx];
-     if (reg->set_idx >= agc->nr_gpio_sets) {
-         qemu_log_mask(LOG_GUEST_ERROR, "%s: no setter for offset 0x%"
-@@ -930,6 +1122,7 @@ static void aspeed_gpio_ast2400_class_init(ObjectClass *klass, void *data)
-     agc->nr_gpio_pins = 216;
-     agc->nr_gpio_sets = 7;
-     agc->reg_table = aspeed_3_3v_gpios;
-+    agc->have_index_reg = false;
- }
- 
- static void aspeed_gpio_2500_class_init(ObjectClass *klass, void *data)
-@@ -940,6 +1133,7 @@ static void aspeed_gpio_2500_class_init(ObjectClass *klass, void *data)
-     agc->nr_gpio_pins = 228;
-     agc->nr_gpio_sets = 8;
-     agc->reg_table = aspeed_3_3v_gpios;
-+    agc->have_index_reg = false;
- }
- 
- static void aspeed_gpio_ast2600_3_3v_class_init(ObjectClass *klass, void *data)
-@@ -950,6 +1144,7 @@ static void aspeed_gpio_ast2600_3_3v_class_init(ObjectClass *klass, void *data)
-     agc->nr_gpio_pins = 208;
-     agc->nr_gpio_sets = 7;
-     agc->reg_table = aspeed_3_3v_gpios;
-+    agc->have_index_reg = true;
- }
- 
- static void aspeed_gpio_ast2600_1_8v_class_init(ObjectClass *klass, void *data)
-@@ -960,6 +1155,7 @@ static void aspeed_gpio_ast2600_1_8v_class_init(ObjectClass *klass, void *data)
-     agc->nr_gpio_pins = 36;
-     agc->nr_gpio_sets = 2;
-     agc->reg_table = aspeed_1_8v_gpios;
-+    agc->have_index_reg = true;
- }
- 
- static const TypeInfo aspeed_gpio_info = {
-diff --git a/include/hw/gpio/aspeed_gpio.h b/include/hw/gpio/aspeed_gpio.h
-index 801846befb3b..57188fcb4098 100644
---- a/include/hw/gpio/aspeed_gpio.h
-+++ b/include/hw/gpio/aspeed_gpio.h
-@@ -61,6 +61,7 @@ struct AspeedGPIOClass {
-     uint32_t nr_gpio_pins;
-     uint32_t nr_gpio_sets;
-     const AspeedGPIOReg *reg_table;
-+    bool have_index_reg;
- };
- 
- struct AspeedGPIOState {
-@@ -91,6 +92,8 @@ struct AspeedGPIOState {
-         uint32_t debounce_2;
-         uint32_t input_mask;
-     } sets[ASPEED_GPIO_MAX_NR_SETS];
-+
-+    uint32_t index;
- };
- 
- #endif /* _ASPEED_GPIO_H_ */
--- 
-2.32.0
+> 
+> >> the driver must accept it if offered by the device. The virtio
+> >> specification says that the driver SHOULD accept the ACCESS_PLATFORM
+> >> feature if offered, and that the device MAY fail to operate if
+> >> ACCESS_PLATFORM was offered but not negotiated.
+> >> 
+> >> While a SHOULD ain't exactly a MUST, we are certainly allowed to fail
+> >> the device when the driver fences ACCESS_PLATFORM. With commit  
+> >
+> >
+> > I believe a link to the virtio specification where this is being mentioned would
+> > be good to have in the commit message.  
+> 
+> It's in section 6.1 "Driver Requirements: Reserved Feature Bits": "A
+> driver SHOULD accept VIRTIO_F_ACCESS_PLATFORM if it is offered" and
+> section 6.2 "Device Requirements: Reserved Feature Bits": "A device MAY
+> fail to operate further if VIRTIO_F_ACCESS_PLATFORM is not accepted."
+> 
+> That said, I'm not sure the wording in the spec translates to
+> "mandatory"... if the driver fails to accept the bit, the device can
+> choose to not work with the driver, but it's not forced to.
 
+I didn't mean to claim that the spec makes this feature "mandatory", and
+this is why I paraphrased the spec. IMHO it is QEMU that considers it
+mandatory.
+
+> There are
+> other instances where the device may reject FEATURES_OK (e.g. when the
+> driver does not accept a feature that is a pre-req for another feature),
+> I'd say it is up to the device whether something is mandatory or not. If
+> the device/setup cannot work without it, it certainly is mandatory, but
+> the driver only knows when FEATURES_OK is rejected without the feature.
+
+Right but for the guys that write the drivers it is of interest to know
+what level of interoperability can  one can keep if certain
+	features are
+not implemented. Usually it is safe to fence delay implementing
+features, as long as the support for the features is implemented in the
+order mandated by the spec.
+
+> 
+> OTOH, the decision to make it mandatory is certainly sound, and covered
+> by the spec. As the driver must be prepared for the device failing to
+> accept FEATURES_OK, we can make it mandatory here -- we should just not
+> say that it is considered mandatory from a spec standpoint. The spec
+> allows to make it mandatory, and we make it mandatory in our
+> implementation.
+
+Right. Was never my intention to say that it is considered mandatory
+by the spec. I guess the spec considers it less optional than the
+run of the mill features.
+
+Should I change the first sentence to something like "Unlike most virtio
+features ACCESS_PATFORM is considered mandatory by QEMU, i.e. the driver
+must accept it if offered by the device."
+
+[..]
+
+Regards,
+Halil
 
