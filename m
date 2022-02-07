@@ -2,72 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49F674ABD18
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Feb 2022 12:56:18 +0100 (CET)
-Received: from localhost ([::1]:55996 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ACA2B4ABB94
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Feb 2022 12:38:58 +0100 (CET)
+Received: from localhost ([::1]:59382 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nH2cy-0003uN-FE
-	for lists+qemu-devel@lfdr.de; Mon, 07 Feb 2022 06:56:17 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:47722)
+	id 1nH2MD-00030F-Qe
+	for lists+qemu-devel@lfdr.de; Mon, 07 Feb 2022 06:38:57 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:47810)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1nH2GO-00084O-8M
- for qemu-devel@nongnu.org; Mon, 07 Feb 2022 06:32:56 -0500
-Received: from [2607:f8b0:4864:20::634] (port=33300
- helo=mail-pl1-x634.google.com)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1nH2Ga-0008KP-Dw
+ for qemu-devel@nongnu.org; Mon, 07 Feb 2022 06:33:08 -0500
+Received: from [2607:f8b0:4864:20::436] (port=35632
+ helo=mail-pf1-x436.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1nH2GM-0001ig-A2
- for qemu-devel@nongnu.org; Mon, 07 Feb 2022 06:32:55 -0500
-Received: by mail-pl1-x634.google.com with SMTP id k17so10933441plk.0
- for <qemu-devel@nongnu.org>; Mon, 07 Feb 2022 03:32:53 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1nH2GU-0001j5-56
+ for qemu-devel@nongnu.org; Mon, 07 Feb 2022 06:33:08 -0500
+Received: by mail-pf1-x436.google.com with SMTP id u130so12438390pfc.2
+ for <qemu-devel@nongnu.org>; Mon, 07 Feb 2022 03:32:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=HQH3eWFR7IKexMJlde1CSSYstj0sV5D8nhe7VhsYT0s=;
- b=zoULr9lVdivbCAu6PdlqeWuOHYzTlFJbR6SCCI+65agVnPHHak/RefZxp/CCE8+Zgn
- ut7f/SdzxBwslGXYmkjCigCXl0ZU79y5LgPdFOqJ2oZP5HIv8/TTm/OYqGIvKljLuB9b
- IG35LFLt0SZ97ou/Fh2sK9IigPoKJ+2X/TaIT/7wi48f249v9oyVHbp0nMfeYCm6rtOO
- +FF3xiSgGdb5HSB7TimsgxIaXXFgVn87kO0sFtcZbs8NzYdyU0HzuEYTpGUmzjcLpWv4
- GYL2JuJSyb+42nQRjBINYm3HxSnAo74mRoe9FLjHI7dB3Hg7M1oqChBQmefdM4UgDfLj
- 6KYw==
+ bh=sngXWR+9Dva/nHlSH1CNHSKXbraDehw/b6yUI8KdBMc=;
+ b=FuAM3NrJSJ1nRMGhsSqO6qYjHtIdhOeakggmy62/NQ/9yDCTizIUBzsNhSIWRbBd9P
+ c6U0f2svI8JTluO5AkSVnECLug36VLgZNIe1Rd1FHEU7eKkvs1U36oZYFnMLn8c9QzgF
+ 7F0Cvg2j7s70CSyslSL4Q+pkVP43BcFPFoDPJOZjCGZhLvZseMLZYQZOrofG76p/sXHz
+ OacMti+LZtFPyN85/qndoGRdvctV/45/KOIDFZYWw8Lpda3g0lW5xc4BgosIG0Fpul0w
+ xCpqkCW9fDVdxLvxbWQ9YE9Cdk60fK1JBQyeav/d7RQ9NBFjyVHcW/KG2vsCcy4Der3l
+ poxQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=HQH3eWFR7IKexMJlde1CSSYstj0sV5D8nhe7VhsYT0s=;
- b=KlTAp0JlPutG3IJu9F6qnZM+hu/ukRfft5a+FFOm2f+/54D7EpirChZR1SnEnYo7GK
- 4GFCSuKHbnPV20M6XN266wC0tXKelq3xvlOUcExLeXWJuRxng678dmlYg+zS6hS7pjB5
- +X3ATf3BRPZ36i1e4zI3gqMdb6JIkUyBJ9+Ymes3S+RFLuYiUMj36g1OZ4bbe7cqIMUm
- Uc5lZO3tlRQQ/ojmNxSvfd7NEiVU+ax22fIykIpj+c5Z4kJw3Ubggg+h9//U4ZK7+xBu
- yf3D5Zi/sf5t+8iUllo/yB0cq1TOB0RPJ2oLlIpOT3BhUD1efVsq6Oc67kquJXc5zg1K
- V3Iw==
-X-Gm-Message-State: AOAM531eP3Ciw3WBNEEyZSIzy5b1l1KPGCJ5mCEl0z7u1dBnx/S0zYTQ
- /xu48+DYh3VrDf3LXyWuc8xzhnjsAVm7upNvxtUC1w==
-X-Google-Smtp-Source: ABdhPJybV91zKm69JFDVnsMexiJyi8ElKWF9a/YBlyk0n3KMAp5yuw3ae8HznisThaYd97glQZUXIw==
-X-Received: by 2002:a17:90b:4d82:: with SMTP id
- oj2mr13579085pjb.77.1644233572579; 
- Mon, 07 Feb 2022 03:32:52 -0800 (PST)
+ bh=sngXWR+9Dva/nHlSH1CNHSKXbraDehw/b6yUI8KdBMc=;
+ b=iJo5vgF5uZArKSHvm85XH/XOgZEUA9rhJMtM9QmadlHm6JtQV0O+ton+32QDIageip
+ HjXzC8jTXUYQlx46JlJxq2ewfVdB/x/WlAi2xyCg5IetDqruqIh+G1RSa49hh0zv+yhO
+ N2mDcd9zaG06dkkbMlXTvmUEw/b8oBlvVqDf7MWb5t9M/Avv3ktPSkb5+CUqggO8laaV
+ aP6+pRVWmfVsWbJXRKAYq+cI1azwThCdsuSPdMMzwXbIvexK9hPz2NBmYYO22p+us/91
+ 2pssJyk7JxwseFBYibtneHclzKcJ3wP72fIRPP/qkPj+F80myDYCVjiH6sQcMIcl0YS5
+ RZiQ==
+X-Gm-Message-State: AOAM531XUmV4GevGgERCZX7z9s6KycwEyF0lHcwsph/e40/SbWFQferw
+ sbf3eupYwEmZvgCfZtovyfz82aY+cXSwWX6Of+MjJg==
+X-Google-Smtp-Source: ABdhPJx/WuhmnNn2ihzgbNN04wKU81+CJDzRhdOSZNXpXLnX01IUavzK4dc4biUwSt80Uztb0JD24g==
+X-Received: by 2002:a63:83c6:: with SMTP id h189mr9010193pge.539.1644233575157; 
+ Mon, 07 Feb 2022 03:32:55 -0800 (PST)
 Received: from anisinha-lenovo.ba.nuagenetworks.net ([203.212.242.56])
- by smtp.googlemail.com with ESMTPSA id h14sm13016345pfh.95.2022.02.07.03.32.50
+ by smtp.googlemail.com with ESMTPSA id h14sm13016345pfh.95.2022.02.07.03.32.53
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 07 Feb 2022 03:32:52 -0800 (PST)
+ Mon, 07 Feb 2022 03:32:54 -0800 (PST)
 From: Ani Sinha <ani@anisinha.ca>
 To: qemu-devel@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>,
  Igor Mammedov <imammedo@redhat.com>, Ani Sinha <ani@anisinha.ca>
-Subject: [PATCH v2 1/3] hw/smbios: code cleanup - use macro definitions for
- table base addresses
-Date: Mon,  7 Feb 2022 17:01:27 +0530
-Message-Id: <20220207113129.2701722-2-ani@anisinha.ca>
+Subject: [PATCH v2 2/3] hw/smbios: fix table memory corruption with large
+ memory vms
+Date: Mon,  7 Feb 2022 17:01:28 +0530
+Message-Id: <20220207113129.2701722-3-ani@anisinha.ca>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220207113129.2701722-1-ani@anisinha.ca>
 References: <20220207113129.2701722-1-ani@anisinha.ca>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::634
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::436
  (failed)
-Received-SPF: none client-ip=2607:f8b0:4864:20::634;
- envelope-from=ani@anisinha.ca; helo=mail-pl1-x634.google.com
+Received-SPF: none client-ip=2607:f8b0:4864:20::436;
+ envelope-from=ani@anisinha.ca; helo=mail-pf1-x436.google.com
 X-Spam_score_int: -10
 X-Spam_score: -1.1
 X-Spam_bar: -
@@ -90,143 +89,88 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is a minor cleanup. Using macro definitions makes the code more
-readable. It is at once clear which tables use which starting base addresses.
-It also makes it easy to calculate the gaps between the addresses and modify
-them if needed.
+With the current smbios table assignment code, we can have only 512 DIMM slots
+(each DIMM of 16 GiB in size) before tables 17 and 19 conflict with their
+addresses. A guest with more than 8 TiB of memory will hit this limitation and
+would fail with the following assertion in isa-debugcon:
+
+ASSERT_EFI_ERROR (Status = Already started)
+ASSERT /builddir/build/BUILD/edk2-ca407c7246bf/OvmfPkg/SmbiosPlatformDxe/SmbiosPlatformDxe.c(125): !EFI_ERROR (Status)
+
+This change adds an additional offset between tables 17 and 19 when configuring
+VMs larger than 8 TiB of memory. The value of the offset is calculated
+to be equal to the additional space required to be reserved between the tables
+in order to accomodate more DIMM devices without the table memories colliding.
+In normal cases where the VM memory is smaller or equal to 8 TiB, this offset
+value is 0. Hence in this case, no additional memory space is reserved and
+table addresses remain as before.
+
+Since table addresses are altered for large memory VMs, this change can break
+migration in those cases. However, in those situations, qemu crashes anyway
+without this fix and hence we do not preserve the old bug by introducing
+compat knobs/machine types.
+
+Buglink: https://bugzilla.redhat.com/show_bug.cgi?id=2023977
 
 Signed-off-by: Ani Sinha <ani@anisinha.ca>
 ---
- hw/smbios/smbios.c | 38 ++++++++++++++++++++++++++------------
- 1 file changed, 26 insertions(+), 12 deletions(-)
+ hw/smbios/smbios.c | 19 +++++++++++++++----
+ 1 file changed, 15 insertions(+), 4 deletions(-)
 
 diff --git a/hw/smbios/smbios.c b/hw/smbios/smbios.c
-index 6013df1698..56b412ce35 100644
+index 56b412ce35..d7de740363 100644
 --- a/hw/smbios/smbios.c
 +++ b/hw/smbios/smbios.c
-@@ -549,9 +549,23 @@ bool smbios_skip_table(uint8_t type, bool required_table)
-     return true;
+@@ -799,12 +799,13 @@ static void smbios_build_type_17_table(unsigned instance, uint64_t size)
+     SMBIOS_BUILD_TABLE_POST;
  }
  
-+#define T0_BASE 0x000
-+#define T1_BASE 0x100
-+#define T2_BASE 0x200
-+#define T3_BASE 0x300
-+#define T4_BASE 0x400
-+#define T11_BASE 0xe00
-+
-+#define T16_BASE 0x1000
-+#define T17_BASE 0x1100
-+#define T19_BASE 0x1300
-+#define T32_BASE 0x2000
-+#define T41_BASE 0x2900
-+#define T127_BASE 0x7F00
-+
- static void smbios_build_type_0_table(void)
- {
--    SMBIOS_BUILD_TABLE_PRE(0, 0x000, false); /* optional, leave up to BIOS */
-+    SMBIOS_BUILD_TABLE_PRE(0, T0_BASE, false); /* optional, leave up to BIOS */
- 
-     SMBIOS_TABLE_SET_STR(0, vendor_str, type0.vendor);
-     SMBIOS_TABLE_SET_STR(0, bios_version_str, type0.version);
-@@ -599,7 +613,7 @@ static void smbios_encode_uuid(struct smbios_uuid *uuid, QemuUUID *in)
- 
- static void smbios_build_type_1_table(void)
- {
--    SMBIOS_BUILD_TABLE_PRE(1, 0x100, true); /* required */
-+    SMBIOS_BUILD_TABLE_PRE(1, T1_BASE, true); /* required */
- 
-     SMBIOS_TABLE_SET_STR(1, manufacturer_str, type1.manufacturer);
-     SMBIOS_TABLE_SET_STR(1, product_name_str, type1.product);
-@@ -619,7 +633,7 @@ static void smbios_build_type_1_table(void)
- 
- static void smbios_build_type_2_table(void)
- {
--    SMBIOS_BUILD_TABLE_PRE(2, 0x200, false); /* optional */
-+    SMBIOS_BUILD_TABLE_PRE(2, T2_BASE, false); /* optional */
- 
-     SMBIOS_TABLE_SET_STR(2, manufacturer_str, type2.manufacturer);
-     SMBIOS_TABLE_SET_STR(2, product_str, type2.product);
-@@ -637,7 +651,7 @@ static void smbios_build_type_2_table(void)
- 
- static void smbios_build_type_3_table(void)
- {
--    SMBIOS_BUILD_TABLE_PRE(3, 0x300, true); /* required */
-+    SMBIOS_BUILD_TABLE_PRE(3, T3_BASE, true); /* required */
- 
-     SMBIOS_TABLE_SET_STR(3, manufacturer_str, type3.manufacturer);
-     t->type = 0x01; /* Other */
-@@ -662,7 +676,7 @@ static void smbios_build_type_4_table(MachineState *ms, unsigned instance)
- {
-     char sock_str[128];
- 
--    SMBIOS_BUILD_TABLE_PRE(4, 0x400 + instance, true); /* required */
-+    SMBIOS_BUILD_TABLE_PRE(4, T4_BASE + instance, true); /* required */
- 
-     snprintf(sock_str, sizeof(sock_str), "%s%2x", type4.sock_pfx, instance);
-     SMBIOS_TABLE_SET_STR(4, socket_designation_str, sock_str);
-@@ -702,7 +716,7 @@ static void smbios_build_type_11_table(void)
-         return;
-     }
- 
--    SMBIOS_BUILD_TABLE_PRE(11, 0xe00, true); /* required */
-+    SMBIOS_BUILD_TABLE_PRE(11, T11_BASE, true); /* required */
- 
-     snprintf(count_str, sizeof(count_str), "%zu", type11.nvalues);
-     t->count = type11.nvalues;
-@@ -722,7 +736,7 @@ static void smbios_build_type_16_table(unsigned dimm_cnt)
- {
-     uint64_t size_kb;
- 
--    SMBIOS_BUILD_TABLE_PRE(16, 0x1000, true); /* required */
-+    SMBIOS_BUILD_TABLE_PRE(16, T16_BASE, true); /* required */
- 
-     t->location = 0x01; /* Other */
-     t->use = 0x03; /* System memory */
-@@ -749,7 +763,7 @@ static void smbios_build_type_17_table(unsigned instance, uint64_t size)
-     char loc_str[128];
-     uint64_t size_mb;
- 
--    SMBIOS_BUILD_TABLE_PRE(17, 0x1100 + instance, true); /* required */
-+    SMBIOS_BUILD_TABLE_PRE(17, T17_BASE + instance, true); /* required */
- 
-     t->physical_memory_array_handle = cpu_to_le16(0x1000); /* Type 16 above */
-     t->memory_error_information_handle = cpu_to_le16(0xFFFE); /* Not provided */
-@@ -790,7 +804,7 @@ static void smbios_build_type_19_table(unsigned instance,
+-static void smbios_build_type_19_table(unsigned instance,
++static void smbios_build_type_19_table(unsigned instance, unsigned offset,
+                                        uint64_t start, uint64_t size)
  {
      uint64_t end, start_kb, end_kb;
  
--    SMBIOS_BUILD_TABLE_PRE(19, 0x1300 + instance, true); /* required */
-+    SMBIOS_BUILD_TABLE_PRE(19, T19_BASE + instance, true); /* required */
+-    SMBIOS_BUILD_TABLE_PRE(19, T19_BASE + instance, true); /* required */
++    SMBIOS_BUILD_TABLE_PRE(19, T19_BASE + offset + instance,
++                           true); /* required */
  
      end = start + size - 1;
      assert(end > start);
-@@ -814,7 +828,7 @@ static void smbios_build_type_19_table(unsigned instance,
- 
- static void smbios_build_type_32_table(void)
+@@ -996,7 +997,7 @@ void smbios_get_tables(MachineState *ms,
+                        uint8_t **anchor, size_t *anchor_len,
+                        Error **errp)
  {
--    SMBIOS_BUILD_TABLE_PRE(32, 0x2000, true); /* required */
-+    SMBIOS_BUILD_TABLE_PRE(32, T32_BASE, true); /* required */
+-    unsigned i, dimm_cnt;
++    unsigned i, dimm_cnt, offset;
  
-     memset(t->reserved, 0, 6);
-     t->boot_status = 0; /* No errors detected */
-@@ -828,7 +842,7 @@ static void smbios_build_type_41_table(Error **errp)
-     struct type41_instance *t41;
+     if (smbios_legacy) {
+         *tables = *anchor = NULL;
+@@ -1026,6 +1027,16 @@ void smbios_get_tables(MachineState *ms,
  
-     QTAILQ_FOREACH(t41, &type41, next) {
--        SMBIOS_BUILD_TABLE_PRE(41, 0x2900 + instance, true);
-+        SMBIOS_BUILD_TABLE_PRE(41, T41_BASE + instance, true);
+         dimm_cnt = QEMU_ALIGN_UP(current_machine->ram_size, MAX_DIMM_SZ) / MAX_DIMM_SZ;
  
-         SMBIOS_TABLE_SET_STR(41, reference_designation_str, t41->designation);
-         t->device_type = t41->kind;
-@@ -871,7 +885,7 @@ static void smbios_build_type_41_table(Error **errp)
++        /*
++         * The offset determines if we need to keep additional space betweeen
++         * table 17 and table 19 so that they do not overlap. For example,
++         * for a VM with larger than 8 TB guest memory and DIMM size of 16 GiB,
++         * the default space between the two tables (T19_BASE - T17_BASE = 512)
++         * is not enough.
++         */
++        offset = (dimm_cnt > (T19_BASE - T17_BASE)) ? \
++                 dimm_cnt - (T19_BASE - T17_BASE) : 0;
++
+         smbios_build_type_16_table(dimm_cnt);
  
- static void smbios_build_type_127_table(void)
- {
--    SMBIOS_BUILD_TABLE_PRE(127, 0x7F00, true); /* required */
-+    SMBIOS_BUILD_TABLE_PRE(127, T127_BASE, true); /* required */
-     SMBIOS_BUILD_TABLE_POST;
- }
+         for (i = 0; i < dimm_cnt; i++) {
+@@ -1033,7 +1044,7 @@ void smbios_get_tables(MachineState *ms,
+         }
+ 
+         for (i = 0; i < mem_array_size; i++) {
+-            smbios_build_type_19_table(i, mem_array[i].address,
++            smbios_build_type_19_table(i, offset, mem_array[i].address,
+                                        mem_array[i].length);
+         }
  
 -- 
 2.25.1
