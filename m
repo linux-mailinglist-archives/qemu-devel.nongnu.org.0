@@ -2,64 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 484C14AC6F2
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Feb 2022 18:14:54 +0100 (CET)
-Received: from localhost ([::1]:34114 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F4B14AC7E8
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Feb 2022 18:49:43 +0100 (CET)
+Received: from localhost ([::1]:57414 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nH7bJ-0001XO-8r
-	for lists+qemu-devel@lfdr.de; Mon, 07 Feb 2022 12:14:53 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:34644)
+	id 1nH88z-0004ql-Ir
+	for lists+qemu-devel@lfdr.de; Mon, 07 Feb 2022 12:49:41 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:35154)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nH7Wj-0006wg-Uy
- for qemu-devel@nongnu.org; Mon, 07 Feb 2022 12:10:10 -0500
-Received: from [2a00:1450:4864:20::42a] (port=41685
- helo=mail-wr1-x42a.google.com)
+ id 1nH7Xw-0008EN-4k
+ for qemu-devel@nongnu.org; Mon, 07 Feb 2022 12:11:24 -0500
+Received: from [2a00:1450:4864:20::336] (port=39913
+ helo=mail-wm1-x336.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nH7Wg-0003So-3A
- for qemu-devel@nongnu.org; Mon, 07 Feb 2022 12:10:09 -0500
-Received: by mail-wr1-x42a.google.com with SMTP id k1so9513371wrd.8
- for <qemu-devel@nongnu.org>; Mon, 07 Feb 2022 09:10:05 -0800 (PST)
+ id 1nH7Xu-0003hS-2E
+ for qemu-devel@nongnu.org; Mon, 07 Feb 2022 12:11:23 -0500
+Received: by mail-wm1-x336.google.com with SMTP id
+ o1-20020a1c4d01000000b0034d95625e1fso14776128wmh.4
+ for <qemu-devel@nongnu.org>; Mon, 07 Feb 2022 09:11:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=gyVIV96EqQNurTylgvcNFf0jRp3eNl0xIRV0KoqwsWc=;
- b=AqHxjlbKMFhZA37tpHhFx7Akv6f6ZKt/1tQI+RzGKY877Xx7em9/Y7FSnoa+vPpcwy
- nHn3qs1x+vpvvOuFtrqtO6U+8mE9EfUqOuSst6HDUR7LAKgLJWtRWCVzLY4fd5sGjM+K
- WIgDj21+ZzzFS8RBAB6LAYGe7nDzizs6v201N2GIaDg3XJDQPsZ570/pQO97cmq6kA17
- DagwFzLeBf71gayLvL6AR51d8p1zxAhCzgpgNSAjpacn/LWW8Dt/dyePUsZdg6fNndZv
- P2eJtkOuRE7Pp7fuYsaH8nr0ukMWeGgUQUQQVEYitzFV/Qi8sBW9jzsaeJXtkNx/W/wV
- AGJg==
+ :cc:content-transfer-encoding;
+ bh=IYBjSkPqiF1Q7aroSmlVM5LkIt2KNzS/cz62frb4mK4=;
+ b=Mamss0LO8TnR91E1sfSb0j4AdQZ2KWMaBb+LRt8UpMKsDjeHjbxhOSGVpqDJoRqNKZ
+ QqPPmE8E2b2wVE/x6W2VjWyFr1KfCdyn8zuRZEOUm/NV8fawdA4iyp1z2Bu72dNi6ipp
+ yukQApR8HydO6O2I0L7qsNuwI5JedSdhnA/KmUkZ6DWceDCBGCXlynhwCjc6uuxUrHlV
+ ISNBXskhoRMCoj1Qw7EOGLZcf4kM5GwOCwvDz4Tce3J4BoGKF3dTZ1whim5M4OsQXf4V
+ dNqF1g0YLpqIIkOYqabgAyV0r6SPlzvi4yI6kfVHUtc8kFDSjskfUwkbiu0snfHFjJkF
+ 6IvQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=gyVIV96EqQNurTylgvcNFf0jRp3eNl0xIRV0KoqwsWc=;
- b=tP5jlCsPIL81nWX3M8+HX0RTna+OmwMzpea2JHvuej79MNo2KOnSu7QgD5NacAf1dL
- S6WZAJd3Nrfk1bZs1s8zaLWrJJrgVjCJBseFbneJlfGlMpcngIyIKakLXmxb5+JVvj8R
- CwO7fMzMcz6GHfKGolXwEsF23LHZnvfpc+3rJfJW10V7bT2D2Fp1NYGJzYp3/gweLb55
- Xb32R6VajcQChuVnkqqnjua8gmtWXIuPL27G67lwl8qjzGSNXOblM2Z8rlVl3gQs+ESy
- 3DoIGqfShyXG93tHMdsCUnuXDeAKroyYyHLtFaJfaGT6KVU1HT/axHya8hTqPBJTc4le
- fLKw==
-X-Gm-Message-State: AOAM533e8QecJIFuuer+NwPrTFwkfBs/yiHu/MUXhrdF4+8+r7V3qEc0
- 1ic5yIjJ+mwjeW2011FOevYfZDhXOCCynDq5QDJCSg==
-X-Google-Smtp-Source: ABdhPJyslydg6nUNJyc9bsrycAhvbtXfrc7jRqhwXZBxOb9Njes8qDNFKWcyjhzBfUV6KFpqnFa3tiQIDzSwkqXkvgM=
-X-Received: by 2002:a05:6000:258:: with SMTP id m24mr377144wrz.2.1644253803871; 
- Mon, 07 Feb 2022 09:10:03 -0800 (PST)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=IYBjSkPqiF1Q7aroSmlVM5LkIt2KNzS/cz62frb4mK4=;
+ b=DCbNZtaEB+DWiOocBjcNjeWJtMMkdRiT3i6hy5Erh7YsM2nYz72IdcAooff67j06Bn
+ 60Lx53pELNHPum4dbnIo/yWZxt2X/27Hkr6g7gjSr5DXuI7/yXY4URPa188sVSa9fdMs
+ jBEWTPN4XGk4ImYQpXIc68zlH6WyDTJMF0KgDnJE+MzxK97vuQboiPEVgirPeOGipxsQ
+ 8692JKkAFOkqpg6bsproX/2f3IIF4vqNDrcn0piVFkeO+9oQTSPNeUzZxmVgGVWUqbLq
+ Uk7Ar88Tge0X2/XD8fbIulEnWAb4HaXEFW9sXTdAJdoHssLvW3fcT937y8FrUP7GK7jF
+ mZtA==
+X-Gm-Message-State: AOAM533rQtnrhGE01/rbmdfvYhW3V6DwOcCndxARnwAjM27DO63cqA8g
+ f3XGIw5CLgE5kmIlJO2hDq8+xM2KWME4R8mEmslcDA==
+X-Google-Smtp-Source: ABdhPJwG3ozAcGcz6p8MgWq64qv+wz5Zx88WLQR6dI8+yyQgdFs9T1lsiUjKUqIQNt0ARsQdyBXBtQglQBufK4WSZy8=
+X-Received: by 2002:a05:600c:3552:: with SMTP id
+ i18mr15440359wmq.21.1644253880510; 
+ Mon, 07 Feb 2022 09:11:20 -0800 (PST)
 MIME-Version: 1.0
-References: <20220130110313.4045351-1-edgar.iglesias@gmail.com>
-In-Reply-To: <20220130110313.4045351-1-edgar.iglesias@gmail.com>
+References: <20220202122353.457084-1-alex.bennee@linaro.org>
+In-Reply-To: <20220202122353.457084-1-alex.bennee@linaro.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 7 Feb 2022 17:09:53 +0000
-Message-ID: <CAFEAcA-8gTFU=We=9-hXkQ6pYbYVi7RUuOaZdBxg1cOGJYCH_Q@mail.gmail.com>
-Subject: Re: [PATCH v1 0/1] hw/arm: versal-virt: Always call arm_load_kernel()
-To: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
+Date: Mon, 7 Feb 2022 17:11:09 +0000
+Message-ID: <CAFEAcA93k6k7LaX0jk=j5PXZRs769OhRKuObv5VTsMSb0=X0MA@mail.gmail.com>
+Subject: Re: [RFC PATCH] arm: force flag recalculation when messing with DAIF
+To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42a
+Content-Transfer-Encoding: quoted-printable
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::336
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::336;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x336.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -80,27 +84,24 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: edgar.iglesias@xilinx.com, sstabellini@kernel.org, luc@lmichel.fr,
- sai.pavan.boddu@xilinx.com, frasse.iglesias@gmail.com, alistair@alistair23.me,
- richard.henderson@linaro.org, qemu-devel@nongnu.org,
- francisco.iglesias@xilinx.com, frederic.konrad@adacore.com,
- qemu-arm@nongnu.org, philmd@redhat.com
+Cc: Andrew Jones <drjones@redhat.com>, qemu-arm@nongnu.org,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, 30 Jan 2022 at 11:03, Edgar E. Iglesias
-<edgar.iglesias@gmail.com> wrote:
+On Wed, 2 Feb 2022 at 12:24, Alex Benn=C3=A9e <alex.bennee@linaro.org> wrot=
+e:
 >
-> From: "Edgar E. Iglesias" <edgar.iglesias@xilinx.com>
+> The recently introduced debug tests in kvm-unit-tests exposed an error
+> in our handling of singlestep cause by stale hflags. This is caught by
+> --enable-debug-tcg when running the tests.
 >
-> This should be applied on top of Peter Maydell's
-> "arm: Fix handling of unrecognized functions in PSCI emulation"
-> patch series.
->
-> This fixes an issue reported by Peter Maydell. We should
-> always call arm_load_kernel() regardless of kernel_filename being
-> set. This is needed because arm_load_kernel() sets up reset for
-> the CPUs.
+> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+> Cc: Richard Henderson <richard.henderson@linaro.org>
+> Cc: Andrew Jones <drjones@redhat.com>
+> ---
+>  target/arm/helper-a64.c | 2 ++
+>  1 file changed, 2 insertions(+)
 
 
 
