@@ -2,87 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 494DD4AB379
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Feb 2022 05:09:17 +0100 (CET)
-Received: from localhost ([::1]:57966 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B65EF4AB4A7
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Feb 2022 07:23:59 +0100 (CET)
+Received: from localhost ([::1]:41424 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nGvL1-0003yM-TE
-	for lists+qemu-devel@lfdr.de; Sun, 06 Feb 2022 23:09:15 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:48092)
+	id 1nGxRO-00065u-5e
+	for lists+qemu-devel@lfdr.de; Mon, 07 Feb 2022 01:23:58 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:35016)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chouhan.shreyansh2702@gmail.com>)
- id 1nGvJ8-00028e-GT
- for qemu-devel@nongnu.org; Sun, 06 Feb 2022 23:07:18 -0500
-Received: from [2607:f8b0:4864:20::b30] (port=36614
- helo=mail-yb1-xb30.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <chouhan.shreyansh2702@gmail.com>)
- id 1nGvJ6-0006UY-G2
- for qemu-devel@nongnu.org; Sun, 06 Feb 2022 23:07:18 -0500
-Received: by mail-yb1-xb30.google.com with SMTP id c6so36341025ybk.3
- for <qemu-devel@nongnu.org>; Sun, 06 Feb 2022 20:07:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=P5VOFxS8voPIrzpGc4edZk/Vssowoe+uy9Uq1uN4oXA=;
- b=KJUQV95M4+ax4CjKuTxTQoKh2Vb+FHAClgbt7Q4kwCRpHHXSKk+4MIAAbhfLqEO1cQ
- rd2PeOkiQgjiZ7uTSy50mslPtfWIwY8DNcRwEOXwn4aEAuUwLWiJm+7zT2U1j5cat531
- 3BysxIG8X2XJk8hWCvuDvTBBliWq0t64hK6rh09VJymrmjbseNNA0FzHHkLG51Tm2NDR
- h+1jl07sicGDT53jJC2oNKySk5LZ05/0xcM8+OXbyvgUbhlSd0Cr/+NS+BPbIExImAa+
- ZnKzpmP94CYvMbeeYtWGJU4zM22dHvt90ElYHFlDDzzACKlk//Uev5cmi+mqVAZMf7BT
- 5F8g==
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nGxFa-0002aH-Vu
+ for qemu-devel@nongnu.org; Mon, 07 Feb 2022 01:11:48 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:34357)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nGxFW-0005Fw-CD
+ for qemu-devel@nongnu.org; Mon, 07 Feb 2022 01:11:44 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1644214299;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=7xi89ZnhcvtOL1ZBfDcWvRmyB8v8kO2JALHT6IQugTo=;
+ b=HDeOqXJBqn0VERFZ90GOe9+Y40UlqnKJJBmw2NKxNGqwuwFozk7YOuBMVlswRT0lsmbg4b
+ aouzRzOblwHfkAf/gYkOnzJBDBVaNliyFoto/c19uqhFPT0L44q8aeachulwPVaxDEakas
+ p3cu0+EkJZZdN41B4PXys+ZQc1oNuFQ=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-208-HUCsmxsmNLW6nPfPbxlmdw-1; Mon, 07 Feb 2022 01:11:38 -0500
+X-MC-Unique: HUCsmxsmNLW6nPfPbxlmdw-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ t14-20020adfa2ce000000b001e1ad2deb3dso4050159wra.0
+ for <qemu-devel@nongnu.org>; Sun, 06 Feb 2022 22:11:37 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=P5VOFxS8voPIrzpGc4edZk/Vssowoe+uy9Uq1uN4oXA=;
- b=UF9bk+DPnLrI/CFSVNyeNgotStJmFfr+xYxa07Kqy21aAOcE4ES7m+d3ooT4HSbC7p
- xnJ5FiBObNpHP0+/X+L4BmPwOixWVzyaJnH5yWdRoZpFHR6+kd81OLTnT3gHhR5/OUcQ
- a88wyk7taiW6dk1Nn5gXidKAd9drPCb0ohPbGkK6AQhahv3Y8j3NFEuFfNB9wC+iNeEV
- N2wOiTNI3fLTlLM5rNpRBWYmQfoeQxcv953Fqua+k+9j50v7EiZkr67hYVKpIFXEE6sf
- ISCbql0ArdObAQ+MAbgSCNawFkg3yX4KbXBWjzc9YUKxJxG3kedcX4TvDyWtm7bgGrz0
- RIag==
-X-Gm-Message-State: AOAM532cR23oAfhofWpaY5neqXmavrG9Toq+Np+9nU6Zlxml46Tus5/l
- Cu52RRI3hFL2/AYo4eFFTF09KaWUWY7pMWjSpeg=
-X-Google-Smtp-Source: ABdhPJwjTLd1fuHJBz4pnYBNA+XOg3ovkvX8E0zW7UcmZUB77iQtm4/p0Sf89TNXo2Emm/Gsj3Cg9bxqBZ9LUw0da3w=
-X-Received: by 2002:a81:af5d:: with SMTP id x29mr1206734ywj.147.1644206823425; 
- Sun, 06 Feb 2022 20:07:03 -0800 (PST)
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=7xi89ZnhcvtOL1ZBfDcWvRmyB8v8kO2JALHT6IQugTo=;
+ b=tDfQEW5ZZ3TFlAOcrizXjFnL0ZcqlfF5rQCoISm14uYBVAD+G1F4ZEv5fwNf4NYwvC
+ igmt/FafCsHrLrMMuTlkZM1Z8As4zwT6NER3+yAVRVZ+5OrkMfLq7+fZJeN3DbxPstN9
+ Ave2C/Z0MqCWLTJl4RdSRz9FVdrRWNE4f3pcaLASo7RI3cQXFL3slHbAPOjFlJ6r7PVt
+ uZH6nG7K5bZso/rG7B1YooWb1f62Kxbs5OFEHYd+GZzQso1bAIqaliETmovcTiWG9r5N
+ uDp2tGZ9OtKrdpoUc4AkZk1Hfyks3LjZ6rRdMwVly1uUJr7H/JeMidmi44cTsyFhzxgw
+ lmfw==
+X-Gm-Message-State: AOAM531OCt4RaZDiQ0tu6Cnac6FI9frWiDV91ZF18pSqUCmD5zuhxABU
+ JelplmW3QSrGkSm5Vm7Cw8JOtvNBNSVIGUIMCIqimX2Ip8wS2j7eFv2YBbRLDHmY3CYJZxCteTp
+ dl1kReOsyuuaOnI8=
+X-Received: by 2002:a1c:6a14:: with SMTP id f20mr12738500wmc.123.1644214296954; 
+ Sun, 06 Feb 2022 22:11:36 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzlY1cD13kvCn996HduilKxyJImZcFTrTF3nVYBVq+j08rL2xF0lFACBq18GgTYAx1XT2Y/lQ==
+X-Received: by 2002:a1c:6a14:: with SMTP id f20mr12738485wmc.123.1644214296707; 
+ Sun, 06 Feb 2022 22:11:36 -0800 (PST)
+Received: from [192.168.8.100] (tmo-096-196.customers.d1-online.com.
+ [80.187.96.196])
+ by smtp.gmail.com with ESMTPSA id o10sm4130252wri.69.2022.02.06.22.11.35
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 06 Feb 2022 22:11:36 -0800 (PST)
+Message-ID: <773614b0-cb96-8d6c-ff0b-a608bfcd9671@redhat.com>
+Date: Mon, 7 Feb 2022 07:11:34 +0100
 MIME-Version: 1.0
-References: <CAAQ-SiOU5vkcVODOvBEf=PXzRDQbhzJC6ZU3wLpnRzhD58cuGg@mail.gmail.com>
- <CAAQ-SiMpZZ3yVCRjapCuResP38HFmtykFuLvpwH_23kEPg6v_w@mail.gmail.com>
- <20210215143934.sz6tdtoaaffkvla7@sirius.home.kraxel.org>
- <CAAQ-SiO_cTe3bQKDQ-tyeUU-DqTSf=1kRUcc+a=tktZb0ZhVog@mail.gmail.com>
- <20210416113252.km4w72vnruv6s2oi@sirius.home.kraxel.org>
- <CAAQ-SiOSw9u=yFrakjjjTvozpAW3nxhC+QeW7wswMSzSeZ_AVg@mail.gmail.com>
- <20210419131050.bltknubbkd4du6ti@sirius.home.kraxel.org>
- <CAAQ-SiMf=BV-HUudRayZkRPJjmkYWuiBuKqYHHLzYjcFnPOgLQ@mail.gmail.com>
- <20210419135627.dlerwnswhfxt6ciz@sirius.home.kraxel.org>
- <CAAQ-SiM6uWUgHTS5PQ-hSkuXNOoKC7fw6Y1ZHhJ0MCUE3oaBqg@mail.gmail.com>
- <20210420071304.gmndase3r6mwp5yt@sirius.home.kraxel.org>
- <CAAQ-SiPPNK0xqnPPSjNZgwQCs+Vj0_A5koq5xK8HzhZKDgqVJw@mail.gmail.com>
- <CAAQ-SiO6-Ay9415XsLe2Xd-KXog7i2Xvh0kX0h1uBgtj-L+=Ag@mail.gmail.com>
- <64abb96f-6c84-8dfb-f645-93d450d0909e@vivier.eu>
-In-Reply-To: <64abb96f-6c84-8dfb-f645-93d450d0909e@vivier.eu>
-From: Shreyansh Chouhan <chouhan.shreyansh2702@gmail.com>
-Date: Mon, 7 Feb 2022 09:36:52 +0530
-Message-ID: <CAAQ-SiP9VmykC1vaHzur2ERo8U8GpUVGT8AoguK_68qxhCgnRQ@mail.gmail.com>
-Subject: Re: Fwd: VirtioSound device emulation implementation
-To: Laurent Vivier <laurent@vivier.eu>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::b30
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b30;
- envelope-from=chouhan.shreyansh2702@gmail.com; helo=mail-yb1-xb30.google.com
-X-Spam_score_int: -10
-X-Spam_score: -1.1
-X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, PDS_HP_HELO_NORDNS=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH] erst: drop cast to long long
+To: "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org
+References: <20220206093547.1282513-1-mst@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <20220206093547.1282513-1-mst@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,53 +99,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Gerd Hoffmann <kraxel@redhat.com>, qemu-devel@nongnu.org
+Cc: Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Eric DeVolder <eric.devolder@oracle.com>,
+ QEMU Trivial <qemu-trivial@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 20 Jan 2022 at 16:09, Laurent Vivier <laurent@vivier.eu> wrote:
->
-> Le 29/12/2021 =C3=A0 06:52, Shreyansh Chouhan a =C3=A9crit :
-> > Hi,
-> >
-> > I am sorry for the absence of activity on this. A couple of people very=
- close to me died, and I also
-> > got busy
-> > with the linux kernel mentorship program for a while. It was a weird ye=
-ar. But I am back on this now.
-> >
-> > I have the basic functionality of the sound card working. I tested it o=
-n an ubuntu vm and it plays
-> > audio just fine. I'd like to test
-> > other things like changing stream parameters and channel maps. Also the=
- VIRTIO_SND_PCM_F_MSG_POLLING,
-> > VIRTIO_SND_PCM_F_EVT_SHMEM_PERIODS, VIRTIO_SND_PCM_F_EVT_XRUNS features=
- aren't implemented yet.
-> > Implementing VIRTIO_SND_PCM_F_EVT_SHMEM_PERIODS hopefully shouldn't be =
-much of a challenge. We can
-> > send a notification
-> > when we have processed period bytes (if I correctly understand this).
-> >
-> > I will send another rfc patch series once I have channel maps and jacks=
- ready. And one more when I
-> > have these PCM features
-> > ready.
->
-Hi,
->
-> Hi,
->
-> I'm trying to test your RFC series but I have a core dump (using alsa-uti=
-ls speaker-test), do you
-> have an updated branch I could pull?
+On 06/02/2022 10.35, Michael S. Tsirkin wrote:
+> The way to print uint64_t is with PRIx64, not with
+> a cast to long long.
+> 
+> Cc: Eric DeVolder <eric.devolder@oracle.com>
+> Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+> ---
+>   tests/qtest/erst-test.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/tests/qtest/erst-test.c b/tests/qtest/erst-test.c
+> index c6a0ae4013..f94cd8dd8e 100644
+> --- a/tests/qtest/erst-test.c
+> +++ b/tests/qtest/erst-test.c
+> @@ -75,7 +75,7 @@ static inline uint64_t in_reg64(ERSTState *s, unsigned reg)
+>       uint64_t res;
+>   
+>       res = qpci_io_readq(s->dev, s->reg_bar, reg);
+> -    g_test_message("*%s -> %016llx", name, (unsigned long long)res);
+> +    g_test_message("*%s -> %016" PRIx64, name, res);
+>   
+>       return res;
+>   }
 
-Yes, I will send the updated RFC by tomorrow (Tuesday).
+Reviewed-by: Thomas Huth <thuth@redhat.com>
 
-Thanks,
-Shreyansh Chouhan
-
->
->
-> Thanks,
-> Laurent
 
