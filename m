@@ -2,84 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6B344AB8F3
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Feb 2022 11:44:50 +0100 (CET)
-Received: from localhost ([::1]:52296 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8907D4AB8D1
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Feb 2022 11:38:58 +0100 (CET)
+Received: from localhost ([::1]:45176 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nH1Vp-00010u-Nv
-	for lists+qemu-devel@lfdr.de; Mon, 07 Feb 2022 05:44:49 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:59206)
+	id 1nH1Q9-0004cj-MI
+	for lists+qemu-devel@lfdr.de; Mon, 07 Feb 2022 05:38:57 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:60354)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nH1Hs-0003NH-5h
- for qemu-devel@nongnu.org; Mon, 07 Feb 2022 05:30:24 -0500
-Received: from [2a00:1450:4864:20::42a] (port=34721
- helo=mail-wr1-x42a.google.com)
+ id 1nH1Kt-0007tF-ML
+ for qemu-devel@nongnu.org; Mon, 07 Feb 2022 05:33:31 -0500
+Received: from [2a00:1450:4864:20::32c] (port=52124
+ helo=mail-wm1-x32c.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nH1Hp-0008Cs-TU
- for qemu-devel@nongnu.org; Mon, 07 Feb 2022 05:30:23 -0500
-Received: by mail-wr1-x42a.google.com with SMTP id f17so23891552wrx.1
- for <qemu-devel@nongnu.org>; Mon, 07 Feb 2022 02:30:21 -0800 (PST)
+ id 1nH1Kr-0000Tr-83
+ for qemu-devel@nongnu.org; Mon, 07 Feb 2022 05:33:31 -0500
+Received: by mail-wm1-x32c.google.com with SMTP id r131so3949053wma.1
+ for <qemu-devel@nongnu.org>; Mon, 07 Feb 2022 02:33:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=E3+oS3KcUriNFQOyz8LYFq2j0Jlv73biXoSD7kuvXUo=;
- b=GiQEU3984SaeHlUEHF+Fcvwp8z9qXx53wZSW5LHjCyhiokkv5/SQ0/ROkOKlzw7BlM
- SNFAztKCMPnUFF5llQMzr+NHvnFt4zwqKFs3jqRMKks5O3cnXGfFptbkHkMzBroddpJ+
- 2JKh8x90WaGbEGXoG/xxUCrmsBQgXubJ22tZpjTeamLlhTREwPLvd7yN+gzTn1yTlBdq
- uFC9/VmZX372bc5S1+Vyb0ULWzHiiQJ8fXdAS27uEAZQX96qwGkIRaHjJwLt08CtMB0+
- ARW9AUJGfg/XYb2BmIqKI33eFbSjoijuqkUAgCRzrHq4xZH6vuhzlToH9cGtPzeNUvnV
- mX0A==
+ bh=ucQCzCA9Z/O5rPjgHoXBPhnsHAxMTDiJiBqlW4leuo8=;
+ b=Da6JlwIk17UHlyup0u48lBYcRF1PGPvmUBv9jstWVShkBSP7+8SCO697Tfh2idmFXP
+ 71TRpvd/BYEay20oywaq8X1nx2Qt8eTySxz45L1qeLWD+f4JiPr7ytpEU0ubmcclbFLK
+ 9lwdjTnB1756rIxsMz+TpDriWpxWbCorJQa0P1U9yxxf+hF0czUCJQ+3yV21/hn9Ja3I
+ ErNSVuzfVgkGf6EQG6SeZ/tMjUDc9+WBMOcMetsIIgRYZfRJLkOgZKSGvpLq076lA2j4
+ qmhnNGGNQLOb3+DQ7Lh7AEcxBQ6E1V1pBKkdfy6/Lz+oXJGn0krCASFMvlg3i76+3kY3
+ iKBQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
  :subject:content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=E3+oS3KcUriNFQOyz8LYFq2j0Jlv73biXoSD7kuvXUo=;
- b=QbmIY4gXR4KxBiFsmIrMcodYdHit9Yd0vDgezJ53IcS0qSCoKCG9JNM5d9qFG4qo7t
- HpUgvkxfEfCu6Fa5j7pc+KpNhkJLZ9T1lPU2AANq1YaxN8GaebWbNkTl7Kri9LLoKDx3
- NiWMgTtrdhs36ePMiuUmfyR3mlgztk25vOPRdIdzktYytnz4LMgFZfU4RCum/azK1A3x
- Lwuiu+7LxEFni0Xup0kTyFs3OjluxQXm6Jjz0y4U2yPaj14z/W7KtwM90e7OseEk0d07
- QteG94qf2uDu3fdofjttxjqQu687VLaVnMQ/xtAdyBkmLicNKoNCH1p3lbTgKZcsPqBg
- Iwcg==
-X-Gm-Message-State: AOAM532xtEInj5xX6e28t73NItwLeNWVNhKi822trpbUZcpzUGPOaC8J
- Lki3owpYhVyy8cCeuwIFFzM=
-X-Google-Smtp-Source: ABdhPJwZTfsCtRWKULQ853jJFnFVmERJRjS+PIYdlFdUaD1Z2U0qk8ruQt8fhkmGnlfxerZUnM9Chw==
-X-Received: by 2002:adf:e784:: with SMTP id n4mr9369229wrm.215.1644229819692; 
- Mon, 07 Feb 2022 02:30:19 -0800 (PST)
+ bh=ucQCzCA9Z/O5rPjgHoXBPhnsHAxMTDiJiBqlW4leuo8=;
+ b=Ag6wmLWSjSrm7s4Jkqfrvq0CiPiZyI0AXqCP7m39EqsTBJcDMPHyhi1SuyIcRutzuc
+ ZH6EfRayqfiTv1u5oz9i3b6MAgriikhi9H2loG018UdqvZxuZGqqb20ZdrgKxaZ6F8/M
+ 1RnAEXwJs9hmzpwnaq/Wq1gz86hy+OpMY6NOVlcgGSiJopQYF/heBAPoD7wByXZj5u14
+ 4h64EpNvQ6hoPqM9LkM8MdFAh6uvLWcq+vim1BmaU48NRc98pJJlhX66YxJ5exyTbNlZ
+ X24baAgaU4k1nPW9s673ciidvEmGI9UUgVpRdif0JFIkNhTNM2cEYq+6sWfkdttmEjbl
+ 9wkA==
+X-Gm-Message-State: AOAM532diSFCVWnjrgeXyNgUqSCf7NsgcZscN23sONzhudgwFPhyNMmy
+ 0Er6XR2CjIJxwE59/PzTTIoxXbSZAFI=
+X-Google-Smtp-Source: ABdhPJxTMz2SkRz9mwf4LhDJBiP0O5D/PVEm/mZ5FTEDP2Vc4YBl3oGyI7DjVuS7YWM33BItqaHdeA==
+X-Received: by 2002:a05:600c:6028:: with SMTP id
+ az40mr13785557wmb.33.1644230006628; 
+ Mon, 07 Feb 2022 02:33:26 -0800 (PST)
 Received: from [192.168.1.33] (154.red-83-50-83.dynamicip.rima-tde.net.
  [83.50.83.154])
- by smtp.gmail.com with ESMTPSA id 3sm2388966wrz.86.2022.02.07.02.30.18
+ by smtp.gmail.com with ESMTPSA id i8sm4537981wrc.84.2022.02.07.02.33.25
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 07 Feb 2022 02:30:19 -0800 (PST)
-Message-ID: <a48d6e38-e420-fb34-899d-7d933b384089@amsat.org>
-Date: Mon, 7 Feb 2022 11:30:18 +0100
+ Mon, 07 Feb 2022 02:33:26 -0800 (PST)
+Message-ID: <1ffffeca-a929-989d-f781-e5a19d6c4b97@amsat.org>
+Date: Mon, 7 Feb 2022 11:33:25 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
  Gecko/20100101 Thunderbird/91.5.1
-Subject: Re: [PATCH v4 09/11] 9p: darwin: Implement compatibility for mknodat
+Subject: Re: [PATCH qemu] Add TCG support for UMIP
 Content-Language: en-US
-To: Greg Kurz <groug@kaod.org>, Will Cohen <wwcohen@gmail.com>
-Cc: qemu-devel@nongnu.org, Laurent Vivier <lvivier@redhat.com>,
- Thomas Huth <thuth@redhat.com>,
- Christian Schoenebeck <qemu_oss@crudebyte.com>, hi@alyssa.is,
- Michael Roitzsch <reactorcontrol@icloud.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Keno Fischer <keno@juliacomputing.com>
-References: <20220206200719.74464-1-wwcohen@gmail.com>
- <20220206200719.74464-10-wwcohen@gmail.com>
- <b32f0267-c8b1-2e50-b81f-65289c89e802@amsat.org>
- <CAB26zV1ZmpODTqv20Ae77+SWvG5Cf1GWdi7FuR_L_aWjFcgfnA@mail.gmail.com>
- <20220207094717.5f92da9d@bahia>
-In-Reply-To: <20220207094717.5f92da9d@bahia>
+To: ~hildardorf <gareth.webb@umbralsoftware.co.uk>, qemu-devel@nongnu.org
+Cc: Eduardo Habkost <eduardo@habkost.net>, Paolo Bonzini
+ <pbonzini@redhat.com>, Richard Henderson <richard.henderson@linaro.org>
+References: <164418358722.9930.1215378989733447065-0@git.sr.ht>
+In-Reply-To: <164418358722.9930.1215378989733447065-0@git.sr.ht>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42a
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32c
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32c.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -106,22 +100,21 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
 From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
-On 7/2/22 09:47, Greg Kurz wrote:
-> On Sun, 6 Feb 2022 20:10:23 -0500
-> Will Cohen <wwcohen@gmail.com> wrote:
+On 6/2/22 20:16, ~hildardorf wrote:
+> From: Gareth Webb <gareth.webb@umbralsoftware.co.uk>
 > 
->> This patch set currently places it in 9p-util only because 9p is the only
->> place where this issue seems to have come up so far and we were wary of
->> editing files too far afield, but I have no attachment to its specific
->> location!
->>
-> 
-> Inline comments are preferred on qemu-devel. Please don't top post !
-> This complicates the review a lot.
-> 
-> This is indeed a good candidate for osdep. This being said, unless there's
-> some other user in the QEMU code base, it is acceptable to leave it under
-> 9pfs.
+> ---
+>   target/i386/cpu.c           |  2 +-
+>   target/i386/cpu.h           |  4 +++-
+>   target/i386/helper.c        |  8 +++++++-
+>   target/i386/tcg/translate.c | 12 ++++++++++++
+>   4 files changed, 23 insertions(+), 3 deletions(-)
+Thanks for posting in patch format via sourcehut :)
 
-virtiofsd could eventually use it.
+Beside Paolo's comment, you forgot to include your Signed-of-by tag:
+https://www.qemu.org/docs/master/devel/submitting-a-patch.html#patch-emails-must-include-a-signed-off-by-line
+
+Regards,
+
+Phil.
 
