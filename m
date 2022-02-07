@@ -2,73 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04DD74AC87F
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Feb 2022 19:24:49 +0100 (CET)
-Received: from localhost ([::1]:50962 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9ABB14AC832
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Feb 2022 19:07:06 +0100 (CET)
+Received: from localhost ([::1]:52648 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nH8gy-0007Cv-5h
-	for lists+qemu-devel@lfdr.de; Mon, 07 Feb 2022 13:24:48 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:42852)
+	id 1nH8Pp-0004ff-L1
+	for lists+qemu-devel@lfdr.de; Mon, 07 Feb 2022 13:07:05 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:43658)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nH7uB-000837-7F
- for qemu-devel@nongnu.org; Mon, 07 Feb 2022 12:34:25 -0500
-Received: from [2a00:1450:4864:20::430] (port=36539
- helo=mail-wr1-x430.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nH7u7-0007hI-Kg
- for qemu-devel@nongnu.org; Mon, 07 Feb 2022 12:34:22 -0500
-Received: by mail-wr1-x430.google.com with SMTP id i15so3768945wrb.3
- for <qemu-devel@nongnu.org>; Mon, 07 Feb 2022 09:34:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=sU0KP4W5nwhsy8Qd0XAZbxiNLH82BEYFHnL0QzVeSXw=;
- b=pwcmca+XTUtr6P40X6E1x0B7Evs1a724sdynQUc1dgItDMkxhbMi315eWm5gzE4L89
- IBHWWpwyhGG1zk3kdl6wR4gvdA8jr+l9TV/H6zjFnXv79bN7qNeaAB7v+kewf1uTU6xo
- f99rO/D/g3kMMuILQvG2yaoCELJ4awGqc1SbGndbz0MS9Y4QMHSlvm4D8OoPYFf6oVzy
- ntQe0qaUo72dQsZk1AbkAtFQ1OHf+ErDooODuL08+7+6149zCEnDg2hos63ZvRDAf0uk
- Zne9sCBjoG+UDwn536B5+Fuev6n30r3XDoefvCPl9jiXC9SpSYV2W9KKcWPKepdEsFow
- Davw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=sU0KP4W5nwhsy8Qd0XAZbxiNLH82BEYFHnL0QzVeSXw=;
- b=xWof05XCC6mSYRwYzpsMxAFyICSIbGUcpoxSeUIWaY42/KTq0jIl7v+xOULIG1oKGh
- 5r/8AvfBCgq7P9oCl7uA89e+agxFVjKeYNCejC0zDZL4l79QaVusAs//bxQ2YCsxWRMb
- Pe0aKUlBv3VkE2cdO2Rw/ftAnfbZu8MsQSoNa677UmHMT9tUByBAdI1vQGaXUdmaNZEH
- 2R9pTKbnDKw0E3k3EiUUXaiZNOwmB8rol64/VjMt7c1DfZw+DOr53ezPNR7iSTgr2LrD
- elPC4wk1mp2o6fYJTOeiFN5X8TaBz95/Ol8QPOrfi40mCZSvUfw8s04Aek+2aD6N653P
- zzSw==
-X-Gm-Message-State: AOAM533ADc4ztO6k2BG5rXegr2WA8PdELv8/TRhDqjiNFF8kIvO/axnm
- O4582aknQ7XyUUto3LgYoPl2m2taOXSqnM8VVNZrPw==
-X-Google-Smtp-Source: ABdhPJxrqD66rVkuubyJSz4C9oEYktmmjc6SkuDmD0bIopa0NUZAzFrIMQDgUYzc5QugPWTdc7aipaW5OUwTYqkZC40=
-X-Received: by 2002:a05:6000:15c7:: with SMTP id
- y7mr409099wry.319.1644255257352; 
- Mon, 07 Feb 2022 09:34:17 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1nH7xD-0003jT-1G
+ for qemu-devel@nongnu.org; Mon, 07 Feb 2022 12:37:33 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:41879)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1nH7x0-0008GY-LF
+ for qemu-devel@nongnu.org; Mon, 07 Feb 2022 12:37:21 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1644255438;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=3pFd9HQxvUOhpvOGbZQQjedYuUuO3lTd/qsLT7WDzT8=;
+ b=b28ZZqcJ2VaAD1YV6QGAXtThxScMJ5IzGpGCl+KK58nxOqC+6T6TZx+EUyxCgEcsrt/5Kp
+ MNZJlaKcwRJcbwPET5v3sUlue5sTGPz/mHJ6NTKhf3BTb3Ot9lj5mrJLelQUzKa+4EZUeJ
+ XgYgfDhgwbMcPi/bdfYixHVJg+PJoDA=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-394-QLzbQJguPmOgVNjmJE472g-1; Mon, 07 Feb 2022 12:37:15 -0500
+X-MC-Unique: QLzbQJguPmOgVNjmJE472g-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2FE6B1006AAB;
+ Mon,  7 Feb 2022 17:37:13 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.193.223])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 7B6F37745F;
+ Mon,  7 Feb 2022 17:36:14 +0000 (UTC)
+Date: Mon, 7 Feb 2022 18:36:13 +0100
+From: Kevin Wolf <kwolf@redhat.com>
+To: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+Subject: Re: [PATCH v6 22/33] block/coroutines: I/O API
+Message-ID: <YgFYjTr4aj7lmS7t@redhat.com>
+References: <20220121170544.2049944-1-eesposit@redhat.com>
+ <20220121170544.2049944-23-eesposit@redhat.com>
 MIME-Version: 1.0
-References: <20220206014120.2871459-1-venture@google.com>
-In-Reply-To: <20220206014120.2871459-1-venture@google.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 7 Feb 2022 17:34:06 +0000
-Message-ID: <CAFEAcA_k0y3gtzpi_0JG7TM=VaAa8+mb=tLSu7UHCRYhDWajZg@mail.gmail.com>
-Subject: Re: [PATCH v2] tests/qtest: add qtests for npcm7xx sdhci
-To: Patrick Venture <venture@google.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::430
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::430;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x430.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+In-Reply-To: <20220121170544.2049944-23-eesposit@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -81,36 +77,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: lvivier@redhat.com, thuth@redhat.com, Shengtan Mao <stmao@google.com>,
- qemu-devel@nongnu.org, hskinnemoen@google.com, Hao Wu <wuhaotsh@google.com>,
- kfting@nuvoton.com, qemu-arm@nongnu.org, pbonzini@redhat.com,
- Chris Rauer <crauer@google.com>
+Cc: Fam Zheng <fam@euphon.net>, qemu-devel@nongnu.org,
+ "Denis V. Lunev" <den@openvz.org>, Eric Blake <eblake@redhat.com>,
+ qemu-block@nongnu.org, Juan Quintela <quintela@redhat.com>,
+ Daniel Henrique Barboza <danielhb413@gmail.com>,
+ Markus Armbruster <armbru@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, Greg Kurz <groug@kaod.org>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>,
+ Stefan Hajnoczi <stefanha@redhat.com>, John Snow <jsnow@redhat.com>,
+ David Gibson <david@gibson.dropbear.id.au>,
+ Eduardo Habkost <eduardo@habkost.net>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>,
+ Hanna Reitz <hreitz@redhat.com>, qemu-ppc@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, 6 Feb 2022 at 01:41, Patrick Venture <venture@google.com> wrote:
->
-> From: Shengtan Mao <stmao@google.com>
->
-> Reviewed-by: Hao Wu <wuhaotsh@google.com>
-> Reviewed-by: Chris Rauer <crauer@google.com>
-> Signed-off-by: Shengtan Mao <stmao@google.com>
-> Signed-off-by: Patrick Venture <venture@google.com>
+Am 21.01.2022 um 18:05 hat Emanuele Giuseppe Esposito geschrieben:
+> block coroutines functions run in different aiocontext, and are
+> not protected by the BQL. Therefore are I/O.
+> 
+> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+> Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
+> Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 > ---
-> v2:
->  * update copyright year
->  * check result of open
->  * use g_free instead of free
->  * move declarations to the top
->  * use g_file_open_tmp
+>  block/coroutines.h | 6 ++++++
+>  1 file changed, 6 insertions(+)
+> 
+> diff --git a/block/coroutines.h b/block/coroutines.h
+> index c8c14a29c8..c61abd271a 100644
+> --- a/block/coroutines.h
+> +++ b/block/coroutines.h
+> @@ -29,6 +29,12 @@
+>  
+>  /* For blk_bs() in generated block/block-gen.c */
+>  #include "sysemu/block-backend.h"
+> +/*
+> + * I/O API functions. These functions are thread-safe.
+> + *
+> + * See include/block/block-io.h for more information about
+> + * the I/O API.
+> + */
 
-Fails to compile:
+Please keep an empty line between #include and the rest.
 
-../../tests/qtest/npcm7xx_sdhci-test.c:121:32: error: use of
-undeclared identifier 'NPCM7XX_REG_SIZE'
-    uint64_t end_addr = addr + NPCM7XX_REG_SIZE;
-                               ^
+As discussed in patch 2, this file will need some rearrangement.
+Generally, the coroutine_fn is indeed I/O, but the generated_co_wrapper
+is mixed "I/O or GS" and requires the BQL or a specific iothread.
 
+Kevin
 
--- PMM
 
