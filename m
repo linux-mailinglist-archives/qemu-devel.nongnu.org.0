@@ -2,88 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E8DD4ABE8F
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Feb 2022 13:25:51 +0100 (CET)
-Received: from localhost ([::1]:54310 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 39CC74ABE90
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Feb 2022 13:27:00 +0100 (CET)
+Received: from localhost ([::1]:56306 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nH35a-00078R-Js
-	for lists+qemu-devel@lfdr.de; Mon, 07 Feb 2022 07:25:50 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:59116)
+	id 1nH36g-00007c-Hu
+	for lists+qemu-devel@lfdr.de; Mon, 07 Feb 2022 07:26:58 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:59264)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1nH33u-0006N9-Nl
- for qemu-devel@nongnu.org; Mon, 07 Feb 2022 07:24:07 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:59693)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1nH33r-0001tj-1H
- for qemu-devel@nongnu.org; Mon, 07 Feb 2022 07:24:05 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1644236641;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ (Exim 4.90_1) (envelope-from <vbabka@suse.cz>) id 1nH34a-000728-Ss
+ for qemu-devel@nongnu.org; Mon, 07 Feb 2022 07:24:48 -0500
+Received: from smtp-out2.suse.de ([195.135.220.29]:56404)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <vbabka@suse.cz>) id 1nH34Y-0001wD-KE
+ for qemu-devel@nongnu.org; Mon, 07 Feb 2022 07:24:48 -0500
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 9B67F1F390;
+ Mon,  7 Feb 2022 12:24:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+ t=1644236683; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=k0PEBSxsuHU6K9DFv00S1pbmAreKWZjfdaIUvfisETM=;
- b=PELOgXIAyt1+7tNz3sPrzg29Bw1RGwdomwofuKsJuU8T/BH49mUZ9bFI8eW3CZPfy14u0l
- GbYl0nIJEJSS0qnDFSLFuUhKGYxSumJSTd0Cx1fdDrgnEWDwVKXjAPzy/aTtcBMPUTpVnV
- qTlLxOh0G+Gn92yG70r0X7a/v7o/tB4=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-84-ko2UcvY6OVKB6hYuhnDXdA-1; Mon, 07 Feb 2022 07:24:00 -0500
-X-MC-Unique: ko2UcvY6OVKB6hYuhnDXdA-1
-Received: by mail-wm1-f72.google.com with SMTP id
- l16-20020a7bcf10000000b0034ffdd81e7aso5581940wmg.4
- for <qemu-devel@nongnu.org>; Mon, 07 Feb 2022 04:24:00 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=k0PEBSxsuHU6K9DFv00S1pbmAreKWZjfdaIUvfisETM=;
- b=t+wg5Qly3S4aZ0/Tzehv1gGA3R1ANMax0tUf2D/nU9tjSfhd+GAkUPb6bi2nTTk/q9
- 9pJnPRe3gH1K4MC/zsEU9++wtJFK6HSGjDwYcCkYyQAFRMtS6qmOrxG7NkugougNXnYd
- pbsOpvWWkHFQrtLhPzA1LwWb9Rk0tIVzPUXmXKS/fw9NMnI9Q/FFUExkvCchgZYqO+rk
- fSnp9C3ALhwKYe09LnfJAqzgfzWlliNICmtySw7XHfbXx7b/Fucnw7bF/JWRw1gKfub4
- RNVhvAqL6b23VV8wyK5pIDJ8ues+aTIX2XTKE8/y2dzTccIaIe3ENHkl/uiVvCIdeFhT
- 6UUA==
-X-Gm-Message-State: AOAM530AFCfujs+eIgBmk9+WaKFtaRGHosoXruld3DgCl+jBWky3W0Bx
- nY9tEXyVXIE1QnfRbZv4phs9fEO42taOU20hXXrVKslnUpKjpOnSwtECxOX+UtnQGt1qhOGmMMr
- Bnu2Dp1OvNDGYShw=
-X-Received: by 2002:a5d:458d:: with SMTP id p13mr10118474wrq.580.1644236639431; 
- Mon, 07 Feb 2022 04:23:59 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxOAPfSA5UnaqsBDnBDpUQxWh4ofJcYJkor5ybGSlgw9vsNrFI0YWGAZCqtdRySv2C1p+BSQA==
-X-Received: by 2002:a5d:458d:: with SMTP id p13mr10118458wrq.580.1644236639196; 
- Mon, 07 Feb 2022 04:23:59 -0800 (PST)
-Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
- [82.30.61.225])
- by smtp.gmail.com with ESMTPSA id l10sm9742290wrz.20.2022.02.07.04.23.58
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 07 Feb 2022 04:23:58 -0800 (PST)
-Date: Mon, 7 Feb 2022 12:23:56 +0000
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Vivek Goyal <vgoyal@redhat.com>
-Subject: Re: [PATCH v5 8/9] virtiofsd: Create new file using O_TMPFILE and
- set security context
-Message-ID: <YgEPXBy6bPfCPjc1@work-vm>
-References: <20220202193935.268777-1-vgoyal@redhat.com>
- <20220202193935.268777-9-vgoyal@redhat.com>
+ bh=ua1slhO3tu08xV7nWywNOiJcEeO08Yt5cZK027Ezf3k=;
+ b=nqOMyxSjLMJbw6hGT7aanNF6FeXa6FgYOuO77ErGEuJACVK/WzQrAuxx4D21488QVNhJuX
+ M+sLFDEPq88gwTDe26b9nVE+8dD+rccnKtBCMorKDcqUMR/hUGcHCEQDFi9AQT2nbVRY6T
+ L9BFC+P98Kw1UD74kp27KbhpGlpRgMg=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+ s=susede2_ed25519; t=1644236683;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ua1slhO3tu08xV7nWywNOiJcEeO08Yt5cZK027Ezf3k=;
+ b=Ig+IalBCscALNaeSnDxlQzpZStR+QTv+QgbHxgBVrWcg56NLco/bfe/fTeu43aME0FqSGV
+ EH9EbjksryG48uCQ==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 239E113BBC;
+ Mon,  7 Feb 2022 12:24:43 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id K8/ABosPAWKEfgAAMHmgww
+ (envelope-from <vbabka@suse.cz>); Mon, 07 Feb 2022 12:24:43 +0000
+Message-ID: <64407833-1387-0c46-c569-8b6a3db8e88c@suse.cz>
+Date: Mon, 7 Feb 2022 13:24:42 +0100
 MIME-Version: 1.0
-In-Reply-To: <20220202193935.268777-9-vgoyal@redhat.com>
-User-Agent: Mutt/2.1.5 (2021-12-30)
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.1
+Content-Language: en-US
+To: Chao Peng <chao.p.peng@linux.intel.com>, kvm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+ linux-fsdevel@vger.kernel.org, qemu-devel@nongnu.org
+References: <20220118132121.31388-1-chao.p.peng@linux.intel.com>
+ <20220118132121.31388-2-chao.p.peng@linux.intel.com>
+From: Vlastimil Babka <vbabka@suse.cz>
+Subject: Re: [PATCH v4 01/12] mm/shmem: Introduce F_SEAL_INACCESSIBLE
+In-Reply-To: <20220118132121.31388-2-chao.p.peng@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=195.135.220.29; envelope-from=vbabka@suse.cz;
+ helo=smtp-out2.suse.de
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -98,174 +87,151 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: virtio-fs@redhat.com, mszeredi@redhat.com, qemu-devel@nongnu.org
+Cc: Wanpeng Li <wanpengli@tencent.com>, luto@kernel.org, david@redhat.com,
+ "J . Bruce Fields" <bfields@fieldses.org>, dave.hansen@intel.com,
+ "H . Peter Anvin" <hpa@zytor.com>, ak@linux.intel.com,
+ Jonathan Corbet <corbet@lwn.net>, Joerg Roedel <joro@8bytes.org>,
+ x86@kernel.org, Hugh Dickins <hughd@google.com>,
+ Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+ jun.nakajima@intel.com, Thomas Gleixner <tglx@linutronix.de>,
+ Vitaly Kuznetsov <vkuznets@redhat.com>, Jim Mattson <jmattson@google.com>,
+ Sean Christopherson <seanjc@google.com>, Jeff Layton <jlayton@kernel.org>,
+ Yu Zhang <yu.c.zhang@linux.intel.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Vivek Goyal (vgoyal@redhat.com) wrote:
-> If guest and host policies can't work with each other, then guest security
-> context (selinux label) needs to be set into an xattr. Say remap guest
-> security.selinux xattr to trusted.virtiofs.security.selinux.
+On 1/18/22 14:21, Chao Peng wrote:
+> From: "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
 > 
-> That means setting "fscreate" is not going to help as that's ony useful
-> for security.selinux xattr on host.
+> Introduce a new seal F_SEAL_INACCESSIBLE indicating the content of
+> the file is inaccessible from userspace through ordinary MMU access
+> (e.g., read/write/mmap). However, the file content can be accessed
+> via a different mechanism (e.g. KVM MMU) indirectly.
 > 
-> So we need another method which is atomic. Use O_TMPFILE to create new
-> file, set xattr and then linkat() to proper place.
+> It provides semantics required for KVM guest private memory support
+> that a file descriptor with this seal set is going to be used as the
+> source of guest memory in confidential computing environments such
+> as Intel TDX/AMD SEV but may not be accessible from host userspace.
 > 
-> But this works only for regular files. So dir, symlinks will continue
-> to be non-atomic.
+> At this time only shmem implements this seal.
 > 
-> Also if host filesystem does not support O_TMPFILE, we fallback to
-> non-atomic behavior.
-> 
-> Signed-off-by: Vivek Goyal <vgoyal@redhat.com>
-
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-
+> Signed-off-by: Kirill A. Shutemov <kirill.shutemov@linux.intel.com>
+> Signed-off-by: Chao Peng <chao.p.peng@linux.intel.com>
 > ---
->  tools/virtiofsd/passthrough_ll.c | 80 ++++++++++++++++++++++++++++----
->  1 file changed, 72 insertions(+), 8 deletions(-)
+>  include/uapi/linux/fcntl.h |  1 +
+>  mm/shmem.c                 | 40 ++++++++++++++++++++++++++++++++++++--
+>  2 files changed, 39 insertions(+), 2 deletions(-)
 > 
-> diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrough_ll.c
-> index acb99aa2fc..43c9b6dbe5 100644
-> --- a/tools/virtiofsd/passthrough_ll.c
-> +++ b/tools/virtiofsd/passthrough_ll.c
-> @@ -2153,14 +2153,29 @@ static int lo_do_open(struct lo_data *lo, struct lo_inode *inode,
+> diff --git a/include/uapi/linux/fcntl.h b/include/uapi/linux/fcntl.h
+> index 2f86b2ad6d7e..09ef34754dfa 100644
+> --- a/include/uapi/linux/fcntl.h
+> +++ b/include/uapi/linux/fcntl.h
+> @@ -43,6 +43,7 @@
+>  #define F_SEAL_GROW	0x0004	/* prevent file from growing */
+>  #define F_SEAL_WRITE	0x0008	/* prevent writes */
+>  #define F_SEAL_FUTURE_WRITE	0x0010  /* prevent future writes while mapped */
+> +#define F_SEAL_INACCESSIBLE	0x0020  /* prevent ordinary MMU access (e.g. read/write/mmap) to file content */
+>  /* (1U << 31) is reserved for signed error codes */
 >  
->  static int do_create_nosecctx(fuse_req_t req, struct lo_inode *parent_inode,
->                                 const char *name, mode_t mode,
-> -                               struct fuse_file_info *fi, int *open_fd)
-> +                               struct fuse_file_info *fi, int *open_fd,
-> +                              bool tmpfile)
->  {
->      int err, fd;
->      struct lo_cred old = {};
->      struct lo_data *lo = lo_data(req);
->      int flags;
+>  /*
+> diff --git a/mm/shmem.c b/mm/shmem.c
+> index 18f93c2d68f1..72185630e7c4 100644
+> --- a/mm/shmem.c
+> +++ b/mm/shmem.c
+> @@ -1098,6 +1098,13 @@ static int shmem_setattr(struct user_namespace *mnt_userns,
+>  		    (newsize > oldsize && (info->seals & F_SEAL_GROW)))
+>  			return -EPERM;
 >  
-> -    flags = fi->flags | O_CREAT | O_EXCL;
-> +    if (tmpfile) {
-> +        flags = fi->flags | O_TMPFILE;
-> +        /*
-> +         * Don't use O_EXCL as we want to link file later. Also reset O_CREAT
-> +         * otherwise openat() returns -EINVAL.
-> +         */
-> +        flags &= ~(O_CREAT | O_EXCL);
+> +		if (info->seals & F_SEAL_INACCESSIBLE) {
+> +			if(i_size_read(inode))
+
+Is this needed? The rest of the function seems to trust oldsize obtained by
+plain reading inode->i_size well enough, so why be suddenly paranoid here?
+
+> +				return -EPERM;
+> +			if (newsize & ~PAGE_MASK)
+> +				return -EINVAL;
+> +		}
 > +
-> +        /* O_TMPFILE needs either O_RDWR or O_WRONLY */
-> +        if ((flags & O_ACCMODE) == O_RDONLY) {
-> +            flags |= O_RDWR;
-> +        }
-> +    } else {
-> +        flags = fi->flags | O_CREAT | O_EXCL;
-> +    }
+>  		if (newsize != oldsize) {
+>  			error = shmem_reacct_size(SHMEM_I(inode)->flags,
+>  					oldsize, newsize);
+> @@ -1364,6 +1371,8 @@ static int shmem_writepage(struct page *page, struct writeback_control *wbc)
+>  		goto redirty;
+>  	if (!total_swap_pages)
+>  		goto redirty;
+> +	if (info->seals & F_SEAL_INACCESSIBLE)
+> +		goto redirty;
 >  
->      err = lo_change_cred(req, &old, lo->change_umask);
->      if (err) {
-> @@ -2191,7 +2206,7 @@ static int do_create_secctx_fscreate(fuse_req_t req,
->          return err;
->      }
+>  	/*
+>  	 * Our capabilities prevent regular writeback or sync from ever calling
+> @@ -2262,6 +2271,9 @@ static int shmem_mmap(struct file *file, struct vm_area_struct *vma)
+>  	if (ret)
+>  		return ret;
 >  
-> -    err = do_create_nosecctx(req, parent_inode, name, mode, fi, &fd);
-> +    err = do_create_nosecctx(req, parent_inode, name, mode, fi, &fd, false);
->  
->      close_reset_proc_fscreate(fscreate_fd);
->      if (!err) {
-> @@ -2200,6 +2215,44 @@ static int do_create_secctx_fscreate(fuse_req_t req,
->      return err;
->  }
->  
-> +static int do_create_secctx_tmpfile(fuse_req_t req,
-> +                                    struct lo_inode *parent_inode,
-> +                                    const char *name, mode_t mode,
-> +                                    struct fuse_file_info *fi,
-> +                                    const char *secctx_name, int *open_fd)
-> +{
-> +    int err, fd = -1;
-> +    struct lo_data *lo = lo_data(req);
-> +    char procname[64];
+> +	if (info->seals & F_SEAL_INACCESSIBLE)
+> +		return -EPERM;
 > +
-> +    err = do_create_nosecctx(req, parent_inode, ".", mode, fi, &fd, true);
-> +    if (err) {
-> +        return err;
-> +    }
-> +
-> +    err = fsetxattr(fd, secctx_name, req->secctx.ctx, req->secctx.ctxlen, 0);
-> +    if (err) {
-> +        err = errno;
-> +        goto out;
-> +    }
-> +
-> +    /* Security context set on file. Link it in place */
-> +    sprintf(procname, "%d", fd);
-> +    FCHDIR_NOFAIL(lo->proc_self_fd);
-> +    err = linkat(AT_FDCWD, procname, parent_inode->fd, name,
-> +                 AT_SYMLINK_FOLLOW);
-> +    err = err == -1 ? errno : 0;
-> +    FCHDIR_NOFAIL(lo->root.fd);
-> +
-> +out:
-> +    if (!err) {
-> +        *open_fd = fd;
-> +    } else if (fd != -1) {
-> +        close(fd);
-> +    }
-> +    return err;
-> +}
-> +
->  static int do_create_secctx_noatomic(fuse_req_t req,
->                                       struct lo_inode *parent_inode,
->                                       const char *name, mode_t mode,
-> @@ -2208,7 +2261,7 @@ static int do_create_secctx_noatomic(fuse_req_t req,
->  {
->      int err = 0, fd = -1;
+>  	/* arm64 - allow memory tagging on RAM-based files */
+>  	vma->vm_flags |= VM_MTE_ALLOWED;
 >  
-> -    err = do_create_nosecctx(req, parent_inode, name, mode, fi, &fd);
-> +    err = do_create_nosecctx(req, parent_inode, name, mode, fi, &fd, false);
->      if (err) {
->          goto out;
->      }
-> @@ -2250,20 +2303,31 @@ static int do_lo_create(fuse_req_t req, struct lo_inode *parent_inode,
->      if (secctx_enabled) {
->          /*
->           * If security.selinux has not been remapped and selinux is enabled,
-> -         * use fscreate to set context before file creation.
-> -         * Otherwise fallback to non-atomic method of file creation
-> -         * and xattr settting.
-> +         * use fscreate to set context before file creation. If not, use
-> +         * tmpfile method for regular files. Otherwise fallback to
-> +         * non-atomic method of file creation and xattr settting.
->           */
->          if (!mapped_name && lo->use_fscreate) {
->              err = do_create_secctx_fscreate(req, parent_inode, name, mode, fi,
->                                              open_fd);
->              goto out;
-> +        } else if (S_ISREG(mode)) {
-> +            err = do_create_secctx_tmpfile(req, parent_inode, name, mode, fi,
-> +                                           ctxname, open_fd);
-> +            /*
-> +             * If filesystem does not support O_TMPFILE, fallback to non-atomic
-> +             * method.
-> +             */
-> +            if (!err || err != EOPNOTSUPP) {
-> +                goto out;
-> +            }
->          }
+> @@ -2459,12 +2471,15 @@ shmem_write_begin(struct file *file, struct address_space *mapping,
+>  	pgoff_t index = pos >> PAGE_SHIFT;
 >  
->          err = do_create_secctx_noatomic(req, parent_inode, name, mode, fi,
->                                          ctxname, open_fd);
->      } else {
-> -        err = do_create_nosecctx(req, parent_inode, name, mode, fi, open_fd);
-> +        err = do_create_nosecctx(req, parent_inode, name, mode, fi, open_fd,
-> +                                 false);
->      }
+>  	/* i_rwsem is held by caller */
+> -	if (unlikely(info->seals & (F_SEAL_GROW |
+> -				   F_SEAL_WRITE | F_SEAL_FUTURE_WRITE))) {
+> +	if (unlikely(info->seals & (F_SEAL_GROW | F_SEAL_WRITE |
+> +				    F_SEAL_FUTURE_WRITE |
+> +				    F_SEAL_INACCESSIBLE))) {
+>  		if (info->seals & (F_SEAL_WRITE | F_SEAL_FUTURE_WRITE))
+>  			return -EPERM;
+>  		if ((info->seals & F_SEAL_GROW) && pos + len > inode->i_size)
+>  			return -EPERM;
+> +		if (info->seals & F_SEAL_INACCESSIBLE)
+> +			return -EPERM;
+>  	}
 >  
->  out:
-> -- 
-> 2.34.1
-> 
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+>  	return shmem_getpage(inode, index, pagep, SGP_WRITE);
+> @@ -2538,6 +2553,21 @@ static ssize_t shmem_file_read_iter(struct kiocb *iocb, struct iov_iter *to)
+>  		end_index = i_size >> PAGE_SHIFT;
+>  		if (index > end_index)
+>  			break;
+> +
+> +		/*
+> +		 * inode_lock protects setting up seals as well as write to
+> +		 * i_size. Setting F_SEAL_INACCESSIBLE only allowed with
+> +		 * i_size == 0.
+> +		 *
+> +		 * Check F_SEAL_INACCESSIBLE after i_size. It effectively
+> +		 * serialize read vs. setting F_SEAL_INACCESSIBLE without
+> +		 * taking inode_lock in read path.
+> +		 */
+> +		if (SHMEM_I(inode)->seals & F_SEAL_INACCESSIBLE) {
+> +			error = -EPERM;
+> +			break;
+> +		}
+> +
+>  		if (index == end_index) {
+>  			nr = i_size & ~PAGE_MASK;
+>  			if (nr <= offset)
+> @@ -2663,6 +2693,12 @@ static long shmem_fallocate(struct file *file, int mode, loff_t offset,
+>  			goto out;
+>  		}
+>  
+> +		if ((info->seals & F_SEAL_INACCESSIBLE) &&
+> +		    (offset & ~PAGE_MASK || len & ~PAGE_MASK)) {
+
+Could we use PAGE_ALIGNED()?
+
+> +			error = -EINVAL;
+> +			goto out;
+> +		}
+> +
+>  		shmem_falloc.waitq = &shmem_falloc_waitq;
+>  		shmem_falloc.start = (u64)unmap_start >> PAGE_SHIFT;
+>  		shmem_falloc.next = (unmap_end + 1) >> PAGE_SHIFT;
 
 
