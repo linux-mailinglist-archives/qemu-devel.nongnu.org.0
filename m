@@ -2,58 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5EE944AC1E4
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Feb 2022 15:54:11 +0100 (CET)
-Received: from localhost ([::1]:34528 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 323544AC289
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Feb 2022 16:09:42 +0100 (CET)
+Received: from localhost ([::1]:52724 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nH5P7-0003ZY-TI
-	for lists+qemu-devel@lfdr.de; Mon, 07 Feb 2022 09:54:09 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:36792)
+	id 1nH5e9-0008RC-B9
+	for lists+qemu-devel@lfdr.de; Mon, 07 Feb 2022 10:09:41 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:58704)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1nH5Ix-0005xI-7K
- for qemu-devel@nongnu.org; Mon, 07 Feb 2022 09:47:47 -0500
-Received: from kylie.crudebyte.com ([5.189.157.229]:42511)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1nH5Iv-00026X-1n
- for qemu-devel@nongnu.org; Mon, 07 Feb 2022 09:47:46 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
- MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
- Content-ID:Content-Description;
- bh=XHwZTDxhOM8sBauV61Keb5jgCSq3ErV9D5cFWSqa3dw=; b=g/gVakh0owYEkuw0mPUDpm3Kx6
- D7NWkvQ/pS1hMoSQQK2Ud01/M6E/3K3X2bhrkOH5oxyy2cwgpb6NQTrrO+fnmslF0vLxyjTj3E5w3
- MsyNaWFDldo1QRCPjP0BhhT523YvZlhSkqvN2wsolQ1hTXWglrS1bX32i5XW6OI5IMAuWiqUFKvoG
- 2DD04q4OBSxgc07EStHd+09RvF0S97faWQ2iTPF9Vif5BWkM7FcvnJSJraCDfmMG3JsZoQOjX2oE8
- AfCn3gyCFTfqbS8cxWOY0NE3/niqCMZhG8Xf5WF9cwyx/kaWh7smqJsln+Tu5gwXM4PwXHpR9Avwk
- cDFJpt8Ed83yLt3px+LRuT/UvqxHR/LBCH1CFTgImNukWNCNAOy49h6zq9pYJbw28w/SWuGH4X1iq
- wl1VEsgb63PQnMrXhoBxPnFDuP53wT5w4aRbvP9/zJ/UmX4zmjSPFXgH7XoTUlUT2vMwAYl+Q334b
- PCypEuW8Kiw10O/oXGihSWJpfhH5SBjmnYWN+JN0dlCohRD8iuKcWYTXNavl9S5w8z8Lh6V32maO6
- z2tALFA2lnIu4bnvCkXlpA3LYdOlDIru7p+8xxOJbuOtgsO05Cm192vDGF86zsV50M4SVOawhdO+P
- UqjzTOop8N0yecJpba121K64VWTgZifHVtdAG+w5c=;
-From: Christian Schoenebeck <qemu_oss@crudebyte.com>
-To: Will Cohen <wwcohen@gmail.com>
-Cc: qemu-devel@nongnu.org, Laurent Vivier <lvivier@redhat.com>, hi@alyssa.is,
- Thomas Huth <thuth@redhat.com>, Greg Kurz <groug@kaod.org>,
- Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH v4 00/11] 9p: Add support for darwin
-Date: Mon, 07 Feb 2022 15:47:36 +0100
-Message-ID: <2607115.euRFimgOtO@silver>
-In-Reply-To: <20220206200719.74464-1-wwcohen@gmail.com>
-References: <20220206200719.74464-1-wwcohen@gmail.com>
+ (Exim 4.90_1) (envelope-from <agraf@csgraf.de>)
+ id 1nH4yI-0005JJ-VF; Mon, 07 Feb 2022 09:26:27 -0500
+Received: from mail.csgraf.de ([85.25.223.15]:33714 helo=zulu616.server4you.de)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <agraf@csgraf.de>)
+ id 1nH4yB-0006Gy-JB; Mon, 07 Feb 2022 09:26:24 -0500
+Received: from [0.0.0.0] (ec2-3-122-114-9.eu-central-1.compute.amazonaws.com
+ [3.122.114.9]) by csgraf.de (Postfix) with ESMTPSA id 510C36080D88;
+ Mon,  7 Feb 2022 15:26:12 +0100 (CET)
+Message-ID: <76af11e5-8727-86da-cd09-d15002dc0427@csgraf.de>
+Date: Mon, 7 Feb 2022 15:26:11 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=5.189.157.229;
- envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.5.1
+Subject: Re: [PATCH 07/16] hw/arm/versal: Let boot.c handle PSCI enablement
+To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org
+References: <20220127154639.2090164-1-peter.maydell@linaro.org>
+ <20220127154639.2090164-8-peter.maydell@linaro.org>
+From: Alexander Graf <agraf@csgraf.de>
+In-Reply-To: <20220127154639.2090164-8-peter.maydell@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=85.25.223.15; envelope-from=agraf@csgraf.de;
+ helo=zulu616.server4you.de
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -66,79 +54,122 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Eduardo Habkost <eduardo@habkost.net>,
+ Beniamino Galvani <b.galvani@gmail.com>,
+ Alistair Francis <alistair@alistair23.me>, Rob Herring <robh@kernel.org>,
+ Andrew Jeffery <andrew@aj.id.au>, Andre Przywara <andre.przywara@arm.com>,
+ Tyrone Ting <kfting@nuvoton.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ Jean-Christophe Dubois <jcd@tribudubois.net>,
+ Yanan Wang <wangyanan55@huawei.com>, Igor Mitsyanko <i.mitsyanko@gmail.com>,
+ Niek Linnenbank <nieklinnenbank@gmail.com>,
+ Stefano Stabellini <sstabellini@kernel.org>,
+ =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ Havard Skinnemoen <hskinnemoen@google.com>,
+ Andrey Smirnov <andrew.smirnov@gmail.com>,
+ Michal Simek <michal.simek@xilinx.com>, Joel Stanley <joel@jms.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sonntag, 6. Februar 2022 21:07:08 CET Will Cohen wrote:
-> This is a followup to
-> https://lists.nongnu.org/archive/html/qemu-devel/2022-01/msg05993.html,
-> adding 9p server support for Darwin.
->=20
-> Since v3, the following changes have been made:
->=20
-> - Move XATTR_SIZE_MAX to P9_XATTR_SIZE MAX in 9p.h, and provide explanato=
-ry
-> context as preliminary solution - Add explanatory note surrounding
-> virtio-9p-test with output of pre-patch failing test - Remove superfluous
-> header guards from file-opt-9p
-> - Add note about virtfs-proxy-helper being disabled on non-linux for this
-> patch series - Note radar filed with Apple for missing mknodat syscall
-> - Replace direct syscall to pthread_fchdir with pthread_fchdir_np, and add
-> check for this function=E2=80=99s presence in meson - Ensure that d_seeko=
-ff is
-> filled using telldir on darwin, and create qemu_dirent_off helper to deci=
-de
-> which to access. - Ensure that [amc]tim.tv_sec are all initialized
-> alongside [amc]tim.tv_nsec in 9p-proxy - Ensure that all patch email
-> addresses are valid
-> - Add telldir error handling for dirent on darwin
 
-As this series already has seen some revisions and is on a good way to beco=
-me=20
-queued soon: it is helpful to immediately see here which patches exactly go=
-t=20
-changed, because some of the patches already look fine.
-
-=46or already reviewed patches that you won't change: you can take over peo=
-ple's=20
-reviewed-by tags in the next revision.
-
-Best regards,
-Christian Schoenebeck
-
-> Keno Fischer (10):
->   9p: linux: Fix a couple Linux assumptions
->   9p: Rename 9p-util -> 9p-util-linux
->   9p: darwin: Handle struct stat(fs) differences
->   9p: darwin: Handle struct dirent differences
->   9p: darwin: Ignore O_{NOATIME, DIRECT}
->   9p: darwin: Move XATTR_SIZE_MAX->P9_XATTR_SIZE_MAX
->   9p: darwin: *xattr_nofollow implementations
->   9p: darwin: Compatibility for f/l*xattr
->   9p: darwin: Implement compatibility for mknodat
->   9p: darwin: meson: Allow VirtFS on Darwin
->=20
-> Will Cohen (1):
->   9p: darwin: Adjust assumption on virtio-9p-test
->=20
->  fsdev/file-op-9p.h                     |  9 ++-
->  fsdev/meson.build                      |  1 +
->  hw/9pfs/9p-local.c                     | 28 ++++++--
->  hw/9pfs/9p-proxy.c                     | 38 ++++++++++-
->  hw/9pfs/9p-synth.c                     |  6 ++
->  hw/9pfs/9p-util-darwin.c               | 91 ++++++++++++++++++++++++++
->  hw/9pfs/{9p-util.c =3D> 9p-util-linux.c} |  7 +-
->  hw/9pfs/9p-util.h                      | 38 +++++++++++
->  hw/9pfs/9p.c                           | 50 ++++++++++++--
->  hw/9pfs/9p.h                           | 11 ++++
->  hw/9pfs/codir.c                        |  7 ++
->  hw/9pfs/meson.build                    |  3 +-
->  include/qemu/xattr.h                   |  4 +-
->  meson.build                            | 14 ++--
->  tests/qtest/virtio-9p-test.c           |  2 +-
->  15 files changed, 285 insertions(+), 24 deletions(-)
->  create mode 100644 hw/9pfs/9p-util-darwin.c
->  rename hw/9pfs/{9p-util.c =3D> 9p-util-linux.c} (90%)
+On 27.01.22 16:46, Peter Maydell wrote:
+> Instead of setting the CPU psci-conduit and start-powered-off
+> properties in the xlnx-versal-virt board code, set the arm_boot_info
+> psci_conduit field so that the boot.c code can do it.
+>
+> This will fix a corner case where we were incorrectly enabling PSCI
+> emulation when booting guest code into EL3 because it was an ELF file
+> passed to -kernel.  (EL3 guest code started via -bios, -pflash, or
+> the generic loader was already being run with PSCI emulation
+> disabled.)
+>
+> Note that EL3 guest code has no way to turn on the secondary CPUs
+> because there's no emulated power controller, but this was already
+> true for EL3 guest code run via -bios, -pflash, or the generic
+> loader.
+>
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 
 
+Let's try with the same CCs here too - Versal uses the same mechanism as 
+ZynqMP :)
+
+
+Alex
+
+
+> ---
+>   include/hw/arm/xlnx-versal.h | 1 -
+>   hw/arm/xlnx-versal-virt.c    | 6 ++++--
+>   hw/arm/xlnx-versal.c         | 5 +----
+>   3 files changed, 5 insertions(+), 7 deletions(-)
+>
+> diff --git a/include/hw/arm/xlnx-versal.h b/include/hw/arm/xlnx-versal.h
+> index 895ba12c61e..2de487564e4 100644
+> --- a/include/hw/arm/xlnx-versal.h
+> +++ b/include/hw/arm/xlnx-versal.h
+> @@ -89,7 +89,6 @@ struct Versal {
+>   
+>       struct {
+>           MemoryRegion *mr_ddr;
+> -        uint32_t psci_conduit;
+>       } cfg;
+>   };
+>   
+> diff --git a/hw/arm/xlnx-versal-virt.c b/hw/arm/xlnx-versal-virt.c
+> index 0c5edc898e1..1b25342501b 100644
+> --- a/hw/arm/xlnx-versal-virt.c
+> +++ b/hw/arm/xlnx-versal-virt.c
+> @@ -626,6 +626,9 @@ static void versal_virt_init(MachineState *machine)
+>        * When loading an OS, we turn on QEMU's PSCI implementation with SMC
+>        * as the PSCI conduit. When there's no -kernel, we assume the user
+>        * provides EL3 firmware to handle PSCI.
+> +     *
+> +     * Even if the user provides a kernel filename, arm_load_kernel()
+> +     * may suppress PSCI if it's going to boot that guest code at EL3.
+>        */
+>       if (machine->kernel_filename) {
+>           psci_conduit = QEMU_PSCI_CONDUIT_SMC;
+> @@ -635,8 +638,6 @@ static void versal_virt_init(MachineState *machine)
+>                               TYPE_XLNX_VERSAL);
+>       object_property_set_link(OBJECT(&s->soc), "ddr", OBJECT(machine->ram),
+>                                &error_abort);
+> -    object_property_set_int(OBJECT(&s->soc), "psci-conduit", psci_conduit,
+> -                            &error_abort);
+>       sysbus_realize(SYS_BUS_DEVICE(&s->soc), &error_fatal);
+>   
+>       fdt_create(s);
+> @@ -677,6 +678,7 @@ static void versal_virt_init(MachineState *machine)
+>       s->binfo.loader_start = 0x0;
+>       s->binfo.get_dtb = versal_virt_get_dtb;
+>       s->binfo.modify_dtb = versal_virt_modify_dtb;
+> +    s->binfo.psci_conduit = psci_conduit;
+>       if (machine->kernel_filename) {
+>           arm_load_kernel(&s->soc.fpd.apu.cpu[0], machine, &s->binfo);
+>       } else {
+> diff --git a/hw/arm/xlnx-versal.c b/hw/arm/xlnx-versal.c
+> index b2705b6925e..458ba33815f 100644
+> --- a/hw/arm/xlnx-versal.c
+> +++ b/hw/arm/xlnx-versal.c
+> @@ -35,10 +35,8 @@ static void versal_create_apu_cpus(Versal *s)
+>           object_initialize_child(OBJECT(s), "apu-cpu[*]", &s->fpd.apu.cpu[i],
+>                                   XLNX_VERSAL_ACPU_TYPE);
+>           obj = OBJECT(&s->fpd.apu.cpu[i]);
+> -        object_property_set_int(obj, "psci-conduit", s->cfg.psci_conduit,
+> -                                &error_abort);
+>           if (i) {
+> -            /* Secondary CPUs start in PSCI powered-down state */
+> +            /* Secondary CPUs start in powered-down state */
+>               object_property_set_bool(obj, "start-powered-off", true,
+>                                        &error_abort);
+>           }
+> @@ -481,7 +479,6 @@ static void versal_init(Object *obj)
+>   static Property versal_properties[] = {
+>       DEFINE_PROP_LINK("ddr", Versal, cfg.mr_ddr, TYPE_MEMORY_REGION,
+>                        MemoryRegion *),
+> -    DEFINE_PROP_UINT32("psci-conduit", Versal, cfg.psci_conduit, 0),
+>       DEFINE_PROP_END_OF_LIST()
+>   };
+>   
 
