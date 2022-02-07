@@ -2,92 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 241184AC469
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Feb 2022 16:54:24 +0100 (CET)
-Received: from localhost ([::1]:59864 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE4944AC46C
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Feb 2022 16:54:32 +0100 (CET)
+Received: from localhost ([::1]:60366 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nH6LP-00040Q-8U
-	for lists+qemu-devel@lfdr.de; Mon, 07 Feb 2022 10:54:23 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:55190)
+	id 1nH6LX-0004Kr-JH
+	for lists+qemu-devel@lfdr.de; Mon, 07 Feb 2022 10:54:31 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:55794)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1nH6IN-0000Pm-B4
- for qemu-devel@nongnu.org; Mon, 07 Feb 2022 10:51:19 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:42133)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1nH6II-0004ft-P0
- for qemu-devel@nongnu.org; Mon, 07 Feb 2022 10:51:13 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1644249051;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=KSmiP5YnwVNJzek/axVa4dkWr/8lSyqJn6cxo/n3qKw=;
- b=JAy1lzGnzNF2sVAo5BGYB6CEESPrj+Dh1QPB+Ekdx/we2etIETWMWLlRDbCGnWPWRpv7xr
- kv+I4cJ/kbMrvXTRqq2qa38Ue3ve3b7zjWyZnF/fO79Nl4T8j7VT4nWt/Flgmqy/OB81x4
- kboWIESeGfE59aDEReU5/OzBT0Rr48w=
-Received: from mail-oo1-f69.google.com (mail-oo1-f69.google.com
- [209.85.161.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-421-pNiTHKOoPtWlvKsvuOu5Gw-1; Mon, 07 Feb 2022 10:50:50 -0500
-X-MC-Unique: pNiTHKOoPtWlvKsvuOu5Gw-1
-Received: by mail-oo1-f69.google.com with SMTP id
- f8-20020a4aa688000000b002ede70d37dbso9215348oom.16
- for <qemu-devel@nongnu.org>; Mon, 07 Feb 2022 07:50:50 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <edgar.iglesias@gmail.com>)
+ id 1nH6Je-0001tS-KE; Mon, 07 Feb 2022 10:52:34 -0500
+Received: from [2a00:1450:4864:20::533] (port=39452
+ helo=mail-ed1-x533.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <edgar.iglesias@gmail.com>)
+ id 1nH6JX-0004yn-VH; Mon, 07 Feb 2022 10:52:34 -0500
+Received: by mail-ed1-x533.google.com with SMTP id u18so30682304edt.6;
+ Mon, 07 Feb 2022 07:52:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=makHVxWA+WEZuLdjkGtWvHqDqAJlzWLQBerIaV+pZWM=;
+ b=COW6u9aZQTHYmDdOHIGnz3CZfmrC1hTLFnwSfkTl5xLUl9YTrpDznnttzLIHzF5ASf
+ Q2lTuFQxMQhG8ie+9MfzkJFVO/vTF49HXELTq5l1G10szmMjtkAsgjhB1PLJBo21984v
+ vRYMuIzugbh6BhJ+58kXKhAsqdwFaSsdNksaqi5/U6/Kp/z02C4grhi3sKXbgtxJsvE2
+ pim6xk37+1Ggd2n4L5DLW3PdB7wmlPrWymva6SYekItxxk7Y+tKLvT5GLoyD06RO/fRS
+ Eqk0XxpuxdZTg/zp/Nulfu1s0/toGFVAzNDqpyMmuzJEFj2u4KARY+Z4x//M5sEoE3EG
+ dpSg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=s00mlV7F7r6LO+wn0KJxgijqF39/yETq2VMH3qUDbus=;
- b=FpCRVHbLhTE65eqk6Jn+mD0zA0f9U6XdbLv61/5ztcGcTR8Le+xppoGHY1g4HXCzgM
- wFK/x85QTIU/ZBsrf9LmS2sAQZXNw40+KBmkEjU/n4QZilBpHBWN1ZqLebeGnx1Rx+IY
- hABThS54jUWMREburr6wfg+Ota74TpjIyAUH8Igq9YCZmZ5jUYNWmXvW4/93/DU2wH+7
- gmroWkK8RPb0oT5MlIBMM3OMNOe2yhaJVOPKFtbeXyZuVJq/s3mIY0ByGnaUXbvIP1+I
- j8wjhzIcKgGk0oxo++4n2nQxPd3RfaW00RRa1GutrRXhdEUJOfqoItLeWthdc7LvtSW5
- qlZw==
-X-Gm-Message-State: AOAM533KmBtrY30GUD8sVC5GismZ+8zedZ2pvd7xZvZ1ew2Mu3v+gnD0
- gLazKQOEbFeFd7k7+Ig+NV7n6ArS6BBu74OZ3mFZDr+QhSMkXQRpBNFhMwIqya5/BC34r3QXHex
- t5IB7MA0qnkb64+A=
-X-Received: by 2002:a05:6870:e495:: with SMTP id
- v21mr4729366oag.102.1644249048306; 
- Mon, 07 Feb 2022 07:50:48 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJw9pxSl3q7qAQVIrduS7h0YRXgI1Nh3PVerx0ZP3TM9S/lthy/rlXVYr5hLocY/MjUL6HdTHA==
-X-Received: by 2002:a05:6870:e495:: with SMTP id
- v21mr4729361oag.102.1644249048069; 
- Mon, 07 Feb 2022 07:50:48 -0800 (PST)
-Received: from redhat.com ([38.15.36.239])
- by smtp.gmail.com with ESMTPSA id e7sm4260229oow.47.2022.02.07.07.50.47
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 07 Feb 2022 07:50:47 -0800 (PST)
-Date: Mon, 7 Feb 2022 08:50:45 -0700
-From: Alex Williamson <alex.williamson@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PULL 0/2] VFIO fixes 2022-02-03
-Message-ID: <20220207085045.1de46df1.alex.williamson@redhat.com>
-In-Reply-To: <CAFEAcA-CX6hPOEEr_Yjcd1=4AHfkYgnkQ_ruUJ4mFwBYz1fLQA@mail.gmail.com>
-References: <164392758602.1683127.4327439310436541025.stgit@omen>
- <CAFEAcA-CX6hPOEEr_Yjcd1=4AHfkYgnkQ_ruUJ4mFwBYz1fLQA@mail.gmail.com>
-X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=makHVxWA+WEZuLdjkGtWvHqDqAJlzWLQBerIaV+pZWM=;
+ b=evHEf6bYNzrr2LSzKYVhXqqkNxAJjBJzCLUGPvJhuAgY7yVizeuBMMVQzGCwSUxnVe
+ B63opIq87Ljp4jFYWMN2B7gGDTbYeQv0HF9graXKGB/gy7Mh0NRdPIwb2gt+gkSr7vp9
+ J6sBlqAaB4XNm5NheCoKfhSlEfuYz6+y10u6Q1E9ZwlDdjpThwollSm46HBjCjFFe1m8
+ iRuClTrdNaQCvhbJAufGslRUpFgCRd46w+JooxuqmJjQCqOfzHcTlMtKwJL4SHMqqIY4
+ SduvIe1LYcsFYAUTcgOoF9Wewk10rcvh5fUNig240Qj4OkM8EL4qrmufE0rdYpqQFi1y
+ 6XZw==
+X-Gm-Message-State: AOAM5311Pal0znm6OgkN92vU5IbYEiuAFs2xaTpFFjxSaVL+WbMCXgi8
+ X+6o8LxxxOaGwVq63j9emcB8L7UzrMeOF5rpCwg=
+X-Google-Smtp-Source: ABdhPJyKzFTgowhvEOR3EXBQVOHpt+vSSP5EhZVsno+xJaxhlUUvKDG3X2MB5/q7c25vECI0OPX0q+xN7b4T5bJgi0I=
+X-Received: by 2002:aa7:c4ca:: with SMTP id p10mr138473edr.20.1644249141032;
+ Mon, 07 Feb 2022 07:52:21 -0800 (PST)
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=alex.williamson@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.129.124;
- envelope-from=alex.williamson@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+References: <20220127154639.2090164-1-peter.maydell@linaro.org>
+ <20220127154639.2090164-7-peter.maydell@linaro.org>
+ <2c67bde5-65b2-0af0-afde-7353a4fe2a1b@csgraf.de>
+ <CAFEAcA9DcHXRkA7gCihU6LrOc40EOHnVnTeEcf4+xSfG22eJ-g@mail.gmail.com>
+ <44ec9504-a7ef-6805-ae94-4435e5a37735@csgraf.de>
+In-Reply-To: <44ec9504-a7ef-6805-ae94-4435e5a37735@csgraf.de>
+From: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
+Date: Mon, 7 Feb 2022 16:52:08 +0100
+Message-ID: <CAJy5ezqUtLphzH_WKmW8dR34=k-g5dmuevuZY42GfnD-R-uCqg@mail.gmail.com>
+Subject: Re: [PATCH 06/16] hw/arm/xlnx-zcu102: Don't enable PSCI conduit when
+ booting guest in EL3
+To: Alexander Graf <agraf@csgraf.de>
+Content-Type: multipart/alternative; boundary="000000000000f93ba405d76f9501"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::533
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::533;
+ envelope-from=edgar.iglesias@gmail.com; helo=mail-ed1-x533.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -100,64 +83,178 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eric Auger <eric.auger@redhat.com>, Stefan Berger <stefanb@linux.ibm.com>,
- qemu-devel@nongnu.org,
- Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <f4bug@amsat.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ qemu-devel <qemu-devel@nongnu.org>, Havard Skinnemoen <hskinnemoen@google.com>,
+ Yanan Wang <wangyanan55@huawei.com>, Rob Herring <robh@kernel.org>,
+ Stefano Stabellini <sstabellini@kernel.org>,
+ Andrey Smirnov <andrew.smirnov@gmail.com>,
+ Michal Simek <michal.simek@xilinx.com>, Joel Stanley <joel@jms.id.au>,
+ Andre Przywara <andre.przywara@arm.com>,
+ Alistair Francis <alistair@alistair23.me>,
+ Beniamino Galvani <b.galvani@gmail.com>,
+ Niek Linnenbank <nieklinnenbank@gmail.com>, qemu-arm <qemu-arm@nongnu.org>,
+ Igor Mitsyanko <i.mitsyanko@gmail.com>,
+ =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>,
+ Eduardo Habkost <eduardo@habkost.net>, Andrew Jeffery <andrew@aj.id.au>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
+ Jean-Christophe Dubois <jcd@tribudubois.net>, Tyrone Ting <kfting@nuvoton.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sat, 5 Feb 2022 10:49:35 +0000
-Peter Maydell <peter.maydell@linaro.org> wrote:
+--000000000000f93ba405d76f9501
+Content-Type: text/plain; charset="UTF-8"
 
-> On Thu, 3 Feb 2022 at 22:38, Alex Williamson <alex.williamson@redhat.com>=
- wrote:
-> >
-> > The following changes since commit 8f3e5ce773c62bb5c4a847f3a9a5c98bbb3b=
-359f:
-> >
-> >   Merge remote-tracking branch 'remotes/hdeller/tags/hppa-updates-pull-=
-request' into staging (2022-02-02 19:54:30 +0000)
-> >
-> > are available in the Git repository at:
-> >
-> >   git://github.com/awilliam/qemu-vfio.git tags/vfio-fixes-20220203.0
-> >
-> > for you to fetch changes up to 36fe5d5836c8d5d928ef6d34e999d6991a2f732e=
-:
-> >
-> >   hw/vfio/common: Silence ram device offset alignment error traces (202=
-2-02-03 15:05:05 -0700)
-> >
-> > ----------------------------------------------------------------
-> > VFIO fixes 2022-02-03
-> >
-> >  * Fix alignment warnings when using TPM CRB with vfio-pci devices
-> >    (Eric Auger & Philippe Mathieu-Daud=C3=A9) =20
->=20
-> Hi; this has a format-string issue that means it doesn't build
-> on 32-bit systems:
->=20
-> https://gitlab.com/qemu-project/qemu/-/jobs/2057116569
->=20
-> ../hw/vfio/common.c: In function 'vfio_listener_region_add':
-> ../hw/vfio/common.c:893:26: error: format '%llx' expects argument of
-> type 'long long unsigned int', but argument 6 has type 'intptr_t' {aka
-> 'int'} [-Werror=3Dformat=3D]
-> error_report("%s received unaligned region %s iova=3D0x%"PRIx64
-> ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> ../hw/vfio/common.c:899:26:
-> qemu_real_host_page_mask);
-> ~~~~~~~~~~~~~~~~~~~~~~~~
->=20
-> For intptr_t you want PRIxPTR.
+On Mon, Feb 7, 2022 at 4:33 PM Alexander Graf <agraf@csgraf.de> wrote:
 
-Darn.  Well, let me use this opportunity to ask, how are folks doing
-32-bit cross builds on Fedora?  I used to keep an i686 PAE VM for this
-purpose, but I was eventually no longer able to maintain the build
-dependencies.  Looks like this failed on a mipsel cross build, but I
-don't see such a cross compiler in Fedora.  I do mingw32/64 cross
-builds, but they leave a lot to be desired for code coverage.  Thanks,
+>
+> On 07.02.22 16:22, Peter Maydell wrote:
+> > On Mon, 7 Feb 2022 at 14:21, Alexander Graf <agraf@csgraf.de> wrote:
+> >>
+> >> On 27.01.22 16:46, Peter Maydell wrote:
+> >>> Change the Xilinx ZynqMP-based board xlnx-zcu102 to use the new
+> >>> boot.c functionality to allow us to enable psci-conduit only if
+> >>> the guest is being booted in EL1 or EL2, so that if the user runs
+> >>> guest EL3 firmware code our PSCI emulation doesn't get in its
+> >>> way.
+> >>>
+> >>> To do this we stop setting the psci-conduit property on the CPU
+> >>> objects in the SoC code, and instead set the psci_conduit field in
+> >>> the arm_boot_info struct to tell the common boot loader code that
+> >>> we'd like PSCI if the guest is starting at an EL that it makes
+> >>> sense with.
+> >>>
+> >>> Note that this means that EL3 guest code will have no way
+> >>> to power on secondary cores, because we don't model any
+> >>> kind of power controller that does that on this SoC.
+> >>>
+> >>> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+> >>
+> >> It's been a while since I worked with ZynqMP, but typically your ATF in
+> >> EL3 will want to talk to a microblaze firmware blob on the PMU.
+> >>
+> >> I only see a stand alone PMU machine for microblaze and a PMU IRQ
+> >> handling I/O block in QEMU, but nothing that would listen to the events.
+> >> So I'm fairly sure it will be broken after this patch - and really only
+> >> worked by accident before.
+> > Edgar submitted a power-control model patchset:
+> >
+> https://patchew.org/QEMU/20220203140141.310870-1-edgar.iglesias@gmail.com/
+>
+>
+> Ah, nice. Would this also work for Versal?
+>
+>
+> Thanks,
+>
+> Alex
+>
 
-Alex
+Hi,
 
+Both Versal and ZynqMP require MicroBlaze firmware to run the reference
+implementations of Trusted Firmware. We never supported this in upstream
+QEMU but we do support it with our fork (by running multiple QEMU instances
+co-simulating).
+
+Having said that, we do have tons of EL3 test-cases that we use to validate
+QEMU that run with EL3 enabled in upstream.
+
+So there's two user flows:
+1. Direct boots using QEMUs builtin PSCI (Most users use this to run Linux,
+Xen, U-boot, etc)
+2. Firmware boot at EL3 without QEMUs builtin PSCI (Mostly used by
+test-code)
+
+Number #2 is the one affected here and that by accident used to have the
+builtin PSCI support enabled but now requires more power control modelling
+to keep working.
+Unless I'm missing something, the -kernel boots will continue to use the
+builtin PSCI implementation.
+
+Cheers,
+Edgar
+
+--000000000000f93ba405d76f9501
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Mon, Feb 7, 2022 at 4:33 PM Alexan=
+der Graf &lt;<a href=3D"mailto:agraf@csgraf.de">agraf@csgraf.de</a>&gt; wro=
+te:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px =
+0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><br>
+On 07.02.22 16:22, Peter Maydell wrote:<br>
+&gt; On Mon, 7 Feb 2022 at 14:21, Alexander Graf &lt;<a href=3D"mailto:agra=
+f@csgraf.de" target=3D"_blank">agraf@csgraf.de</a>&gt; wrote:<br>
+&gt;&gt;<br>
+&gt;&gt; On 27.01.22 16:46, Peter Maydell wrote:<br>
+&gt;&gt;&gt; Change the Xilinx ZynqMP-based board xlnx-zcu102 to use the ne=
+w<br>
+&gt;&gt;&gt; boot.c functionality to allow us to enable psci-conduit only i=
+f<br>
+&gt;&gt;&gt; the guest is being booted in EL1 or EL2, so that if the user r=
+uns<br>
+&gt;&gt;&gt; guest EL3 firmware code our PSCI emulation doesn&#39;t get in =
+its<br>
+&gt;&gt;&gt; way.<br>
+&gt;&gt;&gt;<br>
+&gt;&gt;&gt; To do this we stop setting the psci-conduit property on the CP=
+U<br>
+&gt;&gt;&gt; objects in the SoC code, and instead set the psci_conduit fiel=
+d in<br>
+&gt;&gt;&gt; the arm_boot_info struct to tell the common boot loader code t=
+hat<br>
+&gt;&gt;&gt; we&#39;d like PSCI if the guest is starting at an EL that it m=
+akes<br>
+&gt;&gt;&gt; sense with.<br>
+&gt;&gt;&gt;<br>
+&gt;&gt;&gt; Note that this means that EL3 guest code will have no way<br>
+&gt;&gt;&gt; to power on secondary cores, because we don&#39;t model any<br=
+>
+&gt;&gt;&gt; kind of power controller that does that on this SoC.<br>
+&gt;&gt;&gt;<br>
+&gt;&gt;&gt; Signed-off-by: Peter Maydell &lt;<a href=3D"mailto:peter.mayde=
+ll@linaro.org" target=3D"_blank">peter.maydell@linaro.org</a>&gt;<br>
+&gt;&gt;<br>
+&gt;&gt; It&#39;s been a while since I worked with ZynqMP, but typically yo=
+ur ATF in<br>
+&gt;&gt; EL3 will want to talk to a microblaze firmware blob on the PMU.<br=
+>
+&gt;&gt;<br>
+&gt;&gt; I only see a stand alone PMU machine for microblaze and a PMU IRQ<=
+br>
+&gt;&gt; handling I/O block in QEMU, but nothing that would listen to the e=
+vents.<br>
+&gt;&gt; So I&#39;m fairly sure it will be broken after this patch - and re=
+ally only<br>
+&gt;&gt; worked by accident before.<br>
+&gt; Edgar submitted a power-control model patchset:<br>
+&gt; <a href=3D"https://patchew.org/QEMU/20220203140141.310870-1-edgar.igle=
+sias@gmail.com/" rel=3D"noreferrer" target=3D"_blank">https://patchew.org/Q=
+EMU/20220203140141.310870-1-edgar.iglesias@gmail.com/</a><br>
+<br>
+<br>
+Ah, nice. Would this also work for Versal?<br>
+<br>
+<br>
+Thanks,<br>
+<br>
+Alex<br></blockquote><div><br></div><div>Hi,</div><div><br></div><div>Both =
+Versal and ZynqMP require MicroBlaze firmware to run the reference implemen=
+tations of Trusted Firmware. We never supported this in upstream QEMU but w=
+e do support it with our fork (by running multiple QEMU instances co-simula=
+ting).</div><div><br></div><div>Having said that, we do have tons of EL3 te=
+st-cases that we use to validate QEMU that run with EL3 enabled in upstream=
+.</div><div><br></div><div>So there&#39;s two user flows:</div><div>1. Dire=
+ct boots using QEMUs builtin PSCI (Most users use this to run Linux, Xen, U=
+-boot, etc)</div><div>2. Firmware boot at EL3 without QEMUs builtin PSCI (M=
+ostly used by test-code)</div><div><br></div><div>Number #2 is the one affe=
+cted here and that by accident used to have the builtin PSCI support enable=
+d but now requires more power control modelling to keep working.</div><div>=
+Unless I&#39;m missing something, the -kernel boots will continue to use th=
+e builtin PSCI implementation.</div><div><br></div><div>Cheers,</div><div>E=
+dgar=C2=A0</div><div><br></div><div><br></div><div><br></div><div>=C2=A0</d=
+iv></div></div>
+
+--000000000000f93ba405d76f9501--
 
