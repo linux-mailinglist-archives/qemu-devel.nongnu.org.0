@@ -2,72 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B28354AC93E
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Feb 2022 20:14:17 +0100 (CET)
-Received: from localhost ([::1]:51652 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 60EEB4AC96A
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Feb 2022 20:24:49 +0100 (CET)
+Received: from localhost ([::1]:41404 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nH9Sq-0004TW-E4
-	for lists+qemu-devel@lfdr.de; Mon, 07 Feb 2022 14:14:16 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:39498)
+	id 1nH9d1-0000l7-VS
+	for lists+qemu-devel@lfdr.de; Mon, 07 Feb 2022 14:24:47 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:39764)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nH95d-0003bF-No
- for qemu-devel@nongnu.org; Mon, 07 Feb 2022 13:50:21 -0500
-Received: from [2a00:1450:4864:20::42a] (port=38456
- helo=mail-wr1-x42a.google.com)
+ (Exim 4.90_1) (envelope-from <vbabka@suse.cz>) id 1nH975-00044d-B0
+ for qemu-devel@nongnu.org; Mon, 07 Feb 2022 13:51:47 -0500
+Received: from smtp-out1.suse.de ([195.135.220.28]:53516)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nH95b-0004Hn-3w
- for qemu-devel@nongnu.org; Mon, 07 Feb 2022 13:50:17 -0500
-Received: by mail-wr1-x42a.google.com with SMTP id s10so23935527wra.5
- for <qemu-devel@nongnu.org>; Mon, 07 Feb 2022 10:50:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=P2FC6R/qncYnzfDtFi14toHL0QsggYnEdnGfwN4yeEo=;
- b=sAGtAUmGXFinGlJF/K5qJlHp3tARYzXF6XDvitXixq9G4N/eaNcEGBQGRm2vfTHMYi
- gTO6dmhUYjs20cRHXkwbG0ze1vJJmfxj7jUuaf33EM8M5hnd1UMnB7+yOJxMunty/uqu
- AO6kVgoVK9y1iw48w+3/JR4kv1uGqVeAD3Ju+8UjK9q6ihXw7ldSL0Ilpu2iqpEPlHQ5
- JWzOaoLEMaJ3uIEAWY4LKbdj6mVSQOd0l7kn+tnbPxHI4L3lFz4sJyO9tIkn3ScNsoGP
- elkYWf4D0zueYIuPqxaUbXiCC/h8RipFbAB2L8USrNDYE+wlmUY9U564PF6lETLFCUH9
- 2Kqg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=P2FC6R/qncYnzfDtFi14toHL0QsggYnEdnGfwN4yeEo=;
- b=a4fxRh+UUBuYjwKVyaODbPATjrRvDXyUOzRHwuj5FBjKFXGkVYfAWQGZUGQmqIUCZ/
- 09B5rmO9rjoRbimLBn86JmLrIgcCb0aMIFED0k9+7Bw6ZyhQjnvl2EaFQ2wUUqOBU++l
- UqEHpZikZGBaBkAaHoF1wCBSec/5vZNPIhp79NbrGIYsUHzGu+gClZIUMzTCPPrJQDDZ
- t8vaqAJIicojMZ+97wc2Jz80+g+O07jY6tl+J/VohhJxhhplSgc02xilVzF5ZmoFIo/G
- sUFQCqKHt7kG9MUF1bhPFM2w6QRBbTViv1JHJei4unb2t0g/0uZyQgpcLAXe4wimCRt+
- j8BQ==
-X-Gm-Message-State: AOAM533Qb61FkK148cQKenEN4sbA0GFZ7hHyVhpdVy6Zm5qcfTsCbEpm
- cTSOQ/ndGqdfUOgqoZRMffHaOV01rwDGAUpW/PeBIw==
-X-Google-Smtp-Source: ABdhPJyYKz9tesRwJ0CzIrDpU7/5FZViFRwe/p+AgmKKC02CekqtgknFFxPqOhGwAxofpH5cMCU5yWvBiAHVQvX9Cng=
-X-Received: by 2002:adf:e18d:: with SMTP id az13mr649289wrb.521.1644259810838; 
- Mon, 07 Feb 2022 10:50:10 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <vbabka@suse.cz>) id 1nH96z-0004b0-GR
+ for qemu-devel@nongnu.org; Mon, 07 Feb 2022 13:51:43 -0500
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 19927210FA;
+ Mon,  7 Feb 2022 18:51:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+ t=1644259899; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=NOYjLS4N8vwfd3h4Lp9C/Ennm3oWf0c+XTehS9bJX24=;
+ b=xD7Cr2cOpWyJFdqWLn+fwhofVahSVhXmdPo56idG5sEwFbYiClzqPVLWBWRcb1Mu2tmNuU
+ eBlcaQcoZFvNCxqIn5ekPjrKgkKAvDwbsoby5+RH2Ym3YX23LrAYAMQLPTyjl3j3RNg7Ur
+ 5j0MxhHbXCsgoNKv88jfUOZwq7fbAWg=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+ s=susede2_ed25519; t=1644259899;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=NOYjLS4N8vwfd3h4Lp9C/Ennm3oWf0c+XTehS9bJX24=;
+ b=XZ9d5JbQDs73N70sW61CO6zONLOYVpxPeUzOGcKXyNDBTFPsCbLl+dOc0vH286Yw3W8e+S
+ 55xDWRh3IpqtqrCA==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 9974513C61;
+ Mon,  7 Feb 2022 18:51:38 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id ZIAMJDpqAWI0QAAAMHmgww
+ (envelope-from <vbabka@suse.cz>); Mon, 07 Feb 2022 18:51:38 +0000
+Message-ID: <25166513-3074-f3b9-12cc-420ba74f153e@suse.cz>
+Date: Mon, 7 Feb 2022 19:51:38 +0100
 MIME-Version: 1.0
-References: <20220130095032.35392-1-kevin.townsend@linaro.org>
-In-Reply-To: <20220130095032.35392-1-kevin.townsend@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 7 Feb 2022 18:50:00 +0000
-Message-ID: <CAFEAcA_zKc-BCkW8nXJaavNak-tpE6mYzAYPobBLkCb6ZGgYLQ@mail.gmail.com>
-Subject: Re: [PATCH v4] hw/sensor: Add lsm303dlhc magnetometer device
-To: Kevin Townsend <kevin.townsend@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42a
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42a.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.1
+Subject: Re: [PATCH v4 02/12] mm/memfd: Introduce MFD_INACCESSIBLE flag
+Content-Language: en-US
+To: Chao Peng <chao.p.peng@linux.intel.com>, kvm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+ linux-fsdevel@vger.kernel.org, qemu-devel@nongnu.org
+References: <20220118132121.31388-1-chao.p.peng@linux.intel.com>
+ <20220118132121.31388-3-chao.p.peng@linux.intel.com>
+From: Vlastimil Babka <vbabka@suse.cz>
+In-Reply-To: <20220118132121.31388-3-chao.p.peng@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=195.135.220.28; envelope-from=vbabka@suse.cz;
+ helo=smtp-out1.suse.de
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -80,23 +87,108 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: Wanpeng Li <wanpengli@tencent.com>, luto@kernel.org, david@redhat.com,
+ "J . Bruce Fields" <bfields@fieldses.org>, dave.hansen@intel.com,
+ "H . Peter Anvin" <hpa@zytor.com>, ak@linux.intel.com,
+ Jonathan Corbet <corbet@lwn.net>, Joerg Roedel <joro@8bytes.org>,
+ x86@kernel.org, Hugh Dickins <hughd@google.com>,
+ Mike Rapoport <rppt@linux.ibm.com>, Ingo Molnar <mingo@redhat.com>,
+ Borislav Petkov <bp@alien8.de>, jun.nakajima@intel.com,
+ Thomas Gleixner <tglx@linutronix.de>, Vitaly Kuznetsov <vkuznets@redhat.com>,
+ Jim Mattson <jmattson@google.com>, Sean Christopherson <seanjc@google.com>,
+ Jeff Layton <jlayton@kernel.org>, Yu Zhang <yu.c.zhang@linux.intel.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Andrew Morton <akpm@linux-foundation.org>,
+ "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, 30 Jan 2022 at 09:53, Kevin Townsend <kevin.townsend@linaro.org> wrote:
->
-> This commit adds emulation of the magnetometer on the LSM303DLHC.
-> It allows the magnetometer's X, Y and Z outputs to be set via the
-> mag-x, mag-y and mag-z properties, as well as the 12-bit
-> temperature output via the temperature property. Sensor can be
-> enabled with 'CONFIG_LSM303DLHC_MAG=y'.
->
-> Signed-off-by: Kevin Townsend <kevin.townsend@linaro.org>
+On 1/18/22 14:21, Chao Peng wrote:
+> Introduce a new memfd_create() flag indicating the content of the
+> created memfd is inaccessible from userspace. It does this by force
+> setting F_SEAL_INACCESSIBLE seal when the file is created. It also set
+> F_SEAL_SEAL to prevent future sealing, which means, it can not coexist
+> with MFD_ALLOW_SEALING.
+> 
+> The pages backed by such memfd will be used as guest private memory in
+> confidential computing environments such as Intel TDX/AMD SEV. Since
+> page migration/swapping is not yet supported for such usages so these
+> pages are currently marked as UNMOVABLE and UNEVICTABLE which makes
+> them behave like long-term pinned pages.
 
+Shouldn't the amount of such memory allocations be restricted? E.g. similar
+to secretmem_mmap() doing mlock_future_check().
 
+> Signed-off-by: Chao Peng <chao.p.peng@linux.intel.com>
+> ---
+>  include/uapi/linux/memfd.h |  1 +
+>  mm/memfd.c                 | 20 +++++++++++++++++++-
+>  2 files changed, 20 insertions(+), 1 deletion(-)
+> 
+> diff --git a/include/uapi/linux/memfd.h b/include/uapi/linux/memfd.h
+> index 7a8a26751c23..48750474b904 100644
+> --- a/include/uapi/linux/memfd.h
+> +++ b/include/uapi/linux/memfd.h
+> @@ -8,6 +8,7 @@
+>  #define MFD_CLOEXEC		0x0001U
+>  #define MFD_ALLOW_SEALING	0x0002U
+>  #define MFD_HUGETLB		0x0004U
+> +#define MFD_INACCESSIBLE	0x0008U
+>  
+>  /*
+>   * Huge page size encoding when MFD_HUGETLB is specified, and a huge page
+> diff --git a/mm/memfd.c b/mm/memfd.c
+> index 9f80f162791a..26998d96dc11 100644
+> --- a/mm/memfd.c
+> +++ b/mm/memfd.c
+> @@ -245,16 +245,19 @@ long memfd_fcntl(struct file *file, unsigned int cmd, unsigned long arg)
+>  #define MFD_NAME_PREFIX_LEN (sizeof(MFD_NAME_PREFIX) - 1)
+>  #define MFD_NAME_MAX_LEN (NAME_MAX - MFD_NAME_PREFIX_LEN)
+>  
+> -#define MFD_ALL_FLAGS (MFD_CLOEXEC | MFD_ALLOW_SEALING | MFD_HUGETLB)
+> +#define MFD_ALL_FLAGS (MFD_CLOEXEC | MFD_ALLOW_SEALING | MFD_HUGETLB | \
+> +		       MFD_INACCESSIBLE)
+>  
+>  SYSCALL_DEFINE2(memfd_create,
+>  		const char __user *, uname,
+>  		unsigned int, flags)
+>  {
+> +	struct address_space *mapping;
+>  	unsigned int *file_seals;
+>  	struct file *file;
+>  	int fd, error;
+>  	char *name;
+> +	gfp_t gfp;
+>  	long len;
+>  
+>  	if (!(flags & MFD_HUGETLB)) {
+> @@ -267,6 +270,10 @@ SYSCALL_DEFINE2(memfd_create,
+>  			return -EINVAL;
+>  	}
+>  
+> +	/* Disallow sealing when MFD_INACCESSIBLE is set. */
+> +	if (flags & MFD_INACCESSIBLE && flags & MFD_ALLOW_SEALING)
+> +		return -EINVAL;
+> +
+>  	/* length includes terminating zero */
+>  	len = strnlen_user(uname, MFD_NAME_MAX_LEN + 1);
+>  	if (len <= 0)
+> @@ -315,6 +322,17 @@ SYSCALL_DEFINE2(memfd_create,
+>  		*file_seals &= ~F_SEAL_SEAL;
+>  	}
+>  
+> +	if (flags & MFD_INACCESSIBLE) {
+> +		mapping = file_inode(file)->i_mapping;
+> +		gfp = mapping_gfp_mask(mapping);
+> +		gfp &= ~__GFP_MOVABLE;
+> +		mapping_set_gfp_mask(mapping, gfp);
+> +		mapping_set_unevictable(mapping);
+> +
+> +		file_seals = memfd_file_seals_ptr(file);
+> +		*file_seals &= F_SEAL_SEAL | F_SEAL_INACCESSIBLE;
+> +	}
+> +
+>  	fd_install(fd, file);
+>  	kfree(name);
+>  	return fd;
 
-Applied to target-arm.next, thanks.
-
--- PMM
 
