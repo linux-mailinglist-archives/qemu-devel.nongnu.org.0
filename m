@@ -2,127 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 261D34AC7BC
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Feb 2022 18:37:47 +0100 (CET)
-Received: from localhost ([::1]:41808 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9676F4AC6F6
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Feb 2022 18:17:01 +0100 (CET)
+Received: from localhost ([::1]:34782 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nH7xR-0001gG-UB
-	for lists+qemu-devel@lfdr.de; Mon, 07 Feb 2022 12:37:45 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:47400)
+	id 1nH7dM-0001y0-BW
+	for lists+qemu-devel@lfdr.de; Mon, 07 Feb 2022 12:17:00 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:49744)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1nH71a-0001wC-Nq; Mon, 07 Feb 2022 11:38:01 -0500
-Received: from mail-db8eur05on2129.outbound.protection.outlook.com
- ([40.107.20.129]:2208 helo=EUR05-DB8-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1nH71Z-0005Ix-2I; Mon, 07 Feb 2022 11:37:58 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=j/zNg4+g6TCZx0qhQh/u7wj9YxjUVmRs/e0KCKA9IYQJP0VJkVLEFRtGhIxyx2NRHvZtzZj5yimoOIohYAdW5f6UkO1bm4jHf3+02Ef3C79gY8jhv1BQH7j9TIIDz0BNOUWvSA0DbGOz4nvQub7ZC1O3Qrw742QMUpxE7BdEjli6adUrHfRHdc7mAR1Y36wb2L9qd/XZU+fKIbtEYgGM6GOYbO2Hi6RE+LlggmDsk/HdBlKTI+p7Jq7Bph6E8R5ApDxPjdrapwmtqIEK+vxAzhSTh+gDG38yPqkNM9isrzsdsyNhQBdBzPeoMWo2fOYa/xym1OnwLqooeN60CIUDzw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=p6N2areXa5/PvBykciQCdMGLPxqi17k9S4yCirRbb3A=;
- b=OgiAkCAkA6otDuHZWz9KxLWOaI7diYkaeGmVbvzMS344B8G/J6CGYWEmGtI/IDl1GAJiKfax2cq7M3XYugjduakBPTylek8VnDrIcfpAzma/Kpcct7Yx6GTvW8pv0bO9J40zPoNZWe2102XuCH3kpSMg15UOWIMGEYAkzniDas1yuN4+9+GuAY6MTaxmgyATtFbS2VeBFSjv/JA48fxgsQ5SZ4NKlCEGU4W4Pb2gs3EII1Nc/+OM6W5fQwhbkkvO9nvSG5uNSDMqht4JwdmWmpzJKG53VxccWgtuyfd3c+wdKGUddtpxWV77q+PCDjIvOXatQp+tKQZu2flcAh/S6A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=p6N2areXa5/PvBykciQCdMGLPxqi17k9S4yCirRbb3A=;
- b=EG7aMV5HB3uBGTvk0D1LyIkrAsVwBr4wCZWyGmQ5COId+Om1/15gYhAy6LMrlq9NZ/WcYBRtZew9PJyqPp6Ea/iLRJyVhLjuC9RfInC8bxz7bfD+z20Nr6Kd5ycxznYd5rOUS0WAmYYVwqMZedkR1tpaQhbt1leB+Hk6dmdxTUo=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=virtuozzo.com;
-Received: from AM9PR08MB6737.eurprd08.prod.outlook.com (2603:10a6:20b:304::18)
- by VE1PR08MB5085.eurprd08.prod.outlook.com (2603:10a6:803:106::15)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4951.16; Mon, 7 Feb
- 2022 16:37:45 +0000
-Received: from AM9PR08MB6737.eurprd08.prod.outlook.com
- ([fe80::49c:67e9:3e24:8714]) by AM9PR08MB6737.eurprd08.prod.outlook.com
- ([fe80::49c:67e9:3e24:8714%4]) with mapi id 15.20.4951.018; Mon, 7 Feb 2022
- 16:37:45 +0000
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-To: qemu-block@nongnu.org
-Cc: qemu-devel@nongnu.org, armbru@redhat.com, jsnow@redhat.com,
- vsementsov@virtuozzo.com, eblake@redhat.com, hreitz@redhat.com,
- kwolf@redhat.com, den@openvz.org, ktkhai@virtuozzo.com, igor@virtuozzo.com
-Subject: [PATCH 14/14] iotests: add test for blockdev-del(force=false)
-Date: Mon,  7 Feb 2022 17:37:28 +0100
-Message-Id: <20220207163728.30362-15-vsementsov@virtuozzo.com>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20220207163728.30362-1-vsementsov@virtuozzo.com>
-References: <20220207163728.30362-1-vsementsov@virtuozzo.com>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: AM6P193CA0126.EURP193.PROD.OUTLOOK.COM
- (2603:10a6:209:85::31) To AM9PR08MB6737.eurprd08.prod.outlook.com
- (2603:10a6:20b:304::18)
+ (Exim 4.90_1) (envelope-from <wwcohen@gmail.com>) id 1nH75F-0004t3-KN
+ for qemu-devel@nongnu.org; Mon, 07 Feb 2022 11:41:45 -0500
+Received: from [2a00:1450:4864:20::229] (port=44670
+ helo=mail-lj1-x229.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <wwcohen@gmail.com>) id 1nH75C-0006CO-D0
+ for qemu-devel@nongnu.org; Mon, 07 Feb 2022 11:41:45 -0500
+Received: by mail-lj1-x229.google.com with SMTP id c15so20437768ljf.11
+ for <qemu-devel@nongnu.org>; Mon, 07 Feb 2022 08:41:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=wXqZEUYoEu0EmUEsJCTq1MIblP2OaFiw4qbDYU0CqEY=;
+ b=hdbV4kdjscop3tJPP1jmZMhpUhtQp/UVIQV+aX1OOHJfO8lbL4Ti7ulUS2CNWsdtzo
+ KNM/Hc3TljarL7L2f+wIloksfj88G9rDaRcCXxt/JBR/21iT8JsrZTdE5kT0PCnXLNOQ
+ dUxgEKGslGF8oGCF0iQGE0CGWTIm/s6Xdhjim5onyccApcrwUR7mIX+nX+RI/yE9PHAH
+ yMvcEx584zBXJ4/3CN1bC/NnQjNGP2FTbE1w2Ofb0FT2VwTnRIT+c1uf8BFZpbChSaNN
+ pYm+/HqNewDfrrcGlaKuL5kuEA8hOdJHOakzhPaJaV7oUMXnuPvXe5AQzjrHZ8P7mdpv
+ V9NA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=wXqZEUYoEu0EmUEsJCTq1MIblP2OaFiw4qbDYU0CqEY=;
+ b=Ud4YettjoTRuROZVPifhb1XLv4PL6aszHmQClraQFpZqDb1bB9eQIbcgGHd976Zv2Y
+ AAVMvSkApM1e2pY515QK6i91YtSvj6DZ71VUY6rvR6bqP9Y9klGnLIJNappb4W6mMUr4
+ aM1gX3sElYh/yFvkD6x4YxaDnGyJNSeIZymF7nGxqR2GEa+ejdxHTlrCl7wyqA8DogMs
+ fV5191K1AILeGyrG8eXwIkKmu3AIr6m0OMViWnNXZPFognf4sAorfJT+gNrQeilT5ty2
+ IbVk6Eftz5hWBGOck0HIEtLf9NYCt9VoCuNEw1WRr7bexFNZhm4Ikvfs189El77YSemw
+ Czcw==
+X-Gm-Message-State: AOAM5300EG5IVj0C31EWPwSRDZNUNeJgyiRvaNd55vouk4kmVyfi5kOl
+ oepl+qFP1TLH6SijEeb43n6jYhzletzTofoiXrE=
+X-Google-Smtp-Source: ABdhPJyzCHX+FCfVtjmJ3f2NhnHu98TJGaZGAA3LZtDCLdLCpQrIpLJ0M/SsnETO0q2ilNoy3DPR+xHk3ryVX02d4H0=
+X-Received: by 2002:a2e:bd83:: with SMTP id o3mr191659ljq.51.1644252095253;
+ Mon, 07 Feb 2022 08:41:35 -0800 (PST)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: ab80776c-0f18-4ce5-9b5e-08d9ea582a9a
-X-MS-TrafficTypeDiagnostic: VE1PR08MB5085:EE_
-X-Microsoft-Antispam-PRVS: <VE1PR08MB5085404B40C0148A74070589C12C9@VE1PR08MB5085.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: WpEl7amz3XF23hIofcy14Wngh+e7fOhGvJK/zWDc8q8d7hC0VxN/AoypYFFIqW90pZOlYWEgwkE0k7+MOWLx4KfMl6RP4Dmt4JO5cG20bZHNjGiUUHocJMxPJl2qEEhG9bz4kq8vLWn8kHIm3rqdAhGvN8ySot67IVEG+/LjTSp+7bANHLNN1fzAgzuloHNxesllyTMDOy4u6P1+WKPsa8ohjQdkEpuptzjluQkhubqLwj1GT/ZACMnZWgL1VLaMFufZMer2krF1Md1VgKM2b92aFAQe5V6kYzeo3P/rXA9G0LxUUsVjytIDUX3qAbBUURCB38RcqyGxq15n8FherQbn/YvOm5YGXrAX1i1UsU6SXH2dgVZhginHrBFhbSutzJ+qEdZhIe8ARsvM0s9aFpkMqT7PQ0P9U3K106AnQdhTeGLWohnYYTH6BnWGyZjfylIKmi77e/2qM18onOkvmJV5I2rPoTf3ifJhtWk7n0ldCX9komaNQClUJkr53lBDeMGu4KbGrWd68L5dvXrkl1JJg2Z5WwRJc1S8t92Y1DyWbLpRUoaxAy8Wz633jlTO5ZJb6sCf/rQEeRl05jzEhAM9216p3k41jr8LpdjHMgNKVaFwox3YSSoktalyJqBvkdii08UtWWVz/7HmUXPQwE2SekcGqyXQKfctZ+F7m9Bc9899Ul0qCwSBdqbir20+8c79t84F4fpPxqv6UT8IIzwZ8kwzZo06vCYQCVP/gQUII7orqxS5k0UJvpj9Ku1+hcLaDXYMq3lLLVSgXmCeULD/w++VqobFq9hfHXQltDV1nQnp2PAqVC1nxcv/dhQKV/4Na1uyEYfZ6xmJgeiHpIVq7fEQOSbSeXeDJE12kQM=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM9PR08MB6737.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230001)(4636009)(366004)(6916009)(38100700002)(316002)(8676002)(5660300002)(38350700002)(86362001)(2906002)(4326008)(1076003)(66476007)(66946007)(66556008)(107886003)(6486002)(52116002)(508600001)(2616005)(83380400001)(36756003)(8936002)(186003)(26005)(6512007)(6506007)(6666004)(2004002);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?UOLRvQ7DIrnXS8oC9opsA6WyG+uUETcVfPQFwqNHEtJj5JJV4VpFcddpFwWj?=
- =?us-ascii?Q?uKfE2SjowgmNY5EFQ1Z1CNvMHiggm8quDKQLW0zy/ihd8AHOqMZJY//SyGzp?=
- =?us-ascii?Q?4Eiro85oVJDXqVadZ1M/b8DoDGbq/6itdT7z2vybaM5T4IFrYNAc/SysIP9f?=
- =?us-ascii?Q?AKkcXgKYxuwffABZQbWGJ5iAdtEbYhpwit77+vP26bVvZ8RjoCbeysd9PTAe?=
- =?us-ascii?Q?J5FuOgnBRmgiBPvfT8bboyKPiCNjxDlbgFeCT4JF4fwdxa7WAL1rM2ZPA4vi?=
- =?us-ascii?Q?cssP2djOvqYpIjjgt0hVmUhWvEDVG2nmr09GgSzcF380p43whk/X9R6p5Qqs?=
- =?us-ascii?Q?XSqrYJ5mQf87sKBgLB72MhoDLbTdAUustv5jVMVtGVVm3f6+nRuwOC3dvsIK?=
- =?us-ascii?Q?JEdiLGMn7lyjCedwnmeAsSwLjpsLYYRHox09f2uv5nhz4cEGmBwbG1gaqU83?=
- =?us-ascii?Q?nQC2r3XNNSgvzOr+TX4DaV4obQJxatl8HTu+V5gT5sEcHfPsIiiTzl5r1QWi?=
- =?us-ascii?Q?WH9TwfOC0/MUZeXVfd3pKTtve6cAj4KrQ6VI7swTg/1E1nVMNWyOyjfE+7C0?=
- =?us-ascii?Q?PCsCKLZ08jJK+aqY1+WAwAvIVftd+qT+jeOC3sK8vGs7JIdZ4V4kRtwg/VBr?=
- =?us-ascii?Q?zHru6+RKlGEdOL/CcOd8XIM40qvUYTl06NWJaFFv32lyenZR+GXuNlqB4Ohn?=
- =?us-ascii?Q?+TKDvOmYoX+iUhogvU7ZU1h9lpeUm93BcR4L23l/L5ov17xzyQjR4P7TCf6g?=
- =?us-ascii?Q?cenod2S2lpupwo3+kQbmJI+Lq+4k4VFD2BDsUEdZSv+1415iboLyR4QAdjzW?=
- =?us-ascii?Q?NQVO7ZerGDiTs/qjXtrNEKLUWFkD7H+3V+U2z1bougJvDyyuq9zneIBIEjxc?=
- =?us-ascii?Q?5siFkR/mJvCQK0OZZDwKc94nVsFqVZoLB1X0wJUlrjXvCILSeMjdBqE2ARS9?=
- =?us-ascii?Q?uszDDe9iaCtcbnlXZDgrfrXlortf4+v062XnemjGBjATWtn6OpDe3pi3REb/?=
- =?us-ascii?Q?wO3vX5hy8vb20Ml2Ez8ps8t6ytuRigB0uJepPm/kqJ+/5Koi4QtIuC0MCRrf?=
- =?us-ascii?Q?5Ji5y2W+CZfZa0sQK5gplWBYFkuXA9j+YF0FXXPOTlQKOaziA+BczejU3u2+?=
- =?us-ascii?Q?KJV+ERqxdlmxC0FD/wq06yk6ateoN6s/JumPtAomAUyVL7A2eepaUM6ReKHK?=
- =?us-ascii?Q?lbZQqV2R7VtdwRCLdQbjqQILR9+2J8QBVyN2/ZUWwfelj7f0dY5m/uILuiWQ?=
- =?us-ascii?Q?mGm9FoszCJV+1XV60qNTV5ou7EGS+JpjcRNftux5MJYy2iogcAu0BWXMstrW?=
- =?us-ascii?Q?C5jDOZzaT5xueL80mK1mptx2Y61hZ5qkCDJBVOaE8JK7PUMpJAuwDEsxvj31?=
- =?us-ascii?Q?ocJC68bmiAAiVvNK7B7ZDkqFxWUA2kWtdKsNZ67Uz6z8Kew7046B0npikUi7?=
- =?us-ascii?Q?NpSjWnsfkFbCqyjHyiGI2IYmggFha4Bpn4SQi3V4zAxYMCE9i6jnMV/ApsaO?=
- =?us-ascii?Q?ZlkbfTJJc5VuqwjYd3Teg9Ru+Urc+zpBu0OYMoChCiTgU11QtHhpwPukkMBa?=
- =?us-ascii?Q?1HOiP0eEIJYR4vsAbb98oPpjCLwk5nOvesu/sQUm4lBze+UuyMuIfB2qdsvR?=
- =?us-ascii?Q?yEGPIgDep7mczwYp2sy0xNTsNfxEEoqxi7oT1Q5eJ67ywO5dwgEfKnGo43dj?=
- =?us-ascii?Q?5MmSag=3D=3D?=
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ab80776c-0f18-4ce5-9b5e-08d9ea582a9a
-X-MS-Exchange-CrossTenant-AuthSource: AM9PR08MB6737.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Feb 2022 16:37:44.3682 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: SQYCI0EJV/CkahowXjxTukK0zCJG3UJhNApy90dewX5dMebb5kOAOWqouzvY66ovps6HaY+rS+BtF/9XejhfO8g3f2LJAHgK2MUhrz/tFAY=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VE1PR08MB5085
-Received-SPF: pass client-ip=40.107.20.129;
- envelope-from=vsementsov@virtuozzo.com;
- helo=EUR05-DB8-obe.outbound.protection.outlook.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+References: <20220206200719.74464-1-wwcohen@gmail.com>
+ <20220206200719.74464-5-wwcohen@gmail.com>
+ <1773154.tHhT6ugY5c@silver>
+In-Reply-To: <1773154.tHhT6ugY5c@silver>
+From: Will Cohen <wwcohen@gmail.com>
+Date: Mon, 7 Feb 2022 11:41:23 -0500
+Message-ID: <CAB26zV1KMpHg+ScpOR6DRdE_L-AUjjeMee4_nKoaLnsXqiSN7g@mail.gmail.com>
+Subject: Re: [PATCH v4 04/11] 9p: darwin: Handle struct dirent differences
+To: Christian Schoenebeck <qemu_oss@crudebyte.com>
+Content-Type: multipart/alternative; boundary="0000000000000f0f5f05d7704644"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::229
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::229;
+ envelope-from=wwcohen@gmail.com; helo=mail-lj1-x229.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -135,91 +80,533 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Fabian Franz <fabianfranz.oss@gmail.com>, qemu-devel@nongnu.org,
+ Greg Kurz <groug@kaod.org>, hi@alyssa.is,
+ Michael Roitzsch <reactorcontrol@icloud.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Keno Fischer <keno@juliacomputing.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Test for new option: use NBD server killing to simulate failure on file
-close.
+--0000000000000f0f5f05d7704644
+Content-Type: text/plain; charset="UTF-8"
 
-Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
----
- .../tests/blockdev-del-close-failure          | 54 +++++++++++++++++++
- .../tests/blockdev-del-close-failure.out      |  4 ++
- 2 files changed, 58 insertions(+)
- create mode 100755 tests/qemu-iotests/tests/blockdev-del-close-failure
- create mode 100644 tests/qemu-iotests/tests/blockdev-del-close-failure.out
+On Mon, Feb 7, 2022 at 9:41 AM Christian Schoenebeck <qemu_oss@crudebyte.com>
+wrote:
 
-diff --git a/tests/qemu-iotests/tests/blockdev-del-close-failure b/tests/qemu-iotests/tests/blockdev-del-close-failure
-new file mode 100755
-index 0000000000..12b442f43f
---- /dev/null
-+++ b/tests/qemu-iotests/tests/blockdev-del-close-failure
-@@ -0,0 +1,54 @@
-+#!/usr/bin/env python3
-+#
-+# Test blockdev-add force=false
-+#
-+# Copyright (c) 2022 Virtuozzo International GmbH.
-+#
-+# This program is free software; you can redistribute it and/or modify
-+# it under the terms of the GNU General Public License as published by
-+# the Free Software Foundation; either version 2 of the License, or
-+# (at your option) any later version.
-+#
-+# This program is distributed in the hope that it will be useful,
-+# but WITHOUT ANY WARRANTY; without even the implied warranty of
-+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+# GNU General Public License for more details.
-+#
-+# You should have received a copy of the GNU General Public License
-+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
-+#
-+
-+import iotests
-+from iotests import qemu_img_create, qemu_img, qemu_nbd_popen, qemu_img_pipe
-+
-+iotests.script_initialize(supported_fmts=['qcow2'],
-+                          unsupported_imgopts=['compat'])
-+
-+disk, nbd_sock = iotests.file_path('disk', 'nbd-sock')
-+size = '1M'
-+
-+assert qemu_img_create('-f', iotests.imgfmt, disk, size) == 0
-+assert qemu_img('bitmap', '--add', disk, 'bitmap0') == 0
-+assert 'bitmaps' in qemu_img_pipe('info', disk)
-+
-+vm = iotests.VM()
-+vm.launch()
-+
-+with qemu_nbd_popen('-k', nbd_sock, '-f', 'raw', disk):
-+    result = vm.qmp('blockdev-add', {
-+        'node-name': 'disk0',
-+        'driver': 'qcow2',
-+        'file': {
-+            'driver': 'nbd',
-+            'server': {
-+                'type': 'unix',
-+                'path': nbd_sock
-+            }
-+        }
-+    })
-+    assert result == {'return': {}}
-+
-+# Now bitmap is loaded and marked IN_USE in the image, but connection is lost
-+# Bitmap can't be saved and blockdev-del(force=false) should fail
-+vm.qmp_log('blockdev-del', node_name='disk0', force=False)
-+vm.shutdown()
-diff --git a/tests/qemu-iotests/tests/blockdev-del-close-failure.out b/tests/qemu-iotests/tests/blockdev-del-close-failure.out
-new file mode 100644
-index 0000000000..4a4776cc98
---- /dev/null
-+++ b/tests/qemu-iotests/tests/blockdev-del-close-failure.out
-@@ -0,0 +1,4 @@
-+Start NBD server
-+Kill NBD server
-+{"execute": "blockdev-del", "arguments": {"force": false, "node-name": "disk0"}}
-+{"error": {"class": "GenericError", "desc": "Failed to flush node 'disk0'"}}
--- 
-2.31.1
+> On Sonntag, 6. Februar 2022 21:07:12 CET Will Cohen wrote:
+> > From: Keno Fischer <keno@juliacomputing.com>
+> >
+> > On darwin d_seekoff exists, but is optional and does not seem to
+> > be commonly used by file systems. Use `telldir` instead to obtain
+> > the seek offset and inject it into d_seekoff, and create a
+> > qemu_dirent_off helper to call it appropriately when appropriate.
+> >
+> > Signed-off-by: Keno Fischer <keno@juliacomputing.com>
+> > [Michael Roitzsch: - Rebase for NixOS]
+> > Signed-off-by: Michael Roitzsch <reactorcontrol@icloud.com>
+> > [Will Cohen: - Adjust to pass testing
+> >              - Ensure that d_seekoff is filled using telldir
+> >                on darwin, and create qemu_dirent_off helper
+> >                to decide which to access]
+> > [Fabian Franz: - Add telldir error handling for darwin]
+> > [Will Cohen: - Ensure that telldir error handling uses
+> >                signed int]
+> > Signed-off-by: Fabian Franz <fabianfranz.oss@gmail.com>
+> > Signed-off-by: Will Cohen <wwcohen@gmail.com>
+> > ---
+> >  hw/9pfs/9p-local.c |  9 +++++++++
+> >  hw/9pfs/9p-proxy.c | 16 +++++++++++++++-
+> >  hw/9pfs/9p-synth.c |  4 ++++
+> >  hw/9pfs/9p-util.h  | 17 +++++++++++++++++
+> >  hw/9pfs/9p.c       | 15 +++++++++++++--
+> >  hw/9pfs/codir.c    |  7 +++++++
+> >  6 files changed, 65 insertions(+), 3 deletions(-)
+> >
+> > diff --git a/hw/9pfs/9p-local.c b/hw/9pfs/9p-local.c
+> > index 1a5e3eed73..7137a28109 100644
+> > --- a/hw/9pfs/9p-local.c
+> > +++ b/hw/9pfs/9p-local.c
+> > @@ -559,6 +559,15 @@ static struct dirent *local_readdir(FsContext *ctx,
+> > V9fsFidOpenState *fs)
+> >
+> >  again:
+> >      entry = readdir(fs->dir.stream);
+> > +#ifdef CONFIG_DARWIN
+> > +    int td;
+> > +    td = telldir(fs->dir.stream);
+> > +    /* If telldir fails, fail the entire readdir call */
+> > +    if (td < 0) {
+> > +        return NULL;
+> > +    }
+> > +    entry->d_seekoff = td;
+> > +#endif
+> >      if (!entry) {
+> >          return NULL;
+> >      }
+>
+> 'entry' may be NULL, so the 'if (!entry) {' check should be before the
+> Darwin
+> specific code to avoid a crash on macOS.
+>
 
+Adjusting for v5.
+
+
+>
+> > diff --git a/hw/9pfs/9p-proxy.c b/hw/9pfs/9p-proxy.c
+> > index b1664080d8..8b4b5cf7dc 100644
+> > --- a/hw/9pfs/9p-proxy.c
+> > +++ b/hw/9pfs/9p-proxy.c
+> > @@ -706,7 +706,21 @@ static off_t proxy_telldir(FsContext *ctx,
+> > V9fsFidOpenState *fs)
+> >
+> >  static struct dirent *proxy_readdir(FsContext *ctx, V9fsFidOpenState
+> *fs)
+> >  {
+> > -    return readdir(fs->dir.stream);
+> > +    struct dirent *entry;
+> > +    entry = readdir(fs->dir.stream);
+> > +#ifdef CONFIG_DARWIN
+> > +    if (!entry) {
+> > +        return NULL;
+> > +    }
+> > +    int td;
+> > +    td = telldir(fs->dir.stream);
+> > +    /* If telldir fails, fail the entire readdir call */
+> > +    if (td < 0) {
+> > +        return NULL;
+> > +    }
+> > +    entry->d_seekoff = td;
+> > +#endif
+> > +    return entry;
+> >  }
+> >
+> >  static void proxy_seekdir(FsContext *ctx, V9fsFidOpenState *fs, off_t
+> off)
+> > diff --git a/hw/9pfs/9p-synth.c b/hw/9pfs/9p-synth.c
+> > index 4a4a776d06..e264a03eef 100644
+> > --- a/hw/9pfs/9p-synth.c
+> > +++ b/hw/9pfs/9p-synth.c
+> > @@ -222,7 +222,11 @@ static void synth_direntry(V9fsSynthNode *node,
+> >  {
+> >      strcpy(entry->d_name, node->name);
+> >      entry->d_ino = node->attr->inode;
+> > +#ifdef CONFIG_DARWIN
+> > +    entry->d_seekoff = off + 1;
+> > +#else
+> >      entry->d_off = off + 1;
+> > +#endif
+> >  }
+> >
+> >  static struct dirent *synth_get_dentry(V9fsSynthNode *dir,
+> > diff --git a/hw/9pfs/9p-util.h b/hw/9pfs/9p-util.h
+> > index 546f46dc7d..accbec9987 100644
+> > --- a/hw/9pfs/9p-util.h
+> > +++ b/hw/9pfs/9p-util.h
+> > @@ -79,3 +79,20 @@ ssize_t fremovexattrat_nofollow(int dirfd, const char
+> > *filename, const char *name);
+> >
+> >  #endif
+> > +
+> > +
+> > +/**
+> > + * Darwin has d_seekoff, which appears to function similarly to d_off.
+> > + * However, it does not appear to be supported on all file systems,
+> > + * so ensure it is manually injected earlier and call here when
+> > + * needed.
+> > + */
+> > +
+>
+> Nitpicking: no blank line here please.
+>
+
+Adjusting for v5.
+
+
+>
+> > +inline off_t qemu_dirent_off(struct dirent *dent)
+> > +{
+> > +#ifdef CONFIG_DARWIN
+> > +    return dent->d_seekoff;
+> > +#else
+> > +    return dent->d_off;
+> > +#endif
+> > +}
+> > diff --git a/hw/9pfs/9p.c b/hw/9pfs/9p.c
+> > index 1563d7b7c6..cf694da354 100644
+> > --- a/hw/9pfs/9p.c
+> > +++ b/hw/9pfs/9p.c
+> > @@ -27,6 +27,7 @@
+> >  #include "virtio-9p.h"
+> >  #include "fsdev/qemu-fsdev.h"
+> >  #include "9p-xattr.h"
+> > +#include "9p-util.h"
+> >  #include "coth.h"
+> >  #include "trace.h"
+> >  #include "migration/blocker.h"
+> > @@ -2281,7 +2282,11 @@ static int coroutine_fn
+> > v9fs_do_readdir_with_stat(V9fsPDU *pdu, count += len;
+> >          v9fs_stat_free(&v9stat);
+> >          v9fs_path_free(&path);
+> > -        saved_dir_pos = dent->d_off;
+> > +        saved_dir_pos = qemu_dirent_off(dent);
+> > +        if (saved_dir_pos < 0) {
+> > +            err = saved_dir_pos;
+> > +            break;
+> > +        }
+> >      }
+>
+> That check is no longer needed here, is it?
+>
+
+Correct! Adjusting for v5.
+
+
+>
+> >
+> >      v9fs_readdir_unlock(&fidp->fs.dir);
+> > @@ -2420,6 +2425,7 @@ static int coroutine_fn v9fs_do_readdir(V9fsPDU
+> *pdu,
+> > V9fsFidState *fidp, V9fsString name;
+> >      int len, err = 0;
+> >      int32_t count = 0;
+> > +    off_t off;
+> >      struct dirent *dent;
+> >      struct stat *st;
+> >      struct V9fsDirEnt *entries = NULL;
+> > @@ -2480,12 +2486,17 @@ static int coroutine_fn v9fs_do_readdir(V9fsPDU
+> > *pdu, V9fsFidState *fidp, qid.version = 0;
+> >          }
+> >
+> > +        off = qemu_dirent_off(dent);
+> > +        if (off < 0) {
+> > +            err = off;
+> > +            break;
+> > +        }
+>
+> Likewise: is this check still needed?
+>
+
+As above, removing for v5.
+
+
+>
+> >          v9fs_string_init(&name);
+> >          v9fs_string_sprintf(&name, "%s", dent->d_name);
+> >
+> >          /* 11 = 7 + 4 (7 = start offset, 4 = space for storing count) */
+> >          len = pdu_marshal(pdu, 11 + count, "Qqbs",
+> > -                          &qid, dent->d_off,
+> > +                          &qid, off,
+> >                            dent->d_type, &name);
+> >
+> >          v9fs_string_free(&name);
+> > diff --git a/hw/9pfs/codir.c b/hw/9pfs/codir.c
+> > index 032cce04c4..fac6759a64 100644
+> > --- a/hw/9pfs/codir.c
+> > +++ b/hw/9pfs/codir.c
+> > @@ -167,7 +167,14 @@ static int do_readdir_many(V9fsPDU *pdu,
+> V9fsFidState
+> > *fidp, }
+> >
+> >          size += len;
+> > +        /* This conditional statement is identical in
+> > +         * function to qemu_dirent_off, described in 9p-util.h,
+> > +         * since that header cannot be included here. */
+> > +#ifdef CONFIG_DARWIN
+> > +        saved_dir_pos = dent->d_seekoff;
+> > +#else
+> >          saved_dir_pos = dent->d_off;
+> > +#endif
+>
+> Why can't the header not be included here? Obvious preference would be to
+> use
+> qemu_dirent_off() here as well, to have control at one central code
+> location.
+>
+
+Only my own imprecision in organizing the includes correctly. After
+including "9p-xattr.h" as well, this works. Will adjust for v5.
+
+
+>
+> >      }
+> >
+> >      /* restore (last) saved position */
+>
+>
+>
+
+--0000000000000f0f5f05d7704644
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr">On Mon, Feb 7, 2022 at 9:41 AM Christian =
+Schoenebeck &lt;<a href=3D"mailto:qemu_oss@crudebyte.com">qemu_oss@crudebyt=
+e.com</a>&gt; wrote:<br></div><div class=3D"gmail_quote"><blockquote class=
+=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rg=
+b(204,204,204);padding-left:1ex">On Sonntag, 6. Februar 2022 21:07:12 CET W=
+ill Cohen wrote:<br>
+&gt; From: Keno Fischer &lt;<a href=3D"mailto:keno@juliacomputing.com" targ=
+et=3D"_blank">keno@juliacomputing.com</a>&gt;<br>
+&gt; <br>
+&gt; On darwin d_seekoff exists, but is optional and does not seem to<br>
+&gt; be commonly used by file systems. Use `telldir` instead to obtain<br>
+&gt; the seek offset and inject it into d_seekoff, and create a<br>
+&gt; qemu_dirent_off helper to call it appropriately when appropriate.<br>
+&gt; <br>
+&gt; Signed-off-by: Keno Fischer &lt;<a href=3D"mailto:keno@juliacomputing.=
+com" target=3D"_blank">keno@juliacomputing.com</a>&gt;<br>
+&gt; [Michael Roitzsch: - Rebase for NixOS]<br>
+&gt; Signed-off-by: Michael Roitzsch &lt;<a href=3D"mailto:reactorcontrol@i=
+cloud.com" target=3D"_blank">reactorcontrol@icloud.com</a>&gt;<br>
+&gt; [Will Cohen: - Adjust to pass testing<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 - Ensure that d_seekof=
+f is filled using telldir<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 on darwin, and =
+create qemu_dirent_off helper<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 to decide which=
+ to access]<br>
+&gt; [Fabian Franz: - Add telldir error handling for darwin]<br>
+&gt; [Will Cohen: - Ensure that telldir error handling uses<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 signed int]<br>
+&gt; Signed-off-by: Fabian Franz &lt;<a href=3D"mailto:fabianfranz.oss@gmai=
+l.com" target=3D"_blank">fabianfranz.oss@gmail.com</a>&gt;<br>
+&gt; Signed-off-by: Will Cohen &lt;<a href=3D"mailto:wwcohen@gmail.com" tar=
+get=3D"_blank">wwcohen@gmail.com</a>&gt;<br>
+&gt; ---<br>
+&gt;=C2=A0 hw/9pfs/9p-local.c |=C2=A0 9 +++++++++<br>
+&gt;=C2=A0 hw/9pfs/9p-proxy.c | 16 +++++++++++++++-<br>
+&gt;=C2=A0 hw/9pfs/9p-synth.c |=C2=A0 4 ++++<br>
+&gt;=C2=A0 hw/9pfs/9p-util.h=C2=A0 | 17 +++++++++++++++++<br>
+&gt;=C2=A0 hw/9pfs/9p.c=C2=A0 =C2=A0 =C2=A0 =C2=A0| 15 +++++++++++++--<br>
+&gt;=C2=A0 hw/9pfs/codir.c=C2=A0 =C2=A0 |=C2=A0 7 +++++++<br>
+&gt;=C2=A0 6 files changed, 65 insertions(+), 3 deletions(-)<br>
+&gt; <br>
+&gt; diff --git a/hw/9pfs/9p-local.c b/hw/9pfs/9p-local.c<br>
+&gt; index 1a5e3eed73..7137a28109 100644<br>
+&gt; --- a/hw/9pfs/9p-local.c<br>
+&gt; +++ b/hw/9pfs/9p-local.c<br>
+&gt; @@ -559,6 +559,15 @@ static struct dirent *local_readdir(FsContext *ct=
+x,<br>
+&gt; V9fsFidOpenState *fs)<br>
+&gt; <br>
+&gt;=C2=A0 again:<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 entry =3D readdir(fs-&gt;dir.stream);<br>
+&gt; +#ifdef CONFIG_DARWIN<br>
+&gt; +=C2=A0 =C2=A0 int td;<br>
+&gt; +=C2=A0 =C2=A0 td =3D telldir(fs-&gt;dir.stream);<br>
+&gt; +=C2=A0 =C2=A0 /* If telldir fails, fail the entire readdir call */<br=
+>
+&gt; +=C2=A0 =C2=A0 if (td &lt; 0) {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 return NULL;<br>
+&gt; +=C2=A0 =C2=A0 }<br>
+&gt; +=C2=A0 =C2=A0 entry-&gt;d_seekoff =3D td;<br>
+&gt; +#endif<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 if (!entry) {<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return NULL;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 }<br>
+<br>
+&#39;entry&#39; may be NULL, so the &#39;if (!entry) {&#39; check should be=
+ before the Darwin <br>
+specific code to avoid a crash on macOS.<br></blockquote><div><br></div><di=
+v>Adjusting for v5.<br></div><div>=C2=A0</div><blockquote class=3D"gmail_qu=
+ote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,20=
+4);padding-left:1ex">
+<br>
+&gt; diff --git a/hw/9pfs/9p-proxy.c b/hw/9pfs/9p-proxy.c<br>
+&gt; index b1664080d8..8b4b5cf7dc 100644<br>
+&gt; --- a/hw/9pfs/9p-proxy.c<br>
+&gt; +++ b/hw/9pfs/9p-proxy.c<br>
+&gt; @@ -706,7 +706,21 @@ static off_t proxy_telldir(FsContext *ctx,<br>
+&gt; V9fsFidOpenState *fs)<br>
+&gt; <br>
+&gt;=C2=A0 static struct dirent *proxy_readdir(FsContext *ctx, V9fsFidOpenS=
+tate *fs)<br>
+&gt;=C2=A0 {<br>
+&gt; -=C2=A0 =C2=A0 return readdir(fs-&gt;dir.stream);<br>
+&gt; +=C2=A0 =C2=A0 struct dirent *entry;<br>
+&gt; +=C2=A0 =C2=A0 entry =3D readdir(fs-&gt;dir.stream);<br>
+&gt; +#ifdef CONFIG_DARWIN<br>
+&gt; +=C2=A0 =C2=A0 if (!entry) {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 return NULL;<br>
+&gt; +=C2=A0 =C2=A0 }<br>
+&gt; +=C2=A0 =C2=A0 int td;<br>
+&gt; +=C2=A0 =C2=A0 td =3D telldir(fs-&gt;dir.stream);<br>
+&gt; +=C2=A0 =C2=A0 /* If telldir fails, fail the entire readdir call */<br=
+>
+&gt; +=C2=A0 =C2=A0 if (td &lt; 0) {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 return NULL;<br>
+&gt; +=C2=A0 =C2=A0 }<br>
+&gt; +=C2=A0 =C2=A0 entry-&gt;d_seekoff =3D td;<br>
+&gt; +#endif<br>
+&gt; +=C2=A0 =C2=A0 return entry;<br>
+&gt;=C2=A0 }<br>
+&gt; <br>
+&gt;=C2=A0 static void proxy_seekdir(FsContext *ctx, V9fsFidOpenState *fs, =
+off_t off)<br>
+&gt; diff --git a/hw/9pfs/9p-synth.c b/hw/9pfs/9p-synth.c<br>
+&gt; index 4a4a776d06..e264a03eef 100644<br>
+&gt; --- a/hw/9pfs/9p-synth.c<br>
+&gt; +++ b/hw/9pfs/9p-synth.c<br>
+&gt; @@ -222,7 +222,11 @@ static void synth_direntry(V9fsSynthNode *node,<b=
+r>
+&gt;=C2=A0 {<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 strcpy(entry-&gt;d_name, node-&gt;name);<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 entry-&gt;d_ino =3D node-&gt;attr-&gt;inode;<br>
+&gt; +#ifdef CONFIG_DARWIN<br>
+&gt; +=C2=A0 =C2=A0 entry-&gt;d_seekoff =3D off + 1;<br>
+&gt; +#else<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 entry-&gt;d_off =3D off + 1;<br>
+&gt; +#endif<br>
+&gt;=C2=A0 }<br>
+&gt; <br>
+&gt;=C2=A0 static struct dirent *synth_get_dentry(V9fsSynthNode *dir,<br>
+&gt; diff --git a/hw/9pfs/9p-util.h b/hw/9pfs/9p-util.h<br>
+&gt; index 546f46dc7d..accbec9987 100644<br>
+&gt; --- a/hw/9pfs/9p-util.h<br>
+&gt; +++ b/hw/9pfs/9p-util.h<br>
+&gt; @@ -79,3 +79,20 @@ ssize_t fremovexattrat_nofollow(int dirfd, const ch=
+ar<br>
+&gt; *filename, const char *name);<br>
+&gt; <br>
+&gt;=C2=A0 #endif<br>
+&gt; +<br>
+&gt; +<br>
+&gt; +/**<br>
+&gt; + * Darwin has d_seekoff, which appears to function similarly to d_off=
+.<br>
+&gt; + * However, it does not appear to be supported on all file systems,<b=
+r>
+&gt; + * so ensure it is manually injected earlier and call here when<br>
+&gt; + * needed.<br>
+&gt; + */<br>
+&gt; +<br>
+<br>
+Nitpicking: no blank line here please.<br></blockquote><div><br></div><div>=
+Adjusting for v5.<br></div><div>=C2=A0</div><blockquote class=3D"gmail_quot=
+e" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204)=
+;padding-left:1ex">
+<br>
+&gt; +inline off_t qemu_dirent_off(struct dirent *dent)<br>
+&gt; +{<br>
+&gt; +#ifdef CONFIG_DARWIN<br>
+&gt; +=C2=A0 =C2=A0 return dent-&gt;d_seekoff;<br>
+&gt; +#else<br>
+&gt; +=C2=A0 =C2=A0 return dent-&gt;d_off;<br>
+&gt; +#endif<br>
+&gt; +}<br>
+&gt; diff --git a/hw/9pfs/9p.c b/hw/9pfs/9p.c<br>
+&gt; index 1563d7b7c6..cf694da354 100644<br>
+&gt; --- a/hw/9pfs/9p.c<br>
+&gt; +++ b/hw/9pfs/9p.c<br>
+&gt; @@ -27,6 +27,7 @@<br>
+&gt;=C2=A0 #include &quot;virtio-9p.h&quot;<br>
+&gt;=C2=A0 #include &quot;fsdev/qemu-fsdev.h&quot;<br>
+&gt;=C2=A0 #include &quot;9p-xattr.h&quot;<br>
+&gt; +#include &quot;9p-util.h&quot;<br>
+&gt;=C2=A0 #include &quot;coth.h&quot;<br>
+&gt;=C2=A0 #include &quot;trace.h&quot;<br>
+&gt;=C2=A0 #include &quot;migration/blocker.h&quot;<br>
+&gt; @@ -2281,7 +2282,11 @@ static int coroutine_fn<br>
+&gt; v9fs_do_readdir_with_stat(V9fsPDU *pdu, count +=3D len;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 v9fs_stat_free(&amp;v9stat);<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 v9fs_path_free(&amp;path);<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 saved_dir_pos =3D dent-&gt;d_off;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 saved_dir_pos =3D qemu_dirent_off(dent);<=
+br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (saved_dir_pos &lt; 0) {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 err =3D saved_dir_pos;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 }<br>
+<br>
+That check is no longer needed here, is it?<br></blockquote><div><br></div>=
+<div>Correct! Adjusting for v5.<br></div><div>=C2=A0</div><blockquote class=
+=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rg=
+b(204,204,204);padding-left:1ex">
+<br>
+&gt; <br>
+&gt;=C2=A0 =C2=A0 =C2=A0 v9fs_readdir_unlock(&amp;fidp-&gt;fs.dir);<br>
+&gt; @@ -2420,6 +2425,7 @@ static int coroutine_fn v9fs_do_readdir(V9fsPDU =
+*pdu,<br>
+&gt; V9fsFidState *fidp, V9fsString name;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 int len, err =3D 0;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 int32_t count =3D 0;<br>
+&gt; +=C2=A0 =C2=A0 off_t off;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 struct dirent *dent;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 struct stat *st;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 struct V9fsDirEnt *entries =3D NULL;<br>
+&gt; @@ -2480,12 +2486,17 @@ static int coroutine_fn v9fs_do_readdir(V9fsPD=
+U<br>
+&gt; *pdu, V9fsFidState *fidp, qid.version =3D 0;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
+&gt; <br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 off =3D qemu_dirent_off(dent);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (off &lt; 0) {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 err =3D off;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
+<br>
+Likewise: is this check still needed?<br></blockquote><div><br></div><div>A=
+s above, removing for v5.<br></div><div>=C2=A0</div><blockquote class=3D"gm=
+ail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,=
+204,204);padding-left:1ex">
+<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 v9fs_string_init(&amp;name);<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 v9fs_string_sprintf(&amp;name, &quot=
+;%s&quot;, dent-&gt;d_name);<br>
+&gt; <br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 /* 11 =3D 7 + 4 (7 =3D start offset,=
+ 4 =3D space for storing count) */<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 len =3D pdu_marshal(pdu, 11 + count,=
+ &quot;Qqbs&quot;,<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 &amp;qid, dent-&gt;d_off,<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 &amp;qid, off,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 dent-&gt;d_type, &amp;name);<br>
+&gt; <br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 v9fs_string_free(&amp;name);<br>
+&gt; diff --git a/hw/9pfs/codir.c b/hw/9pfs/codir.c<br>
+&gt; index 032cce04c4..fac6759a64 100644<br>
+&gt; --- a/hw/9pfs/codir.c<br>
+&gt; +++ b/hw/9pfs/codir.c<br>
+&gt; @@ -167,7 +167,14 @@ static int do_readdir_many(V9fsPDU *pdu, V9fsFidS=
+tate<br>
+&gt; *fidp, }<br>
+&gt; <br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 size +=3D len;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 /* This conditional statement is identica=
+l in<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* function to qemu_dirent_off, desc=
+ribed in 9p-util.h,<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* since that header cannot be inclu=
+ded here. */<br>
+&gt; +#ifdef CONFIG_DARWIN<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 saved_dir_pos =3D dent-&gt;d_seekoff;<br>
+&gt; +#else<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 saved_dir_pos =3D dent-&gt;d_off;<br=
+>
+&gt; +#endif<br>
+<br>
+Why can&#39;t the header not be included here? Obvious preference would be =
+to use <br>
+qemu_dirent_off() here as well, to have control at one central code locatio=
+n.<br></blockquote><div><br></div><div>Only my own imprecision in organizin=
+g the includes correctly. After including &quot;9p-xattr.h&quot; as well, t=
+his works. Will adjust for v5.<br></div><div>=C2=A0</div><blockquote class=
+=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rg=
+b(204,204,204);padding-left:1ex">
+<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 }<br>
+&gt; <br>
+&gt;=C2=A0 =C2=A0 =C2=A0 /* restore (last) saved position */<br>
+<br>
+<br>
+</blockquote></div></div>
+
+--0000000000000f0f5f05d7704644--
 
