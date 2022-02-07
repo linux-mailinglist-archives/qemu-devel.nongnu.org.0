@@ -2,85 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DCFED4ACBA5
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Feb 2022 22:51:49 +0100 (CET)
-Received: from localhost ([::1]:36798 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 33F114ACBBF
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Feb 2022 23:03:37 +0100 (CET)
+Received: from localhost ([::1]:44332 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nHBvI-0008OK-JB
-	for lists+qemu-devel@lfdr.de; Mon, 07 Feb 2022 16:51:48 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:50168)
+	id 1nHC6h-0005cd-QM
+	for lists+qemu-devel@lfdr.de; Mon, 07 Feb 2022 17:03:35 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:53298)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nHBsM-0007XN-Rm
- for qemu-devel@nongnu.org; Mon, 07 Feb 2022 16:48:46 -0500
-Received: from [2607:f8b0:4864:20::435] (port=40670
- helo=mail-pf1-x435.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nHBsJ-0006IQ-Rm
- for qemu-devel@nongnu.org; Mon, 07 Feb 2022 16:48:45 -0500
-Received: by mail-pf1-x435.google.com with SMTP id e6so15319911pfc.7
- for <qemu-devel@nongnu.org>; Mon, 07 Feb 2022 13:48:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=W5UH/1OtTBgouTcUfFPQpJPoDIU2YTD/dAHnoVXZTsk=;
- b=mMT1ep+wyNGompVN1/h74jpS24c3S/Wd4mEeRV72lUvwv2D0zXPotSDCyPkKgQH0BL
- ju1Aw56Pd78fSVf6XIfzEbMmKHCXjT3Smuto4+a26DKuiHUF1YFSDe8QcWul1rDBHYwY
- 2jKTPiqu32EMWRyu0eTD1MKqAxCvvVHrgUtiTnJAgFsyioA/1mez1P8Y5gFe4WFjLjWe
- B0ksdbx8f/Wh1lYn9clDIHwXBZNwNX8Jxb2FMbDYsau994ONhBmuW3Fa6li1hphxrrJE
- 1jX7KcB0+2QSV732DX7ZodttcLW0llYJ4r1TGfA3sLeorgIU4VGENTQXP7WMdeTxl819
- 71cw==
+ (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
+ id 1nHC30-00041a-Qy
+ for qemu-devel@nongnu.org; Mon, 07 Feb 2022 16:59:46 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:34602)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
+ id 1nHC2x-0007tL-Mc
+ for qemu-devel@nongnu.org; Mon, 07 Feb 2022 16:59:45 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1644271182;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=q9SaDH2NIi/9JzlvSC6uJ0Ti0uOl9Jmur3IxhzTLH58=;
+ b=fgA/bH2vXfcruo14Eg5XquuPAh6/LwTbxzU3NlT0EMRw0jkCXebfnNCMRDpZEjtFl4f/FI
+ XxzBlV7h+jAadSkWa5/FBOa30zFd6iyR2SGu5osP6Pi7XewqRvh8cevG0Do177nnAKdSNI
+ XfZTsNu4ayGsM/kjeNyganyNj3W5tQI=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-269-GxA39Q1YMd6wQeelxa9IWw-1; Mon, 07 Feb 2022 16:59:40 -0500
+X-MC-Unique: GxA39Q1YMd6wQeelxa9IWw-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ v2-20020adfa1c2000000b001e31fe03e3cso1298174wrv.4
+ for <qemu-devel@nongnu.org>; Mon, 07 Feb 2022 13:59:39 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=W5UH/1OtTBgouTcUfFPQpJPoDIU2YTD/dAHnoVXZTsk=;
- b=g9fSVJ+/oCBfe9UPh9ARFfNi5piNTKMk7YceojnGnNn9WoQ6QbV2CEBqnO0wyR9chU
- 8FsYXcC48YwPeKJB3oj+154TMwczvKHNWzHvYm9KZBJeLh+lelk3fAFWi+XkmnFlHL9j
- /MgLdqobLRUbqJ7bq6SDEn9GWKCvgYuGqb+O3X9RwGXUZYq8mDBQ0mAPOjBbXZTJdRTx
- lrF+fM8aOan5fb4xsO9tPpoeJ3Muel1TD1VTnVV+JYV9ooIxKH8pE4cELip2P4bLuyBW
- ydWXb6yEgdLmhrPRW9YFtq/XIyUteOPLPJT6TPb2I0Z5qdG/3OkWaEKiYEVFskBFQ9m5
- lE+g==
-X-Gm-Message-State: AOAM531YH19DlF87Ep8wLyo8nfF2KWXvZQPSyM3OCzhrNCL1JyZ7eI4c
- fV0QXINhbwvwZCphRS77zbl+Tg==
-X-Google-Smtp-Source: ABdhPJwGQH9Dh2huo2Y/2WZozoDiqhhooca3YaLkMSqYwZsj1VPE2DNAz0FTS+E6TQWo7AD2EvI43A==
-X-Received: by 2002:a05:6a00:181f:: with SMTP id
- y31mr1452388pfa.35.1644270521239; 
- Mon, 07 Feb 2022 13:48:41 -0800 (PST)
-Received: from [192.168.1.118] (121-45-127-8.tpgi.com.au. [121.45.127.8])
- by smtp.gmail.com with ESMTPSA id 69sm9256722pgc.61.2022.02.07.13.48.39
+ h=x-gm-message-state:reply-to:subject:to:cc:references:from
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-transfer-encoding:content-language;
+ bh=q9SaDH2NIi/9JzlvSC6uJ0Ti0uOl9Jmur3IxhzTLH58=;
+ b=prvcEWy47pAMUTXBuqqqtRD2pWlsM+3wEHo8u3nLj0MO67PbXn694UwbZwgYw+Zy/c
+ vPnv5rTGfMBBB6j2wvrm9xWC1b30ckDNIK7v8/e+/ceHi3gjOIfEZ6TTREEnBCjHG7sE
+ yN/0VXrKjcKM/lDiPNf/qOieuX8kIA6wR/CwKyILEExQMdX2l5zr0KbZq2rG4POnYs2w
+ wKZteBC32XvMyelH78G5jMUwOe6a33YwalMnB6aIxPVjQDKNpe3wyzqktNspvep4uzc5
+ +rk6UoNbxpLuOKV1AGVPRv29rHW90oIiu0OxtiHStCwvomFUMFa6ozYZ7g0pKadQ9jvp
+ 1SuA==
+X-Gm-Message-State: AOAM533GgCmAR8k/NG/lUHmTvwIvUYwoRpHcybfM4gmyG0TbN1vrb1r0
+ RGDC1In/IqVbEEong+oxyLciH+8JbxEMVpuVWGhJJhvc0LDfdGY34TUYZTxWCqU3KkqiITk2WWT
+ cANC7gCSzETdlNp4=
+X-Received: by 2002:a5d:49c1:: with SMTP id t1mr1101338wrs.359.1644271178950; 
+ Mon, 07 Feb 2022 13:59:38 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzgWfEhb5nBg41ZgPHIsZnXK5zYpkJdMEeIXrymB1AlbJKtHhtz9GejyBVr27h7NK7YQu8kAA==
+X-Received: by 2002:a5d:49c1:: with SMTP id t1mr1101318wrs.359.1644271178651; 
+ Mon, 07 Feb 2022 13:59:38 -0800 (PST)
+Received: from ?IPv6:2a01:e0a:59e:9d80:527b:9dff:feef:3874?
+ ([2a01:e0a:59e:9d80:527b:9dff:feef:3874])
+ by smtp.gmail.com with ESMTPSA id r11sm2724071wrt.28.2022.02.07.13.59.37
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 07 Feb 2022 13:48:40 -0800 (PST)
-Message-ID: <48050141-383a-30ec-d8af-17a1621986ca@linaro.org>
-Date: Tue, 8 Feb 2022 08:48:35 +1100
+ Mon, 07 Feb 2022 13:59:38 -0800 (PST)
+Subject: Re: [PATCH v2 0/6] qtests/libqos: Allow PCI tests to be run with
+ virt-machine
+To: "Michael S. Tsirkin" <mst@redhat.com>
+References: <20220118203833.316741-1-eric.auger@redhat.com>
+ <20220204204301-mutt-send-email-mst@kernel.org>
+From: Eric Auger <eric.auger@redhat.com>
+Message-ID: <d6f1e88d-da84-6d7f-fc87-bffebb750ff8@redhat.com>
+Date: Mon, 7 Feb 2022 22:59:36 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH v5 1/6] tcg/sparc: Add scratch argument to tcg_out_movi_int
-Content-Language: en-US
-To: Peter Maydell <peter.maydell@linaro.org>
-References: <20220206103138.36105-1-richard.henderson@linaro.org>
- <20220206103138.36105-2-richard.henderson@linaro.org>
- <CAFEAcA-dW89Q829RBPEp+wuPXvpDp=UXa1xzf=qJirxExddtCQ@mail.gmail.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <CAFEAcA-dW89Q829RBPEp+wuPXvpDp=UXa1xzf=qJirxExddtCQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+In-Reply-To: <20220204204301-mutt-send-email-mst@kernel.org>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eric.auger@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::435
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::435;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x435.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+Content-Language: en-US
+Received-SPF: pass client-ip=170.10.129.124;
+ envelope-from=eric.auger@redhat.com; helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,73 +103,112 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Reply-To: eric.auger@redhat.com
+Cc: lvivier@redhat.com, peter.maydell@linaro.org, thuth@redhat.com,
+ jean-philippe@linaro.org, eesposit@redhat.com, qemu-devel@nongnu.org,
+ qemu-arm@nongnu.org, clg@kaod.org, pbonzini@redhat.com,
+ david@gibson.dropbear.id.au, eric.auger.pro@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/8/22 04:59, Peter Maydell wrote:
-> On Sun, 6 Feb 2022 at 10:31, Richard Henderson
-> <richard.henderson@linaro.org> wrote:
->>
->> This will allow us to control exactly what scratch register is
->> used for loading the constant.  Also, fix a theoretical problem
->> in recursing through tcg_out_movi, which may provide a different
->> value for in_prologue.
->>
->> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
->> ---
->>   tcg/sparc/tcg-target.c.inc | 21 +++++++++++++--------
->>   1 file changed, 13 insertions(+), 8 deletions(-)
->>
->> diff --git a/tcg/sparc/tcg-target.c.inc b/tcg/sparc/tcg-target.c.inc
->> index 0c062c60eb..8c3671f56a 100644
->> --- a/tcg/sparc/tcg-target.c.inc
->> +++ b/tcg/sparc/tcg-target.c.inc
->> @@ -414,7 +414,8 @@ static void tcg_out_movi_imm13(TCGContext *s, TCGReg ret, int32_t arg)
->>   }
->>
->>   static void tcg_out_movi_int(TCGContext *s, TCGType type, TCGReg ret,
->> -                             tcg_target_long arg, bool in_prologue)
->> +                             tcg_target_long arg, bool in_prologue,
->> +                             TCGReg scratch)
->>   {
->>       tcg_target_long hi, lo = (int32_t)arg;
->>       tcg_target_long test, lsb;
->> @@ -471,22 +472,25 @@ static void tcg_out_movi_int(TCGContext *s, TCGType type, TCGReg ret,
->>       /* A 64-bit constant decomposed into 2 32-bit pieces.  */
->>       if (check_fit_i32(lo, 13)) {
->>           hi = (arg - lo) >> 32;
->> -        tcg_out_movi(s, TCG_TYPE_I32, ret, hi);
->> +        tcg_out_movi_int(s, TCG_TYPE_I32, ret, hi, in_prologue, scratch);
->>           tcg_out_arithi(s, ret, ret, 32, SHIFT_SLLX);
->>           tcg_out_arithi(s, ret, ret, lo, ARITH_ADD);
->>       } else {
->> +        tcg_debug_assert(scratch != TCG_REG_G0);
->>           hi = arg >> 32;
->> -        tcg_out_movi(s, TCG_TYPE_I32, ret, hi);
->> -        tcg_out_movi(s, TCG_TYPE_I32, TCG_REG_T2, lo);
->> +        tcg_out_movi_int(s, TCG_TYPE_I32, ret, hi, in_prologue, scratch);
->> +        tcg_out_movi_int(s, TCG_TYPE_I32, scratch, lo, in_prologue, TCG_REG_G0);
->>           tcg_out_arithi(s, ret, ret, 32, SHIFT_SLLX);
->> -        tcg_out_arith(s, ret, ret, TCG_REG_T2, ARITH_OR);
->> +        tcg_out_arith(s, ret, ret, scratch, ARITH_OR);
->>       }
->>   }
->>
->>   static void tcg_out_movi(TCGContext *s, TCGType type,
->>                            TCGReg ret, tcg_target_long arg)
->>   {
->> -    tcg_out_movi_int(s, type, ret, arg, false);
->> +    /* When outputting to T2, we have no scratch available. */
->> +    TCGReg scratch = ret != TCG_REG_T2 ? TCG_REG_T2 : TCG_REG_G0;
-> 
-> Why won't using G0 trip the assertion above that scratch != TCG_REG_G0 ?
+Hi Michael,
 
-It would only do so for full 64-bit constants, where the scratch is needed.  For the case 
-in which we use T2 explicitly, the value is constrained to J (a 13-bit constant).
+On 2/5/22 2:43 AM, Michael S. Tsirkin wrote:
+> On Tue, Jan 18, 2022 at 09:38:27PM +0100, Eric Auger wrote:
+>> Up to now the virt-machine node only contains a virtio-mmio
+>> driver node but no driver that eventually produces any pci-bus
+>> interface.
+>>
+>> Hence, PCI libqos tests cannot be run with aarch64 binary.
+>>
+>> This series brings the pieces needed to be able to run PCI tests
+>> with the aarch64 binary: a generic-pcihost driver node gets
+>> instantiated by the machine. This later contains a pci-bus-generic
+>> driver which produces a pci-bus interface. Then all tests
+>> consuming the pci-bus interface can be run with the libqos arm
+>> virt machine.
+>>
+>> One of the first goal was to be able to run the virtio-iommu-pci
+>> tests as the virtio-iommu was initially targetting ARM and it
+>> was awkard to be run the test with the pc machine. This is now
+>> possible.
+>>
+>> Only the tests doing hotplug cannot be run yet as hotplug is
+>> not possible on the root bus. This will be dealt with separately
+>> by adding a root port to the object tree.
+>>
+>> Best Regards
+>>
+>> Eric
+>>
+>> This series can be found at:
+>> https://github.com/eauger/qemu/tree/libqos-pci-arm-v2
+>>
+>> History
+>
+> I dropped this due to make check failures. Pls make sure
+> to make and test all targets. Thanks!
+Sorry for the inconvenience.
 
-I suppose I could have also changed addsub2 to use tcg_out_movi_imm13 directly...
+qos-test now is failing on aarch64 and definitively it was passing when
+I submitted the patches (ie. with above branch).
+I bisected and d9afe24c29a0 ("hw/arm/virt: Disable highmem devices that
+don't fit in the PA range") recenly applied upstream changed the way the
+test behave and now is causing
+/aarch64/virt/generic-pcihost/pci-bus-generic/pci-bus/megasas/megasas-tests/dcmd/pd-get-info/fuzz
+to fail.
 
+This is due to the fact GPA is limited to 32b and the device seems to
+require high ECAM. I will fix that.
 
-r~
+Thanks
+
+Eric
+>
+>> v1 -> v2:
+>> - copyright updated to 2022
+>> - QPCIBusARM renamed into QGenericPCIBus
+>> - QGenericPCIHost declarations and definitions moved in the same
+>>   place as the generic pci implementation
+>> - rename pci-arm.c/h in generic-pcihost.c/h and remove any ref to
+>>   ARM there
+>> - remove qos_node_produces_opts, qpci_new_arm, qpci_free_arm
+>> - ecam_alloc_ptr now is a field of QGenericPCIBus and not QPCIBus
+>> - new libqos_init to create generic-pcihost driver that contains
+>>   pci-bus-generic
+>> - QGenericPCIHost moved in the same place as the generic pci
+>>   bindings
+>> - collected Thomas A-b/R-b
+>>
+>>
+>> Eric Auger (6):
+>>   tests/qtest/vhost-user-test.c: Use vhostforce=on
+>>   tests/qtest/libqos/pci: Introduce pio_limit
+>>   tests/qtest/libqos: Skip hotplug tests if pci root bus is not
+>>     hotpluggable
+>>   tests/qtest/vhost-user-blk-test: Setup MSIx to avoid error on aarch64
+>>   tests/qtest/vhost-user-blk-test: Factorize vq setup code
+>>   tests/qtest/libqos: Add generic pci host bridge in arm-virt machine
+>>
+>>  tests/qtest/e1000e-test.c             |   6 +
+>>  tests/qtest/libqos/arm-virt-machine.c |  18 +-
+>>  tests/qtest/libqos/generic-pcihost.c  | 231 ++++++++++++++++++++++++++
+>>  tests/qtest/libqos/generic-pcihost.h  |  54 ++++++
+>>  tests/qtest/libqos/meson.build        |   1 +
+>>  tests/qtest/libqos/pci-pc.c           |   1 +
+>>  tests/qtest/libqos/pci-spapr.c        |   1 +
+>>  tests/qtest/libqos/pci.c              |  78 +++++----
+>>  tests/qtest/libqos/pci.h              |   6 +-
+>>  tests/qtest/vhost-user-blk-test.c     |  39 ++++-
+>>  tests/qtest/vhost-user-test.c         |   2 +-
+>>  tests/qtest/virtio-blk-test.c         |   5 +
+>>  tests/qtest/virtio-net-test.c         |   5 +
+>>  tests/qtest/virtio-rng-test.c         |   5 +
+>>  14 files changed, 408 insertions(+), 44 deletions(-)
+>>  create mode 100644 tests/qtest/libqos/generic-pcihost.c
+>>  create mode 100644 tests/qtest/libqos/generic-pcihost.h
+>>
+>> -- 
+>> 2.26.3
+
 
