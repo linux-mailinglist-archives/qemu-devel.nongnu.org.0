@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A06E4AB7F7
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Feb 2022 10:53:20 +0100 (CET)
-Received: from localhost ([::1]:59866 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AAB984AB771
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Feb 2022 10:19:19 +0100 (CET)
+Received: from localhost ([::1]:44792 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nH0hz-0005k9-Ht
-	for lists+qemu-devel@lfdr.de; Mon, 07 Feb 2022 04:53:19 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:59610)
+	id 1nH0B4-0008QU-Ea
+	for lists+qemu-devel@lfdr.de; Mon, 07 Feb 2022 04:19:18 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:59598)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1nGzNY-00065P-W6
- for qemu-devel@nongnu.org; Mon, 07 Feb 2022 03:28:10 -0500
-Received: from mout.kundenserver.de ([212.227.17.13]:59409)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1nGzNV-00079k-FJ
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1nGzNY-00064G-LA
  for qemu-devel@nongnu.org; Mon, 07 Feb 2022 03:28:08 -0500
+Received: from mout.kundenserver.de ([212.227.17.13]:38667)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1nGzNV-00079m-HJ
+ for qemu-devel@nongnu.org; Mon, 07 Feb 2022 03:28:07 -0500
 Received: from quad ([82.142.19.58]) by mrelayeu.kundenserver.de (mreue109
- [212.227.15.183]) with ESMTPSA (Nemesis) id 1MPooP-1ndjJx3yMd-00Ms6U; Mon, 07
+ [212.227.15.183]) with ESMTPSA (Nemesis) id 1MKbc2-1nboaN1QrM-00Kx5Z; Mon, 07
  Feb 2022 09:28:03 +0100
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 4/8] linux-user: rt_sigprocmask, check read perms first
-Date: Mon,  7 Feb 2022 09:27:55 +0100
-Message-Id: <20220207082759.180431-5-laurent@vivier.eu>
+Subject: [PULL 5/8] linux-user: sigprocmask check read perms first
+Date: Mon,  7 Feb 2022 09:27:56 +0100
+Message-Id: <20220207082759.180431-6-laurent@vivier.eu>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220207082759.180431-1-laurent@vivier.eu>
 References: <20220207082759.180431-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:2cTLxPYCwaWO7QuCVqzcudZI6dQKrGuRyp9Tg7YVoNq1qv+DT5O
- UgmFUtRCodcmZWzVRfBFuplrSbGBl0W01ntw10Odk0yDXADcYRZfLQgf2K6TmIEIyH/N/gB
- duQjJprrJ/A8D6mI1slcelIvJbZPSFXm186BC5CXdu3yPeJEf3BQyVyUHl6zWFATvL382ov
- GpzAYrvcC3grcXUUSfPxA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:Zae7VvQajlQ=:bDAqzuOGZ4E3QmSRZPwkfE
- LTDhLsNAYmxqh5uy5E6pXvyNohIGbnNe7cnz7utTOjT+kQGvg9ewKzhtQmkysZ0R7Jm2/j78u
- Rp5oBEf6RoGIiq+nwWi1iFjAJJCVilUr3erIlHuPCLiJvJoRuOi624m/425WwkfMo2sbXUPIh
- 8dAGetO3t2pb0bTryQ2qCQAytC0MRXNR8KpVAG1E98vtRCFRTR8RocwXSR+wAY3nauEn1cVJX
- 90lYj395wBNxde6wAFBaAvfuT4VVYv10mci3+UqZq0PH4dxpBV2QV0ppVwE4jpMHx4UjtHwQY
- /yBfPNoSV+tc0z23SLrNBP0y1F5lKj+LFyQSq8XILr0IRxjFNjOG2g8slykC5yzz252ujcpbo
- 8GBU09Of4VKOF+eVmZHaDrkwsBjIgy3PMQ7ocCCfvHN/I1lyU8EbEX6TjMEbI1+3X6ryOrEiq
- ZUJASiEM6X0viJ50f0LtGoazx+Mn9wn27t7SjrIfrW5WKN6k1Rbt9HeA9Avl2wbIOvkyMfX7G
- aBH+0uoFM+yhjZ7CZOa4OBgniGUAL+MkI8N1/IpopeOB75whOWzPS7tyY0W3BeZ/3SwlaNGqj
- w+R8S4pyj1L15bz4dKjVeBp9EqVMlwl4VPqiX4z9QlUAxnwrnyAIUX/E3Gz0K4xUMSVxKyXFt
- FNgbOvspJaiJ48F1Wpg/HeMMlAwIZFMNq+zQ0p833a3nmHEGDa1H7INFw3WzPXJf3VI0=
+X-Provags-ID: V03:K1:046jjnAg86yT37kaNVqfVhU4AOjM4jVQNI8AxUXHhhm0LbfRZNL
+ dq7grsNiDNhoRQPQ27V9VuHxW9ThPHVbUlcSpsjvvZ43s4dGgiLAygvs3lvrV6XWATxdBo2
+ 4OY+hlG28vabdL5eouqH//3Qs6qNhUzmzIaBJOWMW9vGrspANRejhSaPLOTCdexvhXeNBMy
+ Oz8cKl4tHOY9fG5ebJl1w==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:U3LhDQCJzEQ=:90MzH8gOjzoK2sHu/OL8Q6
+ 2/fRpJcGpF9FQGaOoRiUXFKCthXVDfqTJx7aZA78Mk3SDsJlWhIqb/N1xtx4gcM1nHPlTbPjf
+ hP8t9QgUTZLil4XQ/bJZhdEbHQvsDOsOLf4c8rbD0BUf6Cf1CIoZbO5EOLVTcKDKPo6OdRLLn
+ vEfVk97mwsYRu4BMB+0uswsj6yonbtCQJDCVvPigbbFNZqMLygR3cHgA7U10cAe8wqCa26GCq
+ kuO+qa5a/xezh7rzzn/taiJ25blxKjkIUQHl4bxIV9FbIJkZcWaVKAeKATbTLC36OuT+ehnIw
+ vs4DELIB/Lkt7BfkP0Rz6nlSZYaxXvpBXplQNNt8HBdrw1Ix1XpfakRSbWwHRTmbh/JlbIsXN
+ OTmc4Ecr60Ma3Rzwo6i8AW7pri8VVptkYlufovAdFUkFXnwLG+/OMBCXWRm3gMRwYwWa/gCuW
+ wJEoM/NZCmX7fZXYrVF1xFrQNvN0hwlklZ0ckU+G3EG6tytaHONUzWe+qseUmBWB9wuBh1WW9
+ kEmhVgxBG6Scd5K24jlw2p4SkKXf1x6hv3E1FwPxpslQmGQe6/8X9fJyRXDs0lJbqD1dUEg0C
+ DTuemVFc1ZUP2DVms98D+UPl0Ua78s7IUJglA1IK/0FbAeSPX2S7b5KSu4qW150i3EVA8FDuv
+ p2t0XZDmi1+OZkmuJasbXtSyZVm3gh+kZVf8QkgwYjeyb3uwuLlhPJj9GRKuuHCZJal4=
 Received-SPF: none client-ip=212.227.17.13; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
@@ -65,53 +65,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Patrick Venture <venture@google.com>, Shu-Chun Weng <scw@google.com>,
- Laurent Vivier <laurent@vivier.eu>
+Cc: Patrick Venture <venture@google.com>, Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Shu-Chun Weng <scw@google.com>
+From: Patrick Venture <venture@google.com>
 
-Linux kernel does it this way (checks read permission before validating `how`)
-and the latest version of ABSL's `AddressIsReadable()` depends on this
-behavior.
+Linux kernel now checks the read permissions before validating `how`
 
-c.f.  https://github.com/torvalds/linux/blob/9539ba4308ad5bdca6cb41c7b73cbb9f796dcdd7/kernel/signal.c#L3147
-Reviewed-by: Patrick Venture <venture@google.com>
-Signed-off-by: Shu-Chun Weng <scw@google.com>
-Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+Suggested-by: Laurent Vivier <laurent@vivier.eu>
 Signed-off-by: Patrick Venture <venture@google.com>
-Message-Id: <20220126212559.1936290-2-venture@google.com>
+Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+Message-Id: <20220126212559.1936290-3-venture@google.com>
+[lv: remove unneeded ")"]
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
  linux-user/syscall.c | 12 +++++++-----
  1 file changed, 7 insertions(+), 5 deletions(-)
 
 diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index 2ca0f086dbfc..9f8b497fa353 100644
+index 9f8b497fa353..84cfa223df4e 100644
 --- a/linux-user/syscall.c
 +++ b/linux-user/syscall.c
-@@ -9478,6 +9478,13 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
-             }
+@@ -9435,6 +9435,13 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
+             int how;
  
              if (arg2) {
 +                p = lock_user(VERIFY_READ, arg2, sizeof(target_sigset_t), 1);
 +                if (!p) {
 +                    return -TARGET_EFAULT;
 +                }
-+                target_to_host_sigset(&set, p);
++                target_to_host_old_sigset(&set, p);
 +                unlock_user(p, arg2, 0);
 +                set_ptr = &set;
-                 switch(how) {
+                 switch (arg1) {
                  case TARGET_SIG_BLOCK:
                      how = SIG_BLOCK;
-@@ -9491,11 +9498,6 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
+@@ -9448,11 +9455,6 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
                  default:
                      return -TARGET_EINVAL;
                  }
 -                if (!(p = lock_user(VERIFY_READ, arg2, sizeof(target_sigset_t), 1)))
 -                    return -TARGET_EFAULT;
--                target_to_host_sigset(&set, p);
+-                target_to_host_old_sigset(&set, p);
 -                unlock_user(p, arg2, 0);
 -                set_ptr = &set;
              } else {
