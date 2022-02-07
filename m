@@ -2,78 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E22864AB8A2
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Feb 2022 11:25:20 +0100 (CET)
-Received: from localhost ([::1]:47746 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BBE054AB8A6
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Feb 2022 11:29:59 +0100 (CET)
+Received: from localhost ([::1]:56048 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nH1Cv-0003nG-6K
-	for lists+qemu-devel@lfdr.de; Mon, 07 Feb 2022 05:25:18 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:41144)
+	id 1nH1HS-0001CU-1B
+	for lists+qemu-devel@lfdr.de; Mon, 07 Feb 2022 05:29:58 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:41890)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nH046-0004MJ-S5
- for qemu-devel@nongnu.org; Mon, 07 Feb 2022 04:12:07 -0500
-Received: from [2a00:1450:4864:20::62f] (port=46814
- helo=mail-ej1-x62f.google.com)
+ id 1nH07w-00006N-0X
+ for qemu-devel@nongnu.org; Mon, 07 Feb 2022 04:16:08 -0500
+Received: from [2a00:1450:4864:20::433] (port=38573
+ helo=mail-wr1-x433.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nH043-0004zp-NP
- for qemu-devel@nongnu.org; Mon, 07 Feb 2022 04:12:06 -0500
-Received: by mail-ej1-x62f.google.com with SMTP id o12so39998561eju.13
- for <qemu-devel@nongnu.org>; Mon, 07 Feb 2022 01:12:03 -0800 (PST)
+ id 1nH07m-0005XX-MU
+ for qemu-devel@nongnu.org; Mon, 07 Feb 2022 04:16:03 -0500
+Received: by mail-wr1-x433.google.com with SMTP id s10so20900743wra.5
+ for <qemu-devel@nongnu.org>; Mon, 07 Feb 2022 01:15:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=/85EjmFSM41Lf+gVP2nSU8fKRYdIzc/G7jHZ+lcudaU=;
- b=IWp9RwoYaVcmBtZ+75vf08+WpXxHLIG6BemhuXvgYu30HFX4P4Hunn4H0FBERxL7L7
- VLP+M9MXV43lMOjPZ/1Z+UB1Ftja59vH8gmuZJrJacAG7JHeoKvYvZc21VdyJNZ/L45R
- g+XtA4NJFdrYfgXYBGIEl1aLe4Q1m9/9zbhRfcMEBlb5jnV0QIuI1N6RST7L7a4Hksxp
- cdGk4WxNnktGuTAVLlUwzMcYxy/wnvJwirGri/4WyoPKd0Js+Zig14StdFSTXRRJnrTA
- kh4FcbaEF+7MhZ3bTYjtOpO5vjWcNWGrdRB46dJHzcc/D0sfNBQHKq1iRRpvIkyVqgJ+
- pjtQ==
+ bh=u56WkEtwSI2fS2k0K8eim5kG2/2TkflEpecBI88LL0U=;
+ b=qoD1uavfLWsbR7ZfPSlrAffTTU6kUFbj8Xn3lQia1+snOWU3YLmsEBe3aqcg5ExEn7
+ eds6p/THT4ceCxOV716LFrLvjenSADH+1B+l0iTCi7Xw4IqDzXWCILnPubAsrjjh20m+
+ pkNfFrVztPSBzfTylafo/kZeu//yoMbBnUD4BeL7g8RfkwH9rgnRDVFFAlvj2fT8fEok
+ RbD/Ci7CW6FMdzHCBqWost3o5qzGK/5BYeual3+T3vFES34r0ycJVoJHsDpltmBdW+8S
+ NVf7JUFoppJSq6Fvpo3IfyhPUVPzYbCj9rIWQMjSaAUSbflXtrriKNh4yUTQlxOLEt/5
+ 4Wgw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
  :subject:content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=/85EjmFSM41Lf+gVP2nSU8fKRYdIzc/G7jHZ+lcudaU=;
- b=kzq4SYGzCAgTKutp+ZL4lxoneJjO2WTCT1YKYLI5cIGGxVZ5VniciMpAa3OwI5AveV
- PMPUtGdas4NfBscxvOHdnON3L7VHg52MCR2U6YzItByoYvchqbUJHrgVuB857bm1BpbB
- 0jCLhat8dwxAOHnGRnae1wwHu6O0zeJ+032sPk4Ic67vZQecYRlrF7TMgz47PcEz6uyB
- h5+uQ2B+1rXSeM5FAuBk50IBUdWe71g0TFQWhzIwAu2BiLY8YF9VrFWiqYJuJ+BT4RW1
- n1HO9jQ99itLSmvagoM8Rg0KGjT61B7ospKMZdSi6GSbTdkmlFFzwoQ8pxXTmBfUtF3S
- KKKg==
-X-Gm-Message-State: AOAM532+J4lEa0jwY/AIckqhnPqK5u2m7xFXHcRwZ+GAWup4VDvWYn7Y
- 2KO5DSGPRkJcuqbZ7KVFt0E=
-X-Google-Smtp-Source: ABdhPJxJ1LgOvtQVbclcRCKrdTAN4Yseypnc/Oey9rUiTspn+Rl32DflxVLyw9AnCByt1V+WMDNEUQ==
-X-Received: by 2002:a17:907:3f93:: with SMTP id
- hr19mr810605ejc.594.1644225121077; 
- Mon, 07 Feb 2022 01:12:01 -0800 (PST)
+ bh=u56WkEtwSI2fS2k0K8eim5kG2/2TkflEpecBI88LL0U=;
+ b=Q+f9W0vwxW7r+75rUh2KOuKdfj5U6BKdPgM2/nQMUbfn5yid3cnLeZHmmZ1CR1Sp73
+ FOtgxNcGc3I2h12TVHn0aI1O+87rJ4kwzV0E1Ngah3MZ8d/KS+RXcXeKY6SsFr9W1MpX
+ L3z94ztaJoM+DbiKRA7xDDOqN+LWQdpyMCIzgDePkjRU0Woi8DYPvO1ntRh4QSJw/UCZ
+ H1z7jY8y0R+KjEBV4faFmuizDCLITespevhGpF1rxlwjMo+v55HKK/ObmAIPLr3TUY8M
+ fKYP39pmsEZhIUYoGhlXfK3tac51j1u+6sRci23+bnBV8vFmD+RojaErBm/wQWWCGcsS
+ 1K7g==
+X-Gm-Message-State: AOAM531pk6HG2ynCykb5yPGCrgeULuYo9zbAE6/tMXWhAxebCa90utHh
+ bO613mvmgSvdHYu3IDtVXZo=
+X-Google-Smtp-Source: ABdhPJxKuT7pwvHDd5KwZCqPPrLzpVLyCJEnfyv8JwxQFK9NiM5v6RaX8h3v5w9zxt62Wbz5scBQVQ==
+X-Received: by 2002:a05:6000:2a5:: with SMTP id
+ l5mr9162678wry.394.1644225335330; 
+ Mon, 07 Feb 2022 01:15:35 -0800 (PST)
 Received: from ?IPV6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
  ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.googlemail.com with ESMTPSA id 5sm5048625edx.32.2022.02.07.01.11.59
+ by smtp.googlemail.com with ESMTPSA id t17sm9383344wrs.10.2022.02.07.01.15.34
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 07 Feb 2022 01:12:00 -0800 (PST)
-Message-ID: <b2317570-92ec-d66c-462a-6b57516ea387@redhat.com>
-Date: Mon, 7 Feb 2022 10:11:57 +0100
+ Mon, 07 Feb 2022 01:15:34 -0800 (PST)
+Message-ID: <9ffefa8b-72bd-8213-4388-e2f32220bcf0@redhat.com>
+Date: Mon, 7 Feb 2022 10:15:33 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.5.0
-Subject: Re: Add TCG support for UMIP
+Subject: Re: [PATCH v3 01/26] tests/Makefile.include: clean-up old code
 Content-Language: en-US
-To: Gareth Webb <Gareth.Webb@umbralsoftware.co.uk>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
-References: <CWXP265MB2632458273BF3C50900DF150D32B9@CWXP265MB2632.GBRP265.PROD.OUTLOOK.COM>
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ richard.henderson@linaro.org, qemu-devel@nongnu.org
+References: <20220204204335.1689602-1-alex.bennee@linaro.org>
+ <20220204204335.1689602-2-alex.bennee@linaro.org>
 From: Paolo Bonzini <pbonzini@redhat.com>
-In-Reply-To: <CWXP265MB2632458273BF3C50900DF150D32B9@CWXP265MB2632.GBRP265.PROD.OUTLOOK.COM>
+In-Reply-To: <20220204204335.1689602-2-alex.bennee@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::62f
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::433
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::62f;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x62f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::433;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x433.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -95,22 +96,23 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "eduardo@habkost.net" <eduardo@habkost.net>,
- Richard Henderson <richard.henderson@linaro.org>
+Cc: fam@euphon.net, minyihh@uci.edu, berrange@redhat.com, stefanha@redhat.com,
+ f4bug@amsat.org, robhenry@microsoft.com, mahmoudabdalghany@outlook.com,
+ aaron@os.amperecomputing.com, cota@braap.org, Luke.Craig@ll.mit.edu,
+ crosa@redhat.com, kuhn.chenqun@huawei.com, ma.mandourr@gmail.com,
+ aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/6/22 21:27, Gareth Webb wrote:
-> @@ -7382,6 +7383,8 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
->          case 0: /* sldt */
->              if (!PE(s) || VM86(s))
->                  goto illegal_op;
-> +            if ((PE(s) || LMA(s)) && s->cpuid_7_0_ecx_features & CPUID_7_0_ECX_UMIP && s->flags & HF_UMIP_MASK)
+On 2/4/22 21:43, Alex Bennée wrote:
+> This is no longer needed since 5516623020 ("meson: convert migration
+> directory to Meson")
+> 
+> Signed-off-by: Alex Bennée<alex.bennee@linaro.org>
+> Reviewed-by: Philippe Mathieu-Daudé<f4bug@amsat.org>
+> Message-Id:<20220124201608.604599-2-alex.bennee@linaro.org>
 
-No need to check CPUID here (and below).  If the bit is clear, 
-HF_UMIP_MASK won't be set.
-
-Otherwise looks good, thanks!
+Actually a2ce7dbd91 ("meson: convert tests/qtest to meson", 2020-08-21).
 
 Paolo
 
