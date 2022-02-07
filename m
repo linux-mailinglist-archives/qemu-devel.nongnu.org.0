@@ -2,95 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47C084AB89E
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Feb 2022 11:19:13 +0100 (CET)
-Received: from localhost ([::1]:41006 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E22864AB8A2
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Feb 2022 11:25:20 +0100 (CET)
+Received: from localhost ([::1]:47746 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nH172-00073Y-DY
-	for lists+qemu-devel@lfdr.de; Mon, 07 Feb 2022 05:19:12 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:40834)
+	id 1nH1Cv-0003nG-6K
+	for lists+qemu-devel@lfdr.de; Mon, 07 Feb 2022 05:25:18 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:41144)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1nH02m-0002U9-F0
- for qemu-devel@nongnu.org; Mon, 07 Feb 2022 04:10:45 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:45487)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1nH02j-0004q3-MY
- for qemu-devel@nongnu.org; Mon, 07 Feb 2022 04:10:43 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1644225039;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=u58HN+BJlXyxLNmnP8lUYWuZADZiGiY7gz+dtLtVmks=;
- b=brDqLIUefmsJpNZRsMqUz4DwWHKL45cvVv4OO7OuFvYlNYEFO6Q85tFaROaIHZxFJ6a1nx
- /voZ/9m5kiBH2AzfbE8+Y5NH0Ui9tr/JS1C4Amf9Nng7aSVvunTYeFocT/RgLMkJ4iRdfw
- gy9ZW70wsPeCAGcrVwRsadrOsqp9hfM=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-648-Oem1l_1YOSeEbaCAKMrUXg-1; Mon, 07 Feb 2022 04:10:38 -0500
-X-MC-Unique: Oem1l_1YOSeEbaCAKMrUXg-1
-Received: by mail-wm1-f70.google.com with SMTP id
- r16-20020a05600c2c5000b0037bb20c50b8so2573203wmg.3
- for <qemu-devel@nongnu.org>; Mon, 07 Feb 2022 01:10:38 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1nH046-0004MJ-S5
+ for qemu-devel@nongnu.org; Mon, 07 Feb 2022 04:12:07 -0500
+Received: from [2a00:1450:4864:20::62f] (port=46814
+ helo=mail-ej1-x62f.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1nH043-0004zp-NP
+ for qemu-devel@nongnu.org; Mon, 07 Feb 2022 04:12:06 -0500
+Received: by mail-ej1-x62f.google.com with SMTP id o12so39998561eju.13
+ for <qemu-devel@nongnu.org>; Mon, 07 Feb 2022 01:12:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=/85EjmFSM41Lf+gVP2nSU8fKRYdIzc/G7jHZ+lcudaU=;
+ b=IWp9RwoYaVcmBtZ+75vf08+WpXxHLIG6BemhuXvgYu30HFX4P4Hunn4H0FBERxL7L7
+ VLP+M9MXV43lMOjPZ/1Z+UB1Ftja59vH8gmuZJrJacAG7JHeoKvYvZc21VdyJNZ/L45R
+ g+XtA4NJFdrYfgXYBGIEl1aLe4Q1m9/9zbhRfcMEBlb5jnV0QIuI1N6RST7L7a4Hksxp
+ cdGk4WxNnktGuTAVLlUwzMcYxy/wnvJwirGri/4WyoPKd0Js+Zig14StdFSTXRRJnrTA
+ kh4FcbaEF+7MhZ3bTYjtOpO5vjWcNWGrdRB46dJHzcc/D0sfNBQHKq1iRRpvIkyVqgJ+
+ pjtQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:reply-to:subject:to:cc:references:from
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-transfer-encoding:content-language;
- bh=u58HN+BJlXyxLNmnP8lUYWuZADZiGiY7gz+dtLtVmks=;
- b=QSuW3nFsdqwYyBDbmzdRhf7awuUOQlRpE7cQ1UQnHoSyIUBXhyVekz576HCxUmYzNM
- NNettKn9ZVAASYSIDLPvHa/TY9ByIRHpDieh3BQDqfqCxuuoQQ3kTjHSBNqCrM0oVgeD
- zr9BLQiCtRV1Z/7mzuFJ/sr+pAs52jgxXw35tSJLCrXjPCXGbcVcQLVLOZ5mbpEFFA3O
- LJKyz3pewdygXD4zZCHjgxRf5FzKZkbtluezrhQc2aEzLy1nhiSI9/yZqXN0mt5fSXNN
- Zo8dMLFAlWHCc0vF2mPOpT1v1jn5roVqsgPDNRNF5NexTT7DXDYYkb/Xw8cGyLbR/QuL
- p8AA==
-X-Gm-Message-State: AOAM532lsGYrFy3L+3ZCMwUe/0QWquJBw8i42wvTH1XvvSc4+Sd9Tydo
- KL5WWXAd0Hx2xHjaTIatpTqlwOwRvqrHk9akf3Hw1NyLgn1BKNnDXLFPXf3WhutNfM39RCqhI70
- h3/XhyPbTzYjyhl8=
-X-Received: by 2002:adf:db0a:: with SMTP id s10mr9266614wri.267.1644225036579; 
- Mon, 07 Feb 2022 01:10:36 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJw7bRx5qhJl6Tk3xWdlfTp9d0G1WwUvHbjsbg5yabji/AQBGs83DqTpsFGWhEUnScCLkFc/HQ==
-X-Received: by 2002:adf:db0a:: with SMTP id s10mr9266599wri.267.1644225036313; 
- Mon, 07 Feb 2022 01:10:36 -0800 (PST)
-Received: from ?IPv6:2a01:e0a:59e:9d80:527b:9dff:feef:3874?
- ([2a01:e0a:59e:9d80:527b:9dff:feef:3874])
- by smtp.gmail.com with ESMTPSA id m2sm18501587wmq.35.2022.02.07.01.10.35
+ h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+ :subject:content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=/85EjmFSM41Lf+gVP2nSU8fKRYdIzc/G7jHZ+lcudaU=;
+ b=kzq4SYGzCAgTKutp+ZL4lxoneJjO2WTCT1YKYLI5cIGGxVZ5VniciMpAa3OwI5AveV
+ PMPUtGdas4NfBscxvOHdnON3L7VHg52MCR2U6YzItByoYvchqbUJHrgVuB857bm1BpbB
+ 0jCLhat8dwxAOHnGRnae1wwHu6O0zeJ+032sPk4Ic67vZQecYRlrF7TMgz47PcEz6uyB
+ h5+uQ2B+1rXSeM5FAuBk50IBUdWe71g0TFQWhzIwAu2BiLY8YF9VrFWiqYJuJ+BT4RW1
+ n1HO9jQ99itLSmvagoM8Rg0KGjT61B7ospKMZdSi6GSbTdkmlFFzwoQ8pxXTmBfUtF3S
+ KKKg==
+X-Gm-Message-State: AOAM532+J4lEa0jwY/AIckqhnPqK5u2m7xFXHcRwZ+GAWup4VDvWYn7Y
+ 2KO5DSGPRkJcuqbZ7KVFt0E=
+X-Google-Smtp-Source: ABdhPJxJ1LgOvtQVbclcRCKrdTAN4Yseypnc/Oey9rUiTspn+Rl32DflxVLyw9AnCByt1V+WMDNEUQ==
+X-Received: by 2002:a17:907:3f93:: with SMTP id
+ hr19mr810605ejc.594.1644225121077; 
+ Mon, 07 Feb 2022 01:12:01 -0800 (PST)
+Received: from ?IPV6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
+ ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.googlemail.com with ESMTPSA id 5sm5048625edx.32.2022.02.07.01.11.59
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 07 Feb 2022 01:10:35 -0800 (PST)
-Subject: Re: [PULL 0/2] VFIO fixes 2022-02-03
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-References: <164392758602.1683127.4327439310436541025.stgit@omen>
- <CAFEAcA-CX6hPOEEr_Yjcd1=4AHfkYgnkQ_ruUJ4mFwBYz1fLQA@mail.gmail.com>
- <74d9a3d4-58e6-9fb3-cacc-e3b6067d2373@amsat.org>
-From: Eric Auger <eric.auger@redhat.com>
-Message-ID: <7785937e-f840-e151-58c4-78cfbc61c6bb@redhat.com>
-Date: Mon, 7 Feb 2022 10:10:34 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+ Mon, 07 Feb 2022 01:12:00 -0800 (PST)
+Message-ID: <b2317570-92ec-d66c-462a-6b57516ea387@redhat.com>
+Date: Mon, 7 Feb 2022 10:11:57 +0100
 MIME-Version: 1.0
-In-Reply-To: <74d9a3d4-58e6-9fb3-cacc-e3b6067d2373@amsat.org>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eric.auger@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: Add TCG support for UMIP
 Content-Language: en-US
-Received-SPF: pass client-ip=170.10.133.124;
- envelope-from=eric.auger@redhat.com; helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+To: Gareth Webb <Gareth.Webb@umbralsoftware.co.uk>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+References: <CWXP265MB2632458273BF3C50900DF150D32B9@CWXP265MB2632.GBRP265.PROD.OUTLOOK.COM>
+From: Paolo Bonzini <pbonzini@redhat.com>
+In-Reply-To: <CWXP265MB2632458273BF3C50900DF150D32B9@CWXP265MB2632.GBRP265.PROD.OUTLOOK.COM>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::62f
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::62f;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x62f.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -103,70 +95,22 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: eric.auger@redhat.com
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Alex Williamson <alex.williamson@redhat.com>, qemu-devel@nongnu.org,
- Stefan Berger <stefanb@linux.ibm.com>
+Cc: "eduardo@habkost.net" <eduardo@habkost.net>,
+ Richard Henderson <richard.henderson@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi
+On 2/6/22 21:27, Gareth Webb wrote:
+> @@ -7382,6 +7383,8 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
+>          case 0: /* sldt */
+>              if (!PE(s) || VM86(s))
+>                  goto illegal_op;
+> +            if ((PE(s) || LMA(s)) && s->cpuid_7_0_ecx_features & CPUID_7_0_ECX_UMIP && s->flags & HF_UMIP_MASK)
 
-On 2/5/22 12:19 PM, Philippe Mathieu-Daudé wrote:
-> On 5/2/22 11:49, Peter Maydell wrote:
->> On Thu, 3 Feb 2022 at 22:38, Alex Williamson
->> <alex.williamson@redhat.com> wrote:
->>>
->>> The following changes since commit
->>> 8f3e5ce773c62bb5c4a847f3a9a5c98bbb3b359f:
->>>
->>>    Merge remote-tracking branch
->>> 'remotes/hdeller/tags/hppa-updates-pull-request' into staging
->>> (2022-02-02 19:54:30 +0000)
->>>
->>> are available in the Git repository at:
->>>
->>>    git://github.com/awilliam/qemu-vfio.git tags/vfio-fixes-20220203.0
->>>
->>> for you to fetch changes up to
->>> 36fe5d5836c8d5d928ef6d34e999d6991a2f732e:
->>>
->>>    hw/vfio/common: Silence ram device offset alignment error traces
->>> (2022-02-03 15:05:05 -0700)
->>>
->>> ----------------------------------------------------------------
->>> VFIO fixes 2022-02-03
->>>
->>>   * Fix alignment warnings when using TPM CRB with vfio-pci devices
->>>     (Eric Auger & Philippe Mathieu-Daudé)
->>
->> Hi; this has a format-string issue that means it doesn't build
->> on 32-bit systems:
->>
->> https://gitlab.com/qemu-project/qemu/-/jobs/2057116569
->>
->> ../hw/vfio/common.c: In function 'vfio_listener_region_add':
->> ../hw/vfio/common.c:893:26: error: format '%llx' expects argument of
->> type 'long long unsigned int', but argument 6 has type 'intptr_t' {aka
->> 'int'} [-Werror=format=]
->> error_report("%s received unaligned region %s iova=0x%"PRIx64
->> ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> ../hw/vfio/common.c:899:26:
->> qemu_real_host_page_mask);
->> ~~~~~~~~~~~~~~~~~~~~~~~~
->>
->> For intptr_t you want PRIxPTR.
->
-> Thanks Peter.
->
-> Eric, can you follow up on this series, looking at Igor comments wrt
-> migration state?
+No need to check CPUID here (and below).  If the bit is clear, 
+HF_UMIP_MASK won't be set.
 
-Sure I will.
+Otherwise looks good, thanks!
 
-Eric
->
-> Phil.
->
-
+Paolo
 
