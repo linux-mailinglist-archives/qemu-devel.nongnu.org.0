@@ -2,60 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98E794AB2E5
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Feb 2022 01:08:14 +0100 (CET)
-Received: from localhost ([::1]:39384 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D6A7C4AB2F2
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Feb 2022 01:29:29 +0100 (CET)
+Received: from localhost ([::1]:54590 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nGrZl-0003A7-NM
-	for lists+qemu-devel@lfdr.de; Sun, 06 Feb 2022 19:08:13 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:47624)
+	id 1nGruK-0006T8-GR
+	for lists+qemu-devel@lfdr.de; Sun, 06 Feb 2022 19:29:28 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:51060)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <tsimpson@qualcomm.com>)
- id 1nGrP1-0000MP-Sq
- for qemu-devel@nongnu.org; Sun, 06 Feb 2022 18:57:07 -0500
-Received: from alexa-out.qualcomm.com ([129.46.98.28]:55676)
- by eggs.gnu.org with esmtps (TLS1.2:RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <tsimpson@qualcomm.com>)
- id 1nGrOz-00083w-PA
- for qemu-devel@nongnu.org; Sun, 06 Feb 2022 18:57:07 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1644191826; x=1675727826;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=9gSyrh0alaxvv3yRhIcZJ/z/pzQRQwND45cWzN57W3I=;
- b=Kcfn1qwnly4TMXPyfmqoeUzaQDuifLYkhUxfco/2pV4EQrMTuSMS1IRG
- uTmL4lb+mVJ1mjR1eH6ujnfjRPBMcApuentJ6Gj1FcH2UjTeWi2vsBJzc
- h9o+mIGr1zxflAyhyKYBGPafEcQB2LPjU6YKSiJ8mxtxtIBy3cSatNoqN k=;
-Received: from ironmsg-lv-alpha.qualcomm.com ([10.47.202.13])
- by alexa-out.qualcomm.com with ESMTP; 06 Feb 2022 15:50:54 -0800
-X-QCInternal: smtphost
-Received: from hu-tsimpson-lv.qualcomm.com (HELO
- hu-devc-lv-u18-c.qualcomm.com) ([10.47.235.220])
- by ironmsg-lv-alpha.qualcomm.com with ESMTP; 06 Feb 2022 15:50:53 -0800
-Received: by hu-devc-lv-u18-c.qualcomm.com (Postfix, from userid 47164)
- id AE4E350059F; Sun,  6 Feb 2022 15:50:33 -0800 (PST)
-From: Taylor Simpson <tsimpson@quicinc.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 8/8] Hexagon (tests/tcg/hexagon) update overflow test
-Date: Sun,  6 Feb 2022 15:50:30 -0800
-Message-Id: <20220206235030.31493-9-tsimpson@quicinc.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20220206235030.31493-1-tsimpson@quicinc.com>
-References: <20220206235030.31493-1-tsimpson@quicinc.com>
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1nGrsJ-0005ln-TD
+ for qemu-devel@nongnu.org; Sun, 06 Feb 2022 19:27:23 -0500
+Received: from [2607:f8b0:4864:20::d2d] (port=45640
+ helo=mail-io1-xd2d.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1nGrsI-0003U4-8M
+ for qemu-devel@nongnu.org; Sun, 06 Feb 2022 19:27:23 -0500
+Received: by mail-io1-xd2d.google.com with SMTP id s18so14735329ioa.12
+ for <qemu-devel@nongnu.org>; Sun, 06 Feb 2022 16:27:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=Yd4/jcsMH7+OGbi0tGsfrSHTaZEUxnQqL1OQPVmI83c=;
+ b=Hc2EPWh1m8aCwqZw4p2lrYEkDReZ3Iz/LvmzTBAjhdvvJ0AiGb7JM1uL8R8rBziQke
+ hTNPR8fJRCaZM4G3NVvksItgc2O/zm842/NZoXfFywKI244neZ9Hg4jGFDDRjMzjVc/K
+ 53osVgSWMGRYzu8+UUo3uOYkOdgcoUupBN8aypZAoFFUTsB8zDXNgciDrVkbCF7oC+qn
+ z2+PvYf4t9rM3/bxW0D32l9PCVlUxDPTberIqG6D0wAog4Tb8tKZmew+9uJrMvJiIjhz
+ Ks1FzXBdC15dCNuIqk7N5lfC3Wd4btDnda9NN2iTNQU+VlitNoXsJWqwO8ssOwDOWV+a
+ iupA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=Yd4/jcsMH7+OGbi0tGsfrSHTaZEUxnQqL1OQPVmI83c=;
+ b=STcxKWiQjjF164aUBizct5ELRKVvdFYkkiglctmmlQuGDQHfDQ0t1TbsG2NKfosGsu
+ DQQAlrUipU92Qs/eCMVPIxlViia+m0nNsxhL0S8ZXBVQ5/mWx1rlwqMMT6iTdwE/UXhb
+ 1SqhfJzoa8QohLmUqd9PSBmmhq4XWOhUIYKBzvdEp8ALIf/bxBH+b3jw4VDxoHPKdLTu
+ Wz1G0gKGmu36oZqRLigPLdsRM2v1LrUvrKyfCy6KRj03gnGNWapPUNkfipRarGBjWcro
+ 9A4J1qwfRQ8BhgHCsY4MVWTrvbk0bPBOjHrtG5OYqxAd80HGiTMcUFomi/J7ibliTJkr
+ Iidg==
+X-Gm-Message-State: AOAM530YGrJglO4ul+UZtIkml45dzc1/C5IHTbdw6zhXKrmIrpqlt11F
+ 7OkdFVl0XcHMA7OmU7s39AQWOA+Tl6DKRa/06to=
+X-Google-Smtp-Source: ABdhPJypNzmkh3JzPNEiJ+K3vo61KCR1z6g++pgszxG0po9TxMZBtchTjfpSDGcgq4zIwdtuE/+TYPIEtwpJAKnrXLA=
+X-Received: by 2002:a6b:4406:: with SMTP id r6mr4440180ioa.57.1644193640486;
+ Sun, 06 Feb 2022 16:27:20 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Received-SPF: pass client-ip=129.46.98.28; envelope-from=tsimpson@qualcomm.com;
- helo=alexa-out.qualcomm.com
-X-Spam_score_int: -40
-X-Spam_score: -4.1
-X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+References: <20220203193803.45671-1-f4bug@amsat.org>
+ <20220203193803.45671-9-f4bug@amsat.org>
+In-Reply-To: <20220203193803.45671-9-f4bug@amsat.org>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Mon, 7 Feb 2022 10:26:54 +1000
+Message-ID: <CAKmqyKPtZ+hacmY+Y2_0ZsdLft+ZPBZEeFxCwrkD7bGMBY2Jaw@mail.gmail.com>
+Subject: Re: [PATCH 08/10] target: Add missing "qemu/timer.h" include
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::d2d
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d2d;
+ envelope-from=alistair23@gmail.com; helo=mail-io1-xd2d.google.com
+X-Spam_score_int: -10
+X-Spam_score: -1.1
+X-Spam_bar: -
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, PDS_HP_HELO_NORDNS=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -68,54 +83,94 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: ale@rev.ng, bcain@quicinc.com, richard.henderson@linaro.org,
- f4bug@amsat.org, tsimpson@quicinc.com, mlambert@quicinc.com
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-QWRkIGEgdGVzdCB0aGF0IHNldHMgVVNSIG11bHRpcGxlIHRpbWVzIGluIGEgcGFja2V0CgpTaWdu
-ZWQtb2ZmLWJ5OiBUYXlsb3IgU2ltcHNvbiA8dHNpbXBzb25AcXVpY2luYy5jb20+Ci0tLQogdGVz
-dHMvdGNnL2hleGFnb24vb3ZlcmZsb3cuYyB8IDYxICsrKysrKysrKysrKysrKysrKysrKysrKysr
-KysrKysrKysrLQogMSBmaWxlIGNoYW5nZWQsIDYwIGluc2VydGlvbnMoKyksIDEgZGVsZXRpb24o
-LSkKCmRpZmYgLS1naXQgYS90ZXN0cy90Y2cvaGV4YWdvbi9vdmVyZmxvdy5jIGIvdGVzdHMvdGNn
-L2hleGFnb24vb3ZlcmZsb3cuYwppbmRleCAxOTZmY2Y3ZjNhLi45NDA4Nzg1MWIwIDEwMDY0NAot
-LS0gYS90ZXN0cy90Y2cvaGV4YWdvbi9vdmVyZmxvdy5jCisrKyBiL3Rlc3RzL3RjZy9oZXhhZ29u
-L292ZXJmbG93LmMKQEAgLTEsNSArMSw1IEBACiAvKgotICogIENvcHlyaWdodChjKSAyMDIxIFF1
-YWxjb21tIElubm92YXRpb24gQ2VudGVyLCBJbmMuIEFsbCBSaWdodHMgUmVzZXJ2ZWQuCisgKiAg
-Q29weXJpZ2h0KGMpIDIwMjEtMjAyMiBRdWFsY29tbSBJbm5vdmF0aW9uIENlbnRlciwgSW5jLiBB
-bGwgUmlnaHRzIFJlc2VydmVkLgogICoKICAqICBUaGlzIHByb2dyYW0gaXMgZnJlZSBzb2Z0d2Fy
-ZTsgeW91IGNhbiByZWRpc3RyaWJ1dGUgaXQgYW5kL29yIG1vZGlmeQogICogIGl0IHVuZGVyIHRo
-ZSB0ZXJtcyBvZiB0aGUgR05VIEdlbmVyYWwgUHVibGljIExpY2Vuc2UgYXMgcHVibGlzaGVkIGJ5
-CkBAIC03Miw2ICs3MiwyMCBAQCBpbnQgcmVhZF91c3Jfb3ZlcmZsb3codm9pZCkKICAgICByZXR1
-cm4gcmVzdWx0ICYgMTsKIH0KIAoraW50IGdldF91c3Jfb3ZlcmZsb3coaW50IHVzcikKK3sKKyAg
-ICByZXR1cm4gdXNyICYgMTsKK30KKworaW50IGdldF91c3JfZnBfaW52YWxpZChpbnQgdXNyKQor
-eworICAgIHJldHVybiAodXNyID4+IDEpICYgMTsKK30KKworaW50IGdldF91c3JfbHBjZmcoaW50
-IHVzcikKK3sKKyAgICByZXR1cm4gKHVzciA+PiA4KSAmIDB4MzsKK30KIAogam1wX2J1ZiBqbXBf
-ZW52OwogaW50IHVzcl9vdmVyZmxvdzsKQEAgLTgyLDYgKzk2LDQ5IEBAIHN0YXRpYyB2b2lkIHNp
-Z19zZWd2KGludCBzaWcsIHNpZ2luZm9fdCAqaW5mbywgdm9pZCAqcHVjKQogICAgIGxvbmdqbXAo
-am1wX2VudiwgMSk7CiB9CiAKK3N0YXRpYyB2b2lkIHRlc3RfcGFja2V0KHZvaWQpCit7CisgICAg
-aW50IGNvbnZyZXM7CisgICAgaW50IHNhdHJlczsKKyAgICBpbnQgdXNyOworCisgICAgYXNtKCJy
-MiA9IHVzclxuXHQiCisgICAgICAgICJyMiA9IGNscmJpdChyMiwgIzApXG5cdCIgICAgICAgIC8q
-IGNsZWFyIG92ZXJmbG93IGJpdCAqLworICAgICAgICAicjIgPSBjbHJiaXQocjIsICMxKVxuXHQi
-ICAgICAgICAvKiBjbGVhciBGUCBpbnZhbGlkIGJpdCAqLworICAgICAgICAidXNyID0gcjJcblx0
-IgorICAgICAgICAie1xuXHQiCisgICAgICAgICIgICAgJTAgPSBjb252ZXJ0X3NmMnV3KCUzKTpj
-aG9wXG5cdCIKKyAgICAgICAgIiAgICAlMSA9IHNhdGIoJTQpXG5cdCIKKyAgICAgICAgIn1cblx0
-IgorICAgICAgICAiJTIgPSB1c3Jcblx0IgorICAgICAgICA6ICI9ciIoY29udnJlcyksICI9ciIo
-c2F0cmVzKSwgIj1yIih1c3IpCisgICAgICAgIDogInIiKDB4NmEwNTFiODYpLCAiciIoMHgwNDEw
-ZWVjMCkKKyAgICAgICAgOiAicjIiLCAidXNyIik7CisKKyAgICBjaGVjayhjb252cmVzLCAweGZm
-ZmZmZmZmKTsKKyAgICBjaGVjayhzYXRyZXMsIDB4N2YpOworICAgIGNoZWNrKGdldF91c3Jfb3Zl
-cmZsb3codXNyKSwgMSk7CisgICAgY2hlY2soZ2V0X3Vzcl9mcF9pbnZhbGlkKHVzciksIDEpOwor
-CisgICAgYXNtKCJyMiA9IHVzclxuXHQiCisgICAgICAgICJyMiA9IGNscmJpdChyMiwgIzApXG5c
-dCIgICAgICAgIC8qIGNsZWFyIG92ZXJmbG93IGJpdCAqLworICAgICAgICAidXNyID0gcjJcblx0
-IgorICAgICAgICAiJTIgPSByMlxuXHQiCisgICAgICAgICJwMyA9IHNwM2xvb3AwKDFmLCAjMSlc
-blx0IgorICAgICAgICAiMTpcblx0IgorICAgICAgICAie1xuXHQiCisgICAgICAgICIgICAgJTAg
-PSBzYXRiKCUyKVxuXHQiCisgICAgICAgICJ9OmVuZGxvb3AwXG5cdCIKKyAgICAgICAgIiUxID0g
-dXNyXG5cdCIKKyAgICAgICAgOiAiPXIiKHNhdHJlcyksICI9ciIodXNyKQorICAgICAgICA6ICJy
-IigweDA0MTBlZWMwKQorICAgICAgICA6ICJyMiIsICJ1c3IiLCAicDMiLCAic2EwIiwgImxjMCIp
-OworCisgICAgY2hlY2soc2F0cmVzLCAweDdmKTsKKyAgICBjaGVjayhnZXRfdXNyX292ZXJmbG93
-KHVzciksIDEpOworICAgIGNoZWNrKGdldF91c3JfbHBjZmcodXNyKSwgMik7Cit9CisKIGludCBt
-YWluKCkKIHsKICAgICBzdHJ1Y3Qgc2lnYWN0aW9uIGFjdDsKQEAgLTEwMiw2ICsxNTksOCBAQCBp
-bnQgbWFpbigpCiAKICAgICBjaGVjayh1c3Jfb3ZlcmZsb3csIDApOwogCisgICAgdGVzdF9wYWNr
-ZXQoKTsKKwogICAgIHB1dHMoZXJyID8gIkZBSUwiIDogIlBBU1MiKTsKICAgICByZXR1cm4gZXJy
-ID8gRVhJVF9GQUlMVVJFIDogRVhJVF9TVUNDRVNTOwogfQotLSAKMi4xNy4xCgo=
+On Fri, Feb 4, 2022 at 6:35 AM Philippe Mathieu-Daud=C3=A9 via
+<qemu-devel@nongnu.org> wrote:
+>
+> cpu_get_host_ticks() and NANOSECONDS_PER_SECOND are declared
+> in "qemu/timer.h".
+>
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+
+Alistair
+
+> ---
+>  target/arm/cpu.c      | 1 +
+>  target/arm/helper.c   | 1 +
+>  target/hppa/cpu.c     | 1 +
+>  target/riscv/csr.c    | 1 +
+>  target/sparc/helper.c | 1 +
+>  5 files changed, 5 insertions(+)
+>
+> diff --git a/target/arm/cpu.c b/target/arm/cpu.c
+> index cdbc4cdd01..9555f6707b 100644
+> --- a/target/arm/cpu.c
+> +++ b/target/arm/cpu.c
+> @@ -20,6 +20,7 @@
+>
+>  #include "qemu/osdep.h"
+>  #include "qemu/qemu-print.h"
+> +#include "qemu/timer.h"
+>  #include "qemu-common.h"
+>  #include "target/arm/idau.h"
+>  #include "qemu/module.h"
+> diff --git a/target/arm/helper.c b/target/arm/helper.c
+> index 6dd241fbef..e39faa2a98 100644
+> --- a/target/arm/helper.c
+> +++ b/target/arm/helper.c
+> @@ -15,6 +15,7 @@
+>  #include "exec/helper-proto.h"
+>  #include "qemu/host-utils.h"
+>  #include "qemu/main-loop.h"
+> +#include "qemu/timer.h"
+>  #include "qemu/bitops.h"
+>  #include "qemu/crc32c.h"
+>  #include "qemu/qemu-print.h"
+> diff --git a/target/hppa/cpu.c b/target/hppa/cpu.c
+> index 37b763fca0..5f46ba801e 100644
+> --- a/target/hppa/cpu.c
+> +++ b/target/hppa/cpu.c
+> @@ -21,6 +21,7 @@
+>  #include "qemu/osdep.h"
+>  #include "qapi/error.h"
+>  #include "qemu/qemu-print.h"
+> +#include "qemu/timer.h"
+>  #include "cpu.h"
+>  #include "qemu/module.h"
+>  #include "exec/exec-all.h"
+> diff --git a/target/riscv/csr.c b/target/riscv/csr.c
+> index a4db40769b..45f04c701a 100644
+> --- a/target/riscv/csr.c
+> +++ b/target/riscv/csr.c
+> @@ -19,6 +19,7 @@
+>
+>  #include "qemu/osdep.h"
+>  #include "qemu/log.h"
+> +#include "qemu/timer.h"
+>  #include "cpu.h"
+>  #include "qemu/main-loop.h"
+>  #include "exec/exec-all.h"
+> diff --git a/target/sparc/helper.c b/target/sparc/helper.c
+> index c7bcaa3a20..c4358bba84 100644
+> --- a/target/sparc/helper.c
+> +++ b/target/sparc/helper.c
+> @@ -20,6 +20,7 @@
+>  #include "qemu/osdep.h"
+>  #include "cpu.h"
+>  #include "exec/exec-all.h"
+> +#include "qemu/timer.h"
+>  #include "qemu/host-utils.h"
+>  #include "exec/helper-proto.h"
+>
+> --
+> 2.34.1
+>
+>
 
