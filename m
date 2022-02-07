@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C5FD4AC886
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Feb 2022 19:29:56 +0100 (CET)
-Received: from localhost ([::1]:56164 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F4BE4AC831
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Feb 2022 19:04:59 +0100 (CET)
+Received: from localhost ([::1]:50942 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nH8lu-0002S3-Uk
-	for lists+qemu-devel@lfdr.de; Mon, 07 Feb 2022 13:29:54 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:50428)
+	id 1nH8Nm-0003Vr-EI
+	for lists+qemu-devel@lfdr.de; Mon, 07 Feb 2022 13:04:58 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:51758)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nH8Fj-0006VN-Gy
- for qemu-devel@nongnu.org; Mon, 07 Feb 2022 12:56:40 -0500
-Received: from [2a00:1450:4864:20::32b] (port=35833
- helo=mail-wm1-x32b.google.com)
+ id 1nH8J1-0001Jy-CP
+ for qemu-devel@nongnu.org; Mon, 07 Feb 2022 13:00:03 -0500
+Received: from [2a00:1450:4864:20::433] (port=34570
+ helo=mail-wr1-x433.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nH8Fg-00038n-3n
- for qemu-devel@nongnu.org; Mon, 07 Feb 2022 12:56:39 -0500
-Received: by mail-wm1-x32b.google.com with SMTP id
- l123-20020a1c2581000000b0037b9d960079so6108149wml.0
- for <qemu-devel@nongnu.org>; Mon, 07 Feb 2022 09:56:35 -0800 (PST)
+ id 1nH8Ix-0003pV-KI
+ for qemu-devel@nongnu.org; Mon, 07 Feb 2022 13:00:01 -0500
+Received: by mail-wr1-x433.google.com with SMTP id f17so26336090wrx.1
+ for <qemu-devel@nongnu.org>; Mon, 07 Feb 2022 09:59:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=ncOGZfi0AyHsfCE6I9z5rxgLAhu+ZNTqfDu0iBPnsqE=;
- b=OvRGsCFow557GV2nCUtXxw5+uuIkjPssnvClXW7S6LVD3a72WogClUMHU7S8h9ozmo
- QzIreRgSYEcEb/Asw6T2PgVMz/hUyTRcjcSekrOoO96CGOB8jkbQr3zSV0vwl3+3MaiS
- IRw7jKx4vDOKmqdF5pzHE1s3tnYuplHEF8X/YRaRjEmQKMt+Q8aBRJFCprtrJsu1v6sZ
- BYGRG2rsZz/odyWwVYQ3p9xUymdq1OOtmqaqmCQhwysDaqVQeSqd/Ihfuj2UjyEoxmxN
- lhoIqsZUw6ecKHUsqXGHrZnZNnyPMMEHLnlVmV6f0yExAuSGZP9WGZoNf4UZc2ZKbgEa
- jb4w==
+ :cc; bh=D+qmHieBxwVL4QpABlQBythkquE7Whfogd18rErZknQ=;
+ b=D/m6ChSJlv5CCefkVlj99a0qy4lQ2q9xTVrAbkP1FOGvqUQVwt/IDMS1AAZ4zJR4IH
+ qPD3tvQ7niQa+TMa1lQP7vaJMq+BEe4fom/aGCLV2XHDrXJNnbYxO0VRMMatWqKJW/yR
+ OcTI/uKm7FRnYk27EZT8dpMYX8vP7SV1aQxhYtBMmfSZEofN/IJJ/KeSfsBIYVIhICkM
+ w6q2kXxTK5jH+MWF27vtYY82GtlLE2F3DVasaqL14f/w0VKlaEIL90/8SQrl/HRPDTCB
+ IptlQAvhPBJlOVICgicVDsLfvmFCITFaifnTvXKdFOH60DBu5hWC1ZlTP8JLr1vjypSi
+ irEg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=ncOGZfi0AyHsfCE6I9z5rxgLAhu+ZNTqfDu0iBPnsqE=;
- b=4h+3RixN3IjuePjyZN+4TmEk0K7FM1GMYt/7+kYPhCAGfXdms/wvWb7pLa6V4naJbL
- C/3TVTKCXu02s0978Za3XiHQvnVlcDjf4+BmsFV7vu2BDgaSNFWXjSfmyDgc4Wd+RLGh
- CdUxdpMxTmQ9mdyGg0owUZIcV5U1JRMpZjWShL0ugfYxwtRkE5jAQ4saFVEqtchwUxmG
- CdDKlu1jmEbWG52FSs454gmZUf+GbAd3g/qMA2l566cnigyYeASBv474Hv1HyNy1FgmT
- /5vr4vbnapmT96XCwzwCQCYdXJNXD8NHXAjZJNCjZL0PYSrUSj7+2QhmKV5/ZEV+bsCp
- 3xSw==
-X-Gm-Message-State: AOAM531uRHZyMOmg566CzNaukm6FzD2CiqCIxU1vdlrlpIEGCPuYsoSM
- 4DLcRc9TNBchx1ckgr7krAb8TOg5jn001ZI43u2x+w==
-X-Google-Smtp-Source: ABdhPJyMVaEOizZmRdh2GkuAPYma1DR3Ot9L4SimshY/3jwHopzUUwtH89d6ADqdqKJEsGerm99I5aqscVtgxVAjoKc=
-X-Received: by 2002:a1c:544d:: with SMTP id p13mr55243wmi.37.1644256594553;
- Mon, 07 Feb 2022 09:56:34 -0800 (PST)
+ bh=D+qmHieBxwVL4QpABlQBythkquE7Whfogd18rErZknQ=;
+ b=ECfCUh0Vlz0WpmklCF0MyqtdAvybGueGMK95bOD5lNOP0jmEB1gRK0Cie9kc8jVpsC
+ fpzz/HXj9amzu9PJ3Ggg/2pzW3c80yqVACDj8rpnL5GNEUaX199+pehAz+CG5oew08Pw
+ ZWGGxFZIa21sKXl2IBKoKVlFKar/N7sJ3HBh0UVMuaDdGo4itzqES6/Nu85qVClWOlvA
+ dsWTnLiGFPTZ5pB6OyxEqmtdE4qRrG9t7i2LpQ9cD5qnFXzpP8o7+DvsVhmHXuoPwDad
+ P3wj2nvIO3k0de3y0zqxi4PdPnnxag4pBMb2sLZgty+ZLo+V09tDmWPyA2CuAUQdyxat
+ YT3w==
+X-Gm-Message-State: AOAM5337Tt0a+O8XCbtw5eHX7S9l/37mGCvmQtpbUp8ySG/Sx5SB6M90
+ gn9X+s9v/XlAV1cWDVJli4c3jpwm6qveAgAViVB0yQ==
+X-Google-Smtp-Source: ABdhPJyQZdB6y0/DiSAmp8LFJnTNzQz4Z5t7XUca+xXOWYnRq1BH61r8OdpaYj2XySZZMtBbLNHNhnYLmf7EXGi+bQE=
+X-Received: by 2002:a05:6000:258:: with SMTP id m24mr540060wrz.2.1644256797918; 
+ Mon, 07 Feb 2022 09:59:57 -0800 (PST)
 MIME-Version: 1.0
-References: <20220201193207.2771604-1-peter.maydell@linaro.org>
-In-Reply-To: <20220201193207.2771604-1-peter.maydell@linaro.org>
+References: <20220206103138.36105-1-richard.henderson@linaro.org>
+ <20220206103138.36105-2-richard.henderson@linaro.org>
+In-Reply-To: <20220206103138.36105-2-richard.henderson@linaro.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 7 Feb 2022 17:56:23 +0000
-Message-ID: <CAFEAcA-amg4fT3jUwcvp+Z5Fi0PPN6Vi7TAVm=XARaw82LYEtg@mail.gmail.com>
-Subject: Re: [PATCH 00/13] hw/intc/arm_gicv3_its: more cleanups, bugfixes
-To: qemu-arm@nongnu.org, qemu-devel@nongnu.org
+Date: Mon, 7 Feb 2022 17:59:47 +0000
+Message-ID: <CAFEAcA-dW89Q829RBPEp+wuPXvpDp=UXa1xzf=qJirxExddtCQ@mail.gmail.com>
+Subject: Re: [PATCH v5 1/6] tcg/sparc: Add scratch argument to tcg_out_movi_int
+To: Richard Henderson <richard.henderson@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32b
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::433
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::433;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x433.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -81,18 +81,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- Shashi Mallela <shashi.mallela@linaro.org>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 1 Feb 2022 at 19:32, Peter Maydell <peter.maydell@linaro.org> wrote:
+On Sun, 6 Feb 2022 at 10:31, Richard Henderson
+<richard.henderson@linaro.org> wrote:
 >
-> This is another set of patches to the ITS emulation; mostly
-> cleanups, but there are two bug fixes.
+> This will allow us to control exactly what scratch register is
+> used for loading the constant.  Also, fix a theoretical problem
+> in recursing through tcg_out_movi, which may provide a different
+> value for in_prologue.
+>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>  tcg/sparc/tcg-target.c.inc | 21 +++++++++++++--------
+>  1 file changed, 13 insertions(+), 8 deletions(-)
+>
+> diff --git a/tcg/sparc/tcg-target.c.inc b/tcg/sparc/tcg-target.c.inc
+> index 0c062c60eb..8c3671f56a 100644
+> --- a/tcg/sparc/tcg-target.c.inc
+> +++ b/tcg/sparc/tcg-target.c.inc
+> @@ -414,7 +414,8 @@ static void tcg_out_movi_imm13(TCGContext *s, TCGReg ret, int32_t arg)
+>  }
+>
+>  static void tcg_out_movi_int(TCGContext *s, TCGType type, TCGReg ret,
+> -                             tcg_target_long arg, bool in_prologue)
+> +                             tcg_target_long arg, bool in_prologue,
+> +                             TCGReg scratch)
+>  {
+>      tcg_target_long hi, lo = (int32_t)arg;
+>      tcg_target_long test, lsb;
+> @@ -471,22 +472,25 @@ static void tcg_out_movi_int(TCGContext *s, TCGType type, TCGReg ret,
+>      /* A 64-bit constant decomposed into 2 32-bit pieces.  */
+>      if (check_fit_i32(lo, 13)) {
+>          hi = (arg - lo) >> 32;
+> -        tcg_out_movi(s, TCG_TYPE_I32, ret, hi);
+> +        tcg_out_movi_int(s, TCG_TYPE_I32, ret, hi, in_prologue, scratch);
+>          tcg_out_arithi(s, ret, ret, 32, SHIFT_SLLX);
+>          tcg_out_arithi(s, ret, ret, lo, ARITH_ADD);
+>      } else {
+> +        tcg_debug_assert(scratch != TCG_REG_G0);
+>          hi = arg >> 32;
+> -        tcg_out_movi(s, TCG_TYPE_I32, ret, hi);
+> -        tcg_out_movi(s, TCG_TYPE_I32, TCG_REG_T2, lo);
+> +        tcg_out_movi_int(s, TCG_TYPE_I32, ret, hi, in_prologue, scratch);
+> +        tcg_out_movi_int(s, TCG_TYPE_I32, scratch, lo, in_prologue, TCG_REG_G0);
+>          tcg_out_arithi(s, ret, ret, 32, SHIFT_SLLX);
+> -        tcg_out_arith(s, ret, ret, TCG_REG_T2, ARITH_OR);
+> +        tcg_out_arith(s, ret, ret, scratch, ARITH_OR);
+>      }
+>  }
+>
+>  static void tcg_out_movi(TCGContext *s, TCGType type,
+>                           TCGReg ret, tcg_target_long arg)
+>  {
+> -    tcg_out_movi_int(s, type, ret, arg, false);
+> +    /* When outputting to T2, we have no scratch available. */
+> +    TCGReg scratch = ret != TCG_REG_T2 ? TCG_REG_T2 : TCG_REG_G0;
 
-Applied to target-arm.next, thanks.
+Why won't using G0 trip the assertion above that scratch != TCG_REG_G0 ?
+
+> +    tcg_out_movi_int(s, type, ret, arg, false, scratch);
+>  }
+>
 
 -- PMM
 
