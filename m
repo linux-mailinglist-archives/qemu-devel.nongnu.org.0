@@ -2,76 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4DCA04AC6ED
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Feb 2022 18:13:02 +0100 (CET)
-Received: from localhost ([::1]:59748 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A24F4AC829
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Feb 2022 19:02:49 +0100 (CET)
+Received: from localhost ([::1]:48578 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nH7ZV-00089u-6G
-	for lists+qemu-devel@lfdr.de; Mon, 07 Feb 2022 12:13:01 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:56298)
+	id 1nH8Lf-0001oL-V5
+	for lists+qemu-devel@lfdr.de; Mon, 07 Feb 2022 13:02:47 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:57434)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1nH7Ga-0001Rl-KD
- for qemu-devel@nongnu.org; Mon, 07 Feb 2022 11:53:28 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:43800)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1nH7GX-0000Bh-GL
- for qemu-devel@nongnu.org; Mon, 07 Feb 2022 11:53:27 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1644252804;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=VwYdiq2JCp2LvGcB2AK1zLicMdLE3Rj2pv89cJLlMC0=;
- b=CKQlf61+jDuOEiqlNu/pD8bw5SqaomOoy0VgXDkMEhXR1IfRrLq3xDS9RSR+FJLnVKx6xN
- y6QFb0Lo/iII1Avr1Sqh1Dtztzckfn6J2b8bs+3U1TMtfixFPL6Saxc6eqoI54fDcrRxiG
- 8U3kozdvWS1Zin1PI07OeVsPzPt5ngY=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-384-n14Yc-OtM_K-d87nNd-juA-1; Mon, 07 Feb 2022 11:53:21 -0500
-X-MC-Unique: n14Yc-OtM_K-d87nNd-juA-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3831383DEA6;
- Mon,  7 Feb 2022 16:53:19 +0000 (UTC)
-Received: from redhat.com (unknown [10.39.193.223])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 38A4970D5C;
- Mon,  7 Feb 2022 16:53:14 +0000 (UTC)
-Date: Mon, 7 Feb 2022 17:53:12 +0100
-From: Kevin Wolf <kwolf@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH v6 02/33] include/block/block: split header into I/O and
- global state API
-Message-ID: <YgFOeOocta+pPE/y@redhat.com>
-References: <20220121170544.2049944-1-eesposit@redhat.com>
- <20220121170544.2049944-3-eesposit@redhat.com>
- <YfJ7pbLDuwP2hgnw@redhat.com>
- <ac8b0576-4c03-4eb6-9ef6-c0a6b20b6184@redhat.com>
- <Yff4Dl6bpHhTxAfB@redhat.com>
- <1653fd9d-e1e9-5f32-3bd1-62abecd09601@redhat.com>
- <feb30385-a222-166f-ad82-19307c980a0d@redhat.com>
- <bf72c7db-6f0a-e291-2f79-a061293dc810@redhat.com>
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1nH7JG-0004Hy-VQ
+ for qemu-devel@nongnu.org; Mon, 07 Feb 2022 11:56:15 -0500
+Received: from [2a00:1450:4864:20::429] (port=42570
+ helo=mail-wr1-x429.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1nH7JF-0000w5-12
+ for qemu-devel@nongnu.org; Mon, 07 Feb 2022 11:56:14 -0500
+Received: by mail-wr1-x429.google.com with SMTP id h6so7243729wrb.9
+ for <qemu-devel@nongnu.org>; Mon, 07 Feb 2022 08:56:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=mrzSLGAp2KfWDLBDzbOlRjOE6K87nnCHDqWkOYXilw4=;
+ b=xFZfUt5fhGw/WZLqP7WJrkhize2AghiynnD+7lFd9C0g1V8LiVrUdO0DcctXP4+c93
+ BN0BTxHPwHzU/dceQuBbmSmJF5GJrKns0tGEC189w4Hw4SjQd6VPi4kW4voYl1+ezQYI
+ Md5UV4gmuLI5g1y/MJrxumAB/3DLExVj9RnHvkvKhalq0JBYm8txiDaDVdIW/Iu1V6zj
+ M8gxU6X5IcOTVe2VONAFy13uVsLj7ipEtxPbK4NRrTeJm9jLHfifHuFiYwdTLZELq6nj
+ OZIwWvC8P5KVMDmYPrmHIo09Y2GYee0Qov0X/EubUbZiiqS+dapwR+6/tJKhAFooeJIM
+ Wv9A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=mrzSLGAp2KfWDLBDzbOlRjOE6K87nnCHDqWkOYXilw4=;
+ b=qf49dmDUNnCxcg4IpYmFuErsiDStMcF8TXK4OU8toYrsSrfXOXLeL2kipkeLyr9Fou
+ JQQJuZ7XCpFDtL6IOO/LbQOzXsCqIK/ZRtRwog4D251w0Rq0NJSWp8IKP8TDKOpSboAQ
+ yFo17H3+pk3hTaF8BFgTgXV9DqNvfWqlac6OTA3YzwnHpZUVeyZxL73qrqRnLfzM1mUm
+ 8vbqZzFHUYzStdMVEWnTvXDHAiYVrUWbuM9Wq+Xoa4FED0W2CFuDQkGHfh5pyO4XNRzp
+ J2/4Xqa3Je9OzmCvSyycYzLcTrtl7vlf6fwrPdUGnFYDEl0pI9dk5jQPUd7vmFTitKnN
+ bL1w==
+X-Gm-Message-State: AOAM5306P3UTcDTzFZ4NSupMsdefCxlHH66nQK1f4pb98YnPwA2J+mI2
+ oBURmN0iScQxdqudncnNx3rtQQ==
+X-Google-Smtp-Source: ABdhPJylkYiyifNChuCiH3ZlGamardyGxAp3Z9HMGd0EfTpvF5+tPkbaOiTewliNpk8nKDsofDO/XQ==
+X-Received: by 2002:adf:db8b:: with SMTP id u11mr272880wri.145.1644252970975; 
+ Mon, 07 Feb 2022 08:56:10 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id g9sm11059460wri.95.2022.02.07.08.56.09
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 07 Feb 2022 08:56:10 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 7ABA31FFB7;
+ Mon,  7 Feb 2022 16:56:09 +0000 (GMT)
+References: <CAFn=p-YxK8JduYOzxwDJSsmANgsqb+tK049t75VbXK-=Qi3J9w@mail.gmail.com>
+User-agent: mu4e 1.7.7; emacs 28.0.91
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: John Snow <jsnow@redhat.com>
+Subject: Re: Adding a 'qemu.qmp' repository to gitlab.com/qemu-project/
+Date: Mon, 07 Feb 2022 16:54:25 +0000
+In-reply-to: <CAFn=p-YxK8JduYOzxwDJSsmANgsqb+tK049t75VbXK-=Qi3J9w@mail.gmail.com>
+Message-ID: <87czjyhaza.fsf@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <bf72c7db-6f0a-e291-2f79-a061293dc810@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::429
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::429;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x429.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -84,108 +90,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, qemu-devel@nongnu.org,
- "Denis V. Lunev" <den@openvz.org>, Eric Blake <eblake@redhat.com>,
- Emanuele Giuseppe Esposito <eesposit@redhat.com>, qemu-block@nongnu.org,
- Juan Quintela <quintela@redhat.com>,
- Daniel Henrique Barboza <danielhb413@gmail.com>,
- Markus Armbruster <armbru@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Greg Kurz <groug@kaod.org>,
- =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>,
- Stefan Hajnoczi <stefanha@redhat.com>, John Snow <jsnow@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>,
- Eduardo Habkost <eduardo@habkost.net>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>,
- Hanna Reitz <hreitz@redhat.com>, qemu-ppc@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ qemu-devel <qemu-devel@nongnu.org>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 01.02.2022 um 11:30 hat Paolo Bonzini geschrieben:
-> On 2/1/22 10:45, Emanuele Giuseppe Esposito wrote:
-> > > That said, even if they are a different category, I think it makes sense
-> > > to leave them in the same header file as I/O functions, because I/O
-> > > functions are locked out between drained_begin and drained_end.
-> > 
-> > Proposed category description:
-> > /*
-> >   * "Global OR I/O" API functions. These functions can run without
-> >   * the BQL, but only in one specific iothread/main loop.
-> >   *
-> >   * More specifically, these functions use BDRV_POLL_WHILE(bs), which
-> >   * requires the caller to be either in the main thread and hold
-> >   * the BlockdriverState (bs) AioContext lock, or directly in the
-> >   * home thread that runs the bs AioContext. Calling them from
-> >   * another thread in another AioContext would cause deadlocks.
-> >   *
-> >   * Therefore, these functions are not proper I/O, because they
-> >   * can't run in *any* iothreads, but only in a specific one.
-> >   */
-> > 
-> > Functions that will surely go under this category:
-> > 
-> > BDRV_POLL_WHILE
-> > bdrv_parent_drained_begin_single
-> > bdrv_parent_drained_end_single
-> > bdrv_drain_poll
-> > bdrv_drained_begin
-> > bdrv_do_drained_begin_quiesce
-> > bdrv_subtree_drained_begin
-> > bdrv_drained_end
-> > bdrv_drained_end_no_poll
-> > bdrv_subtree_drained_end
-> > 
-> > (all generated_co_wrapper)
-> > bdrv_truncate
-> > bdrv_check
-> > bdrv_invalidate_cache
-> > bdrv_flush
-> > bdrv_pdiscard
-> > bdrv_readv_vmstate
-> > bdrv_writev_vmstate
-> > 
-> > 
-> > What I am not sure:
-> > 
-> > * bdrv_drain_all_begin - bdrv_drain_all_end - bdrv_drain_all: these were
-> > classified as GS, because thay are always called from the main loop.
-> > Should they go in this new category?
-> 
-> 1) They look at the list of BDS's, and 2) you can't in general be sure that
-> all BDS's are in *your* AioContext if you call them from a specific
-> AioContext.
-> 
-> So they should be GS.
 
-I agree, calling drain_all functions can only work from the main thread,
-so they are GS.
+John Snow <jsnow@redhat.com> writes:
 
-> > * how should I interpret "all the callers of BDRV_POLL_WHILE"?
-> > Meaning, if I consider also the callers of the callers, we end up
-> > covering much much more functions. Should I only consider the direct
-> > callers (ie the above)?
-> 
-> In general it is safe to make a function GS even if it is potentially "GS or
-> I/O", because that _reduces_ the number of places you can call it from.
-> It's likewise safe to make it I/O-only, but probably it makes less sense.
+> Hi Peter:
+>
+> I am working my way towards splitting the QMP library out of the
+> qemu.git source tree. I'd like to ask for permission to:
+>
+> (1) Create a "qemu.qmp" repository under the qemu-project umbrella on
+> GitLab
 
-Basically, we have a hierarchy of categories where you can always call
-functions in other categories with less restrictions, but never the
-opposite direction.
+No objection for my part except maybe a better name? QemuPythonQmp? I
+guess the header text can make it clear.
 
-1. Common functions
-2. I/O functions
-3. I/O or GS functions
-4. GS functions
+> (2) Add Cleber Rosa and myself as maintainers of this repository. (In
+> discussion, Dan Berrange suggested a third maintainer for redundancy,
+> but nobody from outside of RH has yet volunteered. The offer stands,
+> but I have to press on in the meantime.)
+>
+> The initial patches that set up the new repository are not yet
+> finalized and are still under review/development (on the qemu-devel
+> list, as normal), but I wanted to reach out and directly ask if you
+> have any objections to this plan so I can adjust the trajectory of my
+> work if necessary.
+>
+> In short, the plan is to publish the QMP library as its own
+> mini-project published to the Python package repository, and take
+> patches via GitLab merge requests.
+>
+> Thanks,
+> --js
 
-So common functions must never call any of the other categories. Global
-state functions can call functions in any category. And "I/O or GS"
-functions like BDRV_POLL_WHILE() can be called by other "I/O or GS" or
-just GS functions, but if it's ever (directly or indirectly) called by
-an I/O or common function, that would be a bug.
 
-Kevin
-
+--=20
+Alex Benn=C3=A9e
 
