@@ -2,64 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7FFC84ABFBD
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Feb 2022 14:48:18 +0100 (CET)
-Received: from localhost ([::1]:38338 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AF8D64AC045
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Feb 2022 14:57:18 +0100 (CET)
+Received: from localhost ([::1]:49016 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nH4NN-0000iW-Ed
-	for lists+qemu-devel@lfdr.de; Mon, 07 Feb 2022 08:48:17 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:43568)
+	id 1nH4W5-0001BO-Ha
+	for lists+qemu-devel@lfdr.de; Mon, 07 Feb 2022 08:57:17 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:45960)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1nH47G-0005UE-96
- for qemu-devel@nongnu.org; Mon, 07 Feb 2022 08:31:38 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:44086)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1nH4HU-0005IF-L7
+ for qemu-devel@nongnu.org; Mon, 07 Feb 2022 08:42:12 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:60482)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1nH47D-0003sP-G2
- for qemu-devel@nongnu.org; Mon, 07 Feb 2022 08:31:37 -0500
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1nH4HO-0005of-5Z
+ for qemu-devel@nongnu.org; Mon, 07 Feb 2022 08:42:11 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1644240687;
+ s=mimecast20190719; t=1644241324;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=As1wxRfAjMh9G93UTiArjRqaais3VhrBpJBPQk2DEm4=;
- b=hCA5d7uky+BEFnUoyaeihf9sLkD59Pf6F4cDyHM6mBY1R3pch06yjejLs0EuNcne3UluA3
- +085yRFKs3hpmWV+Zt2S3k1tYxmfkt743Wn/WG/cd9/4890vj9jpfkBXyCYzqWNi8A4Z0l
- fCYpXv4uQ/E8Shil8K/oyI1NVOXhoXQ=
+ bh=W3pboVatOTu2NCpZPJp3DUdcBFsMQ19ATdvhBUJDWC0=;
+ b=EgXXTpPKIZHxChifkGVsvl6cjxeGrjstDJRo2DLE5s3tGI/hUmzxKGDt0AjD0shtPs/nAq
+ mAl+qDFt4RtWpIratvjq1E6B09hSzJ0TlO3QlfNiaJsquSnp+Yadb7GaMsxwX6XCiGlOY9
+ t8xD7iS/3PnjbkNne3nyfb55zpvldCE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-13-1sLBU8jeMJ68EzOtL0fsNg-1; Mon, 07 Feb 2022 08:31:26 -0500
-X-MC-Unique: 1sLBU8jeMJ68EzOtL0fsNg-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-317-Fz1obaJgOL-lAUtKNkvC6A-1; Mon, 07 Feb 2022 08:42:02 -0500
+X-MC-Unique: Fz1obaJgOL-lAUtKNkvC6A-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4D7FE814245
- for <qemu-devel@nongnu.org>; Mon,  7 Feb 2022 13:31:25 +0000 (UTC)
-Received: from horse.redhat.com (unknown [10.22.9.190])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0087E1038AD4;
- Mon,  7 Feb 2022 13:31:24 +0000 (UTC)
-Received: by horse.redhat.com (Postfix, from userid 10451)
- id 834ED2237EB; Mon,  7 Feb 2022 08:31:24 -0500 (EST)
-Date: Mon, 7 Feb 2022 08:31:24 -0500
-From: Vivek Goyal <vgoyal@redhat.com>
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Subject: Re: [PATCH v5 3/9] virtiofsd: Parse extended "struct fuse_init_in"
-Message-ID: <YgEfLOk/GPwZjWhj@redhat.com>
-References: <20220202193935.268777-1-vgoyal@redhat.com>
- <20220202193935.268777-4-vgoyal@redhat.com>
- <Yfwlekwcu35SN9MU@work-vm>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EB287107B280;
+ Mon,  7 Feb 2022 13:42:00 +0000 (UTC)
+Received: from localhost (unknown [10.39.193.241])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 49CF772436;
+ Mon,  7 Feb 2022 13:42:00 +0000 (UTC)
+From: Cornelia Huck <cohuck@redhat.com>
+To: Daniel Henrique Barboza <danielhb413@gmail.com>, Halil Pasic
+ <pasic@linux.ibm.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ qemu-devel@nongnu.org
+Subject: Re: [RFC PATCH 1/1] virtio: fix feature negotiation for
+ ACCESS_PLATFORM
+In-Reply-To: <7df172fe-008a-0b98-2780-5155c98a71ba@gmail.com>
+Organization: Red Hat GmbH
+References: <20220203164556.2666565-1-pasic@linux.ibm.com>
+ <7df172fe-008a-0b98-2780-5155c98a71ba@gmail.com>
+User-Agent: Notmuch/0.34 (https://notmuchmail.org)
+Date: Mon, 07 Feb 2022 14:41:58 +0100
+Message-ID: <874k5ax07t.fsf@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <Yfwlekwcu35SN9MU@work-vm>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=vgoyal@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=cohuck@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=vgoyal@redhat.com;
+Content-Type: text/plain
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=cohuck@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -80,217 +81,151 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: virtio-fs@redhat.com, mszeredi@redhat.com, qemu-devel@nongnu.org
+Cc: Jason Wang <jasowang@redhat.com>, Brijesh Singh <brijesh.singh@amd.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Feb 03, 2022 at 06:56:58PM +0000, Dr. David Alan Gilbert wrote:
-> * Vivek Goyal (vgoyal@redhat.com) wrote:
-> > Add some code to parse extended "struct fuse_init_in". And use a local
-> > variable "flag" to represent 64 bit flags. This will make it easier
-> > to add more features without having to worry about two 32bit flags (->flags
-> > and ->flags2) in "fuse_struct_in".
-> > 
-> > Signed-off-by: Vivek Goyal <vgoyal@redhat.com>
-> > ---
-> >  tools/virtiofsd/fuse_lowlevel.c | 62 +++++++++++++++++++++------------
-> >  1 file changed, 40 insertions(+), 22 deletions(-)
-> > 
-> > diff --git a/tools/virtiofsd/fuse_lowlevel.c b/tools/virtiofsd/fuse_lowlevel.c
-> > index ce29a70253..1f10dcc75b 100644
-> > --- a/tools/virtiofsd/fuse_lowlevel.c
-> > +++ b/tools/virtiofsd/fuse_lowlevel.c
-> > @@ -1881,11 +1881,15 @@ static void do_init(fuse_req_t req, fuse_ino_t nodeid,
-> >  {
-> >      size_t compat_size = offsetof(struct fuse_init_in, max_readahead);
-> >      size_t compat2_size = offsetof(struct fuse_init_in, flags) + sizeof(uint32_t);
-> > +    /* Fuse structure extended with minor version 36 */
-> > +    size_t compat3_size = offsetof(struct fuse_init_in, unused) +
-> > +                          (11 * sizeof(uint32_t));
-> 
-> Hmm that's actually quite difficult; what we have at the moment is:
-> 
-> struct fuse_init_in {
->         uint32_t        major;
->         uint32_t        minor;
->         uint32_t        max_readahead;
->         uint32_t        flags;
->         uint32_t        flags2;
->         uint32_t        unused[11];
-> };
-> 
-> so imagine someone comes along and changes that to:
-> 
-> struct fuse_init_in {    
->         uint32_t        major;
->         uint32_t        minor;
->         uint32_t        max_readahead;
->         uint32_t        flags;
->         uint32_t        flags2;
->         uint32_t        flags3;
->         uint32_t        unused[10];
-> };
-> 
-> Then this code will break (oddly!), where the old code that didn't reference the
-> unusued field wouldn't.
+On Mon, Feb 07 2022, Daniel Henrique Barboza <danielhb413@gmail.com> wrote:
 
-Good catch. I did not think about it.
+> On 2/3/22 13:45, Halil Pasic wrote:
+>> Unlike most virtio features ACCESS_PATFORM is considered mandatory, i.e.
 
-> It looks like qemu defines an 'endof' macro, so I think you can do:
-> 
->   size_t compat3_size = endof(struct fuse_init_in, unused);
-> 
-> I think that should work as long as people nibble away at unused from
-> the top.
+s/ACCESS_PATFORM/ACCESS_PLATFORM/
 
-Will use "endof" macro.
+>> the driver must accept it if offered by the device. The virtio
+>> specification says that the driver SHOULD accept the ACCESS_PLATFORM
+>> feature if offered, and that the device MAY fail to operate if
+>> ACCESS_PLATFORM was offered but not negotiated.
+>> 
+>> While a SHOULD ain't exactly a MUST, we are certainly allowed to fail
+>> the device when the driver fences ACCESS_PLATFORM. With commit
+>
+>
+> I believe a link to the virtio specification where this is being mentioned would
+> be good to have in the commit message.
 
-Thanks
-Vivek
+It's in section 6.1 "Driver Requirements: Reserved Feature Bits": "A
+driver SHOULD accept VIRTIO_F_ACCESS_PLATFORM if it is offered" and
+section 6.2 "Device Requirements: Reserved Feature Bits": "A device MAY
+fail to operate further if VIRTIO_F_ACCESS_PLATFORM is not accepted."
 
-> 
-> Dave
-> 
-> 
-> >      struct fuse_init_in *arg;
-> >      struct fuse_init_out outarg;
-> >      struct fuse_session *se = req->se;
-> >      size_t bufsize = se->bufsize;
-> >      size_t outargsize = sizeof(outarg);
-> > +    uint64_t flags = 0;
-> >  
-> >      (void)nodeid;
-> >  
-> > @@ -1902,11 +1906,25 @@ static void do_init(fuse_req_t req, fuse_ino_t nodeid,
-> >              fuse_reply_err(req, EINVAL);
-> >              return;
-> >          }
-> > +        flags |= arg->flags;
-> > +    }
-> > +
-> > +    /*
-> > +     * fuse_init_in was extended again with minor version 36. Just read
-> > +     * current known size of fuse_init so that future extension and
-> > +     * header rebase does not cause breakage.
-> > +     */
-> > +    if (sizeof(*arg) > compat2_size && (arg->flags & FUSE_INIT_EXT)) {
-> > +        if (!fuse_mbuf_iter_advance(iter, compat3_size - compat2_size)) {
-> > +            fuse_reply_err(req, EINVAL);
-> > +            return;
-> > +        }
-> > +        flags |= (uint64_t) arg->flags2 << 32;
-> >      }
-> >  
-> >      fuse_log(FUSE_LOG_DEBUG, "INIT: %u.%u\n", arg->major, arg->minor);
-> >      if (arg->major == 7 && arg->minor >= 6) {
-> > -        fuse_log(FUSE_LOG_DEBUG, "flags=0x%08x\n", arg->flags);
-> > +        fuse_log(FUSE_LOG_DEBUG, "flags=0x%016llx\n", flags);
-> >          fuse_log(FUSE_LOG_DEBUG, "max_readahead=0x%08x\n", arg->max_readahead);
-> >      }
-> >      se->conn.proto_major = arg->major;
-> > @@ -1934,68 +1952,68 @@ static void do_init(fuse_req_t req, fuse_ino_t nodeid,
-> >      if (arg->max_readahead < se->conn.max_readahead) {
-> >          se->conn.max_readahead = arg->max_readahead;
-> >      }
-> > -    if (arg->flags & FUSE_ASYNC_READ) {
-> > +    if (flags & FUSE_ASYNC_READ) {
-> >          se->conn.capable |= FUSE_CAP_ASYNC_READ;
-> >      }
-> > -    if (arg->flags & FUSE_POSIX_LOCKS) {
-> > +    if (flags & FUSE_POSIX_LOCKS) {
-> >          se->conn.capable |= FUSE_CAP_POSIX_LOCKS;
-> >      }
-> > -    if (arg->flags & FUSE_ATOMIC_O_TRUNC) {
-> > +    if (flags & FUSE_ATOMIC_O_TRUNC) {
-> >          se->conn.capable |= FUSE_CAP_ATOMIC_O_TRUNC;
-> >      }
-> > -    if (arg->flags & FUSE_EXPORT_SUPPORT) {
-> > +    if (flags & FUSE_EXPORT_SUPPORT) {
-> >          se->conn.capable |= FUSE_CAP_EXPORT_SUPPORT;
-> >      }
-> > -    if (arg->flags & FUSE_DONT_MASK) {
-> > +    if (flags & FUSE_DONT_MASK) {
-> >          se->conn.capable |= FUSE_CAP_DONT_MASK;
-> >      }
-> > -    if (arg->flags & FUSE_FLOCK_LOCKS) {
-> > +    if (flags & FUSE_FLOCK_LOCKS) {
-> >          se->conn.capable |= FUSE_CAP_FLOCK_LOCKS;
-> >      }
-> > -    if (arg->flags & FUSE_AUTO_INVAL_DATA) {
-> > +    if (flags & FUSE_AUTO_INVAL_DATA) {
-> >          se->conn.capable |= FUSE_CAP_AUTO_INVAL_DATA;
-> >      }
-> > -    if (arg->flags & FUSE_DO_READDIRPLUS) {
-> > +    if (flags & FUSE_DO_READDIRPLUS) {
-> >          se->conn.capable |= FUSE_CAP_READDIRPLUS;
-> >      }
-> > -    if (arg->flags & FUSE_READDIRPLUS_AUTO) {
-> > +    if (flags & FUSE_READDIRPLUS_AUTO) {
-> >          se->conn.capable |= FUSE_CAP_READDIRPLUS_AUTO;
-> >      }
-> > -    if (arg->flags & FUSE_ASYNC_DIO) {
-> > +    if (flags & FUSE_ASYNC_DIO) {
-> >          se->conn.capable |= FUSE_CAP_ASYNC_DIO;
-> >      }
-> > -    if (arg->flags & FUSE_WRITEBACK_CACHE) {
-> > +    if (flags & FUSE_WRITEBACK_CACHE) {
-> >          se->conn.capable |= FUSE_CAP_WRITEBACK_CACHE;
-> >      }
-> > -    if (arg->flags & FUSE_NO_OPEN_SUPPORT) {
-> > +    if (flags & FUSE_NO_OPEN_SUPPORT) {
-> >          se->conn.capable |= FUSE_CAP_NO_OPEN_SUPPORT;
-> >      }
-> > -    if (arg->flags & FUSE_PARALLEL_DIROPS) {
-> > +    if (flags & FUSE_PARALLEL_DIROPS) {
-> >          se->conn.capable |= FUSE_CAP_PARALLEL_DIROPS;
-> >      }
-> > -    if (arg->flags & FUSE_POSIX_ACL) {
-> > +    if (flags & FUSE_POSIX_ACL) {
-> >          se->conn.capable |= FUSE_CAP_POSIX_ACL;
-> >      }
-> > -    if (arg->flags & FUSE_HANDLE_KILLPRIV) {
-> > +    if (flags & FUSE_HANDLE_KILLPRIV) {
-> >          se->conn.capable |= FUSE_CAP_HANDLE_KILLPRIV;
-> >      }
-> > -    if (arg->flags & FUSE_NO_OPENDIR_SUPPORT) {
-> > +    if (flags & FUSE_NO_OPENDIR_SUPPORT) {
-> >          se->conn.capable |= FUSE_CAP_NO_OPENDIR_SUPPORT;
-> >      }
-> > -    if (!(arg->flags & FUSE_MAX_PAGES)) {
-> > +    if (!(flags & FUSE_MAX_PAGES)) {
-> >          size_t max_bufsize = FUSE_DEFAULT_MAX_PAGES_PER_REQ * getpagesize() +
-> >                               FUSE_BUFFER_HEADER_SIZE;
-> >          if (bufsize > max_bufsize) {
-> >              bufsize = max_bufsize;
-> >          }
-> >      }
-> > -    if (arg->flags & FUSE_SUBMOUNTS) {
-> > +    if (flags & FUSE_SUBMOUNTS) {
-> >          se->conn.capable |= FUSE_CAP_SUBMOUNTS;
-> >      }
-> > -    if (arg->flags & FUSE_HANDLE_KILLPRIV_V2) {
-> > +    if (flags & FUSE_HANDLE_KILLPRIV_V2) {
-> >          se->conn.capable |= FUSE_CAP_HANDLE_KILLPRIV_V2;
-> >      }
-> > -    if (arg->flags & FUSE_SETXATTR_EXT) {
-> > +    if (flags & FUSE_SETXATTR_EXT) {
-> >          se->conn.capable |= FUSE_CAP_SETXATTR_EXT;
-> >      }
-> >  #ifdef HAVE_SPLICE
-> > @@ -2063,7 +2081,7 @@ static void do_init(fuse_req_t req, fuse_ino_t nodeid,
-> >      if (se->conn.max_write < bufsize - FUSE_BUFFER_HEADER_SIZE) {
-> >          se->bufsize = se->conn.max_write + FUSE_BUFFER_HEADER_SIZE;
-> >      }
-> > -    if (arg->flags & FUSE_MAX_PAGES) {
-> > +    if (flags & FUSE_MAX_PAGES) {
-> >          outarg.flags |= FUSE_MAX_PAGES;
-> >          outarg.max_pages = (se->conn.max_write - 1) / getpagesize() + 1;
-> >      }
-> > -- 
-> > 2.34.1
-> > 
-> -- 
-> Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
-> 
+That said, I'm not sure the wording in the spec translates to
+"mandatory"... if the driver fails to accept the bit, the device can
+choose to not work with the driver, but it's not forced to. There are
+other instances where the device may reject FEATURES_OK (e.g. when the
+driver does not accept a feature that is a pre-req for another feature),
+I'd say it is up to the device whether something is mandatory or not. If
+the device/setup cannot work without it, it certainly is mandatory, but
+the driver only knows when FEATURES_OK is rejected without the feature.
+
+OTOH, the decision to make it mandatory is certainly sound, and covered
+by the spec. As the driver must be prepared for the device failing to
+accept FEATURES_OK, we can make it mandatory here -- we should just not
+say that it is considered mandatory from a spec standpoint. The spec
+allows to make it mandatory, and we make it mandatory in our
+implementation.
+
+>
+>
+>> 2943b53f68 ("virtio: force VIRTIO_F_IOMMU_PLATFORM") we already made the
+>> decision to do so whenever the get_dma_as() callback is implemented (by
+>> the bus), which in practice means for the entirety of virtio-pci.
+>> 
+>> That means, if the device needs to translate I/O addresses, then
+>> ACCESS_PLATFORM is mandatory. The aforementioned commit tells us
+>> in the commit message that this is for security reasons.
+>> 
+>> If ACCESS_PLATFORM is offered not we want the device to utilize an
+>
+> I think you meant "If ACCESS_PLATFORM is offered".
+
+I thought it should be "If ACCESS_PLATFORM is offered not because..." ?
+
+>
+>
+>> IOMMU and do address translation, but because the device does not have
+>> access to the entire guest RAM, and needs the driver to grant access
+>> to the bits it needs access to (e.g. confidential guest support), we
+>> still require the guest to have the corresponding logic and to accept
+>> ACCESS_PLATFORM. If the driver does not accept ACCESS_PLATFORM, then
+>> things are bound to go wrong, and we may see failures much less graceful
+>> than failing the device because the driver didn't negotiate
+>> ACCESS_PLATFORM.
+>> 
+>> So let us make ACCESS_PLATFORM mandatory for the driver regardless
+>> of whether the get_dma_as() callback is implemented or not.
+>> 
+>> Signed-off-by: Halil Pasic <pasic@linux.ibm.com>
+>> Fixes: 2943b53f68 ("virtio: force VIRTIO_F_IOMMU_PLATFORM")
+>> 
+>> ---
+>> This patch is based on:
+>> https://www.mail-archive.com/qemu-devel@nongnu.org/msg866199.html
+>> 
+>> During the review of "virtio: fix the condition for iommu_platform not
+>> supported" Daniel raised the question why do we "force IOMMU_PLATFORM"
+>> iff has_iommu && !!klass->get_dma_as. My answer to that was, that
+>> this logic ain't right.
+>> 
+>> While at it I used the opportunity to re-organize the code a little
+>> and provide an explanatory comment.
+>> ---
+>>   hw/virtio/virtio-bus.c | 17 ++++++++++-------
+>>   1 file changed, 10 insertions(+), 7 deletions(-)
+>> 
+>> diff --git a/hw/virtio/virtio-bus.c b/hw/virtio/virtio-bus.c
+>> index fbf0dd14b8..359430eb1c 100644
+>> --- a/hw/virtio/virtio-bus.c
+>> +++ b/hw/virtio/virtio-bus.c
+>> @@ -78,16 +78,19 @@ void virtio_bus_device_plugged(VirtIODevice *vdev, Error **errp)
+>>           return;
+>>       }
+>>   
+>> -    vdev_has_iommu = virtio_host_has_feature(vdev, VIRTIO_F_IOMMU_PLATFORM);
+>> -    if (klass->get_dma_as != NULL && has_iommu) {
+>> +    vdev->dma_as = &address_space_memory;
+>
+> At this point you can also do:
+>
+>     if (!has_iommu) {
+>         return;
+>     }
+>
+> and the rest of the code will have one less indentation level.
+
+It might make it harder to add code at the tail end of the function in
+the future, though.
+
+>
+>
+> Thanks,
+>
+>
+> Daniel
+>
+>
+>
+>> +    if (has_iommu) {
+>> +        vdev_has_iommu = virtio_host_has_feature(vdev, VIRTIO_F_IOMMU_PLATFORM);
+>> +        /* Fail FEATURE_OK if the device tries to drop IOMMU_PLATFORM */
+>>           virtio_add_feature(&vdev->host_features, VIRTIO_F_IOMMU_PLATFORM);
+>> -        vdev->dma_as = klass->get_dma_as(qbus->parent);
+>> -        if (!vdev_has_iommu && vdev->dma_as != &address_space_memory) {
+>> -            error_setg(errp,
+>> +        if (klass->get_dma_as) {
+>> +            vdev->dma_as = klass->get_dma_as(qbus->parent);
+>> +            if (!vdev_has_iommu && vdev->dma_as != &address_space_memory) {
+>> +                error_setg(errp,
+>>                          "iommu_platform=true is not supported by the device");
+>> +                return;
+>> +            }
+>>           }
+>> -    } else {
+>> -        vdev->dma_as = &address_space_memory;
+>>       }
+>>   }
+>>   
+>> 
+>> base-commit: da89f242b4b774a25eaa16be125cf3e17299c127
 
 
