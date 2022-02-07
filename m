@@ -2,73 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 50C2B4AC10A
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Feb 2022 15:21:44 +0100 (CET)
-Received: from localhost ([::1]:37076 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 18D634AC18D
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Feb 2022 15:45:48 +0100 (CET)
+Received: from localhost ([::1]:48920 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nH4th-0007Sh-7g
-	for lists+qemu-devel@lfdr.de; Mon, 07 Feb 2022 09:21:41 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:54740)
+	id 1nH5Gz-0001mk-QF
+	for lists+qemu-devel@lfdr.de; Mon, 07 Feb 2022 09:45:46 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:55476)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1nH4mV-0008Gh-7k
- for qemu-devel@nongnu.org; Mon, 07 Feb 2022 09:14:17 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:54885)
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1nH4oB-0001pU-Bb
+ for qemu-devel@nongnu.org; Mon, 07 Feb 2022 09:16:01 -0500
+Received: from kylie.crudebyte.com ([5.189.157.229]:35117)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1nH4mN-0003vs-32
- for qemu-devel@nongnu.org; Mon, 07 Feb 2022 09:14:13 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1644243246;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=TmwpFWTkFNZBbY3UMK20A0+Bbsz/QHVsCYz6s1lDXVY=;
- b=VJ1mAX5pd1IZ0BQ5rqYfbkC4B9ee9lXS76l6p/UkVUYtfGrRbcf3LslBdN45tXmi8O2fjP
- lqBWYbCksoPz/XAWJ0h/X70psghrcrIOnaaShf1cp8c7dC+5cagFW8W9WWUvOd0uUZZP+v
- HUgAAGf9CuAC3wguq5f1SUPNzmq/xIc=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-167-wc0f0rHOPzuu7qn7l_Omkw-1; Mon, 07 Feb 2022 09:14:04 -0500
-X-MC-Unique: wc0f0rHOPzuu7qn7l_Omkw-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E075F1091DB7
- for <qemu-devel@nongnu.org>; Mon,  7 Feb 2022 14:14:03 +0000 (UTC)
-Received: from horse.redhat.com (unknown [10.22.9.190])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B0F742B5AE;
- Mon,  7 Feb 2022 14:13:53 +0000 (UTC)
-Received: by horse.redhat.com (Postfix, from userid 10451)
- id 4573D2237EB; Mon,  7 Feb 2022 09:13:53 -0500 (EST)
-Date: Mon, 7 Feb 2022 09:13:53 -0500
-From: Vivek Goyal <vgoyal@redhat.com>
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Subject: Re: [PATCH v5 9/9] virtiofsd: Add an option to enable/disable
- security label
-Message-ID: <YgEpIXyRiafE8NSu@redhat.com>
-References: <20220202193935.268777-1-vgoyal@redhat.com>
- <20220202193935.268777-10-vgoyal@redhat.com>
- <YgETNXv8AnnuLQR/@work-vm>
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1nH4o7-0004MC-OY
+ for qemu-devel@nongnu.org; Mon, 07 Feb 2022 09:15:58 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
+ MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+ Content-ID:Content-Description;
+ bh=PkKnHUd6uvR2ezL1T1NOdjKnYEQch/YMvdRyIhhJa7Y=; b=ZotOgxyidH+NzkDSY8lJZQOoeR
+ YgGK5oCeniP+9kDbX0ycSQpKwsrAKqrQlDTxp2JMUloHTXwfNjOeEvTwLbEvAnewP7PXhfA4eRuPo
+ cXWX/SdkFZhmEHYrfks3UmZdn1zSqLJHcqHZi3uFDWUAGTSiyYk6Y663cxj89K/UFj0QQITqX1HU+
+ DMxU5U507RkcZilcktPTQMpbvaPf1iRZ6o4PVDewqQN1cCmVX3aKOHkw7LHD4a4Bf/TRg9ghpTRUI
+ kjPuT9sYp9AGYNU9tRxhKTNrThpwrOKHCARG7fjXUxGA4TpxD4ZIP5SB/J40XIVlixBTXTY9PYGWi
+ hrgQDbBCzh2yPAcpQPUS2lAnQsQLhR9x+vq80y4foI47wf0k8D4uiLuBM35+RoeEpDREPNpnMIjgI
+ AmXncREPy0bV8W0F4vGXgjuPf0iqWfTUwh3KsOAwjq2hH7nQSYem9JToNGkvuFiLjzZ3rlyISd6pJ
+ F+nZ0qdjhHIBHNVJthCQloEWcznX3SY1NWtexYByr0CKzwIIKUEyQ46T6ltw5OO/T6ObKSFRqtTCt
+ zzIS2Y0/VJe8v9nETvPNtbdppqO4sQXrH81E3SqRWzr3WSa8qKzS+A8R4NvadfbGxp/kxVPLPNe3V
+ z2E5WTGUYhtx8Pambc/GQ+8080sKMFXVTJCNPpb5Y=;
+From: Christian Schoenebeck <qemu_oss@crudebyte.com>
+To: qemu-devel@nongnu.org
+Cc: Will Cohen <wwcohen@gmail.com>,
+ Philippe =?ISO-8859-1?Q?Mathieu=2DDaud=E9?= <f4bug@amsat.org>,
+ Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Greg Kurz <groug@kaod.org>, hi@alyssa.is,
+ Michael Roitzsch <reactorcontrol@icloud.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Keno Fischer <keno@juliacomputing.com>
+Subject: Re: [PATCH v4 10/11] 9p: darwin: meson: Allow VirtFS on Darwin
+Date: Mon, 07 Feb 2022 15:15:46 +0100
+Message-ID: <39149990.XXmQAQaIKb@silver>
+In-Reply-To: <CAB26zV2sx-9PGhk5Rbz-q+sQJ8yxqOOO32J_k5vb7_sPNgFBnQ@mail.gmail.com>
+References: <20220206200719.74464-1-wwcohen@gmail.com>
+ <9265b724-d9c3-7c06-20ac-177feb63fee9@amsat.org>
+ <CAB26zV2sx-9PGhk5Rbz-q+sQJ8yxqOOO32J_k5vb7_sPNgFBnQ@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <YgETNXv8AnnuLQR/@work-vm>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=vgoyal@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=vgoyal@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"
+Received-SPF: pass client-ip=5.189.157.229;
+ envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -81,140 +71,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: virtio-fs@redhat.com, mszeredi@redhat.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Feb 07, 2022 at 12:40:21PM +0000, Dr. David Alan Gilbert wrote:
-> * Vivek Goyal (vgoyal@redhat.com) wrote:
-> > Provide an option "-o security_label/no_security_label" to enable/disable
-> > security label functionality. By default these are turned off.
-> > 
-> > If enabled, server will indicate to client that it is capable of handling
-> > one security label during file creation. Typically this is expected to
-> > be a SELinux label. File server will set this label on the file. It will
-> > try to set it atomically wherever possible. But its not possible in
-> > all the cases.
-> > 
-> > Signed-off-by: Vivek Goyal <vgoyal@redhat.com>
-> > ---
-> >  docs/tools/virtiofsd.rst         |  7 +++++++
-> >  tools/virtiofsd/helper.c         |  1 +
-> >  tools/virtiofsd/passthrough_ll.c | 15 +++++++++++++++
-> >  3 files changed, 23 insertions(+)
-> > 
-> > diff --git a/docs/tools/virtiofsd.rst b/docs/tools/virtiofsd.rst
-> > index 07ac0be551..a2c005f4a0 100644
-> > --- a/docs/tools/virtiofsd.rst
-> > +++ b/docs/tools/virtiofsd.rst
-> > @@ -104,6 +104,13 @@ Options
-> >    * posix_acl|no_posix_acl -
-> >      Enable/disable posix acl support.  Posix ACLs are disabled by default.
-> >  
-> > +  * security_label|no_security_label -
-> > +    Enable/disable security label support. Security labels are disabled by
-> > +    default. This will allow client to send a MAC label of file during
->                                 ^ the                        ^ a
-> > +    file creation. Typically this is expected to be SELinux security
->                                                       ^ an
-> 
-> > +    label. Server will try to set that label on newly created file
->               ^The server
-> > +    atomically wherever possible.
-> > +
-> >  .. option:: --socket-path=PATH
-> >  
-> >    Listen on vhost-user UNIX domain socket at PATH.
-> > diff --git a/tools/virtiofsd/helper.c b/tools/virtiofsd/helper.c
-> > index a8295d975a..e226fc590f 100644
-> > --- a/tools/virtiofsd/helper.c
-> > +++ b/tools/virtiofsd/helper.c
-> > @@ -187,6 +187,7 @@ void fuse_cmdline_help(void)
-> >             "                               default: no_allow_direct_io\n"
-> >             "    -o announce_submounts      Announce sub-mount points to the guest\n"
-> >             "    -o posix_acl/no_posix_acl  Enable/Disable posix_acl. (default: disabled)\n"
-> > +           "    -o security_label/no_security_label  Enable/Disable security label. (default: disabled)\n"
-> >             );
-> >  }
-> >  
-> > diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrough_ll.c
-> > index 43c9b6dbe5..fe8f3ccbb6 100644
-> > --- a/tools/virtiofsd/passthrough_ll.c
-> > +++ b/tools/virtiofsd/passthrough_ll.c
-> > @@ -181,6 +181,7 @@ struct lo_data {
-> >      int user_posix_acl, posix_acl;
-> >      /* Keeps track if /proc/<pid>/attr/fscreate should be used or not */
-> >      bool use_fscreate;
-> > +    int user_security_label;
-> >  };
-> >  
-> >  static const struct fuse_opt lo_opts[] = {
-> > @@ -215,6 +216,8 @@ static const struct fuse_opt lo_opts[] = {
-> >      { "no_killpriv_v2", offsetof(struct lo_data, user_killpriv_v2), 0 },
-> >      { "posix_acl", offsetof(struct lo_data, user_posix_acl), 1 },
-> >      { "no_posix_acl", offsetof(struct lo_data, user_posix_acl), 0 },
-> > +    { "security_label", offsetof(struct lo_data, user_security_label), 1 },
-> > +    { "no_security_label", offsetof(struct lo_data, user_security_label), 0 },
-> >      FUSE_OPT_END
-> >  };
-> >  static bool use_syslog = false;
-> > @@ -771,6 +774,17 @@ static void lo_init(void *userdata, struct fuse_conn_info *conn)
-> >          fuse_log(FUSE_LOG_DEBUG, "lo_init: disabling posix_acl\n");
-> >          conn->want &= ~FUSE_CAP_POSIX_ACL;
-> >      }
-> > +
-> > +    if (lo->user_security_label == 1) {
-> > +        if (!(conn->capable & FUSE_CAP_SECURITY_CTX)) {
-> > +            fuse_log(FUSE_LOG_ERR, "lo_init: Can not enable security label."
-> > +                     " kernel does not support FUSE_SECURITY_CTX capability.\n");
-> > +        }
-> 
-> Do you need to exit in this case - or at least clear the flag?
+On Montag, 7. Februar 2022 02:05:32 CET Will Cohen wrote:
+> On Sun, Feb 6, 2022 at 4:22 PM Philippe Mathieu-Daud=E9 <f4bug@amsat.org>
+>=20
+> wrote:
+> > On 6/2/22 21:07, Will Cohen wrote:
+> > > From: Keno Fischer <keno@juliacomputing.com>
+> > >=20
+> > > Signed-off-by: Keno Fischer <keno@juliacomputing.com>
+> > > [Michael Roitzsch: - Rebase for NixOS]
+> > > Signed-off-by: Michael Roitzsch <reactorcontrol@icloud.com>
+> > > [Will Cohen: - Rebase to master]
+> > > Signed-off-by: Will Cohen <wwcohen@gmail.com>
+> > > Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
+> > > [Will Cohen: - Add check for pthread_fchdir_np to virtfs]
+> > > Signed-off-by: Will Cohen <wwcohen@gmail.com>
+> > > ---
+> > >=20
+> > >   fsdev/meson.build |  1 +
+> > >   meson.build       | 14 ++++++++++----
+> > >   2 files changed, 11 insertions(+), 4 deletions(-)
+> > >=20
+> > > -have_virtfs_proxy_helper =3D have_virtfs and have_tools
+> > > +have_virtfs_proxy_helper =3D targetos =3D=3D 'linux' and have_virtfs=
+ and
+> >=20
+> > have_tools
+> >=20
+> > Why do you restrict the proxy-helper to Linux?
+>
+> Only because porting the proxy-helper to macOS is outside the scope of th=
+is
+> particular patch. While some initial concepts around it have been
+> considered by some of the contributors to this patch, those implementatio=
+ns
+> weren't tested enough and the security implications weren't considered in
+> full. We assume that this could be an additional implementation later on,
+> if the functionality is considered important down the road.
 
-Actually we don't have to necessarily exit here because fuse_lowlevel.c
-has a check which makes it exit. And that's why I do not clear the
-flag from ->want to signifiy that filesystem wants that capability
-but client is not ->capable so error out and exit.
+In general that's fine with me. I would have probably made that
+"targetos !=3D 'darwin'" instead of "targetos =3D=3D 'linux'", but I leave =
+that up=20
+to you.
 
+On the long term we will probably deprecate the 9p 'proxy' fs driver anyway=
+=2E=20
+While it had some good ideas, being realistic though: nobody has worked on =
+the=20
+9p proxy driver/backend for many years and it is not in good shape.
 
-    if (se->conn.want & (~se->conn.capable)) {
-        fuse_log(FUSE_LOG_ERR,
-                 "fuse: error: filesystem requested capabilities "
-                 "0x%llx that are not supported by kernel, aborting.\n",
-                 se->conn.want & (~se->conn.capable));
-        fuse_reply_err(req, EPROTO);
-        se->error = -EPROTO;
-        fuse_session_exit(se);
-        return;
-    }
+I can imagine that due to the ground being laid by these series, that we wi=
+ll=20
+also open 9p for BSD, but that should be done a bit later and hence does no=
+t=20
+belong into these series.
 
-Thanks
-Vivek
+But once again: it would not have hurt to make your intentions clear either=
+ in=20
+the commit log or by in-source comment. :)
 
-> 
-> Dave
-> 
-> > +        conn->want |= FUSE_CAP_SECURITY_CTX;
-> > +    } else {
-> > +        fuse_log(FUSE_LOG_DEBUG, "lo_init: disabling security label\n");
-> > +        conn->want &= ~FUSE_CAP_SECURITY_CTX;
-> > +    }
-> >  }
-> >  
-> >  static void lo_getattr(fuse_req_t req, fuse_ino_t ino,
-> > @@ -4279,6 +4293,7 @@ int main(int argc, char *argv[])
-> >          .proc_self_task = -1,
-> >          .user_killpriv_v2 = -1,
-> >          .user_posix_acl = -1,
-> > +        .user_security_label = -1,
-> >      };
-> >      struct lo_map_elem *root_elem;
-> >      struct lo_map_elem *reserve_elem;
-> > -- 
-> > 2.34.1
-> > 
-> -- 
-> Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
-> 
+Best regards,
+Christian Schoenebeck
+
 
 
