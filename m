@@ -2,59 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4CAE74AB775
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Feb 2022 10:21:09 +0100 (CET)
-Received: from localhost ([::1]:47442 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD4474AB7EF
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Feb 2022 10:48:25 +0100 (CET)
+Received: from localhost ([::1]:48974 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nH0Cq-00024X-BM
-	for lists+qemu-devel@lfdr.de; Mon, 07 Feb 2022 04:21:08 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:55194)
+	id 1nH0dE-0006TF-KO
+	for lists+qemu-devel@lfdr.de; Mon, 07 Feb 2022 04:48:24 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:57322)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1nGz0K-0001By-OM
- for qemu-devel@nongnu.org; Mon, 07 Feb 2022 03:04:11 -0500
-Received: from us-smtp-delivery-44.mimecast.com ([207.211.30.44]:52162)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1nGzBD-0004nx-SZ
+ for qemu-devel@nongnu.org; Mon, 07 Feb 2022 03:15:24 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:48484)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1nGz0H-0003kk-42
- for qemu-devel@nongnu.org; Mon, 07 Feb 2022 03:04:08 -0500
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1nGzBA-0005I5-2k
+ for qemu-devel@nongnu.org; Mon, 07 Feb 2022 03:15:22 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1644221681;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=PNENrEZi5JUr9526jG8sXSJtvoLgiV/9CEHeArPH6jg=;
+ b=Hg59FLrlJCA33g/X+JXd2ycfo/R4NwtxLI9FOUfO1xINXq3xSFEtEQEQ/guhjLPcLEXcfp
+ GrzvmI2b1GQ9yUoS+2GVaRyT+Hhc/mvLUPRrI0nAHt6QO+eEMnsp5MsRT0hFjlW8xIK5nw
+ JkaGekuoVeFohPRvUBZtvIIq+gz4VHk=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-573-RviwJBVtOiS-vS7EYOFuZg-1; Mon, 07 Feb 2022 03:03:24 -0500
-X-MC-Unique: RviwJBVtOiS-vS7EYOFuZg-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 378F11923E21;
- Mon,  7 Feb 2022 08:03:23 +0000 (UTC)
-Received: from bahia (unknown [10.39.192.48])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7CD21105C730;
- Mon,  7 Feb 2022 08:03:13 +0000 (UTC)
-Date: Mon, 7 Feb 2022 09:03:12 +0100
-From: Greg Kurz <groug@kaod.org>
-To: Will Cohen <wwcohen@gmail.com>
-Subject: Re: [PATCH v4 01/11] 9p: linux: Fix a couple Linux assumptions
-Message-ID: <20220207090312.7a2ed4b3@bahia>
-In-Reply-To: <20220206200719.74464-2-wwcohen@gmail.com>
-References: <20220206200719.74464-1-wwcohen@gmail.com>
- <20220206200719.74464-2-wwcohen@gmail.com>
+ us-mta-287-2vuHqutvPG2ywzZ0CfBwFA-1; Mon, 07 Feb 2022 03:14:40 -0500
+X-MC-Unique: 2vuHqutvPG2ywzZ0CfBwFA-1
+Received: by mail-ed1-f69.google.com with SMTP id
+ ee7-20020a056402290700b0040f680071c9so1351151edb.9
+ for <qemu-devel@nongnu.org>; Mon, 07 Feb 2022 00:14:40 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=PNENrEZi5JUr9526jG8sXSJtvoLgiV/9CEHeArPH6jg=;
+ b=18lpGnEd+RNYwUb+1xWp+gnJYtSIfFQvsX3vBnKfEy2VCMwQmV45PTsTK3C6HaMYNe
+ QtQuAgYGeV1TqbeDoqWyyt6XHZ++xsdMJbsG+LkADvHhLGBli5EJJWs8arNMpxcxDKz7
+ LvDHhSBGExVtlGT89k8PYfvyLJwyItCWSRP8aoXv0y29lfOtuE64+ahbQZXvNF4PvQbs
+ 3rG7twRObiqLuUmRmCFIxlCpj4LIVLjKB9C7nBptQd1JL1/DCOBKUpoS/kvoSekQx0b8
+ ZwKJA7jgeUnaSe7X+6JtHQvC0fW9ma9iuyBOcQIZfdFkWEFhtjJ6dVyVTqPZd1rLwdCX
+ d2cA==
+X-Gm-Message-State: AOAM53123ki0tciFkahfbumXFTJED1rtfUVFWcBE6ijCRA8AyejjdNX/
+ CCYPTCBmaWlnEqXYftbI9ZwZSf1l2mnQFlXjr/gejB4SDF+A7gDA1kNhscmuisH4RFzCCIZPKeH
+ TkNuOXpagupecIyQ=
+X-Received: by 2002:a17:907:7246:: with SMTP id
+ ds6mr6034692ejc.762.1644221679104; 
+ Mon, 07 Feb 2022 00:14:39 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxgalLQczq61Or+umMNyvhu5G9qui74o1J1GVup2bWi8wbzxUV8ZPfDXqNKeyVBWdpnFKCmTQ==
+X-Received: by 2002:a17:907:7246:: with SMTP id
+ ds6mr6034675ejc.762.1644221678907; 
+ Mon, 07 Feb 2022 00:14:38 -0800 (PST)
+Received: from localhost (nat-pool-brq-t.redhat.com. [213.175.37.10])
+ by smtp.gmail.com with ESMTPSA id y16sm576640ejd.72.2022.02.07.00.14.38
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 07 Feb 2022 00:14:38 -0800 (PST)
+Date: Mon, 7 Feb 2022 09:14:37 +0100
+From: Igor Mammedov <imammedo@redhat.com>
+To: Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <f4bug@amsat.org>
+Subject: Re: [PATCH v4 2/4] hw/i386: Attach CPUs to machine
+Message-ID: <20220207091437.52cf36b1@redhat.com>
+In-Reply-To: <20220205124526.500158-3-f4bug@amsat.org>
+References: <20220205124526.500158-1-f4bug@amsat.org>
+ <20220205124526.500158-3-f4bug@amsat.org>
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.31; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=groug@kaod.org
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
 X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: kaod.org
-Content-Type: text/plain; charset=WINDOWS-1252
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: softfail client-ip=207.211.30.44; envelope-from=groug@kaod.org;
- helo=us-smtp-delivery-44.mimecast.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_SOFTFAIL=0.665,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=imammedo@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -67,120 +99,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Christian Schoenebeck <qemu_oss@crudebyte.com>, qemu-devel@nongnu.org,
- hi@alyssa.is, Michael Roitzsch <reactorcontrol@icloud.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Keno Fischer <keno@juliacomputing.com>
+Cc: Yang Zhong <yang.zhong@intel.com>,
+ Jean-Philippe Brucker <jean-philippe@linaro.org>, "Daniel P .
+ =?UTF-8?B?QmVycmFuZ8Op?=" <berrange@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, libvir-list@redhat.com,
+ qemu-devel@nongnu.org, Ani Sinha <ani@anisinha.ca>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun,  6 Feb 2022 15:07:09 -0500
-Will Cohen <wwcohen@gmail.com> wrote:
+On Sat,  5 Feb 2022 13:45:24 +0100
+Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org> wrote:
 
-> From: Keno Fischer <keno@juliacomputing.com>
+> Previously CPUs were exposed in the QOM tree at a path
 >=20
->  - Guard Linux only headers.
->  - Add qemu/statfs.h header to abstract over the which
->    headers are needed for struct statfs
->  - Define `ENOATTR` only if not only defined
->    (it's defined in system headers on Darwin).
+>   /machine/unattached/device[nn]
 >=20
-> Signed-off-by: Keno Fischer <keno@juliacomputing.com>
-> [Michael Roitzsch: - Rebase for NixOS]
-> Signed-off-by: Michael Roitzsch <reactorcontrol@icloud.com>
+> where the 'nn' of the first CPU is usually zero, but can
+> vary depending on what devices were already created.
 >=20
-> While it might at first appear that fsdev/virtfs-proxy-header.c would
-> need similar adjustment for darwin as file-op-9p here, a later patch in
-> this series disables virtfs-proxy-helper for non-Linux. Allowing
-> virtfs-proxy-helper on darwin could potentially be an additional
-> optimization later.
+> With this change the CPUs are now at
 >=20
-> [Will Cohen: - Fix headers for Alpine
->              - Integrate statfs.h back into file-op-9p.h
->              - Remove superfluous header guards from file-opt-9p
->              - Add note about virtfs-proxy-helper being disabled
->                on non-Linux for this patch series]
-> Signed-off-by: Will Cohen <wwcohen@gmail.com>
+>   /machine/cpu[nn]
+>=20
+> where the 'nn' of the first CPU is always zero.
+
+Could you add to commit message the reason behind the change?
+
+
+> Note: This (intentionally) breaks compatibility with current
+> libvirt code that looks for "/machine/unattached/device[0]"
+> in the assumption it is the first CPU.
+Why libvirt does this in the first place?
+
+=20
+> Cc: libvir-list@redhat.com
+> Suggested-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
+> Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
 > ---
-
-Reviewed-by: Greg Kurz <groug@kaod.org>
-
->  fsdev/file-op-9p.h   | 9 ++++++++-
->  hw/9pfs/9p-local.c   | 2 ++
->  hw/9pfs/9p.c         | 4 ++++
->  include/qemu/xattr.h | 4 +++-
->  4 files changed, 17 insertions(+), 2 deletions(-)
+>  hw/i386/x86.c | 1 +
+>  1 file changed, 1 insertion(+)
 >=20
-> diff --git a/fsdev/file-op-9p.h b/fsdev/file-op-9p.h
-> index 8fd89f0447..4997677460 100644
-> --- a/fsdev/file-op-9p.h
-> +++ b/fsdev/file-op-9p.h
-> @@ -16,10 +16,17 @@
+> diff --git a/hw/i386/x86.c b/hw/i386/x86.c
+> index b84840a1bb9..50bf249c700 100644
+> --- a/hw/i386/x86.c
+> +++ b/hw/i386/x86.c
+> @@ -108,6 +108,7 @@ void x86_cpu_new(X86MachineState *x86ms, int64_t apic=
+_id, Error **errp)
+>  {
+>      Object *cpu =3D object_new(MACHINE(x86ms)->cpu_type);
 > =20
->  #include <dirent.h>
->  #include <utime.h>
-> -#include <sys/vfs.h>
->  #include "qemu-fsdev-throttle.h"
->  #include "p9array.h"
-> =20
-> +#ifdef CONFIG_LINUX
-> +# include <sys/vfs.h>
-> +#endif
-> +#ifdef CONFIG_DARWIN
-> +# include <sys/param.h>
-> +# include <sys/mount.h>
-> +#endif
-> +
->  #define SM_LOCAL_MODE_BITS    0600
->  #define SM_LOCAL_DIR_MODE_BITS    0700
-> =20
-> diff --git a/hw/9pfs/9p-local.c b/hw/9pfs/9p-local.c
-> index 210d9e7705..1a5e3eed73 100644
-> --- a/hw/9pfs/9p-local.c
-> +++ b/hw/9pfs/9p-local.c
-> @@ -32,10 +32,12 @@
->  #include "qemu/error-report.h"
->  #include "qemu/option.h"
->  #include <libgen.h>
-> +#ifdef CONFIG_LINUX
->  #include <linux/fs.h>
->  #ifdef CONFIG_LINUX_MAGIC_H
->  #include <linux/magic.h>
->  #endif
-> +#endif
->  #include <sys/ioctl.h>
-> =20
->  #ifndef XFS_SUPER_MAGIC
-> diff --git a/hw/9pfs/9p.c b/hw/9pfs/9p.c
-> index 15b3f4d385..9c63e14b28 100644
-> --- a/hw/9pfs/9p.c
-> +++ b/hw/9pfs/9p.c
-> @@ -32,7 +32,11 @@
->  #include "migration/blocker.h"
->  #include "qemu/xxhash.h"
->  #include <math.h>
-> +#ifdef CONFIG_LINUX
->  #include <linux/limits.h>
-> +#else
-> +#include <limits.h>
-> +#endif
-> =20
->  int open_fd_hw;
->  int total_open_fd;
-> diff --git a/include/qemu/xattr.h b/include/qemu/xattr.h
-> index a83fe8e749..f1d0f7be74 100644
-> --- a/include/qemu/xattr.h
-> +++ b/include/qemu/xattr.h
-> @@ -22,7 +22,9 @@
->  #ifdef CONFIG_LIBATTR
->  #  include <attr/xattr.h>
->  #else
-> -#  define ENOATTR ENODATA
-> +#  if !defined(ENOATTR)
-> +#    define ENOATTR ENODATA
-> +#  endif
->  #  include <sys/xattr.h>
->  #endif
-> =20
+> +    object_property_add_child(OBJECT(x86ms), "cpu[*]", OBJECT(cpu));
+
+that will take in account only initial cpus, -device/device_add cpus
+will still go to wherever device_add attaches them (see qdev_set_id)
+
+>      if (!object_property_set_uint(cpu, "apic-id", apic_id, errp)) {
+>          goto out;
+>      }
 
 
