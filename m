@@ -2,67 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EEB434AC3CD
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Feb 2022 16:35:34 +0100 (CET)
-Received: from localhost ([::1]:36146 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B7B64AC40F
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Feb 2022 16:43:41 +0100 (CET)
+Received: from localhost ([::1]:44524 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nH63B-00033T-PR
-	for lists+qemu-devel@lfdr.de; Mon, 07 Feb 2022 10:35:33 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:47144)
+	id 1nH6B2-0000he-Eu
+	for lists+qemu-devel@lfdr.de; Mon, 07 Feb 2022 10:43:40 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:49190)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nH5rC-0007MC-GY
- for qemu-devel@nongnu.org; Mon, 07 Feb 2022 10:23:10 -0500
-Received: from [2a00:1450:4864:20::429] (port=41852
- helo=mail-wr1-x429.google.com)
+ id 1nH5z8-0007FG-69
+ for qemu-devel@nongnu.org; Mon, 07 Feb 2022 10:31:22 -0500
+Received: from [2a00:1450:4864:20::334] (port=43705
+ helo=mail-wm1-x334.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nH5rA-0008Ao-7E
- for qemu-devel@nongnu.org; Mon, 07 Feb 2022 10:23:10 -0500
-Received: by mail-wr1-x429.google.com with SMTP id k1so8920010wrd.8
- for <qemu-devel@nongnu.org>; Mon, 07 Feb 2022 07:23:07 -0800 (PST)
+ id 1nH5yG-0000vk-DY
+ for qemu-devel@nongnu.org; Mon, 07 Feb 2022 10:31:04 -0500
+Received: by mail-wm1-x334.google.com with SMTP id
+ k6-20020a05600c1c8600b003524656034cso8871203wms.2
+ for <qemu-devel@nongnu.org>; Mon, 07 Feb 2022 07:30:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=17Y6SImHH3S/OQfwbWHmEwaQDhoZn7pbL9oytXMX2ew=;
- b=xNc1mBDsLFha6//Og3LkPHo1X36T9/xnGIMy6Qc7nc32dvjkBbIjOJOXySRl4SSJq8
- luqniylhM4bGfFV0AOog8GMN74zrGfL14wEtllrImxNrIFKMKoPJygZ0fw9C9Ub96g00
- GU2Mi4kGDqTnjzZZZHHHJL9dbvEqZ6kcrwCHwcZzb0s6G77IBYFstUGDg/gL52fDWkCF
- xWaXFwA9V3iEanF8NjeS+wAbwOw6WsBNqZLi/E0WyhklVlkXiqvla97dzOFolJ+zvOeJ
- 3EhWZ5nGuaB4gHYbdFidJQ225hSJ6VGSYJY+BkfLzQzwMm51dYDQlMwtYqUdaljqynWd
- mngQ==
+ :cc; bh=Eo08Szzn+M+EL8OWj8a5kbpvovDkEP+JSFf1YPHhAfc=;
+ b=w3f4YvjIogig69HnczdUkIllOpRE2RDuawe4YVkteNiveoZpjct/YYQ6s0THeywHzk
+ i1HaPTjib7CTJWwxC3WzfgvdqIl3HCzAjmPpdVNNcOWU3XcmHEpxUvmDVBxtvplvtJRH
+ ACRH6ElJNIngeNdlbiIWQ+5ZFzFSwogFCjJ2Znim7qyAb8NDDoaMDk1E3VBT65bIN3nn
+ GMnTHkXG69jbg/Ypv6aDGu+5UJ4mTdJH9MqLvn4Bicl1nQCo7ACMgUR+PjwPw0Iei3FR
+ oI2dZTXNnbtr7CW2LanMfE3qFeviy8n3SZVR8Jf0d8bDMjBeHQex7VNydEgdeDxGnhso
+ Cwag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=17Y6SImHH3S/OQfwbWHmEwaQDhoZn7pbL9oytXMX2ew=;
- b=PLAE+P5BVzH2GgXOu1Zi00SGvkfWWcNTafJ89ay9amRMddzfc/XZYRmSOxKeQVwzAt
- caK66L3tTJfcpTJiOt4tyvXFa/xrc8AXQFEVgeh2sMgNbePV1l4JppRP0GCAJSNXWifB
- iD1ZcOd39XBLgUPoQuQPZlNomhzVT2fLDV6m4hs9ZL9WfGqnQZq8n8WTaGiJEoldMXIO
- bZe+yPBKbewWlcbAJVF1sCWIbekf3C2AAAFB97QV2h3GDi8nHUnUD3b+7lM/tZDoN5eT
- 4Nyh2f3Kw4NuPTRavAXV/voaxlXRtXGj1SdWrvDs39mBT5dJAm8y1GjyrrkGG6h+IeRM
- kNlA==
-X-Gm-Message-State: AOAM533mSJYQPoVsBywsriwmEt3W7v3qi3WminAHV0vCXgaMDLmieg81
- qlRNQ52eiyADkeoiV40rvda+Tu9LIzmdkYXcplETwQ==
-X-Google-Smtp-Source: ABdhPJzC8L7miytglhir6AId1731DdJd9DgpZvUHHTMtcRLan8IBPuH696eYwFcd6n/02nyxyB4S+BhNwmR70PWu7ds=
-X-Received: by 2002:a05:6000:258:: with SMTP id m24mr7708wrz.2.1644247386814; 
- Mon, 07 Feb 2022 07:23:06 -0800 (PST)
+ bh=Eo08Szzn+M+EL8OWj8a5kbpvovDkEP+JSFf1YPHhAfc=;
+ b=dCS78Ed7dIx9L3Yucj6Cg4EgpjZ/Gd0LLgoBFpxLNqcajE/i6OQOQ7w1ulBafgBhdK
+ TScmJFX09nDxhxHZlU3pmvf0m5Jpg/MfGHYV/r8B6+M7bNI9WftrJhaBUzdlfkVvlR7V
+ OEi3SJyCk3iiAFpmJQEMmmZYJsy0AyhA0s/37zuY//Zk2AvcTp8sfAbq344nLdB4AHYR
+ Dk+hyxOFKEA6ssMH2YQTB+QIpl3dfa/4OOoA1MqsxoG40D8tPGRTfMgrwZekwSYZeM54
+ 9vhBVcbUKArEdht8lXxLy4vMzNgcrtyH96oLXW4WpCnSLxTIQuX3SndE9dfBYnls3kmH
+ pgpw==
+X-Gm-Message-State: AOAM530jTc1Lyc+spdXrMEm+blXSgeaz4GCIoKgUTjJN/uvn2RVWo7df
+ +MZGE4FIdc4EYK+h3te+frEe5kEEB9x3x2JxJu9/FQ==
+X-Google-Smtp-Source: ABdhPJzY7LNytf8Zh1hZ/l4qgQOyLWid0tuM9bg0Kb6WHixhDMUcyAUIdTW3ACJHWBeiFEgBd3aashRzKzqwnSrZ2Es=
+X-Received: by 2002:a1c:544d:: with SMTP id p13mr3337936wmi.37.1644247821080; 
+ Mon, 07 Feb 2022 07:30:21 -0800 (PST)
 MIME-Version: 1.0
-References: <20220127154639.2090164-1-peter.maydell@linaro.org>
- <20220127154639.2090164-7-peter.maydell@linaro.org>
- <2c67bde5-65b2-0af0-afde-7353a4fe2a1b@csgraf.de>
-In-Reply-To: <2c67bde5-65b2-0af0-afde-7353a4fe2a1b@csgraf.de>
+References: <20220207082759.180431-1-laurent@vivier.eu>
+In-Reply-To: <20220207082759.180431-1-laurent@vivier.eu>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 7 Feb 2022 15:22:55 +0000
-Message-ID: <CAFEAcA9DcHXRkA7gCihU6LrOc40EOHnVnTeEcf4+xSfG22eJ-g@mail.gmail.com>
-Subject: Re: [PATCH 06/16] hw/arm/xlnx-zcu102: Don't enable PSCI conduit when
- booting guest in EL3
-To: Alexander Graf <agraf@csgraf.de>
+Date: Mon, 7 Feb 2022 15:30:10 +0000
+Message-ID: <CAFEAcA-H-KNEJueZ=Zb6Fgp1izCHaYRdBGMSH41-77W8wi4X3A@mail.gmail.com>
+Subject: Re: [PULL 0/8] Linux user for 7.0 patches
+To: Laurent Vivier <Laurent@vivier.eu>
 Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::429
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::334
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::429;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x429.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::334;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x334.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -83,57 +81,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, Havard Skinnemoen <hskinnemoen@google.com>,
- Yanan Wang <wangyanan55@huawei.com>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>, Rob Herring <robh@kernel.org>,
- sstabellini@kernel.org, Andrey Smirnov <andrew.smirnov@gmail.com>,
- michal.simek@xilinx.com, Joel Stanley <joel@jms.id.au>,
- Andre Przywara <andre.przywara@arm.com>,
- Alistair Francis <alistair@alistair23.me>,
- Beniamino Galvani <b.galvani@gmail.com>,
- Niek Linnenbank <nieklinnenbank@gmail.com>, qemu-arm@nongnu.org,
- Igor Mitsyanko <i.mitsyanko@gmail.com>,
- =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>,
- Eduardo Habkost <eduardo@habkost.net>, Andrew Jeffery <andrew@aj.id.au>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
- Jean-Christophe Dubois <jcd@tribudubois.net>, Tyrone Ting <kfting@nuvoton.com>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 7 Feb 2022 at 14:21, Alexander Graf <agraf@csgraf.de> wrote:
+On Mon, 7 Feb 2022 at 09:09, Laurent Vivier <laurent@vivier.eu> wrote:
 >
+> The following changes since commit 48302d4eb628ff0bea4d7e92cbf6b726410eb4c3:
 >
-> On 27.01.22 16:46, Peter Maydell wrote:
-> > Change the Xilinx ZynqMP-based board xlnx-zcu102 to use the new
-> > boot.c functionality to allow us to enable psci-conduit only if
-> > the guest is being booted in EL1 or EL2, so that if the user runs
-> > guest EL3 firmware code our PSCI emulation doesn't get in its
-> > way.
-> >
-> > To do this we stop setting the psci-conduit property on the CPU
-> > objects in the SoC code, and instead set the psci_conduit field in
-> > the arm_boot_info struct to tell the common boot loader code that
-> > we'd like PSCI if the guest is starting at an EL that it makes
-> > sense with.
-> >
-> > Note that this means that EL3 guest code will have no way
-> > to power on secondary cores, because we don't model any
-> > kind of power controller that does that on this SoC.
-> >
-> > Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+>   Merge remote-tracking branch 'remotes/dgilbert-gitlab/tags/pull-virtiofs-20220126' into staging (2022-01-26 10:59:50 +0000)
 >
+> are available in the Git repository at:
 >
-> It's been a while since I worked with ZynqMP, but typically your ATF in
-> EL3 will want to talk to a microblaze firmware blob on the PMU.
+>   https://gitlab.com/laurent_vivier/qemu.git tags/linux-user-for-7.0-pull-request
 >
-> I only see a stand alone PMU machine for microblaze and a PMU IRQ
-> handling I/O block in QEMU, but nothing that would listen to the events.
-> So I'm fairly sure it will be broken after this patch - and really only
-> worked by accident before.
+> for you to fetch changes up to 244fd08323088db73590ff2317dfe86f810b51d7:
+>
+>   linux-user/syscall: Translate TARGET_RLIMIT_RTTIME (2022-02-01 08:01:44 +0100)
+>
+> ----------------------------------------------------------------
+> Linux-user pull request 20220207
+>
+> Fix target rlimits for alpha
+> Add startime in /proc/self/stat
+>
+> ----------------------------------------------------------------
 
-Edgar submitted a power-control model patchset:
-https://patchew.org/QEMU/20220203140141.310870-1-edgar.iglesias@gmail.com/
 
-thanks
+Applied, thanks.
+
+Please update the changelog at https://wiki.qemu.org/ChangeLog/7.0
+for any user-visible changes.
+
 -- PMM
 
