@@ -2,68 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A4F1F4AC0C5
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Feb 2022 15:14:44 +0100 (CET)
-Received: from localhost ([::1]:53560 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7FFC84ABFBD
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Feb 2022 14:48:18 +0100 (CET)
+Received: from localhost ([::1]:38338 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nH4mx-00079G-PI
-	for lists+qemu-devel@lfdr.de; Mon, 07 Feb 2022 09:14:43 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:43338)
+	id 1nH4NN-0000iW-Ed
+	for lists+qemu-devel@lfdr.de; Mon, 07 Feb 2022 08:48:17 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:43568)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nH46D-0005Je-76
- for qemu-devel@nongnu.org; Mon, 07 Feb 2022 08:30:38 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:23687)
+ (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1nH47G-0005UE-96
+ for qemu-devel@nongnu.org; Mon, 07 Feb 2022 08:31:38 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:44086)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nH466-0003hm-Ds
- for qemu-devel@nongnu.org; Mon, 07 Feb 2022 08:30:29 -0500
+ (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1nH47D-0003sP-G2
+ for qemu-devel@nongnu.org; Mon, 07 Feb 2022 08:31:37 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1644240623;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
+ s=mimecast20190719; t=1644240687;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=lwzPoapuyhc25NLKywFxhw8IDnlXhMCXjHD+E2jBF1Q=;
- b=WwAd02Blv/CKqrYsWoKQOSyY5qZNWcG0kgfyOBeiHE2/JdeLeqe7HPVaq2F3+vMghKMIPP
- E8KVxY3sTuTpw1l/caJaYvbr8vmhwT85WrbLmUArljNStPPd4vOUzs0FQUbpgK+TkJmodk
- 5rYoihgIhUSTXIHJq3FUA0AN8zFwXrY=
+ bh=As1wxRfAjMh9G93UTiArjRqaais3VhrBpJBPQk2DEm4=;
+ b=hCA5d7uky+BEFnUoyaeihf9sLkD59Pf6F4cDyHM6mBY1R3pch06yjejLs0EuNcne3UluA3
+ +085yRFKs3hpmWV+Zt2S3k1tYxmfkt743Wn/WG/cd9/4890vj9jpfkBXyCYzqWNi8A4Z0l
+ fCYpXv4uQ/E8Shil8K/oyI1NVOXhoXQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-655-tStlBrk4Nyea1kEDstKxqg-1; Mon, 07 Feb 2022 08:30:21 -0500
-X-MC-Unique: tStlBrk4Nyea1kEDstKxqg-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-13-1sLBU8jeMJ68EzOtL0fsNg-1; Mon, 07 Feb 2022 08:31:26 -0500
+X-MC-Unique: 1sLBU8jeMJ68EzOtL0fsNg-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AD51B18982A4
- for <qemu-devel@nongnu.org>; Mon,  7 Feb 2022 13:30:20 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.143])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 4FFC974E9A;
- Mon,  7 Feb 2022 13:30:19 +0000 (UTC)
-Date: Mon, 7 Feb 2022 13:30:16 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Vivek Goyal <vgoyal@redhat.com>
-Subject: Re: [PATCH v5 0/9] virtiofsd: Add support for file security context
- at file creation
-Message-ID: <YgEe6L+wunrGwQsX@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4D7FE814245
+ for <qemu-devel@nongnu.org>; Mon,  7 Feb 2022 13:31:25 +0000 (UTC)
+Received: from horse.redhat.com (unknown [10.22.9.190])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0087E1038AD4;
+ Mon,  7 Feb 2022 13:31:24 +0000 (UTC)
+Received: by horse.redhat.com (Postfix, from userid 10451)
+ id 834ED2237EB; Mon,  7 Feb 2022 08:31:24 -0500 (EST)
+Date: Mon, 7 Feb 2022 08:31:24 -0500
+From: Vivek Goyal <vgoyal@redhat.com>
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Subject: Re: [PATCH v5 3/9] virtiofsd: Parse extended "struct fuse_init_in"
+Message-ID: <YgEfLOk/GPwZjWhj@redhat.com>
 References: <20220202193935.268777-1-vgoyal@redhat.com>
- <YgEZDOcFr80tZGWd@redhat.com> <YgEdeGud4xlZEAwy@redhat.com>
+ <20220202193935.268777-4-vgoyal@redhat.com>
+ <Yfwlekwcu35SN9MU@work-vm>
 MIME-Version: 1.0
-In-Reply-To: <YgEdeGud4xlZEAwy@redhat.com>
-User-Agent: Mutt/2.1.5 (2021-12-30)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+In-Reply-To: <Yfwlekwcu35SN9MU@work-vm>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=vgoyal@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=vgoyal@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -84,73 +80,217 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: virtio-fs@redhat.com, mszeredi@redhat.com, qemu-devel@nongnu.org,
- dgilbert@redhat.com
+Cc: virtio-fs@redhat.com, mszeredi@redhat.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Feb 07, 2022 at 08:24:08AM -0500, Vivek Goyal wrote:
-> On Mon, Feb 07, 2022 at 01:05:16PM +0000, Daniel P. Berrangé wrote:
-> > On Wed, Feb 02, 2022 at 02:39:26PM -0500, Vivek Goyal wrote:
-> > > Hi,
-> > > 
-> > > This is V5 of the patches. I posted V4 here.
-> > > 
-> > > https://listman.redhat.com/archives/virtio-fs/2022-January/msg00041.html
-> > > 
-> > > These will allow us to support SELinux with virtiofs. This will send
-> > > SELinux context at file creation to server and server can set it on
-> > > file.
+On Thu, Feb 03, 2022 at 06:56:58PM +0000, Dr. David Alan Gilbert wrote:
+> * Vivek Goyal (vgoyal@redhat.com) wrote:
+> > Add some code to parse extended "struct fuse_init_in". And use a local
+> > variable "flag" to represent 64 bit flags. This will make it easier
+> > to add more features without having to worry about two 32bit flags (->flags
+> > and ->flags2) in "fuse_struct_in".
 > > 
-> > I've not entirely figured it out from the code, so easier for me
-> > to ask...
+> > Signed-off-by: Vivek Goyal <vgoyal@redhat.com>
+> > ---
+> >  tools/virtiofsd/fuse_lowlevel.c | 62 +++++++++++++++++++++------------
+> >  1 file changed, 40 insertions(+), 22 deletions(-)
 > > 
-> > How is the SELinux labelled stored on the host side ? It is stored
-> > directly in the security.* xattr namespace, or is is subject to
-> > xattr remapping that virtiofsd already supports.
-> > 
-> > Storing directly means virtiofsd has to run in an essentially
-> > unconfined context, to let it do arbitrary  changes on security.*
-> > xattrs without being blocked by SELinux) and has risk that guest
-> > initiated changes can open holes in the host confinement if
-> > the exported FS is generally visible to processes on the host.
-> > 
-> > 
-> > Using remapping lets virtiofsd be strictly isolated by SELinux
-> > policy on the host, and ensures that guest context changes
-> > can't open up holes in the host.
-> > 
-> > Both are valid use cases, so I'd ultimately expect us to want
-> > to support both, but my preference for a "default" behaviour
-> > would be remapping.
+> > diff --git a/tools/virtiofsd/fuse_lowlevel.c b/tools/virtiofsd/fuse_lowlevel.c
+> > index ce29a70253..1f10dcc75b 100644
+> > --- a/tools/virtiofsd/fuse_lowlevel.c
+> > +++ b/tools/virtiofsd/fuse_lowlevel.c
+> > @@ -1881,11 +1881,15 @@ static void do_init(fuse_req_t req, fuse_ino_t nodeid,
+> >  {
+> >      size_t compat_size = offsetof(struct fuse_init_in, max_readahead);
+> >      size_t compat2_size = offsetof(struct fuse_init_in, flags) + sizeof(uint32_t);
+> > +    /* Fuse structure extended with minor version 36 */
+> > +    size_t compat3_size = offsetof(struct fuse_init_in, unused) +
+> > +                          (11 * sizeof(uint32_t));
 > 
-> I am expecting users to configure virtiofsd to remap "security.selinux"
-> to "trusted.virtiofsd.security.selinux" and that will allow guest
-> and host security selinux to co-exist and allow separate SELinux policies
-> for guest and host.
+> Hmm that's actually quite difficult; what we have at the moment is:
 > 
-> I agree that my preference for a default behavior is remapping as well.
-> That makes most sense. 
+> struct fuse_init_in {
+>         uint32_t        major;
+>         uint32_t        minor;
+>         uint32_t        max_readahead;
+>         uint32_t        flags;
+>         uint32_t        flags2;
+>         uint32_t        unused[11];
+> };
 > 
-> One downside of mapping to trusted namespace is that it requires
-> CAP_SYS_ADMIN for virtiofsd.
+> so imagine someone comes along and changes that to:
 > 
-> Having said that, these patches don't enforce the remapping default. That
-> has to come from the user because it also needs to be given CAP_SYS_ADMIN.
-> So out of box default is no remapping and passthrough SELinux.
+> struct fuse_init_in {    
+>         uint32_t        major;
+>         uint32_t        minor;
+>         uint32_t        max_readahead;
+>         uint32_t        flags;
+>         uint32_t        flags2;
+>         uint32_t        flags3;
+>         uint32_t        unused[10];
+> };
+> 
+> Then this code will break (oddly!), where the old code that didn't reference the
+> unusued field wouldn't.
 
-Ok, that all makes sense then. My only suggestion then is to put something
-more explicit in the man page docs to highlight the implications /
-interaction beteen the new command line options for labelling and the
-likely need for remapping security.*
+Good catch. I did not think about it.
 
+> It looks like qemu defines an 'endof' macro, so I think you can do:
+> 
+>   size_t compat3_size = endof(struct fuse_init_in, unused);
+> 
+> I think that should work as long as people nibble away at unused from
+> the top.
 
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+Will use "endof" macro.
+
+Thanks
+Vivek
+
+> 
+> Dave
+> 
+> 
+> >      struct fuse_init_in *arg;
+> >      struct fuse_init_out outarg;
+> >      struct fuse_session *se = req->se;
+> >      size_t bufsize = se->bufsize;
+> >      size_t outargsize = sizeof(outarg);
+> > +    uint64_t flags = 0;
+> >  
+> >      (void)nodeid;
+> >  
+> > @@ -1902,11 +1906,25 @@ static void do_init(fuse_req_t req, fuse_ino_t nodeid,
+> >              fuse_reply_err(req, EINVAL);
+> >              return;
+> >          }
+> > +        flags |= arg->flags;
+> > +    }
+> > +
+> > +    /*
+> > +     * fuse_init_in was extended again with minor version 36. Just read
+> > +     * current known size of fuse_init so that future extension and
+> > +     * header rebase does not cause breakage.
+> > +     */
+> > +    if (sizeof(*arg) > compat2_size && (arg->flags & FUSE_INIT_EXT)) {
+> > +        if (!fuse_mbuf_iter_advance(iter, compat3_size - compat2_size)) {
+> > +            fuse_reply_err(req, EINVAL);
+> > +            return;
+> > +        }
+> > +        flags |= (uint64_t) arg->flags2 << 32;
+> >      }
+> >  
+> >      fuse_log(FUSE_LOG_DEBUG, "INIT: %u.%u\n", arg->major, arg->minor);
+> >      if (arg->major == 7 && arg->minor >= 6) {
+> > -        fuse_log(FUSE_LOG_DEBUG, "flags=0x%08x\n", arg->flags);
+> > +        fuse_log(FUSE_LOG_DEBUG, "flags=0x%016llx\n", flags);
+> >          fuse_log(FUSE_LOG_DEBUG, "max_readahead=0x%08x\n", arg->max_readahead);
+> >      }
+> >      se->conn.proto_major = arg->major;
+> > @@ -1934,68 +1952,68 @@ static void do_init(fuse_req_t req, fuse_ino_t nodeid,
+> >      if (arg->max_readahead < se->conn.max_readahead) {
+> >          se->conn.max_readahead = arg->max_readahead;
+> >      }
+> > -    if (arg->flags & FUSE_ASYNC_READ) {
+> > +    if (flags & FUSE_ASYNC_READ) {
+> >          se->conn.capable |= FUSE_CAP_ASYNC_READ;
+> >      }
+> > -    if (arg->flags & FUSE_POSIX_LOCKS) {
+> > +    if (flags & FUSE_POSIX_LOCKS) {
+> >          se->conn.capable |= FUSE_CAP_POSIX_LOCKS;
+> >      }
+> > -    if (arg->flags & FUSE_ATOMIC_O_TRUNC) {
+> > +    if (flags & FUSE_ATOMIC_O_TRUNC) {
+> >          se->conn.capable |= FUSE_CAP_ATOMIC_O_TRUNC;
+> >      }
+> > -    if (arg->flags & FUSE_EXPORT_SUPPORT) {
+> > +    if (flags & FUSE_EXPORT_SUPPORT) {
+> >          se->conn.capable |= FUSE_CAP_EXPORT_SUPPORT;
+> >      }
+> > -    if (arg->flags & FUSE_DONT_MASK) {
+> > +    if (flags & FUSE_DONT_MASK) {
+> >          se->conn.capable |= FUSE_CAP_DONT_MASK;
+> >      }
+> > -    if (arg->flags & FUSE_FLOCK_LOCKS) {
+> > +    if (flags & FUSE_FLOCK_LOCKS) {
+> >          se->conn.capable |= FUSE_CAP_FLOCK_LOCKS;
+> >      }
+> > -    if (arg->flags & FUSE_AUTO_INVAL_DATA) {
+> > +    if (flags & FUSE_AUTO_INVAL_DATA) {
+> >          se->conn.capable |= FUSE_CAP_AUTO_INVAL_DATA;
+> >      }
+> > -    if (arg->flags & FUSE_DO_READDIRPLUS) {
+> > +    if (flags & FUSE_DO_READDIRPLUS) {
+> >          se->conn.capable |= FUSE_CAP_READDIRPLUS;
+> >      }
+> > -    if (arg->flags & FUSE_READDIRPLUS_AUTO) {
+> > +    if (flags & FUSE_READDIRPLUS_AUTO) {
+> >          se->conn.capable |= FUSE_CAP_READDIRPLUS_AUTO;
+> >      }
+> > -    if (arg->flags & FUSE_ASYNC_DIO) {
+> > +    if (flags & FUSE_ASYNC_DIO) {
+> >          se->conn.capable |= FUSE_CAP_ASYNC_DIO;
+> >      }
+> > -    if (arg->flags & FUSE_WRITEBACK_CACHE) {
+> > +    if (flags & FUSE_WRITEBACK_CACHE) {
+> >          se->conn.capable |= FUSE_CAP_WRITEBACK_CACHE;
+> >      }
+> > -    if (arg->flags & FUSE_NO_OPEN_SUPPORT) {
+> > +    if (flags & FUSE_NO_OPEN_SUPPORT) {
+> >          se->conn.capable |= FUSE_CAP_NO_OPEN_SUPPORT;
+> >      }
+> > -    if (arg->flags & FUSE_PARALLEL_DIROPS) {
+> > +    if (flags & FUSE_PARALLEL_DIROPS) {
+> >          se->conn.capable |= FUSE_CAP_PARALLEL_DIROPS;
+> >      }
+> > -    if (arg->flags & FUSE_POSIX_ACL) {
+> > +    if (flags & FUSE_POSIX_ACL) {
+> >          se->conn.capable |= FUSE_CAP_POSIX_ACL;
+> >      }
+> > -    if (arg->flags & FUSE_HANDLE_KILLPRIV) {
+> > +    if (flags & FUSE_HANDLE_KILLPRIV) {
+> >          se->conn.capable |= FUSE_CAP_HANDLE_KILLPRIV;
+> >      }
+> > -    if (arg->flags & FUSE_NO_OPENDIR_SUPPORT) {
+> > +    if (flags & FUSE_NO_OPENDIR_SUPPORT) {
+> >          se->conn.capable |= FUSE_CAP_NO_OPENDIR_SUPPORT;
+> >      }
+> > -    if (!(arg->flags & FUSE_MAX_PAGES)) {
+> > +    if (!(flags & FUSE_MAX_PAGES)) {
+> >          size_t max_bufsize = FUSE_DEFAULT_MAX_PAGES_PER_REQ * getpagesize() +
+> >                               FUSE_BUFFER_HEADER_SIZE;
+> >          if (bufsize > max_bufsize) {
+> >              bufsize = max_bufsize;
+> >          }
+> >      }
+> > -    if (arg->flags & FUSE_SUBMOUNTS) {
+> > +    if (flags & FUSE_SUBMOUNTS) {
+> >          se->conn.capable |= FUSE_CAP_SUBMOUNTS;
+> >      }
+> > -    if (arg->flags & FUSE_HANDLE_KILLPRIV_V2) {
+> > +    if (flags & FUSE_HANDLE_KILLPRIV_V2) {
+> >          se->conn.capable |= FUSE_CAP_HANDLE_KILLPRIV_V2;
+> >      }
+> > -    if (arg->flags & FUSE_SETXATTR_EXT) {
+> > +    if (flags & FUSE_SETXATTR_EXT) {
+> >          se->conn.capable |= FUSE_CAP_SETXATTR_EXT;
+> >      }
+> >  #ifdef HAVE_SPLICE
+> > @@ -2063,7 +2081,7 @@ static void do_init(fuse_req_t req, fuse_ino_t nodeid,
+> >      if (se->conn.max_write < bufsize - FUSE_BUFFER_HEADER_SIZE) {
+> >          se->bufsize = se->conn.max_write + FUSE_BUFFER_HEADER_SIZE;
+> >      }
+> > -    if (arg->flags & FUSE_MAX_PAGES) {
+> > +    if (flags & FUSE_MAX_PAGES) {
+> >          outarg.flags |= FUSE_MAX_PAGES;
+> >          outarg.max_pages = (se->conn.max_write - 1) / getpagesize() + 1;
+> >      }
+> > -- 
+> > 2.34.1
+> > 
+> -- 
+> Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+> 
 
 
