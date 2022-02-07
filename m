@@ -2,61 +2,108 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F5B44AC2CC
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Feb 2022 16:19:12 +0100 (CET)
-Received: from localhost ([::1]:37404 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A2A14AC33C
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Feb 2022 16:28:36 +0100 (CET)
+Received: from localhost ([::1]:53078 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nH5nJ-0000sU-Ry
-	for lists+qemu-devel@lfdr.de; Mon, 07 Feb 2022 10:19:10 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:35118)
+	id 1nH5wR-0003ih-Hn
+	for lists+qemu-devel@lfdr.de; Mon, 07 Feb 2022 10:28:35 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:36500)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1nH5Cz-00076b-6L
- for qemu-devel@nongnu.org; Mon, 07 Feb 2022 09:41:37 -0500
-Received: from kylie.crudebyte.com ([5.189.157.229]:49167)
+ (Exim 4.90_1) (envelope-from <pasic@linux.ibm.com>)
+ id 1nH5Hg-0003yZ-6U
+ for qemu-devel@nongnu.org; Mon, 07 Feb 2022 09:46:28 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:17078
+ helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1nH5Cv-0000nm-9q
- for qemu-devel@nongnu.org; Mon, 07 Feb 2022 09:41:36 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
- MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
- Content-ID:Content-Description;
- bh=wNQbn4gWo/HPK8lrt6lk+nTUCAwoor0fdGb27CmpvEc=; b=Pxhu1yb2fRXx8TSQJn7Vh4awjw
- iVY8ucbGQ3vDucQn75PaVjqqX9u3XuslePEyTQ2s/Rhh/EBbhGJcx5MZClp7Ear8thZVzHb41IuoF
- /fhjceknSmXfk+SzNCIoHAJjYThg4MD75y747jppNA6EfeZAdVmYMcmBcDSdJjec2DSMVaZo1oG3q
- GYXyX01dFLrE3K152gLZTKRkrM6LSFSON/RGX8x8L3fFj+YoIHE6k9qqMf9rw+GgvSLE8ufipDuUM
- Dk9H9FaExuInRUZTkUHJk09RbzJWfL95nuonCTMazJQD1Kmql9YNbr9UFW3gGuug+T2RqroS49oz2
- iQIFiciUKGkri6WQY0lpVq53obrQhYGnxGBFbxcO75nUhY48zf0n8H3CtEjAaMtPOaPdHATGEduiC
- Av9aTn/SaNRjXbzHY20db09s8IIWs3HGzhGNBw9AakQJerI9U8FRp4xTpuSnVxEATOjN5DK83Tiin
- IFzjKPtLvw/x/Ei9MtD168yJN5UB0lVsTbXV6sw/8p4kKtIHqmKnTw+Cg/JU/vg14+iszq/MAZtiW
- sAx5y8em+Xamy16uvMmmThHGC2dug/Co0khKi1SJDq2VD16sRkwGfrKruNe10R9YePfL5J6+s5ctg
- W6RZDBWGwNcFl4DZgz4Rho0Ko2sfMZ68JsPzM9kjM=;
-From: Christian Schoenebeck <qemu_oss@crudebyte.com>
-To: Will Cohen <wwcohen@gmail.com>
-Cc: qemu-devel@nongnu.org, Laurent Vivier <lvivier@redhat.com>, hi@alyssa.is,
- Thomas Huth <thuth@redhat.com>, Greg Kurz <groug@kaod.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Keno Fischer <keno@juliacomputing.com>,
- Michael Roitzsch <reactorcontrol@icloud.com>,
- Fabian Franz <fabianfranz.oss@gmail.com>
-Subject: Re: [PATCH v4 04/11] 9p: darwin: Handle struct dirent differences
-Date: Mon, 07 Feb 2022 15:41:12 +0100
-Message-ID: <1773154.tHhT6ugY5c@silver>
-In-Reply-To: <20220206200719.74464-5-wwcohen@gmail.com>
-References: <20220206200719.74464-1-wwcohen@gmail.com>
- <20220206200719.74464-5-wwcohen@gmail.com>
+ (Exim 4.90_1) (envelope-from <pasic@linux.ibm.com>)
+ id 1nH5He-0001tO-5Q
+ for qemu-devel@nongnu.org; Mon, 07 Feb 2022 09:46:27 -0500
+Received: from pps.filterd (m0098414.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 217EjOBX004030; 
+ Mon, 7 Feb 2022 14:46:23 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=date : from : to : cc :
+ subject : message-id : in-reply-to : references : content-type :
+ content-transfer-encoding : mime-version; s=pp1;
+ bh=M5XxpAxd07NZBpAt2aI7UOJ7MrrIUP17QKHl1zNskAk=;
+ b=Oz803pCP2Yq5ulPkDakis4iCDZ4aaw2r/b17OGCuM6N9pwEc+wvk5joGe5KkM3COTdJ2
+ 0GXqusOsPXDW4W8hpKYcfuR3UCpDO1RwLZ3zqTVCHLRXFex7gw0pTH5v026FxykPeRbR
+ lMlSblUHNM46xuXYWxlbns5hxnQks/3033fiKzbolMavoBmZOgO+PE5eljkDYFnUKM7I
+ IihQSHjyF2MmBmYCyXg2u/YNTE2YZh92PXD/hda9EGWGMCMsUONq2oWFD3LsilYvMLKt
+ ZOSRMwvcqJN2UHx5Oxp8tNqqq1QltdSxwGNBaKh6uXwtyo3eDfq4XULUTM5ytqkxSYQ2 HA== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 3e1hux9ep8-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 07 Feb 2022 14:46:23 +0000
+Received: from m0098414.ppops.net (m0098414.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 217EkMWQ007747;
+ Mon, 7 Feb 2022 14:46:22 GMT
+Received: from ppma05fra.de.ibm.com (6c.4a.5195.ip4.static.sl-reverse.com
+ [149.81.74.108])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 3e1hux9emy-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 07 Feb 2022 14:46:22 +0000
+Received: from pps.filterd (ppma05fra.de.ibm.com [127.0.0.1])
+ by ppma05fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 217EgvkD007273;
+ Mon, 7 Feb 2022 14:46:21 GMT
+Received: from b06cxnps3075.portsmouth.uk.ibm.com
+ (d06relay10.portsmouth.uk.ibm.com [9.149.109.195])
+ by ppma05fra.de.ibm.com with ESMTP id 3e1gv9w00a-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 07 Feb 2022 14:46:20 +0000
+Received: from d06av26.portsmouth.uk.ibm.com (d06av26.portsmouth.uk.ibm.com
+ [9.149.105.62])
+ by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 217EkIbo44499326
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 7 Feb 2022 14:46:18 GMT
+Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id A307BAE055;
+ Mon,  7 Feb 2022 14:46:18 +0000 (GMT)
+Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 357C3AE04D;
+ Mon,  7 Feb 2022 14:46:18 +0000 (GMT)
+Received: from li-e979b1cc-23ba-11b2-a85c-dfd230f6cf82 (unknown [9.171.70.169])
+ by d06av26.portsmouth.uk.ibm.com (Postfix) with SMTP;
+ Mon,  7 Feb 2022 14:46:18 +0000 (GMT)
+Date: Mon, 7 Feb 2022 15:46:15 +0100
+From: Halil Pasic <pasic@linux.ibm.com>
+To: Daniel Henrique Barboza <danielhb413@gmail.com>
+Subject: Re: [RFC PATCH 1/1] virtio: fix feature negotiation for
+ ACCESS_PLATFORM
+Message-ID: <20220207154615.72b8756a.pasic@linux.ibm.com>
+In-Reply-To: <7df172fe-008a-0b98-2780-5155c98a71ba@gmail.com>
+References: <20220203164556.2666565-1-pasic@linux.ibm.com>
+ <7df172fe-008a-0b98-2780-5155c98a71ba@gmail.com>
+Organization: IBM
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+Content-Type: text/plain; charset=US-ASCII
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: POM08eKI0yGgCJRXbnEJkSQNCgxPE86A
+X-Proofpoint-GUID: pvBClVmqMOdKTQDVd2FcfqSE8UG_4tp4
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
-Received-SPF: pass client-ip=5.189.157.229;
- envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.816,Hydra:6.0.425,FMLib:17.11.62.513
+ definitions=2022-02-07_05,2022-02-07_02,2021-12-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0
+ phishscore=0 impostorscore=0 bulkscore=0 adultscore=0 priorityscore=1501
+ suspectscore=0 mlxscore=0 mlxlogscore=999 spamscore=0 malwarescore=0
+ clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2201110000 definitions=main-2202070093
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=pasic@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H5=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -69,216 +116,110 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Brijesh Singh <brijesh.singh@amd.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ Cornelia Huck <cohuck@redhat.com>, qemu-devel@nongnu.org,
+ Halil Pasic <pasic@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sonntag, 6. Februar 2022 21:07:12 CET Will Cohen wrote:
-> From: Keno Fischer <keno@juliacomputing.com>
-> 
-> On darwin d_seekoff exists, but is optional and does not seem to
-> be commonly used by file systems. Use `telldir` instead to obtain
-> the seek offset and inject it into d_seekoff, and create a
-> qemu_dirent_off helper to call it appropriately when appropriate.
-> 
-> Signed-off-by: Keno Fischer <keno@juliacomputing.com>
-> [Michael Roitzsch: - Rebase for NixOS]
-> Signed-off-by: Michael Roitzsch <reactorcontrol@icloud.com>
-> [Will Cohen: - Adjust to pass testing
->              - Ensure that d_seekoff is filled using telldir
->                on darwin, and create qemu_dirent_off helper
->                to decide which to access]
-> [Fabian Franz: - Add telldir error handling for darwin]
-> [Will Cohen: - Ensure that telldir error handling uses
->                signed int]
-> Signed-off-by: Fabian Franz <fabianfranz.oss@gmail.com>
-> Signed-off-by: Will Cohen <wwcohen@gmail.com>
-> ---
->  hw/9pfs/9p-local.c |  9 +++++++++
->  hw/9pfs/9p-proxy.c | 16 +++++++++++++++-
->  hw/9pfs/9p-synth.c |  4 ++++
->  hw/9pfs/9p-util.h  | 17 +++++++++++++++++
->  hw/9pfs/9p.c       | 15 +++++++++++++--
->  hw/9pfs/codir.c    |  7 +++++++
->  6 files changed, 65 insertions(+), 3 deletions(-)
-> 
-> diff --git a/hw/9pfs/9p-local.c b/hw/9pfs/9p-local.c
-> index 1a5e3eed73..7137a28109 100644
-> --- a/hw/9pfs/9p-local.c
-> +++ b/hw/9pfs/9p-local.c
-> @@ -559,6 +559,15 @@ static struct dirent *local_readdir(FsContext *ctx,
-> V9fsFidOpenState *fs)
-> 
->  again:
->      entry = readdir(fs->dir.stream);
-> +#ifdef CONFIG_DARWIN
-> +    int td;
-> +    td = telldir(fs->dir.stream);
-> +    /* If telldir fails, fail the entire readdir call */
-> +    if (td < 0) {
-> +        return NULL;
-> +    }
-> +    entry->d_seekoff = td;
-> +#endif
->      if (!entry) {
->          return NULL;
->      }
+On Mon, 7 Feb 2022 08:46:34 -0300
+Daniel Henrique Barboza <danielhb413@gmail.com> wrote:
 
-'entry' may be NULL, so the 'if (!entry) {' check should be before the Darwin 
-specific code to avoid a crash on macOS.
-
-> diff --git a/hw/9pfs/9p-proxy.c b/hw/9pfs/9p-proxy.c
-> index b1664080d8..8b4b5cf7dc 100644
-> --- a/hw/9pfs/9p-proxy.c
-> +++ b/hw/9pfs/9p-proxy.c
-> @@ -706,7 +706,21 @@ static off_t proxy_telldir(FsContext *ctx,
-> V9fsFidOpenState *fs)
+> On 2/3/22 13:45, Halil Pasic wrote:
+> > Unlike most virtio features ACCESS_PATFORM is considered mandatory, i.e.
+> > the driver must accept it if offered by the device. The virtio
+> > specification says that the driver SHOULD accept the ACCESS_PLATFORM
+> > feature if offered, and that the device MAY fail to operate if
+> > ACCESS_PLATFORM was offered but not negotiated.
+> > 
+> > While a SHOULD ain't exactly a MUST, we are certainly allowed to fail
+> > the device when the driver fences ACCESS_PLATFORM. With commit  
 > 
->  static struct dirent *proxy_readdir(FsContext *ctx, V9fsFidOpenState *fs)
->  {
-> -    return readdir(fs->dir.stream);
-> +    struct dirent *entry;
-> +    entry = readdir(fs->dir.stream);
-> +#ifdef CONFIG_DARWIN
-> +    if (!entry) {
-> +        return NULL;
-> +    }
-> +    int td;
-> +    td = telldir(fs->dir.stream);
-> +    /* If telldir fails, fail the entire readdir call */
-> +    if (td < 0) {
-> +        return NULL;
-> +    }
-> +    entry->d_seekoff = td;
-> +#endif
-> +    return entry;
->  }
 > 
->  static void proxy_seekdir(FsContext *ctx, V9fsFidOpenState *fs, off_t off)
-> diff --git a/hw/9pfs/9p-synth.c b/hw/9pfs/9p-synth.c
-> index 4a4a776d06..e264a03eef 100644
-> --- a/hw/9pfs/9p-synth.c
-> +++ b/hw/9pfs/9p-synth.c
-> @@ -222,7 +222,11 @@ static void synth_direntry(V9fsSynthNode *node,
->  {
->      strcpy(entry->d_name, node->name);
->      entry->d_ino = node->attr->inode;
-> +#ifdef CONFIG_DARWIN
-> +    entry->d_seekoff = off + 1;
-> +#else
->      entry->d_off = off + 1;
-> +#endif
->  }
+> I believe a link to the virtio specification where this is being mentioned would
+> be good to have in the commit message.
+
+I can add that if Michael agrees, and if the patch is deemed worthy.
 > 
->  static struct dirent *synth_get_dentry(V9fsSynthNode *dir,
-> diff --git a/hw/9pfs/9p-util.h b/hw/9pfs/9p-util.h
-> index 546f46dc7d..accbec9987 100644
-> --- a/hw/9pfs/9p-util.h
-> +++ b/hw/9pfs/9p-util.h
-> @@ -79,3 +79,20 @@ ssize_t fremovexattrat_nofollow(int dirfd, const char
-> *filename, const char *name);
 > 
->  #endif
-> +
-> +
-> +/**
-> + * Darwin has d_seekoff, which appears to function similarly to d_off.
-> + * However, it does not appear to be supported on all file systems,
-> + * so ensure it is manually injected earlier and call here when
-> + * needed.
-> + */
-> +
-
-Nitpicking: no blank line here please.
-
-> +inline off_t qemu_dirent_off(struct dirent *dent)
-> +{
-> +#ifdef CONFIG_DARWIN
-> +    return dent->d_seekoff;
-> +#else
-> +    return dent->d_off;
-> +#endif
-> +}
-> diff --git a/hw/9pfs/9p.c b/hw/9pfs/9p.c
-> index 1563d7b7c6..cf694da354 100644
-> --- a/hw/9pfs/9p.c
-> +++ b/hw/9pfs/9p.c
-> @@ -27,6 +27,7 @@
->  #include "virtio-9p.h"
->  #include "fsdev/qemu-fsdev.h"
->  #include "9p-xattr.h"
-> +#include "9p-util.h"
->  #include "coth.h"
->  #include "trace.h"
->  #include "migration/blocker.h"
-> @@ -2281,7 +2282,11 @@ static int coroutine_fn
-> v9fs_do_readdir_with_stat(V9fsPDU *pdu, count += len;
->          v9fs_stat_free(&v9stat);
->          v9fs_path_free(&path);
-> -        saved_dir_pos = dent->d_off;
-> +        saved_dir_pos = qemu_dirent_off(dent);
-> +        if (saved_dir_pos < 0) {
-> +            err = saved_dir_pos;
-> +            break;
-> +        }
->      }
-
-That check is no longer needed here, is it?
-
+> > 2943b53f68 ("virtio: force VIRTIO_F_IOMMU_PLATFORM") we already made the
+> > decision to do so whenever the get_dma_as() callback is implemented (by
+> > the bus), which in practice means for the entirety of virtio-pci.
+> > 
+> > That means, if the device needs to translate I/O addresses, then
+> > ACCESS_PLATFORM is mandatory. The aforementioned commit tells us
+> > in the commit message that this is for security reasons.
+> > 
+> > If ACCESS_PLATFORM is offered not we want the device to utilize an  
 > 
->      v9fs_readdir_unlock(&fidp->fs.dir);
-> @@ -2420,6 +2425,7 @@ static int coroutine_fn v9fs_do_readdir(V9fsPDU *pdu,
-> V9fsFidState *fidp, V9fsString name;
->      int len, err = 0;
->      int32_t count = 0;
-> +    off_t off;
->      struct dirent *dent;
->      struct stat *st;
->      struct V9fsDirEnt *entries = NULL;
-> @@ -2480,12 +2486,17 @@ static int coroutine_fn v9fs_do_readdir(V9fsPDU
-> *pdu, V9fsFidState *fidp, qid.version = 0;
->          }
+> I think you meant "If ACCESS_PLATFORM is offered".
+
+I'm missing because. I.e. s/not/not becasue/
 > 
-> +        off = qemu_dirent_off(dent);
-> +        if (off < 0) {
-> +            err = off;
-> +            break;
-> +        }
-
-Likewise: is this check still needed?
-
->          v9fs_string_init(&name);
->          v9fs_string_sprintf(&name, "%s", dent->d_name);
 > 
->          /* 11 = 7 + 4 (7 = start offset, 4 = space for storing count) */
->          len = pdu_marshal(pdu, 11 + count, "Qqbs",
-> -                          &qid, dent->d_off,
-> +                          &qid, off,
->                            dent->d_type, &name);
+> > IOMMU and do address translation, but because the device does not have
+> > access to the entire guest RAM, and needs the driver to grant access
+> > to the bits it needs access to (e.g. confidential guest support), we
+> > still require the guest to have the corresponding logic and to accept
+> > ACCESS_PLATFORM. If the driver does not accept ACCESS_PLATFORM, then
+> > things are bound to go wrong, and we may see failures much less graceful
+> > than failing the device because the driver didn't negotiate
+> > ACCESS_PLATFORM.
+> > 
+> > So let us make ACCESS_PLATFORM mandatory for the driver regardless
+> > of whether the get_dma_as() callback is implemented or not.
+> > 
+> > Signed-off-by: Halil Pasic <pasic@linux.ibm.com>
+> > Fixes: 2943b53f68 ("virtio: force VIRTIO_F_IOMMU_PLATFORM")
+> > 
+> > ---
+> > This patch is based on:
+> > https://www.mail-archive.com/qemu-devel@nongnu.org/msg866199.html
+> > 
+> > During the review of "virtio: fix the condition for iommu_platform not
+> > supported" Daniel raised the question why do we "force IOMMU_PLATFORM"
+> > iff has_iommu && !!klass->get_dma_as. My answer to that was, that
+> > this logic ain't right.
+> > 
+> > While at it I used the opportunity to re-organize the code a little
+> > and provide an explanatory comment.
+> > ---
+> >   hw/virtio/virtio-bus.c | 17 ++++++++++-------
+> >   1 file changed, 10 insertions(+), 7 deletions(-)
+> > 
+> > diff --git a/hw/virtio/virtio-bus.c b/hw/virtio/virtio-bus.c
+> > index fbf0dd14b8..359430eb1c 100644
+> > --- a/hw/virtio/virtio-bus.c
+> > +++ b/hw/virtio/virtio-bus.c
+> > @@ -78,16 +78,19 @@ void virtio_bus_device_plugged(VirtIODevice *vdev, Error **errp)
+> >           return;
+> >       }
+> >   
+> > -    vdev_has_iommu = virtio_host_has_feature(vdev, VIRTIO_F_IOMMU_PLATFORM);
+> > -    if (klass->get_dma_as != NULL && has_iommu) {
+> > +    vdev->dma_as = &address_space_memory;  
 > 
->          v9fs_string_free(&name);
-> diff --git a/hw/9pfs/codir.c b/hw/9pfs/codir.c
-> index 032cce04c4..fac6759a64 100644
-> --- a/hw/9pfs/codir.c
-> +++ b/hw/9pfs/codir.c
-> @@ -167,7 +167,14 @@ static int do_readdir_many(V9fsPDU *pdu, V9fsFidState
-> *fidp, }
+> At this point you can also do:
 > 
->          size += len;
-> +        /* This conditional statement is identical in
-> +         * function to qemu_dirent_off, described in 9p-util.h,
-> +         * since that header cannot be included here. */
-> +#ifdef CONFIG_DARWIN
-> +        saved_dir_pos = dent->d_seekoff;
-> +#else
->          saved_dir_pos = dent->d_off;
-> +#endif
-
-Why can't the header not be included here? Obvious preference would be to use 
-qemu_dirent_off() here as well, to have control at one central code location.
-
->      }
+>     if (!has_iommu) {
+>         return;
+>     }
 > 
->      /* restore (last) saved position */
+> and the rest of the code will have one less indentation level.
 
+I have considered this and decided against it. The reason why is
+if that approach is taken, we can't really add more code to the
+end of the function. An early return is good if we want to
+abort the function with an error. My point is !has_iommu does
+not necessarily mean we are done: after a block that handles
+the has_iommu situation, in future, there could be a block that
+handles something different.
 
+Would this patch work for power? Or are there valid scenarios that
+it breaks? I'm asking, because you voiced concern regarding this before.
+
+Thanks for your feedback!
+
+Halil
 
