@@ -2,64 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5F874AC7C1
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Feb 2022 18:41:23 +0100 (CET)
-Received: from localhost ([::1]:46124 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 04DD74AC87F
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Feb 2022 19:24:49 +0100 (CET)
+Received: from localhost ([::1]:50962 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nH80v-0004hH-Rj
-	for lists+qemu-devel@lfdr.de; Mon, 07 Feb 2022 12:41:21 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:41840)
+	id 1nH8gy-0007Cv-5h
+	for lists+qemu-devel@lfdr.de; Mon, 07 Feb 2022 13:24:48 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:42852)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nH7oj-0000MK-2w
- for qemu-devel@nongnu.org; Mon, 07 Feb 2022 12:28:45 -0500
-Received: from [2a00:1450:4864:20::436] (port=47061
- helo=mail-wr1-x436.google.com)
+ id 1nH7uB-000837-7F
+ for qemu-devel@nongnu.org; Mon, 07 Feb 2022 12:34:25 -0500
+Received: from [2a00:1450:4864:20::430] (port=36539
+ helo=mail-wr1-x430.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nH7oh-0006sN-J5
- for qemu-devel@nongnu.org; Mon, 07 Feb 2022 12:28:44 -0500
-Received: by mail-wr1-x436.google.com with SMTP id r29so8182499wrr.13
- for <qemu-devel@nongnu.org>; Mon, 07 Feb 2022 09:28:43 -0800 (PST)
+ id 1nH7u7-0007hI-Kg
+ for qemu-devel@nongnu.org; Mon, 07 Feb 2022 12:34:22 -0500
+Received: by mail-wr1-x430.google.com with SMTP id i15so3768945wrb.3
+ for <qemu-devel@nongnu.org>; Mon, 07 Feb 2022 09:34:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=GBBB/DBKZ7uUyw5CLkBoPlXKiTRYdO7D4mtZoMOhgNI=;
- b=rot+/G/JD66wqz01r/R3C7hIjSm5K/qCs9N9nZoFr7XWBFTTtxgQPIn4g5FrvVt2ct
- QEuU/MSLzMtG4MxvbZxrBuY/bpewGKwykF9nJpzNVYwehZjB/Pmp0uLqk37sKEBj5FuQ
- SPMy6bfOXt1ilRPr2vMwhF3Yr8qyKJfqXkuW9maPtFYImpxT0+76HNdh4INWl/W9NWcU
- FRPWwBolHCpJ8DBNVaqxuKpcBg4YfAmUv3pwmyVTWgr2oWl2gYrpqmXetF+vTHnh3xEZ
- m3pr7Y+/cUcDFUGQivB77relkSgrU9x3mAg0KKmYRFPKkU+x7Z63qKK8LEM1T6GqIU3B
- dONA==
+ :cc; bh=sU0KP4W5nwhsy8Qd0XAZbxiNLH82BEYFHnL0QzVeSXw=;
+ b=pwcmca+XTUtr6P40X6E1x0B7Evs1a724sdynQUc1dgItDMkxhbMi315eWm5gzE4L89
+ IBHWWpwyhGG1zk3kdl6wR4gvdA8jr+l9TV/H6zjFnXv79bN7qNeaAB7v+kewf1uTU6xo
+ f99rO/D/g3kMMuILQvG2yaoCELJ4awGqc1SbGndbz0MS9Y4QMHSlvm4D8OoPYFf6oVzy
+ ntQe0qaUo72dQsZk1AbkAtFQ1OHf+ErDooODuL08+7+6149zCEnDg2hos63ZvRDAf0uk
+ Zne9sCBjoG+UDwn536B5+Fuev6n30r3XDoefvCPl9jiXC9SpSYV2W9KKcWPKepdEsFow
+ Davw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=GBBB/DBKZ7uUyw5CLkBoPlXKiTRYdO7D4mtZoMOhgNI=;
- b=oNy7IiQLHKm4/vOyTfPbQgvbnF+A6iN8da7imogVQhfZyU9ua6m0+Pluh0IENuGO2q
- tjdEvWQ0+e3g39K5gM3/x46+Cbcqfbl23TG1wDQCOIRVuruQ/kyARVe3TUYuQHPJ7gTN
- ANtcysdPGCTVB3bksaxM+dLE8L76KrQnmudUr7H3rzkrQMdSK1Oyx9aoePX18xxe4bsO
- //aHwCmBi7uV44ETMKN/BFeb+w69FlB7t+xosUH/xK4r0QdFJ+eMF/WuH2iwqvO/N2UJ
- gY7PECSLBGdgKYWt26NOwyDmK2pODGTRqqBZ86XX7npMwG03oKDWWDfgC2CpSbB5Xjdx
- BuDA==
-X-Gm-Message-State: AOAM530V4bGy3uIxTZmJEmuNeRLMf2bO5jgDZx0QFK/gZFAesT8TNhK4
- W4UvMj/LmV1Uh32jFMTJvYiagTcDeVtG86FLDLi00g==
-X-Google-Smtp-Source: ABdhPJxpOvdb6gf3/NR7XPu0T3dVS9FOuNsAIl3rMLKG2O4I53WevVtcqOMf6nG+U+2EeLtWjD9YCzMQggDhu6/OWuU=
-X-Received: by 2002:adf:a51b:: with SMTP id i27mr423250wrb.172.1644254922273; 
- Mon, 07 Feb 2022 09:28:42 -0800 (PST)
+ bh=sU0KP4W5nwhsy8Qd0XAZbxiNLH82BEYFHnL0QzVeSXw=;
+ b=xWof05XCC6mSYRwYzpsMxAFyICSIbGUcpoxSeUIWaY42/KTq0jIl7v+xOULIG1oKGh
+ 5r/8AvfBCgq7P9oCl7uA89e+agxFVjKeYNCejC0zDZL4l79QaVusAs//bxQ2YCsxWRMb
+ Pe0aKUlBv3VkE2cdO2Rw/ftAnfbZu8MsQSoNa677UmHMT9tUByBAdI1vQGaXUdmaNZEH
+ 2R9pTKbnDKw0E3k3EiUUXaiZNOwmB8rol64/VjMt7c1DfZw+DOr53ezPNR7iSTgr2LrD
+ elPC4wk1mp2o6fYJTOeiFN5X8TaBz95/Ol8QPOrfi40mCZSvUfw8s04Aek+2aD6N653P
+ zzSw==
+X-Gm-Message-State: AOAM533ADc4ztO6k2BG5rXegr2WA8PdELv8/TRhDqjiNFF8kIvO/axnm
+ O4582aknQ7XyUUto3LgYoPl2m2taOXSqnM8VVNZrPw==
+X-Google-Smtp-Source: ABdhPJxrqD66rVkuubyJSz4C9oEYktmmjc6SkuDmD0bIopa0NUZAzFrIMQDgUYzc5QugPWTdc7aipaW5OUwTYqkZC40=
+X-Received: by 2002:a05:6000:15c7:: with SMTP id
+ y7mr409099wry.319.1644255257352; 
+ Mon, 07 Feb 2022 09:34:17 -0800 (PST)
 MIME-Version: 1.0
-References: <20220202111602.627429-1-eric.auger@redhat.com>
-In-Reply-To: <20220202111602.627429-1-eric.auger@redhat.com>
+References: <20220206014120.2871459-1-venture@google.com>
+In-Reply-To: <20220206014120.2871459-1-venture@google.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 7 Feb 2022 17:28:31 +0000
-Message-ID: <CAFEAcA8EEB51ok2dsVbXsb3iAShCQA0EwazhtcWqd+dK1MUEMg@mail.gmail.com>
-Subject: Re: [PATCH] hw/arm/smmuv3: Fix device reset
-To: Eric Auger <eric.auger@redhat.com>
+Date: Mon, 7 Feb 2022 17:34:06 +0000
+Message-ID: <CAFEAcA_k0y3gtzpi_0JG7TM=VaAa8+mb=tLSu7UHCRYhDWajZg@mail.gmail.com>
+Subject: Re: [PATCH v2] tests/qtest: add qtests for npcm7xx sdhci
+To: Patrick Venture <venture@google.com>
 Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::436
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::430
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::436;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x436.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::430;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x430.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -80,32 +81,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org, eric.auger.pro@gmail.com
+Cc: lvivier@redhat.com, thuth@redhat.com, Shengtan Mao <stmao@google.com>,
+ qemu-devel@nongnu.org, hskinnemoen@google.com, Hao Wu <wuhaotsh@google.com>,
+ kfting@nuvoton.com, qemu-arm@nongnu.org, pbonzini@redhat.com,
+ Chris Rauer <crauer@google.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 2 Feb 2022 at 11:16, Eric Auger <eric.auger@redhat.com> wrote:
+On Sun, 6 Feb 2022 at 01:41, Patrick Venture <venture@google.com> wrote:
 >
-> We currently miss a bunch of register resets in the device reset
-> function. This sometimes prevents the guest from rebooting after
-> a system_reset (with virtio-blk-pci). For instance, we may get
-> the following errors:
+> From: Shengtan Mao <stmao@google.com>
 >
-> invalid STE
-> smmuv3-iommu-memory-region-0-0 translation failed for iova=0x13a9d2000(SMMU_EVT_C_BAD_STE)
-> Invalid read at addr 0x13A9D2000, size 2, region '(null)', reason: rejected
-> invalid STE
-> smmuv3-iommu-memory-region-0-0 translation failed for iova=0x13a9d2000(SMMU_EVT_C_BAD_STE)
-> Invalid write at addr 0x13A9D2000, size 2, region '(null)', reason: rejected
-> invalid STE
->
-> Signed-off-by: Eric Auger <eric.auger@redhat.com>
-> Fixes: 10a83cb988 ("hw/arm/smmuv3: Skeleton")
+> Reviewed-by: Hao Wu <wuhaotsh@google.com>
+> Reviewed-by: Chris Rauer <crauer@google.com>
+> Signed-off-by: Shengtan Mao <stmao@google.com>
+> Signed-off-by: Patrick Venture <venture@google.com>
 > ---
+> v2:
+>  * update copyright year
+>  * check result of open
+>  * use g_free instead of free
+>  * move declarations to the top
+>  * use g_file_open_tmp
 
+Fails to compile:
 
+../../tests/qtest/npcm7xx_sdhci-test.c:121:32: error: use of
+undeclared identifier 'NPCM7XX_REG_SIZE'
+    uint64_t end_addr = addr + NPCM7XX_REG_SIZE;
+                               ^
 
-Applied to target-arm.next, thanks.
 
 -- PMM
 
