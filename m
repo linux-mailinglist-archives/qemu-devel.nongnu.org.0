@@ -2,92 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DFA584AC38A
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Feb 2022 16:32:14 +0100 (CET)
-Received: from localhost ([::1]:57818 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5BE9F4AC4E5
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Feb 2022 17:07:29 +0100 (CET)
+Received: from localhost ([::1]:42786 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nH5zy-0006wG-1i
-	for lists+qemu-devel@lfdr.de; Mon, 07 Feb 2022 10:32:14 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:43438)
+	id 1nH6Y4-0003hZ-GR
+	for lists+qemu-devel@lfdr.de; Mon, 07 Feb 2022 11:07:28 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:44010)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1nH5es-0002pD-KE
- for qemu-devel@nongnu.org; Mon, 07 Feb 2022 10:10:28 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:52999)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1nH5eo-0005oB-Do
- for qemu-devel@nongnu.org; Mon, 07 Feb 2022 10:10:24 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1644246620;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=mtTdy4xIBlfAdZUmHlXSqagU/GHrBC6ynwM2vD77D9I=;
- b=g5OCkQiKE6bBPuM5yDqE8eQyFIyM0yoedxGcavS3vnpGJQinp33ja5NtqihKMwbjVw+UtS
- koeGRW7q2gWhix1yK5kwE0ETU6O6qpU7KGKKpmSagasBHTyc7vBEwtkz/yD26Hjul46TLP
- 3aQNrf2GDssRbBMmsUXZu6HWvS3/mQs=
-Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
- [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-446-ghq98dYgPIatAmKT55V3Fg-1; Mon, 07 Feb 2022 10:10:19 -0500
-X-MC-Unique: ghq98dYgPIatAmKT55V3Fg-1
-Received: by mail-ej1-f70.google.com with SMTP id
- fy20-20020a170906b7d400b006c97d43badaso1187031ejb.14
- for <qemu-devel@nongnu.org>; Mon, 07 Feb 2022 07:10:18 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1nH5h8-0004PQ-JR
+ for qemu-devel@nongnu.org; Mon, 07 Feb 2022 10:12:46 -0500
+Received: from [2607:f8b0:4864:20::62d] (port=41874
+ helo=mail-pl1-x62d.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1nH5h6-0006BI-21
+ for qemu-devel@nongnu.org; Mon, 07 Feb 2022 10:12:45 -0500
+Received: by mail-pl1-x62d.google.com with SMTP id z5so11344902plg.8
+ for <qemu-devel@nongnu.org>; Mon, 07 Feb 2022 07:12:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
+ h=from:date:to:cc:subject:in-reply-to:message-id:references
+ :user-agent:mime-version;
+ bh=UE2ELuaOjL4CpCjGV4ZNUOhAcx8sKS3y+IJDszRCkFA=;
+ b=ff8tEaP5f1G6GY+YwfPvxrFHB2iPoVD9I1VZWC6CcDn5yOTjfPbgskp3XVw88HRlB3
+ k2ASTs5CkbCkqvn5gjuuLJQ7vT1Rk9gci6FeHvfovE4wJU6UUnmzCwAv+5CkGtN21cpy
+ 4V2xipigJqkEn+BJARsK28yHvbw736NaZ9FsGg1TbzxsA1r10EJvsyROeYFMK9i7QTX6
+ H2tVyJAQuY4B9M3QOTEZrLOxeyPS3S8tfBJy/EMFmZ353chw+BROoetHq4RarIRd9lUn
+ mpqntqIaZICfHpayL8kmGwCtKksoW6erPusjMVxcQc4j9tx/RP+rCx540CpxBxfNEeRh
+ 5HXQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=mtTdy4xIBlfAdZUmHlXSqagU/GHrBC6ynwM2vD77D9I=;
- b=z4g+R4Vqsc0VEmB4SZ5/U8Cv4ujPxA8DNadr6ZXbVv3YMVWoHYVVPi8toqjkuNMm8S
- +saA8tUippSkVPJArZoXtnFffUOSCdyREoygyKZ20mY8WusxlmpI5z5Pvj87ju46k2QR
- DbzxvbsoKBbpyaW/Y8x/xS8P6LgfqcNyz6fm8J4oWJsOfrrg7FBLvgrxqSxlufzvcsia
- DaM3mRIU+bs/3r2IIrLdoboobZVQ7zyBgzfBhShQRw55SCuh4auMgCdjVJFHByRUXTKE
- iYCnf9Ah797yKxqcSRYuOHhgRKNhjvlgY+F+X0HHd6DrSyn00j4aALpboTHdPAjmrO0d
- 6lqQ==
-X-Gm-Message-State: AOAM530Dhid5EbnYL62AImSLhGJ2hpSpUYKXRUMwHNjzwiXL75swoBIs
- kktRNTAQZRHlspKSnWWtsLqJq2RXgyGg41ozpv2fACeWdDcaBFEfTq6OdWAut9zGhyU9YQQ7C2J
- Q2gekCJ4tEAB9BM0=
-X-Received: by 2002:a05:6402:c15:: with SMTP id
- co21mr14146513edb.185.1644246617912; 
- Mon, 07 Feb 2022 07:10:17 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxq68DJmXQSYmZBFMGcL5pn8BU9ocDTrTyR50VUoi9siZ2+t8YNDjUoTVXEd82GgTyFaIfspw==
-X-Received: by 2002:a05:6402:c15:: with SMTP id
- co21mr14146478edb.185.1644246617620; 
- Mon, 07 Feb 2022 07:10:17 -0800 (PST)
-Received: from localhost (nat-pool-brq-t.redhat.com. [213.175.37.10])
- by smtp.gmail.com with ESMTPSA id h21sm1677209edt.26.2022.02.07.07.10.15
+ h=x-gm-message-state:from:date:to:cc:subject:in-reply-to:message-id
+ :references:user-agent:mime-version;
+ bh=UE2ELuaOjL4CpCjGV4ZNUOhAcx8sKS3y+IJDszRCkFA=;
+ b=x3Mid+2B+GCpnSgATU3dQkQ2lU0lmW6TI7EH7DIMjTo4OBuzlugZBWdHxF3kMJJ//Y
+ H3knECe8g9UfJu6JA8UEA8K0UVm7ExQP08Z7Qwo4sWwqNkqn5XcvjE5mQ3pAABhCv//W
+ F6/5wuLUMjv1ZscdGnMl/jRi2WXY1lFUm5yJmZoCw6FFs+ZsaEugdW6D8I8za8q4ItsW
+ Gz5BYfxwf0StT76FjdcgCdjn5D/ChRY6xOQp8TXL/7bId3KV69UGkcI3Z9PoZWpSag/V
+ ma4YTginQFb7GOebAihzWMqi/xswt5ttCVIWFWl5CJZ++sBBwuu6UX0OPURhgtOigimW
+ Re2w==
+X-Gm-Message-State: AOAM531g9146Aff2JndhAiIKEhukf78LHaiOOjyJpU+jOpqSYTDwEuNT
+ VzrMVch/lroDeiov8kTntPojCA==
+X-Google-Smtp-Source: ABdhPJz7bIiPP3/6DNB84PvJGzuStFzkhzz7VPPGf58tmao4GVrjIdPvNhx3wSZWv7ARJdDvHXh9LQ==
+X-Received: by 2002:a17:90b:4b01:: with SMTP id
+ lx1mr19154503pjb.158.1644246762383; 
+ Mon, 07 Feb 2022 07:12:42 -0800 (PST)
+Received: from anisinha-lenovo ([203.212.242.56])
+ by smtp.googlemail.com with ESMTPSA id m1sm13102308pfk.202.2022.02.07.07.12.39
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 07 Feb 2022 07:10:16 -0800 (PST)
-Date: Mon, 7 Feb 2022 16:10:14 +0100
-From: Igor Mammedov <imammedo@redhat.com>
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Subject: Re: [PATCH v5 16/43] tests/acpi: Add update DSDT.viot
-Message-ID: <20220207161014.0689ba4a@redhat.com>
-In-Reply-To: <20220204085953-mutt-send-email-mst@kernel.org>
-References: <20220202141037.17352-1-Jonathan.Cameron@huawei.com>
- <20220202141037.17352-17-Jonathan.Cameron@huawei.com>
- <20220204085953-mutt-send-email-mst@kernel.org>
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.31; x86_64-redhat-linux-gnu)
+ Mon, 07 Feb 2022 07:12:41 -0800 (PST)
+From: Ani Sinha <ani@anisinha.ca>
+X-Google-Original-From: Ani Sinha <anisinha@anisinha.ca>
+Date: Mon, 7 Feb 2022 20:42:35 +0530 (IST)
+X-X-Sender: anisinha@anisinha-lenovo
+To: Igor Mammedov <imammedo@redhat.com>
+Subject: Re: [PATCH v2] hw/smbios: fix memory corruption for large guests
+ due to handle overlap
+In-Reply-To: <20220204103423.71ec5c6b@redhat.com>
+Message-ID: <alpine.DEB.2.22.394.2202072040490.2536804@anisinha-lenovo>
+References: <20220203130957.2248949-1-ani@anisinha.ca>
+ <20220204103423.71ec5c6b@redhat.com>
+User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=imammedo@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::62d
+ (failed)
+Received-SPF: none client-ip=2607:f8b0:4864:20::62d;
+ envelope-from=ani@anisinha.ca; helo=mail-pl1-x62d.google.com
+X-Spam_score_int: -10
+X-Spam_score: -1.1
+X-Spam_bar: -
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_NONE=0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -100,105 +89,21 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Ben Widawsky <ben.widawsky@intel.com>, Samarth Saxena <samarths@cadence.com>,
- Chris Browy <cbrowy@avery-design.com>, qemu-devel@nongnu.org,
- linux-cxl@vger.kernel.org, linuxarm@huawei.com,
- Shreyas Shah <shreyas.shah@elastics.cloud>, Saransh Gupta1 <saransh@ibm.com>,
- Shameerali Kolothum Thodi <shameerali.kolothum.thodi@huawei.com>,
- Jonathan Cameron <Jonathan.Cameron@huawei.com>,
- Marcel Apfelbaum <marcel@redhat.com>, Dan Williams <dan.j.williams@intel.com>,
- Alex =?UTF-8?B?QmVubsOpZQ==?= <alex.bennee@linaro.org>,
- Philippe =?UTF-8?B?TWF0aGlldS1E?= =?UTF-8?B?YXVkw6k=?= <f4bug@amsat.org>
+Cc: Ani Sinha <ani@anisinha.ca>, gsomlo@gmail.com, kraxel@redhat.com,
+ qemu-devel@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 4 Feb 2022 09:01:31 -0500
-"Michael S. Tsirkin" <mst@redhat.com> wrote:
-
-> On Wed, Feb 02, 2022 at 02:10:10PM +0000, Jonathan Cameron wrote:
-> > From: Jonathan Cameron <jonathan.cameron@huawei.com>
-> > 
-> > The consolidation of DSDT AML generation for PCI host bridges
-> > lead to some minor ordering changes and the addition of _ADR
-> > with a default of 0 for those case that didn't already have it.
-> > Only DSDT.viot test is affected.
-> > 
-> > Changes all similar to:
-> > 
-> > Scope (\_SB)
-> >      {
-> >        Device (PC30)
-> >        {
-> > -        Name (_UID, 0x30)  // _UID: Unique ID
-> >          Name (_BBN, 0x30)  // _BBN: BIOS Bus Number
-> >          Name (_HID, EisaId ("PNP0A08") /* PCI Express Bus */)  // _HID: Hardware ID
-> >          Name (_CID, EisaId ("PNP0A03") /* PCI Bus */)  // _CID: Compatible ID
-> > +        Name (_ADR, Zero)  // _ADR: Address
-> > +        Name (_UID, 0x30)  // _UID: Unique ID
-> >          Method (_OSC, 4, NotSerialized)  // _OSC: Operating System Capabilities
-> > 
-> > Signed-off-by: Jonathan Cameron <jonathan.cameron@huawei.com>  
-> 
-> A bit worried about _ADR here.  It's probably fine as it should be
-> unused but in the past some changes like that confused windows guests
-> where they would lose e.g. a static ip config since from their
-> POV device address changed.
-
-Spec[1] doesn't mention _ADR in context of host bridge(s) at all,
-for all I know it shouldn't be there. QEMU inherited it from
-SeaBIOS where it is dated to 2008 (as part of large blob adding ACPI for PCI).
-
-Instead of spreading undefined field to other places,
-I'd prefer removing it from root host bridge.
-But as Michael said it should be very well tested with various guest
-OSes.
-
-Jonathan,
-Can you compare nic naming (as guest sees it) with current master
-and without _ADR on root host bridge?
-One way to test it could be
-  1. start QEMU(master) configure static IP addr on an interface,
-     and shutdown guest
-  2. start QEMU(-_ARR) with guest image from step 1 and see if
-     interface is still there with IP address it was configured.
-
-test matrix should be something like that:
- PCI(pc machine),PCI-E (q35 machine)/
-   Windows 2012-whatever latest Windows, some contemporary linux,
-   ancient linux (pre 'stable' interface naming) (something like
-   RHEL6 or any other distro from that era)
-
-1) PCI_Firmware_v3.2_01-26-2015_ts_clean_Firmware_Final
-
-> Igor, what do you think?
 >
-> > ---
-> >  tests/data/acpi/q35/DSDT.viot               | Bin 9398 -> 9416 bytes
-> >  tests/qtest/bios-tables-test-allowed-diff.h |   1 -
-> >  2 files changed, 1 deletion(-)
-> > 
-> > diff --git a/tests/data/acpi/q35/DSDT.viot b/tests/data/acpi/q35/DSDT.viot
-> > index 1c3b4da5cbe81ecab5e1ef50d383b561c5e0f55f..207ac5b9ae4c3a4bc0094c2242d1a1b08771b784 100644
-> > GIT binary patch
-> > delta 139
-> > zcmdnydBT&+CD<k8gbD)#<CBeCu5zLdVlnZ-PVv!A?xF$C#s(bmPELMY6KfQhxC}No
-> > z$Z0Y1qbM*kn0!E9nwKNq(Itq1BR<sAg-ZdbOrCM_F9mK?rG^HRr4><?3V@Yv4pmBI
-> > F0sxp4B{u*7
-> > 
-> > delta 143
-> > zcmX@%xy_TyCD<ion+gL1<MNGMu5zMYqA~HoPVv!Aj-mn1#s(bmp`I>WlVjy%CeC%7
-> > z+^Kj^(SX5#0jQdxl0g7Ptr1kM!sPw((lEse3<_8k8$uNeOjb|?Dc;<vXwM7)8)+to
-> > 
-> > diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
-> > index 08a8095432..dfb8523c8b 100644
-> > --- a/tests/qtest/bios-tables-test-allowed-diff.h
-> > +++ b/tests/qtest/bios-tables-test-allowed-diff.h
-> > @@ -1,2 +1 @@
-> >  /* List of comma-separated changed AML files to ignore */
-> > -"tests/data/acpi/q35/DSDT.viot",
-> > -- 
-> > 2.32.0  
-> 
+> So question is it is worth to have legacy SMBIOS code and introduce a
+> new handle layout + memory_region re-sizable SMBIOS tables like we did
+> with ACPI ones.
+>
+> That way we we will be free to change SMBIOS tables at will without a
+> risk of breaking migration and without need to add compat knob for every
+> change to keep src and dst binary compatible.
+>
 
+Could you please point me to the change on the acpi side so that I can
+study it and look into the refactoring for smbios side?
 
