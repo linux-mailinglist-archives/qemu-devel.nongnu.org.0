@@ -2,72 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E37614AB309
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Feb 2022 02:12:35 +0100 (CET)
-Received: from localhost ([::1]:43364 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7215C4AB348
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Feb 2022 03:03:08 +0100 (CET)
+Received: from localhost ([::1]:39134 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nGsa2-0003YD-Os
-	for lists+qemu-devel@lfdr.de; Sun, 06 Feb 2022 20:12:34 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:55168)
+	id 1nGtMw-0006BU-II
+	for lists+qemu-devel@lfdr.de; Sun, 06 Feb 2022 21:03:07 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:32792)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wwcohen@gmail.com>) id 1nGsYK-0002m8-2T
- for qemu-devel@nongnu.org; Sun, 06 Feb 2022 20:10:49 -0500
-Received: from [2a00:1450:4864:20::131] (port=40800
- helo=mail-lf1-x131.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <wwcohen@gmail.com>) id 1nGsYE-0000T3-CF
- for qemu-devel@nongnu.org; Sun, 06 Feb 2022 20:10:46 -0500
-Received: by mail-lf1-x131.google.com with SMTP id a28so23782300lfl.7
- for <qemu-devel@nongnu.org>; Sun, 06 Feb 2022 17:10:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=xoMZB4ohnNU2e1QV/2Wg2eRzPnpP79h3Cb7uY8wGFpY=;
- b=bAZmVaS0+HnPMVLWOgFJyx76IfDXH3BKDOl8ifCHtPINZ1Zcfb4p8V/mgsplw1+GFj
- 2kL6hpJJYrz5AGTUgGWJtQdLfYaipy5+9kJe2c631bJZfiSuM3sgb6knLibn8wTQHXoP
- GSZgPv4/des/7pVSK31xFe2eLsJytcqEr5FK9VzOGVPeflqzG/jvWGbOCYqjOYNHthFb
- HLmB4rTTKzma9bGz3yGUqgJ3iTuSviNx/Fjd4TDjTx8Tu8xNhpDiiyVhpqRCf3EkOBQv
- UIlGlieqPp32YQu3OYzA57tVkT33r/Hs2qOxXmyuwwGclifn2OLPVS+k7RAe+d4P+jHI
- H7Jw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=xoMZB4ohnNU2e1QV/2Wg2eRzPnpP79h3Cb7uY8wGFpY=;
- b=OruX8fYUIUdemjkudUJNKkrMwlNApDVx0WSmYY5G16vXLitWD9Y3B/c1EnoCTZmt/T
- dH/awpogXT5hZ84Xfvs021LM8MgibNoDvYWe/3gUpomcUEZXZdU1MznwBZNemBIFmRX7
- oY5FILqQDrWER3OsYdxA6IswSOuV2WbhS5dsi7AObZsTlsse+8BePjNJ/eu3I7z9ncQJ
- 59K/tDLaqoa+C5Qn+wojuoN7s9c0pMvXHJog5oc4jXAcH5lECVcRUmZRPtOlzTnYLIyt
- N7QvPWeawfVwEWCdccuf3gIvWgRaZtzCvY2uylIff+EDQytJeCnQq9/etXe0ud3bTUuv
- fpUw==
-X-Gm-Message-State: AOAM532n6pdh0y4Cw7va9KDjPxXPCUwrRLFsP8ioryBgbZ55hJymRw2m
- MH2Zympa2k4vHgag6nFIH/MiLLNLQ3U3tZEYou0=
-X-Google-Smtp-Source: ABdhPJws4epUTM9aF1hgTGjAsfEqFAJwzDJACQubtHRJ6Sx1QH7F5TNjibbDbTLE2+/zL58iwn3l+h3F26X9520fUwg=
-X-Received: by 2002:a05:6512:3123:: with SMTP id
- p3mr7170690lfd.298.1644196235042; 
- Sun, 06 Feb 2022 17:10:35 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
+ id 1nGtFO-0002ix-Fw; Sun, 06 Feb 2022 20:55:20 -0500
+Received: from gandalf.ozlabs.org ([150.107.74.76]:46945)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
+ id 1nGtFJ-0006Mg-Bt; Sun, 06 Feb 2022 20:55:18 -0500
+Received: by gandalf.ozlabs.org (Postfix, from userid 1007)
+ id 4JsTjg3Cxqz4xcZ; Mon,  7 Feb 2022 12:55:03 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gibson.dropbear.id.au; s=201602; t=1644198903;
+ bh=PShF5ti2TK8HgTdENjXYhthZk0M/fyO22Gq+VIfu23c=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=DJ8ekLMGj5sH9Ly2XVFxoorD/P+Zugz6Js/wd9TRWl1kTdzVxhEViNcXc1Vd9x1EA
+ e9iYWEhUUlrGEFjPXH4ywf3p++ly+GrLmdTozTgwpFBeoexFlEUUQv6//7uPVpQYvg
+ NuoL8V1/8AZ8Gi2EKjjmfL/FPXabjzfIta4uI9Zo=
+Date: Mon, 7 Feb 2022 12:41:15 +1100
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Nicholas Piggin <npiggin@gmail.com>
+Subject: Re: [RFC PATCH] spapr: Add SPAPR_CAP_AIL_MODES for supported AIL
+ modes for H_SET_MODE hcall
+Message-ID: <YgB4u+L0z6LhMU9n@yekko>
+References: <20220129065007.103681-1-npiggin@gmail.com>
 MIME-Version: 1.0
-References: <20220206200719.74464-1-wwcohen@gmail.com>
- <20220206200719.74464-10-wwcohen@gmail.com>
- <b32f0267-c8b1-2e50-b81f-65289c89e802@amsat.org>
-In-Reply-To: <b32f0267-c8b1-2e50-b81f-65289c89e802@amsat.org>
-From: Will Cohen <wwcohen@gmail.com>
-Date: Sun, 6 Feb 2022 20:10:23 -0500
-Message-ID: <CAB26zV1ZmpODTqv20Ae77+SWvG5Cf1GWdi7FuR_L_aWjFcgfnA@mail.gmail.com>
-Subject: Re: [PATCH v4 09/11] 9p: darwin: Implement compatibility for mknodat
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
-Content-Type: multipart/alternative; boundary="00000000000087e34a05d7634493"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::131
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::131;
- envelope-from=wwcohen@gmail.com; helo=mail-lf1-x131.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="QcyIItr93/ByiDix"
+Content-Disposition: inline
+In-Reply-To: <20220129065007.103681-1-npiggin@gmail.com>
+Received-SPF: pass client-ip=150.107.74.76;
+ envelope-from=dgibson@gandalf.ozlabs.org; helo=gandalf.ozlabs.org
+X-Spam_score_int: -17
+X-Spam_score: -1.8
 X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -81,141 +59,97 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Christian Schoenebeck <qemu_oss@crudebyte.com>, qemu-devel@nongnu.org,
- Greg Kurz <groug@kaod.org>, hi@alyssa.is,
- Michael Roitzsch <reactorcontrol@icloud.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Keno Fischer <keno@juliacomputing.com>
+Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---00000000000087e34a05d7634493
-Content-Type: text/plain; charset="UTF-8"
+
+--QcyIItr93/ByiDix
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-This patch set currently places it in 9p-util only because 9p is the only
-place where this issue seems to have come up so far and we were wary of
-editing files too far afield, but I have no attachment to its specific
-location!
+On Sat, Jan 29, 2022 at 04:50:07PM +1000, Nicholas Piggin wrote:
+> The behaviour of the Address Translation Mode on Interrupt resource is
+> not consistently supported by all CPU versions or all KVM versions.  In
+> particular KVM HV only supports mode 0 on POWER7 processors, and does
+> not support mode 2 on any processors. KVM PR only supports mode 0. TCG
+> can support all modes (0,2,3).
+>=20
+> This leads to inconsistencies in guest behaviour and could cause
+> problems migrating guests.
+>=20
+> This was not too noticable for Linux guests for a long time because the
+> kernel only used mode 0 or 3, and it used to consider AIL to be somewhat
+> advisory (KVM would not always honor it either) and it kept both sets of
+> interrupt vectors around.
+>=20
+> Recent Linux guests depend on the AIL mode working as defined by the ISA
+> to support the SCV facility interrupt. If AIL mode 3 can not be provided,
+> then Linux must be given an error so it can disable the SCV facility.
+>=20
+> Add the ail-modes capability which is a bitmap of the supported values
+> for the H_SET_MODE Address Translation Mode on Interrupt resource. Add
+> a new KVM CAP that exports the same thing, and provide defaults for PR
+> and HV KVM that predate the cap.
+> ---
+>=20
+> I just wanted to get some feedback on the approach before submitting a
+> patch for the KVM cap.
+>=20
+> The reason I don't make that a boolean cap for AIL=3D3 is that future
+> processors might implement new modes a guest would like to use even
+> though it's not the nicest interface.
 
-On Sun, Feb 6, 2022 at 4:21 PM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org=
->
-wrote:
+[snip]
+>  SpaprCapabilityInfo capability_table[SPAPR_CAP_NUM] =3D {
+>      [SPAPR_CAP_HTM] =3D {
+>          .name =3D "htm",
+> @@ -730,6 +802,15 @@ SpaprCapabilityInfo capability_table[SPAPR_CAP_NUM] =
+=3D {
+>          .type =3D "bool",
+>          .apply =3D cap_rpt_invalidate_apply,
+>      },
+> +    [SPAPR_CAP_AIL_MODES] =3D {
+> +        .name =3D "ail-modes",
+> +        .description =3D "Bitmap of AIL (alternate interrupt location) m=
+ode support",
 
-> On 6/2/22 21:07, Will Cohen wrote:
-> > From: Keno Fischer <keno@juliacomputing.com>
-> >
-> > Darwin does not support mknodat. However, to avoid race conditions
-> > with later setting the permissions, we must avoid using mknod on
-> > the full path instead. We could try to fchdir, but that would cause
-> > problems if multiple threads try to call mknodat at the same time.
-> > However, luckily there is a solution: Darwin includes a function
-> > that sets the cwd for the current thread only.
-> > This should suffice to use mknod safely.
-> >
-> > This function (pthread_fchdir_np) is protected by a check in
-> > meson in a patch later in tihs series.
-> >
-> > Signed-off-by: Keno Fischer <keno@juliacomputing.com>
-> > Signed-off-by: Michael Roitzsch <reactorcontrol@icloud.com>
-> > [Will Cohen: - Adjust coding style
-> >               - Replace clang references with gcc
-> >               - Note radar filed with Apple for missing syscall
-> >               - Replace direct syscall with pthread_fchdir_np and
-> >                 adjust patch notes accordingly]
-> > Signed-off-by: Will Cohen <wwcohen@gmail.com>
-> > ---
-> >   hw/9pfs/9p-local.c       |  5 +++--
-> >   hw/9pfs/9p-util-darwin.c | 27 +++++++++++++++++++++++++++
-> >   hw/9pfs/9p-util-linux.c  |  5 +++++
-> >   hw/9pfs/9p-util.h        |  2 ++
-> >   4 files changed, 37 insertions(+), 2 deletions(-)
->
-> > diff --git a/hw/9pfs/9p-util.h b/hw/9pfs/9p-util.h
-> > index 8e610ad224..f6fed963bf 100644
-> > --- a/hw/9pfs/9p-util.h
-> > +++ b/hw/9pfs/9p-util.h
-> > @@ -97,6 +97,8 @@ ssize_t flistxattrat_nofollow(int dirfd, const char
-> *filename,
-> >   ssize_t fremovexattrat_nofollow(int dirfd, const char *filename,
-> >                                   const char *name);
-> >
-> > +int qemu_mknodat(int dirfd, const char *filename, mode_t mode, dev_t
-> dev);
->
-> I think this belong to "osdep.h" & os-posix.c.
->
+A bitmap doesn't quite work as an spapr cap.  The general caps code
+assumes that bigger is always better, or more precisely that migrating
+=66rom an instance that has a lower value to one which has a higher
+value is "good enough" to be compatible.  That's obviously not the
+case for a bitmap.
 
---00000000000087e34a05d7634493
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+I think to handle this properly within the limitations of papr caps,
+you instead want a separate boolean cap for each supported AIL mode
+(or at least for each AIL mode you want to have control over).
 
-<div dir=3D"ltr">This patch set currently places it in 9p-util only because=
- 9p is the only place where this issue seems to have come up so far and we =
-were wary of editing files too far afield, but I have no attachment to its =
-specific location!<br></div><br><div class=3D"gmail_quote"><div dir=3D"ltr"=
- class=3D"gmail_attr">On Sun, Feb 6, 2022 at 4:21 PM Philippe Mathieu-Daud=
-=C3=A9 &lt;<a href=3D"mailto:f4bug@amsat.org">f4bug@amsat.org</a>&gt; wrote=
-:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.=
-8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">On 6/2/22 21:0=
-7, Will Cohen wrote:<br>
-&gt; From: Keno Fischer &lt;<a href=3D"mailto:keno@juliacomputing.com" targ=
-et=3D"_blank">keno@juliacomputing.com</a>&gt;<br>
-&gt; <br>
-&gt; Darwin does not support mknodat. However, to avoid race conditions<br>
-&gt; with later setting the permissions, we must avoid using mknod on<br>
-&gt; the full path instead. We could try to fchdir, but that would cause<br=
->
-&gt; problems if multiple threads try to call mknodat at the same time.<br>
-&gt; However, luckily there is a solution: Darwin includes a function<br>
-&gt; that sets the cwd for the current thread only.<br>
-&gt; This should suffice to use mknod safely.<br>
-&gt; <br>
-&gt; This function (pthread_fchdir_np) is protected by a check in<br>
-&gt; meson in a patch later in tihs series.<br>
-&gt; <br>
-&gt; Signed-off-by: Keno Fischer &lt;<a href=3D"mailto:keno@juliacomputing.=
-com" target=3D"_blank">keno@juliacomputing.com</a>&gt;<br>
-&gt; Signed-off-by: Michael Roitzsch &lt;<a href=3D"mailto:reactorcontrol@i=
-cloud.com" target=3D"_blank">reactorcontrol@icloud.com</a>&gt;<br>
-&gt; [Will Cohen: - Adjust coding style<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0- Replace clang =
-references with gcc<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0- Note radar fil=
-ed with Apple for missing syscall<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0- Replace direct=
- syscall with pthread_fchdir_np and<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0adjust pa=
-tch notes accordingly]<br>
-&gt; Signed-off-by: Will Cohen &lt;<a href=3D"mailto:wwcohen@gmail.com" tar=
-get=3D"_blank">wwcohen@gmail.com</a>&gt;<br>
-&gt; ---<br>
-&gt;=C2=A0 =C2=A0hw/9pfs/9p-local.c=C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 5 +++=
---<br>
-&gt;=C2=A0 =C2=A0hw/9pfs/9p-util-darwin.c | 27 +++++++++++++++++++++++++++<=
-br>
-&gt;=C2=A0 =C2=A0hw/9pfs/9p-util-linux.c=C2=A0 |=C2=A0 5 +++++<br>
-&gt;=C2=A0 =C2=A0hw/9pfs/9p-util.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 2 ++<=
-br>
-&gt;=C2=A0 =C2=A04 files changed, 37 insertions(+), 2 deletions(-)<br>
-<br>
-&gt; diff --git a/hw/9pfs/9p-util.h b/hw/9pfs/9p-util.h<br>
-&gt; index 8e610ad224..f6fed963bf 100644<br>
-&gt; --- a/hw/9pfs/9p-util.h<br>
-&gt; +++ b/hw/9pfs/9p-util.h<br>
-&gt; @@ -97,6 +97,8 @@ ssize_t flistxattrat_nofollow(int dirfd, const char =
-*filename,<br>
-&gt;=C2=A0 =C2=A0ssize_t fremovexattrat_nofollow(int dirfd, const char *fil=
-ename,<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0const char *name);<b=
-r>
-&gt;=C2=A0 =C2=A0<br>
-&gt; +int qemu_mknodat(int dirfd, const char *filename, mode_t mode, dev_t =
-dev);<br>
-<br>
-I think this belong to &quot;osdep.h&quot; &amp; os-posix.c.<br>
-</blockquote></div>
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
 
---00000000000087e34a05d7634493--
+--QcyIItr93/ByiDix
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEoULxWu4/Ws0dB+XtgypY4gEwYSIFAmIAeLIACgkQgypY4gEw
+YSLdqQ//RVp0HXne3/BgKFesYNPvFNDVWURgaVnIcKIazcU/cHRIT6tyEsZCdJm2
+UW5nQdEXO8/4Gc9EwiB1aQ9qKsG0zwpjM9veqoaXu5wjcTHunRqBp95m4cmydWDo
+r7myL3+mN2S/kzW1iwP9uJio4ezbTQznKh+ojTw85QqUi5JJBHge8Bdw+2DL6Gf/
++pT/u9AcbQrZoiTo4oJAEw2XkRe/+2AmQvPdFTcinnJi/p+Rw82zILZAl8wqaLJe
+2LZOBXQgXI43xSuzvPVzAarjlslhQb/V9x4AwdE+ebSwk6gaD2VoKdAtQfNOnegY
+KjfhZuZZ/hYENqgXK3O68plod/XBeIpnHyIpXHRG3fDiMUe4/BHNwW6Ph6jWpnHV
+3lSKJVGZ/oYebm7bTLLhmNjYPmliy9UbbaYznx3P4EoWE0I+TZPCQoDQ/416yJg+
+u77++CaTd1xA0apBoxPObE3+kMWB4oP65UvOg15Zrl3q/hic6HwT43u3fcyEiSKk
+OeZwkjRy/VC+vSuFZ8T98TtM5EFLoFG0j1SHMZTOT3L3reNFHCp7h85mIJ1wTNOb
+9gnZDTRl1rnZCvpLe4otxn6g3Nz2PraneIgLVtaxP30KAj9tHLaQf+i1cVzDFLGs
+/1AXgJqZjGUip6rIghwYeHLMwGY2g2VFOZRHQh0oJpvGgT0vGOE=
+=ezqo
+-----END PGP SIGNATURE-----
+
+--QcyIItr93/ByiDix--
 
