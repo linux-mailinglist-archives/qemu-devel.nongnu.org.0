@@ -2,97 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F2554AB939
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Feb 2022 12:02:14 +0100 (CET)
-Received: from localhost ([::1]:36250 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EBC834AB9B7
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Feb 2022 12:24:33 +0100 (CET)
+Received: from localhost ([::1]:43494 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nH1mf-0001as-KD
-	for lists+qemu-devel@lfdr.de; Mon, 07 Feb 2022 06:02:13 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:38982)
+	id 1nH28G-000829-Gt
+	for lists+qemu-devel@lfdr.de; Mon, 07 Feb 2022 06:24:32 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:44104)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1nH1iC-0008Ib-LD
- for qemu-devel@nongnu.org; Mon, 07 Feb 2022 05:57:39 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:30460)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1nH1iA-0004az-6I
- for qemu-devel@nongnu.org; Mon, 07 Feb 2022 05:57:35 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1644231450;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=dBs/R/X2WJ0Ns1LiVfVw5w84zWZVg8swsZZOy1AXZgY=;
- b=TsOGOHcpvn9ybv54ik49i6UhxFUmJPeBlxKmVPOIEogHmzau143rlmhlu2dwi8UxnpE1Ye
- 6u2IiN4JCixhyNEJtCxAqpRccnLF+ByOdcwOd32Wv7VTOAROEKW2+e1NcThHEg3OIgW7Mc
- KnLLN+Y5clrx4gFHfICkkHqOmdwypFc=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-534-8R5d6F-YPSaE05DgVMRcnw-1; Mon, 07 Feb 2022 05:57:29 -0500
-X-MC-Unique: 8R5d6F-YPSaE05DgVMRcnw-1
-Received: by mail-wr1-f70.google.com with SMTP id
- g17-20020adfa591000000b001da86c91c22so4379300wrc.5
- for <qemu-devel@nongnu.org>; Mon, 07 Feb 2022 02:57:29 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nH23y-0006Sx-Ni
+ for qemu-devel@nongnu.org; Mon, 07 Feb 2022 06:20:06 -0500
+Received: from [2a00:1450:4864:20::435] (port=46682
+ helo=mail-wr1-x435.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nH23w-0007ex-Mz
+ for qemu-devel@nongnu.org; Mon, 07 Feb 2022 06:20:06 -0500
+Received: by mail-wr1-x435.google.com with SMTP id r29so6144680wrr.13
+ for <qemu-devel@nongnu.org>; Mon, 07 Feb 2022 03:20:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=pQw0Xnv3KqNRTOC8fxYn+UtfG9G/pQjpaX2HwPyFdB8=;
+ b=V3ZRoKkp2oZXnGw/mP7lZCJW9sNth9PYqaVW0uqyUeDjs4AfS5W6Q/Slv248RD48tH
+ rxrcwi6UWElSzaIb0UrU42DJOcNk/iQzl+4bEErgKnZBABEKc/CmsdlPR6Zps3XRsftM
+ E6lymTMzBkORF+LI9UTlyWl262EVy9Xki7T/ng5wMwCEZKZoCcoR+AhlMm6DsNawwPuO
+ VcM/Xp02q4ZPxeTLzTBkp8SSPJ4k70YarhpB0xv8XIcRzZ1togKcyECXeam04CK63tWp
+ lj5mbafo09p3ZLW/sYYkO1eIxsHdOiqnl+RsEcoTwPSr/u+XqKCDrtkm1Gv/OF7wppc9
+ 9imw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to:user-agent;
- bh=dBs/R/X2WJ0Ns1LiVfVw5w84zWZVg8swsZZOy1AXZgY=;
- b=YrEGAsRX5YvT4jpZcFyt46aZ899tSahl+IvxktVHOi9F0RAptPS6wjpMnLAx7zzNN7
- PC62EgMq9BX7Snm4NqmqgXnW/AkgzSBpaEYp4cFuvl0BqiCsi+YAbp22PzawYmrOWTJz
- y+tQFxo4c707a3RAp6C9b7tf4ZW3I2NNAeRaV4rLUzvdcXFfAlMLNY/Xf9jLgdXQ8/Qy
- bFZHyDnkipOd7Elz7Sw3nXses0IrlOPsrHGJjrZxHWZkGswA8UeS8D7cg7cC/FQO0Nnp
- P++ofXNikNVhhJlssClVjuWVIejcEUtRecfDN+T+2SUAiOHJdsaOs02gYXbfI1bHL1Lk
- mJZA==
-X-Gm-Message-State: AOAM530oIMKzxna0OVorVPjfrrtKgu5sUaWsBDQBl4HO0r0mCMnzPIrt
- BoVmm9GvicQEEW3b75DyO0gyoN2uLiN8uUnjIsbb85p/eC2yOk6DdboGeWgcBeFhVxFCaNLW1yy
- uPIjKAhMVeoBee2M=
-X-Received: by 2002:a5d:66c9:: with SMTP id k9mr7534051wrw.227.1644231448281; 
- Mon, 07 Feb 2022 02:57:28 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzx0mUUNwIIChKiXQi50NzuV4CivOvErCjzdhndUnQRHHTPxRJGlQGBvCvLvHgwHoYJU8/DBQ==
-X-Received: by 2002:a5d:66c9:: with SMTP id k9mr7534039wrw.227.1644231448148; 
- Mon, 07 Feb 2022 02:57:28 -0800 (PST)
-Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
- [82.30.61.225])
- by smtp.gmail.com with ESMTPSA id q13sm8954115wrm.58.2022.02.07.02.57.27
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 07 Feb 2022 02:57:27 -0800 (PST)
-Date: Mon, 7 Feb 2022 10:57:25 +0000
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Greg Kurz <groug@kaod.org>
-Subject: Re: [PATCH v4 09/11] 9p: darwin: Implement compatibility for mknodat
-Message-ID: <YgD7FZs9d1srvYG8@work-vm>
-References: <20220206200719.74464-1-wwcohen@gmail.com>
- <20220206200719.74464-10-wwcohen@gmail.com>
- <b32f0267-c8b1-2e50-b81f-65289c89e802@amsat.org>
- <CAB26zV1ZmpODTqv20Ae77+SWvG5Cf1GWdi7FuR_L_aWjFcgfnA@mail.gmail.com>
- <20220207094717.5f92da9d@bahia>
- <a48d6e38-e420-fb34-899d-7d933b384089@amsat.org>
- <20220207114912.1efe2a27@bahia>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=pQw0Xnv3KqNRTOC8fxYn+UtfG9G/pQjpaX2HwPyFdB8=;
+ b=1mF7Vetsp036fbHUu7/IwM1QEKnVa3djTfWqRKHoDFGFxW8JIJ+xwJlIGl59ZVP41m
+ Eqx3z7Nn077H5Xi4nI9YSqTz2jjaSBfar7zSxGWjU2TZHshs+lrBUpyJIl5V8jiD/dOa
+ ivMicq9/wUt3N94O/x3tRBMXrEW7lMk4SWgN4MKAinEJSG0rAPIRmOB5Mcn/KHW4R2W0
+ M19qNz9lc355Nnw5JJjO9WUjhpuyRn7grxyUbffPVb9TQwgMaslHHVx85XMhuJm+cQHX
+ 1UDBklxqpVuXC5iVPSD126+B+xNmbRv08a2fyxCaHIuLAJ8MFZe+2Tqetfmd6x/B+ZaB
+ Mc9g==
+X-Gm-Message-State: AOAM530r0Z+VME3SUIdPxAH83HW46kyckCtR190h/r/V4gecGNKS5A/c
+ HI9Co4SHNTQmlVfF7V6viFgUNbGnhDYaGV3+9ag+Qg==
+X-Google-Smtp-Source: ABdhPJzYCzitRpsrFQ3J0D6659yeH/i5KNTqeEXCt6huwrBgq4ndOqSCcGssOzEgfKrtP1bkb1EEywvcVPMIcCzX09g=
+X-Received: by 2002:a05:6000:15c7:: with SMTP id
+ y7mr9857956wry.319.1644232802677; 
+ Mon, 07 Feb 2022 03:20:02 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20220207114912.1efe2a27@bahia>
-User-Agent: Mutt/2.1.5 (2021-12-30)
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+References: <20220127154639.2090164-1-peter.maydell@linaro.org>
+In-Reply-To: <20220127154639.2090164-1-peter.maydell@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 7 Feb 2022 11:19:51 +0000
+Message-ID: <CAFEAcA8vuDHjP8RxV=QqaR2Nhctbv+E1Xw1ETZYuO8Uc1JSB6g@mail.gmail.com>
+Subject: Re: [PATCH 00/16] arm: Fix handling of unrecognized functions in PSCI
+ emulation
+To: qemu-arm@nongnu.org, qemu-devel@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::435
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::435;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x435.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -105,52 +82,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Michael Roitzsch <reactorcontrol@icloud.com>,
- Christian Schoenebeck <qemu_oss@crudebyte.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org, hi@alyssa.is, Will Cohen <wwcohen@gmail.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Keno Fischer <keno@juliacomputing.com>,
- Vivek <vgoyal@redhat.com>
+Cc: Eduardo Habkost <eduardo@habkost.net>,
+ Beniamino Galvani <b.galvani@gmail.com>,
+ Alistair Francis <alistair@alistair23.me>, Rob Herring <robh@kernel.org>,
+ Andrew Jeffery <andrew@aj.id.au>, Andre Przywara <andre.przywara@arm.com>,
+ Tyrone Ting <kfting@nuvoton.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
+ Jean-Christophe Dubois <jcd@tribudubois.net>,
+ Yanan Wang <wangyanan55@huawei.com>, Igor Mitsyanko <i.mitsyanko@gmail.com>,
+ Niek Linnenbank <nieklinnenbank@gmail.com>, Alexander Graf <agraf@csgraf.de>,
+ =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ Havard Skinnemoen <hskinnemoen@google.com>,
+ Andrey Smirnov <andrew.smirnov@gmail.com>, Joel Stanley <joel@jms.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Greg Kurz (groug@kaod.org) wrote:
-> On Mon, 7 Feb 2022 11:30:18 +0100
-> Philippe Mathieu-Daudé <f4bug@amsat.org> wrote:
-> 
-> > On 7/2/22 09:47, Greg Kurz wrote:
-> > > On Sun, 6 Feb 2022 20:10:23 -0500
-> > > Will Cohen <wwcohen@gmail.com> wrote:
-> > > 
-> > >> This patch set currently places it in 9p-util only because 9p is the only
-> > >> place where this issue seems to have come up so far and we were wary of
-> > >> editing files too far afield, but I have no attachment to its specific
-> > >> location!
-> > >>
-> > > 
-> > > Inline comments are preferred on qemu-devel. Please don't top post !
-> > > This complicates the review a lot.
-> > > 
-> > > This is indeed a good candidate for osdep. This being said, unless there's
-> > > some other user in the QEMU code base, it is acceptable to leave it under
-> > > 9pfs.
-> > 
-> > virtiofsd could eventually use it.
-> 
-> 
-> Indeed but virtiofsd is for linux hosts only AFAICT and I'm not aware of any
-> work to support any other host OS.
-> 
-> Cc'ing virtio-fs people for inputs on this topic.
+On Thu, 27 Jan 2022 at 15:46, Peter Maydell <peter.maydell@linaro.org> wrote:
+>
+> This series fixes our handling of PSCI calls where the function ID is
+> not recognized. These are supposed to return an error value, but
+> currently we instead emulate the SMC or HVC instruction to trap to the
+> guest at EL3 or EL2. Particularly of note for code review:
+>  * patches 4-9 include some "is this the right behaviour for
+>    this hardware" questions for the maintainers of those boards
+>  * patch 15 has a DTB API question, as well as being a change in
+>    what we edit in a DTB we are passed by the user
+>  * testing of the affected machines would be welcome
 
-Indeeed, there's a lot of Linux specific code in the virtiofsd - I know
-people are interested in other platforms, but I'm not sure that's the
-right starting point.
+Thanks to everybody for their review, testing, and confirmation
+of the behaviour of particular bits of hardware.
 
-Dave
+I'm going to apply this to target-arm.next, with patches 5 (allwinner)
+and 6 (xilinx) updated to remove the TODO comments, since we've
+confirmed that the don't-start-secondaries behaviour is right for
+that hardware.
 
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
-
+-- PMM
 
