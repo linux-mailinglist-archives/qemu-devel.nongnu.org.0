@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EBC834AB9B7
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Feb 2022 12:24:33 +0100 (CET)
-Received: from localhost ([::1]:43494 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AED424AB9B8
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Feb 2022 12:25:01 +0100 (CET)
+Received: from localhost ([::1]:44994 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nH28G-000829-Gt
-	for lists+qemu-devel@lfdr.de; Mon, 07 Feb 2022 06:24:32 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:44104)
+	id 1nH28i-0000ly-Q9
+	for lists+qemu-devel@lfdr.de; Mon, 07 Feb 2022 06:25:00 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:44308)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nH23y-0006Sx-Ni
- for qemu-devel@nongnu.org; Mon, 07 Feb 2022 06:20:06 -0500
-Received: from [2a00:1450:4864:20::435] (port=46682
- helo=mail-wr1-x435.google.com)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1nH24Y-0006zI-Oz
+ for qemu-devel@nongnu.org; Mon, 07 Feb 2022 06:20:42 -0500
+Received: from [2a00:1450:4864:20::62d] (port=39546
+ helo=mail-ej1-x62d.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nH23w-0007ex-Mz
- for qemu-devel@nongnu.org; Mon, 07 Feb 2022 06:20:06 -0500
-Received: by mail-wr1-x435.google.com with SMTP id r29so6144680wrr.13
- for <qemu-devel@nongnu.org>; Mon, 07 Feb 2022 03:20:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1nH24W-0007z6-M5
+ for qemu-devel@nongnu.org; Mon, 07 Feb 2022 06:20:42 -0500
+Received: by mail-ej1-x62d.google.com with SMTP id j14so17625432ejy.6
+ for <qemu-devel@nongnu.org>; Mon, 07 Feb 2022 03:20:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=pQw0Xnv3KqNRTOC8fxYn+UtfG9G/pQjpaX2HwPyFdB8=;
- b=V3ZRoKkp2oZXnGw/mP7lZCJW9sNth9PYqaVW0uqyUeDjs4AfS5W6Q/Slv248RD48tH
- rxrcwi6UWElSzaIb0UrU42DJOcNk/iQzl+4bEErgKnZBABEKc/CmsdlPR6Zps3XRsftM
- E6lymTMzBkORF+LI9UTlyWl262EVy9Xki7T/ng5wMwCEZKZoCcoR+AhlMm6DsNawwPuO
- VcM/Xp02q4ZPxeTLzTBkp8SSPJ4k70YarhpB0xv8XIcRzZ1togKcyECXeam04CK63tWp
- lj5mbafo09p3ZLW/sYYkO1eIxsHdOiqnl+RsEcoTwPSr/u+XqKCDrtkm1Gv/OF7wppc9
- 9imw==
+ :cc; bh=T7i8PFJUJjh3yQvAfM8T2QTQ//AMO7nRiJ3Igw+Lx3o=;
+ b=eyvaX8fPAOvSg/G1r6/kUEVv72/9irhjG6nsx90E5VAKVBuVoZkCgbEeotu/ax8BVk
+ oW8Gx5q7YqKmMNap1ZN9mGWPW/swENGadcpR8rV0AwlBHt6KWfZ15/okAsawzLOaA9m/
+ SQvc6KrdqFB3VJWGS7Xsy2ZVjRO5NTIhCq5n+rWwzPRsOsEAIi+irZVFoN5FPjpsm5ti
+ GwcBnldsrVKT+QPUjm/hZYpWWLn8h7ZqCfK5cFTgezCu873vhCYQUXhFQbRUboP+60oH
+ safPfLU3aVBvGXXy44ecwAevzJJqMvXW5zt6rgoEzBFm6Trxhi9qsJhy0lQ6xpXB3ehs
+ O8Ug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=pQw0Xnv3KqNRTOC8fxYn+UtfG9G/pQjpaX2HwPyFdB8=;
- b=1mF7Vetsp036fbHUu7/IwM1QEKnVa3djTfWqRKHoDFGFxW8JIJ+xwJlIGl59ZVP41m
- Eqx3z7Nn077H5Xi4nI9YSqTz2jjaSBfar7zSxGWjU2TZHshs+lrBUpyJIl5V8jiD/dOa
- ivMicq9/wUt3N94O/x3tRBMXrEW7lMk4SWgN4MKAinEJSG0rAPIRmOB5Mcn/KHW4R2W0
- M19qNz9lc355Nnw5JJjO9WUjhpuyRn7grxyUbffPVb9TQwgMaslHHVx85XMhuJm+cQHX
- 1UDBklxqpVuXC5iVPSD126+B+xNmbRv08a2fyxCaHIuLAJ8MFZe+2Tqetfmd6x/B+ZaB
- Mc9g==
-X-Gm-Message-State: AOAM530r0Z+VME3SUIdPxAH83HW46kyckCtR190h/r/V4gecGNKS5A/c
- HI9Co4SHNTQmlVfF7V6viFgUNbGnhDYaGV3+9ag+Qg==
-X-Google-Smtp-Source: ABdhPJzYCzitRpsrFQ3J0D6659yeH/i5KNTqeEXCt6huwrBgq4ndOqSCcGssOzEgfKrtP1bkb1EEywvcVPMIcCzX09g=
-X-Received: by 2002:a05:6000:15c7:: with SMTP id
- y7mr9857956wry.319.1644232802677; 
- Mon, 07 Feb 2022 03:20:02 -0800 (PST)
+ bh=T7i8PFJUJjh3yQvAfM8T2QTQ//AMO7nRiJ3Igw+Lx3o=;
+ b=DTPWpzlwQYtaF6KJjepPP53LEsY9OlpBGY90LDfLzDWsdERHJJKPW+9sD4T7JnOCyS
+ Yhq8D3y1lRrg4JQDCF6YsNXdK0A1j+ud/6HY9x0OuiU/9jjZSIOx+7BS84WAX1QpGcS8
+ j+F+cMorreIlXZREyaFcOGn9YaBglGnkIUjsFbYyQ9pQ02fkVJg0WUuO/Vlq5S+8az4Y
+ bYZLPdajXqxF/5SG8e5QUCxIBdUWQuVsxoPSHsf6qhjf71DwRX0w5pPZVqbZ44L5P1/3
+ AVnbFk15Dz/0r8EOiQV2sNPfT+umUqpvHM7x95LHXTPvMtOfJf61quDqesmhNUYypleA
+ wlKg==
+X-Gm-Message-State: AOAM532AzekOWtex4AFNdcMidTBi2it8kPCAZADzgWJzbHDPJFSkznWh
+ O87vfIT9lckL2+FKE0qqjGwAVe29XIYzyNzGE0JF9A==
+X-Google-Smtp-Source: ABdhPJzVIFWYlidcAKbTrlxNk+DIKnX63BLjfs/sIMBR+VDKDqUIhG9mXr+r7tzQ2VVS8GV9OHt3qiNHhDO/pU94a8s=
+X-Received: by 2002:a17:907:9493:: with SMTP id
+ dm19mr9453191ejc.51.1644232839155; 
+ Mon, 07 Feb 2022 03:20:39 -0800 (PST)
 MIME-Version: 1.0
-References: <20220127154639.2090164-1-peter.maydell@linaro.org>
-In-Reply-To: <20220127154639.2090164-1-peter.maydell@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 7 Feb 2022 11:19:51 +0000
-Message-ID: <CAFEAcA8vuDHjP8RxV=QqaR2Nhctbv+E1Xw1ETZYuO8Uc1JSB6g@mail.gmail.com>
-Subject: Re: [PATCH 00/16] arm: Fix handling of unrecognized functions in PSCI
- emulation
-To: qemu-arm@nongnu.org, qemu-devel@nongnu.org
+References: <20220205124526.500158-1-f4bug@amsat.org>
+ <20220205124526.500158-3-f4bug@amsat.org>
+ <20220207091437.52cf36b1@redhat.com> <20220207101843.259f517c@redhat.com>
+ <YgDoKlkP9Isdjnv8@angien.pipo.sk> <YgDpYTpdk9hJeL6v@angien.pipo.sk>
+In-Reply-To: <YgDpYTpdk9hJeL6v@angien.pipo.sk>
+From: Ani Sinha <ani@anisinha.ca>
+Date: Mon, 7 Feb 2022 16:50:28 +0530
+Message-ID: <CAARzgwyjH70AaEZ=DNSARP++KJfAi2wZkpx6uOhpW0jEigf16A@mail.gmail.com>
+Subject: Re: [PATCH v4 2/4] hw/i386: Attach CPUs to machine
+To: Peter Krempa <pkrempa@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::435
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::62d
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::435;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x435.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
+Received-SPF: none client-ip=2a00:1450:4864:20::62d;
+ envelope-from=ani@anisinha.ca; helo=mail-ej1-x62d.google.com
+X-Spam_score_int: -10
+X-Spam_score: -1.1
 X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_NONE=0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -82,41 +82,31 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <eduardo@habkost.net>,
- Beniamino Galvani <b.galvani@gmail.com>,
- Alistair Francis <alistair@alistair23.me>, Rob Herring <robh@kernel.org>,
- Andrew Jeffery <andrew@aj.id.au>, Andre Przywara <andre.przywara@arm.com>,
- Tyrone Ting <kfting@nuvoton.com>,
+Cc: Yang Zhong <yang.zhong@intel.com>,
+ Jean-Philippe Brucker <jean-philippe@linaro.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>, libvir-list@redhat.com,
+ qemu-devel@nongnu.org,
  =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
- Jean-Christophe Dubois <jcd@tribudubois.net>,
- Yanan Wang <wangyanan55@huawei.com>, Igor Mitsyanko <i.mitsyanko@gmail.com>,
- Niek Linnenbank <nieklinnenbank@gmail.com>, Alexander Graf <agraf@csgraf.de>,
- =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- Havard Skinnemoen <hskinnemoen@google.com>,
- Andrey Smirnov <andrew.smirnov@gmail.com>, Joel Stanley <joel@jms.id.au>
+ Paolo Bonzini <pbonzini@redhat.com>, Igor Mammedov <imammedo@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 27 Jan 2022 at 15:46, Peter Maydell <peter.maydell@linaro.org> wrote:
+On Mon, Feb 7, 2022 at 3:12 PM Peter Krempa <pkrempa@redhat.com> wrote:
 >
-> This series fixes our handling of PSCI calls where the function ID is
-> not recognized. These are supposed to return an error value, but
-> currently we instead emulate the SMC or HVC instruction to trap to the
-> guest at EL3 or EL2. Particularly of note for code review:
->  * patches 4-9 include some "is this the right behaviour for
->    this hardware" questions for the maintainers of those boards
->  * patch 15 has a DTB API question, as well as being a change in
->    what we edit in a DTB we are passed by the user
->  * testing of the affected machines would be welcome
+> On Mon, Feb 07, 2022 at 10:36:42 +0100, Peter Krempa wrote:
+> > On Mon, Feb 07, 2022 at 10:18:43 +0100, Igor Mammedov wrote:
+> > > On Mon, 7 Feb 2022 09:14:37 +0100
+> > > Igor Mammedov <imammedo@redhat.com> wrote:
+>
+> [...]
+>
+> > Even if we change it in libvirt right away, changing qemu will break
+> > forward compatibility. While we don't guarantee it, it still creates
+> > user grief.
+>
+> I've filed an upstream issue:
+>
+> https://gitlab.com/libvirt/libvirt/-/issues/272
 
-Thanks to everybody for their review, testing, and confirmation
-of the behaviour of particular bits of hardware.
-
-I'm going to apply this to target-arm.next, with patches 5 (allwinner)
-and 6 (xilinx) updated to remove the TODO comments, since we've
-confirmed that the don't-start-secondaries behaviour is right for
-that hardware.
-
--- PMM
+I can look into this bug. Feel free to assign it to me.
 
