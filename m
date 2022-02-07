@@ -2,78 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3139F4ACAC7
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Feb 2022 21:54:46 +0100 (CET)
-Received: from localhost ([::1]:34866 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DB3AC4ACADD
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Feb 2022 22:07:24 +0100 (CET)
+Received: from localhost ([::1]:41000 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nHB24-0000X8-Qf
-	for lists+qemu-devel@lfdr.de; Mon, 07 Feb 2022 15:54:44 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:37654)
+	id 1nHBEJ-0005NK-G3
+	for lists+qemu-devel@lfdr.de; Mon, 07 Feb 2022 16:07:23 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:40742)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lsoaresp@redhat.com>)
- id 1nHAzT-0007Oz-Kk
- for qemu-devel@nongnu.org; Mon, 07 Feb 2022 15:52:03 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:22398)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nHBDF-0004ge-1h
+ for qemu-devel@nongnu.org; Mon, 07 Feb 2022 16:06:17 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:40981)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lsoaresp@redhat.com>)
- id 1nHAzL-0006BR-Ks
- for qemu-devel@nongnu.org; Mon, 07 Feb 2022 15:52:02 -0500
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nHBD8-0008ER-OO
+ for qemu-devel@nongnu.org; Mon, 07 Feb 2022 16:06:16 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1644267066;
+ s=mimecast20190719; t=1644267960;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=af3CK1DzYB4S1RzQl6idffNjPLk4AylkAsxkg/ZdcVk=;
- b=FkEi80gUnEDyJE7O2dU8hNcjRCKsD3gpAOw+btBitwDftc4AwVPt428AtGBVPfB9P9mat0
- LjIP+l5atMD423OSGeqJ0o28lxMtWp516Dd+jfdB1Am1txRC/4gGheOhDOiq+SPISFGjSP
- /WAmI5PcrVTR5IP2DnxMarVOtzwZuAg=
-Received: from mail-lj1-f197.google.com (mail-lj1-f197.google.com
- [209.85.208.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=eBpEG9w4cWeWp+NwbGE2gjSePs1ZBl86hMO6LWBKAOE=;
+ b=Eb0exuHFc+64FaP/Awcs5FBK1GTILSVWsCxPgaAFliWxe0IFMZgA8PJghiiORcYcrcQ0MF
+ c/0FDrl/hS7YMng93ifKBkUEfqgumWhKqyOkJFHxf3SckOx5GFTjXEgdHpg81ctAaHez8J
+ hpCCMHBq5sG1ojtVX0Sw6jYkMpEfG9o=
+Received: from mail-ua1-f70.google.com (mail-ua1-f70.google.com
+ [209.85.222.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-37-0TqZ17CQNkWVRryDajfhTQ-1; Mon, 07 Feb 2022 15:51:05 -0500
-X-MC-Unique: 0TqZ17CQNkWVRryDajfhTQ-1
-Received: by mail-lj1-f197.google.com with SMTP id
- bd23-20020a05651c169700b0023bc6f845beso4990325ljb.17
- for <qemu-devel@nongnu.org>; Mon, 07 Feb 2022 12:51:05 -0800 (PST)
+ us-mta-451-jvsxR7FCM-aUpsv1li-mwQ-1; Mon, 07 Feb 2022 16:05:58 -0500
+X-MC-Unique: jvsxR7FCM-aUpsv1li-mwQ-1
+Received: by mail-ua1-f70.google.com with SMTP id
+ i47-20020ab015b2000000b0033bdcb385f5so8276538uae.12
+ for <qemu-devel@nongnu.org>; Mon, 07 Feb 2022 13:05:58 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=af3CK1DzYB4S1RzQl6idffNjPLk4AylkAsxkg/ZdcVk=;
- b=Pk1wBSJeV58AryPrx44CopopsA5Xu+hSkg4lvp6T7Lf8jh0jQOrGKUibi9LvPe6BvM
- QcyUJ+2BLer71mMnRZDgNoVyAAv67n++OCx/rx2vg1AfNEasFsUx2WYgBU6OE4k7ozX6
- Gop/U77+K6vraAoz+2C0wpqgSB4EikGY+cRxiX1k37TjrQypQXLvuylatyu1Ze56aG3O
- YydCBPEq6gNSwK0kec+02Pa0ne+PLmXHkVLpnI6kaYSrYuG1dBv/XMI8Wp2e4so+rEB+
- 4qQl7jI/zOV5z5mpPR02+Zqn4HOel2nplYVHSyBahNN40xgWTDtZAB5GkHjrWxKYLgAF
- b1Yw==
-X-Gm-Message-State: AOAM5317U5prfjGC4i9NYm/ZWOsl3/9JtceZc9d5FoNTKQDTU3SyE9S1
- FTnOwa33u6RGCsDymqyImRVgwMdMXqjY/kV4CrvTRqxwCsDqvRU6iHHk2Q4zhkTloyj9VwQ7htb
- POpnjfLk6wEV3scsdmkIv60csMVYHYNA=
-X-Received: by 2002:a05:651c:b13:: with SMTP id
- b19mr804837ljr.162.1644267063055; 
- Mon, 07 Feb 2022 12:51:03 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzSERA74jRNCsf+9qgR3BeCyKRCixDBBHZmRkWS0DJ0BUwg49gTcJ2m4ZBbw2BNr6djKsYn/Gp9/ISBgf38mFc=
-X-Received: by 2002:a05:651c:b13:: with SMTP id
- b19mr804807ljr.162.1644267062683; 
- Mon, 07 Feb 2022 12:51:02 -0800 (PST)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=eBpEG9w4cWeWp+NwbGE2gjSePs1ZBl86hMO6LWBKAOE=;
+ b=DbgAkWUv4urGTbxQOlVn8fSRCX7z0HjhnIvBYDe90TrnOPTEyAByS7o6qEdbP8EB1H
+ R5diU62dEV8bcF3G0+NnT1zHpBdmM4WypkPM3hcmiDDk5XVg1lg80iFfT7YdUdRmz3iG
+ bOFe1miPwUmA1A9r0DBZXw0uvpAy+SnuXSYmfag4ivWOVHlkODkENSS1mu9TtUyc7PFI
+ 1DYHw9/LRKUBEdbC/JZAD9ITzOJgV9VKCUB1nk7y4xOB+70DEsFf+q1PKZyxWmfPrGG9
+ XmWeTywDXv4PPAvl+72nIVlaT6JVkQjg+xJiXxDrfZ77RmUDbr4pYI+b5k5vpxy2wWzj
+ 78SQ==
+X-Gm-Message-State: AOAM532lUJP8NharQrQaqJjaBUqgy3AmKYIfAL8iWG2WDtIv60gkQ3xd
+ b7MFwSLMuS/Zj28zW8DW+oIZZII7VCOt17gjmH4tzFF9/WtgB1SmPwsUOBtUoW1QVVPtHktphDv
+ Ue0LHhCkj1+xkEcIfqjuAfhqD7qbTdlA=
+X-Received: by 2002:a67:f70f:: with SMTP id m15mr545123vso.61.1644267958122;
+ Mon, 07 Feb 2022 13:05:58 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxPX5+DaVMO8J5SkdFZKIsxhQHoDF3E6fhiUAg9OSpLyxGF2BOHek1bL9AlIuAddXLwDrdqR6qFpW6QxjSvLuA=
+X-Received: by 2002:a67:f70f:: with SMTP id m15mr545118vso.61.1644267957915;
+ Mon, 07 Feb 2022 13:05:57 -0800 (PST)
 MIME-Version: 1.0
-References: <20220201062901.428838-1-leobras@redhat.com>
- <20220201062901.428838-2-leobras@redhat.com>
- <YgEVbygBVE/FpTtq@xz-m1.local>
-In-Reply-To: <YgEVbygBVE/FpTtq@xz-m1.local>
-From: Leonardo Bras Soares Passos <leobras@redhat.com>
-Date: Mon, 7 Feb 2022 17:50:51 -0300
-Message-ID: <CAJ6HWG638ScLn55o+8UcHCJ_sbBm76rs9mzcU6ZaxmrqmtrV8g@mail.gmail.com>
-Subject: Re: [PATCH v8 1/5] QIOChannel: Add flags on io_writev and introduce
- io_flush callback
-To: Peter Xu <peterx@redhat.com>
+References: <20220128161157.36261-1-berrange@redhat.com>
+In-Reply-To: <20220128161157.36261-1-berrange@redhat.com>
+From: John Snow <jsnow@redhat.com>
+Date: Mon, 7 Feb 2022 16:05:47 -0500
+Message-ID: <CAFn=p-btgUv5WKGOj0GyyU17vsOWkBT4_Xu=vzxsL7FH1dbjhw@mail.gmail.com>
+Subject: Re: [PATCH v3 0/2] python: a few improvements to qmp-shell
+To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lsoaresp@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=lsoaresp@redhat.com;
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -94,60 +89,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Elena Ufimtseva <elena.ufimtseva@oracle.com>,
- John G Johnson <john.g.johnson@oracle.com>,
- Jagannathan Raman <jag.raman@oracle.com>, qemu-block@nongnu.org,
- Juan Quintela <quintela@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
- Markus Armbruster <armbru@redhat.com>,
- =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>,
- Fam Zheng <fam@euphon.net>, Eric Blake <eblake@redhat.com>
+Cc: Eduardo Habkost <eduardo@habkost.net>,
+ Markus Armbruster <armbru@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
+ Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hello Peter,
-
-On Mon, Feb 7, 2022 at 9:50 AM Peter Xu <peterx@redhat.com> wrote:
+On Fri, Jan 28, 2022 at 11:12 AM Daniel P. Berrang=C3=A9 <berrange@redhat.c=
+om> wrote:
 >
-> On Tue, Feb 01, 2022 at 03:28:59AM -0300, Leonardo Bras wrote:
-> > Add flags to io_writev and introduce io_flush as optional callback to
-> > QIOChannelClass, allowing the implementation of zero copy writes by
-> > subclasses.
-> >
-> > How to use them:
-> > - Write data using qio_channel_writev*(...,QIO_CHANNEL_WRITE_FLAG_ZERO_COPY),
-> > - Wait write completion with qio_channel_flush().
-> >
-> > Notes:
-> > As some zero copy write implementations work asynchronously, it's
-> > recommended to keep the write buffer untouched until the return of
-> > qio_channel_flush(), to avoid the risk of sending an updated buffer
-> > instead of the buffer state during write.
-> >
-> > As io_flush callback is optional, if a subclass does not implement it, then:
-> > - io_flush will return 0 without changing anything.
-> >
-> > Also, some functions like qio_channel_writev_full_all() were adapted to
-> > receive a flag parameter. That allows shared code between zero copy and
-> > non-zero copy writev, and also an easier implementation on new flags.
-> >
-> > Signed-off-by: Leonardo Bras <leobras@redhat.com>
+> This makes the qmp-shell program a little more pleasant to use when you
+> are just trying to spawn a throw-away QEMU process to query some info
+> from.
 >
-> With Dan's comment addressed on removing the redundant assertion:
+> First it introduces a 'qmp-shell-wrap' command that takes a QEMU command
+> line instead of QMP socket, and spawns QEMU automatically, so its life
+> is tied to that of the shell.
 >
-> Reviewed-by: Peter Xu <peterx@redhat.com>
+> Second it adds ability to log QMP commands/responses to a file that can
+> be queried with 'jq' to extract information. This is good for commands
+> which return huge JSON docs.
+>
+> In v3:
+>
+>  - Add qmp-shell-wrap to setup.cfg entry points
+>
+> In v2:
+>
+>  - Unlink unix socket path on exit
+>  - Fix default command name
+>  - Deal with flake8/pylint warnings
+>
+> Daniel P. Berrang=C3=A9 (2):
+>   python: introduce qmp-shell-wrap convenience tool
+>   python: support recording QMP session to a file
+>
+>  python/qemu/aqmp/qmp_shell.py | 88 ++++++++++++++++++++++++++++++++---
+>  python/setup.cfg              |  4 ++
+>  scripts/qmp/qmp-shell-wrap    | 11 +++++
+>  3 files changed, 96 insertions(+), 7 deletions(-)
+>  create mode 100755 scripts/qmp/qmp-shell-wrap
+>
+> --
+> 2.34.1
+>
 >
 
-Thank you for reviewing!
+Great, thanks! I rebased patch 1/2 myself as a courtesy and have staged the=
+se.
 
-I think I am now missing reviewing only on patch 5/5 before sending
-the next version.
-Could you and/or Daniel help me with that? Just to check if I am
-missing anything?
+--js
 
-Best regards,
-Leo
+(fwiw: using pip, it seems like the wrapper script works just fine. it
+appears as though using 'python3 setup.py install' does indeed cause
+issues here. I have a patch I'll send soon that discourages the direct
+setup.py invocation to avoid frustration in the future.)
 
 
