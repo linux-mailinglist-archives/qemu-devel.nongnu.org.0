@@ -2,73 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A785B4AC3C9
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Feb 2022 16:34:45 +0100 (CET)
-Received: from localhost ([::1]:34994 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE8E34AC3D4
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Feb 2022 16:39:55 +0100 (CET)
+Received: from localhost ([::1]:41676 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nH62O-0002JG-Jj
-	for lists+qemu-devel@lfdr.de; Mon, 07 Feb 2022 10:34:44 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:37690)
+	id 1nH67P-00072W-1q
+	for lists+qemu-devel@lfdr.de; Mon, 07 Feb 2022 10:39:55 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:39110)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nH5Mt-000190-89
- for qemu-devel@nongnu.org; Mon, 07 Feb 2022 09:51:51 -0500
-Received: from [2a00:1450:4864:20::334] (port=40757
- helo=mail-wm1-x334.google.com)
+ (Exim 4.90_1) (envelope-from <wwcohen@gmail.com>) id 1nH5RV-0007uv-2T
+ for qemu-devel@nongnu.org; Mon, 07 Feb 2022 09:56:38 -0500
+Received: from [2a00:1450:4864:20::12e] (port=47036
+ helo=mail-lf1-x12e.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nH5Mq-0002lX-1h
- for qemu-devel@nongnu.org; Mon, 07 Feb 2022 09:51:50 -0500
-Received: by mail-wm1-x334.google.com with SMTP id
- m126-20020a1ca384000000b0037bb8e379feso3383069wme.5
- for <qemu-devel@nongnu.org>; Mon, 07 Feb 2022 06:51:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ (Exim 4.90_1) (envelope-from <wwcohen@gmail.com>) id 1nH5RR-0003T7-Tb
+ for qemu-devel@nongnu.org; Mon, 07 Feb 2022 09:56:36 -0500
+Received: by mail-lf1-x12e.google.com with SMTP id z19so27295849lfq.13
+ for <qemu-devel@nongnu.org>; Mon, 07 Feb 2022 06:56:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=C7B51Ayhz46IrlwdE1Qpqon4Rtz/DtnOSospTLTJqd4=;
- b=pTv8YMwWKzOpybwRi07uYGKLNW4/9vChexq0u6lx3xwvrmlS75+Jt4Dl2Wt2gsdR0U
- aL3hWbrSu9gyToCXHp+NDaArAoZRtPNz1b5CKWtTMonslDBxBQ3UNWqRJAhFbv32dfG/
- sfI75KqjNgOXEj6J95sbFqbh3BiQbjxR865QTGx0QD4U0vJ8AcHoqmhcepsB56FoU1kP
- yhSk6pYTIUIX/whwxwLQHw0nQm/cpDM0EMsRqtp9nTSS5GHWbAdOz5TEAzP1V0Yafhhs
- TMtz7egLLGl3Fp55CtpFhzvzj1fEtCdgLZBJNVI0nvNjFTPC1JeJGnqmEt6rUgND0Szp
- uLUA==
+ :cc; bh=CtzIuUe04e4kyMhqtXtRfl39o9bLaEEczir1SuQSDPw=;
+ b=UnU2xSxj/Sj0S+oNyk6fotMmYVDiKDbznyJJUf+cxUF1pERYFO1X48N8PwuKp4MpHz
+ VHSRiRjzffU2ArZHhpb8NXztpeT0Y2wPWyzeoG99qJKOqk6gSdQ4zsAnxv2OBzl97cb8
+ lqSAbdrcqsHawawM9wudLzcawWDlbv2V6P7CL0uQ6MdJi1T+XmYdRF8NjQYctwEqknlI
+ AN8Dy5lOu+X0wdQFQHu/a1oHQqDNLXbWFz8QsYdPTgkxVyutQNccBkjY4ZBWOOtHmdGO
+ vXZQ43GWqD2Jcu2epVIRklB/yO4txYpvB1LwJir/rT+WoBd1srdAVbZUaeBQ2KWoAv9Y
+ oshw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=C7B51Ayhz46IrlwdE1Qpqon4Rtz/DtnOSospTLTJqd4=;
- b=VAyWQS9YIdCoU1UHZrYtH5ZkdHCqF5Gwgd+2k4R0f/6nRaEkoo0JhnsJS5EsdYO5HQ
- 7u58n9BBrLRT4sjFxvrs7K7akZMekredrEYr348MGKNes/PJeuUutwJqidVvMm/GOyRZ
- kULngdGtlUF16dYSaPJJtzR6WT4RrRPYflhAWhLZhYAPAiI893lYkVeCtggT0kUPeaNM
- NDra0v7Rq6AMiTn4RLOh1TVfhlIDUQydaLRXa+zRdu3ptKu7BgFLJ2wuNU1/Xde5LCCh
- MnKQh5s3RADa5N/ztWKH+maXg1uKjpz82h69TWPxrNcg1y2DoLB3ENx3nrL+Q4VMx585
- q3Hw==
-X-Gm-Message-State: AOAM532UMgdUDiAt8wovbScTcwz9QUB+IoR6NtvuiyWjG7RYCnAUVRit
- yEK9QxbIQtcVc79c4jvcaGpSPOt3gTvY1OzdTBQNsw==
-X-Google-Smtp-Source: ABdhPJxcG9hvTj8DiPjAFw/iX6OM61CXzN9WxW/hu53jnycVUYV18PUIqejzKGYF/ofTnIrgyqj7fQZF2RsREYqNetY=
-X-Received: by 2002:a05:600c:3552:: with SMTP id
- i18mr14956851wmq.21.1644245506239; 
- Mon, 07 Feb 2022 06:51:46 -0800 (PST)
+ bh=CtzIuUe04e4kyMhqtXtRfl39o9bLaEEczir1SuQSDPw=;
+ b=e7IS8/YpZJSKopT6kX3YjriuGFBNvHyj/KoMgHQLlKUWe8xAP41kCezRRJ7fYzFTB6
+ U3gBVw8Ki2/dhpdn4sAzEzZxIOGEsWSw2aorw+bzHaqpShFI6fzhcaqkMZd6U1TOnSdZ
+ faB1MUBoU7t4mURKLWJfbNBfAeTtdHF3zSDYWQgX453YyYqDM0inu811caHbWah/DcvD
+ e90OIiieKV7y82rCZeEYDR+rYtvSzMKmLI6tj+wmWlpOO8Kj9xowznqYzh6fC+0iIMjd
+ LP25hXok22cKqxDrNw3YliLcC/ZYFJ4lOnfdcEoqll8fGyhh3YZKmQajRnZF69T3uxnQ
+ z8Tg==
+X-Gm-Message-State: AOAM532C0g3da5SkIYMVWaoVrnzCb9Oc/4JSPPSrqrQGyvXnDvLqgrX1
+ OilnBsbLXrpWUfJxTC7RoG1luAPEqPSKf47lzmQ=
+X-Google-Smtp-Source: ABdhPJzxaz1aGppGTd+gfCcaVlO88hw/5hWv5dpgucjTHtLt+IZ+Rz8rfM74XhhDWu3fkjO9nhqemmT0tFwYQL/mpgY=
+X-Received: by 2002:a05:6512:2243:: with SMTP id
+ i3mr8902790lfu.598.1644245792130; 
+ Mon, 07 Feb 2022 06:56:32 -0800 (PST)
 MIME-Version: 1.0
-References: <20220124060449.22498-1-frank.chang@sifive.com>
-In-Reply-To: <20220124060449.22498-1-frank.chang@sifive.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 7 Feb 2022 14:51:35 +0000
-Message-ID: <CAFEAcA9niv+SUJ+t1ewfYBj6R1ozFaFkxM3V+A2u8zAZmpBk=g@mail.gmail.com>
-Subject: Re: [PATCH] hw/sd: Correct card status clear conditions in SPI-mode
-To: frank.chang@sifive.com
-Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::334
+References: <20220206200719.74464-1-wwcohen@gmail.com>
+ <2607115.euRFimgOtO@silver>
+In-Reply-To: <2607115.euRFimgOtO@silver>
+From: Will Cohen <wwcohen@gmail.com>
+Date: Mon, 7 Feb 2022 09:56:20 -0500
+Message-ID: <CAB26zV0EEXsjoSH3QCuoKb7qAugiTFoauopSEcHDSrgBr7E-sg@mail.gmail.com>
+Subject: Re: [PATCH v4 00/11] 9p: Add support for darwin
+To: Christian Schoenebeck <qemu_oss@crudebyte.com>
+Content-Type: multipart/alternative; boundary="0000000000005d09e505d76eced7"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::12e
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::334;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x334.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::12e;
+ envelope-from=wwcohen@gmail.com; helo=mail-lf1-x12e.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
 X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -82,150 +80,228 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-block@nongnu.org, Bin Meng <bin.meng@windriver.com>,
- qemu-devel@nongnu.org,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
- Alexander Bulekov <alxndr@bu.edu>, Alistair Francis <alistair.francis@wdc.com>
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ qemu-devel@nongnu.org, Greg Kurz <groug@kaod.org>, hi@alyssa.is,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 24 Jan 2022 at 06:09, <frank.chang@sifive.com> wrote:
->
-> From: Frank Chang <frank.chang@sifive.com>
->
-> In SPI-mode, unlike SD-mode, card status bits: ILLEGAL_COMMAND and
-> COM_CRC_ERROR have type C ("cleared by read") clear conditions.
-> Also, type B ("cleared on valid command") clear condition is not
-> supported in SPI-mode. As the "In idle state" bit in SPI-mode has type A
-> ("according to current state") clear condition, the CURRENT_STATE bits
-> in an SPI-mode response should be the SD card's state after the command
-> is executed, instead of the state when it received the preceding
-> command.
->
-> This patch redefines the card status clear conditions used in SD-mode
-> and SPI-mode according to SD spec.
->
-> Signed-off-by: Frank Chang <frank.chang@sifive.com>
+--0000000000005d09e505d76eced7
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-This looks mostly OK to me, but it does show up that we have a rather
-odd way of implementing SPI mode. SPI mode's response word
-is a different format to SD mode (it's 16 bits, not 32), but
-we only report SD mode format status and require the device
-model that's called us to do the conversion (hw/sd/ssi-sd.c
-does this, for example).
+On Mon, Feb 7, 2022 at 9:47 AM Christian Schoenebeck <qemu_oss@crudebyte.co=
+m>
+wrote:
 
-> +static uint32_t sd_card_status_c(SDState *sd) {
-> +    uint32_t sd_mask = R_CSR_AKE_SEQ_ERROR_MASK |
-> +                       R_CSR_APP_CMD_MASK |
-> +                       R_CSR_ERASE_RESET_MASK |
-> +                       R_CSR_WP_ERASE_SKIP_MASK |
-> +                       R_CSR_CSD_OVERWRITE_MASK |
-> +                       R_CSR_ERROR_MASK |
-> +                       R_CSR_CC_ERROR_MASK |
-> +                       R_CSR_CARD_ECC_FAILED_MASK |
-> +                       R_CSR_LOCK_UNLOCK_FAILED_MASK |
-> +                       R_CSR_WP_VIOLATION_MASK |
-> +                       R_CSR_ERASE_PARAM_MASK |
-> +                       R_CSR_ERASE_SEQ_ERROR_MASK |
-> +                       R_CSR_BLOCK_LEN_ERROR_MASK |
-> +                       R_CSR_ADDRESS_ERROR_MASK |
-> +                       R_CSR_OUT_OF_RANGE_MASK;
-> +    uint32_t spi_mask = R_CSR_ERASE_RESET_MASK |
-> +                        R_CSR_LOCK_UNLOCK_FAILED_MASK |
-> +                        R_CSR_WP_ERASE_SKIP_MASK |
-> +                        R_CSR_CSD_OVERWRITE_MASK |
-> +                        R_CSR_ERROR_MASK |
-> +                        R_CSR_CC_ERROR_MASK |
-> +                        R_CSR_CARD_ECC_FAILED_MASK |
-> +                        R_CSR_ILLEGAL_COMMAND_MASK |
-> +                        R_CSR_COM_CRC_ERROR_MASK|
-> +                        R_CSR_WP_VIOLATION_MASK |
-> +                        R_CSR_ERASE_PARAM_MASK |
-> +                        R_CSR_ERASE_SEQ_ERROR_MASK |
-> +                        R_CSR_ADDRESS_ERROR_MASK |
-> +                        R_CSR_OUT_OF_RANGE_MASK;
-> +
-> +    return !sd->spi ? sd_mask : spi_mask;
-> +}
-
-I feel like it ought to be possible to write this something like
-  sd_mask = CARD_STATUS_C;
-  if (sd->spi) {
-      sd_mask |= CARD_STATUS_B;
-  }
-
-(ie all the SD mode status C bits are either not visible in
-SPI mode or are status C, and all the status B bits in SD
-mode should be status C.)
-
->  static void sd_set_cardstatus(SDState *sd)
->  {
-> @@ -522,7 +548,7 @@ static void sd_response_r1_make(SDState *sd, uint8_t *response)
->      stl_be_p(response, sd->card_status);
+> On Sonntag, 6. Februar 2022 21:07:08 CET Will Cohen wrote:
+> > This is a followup to
+> > https://lists.nongnu.org/archive/html/qemu-devel/2022-01/msg05993.html,
+> > adding 9p server support for Darwin.
+> >
+> > Since v3, the following changes have been made:
+> >
+> > - Move XATTR_SIZE_MAX to P9_XATTR_SIZE MAX in 9p.h, and provide
+> explanatory
+> > context as preliminary solution - Add explanatory note surrounding
+> > virtio-9p-test with output of pre-patch failing test - Remove superfluo=
+us
+> > header guards from file-opt-9p
+> > - Add note about virtfs-proxy-helper being disabled on non-linux for th=
+is
+> > patch series - Note radar filed with Apple for missing mknodat syscall
+> > - Replace direct syscall to pthread_fchdir with pthread_fchdir_np, and
+> add
+> > check for this function=E2=80=99s presence in meson - Ensure that d_see=
+koff is
+> > filled using telldir on darwin, and create qemu_dirent_off helper to
+> decide
+> > which to access. - Ensure that [amc]tim.tv_sec are all initialized
+> > alongside [amc]tim.tv_nsec in 9p-proxy - Ensure that all patch email
+> > addresses are valid
+> > - Add telldir error handling for dirent on darwin
 >
->      /* Clear the "clear on read" status bits */
-> -    sd->card_status &= ~CARD_STATUS_C;
-> +    sd->card_status &= ~sd_card_status_c(sd);
->  }
+> As this series already has seen some revisions and is on a good way to
+> become
+> queued soon: it is helpful to immediately see here which patches exactly
+> got
+> changed, because some of the patches already look fine.
 >
->  static void sd_response_r3_make(SDState *sd, uint8_t *response)
-> @@ -537,7 +563,7 @@ static void sd_response_r6_make(SDState *sd, uint8_t *response)
->      status = ((sd->card_status >> 8) & 0xc000) |
->               ((sd->card_status >> 6) & 0x2000) |
->                (sd->card_status & 0x1fff);
-> -    sd->card_status &= ~(CARD_STATUS_C & 0xc81fff);
-> +    sd->card_status &= ~(sd_card_status_c(sd) & 0xc81fff);
->      stw_be_p(response + 0, sd->rca);
->      stw_be_p(response + 2, status);
->  }
-> @@ -1757,12 +1783,20 @@ int sd_do_command(SDState *sd, SDRequest *req,
->      if (rtype == sd_illegal) {
->          sd->card_status |= ILLEGAL_COMMAND;
->      } else {
-> -        /* Valid command, we can update the 'state before command' bits.
-> -         * (Do this now so they appear in r1 responses.)
-> -         */
->          sd->current_cmd = req->cmd;
->          sd->card_status &= ~CURRENT_STATE;
-> -        sd->card_status |= (last_state << 9);
-> +
-> +        if (!sd->spi) {
-> +            /* Valid command, we can update the 'state before command' bits.
-> +             * (Do this now so they appear in r1 responses.)
-> +             */
-> +            sd->card_status |= (last_state << 9);
-> +        } else {
-> +            /* Type B ("clear on valid command") is not supported
-> +             * in SPI-mode.
-> +             */
-> +            sd->card_status |= (sd->state << 9);
-> +        }
-
-I think this is right, in that for SD mode we want these bits
-to be "relating to previous command", and for SPI mode they
-are going to end up being used by the caller to calculate the
-Idle bit. But shouldn't the other bits that are type B for
-SD mode also work this way? Either we're currently getting those
-wrong in SD mode (returning the CRC-error/illegal-command state
-for this command when we should be returning it for the previous
-command), or we're getting it wrong still in SPI mode (returning
-it for the previous command when it should be for this command)...
-
->      }
+> For already reviewed patches that you won't change: you can take over
+> people's
+> reviewed-by tags in the next revision.
 >
->  send_response:
-> @@ -1811,7 +1845,7 @@ send_response:
->          /* Clear the "clear on valid command" status bits now we've
->           * sent any response
->           */
-> -        sd->card_status &= ~CARD_STATUS_B;
-> +        sd->card_status &= ~sd_card_status_b(sd);
->      }
+> Best regards,
+> Christian Schoenebeck
 >
->  #ifdef DEBUG_SD
-> --
-> 2.31.1
+> > Keno Fischer (10):
+> >   9p: linux: Fix a couple Linux assumptions
+> >   9p: Rename 9p-util -> 9p-util-linux
+> >   9p: darwin: Handle struct stat(fs) differences
+> >   9p: darwin: Handle struct dirent differences
+> >   9p: darwin: Ignore O_{NOATIME, DIRECT}
+> >   9p: darwin: Move XATTR_SIZE_MAX->P9_XATTR_SIZE_MAX
+> >   9p: darwin: *xattr_nofollow implementations
+> >   9p: darwin: Compatibility for f/l*xattr
+> >   9p: darwin: Implement compatibility for mknodat
+> >   9p: darwin: meson: Allow VirtFS on Darwin
+> >
+> > Will Cohen (1):
+> >   9p: darwin: Adjust assumption on virtio-9p-test
+> >
+> >  fsdev/file-op-9p.h                     |  9 ++-
+> >  fsdev/meson.build                      |  1 +
+> >  hw/9pfs/9p-local.c                     | 28 ++++++--
+> >  hw/9pfs/9p-proxy.c                     | 38 ++++++++++-
+> >  hw/9pfs/9p-synth.c                     |  6 ++
+> >  hw/9pfs/9p-util-darwin.c               | 91 ++++++++++++++++++++++++++
+> >  hw/9pfs/{9p-util.c =3D> 9p-util-linux.c} |  7 +-
+> >  hw/9pfs/9p-util.h                      | 38 +++++++++++
+> >  hw/9pfs/9p.c                           | 50 ++++++++++++--
+> >  hw/9pfs/9p.h                           | 11 ++++
+> >  hw/9pfs/codir.c                        |  7 ++
+> >  hw/9pfs/meson.build                    |  3 +-
+> >  include/qemu/xattr.h                   |  4 +-
+> >  meson.build                            | 14 ++--
+> >  tests/qtest/virtio-9p-test.c           |  2 +-
+> >  15 files changed, 285 insertions(+), 24 deletions(-)
+> >  create mode 100644 hw/9pfs/9p-util-darwin.c
+> >  rename hw/9pfs/{9p-util.c =3D> 9p-util-linux.c} (90%)
+>
+>
+Understood! Previous reviewed-by tags are already in v4, and these new ones
+will go into v5!
 
-thanks
--- PMM
+For reference in terms of changes, patches that were touched in v4:
+
+Keno Fischer (10):
+9p: linux: Fix a couple Linux assumptions (1/11)
+9p: darwin: Handle struct stat(fs) differences (3/11)
+9p: darwin: Handle struct dirent differences (4/11)
+9p: darwin: Move XATTR_SIZE_MAX->P9_XATTR_SIZE_MAX (5/11)
+9p: darwin: Implement compatibility for mknodat (9/11)
+9p: darwin: meson: Allow VirtFS on Darwin (10/11)
+
+Will Cohen (1):
+9p: darwin: Adjust assumption on virtio-9p-test (11/11)
+
+Additional changes to patches will be highlighted in the opening note for
+v5.
+
+--0000000000005d09e505d76eced7
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Mon, Feb 7, 2022 at 9:47 AM Christ=
+ian Schoenebeck &lt;<a href=3D"mailto:qemu_oss@crudebyte.com">qemu_oss@crud=
+ebyte.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=
+=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding=
+-left:1ex">On Sonntag, 6. Februar 2022 21:07:08 CET Will Cohen wrote:<br>
+&gt; This is a followup to<br>
+&gt; <a href=3D"https://lists.nongnu.org/archive/html/qemu-devel/2022-01/ms=
+g05993.html" rel=3D"noreferrer" target=3D"_blank">https://lists.nongnu.org/=
+archive/html/qemu-devel/2022-01/msg05993.html</a>,<br>
+&gt; adding 9p server support for Darwin.<br>
+&gt; <br>
+&gt; Since v3, the following changes have been made:<br>
+&gt; <br>
+&gt; - Move XATTR_SIZE_MAX to P9_XATTR_SIZE MAX in 9p.h, and provide explan=
+atory<br>
+&gt; context as preliminary solution - Add explanatory note surrounding<br>
+&gt; virtio-9p-test with output of pre-patch failing test - Remove superflu=
+ous<br>
+&gt; header guards from file-opt-9p<br>
+&gt; - Add note about virtfs-proxy-helper being disabled on non-linux for t=
+his<br>
+&gt; patch series - Note radar filed with Apple for missing mknodat syscall=
+<br>
+&gt; - Replace direct syscall to pthread_fchdir with pthread_fchdir_np, and=
+ add<br>
+&gt; check for this function=E2=80=99s presence in meson - Ensure that d_se=
+ekoff is<br>
+&gt; filled using telldir on darwin, and create qemu_dirent_off helper to d=
+ecide<br>
+&gt; which to access. - Ensure that [amc]tim.tv_sec are all initialized<br>
+&gt; alongside [amc]tim.tv_nsec in 9p-proxy - Ensure that all patch email<b=
+r>
+&gt; addresses are valid<br>
+&gt; - Add telldir error handling for dirent on darwin<br>
+<br>
+As this series already has seen some revisions and is on a good way to beco=
+me <br>
+queued soon: it is helpful to immediately see here which patches exactly go=
+t <br>
+changed, because some of the patches already look fine.<br>
+<br>
+For already reviewed patches that you won&#39;t change: you can take over p=
+eople&#39;s <br>
+reviewed-by tags in the next revision.<br>
+<br>
+Best regards,<br>
+Christian Schoenebeck<br>
+<br>
+&gt; Keno Fischer (10):<br>
+&gt;=C2=A0 =C2=A09p: linux: Fix a couple Linux assumptions<br>
+&gt;=C2=A0 =C2=A09p: Rename 9p-util -&gt; 9p-util-linux<br>
+&gt;=C2=A0 =C2=A09p: darwin: Handle struct stat(fs) differences<br>
+&gt;=C2=A0 =C2=A09p: darwin: Handle struct dirent differences<br>
+&gt;=C2=A0 =C2=A09p: darwin: Ignore O_{NOATIME, DIRECT}<br>
+&gt;=C2=A0 =C2=A09p: darwin: Move XATTR_SIZE_MAX-&gt;P9_XATTR_SIZE_MAX<br>
+&gt;=C2=A0 =C2=A09p: darwin: *xattr_nofollow implementations<br>
+&gt;=C2=A0 =C2=A09p: darwin: Compatibility for f/l*xattr<br>
+&gt;=C2=A0 =C2=A09p: darwin: Implement compatibility for mknodat<br>
+&gt;=C2=A0 =C2=A09p: darwin: meson: Allow VirtFS on Darwin<br>
+&gt; <br>
+&gt; Will Cohen (1):<br>
+&gt;=C2=A0 =C2=A09p: darwin: Adjust assumption on virtio-9p-test<br>
+&gt; <br>
+&gt;=C2=A0 fsdev/file-op-9p.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 9 ++-<br>
+&gt;=C2=A0 fsdev/meson.build=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 1 +<br>
+&gt;=C2=A0 hw/9pfs/9p-local.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| 28 ++++++--<br>
+&gt;=C2=A0 hw/9pfs/9p-proxy.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| 38 ++++++++++-<br>
+&gt;=C2=A0 hw/9pfs/9p-synth.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 6 ++<br>
+&gt;=C2=A0 hw/9pfs/9p-util-darwin.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0| 91 ++++++++++++++++++++++++++<br>
+&gt;=C2=A0 hw/9pfs/{9p-util.c =3D&gt; 9p-util-linux.c} |=C2=A0 7 +-<br>
+&gt;=C2=A0 hw/9pfs/9p-util.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 | 38 +++++++++++<br>
+&gt;=C2=A0 hw/9pfs/9p.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| 50 ++++++++++++--<br>
+&gt;=C2=A0 hw/9pfs/9p.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| 11 ++++<br>
+&gt;=C2=A0 hw/9pfs/codir.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 7 ++<br>
+&gt;=C2=A0 hw/9pfs/meson.build=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 3 +-<br>
+&gt;=C2=A0 include/qemu/xattr.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 4 +-<br>
+&gt;=C2=A0 meson.build=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 | 14 ++--<br>
+&gt;=C2=A0 tests/qtest/virtio-9p-test.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0|=C2=A0 2 +-<br>
+&gt;=C2=A0 15 files changed, 285 insertions(+), 24 deletions(-)<br>
+&gt;=C2=A0 create mode 100644 hw/9pfs/9p-util-darwin.c<br>
+&gt;=C2=A0 rename hw/9pfs/{9p-util.c =3D&gt; 9p-util-linux.c} (90%)<br>
+<br></blockquote><div>=C2=A0</div><div><div>Understood! Previous reviewed-b=
+y tags are already in v4, and these new ones will go into v5!<br></div><div=
+><br></div><div>For reference in terms of changes, patches that were touche=
+d in v4:</div><div><br></div><div>Keno Fischer (10):<br>
+9p: linux: Fix a couple Linux assumptions (1/11)<br>
+9p: darwin: Handle struct stat(fs) differences (3/11)<br>
+9p: darwin: Handle struct dirent differences (4/11)<br>
+9p: darwin: Move XATTR_SIZE_MAX-&gt;P9_XATTR_SIZE_MAX (5/11)<br>
+9p: darwin: Implement compatibility for mknodat (9/11)<br>
+9p: darwin: meson: Allow VirtFS on Darwin (10/11)</div><div><br>
+Will Cohen (1):<br>
+9p: darwin: Adjust assumption on virtio-9p-test (11/11)</div><div><br></div=
+><div>Additional changes to patches will be highlighted in the opening note=
+ for v5.<br></div>=C2=A0</div></div></div>
+
+--0000000000005d09e505d76eced7--
 
