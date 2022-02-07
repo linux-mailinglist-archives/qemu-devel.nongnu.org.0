@@ -2,66 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A2B84ACB32
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Feb 2022 22:22:08 +0100 (CET)
-Received: from localhost ([::1]:47146 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8073E4ACB60
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Feb 2022 22:34:41 +0100 (CET)
+Received: from localhost ([::1]:51918 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nHBSZ-0002Ti-5a
-	for lists+qemu-devel@lfdr.de; Mon, 07 Feb 2022 16:22:07 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:43712)
+	id 1nHBei-0006Os-5J
+	for lists+qemu-devel@lfdr.de; Mon, 07 Feb 2022 16:34:40 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:47350)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1nHBQL-0001lJ-ME
- for qemu-devel@nongnu.org; Mon, 07 Feb 2022 16:19:49 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:52391)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nHBb4-0004d7-DW
+ for qemu-devel@nongnu.org; Mon, 07 Feb 2022 16:30:55 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:60627)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1nHBQI-0001o2-7n
- for qemu-devel@nongnu.org; Mon, 07 Feb 2022 16:19:48 -0500
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nHBax-0003zL-EF
+ for qemu-devel@nongnu.org; Mon, 07 Feb 2022 16:30:53 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1644268785;
+ s=mimecast20190719; t=1644269446;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=hQUfszrR4zjJJ0QiyJDtMS6qhP+C37t/yJKeCYozeEA=;
- b=YQKn+6J0eg1JlrJDdv81QyVE+GB9R87qW9Hrp5aET0ufzKQ+dSIWOk0J5T7f+RANP9lKjw
- BX1hNbAkGvYWLUEh3D56zD9VZ83fzQ/nBu5dGIq9Kz7pVR3IIcmGz2SDi3l03Z5CahSPnn
- Yeosp2vOJvfYtMYSwkCzz2K7N8HuQrY=
+ content-transfer-encoding:content-transfer-encoding;
+ bh=xZvziPKQ2OQ/4vGcsr2giCw7bLkC+B7bh4vPdpRobtM=;
+ b=S5KCCNmgWpTnMm4pwLlThMAuFCCEJmP5JyuAh9ZmJCJhiKrDe1ydZbjMZg5Wzw91eFleXK
+ TNccmTVc4ny4M/HY7MF2KtdCYWQk3IlkVhr8k2s13RElBNZeqqvbttm/8qkw5ohZR9vVgt
+ nfX+Qlur3mRtWNeWmhqrK7umfqIJDZ4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-274-ieIZsyC0MDSGObD8X1TwAw-1; Mon, 07 Feb 2022 16:19:39 -0500
-X-MC-Unique: ieIZsyC0MDSGObD8X1TwAw-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-281-x1oLQHmgMHibOH--5edtqA-1; Mon, 07 Feb 2022 16:30:42 -0500
+X-MC-Unique: x1oLQHmgMHibOH--5edtqA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BEFFA192AB6E
- for <qemu-devel@nongnu.org>; Mon,  7 Feb 2022 21:19:38 +0000 (UTC)
-Received: from horse.redhat.com (unknown [10.22.9.190])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9C10F4BC52;
- Mon,  7 Feb 2022 21:19:38 +0000 (UTC)
-Received: by horse.redhat.com (Postfix, from userid 10451)
- id 1098D22045A; Mon,  7 Feb 2022 16:19:38 -0500 (EST)
-Date: Mon, 7 Feb 2022 16:19:38 -0500
-From: Vivek Goyal <vgoyal@redhat.com>
-To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
-Subject: Re: [PATCH v5 0/9] virtiofsd: Add support for file security context
- at file creation
-Message-ID: <YgGM6pA2sXEAMa3a@redhat.com>
-References: <20220202193935.268777-1-vgoyal@redhat.com>
- <YgEZDOcFr80tZGWd@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B3B7383DD20;
+ Mon,  7 Feb 2022 21:30:40 +0000 (UTC)
+Received: from scv.redhat.com (unknown [10.22.16.166])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 083F8E2E5;
+ Mon,  7 Feb 2022 21:30:39 +0000 (UTC)
+From: John Snow <jsnow@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] Python: discourage direct setup.py install
+Date: Mon,  7 Feb 2022 16:30:39 -0500
+Message-Id: <20220207213039.2278569-1-jsnow@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <YgEZDOcFr80tZGWd@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=vgoyal@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=vgoyal@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -82,76 +74,74 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: virtio-fs@redhat.com, mszeredi@redhat.com,
- Daniel J Walsh <dwalsh@redhat.com>, qemu-devel@nongnu.org, dgilbert@redhat.com
+Cc: Eduardo Habkost <eduardo@habkost.net>,
+ =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ John Snow <jsnow@redhat.com>, Beraldo Leal <bleal@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Feb 07, 2022 at 01:05:16PM +0000, Daniel P. BerrangÈ wrote:
-> On Wed, Feb 02, 2022 at 02:39:26PM -0500, Vivek Goyal wrote:
-> > Hi,
-> > 
-> > This is V5 of the patches. I posted V4 here.
-> > 
-> > https://listman.redhat.com/archives/virtio-fs/2022-January/msg00041.html
-> > 
-> > These will allow us to support SELinux with virtiofs. This will send
-> > SELinux context at file creation to server and server can set it on
-> > file.
-> 
-> I've not entirely figured it out from the code, so easier for me
-> to ask...
-> 
-> How is the SELinux labelled stored on the host side ? It is stored
-> directly in the security.* xattr namespace,
+When invoking setup.py directly, the default behavior for 'install' is
+to run the bdist_egg installation hook, which is ... actually deprecated
+by setuptools. It doesn't seem to work quite right anymore.
 
-[ CC Dan Walsh ]
+By contrast, 'pip install' will invoke the bdist_wheel hook
+instead. This leads to differences in behavior for the two approaches. I
+advocate using pip in the documentation in this directory, but the
+'setup.py' which has been used for quite a long time in the Python world
+may deceptively appear to work at first glance.
 
-I just tried to test the mode where I don't do xattr remapping and try
-to set /proc/pid/attr/fscreate with the context I want to set. It will
-set security.selinux xattr on host.
+Add an error message that will save a bit of time and frustration
+that points the user towards using the supported installation
+invocation.
 
-But write to /proc/pid/attr/fscreate fails if host does not recognize
-the label sent by guest. I am running virtiofsd with unconfined_t but
-it still fails because guest is trying to create a file with
-"test_filesystem_filetranscon_t" and host does not recognize this
-label. Seeing following in audit logs.
+Reported-by: Daniel P. Berrang√© <berrange@redhat.com>
+Signed-off-by: John Snow <jsnow@redhat.com>
+---
+ python/setup.py | 19 ++++++++++++++++++-
+ 1 file changed, 18 insertions(+), 1 deletion(-)
 
-type=SELINUX_ERR msg=audit(1644268262.666:8111): op=fscreate invalid_context="unconfined_u:object_r:test_filesystem_filetranscon_t:s0"
-
-So if we don't remap xattrs and host has SELinux enabled, then it probably
-work in very limited circumstances where host and guest policies don't
-conflict. I guess its like running fedora 34 guest on fedora 34 host. 
-I suspect that this will see very limited use. Though I have put the
-code in for the sake of completeness.
-
-Thanks
-Vivek
-
-> or is is subject to
-> xattr remapping that virtiofsd already supports.
-> 
-> Storing directly means virtiofsd has to run in an essentially
-> unconfined context, to let it do arbitrary  changes on security.*
-> xattrs without being blocked by SELinux) and has risk that guest
-> initiated changes can open holes in the host confinement if
-> the exported FS is generally visible to processes on the host.
-> 
-> 
-> Using remapping lets virtiofsd be strictly isolated by SELinux
-> policy on the host, and ensures that guest context changes
-> can't open up holes in the host.
-> 
-> Both are valid use cases, so I'd ultimately expect us to want
-> to support both, but my preference for a "default" behaviour
-> would be remapping.
-> 
-> Regards,
-> Daniel
-> -- 
-> |: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-> |: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-> |: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
-> 
+diff --git a/python/setup.py b/python/setup.py
+index 2014f81b75..c5bc45919a 100755
+--- a/python/setup.py
++++ b/python/setup.py
+@@ -5,9 +5,26 @@
+ """
+ 
+ import setuptools
++from setuptools.command import bdist_egg
++import sys
+ import pkg_resources
+ 
+ 
++class bdist_egg_guard(bdist_egg.bdist_egg):
++    """
++    Protect against bdist_egg from being executed
++
++    This prevents calling 'setup.py install' directly, as the 'install'
++    CLI option will invoke the deprecated bdist_egg hook. "pip install"
++    calls the more modern bdist_wheel hook, which is what we want.
++    """
++    def run(self):
++        sys.exit(
++            'Installation directly via setup.py is not supported.\n'
++            'Please use `pip install .` instead.'
++        )
++
++
+ def main():
+     """
+     QEMU tooling installer
+@@ -16,7 +33,7 @@ def main():
+     # https://medium.com/@daveshawley/safely-using-setup-cfg-for-metadata-1babbe54c108
+     pkg_resources.require('setuptools>=39.2')
+ 
+-    setuptools.setup()
++    setuptools.setup(cmdclass={'bdist_egg': bdist_egg_guard})
+ 
+ 
+ if __name__ == '__main__':
+-- 
+2.34.1
 
 
