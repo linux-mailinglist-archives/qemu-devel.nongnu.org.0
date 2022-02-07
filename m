@@ -2,70 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44F0C4AC9F7
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Feb 2022 20:59:06 +0100 (CET)
-Received: from localhost ([::1]:49006 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D8DA84AC9FF
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Feb 2022 21:02:09 +0100 (CET)
+Received: from localhost ([::1]:52748 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nHAAC-0001b4-VU
-	for lists+qemu-devel@lfdr.de; Mon, 07 Feb 2022 14:59:04 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:49450)
+	id 1nHADA-0004Gq-Kc
+	for lists+qemu-devel@lfdr.de; Mon, 07 Feb 2022 15:02:08 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:51966)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nH9mp-00010G-6e
- for qemu-devel@nongnu.org; Mon, 07 Feb 2022 14:34:56 -0500
-Received: from [2a00:1450:4864:20::432] (port=36354
- helo=mail-wr1-x432.google.com)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1nH9xy-0007yf-C1
+ for qemu-devel@nongnu.org; Mon, 07 Feb 2022 14:46:27 -0500
+Received: from [2607:f8b0:4864:20::c33] (port=36834
+ helo=mail-oo1-xc33.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nH9mn-0002Ut-4y
- for qemu-devel@nongnu.org; Mon, 07 Feb 2022 14:34:54 -0500
-Received: by mail-wr1-x432.google.com with SMTP id i15so4301230wrb.3
- for <qemu-devel@nongnu.org>; Mon, 07 Feb 2022 11:34:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=R+sJhwSAtSmNzVdEyA48Qj91xfHpZZGjNnK7M/PRWW8=;
- b=DAoru3kqkg8vPdqVx0Bgolmpt6NID60828DM2/O1n1y9ps7LU/8U3876BkNxKEtCFG
- lck6R9/4pkO6uc8fkN37nk8RG9BIDKBmjZf+dKmkCSMo94CIyL0rlnfLjRIFis8/D8c8
- zTCkMaC+LVT6czMQjnbXDPPwvduEyCzLWdJRgiXFVSTSpe72BLygqtN3lbZlcHHE0JXB
- Xxbn+otZquQEqmN1D7OeIfhlMLTtFZS15LSy6vtAN5C+mbkqEnggcEPktypp7Uk+UPiC
- kmPZM8v9ggkx6zn1hYPFmFMqJzoNQpr63FJqlWTSrgIPi3BloTtACpO+4/kL/9Zaoz79
- dU1A==
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1nH9xw-0004PW-7B
+ for qemu-devel@nongnu.org; Mon, 07 Feb 2022 14:46:25 -0500
+Received: by mail-oo1-xc33.google.com with SMTP id
+ r15-20020a4ae5cf000000b002edba1d3349so14986426oov.3
+ for <qemu-devel@nongnu.org>; Mon, 07 Feb 2022 11:46:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=em5F2RWGp9J0Vaf7HYBFy+WeFuETcwx0HsCLTkU8z/o=;
+ b=AWAB8i+nJ7hTZ9FNkwoZbPdC3QeyvF4O8z1m2H9V5aG7DmWM805LvBLFUGQkvSL/RE
+ JNNwd8yGxMymPbz9qccYuSMM2dVHFvnBBazPkYoNNNHbaHzD+AoVTyNgYnW75yyPy+g4
+ z1LQmQBi/PFAPL0bmeljzLSv9lXpY7DlOcFS2hwkkq7CvKnhXoDMeh6noznFJyhBZ6Co
+ 1EhS5qZdGVkdUG1M5T/mTrCOp3Sm/p1hmbP7NzU44HJSWSb0QCBHGz2G3TORdmF9TEJh
+ jIO6rb3YtyFMCf0Mor/Oi3nreAZe7+fIr0h19/xzav7Fl9bZgM8BcSbAfRzZ2zDfLTSC
+ 5/5Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=R+sJhwSAtSmNzVdEyA48Qj91xfHpZZGjNnK7M/PRWW8=;
- b=ReyMueFy0xTuRLmylWBb+mNs0hTQ3W2VUncVU7yv7SRGPx65rvmA+na+c+ICp8O0nL
- uVHM65x7Tckt1Hhvv8MS29PXZL4FexyakRjlKwzynqid6tsVbTJNrogekuZ4So1Aknw+
- SoaBuiye+lgDKCd6JKPFQftf2eGvtv+Mcr2CnTYouM8qqBneyh5LU7MkxQGtHievvI7p
- kNdnqK2EKn/KHK/mRcEScXjbWb2+i/VHwHlDtFkCT5woyzEZSQ6G1N1K7zBILt9Batwl
- 09WMeSbX6kj8ipOQBgtxv1rb05OxKa0nL9ZAIXDAmPTO+7bD9uYnyLJPk45XLWltas80
- OEFA==
-X-Gm-Message-State: AOAM531fg6NMZZ39Jl1ODUV1hvJtW+vptMeOKOQ/O0NrTrfZgF90kLvi
- e4Hi/0wmSVEQlDRfM+IzSGV2/vNGXf3J7HnLjj6iEg==
-X-Google-Smtp-Source: ABdhPJx1MwzTxa7VVK/K+gV4DckuR8Tm/rgp9+5Hb+WXGK0VDzw4BfEk23WLoP4z7xnjNBp5vYq14yaqrpndlvdtlD4=
-X-Received: by 2002:a05:6000:258:: with SMTP id m24mr829503wrz.2.1644262491366; 
- Mon, 07 Feb 2022 11:34:51 -0800 (PST)
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=em5F2RWGp9J0Vaf7HYBFy+WeFuETcwx0HsCLTkU8z/o=;
+ b=dMBuUCxQ2xopqt/IU2KJyDFG1p9KpwsBMiu4XA9x9sgiMxpQmFVoMb1mJjYNmMZ1q/
+ hOiaCcmNq/8TpuwCoA51F6gsthGoahg55YSjc+OAh5nprcVjC7/9QdX6wxcMksxhMBbD
+ bKqteFsb/Sid/mcZPgDu/JcwqK/RbKojpc0QnXGh01/HO6XS8PBO7VQIUZXGcCktUXZD
+ AsyLhkN03IkmtN3v8rXfrnvTgxgt5j+F2h0g+laMaJ5ZfBSlW5JtlMdGZFXGtvcM3i92
+ UWJttZtlbYL00Rs75OBt45gRyxq6WW8ZHh/2kTWPOTds2iH4lSOvwKOMPbSotHChQEiO
+ Rkzw==
+X-Gm-Message-State: AOAM5314rzTXrnBPLSfKAUVUIdZ5y2yyPEYlecmfJGlkoVtVJHBYAePH
+ uM41eDQQpgLlDyvVVKFONHQ=
+X-Google-Smtp-Source: ABdhPJwNoi7lsnkszKiAlgzRFHTWw/6Veng398YN/1YTod4/47CNn2RGgzBsvwDObFxqD2dI5rSpzw==
+X-Received: by 2002:a05:6870:72c3:: with SMTP id
+ o3mr182654oak.108.1644263168427; 
+ Mon, 07 Feb 2022 11:46:08 -0800 (PST)
+Received: from [192.168.10.222] ([191.193.0.12])
+ by smtp.gmail.com with ESMTPSA id bb16sm4467932oob.42.2022.02.07.11.46.06
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 07 Feb 2022 11:46:08 -0800 (PST)
+Message-ID: <e1566e82-6990-4d2b-952c-7d59886f7af5@gmail.com>
+Date: Mon, 7 Feb 2022 16:46:04 -0300
 MIME-Version: 1.0
-References: <20220127205405.23499-1-mark.cave-ayland@ilande.co.uk>
- <20220127205405.23499-9-mark.cave-ayland@ilande.co.uk>
-In-Reply-To: <20220127205405.23499-9-mark.cave-ayland@ilande.co.uk>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 7 Feb 2022 19:34:40 +0000
-Message-ID: <CAFEAcA8ZiLTgeG_2aUHBoV0io52623VRybG0NL0uY8=9Fg59Kg@mail.gmail.com>
-Subject: Re: [PATCH 08/11] mos6522: add "info via" HMP command for debugging
-To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::432
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [RFC PATCH 1/1] virtio: fix feature negotiation for
+ ACCESS_PLATFORM
+Content-Language: en-US
+To: Halil Pasic <pasic@linux.ibm.com>
+References: <20220203164556.2666565-1-pasic@linux.ibm.com>
+ <7df172fe-008a-0b98-2780-5155c98a71ba@gmail.com>
+ <20220207154615.72b8756a.pasic@linux.ibm.com>
+From: Daniel Henrique Barboza <danielhb413@gmail.com>
+In-Reply-To: <20220207154615.72b8756a.pasic@linux.ibm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::c33
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::432;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x432.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
+Received-SPF: pass client-ip=2607:f8b0:4864:20::c33;
+ envelope-from=danielhb413@gmail.com; helo=mail-oo1-xc33.google.com
+X-Spam_score_int: -10
+X-Spam_score: -1.1
 X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.001,
  PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
@@ -81,170 +96,151 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Markus Armbruster <armbru@redhat.com>, Laurent@vivier.eu,
- qemu-devel@nongnu.org
+Cc: Jason Wang <jasowang@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
+ Brijesh Singh <brijesh.singh@amd.com>, qemu-devel@nongnu.org,
+ "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 27 Jan 2022 at 21:03, Mark Cave-Ayland
-<mark.cave-ayland@ilande.co.uk> wrote:
->
-> This displays detailed information about the device registers and timers to aid
-> debugging problems with timers and interrupts.
->
-> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-> ---
->  hmp-commands-info.hx | 12 ++++++
->  hw/misc/mos6522.c    | 92 ++++++++++++++++++++++++++++++++++++++++++++
->  2 files changed, 104 insertions(+)
 
 
-I'm not sure how keen we are on adding new device-specific
-HMP info commands, but it's not my area of expertise. Markus ?
+On 2/7/22 11:46, Halil Pasic wrote:
+> On Mon, 7 Feb 2022 08:46:34 -0300
+> Daniel Henrique Barboza <danielhb413@gmail.com> wrote:
+> 
+>> On 2/3/22 13:45, Halil Pasic wrote:
+>>> Unlike most virtio features ACCESS_PATFORM is considered mandatory, i.e.
+>>> the driver must accept it if offered by the device. The virtio
+>>> specification says that the driver SHOULD accept the ACCESS_PLATFORM
+>>> feature if offered, and that the device MAY fail to operate if
+>>> ACCESS_PLATFORM was offered but not negotiated.
+>>>
+>>> While a SHOULD ain't exactly a MUST, we are certainly allowed to fail
+>>> the device when the driver fences ACCESS_PLATFORM. With commit
+>>
+>>
+>> I believe a link to the virtio specification where this is being mentioned would
+>> be good to have in the commit message.
+> 
+> I can add that if Michael agrees, and if the patch is deemed worthy.
+>>
+>>
+>>> 2943b53f68 ("virtio: force VIRTIO_F_IOMMU_PLATFORM") we already made the
+>>> decision to do so whenever the get_dma_as() callback is implemented (by
+>>> the bus), which in practice means for the entirety of virtio-pci.
+>>>
+>>> That means, if the device needs to translate I/O addresses, then
+>>> ACCESS_PLATFORM is mandatory. The aforementioned commit tells us
+>>> in the commit message that this is for security reasons.
+>>>
+>>> If ACCESS_PLATFORM is offered not we want the device to utilize an
+>>
+>> I think you meant "If ACCESS_PLATFORM is offered".
+> 
+> I'm missing because. I.e. s/not/not becasue/
+>>
+>>
+>>> IOMMU and do address translation, but because the device does not have
+>>> access to the entire guest RAM, and needs the driver to grant access
+>>> to the bits it needs access to (e.g. confidential guest support), we
+>>> still require the guest to have the corresponding logic and to accept
+>>> ACCESS_PLATFORM. If the driver does not accept ACCESS_PLATFORM, then
+>>> things are bound to go wrong, and we may see failures much less graceful
+>>> than failing the device because the driver didn't negotiate
+>>> ACCESS_PLATFORM.
+>>>
+>>> So let us make ACCESS_PLATFORM mandatory for the driver regardless
+>>> of whether the get_dma_as() callback is implemented or not.
+>>>
+>>> Signed-off-by: Halil Pasic <pasic@linux.ibm.com>
+>>> Fixes: 2943b53f68 ("virtio: force VIRTIO_F_IOMMU_PLATFORM")
+>>>
+>>> ---
+>>> This patch is based on:
+>>> https://www.mail-archive.com/qemu-devel@nongnu.org/msg866199.html
+>>>
+>>> During the review of "virtio: fix the condition for iommu_platform not
+>>> supported" Daniel raised the question why do we "force IOMMU_PLATFORM"
+>>> iff has_iommu && !!klass->get_dma_as. My answer to that was, that
+>>> this logic ain't right.
+>>>
+>>> While at it I used the opportunity to re-organize the code a little
+>>> and provide an explanatory comment.
+>>> ---
+>>>    hw/virtio/virtio-bus.c | 17 ++++++++++-------
+>>>    1 file changed, 10 insertions(+), 7 deletions(-)
+>>>
+>>> diff --git a/hw/virtio/virtio-bus.c b/hw/virtio/virtio-bus.c
+>>> index fbf0dd14b8..359430eb1c 100644
+>>> --- a/hw/virtio/virtio-bus.c
+>>> +++ b/hw/virtio/virtio-bus.c
+>>> @@ -78,16 +78,19 @@ void virtio_bus_device_plugged(VirtIODevice *vdev, Error **errp)
+>>>            return;
+>>>        }
+>>>    
+>>> -    vdev_has_iommu = virtio_host_has_feature(vdev, VIRTIO_F_IOMMU_PLATFORM);
+>>> -    if (klass->get_dma_as != NULL && has_iommu) {
+>>> +    vdev->dma_as = &address_space_memory;
+>>
+>> At this point you can also do:
+>>
+>>      if (!has_iommu) {
+>>          return;
+>>      }
+>>
+>> and the rest of the code will have one less indentation level.
+> 
+> I have considered this and decided against it. The reason why is
+> if that approach is taken, we can't really add more code to the
+> end of the function. An early return is good if we want to
+> abort the function with an error. My point is !has_iommu does
+> not necessarily mean we are done: after a block that handles
+> the has_iommu situation, in future, there could be a block that
+> handles something different.
 
-(patch below for context)
+And that's fine, but the way this patch is changing it I'm not sure it's better
+than what we already have. Today we have:
 
-thanks
--- PMM
+if (has_iommu) {
+   (... assign vdev->dma_as in some cases ...)
+} else {
+    vdev->dma_as = &address_space_memory;
+}
 
->
-> diff --git a/hmp-commands-info.hx b/hmp-commands-info.hx
-> index e90f20a107..4e714e79a2 100644
-> --- a/hmp-commands-info.hx
-> +++ b/hmp-commands-info.hx
-> @@ -879,3 +879,15 @@ SRST
->    ``info sgx``
->      Show intel SGX information.
->  ERST
-> +
-> +    {
-> +        .name       = "via",
-> +        .args_type  = "",
-> +        .params     = "",
-> +        .help       = "show guest 6522 VIA devices",
-> +    },
-> +
-> +SRST
-> +  ``info via``
-> +    Show guest 6522 VIA devices.
-> +ERST
-> diff --git a/hw/misc/mos6522.c b/hw/misc/mos6522.c
-> index aaae195d63..cfa6a9c44b 100644
-> --- a/hw/misc/mos6522.c
-> +++ b/hw/misc/mos6522.c
-> @@ -30,6 +30,8 @@
->  #include "hw/misc/mos6522.h"
->  #include "hw/qdev-properties.h"
->  #include "migration/vmstate.h"
-> +#include "monitor/monitor.h"
-> +#include "qapi/type-helpers.h"
->  #include "qemu/timer.h"
->  #include "qemu/cutils.h"
->  #include "qemu/log.h"
-> @@ -415,6 +417,95 @@ void mos6522_write(void *opaque, hwaddr addr, uint64_t val, unsigned size)
->      }
->  }
->
-> +static int qmp_x_query_via_foreach(Object *obj, void *opaque)
-> +{
-> +    GString *buf = opaque;
-> +
-> +    if (object_dynamic_cast(obj, TYPE_MOS6522)) {
-> +        MOS6522State *s = MOS6522(obj);
-> +        int64_t now = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
-> +        uint16_t t1counter = get_counter(s, &s->timers[0]);
-> +        uint16_t t2counter = get_counter(s, &s->timers[1]);
-> +
-> +        g_string_append_printf(buf, "%s:\n", object_get_typename(obj));
-> +
-> +        g_string_append_printf(buf, "  Registers:\n");
-> +        g_string_append_printf(buf, "    %-*s:    0x%x\n", 4,
-> +                               mos6522_reg_names[0], s->b);
-> +        g_string_append_printf(buf, "    %-*s:    0x%x\n", 4,
-> +                               mos6522_reg_names[1], s->a);
-> +        g_string_append_printf(buf, "    %-*s:    0x%x\n", 4,
-> +                               mos6522_reg_names[2], s->dirb);
-> +        g_string_append_printf(buf, "    %-*s:    0x%x\n", 4,
-> +                               mos6522_reg_names[3], s->dira);
-> +        g_string_append_printf(buf, "    %-*s:    0x%x\n", 4,
-> +                               mos6522_reg_names[4], t1counter & 0xff);
-> +        g_string_append_printf(buf, "    %-*s:    0x%x\n", 4,
-> +                               mos6522_reg_names[5], t1counter >> 8);
-> +        g_string_append_printf(buf, "    %-*s:    0x%x\n", 4,
-> +                               mos6522_reg_names[6],
-> +                               s->timers[0].latch & 0xff);
-> +        g_string_append_printf(buf, "    %-*s:    0x%x\n", 4,
-> +                               mos6522_reg_names[7],
-> +                               s->timers[0].latch >> 8);
-> +        g_string_append_printf(buf, "    %-*s:    0x%x\n", 4,
-> +                               mos6522_reg_names[8], t2counter & 0xff);
-> +        g_string_append_printf(buf, "    %-*s:    0x%x\n", 4,
-> +                               mos6522_reg_names[9], t2counter >> 8);
-> +        g_string_append_printf(buf, "    %-*s:    0x%x\n", 4,
-> +                               mos6522_reg_names[10], s->sr);
-> +        g_string_append_printf(buf, "    %-*s:    0x%x\n", 4,
-> +                               mos6522_reg_names[11], s->acr);
-> +        g_string_append_printf(buf, "    %-*s:    0x%x\n", 4,
-> +                               mos6522_reg_names[12], s->pcr);
-> +        g_string_append_printf(buf, "    %-*s:    0x%x\n", 4,
-> +                               mos6522_reg_names[13], s->ifr);
-> +        g_string_append_printf(buf, "    %-*s:    0x%x\n", 4,
-> +                               mos6522_reg_names[14], s->ier);
-> +
-> +        g_string_append_printf(buf, "  Timers:\n");
-> +        g_string_append_printf(buf, "    Using current time now(ns)=%"PRId64
-> +                                    "\n", now);
-> +        g_string_append_printf(buf, "    T1 freq(hz)=%"PRId64
-> +                               " mode=%s"
-> +                               " counter=0x%x"
-> +                               " latch=0x%x\n"
-> +                               "       load_time(ns)=%"PRId64
-> +                               " next_irq_time(ns)=%"PRId64 "\n",
-> +                               s->timers[0].frequency,
-> +                               ((s->acr & T1MODE) == T1MODE_CONT) ? "continuous"
-> +                                                                  : "one-shot",
-> +                               t1counter,
-> +                               s->timers[0].latch,
-> +                               s->timers[0].load_time,
-> +                               get_next_irq_time(s, &s->timers[0], now));
-> +        g_string_append_printf(buf, "    T2 freq(hz)=%"PRId64
-> +                               " mode=%s"
-> +                               " counter=0x%x"
-> +                               " latch=0x%x\n"
-> +                               "       load_time(ns)=%"PRId64
-> +                               " next_irq_time(ns)=%"PRId64 "\n",
-> +                               s->timers[1].frequency,
-> +                               "one-shot",
-> +                               t2counter,
-> +                               s->timers[1].latch,
-> +                               s->timers[1].load_time,
-> +                               get_next_irq_time(s, &s->timers[1], now));
-> +    }
-> +
-> +    return 0;
-> +}
-> +
-> +static HumanReadableText *qmp_x_query_via(Error **errp)
-> +{
-> +    g_autoptr(GString) buf = g_string_new("");
-> +
-> +    object_child_foreach_recursive(object_get_root(),
-> +                                   qmp_x_query_via_foreach, buf);
-> +
-> +    return human_readable_text_from_str(buf);
-> +}
-> +
->  static const MemoryRegionOps mos6522_ops = {
->      .read = mos6522_read,
->      .write = mos6522_write,
-> @@ -547,6 +638,7 @@ static const TypeInfo mos6522_type_info = {
->  static void mos6522_register_types(void)
->  {
->      type_register_static(&mos6522_type_info);
-> +    monitor_register_hmp_info_hrt("via", qmp_x_query_via);
->  }
->
->  type_init(mos6522_register_types)
-> --
-> 2.20.1
+
+Your patch is doing:
+
+vdev->dma_as = &address_space_memory;
+
+if (has_iommu) {
+   (... assign vdev->dma_as in some cases ...)
+}
+
+
+You got rid of an 'else', but ended up adding a double "vdev->dma_as =" assignment
+depending on the case (has_iommu = true and klass->get_dma_as != NULL). This is why
+I proposed the early exit.
+
+If we're worried about adding more code in the future might as well leave the existing
+if/else as is.
+        
+
+
+> 
+> Would this patch work for power? Or are there valid scenarios that
+> it breaks? I'm asking, because you voiced concern regarding this before.
+
+
+I'll test it when I have an opportunity and let you know.
+
+
+Thanks,
+
+
+Daniel
+
+> 
+> Thanks for your feedback!
+> 
+> Halil
 
