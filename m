@@ -2,61 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE8A24AC308
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Feb 2022 16:24:21 +0100 (CET)
-Received: from localhost ([::1]:48158 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F5B44AC2CC
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Feb 2022 16:19:12 +0100 (CET)
+Received: from localhost ([::1]:37404 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nH5sL-0000KQ-1p
-	for lists+qemu-devel@lfdr.de; Mon, 07 Feb 2022 10:24:21 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:34524)
+	id 1nH5nJ-0000sU-Ry
+	for lists+qemu-devel@lfdr.de; Mon, 07 Feb 2022 10:19:10 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:35118)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1nH5BO-0005tp-RW
- for qemu-devel@nongnu.org; Mon, 07 Feb 2022 09:40:01 -0500
-Received: from us-smtp-delivery-44.mimecast.com ([205.139.111.44]:35565)
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1nH5Cz-00076b-6L
+ for qemu-devel@nongnu.org; Mon, 07 Feb 2022 09:41:37 -0500
+Received: from kylie.crudebyte.com ([5.189.157.229]:49167)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1nH5BN-0000IZ-2R
- for qemu-devel@nongnu.org; Mon, 07 Feb 2022 09:39:58 -0500
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-582-3-UKJeUlNkuH0Lpabn4p1Q-1; Mon, 07 Feb 2022 09:39:51 -0500
-X-MC-Unique: 3-UKJeUlNkuH0Lpabn4p1Q-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2FB3584DA40;
- Mon,  7 Feb 2022 14:39:50 +0000 (UTC)
-Received: from bahia (unknown [10.39.192.48])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9AFF970D24;
- Mon,  7 Feb 2022 14:39:32 +0000 (UTC)
-Date: Mon, 7 Feb 2022 15:39:30 +0100
-From: Greg Kurz <groug@kaod.org>
-To: Christian Schoenebeck <qemu_oss@crudebyte.com>
-Subject: Re: [PATCH v4 10/11] 9p: darwin: meson: Allow VirtFS on Darwin
-Message-ID: <20220207153930.33b3ca1a@bahia>
-In-Reply-To: <39149990.XXmQAQaIKb@silver>
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1nH5Cv-0000nm-9q
+ for qemu-devel@nongnu.org; Mon, 07 Feb 2022 09:41:36 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
+ MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+ Content-ID:Content-Description;
+ bh=wNQbn4gWo/HPK8lrt6lk+nTUCAwoor0fdGb27CmpvEc=; b=Pxhu1yb2fRXx8TSQJn7Vh4awjw
+ iVY8ucbGQ3vDucQn75PaVjqqX9u3XuslePEyTQ2s/Rhh/EBbhGJcx5MZClp7Ear8thZVzHb41IuoF
+ /fhjceknSmXfk+SzNCIoHAJjYThg4MD75y747jppNA6EfeZAdVmYMcmBcDSdJjec2DSMVaZo1oG3q
+ GYXyX01dFLrE3K152gLZTKRkrM6LSFSON/RGX8x8L3fFj+YoIHE6k9qqMf9rw+GgvSLE8ufipDuUM
+ Dk9H9FaExuInRUZTkUHJk09RbzJWfL95nuonCTMazJQD1Kmql9YNbr9UFW3gGuug+T2RqroS49oz2
+ iQIFiciUKGkri6WQY0lpVq53obrQhYGnxGBFbxcO75nUhY48zf0n8H3CtEjAaMtPOaPdHATGEduiC
+ Av9aTn/SaNRjXbzHY20db09s8IIWs3HGzhGNBw9AakQJerI9U8FRp4xTpuSnVxEATOjN5DK83Tiin
+ IFzjKPtLvw/x/Ei9MtD168yJN5UB0lVsTbXV6sw/8p4kKtIHqmKnTw+Cg/JU/vg14+iszq/MAZtiW
+ sAx5y8em+Xamy16uvMmmThHGC2dug/Co0khKi1SJDq2VD16sRkwGfrKruNe10R9YePfL5J6+s5ctg
+ W6RZDBWGwNcFl4DZgz4Rho0Ko2sfMZ68JsPzM9kjM=;
+From: Christian Schoenebeck <qemu_oss@crudebyte.com>
+To: Will Cohen <wwcohen@gmail.com>
+Cc: qemu-devel@nongnu.org, Laurent Vivier <lvivier@redhat.com>, hi@alyssa.is,
+ Thomas Huth <thuth@redhat.com>, Greg Kurz <groug@kaod.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, Keno Fischer <keno@juliacomputing.com>,
+ Michael Roitzsch <reactorcontrol@icloud.com>,
+ Fabian Franz <fabianfranz.oss@gmail.com>
+Subject: Re: [PATCH v4 04/11] 9p: darwin: Handle struct dirent differences
+Date: Mon, 07 Feb 2022 15:41:12 +0100
+Message-ID: <1773154.tHhT6ugY5c@silver>
+In-Reply-To: <20220206200719.74464-5-wwcohen@gmail.com>
 References: <20220206200719.74464-1-wwcohen@gmail.com>
- <9265b724-d9c3-7c06-20ac-177feb63fee9@amsat.org>
- <CAB26zV2sx-9PGhk5Rbz-q+sQJ8yxqOOO32J_k5vb7_sPNgFBnQ@mail.gmail.com>
- <39149990.XXmQAQaIKb@silver>
+ <20220206200719.74464-5-wwcohen@gmail.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=groug@kaod.org
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: kaod.org
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: softfail client-ip=205.139.111.44; envelope-from=groug@kaod.org;
- helo=us-smtp-delivery-44.mimecast.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
- SPF_HELO_NONE=0.001, SPF_SOFTFAIL=0.665,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
+Received-SPF: pass client-ip=5.189.157.229;
+ envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -69,93 +69,216 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Michael Roitzsch <reactorcontrol@icloud.com>, qemu-devel@nongnu.org,
- Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <f4bug@amsat.org>, hi@alyssa.is,
- Will Cohen <wwcohen@gmail.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Keno Fischer <keno@juliacomputing.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 07 Feb 2022 15:15:46 +0100
-Christian Schoenebeck <qemu_oss@crudebyte.com> wrote:
+On Sonntag, 6. Februar 2022 21:07:12 CET Will Cohen wrote:
+> From: Keno Fischer <keno@juliacomputing.com>
+> 
+> On darwin d_seekoff exists, but is optional and does not seem to
+> be commonly used by file systems. Use `telldir` instead to obtain
+> the seek offset and inject it into d_seekoff, and create a
+> qemu_dirent_off helper to call it appropriately when appropriate.
+> 
+> Signed-off-by: Keno Fischer <keno@juliacomputing.com>
+> [Michael Roitzsch: - Rebase for NixOS]
+> Signed-off-by: Michael Roitzsch <reactorcontrol@icloud.com>
+> [Will Cohen: - Adjust to pass testing
+>              - Ensure that d_seekoff is filled using telldir
+>                on darwin, and create qemu_dirent_off helper
+>                to decide which to access]
+> [Fabian Franz: - Add telldir error handling for darwin]
+> [Will Cohen: - Ensure that telldir error handling uses
+>                signed int]
+> Signed-off-by: Fabian Franz <fabianfranz.oss@gmail.com>
+> Signed-off-by: Will Cohen <wwcohen@gmail.com>
+> ---
+>  hw/9pfs/9p-local.c |  9 +++++++++
+>  hw/9pfs/9p-proxy.c | 16 +++++++++++++++-
+>  hw/9pfs/9p-synth.c |  4 ++++
+>  hw/9pfs/9p-util.h  | 17 +++++++++++++++++
+>  hw/9pfs/9p.c       | 15 +++++++++++++--
+>  hw/9pfs/codir.c    |  7 +++++++
+>  6 files changed, 65 insertions(+), 3 deletions(-)
+> 
+> diff --git a/hw/9pfs/9p-local.c b/hw/9pfs/9p-local.c
+> index 1a5e3eed73..7137a28109 100644
+> --- a/hw/9pfs/9p-local.c
+> +++ b/hw/9pfs/9p-local.c
+> @@ -559,6 +559,15 @@ static struct dirent *local_readdir(FsContext *ctx,
+> V9fsFidOpenState *fs)
+> 
+>  again:
+>      entry = readdir(fs->dir.stream);
+> +#ifdef CONFIG_DARWIN
+> +    int td;
+> +    td = telldir(fs->dir.stream);
+> +    /* If telldir fails, fail the entire readdir call */
+> +    if (td < 0) {
+> +        return NULL;
+> +    }
+> +    entry->d_seekoff = td;
+> +#endif
+>      if (!entry) {
+>          return NULL;
+>      }
 
-> On Montag, 7. Februar 2022 02:05:32 CET Will Cohen wrote:
-> > On Sun, Feb 6, 2022 at 4:22 PM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat=
-.org>
-> >=20
-> > wrote:
-> > > On 6/2/22 21:07, Will Cohen wrote:
-> > > > From: Keno Fischer <keno@juliacomputing.com>
-> > > >=20
-> > > > Signed-off-by: Keno Fischer <keno@juliacomputing.com>
-> > > > [Michael Roitzsch: - Rebase for NixOS]
-> > > > Signed-off-by: Michael Roitzsch <reactorcontrol@icloud.com>
-> > > > [Will Cohen: - Rebase to master]
-> > > > Signed-off-by: Will Cohen <wwcohen@gmail.com>
-> > > > Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
-> > > > [Will Cohen: - Add check for pthread_fchdir_np to virtfs]
-> > > > Signed-off-by: Will Cohen <wwcohen@gmail.com>
-> > > > ---
-> > > >=20
-> > > >   fsdev/meson.build |  1 +
-> > > >   meson.build       | 14 ++++++++++----
-> > > >   2 files changed, 11 insertions(+), 4 deletions(-)
-> > > >=20
-> > > > -have_virtfs_proxy_helper =3D have_virtfs and have_tools
-> > > > +have_virtfs_proxy_helper =3D targetos =3D=3D 'linux' and have_virt=
-fs and
-> > >=20
-> > > have_tools
-> > >=20
-> > > Why do you restrict the proxy-helper to Linux?
-> >
-> > Only because porting the proxy-helper to macOS is outside the scope of =
-this
-> > particular patch. While some initial concepts around it have been
-> > considered by some of the contributors to this patch, those implementat=
-ions
-> > weren't tested enough and the security implications weren't considered =
-in
-> > full. We assume that this could be an additional implementation later o=
-n,
-> > if the functionality is considered important down the road.
->=20
-> In general that's fine with me. I would have probably made that
-> "targetos !=3D 'darwin'" instead of "targetos =3D=3D 'linux'", but I leav=
-e that up=20
-> to you.
->=20
-> On the long term we will probably deprecate the 9p 'proxy' fs driver anyw=
-ay.=20
-> While it had some good ideas, being realistic though: nobody has worked o=
-n the=20
-> 9p proxy driver/backend for many years and it is not in good shape.
->=20
+'entry' may be NULL, so the 'if (!entry) {' check should be before the Darwin 
+specific code to avoid a crash on macOS.
 
-It definitely isn't indeed. Also it is super slow by design
-since the round trip of a 9p request involves QEMU on both entry
-and exit:
+> diff --git a/hw/9pfs/9p-proxy.c b/hw/9pfs/9p-proxy.c
+> index b1664080d8..8b4b5cf7dc 100644
+> --- a/hw/9pfs/9p-proxy.c
+> +++ b/hw/9pfs/9p-proxy.c
+> @@ -706,7 +706,21 @@ static off_t proxy_telldir(FsContext *ctx,
+> V9fsFidOpenState *fs)
+> 
+>  static struct dirent *proxy_readdir(FsContext *ctx, V9fsFidOpenState *fs)
+>  {
+> -    return readdir(fs->dir.stream);
+> +    struct dirent *entry;
+> +    entry = readdir(fs->dir.stream);
+> +#ifdef CONFIG_DARWIN
+> +    if (!entry) {
+> +        return NULL;
+> +    }
+> +    int td;
+> +    td = telldir(fs->dir.stream);
+> +    /* If telldir fails, fail the entire readdir call */
+> +    if (td < 0) {
+> +        return NULL;
+> +    }
+> +    entry->d_seekoff = td;
+> +#endif
+> +    return entry;
+>  }
+> 
+>  static void proxy_seekdir(FsContext *ctx, V9fsFidOpenState *fs, off_t off)
+> diff --git a/hw/9pfs/9p-synth.c b/hw/9pfs/9p-synth.c
+> index 4a4a776d06..e264a03eef 100644
+> --- a/hw/9pfs/9p-synth.c
+> +++ b/hw/9pfs/9p-synth.c
+> @@ -222,7 +222,11 @@ static void synth_direntry(V9fsSynthNode *node,
+>  {
+>      strcpy(entry->d_name, node->name);
+>      entry->d_ino = node->attr->inode;
+> +#ifdef CONFIG_DARWIN
+> +    entry->d_seekoff = off + 1;
+> +#else
+>      entry->d_off = off + 1;
+> +#endif
+>  }
+> 
+>  static struct dirent *synth_get_dentry(V9fsSynthNode *dir,
+> diff --git a/hw/9pfs/9p-util.h b/hw/9pfs/9p-util.h
+> index 546f46dc7d..accbec9987 100644
+> --- a/hw/9pfs/9p-util.h
+> +++ b/hw/9pfs/9p-util.h
+> @@ -79,3 +79,20 @@ ssize_t fremovexattrat_nofollow(int dirfd, const char
+> *filename, const char *name);
+> 
+>  #endif
+> +
+> +
+> +/**
+> + * Darwin has d_seekoff, which appears to function similarly to d_off.
+> + * However, it does not appear to be supported on all file systems,
+> + * so ensure it is manually injected earlier and call here when
+> + * needed.
+> + */
+> +
 
-   [guest] --> [QEMU]--> [virtfs-proxy-helper]-->[QEMU]-->[guest]
+Nitpicking: no blank line here please.
 
-A more modern and efficient approach would be to have a vhost-user-9p
-implementation : requests would be directly handled by the external
-process, without QEMU hops. But this a fair amount of work.
+> +inline off_t qemu_dirent_off(struct dirent *dent)
+> +{
+> +#ifdef CONFIG_DARWIN
+> +    return dent->d_seekoff;
+> +#else
+> +    return dent->d_off;
+> +#endif
+> +}
+> diff --git a/hw/9pfs/9p.c b/hw/9pfs/9p.c
+> index 1563d7b7c6..cf694da354 100644
+> --- a/hw/9pfs/9p.c
+> +++ b/hw/9pfs/9p.c
+> @@ -27,6 +27,7 @@
+>  #include "virtio-9p.h"
+>  #include "fsdev/qemu-fsdev.h"
+>  #include "9p-xattr.h"
+> +#include "9p-util.h"
+>  #include "coth.h"
+>  #include "trace.h"
+>  #include "migration/blocker.h"
+> @@ -2281,7 +2282,11 @@ static int coroutine_fn
+> v9fs_do_readdir_with_stat(V9fsPDU *pdu, count += len;
+>          v9fs_stat_free(&v9stat);
+>          v9fs_path_free(&path);
+> -        saved_dir_pos = dent->d_off;
+> +        saved_dir_pos = qemu_dirent_off(dent);
+> +        if (saved_dir_pos < 0) {
+> +            err = saved_dir_pos;
+> +            break;
+> +        }
+>      }
 
-> I can imagine that due to the ground being laid by these series, that we =
-will=20
-> also open 9p for BSD, but that should be done a bit later and hence does =
-not=20
-> belong into these series.
->=20
-> But once again: it would not have hurt to make your intentions clear eith=
-er in=20
-> the commit log or by in-source comment. :)
->=20
-> Best regards,
-> Christian Schoenebeck
->=20
->=20
+That check is no longer needed here, is it?
+
+> 
+>      v9fs_readdir_unlock(&fidp->fs.dir);
+> @@ -2420,6 +2425,7 @@ static int coroutine_fn v9fs_do_readdir(V9fsPDU *pdu,
+> V9fsFidState *fidp, V9fsString name;
+>      int len, err = 0;
+>      int32_t count = 0;
+> +    off_t off;
+>      struct dirent *dent;
+>      struct stat *st;
+>      struct V9fsDirEnt *entries = NULL;
+> @@ -2480,12 +2486,17 @@ static int coroutine_fn v9fs_do_readdir(V9fsPDU
+> *pdu, V9fsFidState *fidp, qid.version = 0;
+>          }
+> 
+> +        off = qemu_dirent_off(dent);
+> +        if (off < 0) {
+> +            err = off;
+> +            break;
+> +        }
+
+Likewise: is this check still needed?
+
+>          v9fs_string_init(&name);
+>          v9fs_string_sprintf(&name, "%s", dent->d_name);
+> 
+>          /* 11 = 7 + 4 (7 = start offset, 4 = space for storing count) */
+>          len = pdu_marshal(pdu, 11 + count, "Qqbs",
+> -                          &qid, dent->d_off,
+> +                          &qid, off,
+>                            dent->d_type, &name);
+> 
+>          v9fs_string_free(&name);
+> diff --git a/hw/9pfs/codir.c b/hw/9pfs/codir.c
+> index 032cce04c4..fac6759a64 100644
+> --- a/hw/9pfs/codir.c
+> +++ b/hw/9pfs/codir.c
+> @@ -167,7 +167,14 @@ static int do_readdir_many(V9fsPDU *pdu, V9fsFidState
+> *fidp, }
+> 
+>          size += len;
+> +        /* This conditional statement is identical in
+> +         * function to qemu_dirent_off, described in 9p-util.h,
+> +         * since that header cannot be included here. */
+> +#ifdef CONFIG_DARWIN
+> +        saved_dir_pos = dent->d_seekoff;
+> +#else
+>          saved_dir_pos = dent->d_off;
+> +#endif
+
+Why can't the header not be included here? Obvious preference would be to use 
+qemu_dirent_off() here as well, to have control at one central code location.
+
+>      }
+> 
+>      /* restore (last) saved position */
+
 
 
