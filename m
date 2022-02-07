@@ -2,84 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8898B4AC801
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Feb 2022 18:54:56 +0100 (CET)
-Received: from localhost ([::1]:37246 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C5FD4AC886
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Feb 2022 19:29:56 +0100 (CET)
+Received: from localhost ([::1]:56164 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nH8E3-0002L1-4G
-	for lists+qemu-devel@lfdr.de; Mon, 07 Feb 2022 12:54:55 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:47436)
+	id 1nH8lu-0002S3-Uk
+	for lists+qemu-devel@lfdr.de; Mon, 07 Feb 2022 13:29:54 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:50428)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nH88d-0006XM-DW
- for qemu-devel@nongnu.org; Mon, 07 Feb 2022 12:49:19 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:39069)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nH88X-0001iR-3o
- for qemu-devel@nongnu.org; Mon, 07 Feb 2022 12:49:16 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1644256148;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=HgsFvpmwWV+1WYl7oI/59x0phUQqjjkP3Wu+d4G8Wi8=;
- b=Nsp9oQ4uXOX2L8ghkeJPgVLIccnx4wT5slWvXJ7dD4k3dQhLD71WjFRIkNFbUyBC5ZJ+UG
- ID2M2rjvBy+JZTR0bg5+i1LpAT/zY0Ts8gbbzzc6WoNmDAuqYIUamvrNetZq5lgwskwXKz
- p1jCi5x4x0213yrZFbFrYBNxUl8wJok=
-Received: from mail-ua1-f69.google.com (mail-ua1-f69.google.com
- [209.85.222.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-614-KdXvSooLM_yjgU2hsnAN2g-1; Mon, 07 Feb 2022 12:49:06 -0500
-X-MC-Unique: KdXvSooLM_yjgU2hsnAN2g-1
-Received: by mail-ua1-f69.google.com with SMTP id
- c11-20020ab0274b000000b0033c91f4b0f3so1335975uap.4
- for <qemu-devel@nongnu.org>; Mon, 07 Feb 2022 09:49:06 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nH8Fj-0006VN-Gy
+ for qemu-devel@nongnu.org; Mon, 07 Feb 2022 12:56:40 -0500
+Received: from [2a00:1450:4864:20::32b] (port=35833
+ helo=mail-wm1-x32b.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nH8Fg-00038n-3n
+ for qemu-devel@nongnu.org; Mon, 07 Feb 2022 12:56:39 -0500
+Received: by mail-wm1-x32b.google.com with SMTP id
+ l123-20020a1c2581000000b0037b9d960079so6108149wml.0
+ for <qemu-devel@nongnu.org>; Mon, 07 Feb 2022 09:56:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=ncOGZfi0AyHsfCE6I9z5rxgLAhu+ZNTqfDu0iBPnsqE=;
+ b=OvRGsCFow557GV2nCUtXxw5+uuIkjPssnvClXW7S6LVD3a72WogClUMHU7S8h9ozmo
+ QzIreRgSYEcEb/Asw6T2PgVMz/hUyTRcjcSekrOoO96CGOB8jkbQr3zSV0vwl3+3MaiS
+ IRw7jKx4vDOKmqdF5pzHE1s3tnYuplHEF8X/YRaRjEmQKMt+Q8aBRJFCprtrJsu1v6sZ
+ BYGRG2rsZz/odyWwVYQ3p9xUymdq1OOtmqaqmCQhwysDaqVQeSqd/Ihfuj2UjyEoxmxN
+ lhoIqsZUw6ecKHUsqXGHrZnZNnyPMMEHLnlVmV6f0yExAuSGZP9WGZoNf4UZc2ZKbgEa
+ jb4w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=HgsFvpmwWV+1WYl7oI/59x0phUQqjjkP3Wu+d4G8Wi8=;
- b=JxDRMEAEwujKoKxcwA/bxWNTkDtPNfL5r8+S74s1pqom1Qz5DhHWvwy57sh2eN338K
- 4liP49nWQv0fD7X2K4vJ1D6yb/lLWVL98XRlYhlp7FZAbaD5Qk+tOsCAvYl0EUfxc8nj
- x68u34Yuj07y/NDf7p/WJsdOvQmzlwHwmTnJCqockBBQy7b22bCbGoXdpEgaikA5zgi4
- 9TfmS85BpVyOOXWAq9jdOTWo8rzdl4H34c43qXr/M/l8KDkuIwVrtFENQugNc83TNjNp
- WZlCkJewwSTSvpfADEDr61oUrhvawU6JJnnHANctgPPdbCrdIe8yrsVKkUFL/8gNOBlj
- qQOw==
-X-Gm-Message-State: AOAM530/o/ML4H5mljwZlph+w7TtFxo1c+Po5hydzT7mVlcnpgcm4bL4
- 8RcBM9abKvxbX8Jn3o+TZCl0TIjsoFapsGM+5bgmxqSS0WsaYoHLAHfLv8ImYtoJffBzNy42k27
- nIol/o7rOxNPwQyc5KVsMqvds3wuAKHk=
-X-Received: by 2002:a05:6122:d07:: with SMTP id
- az7mr321437vkb.35.1644256146348; 
- Mon, 07 Feb 2022 09:49:06 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzOp7+SJ3ZQjruxJPrcySphdOIwJAdQr30NgqDUQA2MR9e+kZlD1OMvceDBkenXdnhsYtgVUfe9iA3lK1JMo9I=
-X-Received: by 2002:a05:6122:d07:: with SMTP id
- az7mr321432vkb.35.1644256146137; 
- Mon, 07 Feb 2022 09:49:06 -0800 (PST)
+ :message-id:subject:to:cc;
+ bh=ncOGZfi0AyHsfCE6I9z5rxgLAhu+ZNTqfDu0iBPnsqE=;
+ b=4h+3RixN3IjuePjyZN+4TmEk0K7FM1GMYt/7+kYPhCAGfXdms/wvWb7pLa6V4naJbL
+ C/3TVTKCXu02s0978Za3XiHQvnVlcDjf4+BmsFV7vu2BDgaSNFWXjSfmyDgc4Wd+RLGh
+ CdUxdpMxTmQ9mdyGg0owUZIcV5U1JRMpZjWShL0ugfYxwtRkE5jAQ4saFVEqtchwUxmG
+ CdDKlu1jmEbWG52FSs454gmZUf+GbAd3g/qMA2l566cnigyYeASBv474Hv1HyNy1FgmT
+ /5vr4vbnapmT96XCwzwCQCYdXJNXD8NHXAjZJNCjZL0PYSrUSj7+2QhmKV5/ZEV+bsCp
+ 3xSw==
+X-Gm-Message-State: AOAM531uRHZyMOmg566CzNaukm6FzD2CiqCIxU1vdlrlpIEGCPuYsoSM
+ 4DLcRc9TNBchx1ckgr7krAb8TOg5jn001ZI43u2x+w==
+X-Google-Smtp-Source: ABdhPJyMVaEOizZmRdh2GkuAPYma1DR3Ot9L4SimshY/3jwHopzUUwtH89d6ADqdqKJEsGerm99I5aqscVtgxVAjoKc=
+X-Received: by 2002:a1c:544d:: with SMTP id p13mr55243wmi.37.1644256594553;
+ Mon, 07 Feb 2022 09:56:34 -0800 (PST)
 MIME-Version: 1.0
-References: <CAFn=p-YxK8JduYOzxwDJSsmANgsqb+tK049t75VbXK-=Qi3J9w@mail.gmail.com>
- <87czjyhaza.fsf@linaro.org>
-In-Reply-To: <87czjyhaza.fsf@linaro.org>
-From: John Snow <jsnow@redhat.com>
-Date: Mon, 7 Feb 2022 12:48:55 -0500
-Message-ID: <CAFn=p-a4qSvmdZpVhxG96dhuDR5LYhAeJ_uQnj2t7oLEmn20nQ@mail.gmail.com>
-Subject: Re: Adding a 'qemu.qmp' repository to gitlab.com/qemu-project/
-To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+References: <20220201193207.2771604-1-peter.maydell@linaro.org>
+In-Reply-To: <20220201193207.2771604-1-peter.maydell@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 7 Feb 2022 17:56:23 +0000
+Message-ID: <CAFEAcA-amg4fT3jUwcvp+Z5Fi0PPN6Vi7TAVm=XARaw82LYEtg@mail.gmail.com>
+Subject: Re: [PATCH 00/13] hw/intc/arm_gicv3_its: more cleanups, bugfixes
+To: qemu-arm@nongnu.org, qemu-devel@nongnu.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32b
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32b.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -92,41 +81,18 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- qemu-devel <qemu-devel@nongnu.org>, Stefan Hajnoczi <stefanha@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: Richard Henderson <richard.henderson@linaro.org>,
+ Shashi Mallela <shashi.mallela@linaro.org>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Feb 7, 2022 at 11:56 AM Alex Benn=C3=A9e <alex.bennee@linaro.org> w=
-rote:
+On Tue, 1 Feb 2022 at 19:32, Peter Maydell <peter.maydell@linaro.org> wrote:
 >
->
-> John Snow <jsnow@redhat.com> writes:
->
-> > Hi Peter:
-> >
-> > I am working my way towards splitting the QMP library out of the
-> > qemu.git source tree. I'd like to ask for permission to:
-> >
-> > (1) Create a "qemu.qmp" repository under the qemu-project umbrella on
-> > GitLab
->
-> No objection for my part except maybe a better name? QemuPythonQmp? I
-> guess the header text can make it clear.
->
+> This is another set of patches to the ITS emulation; mostly
+> cleanups, but there are two bug fixes.
 
-At present, the package is named "qemu.qmp", which is the import name in Py=
-thon.
-("qemu" is the namespace, "qmp" is the package, "import qemu.qmp" is
-how you import it.)
+Applied to target-arm.next, thanks.
 
-I figured I'd just name the repository the exact same thing, but I
-realize that may introduce some ambiguity at the QEMU project gitlab
-namespace level. "py-qemu.qmp" or similar would also probably be fine.
-I think I want to avoid straying too far away from the import and
-package names, if I can.
-
---js
-
+-- PMM
 
