@@ -2,92 +2,98 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9BF894AB898
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Feb 2022 11:18:43 +0100 (CET)
-Received: from localhost ([::1]:39262 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 381E24AB893
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Feb 2022 11:17:58 +0100 (CET)
+Received: from localhost ([::1]:35284 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nH16Y-0005tp-Eq
-	for lists+qemu-devel@lfdr.de; Mon, 07 Feb 2022 05:18:42 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:42594)
+	id 1nH15o-0003Cx-9j
+	for lists+qemu-devel@lfdr.de; Mon, 07 Feb 2022 05:17:56 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:43426)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1nH0Ad-0001wL-CX
- for qemu-devel@nongnu.org; Mon, 07 Feb 2022 04:18:51 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:23986)
+ (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
+ id 1nH0FY-00074k-KT
+ for qemu-devel@nongnu.org; Mon, 07 Feb 2022 04:23:56 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:51332)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1nH0Aa-0005oX-PG
- for qemu-devel@nongnu.org; Mon, 07 Feb 2022 04:18:50 -0500
+ (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
+ id 1nH0FW-0006QE-79
+ for qemu-devel@nongnu.org; Mon, 07 Feb 2022 04:23:56 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1644225527;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ s=mimecast20190719; t=1644225833;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=sdLBBd8XAdhT3qXZL6JYEUj35brCnQFUeZKmvIrtckk=;
- b=GL+nmfBv9QIKghFHRcdG8A3+PTroSO/kEifYhZR8iTH2EIIyRrBsKET+1+11harnNNH4uN
- HXBItYf5ZkOdG7Xcerq4QjJJnU73z/v2RygLSJsE4L564fCMEv+j+2rRamTm9dVWo6Svyn
- 2xRgxGgSwlm7QOqYXgVdMIvJywOUXzo=
-Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
- [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=kMu2xqZbDkLUMhj0VLFcJRxkpk0KGvMApn8YQcoc8WY=;
+ b=b+fp5X6U0vEE48Ws5aUQ2tLCWOhBE5/xBAq2HMPpUGWwMfZtqU3+vSgdeDwnmCNb3nCnoR
+ XJpr7U3lyuskOSU2ZF3MsmAEWiNRT5nZULHFc62pDjm5+7TZZ6iTWDyX2bL2lUecsIHNoz
+ lgLr5gLwfaNEgh9jDE4JzOO3k5rM0Dc=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-638-uUHz9-R5MnmNp601CXiQJQ-1; Mon, 07 Feb 2022 04:18:46 -0500
-X-MC-Unique: uUHz9-R5MnmNp601CXiQJQ-1
-Received: by mail-ej1-f69.google.com with SMTP id
- fy20-20020a170906b7d400b006c97d43badaso811020ejb.14
- for <qemu-devel@nongnu.org>; Mon, 07 Feb 2022 01:18:46 -0800 (PST)
+ us-mta-269-dJHpvwa8MrWMB7fib9HOuw-1; Mon, 07 Feb 2022 04:23:52 -0500
+X-MC-Unique: dJHpvwa8MrWMB7fib9HOuw-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ bg16-20020a05600c3c9000b0034bea12c043so11941490wmb.7
+ for <qemu-devel@nongnu.org>; Mon, 07 Feb 2022 01:23:52 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=sdLBBd8XAdhT3qXZL6JYEUj35brCnQFUeZKmvIrtckk=;
- b=OKu+Bs2bYG0qRaJczZn+AA5WlmrisYbd/1FK1xKIRI0cj/nArAXOjhDMVQjEwuYZDt
- iQKJN+YchGdCu/NSTPEr6UyfNjZM5heN7O+0JulgcQpnvtDlCE1dLwzYc1JqUwFirBWb
- 1SFaZpRbSTp//nOzfV1o0e4ZlvqNISbefuY/uGv3RU59XNgpCSk9/I+dmHpbPAzOWxmT
- ubXOk5RD3ZIQszrUZ9D9KwAHT676/aDsXfUL6sA1oMZkvAyrG3Agtivccclgbw1ymJxC
- KMJw62wPElkp4K5IqBga6dmAM4945lRbpgbK8KYth+jk2xCr7E326r9IsPdKiS5oIeHH
- rruw==
-X-Gm-Message-State: AOAM533KB0FCYR/B1WAH/XS+kAxjOA3P7JYCZqSBSPjCzRpuHwekpnCf
- U6ic+G/puTin+NlQQncFWykGCVpjgmK42P3o4Ftq5IIhizuE8yum6zKVq2Hps2S/Oe/kW9nqO/9
- LaLp2F50EQMBPMYc=
-X-Received: by 2002:a17:907:d28:: with SMTP id
- gn40mr9525411ejc.750.1644225525601; 
- Mon, 07 Feb 2022 01:18:45 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzPlJGpE9G9CRZMGl2iJ89y/5wCxo9/2R5H0F/kB3mhJrslRIoqxFo4ZqqJ5rtGdkvQPBrn6Q==
-X-Received: by 2002:a17:907:d28:: with SMTP id
- gn40mr9525392ejc.750.1644225525358; 
- Mon, 07 Feb 2022 01:18:45 -0800 (PST)
-Received: from localhost (nat-pool-brq-t.redhat.com. [213.175.37.10])
- by smtp.gmail.com with ESMTPSA id os9sm364216ejb.57.2022.02.07.01.18.44
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 07 Feb 2022 01:18:44 -0800 (PST)
-Date: Mon, 7 Feb 2022 10:18:43 +0100
-From: Igor Mammedov <imammedo@redhat.com>
-To: Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <f4bug@amsat.org>
-Subject: Re: [PATCH v4 2/4] hw/i386: Attach CPUs to machine
-Message-ID: <20220207101843.259f517c@redhat.com>
-In-Reply-To: <20220207091437.52cf36b1@redhat.com>
-References: <20220205124526.500158-1-f4bug@amsat.org>
- <20220205124526.500158-3-f4bug@amsat.org>
- <20220207091437.52cf36b1@redhat.com>
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.31; x86_64-redhat-linux-gnu)
+ h=x-gm-message-state:reply-to:subject:to:cc:references:from
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-transfer-encoding:content-language;
+ bh=kMu2xqZbDkLUMhj0VLFcJRxkpk0KGvMApn8YQcoc8WY=;
+ b=F4JYZ71ZL8SUpbOe53PrSEGalEDo9edncDxFISVrgM1pryhHfbbjTQd4NnggW/4wDP
+ zW3/Qz6l2478cIwh2rgLbP68JGJm/K73EGl9ET875TUSPxasOWylEHkCTuisatPkMmBI
+ NbHp+IX0X79/d2FLtTkPxuTEE4pcVbtZuPatOe+OUYhLeXbtNGtseleYe7Ixbap7nXbN
+ BXwsNIzY8KSgrr0M+ka535OVsHdw51eikHwmxdpJv0hmad3nCAXSk9tV5DLpdNaJF+Da
+ safEmE8SpXt83b+VjR/ebWsVuTQsDiK9Wc6yYX6KhdC1oc6tyX/qon1XSkUBhLbt+JbN
+ 9MDg==
+X-Gm-Message-State: AOAM530R+9zbvbriuGJPTa3IGgc1igIUtv9q+VNjx58bOk00mDujpl32
+ 3vBFxwlwqBPgl+ozUL4UsovrvES/l34I5qzXKkrudsWKxSb323ojUiyXH13Ft1mHiYbBJvxJ8Ue
+ 5ou4bHtmldr4m1gM=
+X-Received: by 2002:a05:600c:600f:: with SMTP id
+ az15mr10295945wmb.27.1644225830975; 
+ Mon, 07 Feb 2022 01:23:50 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxluN8lDmeZtHe4KoprwF6BJtdjmluTv7tGAojd/SE2Oe/mg5WIRPw5skhLLITkVw04SV9hCg==
+X-Received: by 2002:a05:600c:600f:: with SMTP id
+ az15mr10295926wmb.27.1644225830695; 
+ Mon, 07 Feb 2022 01:23:50 -0800 (PST)
+Received: from ?IPv6:2a01:e0a:59e:9d80:527b:9dff:feef:3874?
+ ([2a01:e0a:59e:9d80:527b:9dff:feef:3874])
+ by smtp.gmail.com with ESMTPSA id x7sm1916501wro.21.2022.02.07.01.23.49
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 07 Feb 2022 01:23:50 -0800 (PST)
+Subject: Re: [PULL 1/2] tpm: CRB: Use ram_device for "tpm-crb-cmd" region
+To: Igor Mammedov <imammedo@redhat.com>,
+ Alex Williamson <alex.williamson@redhat.com>
+References: <164392758602.1683127.4327439310436541025.stgit@omen>
+ <164392772418.1683127.9746374099330960813.stgit@omen>
+ <20220204130846.31f5b396@redhat.com>
+From: Eric Auger <eric.auger@redhat.com>
+Message-ID: <70759420-a05e-56fd-c4c1-5926a19f7c2d@redhat.com>
+Date: Mon, 7 Feb 2022 10:23:49 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
+In-Reply-To: <20220204130846.31f5b396@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eric.auger@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=imammedo@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+Received-SPF: pass client-ip=170.10.129.124;
+ envelope-from=eric.auger@redhat.com; helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -100,78 +106,115 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Yang Zhong <yang.zhong@intel.com>,
- Jean-Philippe Brucker <jean-philippe@linaro.org>, "Daniel P .
- =?UTF-8?B?QmVycmFuZ8Op?=" <berrange@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, libvir-list@redhat.com,
- qemu-devel@nongnu.org, Ani Sinha <ani@anisinha.ca>,
- Paolo Bonzini <pbonzini@redhat.com>
+Reply-To: eric.auger@redhat.com
+Cc: Stefan Berger <stefanb@linux.ibm.com>, qemu-devel@nongnu.org,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 7 Feb 2022 09:14:37 +0100
-Igor Mammedov <imammedo@redhat.com> wrote:
+Hi Igor,
+On 2/4/22 1:08 PM, Igor Mammedov wrote:
+> On Thu, 03 Feb 2022 15:35:35 -0700
+> Alex Williamson <alex.williamson@redhat.com> wrote:
+>
+>> From: Eric Auger <eric.auger@redhat.com>
+>>
+>> Representing the CRB cmd/response buffer as a standard
+>> RAM region causes some trouble when the device is used
+>> with VFIO. Indeed VFIO attempts to DMA_MAP this region
+>> as usual RAM but this latter does not have a valid page
+>> size alignment causing such an error report:
+>> "vfio_listener_region_add received unaligned region".
+>> To allow VFIO to detect that failing dma mapping
+>> this region is not an issue, let's use a ram_device
+>> memory region type instead.
+>>
+>> Signed-off-by: Eric Auger <eric.auger@redhat.com>
+>> Tested-by: Stefan Berger <stefanb@linux.ibm.com>
+>> Acked-by: Stefan Berger <stefanb@linux.ibm.com>
+>> [PMD: Keep tpm_crb.c in meson's softmmu_ss]
+>> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+>> Link: https://lore.kernel.org/r/20220120001242.230082-2-f4bug@amsat.org
+>> Signed-off-by: Alex Williamson <alex.williamson@redhat.com>
+>> ---
+>>  hw/tpm/tpm_crb.c |   22 ++++++++++++++++++++--
+>>  1 file changed, 20 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/hw/tpm/tpm_crb.c b/hw/tpm/tpm_crb.c
+>> index 58ebd1469c35..be0884ea6031 100644
+>> --- a/hw/tpm/tpm_crb.c
+>> +++ b/hw/tpm/tpm_crb.c
+>> @@ -25,6 +25,7 @@
+>>  #include "sysemu/tpm_backend.h"
+>>  #include "sysemu/tpm_util.h"
+>>  #include "sysemu/reset.h"
+>> +#include "exec/cpu-common.h"
+>>  #include "tpm_prop.h"
+>>  #include "tpm_ppi.h"
+>>  #include "trace.h"
+>> @@ -43,6 +44,7 @@ struct CRBState {
+>>  
+>>      bool ppi_enabled;
+>>      TPMPPI ppi;
+>> +    uint8_t *crb_cmd_buf;
+>>  };
+>>  typedef struct CRBState CRBState;
+>>  
+>> @@ -291,10 +293,14 @@ static void tpm_crb_realize(DeviceState *dev, Error **errp)
+>>          return;
+>>      }
+>>  
+>> +    s->crb_cmd_buf = qemu_memalign(qemu_real_host_page_size,
+>> +                                HOST_PAGE_ALIGN(CRB_CTRL_CMD_SIZE));
+>> +
+>>      memory_region_init_io(&s->mmio, OBJECT(s), &tpm_crb_memory_ops, s,
+>>          "tpm-crb-mmio", sizeof(s->regs));
+>> -    memory_region_init_ram(&s->cmdmem, OBJECT(s),
+>> -        "tpm-crb-cmd", CRB_CTRL_CMD_SIZE, errp);
+>> +    memory_region_init_ram_device_ptr(&s->cmdmem, OBJECT(s), "tpm-crb-cmd",
+>> +                                      CRB_CTRL_CMD_SIZE, s->crb_cmd_buf);
+>> +    vmstate_register_ram(&s->cmdmem, DEVICE(s));
+> Does it need a compat knob for the case of migrating to older QEMU/machine type,
+> not to end-up with target aborting migration when it sees unknown section.
+Hum I did not think about this. I need to double check.
 
-> On Sat,  5 Feb 2022 13:45:24 +0100
-> Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org> wrote:
->=20
-> > Previously CPUs were exposed in the QOM tree at a path
-> >=20
-> >   /machine/unattached/device[nn]
-> >=20
-> > where the 'nn' of the first CPU is usually zero, but can
-> > vary depending on what devices were already created.
-> >=20
-> > With this change the CPUs are now at
-> >=20
-> >   /machine/cpu[nn]
-> >=20
-> > where the 'nn' of the first CPU is always zero. =20
->=20
-> Could you add to commit message the reason behind the change?
+Thank you for the review.
 
-regardless, it looks like unwarranted movement to me
-prompted by livirt accessing/expecting a QOM patch which is
-not stable ABI. I'd rather get it fixed on libvirt side.
-
-If libvirt needs for some reason access a CPU instance,
-it should use @query-hotpluggable-cpus to get a list of CPUs
-(which includes QOM path of already present CPUs) instead of
-hard-codding some 'well-known' path as there is no any guarantee=20
-that it will stay stable whatsoever.
-=20
-> > Note: This (intentionally) breaks compatibility with current
-> > libvirt code that looks for "/machine/unattached/device[0]"
-> > in the assumption it is the first CPU. =20
-> Why libvirt does this in the first place?
->=20
-> =20
-> > Cc: libvir-list@redhat.com
-> > Suggested-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
-> > Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
-> > Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
-> > ---
-> >  hw/i386/x86.c | 1 +
-> >  1 file changed, 1 insertion(+)
-> >=20
-> > diff --git a/hw/i386/x86.c b/hw/i386/x86.c
-> > index b84840a1bb9..50bf249c700 100644
-> > --- a/hw/i386/x86.c
-> > +++ b/hw/i386/x86.c
-> > @@ -108,6 +108,7 @@ void x86_cpu_new(X86MachineState *x86ms, int64_t ap=
-ic_id, Error **errp)
-> >  {
-> >      Object *cpu =3D object_new(MACHINE(x86ms)->cpu_type);
-> > =20
-> > +    object_property_add_child(OBJECT(x86ms), "cpu[*]", OBJECT(cpu)); =
-=20
->=20
-> that will take in account only initial cpus, -device/device_add cpus
-> will still go to wherever device_add attaches them (see qdev_set_id)
->=20
-> >      if (!object_property_set_uint(cpu, "apic-id", apic_id, errp)) {
-> >          goto out;
-> >      } =20
->=20
+Eric
+>
+>
+>>      memory_region_add_subregion(get_system_memory(),
+>>          TPM_CRB_ADDR_BASE, &s->mmio);
+>> @@ -309,12 +315,24 @@ static void tpm_crb_realize(DeviceState *dev, Error **errp)
+>>      qemu_register_reset(tpm_crb_reset, dev);
+>>  }
+>>  
+>> +static void tpm_crb_unrealize(DeviceState *dev)
+>> +{
+>> +    CRBState *s = CRB(dev);
+>> +
+> likewise, should vmstate be unregistered here, before freeing
+> actually happens?
+>
+>> +    qemu_vfree(s->crb_cmd_buf);
+>> +
+>> +    if (s->ppi_enabled) {
+>> +        qemu_vfree(s->ppi.buf);
+>> +    }
+>> +}
+>> +
+>>  static void tpm_crb_class_init(ObjectClass *klass, void *data)
+>>  {
+>>      DeviceClass *dc = DEVICE_CLASS(klass);
+>>      TPMIfClass *tc = TPM_IF_CLASS(klass);
+>>  
+>>      dc->realize = tpm_crb_realize;
+>> +    dc->unrealize = tpm_crb_unrealize;
+>>      device_class_set_props(dc, tpm_crb_properties);
+>>      dc->vmsd  = &vmstate_tpm_crb;
+>>      dc->user_creatable = true;
+>>
+>>
+>>
 
 
