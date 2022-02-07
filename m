@@ -2,106 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67AE34AC63F
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Feb 2022 17:45:06 +0100 (CET)
-Received: from localhost ([::1]:51110 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 241184AC469
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Feb 2022 16:54:24 +0100 (CET)
+Received: from localhost ([::1]:59864 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nH78T-0006XD-Dl
-	for lists+qemu-devel@lfdr.de; Mon, 07 Feb 2022 11:45:05 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:52036)
+	id 1nH6LP-00040Q-8U
+	for lists+qemu-devel@lfdr.de; Mon, 07 Feb 2022 10:54:23 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:55190)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pasic@linux.ibm.com>)
- id 1nH6AZ-0001a4-3T
- for qemu-devel@nongnu.org; Mon, 07 Feb 2022 10:43:13 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:2118)
+ (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
+ id 1nH6IN-0000Pm-B4
+ for qemu-devel@nongnu.org; Mon, 07 Feb 2022 10:51:19 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:42133)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pasic@linux.ibm.com>)
- id 1nH6A8-0002xa-R3
- for qemu-devel@nongnu.org; Mon, 07 Feb 2022 10:42:58 -0500
-Received: from pps.filterd (m0098399.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 217DelDj024642; 
- Mon, 7 Feb 2022 15:42:22 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=date : from : to : cc :
- subject : message-id : in-reply-to : references : mime-version :
- content-type : content-transfer-encoding; s=pp1;
- bh=CHW5xLp469JImu8Jm+Pr7isTn5NPct/Q9nnPL7Tw0kE=;
- b=rqZ0TIJkTAUahVO2gchvCX9JKoKIR6lH9ZEzPbHZwc+AzllFFDzLlq2WeKex3quR7Q9g
- RBPabRfvRTJQD5xqS8JH8D8JMf3Z744tiS3mS40QcnFGgtI5b6fvkAtfjrXc15EmHriS
- 5I1l0tz1eFvUdpkb8i3rknXnLscDPNEoi0X/HRbyUsRUuv3fq+Q7/3i+ZMlthU3FTFZS
- Ws3LseJM3zcirgqq2RAz7FFcuNUXncgA+QxFpbIaH2TJVnkDj4IP060CwYURpCLZnvfj
- G42+zrYe0D7sUJYOhzd69x8gp7tBtzcV7NTyoILqzUw2lhKQMQ7Qy/3hF5gqCh8wbmhy cA== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3e22tqqtd3-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 07 Feb 2022 15:42:21 +0000
-Received: from m0098399.ppops.net (m0098399.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 217FUFYh020012;
- Mon, 7 Feb 2022 15:42:21 GMT
-Received: from ppma03fra.de.ibm.com (6b.4a.5195.ip4.static.sl-reverse.com
- [149.81.74.107])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3e22tqqtbn-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 07 Feb 2022 15:42:21 +0000
-Received: from pps.filterd (ppma03fra.de.ibm.com [127.0.0.1])
- by ppma03fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 217FYOCB027046;
- Mon, 7 Feb 2022 15:42:18 GMT
-Received: from b06cxnps3074.portsmouth.uk.ibm.com
- (d06relay09.portsmouth.uk.ibm.com [9.149.109.194])
- by ppma03fra.de.ibm.com with ESMTP id 3e1gv95f2f-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 07 Feb 2022 15:42:18 +0000
-Received: from d06av24.portsmouth.uk.ibm.com (mk.ibm.com [9.149.105.60])
- by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 217FgGTC47841570
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 7 Feb 2022 15:42:16 GMT
-Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 2362342042;
- Mon,  7 Feb 2022 15:42:16 +0000 (GMT)
-Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id ADAF74204D;
- Mon,  7 Feb 2022 15:42:15 +0000 (GMT)
-Received: from li-e979b1cc-23ba-11b2-a85c-dfd230f6cf82 (unknown [9.171.70.169])
- by d06av24.portsmouth.uk.ibm.com (Postfix) with SMTP;
- Mon,  7 Feb 2022 15:42:15 +0000 (GMT)
-Date: Mon, 7 Feb 2022 16:42:13 +0100
-From: Halil Pasic <pasic@linux.ibm.com>
-To: Cornelia Huck <cohuck@redhat.com>
-Subject: Re: [RFC PATCH 1/1] virtio: fix feature negotiation for
- ACCESS_PLATFORM
-Message-ID: <20220207164213.625206cf.pasic@linux.ibm.com>
-In-Reply-To: <87v8xqvh1g.fsf@redhat.com>
-References: <20220203164556.2666565-1-pasic@linux.ibm.com>
- <7df172fe-008a-0b98-2780-5155c98a71ba@gmail.com>
- <874k5ax07t.fsf@redhat.com>
- <20220207160516.2aead931.pasic@linux.ibm.com>
- <87v8xqvh1g.fsf@redhat.com>
-Organization: IBM
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+ (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
+ id 1nH6II-0004ft-P0
+ for qemu-devel@nongnu.org; Mon, 07 Feb 2022 10:51:13 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1644249051;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=KSmiP5YnwVNJzek/axVa4dkWr/8lSyqJn6cxo/n3qKw=;
+ b=JAy1lzGnzNF2sVAo5BGYB6CEESPrj+Dh1QPB+Ekdx/we2etIETWMWLlRDbCGnWPWRpv7xr
+ kv+I4cJ/kbMrvXTRqq2qa38Ue3ve3b7zjWyZnF/fO79Nl4T8j7VT4nWt/Flgmqy/OB81x4
+ kboWIESeGfE59aDEReU5/OzBT0Rr48w=
+Received: from mail-oo1-f69.google.com (mail-oo1-f69.google.com
+ [209.85.161.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-421-pNiTHKOoPtWlvKsvuOu5Gw-1; Mon, 07 Feb 2022 10:50:50 -0500
+X-MC-Unique: pNiTHKOoPtWlvKsvuOu5Gw-1
+Received: by mail-oo1-f69.google.com with SMTP id
+ f8-20020a4aa688000000b002ede70d37dbso9215348oom.16
+ for <qemu-devel@nongnu.org>; Mon, 07 Feb 2022 07:50:50 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=s00mlV7F7r6LO+wn0KJxgijqF39/yETq2VMH3qUDbus=;
+ b=FpCRVHbLhTE65eqk6Jn+mD0zA0f9U6XdbLv61/5ztcGcTR8Le+xppoGHY1g4HXCzgM
+ wFK/x85QTIU/ZBsrf9LmS2sAQZXNw40+KBmkEjU/n4QZilBpHBWN1ZqLebeGnx1Rx+IY
+ hABThS54jUWMREburr6wfg+Ota74TpjIyAUH8Igq9YCZmZ5jUYNWmXvW4/93/DU2wH+7
+ gmroWkK8RPb0oT5MlIBMM3OMNOe2yhaJVOPKFtbeXyZuVJq/s3mIY0ByGnaUXbvIP1+I
+ j8wjhzIcKgGk0oxo++4n2nQxPd3RfaW00RRa1GutrRXhdEUJOfqoItLeWthdc7LvtSW5
+ qlZw==
+X-Gm-Message-State: AOAM533KmBtrY30GUD8sVC5GismZ+8zedZ2pvd7xZvZ1ew2Mu3v+gnD0
+ gLazKQOEbFeFd7k7+Ig+NV7n6ArS6BBu74OZ3mFZDr+QhSMkXQRpBNFhMwIqya5/BC34r3QXHex
+ t5IB7MA0qnkb64+A=
+X-Received: by 2002:a05:6870:e495:: with SMTP id
+ v21mr4729366oag.102.1644249048306; 
+ Mon, 07 Feb 2022 07:50:48 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJw9pxSl3q7qAQVIrduS7h0YRXgI1Nh3PVerx0ZP3TM9S/lthy/rlXVYr5hLocY/MjUL6HdTHA==
+X-Received: by 2002:a05:6870:e495:: with SMTP id
+ v21mr4729361oag.102.1644249048069; 
+ Mon, 07 Feb 2022 07:50:48 -0800 (PST)
+Received: from redhat.com ([38.15.36.239])
+ by smtp.gmail.com with ESMTPSA id e7sm4260229oow.47.2022.02.07.07.50.47
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 07 Feb 2022 07:50:47 -0800 (PST)
+Date: Mon, 7 Feb 2022 08:50:45 -0700
+From: Alex Williamson <alex.williamson@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PULL 0/2] VFIO fixes 2022-02-03
+Message-ID: <20220207085045.1de46df1.alex.williamson@redhat.com>
+In-Reply-To: <CAFEAcA-CX6hPOEEr_Yjcd1=4AHfkYgnkQ_ruUJ4mFwBYz1fLQA@mail.gmail.com>
+References: <164392758602.1683127.4327439310436541025.stgit@omen>
+ <CAFEAcA-CX6hPOEEr_Yjcd1=4AHfkYgnkQ_ruUJ4mFwBYz1fLQA@mail.gmail.com>
+X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: RpwxzVW0GQwEI_LzMSZKZmSI0k39PMRK
-X-Proofpoint-GUID: dgfflGegLWpViykxJl0Mg_D2sdPrxQ1a
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.816,Hydra:6.0.425,FMLib:17.11.62.513
- definitions=2022-02-07_05,2022-02-07_02,2021-12-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0 mlxlogscore=999
- impostorscore=0 phishscore=0 suspectscore=0 malwarescore=0 mlxscore=0
- spamscore=0 priorityscore=1501 clxscore=1015 bulkscore=0
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2201110000 definitions=main-2202070097
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=pasic@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=alex.williamson@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.129.124;
+ envelope-from=alex.williamson@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -115,43 +100,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Brijesh Singh <brijesh.singh@amd.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
- Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-devel@nongnu.org,
- Halil Pasic <pasic@linux.ibm.com>
+Cc: Eric Auger <eric.auger@redhat.com>, Stefan Berger <stefanb@linux.ibm.com>,
+ qemu-devel@nongnu.org,
+ Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 07 Feb 2022 16:21:31 +0100
-Cornelia Huck <cohuck@redhat.com> wrote:
+On Sat, 5 Feb 2022 10:49:35 +0000
+Peter Maydell <peter.maydell@linaro.org> wrote:
 
-> On Mon, Feb 07 2022, Halil Pasic <pasic@linux.ibm.com> wrote:
-> 
-> > On Mon, 07 Feb 2022 14:41:58 +0100
-> > Cornelia Huck <cohuck@redhat.com> wrote:  
-> 
-> >> OTOH, the decision to make it mandatory is certainly sound, and covered
-> >> by the spec. As the driver must be prepared for the device failing to
-> >> accept FEATURES_OK, we can make it mandatory here -- we should just not
-> >> say that it is considered mandatory from a spec standpoint. The spec
-> >> allows to make it mandatory, and we make it mandatory in our
-> >> implementation.  
+> On Thu, 3 Feb 2022 at 22:38, Alex Williamson <alex.williamson@redhat.com>=
+ wrote:
 > >
-> > Right. Was never my intention to say that it is considered mandatory
-> > by the spec. I guess the spec considers it less optional than the
-> > run of the mill features.
+> > The following changes since commit 8f3e5ce773c62bb5c4a847f3a9a5c98bbb3b=
+359f:
 > >
-> > Should I change the first sentence to something like "Unlike most virtio
-> > features ACCESS_PATFORM is considered mandatory by QEMU, i.e. the driver
-> > must accept it if offered by the device."  
-> 
-> If you do s/PATFORM/PLATFORM/ :), yes. That's a much shorter way of
-> expressing what I had been trying to argue in my reply :)
-> 
+> >   Merge remote-tracking branch 'remotes/hdeller/tags/hppa-updates-pull-=
+request' into staging (2022-02-02 19:54:30 +0000)
+> >
+> > are available in the Git repository at:
+> >
+> >   git://github.com/awilliam/qemu-vfio.git tags/vfio-fixes-20220203.0
+> >
+> > for you to fetch changes up to 36fe5d5836c8d5d928ef6d34e999d6991a2f732e=
+:
+> >
+> >   hw/vfio/common: Silence ram device offset alignment error traces (202=
+2-02-03 15:05:05 -0700)
+> >
+> > ----------------------------------------------------------------
+> > VFIO fixes 2022-02-03
+> >
+> >  * Fix alignment warnings when using TPM CRB with vfio-pci devices
+> >    (Eric Auger & Philippe Mathieu-Daud=C3=A9) =20
+>=20
+> Hi; this has a format-string issue that means it doesn't build
+> on 32-bit systems:
+>=20
+> https://gitlab.com/qemu-project/qemu/-/jobs/2057116569
+>=20
+> ../hw/vfio/common.c: In function 'vfio_listener_region_add':
+> ../hw/vfio/common.c:893:26: error: format '%llx' expects argument of
+> type 'long long unsigned int', but argument 6 has type 'intptr_t' {aka
+> 'int'} [-Werror=3Dformat=3D]
+> error_report("%s received unaligned region %s iova=3D0x%"PRIx64
+> ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> ../hw/vfio/common.c:899:26:
+> qemu_real_host_page_mask);
+> ~~~~~~~~~~~~~~~~~~~~~~~~
+>=20
+> For intptr_t you want PRIxPTR.
 
-Will do! I'm going to wait a little more before spinning a v1 to give
-people a little more time to complain about the objective of this patch.
+Darn.  Well, let me use this opportunity to ask, how are folks doing
+32-bit cross builds on Fedora?  I used to keep an i686 PAE VM for this
+purpose, but I was eventually no longer able to maintain the build
+dependencies.  Looks like this failed on a mipsel cross build, but I
+don't see such a cross compiler in Fedora.  I do mingw32/64 cross
+builds, but they leave a lot to be desired for code coverage.  Thanks,
 
-Regards,
-Halil
+Alex
+
 
