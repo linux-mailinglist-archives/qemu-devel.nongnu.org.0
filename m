@@ -2,90 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C2B44AC546
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Feb 2022 17:17:44 +0100 (CET)
-Received: from localhost ([::1]:53972 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 12CF44AC66B
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Feb 2022 17:52:55 +0100 (CET)
+Received: from localhost ([::1]:35416 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nH6hz-0003Rp-Gw
-	for lists+qemu-devel@lfdr.de; Mon, 07 Feb 2022 11:17:43 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:33264)
+	id 1nH7G0-0007B2-EW
+	for lists+qemu-devel@lfdr.de; Mon, 07 Feb 2022 11:52:54 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:34064)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1nH6XJ-0004ev-Rs
- for qemu-devel@nongnu.org; Mon, 07 Feb 2022 11:06:41 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:27538)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1nH6XE-0007fX-5u
- for qemu-devel@nongnu.org; Mon, 07 Feb 2022 11:06:40 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1644249991;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=S9T/9U6dFcCsLNRB5TvIpSu+BBQiUK6B2nGjpy8Ljpc=;
- b=e9dC+zQKlwGagq2+T57b5Il13lbXRjbJevWI+MDTKbm+0qRoedYdARtZVdNvW1WPwd7b/o
- 7V0Lz06BEpqMj9F7WuiwC/5U/30XgmyN/8yhHKAHMoxK57rHxktxr1SfW4IlIK0+0Vnatl
- Ct3z7zJJ28ejATAgZ+krcnKWX/tA3a4=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-622-AgOE4K6gNGGdaTwefWE4uA-1; Mon, 07 Feb 2022 11:06:30 -0500
-X-MC-Unique: AgOE4K6gNGGdaTwefWE4uA-1
-Received: by mail-wm1-f72.google.com with SMTP id
- v185-20020a1cacc2000000b0034906580813so12475994wme.1
- for <qemu-devel@nongnu.org>; Mon, 07 Feb 2022 08:06:30 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1nH6Yk-00070q-L5
+ for qemu-devel@nongnu.org; Mon, 07 Feb 2022 11:08:10 -0500
+Received: from [2607:f8b0:4864:20::431] (port=35811
+ helo=mail-pf1-x431.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1nH6Yi-0007u9-BG
+ for qemu-devel@nongnu.org; Mon, 07 Feb 2022 11:08:10 -0500
+Received: by mail-pf1-x431.google.com with SMTP id u130so13753410pfc.2
+ for <qemu-devel@nongnu.org>; Mon, 07 Feb 2022 08:08:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=iS2JO+1aOpLnlE+AHwekWF/KjbBDo6aPTC7Nb40Sw8I=;
+ b=dtybf8EuHteKj/0za+wUjbUkJLHEeTkDANdtJ0PZ5AeHsDWCC0r4Jae5ybfHIMR4hy
+ vBfov4DNc4bCRaxNfBY9Egwl/lZhiuKOlHSiGDjZTx+AZdOtFxJeC4cJiHNrYWscLQBc
+ G6E2XNwxlF2Z8T2OS5NpiS22vK76Pht7gMXcZtmFpPyc2QdG6anJA+Y5MQvwZdr1yNU+
+ 3klVf6qWDw29w6N1Yv0nRaOR/gzcVgOQ1eZ/58DzaexLeeSyl8A/YfrmwoR5XTpjT51U
+ GrK0jSoOle1CVPhBVgxBqMDF4oF2fhvoZl7VMQcCtZcuVv+zzcb+WYAGjQieTbgU61LA
+ cPjA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=S9T/9U6dFcCsLNRB5TvIpSu+BBQiUK6B2nGjpy8Ljpc=;
- b=Z1qMYO7+Ow9GtHkfjwh6bl9f7u8sd3tWSMeQLtTIWqJKaJ1YDj7eK1DXcaCCemkEpq
- JYgBoGV4JTu6+dnp6nlEPK267f322sWb5BtE4qZ2Hzy4UmrYv1wo+RQg8W3UgWifs1cN
- 8CfIXfYR9kpQhfThNsFOUq5PsqCYHItyPA2qJaSE4UaDv51gMusk5KLXHvlUAonX0gdY
- s8yu74JqGnr5AR1LxQFaW+WVKPIs7LDv3xQxMdZgKR/8kuEQQv2b5r+6RkOtcDOyQCve
- T8/ZDfTkBx3kR+llpTE94N98kAQEA2BysKu5OE7a3fmA2nttNT4krD+pzFxGaM9HH9/V
- 4e9w==
-X-Gm-Message-State: AOAM532EmweCmRsi7/Y/awkcxBeqylxLILA1SYh1KkUF3NJV0NQlTOPw
- 21QQzW70ZoxbI2fMllSfMN7JO0qr8Y9ai0gPwyYY5PvVTHxdAyf63+sSkMksqRjymR/nkM3qXgU
- qjj2eWqiin0zrm44=
-X-Received: by 2002:adf:f241:: with SMTP id b1mr128221wrp.444.1644249989336;
- Mon, 07 Feb 2022 08:06:29 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzY7A7yuXIpW3y5GVp8VZpbukW1uXuCWCDgNsJKNpG/fV3JnsDYC7q81Sup5sUY76CFVote/Q==
-X-Received: by 2002:adf:f241:: with SMTP id b1mr128200wrp.444.1644249989120;
- Mon, 07 Feb 2022 08:06:29 -0800 (PST)
-Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
- [82.30.61.225])
- by smtp.gmail.com with ESMTPSA id m6sm10218728wmq.6.2022.02.07.08.06.28
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 07 Feb 2022 08:06:28 -0800 (PST)
-Date: Mon, 7 Feb 2022 16:06:26 +0000
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Vivek Goyal <vgoyal@redhat.com>
-Subject: Re: [PATCH v5 0/9] virtiofsd: Add support for file security context
- at file creation
-Message-ID: <YgFDgrALC2qVWe8U@work-vm>
-References: <20220202193935.268777-1-vgoyal@redhat.com>
- <YgEVVLBv9eWbhcDV@work-vm> <YgEtH+MQquXg7CPN@redhat.com>
+ h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+ :subject:content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=iS2JO+1aOpLnlE+AHwekWF/KjbBDo6aPTC7Nb40Sw8I=;
+ b=46Qda6EvIjHs/kLQEYpCDwkbt4E1zx1My18vI1aZwTR6sovucWi/zK6jq4cGYjSROv
+ 1/ZvBPEumbflGmdwPrtaU9ZFwr0w1ScPlrqG5hhxxU6YaWO8Xjjugi9UXIzH+KOAtw45
+ HLas65jHA7DwAxJiksKg/ooQ1OCn36Pbgtr4x2yxZtKbWtROwq5xsCJZ2jDguQg/+zTv
+ bu0vtmFnEmXXkSNljemmCv6md4zyTMNnC9b9B1O38FRGG0tpJiyNVgqeRnBXeqeLB/HX
+ J8r4YyKOgF4w7QoOlcUa28gUazG2gYwZ08Hm1L+DVKScn16YaxcWYYfkULrhUwjbb0Lv
+ pMog==
+X-Gm-Message-State: AOAM533W3sS88EPn/Is71mrFdROJsofI4WHALJ7OL/si/lS3CrxVVN4n
+ 0MjWA/9r0mWyLMwGoOnFLU0=
+X-Google-Smtp-Source: ABdhPJx5xC8AcEiNshAEpLMo9Hk/fkTdLyvXL5zcpcropNVBLQ4KTgrM1tZpOx6lTp8IVMNs4y41zQ==
+X-Received: by 2002:a63:7a53:: with SMTP id j19mr57122pgn.533.1644250084961;
+ Mon, 07 Feb 2022 08:08:04 -0800 (PST)
+Received: from [192.168.1.33] (154.red-83-50-83.dynamicip.rima-tde.net.
+ [83.50.83.154])
+ by smtp.gmail.com with ESMTPSA id g9sm13151990pfc.109.2022.02.07.08.08.03
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 07 Feb 2022 08:08:04 -0800 (PST)
+Message-ID: <9ee51368-df12-1f9f-70e4-1fbad90f43ae@amsat.org>
+Date: Mon, 7 Feb 2022 17:08:01 +0100
 MIME-Version: 1.0
-In-Reply-To: <YgEtH+MQquXg7CPN@redhat.com>
-User-Agent: Mutt/2.1.5 (2021-12-30)
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.5.1
+Subject: Re: [PULL 0/2] VFIO fixes 2022-02-03
+Content-Language: en-US
+To: Alex Williamson <alex.williamson@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>
+Cc: qemu-devel@nongnu.org, Eric Auger <eric.auger@redhat.com>,
+ Stefan Berger <stefanb@linux.ibm.com>
+References: <164392758602.1683127.4327439310436541025.stgit@omen>
+ <CAFEAcA-CX6hPOEEr_Yjcd1=4AHfkYgnkQ_ruUJ4mFwBYz1fLQA@mail.gmail.com>
+ <20220207085045.1de46df1.alex.williamson@redhat.com>
+In-Reply-To: <20220207085045.1de46df1.alex.williamson@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::431
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::431;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pf1-x431.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -98,133 +97,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: virtio-fs@redhat.com, mszeredi@redhat.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
-* Vivek Goyal (vgoyal@redhat.com) wrote:
-> On Mon, Feb 07, 2022 at 12:49:24PM +0000, Dr. David Alan Gilbert wrote:
-> > * Vivek Goyal (vgoyal@redhat.com) wrote:
-> > > Hi,
-> > > 
-> > > This is V5 of the patches. I posted V4 here.
-> > > 
-> > > https://listman.redhat.com/archives/virtio-fs/2022-January/msg00041.html
-> > > 
-> > > These will allow us to support SELinux with virtiofs. This will send
-> > > SELinux context at file creation to server and server can set it on
-> > > file.
-> > 
-> > I think that's pretty close; I've got some minor comments I've replied
-> > to on the individual patches.
-> > 
-> > I do worry that the number of different paths for each operation is now
-> > quite large so hard to test.
-> 
-> It is indeed many combinations to test. During development, I have made
-> sure to test every path atleast once to make sure it works.
-> 
-> > I also wonder what happens on something other than SELinux.
-> 
-> As of now this pretty much works only for SELinux. Especially usage of
-> fscreate knob is very specific to SELinux.
-> 
-> In some cases, it will work with some other LSM other than SELinux
-> as well. But lets not go there. 
-> 
-> If we want to support multiple security contexts at some point of time,
-> fuse procotol changes have been written in such a way so that fuse
-> can send mutiple security context and then we will have to modify
-> code to be able to deal with that.
-> 
-> In short, for now, this code is pretty much expectin one security
-> context that too SELinux. This is very much in line with ceph and
-> nfs.
+On 7/2/22 16:50, Alex Williamson wrote:
+> On Sat, 5 Feb 2022 10:49:35 +0000
+> Peter Maydell <peter.maydell@linaro.org> wrote:
 
-OK, as long as we have some feel for what we'd need to do if something
-hit that.
-
-Dave
-
-> Vivek
-> > 
-> > Dave
-> > 
-> > > Changes since V4
-> > > ----------------
-> > > - Parse only known current size of fuse_init_in. This will make sure
-> > >   that future extension does not break existing code upon header
-> > >   update. (David Gilbert)
-> > > 
-> > > - Changed order of one of the patch. It is first patch in series. This
-> > >   will help fix the breakage before header update patch and code remains
-> > >   git bisectable. (David Gilbert)
-> > > 
-> > > - Changed %lx to %llx at one place. (David Gilbert).
-> > > 
-> > > Thanks
-> > > Vivek
-> > >  
-> > > Vivek Goyal (9):
-> > >   virtiofsd: Fix breakage due to fuse_init_in size change
-> > >   linux-headers: Update headers to v5.17-rc1
-> > >   virtiofsd: Parse extended "struct fuse_init_in"
-> > >   virtiofsd: Extend size of fuse_conn_info->capable and ->want fields
-> > >   virtiofsd, fuse_lowlevel.c: Add capability to parse security context
-> > >   virtiofsd: Move core file creation code in separate function
-> > >   virtiofsd: Create new file with fscreate set
-> > >   virtiofsd: Create new file using O_TMPFILE and set security context
-> > >   virtiofsd: Add an option to enable/disable security label
-> > > 
-> > >  docs/tools/virtiofsd.rst                      |   7 +
-> > >  include/standard-headers/asm-x86/kvm_para.h   |   1 +
-> > >  include/standard-headers/drm/drm_fourcc.h     |  11 +
-> > >  include/standard-headers/linux/ethtool.h      |   1 +
-> > >  include/standard-headers/linux/fuse.h         |  60 ++-
-> > >  include/standard-headers/linux/pci_regs.h     | 142 +++---
-> > >  include/standard-headers/linux/virtio_gpio.h  |  72 +++
-> > >  include/standard-headers/linux/virtio_i2c.h   |  47 ++
-> > >  include/standard-headers/linux/virtio_iommu.h |   8 +-
-> > >  .../standard-headers/linux/virtio_pcidev.h    |  65 +++
-> > >  include/standard-headers/linux/virtio_scmi.h  |  24 +
-> > >  linux-headers/asm-generic/unistd.h            |   5 +-
-> > >  linux-headers/asm-mips/unistd_n32.h           |   2 +
-> > >  linux-headers/asm-mips/unistd_n64.h           |   2 +
-> > >  linux-headers/asm-mips/unistd_o32.h           |   2 +
-> > >  linux-headers/asm-powerpc/unistd_32.h         |   2 +
-> > >  linux-headers/asm-powerpc/unistd_64.h         |   2 +
-> > >  linux-headers/asm-riscv/bitsperlong.h         |  14 +
-> > >  linux-headers/asm-riscv/mman.h                |   1 +
-> > >  linux-headers/asm-riscv/unistd.h              |  44 ++
-> > >  linux-headers/asm-s390/unistd_32.h            |   2 +
-> > >  linux-headers/asm-s390/unistd_64.h            |   2 +
-> > >  linux-headers/asm-x86/kvm.h                   |  16 +-
-> > >  linux-headers/asm-x86/unistd_32.h             |   1 +
-> > >  linux-headers/asm-x86/unistd_64.h             |   1 +
-> > >  linux-headers/asm-x86/unistd_x32.h            |   1 +
-> > >  linux-headers/linux/kvm.h                     |  17 +
-> > >  tools/virtiofsd/fuse_common.h                 |   9 +-
-> > >  tools/virtiofsd/fuse_i.h                      |   7 +
-> > >  tools/virtiofsd/fuse_lowlevel.c               | 162 +++++--
-> > >  tools/virtiofsd/helper.c                      |   1 +
-> > >  tools/virtiofsd/passthrough_ll.c              | 414 ++++++++++++++++--
-> > >  32 files changed, 1013 insertions(+), 132 deletions(-)
-> > >  create mode 100644 include/standard-headers/linux/virtio_gpio.h
-> > >  create mode 100644 include/standard-headers/linux/virtio_i2c.h
-> > >  create mode 100644 include/standard-headers/linux/virtio_pcidev.h
-> > >  create mode 100644 include/standard-headers/linux/virtio_scmi.h
-> > >  create mode 100644 linux-headers/asm-riscv/bitsperlong.h
-> > >  create mode 100644 linux-headers/asm-riscv/mman.h
-> > >  create mode 100644 linux-headers/asm-riscv/unistd.h
-> > > 
-> > > -- 
-> > > 2.34.1
-> > > 
-> > -- 
-> > Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
-> > 
+>> Hi; this has a format-string issue that means it doesn't build
+>> on 32-bit systems:
+>>
+>> https://gitlab.com/qemu-project/qemu/-/jobs/2057116569
+>>
+>> ../hw/vfio/common.c: In function 'vfio_listener_region_add':
+>> ../hw/vfio/common.c:893:26: error: format '%llx' expects argument of
+>> type 'long long unsigned int', but argument 6 has type 'intptr_t' {aka
+>> 'int'} [-Werror=format=]
+>> error_report("%s received unaligned region %s iova=0x%"PRIx64
+>> ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> ../hw/vfio/common.c:899:26:
+>> qemu_real_host_page_mask);
+>> ~~~~~~~~~~~~~~~~~~~~~~~~
+>>
+>> For intptr_t you want PRIxPTR.
 > 
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+> Darn.  Well, let me use this opportunity to ask, how are folks doing
+> 32-bit cross builds on Fedora?  I used to keep an i686 PAE VM for this
+> purpose, but I was eventually no longer able to maintain the build
+> dependencies.  Looks like this failed on a mipsel cross build, but I
+> don't see such a cross compiler in Fedora.  I do mingw32/64 cross
+> builds, but they leave a lot to be desired for code coverage.  Thanks,
+
+You can use docker images:
+https://wiki.qemu.org/Testing/DockerBuild
 
 
