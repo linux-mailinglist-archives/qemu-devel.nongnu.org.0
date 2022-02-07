@@ -2,62 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E09EB4AB91A
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Feb 2022 11:54:16 +0100 (CET)
-Received: from localhost ([::1]:58746 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 69BFD4AB933
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Feb 2022 11:59:58 +0100 (CET)
+Received: from localhost ([::1]:33764 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nH1ex-0005oF-DS
-	for lists+qemu-devel@lfdr.de; Mon, 07 Feb 2022 05:54:15 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:37466)
+	id 1nH1kT-0008CX-5q
+	for lists+qemu-devel@lfdr.de; Mon, 07 Feb 2022 05:59:57 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:38840)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1nH1aK-0004TO-Fr
- for qemu-devel@nongnu.org; Mon, 07 Feb 2022 05:49:32 -0500
-Received: from us-smtp-delivery-44.mimecast.com ([205.139.111.44]:25440)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1nH1aH-0003NA-V8
- for qemu-devel@nongnu.org; Mon, 07 Feb 2022 05:49:28 -0500
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-600-aP4bT-CQNm-YrKrfHPyTxw-1; Mon, 07 Feb 2022 05:49:21 -0500
-X-MC-Unique: aP4bT-CQNm-YrKrfHPyTxw-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7423E1091DA1;
- Mon,  7 Feb 2022 10:49:19 +0000 (UTC)
-Received: from bahia (unknown [10.39.192.48])
- by smtp.corp.redhat.com (Postfix) with ESMTP id CE3676D039;
- Mon,  7 Feb 2022 10:49:13 +0000 (UTC)
-Date: Mon, 7 Feb 2022 11:49:12 +0100
-From: Greg Kurz <groug@kaod.org>
-To: Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <f4bug@amsat.org>
-Subject: Re: [PATCH v4 09/11] 9p: darwin: Implement compatibility for mknodat
-Message-ID: <20220207114912.1efe2a27@bahia>
-In-Reply-To: <a48d6e38-e420-fb34-899d-7d933b384089@amsat.org>
-References: <20220206200719.74464-1-wwcohen@gmail.com>
- <20220206200719.74464-10-wwcohen@gmail.com>
- <b32f0267-c8b1-2e50-b81f-65289c89e802@amsat.org>
- <CAB26zV1ZmpODTqv20Ae77+SWvG5Cf1GWdi7FuR_L_aWjFcgfnA@mail.gmail.com>
- <20220207094717.5f92da9d@bahia>
- <a48d6e38-e420-fb34-899d-7d933b384089@amsat.org>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nH1ge-0007UD-Fj
+ for qemu-devel@nongnu.org; Mon, 07 Feb 2022 05:56:00 -0500
+Received: from [2a00:1450:4864:20::42b] (port=44889
+ helo=mail-wr1-x42b.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nH1gc-0004RN-NV
+ for qemu-devel@nongnu.org; Mon, 07 Feb 2022 05:56:00 -0500
+Received: by mail-wr1-x42b.google.com with SMTP id k18so23953089wrg.11
+ for <qemu-devel@nongnu.org>; Mon, 07 Feb 2022 02:55:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=DwrJSxKOjz4mUjEiTKgbD9Rd+GluGUmVNmGe0WF9l7Q=;
+ b=xWLX/NlY//PR1nCPJcb+CRBReEUp3W3HEHS8GzOgpk/StE0ucILemAsvhqtB6Oh64N
+ Fjjxxt5g9IdwHWLYFdxBQ29gwZznUVxEtQoVobV9EH/t7LsrVK/1IDqu71QeiTJrVt3D
+ S37OtRRaAhk678EzRTlnANFxG0GiQFVHfVirRbLB/efUef5N5nRpQDwpHGbhgDDcp2ps
+ IMwIoRavKPBS3LZ9eIU80V8OtqwUVQY4nJ5kn0Y8Oo+Pjg/5jly6NPr9fhd+tsqUBQlD
+ 1xg0Kd5m6B/z6LzR2tl1du/2G2FmWBkaDl2DWCHpI4x/jluLrz5Y+XNurwlsNeijxm2u
+ Hnmw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=DwrJSxKOjz4mUjEiTKgbD9Rd+GluGUmVNmGe0WF9l7Q=;
+ b=q81z7S+FaUHB4UjsUWdnAYlUjecXZDlpbLyzasaAxsHuMzIFuiqpDKqQzsjUXY+j7U
+ TEYSIIWVSG1rhxr7tcllI2ZVKsmtnGvtB3GItLFfRXcQ6us9YaEzZz+TgsEhlzdv5WP8
+ dVP/JiDhNVoj57/MIbipZdUE8G6N1z0aZ0FwsBG0tdeMAYDg9OTaAOglfxU6ajI6QbiP
+ WtlaKjk7AhTfucSzMdqvUS7NGuxHX78b2PWCDcpxnhixL9EGm+WecdOsBaVYEmfTHhC8
+ uqIeKK0GhNV8iog8CO6/3qatxh6DmIP3wxFGFaMMDYQGZVhFa9RRzAiqhqOTUgP0sQNF
+ dPFQ==
+X-Gm-Message-State: AOAM531HwgKKI+91OM7CrxAbjcTlxguuew0BkmkksIw2jmuooLtfhC5h
+ ZWfttqkAEBc6yAxeZuC5IepEAlCgv86wB8ShWIaxXA==
+X-Google-Smtp-Source: ABdhPJxTl2CCSb8ZHaS3VY4HjuY3kR6fVpL8Q5v5ntUa2PPYud1a0aS1e3w1vyiY1OvZzxhIIHMScI2Uv9JfJxIHb2Y=
+X-Received: by 2002:adf:e18d:: with SMTP id az13mr9253248wrb.521.1644231356888; 
+ Mon, 07 Feb 2022 02:55:56 -0800 (PST)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=groug@kaod.org
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: kaod.org
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: softfail client-ip=205.139.111.44; envelope-from=groug@kaod.org;
- helo=us-smtp-delivery-44.mimecast.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
+References: <CWXP265MB2632458273BF3C50900DF150D32B9@CWXP265MB2632.GBRP265.PROD.OUTLOOK.COM>
+In-Reply-To: <CWXP265MB2632458273BF3C50900DF150D32B9@CWXP265MB2632.GBRP265.PROD.OUTLOOK.COM>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 7 Feb 2022 10:55:45 +0000
+Message-ID: <CAFEAcA_Bq6Fwf8kN8jwqnFv3wTW5nCri6K4+_wM6BRGUxaivDw@mail.gmail.com>
+Subject: Re: Add TCG support for UMIP
+To: Gareth Webb <gareth.webb@umbralsoftware.co.uk>
+Content-Type: text/plain; charset="UTF-8"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42b
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42b.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
- SPF_HELO_NONE=0.001, SPF_SOFTFAIL=0.665,
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -71,46 +80,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Michael Roitzsch <reactorcontrol@icloud.com>,
- Christian Schoenebeck <qemu_oss@crudebyte.com>, qemu-devel@nongnu.org,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, hi@alyssa.is,
- Will Cohen <wwcohen@gmail.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Keno Fischer <keno@juliacomputing.com>, Vivek <vgoyal@redhat.com>
+Cc: "eduardo@habkost.net" <eduardo@habkost.net>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 7 Feb 2022 11:30:18 +0100
-Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org> wrote:
+On Sun, 6 Feb 2022 at 21:07, Gareth Webb
+<Gareth.Webb@umbralsoftware.co.uk> wrote:
+>
+> Dear Maintainers,
+>
+> Please find attached a .patch that adds support for the UMIP cpu feature to x86 TCG. Apologies for the patch being via attachment, I can not get git send-email to play nice with office365.
+>
+> This is my first time committing to the project, so please be nice and point out any issues or omissions.
 
-> On 7/2/22 09:47, Greg Kurz wrote:
-> > On Sun, 6 Feb 2022 20:10:23 -0500
-> > Will Cohen <wwcohen@gmail.com> wrote:
-> >=20
-> >> This patch set currently places it in 9p-util only because 9p is the o=
-nly
-> >> place where this issue seems to have come up so far and we were wary o=
-f
-> >> editing files too far afield, but I have no attachment to its specific
-> >> location!
-> >>
-> >=20
-> > Inline comments are preferred on qemu-devel. Please don't top post !
-> > This complicates the review a lot.
-> >=20
-> > This is indeed a good candidate for osdep. This being said, unless ther=
-e's
-> > some other user in the QEMU code base, it is acceptable to leave it und=
-er
-> > 9pfs.
->=20
-> virtiofsd could eventually use it.
+Hi; thanks for this patch. Paolo has already reviewed it for
+the substantive content, so I'll just point out a minor coding
+style nit:
 
++            if ((PE(s) || LMA(s)) && s->cpuid_7_0_ecx_features &
+CPUID_7_0_ECX_UMIP && s->flags & HF_UMIP_MASK)
++                gen_exception_gpf(s);
 
-Indeed but virtiofsd is for linux hosts only AFAICT and I'm not aware of an=
-y
-work to support any other host OS.
+Our coding style wants braces around if() bodies, even for this
+sort of single-line if. (scripts/checkpatch.pl can sometimes
+help with flagging up style issues, but it is not 100% able
+to detect everything, unfortunately.)
 
-Cc'ing virtio-fs people for inputs on this topic.
-
+thanks
+-- PMM
 
