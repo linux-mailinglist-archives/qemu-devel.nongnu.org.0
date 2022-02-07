@@ -2,73 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7631E4AB621
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Feb 2022 09:11:04 +0100 (CET)
-Received: from localhost ([::1]:45980 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4058F4AB680
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Feb 2022 09:22:22 +0100 (CET)
+Received: from localhost ([::1]:52430 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nGz71-0000h4-I4
-	for lists+qemu-devel@lfdr.de; Mon, 07 Feb 2022 03:11:03 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:50242)
+	id 1nGzHw-0005hd-TS
+	for lists+qemu-devel@lfdr.de; Mon, 07 Feb 2022 03:22:20 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:50280)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nGyr6-0005eP-Qy
- for qemu-devel@nongnu.org; Mon, 07 Feb 2022 02:54:37 -0500
-Received: from [2a00:1450:4864:20::333] (port=36599
- helo=mail-wm1-x333.google.com)
+ id 1nGyrA-0005gk-VY
+ for qemu-devel@nongnu.org; Mon, 07 Feb 2022 02:54:41 -0500
+Received: from [2a00:1450:4864:20::42e] (port=39550
+ helo=mail-wr1-x42e.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nGyr4-0001qz-UP
- for qemu-devel@nongnu.org; Mon, 07 Feb 2022 02:54:36 -0500
-Received: by mail-wm1-x333.google.com with SMTP id
- q198-20020a1ca7cf000000b0037bb52545c6so3187428wme.1
- for <qemu-devel@nongnu.org>; Sun, 06 Feb 2022 23:54:29 -0800 (PST)
+ id 1nGyr9-0001rK-D8
+ for qemu-devel@nongnu.org; Mon, 07 Feb 2022 02:54:40 -0500
+Received: by mail-wr1-x42e.google.com with SMTP id v19so8221651wrv.6
+ for <qemu-devel@nongnu.org>; Sun, 06 Feb 2022 23:54:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=r8HrcJkYiAi10kW5nOTqNv+fnk/dh+GFCeaZ9Il3sMo=;
- b=Yw2CkCC3H9Tq1F2Ga2HWQKbwtOu6U3QRzQmdlKoEph7Oy4sfZPhtg4cQA5lq6bsinR
- KlksSzYNnVZrgBf3dzkl50OXjt8p95aE+kFrf5O/m2KxoO95H2EeJP63/rw1ctBLioa9
- Kh4UMGXpb3WmMun0fl6++jrOCdb2WzcUBasBkJTvInj1XHjc4SsupNQqkrRMVTBpPIxO
- YDGc0sTnncfcDsOiBXf62/1XqUoNo061c5E8wACy+BuJXmWR97O1tIDq/8xyoO8C5ck0
- 2wMa6jqC6OsYX9wb+r/xIcRq95KS8qAMnWqKDEH1+mLF2OyDPVFl7YAr1k8ezbBzmhXR
- HBGw==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=PVkRMBzSnCzUb/1YoxCR3lmLhVkUK13v7U39yfAjD14=;
+ b=CrSn28STizFxqI9i4EF98kh4gj6bZ63KlRJzs7LNEEsBNR7IHedgWvKaNPFn5SVDen
+ esT5Sk9DwxKeBDJZh5wlkwvR91gPX9zh7aM84Vhlxgfz1o5QMJeniypGv37qtsGvcYdg
+ AIEUeAQYuV8WEnOeqM8gnJxC73rBYfG4lwalcIJxeYDUZkC2zdd4oEOuaHjU/CiE1coK
+ gyexdiGt5C7cioQok44vfp6nxqfCa4lYY/jVdFTJz/WhWIR5+7s2wst7w9eUTZ/JF8Et
+ H9aR5krJHju/ZtcYr7C6L2WSemcWuBNLVEbMPxxr0Q2a/HibsYF9t4FiZSf8pBXw+mCU
+ wUBA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=r8HrcJkYiAi10kW5nOTqNv+fnk/dh+GFCeaZ9Il3sMo=;
- b=l995SkxwX8z/s/Tk8YiEEqfgSynBsf48H0QyWbd3RXtvFnHEtDWhMsTWEtE03rcxfe
- stkOwYCfIalKHij40GR3U7LIIO8nvtqmECRVROUWEtaveUecKG2ZCarrjtMqTIqf3V6I
- ONC4wvbs5tJZKQ8vxl1A1VRN3gY+PMtZ/eaQkR8Jr8poVX32xpyCVb7mG7N0FPQWfmEu
- eUDtdp3DSJZVBNhujmOTTYQKztrc5IZZSH6MgvYEXxPCAeYgUpR0V4Kl6bOEX4jNSmBf
- ixfnOKlzLEi16Krn2HScZFSfqjYaruV0dF9Uu32jG0fsOU/Sb7wClgychfaxIFvoNENi
- ABmQ==
-X-Gm-Message-State: AOAM530z3aDW+mBuCYdlFkj5IZ4tFAR9P/dUiGSYqgWIYWveRx+tR155
- uAOci7SV53AifppfqSLfHrijcYaHo4I=
-X-Google-Smtp-Source: ABdhPJzjX58y3BXtOHRDzAKk+shs0A+MrOV5C1sftlFvVvDFjrFX6+6vSID27Xna7vDtxebpqjI2ng==
-X-Received: by 2002:a1c:544d:: with SMTP id p13mr1677051wmi.37.1644220468270; 
- Sun, 06 Feb 2022 23:54:28 -0800 (PST)
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=PVkRMBzSnCzUb/1YoxCR3lmLhVkUK13v7U39yfAjD14=;
+ b=rW4hZ7mtkcWriWXjWa2J9p5vY3lu/oZGXFwRBf7JjIRh9YY8/ppAWNM7l9KtMp+xgk
+ haVpjcAZTwkaRYMdeSrGHXYcb98m5+uj3c4UW1R0elq3nazowAW2oR554PPhjiOMRSpq
+ UzX3ukqxjeFtDwaKrbWOze63RduIGNazw3YF29mC1ovAAZEgj5/ZMAVCJbRW7QTbdoOM
+ Kn3q0/J9mggSKCJKiJGJcy9kUxqZISaARB0BHyeF4J4x24aj52HQ/jsvCzlSN1D8gVdL
+ WObsuhL3qd7cJt0TRdAWAlRzH/8KlJ4X9Nwv+MR3UNVpmiq1Oh8Szpzv3uu6AXdCLffV
+ Im7g==
+X-Gm-Message-State: AOAM530Msgprm4jAoamYGPiutuYV9FHPslt9p5NwYgnA0149qa44zYIR
+ pJ/GRd0PP+MIAdMsJ7iuJ+cQShzxO9s=
+X-Google-Smtp-Source: ABdhPJxf+ABYj7/dhYku0RV0BVZcpcem7czn7cuIn7AwLesiG2/Xp+XSoy0KsLiZSrbXXV8KKnxZxw==
+X-Received: by 2002:a5d:480c:: with SMTP id l12mr6813768wrq.540.1644220472825; 
+ Sun, 06 Feb 2022 23:54:32 -0800 (PST)
 Received: from localhost.localdomain (154.red-83-50-83.dynamicip.rima-tde.net.
  [83.50.83.154])
- by smtp.gmail.com with ESMTPSA id p15sm9056696wrq.66.2022.02.06.23.54.27
+ by smtp.gmail.com with ESMTPSA id i3sm6351986wrq.72.2022.02.06.23.54.32
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Sun, 06 Feb 2022 23:54:27 -0800 (PST)
+ Sun, 06 Feb 2022 23:54:32 -0800 (PST)
 To: qemu-devel@nongnu.org
 Cc: Richard Henderson <richard.henderson@linaro.org>,
  Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: [PATCH v3 00/21] softmmu: Make various objects target agnostic
-Date: Mon,  7 Feb 2022 08:54:05 +0100
-Message-Id: <20220207075426.81934-1-f4bug@amsat.org>
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Thomas Huth <thuth@redhat.com>
+Subject: [PATCH v3 01/21] accel: Restrict sysemu stubs to system emulation
+Date: Mon,  7 Feb 2022 08:54:06 +0100
+Message-Id: <20220207075426.81934-2-f4bug@amsat.org>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20220207075426.81934-1-f4bug@amsat.org>
+References: <20220207075426.81934-1-f4bug@amsat.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::333
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42e
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::333;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x333.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42e.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -95,85 +97,30 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reply-to:  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 From:  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= via <qemu-devel@nongnu.org>
 
-This is a re-org accel/ and softmmu/ to have more target-agnostic
-objects.
+Reviewed-by: Thomas Huth <thuth@redhat.com>
+Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+---
+ accel/stubs/meson.build | 11 +++++++----
+ 1 file changed, 7 insertions(+), 4 deletions(-)
 
-Series fully reviewed. Paolo, Richard, do you want me to send a
-pull request for this and the 'Remove "qemu/log.h"' series?
-
-Since v1:
-- Simplify kvm_cpus_are_resettable (Richard)
-
-Since RFC:
-- Rework accel/meson (Richard)
-- Use vaddr in cpu_memory_rw_debug (Richard)
-- Introduce CONFIG_HAX_IS_POSSIBLE (Richard)
-- Introduce AccelOpsClass::cpu_thread_is_idle (Richard)
-- Introduce AccelOpsClass::cpus_are_resettable (Richard)
-- Add qemu_init_arch_modules (new)
-
-Philippe Mathieu-Daudé (21):
-  accel: Restrict sysemu stubs to system emulation
-  accel/meson: Only build hw virtualization with system emulation
-  exec: Declare vaddr as a generic target-agnostic type
-  exec: Make cpu_memory_rw_debug() target agnostic
-  sysemu/memory_mapping: Become target-agnostic
-  sysemu/kvm: Make kvm_on_sigbus() / kvm_on_sigbus_vcpu() target
-    agnostic
-  accel/kvm: Simplify user-mode #ifdef'ry
-  accel/hax: Introduce CONFIG_HAX_IS_POSSIBLE
-  softmmu/cpus: Code movement
-  accel: Introduce AccelOpsClass::cpu_thread_is_idle()
-  accel: Introduce AccelOpsClass::cpus_are_resettable()
-  softmmu/globals: Remove unused 'hw/i386/*' headers
-  softmmu/runstate: Clean headers
-  softmmu/physmem: Remove unnecessary include
-  softmmu/cpu-timers: Remove unused 'exec/exec-all.h' header
-  misc: Remove unnecessary "sysemu/cpu-timers.h" include
-  misc: Add missing "sysemu/cpu-timers.h" include
-  exec/gdbstub: Make gdb_exit() / gdb_set_stop_cpu() target agnostic
-  exec/cpu: Make address_space_init/reloading_memory_map target agnostic
-  softmmu: Add qemu_init_arch_modules()
-  softmmu: Build target-agnostic objects once
-
- accel/kvm/kvm-accel-ops.c         | 12 ++++++++++
- accel/meson.build                 | 12 ++++++----
- accel/qtest/qtest.c               |  1 -
- accel/stubs/hax-stub.c            |  2 ++
- accel/stubs/kvm-stub.c            |  5 ----
- accel/stubs/meson.build           | 11 +++++----
- accel/tcg/tcg-accel-ops-icount.c  |  1 +
- accel/tcg/tcg-accel-ops-mttcg.c   |  1 +
- accel/tcg/tcg-accel-ops-rr.c      |  1 +
- accel/tcg/tcg-accel-ops.c         |  1 +
- cpu.c                             |  6 ++---
- include/exec/cpu-all.h            |  4 ----
- include/exec/cpu-common.h         | 39 +++++++++++++++++++++++++++++++
- include/exec/exec-all.h           | 26 ---------------------
- include/exec/gdbstub.h            | 25 ++++++++++----------
- include/hw/core/cpu.h             | 13 +----------
- include/sysemu/accel-ops.h        |  3 +++
- include/sysemu/arch_init.h        |  2 ++
- include/sysemu/hax.h              | 18 +++++++++-----
- include/sysemu/hw_accel.h         |  5 ----
- include/sysemu/kvm.h              |  6 ++---
- include/sysemu/memory_mapping.h   |  5 ++--
- softmmu/arch_init.c               |  9 +++++++
- softmmu/cpu-timers.c              |  1 -
- softmmu/cpus.c                    | 23 +++++++++++-------
- softmmu/globals.c                 |  2 --
- softmmu/memory_mapping.c          |  1 +
- softmmu/meson.build               | 24 +++++++++----------
- softmmu/physmem.c                 |  7 +++---
- softmmu/runstate.c                |  2 +-
- softmmu/vl.c                      |  5 +---
- target/alpha/translate.c          |  1 -
- target/i386/hax/hax-all.c         |  7 +-----
- target/i386/whpx/whpx-accel-ops.c |  6 +++++
- target/riscv/csr.c                |  1 +
- tests/unit/ptimer-test-stubs.c    |  1 -
- 36 files changed, 159 insertions(+), 130 deletions(-)
-
+diff --git a/accel/stubs/meson.build b/accel/stubs/meson.build
+index 12dd1539af..0249b9258f 100644
+--- a/accel/stubs/meson.build
++++ b/accel/stubs/meson.build
+@@ -1,4 +1,7 @@
+-specific_ss.add(when: 'CONFIG_HAX', if_false: files('hax-stub.c'))
+-specific_ss.add(when: 'CONFIG_XEN', if_false: files('xen-stub.c'))
+-specific_ss.add(when: 'CONFIG_KVM', if_false: files('kvm-stub.c'))
+-specific_ss.add(when: 'CONFIG_TCG', if_false: files('tcg-stub.c'))
++sysemu_stubs_ss = ss.source_set()
++sysemu_stubs_ss.add(when: 'CONFIG_HAX', if_false: files('hax-stub.c'))
++sysemu_stubs_ss.add(when: 'CONFIG_XEN', if_false: files('xen-stub.c'))
++sysemu_stubs_ss.add(when: 'CONFIG_KVM', if_false: files('kvm-stub.c'))
++sysemu_stubs_ss.add(when: 'CONFIG_TCG', if_false: files('tcg-stub.c'))
++
++specific_ss.add_all(when: ['CONFIG_SOFTMMU'], if_true: sysemu_stubs_ss)
 -- 
 2.34.1
 
