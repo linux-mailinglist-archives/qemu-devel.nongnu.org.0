@@ -2,81 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 982304ABF8D
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Feb 2022 14:26:45 +0100 (CET)
-Received: from localhost ([::1]:42476 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3AA854ABECC
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Feb 2022 14:09:33 +0100 (CET)
+Received: from localhost ([::1]:53678 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nH42W-0008A0-9O
-	for lists+qemu-devel@lfdr.de; Mon, 07 Feb 2022 08:26:44 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:35026)
+	id 1nH3lr-0003Sd-QA
+	for lists+qemu-devel@lfdr.de; Mon, 07 Feb 2022 08:09:31 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:35140)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1nH3SY-0005M2-9u
- for qemu-devel@nongnu.org; Mon, 07 Feb 2022 07:49:34 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:23877)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nH3T5-0005dR-8g
+ for qemu-devel@nongnu.org; Mon, 07 Feb 2022 07:50:07 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:52199)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1nH3SU-0005Ux-R0
- for qemu-devel@nongnu.org; Mon, 07 Feb 2022 07:49:33 -0500
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nH3T1-0005Xk-1v
+ for qemu-devel@nongnu.org; Mon, 07 Feb 2022 07:50:06 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1644238169;
+ s=mimecast20190719; t=1644238202;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=p6sRkc/bSFltWCuOmYQxsvHKRbn2HgpGjlihB6+OU2E=;
- b=jWbP3naYgE+HPZn7iUT1ZpE4HG1UkWgx7BxFxmYytOx4L/fU8k5XrobFhUtIp2btKNPNv2
- b+cgdlKBw0I9zIZqb1Z+xq1GHeVk5fuMwwamNo7WekjYROdXcYvhfTuBX7cleZZaO5ijc7
- xLvvDq19Fa86k5G18ow8bQnpAnuag0o=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=useTxVLZecjV3LJXYQ+1SjHR4LrIPrgBOFQ6rT6mCPY=;
+ b=f4lfMgmIU4+pehKPEkxDS7hcXvKnK3vfJPB/ASbndMGsmClYtDUjUpvGEqCtl7u4ozPqqj
+ jiGE6wN8o2+wCbwZhwhdoiUqD8QhFQi0AfUwGrToEdqNIe5bINHKfTJh0CZOcl30j8bvxs
+ Uc3arrjeXTHSXUYreh5lFv9LUQFcxi8=
+Received: from mail-pl1-f197.google.com (mail-pl1-f197.google.com
+ [209.85.214.197]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-652-FUEOMW10P-mmdEEC34A80A-1; Mon, 07 Feb 2022 07:49:28 -0500
-X-MC-Unique: FUEOMW10P-mmdEEC34A80A-1
-Received: by mail-wm1-f69.google.com with SMTP id
- v185-20020a1cacc2000000b0034906580813so12204413wme.1
- for <qemu-devel@nongnu.org>; Mon, 07 Feb 2022 04:49:28 -0800 (PST)
+ us-mta-321-Sz4bZwRGNB6AXjxniMtpGQ-1; Mon, 07 Feb 2022 07:50:00 -0500
+X-MC-Unique: Sz4bZwRGNB6AXjxniMtpGQ-1
+Received: by mail-pl1-f197.google.com with SMTP id
+ a9-20020a170902710900b0014c8132e8b8so5304171pll.10
+ for <qemu-devel@nongnu.org>; Mon, 07 Feb 2022 04:50:00 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=p6sRkc/bSFltWCuOmYQxsvHKRbn2HgpGjlihB6+OU2E=;
- b=jQqlemSpY5EAZAV0utRk5QwUkRAmZzERn427q5FT4qurI62fkRPjE3eU7k/Mz9MOVI
- breZEMjUKkmTq469IdJep+antrGbe5iHYGFgtmJIUyE4ATuuvNzGQ6rcmWqy1IsStxMP
- JHzEJX166sORiVk2g49HHmF9UNNtpOAr9sHw5UbR5GAVij5IXPZ2c8jfNH54+11k2aOE
- wTVnZsP+j+Q/PdX701+6bgPciMoUHVy7X7bjLbPrC29RtGpvdNqU49FwmmEN0fcHEgko
- /+etEgqQ8jP+Zb9IQhENBiuMF4H3hTJjGl6wXo6vZeXyIfY+Rw3vrnw6jeVdZq/leQ+x
- OwHQ==
-X-Gm-Message-State: AOAM5307ueOpjWXdKAwD0O5t4MVvbgVeNgx+CNAuNZYDGOV3cQclItW3
- kV/Ie8A5Q9tbhWHR76fIuM9+I7SPSGV/NRZIRizzflWRJs4cul/JH8eB7H2f0HcoMoGTCOpoOwh
- FNleEUAXtLkU4KFQ=
-X-Received: by 2002:adf:f90c:: with SMTP id b12mr9732031wrr.97.1644238167658; 
- Mon, 07 Feb 2022 04:49:27 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJy5OsOP5Jr0QvlqliI1Llo6d126kRPFvM/nxKs8MweYEOZ1pqYvOaKVxLQs2q88j2p3GXcv6A==
-X-Received: by 2002:adf:f90c:: with SMTP id b12mr9732013wrr.97.1644238167422; 
- Mon, 07 Feb 2022 04:49:27 -0800 (PST)
-Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
- [82.30.61.225])
- by smtp.gmail.com with ESMTPSA id z1sm17221653wmk.32.2022.02.07.04.49.26
+ :mime-version:content-disposition:in-reply-to;
+ bh=useTxVLZecjV3LJXYQ+1SjHR4LrIPrgBOFQ6rT6mCPY=;
+ b=Abn3x146pOdmeNbebxNwCfSLd3i94k/Y7IhszSnB3OomUr38SYqIq7Mm4JsJDOV8KC
+ DiUhVjwjUCcCfLpJWkXcj5mZiQDyXA3XUEB9XLFSVFlD2C+6H/W/A/4IYyFSB8ErKVwb
+ E4Umz5ZPPxsUrclaIql5U34gHI2i+PL0R8P32KChBoHi2OZMf2DQzDp112bPV0NRgnj3
+ 2e25nYcgR5cn7R6dzhmyx1sZnjEmAGQ5C3OKfwzNYTF09E7pu/IaxAJxApwNcGUHwl6m
+ eral5v63UJnGZfYpAfjsS5eeTu7EZIdNbN58pnH8PMGQBAQqBQ026eU35KXa+pnoXelu
+ rSpg==
+X-Gm-Message-State: AOAM5334tq7lH+ijZz2H6erECQnbR6UQtERjuXQiydG5d0soDLcWLi5x
+ D+KWhAq7PCkQRKbH7yYQpP9pVduhJhUa5gtX91b5H708PZ7/D7kyyDU37X98ZONkvOmt+4/mu8U
+ lgmDxYltMj3wXMgg=
+X-Received: by 2002:a17:902:b403:: with SMTP id
+ x3mr16468315plr.61.1644238199717; 
+ Mon, 07 Feb 2022 04:49:59 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxm5+FsboGv3U7s0ItCGBPgOhjsCQs41Z9fk9rXJ2ob86JzeH4aypr/u35xkTwqQm/dokOuYw==
+X-Received: by 2002:a17:902:b403:: with SMTP id
+ x3mr16468280plr.61.1644238199421; 
+ Mon, 07 Feb 2022 04:49:59 -0800 (PST)
+Received: from xz-m1.local ([94.177.118.121])
+ by smtp.gmail.com with ESMTPSA id ip4sm11433004pjb.8.2022.02.07.04.49.54
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 07 Feb 2022 04:49:26 -0800 (PST)
-Date: Mon, 7 Feb 2022 12:49:24 +0000
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Vivek Goyal <vgoyal@redhat.com>
-Subject: Re: [PATCH v5 0/9] virtiofsd: Add support for file security context
- at file creation
-Message-ID: <YgEVVLBv9eWbhcDV@work-vm>
-References: <20220202193935.268777-1-vgoyal@redhat.com>
+ Mon, 07 Feb 2022 04:49:59 -0800 (PST)
+Date: Mon, 7 Feb 2022 20:49:51 +0800
+From: Peter Xu <peterx@redhat.com>
+To: Leonardo Bras <leobras@redhat.com>
+Subject: Re: [PATCH v8 1/5] QIOChannel: Add flags on io_writev and introduce
+ io_flush callback
+Message-ID: <YgEVbygBVE/FpTtq@xz-m1.local>
+References: <20220201062901.428838-1-leobras@redhat.com>
+ <20220201062901.428838-2-leobras@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20220202193935.268777-1-vgoyal@redhat.com>
-User-Agent: Mutt/2.1.5 (2021-12-30)
+In-Reply-To: <20220201062901.428838-2-leobras@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=peterx@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -97,101 +96,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: virtio-fs@redhat.com, mszeredi@redhat.com, qemu-devel@nongnu.org
+Cc: Elena Ufimtseva <elena.ufimtseva@oracle.com>,
+ John G Johnson <john.g.johnson@oracle.com>,
+ Jagannathan Raman <jag.raman@oracle.com>, qemu-block@nongnu.org,
+ Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org,
+ Markus Armbruster <armbru@redhat.com>,
+ Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
+ Fam Zheng <fam@euphon.net>, Eric Blake <eblake@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Vivek Goyal (vgoyal@redhat.com) wrote:
-> Hi,
+On Tue, Feb 01, 2022 at 03:28:59AM -0300, Leonardo Bras wrote:
+> Add flags to io_writev and introduce io_flush as optional callback to
+> QIOChannelClass, allowing the implementation of zero copy writes by
+> subclasses.
 > 
-> This is V5 of the patches. I posted V4 here.
+> How to use them:
+> - Write data using qio_channel_writev*(...,QIO_CHANNEL_WRITE_FLAG_ZERO_COPY),
+> - Wait write completion with qio_channel_flush().
 > 
-> https://listman.redhat.com/archives/virtio-fs/2022-January/msg00041.html
+> Notes:
+> As some zero copy write implementations work asynchronously, it's
+> recommended to keep the write buffer untouched until the return of
+> qio_channel_flush(), to avoid the risk of sending an updated buffer
+> instead of the buffer state during write.
 > 
-> These will allow us to support SELinux with virtiofs. This will send
-> SELinux context at file creation to server and server can set it on
-> file.
+> As io_flush callback is optional, if a subclass does not implement it, then:
+> - io_flush will return 0 without changing anything.
+> 
+> Also, some functions like qio_channel_writev_full_all() were adapted to
+> receive a flag parameter. That allows shared code between zero copy and
+> non-zero copy writev, and also an easier implementation on new flags.
+> 
+> Signed-off-by: Leonardo Bras <leobras@redhat.com>
 
-I think that's pretty close; I've got some minor comments I've replied
-to on the individual patches.
+With Dan's comment addressed on removing the redundant assertion:
 
-I do worry that the number of different paths for each operation is now
-quite large so hard to test.
-I also wonder what happens on something other than SELinux.
+Reviewed-by: Peter Xu <peterx@redhat.com>
 
-Dave
-
-> Changes since V4
-> ----------------
-> - Parse only known current size of fuse_init_in. This will make sure
->   that future extension does not break existing code upon header
->   update. (David Gilbert)
-> 
-> - Changed order of one of the patch. It is first patch in series. This
->   will help fix the breakage before header update patch and code remains
->   git bisectable. (David Gilbert)
-> 
-> - Changed %lx to %llx at one place. (David Gilbert).
-> 
-> Thanks
-> Vivek
->  
-> Vivek Goyal (9):
->   virtiofsd: Fix breakage due to fuse_init_in size change
->   linux-headers: Update headers to v5.17-rc1
->   virtiofsd: Parse extended "struct fuse_init_in"
->   virtiofsd: Extend size of fuse_conn_info->capable and ->want fields
->   virtiofsd, fuse_lowlevel.c: Add capability to parse security context
->   virtiofsd: Move core file creation code in separate function
->   virtiofsd: Create new file with fscreate set
->   virtiofsd: Create new file using O_TMPFILE and set security context
->   virtiofsd: Add an option to enable/disable security label
-> 
->  docs/tools/virtiofsd.rst                      |   7 +
->  include/standard-headers/asm-x86/kvm_para.h   |   1 +
->  include/standard-headers/drm/drm_fourcc.h     |  11 +
->  include/standard-headers/linux/ethtool.h      |   1 +
->  include/standard-headers/linux/fuse.h         |  60 ++-
->  include/standard-headers/linux/pci_regs.h     | 142 +++---
->  include/standard-headers/linux/virtio_gpio.h  |  72 +++
->  include/standard-headers/linux/virtio_i2c.h   |  47 ++
->  include/standard-headers/linux/virtio_iommu.h |   8 +-
->  .../standard-headers/linux/virtio_pcidev.h    |  65 +++
->  include/standard-headers/linux/virtio_scmi.h  |  24 +
->  linux-headers/asm-generic/unistd.h            |   5 +-
->  linux-headers/asm-mips/unistd_n32.h           |   2 +
->  linux-headers/asm-mips/unistd_n64.h           |   2 +
->  linux-headers/asm-mips/unistd_o32.h           |   2 +
->  linux-headers/asm-powerpc/unistd_32.h         |   2 +
->  linux-headers/asm-powerpc/unistd_64.h         |   2 +
->  linux-headers/asm-riscv/bitsperlong.h         |  14 +
->  linux-headers/asm-riscv/mman.h                |   1 +
->  linux-headers/asm-riscv/unistd.h              |  44 ++
->  linux-headers/asm-s390/unistd_32.h            |   2 +
->  linux-headers/asm-s390/unistd_64.h            |   2 +
->  linux-headers/asm-x86/kvm.h                   |  16 +-
->  linux-headers/asm-x86/unistd_32.h             |   1 +
->  linux-headers/asm-x86/unistd_64.h             |   1 +
->  linux-headers/asm-x86/unistd_x32.h            |   1 +
->  linux-headers/linux/kvm.h                     |  17 +
->  tools/virtiofsd/fuse_common.h                 |   9 +-
->  tools/virtiofsd/fuse_i.h                      |   7 +
->  tools/virtiofsd/fuse_lowlevel.c               | 162 +++++--
->  tools/virtiofsd/helper.c                      |   1 +
->  tools/virtiofsd/passthrough_ll.c              | 414 ++++++++++++++++--
->  32 files changed, 1013 insertions(+), 132 deletions(-)
->  create mode 100644 include/standard-headers/linux/virtio_gpio.h
->  create mode 100644 include/standard-headers/linux/virtio_i2c.h
->  create mode 100644 include/standard-headers/linux/virtio_pcidev.h
->  create mode 100644 include/standard-headers/linux/virtio_scmi.h
->  create mode 100644 linux-headers/asm-riscv/bitsperlong.h
->  create mode 100644 linux-headers/asm-riscv/mman.h
->  create mode 100644 linux-headers/asm-riscv/unistd.h
-> 
-> -- 
-> 2.34.1
-> 
 -- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+Peter Xu
 
 
