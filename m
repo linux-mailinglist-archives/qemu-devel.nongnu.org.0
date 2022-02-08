@@ -2,79 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1FA034ADDF0
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Feb 2022 17:07:08 +0100 (CET)
-Received: from localhost ([::1]:37732 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BBC674ADE56
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Feb 2022 17:27:15 +0100 (CET)
+Received: from localhost ([::1]:44000 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nHT1H-0004IV-3m
-	for lists+qemu-devel@lfdr.de; Tue, 08 Feb 2022 11:07:07 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:39886)
+	id 1nHTKk-0003DA-RZ
+	for lists+qemu-devel@lfdr.de; Tue, 08 Feb 2022 11:27:14 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:41576)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nHSBT-0007Ri-MC
- for qemu-devel@nongnu.org; Tue, 08 Feb 2022 10:13:36 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:57679)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nHSBQ-00078F-TK
- for qemu-devel@nongnu.org; Tue, 08 Feb 2022 10:13:34 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1644333211;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=tbSAybE3ZYZu0O8HK7gVbXGV1H6SPgTAhiOyBX5xihQ=;
- b=iAYd6tp6s8+/xiFjwsPRxEoE85PnIQthbGcy4qIY2B4r4muMNyWRCFTaJSSeUmmDdPdYln
- Yx1CB+jLKqBdFYHElzGyv+j9coYlYWyNznHxtgmwD+iD90PX4DgkqhaHFTsjhalMQlAUOh
- AkDDnQjWJ9LtEvHeEuvXLknqzA3+4pw=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-381-u3aoHCYYN-ul_W_UtdqzXw-1; Tue, 08 Feb 2022 10:13:28 -0500
-X-MC-Unique: u3aoHCYYN-ul_W_UtdqzXw-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A7E2F46863;
- Tue,  8 Feb 2022 15:13:26 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.36.112.3])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 11FF4798C3;
- Tue,  8 Feb 2022 15:13:26 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 9232F21E6A00; Tue,  8 Feb 2022 16:13:24 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: Daniel P. =?utf-8?Q?Berrang=C3=A9?= <berrange@redhat.com>
-Subject: Re: [PATCH 08/11] mos6522: add "info via" HMP command for debugging
-References: <20220127205405.23499-1-mark.cave-ayland@ilande.co.uk>
- <20220127205405.23499-9-mark.cave-ayland@ilande.co.uk>
- <CAFEAcA8ZiLTgeG_2aUHBoV0io52623VRybG0NL0uY8=9Fg59Kg@mail.gmail.com>
- <71542eb1-fc8f-8f30-81e0-35c9df764825@amsat.org>
- <877da5wzgp.fsf@pond.sub.org> <YgJF9SDwb93k5/fg@work-vm>
- <YgJZfwfpX5/R9HfR@redhat.com>
-Date: Tue, 08 Feb 2022 16:13:24 +0100
-In-Reply-To: <YgJZfwfpX5/R9HfR@redhat.com> ("Daniel P. =?utf-8?Q?Berrang?=
- =?utf-8?Q?=C3=A9=22's?= message of
- "Tue, 8 Feb 2022 11:52:31 +0000")
-Message-ID: <874k59s86j.fsf@pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nHSFW-0002G3-74
+ for qemu-devel@nongnu.org; Tue, 08 Feb 2022 10:17:46 -0500
+Received: from [2a00:1450:4864:20::42d] (port=42807
+ helo=mail-wr1-x42d.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nHSFT-0007um-Vx
+ for qemu-devel@nongnu.org; Tue, 08 Feb 2022 10:17:45 -0500
+Received: by mail-wr1-x42d.google.com with SMTP id h6so12650311wrb.9
+ for <qemu-devel@nongnu.org>; Tue, 08 Feb 2022 07:17:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=oDRyezidbo4gcexlUVM6Y7NZWzWCgOf/AN+jgiNmXWo=;
+ b=NFvUNKQzCwRJ3lkiKj+afaf4hpHs0jITyCZzdlOQ5aOhiK/NIDNrHnWEBPBxaQpuR+
+ 5e4gxCgFAnm7NdA/vtj9kwrBBlpVJassuSFhGJhnx8oIKXFQ+LBcNzXwp2vqs8jxvnOt
+ qTer3CeXibVXGtyypEoe9TC2MQPuIuBy/gJ6b+aIqD2RmOsaqGp6SEJcCcm2Ji3fQpgT
+ JAXpW8i6QuJx1PzPb2uUS3BQJSogZIoKa3WwhzOz57rJ/gq79CMrAZEnMp15V1nklkPJ
+ /E7vlEyNEm+p5NIq1obep7BCh9Dt+tAmMZ0k4APFoWPYqWHDv75dEZYNU8fmVJF7Btr5
+ W6Bw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=oDRyezidbo4gcexlUVM6Y7NZWzWCgOf/AN+jgiNmXWo=;
+ b=mkDsFH2PTDWcdywINTtdGCdj6GO38+emwsGSMRdGaXrA6JA1sIwOY0I4viGj6thvb9
+ 3Pc0TDyual6WcWIkjYU/CepBf2Ty1makKRqsoPcCM2whjz8JRIKmNn1yweaRxgkR4veC
+ 6Ka2Fm2iI34k5LfZY+DT4rjcgzUGlzsOJpy9zeZ21dWHvuuq1Z9VBWfciAxsD3sZasaZ
+ Oq5/v7D0NoNBUtoKJ1PwNyaBW5Ya/9wCkC//Kw3eTlry0Wl0L5vTJMEADc6tHJcjb85u
+ U0mG7oU75TqdIkpe+ie+v6hGRNF789yZMP8aZ5gDhZc8nSeuUAufimwyYMLsF1FAMFrh
+ PRHg==
+X-Gm-Message-State: AOAM5338aEwa2vzy5bsg+cAlMmqii/jb7Dtjq9PAjONE1O5DAKEIc3Wa
+ R0qwT9iEYEN+E4YNBuOSokA4XYhfgICD0gXnf915EQ==
+X-Google-Smtp-Source: ABdhPJxkpfed0jKdAmSkfvo7RxzN8CVYytnUd/BBc+t2hDRPdcY17DPFV8Axwto7ovt3y2Ksd+YwwRlCIo8ziVRCgUg=
+X-Received: by 2002:a05:6000:258:: with SMTP id
+ m24mr4124528wrz.2.1644333461769; 
+ Tue, 08 Feb 2022 07:17:41 -0800 (PST)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+References: <20220208133842.112017-1-eric.auger@redhat.com>
+ <20220208133842.112017-2-eric.auger@redhat.com>
+In-Reply-To: <20220208133842.112017-2-eric.auger@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 8 Feb 2022 15:17:30 +0000
+Message-ID: <CAFEAcA9teH-ejt3NKh1rqQPToM_S-DC2JdHUkMof4YwHXoaXtA@mail.gmail.com>
+Subject: Re: [PATCH v4 1/2] tpm: CRB: Use ram_device for "tpm-crb-cmd" region
+To: Eric Auger <eric.auger@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42d
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42d.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -87,136 +82,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Laurent@vivier.eu
+Cc: quintela@redhat.com, cohuck@redhat.com, qemu-devel@nongnu.org,
+ f4bug@amsat.org, alex.williamson@redhat.com, imammedo@redhat.com,
+ stefanb@linux.vnet.ibm.com, david@gibson.dropbear.id.au, dgilbert@redhat.com,
+ eric.auger.pro@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Daniel P. Berrang=C3=A9 <berrange@redhat.com> writes:
-
-> On Tue, Feb 08, 2022 at 10:29:09AM +0000, Dr. David Alan Gilbert wrote:
->> * Markus Armbruster (armbru@redhat.com) wrote:
->> > Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org> writes:
->> >=20
->> > > On 7/2/22 20:34, Peter Maydell wrote:
->> > >> On Thu, 27 Jan 2022 at 21:03, Mark Cave-Ayland
->> > >> <mark.cave-ayland@ilande.co.uk> wrote:
->> > >>>
->> > >>> This displays detailed information about the device registers and =
-timers to aid
->> > >>> debugging problems with timers and interrupts.
->> > >>>
->> > >>> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
->> > >>> ---
->> > >>>   hmp-commands-info.hx | 12 ++++++
->> > >>>   hw/misc/mos6522.c    | 92 ++++++++++++++++++++++++++++++++++++++=
-++++++
->> > >>>   2 files changed, 104 insertions(+)
->> > >>=20
->> > >> I'm not sure how keen we are on adding new device-specific
->> > >> HMP info commands, but it's not my area of expertise. Markus ?
->> > >
->> > > HMP is David :)
->> >=20
->> > Yes.
->>=20
->> So let me start with an:
->>=20
->> Acked-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
->> (If it's useful info for the author of the device, then I'm happy for
->> HMP to have that), but then - (moving the reply around a bit):
->>=20
->>=20
->> > Should this be conditional on the targets where we actually link the
->> > device, like info skeys?
->> >=20
->>=20
->> Yes, I think so; it's a reasonably old/obscure device, there's no reason
->> everyone having it built in.
->>=20
->> > >                 IIRC it is OK as long as HMP is a QMP wrapper.
->> >=20
->> > That's "how to do it", and I'll get back to it in a jiffie, but Peter
->> > was wondering about the "whether to do it".
->> >=20
->> > Most HMP commands are always there.
->> >=20
->> > We have a few specific to compile-time configurable features: TCG, VNC=
-,
->> > Spice, Slirp, Linux.  Does not apply here.
->> >=20
->> > We have a few specific to targets, such as dump-skeys and info skeys f=
-or
->> > s390.  Target-specific is not quite the same as device-specific.
->> >=20
->> > We have no device-specific commands so far.  However, dump-skeys and
->> > info skeys appear to be about the skeys *device*, not the s390 target.
->> > Perhaps any s390 target has such a device?  I don't know.  My point is
->> > we already have device-specific commands, they're just masquerading as
->> > target-specific commands.
->>=20
->> Yeh we've got info lapic/ioapic as well.
->>=20
->> > The proposed device-specific command uses a mechanism originally made
->> > for modules instead (more on that below).
->> >=20
->> > I think we should make up our minds which way we want device-specific
->> > commands done, then do *all* of them that way.
->>=20
->> I think device specific commands make sense, but I think it would
->> probably be better if we had an 'info dev $name' and that a method on
->> the device rather than registering each one separately.
->> I'd assume that this would be a QMP level thing that got unwrapped at
->> HMP.
->>=20
->> But that's not a problem for this contribution; someone else can figure
->> that out later.
+On Tue, 8 Feb 2022 at 15:08, Eric Auger <eric.auger@redhat.com> wrote:
 >
-> Actually I think this would solve a problem with this contribution.
-> This patch implements a QMP command but never registers it, so it
-> isn't actually accessible via QMP. It only registers the HMP wrapper
-> which rather defeats the point of doing it via the QMP HumanReadableText
-> approach.
+> Representing the CRB cmd/response buffer as a standard
+> RAM region causes some trouble when the device is used
+> with VFIO. Indeed VFIO attempts to DMA_MAP this region
+> as usual RAM but this latter does not have a valid page
+> size alignment causing such an error report:
+> "vfio_listener_region_add received unaligned region".
+> To allow VFIO to detect that failing dma mapping
+> this region is not an issue, let's use a ram_device
+> memory region type instead.
+
+This seems like VFIO's problem to me. There's nothing
+that guarantees alignment for memory regions at all,
+whether they're RAM, IO or anything else.
+
+> +    s->crb_cmd_buf = qemu_memalign(qemu_real_host_page_size,
+> +                                HOST_PAGE_ALIGN(CRB_CTRL_CMD_SIZE));
+> +
+>      memory_region_init_io(&s->mmio, OBJECT(s), &tpm_crb_memory_ops, s,
+>          "tpm-crb-mmio", sizeof(s->regs));
+> -    memory_region_init_ram(&s->cmdmem, OBJECT(s),
+> -        "tpm-crb-cmd", CRB_CTRL_CMD_SIZE, errp);
+> +    memory_region_init_ram_device_ptr(&s->cmdmem, OBJECT(s), "tpm-crb-cmd",
+> +                                      CRB_CTRL_CMD_SIZE, s->crb_cmd_buf);
+> +    vmstate_register_ram(&s->cmdmem, dev);
 >
-> I'm guessing this was done because we don't have ability to dynamically
-> register QMP commands at runtime.
+>      memory_region_add_subregion(get_system_memory(),
+>          TPM_CRB_ADDR_BASE, &s->mmio);
+> @@ -309,12 +315,25 @@ static void tpm_crb_realize(DeviceState *dev, Error **errp)
+>      qemu_register_reset(tpm_crb_reset, dev);
+>  }
 
-Correct.  I pointed this out in review, actually:
+As QEMU code goes, this seems much worse than what it replaces.
+To have a memory region backed by RAM and migrated in the
+usual way, memory_region_init_ram() is the right thing.
 
-    Message-ID: <87tuk1k0de.fsf@dusky.pond.sub.org>
-    https://lists.gnu.org/archive/html/qemu-devel/2021-08/msg01236.html
-
-Gerd replied "when going forward with building more code modular we
-might need this for qmp too at some point".
-
->                                    I don't know how hard/easy it is
-> to address this, and perhaps we don't even want to.
-
-Depends on requirements.
-
-Say all we want is "command fails unless the module is loaded" (or
-whatever the condition is).  Should be fairly easy.
-
-But if we want introspection to reflect the state of things, that's
-harder.
-
->                                                      It was a problem
-> for me when previously converting HMP info commands to QMP and I
-> didn't get a solution, so didn't convert anything where the command
-> impl was dynamically registered at runtime. This basically excluded
-> converting devices that have been split into loadable modules.
-
-Understand; you series was big enough as it was.
-
-> If we had a general  'info dev-debug' (HMP) and  'x-query-dev-debug'
-> commands, then we could side-step the QMP limitation, as both thue
-> HMP and QMP comamnds could be statically registered. The devices
-> then only need to register  a callback at runtime which should be
-> easier to deal with.
-
-I like it.
-
+thanks
+-- PMM
 
