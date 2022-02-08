@@ -2,92 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 392C84AD081
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Feb 2022 06:18:03 +0100 (CET)
-Received: from localhost ([::1]:48138 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B5A3A4AD160
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Feb 2022 07:13:34 +0100 (CET)
+Received: from localhost ([::1]:58582 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nHIt7-00028U-Ln
-	for lists+qemu-devel@lfdr.de; Tue, 08 Feb 2022 00:18:01 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:34338)
+	id 1nHJkr-00058L-8u
+	for lists+qemu-devel@lfdr.de; Tue, 08 Feb 2022 01:13:33 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:42060)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nHIqG-0000RD-KV
- for qemu-devel@nongnu.org; Tue, 08 Feb 2022 00:15:06 -0500
-Received: from [2607:f8b0:4864:20::1034] (port=37422
- helo=mail-pj1-x1034.google.com)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1nHJfj-0003n9-47
+ for qemu-devel@nongnu.org; Tue, 08 Feb 2022 01:08:15 -0500
+Received: from [2607:f8b0:4864:20::d32] (port=43666
+ helo=mail-io1-xd32.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nHIqD-0000EV-Ve
- for qemu-devel@nongnu.org; Tue, 08 Feb 2022 00:15:04 -0500
-Received: by mail-pj1-x1034.google.com with SMTP id
- v5-20020a17090a4ec500b001b8b702df57so1099818pjl.2
- for <qemu-devel@nongnu.org>; Mon, 07 Feb 2022 21:15:01 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1nHJfh-0007s4-22
+ for qemu-devel@nongnu.org; Tue, 08 Feb 2022 01:08:14 -0500
+Received: by mail-io1-xd32.google.com with SMTP id m185so11609427iof.10
+ for <qemu-devel@nongnu.org>; Mon, 07 Feb 2022 22:08:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=pT/zm/rTMEImGvG+Za1M7niAoIZlMdv/mFUDuqOrqA8=;
- b=XZ5mqEm4mst8Js6/8gjvWuyYEIuy/P3zIm/DFf3M+bWkLgSwxCpo5lCpHNWfgHgS43
- OnnFRM6IQwv6G62xyirS6o0PCDeoDdPI/WTyH2u3asaFPWdBYFDnJT7pqSGZKbHB0kCP
- PSlnnQCKrxAXG1uHqcQ8+CBDnSGzuoEMXY/aq47ldLxxaip2kPIRLALEWLzx8MXKt4g4
- RvOlYt3KOgn6nGv1hMW+ar6P8a/wIYfYS2n6uc7fIza5mAgLBJL6/CzJvwb2Xa72opRF
- NNNM9mMEHPJfFZg6VhWPKsQtmnDjfSK8j//x7nsWCBsgSm50iYe4lnLz2RzpNz2zgDuS
- 9ENA==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=f8cpGGjdnGuu5TCvh/wGkM+Fu5hu3+myEGOOjacv6AY=;
+ b=JW68MSm7lzkbTV+fw0UlOnG33g6sS7/f0FeLjOBBRDBpd1USMfpKqlUkpkBAOIIYwK
+ a40V2eHX1g6p637qUCK6o+JdKiHTaDb79/XUA2WMsL6fod3p434UfCHgLOM+HErogE2R
+ qyaLbGAr3X1T8iEdtL2l7DeLz7XVkSLlSni024mhz1b94hxcFe/lmrz+QjoF31v2P4Wy
+ wgwv5UMvyOOBeLe9OOu/9TcxHIE90T3SeomghUZfvtmIg4ujMsa6mz1JaNqFW4C6ymzh
+ S1R+Fc/Sw0gkjVfNj5itDcbyIUMVCDA+RbHBHY97gjSC3ys6BKpRkR+GLpgD2OR2mvvn
+ KFlQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=pT/zm/rTMEImGvG+Za1M7niAoIZlMdv/mFUDuqOrqA8=;
- b=WPwDbfWObI9MoTzw2wUXWHUulb/krKwq3D4I6qE0ywNzFusSDFBRCoHsJsYjdZoBzv
- N/RVRA7sNI9PWxuwwOvMth2a45s9DI1N1aojVFw7dlVb9AUiYBPJ65UIEnnsiDiRKVjK
- YvSNAIRcMVAwGiFRHv8pC5jDcN4yZY46DC5PbaQx0sXta2/UlZ1+gpQCjPtNdDkoQpwL
- 1ZV1Id/lrqO5AhH+Rq1VI0ird6zv+QZla15aZjDTCpdP3tfAbzvmy8l8bybrWKNhYF4v
- i0514c7BoAnRZcdTvE2SMp10y9QVzSmiIfVGpF27YI4jzfQsakAbvvbcuyXLEHdLsD5/
- U/SQ==
-X-Gm-Message-State: AOAM532H1Ew0Qu/V7SvZiaWeGmOdEOxOs1lpoltOEvXEsq3GzjOYaPci
- 6IF9MREMwD4akJ9cCy9HFwc=
-X-Google-Smtp-Source: ABdhPJzCPhFpbAeUT7bJEicbFumegPXUO8/iRAA8C6xZgCEfkiCRW7uccHx+CKVUCvCC9ex2RwpJNQ==
-X-Received: by 2002:a17:902:ba94:: with SMTP id
- k20mr2807133pls.155.1644297300465; 
- Mon, 07 Feb 2022 21:15:00 -0800 (PST)
-Received: from [192.168.1.33] (154.red-83-50-83.dynamicip.rima-tde.net.
- [83.50.83.154])
- by smtp.gmail.com with ESMTPSA id me4sm1077626pjb.26.2022.02.07.21.14.58
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 07 Feb 2022 21:15:00 -0800 (PST)
-Message-ID: <71542eb1-fc8f-8f30-81e0-35c9df764825@amsat.org>
-Date: Tue, 8 Feb 2022 06:14:56 +0100
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=f8cpGGjdnGuu5TCvh/wGkM+Fu5hu3+myEGOOjacv6AY=;
+ b=vIdNvQDOqhzEz3xHvUCgnP7YVxXFcON1NV+ZMnppw+iaCAIBCUtCkCTv3w+NwEBvik
+ HD3Dd2JoBalvQ+UX9RFBGmkhTAEHpl3Ond6v+O7si8AGQs4uiuF7wrcOyKgMKBOeqgX0
+ YGyzp6frRbQqukO+nN3aCwjeEsXGGstz4aD281btPcD2YZAINfXUAxn87LwG7FvqJss2
+ WDiTRWJZIfsqGcFRpDHbTInh0xbVL0DUsyi6fuOILm8PlsHsXRPmaXSnlY8XNA6LLs1w
+ 5TmzqwMLwv4VsqWII0yJSQkaR0EjYfirFa/zJJ63si61IzFTBerFj5j81nwgSZygE0CD
+ 4ijA==
+X-Gm-Message-State: AOAM531LJxjD6fLaxz6MScQ6IAj2RvkWhkoCB+T8z9AgJi81kHCB69+m
+ UjYD6aL4cLMmdcPqC9/8R2FsbP/oKPTt1yuNimI=
+X-Google-Smtp-Source: ABdhPJxwImt58qwzpzAmqW617ps7bCvxx3wVwzJETP89gvvz3zrf7JLOFWSZbLu2PLggys/YnFpyRK7Y0kXoeqZENRQ=
+X-Received: by 2002:a05:6602:727:: with SMTP id
+ g7mr1453153iox.90.1644300491826; 
+ Mon, 07 Feb 2022 22:08:11 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.5.1
-Subject: Re: [PATCH 08/11] mos6522: add "info via" HMP command for debugging
-Content-Language: en-US
-To: Peter Maydell <peter.maydell@linaro.org>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Cc: Markus Armbruster <armbru@redhat.com>, Laurent@vivier.eu,
- qemu-devel@nongnu.org
-References: <20220127205405.23499-1-mark.cave-ayland@ilande.co.uk>
- <20220127205405.23499-9-mark.cave-ayland@ilande.co.uk>
- <CAFEAcA8ZiLTgeG_2aUHBoV0io52623VRybG0NL0uY8=9Fg59Kg@mail.gmail.com>
-In-Reply-To: <CAFEAcA8ZiLTgeG_2aUHBoV0io52623VRybG0NL0uY8=9Fg59Kg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1034
+References: <20220202005249.3566542-1-philipp.tomsich@vrull.eu>
+ <20220202005249.3566542-4-philipp.tomsich@vrull.eu>
+In-Reply-To: <20220202005249.3566542-4-philipp.tomsich@vrull.eu>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Tue, 8 Feb 2022 16:07:44 +1000
+Message-ID: <CAKmqyKNoHBFQaB9k3+cs2n0n8zFhg1Kv3uQuxhr-6R-pP8UasA@mail.gmail.com>
+Subject: Re: [PATCH v6 3/7] target/riscv: access configuration through cfg_ptr
+ in DisasContext
+To: Philipp Tomsich <philipp.tomsich@vrull.eu>
+Content-Type: text/plain; charset="UTF-8"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::d32
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1034;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pj1-x1034.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
- PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d32;
+ envelope-from=alistair23@gmail.com; helo=mail-io1-xd32.google.com
+X-Spam_score_int: -10
+X-Spam_score: -1.1
+X-Spam_bar: -
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, PDS_HP_HELO_NORDNS=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -100,176 +83,105 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Alistair Francis <alistair.francis@wdc.com>,
+ Kito Cheng <kito.cheng@sifive.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Greg Favor <gfavor@ventanamicro.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
-On 7/2/22 20:34, Peter Maydell wrote:
-> On Thu, 27 Jan 2022 at 21:03, Mark Cave-Ayland
-> <mark.cave-ayland@ilande.co.uk> wrote:
->>
->> This displays detailed information about the device registers and timers to aid
->> debugging problems with timers and interrupts.
->>
->> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
->> ---
->>   hmp-commands-info.hx | 12 ++++++
->>   hw/misc/mos6522.c    | 92 ++++++++++++++++++++++++++++++++++++++++++++
->>   2 files changed, 104 insertions(+)
-> 
-> 
-> I'm not sure how keen we are on adding new device-specific
-> HMP info commands, but it's not my area of expertise. Markus ?
+On Wed, Feb 2, 2022 at 11:26 AM Philipp Tomsich
+<philipp.tomsich@vrull.eu> wrote:
+>
+> The implementation in trans_{rvi,rvv,rvzfh}.c.inc accesses the shallow
+> copies (in DisasContext) of some of the elements available in the
+> RISCVCPUConfig structure.  This commit redirects accesses to use the
+> cfg_ptr copied into DisasContext and removes the shallow copies.
+>
+> Signed-off-by: Philipp Tomsich <philipp.tomsich@vrull.eu>
+> Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+> Suggested-by: Richard Henderson <richard.henderson@linaro.org>
+> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+>
+> ---
+>
+> (no changes since v3)
+>
+> Changes in v3:
+> - (new patch) test extension-availability through cfg_ptr in
+>   DisasContext, removing the fields that have been copied into
+>   DisasContext directly
+>
+>  target/riscv/insn_trans/trans_rvi.c.inc   |   2 +-
+>  target/riscv/insn_trans/trans_rvv.c.inc   | 104 +++++++++++-----------
+>  target/riscv/insn_trans/trans_rvzfh.c.inc |   4 +-
+>  target/riscv/translate.c                  |  14 ---
+>  4 files changed, 55 insertions(+), 69 deletions(-)
+>
+> diff --git a/target/riscv/insn_trans/trans_rvi.c.inc b/target/riscv/insn_trans/trans_rvi.c.inc
+> index 3cd1b3f877..f1342f30f8 100644
+> --- a/target/riscv/insn_trans/trans_rvi.c.inc
+> +++ b/target/riscv/insn_trans/trans_rvi.c.inc
+> @@ -806,7 +806,7 @@ static bool trans_fence(DisasContext *ctx, arg_fence *a)
+>
+>  static bool trans_fence_i(DisasContext *ctx, arg_fence_i *a)
+>  {
+> -    if (!ctx->ext_ifencei) {
+> +    if (!ctx->cfg_ptr->ext_ifencei) {
+>          return false;
+>      }
+>
+> diff --git a/target/riscv/insn_trans/trans_rvv.c.inc b/target/riscv/insn_trans/trans_rvv.c.inc
+> index f85a9e83b4..ff09e345ad 100644
+> --- a/target/riscv/insn_trans/trans_rvv.c.inc
+> +++ b/target/riscv/insn_trans/trans_rvv.c.inc
+> @@ -74,7 +74,7 @@ static bool require_zve32f(DisasContext *s)
+>      }
+>
+>      /* Zve32f doesn't support FP64. (Section 18.2) */
+> -    return s->ext_zve32f ? s->sew <= MO_32 : true;
+> +    return s->cfg_ptr->ext_zve32f ? s->sew <= MO_32 : true;
+>  }
+>
+>  static bool require_scale_zve32f(DisasContext *s)
+> @@ -85,7 +85,7 @@ static bool require_scale_zve32f(DisasContext *s)
+>      }
+>
+>      /* Zve32f doesn't support FP64. (Section 18.2) */
+> -    return s->ext_zve64f ? s->sew <= MO_16 : true;
+> +    return s->cfg_ptr->ext_zve64f ? s->sew <= MO_16 : true;
+>  }
+>
+>  static bool require_zve64f(DisasContext *s)
+> @@ -96,7 +96,7 @@ static bool require_zve64f(DisasContext *s)
+>      }
+>
+>      /* Zve64f doesn't support FP64. (Section 18.2) */
+> -    return s->ext_zve64f ? s->sew <= MO_32 : true;
+> +    return s->cfg_ptr->ext_zve64f ? s->sew <= MO_32 : true;
+>  }
+>
+>  static bool require_scale_zve64f(DisasContext *s)
+> @@ -107,7 +107,7 @@ static bool require_scale_zve64f(DisasContext *s)
+>      }
+>
+>      /* Zve64f doesn't support FP64. (Section 18.2) */
+> -    return s->ext_zve64f ? s->sew <= MO_16 : true;
+> +    return s->cfg_ptr->ext_zve64f ? s->sew <= MO_16 : true;
+>  }
+>
+>  /* Destination vector register group cannot overlap source mask register. */
+> @@ -174,7 +174,7 @@ static bool do_vsetvl(DisasContext *s, int rd, int rs1, TCGv s2)
+>      TCGv s1, dst;
+>
+>      if (!require_rvv(s) ||
+> -        !(has_ext(s, RVV) || s->ext_zve32f || s->ext_zve64f)) {
+> +        !(has_ext(s, RVV) || s->cfg_ptr->ext_zve32f || s->cfg_ptr->ext_zve64f)) {
 
-HMP is David :) IIRC it is OK as long as HMP is a QMP wrapper.
+This fails checkpatch as the line is too long
 
-> 
-> (patch below for context)
-> 
-> thanks
-> -- PMM
-> 
->>
->> diff --git a/hmp-commands-info.hx b/hmp-commands-info.hx
->> index e90f20a107..4e714e79a2 100644
->> --- a/hmp-commands-info.hx
->> +++ b/hmp-commands-info.hx
->> @@ -879,3 +879,15 @@ SRST
->>     ``info sgx``
->>       Show intel SGX information.
->>   ERST
->> +
->> +    {
->> +        .name       = "via",
->> +        .args_type  = "",
->> +        .params     = "",
->> +        .help       = "show guest 6522 VIA devices",
->> +    },
->> +
->> +SRST
->> +  ``info via``
->> +    Show guest 6522 VIA devices.
->> +ERST
->> diff --git a/hw/misc/mos6522.c b/hw/misc/mos6522.c
->> index aaae195d63..cfa6a9c44b 100644
->> --- a/hw/misc/mos6522.c
->> +++ b/hw/misc/mos6522.c
->> @@ -30,6 +30,8 @@
->>   #include "hw/misc/mos6522.h"
->>   #include "hw/qdev-properties.h"
->>   #include "migration/vmstate.h"
->> +#include "monitor/monitor.h"
->> +#include "qapi/type-helpers.h"
->>   #include "qemu/timer.h"
->>   #include "qemu/cutils.h"
->>   #include "qemu/log.h"
->> @@ -415,6 +417,95 @@ void mos6522_write(void *opaque, hwaddr addr, uint64_t val, unsigned size)
->>       }
->>   }
->>
->> +static int qmp_x_query_via_foreach(Object *obj, void *opaque)
->> +{
->> +    GString *buf = opaque;
->> +
->> +    if (object_dynamic_cast(obj, TYPE_MOS6522)) {
->> +        MOS6522State *s = MOS6522(obj);
->> +        int64_t now = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
->> +        uint16_t t1counter = get_counter(s, &s->timers[0]);
->> +        uint16_t t2counter = get_counter(s, &s->timers[1]);
->> +
->> +        g_string_append_printf(buf, "%s:\n", object_get_typename(obj));
->> +
->> +        g_string_append_printf(buf, "  Registers:\n");
->> +        g_string_append_printf(buf, "    %-*s:    0x%x\n", 4,
->> +                               mos6522_reg_names[0], s->b);
->> +        g_string_append_printf(buf, "    %-*s:    0x%x\n", 4,
->> +                               mos6522_reg_names[1], s->a);
->> +        g_string_append_printf(buf, "    %-*s:    0x%x\n", 4,
->> +                               mos6522_reg_names[2], s->dirb);
->> +        g_string_append_printf(buf, "    %-*s:    0x%x\n", 4,
->> +                               mos6522_reg_names[3], s->dira);
->> +        g_string_append_printf(buf, "    %-*s:    0x%x\n", 4,
->> +                               mos6522_reg_names[4], t1counter & 0xff);
->> +        g_string_append_printf(buf, "    %-*s:    0x%x\n", 4,
->> +                               mos6522_reg_names[5], t1counter >> 8);
->> +        g_string_append_printf(buf, "    %-*s:    0x%x\n", 4,
->> +                               mos6522_reg_names[6],
->> +                               s->timers[0].latch & 0xff);
->> +        g_string_append_printf(buf, "    %-*s:    0x%x\n", 4,
->> +                               mos6522_reg_names[7],
->> +                               s->timers[0].latch >> 8);
->> +        g_string_append_printf(buf, "    %-*s:    0x%x\n", 4,
->> +                               mos6522_reg_names[8], t2counter & 0xff);
->> +        g_string_append_printf(buf, "    %-*s:    0x%x\n", 4,
->> +                               mos6522_reg_names[9], t2counter >> 8);
->> +        g_string_append_printf(buf, "    %-*s:    0x%x\n", 4,
->> +                               mos6522_reg_names[10], s->sr);
->> +        g_string_append_printf(buf, "    %-*s:    0x%x\n", 4,
->> +                               mos6522_reg_names[11], s->acr);
->> +        g_string_append_printf(buf, "    %-*s:    0x%x\n", 4,
->> +                               mos6522_reg_names[12], s->pcr);
->> +        g_string_append_printf(buf, "    %-*s:    0x%x\n", 4,
->> +                               mos6522_reg_names[13], s->ifr);
->> +        g_string_append_printf(buf, "    %-*s:    0x%x\n", 4,
->> +                               mos6522_reg_names[14], s->ier);
->> +
->> +        g_string_append_printf(buf, "  Timers:\n");
->> +        g_string_append_printf(buf, "    Using current time now(ns)=%"PRId64
->> +                                    "\n", now);
->> +        g_string_append_printf(buf, "    T1 freq(hz)=%"PRId64
->> +                               " mode=%s"
->> +                               " counter=0x%x"
->> +                               " latch=0x%x\n"
->> +                               "       load_time(ns)=%"PRId64
->> +                               " next_irq_time(ns)=%"PRId64 "\n",
->> +                               s->timers[0].frequency,
->> +                               ((s->acr & T1MODE) == T1MODE_CONT) ? "continuous"
->> +                                                                  : "one-shot",
->> +                               t1counter,
->> +                               s->timers[0].latch,
->> +                               s->timers[0].load_time,
->> +                               get_next_irq_time(s, &s->timers[0], now));
->> +        g_string_append_printf(buf, "    T2 freq(hz)=%"PRId64
->> +                               " mode=%s"
->> +                               " counter=0x%x"
->> +                               " latch=0x%x\n"
->> +                               "       load_time(ns)=%"PRId64
->> +                               " next_irq_time(ns)=%"PRId64 "\n",
->> +                               s->timers[1].frequency,
->> +                               "one-shot",
->> +                               t2counter,
->> +                               s->timers[1].latch,
->> +                               s->timers[1].load_time,
->> +                               get_next_irq_time(s, &s->timers[1], now));
->> +    }
->> +
->> +    return 0;
->> +}
->> +
->> +static HumanReadableText *qmp_x_query_via(Error **errp)
->> +{
->> +    g_autoptr(GString) buf = g_string_new("");
->> +
->> +    object_child_foreach_recursive(object_get_root(),
->> +                                   qmp_x_query_via_foreach, buf);
->> +
->> +    return human_readable_text_from_str(buf);
->> +}
->> +
->>   static const MemoryRegionOps mos6522_ops = {
->>       .read = mos6522_read,
->>       .write = mos6522_write,
->> @@ -547,6 +638,7 @@ static const TypeInfo mos6522_type_info = {
->>   static void mos6522_register_types(void)
->>   {
->>       type_register_static(&mos6522_type_info);
->> +    monitor_register_hmp_info_hrt("via", qmp_x_query_via);
->>   }
->>
->>   type_init(mos6522_register_types)
->> --
->> 2.20.1
-> 
+Can you run checkpatch on the series and re-send it?
 
+Alistair
 
