@@ -2,96 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4F234AD276
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Feb 2022 08:44:29 +0100 (CET)
-Received: from localhost ([::1]:57768 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 678924AD387
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Feb 2022 09:33:53 +0100 (CET)
+Received: from localhost ([::1]:38404 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nHLAo-0007VQ-VG
-	for lists+qemu-devel@lfdr.de; Tue, 08 Feb 2022 02:44:27 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:49654)
+	id 1nHLwe-0002h6-DW
+	for lists+qemu-devel@lfdr.de; Tue, 08 Feb 2022 03:33:52 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:51940)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1nHKTQ-0003Fx-Mg
- for qemu-devel@nongnu.org; Tue, 08 Feb 2022 01:59:38 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:28432)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1nHKTH-0006k8-L2
- for qemu-devel@nongnu.org; Tue, 08 Feb 2022 01:59:31 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1644303521;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=75Iq94Dp/tXC9KrSfKdcUkCyJNK+H2fJiYTGUK75R5c=;
- b=dycfAbF7Fn1Tvtu26u8Q0WKZnXHnnysBvmMFx1l0+tJbNYF+TDfZUbiO63+RwpGyMEPMv+
- Pg/6RGihMzQ8colglPA3QEa/OmE2WboHzLyvpIq1tjnnhXEEnAGs1Mfn5DLvwD8lYiH93j
- Zogg5ANC8HzLK+GzUzJ7qtPnCKZo2xY=
-Received: from mail-pl1-f199.google.com (mail-pl1-f199.google.com
- [209.85.214.199]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-673-YjEhZs8wO7qjdLxsDVXWrg-1; Tue, 08 Feb 2022 01:58:40 -0500
-X-MC-Unique: YjEhZs8wO7qjdLxsDVXWrg-1
-Received: by mail-pl1-f199.google.com with SMTP id
- f9-20020a170902684900b0014cd6059ecdso6909710pln.7
- for <qemu-devel@nongnu.org>; Mon, 07 Feb 2022 22:58:40 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <xieyongji@bytedance.com>)
+ id 1nHKfv-0006vB-Qi
+ for qemu-devel@nongnu.org; Tue, 08 Feb 2022 02:12:33 -0500
+Received: from [2a00:1450:4864:20::62c] (port=39455
+ helo=mail-ej1-x62c.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <xieyongji@bytedance.com>)
+ id 1nHKfr-0000QE-1L
+ for qemu-devel@nongnu.org; Tue, 08 Feb 2022 02:12:29 -0500
+Received: by mail-ej1-x62c.google.com with SMTP id j14so26061262ejy.6
+ for <qemu-devel@nongnu.org>; Mon, 07 Feb 2022 23:12:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=bytedance-com.20210112.gappssmtp.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=ccKMbrcFfRhepG0ul925MycYb0KWrbc7li2KuHGvMvE=;
+ b=rqkph5POI1ADToZMx8fpQsEYBPT0aseOenD/D0uoSyBVmd4lPlh9JV8bQIx4n47wnM
+ xc2mEh6whsWd7sx857VXlkDxRKuXnqmDh5XbjaPrl58LYya7QcFQVwCLwzpdeP6j4exT
+ gKlP65cSsL+Ezq+EZyUZJpiHI+i+QqBc5/F/fg0Hv/lHBCtov/DXq1EkB5mBm/jndyat
+ Ce3ND5gaDZmx8RFjIW8RU4nZcJ+W3IfHR3lcbId9QyXvHOXIhpdagMfPtdBqYuoJm0M9
+ pDaF3cIegeXwZ581crTbyzZkWI5PkDwqGYHUh7+QFzOCC3Df85V8Ze4DuEEnLqjMI1Dn
+ jBYw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=75Iq94Dp/tXC9KrSfKdcUkCyJNK+H2fJiYTGUK75R5c=;
- b=hA5utiC5nz5QnlQl3yQBxAkmZ2uA4oRU1d3ZMvfKMty/4dLKfEM3jVfC7b496pm1L1
- csVqgRzZ5YN+mVYSIdRb7w/JinbwWm3iqbHCeZPpzUzyKiJ1aY0Psrf0GKXvVnhtUW8C
- nmzsWH68jpcSEatzI8l9256CQrSZgzR/aG7q3D9wsso8hU7dPDwwTX8+4exWhJ/3Kvp0
- djfX+3uQaRH7d0jUgeAphkUuLzVRzNiTEpAt8/cbnByW+Va66GVpMgL4WdGodZzJH4/B
- vjmmtg+6CCzKuH1kwxFFrjnVj0wKJrVvhu3S7c7F3e7ZwLX7l1sxWfSdkVmhTwxJDNlv
- TBRQ==
-X-Gm-Message-State: AOAM531JcUIoMOoUAtEiyL4sganP06f8eHo7mdgKrfHLYr2rXBGzY8J1
- xYxVKLgGZiawGJxyL9Qvsln+qDKi/sH+fpVy+4j0+ZCe+AxXsEPoCRle/6aUanzKwdFRL0JqZWE
- geyBk8rqJxUENxl0=
-X-Received: by 2002:a17:90b:3ece:: with SMTP id
- rm14mr2876247pjb.220.1644303519114; 
- Mon, 07 Feb 2022 22:58:39 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJy1lSSs1vr+wO7cooTPkapSG5GEpiu/r0pjJuh8WXOjGekx015DpYJbEccMJD1ZSDHnD3nXsA==
-X-Received: by 2002:a17:90b:3ece:: with SMTP id
- rm14mr2876209pjb.220.1644303518813; 
- Mon, 07 Feb 2022 22:58:38 -0800 (PST)
-Received: from [10.72.13.12] ([209.132.188.80])
- by smtp.gmail.com with ESMTPSA id 20sm1439863pjf.15.2022.02.07.22.58.31
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 07 Feb 2022 22:58:38 -0800 (PST)
-Message-ID: <b3d7f050-b5e1-0751-60ec-d6d81016461f@redhat.com>
-Date: Tue, 8 Feb 2022 14:58:29 +0800
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=ccKMbrcFfRhepG0ul925MycYb0KWrbc7li2KuHGvMvE=;
+ b=L7wrXSTV4VHCpi8q5pjX9whc9IdKi3wHzbspxD4UBJDNFQskBrCVu1tdk5/jhK0GYt
+ sQAvyW8vfYwkHL/Wg2MJLDVUm3thdW0y/n05LWTYFQtFlJRbXTy1OXW7oxjSj1xmGL5M
+ SL6+JkLjwnoUOlYEZ/KBn8/L8yJZYDZfDzP7NPw65UtQs7El9NmcXzGqCclyoPD3H1Uk
+ L3Pt2nWDIlyF7NfgVevxQdw5ut45xRJo9kU2GbsWInnAQsdFV0C0T1p6KFcF+9ji70cL
+ gKnthJ32O/L+oqvODg3YCk9IfOxAXyHxIMUXoyOK5W6Nd4xlBkRbE/Y6PEeY3PpWBbgV
+ pDvg==
+X-Gm-Message-State: AOAM533nsyYT2x+6GR3CouWyVBHIS0HhO2woVim/Arze1+1n+0bQsaoo
+ wTQpTArviI66tljc4O/IIyKhddYYwHvTZropivKr
+X-Google-Smtp-Source: ABdhPJwjCFTil23A8zsuetRFVEF2Qe8x0E5BzKsaR9/QXoS75hY0d86f4pqjv3F4DQkhDE4Cw+zuJimLfxn7axs7smA=
+X-Received: by 2002:a17:907:7f88:: with SMTP id
+ qk8mr2572072ejc.622.1644304344803; 
+ Mon, 07 Feb 2022 23:12:24 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.5.1
-Subject: Re: [PATCH 16/31] vhost: pass queue index to vhost_vq_get_addr
-To: Eugenio Perez Martin <eperezma@redhat.com>
-References: <20220121202733.404989-1-eperezma@redhat.com>
- <20220121202733.404989-17-eperezma@redhat.com>
- <f0e549eb-3485-01f5-88cb-f5681fc74abc@redhat.com>
- <CAJaqyWexu=VroHQxmtJDQm=iu1va-s1VGR8hqGOreG0SOisjYg@mail.gmail.com>
-From: Jason Wang <jasowang@redhat.com>
-In-Reply-To: <CAJaqyWexu=VroHQxmtJDQm=iu1va-s1VGR8hqGOreG0SOisjYg@mail.gmail.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=jasowang@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+References: <20220125131800.91-1-xieyongji@bytedance.com>
+ <20220125131800.91-5-xieyongji@bytedance.com>
+ <YgEqQA9s3/surkoI@stefanha-x1.localdomain>
+In-Reply-To: <YgEqQA9s3/surkoI@stefanha-x1.localdomain>
+From: Yongji Xie <xieyongji@bytedance.com>
+Date: Tue, 8 Feb 2022 15:12:14 +0800
+Message-ID: <CACycT3usuaRV4K_zRBRBFJXCh=bAFJemZADJGAULZQK4PShrwQ@mail.gmail.com>
+Subject: Re: [PATCH 4/5] vduse-blk: Add vduse-blk resize support
+To: Stefan Hajnoczi <stefanha@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::62c
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::62c;
+ envelope-from=xieyongji@bytedance.com; helo=mail-ej1-x62c.google.com
+X-Spam_score_int: -10
+X-Spam_score: -1.1
+X-Spam_bar: -
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -104,96 +83,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Parav Pandit <parav@mellanox.com>,
- Cindy Lu <lulu@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Juan Quintela <quintela@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- qemu-level <qemu-devel@nongnu.org>, Gautam Dawar <gdawar@xilinx.com>,
- Markus Armbruster <armbru@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
- Harpreet Singh Anand <hanand@xilinx.com>, Xiao W Wang <xiao.w.wang@intel.com>,
- Peter Xu <peterx@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Eli Cohen <eli@mellanox.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Zhu Lingshan <lingshan.zhu@intel.com>,
- virtualization <virtualization@lists.linux-foundation.org>,
- Eric Blake <eblake@redhat.com>, Stefano Garzarella <sgarzare@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
+ "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ qemu-devel@nongnu.org, mreitz@redhat.com, mlureau@redhat.com,
+ Stefano Garzarella <sgarzare@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-在 2022/2/1 上午1:44, Eugenio Perez Martin 写道:
-> On Sat, Jan 29, 2022 at 9:20 AM Jason Wang <jasowang@redhat.com> wrote:
->>
->> 在 2022/1/22 上午4:27, Eugenio Pérez 写道:
->>> Doing that way allows vhost backend to know what address to return.
->>>
->>> Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
->>> ---
->>>    hw/virtio/vhost.c | 6 +++---
->>>    1 file changed, 3 insertions(+), 3 deletions(-)
->>>
->>> diff --git a/hw/virtio/vhost.c b/hw/virtio/vhost.c
->>> index 7b03efccec..64b955ba0c 100644
->>> --- a/hw/virtio/vhost.c
->>> +++ b/hw/virtio/vhost.c
->>> @@ -798,9 +798,10 @@ static int vhost_virtqueue_set_addr(struct vhost_dev *dev,
->>>                                        struct vhost_virtqueue *vq,
->>>                                        unsigned idx, bool enable_log)
->>>    {
->>> -    struct vhost_vring_addr addr;
->>> +    struct vhost_vring_addr addr = {
->>> +        .index = idx,
->>> +    };
->>>        int r;
->>> -    memset(&addr, 0, sizeof(struct vhost_vring_addr));
->>>
->>>        if (dev->vhost_ops->vhost_vq_get_addr) {
->>>            r = dev->vhost_ops->vhost_vq_get_addr(dev, &addr, vq);
->>> @@ -813,7 +814,6 @@ static int vhost_virtqueue_set_addr(struct vhost_dev *dev,
->>>            addr.avail_user_addr = (uint64_t)(unsigned long)vq->avail;
->>>            addr.used_user_addr = (uint64_t)(unsigned long)vq->used;
->>>        }
->>
->> I'm a bit lost in the logic above, any reason we need call
->> vhost_vq_get_addr() :) ?
->>
-> It's the way vhost_virtqueue_set_addr works if the backend has a
-> vhost_vq_get_addr operation (currently, only vhost-vdpa). vhost first
-> ask the address to the back end and then set it.
-
-
-Right it's because vhost-vdpa doesn't use VA but GPA. But I'm not sure 
-it's worth a dedicated vhost_ops. But consider we introduce shadow 
-virtqueue stuffs, it should be ok now.
-
-(In the future, we may consider to generalize non vhost-vdpa specific 
-stuffs to VhostShadowVirtqueue, then we can get rid of this vhost_ops.
-
-
+On Mon, Feb 7, 2022 at 10:18 PM Stefan Hajnoczi <stefanha@redhat.com> wrote:
 >
-> Previously, index was not needed because all the information was in
-> vhost_virtqueue. However to extract queue index from vhost_virtqueue
-> is tricky, so I think it's easier to simply have that information at
-> request, something similar to get_base or get_num when asking vdpa
-> device. We can extract the index from vq - dev->vqs or something
-> similar if it's prefered.
-
-
-It looks odd for the caller to tell the index consider vhost_virtqueue 
-is already passed. So I think we need deduce it from vhost_virtqueue as 
-you mentioned here.
-
-Thanks
-
-
+> On Tue, Jan 25, 2022 at 09:17:59PM +0800, Xie Yongji wrote:
+> > To support block resize, this uses vduse_dev_update_config()
+> > to update the capacity field in configuration space and inject
+> > config interrupt on the block resize callback.
+> >
+> > Signed-off-by: Xie Yongji <xieyongji@bytedance.com>
+> > ---
+> >  block/export/vduse-blk.c | 19 +++++++++++++++++++
+> >  1 file changed, 19 insertions(+)
+> >
+> > diff --git a/block/export/vduse-blk.c b/block/export/vduse-blk.c
+> > index 5a8d289685..83845e9a9a 100644
+> > --- a/block/export/vduse-blk.c
+> > +++ b/block/export/vduse-blk.c
+> > @@ -297,6 +297,23 @@ static void blk_aio_detach(void *opaque)
+> >      vblk_exp->export.ctx = NULL;
+> >  }
+> >
+> > +static void vduse_blk_resize(void *opaque)
+> > +{
+> > +    BlockExport *exp = opaque;
+> > +    VduseBlkExport *vblk_exp = container_of(exp, VduseBlkExport, export);
+> > +    struct virtio_blk_config config;
+> > +
+> > +    config.capacity =
+> > +            cpu_to_le64(blk_getlength(exp->blk) >> VIRTIO_BLK_SECTOR_BITS);
+> > +    vduse_dev_update_config(vblk_exp->dev, sizeof(config.capacity),
+> > +                            offsetof(struct virtio_blk_config, capacity),
+> > +                            (char *)&config.capacity);
+> > +}
+> > +
+> > +static const BlockDevOps vduse_block_ops = {
+> > +    .resize_cb = vduse_blk_resize,
+> > +};
+> > +
+> >  static int vduse_blk_exp_create(BlockExport *exp, BlockExportOptions *opts,
+> >                                  Error **errp)
+> >  {
+> > @@ -387,6 +404,8 @@ static int vduse_blk_exp_create(BlockExport *exp, BlockExportOptions *opts,
+> >      blk_add_aio_context_notifier(exp->blk, blk_aio_attached, blk_aio_detach,
+> >                                   vblk_exp);
+> >
+> > +    blk_set_dev_ops(exp->blk, &vduse_block_ops, exp);
 >
-> Thanks!
->
->> Thanks
->>
->>
->>> -    addr.index = idx;
->>>        addr.log_guest_addr = vq->used_phys;
->>>        addr.flags = enable_log ? (1 << VHOST_VRING_F_LOG) : 0;
->>>        r = dev->vhost_ops->vhost_set_vring_addr(dev, &addr);
+> Detach is missing, so BlockBackend->dev_ops will become stale after the
+> export is deleted. Please add code to detach when the export is deleted.
 
+OK.
+
+Thanks,
+Yongji
 
