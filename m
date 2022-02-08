@@ -2,54 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9A4C4ADBFE
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Feb 2022 16:07:48 +0100 (CET)
-Received: from localhost ([::1]:35272 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 781DA4ADDA5
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Feb 2022 16:52:18 +0100 (CET)
+Received: from localhost ([::1]:45224 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nHS5r-0006yU-G7
-	for lists+qemu-devel@lfdr.de; Tue, 08 Feb 2022 10:07:47 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:36962)
+	id 1nHSmv-0005qq-Ij
+	for lists+qemu-devel@lfdr.de; Tue, 08 Feb 2022 10:52:17 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:37002)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1nHQiz-0003QL-4e
- for qemu-devel@nongnu.org; Tue, 08 Feb 2022 08:40:05 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:51229)
+ id 1nHQj1-0003Wl-4l
+ for qemu-devel@nongnu.org; Tue, 08 Feb 2022 08:40:07 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:59272)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1nHQiw-0005Wo-9i
- for qemu-devel@nongnu.org; Tue, 08 Feb 2022 08:40:04 -0500
+ id 1nHQiz-0005aG-9e
+ for qemu-devel@nongnu.org; Tue, 08 Feb 2022 08:40:06 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1644327601;
+ s=mimecast20190719; t=1644327604;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=wCouyISLHtncrjGAGOUM6+LEW5CHw90BeT7ntnmYUZ0=;
- b=RH9GAMGTY5Y4Kb3ooKLU+6Y/RLwHLkfhkhN9T+dKvnLEsgAinZFj8y5js354KxRfGGEIr0
- kvSO++zOSvYt5aNJJmk1rNp/thd/SW9znw1s+lWof0YU0X7U+KwtBHQQvN2NbcDr4FuVGn
- MBDeQ/zZ/II/oKDo29CIrVbsln/GKO0=
+ bh=Yc6fhg/gCTgOjcDrLGk+J+NYj/1PBgJNJGmm2VzDPsY=;
+ b=LP7KB49VdWH+/5r70thrp/ONddfGtL6eC3DrGER/qxZ9HSt6idwagOsH/jAGuDdX8FiAQt
+ NF7fWCqg6rHsNw8NvBT5dqohrksvVenQR2153YofmHqzEkjOf4VfJLOsXYsh9jNt3d0R8o
+ cXJBOZSpMMgWFWH+R4M9RnM1N7vjGg8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-668-TVjMWDI-MOqxC07flF-_iw-1; Tue, 08 Feb 2022 08:39:58 -0500
-X-MC-Unique: TVjMWDI-MOqxC07flF-_iw-1
+ us-mta-674-mG1mJa-ZMMSMJXVS3GZE3A-1; Tue, 08 Feb 2022 08:40:01 -0500
+X-MC-Unique: mG1mJa-ZMMSMJXVS3GZE3A-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 745E91006AAA;
- Tue,  8 Feb 2022 13:39:57 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6563A84DA4C;
+ Tue,  8 Feb 2022 13:40:00 +0000 (UTC)
 Received: from laptop.redhat.com (unknown [10.39.195.249])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0215F708F4;
- Tue,  8 Feb 2022 13:39:26 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D1B0B4F850;
+ Tue,  8 Feb 2022 13:39:57 +0000 (UTC)
 From: Eric Auger <eric.auger@redhat.com>
 To: eric.auger.pro@gmail.com, eric.auger@redhat.com,
  stefanb@linux.vnet.ibm.com, qemu-devel@nongnu.org,
  alex.williamson@redhat.com
-Subject: [PATCH v4 1/2] tpm: CRB: Use ram_device for "tpm-crb-cmd" region
-Date: Tue,  8 Feb 2022 14:38:41 +0100
-Message-Id: <20220208133842.112017-2-eric.auger@redhat.com>
+Subject: [PATCH v4 2/2] hw/vfio/common: Silence ram device offset alignment
+ error traces
+Date: Tue,  8 Feb 2022 14:38:42 +0100
+Message-Id: <20220208133842.112017-3-eric.auger@redhat.com>
 In-Reply-To: <20220208133842.112017-1-eric.auger@redhat.com>
 References: <20220208133842.112017-1-eric.auger@redhat.com>
 MIME-Version: 1.0
@@ -86,93 +87,65 @@ Cc: quintela@redhat.com, cohuck@redhat.com, f4bug@amsat.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Representing the CRB cmd/response buffer as a standard
-RAM region causes some trouble when the device is used
-with VFIO. Indeed VFIO attempts to DMA_MAP this region
-as usual RAM but this latter does not have a valid page
-size alignment causing such an error report:
-"vfio_listener_region_add received unaligned region".
-To allow VFIO to detect that failing dma mapping
-this region is not an issue, let's use a ram_device
-memory region type instead.
+Failing to DMA MAP a ram_device should not cause an error message.
+This is currently happening with the TPM CRB command region and
+this is causing confusion.
+
+We may want to keep the trace for debug purpose though.
 
 Signed-off-by: Eric Auger <eric.auger@redhat.com>
 Tested-by: Stefan Berger <stefanb@linux.ibm.com>
+Acked-by: Alex Williamson <alex.williamson@redhat.com>
 Acked-by: Stefan Berger <stefanb@linux.ibm.com>
-[PMD: Keep tpm_crb.c in meson's softmmu_ss]
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
 ---
 
 v3 -> v4:
--  call vmstate_unregister_ram
+- s/PRIx64/PRIxPTR for qemu_real_host_page_mask
 ---
- hw/tpm/tpm_crb.c | 23 +++++++++++++++++++++--
- 1 file changed, 21 insertions(+), 2 deletions(-)
+ hw/vfio/common.c     | 15 ++++++++++++++-
+ hw/vfio/trace-events |  1 +
+ 2 files changed, 15 insertions(+), 1 deletion(-)
 
-diff --git a/hw/tpm/tpm_crb.c b/hw/tpm/tpm_crb.c
-index 58ebd1469c3..668f969b409 100644
---- a/hw/tpm/tpm_crb.c
-+++ b/hw/tpm/tpm_crb.c
-@@ -25,6 +25,7 @@
- #include "sysemu/tpm_backend.h"
- #include "sysemu/tpm_util.h"
- #include "sysemu/reset.h"
-+#include "exec/cpu-common.h"
- #include "tpm_prop.h"
- #include "tpm_ppi.h"
- #include "trace.h"
-@@ -43,6 +44,7 @@ struct CRBState {
- 
-     bool ppi_enabled;
-     TPMPPI ppi;
-+    uint8_t *crb_cmd_buf;
- };
- typedef struct CRBState CRBState;
- 
-@@ -291,10 +293,14 @@ static void tpm_crb_realize(DeviceState *dev, Error **errp)
+diff --git a/hw/vfio/common.c b/hw/vfio/common.c
+index 080046e3f51..5fbeed06f2f 100644
+--- a/hw/vfio/common.c
++++ b/hw/vfio/common.c
+@@ -884,7 +884,20 @@ static void vfio_listener_region_add(MemoryListener *listener,
+     if (unlikely((section->offset_within_address_space &
+                   ~qemu_real_host_page_mask) !=
+                  (section->offset_within_region & ~qemu_real_host_page_mask))) {
+-        error_report("%s received unaligned region", __func__);
++        if (memory_region_is_ram_device(section->mr)) { /* just debug purpose */
++            trace_vfio_listener_region_add_bad_offset_alignment(
++                memory_region_name(section->mr),
++                section->offset_within_address_space,
++                section->offset_within_region, qemu_real_host_page_size);
++        } else { /* error case we don't want to be fatal */
++            error_report("%s received unaligned region %s iova=0x%"PRIx64
++                         " offset_within_region=0x%"PRIx64
++                         " qemu_real_host_page_mask=0x%"PRIxPTR,
++                         __func__, memory_region_name(section->mr),
++                         section->offset_within_address_space,
++                         section->offset_within_region,
++                         qemu_real_host_page_mask);
++        }
          return;
      }
  
-+    s->crb_cmd_buf = qemu_memalign(qemu_real_host_page_size,
-+                                HOST_PAGE_ALIGN(CRB_CTRL_CMD_SIZE));
-+
-     memory_region_init_io(&s->mmio, OBJECT(s), &tpm_crb_memory_ops, s,
-         "tpm-crb-mmio", sizeof(s->regs));
--    memory_region_init_ram(&s->cmdmem, OBJECT(s),
--        "tpm-crb-cmd", CRB_CTRL_CMD_SIZE, errp);
-+    memory_region_init_ram_device_ptr(&s->cmdmem, OBJECT(s), "tpm-crb-cmd",
-+                                      CRB_CTRL_CMD_SIZE, s->crb_cmd_buf);
-+    vmstate_register_ram(&s->cmdmem, dev);
- 
-     memory_region_add_subregion(get_system_memory(),
-         TPM_CRB_ADDR_BASE, &s->mmio);
-@@ -309,12 +315,25 @@ static void tpm_crb_realize(DeviceState *dev, Error **errp)
-     qemu_register_reset(tpm_crb_reset, dev);
- }
- 
-+static void tpm_crb_unrealize(DeviceState *dev)
-+{
-+    CRBState *s = CRB(dev);
-+
-+    vmstate_unregister_ram(&s->cmdmem, dev);
-+    qemu_vfree(s->crb_cmd_buf);
-+
-+    if (s->ppi_enabled) {
-+        qemu_vfree(s->ppi.buf);
-+    }
-+}
-+
- static void tpm_crb_class_init(ObjectClass *klass, void *data)
- {
-     DeviceClass *dc = DEVICE_CLASS(klass);
-     TPMIfClass *tc = TPM_IF_CLASS(klass);
- 
-     dc->realize = tpm_crb_realize;
-+    dc->unrealize = tpm_crb_unrealize;
-     device_class_set_props(dc, tpm_crb_properties);
-     dc->vmsd  = &vmstate_tpm_crb;
-     dc->user_creatable = true;
+diff --git a/hw/vfio/trace-events b/hw/vfio/trace-events
+index 0ef1b5f4a65..48e1ea1be76 100644
+--- a/hw/vfio/trace-events
++++ b/hw/vfio/trace-events
+@@ -100,6 +100,7 @@ vfio_listener_region_add_skip(uint64_t start, uint64_t end) "SKIPPING region_add
+ vfio_spapr_group_attach(int groupfd, int tablefd) "Attached groupfd %d to liobn fd %d"
+ vfio_listener_region_add_iommu(uint64_t start, uint64_t end) "region_add [iommu] 0x%"PRIx64" - 0x%"PRIx64
+ vfio_listener_region_add_ram(uint64_t iova_start, uint64_t iova_end, void *vaddr) "region_add [ram] 0x%"PRIx64" - 0x%"PRIx64" [%p]"
++vfio_listener_region_add_bad_offset_alignment(const char *name, uint64_t iova, uint64_t offset_within_region, uint64_t page_size) "Region \"%s\" @0x%"PRIx64", offset_within_region=0x%"PRIx64", qemu_real_host_page_mask=0x%"PRIxPTR " cannot be mapped for DMA"
+ vfio_listener_region_add_no_dma_map(const char *name, uint64_t iova, uint64_t size, uint64_t page_size) "Region \"%s\" 0x%"PRIx64" size=0x%"PRIx64" is not aligned to 0x%"PRIx64" and cannot be mapped for DMA"
+ vfio_listener_region_del_skip(uint64_t start, uint64_t end) "SKIPPING region_del 0x%"PRIx64" - 0x%"PRIx64
+ vfio_listener_region_del(uint64_t start, uint64_t end) "region_del 0x%"PRIx64" - 0x%"PRIx64
 -- 
 2.26.3
 
