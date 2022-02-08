@@ -2,87 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9817F4ADDEF
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Feb 2022 17:05:56 +0100 (CET)
-Received: from localhost ([::1]:36994 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 17F614ADCA0
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Feb 2022 16:28:11 +0100 (CET)
+Received: from localhost ([::1]:38436 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nHT07-0003nj-2p
-	for lists+qemu-devel@lfdr.de; Tue, 08 Feb 2022 11:05:55 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:60734)
+	id 1nHSPa-0005Lj-72
+	for lists+qemu-devel@lfdr.de; Tue, 08 Feb 2022 10:28:10 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:34524)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1nHQT7-00088B-VI
- for qemu-devel@nongnu.org; Tue, 08 Feb 2022 08:23:46 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:44413)
+ (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
+ id 1nHQaj-0003d8-DP
+ for qemu-devel@nongnu.org; Tue, 08 Feb 2022 08:31:35 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:42669)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1nHQT3-0002vB-Cm
- for qemu-devel@nongnu.org; Tue, 08 Feb 2022 08:23:40 -0500
+ (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
+ id 1nHQag-0004GM-Ry
+ for qemu-devel@nongnu.org; Tue, 08 Feb 2022 08:31:32 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1644326614;
+ s=mimecast20190719; t=1644327090;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=A7lndTzQgkQdalmmceee8xG2mjaEZdBgEYlBKcAFucQ=;
- b=JeG2+0ZPf9Owtk0hyJ0rW3eM3+ad2M0zA8e/u1JuJLjDmD7n2QRY2AetZTYiwvs3XPUtG6
- tB9amohRXmX8/PQwVe/GPcxvfDO8t/5I0aanCVQQbrjzhulafRQ1d1IDnGJC08J5tTWGg1
- x8Z7KO045yDyNSVKrJqrl221u0pyHM8=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=wCouyISLHtncrjGAGOUM6+LEW5CHw90BeT7ntnmYUZ0=;
+ b=YUms/uAV5K7RhzlS2WYm8ydbFKo8s8TyCc3mF7NZw0AvIZUpi7amGRuV5VLgJvp4TpHIbo
+ m6g+vlmNE9C+ASzfuA/WWamzDEHoBZe8MOPMbUHxPnIyEjp2fU0JO+MFsGCLuQ4K/eYvMU
+ SZkWZLC/tc/Y5LMU5akQa9KoJFRcmkM=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-460-oHWeXUpQMkuIlnve-CfANg-1; Tue, 08 Feb 2022 08:23:33 -0500
-X-MC-Unique: oHWeXUpQMkuIlnve-CfANg-1
-Received: by mail-wr1-f72.google.com with SMTP id
- i19-20020adfa513000000b001e33749ed31so982119wrb.8
- for <qemu-devel@nongnu.org>; Tue, 08 Feb 2022 05:23:32 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=A7lndTzQgkQdalmmceee8xG2mjaEZdBgEYlBKcAFucQ=;
- b=nC7YpMLgtkBlTeVDhifjmSw8A1kVnJfltaJddanxCO+oZb8LlDsW+oQKqA6IhFc5Ss
- /J9w/BkIEBkPxTGb1F/bLKXAhAkkqtuSo/FVwNBBMikBEMXvXncSofG+qxiRaEGtW28r
- XkTM0+eFEUiiJs7ay9p6duo1PI7zt2RrP+2x4ZIoiMJZ/Af2r0Rvv7cXdaUqtsBEHsT9
- tZFV/CRlAMWGt3V5YQZ2V09ILygFICMH53sFNyAHhaHmTZfoNDp4xBCLQKXMz9YAzseM
- n/aL+xeMFJ7KoOA4hM73oDNoPEBPV0GJSxH5vBj+wZatR6ARjMa8QJRGkCSrTMyc0hXg
- 2QDg==
-X-Gm-Message-State: AOAM531ZqEoCIS0bh2WEWb/5gtzRhKtTfXxk/4t3KvsCehNIiL5MHiUZ
- nM/rJE72Qj7QZFj0RZfMUnGbuvmulOfsmYHssbd46TF4FMRVsCEMzwJ5IPiElD8CJwmqZLybCVZ
- idFTqITwm2gT2FnI=
-X-Received: by 2002:a05:600c:4fc2:: with SMTP id
- o2mr1112876wmq.145.1644326611871; 
- Tue, 08 Feb 2022 05:23:31 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwul7Wib8Ab2ljqodT0hv/KDNFOzYTnvO6qSlq+qnuIROswj//LmJ9S1ABLgZs3IowBOGWBow==
-X-Received: by 2002:a05:600c:4fc2:: with SMTP id
- o2mr1112854wmq.145.1644326611630; 
- Tue, 08 Feb 2022 05:23:31 -0800 (PST)
-Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
- [82.30.61.225])
- by smtp.gmail.com with ESMTPSA id bg23sm2732873wmb.5.2022.02.08.05.23.30
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 08 Feb 2022 05:23:31 -0800 (PST)
-Date: Tue, 8 Feb 2022 13:23:29 +0000
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Peter Xu <peterx@redhat.com>
-Subject: Re: [PATCH RFC 14/15] migration: Postcopy preemption on separate
- channel
-Message-ID: <YgJu0ZoV/Z4JA4Ye@work-vm>
-References: <20220119080929.39485-1-peterx@redhat.com>
- <20220119080929.39485-15-peterx@redhat.com>
- <YfwUvGfE46G1oXOv@work-vm> <YgHv/4Ep4JUhfLB4@xz-m1.local>
- <YgJS3qUuyopB+JFZ@work-vm> <YgJWeQm3THpv8iG/@xz-m1.local>
+ us-mta-553-BtfAnch0MZ2naDDsc1xuPw-1; Tue, 08 Feb 2022 08:31:27 -0500
+X-MC-Unique: BtfAnch0MZ2naDDsc1xuPw-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 948CC8143EB;
+ Tue,  8 Feb 2022 13:31:25 +0000 (UTC)
+Received: from laptop.redhat.com (unknown [10.39.195.249])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E48F72B4C2;
+ Tue,  8 Feb 2022 13:31:22 +0000 (UTC)
+From: Eric Auger <eric.auger@redhat.com>
+To: eric.auger.pro@gmail.com, eric.auger@redhat.com,
+ stefanb@linux.vnet.ibm.com, qemu-devel@nongnu.org,
+ alex.williamson@redhat.com
+Subject: [PATCH v3 1/2] tpm: CRB: Use ram_device for "tpm-crb-cmd" region
+Date: Tue,  8 Feb 2022 14:31:16 +0100
+Message-Id: <20220208133117.111833-2-eric.auger@redhat.com>
+In-Reply-To: <20220208133117.111833-1-eric.auger@redhat.com>
+References: <20220208133117.111833-1-eric.auger@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <YgJWeQm3THpv8iG/@xz-m1.local>
-User-Agent: Mutt/2.1.5 (2021-12-30)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eric.auger@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124;
+ envelope-from=eric.auger@redhat.com; helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
@@ -102,58 +81,99 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org,
- Leonardo Bras Soares Passos <lsoaresp@redhat.com>
+Cc: quintela@redhat.com, cohuck@redhat.com, f4bug@amsat.org,
+ dgilbert@redhat.com, imammedo@redhat.com, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Peter Xu (peterx@redhat.com) wrote:
-> On Tue, Feb 08, 2022 at 11:24:14AM +0000, Dr. David Alan Gilbert wrote:
-> > > The current model is we only have 1 postcopy channel and 1 precopy channel, but
-> > > it should be easier if we want to make it N post + 1 pre base on this series.
-> > 
-> > It's not clear to me if we need to be able to do N post + M pre, or
-> > whether we have a rule like always at least 1 post, but if there's more
-> > pagefaults in the queue then you can steal all of the pre channels.
-> 
-> Right, >1 queue length should easily happen with workloads in real cloud
-> environment.  Though even with only 1post channel we can already hit at least
-> <~1ms with this series even if there're 16 pending requests per my test.  I
-> think that may cover quite some real workloads.
-> 
-> One thing to mention is that we should always assume the pre-channels are
-> filled up with tons of pages already in the NIC send buffer, so they won't be
-> good candidate for postcopy requests, IMHO.  So I'm not sure whether we can
-> mixly use the pre/post channels - we may need to leave the post channels idle.
+Representing the CRB cmd/response buffer as a standard
+RAM region causes some trouble when the device is used
+with VFIO. Indeed VFIO attempts to DMA_MAP this region
+as usual RAM but this latter does not have a valid page
+size alignment causing such an error report:
+"vfio_listener_region_add received unaligned region".
+To allow VFIO to detect that failing dma mapping
+this region is not an issue, let's use a ram_device
+memory region type instead.
 
-No I'm not sure either; even with separate channels do we have problems
-with contention on the NIC?
+Signed-off-by: Eric Auger <eric.auger@redhat.com>
+Tested-by: Stefan Berger <stefanb@linux.ibm.com>
+Acked-by: Stefan Berger <stefanb@linux.ibm.com>
+[PMD: Keep tpm_crb.c in meson's softmmu_ss]
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-Dave
+---
 
-> Then, if we keep some of the multifd channels idle, then it will become some
-> other thing rather than the existing multifd, since we will start to treat
-> threads and channels differently and break the "equality" rule in the strict
-> version of multifd world.
-> 
-> > > This also reminded me that, instead of a new capability, should I simply expose
-> > > a parameter "postcopy-channels=N" to CLI so that we can be prepared with multi
-> > > postcopy channels?
-> > 
-> > I'm not sure we know enough yet about what configuration it would have;
-> > I'd be tempted to just make it work for the user by enabling both
-> > multifd and preemption and then using this new mechanism rather than
-> > having to add yet another parameter.
-> 
-> Let me stick with the current capability bit then, so as to make it 1pre+1post.
-> And we can leave Npre+1post for later.
-> 
-> Thanks,
-> 
-> -- 
-> Peter Xu
-> 
+v3 -> v4:
+-  call vmstate_unregister_ram
+---
+ hw/tpm/tpm_crb.c | 23 +++++++++++++++++++++--
+ 1 file changed, 21 insertions(+), 2 deletions(-)
+
+diff --git a/hw/tpm/tpm_crb.c b/hw/tpm/tpm_crb.c
+index 58ebd1469c3..668f969b409 100644
+--- a/hw/tpm/tpm_crb.c
++++ b/hw/tpm/tpm_crb.c
+@@ -25,6 +25,7 @@
+ #include "sysemu/tpm_backend.h"
+ #include "sysemu/tpm_util.h"
+ #include "sysemu/reset.h"
++#include "exec/cpu-common.h"
+ #include "tpm_prop.h"
+ #include "tpm_ppi.h"
+ #include "trace.h"
+@@ -43,6 +44,7 @@ struct CRBState {
+ 
+     bool ppi_enabled;
+     TPMPPI ppi;
++    uint8_t *crb_cmd_buf;
+ };
+ typedef struct CRBState CRBState;
+ 
+@@ -291,10 +293,14 @@ static void tpm_crb_realize(DeviceState *dev, Error **errp)
+         return;
+     }
+ 
++    s->crb_cmd_buf = qemu_memalign(qemu_real_host_page_size,
++                                HOST_PAGE_ALIGN(CRB_CTRL_CMD_SIZE));
++
+     memory_region_init_io(&s->mmio, OBJECT(s), &tpm_crb_memory_ops, s,
+         "tpm-crb-mmio", sizeof(s->regs));
+-    memory_region_init_ram(&s->cmdmem, OBJECT(s),
+-        "tpm-crb-cmd", CRB_CTRL_CMD_SIZE, errp);
++    memory_region_init_ram_device_ptr(&s->cmdmem, OBJECT(s), "tpm-crb-cmd",
++                                      CRB_CTRL_CMD_SIZE, s->crb_cmd_buf);
++    vmstate_register_ram(&s->cmdmem, dev);
+ 
+     memory_region_add_subregion(get_system_memory(),
+         TPM_CRB_ADDR_BASE, &s->mmio);
+@@ -309,12 +315,25 @@ static void tpm_crb_realize(DeviceState *dev, Error **errp)
+     qemu_register_reset(tpm_crb_reset, dev);
+ }
+ 
++static void tpm_crb_unrealize(DeviceState *dev)
++{
++    CRBState *s = CRB(dev);
++
++    vmstate_unregister_ram(&s->cmdmem, dev);
++    qemu_vfree(s->crb_cmd_buf);
++
++    if (s->ppi_enabled) {
++        qemu_vfree(s->ppi.buf);
++    }
++}
++
+ static void tpm_crb_class_init(ObjectClass *klass, void *data)
+ {
+     DeviceClass *dc = DEVICE_CLASS(klass);
+     TPMIfClass *tc = TPM_IF_CLASS(klass);
+ 
+     dc->realize = tpm_crb_realize;
++    dc->unrealize = tpm_crb_unrealize;
+     device_class_set_props(dc, tpm_crb_properties);
+     dc->vmsd  = &vmstate_tpm_crb;
+     dc->user_creatable = true;
 -- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+2.26.3
 
 
