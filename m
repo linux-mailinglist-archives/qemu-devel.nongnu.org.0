@@ -2,62 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC0CB4AE289
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Feb 2022 21:24:30 +0100 (CET)
-Received: from localhost ([::1]:48272 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2DF164AE2B3
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Feb 2022 21:57:10 +0100 (CET)
+Received: from localhost ([::1]:58020 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nHX2L-0000Yj-P6
-	for lists+qemu-devel@lfdr.de; Tue, 08 Feb 2022 15:24:29 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:34840)
+	id 1nHXXx-0003JG-AC
+	for lists+qemu-devel@lfdr.de; Tue, 08 Feb 2022 15:57:09 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:35676)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1nHWU3-0007V1-LT
- for qemu-devel@nongnu.org; Tue, 08 Feb 2022 14:49:03 -0500
-Received: from kylie.crudebyte.com ([5.189.157.229]:37795)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nHWXS-0000QC-Ti
+ for qemu-devel@nongnu.org; Tue, 08 Feb 2022 14:52:35 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:51573)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1nHWTx-0002sj-Tp
- for qemu-devel@nongnu.org; Tue, 08 Feb 2022 14:49:03 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
- MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
- Content-ID:Content-Description;
- bh=QN0P8fdwoBBnSq0m+T6PXlhLobKdRriM1d3NCQsEbRA=; b=Fy4s+KO4u95y0CM6A9AnO1groe
- HDrkSsN8SoeJQY/X4En2gK1+bzCv6blF+XxDwmn+EpMZZWoHVOwl3CmOLJk4sPnLcM74p+Ezc17CN
- kndaUWpEA5O+r3Wr/u5FvoI/SNxgXn/USIQut5twUpYRkdcmeVVlaHmHFf8OVgbGgJYk67QCfYEeE
- 6TekOMrhorpNT6WaXMrIiT6YZGzV5cNeR2U5DAcEqr2QWSIRxz69/yEOssroAZ2KzZtOdZ7k1h8m6
- N1+vbweEmqWo1vNRWZ1qrvWsUfOoxaMge7gEsJL69Y7HBI9a9JP4SnvGJrU+0CiOa+qi2oirb4hot
- wNm3iiynz3VJkQq9pq/78KILsTB/Zy/NBaZfGSwk7jnbDHgwmK1O5PCj1nde9LJQ5Upxp8nhddP7H
- JfZgCRGsyPNk8ZbWt/+dcjV9mzQG0x0WTpImoz22CVBy2slfvfIBEB8ESKS8QmGhuPlMo+jYo9d4s
- wHqgBfFHW1L+RWrShnYJtkaQgOrzG1qmNS2+cfKmx3w6CeokNxpFkDqhIiw80jSa7hiccywaxfQw7
- gVYU1xofsQVZEuij+g0IAR2Iq7oKz6Bx+9PhvMrjgkrgcJPnf3m1j7ckY6YjFXJ+EdFYRBldF199F
- BVXRq0RftvUbA3IAUc5NC3+Ry5chjp7ALx8JA1Cjw=;
-From: Christian Schoenebeck <qemu_oss@crudebyte.com>
-To: Will Cohen <wwcohen@gmail.com>
-Cc: qemu-devel@nongnu.org, hi@alyssa.is, Greg Kurz <groug@kaod.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Laurent Vivier <lvivier@redhat.com>, Keno Fischer <keno@juliacomputing.com>,
- Michael Roitzsch <reactorcontrol@icloud.com>,
- Akihiko Odaki <akihiko.odaki@gmail.com>
-Subject: Re: [PATCH v5 09/11] 9p: darwin: Implement compatibility for mknodat
-Date: Tue, 08 Feb 2022 20:48:54 +0100
-Message-ID: <4999355.dprqNvMIp6@silver>
-In-Reply-To: <4809377.qIIDLkA7W8@silver>
-References: <20220207224024.87745-1-wwcohen@gmail.com>
- <CAB26zV3e+WWqJrs7_fJ_xgEc99swYHBqUrY66XCrBFSsptwP5A@mail.gmail.com>
- <4809377.qIIDLkA7W8@silver>
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nHWXO-0003WT-UC
+ for qemu-devel@nongnu.org; Tue, 08 Feb 2022 14:52:32 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1644349949;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=PHrNHX8nETxnxf4k09oyasyNKsFM49x96FcmHxImSYM=;
+ b=XAeY5pp7+CpRaipm5gm0Tk3g0KVhkZYlf/JBDxuTOhDCfi6SyZwAg1novHfngFUkWOsH1C
+ 0j5RVnKDIXTy7vp/n1PSwqmrGaAzFkKZ6FjtsS7QoGYEotWPczWJWkkhT/X37rKIkQZmAA
+ ID8QvAZ0HS9i9escmWwgONg7rNcTlDs=
+Received: from mail-vk1-f197.google.com (mail-vk1-f197.google.com
+ [209.85.221.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-101-5KLrwkxTMJagkXr5Ne2ePA-1; Tue, 08 Feb 2022 14:52:28 -0500
+X-MC-Unique: 5KLrwkxTMJagkXr5Ne2ePA-1
+Received: by mail-vk1-f197.google.com with SMTP id
+ d13-20020a05612212cd00b00320d929c3c3so2385056vkp.16
+ for <qemu-devel@nongnu.org>; Tue, 08 Feb 2022 11:52:27 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=PHrNHX8nETxnxf4k09oyasyNKsFM49x96FcmHxImSYM=;
+ b=ZpFdaqyLhUB0e23uZUoG3px+SFuX2AyTtmis5fmq4VhqGE6l2AulRb2LKOVCmGioi5
+ /BH1wUR43qAxSL4eTkziIHNnqEM5KaHQnS9lKtRpOFWhE2wyF4t9Zlp/5eJVHXPVSGYx
+ 5rG16WsKutPVvCHSjRF/N2nvFeRFHv6MSijsHMRNKK4ems22r+ygbc41VaoCeFX5dp66
+ 0X/VTMIFc64I9fpZITdijwTC10tNhBxND+oDsYuqPhKY0u+wz0b7lSRO7SJdX5sGsj0t
+ B+KCW89thKjRly8oh3bI6PRnwiqO4YsAFKhxumpXKixH3C41KkcfI9Ike9YMc3Q1xNTw
+ thfg==
+X-Gm-Message-State: AOAM530Oq1nf2g38B3KvgZCb6GLViNGcwO6ltUMY3ecVuTLoqY/j4IoT
+ u45I8I1JfQ7PTQb3f8qRN+VGibgh05zyiU/fXIJ46gdgOHkP1rTHCn/QtFQijdfoy2t8HjCyBKE
+ PLBrQmf8AP5cBEv51vnkw0taGaAUcbuQ=
+X-Received: by 2002:a67:e901:: with SMTP id c1mr2087597vso.38.1644349947526;
+ Tue, 08 Feb 2022 11:52:27 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyiHJa/E37Nx/KTbmx3MVjicfAhzRtWqpd9AqEdT2Zq8Sjg0/BIM8+JZzAMIEfq7IOmilA5V3R7IXP/xFLZqww=
+X-Received: by 2002:a67:e901:: with SMTP id c1mr2087586vso.38.1644349947268;
+ Tue, 08 Feb 2022 11:52:27 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
-Received-SPF: pass client-ip=5.189.157.229;
- envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+References: <20220203022405.1336635-1-jsnow@redhat.com>
+In-Reply-To: <20220203022405.1336635-1-jsnow@redhat.com>
+From: John Snow <jsnow@redhat.com>
+Date: Tue, 8 Feb 2022 14:52:16 -0500
+Message-ID: <CAFn=p-bL4XoZMajFffM9LKtFZBKj8W=x2qMQAiewSxLJAP7Qfw@mail.gmail.com>
+Subject: Re: [PATCH 0/4] iotests: finalize switch to async QMP
+To: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=jsnow@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -70,435 +87,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Eduardo Habkost <eduardo@habkost.net>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-devel <qemu-devel@nongnu.org>, Qemu-block <qemu-block@nongnu.org>,
+ Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Dienstag, 8. Februar 2022 19:28:21 CET Christian Schoenebeck wrote:
-> On Dienstag, 8. Februar 2022 19:04:31 CET Will Cohen wrote:
-> > On Tue, Feb 8, 2022 at 11:19 AM Will Cohen <wwcohen@gmail.com> wrote:
-> > > On Tue, Feb 8, 2022 at 11:11 AM Christian Schoenebeck <
-> > > 
-> > > qemu_oss@crudebyte.com> wrote:
-> > >> On Dienstag, 8. Februar 2022 16:57:55 CET Will Cohen wrote:
-> > >> > My inclination is to go with the __builtin_available(macOS 10.12, *)
-> > >> 
-> > >> path,
-> > >> 
-> > >> > if acceptable, since it partially mirrors the API_AVAILABLE macro
-> > >> > idea.
-> > >> 
-> > >> I
-> > >> 
-> > >> OTOH that's duplication of the ">= macOS 10.12" info, plus
-> > >> __builtin_available
-> > >> is direct use of a clang-only extension, whereas API_AVAILABLE() works
-> > >> (or
-> > >> more precisely: doesn't error out at least) with other compilers like
-> > >> GCC
-> > >> as
-> > >> well. GCC is sometimes used for cross-compilation.
-> > >> 
-> > >> Moreover, I would also add an error message in this case, e.g.:
-> > >>     if (!pthread_fchdir_np) {
-> > >>     
-> > >>         error_report_once("pthread_fchdir_np() is not available on this
-> > >> 
-> > >> macOS version");
-> > >> 
-> > >>         return -ENOTSUPP;
-> > >>     
-> > >>     }
-> > >> 
-> > >> I should elaborate why I think this is needed: you are already doing a
-> > >> Meson
-> > >> check for the existence of pthread_fchdir_np(), but the system where
-> > >> QEMU
-> > >> is
-> > >> compiled and the systems where the compiled binary will be running,
-> > >> might
-> > >> be
-> > >> different ones (i.e. different macOS versions).
-> > >> 
-> > >> Best regards,
-> > >> Christian Schoenebeck
-> > > 
-> > > Agreed, that way actually closes the edge case. Something along these
-> > > lines briefly crossed my mind during a previous version, but I quickly
-> > > got
-> > > passed it by assuming that the compiling entity would always be the
-> > > bottleneck, which makes no sense in hindsight, so I very much appreciate
-> > > that you caught this.
-> > 
-> > Ah, rebuilding leads to a compiler error:
-> > 
-> > ../os-posix.c:348:10: warning: address of function 'pthread_fchdir_np'
-> > will
-> > always evaluate to 'true' [-Wpointer-bool-conversion]
-> > 
-> >     if (!pthread_fchdir_np) {
-> >     
-> >         ~^~~~~~~~~~~~~~~~~
-> > 
-> > I don't have a machine that's pre-10.12 so I can't see what the result is
-> > there, but this might be why the __builtin_available approach got taken.
-> 
-> I guess that's because you are compiling QEMU with minimum deployment target
-> being macOS >= 10.12 already. In this case the compiler won't make
-> pthread_fchdir_np a weak link, it only does emit a weak link if you are
-> targeting macOS versions prior than the defined availablity attribute,
-> hence the address would never be NULL here and hence the compiler warning.
-> 
-> So I guess it is okay if you just omit checking presence of
-> pthread_fchdir_np at runtime and just assume it exists.
-> 
-> Added Akihiko on CC, just in case he would have something to add on this
-> macOS issue here. :)
+Squeak Squeak...
 
-On a second thought: this case a bit special. Are we worried that 
-pthread_fchdir_np() is "not yet" available on macOS, or "no longer" available. 
-Probably both, right?
+...Any objections to me staging this?
 
-So maybe it would make sense to replace the API_AVAILABLE() attribute directly 
-with a __attribute__((weak)) attribute. Then the runtime check with the 
-proposed error message would also trigger if a bleeding edge macOS version no 
-longer has pthread_fchdir_np().
+(This patchset removes the accommodations in iotests for allowing
+either library to run and always forces the new one. Point of no
+return for iotests.)
 
-Also keep in mind: there are always also the MAC_OS_X_VERSION_MIN_REQUIRED and 
-MAC_OS_X_VERSION_MAX_ALLOWED macros to query the deployment target at compile 
-time to wrap deployment target dependent code accordingly.
+--js
 
-On doubt you could just make some tests there by simply "inventing" a non-
-existent function.
-
-Best regards,
-Christian Schoenebeck
-
-> > >> > guess it's perhaps a tradeoff between predicting the future unknown
-> > >> > availability of functions versus just ensuring a minimum macOS
-> > >> > version
-> > >> 
-> > >> and
-> > >> 
-> > >> > hoping for the best. With any luck, the distinction between the two
-> > >> > approaches will be moot, if we try to assume that a future macOS
-> > >> > version
-> > >> > that removes this also provides mknodat.
-> > >> > 
-> > >> > On Tue, Feb 8, 2022 at 10:03 AM Christian Schoenebeck <
-> > >> > 
-> > >> > qemu_oss@crudebyte.com> wrote:
-> > >> > > On Dienstag, 8. Februar 2022 14:36:42 CET Will Cohen wrote:
-> > >> > > > On Mon, Feb 7, 2022 at 5:56 PM Christian Schoenebeck
-> > >> > > > <qemu_oss@crudebyte.com>
-> > >> > > > 
-> > >> > > > wrote:
-> > >> > > > > On Montag, 7. Februar 2022 23:40:22 CET Will Cohen wrote:
-> > >> > > > > > From: Keno Fischer <keno@juliacomputing.com>
-> > >> > > > > > 
-> > >> > > > > > Darwin does not support mknodat. However, to avoid race
-> > >> 
-> > >> conditions
-> > >> 
-> > >> > > > > > with later setting the permissions, we must avoid using mknod
-> > >> > > > > > on
-> > >> > > > > > the full path instead. We could try to fchdir, but that would
-> > >> 
-> > >> cause
-> > >> 
-> > >> > > > > > problems if multiple threads try to call mknodat at the same
-> > >> 
-> > >> time.
-> > >> 
-> > >> > > > > > However, luckily there is a solution: Darwin includes a
-> > >> > > > > > function
-> > >> > > > > > that sets the cwd for the current thread only.
-> > >> > > > > > This should suffice to use mknod safely.
-> > >> > > > > > 
-> > >> > > > > > This function (pthread_fchdir_np) is protected by a check in
-> > >> > > > > > meson in a patch later in tihs series.
-> > >> > > > > > 
-> > >> > > > > > Signed-off-by: Keno Fischer <keno@juliacomputing.com>
-> > >> > > > > > Signed-off-by: Michael Roitzsch <reactorcontrol@icloud.com>
-> > >> > > > > > [Will Cohen: - Adjust coding style
-> > >> > > > > > 
-> > >> > > > > >              - Replace clang references with gcc
-> > >> > > > > >              - Note radar filed with Apple for missing
-> > >> > > > > >              syscall
-> > >> > > > > >              - Replace direct syscall with pthread_fchdir_np
-> > >> > > > > >              and
-> > >> > > > > >              
-> > >> > > > > >                adjust patch notes accordingly
-> > >> > > > > >              
-> > >> > > > > >              - Move qemu_mknodat from 9p-util to osdep and
-> > >> 
-> > >> os-posix]
-> > >> 
-> > >> > > > > > Signed-off-by: Will Cohen <wwcohen@gmail.com>
-> > >> > > > > > ---
-> > >> > > > > 
-> > >> > > > > Like already mentioned by me moments ago on previous v4 (just
-> > >> 
-> > >> echoing)
-> > >> 
-> > >> > > ...
-> > >> > > 
-> > >> > > > > >  hw/9pfs/9p-local.c   |  4 ++--
-> > >> > > > > >  include/qemu/osdep.h | 10 ++++++++++
-> > >> > > > > >  os-posix.c           | 34 ++++++++++++++++++++++++++++++++++
-> > >> > > > > >  3 files changed, 46 insertions(+), 2 deletions(-)
-> > >> > > > > > 
-> > >> > > > > > diff --git a/hw/9pfs/9p-local.c b/hw/9pfs/9p-local.c
-> > >> > > > > > index a0d08e5216..d42ce6d8b8 100644
-> > >> > > > > > --- a/hw/9pfs/9p-local.c
-> > >> > > > > > +++ b/hw/9pfs/9p-local.c
-> > >> > > > > > @@ -682,7 +682,7 @@ static int local_mknod(FsContext *fs_ctx,
-> > >> > > 
-> > >> > > V9fsPath
-> > >> > > 
-> > >> > > > > > *dir_path,
-> > >> > > > > > 
-> > >> > > > > >      if (fs_ctx->export_flags & V9FS_SM_MAPPED ||
-> > >> > > > > >      
-> > >> > > > > >          fs_ctx->export_flags & V9FS_SM_MAPPED_FILE) {
-> > >> > > > > > 
-> > >> > > > > > -        err = mknodat(dirfd, name, fs_ctx->fmode | S_IFREG,
-> > >> > > > > > 0);
-> > >> > > > > > +        err = qemu_mknodat(dirfd, name, fs_ctx->fmode |
-> > >> 
-> > >> S_IFREG,
-> > >> 
-> > >> > > > > > 0);
-> > >> > > > > > 
-> > >> > > > > >          if (err == -1) {
-> > >> > > > > >          
-> > >> > > > > >              goto out;
-> > >> > > > > >          
-> > >> > > > > >          }
-> > >> > > > > > 
-> > >> > > > > > @@ -697,7 +697,7 @@ static int local_mknod(FsContext *fs_ctx,
-> > >> > > 
-> > >> > > V9fsPath
-> > >> > > 
-> > >> > > > > > *dir_path, }
-> > >> > > > > > 
-> > >> > > > > >      } else if (fs_ctx->export_flags & V9FS_SM_PASSTHROUGH ||
-> > >> > > > > >      
-> > >> > > > > >                 fs_ctx->export_flags & V9FS_SM_NONE) {
-> > >> > > > > > 
-> > >> > > > > > -        err = mknodat(dirfd, name, credp->fc_mode,
-> > >> 
-> > >> credp->fc_rdev);
-> > >> 
-> > >> > > > > > +        err = qemu_mknodat(dirfd, name, credp->fc_mode,
-> > >> > > > > > credp->fc_rdev);
-> > >> > > > > > 
-> > >> > > > > >          if (err == -1) {
-> > >> > > > > >          
-> > >> > > > > >              goto out;
-> > >> > > > > >          
-> > >> > > > > >          }
-> > >> > > > > > 
-> > >> > > > > > diff --git a/include/qemu/osdep.h b/include/qemu/osdep.h
-> > >> > > > > > index d1660d67fa..f3a8367ece 100644
-> > >> > > > > > --- a/include/qemu/osdep.h
-> > >> > > > > > +++ b/include/qemu/osdep.h
-> > >> > > > > > @@ -810,3 +810,13 @@ static inline int
-> > >> > > > > > platform_does_not_support_system(const char *command) #endif
-> > >> > > > > > 
-> > >> > > > > >  #endif
-> > >> > > > > > 
-> > >> > > > > > +
-> > >> > > > > > +/*
-> > >> > > > > > + * As long as mknodat is not available on macOS, this
-> > >> 
-> > >> workaround
-> > >> 
-> > >> > > > > > + * using pthread_fchdir_np is needed. qemu_mknodat is
-> > >> > > > > > defined
-> > >> 
-> > >> in
-> > >> 
-> > >> > > > > > + * os-posix.c
-> > >> > > > > > + */
-> > >> > > > > > +#ifdef CONFIG_DARWIN
-> > >> > > > > > +int pthread_fchdir_np(int fd);
-> > >> > > > > > +#endif
-> > >> > > > > 
-> > >> > > > > I would make that:
-> > >> > > > > 
-> > >> > > > > #ifdef CONFIG_DARWIN
-> > >> > > > > int pthread_fchdir_np(int fd) API_AVAILABLE(macosx(10.12));
-> > >> > > > > #endif
-> > >> > > > > 
-> > >> > > > > here and ...
-> > >> > > > > 
-> > >> > > > > > +int qemu_mknodat(int dirfd, const char *filename, mode_t
-> > >> > > > > > mode,
-> > >> > > > > > dev_t
-> > >> > > > > 
-> > >> > > > > dev);
-> > >> > > > > 
-> > >> > > > > > diff --git a/os-posix.c b/os-posix.c
-> > >> > > > > > index ae6c9f2a5e..95c1607065 100644
-> > >> > > > > > --- a/os-posix.c
-> > >> > > > > > +++ b/os-posix.c
-> > >> > > > > > @@ -24,6 +24,7 @@
-> > >> > > > > > 
-> > >> > > > > >   */
-> > >> > > > > >  
-> > >> > > > > >  #include "qemu/osdep.h"
-> > >> > > > > > 
-> > >> > > > > > +#include <os/availability.h>
-> > >> > > > > > 
-> > >> > > > > >  #include <sys/wait.h>
-> > >> > > > > >  #include <pwd.h>
-> > >> > > > > >  #include <grp.h>
-> > >> > > > > > 
-> > >> > > > > > @@ -332,3 +333,36 @@ int os_mlock(void)
-> > >> > > > > > 
-> > >> > > > > >      return -ENOSYS;
-> > >> > > > > >  
-> > >> > > > > >  #endif
-> > >> > > > > >  }
-> > >> > > > > > 
-> > >> > > > > > +
-> > >> > > > > > +/*
-> > >> > > > > > + * As long as mknodat is not available on macOS, this
-> > >> 
-> > >> workaround
-> > >> 
-> > >> > > > > > + * using pthread_fchdir_np is needed.
-> > >> > > > > > + *
-> > >> > > > > > + * Radar filed with Apple for implementing mknodat:
-> > >> > > > > > + * rdar://FB9862426
-> > >> > > > > > (https://openradar.appspot.com/FB9862426)
-> > >> > > > > > + */
-> > >> > > > > > +#ifdef CONFIG_DARWIN
-> > >> > > > > > +
-> > >> > > > > > +int pthread_fchdir_np(int fd) API_AVAILABLE(macosx(10.12));
-> > >> > > > > 
-> > >> > > > > ... drop the duplicate declaration of pthread_fchdir_np() here.
-> > >> > > > 
-> > >> > > > Trying this out, it reminds me that this use of API_AVAILABLE in
-> > >> > > 
-> > >> > > os-posix.c
-> > >> > > 
-> > >> > > > relies on the added #include <os/availability.h>.
-> > >> > > > 
-> > >> > > > Leaving the include out leads to:
-> > >> > > > .../include/qemu/osdep.h:820:31: error: expected function body
-> > >> > > > after
-> > >> > > > function declarator
-> > >> > > > int pthread_fchdir_np(int fd) API_AVAILABLE(macosx(10.12));
-> > >> > > > 
-> > >> > > >                               ^
-> > >> > > > 
-> > >> > > > 1 error generated.
-> > >> > > > ninja: build stopped: subcommand failed.
-> > >> > > > make[1]: *** [run-ninja] Error 1
-> > >> > > > make: *** [all] Error 2
-> > >> > > > 
-> > >> > > > The admonition against modifying osdep.h's includes too much led
-> > >> > > > me
-> > >> 
-> > >> to
-> > >> 
-> > >> > > > steer away from putting it all in there. If there's no issue with
-> > >> 
-> > >> adding
-> > >> 
-> > >> > > > +#include <os/availability.h> to osdep.h, then this change makes
-> > >> 
-> > >> sense
-> > >> 
-> > >> > > > to
-> > >> > > > me.
-> > >> > > 
-> > >> > > If you embed that include into ifdefs, sure!
-> > >> > > 
-> > >> > > #ifdef CONFIG_DARWIN
-> > >> > > /* defines API_AVAILABLE(...) */
-> > >> > > #include <os/availability.h>
-> > >> > > #endif
-> > >> > > 
-> > >> > > One more thing though ...
-> > >> > > 
-> > >> > > > > > +
-> > >> > > > > > +int qemu_mknodat(int dirfd, const char *filename, mode_t
-> > >> > > > > > mode,
-> > >> > > > > > dev_t
-> > >> > > > > 
-> > >> > > > > dev)
-> > >> > > > > 
-> > >> > > > > > +{
-> > >> > > > > > +    int preserved_errno, err;
-> > >> > > 
-> > >> > > pthread_fchdir_np() is weakly linked. So I guess here should be a
-> > >> 
-> > >> check
-> > >> 
-> > >> > > like:
-> > >> > >         if (!pthread_fchdir_np) {
-> > >> > >         
-> > >> > >                 return -ENOTSUPP;
-> > >> > >         
-> > >> > >         }
-> > >> > > 
-> > >> > > Before trying to call pthread_fchdir_np() below. As already
-> > >> > > discussed
-> > >> 
-> > >> with
-> > >> 
-> > >> > > the
-> > >> > > Chromium [1] example, some do that a bit differently by using
-> > >> > > 
-> > >> > > __builtin_available():
-> > >> > >         if (__builtin_available(macOS 10.12, *)) {
-> > >> > >         
-> > >> > >                 return -ENOTSUPP;
-> > >> > >         
-> > >> > >         }
-> > >> > > 
-> > >> > > Which makes me wonder why they are not doing a simple NULL check?
-> > >> > > 
-> > >> > > [1]
-> > >> 
-> > >> https://chromium.googlesource.com/chromium/src/+/lkgr/base/process/laun
-> > >> ch
-> > >> _
-> > >> 
-> > >> > > mac.cc#110>
-> > >> > > 
-> > >> > > > > > +    if (pthread_fchdir_np(dirfd) < 0) {
-> > >> > > > > > +        return -1;
-> > >> > > > > > +    }
-> > >> > > > > > +    err = mknod(filename, mode, dev);
-> > >> > > > > > +    preserved_errno = errno;
-> > >> > > > > > +    /* Stop using the thread-local cwd */
-> > >> > > > > > +    pthread_fchdir_np(-1);
-> > >> > > > > > +    if (err < 0) {
-> > >> > > > > > +        errno = preserved_errno;
-> > >> > > > > > +    }
-> > >> > > > > > +    return err;
-> > >> > > > > > +}
-> > >> > > > > > +#else
-> > >> > > > > > +int qemu_mknodat(int dirfd, const char *filename, mode_t
-> > >> > > > > > mode,
-> > >> > > > > > dev_t
-> > >> > > > > 
-> > >> > > > > dev)
-> > >> > > > > 
-> > >> > > > > > +{
-> > >> > > > > > +    return mknodat(dirfd, filename, mode, dev);
-> > >> > > > > > +}
-> > >> > > > > > +#endif
-> 
-> Best regards,
-> Christian Schoenebeck
-
-
-Best regards,
-Christian Schoenebeck
-
+On Wed, Feb 2, 2022 at 9:24 PM John Snow <jsnow@redhat.com> wrote:
+>
+> Based-on: <20220203015946.1330386-1-jsnow@redhat.com>
+>           [PULL 0/4] Python patches
+> GitLab: https://gitlab.com/jsnow/qemu/-/commits/python-qmp-legacy-switch-pt1b
+>
+> This tiny series is a spiritual v4 to:
+> "[PATCH v3 00/31] Python: delete synchronous qemu.qmp package".
+>
+> I've isolated just the bits that touch iotests, and that's these four
+> patches. If this series is approved, I'll send the series that renames
+> "qemu.aqmp" to "qemu.qmp" separately. That series has a lot of churn,
+> but it doesn't meaningfully alter anything -- so I'll avoid cluttering
+> up qemu-block list with those.
+>
+> (Just be aware that I plan to finalize the switch soon!)
+>
+> John Snow (4):
+>   python/machine: permanently switch to AQMP
+>   scripts/bench-block-job: switch to AQMP
+>   iotests/mirror-top-perms: switch to AQMP
+>   iotests: switch to AQMP
+>
+>  python/qemu/machine/machine.py            | 18 +++++++-----------
+>  python/qemu/machine/qtest.py              |  2 +-
+>  scripts/simplebench/bench_block_job.py    |  3 +--
+>  tests/qemu-iotests/iotests.py             |  2 +-
+>  tests/qemu-iotests/tests/mirror-top-perms |  9 +++------
+>  5 files changed, 13 insertions(+), 21 deletions(-)
+>
+> --
+> 2.31.1
 
 
