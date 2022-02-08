@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34E0B4AD571
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Feb 2022 11:22:16 +0100 (CET)
-Received: from localhost ([::1]:43882 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AB46F4AD5DB
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Feb 2022 11:54:38 +0100 (CET)
+Received: from localhost ([::1]:43110 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nHNdX-0008M1-BM
-	for lists+qemu-devel@lfdr.de; Tue, 08 Feb 2022 05:22:15 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:39324)
+	id 1nHO8q-0005XJ-Qk
+	for lists+qemu-devel@lfdr.de; Tue, 08 Feb 2022 05:54:36 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:39372)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nHNV2-0006Zv-90
- for qemu-devel@nongnu.org; Tue, 08 Feb 2022 05:13:30 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:46026)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nHNV9-0006hI-Na
+ for qemu-devel@nongnu.org; Tue, 08 Feb 2022 05:13:38 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:38521)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nHNV0-0003WV-2A
- for qemu-devel@nongnu.org; Tue, 08 Feb 2022 05:13:27 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nHNV5-0003Xk-KV
+ for qemu-devel@nongnu.org; Tue, 08 Feb 2022 05:13:33 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1644315205;
+ s=mimecast20190719; t=1644315211;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=yJ7ga4OVxPAFbEoiqCPWMcvTKn1SeVT+NFgRh/tiCf4=;
- b=IT4gEH50R2Yj6nLSOrknASs2T8LFOxZXLgl27MiMU9xw5QRB0NUc3DU0hcPVs0z1geg524
- ccU0RalfCMfPK1KcVGF1WFtUKtEjShxZmybJ5QWQCDvI8MUdA4lkmCh0iSo6XIKJ9Uv+YK
- VpETO7P1/Ifee/KhZhebSezYS44PEzc=
+ bh=hMEOBliNuNFDoW3KcZY4JZ0xnzZRaUSYHXf9076Q59c=;
+ b=ZpTfVGFM7I3ttNbVKbOaIsq/rVoRj4jtYNqydQmcpZ5HfBZjb25TYNRqSC6bs/WXAV4LVP
+ lbus1dCXvTlhnpQaN7ZajPSYm5V3YVCHOeZJfQJUXo7qFKV0YjmnpqfPq8ceT4wgMhQ+qW
+ Jfojvokkx73Xqe1Rbx4tgwZDJLycphE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-607-sxYn3gV2OrS8C-TjKviiiQ-1; Tue, 08 Feb 2022 05:13:22 -0500
-X-MC-Unique: sxYn3gV2OrS8C-TjKviiiQ-1
+ us-mta-297-PeOYOCX0MjOKrMwWzXFsDA-1; Tue, 08 Feb 2022 05:13:25 -0500
+X-MC-Unique: PeOYOCX0MjOKrMwWzXFsDA-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 89AF0835B74;
- Tue,  8 Feb 2022 10:13:21 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A690E46887;
+ Tue,  8 Feb 2022 10:13:23 +0000 (UTC)
 Received: from thuth.com (unknown [10.39.192.143])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D4E1E2A182;
- Tue,  8 Feb 2022 10:13:19 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 02C882856D;
+ Tue,  8 Feb 2022 10:13:21 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: qemu-block@nongnu.org, Hanna Reitz <hreitz@redhat.com>,
  Kevin Wolf <kwolf@redhat.com>
-Subject: [PATCH 3/6] tests/qemu-iotests: Allow to run "./check -n" from the
- source directory, too
-Date: Tue,  8 Feb 2022 11:13:08 +0100
-Message-Id: <20220208101311.1511083-4-thuth@redhat.com>
+Subject: [PATCH 4/6] tests/qemu-iotests/meson.build: Call the 'check' script
+ directly
+Date: Tue,  8 Feb 2022 11:13:09 +0100
+Message-Id: <20220208101311.1511083-5-thuth@redhat.com>
 In-Reply-To: <20220208101311.1511083-1-thuth@redhat.com>
 References: <20220208101311.1511083-1-thuth@redhat.com>
 MIME-Version: 1.0
@@ -83,92 +83,89 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-For better integration of the iotests into the meson build system, it
-would be very helpful to get the list of the tests in the "auto" group
-during the "configure" step already. However, "check -n -g auto"
-currently only works if the binaries have already been built. Re-order
-the code in the "check" a little bit so that we can use the -n option
-without building the binaries first.
+We can get a nicer progress indication if we add the iotests
+individually via the 'check' script instead of going through
+the check-block.sh wrapper.
+
+For this, we have to add some of the sanity checks that have
+originally been done in the tests/check-block.sh script (whether
+"bash" is available or whether CFLAGS contain -fsanitize switches)
+to the meson.build file now, and add the environment variables
+that have been set up by the tests/check-block.sh script before.
 
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- tests/qemu-iotests/check | 52 ++++++++++++++++++++++------------------
- 1 file changed, 29 insertions(+), 23 deletions(-)
+ tests/qemu-iotests/meson.build | 45 ++++++++++++++++++++++++++++------
+ 1 file changed, 37 insertions(+), 8 deletions(-)
 
-diff --git a/tests/qemu-iotests/check b/tests/qemu-iotests/check
-index 75de1b4691..0fa75abf13 100755
---- a/tests/qemu-iotests/check
-+++ b/tests/qemu-iotests/check
-@@ -120,6 +120,30 @@ def make_argparser() -> argparse.ArgumentParser:
- if __name__ == '__main__':
-     args = make_argparser().parse_args()
+diff --git a/tests/qemu-iotests/meson.build b/tests/qemu-iotests/meson.build
+index e1832c90e0..5a6ccd35d8 100644
+--- a/tests/qemu-iotests/meson.build
++++ b/tests/qemu-iotests/meson.build
+@@ -1,9 +1,29 @@
+-if not have_tools or targetos == 'windows'
++if not have_tools or targetos == 'windows' or \
++   config_host.has_key('CONFIG_GPROF')
+   subdir_done()
+ endif
  
-+    if os.path.islink(sys.argv[0]):
-+        # called from the build tree
-+        source_iotests = os.path.dirname(os.readlink(sys.argv[0]))
-+    else:
-+        source_iotests = os.getcwd()
++bash = find_program('bash', required: false)
++if not bash.found() or \
++   run_command(bash, ['--version']).stdout().contains('GNU bash, version 3')
++  message('bash >= v4.0 not available ==> Disabled the qemu-iotests.')
++  subdir_done()
++endif
 +
-+    testfinder = TestFinder(source_iotests)
++foreach cflag: config_host['QEMU_CFLAGS'].split()
++  if cflag.startswith('-fsanitize') and \
++     not cflag.contains('safe-stack') and not cflag.contains('cfi-icall')
++    message('Sanitizers are enabled ==> Disabled the qemu-iotests.')
++    subdir_done()
++  endif
++endforeach
 +
-+    groups = args.groups.split(',') if args.groups else None
-+    x_groups = args.exclude_groups.split(',') if args.exclude_groups else None
-+
-+    try:
-+        tests = testfinder.find_tests(groups=groups, exclude_groups=x_groups,
-+                                      tests=args.tests,
-+                                      start_from=args.start_from)
-+        if not tests:
-+            raise ValueError('No tests selected')
-+    except ValueError as e:
-+        sys.exit(e)
-+
-+    if args.dry_run:
-+        print('\n'.join(tests))
-+        sys.exit(0)
-+
-     env = TestEnv(imgfmt=args.imgfmt, imgproto=args.imgproto,
-                   aiomode=args.aiomode, cachemode=args.cachemode,
-                   imgopts=args.imgopts, misalign=args.misalign,
-@@ -140,11 +164,6 @@ if __name__ == '__main__':
-         os.chdir(exec_path.parent)
-         os.execve(cmd[0], cmd, full_env)
+ qemu_iotests_binaries = [qemu_img, qemu_io, qemu_nbd, qsd]
+-qemu_iotests_env = {'PYTHON': python.full_path()}
++qemu_iotests_env = {
++  'PYTHON': python.full_path(),
++  'PYTHONUTF8': '1',
++  'QEMU_CHECK_BLOCK_AUTO': '1'
++}
+ qemu_iotests_formats = {
+   'qcow2': 'quick',
+   'raw': 'slow',
+@@ -18,16 +38,25 @@ foreach k, v : emulators
+   endif
+ endforeach
  
--    testfinder = TestFinder(test_dir=env.source_iotests)
--
--    groups = args.groups.split(',') if args.groups else None
--    x_groups = args.exclude_groups.split(',') if args.exclude_groups else None
--
-     group_local = os.path.join(env.source_iotests, 'group.local')
-     if os.path.isfile(group_local):
-         try:
-@@ -152,21 +171,8 @@ if __name__ == '__main__':
-         except ValueError as e:
-             sys.exit(f"Failed to parse group file '{group_local}': {e}")
- 
--    try:
--        tests = testfinder.find_tests(groups=groups, exclude_groups=x_groups,
--                                      tests=args.tests,
--                                      start_from=args.start_from)
--        if not tests:
--            raise ValueError('No tests selected')
--    except ValueError as e:
--        sys.exit(e)
--
--    if args.dry_run:
--        print('\n'.join(tests))
--    else:
--        with TestRunner(env, tap=args.tap,
--                        color=args.color) as tr:
--            paths = [os.path.join(env.source_iotests, t) for t in tests]
--            ok = tr.run_tests(paths, args.jobs)
--            if not ok:
--                sys.exit(1)
-+    with TestRunner(env, tap=args.tap, color=args.color) as tr:
-+        paths = [os.path.join(env.source_iotests, t) for t in tests]
-+        ok = tr.run_tests(paths, args.jobs)
-+        if not ok:
-+            sys.exit(1)
++check_script = find_program(meson.current_build_dir() / 'check')
++iotests = run_command(python, [check_script.full_path(), '-g', 'auto', '-n'],
++                      check: true).stdout().strip().replace('tests/', '').split('\n')
++
+ foreach format, speed: qemu_iotests_formats
+   if speed == 'quick'
+     suites = 'block'
+   else
+     suites = ['block-' + speed, speed]
+   endif
+-  test('qemu-iotests ' + format, sh, args: [files('../check-block.sh'), format],
+-       depends: qemu_iotests_binaries, env: qemu_iotests_env,
+-       protocol: 'tap',
+-       suite: suites,
+-       timeout: 0,
+-       is_parallel: false)
++  foreach tst: iotests
++    test('iotest-' + format + '-' + tst,
++         python, args: [check_script.full_path(), '-tap', '-' + format, tst],
++         depends: qemu_iotests_binaries,
++         env: qemu_iotests_env + \
++              { 'TEST_DIR':
++                meson.current_build_dir() / 'scratch' / format + '-' + tst },
++         protocol: 'tap',
++         suite: suites,
++         timeout: 0)
++  endforeach
+ endforeach
 -- 
 2.27.0
 
