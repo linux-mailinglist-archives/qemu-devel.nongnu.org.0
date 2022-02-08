@@ -2,73 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D9074ADDCB
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Feb 2022 16:59:28 +0100 (CET)
-Received: from localhost ([::1]:56304 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2241C4ADE02
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Feb 2022 17:11:55 +0100 (CET)
+Received: from localhost ([::1]:45102 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nHStp-0005yP-Qp
-	for lists+qemu-devel@lfdr.de; Tue, 08 Feb 2022 10:59:25 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:35828)
+	id 1nHT5t-00018I-Dm
+	for lists+qemu-devel@lfdr.de; Tue, 08 Feb 2022 11:11:53 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:37054)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nHS1V-0002gW-Mp
- for qemu-devel@nongnu.org; Tue, 08 Feb 2022 10:03:17 -0500
-Received: from [2a00:1450:4864:20::42e] (port=37676
- helo=mail-wr1-x42e.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nHS1S-00054l-Vl
- for qemu-devel@nongnu.org; Tue, 08 Feb 2022 10:03:17 -0500
-Received: by mail-wr1-x42e.google.com with SMTP id w11so31308871wra.4
- for <qemu-devel@nongnu.org>; Tue, 08 Feb 2022 07:03:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to;
- bh=sH8uU3Ee06v9siCix/IJSHdL+IpW5HKZvO8cq1geodw=;
- b=QP9eluV9Hz5LRLf38XGNra/82gnvzzQdNQPl9tCFPUEqy+VwUgxkUavBS6gsknC+PN
- b2NV/+gfPaSBrmP5yL8wvpMbgrEehxdUS/cIGzo1yY4YxBOjj2IlLo6/k0N4nVeCUTdp
- K62iX3EMH2i4207jAC4VtpqicHf6bMAvQOGc0T5YVdD5SFmndilZUevtOGabqUV/YSya
- bIdFs2p67GEFfHiVZeNrlFJURU0xuIiEzSbrtYsLvFlXeqiKOmvUxekKlyQ+e3mZ7YXJ
- IADXPFBIuERBY4qLk9muMtt16381mavjUBPV8+smu7jFTMbvZwNH2naKjUJT3oySLUQO
- GthA==
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1nHS5R-0007gM-2o
+ for qemu-devel@nongnu.org; Tue, 08 Feb 2022 10:07:21 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:59984)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1nHS5N-0005p5-SM
+ for qemu-devel@nongnu.org; Tue, 08 Feb 2022 10:07:19 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1644332837;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:mime-version:mime-version:
+ content-type:content-type; bh=aHw0WHUDjplHhyM2x7z49ozQEApYFi2qNDHdSE7wkJ4=;
+ b=J2H0r3n4s7LvIe2LzdDZHGmOTV+Jy2p1FhyqlgxwnB21vy2h7ittmWmlme8U0wh/3KLE3S
+ 5XZWfqPPxD7h17lgZQ4tzzVL4j70AniHr+E5tQAU0/bv6uXnmaIU9YRzH5vaB2JFJk4uON
+ zc+VkLwKsXgFp7th+v6T/8jm8Wo8OG0=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-133-OO4cKW-PPq2NfNRLjMmtfw-1; Tue, 08 Feb 2022 10:07:14 -0500
+X-MC-Unique: OO4cKW-PPq2NfNRLjMmtfw-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ c7-20020a1c3507000000b0034a0dfc86aaso1148219wma.6
+ for <qemu-devel@nongnu.org>; Tue, 08 Feb 2022 07:07:14 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to;
- bh=sH8uU3Ee06v9siCix/IJSHdL+IpW5HKZvO8cq1geodw=;
- b=zi2L9UAz4oCm6mNlyceF1tzQFytLREdy2a6ze8tMQxabGdIrKf07AuoWueRjuYjJhO
- /5NTUWmmfNmsUVK8Va85vDgQ+gZC60/WTFr2sjdA+DrNoMSN+sHPZS7Ahrvmh6/lYMA7
- xEiQ71ajf7OfOc8F2u0jYCtMsrQiaiysWbTcqvfv0Y/3y+Rj3QI7o4jbISN00Z06xPRb
- U2CBX2xGr80wV5aoIgS9WzqmlxPEr+dYT7ckABTnLFXdgUX7E0TOwO88xSFdafsqM6ab
- v1kBwwtWZDBqR0wUTMMDlBIp03tePfQ5kylod/w0D03aWOzDMVZTL/YD77BEvs2UrgjQ
- DFKQ==
-X-Gm-Message-State: AOAM5313g6L5y7fH31mDeOd0fS9IL+lNmLp3aIZGmilm5SKmHklCh4Q3
- FLdPVlebbPkIDY0NUCPui9gEQrhsY9kHoYlgaljcantABYI=
-X-Google-Smtp-Source: ABdhPJxVaeGb66eYpyPu+jpg7Vd80sE2uj3WZKPENRu0IIsc+MliFNyI+ef3Q/Fo9E7WGNkE7voSRmHlhaQzSpGTorI=
-X-Received: by 2002:a05:6000:15c7:: with SMTP id
- y7mr3944836wry.319.1644332593383; 
- Tue, 08 Feb 2022 07:03:13 -0800 (PST)
+ h=x-gm-message-state:from:to:subject:user-agent:reply-to:date
+ :message-id:mime-version;
+ bh=aHw0WHUDjplHhyM2x7z49ozQEApYFi2qNDHdSE7wkJ4=;
+ b=h2ZnaOY+E6nTP4Shda/9ZIhVLWbWpf1w2qzwpkpF2FLQqn1uJCGSNEggtjOpE1KxFL
+ I6bpcpE6+IvGqisYup/KMVcn3OUUNzTQe3e/gC5zwphQz9uzAdXhQIBDqr26+0uG0V2S
+ Cd2H4v50zEHu7Cn2BBJwrw+L2R1r7pXfulvd3SXtJOlVcm/+sbE/D7PVNVaiCMyzZa5i
+ l5U124b1eaP2eCBh66qGDwm1YwtTuTFcBoN5/JA4zTpjfebj/sg4dGejmGmtBEOHLXRj
+ go/XVYoawe0zhjoAymVA8oZ4ZtdbcNsmGWBxYcmNp+AEObaZZYp/Bydat6DzGLmFXU+S
+ PW2w==
+X-Gm-Message-State: AOAM533QrQfEETGPhHD1wq+gqAQnNiLuXQ1NAC7u9SGbfl33sazEviIF
+ rreE3IUpXPyVglXk8DCA9Fx9Jy0YVjV0EROVSu6VDVkLnfB7yjFqKIhR6OYjw4c52OxKuW5Skmm
+ xS7r/f8V/BgIfPPg=
+X-Received: by 2002:adf:f54d:: with SMTP id j13mr3722696wrp.596.1644332832969; 
+ Tue, 08 Feb 2022 07:07:12 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJw2UiyJSQeSGcLexVZ3CFBHpaxf/eyRS45/KDjXqpi+ZTlnuHgAwYp1zFFxrynMcAjVoTkJGA==
+X-Received: by 2002:adf:f54d:: with SMTP id j13mr3722684wrp.596.1644332832762; 
+ Tue, 08 Feb 2022 07:07:12 -0800 (PST)
+Received: from localhost ([94.248.65.38])
+ by smtp.gmail.com with ESMTPSA id k28sm1996834wms.23.2022.02.08.07.07.12
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 08 Feb 2022 07:07:12 -0800 (PST)
+From: Juan Quintela <quintela@redhat.com>
+To: kvm-devel <kvm@vger.kernel.org>, qemu-devel@nongnu.org
+Subject: KVM call for agenda for 2022-02-22
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+Date: Tue, 08 Feb 2022 16:07:11 +0100
+Message-ID: <87bkzh75y8.fsf@secure.mitica>
 MIME-Version: 1.0
-References: <20220208113948.3217356-1-peter.maydell@linaro.org>
-In-Reply-To: <20220208113948.3217356-1-peter.maydell@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 8 Feb 2022 15:03:02 +0000
-Message-ID: <CAFEAcA8-FhDcxo14nQ5PSDj2XAcSLgvO6rjBUQESNA5D-9fOqA@mail.gmail.com>
-Subject: Re: [PULL 00/39] target-arm queue
-To: qemu-devel@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42e
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42e.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=quintela@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=quintela@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -81,45 +91,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 8 Feb 2022 at 11:39, Peter Maydell <peter.maydell@linaro.org> wrote:
->
-> The following changes since commit 55ef0b702bc2c90c3c4ed97f97676d8f139e5ca1:
->
->   Merge remote-tracking branch 'remotes/lvivier-gitlab/tags/linux-user-for-7.0-pull-request' into staging (2022-02-07 10:48:25 +0000)
->
-> are available in the Git repository at:
->
->   https://git.linaro.org/people/pmaydell/qemu-arm.git tags/pull-target-arm-20220208
->
-> for you to fetch changes up to 4fd1ebb10593087d45d2f56f7f3d13447d24802c:
->
->   hw/sensor: Add lsm303dlhc magnetometer device (2022-02-08 10:56:29 +0000)
->
-> ----------------------------------------------------------------
-> target-arm queue:
->  * Fix handling of SVE ZCR_LEN when using VHE
->  * xlnx-zynqmp: 'Or' the QSPI / QSPI DMA IRQs
->  * Don't ever enable PSCI when booting guest in EL3
->  * Adhere to SMCCC 1.3 section 5.2
->  * highbank: Fix issues with booting SMP
->  * midway: Fix issues booting at all
->  * boot: Drop existing dtb /psci node rather than retaining it
->  * versal-virt: Always call arm_load_kernel()
->  * force flag recalculation when messing with DAIF
->  * hw/timer/armv7m_systick: Update clock source before enabling timer
->  * hw/arm/smmuv3: Fix device reset
->  * hw/intc/arm_gicv3_its: refactorings and minor bug fixes
->  * hw/sensor: Add lsm303dlhc magnetometer device
->
 
 
-Applied, thanks.
+Hi
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/7.0
-for any user-visible changes.
+Please, send any topic that you are interested in covering.
 
--- PMM
+At the end of Monday I will send an email with the agenda or the
+cancellation of the call, so hurry up.
+
+After discussions on the QEMU Summit, we are going to have always open a
+KVM call where you can add topics.
+
+ Call details:
+
+By popular demand, a google calendar public entry with it
+
+  https://www.google.com/calendar/embed?src=dG9iMXRqcXAzN3Y4ZXZwNzRoMHE4a3BqcXNAZ3JvdXAuY2FsZW5kYXIuZ29vZ2xlLmNvbQ
+
+(Let me know if you have any problems with the calendar entry.  I just
+gave up about getting right at the same time CEST, CET, EDT and DST).
+
+If you need phone number details,  contact me privately
+
+Thanks, Juan.
+
 
