@@ -2,67 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E1A9F4AD57C
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Feb 2022 11:27:43 +0100 (CET)
-Received: from localhost ([::1]:51712 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 556494AD58D
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Feb 2022 11:39:53 +0100 (CET)
+Received: from localhost ([::1]:47192 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nHNio-0005U9-Hv
-	for lists+qemu-devel@lfdr.de; Tue, 08 Feb 2022 05:27:42 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:40726)
+	id 1nHNua-0005OS-29
+	for lists+qemu-devel@lfdr.de; Tue, 08 Feb 2022 05:39:52 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:42202)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nHNb5-00071m-Ku
- for qemu-devel@nongnu.org; Tue, 08 Feb 2022 05:19:43 -0500
-Received: from [2a00:1450:4864:20::32c] (port=38540
- helo=mail-wm1-x32c.google.com)
+ id 1nHNhh-00060r-MK
+ for qemu-devel@nongnu.org; Tue, 08 Feb 2022 05:26:35 -0500
+Received: from [2a00:1450:4864:20::436] (port=39824
+ helo=mail-wr1-x436.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nHNb3-0004RG-Nu
- for qemu-devel@nongnu.org; Tue, 08 Feb 2022 05:19:43 -0500
-Received: by mail-wm1-x32c.google.com with SMTP id
- k127-20020a1ca185000000b0037bc4be8713so994941wme.3
- for <qemu-devel@nongnu.org>; Tue, 08 Feb 2022 02:19:41 -0800 (PST)
+ id 1nHNhd-0005hm-MQ
+ for qemu-devel@nongnu.org; Tue, 08 Feb 2022 05:26:32 -0500
+Received: by mail-wr1-x436.google.com with SMTP id d27so1526448wrc.6
+ for <qemu-devel@nongnu.org>; Tue, 08 Feb 2022 02:26:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=yod2CPGFw7c9c+iB/b9zvtNyMGeOf0+vIu17LP0GihE=;
- b=ewriFT7FuFnVgCuSIaVay1FONF5rd4f59RRAwkGlna69hdCF95Vfw+Y8HXi35WHswG
- lTxtuf/AI1ecTA+a/Vd8CBFdvtzygVWjcaVb7IZYM6LNk45GC66gI61+McDeC7aOYdAJ
- DrHJEnDd79QhKYvwdyOyGntaqZV5YCWn904FwxUV5pqHHPPrV3nUbd/aQpKn/PlCwr8J
- EhKBvFtE1ADh+O05ECCbZkrgoYW0BAZeUFXrywKMmlGv4EWE8Tncm1/VAQLm0TkLYEPS
- AVUHvJJYcyVeQnx7pwN8NAj6WYuH6tv2tSc1XE3hFg673TzPShq47QPC9tIBOGcn2rZW
- 2elQ==
+ :cc; bh=NOesRABDfJPtUzBYH5mBS29oNnu3OG0vv++W9T+UjBk=;
+ b=qmQemYUSrdrZHlc3X0X1yuq9ASBs7JRHeTzolWyGv6wREK8wgsTDWsCNy0cbFhbl/S
+ tjN+Ny+4v9XKpGHof1KlViwNxeT4z5R0ZRCvkPaUguEuiSGQki0a0oTsUZ5NJhk3cuuD
+ O2czWl5k7QlOyw2CzLg6JUHJvHnsWCt+OjitCb74qeMpkpHPhNSrJr26XLE+Lpmunkw/
+ Zka0/lPefG48XjJoYCpw2D920wspK4YO4vx02iUoNVrYuOFgYnTNmF0CtvtznJdNLyvS
+ YALnM9w458bG93ph9DnO8Ov++xM+xoRz5DXhIe+WRkQnhq69WLvYG4XAcHB2/J4sJD2S
+ 1wfQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=yod2CPGFw7c9c+iB/b9zvtNyMGeOf0+vIu17LP0GihE=;
- b=N5lr7MYmeg+8b3u1G1etg0YelDdRl369Xcg+PtUKses5hEvcrLv7beImUMxlU+1J7U
- 42DIZJ8IBiEbdyU+BEMqhg5I2onfA9QOP+jM/bsIh3WnNnPajFMl5scjp8dGpk6Ig8OL
- IczkCVWfVxRudKH8TA6iX9gaPxXA2x0crPIeoHwAqAC99UxfcUtVORSa2kJiNmT9wwn6
- Z1/flofN/GfX8oaARswiCkDMq0xOi+i81VjszyF+R3KYBG0meinqnrYlLm3ATFR4GN9j
- n11Mofen/MoILl/6za++wsiWN40KgZVbaBGuX80luxfogk1hZ8In9jM3qmCLHZFx8ugh
- N4Vg==
-X-Gm-Message-State: AOAM531bG5UxJW9P4WlkABRXqyZVCPLaMgPIw1MIHm6ba574navWwWZU
- CU/qDzxPLg82zgL5G7L+Vi2WLT9TVQ4bIl5hM5V8fHFaF2s=
-X-Google-Smtp-Source: ABdhPJy1lF8pZPydLxnR57JUzcClLYOWWPMXw+sRdqMJY0aL2THy2VrNzZYhKnj/dW6IjtzuaZZ4C3r64bHj0OLXw6Q=
-X-Received: by 2002:a1c:544d:: with SMTP id p13mr502832wmi.37.1644315580041;
- Tue, 08 Feb 2022 02:19:40 -0800 (PST)
+ bh=NOesRABDfJPtUzBYH5mBS29oNnu3OG0vv++W9T+UjBk=;
+ b=T6QWSk7rieFzSf3P7zEo5baAKFYGSjuswT5ySwTUkTwyNiLJzq/3LCoxtEJAt2IGYb
+ 6JJzncASWdNqWEC3I/XzYrSzkRO2YPShziMcukjboNUBPTZKJYB/RzKVA0jsgQpTHEdO
+ YRWf0L26AkxT74Ygn5ebd7+evmxfDUQXAfbtQmdXrq/WvN+W9pV88dvMds3dXirQLebh
+ 5n1jzTm4YhNhTYpfjXpWWGNiA2wMW7iGtCO7J5AG6xsj9sb/D2+j1jnfw9qDsLgMAiy5
+ VeboS85P8KTYSvyVhPOTG9KfFyafdvXL6JcUd9XiLcnI8orV07/m4+PNMaS86PqdXDkO
+ G0Lw==
+X-Gm-Message-State: AOAM531x6UwT98DzC4wEjdFbCXCRpVDwMVuisRWhRgAacsnfHdZq0bOM
+ jyiyfg3/7hos01HBWmxs92XxoTKjoU+U56rTSs8bWw==
+X-Google-Smtp-Source: ABdhPJybPLDhhG7G1h1pfFlXAHsLbHyBtK1AeLkkVYgqAfk60xJINvMGvESFzK03YTWzdK3lNwHxTnV63CicHvse1Nw=
+X-Received: by 2002:adf:e18d:: with SMTP id az13mr3059153wrb.521.1644315987955; 
+ Tue, 08 Feb 2022 02:26:27 -0800 (PST)
 MIME-Version: 1.0
-References: <662aca02-da99-524f-d9df-cd61427ca520@ispras.ru>
- <CAFEAcA_U1hgz55mGX7DZp36aOHGriU0wjr9Dvt4Y=f2EGNgF+A@mail.gmail.com>
- <6bf3ba6a-0694-21c6-dbcc-d77f69fda4cb@ispras.ru>
-In-Reply-To: <6bf3ba6a-0694-21c6-dbcc-d77f69fda4cb@ispras.ru>
+References: <20220208101311.1511083-1-thuth@redhat.com>
+ <20220208101311.1511083-6-thuth@redhat.com>
+In-Reply-To: <20220208101311.1511083-6-thuth@redhat.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 8 Feb 2022 10:19:29 +0000
-Message-ID: <CAFEAcA9Td+1f+qDgSrbm=SScqK4TODH9atq95k7Tg0vM0E5x3g@mail.gmail.com>
-Subject: Re: target/arm: cp15.dacr migration
-To: Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>
+Date: Tue, 8 Feb 2022 10:26:17 +0000
+Message-ID: <CAFEAcA_xMXYyMvaC8B=x1N7wX-=8y1XMTJouJvetqFYX87z1dQ@mail.gmail.com>
+Subject: Re: [PATCH 5/6] tests: Do not treat the iotests as separate meson
+ test target anymore
+To: Thomas Huth <thuth@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32c
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::436
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::436;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x436.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -83,63 +82,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
+Cc: Kevin Wolf <kwolf@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Hanna Reitz <hreitz@redhat.com>, qemu-devel@nongnu.org, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 8 Feb 2022 at 04:56, Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru> wrote:
+On Tue, 8 Feb 2022 at 10:18, Thomas Huth <thuth@redhat.com> wrote:
 >
-> On 07.02.2022 16:44, Peter Maydell wrote:
-> > On Mon, 7 Feb 2022 at 12:13, Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru> wrote:
-> >>
-> >> I recently encountered a problem with cp15.dacr register.
-> >> It has _s and _ns versions. During the migration only dacr_ns is
-> >> saved/loaded.
-> >> But both of the values are used in get_phys_addr_v5 and get_phys_addr_v6
-> >> functions. Therefore VM behavior becomes incorrect after loading the
-> >> vmstate.
-> >
-> > Yes, we don't correctly save and restore the Secure banked
-> > registers. This is a long standing bug (eg it is the
-> > cause of https://gitlab.com/qemu-project/qemu/-/issues/467).
-> > Almost nobody notices this, because almost nobody both runs
-> > Secure-world AArch32 code and also tries migration or save/restore.
+> Now that we add the single iotests directly in meson.build, we do
+> not have to separate the block suite from the other suites anymore.
 >
-> We actually did it for reverse debugging of custom firmware.
+> Signed-off-by: Thomas Huth <thuth@redhat.com>
+> ---
+>  meson.build            | 6 +++---
+>  scripts/mtest2make.py  | 4 ----
+>  tests/Makefile.include | 9 +--------
+>  3 files changed, 4 insertions(+), 15 deletions(-)
 >
-> >> I found that kvm_to_cpreg_id is responsible for disabling dacr_s
-> >> migration, because it always selects ns variant.
-> >
-> >> diff --git a/target/arm/cpu.h b/target/arm/cpu.h
-> >> index c6a4d50e82..d3ffef3640 100644
-> >> --- a/target/arm/cpu.h
-> >> +++ b/target/arm/cpu.h
-> >> @@ -2510,11 +2510,6 @@ static inline uint32_t kvm_to_cpreg_id(uint64_t
-> >> kvmid)
-> >>            if ((kvmid & CP_REG_SIZE_MASK) == CP_REG_SIZE_U64) {
-> >>                cpregid |= (1 << 15);
-> >>            }
-> >> -
-> >> -        /* KVM is always non-secure so add the NS flag on AArch32 register
-> >> -         * entries.
-> >> -         */
-> >> -         cpregid |= 1 << CP_REG_NS_SHIFT;
-> >>        }
-> >>        return cpregid;
-> >>    }
-> >
-> > This change is wrong, or at least incomplete -- as the comment notes,
-> > a guest running under KVM is always NonSecure, so when KVM says "this is
-> > DACR" (or whatever) it always means "this is the NS banked DACR".
-> > (Though now AArch32 KVM support has been dropped we have some flexibility
-> > to not necessarily use KVM register ID values that exactly match what
-> > the kernel uses, if we need to do that.)
+> diff --git a/meson.build b/meson.build
+> index 5f43355071..b203402ee1 100644
+> --- a/meson.build
+> +++ b/meson.build
+> @@ -3,9 +3,9 @@ project('qemu', ['c'], meson_version: '>=0.58.2',
+>                            'b_staticpic=false', 'stdsplit=false'],
+>          version: files('VERSION'))
 >
-> Unfortunately, I can't test anything with AArch32 KVM.
+> -add_test_setup('quick', exclude_suites: ['block', 'slow', 'thorough'], is_default: true)
+> -add_test_setup('slow', exclude_suites: ['block', 'thorough'], env: ['G_TEST_SLOW=1', 'SPEED=slow'])
+> -add_test_setup('thorough', exclude_suites: ['block'], env: ['G_TEST_SLOW=1', 'SPEED=thorough'])
+> +add_test_setup('quick', exclude_suites: ['slow', 'thorough'], is_default: true)
+> +add_test_setup('slow', exclude_suites: ['thorough'], env: ['G_TEST_SLOW=1', 'SPEED=slow'])
+> +add_test_setup('thorough', env: ['G_TEST_SLOW=1', 'SPEED=thorough'])
+>
+>  not_found = dependency('', required: false)
+>  keyval = import('keyval')
+> diff --git a/scripts/mtest2make.py b/scripts/mtest2make.py
+> index 4d542e8aaa..304634b71e 100644
+> --- a/scripts/mtest2make.py
+> +++ b/scripts/mtest2make.py
+> @@ -101,10 +101,6 @@ def emit_suite(name, suite, prefix):
+>  testsuites = defaultdict(Suite)
+>  for test in introspect['tests']:
+>      process_tests(test, targets, testsuites)
+> -# HACK: check-block is a separate target so that it runs with --verbose;
+> -# only write the dependencies
+> -emit_suite_deps('block', testsuites['block'], 'check')
+> -del testsuites['block']
 
-As I say, it doesn't exist any more, so you don't need to.
-In any case, this patch isn't sufficient on its own.
+This code being deleted claims to be doing something to ensure that
+the tests get run and output the useful messages on failure.
+What is the mechanism for this in the new meson setup ?
+(As far as I can tell at the moment this is broken. At some
+point I will start agitating for reverting that conversion if
+it isn't fixed :-))
 
-thanks
 -- PMM
 
