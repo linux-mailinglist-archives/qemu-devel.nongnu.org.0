@@ -2,65 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 656014AD829
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Feb 2022 13:09:36 +0100 (CET)
-Received: from localhost ([::1]:48948 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D015A4AD82F
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Feb 2022 13:14:19 +0100 (CET)
+Received: from localhost ([::1]:57688 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nHPJO-0004Gi-P5
-	for lists+qemu-devel@lfdr.de; Tue, 08 Feb 2022 07:09:34 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:51856)
+	id 1nHPNy-0002FQ-Rp
+	for lists+qemu-devel@lfdr.de; Tue, 08 Feb 2022 07:14:18 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:52414)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nHODi-0005Qo-8p
- for qemu-devel@nongnu.org; Tue, 08 Feb 2022 05:59:38 -0500
-Received: from [2a00:1450:4864:20::430] (port=45011
- helo=mail-wr1-x430.google.com)
+ id 1nHOG4-00074s-VI
+ for qemu-devel@nongnu.org; Tue, 08 Feb 2022 06:02:05 -0500
+Received: from [2a00:1450:4864:20::32a] (port=34606
+ helo=mail-wm1-x32a.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nHODf-0003Z5-Ne
- for qemu-devel@nongnu.org; Tue, 08 Feb 2022 05:59:36 -0500
-Received: by mail-wr1-x430.google.com with SMTP id k18so29964179wrg.11
- for <qemu-devel@nongnu.org>; Tue, 08 Feb 2022 02:59:35 -0800 (PST)
+ id 1nHOFz-0004BZ-MA
+ for qemu-devel@nongnu.org; Tue, 08 Feb 2022 06:02:04 -0500
+Received: by mail-wm1-x32a.google.com with SMTP id
+ bg19-20020a05600c3c9300b0034565e837b6so666844wmb.1
+ for <qemu-devel@nongnu.org>; Tue, 08 Feb 2022 03:01:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=z3vyJrlhPBgOoYrRDXiEx+ljZIL8I+mXS/pYSsaSCGk=;
- b=hhFZ+PsjBDIB9Av4RNNs0zJriwKEM0ed/qvklqwyTzfUCHmXt5OuV8hPXrZCtCbGOJ
- 8fKGn4jrGhiWzQPPRY6UrM6mzl2a0d9QD9ygPWRcdySa0kQkccPBI/TXJ3IeSR3C8uab
- m22En24+1/GluU/ljtcXHeVyRPsKt4opguzoLUVjIhDxwX32QnOX9y3h31D3icGyee++
- UAonTwnBoit43Ax1m55IlD9pui1bBu5HA6A8q5SoEWrZ3fm55LBXkvbYrPk8nP22nFdw
- qcOF72AJ29mZiG49+Z5S3bi/09xaPCmIDo29Ydep4/FahjbAupNpkvheqLdFeP5fW5gW
- m1zg==
+ :cc; bh=XARIOODFGy5pMZ3gEzqIPyWihx39AvUdx92sChNoWs4=;
+ b=rmDt9jMqoWh/r1RvVF3Jvuon9zVFcGRlhS7ssY4HvRi8l2/d68CAOJQf2Kz2tSBFip
+ jnQWysSCHiWEKXlo18fKPO/n660aWGuhvd7Q4CRzPMtLNHjokoqlp6PB4cbH77mOKHQw
+ f0qpT33KVZsCk3k+YRZsWrUNTmiiLwEKAHbKV0MRdTx+FT2n2bUvVFIVY0u/e/rZFf0y
+ Ad5+67MA9NKfirdAap4uY7rMp1Tylhso8/TAeaw1jOcAEmK9o0tpo7hFesZ60Yjc0CFc
+ NYGNqPPPZNe5vBCPFzzuLFD29Qqu6ufhLUarByDfZ0uOlKzpvlqzui4BtuBNrR0x1oeG
+ W8WA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=z3vyJrlhPBgOoYrRDXiEx+ljZIL8I+mXS/pYSsaSCGk=;
- b=Ht6xEuOyaT4rMMs0xKjZ8TJtTXVDERNQ9VN2OzyHQmGhlc77tu5g1W6JTiipNR+LWz
- MCYiItG17bP7crjpUHG/i5dnx3vkXmKp6LNV3X+3fvSTrDjEOm2x6eQ6bCkBWe82GLeZ
- VmnJgf+NYyjva9i31TP4Mm1NRH/XkMWHnPl7F0XPPeS1d1qMAgNLYYQS1iqTiT0/lfjw
- mdVl0mQB50kcbaBtjQ0sgFDQfCRnihxTrhg2kKZXVfWbVe4S2ufK4alTIK07qd2a9aJy
- f0AZsFSp/yZTyocqkqeYxHeodoIBtsMYMoIN4ya8pg74LEsQCQ8v9VvYHNTps4pnbNUQ
- UVuQ==
-X-Gm-Message-State: AOAM530wFiCq/f8W7a7VZ5JhVAyuQ5h1H/1uhPMNkXpgZrlHzt7uyhDV
- Zz8oNwJ+3VifDEcCFFcmoqAcNWB4U0Ys+qeypKBApQ==
-X-Google-Smtp-Source: ABdhPJwhmqHdaodp+JqJZoc9SEsQIB3exhNIW1fIuUydX9jOPwonNVHFeDT+58tAmEfwILRA8ZDAwds69Snm3odk3VM=
-X-Received: by 2002:a5d:6d8d:: with SMTP id l13mr2984474wrs.295.1644317973832; 
- Tue, 08 Feb 2022 02:59:33 -0800 (PST)
+ bh=XARIOODFGy5pMZ3gEzqIPyWihx39AvUdx92sChNoWs4=;
+ b=yFkmGeeMIdyeHEIA8795j9T6z/bLfV0PnQfV+AA0RiMj6o1XnGsCYA9uxRKqHPjiWD
+ 3h96HysSi0S2J8unt1r3gD1im1rWAtJeQEOY4BXPsGgz7fKD6gKjsa8iWl0mNQvGrNzW
+ P0kI92o0LyKxcKvRHUFzz280XVrQUEj3ZlOoKJMVy5QpttJPVLWMlGwawOR8BlrBjK4P
+ gFk5PhHfRD1E7zPu8hmHygAZSoFhvE6VrCAUe9982c2g4Lxsf7G91XMJEk2ZJo8X+aaG
+ goLSgpxo+eF8HtpVAeZcCbYqpV8vEkCpUM83GHE1xJ8s01zA8WW3KliegxTZaLDGaSyw
+ UcbQ==
+X-Gm-Message-State: AOAM532lB9vpklWSnhzioJtqtxyqWVr6zwbinKp2X4GMJY3kLX/mpLiv
+ KIEJnqsitgA6EFxPGKjbxkm8YD3RTOeFV1MPq2WeOw==
+X-Google-Smtp-Source: ABdhPJw/wDoIzqRNjxWuB0Fc3FMOpNAdOUAgPojCzK9GkwpNcHOPJre9XqIawWYZPznWMarc8j/etYpjkrWSzPeqBno=
+X-Received: by 2002:a05:600c:2d05:: with SMTP id
+ x5mr619714wmf.133.1644318118290; 
+ Tue, 08 Feb 2022 03:01:58 -0800 (PST)
 MIME-Version: 1.0
 References: <20220208071237.319844-1-richard.henderson@linaro.org>
- <20220208071237.319844-3-richard.henderson@linaro.org>
-In-Reply-To: <20220208071237.319844-3-richard.henderson@linaro.org>
+ <20220208071237.319844-5-richard.henderson@linaro.org>
+In-Reply-To: <20220208071237.319844-5-richard.henderson@linaro.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 8 Feb 2022 10:59:22 +0000
-Message-ID: <CAFEAcA-Sy8wvO2h1tjNwPcK6j2Tfz-gGY2YTCeQZQEB_1jd=qg@mail.gmail.com>
-Subject: Re: [PATCH 2/5] linux-user: Introduce host_signal_mask
+Date: Tue, 8 Feb 2022 11:01:47 +0000
+Message-ID: <CAFEAcA-XH1yc-NbFQAgXo7BAtiVBgCACQ70EWf6CjndXaZVqBw@mail.gmail.com>
+Subject: Re: [PATCH 4/5] linux-user: Move sparc/host-signal.h to
+ sparc64/host-signal.h
 To: Richard Henderson <richard.henderson@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::430
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32a
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::430;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x430.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32a.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -85,42 +88,15 @@ Cc: qemu-devel@nongnu.org, Laurent@vivier.eu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 8 Feb 2022 at 08:03, Richard Henderson
+On Tue, 8 Feb 2022 at 08:17, Richard Henderson
 <richard.henderson@linaro.org> wrote:
 >
-> Do not directly access the uc_sigmask member.
-> This is preparation for a sparc64 fix.
->
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->  linux-user/include/host/aarch64/host-signal.h  |  5 +++++
->  linux-user/include/host/alpha/host-signal.h    |  5 +++++
->  linux-user/include/host/arm/host-signal.h      |  5 +++++
->  linux-user/include/host/i386/host-signal.h     |  5 +++++
->  .../include/host/loongarch64/host-signal.h     |  5 +++++
->  linux-user/include/host/mips/host-signal.h     |  5 +++++
->  linux-user/include/host/ppc/host-signal.h      |  5 +++++
->  linux-user/include/host/riscv/host-signal.h    |  5 +++++
->  linux-user/include/host/s390/host-signal.h     |  5 +++++
->  linux-user/include/host/sparc/host-signal.h    |  5 +++++
->  linux-user/include/host/x86_64/host-signal.h   |  5 +++++
->  linux-user/signal.c                            | 18 ++++++++----------
->  12 files changed, 63 insertions(+), 10 deletions(-)
->
-> diff --git a/linux-user/include/host/aarch64/host-signal.h b/linux-user/include/host/aarch64/host-signal.h
-> index 9770b36dc1..76ab078069 100644
-> --- a/linux-user/include/host/aarch64/host-signal.h
-> +++ b/linux-user/include/host/aarch64/host-signal.h
-> @@ -40,6 +40,11 @@ static inline void host_signal_set_pc(ucontext_t *uc, uintptr_t pc)
->      uc->uc_mcontext.pc = pc;
->  }
->
-> +static inline void *host_signal_mask(ucontext_t *uc)
-> +{
-> +    return &uc->uc_sigmask;
-> +}
+> We do not support sparc32 as a host, so there's no point in
+> sparc64 redirecting to sparc.
 
-Why void* rather than sigset_t* ?
+Where do we enforce that ? I couldn't see anything in
+configure or meson.build that forbids linux-user with
+a 32-bit sparc host, but I probably missed it.
 
 thanks
 -- PMM
