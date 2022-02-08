@@ -2,81 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BDA084AD87B
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Feb 2022 13:59:57 +0100 (CET)
-Received: from localhost ([::1]:47412 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F31B4AD833
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Feb 2022 13:16:21 +0100 (CET)
+Received: from localhost ([::1]:60300 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nHQ65-0003kt-NL
-	for lists+qemu-devel@lfdr.de; Tue, 08 Feb 2022 07:59:55 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:35124)
+	id 1nHPPw-0004Sc-6b
+	for lists+qemu-devel@lfdr.de; Tue, 08 Feb 2022 07:16:20 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:34452)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nHOrT-000165-3v
- for qemu-devel@nongnu.org; Tue, 08 Feb 2022 06:40:45 -0500
-Received: from [2a00:1450:4864:20::32d] (port=46706
- helo=mail-wm1-x32d.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nHOqt-00029U-9I
- for qemu-devel@nongnu.org; Tue, 08 Feb 2022 06:40:22 -0500
-Received: by mail-wm1-x32d.google.com with SMTP id
- l67-20020a1c2546000000b00353951c3f62so1398076wml.5
- for <qemu-devel@nongnu.org>; Tue, 08 Feb 2022 03:40:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:subject:date:message-id:in-reply-to:references:mime-version
- :content-transfer-encoding;
- bh=Jz4riheGOmiMeuNbjKDE7wXP/MlDdFoZj/oQ3PvSVLE=;
- b=xVzZ8UxQDHTvE5e8M1Bl4tV9Za0lWk7Qu7aP4wFxlGRDLtWYct5BNkK9C+9zfdgyVF
- pEKuLLXo9iV+uZ8t7A/ZjFqvDVh7Oqkkrd4PCS4DR5JvG1D075IzPtE0PskOceKIJ+zE
- 7CNUuZEFfr/8yEfVUtVWC9dT/zcfyODq1o07xPzfjopRthOAI6DU5Z0W+jrOTp928Xvj
- r/Psuo1hObbdNolXPxDotZX4QRymmgtV9TOd0uYxa2D4HDYwGkxrYEiA5tlQ8zmdJQes
- XDl9KTSB618foenmEoj6FkUzKR7DHaQIhegMaUeoBpHBvHqhHyg3kVAw11HXi/nVXv5q
- V8hg==
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nHOqi-0000fm-FK
+ for qemu-devel@nongnu.org; Tue, 08 Feb 2022 06:39:56 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:56910)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nHOqc-00023O-HZ
+ for qemu-devel@nongnu.org; Tue, 08 Feb 2022 06:39:55 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1644320390;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=26hAYo/RAsLRP12ZjtcJtgV1b1Ao/8HeaP8VJVAXN8c=;
+ b=adN5E8QH1WB8JGqOVfhYZvRkpFSEk4WzotnIK9N1EeBZLoweaTWf6ArhBpZBZNu2qtrFco
+ PSPCD/VCMN5WVUG3pQvLTQb/0k1YY0sGXw+t+96al+gDCeHLrLkjTsZmDPvCqrAD87LX1W
+ E4fsqty7mKEMBEv3Y59j5VK2PFj3BdI=
+Received: from mail-pj1-f70.google.com (mail-pj1-f70.google.com
+ [209.85.216.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-403-0mTXlnlQO5KIA7ph3qzaBw-1; Tue, 08 Feb 2022 06:39:43 -0500
+X-MC-Unique: 0mTXlnlQO5KIA7ph3qzaBw-1
+Received: by mail-pj1-f70.google.com with SMTP id
+ t16-20020a17090b019000b001b8af627800so1358373pjs.8
+ for <qemu-devel@nongnu.org>; Tue, 08 Feb 2022 03:39:43 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=Jz4riheGOmiMeuNbjKDE7wXP/MlDdFoZj/oQ3PvSVLE=;
- b=k88UabCXoPfhYGaAEO47l1i6djrubD1ZV27n6/mFNfON0FZaBar4aOBCx0zAszUdNl
- BtzraKf4Zinha4NYBS6dfIUUNIVqqxdjoIH83sO7omO8rCnzgbzPYN74hXuncsasS9Iq
- t3/QEIcuT7HUiLVVtjH0iOEl/erQ0DQ+aCFXxeLusV8VVD6y4Vn/cJ6N0w1j1CAQDQHi
- u/amjLwhEx2F74nzcZrls9OgoYeWo7NoF3tzUNkxnXDfbSrcFMEkyAARccZQ9nwo/OQD
- VUkEhFdU0rnaom1SLE744PdqlQ89WdqzFT89TC1/nB6BXQlEJnfzrUPpdFwZlLUKfcLT
- 3sSg==
-X-Gm-Message-State: AOAM533jTb/jBp7XDNh1yTO/0gLzrRZyroodH+XrsalsQLLUf5CdJ9Gi
- VtxA/gsNiMC6v8fnmZVMPxZoQhac42qfKA==
-X-Google-Smtp-Source: ABdhPJwsTHGMwKJXaxRbKCKy5iOuTs1M//qyMYL2B2/fX9VjsxmXBlJnPtp2yc3g2pZyi/ii7cuzeA==
-X-Received: by 2002:a05:600c:210c:: with SMTP id
- u12mr806188wml.56.1644320405639; 
- Tue, 08 Feb 2022 03:40:05 -0800 (PST)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
- by smtp.gmail.com with ESMTPSA id r11sm4245199wrt.28.2022.02.08.03.40.05
- for <qemu-devel@nongnu.org>
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=26hAYo/RAsLRP12ZjtcJtgV1b1Ao/8HeaP8VJVAXN8c=;
+ b=CRaLdeQ8AM09e0xjCURzBux/1XB8eskMxbCGNwN+ICc1A8e28rF7uOLr2MJUh2D+TK
+ Whk499oYvUdE6W/oMF2j9OHT0JkaU645zzty+ZhdrR/GrbA/E/0wZNW/ZwOF9e1b0vyZ
+ G2dE2Z9wFhJIb3nWOg9SrHdTkyV4OfAxj3rNRuFdvO+tGmxtjh8hXtLwQz66fjiO+tBU
+ qkFGzN4vZJmREdZSmq39bpzjXc8bPqMJ7Em0CN7WB5uFCOe97cBI1dRuYXnxBGlcLz90
+ ZltSKozADt17fgv91SjK+BejK2+nOy7vEQOxvxr7R2RxRgredzusdgt+RKLeqYw7bMaR
+ /leg==
+X-Gm-Message-State: AOAM532acG4RIC4gVluXYHJFujOOZxD9OLLzU3+eIMvu/MkNKQpX4j5V
+ QBoKb/BtW4FC5DSUHKnxVBMCjFvGfR3K6I9zLTOUU4JDzmHIp1eEPkE/C+Wo6rM8EfLbqZRU5im
+ FW7D+ucJ9aBPSpLQ=
+X-Received: by 2002:a17:902:bd03:: with SMTP id
+ p3mr4219109pls.50.1644320382701; 
+ Tue, 08 Feb 2022 03:39:42 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwCOqdX8817HgzfYtnknNdIVXroIjmhXXiQ715D+jFwfbcvzZWn3BTc7S1BZgl/4mx6xihE2w==
+X-Received: by 2002:a17:902:bd03:: with SMTP id
+ p3mr4219080pls.50.1644320382351; 
+ Tue, 08 Feb 2022 03:39:42 -0800 (PST)
+Received: from xz-m1.local ([94.177.118.119])
+ by smtp.gmail.com with ESMTPSA id kb11sm2776540pjb.51.2022.02.08.03.39.39
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 08 Feb 2022 03:40:05 -0800 (PST)
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PULL 24/39] hw/timer/armv7m_systick: Update clock source before
- enabling timer
-Date: Tue,  8 Feb 2022 11:39:33 +0000
-Message-Id: <20220208113948.3217356-25-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220208113948.3217356-1-peter.maydell@linaro.org>
-References: <20220208113948.3217356-1-peter.maydell@linaro.org>
+ Tue, 08 Feb 2022 03:39:42 -0800 (PST)
+Date: Tue, 8 Feb 2022 19:39:37 +0800
+From: Peter Xu <peterx@redhat.com>
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Subject: Re: [PATCH RFC 14/15] migration: Postcopy preemption on separate
+ channel
+Message-ID: <YgJWeQm3THpv8iG/@xz-m1.local>
+References: <20220119080929.39485-1-peterx@redhat.com>
+ <20220119080929.39485-15-peterx@redhat.com>
+ <YfwUvGfE46G1oXOv@work-vm> <YgHv/4Ep4JUhfLB4@xz-m1.local>
+ <YgJS3qUuyopB+JFZ@work-vm>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32d
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32d.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- PDS_HP_HELO_NORDNS=0.001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+In-Reply-To: <YgJS3qUuyopB+JFZ@work-vm>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=peterx@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -89,57 +98,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org,
+ Leonardo Bras Soares Passos <lsoaresp@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Richard Petri <git@rpls.de>
+On Tue, Feb 08, 2022 at 11:24:14AM +0000, Dr. David Alan Gilbert wrote:
+> > The current model is we only have 1 postcopy channel and 1 precopy channel, but
+> > it should be easier if we want to make it N post + 1 pre base on this series.
+> 
+> It's not clear to me if we need to be able to do N post + M pre, or
+> whether we have a rule like always at least 1 post, but if there's more
+> pagefaults in the queue then you can steal all of the pre channels.
 
-Starting the SysTick timer and changing the clock source a the same time
-will result in an error, if the previous clock period was zero. For exmaple,
-on the mps2-tz platforms, no refclk is present. Right after reset, the
-configured ptimer period is zero, and trying to enabling it will turn it off
-right away. E.g., code running on the platform setting
+Right, >1 queue length should easily happen with workloads in real cloud
+environment.  Though even with only 1post channel we can already hit at least
+<~1ms with this series even if there're 16 pending requests per my test.  I
+think that may cover quite some real workloads.
 
-    SysTick->CTRL  = SysTick_CTRL_CLKSOURCE_Msk | SysTick_CTRL_ENABLE_Msk;
+One thing to mention is that we should always assume the pre-channels are
+filled up with tons of pages already in the NIC send buffer, so they won't be
+good candidate for postcopy requests, IMHO.  So I'm not sure whether we can
+mixly use the pre/post channels - we may need to leave the post channels idle.
 
-should change the clock source and enable the timer on real hardware, but
-resulted in an error in qemu.
+Then, if we keep some of the multifd channels idle, then it will become some
+other thing rather than the existing multifd, since we will start to treat
+threads and channels differently and break the "equality" rule in the strict
+version of multifd world.
 
-Signed-off-by: Richard Petri <git@rpls.de>
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-Message-id: 20220201192650.289584-1-git@rpls.de
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
----
- hw/timer/armv7m_systick.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+> > This also reminded me that, instead of a new capability, should I simply expose
+> > a parameter "postcopy-channels=N" to CLI so that we can be prepared with multi
+> > postcopy channels?
+> 
+> I'm not sure we know enough yet about what configuration it would have;
+> I'd be tempted to just make it work for the user by enabling both
+> multifd and preemption and then using this new mechanism rather than
+> having to add yet another parameter.
 
-diff --git a/hw/timer/armv7m_systick.c b/hw/timer/armv7m_systick.c
-index 3bd951dd044..5dfe39afe36 100644
---- a/hw/timer/armv7m_systick.c
-+++ b/hw/timer/armv7m_systick.c
-@@ -149,6 +149,10 @@ static MemTxResult systick_write(void *opaque, hwaddr addr,
-         s->control &= 0xfffffff8;
-         s->control |= value & 7;
- 
-+        if ((oldval ^ value) & SYSTICK_CLKSOURCE) {
-+            systick_set_period_from_clock(s);
-+        }
-+
-         if ((oldval ^ value) & SYSTICK_ENABLE) {
-             if (value & SYSTICK_ENABLE) {
-                 ptimer_run(s->ptimer, 0);
-@@ -156,10 +160,6 @@ static MemTxResult systick_write(void *opaque, hwaddr addr,
-                 ptimer_stop(s->ptimer);
-             }
-         }
--
--        if ((oldval ^ value) & SYSTICK_CLKSOURCE) {
--            systick_set_period_from_clock(s);
--        }
-         ptimer_transaction_commit(s->ptimer);
-         break;
-     }
+Let me stick with the current capability bit then, so as to make it 1pre+1post.
+And we can leave Npre+1post for later.
+
+Thanks,
+
 -- 
-2.25.1
+Peter Xu
 
 
