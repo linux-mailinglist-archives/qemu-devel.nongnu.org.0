@@ -2,69 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2DAA44AD399
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Feb 2022 09:39:46 +0100 (CET)
-Received: from localhost ([::1]:46742 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D69764AD404
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Feb 2022 09:52:43 +0100 (CET)
+Received: from localhost ([::1]:55268 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nHM2E-0000HM-A2
-	for lists+qemu-devel@lfdr.de; Tue, 08 Feb 2022 03:39:44 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:51986)
+	id 1nHMEs-0006gq-O9
+	for lists+qemu-devel@lfdr.de; Tue, 08 Feb 2022 03:52:42 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:52024)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nHKg9-00075g-PR
- for qemu-devel@nongnu.org; Tue, 08 Feb 2022 02:12:45 -0500
-Received: from [2607:f8b0:4864:20::62a] (port=35449
- helo=mail-pl1-x62a.google.com)
+ id 1nHKgD-00079d-6J
+ for qemu-devel@nongnu.org; Tue, 08 Feb 2022 02:12:49 -0500
+Received: from [2607:f8b0:4864:20::102b] (port=42522
+ helo=mail-pj1-x102b.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nHKg7-0000RE-T3
- for qemu-devel@nongnu.org; Tue, 08 Feb 2022 02:12:45 -0500
-Received: by mail-pl1-x62a.google.com with SMTP id y7so7844732plp.2
- for <qemu-devel@nongnu.org>; Mon, 07 Feb 2022 23:12:43 -0800 (PST)
+ id 1nHKg9-0000RK-Rz
+ for qemu-devel@nongnu.org; Tue, 08 Feb 2022 02:12:47 -0500
+Received: by mail-pj1-x102b.google.com with SMTP id
+ my12-20020a17090b4c8c00b001b528ba1cd7so1784104pjb.1
+ for <qemu-devel@nongnu.org>; Mon, 07 Feb 2022 23:12:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=95uqxe4z0njk29NOtAs+KrRHrBfnHEzIFQZpK0SEfT8=;
- b=bNh5aAPkK8ZJgBljHDC2UBNkG6yq+V3rJn9nZVGFU0J3qfp1adOKidaRkPUaxkh4PK
- T9K9ZgFDYNRHu0Xx/sgWkw5Yk3fVqAvNAzMkEWPKlzEPzbfrjJqwKguNaWstzetrDPqB
- vSe2uXqXXrEykWIHT/7xCJtivFNyKFTf1H8JPHQZIgNW49B6TtC4DDdHgqNTOD2x4DKB
- oMutQn+eWU1907zljf1RbI5uwlmWpUDVDnm1vlk7ZHutD/TC6Lr4JNGipHkTrBzjuWwg
- llkUx3D9vgKZ8Mgt/GMqe3FfGBlihka+cdzqf+Et67dNHXCi/XmBsv0ER5tI0nvvE62J
- nA1g==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=Uh058XUts6HPkXe97baHsy8/Ac7JrSk6cgbCWbIo3VY=;
+ b=znbDpHVWPdPeOFwQq63atb1VJMFLiq6Njizswlg8axXVYQLQiNuF2D6I33hRhZm0u4
+ AgWLKR0vHpq+HS3oqcakBvnl8ig4aThIjkhUetzqKKeKR7JWejK27LE3Oj8BR8B6woAD
+ B77OfgJuYEG8Xkh9DEW80tQvxsYpajsdbLqKALNXXFBuqyl3WJMxxVaI5XqnlJh9acap
+ EcjNKDrhUZr7OaSGCxwKPsi2Vg0Ug+a6Jeow10tCJZH6GWl9ySF2bTCaGru6WNtOvYSH
+ 91TA5EM7IMA22WEcufSNsT/bd5yR+rv1r4DW68S5MjUvSPEU7qlCRic7TXPrUuHFINed
+ Gowg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=95uqxe4z0njk29NOtAs+KrRHrBfnHEzIFQZpK0SEfT8=;
- b=AXP9r2+V2YWsIC+G73QVzHFtvshUKEUXTiQGCnAebnsl39QVSwbV2nYBAqmJO5sz72
- 21jydDhW4dcQ6knuL1tRw6ZxsDKW/XOMv0TLTCA7UKs3pBSs6H0o/iMkY4q5NriyQNYo
- WLzyXF3M1l4q8u7aw8qQPPPEot9U6iweRB3ftTTtateoMKc3FUVyiIGYE02a8+1SeDbm
- hpc5zwfzo0aoFA7q9/NaOLKMzeGe+4z+QzaMo5u4kGbv/k/qvATx6RMio1qxxRSsSvRs
- GHyrLnxeTagNOHBIzim9vCYsRghfE0XxqqoUpR+sH9MfVjw7suM1yB6PbCb6p3/xo8//
- 5mSA==
-X-Gm-Message-State: AOAM530rAxCPBrf8PNm6+5PhHdKd8kg1blUC0cE1ONo3MWFbJXElhjIA
- bCDuIL6GFok/pRdaB8LAehqWJbmfxW4WTg==
-X-Google-Smtp-Source: ABdhPJzQ6B24gv60UsZ4ID7QJ2qVG7++vUGIoBg8ORJSty3RlprbO3LRlp4Y/xn7TQMZQ/JmrX7uUQ==
-X-Received: by 2002:a17:90a:5998:: with SMTP id
- l24mr2935165pji.57.1644304362232; 
- Mon, 07 Feb 2022 23:12:42 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=Uh058XUts6HPkXe97baHsy8/Ac7JrSk6cgbCWbIo3VY=;
+ b=6qihhCiUBVNBuC0Q314KPZJGqSRRb5Q5UWGMSMzCkz0ryGzinXRT+dVh8N0p9BC+3K
+ dIIHpGoriCkCb5BnnGXHBH0Mw3Yv4cRLvRFK1bGVqzW5kv8nIz10jING/QfcHqv8aMOq
+ GSZy0wsdCA8JGbeP5CNYFWnN89iKR2F7V7UsRF3OEn/vkfABulCWzpOkWvOHE4oDMNOn
+ q+PE8qRmGaItjCZBMckOngSiWiknGMIBommnJuUUAk+AebHsQE4EpVk1ofTD1ZegKlqE
+ BRhcOVcxxCLBaocaLlwGrDEpvQYL3YvySBKO9R4F+A8yDMHOHlOKWXA4f4DeqAHj+jBq
+ TWew==
+X-Gm-Message-State: AOAM530e8A108vffGHnzkKVYDG3GOpvERHXJnTSnG+BR6JHxyyy1bPEw
+ TvVR5vuWht2Ejs0LmHqbOKF6axLLwz4gEA==
+X-Google-Smtp-Source: ABdhPJwx36SQLKVTQZj2Nt+PwJH0Dm/NcAoIucrm1/IZro3A/SiONRSL++9lKYZ/XEgUM6QJRTSSJQ==
+X-Received: by 2002:a17:90a:d343:: with SMTP id
+ i3mr2961862pjx.104.1644304364242; 
+ Mon, 07 Feb 2022 23:12:44 -0800 (PST)
 Received: from localhost.localdomain (121-45-127-8.tpgi.com.au. [121.45.127.8])
- by smtp.gmail.com with ESMTPSA id b12sm13908088pfm.154.2022.02.07.23.12.40
+ by smtp.gmail.com with ESMTPSA id b12sm13908088pfm.154.2022.02.07.23.12.42
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 07 Feb 2022 23:12:41 -0800 (PST)
+ Mon, 07 Feb 2022 23:12:43 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 0/5] linux-user: Fixes for sparc64 host
-Date: Tue,  8 Feb 2022 18:12:32 +1100
-Message-Id: <20220208071237.319844-1-richard.henderson@linaro.org>
+Subject: [PATCH 1/5] common-user/host/sparc64: Fix safe_syscall_base
+Date: Tue,  8 Feb 2022 18:12:33 +1100
+Message-Id: <20220208071237.319844-2-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20220208071237.319844-1-richard.henderson@linaro.org>
+References: <20220208071237.319844-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::62a
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::102b
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62a;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62a.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102b;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102b.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -89,38 +92,41 @@ Cc: laurent@vivier.eu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Brown bag time, since both of these problems are my fault, and I
-ostensibly tested them.  Ho hum.  Anyway, this brings linux-test
-back to working.
+Use the "retl" instead of "ret" instruction alias, since we
+do not allocate a register window in this function.
 
+Fix the offset to the first stacked parameter, which lies
+beyond the register window save area.
 
-r~
+Fixes: 95c021dac835 ("linux-user/host/sparc64: Add safe-syscall.inc.S")
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+---
+ common-user/host/sparc64/safe-syscall.inc.S | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-
-Richard Henderson (5):
-  common-user/host/sparc64: Fix safe_syscall_base
-  linux-user: Introduce host_signal_mask
-  linux-user: Introduce host_sigcontext
-  linux-user: Move sparc/host-signal.h to sparc64/host-signal.h
-  linux-user/include/host/sparc64: Fix host_sigcontext
-
- linux-user/include/host/aarch64/host-signal.h | 16 +++--
- linux-user/include/host/alpha/host-signal.h   | 14 +++-
- linux-user/include/host/arm/host-signal.h     | 14 +++-
- linux-user/include/host/i386/host-signal.h    | 14 +++-
- .../include/host/loongarch64/host-signal.h    | 14 +++-
- linux-user/include/host/mips/host-signal.h    | 14 +++-
- linux-user/include/host/ppc/host-signal.h     | 14 +++-
- linux-user/include/host/riscv/host-signal.h   | 14 +++-
- linux-user/include/host/s390/host-signal.h    | 14 +++-
- linux-user/include/host/sparc/host-signal.h   | 63 ------------------
- linux-user/include/host/sparc64/host-signal.h | 65 ++++++++++++++++++-
- linux-user/include/host/x86_64/host-signal.h  | 14 +++-
- linux-user/signal.c                           | 22 +++----
- common-user/host/sparc64/safe-syscall.inc.S   |  5 +-
- 14 files changed, 188 insertions(+), 109 deletions(-)
- delete mode 100644 linux-user/include/host/sparc/host-signal.h
-
+diff --git a/common-user/host/sparc64/safe-syscall.inc.S b/common-user/host/sparc64/safe-syscall.inc.S
+index a2f2b9c967..c7be8f2d25 100644
+--- a/common-user/host/sparc64/safe-syscall.inc.S
++++ b/common-user/host/sparc64/safe-syscall.inc.S
+@@ -24,7 +24,8 @@
+         .type   safe_syscall_end, @function
+ 
+ #define STACK_BIAS  2047
+-#define PARAM(N)    STACK_BIAS + N*8
++#define WINDOW_SIZE 16 * 8
++#define PARAM(N)    STACK_BIAS + WINDOW_SIZE + N * 8
+ 
+         /*
+          * This is the entry point for making a system call. The calling
+@@ -74,7 +75,7 @@ safe_syscall_end:
+         /* code path for having successfully executed the syscall */
+         bcs,pn  %xcc, 1f
+          nop
+-        ret
++        retl
+          nop
+ 
+         /* code path when we didn't execute the syscall */
 -- 
 2.25.1
 
