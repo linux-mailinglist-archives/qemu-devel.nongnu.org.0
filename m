@@ -2,72 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97FD04ADE87
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Feb 2022 17:45:16 +0100 (CET)
-Received: from localhost ([::1]:45554 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 51FD94ADEBB
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Feb 2022 17:56:12 +0100 (CET)
+Received: from localhost ([::1]:36852 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nHTcB-0007Wd-Lu
-	for lists+qemu-devel@lfdr.de; Tue, 08 Feb 2022 11:45:15 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:47130)
+	id 1nHTml-00054h-5l
+	for lists+qemu-devel@lfdr.de; Tue, 08 Feb 2022 11:56:11 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:49700)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1nHSYU-0000JY-2i
- for qemu-devel@nongnu.org; Tue, 08 Feb 2022 10:37:22 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:24907)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nHShR-0001JM-JY
+ for qemu-devel@nongnu.org; Tue, 08 Feb 2022 10:46:45 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:45288)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1nHSYE-0002e5-70
- for qemu-devel@nongnu.org; Tue, 08 Feb 2022 10:37:20 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nHShP-0004CT-IF
+ for qemu-devel@nongnu.org; Tue, 08 Feb 2022 10:46:37 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1644334624;
+ s=mimecast20190719; t=1644335194;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=wooyD7Yqu7I8E0U9w4WCE3qS2Jo+fC3O3hAAv7wXP64=;
- b=gOwnd71lD5ePWDY+vnf++xOIntoy5unPpkVDykoIy9dHmYatUsQfZWLeJdjQSCmXvSY0Ay
- Tf1kkAGYauxBKFcPX1kWr3O8SNmpBUcIV/CyTyMGtLr9SPaoknAq0YuB/QYh20+EQ4kKEO
- yrYkJVcTndQcfMY0qNjru40UzENItbQ=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=8MK23dH1UJafeczcxsd0cQIt6rVkLvd+erCrmPWobRc=;
+ b=YStYA9iBoJnhpJTCKrbZ2gm2FVm4fCxcWDdqbAlmpr35lnSz0OF+KhexAq/7aMEioS8ZKZ
+ XpqKDLJHb+WRbqVGou1Laaoey/9XUaQQI7V05ohQ5aghzISa+Y2inAI4w1g3YoVWysUjBw
+ 0ruxfC9fFc5p+C5APXvbKCjDvS0xaFE=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-596-dFkCcP-aNIi9IED_udlYhA-1; Tue, 08 Feb 2022 10:37:03 -0500
-X-MC-Unique: dFkCcP-aNIi9IED_udlYhA-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 44807100C669;
- Tue,  8 Feb 2022 15:37:02 +0000 (UTC)
-Received: from virtlab701.virt.lab.eng.bos.redhat.com
- (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 811627D473;
- Tue,  8 Feb 2022 15:37:01 +0000 (UTC)
-From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-To: qemu-block@nongnu.org
-Subject: [PATCH 4/6] test-bdrv-drain.c: adapt test to the coming subtree drains
-Date: Tue,  8 Feb 2022 10:36:53 -0500
-Message-Id: <20220208153655.1251658-5-eesposit@redhat.com>
-In-Reply-To: <20220208153655.1251658-1-eesposit@redhat.com>
-References: <20220208153655.1251658-1-eesposit@redhat.com>
+ us-mta-126-W7stYAfROSaR1TEj_1rDcg-1; Tue, 08 Feb 2022 10:46:29 -0500
+X-MC-Unique: W7stYAfROSaR1TEj_1rDcg-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ t14-20020adfa2ce000000b001e1ad2deb3dso6229879wra.0
+ for <qemu-devel@nongnu.org>; Tue, 08 Feb 2022 07:46:29 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=8MK23dH1UJafeczcxsd0cQIt6rVkLvd+erCrmPWobRc=;
+ b=Qp2t5eqKQcD9v+sxde36qEZyeo9W8BR3mGuPlD77fxBKnXZlxdoA4WShCg5m9YV8bN
+ VG/rjFoHOaSy8rPbibKdlAPlvsMyxNsE8LL6UNfivNvlzQMkUOy0oFbKrq4oJAI3JYrz
+ KJFtFHawVD5ttGrQt+vpOzNevoid7VxpLDaEN8bGcccvSD3WegoHY7wXCbmSG7e/i2Xb
+ APr3jw6vvCH5/OX5ZHCSv1C0wVt2glVA+0K+zLR/8zBDxKjcU3/PBxrbGpOWox03eV3k
+ huNY66MAqKfATQDbMirTn4MRsSyTqwW3Xr7unCDi9U7S2szokvhXBTvoggqHXdBEkVoU
+ 8suQ==
+X-Gm-Message-State: AOAM530KfkHX6Ws20vyBj6IsYki0j9hxmY+eiq14uvu5vuRjPIm3f2Hc
+ K60rNdiGr4VbQWL0Ygf/WDrL5qP5AdiyNYemQYu5ZN2erW14BXCl3Ay7Ie2viBpBdmfL3oQJB5M
+ jHqCXf+X2NwidP0I=
+X-Received: by 2002:a05:6000:1548:: with SMTP id
+ 8mr3841168wry.504.1644335188454; 
+ Tue, 08 Feb 2022 07:46:28 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzLKqe/IUGw4bT53mSijno6qKVW/mYfbNruTd+Ua6tN0BWrla/cvz9oALjI0Q1q9xNtNjxVEA==
+X-Received: by 2002:a05:6000:1548:: with SMTP id
+ 8mr3841151wry.504.1644335188190; 
+ Tue, 08 Feb 2022 07:46:28 -0800 (PST)
+Received: from [192.168.8.100] (tmo-096-196.customers.d1-online.com.
+ [80.187.96.196])
+ by smtp.gmail.com with ESMTPSA id p3sm2794042wmq.40.2022.02.08.07.46.26
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 08 Feb 2022 07:46:27 -0800 (PST)
+Message-ID: <a97c3588-cf3d-4b1b-f936-b7e4019749f1@redhat.com>
+Date: Tue, 8 Feb 2022 16:46:25 +0100
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH 4/6] tests/qemu-iotests/meson.build: Call the 'check'
+ script directly
+To: Hanna Reitz <hreitz@redhat.com>, qemu-block@nongnu.org,
+ Kevin Wolf <kwolf@redhat.com>
+References: <20220208101311.1511083-1-thuth@redhat.com>
+ <20220208101311.1511083-5-thuth@redhat.com>
+ <3d595111-f976-97ab-e198-a76f38052dc0@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <3d595111-f976-97ab-e198-a76f38052dc0@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eesposit@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eesposit@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01,
- T_SPF_TEMPERROR=0.01 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -80,99 +104,79 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Emanuele Giuseppe Esposito <eesposit@redhat.com>, qemu-devel@nongnu.org,
- Hanna Reitz <hreitz@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-There will be 2 problems in this test when we will add
-subtree drains in bdrv_replace_child_noperm:
+On 08/02/2022 14.12, Hanna Reitz wrote:
+> On 08.02.22 11:13, Thomas Huth wrote:
+>> We can get a nicer progress indication if we add the iotests
+>> individually via the 'check' script instead of going through
+>> the check-block.sh wrapper.
+>>
+>> For this, we have to add some of the sanity checks that have
+>> originally been done in the tests/check-block.sh script (whether
+>> "bash" is available or whether CFLAGS contain -fsanitize switches)
+>> to the meson.build file now, and add the environment variables
+>> that have been set up by the tests/check-block.sh script before.
+>>
+>> Signed-off-by: Thomas Huth <thuth@redhat.com>
+>> ---
+>>   tests/qemu-iotests/meson.build | 45 ++++++++++++++++++++++++++++------
+>>   1 file changed, 37 insertions(+), 8 deletions(-)
+>>
+>> diff --git a/tests/qemu-iotests/meson.build b/tests/qemu-iotests/meson.build
+>> index e1832c90e0..5a6ccd35d8 100644
+>> --- a/tests/qemu-iotests/meson.build
+>> +++ b/tests/qemu-iotests/meson.build
+>> @@ -1,9 +1,29 @@
+>> -if not have_tools or targetos == 'windows'
+>> +if not have_tools or targetos == 'windows' or \
+>> +   config_host.has_key('CONFIG_GPROF')
+>>     subdir_done()
+>>   endif
+>> +bash = find_program('bash', required: false)
+>> +if not bash.found() or \
+>> +   run_command(bash, ['--version']).stdout().contains('GNU bash, version 3')
+> 
+> Instead of me asking about where the LANG=C is, or me lamenting that we 
+> could test very simply for [123] before and can no longer now... Can we not 
+> just do `find_program('bash', required: false, version: '>= 4.0')`?
 
-- First, the test is inconsistent about taking the AioContext lock when
-  calling bdrv_replace_child_noperm.  bdrv_replace_child_noperm is reached
-  in two places: from blk_insert_bs directly, and via block_job_create.
-  Only the second does it with the AioContext lock taken, and there seems
-  to be no reason why the lock is needed.
-  Move aio_context_acquire further down, to just protect block_job_add_bdrv()
+Oh, cool, find_program() has a version parameter, didn't know that before! 
+Thanks for the hint, I'll give it a try!
 
-- Second, test_detach_indirect is only interested in observing the first
-  call to .drained_begin. In the original test, there was only a single
-  subtree drain; however, with additional drains introduced in
-  bdrv_replace_child_noperm(), the test callback would be called too early
-  and/or multiple times.
-  Override the callback only when we actually want to use it, and put back
-  the original after it's been invoked.
+>> +  foreach tst: iotests
+>> +    test('iotest-' + format + '-' + tst,
+>> +         python, args: [check_script.full_path(), '-tap', '-' + format, 
+>> tst],
+>> +         depends: qemu_iotests_binaries,
+>> +         env: qemu_iotests_env + \
+>> +              { 'TEST_DIR':
+>> +                meson.current_build_dir() / 'scratch' / format + '-' + 
+>> tst },
+>> +         protocol: 'tap',
+>> +         suite: suites,
+>> +         timeout: 0)
+> 
+> So as far I understand you’d like to have meson run the iotests in parallel 
+> this way.  I don’t actually think that’s safely possible for multiple 
+> formats at once, because a test’s output is always written into 
+> `${build_dir}/tests/qemu-iotests/${seq}.out.bad`; so if you run e.g. test 
+> 001 both with raw and qcow2 simultaneously, then they can get in each 
+> other’s way.
 
-Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
----
- tests/unit/test-bdrv-drain.c | 17 ++++++++++++-----
- 1 file changed, 12 insertions(+), 5 deletions(-)
+Drat, I think you're right. I was testing with "make check SPEED=slow" and 
+that was still working fine, but with "make check SPEED=thorough" I'm 
+getting errors, indeed.
 
-diff --git a/tests/unit/test-bdrv-drain.c b/tests/unit/test-bdrv-drain.c
-index 4924ceb562..c52ba2db4e 100644
---- a/tests/unit/test-bdrv-drain.c
-+++ b/tests/unit/test-bdrv-drain.c
-@@ -912,12 +912,12 @@ static void test_blockjob_common_drain_node(enum drain_type drain_type,
-     blk_insert_bs(blk_target, target, &error_abort);
-     blk_set_allow_aio_context_change(blk_target, true);
- 
--    aio_context_acquire(ctx);
-     tjob = block_job_create("job0", &test_job_driver, NULL, src,
-                             0, BLK_PERM_ALL,
-                             0, 0, NULL, NULL, &error_abort);
-     tjob->bs = src;
-     job = &tjob->common;
-+    aio_context_acquire(ctx);
-     block_job_add_bdrv(job, "target", target, 0, BLK_PERM_ALL, &error_abort);
- 
-     switch (result) {
-@@ -1342,15 +1342,18 @@ static void detach_by_parent_aio_cb(void *opaque, int ret)
-     }
- }
- 
-+static BdrvChildClass detach_by_driver_cb_class;
-+
- static void detach_by_driver_cb_drained_begin(BdrvChild *child)
- {
-+    /* restore .drained_begin cb, we don't need it anymore. */
-+    detach_by_driver_cb_class.drained_begin = child_of_bds.drained_begin;
-+
-     aio_bh_schedule_oneshot(qemu_get_current_aio_context(),
-                             detach_indirect_bh, &detach_by_parent_data);
-     child_of_bds.drained_begin(child);
- }
- 
--static BdrvChildClass detach_by_driver_cb_class;
--
- /*
-  * Initial graph:
-  *
-@@ -1382,8 +1385,6 @@ static void test_detach_indirect(bool by_parent_cb)
- 
-     if (!by_parent_cb) {
-         detach_by_driver_cb_class = child_of_bds;
--        detach_by_driver_cb_class.drained_begin =
--            detach_by_driver_cb_drained_begin;
-     }
- 
-     /* Create all involved nodes */
-@@ -1441,6 +1442,12 @@ static void test_detach_indirect(bool by_parent_cb)
-     acb = blk_aio_preadv(blk, 0, &qiov, 0, detach_by_parent_aio_cb, NULL);
-     g_assert(acb != NULL);
- 
-+    if (!by_parent_cb) {
-+        /* set .drained_begin cb to run only in the following drain. */
-+        detach_by_driver_cb_class.drained_begin =
-+            detach_by_driver_cb_drained_begin;
-+    }
-+
-     /* Drain and check the expected result */
-     bdrv_subtree_drained_begin(parent_b);
- 
--- 
-2.31.1
+> (In my test branch, I have 
+> https://gitlab.com/hreitz/qemu/-/commit/f3110b1eeb93d02aeadc5c8b807594cfa10a6aad 
+> for this – maybe I should send something like this in a more refined form to 
+> the list some time...)
+
+Thanks a lot, that fixes the problems with SPEED=thorough indeed!
+
+  Thomas
 
 
