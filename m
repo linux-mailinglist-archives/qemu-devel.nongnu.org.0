@@ -2,75 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3CD754AE312
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Feb 2022 22:33:13 +0100 (CET)
-Received: from localhost ([::1]:45498 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5385C4AE331
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Feb 2022 23:14:09 +0100 (CET)
+Received: from localhost ([::1]:45502 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nHY6q-00042u-Bo
-	for lists+qemu-devel@lfdr.de; Tue, 08 Feb 2022 16:33:12 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:58496)
+	id 1nHYkR-0002QY-SY
+	for lists+qemu-devel@lfdr.de; Tue, 08 Feb 2022 17:14:07 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:39200)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nHY4f-0002My-Fs
- for qemu-devel@nongnu.org; Tue, 08 Feb 2022 16:30:57 -0500
-Received: from [2607:f8b0:4864:20::62f] (port=36385
- helo=mail-pl1-x62f.google.com)
+ id 1nHYhk-0001Is-1U
+ for qemu-devel@nongnu.org; Tue, 08 Feb 2022 17:11:22 -0500
+Received: from [2607:f8b0:4864:20::102a] (port=43616
+ helo=mail-pj1-x102a.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nHY4d-0002mI-Cz
- for qemu-devel@nongnu.org; Tue, 08 Feb 2022 16:30:57 -0500
-Received: by mail-pl1-x62f.google.com with SMTP id x3so474332pll.3
- for <qemu-devel@nongnu.org>; Tue, 08 Feb 2022 13:30:54 -0800 (PST)
+ id 1nHYhe-0000v4-Eb
+ for qemu-devel@nongnu.org; Tue, 08 Feb 2022 17:11:16 -0500
+Received: by mail-pj1-x102a.google.com with SMTP id
+ t14-20020a17090a3e4e00b001b8f6032d96so371249pjm.2
+ for <qemu-devel@nongnu.org>; Tue, 08 Feb 2022 14:11:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=hGPytC3ddr/cfMIkx0Zn0P4iDloDotl7CcYURp0gOqc=;
- b=MNTz6Tp76WIAshJ9UKYSXLiRzAC8y4kPMerhHDwEJIX1otAjBk14SKZdJggwtWMP4V
- zusOGk4v0lPBTvEFdFIsskaLzaXeH/EfdoUzD7FjM/A/jQEgctaHt3d0GqGTQzFDqmRp
- twGs5wRYtulQ5E0qN6t0UvbS/ADQWDccrxpMAFIguynNMXhUF/16PkF27Rdfc6pn+zgU
- E7oqOTcGmfM7Gfnpm2CXLdBn1UNiTunfGaEJZ37wmpm0JQbDv5YM7/bU4bRUZ/xq9drm
- 7XCHM72MrNFnatrkLQzJ5PxIaaT1vCOPgR4D8NFynihBIYgJjyjOxXaxMn1QW3dKBed4
- R5og==
+ bh=3hzhd0Y9IUy7NhW9oYjdYMrS9Gs7ihWP7YLquKjhmg0=;
+ b=BZVT5ZI+tSBp6eQjYJVB/UwJuU1kYGwWUugpIiafJnQ16A62GBXIRDoPOEvY6HTDHY
+ FtGDtxLraLxyL2HLiHotBzSgEdFtGJvh4qbDuM9lHkDr0RH21avVZl9snMcpSg28c7jy
+ Rzvz9WoJcZLI85dlXxWmq8Psa4nNaDo3awf79MYhSrQ4bGRddgXFl8Az5LrRvff+s7oo
+ t9NKifN/gDhn/+3ui8MDxG6Q2qQoy+31Kf2/5xf2HUHAkpt88lcMkTeUhBmKOovOoc2r
+ r+ky9rR5Hmf7jJib7AP+q3bC+7PJYXso4F9LSPx+4TsuD6igMedf1EXL117mMdyrDnn5
+ ut+g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=hGPytC3ddr/cfMIkx0Zn0P4iDloDotl7CcYURp0gOqc=;
- b=o+IMK1BpVyW/pf+fymqgPaaro2eCmF5V1JftiNhEOMAbGaq4vo2MHyS5ozVuWPo1lD
- TnhTabTVUP1rfXGTMcA0zx15LnFF/k87WUaf4Go5UfGx2cimyYLqaNvDgGIvltac/aK5
- HaRfA2iTX0woqM6vMWyU1OOlxDgH10e1yEnmk4Mu2f4yUrAcnzxEiFLn83maPei67C9d
- Whtmyclu+eXUOzl4i0akpHSauZ3mpbh/HCvzTdJv3TSl3SRB8wVjJOv1yYJbPaEr0C9V
- XoEEWltn4ehfqIJmY09kUY4Tivq4X/bmmlxeB1rZbtWgRGUJhYHnbISGBKoQemFMsQXj
- Kaag==
-X-Gm-Message-State: AOAM530UwTL2laEkRtxoKYzfAXdmjJ11kvAAjgGvQuj0kK7TcSXRCU3Z
- 8wZhmQx2EnJYL5IQJcn7ojqUMw==
-X-Google-Smtp-Source: ABdhPJwjusCemAhFPS1GTYO/skqvMKJS4wXf2IEwuUp+4h/weNe5kXZStMi0Wd6apWT+6++wfD46cA==
-X-Received: by 2002:a17:90a:13c5:: with SMTP id
- s5mr3474418pjf.181.1644355853688; 
- Tue, 08 Feb 2022 13:30:53 -0800 (PST)
+ bh=3hzhd0Y9IUy7NhW9oYjdYMrS9Gs7ihWP7YLquKjhmg0=;
+ b=V00x195SgHiE85HsGcKKf8kab7IqPELlJ5SCR3BIfopMgy9REB3XZ1OLGjOeCQduOc
+ zIFT0PsC4aav5fP9jHxXz5lTEqWXfgOQpXrL5403xRe8dW97MtkjHS3tIIi+eav4QF0l
+ agTAHkydqxx1JdJz5DBqDD3jvhwOS3t1NBnQG2t16hV0gJfMhmnwy1Zm4vkO99z6p/Ow
+ 9k5bZz23J+bZi7rwTXAEU6KBuviHX6tubfZb7hRH40j+DD5eabU8FwT+mYk//9JfmYzK
+ 56XCE6kmMa+eJZhJYHDNKl4aDkak/i69IlAx6lj3vkMv9QTJdxD9pkje3o0Te3ZUhEwG
+ 8HHg==
+X-Gm-Message-State: AOAM532plsXELNuYkXn9EymDlPvBnvf/m9tJXUfVCOcYFu47IVpRfe1w
+ YPwKe4xkfuRV0ENQsVJKdHa5kg==
+X-Google-Smtp-Source: ABdhPJwhxSOJRnkcydb9IoCv17IFzYHUk9g5EbRdvvm2X4OyLXc2+ZpDuuzc/Bi1XtJHU+Vhs0Njmg==
+X-Received: by 2002:a17:902:694c:: with SMTP id
+ k12mr6813430plt.98.1644358263395; 
+ Tue, 08 Feb 2022 14:11:03 -0800 (PST)
 Received: from [192.168.1.118] (121-45-127-8.tpgi.com.au. [121.45.127.8])
- by smtp.gmail.com with ESMTPSA id lk15sm3999083pjb.31.2022.02.08.13.30.50
+ by smtp.gmail.com with ESMTPSA id lk8sm3902296pjb.40.2022.02.08.14.11.01
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 08 Feb 2022 13:30:53 -0800 (PST)
-Message-ID: <85884290-7d13-20ab-d6f1-dee4ba192597@linaro.org>
-Date: Wed, 9 Feb 2022 08:30:47 +1100
+ Tue, 08 Feb 2022 14:11:02 -0800 (PST)
+Message-ID: <4062907f-cc6a-e726-b74a-1dd52f0507b5@linaro.org>
+Date: Wed, 9 Feb 2022 09:10:58 +1100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.5.0
-Subject: Re: [PATCH] Hexagon (tests/tcg/hexagon) fix inline asm in preg_alias.c
+Subject: Re: [PATCH 02/13] exec/cpu_ldst: Include 'cpu.h' to get target_ulong
+ definition
 Content-Language: en-US
-To: Taylor Simpson <tsimpson@quicinc.com>, qemu-devel@nongnu.org
-References: <20220208171652.31085-1-tsimpson@quicinc.com>
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org
+References: <20220208152243.16452-1-f4bug@amsat.org>
+ <20220208152243.16452-3-f4bug@amsat.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220208171652.31085-1-tsimpson@quicinc.com>
+In-Reply-To: <20220208152243.16452-3-f4bug@amsat.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::62f
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::102a
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62f;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62f.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102a;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102a.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -91,21 +95,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: ale@rev.ng, bcain@quicinc.com, mlambert@quicinc.com, f4bug@amsat.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/9/22 04:16, Taylor Simpson wrote:
-> Replace consecutive inline asm blocks with a single one with proper
-> outputs/inputs/clobbers rather than making assumptions about register
-> values being carried between separate blocks.
-> 
-> Signed-off-by: Taylor Simpson<tsimpson@quicinc.com>
+On 2/9/22 02:22, Philippe Mathieu-Daudé wrote:
+> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 > ---
->   tests/tcg/hexagon/preg_alias.c | 46 ++++++++++++++++------------------
->   1 file changed, 22 insertions(+), 24 deletions(-)
+>   include/exec/cpu_ldst.h | 1 +
+>   1 file changed, 1 insertion(+)
+> 
+> diff --git a/include/exec/cpu_ldst.h b/include/exec/cpu_ldst.h
+> index a878fd0105..5c999966de 100644
+> --- a/include/exec/cpu_ldst.h
+> +++ b/include/exec/cpu_ldst.h
+> @@ -64,6 +64,7 @@
+>   
+>   #include "exec/memopidx.h"
+>   #include "qemu/int128.h"
+> +#include "cpu.h"
+
+I guess this is about as good as we can do for now.
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
 r~
+
 
