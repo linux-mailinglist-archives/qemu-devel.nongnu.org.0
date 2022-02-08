@@ -2,72 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B56704AD27C
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Feb 2022 08:48:46 +0100 (CET)
-Received: from localhost ([::1]:59882 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 07CC44AD2C9
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Feb 2022 09:08:10 +0100 (CET)
+Received: from localhost ([::1]:45270 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nHLEz-00011K-OE
-	for lists+qemu-devel@lfdr.de; Tue, 08 Feb 2022 02:48:45 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:48770)
+	id 1nHLXk-0002n4-LD
+	for lists+qemu-devel@lfdr.de; Tue, 08 Feb 2022 03:08:08 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:49226)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1nHKLs-0001mn-40; Tue, 08 Feb 2022 01:51:51 -0500
-Received: from [2607:f8b0:4864:20::d33] (port=45610
- helo=mail-io1-xd33.google.com)
+ (Exim 4.90_1) (envelope-from <xieyongji@bytedance.com>)
+ id 1nHKR3-0002wn-RI
+ for qemu-devel@nongnu.org; Tue, 08 Feb 2022 01:57:10 -0500
+Received: from [2a00:1450:4864:20::62b] (port=35428
+ helo=mail-ej1-x62b.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1nHKLp-00062I-Ie; Tue, 08 Feb 2022 01:51:47 -0500
-Received: by mail-io1-xd33.google.com with SMTP id s18so19895748ioa.12;
- Mon, 07 Feb 2022 22:51:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ (Exim 4.90_1) (envelope-from <xieyongji@bytedance.com>)
+ id 1nHKQy-0006dh-ME
+ for qemu-devel@nongnu.org; Tue, 08 Feb 2022 01:57:08 -0500
+Received: by mail-ej1-x62b.google.com with SMTP id y3so28554222ejf.2
+ for <qemu-devel@nongnu.org>; Mon, 07 Feb 2022 22:57:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=bytedance-com.20210112.gappssmtp.com; s=20210112;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=5qMbdZAiJT97QBgJ0V1QXBegtny8ng+mziayYJKh4HE=;
- b=qvCbaxgUiDRi+dP6fFdrmZ+vAfn+L0GjJXFP5oq6jIGeirvkVDdHkvos77AhFb7HPm
- iJa42XUXzGes1t0SLAb+s3q0ZsuvhRaPeymFP+Pnk7nI7BOJJ2g1+vW+5X1G7O0QPGsn
- i2Sdr5gJEgpPm4DQr55wQPCVCsPnSOXqfEbOlpgZiny2k2meGDms4QSLdfeh1XWVx6ri
- mrui6kBXPiiEaoftpxZEbCVTrdJeVqKTIjiYph5uaaUGaQe831VLM8cgglnUUIRCXLbh
- CC2xnanT80fBPJftmdStGvJxvG5INmvyL+4TnyEVjMkNmysuRIbC3dSlDcMpo0QWYfY0
- lkXA==
+ :cc; bh=tS8RoKh/sz4vzniouNrbzFBkwel6a/B3xkR9XVplB8k=;
+ b=IqBtNQqpr+sDd7soN13jtqFtdx1JYXCjGN8P5bxdLfDeStLEzk4KaZKEI5QPmElqvy
+ Yyv6vj8aBaKmtLe2ggcn5oyrtrigTa5gPJbDIuBFLqHwqHGg21RJOh9u1/6gkOr9H8yU
+ aX/8IgC6EMisH+BD3UKTuh4hcfaaiYt68cO5AV3GG2KGmM1iS+BdgEe0EcxNaVcUZIu6
+ IvRKGA1BlqZSDTNDDOLfWtkVwcPzNE4dOJRL5iopgjLvO2G0DpD6DFwoeNMdjz/WabJx
+ BO8xmEO0hl2L1xc0n9Mp0Bo++i6P2fP73SoO1lGXLBmF5q7Vv388ra/ObWh1FtK9hrbR
+ Zcmw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=5qMbdZAiJT97QBgJ0V1QXBegtny8ng+mziayYJKh4HE=;
- b=OQwlvHoISQccC+BG42DARxGrtlpM6HYvbv9qFpHBzPO/Uq6VdyQbFmrQI1vpmkvUmd
- Orfx5KC/KJRM+lwzgkR2jNKu2xyTIS5pwF+yPhNJvLbLNOIaUKTlEkGn0YKUpyknC9gD
- mmaB3LO403AzODYP/Hrp5KAGiZN0VpPlVRD2dA2bSCkXi6/GAcUkHJmNHMtDtSLbH29B
- K1CwJQgGGE6vQqJudf/Qzkj/ELIhk9BYxMktfZPJ4O8WjwjEClII4Mr48VqpT9jyXjnr
- 2h3A0vubFndtmVtyaC+ujZj9hrqzGktVuf9dOaMZPv2ZX7dr4c2bSoX2VArCnzbTTduI
- 0XBg==
-X-Gm-Message-State: AOAM5321oRAGDWwLkpu7/kqWjYsbYrMg3GBXxskZl5KvzQdcldDEz01J
- dDBVYsGgvJNtg68jRsFbwNfTxA9Q+Dk5AbCtnc8=
-X-Google-Smtp-Source: ABdhPJyKsJTLkxDv6NV+2bZXLQ6K0x4QzSaOM25/aRkeEyaXrLN1BOS8+HURADjczGdnEF8Otk701UBSZ70NKpfOPRw=
-X-Received: by 2002:a05:6602:727:: with SMTP id
- g7mr1505501iox.90.1644303093254; 
- Mon, 07 Feb 2022 22:51:33 -0800 (PST)
+ bh=tS8RoKh/sz4vzniouNrbzFBkwel6a/B3xkR9XVplB8k=;
+ b=yuwWtLOWYnxpOHTHze5+YI2pfms38nO3zImCqm5qpHUKao+wNxFa5+YIzso0ahEDBC
+ ZlakWs9Bg6RHJ4P5iHdBsHoe36QnVYDAWem0Kj2iG01ZRiPIiyVOCjxFIUHtmKXxCXr6
+ P8wbrYEx6WVKCwx6UlQB65zmaAXUWwA5lbxQdlSkhdVfBs9nCYH89nbQaQJ4Btsm64Ro
+ qtR07WTYhBnSgrXCf6sFQ2VkQPuIrwBmMzTzWwgCdQz1DH1vcP5ETT4jvJDbJVACic8Q
+ V8l/OAXLs3bJeOohYurf0P1cNDM61HyQyJ2TNQyBGenCYmCy++tfyMEu2ImwEpkj6DGq
+ 5+9A==
+X-Gm-Message-State: AOAM533Gi/csCbMBJOxiFJ3YBkHQR4UC02qMizZoA7IYn80NVB8nRvtz
+ eEJrNLnwFAFXndjJmO9y8uzZraW9AxtcZunzDoGN
+X-Google-Smtp-Source: ABdhPJz3YFUlgoFLMzc/S4DpUuVYCyX9mjIkGNBs/sITyEg2tD/f+bG8wUOHSqr9CbXd09H74WKs6c7zkFDxIDK7ewo=
+X-Received: by 2002:a17:906:d550:: with SMTP id
+ cr16mr2452799ejc.257.1644303422844; 
+ Mon, 07 Feb 2022 22:57:02 -0800 (PST)
 MIME-Version: 1.0
-References: <20220204174700.534953-1-anup@brainfault.org>
- <CAKmqyKO7QnMwSL1Mpa5BJU44EAQxyG2M-sOE8+yAH0SWrmVDug@mail.gmail.com>
-In-Reply-To: <CAKmqyKO7QnMwSL1Mpa5BJU44EAQxyG2M-sOE8+yAH0SWrmVDug@mail.gmail.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Tue, 8 Feb 2022 16:51:07 +1000
-Message-ID: <CAKmqyKOjr3Dcs8_QZKsa=WkBp0BaYghcUNYMEU3RfyJJmcqJOQ@mail.gmail.com>
-Subject: Re: [PATCH v9 00/23] QEMU RISC-V AIA support
-To: Anup Patel <anup@brainfault.org>
+References: <20220125131800.91-1-xieyongji@bytedance.com>
+ <20220125131800.91-4-xieyongji@bytedance.com>
+ <YgEplgqZ9JWVPvEc@stefanha-x1.localdomain>
+In-Reply-To: <YgEplgqZ9JWVPvEc@stefanha-x1.localdomain>
+From: Yongji Xie <xieyongji@bytedance.com>
+Date: Tue, 8 Feb 2022 14:56:51 +0800
+Message-ID: <CACycT3sokc6f-+GoMpd8xq6Feg8LZi_xgDumw1VCCoaja6hb9Q@mail.gmail.com>
+Subject: Re: [PATCH 3/5] vduse-blk: implements vduse-blk export
+To: Stefan Hajnoczi <stefanha@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::d33
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::62b
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d33;
- envelope-from=alistair23@gmail.com; helo=mail-io1-xd33.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::62b;
+ envelope-from=xieyongji@bytedance.com; helo=mail-ej1-x62b.google.com
 X-Spam_score_int: -10
 X-Spam_score: -1.1
 X-Spam_bar: -
 X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, PDS_HP_HELO_NORDNS=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+ DKIM_VALID=-0.1, PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -80,135 +83,537 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Alistair Francis <Alistair.Francis@wdc.com>,
- Atish Patra <atishp@atishpatra.org>, Palmer Dabbelt <palmer@dabbelt.com>,
- Bin Meng <bmeng.cn@gmail.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
+ "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ qemu-devel@nongnu.org, mreitz@redhat.com, mlureau@redhat.com,
+ Stefano Garzarella <sgarzare@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Feb 8, 2022 at 2:16 PM Alistair Francis <alistair23@gmail.com> wrote:
+On Mon, Feb 7, 2022 at 10:15 PM Stefan Hajnoczi <stefanha@redhat.com> wrote:
 >
-> On Sat, Feb 5, 2022 at 3:47 AM Anup Patel <anup@brainfault.org> wrote:
+> On Tue, Jan 25, 2022 at 09:17:58PM +0800, Xie Yongji wrote:
+> > This implements a VDUSE block backends based on
+> > the libvduse library. We can use it to export the BDSs
+> > for both VM and container (host) usage.
 > >
-> > From: Anup Patel <anup.patel@wdc.com>
+> > The new command-line syntax is:
 > >
-> > The advanced interrupt architecture (AIA) extends the per-HART local
-> > interrupt support. Along with this, it also adds IMSIC (MSI contrllor)
-> > and Advanced PLIC (wired interrupt controller).
+> > $ qemu-storage-daemon \
+> >     --blockdev file,node-name=drive0,filename=test.img \
+> >     --export vduse-blk,node-name=drive0,id=vduse-export0,writable=on
 > >
-> > The latest AIA draft specification can be found here:
-> > https://github.com/riscv/riscv-aia/releases/download/0.2-draft.28/riscv-interrupts-028.pdf
+> > After the qemu-storage-daemon started, we need to use
+> > the "vdpa" command to attach the device to vDPA bus:
 > >
-> > This series adds RISC-V AIA support in QEMU which includes emulating all
-> > AIA local CSRs, APLIC, and IMSIC. Only AIA local interrupt filtering is
-> > not implemented because we don't have any local interrupt greater than 12.
+> > $ vdpa dev add name vduse-export0 mgmtdev vduse
 > >
-> > To enable AIA in QEMU, use one of the following:
-> > 1) Only AIA local interrupt CSRs: Pass "x-aia=true" as CPU paramenter
-> >    in the QEMU command-line
-> > 2) Only APLIC for virt machine: Pass "aia=aplic" as machine parameter
-> >    in the QEMU command-line
-> > 3) Both APLIC and IMSIC for virt machine: Pass "aia=aplic-imsic" as
-> >    machine parameter in the QEMU command-line
-> > 4) Both APLIC and IMSIC with 2 guest files for virt machine: Pass
-> >    "aia=aplic-imsic,aia-guests=2" as machine parameter in the QEMU
-> >    command-line
+> > Also the device must be removed via the "vdpa" command
+> > before we stop the qemu-storage-daemon.
 > >
-> > To test series, we require OpenSBI and Linux with AIA support which can
-> > be found in:
-> > riscv_aia_v2 branch at https://github.com/avpatel/opensbi.git
-> > riscv_aia_v1 branch at https://github.com/avpatel/linux.git
+> > Signed-off-by: Xie Yongji <xieyongji@bytedance.com>
+> > ---
+> >  block/export/export.c         |   6 +
+> >  block/export/meson.build      |   5 +
+> >  block/export/vduse-blk.c      | 427 ++++++++++++++++++++++++++++++++++
+> >  block/export/vduse-blk.h      |  20 ++
+> >  meson.build                   |  13 ++
+> >  meson_options.txt             |   2 +
+> >  qapi/block-export.json        |  24 +-
+> >  scripts/meson-buildoptions.sh |   4 +
+> >  8 files changed, 499 insertions(+), 2 deletions(-)
+> >  create mode 100644 block/export/vduse-blk.c
+> >  create mode 100644 block/export/vduse-blk.h
 > >
-> > This series can be found riscv_aia_v9 branch at:
-> > https://github.com/avpatel/qemu.git
+> > diff --git a/block/export/export.c b/block/export/export.c
+> > index 6d3b9964c8..00dd505540 100644
+> > --- a/block/export/export.c
+> > +++ b/block/export/export.c
+> > @@ -26,6 +26,9 @@
+> >  #ifdef CONFIG_VHOST_USER_BLK_SERVER
+> >  #include "vhost-user-blk-server.h"
+> >  #endif
+> > +#ifdef CONFIG_VDUSE_BLK_EXPORT
+> > +#include "vduse-blk.h"
+> > +#endif
 > >
-> > Changes since v8:
-> >  - Use error_setg() in riscv_imsic_realize() added by PATCH20
+> >  static const BlockExportDriver *blk_exp_drivers[] = {
+> >      &blk_exp_nbd,
+> > @@ -35,6 +38,9 @@ static const BlockExportDriver *blk_exp_drivers[] = {
+> >  #ifdef CONFIG_FUSE
+> >      &blk_exp_fuse,
+> >  #endif
+> > +#ifdef CONFIG_VDUSE_BLK_EXPORT
+> > +    &blk_exp_vduse_blk,
+> > +#endif
+> >  };
 > >
-> > Changes since v7:
-> >  - Rebased on latest riscv-to-apply.next branch of Alistair's repo
-> >  - Improved default priority assignment in PATCH9
+> >  /* Only accessed from the main thread */
+> > diff --git a/block/export/meson.build b/block/export/meson.build
+> > index 0a08e384c7..cf311d2b1b 100644
+> > --- a/block/export/meson.build
+> > +++ b/block/export/meson.build
+> > @@ -5,3 +5,8 @@ if have_vhost_user_blk_server
+> >  endif
 > >
-> > Changes since v6:
-> >  - Fixed priority comparison in riscv_cpu_pending_to_irq() of PATCH9
-> >  - Fixed typos in comments added by PATCH11
-> >  - Added "pend = true;" for CSR_MSETEIPNUM case of rmw_xsetclreinum()
-> >    in PATCH15
-> >  - Handle ithreshold == 0 case in riscv_aplic_idc_topi() of PATCH18
-> >  - Allow setting pending bit for Level0 or Level1 interrupts in
-> >    riscv_aplic_set_pending() of PATCH18
-> >  - Force DOMAINCFG[31:24] bits to 0x80 in riscv_aplic_read() of PATCH18
-> >  - For APLIC direct mode, set target.iprio to 1 when zero is writtern
-> >    in PATCH18
-> >  - Handle eithreshold == 0 case in riscv_imsic_topei() of PATCH20
-> >
-> > Changes since v5:
-> >  - Moved VSTOPI_NUM_SRCS define to top of the file in PATCH13
-> >  - Fixed typo in PATCH16
-> >
-> > Changes since v4:
-> >  - Changed IRQ_LOCAL_MAX to 16 in PATCH2
-> >  - Fixed typo in PATCH10
-> >  - Replaced TARGET_LONG_BITS with riscv_cpu_mxl_bits(env) in PATCH11
-> >  - Replaced TARGET_LONG_BITS with riscv_cpu_mxl_bits(env) in PATCH14
-> >  - Replaced TARGET_LONG_BITS with riscv_cpu_mxl_bits(env) in PATCH15
-> >  - Replaced TARGET_LONG_BITS with xlen passed via ireg callback in PATCH20
-> >  - Retrict maximum IMSIC guest files per-HART of virt machine to 7 in
-> >    PATCH21.
-> >  - Added separate PATCH23 to increase maximum number of allowed CPUs
-> >    for virt machine
-> >
-> > Changes since v3:
-> >  - Replaced "aplic,xyz" and "imsic,xyz" DT properties with "riscv,xyz"
-> >    DT properties because "aplic" and "imsic" are not valid vendor names
-> >    required by Linux DT schema checker.
-> >
-> > Changes since v2:
-> >  - Update PATCH4 to check and inject interrupt after V=1 when
-> >    transitioning from V=0 to V=1
-> >
-> > Changes since v1:
-> >  - Revamped whole series and created more granular patches
-> >  - Added HGEIE and HGEIP CSR emulation for H-extension
-> >  - Added APLIC emulation
-> >  - Added IMSIC emulation
-> >
-> > Anup Patel (23):
-> >   target/riscv: Fix trap cause for RV32 HS-mode CSR access from RV64
-> >     HS-mode
-> >   target/riscv: Implement SGEIP bit in hip and hie CSRs
-> >   target/riscv: Implement hgeie and hgeip CSRs
-> >   target/riscv: Improve delivery of guest external interrupts
-> >   target/riscv: Allow setting CPU feature from machine/device emulation
-> >   target/riscv: Add AIA cpu feature
-> >   target/riscv: Add defines for AIA CSRs
-> >   target/riscv: Allow AIA device emulation to set ireg rmw callback
-> >   target/riscv: Implement AIA local interrupt priorities
-> >   target/riscv: Implement AIA CSRs for 64 local interrupts on RV32
-> >   target/riscv: Implement AIA hvictl and hviprioX CSRs
-> >   target/riscv: Implement AIA interrupt filtering CSRs
-> >   target/riscv: Implement AIA mtopi, stopi, and vstopi CSRs
-> >   target/riscv: Implement AIA xiselect and xireg CSRs
-> >   target/riscv: Implement AIA IMSIC interface CSRs
-> >   hw/riscv: virt: Use AIA INTC compatible string when available
-> >   target/riscv: Allow users to force enable AIA CSRs in HART
-> >   hw/intc: Add RISC-V AIA APLIC device emulation
-> >   hw/riscv: virt: Add optional AIA APLIC support to virt machine
-> >   hw/intc: Add RISC-V AIA IMSIC device emulation
-> >   hw/riscv: virt: Add optional AIA IMSIC support to virt machine
-> >   docs/system: riscv: Document AIA options for virt machine
-> >   hw/riscv: virt: Increase maximum number of allowed CPUs
+> >  blockdev_ss.add(when: fuse, if_true: files('fuse.c'))
+> > +
+> > +if have_vduse_blk_export
+> > +    blockdev_ss.add(files('vduse-blk.c'))
+> > +    blockdev_ss.add(libvduse)
+> > +endif
+> > diff --git a/block/export/vduse-blk.c b/block/export/vduse-blk.c
+> > new file mode 100644
+> > index 0000000000..5a8d289685
+> > --- /dev/null
+> > +++ b/block/export/vduse-blk.c
+> > @@ -0,0 +1,427 @@
+> > +/*
+> > + * Export QEMU block device via VDUSE
+> > + *
+> > + * Copyright (C) 2022 Bytedance Inc. and/or its affiliates. All rights reserved.
+> > + *   Portions of codes and concepts borrowed from vhost-user-blk-server.c, so:
+> > + *     Copyright (c) 2020 Red Hat, Inc.
+> > + *
+> > + * Author:
+> > + *   Xie Yongji <xieyongji@bytedance.com>
+> > + *   Coiby Xu <coiby.xu@gmail.com>
+> > + *
+> > + * This work is licensed under the terms of the GNU GPL, version 2 or
+> > + * later.  See the COPYING file in the top-level directory.
+> > + */
+> > +
+> > +#include <sys/eventfd.h>
+> > +
+> > +#include "qemu/osdep.h"
+> > +#include "qapi/error.h"
+> > +#include "sysemu/block-backend.h"
+> > +#include "block/export.h"
+> > +#include "qemu/error-report.h"
+> > +#include "util/block-helpers.h"
+> > +#include "subprojects/libvduse/libvduse.h"
+> > +
+> > +#include "standard-headers/linux/virtio_ring.h"
+> > +#include "standard-headers/linux/virtio_blk.h"
+> > +
+> > +#define VIRTIO_BLK_SECTOR_BITS 9
+> > +#define VIRTIO_BLK_SECTOR_SIZE (1ULL << VIRTIO_BLK_SECTOR_BITS)
+> > +
+> > +#define VDUSE_DEFAULT_NUM_QUEUE 1
+> > +#define VDUSE_DEFAULT_QUEUE_SIZE 128
+>
+> QEMU's virtio-blk emulation has increased this limit to 256 for better
+> performance with large block size I/O patterns. I think it would be okay
+> to increase it here too.
+>
 
-Hey Anup,
+Sure.
 
-There are lots of checkpatch errors in these patches. In the future
-can you please make sure you run checkpatch on all patches.
+> > +
+> > +typedef struct VduseBlkExport {
+> > +    BlockExport export;
+> > +    VduseDev *dev;
+> > +    uint16_t num_queues;
+> > +    uint32_t blk_size;
+> > +    bool writable;
+> > +} VduseBlkExport;
+> > +
+> > +struct virtio_blk_inhdr {
+> > +    unsigned char status;
+> > +};
+> > +
+> > +typedef struct VduseBlkReq {
+> > +    VduseVirtqElement elem;
+> > +    int64_t sector_num;
+> > +    size_t in_len;
+> > +    struct virtio_blk_inhdr *in;
+> > +    struct virtio_blk_outhdr out;
+> > +    VduseVirtq *vq;
+> > +} VduseBlkReq;
+> > +
+> > +static void vduse_blk_req_complete(VduseBlkReq *req)
+> > +{
+> > +    vduse_queue_push(req->vq, &req->elem, req->in_len);
+> > +    vduse_queue_notify(req->vq);
+> > +
+> > +    free(req);
+> > +}
+> > +
+> > +static bool vduse_blk_sect_range_ok(VduseBlkExport *vblk_exp,
+> > +                                    uint64_t sector, size_t size)
+> > +{
+> > +    uint64_t nb_sectors;
+> > +    uint64_t total_sectors;
+> > +
+> > +    if (size % VIRTIO_BLK_SECTOR_SIZE) {
+> > +        return false;
+> > +    }
+> > +
+> > +    nb_sectors = size >> VIRTIO_BLK_SECTOR_BITS;
+> > +
+> > +    QEMU_BUILD_BUG_ON(BDRV_SECTOR_SIZE != VIRTIO_BLK_SECTOR_SIZE);
+> > +    if (nb_sectors > BDRV_REQUEST_MAX_SECTORS) {
+> > +        return false;
+> > +    }
+> > +    if ((sector << VIRTIO_BLK_SECTOR_BITS) % vblk_exp->blk_size) {
+> > +        return false;
+> > +    }
+> > +    blk_get_geometry(vblk_exp->export.blk, &total_sectors);
+> > +    if (sector > total_sectors || nb_sectors > total_sectors - sector) {
+> > +        return false;
+> > +    }
+> > +    return true;
+> > +}
+> > +
+> > +static void coroutine_fn vduse_blk_virtio_process_req(void *opaque)
+> > +{
+> > +    VduseBlkReq *req = opaque;
+> > +    VduseVirtq *vq = req->vq;
+> > +    VduseDev *dev = vduse_queue_get_dev(vq);
+> > +    VduseBlkExport *vblk_exp = vduse_dev_get_priv(dev);
+> > +    BlockBackend *blk = vblk_exp->export.blk;
+> > +    VduseVirtqElement *elem = &req->elem;
+> > +    struct iovec *in_iov = elem->in_sg;
+> > +    struct iovec *out_iov = elem->out_sg;
+> > +    unsigned in_num = elem->in_num;
+> > +    unsigned out_num = elem->out_num;
+> > +    uint32_t type;
+> > +
+> > +    if (elem->out_num < 1 || elem->in_num < 1) {
+> > +        error_report("virtio-blk request missing headers");
+> > +        goto err;
+> > +    }
+> > +
+> > +    if (unlikely(iov_to_buf(out_iov, out_num, 0, &req->out,
+> > +                            sizeof(req->out)) != sizeof(req->out))) {
+> > +        error_report("virtio-blk request outhdr too short");
+> > +        goto err;
+> > +    }
+> > +
+> > +    iov_discard_front(&out_iov, &out_num, sizeof(req->out));
+> > +
+> > +    if (in_iov[in_num - 1].iov_len < sizeof(struct virtio_blk_inhdr)) {
+> > +        error_report("virtio-blk request inhdr too short");
+> > +        goto err;
+> > +    }
+> > +
+> > +    /* We always touch the last byte, so just see how big in_iov is. */
+> > +    req->in_len = iov_size(in_iov, in_num);
+> > +    req->in = (void *)in_iov[in_num - 1].iov_base
+> > +              + in_iov[in_num - 1].iov_len
+> > +              - sizeof(struct virtio_blk_inhdr);
+> > +    iov_discard_back(in_iov, &in_num, sizeof(struct virtio_blk_inhdr));
+> > +
+> > +    type = le32_to_cpu(req->out.type);
+> > +    switch (type & ~VIRTIO_BLK_T_BARRIER) {
+> > +    case VIRTIO_BLK_T_IN:
+> > +    case VIRTIO_BLK_T_OUT: {
+> > +        QEMUIOVector qiov;
+> > +        int64_t offset;
+> > +        ssize_t ret = 0;
+> > +        bool is_write = type & VIRTIO_BLK_T_OUT;
+> > +        req->sector_num = le64_to_cpu(req->out.sector);
+> > +
+> > +        if (is_write && !vblk_exp->writable) {
+> > +            req->in->status = VIRTIO_BLK_S_IOERR;
+> > +            break;
+> > +        }
+> > +
+> > +        if (is_write) {
+> > +            qemu_iovec_init_external(&qiov, out_iov, out_num);
+> > +        } else {
+> > +            qemu_iovec_init_external(&qiov, in_iov, in_num);
+> > +        }
+> > +
+> > +        if (unlikely(!vduse_blk_sect_range_ok(vblk_exp,
+> > +                                              req->sector_num,
+> > +                                              qiov.size))) {
+> > +            req->in->status = VIRTIO_BLK_S_IOERR;
+> > +            break;
+> > +        }
+> > +
+> > +        offset = req->sector_num << VIRTIO_BLK_SECTOR_BITS;
+> > +
+> > +        if (is_write) {
+> > +            ret = blk_co_pwritev(blk, offset, qiov.size, &qiov, 0);
+> > +        } else {
+> > +            ret = blk_co_preadv(blk, offset, qiov.size, &qiov, 0);
+> > +        }
+> > +        if (ret >= 0) {
+> > +            req->in->status = VIRTIO_BLK_S_OK;
+> > +        } else {
+> > +            req->in->status = VIRTIO_BLK_S_IOERR;
+> > +        }
+> > +        break;
+> > +    }
+> > +    case VIRTIO_BLK_T_FLUSH:
+> > +        if (blk_co_flush(blk) == 0) {
+> > +            req->in->status = VIRTIO_BLK_S_OK;
+> > +        } else {
+> > +            req->in->status = VIRTIO_BLK_S_IOERR;
+> > +        }
+> > +        break;
+> > +    case VIRTIO_BLK_T_GET_ID: {
+> > +        size_t size = MIN(iov_size(&elem->in_sg[0], in_num),
+> > +                          VIRTIO_BLK_ID_BYTES);
+> > +        snprintf(elem->in_sg[0].iov_base, size, "%s", vblk_exp->export.id);
+> > +        req->in->status = VIRTIO_BLK_S_OK;
+> > +        break;
+> > +    }
+> > +    default:
+> > +        req->in->status = VIRTIO_BLK_S_UNSUPP;
+> > +        break;
+> > +    }
+> > +
+> > +    vduse_blk_req_complete(req);
+> > +    return;
+> > +
+> > +err:
+> > +    free(req);
+> > +}
+> > +
+> > +static void vduse_blk_vq_handler(VduseDev *dev, VduseVirtq *vq)
+> > +{
+> > +    while (1) {
+> > +        VduseBlkReq *req;
+> > +
+> > +        req = vduse_queue_pop(vq, sizeof(VduseBlkReq));
+> > +        if (!req) {
+> > +            break;
+> > +        }
+> > +        req->vq = vq;
+> > +
+> > +        Coroutine *co =
+> > +            qemu_coroutine_create(vduse_blk_virtio_process_req, req);
+> > +        qemu_coroutine_enter(co);
+> > +    }
+> > +}
+> > +
+> > +static void on_vduse_vq_kick(void *opaque)
+> > +{
+> > +    VduseVirtq *vq = opaque;
+> > +    VduseDev *dev = vduse_queue_get_dev(vq);
+> > +    int fd = vduse_queue_get_fd(vq);
+> > +    eventfd_t kick_data;
+> > +
+> > +    if (eventfd_read(fd, &kick_data) == -1) {
+> > +        error_report("failed to read data from eventfd");
+> > +        return;
+> > +    }
+> > +
+> > +    vduse_blk_vq_handler(dev, vq);
+> > +}
+> > +
+> > +static void vduse_blk_enable_queue(VduseDev *dev, VduseVirtq *vq)
+> > +{
+> > +    VduseBlkExport *vblk_exp = vduse_dev_get_priv(dev);
+> > +
+> > +    aio_set_fd_handler(vblk_exp->export.ctx, vduse_queue_get_fd(vq),
+> > +                       true, on_vduse_vq_kick, NULL, NULL, NULL, vq);
+> > +}
+> > +
+> > +static void vduse_blk_disable_queue(VduseDev *dev, VduseVirtq *vq)
+> > +{
+> > +    VduseBlkExport *vblk_exp = vduse_dev_get_priv(dev);
+> > +
+> > +    aio_set_fd_handler(vblk_exp->export.ctx, vduse_queue_get_fd(vq),
+> > +                       true, NULL, NULL, NULL, NULL, NULL);
+> > +}
+> > +
+> > +static const VduseOps vduse_blk_ops = {
+> > +    .enable_queue = vduse_blk_enable_queue,
+> > +    .disable_queue = vduse_blk_disable_queue,
+> > +};
+> > +
+> > +static void on_vduse_dev_kick(void *opaque)
+> > +{
+> > +    VduseDev *dev = opaque;
+> > +
+> > +    vduse_dev_handler(dev);
+> > +}
+> > +
+> > +static void blk_aio_attached(AioContext *ctx, void *opaque)
+> > +{
+> > +    VduseBlkExport *vblk_exp = opaque;
+> > +    int i;
+> > +
+> > +    vblk_exp->export.ctx = ctx;
+> > +
+> > +    aio_set_fd_handler(vblk_exp->export.ctx, vduse_dev_get_fd(vblk_exp->dev),
+> > +                       true, on_vduse_dev_kick, NULL, NULL, NULL,
+> > +                       vblk_exp->dev);
+> > +
+> > +    for (i = 0; i < vblk_exp->num_queues; i++) {
+> > +        VduseVirtq *vq = vduse_dev_get_queue(vblk_exp->dev, i);
+> > +        int fd = vduse_queue_get_fd(vq);
+> > +
+> > +        if (fd < 0) {
+> > +            continue;
+> > +        }
+> > +        aio_set_fd_handler(vblk_exp->export.ctx, fd, true,
+> > +                           on_vduse_vq_kick, NULL, NULL, NULL, vq);
+> > +    }
+> > +}
+> > +
+> > +static void blk_aio_detach(void *opaque)
+> > +{
+> > +    VduseBlkExport *vblk_exp = opaque;
+> > +    int i;
+> > +
+> > +    for (i = 0; i < vblk_exp->num_queues; i++) {
+> > +        VduseVirtq *vq = vduse_dev_get_queue(vblk_exp->dev, i);
+> > +        int fd = vduse_queue_get_fd(vq);
+> > +
+> > +        if (fd < 0) {
+> > +            continue;
+> > +        }
+> > +        aio_set_fd_handler(vblk_exp->export.ctx, fd,
+> > +                           true, NULL, NULL, NULL, NULL, NULL);
+> > +    }
+> > +    aio_set_fd_handler(vblk_exp->export.ctx, vduse_dev_get_fd(vblk_exp->dev),
+> > +                       true, NULL, NULL, NULL, NULL, NULL);
+> > +    vblk_exp->export.ctx = NULL;
+> > +}
+> > +
+> > +static int vduse_blk_exp_create(BlockExport *exp, BlockExportOptions *opts,
+> > +                                Error **errp)
+> > +{
+> > +    VduseBlkExport *vblk_exp = container_of(exp, VduseBlkExport, export);
+> > +    BlockExportOptionsVduseBlk *vblk_opts = &opts->u.vduse_blk;
+> > +    uint64_t logical_block_size = VIRTIO_BLK_SECTOR_SIZE;
+> > +    uint16_t num_queues = VDUSE_DEFAULT_NUM_QUEUE;
+> > +    uint16_t queue_size = VDUSE_DEFAULT_QUEUE_SIZE;
+> > +    Error *local_err = NULL;
+> > +    struct virtio_blk_config config;
+>
+> Please zero-initialize this with "= { 0 }" because this struct can grow
+> when Linux adds virtio-blk features and our function may not have code
+> to fill in the new fields.
+>
 
-In this case I have manually fixed them up.
+Looks good to me.
 
-Alistair
+> > +    uint64_t features;
+> > +    int i;
+> > +
+> > +    if (vblk_opts->has_num_queues) {
+> > +        num_queues = vblk_opts->num_queues;
+> > +        if (num_queues == 0) {
+> > +            error_setg(errp, "num-queues must be greater than 0");
+> > +            return -EINVAL;
+> > +        }
+> > +    }
+> > +
+> > +    if (vblk_opts->has_queue_size) {
+> > +        queue_size = vblk_opts->queue_size;
+> > +        if (queue_size == 0) {
+> > +            error_setg(errp, "queue-size must be greater than 0");
+> > +            return -EINVAL;
+> > +        }
+> > +    }
+> > +
+> > +    if (vblk_opts->has_logical_block_size) {
+> > +        logical_block_size = vblk_opts->logical_block_size;
+> > +        check_block_size(exp->id, "logical-block-size", logical_block_size,
+> > +                         &local_err);
+> > +        if (local_err) {
+> > +            error_propagate(errp, local_err);
+> > +            return -EINVAL;
+> > +        }
+> > +    }
+> > +    blk_set_guest_block_size(exp->blk, logical_block_size);
+> > +
+> > +    vblk_exp->blk_size = logical_block_size;
+> > +    vblk_exp->writable = opts->writable;
+> > +    vblk_exp->num_queues = num_queues;
+> > +
+> > +    config.capacity =
+> > +            cpu_to_le64(blk_getlength(exp->blk) >> VIRTIO_BLK_SECTOR_BITS);
+> > +    config.seg_max = cpu_to_le32(queue_size - 2);
+>
+> What is queue_size is 1 or 2?
+>
+
+OK, will validate the queue_size in v2.
+
+> > +    config.size_max = cpu_to_le32(0);
+> > +    config.min_io_size = cpu_to_le16(1);
+> > +    config.opt_io_size = cpu_to_le32(1);
+> > +    config.num_queues = cpu_to_le16(num_queues);
+> > +    config.blk_size = cpu_to_le32(logical_block_size);
+> > +
+> > +    features = (1ULL << VIRTIO_F_IOMMU_PLATFORM) |
+> > +               (1ULL << VIRTIO_F_VERSION_1) |
+> > +               (1ULL << VIRTIO_RING_F_EVENT_IDX) |
+> > +               (1ULL << VIRTIO_F_NOTIFY_ON_EMPTY) |
+> > +               (1ULL << VIRTIO_RING_F_INDIRECT_DESC) |
+> > +               (1ULL << VIRTIO_BLK_F_SIZE_MAX) |
+> > +               (1ULL << VIRTIO_BLK_F_SEG_MAX) |
+> > +               (1ULL << VIRTIO_BLK_F_TOPOLOGY) |
+> > +               (1ULL << VIRTIO_BLK_F_BLK_SIZE);
+> > +
+> > +    if (num_queues > 1) {
+> > +        features |= 1ULL << VIRTIO_BLK_F_MQ;
+> > +    }
+> > +    if (!vblk_exp->writable) {
+> > +        features |= 1ULL << VIRTIO_BLK_F_RO;
+> > +    }
+> > +
+> > +    vblk_exp->dev = vduse_dev_create(exp->id, VIRTIO_ID_BLOCK, 0,
+> > +                                     features, num_queues,
+> > +                                     sizeof(struct virtio_blk_config),
+> > +                                     (char *)&config, &vduse_blk_ops,
+> > +                                     vblk_exp);
+> > +    if (!vblk_exp->dev) {
+> > +        error_setg(errp, "failed to create vduse device");
+> > +        return -ENOMEM;
+> > +    }
+> > +
+> > +    for (i = 0; i < num_queues; i++) {
+> > +        vduse_dev_setup_queue(vblk_exp->dev, i, queue_size);
+> > +    }
+> > +
+> > +    aio_set_fd_handler(exp->ctx, vduse_dev_get_fd(vblk_exp->dev), true,
+> > +                       on_vduse_dev_kick, NULL, NULL, NULL, vblk_exp->dev);
+> > +
+> > +    blk_add_aio_context_notifier(exp->blk, blk_aio_attached, blk_aio_detach,
+> > +                                 vblk_exp);
+> > +
+> > +    return 0;
+> > +}
+> > +
+> > +static void vduse_blk_exp_delete(BlockExport *exp)
+> > +{
+> > +    VduseBlkExport *vblk_exp = container_of(exp, VduseBlkExport, export);
+> > +
+> > +    vduse_dev_destroy(vblk_exp->dev);
+> > +}
+> > +
+> > +static void vduse_blk_exp_request_shutdown(BlockExport *exp)
+> > +{
+> > +    VduseBlkExport *vblk_exp = container_of(exp, VduseBlkExport, export);
+> > +    int i;
+> > +
+> > +    blk_remove_aio_context_notifier(exp->blk, blk_aio_attached, blk_aio_detach,
+> > +                                    vblk_exp);
+> > +
+> > +    for (i = 0; i < vblk_exp->num_queues; i++) {
+> > +        VduseVirtq *vq = vduse_dev_get_queue(vblk_exp->dev, i);
+> > +        int fd = vduse_queue_get_fd(vq);
+> > +
+> > +        if (fd < 0) {
+> > +            continue;
+> > +        }
+> > +        aio_set_fd_handler(exp->ctx, fd, true, NULL, NULL, NULL, NULL, NULL);
+> > +    }
+> > +    aio_set_fd_handler(exp->ctx, vduse_dev_get_fd(vblk_exp->dev),
+> > +                       true, NULL, NULL, NULL, NULL, NULL);
+>
+> Call blk_aio_detach() instead of duplicating this code?
+>
+
+Sure.
+
+Thanks,
+Yongji
 
