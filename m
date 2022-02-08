@@ -2,88 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF3594ADB74
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Feb 2022 15:44:36 +0100 (CET)
-Received: from localhost ([::1]:48826 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A39B4ADBA2
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Feb 2022 15:54:50 +0100 (CET)
+Received: from localhost ([::1]:37602 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nHRjP-0000Vi-RB
-	for lists+qemu-devel@lfdr.de; Tue, 08 Feb 2022 09:44:35 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:58020)
+	id 1nHRtI-0004J7-UQ
+	for lists+qemu-devel@lfdr.de; Tue, 08 Feb 2022 09:54:48 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:33740)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nHQIU-0007o3-2R
- for qemu-devel@nongnu.org; Tue, 08 Feb 2022 08:12:42 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:44803)
+ (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
+ id 1nHQYm-0002tD-Lo
+ for qemu-devel@nongnu.org; Tue, 08 Feb 2022 08:29:33 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:59969)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nHQIP-0001GQ-L0
- for qemu-devel@nongnu.org; Tue, 08 Feb 2022 08:12:40 -0500
+ (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
+ id 1nHQYi-0003gV-Tl
+ for qemu-devel@nongnu.org; Tue, 08 Feb 2022 08:29:30 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1644325955;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ s=mimecast20190719; t=1644326967;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=N7lgIEnCeouLebgpq3+Baj0uFzr+P7nFB7YFgaui8oE=;
- b=eE1FEWhRhrftps5PF5OijH+10P4TkEhWpViFl3dLQQ4Z4Yqph8PQx8aXYfejtWQJ6YmQ/5
- GvSrzhKYZJ6edv10Ihjkf+eymKUOHpGgk4enO7WUHVFXRAtoUpo4JO5WCt11cX/4d5UGPr
- B32LgGXBXT/4xz+O/nJEN5XIoBfWWxM=
-Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
- [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=ZaZu8AfbBcZe/3t05BoqCAaUNvWsAdCpXE3VLiaxKug=;
+ b=PNMMpjpoMo7DIsGDIyY7FqJML+V6agJESQb2RXnzVdpmtHXIyNlJYch4rCa+K4Tq7RVeG6
+ 22MpQpEP2k8bHB9at5FG1OiLHH3hkx6AB6+sbFETwZuuCnvMUCspA8sVya8VnXVzQCATNg
+ 75J6BDTEoZ/5PqIxUdSaxmkbR7H+7wg=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-596-QnmQqXbBPY6DWEDaEw5Yug-1; Tue, 08 Feb 2022 08:12:34 -0500
-X-MC-Unique: QnmQqXbBPY6DWEDaEw5Yug-1
-Received: by mail-ej1-f71.google.com with SMTP id
- z26-20020a1709067e5a00b006cbe0628826so2048665ejr.10
- for <qemu-devel@nongnu.org>; Tue, 08 Feb 2022 05:12:34 -0800 (PST)
+ us-mta-93-_DFxy8D7Pxm3wA1W3lYMVQ-1; Tue, 08 Feb 2022 08:29:24 -0500
+X-MC-Unique: _DFxy8D7Pxm3wA1W3lYMVQ-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ i8-20020a1c3b08000000b0037bb9f6feeeso1037996wma.5
+ for <qemu-devel@nongnu.org>; Tue, 08 Feb 2022 05:29:24 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=N7lgIEnCeouLebgpq3+Baj0uFzr+P7nFB7YFgaui8oE=;
- b=rEJlqfnnASvIL8KQd8io/xQhs8V5pM6n/yLdzKGLWXv+mWFkChX+7l6Z0L28cP3Ajg
- aDP89FnDoHo7hDaT7F0qX/hzP6YYRag4UIQHPdLMXJbFMofm9oACRSc22+a+JuvTPDPU
- UBvq48lyui+GQT4dMgI3gAd05PFPKU2NMcD+cebUaPTQ2UlVLCf3eJag0EYmaSZ1VGji
- HDRYM37L9NVdP9JdFnYaMLZY5L3ZA+QOOn5sQFsevCzzbEagss+PoAJxuJ9ocy7Gnmtv
- H3INf6rbmgxXc50tH29aI2dO/DFkXwhJl6dqyYiufFrOcu5QPXpM13zYOANffxuqfCG5
- 3eDg==
-X-Gm-Message-State: AOAM531xNzsUyQVpsTFKfOm4BA/npcTFr3GR+NgLR5OVWTsKuZA1SBzw
- 0bs8S38YvuLW8w17MekmeBDGw3gFTe3M+bryw0wQMrnuFd5Z6IeyR08M1mwrsuhI63fQwupZud7
- npuqqpSGZvWZUmGc=
-X-Received: by 2002:a17:906:6481:: with SMTP id
- e1mr3658316ejm.352.1644325947057; 
- Tue, 08 Feb 2022 05:12:27 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxqParCBcZ0yiFcfJEc/izjOgtRzhGxqTLzbk0PISOkLsnjMUuJgyorZo1ofvnlKIZh3+z/dQ==
-X-Received: by 2002:a17:906:6481:: with SMTP id
- e1mr3658283ejm.352.1644325946688; 
- Tue, 08 Feb 2022 05:12:26 -0800 (PST)
-Received: from ?IPV6:2a02:8071:5055:3f20:7ad9:a400:6d51:83e6?
- ([2a02:8071:5055:3f20:7ad9:a400:6d51:83e6])
- by smtp.gmail.com with ESMTPSA id v5sm1803950ejr.107.2022.02.08.05.12.26
+ h=x-gm-message-state:reply-to:subject:to:cc:references:from
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-transfer-encoding:content-language;
+ bh=ZaZu8AfbBcZe/3t05BoqCAaUNvWsAdCpXE3VLiaxKug=;
+ b=hVaGR1fK0gjiIpoowZHjhAPUBEfFcycswX1hKMGFHibGev1ja5bo8Y62HqoErrXX+T
+ Yc9AUfb/RLo07mLSd7h8JJZl26J3/hidgHNVx444rffXZ6zzORcI2vfv3r4cdPMz70qN
+ 3ls6URwuwkxRs51tUNtafNV3CrteBH2JqxVYUyIrrTnrCssjZxe24fvZRN1J7+h6ovXH
+ x0iLlrvaqSL7MjOcgTcuPImVyeKrPmT0hRu3S70akjtiJOHFjf8W9HbdBpIBS0ltHsvd
+ KIevzOYJi1hVrw9Bqv58teFpnymQH7HcpkcWM8vDc16VE4OlNQhYxp3dcP7wdeeujUZW
+ DbVw==
+X-Gm-Message-State: AOAM531qfI9fXETzYeVpODfFL9JVxkkA1CJqYy/Ieec+ado051xeaROI
+ dKtUebMtGGq0Kw+evqn6a+MLdNZhSslNzUJDextt8AkkuEB+AMaax4O+5m8aErugAI5T/WurF8e
+ tcVwZ5RHMmErXOhs=
+X-Received: by 2002:adf:f54d:: with SMTP id j13mr3418152wrp.596.1644326963368; 
+ Tue, 08 Feb 2022 05:29:23 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJx9NfLedD3Jt81GQynZ/2Rg3eXrePuGu/L4UZom7wuvMHg81Mzj2yPL4QH9toe9JiJQBr52ag==
+X-Received: by 2002:adf:f54d:: with SMTP id j13mr3418139wrp.596.1644326963166; 
+ Tue, 08 Feb 2022 05:29:23 -0800 (PST)
+Received: from ?IPv6:2a01:e0a:59e:9d80:527b:9dff:feef:3874?
+ ([2a01:e0a:59e:9d80:527b:9dff:feef:3874])
+ by smtp.gmail.com with ESMTPSA id r2sm4385933wrt.65.2022.02.08.05.29.21
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 08 Feb 2022 05:12:26 -0800 (PST)
-Message-ID: <3d595111-f976-97ab-e198-a76f38052dc0@redhat.com>
-Date: Tue, 8 Feb 2022 14:12:25 +0100
+ Tue, 08 Feb 2022 05:29:22 -0800 (PST)
+Subject: Re: [PATCH v2 3/4] virtio-iommu: Support bypass domain
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Jean-Philippe Brucker <jean-philippe@linaro.org>
+References: <20220127142940.671333-1-jean-philippe@linaro.org>
+ <20220127142940.671333-4-jean-philippe@linaro.org>
+ <bf447d9b-c039-ccdc-f24f-ab8b56c1b196@redhat.com> <YfffLBO47Sh3uq1b@work-vm>
+ <140a23d7-d128-1273-6f07-0883e13c4600@redhat.com> <YgJiWMcPp5OlCUWY@myrica>
+ <YgJrc5USsfszKrTw@work-vm>
+From: Eric Auger <eric.auger@redhat.com>
+Message-ID: <ecfc42a0-15bf-3cde-2711-434fdb40f28d@redhat.com>
+Date: Tue, 8 Feb 2022 14:29:21 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH 4/6] tests/qemu-iotests/meson.build: Call the 'check'
- script directly
-To: Thomas Huth <thuth@redhat.com>, qemu-block@nongnu.org,
- Kevin Wolf <kwolf@redhat.com>
-References: <20220208101311.1511083-1-thuth@redhat.com>
- <20220208101311.1511083-5-thuth@redhat.com>
-From: Hanna Reitz <hreitz@redhat.com>
-In-Reply-To: <20220208101311.1511083-5-thuth@redhat.com>
+In-Reply-To: <YgJrc5USsfszKrTw@work-vm>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eric.auger@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
 Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=hreitz@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Received-SPF: pass client-ip=170.10.129.124;
+ envelope-from=eric.auger@redhat.com; helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
@@ -103,114 +106,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
+Reply-To: eric.auger@redhat.com
+Cc: lvivier@redhat.com, Peter Maydell <peter.maydell@linaro.org>,
+ thuth@redhat.com, mst@redhat.com, cohuck@redhat.com, qemu-devel@nongnu.org,
+ pasic@linux.ibm.com, Juan Quintela <quintela@redhat.com>, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 08.02.22 11:13, Thomas Huth wrote:
-> We can get a nicer progress indication if we add the iotests
-> individually via the 'check' script instead of going through
-> the check-block.sh wrapper.
+Hi Jean,
+
+On 2/8/22 2:09 PM, Dr. David Alan Gilbert wrote:
+> * Jean-Philippe Brucker (jean-philippe@linaro.org) wrote:
+>> On Wed, Feb 02, 2022 at 02:21:37PM +0100, Eric Auger wrote:
+>>>>>> diff --git a/hw/virtio/virtio-iommu.c b/hw/virtio/virtio-iommu.c
+>>>>>> index ec02029bb6..a112428c65 100644
+>>>>>> --- a/hw/virtio/virtio-iommu.c
+>>>>>> +++ b/hw/virtio/virtio-iommu.c
+>>>>>> @@ -43,6 +43,7 @@
+>>>>>>  
+>>>>>>  typedef struct VirtIOIOMMUDomain {
+>>>>>>      uint32_t id;
+>>>>>> +    bool bypass;
+>>>>> I am afraid this will break the migration if you don't change
+>>>>> vmstate_domain.
+>>>>>
+>>>>> See static const VMStateDescription vmstate_domain.
+>>>>> Also you need to migrate the new bypass field.
+>>>>>
+>>>>> Logically we should handle this with a vmstate subsection I think to
+>>>>> handle migration of older devices. However I doubt the device has been
+>>>>> used in production environment supporting migration so my guess is we
+>>>>> may skip that burden and just add the missing field. Adding Juan, Dave &
+>>>>> Peter for advices.
+>>>> I'm not sure about users of this; if no one has used it then yeh; you
+>>>> could bump up the version_id to make it a bit clearer.
+>>> Thank you for your input. Yes to me it sounds OK to only bump the
+>>> version_id while adding the new field.
+>> Ok. Just to make sure we're on the same page, this means we don't support
+>> migration from new->old or old->new instances, since the migration stream
+>> doesn't carry a version ID for the virtio-iommu-device and domain
+>> vmstates, as far as I understand. I also believe backward-incompatible
+>> changes are fine this time around, though I don't have much visibility in
+>> what's being used.
+> I think the stream only has it for top level devices; I've not dug into
+> this device.
+Not sure I get what you meant:
+
+vmstate_virtio_iommu has a version_id. Also vmstate_domain has one.
+
+Thanks
+
+Eric
 >
-> For this, we have to add some of the sanity checks that have
-> originally been done in the tests/check-block.sh script (whether
-> "bash" is available or whether CFLAGS contain -fsanitize switches)
-> to the meson.build file now, and add the environment variables
-> that have been set up by the tests/check-block.sh script before.
+> Dave
 >
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
-> ---
->   tests/qemu-iotests/meson.build | 45 ++++++++++++++++++++++++++++------
->   1 file changed, 37 insertions(+), 8 deletions(-)
->
-> diff --git a/tests/qemu-iotests/meson.build b/tests/qemu-iotests/meson.build
-> index e1832c90e0..5a6ccd35d8 100644
-> --- a/tests/qemu-iotests/meson.build
-> +++ b/tests/qemu-iotests/meson.build
-> @@ -1,9 +1,29 @@
-> -if not have_tools or targetos == 'windows'
-> +if not have_tools or targetos == 'windows' or \
-> +   config_host.has_key('CONFIG_GPROF')
->     subdir_done()
->   endif
->   
-> +bash = find_program('bash', required: false)
-> +if not bash.found() or \
-> +   run_command(bash, ['--version']).stdout().contains('GNU bash, version 3')
-
-Instead of me asking about where the LANG=C is, or me lamenting that we 
-could test very simply for [123] before and can no longer now... Can we 
-not just do `find_program('bash', required: false, version: '>= 4.0')`?
-
-> +  message('bash >= v4.0 not available ==> Disabled the qemu-iotests.')
-> +  subdir_done()
-> +endif
-> +
-> +foreach cflag: config_host['QEMU_CFLAGS'].split()
-> +  if cflag.startswith('-fsanitize') and \
-> +     not cflag.contains('safe-stack') and not cflag.contains('cfi-icall')
-> +    message('Sanitizers are enabled ==> Disabled the qemu-iotests.')
-> +    subdir_done()
-> +  endif
-> +endforeach
-> +
->   qemu_iotests_binaries = [qemu_img, qemu_io, qemu_nbd, qsd]
-> -qemu_iotests_env = {'PYTHON': python.full_path()}
-> +qemu_iotests_env = {
-> +  'PYTHON': python.full_path(),
-> +  'PYTHONUTF8': '1',
-> +  'QEMU_CHECK_BLOCK_AUTO': '1'
-> +}
->   qemu_iotests_formats = {
->     'qcow2': 'quick',
->     'raw': 'slow',
-> @@ -18,16 +38,25 @@ foreach k, v : emulators
->     endif
->   endforeach
->   
-> +check_script = find_program(meson.current_build_dir() / 'check')
-> +iotests = run_command(python, [check_script.full_path(), '-g', 'auto', '-n'],
-> +                      check: true).stdout().strip().replace('tests/', '').split('\n')
-> +
->   foreach format, speed: qemu_iotests_formats
->     if speed == 'quick'
->       suites = 'block'
->     else
->       suites = ['block-' + speed, speed]
->     endif
-> -  test('qemu-iotests ' + format, sh, args: [files('../check-block.sh'), format],
-> -       depends: qemu_iotests_binaries, env: qemu_iotests_env,
-> -       protocol: 'tap',
-> -       suite: suites,
-> -       timeout: 0,
-> -       is_parallel: false)
-> +  foreach tst: iotests
-> +    test('iotest-' + format + '-' + tst,
-> +         python, args: [check_script.full_path(), '-tap', '-' + format, tst],
-> +         depends: qemu_iotests_binaries,
-> +         env: qemu_iotests_env + \
-> +              { 'TEST_DIR':
-> +                meson.current_build_dir() / 'scratch' / format + '-' + tst },
-> +         protocol: 'tap',
-> +         suite: suites,
-> +         timeout: 0)
-
-So as far I understand you’d like to have meson run the iotests in 
-parallel this way.  I don’t actually think that’s safely possible for 
-multiple formats at once, because a test’s output is always written into 
-`${build_dir}/tests/qemu-iotests/${seq}.out.bad`; so if you run e.g. 
-test 001 both with raw and qcow2 simultaneously, then they can get in 
-each other’s way.
-
-(In my test branch, I have 
-https://gitlab.com/hreitz/qemu/-/commit/f3110b1eeb93d02aeadc5c8b807594cfa10a6aad 
-for this – maybe I should send something like this in a more refined 
-form to the list some time...)
-
-As a minor note, the `check` script has recently received a `-j` 
-argument for parallel execution.  Kind of a shame that we wouldn’t be 
-able to use it here, but that’s how it is, I suppose.
-
-Hanna
+>> Thanks,
+>> Jean
+>>
 
 
