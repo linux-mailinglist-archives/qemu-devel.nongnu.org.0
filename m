@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB46F4AD5DB
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Feb 2022 11:54:38 +0100 (CET)
-Received: from localhost ([::1]:43110 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E4014AD569
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Feb 2022 11:18:07 +0100 (CET)
+Received: from localhost ([::1]:34358 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nHO8q-0005XJ-Qk
-	for lists+qemu-devel@lfdr.de; Tue, 08 Feb 2022 05:54:36 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:39372)
+	id 1nHNZV-0001f6-Ph
+	for lists+qemu-devel@lfdr.de; Tue, 08 Feb 2022 05:18:06 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:39342)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nHNV9-0006hI-Na
- for qemu-devel@nongnu.org; Tue, 08 Feb 2022 05:13:38 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:38521)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nHNV5-0006es-Hk
+ for qemu-devel@nongnu.org; Tue, 08 Feb 2022 05:13:31 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:36702)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nHNV5-0003Xk-KV
- for qemu-devel@nongnu.org; Tue, 08 Feb 2022 05:13:33 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nHNV3-0003XY-UP
+ for qemu-devel@nongnu.org; Tue, 08 Feb 2022 05:13:31 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1644315211;
+ s=mimecast20190719; t=1644315209;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=hMEOBliNuNFDoW3KcZY4JZ0xnzZRaUSYHXf9076Q59c=;
- b=ZpTfVGFM7I3ttNbVKbOaIsq/rVoRj4jtYNqydQmcpZ5HfBZjb25TYNRqSC6bs/WXAV4LVP
- lbus1dCXvTlhnpQaN7ZajPSYm5V3YVCHOeZJfQJUXo7qFKV0YjmnpqfPq8ceT4wgMhQ+qW
- Jfojvokkx73Xqe1Rbx4tgwZDJLycphE=
+ bh=BuC7ZFTQmNcpyNWYLnXkfBYwzsG2a+jVBV25Sxw7JfU=;
+ b=JTQRFDloL1KelOKmdwxdxs6x8xIySmF3vyhWPxV/tLwzSShZ6dmRusEJ6s3SB31wFTal5i
+ D4Zaz/UhGrhm8ZUf4sjIGwdCOvKSdvHg9+0UTVtwN1PKnjgBxWJBPQ5ntiBSOeBs6lQ04I
+ /aFMrDCc2NiQRSAj+a+dSwKcPtZpj1A=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-297-PeOYOCX0MjOKrMwWzXFsDA-1; Tue, 08 Feb 2022 05:13:25 -0500
-X-MC-Unique: PeOYOCX0MjOKrMwWzXFsDA-1
+ us-mta-549-LblKzggoMM64MsEZFCTdzw-1; Tue, 08 Feb 2022 05:13:28 -0500
+X-MC-Unique: LblKzggoMM64MsEZFCTdzw-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A690E46887;
- Tue,  8 Feb 2022 10:13:23 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A8E82101F00E;
+ Tue,  8 Feb 2022 10:13:26 +0000 (UTC)
 Received: from thuth.com (unknown [10.39.192.143])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 02C882856D;
- Tue,  8 Feb 2022 10:13:21 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0F3602856D;
+ Tue,  8 Feb 2022 10:13:23 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: qemu-block@nongnu.org, Hanna Reitz <hreitz@redhat.com>,
  Kevin Wolf <kwolf@redhat.com>
-Subject: [PATCH 4/6] tests/qemu-iotests/meson.build: Call the 'check' script
- directly
-Date: Tue,  8 Feb 2022 11:13:09 +0100
-Message-Id: <20220208101311.1511083-5-thuth@redhat.com>
+Subject: [PATCH 5/6] tests: Do not treat the iotests as separate meson test
+ target anymore
+Date: Tue,  8 Feb 2022 11:13:10 +0100
+Message-Id: <20220208101311.1511083-6-thuth@redhat.com>
 In-Reply-To: <20220208101311.1511083-1-thuth@redhat.com>
 References: <20220208101311.1511083-1-thuth@redhat.com>
 MIME-Version: 1.0
@@ -83,89 +83,70 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We can get a nicer progress indication if we add the iotests
-individually via the 'check' script instead of going through
-the check-block.sh wrapper.
-
-For this, we have to add some of the sanity checks that have
-originally been done in the tests/check-block.sh script (whether
-"bash" is available or whether CFLAGS contain -fsanitize switches)
-to the meson.build file now, and add the environment variables
-that have been set up by the tests/check-block.sh script before.
+Now that we add the single iotests directly in meson.build, we do
+not have to separate the block suite from the other suites anymore.
 
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- tests/qemu-iotests/meson.build | 45 ++++++++++++++++++++++++++++------
- 1 file changed, 37 insertions(+), 8 deletions(-)
+ meson.build            | 6 +++---
+ scripts/mtest2make.py  | 4 ----
+ tests/Makefile.include | 9 +--------
+ 3 files changed, 4 insertions(+), 15 deletions(-)
 
-diff --git a/tests/qemu-iotests/meson.build b/tests/qemu-iotests/meson.build
-index e1832c90e0..5a6ccd35d8 100644
---- a/tests/qemu-iotests/meson.build
-+++ b/tests/qemu-iotests/meson.build
-@@ -1,9 +1,29 @@
--if not have_tools or targetos == 'windows'
-+if not have_tools or targetos == 'windows' or \
-+   config_host.has_key('CONFIG_GPROF')
-   subdir_done()
- endif
+diff --git a/meson.build b/meson.build
+index 5f43355071..b203402ee1 100644
+--- a/meson.build
++++ b/meson.build
+@@ -3,9 +3,9 @@ project('qemu', ['c'], meson_version: '>=0.58.2',
+                           'b_staticpic=false', 'stdsplit=false'],
+         version: files('VERSION'))
  
-+bash = find_program('bash', required: false)
-+if not bash.found() or \
-+   run_command(bash, ['--version']).stdout().contains('GNU bash, version 3')
-+  message('bash >= v4.0 not available ==> Disabled the qemu-iotests.')
-+  subdir_done()
-+endif
-+
-+foreach cflag: config_host['QEMU_CFLAGS'].split()
-+  if cflag.startswith('-fsanitize') and \
-+     not cflag.contains('safe-stack') and not cflag.contains('cfi-icall')
-+    message('Sanitizers are enabled ==> Disabled the qemu-iotests.')
-+    subdir_done()
-+  endif
-+endforeach
-+
- qemu_iotests_binaries = [qemu_img, qemu_io, qemu_nbd, qsd]
--qemu_iotests_env = {'PYTHON': python.full_path()}
-+qemu_iotests_env = {
-+  'PYTHON': python.full_path(),
-+  'PYTHONUTF8': '1',
-+  'QEMU_CHECK_BLOCK_AUTO': '1'
-+}
- qemu_iotests_formats = {
-   'qcow2': 'quick',
-   'raw': 'slow',
-@@ -18,16 +38,25 @@ foreach k, v : emulators
-   endif
- endforeach
+-add_test_setup('quick', exclude_suites: ['block', 'slow', 'thorough'], is_default: true)
+-add_test_setup('slow', exclude_suites: ['block', 'thorough'], env: ['G_TEST_SLOW=1', 'SPEED=slow'])
+-add_test_setup('thorough', exclude_suites: ['block'], env: ['G_TEST_SLOW=1', 'SPEED=thorough'])
++add_test_setup('quick', exclude_suites: ['slow', 'thorough'], is_default: true)
++add_test_setup('slow', exclude_suites: ['thorough'], env: ['G_TEST_SLOW=1', 'SPEED=slow'])
++add_test_setup('thorough', env: ['G_TEST_SLOW=1', 'SPEED=thorough'])
  
-+check_script = find_program(meson.current_build_dir() / 'check')
-+iotests = run_command(python, [check_script.full_path(), '-g', 'auto', '-n'],
-+                      check: true).stdout().strip().replace('tests/', '').split('\n')
-+
- foreach format, speed: qemu_iotests_formats
-   if speed == 'quick'
-     suites = 'block'
-   else
-     suites = ['block-' + speed, speed]
-   endif
--  test('qemu-iotests ' + format, sh, args: [files('../check-block.sh'), format],
--       depends: qemu_iotests_binaries, env: qemu_iotests_env,
--       protocol: 'tap',
--       suite: suites,
--       timeout: 0,
--       is_parallel: false)
-+  foreach tst: iotests
-+    test('iotest-' + format + '-' + tst,
-+         python, args: [check_script.full_path(), '-tap', '-' + format, tst],
-+         depends: qemu_iotests_binaries,
-+         env: qemu_iotests_env + \
-+              { 'TEST_DIR':
-+                meson.current_build_dir() / 'scratch' / format + '-' + tst },
-+         protocol: 'tap',
-+         suite: suites,
-+         timeout: 0)
-+  endforeach
- endforeach
+ not_found = dependency('', required: false)
+ keyval = import('keyval')
+diff --git a/scripts/mtest2make.py b/scripts/mtest2make.py
+index 4d542e8aaa..304634b71e 100644
+--- a/scripts/mtest2make.py
++++ b/scripts/mtest2make.py
+@@ -101,10 +101,6 @@ def emit_suite(name, suite, prefix):
+ testsuites = defaultdict(Suite)
+ for test in introspect['tests']:
+     process_tests(test, targets, testsuites)
+-# HACK: check-block is a separate target so that it runs with --verbose;
+-# only write the dependencies
+-emit_suite_deps('block', testsuites['block'], 'check')
+-del testsuites['block']
+ emit_prolog(testsuites, 'check')
+ for name, suite in testsuites.items():
+     emit_suite(name, suite, 'check')
+diff --git a/tests/Makefile.include b/tests/Makefile.include
+index 9157a57b1a..f93ae5b479 100644
+--- a/tests/Makefile.include
++++ b/tests/Makefile.include
+@@ -151,16 +151,9 @@ check-acceptance: check-acceptance-deprecated-warning | check-avocado
+ 
+ # Consolidated targets
+ 
+-.PHONY: check-block check check-clean get-vm-images
++.PHONY: check check-clean get-vm-images
+ check:
+ 
+-ifeq ($(CONFIG_TOOLS)$(CONFIG_POSIX),yy)
+-check: check-block
+-check-block: run-ninja
+-	$(if $(MAKE.n),,+)$(MESON) test $(MTESTARGS) $(.mtestargs) --verbose \
+-		--logbase iotestslog $(call .speed.$(SPEED), block block-slow block-thorough)
+-endif
+-
+ check-build: run-ninja
+ 
+ check-clean:
 -- 
 2.27.0
 
