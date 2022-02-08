@@ -2,69 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF6AE4AD38A
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Feb 2022 09:33:59 +0100 (CET)
-Received: from localhost ([::1]:38688 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 52C664AD3AD
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Feb 2022 09:41:57 +0100 (CET)
+Received: from localhost ([::1]:48036 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nHLwk-0002sL-QX
-	for lists+qemu-devel@lfdr.de; Tue, 08 Feb 2022 03:33:58 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:34020)
+	id 1nHM4S-0001AG-CP
+	for lists+qemu-devel@lfdr.de; Tue, 08 Feb 2022 03:41:56 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:35710)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nHLaw-0006W4-0q
- for qemu-devel@nongnu.org; Tue, 08 Feb 2022 03:11:28 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:47425)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nHLhd-0004Sx-T8
+ for qemu-devel@nongnu.org; Tue, 08 Feb 2022 03:18:22 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:44411)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nHLak-0000Te-Fj
- for qemu-devel@nongnu.org; Tue, 08 Feb 2022 03:11:24 -0500
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nHLhb-0001Xy-6M
+ for qemu-devel@nongnu.org; Tue, 08 Feb 2022 03:18:20 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1644307854;
+ s=mimecast20190719; t=1644308294;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=+Qpibqf+bnFS14gGbNz5euKOPk+vEUFi8wAHdr5AyCI=;
- b=hX4Zs0AivDwKu5e2Ql8qjeKAhNH8k7Zu2QCXytxUIXIt5ha1daFaQ708mkC3N8Jz2yBaR/
- 8rAu5DsGKWIzNrQDwSyNF0/i786fWDIafyfzXNyQPekBQ1S5vvG9wNS6ojMwais1lCbSGJ
- JUT4fkaHE3ukQLSEdfGO0o/aqeL/WnU=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=wsqI/zBYKtGBxaLdIaJgM+rlL/WkrJv9Wvl40VNjD3Q=;
+ b=F1s7A3/BEP4YTXriip8kokTEOOkfRtX9VP77HCPEjzeSNUPAOzbU8cl1TE8ZvwA4K8oFXu
+ GYJgy+TsCxLth/w/+XbT5+hU3XosxLpB/Rzx/ej3tpnqXi3YZsUHdbJnzsRQ9EO0rM0qOh
+ 3s7S44GmWTVJjxhwNxN5jKJxZePAoF4=
+Received: from mail-pf1-f200.google.com (mail-pf1-f200.google.com
+ [209.85.210.200]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-490-Epy8Bvn_Ov-ykKgTfT2XcA-1; Tue, 08 Feb 2022 03:10:49 -0500
-X-MC-Unique: Epy8Bvn_Ov-ykKgTfT2XcA-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 14D301091DA2;
- Tue,  8 Feb 2022 08:10:48 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.36.112.3])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 226657AB5F;
- Tue,  8 Feb 2022 08:10:32 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 93D7B21E66FF; Tue,  8 Feb 2022 09:10:30 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: Re: [PATCH 08/11] mos6522: add "info via" HMP command for debugging
-References: <20220127205405.23499-1-mark.cave-ayland@ilande.co.uk>
- <20220127205405.23499-9-mark.cave-ayland@ilande.co.uk>
- <CAFEAcA8ZiLTgeG_2aUHBoV0io52623VRybG0NL0uY8=9Fg59Kg@mail.gmail.com>
- <71542eb1-fc8f-8f30-81e0-35c9df764825@amsat.org>
-Date: Tue, 08 Feb 2022 09:10:30 +0100
-In-Reply-To: <71542eb1-fc8f-8f30-81e0-35c9df764825@amsat.org> ("Philippe
- =?utf-8?Q?Mathieu-Daud=C3=A9=22's?= message of "Tue, 8 Feb 2022 06:14:56
- +0100")
-Message-ID: <877da5wzgp.fsf@pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ us-mta-17-oAFbMamMMvCFRVpEY57Vsw-1; Tue, 08 Feb 2022 03:18:13 -0500
+X-MC-Unique: oAFbMamMMvCFRVpEY57Vsw-1
+Received: by mail-pf1-f200.google.com with SMTP id
+ z37-20020a056a001da500b004c74e3fd644so9235279pfw.1
+ for <qemu-devel@nongnu.org>; Tue, 08 Feb 2022 00:18:13 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=wsqI/zBYKtGBxaLdIaJgM+rlL/WkrJv9Wvl40VNjD3Q=;
+ b=t5j18wBAFPDAEWUyNDXg0u9M3+b59v+BnXezCwACCC6k4pFNKq0Y639aDTQABeBNvR
+ rILwpkmk6AeoxzJFsMOcG55LqO2UevPm2oUxgqvIe2/Ib/FKkvG8371wVt6Amjkg8Unp
+ 6iyWS6pVW+gyCsAvidGDX/eI/e/RwYrFoIgWRRXGyqg8NSYgIBBKDmbxamDXNLC1LTCU
+ 9CmTo/c2RdbaRNSpJ5oArWz/6UpqS2I/QHgPvCs65fSMINUY2Us/TYSlovKxMocVGf6r
+ ZCKbpbjyalTrV0tF4O5jt3BXRgRiFm4xdsmC1J+ZKufrvuuqBSPvD6jUfFZ1hsEY5cuo
+ XPZw==
+X-Gm-Message-State: AOAM533WfnbiGQfR8l4GI7eQqf+TmKtM2wj3Liv5N2Ab9dQaIi5HLMtJ
+ Xbm9sKmVyv+DlBosJcov8mSojPNT95mkgE7JMz+2LWQ4cf9Lc7OnFU0Mga222YplfSzHJGAZmjt
+ pToJyc20a7UOXJxA=
+X-Received: by 2002:aa7:9f1b:: with SMTP id g27mr3287771pfr.30.1644308292319; 
+ Tue, 08 Feb 2022 00:18:12 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwUSQLNyski5RVY+vZUqrzQ86qbGLAjJNx7B49BS5O3+6oGpimK9UhYqFV2arX4xKw9/xLusw==
+X-Received: by 2002:aa7:9f1b:: with SMTP id g27mr3287733pfr.30.1644308291982; 
+ Tue, 08 Feb 2022 00:18:11 -0800 (PST)
+Received: from xz-m1.local ([94.177.118.137])
+ by smtp.gmail.com with ESMTPSA id k15sm14686115pff.39.2022.02.08.00.18.07
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 08 Feb 2022 00:18:11 -0800 (PST)
+Date: Tue, 8 Feb 2022 16:18:05 +0800
+From: Peter Xu <peterx@redhat.com>
+To: huangy81@chinatelecom.cn
+Subject: Re: [PATCH v12 2/5] migration/dirtyrate: refactor dirty page rate
+ calculation
+Message-ID: <YgInPaeq0mUzwv6R@xz-m1.local>
+References: <cover.1643026714.git.huangy81@chinatelecom.cn>
+ <1ecd8924ec4c9f9d35d73c8e3e066c9869e8b298.1643026714.git.huangy81@chinatelecom.cn>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+In-Reply-To: <1ecd8924ec4c9f9d35d73c8e3e066c9869e8b298.1643026714.git.huangy81@chinatelecom.cn>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=peterx@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -85,119 +97,127 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Laurent@vivier.eu
+Cc: Eduardo Habkost <eduardo@habkost.net>, David Hildenbrand <david@redhat.com>,
+ Juan Quintela <quintela@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ qemu-devel <qemu-devel@nongnu.org>, Markus ArmBruster <armbru@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org> writes:
+On Mon, Jan 24, 2022 at 10:10:37PM +0800, huangy81@chinatelecom.cn wrote:
+> diff --git a/cpus-common.c b/cpus-common.c
+> index 6e73d3e..63159d6 100644
+> --- a/cpus-common.c
+> +++ b/cpus-common.c
+> @@ -73,6 +73,7 @@ static int cpu_get_free_index(void)
+>  }
+>  
+>  CPUTailQ cpus = QTAILQ_HEAD_INITIALIZER(cpus);
+> +unsigned int cpu_list_generation_id;
+>  
+>  void cpu_list_add(CPUState *cpu)
+>  {
+> @@ -84,6 +85,7 @@ void cpu_list_add(CPUState *cpu)
+>          assert(!cpu_index_auto_assigned);
+>      }
+>      QTAILQ_INSERT_TAIL_RCU(&cpus, cpu, node);
+> +    cpu_list_generation_id++;
+>  }
+>  
+>  void cpu_list_remove(CPUState *cpu)
+> @@ -96,6 +98,7 @@ void cpu_list_remove(CPUState *cpu)
+>  
+>      QTAILQ_REMOVE_RCU(&cpus, cpu, node);
+>      cpu->cpu_index = UNASSIGNED_CPU_INDEX;
+> +    cpu_list_generation_id++;
+>  }
 
-> On 7/2/22 20:34, Peter Maydell wrote:
->> On Thu, 27 Jan 2022 at 21:03, Mark Cave-Ayland
->> <mark.cave-ayland@ilande.co.uk> wrote:
->>>
->>> This displays detailed information about the device registers and timer=
-s to aid
->>> debugging problems with timers and interrupts.
->>>
->>> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
->>> ---
->>>   hmp-commands-info.hx | 12 ++++++
->>>   hw/misc/mos6522.c    | 92 +++++++++++++++++++++++++++++++++++++++++++=
-+
->>>   2 files changed, 104 insertions(+)
->>=20
->> I'm not sure how keen we are on adding new device-specific
->> HMP info commands, but it's not my area of expertise. Markus ?
->
-> HMP is David :)
+Could you move the cpu list gen id changes into a separate patch?
 
-Yes.
+>  
+>  CPUState *qemu_get_cpu(int index)
+> diff --git a/include/sysemu/dirtyrate.h b/include/sysemu/dirtyrate.h
+> new file mode 100644
+> index 0000000..ea4785f
+> --- /dev/null
+> +++ b/include/sysemu/dirtyrate.h
+> @@ -0,0 +1,31 @@
+> +/*
+> + * dirty page rate helper functions
+> + *
+> + * Copyright (c) 2022 CHINA TELECOM CO.,LTD.
+> + *
+> + * Authors:
+> + *  Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
+> + *
+> + * This work is licensed under the terms of the GNU GPL, version 2 or later.
+> + * See the COPYING file in the top-level directory.
+> + */
+> +
+> +#ifndef QEMU_DIRTYRATE_H
+> +#define QEMU_DIRTYRATE_H
+> +
+> +extern unsigned int cpu_list_generation_id;
 
->                 IIRC it is OK as long as HMP is a QMP wrapper.
+How about exporting a function cpu_list_generation_id_get() from the cpu code,
+rather than referencing it directly?
 
-That's "how to do it", and I'll get back to it in a jiffie, but Peter
-was wondering about the "whether to do it".
+> +int64_t vcpu_calculate_dirtyrate(int64_t calc_time_ms,
+> +                                 int64_t init_time_ms,
+> +                                 VcpuStat *stat,
+> +                                 unsigned int flag,
+> +                                 bool one_shot)
+> +{
+> +    DirtyPageRecord *records;
+> +    int64_t duration;
+> +    int64_t dirtyrate;
+> +    int i = 0;
+> +    unsigned int gen_id;
+> +
+> +retry:
+> +    cpu_list_lock();
+> +    gen_id = cpu_list_generation_id;
+> +    records = vcpu_dirty_stat_alloc(stat);
+> +    vcpu_dirty_stat_collect(stat, records, true);
+> +
+> +    duration = dirty_stat_wait(calc_time_ms, init_time_ms);
+> +    cpu_list_unlock();
 
-Most HMP commands are always there.
+Should release the lock before sleep (dirty_stat_wait)?
 
-We have a few specific to compile-time configurable features: TCG, VNC,
-Spice, Slirp, Linux.  Does not apply here.
+> +
+> +    global_dirty_log_sync(flag, one_shot);
+> +
+> +    cpu_list_lock();
+> +    if (gen_id != cpu_list_generation_id) {
+> +        g_free(records);
+> +        g_free(stat->rates);
+> +        cpu_list_unlock();
+> +        goto retry;
+> +    }
+> +    vcpu_dirty_stat_collect(stat, records, false);
+> +    cpu_list_unlock();
+> +
+> +    for (i = 0; i < stat->nvcpu; i++) {
+> +        dirtyrate = do_calculate_dirtyrate(records[i], duration);
+> +
+> +        stat->rates[i].id = i;
+> +        stat->rates[i].dirty_rate = dirtyrate;
+> +
+> +        trace_dirtyrate_do_calculate_vcpu(i, dirtyrate);
+> +    }
+> +
+> +    g_free(records);
+> +
+> +    return duration;
+> +}
 
-We have a few specific to targets, such as dump-skeys and info skeys for
-s390.  Target-specific is not quite the same as device-specific.
+Thanks,
 
-We have no device-specific commands so far.  However, dump-skeys and
-info skeys appear to be about the skeys *device*, not the s390 target.
-Perhaps any s390 target has such a device?  I don't know.  My point is
-we already have device-specific commands, they're just masquerading as
-target-specific commands.
-
-The proposed device-specific command uses a mechanism originally made
-for modules instead (more on that below).
-
-I think we should make up our minds which way we want device-specific
-commands done, then do *all* of them that way.
-
-
-On to "how to do it", part 1.
-
-Most of the time, the command handler is declared with the command in
-hmp-commands{,-info}.hx, possibly with compile-time conditionals.
-
-But it can also be left null there, and set with monitor_register_hmp()
-or monitor_register_hmp_info_hrt().  This is intended for modules; see
-commit f0e48cbd791^..bca6eb34f03.
-
-Aside: can modules be unloaded?  If yes, we better zap the handler
-then.
-
-The proposed "info via" uses monitor_register_hmp_info_hrt().  No
-objection from me, requires David's ACK.
-
-
-"How to do it", part 2, in reply to Philippe's remark.
-
-Ideally, HMP commands wrap around QMP commands, but we accept exceptions
-for certain use cases where the wrapping is more trouble than it's
-worth, with justification.  I've explained this several times, and I'm
-happy to dig up a reference or explain it again if there's a need.
-
-Justifying an exception is bothersome, too.  Daniel Berrang=C3=A9 recently
-created a way to reduce the wrapping trouble (merge commit
-e86e00a2493).  The proposed "info via" makes use of it.
-
->> (patch below for context)
->> thanks
->> -- PMM
->>=20
->>>
->>> diff --git a/hmp-commands-info.hx b/hmp-commands-info.hx
->>> index e90f20a107..4e714e79a2 100644
->>> --- a/hmp-commands-info.hx
->>> +++ b/hmp-commands-info.hx
->>> @@ -879,3 +879,15 @@ SRST
->>>     ``info sgx``
->>>       Show intel SGX information.
->>>   ERST
->>> +
->>> +    {
->>> +        .name       =3D "via",
->>> +        .args_type  =3D "",
->>> +        .params     =3D "",
->>> +        .help       =3D "show guest 6522 VIA devices",
->>> +    },
->>> +
->>> +SRST
->>> +  ``info via``
->>> +    Show guest 6522 VIA devices.
->>> +ERST
-
-Should this be conditional on the targets where we actually link the
-device, like info skeys?
-
-[...]
+-- 
+Peter Xu
 
 
