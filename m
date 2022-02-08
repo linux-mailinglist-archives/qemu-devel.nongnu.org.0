@@ -2,70 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 50DFF4AD9F0
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Feb 2022 14:33:24 +0100 (CET)
-Received: from localhost ([::1]:49958 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 416414ADA1E
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Feb 2022 14:39:25 +0100 (CET)
+Received: from localhost ([::1]:57998 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nHQcU-0002ng-VR
-	for lists+qemu-devel@lfdr.de; Tue, 08 Feb 2022 08:33:23 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:34548)
+	id 1nHQiJ-000070-Ti
+	for lists+qemu-devel@lfdr.de; Tue, 08 Feb 2022 08:39:23 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:34600)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nHOql-0000iM-36
- for qemu-devel@nongnu.org; Tue, 08 Feb 2022 06:40:00 -0500
-Received: from [2a00:1450:4864:20::430] (port=41976
- helo=mail-wr1-x430.google.com)
+ id 1nHOqm-0000ia-RL
+ for qemu-devel@nongnu.org; Tue, 08 Feb 2022 06:40:02 -0500
+Received: from [2a00:1450:4864:20::42f] (port=36465
+ helo=mail-wr1-x42f.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nHOqh-00023S-0p
- for qemu-devel@nongnu.org; Tue, 08 Feb 2022 06:39:57 -0500
-Received: by mail-wr1-x430.google.com with SMTP id k1so13650039wrd.8
- for <qemu-devel@nongnu.org>; Tue, 08 Feb 2022 03:39:51 -0800 (PST)
+ id 1nHOqh-00023U-17
+ for qemu-devel@nongnu.org; Tue, 08 Feb 2022 06:39:58 -0500
+Received: by mail-wr1-x42f.google.com with SMTP id i15so7777448wrb.3
+ for <qemu-devel@nongnu.org>; Tue, 08 Feb 2022 03:39:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:subject:date:message-id:mime-version
+ h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=X7Rrh0lJtSWpmXtO87Kz9MGXWLKHe7DJRwFSr69atlE=;
- b=kWJQ51ZtR1/s4ah01VjGOREvddz7LouFkvIc+xMZkJuBUJRyWg7Aj6kvQdM53lUISk
- 5aLwPgfTbotqEKj8zHp40+H0mOT8s99OHdunuqshaXnrzc7XT+qvO7PkFaGmu0oAmYnB
- CZT9l7x1J5alAkZttSUiq0RgeDul6Wr1enTcsURQu6ki1C9WHiByNua7HdeZgsuPCQL/
- c5LgvKC0OOnP9VPnky7n9iOXRw+dZPIDK8AXsIOqFuCEbPTu/3svArvKMkKRM4WHvYXt
- Ii+t8IReG5RpzZzJE7mqAa2BYiNkuZZE/NI7Bcq8E8IZB4QbfpqlYHQo5s//kyoomqki
- /TLw==
+ bh=/mqhqQhQLs9hWhzKkqqLGUYC8DmGhSXzHDhfqr5RRB8=;
+ b=a0vPkImern1yWjt4RQVIzKl39vWu1Hdyhh3lWxzgISMhTak2vJOOqN2ODQtZBpFKMs
+ weW96TugfROeSPZUW53/DT/a602upcR90OYow8WQQ8ft6KhuDCwm1XxgL6oAAmt9z7uE
+ 2cCiVdaxmVOOxMky7ov9BV1HOP0vYp9Qg1OeHL8IZvcS172Xa6MkN5SmkDEP1LZKdUYZ
+ 2Vfxy+HzEMT8m9Rj6emwBglbr29cM9MVCa1II822sQBWSj8G92f1QtY0lDN3tM+MAhDd
+ 9Rs4V2XAGOYGVByW8IHr9xE4WRCdK0ku4utup+OY2LQFg3yvfHCX38L+Wwi+yvF0mR3e
+ 0tMw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=X7Rrh0lJtSWpmXtO87Kz9MGXWLKHe7DJRwFSr69atlE=;
- b=sC1e0hujUZuZelKr5xn0ZrtwuuoQmJNsXBiWqLHl+qyTq+YLlvdRGyOeazGlB2b7lz
- N1F6IqYq6MDhjOIC1zGQX6IPDesgf8EnpXWcak+ROqelU9rA6mzc3iOEEz4rAFWCWebN
- s+1kPZNmx8W6hjKGd4eQV62ZCJExa/VpSF8Vm1f8FDpYRGTMiDt1AagsAa7XkAiwnszM
- Eo+IqQMDsj4UbR9lJmBlzWXA4bcPAXNxsfoJNoo6rwwA8g5NB19e8oqIYLx5JOeTOQyH
- c1FLyKxY2w0Va1Dv6wQzJX+ecJbJps3bvvwNzboM4jWFBeA1FxoiyK5JsZpvw0o8N/IG
- nP+A==
-X-Gm-Message-State: AOAM530I69DDlZO0CCgqziOVeevkPe7I6WYJv6TnWyMdprUwbaGhGZ+/
- OqCZiqZArwbBuk7/siLQDhr/TJGplBGmBA==
-X-Google-Smtp-Source: ABdhPJxd6p4nJ0tk/FuYSbQ2/IoqCviZVuDtBoan4KcWEQIGIWCLu5sgsxLG7CVj6X1OnpB43OZKiA==
-X-Received: by 2002:a5d:64e9:: with SMTP id g9mr3209166wri.341.1644320390588; 
- Tue, 08 Feb 2022 03:39:50 -0800 (PST)
+ h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=/mqhqQhQLs9hWhzKkqqLGUYC8DmGhSXzHDhfqr5RRB8=;
+ b=mXDEvDb9ERmeAKG0jcy0A9GootHlxYhqqq0QU/mKwFsccU/btxwton3VUqZWTyJ57/
+ bBDEmJB08xyOZT0wnPGKKKhAIOPSIGiQXIjC8JgAJLaBuS1E6ew/a4UBA3zxOHhS/BFo
+ vVyW328LdQmvP2cDlW8E0oK6gHXDTY/JAxj+PeqUNQz8oPfxrmI62X/hbTP2nC49iRZ+
+ flVIUauEr2qT6D++X5dSSGpeb9/ntquKCjKzXIYEIWPVUdjK1cUNR10eMQpNavyvv3nv
+ rpQWGCAfZLCy6HnNXuRSXWt9nL+l58o1V+7gdJcMs2c2Kinh+CyJiGwMnT0fzja8jnDp
+ gNNw==
+X-Gm-Message-State: AOAM530oam9QPypY1RKOAcdgsuddF2KcdkhkK9PYNrqXwrFH00DPodk5
+ CvEUHpIaIpSYMLABADQVI9/N0r9R9T9/eQ==
+X-Google-Smtp-Source: ABdhPJwuDeYEIHZksHR0nxNcHiv8U2ezamzF7nGekiBK2+k8t3GqHrefgm7NfnFRIWroknvDe8q0Qw==
+X-Received: by 2002:adf:d849:: with SMTP id k9mr3156209wrl.366.1644320391242; 
+ Tue, 08 Feb 2022 03:39:51 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
- by smtp.gmail.com with ESMTPSA id r11sm4245199wrt.28.2022.02.08.03.39.49
+ by smtp.gmail.com with ESMTPSA id r11sm4245199wrt.28.2022.02.08.03.39.50
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Tue, 08 Feb 2022 03:39:50 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 00/39] target-arm queue
-Date: Tue,  8 Feb 2022 11:39:09 +0000
-Message-Id: <20220208113948.3217356-1-peter.maydell@linaro.org>
+Subject: [PULL 01/39] target/arm: Fix sve_zcr_len_for_el for VHE mode running
+Date: Tue,  8 Feb 2022 11:39:10 +0000
+Message-Id: <20220208113948.3217356-2-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20220208113948.3217356-1-peter.maydell@linaro.org>
+References: <20220208113948.3217356-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::430
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42f
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::430;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x430.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42f.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -89,133 +90,35 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit 55ef0b702bc2c90c3c4ed97f97676d8f139e5ca1:
+From: Richard Henderson <richard.henderson@linaro.org>
 
-  Merge remote-tracking branch 'remotes/lvivier-gitlab/tags/linux-user-for-7.0-pull-request' into staging (2022-02-07 10:48:25 +0000)
+When HCR_EL2.{E2H,TGE} == '11', ZCR_EL1 is unused.
 
-are available in the Git repository at:
+Reported-by: Zenghui Yu <yuzenghui@huawei.com>
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Reviewed-by: Zenghui Yu <yuzenghui@huawei.com>
+Message-id: 20220127063428.30212-2-richard.henderson@linaro.org
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+---
+ target/arm/helper.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-  https://git.linaro.org/people/pmaydell/qemu-arm.git tags/pull-target-arm-20220208
+diff --git a/target/arm/helper.c b/target/arm/helper.c
+index 6dd241fbef3..649958a727d 100644
+--- a/target/arm/helper.c
++++ b/target/arm/helper.c
+@@ -6225,7 +6225,8 @@ uint32_t sve_zcr_len_for_el(CPUARMState *env, int el)
+     ARMCPU *cpu = env_archcpu(env);
+     uint32_t zcr_len = cpu->sve_max_vq - 1;
+ 
+-    if (el <= 1) {
++    if (el <= 1 &&
++        (arm_hcr_el2_eff(env) & (HCR_E2H | HCR_TGE)) != (HCR_E2H | HCR_TGE)) {
+         zcr_len = MIN(zcr_len, 0xf & (uint32_t)env->vfp.zcr_el[1]);
+     }
+     if (el <= 2 && arm_feature(env, ARM_FEATURE_EL2)) {
+-- 
+2.25.1
 
-for you to fetch changes up to 4fd1ebb10593087d45d2f56f7f3d13447d24802c:
-
-  hw/sensor: Add lsm303dlhc magnetometer device (2022-02-08 10:56:29 +0000)
-
-----------------------------------------------------------------
-target-arm queue:
- * Fix handling of SVE ZCR_LEN when using VHE
- * xlnx-zynqmp: 'Or' the QSPI / QSPI DMA IRQs
- * Don't ever enable PSCI when booting guest in EL3
- * Adhere to SMCCC 1.3 section 5.2
- * highbank: Fix issues with booting SMP
- * midway: Fix issues booting at all
- * boot: Drop existing dtb /psci node rather than retaining it
- * versal-virt: Always call arm_load_kernel()
- * force flag recalculation when messing with DAIF
- * hw/timer/armv7m_systick: Update clock source before enabling timer
- * hw/arm/smmuv3: Fix device reset
- * hw/intc/arm_gicv3_its: refactorings and minor bug fixes
- * hw/sensor: Add lsm303dlhc magnetometer device
-
-----------------------------------------------------------------
-Alex Bennée (1):
-      arm: force flag recalculation when messing with DAIF
-
-Edgar E. Iglesias (1):
-      hw/arm: versal-virt: Always call arm_load_kernel()
-
-Eric Auger (1):
-      hw/arm/smmuv3: Fix device reset
-
-Francisco Iglesias (1):
-      hw/arm/xlnx-zynqmp: 'Or' the QSPI / QSPI DMA IRQs
-
-Kevin Townsend (1):
-      hw/sensor: Add lsm303dlhc magnetometer device
-
-Peter Maydell (29):
-      target/arm: make psci-conduit settable after realize
-      cpu.c: Make start-powered-off settable after realize
-      hw/arm/boot: Support setting psci-conduit based on guest EL
-      hw/arm: imx: Don't enable PSCI conduit when booting guest in EL3
-      hw/arm: allwinner: Don't enable PSCI conduit when booting guest in EL3
-      hw/arm/xlnx-zcu102: Don't enable PSCI conduit when booting guest in EL3
-      hw/arm/versal: Let boot.c handle PSCI enablement
-      hw/arm/virt: Let boot.c handle PSCI enablement
-      hw/arm: highbank: For EL3 guests, don't enable PSCI, start all cores
-      arm: tcg: Adhere to SMCCC 1.3 section 5.2
-      hw/arm/highbank: Drop use of secure_board_setup
-      hw/arm/boot: Prevent setting both psci_conduit and secure_board_setup
-      hw/arm/boot: Don't write secondary boot stub if using PSCI
-      hw/arm/highbank: Drop unused secondary boot stub code
-      hw/arm/boot: Drop nb_cpus field from arm_boot_info
-      hw/arm/boot: Drop existing dtb /psci node rather than retaining it
-      hw/intc/arm_gicv3_its: Use address_space_map() to access command queue packets
-      hw/intc/arm_gicv3_its: Keep DTEs as a struct, not a raw uint64_t
-      hw/intc/arm_gicv3_its: Pass DTEntry to update_dte()
-      hw/intc/arm_gicv3_its: Keep CTEs as a struct, not a raw uint64_t
-      hw/intc/arm_gicv3_its: Pass CTEntry to update_cte()
-      hw/intc/arm_gicv3_its: Fix address calculation in get_ite() and update_ite()
-      hw/intc/arm_gicv3_its: Avoid nested ifs in get_ite()
-      hw/intc/arm_gicv3_its: Pass ITE values back from get_ite() via a struct
-      hw/intc/arm_gicv3_its: Make update_ite() use ITEntry
-      hw/intc/arm_gicv3_its: Drop TableDesc and CmdQDesc valid fields
-      hw/intc/arm_gicv3_its: In MAPC with V=0, don't check rdbase field
-      hw/intc/arm_gicv3_its: Don't allow intid 1023 in MAPI/MAPTI
-      hw/intc/arm_gicv3_its: Split error checks
-
-Richard Henderson (4):
-      target/arm: Fix sve_zcr_len_for_el for VHE mode running
-      target/arm: Tidy sve_exception_el for CPACR_EL1 access
-      target/arm: Fix {fp, sve}_exception_el for VHE mode running
-      target/arm: Use CPTR_TFP with CPTR_EL3 in fp_exception_el
-
-Richard Petri (1):
-      hw/timer/armv7m_systick: Update clock source before enabling timer
-
- hw/intc/gicv3_internal.h               |  23 +-
- include/hw/arm/boot.h                  |  14 +-
- include/hw/arm/xlnx-versal.h           |   1 -
- include/hw/arm/xlnx-zynqmp.h           |   2 +
- include/hw/intc/arm_gicv3_its_common.h |   2 -
- cpu.c                                  |  22 +-
- hw/arm/allwinner-h3.c                  |   9 +-
- hw/arm/aspeed.c                        |   1 -
- hw/arm/boot.c                          | 107 ++++-
- hw/arm/exynos4_boards.c                |   1 -
- hw/arm/fsl-imx6ul.c                    |   2 -
- hw/arm/fsl-imx7.c                      |   8 +-
- hw/arm/highbank.c                      |  72 +---
- hw/arm/imx25_pdk.c                     |   3 +-
- hw/arm/kzm.c                           |   1 -
- hw/arm/mcimx6ul-evk.c                  |   2 +-
- hw/arm/mcimx7d-sabre.c                 |   2 +-
- hw/arm/npcm7xx.c                       |   3 -
- hw/arm/orangepi.c                      |   5 +-
- hw/arm/raspi.c                         |   1 -
- hw/arm/realview.c                      |   1 -
- hw/arm/sabrelite.c                     |   1 -
- hw/arm/sbsa-ref.c                      |   1 -
- hw/arm/smmuv3.c                        |   6 +
- hw/arm/vexpress.c                      |   1 -
- hw/arm/virt.c                          |  13 +-
- hw/arm/xilinx_zynq.c                   |   1 -
- hw/arm/xlnx-versal-virt.c              |  17 +-
- hw/arm/xlnx-versal.c                   |   5 +-
- hw/arm/xlnx-zcu102.c                   |   1 +
- hw/arm/xlnx-zynqmp.c                   |  25 +-
- hw/intc/arm_gicv3_its.c                | 696 +++++++++++++++------------------
- hw/sensor/lsm303dlhc_mag.c             | 556 ++++++++++++++++++++++++++
- hw/timer/armv7m_systick.c              |   8 +-
- target/arm/cpu.c                       |   6 +-
- target/arm/helper-a64.c                |   2 +
- target/arm/helper.c                    | 118 ++++--
- target/arm/psci.c                      |  35 +-
- tests/qtest/lsm303dlhc-mag-test.c      | 148 +++++++
- hw/sensor/Kconfig                      |   4 +
- hw/sensor/meson.build                  |   1 +
- tests/qtest/meson.build                |   1 +
- 42 files changed, 1308 insertions(+), 620 deletions(-)
- create mode 100644 hw/sensor/lsm303dlhc_mag.c
- create mode 100644 tests/qtest/lsm303dlhc-mag-test.c
 
