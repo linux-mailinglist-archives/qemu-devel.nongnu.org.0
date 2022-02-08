@@ -2,98 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6BE9E4ADBEB
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Feb 2022 16:03:20 +0100 (CET)
-Received: from localhost ([::1]:54524 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B57CA4ADBFC
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Feb 2022 16:07:40 +0100 (CET)
+Received: from localhost ([::1]:34860 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nHS1X-0000gM-Dw
-	for lists+qemu-devel@lfdr.de; Tue, 08 Feb 2022 10:03:19 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:48828)
+	id 1nHS5j-0006hc-3f
+	for lists+qemu-devel@lfdr.de; Tue, 08 Feb 2022 10:07:39 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:49888)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nHPlr-0008Kb-1n
- for qemu-devel@nongnu.org; Tue, 08 Feb 2022 07:39:02 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:55854)
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1nHPqn-0000ma-MY
+ for qemu-devel@nongnu.org; Tue, 08 Feb 2022 07:44:05 -0500
+Received: from [2001:41c9:1:41f::167] (port=51702
+ helo=mail.default.ilande.bv.iomart.io)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nHPll-00046K-41
- for qemu-devel@nongnu.org; Tue, 08 Feb 2022 07:38:56 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1644323913;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=70wbXyeiqPShqRF1Gvb13oNIFiZilaovNqsxfVt4LUA=;
- b=F6e+A5XHsna4d268urTJWXq5HCZmc1I2BcJgL3Y5MRZHCav70thv659A9wlWuMnZw7gjms
- 9QcDnNvismKjDSvcypFLtS7nkI/j0yI+l+AEKoFywhBll8KOuJFbdoghTQA69LoQ31Q9pb
- OyHKKthBKq5tn9bp0Gl/pV81nF4Ccek=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-267-pHMSD3_ZORWK0LAZOJHCVg-1; Tue, 08 Feb 2022 07:38:32 -0500
-X-MC-Unique: pHMSD3_ZORWK0LAZOJHCVg-1
-Received: by mail-wm1-f72.google.com with SMTP id
- l16-20020a7bcf10000000b0034ffdd81e7aso482745wmg.4
- for <qemu-devel@nongnu.org>; Tue, 08 Feb 2022 04:38:32 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=70wbXyeiqPShqRF1Gvb13oNIFiZilaovNqsxfVt4LUA=;
- b=4HqyYXZso5N6dHcP1DDC1bvk9iEIYOY2l+rQNe68xEXmBadWBe7wLXgUfu/pZ40Onr
- 1mdInOmUhSl/olrdskeQAqPVx+N0RODf3rfgfx9X28TblenKZercHNqCXoWFtzfL/c59
- i1cAaJu2RSZlfQSFUSl9wikhp+u5SnMqUMmE3xIH2yjhQCjz0uPE8b40j9SUKtP/Kmp4
- /g1iADbmXtsYAGXDhLBfyotiUX8362vtnbFzVodY7QYDvej6G6YSsnLynubUzMC1jlXt
- dcfM6fTg/0GLWpgMh6lU06wnamIUbTDNnijQCJrPxzzKi9e2hzJ3XNBIoCWH9S6+LIlQ
- /88w==
-X-Gm-Message-State: AOAM531Ges54aB6puqpgjltm1kpzNu3kFhHcTJT5WuG5F+6kgde2VnxS
- j5ljkAtmRSHctw8A2Tb8D5KVXMsYlGRn1AGiv9nR/IJ1/ef7vGNwse556sSJL+mTA+Iv7Vhrvme
- cPToh8BoxDKrhmRY=
-X-Received: by 2002:a05:6000:184a:: with SMTP id
- c10mr3439600wri.212.1644323911104; 
- Tue, 08 Feb 2022 04:38:31 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwFlc2YwS/gJkNSqv2fK8aZDoq/BX6Ftrf7nteGp/Y8kFRTu2VJj6YdnLosJgI9pS69PZPgFw==
-X-Received: by 2002:a05:6000:184a:: with SMTP id
- c10mr3439589wri.212.1644323910891; 
- Tue, 08 Feb 2022 04:38:30 -0800 (PST)
-Received: from [192.168.8.100] (tmo-096-196.customers.d1-online.com.
- [80.187.96.196])
- by smtp.gmail.com with ESMTPSA id g6sm12367362wrq.97.2022.02.08.04.38.29
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 08 Feb 2022 04:38:30 -0800 (PST)
-Message-ID: <10264836-2ca6-c134-5eb9-018ef618edc1@redhat.com>
-Date: Tue, 8 Feb 2022 13:38:28 +0100
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1nHPqg-0004oa-1a
+ for qemu-devel@nongnu.org; Tue, 08 Feb 2022 07:44:03 -0500
+Received: from [2a00:23c4:8ba0:ca00:d4eb:dbd5:5a41:aefe]
+ by mail.default.ilande.bv.iomart.io with esmtpsa
+ (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.92)
+ (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1nHPq1-00078B-Er; Tue, 08 Feb 2022 12:43:17 +0000
+Message-ID: <60d34033-fd73-249d-97d2-886ece0ef190@ilande.co.uk>
+Date: Tue, 8 Feb 2022 12:43:43 +0000
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.5.0
-Subject: Re: [PATCH 1/6] tests/qemu-iotests: Improve the check for GNU sed
-To: Hanna Reitz <hreitz@redhat.com>, qemu-block@nongnu.org,
- Kevin Wolf <kwolf@redhat.com>, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
- <f4bug@amsat.org>
-References: <20220208101311.1511083-1-thuth@redhat.com>
- <20220208101311.1511083-2-thuth@redhat.com>
- <8332fa43-9e77-34f3-c012-062342d62c92@redhat.com>
- <dd7f32dd-807c-d389-1f19-323141178bba@redhat.com>
- <1d5f544a-8362-6932-2f2a-6fd5f8e53978@redhat.com>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <1d5f544a-8362-6932-2f2a-6fd5f8e53978@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
 Content-Language: en-US
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+References: <20220127205405.23499-1-mark.cave-ayland@ilande.co.uk>
+ <20220127205405.23499-9-mark.cave-ayland@ilande.co.uk>
+ <CAFEAcA8ZiLTgeG_2aUHBoV0io52623VRybG0NL0uY8=9Fg59Kg@mail.gmail.com>
+ <71542eb1-fc8f-8f30-81e0-35c9df764825@amsat.org>
+ <877da5wzgp.fsf@pond.sub.org> <YgJF9SDwb93k5/fg@work-vm>
+ <YgJZfwfpX5/R9HfR@redhat.com>
+From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+In-Reply-To: <YgJZfwfpX5/R9HfR@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-SA-Exim-Connect-IP: 2a00:23c4:8ba0:ca00:d4eb:dbd5:5a41:aefe
+X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
+Subject: Re: [PATCH 08/11] mos6522: add "info via" HMP command for debugging
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on mail.default.ilande.bv.iomart.io)
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2001:41c9:1:41f::167
+ (failed)
+Received-SPF: pass client-ip=2001:41c9:1:41f::167;
+ envelope-from=mark.cave-ayland@ilande.co.uk;
+ helo=mail.default.ilande.bv.iomart.io
+X-Spam_score_int: -10
+X-Spam_score: -1.1
+X-Spam_bar: -
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -106,92 +71,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org,
+ Markus Armbruster <armbru@redhat.com>, Laurent@vivier.eu,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 08/02/2022 13.28, Hanna Reitz wrote:
-> On 08.02.22 13:13, Thomas Huth wrote:
->> On 08/02/2022 12.46, Hanna Reitz wrote:
->>> On 08.02.22 11:13, Thomas Huth wrote:
->>>> Instead of failing the iotests if GNU sed is not available (or skipping
->>>> them completely in the check-block.sh script), it would be better to
->>>> simply skip the bash-based tests, so that the python-based tests could
->>>> still be run. Thus add the check for BusyBox sed to common.rc and mark
->>>> the tests as "not run" if GNU sed is not available. Then we can also
->>>> remove the sed checks from the check-block.sh script.
->>>>
->>>> Signed-off-by: Thomas Huth <thuth@redhat.com>
->>>> ---
->>>>   tests/check-block.sh         | 12 ------------
->>>>   tests/qemu-iotests/common.rc | 26 +++++++++++++-------------
->>>>   2 files changed, 13 insertions(+), 25 deletions(-)
->>>>
->>>> diff --git a/tests/check-block.sh b/tests/check-block.sh
->>>> index 720a46bc36..af0c574812 100755
->>>> --- a/tests/check-block.sh
->>>> +++ b/tests/check-block.sh
->>>> @@ -52,18 +52,6 @@ if LANG=C bash --version | grep -q 'GNU bash, version 
->>>> [123]' ; then
->>>>       skip "bash version too old ==> Not running the qemu-iotests."
->>>>   fi
->>>> -if ! (sed --version | grep 'GNU sed') > /dev/null 2>&1 ; then
+On 08/02/2022 11:52, Daniel P. Berrangé wrote:
+
+(cut)
+
+>>> The proposed device-specific command uses a mechanism originally made
+>>> for modules instead (more on that below).
 >>>
->>> This specifically tests for `sed`, whereas...
+>>> I think we should make up our minds which way we want device-specific
+>>> commands done, then do *all* of them that way.
 >>
->> There was a check for "gsed" one line later:
+>> I think device specific commands make sense, but I think it would
+>> probably be better if we had an 'info dev $name' and that a method on
+>> the device rather than registering each one separately.
+>> I'd assume that this would be a QMP level thing that got unwrapped at
+>> HMP.
 >>
->>  if ! command -v gsed >/dev/null 2>&1; then
->>
->> ... so the check-block.sh script ran the iotests also if "sed" was not 
->> GNU, but gsed was available.
+>> But that's not a problem for this contribution; someone else can figure
+>> that out later.
 > 
-> Oh, right.
+> Actually I think this would solve a problem with this contribution.
+> This patch implements a QMP command but never registers it, so it
+> isn't actually accessible via QMP. It only registers the HMP wrapper
+> which rather defeats the point of doing it via the QMP HumanReadableText
+> approach.
 > 
->>> [...]
->>>
->>>> diff --git a/tests/qemu-iotests/common.rc b/tests/qemu-iotests/common.rc
->>>> index 9885030b43..9ea504810c 100644
->>>> --- a/tests/qemu-iotests/common.rc
->>>> +++ b/tests/qemu-iotests/common.rc
->>>> @@ -17,17 +17,27 @@
->>>>   # along with this program.  If not, see <http://www.gnu.org/licenses/>.
->>>>   #
->>>> +# bail out, setting up .notrun file
->>>> +_notrun()
->>>> +{
->>>> +    echo "$*" >"$OUTPUT_DIR/$seq.notrun"
->>>> +    echo "$seq not run: $*"
->>>> +    status=0
->>>> +    exit
->>>> +}
->>>> +
->>>> +# We need GNU sed for the iotests. Make sure to not use BusyBox sed
->>>> +# which says that "This is not GNU sed version 4.0"
->>>>   SED=
->>>>   for sed in sed gsed; do
->>>> -    ($sed --version | grep 'GNU sed') > /dev/null 2>&1
->>>> +    ($sed --version | grep -v "not GNU sed" | grep 'GNU sed') > 
->>>> /dev/null 2>&1
->>>
->>> ...this will accept `gsed`, too.  The problem is that many bash iotests 
->>> just use `sed` instead of `$SED`, so I think if we let this do the 
->>> gatekeeping, then we should change this to just check for `sed`.
->>
->> I think we should be fine - at least for the tests in the "auto" group. 
->> Otherwise we would have seen test failures on non-Linux systems like *BSD 
->> earlier already.
+> I'm guessing this was done because we don't have ability to dynamically
+> register QMP commands at runtime.  I don't know how hard/easy it is
+> to address this, and perhaps we don't even want to.  It was a problem
+> for me when previously converting HMP info commands to QMP and I
+> didn't get a solution, so didn't convert anything where the command
+> impl was dynamically registered at runtime. This basically excluded
+> converting devices that have been split into loadable modules.
 > 
-> Makes sense, but I’m quite uncomfortable with this.
+> If we had a general  'info dev-debug' (HMP) and  'x-query-dev-debug'
+> commands, then we could side-step the QMP limitation, as both thue
+> HMP and QMP comamnds could be statically registered. The devices
+> then only need to register  a callback at runtime which should be
+> easier to deal with.
 
-The current code with $SED has been introduced almost three years ago already...
+That could work, or even just a "debug via" without using "info" for brevity.
 
->  Can’t we just do `alias sed=gsed`?
+You could even add the callback to DeviceClass so that the registration takes place 
+as part of class_init() using a function such as device_class_register_debug("name", 
+callback).
 
-Maybe ... but let's ask Philippe and Kevin first, who Signed-off commit 
-bde36af1ab4f476 that introduced the current way with $SED: What's your 
-opinion about this?
 
-  Thomas
+ATB,
 
+Mark.
 
