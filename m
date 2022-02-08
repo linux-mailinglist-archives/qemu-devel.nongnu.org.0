@@ -2,87 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 388E34AD51A
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Feb 2022 10:39:03 +0100 (CET)
-Received: from localhost ([::1]:60878 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 99BA64AD54B
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Feb 2022 11:09:28 +0100 (CET)
+Received: from localhost ([::1]:48940 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nHMxg-0001Wf-BO
-	for lists+qemu-devel@lfdr.de; Tue, 08 Feb 2022 04:39:02 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:34138)
+	id 1nHNR9-0000LL-75
+	for lists+qemu-devel@lfdr.de; Tue, 08 Feb 2022 05:09:27 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:34568)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nHLb6-0006b5-8E
- for qemu-devel@nongnu.org; Tue, 08 Feb 2022 03:11:36 -0500
-Received: from [2a00:1450:4864:20::532] (port=45749
- helo=mail-ed1-x532.google.com)
+ (Exim 4.90_1) (envelope-from <xieyongji@bytedance.com>)
+ id 1nHLdr-0001Mq-WF
+ for qemu-devel@nongnu.org; Tue, 08 Feb 2022 03:14:29 -0500
+Received: from [2a00:1450:4864:20::62a] (port=45971
+ helo=mail-ej1-x62a.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nHLb4-0000cH-Mq
- for qemu-devel@nongnu.org; Tue, 08 Feb 2022 03:11:35 -0500
-Received: by mail-ed1-x532.google.com with SMTP id l25so15339432eda.12
- for <qemu-devel@nongnu.org>; Tue, 08 Feb 2022 00:11:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=uXqWmc8NZfHEoIEI2iXYOPRVYbCrc9OnQpQBUi0kIrk=;
- b=gYB+Yr2GGXZLd/mXZVhcaPMdquyFKOfqIfuxLfmypHUT7KGXGKG8zTAEpQfBwBQakC
- CfyDCep9YVE1y2B0IEJUcw26zrQgs2VOPWZuv4TwKLjCkJzNumFLPbaXLZVN9W/iCaSY
- J6uZphvljr2F6Yy1mVD1tRzBPdmA5WfLXBay7m8wZaZulK23KpcSXChJNzJPU/8+bkd6
- M2K4jghcj2IJuRkXMGQNFPBIiZnYxCRu85s7/WjJNaPM4Rj4Si2L1SfZnh5khh6W2XMm
- 9bvnsTUxSj02T2giBrH/wwIGbecPTGI+7OShc81osKFB9MlfhDr2qaIZUMD06T8nuJil
- UdgQ==
+ (Exim 4.90_1) (envelope-from <xieyongji@bytedance.com>)
+ id 1nHLdm-0000rd-Qx
+ for qemu-devel@nongnu.org; Tue, 08 Feb 2022 03:14:24 -0500
+Received: by mail-ej1-x62a.google.com with SMTP id s21so21632459ejx.12
+ for <qemu-devel@nongnu.org>; Tue, 08 Feb 2022 00:14:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=bytedance-com.20210112.gappssmtp.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=r9Og+ZcNQCUxvX8HTxORgtExmMizSd5UB6xcH76Lk2Q=;
+ b=AQEEiWT5WLU4m+AsH8bXT1gfCuWCpG7wfCF29PMUTfnoQ+2eXJMpXc5sHbr0BG6PFI
+ Hft0iGJTaoy7LbIMmfmbDczug9Sjxx38hznWV6fTQdx0mE015IouI8vthnhn9BzOkT3K
+ 0H3LbO9snrzKXc0m8WK7yXnZ2xbzwa21tMMjwG99S7jh31t9Eu8QF5TYe05bqqkcHSWs
+ 3hliP2gsqA9rj1+lBIHDKp7GnGX2aTivil0YjtR46EMsoJ46zN+3BPz7842zbXR525l0
+ ip6VPRPX9ZBOVo6yc89f9C8S/wpiM6os+AYQJ75uoOCIWmdfwoVxl/YVjdK7tYQgIVla
+ YoLg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=uXqWmc8NZfHEoIEI2iXYOPRVYbCrc9OnQpQBUi0kIrk=;
- b=PgZDe54clSAR1BroGzrmseToA0flMRnO1XW7PYKT5lV0Sjy97aZw22Qt/z86Dyv0s5
- hLbw1EtuGAqPaXendNR6TUFyKocQWfRFyo+VRRQZou/UaRbZ3gVxe8WfJKBfVsys4rTK
- m/13rzbbAyW1OoHquh6LGU7T5g6gLxKUUWwBrWFe5Lr8eC5ruI7dYC67nanw7CUvzRYk
- DSGcwO3QMB+FqsXbIklA222NbkSipaZhsm94j/yJ0CdMSxhLcNpH/UwQuokbjLpZxzXH
- 6dcxYOsGU//Ywck2ChuHpGRN3VMQNJvBJDCw6Ab8TSq8Pi1fLBYgaSI33pfVbqDmTSAe
- /4Vw==
-X-Gm-Message-State: AOAM533ZEL0VIrgBNlEBlvRHypsBXSeSYtOQtJ7Y3GmJPbh5l52IvuKU
- eaOw9R2DVzY07eD/3a8Crb0=
-X-Google-Smtp-Source: ABdhPJw05/pqAU8kNLsrzPncVlLyBgD7u2V3uKlypPxsNbL1qcjO8RSY30w/uYzG14C1feOYp0xtDQ==
-X-Received: by 2002:aa7:cc06:: with SMTP id q6mr3316955edt.44.1644307893065;
- Tue, 08 Feb 2022 00:11:33 -0800 (PST)
-Received: from ?IPV6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
- ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.googlemail.com with ESMTPSA id fw5sm792821ejc.77.2022.02.08.00.11.32
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 08 Feb 2022 00:11:32 -0800 (PST)
-Message-ID: <b7412059-dbcb-48dc-9f3f-6d0262c594d7@redhat.com>
-Date: Tue, 8 Feb 2022 09:11:31 +0100
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=r9Og+ZcNQCUxvX8HTxORgtExmMizSd5UB6xcH76Lk2Q=;
+ b=G47Gi4f1dPBsVI4SYYsB/jzzZ1vnvlxaEkGCt9spL0lbmGHQX0u0QUkmYY1V3Z0QfI
+ 5M2bqtnxWOWGbuj7qtgbu7R05To0aIkv9NQPcwKNAD9lTEPurRCUv5ldrmSdVRFLd0LG
+ Oh8ZXXZZZeEU7b5NteEd9bpPmFxKYjSUW6EvqzTxkGQ5bfvnFUSl9sRfQozknIz2ebCR
+ quY3XYIbISfa8opyoQ/dEicTmyQIZyNbMu2lj4cuBVIfkbq2XopUXPM5mlADjL3Ll1wg
+ 6v/DWGCt0ScNUJrlsfV6Wgu1u+SAyFA+w81xQ3LQ6MaNhsMyqIpMZCuk21MZSLZev0Y5
+ MW0g==
+X-Gm-Message-State: AOAM532nkXUB71aAj9irTqEusitfb4d1FWPXh3cknaZcqRiQ05nCQb3H
+ w31OLT+oSQJ+MvnOqAeNXAnRtECiyRhN829UMfok
+X-Google-Smtp-Source: ABdhPJyvQ67Ms5AJyugp9Mgg2xHl4El5NZASxJHTtfg9toXEh8bkbYxt9H7WEZd7dCokotwQ8c6CshGkxVJHMf5alps=
+X-Received: by 2002:a17:907:c23:: with SMTP id
+ ga35mr2808803ejc.536.1644308061034; 
+ Tue, 08 Feb 2022 00:14:21 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH] memory: Fix qemu crash on starting dirty log twice with
- stopped VM
-Content-Language: en-US
-To: Peter Xu <peterx@redhat.com>
-References: <20220207032622.19931-1-peterx@redhat.com>
- <77520dd3-1e7c-efc5-0bea-d53dcea6261f@redhat.com>
- <YgD2J5zOpJFKxrZz@xz-m1.local>
-From: Paolo Bonzini <pbonzini@redhat.com>
-In-Reply-To: <YgD2J5zOpJFKxrZz@xz-m1.local>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::532
+References: <20220125131800.91-1-xieyongji@bytedance.com>
+ <20220125131800.91-6-xieyongji@bytedance.com>
+ <YgEvInUC/upRN3py@stefanha-x1.localdomain>
+ <CACycT3sMFpt92xtJ2xwRtLVfx3ZS-3jo0SPhfe4tZjOfb_j9Fw@mail.gmail.com>
+ <YgIk4H8tEI6pK9o2@stefanha-x1.localdomain>
+In-Reply-To: <YgIk4H8tEI6pK9o2@stefanha-x1.localdomain>
+From: Yongji Xie <xieyongji@bytedance.com>
+Date: Tue, 8 Feb 2022 16:14:10 +0800
+Message-ID: <CACycT3vzVx2NedNXhDBUYdcyWPX=92iBhjKXMO8wP3do67Oaeg@mail.gmail.com>
+Subject: Re: [PATCH 5/5] libvduse: Add support for reconnecting
+To: Stefan Hajnoczi <stefanha@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::62a
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::532;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x532.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
- PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Received-SPF: pass client-ip=2a00:1450:4864:20::62a;
+ envelope-from=xieyongji@bytedance.com; helo=mail-ej1-x62a.google.com
+X-Spam_score_int: -10
+X-Spam_score: -1.1
+X-Spam_bar: -
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -96,26 +85,77 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Juan Quintela <quintela@redhat.com>, David Hildenbrand <david@redhat.com>,
- Hyman Huang <huangy81@chinatelecom.cn>, qemu-devel@nongnu.org,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- Leonardo Bras Soares Passos <lsoaresp@redhat.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
+ "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ qemu-devel@nongnu.org, mreitz@redhat.com, mlureau@redhat.com,
+ Stefano Garzarella <sgarzare@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/7/22 11:36, Peter Xu wrote:
-> Yeah I can do.  Though the latter "if (!flags)" check will also start to allow
-> nesting of memory_global_dirty_log_start(), and it'll make this assert useless:
-> 
->      assert(!(global_dirty_tracking & flags));
-> 
-> I'll probably drop it too, then.
-> 
-> Curious: do we have any real case of nesting calls of starting dirty log?  I
-> always thought there's none, but I could miss something.
+On Tue, Feb 8, 2022 at 4:09 PM Stefan Hajnoczi <stefanha@redhat.com> wrote:
+>
+> On Tue, Feb 08, 2022 at 03:35:27PM +0800, Yongji Xie wrote:
+> > On Mon, Feb 7, 2022 at 10:39 PM Stefan Hajnoczi <stefanha@redhat.com> wrote:
+> > >
+> > > On Tue, Jan 25, 2022 at 09:18:00PM +0800, Xie Yongji wrote:
+> > > > +static void *vduse_log_get(const char *dir, const char *name, size_t size)
+> > > > +{
+> > > > +    void *ptr = MAP_FAILED;
+> > > > +    char *path;
+> > > > +    int fd;
+> > > > +
+> > > > +    path = (char *)malloc(strlen(dir) + strlen(name) +
+> > > > +                          strlen("/vduse-log-") + 1);
+> > > > +    if (!path) {
+> > > > +        return ptr;
+> > > > +    }
+> > > > +    sprintf(path, "%s/vduse-log-%s", dir, name);
+> > >
+> > > Please use g_strdup_printf() and g_autofree in QEMU code. In libvduse
+> > > code it's okay to use malloc(3), but regular QEMU code should use glib.
+> > >
+> >
+> > But this code resides in libvduse currently.
+>
+> Oops, I thought we were in block/export/vduse-blk.c. Then it's fine to
+> use malloc(3).
+>
+> > > > +static int vduse_queue_check_inflights(VduseVirtq *vq)
+> > > > +{
+> > > > +    int i = 0;
+> > > > +    VduseDev *dev = vq->dev;
+> > > > +
+> > > > +    vq->used_idx = vq->vring.used->idx;
+> > >
+> > > Is this reading struct vring_used->idx without le16toh()?
+> > >
+> > > > +    vq->resubmit_num = 0;
+> > > > +    vq->resubmit_list = NULL;
+> > > > +    vq->counter = 0;
+> > > > +
+> > > > +    if (unlikely(vq->log->inflight.used_idx != vq->used_idx)) {
+> > > > +        vq->log->inflight.desc[vq->log->inflight.last_batch_head].inflight = 0;
+> > >
+> > > I suggest validating vq->log->inflight fields before using them.
+> > > last_batch_head must be less than the virtqueue size. Although the log
+> > > file is somewhat trusted, there may still be ways to corrupt it or
+> > > confuse the new process that loads it.
+> > >
+> >
+> > I can validate the last_batch_head field. But it's hard to validate
+> > the inflight field, so we might still meet some issues if the file is
+> > corrupted.
+>
+> It's okay if the log tells us to resubmit virtqueue buffers that have
+> garbage vring descriptors because the vring code needs to handle garbage
+> descriptors anyway.
+>
+> But we cannot load dest[untrusted_input] or do anything else that could
+> crash, corrupt memory, etc.
+>
 
-I don't think so, but I think there's no disadvantage in allowing it.
+Makes sense to me.
 
-Paolo
+Thanks,
+Yongji
 
