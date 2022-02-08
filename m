@@ -2,62 +2,105 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B77364ADBCA
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Feb 2022 15:58:26 +0100 (CET)
-Received: from localhost ([::1]:45232 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A90014ADAA3
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Feb 2022 15:01:29 +0100 (CET)
+Received: from localhost ([::1]:47460 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nHRwn-0002Cc-Qx
-	for lists+qemu-devel@lfdr.de; Tue, 08 Feb 2022 09:58:25 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:47332)
+	id 1nHR3e-00083W-8J
+	for lists+qemu-devel@lfdr.de; Tue, 08 Feb 2022 09:01:28 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:48190)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nHPfT-0003ZV-TB
- for qemu-devel@nongnu.org; Tue, 08 Feb 2022 07:32:24 -0500
-Received: from [2001:41c9:1:41f::167] (port=51676
- helo=mail.default.ilande.bv.iomart.io)
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1nHPjI-0007Lf-Tk
+ for qemu-devel@nongnu.org; Tue, 08 Feb 2022 07:36:22 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:46769)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nHPfR-0003En-Tb
- for qemu-devel@nongnu.org; Tue, 08 Feb 2022 07:32:23 -0500
-Received: from [2a00:23c4:8ba0:ca00:d4eb:dbd5:5a41:aefe]
- by mail.default.ilande.bv.iomart.io with esmtpsa
- (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.92)
- (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nHPel-000720-Cv; Tue, 08 Feb 2022 12:31:43 +0000
-Message-ID: <2cad9b25-620d-66b9-d64f-7a0e3f806952@ilande.co.uk>
-Date: Tue, 8 Feb 2022 12:32:03 +0000
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1nHPjF-0003k9-E6
+ for qemu-devel@nongnu.org; Tue, 08 Feb 2022 07:36:20 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1644323755;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=PfchrOBdOaAFOXpxGDR5awmfJvFmHxgfwX/9MMrB3ww=;
+ b=QV5lL8oU41o5/D4VqVOtOzLyc7BIcxceMtaTZeuZTWHoby8e4BAr0bpQW9YtMeR3S1X+uU
+ GaYBcooV953sI5Hj3ljJVBM0GrJh4V2EPB0RjtewthKKIZEAFXWTp16LJqTwI04mASDubz
+ WSKaa39h8C7SHALasBdDGwS9Xq0Y4zc=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-612-XukxrFYEPzeyNN1nSvFbnA-1; Tue, 08 Feb 2022 07:35:53 -0500
+X-MC-Unique: XukxrFYEPzeyNN1nSvFbnA-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ r16-20020a05600c2c5000b0037bb20c50b8so481671wmg.3
+ for <qemu-devel@nongnu.org>; Tue, 08 Feb 2022 04:35:53 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:in-reply-to:references
+ :user-agent:reply-to:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=PfchrOBdOaAFOXpxGDR5awmfJvFmHxgfwX/9MMrB3ww=;
+ b=oySc/m4lueflAxdSGggBdWYD3UOtT8Cf+WciDSZCnueZ+MZ8swz8C9/9SM3w3b66v2
+ 0/MRfOaMyA3tHe17Xx2bxM6kwbFjvsvinfSxm16Up+xQjQebEaAqYpMbqgjB6V0EoIOk
+ YdjXQAx6hArfzhQSeNtUqClPkwcnQ10CZoq+jUUPMbT52i0DN+tqvxPDL38lLGM1pMpl
+ u7hD4Lz7xxc9FA13lqVeA86YVWeOgb1RwcmSP595VYEsWhdVUU9KttJmYU4wyHNmgnmy
+ aeoCCzJDZKfwGOsQ8py1OTdDg7K9NLgZ9xQcKdT7UxSM5WWKoihDVaAB+wFpKIP6u2mn
+ 3tYA==
+X-Gm-Message-State: AOAM533Yqjym/QEUbo0lTGy9YYnu4qGoDvzIw0Jy81g2rs5sfjC0nWW3
+ GkfGTvRxYDG5lpVYvlPz+AN5x2PL65p+DieeydLZS3YxYEMxvtlHMghtlYuLiKCy/GXZVJ5euIb
+ 6YrEahGjS0mI79ZM=
+X-Received: by 2002:a5d:6d8f:: with SMTP id l15mr3580882wrs.517.1644323750872; 
+ Tue, 08 Feb 2022 04:35:50 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyb9xJBoe2s3wtDEC02Ph3qL2ZN4H0FJCW2lZwE8ULMchOEUs48Z6A6gAQGeTkNz1oXBsMCwA==
+X-Received: by 2002:a5d:6d8f:: with SMTP id l15mr3580853wrs.517.1644323750620; 
+ Tue, 08 Feb 2022 04:35:50 -0800 (PST)
+Received: from localhost ([94.248.65.38])
+ by smtp.gmail.com with ESMTPSA id m14sm15735907wrp.4.2022.02.08.04.35.49
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 08 Feb 2022 04:35:50 -0800 (PST)
+From: Juan Quintela <quintela@redhat.com>
+To: Mark Burton <mark.burton@greensocs.com>
+Subject: Re: "Startup" meeting (was Re: Meeting today?)
+In-Reply-To: <38067656-7C95-4CA2-8860-1E5E37CDCDA9@greensocs.com> (Mark
+ Burton's message of "Tue, 8 Feb 2022 12:52:08 +0100")
+References: <YbeWxAn6Zw7rH+5K@redhat.com>
+ <CC132B60-3F08-4F03-B328-4C33407BB944@greensocs.com>
+ <87lf0nto1k.fsf@dusky.pond.sub.org> <YbiS8Zc7fcoeoSyC@redhat.com>
+ <87bl1jqm1a.fsf@dusky.pond.sub.org>
+ <CAJy5ezofpy09ZOtVHFofGTzt3U8MEA_ddpBHifuF50sVDFXULA@mail.gmail.com>
+ <73955990-9FD1-42CD-B476-F2AD95C219E9@greensocs.com>
+ <YdbRShE01esANc5h@redhat.com>
+ <fb519eb4-c0c6-a0b6-585d-e708b04ed207@amsat.org>
+ <BC0208B2-5ECE-4F74-9DFF-FB8959642C48@greensocs.com>
+ <YeWjtxEcbb6jcbi8@redhat.com>
+ <D36E42AD-05A6-4139-8647-07C9CEF3D659@greensocs.com>
+ <87h79sw64t.fsf@secure.mitica>
+ <b3d70518-256d-2bd0-5979-ff96a1154fd1@amsat.org>
+ <874k5srsiz.fsf@secure.mitica>
+ <38067656-7C95-4CA2-8860-1E5E37CDCDA9@greensocs.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+Date: Tue, 08 Feb 2022 13:35:49 +0100
+Message-ID: <87k0e57cyi.fsf@secure.mitica>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Content-Language: en-US
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Markus Armbruster <armbru@redhat.com>
-References: <20220127205405.23499-1-mark.cave-ayland@ilande.co.uk>
- <20220127205405.23499-9-mark.cave-ayland@ilande.co.uk>
- <CAFEAcA8ZiLTgeG_2aUHBoV0io52623VRybG0NL0uY8=9Fg59Kg@mail.gmail.com>
- <71542eb1-fc8f-8f30-81e0-35c9df764825@amsat.org>
- <877da5wzgp.fsf@pond.sub.org> <YgJF9SDwb93k5/fg@work-vm>
-From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-In-Reply-To: <YgJF9SDwb93k5/fg@work-vm>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a00:23c4:8ba0:ca00:d4eb:dbd5:5a41:aefe
-X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: Re: [PATCH 08/11] mos6522: add "info via" HMP command for debugging
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on mail.default.ilande.bv.iomart.io)
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2001:41c9:1:41f::167
- (failed)
-Received-SPF: pass client-ip=2001:41c9:1:41f::167;
- envelope-from=mark.cave-ayland@ilande.co.uk;
- helo=mail.default.ilande.bv.iomart.io
-X-Spam_score_int: -10
-X-Spam_score: -1.1
-X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=quintela@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -70,95 +113,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
- Gerd Hoffmann <kraxel@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>, Laurent@vivier.eu
+Reply-To: quintela@redhat.com
+Cc: Kevin Wolf <kwolf@redhat.com>, Damien Hedde <damien.hedde@greensocs.com>,
+ =?utf-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ Markus Armbruster <armbru@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
+ Mirela Grujic <mirela.grujic@greensocs.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 08/02/2022 10:29, Dr. David Alan Gilbert wrote:
+Mark Burton <mark.burton@greensocs.com> wrote:
+> Hi Juan, is there a meeting today? I think the plan was to talk about =E2=
+=80=99startup=E2=80=99 itself ?
+> Cheers
+> Mark.
 
-> * Markus Armbruster (armbru@redhat.com) wrote:
->> Philippe Mathieu-Daudé <f4bug@amsat.org> writes:
->>
->>> On 7/2/22 20:34, Peter Maydell wrote:
->>>> On Thu, 27 Jan 2022 at 21:03, Mark Cave-Ayland
->>>> <mark.cave-ayland@ilande.co.uk> wrote:
->>>>>
->>>>> This displays detailed information about the device registers and timers to aid
->>>>> debugging problems with timers and interrupts.
->>>>>
->>>>> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
->>>>> ---
->>>>>    hmp-commands-info.hx | 12 ++++++
->>>>>    hw/misc/mos6522.c    | 92 ++++++++++++++++++++++++++++++++++++++++++++
->>>>>    2 files changed, 104 insertions(+)
->>>>
->>>> I'm not sure how keen we are on adding new device-specific
->>>> HMP info commands, but it's not my area of expertise. Markus ?
->>>
->>> HMP is David :)
->>
->> Yes.
-> 
-> So let me start with an:
-> 
-> Acked-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-> (If it's useful info for the author of the device, then I'm happy for
-> HMP to have that), but then - (moving the reply around a bit):
-> 
-> 
->> Should this be conditional on the targets where we actually link the
->> device, like info skeys?
->>
-> 
-> Yes, I think so; it's a reasonably old/obscure device, there's no reason
-> everyone having it built in.
+Hi Mark
 
-Unfortunately that doesn't seem to work: whilst the target CONFIG_* defines are 
-declared when processing hmp-commands-info.hx it seems the the device CONFIG_* 
-defines are missing?
+Yeap.  I asked for it on last meeting.  The call for topics is on the
+list (not that anyone else has answered)
 
->>>                  IIRC it is OK as long as HMP is a QMP wrapper.
->>
->> That's "how to do it", and I'll get back to it in a jiffie, but Peter
->> was wondering about the "whether to do it".
->>
->> Most HMP commands are always there.
->>
->> We have a few specific to compile-time configurable features: TCG, VNC,
->> Spice, Slirp, Linux.  Does not apply here.
->>
->> We have a few specific to targets, such as dump-skeys and info skeys for
->> s390.  Target-specific is not quite the same as device-specific.
->>
->> We have no device-specific commands so far.  However, dump-skeys and
->> info skeys appear to be about the skeys *device*, not the s390 target.
->> Perhaps any s390 target has such a device?  I don't know.  My point is
->> we already have device-specific commands, they're just masquerading as
->> target-specific commands.
-> 
-> Yeh we've got info lapic/ioapic as well.
-
-... which I suspect is a workaround for only the target CONFIG_* defines being declared.
-
->> The proposed device-specific command uses a mechanism originally made
->> for modules instead (more on that below).
->>
->> I think we should make up our minds which way we want device-specific
->> commands done, then do *all* of them that way.
-> 
-> I think device specific commands make sense, but I think it would
-> probably be better if we had an 'info dev $name' and that a method on
-> the device rather than registering each one separately.
-> I'd assume that this would be a QMP level thing that got unwrapped at
-> HMP.
-> 
-> But that's not a problem for this contribution; someone else can figure
-> that out later.
+Later, Juan.
 
 
-ATB,
 
-Mark.
+>
+>> On 25 Jan 2022, at 11:58, Juan Quintela <quintela@redhat.com> wrote:
+>>=20
+>> Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org> wrote:
+>>> On 1/25/22 09:50, Juan Quintela wrote:
+>>>> Mark Burton <mark.burton@greensocs.com> wrote:
+>>>>> All, I believe we will have a followup meeting this coming Tuesday
+>>>>> 25th January, at 15:00 (presumably using the same link:
+>>>>> https://redhat.bluejeans.com/5402697718).
+>>>>>=20
+>>>>> We (GreenSocs/Xilinx) would like to quickly show what now =E2=80=98wo=
+rks=E2=80=99, and to give an update on the patches.
+>>>>=20
+>>>> I send the call for agenda already.
+>>>>=20
+>>>> We are having the meeting.
+>>>=20
+>>> Do we need to stick to bluejeans, or can we switch to something more
+>>> generic to easily record the call, and be able to start when Juan is
+>>> not available?
+>>=20
+>> Hi
+>>=20
+>> Anyone from inside Red Hat can start the call.  So I think that starting
+>> the call shouldn't be a problem.
+>>=20
+>> If I remember correctly, one of the reasons for using bluejeans was that
+>> in the past we used to be around 40 people on the call, and that was not
+>> easy to setup.  Perhaps today it is different.
+>>=20
+>> About recording, I will ask everybody if they agree on the call and we
+>> can record it.  On the past we _didn't_ want recordings, but I can't
+>> remember the reason.
+>>=20
+>> Later, Juan.
+>>=20
+
 
