@@ -2,78 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D74AD4AE275
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Feb 2022 21:00:07 +0100 (CET)
-Received: from localhost ([::1]:40044 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC0CB4AE289
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Feb 2022 21:24:30 +0100 (CET)
+Received: from localhost ([::1]:48272 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nHWek-0006rC-P8
-	for lists+qemu-devel@lfdr.de; Tue, 08 Feb 2022 15:00:06 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:34862)
+	id 1nHX2L-0000Yj-P6
+	for lists+qemu-devel@lfdr.de; Tue, 08 Feb 2022 15:24:29 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:34840)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1nHWU5-0007Y1-Hr; Tue, 08 Feb 2022 14:49:05 -0500
-Received: from [2607:f8b0:4864:20::c2c] (port=41943
- helo=mail-oo1-xc2c.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1nHWU3-0002tb-RC; Tue, 08 Feb 2022 14:49:05 -0500
-Received: by mail-oo1-xc2c.google.com with SMTP id
- q145-20020a4a3397000000b002e85c7234b1so18879728ooq.8; 
- Tue, 08 Feb 2022 11:49:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=Fuf/DlTcO0lDbHFTa7165tVyHOjPjiKqfW6tCeQK50o=;
- b=Dwry1ZyxFvNSviRCaNlN9vJbRgSh+DIWv2N1XZ8oqQZLcScOOQIxdjNsYpczssbsKj
- aqIqEo68qzinjbdko66XKWPBU+bd0CkDZqUPxyRO5JhqklOOBMGFuWBWFIviLnrlLNjZ
- +/QifogX9hBrFBHrCDCaeKq/fHk7S0HVEBKXt8Y5QgKqjIN13CqdmaeivIEc3fG6uwKr
- fCV+r3tELwFnygZGU/8WwKUqzZlCvYRto0FW2feiqhNr+VqajYDHo+C4yJdMIFCqc9ET
- z7G58lst+d0GSPah1IdghC+LFaANT5P4B3/zzLpzWdV6QD/8s0U6PUwRyS1sfYIa9zJB
- mfFw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=Fuf/DlTcO0lDbHFTa7165tVyHOjPjiKqfW6tCeQK50o=;
- b=pJsMo75X5eqC9BF/THKY7Iqw09AxodwIHkNA1/ssRZCxjEBmTdkhYNINX8gbhIblgQ
- 50ura80xNm+kyJB7+ytrCf0YfdffJP+T5Dl25Oq265apo6+Zo4qKVYtHrbJ0bhlTfjb8
- 1Vp1CNJWPFO3MgbgjplcvaGHVwYIvAz6pp+BvY1tmIjDbkrbhp91hSOry707051VodcC
- vy/cHCQIGsZub+4imYxHJBU+6UuUESA3Vy/7gb2LhKgfEgp93xcaisLj5d3jWG2qe1zm
- 0Gxl1wC0k82K/JqqKozXdQKXJuq8TfDpqwSm9wr1Q431ZzzK4OxT62WuYs0iYveztxPG
- KBnA==
-X-Gm-Message-State: AOAM533smRifz9A8l5Dw+5yO8c1zYZOUQK2SRisuAvHx9ni5Ykg3TuEY
- QfGdAJSkYiz5ZwA/7HJaXHNUeUbajvU=
-X-Google-Smtp-Source: ABdhPJx1SBMhaitGth+u4KACNaIoedzENhlwv+O2ou23dSOsOnT9XUuk90KvrpOP7xfNxDpQdmuAxA==
-X-Received: by 2002:a05:6870:1843:: with SMTP id
- u3mr951346oaf.30.1644349742185; 
- Tue, 08 Feb 2022 11:49:02 -0800 (PST)
-Received: from rekt.COMFAST ([191.205.140.35])
- by smtp.gmail.com with ESMTPSA id s14sm6012592oiw.42.2022.02.08.11.49.00
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 08 Feb 2022 11:49:01 -0800 (PST)
-From: Daniel Henrique Barboza <danielhb413@gmail.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v10 3/3] target/ppc: EBB exception implementation
-Date: Tue,  8 Feb 2022 16:48:38 -0300
-Message-Id: <20220208194838.169257-4-danielhb413@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220208194838.169257-1-danielhb413@gmail.com>
-References: <20220208194838.169257-1-danielhb413@gmail.com>
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1nHWU3-0007V1-LT
+ for qemu-devel@nongnu.org; Tue, 08 Feb 2022 14:49:03 -0500
+Received: from kylie.crudebyte.com ([5.189.157.229]:37795)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1nHWTx-0002sj-Tp
+ for qemu-devel@nongnu.org; Tue, 08 Feb 2022 14:49:03 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
+ MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+ Content-ID:Content-Description;
+ bh=QN0P8fdwoBBnSq0m+T6PXlhLobKdRriM1d3NCQsEbRA=; b=Fy4s+KO4u95y0CM6A9AnO1groe
+ HDrkSsN8SoeJQY/X4En2gK1+bzCv6blF+XxDwmn+EpMZZWoHVOwl3CmOLJk4sPnLcM74p+Ezc17CN
+ kndaUWpEA5O+r3Wr/u5FvoI/SNxgXn/USIQut5twUpYRkdcmeVVlaHmHFf8OVgbGgJYk67QCfYEeE
+ 6TekOMrhorpNT6WaXMrIiT6YZGzV5cNeR2U5DAcEqr2QWSIRxz69/yEOssroAZ2KzZtOdZ7k1h8m6
+ N1+vbweEmqWo1vNRWZ1qrvWsUfOoxaMge7gEsJL69Y7HBI9a9JP4SnvGJrU+0CiOa+qi2oirb4hot
+ wNm3iiynz3VJkQq9pq/78KILsTB/Zy/NBaZfGSwk7jnbDHgwmK1O5PCj1nde9LJQ5Upxp8nhddP7H
+ JfZgCRGsyPNk8ZbWt/+dcjV9mzQG0x0WTpImoz22CVBy2slfvfIBEB8ESKS8QmGhuPlMo+jYo9d4s
+ wHqgBfFHW1L+RWrShnYJtkaQgOrzG1qmNS2+cfKmx3w6CeokNxpFkDqhIiw80jSa7hiccywaxfQw7
+ gVYU1xofsQVZEuij+g0IAR2Iq7oKz6Bx+9PhvMrjgkrgcJPnf3m1j7ckY6YjFXJ+EdFYRBldF199F
+ BVXRq0RftvUbA3IAUc5NC3+Ry5chjp7ALx8JA1Cjw=;
+From: Christian Schoenebeck <qemu_oss@crudebyte.com>
+To: Will Cohen <wwcohen@gmail.com>
+Cc: qemu-devel@nongnu.org, hi@alyssa.is, Greg Kurz <groug@kaod.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Laurent Vivier <lvivier@redhat.com>, Keno Fischer <keno@juliacomputing.com>,
+ Michael Roitzsch <reactorcontrol@icloud.com>,
+ Akihiko Odaki <akihiko.odaki@gmail.com>
+Subject: Re: [PATCH v5 09/11] 9p: darwin: Implement compatibility for mknodat
+Date: Tue, 08 Feb 2022 20:48:54 +0100
+Message-ID: <4999355.dprqNvMIp6@silver>
+In-Reply-To: <4809377.qIIDLkA7W8@silver>
+References: <20220207224024.87745-1-wwcohen@gmail.com>
+ <CAB26zV3e+WWqJrs7_fJ_xgEc99swYHBqUrY66XCrBFSsptwP5A@mail.gmail.com>
+ <4809377.qIIDLkA7W8@silver>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::c2c
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::c2c;
- envelope-from=danielhb413@gmail.com; helo=mail-oo1-xc2c.google.com
-X-Spam_score_int: -10
-X-Spam_score: -1.1
-X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, PDS_HP_HELO_NORDNS=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
+Received-SPF: pass client-ip=5.189.157.229;
+ envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -86,167 +70,435 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-ppc@nongnu.org,
- clg@kaod.org, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch adds the EBB exception support that are triggered by
-Performance Monitor alerts. This happens when a Performance Monitor
-alert occurs and MMCR0_EBE, BESCR_PME and BESCR_GE are set.
+On Dienstag, 8. Februar 2022 19:28:21 CET Christian Schoenebeck wrote:
+> On Dienstag, 8. Februar 2022 19:04:31 CET Will Cohen wrote:
+> > On Tue, Feb 8, 2022 at 11:19 AM Will Cohen <wwcohen@gmail.com> wrote:
+> > > On Tue, Feb 8, 2022 at 11:11 AM Christian Schoenebeck <
+> > > 
+> > > qemu_oss@crudebyte.com> wrote:
+> > >> On Dienstag, 8. Februar 2022 16:57:55 CET Will Cohen wrote:
+> > >> > My inclination is to go with the __builtin_available(macOS 10.12, *)
+> > >> 
+> > >> path,
+> > >> 
+> > >> > if acceptable, since it partially mirrors the API_AVAILABLE macro
+> > >> > idea.
+> > >> 
+> > >> I
+> > >> 
+> > >> OTOH that's duplication of the ">= macOS 10.12" info, plus
+> > >> __builtin_available
+> > >> is direct use of a clang-only extension, whereas API_AVAILABLE() works
+> > >> (or
+> > >> more precisely: doesn't error out at least) with other compilers like
+> > >> GCC
+> > >> as
+> > >> well. GCC is sometimes used for cross-compilation.
+> > >> 
+> > >> Moreover, I would also add an error message in this case, e.g.:
+> > >>     if (!pthread_fchdir_np) {
+> > >>     
+> > >>         error_report_once("pthread_fchdir_np() is not available on this
+> > >> 
+> > >> macOS version");
+> > >> 
+> > >>         return -ENOTSUPP;
+> > >>     
+> > >>     }
+> > >> 
+> > >> I should elaborate why I think this is needed: you are already doing a
+> > >> Meson
+> > >> check for the existence of pthread_fchdir_np(), but the system where
+> > >> QEMU
+> > >> is
+> > >> compiled and the systems where the compiled binary will be running,
+> > >> might
+> > >> be
+> > >> different ones (i.e. different macOS versions).
+> > >> 
+> > >> Best regards,
+> > >> Christian Schoenebeck
+> > > 
+> > > Agreed, that way actually closes the edge case. Something along these
+> > > lines briefly crossed my mind during a previous version, but I quickly
+> > > got
+> > > passed it by assuming that the compiling entity would always be the
+> > > bottleneck, which makes no sense in hindsight, so I very much appreciate
+> > > that you caught this.
+> > 
+> > Ah, rebuilding leads to a compiler error:
+> > 
+> > ../os-posix.c:348:10: warning: address of function 'pthread_fchdir_np'
+> > will
+> > always evaluate to 'true' [-Wpointer-bool-conversion]
+> > 
+> >     if (!pthread_fchdir_np) {
+> >     
+> >         ~^~~~~~~~~~~~~~~~~
+> > 
+> > I don't have a machine that's pre-10.12 so I can't see what the result is
+> > there, but this might be why the __builtin_available approach got taken.
+> 
+> I guess that's because you are compiling QEMU with minimum deployment target
+> being macOS >= 10.12 already. In this case the compiler won't make
+> pthread_fchdir_np a weak link, it only does emit a weak link if you are
+> targeting macOS versions prior than the defined availablity attribute,
+> hence the address would never be NULL here and hence the compiler warning.
+> 
+> So I guess it is okay if you just omit checking presence of
+> pthread_fchdir_np at runtime and just assume it exists.
+> 
+> Added Akihiko on CC, just in case he would have something to add on this
+> macOS issue here. :)
 
-A 'ebb_excp_enabled' helper is called at the end of fire_PMC_interrupt()
-to fire the EBB exception, checking for FSCR and HFSCR support
-beforehand.
+On a second thought: this case a bit special. Are we worried that 
+pthread_fchdir_np() is "not yet" available on macOS, or "no longer" available. 
+Probably both, right?
 
-In ppc_hw_interrupt() the generated EBB exception will be taken only if
-running in problem state and with BESCR_GE set. The check for BESCR_GE
-bit in this step is needed to avoid race conditions where we take an
-EBB, while the previous EBB is still inflight (BESCR_GE cleared), and
-SPR_EBBHR is not set yet. In this case we'll branch to env->nip = 0 and the
-guest will crash. The Linux kernel selftest 'lost_exception_test' is an
-example where this racing will occur.
+So maybe it would make sense to replace the API_AVAILABLE() attribute directly 
+with a __attribute__((weak)) attribute. Then the runtime check with the 
+proposed error message would also trigger if a bleeding edge macOS version no 
+longer has pthread_fchdir_np().
 
-The code in powerpc_excp_books() is the default EBB handling described
-in the PowerISA v3.1: clear BESCR_GE, set BESCR_PMEO, save env->nip in
-SPR_EBBRR and redirect the execution to the address pointed by
-SPR_EBBHR. The already implemented 'rbebb' instruction is then able to
-return from the EBB by retrieving the NIP in SPR_EBBRR.
+Also keep in mind: there are always also the MAC_OS_X_VERSION_MIN_REQUIRED and 
+MAC_OS_X_VERSION_MAX_ALLOWED macros to query the deployment target at compile 
+time to wrap deployment target dependent code accordingly.
 
-Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
----
- target/ppc/excp_helper.c | 51 +++++++++++++++++++++++++++++++++++++---
- target/ppc/helper.h      |  1 +
- target/ppc/power8-pmu.c  | 12 ++++++++--
- 3 files changed, 59 insertions(+), 5 deletions(-)
+On doubt you could just make some tests there by simply "inventing" a non-
+existent function.
 
-diff --git a/target/ppc/excp_helper.c b/target/ppc/excp_helper.c
-index 8a49a4ab90..2a95cec39e 100644
---- a/target/ppc/excp_helper.c
-+++ b/target/ppc/excp_helper.c
-@@ -19,6 +19,7 @@
- #include "qemu/osdep.h"
- #include "qemu/main-loop.h"
- #include "cpu.h"
-+#include "hw/ppc/ppc.h"
- #include "exec/exec-all.h"
- #include "internal.h"
- #include "helper_regs.h"
-@@ -990,8 +991,22 @@ static void powerpc_excp_books(PowerPCCPU *cpu, int excp)
-         new_msr |= (target_ulong)MSR_HVB;
-         new_msr |= env->msr & ((target_ulong)1 << MSR_RI);
-         break;
--    case POWERPC_EXCP_THERM:     /* Thermal interrupt                        */
-     case POWERPC_EXCP_PERFM:     /* Embedded performance monitor interrupt   */
-+        env->spr[SPR_BESCR] &= ~BESCR_GE;
-+        env->spr[SPR_BESCR] |= BESCR_PMEO;
-+
-+        /*
-+         * Save NIP for rfebb insn in SPR_EBBRR. Next nip is
-+         * stored in the EBB Handler SPR_EBBHR.
-+         */
-+        env->spr[SPR_EBBRR] = env->nip;
-+        powerpc_set_excp_state(cpu, env->spr[SPR_EBBHR], env->msr);
-+
-+        /*
-+         * This exception is handled in userspace. No need to proceed.
-+         */
-+        return;
-+    case POWERPC_EXCP_THERM:     /* Thermal interrupt                        */
-     case POWERPC_EXCP_VPUA:      /* Vector assist exception                  */
-     case POWERPC_EXCP_MAINT:     /* Maintenance exception                    */
-     case POWERPC_EXCP_SDOOR:     /* Doorbell interrupt                       */
-@@ -1671,8 +1686,14 @@ static void ppc_hw_interrupt(CPUPPCState *env)
-             return;
-         }
-         if (env->pending_interrupts & (1 << PPC_INTERRUPT_PERFM)) {
--            env->pending_interrupts &= ~(1 << PPC_INTERRUPT_PERFM);
--            powerpc_excp(cpu, POWERPC_EXCP_PERFM);
-+            /*
-+             * PERFM EBB must be taken in problem state and
-+             * with BESCR_GE set.
-+             */
-+            if (msr_pr == 1 && env->spr[SPR_BESCR] & BESCR_GE) {
-+                env->pending_interrupts &= ~(1 << PPC_INTERRUPT_PERFM);
-+                powerpc_excp(cpu, POWERPC_EXCP_PERFM);
-+            }
-             return;
-         }
-         /* Thermal interrupt */
-@@ -1915,6 +1936,30 @@ void helper_rfebb(CPUPPCState *env, target_ulong s)
-         env->spr[SPR_BESCR] &= ~BESCR_GE;
-     }
- }
-+
-+void helper_ebb_perfm_int(CPUPPCState *env)
-+{
-+    PowerPCCPU *cpu = env_archcpu(env);
-+
-+    /*
-+     * FSCR_EBB and FSCR_IC_EBB are the same bits used with
-+     * HFSCR.
-+     */
-+    helper_fscr_facility_check(env, FSCR_EBB, 0, FSCR_IC_EBB);
-+    helper_hfscr_facility_check(env, FSCR_EBB, "EBB", FSCR_IC_EBB);
-+
-+    /*
-+     * Setting "env->pending_interrupts |= 1 << PPC_INTERRUPT_PERFM"
-+     * instead of calling "ppc_set_irq()"" works in most cases, but under
-+     * certain race conditions (e.g. lost_exception_test EBB kernel
-+     * selftest) this hits an assert when dealing with the BQL:
-+     *
-+     * tcg_handle_interrupt: assertion failed: (qemu_mutex_iothread_locked())
-+     *
-+     * We ended up using ppc_set_irq() because it handles the BQL.
-+     */
-+    ppc_set_irq(cpu, PPC_INTERRUPT_PERFM, 1);
-+}
- #endif
- 
- /*****************************************************************************/
-diff --git a/target/ppc/helper.h b/target/ppc/helper.h
-index f2e5060910..bb26da6176 100644
---- a/target/ppc/helper.h
-+++ b/target/ppc/helper.h
-@@ -19,6 +19,7 @@ DEF_HELPER_1(rfid, void, env)
- DEF_HELPER_1(rfscv, void, env)
- DEF_HELPER_1(hrfid, void, env)
- DEF_HELPER_2(rfebb, void, env, tl)
-+DEF_HELPER_1(ebb_perfm_int, void, env)
- DEF_HELPER_2(store_lpcr, void, env, tl)
- DEF_HELPER_2(store_pcr, void, env, tl)
- DEF_HELPER_2(store_mmcr0, void, env, tl)
-diff --git a/target/ppc/power8-pmu.c b/target/ppc/power8-pmu.c
-index d245663158..41409e609f 100644
---- a/target/ppc/power8-pmu.c
-+++ b/target/ppc/power8-pmu.c
-@@ -281,6 +281,13 @@ void helper_store_pmc(CPUPPCState *env, uint32_t sprn, uint64_t value)
-     pmc_update_overflow_timer(env, sprn);
- }
- 
-+static bool ebb_excp_enabled(CPUPPCState *env)
-+{
-+    return env->spr[SPR_POWER_MMCR0] & MMCR0_EBE &&
-+           env->spr[SPR_BESCR] & BESCR_PME &&
-+           env->spr[SPR_BESCR] & BESCR_GE;
-+}
-+
- static void fire_PMC_interrupt(PowerPCCPU *cpu)
- {
-     CPUPPCState *env = &cpu->env;
-@@ -307,8 +314,9 @@ static void fire_PMC_interrupt(PowerPCCPU *cpu)
-         env->spr[SPR_POWER_MMCR0] |= MMCR0_PMAO;
-     }
- 
--    /* PMC interrupt not implemented yet */
--    return;
-+    if (ebb_excp_enabled(env)) {
-+        helper_ebb_perfm_int(env);
-+    }
- }
- 
- /* This helper assumes that the PMC is running. */
--- 
-2.34.1
+Best regards,
+Christian Schoenebeck
+
+> > >> > guess it's perhaps a tradeoff between predicting the future unknown
+> > >> > availability of functions versus just ensuring a minimum macOS
+> > >> > version
+> > >> 
+> > >> and
+> > >> 
+> > >> > hoping for the best. With any luck, the distinction between the two
+> > >> > approaches will be moot, if we try to assume that a future macOS
+> > >> > version
+> > >> > that removes this also provides mknodat.
+> > >> > 
+> > >> > On Tue, Feb 8, 2022 at 10:03 AM Christian Schoenebeck <
+> > >> > 
+> > >> > qemu_oss@crudebyte.com> wrote:
+> > >> > > On Dienstag, 8. Februar 2022 14:36:42 CET Will Cohen wrote:
+> > >> > > > On Mon, Feb 7, 2022 at 5:56 PM Christian Schoenebeck
+> > >> > > > <qemu_oss@crudebyte.com>
+> > >> > > > 
+> > >> > > > wrote:
+> > >> > > > > On Montag, 7. Februar 2022 23:40:22 CET Will Cohen wrote:
+> > >> > > > > > From: Keno Fischer <keno@juliacomputing.com>
+> > >> > > > > > 
+> > >> > > > > > Darwin does not support mknodat. However, to avoid race
+> > >> 
+> > >> conditions
+> > >> 
+> > >> > > > > > with later setting the permissions, we must avoid using mknod
+> > >> > > > > > on
+> > >> > > > > > the full path instead. We could try to fchdir, but that would
+> > >> 
+> > >> cause
+> > >> 
+> > >> > > > > > problems if multiple threads try to call mknodat at the same
+> > >> 
+> > >> time.
+> > >> 
+> > >> > > > > > However, luckily there is a solution: Darwin includes a
+> > >> > > > > > function
+> > >> > > > > > that sets the cwd for the current thread only.
+> > >> > > > > > This should suffice to use mknod safely.
+> > >> > > > > > 
+> > >> > > > > > This function (pthread_fchdir_np) is protected by a check in
+> > >> > > > > > meson in a patch later in tihs series.
+> > >> > > > > > 
+> > >> > > > > > Signed-off-by: Keno Fischer <keno@juliacomputing.com>
+> > >> > > > > > Signed-off-by: Michael Roitzsch <reactorcontrol@icloud.com>
+> > >> > > > > > [Will Cohen: - Adjust coding style
+> > >> > > > > > 
+> > >> > > > > >              - Replace clang references with gcc
+> > >> > > > > >              - Note radar filed with Apple for missing
+> > >> > > > > >              syscall
+> > >> > > > > >              - Replace direct syscall with pthread_fchdir_np
+> > >> > > > > >              and
+> > >> > > > > >              
+> > >> > > > > >                adjust patch notes accordingly
+> > >> > > > > >              
+> > >> > > > > >              - Move qemu_mknodat from 9p-util to osdep and
+> > >> 
+> > >> os-posix]
+> > >> 
+> > >> > > > > > Signed-off-by: Will Cohen <wwcohen@gmail.com>
+> > >> > > > > > ---
+> > >> > > > > 
+> > >> > > > > Like already mentioned by me moments ago on previous v4 (just
+> > >> 
+> > >> echoing)
+> > >> 
+> > >> > > ...
+> > >> > > 
+> > >> > > > > >  hw/9pfs/9p-local.c   |  4 ++--
+> > >> > > > > >  include/qemu/osdep.h | 10 ++++++++++
+> > >> > > > > >  os-posix.c           | 34 ++++++++++++++++++++++++++++++++++
+> > >> > > > > >  3 files changed, 46 insertions(+), 2 deletions(-)
+> > >> > > > > > 
+> > >> > > > > > diff --git a/hw/9pfs/9p-local.c b/hw/9pfs/9p-local.c
+> > >> > > > > > index a0d08e5216..d42ce6d8b8 100644
+> > >> > > > > > --- a/hw/9pfs/9p-local.c
+> > >> > > > > > +++ b/hw/9pfs/9p-local.c
+> > >> > > > > > @@ -682,7 +682,7 @@ static int local_mknod(FsContext *fs_ctx,
+> > >> > > 
+> > >> > > V9fsPath
+> > >> > > 
+> > >> > > > > > *dir_path,
+> > >> > > > > > 
+> > >> > > > > >      if (fs_ctx->export_flags & V9FS_SM_MAPPED ||
+> > >> > > > > >      
+> > >> > > > > >          fs_ctx->export_flags & V9FS_SM_MAPPED_FILE) {
+> > >> > > > > > 
+> > >> > > > > > -        err = mknodat(dirfd, name, fs_ctx->fmode | S_IFREG,
+> > >> > > > > > 0);
+> > >> > > > > > +        err = qemu_mknodat(dirfd, name, fs_ctx->fmode |
+> > >> 
+> > >> S_IFREG,
+> > >> 
+> > >> > > > > > 0);
+> > >> > > > > > 
+> > >> > > > > >          if (err == -1) {
+> > >> > > > > >          
+> > >> > > > > >              goto out;
+> > >> > > > > >          
+> > >> > > > > >          }
+> > >> > > > > > 
+> > >> > > > > > @@ -697,7 +697,7 @@ static int local_mknod(FsContext *fs_ctx,
+> > >> > > 
+> > >> > > V9fsPath
+> > >> > > 
+> > >> > > > > > *dir_path, }
+> > >> > > > > > 
+> > >> > > > > >      } else if (fs_ctx->export_flags & V9FS_SM_PASSTHROUGH ||
+> > >> > > > > >      
+> > >> > > > > >                 fs_ctx->export_flags & V9FS_SM_NONE) {
+> > >> > > > > > 
+> > >> > > > > > -        err = mknodat(dirfd, name, credp->fc_mode,
+> > >> 
+> > >> credp->fc_rdev);
+> > >> 
+> > >> > > > > > +        err = qemu_mknodat(dirfd, name, credp->fc_mode,
+> > >> > > > > > credp->fc_rdev);
+> > >> > > > > > 
+> > >> > > > > >          if (err == -1) {
+> > >> > > > > >          
+> > >> > > > > >              goto out;
+> > >> > > > > >          
+> > >> > > > > >          }
+> > >> > > > > > 
+> > >> > > > > > diff --git a/include/qemu/osdep.h b/include/qemu/osdep.h
+> > >> > > > > > index d1660d67fa..f3a8367ece 100644
+> > >> > > > > > --- a/include/qemu/osdep.h
+> > >> > > > > > +++ b/include/qemu/osdep.h
+> > >> > > > > > @@ -810,3 +810,13 @@ static inline int
+> > >> > > > > > platform_does_not_support_system(const char *command) #endif
+> > >> > > > > > 
+> > >> > > > > >  #endif
+> > >> > > > > > 
+> > >> > > > > > +
+> > >> > > > > > +/*
+> > >> > > > > > + * As long as mknodat is not available on macOS, this
+> > >> 
+> > >> workaround
+> > >> 
+> > >> > > > > > + * using pthread_fchdir_np is needed. qemu_mknodat is
+> > >> > > > > > defined
+> > >> 
+> > >> in
+> > >> 
+> > >> > > > > > + * os-posix.c
+> > >> > > > > > + */
+> > >> > > > > > +#ifdef CONFIG_DARWIN
+> > >> > > > > > +int pthread_fchdir_np(int fd);
+> > >> > > > > > +#endif
+> > >> > > > > 
+> > >> > > > > I would make that:
+> > >> > > > > 
+> > >> > > > > #ifdef CONFIG_DARWIN
+> > >> > > > > int pthread_fchdir_np(int fd) API_AVAILABLE(macosx(10.12));
+> > >> > > > > #endif
+> > >> > > > > 
+> > >> > > > > here and ...
+> > >> > > > > 
+> > >> > > > > > +int qemu_mknodat(int dirfd, const char *filename, mode_t
+> > >> > > > > > mode,
+> > >> > > > > > dev_t
+> > >> > > > > 
+> > >> > > > > dev);
+> > >> > > > > 
+> > >> > > > > > diff --git a/os-posix.c b/os-posix.c
+> > >> > > > > > index ae6c9f2a5e..95c1607065 100644
+> > >> > > > > > --- a/os-posix.c
+> > >> > > > > > +++ b/os-posix.c
+> > >> > > > > > @@ -24,6 +24,7 @@
+> > >> > > > > > 
+> > >> > > > > >   */
+> > >> > > > > >  
+> > >> > > > > >  #include "qemu/osdep.h"
+> > >> > > > > > 
+> > >> > > > > > +#include <os/availability.h>
+> > >> > > > > > 
+> > >> > > > > >  #include <sys/wait.h>
+> > >> > > > > >  #include <pwd.h>
+> > >> > > > > >  #include <grp.h>
+> > >> > > > > > 
+> > >> > > > > > @@ -332,3 +333,36 @@ int os_mlock(void)
+> > >> > > > > > 
+> > >> > > > > >      return -ENOSYS;
+> > >> > > > > >  
+> > >> > > > > >  #endif
+> > >> > > > > >  }
+> > >> > > > > > 
+> > >> > > > > > +
+> > >> > > > > > +/*
+> > >> > > > > > + * As long as mknodat is not available on macOS, this
+> > >> 
+> > >> workaround
+> > >> 
+> > >> > > > > > + * using pthread_fchdir_np is needed.
+> > >> > > > > > + *
+> > >> > > > > > + * Radar filed with Apple for implementing mknodat:
+> > >> > > > > > + * rdar://FB9862426
+> > >> > > > > > (https://openradar.appspot.com/FB9862426)
+> > >> > > > > > + */
+> > >> > > > > > +#ifdef CONFIG_DARWIN
+> > >> > > > > > +
+> > >> > > > > > +int pthread_fchdir_np(int fd) API_AVAILABLE(macosx(10.12));
+> > >> > > > > 
+> > >> > > > > ... drop the duplicate declaration of pthread_fchdir_np() here.
+> > >> > > > 
+> > >> > > > Trying this out, it reminds me that this use of API_AVAILABLE in
+> > >> > > 
+> > >> > > os-posix.c
+> > >> > > 
+> > >> > > > relies on the added #include <os/availability.h>.
+> > >> > > > 
+> > >> > > > Leaving the include out leads to:
+> > >> > > > .../include/qemu/osdep.h:820:31: error: expected function body
+> > >> > > > after
+> > >> > > > function declarator
+> > >> > > > int pthread_fchdir_np(int fd) API_AVAILABLE(macosx(10.12));
+> > >> > > > 
+> > >> > > >                               ^
+> > >> > > > 
+> > >> > > > 1 error generated.
+> > >> > > > ninja: build stopped: subcommand failed.
+> > >> > > > make[1]: *** [run-ninja] Error 1
+> > >> > > > make: *** [all] Error 2
+> > >> > > > 
+> > >> > > > The admonition against modifying osdep.h's includes too much led
+> > >> > > > me
+> > >> 
+> > >> to
+> > >> 
+> > >> > > > steer away from putting it all in there. If there's no issue with
+> > >> 
+> > >> adding
+> > >> 
+> > >> > > > +#include <os/availability.h> to osdep.h, then this change makes
+> > >> 
+> > >> sense
+> > >> 
+> > >> > > > to
+> > >> > > > me.
+> > >> > > 
+> > >> > > If you embed that include into ifdefs, sure!
+> > >> > > 
+> > >> > > #ifdef CONFIG_DARWIN
+> > >> > > /* defines API_AVAILABLE(...) */
+> > >> > > #include <os/availability.h>
+> > >> > > #endif
+> > >> > > 
+> > >> > > One more thing though ...
+> > >> > > 
+> > >> > > > > > +
+> > >> > > > > > +int qemu_mknodat(int dirfd, const char *filename, mode_t
+> > >> > > > > > mode,
+> > >> > > > > > dev_t
+> > >> > > > > 
+> > >> > > > > dev)
+> > >> > > > > 
+> > >> > > > > > +{
+> > >> > > > > > +    int preserved_errno, err;
+> > >> > > 
+> > >> > > pthread_fchdir_np() is weakly linked. So I guess here should be a
+> > >> 
+> > >> check
+> > >> 
+> > >> > > like:
+> > >> > >         if (!pthread_fchdir_np) {
+> > >> > >         
+> > >> > >                 return -ENOTSUPP;
+> > >> > >         
+> > >> > >         }
+> > >> > > 
+> > >> > > Before trying to call pthread_fchdir_np() below. As already
+> > >> > > discussed
+> > >> 
+> > >> with
+> > >> 
+> > >> > > the
+> > >> > > Chromium [1] example, some do that a bit differently by using
+> > >> > > 
+> > >> > > __builtin_available():
+> > >> > >         if (__builtin_available(macOS 10.12, *)) {
+> > >> > >         
+> > >> > >                 return -ENOTSUPP;
+> > >> > >         
+> > >> > >         }
+> > >> > > 
+> > >> > > Which makes me wonder why they are not doing a simple NULL check?
+> > >> > > 
+> > >> > > [1]
+> > >> 
+> > >> https://chromium.googlesource.com/chromium/src/+/lkgr/base/process/laun
+> > >> ch
+> > >> _
+> > >> 
+> > >> > > mac.cc#110>
+> > >> > > 
+> > >> > > > > > +    if (pthread_fchdir_np(dirfd) < 0) {
+> > >> > > > > > +        return -1;
+> > >> > > > > > +    }
+> > >> > > > > > +    err = mknod(filename, mode, dev);
+> > >> > > > > > +    preserved_errno = errno;
+> > >> > > > > > +    /* Stop using the thread-local cwd */
+> > >> > > > > > +    pthread_fchdir_np(-1);
+> > >> > > > > > +    if (err < 0) {
+> > >> > > > > > +        errno = preserved_errno;
+> > >> > > > > > +    }
+> > >> > > > > > +    return err;
+> > >> > > > > > +}
+> > >> > > > > > +#else
+> > >> > > > > > +int qemu_mknodat(int dirfd, const char *filename, mode_t
+> > >> > > > > > mode,
+> > >> > > > > > dev_t
+> > >> > > > > 
+> > >> > > > > dev)
+> > >> > > > > 
+> > >> > > > > > +{
+> > >> > > > > > +    return mknodat(dirfd, filename, mode, dev);
+> > >> > > > > > +}
+> > >> > > > > > +#endif
+> 
+> Best regards,
+> Christian Schoenebeck
+
+
+Best regards,
+Christian Schoenebeck
+
 
 
