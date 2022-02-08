@@ -2,74 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C9274AD84D
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Feb 2022 13:28:38 +0100 (CET)
-Received: from localhost ([::1]:54496 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D2E674AD84F
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Feb 2022 13:29:02 +0100 (CET)
+Received: from localhost ([::1]:56094 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nHPbp-0004Uv-BT
-	for lists+qemu-devel@lfdr.de; Tue, 08 Feb 2022 07:28:37 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:34634)
+	id 1nHPcD-0005il-UQ
+	for lists+qemu-devel@lfdr.de; Tue, 08 Feb 2022 07:29:01 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:34760)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nHOqn-0000il-TV
- for qemu-devel@nongnu.org; Tue, 08 Feb 2022 06:40:02 -0500
-Received: from [2a00:1450:4864:20::331] (port=50943
- helo=mail-wm1-x331.google.com)
+ id 1nHOqt-0000lA-Pp
+ for qemu-devel@nongnu.org; Tue, 08 Feb 2022 06:40:08 -0500
+Received: from [2a00:1450:4864:20::42f] (port=38565
+ helo=mail-wr1-x42f.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nHOqk-000240-NX
- for qemu-devel@nongnu.org; Tue, 08 Feb 2022 06:40:01 -0500
-Received: by mail-wm1-x331.google.com with SMTP id m26so11985260wms.0
+ id 1nHOqj-000246-Ap
+ for qemu-devel@nongnu.org; Tue, 08 Feb 2022 06:40:04 -0500
+Received: by mail-wr1-x42f.google.com with SMTP id s10so27592158wra.5
  for <qemu-devel@nongnu.org>; Tue, 08 Feb 2022 03:39:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=2KC0E86q/MPblk/ysJ6HWl+znRCYNySN3t/36zawKEM=;
- b=RuzrLyyFW/DzLc6Oa4M6603z7/Sa4KIa3om7VtIPszcpWjeM5o8TuvACdD2Vz0r62k
- PeA+45/7fnMIIeWbCRUuChw9nqhMJC1m62FvzdfwGXsw+7KWxVRJXT0S7q5o1R0lLQea
- tivAqJuarNWF2H9Dk0Q8h31HccPhA7H5VjDgwJFytrc2oGbyKKR4ZhWi+mi9HPxMF8Tw
- C/tcsMyhESTZmLQOZ20Vxo5+tvd5Uet7aKfs5hX6B1sr9WLQdwgGbVn94jIRTtzoaEV1
- NqmxV8I78YI+kLJvjDLSW1CUEPXE5YYO//LEwLaJ20ZSYa+U7Hve163cy9RXeyEoQlsx
- Tzgg==
+ bh=VYqx5i90QNVSg4oDJ8Ire4MWcmLtpzgJo5wY1iMRSRA=;
+ b=ylIY/srV63tVkAWoowPooIjoAsEan1u8QaA/O/lJW6YSKP8HyFez/lzsk+EC9u9hrV
+ 8Im6Ftf5x9uJTfAJrvXcjhBladPGpT3ZgVOy8ceUROzgLHIxFZPlbs9W9+iPRtE9RLsB
+ cMbUE2ABLTcm81DZMWw1FUE44k+RsTwRqVItE/txy7fYmKVAKVo30sFmEKtMSO3Me9br
+ u1AqNLoElHVlwEAssVIzds5LixTaHwV27upN/U5cuHeZi5VlY3Y+Ci8zxJLcDXwk87Yx
+ YCAKyAx7AdYKNUR0nKLFT6mxe0ntYAAMfZE8Bvs6VkY00AFzePa6hmb4fGCloiczU2DQ
+ ZLTw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=2KC0E86q/MPblk/ysJ6HWl+znRCYNySN3t/36zawKEM=;
- b=1lzefTA27o96+/PgEyuFsRi23MuPG+jWsgUHVp9wsDj5H4r7FBRjyNfLIeeu2Z6zn5
- Higehy/CeyKeLHMa5LFXKkxFFBJGdhVghQ9aeA9cvJXT3ODHqk0/kUhQNqdVYVd6r22u
- X3NJy2N+zVM6GXAFAg3YRH4hCC7g90Yjmq+CVD3jdlgdVS/TAnlJp/lkV9pg9f50dkMd
- pHNM0mHJhe76fjupm4KsnnFcRBgiEpdnxaunQlwUykBIBF2VDu+5bX71VioLgmnpWxyO
- IOzzd9ue/2mVHUbZG3nbbO4bmnjvr9LkFVml7/cy/IR8CR1d9lclndNgkzi9dO4RqvmB
- y0zA==
-X-Gm-Message-State: AOAM530qP3hE7hKFu5mt86MRwfrqNPzpdjmA2PVRs5dh0/8DwhdYKn6l
- ON1qAG1+qly0pDfY9pCZyZc2ZqV62632OA==
-X-Google-Smtp-Source: ABdhPJzwFvTnopepMgJcWxmRz9k1YvBQs78HJas3q4bxlhEjZAHNPA28fFWYmK7cwf0OwVOdsjj42Q==
-X-Received: by 2002:a05:600c:a4c:: with SMTP id
- c12mr773125wmq.48.1644320395431; 
- Tue, 08 Feb 2022 03:39:55 -0800 (PST)
+ bh=VYqx5i90QNVSg4oDJ8Ire4MWcmLtpzgJo5wY1iMRSRA=;
+ b=M7xfDywEoFs9AEusBVcEpr79FOXipe8fSoIBtiRlRhjCZxlwyB5NnGGlLMNYBorbm/
+ fzyncpZf3ctGpzNWZJXXAESugrAnElNWWJm4VuDjEnViiXY4sdtcunwZuw8ReFoJcQPF
+ r+n38NvMGhB+69DBtpvkUiU7qGcZbhvmk6R/rP+coSMX/rzBIDt8dhdvUfZwiZrGfcnT
+ xz+/XYCsR2jYLxTgMxxTN2HmM/bGw7BgaC2RopcaRX9WbXMXtKzmBIe9+MDf5uqQHTvA
+ E8dDy0F+sgWg77Yefm9Ma/q7eW5/DE5xQgfH2fIb76WeB12e3T8zCHlezekzHnf//x6e
+ PniA==
+X-Gm-Message-State: AOAM5330gfJUmJZX53fsSBCYlTdoVE3dZ7tUKf/77PpHWffKfeygPu/d
+ OBOv9tvk59kolgk8Zhf0PnE1TO0KaYMaWg==
+X-Google-Smtp-Source: ABdhPJz7JfwCswSGUiGRJfVtMpwY0em7SULHnfhY+x3zPwaA21sIecM3X5hDsH1JubsEwGpEvlToMA==
+X-Received: by 2002:a5d:6452:: with SMTP id d18mr3124630wrw.493.1644320396024; 
+ Tue, 08 Feb 2022 03:39:56 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
- by smtp.gmail.com with ESMTPSA id r11sm4245199wrt.28.2022.02.08.03.39.54
+ by smtp.gmail.com with ESMTPSA id r11sm4245199wrt.28.2022.02.08.03.39.55
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Tue, 08 Feb 2022 03:39:55 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 08/39] hw/arm/boot: Support setting psci-conduit based on guest
- EL
-Date: Tue,  8 Feb 2022 11:39:17 +0000
-Message-Id: <20220208113948.3217356-9-peter.maydell@linaro.org>
+Subject: [PULL 09/39] hw/arm: imx: Don't enable PSCI conduit when booting
+ guest in EL3
+Date: Tue,  8 Feb 2022 11:39:18 +0000
+Message-Id: <20220208113948.3217356-10-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220208113948.3217356-1-peter.maydell@linaro.org>
 References: <20220208113948.3217356-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::331
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42f
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::331;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x331.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42f.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -93,166 +92,103 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Currently we expect board code to set the psci-conduit property on
-CPUs and ensure that secondary CPUs are created with the
-start-powered-off property set to false, if the board wishes to use
-QEMU's builtin PSCI emulation.  This worked OK for the virt board
-where we first wanted to use it, because the virt board directly
-creates its CPUs and is in a reasonable position to set those
-properties.  For other boards which model real hardware and use a
-separate SoC object, however, it is more awkward.  Most PSCI-using
-boards just set the psci-conduit board unconditionally.
+Change the iMX-SoC based boards to use the new boot.c functionality
+to allow us to enable psci-conduit only if the guest is being booted
+in EL1 or EL2, so that if the user runs guest EL3 firmware code our
+PSCI emulation doesn't get in its way.
 
-This was never strictly speaking correct (because you would not be
-able to run EL3 guest firmware that itself provided the PSCI
-interface, as the QEMU implementation would overrule it), but mostly
-worked in practice because for non-PSCI SMC calls QEMU would emulate
-the SMC instruction as normal (by trapping to guest EL3).  However,
-we would like to make our PSCI emulation follow the part of the SMCC
-specification that mandates that SMC calls with unknown function
-identifiers return a failure code, which means that all SMC calls
-will be handled by the PSCI code and the "emulate as normal" path
-will no longer be taken.
+To do this we stop setting the psci-conduit property on the CPU
+objects in the SoC code, and instead set the psci_conduit field in
+the arm_boot_info struct to tell the common boot loader code that
+we'd like PSCI if the guest is starting at an EL that it makes
+sense with.
 
-We tried to implement that in commit 9fcd15b9193e81
-("arm: tcg: Adhere to SMCCC 1.3 section 5.2"), but this
-regressed attempts to run EL3 guest code on the affected boards:
- * mcimx6ul-evk, mcimx7d-sabre, orangepi, xlnx-zcu102
- * for the case only of EL3 code loaded via -kernel (and
-   not via -bios or -pflash), virt and xlnx-versal-virt
-so for the 7.0 release we reverted it (in commit 4825eaae4fdd56f).
+This affects the mcimx6ul-evk and mcimx7d-sabre boards.
 
-This commit provides a mechanism that boards can use to arrange that
-psci-conduit is set if running guest code at a low enough EL but not
-if it would be running at the same EL that the conduit implies that
-the QEMU PSCI implementation is using.  (Later commits will convert
-individual board models to use this mechanism.)
-
-We do this by moving the setting of the psci-conduit and
-start-powered-off properties to arm_load_kernel().  Boards which want
-to potentially use emulated PSCI must set a psci_conduit field in the
-arm_boot_info struct to the type of conduit they want to use (SMC or
-HVC); arm_load_kernel() will then set the CPUs up accordingly if it
-is not going to start the guest code at the same or higher EL as the
-fake QEMU firmware would be at.
-
-Board/SoC code which uses this mechanism should no longer set the CPU
-psci-conduit property directly.  It should only set the
-start-powered-off property for secondaries if EL3 guest firmware
-running bare metal expects that rather than the alternative "all CPUs
-start executing the firmware at once".
-
-Note that when calculating whether we are going to run guest
-code at EL3, we ignore the setting of arm_boot_info::secure_board_setup,
-which might cause us to run a stub bit of guest code at EL3 which
-does some board-specific setup before dropping to EL2 or EL1 to
-run the guest kernel. This is OK because only one board that
-enables PSCI sets secure_board_setup (the highbank board), and
-the stub code it writes will behave the same way whether the
-one SMC call it makes is handled by "emulate the SMC" or by
-"PSCI default returns an error code". So we can leave that stub
-code in place until after we've changed the PSCI default behaviour;
-at that point we will remove it.
+Note that for the mcimx7d board, this means that when running guest
+code at EL3 there is currently no way to power on the secondary CPUs,
+because we do not currently have a model of the system reset
+controller module which should be used to do that for the imx7 SoC,
+only for the imx6 SoC.  (Previously EL3 code which knew it was
+running on QEMU could use a PSCI call to do this.) This doesn't
+affect the imx6ul-evk board because it is uniprocessor.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Tested-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
 Tested-by: Cédric Le Goater <clg@kaod.org>
-Message-id: 20220127154639.2090164-4-peter.maydell@linaro.org
+Acked-by: Richard Henderson <richard.henderson@linaro.org>
+Message-id: 20220127154639.2090164-5-peter.maydell@linaro.org
 ---
- include/hw/arm/boot.h | 10 +++++++++
- hw/arm/boot.c         | 50 +++++++++++++++++++++++++++++++++++++++++++
- 2 files changed, 60 insertions(+)
+ hw/arm/fsl-imx6ul.c    | 2 --
+ hw/arm/fsl-imx7.c      | 8 ++++----
+ hw/arm/mcimx6ul-evk.c  | 1 +
+ hw/arm/mcimx7d-sabre.c | 1 +
+ 4 files changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/include/hw/arm/boot.h b/include/hw/arm/boot.h
-index ce2b48b88bc..0bcb58babba 100644
---- a/include/hw/arm/boot.h
-+++ b/include/hw/arm/boot.h
-@@ -86,6 +86,16 @@ struct arm_boot_info {
-      * the user it should implement this hook.
-      */
-     void (*modify_dtb)(const struct arm_boot_info *info, void *fdt);
-+    /*
-+     * If a board wants to use the QEMU emulated-firmware PSCI support,
-+     * it should set this to QEMU_PSCI_CONDUIT_HVC or QEMU_PSCI_CONDUIT_SMC
-+     * as appropriate. arm_load_kernel() will set the psci-conduit and
-+     * start-powered-off properties on the CPUs accordingly.
-+     * Note that if the guest image is started at the same exception level
-+     * as the conduit specifies calls should go to (eg guest firmware booted
-+     * to EL3) then PSCI will not be enabled.
-+     */
-+    int psci_conduit;
-     /* Used internally by arm_boot.c */
-     int is_linux;
-     hwaddr initrd_start;
-diff --git a/hw/arm/boot.c b/hw/arm/boot.c
-index 399f8e837ce..327e449f831 100644
---- a/hw/arm/boot.c
-+++ b/hw/arm/boot.c
-@@ -1299,6 +1299,8 @@ void arm_load_kernel(ARMCPU *cpu, MachineState *ms, struct arm_boot_info *info)
- {
-     CPUState *cs;
-     AddressSpace *as = arm_boot_address_space(cpu, info);
-+    int boot_el;
-+    CPUARMState *env = &cpu->env;
- 
-     /*
-      * CPU objects (unlike devices) are not automatically reset on system
-@@ -1329,6 +1331,54 @@ void arm_load_kernel(ARMCPU *cpu, MachineState *ms, struct arm_boot_info *info)
-         arm_setup_direct_kernel_boot(cpu, info);
+diff --git a/hw/arm/fsl-imx6ul.c b/hw/arm/fsl-imx6ul.c
+index 1d1a708dd97..f1897123294 100644
+--- a/hw/arm/fsl-imx6ul.c
++++ b/hw/arm/fsl-imx6ul.c
+@@ -166,8 +166,6 @@ static void fsl_imx6ul_realize(DeviceState *dev, Error **errp)
+         return;
      }
  
-+    /*
-+     * Disable the PSCI conduit if it is set up to target the same
-+     * or a lower EL than the one we're going to start the guest code in.
-+     * This logic needs to agree with the code in do_cpu_reset() which
-+     * decides whether we're going to boot the guest in the highest
-+     * supported exception level or in a lower one.
-+     */
-+
-+    /* Boot into highest supported EL ... */
-+    if (arm_feature(env, ARM_FEATURE_EL3)) {
-+        boot_el = 3;
-+    } else if (arm_feature(env, ARM_FEATURE_EL2)) {
-+        boot_el = 2;
-+    } else {
-+        boot_el = 1;
-+    }
-+    /* ...except that if we're booting Linux we adjust the EL we boot into */
-+    if (info->is_linux && !info->secure_boot) {
-+        boot_el = arm_feature(env, ARM_FEATURE_EL2) ? 2 : 1;
-+    }
-+
-+    if ((info->psci_conduit == QEMU_PSCI_CONDUIT_HVC && boot_el >= 2) ||
-+        (info->psci_conduit == QEMU_PSCI_CONDUIT_SMC && boot_el == 3)) {
-+        info->psci_conduit = QEMU_PSCI_CONDUIT_DISABLED;
-+    }
-+
-+    if (info->psci_conduit != QEMU_PSCI_CONDUIT_DISABLED) {
-+        for (cs = first_cpu; cs; cs = CPU_NEXT(cs)) {
-+            Object *cpuobj = OBJECT(cs);
-+
-+            object_property_set_int(cpuobj, "psci-conduit", info->psci_conduit,
-+                                    &error_abort);
+-    object_property_set_int(OBJECT(&s->cpu), "psci-conduit",
+-                            QEMU_PSCI_CONDUIT_SMC, &error_abort);
+     qdev_realize(DEVICE(&s->cpu), NULL, &error_abort);
+ 
+     /*
+diff --git a/hw/arm/fsl-imx7.c b/hw/arm/fsl-imx7.c
+index 149885f2b80..cc6fdb9373f 100644
+--- a/hw/arm/fsl-imx7.c
++++ b/hw/arm/fsl-imx7.c
+@@ -159,9 +159,6 @@ static void fsl_imx7_realize(DeviceState *dev, Error **errp)
+     for (i = 0; i < smp_cpus; i++) {
+         o = OBJECT(&s->cpu[i]);
+ 
+-        object_property_set_int(o, "psci-conduit", QEMU_PSCI_CONDUIT_SMC,
+-                                &error_abort);
+-
+         /* On uniprocessor, the CBAR is set to 0 */
+         if (smp_cpus > 1) {
+             object_property_set_int(o, "reset-cbar", FSL_IMX7_A7MPCORE_ADDR,
+@@ -169,7 +166,10 @@ static void fsl_imx7_realize(DeviceState *dev, Error **errp)
+         }
+ 
+         if (i) {
+-            /* Secondary CPUs start in PSCI powered-down state */
 +            /*
-+             * Secondary CPUs start in PSCI powered-down state. Like the
-+             * code in do_cpu_reset(), we assume first_cpu is the primary
-+             * CPU.
++             * Secondary CPUs start in powered-down state (and can be
++             * powered up via the SRC system reset controller)
 +             */
-+            if (cs != first_cpu) {
-+                object_property_set_bool(cpuobj, "start-powered-off", true,
-+                                         &error_abort);
-+            }
-+        }
-+    }
-+
-+    /*
-+     * arm_load_dtb() may add a PSCI node so it must be called after we have
-+     * decided whether to enable PSCI and set the psci-conduit CPU properties.
-+     */
-     if (!info->skip_dtb_autoload && have_dtb(info)) {
-         if (arm_load_dtb(info->dtb_start, info, info->dtb_limit, as, ms) < 0) {
-             exit(1);
+             object_property_set_bool(o, "start-powered-off", true,
+                                      &error_abort);
+         }
+diff --git a/hw/arm/mcimx6ul-evk.c b/hw/arm/mcimx6ul-evk.c
+index 28b4886f48b..8131518426a 100644
+--- a/hw/arm/mcimx6ul-evk.c
++++ b/hw/arm/mcimx6ul-evk.c
+@@ -35,6 +35,7 @@ static void mcimx6ul_evk_init(MachineState *machine)
+         .board_id = -1,
+         .ram_size = machine->ram_size,
+         .nb_cpus = machine->smp.cpus,
++        .psci_conduit = QEMU_PSCI_CONDUIT_SMC,
+     };
+ 
+     s = FSL_IMX6UL(object_new(TYPE_FSL_IMX6UL));
+diff --git a/hw/arm/mcimx7d-sabre.c b/hw/arm/mcimx7d-sabre.c
+index 50a5ecde31a..ba84fc21920 100644
+--- a/hw/arm/mcimx7d-sabre.c
++++ b/hw/arm/mcimx7d-sabre.c
+@@ -37,6 +37,7 @@ static void mcimx7d_sabre_init(MachineState *machine)
+         .board_id = -1,
+         .ram_size = machine->ram_size,
+         .nb_cpus = machine->smp.cpus,
++        .psci_conduit = QEMU_PSCI_CONDUIT_SMC,
+     };
+ 
+     s = FSL_IMX7(object_new(TYPE_FSL_IMX7));
 -- 
 2.25.1
 
