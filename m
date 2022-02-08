@@ -2,98 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 88F534AE567
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Feb 2022 00:24:42 +0100 (CET)
-Received: from localhost ([::1]:42164 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E2014AE58D
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Feb 2022 00:42:20 +0100 (CET)
+Received: from localhost ([::1]:50102 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nHZqj-00044z-6n
-	for lists+qemu-devel@lfdr.de; Tue, 08 Feb 2022 18:24:41 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:55150)
+	id 1nHa7m-0003Pq-NX
+	for lists+qemu-devel@lfdr.de; Tue, 08 Feb 2022 18:42:18 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:57984)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
- id 1nHZn7-00030Z-MP; Tue, 08 Feb 2022 18:20:57 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:13444)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
- id 1nHZmj-0004uj-AG; Tue, 08 Feb 2022 18:20:56 -0500
-Received: from pps.filterd (m0098404.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 218KgMBs027529; 
- Tue, 8 Feb 2022 23:20:21 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=from : to : cc : subject
- : in-reply-to : references : date : message-id : mime-version :
- content-type; s=pp1; bh=vE3G2CCcaNPC8i7DJODfh3+LbyJylY8DkbSEbM8YDcA=;
- b=SxR7+1h2ygsJpH73ryeFWg/I6ilRtXr0mOy3K2XbKU4bSY3dTKlw2fhpedJ0tnSE2Ac7
- PNYNy8KFsU/cKiYI0JPC/SAvWyxVge5dHYgRvqagED8gzSI80sIopb7A3J8I2qDJ21uR
- b4kQc9S1TlnuYcNX0wMxRrj1suonUhL8tR4OAxqsxJ6zik3SjdrJUa3hQazTKsyGGMnc
- LX/+PENT3IEKVOkvPcwapUmAQxj/oEwufEutz9upU2FME5um9zi26PE/aTOMeRe9YR5g
- 7yxGkQy0HfHTpVNn1m1PWNgVEJ5VK4NaFXdjjUEYoCsol20BJur2QJngwk1ZCKYBUZzE ZA== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3e3vvkfcy4-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 08 Feb 2022 23:20:20 +0000
-Received: from m0098404.ppops.net (m0098404.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 218Mr8Sf016727;
- Tue, 8 Feb 2022 23:20:20 GMT
-Received: from ppma02wdc.us.ibm.com (aa.5b.37a9.ip4.static.sl-reverse.com
- [169.55.91.170])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3e3vvkfcxc-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 08 Feb 2022 23:20:20 +0000
-Received: from pps.filterd (ppma02wdc.us.ibm.com [127.0.0.1])
- by ppma02wdc.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 218N7vJo031068;
- Tue, 8 Feb 2022 23:20:18 GMT
-Received: from b01cxnp23033.gho.pok.ibm.com (b01cxnp23033.gho.pok.ibm.com
- [9.57.198.28]) by ppma02wdc.us.ibm.com with ESMTP id 3e2f8ngtaw-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 08 Feb 2022 23:20:18 +0000
-Received: from b01ledav005.gho.pok.ibm.com (b01ledav005.gho.pok.ibm.com
- [9.57.199.110])
- by b01cxnp23033.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 218NKI3346268726
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 8 Feb 2022 23:20:18 GMT
-Received: from b01ledav005.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id A2E54AE073;
- Tue,  8 Feb 2022 23:20:17 +0000 (GMT)
-Received: from b01ledav005.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id D7FBEAE06B;
- Tue,  8 Feb 2022 23:20:16 +0000 (GMT)
-Received: from localhost (unknown [9.211.52.82])
- by b01ledav005.gho.pok.ibm.com (Postfix) with ESMTPS;
- Tue,  8 Feb 2022 23:20:16 +0000 (GMT)
-From: Fabiano Rosas <farosas@linux.ibm.com>
-To: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-devel@nongnu.org
-Subject: Re: [PATCH v10 3/3] target/ppc: EBB exception implementation
-In-Reply-To: <20220208194838.169257-4-danielhb413@gmail.com>
-References: <20220208194838.169257-1-danielhb413@gmail.com>
- <20220208194838.169257-4-danielhb413@gmail.com>
-Date: Tue, 08 Feb 2022 20:20:14 -0300
-Message-ID: <87zgn1j68h.fsf@linux.ibm.com>
-MIME-Version: 1.0
-Content-Type: text/plain
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: PFJfly754oqcFWmgWyUz65MEK-TKjS_5
-X-Proofpoint-ORIG-GUID: 4eecGErl-D52nf186HO6EzGjvDpESew0
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.816,Hydra:6.0.425,FMLib:17.11.62.513
- definitions=2022-02-08_07,2022-02-07_02,2021-12-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 spamscore=0
- clxscore=1015 mlxscore=0 priorityscore=1501 suspectscore=0 impostorscore=0
- adultscore=0 mlxlogscore=999 phishscore=0 malwarescore=0
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2201110000 definitions=main-2202080134
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=farosas@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from
+ <3PP0CYgcKClkM5EKLI57FF7C5.3FDH5DL-45M5CEFE7EL.FI7@flex--venture.bounces.google.com>)
+ id 1nHa3a-0001f6-0d
+ for qemu-devel@nongnu.org; Tue, 08 Feb 2022 18:37:58 -0500
+Received: from [2607:f8b0:4864:20::949] (port=51182
+ helo=mail-ua1-x949.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from
+ <3PP0CYgcKClkM5EKLI57FF7C5.3FDH5DL-45M5CEFE7EL.FI7@flex--venture.bounces.google.com>)
+ id 1nHa3X-00086e-RI
+ for qemu-devel@nongnu.org; Tue, 08 Feb 2022 18:37:57 -0500
+Received: by mail-ua1-x949.google.com with SMTP id
+ z38-20020ab04929000000b0030ef21ee1eeso322090uac.17
+ for <qemu-devel@nongnu.org>; Tue, 08 Feb 2022 15:37:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
+ h=date:message-id:mime-version:subject:from:to:cc;
+ bh=rK/X0bkQ4s37Ql0JYzqatnON1TQgvTtbmnB4wZFOFxU=;
+ b=Zv/6xB4F4yX075B1Kcmj8dj0JPG1WGiYb/s7O1CU0Tk3QovhsdEXI5sIw+5gplClx0
+ 8745uWkQ8RqdMxBJjz2uma9h3bh/iHwLBA4qJZkbeNmNKHiAWTgFN0RPTGHrz9hpYGy5
+ pVdr61ToZbPLH6mhuC7rP81fHvhOlltcrO6h3q2lz9athtu+X7igPoYzhD/ZvYrBYFky
+ r9NI0tK8h/X7Kp1ZyEW9sOKDE4gWdcUsUKRm4oLXb78O7bfwNxfd4xcauIGs696ngQAZ
+ o3w/ozuoVaawQjoJIxJXcHqfQdk9A6f8412M5OcZqHm25PxoZJdAshNAok7a6Im+tosc
+ DglA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
+ bh=rK/X0bkQ4s37Ql0JYzqatnON1TQgvTtbmnB4wZFOFxU=;
+ b=bZ2wv6c+PjmMXMB8qfBYXkhXm9/N6kjnk+qG0h7vtc4ojJbYjo03By7LW4Xqw8b9LW
+ shRBo4QBX8yBywQdOc9kxuBpZBHU95SqlfOJOTEk7+O6FZx3kb3QeohfLDCQI5JGrvGm
+ 6eKSGQwAwYabKJ77mJNTSOS3GfI6MXQCEDoBH/IljJjt+GogLKPaoEYSW4x1PKq2CKxj
+ KoSJJQIpTY6CQY0+aPVbCznLEaiywa6ggKU2t5jIQ7AHxkQ+KFkN2dFH6Lg0YdC621/v
+ VVMPvSEWlrFxNEI4jvyv9o29syK+dTGf8+N7QqJQOzolFsHg9woWkOmxTejs8I3Ad/rT
+ 0T5g==
+X-Gm-Message-State: AOAM533geVz15RIBzwbWaJBbHIjHRmCIwefuGgwJS+URTrsa9uhhcJ8I
+ k4g3Jkjo2hDoYRjboPHtuAClYZWBceES
+X-Google-Smtp-Source: ABdhPJzScRm6xrecI0v6hpk4R6HJxdpCyHRARXm0nIkX3RPGqwxalQrHnmVoYNzxS2rkbGibfynAkin7N6Qo
+X-Received: from venture.svl.corp.google.com
+ ([2620:15c:2a3:200:d062:ceeb:6333:edcf])
+ (user=venture job=sendgmr) by 2002:a5b:84a:: with SMTP id
+ v10mr7315301ybq.718.1644363068894; 
+ Tue, 08 Feb 2022 15:31:08 -0800 (PST)
+Date: Tue,  8 Feb 2022 15:31:04 -0800
+Message-Id: <20220208233104.284425-1-venture@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.35.0.263.gb82422642f-goog
+Subject: [PATCH] hw/arm: add initial mori-bmc board
+From: Patrick Venture <venture@google.com>
+To: hskinnemoen@google.com, kfting@nuvoton.com, peter.maydell@linaro.org
+Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org, 
+ Patrick Venture <venture@google.com>, Chris Rauer <crauer@google.com>,
+ Ilkyun Choi <ikchoi@google.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::949
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::949;
+ envelope-from=3PP0CYgcKClkM5EKLI57FF7C5.3FDH5DL-45M5CEFE7EL.FI7@flex--venture.bounces.google.com;
+ helo=mail-ua1-x949.google.com
+X-Spam_score_int: -87
+X-Spam_score: -8.8
+X-Spam_bar: --------
+X-Spam_report: (-8.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01,
+ USER_IN_DEF_DKIM_WL=-7.5 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -106,186 +88,96 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-ppc@nongnu.org,
- clg@kaod.org, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Daniel Henrique Barboza <danielhb413@gmail.com> writes:
+This is the BMC attached to the OpenBMC Mori board.
 
-> This patch adds the EBB exception support that are triggered by
-> Performance Monitor alerts. This happens when a Performance Monitor
-> alert occurs and MMCR0_EBE, BESCR_PME and BESCR_GE are set.
->
-> A 'ebb_excp_enabled' helper is called at the end of fire_PMC_interrupt()
-> to fire the EBB exception, checking for FSCR and HFSCR support
-> beforehand.
->
-> In ppc_hw_interrupt() the generated EBB exception will be taken only if
-> running in problem state and with BESCR_GE set. The check for BESCR_GE
-> bit in this step is needed to avoid race conditions where we take an
-> EBB, while the previous EBB is still inflight (BESCR_GE cleared), and
-> SPR_EBBHR is not set yet. In this case we'll branch to env->nip = 0 and the
-> guest will crash. The Linux kernel selftest 'lost_exception_test' is an
-> example where this racing will occur.
->
-> The code in powerpc_excp_books() is the default EBB handling described
-> in the PowerISA v3.1: clear BESCR_GE, set BESCR_PMEO, save env->nip in
-> SPR_EBBRR and redirect the execution to the address pointed by
-> SPR_EBBHR. The already implemented 'rbebb' instruction is then able to
-> return from the EBB by retrieving the NIP in SPR_EBBRR.
->
-> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+Signed-off-by: Patrick Venture <venture@google.com>
+Reviewed-by: Chris Rauer <crauer@google.com>
+Reviewed-by: Ilkyun Choi <ikchoi@google.com>
+---
+ docs/system/arm/nuvoton.rst |  1 +
+ hw/arm/npcm7xx_boards.c     | 32 ++++++++++++++++++++++++++++++++
+ 2 files changed, 33 insertions(+)
 
-Now that BookS code is separate from the other CPUs, let me leave this
-here:
+diff --git a/docs/system/arm/nuvoton.rst b/docs/system/arm/nuvoton.rst
+index adf497e679..ef2792076a 100644
+--- a/docs/system/arm/nuvoton.rst
++++ b/docs/system/arm/nuvoton.rst
+@@ -21,6 +21,7 @@ Hyperscale applications. The following machines are based on this chip :
+ - ``quanta-gbs-bmc``    Quanta GBS server BMC
+ - ``quanta-gsj``        Quanta GSJ server BMC
+ - ``kudo-bmc``          Fii USA Kudo server BMC
++- ``mori-bmc``          Fii USA Mori server BMC
+ 
+ There are also two more SoCs, NPCM710 and NPCM705, which are single-core
+ variants of NPCM750 and NPCM730, respectively. These are currently not
+diff --git a/hw/arm/npcm7xx_boards.c b/hw/arm/npcm7xx_boards.c
+index d701e5cc55..0678a56156 100644
+--- a/hw/arm/npcm7xx_boards.c
++++ b/hw/arm/npcm7xx_boards.c
+@@ -34,6 +34,7 @@
+ #define QUANTA_GSJ_POWER_ON_STRAPS 0x00001fff
+ #define QUANTA_GBS_POWER_ON_STRAPS 0x000017ff
+ #define KUDO_BMC_POWER_ON_STRAPS 0x00001fff
++#define MORI_BMC_POWER_ON_STRAPS 0x00001fff
+ 
+ static const char npcm7xx_default_bootrom[] = "npcm7xx_bootrom.bin";
+ 
+@@ -429,6 +430,21 @@ static void kudo_bmc_init(MachineState *machine)
+     npcm7xx_load_kernel(machine, soc);
+ }
+ 
++static void mori_bmc_init(MachineState *machine)
++{
++    NPCM7xxState *soc;
++
++    soc = npcm7xx_create_soc(machine, MORI_BMC_POWER_ON_STRAPS);
++    npcm7xx_connect_dram(soc, machine->ram);
++    qdev_realize(DEVICE(soc), NULL, &error_fatal);
++
++    npcm7xx_load_bootrom(machine, soc);
++    npcm7xx_connect_flash(&soc->fiu[1], 0, "mx66u51235f",
++                          drive_get(IF_MTD, 3, 0));
++
++    npcm7xx_load_kernel(machine, soc);
++}
++
+ static void npcm7xx_set_soc_type(NPCM7xxMachineClass *nmc, const char *type)
+ {
+     NPCM7xxClass *sc = NPCM7XX_CLASS(object_class_by_name(type));
+@@ -501,6 +517,18 @@ static void kudo_bmc_machine_class_init(ObjectClass *oc, void *data)
+     mc->default_ram_size = 1 * GiB;
+ };
+ 
++static void mori_bmc_machine_class_init(ObjectClass *oc, void *data)
++{
++    NPCM7xxMachineClass *nmc = NPCM7XX_MACHINE_CLASS(oc);
++    MachineClass *mc = MACHINE_CLASS(oc);
++
++    npcm7xx_set_soc_type(nmc, TYPE_NPCM730);
++
++    mc->desc = "Mori BMC (Cortex-A9)";
++    mc->init = mori_bmc_init;
++    mc->default_ram_size = 1 * GiB;
++}
++
+ static const TypeInfo npcm7xx_machine_types[] = {
+     {
+         .name           = TYPE_NPCM7XX_MACHINE,
+@@ -525,6 +553,10 @@ static const TypeInfo npcm7xx_machine_types[] = {
+         .name           = MACHINE_TYPE_NAME("kudo-bmc"),
+         .parent         = TYPE_NPCM7XX_MACHINE,
+         .class_init     = kudo_bmc_machine_class_init,
++    }, {
++        .name           = MACHINE_TYPE_NAME("mori-bmc"),
++        .parent         = TYPE_NPCM7XX_MACHINE,
++        .class_init     = mori_bmc_machine_class_init,
+     },
+ };
+ 
+-- 
+2.35.0.263.gb82422642f-goog
 
-Why do we have "interrupts" before "exceptions"? As in ppc_hw_interrupt
- calling powerpc_excp.
-
-If anyone has a consistent mental model on how this that they could
-share I'd appreciate it.
-
-Now onto the patch:
-> ---
->  target/ppc/excp_helper.c | 51 +++++++++++++++++++++++++++++++++++++---
->  target/ppc/helper.h      |  1 +
->  target/ppc/power8-pmu.c  | 12 ++++++++--
->  3 files changed, 59 insertions(+), 5 deletions(-)
->
-> diff --git a/target/ppc/excp_helper.c b/target/ppc/excp_helper.c
-> index 8a49a4ab90..2a95cec39e 100644
-> --- a/target/ppc/excp_helper.c
-> +++ b/target/ppc/excp_helper.c
-> @@ -19,6 +19,7 @@
->  #include "qemu/osdep.h"
->  #include "qemu/main-loop.h"
->  #include "cpu.h"
-> +#include "hw/ppc/ppc.h"
->  #include "exec/exec-all.h"
->  #include "internal.h"
->  #include "helper_regs.h"
-> @@ -990,8 +991,22 @@ static void powerpc_excp_books(PowerPCCPU *cpu, int excp)
->          new_msr |= (target_ulong)MSR_HVB;
->          new_msr |= env->msr & ((target_ulong)1 << MSR_RI);
->          break;
-> -    case POWERPC_EXCP_THERM:     /* Thermal interrupt                        */
->      case POWERPC_EXCP_PERFM:     /* Embedded performance monitor interrupt   */
-
-We would need some way to tell apart EBB from other Performance Monitor
-interrupts here. Unless you want to leave that to the next person that
-looks at Performance Monitor interrupts.
-
-> +        env->spr[SPR_BESCR] &= ~BESCR_GE;
-> +        env->spr[SPR_BESCR] |= BESCR_PMEO;
-> +
-> +        /*
-> +         * Save NIP for rfebb insn in SPR_EBBRR. Next nip is
-> +         * stored in the EBB Handler SPR_EBBHR.
-> +         */
-> +        env->spr[SPR_EBBRR] = env->nip;
-> +        powerpc_set_excp_state(cpu, env->spr[SPR_EBBHR], env->msr);
-> +
-> +        /*
-> +         * This exception is handled in userspace. No need to proceed.
-> +         */
-> +        return;
-> +    case POWERPC_EXCP_THERM:     /* Thermal interrupt                        */
->      case POWERPC_EXCP_VPUA:      /* Vector assist exception                  */
->      case POWERPC_EXCP_MAINT:     /* Maintenance exception                    */
->      case POWERPC_EXCP_SDOOR:     /* Doorbell interrupt                       */
-> @@ -1671,8 +1686,14 @@ static void ppc_hw_interrupt(CPUPPCState *env)
->              return;
->          }
->          if (env->pending_interrupts & (1 << PPC_INTERRUPT_PERFM)) {
-> -            env->pending_interrupts &= ~(1 << PPC_INTERRUPT_PERFM);
-> -            powerpc_excp(cpu, POWERPC_EXCP_PERFM);
-> +            /*
-> +             * PERFM EBB must be taken in problem state and
-> +             * with BESCR_GE set.
-> +             */
-> +            if (msr_pr == 1 && env->spr[SPR_BESCR] & BESCR_GE) {
-> +                env->pending_interrupts &= ~(1 << PPC_INTERRUPT_PERFM);
-> +                powerpc_excp(cpu, POWERPC_EXCP_PERFM);
-> +            }
-
-This is masking other Performance Interrupts (for all CPUs). Can we move
-these checks into the helper?
-
->              return;
->          }
->          /* Thermal interrupt */
-> @@ -1915,6 +1936,30 @@ void helper_rfebb(CPUPPCState *env, target_ulong s)
->          env->spr[SPR_BESCR] &= ~BESCR_GE;
->      }
->  }
-> +
-> +void helper_ebb_perfm_int(CPUPPCState *env)
-> +{
-> +    PowerPCCPU *cpu = env_archcpu(env);
-> +
-> +    /*
-> +     * FSCR_EBB and FSCR_IC_EBB are the same bits used with
-> +     * HFSCR.
-> +     */
-> +    helper_fscr_facility_check(env, FSCR_EBB, 0, FSCR_IC_EBB);
-> +    helper_hfscr_facility_check(env, FSCR_EBB, "EBB", FSCR_IC_EBB);
-> +
-> +    /*
-> +     * Setting "env->pending_interrupts |= 1 << PPC_INTERRUPT_PERFM"
-> +     * instead of calling "ppc_set_irq()"" works in most cases, but under
-> +     * certain race conditions (e.g. lost_exception_test EBB kernel
-> +     * selftest) this hits an assert when dealing with the BQL:
-> +     *
-> +     * tcg_handle_interrupt: assertion failed: (qemu_mutex_iothread_locked())
-> +     *
-> +     * We ended up using ppc_set_irq() because it handles the BQL.
-> +     */
-> +    ppc_set_irq(cpu, PPC_INTERRUPT_PERFM, 1);
-> +}
->  #endif
->  
->  /*****************************************************************************/
-> diff --git a/target/ppc/helper.h b/target/ppc/helper.h
-> index f2e5060910..bb26da6176 100644
-> --- a/target/ppc/helper.h
-> +++ b/target/ppc/helper.h
-> @@ -19,6 +19,7 @@ DEF_HELPER_1(rfid, void, env)
->  DEF_HELPER_1(rfscv, void, env)
->  DEF_HELPER_1(hrfid, void, env)
->  DEF_HELPER_2(rfebb, void, env, tl)
-> +DEF_HELPER_1(ebb_perfm_int, void, env)
->  DEF_HELPER_2(store_lpcr, void, env, tl)
->  DEF_HELPER_2(store_pcr, void, env, tl)
->  DEF_HELPER_2(store_mmcr0, void, env, tl)
-> diff --git a/target/ppc/power8-pmu.c b/target/ppc/power8-pmu.c
-> index d245663158..41409e609f 100644
-> --- a/target/ppc/power8-pmu.c
-> +++ b/target/ppc/power8-pmu.c
-> @@ -281,6 +281,13 @@ void helper_store_pmc(CPUPPCState *env, uint32_t sprn, uint64_t value)
->      pmc_update_overflow_timer(env, sprn);
->  }
->  
-> +static bool ebb_excp_enabled(CPUPPCState *env)
-> +{
-> +    return env->spr[SPR_POWER_MMCR0] & MMCR0_EBE &&
-> +           env->spr[SPR_BESCR] & BESCR_PME &&
-> +           env->spr[SPR_BESCR] & BESCR_GE;
-> +}
-> +
->  static void fire_PMC_interrupt(PowerPCCPU *cpu)
->  {
->      CPUPPCState *env = &cpu->env;
-> @@ -307,8 +314,9 @@ static void fire_PMC_interrupt(PowerPCCPU *cpu)
->          env->spr[SPR_POWER_MMCR0] |= MMCR0_PMAO;
->      }
->  
-> -    /* PMC interrupt not implemented yet */
-> -    return;
-> +    if (ebb_excp_enabled(env)) {
-> +        helper_ebb_perfm_int(env);
-> +    }
->  }
->  
->  /* This helper assumes that the PMC is running. */
 
