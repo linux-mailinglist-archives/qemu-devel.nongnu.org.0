@@ -2,75 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0C4B4AD549
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Feb 2022 11:06:27 +0100 (CET)
-Received: from localhost ([::1]:46370 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 83F7B4AD557
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Feb 2022 11:11:19 +0100 (CET)
+Received: from localhost ([::1]:51736 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nHNOE-0006u8-Er
-	for lists+qemu-devel@lfdr.de; Tue, 08 Feb 2022 05:06:26 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:45874)
+	id 1nHNSw-0002K5-KC
+	for lists+qemu-devel@lfdr.de; Tue, 08 Feb 2022 05:11:18 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:45908)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nHMIo-0005tK-JI
+ (Exim 4.90_1) (envelope-from <jinpu.wang@ionos.com>)
+ id 1nHMIq-0005tY-I4
  for qemu-devel@nongnu.org; Tue, 08 Feb 2022 03:56:49 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:52015)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nHMIg-0007a8-QM
- for qemu-devel@nongnu.org; Tue, 08 Feb 2022 03:56:42 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1644310597;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=UIdu2rFqTmIna59T4pFTHc5wKJrXdJy2XvzVTsxvnvw=;
- b=c4xB/CbQeIAavhtgWJIJAmVgSOhVsJIpdtgE5ZTkdAlvZRMizaPASbIMLPmqFDqoRnXOJx
- v0sk//gNKeinQ+3cMqvKLiKdMmVYVgrxEYLzleQxbI4/fNC2o77nkmXTqj1AHjzT5vQBOY
- 8Rwzdsb31igSK2P2v2XCTfXOsQdGfLo=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-671-3Uu4kXyMPdG_9DyIWTiA2Q-1; Tue, 08 Feb 2022 03:56:30 -0500
-X-MC-Unique: 3Uu4kXyMPdG_9DyIWTiA2Q-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8DFA01091DA0;
- Tue,  8 Feb 2022 08:56:29 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.138])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 1AA9F7B6C0;
- Tue,  8 Feb 2022 08:56:27 +0000 (UTC)
-Date: Tue, 8 Feb 2022 08:56:25 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: John Snow <jsnow@redhat.com>
-Subject: Re: [PATCH v3 0/2] python: a few improvements to qmp-shell
-Message-ID: <YgIwObmUKckefAOR@redhat.com>
-References: <20220128161157.36261-1-berrange@redhat.com>
- <CAFn=p-btgUv5WKGOj0GyyU17vsOWkBT4_Xu=vzxsL7FH1dbjhw@mail.gmail.com>
+Received: from [2a00:1450:4864:20::62b] (port=47055
+ helo=mail-ej1-x62b.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <jinpu.wang@ionos.com>)
+ id 1nHMIo-0007ay-TA
+ for qemu-devel@nongnu.org; Tue, 08 Feb 2022 03:56:48 -0500
+Received: by mail-ej1-x62b.google.com with SMTP id o12so50138657eju.13
+ for <qemu-devel@nongnu.org>; Tue, 08 Feb 2022 00:56:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ionos.com; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Cbc6DdGx6xJXUW32g24p9jSaFymq97peiTQgn/RSNKk=;
+ b=jLX/k9U5hV7Opo+1FYEt82adqivzjbIGzh2dwc31uPx0lbiYcIliQvi4DD+2/G59NZ
+ BgPI8fqHhnFSjsu/iEOjuEECwRnWlNadBKAH4DE848JcQ/IwNU9vVKPgyH7zUrkcjW4f
+ fgk/wQucNAdmiYRElOHRsVg77FA4U3Ggd2Yle7IQ9+qJHNQ8kb1Ofb4MnuKYpKyTPCpA
+ QcvoOCfXVGdx1/T5RvzXFUJrS5xiSSgAdY8D7CQhpCLM3WUeElxmR01+qzk8EjZ7yt4k
+ TBVeAQNDAYWxOL36ep5Jsv9UGvAKu0fxPosTWHL5prDDGcmOV/+3nvjE7RnpPk66JQbw
+ WVKw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Cbc6DdGx6xJXUW32g24p9jSaFymq97peiTQgn/RSNKk=;
+ b=jxeFmHxh2mG4yzKQF2/gT5kjFEeBHcZYVwTxsJ8XbWeWSO866S8jS0wTOiOTZx75Yo
+ cxMetGcP4L57NtNEldU17wOzoPMozG/REAdjf1chHg0ujWDULqhvXvXAdClZ+r869d5x
+ 99zaBAnTRQP+ohthdY/popoE6WhS6oUFaDIQRbBw9ofnmxe329Nl1RLNjcdivKZSl2EQ
+ mcf/dZU6hr9/tyyupkFIxb4sXptOIRUxY+1K1M18q5KqCggkTLUO1njnKlXrrS7r9lxz
+ F58byWXDjczYo5xgsR1ATZ4eTBwmQpMaMrkz7xJRmfULgVUWks/AQNnHZ/bv7iki7v/p
+ M2Dg==
+X-Gm-Message-State: AOAM530f3KMWkANSGSecUWdHl6hsN5gv3wF0Trz+VCJ4IiploCYcs9cz
+ 0pPhFqKBVsOwYJ1hHTPxVrLKWA==
+X-Google-Smtp-Source: ABdhPJwwqWy6Bgqv+U0reLebxEVe+dsL8CI2iwhdzGQ1rNRidtNNdIgfaDzgzyTRoXiDqegUxrXZRQ==
+X-Received: by 2002:a17:906:6a14:: with SMTP id
+ qw20mr3010110ejc.560.1644310601353; 
+ Tue, 08 Feb 2022 00:56:41 -0800 (PST)
+Received: from jwang-Latitude-5491.fritz.box
+ (200116b845a7db00780fd4b17e2aabf1.dip.versatel-1u1.de.
+ [2001:16b8:45a7:db00:780f:d4b1:7e2a:abf1])
+ by smtp.gmail.com with ESMTPSA id j2sm4497908ejc.223.2022.02.08.00.56.40
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 08 Feb 2022 00:56:40 -0800 (PST)
+From: Jack Wang <jinpu.wang@ionos.com>
+To: quintela@redhat.com,
+	dgilbert@redhat.com
+Subject: [PATCH v2] migration/rdma: set the REUSEADDR option for destination
+Date: Tue,  8 Feb 2022 09:56:40 +0100
+Message-Id: <20220208085640.19702-1-jinpu.wang@ionos.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <CAFn=p-btgUv5WKGOj0GyyU17vsOWkBT4_Xu=vzxsL7FH1dbjhw@mail.gmail.com>
-User-Agent: Mutt/2.1.5 (2021-12-30)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::62b
+ (failed)
+Received-SPF: permerror client-ip=2a00:1450:4864:20::62b;
+ envelope-from=jinpu.wang@ionos.com; helo=mail-ej1-x62b.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01,
+ T_SPF_PERMERROR=0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -83,70 +88,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Eduardo Habkost <eduardo@habkost.net>,
- Markus Armbruster <armbru@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
- Cleber Rosa <crosa@redhat.com>
+Cc: qemu-devel@nongnu.org, pankaj.gupta@ionos.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Feb 07, 2022 at 04:05:47PM -0500, John Snow wrote:
-> On Fri, Jan 28, 2022 at 11:12 AM Daniel P. Berrangé <berrange@redhat.com> wrote:
-> >
-> > This makes the qmp-shell program a little more pleasant to use when you
-> > are just trying to spawn a throw-away QEMU process to query some info
-> > from.
-> >
-> > First it introduces a 'qmp-shell-wrap' command that takes a QEMU command
-> > line instead of QMP socket, and spawns QEMU automatically, so its life
-> > is tied to that of the shell.
-> >
-> > Second it adds ability to log QMP commands/responses to a file that can
-> > be queried with 'jq' to extract information. This is good for commands
-> > which return huge JSON docs.
-> >
-> > In v3:
-> >
-> >  - Add qmp-shell-wrap to setup.cfg entry points
-> >
-> > In v2:
-> >
-> >  - Unlink unix socket path on exit
-> >  - Fix default command name
-> >  - Deal with flake8/pylint warnings
-> >
-> > Daniel P. Berrangé (2):
-> >   python: introduce qmp-shell-wrap convenience tool
-> >   python: support recording QMP session to a file
-> >
-> >  python/qemu/aqmp/qmp_shell.py | 88 ++++++++++++++++++++++++++++++++---
-> >  python/setup.cfg              |  4 ++
-> >  scripts/qmp/qmp-shell-wrap    | 11 +++++
-> >  3 files changed, 96 insertions(+), 7 deletions(-)
-> >  create mode 100755 scripts/qmp/qmp-shell-wrap
-> >
-> > --
-> > 2.34.1
-> >
-> >
-> 
-> Great, thanks! I rebased patch 1/2 myself as a courtesy and have staged these.
-> 
-> --js
-> 
-> (fwiw: using pip, it seems like the wrapper script works just fine. it
-> appears as though using 'python3 setup.py install' does indeed cause
-> issues here. I have a patch I'll send soon that discourages the direct
-> setup.py invocation to avoid frustration in the future.)
+We hit following error during testing RDMA transport:
+in case of migration error, mgmt daemon pick one migration port,
+incoming rdma:[::]:8089: RDMA ERROR: Error: could not rdma_bind_addr
 
-I've only ever used  pip to install from pypi or remote git archives.
-How do you use it to install from your local git checkout
+Then try another -incoming rdma:[::]:8103, sometime it worked,
+sometimes need another try with other ports number.
 
-Regards,
-Daniel
+Set the REUSEADDR option for destination, This allow address could
+be reused to avoid rdma_bind_addr error out.
+
+Signed-off-by: Jack Wang <jinpu.wang@ionos.com>
+---
+v2: extend commit message as discussed with Pankaj and David
+---
+ migration/rdma.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
+
+diff --git a/migration/rdma.c b/migration/rdma.c
+index c7c7a384875b..663e1fbb096d 100644
+--- a/migration/rdma.c
++++ b/migration/rdma.c
+@@ -2705,6 +2705,7 @@ static int qemu_rdma_dest_init(RDMAContext *rdma, Error **errp)
+     char ip[40] = "unknown";
+     struct rdma_addrinfo *res, *e;
+     char port_str[16];
++    int reuse = 1;
+ 
+     for (idx = 0; idx < RDMA_WRID_MAX; idx++) {
+         rdma->wr_data[idx].control_len = 0;
+@@ -2740,6 +2741,12 @@ static int qemu_rdma_dest_init(RDMAContext *rdma, Error **errp)
+         goto err_dest_init_bind_addr;
+     }
+ 
++    ret = rdma_set_option(listen_id, RDMA_OPTION_ID, RDMA_OPTION_ID_REUSEADDR,
++			  &reuse, sizeof reuse);
++    if (ret) {
++        ERROR(errp, "Error: could not set REUSEADDR option");
++        goto err_dest_init_bind_addr;
++    }
+     for (e = res; e != NULL; e = e->ai_next) {
+         inet_ntop(e->ai_family,
+             &((struct sockaddr_in *) e->ai_dst_addr)->sin_addr, ip, sizeof ip);
 -- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+2.25.1
 
 
