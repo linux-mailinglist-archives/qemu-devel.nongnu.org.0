@@ -2,96 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED8454ADB57
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Feb 2022 15:38:18 +0100 (CET)
-Received: from localhost ([::1]:40176 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 495554ADABA
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Feb 2022 15:04:59 +0100 (CET)
+Received: from localhost ([::1]:49854 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nHRdJ-0001pa-Ny
-	for lists+qemu-devel@lfdr.de; Tue, 08 Feb 2022 09:38:17 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:39130)
+	id 1nHR74-0001Fd-9q
+	for lists+qemu-devel@lfdr.de; Tue, 08 Feb 2022 09:04:58 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:43930)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nHPBL-0001rM-9L
- for qemu-devel@nongnu.org; Tue, 08 Feb 2022 07:01:15 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:41841)
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1nHPTu-0006Yq-DG
+ for qemu-devel@nongnu.org; Tue, 08 Feb 2022 07:20:26 -0500
+Received: from kylie.crudebyte.com ([5.189.157.229]:56225)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nHPBG-0005To-0N
- for qemu-devel@nongnu.org; Tue, 08 Feb 2022 07:01:14 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1644321661;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=X29Fw6Ofv/mVdnzoaYbNHmhwi61iYLyBjKwx5XQPTUk=;
- b=iz/T+2urdrKil4ib1Y+f4H6hGls5ZlS7SqVTpd+FOL6bf+KdmYI7L8gcK6jllsdtHNY5U/
- L8kqkhTF1tyMJqpQFJD66HsrGxhlbFrw45RIAFpBAM2Gs3V5i1DRM6CvycO6iY18Z6odYn
- 8kVbN51SPYHG8y/gwgMmFA+OkJFmgfs=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-203-NuRoiaG_PyC7PKd1SQz9Bg-1; Tue, 08 Feb 2022 07:01:00 -0500
-X-MC-Unique: NuRoiaG_PyC7PKd1SQz9Bg-1
-Received: by mail-ed1-f70.google.com with SMTP id
- f6-20020a0564021e8600b0040f662b99ffso3630593edf.7
- for <qemu-devel@nongnu.org>; Tue, 08 Feb 2022 04:01:00 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=X29Fw6Ofv/mVdnzoaYbNHmhwi61iYLyBjKwx5XQPTUk=;
- b=LmFBaSYfvnKPPGz0uu9Gtw4zN8D9T17tkeMsIujkZPCKsSXHtmOhBV6wqSS942OD7W
- ydhGOIH7zIS4KCI/RpKB5iyv2F/VbhtKp8UH/+gyWw9UiE1RqEqGvOE+hFBKzOj63bYH
- iLUQCOFZbY4mqMQJ4D2p+Hmkv7gQedS4tUJcjF4VsWgF9RfiA+lGz3pIxPjxy8aDSh8u
- MbDNQ1ijcVBs/8HJisez9LFSLAT/0GRt5HUZABVSAmAjhuKWQSD6c5FacpzQ1CGMwR3p
- kfdyz0Yh5A94wPbHG4IzirXg23pR3aiRNc92GSLFjwHPnMixZPQXGJRvvIte2SsrpKyQ
- 1vdA==
-X-Gm-Message-State: AOAM532z8v+FKBuld7MN2Pu2fl7yYm6XW4Uzw2SP+jpnyVnrioJXP7+D
- 7ETdj35v7Emriv0Nne3zGcEW/NPAjabMTadI0Fl3KiQaI9Beu8+9I4L8l4v49yMXjqdtmKIO/TY
- tvIpGRxolPxMn8lI=
-X-Received: by 2002:a05:6402:2747:: with SMTP id
- z7mr4051008edd.227.1644321659495; 
- Tue, 08 Feb 2022 04:00:59 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJy8SQflBjJ20EC6whaiAURG3csiIaJ681XQgIEynoxJ9LMFNVDhmlDD5BkF6pAJH25VIlN55Q==
-X-Received: by 2002:a05:6402:2747:: with SMTP id
- z7mr4050989edd.227.1644321659186; 
- Tue, 08 Feb 2022 04:00:59 -0800 (PST)
-Received: from ?IPV6:2a02:8071:5055:3f20:7ad9:a400:6d51:83e6?
- ([2a02:8071:5055:3f20:7ad9:a400:6d51:83e6])
- by smtp.gmail.com with ESMTPSA id j12sm2363549ejc.83.2022.02.08.04.00.58
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 08 Feb 2022 04:00:58 -0800 (PST)
-Message-ID: <bce98d12-813e-d2cd-c634-0d38285b0625@redhat.com>
-Date: Tue, 8 Feb 2022 13:00:58 +0100
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1nHPTg-000183-3d
+ for qemu-devel@nongnu.org; Tue, 08 Feb 2022 07:20:13 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
+ MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+ Content-ID:Content-Description;
+ bh=yzYwEd1lwe184pngUd5Rf63wxuwnAbuJM1z5/K6zUYo=; b=B25zTQZdntSSY684ZJsgGwGmW/
+ iO1NVBcFms8vvSxGp4f7vF5NP60tK+Q8UsdMO3RnrJR66dC70XnQBb4gP+oD7FlA6jFzcGAMG7JP6
+ LU4fr48XJiWOrsK+SkuD4Ko8UZyZnIjal6ezMLphTPk4WskRYh7bV1moSlDs/M4PLdSlpbaZFKiKE
+ DckOZb8WfjwZgbkm/RtykPexLBn6nF7TpBgI0bcjsXNI2DXJOkxhvCWgOekQRPUMReZRNKIMMp7/4
+ xn9KcHNNWhLrjElcnGj/HyGfRirTDwbhBjNDKKcyzqZjPSM20jFgTvWFei2M5sz2rDR8nU2qRj9vp
+ +hz5p++5PGUxWupP5kl9V9jImE4nqA+ZWcxiJi+dvw2eTooHaalceV0whnRQs3tiB8sHDROu2HGHq
+ gZbecv2+f3QUOkGRgfvLSCYjWOdx8LaSiG/cDdR9sIJZsgdzqW7yBkuEbpg1gmt6BgKfuw89iXq+X
+ dnHYExWqzr8F0VsIwt6NyOedW+p9AUTjvBr+CNfol06qaEaUFs5PuLVU7CvvSKb+5exLcr4nWe+0O
+ 3d+qgfA1vJyr5BPXm55qwVMgB0zoEGmPiLPLAhKgZs9gwi8RRBC4oQXu3tCTLmVGNa9fdXnzTHCnO
+ Qcf+l6BCtoUgLXUNtsHxi7dqUqxR3dhxnup34GVA8=;
+From: Christian Schoenebeck <qemu_oss@crudebyte.com>
+To: qemu-devel@nongnu.org
+Cc: Will Cohen <wwcohen@gmail.com>, Laurent Vivier <lvivier@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, Fabian Franz <fabianfranz.oss@gmail.com>,
+ Greg Kurz <groug@kaod.org>, hi@alyssa.is,
+ Michael Roitzsch <reactorcontrol@icloud.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Keno Fischer <keno@juliacomputing.com>
+Subject: Re: [PATCH v5 06/11] 9p: darwin: Move
+ XATTR_SIZE_MAX->P9_XATTR_SIZE_MAX
+Date: Tue, 08 Feb 2022 13:20:08 +0100
+Message-ID: <2797799.bNjLCV8H8p@silver>
+In-Reply-To: <20220207224024.87745-7-wwcohen@gmail.com>
+References: <20220207224024.87745-1-wwcohen@gmail.com>
+ <20220207224024.87745-7-wwcohen@gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH 2/6] tests/qemu-iotests/meson.build: Improve the
- indentation
-To: Thomas Huth <thuth@redhat.com>, qemu-block@nongnu.org,
- Kevin Wolf <kwolf@redhat.com>
-References: <20220208101311.1511083-1-thuth@redhat.com>
- <20220208101311.1511083-3-thuth@redhat.com>
-From: Hanna Reitz <hreitz@redhat.com>
-In-Reply-To: <20220208101311.1511083-3-thuth@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=hreitz@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
+Received-SPF: pass client-ip=5.189.157.229;
+ envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -104,20 +70,83 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 08.02.22 11:13, Thomas Huth wrote:
-> By using subdir_done(), we can get rid of one level of indentation
-> in this file. This will make it easier to add more conditions to
-> skip the iotests in future patches.
->
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
+On Montag, 7. Februar 2022 23:40:19 CET Will Cohen wrote:
+> From: Keno Fischer <keno@juliacomputing.com>
+> 
+> Signed-off-by: Keno Fischer <keno@juliacomputing.com>
+> Signed-off-by: Michael Roitzsch <reactorcontrol@icloud.com>
+> 
+> Because XATTR_SIZE_MAX is not defined on Darwin,
+> create a cross-platform P9_XATTR_SIZE_MAX instead.
+> 
+> [Will Cohen: - Adjust coding style
+>              - Lower XATTR_SIZE_MAX to 64k
+>              - Add explanatory context related to XATTR_SIZE_MAX]
+> [Fabian Franz: - Move XATTR_SIZE_MAX reference from 9p.c to
+>                  P9_XATTR_SIZE_MAX in 9p.h]
+> Signed-off-by: Will Cohen <wwcohen@gmail.com>
+> Signed-off-by: Fabian Franz <fabianfranz.oss@gmail.com>
 > ---
->   tests/qemu-iotests/meson.build | 61 ++++++++++++++++++----------------
->   1 file changed, 32 insertions(+), 29 deletions(-)
+>  hw/9pfs/9p.c |  2 +-
+>  hw/9pfs/9p.h | 11 +++++++++++
+>  2 files changed, 12 insertions(+), 1 deletion(-)
+> 
+> diff --git a/hw/9pfs/9p.c b/hw/9pfs/9p.c
+> index 14e84c3bcf..7405352c37 100644
+> --- a/hw/9pfs/9p.c
+> +++ b/hw/9pfs/9p.c
+> @@ -3949,7 +3949,7 @@ static void coroutine_fn v9fs_xattrcreate(void
+> *opaque) rflags |= XATTR_REPLACE;
+>      }
+> 
+> -    if (size > XATTR_SIZE_MAX) {
+> +    if (size > P9_XATTR_SIZE_MAX) {
+>          err = -E2BIG;
+>          goto out_nofid;
+>      }
+> diff --git a/hw/9pfs/9p.h b/hw/9pfs/9p.h
+> index 1567b67841..6a1856b4dc 100644
+> --- a/hw/9pfs/9p.h
+> +++ b/hw/9pfs/9p.h
+> @@ -479,4 +479,15 @@ struct V9fsTransport {
+>      void        (*push_and_notify)(V9fsPDU *pdu);
+>  };
+> 
+> +/*
+> + * Darwin doesn't seem to define a maximum xattr size in its user
+> + * space header, so manually configure it across platforms as 64k.
+> + *
+> + * Having no limit at all can lead to QEMU crashing during large g_malloc()
+> + * calls. Because QEMU does not currently support macOS guests, the below
+> + * preliminary solution only works due to its being a reflection of the limit of
+> + * Linux guests.
+> + */
+> +#define P9_XATTR_SIZE_MAX 65536
 
-Reviewed-by: Hanna Reitz <hreitz@redhat.com>
+It would be cleaner in a way like this:
+
+#if defined(XATTR_SIZE_MAX)
+/* Linux */
+#define P9_XATTR_SIZE_MAX XATTR_SIZE_MAX
+#elif defined(CONFIG_DARWIN)
+/* darwin comment goes here */
+#define P9_XATTR_SIZE_MAX 65536
+#else
+#error Missing definition for P9_XATTR_SIZE_MAX for this host system
+#endif
+
+Sorry, I haven't noticed that before. You actually had that wrapped into some
+ifdefs in v2 before:
+
+#if defined(CONFIG_DARWIN) && !defined(XATTR_SIZE_MAX)
+...
+#endif
+
+> +
+>  #endif
+
 
 
