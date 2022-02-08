@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB7BF4AE0C9
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Feb 2022 19:29:26 +0100 (CET)
-Received: from localhost ([::1]:41846 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 31AC64AE08B
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Feb 2022 19:18:48 +0100 (CET)
+Received: from localhost ([::1]:56220 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nHVEz-0002zN-KM
-	for lists+qemu-devel@lfdr.de; Tue, 08 Feb 2022 13:29:25 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:47262)
+	id 1nHV4h-0001O0-AX
+	for lists+qemu-devel@lfdr.de; Tue, 08 Feb 2022 13:18:47 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:47204)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1nHSYe-0000Tw-Mg
- for qemu-devel@nongnu.org; Tue, 08 Feb 2022 10:37:32 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:47356)
+ id 1nHSYb-0000SG-Vq
+ for qemu-devel@nongnu.org; Tue, 08 Feb 2022 10:37:30 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:20635)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1nHSYI-0002ee-4K
- for qemu-devel@nongnu.org; Tue, 08 Feb 2022 10:37:31 -0500
+ id 1nHSYH-0002ei-QX
+ for qemu-devel@nongnu.org; Tue, 08 Feb 2022 10:37:29 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1644334627;
+ s=mimecast20190719; t=1644334628;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=i9p3DrLXzXtNC11veQfbYrUtwOaG0S532XgvkB92rFU=;
- b=DPlMV2Bn+HBGt0TgIN8sGP4CBGQp5wdK+jfZoBi6OEIk4zYQsx2tvYdwMl8hv9pGorTa3c
- OS8OJzbJwGGIyw6lBzfycpx3WKZmWZumrdh9MB2n4HIRg9jZO4BY0gA5Molg5eSluigXJJ
- sCQIWlz1x6wwCwDMw7STBWbMB1TiZvs=
+ bh=8ScGcYB9BhOfQXboStI0hGCZ92n6rkbvzVu2F1ND7Z0=;
+ b=SLPx/R2XU+JUmoF1LFKfaexP94Vy3kMnmx0AfEzKxwCF7tlb7CbrPCXFz+Zl5us+sRKx3I
+ 7XRQRso1RRSznOKEj05U44YAxDDrHkiencu33bGrXkwTSRP3lXJvGCo5Natdi/2TvRhEQC
+ LIQuAiqkuwzhy+n2uxsUDtjv9Bv2fzM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-625-rvHOCPGtMQm8pbpxHokIWA-1; Tue, 08 Feb 2022 10:37:04 -0500
-X-MC-Unique: rvHOCPGtMQm8pbpxHokIWA-1
+ us-mta-662-D7b9JGZQNZGoibbzlnwd4w-1; Tue, 08 Feb 2022 10:37:05 -0500
+X-MC-Unique: D7b9JGZQNZGoibbzlnwd4w-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 240621091DA2;
- Tue,  8 Feb 2022 15:37:03 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 02ADD1091DA1;
+ Tue,  8 Feb 2022 15:37:04 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5FB507D473;
- Tue,  8 Feb 2022 15:37:02 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3EEAB7D473;
+ Tue,  8 Feb 2022 15:37:03 +0000 (UTC)
 From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH 5/6] test-bdrv-drain.c: remove test_detach_by_parent_cb()
-Date: Tue,  8 Feb 2022 10:36:54 -0500
-Message-Id: <20220208153655.1251658-6-eesposit@redhat.com>
+Subject: [PATCH 6/6] jobs: ensure sleep in job_sleep_ns is fully performed
+Date: Tue,  8 Feb 2022 10:36:55 -0500
+Message-Id: <20220208153655.1251658-7-eesposit@redhat.com>
 In-Reply-To: <20220208153655.1251658-1-eesposit@redhat.com>
 References: <20220208153655.1251658-1-eesposit@redhat.com>
 MIME-Version: 1.0
@@ -59,7 +59,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=eesposit@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eesposit@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -67,7 +67,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -88,190 +88,131 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This test uses a callback of an I/O function (blk_aio_preadv)
-to modify the graph, using bdrv_attach_child.
-This is simply not allowed anymore. I/O cannot change the graph.
+If a drain happens while a job is sleeping, the timeout
+gets cancelled and the job continues once the drain ends.
+This is especially bad for the sleep performed in commit and stream
+jobs, since that is dictated by ratelimit to maintain a certain speed.
 
-Before "block/io.c: make bdrv_do_drained_begin_quiesce static
-and introduce bdrv_drained_begin_no_poll", the test would simply
-be at risk of failure, because if bdrv_replace_child_noperm()
-(called to modify the graph) would call a drain,
-then one callback of .drained_begin() is bdrv_do_drained_begin_quiesce,
-that specifically asserts that we are not in a coroutine.
+Basically the execution path is the following:
+1. job calls job_sleep_ns, and yield with a timer in @ns ns.
+2. meanwhile, a drain is executed, and
+   child_job_drained_{begin/end} could be executed as ->drained_begin()
+   and ->drained_end() callbacks.
+   Therefore child_job_drained_begin() enters the job, that continues
+   execution in job_sleep_ns() and calls job_pause_point_locked().
+3. job_pause_point_locked() detects that we are in the middle of a
+   drain, and firstly deletes any existing timer and then yields again,
+   waiting for ->drained_end().
+4. Once draining is finished, child_job_drained_end() runs and resumes
+   the job. At this point, the timer has been lost and we just resume
+   without checking if enough time has passed.
 
-Now that we fixed the behavior, the drain will invoke a bh in the
-main loop, so we don't have such problem. However, this test is still
-illegal and fails because we forbid graph changes from I/O paths.
+This fix implies that from now onwards, job_sleep_ns will force the job
+to sleep @ns, even if it is wake up (purposefully or not) in the middle
+of the sleep. Therefore qemu-iotests test might run a little bit slower,
+depending on the speed of the job. Setting a job speed to values like "1"
+is not allowed anymore (unless you want to wait forever).
 
-Once we add the required subtree_drains to protect
-bdrv_replace_child_noperm(), the key problem in this test is in:
+Because of this fix, test_stream_parallel() in tests/qemu-iotests/030
+takes too long, since speed of stream job is just 1024 and before
+it was skipping all the wait thanks to the drains. Increase the
+speed to 256 * 1024. Exactly the same happens for test 151.
 
-acb = blk_aio_preadv(blk, 0, &qiov, 0, detach_by_parent_aio_cb, NULL);
-/* Drain and check the expected result */
-bdrv_subtree_drained_begin(parent_b);
-
-because the detach_by_parent_aio_cb calls detach_indirect_bh(), that
-modifies the graph and is invoked during bdrv_subtree_drained_begin().
-The call stack is the following:
-1. blk_aio_preadv() creates a coroutine, increments in_flight counter
-and enters the coroutine running blk_aio_read_entry()
-2. blk_aio_read_entry() performs the read and then schedules a bh to
-   complete (blk_aio_complete)
-3. at this point, subtree_drained_begin() kicks in and waits for all
-   in_flight requests, polling
-4. polling allows the bh to be scheduled, so blk_aio_complete runs
-5. blk_aio_complete *first* invokes the callback
-   (detach_by_parent_aio_cb) and then decrements the in_flight counter
-6. Here we have the problem: detach_by_parent_aio_cb modifies the graph,
-   so both bdrv_unref_child() and bdrv_attach_child() will have
-   subtree_drains inside. And this causes a deadlock, because the
-   nested drain will wait for in_flight counter to go to zero, which
-   is only happening once the drain itself finishes.
-
-Different story is test_detach_by_driver_cb(): in this case,
-detach_by_parent_aio_cb() does not call detach_indirect_bh(),
-but it is instead called as a bh running in the main loop by
-detach_by_driver_cb_drained_begin(), the callback for
-.drained_begin().
-
-This test was added in 231281ab42 and part of the series
-"Drain fixes and cleanups, part 3"
-https://lists.nongnu.org/archive/html/qemu-block/2018-05/msg01132.html
-but as explained above I believe that it is not valid anymore, and
-can be discarded.
+Instead we need to sleep less in test_cancel_ready() test-blockjob.c,
+so that the job will be able to exit the sleep and transition to ready
+before the main loop asserts.
 
 Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 ---
- tests/unit/test-bdrv-drain.c | 46 +++++++++---------------------------
- 1 file changed, 11 insertions(+), 35 deletions(-)
+ job.c                      | 19 +++++++++++--------
+ tests/qemu-iotests/030     |  2 +-
+ tests/qemu-iotests/151     |  4 ++--
+ tests/unit/test-blockjob.c |  2 +-
+ 4 files changed, 15 insertions(+), 12 deletions(-)
 
-diff --git a/tests/unit/test-bdrv-drain.c b/tests/unit/test-bdrv-drain.c
-index c52ba2db4e..ef154b6536 100644
---- a/tests/unit/test-bdrv-drain.c
-+++ b/tests/unit/test-bdrv-drain.c
-@@ -1316,7 +1316,6 @@ struct detach_by_parent_data {
-     BdrvChild *child_b;
-     BlockDriverState *c;
-     BdrvChild *child_c;
--    bool by_parent_cb;
- };
- static struct detach_by_parent_data detach_by_parent_data;
+diff --git a/job.c b/job.c
+index c7a41d88d6..72d6c462ed 100644
+--- a/job.c
++++ b/job.c
+@@ -639,19 +639,22 @@ void job_yield(Job *job)
  
-@@ -1334,12 +1333,7 @@ static void detach_indirect_bh(void *opaque)
- 
- static void detach_by_parent_aio_cb(void *opaque, int ret)
+ void coroutine_fn job_sleep_ns(Job *job, int64_t ns)
  {
--    struct detach_by_parent_data *data = &detach_by_parent_data;
--
-     g_assert_cmpint(ret, ==, 0);
--    if (data->by_parent_cb) {
--        detach_indirect_bh(data);
++    int64_t end_ns = qemu_clock_get_ns(QEMU_CLOCK_REALTIME) + ns;
+     JOB_LOCK_GUARD();
+     assert(job->busy);
+ 
+-    /* Check cancellation *before* setting busy = false, too!  */
+-    if (job_is_cancelled_locked(job)) {
+-        return;
 -    }
++    do {
++        /* Check cancellation *before* setting busy = false, too!  */
++        if (job_is_cancelled_locked(job)) {
++            return;
++        }
+ 
+-    if (!job_should_pause_locked(job)) {
+-        job_do_yield_locked(job, qemu_clock_get_ns(QEMU_CLOCK_REALTIME) + ns);
+-    }
++        if (!job_should_pause_locked(job)) {
++            job_do_yield_locked(job, end_ns);
++        }
+ 
+-    job_pause_point_locked(job);
++        job_pause_point_locked(job);
++    } while (qemu_clock_get_ns(QEMU_CLOCK_REALTIME) < end_ns);
  }
  
- static BdrvChildClass detach_by_driver_cb_class;
-@@ -1361,31 +1355,24 @@ static void detach_by_driver_cb_drained_begin(BdrvChild *child)
-  *    \ /   \
-  *     A     B     C
-  *
-- * by_parent_cb == true:  Test that parent callbacks don't poll
-- *
-- *     PA has a pending write request whose callback changes the child nodes of
-- *     PB: It removes B and adds C instead. The subtree of PB is drained, which
-- *     will indirectly drain the write request, too.
-- *
-- * by_parent_cb == false: Test that bdrv_drain_invoke() doesn't poll
-+ * Test that bdrv_drain_invoke() doesn't poll
-  *
-  *     PA's BdrvChildClass has a .drained_begin callback that schedules a BH
-  *     that does the same graph change. If bdrv_drain_invoke() calls it, the
-  *     state is messed up, but if it is only polled in the single
-  *     BDRV_POLL_WHILE() at the end of the drain, this should work fine.
-  */
--static void test_detach_indirect(bool by_parent_cb)
-+static void test_detach_indirect(void)
- {
-     BlockBackend *blk;
-     BlockDriverState *parent_a, *parent_b, *a, *b, *c;
-     BdrvChild *child_a, *child_b;
-     BlockAIOCB *acb;
-+    BDRVTestState *s;
+ /* Assumes the job_mutex is held */
+diff --git a/tests/qemu-iotests/030 b/tests/qemu-iotests/030
+index 567bf1da67..969b246d0f 100755
+--- a/tests/qemu-iotests/030
++++ b/tests/qemu-iotests/030
+@@ -248,7 +248,7 @@ class TestParallelOps(iotests.QMPTestCase):
+             pending_jobs.append(job_id)
+             result = self.vm.qmp('block-stream', device=node_name,
+                                  job_id=job_id, bottom=f'node{i-1}',
+-                                 speed=1024)
++                                 speed=256*1024)
+             self.assert_qmp(result, 'return', {})
  
-     QEMUIOVector qiov = QEMU_IOVEC_INIT_BUF(qiov, NULL, 0);
+         # Do this in reverse: After unthrottling them, some jobs may finish
+diff --git a/tests/qemu-iotests/151 b/tests/qemu-iotests/151
+index 93d14193d0..5998beb5c4 100755
+--- a/tests/qemu-iotests/151
++++ b/tests/qemu-iotests/151
+@@ -129,7 +129,7 @@ class TestActiveMirror(iotests.QMPTestCase):
+                              sync='full',
+                              copy_mode='write-blocking',
+                              buf_size=(1048576 // 4),
+-                             speed=1)
++                             speed=1024*1024)
+         self.assert_qmp(result, 'return', {})
  
--    if (!by_parent_cb) {
--        detach_by_driver_cb_class = child_of_bds;
--    }
-+    detach_by_driver_cb_class = child_of_bds;
+         # Start an unaligned request to a dirty area
+@@ -154,7 +154,7 @@ class TestActiveMirror(iotests.QMPTestCase):
+                              target='target-node',
+                              sync='full',
+                              copy_mode='write-blocking',
+-                             speed=1)
++                             speed=1024*1024)
  
-     /* Create all involved nodes */
-     parent_a = bdrv_new_open_driver(&bdrv_test, "parent-a", BDRV_O_RDWR,
-@@ -1404,10 +1391,8 @@ static void test_detach_indirect(bool by_parent_cb)
+         self.vm.hmp_qemu_io('source', 'break write_aio A')
+         self.vm.hmp_qemu_io('source', 'aio_write 0 1M')  # 1
+diff --git a/tests/unit/test-blockjob.c b/tests/unit/test-blockjob.c
+index d6fc52f80a..81ebc7d154 100644
+--- a/tests/unit/test-blockjob.c
++++ b/tests/unit/test-blockjob.c
+@@ -184,7 +184,7 @@ static int coroutine_fn cancel_job_run(Job *job, Error **errp)
+             job_transition_to_ready(&s->common.job);
+         }
  
-     /* If we want to get bdrv_drain_invoke() to call aio_poll(), the driver
-      * callback must not return immediately. */
--    if (!by_parent_cb) {
--        BDRVTestState *s = parent_a->opaque;
--        s->sleep_in_drain_begin = true;
--    }
-+    s = parent_a->opaque;
-+    s->sleep_in_drain_begin = true;
+-        job_sleep_ns(&s->common.job, 100000);
++        job_sleep_ns(&s->common.job, 100);
+     }
  
-     /* Set child relationships */
-     bdrv_ref(b);
-@@ -1419,7 +1404,7 @@ static void test_detach_indirect(bool by_parent_cb)
- 
-     bdrv_ref(a);
-     bdrv_attach_child(parent_a, a, "PA-A",
--                      by_parent_cb ? &child_of_bds : &detach_by_driver_cb_class,
-+                      &detach_by_driver_cb_class,
-                       BDRV_CHILD_DATA, &error_abort);
- 
-     g_assert_cmpint(parent_a->refcnt, ==, 1);
-@@ -1437,16 +1422,13 @@ static void test_detach_indirect(bool by_parent_cb)
-         .parent_b = parent_b,
-         .child_b = child_b,
-         .c = c,
--        .by_parent_cb = by_parent_cb,
-     };
-     acb = blk_aio_preadv(blk, 0, &qiov, 0, detach_by_parent_aio_cb, NULL);
-     g_assert(acb != NULL);
- 
--    if (!by_parent_cb) {
--        /* set .drained_begin cb to run only in the following drain. */
--        detach_by_driver_cb_class.drained_begin =
--            detach_by_driver_cb_drained_begin;
--    }
-+    /* set .drained_begin cb to run only in the following drain. */
-+    detach_by_driver_cb_class.drained_begin =
-+        detach_by_driver_cb_drained_begin;
- 
-     /* Drain and check the expected result */
-     bdrv_subtree_drained_begin(parent_b);
-@@ -1482,14 +1464,9 @@ static void test_detach_indirect(bool by_parent_cb)
-     bdrv_unref(c);
- }
- 
--static void test_detach_by_parent_cb(void)
--{
--    test_detach_indirect(true);
--}
--
- static void test_detach_by_driver_cb(void)
- {
--    test_detach_indirect(false);
-+    test_detach_indirect();
- }
- 
- static void test_append_to_drained(void)
-@@ -2244,7 +2221,6 @@ int main(int argc, char **argv)
-     g_test_add_func("/bdrv-drain/detach/drain_all", test_detach_by_drain_all);
-     g_test_add_func("/bdrv-drain/detach/drain", test_detach_by_drain);
-     g_test_add_func("/bdrv-drain/detach/drain_subtree", test_detach_by_drain_subtree);
--    g_test_add_func("/bdrv-drain/detach/parent_cb", test_detach_by_parent_cb);
-     g_test_add_func("/bdrv-drain/detach/driver_cb", test_detach_by_driver_cb);
- 
-     g_test_add_func("/bdrv-drain/attach/drain", test_append_to_drained);
+     return 0;
 -- 
 2.31.1
 
