@@ -2,95 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6EB284AD583
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Feb 2022 11:32:09 +0100 (CET)
-Received: from localhost ([::1]:34708 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A083D4AD578
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Feb 2022 11:25:47 +0100 (CET)
+Received: from localhost ([::1]:48178 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nHNn6-0005Io-GK
-	for lists+qemu-devel@lfdr.de; Tue, 08 Feb 2022 05:32:08 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:47512)
+	id 1nHNgw-0002sz-Bs
+	for lists+qemu-devel@lfdr.de; Tue, 08 Feb 2022 05:25:46 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:50400)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1nHMOk-0001LE-Tr
- for qemu-devel@nongnu.org; Tue, 08 Feb 2022 04:02:55 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:42985)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1nHMXq-0008Ep-P1
+ for qemu-devel@nongnu.org; Tue, 08 Feb 2022 04:12:19 -0500
+Received: from 7.mo548.mail-out.ovh.net ([46.105.33.25]:50411)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1nHMOi-0008T1-05
- for qemu-devel@nongnu.org; Tue, 08 Feb 2022 04:02:54 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1644310971;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=dpeY1R38SacMlMl4XDAae/BLveAIcxigUlqWr1q3zgM=;
- b=fDyqikKaisSjgEzaVqHg3AoOjCgeWWuOsPJnD3lEymAlWAZFjVxi/0LJlR/M+KD2d5EkAj
- wSTzfPBv8WeXdzbCHVnG2nBk3RHRp/Wke+UukIgVaO8TNt98MbmNPcCnZm7zGdIMGEQRtN
- mSy+ABb9f1g6Bh6B3ngsmdQmzgRJqlc=
-Received: from mail-pf1-f198.google.com (mail-pf1-f198.google.com
- [209.85.210.198]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-607-4X7saXXXOPO3xACSRYajrQ-1; Tue, 08 Feb 2022 04:02:48 -0500
-X-MC-Unique: 4X7saXXXOPO3xACSRYajrQ-1
-Received: by mail-pf1-f198.google.com with SMTP id
- m200-20020a628cd1000000b004c7473d8cb5so9327231pfd.5
- for <qemu-devel@nongnu.org>; Tue, 08 Feb 2022 01:02:47 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=dpeY1R38SacMlMl4XDAae/BLveAIcxigUlqWr1q3zgM=;
- b=SqvKPfG8IxGsYloVNw48BD75Amfnu32vHH3GbOnF+/KMNGccbuBOCT+rW9eaTXUVDN
- ZlpSbQmMDF02t7g/bGEyoAHqgIq+Vs3yx+Rx422w8Z6SQ8/ReguSl/78NsCc9J6Oz1S8
- VGbhAln/k9mu3Ex1v7OPDHxHWVjAyPrf0MGHfZd9FPmHkJXj9ruHWf1Wyn4qojWn4WFA
- x8mhGutntU4wk7JzCky+KURvK8tiq4HiX2qnb2RxAWUc2dBd0u6n1q95mC3LMsht6QOe
- Ym1RrpJWLj7vwlX0EqlHgW7z7tE9xRUZQEPONjBx8vMhS5A6zPgRoDr6V36A8vHfRM16
- CFrQ==
-X-Gm-Message-State: AOAM533tkFOKXrAp9F7zELbEVH8jLDaMMHkyNnJWFwYQzFiPmFwifS6w
- S6zLg9wbUg7XYePAdwWzlTn9bXyJnH9FV2fic9JcfNtMZ6uDQ4wAUtnq1imKpR1bE9HHMexK3ne
- 9WBleePMqMMs0HKw=
-X-Received: by 2002:a63:14b:: with SMTP id 72mr2727834pgb.444.1644310966786;
- Tue, 08 Feb 2022 01:02:46 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzU2MVcMgq99QdyibSPPKQYJUcFtYLcJHS8oqLoJFM8OfEYzQ0hWK/Fm9CEWSsWJvKiq54Fqw==
-X-Received: by 2002:a63:14b:: with SMTP id 72mr2727787pgb.444.1644310966297;
- Tue, 08 Feb 2022 01:02:46 -0800 (PST)
-Received: from [10.72.13.12] ([209.132.188.80])
- by smtp.gmail.com with ESMTPSA id om18sm2124298pjb.39.2022.02.08.01.02.39
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 08 Feb 2022 01:02:45 -0800 (PST)
-Message-ID: <05de0101-6481-22fd-e2f8-2fa3213f47a1@redhat.com>
-Date: Tue, 8 Feb 2022 17:02:33 +0800
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1nHMXm-0001c1-3n
+ for qemu-devel@nongnu.org; Tue, 08 Feb 2022 04:12:18 -0500
+Received: from mxplan5.mail.ovh.net (unknown [10.108.4.141])
+ by mo548.mail-out.ovh.net (Postfix) with ESMTPS id 9A40C203B6;
+ Tue,  8 Feb 2022 09:11:58 +0000 (UTC)
+Received: from kaod.org (37.59.142.95) by DAG4EX1.mxp5.local (172.16.2.31)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.18; Tue, 8 Feb
+ 2022 10:11:57 +0100
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-95G0019b378850-472f-4124-ad34-ed89e8a9df35,
+ A9EFA83ADB8598AD7F1759910761E0E5CF6DF637) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Message-ID: <51ff2562-f7bc-876e-bb2b-2843ae27aa0d@kaod.org>
+Date: Tue, 8 Feb 2022 10:11:56 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.5.1
-Subject: Re: [PATCH 06/31] vhost: Route guest->host notification through
- shadow virtqueue
-To: Eugenio Perez Martin <eperezma@redhat.com>
-References: <20220121202733.404989-1-eperezma@redhat.com>
- <20220121202733.404989-7-eperezma@redhat.com>
- <2cb2415b-7d8b-6187-c202-27e8f26410a4@redhat.com>
- <CAJaqyWeRbmwW80q3q52nFw=iz1xcPRFviFaRHo0nzXpEb+3m3A@mail.gmail.com>
-From: Jason Wang <jasowang@redhat.com>
-In-Reply-To: <CAJaqyWeRbmwW80q3q52nFw=iz1xcPRFviFaRHo0nzXpEb+3m3A@mail.gmail.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.0
+Subject: Re: [PATCH 1/4] target/ppc: Remove powerpc_excp_legacy
 Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
+To: Fabiano Rosas <farosas@linux.ibm.com>, <qemu-devel@nongnu.org>
+References: <20220207183036.1507882-1-farosas@linux.ibm.com>
+ <20220207183036.1507882-2-farosas@linux.ibm.com>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <20220207183036.1507882-2-farosas@linux.ibm.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=jasowang@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Originating-IP: [37.59.142.95]
+X-ClientProxiedBy: DAG3EX2.mxp5.local (172.16.2.22) To DAG4EX1.mxp5.local
+ (172.16.2.31)
+X-Ovh-Tracer-GUID: abc8d1c5-ae6c-4a32-abf7-ef873d0e90d2
+X-Ovh-Tracer-Id: 3737424742987107235
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvvddrheeigdduvdekucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvfhfhjggtgfhisehtkeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepieegvdffkeegfeetuddttddtveduiefhgeduffekiedtkeekteekhfffleevleelnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrdelheenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdpnhgspghrtghpthhtohepuddprhgtphhtthhopegurghnihgvlhhhsgegudefsehgmhgrihhlrdgtohhm
+Received-SPF: pass client-ip=46.105.33.25; envelope-from=clg@kaod.org;
+ helo=7.mo548.mail-out.ovh.net
+X-Spam_score_int: -8
+X-Spam_score: -0.9
+X-Spam_bar: /
+X-Spam_report: (-0.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ TVD_SUBJ_WIPE_DEBT=1.004,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -103,360 +71,545 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Parav Pandit <parav@mellanox.com>,
- Cindy Lu <lulu@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Juan Quintela <quintela@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- qemu-level <qemu-devel@nongnu.org>, Gautam Dawar <gdawar@xilinx.com>,
- Markus Armbruster <armbru@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
- Harpreet Singh Anand <hanand@xilinx.com>, Xiao W Wang <xiao.w.wang@intel.com>,
- Peter Xu <peterx@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Eli Cohen <eli@mellanox.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Zhu Lingshan <lingshan.zhu@intel.com>,
- virtualization <virtualization@lists.linux-foundation.org>,
- Eric Blake <eblake@redhat.com>, Stefano Garzarella <sgarzare@redhat.com>
+Cc: danielhb413@gmail.com, qemu-ppc@nongnu.org, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 2/7/22 19:30, Fabiano Rosas wrote:
+> Now that all CPU families have their own separate exception
+> dispatching code we can remove powerpc_excp_legacy.
+> 
+> Signed-off-by: Fabiano Rosas <farosas@linux.ibm.com>
 
-在 2022/1/31 下午7:33, Eugenio Perez Martin 写道:
-> On Fri, Jan 28, 2022 at 7:57 AM Jason Wang <jasowang@redhat.com> wrote:
->>
->> 在 2022/1/22 上午4:27, Eugenio Pérez 写道:
->>> At this moment no buffer forwarding will be performed in SVQ mode: Qemu
->>> just forward the guest's kicks to the device. This commit also set up
->>> SVQs in the vhost device.
->>>
->>> Host memory notifiers regions are left out for simplicity, and they will
->>> not be addressed in this series.
->>
->> I wonder if it's better to squash this into patch 5 since it gives us a
->> full guest->host forwarding.
->>
-> I'm fine with that if you think it makes the review easier.
+Super :)
 
+Reviewed-by: Cédric Le Goater <clg@kaod.org>
 
-Yes please.
+Thanks,
 
+C.
 
->
->>> Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
->>> ---
->>>    include/hw/virtio/vhost-vdpa.h |   4 ++
->>>    hw/virtio/vhost-vdpa.c         | 122 ++++++++++++++++++++++++++++++++-
->>>    2 files changed, 124 insertions(+), 2 deletions(-)
->>>
->>> diff --git a/include/hw/virtio/vhost-vdpa.h b/include/hw/virtio/vhost-vdpa.h
->>> index 3ce79a646d..009a9f3b6b 100644
->>> --- a/include/hw/virtio/vhost-vdpa.h
->>> +++ b/include/hw/virtio/vhost-vdpa.h
->>> @@ -12,6 +12,8 @@
->>>    #ifndef HW_VIRTIO_VHOST_VDPA_H
->>>    #define HW_VIRTIO_VHOST_VDPA_H
->>>
->>> +#include <gmodule.h>
->>> +
->>>    #include "hw/virtio/virtio.h"
->>>    #include "standard-headers/linux/vhost_types.h"
->>>
->>> @@ -27,6 +29,8 @@ typedef struct vhost_vdpa {
->>>        bool iotlb_batch_begin_sent;
->>>        MemoryListener listener;
->>>        struct vhost_vdpa_iova_range iova_range;
->>> +    bool shadow_vqs_enabled;
->>> +    GPtrArray *shadow_vqs;
->>>        struct vhost_dev *dev;
->>>        VhostVDPAHostNotifier notifier[VIRTIO_QUEUE_MAX];
->>>    } VhostVDPA;
->>> diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
->>> index 6c10a7f05f..18de14f0fb 100644
->>> --- a/hw/virtio/vhost-vdpa.c
->>> +++ b/hw/virtio/vhost-vdpa.c
->>> @@ -17,12 +17,14 @@
->>>    #include "hw/virtio/vhost.h"
->>>    #include "hw/virtio/vhost-backend.h"
->>>    #include "hw/virtio/virtio-net.h"
->>> +#include "hw/virtio/vhost-shadow-virtqueue.h"
->>>    #include "hw/virtio/vhost-vdpa.h"
->>>    #include "exec/address-spaces.h"
->>>    #include "qemu/main-loop.h"
->>>    #include "cpu.h"
->>>    #include "trace.h"
->>>    #include "qemu-common.h"
->>> +#include "qapi/error.h"
->>>
->>>    /*
->>>     * Return one past the end of the end of section. Be careful with uint64_t
->>> @@ -409,8 +411,14 @@ err:
->>>
->>>    static void vhost_vdpa_host_notifiers_init(struct vhost_dev *dev)
->>>    {
->>> +    struct vhost_vdpa *v = dev->opaque;
->>>        int i;
->>>
->>> +    if (v->shadow_vqs_enabled) {
->>> +        /* SVQ is not compatible with host notifiers mr */
->>
->> I guess there should be a TODO or FIXME here.
->>
-> Sure I can add it.
->
->>> +        return;
->>> +    }
->>> +
->>>        for (i = dev->vq_index; i < dev->vq_index + dev->nvqs; i++) {
->>>            if (vhost_vdpa_host_notifier_init(dev, i)) {
->>>                goto err;
->>> @@ -424,6 +432,17 @@ err:
->>>        return;
->>>    }
->>>
->>> +static void vhost_vdpa_svq_cleanup(struct vhost_dev *dev)
->>> +{
->>> +    struct vhost_vdpa *v = dev->opaque;
->>> +    size_t idx;
->>> +
->>> +    for (idx = 0; idx < v->shadow_vqs->len; ++idx) {
->>> +        vhost_svq_stop(g_ptr_array_index(v->shadow_vqs, idx));
->>> +    }
->>> +    g_ptr_array_free(v->shadow_vqs, true);
->>> +}
->>> +
->>>    static int vhost_vdpa_cleanup(struct vhost_dev *dev)
->>>    {
->>>        struct vhost_vdpa *v;
->>> @@ -432,6 +451,7 @@ static int vhost_vdpa_cleanup(struct vhost_dev *dev)
->>>        trace_vhost_vdpa_cleanup(dev, v);
->>>        vhost_vdpa_host_notifiers_uninit(dev, dev->nvqs);
->>>        memory_listener_unregister(&v->listener);
->>> +    vhost_vdpa_svq_cleanup(dev);
->>>
->>>        dev->opaque = NULL;
->>>        ram_block_discard_disable(false);
->>> @@ -507,9 +527,15 @@ static int vhost_vdpa_get_device_id(struct vhost_dev *dev,
->>>
->>>    static int vhost_vdpa_reset_device(struct vhost_dev *dev)
->>>    {
->>> +    struct vhost_vdpa *v = dev->opaque;
->>>        int ret;
->>>        uint8_t status = 0;
->>>
->>> +    for (unsigned i = 0; i < v->shadow_vqs->len; ++i) {
->>> +        VhostShadowVirtqueue *svq = g_ptr_array_index(v->shadow_vqs, i);
->>> +        vhost_svq_stop(svq);
->>> +    }
->>> +
->>>        ret = vhost_vdpa_call(dev, VHOST_VDPA_SET_STATUS, &status);
->>>        trace_vhost_vdpa_reset_device(dev, status);
->>>        return ret;
->>> @@ -639,13 +665,28 @@ static int vhost_vdpa_get_vring_base(struct vhost_dev *dev,
->>>        return ret;
->>>    }
->>>
->>> -static int vhost_vdpa_set_vring_kick(struct vhost_dev *dev,
->>> -                                       struct vhost_vring_file *file)
->>> +static int vhost_vdpa_set_vring_dev_kick(struct vhost_dev *dev,
->>> +                                         struct vhost_vring_file *file)
->>>    {
->>>        trace_vhost_vdpa_set_vring_kick(dev, file->index, file->fd);
->>>        return vhost_vdpa_call(dev, VHOST_SET_VRING_KICK, file);
->>>    }
->>>
->>> +static int vhost_vdpa_set_vring_kick(struct vhost_dev *dev,
->>> +                                       struct vhost_vring_file *file)
->>> +{
->>> +    struct vhost_vdpa *v = dev->opaque;
->>> +    int vdpa_idx = vhost_vdpa_get_vq_index(dev, file->index);
->>> +
->>> +    if (v->shadow_vqs_enabled) {
->>> +        VhostShadowVirtqueue *svq = g_ptr_array_index(v->shadow_vqs, vdpa_idx);
->>> +        vhost_svq_set_svq_kick_fd(svq, file->fd);
->>> +        return 0;
->>> +    } else {
->>> +        return vhost_vdpa_set_vring_dev_kick(dev, file);
->>> +    }
->>> +}
->>> +
->>>    static int vhost_vdpa_set_vring_call(struct vhost_dev *dev,
->>>                                           struct vhost_vring_file *file)
->>>    {
->>> @@ -653,6 +694,33 @@ static int vhost_vdpa_set_vring_call(struct vhost_dev *dev,
->>>        return vhost_vdpa_call(dev, VHOST_SET_VRING_CALL, file);
->>>    }
->>>
->>> +/**
->>> + * Set shadow virtqueue descriptors to the device
->>> + *
->>> + * @dev   The vhost device model
->>> + * @svq   The shadow virtqueue
->>> + * @idx   The index of the virtqueue in the vhost device
->>> + */
->>> +static bool vhost_vdpa_svq_setup(struct vhost_dev *dev,
->>> +                                VhostShadowVirtqueue *svq,
->>> +                                unsigned idx)
->>> +{
->>> +    struct vhost_vring_file file = {
->>> +        .index = dev->vq_index + idx,
->>> +    };
->>> +    const EventNotifier *event_notifier;
->>> +    int r;
->>> +
->>> +    event_notifier = vhost_svq_get_dev_kick_notifier(svq);
->>
->> A question, any reason for making VhostShadowVirtqueue private? If we
->> export it in .h we don't need helper to access its member like
->> vhost_svq_get_dev_kick_notifier().
->>
-> To export it it's always a possibility of course, but that direct
-> access will not be thread safe if we decide to move SVQ to its own
-> iothread for example.
-
-
-I don't get this, maybe you can give me an example.
-
-
->
-> I feel it will be easier to work with it this way but it might be that
-> I'm just used to making as much as possible private. Not like it's
-> needed to use the helpers in the hot paths, only in the setup and
-> teardown.
->
->> Note that vhost_dev is a public structure.
->>
-> Sure we could embed in vhost_virtqueue if we choose to do it that way,
-> for example.
->
->>> +    file.fd = event_notifier_get_fd(event_notifier);
->>> +    r = vhost_vdpa_set_vring_dev_kick(dev, &file);
->>> +    if (unlikely(r != 0)) {
->>> +        error_report("Can't set device kick fd (%d)", -r);
->>> +    }
->>
->> I wonder whether or not we can generalize the logic here and
->> vhost_vdpa_set_vring_kick(). There's nothing vdpa specific unless the
->> vhost_ops->set_vring_kick().
->>
-> If we call vhost_ops->set_vring_kick we are setting guest->SVQ kick
-> notifier, not SVQ -> vDPA device, because the
-> if(v->shadow_vqs_enabled). All of the modified ops callbacks are
-> hiding the actual device from the vhost subsystem so we need to
-> explicitly use the newly created _dev_ ones.
-
-
-Ok, I'm fine to start with vhost_vdpa specific code.
-
-
->
->>> +
->>> +    return r == 0;
->>> +}
->>> +
->>>    static int vhost_vdpa_dev_start(struct vhost_dev *dev, bool started)
->>>    {
->>>        struct vhost_vdpa *v = dev->opaque;
->>> @@ -660,6 +728,13 @@ static int vhost_vdpa_dev_start(struct vhost_dev *dev, bool started)
->>>
->>>        if (started) {
->>>            vhost_vdpa_host_notifiers_init(dev);
->>> +        for (unsigned i = 0; i < v->shadow_vqs->len; ++i) {
->>> +            VhostShadowVirtqueue *svq = g_ptr_array_index(v->shadow_vqs, i);
->>> +            bool ok = vhost_vdpa_svq_setup(dev, svq, i);
->>> +            if (unlikely(!ok)) {
->>> +                return -1;
->>> +            }
->>> +        }
->>>            vhost_vdpa_set_vring_ready(dev);
->>>        } else {
->>>            vhost_vdpa_host_notifiers_uninit(dev, dev->nvqs);
->>> @@ -737,6 +812,41 @@ static bool  vhost_vdpa_force_iommu(struct vhost_dev *dev)
->>>        return true;
->>>    }
->>>
->>> +/**
->>> + * Adaptor function to free shadow virtqueue through gpointer
->>> + *
->>> + * @svq   The Shadow Virtqueue
->>> + */
->>> +static void vhost_psvq_free(gpointer svq)
->>> +{
->>> +    vhost_svq_free(svq);
->>> +}
->>
->> Any reason for such indirection? Can we simply use vhost_svq_free()?
->>
-> GCC complains about different types. I think we could do a function
-> type cast and it's valid for every architecture qemu supports, but the
-> indirection seems cleaner to me, and I would be surprised if the
-> compiler does not optimize it away in the cases that the casting are
-> valid.
->
-> ../hw/virtio/vhost-vdpa.c:1186:60: error: incompatible function
-> pointer types passing 'void (VhostShadowVirtqueue *)' (aka 'void
-> (struct VhostShadowVirtqueue *)') to parameter of type
-> 'GDestroyNotify' (aka 'void (*)(void *)')
-
-
-Or just change vhost_svq_free() to take gpointer instead? Then we don't 
-need a cast.
-
-Thanks
-
->
-> Thanks!
->
->> Thanks
->>
->>
->>> +
->>> +static int vhost_vdpa_init_svq(struct vhost_dev *hdev, struct vhost_vdpa *v,
->>> +                               Error **errp)
->>> +{
->>> +    size_t n_svqs = v->shadow_vqs_enabled ? hdev->nvqs : 0;
->>> +    g_autoptr(GPtrArray) shadow_vqs = g_ptr_array_new_full(n_svqs,
->>> +                                                           vhost_psvq_free);
->>> +    if (!v->shadow_vqs_enabled) {
->>> +        goto out;
->>> +    }
->>> +
->>> +    for (unsigned n = 0; n < hdev->nvqs; ++n) {
->>> +        VhostShadowVirtqueue *svq = vhost_svq_new();
->>> +
->>> +        if (unlikely(!svq)) {
->>> +            error_setg(errp, "Cannot create svq %u", n);
->>> +            return -1;
->>> +        }
->>> +        g_ptr_array_add(v->shadow_vqs, svq);
->>> +    }
->>> +
->>> +out:
->>> +    v->shadow_vqs = g_steal_pointer(&shadow_vqs);
->>> +    return 0;
->>> +}
->>> +
->>>    static int vhost_vdpa_init(struct vhost_dev *dev, void *opaque, Error **errp)
->>>    {
->>>        struct vhost_vdpa *v;
->>> @@ -759,6 +869,10 @@ static int vhost_vdpa_init(struct vhost_dev *dev, void *opaque, Error **errp)
->>>        dev->opaque =  opaque ;
->>>        v->listener = vhost_vdpa_memory_listener;
->>>        v->msg_type = VHOST_IOTLB_MSG_V2;
->>> +    ret = vhost_vdpa_init_svq(dev, v, errp);
->>> +    if (ret) {
->>> +        goto err;
->>> +    }
->>>
->>>        vhost_vdpa_get_iova_range(v);
->>>
->>> @@ -770,6 +884,10 @@ static int vhost_vdpa_init(struct vhost_dev *dev, void *opaque, Error **errp)
->>>                                   VIRTIO_CONFIG_S_DRIVER);
->>>
->>>        return 0;
->>> +
->>> +err:
->>> +    ram_block_discard_disable(false);
->>> +    return ret;
->>>    }
->>>
->>>    const VhostOps vdpa_ops = {
+> ---
+>   target/ppc/excp_helper.c | 477 +--------------------------------------
+>   1 file changed, 3 insertions(+), 474 deletions(-)
+> 
+> diff --git a/target/ppc/excp_helper.c b/target/ppc/excp_helper.c
+> index 0050c8447f..c6646503aa 100644
+> --- a/target/ppc/excp_helper.c
+> +++ b/target/ppc/excp_helper.c
+> @@ -163,7 +163,7 @@ static void ppc_excp_debug_sw_tlb(CPUPPCState *env, int excp)
+>                env->error_code);
+>   }
+>   
+> -
+> +#if defined(TARGET_PPC64)
+>   static int powerpc_reset_wakeup(CPUState *cs, CPUPPCState *env, int excp,
+>                                   target_ulong *msr)
+>   {
+> @@ -267,7 +267,6 @@ static void ppc_excp_apply_ail(PowerPCCPU *cpu, int excp_model, int excp,
+>                                         target_ulong *new_msr,
+>                                         target_ulong *vector)
+>   {
+> -#if defined(TARGET_PPC64)
+>       CPUPPCState *env = &cpu->env;
+>       bool mmu_all_on = ((msr >> MSR_IR) & 1) && ((msr >> MSR_DR) & 1);
+>       bool hv_escalation = !(msr & MSR_HVB) && (*new_msr & MSR_HVB);
+> @@ -356,8 +355,8 @@ static void ppc_excp_apply_ail(PowerPCCPU *cpu, int excp_model, int excp,
+>               *vector |= 0xc000000000003000ull; /* Apply scv's AIL=3 offset */
+>           }
+>       }
+> -#endif
+>   }
+> +#endif
+>   
+>   static void powerpc_set_excp_state(PowerPCCPU *cpu,
+>                                             target_ulong vector, target_ulong msr)
+> @@ -1641,476 +1640,6 @@ static inline void powerpc_excp_books(PowerPCCPU *cpu, int excp)
+>   }
+>   #endif
+>   
+> -/*
+> - * Note that this function should be greatly optimized when called
+> - * with a constant excp, from ppc_hw_interrupt
+> - */
+> -static inline void powerpc_excp_legacy(PowerPCCPU *cpu, int excp)
+> -{
+> -    CPUState *cs = CPU(cpu);
+> -    CPUPPCState *env = &cpu->env;
+> -    int excp_model = env->excp_model;
+> -    target_ulong msr, new_msr, vector;
+> -    int srr0, srr1, lev = -1;
+> -
+> -    if (excp <= POWERPC_EXCP_NONE || excp >= POWERPC_EXCP_NB) {
+> -        cpu_abort(cs, "Invalid PowerPC exception %d. Aborting\n", excp);
+> -    }
+> -
+> -    qemu_log_mask(CPU_LOG_INT, "Raise exception at " TARGET_FMT_lx
+> -                  " => %s (%d) error=%02x\n", env->nip, powerpc_excp_name(excp),
+> -                  excp, env->error_code);
+> -
+> -    /* new srr1 value excluding must-be-zero bits */
+> -    if (excp_model == POWERPC_EXCP_BOOKE) {
+> -        msr = env->msr;
+> -    } else {
+> -        msr = env->msr & ~0x783f0000ULL;
+> -    }
+> -
+> -    /*
+> -     * new interrupt handler msr preserves existing HV and ME unless
+> -     * explicitly overriden
+> -     */
+> -    new_msr = env->msr & (((target_ulong)1 << MSR_ME) | MSR_HVB);
+> -
+> -    /* target registers */
+> -    srr0 = SPR_SRR0;
+> -    srr1 = SPR_SRR1;
+> -
+> -    /*
+> -     * check for special resume at 0x100 from doze/nap/sleep/winkle on
+> -     * P7/P8/P9
+> -     */
+> -    if (env->resume_as_sreset) {
+> -        excp = powerpc_reset_wakeup(cs, env, excp, &msr);
+> -    }
+> -
+> -    /*
+> -     * Hypervisor emulation assistance interrupt only exists on server
+> -     * arch 2.05 server or later. We also don't want to generate it if
+> -     * we don't have HVB in msr_mask (PAPR mode).
+> -     */
+> -    if (excp == POWERPC_EXCP_HV_EMU
+> -#if defined(TARGET_PPC64)
+> -        && !(mmu_is_64bit(env->mmu_model) && (env->msr_mask & MSR_HVB))
+> -#endif /* defined(TARGET_PPC64) */
+> -
+> -    ) {
+> -        excp = POWERPC_EXCP_PROGRAM;
+> -    }
+> -
+> -#ifdef TARGET_PPC64
+> -    /*
+> -     * SPEU and VPU share the same IVOR but they exist in different
+> -     * processors. SPEU is e500v1/2 only and VPU is e6500 only.
+> -     */
+> -    if (excp_model == POWERPC_EXCP_BOOKE && excp == POWERPC_EXCP_VPU) {
+> -        excp = POWERPC_EXCP_SPEU;
+> -    }
+> -#endif
+> -
+> -    vector = env->excp_vectors[excp];
+> -    if (vector == (target_ulong)-1ULL) {
+> -        cpu_abort(cs, "Raised an exception without defined vector %d\n",
+> -                  excp);
+> -    }
+> -
+> -    vector |= env->excp_prefix;
+> -
+> -    switch (excp) {
+> -    case POWERPC_EXCP_CRITICAL:    /* Critical input                         */
+> -        switch (excp_model) {
+> -        case POWERPC_EXCP_40x:
+> -            srr0 = SPR_40x_SRR2;
+> -            srr1 = SPR_40x_SRR3;
+> -            break;
+> -        case POWERPC_EXCP_BOOKE:
+> -            srr0 = SPR_BOOKE_CSRR0;
+> -            srr1 = SPR_BOOKE_CSRR1;
+> -            break;
+> -        case POWERPC_EXCP_6xx:
+> -            break;
+> -        default:
+> -            goto excp_invalid;
+> -        }
+> -        break;
+> -    case POWERPC_EXCP_MCHECK:    /* Machine check exception                  */
+> -        if (msr_me == 0) {
+> -            /*
+> -             * Machine check exception is not enabled.  Enter
+> -             * checkstop state.
+> -             */
+> -            fprintf(stderr, "Machine check while not allowed. "
+> -                    "Entering checkstop state\n");
+> -            if (qemu_log_separate()) {
+> -                qemu_log("Machine check while not allowed. "
+> -                        "Entering checkstop state\n");
+> -            }
+> -            cs->halted = 1;
+> -            cpu_interrupt_exittb(cs);
+> -        }
+> -        if (env->msr_mask & MSR_HVB) {
+> -            /*
+> -             * ISA specifies HV, but can be delivered to guest with HV
+> -             * clear (e.g., see FWNMI in PAPR).
+> -             */
+> -            new_msr |= (target_ulong)MSR_HVB;
+> -        }
+> -
+> -        /* machine check exceptions don't have ME set */
+> -        new_msr &= ~((target_ulong)1 << MSR_ME);
+> -
+> -        /* XXX: should also have something loaded in DAR / DSISR */
+> -        switch (excp_model) {
+> -        case POWERPC_EXCP_40x:
+> -            srr0 = SPR_40x_SRR2;
+> -            srr1 = SPR_40x_SRR3;
+> -            break;
+> -        case POWERPC_EXCP_BOOKE:
+> -            /* FIXME: choose one or the other based on CPU type */
+> -            srr0 = SPR_BOOKE_MCSRR0;
+> -            srr1 = SPR_BOOKE_MCSRR1;
+> -
+> -            env->spr[SPR_BOOKE_CSRR0] = env->nip;
+> -            env->spr[SPR_BOOKE_CSRR1] = msr;
+> -            break;
+> -        default:
+> -            break;
+> -        }
+> -        break;
+> -    case POWERPC_EXCP_DSI:       /* Data storage exception                   */
+> -        trace_ppc_excp_dsi(env->spr[SPR_DSISR], env->spr[SPR_DAR]);
+> -        break;
+> -    case POWERPC_EXCP_ISI:       /* Instruction storage exception            */
+> -        trace_ppc_excp_isi(msr, env->nip);
+> -        msr |= env->error_code;
+> -        break;
+> -    case POWERPC_EXCP_EXTERNAL:  /* External input                           */
+> -    {
+> -        bool lpes0;
+> -
+> -        cs = CPU(cpu);
+> -
+> -        /*
+> -         * Exception targeting modifiers
+> -         *
+> -         * LPES0 is supported on POWER7/8/9
+> -         * LPES1 is not supported (old iSeries mode)
+> -         *
+> -         * On anything else, we behave as if LPES0 is 1
+> -         * (externals don't alter MSR:HV)
+> -         */
+> -#if defined(TARGET_PPC64)
+> -        if (excp_model == POWERPC_EXCP_POWER7 ||
+> -            excp_model == POWERPC_EXCP_POWER8 ||
+> -            excp_model == POWERPC_EXCP_POWER9 ||
+> -            excp_model == POWERPC_EXCP_POWER10) {
+> -            lpes0 = !!(env->spr[SPR_LPCR] & LPCR_LPES0);
+> -        } else
+> -#endif /* defined(TARGET_PPC64) */
+> -        {
+> -            lpes0 = true;
+> -        }
+> -
+> -        if (!lpes0) {
+> -            new_msr |= (target_ulong)MSR_HVB;
+> -            new_msr |= env->msr & ((target_ulong)1 << MSR_RI);
+> -            srr0 = SPR_HSRR0;
+> -            srr1 = SPR_HSRR1;
+> -        }
+> -        if (env->mpic_proxy) {
+> -            /* IACK the IRQ on delivery */
+> -            env->spr[SPR_BOOKE_EPR] = ldl_phys(cs->as, env->mpic_iack);
+> -        }
+> -        break;
+> -    }
+> -    case POWERPC_EXCP_ALIGN:     /* Alignment exception                      */
+> -        /* Get rS/rD and rA from faulting opcode */
+> -        /*
+> -         * Note: the opcode fields will not be set properly for a
+> -         * direct store load/store, but nobody cares as nobody
+> -         * actually uses direct store segments.
+> -         */
+> -        env->spr[SPR_DSISR] |= (env->error_code & 0x03FF0000) >> 16;
+> -        break;
+> -    case POWERPC_EXCP_PROGRAM:   /* Program exception                        */
+> -        switch (env->error_code & ~0xF) {
+> -        case POWERPC_EXCP_FP:
+> -            if ((msr_fe0 == 0 && msr_fe1 == 0) || msr_fp == 0) {
+> -                trace_ppc_excp_fp_ignore();
+> -                cs->exception_index = POWERPC_EXCP_NONE;
+> -                env->error_code = 0;
+> -                return;
+> -            }
+> -
+> -            /*
+> -             * FP exceptions always have NIP pointing to the faulting
+> -             * instruction, so always use store_next and claim we are
+> -             * precise in the MSR.
+> -             */
+> -            msr |= 0x00100000;
+> -            env->spr[SPR_BOOKE_ESR] = ESR_FP;
+> -            break;
+> -        case POWERPC_EXCP_INVAL:
+> -            trace_ppc_excp_inval(env->nip);
+> -            msr |= 0x00080000;
+> -            env->spr[SPR_BOOKE_ESR] = ESR_PIL;
+> -            break;
+> -        case POWERPC_EXCP_PRIV:
+> -            msr |= 0x00040000;
+> -            env->spr[SPR_BOOKE_ESR] = ESR_PPR;
+> -            break;
+> -        case POWERPC_EXCP_TRAP:
+> -            msr |= 0x00020000;
+> -            env->spr[SPR_BOOKE_ESR] = ESR_PTR;
+> -            break;
+> -        default:
+> -            /* Should never occur */
+> -            cpu_abort(cs, "Invalid program exception %d. Aborting\n",
+> -                      env->error_code);
+> -            break;
+> -        }
+> -        break;
+> -    case POWERPC_EXCP_SYSCALL:   /* System call exception                    */
+> -        lev = env->error_code;
+> -
+> -        if ((lev == 1) && cpu->vhyp) {
+> -            dump_hcall(env);
+> -        } else {
+> -            dump_syscall(env);
+> -        }
+> -
+> -        /*
+> -         * We need to correct the NIP which in this case is supposed
+> -         * to point to the next instruction
+> -         */
+> -        env->nip += 4;
+> -
+> -        /* "PAPR mode" built-in hypercall emulation */
+> -        if ((lev == 1) && cpu->vhyp) {
+> -            PPCVirtualHypervisorClass *vhc =
+> -                PPC_VIRTUAL_HYPERVISOR_GET_CLASS(cpu->vhyp);
+> -            vhc->hypercall(cpu->vhyp, cpu);
+> -            return;
+> -        }
+> -        if (lev == 1) {
+> -            new_msr |= (target_ulong)MSR_HVB;
+> -        }
+> -        break;
+> -    case POWERPC_EXCP_SYSCALL_VECTORED: /* scv exception                     */
+> -        lev = env->error_code;
+> -        dump_syscall(env);
+> -        env->nip += 4;
+> -        new_msr |= env->msr & ((target_ulong)1 << MSR_EE);
+> -        new_msr |= env->msr & ((target_ulong)1 << MSR_RI);
+> -
+> -        vector += lev * 0x20;
+> -
+> -        env->lr = env->nip;
+> -        env->ctr = msr;
+> -        break;
+> -    case POWERPC_EXCP_FPU:       /* Floating-point unavailable exception     */
+> -    case POWERPC_EXCP_APU:       /* Auxiliary processor unavailable          */
+> -    case POWERPC_EXCP_DECR:      /* Decrementer exception                    */
+> -        break;
+> -    case POWERPC_EXCP_FIT:       /* Fixed-interval timer interrupt           */
+> -        /* FIT on 4xx */
+> -        trace_ppc_excp_print("FIT");
+> -        break;
+> -    case POWERPC_EXCP_WDT:       /* Watchdog timer interrupt                 */
+> -        trace_ppc_excp_print("WDT");
+> -        switch (excp_model) {
+> -        case POWERPC_EXCP_BOOKE:
+> -            srr0 = SPR_BOOKE_CSRR0;
+> -            srr1 = SPR_BOOKE_CSRR1;
+> -            break;
+> -        default:
+> -            break;
+> -        }
+> -        break;
+> -    case POWERPC_EXCP_DTLB:      /* Data TLB error                           */
+> -    case POWERPC_EXCP_ITLB:      /* Instruction TLB error                    */
+> -        break;
+> -    case POWERPC_EXCP_DEBUG:     /* Debug interrupt                          */
+> -        if (env->flags & POWERPC_FLAG_DE) {
+> -            /* FIXME: choose one or the other based on CPU type */
+> -            srr0 = SPR_BOOKE_DSRR0;
+> -            srr1 = SPR_BOOKE_DSRR1;
+> -
+> -            env->spr[SPR_BOOKE_CSRR0] = env->nip;
+> -            env->spr[SPR_BOOKE_CSRR1] = msr;
+> -
+> -            /* DBSR already modified by caller */
+> -        } else {
+> -            cpu_abort(cs, "Debug exception triggered on unsupported model\n");
+> -        }
+> -        break;
+> -    case POWERPC_EXCP_SPEU:   /* SPE/embedded floating-point unavailable/VPU  */
+> -        env->spr[SPR_BOOKE_ESR] = ESR_SPV;
+> -        break;
+> -    case POWERPC_EXCP_DOORI:     /* Embedded doorbell interrupt              */
+> -        break;
+> -    case POWERPC_EXCP_DOORCI:    /* Embedded doorbell critical interrupt     */
+> -        srr0 = SPR_BOOKE_CSRR0;
+> -        srr1 = SPR_BOOKE_CSRR1;
+> -        break;
+> -    case POWERPC_EXCP_RESET:     /* System reset exception                   */
+> -        /* A power-saving exception sets ME, otherwise it is unchanged */
+> -        if (msr_pow) {
+> -            /* indicate that we resumed from power save mode */
+> -            msr |= 0x10000;
+> -            new_msr |= ((target_ulong)1 << MSR_ME);
+> -        }
+> -        if (env->msr_mask & MSR_HVB) {
+> -            /*
+> -             * ISA specifies HV, but can be delivered to guest with HV
+> -             * clear (e.g., see FWNMI in PAPR, NMI injection in QEMU).
+> -             */
+> -            new_msr |= (target_ulong)MSR_HVB;
+> -        } else {
+> -            if (msr_pow) {
+> -                cpu_abort(cs, "Trying to deliver power-saving system reset "
+> -                          "exception %d with no HV support\n", excp);
+> -            }
+> -        }
+> -        break;
+> -    case POWERPC_EXCP_DSEG:      /* Data segment exception                   */
+> -    case POWERPC_EXCP_ISEG:      /* Instruction segment exception            */
+> -    case POWERPC_EXCP_TRACE:     /* Trace exception                          */
+> -        break;
+> -    case POWERPC_EXCP_HISI:      /* Hypervisor instruction storage exception */
+> -        msr |= env->error_code;
+> -        /* fall through */
+> -    case POWERPC_EXCP_HDECR:     /* Hypervisor decrementer exception         */
+> -    case POWERPC_EXCP_HDSI:      /* Hypervisor data storage exception        */
+> -    case POWERPC_EXCP_HDSEG:     /* Hypervisor data segment exception        */
+> -    case POWERPC_EXCP_HISEG:     /* Hypervisor instruction segment exception */
+> -    case POWERPC_EXCP_SDOOR_HV:  /* Hypervisor Doorbell interrupt            */
+> -    case POWERPC_EXCP_HV_EMU:
+> -    case POWERPC_EXCP_HVIRT:     /* Hypervisor virtualization                */
+> -        srr0 = SPR_HSRR0;
+> -        srr1 = SPR_HSRR1;
+> -        new_msr |= (target_ulong)MSR_HVB;
+> -        new_msr |= env->msr & ((target_ulong)1 << MSR_RI);
+> -        break;
+> -    case POWERPC_EXCP_VPU:       /* Vector unavailable exception             */
+> -    case POWERPC_EXCP_VSXU:       /* VSX unavailable exception               */
+> -    case POWERPC_EXCP_FU:         /* Facility unavailable exception          */
+> -#ifdef TARGET_PPC64
+> -        env->spr[SPR_FSCR] |= ((target_ulong)env->error_code << 56);
+> -#endif
+> -        break;
+> -    case POWERPC_EXCP_HV_FU:     /* Hypervisor Facility Unavailable Exception */
+> -#ifdef TARGET_PPC64
+> -        env->spr[SPR_HFSCR] |= ((target_ulong)env->error_code << FSCR_IC_POS);
+> -        srr0 = SPR_HSRR0;
+> -        srr1 = SPR_HSRR1;
+> -        new_msr |= (target_ulong)MSR_HVB;
+> -        new_msr |= env->msr & ((target_ulong)1 << MSR_RI);
+> -#endif
+> -        break;
+> -    case POWERPC_EXCP_PIT:       /* Programmable interval timer interrupt    */
+> -        trace_ppc_excp_print("PIT");
+> -        break;
+> -    case POWERPC_EXCP_IFTLB:     /* Instruction fetch TLB error              */
+> -    case POWERPC_EXCP_DLTLB:     /* Data load TLB miss                       */
+> -    case POWERPC_EXCP_DSTLB:     /* Data store TLB miss                      */
+> -        switch (excp_model) {
+> -        case POWERPC_EXCP_6xx:
+> -            /* Swap temporary saved registers with GPRs */
+> -            if (!(new_msr & ((target_ulong)1 << MSR_TGPR))) {
+> -                new_msr |= (target_ulong)1 << MSR_TGPR;
+> -                hreg_swap_gpr_tgpr(env);
+> -            }
+> -            /* fall through */
+> -        case POWERPC_EXCP_7xx:
+> -            ppc_excp_debug_sw_tlb(env, excp);
+> -
+> -            msr |= env->crf[0] << 28;
+> -            msr |= env->error_code; /* key, D/I, S/L bits */
+> -            /* Set way using a LRU mechanism */
+> -            msr |= ((env->last_way + 1) & (env->nb_ways - 1)) << 17;
+> -            break;
+> -        default:
+> -            cpu_abort(cs, "Invalid TLB miss exception\n");
+> -            break;
+> -        }
+> -        break;
+> -    case POWERPC_EXCP_EFPDI:     /* Embedded floating-point data interrupt   */
+> -    case POWERPC_EXCP_EFPRI:     /* Embedded floating-point round interrupt  */
+> -    case POWERPC_EXCP_EPERFM:    /* Embedded performance monitor interrupt   */
+> -    case POWERPC_EXCP_FPA:       /* Floating-point assist exception          */
+> -    case POWERPC_EXCP_DABR:      /* Data address breakpoint                  */
+> -    case POWERPC_EXCP_IABR:      /* Instruction address breakpoint           */
+> -    case POWERPC_EXCP_SMI:       /* System management interrupt              */
+> -    case POWERPC_EXCP_THERM:     /* Thermal interrupt                        */
+> -    case POWERPC_EXCP_PERFM:     /* Embedded performance monitor interrupt   */
+> -    case POWERPC_EXCP_VPUA:      /* Vector assist exception                  */
+> -    case POWERPC_EXCP_SOFTP:     /* Soft patch exception                     */
+> -    case POWERPC_EXCP_MAINT:     /* Maintenance exception                    */
+> -    case POWERPC_EXCP_MEXTBR:    /* Maskable external breakpoint             */
+> -    case POWERPC_EXCP_NMEXTBR:   /* Non maskable external breakpoint         */
+> -        cpu_abort(cs, "%s exception not implemented\n",
+> -                  powerpc_excp_name(excp));
+> -        break;
+> -    default:
+> -    excp_invalid:
+> -        cpu_abort(cs, "Invalid PowerPC exception %d. Aborting\n", excp);
+> -        break;
+> -    }
+> -
+> -    /* Sanity check */
+> -    if (!(env->msr_mask & MSR_HVB)) {
+> -        if (new_msr & MSR_HVB) {
+> -            cpu_abort(cs, "Trying to deliver HV exception (MSR) %d with "
+> -                      "no HV support\n", excp);
+> -        }
+> -        if (srr0 == SPR_HSRR0) {
+> -            cpu_abort(cs, "Trying to deliver HV exception (HSRR) %d with "
+> -                      "no HV support\n", excp);
+> -        }
+> -    }
+> -
+> -    /*
+> -     * Sort out endianness of interrupt, this differs depending on the
+> -     * CPU, the HV mode, etc...
+> -     */
+> -    if (ppc_interrupts_little_endian(cpu, !!(new_msr & MSR_HVB))) {
+> -        new_msr |= (target_ulong)1 << MSR_LE;
+> -    }
+> -
+> -#if defined(TARGET_PPC64)
+> -    if (excp_model == POWERPC_EXCP_BOOKE) {
+> -        if (env->spr[SPR_BOOKE_EPCR] & EPCR_ICM) {
+> -            /* Cat.64-bit: EPCR.ICM is copied to MSR.CM */
+> -            new_msr |= (target_ulong)1 << MSR_CM;
+> -        } else {
+> -            vector = (uint32_t)vector;
+> -        }
+> -    } else {
+> -        if (!msr_isf && !mmu_is_64bit(env->mmu_model)) {
+> -            vector = (uint32_t)vector;
+> -        } else {
+> -            new_msr |= (target_ulong)1 << MSR_SF;
+> -        }
+> -    }
+> -#endif
+> -
+> -    if (excp != POWERPC_EXCP_SYSCALL_VECTORED) {
+> -        /* Save PC */
+> -        env->spr[srr0] = env->nip;
+> -
+> -        /* Save MSR */
+> -        env->spr[srr1] = msr;
+> -    }
+> -
+> -    /* This can update new_msr and vector if AIL applies */
+> -    ppc_excp_apply_ail(cpu, excp_model, excp, msr, &new_msr, &vector);
+> -
+> -    powerpc_set_excp_state(cpu, vector, new_msr);
+> -}
+> -
+>   static void powerpc_excp(PowerPCCPU *cpu, int excp)
+>   {
+>       CPUPPCState *env = &cpu->env;
+> @@ -2139,7 +1668,7 @@ static void powerpc_excp(PowerPCCPU *cpu, int excp)
+>           powerpc_excp_books(cpu, excp);
+>           break;
+>       default:
+> -        powerpc_excp_legacy(cpu, excp);
+> +        g_assert_not_reached();
+>       }
+>   }
+>   
+> 
 
 
