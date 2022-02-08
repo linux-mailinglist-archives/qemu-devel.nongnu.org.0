@@ -2,74 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 781DA4ADDA5
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Feb 2022 16:52:18 +0100 (CET)
-Received: from localhost ([::1]:45224 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A1644ADBE4
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Feb 2022 16:03:02 +0100 (CET)
+Received: from localhost ([::1]:53426 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nHSmv-0005qq-Ij
-	for lists+qemu-devel@lfdr.de; Tue, 08 Feb 2022 10:52:17 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:37002)
+	id 1nHS1E-0008NX-QU
+	for lists+qemu-devel@lfdr.de; Tue, 08 Feb 2022 10:03:00 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:40968)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1nHQj1-0003Wl-4l
- for qemu-devel@nongnu.org; Tue, 08 Feb 2022 08:40:07 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:59272)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1nHQiz-0005aG-9e
- for qemu-devel@nongnu.org; Tue, 08 Feb 2022 08:40:06 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1644327604;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Yc6fhg/gCTgOjcDrLGk+J+NYj/1PBgJNJGmm2VzDPsY=;
- b=LP7KB49VdWH+/5r70thrp/ONddfGtL6eC3DrGER/qxZ9HSt6idwagOsH/jAGuDdX8FiAQt
- NF7fWCqg6rHsNw8NvBT5dqohrksvVenQR2153YofmHqzEkjOf4VfJLOsXYsh9jNt3d0R8o
- cXJBOZSpMMgWFWH+R4M9RnM1N7vjGg8=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-674-mG1mJa-ZMMSMJXVS3GZE3A-1; Tue, 08 Feb 2022 08:40:01 -0500
-X-MC-Unique: mG1mJa-ZMMSMJXVS3GZE3A-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6563A84DA4C;
- Tue,  8 Feb 2022 13:40:00 +0000 (UTC)
-Received: from laptop.redhat.com (unknown [10.39.195.249])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D1B0B4F850;
- Tue,  8 Feb 2022 13:39:57 +0000 (UTC)
-From: Eric Auger <eric.auger@redhat.com>
-To: eric.auger.pro@gmail.com, eric.auger@redhat.com,
- stefanb@linux.vnet.ibm.com, qemu-devel@nongnu.org,
- alex.williamson@redhat.com
-Subject: [PATCH v4 2/2] hw/vfio/common: Silence ram device offset alignment
- error traces
-Date: Tue,  8 Feb 2022 14:38:42 +0100
-Message-Id: <20220208133842.112017-3-eric.auger@redhat.com>
-In-Reply-To: <20220208133842.112017-1-eric.auger@redhat.com>
-References: <20220208133842.112017-1-eric.auger@redhat.com>
+ (Exim 4.90_1) (envelope-from <wwcohen@gmail.com>) id 1nHQu2-00017K-1X
+ for qemu-devel@nongnu.org; Tue, 08 Feb 2022 08:51:30 -0500
+Received: from [2607:f8b0:4864:20::234] (port=46808
+ helo=mail-oi1-x234.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <wwcohen@gmail.com>) id 1nHQtz-0008Bq-Qf
+ for qemu-devel@nongnu.org; Tue, 08 Feb 2022 08:51:29 -0500
+Received: by mail-oi1-x234.google.com with SMTP id y23so20513595oia.13
+ for <qemu-devel@nongnu.org>; Tue, 08 Feb 2022 05:51:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=3fbvxPiHjUvx56fkH5SKeavOg+C4edeD0jK5RMs64sE=;
+ b=lYiayqYhIsw5yTGpO0N3dAjhMbPszM70dXZZxG5VTjwBoY1Mxf5A7BV0hLqRB675Od
+ 7RTH8Xbp6gep28KcymGa6VdLPztGxGEWLo4j5p9Q4mkpadpuMJtHyEKrAa21E6ItMgv7
+ 27yGeWedCVUX5JT/uyZtxUtD3BIh9U1XrWyn+16RJNCAchKmiOhBBAHMaZjc0RhwD0ez
+ ABsPUrt5xXNHBBgAp78WK6Z8p9Z3YK8OyPaBkSEkZUp8hUGQD4aFrWXPe9bMZFUdR39M
+ rV8vcCCQ3KdwgHvBV16a9B5B30r8ipYCQmOYah6XnrpLUDZPSMSmlYDjC7a4H4Z17gyd
+ DOQQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=3fbvxPiHjUvx56fkH5SKeavOg+C4edeD0jK5RMs64sE=;
+ b=4t3+rDnjbjW3B2jUx2fLGwhfrerwibKmtywqTDWjfi20Lpnxw09VvPd930FEmavhFR
+ 14ZnCAdjWdu2dPIlsx4J5tAmuizu3WJ1Q0YbLhmUiEe0FA5fWkLyJdgr9Gl58Wu5MoRX
+ mh9RTWHk0CLB53RXGTJxeUDljEWUFC2y+R9724s961kc/qXhO7LanoeqDe0P6DCAbN7Z
+ axFVgwXgVa8pGQXxkqIdz5dvDyCuM+nzX3icajFypVG+BlySnFjorEyFJOOoCZaPnh3l
+ y9X+iuLQ1LL1SICyZTrMaad0n5eVT4vAcNK3VchIbi2BkTghaxblLuua09mkBBCjO9G+
+ n5/A==
+X-Gm-Message-State: AOAM532i6o5rljHkvosN/38mdtHT4olCBrLoQhnD8KSKrZuq41kkCGJc
+ FtUXi4paAl4dTdMJnqNfnOwN46mSIbcVSZbw0lU7uFqacik=
+X-Google-Smtp-Source: ABdhPJxQhilvKr/y1mnK2VZZiicdt7bGx45Tubp6TR89qIryHKTlyKSV4KndoGjkz6Ye89tzj2SOj5oDCCPaTEjD5hI=
+X-Received: by 2002:a05:6870:3654:: with SMTP id
+ v20mr364103oak.330.1644327968680; 
+ Tue, 08 Feb 2022 05:46:08 -0800 (PST)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eric.auger@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124;
- envelope-from=eric.auger@redhat.com; helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+References: <20220207224024.87745-1-wwcohen@gmail.com>
+ <20220207224024.87745-7-wwcohen@gmail.com>
+ <2797799.bNjLCV8H8p@silver>
+In-Reply-To: <2797799.bNjLCV8H8p@silver>
+From: Will Cohen <wwcohen@gmail.com>
+Date: Tue, 8 Feb 2022 08:45:57 -0500
+Message-ID: <CAB26zV0ie0J3FawXxd4zkushE1hWQY7EvA_7bak_a2fMz=JsbA@mail.gmail.com>
+Subject: Re: [PATCH v5 06/11] 9p: darwin: Move
+ XATTR_SIZE_MAX->P9_XATTR_SIZE_MAX
+To: Christian Schoenebeck <qemu_oss@crudebyte.com>
+Content-Type: multipart/alternative; boundary="00000000000077ae1c05d781f01b"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::234
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::234;
+ envelope-from=wwcohen@gmail.com; helo=mail-oi1-x234.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -82,71 +82,202 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: quintela@redhat.com, cohuck@redhat.com, f4bug@amsat.org,
- dgilbert@redhat.com, imammedo@redhat.com, david@gibson.dropbear.id.au
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Fabian Franz <fabianfranz.oss@gmail.com>, qemu-devel@nongnu.org,
+ Greg Kurz <groug@kaod.org>, hi@alyssa.is,
+ Michael Roitzsch <reactorcontrol@icloud.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Keno Fischer <keno@juliacomputing.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Failing to DMA MAP a ram_device should not cause an error message.
-This is currently happening with the TPM CRB command region and
-this is causing confusion.
+--00000000000077ae1c05d781f01b
+Content-Type: text/plain; charset="UTF-8"
 
-We may want to keep the trace for debug purpose though.
+On Tue, Feb 8, 2022 at 7:20 AM Christian Schoenebeck <qemu_oss@crudebyte.com>
+wrote:
 
-Signed-off-by: Eric Auger <eric.auger@redhat.com>
-Tested-by: Stefan Berger <stefanb@linux.ibm.com>
-Acked-by: Alex Williamson <alex.williamson@redhat.com>
-Acked-by: Stefan Berger <stefanb@linux.ibm.com>
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> On Montag, 7. Februar 2022 23:40:19 CET Will Cohen wrote:
+> > From: Keno Fischer <keno@juliacomputing.com>
+> >
+> > Signed-off-by: Keno Fischer <keno@juliacomputing.com>
+> > Signed-off-by: Michael Roitzsch <reactorcontrol@icloud.com>
+> >
+> > Because XATTR_SIZE_MAX is not defined on Darwin,
+> > create a cross-platform P9_XATTR_SIZE_MAX instead.
+> >
+> > [Will Cohen: - Adjust coding style
+> >              - Lower XATTR_SIZE_MAX to 64k
+> >              - Add explanatory context related to XATTR_SIZE_MAX]
+> > [Fabian Franz: - Move XATTR_SIZE_MAX reference from 9p.c to
+> >                  P9_XATTR_SIZE_MAX in 9p.h]
+> > Signed-off-by: Will Cohen <wwcohen@gmail.com>
+> > Signed-off-by: Fabian Franz <fabianfranz.oss@gmail.com>
+> > ---
+> >  hw/9pfs/9p.c |  2 +-
+> >  hw/9pfs/9p.h | 11 +++++++++++
+> >  2 files changed, 12 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/hw/9pfs/9p.c b/hw/9pfs/9p.c
+> > index 14e84c3bcf..7405352c37 100644
+> > --- a/hw/9pfs/9p.c
+> > +++ b/hw/9pfs/9p.c
+> > @@ -3949,7 +3949,7 @@ static void coroutine_fn v9fs_xattrcreate(void
+> > *opaque) rflags |= XATTR_REPLACE;
+> >      }
+> >
+> > -    if (size > XATTR_SIZE_MAX) {
+> > +    if (size > P9_XATTR_SIZE_MAX) {
+> >          err = -E2BIG;
+> >          goto out_nofid;
+> >      }
+> > diff --git a/hw/9pfs/9p.h b/hw/9pfs/9p.h
+> > index 1567b67841..6a1856b4dc 100644
+> > --- a/hw/9pfs/9p.h
+> > +++ b/hw/9pfs/9p.h
+> > @@ -479,4 +479,15 @@ struct V9fsTransport {
+> >      void        (*push_and_notify)(V9fsPDU *pdu);
+> >  };
+> >
+> > +/*
+> > + * Darwin doesn't seem to define a maximum xattr size in its user
+> > + * space header, so manually configure it across platforms as 64k.
+> > + *
+> > + * Having no limit at all can lead to QEMU crashing during large
+> g_malloc()
+> > + * calls. Because QEMU does not currently support macOS guests, the
+> below
+> > + * preliminary solution only works due to its being a reflection of the
+> limit of
+> > + * Linux guests.
+> > + */
+> > +#define P9_XATTR_SIZE_MAX 65536
+>
+> It would be cleaner in a way like this:
+>
+> #if defined(XATTR_SIZE_MAX)
+> /* Linux */
+> #define P9_XATTR_SIZE_MAX XATTR_SIZE_MAX
+> #elif defined(CONFIG_DARWIN)
+> /* darwin comment goes here */
+> #define P9_XATTR_SIZE_MAX 65536
+> #else
+> #error Missing definition for P9_XATTR_SIZE_MAX for this host system
+> #endif
+>
+> Sorry, I haven't noticed that before. You actually had that wrapped into
+> some
+> ifdefs in v2 before:
+>
+> #if defined(CONFIG_DARWIN) && !defined(XATTR_SIZE_MAX)
+> ...
+> #endif
+>
+> > +
+> >  #endif
+>
+> Agreed, that is cleaner. Adjusting for the next round.
 
----
+--00000000000077ae1c05d781f01b
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-v3 -> v4:
-- s/PRIx64/PRIxPTR for qemu_real_host_page_mask
----
- hw/vfio/common.c     | 15 ++++++++++++++-
- hw/vfio/trace-events |  1 +
- 2 files changed, 15 insertions(+), 1 deletion(-)
+<div dir=3D"ltr"><div dir=3D"ltr">On Tue, Feb 8, 2022 at 7:20 AM Christian =
+Schoenebeck &lt;<a href=3D"mailto:qemu_oss@crudebyte.com">qemu_oss@crudebyt=
+e.com</a>&gt; wrote:<br></div><div class=3D"gmail_quote"><blockquote class=
+=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rg=
+b(204,204,204);padding-left:1ex">On Montag, 7. Februar 2022 23:40:19 CET Wi=
+ll Cohen wrote:<br>
+&gt; From: Keno Fischer &lt;<a href=3D"mailto:keno@juliacomputing.com" targ=
+et=3D"_blank">keno@juliacomputing.com</a>&gt;<br>
+&gt; <br>
+&gt; Signed-off-by: Keno Fischer &lt;<a href=3D"mailto:keno@juliacomputing.=
+com" target=3D"_blank">keno@juliacomputing.com</a>&gt;<br>
+&gt; Signed-off-by: Michael Roitzsch &lt;<a href=3D"mailto:reactorcontrol@i=
+cloud.com" target=3D"_blank">reactorcontrol@icloud.com</a>&gt;<br>
+&gt; <br>
+&gt; Because XATTR_SIZE_MAX is not defined on Darwin,<br>
+&gt; create a cross-platform P9_XATTR_SIZE_MAX instead.<br>
+&gt; <br>
+&gt; [Will Cohen: - Adjust coding style<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 - Lower XATTR_SIZE_MAX=
+ to 64k<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 - Add explanatory cont=
+ext related to XATTR_SIZE_MAX]<br>
+&gt; [Fabian Franz: - Move XATTR_SIZE_MAX reference from 9p.c to<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 P9_XATTR=
+_SIZE_MAX in 9p.h]<br>
+&gt; Signed-off-by: Will Cohen &lt;<a href=3D"mailto:wwcohen@gmail.com" tar=
+get=3D"_blank">wwcohen@gmail.com</a>&gt;<br>
+&gt; Signed-off-by: Fabian Franz &lt;<a href=3D"mailto:fabianfranz.oss@gmai=
+l.com" target=3D"_blank">fabianfranz.oss@gmail.com</a>&gt;<br>
+&gt; ---<br>
+&gt;=C2=A0 hw/9pfs/9p.c |=C2=A0 2 +-<br>
+&gt;=C2=A0 hw/9pfs/9p.h | 11 +++++++++++<br>
+&gt;=C2=A0 2 files changed, 12 insertions(+), 1 deletion(-)<br>
+&gt; <br>
+&gt; diff --git a/hw/9pfs/9p.c b/hw/9pfs/9p.c<br>
+&gt; index 14e84c3bcf..7405352c37 100644<br>
+&gt; --- a/hw/9pfs/9p.c<br>
+&gt; +++ b/hw/9pfs/9p.c<br>
+&gt; @@ -3949,7 +3949,7 @@ static void coroutine_fn v9fs_xattrcreate(void<b=
+r>
+&gt; *opaque) rflags |=3D XATTR_REPLACE;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 }<br>
+&gt; <br>
+&gt; -=C2=A0 =C2=A0 if (size &gt; XATTR_SIZE_MAX) {<br>
+&gt; +=C2=A0 =C2=A0 if (size &gt; P9_XATTR_SIZE_MAX) {<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 err =3D -E2BIG;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 goto out_nofid;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 }<br>
+&gt; diff --git a/hw/9pfs/9p.h b/hw/9pfs/9p.h<br>
+&gt; index 1567b67841..6a1856b4dc 100644<br>
+&gt; --- a/hw/9pfs/9p.h<br>
+&gt; +++ b/hw/9pfs/9p.h<br>
+&gt; @@ -479,4 +479,15 @@ struct V9fsTransport {<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 void=C2=A0 =C2=A0 =C2=A0 =C2=A0 (*push_and_notify)=
+(V9fsPDU *pdu);<br>
+&gt;=C2=A0 };<br>
+&gt; <br>
+&gt; +/*<br>
+&gt; + * Darwin doesn&#39;t seem to define a maximum xattr size in its user=
+<br>
+&gt; + * space header, so manually configure it across platforms as 64k.<br=
+>
+&gt; + *<br>
+&gt; + * Having no limit at all can lead to QEMU crashing during large g_ma=
+lloc()<br>
+&gt; + * calls. Because QEMU does not currently support macOS guests, the b=
+elow<br>
+&gt; + * preliminary solution only works due to its being a reflection of t=
+he limit of<br>
+&gt; + * Linux guests.<br>
+&gt; + */<br>
+&gt; +#define P9_XATTR_SIZE_MAX 65536<br>
+<br>
+It would be cleaner in a way like this:<br>
+<br>
+#if defined(XATTR_SIZE_MAX)<br>
+/* Linux */<br>
+#define P9_XATTR_SIZE_MAX XATTR_SIZE_MAX<br>
+#elif defined(CONFIG_DARWIN)<br>
+/* darwin comment goes here */<br>
+#define P9_XATTR_SIZE_MAX 65536<br>
+#else<br>
+#error Missing definition for P9_XATTR_SIZE_MAX for this host system<br>
+#endif<br>
+<br>
+Sorry, I haven&#39;t noticed that before. You actually had that wrapped int=
+o some<br>
+ifdefs in v2 before:<br>
+<br>
+#if defined(CONFIG_DARWIN) &amp;&amp; !defined(XATTR_SIZE_MAX)<br>
+...<br>
+#endif<br>
+<br>
+&gt; +<br>
+&gt;=C2=A0 #endif<br>
+<br></blockquote><div>Agreed, that is cleaner. Adjusting for the next round=
+. <br></div></div></div>
 
-diff --git a/hw/vfio/common.c b/hw/vfio/common.c
-index 080046e3f51..5fbeed06f2f 100644
---- a/hw/vfio/common.c
-+++ b/hw/vfio/common.c
-@@ -884,7 +884,20 @@ static void vfio_listener_region_add(MemoryListener *listener,
-     if (unlikely((section->offset_within_address_space &
-                   ~qemu_real_host_page_mask) !=
-                  (section->offset_within_region & ~qemu_real_host_page_mask))) {
--        error_report("%s received unaligned region", __func__);
-+        if (memory_region_is_ram_device(section->mr)) { /* just debug purpose */
-+            trace_vfio_listener_region_add_bad_offset_alignment(
-+                memory_region_name(section->mr),
-+                section->offset_within_address_space,
-+                section->offset_within_region, qemu_real_host_page_size);
-+        } else { /* error case we don't want to be fatal */
-+            error_report("%s received unaligned region %s iova=0x%"PRIx64
-+                         " offset_within_region=0x%"PRIx64
-+                         " qemu_real_host_page_mask=0x%"PRIxPTR,
-+                         __func__, memory_region_name(section->mr),
-+                         section->offset_within_address_space,
-+                         section->offset_within_region,
-+                         qemu_real_host_page_mask);
-+        }
-         return;
-     }
- 
-diff --git a/hw/vfio/trace-events b/hw/vfio/trace-events
-index 0ef1b5f4a65..48e1ea1be76 100644
---- a/hw/vfio/trace-events
-+++ b/hw/vfio/trace-events
-@@ -100,6 +100,7 @@ vfio_listener_region_add_skip(uint64_t start, uint64_t end) "SKIPPING region_add
- vfio_spapr_group_attach(int groupfd, int tablefd) "Attached groupfd %d to liobn fd %d"
- vfio_listener_region_add_iommu(uint64_t start, uint64_t end) "region_add [iommu] 0x%"PRIx64" - 0x%"PRIx64
- vfio_listener_region_add_ram(uint64_t iova_start, uint64_t iova_end, void *vaddr) "region_add [ram] 0x%"PRIx64" - 0x%"PRIx64" [%p]"
-+vfio_listener_region_add_bad_offset_alignment(const char *name, uint64_t iova, uint64_t offset_within_region, uint64_t page_size) "Region \"%s\" @0x%"PRIx64", offset_within_region=0x%"PRIx64", qemu_real_host_page_mask=0x%"PRIxPTR " cannot be mapped for DMA"
- vfio_listener_region_add_no_dma_map(const char *name, uint64_t iova, uint64_t size, uint64_t page_size) "Region \"%s\" 0x%"PRIx64" size=0x%"PRIx64" is not aligned to 0x%"PRIx64" and cannot be mapped for DMA"
- vfio_listener_region_del_skip(uint64_t start, uint64_t end) "SKIPPING region_del 0x%"PRIx64" - 0x%"PRIx64
- vfio_listener_region_del(uint64_t start, uint64_t end) "region_del 0x%"PRIx64" - 0x%"PRIx64
--- 
-2.26.3
-
+--00000000000077ae1c05d781f01b--
 
