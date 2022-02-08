@@ -2,72 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D40B74AE2B5
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Feb 2022 21:59:20 +0100 (CET)
-Received: from localhost ([::1]:33132 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C6D6A4AE2BF
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Feb 2022 22:04:07 +0100 (CET)
+Received: from localhost ([::1]:37176 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nHXa3-0006Xn-La
-	for lists+qemu-devel@lfdr.de; Tue, 08 Feb 2022 15:59:19 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:47662)
+	id 1nHXeg-0000uK-Jq
+	for lists+qemu-devel@lfdr.de; Tue, 08 Feb 2022 16:04:06 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:39610)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1nHXPb-0002Gi-LW
- for qemu-devel@nongnu.org; Tue, 08 Feb 2022 15:48:33 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:32243)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1nHXPX-00043z-Pc
- for qemu-devel@nongnu.org; Tue, 08 Feb 2022 15:48:30 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1644353307;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=iAAcT7qOcK9yPtAKhU4L89+JeEKJXOEf6Nx3YutGsV4=;
- b=I9eBsMGHhyT4kwUyctw0tWoXFcaoYcHECg3ZKMETmpXmaAtFE8YK9HLE6bsMY+ZZuzZixH
- ADE3GHjQIMeS1rFofKpnSxxTPBb/VVxFl090GacNRTi/4sflzxumkGsbYMd7U6pRCKBRSe
- ff2Xp84XdyDKNaXrEgjuUYdd7q+F5F8=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-324-53SAgsF2Pv-sGj3L8XjfQQ-1; Tue, 08 Feb 2022 15:48:25 -0500
-X-MC-Unique: 53SAgsF2Pv-sGj3L8XjfQQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BF028190A7A2
- for <qemu-devel@nongnu.org>; Tue,  8 Feb 2022 20:48:24 +0000 (UTC)
-Received: from horse.redhat.com (unknown [10.22.18.12])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8E6F25E24E;
- Tue,  8 Feb 2022 20:48:24 +0000 (UTC)
-Received: by horse.redhat.com (Postfix, from userid 10451)
- id DA08C2256FF; Tue,  8 Feb 2022 15:48:23 -0500 (EST)
-From: Vivek Goyal <vgoyal@redhat.com>
-To: qemu-devel@nongnu.org,
-	virtio-fs@redhat.com
-Subject: [PATCH v6 08/10] virtiofsd: Create new file with security context
-Date: Tue,  8 Feb 2022 15:48:11 -0500
-Message-Id: <20220208204813.682906-9-vgoyal@redhat.com>
-In-Reply-To: <20220208204813.682906-1-vgoyal@redhat.com>
-References: <20220208204813.682906-1-vgoyal@redhat.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nHWnV-0002zU-6i
+ for qemu-devel@nongnu.org; Tue, 08 Feb 2022 15:09:09 -0500
+Received: from [2a00:1450:4864:20::429] (port=34428
+ helo=mail-wr1-x429.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nHWnS-00066Q-W6
+ for qemu-devel@nongnu.org; Tue, 08 Feb 2022 15:09:08 -0500
+Received: by mail-wr1-x429.google.com with SMTP id f17so398808wrx.1
+ for <qemu-devel@nongnu.org>; Tue, 08 Feb 2022 12:08:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=z+VPkWlVJWJ+y3JCtfJU1WOPIzwfrq68WHRFxBUsinw=;
+ b=JB35W2PScoW4uuDNfIOr6jmSEMZPRkeX00s7G4mNyEjFQ7DJ/RCxOvmNsRSbSukgiv
+ 8LqLwCFxR+RJenff+h0lbuF2nqR9Cz4E9xGigRgxzQbE8gtCvPzV0M66FvGGuJyai2EE
+ mgBbIvdsDanwvaPCkIRrvht1RIZsndTET4TeEgm7TAxd2S6CgiG/sUkIKrcjgPTDoN5H
+ sfwL0cGOY1qy22V6ofvDev+g8nOP+ZdvDzyknwBk5Lu2OPH10quvKeKqBICaFDv+S4L9
+ N/Kv4yx56/EwHGl/mtjdSaIWAA63cuKtuap6g9uD1ctvhnWpJ7WCiiippAU4H5gu7bwM
+ eFVw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=z+VPkWlVJWJ+y3JCtfJU1WOPIzwfrq68WHRFxBUsinw=;
+ b=MKAwCv6vJ52HMN4OP1ARZg5HJ/zk3kfQurdQn59tw4TJf91BURkznpGf++RukqNkbE
+ cjEwR7+Y6khxAbnroxQhvk/Mh9SjVJgm+YSbsum3rk0diJgT54UjH2YWZjB8vzf4s698
+ FQ4vEx+pDG5249QdKETPwu1rFy3rUqWlqOJBBG7eXOqkxtQpH697j9rkT5Djk5uNq4qT
+ HhVZX49YX3/VrmZBNSqIhoMjDwft4wbcelTj5bMY5y4ixWA01Og+7n2KDz6EiHtRfNMr
+ URvkxQLefo+1kzO1CxQ7QwJlLv7QfKXXM0jrZYSDiOi3SvcVuXP52NxHHjiiZN6XfUxm
+ yp/A==
+X-Gm-Message-State: AOAM5328OZa9DDPXKBCt1eRQ2JjRY/IIqOqKkdgUmhllsKz9BwRuy+kX
+ Wvr0dbTp6ybTS2PKMkQyE3zNK6QNdZ4h5A==
+X-Google-Smtp-Source: ABdhPJydLtveYC/5ZcFkSsehancJKvBVg0Ifs42TicIHQZbVm3Uh4z48iCuHgqxhkPBcB8BiMhJM3g==
+X-Received: by 2002:adf:e790:: with SMTP id n16mr4543064wrm.542.1644350938576; 
+ Tue, 08 Feb 2022 12:08:58 -0800 (PST)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
+ by smtp.gmail.com with ESMTPSA id r2sm4098170wmq.24.2022.02.08.12.08.58
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 08 Feb 2022 12:08:58 -0800 (PST)
+From: Peter Maydell <peter.maydell@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 0/5] include: Trim some fat from osdep.h
+Date: Tue,  8 Feb 2022 20:08:51 +0000
+Message-Id: <20220208200856.3558249-1-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=vgoyal@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=vgoyal@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::429
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::429;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x429.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -80,349 +85,74 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: mszeredi@redhat.com, berrange@redhat.com, dgilbert@redhat.com,
- vgoyal@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch adds support for creating new file with security context
-as sent by client. It basically takes three paths.
+The osdep.h header is included by every C file we compile, so it helps
+build times to keep it small. (As the comment at the top of the file
+notes, in an ideal world this header would contain only things that
+everybody needs and things where we need to apply a compatibility
+workaround on some hosts.) This series trims more than 130 lines from
+osdep.h (about 16% of its current size) by splitting some prototypes
+that are used only in a few files out into new headers that are
+included by those source files that need them.
 
-- If no security context enabled, then it continues to create files without
-  security context.
+(Looking at the size of osdep.h itself is not really the right metric,
+because the real killer for compile time is going to be all the
+system headers it pulls in; but it's easier to measure and looks
+better for this series :-))
 
-- If security context is enabled and but security.selinux has not been
-  remapped, then it uses /proc/thread-self/attr/fscreate knob to set
-  security context and then create the file. This will make sure that
-  newly created file gets the security context as set in "fscreate" and
-  this is atomic w.r.t file creation.
+There's scope for more of this, I think, but there's no need to try to
+do everything in one huge patchset.
 
-  This is useful and host and guest SELinux policies don't conflict and
-  can work with each other. In that case, guest security.selinux xattr
-  is not remapped and it is passthrough as "security.selinux" xattr
-  on host.
+thanks
+-- PMM
 
-- If security context is enabled but security.selinux xattr has been
-  remapped to something else, then it first creates the file and then
-  uses setxattr() to set the remapped xattr with the security context.
-  This is a non-atomic operation w.r.t file creation.
+Peter Maydell (5):
+  include: Move qemu_madvise() and related #defines to new
+    qemu/madvise.h
+  include: Move qemu_mprotect_*() to new qemu/mprotect.h
+  include: Move QEMU_MAP_* constants to mmap-alloc.h
+  include: Move qemu_[id]cache_* declarations to new qemu/cacheinfo.h
+  include: Move hardware version declarations to new qemu/hw-version.h
 
-  This mode will be most versatile and allow host and guest to have their
-  own separate SELinux xattrs and have their own separate SELinux policies.
+ include/qemu/cacheinfo.h   |  21 ++++++
+ include/qemu/hw-version.h  |  27 ++++++++
+ include/qemu/madvise.h     |  95 ++++++++++++++++++++++++++
+ include/qemu/mmap-alloc.h  |  23 +++++++
+ include/qemu/mprotect.h    |  14 ++++
+ include/qemu/osdep.h       | 132 -------------------------------------
+ accel/tcg/translate-all.c  |   1 +
+ backends/hostmem-file.c    |   1 +
+ backends/hostmem.c         |   1 +
+ hw/arm/nseries.c           |   1 +
+ hw/ide/core.c              |   1 +
+ hw/scsi/megasas.c          |   1 +
+ hw/scsi/scsi-bus.c         |   1 +
+ hw/scsi/scsi-disk.c        |   1 +
+ hw/virtio/virtio-balloon.c |   1 +
+ migration/postcopy-ram.c   |   1 +
+ migration/qemu-file.c      |   1 +
+ migration/ram.c            |   1 +
+ plugins/loader.c           |   1 +
+ softmmu/physmem.c          |   1 +
+ softmmu/vl.c               |   1 +
+ target/i386/cpu.c          |   1 +
+ target/s390x/cpu_models.c  |   1 +
+ tcg/region.c               |   3 +
+ tcg/tcg.c                  |   1 +
+ util/atomic64.c            |   1 +
+ util/cacheflush.c          |   1 +
+ util/cacheinfo.c           |   1 +
+ util/osdep.c               |   3 +
+ util/oslib-posix.c         |   1 +
+ 30 files changed, 208 insertions(+), 132 deletions(-)
+ create mode 100644 include/qemu/cacheinfo.h
+ create mode 100644 include/qemu/hw-version.h
+ create mode 100644 include/qemu/madvise.h
+ create mode 100644 include/qemu/mprotect.h
 
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-Signed-off-by: Vivek Goyal <vgoyal@redhat.com>
----
- tools/virtiofsd/passthrough_ll.c | 229 +++++++++++++++++++++++++++----
- 1 file changed, 200 insertions(+), 29 deletions(-)
-
-diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrough_ll.c
-index 7762bf0d2c..68fa542fac 100644
---- a/tools/virtiofsd/passthrough_ll.c
-+++ b/tools/virtiofsd/passthrough_ll.c
-@@ -234,6 +234,11 @@ static struct lo_inode *lo_find(struct lo_data *lo, struct stat *st,
- static int xattr_map_client(const struct lo_data *lo, const char *client_name,
-                             char **out_name);
- 
-+#define FCHDIR_NOFAIL(fd) do {                         \
-+        int fchdir_res = fchdir(fd);                   \
-+        assert(fchdir_res == 0);                       \
-+    } while (0)
-+
- static bool is_dot_or_dotdot(const char *name)
- {
-     return name[0] == '.' &&
-@@ -288,7 +293,6 @@ static bool is_fscreate_usable(struct lo_data *lo)
- }
- 
- /* Helpers to set/reset fscreate */
--__attribute__((unused))
- static int open_set_proc_fscreate(struct lo_data *lo, const void *ctx,
-                                   size_t ctxlen,int *fd)
- {
-@@ -316,7 +320,6 @@ out:
-     return err;
- }
- 
--__attribute__((unused))
- static void close_reset_proc_fscreate(int fd)
- {
-     if ((write(fd, NULL, 0)) == -1) {
-@@ -1354,16 +1357,103 @@ static void lo_restore_cred_gain_cap(struct lo_cred *old, bool restore_umask,
-     }
- }
- 
-+static int do_mknod_symlink_secctx(fuse_req_t req, struct lo_inode *dir,
-+                                   const char *name, const char *secctx_name)
-+{
-+    int path_fd, err;
-+    char procname[64];
-+    struct lo_data *lo = lo_data(req);
-+
-+    if (!req->secctx.ctxlen) {
-+        return 0;
-+    }
-+
-+    /* Open newly created element with O_PATH */
-+    path_fd = openat(dir->fd, name, O_PATH | O_NOFOLLOW);
-+    err = path_fd == -1 ? errno : 0;
-+    if (err) {
-+        return err;
-+    }
-+    sprintf(procname, "%i", path_fd);
-+    FCHDIR_NOFAIL(lo->proc_self_fd);
-+    /* Set security context. This is not atomic w.r.t file creation */
-+    err = setxattr(procname, secctx_name, req->secctx.ctx, req->secctx.ctxlen,
-+                   0);
-+    if (err) {
-+        err = errno;
-+    }
-+    FCHDIR_NOFAIL(lo->root.fd);
-+    close(path_fd);
-+    return err;
-+}
-+
-+static int do_mknod_symlink(fuse_req_t req, struct lo_inode *dir,
-+                            const char *name, mode_t mode, dev_t rdev,
-+                            const char *link)
-+{
-+    int err, fscreate_fd = -1;
-+    const char *secctx_name = req->secctx.name;
-+    struct lo_cred old = {};
-+    struct lo_data *lo = lo_data(req);
-+    char *mapped_name = NULL;
-+    bool secctx_enabled = req->secctx.ctxlen;
-+    bool do_fscreate = false;
-+
-+    if (secctx_enabled && lo->xattrmap) {
-+        err = xattr_map_client(lo, req->secctx.name, &mapped_name);
-+        if (err < 0) {
-+            return -err;
-+        }
-+        secctx_name = mapped_name;
-+    }
-+
-+    /*
-+     * If security xattr has not been remapped and selinux is enabled on
-+     * host, set fscreate and no need to do a setxattr() after file creation
-+     */
-+    if (secctx_enabled && !mapped_name && lo->use_fscreate) {
-+        do_fscreate = true;
-+        err = open_set_proc_fscreate(lo, req->secctx.ctx, req->secctx.ctxlen,
-+                                     &fscreate_fd);
-+        if (err) {
-+            goto out;
-+        }
-+    }
-+
-+    err = lo_change_cred(req, &old, lo->change_umask && !S_ISLNK(mode));
-+    if (err) {
-+        goto out;
-+    }
-+
-+    err = mknod_wrapper(dir->fd, name, link, mode, rdev);
-+    err = err == -1 ? errno : 0;
-+    lo_restore_cred(&old, lo->change_umask && !S_ISLNK(mode));
-+    if (err) {
-+        goto out;
-+    }
-+
-+    if (!do_fscreate) {
-+        err = do_mknod_symlink_secctx(req, dir, name, secctx_name);
-+        if (err) {
-+            unlinkat(dir->fd, name, S_ISDIR(mode) ? AT_REMOVEDIR : 0);
-+        }
-+    }
-+out:
-+    if (fscreate_fd != -1) {
-+        close_reset_proc_fscreate(fscreate_fd);
-+    }
-+    g_free(mapped_name);
-+    return err;
-+}
-+
- static void lo_mknod_symlink(fuse_req_t req, fuse_ino_t parent,
-                              const char *name, mode_t mode, dev_t rdev,
-                              const char *link)
- {
--    int res;
-     int saverr;
-     struct lo_data *lo = lo_data(req);
-     struct lo_inode *dir;
-     struct fuse_entry_param e;
--    struct lo_cred old = {};
- 
-     if (is_empty(name)) {
-         fuse_reply_err(req, ENOENT);
-@@ -1381,21 +1471,11 @@ static void lo_mknod_symlink(fuse_req_t req, fuse_ino_t parent,
-         return;
-     }
- 
--    saverr = lo_change_cred(req, &old, lo->change_umask && !S_ISLNK(mode));
-+    saverr = do_mknod_symlink(req, dir, name, mode, rdev, link);
-     if (saverr) {
-         goto out;
-     }
- 
--    res = mknod_wrapper(dir->fd, name, link, mode, rdev);
--
--    saverr = errno;
--
--    lo_restore_cred(&old, lo->change_umask && !S_ISLNK(mode));
--
--    if (res == -1) {
--        goto out;
--    }
--
-     saverr = lo_do_lookup(req, parent, name, &e, NULL);
-     if (saverr) {
-         goto out;
-@@ -2071,13 +2151,16 @@ static int lo_do_open(struct lo_data *lo, struct lo_inode *inode,
-     return 0;
- }
- 
--static int do_lo_create(fuse_req_t req, struct lo_inode *parent_inode,
--                        const char *name, mode_t mode,
--                        struct fuse_file_info *fi, int* open_fd)
-+static int do_create_nosecctx(fuse_req_t req, struct lo_inode *parent_inode,
-+                               const char *name, mode_t mode,
-+                               struct fuse_file_info *fi, int *open_fd)
- {
--    int err = 0, fd;
-+    int err, fd;
-     struct lo_cred old = {};
-     struct lo_data *lo = lo_data(req);
-+    int flags;
-+
-+    flags = fi->flags | O_CREAT | O_EXCL;
- 
-     err = lo_change_cred(req, &old, lo->change_umask);
-     if (err) {
-@@ -2085,13 +2168,106 @@ static int do_lo_create(fuse_req_t req, struct lo_inode *parent_inode,
-     }
- 
-     /* Try to create a new file but don't open existing files */
--    fd = openat(parent_inode->fd, name, fi->flags | O_CREAT | O_EXCL, mode);
--    if (fd == -1) {
--        err = errno;
--    } else {
-+    fd = openat(parent_inode->fd, name, flags, mode);
-+    err = fd == -1 ? errno : 0;
-+    lo_restore_cred(&old, lo->change_umask);
-+    if (!err) {
-         *open_fd = fd;
-     }
--    lo_restore_cred(&old, lo->change_umask);
-+    return err;
-+}
-+
-+static int do_create_secctx_fscreate(fuse_req_t req,
-+                                     struct lo_inode *parent_inode,
-+                                     const char *name, mode_t mode,
-+                                     struct fuse_file_info *fi, int *open_fd)
-+{
-+    int err = 0, fd = -1, fscreate_fd = -1;
-+    struct lo_data *lo = lo_data(req);
-+
-+    err = open_set_proc_fscreate(lo, req->secctx.ctx, req->secctx.ctxlen,
-+                                 &fscreate_fd);
-+    if (err) {
-+        return err;
-+    }
-+
-+    err = do_create_nosecctx(req, parent_inode, name, mode, fi, &fd);
-+
-+    close_reset_proc_fscreate(fscreate_fd);
-+    if (!err) {
-+        *open_fd = fd;
-+    }
-+    return err;
-+}
-+
-+static int do_create_secctx_noatomic(fuse_req_t req,
-+                                     struct lo_inode *parent_inode,
-+                                     const char *name, mode_t mode,
-+                                     struct fuse_file_info *fi,
-+                                     const char *secctx_name, int *open_fd)
-+{
-+    int err = 0, fd = -1;
-+
-+    err = do_create_nosecctx(req, parent_inode, name, mode, fi, &fd);
-+    if (err) {
-+        goto out;
-+    }
-+
-+    /* Set security context. This is not atomic w.r.t file creation */
-+    err = fsetxattr(fd, secctx_name, req->secctx.ctx, req->secctx.ctxlen, 0);
-+    err = err == -1 ? errno : 0;
-+out:
-+    if (!err) {
-+        *open_fd = fd;
-+    } else {
-+        if (fd != -1) {
-+            close(fd);
-+            unlinkat(parent_inode->fd, name, 0);
-+        }
-+    }
-+    return err;
-+}
-+
-+static int do_lo_create(fuse_req_t req, struct lo_inode *parent_inode,
-+                        const char *name, mode_t mode,
-+                        struct fuse_file_info *fi, int *open_fd)
-+{
-+    struct lo_data *lo = lo_data(req);
-+    char *mapped_name = NULL;
-+    int err;
-+    const char *ctxname = req->secctx.name;
-+    bool secctx_enabled = req->secctx.ctxlen;
-+
-+    if (secctx_enabled && lo->xattrmap) {
-+        err = xattr_map_client(lo, req->secctx.name, &mapped_name);
-+        if (err < 0) {
-+            return -err;
-+        }
-+
-+        ctxname = mapped_name;
-+    }
-+
-+    if (secctx_enabled) {
-+        /*
-+         * If security.selinux has not been remapped and selinux is enabled,
-+         * use fscreate to set context before file creation.
-+         * Otherwise fallback to non-atomic method of file creation
-+         * and xattr settting.
-+         */
-+        if (!mapped_name && lo->use_fscreate) {
-+            err = do_create_secctx_fscreate(req, parent_inode, name, mode, fi,
-+                                            open_fd);
-+            goto out;
-+        }
-+
-+        err = do_create_secctx_noatomic(req, parent_inode, name, mode, fi,
-+                                        ctxname, open_fd);
-+    } else {
-+        err = do_create_nosecctx(req, parent_inode, name, mode, fi, open_fd);
-+    }
-+
-+out:
-+    g_free(mapped_name);
-     return err;
- }
- 
-@@ -2926,11 +3102,6 @@ static int xattr_map_server(const struct lo_data *lo, const char *server_name,
-     return -ENODATA;
- }
- 
--#define FCHDIR_NOFAIL(fd) do {                         \
--        int fchdir_res = fchdir(fd);                   \
--        assert(fchdir_res == 0);                       \
--    } while (0)
--
- static bool block_xattr(struct lo_data *lo, const char *name)
- {
-     /*
 -- 
-2.34.1
+2.25.1
 
 
