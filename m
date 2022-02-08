@@ -2,74 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D0514AD82A
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Feb 2022 13:09:45 +0100 (CET)
-Received: from localhost ([::1]:49462 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 01B124AD7F4
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Feb 2022 12:54:21 +0100 (CET)
+Received: from localhost ([::1]:33324 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nHPJY-0004kV-39
-	for lists+qemu-devel@lfdr.de; Tue, 08 Feb 2022 07:09:44 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:57748)
+	id 1nHP4d-0000ry-Dm
+	for lists+qemu-devel@lfdr.de; Tue, 08 Feb 2022 06:54:19 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:57974)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kkostiuk@redhat.com>)
- id 1nHOZT-0002Dy-Rc
- for qemu-devel@nongnu.org; Tue, 08 Feb 2022 06:22:07 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:21765)
+ id 1nHOaf-0003RW-U9
+ for qemu-devel@nongnu.org; Tue, 08 Feb 2022 06:23:22 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:39898)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kkostiuk@redhat.com>)
- id 1nHOZR-0007bK-KP
- for qemu-devel@nongnu.org; Tue, 08 Feb 2022 06:22:07 -0500
+ id 1nHOad-0007h1-TC
+ for qemu-devel@nongnu.org; Tue, 08 Feb 2022 06:23:21 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1644319325;
+ s=mimecast20190719; t=1644319399;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=4VPszrEwkecWwYGILyOblxO+nW724B7yliy1mRFbr8A=;
- b=B7nnwgSk17CDnxeRm6ciRLC0jdsw/y+W6PW+itYWJNZJTvz+MEBDntE0zLdJ6/g5nT1On6
- 69MHE59+8bn18psEZb9KxHmqRhtIEmsJktn9Exvg2dWeSBNI4DSp/nvZ1tjpKEOHGiCevn
- wA2m1dAwzmfSQXoYjnuPTqCV2TklI/4=
-Received: from mail-yb1-f197.google.com (mail-yb1-f197.google.com
- [209.85.219.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=jeM1FAkVwCzZnkk8jU6dtVUgvze66BoE1QpnLhBKDcY=;
+ b=LDu79chl5dGbE/UFJIUgKgkrk0EXg2lLcaedOWF9AWsVjqgzvnutYYLq2doQTs809w8y3m
+ bu+N/hMIopPN42QtDBcEPtdZunGxonDSeI0UYG+1tIuvGFm5D6wssSyUvFYJQo/X2GBVNt
+ 0zIsgXTjrt6pXITL8Aqvip/IiSPxVxo=
+Received: from mail-yb1-f200.google.com (mail-yb1-f200.google.com
+ [209.85.219.200]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-454-CN8ldCzQPjS_ZaHk7kDnlg-1; Tue, 08 Feb 2022 06:22:03 -0500
-X-MC-Unique: CN8ldCzQPjS_ZaHk7kDnlg-1
-Received: by mail-yb1-f197.google.com with SMTP id
- f18-20020a5b0d52000000b0061dc514a6f2so9983039ybr.22
- for <qemu-devel@nongnu.org>; Tue, 08 Feb 2022 03:22:03 -0800 (PST)
+ us-mta-338-nejIZ8rzNUK4znFNq__wDQ-1; Tue, 08 Feb 2022 06:23:17 -0500
+X-MC-Unique: nejIZ8rzNUK4znFNq__wDQ-1
+Received: by mail-yb1-f200.google.com with SMTP id
+ x1-20020a25a001000000b0061c64ee0196so25266119ybh.9
+ for <qemu-devel@nongnu.org>; Tue, 08 Feb 2022 03:23:17 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=4VPszrEwkecWwYGILyOblxO+nW724B7yliy1mRFbr8A=;
- b=Yvc9aLxTdz/u3gZuOV0y2mU+QkTeGyG3j/OMInlI1K32tO+cM9z+9eCfeZ8rBdxUMd
- GQYwh0iyEI79uTeiDnqDPosz0Tpl2NuGQXRXTDLucnonnfhss0dyxIixnGLNrByAHggg
- hGO9/I2GP5CKXcDDjp7CYKCUnp22ER+QvJDrPaFCoNLeaWK4AU0yb9J/LeqI1HdtJZqn
- +gJ58MQhvSMcmJITaz0Rrj30TDyiYd3O6qZ35/DazBjLyt9kSdUPLL8m/rDBWlheGKqd
- SsRDxFOMaSKEo60JL2u529HpH2drTkA8xGX1VLVbFZfQz/Nhzak3uRSdyXtJppL6ljOY
- htbg==
-X-Gm-Message-State: AOAM532X8IqacIfVLxgr2NoexNNnh/FLYJAj5QebYR20gMlVUlna1res
- Z59wnQwX9MhBODIV7nrDHUZucSDMLaPimPmsqju8M4zZTNnl+GnFaEyg+PYoKGPcUUa4lhlBAtA
- I7o+46d6VHg39lHywl782q7I6Uj5LM5g=
-X-Received: by 2002:a25:3b57:: with SMTP id i84mr3955065yba.565.1644319323098; 
- Tue, 08 Feb 2022 03:22:03 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxyplk7QPAIElKAR3e669ptk9tgKvPt6qwobi+LwaArQba4Mtp8f5pNl5Mkd4dXLUL+juPhekQ9bWm5zgs0fYc=
-X-Received: by 2002:a25:3b57:: with SMTP id i84mr3955057yba.565.1644319322948; 
- Tue, 08 Feb 2022 03:22:02 -0800 (PST)
+ bh=jeM1FAkVwCzZnkk8jU6dtVUgvze66BoE1QpnLhBKDcY=;
+ b=uedru0kghpjaxZiHvp0xDcrM7l8yFtCQaYQcma1+dEdFXQXtahDkmgiGYkQMKOPCti
+ AA7ak3Hz3IjDd3ipU00KcMpbYengvZau5tWfPIejoySYBoQZxtAG0sI680AMWr1JxQVM
+ MA7Uek09OTw/SuZaxrZ3/ZmgMDdX5y/p+U355CSk0upTkquOv0qvPKV3o7kjHHqhsn+1
+ 9VDDLYYldbFRzmZftYC6knrCjMqVA/z9KUy9SKX2eYcxg38fe9i/zFXtjBf5/qZp6vSg
+ 8E+CZVr1WvBnsJQkS+CXBYjxIHOTx0+WqjZYUAHqMkRa1tk1mcgBFYR1GfeN1dQR22Yw
+ Cmaw==
+X-Gm-Message-State: AOAM533AX9lqUjShXTsi3wcDHPdIwdN+XiATxAM+n6cnQ/IGPHuq3z/Z
+ C/ElCFnNu+Ga/8xWEN/bVFdqI8e9kWEOPygD/OBPV2w/oY3vLx9TNyBG5WMalbqc+wHkrqtp3V/
+ gafbONQ9gXaSQVVbTMm1y43p1HyeRTlQ=
+X-Received: by 2002:a81:b148:: with SMTP id p69mr4327008ywh.402.1644319397259; 
+ Tue, 08 Feb 2022 03:23:17 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyjk0JkyysNTkJz01gCYk9X7GfaNHB3eLgUIGPlCZs9RJQA43O/E3L3SVuVnGDu+Q09cOeU1mdiYu2NOdLgV60=
+X-Received: by 2002:a81:b148:: with SMTP id p69mr4326937ywh.402.1644319395870; 
+ Tue, 08 Feb 2022 03:23:15 -0800 (PST)
 MIME-Version: 1.0
 References: <20220203173359.292068-1-pbonzini@redhat.com>
- <20220203173359.292068-22-pbonzini@redhat.com>
- <23c4d174-f18e-2932-1c25-6698285b53bf@amsat.org>
-In-Reply-To: <23c4d174-f18e-2932-1c25-6698285b53bf@amsat.org>
+ <20220203173359.292068-26-pbonzini@redhat.com>
+ <6358e5ce-9f4a-740b-2051-c4f8078d13fe@amsat.org>
+In-Reply-To: <6358e5ce-9f4a-740b-2051-c4f8078d13fe@amsat.org>
 From: Konstantin Kostiuk <kkostiuk@redhat.com>
-Date: Tue, 8 Feb 2022 13:21:51 +0200
-Message-ID: <CAPMcbCqzA2A8+8Tm4qesTX0Bq17UL+WNrefMaqXwJEP7jatjSw@mail.gmail.com>
-Subject: Re: [PATCH 21/27] qga/vss: use standard windows headers location
+Date: Tue, 8 Feb 2022 13:23:04 +0200
+Message-ID: <CAPMcbCoMRBTeiOJEkthUa5ZVbszgDqrdUNdBQJHAE+8YMsjjYA@mail.gmail.com>
+Subject: Re: [PATCH 25/27] meson: require dynamic linking for VSS support
 To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kkostiuk@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: multipart/alternative; boundary="00000000000024585c05d77fed69"
+Content-Type: multipart/alternative; boundary="0000000000007d12c005d77ff15b"
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=kkostiuk@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
@@ -96,51 +96,42 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---00000000000024585c05d77fed69
+--0000000000007d12c005d77ff15b
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
 Reviewed-by: Konstantin Kostiuk <kkostiuk@redhat.com>
 
-On Fri, Feb 4, 2022 at 7:18 AM Philippe Mathieu-Daud=C3=A9 via <
+On Fri, Feb 4, 2022 at 7:23 AM Philippe Mathieu-Daud=C3=A9 via <
 qemu-devel@nongnu.org> wrote:
 
 > On 3/2/22 18:33, Paolo Bonzini wrote:
 > > From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 > >
-> > Stop using special paths with outdated headers from an old SDK.
+> > The glib_dynamic detection does not work because the dependency is
+> > overridden in the main meson.build.
 > >
-> > Instead, use standard include paths.
-> >
-> > You can still build against the old SDK by running configure with
-> > --extra-cxxflags=3D"-isystem `/path/to/inc/win2003/"
->
-> Superfluous back quote.
+> > Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+> > [Rewritten commit message, added requirement in qga/meson.build - Paolo=
+]
+> > Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+> > ---
+> >   qga/meson.build           | 2 ++
+> >   qga/vss-win32/meson.build | 4 ++--
+> >   2 files changed, 4 insertions(+), 2 deletions(-)
 >
 > Reviewed-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
 >
-> > (this also allows to build against MinGW headers, which are currently
-> > broken as in 9.0)
-> >
-> > Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-> > Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-> > ---
-> >   qga/vss-win32/install.cpp   | 2 +-
-> >   qga/vss-win32/provider.cpp  | 4 ++--
-> >   qga/vss-win32/requester.cpp | 4 ++--
-> >   qga/vss-win32/vss-common.h  | 6 +-----
-> >   4 files changed, 6 insertions(+), 10 deletions(-)
->
 >
 
---00000000000024585c05d77fed69
+--0000000000007d12c005d77ff15b
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
 <div dir=3D"ltr">Reviewed-by: Konstantin Kostiuk &lt;<a href=3D"mailto:kkos=
 tiuk@redhat.com" target=3D"_blank">kkostiuk@redhat.com</a>&gt;</div><br><di=
 v class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Fri, Feb 4=
-, 2022 at 7:18 AM Philippe Mathieu-Daud=C3=A9 via &lt;<a href=3D"mailto:qem=
+, 2022 at 7:23 AM Philippe Mathieu-Daud=C3=A9 via &lt;<a href=3D"mailto:qem=
 u-devel@nongnu.org">qemu-devel@nongnu.org</a>&gt; wrote:<br></div><blockquo=
 te class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px =
 solid rgb(204,204,204);padding-left:1ex">On 3/2/22 18:33, Paolo Bonzini wro=
@@ -148,36 +139,27 @@ te:<br>
 &gt; From: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.lureau@re=
 dhat.com" target=3D"_blank">marcandre.lureau@redhat.com</a>&gt;<br>
 &gt; <br>
-&gt; Stop using special paths with outdated headers from an old SDK.<br>
-&gt; <br>
-&gt; Instead, use standard include paths.<br>
-&gt; <br>
-&gt; You can still build against the old SDK by running configure with<br>
-&gt; --extra-cxxflags=3D&quot;-isystem `/path/to/inc/win2003/&quot;<br>
-<br>
-Superfluous back quote.<br>
-<br>
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 &lt;<a href=3D"mailto:f4bug@amsat.=
-org" target=3D"_blank">f4bug@amsat.org</a>&gt;<br>
-<br>
-&gt; (this also allows to build against MinGW headers, which are currently<=
-br>
-&gt; broken as in 9.0)<br>
+&gt; The glib_dynamic detection does not work because the dependency is<br>
+&gt; overridden in the main meson.build.<br>
 &gt; <br>
 &gt; Signed-off-by: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.=
 lureau@redhat.com" target=3D"_blank">marcandre.lureau@redhat.com</a>&gt;<br=
 >
+&gt; [Rewritten commit message, added requirement in qga/meson.build - Paol=
+o]<br>
 &gt; Signed-off-by: Paolo Bonzini &lt;<a href=3D"mailto:pbonzini@redhat.com=
 " target=3D"_blank">pbonzini@redhat.com</a>&gt;<br>
 &gt; ---<br>
-&gt;=C2=A0 =C2=A0qga/vss-win32/install.cpp=C2=A0 =C2=A0| 2 +-<br>
-&gt;=C2=A0 =C2=A0qga/vss-win32/provider.cpp=C2=A0 | 4 ++--<br>
-&gt;=C2=A0 =C2=A0qga/vss-win32/requester.cpp | 4 ++--<br>
-&gt;=C2=A0 =C2=A0qga/vss-win32/vss-common.h=C2=A0 | 6 +-----<br>
-&gt;=C2=A0 =C2=A04 files changed, 6 insertions(+), 10 deletions(-)<br>
+&gt;=C2=A0 =C2=A0qga/meson.build=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| =
+2 ++<br>
+&gt;=C2=A0 =C2=A0qga/vss-win32/meson.build | 4 ++--<br>
+&gt;=C2=A0 =C2=A02 files changed, 4 insertions(+), 2 deletions(-)<br>
+<br>
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 &lt;<a href=3D"mailto:f4bug@amsat.=
+org" target=3D"_blank">f4bug@amsat.org</a>&gt;<br>
 <br>
 </blockquote></div>
 
---00000000000024585c05d77fed69--
+--0000000000007d12c005d77ff15b--
 
 
