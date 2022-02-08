@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 691DC4AD884
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Feb 2022 14:08:10 +0100 (CET)
-Received: from localhost ([::1]:54284 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 152224ADA6A
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Feb 2022 14:53:00 +0100 (CET)
+Received: from localhost ([::1]:37930 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nHQE5-0001IU-DV
-	for lists+qemu-devel@lfdr.de; Tue, 08 Feb 2022 08:08:09 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:35136)
+	id 1nHQvS-0000Lp-Sm
+	for lists+qemu-devel@lfdr.de; Tue, 08 Feb 2022 08:52:58 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:35162)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nHOrT-00016B-4f
- for qemu-devel@nongnu.org; Tue, 08 Feb 2022 06:40:45 -0500
-Received: from [2a00:1450:4864:20::32f] (port=34754
- helo=mail-wm1-x32f.google.com)
+ id 1nHOrW-00016p-58
+ for qemu-devel@nongnu.org; Tue, 08 Feb 2022 06:40:46 -0500
+Received: from [2a00:1450:4864:20::432] (port=37443
+ helo=mail-wr1-x432.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nHOr2-0002O2-Jr
- for qemu-devel@nongnu.org; Tue, 08 Feb 2022 06:40:32 -0500
-Received: by mail-wm1-x32f.google.com with SMTP id
- bg19-20020a05600c3c9300b0034565e837b6so720660wmb.1
- for <qemu-devel@nongnu.org>; Tue, 08 Feb 2022 03:40:16 -0800 (PST)
+ id 1nHOr6-0002Oc-FG
+ for qemu-devel@nongnu.org; Tue, 08 Feb 2022 06:40:45 -0500
+Received: by mail-wr1-x432.google.com with SMTP id w11so30205534wra.4
+ for <qemu-devel@nongnu.org>; Tue, 08 Feb 2022 03:40:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=9dw3Bqc9gNOZYBlhUw891b5p3LngTxqnCKTzWHfYZ8A=;
- b=kniUN/ugRfQJXfQCvFtnfLC/C0dWt0YtVPWI64g4xjt9NVF7iLXUGVV8/8Hj6Ve4om
- Hz4rqRw7UKAsPyVdCyqAYvS1Y1Lacxe+jyB3GdaPolhmOfFaPAphPNP3mV4f9xSDAiYV
- BY1Q6zBgcnInyNq7F2BZQQrz/epRQRrV6pXAwnxBZ76G4N4MMRtugR7o22iUPdZRaJxn
- DPLRhSjcjdNC8p06FZCdDmX1KD3gbnGNAfR8bKCafJ+5S8R1FbR5vSNtFDHC7pTfMadX
- WQZWo6XtY6dBLFW208aPQ6LHys0jC2Tb+K/vGspdjmUD2K0NaIbywIcscrlhdRjmQ3qx
- XAdQ==
+ bh=v5ET0+1LLIbrX35KZYaVVD6fsBg0+EloAODPuKcK44U=;
+ b=qE8Y9nm/XaFllt0ssasppopfpTj448pXn+1qgdMH3oBkPQlAv0BQBzJeSpi18tP0km
+ DiKJzeNtGWDPnnlsZgqw7RxnFZECvCd1OxhzikOoRO6mgIMHkHImLMNmrK+DcSWZRMwe
+ raHWH4vogFP66TmwQG5lDwxCBJ9Hgqy1JKiIfHIqmqqULU6Dd8+wgROi1paNThMygaHL
+ b5bJeF7jRI8T4OR69PC5LGMPY0R07sOPxgCTMZZplJXP4jGJbaYFNY9sbSfKDt8673s2
+ omJwYLoNllEVbqnLC0E3TWotFL41hhyLUsIWxfx6J3MFrPgxELDf61o5vxCannD+irnV
+ ogTg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=9dw3Bqc9gNOZYBlhUw891b5p3LngTxqnCKTzWHfYZ8A=;
- b=QsOCJxm4DGNSWeSIrMrQE7zK4TUUGpxzfuoufOCtFPpT4EPfdr1YKRhA+9fcrEpjBw
- D6RwEGcZ2eFS63SWxq0hoy/kikFtGe+BixXBYhnV0Gh45SFLgoZmxa5ZF4tJ/3TZNn3w
- mnP3cITlqj3UXj/WntvxIGnyBfb7Ca6CVozoTgp6OzMh7Wcpz02T2HBSKDfezIN53vr+
- QYjAvyGKA/OYcHLWxYNH8hgiDlLuz8OYLHT4zP9Gh3HfpfdYIC+b5Cb4y4pW3H+DiGLf
- q3RJFMswGoHAd07TFRY1NcpQnL1dD9odDLBeu9a3hbkyPe4F/BLH+AJJxAOyvtx1bPqr
- khqA==
-X-Gm-Message-State: AOAM533emDfc6JLe4TilgXDSLpsvO1I2xPV7eLV/62DR5ayrJckdCYYd
- EDTWqZMUBfIlKE9N3AX5urnZdd6T1G+aJw==
-X-Google-Smtp-Source: ABdhPJxRIqXBP6J1PntmoiGi94XcfzMMdliVyUM7CDmQ2C5F+NSh52vzqDnAaQqfsQhUPLpJhmzEng==
-X-Received: by 2002:a1c:7c0b:: with SMTP id x11mr789318wmc.192.1644320415325; 
- Tue, 08 Feb 2022 03:40:15 -0800 (PST)
+ bh=v5ET0+1LLIbrX35KZYaVVD6fsBg0+EloAODPuKcK44U=;
+ b=cgzKqr+fnWnfUrPFNs7tfF5K+WVzzawhw1mmeuo66pQx4qycGt0IwR1cwVVHKXBqYr
+ sjnICOf8yq/91Q1LZscegl0yuYqPSa4olep9vFLcMENANLNsrNpRZUZEnTKLayB08x+Z
+ TGrrpz1JdO4SxQ0bwnVkezNmSN0oRRSbb1eddodz076n5BDUkwQM8svtkgyYe1t2eEgj
+ f6sf42uaAC9gR72eo8kqjBCoqDOgh/GcskIpyb1VATmBDaskveTYBKEwMQweyz+Kxd3r
+ ycWWLR4sTf2BpSic+AH5E2ahiDgDvn4tCSPyT0m7tPxGhJzE248kAnzLt8KoAgOvxmMo
+ iDgw==
+X-Gm-Message-State: AOAM5315nR3CKtIyijlPoS8gcL6466dIr8YkZp7Sc2PPkZoUoPnkkViX
+ bbgZYM9BRBccVtRSpF36ILlpQ6UhHl6AdQ==
+X-Google-Smtp-Source: ABdhPJwElaWxaEa4zf4oxxX+BEwMqRgZ/rFJObL3eRGN16aqKNgFrf4vDudU8Mbx/l519txSRV4ZRA==
+X-Received: by 2002:adf:d4cb:: with SMTP id w11mr1463352wrk.221.1644320416301; 
+ Tue, 08 Feb 2022 03:40:16 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
- by smtp.gmail.com with ESMTPSA id r11sm4245199wrt.28.2022.02.08.03.40.14
+ by smtp.gmail.com with ESMTPSA id r11sm4245199wrt.28.2022.02.08.03.40.15
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Tue, 08 Feb 2022 03:40:15 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 38/39] hw/intc/arm_gicv3_its: Split error checks
-Date: Tue,  8 Feb 2022 11:39:47 +0000
-Message-Id: <20220208113948.3217356-39-peter.maydell@linaro.org>
+Subject: [PULL 39/39] hw/sensor: Add lsm303dlhc magnetometer device
+Date: Tue,  8 Feb 2022 11:39:48 +0000
+Message-Id: <20220208113948.3217356-40-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220208113948.3217356-1-peter.maydell@linaro.org>
 References: <20220208113948.3217356-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32f
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::432
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::432;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x432.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -91,91 +91,777 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In most of the ITS command processing, we check different error
-possibilities one at a time and log them appropriately. In
-process_mapti() and process_mapd() we have code which checks
-multiple error cases at once, which means the logging is less
-specific than it could be. Split those cases up.
+From: Kevin Townsend <kevin.townsend@linaro.org>
 
+This commit adds emulation of the magnetometer on the LSM303DLHC.
+It allows the magnetometer's X, Y and Z outputs to be set via the
+mag-x, mag-y and mag-z properties, as well as the 12-bit
+temperature output via the temperature property. Sensor can be
+enabled with 'CONFIG_LSM303DLHC_MAG=y'.
+
+Signed-off-by: Kevin Townsend <kevin.townsend@linaro.org>
+Message-id: 20220130095032.35392-1-kevin.townsend@linaro.org
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20220201193207.2771604-14-peter.maydell@linaro.org
 ---
- hw/intc/arm_gicv3_its.c | 52 ++++++++++++++++++++++++-----------------
- 1 file changed, 31 insertions(+), 21 deletions(-)
+ hw/sensor/lsm303dlhc_mag.c        | 556 ++++++++++++++++++++++++++++++
+ tests/qtest/lsm303dlhc-mag-test.c | 148 ++++++++
+ hw/sensor/Kconfig                 |   4 +
+ hw/sensor/meson.build             |   1 +
+ tests/qtest/meson.build           |   1 +
+ 5 files changed, 710 insertions(+)
+ create mode 100644 hw/sensor/lsm303dlhc_mag.c
+ create mode 100644 tests/qtest/lsm303dlhc-mag-test.c
 
-diff --git a/hw/intc/arm_gicv3_its.c b/hw/intc/arm_gicv3_its.c
-index 8dade9440ac..4f598d3c14f 100644
---- a/hw/intc/arm_gicv3_its.c
-+++ b/hw/intc/arm_gicv3_its.c
-@@ -404,19 +404,29 @@ static ItsCmdResult process_mapti(GICv3ITSState *s, const uint64_t *cmdpkt,
-     num_eventids = 1ULL << (dte.size + 1);
-     num_intids = 1ULL << (GICD_TYPER_IDBITS + 1);
- 
--    if ((icid >= s->ct.num_entries)
--            || !dte.valid || (eventid >= num_eventids) ||
--            (((pIntid < GICV3_LPI_INTID_START) || (pIntid >= num_intids)))) {
-+    if (icid >= s->ct.num_entries) {
-         qemu_log_mask(LOG_GUEST_ERROR,
--                      "%s: invalid command attributes "
--                      "icid %d or eventid %d or pIntid %d or"
--                      "unmapped dte %d\n", __func__, icid, eventid,
--                      pIntid, dte.valid);
--        /*
--         * in this implementation, in case of error
--         * we ignore this command and move onto the next
--         * command in the queue
--         */
-+                      "%s: invalid ICID 0x%x >= 0x%x\n",
-+                      __func__, icid, s->ct.num_entries);
-+        return CMD_CONTINUE;
+diff --git a/hw/sensor/lsm303dlhc_mag.c b/hw/sensor/lsm303dlhc_mag.c
+new file mode 100644
+index 00000000000..4c98ddbf207
+--- /dev/null
++++ b/hw/sensor/lsm303dlhc_mag.c
+@@ -0,0 +1,556 @@
++/*
++ * LSM303DLHC I2C magnetometer.
++ *
++ * Copyright (C) 2021 Linaro Ltd.
++ * Written by Kevin Townsend <kevin.townsend@linaro.org>
++ *
++ * Based on: https://www.st.com/resource/en/datasheet/lsm303dlhc.pdf
++ *
++ * SPDX-License-Identifier: GPL-2.0-or-later
++ */
++
++/*
++ * The I2C address associated with this device is set on the command-line when
++ * initialising the machine, but the following address is standard: 0x1E.
++ *
++ * Get and set functions for 'mag-x', 'mag-y' and 'mag-z' assume that
++ * 1 = 0.001 uT. (NOTE the 1 gauss = 100 uT, so setting a value of 100,000
++ * would be equal to 1 gauss or 100 uT.)
++ *
++ * Get and set functions for 'temperature' assume that 1 = 0.001 C, so 23.6 C
++ * would be equal to 23600.
++ */
++
++#include "qemu/osdep.h"
++#include "hw/i2c/i2c.h"
++#include "migration/vmstate.h"
++#include "qapi/error.h"
++#include "qapi/visitor.h"
++#include "qemu/module.h"
++#include "qemu/log.h"
++#include "qemu/bswap.h"
++
++enum LSM303DLHCMagReg {
++    LSM303DLHC_MAG_REG_CRA          = 0x00,
++    LSM303DLHC_MAG_REG_CRB          = 0x01,
++    LSM303DLHC_MAG_REG_MR           = 0x02,
++    LSM303DLHC_MAG_REG_OUT_X_H      = 0x03,
++    LSM303DLHC_MAG_REG_OUT_X_L      = 0x04,
++    LSM303DLHC_MAG_REG_OUT_Z_H      = 0x05,
++    LSM303DLHC_MAG_REG_OUT_Z_L      = 0x06,
++    LSM303DLHC_MAG_REG_OUT_Y_H      = 0x07,
++    LSM303DLHC_MAG_REG_OUT_Y_L      = 0x08,
++    LSM303DLHC_MAG_REG_SR           = 0x09,
++    LSM303DLHC_MAG_REG_IRA          = 0x0A,
++    LSM303DLHC_MAG_REG_IRB          = 0x0B,
++    LSM303DLHC_MAG_REG_IRC          = 0x0C,
++    LSM303DLHC_MAG_REG_TEMP_OUT_H   = 0x31,
++    LSM303DLHC_MAG_REG_TEMP_OUT_L   = 0x32
++};
++
++typedef struct LSM303DLHCMagState {
++    I2CSlave parent_obj;
++    uint8_t cra;
++    uint8_t crb;
++    uint8_t mr;
++    int16_t x;
++    int16_t z;
++    int16_t y;
++    int16_t x_lock;
++    int16_t z_lock;
++    int16_t y_lock;
++    uint8_t sr;
++    uint8_t ira;
++    uint8_t irb;
++    uint8_t irc;
++    int16_t temperature;
++    int16_t temperature_lock;
++    uint8_t len;
++    uint8_t buf;
++    uint8_t pointer;
++} LSM303DLHCMagState;
++
++#define TYPE_LSM303DLHC_MAG "lsm303dlhc_mag"
++OBJECT_DECLARE_SIMPLE_TYPE(LSM303DLHCMagState, LSM303DLHC_MAG)
++
++/*
++ * Conversion factor from Gauss to sensor values for each GN gain setting,
++ * in units "lsb per Gauss" (see data sheet table 3). There is no documented
++ * behaviour if the GN setting in CRB is incorrectly set to 0b000;
++ * we arbitrarily make it the same as 0b001.
++ */
++uint32_t xy_gain[] = { 1100, 1100, 855, 670, 450, 400, 330, 230 };
++uint32_t z_gain[] = { 980, 980, 760, 600, 400, 355, 295, 205 };
++
++static void lsm303dlhc_mag_get_x(Object *obj, Visitor *v, const char *name,
++                                 void *opaque, Error **errp)
++{
++    LSM303DLHCMagState *s = LSM303DLHC_MAG(obj);
++    int gm = extract32(s->crb, 5, 3);
++
++    /* Convert to uT where 1000 = 1 uT. Conversion factor depends on gain. */
++    int64_t value = muldiv64(s->x, 100000, xy_gain[gm]);
++    visit_type_int(v, name, &value, errp);
++}
++
++static void lsm303dlhc_mag_get_y(Object *obj, Visitor *v, const char *name,
++                                 void *opaque, Error **errp)
++{
++    LSM303DLHCMagState *s = LSM303DLHC_MAG(obj);
++    int gm = extract32(s->crb, 5, 3);
++
++    /* Convert to uT where 1000 = 1 uT. Conversion factor depends on gain. */
++    int64_t value = muldiv64(s->y, 100000, xy_gain[gm]);
++    visit_type_int(v, name, &value, errp);
++}
++
++static void lsm303dlhc_mag_get_z(Object *obj, Visitor *v, const char *name,
++                                 void *opaque, Error **errp)
++{
++    LSM303DLHCMagState *s = LSM303DLHC_MAG(obj);
++    int gm = extract32(s->crb, 5, 3);
++
++    /* Convert to uT where 1000 = 1 uT. Conversion factor depends on gain. */
++    int64_t value = muldiv64(s->z, 100000, z_gain[gm]);
++    visit_type_int(v, name, &value, errp);
++}
++
++static void lsm303dlhc_mag_set_x(Object *obj, Visitor *v, const char *name,
++                                 void *opaque, Error **errp)
++{
++    LSM303DLHCMagState *s = LSM303DLHC_MAG(obj);
++    int64_t value;
++    int64_t reg;
++    int gm = extract32(s->crb, 5, 3);
++
++    if (!visit_type_int(v, name, &value, errp)) {
++        return;
 +    }
 +
-+    if (!dte.valid) {
-+        qemu_log_mask(LOG_GUEST_ERROR,
-+                      "%s: no valid DTE for devid 0x%x\n", __func__, devid);
-+        return CMD_CONTINUE;
++    reg = muldiv64(value, xy_gain[gm], 100000);
++
++    /* Make sure we are within a 12-bit limit. */
++    if (reg > 2047 || reg < -2048) {
++        error_setg(errp, "value %" PRId64 " out of register's range", value);
++        return;
 +    }
 +
-+    if (eventid >= num_eventids) {
-+        qemu_log_mask(LOG_GUEST_ERROR,
-+                      "%s: invalid event ID 0x%x >= 0x%" PRIx64 "\n",
-+                      __func__, eventid, num_eventids);
-+        return CMD_CONTINUE;
++    s->x = (int16_t)reg;
++}
++
++static void lsm303dlhc_mag_set_y(Object *obj, Visitor *v, const char *name,
++                                 void *opaque, Error **errp)
++{
++    LSM303DLHCMagState *s = LSM303DLHC_MAG(obj);
++    int64_t value;
++    int64_t reg;
++    int gm = extract32(s->crb, 5, 3);
++
++    if (!visit_type_int(v, name, &value, errp)) {
++        return;
 +    }
 +
-+    if (pIntid < GICV3_LPI_INTID_START || pIntid >= num_intids) {
-+        qemu_log_mask(LOG_GUEST_ERROR,
-+                      "%s: invalid interrupt ID 0x%x\n", __func__, pIntid);
-         return CMD_CONTINUE;
-     }
- 
-@@ -529,16 +539,16 @@ static ItsCmdResult process_mapd(GICv3ITSState *s, const uint64_t *cmdpkt)
-     dte.ittaddr = (cmdpkt[2] & ITTADDR_MASK) >> ITTADDR_SHIFT;
-     dte.valid = cmdpkt[2] & CMD_FIELD_VALID_MASK;
- 
--    if ((devid >= s->dt.num_entries) ||
--        (dte.size > FIELD_EX64(s->typer, GITS_TYPER, IDBITS))) {
-+    if (devid >= s->dt.num_entries) {
-         qemu_log_mask(LOG_GUEST_ERROR,
--                      "ITS MAPD: invalid device table attributes "
--                      "devid %d or size %d\n", devid, dte.size);
--        /*
--         * in this implementation, in case of error
--         * we ignore this command and move onto the next
--         * command in the queue
--         */
-+                      "ITS MAPD: invalid device ID field 0x%x >= 0x%x\n",
-+                      devid, s->dt.num_entries);
-+        return CMD_CONTINUE;
++    reg = muldiv64(value, xy_gain[gm], 100000);
++
++    /* Make sure we are within a 12-bit limit. */
++    if (reg > 2047 || reg < -2048) {
++        error_setg(errp, "value %" PRId64 " out of register's range", value);
++        return;
 +    }
 +
-+    if (dte.size > FIELD_EX64(s->typer, GITS_TYPER, IDBITS)) {
-+        qemu_log_mask(LOG_GUEST_ERROR,
-+                      "ITS MAPD: invalid size %d\n", dte.size);
-         return CMD_CONTINUE;
-     }
- 
++    s->y = (int16_t)reg;
++}
++
++static void lsm303dlhc_mag_set_z(Object *obj, Visitor *v, const char *name,
++                                 void *opaque, Error **errp)
++{
++    LSM303DLHCMagState *s = LSM303DLHC_MAG(obj);
++    int64_t value;
++    int64_t reg;
++    int gm = extract32(s->crb, 5, 3);
++
++    if (!visit_type_int(v, name, &value, errp)) {
++        return;
++    }
++
++    reg = muldiv64(value, z_gain[gm], 100000);
++
++    /* Make sure we are within a 12-bit limit. */
++    if (reg > 2047 || reg < -2048) {
++        error_setg(errp, "value %" PRId64 " out of register's range", value);
++        return;
++    }
++
++    s->z = (int16_t)reg;
++}
++
++/*
++ * Get handler for the temperature property.
++ */
++static void lsm303dlhc_mag_get_temperature(Object *obj, Visitor *v,
++                                           const char *name, void *opaque,
++                                           Error **errp)
++{
++    LSM303DLHCMagState *s = LSM303DLHC_MAG(obj);
++    int64_t value;
++
++    /* Convert to 1 lsb = 0.125 C to 1 = 0.001 C for 'temperature' property. */
++    value = s->temperature * 125;
++
++    visit_type_int(v, name, &value, errp);
++}
++
++/*
++ * Set handler for the temperature property.
++ */
++static void lsm303dlhc_mag_set_temperature(Object *obj, Visitor *v,
++                                           const char *name, void *opaque,
++                                           Error **errp)
++{
++    LSM303DLHCMagState *s = LSM303DLHC_MAG(obj);
++    int64_t value;
++
++    if (!visit_type_int(v, name, &value, errp)) {
++        return;
++    }
++
++    /* Input temperature is in 0.001 C units. Convert to 1 lsb = 0.125 C. */
++    value /= 125;
++
++    if (value > 2047 || value < -2048) {
++        error_setg(errp, "value %" PRId64 " lsb is out of range", value);
++        return;
++    }
++
++    s->temperature = (int16_t)value;
++}
++
++/*
++ * Callback handler whenever a 'I2C_START_RECV' (read) event is received.
++ */
++static void lsm303dlhc_mag_read(LSM303DLHCMagState *s)
++{
++    /*
++     * Set the LOCK bit whenever a new read attempt is made. This will be
++     * cleared in I2C_FINISH. Note that DRDY is always set to 1 in this driver.
++     */
++    s->sr = 0x3;
++
++    /*
++     * Copy the current X/Y/Z and temp. values into the locked registers so
++     * that 'mag-x', 'mag-y', 'mag-z' and 'temperature' can continue to be
++     * updated via QOM, etc., without corrupting the current read event.
++     */
++    s->x_lock = s->x;
++    s->z_lock = s->z;
++    s->y_lock = s->y;
++    s->temperature_lock = s->temperature;
++}
++
++/*
++ * Callback handler whenever a 'I2C_FINISH' event is received.
++ */
++static void lsm303dlhc_mag_finish(LSM303DLHCMagState *s)
++{
++    /*
++     * Clear the LOCK bit when the read attempt terminates.
++     * This bit is initially set in the I2C_START_RECV handler.
++     */
++    s->sr = 0x1;
++}
++
++/*
++ * Callback handler when a device attempts to write to a register.
++ */
++static void lsm303dlhc_mag_write(LSM303DLHCMagState *s)
++{
++    switch (s->pointer) {
++    case LSM303DLHC_MAG_REG_CRA:
++        s->cra = s->buf;
++        break;
++    case LSM303DLHC_MAG_REG_CRB:
++        /* Make sure gain is at least 1, falling back to 1 on an error. */
++        if (s->buf >> 5 == 0) {
++            s->buf = 1 << 5;
++        }
++        s->crb = s->buf;
++        break;
++    case LSM303DLHC_MAG_REG_MR:
++        s->mr = s->buf;
++        break;
++    case LSM303DLHC_MAG_REG_SR:
++        s->sr = s->buf;
++        break;
++    case LSM303DLHC_MAG_REG_IRA:
++        s->ira = s->buf;
++        break;
++    case LSM303DLHC_MAG_REG_IRB:
++        s->irb = s->buf;
++        break;
++    case LSM303DLHC_MAG_REG_IRC:
++        s->irc = s->buf;
++        break;
++    default:
++        qemu_log_mask(LOG_GUEST_ERROR, "reg is read-only: 0x%02X", s->buf);
++        break;
++    }
++}
++
++/*
++ * Low-level master-to-slave transaction handler.
++ */
++static int lsm303dlhc_mag_send(I2CSlave *i2c, uint8_t data)
++{
++    LSM303DLHCMagState *s = LSM303DLHC_MAG(i2c);
++
++    if (s->len == 0) {
++        /* First byte is the reg pointer */
++        s->pointer = data;
++        s->len++;
++    } else if (s->len == 1) {
++        /* Second byte is the new register value. */
++        s->buf = data;
++        lsm303dlhc_mag_write(s);
++    } else {
++        g_assert_not_reached();
++    }
++
++    return 0;
++}
++
++/*
++ * Low-level slave-to-master transaction handler (read attempts).
++ */
++static uint8_t lsm303dlhc_mag_recv(I2CSlave *i2c)
++{
++    LSM303DLHCMagState *s = LSM303DLHC_MAG(i2c);
++    uint8_t resp;
++
++    switch (s->pointer) {
++    case LSM303DLHC_MAG_REG_CRA:
++        resp = s->cra;
++        break;
++    case LSM303DLHC_MAG_REG_CRB:
++        resp = s->crb;
++        break;
++    case LSM303DLHC_MAG_REG_MR:
++        resp = s->mr;
++        break;
++    case LSM303DLHC_MAG_REG_OUT_X_H:
++        resp = (uint8_t)(s->x_lock >> 8);
++        break;
++    case LSM303DLHC_MAG_REG_OUT_X_L:
++        resp = (uint8_t)(s->x_lock);
++        break;
++    case LSM303DLHC_MAG_REG_OUT_Z_H:
++        resp = (uint8_t)(s->z_lock >> 8);
++        break;
++    case LSM303DLHC_MAG_REG_OUT_Z_L:
++        resp = (uint8_t)(s->z_lock);
++        break;
++    case LSM303DLHC_MAG_REG_OUT_Y_H:
++        resp = (uint8_t)(s->y_lock >> 8);
++        break;
++    case LSM303DLHC_MAG_REG_OUT_Y_L:
++        resp = (uint8_t)(s->y_lock);
++        break;
++    case LSM303DLHC_MAG_REG_SR:
++        resp = s->sr;
++        break;
++    case LSM303DLHC_MAG_REG_IRA:
++        resp = s->ira;
++        break;
++    case LSM303DLHC_MAG_REG_IRB:
++        resp = s->irb;
++        break;
++    case LSM303DLHC_MAG_REG_IRC:
++        resp = s->irc;
++        break;
++    case LSM303DLHC_MAG_REG_TEMP_OUT_H:
++        /* Check if the temperature sensor is enabled or not (CRA & 0x80). */
++        if (s->cra & 0x80) {
++            resp = (uint8_t)(s->temperature_lock >> 8);
++        } else {
++            resp = 0;
++        }
++        break;
++    case LSM303DLHC_MAG_REG_TEMP_OUT_L:
++        if (s->cra & 0x80) {
++            resp = (uint8_t)(s->temperature_lock & 0xff);
++        } else {
++            resp = 0;
++        }
++        break;
++    default:
++        resp = 0;
++        break;
++    }
++
++    /*
++     * The address pointer on the LSM303DLHC auto-increments whenever a byte
++     * is read, without the master device having to request the next address.
++     *
++     * The auto-increment process has the following logic:
++     *
++     *   - if (s->pointer == 8) then s->pointer = 3
++     *   - else: if (s->pointer == 12) then s->pointer = 0
++     *   - else: s->pointer += 1
++     *
++     * Reading an invalid address return 0.
++     */
++    if (s->pointer == LSM303DLHC_MAG_REG_OUT_Y_L) {
++        s->pointer = LSM303DLHC_MAG_REG_OUT_X_H;
++    } else if (s->pointer == LSM303DLHC_MAG_REG_IRC) {
++        s->pointer = LSM303DLHC_MAG_REG_CRA;
++    } else {
++        s->pointer++;
++    }
++
++    return resp;
++}
++
++/*
++ * Bus state change handler.
++ */
++static int lsm303dlhc_mag_event(I2CSlave *i2c, enum i2c_event event)
++{
++    LSM303DLHCMagState *s = LSM303DLHC_MAG(i2c);
++
++    switch (event) {
++    case I2C_START_SEND:
++        break;
++    case I2C_START_RECV:
++        lsm303dlhc_mag_read(s);
++        break;
++    case I2C_FINISH:
++        lsm303dlhc_mag_finish(s);
++        break;
++    case I2C_NACK:
++        break;
++    }
++
++    s->len = 0;
++    return 0;
++}
++
++/*
++ * Device data description using VMSTATE macros.
++ */
++static const VMStateDescription vmstate_lsm303dlhc_mag = {
++    .name = "LSM303DLHC_MAG",
++    .version_id = 0,
++    .minimum_version_id = 0,
++    .fields = (VMStateField[]) {
++
++        VMSTATE_I2C_SLAVE(parent_obj, LSM303DLHCMagState),
++        VMSTATE_UINT8(len, LSM303DLHCMagState),
++        VMSTATE_UINT8(buf, LSM303DLHCMagState),
++        VMSTATE_UINT8(pointer, LSM303DLHCMagState),
++        VMSTATE_UINT8(cra, LSM303DLHCMagState),
++        VMSTATE_UINT8(crb, LSM303DLHCMagState),
++        VMSTATE_UINT8(mr, LSM303DLHCMagState),
++        VMSTATE_INT16(x, LSM303DLHCMagState),
++        VMSTATE_INT16(z, LSM303DLHCMagState),
++        VMSTATE_INT16(y, LSM303DLHCMagState),
++        VMSTATE_INT16(x_lock, LSM303DLHCMagState),
++        VMSTATE_INT16(z_lock, LSM303DLHCMagState),
++        VMSTATE_INT16(y_lock, LSM303DLHCMagState),
++        VMSTATE_UINT8(sr, LSM303DLHCMagState),
++        VMSTATE_UINT8(ira, LSM303DLHCMagState),
++        VMSTATE_UINT8(irb, LSM303DLHCMagState),
++        VMSTATE_UINT8(irc, LSM303DLHCMagState),
++        VMSTATE_INT16(temperature, LSM303DLHCMagState),
++        VMSTATE_INT16(temperature_lock, LSM303DLHCMagState),
++        VMSTATE_END_OF_LIST()
++    }
++};
++
++/*
++ * Put the device into post-reset default state.
++ */
++static void lsm303dlhc_mag_default_cfg(LSM303DLHCMagState *s)
++{
++    /* Set the device into is default reset state. */
++    s->len = 0;
++    s->pointer = 0;         /* Current register. */
++    s->buf = 0;             /* Shared buffer. */
++    s->cra = 0x10;          /* Temp Enabled = 0, Data Rate = 15.0 Hz. */
++    s->crb = 0x20;          /* Gain = +/- 1.3 Gauss. */
++    s->mr = 0x3;            /* Operating Mode = Sleep. */
++    s->x = 0;
++    s->z = 0;
++    s->y = 0;
++    s->x_lock = 0;
++    s->z_lock = 0;
++    s->y_lock = 0;
++    s->sr = 0x1;            /* DRDY = 1. */
++    s->ira = 0x48;
++    s->irb = 0x34;
++    s->irc = 0x33;
++    s->temperature = 0;     /* Default to 0 degrees C (0/8 lsb = 0 C). */
++    s->temperature_lock = 0;
++}
++
++/*
++ * Callback handler when DeviceState 'reset' is set to true.
++ */
++static void lsm303dlhc_mag_reset(DeviceState *dev)
++{
++    I2CSlave *i2c = I2C_SLAVE(dev);
++    LSM303DLHCMagState *s = LSM303DLHC_MAG(i2c);
++
++    /* Set the device into its default reset state. */
++    lsm303dlhc_mag_default_cfg(s);
++}
++
++/*
++ * Initialisation of any public properties.
++ */
++static void lsm303dlhc_mag_initfn(Object *obj)
++{
++    object_property_add(obj, "mag-x", "int",
++                lsm303dlhc_mag_get_x,
++                lsm303dlhc_mag_set_x, NULL, NULL);
++
++    object_property_add(obj, "mag-y", "int",
++                lsm303dlhc_mag_get_y,
++                lsm303dlhc_mag_set_y, NULL, NULL);
++
++    object_property_add(obj, "mag-z", "int",
++                lsm303dlhc_mag_get_z,
++                lsm303dlhc_mag_set_z, NULL, NULL);
++
++    object_property_add(obj, "temperature", "int",
++                lsm303dlhc_mag_get_temperature,
++                lsm303dlhc_mag_set_temperature, NULL, NULL);
++}
++
++/*
++ * Set the virtual method pointers (bus state change, tx/rx, etc.).
++ */
++static void lsm303dlhc_mag_class_init(ObjectClass *klass, void *data)
++{
++    DeviceClass *dc = DEVICE_CLASS(klass);
++    I2CSlaveClass *k = I2C_SLAVE_CLASS(klass);
++
++    dc->reset = lsm303dlhc_mag_reset;
++    dc->vmsd = &vmstate_lsm303dlhc_mag;
++    k->event = lsm303dlhc_mag_event;
++    k->recv = lsm303dlhc_mag_recv;
++    k->send = lsm303dlhc_mag_send;
++}
++
++static const TypeInfo lsm303dlhc_mag_info = {
++    .name = TYPE_LSM303DLHC_MAG,
++    .parent = TYPE_I2C_SLAVE,
++    .instance_size = sizeof(LSM303DLHCMagState),
++    .instance_init = lsm303dlhc_mag_initfn,
++    .class_init = lsm303dlhc_mag_class_init,
++};
++
++static void lsm303dlhc_mag_register_types(void)
++{
++    type_register_static(&lsm303dlhc_mag_info);
++}
++
++type_init(lsm303dlhc_mag_register_types)
+diff --git a/tests/qtest/lsm303dlhc-mag-test.c b/tests/qtest/lsm303dlhc-mag-test.c
+new file mode 100644
+index 00000000000..0f64e7fc67d
+--- /dev/null
++++ b/tests/qtest/lsm303dlhc-mag-test.c
+@@ -0,0 +1,148 @@
++/*
++ * QTest testcase for the LSM303DLHC I2C magnetometer
++ *
++ * Copyright (C) 2021 Linaro Ltd.
++ * Written by Kevin Townsend <kevin.townsend@linaro.org>
++ *
++ * Based on: https://www.st.com/resource/en/datasheet/lsm303dlhc.pdf
++ *
++ * SPDX-License-Identifier: GPL-2.0-or-later
++ */
++
++#include "qemu/osdep.h"
++#include "libqtest-single.h"
++#include "libqos/qgraph.h"
++#include "libqos/i2c.h"
++#include "qapi/qmp/qdict.h"
++
++#define LSM303DLHC_MAG_TEST_ID        "lsm303dlhc_mag-test"
++#define LSM303DLHC_MAG_REG_CRA        0x00
++#define LSM303DLHC_MAG_REG_CRB        0x01
++#define LSM303DLHC_MAG_REG_OUT_X_H    0x03
++#define LSM303DLHC_MAG_REG_OUT_Z_H    0x05
++#define LSM303DLHC_MAG_REG_OUT_Y_H    0x07
++#define LSM303DLHC_MAG_REG_IRC        0x0C
++#define LSM303DLHC_MAG_REG_TEMP_OUT_H 0x31
++
++static int qmp_lsm303dlhc_mag_get_property(const char *id, const char *prop)
++{
++    QDict *response;
++    int ret;
++
++    response = qmp("{ 'execute': 'qom-get', 'arguments': { 'path': %s, "
++                   "'property': %s } }", id, prop);
++    g_assert(qdict_haskey(response, "return"));
++    ret = qdict_get_int(response, "return");
++    qobject_unref(response);
++    return ret;
++}
++
++static void qmp_lsm303dlhc_mag_set_property(const char *id, const char *prop,
++                                            int value)
++{
++    QDict *response;
++
++    response = qmp("{ 'execute': 'qom-set', 'arguments': { 'path': %s, "
++                   "'property': %s, 'value': %d } }", id, prop, value);
++    g_assert(qdict_haskey(response, "return"));
++    qobject_unref(response);
++}
++
++static void send_and_receive(void *obj, void *data, QGuestAllocator *alloc)
++{
++    int64_t value;
++    QI2CDevice *i2cdev = (QI2CDevice *)obj;
++
++    /* Check default value for CRB */
++    g_assert_cmphex(i2c_get8(i2cdev, LSM303DLHC_MAG_REG_CRB), ==, 0x20);
++
++    /* Set x to 1.0 gauss and verify the value */
++    qmp_lsm303dlhc_mag_set_property(LSM303DLHC_MAG_TEST_ID, "mag-x", 100000);
++    value = qmp_lsm303dlhc_mag_get_property(
++        LSM303DLHC_MAG_TEST_ID, "mag-x");
++    g_assert_cmpint(value, ==, 100000);
++
++    /* Set y to 1.5 gauss and verify the value */
++    qmp_lsm303dlhc_mag_set_property(LSM303DLHC_MAG_TEST_ID, "mag-y", 150000);
++    value = qmp_lsm303dlhc_mag_get_property(
++        LSM303DLHC_MAG_TEST_ID, "mag-y");
++    g_assert_cmpint(value, ==, 150000);
++
++    /* Set z to 0.5 gauss and verify the value */
++    qmp_lsm303dlhc_mag_set_property(LSM303DLHC_MAG_TEST_ID, "mag-z", 50000);
++    value = qmp_lsm303dlhc_mag_get_property(
++        LSM303DLHC_MAG_TEST_ID, "mag-z");
++    g_assert_cmpint(value, ==, 50000);
++
++    /* Set temperature to 23.6 C and verify the value */
++    qmp_lsm303dlhc_mag_set_property(LSM303DLHC_MAG_TEST_ID,
++        "temperature", 23600);
++    value = qmp_lsm303dlhc_mag_get_property(
++        LSM303DLHC_MAG_TEST_ID, "temperature");
++    /* Should return 23.5 C due to 0.125°C steps. */
++    g_assert_cmpint(value, ==, 23500);
++
++    /* Read raw x axis registers (1 gauss = 1100 at +/-1.3 g gain) */
++    value = i2c_get16(i2cdev, LSM303DLHC_MAG_REG_OUT_X_H);
++    g_assert_cmphex(value, ==, 1100);
++
++    /* Read raw y axis registers (1.5 gauss = 1650 at +/- 1.3 g gain = ) */
++    value = i2c_get16(i2cdev, LSM303DLHC_MAG_REG_OUT_Y_H);
++    g_assert_cmphex(value, ==, 1650);
++
++    /* Read raw z axis registers (0.5 gauss = 490 at +/- 1.3 g gain = ) */
++    value = i2c_get16(i2cdev, LSM303DLHC_MAG_REG_OUT_Z_H);
++    g_assert_cmphex(value, ==, 490);
++
++    /* Read raw temperature registers with temp disabled (CRA = 0x10) */
++    value = i2c_get16(i2cdev, LSM303DLHC_MAG_REG_TEMP_OUT_H);
++    g_assert_cmphex(value, ==, 0);
++
++    /* Enable temperature reads (CRA = 0x90) */
++    i2c_set8(i2cdev, LSM303DLHC_MAG_REG_CRA, 0x90);
++
++    /* Read raw temp registers (23.5 C = 188 at 1 lsb = 0.125 C) */
++    value = i2c_get16(i2cdev, LSM303DLHC_MAG_REG_TEMP_OUT_H);
++    g_assert_cmphex(value, ==, 188);
++}
++
++static void reg_wraparound(void *obj, void *data, QGuestAllocator *alloc)
++{
++    uint8_t value[4];
++    QI2CDevice *i2cdev = (QI2CDevice *)obj;
++
++    /* Set x to 1.0 gauss, and y to 1.5 gauss for known test values */
++    qmp_lsm303dlhc_mag_set_property(LSM303DLHC_MAG_TEST_ID, "mag-x", 100000);
++    qmp_lsm303dlhc_mag_set_property(LSM303DLHC_MAG_TEST_ID, "mag-y", 150000);
++
++    /* Check that requesting 4 bytes starting at Y_H wraps around to X_L */
++    i2c_read_block(i2cdev, LSM303DLHC_MAG_REG_OUT_Y_H, value, 4);
++    /* 1.5 gauss = 1650 lsb = 0x672 */
++    g_assert_cmphex(value[0], ==, 0x06);
++    g_assert_cmphex(value[1], ==, 0x72);
++    /* 1.0 gauss = 1100 lsb = 0x44C */
++    g_assert_cmphex(value[2], ==, 0x04);
++    g_assert_cmphex(value[3], ==, 0x4C);
++
++    /* Check that requesting LSM303DLHC_MAG_REG_IRC wraps around to CRA */
++    i2c_read_block(i2cdev, LSM303DLHC_MAG_REG_IRC, value, 2);
++    /* Default value for IRC = 0x33 */
++    g_assert_cmphex(value[0], ==, 0x33);
++    /* Default value for CRA = 0x10 */
++    g_assert_cmphex(value[1], ==, 0x10);
++}
++
++static void lsm303dlhc_mag_register_nodes(void)
++{
++    QOSGraphEdgeOptions opts = {
++        .extra_device_opts = "id=" LSM303DLHC_MAG_TEST_ID ",address=0x1e"
++    };
++    add_qi2c_address(&opts, &(QI2CAddress) { 0x1E });
++
++    qos_node_create_driver("lsm303dlhc_mag", i2c_device_create);
++    qos_node_consumes("lsm303dlhc_mag", "i2c-bus", &opts);
++
++    qos_add_test("tx-rx", "lsm303dlhc_mag", send_and_receive, NULL);
++    qos_add_test("regwrap", "lsm303dlhc_mag", reg_wraparound, NULL);
++}
++libqos_init(lsm303dlhc_mag_register_nodes);
+diff --git a/hw/sensor/Kconfig b/hw/sensor/Kconfig
+index 9c8a049b068..b317f91b7b4 100644
+--- a/hw/sensor/Kconfig
++++ b/hw/sensor/Kconfig
+@@ -21,3 +21,7 @@ config ADM1272
+ config MAX34451
+     bool
+     depends on I2C
++
++config LSM303DLHC_MAG
++    bool
++    depends on I2C
+diff --git a/hw/sensor/meson.build b/hw/sensor/meson.build
+index 059c4ca935b..d1bba290dad 100644
+--- a/hw/sensor/meson.build
++++ b/hw/sensor/meson.build
+@@ -4,3 +4,4 @@ softmmu_ss.add(when: 'CONFIG_DPS310', if_true: files('dps310.c'))
+ softmmu_ss.add(when: 'CONFIG_EMC141X', if_true: files('emc141x.c'))
+ softmmu_ss.add(when: 'CONFIG_ADM1272', if_true: files('adm1272.c'))
+ softmmu_ss.add(when: 'CONFIG_MAX34451', if_true: files('max34451.c'))
++softmmu_ss.add(when: 'CONFIG_LSM303DLHC_MAG', if_true: files('lsm303dlhc_mag.c'))
+diff --git a/tests/qtest/meson.build b/tests/qtest/meson.build
+index 762f6adcd5e..f33d84d19bc 100644
+--- a/tests/qtest/meson.build
++++ b/tests/qtest/meson.build
+@@ -243,6 +243,7 @@ qos_test_ss.add(
+   'eepro100-test.c',
+   'es1370-test.c',
+   'ipoctal232-test.c',
++  'lsm303dlhc-mag-test.c',
+   'max34451-test.c',
+   'megasas-test.c',
+   'ne2000-test.c',
 -- 
 2.25.1
 
