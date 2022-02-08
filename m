@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6058E4ADADC
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Feb 2022 15:11:21 +0100 (CET)
-Received: from localhost ([::1]:34210 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D4374ADACE
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Feb 2022 15:07:32 +0100 (CET)
+Received: from localhost ([::1]:53662 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nHRDE-0001ym-BS
-	for lists+qemu-devel@lfdr.de; Tue, 08 Feb 2022 09:11:20 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:34678)
+	id 1nHR9X-0004OB-3q
+	for lists+qemu-devel@lfdr.de; Tue, 08 Feb 2022 09:07:31 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:34752)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nHOqp-0000kw-Dx
+ id 1nHOqt-0000l7-No
  for qemu-devel@nongnu.org; Tue, 08 Feb 2022 06:40:08 -0500
-Received: from [2a00:1450:4864:20::429] (port=41971
- helo=mail-wr1-x429.google.com)
+Received: from [2a00:1450:4864:20::436] (port=38572
+ helo=mail-wr1-x436.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nHOqm-00024d-IT
- for qemu-devel@nongnu.org; Tue, 08 Feb 2022 06:40:02 -0500
-Received: by mail-wr1-x429.google.com with SMTP id k1so13650596wrd.8
- for <qemu-devel@nongnu.org>; Tue, 08 Feb 2022 03:39:59 -0800 (PST)
+ id 1nHOqm-00025w-KT
+ for qemu-devel@nongnu.org; Tue, 08 Feb 2022 06:40:04 -0500
+Received: by mail-wr1-x436.google.com with SMTP id s10so27592396wra.5
+ for <qemu-devel@nongnu.org>; Tue, 08 Feb 2022 03:40:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=fwoBiexU45XLKaINWWKJ9pyjhIoo7bPekJWNYGgC67I=;
- b=GtygNhjHA/S+GLJxsVoDOq29eGHHG0+do2eX2nP8GDdmWrFqOkXot3/BpX4Rfacyiz
- egV1j7ZnmxAIEtqNSCKFiqEaCxD13AKBZzjhVldylGrVe8IzTUcPmwlo6uAFE8S9iOf4
- Df/jPRswFQIEdWd0LHxVHgTv2oNkE2ljBg6OfvGfAfPijAVQWWELE+DBwhbBDjncZ4BD
- 1gn2K58lGaS6SOOu5YF4zs25BlVT5aLEDgu+hrHQue8iav/iWxcc1+QP3ArUlHWKqP3h
- /cAOghpC/YfM/WsN9N4QN4iHNa0Z9YtV49f7EXHAYIwtTmMhbPOaOkxSLkFuWIhun3FW
- p9dg==
+ bh=pWyIdAyiNvL5aeMyV/2dz6HORKREdSQ7gC9teOnHGYE=;
+ b=qADBOkj9jv4Fee3l4jFHPE+B0o+ZM3dEI5l82FzN27PIcBmmD5fDS8zkI3IVeXY41M
+ o/hJTrzTg76pcPthPntcuSJHznkChjrqzxRBr3azqlXqn+h4IR40T1RzvI7Ektz/q5pc
+ FaKvSTaYKLf1/IxSvNaNEKEGcFCDwtFcF9JzyCSScm75LHi5KHfIk+yKuivzq66Y/JKj
+ d9LiXv++7UI2w1rOuH0185vNiWBJY1s/w2bHKoMqjdhlg9i7NB+xC/GY70fKkNwWr44D
+ 5+MJbVjtywsNz4ZEjZoshgEGUdMAbNzXT/hL9//TLYH1XjFbbHf74JYG2K9ELSG403+Z
+ UULg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=fwoBiexU45XLKaINWWKJ9pyjhIoo7bPekJWNYGgC67I=;
- b=5e5cgNDjff2jEsis3LwQ5KL3NY6GEV4t2za/fNqonsMRutOJnF9gVWbaLY6W0mNvfP
- /3n2EnamdzbFdqyyMl9XGPGLBB1/JJGoDlyXR1ushcNq7GCKH2+A9jdgY01Tc3dRbf+k
- 8VvVoPzaPQ7y3eR/6pwKiPinLEDUxViXcSlfKID/UJktgR6FO8kIcdl35HMC8YtQI+ij
- D2Zu15NtkPCUSZmC0AxFDmV3qjGeTKq0JUTFSbKzkNtDjPRE578YYAV+BEVYMSZMkmZs
- imn34Fbn0Htd3bW9Y1zr/n+QGU5+ISDjVqhUCw+Dh1ka29rDvd8aF3pDVyn0TU8xhymS
- kMJg==
-X-Gm-Message-State: AOAM530/AtDy/cdqvTwLH9/cuXycQwOaTH0ZiI9hZQY6e5uhqjcWZYxU
- sH0D323P0nFhRPesHiCztvnwRsYBvu6vMg==
-X-Google-Smtp-Source: ABdhPJxF+bUiwbTW7zxxOMYsFvKSJoguFYGvhWJghVTfJGPkt8HLPOnxeVIa4HTzULLKpacD8dfRCw==
-X-Received: by 2002:adf:d183:: with SMTP id v3mr3238782wrc.538.1644320398635; 
- Tue, 08 Feb 2022 03:39:58 -0800 (PST)
+ bh=pWyIdAyiNvL5aeMyV/2dz6HORKREdSQ7gC9teOnHGYE=;
+ b=WE9GKpEptWgcnrH1v9P7NjriApeKQ3yjh0JGY13d7ucW7hOkeWs3KocBldzKWgDo0B
+ UL38e+0AP6zDcmOi/bJ3bKBiOb87rFz5+TlPqirv5VVLG0Db1fV5FNWOhUoDNLimQoGN
+ 6//QYRIUbNsTQJlkeUz/JGM3meD7ayrtBGDOPhpsuAueg0YIgUKVdhBq6vhM8jETBwbm
+ eg9A9Wt+msoZT7f4gtFMMFUZwWhGJcJuwAtEe9SjzRMZststKORfsXR8ffD2FGcwKAqL
+ GGmR5VmuK7R2JZZwKazoNnDmEFg4CHQ9r8WsMhKXItPCzLbv6pf98blcsEkfPQJ6WO5w
+ drWQ==
+X-Gm-Message-State: AOAM531E+xJ3RrpnnRvSK7ddOLn2Or1F4mIpeFqBsOpGgfks4pmJe0sE
+ PKAFCR5vJHebizq9NYg+LMmTR2m58RCShw==
+X-Google-Smtp-Source: ABdhPJz5EUS3taFK5q1bwnt3qML8cgI4tT82LDGdWIR4TroBWIuwhLwNcfG0meyQlyLFrTao91Oqug==
+X-Received: by 2002:a5d:64e9:: with SMTP id g9mr3209948wri.341.1644320399335; 
+ Tue, 08 Feb 2022 03:39:59 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id r11sm4245199wrt.28.2022.02.08.03.39.58
  for <qemu-devel@nongnu.org>
@@ -55,19 +55,20 @@ Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  Tue, 08 Feb 2022 03:39:58 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 13/39] hw/arm/virt: Let boot.c handle PSCI enablement
-Date: Tue,  8 Feb 2022 11:39:22 +0000
-Message-Id: <20220208113948.3217356-14-peter.maydell@linaro.org>
+Subject: [PULL 14/39] hw/arm: highbank: For EL3 guests, don't enable PSCI,
+ start all cores
+Date: Tue,  8 Feb 2022 11:39:23 +0000
+Message-Id: <20220208113948.3217356-15-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220208113948.3217356-1-peter.maydell@linaro.org>
 References: <20220208113948.3217356-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::429
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::436
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::429;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x429.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::436;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x436.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -91,56 +92,63 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Instead of setting the CPU psci-conduit and start-powered-off
-properties in the virt board code, set the arm_boot_info psci_conduit
-field so that the boot.c code can do it.
+Change the highbank/midway boards to use the new boot.c functionality
+to allow us to enable psci-conduit only if the guest is being booted
+in EL1 or EL2, so that if the user runs guest EL3 firmware code our
+PSCI emulation doesn't get in its way.
 
-This will fix a corner case where we were incorrectly enabling PSCI
-emulation when booting guest code into EL3 because it was an ELF file
-passed to -kernel or to the generic loader.  (EL3 guest code started
-via -bios or -pflash was already being run with PSCI emulation
-disabled.)
+To do this we stop setting the psci-conduit and start-powered-off
+properties on the CPU objects in the board code, and instead set the
+psci_conduit field in the arm_boot_info struct to tell the common
+boot loader code that we'd like PSCI if the guest is starting at an
+EL that it makes sense with (in which case it will set these
+properties).
+
+This means that when running guest code at EL3, all the cores
+will start execution at once on poweron. This matches the
+real hardware behaviour. (A brief description of the hardware
+boot process is in the u-boot documentation for these boards:
+https://u-boot.readthedocs.io/en/latest/board/highbank/highbank.html#boot-process
+ -- in theory one might run the 'a9boot'/'a15boot' secure monitor
+code in QEMU, though we probably don't emulate enough for that.)
+
+This affects the highbank and midway boards.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Niek Linnenbank <nieklinnenbank@gmail.com>
 Tested-by: Cédric Le Goater <clg@kaod.org>
 Tested-by: Niek Linnenbank <nieklinnenbank@gmail.com>
-Message-id: 20220127154639.2090164-9-peter.maydell@linaro.org
+Message-id: 20220127154639.2090164-10-peter.maydell@linaro.org
 ---
- hw/arm/virt.c | 12 +-----------
- 1 file changed, 1 insertion(+), 11 deletions(-)
+ hw/arm/highbank.c | 7 +------
+ 1 file changed, 1 insertion(+), 6 deletions(-)
 
-diff --git a/hw/arm/virt.c b/hw/arm/virt.c
-index 141350bf215..398145a7180 100644
---- a/hw/arm/virt.c
-+++ b/hw/arm/virt.c
-@@ -2088,17 +2088,6 @@ static void machvirt_init(MachineState *machine)
-             object_property_set_bool(cpuobj, "has_el2", false, NULL);
-         }
+diff --git a/hw/arm/highbank.c b/hw/arm/highbank.c
+index 4210894d814..048f8550cb9 100644
+--- a/hw/arm/highbank.c
++++ b/hw/arm/highbank.c
+@@ -271,12 +271,6 @@ static void calxeda_init(MachineState *machine, enum cxmachines machine_id)
+         object_property_set_int(cpuobj, "psci-conduit", QEMU_PSCI_CONDUIT_SMC,
+                                 &error_abort);
  
--        if (vms->psci_conduit != QEMU_PSCI_CONDUIT_DISABLED) {
--            object_property_set_int(cpuobj, "psci-conduit", vms->psci_conduit,
--                                    NULL);
--
+-        if (n) {
 -            /* Secondary CPUs start in PSCI powered-down state */
--            if (n > 0) {
--                object_property_set_bool(cpuobj, "start-powered-off", true,
--                                         NULL);
--            }
+-            object_property_set_bool(cpuobj, "start-powered-off", true,
+-                                     &error_abort);
 -        }
 -
-         if (vmc->kvm_no_adjvtime &&
-             object_property_find(cpuobj, "kvm-no-adjvtime")) {
-             object_property_set_bool(cpuobj, "kvm-no-adjvtime", true, NULL);
-@@ -2246,6 +2235,7 @@ static void machvirt_init(MachineState *machine)
-     vms->bootinfo.get_dtb = machvirt_dtb;
-     vms->bootinfo.skip_dtb_autoload = true;
-     vms->bootinfo.firmware_loaded = firmware_loaded;
-+    vms->bootinfo.psci_conduit = vms->psci_conduit;
-     arm_load_kernel(ARM_CPU(first_cpu), machine, &vms->bootinfo);
+         if (object_property_find(cpuobj, "reset-cbar")) {
+             object_property_set_int(cpuobj, "reset-cbar", MPCORE_PERIPHBASE,
+                                     &error_abort);
+@@ -397,6 +391,7 @@ static void calxeda_init(MachineState *machine, enum cxmachines machine_id)
+     highbank_binfo.board_setup_addr = BOARD_SETUP_ADDR;
+     highbank_binfo.write_board_setup = hb_write_board_setup;
+     highbank_binfo.secure_board_setup = true;
++    highbank_binfo.psci_conduit = QEMU_PSCI_CONDUIT_SMC;
  
-     vms->machine_done.notify = virt_machine_done;
+     arm_load_kernel(ARM_CPU(first_cpu), machine, &highbank_binfo);
+ }
 -- 
 2.25.1
 
