@@ -2,85 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D8FC4AD447
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Feb 2022 10:03:16 +0100 (CET)
-Received: from localhost ([::1]:39658 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 32C664AD4CE
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Feb 2022 10:26:55 +0100 (CET)
+Received: from localhost ([::1]:42594 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nHMP4-0007L7-Rr
-	for lists+qemu-devel@lfdr.de; Tue, 08 Feb 2022 04:03:14 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:57786)
+	id 1nHMly-0005rt-0n
+	for lists+qemu-devel@lfdr.de; Tue, 08 Feb 2022 04:26:54 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:60538)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1nHLEZ-0003Ht-8h
- for qemu-devel@nongnu.org; Tue, 08 Feb 2022 02:48:21 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:58908)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1nHLTW-0004li-13
+ for qemu-devel@nongnu.org; Tue, 08 Feb 2022 03:03:47 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:30447)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1nHLEX-0005TI-FE
- for qemu-devel@nongnu.org; Tue, 08 Feb 2022 02:48:18 -0500
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1nHLTQ-0007ga-RE
+ for qemu-devel@nongnu.org; Tue, 08 Feb 2022 03:03:43 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1644306496;
+ s=mimecast20190719; t=1644307416;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=rkhdTAAIhZ+jM63Puw33wIm+RUfDLQa78T0RS6V/3qs=;
- b=OjV1cgmDYPUtWzCs9IblS+Ussun2SJlBKT18Gn05SRc2ZzEPcOoc8xAuYRBPaeLZXElbIb
- zoSBEiZgj0e5uvjMp+24XBkNIggUBXA6OQpRX9lWrdZ9gYpXDZGS/HhcWdq9O2hEA+7BG7
- 3ZTbyPC3xdyfVcXlH6wPONkIP8QoPHs=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=5C+Zg7tKqnIh1R0f02FaFb/9M5x9hB9jDX8mrRCyc9k=;
+ b=HRmgHML3dppZKwZ25fCPXF6GDiOAfCdImnTZcv/NCq1rsM2AOHzmkLIqHRLexS21pcEKgQ
+ EXmCaRi5y6QCTrQh/yT1/ILu2nSVj/8e7JbqR/pbw30nG5wd8I2/GqrUuM3+MSzrvd+sWe
+ qZL8z54xr+svU23+ZMDG+NH46kRWsLQ=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-424-i4CK8ImBPS2ciudGeXEcNQ-1; Tue, 08 Feb 2022 02:48:14 -0500
-X-MC-Unique: i4CK8ImBPS2ciudGeXEcNQ-1
-Received: by mail-ed1-f69.google.com with SMTP id
- m4-20020a50cc04000000b0040edb9d147cso8390413edi.15
- for <qemu-devel@nongnu.org>; Mon, 07 Feb 2022 23:48:14 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=rkhdTAAIhZ+jM63Puw33wIm+RUfDLQa78T0RS6V/3qs=;
- b=fUld/vv6PC9/vj6lRr00YBxMB6zsJ2sd4or1dbmhgLBLXdBUb/IkvMUY0dOAsbG0C9
- TGw8TOIo/18Hn/09lIq1D5bEDSeMnmfC/EJqFXFsgBAYcW/nBFJWqhBkKWmqZgirY/9e
- jFDyRoaLdtYMAXP2hmC3UyRwwGWQmIYLA9opLr6lnkESg6ZsvMZ1Q6M/DDJd/pdb6ADP
- 6AE17DiIYN4s0Vl372HYOICDyqcsC+6vdAvBLtpQnN6wB6CHHnZKvDf8bBi20ipTrbLL
- m+gDmTzv0LJgMw09se/ghdZOMsWB0fQk3OxJOJ7BtScdA0yU8QUQxkzGc0k1tGQiK2nG
- RbMQ==
-X-Gm-Message-State: AOAM5321DpS2ISTSsQuTJ5YgUKeMd39xGKhtTYCZy+wP3qWP43P7m8uk
- PIFWv9ugLnbqFdOeVPdrbXvCCunY4Fn7D4u3C77/d+JsGWBwQOg+CZOyXDeCj+FMeXqiBDi427n
- PyOQ/hUg713UORQ8=
-X-Received: by 2002:a05:6402:881:: with SMTP id
- e1mr3114804edy.234.1644306493230; 
- Mon, 07 Feb 2022 23:48:13 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwIa4inh8cFkxly23PDZtxbc+cXYEMtFCmVFOovSeXI4jdUTQq4koJc0RjxZriQQWX+XsYURg==
-X-Received: by 2002:a05:6402:881:: with SMTP id
- e1mr3114789edy.234.1644306493054; 
- Mon, 07 Feb 2022 23:48:13 -0800 (PST)
-Received: from localhost (nat-pool-brq-t.redhat.com. [213.175.37.10])
- by smtp.gmail.com with ESMTPSA id de24sm1283888ejc.112.2022.02.07.23.48.12
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 07 Feb 2022 23:48:12 -0800 (PST)
-Date: Tue, 8 Feb 2022 08:48:11 +0100
-From: Igor Mammedov <imammedo@redhat.com>
-To: Ani Sinha <ani@anisinha.ca>
-Subject: Re: [PATCH v2] hw/smbios: fix memory corruption for large guests
- due to handle overlap
-Message-ID: <20220208084811.0127206d@redhat.com>
-In-Reply-To: <alpine.DEB.2.22.394.2202072040490.2536804@anisinha-lenovo>
-References: <20220203130957.2248949-1-ani@anisinha.ca>
- <20220204103423.71ec5c6b@redhat.com>
- <alpine.DEB.2.22.394.2202072040490.2536804@anisinha-lenovo>
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.31; x86_64-redhat-linux-gnu)
+ us-mta-606-mcybj4tgMVGBW8_3kLD5Ew-1; Tue, 08 Feb 2022 03:03:33 -0500
+X-MC-Unique: mcybj4tgMVGBW8_3kLD5Ew-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0AFD618C9F40;
+ Tue,  8 Feb 2022 08:03:32 +0000 (UTC)
+Received: from localhost (unknown [10.39.193.122])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6898827CC9;
+ Tue,  8 Feb 2022 08:02:51 +0000 (UTC)
+Date: Tue, 8 Feb 2022 08:02:50 +0000
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Yongji Xie <xieyongji@bytedance.com>
+Subject: Re: [PATCH 2/5] libvduse: Add VDUSE (vDPA Device in Userspace) library
+Message-ID: <YgIjqsYbsVZn6cQh@stefanha-x1.localdomain>
+References: <20220125131800.91-1-xieyongji@bytedance.com>
+ <20220125131800.91-3-xieyongji@bytedance.com>
+ <YgEmB0nsNGYKunh/@stefanha-x1.localdomain>
+ <CACycT3vdurZFfAc0PwAP2oVy8OcrEcG74QhgsJATvBuKbq-v-g@mail.gmail.com>
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=imammedo@redhat.com;
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="jk2ZM64Bt/QuIPQx"
+Content-Disposition: inline
+In-Reply-To: <CACycT3vdurZFfAc0PwAP2oVy8OcrEcG74QhgsJATvBuKbq-v-g@mail.gmail.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -101,31 +78,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: gsomlo@gmail.com, kraxel@redhat.com, qemu-devel@nongnu.org,
- "Michael S. Tsirkin" <mst@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
+ "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ qemu-devel@nongnu.org, mreitz@redhat.com, mlureau@redhat.com,
+ Stefano Garzarella <sgarzare@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 7 Feb 2022 20:42:35 +0530 (IST)
-Ani Sinha <ani@anisinha.ca> wrote:
 
-> >
-> > So question is it is worth to have legacy SMBIOS code and introduce a
-> > new handle layout + memory_region re-sizable SMBIOS tables like we did
-> > with ACPI ones.
-> >
-> > That way we we will be free to change SMBIOS tables at will without a
-> > risk of breaking migration and without need to add compat knob for every
-> > change to keep src and dst binary compatible.
-> >  
-> 
-> Could you please point me to the change on the acpi side so that I can
-> study it and look into the refactoring for smbios side?
-> 
+--jk2ZM64Bt/QuIPQx
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-I'd suggest to start looking at acpi_add_rom_blob() and how it evolved to
-the current code. Eventually you should find a commit introducing resizable
-memory_regions introduced by Michael, it I recall correctly it was around
-that time when we switched ACPI tables to memory regions.
+On Tue, Feb 08, 2022 at 02:42:41PM +0800, Yongji Xie wrote:
+> On Mon, Feb 7, 2022 at 10:01 PM Stefan Hajnoczi <stefanha@redhat.com> wro=
+te:
+> >
+> > On Tue, Jan 25, 2022 at 09:17:57PM +0800, Xie Yongji wrote:
+> > > +int vduse_dev_handler(VduseDev *dev)
+> > > +{
+> > > +    struct vduse_dev_request req;
+> > > +    struct vduse_dev_response resp =3D { 0 };
+> > > +    VduseVirtq *vq;
+> > > +    int i, ret;
+> > > +
+> > > +    ret =3D read(dev->fd, &req, sizeof(req));
+> >
+> > This file descriptor is blocking? I guess the assumption is that the
+> > kernel VDUSE code always enqueues at least one struct vduse_dev_request,
+> > so userspace will not block when the file descriptor becomes readable?
+> >
+>=20
+> Yes, that's true. We can always get one entire request if the file
+> descriptor becomes readable.
+
+Okay, then the code is fine. We trust the kernel not to block us. While
+it is possible to get spurious select(2)/poll(2) ready file descriptors
+in the general case (e.g. multiple processes monitoring the same file),
+I don't think that can happen in this case.
+
+--jk2ZM64Bt/QuIPQx
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmICI6oACgkQnKSrs4Gr
+c8gp+QgAqnbA8vp4ViftyP8noYK1+6N3/JoTs2eUGrfk7b6kFUQf6isBFOko4W1z
+qy9q4dYwNq5tTYKR+e1ncC16DBBE5WrWSNRL9JaRSIw8QPUQYsGMmu919XQmBpG/
+dDQLbSbK/+LK9szQKmUTZ2zvKe6Z125qBFYTePx1J9t+xf3jB9yf9xY9uK52nYYC
+R/6sVx5+Ui4glslLoNc8ambCPpCatazvbGxhON/RzRIgbLVEZ4Rjs60RbHJQDbSl
+PBtQuedo4GqgHEBzUuuLXrOVowAgAWkKTOEDU+BtNPwbENcx6WfZh8G2WcFpV12S
+Nvn1vJ5agpeqbeuSR9mBVeoiR5eqOw==
+=v95P
+-----END PGP SIGNATURE-----
+
+--jk2ZM64Bt/QuIPQx--
 
 
