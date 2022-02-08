@@ -2,77 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA1CA4AD80E
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Feb 2022 12:59:22 +0100 (CET)
-Received: from localhost ([::1]:39992 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A4334AD610
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Feb 2022 12:19:00 +0100 (CET)
+Received: from localhost ([::1]:48742 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nHP9U-0005pn-RO
-	for lists+qemu-devel@lfdr.de; Tue, 08 Feb 2022 06:59:21 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:49820)
+	id 1nHOWR-0004rt-9S
+	for lists+qemu-devel@lfdr.de; Tue, 08 Feb 2022 06:18:59 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:50492)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nHO6P-0004uD-9F; Tue, 08 Feb 2022 05:52:05 -0500
-Received: from [2607:f8b0:4864:20::42f] (port=37596
- helo=mail-pf1-x42f.google.com)
+ id 1nHOAE-000141-DM
+ for qemu-devel@nongnu.org; Tue, 08 Feb 2022 05:56:02 -0500
+Received: from [2607:f8b0:4864:20::42c] (port=44883
+ helo=mail-pf1-x42c.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nHO6N-0002Ne-Mo; Tue, 08 Feb 2022 05:52:04 -0500
-Received: by mail-pf1-x42f.google.com with SMTP id y5so17260113pfe.4;
- Tue, 08 Feb 2022 02:52:03 -0800 (PST)
+ id 1nHOAB-00031H-JW
+ for qemu-devel@nongnu.org; Tue, 08 Feb 2022 05:56:00 -0500
+Received: by mail-pf1-x42c.google.com with SMTP id n32so18188072pfv.11
+ for <qemu-devel@nongnu.org>; Tue, 08 Feb 2022 02:55:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=BBebatjqc9J3K0170oLZvbwCqovawjrB+Q0DTYrN+AY=;
- b=pg/gap0FKrkljZXTpJYK6TwIA1ojhOlJ4CTFfl2jiYGsXz1fWS7w8ef0yaC9zEOGbo
- /X5JirVGZNMqFwWRwdX25OaqyFAbHGYr+edHOrJ+gzpijWXoAd1HiD9DgkgRq6wHe5zb
- CBjClvHj5RKuMmJtHMfTYLcQl5XHnKDoZ26BUqR6AIHbPO9cYhNq4uUOke/fYaswy4vC
- /YjsMyfhmh0PoltK6R0ZJtKzkPgdRjmUe29pArtHen3PF5GvAVYGJsaQtj2BMJb3SJUN
- 0zRuJWTELCToqtf2cBdiZip2bORZFOU3eqeyXG9tAszNQSaRiGueynRK2Pd974zGLIkb
- jqDA==
+ bh=ph/AhMwqbx2ANb9wBrM0oeygA88Z7nVuQKxDdhAD5mM=;
+ b=V9XrDTT8sKOy5r0ITqMu0MZOIELc9NzbI3c+z7wXanc8g4JmnQubxPMUruipSzB5AG
+ 35PoGVeavbhK0nH3YMV3DIOVgIylzIRH8KdK/SiUedRTihAckofE1yMaFEx82L/wjLk0
+ KyXeFJ3mk0iCHBVr1tYrWlLTLeb9Jt+T7qL51LGUze8NiiRBlJcLIQK5BKEMQKaM7gnA
+ GoTJGvPV1Aj27AF/4S75spxbifrgXTO8zzhieOuahpUUqzfPAkqV1cpo4wLvhXBvRELD
+ UDHdi5DAIlix0DACD6t5wvSH9AOAEonKJQNXjsKKY/BPv1lFHh+iX4b9ZCxDzI3qzO9E
+ MJIg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
  :subject:content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=BBebatjqc9J3K0170oLZvbwCqovawjrB+Q0DTYrN+AY=;
- b=42v5qxTrZhF3v5z5yxucBwQrldj6zQlxHnJ5TqhYJdRGMBMFcYvpzujoo68aZOkYKM
- KzBhk+IlFPeNqRFVsl51Ag9dahmp4DegAux33Krcbjr3/+Zep/9sOpK54vTGiFAN6Ksx
- IIh/LXoesfwv+6qE1BaSSRz96V3UmDUdZMUL0wohsCmG/HlBtcVv40M68IuY9lwa67Td
- 3kXxWsymkEif7yiL2chUH2yUw/9sTFLDQ0gnPWN2HE60Th97j3ytPzh87wln5eftAMWZ
- IxkrKulZmjW5Vwo/3iTVa+9Msr5thVfz5w/TX58/QwRrFZLYMPdVFvY7K02UL/hd6VK8
- vuJg==
-X-Gm-Message-State: AOAM533gtpRvVge64bk0466obJih7U7FTKea4r/Zq+TqDIeywQKRMFNC
- vS5SAvlPXLKnEV17TCaLBb0=
-X-Google-Smtp-Source: ABdhPJyRQTCvUHyG/IpdIHNV0FF1Z6mxq55y7hsn8kpaJ12Y8t4/5f+rSQqLIMbDKySdVzQZPTZfpA==
-X-Received: by 2002:a63:85c1:: with SMTP id u184mr3041720pgd.115.1644317521914; 
- Tue, 08 Feb 2022 02:52:01 -0800 (PST)
+ bh=ph/AhMwqbx2ANb9wBrM0oeygA88Z7nVuQKxDdhAD5mM=;
+ b=waArS20ldvUziFSnWD00FkCmBnV4rfCI1MmeLtBPK7bZMcu5qSp0+S3TJq6b0z2eYF
+ 17pN5FAXAL8213yWjt/b6Y1/U/cdRVTKeeDQq6hwRVoaJUXhJ5qC6HrIPM630g4J6qZd
+ s4bh+DPT32oGB5ouMAoB+uxulD5tvDsBt2/tarvaLNwN6qYBvo+6MTpJRy0UZiXWFEuU
+ pfCsLBppdWkugyV+5WbKpYx8D4XcWpwZsQ5vdmQ9PenUfEsDiq5RybX+f8wf5mHoad/T
+ M44BOfJBpbkLONVfYWA+ccZyr3UQVa6xsqHqccklYWMuJNTXL37vJklMpKYaZCGQqFzD
+ kfTA==
+X-Gm-Message-State: AOAM533O4t0fRDbFUwAagRjCeYY81nJrVIdDWegBxKovV++gixVKu7+0
+ bJ9UkVwEz31styNDNa5Tx6E=
+X-Google-Smtp-Source: ABdhPJyFULlHt1ROe07v/DMEaK2i/UY0sy2A0KUykekkRVxwMTEUx0a5xIgG4rhQFt3IYPRYEOARPw==
+X-Received: by 2002:a63:485f:: with SMTP id x31mr3066133pgk.358.1644317758199; 
+ Tue, 08 Feb 2022 02:55:58 -0800 (PST)
 Received: from [192.168.1.33] (154.red-83-50-83.dynamicip.rima-tde.net.
  [83.50.83.154])
- by smtp.gmail.com with ESMTPSA id j8sm16516259pfc.48.2022.02.08.02.51.59
+ by smtp.gmail.com with ESMTPSA id gx10sm2362647pjb.7.2022.02.08.02.55.55
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 08 Feb 2022 02:52:01 -0800 (PST)
-Message-ID: <79d13250-78fe-3037-9be9-73c15476ce81@amsat.org>
-Date: Tue, 8 Feb 2022 11:51:57 +0100
+ Tue, 08 Feb 2022 02:55:57 -0800 (PST)
+Message-ID: <61d9987c-9b9d-972d-0be1-835a1d063534@amsat.org>
+Date: Tue, 8 Feb 2022 11:55:52 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
  Gecko/20100101 Thunderbird/91.5.1
-Subject: Re: [PATCH 2/6] tests/qemu-iotests/meson.build: Improve the
- indentation
+Subject: Re: [PATCH v5 09/11] 9p: darwin: Implement compatibility for mknodat
 Content-Language: en-US
-To: Thomas Huth <thuth@redhat.com>, qemu-block@nongnu.org,
- Hanna Reitz <hreitz@redhat.com>, Kevin Wolf <kwolf@redhat.com>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
-References: <20220208101311.1511083-1-thuth@redhat.com>
- <20220208101311.1511083-3-thuth@redhat.com>
-In-Reply-To: <20220208101311.1511083-3-thuth@redhat.com>
+To: Will Cohen <wwcohen@gmail.com>, qemu-devel@nongnu.org
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Christian Schoenebeck <qemu_oss@crudebyte.com>, Greg Kurz <groug@kaod.org>,
+ hi@alyssa.is, Michael Roitzsch <reactorcontrol@icloud.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Keno Fischer <keno@juliacomputing.com>
+References: <20220207224024.87745-1-wwcohen@gmail.com>
+ <20220207224024.87745-10-wwcohen@gmail.com>
+In-Reply-To: <20220207224024.87745-10-wwcohen@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::42f
+Content-Transfer-Encoding: 7bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::42c
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42f;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pf1-x42f.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42c;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pf1-x42c.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -99,15 +102,53 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
 From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
-On 8/2/22 11:13, Thomas Huth wrote:
-> By using subdir_done(), we can get rid of one level of indentation
-> in this file. This will make it easier to add more conditions to
-> skip the iotests in future patches.
+On 7/2/22 23:40, Will Cohen wrote:
+> From: Keno Fischer <keno@juliacomputing.com>
 > 
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
+> Darwin does not support mknodat. However, to avoid race conditions
+> with later setting the permissions, we must avoid using mknod on
+> the full path instead. We could try to fchdir, but that would cause
+> problems if multiple threads try to call mknodat at the same time.
+> However, luckily there is a solution: Darwin includes a function
+> that sets the cwd for the current thread only.
+> This should suffice to use mknod safely.
+> 
+> This function (pthread_fchdir_np) is protected by a check in
+> meson in a patch later in tihs series.
+> 
+> Signed-off-by: Keno Fischer <keno@juliacomputing.com>
+> Signed-off-by: Michael Roitzsch <reactorcontrol@icloud.com>
+> [Will Cohen: - Adjust coding style
+>               - Replace clang references with gcc
+>               - Note radar filed with Apple for missing syscall
+>               - Replace direct syscall with pthread_fchdir_np and
+>                 adjust patch notes accordingly
+>               - Move qemu_mknodat from 9p-util to osdep and os-posix]
+> Signed-off-by: Will Cohen <wwcohen@gmail.com>
 > ---
->   tests/qemu-iotests/meson.build | 61 ++++++++++++++++++----------------
->   1 file changed, 32 insertions(+), 29 deletions(-)
+>   hw/9pfs/9p-local.c   |  4 ++--
+>   include/qemu/osdep.h | 10 ++++++++++
+>   os-posix.c           | 34 ++++++++++++++++++++++++++++++++++
+>   3 files changed, 46 insertions(+), 2 deletions(-)
 
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> diff --git a/include/qemu/osdep.h b/include/qemu/osdep.h
+> index d1660d67fa..f3a8367ece 100644
+> --- a/include/qemu/osdep.h
+> +++ b/include/qemu/osdep.h
+> @@ -810,3 +810,13 @@ static inline int platform_does_not_support_system(const char *command)
+>   #endif
+>   
+>   #endif
+> +
+> +/*
+> + * As long as mknodat is not available on macOS, this workaround
+> + * using pthread_fchdir_np is needed. qemu_mknodat is defined in
+> + * os-posix.c
+> + */
+> +#ifdef CONFIG_DARWIN
+> +int pthread_fchdir_np(int fd);
+> +#endif
+> +int qemu_mknodat(int dirfd, const char *filename, mode_t mode, dev_t dev);
+
+Misplaced. You want the declaration before the __cplusplus guard.
 
