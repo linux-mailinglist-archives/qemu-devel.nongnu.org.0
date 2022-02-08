@@ -2,53 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8F5B4ADB78
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Feb 2022 15:46:10 +0100 (CET)
-Received: from localhost ([::1]:52766 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 822EB4AD971
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Feb 2022 14:18:47 +0100 (CET)
+Received: from localhost ([::1]:37202 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nHRkv-0003D0-Fi
-	for lists+qemu-devel@lfdr.de; Tue, 08 Feb 2022 09:46:09 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:35138)
+	id 1nHQOM-0001Ic-0E
+	for lists+qemu-devel@lfdr.de; Tue, 08 Feb 2022 08:18:46 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:35130)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nHOrT-00016C-4I
+ id 1nHOrT-000168-4G
  for qemu-devel@nongnu.org; Tue, 08 Feb 2022 06:40:44 -0500
-Received: from [2a00:1450:4864:20::32b] (port=44559
- helo=mail-wm1-x32b.google.com)
+Received: from [2a00:1450:4864:20::329] (port=46703
+ helo=mail-wm1-x329.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nHOqz-0002Ln-T0
- for qemu-devel@nongnu.org; Tue, 08 Feb 2022 06:40:21 -0500
-Received: by mail-wm1-x32b.google.com with SMTP id
- l35-20020a05600c1d2300b0034d477271c1so1399883wms.3
- for <qemu-devel@nongnu.org>; Tue, 08 Feb 2022 03:40:13 -0800 (PST)
+ id 1nHOr1-0002M6-CU
+ for qemu-devel@nongnu.org; Tue, 08 Feb 2022 06:40:23 -0500
+Received: by mail-wm1-x329.google.com with SMTP id
+ l67-20020a1c2546000000b00353951c3f62so1398299wml.5
+ for <qemu-devel@nongnu.org>; Tue, 08 Feb 2022 03:40:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=pDKWDRaOnUkRnKvjdAk2YeqA1RSpMi3f12OGrjJ3J00=;
- b=MvUcPyWnRsJQ+JoDMD6sw9mQGhX9dqGa9Vb9qiCO/g7bS/PfIJmy/qti9njmfFeO3y
- uNCNzN923bx5Urq1wMhgLhc76PVm/0vqXB6gcxFMNjhc0jl/nYmV8J9S2uq271UDiojl
- /OA8vKbERY47SdYsMj9HIF0r3GsJQ+wSJ6UDD4k5EjHbAVtDmdTKz+309KrLijhYehcN
- 2NZ1ohW7RL0a5e7tIXp6yj30F4weqWTsurW4YO4mVl4Wh+GeLfzy8cYKfqVS05ACk/3J
- 0yYzOC5yxkC5ZyXWxdEkDCWxVkNYJHKuYgbJDCn+McYPLT1Yw3Cs84ecwuotJe/qfOMr
- crqg==
+ bh=zb3L1l1HvD2mZcRDMDBTPVZ3tas7ENOoWbQTgGqAIa8=;
+ b=WoOiYqQOO+pnMGiVE91IdCDujMPI3vzW53E2HE7vR4HYxOCehBPRia6L+Aedxddhd1
+ s8/p5LEon5BYOrChl5dgNDnHt44LOz/GTfI+Yo7PCQ0zOLfwM8DItbGI9Iz2k8718Rgd
+ FjRLvNuUJCZKie/qojIY8T6DXhiXfDrUXBX1yDVVJCNz2gqoVEQkqmJ122jsbsBZKU/X
+ LYMeGFVEeWqsC0G/qHukc2KWDjIRDRPBk2iHzD0BNp4OUQegYysbWIdLdj5xRp5TkLf/
+ iR1b2c8SbMXdyUgLvqX+b2mQOSEuNwMS1OmO7ckHWP6rWlV4SAfcSPNMdXIovWRY8MT/
+ W6yQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=pDKWDRaOnUkRnKvjdAk2YeqA1RSpMi3f12OGrjJ3J00=;
- b=dBY9Alcr2083wDyWeFUEqhdNiAhLCuePBWWDvBDdnXsn4pB1rDL+kY7BsHNjBXHK9i
- 2EcdwREYb5XdvnrPxCRTXIvMENuwtlb2KccNT40vXtb9BzjyQfSTk/AGZ+LOtCVAN5Nl
- yvebTCy9AhVrz3xD061fwGDPD8Uww/O4vv2VCmnYwwsrYA2P6LSgHtAqaG1dsxWlnlOv
- Di6sk/1ZxRRTqak5Tpy5NdIw7PSsPVgL9Fcf2R4fV3ppOnnLzfwcQvxDDDJ2H+phRuwu
- QJQck10R7qfwijbJmMHkjNQk5tRkZ1OrjxMKYiLoVZQ17QZNWOXO2jXXtTXzind1iF9Z
- bHbw==
-X-Gm-Message-State: AOAM532ZcszzuF0ebHbgfBta37NMw6a46f0LSGgYMYmmLq3oFQLjhyrI
- WinhCuxF3N3fw0fu6k6lJIoXuV6N4KH56Q==
-X-Google-Smtp-Source: ABdhPJwscaGtN0sUeXSHs41XLqxp3Dgqal0r4QEjvqhT3hIepU4konLlkiHexhf8ivIhKTPAbv/waA==
-X-Received: by 2002:a1c:f219:: with SMTP id s25mr767134wmc.119.1644320412610; 
- Tue, 08 Feb 2022 03:40:12 -0800 (PST)
+ bh=zb3L1l1HvD2mZcRDMDBTPVZ3tas7ENOoWbQTgGqAIa8=;
+ b=u7VCT3+OnQPaEvft4N10bpJi5BkNOt8WRpRThSXdd9HhGTNAcyvoUImj3sE4Wy+pgy
+ bvbOE+vcUG2xusfbKlgedSckvlfftDVuMflfwUV+OgANUYibzYRkO0IchXu3G/MTmeIC
+ SeXZb+C+LHj+660ZnPPcvZOKav6Z9ueitf5x0OOcTHLOXn5SrKJGwE3Cjhc3oCfoJBwp
+ /Pdwosyit47QUG1Tx3K1vxeXc66+D1FRtBW23+XvPtIDuS8tuF26LPocQGKqYCGT22At
+ eQapCtr0bq30oASw4Nzd+aG49we7LKRCRaotd2T8YdPvmSbwrbGbnttGzLOGAMNGbhlU
+ m7FQ==
+X-Gm-Message-State: AOAM533nx3jQ5b5zMNSBa0p4UtugLKGD01lYtO16eJg9GOR+wEl3dyrp
+ /jrPcPiYefk6OrXARiO1vFs2p5aHBEECyg==
+X-Google-Smtp-Source: ABdhPJxj5mV+/rG5Nz38WSGgAal+ryshB7JOCcXGf/jSbzZ0v1jbJgu4yCV6HrCqqGQVbSg0cBvIFw==
+X-Received: by 2002:a05:600c:1c23:: with SMTP id
+ j35mr785520wms.138.1644320413520; 
+ Tue, 08 Feb 2022 03:40:13 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id r11sm4245199wrt.28.2022.02.08.03.40.12
  for <qemu-devel@nongnu.org>
@@ -56,18 +57,19 @@ Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  Tue, 08 Feb 2022 03:40:12 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 34/39] hw/intc/arm_gicv3_its: Make update_ite() use ITEntry
-Date: Tue,  8 Feb 2022 11:39:43 +0000
-Message-Id: <20220208113948.3217356-35-peter.maydell@linaro.org>
+Subject: [PULL 35/39] hw/intc/arm_gicv3_its: Drop TableDesc and CmdQDesc valid
+ fields
+Date: Tue,  8 Feb 2022 11:39:44 +0000
+Message-Id: <20220208113948.3217356-36-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220208113948.3217356-1-peter.maydell@linaro.org>
 References: <20220208113948.3217356-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32b
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::329
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::329;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x329.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -91,146 +93,126 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Make the update_ite() struct use the new ITEntry struct, so that
-callers don't need to assemble the in-memory ITE data themselves, and
-only get_ite() and update_ite() need to care about that in-memory
-layout.  We can then drop the no-longer-used IteEntry struct
-definition.
+Currently we track in the TableDesc and CmdQDesc structs the state of
+the GITS_BASER<n> and GITS_CBASER Valid bits.  However we aren't very
+consistent abut checking the valid field: we test it in update_cte()
+and update_dte(), but not anywhere else we look things up in tables.
+
+The GIC specification says that it is UNPREDICTABLE if a guest fails
+to set any of these Valid bits before enabling the ITS via
+GITS_CTLR.Enabled.  So we can choose to handle Valid == 0 as
+equivalent to a zero-length table.  This is in fact how we're already
+catching this case in most of the table-access paths: when Valid is 0
+we leave the num_entries fields in TableDesc or CmdQDesc set to zero,
+and then the out-of-bounds check "index >= num_entries" that we have
+to do anyway before doing any of these table lookups will always be
+true, catching the no-valid-table case without any extra code.
+
+So we can remove the checks on the valid field from update_cte()
+and update_dte(): since these happen after the bounds check there
+was never any case when the test could fail. That means the valid
+fields would be entirely unused, so just remove them.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20220201193207.2771604-10-peter.maydell@linaro.org
+Message-id: 20220201193207.2771604-11-peter.maydell@linaro.org
 ---
- hw/intc/arm_gicv3_its.c | 62 +++++++++++++++++++++--------------------
- 1 file changed, 32 insertions(+), 30 deletions(-)
+ include/hw/intc/arm_gicv3_its_common.h |  2 --
+ hw/intc/arm_gicv3_its.c                | 31 ++++++++++++--------------
+ 2 files changed, 14 insertions(+), 19 deletions(-)
 
+diff --git a/include/hw/intc/arm_gicv3_its_common.h b/include/hw/intc/arm_gicv3_its_common.h
+index 3e2ad2dff60..0f130494dd3 100644
+--- a/include/hw/intc/arm_gicv3_its_common.h
++++ b/include/hw/intc/arm_gicv3_its_common.h
+@@ -42,7 +42,6 @@
+ #define GITS_TRANSLATER  0x0040
+ 
+ typedef struct {
+-    bool valid;
+     bool indirect;
+     uint16_t entry_sz;
+     uint32_t page_sz;
+@@ -51,7 +50,6 @@ typedef struct {
+ } TableDesc;
+ 
+ typedef struct {
+-    bool valid;
+     uint32_t num_entries;
+     uint64_t base_addr;
+ } CmdQDesc;
 diff --git a/hw/intc/arm_gicv3_its.c b/hw/intc/arm_gicv3_its.c
-index bd741085022..e3b63efddcc 100644
+index e3b63efddcc..9735d609df2 100644
 --- a/hw/intc/arm_gicv3_its.c
 +++ b/hw/intc/arm_gicv3_its.c
-@@ -41,11 +41,6 @@ typedef enum ItsCmdType {
-     INTERRUPT = 3,
- } ItsCmdType;
- 
--typedef struct {
--    uint32_t iteh;
--    uint64_t itel;
--} IteEntry;
--
- typedef struct DTEntry {
-     bool valid;
-     unsigned size;
-@@ -178,24 +173,35 @@ static MemTxResult get_cte(GICv3ITSState *s, uint16_t icid, CTEntry *cte)
-     return MEMTX_OK;
- }
- 
-+/*
-+ * Update the Interrupt Table entry at index @evinted in the table specified
-+ * by the dte @dte. Returns true on success, false if there was a memory
-+ * access error.
-+ */
- static bool update_ite(GICv3ITSState *s, uint32_t eventid, const DTEntry *dte,
--                       IteEntry ite)
-+                       const ITEntry *ite)
- {
-     AddressSpace *as = &s->gicv3->dma_as;
+@@ -442,10 +442,6 @@ static bool update_cte(GICv3ITSState *s, uint16_t icid, const CTEntry *cte)
+     uint64_t cteval = 0;
      MemTxResult res = MEMTX_OK;
-     hwaddr iteaddr = dte->ittaddr + eventid * ITS_ITT_ENTRY_SIZE;
-+    uint64_t itel = 0;
-+    uint32_t iteh = 0;
  
--    address_space_stq_le(as, iteaddr, ite.itel, MEMTXATTRS_UNSPECIFIED, &res);
+-    if (!s->ct.valid) {
+-        return true;
+-    }
 -
--    if (res == MEMTX_OK) {
--        address_space_stl_le(as, iteaddr + 8, ite.iteh,
--                             MEMTXATTRS_UNSPECIFIED, &res);
-+    if (ite->valid) {
-+        itel = FIELD_DP64(itel, ITE_L, VALID, 1);
-+        itel = FIELD_DP64(itel, ITE_L, INTTYPE, ite->inttype);
-+        itel = FIELD_DP64(itel, ITE_L, INTID, ite->intid);
-+        itel = FIELD_DP64(itel, ITE_L, ICID, ite->icid);
-+        itel = FIELD_DP64(itel, ITE_L, VPEID, ite->vpeid);
-+        iteh = FIELD_DP32(iteh, ITE_H, DOORBELL, ite->doorbell);
-     }
-+
-+    address_space_stq_le(as, iteaddr, itel, MEMTXATTRS_UNSPECIFIED, &res);
-     if (res != MEMTX_OK) {
-         return false;
+     if (cte->valid) {
+         /* add mapping entry to collection table */
+         cteval = FIELD_DP64(cteval, CTE, VALID, 1);
+@@ -504,15 +500,11 @@ static bool update_dte(GICv3ITSState *s, uint32_t devid, const DTEntry *dte)
+     uint64_t dteval = 0;
+     MemTxResult res = MEMTX_OK;
+ 
+-    if (s->dt.valid) {
+-        if (dte->valid) {
+-            /* add mapping entry to device table */
+-            dteval = FIELD_DP64(dteval, DTE, VALID, 1);
+-            dteval = FIELD_DP64(dteval, DTE, SIZE, dte->size);
+-            dteval = FIELD_DP64(dteval, DTE, ITTADDR, dte->ittaddr);
+-        }
 -    } else {
 -        return true;
-     }
-+    address_space_stl_le(as, iteaddr + 8, iteh, MEMTXATTRS_UNSPECIFIED, &res);
-+    return res == MEMTX_OK;
- }
- 
- /*
-@@ -346,9 +352,10 @@ static ItsCmdResult do_process_its_cmd(GICv3ITSState *s, uint32_t devid,
++    if (dte->valid) {
++        /* add mapping entry to device table */
++        dteval = FIELD_DP64(dteval, DTE, VALID, 1);
++        dteval = FIELD_DP64(dteval, DTE, SIZE, dte->size);
++        dteval = FIELD_DP64(dteval, DTE, ITTADDR, dte->ittaddr);
      }
  
-     if (cmd == DISCARD) {
--        IteEntry itee = {};
-+        ITEntry ite = {};
-         /* remove mapping from interrupt translation table */
--        return update_ite(s, eventid, &dte, itee) ? CMD_CONTINUE : CMD_STALL;
-+        ite.valid = false;
-+        return update_ite(s, eventid, &dte, &ite) ? CMD_CONTINUE : CMD_STALL;
-     }
-     return CMD_CONTINUE;
- }
-@@ -370,8 +377,8 @@ static ItsCmdResult process_mapti(GICv3ITSState *s, const uint64_t *cmdpkt,
-     uint64_t num_eventids;
-     uint32_t num_intids;
-     uint16_t icid = 0;
--    IteEntry ite = {};
-     DTEntry dte;
-+    ITEntry ite;
+     entry_addr = table_entry_addr(s, &s->dt, devid, &res);
+@@ -901,7 +893,6 @@ static void extract_table_params(GICv3ITSState *s)
+         }
  
-     devid = (cmdpkt[0] & DEVID_MASK) >> DEVID_SHIFT;
-     eventid = cmdpkt[1] & EVENTID_MASK;
-@@ -415,13 +422,13 @@ static ItsCmdResult process_mapti(GICv3ITSState *s, const uint64_t *cmdpkt,
-     }
+         memset(td, 0, sizeof(*td));
+-        td->valid = FIELD_EX64(value, GITS_BASER, VALID);
+         /*
+          * If GITS_BASER<n>.Valid is 0 for any <n> then we will not process
+          * interrupts. (GITS_TYPER.HCC is 0 for this implementation, so we
+@@ -909,8 +900,15 @@ static void extract_table_params(GICv3ITSState *s)
+          * for the register corresponding to the Collection table but we
+          * still have to process interrupts using non-memory-backed
+          * Collection table entries.)
++         * The specification makes it UNPREDICTABLE to enable the ITS without
++         * marking each BASER<n> as valid. We choose to handle these as if
++         * the table was zero-sized, so commands using the table will fail
++         * and interrupts requested via GITS_TRANSLATER writes will be ignored.
++         * This happens automatically by leaving the num_entries field at
++         * zero, which will be caught by the bounds checks we have before
++         * every table lookup anyway.
+          */
+-        if (!td->valid) {
++        if (!FIELD_EX64(value, GITS_BASER, VALID)) {
+             continue;
+         }
+         td->page_sz = page_sz;
+@@ -936,9 +934,8 @@ static void extract_cmdq_params(GICv3ITSState *s)
+     num_pages = FIELD_EX64(value, GITS_CBASER, SIZE) + 1;
  
-     /* add ite entry to interrupt translation table */
--    ite.itel = FIELD_DP64(ite.itel, ITE_L, VALID, true);
--    ite.itel = FIELD_DP64(ite.itel, ITE_L, INTTYPE, ITE_INTTYPE_PHYSICAL);
--    ite.itel = FIELD_DP64(ite.itel, ITE_L, INTID, pIntid);
--    ite.itel = FIELD_DP64(ite.itel, ITE_L, ICID, icid);
--    ite.iteh = FIELD_DP32(ite.iteh, ITE_H, DOORBELL, INTID_SPURIOUS);
--
--    return update_ite(s, eventid, &dte, ite) ? CMD_CONTINUE : CMD_STALL;
-+    ite.valid = true;
-+    ite.inttype = ITE_INTTYPE_PHYSICAL;
-+    ite.intid = pIntid;
-+    ite.icid = icid;
-+    ite.doorbell = INTID_SPURIOUS;
-+    ite.vpeid = 0;
-+    return update_ite(s, eventid, &dte, &ite) ? CMD_CONTINUE : CMD_STALL;
- }
+     memset(&s->cq, 0 , sizeof(s->cq));
+-    s->cq.valid = FIELD_EX64(value, GITS_CBASER, VALID);
  
- /*
-@@ -585,7 +592,6 @@ static ItsCmdResult process_movi(GICv3ITSState *s, const uint64_t *cmdpkt)
-     uint32_t devid, eventid;
-     uint16_t new_icid;
-     uint64_t num_eventids;
--    IteEntry ite = {};
-     DTEntry dte;
-     CTEntry old_cte, new_cte;
-     ITEntry old_ite;
-@@ -689,12 +695,8 @@ static ItsCmdResult process_movi(GICv3ITSState *s, const uint64_t *cmdpkt)
-     }
- 
-     /* Update the ICID field in the interrupt translation table entry */
--    ite.itel = FIELD_DP64(ite.itel, ITE_L, VALID, 1);
--    ite.itel = FIELD_DP64(ite.itel, ITE_L, INTTYPE, ITE_INTTYPE_PHYSICAL);
--    ite.itel = FIELD_DP64(ite.itel, ITE_L, INTID, old_ite.intid);
--    ite.itel = FIELD_DP64(ite.itel, ITE_L, ICID, new_icid);
--    ite.iteh = FIELD_DP32(ite.iteh, ITE_H, DOORBELL, INTID_SPURIOUS);
--    return update_ite(s, eventid, &dte, ite) ? CMD_CONTINUE : CMD_STALL;
-+    old_ite.icid = new_icid;
-+    return update_ite(s, eventid, &dte, &old_ite) ? CMD_CONTINUE : CMD_STALL;
- }
- 
- /*
+-    if (s->cq.valid) {
++    if (FIELD_EX64(value, GITS_CBASER, VALID)) {
+         s->cq.num_entries = (num_pages * GITS_PAGE_SIZE_4K) /
+                              GITS_CMDQ_ENTRY_SIZE;
+         s->cq.base_addr = FIELD_EX64(value, GITS_CBASER, PHYADDR);
 -- 
 2.25.1
 
