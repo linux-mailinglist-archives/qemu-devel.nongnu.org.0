@@ -2,75 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A2FC4AD791
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Feb 2022 12:37:55 +0100 (CET)
-Received: from localhost ([::1]:43606 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 310234AD828
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Feb 2022 13:08:25 +0100 (CET)
+Received: from localhost ([::1]:46146 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nHOoj-0004x5-Pa
-	for lists+qemu-devel@lfdr.de; Tue, 08 Feb 2022 06:37:54 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:57256)
+	id 1nHPIF-0001Zc-PU
+	for lists+qemu-devel@lfdr.de; Tue, 08 Feb 2022 07:08:23 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:57368)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kkostiuk@redhat.com>)
- id 1nHOYV-000139-JW
- for qemu-devel@nongnu.org; Tue, 08 Feb 2022 06:21:08 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:47807)
+ id 1nHOYg-0001CC-Ux
+ for qemu-devel@nongnu.org; Tue, 08 Feb 2022 06:21:20 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:40937)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kkostiuk@redhat.com>)
- id 1nHOYR-0007OT-Bu
- for qemu-devel@nongnu.org; Tue, 08 Feb 2022 06:21:07 -0500
+ id 1nHOYa-0007PO-MI
+ for qemu-devel@nongnu.org; Tue, 08 Feb 2022 06:21:14 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1644319261;
+ s=mimecast20190719; t=1644319272;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=p7feXyBwnLsiFMWl5YiPaX4PHml4sh+fP3Z10dhk6HY=;
- b=WtbRm+L05JWHlh18phMVtyUL+HlWhKVoXCnqdWPMStKZ55EvSAm4O5COYqUPsdAt0WIVib
- GSp/VtNFIcY8HnOYEKQPejIRrhLuskFKjbUiweOT7YqyC4OVhjst93ZWf50eL7PaGELdXL
- Z2VXOtKAZo2ZFf+TCjaHmcThHQQ2TFs=
+ bh=Tm/ezzYPTpO4LEdhDNFqnLFs3gZHDDJOwPavsLA/jTY=;
+ b=PPKx99Z5dsCmlsjV3b7BM8UxMuIWl0mlR5dgAquxF3X+kbrTt89MFlnhexkqL4oqfvkLGo
+ 4YKaIe2pFtQYpDpJNFDqqV+eNdJBDkI2igOaL4EP3YC6JsnaDi26AkFiqu+wr7bG/owCiV
+ dybLfoK/C9T02ttD5ZsC3SWOYAvaS2k=
 Received: from mail-yb1-f200.google.com (mail-yb1-f200.google.com
  [209.85.219.200]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-617-d_J6OgwnPT2bcKITap3UEg-1; Tue, 08 Feb 2022 06:20:58 -0500
-X-MC-Unique: d_J6OgwnPT2bcKITap3UEg-1
+ us-mta-425-tedw4V2_MSaEHENo3GsN-g-1; Tue, 08 Feb 2022 06:21:11 -0500
+X-MC-Unique: tedw4V2_MSaEHENo3GsN-g-1
 Received: by mail-yb1-f200.google.com with SMTP id
- u185-20020a2560c2000000b0060fd98540f7so34845861ybb.0
- for <qemu-devel@nongnu.org>; Tue, 08 Feb 2022 03:20:58 -0800 (PST)
+ h6-20020a253a06000000b0061de83305f2so6524895yba.19
+ for <qemu-devel@nongnu.org>; Tue, 08 Feb 2022 03:21:11 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=p7feXyBwnLsiFMWl5YiPaX4PHml4sh+fP3Z10dhk6HY=;
- b=5Vm4TePqjdTu3aLvUAnwJQJqwli23Ria6Mq5B5W+NubnE+yvxAs0BhHGKZoRvnaO8a
- newlatDX4zUt0NwReXb602JpCIRsIi4TAQiQbrto35MZq/eLm8vUUonhuPkK95ly7b6U
- fwFim77sou0okQHhuCwOgb4J1g6c07mqkR8xHbWpJFNNU+GcJmHffBweFOVP/O2AjCxO
- xSNHb/aFDoz42PU+HjWNgjPtMzVtK0DFPDlWIChhnw3YP+E/r9oxH6RWsep+9Oyi51JL
- 37CCcP28HJSVMuXvXmIt1YeLLYVHKwL9sTkezMoAlwuMVFR8wNkQ8NwMDSJK95xSD6Ac
- yEGg==
-X-Gm-Message-State: AOAM530GkfEgFLUlalcw78qoUJpZE3bZpsz5KUGTcBZdjdFqVXdXMPaw
- jQwpDf3NkAhMKUdJtik04B7uRff++RdQUJYnFAFpVv3TOVEo1wAfJ1bhHsVXjpYR6UlXYsEQRYe
- KurhTu7Ni2QkgdLohxg2+cIpm8S8t9Cg=
-X-Received: by 2002:a25:8311:: with SMTP id s17mr3859313ybk.7.1644319257658;
- Tue, 08 Feb 2022 03:20:57 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJw75435dFRfRJ7gStc2FUgORV9HQg+2c6N9GVYpfGabAnswvXdXXZRaCFY/DDcH40ZrkvBw8jwcI4Ugg+aBt8s=
-X-Received: by 2002:a25:8311:: with SMTP id s17mr3859298ybk.7.1644319257411;
- Tue, 08 Feb 2022 03:20:57 -0800 (PST)
+ bh=Tm/ezzYPTpO4LEdhDNFqnLFs3gZHDDJOwPavsLA/jTY=;
+ b=shxKdVg36JYppz26KEXO/IVNVUoB0YP7PWlAnxzh728i8NxFhVh6qhJfXeIc7mH/Pd
+ RHmtrA4XmlP3oSOj7YU0yiGzaUJPtUWPgosxNEUP+vgDFfnL0gvCIuAb/lSgtzmpCk4E
+ nHkhFdXkE6FtMkhUgy6wUgm4MTLLrhbmME9laVUDpFksepQvC25TNuydrwhwOAKW6onl
+ eA+AmxBM7S7lYcry3BWq2uc7y0iCMu26j3FzKSHG6OMPNo39PfSu+xivfRIdqekJNWV1
+ BrGfIP+4aF+RlT07NlejUljHXfgEdXZxNIpLGG0o23mBjM/qCNS0o2BN1W7iEzslO85p
+ j9IA==
+X-Gm-Message-State: AOAM532/EpG/yTqrqgVImsPwLD/YaX4j3hShcq3kvKJKtJr3LwrEiQ9A
+ dhfhVrG2FoAie46rexegwc5HPHTuE7t29iPPtUmJBaKvaDIL6zvsbeuho4AamMjgfDGneAkylaM
+ ahzV3tjyrsutyKUBcWQANooC45r2peMs=
+X-Received: by 2002:a0d:f2c3:: with SMTP id b186mr4107206ywf.348.1644319270303; 
+ Tue, 08 Feb 2022 03:21:10 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzv2jbTS3DisrPTfUtxlruNI379SJmWAN0oFqDBpekfJuqalqFbQu8VMdfiCanlbG/wEBNsHX0OvAQKtwK2BTc=
+X-Received: by 2002:a0d:f2c3:: with SMTP id b186mr4107181ywf.348.1644319270082; 
+ Tue, 08 Feb 2022 03:21:10 -0800 (PST)
 MIME-Version: 1.0
 References: <20220203173359.292068-1-pbonzini@redhat.com>
- <20220203173359.292068-24-pbonzini@redhat.com>
- <CAPMcbCqR3Cd2Yo337yvHNPpbCLj_p9M3y2FiK1kTAV+Au2wcqA@mail.gmail.com>
-In-Reply-To: <CAPMcbCqR3Cd2Yo337yvHNPpbCLj_p9M3y2FiK1kTAV+Au2wcqA@mail.gmail.com>
+ <20220203173359.292068-27-pbonzini@redhat.com>
+ <CAPMcbCqSeZ0xH89OcB+SoOFXooohFwAKJ2NjnpQwEzT+ntbLpA@mail.gmail.com>
+In-Reply-To: <CAPMcbCqSeZ0xH89OcB+SoOFXooohFwAKJ2NjnpQwEzT+ntbLpA@mail.gmail.com>
 From: Konstantin Kostiuk <kkostiuk@redhat.com>
-Date: Tue, 8 Feb 2022 13:20:46 +0200
-Message-ID: <CAPMcbCpLbtY3gfUQirvHujRvG2gvPgR+ytnc+UHYv6RU80smyQ@mail.gmail.com>
-Subject: Re: [PATCH 23/27] meson: do not make qga/vss-win32/meson.build
- conditional on C++ presence
+Date: Tue, 8 Feb 2022 13:20:58 +0200
+Message-ID: <CAPMcbCrg_iamg7j7eSbpJjMVJKhMbWpZNaoC-uXZb_UPBhK=Fg@mail.gmail.com>
+Subject: Re: [PATCH 26/27] meson, configure: move ntddscsi API check to meson
 To: Paolo Bonzini <pbonzini@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kkostiuk@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: multipart/alternative; boundary="0000000000003c547c05d77fe958"
+Content-Type: multipart/alternative; boundary="000000000000fdada705d77fe9d4"
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=kkostiuk@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
@@ -97,88 +96,160 @@ Cc: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000003c547c05d77fe958
+--000000000000fdada705d77fe9d4
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
 Reviewed-by: Konstantin Kostiuk <kkostiuk@redhat.com>
 
-On Tue, Feb 8, 2022 at 1:14 PM Konstantin Kostiuk <kkostiuk@redhat.com>
+On Tue, Feb 8, 2022 at 1:15 PM Konstantin Kostiuk <kkostiuk@redhat.com>
 wrote:
 
 > Signed-off-by: Konstantin Kostiuk <kkostiuk@redhat.com>
 >
-> On Thu, Feb 3, 2022 at 8:14 PM Paolo Bonzini <pbonzini@redhat.com> wrote:
+> On Thu, Feb 3, 2022 at 8:03 PM Paolo Bonzini <pbonzini@redhat.com> wrote:
 >
 >> From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
->>
->> C++ presence is checked by the qga/ directory, so it can be assumed
->> when building VSS module.
 >>
 >> Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 >> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 >> ---
->>  qga/vss-win32/meson.build | 41 +++++++++++++++++++++++----------------
->>  1 file changed, 24 insertions(+), 17 deletions(-)
+>>  configure            | 23 -----------------------
+>>  meson.build          | 18 +++++++++++++++++-
+>>  qga/commands-win32.c |  6 +++---
+>>  qga/meson.build      |  2 +-
+>>  4 files changed, 21 insertions(+), 28 deletions(-)
 >>
->> diff --git a/qga/vss-win32/meson.build b/qga/vss-win32/meson.build
->> index 8f3aff5fe3..8d4c5708d8 100644
->> --- a/qga/vss-win32/meson.build
->> +++ b/qga/vss-win32/meson.build
->> @@ -1,22 +1,29 @@
->> -if add_languages('cpp', required: false)
->> -  glib_dynamic =3D dependency('glib-2.0', static: false)
->> -  link_args =3D cc.get_supported_link_arguments(['-fstack-protector-all=
-',
->> '-fstack-protector-strong',
+>> diff --git a/configure b/configure
+>> index f67088044f..f6b9e5a1cd 100755
+>> --- a/configure
+>> +++ b/configure
+>> @@ -2289,26 +2289,6 @@ EOF
+>>    fi
+>>  fi
+>>
+>> -##########################################
+>> -# check if mingw environment provides a recent ntddscsi.h
+>> -guest_agent_ntddscsi=3D"no"
+>> -if test "$mingw32" =3D "yes"; then
+>> -  cat > $TMPC << EOF
+>> -#include <windows.h>
+>> -#include <ntddscsi.h>
+>> -int main(void) {
+>> -#if !defined(IOCTL_SCSI_GET_ADDRESS)
+>> -#error Missing required ioctl definitions
+>> -#endif
+>> -  SCSI_ADDRESS addr =3D { .Lun =3D 0, .TargetId =3D 0, .PathId =3D 0 };
+>> -  return addr.Lun;
+>> -}
+>> -EOF
+>> -  if compile_prog "" "" ; then
+>> -    guest_agent_ntddscsi=3Dyes
+>> -  fi
+>> -fi
 >> -
->>  '-Wl,--add-stdcall-alias', '-Wl,--enable-stdcall-fixup'])
->> +glib_dynamic =3D dependency('glib-2.0', static: false)
->> +link_args =3D cc.get_supported_link_arguments([
->> +  '-fstack-protector-all',
->> +  '-fstack-protector-strong',
->> +  '-Wl,--add-stdcall-alias',
->> +  '-Wl,--enable-stdcall-fixup'
->> +])
+>>  ##########################################
+>>  # capstone
 >>
->> -  qga_vss =3D shared_module('qga-vss', ['requester.cpp', 'provider.cpp'=
-,
->> 'install.cpp'],
->> -                name_prefix: '',
->> -                cpp_args: ['-Wno-unknown-pragmas',
->> '-Wno-delete-non-virtual-dtor', '-Wno-non-virtual-dtor'],
->> -                link_args: link_args,
->> -                vs_module_defs: 'qga-vss.def',
->> -                dependencies: [glib_dynamic, socket,
->> -                               cc.find_library('ole32'),
->> -                               cc.find_library('oleaut32'),
->> -                               cc.find_library('shlwapi'),
->> -                               cc.find_library('uuid'),
->> -                               cc.find_library('intl')])
->> +qga_vss =3D shared_module(
->> +  'qga-vss',
->> +  ['requester.cpp', 'provider.cpp', 'install.cpp'],
->> +  name_prefix: '',
->> +  cpp_args: ['-Wno-unknown-pragmas', '-Wno-delete-non-virtual-dtor',
->> '-Wno-non-virtual-dtor'],
->> +  link_args: link_args,
->> +  vs_module_defs: 'qga-vss.def',
->> +  dependencies: [
->> +    glib_dynamic, socket,
->> +    cc.find_library('ole32'),
->> +    cc.find_library('oleaut32'),
->> +    cc.find_library('shlwapi'),
->> +    cc.find_library('uuid'),
->> +    cc.find_library('intl')
->> +  ]
->> +)
+>> @@ -2818,9 +2798,6 @@ if test "$debug_tcg" =3D "yes" ; then
+>>  fi
+>>  if test "$mingw32" =3D "yes" ; then
+>>    echo "CONFIG_WIN32=3Dy" >> $config_host_mak
+>> -  if test "$guest_agent_ntddscsi" =3D "yes" ; then
+>> -    echo "CONFIG_QGA_NTDDSCSI=3Dy" >> $config_host_mak
+>> -  fi
+>>    echo "QEMU_GA_MSI_MINGW_DLL_PATH=3D${QEMU_GA_MSI_MINGW_DLL_PATH}" >>
+>> $config_host_mak
+>>    echo "QEMU_GA_MANUFACTURER=3D${QEMU_GA_MANUFACTURER}" >> $config_host=
+_mak
+>>    echo "QEMU_GA_DISTRO=3D${QEMU_GA_DISTRO}" >> $config_host_mak
+>> diff --git a/meson.build b/meson.build
+>> index 999d2c8bd1..98e795d21a 100644
+>> --- a/meson.build
+>> +++ b/meson.build
+>> @@ -1944,6 +1944,22 @@ if targetos =3D=3D 'windows' and link_language =
+=3D=3D 'cpp'
+>>      int main(void) { return VSS_CTX_BACKUP; }''')
+>>  endif
 >>
->> -  all_qga +=3D qga_vss
->> -endif
->> +all_qga +=3D qga_vss
+>> +have_ntddscsi =3D false
+>> +if targetos =3D=3D 'windows'
+>> +  have_ntddscsi =3D cc.compiles('''
+>> +    #include <windows.h>
+>> +    #include <ntddscsi.h>
+>> +    int main(void) {
+>> +    #if !defined(IOCTL_SCSI_GET_ADDRESS)
+>> +    #error Missing required ioctl definitions
+>> +    #endif
+>> +      SCSI_ADDRESS addr =3D { .Lun =3D 0, .TargetId =3D 0, .PathId =3D =
+0 };
+>> +      return addr.Lun;
+>> +    }
+>> +''')
+>> +endif
+>> +config_host_data.set('HAVE_NTDDSCSI', have_ntddscsi)
+>> +
+>>  ignored =3D ['CONFIG_QEMU_INTERP_PREFIX', # actually per-target
+>>      'HAVE_GDB_BIN']
+>>  arrays =3D ['CONFIG_BDRV_RW_WHITELIST', 'CONFIG_BDRV_RO_WHITELIST']
+>> @@ -3615,7 +3631,7 @@ summary_info +=3D {'libnfs support':    libnfs}
+>>  if targetos =3D=3D 'windows'
+>>    if have_ga
+>>      summary_info +=3D {'QGA VSS support':   have_qga_vss}
+>> -    summary_info +=3D {'QGA w32 disk info':
+>> config_host.has_key('CONFIG_QGA_NTDDSCSI')}
+>> +    summary_info +=3D {'QGA w32 disk info': have_ntddscsi}
+>>    endif
+>>  endif
+>>  summary_info +=3D {'seccomp support':   seccomp}
+>> diff --git a/qga/commands-win32.c b/qga/commands-win32.c
+>> index 484cb1c6bd..4fbbad793f 100644
+>> --- a/qga/commands-win32.c
+>> +++ b/qga/commands-win32.c
+>> @@ -18,7 +18,7 @@
+>>  #include <ws2tcpip.h>
+>>  #include <iptypes.h>
+>>  #include <iphlpapi.h>
+>> -#ifdef CONFIG_QGA_NTDDSCSI
+>> +#ifdef HAVE_NTDDSCSI
+>>  #include <winioctl.h>
+>>  #include <ntddscsi.h>
+>>  #endif
+>> @@ -474,7 +474,7 @@ void qmp_guest_file_flush(int64_t handle, Error
+>> **errp)
+>>      }
+>>  }
 >>
->>  midl =3D find_program('midl', required: false)
->>  widl =3D find_program('widl', required: false)
+>> -#ifdef CONFIG_QGA_NTDDSCSI
+>> +#ifdef HAVE_NTDDSCSI
+>>
+>>  static GuestDiskBusType win2qemu[] =3D {
+>>      [BusTypeUnknown] =3D GUEST_DISK_BUS_TYPE_UNKNOWN,
+>> @@ -1111,7 +1111,7 @@ GuestDiskInfoList *qmp_guest_get_disks(Error **err=
+p)
+>>      return NULL;
+>>  }
+>>
+>> -#endif /* CONFIG_QGA_NTDDSCSI */
+>> +#endif /* HAVE_NTDDSCSI */
+>>
+>>  static GuestFilesystemInfo *build_guest_fsinfo(char *guid, Error **errp=
+)
+>>  {
+>> diff --git a/qga/meson.build b/qga/meson.build
+>> index 8c177435ac..fe0bfc295f 100644
+>> --- a/qga/meson.build
+>> +++ b/qga/meson.build
+>> @@ -88,7 +88,7 @@ if targetos =3D=3D 'windows'
+>>      qga_libs +=3D ['-lole32', '-loleaut32', '-lshlwapi', '-lstdc++',
+>> '-Wl,--enable-stdcall-fixup']
+>>      subdir('vss-win32')
+>>    endif
+>> -  if 'CONFIG_QGA_NTDDSCSI' in config_host
+>> +  if have_ntddscsi
+>>      qga_libs +=3D ['-lsetupapi', '-lcfgmgr32']
+>>    endif
+>>  endif
 >> --
 >> 2.34.1
 >>
@@ -186,109 +257,184 @@ wrote:
 >>
 >>
 
---0000000000003c547c05d77fe958
+--000000000000fdada705d77fe9d4
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
 <div dir=3D"ltr">Reviewed-by: Konstantin Kostiuk &lt;<a href=3D"mailto:kkos=
 tiuk@redhat.com" target=3D"_blank">kkostiuk@redhat.com</a>&gt;</div><br><di=
 v class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Tue, Feb 8=
-, 2022 at 1:14 PM Konstantin Kostiuk &lt;<a href=3D"mailto:kkostiuk@redhat.=
+, 2022 at 1:15 PM Konstantin Kostiuk &lt;<a href=3D"mailto:kkostiuk@redhat.=
 com">kkostiuk@redhat.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail=
 _quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204=
 ,204);padding-left:1ex"><div dir=3D"ltr">Signed-off-by: Konstantin Kostiuk =
 &lt;<a href=3D"mailto:kkostiuk@redhat.com" target=3D"_blank">kkostiuk@redha=
 t.com</a>&gt;</div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D=
-"gmail_attr">On Thu, Feb 3, 2022 at 8:14 PM Paolo Bonzini &lt;<a href=3D"ma=
+"gmail_attr">On Thu, Feb 3, 2022 at 8:03 PM Paolo Bonzini &lt;<a href=3D"ma=
 ilto:pbonzini@redhat.com" target=3D"_blank">pbonzini@redhat.com</a>&gt; wro=
 te:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px =
 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">From: Marc-A=
 ndr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.lureau@redhat.com" target=
 =3D"_blank">marcandre.lureau@redhat.com</a>&gt;<br>
 <br>
-C++ presence is checked by the qga/ directory, so it can be assumed<br>
-when building VSS module.<br>
-<br>
 Signed-off-by: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.lurea=
 u@redhat.com" target=3D"_blank">marcandre.lureau@redhat.com</a>&gt;<br>
 Signed-off-by: Paolo Bonzini &lt;<a href=3D"mailto:pbonzini@redhat.com" tar=
 get=3D"_blank">pbonzini@redhat.com</a>&gt;<br>
 ---<br>
-=C2=A0qga/vss-win32/meson.build | 41 +++++++++++++++++++++++---------------=
+=C2=A0configure=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 | 23 -------------=
+----------<br>
+=C2=A0meson.build=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 | 18 +++++++++++++++++-=
+<br>
+=C2=A0qga/commands-win32.c |=C2=A0 6 +++---<br>
+=C2=A0qga/meson.build=C2=A0 =C2=A0 =C2=A0 |=C2=A0 2 +-<br>
+=C2=A04 files changed, 21 insertions(+), 28 deletions(-)<br>
+<br>
+diff --git a/configure b/configure<br>
+index f67088044f..f6b9e5a1cd 100755<br>
+--- a/configure<br>
++++ b/configure<br>
+@@ -2289,26 +2289,6 @@ EOF<br>
+=C2=A0 =C2=A0fi<br>
+=C2=A0fi<br>
+<br>
+-##########################################<br>
+-# check if mingw environment provides a recent ntddscsi.h<br>
+-guest_agent_ntddscsi=3D&quot;no&quot;<br>
+-if test &quot;$mingw32&quot; =3D &quot;yes&quot;; then<br>
+-=C2=A0 cat &gt; $TMPC &lt;&lt; EOF<br>
+-#include &lt;windows.h&gt;<br>
+-#include &lt;ntddscsi.h&gt;<br>
+-int main(void) {<br>
+-#if !defined(IOCTL_SCSI_GET_ADDRESS)<br>
+-#error Missing required ioctl definitions<br>
+-#endif<br>
+-=C2=A0 SCSI_ADDRESS addr =3D { .Lun =3D 0, .TargetId =3D 0, .PathId =3D 0 =
+};<br>
+-=C2=A0 return addr.Lun;<br>
+-}<br>
+-EOF<br>
+-=C2=A0 if compile_prog &quot;&quot; &quot;&quot; ; then<br>
+-=C2=A0 =C2=A0 guest_agent_ntddscsi=3Dyes<br>
+-=C2=A0 fi<br>
+-fi<br>
 -<br>
-=C2=A01 file changed, 24 insertions(+), 17 deletions(-)<br>
+=C2=A0##########################################<br>
+=C2=A0# capstone<br>
 <br>
-diff --git a/qga/vss-win32/meson.build b/qga/vss-win32/meson.build<br>
-index 8f3aff5fe3..8d4c5708d8 100644<br>
---- a/qga/vss-win32/meson.build<br>
-+++ b/qga/vss-win32/meson.build<br>
-@@ -1,22 +1,29 @@<br>
--if add_languages(&#39;cpp&#39;, required: false)<br>
--=C2=A0 glib_dynamic =3D dependency(&#39;glib-2.0&#39;, static: false)<br>
--=C2=A0 link_args =3D cc.get_supported_link_arguments([&#39;-fstack-protect=
-or-all&#39;, &#39;-fstack-protector-strong&#39;,<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0&#39;-Wl,--add-stdcall-alias&#39;, &#39;-Wl,--enable-st=
-dcall-fixup&#39;])<br>
-+glib_dynamic =3D dependency(&#39;glib-2.0&#39;, static: false)<br>
-+link_args =3D cc.get_supported_link_arguments([<br>
-+=C2=A0 &#39;-fstack-protector-all&#39;,<br>
-+=C2=A0 &#39;-fstack-protector-strong&#39;,<br>
-+=C2=A0 &#39;-Wl,--add-stdcall-alias&#39;,<br>
-+=C2=A0 &#39;-Wl,--enable-stdcall-fixup&#39;<br>
-+])<br>
+@@ -2818,9 +2798,6 @@ if test &quot;$debug_tcg&quot; =3D &quot;yes&quot; ; =
+then<br>
+=C2=A0fi<br>
+=C2=A0if test &quot;$mingw32&quot; =3D &quot;yes&quot; ; then<br>
+=C2=A0 =C2=A0echo &quot;CONFIG_WIN32=3Dy&quot; &gt;&gt; $config_host_mak<br=
+>
+-=C2=A0 if test &quot;$guest_agent_ntddscsi&quot; =3D &quot;yes&quot; ; the=
+n<br>
+-=C2=A0 =C2=A0 echo &quot;CONFIG_QGA_NTDDSCSI=3Dy&quot; &gt;&gt; $config_ho=
+st_mak<br>
+-=C2=A0 fi<br>
+=C2=A0 =C2=A0echo &quot;QEMU_GA_MSI_MINGW_DLL_PATH=3D${QEMU_GA_MSI_MINGW_DL=
+L_PATH}&quot; &gt;&gt; $config_host_mak<br>
+=C2=A0 =C2=A0echo &quot;QEMU_GA_MANUFACTURER=3D${QEMU_GA_MANUFACTURER}&quot=
+; &gt;&gt; $config_host_mak<br>
+=C2=A0 =C2=A0echo &quot;QEMU_GA_DISTRO=3D${QEMU_GA_DISTRO}&quot; &gt;&gt; $=
+config_host_mak<br>
+diff --git a/meson.build b/meson.build<br>
+index 999d2c8bd1..98e795d21a 100644<br>
+--- a/meson.build<br>
++++ b/meson.build<br>
+@@ -1944,6 +1944,22 @@ if targetos =3D=3D &#39;windows&#39; and link_langua=
+ge =3D=3D &#39;cpp&#39;<br>
+=C2=A0 =C2=A0 =C2=A0int main(void) { return VSS_CTX_BACKUP; }&#39;&#39;&#39=
+;)<br>
+=C2=A0endif<br>
 <br>
--=C2=A0 qga_vss =3D shared_module(&#39;qga-vss&#39;, [&#39;requester.cpp&#3=
-9;, &#39;provider.cpp&#39;, &#39;install.cpp&#39;],<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 name_prefix: &#39;=
-&#39;,<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 cpp_args: [&#39;-W=
-no-unknown-pragmas&#39;, &#39;-Wno-delete-non-virtual-dtor&#39;, &#39;-Wno-=
-non-virtual-dtor&#39;],<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 link_args: link_ar=
-gs,<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 vs_module_defs: &#=
-39;qga-vss.def&#39;,<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 dependencies: [gli=
-b_dynamic, socket,<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0cc.find_library(&#39;ole32&#39;),<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0cc.find_library(&#39;oleaut32&#39;),<=
++have_ntddscsi =3D false<br>
++if targetos =3D=3D &#39;windows&#39;<br>
++=C2=A0 have_ntddscsi =3D cc.compiles(&#39;&#39;&#39;<br>
++=C2=A0 =C2=A0 #include &lt;windows.h&gt;<br>
++=C2=A0 =C2=A0 #include &lt;ntddscsi.h&gt;<br>
++=C2=A0 =C2=A0 int main(void) {<br>
++=C2=A0 =C2=A0 #if !defined(IOCTL_SCSI_GET_ADDRESS)<br>
++=C2=A0 =C2=A0 #error Missing required ioctl definitions<br>
++=C2=A0 =C2=A0 #endif<br>
++=C2=A0 =C2=A0 =C2=A0 SCSI_ADDRESS addr =3D { .Lun =3D 0, .TargetId =3D 0, =
+.PathId =3D 0 };<br>
++=C2=A0 =C2=A0 =C2=A0 return addr.Lun;<br>
++=C2=A0 =C2=A0 }<br>
++&#39;&#39;&#39;)<br>
++endif<br>
++config_host_data.set(&#39;HAVE_NTDDSCSI&#39;, have_ntddscsi)<br>
++<br>
+=C2=A0ignored =3D [&#39;CONFIG_QEMU_INTERP_PREFIX&#39;, # actually per-targ=
+et<br>
+=C2=A0 =C2=A0 =C2=A0&#39;HAVE_GDB_BIN&#39;]<br>
+=C2=A0arrays =3D [&#39;CONFIG_BDRV_RW_WHITELIST&#39;, &#39;CONFIG_BDRV_RO_W=
+HITELIST&#39;]<br>
+@@ -3615,7 +3631,7 @@ summary_info +=3D {&#39;libnfs support&#39;:=C2=A0 =
+=C2=A0 libnfs}<br>
+=C2=A0if targetos =3D=3D &#39;windows&#39;<br>
+=C2=A0 =C2=A0if have_ga<br>
+=C2=A0 =C2=A0 =C2=A0summary_info +=3D {&#39;QGA VSS support&#39;:=C2=A0 =C2=
+=A0have_qga_vss}<br>
+-=C2=A0 =C2=A0 summary_info +=3D {&#39;QGA w32 disk info&#39;: config_host.=
+has_key(&#39;CONFIG_QGA_NTDDSCSI&#39;)}<br>
++=C2=A0 =C2=A0 summary_info +=3D {&#39;QGA w32 disk info&#39;: have_ntddscs=
+i}<br>
+=C2=A0 =C2=A0endif<br>
+=C2=A0endif<br>
+=C2=A0summary_info +=3D {&#39;seccomp support&#39;:=C2=A0 =C2=A0seccomp}<br=
+>
+diff --git a/qga/commands-win32.c b/qga/commands-win32.c<br>
+index 484cb1c6bd..4fbbad793f 100644<br>
+--- a/qga/commands-win32.c<br>
++++ b/qga/commands-win32.c<br>
+@@ -18,7 +18,7 @@<br>
+=C2=A0#include &lt;ws2tcpip.h&gt;<br>
+=C2=A0#include &lt;iptypes.h&gt;<br>
+=C2=A0#include &lt;iphlpapi.h&gt;<br>
+-#ifdef CONFIG_QGA_NTDDSCSI<br>
++#ifdef HAVE_NTDDSCSI<br>
+=C2=A0#include &lt;winioctl.h&gt;<br>
+=C2=A0#include &lt;ntddscsi.h&gt;<br>
+=C2=A0#endif<br>
+@@ -474,7 +474,7 @@ void qmp_guest_file_flush(int64_t handle, Error **errp)=
+<br>
+=C2=A0 =C2=A0 =C2=A0}<br>
+=C2=A0}<br>
+<br>
+-#ifdef CONFIG_QGA_NTDDSCSI<br>
++#ifdef HAVE_NTDDSCSI<br>
+<br>
+=C2=A0static GuestDiskBusType win2qemu[] =3D {<br>
+=C2=A0 =C2=A0 =C2=A0[BusTypeUnknown] =3D GUEST_DISK_BUS_TYPE_UNKNOWN,<br>
+@@ -1111,7 +1111,7 @@ GuestDiskInfoList *qmp_guest_get_disks(Error **errp)<=
 br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0cc.find_library(&#39;shlwapi&#39;),<b=
-r>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0cc.find_library(&#39;uuid&#39;),<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0cc.find_library(&#39;intl&#39;)])<br>
-+qga_vss =3D shared_module(<br>
-+=C2=A0 &#39;qga-vss&#39;,<br>
-+=C2=A0 [&#39;requester.cpp&#39;, &#39;provider.cpp&#39;, &#39;install.cpp&=
-#39;],<br>
-+=C2=A0 name_prefix: &#39;&#39;,<br>
-+=C2=A0 cpp_args: [&#39;-Wno-unknown-pragmas&#39;, &#39;-Wno-delete-non-vir=
-tual-dtor&#39;, &#39;-Wno-non-virtual-dtor&#39;],<br>
-+=C2=A0 link_args: link_args,<br>
-+=C2=A0 vs_module_defs: &#39;qga-vss.def&#39;,<br>
-+=C2=A0 dependencies: [<br>
-+=C2=A0 =C2=A0 glib_dynamic, socket,<br>
-+=C2=A0 =C2=A0 cc.find_library(&#39;ole32&#39;),<br>
-+=C2=A0 =C2=A0 cc.find_library(&#39;oleaut32&#39;),<br>
-+=C2=A0 =C2=A0 cc.find_library(&#39;shlwapi&#39;),<br>
-+=C2=A0 =C2=A0 cc.find_library(&#39;uuid&#39;),<br>
-+=C2=A0 =C2=A0 cc.find_library(&#39;intl&#39;)<br>
-+=C2=A0 ]<br>
-+)<br>
+=C2=A0 =C2=A0 =C2=A0return NULL;<br>
+=C2=A0}<br>
 <br>
--=C2=A0 all_qga +=3D qga_vss<br>
--endif<br>
-+all_qga +=3D qga_vss<br>
+-#endif /* CONFIG_QGA_NTDDSCSI */<br>
++#endif /* HAVE_NTDDSCSI */<br>
 <br>
-=C2=A0midl =3D find_program(&#39;midl&#39;, required: false)<br>
-=C2=A0widl =3D find_program(&#39;widl&#39;, required: false)<br>
+=C2=A0static GuestFilesystemInfo *build_guest_fsinfo(char *guid, Error **er=
+rp)<br>
+=C2=A0{<br>
+diff --git a/qga/meson.build b/qga/meson.build<br>
+index 8c177435ac..fe0bfc295f 100644<br>
+--- a/qga/meson.build<br>
++++ b/qga/meson.build<br>
+@@ -88,7 +88,7 @@ if targetos =3D=3D &#39;windows&#39;<br>
+=C2=A0 =C2=A0 =C2=A0qga_libs +=3D [&#39;-lole32&#39;, &#39;-loleaut32&#39;,=
+ &#39;-lshlwapi&#39;, &#39;-lstdc++&#39;, &#39;-Wl,--enable-stdcall-fixup&#=
+39;]<br>
+=C2=A0 =C2=A0 =C2=A0subdir(&#39;vss-win32&#39;)<br>
+=C2=A0 =C2=A0endif<br>
+-=C2=A0 if &#39;CONFIG_QGA_NTDDSCSI&#39; in config_host<br>
++=C2=A0 if have_ntddscsi<br>
+=C2=A0 =C2=A0 =C2=A0qga_libs +=3D [&#39;-lsetupapi&#39;, &#39;-lcfgmgr32&#3=
+9;]<br>
+=C2=A0 =C2=A0endif<br>
+=C2=A0endif<br>
 -- <br>
 2.34.1<br>
 <br>
@@ -297,6 +443,6 @@ tual-dtor&#39;, &#39;-Wno-non-virtual-dtor&#39;],<br>
 </blockquote></div>
 </blockquote></div>
 
---0000000000003c547c05d77fe958--
+--000000000000fdada705d77fe9d4--
 
 
