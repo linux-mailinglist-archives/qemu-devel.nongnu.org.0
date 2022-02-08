@@ -2,94 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E25854AD000
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Feb 2022 04:59:28 +0100 (CET)
-Received: from localhost ([::1]:58638 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3DF8D4AD048
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Feb 2022 05:18:44 +0100 (CET)
+Received: from localhost ([::1]:34462 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nHHf5-00088K-LJ
-	for lists+qemu-devel@lfdr.de; Mon, 07 Feb 2022 22:59:27 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:50336)
+	id 1nHHxi-0004Nq-TC
+	for lists+qemu-devel@lfdr.de; Mon, 07 Feb 2022 23:18:42 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:52934)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1nHHe0-0007RP-4n
- for qemu-devel@nongnu.org; Mon, 07 Feb 2022 22:58:20 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:32299)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1nHHdv-0006FJ-J5
- for qemu-devel@nongnu.org; Mon, 07 Feb 2022 22:58:18 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1644292690;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Z71Y7mAci7WudsLVnnxS6ExjSgl5fpuaW6hKF3XF864=;
- b=hALPiOKTbiQCrgulZ2Axh3I52eIf2oTMvEFI9p4lTIWPom6raLchJ2rQv/KvupktpFol3i
- TGhGbHy+8W3G1olsmF3Bq1G7D8Xv6gX5Hvx22C+dgTXC+rqEryUEIaxoUKYtns6MIpj32X
- htlxlwBLvfelIOgYDRbao1vSJxoqK2I=
-Received: from mail-pl1-f198.google.com (mail-pl1-f198.google.com
- [209.85.214.198]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-388-2kNITH2IP26XzEJdBIcz4g-1; Mon, 07 Feb 2022 22:58:09 -0500
-X-MC-Unique: 2kNITH2IP26XzEJdBIcz4g-1
-Received: by mail-pl1-f198.google.com with SMTP id
- q4-20020a170902f78400b0014d57696618so2844297pln.20
- for <qemu-devel@nongnu.org>; Mon, 07 Feb 2022 19:58:09 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1nHHvu-0003RG-LI; Mon, 07 Feb 2022 23:16:50 -0500
+Received: from [2607:f8b0:4864:20::d34] (port=37478
+ helo=mail-io1-xd34.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1nHHvs-0000X4-Bt; Mon, 07 Feb 2022 23:16:50 -0500
+Received: by mail-io1-xd34.google.com with SMTP id n17so19651260iod.4;
+ Mon, 07 Feb 2022 20:16:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=pQOE2xSxnHcPeIt36QOVMLYZ1yFNoMVePyRGf93Cbi8=;
+ b=P6q4yTD1YziCnp/tk91pKlmUz2OwtqH598Q+nM0RoO1RmsPcaknXtnhG0ybxLkRPy7
+ O7IlgMHQHxjqwbVsNMOuk9Sf6LpdLqkB/rMSZy5KAcaq+gy4KJG4u4c5OGd2A+rW7xpw
+ xMSJYIa6QzO1VQddAHLog0ZT1gknAcjoZcuHFRfdzYFBelgeEAig/F6lGOND9AGn5WhZ
+ MemOxTtiF1l2aQ71QY9hu3EmxFfY6fNb7P38+L4AGZdBJSJQJSpN37y1W2gJ2UCzyGN5
+ HqSpVKrsajMeLK4Dg1N7VskB243/leMGR05C5+aKo+9oG02nTA64TQh7Jd/2SEoEYJOa
+ oyPQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=Z71Y7mAci7WudsLVnnxS6ExjSgl5fpuaW6hKF3XF864=;
- b=heoUnTuudVQeP2j+fvPdcVqw/jvyqfah5JiVVyg93sPx7aiMwcW0b8WqdhzJ5Ps1py
- 6jza5dxfVj+3Ge6316jQs6ccRnIPVKQDe79vC2tbtzAvyhilNDtnqI7rMg6o6oEhr6HQ
- y/yC8Sj+LGiQWGPQ0sALpRYfPnZ3HxpN9cMkUhl8Q02FSGpR8FLz3NbN36EmHwucVfNh
- ktKjevrJkcamPYo48MiNgwEzi80AiA0xcbEhcQ/LKCWZtPLCxK1rAZXlscZbn9JUW1lj
- VhY0RQuVxF6Cp9ZLmgZUd3RYki4Z0YECYABy3+EwB9n39s5rswwt0W/ig0NuDKJ3xzbN
- kA9A==
-X-Gm-Message-State: AOAM532iFKt2g2TAxzu4L92tv8yncPr6mlxeGsNdlXkpbuNsIhrDPaYH
- 7RuL3ohFv9UQTb7wvlEsktcMG+r4XdJwN3XbNgo0Tioc2kwdqLeKAfWn4KYN39x/1KtxwfZvDRq
- UpVq4BP8EvMipMdE=
-X-Received: by 2002:a63:2c16:: with SMTP id s22mr2009676pgs.297.1644292688518; 
- Mon, 07 Feb 2022 19:58:08 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJw9JwQP0iEEay3cftKFLYNY8OLGJatgqmLrrsOZtTmMke6ErdSkHREjsziUdiSnxxmUEIILNw==
-X-Received: by 2002:a63:2c16:: with SMTP id s22mr2009642pgs.297.1644292688200; 
- Mon, 07 Feb 2022 19:58:08 -0800 (PST)
-Received: from [10.72.13.233] ([209.132.188.80])
- by smtp.gmail.com with ESMTPSA id h5sm14053164pfi.111.2022.02.07.19.57.59
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 07 Feb 2022 19:58:07 -0800 (PST)
-Message-ID: <3d0dfaaa-a67c-6f48-fd03-45d2661ba92a@redhat.com>
-Date: Tue, 8 Feb 2022 11:57:54 +0800
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=pQOE2xSxnHcPeIt36QOVMLYZ1yFNoMVePyRGf93Cbi8=;
+ b=Y/UUydXaO4lZmdFp5vmKR6dZfUMBqiQZT8A+Stg2hzjNh/h/G81NzSc3JkMwVyYb10
+ 4j9ErKQqybq8i2KSuDMI3Xvyhfh9eXGbF+vPxijUUslGT9tV0kQMvlFoby0ULcf/Sbu6
+ cpBVglE6+0BX4BjqOP1JFOB4ibrk5kNYS71BUhCIplx9jpyWj9Vwl05mPGD6M4/FLI9r
+ vcTNOu9wFefEhSRGlzGbf6kAHtioeIfDJxsYwAAR/gXZMTw9jgzLDBBh3l+n3PB6aDeA
+ z9+uKxqwdUFV5jYHAcOmb8Zj2CQ34Z/5XBNBRqFB5k78OyfddQAwa1mX9dZUspI2QN3W
+ qN4Q==
+X-Gm-Message-State: AOAM533FOXnzoIEIEvztIs9EU5WQefgQoFg9SZ2/wi/OvArQvAZ/nuOv
+ 92SJ+ZLXQ8bpxkYxUaXsRgD3MONzQSTHuuKmi3M=
+X-Google-Smtp-Source: ABdhPJxAbGoR8Plbj9F5boxfqAlhuHI8ooyFtNei5yfDp/4vnvLdax43Qx7NJp75Pkk0ZFZqUlEKUqmWSq1YKYa9msk=
+X-Received: by 2002:a05:6638:1028:: with SMTP id
+ n8mr1365397jan.318.1644293805868; 
+ Mon, 07 Feb 2022 20:16:45 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.5.1
-Subject: Re: [PATCH 17/31] vdpa: adapt vhost_ops callbacks to svq
-To: Eugenio Perez Martin <eperezma@redhat.com>
-References: <20220121202733.404989-1-eperezma@redhat.com>
- <20220121202733.404989-18-eperezma@redhat.com>
- <82b8c3bf-1b11-86c7-4fad-294f5ccf1278@redhat.com>
- <CAJaqyWdRKZp6CwnE+HAr0JALhSRh-trJbZ01kddnLTuRX_tMKQ@mail.gmail.com>
-From: Jason Wang <jasowang@redhat.com>
-In-Reply-To: <CAJaqyWdRKZp6CwnE+HAr0JALhSRh-trJbZ01kddnLTuRX_tMKQ@mail.gmail.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+References: <20220204174700.534953-1-anup@brainfault.org>
+In-Reply-To: <20220204174700.534953-1-anup@brainfault.org>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Tue, 8 Feb 2022 14:16:19 +1000
+Message-ID: <CAKmqyKO7QnMwSL1Mpa5BJU44EAQxyG2M-sOE8+yAH0SWrmVDug@mail.gmail.com>
+Subject: Re: [PATCH v9 00/23] QEMU RISC-V AIA support
+To: Anup Patel <anup@brainfault.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::d34
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d34;
+ envelope-from=alistair23@gmail.com; helo=mail-io1-xd34.google.com
+X-Spam_score_int: -10
+X-Spam_score: -1.1
+X-Spam_bar: -
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, PDS_HP_HELO_NORDNS=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -102,148 +79,158 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Parav Pandit <parav@mellanox.com>,
- Cindy Lu <lulu@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Juan Quintela <quintela@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- qemu-level <qemu-devel@nongnu.org>, Gautam Dawar <gdawar@xilinx.com>,
- Markus Armbruster <armbru@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
- Harpreet Singh Anand <hanand@xilinx.com>, Xiao W Wang <xiao.w.wang@intel.com>,
- Peter Xu <peterx@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Eli Cohen <eli@mellanox.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Zhu Lingshan <lingshan.zhu@intel.com>,
- virtualization <virtualization@lists.linux-foundation.org>,
- Eric Blake <eblake@redhat.com>, Stefano Garzarella <sgarzare@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Alistair Francis <Alistair.Francis@wdc.com>,
+ Atish Patra <atishp@atishpatra.org>, Palmer Dabbelt <palmer@dabbelt.com>,
+ Bin Meng <bmeng.cn@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Sat, Feb 5, 2022 at 3:47 AM Anup Patel <anup@brainfault.org> wrote:
+>
+> From: Anup Patel <anup.patel@wdc.com>
+>
+> The advanced interrupt architecture (AIA) extends the per-HART local
+> interrupt support. Along with this, it also adds IMSIC (MSI contrllor)
+> and Advanced PLIC (wired interrupt controller).
+>
+> The latest AIA draft specification can be found here:
+> https://github.com/riscv/riscv-aia/releases/download/0.2-draft.28/riscv-interrupts-028.pdf
+>
+> This series adds RISC-V AIA support in QEMU which includes emulating all
+> AIA local CSRs, APLIC, and IMSIC. Only AIA local interrupt filtering is
+> not implemented because we don't have any local interrupt greater than 12.
+>
+> To enable AIA in QEMU, use one of the following:
+> 1) Only AIA local interrupt CSRs: Pass "x-aia=true" as CPU paramenter
+>    in the QEMU command-line
+> 2) Only APLIC for virt machine: Pass "aia=aplic" as machine parameter
+>    in the QEMU command-line
+> 3) Both APLIC and IMSIC for virt machine: Pass "aia=aplic-imsic" as
+>    machine parameter in the QEMU command-line
+> 4) Both APLIC and IMSIC with 2 guest files for virt machine: Pass
+>    "aia=aplic-imsic,aia-guests=2" as machine parameter in the QEMU
+>    command-line
+>
+> To test series, we require OpenSBI and Linux with AIA support which can
+> be found in:
+> riscv_aia_v2 branch at https://github.com/avpatel/opensbi.git
+> riscv_aia_v1 branch at https://github.com/avpatel/linux.git
+>
+> This series can be found riscv_aia_v9 branch at:
+> https://github.com/avpatel/qemu.git
+>
+> Changes since v8:
+>  - Use error_setg() in riscv_imsic_realize() added by PATCH20
+>
+> Changes since v7:
+>  - Rebased on latest riscv-to-apply.next branch of Alistair's repo
+>  - Improved default priority assignment in PATCH9
+>
+> Changes since v6:
+>  - Fixed priority comparison in riscv_cpu_pending_to_irq() of PATCH9
+>  - Fixed typos in comments added by PATCH11
+>  - Added "pend = true;" for CSR_MSETEIPNUM case of rmw_xsetclreinum()
+>    in PATCH15
+>  - Handle ithreshold == 0 case in riscv_aplic_idc_topi() of PATCH18
+>  - Allow setting pending bit for Level0 or Level1 interrupts in
+>    riscv_aplic_set_pending() of PATCH18
+>  - Force DOMAINCFG[31:24] bits to 0x80 in riscv_aplic_read() of PATCH18
+>  - For APLIC direct mode, set target.iprio to 1 when zero is writtern
+>    in PATCH18
+>  - Handle eithreshold == 0 case in riscv_imsic_topei() of PATCH20
+>
+> Changes since v5:
+>  - Moved VSTOPI_NUM_SRCS define to top of the file in PATCH13
+>  - Fixed typo in PATCH16
+>
+> Changes since v4:
+>  - Changed IRQ_LOCAL_MAX to 16 in PATCH2
+>  - Fixed typo in PATCH10
+>  - Replaced TARGET_LONG_BITS with riscv_cpu_mxl_bits(env) in PATCH11
+>  - Replaced TARGET_LONG_BITS with riscv_cpu_mxl_bits(env) in PATCH14
+>  - Replaced TARGET_LONG_BITS with riscv_cpu_mxl_bits(env) in PATCH15
+>  - Replaced TARGET_LONG_BITS with xlen passed via ireg callback in PATCH20
+>  - Retrict maximum IMSIC guest files per-HART of virt machine to 7 in
+>    PATCH21.
+>  - Added separate PATCH23 to increase maximum number of allowed CPUs
+>    for virt machine
+>
+> Changes since v3:
+>  - Replaced "aplic,xyz" and "imsic,xyz" DT properties with "riscv,xyz"
+>    DT properties because "aplic" and "imsic" are not valid vendor names
+>    required by Linux DT schema checker.
+>
+> Changes since v2:
+>  - Update PATCH4 to check and inject interrupt after V=1 when
+>    transitioning from V=0 to V=1
+>
+> Changes since v1:
+>  - Revamped whole series and created more granular patches
+>  - Added HGEIE and HGEIP CSR emulation for H-extension
+>  - Added APLIC emulation
+>  - Added IMSIC emulation
+>
+> Anup Patel (23):
+>   target/riscv: Fix trap cause for RV32 HS-mode CSR access from RV64
+>     HS-mode
+>   target/riscv: Implement SGEIP bit in hip and hie CSRs
+>   target/riscv: Implement hgeie and hgeip CSRs
+>   target/riscv: Improve delivery of guest external interrupts
+>   target/riscv: Allow setting CPU feature from machine/device emulation
+>   target/riscv: Add AIA cpu feature
+>   target/riscv: Add defines for AIA CSRs
+>   target/riscv: Allow AIA device emulation to set ireg rmw callback
+>   target/riscv: Implement AIA local interrupt priorities
+>   target/riscv: Implement AIA CSRs for 64 local interrupts on RV32
+>   target/riscv: Implement AIA hvictl and hviprioX CSRs
+>   target/riscv: Implement AIA interrupt filtering CSRs
+>   target/riscv: Implement AIA mtopi, stopi, and vstopi CSRs
+>   target/riscv: Implement AIA xiselect and xireg CSRs
+>   target/riscv: Implement AIA IMSIC interface CSRs
+>   hw/riscv: virt: Use AIA INTC compatible string when available
+>   target/riscv: Allow users to force enable AIA CSRs in HART
+>   hw/intc: Add RISC-V AIA APLIC device emulation
+>   hw/riscv: virt: Add optional AIA APLIC support to virt machine
+>   hw/intc: Add RISC-V AIA IMSIC device emulation
+>   hw/riscv: virt: Add optional AIA IMSIC support to virt machine
+>   docs/system: riscv: Document AIA options for virt machine
+>   hw/riscv: virt: Increase maximum number of allowed CPUs
 
-在 2022/2/1 上午2:58, Eugenio Perez Martin 写道:
-> On Sun, Jan 30, 2022 at 5:03 AM Jason Wang <jasowang@redhat.com> wrote:
->>
->> 在 2022/1/22 上午4:27, Eugenio Pérez 写道:
->>> First half of the buffers forwarding part, preparing vhost-vdpa
->>> callbacks to SVQ to offer it. QEMU cannot enable it at this moment, so
->>> this is effectively dead code at the moment, but it helps to reduce
->>> patch size.
->>>
->>> Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
->>> ---
->>>    hw/virtio/vhost-shadow-virtqueue.h |   2 +-
->>>    hw/virtio/vhost-shadow-virtqueue.c |  21 ++++-
->>>    hw/virtio/vhost-vdpa.c             | 133 ++++++++++++++++++++++++++---
->>>    3 files changed, 143 insertions(+), 13 deletions(-)
->>>
->>> diff --git a/hw/virtio/vhost-shadow-virtqueue.h b/hw/virtio/vhost-shadow-virtqueue.h
->>> index 035207a469..39aef5ffdf 100644
->>> --- a/hw/virtio/vhost-shadow-virtqueue.h
->>> +++ b/hw/virtio/vhost-shadow-virtqueue.h
->>> @@ -35,7 +35,7 @@ size_t vhost_svq_device_area_size(const VhostShadowVirtqueue *svq);
->>>
->>>    void vhost_svq_stop(VhostShadowVirtqueue *svq);
->>>
->>> -VhostShadowVirtqueue *vhost_svq_new(void);
->>> +VhostShadowVirtqueue *vhost_svq_new(uint16_t qsize);
->>>
->>>    void vhost_svq_free(VhostShadowVirtqueue *vq);
->>>
->>> diff --git a/hw/virtio/vhost-shadow-virtqueue.c b/hw/virtio/vhost-shadow-virtqueue.c
->>> index f129ec8395..7c168075d7 100644
->>> --- a/hw/virtio/vhost-shadow-virtqueue.c
->>> +++ b/hw/virtio/vhost-shadow-virtqueue.c
->>> @@ -277,9 +277,17 @@ void vhost_svq_stop(VhostShadowVirtqueue *svq)
->>>    /**
->>>     * Creates vhost shadow virtqueue, and instruct vhost device to use the shadow
->>>     * methods and file descriptors.
->>> + *
->>> + * @qsize Shadow VirtQueue size
->>> + *
->>> + * Returns the new virtqueue or NULL.
->>> + *
->>> + * In case of error, reason is reported through error_report.
->>>     */
->>> -VhostShadowVirtqueue *vhost_svq_new(void)
->>> +VhostShadowVirtqueue *vhost_svq_new(uint16_t qsize)
->>>    {
->>> +    size_t desc_size = sizeof(vring_desc_t) * qsize;
->>> +    size_t device_size, driver_size;
->>>        g_autofree VhostShadowVirtqueue *svq = g_new0(VhostShadowVirtqueue, 1);
->>>        int r;
->>>
->>> @@ -300,6 +308,15 @@ VhostShadowVirtqueue *vhost_svq_new(void)
->>>        /* Placeholder descriptor, it should be deleted at set_kick_fd */
->>>        event_notifier_init_fd(&svq->svq_kick, INVALID_SVQ_KICK_FD);
->>>
->>> +    svq->vring.num = qsize;
->>
->> I wonder if this is the best. E.g some hardware can support up to 32K
->> queue size. So this will probably end up with:
->>
->> 1) SVQ use 32K queue size
->> 2) hardware queue uses 256
->>
-> In that case SVQ vring queue size will be 32K and guest's vring can
-> negotiate any number with SVQ equal or less than 32K,
+Thanks!
 
+Applied to riscv-to-apply.next
 
-Sorry for being unclear what I meant is actually
-
-1) SVQ uses 32K queue size
-
-2) guest vq uses 256
-
-This looks like a burden that needs extra logic and may damage the 
-performance.
-
-And this can lead other interesting situation:
-
-1) SVQ uses 256
-
-2) guest vq uses 1024
-
-Where a lot of more SVQ logic is needed.
-
-
-> including 256.
-> Is that what you mean?
-
-
-I mean, it looks to me the logic will be much more simplified if we just 
-allocate the shadow virtqueue with the size what guest can see (guest 
-vring).
-
-Then we don't need to think if the difference of the queue size can have 
-any side effects.
-
+Alistair
 
 >
-> If with hardware queues you mean guest's vring, not sure why it is
-> "probably 256". I'd say that in that case with the virtio-net kernel
-> driver the ring size will be the same as the device export, for
-> example, isn't it?
+>  docs/system/riscv/virt.rst    |   16 +
+>  hw/intc/Kconfig               |    6 +
+>  hw/intc/meson.build           |    2 +
+>  hw/intc/riscv_aplic.c         |  975 +++++++++++++++++++++++++
+>  hw/intc/riscv_imsic.c         |  448 ++++++++++++
+>  hw/riscv/Kconfig              |    2 +
+>  hw/riscv/virt.c               |  706 +++++++++++++++---
+>  include/hw/intc/riscv_aplic.h |   79 ++
+>  include/hw/intc/riscv_imsic.h |   68 ++
+>  include/hw/riscv/virt.h       |   41 +-
+>  target/riscv/cpu.c            |  103 ++-
+>  target/riscv/cpu.h            |   72 +-
+>  target/riscv/cpu_bits.h       |  123 ++++
+>  target/riscv/cpu_helper.c     |  343 ++++++++-
+>  target/riscv/csr.c            | 1280 ++++++++++++++++++++++++++++++---
+>  target/riscv/machine.c        |   24 +-
+>  16 files changed, 3988 insertions(+), 300 deletions(-)
+>  create mode 100644 hw/intc/riscv_aplic.c
+>  create mode 100644 hw/intc/riscv_imsic.c
+>  create mode 100644 include/hw/intc/riscv_aplic.h
+>  create mode 100644 include/hw/intc/riscv_imsic.h
 >
-> The implementation should support any combination of sizes, but the
-> ring size exposed to the guest is never bigger than hardware one.
+> --
+> 2.25.1
 >
->> ? Or we SVQ can stick to 256 but this will this cause trouble if we want
->> to add event index support?
->>
-> I think we should not have any problem with event idx. If you mean
-> that the guest could mark more buffers available than SVQ vring's
-> size, that should not happen because there must be less entries in the
-> guest than SVQ.
 >
-> But if I understood you correctly, a similar situation could happen if
-> a guest's contiguous buffer is scattered across many qemu's VA chunks.
-> Even if that would happen, the situation should be ok too: SVQ knows
-> the guest's avail idx and, if SVQ is full, it will continue forwarding
-> avail buffers when the device uses more buffers.
->
-> Does that make sense to you?
-
-
-Yes.
-
-Thanks
-
 
