@@ -2,46 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0EEF44AD073
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Feb 2022 05:58:20 +0100 (CET)
-Received: from localhost ([::1]:43146 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1839F4AD07E
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Feb 2022 06:16:24 +0100 (CET)
+Received: from localhost ([::1]:45726 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nHIa2-0005Bc-Mz
-	for lists+qemu-devel@lfdr.de; Mon, 07 Feb 2022 23:58:18 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:59948)
+	id 1nHIrW-0000Ly-Ni
+	for lists+qemu-devel@lfdr.de; Tue, 08 Feb 2022 00:16:22 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:33988)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pavel.dovgalyuk@ispras.ru>)
- id 1nHIYd-0004I2-R9; Mon, 07 Feb 2022 23:56:51 -0500
-Received: from mail.ispras.ru ([83.149.199.84]:51382)
- by eggs.gnu.org with esmtps (TLS1.2:DHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pavel.dovgalyuk@ispras.ru>)
- id 1nHIYZ-0006Gk-Pq; Mon, 07 Feb 2022 23:56:50 -0500
-Received: from [192.168.0.219] (unknown [62.118.138.151])
- by mail.ispras.ru (Postfix) with ESMTPSA id B6B6340D403D;
- Tue,  8 Feb 2022 04:56:37 +0000 (UTC)
-Subject: Re: target/arm: cp15.dacr migration
-To: Peter Maydell <peter.maydell@linaro.org>
-References: <662aca02-da99-524f-d9df-cd61427ca520@ispras.ru>
- <CAFEAcA_U1hgz55mGX7DZp36aOHGriU0wjr9Dvt4Y=f2EGNgF+A@mail.gmail.com>
-From: Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>
-Message-ID: <6bf3ba6a-0694-21c6-dbcc-d77f69fda4cb@ispras.ru>
-Date: Tue, 8 Feb 2022 07:56:37 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1nHInN-0007sQ-8B
+ for qemu-devel@nongnu.org; Tue, 08 Feb 2022 00:12:05 -0500
+Received: from [2607:f8b0:4864:20::42b] (port=40537
+ helo=mail-pf1-x42b.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1nHInL-0008SK-C1
+ for qemu-devel@nongnu.org; Tue, 08 Feb 2022 00:12:04 -0500
+Received: by mail-pf1-x42b.google.com with SMTP id e6so16885797pfc.7
+ for <qemu-devel@nongnu.org>; Mon, 07 Feb 2022 21:12:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=di6HnIsXkq4rU06DMDoBZgt+/B+gCPq9v91zpelbiwo=;
+ b=F/xNvby1WbH6n2JeJU5FagEft4jw7tHf+LrHOiZR2o9NEj8slK1f0PN7pitPxtDg1C
+ h7iZFCNN/Tg4Vca+XHjvj12ZRZDaW2UOfF/SZhWBdqSwfM1EqN01rJAu6R/+FH/9bvxE
+ WIIXnq50Tcl+JE89C1RgOnrvv1mgE11rIjx8bQYv+GRoaAdRf2ULYfeIMSj3jSW8MnZS
+ jtiMuZiy6mESd1OkrQr/Lzm/jCT2KMpkP4W+lhN8Bk1cSLzzM+D6jGZG7uc/jjjzRkQT
+ WkUfGKSvNTvm+8FMnCY9LgC7opRTeIkdS6LEJrBomRzkqfi5hyWaafiSnKxLnGFiLoUX
+ xx2A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+ :subject:content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=di6HnIsXkq4rU06DMDoBZgt+/B+gCPq9v91zpelbiwo=;
+ b=KY54jcprhmbmaaqGTmOvJ05gpJpGv3jMjkf/WSdKNBrQA0mGgZU80CY3ZjDnk4X+3p
+ 1sdjWNw/PnRR6PI19G806jJTgworssiXl7/NhC3krk5GedhYCBUC5QMfITWp3G5Q5XD0
+ tHk2kS86gKsTbByOu0JWaXHK7b715RldFodpP/p/E0bC82sbNzB86YllCOL5wMtCiP4O
+ k+jJtDvdB68UmrMPwULtOXSNBVFfOcjFXBrshWDr62dHeA4Z7kC4mbQi1JEW1bUImoTL
+ 7gsx7j4/YfYsXxHqBvzr5xDe+eoPSg5cNa6ikbUVvDzFu2mxcVg0GB/TkJsz1heZPYGI
+ GUGg==
+X-Gm-Message-State: AOAM531nQZBQ11Cm9nhpmZvzVLSl9lrkVdW9eg/VDOxwun8yOaLfTjPn
+ Lb/49r77RfxZGwFrgjPbV/s=
+X-Google-Smtp-Source: ABdhPJyWXGh1SidRQSkcgj08oouLX5W4fyPPLZwJomOT7wDIRlDdo4Edh7q9q9Uqu9F13Jfqg/sQMw==
+X-Received: by 2002:a63:8543:: with SMTP id u64mr2233884pgd.600.1644297121641; 
+ Mon, 07 Feb 2022 21:12:01 -0800 (PST)
+Received: from [192.168.1.33] (154.red-83-50-83.dynamicip.rima-tde.net.
+ [83.50.83.154])
+ by smtp.gmail.com with ESMTPSA id b12sm927506pfl.123.2022.02.07.21.11.59
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 07 Feb 2022 21:12:01 -0800 (PST)
+Message-ID: <f9e5ecdb-a60a-3f5a-739b-cd06dadf090f@amsat.org>
+Date: Tue, 8 Feb 2022 06:11:56 +0100
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA_U1hgz55mGX7DZp36aOHGriU0wjr9Dvt4Y=f2EGNgF+A@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.5.1
+Subject: Re: [PATCH] MAINTAINERS: python - remove ehabkost and add bleal
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=83.149.199.84;
- envelope-from=pavel.dovgalyuk@ispras.ru; helo=mail.ispras.ru
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+To: John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org
+Cc: Eduardo Habkost <eduardo@habkost.net>,
+ Peter Maydell <peter.maydell@linaro.org>, Beraldo Leal <bleal@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Cleber Rosa <crosa@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
+ <alex.bennee@linaro.org>
+References: <20220208000525.2601011-1-jsnow@redhat.com>
+In-Reply-To: <20220208000525.2601011-1-jsnow@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::42b
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42b;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pf1-x42b.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -54,71 +97,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
-On 07.02.2022 16:44, Peter Maydell wrote:
-> On Mon, 7 Feb 2022 at 12:13, Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru> wrote:
->>
->> I recently encountered a problem with cp15.dacr register.
->> It has _s and _ns versions. During the migration only dacr_ns is
->> saved/loaded.
->> But both of the values are used in get_phys_addr_v5 and get_phys_addr_v6
->> functions. Therefore VM behavior becomes incorrect after loading the
->> vmstate.
+On 8/2/22 01:05, John Snow wrote:
+> Eduardo Habkost has left Red Hat and has other daily responsibilities to
+> attend to. In order to stop spamming him on every series, remove him as
+> "Reviewer" for the python/ library dir and add Beraldo Leal instead.
 > 
-> Yes, we don't correctly save and restore the Secure banked
-> registers. This is a long standing bug (eg it is the
-> cause of https://gitlab.com/qemu-project/qemu/-/issues/467).
-> Almost nobody notices this, because almost nobody both runs
-> Secure-world AArch32 code and also tries migration or save/restore.
-
-We actually did it for reverse debugging of custom firmware.
-
->> I found that kvm_to_cpreg_id is responsible for disabling dacr_s
->> migration, because it always selects ns variant.
+> For the "python scripts" stanza (which is separate due to level of
+> support), replace Eduardo as maintainer with myself.
 > 
->> diff --git a/target/arm/cpu.h b/target/arm/cpu.h
->> index c6a4d50e82..d3ffef3640 100644
->> --- a/target/arm/cpu.h
->> +++ b/target/arm/cpu.h
->> @@ -2510,11 +2510,6 @@ static inline uint32_t kvm_to_cpreg_id(uint64_t
->> kvmid)
->>            if ((kvmid & CP_REG_SIZE_MASK) == CP_REG_SIZE_U64) {
->>                cpregid |= (1 << 15);
->>            }
->> -
->> -        /* KVM is always non-secure so add the NS flag on AArch32 register
->> -         * entries.
->> -         */
->> -         cpregid |= 1 << CP_REG_NS_SHIFT;
->>        }
->>        return cpregid;
->>    }
-> 
-> This change is wrong, or at least incomplete -- as the comment notes,
-> a guest running under KVM is always NonSecure, so when KVM says "this is
-> DACR" (or whatever) it always means "this is the NS banked DACR".
-> (Though now AArch32 KVM support has been dropped we have some flexibility
-> to not necessarily use KVM register ID values that exactly match what
-> the kernel uses, if we need to do that.)
+> (Thanks for all of your hard work, Eduardo!)
 
-Unfortunately, I can't test anything with AArch32 KVM.
+Thank you Eduardo, and thank you John for taking this.
 
-> Also, kvm_to_cpreg_id() and cpreg_to_kvm_id() are supposed to be
-> inverses of each other -- at the moment they are not, hence
-> this bug, but I think your change has probably resulted in both
-> the S and the NS banked versions of each register being treated
-> as the S banked version, which will have a different set of problems.
-
-I checked the flags coming through write_cpustate_to_list. There were 
-both dacr_s and dacr_ns flags. Therefore both values were saved.
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
 > 
-> There is also the question of migration compatibility to consider
-> in any change in this area.
+> Signed-off-by: John Snow <jsnow@redhat.com>
+> ---
+>   MAINTAINERS | 4 ++--
+>   1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 9814580975..028ac0de25 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -2735,13 +2735,13 @@ F: backends/cryptodev*.c
+>   Python library
+>   M: John Snow <jsnow@redhat.com>
+>   M: Cleber Rosa <crosa@redhat.com>
+> -R: Eduardo Habkost <eduardo@habkost.net>
+> +R: Beraldo Leal <bleal@redhat.com>
+>   S: Maintained
+>   F: python/
+>   T: git https://gitlab.com/jsnow/qemu.git python
+>   
+>   Python scripts
+> -M: Eduardo Habkost <eduardo@habkost.net>
+> +M: John Snow <jsnow@redhat.com>
+>   M: Cleber Rosa <crosa@redhat.com>
+>   S: Odd Fixes
+>   F: scripts/*.py
 
-
-Pavel Dovgalyuk
 
