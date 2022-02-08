@@ -2,85 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A8044AD60F
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Feb 2022 12:18:30 +0100 (CET)
-Received: from localhost ([::1]:46878 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E83124AD83A
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Feb 2022 13:19:31 +0100 (CET)
+Received: from localhost ([::1]:41210 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nHOVx-0003Zy-3Y
-	for lists+qemu-devel@lfdr.de; Tue, 08 Feb 2022 06:18:29 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:54378)
+	id 1nHPT0-0003Ap-W1
+	for lists+qemu-devel@lfdr.de; Tue, 08 Feb 2022 07:19:31 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:55530)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nHONe-0005We-T1
- for qemu-devel@nongnu.org; Tue, 08 Feb 2022 06:09:55 -0500
-Received: from [2607:f8b0:4864:20::42e] (port=40907
- helo=mail-pf1-x42e.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nHONc-0005Fy-LK
- for qemu-devel@nongnu.org; Tue, 08 Feb 2022 06:09:54 -0500
-Received: by mail-pf1-x42e.google.com with SMTP id e6so18241935pfc.7
- for <qemu-devel@nongnu.org>; Tue, 08 Feb 2022 03:09:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=grG1UltXc0vdKR2dK5dIo3rlFMzJOxEFOfJrAfgg1Ps=;
- b=fx03HHri9k8zNlEewG7pE1j8h/2sPxowYuPKO43CPhFJ8oyIRnZ+CHvJlDjZZ/7wUO
- R7RHWbdpE+fzdQDNawyPlw98F8npcWTWOBYvywKHBzt3P3u2b+/IYkKSzCoqy2e3fZqT
- LwPfoZ7HF8Vx8MbjGUK3wafv8vI8x15Hc85AnJiR1ftja/FAyn3AnL8WGI1LkImRkGDo
- uyh8SGaDANuHcE8AOvK9V/Ibmu4cbOlkxnPykvkKpSBhQ9wanljYT37URCrFzDYsytAf
- mGtDv19UuStdSQYeWvkTA+AsJct9umEjha7X7awrXooBGxfxFpdTV2QYUF9fIa2kBYsF
- G/5A==
+ (Exim 4.90_1) (envelope-from <kkostiuk@redhat.com>)
+ id 1nHORT-0000UA-97
+ for qemu-devel@nongnu.org; Tue, 08 Feb 2022 06:13:52 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:47595)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kkostiuk@redhat.com>)
+ id 1nHORP-00063G-Gq
+ for qemu-devel@nongnu.org; Tue, 08 Feb 2022 06:13:49 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1644318826;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=J1WURe8EukujoOz559a5U44ay6ulUdrmrWgsL+1Iwbc=;
+ b=DdVy2tgyX48cxoolbQ/obtMirLBOWsWmTjvqWtL1nbeAy+pXRM89yDd08LSftKgqT13vAO
+ ll2AwVinYsS988JMRKvYa175kvsh84GSy+S4VazvPwxztIvL+Uv6fx2j9krtoE6vXCgC2g
+ OlWIBkgtxvi14123GWMohwoWJWbyqCc=
+Received: from mail-yb1-f200.google.com (mail-yb1-f200.google.com
+ [209.85.219.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-390-poqTjxTqNOOlnK8QBIWuuQ-1; Tue, 08 Feb 2022 06:13:44 -0500
+X-MC-Unique: poqTjxTqNOOlnK8QBIWuuQ-1
+Received: by mail-yb1-f200.google.com with SMTP id
+ 127-20020a250f85000000b00611ab6484abso34567448ybp.23
+ for <qemu-devel@nongnu.org>; Tue, 08 Feb 2022 03:13:44 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=grG1UltXc0vdKR2dK5dIo3rlFMzJOxEFOfJrAfgg1Ps=;
- b=i4iU5EI4oow80910a5qgzzAlSYDMLc5sCGWk0fMNRUXhrA+MNVIYiA+HAQ2dUag1Va
- Z1YsKeOFPtT9ERbVFZj9+6YQqmDLRLhORxIyOAXxkNHosraHbokyInJZ9FMVKJC1zKD+
- IT6Nuv9I84wUItQb9TgDv129W3jRC2W8Fnxbzzmnu/q/NMb9IXnwyGobPurNzHzWVqAV
- 3BAR4KSIiQUOboWtu8IBllkbsiXoUZE/EcD/w7YYQ6+spMvULwOFwmVTHfjfomkucYrh
- CY4WFE6M3geQgFM30iBpOFmu5RvNBxwKqdTSW7mXVzW0PTJa1LGLFegVPLV0ARSYPntP
- +ghQ==
-X-Gm-Message-State: AOAM533YBsGwzua0jzR5l0lb10jvl39Ht1y7uNs+FUMhZoAwEndPJBz3
- 7cyPvoN2Wm9nhD7pjHCMxocjOg==
-X-Google-Smtp-Source: ABdhPJz67jh3SiwPtPijdW+ntnR24+xVkvSz2x0OdQVtZulV4Wa3aW0zdHYH/Hi8Ve4whJ7NNfuJdw==
-X-Received: by 2002:a63:8048:: with SMTP id j69mr2965222pgd.557.1644318590929; 
- Tue, 08 Feb 2022 03:09:50 -0800 (PST)
-Received: from [192.168.1.118] (121-45-127-8.tpgi.com.au. [121.45.127.8])
- by smtp.gmail.com with ESMTPSA id na5sm2574434pjb.23.2022.02.08.03.09.49
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 08 Feb 2022 03:09:50 -0800 (PST)
-Message-ID: <e478cd62-9b81-91cb-8ce3-ca7872238c8e@linaro.org>
-Date: Tue, 8 Feb 2022 22:09:45 +1100
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=J1WURe8EukujoOz559a5U44ay6ulUdrmrWgsL+1Iwbc=;
+ b=nsv+psJ8XtqZ8otn7leaObh61qt+XMhNpuMcvCmWcZDtB4bVuQ7AXilPCXb66rTcid
+ Hp9t+h4PdkdTROTlbripHG5l1hyyiy1sIV92Iy9w3mXgNj470m61jvbgQbmvMGkBjH2h
+ Hg43J6HFjqmW/hhzt8F1i4TyfAu+zzi9wrDA1SceDf2saM8jnOFaxlUS04rGX9qf4YtU
+ MEsyMrErkhZdKFRkq8tjWbYKlqBGY9UHUEH22OvvI4hXVAcQHOWgmvDphdU6mUqiSGV7
+ Q7iZcb9hudYJzeGoOnOoONALXLkSa9UeETI+fMDykJoaFeKqgVy3YjcBNAEmMViJzXf0
+ gZfg==
+X-Gm-Message-State: AOAM533spfmM0tPRIjkQQo2pEu/F38CyTtKBZ7eTZqUG/2FJz5Q1Zyp/
+ qgwimGn9mjt4eWg0iZA5AqxB49rdYERJjuUSpq7IqSqgGITIb8wiqnfwLDUOkvFAfnwQcz95Kvx
+ n/mUYjmscY+eXvWWQa/fMd2GADa+R1l0=
+X-Received: by 2002:a05:6902:120c:: with SMTP id
+ s12mr3957475ybu.100.1644318824253; 
+ Tue, 08 Feb 2022 03:13:44 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzUco2vomLRJlEIMIcsV6uG7w6WBQL10IyQqRCFBC6Qe03nRa57C4eBoBnXplc0kYFZ7Vwy3eORkN91Uw2SuVA=
+X-Received: by 2002:a05:6902:120c:: with SMTP id
+ s12mr3957468ybu.100.1644318824072; 
+ Tue, 08 Feb 2022 03:13:44 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH v6 1/8] tcg/sparc: Use tcg_out_movi_imm13 in
- tcg_out_addsub2_i64
-Content-Language: en-US
-To: Peter Maydell <peter.maydell@linaro.org>
-References: <20220208071710.320122-1-richard.henderson@linaro.org>
- <20220208071710.320122-2-richard.henderson@linaro.org>
- <CAFEAcA8guxNuHUhF38GT3rX15K_fTHEUBaRPooTxUFaVHx1wmw@mail.gmail.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <CAFEAcA8guxNuHUhF38GT3rX15K_fTHEUBaRPooTxUFaVHx1wmw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::42e
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42e;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42e.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+References: <20220203173359.292068-1-pbonzini@redhat.com>
+ <20220203173359.292068-19-pbonzini@redhat.com>
+In-Reply-To: <20220203173359.292068-19-pbonzini@redhat.com>
+From: Konstantin Kostiuk <kkostiuk@redhat.com>
+Date: Tue, 8 Feb 2022 13:13:32 +0200
+Message-ID: <CAPMcbCq1poYW_dkf4yFayQRU6CYgMUzHSjQ7GjFSQ4tziH8F5w@mail.gmail.com>
+Subject: Re: [PATCH 18/27] qga/vss-win32: fix midl arguments
+To: Paolo Bonzini <pbonzini@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kkostiuk@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/alternative; boundary="000000000000681e2505d77fcf57"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kkostiuk@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,39 +92,132 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/8/22 21:40, Peter Maydell wrote:
-> On Tue, 8 Feb 2022 at 07:17, Richard Henderson
-> <richard.henderson@linaro.org> wrote:
->>
->> When BH is constant, it is constrained to 10 bits for use in MOVCC.
-> 
-> Where does this happen? I assumed it was going to be done
-> by the constraint encodings, but tcg_out_addsub2_i64()
-> is called for the add2_i64 and sub2_i64 ops, which get
-> 
->          return C_O2_I4(r, r, rZ, rZ, rJ, rJ);
-> and constraint J is
-> CONST('J', TCG_CT_CONST_S13).
-> (and indeed there is no "constrain to 10 bits" letter).
+--000000000000681e2505d77fcf57
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Typo/thinko with 10 bit vs 11 bit:
-
-CONST('I', TCG_CT_CONST_S11)
-
-But there are different constraints for add2_i32 and add2_i64:
-
-     case INDEX_op_add2_i32:
-     case INDEX_op_sub2_i32:
-         return C_O2_I4(r, r, rZ, rZ, rJ, rJ);
-...
-     case INDEX_op_add2_i64:
-     case INDEX_op_sub2_i64:
-         return C_O2_I4(R, R, RZ, RZ, RJ, RI);
+Signed-off-by: Konstantin Kostiuk <kkostiuk@redhat.com>
 
 
-r~
+
+On Thu, Feb 3, 2022 at 8:16 PM Paolo Bonzini <pbonzini@redhat.com> wrote:
+
+> From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+>
+> Microsoft midl compiler doesn't take "-options" form, nor does it take
+> OUTPUT filename. The -I option seems needless as well (at least with
+> VS15).
+>
+> It's not clear what was actually used when it was introduced in commit
+> b39297aedfabe9.
+>
+> strings says "Created by MIDL version 7.00.0555 at Fri Dec 21 13:36:39
+> 2012".
+>
+> I doubt the makefile rule actually ever worked.
+>
+> Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+> ---
+>  qga/vss-win32/meson.build | 3 +--
+>  1 file changed, 1 insertion(+), 2 deletions(-)
+>
+> diff --git a/qga/vss-win32/meson.build b/qga/vss-win32/meson.build
+> index 90825edef3..78bdf5e74a 100644
+> --- a/qga/vss-win32/meson.build
+> +++ b/qga/vss-win32/meson.build
+> @@ -26,8 +26,7 @@ if midl.found()
+>    gen_tlb =3D custom_target('gen-tlb',
+>                            input: 'qga-vss.idl',
+>                            output: 'qga-vss.tlb',
+> -                          command: [midl, '-tlb', '-I' +
+> config_host['WIN_SDK'],
+> -                                     '@INPUT@', '@OUTPUT@'])
+> +                          command: [midl, '@INPUT@', '/tlb', '@OUTPUT@']=
+)
+>  else
+>    gen_tlb =3D custom_target('gen-tlb',
+>                            input: 'qga-vss.tlb',
+> --
+> 2.34.1
+>
+>
+>
+>
+
+--000000000000681e2505d77fcf57
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr">Signed-off-by: Konstantin Kostiuk &lt;<a =
+href=3D"mailto:kkostiuk@redhat.com">kkostiuk@redhat.com</a>&gt;<div><div di=
+r=3D"ltr" class=3D"gmail_signature" data-smartmail=3D"gmail_signature"><div=
+ dir=3D"ltr"><br></div></div></div><br></div><br><div class=3D"gmail_quote"=
+><div dir=3D"ltr" class=3D"gmail_attr">On Thu, Feb 3, 2022 at 8:16 PM Paolo=
+ Bonzini &lt;<a href=3D"mailto:pbonzini@redhat.com">pbonzini@redhat.com</a>=
+&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px =
+0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">From=
+: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.lureau@redhat.com"=
+ target=3D"_blank">marcandre.lureau@redhat.com</a>&gt;<br>
+<br>
+Microsoft midl compiler doesn&#39;t take &quot;-options&quot; form, nor doe=
+s it take<br>
+OUTPUT filename. The -I option seems needless as well (at least with<br>
+VS15).<br>
+<br>
+It&#39;s not clear what was actually used when it was introduced in commit<=
+br>
+b39297aedfabe9.<br>
+<br>
+strings says &quot;Created by MIDL version 7.00.0555 at Fri Dec 21 13:36:39=
+<br>
+2012&quot;.<br>
+<br>
+I doubt the makefile rule actually ever worked.<br>
+<br>
+Signed-off-by: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.lurea=
+u@redhat.com" target=3D"_blank">marcandre.lureau@redhat.com</a>&gt;<br>
+Signed-off-by: Paolo Bonzini &lt;<a href=3D"mailto:pbonzini@redhat.com" tar=
+get=3D"_blank">pbonzini@redhat.com</a>&gt;<br>
+---<br>
+=C2=A0qga/vss-win32/meson.build | 3 +--<br>
+=C2=A01 file changed, 1 insertion(+), 2 deletions(-)<br>
+<br>
+diff --git a/qga/vss-win32/meson.build b/qga/vss-win32/meson.build<br>
+index 90825edef3..78bdf5e74a 100644<br>
+--- a/qga/vss-win32/meson.build<br>
++++ b/qga/vss-win32/meson.build<br>
+@@ -26,8 +26,7 @@ if midl.found()<br>
+=C2=A0 =C2=A0gen_tlb =3D custom_target(&#39;gen-tlb&#39;,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0input: &#39;qga-vss.idl&#39;,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0output: &#39;qga-vss.tlb&#39;,<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 command: [midl, &#39;-tlb&#39;, &#39;-I&#39; + config_hos=
+t[&#39;WIN_SDK&#39;],<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&#39;@INPUT@&#39=
+;, &#39;@OUTPUT@&#39;])<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 command: [midl, &#39;@INPUT@&#39;, &#39;/tlb&#39;, &#39;@=
+OUTPUT@&#39;])<br>
+=C2=A0else<br>
+=C2=A0 =C2=A0gen_tlb =3D custom_target(&#39;gen-tlb&#39;,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0input: &#39;qga-vss.tlb&#39;,<br>
+-- <br>
+2.34.1<br>
+<br>
+<br>
+<br>
+</blockquote></div></div>
+
+--000000000000681e2505d77fcf57--
+
 
