@@ -2,56 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C4D34ADE38
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Feb 2022 17:23:08 +0100 (CET)
-Received: from localhost ([::1]:38962 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 075B64ADC1D
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Feb 2022 16:13:05 +0100 (CET)
+Received: from localhost ([::1]:42966 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nHTGl-0008Hn-0H
-	for lists+qemu-devel@lfdr.de; Tue, 08 Feb 2022 11:23:07 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:39252)
+	id 1nHSAx-0004QH-QN
+	for lists+qemu-devel@lfdr.de; Tue, 08 Feb 2022 10:13:03 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:54674)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1nHQqG-0007gh-Gl
- for qemu-devel@nongnu.org; Tue, 08 Feb 2022 08:47:44 -0500
-Received: from us-smtp-delivery-44.mimecast.com ([207.211.30.44]:25016)
+ (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
+ id 1nHRaf-0003D4-HW
+ for qemu-devel@nongnu.org; Tue, 08 Feb 2022 09:35:34 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:58137)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1nHQqD-0007FC-Df
- for qemu-devel@nongnu.org; Tue, 08 Feb 2022 08:47:35 -0500
+ (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
+ id 1nHRaX-000899-3Z
+ for qemu-devel@nongnu.org; Tue, 08 Feb 2022 09:35:28 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1644330924;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=mVTCU8D4rITukn4h439wKtte+KIulmtqUAnsIw0fwsw=;
+ b=hjP3ZDrMR7dCAkp1ALp2roVmbxz7+M4/cAc77Ch0lKLnAVF3ER+AktBbrCX6fVYEZxRIzo
+ XFHQHE81diq6Nz46URMOh75tOc2Wh8tfTcHoWiWfxLJxdVZ0zspYbRznx6JpabBNWQOsh/
+ hPr1gee80OXYBP73Jlzdq/UhZEmrxLQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-467-LxKEIm-gPpqfx5l5XKzyvw-1; Tue, 08 Feb 2022 08:47:28 -0500
-X-MC-Unique: LxKEIm-gPpqfx5l5XKzyvw-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-564-HoY21euSOKWQW4QOj7oJEw-1; Tue, 08 Feb 2022 09:35:20 -0500
+X-MC-Unique: HoY21euSOKWQW4QOj7oJEw-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B657C83DD21;
- Tue,  8 Feb 2022 13:47:27 +0000 (UTC)
-Received: from bahia (unknown [10.39.193.28])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 691478049E;
- Tue,  8 Feb 2022 13:47:20 +0000 (UTC)
-Date: Tue, 8 Feb 2022 14:47:19 +0100
-From: Greg Kurz <groug@kaod.org>
-To: Miroslav Rezanina <mrezanin@redhat.com>
-Subject: Re: [PATCH v2] Use long endian options for ppc64
-Message-ID: <20220208144719.1ea88910@bahia>
-In-Reply-To: <20220131091714.4825-1-mrezanin@redhat.com>
-References: <20220131091714.4825-1-mrezanin@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B4A898066F0;
+ Tue,  8 Feb 2022 14:35:17 +0000 (UTC)
+Received: from virtlab701.virt.lab.eng.bos.redhat.com
+ (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 50B9470F55;
+ Tue,  8 Feb 2022 14:35:16 +0000 (UTC)
+From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+To: qemu-block@nongnu.org
+Subject: [PATCH v5 00/20] job: replace AioContext lock with job_mutex
+Date: Tue,  8 Feb 2022 09:34:53 -0500
+Message-Id: <20220208143513.1077229-1-eesposit@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eesposit@redhat.com
 X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: kaod.org
-Content-Type: text/plain; charset=WINDOWS-1252
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: softfail client-ip=207.211.30.44; envelope-from=groug@kaod.org;
- helo=us-smtp-delivery-44.mimecast.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_SOFTFAIL=0.665,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eesposit@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -64,70 +77,134 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com, richard.henderson@linaro.org, qemu-devel@nongnu.org,
- f4bug@amsat.org
+Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Wen Congyang <wencongyang2@huawei.com>,
+ Xie Changlong <xiechanglong.d@gmail.com>,
+ Emanuele Giuseppe Esposito <eesposit@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
+ Hanna Reitz <hreitz@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 31 Jan 2022 10:17:14 +0100
-Miroslav Rezanina <mrezanin@redhat.com> wrote:
+In this series, we want to remove the AioContext lock and instead
+use the already existent job_mutex to protect the job structures
+and list. This is part of the work to get rid of AioContext lock
+usage in favour of smaller granularity locks.
 
-> GCC options pairs -mlittle/-mlittle-endian and -mbig/-mbig-endian are
-> equivalent on ppc64 architecture. However, Clang supports only long
-> version of the options.
->=20
-> Use longer form in configure to properly support both GCC and Clang
-> compiler. In addition, fix this issue in tcg test configure.
->=20
-> Signed-off-by: Miroslav Rezanina <mrezanin@redhat.com>
->=20
-> ---
+In order to simplify reviewer's job, job lock/unlock functions and
+macros are added as empty prototypes (nop) in patch 1.
+They are converted to use the actual job mutex only in the last
+patch. In this way we can freely create locking sections
+without worrying about deadlocks with the aiocontext lock.
 
-Reviewed-by: Greg Kurz <groug@kaod.org>
+Patch 2 defines what fields in the job structure need protection.
+Patches 3-6 are in preparation to the job locks, moving functions
+from global to static and introducing helpers.
 
-> This is v2 of configure: Use -mlittle-endian instead of -mlittle for ppc6=
-4.
->=20
-> v2:
->  - handle both -mlittle and -mbig usage
->  - fix tests/tcg/configure.sh
-> ---
->  configure              | 4 ++--
->  tests/tcg/configure.sh | 4 ++--
->  2 files changed, 4 insertions(+), 4 deletions(-)
->=20
-> diff --git a/configure b/configure
-> index e6cfc0e4be..066fa29b70 100755
-> --- a/configure
-> +++ b/configure
-> @@ -655,10 +655,10 @@ case "$cpu" in
->    ppc)
->      CPU_CFLAGS=3D"-m32" ;;
->    ppc64)
-> -    CPU_CFLAGS=3D"-m64 -mbig" ;;
-> +    CPU_CFLAGS=3D"-m64 -mbig-endian" ;;
->    ppc64le)
->      cpu=3D"ppc64"
-> -    CPU_CFLAGS=3D"-m64 -mlittle" ;;
-> +    CPU_CFLAGS=3D"-m64 -mlittle-endian" ;;
-> =20
->    s390)
->      CPU_CFLAGS=3D"-m31" ;;
-> diff --git a/tests/tcg/configure.sh b/tests/tcg/configure.sh
-> index 309335a2bd..21959e1fde 100755
-> --- a/tests/tcg/configure.sh
-> +++ b/tests/tcg/configure.sh
-> @@ -64,9 +64,9 @@ fi
->  : ${cross_cc_ppc=3D"powerpc-linux-gnu-gcc"}
->  : ${cross_cc_cflags_ppc=3D"-m32"}
->  : ${cross_cc_ppc64=3D"powerpc64-linux-gnu-gcc"}
-> -: ${cross_cc_cflags_ppc64=3D"-m64 -mbig"}
-> +: ${cross_cc_cflags_ppc64=3D"-m64 -mbig-endian"}
->  : ${cross_cc_ppc64le=3D"$cross_cc_ppc64"}
-> -: ${cross_cc_cflags_ppc64le=3D"-m64 -mlittle"}
-> +: ${cross_cc_cflags_ppc64le=3D"-m64 -mlittle-endian"}
->  : ${cross_cc_riscv64=3D"riscv64-linux-gnu-gcc"}
->  : ${cross_cc_s390x=3D"s390x-linux-gnu-gcc"}
->  : ${cross_cc_sh4=3D"sh4-linux-gnu-gcc"}
+Patch 7-9 introduce the (nop) job lock into the job API and
+its users, and patches 10-13 categorize respectively locked and unlocked functions in the job API.
+
+Patches 14-17 take care of protecting job->aio_context, and
+finally patch 18 makes the prototypes in patch 1 use the
+job_mutex and removes all aiocontext lock at the same time.
+
+Tested this series by running unit tests, qemu-iotests and qtests
+(x86_64).
+
+This serie is based on my previous series "block layer: split
+block APIs in global state and I/O" and also depends on the new
+converted tests 141 and 185.
+
+Based-on: <20220121170544.2049944-1-eesposit@redhat.com>
+---
+v5:
+* just restructured patches a little bit better, as there were
+  functions used before they were defined.
+* rebased on kwolf/block branch and API split serie
+
+v4:
+* move "protected by job_mutex" from patch 2 to 15, where the job_mutex is
+  actually added.
+* s/aio_co_enter/aio_co_schedule in job.c, and adjust tests accordingly.
+* remove job_get_aio_context, add job_set_aio_context. Use "fake rwlock"
+  to protect job->aiocontext.
+* get rid of useless getters method, namely:
+  job_get_status
+  job_get_pause_count
+  job_get_paused
+  job_get_busy
+  They are all used only by tests, and such getter is pretty useless.
+  Replace with job_lock(); assert(); job_unlock();
+* use job lock macros instead of job lock/unlock in unit tests.
+* convert also blockjob functions to have _locked
+* put the job_lock/unlock patches before the _locked ones
+* replace aio_co_enter in job.c and detect change of context
+
+v3:
+* add "_locked" suffix to the functions called under job_mutex lock
+* rename _job_lock in real_job_lock
+* job_mutex is now public, and drivers like monitor use it directly
+* introduce and protect job_get_aio_context
+* remove mirror-specific APIs and just use WITH_JOB_GUARD
+* more extensive use of WITH_JOB_GUARD and JOB_LOCK_GUARD
+
+RFC v2:
+* use JOB_LOCK_GUARD and WITH_JOB_LOCK_GUARD
+* mu(u)ltiple typos in commit messages
+* job API split patches are sent separately in another series
+* use of empty job_{lock/unlock} and JOB_LOCK_GUARD/WITH_JOB_LOCK_GUARD
+  to avoid deadlocks and simplify the reviewer job
+* move patch 11 (block_job_query: remove atomic read) as last
+
+Emanuele Giuseppe Esposito (19):
+  job.c: make job_mutex and job_lock/unlock() public
+  job.h: categorize fields in struct Job
+  job.c: API functions not used outside should be static
+  job.c: move inner aiocontext lock in callbacks
+  aio-wait.h: introduce AIO_WAIT_WHILE_UNLOCKED
+  jobs: remove aiocontext locks since the functions are under BQL
+  job.h: add _locked duplicates for job API functions called with and
+    without job_mutex
+  jobs: protect jobs with job_lock/unlock
+  jobs: add job lock in find_* functions
+  jobs: use job locks also in the unit tests
+  block/mirror.c: use of job helpers in drivers to avoid TOC/TOU
+  jobs: rename static functions called with job_mutex held
+  job.h: rename job API functions called with job_mutex held
+  block_job: rename block_job functions called with job_mutex held
+  job.h: define unlocked functions
+  commit and mirror: create new nodes using bdrv_get_aio_context, and
+    not the job aiocontext
+  jobs: protect job.aio_context with BQL and job_mutex
+  job.c: enable job lock/unlock and remove Aiocontext locks
+  block_job_query: remove atomic read
+
+Paolo Bonzini (1):
+  job: detect change of aiocontext within job coroutine
+
+ block.c                          |  19 +-
+ block/backup.c                   |   4 +-
+ block/commit.c                   |   4 +-
+ block/mirror.c                   |  21 +-
+ block/replication.c              |  10 +-
+ blockdev.c                       | 124 +++---
+ blockjob.c                       | 132 ++++---
+ include/block/aio-wait.h         |  15 +-
+ include/block/blockjob.h         |  29 +-
+ include/qemu/job.h               | 304 ++++++++++-----
+ job-qmp.c                        |  74 ++--
+ job.c                            | 648 ++++++++++++++++++-------------
+ monitor/qmp-cmds.c               |   7 +-
+ qemu-img.c                       |  41 +-
+ tests/unit/test-bdrv-drain.c     |  80 ++--
+ tests/unit/test-block-iothread.c |   8 +-
+ tests/unit/test-blockjob-txn.c   |  32 +-
+ tests/unit/test-blockjob.c       | 113 ++++--
+ 18 files changed, 1001 insertions(+), 664 deletions(-)
+
+-- 
+2.31.1
 
 
