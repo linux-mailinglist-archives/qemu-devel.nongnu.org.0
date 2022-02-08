@@ -2,71 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6334C4ADB8B
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Feb 2022 15:50:18 +0100 (CET)
-Received: from localhost ([::1]:60530 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 987524ADC0A
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Feb 2022 16:10:05 +0100 (CET)
+Received: from localhost ([::1]:39410 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nHRov-0000TE-Ar
-	for lists+qemu-devel@lfdr.de; Tue, 08 Feb 2022 09:50:17 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:34556)
+	id 1nHS84-0001Lr-MN
+	for lists+qemu-devel@lfdr.de; Tue, 08 Feb 2022 10:10:04 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:41762)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1nHQak-0003dK-Uk
- for qemu-devel@nongnu.org; Tue, 08 Feb 2022 08:31:35 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:57806)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nHPN7-0003Xr-Sf
+ for qemu-devel@nongnu.org; Tue, 08 Feb 2022 07:13:26 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:58045)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1nHQai-0004GU-1B
- for qemu-devel@nongnu.org; Tue, 08 Feb 2022 08:31:34 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nHPN4-0008Ek-E2
+ for qemu-devel@nongnu.org; Tue, 08 Feb 2022 07:13:24 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1644327091;
+ s=mimecast20190719; t=1644322401;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=TCVbxLDlXh/uMYy40uo+SkD456eklgsWmfMglytlXJw=;
- b=MTj488ofX7N5ffpTel2bSFMu5AnJjwHt3S/gm+fje5sX3gJ5A6jlOKzPEXHuhpE1NwtF1Q
- QeNAeWlm6BK2L4EXytn1+2BVIIEHgc7qLN4RbqmkKqQacTF8tElf4rnsrt8igg5aCkNRNm
- kMV2pImMmr6W2pcIVnTsSFz4JGj890k=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=hObBrYTINrF6RP/Vm607EZpsgpFIYz6vI/oldaX1tyk=;
+ b=Zmk4BSm+mdXK87oBbrRxUhmuGJrVxTI2j/SGw3xqy/hnossaXUi/DGYTQFJNXWnRgYpD0X
+ scMSPhbPRAWyGjAKqn22LfyU72fR6d04EkqHN0jp7LEllHOc3Zj5fi76kxhsb19d/+vBzx
+ Za7cjQD8Em4es/q/jMwWZw3qep9TOOY=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-274-Kt-AicbCMNCm5paGUWT_lA-1; Tue, 08 Feb 2022 08:31:23 -0500
-X-MC-Unique: Kt-AicbCMNCm5paGUWT_lA-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8C5368143E5;
- Tue,  8 Feb 2022 13:31:22 +0000 (UTC)
-Received: from laptop.redhat.com (unknown [10.39.195.249])
- by smtp.corp.redhat.com (Postfix) with ESMTP id CE8F62B4B9;
- Tue,  8 Feb 2022 13:31:19 +0000 (UTC)
-From: Eric Auger <eric.auger@redhat.com>
-To: eric.auger.pro@gmail.com, eric.auger@redhat.com,
- stefanb@linux.vnet.ibm.com, qemu-devel@nongnu.org,
- alex.williamson@redhat.com
-Subject: [PATCH v3 0/2] TPM-CRB: Remove spurious error report when used with
- VFIO
-Date: Tue,  8 Feb 2022 14:31:15 +0100
-Message-Id: <20220208133117.111833-1-eric.auger@redhat.com>
+ us-mta-646-eQC3vEumNjOjKHj3vqiJbQ-1; Tue, 08 Feb 2022 07:13:19 -0500
+X-MC-Unique: eQC3vEumNjOjKHj3vqiJbQ-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ e1-20020adfa741000000b001e2e74c3d4eso4318948wrd.12
+ for <qemu-devel@nongnu.org>; Tue, 08 Feb 2022 04:13:19 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=hObBrYTINrF6RP/Vm607EZpsgpFIYz6vI/oldaX1tyk=;
+ b=pD8pILkPcPsTUc7x/yhpuKrATBKZq85r65T6GLqeAshWXdK7W3w7AZO7c4u3yjw9f1
+ /XJXhgock3zpCWUToL7ExRmJnDwvLYRPbvnI6z+8HrD3XLf8NUV1LjuIoWNyokONMBEg
+ fR/dfrMPCQD5qlWP39KCMqUIg+dHNvViBu8UodJyPduUCPU2unNS1JvQ2PUm3LBoyiDN
+ +yzzn9jaBCVTi2Io78Jox1WvRo2gPdug1bTuL7Wsww9XD3gEfTHGQefClwYlGuM5XzJQ
+ /jM4Y88vTbsmmDs/TRQf/EUgH92HgxABdBnbM7f6KCfN8cwwkwQcvfBkfQaG7m+CSRHL
+ z8nQ==
+X-Gm-Message-State: AOAM533FvTmp3a4JmxgkSbG7zC7tP3CAxn6NtXlCr4axQwtgJZf39NLG
+ GD+PlLbFPl8RCBULCneZmfGJSkDOgGIme9jTmG++1Ndrdmg4GqIiY/ZWN/qmWFkGaok1BOb3TxD
+ c47mKghwVN4L4szo=
+X-Received: by 2002:a5d:4c4d:: with SMTP id n13mr3252804wrt.398.1644322398168; 
+ Tue, 08 Feb 2022 04:13:18 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwoEyD6aNyCQrygRPmWlSvEOsQ2JhAvxTOZy+S5N9wux6ZmNqSoVS9VvKi3/351Mo/49V3nVg==
+X-Received: by 2002:a5d:4c4d:: with SMTP id n13mr3252779wrt.398.1644322397795; 
+ Tue, 08 Feb 2022 04:13:17 -0800 (PST)
+Received: from [192.168.8.100] (tmo-096-196.customers.d1-online.com.
+ [80.187.96.196])
+ by smtp.gmail.com with ESMTPSA id a22sm1924998wmq.45.2022.02.08.04.13.16
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 08 Feb 2022 04:13:17 -0800 (PST)
+Message-ID: <dd7f32dd-807c-d389-1f19-323141178bba@redhat.com>
+Date: Tue, 8 Feb 2022 13:13:15 +0100
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH 1/6] tests/qemu-iotests: Improve the check for GNU sed
+To: Hanna Reitz <hreitz@redhat.com>, qemu-block@nongnu.org,
+ Kevin Wolf <kwolf@redhat.com>
+References: <20220208101311.1511083-1-thuth@redhat.com>
+ <20220208101311.1511083-2-thuth@redhat.com>
+ <8332fa43-9e77-34f3-c012-062342d62c92@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <8332fa43-9e77-34f3-c012-062342d62c92@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eric.auger@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124;
- envelope-from=eric.auger@redhat.com; helo=us-smtp-delivery-124.mimecast.com
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -79,45 +101,78 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: quintela@redhat.com, cohuck@redhat.com, f4bug@amsat.org,
- dgilbert@redhat.com, imammedo@redhat.com, david@gibson.dropbear.id.au
+Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This series aims at removing a spurious error message we get when
-launching a guest with a TPM-CRB device and VFIO-PCI devices.
+On 08/02/2022 12.46, Hanna Reitz wrote:
+> On 08.02.22 11:13, Thomas Huth wrote:
+>> Instead of failing the iotests if GNU sed is not available (or skipping
+>> them completely in the check-block.sh script), it would be better to
+>> simply skip the bash-based tests, so that the python-based tests could
+>> still be run. Thus add the check for BusyBox sed to common.rc and mark
+>> the tests as "not run" if GNU sed is not available. Then we can also
+>> remove the sed checks from the check-block.sh script.
+>>
+>> Signed-off-by: Thomas Huth <thuth@redhat.com>
+>> ---
+>>   tests/check-block.sh         | 12 ------------
+>>   tests/qemu-iotests/common.rc | 26 +++++++++++++-------------
+>>   2 files changed, 13 insertions(+), 25 deletions(-)
+>>
+>> diff --git a/tests/check-block.sh b/tests/check-block.sh
+>> index 720a46bc36..af0c574812 100755
+>> --- a/tests/check-block.sh
+>> +++ b/tests/check-block.sh
+>> @@ -52,18 +52,6 @@ if LANG=C bash --version | grep -q 'GNU bash, version 
+>> [123]' ; then
+>>       skip "bash version too old ==> Not running the qemu-iotests."
+>>   fi
+>> -if ! (sed --version | grep 'GNU sed') > /dev/null 2>&1 ; then
+> 
+> This specifically tests for `sed`, whereas...
 
-The CRB command buffer currently is a RAM MemoryRegion and given
-its base address alignment, it causes an error report on
-vfio_listener_region_add(). This series proposes to use a ram-device
-region instead which helps in better assessing the dma map error
-failure on VFIO side.
+There was a check for "gsed" one line later:
 
-Best Regards
+  if ! command -v gsed >/dev/null 2>&1; then
 
-Eric
+... so the check-block.sh script ran the iotests also if "sed" was not GNU, 
+but gsed was available.
 
-This series can be found at:
-https://github.com/eauger/qemu/tree/tpm-crb-ram-device-v3
+> [...]
+> 
+>> diff --git a/tests/qemu-iotests/common.rc b/tests/qemu-iotests/common.rc
+>> index 9885030b43..9ea504810c 100644
+>> --- a/tests/qemu-iotests/common.rc
+>> +++ b/tests/qemu-iotests/common.rc
+>> @@ -17,17 +17,27 @@
+>>   # along with this program.  If not, see <http://www.gnu.org/licenses/>.
+>>   #
+>> +# bail out, setting up .notrun file
+>> +_notrun()
+>> +{
+>> +    echo "$*" >"$OUTPUT_DIR/$seq.notrun"
+>> +    echo "$seq not run: $*"
+>> +    status=0
+>> +    exit
+>> +}
+>> +
+>> +# We need GNU sed for the iotests. Make sure to not use BusyBox sed
+>> +# which says that "This is not GNU sed version 4.0"
+>>   SED=
+>>   for sed in sed gsed; do
+>> -    ($sed --version | grep 'GNU sed') > /dev/null 2>&1
+>> +    ($sed --version | grep -v "not GNU sed" | grep 'GNU sed') > /dev/null 
+>> 2>&1
+> 
+> ...this will accept `gsed`, too.  The problem is that many bash iotests just 
+> use `sed` instead of `$SED`, so I think if we let this do the gatekeeping, 
+> then we should change this to just check for `sed`.
 
-History:
-v2 -> v3:
-- Use PRIxPTR
-- call vmstate_unregister_ram
+I think we should be fine - at least for the tests in the "auto" group. 
+Otherwise we would have seen test failures on non-Linux systems like *BSD 
+earlier already.
 
-v1 -> v2:
-- added tpm_crb_unrealize (dared to keep Stefan's T-b though)
-
-Eric Auger (2):
-  tpm: CRB: Use ram_device for "tpm-crb-cmd" region
-  hw/vfio/common: Silence ram device offset alignment error traces
-
- hw/tpm/tpm_crb.c     | 23 +++++++++++++++++++++--
- hw/vfio/common.c     | 15 ++++++++++++++-
- hw/vfio/trace-events |  1 +
- 3 files changed, 36 insertions(+), 3 deletions(-)
-
--- 
-2.26.3
+  Thomas
 
 
