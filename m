@@ -2,77 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 081D54AE52D
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Feb 2022 00:04:06 +0100 (CET)
-Received: from localhost ([::1]:56336 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B0A404AE54E
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Feb 2022 00:11:56 +0100 (CET)
+Received: from localhost ([::1]:34352 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nHZWn-0001Iq-Tc
-	for lists+qemu-devel@lfdr.de; Tue, 08 Feb 2022 18:04:05 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:51082)
+	id 1nHZeN-0005vr-Hs
+	for lists+qemu-devel@lfdr.de; Tue, 08 Feb 2022 18:11:55 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:51278)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nHZUk-00082D-9J
- for qemu-devel@nongnu.org; Tue, 08 Feb 2022 18:01:58 -0500
-Received: from [2607:f8b0:4864:20::42f] (port=41643
- helo=mail-pf1-x42f.google.com)
+ id 1nHZVG-0000OV-5c
+ for qemu-devel@nongnu.org; Tue, 08 Feb 2022 18:02:31 -0500
+Received: from [2607:f8b0:4864:20::430] (port=44953
+ helo=mail-pf1-x430.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nHZUi-0001FD-8x
- for qemu-devel@nongnu.org; Tue, 08 Feb 2022 18:01:57 -0500
-Received: by mail-pf1-x42f.google.com with SMTP id i30so1017990pfk.8
- for <qemu-devel@nongnu.org>; Tue, 08 Feb 2022 15:01:55 -0800 (PST)
+ id 1nHZVE-0001O4-Lg
+ for qemu-devel@nongnu.org; Tue, 08 Feb 2022 18:02:29 -0500
+Received: by mail-pf1-x430.google.com with SMTP id n32so999974pfv.11
+ for <qemu-devel@nongnu.org>; Tue, 08 Feb 2022 15:02:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :references:from:in-reply-to:content-transfer-encoding;
- bh=mSZryL6pYTSKdxvPj7zHSwxGVTKnv8q8eGSaTCUlzL0=;
- b=uPZ7ugtL14iLKfxMvBi3wOPqO1m8rHxfYvOY/jC55foQR7JDRCT+AIV3go6JJFgqKz
- O8WJH9lId3oJ2RP9KkTgfGEpRHRiGrHwsjpa5rHUKkYJhUFjY+mo6adUToE8da/IUKlR
- CJrIlFmmyuXl+/etaw3UpAHvBxedBgxQ9qbQlyLYLub4Tm85+nSv6oyenUwIwXKBfoet
- SZAG0sBTDUY92EEMoaVXJkmatUJGLacZZ4OBHLoXV09trIs0wZOX5gS5iziEgj7cq76J
- xQA4DE100Wkgt30g02uIDqHjm5BalE4ajJv4bci5PSHYCjdTLr1l3YpNjTUB2J8yBp25
- BTFA==
+ bh=xsTm8+a8hoDIjc4KAv6m8IDYSVLWwoY0STkDCoxY668=;
+ b=HSao6x5JlGhAnFogNAPL5U30oMuNTTmtjZeqEZb2r/m+kSokd1YKly+tKe/gnY711f
+ TYWD/HgfrviQkDsKWz/sppGGpVUSQ7C99l7CaJA1QEOS3TJN3qxzs/vt8bxy3ADStUuY
+ eFgXD6TJ9UpEghOg73/qqWML0L2r6LSHUf7eUccriPX+zbncTiyJ9V48okjg24YKNlwJ
+ byJZPu8mQUOJ+GHJ0LtFXVDxPL7/PhkIBLz+UX5o7pmIj6a83boHf7O4xlf3k5G9Kbwh
+ uUFGSKvcoIQ5DqoDb6IAHGdD9iTtNIEB393f/xIVmGWLM+nJ+yACAPZ3W6sD2Hksi1Q9
+ Bang==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:references:from:in-reply-to
  :content-transfer-encoding;
- bh=mSZryL6pYTSKdxvPj7zHSwxGVTKnv8q8eGSaTCUlzL0=;
- b=SCA0bXJ16bkUoWZeqg6qAB1Y61C3HH4MAKugXRrYiwNbOsh1aTVsgTE2HCZmPSxJ8y
- 3QvV/dBrIGeeCrVUyLCEXB0g0Ycq++RgvWBOij3mcChCPhR7ozden9XiCww+N2iwqNXY
- 4wPWpDnImzJjPjaJTibAfFOr/A2bMuRZdPbDLlkX0P4vHAeiXbllo6vLqC84Nl4NNA2j
- 2WpHRTrMK8IJ74yv0f28mVDv21JY99/oJ0Rc8F3qiUJ7lIs5SBXPpNsWAtiLlVgqg/bB
- kKh3OBh7xQZUB+wLkddG0/iF+4vJBSYnXwzeKuz4fXaezTyIuSMnyn18HGU3RoSfondN
- 6KLA==
-X-Gm-Message-State: AOAM533OTf+Un6Nh6dQ95mNB85NodBwzzHwr13DH8gmjkvpqLsbq2YEd
- CDwvB7TzSMu+Na0heSNAYGGDvw==
-X-Google-Smtp-Source: ABdhPJx1ptb0udV2zyW337k3MJ0pvkqEHe6sK7im+iKjG+yvzsTKDF/1usHIvjxp8FZ8Us/6f7Qt9A==
-X-Received: by 2002:a05:6a00:1486:: with SMTP id
- v6mr6554734pfu.73.1644361314799; 
- Tue, 08 Feb 2022 15:01:54 -0800 (PST)
+ bh=xsTm8+a8hoDIjc4KAv6m8IDYSVLWwoY0STkDCoxY668=;
+ b=OnN9n2O1G060Z1WAbZPvAM6Qwm+XxVYmVd1v2qIgQrCfK6EppTiaT0AsOYQ2UDK8by
+ 1V0sBxUgQWf1aL0nNcM6sUpfc17QhUoTUhNMH9oF8jVVlDHgdUxmdcibbpR2ZczRAm64
+ L6MiULwRdaCHe2XD7IknkUwuIdfKZDBxKFiC9AvlaYznjH8d1qYalLbIOPQlozi8c+nK
+ 1GB/09F3tkOQMaX+XzpBzPIxTu1hqAKqDf2z8ehoxGzjSqAWnUge70Rjoo13AxPmalTL
+ yDt+Z0aQ/x6m3mAswJRloxQ4e7wjQVrB6cUAaHMBd2HZ641rsnzZXxDONx6HXYCtfF7G
+ WhrA==
+X-Gm-Message-State: AOAM530LAfyeKbRS7PPEWqvdEDhR2GMTFvVlyFn1W9/BFbJPC3zU5OnU
+ 08NGMyBI9cRAjnAdCQXtb9shLA==
+X-Google-Smtp-Source: ABdhPJwyLDPislH2jmVp9SoT6z6KmIhpR8kn8Z835a5q7ZgSdEkQHjGfEao+s3Lg9V9KyGN5/Yzz0A==
+X-Received: by 2002:a63:86c8:: with SMTP id x191mr3060198pgd.362.1644361347123; 
+ Tue, 08 Feb 2022 15:02:27 -0800 (PST)
 Received: from [192.168.1.118] (121-45-127-8.tpgi.com.au. [121.45.127.8])
- by smtp.gmail.com with ESMTPSA id a38sm5050479pfx.121.2022.02.08.15.01.53
+ by smtp.gmail.com with ESMTPSA id c11sm11661901pgl.92.2022.02.08.15.02.25
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 08 Feb 2022 15:01:54 -0800 (PST)
-Message-ID: <cb9c27ce-ec8e-a568-d373-23f4ba6a491d@linaro.org>
-Date: Wed, 9 Feb 2022 10:01:50 +1100
+ Tue, 08 Feb 2022 15:02:26 -0800 (PST)
+Message-ID: <9275b605-62f2-1c3f-5ec9-6b69b17c0b54@linaro.org>
+Date: Wed, 9 Feb 2022 10:02:22 +1100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.5.0
-Subject: Re: [PATCH 1/5] include: Move qemu_madvise() and related #defines to
- new qemu/madvise.h
+Subject: Re: [PATCH 2/5] include: Move qemu_mprotect_*() to new qemu/mprotect.h
 Content-Language: en-US
 To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
 References: <20220208200856.3558249-1-peter.maydell@linaro.org>
- <20220208200856.3558249-2-peter.maydell@linaro.org>
+ <20220208200856.3558249-3-peter.maydell@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220208200856.3558249-2-peter.maydell@linaro.org>
+In-Reply-To: <20220208200856.3558249-3-peter.maydell@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::42f
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::430
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42f;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42f.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::430;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x430.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -97,28 +95,20 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 2/9/22 07:08, Peter Maydell wrote:
-> The function qemu_madvise() and the QEMU_MADV_* constants associated
-> with it are used in only 10 files.  Move them out of osdep.h to a new
-> qemu/madvise.h header that is included where it is needed.
+> The qemu_mprotect_*() family of functions are used in very few files;
+> move them from osdep.h to a new qemu/mprotect.h.
 > 
 > Signed-off-by: Peter Maydell<peter.maydell@linaro.org>
 > ---
->   include/qemu/madvise.h     | 95 ++++++++++++++++++++++++++++++++++++++
->   include/qemu/osdep.h       | 82 --------------------------------
->   backends/hostmem-file.c    |  1 +
->   backends/hostmem.c         |  1 +
->   hw/virtio/virtio-balloon.c |  1 +
->   migration/postcopy-ram.c   |  1 +
->   migration/qemu-file.c      |  1 +
->   migration/ram.c            |  1 +
->   softmmu/physmem.c          |  1 +
->   tcg/region.c               |  1 +
->   util/osdep.c               |  1 +
->   util/oslib-posix.c         |  1 +
->   12 files changed, 105 insertions(+), 82 deletions(-)
->   create mode 100644 include/qemu/madvise.h
+>   include/qemu/mprotect.h | 14 ++++++++++++++
+>   include/qemu/osdep.h    |  4 ----
+>   tcg/region.c            |  1 +
+>   util/osdep.c            |  1 +
+>   4 files changed, 16 insertions(+), 4 deletions(-)
+>   create mode 100644 include/qemu/mprotect.h
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+
 
 r~
 
