@@ -2,76 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2AF064AD82B
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Feb 2022 13:10:34 +0100 (CET)
-Received: from localhost ([::1]:50772 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 512C54AD834
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Feb 2022 13:16:27 +0100 (CET)
+Received: from localhost ([::1]:60648 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nHPKL-0005k6-81
-	for lists+qemu-devel@lfdr.de; Tue, 08 Feb 2022 07:10:33 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:33044)
+	id 1nHPQ2-0004h6-9x
+	for lists+qemu-devel@lfdr.de; Tue, 08 Feb 2022 07:16:26 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:34332)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nHOkm-0001aj-Is
- for qemu-devel@nongnu.org; Tue, 08 Feb 2022 06:33:49 -0500
-Received: from [2a00:1450:4864:20::433] (port=33314
- helo=mail-wr1-x433.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nHOkl-0001Do-6f
- for qemu-devel@nongnu.org; Tue, 08 Feb 2022 06:33:48 -0500
-Received: by mail-wr1-x433.google.com with SMTP id e3so16196827wra.0
- for <qemu-devel@nongnu.org>; Tue, 08 Feb 2022 03:33:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=CIO8F7X9JmFtorrLT2WemfQDZFyFq2yBaAYv+ab87g4=;
- b=f+vO04MKLTkIst694HB/5XneV+siJ3m6JtNsS4Ao3dYcc6/GRkzQEHrLO++iulkH+m
- mpq7vOZN4tm/ZldyHoWj23YQqfeeNsyDttqO6R6vzGM8BHYrnUIoeEm8duIgQ1qweaSP
- rYhgUerf0M9NAa2dRoq8Z6qYv2RO3FXXWu9TJa8wAJ7Y6sGUX6unieA4lY9QhRhnC7Vm
- uyDxJ0OQRbiwv1nC8pd7YKIBweNSIebzy3TAvaqYpDCHBKVFagJV8f201pJrd2s7GZ3z
- 2KcXYfGRMcwESCSofJ/oeNXwMtR7UB0sd3SKT/Mh050DypuBAlgbv7nqwLBepqh3l770
- jlXQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=CIO8F7X9JmFtorrLT2WemfQDZFyFq2yBaAYv+ab87g4=;
- b=TRaPnGZXqo1om4nXrxvw5MX3Wn9nifM9wzdkg11lO4Q+jHB4rXwp/deGjnpIFdfULo
- 0SiGajUhbMpNNyjtlrj4TiEuIbliKDyLcB41y9J9sEdt43c0LE2AC4qchYsSVn+Eb4JM
- YPbDd+uCUl26A51CYLmayurctxdsiDnY3wCxf2nscL4+kj7gKeBvzrwPhZZEL31ubVWC
- /vPeHfg1T88Nj8JOSeb7+4Tg3wbyoF6XEvQ/sSsOVHzO6/M0hTw2zw+KxUfx9EMqAbiV
- yK43mQuHJPePEDtMxI5Lgmz/2CrfPa8K4QH+g8QMcAksYYzMHsU/WGhLsrBAPRZZzIHV
- Z/oA==
-X-Gm-Message-State: AOAM530lPT8ZM5nBETATSbv+ovkLa8W4tXWr5fNDYiv9FbFL7DG9hD7f
- qXqGUeP0LTk7+R68XF6SOdle30WXl68RwfMC2uzgag==
-X-Google-Smtp-Source: ABdhPJwSzipvLZsXtHLz2qNFMAmU8ymBnebH6F63zSXQ8ONWN36kIFF+eFmHLoATK7T7GBSlwGfxED4uRzX0GYbfAgU=
-X-Received: by 2002:a5d:6d8d:: with SMTP id l13mr3104864wrs.295.1644320025779; 
- Tue, 08 Feb 2022 03:33:45 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1nHOpg-0007mO-BI
+ for qemu-devel@nongnu.org; Tue, 08 Feb 2022 06:38:52 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:20448)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1nHOpd-0001zE-6Z
+ for qemu-devel@nongnu.org; Tue, 08 Feb 2022 06:38:52 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1644320328;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=SUCghDfC6HrdMvxehd+lAUpC1xz0dHHvtpzOI4qq01k=;
+ b=CejuJVntES9khq27tczaCxKjIZDBf0EiE5CZP3358WKi90/WJu9rGA7Tuu2ZJs0sRBdZqJ
+ JAfahvPmXZNDbuabRdzPpAfsOwCxx+Z7rDLJLZKVYyZHjrcILix/RUAnDJ0VkY8H5WQ8y2
+ QDF3t9NiNLOm0XIA92GJR8Qa7ZlCYJI=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-562-uSvq0HB8OyKPnwpl6_j1Kw-1; Tue, 08 Feb 2022 06:38:44 -0500
+X-MC-Unique: uSvq0HB8OyKPnwpl6_j1Kw-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A9F431091DBD;
+ Tue,  8 Feb 2022 11:38:42 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.138])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id B95D6105910C;
+ Tue,  8 Feb 2022 11:38:41 +0000 (UTC)
+Date: Tue, 8 Feb 2022 11:38:39 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Subject: Re: [PATCH 08/11] mos6522: add "info via" HMP command for debugging
+Message-ID: <YgJWPzFczlDBJV/I@redhat.com>
+References: <20220127205405.23499-1-mark.cave-ayland@ilande.co.uk>
+ <20220127205405.23499-9-mark.cave-ayland@ilande.co.uk>
 MIME-Version: 1.0
-References: <20220208101311.1511083-1-thuth@redhat.com>
- <20220208101311.1511083-6-thuth@redhat.com>
- <CAFEAcA_xMXYyMvaC8B=x1N7wX-=8y1XMTJouJvetqFYX87z1dQ@mail.gmail.com>
- <63b891db-ce52-6c57-5c24-723be29df770@redhat.com>
-In-Reply-To: <63b891db-ce52-6c57-5c24-723be29df770@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 8 Feb 2022 11:33:34 +0000
-Message-ID: <CAFEAcA_VRR9xEtR9Ox6m=d1sbPAgoNok47WxLWf=W1SqhYPAUA@mail.gmail.com>
-Subject: Re: [PATCH 5/6] tests: Do not treat the iotests as separate meson
- test target anymore
-To: Thomas Huth <thuth@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::433
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::433;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x433.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+In-Reply-To: <20220127205405.23499-9-mark.cave-ayland@ilande.co.uk>
+User-Agent: Mutt/2.1.5 (2021-12-30)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -84,25 +80,97 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Hanna Reitz <hreitz@redhat.com>, qemu-devel@nongnu.org, qemu-block@nongnu.org
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: laurent@vivier.eu, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 8 Feb 2022 at 11:16, Thomas Huth <thuth@redhat.com> wrote:
->
-> On 08/02/2022 11.26, Peter Maydell wrote:
-> > What is the mechanism for this in the new meson setup ?
->
-> cat meson-logs/testlog.txt
->
-> ... I guess we should either dump that to stdout
+On Thu, Jan 27, 2022 at 08:54:02PM +0000, Mark Cave-Ayland wrote:
+> This displays detailed information about the device registers and timers to aid
+> debugging problems with timers and interrupts.
+> 
+> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+> ---
+>  hmp-commands-info.hx | 12 ++++++
+>  hw/misc/mos6522.c    | 92 ++++++++++++++++++++++++++++++++++++++++++++
+>  2 files changed, 104 insertions(+)
+> 
+> diff --git a/hmp-commands-info.hx b/hmp-commands-info.hx
+> index e90f20a107..4e714e79a2 100644
+> --- a/hmp-commands-info.hx
+> +++ b/hmp-commands-info.hx
+> @@ -879,3 +879,15 @@ SRST
+>    ``info sgx``
+>      Show intel SGX information.
+>  ERST
+> +
+> +    {
+> +        .name       = "via",
+> +        .args_type  = "",
+> +        .params     = "",
+> +        .help       = "show guest 6522 VIA devices",
+> +    },
+> +
+> +SRST
+> +  ``info via``
+> +    Show guest 6522 VIA devices.
+> +ERST
+> diff --git a/hw/misc/mos6522.c b/hw/misc/mos6522.c
+> index aaae195d63..cfa6a9c44b 100644
+> --- a/hw/misc/mos6522.c
+> +++ b/hw/misc/mos6522.c
+> @@ -30,6 +30,8 @@
+>  #include "hw/misc/mos6522.h"
+>  #include "hw/qdev-properties.h"
+>  #include "migration/vmstate.h"
+> +#include "monitor/monitor.h"
+> +#include "qapi/type-helpers.h"
+>  #include "qemu/timer.h"
+>  #include "qemu/cutils.h"
+>  #include "qemu/log.h"
+> @@ -415,6 +417,95 @@ void mos6522_write(void *opaque, hwaddr addr, uint64_t val, unsigned size)
+>      }
+>  }
+>  
+> +static int qmp_x_query_via_foreach(Object *obj, void *opaque)
 
-Yes, it needs to actually appear in the stdout for CI jobs,
-otherwise it is inaccessible and might as well not exist.
-V=1 is the switch we have for "be verbose", and meson's
-test facility should honour it.
 
-thanks
--- PMM
+> +
+> +static HumanReadableText *qmp_x_query_via(Error **errp)
+> +{
+> +    g_autoptr(GString) buf = g_string_new("");
+> +
+> +    object_child_foreach_recursive(object_get_root(),
+> +                                   qmp_x_query_via_foreach, buf);
+> +
+> +    return human_readable_text_from_str(buf);
+> +}
+
+This provides a code handler for a QMP command which is good,
+but doesn't ever define the QMP command in the qapi/ schema.
+
+
+>  static const MemoryRegionOps mos6522_ops = {
+>      .read = mos6522_read,
+>      .write = mos6522_write,
+> @@ -547,6 +638,7 @@ static const TypeInfo mos6522_type_info = {
+>  static void mos6522_register_types(void)
+>  {
+>      type_register_static(&mos6522_type_info);
+> +    monitor_register_hmp_info_hrt("via", qmp_x_query_via);
+
+This only registers the HMP counterpart.
+
+The idea of the HumanReadableText handler is that it is calling
+a QMP command that is exposed to apps.
+
+>  }
+
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+
 
