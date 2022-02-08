@@ -2,99 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7E594AE325
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Feb 2022 22:55:23 +0100 (CET)
-Received: from localhost ([::1]:37492 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3CD754AE312
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Feb 2022 22:33:13 +0100 (CET)
+Received: from localhost ([::1]:45498 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nHYSI-0002rX-AA
-	for lists+qemu-devel@lfdr.de; Tue, 08 Feb 2022 16:55:22 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:57508)
+	id 1nHY6q-00042u-Bo
+	for lists+qemu-devel@lfdr.de; Tue, 08 Feb 2022 16:33:12 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:58496)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dirty@apple.com>)
- id 1nHXz3-0006S2-Ex; Tue, 08 Feb 2022 16:25:11 -0500
-Received: from rn-mailsvcp-ppex-lapp45.rno.apple.com ([17.179.253.49]:37630
- helo=rn-mailsvcp-ppex-lapp45.apple.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dirty@apple.com>)
- id 1nHXyz-0001wX-H2; Tue, 08 Feb 2022 16:25:07 -0500
-Received: from pps.filterd (rn-mailsvcp-ppex-lapp45.rno.apple.com [127.0.0.1])
- by rn-mailsvcp-ppex-lapp45.rno.apple.com (8.16.1.2/8.16.1.2) with
- SMTP id 218L9wAH016254; Tue, 8 Feb 2022 13:25:04 -0800
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=apple.com;
- h=content-type :
- mime-version : subject : from : in-reply-to : date : cc :
- content-transfer-encoding : message-id : references : to; s=20180706;
- bh=1HnOBy94IwfqYl7pjVzCXTYCgP2pb4mwnRuajn3eLmY=;
- b=kaug1jdvypli4w3uZnFAErACjD9pQUfrG4KCAbgDLSQkDu0gf8dW8/3ylIAsF+xRa6sd
- ACxlnl7R44vi8C94aGba+7yWR5N9FHof4uJUX69u1Le8xhdXFg63t3wbcP0PcMf7TmN9
- TD98HDQ+L2w5IFiTzPR4bswKhrK7vwUyPhza5bJj+UcOdp6ETvkJbfL8KStJ6KmiDQBF
- jPIywwiIQ+smw8FIj7owxbargvdTv62kTJYGCajHu/I019OZQ9gDIac6IXPgAvZEVXyj
- Q2pzy728qU7Yc+zLjRcZXceTfeoAy3SPK3BTUL95cZAI7FxMr7pLRxtFAyNjJ2Z7mbC9 FQ== 
-Received: from rn-mailsvcp-mta-lapp03.rno.apple.com
- (rn-mailsvcp-mta-lapp03.rno.apple.com [10.225.203.151])
- by rn-mailsvcp-ppex-lapp45.rno.apple.com with ESMTP id 3e1rdw2vcr-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NO);
- Tue, 08 Feb 2022 13:25:04 -0800
-Received: from rn-mailsvcp-mmp-lapp02.rno.apple.com
- (rn-mailsvcp-mmp-lapp02.rno.apple.com [17.179.253.15])
- by rn-mailsvcp-mta-lapp03.rno.apple.com
- (Oracle Communications Messaging Server 8.1.0.12.20210903 64bit (built Sep 3
- 2021)) with ESMTPS id <0R7000NRS8TRSD70@rn-mailsvcp-mta-lapp03.rno.apple.com>; 
- Tue, 08 Feb 2022 13:25:03 -0800 (PST)
-Received: from process_milters-daemon.rn-mailsvcp-mmp-lapp02.rno.apple.com by
- rn-mailsvcp-mmp-lapp02.rno.apple.com
- (Oracle Communications Messaging Server 8.1.0.12.20210903 64bit (built Sep 3
- 2021)) id <0R7000H008RSOL00@rn-mailsvcp-mmp-lapp02.rno.apple.com>; Tue,
- 08 Feb 2022 13:25:03 -0800 (PST)
-X-Va-A: 
-X-Va-T-CD: 16f626147f7367ea3787748dc0255bf0
-X-Va-E-CD: f4eddad3b57a264b2be953ea0d8040c0
-X-Va-R-CD: 737e400e4e3995eefa44c59dd587b24b
-X-Va-CD: 0
-X-Va-ID: ba671030-a90e-4382-b7fb-62ccdcc471b3
-X-V-A: 
-X-V-T-CD: 16f626147f7367ea3787748dc0255bf0
-X-V-E-CD: f4eddad3b57a264b2be953ea0d8040c0
-X-V-R-CD: 737e400e4e3995eefa44c59dd587b24b
-X-V-CD: 0
-X-V-ID: ea2ed6b3-f2c3-4bd1-b480-4e15ec413d55
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.425, 18.0.816
- definitions=2022-02-08_06:2022-02-07,
- 2022-02-08 signatures=0
-Received: from smtpclient.apple ([17.149.229.60])
- by rn-mailsvcp-mmp-lapp02.rno.apple.com
- (Oracle Communications Messaging Server 8.1.0.12.20210903 64bit (built Sep 3
- 2021))
- with ESMTPSA id <0R70002M78T1QD10@rn-mailsvcp-mmp-lapp02.rno.apple.com>; Tue,
- 08 Feb 2022 13:25:02 -0800 (PST)
-Content-type: text/plain; charset=utf-8
-MIME-version: 1.0 (Mac OS X Mail 15.0 \(3693.20.0.1.32\))
-Subject: Re: [PATCH] hvf: Use standard CR0 and CR4 register definitions
-From: Cameron Esfahani <dirty@apple.com>
-In-reply-to: <a2e059da-4c3a-66b7-6ce6-2b2fed0f980a@redhat.com>
-Date: Tue, 08 Feb 2022 13:25:02 -0800
-Cc: Cameron Esfahani via <qemu-devel@nongnu.org>,
- Roman Bolshakov <r.bolshakov@yadro.com>,
- =?utf-8?Q?Philippe_Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-Content-transfer-encoding: quoted-printable
-Message-id: <8413E8AB-3EB1-42D4-A02C-EC5CADE13D51@apple.com>
-References: <20211029013315.79207-1-dirty@apple.com>
- <a2e059da-4c3a-66b7-6ce6-2b2fed0f980a@redhat.com>
-To: QEMU Trivial <qemu-trivial@nongnu.org>
-X-Mailer: Apple Mail (2.3693.20.0.1.32)
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.425, 18.0.816
- definitions=2022-02-08_06:2022-02-07,
- 2022-02-08 signatures=0
-Received-SPF: pass client-ip=17.179.253.49; envelope-from=dirty@apple.com;
- helo=rn-mailsvcp-ppex-lapp45.apple.com
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nHY4f-0002My-Fs
+ for qemu-devel@nongnu.org; Tue, 08 Feb 2022 16:30:57 -0500
+Received: from [2607:f8b0:4864:20::62f] (port=36385
+ helo=mail-pl1-x62f.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nHY4d-0002mI-Cz
+ for qemu-devel@nongnu.org; Tue, 08 Feb 2022 16:30:57 -0500
+Received: by mail-pl1-x62f.google.com with SMTP id x3so474332pll.3
+ for <qemu-devel@nongnu.org>; Tue, 08 Feb 2022 13:30:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=hGPytC3ddr/cfMIkx0Zn0P4iDloDotl7CcYURp0gOqc=;
+ b=MNTz6Tp76WIAshJ9UKYSXLiRzAC8y4kPMerhHDwEJIX1otAjBk14SKZdJggwtWMP4V
+ zusOGk4v0lPBTvEFdFIsskaLzaXeH/EfdoUzD7FjM/A/jQEgctaHt3d0GqGTQzFDqmRp
+ twGs5wRYtulQ5E0qN6t0UvbS/ADQWDccrxpMAFIguynNMXhUF/16PkF27Rdfc6pn+zgU
+ E7oqOTcGmfM7Gfnpm2CXLdBn1UNiTunfGaEJZ37wmpm0JQbDv5YM7/bU4bRUZ/xq9drm
+ 7XCHM72MrNFnatrkLQzJ5PxIaaT1vCOPgR4D8NFynihBIYgJjyjOxXaxMn1QW3dKBed4
+ R5og==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=hGPytC3ddr/cfMIkx0Zn0P4iDloDotl7CcYURp0gOqc=;
+ b=o+IMK1BpVyW/pf+fymqgPaaro2eCmF5V1JftiNhEOMAbGaq4vo2MHyS5ozVuWPo1lD
+ TnhTabTVUP1rfXGTMcA0zx15LnFF/k87WUaf4Go5UfGx2cimyYLqaNvDgGIvltac/aK5
+ HaRfA2iTX0woqM6vMWyU1OOlxDgH10e1yEnmk4Mu2f4yUrAcnzxEiFLn83maPei67C9d
+ Whtmyclu+eXUOzl4i0akpHSauZ3mpbh/HCvzTdJv3TSl3SRB8wVjJOv1yYJbPaEr0C9V
+ XoEEWltn4ehfqIJmY09kUY4Tivq4X/bmmlxeB1rZbtWgRGUJhYHnbISGBKoQemFMsQXj
+ Kaag==
+X-Gm-Message-State: AOAM530UwTL2laEkRtxoKYzfAXdmjJ11kvAAjgGvQuj0kK7TcSXRCU3Z
+ 8wZhmQx2EnJYL5IQJcn7ojqUMw==
+X-Google-Smtp-Source: ABdhPJwjusCemAhFPS1GTYO/skqvMKJS4wXf2IEwuUp+4h/weNe5kXZStMi0Wd6apWT+6++wfD46cA==
+X-Received: by 2002:a17:90a:13c5:: with SMTP id
+ s5mr3474418pjf.181.1644355853688; 
+ Tue, 08 Feb 2022 13:30:53 -0800 (PST)
+Received: from [192.168.1.118] (121-45-127-8.tpgi.com.au. [121.45.127.8])
+ by smtp.gmail.com with ESMTPSA id lk15sm3999083pjb.31.2022.02.08.13.30.50
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 08 Feb 2022 13:30:53 -0800 (PST)
+Message-ID: <85884290-7d13-20ab-d6f1-dee4ba192597@linaro.org>
+Date: Wed, 9 Feb 2022 08:30:47 +1100
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH] Hexagon (tests/tcg/hexagon) fix inline asm in preg_alias.c
+Content-Language: en-US
+To: Taylor Simpson <tsimpson@quicinc.com>, qemu-devel@nongnu.org
+References: <20220208171652.31085-1-tsimpson@quicinc.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20220208171652.31085-1-tsimpson@quicinc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::62f
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62f;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62f.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -107,30 +91,21 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: ale@rev.ng, bcain@quicinc.com, mlambert@quicinc.com, f4bug@amsat.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Ping
+On 2/9/22 04:16, Taylor Simpson wrote:
+> Replace consecutive inline asm blocks with a single one with proper
+> outputs/inputs/clobbers rather than making assumptions about register
+> values being carried between separate blocks.
+> 
+> Signed-off-by: Taylor Simpson<tsimpson@quicinc.com>
+> ---
+>   tests/tcg/hexagon/preg_alias.c | 46 ++++++++++++++++------------------
+>   1 file changed, 22 insertions(+), 24 deletions(-)
 
-Cameron
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-> On Oct 28, 2021, at 11:09 PM, Philippe Mathieu-Daud=C3=A9 =
-<philmd@redhat.com> wrote:
->=20
-> On 10/29/21 03:33, Cameron Esfahani wrote:
->> No need to have our own definitions of these registers.
->>=20
->> Signed-off-by: Cameron Esfahani <dirty@apple.com>
->> ---
->> target/i386/hvf/vmx.h      | 17 +++++++++--------
->> target/i386/hvf/x86.c      |  6 +++---
->> target/i386/hvf/x86.h      | 34 ----------------------------------
->> target/i386/hvf/x86_mmu.c  |  2 +-
->> target/i386/hvf/x86_task.c |  3 ++-
->> 5 files changed, 15 insertions(+), 47 deletions(-)
->=20
-> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
->=20
->=20
-
+r~
 
