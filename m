@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF6E84AE30D
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Feb 2022 22:29:45 +0100 (CET)
-Received: from localhost ([::1]:39926 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D7E594AE325
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Feb 2022 22:55:23 +0100 (CET)
+Received: from localhost ([::1]:37492 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nHY3U-00080o-PV
-	for lists+qemu-devel@lfdr.de; Tue, 08 Feb 2022 16:29:44 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:57404)
+	id 1nHYSI-0002rX-AA
+	for lists+qemu-devel@lfdr.de; Tue, 08 Feb 2022 16:55:22 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:57508)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dirty@apple.com>) id 1nHXyj-0005yl-SQ
- for qemu-devel@nongnu.org; Tue, 08 Feb 2022 16:24:50 -0500
-Received: from rn-mailsvcp-ppex-lapp45.rno.apple.com ([17.179.253.49]:37246
+ (Exim 4.90_1) (envelope-from <dirty@apple.com>)
+ id 1nHXz3-0006S2-Ex; Tue, 08 Feb 2022 16:25:11 -0500
+Received: from rn-mailsvcp-ppex-lapp45.rno.apple.com ([17.179.253.49]:37630
  helo=rn-mailsvcp-ppex-lapp45.apple.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dirty@apple.com>) id 1nHXyh-0001kx-Hh
- for qemu-devel@nongnu.org; Tue, 08 Feb 2022 16:24:49 -0500
+ (Exim 4.90_1) (envelope-from <dirty@apple.com>)
+ id 1nHXyz-0001wX-H2; Tue, 08 Feb 2022 16:25:07 -0500
 Received: from pps.filterd (rn-mailsvcp-ppex-lapp45.rno.apple.com [127.0.0.1])
  by rn-mailsvcp-ppex-lapp45.rno.apple.com (8.16.1.2/8.16.1.2) with
- SMTP id 218LA3aP016525; Tue, 8 Feb 2022 13:24:46 -0800
+ SMTP id 218L9wAH016254; Tue, 8 Feb 2022 13:25:04 -0800
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=apple.com;
  h=content-type :
  mime-version : subject : from : in-reply-to : date : cc :
  content-transfer-encoding : message-id : references : to; s=20180706;
- bh=hCFOss1gt3mEA4q/dRTmUvK6MJkOFJihBeySWzGSfcE=;
- b=u6qfaOgMIw6OirIhTOEiym5llXsgcdFoeiq04X8VRzYYnWXkpqiT6KOhBIKzLs8b0vXz
- hiV8j9HTyxTiBXNcPYE3EzEo+tTkn18198llF2lji3CooFZTV6UtNWpU3zY6MHd4Dcs8
- 9DZP22pos3zIbiRaMWxGpZVxMnGDob7EVUOfg4bfelm3pb1qgTaT7EKC1Sk8r4Ku2vmx
- cXIPiidwuOUAFJswnKGu7fjjhyPhd0uAqr6/aZpRkemfTw2/yL13EXure/ODooMQ3OEO
- 7/KsPAB04cRA+MubJP8Zb8NQVijoRh/uCc/KQrhCLp74Q9y7DwFuzzeRKIlO0rgb1wfp Ag== 
+ bh=1HnOBy94IwfqYl7pjVzCXTYCgP2pb4mwnRuajn3eLmY=;
+ b=kaug1jdvypli4w3uZnFAErACjD9pQUfrG4KCAbgDLSQkDu0gf8dW8/3ylIAsF+xRa6sd
+ ACxlnl7R44vi8C94aGba+7yWR5N9FHof4uJUX69u1Le8xhdXFg63t3wbcP0PcMf7TmN9
+ TD98HDQ+L2w5IFiTzPR4bswKhrK7vwUyPhza5bJj+UcOdp6ETvkJbfL8KStJ6KmiDQBF
+ jPIywwiIQ+smw8FIj7owxbargvdTv62kTJYGCajHu/I019OZQ9gDIac6IXPgAvZEVXyj
+ Q2pzy728qU7Yc+zLjRcZXceTfeoAy3SPK3BTUL95cZAI7FxMr7pLRxtFAyNjJ2Z7mbC9 FQ== 
 Received: from rn-mailsvcp-mta-lapp03.rno.apple.com
  (rn-mailsvcp-mta-lapp03.rno.apple.com [10.225.203.151])
- by rn-mailsvcp-ppex-lapp45.rno.apple.com with ESMTP id 3e1rdw2vaa-1
+ by rn-mailsvcp-ppex-lapp45.rno.apple.com with ESMTP id 3e1rdw2vcr-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NO);
- Tue, 08 Feb 2022 13:24:46 -0800
+ Tue, 08 Feb 2022 13:25:04 -0800
 Received: from rn-mailsvcp-mmp-lapp02.rno.apple.com
  (rn-mailsvcp-mmp-lapp02.rno.apple.com [17.179.253.15])
  by rn-mailsvcp-mta-lapp03.rno.apple.com
  (Oracle Communications Messaging Server 8.1.0.12.20210903 64bit (built Sep 3
- 2021)) with ESMTPS id <0R7000N4B8TASD70@rn-mailsvcp-mta-lapp03.rno.apple.com>; 
- Tue, 08 Feb 2022 13:24:46 -0800 (PST)
+ 2021)) with ESMTPS id <0R7000NRS8TRSD70@rn-mailsvcp-mta-lapp03.rno.apple.com>; 
+ Tue, 08 Feb 2022 13:25:03 -0800 (PST)
 Received: from process_milters-daemon.rn-mailsvcp-mmp-lapp02.rno.apple.com by
  rn-mailsvcp-mmp-lapp02.rno.apple.com
  (Oracle Communications Messaging Server 8.1.0.12.20210903 64bit (built Sep 3
  2021)) id <0R7000H008RSOL00@rn-mailsvcp-mmp-lapp02.rno.apple.com>; Tue,
- 08 Feb 2022 13:24:46 -0800 (PST)
+ 08 Feb 2022 13:25:03 -0800 (PST)
 X-Va-A: 
-X-Va-T-CD: 51115aee971724d6ddf329fb28aa7ad5
-X-Va-E-CD: e6ca15a2d4412999008b7ffba9962899
-X-Va-R-CD: 1b9983dabb71bcd9fa14321a7b2c5522
+X-Va-T-CD: 16f626147f7367ea3787748dc0255bf0
+X-Va-E-CD: f4eddad3b57a264b2be953ea0d8040c0
+X-Va-R-CD: 737e400e4e3995eefa44c59dd587b24b
 X-Va-CD: 0
-X-Va-ID: 973a7fae-e1f2-42ce-bb0e-f7feba345633
+X-Va-ID: ba671030-a90e-4382-b7fb-62ccdcc471b3
 X-V-A: 
-X-V-T-CD: 51115aee971724d6ddf329fb28aa7ad5
-X-V-E-CD: e6ca15a2d4412999008b7ffba9962899
-X-V-R-CD: 1b9983dabb71bcd9fa14321a7b2c5522
+X-V-T-CD: 16f626147f7367ea3787748dc0255bf0
+X-V-E-CD: f4eddad3b57a264b2be953ea0d8040c0
+X-V-R-CD: 737e400e4e3995eefa44c59dd587b24b
 X-V-CD: 0
-X-V-ID: 8330ebad-6ee8-420d-9eeb-e22096c30ebb
+X-V-ID: ea2ed6b3-f2c3-4bd1-b480-4e15ec413d55
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.425, 18.0.816
  definitions=2022-02-08_06:2022-02-07,
  2022-02-08 signatures=0
@@ -67,18 +67,21 @@ Received: from smtpclient.apple ([17.149.229.60])
  (Oracle Communications Messaging Server 8.1.0.12.20210903 64bit (built Sep 3
  2021))
  with ESMTPSA id <0R70002M78T1QD10@rn-mailsvcp-mmp-lapp02.rno.apple.com>; Tue,
- 08 Feb 2022 13:24:46 -0800 (PST)
-Content-type: text/plain; charset=us-ascii
+ 08 Feb 2022 13:25:02 -0800 (PST)
+Content-type: text/plain; charset=utf-8
 MIME-version: 1.0 (Mac OS X Mail 15.0 \(3693.20.0.1.32\))
-Subject: Re: [PATCH] hvf: Enable RDTSCP support
+Subject: Re: [PATCH] hvf: Use standard CR0 and CR4 register definitions
 From: Cameron Esfahani <dirty@apple.com>
-In-reply-to: <20211101054836.21471-1-dirty@apple.com>
-Date: Tue, 08 Feb 2022 13:24:45 -0800
-Cc: r.bolshakov@yadro.com
+In-reply-to: <a2e059da-4c3a-66b7-6ce6-2b2fed0f980a@redhat.com>
+Date: Tue, 08 Feb 2022 13:25:02 -0800
+Cc: Cameron Esfahani via <qemu-devel@nongnu.org>,
+ Roman Bolshakov <r.bolshakov@yadro.com>,
+ =?utf-8?Q?Philippe_Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Content-transfer-encoding: quoted-printable
-Message-id: <D41A7B05-42D9-47EF-BC52-26E352DAB98E@apple.com>
-References: <20211101054836.21471-1-dirty@apple.com>
-To: qemu-devel@nongnu.org
+Message-id: <8413E8AB-3EB1-42D4-A02C-EC5CADE13D51@apple.com>
+References: <20211029013315.79207-1-dirty@apple.com>
+ <a2e059da-4c3a-66b7-6ce6-2b2fed0f980a@redhat.com>
+To: QEMU Trivial <qemu-trivial@nongnu.org>
 X-Mailer: Apple Mail (2.3693.20.0.1.32)
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.425, 18.0.816
  definitions=2022-02-08_06:2022-02-07,
@@ -111,133 +114,22 @@ Ping
 
 Cameron
 
-> On Oct 31, 2021, at 10:48 PM, Cameron Esfahani <dirty@apple.com> =
-wrote:
+> On Oct 28, 2021, at 11:09 PM, Philippe Mathieu-Daud=C3=A9 =
+<philmd@redhat.com> wrote:
 >=20
-> Pass through RDPID and RDTSCP support in CPUID if host supports it.
-> Correctly detect if CPU_BASED_TSC_OFFSET and CPU_BASED2_RDTSCP would
-> be supported in primary and secondary processor-based VM-execution
-> controls.  Enable RDTSCP in secondary processor controls if RDTSCP
-> support is indicated in CPUID.
+> On 10/29/21 03:33, Cameron Esfahani wrote:
+>> No need to have our own definitions of these registers.
+>>=20
+>> Signed-off-by: Cameron Esfahani <dirty@apple.com>
+>> ---
+>> target/i386/hvf/vmx.h      | 17 +++++++++--------
+>> target/i386/hvf/x86.c      |  6 +++---
+>> target/i386/hvf/x86.h      | 34 ----------------------------------
+>> target/i386/hvf/x86_mmu.c  |  2 +-
+>> target/i386/hvf/x86_task.c |  3 ++-
+>> 5 files changed, 15 insertions(+), 47 deletions(-)
 >=20
-> Signed-off-by: Cameron Esfahani <dirty@apple.com>
-> ---
-> target/i386/hvf/hvf.c       | 26 +++++++++++++++++---------
-> target/i386/hvf/vmcs.h      |  3 ++-
-> target/i386/hvf/x86_cpuid.c |  7 ++++---
-> 3 files changed, 23 insertions(+), 13 deletions(-)
->=20
-> diff --git a/target/i386/hvf/hvf.c b/target/i386/hvf/hvf.c
-> index 4ba6e82fab..4712fe66d4 100644
-> --- a/target/i386/hvf/hvf.c
-> +++ b/target/i386/hvf/hvf.c
-> @@ -221,6 +221,7 @@ int hvf_arch_init_vcpu(CPUState *cpu)
-> {
->     X86CPU *x86cpu =3D X86_CPU(cpu);
->     CPUX86State *env =3D &x86cpu->env;
-> +    uint64_t reqCap;
->=20
->     init_emu();
->     init_decoder();
-> @@ -257,19 +258,26 @@ int hvf_arch_init_vcpu(CPUState *cpu)
->     /* set VMCS control fields */
->     wvmcs(cpu->hvf->fd, VMCS_PIN_BASED_CTLS,
->           cap2ctrl(hvf_state->hvf_caps->vmx_cap_pinbased,
-> -          VMCS_PIN_BASED_CTLS_EXTINT |
-> -          VMCS_PIN_BASED_CTLS_NMI |
-> -          VMCS_PIN_BASED_CTLS_VNMI));
-> +                   VMCS_PIN_BASED_CTLS_EXTINT |
-> +                   VMCS_PIN_BASED_CTLS_NMI |
-> +                   VMCS_PIN_BASED_CTLS_VNMI));
->     wvmcs(cpu->hvf->fd, VMCS_PRI_PROC_BASED_CTLS,
->           cap2ctrl(hvf_state->hvf_caps->vmx_cap_procbased,
-> -          VMCS_PRI_PROC_BASED_CTLS_HLT |
-> -          VMCS_PRI_PROC_BASED_CTLS_MWAIT |
-> -          VMCS_PRI_PROC_BASED_CTLS_TSC_OFFSET |
-> -          VMCS_PRI_PROC_BASED_CTLS_TPR_SHADOW) |
-> +                   VMCS_PRI_PROC_BASED_CTLS_HLT |
-> +                   VMCS_PRI_PROC_BASED_CTLS_MWAIT |
-> +                   VMCS_PRI_PROC_BASED_CTLS_TSC_OFFSET |
-> +                   VMCS_PRI_PROC_BASED_CTLS_TPR_SHADOW) |
->           VMCS_PRI_PROC_BASED_CTLS_SEC_CONTROL);
-> +
-> +    reqCap =3D VMCS_PRI_PROC_BASED2_CTLS_APIC_ACCESSES;
-> +
-> +    /* Is RDTSCP support in CPUID?  If so, enable it in the VMCS. */
-> +    if (hvf_get_supported_cpuid(0x80000001, 0, R_EDX) & =
-CPUID_EXT2_RDTSCP) {
-> +        reqCap |=3D VMCS_PRI_PROC_BASED2_CTLS_RDTSCP;
-> +    }
-> +
->     wvmcs(cpu->hvf->fd, VMCS_SEC_PROC_BASED_CTLS,
-> -          cap2ctrl(hvf_state->hvf_caps->vmx_cap_procbased2,
-> -                   VMCS_PRI_PROC_BASED2_CTLS_APIC_ACCESSES));
-> +          cap2ctrl(hvf_state->hvf_caps->vmx_cap_procbased2, reqCap));
->=20
->     wvmcs(cpu->hvf->fd, VMCS_ENTRY_CTLS, =
-cap2ctrl(hvf_state->hvf_caps->vmx_cap_entry,
->           0));
-> diff --git a/target/i386/hvf/vmcs.h b/target/i386/hvf/vmcs.h
-> index 42de7ebc3a..bb4c764557 100644
-> --- a/target/i386/hvf/vmcs.h
-> +++ b/target/i386/hvf/vmcs.h
-> @@ -354,7 +354,7 @@
-> #define VMCS_PRI_PROC_BASED_CTLS_TSC_OFFSET (1 << 3)
-> #define VMCS_PRI_PROC_BASED_CTLS_HLT (1 << 7)
-> #define VMCS_PRI_PROC_BASED_CTLS_MWAIT         (1 << 10)
-> -#define VMCS_PRI_PROC_BASED_CTLS_TSC           (1 << 12)
-> +#define VMCS_PRI_PROC_BASED_CTLS_RDTSC         (1 << 12)
-> #define VMCS_PRI_PROC_BASED_CTLS_CR8_LOAD      (1 << 19)
-> #define VMCS_PRI_PROC_BASED_CTLS_CR8_STORE     (1 << 20)
-> #define VMCS_PRI_PROC_BASED_CTLS_TPR_SHADOW    (1 << 21)
-> @@ -362,6 +362,7 @@
-> #define VMCS_PRI_PROC_BASED_CTLS_SEC_CONTROL   (1 << 31)
->=20
-> #define VMCS_PRI_PROC_BASED2_CTLS_APIC_ACCESSES (1 << 0)
-> +#define VMCS_PRI_PROC_BASED2_CTLS_RDTSCP        (1 << 3)
-> #define VMCS_PRI_PROC_BASED2_CTLS_X2APIC        (1 << 4)
->=20
-> enum task_switch_reason {
-> diff --git a/target/i386/hvf/x86_cpuid.c b/target/i386/hvf/x86_cpuid.c
-> index 32b0d131df..b11ddaa349 100644
-> --- a/target/i386/hvf/x86_cpuid.c
-> +++ b/target/i386/hvf/x86_cpuid.c
-> @@ -96,7 +96,8 @@ uint32_t hvf_get_supported_cpuid(uint32_t func, =
-uint32_t idx,
->                 ebx &=3D ~CPUID_7_0_EBX_INVPCID;
->             }
->=20
-> -            ecx &=3D CPUID_7_0_ECX_AVX512_VBMI | =
-CPUID_7_0_ECX_AVX512_VPOPCNTDQ;
-> +            ecx &=3D CPUID_7_0_ECX_AVX512_VBMI | =
-CPUID_7_0_ECX_AVX512_VPOPCNTDQ |
-> +                   CPUID_7_0_ECX_RDPID;
->             edx &=3D CPUID_7_0_EDX_AVX512_4VNNIW | =
-CPUID_7_0_EDX_AVX512_4FMAPS;
->         } else {
->             ebx =3D 0;
-> @@ -133,11 +134,11 @@ uint32_t hvf_get_supported_cpuid(uint32_t func, =
-uint32_t idx,
->                 CPUID_FXSR | CPUID_EXT2_FXSR | CPUID_EXT2_PDPE1GB | =
-CPUID_EXT2_3DNOWEXT |
->                 CPUID_EXT2_3DNOW | CPUID_EXT2_LM | CPUID_EXT2_RDTSCP | =
-CPUID_EXT2_NX;
->         hv_vmx_read_capability(HV_VMX_CAP_PROCBASED2, &cap);
-> -        if (!(cap & CPU_BASED2_RDTSCP)) {
-> +        if (!(cap2ctrl(cap, CPU_BASED2_RDTSCP) & CPU_BASED2_RDTSCP)) =
-{
->             edx &=3D ~CPUID_EXT2_RDTSCP;
->         }
->         hv_vmx_read_capability(HV_VMX_CAP_PROCBASED, &cap);
-> -        if (!(cap & CPU_BASED_TSC_OFFSET)) {
-> +        if (!(cap2ctrl(cap, CPU_BASED_TSC_OFFSET) & =
-CPU_BASED_TSC_OFFSET)) {
->             edx &=3D ~CPUID_EXT2_RDTSCP;
->         }
->         ecx &=3D CPUID_EXT3_LAHF_LM | CPUID_EXT3_CMP_LEG | =
-CPUID_EXT3_CR8LEG |
-> --=20
-> 2.30.1 (Apple Git-130)
+> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 >=20
 >=20
 
