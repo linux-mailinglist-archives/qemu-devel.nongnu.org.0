@@ -2,76 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3C5D4ACF22
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Feb 2022 03:47:40 +0100 (CET)
-Received: from localhost ([::1]:53406 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B77C4ACF32
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Feb 2022 03:52:49 +0100 (CET)
+Received: from localhost ([::1]:55852 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nHGXb-0005Yc-Cl
-	for lists+qemu-devel@lfdr.de; Mon, 07 Feb 2022 21:47:39 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:58214)
+	id 1nHGca-0007Pv-K5
+	for lists+qemu-devel@lfdr.de; Mon, 07 Feb 2022 21:52:48 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:58614)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1nHGVz-00049g-II
- for qemu-devel@nongnu.org; Mon, 07 Feb 2022 21:45:59 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:44818)
+ (Exim 4.90_1) (envelope-from <lsoaresp@redhat.com>)
+ id 1nHGZp-0006Oq-Ab
+ for qemu-devel@nongnu.org; Mon, 07 Feb 2022 21:49:57 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:31220)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1nHGVv-0002CL-IF
- for qemu-devel@nongnu.org; Mon, 07 Feb 2022 21:45:58 -0500
+ (Exim 4.90_1) (envelope-from <lsoaresp@redhat.com>)
+ id 1nHGZn-0002U4-Jw
+ for qemu-devel@nongnu.org; Mon, 07 Feb 2022 21:49:57 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1644288347;
+ s=mimecast20190719; t=1644288595;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=rgNXdWmP0K1ixcOWmQu7nntgDkjzbgbWrB9PXPk5gQk=;
- b=BxG0ijRpGjC/UZ601P8aXooJ3KCOD2WT06moCTtxhcox2Ht7FiIFyjFb3lqxL/oIeCYuuT
- P1Nv137sjpcQiWTBJJF6wumokLasgVTXKZPSkvn965NNySCke94kSGiLjGuq7UiLX0nt++
- amQPLev7bI+OQ7NCtIvFbRWmSizjMwc=
-Received: from mail-lj1-f200.google.com (mail-lj1-f200.google.com
- [209.85.208.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=83vPdwItu2lRNYNMaCS6GHL6ldLO4DUgPIEvdKlcZjw=;
+ b=NCevC1BNCTGXTRrQXwu7XTev+saGinSsY2HqaV5D3daYonRmR7cDTT4viko0ktwzRSjxZf
+ QPhpiuga6HUwuTtAuKb2ZV6M8JqYRZd0j9HKxX1Z3M9ZJXeXN45VIHCuNIH7ljZYctbB3F
+ 3VckILQe0AHmj9C64Nkn9kY6xyFLT+o=
+Received: from mail-lj1-f197.google.com (mail-lj1-f197.google.com
+ [209.85.208.197]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-139-k9w2gx-POXqHgn-Jp1wb2g-1; Mon, 07 Feb 2022 21:45:46 -0500
-X-MC-Unique: k9w2gx-POXqHgn-Jp1wb2g-1
-Received: by mail-lj1-f200.google.com with SMTP id
- q17-20020a2e7511000000b0023c95987502so5368189ljc.16
- for <qemu-devel@nongnu.org>; Mon, 07 Feb 2022 18:45:46 -0800 (PST)
+ us-mta-596-L50ahe7hP6alE1xVjTDYFA-1; Mon, 07 Feb 2022 21:49:52 -0500
+X-MC-Unique: L50ahe7hP6alE1xVjTDYFA-1
+Received: by mail-lj1-f197.google.com with SMTP id
+ m13-20020a2e97cd000000b0023e09d49ce4so5373529ljj.6
+ for <qemu-devel@nongnu.org>; Mon, 07 Feb 2022 18:49:51 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=rgNXdWmP0K1ixcOWmQu7nntgDkjzbgbWrB9PXPk5gQk=;
- b=20vPD4X4tKmo7nC4VkOI/X3n/DXu8oBRZm1xnOwfNFw8YgoIWaWbdIgv0htmEBclu5
- egLn8gJX+Q7FwM0JT+Pl5SSXhbqAyxuLLN0g8XKwTdTFoRlPv/h4WgKjFzsHL+edg4qF
- /HQUtZdUrfdujhG/5oDCT9/iXQubyz4z76j9lB7BjO0EC7hX4WJmpiaVZOzW1+Oh5y5q
- /gAHMXCg4H0grVjfvOYyUfpneytffXeLT5eK4itgcwZtUAxvgNiXpttaxGAfIKFkb8og
- CdyLLu9bi4Sx3p0O1pvlrkV7+xap3F4r6CmBqt0JGxT68JLi6CfSVb7p/BJADSAiIhQ6
- RfxA==
-X-Gm-Message-State: AOAM533FUg/P79HRK8a0XerN9WsRWmMJqnKWYaA1WJ2DRC3RJzl650fa
- YpLdPC5SYP+WgmGhjsIqLEqWh7fLtEEehAqaM9x3M9odOHxvXtUHf9PGM8v+PDtU3dPiD9yM0dH
- Qgy4eMHpSZ2xfIvsUrzLktJvT+OaIKSM=
-X-Received: by 2002:a05:6512:3d8d:: with SMTP id
- k13mr918118lfv.481.1644288345175; 
- Mon, 07 Feb 2022 18:45:45 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzUIXI535PGVX+VfQ5IZhoI8H9lHsnllbROuIFXR6xuNyeQRMXntSoe9ihlY1Ne95zw0+ijOB1MW4yDKf1PkZM=
-X-Received: by 2002:a05:6512:3d8d:: with SMTP id
- k13mr918099lfv.481.1644288344906; 
- Mon, 07 Feb 2022 18:45:44 -0800 (PST)
+ bh=83vPdwItu2lRNYNMaCS6GHL6ldLO4DUgPIEvdKlcZjw=;
+ b=gA/oDWpe/DYwxxjf9O9A32Q/ttSKDsrjVraTNRP8yXSg7Pd63jioJ7mercnx5yzXTX
+ vO4ANNDs3vktUEhl6gUtiQL77PG+XYACuBb4EDmhMTEo1P/WEEGOs0wIbvphqhSnPZsw
+ K8kLyVS0F/SEHnhfvhMfgN/M9fMUbnBl/GxvDELAy14vQ6IhlA6lqVmZm//I6nGuHg15
+ 05PrQXbqq2WQEpCpJLKULXPhaFyseanj7v+gd0JvKd+tiR9BIFO+Id0ue1PX8F0Fwtd0
+ hRmIkoBAscYPaguRdZCkajkH6WkPORztwDaQrfAtBX535oV1WatV7mAS+7lxF+EHTt/Z
+ ZW0g==
+X-Gm-Message-State: AOAM533aHZEm2/Z7WMfziJXii8jGSZ5rTDMaskYKBt/hqTWQW1HeZrcM
+ PjKyzvG5F7yBkm0Yes9t7ZXKrAuTva7LpxgwjMQ/edogVGWnu4/YfbxJkEuqTgP/WSfJoqLlKD2
+ a2nDEId35nnXm3o7YgQXziQ3qIuYR7y8=
+X-Received: by 2002:a05:651c:b13:: with SMTP id
+ b19mr1513781ljr.162.1644288590470; 
+ Mon, 07 Feb 2022 18:49:50 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxrdWxea/OXYWpz4cjZipIKAObuJmerYZG2iI5DHGRlFWaMXqaONGACv93kcktdzPofrWNsyNLlKbF83kg4v9I=
+X-Received: by 2002:a05:651c:b13:: with SMTP id
+ b19mr1513759ljr.162.1644288590182; 
+ Mon, 07 Feb 2022 18:49:50 -0800 (PST)
 MIME-Version: 1.0
-References: <20220207112857.607829-1-pasic@linux.ibm.com>
-In-Reply-To: <20220207112857.607829-1-pasic@linux.ibm.com>
-From: Jason Wang <jasowang@redhat.com>
-Date: Tue, 8 Feb 2022 10:45:33 +0800
-Message-ID: <CACGkMEtiTnKQvtrNm6e9NZJN22wbQUv6bv8+2oWPfXSn+EXt4w@mail.gmail.com>
-Subject: Re: [PATCH v5 1/1] virtio: fix the condition for iommu_platform not
- supported
-To: Halil Pasic <pasic@linux.ibm.com>
+References: <20220201062901.428838-1-leobras@redhat.com>
+ <20220201062901.428838-6-leobras@redhat.com>
+ <YgHT2AzvnHYun6j4@xz-m1.local>
+In-Reply-To: <YgHT2AzvnHYun6j4@xz-m1.local>
+From: Leonardo Bras Soares Passos <leobras@redhat.com>
+Date: Mon, 7 Feb 2022 23:49:38 -0300
+Message-ID: <CAJ6HWG44WaWmCopWvF6-vbzMg8A-QWV85Vv2VmgEA7cs4CfM3Q@mail.gmail.com>
+Subject: Re: [PATCH v8 5/5] multifd: Implement zero copy write in multifd
+ migration (multifd-zero-copy)
+To: Peter Xu <peterx@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lsoaresp@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=jasowang@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=lsoaresp@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -79,7 +81,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -92,130 +94,98 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
- Brijesh Singh <brijesh.singh@amd.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Daniel Henrique Barboza <danielhb413@gmail.com>,
- qemu-devel <qemu-devel@nongnu.org>, qemu-stable@nongnu.org,
- Jakob Naucke <Jakob.Naucke@ibm.com>
+Cc: Elena Ufimtseva <elena.ufimtseva@oracle.com>,
+ John G Johnson <john.g.johnson@oracle.com>,
+ Jagannathan Raman <jag.raman@oracle.com>, qemu-block@nongnu.org,
+ Juan Quintela <quintela@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
+ Markus Armbruster <armbru@redhat.com>,
+ =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>,
+ Fam Zheng <fam@euphon.net>, Eric Blake <eblake@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Feb 7, 2022 at 7:29 PM Halil Pasic <pasic@linux.ibm.com> wrote:
->
-> The commit 04ceb61a40 ("virtio: Fail if iommu_platform is requested, but
-> unsupported") claims to fail the device hotplug when iommu_platform
-> is requested, but not supported by the (vhost) device. On the first
-> glance the condition for detecting that situation looks perfect, but
-> because a certain peculiarity of virtio_platform it ain't.
->
-> In fact the aforementioned commit introduces a regression. It breaks
-> virtio-fs support for Secure Execution, and most likely also for AMD SEV
-> or any other confidential guest scenario that relies encrypted guest
-> memory.  The same also applies to any other vhost device that does not
-> support _F_ACCESS_PLATFORM.
->
-> The peculiarity is that iommu_platform and _F_ACCESS_PLATFORM collates
-> "device can not access all of the guest RAM" and "iova != gpa, thus
-> device needs to translate iova".
->
-> Confidential guest technologies currently rely on the device/hypervisor
-> offering _F_ACCESS_PLATFORM, so that, after the feature has been
-> negotiated, the guest  grants access to the portions of memory the
-> device needs to see. So in for confidential guests, generally,
-> _F_ACCESS_PLATFORM is about the restricted access to memory, but not
-> about the addresses used being something else than guest physical
-> addresses.
->
-> This is the very reason for which commit f7ef7e6e3b ("vhost: correctly
-> turn on VIRTIO_F_IOMMU_PLATFORM") fences _F_ACCESS_PLATFORM from the
-> vhost device that does not need it, because on the vhost interface it
-> only means "I/O address translation is needed".
->
-> This patch takes inspiration from f7ef7e6e3b ("vhost: correctly turn on
-> VIRTIO_F_IOMMU_PLATFORM"), and uses the same condition for detecting the
-> situation when _F_ACCESS_PLATFORM is requested, but no I/O translation
-> by the device, and thus no device capability is needed. In this
-> situation claiming that the device does not support iommu_plattform=on
-> is counter-productive. So let us stop doing that!
->
-> Signed-off-by: Halil Pasic <pasic@linux.ibm.com>
-> Reported-by: Jakob Naucke <Jakob.Naucke@ibm.com>
-> Fixes: 04ceb61a40 ("virtio: Fail if iommu_platform is requested, but
-> unsupported")
-> Acked-by: Cornelia Huck <cohuck@redhat.com>
-> Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
-> Tested-by: Daniel Henrique Barboza <danielhb413@gmail.com>
-> Cc: Kevin Wolf <kwolf@redhat.com>
-> Cc: qemu-stable@nongnu.org
+Hello Peter, thanks for reviewing!
 
-Acked-by: Jason Wang <jasowang@redhat.com>
+On Mon, Feb 7, 2022 at 11:22 PM Peter Xu <peterx@redhat.com> wrote:
+>
+> On Tue, Feb 01, 2022 at 03:29:03AM -0300, Leonardo Bras wrote:
+> > -void multifd_send_sync_main(QEMUFile *f)
+> > +int multifd_send_sync_main(QEMUFile *f)
+> >  {
+> >      int i;
+> > +    bool flush_zero_copy;
+> >
+> >      if (!migrate_use_multifd()) {
+> > -        return;
+> > +        return 0;
+> >      }
+> >      if (multifd_send_state->pages->num) {
+> >          if (multifd_send_pages(f) < 0) {
+> >              error_report("%s: multifd_send_pages fail", __func__);
+> > -            return;
+> > +            return 0;
+>
+> I've not checked how it used to do if multifd_send_pages() failed, but.. should
+> it returns -1 rather than 0 when there will be a return code?
+
+Yeah, that makes sense.
+The point here is that I was trying not to modify much of the current behavior.
+
+I mean, multifd_send_sync_main() would previously return void, so any
+other errors would not matter to the caller of this function, which
+will continue to run as if nothing happened.
+
+Now, if it fails with flush_zero_copy, the operation needs to be aborted.
+
+Maybe, I should make it different:
+- In any error, return -1.
+- Create/use a specific error code in the case of a failing
+flush_zero_copy, so I can test the return value for it on the caller
+function and return early.
+
+Or alternatively, the other errors could also return early, but since
+this will change how the code currently works, I would probably need
+another patch for that change. (so it can be easily reverted if
+needed)
+
+What do you think is better?
+
+
+> >          }
+> >      }
+> > +
+> > +    /*
+> > +     * When using zero-copy, it's necessary to flush after each iteration to
+> > +     * make sure pages from earlier iterations don't end up replacing newer
+> > +     * pages.
+> > +     */
+> > +    flush_zero_copy = migrate_use_zero_copy_send();
+> > +
+> >      for (i = 0; i < migrate_multifd_channels(); i++) {
+> >          MultiFDSendParams *p = &multifd_send_state->params[i];
+> >
+> > @@ -591,7 +600,7 @@ void multifd_send_sync_main(QEMUFile *f)
+> >          if (p->quit) {
+> >              error_report("%s: channel %d has already quit", __func__, i);
+> >              qemu_mutex_unlock(&p->mutex);
+> > -            return;
+> > +            return 0;
+>
+> Same question here.
+
+Please see above,
 
 >
-> ---
+> >          }
 >
-> v4->v5:
-> * added back the return; so if somebody were to add code to the end of
->   the function we are still good
-> v3->v4:
-> * Fixed commit message (thanks Connie)
-> * Removed counter-productive initialization (thanks Connie)
-> * Added tags
-> v2->v3:
-> * Caught a bug: I tired to check if vdev has the feature
->    ACCESS_PLATFORM after we have forced it. Moved the check
->    to a better place
-> v1->v2:
-> * Commit message tweaks. Most notably fixed commit SHA (Michael)
->
-> ---
-> ---
->  hw/virtio/virtio-bus.c | 12 +++++++-----
->  1 file changed, 7 insertions(+), 5 deletions(-)
->
-> diff --git a/hw/virtio/virtio-bus.c b/hw/virtio/virtio-bus.c
-> index d23db98c56..0f69d1c742 100644
-> --- a/hw/virtio/virtio-bus.c
-> +++ b/hw/virtio/virtio-bus.c
-> @@ -48,6 +48,7 @@ void virtio_bus_device_plugged(VirtIODevice *vdev, Error **errp)
->      VirtioBusClass *klass = VIRTIO_BUS_GET_CLASS(bus);
->      VirtioDeviceClass *vdc = VIRTIO_DEVICE_GET_CLASS(vdev);
->      bool has_iommu = virtio_host_has_feature(vdev, VIRTIO_F_IOMMU_PLATFORM);
-> +    bool vdev_has_iommu;
->      Error *local_err = NULL;
->
->      DPRINTF("%s: plug device.\n", qbus->name);
-> @@ -69,11 +70,6 @@ void virtio_bus_device_plugged(VirtIODevice *vdev, Error **errp)
->          return;
->      }
->
-> -    if (has_iommu && !virtio_host_has_feature(vdev, VIRTIO_F_IOMMU_PLATFORM)) {
-> -        error_setg(errp, "iommu_platform=true is not supported by the device");
-> -        return;
-> -    }
-> -
->      if (klass->device_plugged != NULL) {
->          klass->device_plugged(qbus->parent, &local_err);
->      }
-> @@ -82,9 +78,15 @@ void virtio_bus_device_plugged(VirtIODevice *vdev, Error **errp)
->          return;
->      }
->
-> +    vdev_has_iommu = virtio_host_has_feature(vdev, VIRTIO_F_IOMMU_PLATFORM);
->      if (klass->get_dma_as != NULL && has_iommu) {
->          virtio_add_feature(&vdev->host_features, VIRTIO_F_IOMMU_PLATFORM);
->          vdev->dma_as = klass->get_dma_as(qbus->parent);
-> +        if (!vdev_has_iommu && vdev->dma_as != &address_space_memory) {
-> +            error_setg(errp,
-> +                       "iommu_platform=true is not supported by the device");
-> +            return;
-> +        }
->      } else {
->          vdev->dma_as = &address_space_memory;
->      }
->
-> base-commit: 0d564a3e32ba8494014c67cdd2ebf0fb71860dff
-> --
-> 2.32.0
->
+> The rest looks good.  Thanks,
+
+Thank you!
+
+Best regards,
+Leo
 
 
