@@ -2,76 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03F6A4AD525
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Feb 2022 10:43:45 +0100 (CET)
-Received: from localhost ([::1]:40254 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4EB854AD459
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Feb 2022 10:08:26 +0100 (CET)
+Received: from localhost ([::1]:42580 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nHN2F-0007FH-FS
-	for lists+qemu-devel@lfdr.de; Tue, 08 Feb 2022 04:43:43 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:53988)
+	id 1nHMU4-0001IZ-NK
+	for lists+qemu-devel@lfdr.de; Tue, 08 Feb 2022 04:08:24 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:54004)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <elena.ufimtseva@oracle.com>)
- id 1nHKpr-0001x5-PP
+ id 1nHKpt-0001xl-KE
  for qemu-devel@nongnu.org; Tue, 08 Feb 2022 02:22:49 -0500
-Received: from mx0a-00069f02.pphosted.com ([205.220.165.32]:48312)
+Received: from mx0a-00069f02.pphosted.com ([205.220.165.32]:50470)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <elena.ufimtseva@oracle.com>)
- id 1nHKpl-0001vg-VA
- for qemu-devel@nongnu.org; Tue, 08 Feb 2022 02:22:47 -0500
-Received: from pps.filterd (m0246629.ppops.net [127.0.0.1])
- by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 2186pU43007539; 
- Tue, 8 Feb 2022 07:22:39 GMT
+ id 1nHKpn-0001vq-CP
+ for qemu-devel@nongnu.org; Tue, 08 Feb 2022 02:22:49 -0500
+Received: from pps.filterd (m0246617.ppops.net [127.0.0.1])
+ by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 2186dmko012748; 
+ Tue, 8 Feb 2022 07:22:41 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references :
  content-transfer-encoding : content-type : mime-version;
- s=corp-2021-07-09; bh=8UauS2CS3oErEplA5shbyREpZMDyj2XT9cAdMg2XCj0=;
- b=Hau8SC08TD5XEEo5KEhkv7wzYd2XeTs1msckEty5ayOZzDEnDpnH9MdfDrWEDzkqZA2x
- D2u6ZaYRJ1p3fsW8KtYk6GllfxYZOFbeamDDPNappvEE9HUxsGouQiG+H+UEnbiSfccr
- jEjBk5xOGd2PJGn6sPfn6y9MN3UjHkC/Pki1XpZ82eED2pm9wqWIrwQZZcRKwjkhScUq
- PdWHfmoIfQYOY/wvCxafios2S0rXgf5uWNOAJuoG4tfZdsmrIEExoqUJZ136AblhRNgi
- L+M0jGS9n0MvCF4TWnGnxGhVBKjCLXbn/T4H3nKfx23aKpqCSbDqsCnBqjidbpL1V0qI WA== 
+ s=corp-2021-07-09; bh=PcgQUwvWl+PJG5TKIWJbzjrGqej2468YU/0cDbJ4ZYc=;
+ b=nOVgXYXj5+bQu1rrcNMDxUIfu9aAYHygNbtdhYZ0ml2BkALuQoSTbqm3D0UbL6ic/RRV
+ pB0UMrQA/eIJaTcHLbrmFmb27Ry978d5oLEMp6vA2hZ1q/3rjr7uylOXPV5QQlaxMng1
+ mTugzQbHxzcn1sZEH/oFb4zJHxQx4pALDjB3paH2AkQvI6y3j4UNckOXhPSvYtfP0g2l
+ U+ijI7kMjvz6iXrElOd7xDqJjNii7sjMnhtFer5vTZyqEeQtQEJQ5y1/YS/J1522U6Zi
+ J34QP8pDGYYucd4Wyn2AxSYT9pLZukNOCABO7mI8FW+kHFvtDWOHVTKmpos4uWklPi36 WA== 
 Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
- by mx0b-00069f02.pphosted.com with ESMTP id 3e368tsxcx-1
+ by mx0b-00069f02.pphosted.com with ESMTP id 3e3fpggk4e-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 08 Feb 2022 07:22:39 +0000
+ Tue, 08 Feb 2022 07:22:40 +0000
 Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
- by userp3030.oracle.com (8.16.1.2/8.16.1.2) with SMTP id 2187BlYu093365;
- Tue, 8 Feb 2022 07:22:38 GMT
+ by userp3030.oracle.com (8.16.1.2/8.16.1.2) with SMTP id 2187BlYw093365;
+ Tue, 8 Feb 2022 07:22:39 GMT
 Received: from nam10-mw2-obe.outbound.protection.outlook.com
  (mail-mw2nam10lp2104.outbound.protection.outlook.com [104.47.55.104])
- by userp3030.oracle.com with ESMTP id 3e1ebykknc-7
+ by userp3030.oracle.com with ESMTP id 3e1ebykknc-9
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 08 Feb 2022 07:22:38 +0000
+ Tue, 08 Feb 2022 07:22:39 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=hnUwoE1viz/1Sz7vc1dm1FC6Ypixay9iuncfnlmGxtZnG3Xp0ZsZAI0/mDGQuT7rymOmJYJXS8bpytTtGD/Iyvbck5/nBYTkSWagTPrrKDRfvYIZnOAQeqwiVeBBdsyQfa2lWsK/xRMEcW+UqDuEO8ABvNOcvP422WJZlAkI0j8RtCSAouTNF87xUPfW4i2YtYyDOE2gefPIWp1Q9fgFbic7m2SHkPAaWs+l24sV1sZoH02rVtzzhVAn1SixUxZWgSYciG05Y7i1f/gYqpa5/tyhg8LFpWGsLVcTVxT5KiCiUVsTOuRE3VGATE31S2eSwamNl1ovchtgTWvD6/Up/w==
+ b=m2Sjt4OyMdek5txKTLoAyevjHDN9L5hydD75YfiEnXTL906aWMwgU03LWppEQUgzufcj40xhKAlE3RwVtncaADZidaDBMF8Ll2P8r48EroXZqviVM3AQySpPZlpb+3ht6F8PCgi42pnDwwGYQsjGi/nNAUxO/j/+wnT+EhSwEqDtMuhixoeqnqkEwIwYqNIQbqRYkLx/JE4XigXWysLbGxlxyp7JWfKXIAs8QZXAmtKlS9PKEdT83NhCrN9Ziu40X6mYpfHwiREOW/3UUMnGAE50p6bKp5/bLhMg6YcTKxgoM+k+M2+hmlcDhHw8r8avq7qc3RFz1IAdOqBF4blC0A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=8UauS2CS3oErEplA5shbyREpZMDyj2XT9cAdMg2XCj0=;
- b=ReYMsAryeZVo4L3MJtjhW4dJodUsXZtALMd1MUhFz/L0Znjw+mj0XPVww7GXoKjiO5rxxZp3DEoVAy0RaXOtQJ/n1JfRRY0HnREa8F/XPqvSURLnQ/+X8WjLFINW3D3OB1a12tqH+s/fPIwxxdXYVhJfqS044QZ/zLIERROr/2mVlJ1XEi0M4Ig6eU1Zjl0QQpowXOUh6/UEAj7zJxkwROtLaWyktVSUVESel0UJ5RFJy2a2lmxiwTj6Ofdoa7ek6JmRObij2NeGWm9FnUpPZ1Z6Pw2a79syQtV863xqyFGctjHyRG7XK24HhZCW/mxRHk4xNUdQJHRXnsHgrxGBDg==
+ bh=PcgQUwvWl+PJG5TKIWJbzjrGqej2468YU/0cDbJ4ZYc=;
+ b=ALKyt7TYAl0sz02gdH3h6RM7LtwCzIy4JKHtHxU7evvP8Nn15I2Xx9UfZ4UpJab1r0zUfOgWVYTKN2mtIZ1T/SjgfRvFZFiyBLPcabvx3iZNnf366it6mn/8WHaiC1MPpFqUJK4hbrnqfw9KElyB/L2YOG81Mxf7L8S6auI0IfQNULqjvB7N0y1lqagyG6wt3mQmUZIl39Ig7q7KbLDuWLmWO1Qw4dh8eRkurWG/6rjjSgH1CV4za+KLdokqUsilYAxk8vTUmSsNHVjcfb5SqehvaGM4WvBVu2UaiiqgO/4j9XHdkAvn/IHZAmEX1R0Z2ixK4ThXVs9cDt03X7s5Pg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
  dkim=none; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=8UauS2CS3oErEplA5shbyREpZMDyj2XT9cAdMg2XCj0=;
- b=sk7LG6KQNkcZl45WlejkCFcwgqCPAhowzYfK6+D6FVGU82Z++4gRG0w1Sjb0P5Wh/eIObgMgdWKwx9sY3XaPLx/HXIvFRNwXoQm8LBXeN9yB6x6YM9UtfSVCLbYwBSSzoc0AcnlH2qsha7xNTW8W4pwcDmbBh9L+btHxooAqYzU=
+ bh=PcgQUwvWl+PJG5TKIWJbzjrGqej2468YU/0cDbJ4ZYc=;
+ b=V7/apou4o923evNsuSqH631nPmGEhQv5RUKpVLE6tJRVTX06+ikCR9oRih4MtV609M1KtOoThmPempwMtFHrYLxQWsJVT8zvB5ZZYQuV0jW8ONJyWQgfQ2PxDjgjm87ZhOCJmIMTMcJ0s9TDUzHrkWzxaZqYOXdULHYDqiFds8g=
 Received: from BYAPR10MB2869.namprd10.prod.outlook.com (2603:10b6:a03:85::17)
  by SN4PR10MB5608.namprd10.prod.outlook.com (2603:10b6:806:20b::8)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4951.18; Tue, 8 Feb
- 2022 07:22:35 +0000
+ 2022 07:22:36 +0000
 Received: from BYAPR10MB2869.namprd10.prod.outlook.com
  ([fe80::4bd:1cfa:5aee:6c81]) by BYAPR10MB2869.namprd10.prod.outlook.com
  ([fe80::4bd:1cfa:5aee:6c81%3]) with mapi id 15.20.4951.019; Tue, 8 Feb 2022
- 07:22:35 +0000
+ 07:22:36 +0000
 From: Elena Ufimtseva <elena.ufimtseva@oracle.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC 6/8] multiprocess: add MPQEMU_CMD_BAR_INFO
-Date: Mon,  7 Feb 2022 23:22:20 -0800
-Message-Id: <234ed1f65ba8684d82f2e78ee6116d2209cbd499.1644302411.git.elena.ufimtseva@oracle.com>
+Subject: [RFC 8/8] multiprocess: handle ioregionfd commands
+Date: Mon,  7 Feb 2022 23:22:22 -0800
+Message-Id: <2b891256b5c6ded52810ce3f25c923e9c593cea2.1644302411.git.elena.ufimtseva@oracle.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1644302411.git.elena.ufimtseva@oracle.com>
 References: <cover.1644302411.git.elena.ufimtseva@oracle.com>
@@ -82,58 +82,58 @@ X-ClientProxiedBy: BY5PR16CA0006.namprd16.prod.outlook.com
  (2603:10b6:a03:85::17)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: d255ef6c-5349-4b11-5023-08d9ead3c72c
+X-MS-Office365-Filtering-Correlation-Id: 190f01f2-716b-4ede-56f2-08d9ead3c7f9
 X-MS-TrafficTypeDiagnostic: SN4PR10MB5608:EE_
-X-Microsoft-Antispam-PRVS: <SN4PR10MB56084E05C2E51EB9B76126558C2D9@SN4PR10MB5608.namprd10.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:121;
+X-Microsoft-Antispam-PRVS: <SN4PR10MB560857D61CE1C25CF38197778C2D9@SN4PR10MB5608.namprd10.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:159;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: A21Yme1zVAxM4xe0RUvaOGWSfMq6C4mrKYf+g5HzfTqOz22TfgpnnVzXpT5r6MmP9cRtNT38l6w2hqUG2R3uB4SWG6s11oQIHadk/aiUjQgmQt81H2C8iYsbrCZDfyeOxbDOM60QsoWDs5AKLcE4g0yCFcCPFS4MFQMeJXq8ZikFn+06fMyqXdgo9cc6lVX1fW16Dq766Q84C07r2xl92rRXwUrQ45YzNNEZpjgovnAQD0gDGpR6bjTXqgQljRZIk/oppFaou6sS0Y/X6QMeQDrJfVSMhHHJ+oFhvygueDdNwYY59SeAkNiQY9JhXhvqxRdHujMv5knjSMhmElAAtm4KpyCULsruG/2Rdisfe8ejd4g+J4749xETJmF5KZntQl6emj5XZXujPxW+B25nxNYJJjm2Ir+FBM79sJtcf+H9D1VMVQIlLqUd0qk53IdFEZk82qb+hVU90VuGscONXInx8TSzXl4KpcJ2fsRAQ4OYupzzsGmvyICP44FmFLBjzq+M3qA74o0Oq/vOvjKjHmifoBEb6TAdA0M35lGSk+6uO5UnqWUeaYYO4cVwxIz8DMX94fP7OojEfHTuz6vTYS7uwiM7dX+45HcJjkoAxK5CZz5Lz21FOu2K1370k6GEbNFKk1aVQNJHIoZ9rrPYPw==
+X-Microsoft-Antispam-Message-Info: 9cKlke09z0KCzAUVvZeVsWQXv+RFbZNwmsUDPsm5W40HODp8IVBXujHlUuPTfN1U3Z1rzNjqTOuRlhuBu4Rjt/ylSW4Iu4cl57GBXxoOdEK6t1evE4XAvIph6zIa/TxzXlGCDZYdLUKNZGzB2Pe2++bZqqqFkzDlNPlMO96qoM9EaAG4Khilc4PglKcyip5FOy+r9VqbX/IRLeHDJVfoA2iVyQ59ppRA0PyKeaN622Dmig20v0fClYnvuMK5gOumRYID3GJnlU7e+1szH68zRKmcj2Tm0xkOcRRrUfUZvuICruOUzIVylgoDibIHlmqOgH5KDvMYAiwanOK9X2evECA5a6fANhy/PpFDaRp9i84Y3/12niRzrcyRDp9E3/x/E6Fhae2FH6qBW7qQsY2ohxUJfqR6uK0M0WNm1+GMb3KEqo8LyqA3ZGzaAqPpQw6k7ENshJsXnSxoOrlnmLWI2T5PcG3Z60Tte+ci2hc4Mp9ncFiH2YbF93g3DmUjoAZpn5eYYaGsQGqYbMNghpjYNx68yBc7cagJp562Xjywyh1ldX6Z3oAuLrq4Ah2uYFlxkk4U7PSwyybQEdPpaqk3z8BX4tAFzqQBOIpi84FMTRjY2J4ThOdlaLLQXb2VuZS4b0iBxSI5ggT9c/k3S6goVA==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:BYAPR10MB2869.namprd10.prod.outlook.com; PTR:; CAT:NONE;
  SFS:(13230001)(366004)(6512007)(36756003)(83380400001)(186003)(38100700002)(86362001)(5660300002)(7416002)(2616005)(6486002)(44832011)(508600001)(6666004)(8676002)(4326008)(52116002)(2906002)(66946007)(66476007)(6506007)(66556008)(6916009)(316002)(8936002);
  DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?TYrC+cRJelpkw8rEPsTbBqmzfkd8ZFUpdqamTMLc/DnQ62N+jt4sGJLdeujn?=
- =?us-ascii?Q?veMbtU35UIVMnV/P8kh9f//UAp/I3ZwPEjC5n2BANU2ayjjF8Q47nBDxOT/q?=
- =?us-ascii?Q?c3r6ifCTAq1PVbyIfuyQwTC9qPb+Y0POYsr147OytMNq38EE2L+Ioe2QChKq?=
- =?us-ascii?Q?z4Rj88vPaE4RtjtYGmItvU2c/ZuVLtza/R/Is07NwiTLBUdXyADuT2z3vF1p?=
- =?us-ascii?Q?6P8lWOHUy0cnAUB0I46L7MqwqanIOZhT2xLJ4LkFf6Mt04qi9JAowEJL3/5N?=
- =?us-ascii?Q?0B+GU+++iKaKg9TbqkdM0vh0AxdiP4CxUguAh3+ilWI/i7r0FIiN5CuFWPcH?=
- =?us-ascii?Q?YtDFV3psZs0cnDESzCPuobp2ymb6D2HWW6u1TfoAlpolvJQVngKtFxCTTrCY?=
- =?us-ascii?Q?DGe4Jh5jaL3Pzg/vY7J08gFCcM2+pLQbjFJU9YlAEV4F7+c5kbAzRYSDMvjX?=
- =?us-ascii?Q?x+37yHVjmINuiNlzqL7Cj0NFJF/mXRyRh+25H10/fZq+I1ZFw8jSSIrOLvPU?=
- =?us-ascii?Q?HoFQxW0m/tnUDpuZMRrmRjcS81JFqBq1h2ZYDTozdmyamj/oiTp/hUs4IYjw?=
- =?us-ascii?Q?1m2/WOPR9Zj++Exsy6Uo3DU92hUNhHGsCEhbTjm2DyrO7qlzqCDZT388kB1o?=
- =?us-ascii?Q?7LcsbLIYCan6iH3ZmmDyNYaz2QQmOExGiH9F/oNnzl61y8R4k8ZutfXc57Ja?=
- =?us-ascii?Q?CViJErVTx9OwzD0Rk4sMrLRG7QjKHUgdCZQBF449i8T3dryoLbP1e9cHoJeQ?=
- =?us-ascii?Q?nmseySaivkRBxwuPoMjYagw+26/Bx9anz/vxNzKkE6tr7EE04z/m60FsuqFl?=
- =?us-ascii?Q?gsH5VlNF43vLDsYu/npvbG0/keHe9XoOg1+Rfg5F+Z9ZHcxusEJ7jTRRvqMI?=
- =?us-ascii?Q?dZkKif5DUdjtp9OmK14mprRfU69KkUUn0O55ms4Ev44OrPvMjW7qrFOVrt1k?=
- =?us-ascii?Q?KeqtugcfzcYvs3it1/DtTxQFSRN0POB0D4trwqfFgFLvBcIGEisIxQPJmlfj?=
- =?us-ascii?Q?3wVBtzguXj5fSfzrkaaG4V6h+tMcwFG8O5xPMyIaBMVxo9URib5Hb2ymx+U+?=
- =?us-ascii?Q?2CSNGqkPE2q/Z3heLpibjuMeFdz82EPabmpTNjJM21iNMG5Ej3vnr5CmXT2j?=
- =?us-ascii?Q?0c66hwFRTwr1ItmtG1it+c2MbsG8Iyqk73vUOdpJ15dwaRxE4cyS28SOOo5J?=
- =?us-ascii?Q?0B1Uxezp6VLm2PUsojQuSlDbJ8RY6BLahpzNQ0HE0vfKw4+QXKSJKoa7jxBQ?=
- =?us-ascii?Q?kvV/eix/2xYSWy5q0YgnvpBanAs7DRljk9Kd0NckcvTB/xV8KWA5VlVkeiXC?=
- =?us-ascii?Q?vfvste96u1wT5yT/IM2pgTwvEp7lfU0ote2A5YA8HNpwGixuXBQIHB7wf2b7?=
- =?us-ascii?Q?bCZCfMQ2wPkSnoVr4EXvxiqxzUUHIPiDqVCvmZLExb6oUmcEySOrlfxRm1Fb?=
- =?us-ascii?Q?qa2E9VIceqnxpYPU/5rxCggNCycZHLVgceDp6QJACEW9G0+kf0NRILUl+bps?=
- =?us-ascii?Q?kiMqliAfYrs7BNLAoX6Hs7d9xhKa/CkCHIrImv4qfKlsOhmo26mYw9VhgI54?=
- =?us-ascii?Q?x2P9Bz6PwH7o2hGGsDNTHjZyssaMJL/qEtz0A9V0g8Hve4iUUJG76oxoTIfs?=
- =?us-ascii?Q?nzoSzZQeDw1Pa/V3D3x0bbajkQh2D4PAsY4Feaa0INUpXba46ck56gcP668o?=
- =?us-ascii?Q?dyrZbWn7uvvKmxqVeHvpfnItEPL43w4vlvABZuYB5gnrpOzb5JwoVAjuN2zn?=
- =?us-ascii?Q?vGhEHD04cA=3D=3D?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?z5TAPynmb7AYU3AQU+qAL0/gCvdERjL3WJW/KHPIBzBZ3TJaSRKAHqaSwd2r?=
+ =?us-ascii?Q?1wxLUXugIR3fkMaCJct0jCi89IhvxYk+Aufs+U52u1Uu7rV6JPz/a91BJWIs?=
+ =?us-ascii?Q?G2jhvVebBwdtvyrju7MquF1zWImtjlW4B/qAv1LvaeO1B+EleH+smQOW4gOp?=
+ =?us-ascii?Q?/pyMaVmG1gl0FYtaWaiaCXEWlesWP+pxMY2lpmia7zEV3oJ9+Dl3RPos2Pln?=
+ =?us-ascii?Q?J7EQVvK3HageuO9MNYwnUEyPTNJV++sS3xcqM6OsQEWQMGeV8VXW2d8fMNRM?=
+ =?us-ascii?Q?wiMUp8G6saQePOhn2ZHmol5uWvyzRO3FNIz6QUKcvo0TP9BfIVOI6keqiZwm?=
+ =?us-ascii?Q?8RK2bDbHD2J+PRWL7Lgq1lmQEg0NeIRpTF2IjeAs7Zpi1SyfPdOiu1WvSYzn?=
+ =?us-ascii?Q?l3xXF3V6FED3qtSusD2vbScUk7xjBdRrg8e4jl3I2dwt+tCL8SDzdVh5tNW7?=
+ =?us-ascii?Q?O2wPQV2JUI9q+MkIX76RJ2Er9O2ERvOnyFeqwJU8BsLlR1urpOJi7FFjI9kI?=
+ =?us-ascii?Q?WMEcWR4aQCluyy+V/fh5SEbJhOZ0fyZTtd/wyQ/NioZWc7fHC/Ey5r6+QOUj?=
+ =?us-ascii?Q?jfaxc2t3qKgxYs6lCQ/rs/uG3mQa0uwUe5i/xqUHMLl8RrsWmq8rohlsxlAC?=
+ =?us-ascii?Q?ONJreedGTpoauclibQs291CH8NXcYZH7fZZs8TDdYYCCvaypUV+rSvxN5GQ3?=
+ =?us-ascii?Q?pqTWPTFFn0BhA3ZZOv79xyx5Hl1KK4CeRPBrdEuswf58JWS5ouvDFqg77cum?=
+ =?us-ascii?Q?6DvA+HF/pGhhChKQKTwPejdmANPPo7WpgPKLNsqefL+ExFDZSOnfy1i/gl+I?=
+ =?us-ascii?Q?/BTepC6C9qBrY3Scwq5lh6Y4RgIemAIgAXmFb+6OrtknSuw65OEl4ve2+COf?=
+ =?us-ascii?Q?G3qN4XwUDEKgxzZEgzgitE5LxRw3N4PlfJwXatJbowtGru6nDTNQ3gXjykOt?=
+ =?us-ascii?Q?KrSR1UP8VeeqECOiq+cPrcu5NMuutP84CXw5kRY69egKOoqizKk1pPPgSlq4?=
+ =?us-ascii?Q?jUQjBcULRToAb4ZYYc3QHRQjI2Z6QptgSOWQw8MyoAv5e97594puOC6ntrR5?=
+ =?us-ascii?Q?uW+pp+aMIW8gXpB7CoICjgZvauTDjTuMJUEaebDZk78qcDmT2O0zf4akF52O?=
+ =?us-ascii?Q?rqLHxHQDDFCG4OJPtFWQEeN1pT/uRACYzpZ0hVxVs1EC935Ks2qGLAJgYxpT?=
+ =?us-ascii?Q?rLRbASRRG23htTkXNaaBcg9FySRt7W9H09X9ieyXtJ0Mk8Ufn7PLWD+nHyoX?=
+ =?us-ascii?Q?8DPNlZPZX9EXNg1fOOsvipbUSG4pGR9ipZxidvWhMzTIluwu/uW4A42kQmdH?=
+ =?us-ascii?Q?ic0Hnlgmlkic9f63GRoyzj3o4RtQKhQvWa1aqcIrUNPipHPF4JoimR/LpwZK?=
+ =?us-ascii?Q?sOZxwcXo29do+NOtV5RfQug6pOXzP13WksDfCNapyYplYQHNavu/tzo0XmXj?=
+ =?us-ascii?Q?yo4m4or/vGWcg8BxR1fkSkkpQbrhRS+srvST/CBl3mX+iU+OjoWh/kXdX7Kx?=
+ =?us-ascii?Q?IJTxTTI6kpYZiaqX0G+CwsT9tCY/kbwmlBNKK2L/hVO4tit6yeMydI19JPpE?=
+ =?us-ascii?Q?bIj58j2PMwnKMWOh9KCQx7wZ/xrUAUwoINOq8IRvY/zLsGL7M9+O4lLa3wmE?=
+ =?us-ascii?Q?WhT8x8Tut1gQHF6139QeOBrGBrL2PsR3OVOl/FPmd0bwwv3qsbAtGecVmVT+?=
+ =?us-ascii?Q?ipOUO3iOe9PpqanFM+L9fGWosY7IiDIlPGrqBqEayIj4QhL/knp3sJTLngxY?=
+ =?us-ascii?Q?TS0Fy87Z+Q=3D=3D?=
 X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d255ef6c-5349-4b11-5023-08d9ead3c72c
+X-MS-Exchange-CrossTenant-Network-Message-Id: 190f01f2-716b-4ede-56f2-08d9ead3c7f9
 X-MS-Exchange-CrossTenant-AuthSource: BYAPR10MB2869.namprd10.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Feb 2022 07:22:35.1298 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Feb 2022 07:22:36.4735 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: IGBv5wBdLCJJ6s8N9M3KTM2nLI59NECAlD1GO7JY6f77OO2ZvfFbaBDn0mNHFJ8n4uZz3pQdJhJstj4SeuxHJe0TIvb6WYET6XVa/pFlkqk=
+X-MS-Exchange-CrossTenant-UserPrincipalName: ur1UnNmCkFmMaYJxRBkdvpgMGW7nGD6sjAXtTwHrS9dPp+xeDUhI8EzlLUz6zaImJT3ix6S5GV2KCSQiYfi9X36Ys0HOl6RiFBfR8gTEG4U=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN4PR10MB5608
 X-Proofpoint-Virus-Version: vendor=nai engine=6300 definitions=10251
  signatures=673430
@@ -142,8 +142,8 @@ X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0
  mlxlogscore=999 mlxscore=0 adultscore=0 malwarescore=0 spamscore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2201110000
  definitions=main-2202080038
-X-Proofpoint-ORIG-GUID: 2p0JwgJgMQdMZFs2-VZqSHV2bjOBCrWP
-X-Proofpoint-GUID: 2p0JwgJgMQdMZFs2-VZqSHV2bjOBCrWP
+X-Proofpoint-GUID: jm7MNHC1WTFtVX41658yvczAmbDVe0JS
+X-Proofpoint-ORIG-GUID: jm7MNHC1WTFtVX41658yvczAmbDVe0JS
 Received-SPF: pass client-ip=205.220.165.32;
  envelope-from=elena.ufimtseva@oracle.com; helo=mx0a-00069f02.pphosted.com
 X-Spam_score_int: -27
@@ -174,176 +174,290 @@ Cc: eduardo@habkost.net, john.g.johnson@oracle.com, cohuck@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This command is used to request the bar type info from
-remote device.
-
 Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
 ---
- include/hw/remote/ioregionfd.h  |  2 ++
- include/hw/remote/machine.h     |  1 +
- include/hw/remote/mpqemu-link.h |  2 ++
- hw/remote/ioregionfd.c          | 28 ++++++++++++++++++++++++
- hw/remote/message.c             | 38 +++++++++++++++++++++++++++++++++
- hw/remote/remote-obj.c          |  1 +
- 6 files changed, 72 insertions(+)
+ include/hw/remote/ioregionfd.h |   2 +
+ include/hw/remote/remote.h     |   2 +
+ linux-headers/ioregionfd.h     |  30 +++++++++
+ hw/remote/ioregionfd.c         | 111 +++++++++++++++++++++++++++++++++
+ hw/remote/remote-obj.c         |  44 +++++++++++++
+ 5 files changed, 189 insertions(+)
+ create mode 100644 linux-headers/ioregionfd.h
 
 diff --git a/include/hw/remote/ioregionfd.h b/include/hw/remote/ioregionfd.h
-index 85a2ef2c4f..66bb459f76 100644
+index 66bb459f76..8021eed6f1 100644
 --- a/include/hw/remote/ioregionfd.h
 +++ b/include/hw/remote/ioregionfd.h
-@@ -38,4 +38,6 @@ struct IORegionFDObject {
- typedef struct IORegionFDObject IORegionFDObject;
- 
+@@ -40,4 +40,6 @@ typedef struct IORegionFDObject IORegionFDObject;
  GSList *ioregionfd_get_obj_list(void);
-+IORegionFD *ioregionfd_get_by_bar(GSList *list, uint32_t bar);
-+void ioregionfd_set_bar_type(GSList *list, uint32_t bar, bool memory);
+ IORegionFD *ioregionfd_get_by_bar(GSList *list, uint32_t bar);
+ void ioregionfd_set_bar_type(GSList *list, uint32_t bar, bool memory);
++int qio_channel_ioregionfd_read(QIOChannel *ioc, gpointer opaque,
++                                Error **errp);
  #endif /* IOREGIONFD_H */
-diff --git a/include/hw/remote/machine.h b/include/hw/remote/machine.h
-index 2a2a33c4b2..71c53ba0d7 100644
---- a/include/hw/remote/machine.h
-+++ b/include/hw/remote/machine.h
-@@ -28,6 +28,7 @@ struct RemoteMachineState {
- typedef struct RemoteCommDev {
-     PCIDevice *dev;
-     QIOChannel *ioc;
-+    GSList *ioregions_list;
- } RemoteCommDev;
+diff --git a/include/hw/remote/remote.h b/include/hw/remote/remote.h
+index 46390c7934..53b570e1ac 100644
+--- a/include/hw/remote/remote.h
++++ b/include/hw/remote/remote.h
+@@ -23,6 +23,8 @@ struct RemoteObject {
  
- #define TYPE_REMOTE_MACHINE "x-remote-machine"
-diff --git a/include/hw/remote/mpqemu-link.h b/include/hw/remote/mpqemu-link.h
-index 4ec0915885..be546e4586 100644
---- a/include/hw/remote/mpqemu-link.h
-+++ b/include/hw/remote/mpqemu-link.h
-@@ -17,6 +17,7 @@
- #include "exec/hwaddr.h"
- #include "io/channel-socket.h"
- #include "hw/remote/proxy.h"
-+#include "hw/remote/ioregionfd.h"
+     DeviceState *dev;
+     DeviceListener listener;
++    QIOChannel *ioregfd_ioc;
++    AioContext *ioregfd_ctx;
+     GHashTable *ioregionfd_hash;
+ };
  
- #define REMOTE_MAX_FDS 8
- 
-@@ -41,6 +42,7 @@ typedef enum {
-     MPQEMU_CMD_BAR_READ,
-     MPQEMU_CMD_SET_IRQFD,
-     MPQEMU_CMD_DEVICE_RESET,
-+    MPQEMU_CMD_BAR_INFO,
-     MPQEMU_CMD_MAX,
- } MPQemuCmd;
- 
+diff --git a/linux-headers/ioregionfd.h b/linux-headers/ioregionfd.h
+new file mode 100644
+index 0000000000..58f9b5ba61
+--- /dev/null
++++ b/linux-headers/ioregionfd.h
+@@ -0,0 +1,30 @@
++/* SPDX-License-Identifier: ((GPL-2.0-only WITH Linux-syscall-note) OR BSD-3-Clause) */
++#ifndef _UAPI_LINUX_IOREGION_H
++#define _UAPI_LINUX_IOREGION_H
++
++/* Wire protocol */
++
++struct ioregionfd_cmd {
++	__u8 cmd;
++	__u8 size_exponent : 4;
++	__u8 resp : 1;
++	__u8 padding[6];
++	__u64 user_data;
++	__u64 offset;
++	__u64 data;
++};
++
++struct ioregionfd_resp {
++	__u64 data;
++	__u8 pad[24];
++};
++
++#define IOREGIONFD_CMD_READ    0
++#define IOREGIONFD_CMD_WRITE   1
++
++#define IOREGIONFD_SIZE_8BIT   0
++#define IOREGIONFD_SIZE_16BIT  1
++#define IOREGIONFD_SIZE_32BIT  2
++#define IOREGIONFD_SIZE_64BIT  3
++
++#endif
 diff --git a/hw/remote/ioregionfd.c b/hw/remote/ioregionfd.c
-index 85ec0f7d38..1d371357c6 100644
+index 1d371357c6..dd04c39e25 100644
 --- a/hw/remote/ioregionfd.c
 +++ b/hw/remote/ioregionfd.c
-@@ -63,6 +63,34 @@ GSList *ioregionfd_get_obj_list(void)
-     return list;
+@@ -26,6 +26,7 @@
+ #include "hw/pci/pci.h"
+ #include "qapi/qapi-visit-qom.h"
+ #include "hw/remote/remote.h"
++#include "ioregionfd.h"
+ 
+ #define TYPE_IOREGIONFD_OBJECT "ioregionfd-object"
+ OBJECT_DECLARE_TYPE(IORegionFDObject, IORegionFDObjectClass, IOREGIONFD_OBJECT)
+@@ -91,6 +92,116 @@ void ioregionfd_set_bar_type(GSList *list, uint32_t bar, bool memory)
+     }
  }
  
-+IORegionFD *ioregionfd_get_by_bar(GSList *list, uint32_t bar)
++int qio_channel_ioregionfd_read(QIOChannel *ioc, gpointer opaque,
++                                Error **errp)
 +{
-+    IORegionFDObject *ioregionfd;
-+    GSList *elem;
++    struct RemoteObject *o = (struct RemoteObject *)opaque;
++    struct ioregionfd_cmd cmd = {};
++    struct iovec iov = {
++        .iov_base = &cmd,
++        .iov_len = sizeof(struct ioregionfd_cmd),
++    };
++    IORegionFDObject *ioregfd_obj;
++    PCIDevice *pci_dev;
++    hwaddr addr;
++    struct ioregionfd_resp resp = {};
++    int bar = 0;
++    Error *local_err = NULL;
++    uint64_t val = UINT64_MAX;
++    AddressSpace *as;
++    int ret = -EINVAL;
 +
-+    for (elem = list; elem; elem = elem->next) {
-+        ioregionfd = elem->data;
++    ERRP_GUARD();
 +
-+        if (ioregionfd->ioregfd.bar == bar) {
-+            return &ioregionfd->ioregfd;
++    if (!ioc) {
++        return -EINVAL;
++    }
++    ret = qio_channel_readv_full(ioc, &iov, 1, NULL, 0, &local_err);
++
++    if (ret == QIO_CHANNEL_ERR_BLOCK) {
++        return -EINVAL;
++    }
++
++    if (ret <= 0) {
++        /* read error or other side closed connection */
++        if (local_err) {
++            error_report_err(local_err);
++        }
++        error_setg(errp, "ioregionfd receive error");
++        return -EINVAL;
++    }
++
++    bar = cmd.user_data;
++    pci_dev = PCI_DEVICE(o->dev);
++    addr = (hwaddr)(pci_get_bar_addr(pci_dev, bar) + cmd.offset);
++    IORegionFDObject key = {.ioregfd = {.bar = bar} };
++    ioregfd_obj = g_hash_table_lookup(o->ioregionfd_hash, &key);
++
++    if (!ioregfd_obj) {
++        error_setg(errp, "Could not find IORegionFDObject");
++        return -EINVAL;
++    }
++    if (ioregfd_obj->ioregfd.memory) {
++        as = &address_space_memory;
++    } else {
++        as = &address_space_io;
++    }
++
++    if (ret > 0 && pci_dev) {
++        switch (cmd.cmd) {
++        case IOREGIONFD_CMD_READ:
++            ret = address_space_rw(as, addr, MEMTXATTRS_UNSPECIFIED,
++                                   (void *)&val, 1 << cmd.size_exponent,
++                                   false);
++            if (ret != MEMTX_OK) {
++                ret = -EINVAL;
++                error_setg(errp, "Bad address %"PRIx64" in mem read", addr);
++                val = UINT64_MAX;
++            }
++
++            memset(&resp, 0, sizeof(resp));
++            resp.data = val;
++            if (qio_channel_write_all(ioc, (char *)&resp, sizeof(resp),
++                                      &local_err)) {
++                error_propagate(errp, local_err);
++                goto fatal;
++            }
++            break;
++        case IOREGIONFD_CMD_WRITE:
++            ret = address_space_rw(as, addr, MEMTXATTRS_UNSPECIFIED,
++                                   (void *)&cmd.data, 1 << cmd.size_exponent,
++                                   true);
++            if (ret != MEMTX_OK) {
++                error_setg(errp, "Bad address %"PRIx64" for mem write", addr);
++                val = UINT64_MAX;
++            }
++
++            if (cmd.resp) {
++                memset(&resp, 0, sizeof(resp));
++                if (ret != MEMTX_OK) {
++                    resp.data = UINT64_MAX;
++                    ret = -EINVAL;
++                } else {
++                    resp.data = cmd.data;
++                }
++                if (qio_channel_write_all(ioc, (char *)&resp, sizeof(resp),
++                                          &local_err)) {
++                    error_propagate(errp, local_err);
++                    goto fatal;
++                }
++            }
++            break;
++        default:
++            error_setg(errp, "Unknown ioregionfd command from kvm");
++            break;
 +        }
 +    }
-+    return NULL;
-+}
++    return ret;
 +
-+void ioregionfd_set_bar_type(GSList *list, uint32_t bar, bool memory)
-+{
-+    IORegionFDObject *ioregionfd;
-+    GSList *elem;
-+
-+    for (elem = list; elem; elem = elem->next) {
-+        ioregionfd = elem->data;
-+        if (ioregionfd->ioregfd.bar == bar) {
-+            ioregionfd->ioregfd.memory = memory;
-+        }
-+    }
++ fatal:
++    return -EINVAL;
 +}
 +
  static void ioregionfd_object_init(Object *obj)
  {
      IORegionFDObjectClass *k = IOREGIONFD_OBJECT_GET_CLASS(obj);
-diff --git a/hw/remote/message.c b/hw/remote/message.c
-index 11d729845c..a8fb9764ba 100644
---- a/hw/remote/message.c
-+++ b/hw/remote/message.c
-@@ -29,6 +29,8 @@ static void process_bar_write(QIOChannel *ioc, MPQemuMsg *msg, Error **errp);
- static void process_bar_read(QIOChannel *ioc, MPQemuMsg *msg, Error **errp);
- static void process_device_reset_msg(QIOChannel *ioc, PCIDevice *dev,
-                                      Error **errp);
-+static void process_device_get_reg_info(QIOChannel *ioc, RemoteCommDev *com,
-+                                        MPQemuMsg *msg, Error **errp);
+diff --git a/hw/remote/remote-obj.c b/hw/remote/remote-obj.c
+index 46c2e2a5bd..2b005eab40 100644
+--- a/hw/remote/remote-obj.c
++++ b/hw/remote/remote-obj.c
+@@ -11,6 +11,7 @@
+ #include "qemu-common.h"
  
- void coroutine_fn mpqemu_remote_msg_loop_co(void *data)
- {
-@@ -75,6 +77,9 @@ void coroutine_fn mpqemu_remote_msg_loop_co(void *data)
-         case MPQEMU_CMD_DEVICE_RESET:
-             process_device_reset_msg(com->ioc, pci_dev, &local_err);
-             break;
-+        case MPQEMU_CMD_BAR_INFO:
-+            process_device_get_reg_info(com->ioc, com, &msg, &local_err);
-+            break;
-         default:
-             error_setg(&local_err,
-                        "Unknown command (%d) received for device %s"
-@@ -91,6 +96,39 @@ void coroutine_fn mpqemu_remote_msg_loop_co(void *data)
+ #include "qemu/error-report.h"
++#include "sysemu/iothread.h"
+ #include "qemu/notify.h"
+ #include "qom/object_interfaces.h"
+ #include "hw/qdev-core.h"
+@@ -78,6 +79,16 @@ static void remote_object_unrealize_listener(DeviceListener *listener,
      }
  }
  
-+static void process_device_get_reg_info(QIOChannel *ioc, RemoteCommDev *com,
-+                                        MPQemuMsg *msg, Error **errp)
++static IOThread *ioregionfd_iot;
++
++static void ioregion_read(void *opaque)
 +{
-+    ERRP_GUARD();
-+    uint32_t bar = (uint32_t)(msg->data.u64 & MAKE_64BIT_MASK(0, 32));
-+    bool memory;
++    struct RemoteObject *o = opaque;
++    Error *local_error = NULL;
 +
-+    memory = (msg->data.u64 && MAKE_64BIT_MASK(32, 32)) == 1 ?  true : false;
-+
-+    IORegionFD *ioregfd;
-+    MPQemuMsg ret = { 0 };
-+
-+    error_report("Bar is %d, mem %s", bar, memory ? "true" : "false");
-+
-+    memset(&ret, 0, sizeof(MPQemuMsg));
-+    ret.cmd = MPQEMU_CMD_RET;
-+    ret.size = sizeof(ret.data.u64);
-+
-+    ioregfd = ioregionfd_get_by_bar(com->ioregions_list, bar);
-+    if (ioregfd) {
-+        ret.data.u64 = ioregfd->bar;
-+        if (ioregfd->memory != memory) {
-+            ioregionfd_set_bar_type(com->ioregions_list, bar, memory);
-+        }
-+    } else {
-+        ret.data.u64 = UINT64_MAX;
-+    }
-+    if (!mpqemu_msg_send(&ret, ioc, NULL)) {
-+        error_prepend(errp, "Error returning code to proxy, pid "FMT_pid": ",
-+                      getpid());
-+    }
++    qio_channel_ioregionfd_read(o->ioregfd_ioc, opaque, &local_error);
 +}
 +
- static void process_config_write(QIOChannel *ioc, PCIDevice *dev,
-                                  MPQemuMsg *msg, Error **errp)
- {
-diff --git a/hw/remote/remote-obj.c b/hw/remote/remote-obj.c
-index 9bb61c3a2d..46c2e2a5bd 100644
---- a/hw/remote/remote-obj.c
-+++ b/hw/remote/remote-obj.c
-@@ -188,6 +188,7 @@ static void remote_object_machine_done(Notifier *notifier, void *data)
-     *comdev = (RemoteCommDev) {
-         .ioc = ioc,
-         .dev = PCI_DEVICE(dev),
-+        .ioregions_list = ioregions_list,
-     };
+ static GSList *ioregions_list;
  
-     co = qemu_coroutine_create(mpqemu_remote_msg_loop_co, comdev);
+ static unsigned int ioregionfd_bar_hash(const void *key)
+@@ -104,6 +115,8 @@ static void ioregionfd_prepare_for_dev(RemoteObject *o, PCIDevice *dev)
+ {
+     IORegionFDObject *ioregfd_obj = NULL;
+     GSList *obj_list, *list;
++    QIOChannel *ioc = NULL;
++    Error *local_err = NULL;
+ 
+     list = ioregionfd_get_obj_list();
+ 
+@@ -143,6 +156,30 @@ static void ioregionfd_prepare_for_dev(RemoteObject *o, PCIDevice *dev)
+     /* This is default and will be changed when proxy requests region info. */
+     ioregfd_obj->ioregfd.memory = true;
+ 
++    ioc = qio_channel_new_fd(ioregfd_obj->ioregfd.fd, &local_err);
++    if (!ioc) {
++        error_prepend(&local_err, "Could not create IOC channel for" \
++                      "ioregionfd fd %d", ioregfd_obj->ioregfd.fd);
++        error_report_err(local_err);
++        goto fatal;
++    }
++    o->ioregfd_ioc = ioc;
++
++    if (ioregionfd_iot == NULL) {
++        ioregionfd_iot = iothread_create("ioregionfd iothread",
++                                       &local_err);
++        if (local_err) {
++            qio_channel_shutdown(o->ioregfd_ioc, QIO_CHANNEL_SHUTDOWN_BOTH,
++                                 NULL);
++            qio_channel_close(o->ioregfd_ioc, NULL);
++            error_report_err(local_err);
++            goto fatal;
++        }
++    }
++    o->ioregfd_ctx = iothread_get_aio_context(ioregionfd_iot);
++    qio_channel_set_aio_fd_handler(o->ioregfd_ioc, o->ioregfd_ctx,
++                                   ioregion_read, NULL, o);
++
+     ioregions_list = list;
+     return;
+ 
+@@ -238,8 +275,15 @@ static void remote_object_finalize(Object *obj)
+ 
+     k->nr_devs--;
+     g_free(o->devid);
++
++    iothread_destroy(ioregionfd_iot);
+     /* Free the list of the ioregions. */
+     g_slist_foreach(ioregions_list, ioregionfd_release, NULL);
++    if (o->ioregfd_ioc) {
++        qio_channel_shutdown(o->ioregfd_ioc, QIO_CHANNEL_SHUTDOWN_BOTH, NULL);
++        qio_channel_close(o->ioregfd_ioc, NULL);
++    }
++
+     g_slist_free(ioregions_list);
+     g_hash_table_destroy(o->ioregionfd_hash);
+ }
 -- 
 2.25.1
 
