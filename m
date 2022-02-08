@@ -2,89 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 937BF4AD60D
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Feb 2022 12:18:12 +0100 (CET)
-Received: from localhost ([::1]:46136 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 656014AD829
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Feb 2022 13:09:36 +0100 (CET)
+Received: from localhost ([::1]:48948 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nHOVf-000342-N0
-	for lists+qemu-devel@lfdr.de; Tue, 08 Feb 2022 06:18:11 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:51348)
+	id 1nHPJO-0004Gi-P5
+	for lists+qemu-devel@lfdr.de; Tue, 08 Feb 2022 07:09:34 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:51856)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1nHOCS-0002pG-Fg
- for qemu-devel@nongnu.org; Tue, 08 Feb 2022 05:58:20 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:50310)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1nHOCQ-0003LJ-9g
- for qemu-devel@nongnu.org; Tue, 08 Feb 2022 05:58:19 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1644317897;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=dteOYlXbqqHWDCqvd+MH3Tp9mMUWrFsfsJBRJquTAS8=;
- b=gEXw7lfLyiFWmbvMw8+03PHSj4rUorOZI8jVXd2BGMkgzJGULihTevAgbTJthiBHrtv0vU
- Xp4mMq7O5kqoUxdbnws8gYrqwuZEEuPD662L2qXj0+6hkScvKeXx6i6JQhqCYxsQR6GhOH
- z/TrfYrllJCDpeKzg64qss2X7of4lZI=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-35-oTiKG2kcNI6BpFvulUESFg-1; Tue, 08 Feb 2022 05:58:16 -0500
-X-MC-Unique: oTiKG2kcNI6BpFvulUESFg-1
-Received: by mail-wr1-f70.google.com with SMTP id
- c9-20020adfa709000000b001dde29c3202so5919160wrd.22
- for <qemu-devel@nongnu.org>; Tue, 08 Feb 2022 02:58:16 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nHODi-0005Qo-8p
+ for qemu-devel@nongnu.org; Tue, 08 Feb 2022 05:59:38 -0500
+Received: from [2a00:1450:4864:20::430] (port=45011
+ helo=mail-wr1-x430.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nHODf-0003Z5-Ne
+ for qemu-devel@nongnu.org; Tue, 08 Feb 2022 05:59:36 -0500
+Received: by mail-wr1-x430.google.com with SMTP id k18so29964179wrg.11
+ for <qemu-devel@nongnu.org>; Tue, 08 Feb 2022 02:59:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=z3vyJrlhPBgOoYrRDXiEx+ljZIL8I+mXS/pYSsaSCGk=;
+ b=hhFZ+PsjBDIB9Av4RNNs0zJriwKEM0ed/qvklqwyTzfUCHmXt5OuV8hPXrZCtCbGOJ
+ 8fKGn4jrGhiWzQPPRY6UrM6mzl2a0d9QD9ygPWRcdySa0kQkccPBI/TXJ3IeSR3C8uab
+ m22En24+1/GluU/ljtcXHeVyRPsKt4opguzoLUVjIhDxwX32QnOX9y3h31D3icGyee++
+ UAonTwnBoit43Ax1m55IlD9pui1bBu5HA6A8q5SoEWrZ3fm55LBXkvbYrPk8nP22nFdw
+ qcOF72AJ29mZiG49+Z5S3bi/09xaPCmIDo29Ydep4/FahjbAupNpkvheqLdFeP5fW5gW
+ m1zg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=dteOYlXbqqHWDCqvd+MH3Tp9mMUWrFsfsJBRJquTAS8=;
- b=jr4qpFwdu+4RIksFr5yo+3xuUd6SXHnaKKKRepT8mqxGLjD8EFCVwQ+M0ECAAJxBxl
- qhPQ2GcthB1x+ZJTne5Ub3FUNT6fbff3UuSXc1gwIBQUybjJwCaRZX0yoGxIvb3LT5rL
- 8kkrgd8hP9fuRoKUSTwY0q/5rZ84NIkaosYZjdWUFntTxr3k4BJ5RtU51eqRC7AXjTxS
- E9Jh9J26qZ6Z5pW6WnySItOHmE3IV8SFeGt4AxgcjSGBWkdjZFxkT9z8r7pqkWhIG9MM
- hgBfdF8EHX8E/wK9AIfSL6/hojhI1LseFGrc7/FeyxJA6YVAFFFVssHwEvY+E8Y7PqO0
- RWEg==
-X-Gm-Message-State: AOAM530Dysr0PMJbXxHn+Ah9H+dQuWQu7Vw9cLBPuz9kwKAQLUj3d66H
- AgUMsPhUSsr3WQ7sFo3mKciQAg+cVxx0eIQL4qFfCArT91N/iMUvFadfFLS2emo6PzysmzrBivE
- iay2biIyJGxFpx7Y=
-X-Received: by 2002:a5d:6a85:: with SMTP id s5mr3124954wru.510.1644317895453; 
- Tue, 08 Feb 2022 02:58:15 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxbdychG7ua+m8N5qbyG6hmGiw/aNdcQP64in9DaOf2Pr9//12CQzOfI+GFWSxJmr/rb4jj5g==
-X-Received: by 2002:a5d:6a85:: with SMTP id s5mr3124935wru.510.1644317895262; 
- Tue, 08 Feb 2022 02:58:15 -0800 (PST)
-Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
- [82.30.61.225])
- by smtp.gmail.com with ESMTPSA id ay38sm1994968wmb.3.2022.02.08.02.58.14
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 08 Feb 2022 02:58:14 -0800 (PST)
-Date: Tue, 8 Feb 2022 10:58:13 +0000
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Jack Wang <jinpu.wang@ionos.com>
-Subject: Re: [PATCH v2] migration/rdma: set the REUSEADDR option for
- destination
-Message-ID: <YgJMxVMcGjrcKmuA@work-vm>
-References: <20220208085640.19702-1-jinpu.wang@ionos.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=z3vyJrlhPBgOoYrRDXiEx+ljZIL8I+mXS/pYSsaSCGk=;
+ b=Ht6xEuOyaT4rMMs0xKjZ8TJtTXVDERNQ9VN2OzyHQmGhlc77tu5g1W6JTiipNR+LWz
+ MCYiItG17bP7crjpUHG/i5dnx3vkXmKp6LNV3X+3fvSTrDjEOm2x6eQ6bCkBWe82GLeZ
+ VmnJgf+NYyjva9i31TP4Mm1NRH/XkMWHnPl7F0XPPeS1d1qMAgNLYYQS1iqTiT0/lfjw
+ mdVl0mQB50kcbaBtjQ0sgFDQfCRnihxTrhg2kKZXVfWbVe4S2ufK4alTIK07qd2a9aJy
+ f0AZsFSp/yZTyocqkqeYxHeodoIBtsMYMoIN4ya8pg74LEsQCQ8v9VvYHNTps4pnbNUQ
+ UVuQ==
+X-Gm-Message-State: AOAM530wFiCq/f8W7a7VZ5JhVAyuQ5h1H/1uhPMNkXpgZrlHzt7uyhDV
+ Zz8oNwJ+3VifDEcCFFcmoqAcNWB4U0Ys+qeypKBApQ==
+X-Google-Smtp-Source: ABdhPJwhmqHdaodp+JqJZoc9SEsQIB3exhNIW1fIuUydX9jOPwonNVHFeDT+58tAmEfwILRA8ZDAwds69Snm3odk3VM=
+X-Received: by 2002:a5d:6d8d:: with SMTP id l13mr2984474wrs.295.1644317973832; 
+ Tue, 08 Feb 2022 02:59:33 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20220208085640.19702-1-jinpu.wang@ionos.com>
-User-Agent: Mutt/2.1.5 (2021-12-30)
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+References: <20220208071237.319844-1-richard.henderson@linaro.org>
+ <20220208071237.319844-3-richard.henderson@linaro.org>
+In-Reply-To: <20220208071237.319844-3-richard.henderson@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 8 Feb 2022 10:59:22 +0000
+Message-ID: <CAFEAcA-Sy8wvO2h1tjNwPcK6j2Tfz-gGY2YTCeQZQEB_1jd=qg@mail.gmail.com>
+Subject: Re: [PATCH 2/5] linux-user: Introduce host_signal_mask
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::430
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::430;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x430.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -97,60 +81,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, pankaj.gupta@ionos.com, quintela@redhat.com
+Cc: qemu-devel@nongnu.org, Laurent@vivier.eu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Jack Wang (jinpu.wang@ionos.com) wrote:
-> We hit following error during testing RDMA transport:
-> in case of migration error, mgmt daemon pick one migration port,
-> incoming rdma:[::]:8089: RDMA ERROR: Error: could not rdma_bind_addr
-> 
-> Then try another -incoming rdma:[::]:8103, sometime it worked,
-> sometimes need another try with other ports number.
-> 
-> Set the REUSEADDR option for destination, This allow address could
-> be reused to avoid rdma_bind_addr error out.
-> 
-> Signed-off-by: Jack Wang <jinpu.wang@ionos.com>
-
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-
+On Tue, 8 Feb 2022 at 08:03, Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> Do not directly access the uc_sigmask member.
+> This is preparation for a sparc64 fix.
+>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
-> v2: extend commit message as discussed with Pankaj and David
-> ---
->  migration/rdma.c | 7 +++++++
->  1 file changed, 7 insertions(+)
-> 
-> diff --git a/migration/rdma.c b/migration/rdma.c
-> index c7c7a384875b..663e1fbb096d 100644
-> --- a/migration/rdma.c
-> +++ b/migration/rdma.c
-> @@ -2705,6 +2705,7 @@ static int qemu_rdma_dest_init(RDMAContext *rdma, Error **errp)
->      char ip[40] = "unknown";
->      struct rdma_addrinfo *res, *e;
->      char port_str[16];
-> +    int reuse = 1;
->  
->      for (idx = 0; idx < RDMA_WRID_MAX; idx++) {
->          rdma->wr_data[idx].control_len = 0;
-> @@ -2740,6 +2741,12 @@ static int qemu_rdma_dest_init(RDMAContext *rdma, Error **errp)
->          goto err_dest_init_bind_addr;
->      }
->  
-> +    ret = rdma_set_option(listen_id, RDMA_OPTION_ID, RDMA_OPTION_ID_REUSEADDR,
-> +			  &reuse, sizeof reuse);
-> +    if (ret) {
-> +        ERROR(errp, "Error: could not set REUSEADDR option");
-> +        goto err_dest_init_bind_addr;
-> +    }
->      for (e = res; e != NULL; e = e->ai_next) {
->          inet_ntop(e->ai_family,
->              &((struct sockaddr_in *) e->ai_dst_addr)->sin_addr, ip, sizeof ip);
-> -- 
-> 2.25.1
-> 
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+>  linux-user/include/host/aarch64/host-signal.h  |  5 +++++
+>  linux-user/include/host/alpha/host-signal.h    |  5 +++++
+>  linux-user/include/host/arm/host-signal.h      |  5 +++++
+>  linux-user/include/host/i386/host-signal.h     |  5 +++++
+>  .../include/host/loongarch64/host-signal.h     |  5 +++++
+>  linux-user/include/host/mips/host-signal.h     |  5 +++++
+>  linux-user/include/host/ppc/host-signal.h      |  5 +++++
+>  linux-user/include/host/riscv/host-signal.h    |  5 +++++
+>  linux-user/include/host/s390/host-signal.h     |  5 +++++
+>  linux-user/include/host/sparc/host-signal.h    |  5 +++++
+>  linux-user/include/host/x86_64/host-signal.h   |  5 +++++
+>  linux-user/signal.c                            | 18 ++++++++----------
+>  12 files changed, 63 insertions(+), 10 deletions(-)
+>
+> diff --git a/linux-user/include/host/aarch64/host-signal.h b/linux-user/include/host/aarch64/host-signal.h
+> index 9770b36dc1..76ab078069 100644
+> --- a/linux-user/include/host/aarch64/host-signal.h
+> +++ b/linux-user/include/host/aarch64/host-signal.h
+> @@ -40,6 +40,11 @@ static inline void host_signal_set_pc(ucontext_t *uc, uintptr_t pc)
+>      uc->uc_mcontext.pc = pc;
+>  }
+>
+> +static inline void *host_signal_mask(ucontext_t *uc)
+> +{
+> +    return &uc->uc_sigmask;
+> +}
 
+Why void* rather than sigset_t* ?
+
+thanks
+-- PMM
 
