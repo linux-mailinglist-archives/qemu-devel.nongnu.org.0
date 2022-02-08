@@ -2,65 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD9E14AE2AD
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Feb 2022 21:54:44 +0100 (CET)
-Received: from localhost ([::1]:55142 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D40B74AE2B5
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Feb 2022 21:59:20 +0100 (CET)
+Received: from localhost ([::1]:33132 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nHXVb-00014t-S0
-	for lists+qemu-devel@lfdr.de; Tue, 08 Feb 2022 15:54:43 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:47764)
+	id 1nHXa3-0006Xn-La
+	for lists+qemu-devel@lfdr.de; Tue, 08 Feb 2022 15:59:19 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:47662)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1nHXPg-0002Oy-5A
- for qemu-devel@nongnu.org; Tue, 08 Feb 2022 15:48:36 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:40444)
+ (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1nHXPb-0002Gi-LW
+ for qemu-devel@nongnu.org; Tue, 08 Feb 2022 15:48:33 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:32243)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1nHXPd-00044k-Pf
- for qemu-devel@nongnu.org; Tue, 08 Feb 2022 15:48:35 -0500
+ (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1nHXPX-00043z-Pc
+ for qemu-devel@nongnu.org; Tue, 08 Feb 2022 15:48:30 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1644353311;
+ s=mimecast20190719; t=1644353307;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=rLH5lVS6OHbjVoJT6Ug/ghyb33jt9hnXPpWMSJb5+xo=;
- b=ar71HsQ5y5Z1YDBYBrz3JDrDpZSijntlEe0grcsc6t7RFmck7rLQ1Q6xhRX9tBuk/ldI6B
- vyDcqED+QWObqbG7gmPX0pUdPdmkNMFjl6cM85OHTHKlsBO12XbiSVARy58rwPYSNWkGOl
- EIN6Htee1/0z3lywwLv274/BlnNYejQ=
+ bh=iAAcT7qOcK9yPtAKhU4L89+JeEKJXOEf6Nx3YutGsV4=;
+ b=I9eBsMGHhyT4kwUyctw0tWoXFcaoYcHECg3ZKMETmpXmaAtFE8YK9HLE6bsMY+ZZuzZixH
+ ADE3GHjQIMeS1rFofKpnSxxTPBb/VVxFl090GacNRTi/4sflzxumkGsbYMd7U6pRCKBRSe
+ ff2Xp84XdyDKNaXrEgjuUYdd7q+F5F8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-615-L5xuMdX5OwGVDsI6mXnE7Q-1; Tue, 08 Feb 2022 15:48:29 -0500
-X-MC-Unique: L5xuMdX5OwGVDsI6mXnE7Q-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-324-53SAgsF2Pv-sGj3L8XjfQQ-1; Tue, 08 Feb 2022 15:48:25 -0500
+X-MC-Unique: 53SAgsF2Pv-sGj3L8XjfQQ-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F2EE41F7B8
- for <qemu-devel@nongnu.org>; Tue,  8 Feb 2022 20:48:28 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BF028190A7A2
+ for <qemu-devel@nongnu.org>; Tue,  8 Feb 2022 20:48:24 +0000 (UTC)
 Received: from horse.redhat.com (unknown [10.22.18.12])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 95C226AB97;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8E6F25E24E;
  Tue,  8 Feb 2022 20:48:24 +0000 (UTC)
 Received: by horse.redhat.com (Postfix, from userid 10451)
- id CACFD2256FC; Tue,  8 Feb 2022 15:48:23 -0500 (EST)
+ id DA08C2256FF; Tue,  8 Feb 2022 15:48:23 -0500 (EST)
 From: Vivek Goyal <vgoyal@redhat.com>
 To: qemu-devel@nongnu.org,
 	virtio-fs@redhat.com
-Subject: [PATCH v6 05/10] virtiofsd,
- fuse_lowlevel.c: Add capability to parse security context
-Date: Tue,  8 Feb 2022 15:48:08 -0500
-Message-Id: <20220208204813.682906-6-vgoyal@redhat.com>
+Subject: [PATCH v6 08/10] virtiofsd: Create new file with security context
+Date: Tue,  8 Feb 2022 15:48:11 -0500
+Message-Id: <20220208204813.682906-9-vgoyal@redhat.com>
 In-Reply-To: <20220208204813.682906-1-vgoyal@redhat.com>
 References: <20220208204813.682906-1-vgoyal@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=vgoyal@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=vgoyal@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=vgoyal@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -86,239 +85,343 @@ Cc: mszeredi@redhat.com, berrange@redhat.com, dgilbert@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add capability to enable and parse security context as sent by client
-and put into fuse_req. Filesystems now can get security context from
-request and set it on files during creation.
+This patch adds support for creating new file with security context
+as sent by client. It basically takes three paths.
 
+- If no security context enabled, then it continues to create files without
+  security context.
+
+- If security context is enabled and but security.selinux has not been
+  remapped, then it uses /proc/thread-self/attr/fscreate knob to set
+  security context and then create the file. This will make sure that
+  newly created file gets the security context as set in "fscreate" and
+  this is atomic w.r.t file creation.
+
+  This is useful and host and guest SELinux policies don't conflict and
+  can work with each other. In that case, guest security.selinux xattr
+  is not remapped and it is passthrough as "security.selinux" xattr
+  on host.
+
+- If security context is enabled but security.selinux xattr has been
+  remapped to something else, then it first creates the file and then
+  uses setxattr() to set the remapped xattr with the security context.
+  This is a non-atomic operation w.r.t file creation.
+
+  This mode will be most versatile and allow host and guest to have their
+  own separate SELinux xattrs and have their own separate SELinux policies.
+
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 Signed-off-by: Vivek Goyal <vgoyal@redhat.com>
 ---
- tools/virtiofsd/fuse_common.h   |   5 ++
- tools/virtiofsd/fuse_i.h        |   7 +++
- tools/virtiofsd/fuse_lowlevel.c | 102 +++++++++++++++++++++++++++++++-
- 3 files changed, 113 insertions(+), 1 deletion(-)
+ tools/virtiofsd/passthrough_ll.c | 229 +++++++++++++++++++++++++++----
+ 1 file changed, 200 insertions(+), 29 deletions(-)
 
-diff --git a/tools/virtiofsd/fuse_common.h b/tools/virtiofsd/fuse_common.h
-index 6f8a988202..bf46954dab 100644
---- a/tools/virtiofsd/fuse_common.h
-+++ b/tools/virtiofsd/fuse_common.h
-@@ -377,6 +377,11 @@ struct fuse_file_info {
-  */
- #define FUSE_CAP_SETXATTR_EXT (1 << 29)
+diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrough_ll.c
+index 7762bf0d2c..68fa542fac 100644
+--- a/tools/virtiofsd/passthrough_ll.c
++++ b/tools/virtiofsd/passthrough_ll.c
+@@ -234,6 +234,11 @@ static struct lo_inode *lo_find(struct lo_data *lo, struct stat *st,
+ static int xattr_map_client(const struct lo_data *lo, const char *client_name,
+                             char **out_name);
  
-+/**
-+ * Indicates that file server supports creating file security context
-+ */
-+#define FUSE_CAP_SECURITY_CTX (1ULL << 32)
++#define FCHDIR_NOFAIL(fd) do {                         \
++        int fchdir_res = fchdir(fd);                   \
++        assert(fchdir_res == 0);                       \
++    } while (0)
 +
- /**
-  * Ioctl flags
-  *
-diff --git a/tools/virtiofsd/fuse_i.h b/tools/virtiofsd/fuse_i.h
-index 492e002181..a5572fa4ae 100644
---- a/tools/virtiofsd/fuse_i.h
-+++ b/tools/virtiofsd/fuse_i.h
-@@ -15,6 +15,12 @@
- struct fv_VuDev;
- struct fv_QueueInfo;
+ static bool is_dot_or_dotdot(const char *name)
+ {
+     return name[0] == '.' &&
+@@ -288,7 +293,6 @@ static bool is_fscreate_usable(struct lo_data *lo)
+ }
  
-+struct fuse_security_context {
-+        const char *name;
-+        uint32_t ctxlen;
-+        const void *ctx;
-+};
-+
- struct fuse_req {
-     struct fuse_session *se;
-     uint64_t unique;
-@@ -35,6 +41,7 @@ struct fuse_req {
-     } u;
-     struct fuse_req *next;
-     struct fuse_req *prev;
-+    struct fuse_security_context secctx;
- };
+ /* Helpers to set/reset fscreate */
+-__attribute__((unused))
+ static int open_set_proc_fscreate(struct lo_data *lo, const void *ctx,
+                                   size_t ctxlen,int *fd)
+ {
+@@ -316,7 +320,6 @@ out:
+     return err;
+ }
  
- struct fuse_notify_req {
-diff --git a/tools/virtiofsd/fuse_lowlevel.c b/tools/virtiofsd/fuse_lowlevel.c
-index d91cd9743a..2909122b23 100644
---- a/tools/virtiofsd/fuse_lowlevel.c
-+++ b/tools/virtiofsd/fuse_lowlevel.c
-@@ -886,11 +886,63 @@ static void do_readlink(fuse_req_t req, fuse_ino_t nodeid,
+-__attribute__((unused))
+ static void close_reset_proc_fscreate(int fd)
+ {
+     if ((write(fd, NULL, 0)) == -1) {
+@@ -1354,16 +1357,103 @@ static void lo_restore_cred_gain_cap(struct lo_cred *old, bool restore_umask,
      }
  }
  
-+static int parse_secctx_fill_req(fuse_req_t req, struct fuse_mbuf_iter *iter)
++static int do_mknod_symlink_secctx(fuse_req_t req, struct lo_inode *dir,
++                                   const char *name, const char *secctx_name)
 +{
-+    struct fuse_secctx_header *fsecctx_header;
-+    struct fuse_secctx *fsecctx;
-+    const void *secctx;
-+    const char *name;
++    int path_fd, err;
++    char procname[64];
++    struct lo_data *lo = lo_data(req);
 +
-+    fsecctx_header = fuse_mbuf_iter_advance(iter, sizeof(*fsecctx_header));
-+    if (!fsecctx_header) {
-+        return -EINVAL;
-+    }
-+
-+    /*
-+     * As of now maximum of one security context is supported. It can
-+     * change in future though.
-+     */
-+    if (fsecctx_header->nr_secctx > 1) {
-+        return -EINVAL;
-+    }
-+
-+    /* No security context sent. Maybe no LSM supports it */
-+    if (!fsecctx_header->nr_secctx) {
++    if (!req->secctx.ctxlen) {
 +        return 0;
 +    }
 +
-+    fsecctx = fuse_mbuf_iter_advance(iter, sizeof(*fsecctx));
-+    if (!fsecctx) {
-+        return -EINVAL;
++    /* Open newly created element with O_PATH */
++    path_fd = openat(dir->fd, name, O_PATH | O_NOFOLLOW);
++    err = path_fd == -1 ? errno : 0;
++    if (err) {
++        return err;
 +    }
-+
-+    /* struct fsecctx with zero sized context is not expected */
-+    if (!fsecctx->size) {
-+        return -EINVAL;
++    sprintf(procname, "%i", path_fd);
++    FCHDIR_NOFAIL(lo->proc_self_fd);
++    /* Set security context. This is not atomic w.r.t file creation */
++    err = setxattr(procname, secctx_name, req->secctx.ctx, req->secctx.ctxlen,
++                   0);
++    if (err) {
++        err = errno;
 +    }
-+    name = fuse_mbuf_iter_advance_str(iter);
-+    if (!name) {
-+        return -EINVAL;
-+    }
-+
-+    secctx = fuse_mbuf_iter_advance(iter, fsecctx->size);
-+    if (!secctx) {
-+        return -EINVAL;
-+    }
-+
-+    req->secctx.name = name;
-+    req->secctx.ctx = secctx;
-+    req->secctx.ctxlen = fsecctx->size;
-+    return 0;
++    FCHDIR_NOFAIL(lo->root.fd);
++    close(path_fd);
++    return err;
 +}
 +
- static void do_mknod(fuse_req_t req, fuse_ino_t nodeid,
-                      struct fuse_mbuf_iter *iter)
- {
-     struct fuse_mknod_in *arg;
-     const char *name;
-+    bool secctx_enabled = req->se->conn.want & FUSE_CAP_SECURITY_CTX;
-+    int err;
- 
-     arg = fuse_mbuf_iter_advance(iter, sizeof(*arg));
-     name = fuse_mbuf_iter_advance_str(iter);
-@@ -901,6 +953,14 @@ static void do_mknod(fuse_req_t req, fuse_ino_t nodeid,
- 
-     req->ctx.umask = arg->umask;
- 
-+    if (secctx_enabled) {
-+        err = parse_secctx_fill_req(req, iter);
++static int do_mknod_symlink(fuse_req_t req, struct lo_inode *dir,
++                            const char *name, mode_t mode, dev_t rdev,
++                            const char *link)
++{
++    int err, fscreate_fd = -1;
++    const char *secctx_name = req->secctx.name;
++    struct lo_cred old = {};
++    struct lo_data *lo = lo_data(req);
++    char *mapped_name = NULL;
++    bool secctx_enabled = req->secctx.ctxlen;
++    bool do_fscreate = false;
++
++    if (secctx_enabled && lo->xattrmap) {
++        err = xattr_map_client(lo, req->secctx.name, &mapped_name);
++        if (err < 0) {
++            return -err;
++        }
++        secctx_name = mapped_name;
++    }
++
++    /*
++     * If security xattr has not been remapped and selinux is enabled on
++     * host, set fscreate and no need to do a setxattr() after file creation
++     */
++    if (secctx_enabled && !mapped_name && lo->use_fscreate) {
++        do_fscreate = true;
++        err = open_set_proc_fscreate(lo, req->secctx.ctx, req->secctx.ctxlen,
++                                     &fscreate_fd);
 +        if (err) {
-+            fuse_reply_err(req, -err);
-+            return;
++            goto out;
 +        }
 +    }
 +
-     if (req->se->op.mknod) {
-         req->se->op.mknod(req, nodeid, name, arg->mode, arg->rdev);
-     } else {
-@@ -913,6 +973,8 @@ static void do_mkdir(fuse_req_t req, fuse_ino_t nodeid,
- {
-     struct fuse_mkdir_in *arg;
-     const char *name;
-+    bool secctx_enabled = req->se->conn.want & FUSE_CAP_SECURITY_CTX;
-+    int err;
- 
-     arg = fuse_mbuf_iter_advance(iter, sizeof(*arg));
-     name = fuse_mbuf_iter_advance_str(iter);
-@@ -923,6 +985,14 @@ static void do_mkdir(fuse_req_t req, fuse_ino_t nodeid,
- 
-     req->ctx.umask = arg->umask;
- 
-+    if (secctx_enabled) {
-+        err = parse_secctx_fill_req(req, iter);
-+        if (err) {
-+            fuse_reply_err(req, err);
-+            return;
-+        }
++    err = lo_change_cred(req, &old, lo->change_umask && !S_ISLNK(mode));
++    if (err) {
++        goto out;
 +    }
 +
-     if (req->se->op.mkdir) {
-         req->se->op.mkdir(req, nodeid, name, arg->mode);
-     } else {
-@@ -969,12 +1039,22 @@ static void do_symlink(fuse_req_t req, fuse_ino_t nodeid,
++    err = mknod_wrapper(dir->fd, name, link, mode, rdev);
++    err = err == -1 ? errno : 0;
++    lo_restore_cred(&old, lo->change_umask && !S_ISLNK(mode));
++    if (err) {
++        goto out;
++    }
++
++    if (!do_fscreate) {
++        err = do_mknod_symlink_secctx(req, dir, name, secctx_name);
++        if (err) {
++            unlinkat(dir->fd, name, S_ISDIR(mode) ? AT_REMOVEDIR : 0);
++        }
++    }
++out:
++    if (fscreate_fd != -1) {
++        close_reset_proc_fscreate(fscreate_fd);
++    }
++    g_free(mapped_name);
++    return err;
++}
++
+ static void lo_mknod_symlink(fuse_req_t req, fuse_ino_t parent,
+                              const char *name, mode_t mode, dev_t rdev,
+                              const char *link)
  {
-     const char *name = fuse_mbuf_iter_advance_str(iter);
-     const char *linkname = fuse_mbuf_iter_advance_str(iter);
-+    bool secctx_enabled = req->se->conn.want & FUSE_CAP_SECURITY_CTX;
-+    int err;
+-    int res;
+     int saverr;
+     struct lo_data *lo = lo_data(req);
+     struct lo_inode *dir;
+     struct fuse_entry_param e;
+-    struct lo_cred old = {};
  
-     if (!name || !linkname) {
-         fuse_reply_err(req, EINVAL);
+     if (is_empty(name)) {
+         fuse_reply_err(req, ENOENT);
+@@ -1381,21 +1471,11 @@ static void lo_mknod_symlink(fuse_req_t req, fuse_ino_t parent,
          return;
      }
  
-+    if (secctx_enabled) {
-+        err = parse_secctx_fill_req(req, iter);
-+        if (err) {
-+            fuse_reply_err(req, err);
-+            return;
-+        }
-+    }
-+
-     if (req->se->op.symlink) {
-         req->se->op.symlink(req, linkname, nodeid, name);
-     } else {
-@@ -1048,6 +1128,8 @@ static void do_link(fuse_req_t req, fuse_ino_t nodeid,
- static void do_create(fuse_req_t req, fuse_ino_t nodeid,
-                       struct fuse_mbuf_iter *iter)
+-    saverr = lo_change_cred(req, &old, lo->change_umask && !S_ISLNK(mode));
++    saverr = do_mknod_symlink(req, dir, name, mode, rdev, link);
+     if (saverr) {
+         goto out;
+     }
+ 
+-    res = mknod_wrapper(dir->fd, name, link, mode, rdev);
+-
+-    saverr = errno;
+-
+-    lo_restore_cred(&old, lo->change_umask && !S_ISLNK(mode));
+-
+-    if (res == -1) {
+-        goto out;
+-    }
+-
+     saverr = lo_do_lookup(req, parent, name, &e, NULL);
+     if (saverr) {
+         goto out;
+@@ -2071,13 +2151,16 @@ static int lo_do_open(struct lo_data *lo, struct lo_inode *inode,
+     return 0;
+ }
+ 
+-static int do_lo_create(fuse_req_t req, struct lo_inode *parent_inode,
+-                        const char *name, mode_t mode,
+-                        struct fuse_file_info *fi, int* open_fd)
++static int do_create_nosecctx(fuse_req_t req, struct lo_inode *parent_inode,
++                               const char *name, mode_t mode,
++                               struct fuse_file_info *fi, int *open_fd)
  {
-+    bool secctx_enabled = req->se->conn.want & FUSE_CAP_SECURITY_CTX;
+-    int err = 0, fd;
++    int err, fd;
+     struct lo_cred old = {};
+     struct lo_data *lo = lo_data(req);
++    int flags;
 +
-     if (req->se->op.create) {
-         struct fuse_create_in *arg;
-         struct fuse_file_info fi;
-@@ -1060,6 +1142,15 @@ static void do_create(fuse_req_t req, fuse_ino_t nodeid,
-             return;
-         }
++    flags = fi->flags | O_CREAT | O_EXCL;
  
-+        if (secctx_enabled) {
-+            int err;
-+            err = parse_secctx_fill_req(req, iter);
-+            if (err) {
-+                fuse_reply_err(req, err);
-+                return;
-+            }
+     err = lo_change_cred(req, &old, lo->change_umask);
+     if (err) {
+@@ -2085,13 +2168,106 @@ static int do_lo_create(fuse_req_t req, struct lo_inode *parent_inode,
+     }
+ 
+     /* Try to create a new file but don't open existing files */
+-    fd = openat(parent_inode->fd, name, fi->flags | O_CREAT | O_EXCL, mode);
+-    if (fd == -1) {
+-        err = errno;
+-    } else {
++    fd = openat(parent_inode->fd, name, flags, mode);
++    err = fd == -1 ? errno : 0;
++    lo_restore_cred(&old, lo->change_umask);
++    if (!err) {
+         *open_fd = fd;
+     }
+-    lo_restore_cred(&old, lo->change_umask);
++    return err;
++}
++
++static int do_create_secctx_fscreate(fuse_req_t req,
++                                     struct lo_inode *parent_inode,
++                                     const char *name, mode_t mode,
++                                     struct fuse_file_info *fi, int *open_fd)
++{
++    int err = 0, fd = -1, fscreate_fd = -1;
++    struct lo_data *lo = lo_data(req);
++
++    err = open_set_proc_fscreate(lo, req->secctx.ctx, req->secctx.ctxlen,
++                                 &fscreate_fd);
++    if (err) {
++        return err;
++    }
++
++    err = do_create_nosecctx(req, parent_inode, name, mode, fi, &fd);
++
++    close_reset_proc_fscreate(fscreate_fd);
++    if (!err) {
++        *open_fd = fd;
++    }
++    return err;
++}
++
++static int do_create_secctx_noatomic(fuse_req_t req,
++                                     struct lo_inode *parent_inode,
++                                     const char *name, mode_t mode,
++                                     struct fuse_file_info *fi,
++                                     const char *secctx_name, int *open_fd)
++{
++    int err = 0, fd = -1;
++
++    err = do_create_nosecctx(req, parent_inode, name, mode, fi, &fd);
++    if (err) {
++        goto out;
++    }
++
++    /* Set security context. This is not atomic w.r.t file creation */
++    err = fsetxattr(fd, secctx_name, req->secctx.ctx, req->secctx.ctxlen, 0);
++    err = err == -1 ? errno : 0;
++out:
++    if (!err) {
++        *open_fd = fd;
++    } else {
++        if (fd != -1) {
++            close(fd);
++            unlinkat(parent_inode->fd, name, 0);
++        }
++    }
++    return err;
++}
++
++static int do_lo_create(fuse_req_t req, struct lo_inode *parent_inode,
++                        const char *name, mode_t mode,
++                        struct fuse_file_info *fi, int *open_fd)
++{
++    struct lo_data *lo = lo_data(req);
++    char *mapped_name = NULL;
++    int err;
++    const char *ctxname = req->secctx.name;
++    bool secctx_enabled = req->secctx.ctxlen;
++
++    if (secctx_enabled && lo->xattrmap) {
++        err = xattr_map_client(lo, req->secctx.name, &mapped_name);
++        if (err < 0) {
++            return -err;
 +        }
 +
-         memset(&fi, 0, sizeof(fi));
-         fi.flags = arg->flags;
-         fi.kill_priv = arg->open_flags & FUSE_OPEN_KILL_SUIDGID;
-@@ -2015,6 +2106,9 @@ static void do_init(fuse_req_t req, fuse_ino_t nodeid,
-     if (flags & FUSE_SETXATTR_EXT) {
-         se->conn.capable |= FUSE_CAP_SETXATTR_EXT;
-     }
-+    if (flags & FUSE_SECURITY_CTX) {
-+        se->conn.capable |= FUSE_CAP_SECURITY_CTX;
-+    }
- #ifdef HAVE_SPLICE
- #ifdef HAVE_VMSPLICE
-     se->conn.capable |= FUSE_CAP_SPLICE_WRITE | FUSE_CAP_SPLICE_MOVE;
-@@ -2154,8 +2248,14 @@ static void do_init(fuse_req_t req, fuse_ino_t nodeid,
-         outarg.flags |= FUSE_SETXATTR_EXT;
-     }
- 
-+    if (se->conn.want & FUSE_CAP_SECURITY_CTX) {
-+        /* bits 32..63 get shifted down 32 bits into the flags2 field */
-+        outarg.flags2 |= FUSE_SECURITY_CTX >> 32;
++        ctxname = mapped_name;
 +    }
 +
-     fuse_log(FUSE_LOG_DEBUG, "   INIT: %u.%u\n", outarg.major, outarg.minor);
--    fuse_log(FUSE_LOG_DEBUG, "   flags=0x%08x\n", outarg.flags);
-+    fuse_log(FUSE_LOG_DEBUG, "   flags2=0x%08x flags=0x%08x\n", outarg.flags2,
-+             outarg.flags);
-     fuse_log(FUSE_LOG_DEBUG, "   max_readahead=0x%08x\n", outarg.max_readahead);
-     fuse_log(FUSE_LOG_DEBUG, "   max_write=0x%08x\n", outarg.max_write);
-     fuse_log(FUSE_LOG_DEBUG, "   max_background=%i\n", outarg.max_background);
++    if (secctx_enabled) {
++        /*
++         * If security.selinux has not been remapped and selinux is enabled,
++         * use fscreate to set context before file creation.
++         * Otherwise fallback to non-atomic method of file creation
++         * and xattr settting.
++         */
++        if (!mapped_name && lo->use_fscreate) {
++            err = do_create_secctx_fscreate(req, parent_inode, name, mode, fi,
++                                            open_fd);
++            goto out;
++        }
++
++        err = do_create_secctx_noatomic(req, parent_inode, name, mode, fi,
++                                        ctxname, open_fd);
++    } else {
++        err = do_create_nosecctx(req, parent_inode, name, mode, fi, open_fd);
++    }
++
++out:
++    g_free(mapped_name);
+     return err;
+ }
+ 
+@@ -2926,11 +3102,6 @@ static int xattr_map_server(const struct lo_data *lo, const char *server_name,
+     return -ENODATA;
+ }
+ 
+-#define FCHDIR_NOFAIL(fd) do {                         \
+-        int fchdir_res = fchdir(fd);                   \
+-        assert(fchdir_res == 0);                       \
+-    } while (0)
+-
+ static bool block_xattr(struct lo_data *lo, const char *name)
+ {
+     /*
 -- 
 2.34.1
 
