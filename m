@@ -2,72 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A04774AD4A9
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Feb 2022 10:22:29 +0100 (CET)
-Received: from localhost ([::1]:33248 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5BF354AD4CD
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Feb 2022 10:26:48 +0100 (CET)
+Received: from localhost ([::1]:41876 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nHMhg-0007Ux-41
-	for lists+qemu-devel@lfdr.de; Tue, 08 Feb 2022 04:22:28 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:52894)
+	id 1nHMlq-0005FR-Ut
+	for lists+qemu-devel@lfdr.de; Tue, 08 Feb 2022 04:26:46 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:52934)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nHKkn-0000Pb-AA
- for qemu-devel@nongnu.org; Tue, 08 Feb 2022 02:17:35 -0500
-Received: from [2607:f8b0:4864:20::1029] (port=44800
- helo=mail-pj1-x1029.google.com)
+ id 1nHKkr-0000Rs-IT
+ for qemu-devel@nongnu.org; Tue, 08 Feb 2022 02:17:37 -0500
+Received: from [2607:f8b0:4864:20::435] (port=36382
+ helo=mail-pf1-x435.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nHKki-00018d-Re
- for qemu-devel@nongnu.org; Tue, 08 Feb 2022 02:17:31 -0500
-Received: by mail-pj1-x1029.google.com with SMTP id
- d9-20020a17090a498900b001b8bb1d00e7so1787201pjh.3
- for <qemu-devel@nongnu.org>; Mon, 07 Feb 2022 23:17:27 -0800 (PST)
+ id 1nHKko-00019J-Qf
+ for qemu-devel@nongnu.org; Tue, 08 Feb 2022 02:17:37 -0500
+Received: by mail-pf1-x435.google.com with SMTP id s14so2389552pfw.3
+ for <qemu-devel@nongnu.org>; Mon, 07 Feb 2022 23:17:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=xAVP1v46orjMrIoCb3miSswpoEMk3ZlxrVr6Eb87UTs=;
- b=oPgcIO/DwkUyxrpQmSuOGmDH6y+oLuV7gk7tfeZO0b9686Qhjwe6Xq45J9lKmfPSeA
- O9+VzvfBxZwAH1scxKlN6OkcIKPF3iqRqzmbRVU+ZYDS9VidcWQ8THp7J4WaPNl47cum
- W0wpJavwcYHIq/FYGDNe0iA2jzqMp0GB8zYhLBKttSLMW7qhPs/zNsev6Ih3FXgeZmC/
- hcCA/U8pWmyzwqm0rzjp90IcMe8qvuc8rCx+kVrpaRTJSfzzaznDqHA83Pz1d1PwjzgB
- RbUxlaawMq63p9eaxeJDpQ+8hAsHDCXtEE1HvP+MVaUewX1Ui1+eQCjLmXEkRxLHvKVg
- udGQ==
+ bh=M6tf4FpZ+qAz3lmkXbhG0Fyk59+5/pweIZaBuGXoNnA=;
+ b=bZ5vWpTb7kCWKkK0WlxW3/79wa0O2/FF488z1+bC07L0BJtcl8HUMm167D3S4Iiu6c
+ sbiH9ieNZH6rFRzHLZzBx+0GaqpZp9OqlN22Gu3Ds1SfySjQ9lVP5rZY/6BLoHZUCqsA
+ /4UZ6HQjXrS9rH+KNAjvXi6nFp4ImvRaniP8wdn14xt3/tOfF103Ru6stBTpn1+EZUEv
+ PgSpzif8xrhsyDvuo8S6PObWqfc7VyPqB1BnEQ2WvkCgUv8FpkKGLhZIYkwj3+D6SKIg
+ K07NpWva0pvYiZwbW3Lqz30KVBrrqHXliS3a3u/0eIwFmqbCn+9cqehrXN01njqZ5ysx
+ qaww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=xAVP1v46orjMrIoCb3miSswpoEMk3ZlxrVr6Eb87UTs=;
- b=zOL0PDPZLUEWA6kXVWUmrtMKhekSzfsY9vKo/QG9nLJCaphpApjcBghxmQ0Z6kM5uY
- FW1dv3i1PJFbOWxbwYgYwzhzeNaRNtB0Xcz+ej32Y8DuWh9PJ1AE1zbjpttnsh9v8YwM
- XKqxGWxsKVfYo7smBZHlm+kFgoTW4Va1jff9YRBN6x83SVLdDQlopBg5eqowpA91jr56
- Cf9ukQAQy5Low2O4H1GyHIAsOcVf1I4tZgKeRmQf2xoSNY0PqQwXYu0H/MS1oUPrHd+f
- 3cdeTMl9HmtldZT/tg/cFKt78P912DN4QfeRxtTYVqHwo2YHXEZfPhE/rbRLZUXxXX9p
- 2NNw==
-X-Gm-Message-State: AOAM531g1mX8o448PbZFlJG7CNQxC5Shi5zyFns9L1cxoGtqXlVJdQl7
- T/CioOO3WqrMUnwWWGUnmBWvjbUfjqWIsg==
-X-Google-Smtp-Source: ABdhPJx+EywqFySp9FIRwrJaLZczbA8a01abyR3ieNnxY/VfaH9M5l3oI8hWs5+QfJmS91a/6c9ssg==
-X-Received: by 2002:a17:90b:3803:: with SMTP id
- mq3mr2906786pjb.95.1644304646768; 
- Mon, 07 Feb 2022 23:17:26 -0800 (PST)
+ bh=M6tf4FpZ+qAz3lmkXbhG0Fyk59+5/pweIZaBuGXoNnA=;
+ b=KbCYz+lbMCkrSNHmLczKqkdUnmUwkEjLkNtr3rOXaRPvwYEyAgEpUj01OlAPg4jbF5
+ DKqHSQWVwf6cuFnUWK9M45KDuc5KfmG1eDEcTHl3/nyCuaGkKaZDaMa3I0HgXyaNQulL
+ tHFGmlau8CijXWY7iI8ZJ7dFn+JQFvSGDn5v6PbKFlsbOPRUFCptOX+piERDExWOntfS
+ rBKY/WRfSHWNK+ZMO2qygQnj8SmR0X25q1YGCDb2dhjH0sRaHmO/NDWTcenMwP/ezbC/
+ bNQlQPlv9Z1pGAEewyX3Pod6R4btReg6qLDzzJcJ1RHdmINq9Cw5gov5R9W/86m0zczA
+ 9t8w==
+X-Gm-Message-State: AOAM530H60jzdx2SbfuPXTr5oZPFZsDAG+AwF49c4m7JBB4Ld2IA6aO0
+ F/al2biIZAUrm+4E1A8ocWE/LzjLOiylyw==
+X-Google-Smtp-Source: ABdhPJxLsTfbRXLRHHX/Ejd80LuFWQNBlCd+josNvAz01djcww9pkp2OoLqLUgBaW7OZeNq8hSxnQA==
+X-Received: by 2002:a05:6a00:21c6:: with SMTP id
+ t6mr3172813pfj.81.1644304653336; 
+ Mon, 07 Feb 2022 23:17:33 -0800 (PST)
 Received: from localhost.localdomain (121-45-127-8.tpgi.com.au. [121.45.127.8])
- by smtp.gmail.com with ESMTPSA id mi11sm1543422pjb.37.2022.02.07.23.17.25
+ by smtp.gmail.com with ESMTPSA id mi11sm1543422pjb.37.2022.02.07.23.17.31
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 07 Feb 2022 23:17:26 -0800 (PST)
+ Mon, 07 Feb 2022 23:17:33 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v6 5/8] tcg/sparc: Convert patch_reloc to return bool
-Date: Tue,  8 Feb 2022 18:17:07 +1100
-Message-Id: <20220208071710.320122-6-richard.henderson@linaro.org>
+Subject: [PATCH v6 8/8] tcg/sparc: Support unaligned access for user-only
+Date: Tue,  8 Feb 2022 18:17:10 +1100
+Message-Id: <20220208071710.320122-9-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220208071710.320122-1-richard.henderson@linaro.org>
 References: <20220208071710.320122-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1029
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::435
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1029;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1029.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::435;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x435.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -92,39 +91,329 @@ Cc: peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Since 7ecd02a06f8, if patch_reloc fails we restart translation
-with a smaller TB.  Sparc had its function signature changed,
-but not the logic.  Replace assert with return false.
+This is kinda sorta the opposite of the other tcg hosts, where
+we get (normal) alignment checks for free with host SIGBUS and
+need to add code to support unaligned accesses.
+
+This inline code expansion is somewhat large, but it takes quite
+a few instructions to make a function call to a helper anyway.
 
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- tcg/sparc/tcg-target.c.inc | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
+ tcg/sparc/tcg-target.c.inc | 219 +++++++++++++++++++++++++++++++++++--
+ 1 file changed, 211 insertions(+), 8 deletions(-)
 
 diff --git a/tcg/sparc/tcg-target.c.inc b/tcg/sparc/tcg-target.c.inc
-index 088c680f37..ae809c9941 100644
+index ed83e2dcd7..f227572857 100644
 --- a/tcg/sparc/tcg-target.c.inc
 +++ b/tcg/sparc/tcg-target.c.inc
-@@ -323,12 +323,16 @@ static bool patch_reloc(tcg_insn_unit *src_rw, int type,
+@@ -211,6 +211,7 @@ static const int tcg_target_call_oarg_regs[] = {
+ #define ARITH_ADD  (INSN_OP(2) | INSN_OP3(0x00))
+ #define ARITH_ADDCC (INSN_OP(2) | INSN_OP3(0x10))
+ #define ARITH_AND  (INSN_OP(2) | INSN_OP3(0x01))
++#define ARITH_ANDCC (INSN_OP(2) | INSN_OP3(0x11))
+ #define ARITH_ANDN (INSN_OP(2) | INSN_OP3(0x05))
+ #define ARITH_OR   (INSN_OP(2) | INSN_OP3(0x02))
+ #define ARITH_ORCC (INSN_OP(2) | INSN_OP3(0x12))
+@@ -1025,6 +1026,38 @@ static void build_trampolines(TCGContext *s)
+         tcg_out_mov_delay(s, TCG_REG_O0, TCG_AREG0);
+     }
+ }
++#else
++static const tcg_insn_unit *qemu_unalign_ld_trampoline;
++static const tcg_insn_unit *qemu_unalign_st_trampoline;
++
++static void build_trampolines(TCGContext *s)
++{
++    for (int ld = 0; ld < 2; ++ld) {
++        void *helper;
++
++        while ((uintptr_t)s->code_ptr & 15) {
++            tcg_out_nop(s);
++        }
++
++        if (ld) {
++            helper = helper_unaligned_ld;
++            qemu_unalign_ld_trampoline = tcg_splitwx_to_rx(s->code_ptr);
++        } else {
++            helper = helper_unaligned_st;
++            qemu_unalign_st_trampoline = tcg_splitwx_to_rx(s->code_ptr);
++        }
++
++        if (!SPARC64 && TARGET_LONG_BITS == 64) {
++            /* Install the high part of the address.  */
++            tcg_out_arithi(s, TCG_REG_O1, TCG_REG_O2, 32, SHIFT_SRLX);
++        }
++
++        /* Tail call.  */
++        tcg_out_jmpl_const(s, helper, true, true);
++        /* delay slot -- set the env argument */
++        tcg_out_mov_delay(s, TCG_REG_O0, TCG_AREG0);
++    }
++}
+ #endif
  
-     switch (type) {
-     case R_SPARC_WDISP16:
--        assert(check_fit_ptr(pcrel >> 2, 16));
-+        if (!check_fit_ptr(pcrel >> 2, 16)) {
-+            return false;
+ /* Generate global QEMU prologue and epilogue code */
+@@ -1075,9 +1108,7 @@ static void tcg_target_qemu_prologue(TCGContext *s)
+     /* delay slot */
+     tcg_out_movi_imm13(s, TCG_REG_O0, 0);
+ 
+-#ifdef CONFIG_SOFTMMU
+     build_trampolines(s);
+-#endif
+ }
+ 
+ static void tcg_out_nop_fill(tcg_insn_unit *p, int count)
+@@ -1162,18 +1193,22 @@ static TCGReg tcg_out_tlb_load(TCGContext *s, TCGReg addr, int mem_index,
+ static const int qemu_ld_opc[(MO_SSIZE | MO_BSWAP) + 1] = {
+     [MO_UB]   = LDUB,
+     [MO_SB]   = LDSB,
++    [MO_UB | MO_LE] = LDUB,
++    [MO_SB | MO_LE] = LDSB,
+ 
+     [MO_BEUW] = LDUH,
+     [MO_BESW] = LDSH,
+     [MO_BEUL] = LDUW,
+     [MO_BESL] = LDSW,
+     [MO_BEUQ] = LDX,
++    [MO_BESQ] = LDX,
+ 
+     [MO_LEUW] = LDUH_LE,
+     [MO_LESW] = LDSH_LE,
+     [MO_LEUL] = LDUW_LE,
+     [MO_LESL] = LDSW_LE,
+     [MO_LEUQ] = LDX_LE,
++    [MO_LESQ] = LDX_LE,
+ };
+ 
+ static const int qemu_st_opc[(MO_SIZE | MO_BSWAP) + 1] = {
+@@ -1192,11 +1227,12 @@ static void tcg_out_qemu_ld(TCGContext *s, TCGReg data, TCGReg addr,
+                             MemOpIdx oi, bool is_64)
+ {
+     MemOp memop = get_memop(oi);
++    tcg_insn_unit *label_ptr;
++
+ #ifdef CONFIG_SOFTMMU
+     unsigned memi = get_mmuidx(oi);
+     TCGReg addrz, param;
+     const tcg_insn_unit *func;
+-    tcg_insn_unit *label_ptr;
+ 
+     addrz = tcg_out_tlb_load(s, addr, memi, memop,
+                              offsetof(CPUTLBEntry, addr_read));
+@@ -1260,13 +1296,99 @@ static void tcg_out_qemu_ld(TCGContext *s, TCGReg data, TCGReg addr,
+ 
+     *label_ptr |= INSN_OFF19(tcg_ptr_byte_diff(s->code_ptr, label_ptr));
+ #else
++    TCGReg index = (guest_base ? TCG_GUEST_BASE_REG : TCG_REG_G0);
++    unsigned a_bits = get_alignment_bits(memop);
++    unsigned s_bits = memop & MO_SIZE;
++    unsigned t_bits;
++
+     if (SPARC64 && TARGET_LONG_BITS == 32) {
+         tcg_out_arithi(s, TCG_REG_T1, addr, 0, SHIFT_SRL);
+         addr = TCG_REG_T1;
+     }
+-    tcg_out_ldst_rr(s, data, addr,
+-                    (guest_base ? TCG_GUEST_BASE_REG : TCG_REG_G0),
++
++    /*
++     * Normal case: alignment equal to access size.
++     */
++    if (a_bits == s_bits) {
++        tcg_out_ldst_rr(s, data, addr, index,
++                        qemu_ld_opc[memop & (MO_BSWAP | MO_SSIZE)]);
++        return;
++    }
++
++    /*
++     * Test for at least natural alignment, and assume most accesses
++     * will be aligned -- perform a straight load in the delay slot.
++     * This is required to preserve atomicity for aligned accesses.
++     */
++    t_bits = MAX(a_bits, s_bits);
++    tcg_debug_assert(t_bits < 13);
++    tcg_out_arithi(s, TCG_REG_G0, addr, (1u << t_bits) - 1, ARITH_ANDCC);
++
++    /* beq,a,pt %icc, label */
++    label_ptr = s->code_ptr;
++    tcg_out_bpcc0(s, COND_E, BPCC_A | BPCC_PT | BPCC_ICC, 0);
++    /* delay slot */
++    tcg_out_ldst_rr(s, data, addr, index,
+                     qemu_ld_opc[memop & (MO_BSWAP | MO_SSIZE)]);
++
++    if (a_bits >= s_bits) {
++        /*
++         * Overalignment: A successful alignment test will perform the memory
++         * operation in the delay slot, and failure need only invoke the
++         * handler for SIGBUS.
++         */
++        TCGReg arg_low = TCG_REG_O1 + (!SPARC64 && TARGET_LONG_BITS == 64);
++        tcg_out_call_nodelay(s, qemu_unalign_ld_trampoline, false);
++        /* delay slot -- move to low part of argument reg */
++        tcg_out_mov_delay(s, arg_low, addr);
++    } else {
++        /* Underalignment: load by pieces of minimum alignment. */
++        int ld_opc, a_size, s_size, i;
++
++        /*
++         * Force full address into T1 early; avoids problems with
++         * overlap between @addr and @data.
++         */
++        tcg_out_arith(s, TCG_REG_T1, addr, index, ARITH_ADD);
++
++        a_size = 1 << a_bits;
++        s_size = 1 << s_bits;
++        if ((memop & MO_BSWAP) == MO_BE) {
++            ld_opc = qemu_ld_opc[a_bits | MO_BE | (memop & MO_SIGN)];
++            tcg_out_ldst(s, data, TCG_REG_T1, 0, ld_opc);
++            ld_opc = qemu_ld_opc[a_bits | MO_BE];
++            for (i = a_size; i < s_size; i += a_size) {
++                tcg_out_ldst(s, TCG_REG_T2, TCG_REG_T1, i, ld_opc);
++                tcg_out_arithi(s, data, data, a_size, SHIFT_SLLX);
++                tcg_out_arith(s, data, data, TCG_REG_T2, ARITH_OR);
++            }
++        } else if (a_bits == 0) {
++            ld_opc = LDUB;
++            tcg_out_ldst(s, data, TCG_REG_T1, 0, ld_opc);
++            for (i = a_size; i < s_size; i += a_size) {
++                if ((memop & MO_SIGN) && i == s_size - a_size) {
++                    ld_opc = LDSB;
++                }
++                tcg_out_ldst(s, TCG_REG_T2, TCG_REG_T1, i, ld_opc);
++                tcg_out_arithi(s, TCG_REG_T2, TCG_REG_T2, i * 8, SHIFT_SLLX);
++                tcg_out_arith(s, data, data, TCG_REG_T2, ARITH_OR);
++            }
++        } else {
++            ld_opc = qemu_ld_opc[a_bits | MO_LE];
++            tcg_out_ldst_rr(s, data, TCG_REG_T1, TCG_REG_G0, ld_opc);
++            for (i = a_size; i < s_size; i += a_size) {
++                tcg_out_arithi(s, TCG_REG_T1, TCG_REG_T1, a_size, ARITH_ADD);
++                if ((memop & MO_SIGN) && i == s_size - a_size) {
++                    ld_opc = qemu_ld_opc[a_bits | MO_LE | MO_SIGN];
++                }
++                tcg_out_ldst_rr(s, TCG_REG_T2, TCG_REG_T1, TCG_REG_G0, ld_opc);
++                tcg_out_arithi(s, TCG_REG_T2, TCG_REG_T2, i * 8, SHIFT_SLLX);
++                tcg_out_arith(s, data, data, TCG_REG_T2, ARITH_OR);
++            }
 +        }
-         insn &= ~INSN_OFF16(-1);
-         insn |= INSN_OFF16(pcrel);
-         break;
-     case R_SPARC_WDISP19:
--        assert(check_fit_ptr(pcrel >> 2, 19));
-+        if (!check_fit_ptr(pcrel >> 2, 19)) {
-+            return false;
++    }
++
++    *label_ptr |= INSN_OFF19(tcg_ptr_byte_diff(s->code_ptr, label_ptr));
+ #endif /* CONFIG_SOFTMMU */
+ }
+ 
+@@ -1274,11 +1396,12 @@ static void tcg_out_qemu_st(TCGContext *s, TCGReg data, TCGReg addr,
+                             MemOpIdx oi)
+ {
+     MemOp memop = get_memop(oi);
++    tcg_insn_unit *label_ptr;
++
+ #ifdef CONFIG_SOFTMMU
+     unsigned memi = get_mmuidx(oi);
+     TCGReg addrz, param;
+     const tcg_insn_unit *func;
+-    tcg_insn_unit *label_ptr;
+ 
+     addrz = tcg_out_tlb_load(s, addr, memi, memop,
+                              offsetof(CPUTLBEntry, addr_write));
+@@ -1315,13 +1438,93 @@ static void tcg_out_qemu_st(TCGContext *s, TCGReg data, TCGReg addr,
+ 
+     *label_ptr |= INSN_OFF19(tcg_ptr_byte_diff(s->code_ptr, label_ptr));
+ #else
++    TCGReg index = (guest_base ? TCG_GUEST_BASE_REG : TCG_REG_G0);
++    unsigned a_bits = get_alignment_bits(memop);
++    unsigned s_bits = memop & MO_SIZE;
++    unsigned t_bits;
++
+     if (SPARC64 && TARGET_LONG_BITS == 32) {
+         tcg_out_arithi(s, TCG_REG_T1, addr, 0, SHIFT_SRL);
+         addr = TCG_REG_T1;
+     }
+-    tcg_out_ldst_rr(s, data, addr,
+-                    (guest_base ? TCG_GUEST_BASE_REG : TCG_REG_G0),
++
++    /*
++     * Normal case: alignment equal to access size.
++     */
++    if (a_bits == s_bits) {
++        tcg_out_ldst_rr(s, data, addr, index,
++                        qemu_st_opc[memop & (MO_BSWAP | MO_SIZE)]);
++        return;
++    }
++
++    /*
++     * Test for at least natural alignment, and assume most accesses
++     * will be aligned -- perform a straight store in the delay slot.
++     * This is required to preserve atomicity for aligned accesses.
++     */
++    t_bits = MAX(a_bits, s_bits);
++    tcg_debug_assert(t_bits < 13);
++    tcg_out_arithi(s, TCG_REG_G0, addr, (1u << t_bits) - 1, ARITH_ANDCC);
++
++    /* beq,a,pt %icc, label */
++    label_ptr = s->code_ptr;
++    tcg_out_bpcc0(s, COND_E, BPCC_A | BPCC_PT | BPCC_ICC, 0);
++    /* delay slot */
++    tcg_out_ldst_rr(s, data, addr, index,
+                     qemu_st_opc[memop & (MO_BSWAP | MO_SIZE)]);
++
++    if (a_bits >= s_bits) {
++        /*
++         * Overalignment: A successful alignment test will perform the memory
++         * operation in the delay slot, and failure need only invoke the
++         * handler for SIGBUS.
++         */
++        TCGReg arg_low = TCG_REG_O1 + (!SPARC64 && TARGET_LONG_BITS == 64);
++        tcg_out_call_nodelay(s, qemu_unalign_st_trampoline, false);
++        /* delay slot -- move to low part of argument reg */
++        tcg_out_mov_delay(s, arg_low, addr);
++    } else {
++        /* Underalignment: store by pieces of minimum alignment. */
++        int st_opc, a_size, s_size, i;
++
++        /*
++         * Force full address into T1 early; avoids problems with
++         * overlap between @addr and @data.
++         */
++        tcg_out_arith(s, TCG_REG_T1, addr, index, ARITH_ADD);
++
++        a_size = 1 << a_bits;
++        s_size = 1 << s_bits;
++        if ((memop & MO_BSWAP) == MO_BE) {
++            st_opc = qemu_st_opc[a_bits | MO_BE];
++            for (i = 0; i < s_size; i += a_size) {
++                TCGReg d = data;
++                int shift = (s_size - a_size - i) * 8;
++                if (shift) {
++                    d = TCG_REG_T2;
++                    tcg_out_arithi(s, d, data, shift, SHIFT_SRLX);
++                }
++                tcg_out_ldst(s, d, TCG_REG_T1, i, st_opc);
++            }
++        } else if (a_bits == 0) {
++            tcg_out_ldst(s, data, TCG_REG_T1, 0, STB);
++            for (i = 1; i < s_size; i++) {
++                tcg_out_arithi(s, TCG_REG_T2, data, i * 8, SHIFT_SRLX);
++                tcg_out_ldst(s, TCG_REG_T2, TCG_REG_T1, i, STB);
++            }
++        } else {
++            /* Note that ST*A with immediate asi must use indexed address. */
++            st_opc = qemu_st_opc[a_bits + MO_LE];
++            tcg_out_ldst_rr(s, data, TCG_REG_T1, TCG_REG_G0, st_opc);
++            for (i = a_size; i < s_size; i += a_size) {
++                tcg_out_arithi(s, TCG_REG_T2, data, i * 8, SHIFT_SRLX);
++                tcg_out_arithi(s, TCG_REG_T1, TCG_REG_T1, a_size, ARITH_ADD);
++                tcg_out_ldst_rr(s, TCG_REG_T2, TCG_REG_T1, TCG_REG_G0, st_opc);
++            }
 +        }
-         insn &= ~INSN_OFF19(-1);
-         insn |= INSN_OFF19(pcrel);
-         break;
++    }
++
++    *label_ptr |= INSN_OFF19(tcg_ptr_byte_diff(s->code_ptr, label_ptr));
+ #endif /* CONFIG_SOFTMMU */
+ }
+ 
 -- 
 2.25.1
 
