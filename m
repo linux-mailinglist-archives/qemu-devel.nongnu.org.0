@@ -2,89 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A4334AD610
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Feb 2022 12:19:00 +0100 (CET)
-Received: from localhost ([::1]:48742 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 937BF4AD60D
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Feb 2022 12:18:12 +0100 (CET)
+Received: from localhost ([::1]:46136 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nHOWR-0004rt-9S
-	for lists+qemu-devel@lfdr.de; Tue, 08 Feb 2022 06:18:59 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:50492)
+	id 1nHOVf-000342-N0
+	for lists+qemu-devel@lfdr.de; Tue, 08 Feb 2022 06:18:11 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:51348)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nHOAE-000141-DM
- for qemu-devel@nongnu.org; Tue, 08 Feb 2022 05:56:02 -0500
-Received: from [2607:f8b0:4864:20::42c] (port=44883
- helo=mail-pf1-x42c.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nHOAB-00031H-JW
- for qemu-devel@nongnu.org; Tue, 08 Feb 2022 05:56:00 -0500
-Received: by mail-pf1-x42c.google.com with SMTP id n32so18188072pfv.11
- for <qemu-devel@nongnu.org>; Tue, 08 Feb 2022 02:55:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=ph/AhMwqbx2ANb9wBrM0oeygA88Z7nVuQKxDdhAD5mM=;
- b=V9XrDTT8sKOy5r0ITqMu0MZOIELc9NzbI3c+z7wXanc8g4JmnQubxPMUruipSzB5AG
- 35PoGVeavbhK0nH3YMV3DIOVgIylzIRH8KdK/SiUedRTihAckofE1yMaFEx82L/wjLk0
- KyXeFJ3mk0iCHBVr1tYrWlLTLeb9Jt+T7qL51LGUze8NiiRBlJcLIQK5BKEMQKaM7gnA
- GoTJGvPV1Aj27AF/4S75spxbifrgXTO8zzhieOuahpUUqzfPAkqV1cpo4wLvhXBvRELD
- UDHdi5DAIlix0DACD6t5wvSH9AOAEonKJQNXjsKKY/BPv1lFHh+iX4b9ZCxDzI3qzO9E
- MJIg==
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1nHOCS-0002pG-Fg
+ for qemu-devel@nongnu.org; Tue, 08 Feb 2022 05:58:20 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:50310)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1nHOCQ-0003LJ-9g
+ for qemu-devel@nongnu.org; Tue, 08 Feb 2022 05:58:19 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1644317897;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=dteOYlXbqqHWDCqvd+MH3Tp9mMUWrFsfsJBRJquTAS8=;
+ b=gEXw7lfLyiFWmbvMw8+03PHSj4rUorOZI8jVXd2BGMkgzJGULihTevAgbTJthiBHrtv0vU
+ Xp4mMq7O5kqoUxdbnws8gYrqwuZEEuPD662L2qXj0+6hkScvKeXx6i6JQhqCYxsQR6GhOH
+ z/TrfYrllJCDpeKzg64qss2X7of4lZI=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-35-oTiKG2kcNI6BpFvulUESFg-1; Tue, 08 Feb 2022 05:58:16 -0500
+X-MC-Unique: oTiKG2kcNI6BpFvulUESFg-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ c9-20020adfa709000000b001dde29c3202so5919160wrd.22
+ for <qemu-devel@nongnu.org>; Tue, 08 Feb 2022 02:58:16 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=ph/AhMwqbx2ANb9wBrM0oeygA88Z7nVuQKxDdhAD5mM=;
- b=waArS20ldvUziFSnWD00FkCmBnV4rfCI1MmeLtBPK7bZMcu5qSp0+S3TJq6b0z2eYF
- 17pN5FAXAL8213yWjt/b6Y1/U/cdRVTKeeDQq6hwRVoaJUXhJ5qC6HrIPM630g4J6qZd
- s4bh+DPT32oGB5ouMAoB+uxulD5tvDsBt2/tarvaLNwN6qYBvo+6MTpJRy0UZiXWFEuU
- pfCsLBppdWkugyV+5WbKpYx8D4XcWpwZsQ5vdmQ9PenUfEsDiq5RybX+f8wf5mHoad/T
- M44BOfJBpbkLONVfYWA+ccZyr3UQVa6xsqHqccklYWMuJNTXL37vJklMpKYaZCGQqFzD
- kfTA==
-X-Gm-Message-State: AOAM533O4t0fRDbFUwAagRjCeYY81nJrVIdDWegBxKovV++gixVKu7+0
- bJ9UkVwEz31styNDNa5Tx6E=
-X-Google-Smtp-Source: ABdhPJyFULlHt1ROe07v/DMEaK2i/UY0sy2A0KUykekkRVxwMTEUx0a5xIgG4rhQFt3IYPRYEOARPw==
-X-Received: by 2002:a63:485f:: with SMTP id x31mr3066133pgk.358.1644317758199; 
- Tue, 08 Feb 2022 02:55:58 -0800 (PST)
-Received: from [192.168.1.33] (154.red-83-50-83.dynamicip.rima-tde.net.
- [83.50.83.154])
- by smtp.gmail.com with ESMTPSA id gx10sm2362647pjb.7.2022.02.08.02.55.55
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 08 Feb 2022 02:55:57 -0800 (PST)
-Message-ID: <61d9987c-9b9d-972d-0be1-835a1d063534@amsat.org>
-Date: Tue, 8 Feb 2022 11:55:52 +0100
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=dteOYlXbqqHWDCqvd+MH3Tp9mMUWrFsfsJBRJquTAS8=;
+ b=jr4qpFwdu+4RIksFr5yo+3xuUd6SXHnaKKKRepT8mqxGLjD8EFCVwQ+M0ECAAJxBxl
+ qhPQ2GcthB1x+ZJTne5Ub3FUNT6fbff3UuSXc1gwIBQUybjJwCaRZX0yoGxIvb3LT5rL
+ 8kkrgd8hP9fuRoKUSTwY0q/5rZ84NIkaosYZjdWUFntTxr3k4BJ5RtU51eqRC7AXjTxS
+ E9Jh9J26qZ6Z5pW6WnySItOHmE3IV8SFeGt4AxgcjSGBWkdjZFxkT9z8r7pqkWhIG9MM
+ hgBfdF8EHX8E/wK9AIfSL6/hojhI1LseFGrc7/FeyxJA6YVAFFFVssHwEvY+E8Y7PqO0
+ RWEg==
+X-Gm-Message-State: AOAM530Dysr0PMJbXxHn+Ah9H+dQuWQu7Vw9cLBPuz9kwKAQLUj3d66H
+ AgUMsPhUSsr3WQ7sFo3mKciQAg+cVxx0eIQL4qFfCArT91N/iMUvFadfFLS2emo6PzysmzrBivE
+ iay2biIyJGxFpx7Y=
+X-Received: by 2002:a5d:6a85:: with SMTP id s5mr3124954wru.510.1644317895453; 
+ Tue, 08 Feb 2022 02:58:15 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxbdychG7ua+m8N5qbyG6hmGiw/aNdcQP64in9DaOf2Pr9//12CQzOfI+GFWSxJmr/rb4jj5g==
+X-Received: by 2002:a5d:6a85:: with SMTP id s5mr3124935wru.510.1644317895262; 
+ Tue, 08 Feb 2022 02:58:15 -0800 (PST)
+Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
+ [82.30.61.225])
+ by smtp.gmail.com with ESMTPSA id ay38sm1994968wmb.3.2022.02.08.02.58.14
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 08 Feb 2022 02:58:14 -0800 (PST)
+Date: Tue, 8 Feb 2022 10:58:13 +0000
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Jack Wang <jinpu.wang@ionos.com>
+Subject: Re: [PATCH v2] migration/rdma: set the REUSEADDR option for
+ destination
+Message-ID: <YgJMxVMcGjrcKmuA@work-vm>
+References: <20220208085640.19702-1-jinpu.wang@ionos.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.5.1
-Subject: Re: [PATCH v5 09/11] 9p: darwin: Implement compatibility for mknodat
-Content-Language: en-US
-To: Will Cohen <wwcohen@gmail.com>, qemu-devel@nongnu.org
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Christian Schoenebeck <qemu_oss@crudebyte.com>, Greg Kurz <groug@kaod.org>,
- hi@alyssa.is, Michael Roitzsch <reactorcontrol@icloud.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Keno Fischer <keno@juliacomputing.com>
-References: <20220207224024.87745-1-wwcohen@gmail.com>
- <20220207224024.87745-10-wwcohen@gmail.com>
-In-Reply-To: <20220207224024.87745-10-wwcohen@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::42c
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42c;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pf1-x42c.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
- PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+In-Reply-To: <20220208085640.19702-1-jinpu.wang@ionos.com>
+User-Agent: Mutt/2.1.5 (2021-12-30)
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -97,58 +97,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: qemu-devel@nongnu.org, pankaj.gupta@ionos.com, quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
-On 7/2/22 23:40, Will Cohen wrote:
-> From: Keno Fischer <keno@juliacomputing.com>
+* Jack Wang (jinpu.wang@ionos.com) wrote:
+> We hit following error during testing RDMA transport:
+> in case of migration error, mgmt daemon pick one migration port,
+> incoming rdma:[::]:8089: RDMA ERROR: Error: could not rdma_bind_addr
 > 
-> Darwin does not support mknodat. However, to avoid race conditions
-> with later setting the permissions, we must avoid using mknod on
-> the full path instead. We could try to fchdir, but that would cause
-> problems if multiple threads try to call mknodat at the same time.
-> However, luckily there is a solution: Darwin includes a function
-> that sets the cwd for the current thread only.
-> This should suffice to use mknod safely.
+> Then try another -incoming rdma:[::]:8103, sometime it worked,
+> sometimes need another try with other ports number.
 > 
-> This function (pthread_fchdir_np) is protected by a check in
-> meson in a patch later in tihs series.
+> Set the REUSEADDR option for destination, This allow address could
+> be reused to avoid rdma_bind_addr error out.
 > 
-> Signed-off-by: Keno Fischer <keno@juliacomputing.com>
-> Signed-off-by: Michael Roitzsch <reactorcontrol@icloud.com>
-> [Will Cohen: - Adjust coding style
->               - Replace clang references with gcc
->               - Note radar filed with Apple for missing syscall
->               - Replace direct syscall with pthread_fchdir_np and
->                 adjust patch notes accordingly
->               - Move qemu_mknodat from 9p-util to osdep and os-posix]
-> Signed-off-by: Will Cohen <wwcohen@gmail.com>
+> Signed-off-by: Jack Wang <jinpu.wang@ionos.com>
+
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+
 > ---
->   hw/9pfs/9p-local.c   |  4 ++--
->   include/qemu/osdep.h | 10 ++++++++++
->   os-posix.c           | 34 ++++++++++++++++++++++++++++++++++
->   3 files changed, 46 insertions(+), 2 deletions(-)
+> v2: extend commit message as discussed with Pankaj and David
+> ---
+>  migration/rdma.c | 7 +++++++
+>  1 file changed, 7 insertions(+)
+> 
+> diff --git a/migration/rdma.c b/migration/rdma.c
+> index c7c7a384875b..663e1fbb096d 100644
+> --- a/migration/rdma.c
+> +++ b/migration/rdma.c
+> @@ -2705,6 +2705,7 @@ static int qemu_rdma_dest_init(RDMAContext *rdma, Error **errp)
+>      char ip[40] = "unknown";
+>      struct rdma_addrinfo *res, *e;
+>      char port_str[16];
+> +    int reuse = 1;
+>  
+>      for (idx = 0; idx < RDMA_WRID_MAX; idx++) {
+>          rdma->wr_data[idx].control_len = 0;
+> @@ -2740,6 +2741,12 @@ static int qemu_rdma_dest_init(RDMAContext *rdma, Error **errp)
+>          goto err_dest_init_bind_addr;
+>      }
+>  
+> +    ret = rdma_set_option(listen_id, RDMA_OPTION_ID, RDMA_OPTION_ID_REUSEADDR,
+> +			  &reuse, sizeof reuse);
+> +    if (ret) {
+> +        ERROR(errp, "Error: could not set REUSEADDR option");
+> +        goto err_dest_init_bind_addr;
+> +    }
+>      for (e = res; e != NULL; e = e->ai_next) {
+>          inet_ntop(e->ai_family,
+>              &((struct sockaddr_in *) e->ai_dst_addr)->sin_addr, ip, sizeof ip);
+> -- 
+> 2.25.1
+> 
+-- 
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
-> diff --git a/include/qemu/osdep.h b/include/qemu/osdep.h
-> index d1660d67fa..f3a8367ece 100644
-> --- a/include/qemu/osdep.h
-> +++ b/include/qemu/osdep.h
-> @@ -810,3 +810,13 @@ static inline int platform_does_not_support_system(const char *command)
->   #endif
->   
->   #endif
-> +
-> +/*
-> + * As long as mknodat is not available on macOS, this workaround
-> + * using pthread_fchdir_np is needed. qemu_mknodat is defined in
-> + * os-posix.c
-> + */
-> +#ifdef CONFIG_DARWIN
-> +int pthread_fchdir_np(int fd);
-> +#endif
-> +int qemu_mknodat(int dirfd, const char *filename, mode_t mode, dev_t dev);
-
-Misplaced. You want the declaration before the __cplusplus guard.
 
