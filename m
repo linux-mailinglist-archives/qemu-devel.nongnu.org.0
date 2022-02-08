@@ -2,158 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5BB824AD3F4
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Feb 2022 09:50:59 +0100 (CET)
-Received: from localhost ([::1]:52398 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1269E4AD2F5
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Feb 2022 09:18:27 +0100 (CET)
+Received: from localhost ([::1]:55012 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nHMDC-0004ME-25
-	for lists+qemu-devel@lfdr.de; Tue, 08 Feb 2022 03:50:58 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:53998)
+	id 1nHLhg-0002Ke-Q5
+	for lists+qemu-devel@lfdr.de; Tue, 08 Feb 2022 03:18:24 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:55298)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <elena.ufimtseva@oracle.com>)
- id 1nHKpt-0001xK-3Y
- for qemu-devel@nongnu.org; Tue, 08 Feb 2022 02:22:49 -0500
-Received: from mx0a-00069f02.pphosted.com ([205.220.165.32]:49584)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <elena.ufimtseva@oracle.com>)
- id 1nHKpm-0001vk-J7
- for qemu-devel@nongnu.org; Tue, 08 Feb 2022 02:22:47 -0500
-Received: from pps.filterd (m0246617.ppops.net [127.0.0.1])
- by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 2186aMlU012771; 
- Tue, 8 Feb 2022 07:22:40 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=from : to : cc :
- subject : date : message-id : in-reply-to : references :
- content-transfer-encoding : content-type : mime-version;
- s=corp-2021-07-09; bh=Ve+EpoYs8Mu771IpCXIT8lQbQO6AkVkSbWXJhE/KJNc=;
- b=QTQSqUFOo5OBADxve1VrIL+QXH+sYulmPgOZyH0iTVJkg1KPSqtCm4d6GNcvQyLX2woz
- 8ozjggdQK5wD/9hPBBMRthy7Jhxevm7ItAYdvXq2GsG2F72kyKGIJrHcFb/f2l1HzRX2
- MIq55XOY7V/ahZIKwL4fmJIWh6mA6V2PXnlmjuptvwyVoxsj506jAmG9iEa44HYvuioL
- +Q7qaeVQxsmkb/TvE06Jhf/wCf2cjNpHSxr8ZvAHCvINq7z2e7TNLSaeFk0qvL5KeI7n
- gDfE1Mn4hm76ZmX12RCufvm3BmSgBGR2APzIq5AY0r9fMJ0WQulCB+aIE2zZRj4N6Szb 7w== 
-Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
- by mx0b-00069f02.pphosted.com with ESMTP id 3e3fpggk4c-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 08 Feb 2022 07:22:40 +0000
-Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
- by userp3030.oracle.com (8.16.1.2/8.16.1.2) with SMTP id 2187BlYv093365;
- Tue, 8 Feb 2022 07:22:39 GMT
-Received: from nam10-mw2-obe.outbound.protection.outlook.com
- (mail-mw2nam10lp2104.outbound.protection.outlook.com [104.47.55.104])
- by userp3030.oracle.com with ESMTP id 3e1ebykknc-8
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 08 Feb 2022 07:22:38 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=WQ72v0VTIqw1dwnlRb8m5nfntv2R9NrJT64Wy9SEUhkXwi4YQLPiAtV1jdoIh94Gga6mSKXsgNdpD+ipNFEblcD8tC0WBArkliSr0W2kv+cfQQ0QcTT0gP11fIBVzHcXqcdkhC+Xx1m0upus4cBFtJVGwGSefcbYRXDidJWifVkb0/tpy5hqngolwovORDJFduBUQRWkrnumf9fXT/ejX0ERW0YWoB8TbHacdJfYkrl1gkgcqtjr26S2o/kiIi63QjNhyL1m3UCAoTzpfR8Wd5/8c0QWSSljUaKcTJIorNCb7mslggTjrbA8IdY2pwnexCRHDsMhErtDW6ZZWxFksg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Ve+EpoYs8Mu771IpCXIT8lQbQO6AkVkSbWXJhE/KJNc=;
- b=kA89L133VI5bI++wYpRw3Ufqc6UEojcF15KJVhAvMIuD8ThzacyJ1X1MkGGosc0e359iNBB34BiHcwbB2E+qffIwctByrxllCNd2YG6x1/Dqm6xinsJVn81UuiNUcmuWuIA5iWml69R7ZRFmxAIiP+wQ5xL1f4UzOSHO6B3IVEXg3Ja66jGzNyEgPdIGEKAJ0JI38rDhJ0R/Mv0eT1ygonjUp3nvbdT+O0bXxPZAIBhYXrldDyiVtCe616ktAm6sc3Xnq8iOnaALEeshA8iJBkvyVbQSLsCZ/lirsFUIfnT2g0ouvMlERLdYezGwQ7eL2A2bFhZ+0+fZKq7He5ROOw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
+ (Exim 4.90_1) (envelope-from <apatel@ventanamicro.com>)
+ id 1nHL0A-0005yE-A0
+ for qemu-devel@nongnu.org; Tue, 08 Feb 2022 02:33:31 -0500
+Received: from [2a00:1450:4864:20::22c] (port=42796
+ helo=mail-lj1-x22c.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <apatel@ventanamicro.com>)
+ id 1nHKzj-0003Jb-VD
+ for qemu-devel@nongnu.org; Tue, 08 Feb 2022 02:33:03 -0500
+Received: by mail-lj1-x22c.google.com with SMTP id a25so23150361lji.9
+ for <qemu-devel@nongnu.org>; Mon, 07 Feb 2022 23:32:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Ve+EpoYs8Mu771IpCXIT8lQbQO6AkVkSbWXJhE/KJNc=;
- b=hg70T7qYzc1vjJJNLKiBCwFuFsEfa/T8a1DV/SEc4eDAT6MNh2kzB8NtT9qUS9aBbprCDbXubwRiSQIqn6UpUW0tM6XixLtWnfXRot/saVS0vaMRxyIzpYx60hF8aWqdtu5sxYE5xeekWPZ0E7kjh9GWoHv0rpRaOB/u/XaBOl4=
-Received: from BYAPR10MB2869.namprd10.prod.outlook.com (2603:10b6:a03:85::17)
- by SN4PR10MB5608.namprd10.prod.outlook.com (2603:10b6:806:20b::8)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4951.18; Tue, 8 Feb
- 2022 07:22:35 +0000
-Received: from BYAPR10MB2869.namprd10.prod.outlook.com
- ([fe80::4bd:1cfa:5aee:6c81]) by BYAPR10MB2869.namprd10.prod.outlook.com
- ([fe80::4bd:1cfa:5aee:6c81%3]) with mapi id 15.20.4951.019; Tue, 8 Feb 2022
- 07:22:35 +0000
-From: Elena Ufimtseva <elena.ufimtseva@oracle.com>
-To: qemu-devel@nongnu.org
-Subject: [RFC 7/8] multiprocess: add ioregionfd memory region in proxy
-Date: Mon,  7 Feb 2022 23:22:21 -0800
-Message-Id: <b5acd54c9cf394499a10ee1b629eefae6d9404a2.1644302411.git.elena.ufimtseva@oracle.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <cover.1644302411.git.elena.ufimtseva@oracle.com>
-References: <cover.1644302411.git.elena.ufimtseva@oracle.com>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: BY5PR16CA0006.namprd16.prod.outlook.com
- (2603:10b6:a03:1a0::19) To BYAPR10MB2869.namprd10.prod.outlook.com
- (2603:10b6:a03:85::17)
+ d=ventanamicro.com; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=teBn2gs/mOGngDUEriQQpdd1/dGVQQWNhYE6egkr9cE=;
+ b=ky1UamkKyBx0mTqmwZQjdHqTZjAZyvATzk5i2q+s5xlTI4ZogZ6/HEFR3h3S6VENWv
+ n6ndFczYTY36umWlXwQtPY0ePe9NZYHT24cZVsHW9G60JWJmXA2vo/MEMfeysZnCaMpZ
+ eTQDsLi99Iyaye8dWJTp78yt4TXpc9qL8V6k0uji71/iF/bH89Hu4p2qffSFBceu9h94
+ Hzi6L2WEV5WOuTbe0pRR3W6+XSsyV4KuLuI3Km08rQHklT0ow7nmup8G1WLirJw5hk3x
+ 8oGQTGAJd9KLSam5ECbOOhoK8uLW/zDFQKTcGqYnanweOsk9kBw+HFPzTW+6l2vqG7lg
+ Qasw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=teBn2gs/mOGngDUEriQQpdd1/dGVQQWNhYE6egkr9cE=;
+ b=OnvMdFwK6FNvp7oAPERGEL9KL8FZrm6V0j1kfmOajRYW41MKYACiIGe0HyvjLJmKOl
+ lo33cQbgbw8uvJ+2EPJUgq+0GShSrWVsuOCIJJIYSv+hvDXvZiPSK3jxdRDgqKxOA8or
+ IA1y7snrlgTGEsmN3BLTDBieqBWjWDyVTacH5a4TD6MjW9m1u/bikI269KHvLeU3Cige
+ /4Bn+LjwXxjtMnx9l7G0E7lHvn0NnSHMIuFqnT4JbNmjU2V3Rm3EOGJzr2NbR8lAhLSQ
+ dJuXRULhK7ttX2oxlzrTadTMDP7UD5WLe51YwJA76NtOkVPV1ZbVIQ06uI/NJT/VrVs3
+ 71kg==
+X-Gm-Message-State: AOAM533kNo/H3v3toffbgfPgSVl66ApMUlQZOKIKsnCLk+Q1d6MRMnxk
+ /06NyD64RHFMPx+wHw+mc26+0uvPe/nHZ6nP5MIVvw==
+X-Google-Smtp-Source: ABdhPJwYzIyWG2b64y7pU0XlehVVyXkL7RhxCGAj+QAL5Vu4uMdXqmIMcxSTAC3nvGGj1cVFesHR9C4Zu54C44/MOOs=
+X-Received: by 2002:a2e:bc09:: with SMTP id b9mr2034144ljf.24.1644305562930;
+ Mon, 07 Feb 2022 23:32:42 -0800 (PST)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 69b69c4f-ac8d-4379-0ee5-08d9ead3c78e
-X-MS-TrafficTypeDiagnostic: SN4PR10MB5608:EE_
-X-Microsoft-Antispam-PRVS: <SN4PR10MB5608ED86D31E386F896121F58C2D9@SN4PR10MB5608.namprd10.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:6790;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: AZ7wzf+s8YV/rYs/wIH//pgF9eYA6475VfCRt/f+ujMG1EVBGJsjqpv+Ajv3XQBcFT6+Mi1F2WZdfokaGL46q/YTe32mFzbc7jijNZLewpC6MfACrsyKmrgKywfsEVNhuEk/ebKzCCc5cdt5d8fdPrg4dCgyKIHcL3rxXWdTpo/8NNlGfyiW0sTma/xoEhT70GUUgJQADWo+nMEq7piHLMkNG+kkRAC5KsyfnW0OOwd1sDZ7q2z9UqujvGDJjFSNJg0QdS3ILfUDlcjM7E2Q/qhDDvhWjcufKO70Oj1FnkEsnZkttT75th4ZoWGKAaj/iQp07AQeS02En4cwMLpt9m8A7tQqkLhhubPVtypADqKUluQgEbd26OPQ9sRcHPDBMWkeN5HUKwUl2czg/5DLw1Sps3gPz9U3r87RCz2RNCEYi2un3oB/Qd4hec//SP1pEHJGLDROfHofbJqdWjDNpVjWNzblbf9NcczRnKFUkKK3GNNtjzCmcHkwhvHawEVTtBAiktXRlEAeXzjuz/FEFxChEylE9b2qI9MJLDA3V6+aqPkBI5fWV145v1IYZ/27+x2FMkOWjHXNbJQ78QnMjJqRstFqBIom/JEbLD0Ah6oHB33F1c6SgCE13PIeRKz+nETt2DHEq6yonzqzet1nCg==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BYAPR10MB2869.namprd10.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230001)(366004)(6512007)(36756003)(83380400001)(186003)(38100700002)(86362001)(5660300002)(7416002)(2616005)(6486002)(44832011)(508600001)(6666004)(8676002)(4326008)(52116002)(2906002)(66946007)(66476007)(6506007)(66556008)(6916009)(316002)(8936002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?L+VVDIeiwzjdYxaIssKSWkujOXUf+sX0kvPr6dB596UShpFZFB8W5uFmYFeE?=
- =?us-ascii?Q?NZPRJrff+C2+T3Mq1TBsurMkKNRdpuIN22i81naN5xZ9ZUd2kjuGC/rRiwRD?=
- =?us-ascii?Q?H8Oj0Unky6eDyONlfa+m2wGyBnF/bDiLRwT+dvwlTf+AGslqjfiPuokbrllZ?=
- =?us-ascii?Q?0+Uc1h7HxPmW9P6GjJBbPFXMYkOSkzyHeLEGeYZCnweXxvi903N962zdx9zC?=
- =?us-ascii?Q?zZQxS5HpE3Mw80yR88jpi9piHwubqcSpZdc9DnDnPuZIMc1UIgl+c+MetMfH?=
- =?us-ascii?Q?gjdIcnCGWtUKe/aC3f+6gVYZSuswDGn7I19+7vhZAGD/p8bq5vPJf8DSXVKz?=
- =?us-ascii?Q?O2UokAOIhE83SygxdCOIQyA470R68Zx5DYuNownyDGy189RbCNvwOhyLL5n8?=
- =?us-ascii?Q?0Aez9Xb23vGzJvhbuhkWOgU7uOmSjuQ2OGEmUJX0D1mn6z5cFA0diJFeP9eJ?=
- =?us-ascii?Q?zcka0fCkJhndgdtD6njs8Pw7oiIg1pxN50HLvPceg5CApSxaJIBHMOj5O5C+?=
- =?us-ascii?Q?Nl/IfXEuv9dhV8/juKEBRxf8mt5wxcaSyEEteZAO5Fh61EQGAqlWMZyrnWcv?=
- =?us-ascii?Q?D6zU992Xn/ftJoFkc8ycTagGB1d+qHcV1v37YhkoDd7GEMNA21PkMhl8om9l?=
- =?us-ascii?Q?Qu1144m+Md2Rt+CBGWAuO+d5iSwRwkQYzSMLYlm2J3JKBLAv2oHuxHG2rztP?=
- =?us-ascii?Q?d04SUi83EfUCB9OCcZUApiPnR7XgGV+RxJc5y5qcOwFgofI+Aat8Wk0MOupK?=
- =?us-ascii?Q?nKTeHXol4OlAVqKOz77RvkWnFTYQM20rPX+h3SClR8vVC2db+s6rBCX/XgZc?=
- =?us-ascii?Q?7eoEJr4WeCqHy9glFemyDhUebtmOC+3i19VB/e3C0dHIIL9QHEfi1dAMGHLP?=
- =?us-ascii?Q?v5TLlijPujo5SPLJ3BoFdQEauvJYUBI8JZN9Lz1pX/GaUBj8KQWLx8nxRWHI?=
- =?us-ascii?Q?1BtT2Cz8EG9jwkwCWAW1EYS19jPCcHJWFGEkGlLD0sWJbGqa6OwyJWskLU0X?=
- =?us-ascii?Q?+I5E3uOvMcZ1j/afhnEpu4qrFUMkoFU7SJmxMkzIhmbXXbuHtXir4D6QWYLV?=
- =?us-ascii?Q?VZZD+GDSLKq9pJafPV137OMJVw79I8kw+McRmcaOFcivulnoKiMn0n+eyl3x?=
- =?us-ascii?Q?5E9L5CJIAQVP/AZwN9Mr5pE5Y4p2LxmSJYp03sPygCfhXl7gK8m0YRm02IUl?=
- =?us-ascii?Q?ftcYbezBPvDGVx9AKwfqW7s8VRRc1MgMIAbKPD64dHwUeIytRR2c9DNFakYI?=
- =?us-ascii?Q?dtrfB1TgVlp1lSA06rfy0NlgEy+CaKffmqS3qF/P5LAcvfu1B+rnHBmQ/5D6?=
- =?us-ascii?Q?gt+bOylvULDbRnIbM3VfCZ5G/S65YFKfClgjMO5lp1rqOpGn0vCPsMlrvX15?=
- =?us-ascii?Q?JONkVwxkTPh05iE60tMIHOIVNI9AF1HiHwsKFs3gvcHKLLcaG/gb2VI1vUm8?=
- =?us-ascii?Q?hzl+DAcTt28+OJWxvvuGucfh4+w2cHvU2Zf0oNkMAawLmniBYel8bVSaHjAE?=
- =?us-ascii?Q?oQ+dt2vS90+0QwxP+LTyG8qlQVIrsoIHVE9q3+2RfK8DptQW41IDsWsO7sg8?=
- =?us-ascii?Q?yzvvA0MMDeDUkZ9HjwTgs3/1xL/cTszn1/pzL0Dj8S0Iz2gwtLRZhmQKtJn4?=
- =?us-ascii?Q?ufJ9dsiUeczaPcIXPcUB6ca3ILnv0pc2BvDqJJ/MCBquSI9mnrBDx2IA9Ywf?=
- =?us-ascii?Q?oII1LTLh1w+cMSFj8SbcMqK8AxHmLlYiw1Byb8B/9oQ4DBLMKky8YKJbYFR3?=
- =?us-ascii?Q?s1uQe+DvaA=3D=3D?=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 69b69c4f-ac8d-4379-0ee5-08d9ead3c78e
-X-MS-Exchange-CrossTenant-AuthSource: BYAPR10MB2869.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Feb 2022 07:22:35.7860 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 7mI63f6tf9JjgcxYSeAvZO4TRq0hKYIdbecjLf8Sa0LI+Ytp4kAdzgZXJCoxo7bwVYMVEESmSG/z0Ew2JxLoGta42uLLbiJ3yD0Ueqm2lzc=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN4PR10MB5608
-X-Proofpoint-Virus-Version: vendor=nai engine=6300 definitions=10251
- signatures=673430
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0
- bulkscore=0 suspectscore=0
- mlxlogscore=999 mlxscore=0 adultscore=0 malwarescore=0 spamscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2201110000
- definitions=main-2202080038
-X-Proofpoint-GUID: 5CBlmOnHdjcGbkkXvJs0juVm8QVkCcVU
-X-Proofpoint-ORIG-GUID: 5CBlmOnHdjcGbkkXvJs0juVm8QVkCcVU
-Received-SPF: pass client-ip=205.220.165.32;
- envelope-from=elena.ufimtseva@oracle.com; helo=mx0a-00069f02.pphosted.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+References: <20220204174700.534953-1-anup@brainfault.org>
+ <CAKmqyKO7QnMwSL1Mpa5BJU44EAQxyG2M-sOE8+yAH0SWrmVDug@mail.gmail.com>
+ <CAKmqyKOjr3Dcs8_QZKsa=WkBp0BaYghcUNYMEU3RfyJJmcqJOQ@mail.gmail.com>
+In-Reply-To: <CAKmqyKOjr3Dcs8_QZKsa=WkBp0BaYghcUNYMEU3RfyJJmcqJOQ@mail.gmail.com>
+From: Anup Patel <apatel@ventanamicro.com>
+Date: Tue, 8 Feb 2022 13:02:31 +0530
+Message-ID: <CAK9=C2UPEn3qP99QyrJn4w4DxPKH+giwDWNMbBaBVC=ZraDhDQ@mail.gmail.com>
+Subject: Re: [PATCH v9 00/23] QEMU RISC-V AIA support
+To: Alistair Francis <alistair23@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::22c
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::22c;
+ envelope-from=apatel@ventanamicro.com; helo=mail-lj1-x22c.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -166,138 +83,147 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: eduardo@habkost.net, john.g.johnson@oracle.com, cohuck@redhat.com,
- jag.raman@oracle.com, john.levon@nutanix.com, eblake@redhat.com,
- david@redhat.com, armbru@redhat.com, peterx@redhat.com, mst@redhat.com,
- berrange@redhat.com, stefanha@redhat.com, pbonzini@redhat.com,
- philmd@redhat.com
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>, Anup Patel <anup@brainfault.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Alistair Francis <Alistair.Francis@wdc.com>,
+ Atish Patra <atishp@atishpatra.org>, Palmer Dabbelt <palmer@dabbelt.com>,
+ Bin Meng <bmeng.cn@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
----
- include/hw/remote/proxy.h |  1 +
- hw/remote/proxy.c         | 66 ++++++++++++++++++++++++++++++++++++---
- 2 files changed, 63 insertions(+), 4 deletions(-)
+On Tue, Feb 8, 2022 at 12:27 PM Alistair Francis <alistair23@gmail.com> wrote:
+>
+> On Tue, Feb 8, 2022 at 2:16 PM Alistair Francis <alistair23@gmail.com> wrote:
+> >
+> > On Sat, Feb 5, 2022 at 3:47 AM Anup Patel <anup@brainfault.org> wrote:
+> > >
+> > > From: Anup Patel <anup.patel@wdc.com>
+> > >
+> > > The advanced interrupt architecture (AIA) extends the per-HART local
+> > > interrupt support. Along with this, it also adds IMSIC (MSI contrllor)
+> > > and Advanced PLIC (wired interrupt controller).
+> > >
+> > > The latest AIA draft specification can be found here:
+> > > https://github.com/riscv/riscv-aia/releases/download/0.2-draft.28/riscv-interrupts-028.pdf
+> > >
+> > > This series adds RISC-V AIA support in QEMU which includes emulating all
+> > > AIA local CSRs, APLIC, and IMSIC. Only AIA local interrupt filtering is
+> > > not implemented because we don't have any local interrupt greater than 12.
+> > >
+> > > To enable AIA in QEMU, use one of the following:
+> > > 1) Only AIA local interrupt CSRs: Pass "x-aia=true" as CPU paramenter
+> > >    in the QEMU command-line
+> > > 2) Only APLIC for virt machine: Pass "aia=aplic" as machine parameter
+> > >    in the QEMU command-line
+> > > 3) Both APLIC and IMSIC for virt machine: Pass "aia=aplic-imsic" as
+> > >    machine parameter in the QEMU command-line
+> > > 4) Both APLIC and IMSIC with 2 guest files for virt machine: Pass
+> > >    "aia=aplic-imsic,aia-guests=2" as machine parameter in the QEMU
+> > >    command-line
+> > >
+> > > To test series, we require OpenSBI and Linux with AIA support which can
+> > > be found in:
+> > > riscv_aia_v2 branch at https://github.com/avpatel/opensbi.git
+> > > riscv_aia_v1 branch at https://github.com/avpatel/linux.git
+> > >
+> > > This series can be found riscv_aia_v9 branch at:
+> > > https://github.com/avpatel/qemu.git
+> > >
+> > > Changes since v8:
+> > >  - Use error_setg() in riscv_imsic_realize() added by PATCH20
+> > >
+> > > Changes since v7:
+> > >  - Rebased on latest riscv-to-apply.next branch of Alistair's repo
+> > >  - Improved default priority assignment in PATCH9
+> > >
+> > > Changes since v6:
+> > >  - Fixed priority comparison in riscv_cpu_pending_to_irq() of PATCH9
+> > >  - Fixed typos in comments added by PATCH11
+> > >  - Added "pend = true;" for CSR_MSETEIPNUM case of rmw_xsetclreinum()
+> > >    in PATCH15
+> > >  - Handle ithreshold == 0 case in riscv_aplic_idc_topi() of PATCH18
+> > >  - Allow setting pending bit for Level0 or Level1 interrupts in
+> > >    riscv_aplic_set_pending() of PATCH18
+> > >  - Force DOMAINCFG[31:24] bits to 0x80 in riscv_aplic_read() of PATCH18
+> > >  - For APLIC direct mode, set target.iprio to 1 when zero is writtern
+> > >    in PATCH18
+> > >  - Handle eithreshold == 0 case in riscv_imsic_topei() of PATCH20
+> > >
+> > > Changes since v5:
+> > >  - Moved VSTOPI_NUM_SRCS define to top of the file in PATCH13
+> > >  - Fixed typo in PATCH16
+> > >
+> > > Changes since v4:
+> > >  - Changed IRQ_LOCAL_MAX to 16 in PATCH2
+> > >  - Fixed typo in PATCH10
+> > >  - Replaced TARGET_LONG_BITS with riscv_cpu_mxl_bits(env) in PATCH11
+> > >  - Replaced TARGET_LONG_BITS with riscv_cpu_mxl_bits(env) in PATCH14
+> > >  - Replaced TARGET_LONG_BITS with riscv_cpu_mxl_bits(env) in PATCH15
+> > >  - Replaced TARGET_LONG_BITS with xlen passed via ireg callback in PATCH20
+> > >  - Retrict maximum IMSIC guest files per-HART of virt machine to 7 in
+> > >    PATCH21.
+> > >  - Added separate PATCH23 to increase maximum number of allowed CPUs
+> > >    for virt machine
+> > >
+> > > Changes since v3:
+> > >  - Replaced "aplic,xyz" and "imsic,xyz" DT properties with "riscv,xyz"
+> > >    DT properties because "aplic" and "imsic" are not valid vendor names
+> > >    required by Linux DT schema checker.
+> > >
+> > > Changes since v2:
+> > >  - Update PATCH4 to check and inject interrupt after V=1 when
+> > >    transitioning from V=0 to V=1
+> > >
+> > > Changes since v1:
+> > >  - Revamped whole series and created more granular patches
+> > >  - Added HGEIE and HGEIP CSR emulation for H-extension
+> > >  - Added APLIC emulation
+> > >  - Added IMSIC emulation
+> > >
+> > > Anup Patel (23):
+> > >   target/riscv: Fix trap cause for RV32 HS-mode CSR access from RV64
+> > >     HS-mode
+> > >   target/riscv: Implement SGEIP bit in hip and hie CSRs
+> > >   target/riscv: Implement hgeie and hgeip CSRs
+> > >   target/riscv: Improve delivery of guest external interrupts
+> > >   target/riscv: Allow setting CPU feature from machine/device emulation
+> > >   target/riscv: Add AIA cpu feature
+> > >   target/riscv: Add defines for AIA CSRs
+> > >   target/riscv: Allow AIA device emulation to set ireg rmw callback
+> > >   target/riscv: Implement AIA local interrupt priorities
+> > >   target/riscv: Implement AIA CSRs for 64 local interrupts on RV32
+> > >   target/riscv: Implement AIA hvictl and hviprioX CSRs
+> > >   target/riscv: Implement AIA interrupt filtering CSRs
+> > >   target/riscv: Implement AIA mtopi, stopi, and vstopi CSRs
+> > >   target/riscv: Implement AIA xiselect and xireg CSRs
+> > >   target/riscv: Implement AIA IMSIC interface CSRs
+> > >   hw/riscv: virt: Use AIA INTC compatible string when available
+> > >   target/riscv: Allow users to force enable AIA CSRs in HART
+> > >   hw/intc: Add RISC-V AIA APLIC device emulation
+> > >   hw/riscv: virt: Add optional AIA APLIC support to virt machine
+> > >   hw/intc: Add RISC-V AIA IMSIC device emulation
+> > >   hw/riscv: virt: Add optional AIA IMSIC support to virt machine
+> > >   docs/system: riscv: Document AIA options for virt machine
+> > >   hw/riscv: virt: Increase maximum number of allowed CPUs
+>
+> Hey Anup,
+>
+> There are lots of checkpatch errors in these patches. In the future
+> can you please make sure you run checkpatch on all patches.
 
-diff --git a/include/hw/remote/proxy.h b/include/hw/remote/proxy.h
-index 741def71f1..9efef0b935 100644
---- a/include/hw/remote/proxy.h
-+++ b/include/hw/remote/proxy.h
-@@ -29,6 +29,7 @@ struct PCIProxyDev {
-     PCIDevice parent_dev;
-     char *fd;
- 
-+    char *ioregfd;
-     /*
-      * Mutex used to protect the QIOChannel fd from
-      * the concurrent access by the VCPUs since proxy
-diff --git a/hw/remote/proxy.c b/hw/remote/proxy.c
-index bad164299d..ba1aa20d78 100644
---- a/hw/remote/proxy.c
-+++ b/hw/remote/proxy.c
-@@ -146,6 +146,33 @@ static void pci_proxy_dev_exit(PCIDevice *pdev)
-     event_notifier_cleanup(&dev->resample);
- }
- 
-+static void config_get_ioregionfd_info(PCIProxyDev *pdev, uint32_t reg_num,
-+                                       uint32_t *val, bool memory)
-+{
-+    MPQemuMsg msg = { 0 };
-+    Error *local_err = NULL;
-+    uint64_t ret = -EINVAL;
-+
-+    memset(&msg, 0, sizeof(MPQemuMsg));
-+    msg.cmd = MPQEMU_CMD_BAR_INFO;
-+    msg.num_fds = 0;
-+    msg.data.u64 = (uint64_t)reg_num & MAKE_64BIT_MASK(0, 32);
-+
-+    msg.data.u64 |= memory ? (1ULL << 32) : 0;
-+    msg.size = sizeof(msg.data.u64);
-+
-+    ret = mpqemu_msg_send_and_await_reply(&msg, pdev, &local_err);
-+    if (local_err) {
-+        error_report_err(local_err);
-+        error_report("Error while receiving reply from remote about fd");
-+    }
-+    if (ret == UINT64_MAX) {
-+        error_report("Failed to request bar info for %d", reg_num);
-+    }
-+
-+    *val = (uint32_t)ret;
-+}
-+
- static void config_op_send(PCIProxyDev *pdev, uint32_t addr, uint32_t *val,
-                            int len, unsigned int op)
- {
-@@ -198,6 +225,7 @@ static void pci_proxy_write_config(PCIDevice *d, uint32_t addr, uint32_t val,
- 
- static Property proxy_properties[] = {
-     DEFINE_PROP_STRING("fd", PCIProxyDev, fd),
-+    DEFINE_PROP_STRING("ioregfd", PCIProxyDev, ioregfd),
-     DEFINE_PROP_END_OF_LIST(),
- };
- 
-@@ -297,7 +325,7 @@ const MemoryRegionOps proxy_mr_ops = {
- static void probe_pci_info(PCIDevice *dev, Error **errp)
- {
-     PCIDeviceClass *pc = PCI_DEVICE_GET_CLASS(dev);
--    uint32_t orig_val, new_val, base_class, val;
-+    uint32_t orig_val, new_val, base_class, val, ioregionfd_bar;
-     PCIProxyDev *pdev = PCI_PROXY_DEV(dev);
-     DeviceClass *dc = DEVICE_CLASS(pc);
-     uint8_t type;
-@@ -342,6 +370,9 @@ static void probe_pci_info(PCIDevice *dev, Error **errp)
-     }
- 
-     for (i = 0; i < PCI_NUM_REGIONS; i++) {
-+        bool init_ioregionfd = false;
-+        int fd = -1;
-+
-         config_op_send(pdev, PCI_BASE_ADDRESS_0 + (4 * i), &orig_val, 4,
-                        MPQEMU_CMD_PCI_CFGREAD);
-         new_val = 0xffffffff;
-@@ -362,9 +393,36 @@ static void probe_pci_info(PCIDevice *dev, Error **errp)
-             if (type == PCI_BASE_ADDRESS_SPACE_MEMORY) {
-                 pdev->region[i].memory = true;
-             }
--            memory_region_init_io(&pdev->region[i].mr, OBJECT(pdev),
--                                  &proxy_mr_ops, &pdev->region[i],
--                                  name, size);
-+#ifdef CONFIG_IOREGIONFD
-+            /*
-+             * Currently, only one fd per device is supported.
-+             * TODO: Drop this limit.
-+             */
-+            if (pdev->ioregfd) {
-+                fd = monitor_fd_param(monitor_cur(), pdev->ioregfd, errp);
-+                if (fd == -1) {
-+                    error_prepend(errp, "Could not parse ioregionfd fd %s:",
-+                                  pdev->ioregfd);
-+                }
-+
-+                config_get_ioregionfd_info(pdev, i, &ioregionfd_bar,
-+                                           pdev->region[i].memory);
-+                if (ioregionfd_bar == i) {
-+                    init_ioregionfd = true;
-+                }
-+            }
-+#endif
-+            if (init_ioregionfd) {
-+                memory_region_init_io(&pdev->region[i].mr, OBJECT(pdev),
-+                                      NULL, &pdev->region[i],
-+                                      name, size);
-+                memory_region_add_ioregionfd(&pdev->region[i].mr, 0, size, i,
-+                                             fd, false);
-+            } else {
-+                memory_region_init_io(&pdev->region[i].mr, OBJECT(pdev),
-+                                      &proxy_mr_ops, &pdev->region[i],
-+                                      name, size);
-+            }
-             pci_register_bar(dev, i, type, &pdev->region[i].mr);
-         }
-     }
--- 
-2.25.1
+I had run checkpatch on initial patch revisions but at some point I
+stopped running checkpatch on every patch revision.
 
+I will make sure to run checkpatch on all patch revisions going
+forward.
+
+>
+> In this case I have manually fixed them up.
+
+Thanks and my apologies for the inconvenience.
+
+Regards,
+Anup
 
