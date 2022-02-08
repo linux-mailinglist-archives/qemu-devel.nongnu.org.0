@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0690C4AE2A3
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Feb 2022 21:42:44 +0100 (CET)
-Received: from localhost ([::1]:38020 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9995F4AE29E
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Feb 2022 21:37:48 +0100 (CET)
+Received: from localhost ([::1]:60346 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nHXJx-00055d-4E
-	for lists+qemu-devel@lfdr.de; Tue, 08 Feb 2022 15:42:42 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:39704)
+	id 1nHXFD-0000nr-5G
+	for lists+qemu-devel@lfdr.de; Tue, 08 Feb 2022 15:37:47 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:39706)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nHWna-00033B-5R
+ id 1nHWna-00033C-5t
  for qemu-devel@nongnu.org; Tue, 08 Feb 2022 15:09:18 -0500
-Received: from [2a00:1450:4864:20::32e] (port=54789
- helo=mail-wm1-x32e.google.com)
+Received: from [2a00:1450:4864:20::336] (port=51049
+ helo=mail-wm1-x336.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nHWnT-00066j-5X
+ id 1nHWnT-00066o-3y
  for qemu-devel@nongnu.org; Tue, 08 Feb 2022 15:09:12 -0500
-Received: by mail-wm1-x32e.google.com with SMTP id c192so47564wma.4
+Received: by mail-wm1-x336.google.com with SMTP id m26so87662wms.0
  for <qemu-devel@nongnu.org>; Tue, 08 Feb 2022 12:09:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=ETqgvEp+BK5IeQcaommUlEe8fKOhJ00KVNdgTbqltH8=;
- b=U1VpaWHhRQNMbt1U6lyGf2VMPrnhc7HKy3/HXFDyPRLDCCvck1COXPz4picyc/6I5i
- oxUL64BXGVvUz0UoSi+8VyNXiKvd4Rtdqu+zg0ryXqD4zECjWEweAPstt2IPNBtxejpP
- LqErd5ngjHAMXCdi6TaR2tQNBH37BWVQH9X52vMw2i+L24V+g0oh2bCqmiCexq5UyTF/
- Pxg3V3voL1cYQa7uM0MM8xlYb72IR+VbMDEYnCvqLK9SMtLYvwTZuVVnyQhhXO19G6cL
- Ih55fv+UOMgo6DwOaNmATOw8lObSuoGXrmepMUW3rdRkM4cfig6kPP0iaR2XQG3GCkJ5
- BSpw==
+ bh=D31fWlApiNdJKj9pWF83rHnBapTQ9Q4E45VDFHt714s=;
+ b=bGpHLsp+PvLEoDTGev5zrlJZ2jVx0RLw7r85mieSasWgGYUlL+goHvW+mC/gWUuljc
+ 1L4Skdq7GNw6/DfYcTX/mV4yCJFQ4YQIbMWStMB0w0GUGfy+3glkAjHndnAKctVxPHqO
+ 7iCZ2UR1LnlVSSzcvBQVOb5rrFs/l3eZnonmXkDlod89+DmP6Us/2l72JgCkv1OPklkI
+ KbLUFBZi76t0t58RcRM9pfS+KZDDo5/2gENs9fipLqEwVOl6mYMwznL8xm7yoUiEbLBN
+ c26yvHCH6tFFPW6wEQD7DwBH+91C1UndBsD1CCetk22pVLdkLMpAzkiJPMt+21DgPG4f
+ c03w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=ETqgvEp+BK5IeQcaommUlEe8fKOhJ00KVNdgTbqltH8=;
- b=1aH2WQUxEIucEubPb66J9P6tdF/wUTz03/g28kCDOTI1UGKd5aYL9TjHBPn4hV9UvE
- ZJgbLSqvNaY4aohZS4fC1nylQaCcsf464Zvl0uZtVNnx3TLW3CCkA7Zy/KAokG9VtHRS
- 90lhOPGJyhXW+5Gui2QcKjdpOPXa00bRKkqVUfCfLGwWVRWkXXQZtiPtDv7GOvf44tMQ
- obDvLH+luunk9va+jff4lsjKj8T6e4XuFGp2ChvU9zYeYyt5SVVv5NKcCG5XCN6GC64s
- /tXdWXCaorwcHaOx+JplcBJrjYf6fK9g/EMQwzeIUTDaBUBfpdSy02dy/h0tlkjO4LbN
- nggA==
-X-Gm-Message-State: AOAM532mVqma78uGv3p2muHZX82CfyVTYANkpooGoberKbszinUoTKMV
- tNgHD6u5iI/oX9qRjotq1AZGJD/PJpGs2w==
-X-Google-Smtp-Source: ABdhPJz9jMpb2BOJE5cXPc7WJBGVbogPcti26APqZcSNzEkx3cohu9a5YM43ejVmQ9gs2lcD9IFvVg==
-X-Received: by 2002:a05:600c:3488:: with SMTP id
- a8mr2400179wmq.173.1644350941348; 
- Tue, 08 Feb 2022 12:09:01 -0800 (PST)
+ bh=D31fWlApiNdJKj9pWF83rHnBapTQ9Q4E45VDFHt714s=;
+ b=w3qlj1Qf8bk85wHfQf02ghT5ZZlKcu3cyF0tJSudLVFKKtSFCpuZecpE/gZGb0lOaw
+ GFzJzHkqay9zx33sOXQ1zPigUOwkeiq0IdHSMWOD02Ve/uYxowscgtoIJLiJpYAlTKX8
+ Eewjwku4MIhI1zRiuFPmexneTtQbhdKnrkz3KlzGUGEDT4WZDZ+cvx1tRkdVHrfsV6d0
+ J5zPUuN/e7+GtNHXYLiMyDjIOSCxKibNugO8B6hfUN6I/mkMHZPlg3asZ4/J+siJE/gB
+ Qms505Dc3MmrDXlRyOoHhQvrdRDboroo/m+giesFL6ChxicK8bzYGQBp0xBEcKpKuE2Z
+ 2OHA==
+X-Gm-Message-State: AOAM530DjLxKkJa9tGQVMU5ELxVa8UZKwEK6wmJNqD0CrZ1x+4I8zmYs
+ pOj5oWCFi4iu4bvVj3i1nlTovK5VBdXiqQ==
+X-Google-Smtp-Source: ABdhPJyEYj80E9ulI7MMV0bOj5640Ob4yeL0ZlZhxH93/IG0nMb5hCQYJd2M1Bb5jKWYh5I8zyNVdg==
+X-Received: by 2002:a05:600c:ac6:: with SMTP id
+ c6mr2456726wmr.65.1644350942010; 
+ Tue, 08 Feb 2022 12:09:02 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
- by smtp.gmail.com with ESMTPSA id r2sm4098170wmq.24.2022.02.08.12.09.00
+ by smtp.gmail.com with ESMTPSA id r2sm4098170wmq.24.2022.02.08.12.09.01
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 08 Feb 2022 12:09:00 -0800 (PST)
+ Tue, 08 Feb 2022 12:09:01 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 4/5] include: Move qemu_[id]cache_* declarations to new
- qemu/cacheinfo.h
-Date: Tue,  8 Feb 2022 20:08:55 +0000
-Message-Id: <20220208200856.3558249-5-peter.maydell@linaro.org>
+Subject: [PATCH 5/5] include: Move hardware version declarations to new
+ qemu/hw-version.h
+Date: Tue,  8 Feb 2022 20:08:56 +0000
+Message-Id: <20220208200856.3558249-6-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220208200856.3558249-1-peter.maydell@linaro.org>
 References: <20220208200856.3558249-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32e
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::336
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::336;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x336.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -92,152 +92,195 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The qemu_icache_linesize, qemu_icache_linesize_log,
-qemu_dcache_linesize, and qemu_dcache_linesize_log variables are not
-used in many files.  Move them out of osdep.h to a new
-qemu/cacheinfo.h, and document them.
+The "hardware version" machinery (qemu_set_hw_version(),
+qemu_hw_version(), and the QEMU_HW_VERSION define) is used by fewer
+than 10 files.  Move it out from osdep.h into a new
+qemu/hw-version.h.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- include/qemu/cacheinfo.h  | 21 +++++++++++++++++++++
- include/qemu/osdep.h      |  5 -----
- accel/tcg/translate-all.c |  1 +
- plugins/loader.c          |  1 +
- tcg/region.c              |  1 +
- tcg/tcg.c                 |  1 +
- util/atomic64.c           |  1 +
- util/cacheflush.c         |  1 +
- util/cacheinfo.c          |  1 +
- 9 files changed, 28 insertions(+), 5 deletions(-)
- create mode 100644 include/qemu/cacheinfo.h
+ include/qemu/hw-version.h | 27 +++++++++++++++++++++++++++
+ include/qemu/osdep.h      | 16 ----------------
+ hw/arm/nseries.c          |  1 +
+ hw/ide/core.c             |  1 +
+ hw/scsi/megasas.c         |  1 +
+ hw/scsi/scsi-bus.c        |  1 +
+ hw/scsi/scsi-disk.c       |  1 +
+ softmmu/vl.c              |  1 +
+ target/i386/cpu.c         |  1 +
+ target/s390x/cpu_models.c |  1 +
+ util/osdep.c              |  1 +
+ 11 files changed, 36 insertions(+), 16 deletions(-)
+ create mode 100644 include/qemu/hw-version.h
 
-diff --git a/include/qemu/cacheinfo.h b/include/qemu/cacheinfo.h
+diff --git a/include/qemu/hw-version.h b/include/qemu/hw-version.h
 new file mode 100644
-index 00000000000..019a157ea08
+index 00000000000..730a8c904d9
 --- /dev/null
-+++ b/include/qemu/cacheinfo.h
-@@ -0,0 +1,21 @@
++++ b/include/qemu/hw-version.h
+@@ -0,0 +1,27 @@
 +/*
-+ * QEMU host cacheinfo information
++ * QEMU "hardware version" machinery
 + *
 + * This work is licensed under the terms of the GNU GPL, version 2 or later.
 + * See the COPYING file in the top-level directory.
 + */
-+#ifndef QEMU_CACHEINFO_H
-+#define QEMU_CACHEINFO_H
++#ifndef QEMU_HW_VERSION_H
++#define QEMU_HW_VERSION_H
 +
 +/*
-+ * These variables represent our best guess at the host icache and
-+ * dcache sizes, expressed both as the size in bytes and as the
-+ * base-2 log of the size in bytes. They are initialized at startup
-+ * (via an attribute 'constructor' function).
++ * Starting on QEMU 2.5, qemu_hw_version() returns "2.5+" by default
++ * instead of QEMU_VERSION, so setting hw_version on MachineClass
++ * is no longer mandatory.
++ *
++ * Do NOT change this string, or it will break compatibility on all
++ * machine classes that don't set hw_version.
 + */
-+extern int qemu_icache_linesize;
-+extern int qemu_icache_linesize_log;
-+extern int qemu_dcache_linesize;
-+extern int qemu_dcache_linesize_log;
++#define QEMU_HW_VERSION "2.5+"
++
++/* QEMU "hardware version" setting. Used to replace code that exposed
++ * QEMU_VERSION to guests in the past and need to keep compatibility.
++ * Do not use qemu_hw_version() in new code.
++ */
++void qemu_set_hw_version(const char *);
++const char *qemu_hw_version(void);
 +
 +#endif
 diff --git a/include/qemu/osdep.h b/include/qemu/osdep.h
-index 0715d6b4509..e36f62a254e 100644
+index e36f62a254e..650ba1aa505 100644
 --- a/include/qemu/osdep.h
 +++ b/include/qemu/osdep.h
-@@ -616,11 +616,6 @@ pid_t qemu_fork(Error **errp);
- extern uintptr_t qemu_real_host_page_size;
- extern intptr_t qemu_real_host_page_mask;
+@@ -534,22 +534,6 @@ static inline void qemu_timersub(const struct timeval *val1,
  
--extern int qemu_icache_linesize;
--extern int qemu_icache_linesize_log;
--extern int qemu_dcache_linesize;
--extern int qemu_dcache_linesize_log;
+ void qemu_set_cloexec(int fd);
+ 
+-/* Starting on QEMU 2.5, qemu_hw_version() returns "2.5+" by default
+- * instead of QEMU_VERSION, so setting hw_version on MachineClass
+- * is no longer mandatory.
+- *
+- * Do NOT change this string, or it will break compatibility on all
+- * machine classes that don't set hw_version.
+- */
+-#define QEMU_HW_VERSION "2.5+"
 -
- /*
-  * After using getopt or getopt_long, if you need to parse another set
-  * of options, then you must reset optind.  Unfortunately the way to
-diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
-index bd71db59a9a..5971cd53ab9 100644
---- a/accel/tcg/translate-all.c
-+++ b/accel/tcg/translate-all.c
-@@ -51,6 +51,7 @@
- #include "qemu/qemu-print.h"
- #include "qemu/timer.h"
- #include "qemu/main-loop.h"
-+#include "qemu/cacheinfo.h"
- #include "exec/log.h"
- #include "sysemu/cpus.h"
- #include "sysemu/cpu-timers.h"
-diff --git a/plugins/loader.c b/plugins/loader.c
-index a4ec2816922..4883b0a1cbc 100644
---- a/plugins/loader.c
-+++ b/plugins/loader.c
+-/* QEMU "hardware version" setting. Used to replace code that exposed
+- * QEMU_VERSION to guests in the past and need to keep compatibility.
+- * Do not use qemu_hw_version() in new code.
+- */
+-void qemu_set_hw_version(const char *);
+-const char *qemu_hw_version(void);
+-
+ void fips_set_state(bool requested);
+ bool fips_get_state(void);
+ 
+diff --git a/hw/arm/nseries.c b/hw/arm/nseries.c
+index af3164c5519..9c1cafae86b 100644
+--- a/hw/arm/nseries.c
++++ b/hw/arm/nseries.c
 @@ -24,6 +24,7 @@
- #include "qemu/rcu_queue.h"
- #include "qemu/qht.h"
- #include "qemu/bitmap.h"
-+#include "qemu/cacheinfo.h"
- #include "qemu/xxhash.h"
- #include "qemu/plugin.h"
- #include "hw/core/cpu.h"
-diff --git a/tcg/region.c b/tcg/region.c
-index 7b4e65a52e8..72afb357389 100644
---- a/tcg/region.c
-+++ b/tcg/region.c
-@@ -26,6 +26,7 @@
+ #include "chardev/char.h"
+ #include "qemu/cutils.h"
+ #include "qemu/bswap.h"
++#include "qemu/hw-version.h"
+ #include "sysemu/reset.h"
+ #include "sysemu/runstate.h"
+ #include "sysemu/sysemu.h"
+diff --git a/hw/ide/core.c b/hw/ide/core.c
+index e28f8aad611..33463d9b8f2 100644
+--- a/hw/ide/core.c
++++ b/hw/ide/core.c
+@@ -29,6 +29,7 @@
+ #include "qemu/error-report.h"
+ #include "qemu/main-loop.h"
+ #include "qemu/timer.h"
++#include "qemu/hw-version.h"
+ #include "sysemu/sysemu.h"
+ #include "sysemu/blockdev.h"
+ #include "sysemu/dma.h"
+diff --git a/hw/scsi/megasas.c b/hw/scsi/megasas.c
+index cd43945827c..d5dfb412bac 100644
+--- a/hw/scsi/megasas.c
++++ b/hw/scsi/megasas.c
+@@ -28,6 +28,7 @@
+ #include "hw/pci/msix.h"
+ #include "qemu/iov.h"
+ #include "qemu/module.h"
++#include "qemu/hw-version.h"
+ #include "hw/scsi/scsi.h"
+ #include "scsi/constants.h"
+ #include "trace.h"
+diff --git a/hw/scsi/scsi-bus.c b/hw/scsi/scsi-bus.c
+index 4057e04ce89..b2e2bc3c96c 100644
+--- a/hw/scsi/scsi-bus.c
++++ b/hw/scsi/scsi-bus.c
+@@ -3,6 +3,7 @@
+ #include "qemu/error-report.h"
+ #include "qemu/module.h"
+ #include "qemu/option.h"
++#include "qemu/hw-version.h"
+ #include "hw/qdev-properties.h"
+ #include "hw/scsi/scsi.h"
+ #include "migration/qemu-file-types.h"
+diff --git a/hw/scsi/scsi-disk.c b/hw/scsi/scsi-disk.c
+index 9c0dc7b9468..3666b8d9468 100644
+--- a/hw/scsi/scsi-disk.c
++++ b/hw/scsi/scsi-disk.c
+@@ -25,6 +25,7 @@
+ #include "qemu/error-report.h"
+ #include "qemu/main-loop.h"
+ #include "qemu/module.h"
++#include "qemu/hw-version.h"
+ #include "hw/scsi/scsi.h"
+ #include "migration/qemu-file-types.h"
+ #include "migration/vmstate.h"
+diff --git a/softmmu/vl.c b/softmmu/vl.c
+index 5e1b35ba489..1fe028800fd 100644
+--- a/softmmu/vl.c
++++ b/softmmu/vl.c
+@@ -36,6 +36,7 @@
+ #include "qemu-version.h"
+ #include "qemu/cutils.h"
+ #include "qemu/help_option.h"
++#include "qemu/hw-version.h"
+ #include "qemu/uuid.h"
+ #include "sysemu/reset.h"
+ #include "sysemu/runstate.h"
+diff --git a/target/i386/cpu.c b/target/i386/cpu.c
+index aa9e6368004..c9954df4a74 100644
+--- a/target/i386/cpu.c
++++ b/target/i386/cpu.c
+@@ -21,6 +21,7 @@
  #include "qemu/units.h"
+ #include "qemu/cutils.h"
+ #include "qemu/qemu-print.h"
++#include "qemu/hw-version.h"
+ #include "cpu.h"
+ #include "tcg/helper-tcg.h"
+ #include "sysemu/reset.h"
+diff --git a/target/s390x/cpu_models.c b/target/s390x/cpu_models.c
+index 11e06cc51fa..17ae771939b 100644
+--- a/target/s390x/cpu_models.c
++++ b/target/s390x/cpu_models.c
+@@ -19,6 +19,7 @@
+ #include "qapi/error.h"
+ #include "qapi/visitor.h"
+ #include "qemu/module.h"
++#include "qemu/hw-version.h"
+ #include "qemu/qemu-print.h"
+ #ifndef CONFIG_USER_ONLY
+ #include "sysemu/sysemu.h"
+diff --git a/util/osdep.c b/util/osdep.c
+index 72b678ca2e3..7c4deda6feb 100644
+--- a/util/osdep.c
++++ b/util/osdep.c
+@@ -39,6 +39,7 @@ extern int madvise(char *, size_t, int);
+ #include "qemu/error-report.h"
  #include "qemu/madvise.h"
  #include "qemu/mprotect.h"
-+#include "qemu/cacheinfo.h"
- #include "qapi/error.h"
- #include "exec/exec-all.h"
- #include "tcg/tcg.h"
-diff --git a/tcg/tcg.c b/tcg/tcg.c
-index 5d2f0d8b103..528277d1d3c 100644
---- a/tcg/tcg.c
-+++ b/tcg/tcg.c
-@@ -36,6 +36,7 @@
- #include "qemu/qemu-print.h"
- #include "qemu/timer.h"
- #include "qemu/cacheflush.h"
-+#include "qemu/cacheinfo.h"
++#include "qemu/hw-version.h"
+ #include "monitor/monitor.h"
  
- /* Note: the long term plan is to reduce the dependencies on the QEMU
-    CPU definitions. Currently they are used for qemu_ld/st
-diff --git a/util/atomic64.c b/util/atomic64.c
-index 93037d5b116..db2c7f0fd0e 100644
---- a/util/atomic64.c
-+++ b/util/atomic64.c
-@@ -7,6 +7,7 @@
- #include "qemu/osdep.h"
- #include "qemu/atomic.h"
- #include "qemu/thread.h"
-+#include "qemu/cacehinfo.h"
- 
- #ifdef CONFIG_ATOMIC64
- #error This file must only be compiled if !CONFIG_ATOMIC64
-diff --git a/util/cacheflush.c b/util/cacheflush.c
-index 933355b0c99..4b57186d89c 100644
---- a/util/cacheflush.c
-+++ b/util/cacheflush.c
-@@ -7,6 +7,7 @@
- 
- #include "qemu/osdep.h"
- #include "qemu/cacheflush.h"
-+#include "qemu/cacheinfo.h"
- #include "qemu/bitops.h"
- 
- 
-diff --git a/util/cacheinfo.c b/util/cacheinfo.c
-index b182f0b6936..ab1644d490f 100644
---- a/util/cacheinfo.c
-+++ b/util/cacheinfo.c
-@@ -9,6 +9,7 @@
- #include "qemu/osdep.h"
- #include "qemu/host-utils.h"
- #include "qemu/atomic.h"
-+#include "qemu/cacheinfo.h"
- 
- int qemu_icache_linesize = 0;
- int qemu_icache_linesize_log;
+ static bool fips_enabled = false;
 -- 
 2.25.1
 
