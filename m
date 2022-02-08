@@ -2,77 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B9084ADCBF
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Feb 2022 16:34:40 +0100 (CET)
-Received: from localhost ([::1]:48204 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 249394ADD25
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Feb 2022 16:42:06 +0100 (CET)
+Received: from localhost ([::1]:57290 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nHSVr-0004XK-JM
-	for lists+qemu-devel@lfdr.de; Tue, 08 Feb 2022 10:34:39 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:51070)
+	id 1nHSd3-0002XF-3f
+	for lists+qemu-devel@lfdr.de; Tue, 08 Feb 2022 10:42:05 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:53634)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nHPw5-00025Y-Ph
- for qemu-devel@nongnu.org; Tue, 08 Feb 2022 07:49:34 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:36987)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nHPw3-0005fh-1Y
- for qemu-devel@nongnu.org; Tue, 08 Feb 2022 07:49:33 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1644324570;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=1F4B8cB38f1Ytji6LlBIXBlcf4xEm5i+8vFKSbQoONQ=;
- b=iW1nEUh9SN7U1e3DMCDlwHCD2GhrP56RtowjZm/echl+b1TLMYw9I4/oRhuBp56qhd4QmP
- DBf0u09w3f9MD6fkGF7Hvi761xQMEActJsp/1c7LrG4fhjyYvzPnys1MRaU70iZzRjs6hE
- +VOS85VkeXc7grYTJeCu21jTyLtMmPY=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-596--6dL966FNB-g3uJkh1KWow-1; Tue, 08 Feb 2022 07:49:26 -0500
-X-MC-Unique: -6dL966FNB-g3uJkh1KWow-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 791C7344B0;
- Tue,  8 Feb 2022 12:49:25 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.138])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 896777B022;
- Tue,  8 Feb 2022 12:49:24 +0000 (UTC)
-Date: Tue, 8 Feb 2022 12:49:19 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Subject: Re: [PATCH 08/11] mos6522: add "info via" HMP command for debugging
-Message-ID: <YgJmz6neLsF2n2u3@redhat.com>
-References: <20220127205405.23499-1-mark.cave-ayland@ilande.co.uk>
- <20220127205405.23499-9-mark.cave-ayland@ilande.co.uk>
- <YgJWPzFczlDBJV/I@redhat.com>
- <77884339-2f51-1ad0-7461-abd79bb36ef1@ilande.co.uk>
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1nHQ5g-0006An-M6
+ for qemu-devel@nongnu.org; Tue, 08 Feb 2022 07:59:29 -0500
+Received: from [2a00:1450:4864:20::62a] (port=35369
+ helo=mail-ej1-x62a.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1nHQ5c-00077M-Pr
+ for qemu-devel@nongnu.org; Tue, 08 Feb 2022 07:59:28 -0500
+Received: by mail-ej1-x62a.google.com with SMTP id y3so31203994ejf.2
+ for <qemu-devel@nongnu.org>; Tue, 08 Feb 2022 04:59:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=eqXBDmtnq//7EbFJK5efxf/ffy/Wh9R9JTgEuy3Ouig=;
+ b=n5Wy1OMcTDyH5dL1ldS7jyW/hwCTsoZMAbemOvOjANnljf+hGLOc0ZMgYJFGj5zYOc
+ SCm0MaUU4gl/uwrEDNb1aouiWV8eBCzHeg3Rh20S/zdzVzB6u6luUvxlI/FFKhOooZ/G
+ Z8XOt7rKCEQ91nCEIeN813/Pua1HEWQRrDRhi16Wafqn/NW97slhqEiTKraPLNOiFRJv
+ zGDUWXBLvCUccNRwj/bLMT2cluHyhzCPlTpnAheo86JOLuo/pKQRXrfsNmIxX3RXvtzH
+ ksqzawGpU6nIde9ElsJg8hQcwW0KE/QdNGE7Yp0EB7Xp7h3GmZc3k1cXtEbDL7TbzfEW
+ s9ug==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=eqXBDmtnq//7EbFJK5efxf/ffy/Wh9R9JTgEuy3Ouig=;
+ b=AnS8cvVVIQhsw/Z2FCd6BuFSqeQWL+8AFZDBqjE/KmEGEvj6hq7jOiZXfNANDlxlCm
+ yWMu0e8PBMpYziD7a1pEtikU53fH2SxAf78SSwROCJUkRQ+Cz8Z7bseLdRvYXcv0bSU2
+ IkCtTuS4h3bZS0bTIQvVCXJAYFiDTzQNb0VjWICjNaZIAedpQ60uVBQvzXOSrhm4hXBR
+ n1btG96E5BpY9WqiGMuhWCzsZa/ocI4uroACQJ//b3JfhTyHutkrP4a2MyjzxFJsVG3s
+ setetbNwK+h4OpOit7qunJGyBxxpyKR3gAvC+/2oH1Sr2/wH6JRgEQtahccb5cEQf1B0
+ U4Yg==
+X-Gm-Message-State: AOAM5317X9+cjNpE8lskqw9fF+jAONTUb37M4t0nRqA6IcR2+si7CFoT
+ 8gcYDKVzy4wAdAn0MfSM3ExSGw==
+X-Google-Smtp-Source: ABdhPJyU92VUWnm+v8QzVSHbH39z3h0vob5dbEgUzJopYyrh7aB2k7s6pN4Hyi99av+CXO7jRJOBbA==
+X-Received: by 2002:a17:906:cb91:: with SMTP id
+ mf17mr3662320ejb.459.1644325156298; 
+ Tue, 08 Feb 2022 04:59:16 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id s28sm172237ejm.158.2022.02.08.04.59.14
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 08 Feb 2022 04:59:14 -0800 (PST)
+Received: from zen.lan (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 4103A1FFB7;
+ Tue,  8 Feb 2022 12:59:14 +0000 (GMT)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [RFC PATCH] include/exec: fix softmmu version of TARGET_ABI_FMT_lx
+Date: Tue,  8 Feb 2022 12:59:09 +0000
+Message-Id: <20220208125909.3031809-1-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-In-Reply-To: <77884339-2f51-1ad0-7461-abd79bb36ef1@ilande.co.uk>
-User-Agent: Mutt/2.1.5 (2021-12-30)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::62a
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::62a;
+ envelope-from=alex.bennee@linaro.org; helo=mail-ej1-x62a.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -85,113 +89,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: laurent@vivier.eu, qemu-devel@nongnu.org
+Cc: Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Feb 08, 2022 at 12:39:04PM +0000, Mark Cave-Ayland wrote:
-> On 08/02/2022 11:38, Daniel P. Berrangé wrote:
-> 
-> > On Thu, Jan 27, 2022 at 08:54:02PM +0000, Mark Cave-Ayland wrote:
-> > > This displays detailed information about the device registers and timers o aid
-> > > debugging problems with timers and interrupts.
-> > > 
-> > > Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-> > > ---
-> > >   hmp-commands-info.hx | 12 ++++++
-> > >   hw/misc/mos6522.c    | 92 ++++++++++++++++++++++++++++++++++++++++++++
-> > >   2 files changed, 104 insertions(+)
-> > > 
-> > > diff --git a/hmp-commands-info.hx b/hmp-commands-info.hx
-> > > index e90f20a107..4e714e79a2 100644
-> > > --- a/hmp-commands-info.hx
-> > > +++ b/hmp-commands-info.hx
-> > > @@ -879,3 +879,15 @@ SRST
-> > >     ``info sgx``
-> > >       Show intel SGX information.
-> > >   ERST
-> > > +
-> > > +    {
-> > > +        .name       = "via",
-> > > +        .args_type  = "",
-> > > +        .params     = "",
-> > > +        .help       = "show guest 6522 VIA devices",
-> > > +    },
-> > > +
-> > > +SRST
-> > > +  ``info via``
-> > > +    Show guest 6522 VIA devices.
-> > > +ERST
-> > > diff --git a/hw/misc/mos6522.c b/hw/misc/mos6522.c
-> > > index aaae195d63..cfa6a9c44b 100644
-> > > --- a/hw/misc/mos6522.c
-> > > +++ b/hw/misc/mos6522.c
-> > > @@ -30,6 +30,8 @@
-> > >   #include "hw/misc/mos6522.h"
-> > >   #include "hw/qdev-properties.h"
-> > >   #include "migration/vmstate.h"
-> > > +#include "monitor/monitor.h"
-> > > +#include "qapi/type-helpers.h"
-> > >   #include "qemu/timer.h"
-> > >   #include "qemu/cutils.h"
-> > >   #include "qemu/log.h"
-> > > @@ -415,6 +417,95 @@ void mos6522_write(void *opaque, hwaddr addr, uint64_t val, unsigned size)
-> > >       }
-> > >   }
-> > > +static int qmp_x_query_via_foreach(Object *obj, void *opaque)
-> > 
-> > 
-> > > +
-> > > +static HumanReadableText *qmp_x_query_via(Error **errp)
-> > > +{
-> > > +    g_autoptr(GString) buf = g_string_new("");
-> > > +
-> > > +    object_child_foreach_recursive(object_get_root(),
-> > > +                                   qmp_x_query_via_foreach, buf);
-> > > +
-> > > +    return human_readable_text_from_str(buf);
-> > > +}
-> > 
-> > This provides a code handler for a QMP command which is good,
-> > but doesn't ever define the QMP command in the qapi/ schema.
-> 
-> First of all, thank you for writing the docs at https://www.qemu.org/docs/master/devel/writing-monitor-commands.html#writing-a-debugging-aid-returning-unstructured-text
-> which were really useful when writing this patch.
-> 
-> I was under the impression that monitor_register_hmp_info_hrt() does all the
-> magic here i.e. it declares the underlying QMP command with an x- prefix and
-> effectively encapsulates the text field in a way that says "this is an
-> unreliable text opaque for humans"?
+TARGET_ABI_FMT_lx isn't available for softmmu which causes confusion
+when trying to print. As abi_ptr == target_ulong use its format string
+instead.
 
-The monitor_register_hmp_info_hrt only does the HMP glue side, and
-that's only needed if you must dynamically register the HMP command.
-For statically registered commands set '.cmd_info_hrt' directly in
-the hml-commands-info.hx for the HMP side.
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+---
+ include/exec/cpu_ldst.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-> If a qapi/ schema is needed could you explain what it should look like for
-> this example and where it should go? Looking at the existing .json files I
-> can't immediately see one which is the right place for this to live.
-
-Take a look in qapi/machine.json for anyof the 'x-query-XXXX' commands
-there. The QAPI bit is fairly simple. 
-
-if you want to see an illustration of what's different from a previous
-pure HMP impl, look at:
-
-  commit dd98234c059e6bdb05a52998270df6d3d990332e
-  Author: Daniel P. Berrangé <berrange@redhat.com>
-  Date:   Wed Sep 8 10:35:43 2021 +0100
-
-    qapi: introduce x-query-roms QMP command
-
-
-
-Regards,
-Daniel
+diff --git a/include/exec/cpu_ldst.h b/include/exec/cpu_ldst.h
+index a878fd0105..da987fe8ad 100644
+--- a/include/exec/cpu_ldst.h
++++ b/include/exec/cpu_ldst.h
+@@ -121,7 +121,7 @@ static inline bool guest_range_valid_untagged(abi_ulong start, abi_ulong len)
+ })
+ #else
+ typedef target_ulong abi_ptr;
+-#define TARGET_ABI_FMT_ptr TARGET_ABI_FMT_lx
++#define TARGET_ABI_FMT_ptr TARGET_FMT_lx
+ #endif
+ 
+ uint32_t cpu_ldub_data(CPUArchState *env, abi_ptr ptr);
 -- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+2.30.2
 
 
