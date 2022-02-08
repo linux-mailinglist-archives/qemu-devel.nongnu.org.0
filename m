@@ -2,86 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B35E94AD9C0
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Feb 2022 14:28:40 +0100 (CET)
-Received: from localhost ([::1]:45860 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 397754ADAF8
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Feb 2022 15:16:19 +0100 (CET)
+Received: from localhost ([::1]:40160 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nHQXv-00088c-Dp
-	for lists+qemu-devel@lfdr.de; Tue, 08 Feb 2022 08:28:39 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:35532)
+	id 1nHRHy-0006I3-Ml
+	for lists+qemu-devel@lfdr.de; Tue, 08 Feb 2022 09:16:14 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:36200)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1nHOtC-0002Gr-Mq
- for qemu-devel@nongnu.org; Tue, 08 Feb 2022 06:42:30 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:21657)
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nHOwt-0005fc-Ed
+ for qemu-devel@nongnu.org; Tue, 08 Feb 2022 06:46:19 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:54573)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1nHOtB-0002h1-0l
- for qemu-devel@nongnu.org; Tue, 08 Feb 2022 06:42:30 -0500
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nHOwq-0003GI-UG
+ for qemu-devel@nongnu.org; Tue, 08 Feb 2022 06:46:19 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1644320548;
+ s=mimecast20190719; t=1644320774;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Kx6dbc/YLbq7KaDiyaNYtylCA13uw3HiWaRh5bxNexg=;
- b=C1wSVpfVTeW23LZYv7ZIqfj60040RMQ8vE2WBlZ5pc3aO/kDYvtm1sUEejq+kRI+puqZLV
- 22csCHKUcUFDgBLIovTrr0qwlnApvUm7NueJ48psmim4pZflgbQcbFkj4lJ0RYw9LsXViE
- RSllV8rT3//M95ZsBEXuhobmMI9ofbA=
-Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com
- [209.85.219.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=s+cdHNnubsdshZ6PCh7WIdsZcDP0n/9BKG/ZAisPjvg=;
+ b=gwHdmyz6/mFtxJJZOOnf5lq3iit4Sfi+nD5PMuimPVVNK6frQHsyfoc5pZxRf5rm1v4LEe
+ gg5ow9bqseZXp9BzH1fdCz6fHrJU9OWGJ2WcJn9Ta5XnsQ22PsuxiWVVHFnnORpTQJaVEd
+ 5lKecTGRt6FrkZFAkJ26gWUfdfex7hA=
+Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
+ [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-58-A6T5lwlVPaqV9_R_n5bhgw-1; Tue, 08 Feb 2022 06:42:27 -0500
-X-MC-Unique: A6T5lwlVPaqV9_R_n5bhgw-1
-Received: by mail-qv1-f70.google.com with SMTP id
- m20-20020a05621402b400b0042bffb6a731so3094370qvv.11
- for <qemu-devel@nongnu.org>; Tue, 08 Feb 2022 03:42:27 -0800 (PST)
+ us-mta-383-f2gTp43RPKCJVoAJ_KbiRw-1; Tue, 08 Feb 2022 06:46:08 -0500
+X-MC-Unique: f2gTp43RPKCJVoAJ_KbiRw-1
+Received: by mail-ej1-f71.google.com with SMTP id
+ lb14-20020a170907784e00b006aa178894fcso5632894ejc.6
+ for <qemu-devel@nongnu.org>; Tue, 08 Feb 2022 03:46:08 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=Kx6dbc/YLbq7KaDiyaNYtylCA13uw3HiWaRh5bxNexg=;
- b=EhhmYgPI02yxybitOWRK4PFc2EdelIFdmGJWOYlME0JEACgSKNbfEZ55jGi203kSfD
- CYsN9KcTTPUlOPPkllLOAOS/0bIaSpWge32Vitj/DxHk4+NaI2RULROzSzWxBhFkrff0
- bi+ORqBBrVnCWQACgzs25yNnkGkwv+NOER3C3vzSCkKEVmlflWBrfcK/TvgkojFKEeHV
- GQxl0oGY/ZKrVeubBwvrgyOq8bHEGh9U6vIAC34nTBH7Do4e377Ko07W61HctRf+QhqN
- Mou1/cWXNfJd7yvVBwMFAAb6Rf7Dfoxm1TnDYoBf+SgxOwmIA383xXSbmJoJAGbt1g0H
- 68tQ==
-X-Gm-Message-State: AOAM533x06827w7tB+pcm6A1GcBNR13ZSJ/MSNpp5MnDDFnb6gc5Vs5k
- nk2um94+HslYBo6SCvcRFh0nsj9ipxfscwSf72Oqy7e1Ws+TQ3+9dkxT7IVR31bQBiKQ9fWZRvw
- mrYAXL7mUDvqLA9c=
-X-Received: by 2002:ac8:7f06:: with SMTP id f6mr2562461qtk.153.1644320547023; 
- Tue, 08 Feb 2022 03:42:27 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwm/WFraiWR6Sh+bVOdH67lFHzEEwGHUgi1rrPfD5mMHHFN0/xsg2PjUQ2g4lp1Ca8YgicMaw==
-X-Received: by 2002:ac8:7f06:: with SMTP id f6mr2562436qtk.153.1644320546803; 
- Tue, 08 Feb 2022 03:42:26 -0800 (PST)
-Received: from ?IPV6:2a04:ee41:4:31cb:e591:1e1e:abde:a8f1?
- ([2a04:ee41:4:31cb:e591:1e1e:abde:a8f1])
- by smtp.gmail.com with ESMTPSA id 5sm7358764qtp.81.2022.02.08.03.42.23
+ bh=s+cdHNnubsdshZ6PCh7WIdsZcDP0n/9BKG/ZAisPjvg=;
+ b=XG7och6EGQ99SgnyBZPvdRyR/hEE73KQZg6BvJ9QXoqHxJHLSk4QJgnBlGYjisXRcG
+ hlOIOwC5jCKmFZ4AqKFpKtWt1CjweTziFYiXEJZ3dxzzJ+vNKR55+/qxDD2CiF3WI2On
+ 2x01JSnq6lP5yOXG8q2Eyg34F+S8m8UYCwQOLboW9cAczLsgK9hh9V3qtv3/vEVXUWkM
+ 9QJipusJ8KBdZT6QnQmXy/IX9k26FeOdTbhfzolcMGGLZPgIeghe77XBQ0BMNHaWq+dk
+ 1juMXxHCaiT/xvO0uEqBWH88obE7MkKz7LtK9wWKLW6XXKEZBC7pijiC241HVJtH54zn
+ EvjQ==
+X-Gm-Message-State: AOAM532LX9r+9y7KTEf7PUzkl2U05IEopAROv9I/OTipLCdAn3FOliU9
+ KTKxzy4lBaJBnCJUlKkWLdQPUJDK7dOvSfQlgYgiQc8afjmFsyfI299YR4steOQij/GEkVLcB28
+ vhemUPCjwRpxEiZk=
+X-Received: by 2002:a17:906:a899:: with SMTP id
+ ha25mr3374553ejb.164.1644320767264; 
+ Tue, 08 Feb 2022 03:46:07 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyCaxaQYtZFHA7/gVWWynQeSMMLsX84nbXCPAh8ee6nfU+1bsNcz7/wls/oIkaJvFZLd01M8A==
+X-Received: by 2002:a17:906:a899:: with SMTP id
+ ha25mr3374540ejb.164.1644320767035; 
+ Tue, 08 Feb 2022 03:46:07 -0800 (PST)
+Received: from ?IPV6:2a02:8071:5055:3f20:7ad9:a400:6d51:83e6?
+ ([2a02:8071:5055:3f20:7ad9:a400:6d51:83e6])
+ by smtp.gmail.com with ESMTPSA id ck9sm965342edb.61.2022.02.08.03.46.06
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 08 Feb 2022 03:42:26 -0800 (PST)
-Message-ID: <1f3d2562-c355-4295-77b5-088d2ed49023@redhat.com>
-Date: Tue, 8 Feb 2022 12:42:22 +0100
+ Tue, 08 Feb 2022 03:46:06 -0800 (PST)
+Message-ID: <8332fa43-9e77-34f3-c012-062342d62c92@redhat.com>
+Date: Tue, 8 Feb 2022 12:46:05 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [PATCH v6 00/33] block layer: split block APIs in global state
- and I/O
-To: Kevin Wolf <kwolf@redhat.com>
-References: <20220121170544.2049944-1-eesposit@redhat.com>
- <YgFlQrmGXcOO9P/4@redhat.com>
-From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-In-Reply-To: <YgFlQrmGXcOO9P/4@redhat.com>
+ Thunderbird/91.5.0
+Subject: Re: [PATCH 1/6] tests/qemu-iotests: Improve the check for GNU sed
+To: Thomas Huth <thuth@redhat.com>, qemu-block@nongnu.org,
+ Kevin Wolf <kwolf@redhat.com>
+References: <20220208101311.1511083-1-thuth@redhat.com>
+ <20220208101311.1511083-2-thuth@redhat.com>
+From: Hanna Reitz <hreitz@redhat.com>
+In-Reply-To: <20220208101311.1511083-2-thuth@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eesposit@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eesposit@redhat.com;
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=hreitz@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -89,7 +89,8 @@ X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -102,55 +103,77 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, qemu-devel@nongnu.org,
- "Denis V. Lunev" <den@openvz.org>, Eric Blake <eblake@redhat.com>,
- qemu-block@nongnu.org, Juan Quintela <quintela@redhat.com>,
- Daniel Henrique Barboza <danielhb413@gmail.com>,
- Markus Armbruster <armbru@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, Greg Kurz <groug@kaod.org>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
- Stefan Hajnoczi <stefanha@redhat.com>, John Snow <jsnow@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>,
- Eduardo Habkost <eduardo@habkost.net>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- Hanna Reitz <hreitz@redhat.com>, qemu-ppc@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 08.02.22 11:13, Thomas Huth wrote:
+> Instead of failing the iotests if GNU sed is not available (or skipping
+> them completely in the check-block.sh script), it would be better to
+> simply skip the bash-based tests, so that the python-based tests could
+> still be run. Thus add the check for BusyBox sed to common.rc and mark
+> the tests as "not run" if GNU sed is not available. Then we can also
+> remove the sed checks from the check-block.sh script.
+>
+> Signed-off-by: Thomas Huth <thuth@redhat.com>
+> ---
+>   tests/check-block.sh         | 12 ------------
+>   tests/qemu-iotests/common.rc | 26 +++++++++++++-------------
+>   2 files changed, 13 insertions(+), 25 deletions(-)
+>
+> diff --git a/tests/check-block.sh b/tests/check-block.sh
+> index 720a46bc36..af0c574812 100755
+> --- a/tests/check-block.sh
+> +++ b/tests/check-block.sh
+> @@ -52,18 +52,6 @@ if LANG=C bash --version | grep -q 'GNU bash, version [123]' ; then
+>       skip "bash version too old ==> Not running the qemu-iotests."
+>   fi
+>   
+> -if ! (sed --version | grep 'GNU sed') > /dev/null 2>&1 ; then
 
+This specifically tests for `sed`, whereas...
 
-On 07/02/2022 19:30, Kevin Wolf wrote:
-> Am 21.01.2022 um 18:05 hat Emanuele Giuseppe Esposito geschrieben:
->> Each function in the GS API will have an assertion, checking
->> that it is always running under BQL.
->> I/O functions are instead thread safe (or so should be), meaning
->> that they *can* run under BQL, but also in an iothread in another
->> AioContext. Therefore they do not provide any assertion, and
->> need to be audited manually to verify the correctness.
-> 
-> I wonder if we could actually do something to catch at least some kinds
-> of bugs. The first conclusion from thinking about it is that we probably
-> shouldn't open-code assert(qemu_in_main_thread()) everywhere, but have a
-> macro or inline function for each category to be called in each function.
-> 
-> So an IO_CODE() macro could increase a counter in the coroutine object
-> (that is decreased again at the end of the function with g_auto), and
-> then GLOBAL_STATE_CODE() could not only assert that we're holding the
-> BQL, but also that the counter is still 0, i.e. it is not (indirectly)
-> called by an I/O function.
-> 
-> We may want to enable this only in debug builds, but maybe still worth a
-> thought anyway?
+[...]
 
-I don't understand what is the point of the counter, do you want to use
-it as a boolean flag? Would a single counter work in a multi-threaded
-context? Shouldn't we have it per-thread? And why you increase it only
-in coroutines?
+> diff --git a/tests/qemu-iotests/common.rc b/tests/qemu-iotests/common.rc
+> index 9885030b43..9ea504810c 100644
+> --- a/tests/qemu-iotests/common.rc
+> +++ b/tests/qemu-iotests/common.rc
+> @@ -17,17 +17,27 @@
+>   # along with this program.  If not, see <http://www.gnu.org/licenses/>.
+>   #
+>   
+> +# bail out, setting up .notrun file
+> +_notrun()
+> +{
+> +    echo "$*" >"$OUTPUT_DIR/$seq.notrun"
+> +    echo "$seq not run: $*"
+> +    status=0
+> +    exit
+> +}
+> +
+> +# We need GNU sed for the iotests. Make sure to not use BusyBox sed
+> +# which says that "This is not GNU sed version 4.0"
+>   SED=
+>   for sed in sed gsed; do
+> -    ($sed --version | grep 'GNU sed') > /dev/null 2>&1
+> +    ($sed --version | grep -v "not GNU sed" | grep 'GNU sed') > /dev/null 2>&1
 
-Emanuele
+...this will accept `gsed`, too.  The problem is that many bash iotests 
+just use `sed` instead of `$SED`, so I think if we let this do the 
+gatekeeping, then we should change this to just check for `sed`.
+
+Hanna
+
+>       if [ "$?" -eq 0 ]; then
+>           SED=$sed
+>           break
+>       fi
+>   done
+>   if [ -z "$SED" ]; then
+> -    echo "$0: GNU sed not found"
+> -    exit 1
+> +    _notrun "GNU sed not found"
+>   fi
 
 
