@@ -2,58 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C7654AE301
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Feb 2022 22:12:22 +0100 (CET)
-Received: from localhost ([::1]:47422 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BDB8A4AE30B
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Feb 2022 22:27:45 +0100 (CET)
+Received: from localhost ([::1]:38114 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nHXmf-00006T-Mn
-	for lists+qemu-devel@lfdr.de; Tue, 08 Feb 2022 16:12:21 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:47660)
+	id 1nHY1Y-0006cz-Hm
+	for lists+qemu-devel@lfdr.de; Tue, 08 Feb 2022 16:27:44 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:47724)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1nHXPb-0002Gh-B4
- for qemu-devel@nongnu.org; Tue, 08 Feb 2022 15:48:33 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:30742)
+ (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1nHXPe-0002Hu-39
+ for qemu-devel@nongnu.org; Tue, 08 Feb 2022 15:48:34 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:58575)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1nHXPX-00043u-OP
- for qemu-devel@nongnu.org; Tue, 08 Feb 2022 15:48:30 -0500
+ (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1nHXPY-000442-J1
+ for qemu-devel@nongnu.org; Tue, 08 Feb 2022 15:48:32 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1644353306;
+ s=mimecast20190719; t=1644353307;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=vx//wF3aPhfSTB6BjlOum3g3OYFNNuZT5pwzk12jrPI=;
- b=MnCWR+WiXgL8uSdEUJXaV6uJRbPXlEBMrUnIiMRrHRjCulXy1MMpb1v+txL5WUVG3x1+10
- QoHNjJTBfuGpGeZUqwdx/ZgGEe0H8wy0JQ/22nuS+3CKOkbCNOQ1TDz8kkZUl/YG9n2VTi
- Vcavn/JcyjjMqWxEBt995uJi2E7f+No=
+ bh=i5dne0lhrcUVG5AO4T+cuuhAndJiS0+yAjW6EHn1jIo=;
+ b=hjtEBtMGcLr4mkFmcp1oPUbkSbbfy52iyZyAIb/PMdwb6xaCSPUGHSXDIb9MKq1L87kR9N
+ hF40RW4SEY6gw6ijJ+REtiLk11UjyM+y6ZK6mvUb/XDPehZA78plbX+SrLQNyFoocu3EzQ
+ 0+aNxc2d+tsr85nA0ON0zSzNZ5F+3nY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-523-V5CavceBO6qyXi-OnkboTA-1; Tue, 08 Feb 2022 15:48:25 -0500
-X-MC-Unique: V5CavceBO6qyXi-OnkboTA-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-569-UXZi1Y93MFqBFSv21vzE5g-1; Tue, 08 Feb 2022 15:48:26 -0500
+X-MC-Unique: UXZi1Y93MFqBFSv21vzE5g-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C591E83DEAB
- for <qemu-devel@nongnu.org>; Tue,  8 Feb 2022 20:48:24 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 137D11F6D1
+ for <qemu-devel@nongnu.org>; Tue,  8 Feb 2022 20:48:25 +0000 (UTC)
 Received: from horse.redhat.com (unknown [10.22.18.12])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 90AE55E26C;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id CC0AD4D729;
  Tue,  8 Feb 2022 20:48:24 +0000 (UTC)
 Received: by horse.redhat.com (Postfix, from userid 10451)
- id D4D792256FE; Tue,  8 Feb 2022 15:48:23 -0500 (EST)
+ id E18EB225700; Tue,  8 Feb 2022 15:48:23 -0500 (EST)
 From: Vivek Goyal <vgoyal@redhat.com>
 To: qemu-devel@nongnu.org,
 	virtio-fs@redhat.com
-Subject: [PATCH v6 07/10] virtiofsd: Add helpers to work with
- /proc/self/task/tid/attr/fscreate
-Date: Tue,  8 Feb 2022 15:48:10 -0500
-Message-Id: <20220208204813.682906-8-vgoyal@redhat.com>
+Subject: [PATCH v6 09/10] virtiofsd: Create new file using O_TMPFILE and set
+ security context
+Date: Tue,  8 Feb 2022 15:48:12 -0500
+Message-Id: <20220208204813.682906-10-vgoyal@redhat.com>
 In-Reply-To: <20220208204813.682906-1-vgoyal@redhat.com>
 References: <20220208204813.682906-1-vgoyal@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=vgoyal@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -86,163 +86,163 @@ Cc: mszeredi@redhat.com, berrange@redhat.com, dgilbert@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Soon we will be able to create and also set security context on the file
-atomically using /proc/self/task/tid/attr/fscreate knob. If this knob
-is available on the system, first set the knob with the desired context
-and then create the file. It will be created with the context set in
-fscreate. This works basically for SELinux and its per thread.
+If guest and host policies can't work with each other, then guest security
+context (selinux label) needs to be set into an xattr. Say remap guest
+security.selinux xattr to trusted.virtiofs.security.selinux.
 
-This patch just introduces the helper functions. Subsequent patches will
-make use of these helpers.
+That means setting "fscreate" is not going to help as that's ony useful
+for security.selinux xattr on host.
+
+So we need another method which is atomic. Use O_TMPFILE to create new
+file, set xattr and then linkat() to proper place.
+
+But this works only for regular files. So dir, symlinks will continue
+to be non-atomic.
+
+Also if host filesystem does not support O_TMPFILE, we fallback to
+non-atomic behavior.
 
 Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 Signed-off-by: Vivek Goyal <vgoyal@redhat.com>
 ---
- tools/virtiofsd/passthrough_ll.c | 92 ++++++++++++++++++++++++++++++++
- 1 file changed, 92 insertions(+)
+ tools/virtiofsd/passthrough_ll.c | 80 ++++++++++++++++++++++++++++----
+ 1 file changed, 72 insertions(+), 8 deletions(-)
 
 diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrough_ll.c
-index 82023bf3d4..7762bf0d2c 100644
+index 68fa542fac..d49128a58d 100644
 --- a/tools/virtiofsd/passthrough_ll.c
 +++ b/tools/virtiofsd/passthrough_ll.c
-@@ -173,10 +173,14 @@ struct lo_data {
+@@ -2153,14 +2153,29 @@ static int lo_do_open(struct lo_data *lo, struct lo_inode *inode,
  
-     /* An O_PATH file descriptor to /proc/self/fd/ */
-     int proc_self_fd;
-+    /* An O_PATH file descriptor to /proc/self/task/ */
-+    int proc_self_task;
-     int user_killpriv_v2, killpriv_v2;
-     /* If set, virtiofsd is responsible for setting umask during creation */
-     bool change_umask;
-     int user_posix_acl, posix_acl;
-+    /* Keeps track if /proc/<pid>/attr/fscreate should be used or not */
-+    bool use_fscreate;
- };
+ static int do_create_nosecctx(fuse_req_t req, struct lo_inode *parent_inode,
+                                const char *name, mode_t mode,
+-                               struct fuse_file_info *fi, int *open_fd)
++                               struct fuse_file_info *fi, int *open_fd,
++                              bool tmpfile)
+ {
+     int err, fd;
+     struct lo_cred old = {};
+     struct lo_data *lo = lo_data(req);
+     int flags;
  
- static const struct fuse_opt lo_opts[] = {
-@@ -256,6 +260,72 @@ static struct lo_data *lo_data(fuse_req_t req)
-     return (struct lo_data *)fuse_req_userdata(req);
+-    flags = fi->flags | O_CREAT | O_EXCL;
++    if (tmpfile) {
++        flags = fi->flags | O_TMPFILE;
++        /*
++         * Don't use O_EXCL as we want to link file later. Also reset O_CREAT
++         * otherwise openat() returns -EINVAL.
++         */
++        flags &= ~(O_CREAT | O_EXCL);
++
++        /* O_TMPFILE needs either O_RDWR or O_WRONLY */
++        if ((flags & O_ACCMODE) == O_RDONLY) {
++            flags |= O_RDWR;
++        }
++    } else {
++        flags = fi->flags | O_CREAT | O_EXCL;
++    }
+ 
+     err = lo_change_cred(req, &old, lo->change_umask);
+     if (err) {
+@@ -2191,7 +2206,7 @@ static int do_create_secctx_fscreate(fuse_req_t req,
+         return err;
+     }
+ 
+-    err = do_create_nosecctx(req, parent_inode, name, mode, fi, &fd);
++    err = do_create_nosecctx(req, parent_inode, name, mode, fi, &fd, false);
+ 
+     close_reset_proc_fscreate(fscreate_fd);
+     if (!err) {
+@@ -2200,6 +2215,44 @@ static int do_create_secctx_fscreate(fuse_req_t req,
+     return err;
  }
  
-+/*
-+ * Tries to figure out if /proc/<pid>/attr/fscreate is usable or not. With
-+ * selinux=0, read from fscreate returns -EINVAL.
-+ *
-+ * TODO: Link with libselinux and use is_selinux_enabled() instead down
-+ * the line. It probably will be more reliable indicator.
-+ */
-+static bool is_fscreate_usable(struct lo_data *lo)
++static int do_create_secctx_tmpfile(fuse_req_t req,
++                                    struct lo_inode *parent_inode,
++                                    const char *name, mode_t mode,
++                                    struct fuse_file_info *fi,
++                                    const char *secctx_name, int *open_fd)
 +{
++    int err, fd = -1;
++    struct lo_data *lo = lo_data(req);
 +    char procname[64];
-+    int fscreate_fd;
-+    size_t bytes_read;
 +
-+    sprintf(procname, "%d/attr/fscreate", gettid());
-+    fscreate_fd = openat(lo->proc_self_task, procname, O_RDWR);
-+    if (fscreate_fd == -1) {
-+        return false;
-+    }
-+
-+    bytes_read = read(fscreate_fd, procname, 64);
-+    close(fscreate_fd);
-+    if (bytes_read == -1) {
-+        return false;
-+    }
-+    return true;
-+}
-+
-+/* Helpers to set/reset fscreate */
-+__attribute__((unused))
-+static int open_set_proc_fscreate(struct lo_data *lo, const void *ctx,
-+                                  size_t ctxlen,int *fd)
-+{
-+    char procname[64];
-+    int fscreate_fd, err = 0;
-+    size_t written;
-+
-+    sprintf(procname, "%d/attr/fscreate", gettid());
-+    fscreate_fd = openat(lo->proc_self_task, procname, O_WRONLY);
-+    err = fscreate_fd == -1 ? errno : 0;
++    err = do_create_nosecctx(req, parent_inode, ".", mode, fi, &fd, true);
 +    if (err) {
 +        return err;
 +    }
 +
-+    written = write(fscreate_fd, ctx, ctxlen);
-+    err = written == -1 ? errno : 0;
++    err = fsetxattr(fd, secctx_name, req->secctx.ctx, req->secctx.ctxlen, 0);
 +    if (err) {
++        err = errno;
 +        goto out;
 +    }
 +
-+    *fd = fscreate_fd;
-+    return 0;
++    /* Security context set on file. Link it in place */
++    sprintf(procname, "%d", fd);
++    FCHDIR_NOFAIL(lo->proc_self_fd);
++    err = linkat(AT_FDCWD, procname, parent_inode->fd, name,
++                 AT_SYMLINK_FOLLOW);
++    err = err == -1 ? errno : 0;
++    FCHDIR_NOFAIL(lo->root.fd);
++
 +out:
-+    close(fscreate_fd);
++    if (!err) {
++        *open_fd = fd;
++    } else if (fd != -1) {
++        close(fd);
++    }
 +    return err;
 +}
 +
-+__attribute__((unused))
-+static void close_reset_proc_fscreate(int fd)
-+{
-+    if ((write(fd, NULL, 0)) == -1) {
-+        fuse_log(FUSE_LOG_WARNING, "Failed to reset fscreate. err=%d\n", errno);
-+    }
-+    close(fd);
-+    return;
-+}
-+
- /*
-  * Load capng's state from our saved state if the current thread
-  * hadn't previously been loaded.
-@@ -3522,6 +3592,15 @@ static void setup_namespaces(struct lo_data *lo, struct fuse_session *se)
-         exit(1);
+ static int do_create_secctx_noatomic(fuse_req_t req,
+                                      struct lo_inode *parent_inode,
+                                      const char *name, mode_t mode,
+@@ -2208,7 +2261,7 @@ static int do_create_secctx_noatomic(fuse_req_t req,
+ {
+     int err = 0, fd = -1;
+ 
+-    err = do_create_nosecctx(req, parent_inode, name, mode, fi, &fd);
++    err = do_create_nosecctx(req, parent_inode, name, mode, fi, &fd, false);
+     if (err) {
+         goto out;
+     }
+@@ -2250,20 +2303,31 @@ static int do_lo_create(fuse_req_t req, struct lo_inode *parent_inode,
+     if (secctx_enabled) {
+         /*
+          * If security.selinux has not been remapped and selinux is enabled,
+-         * use fscreate to set context before file creation.
+-         * Otherwise fallback to non-atomic method of file creation
+-         * and xattr settting.
++         * use fscreate to set context before file creation. If not, use
++         * tmpfile method for regular files. Otherwise fallback to
++         * non-atomic method of file creation and xattr settting.
+          */
+         if (!mapped_name && lo->use_fscreate) {
+             err = do_create_secctx_fscreate(req, parent_inode, name, mode, fi,
+                                             open_fd);
+             goto out;
++        } else if (S_ISREG(mode)) {
++            err = do_create_secctx_tmpfile(req, parent_inode, name, mode, fi,
++                                           ctxname, open_fd);
++            /*
++             * If filesystem does not support O_TMPFILE, fallback to non-atomic
++             * method.
++             */
++            if (!err || err != EOPNOTSUPP) {
++                goto out;
++            }
+         }
+ 
+         err = do_create_secctx_noatomic(req, parent_inode, name, mode, fi,
+                                         ctxname, open_fd);
+     } else {
+-        err = do_create_nosecctx(req, parent_inode, name, mode, fi, open_fd);
++        err = do_create_nosecctx(req, parent_inode, name, mode, fi, open_fd,
++                                 false);
      }
  
-+    /* Get the /proc/self/task descriptor */
-+    lo->proc_self_task = open("/proc/self/task/", O_PATH);
-+    if (lo->proc_self_task == -1) {
-+        fuse_log(FUSE_LOG_ERR, "open(/proc/self/task, O_PATH): %m\n");
-+        exit(1);
-+    }
-+
-+    lo->use_fscreate = is_fscreate_usable(lo);
-+
-     /*
-      * We only need /proc/self/fd. Prevent ".." from accessing parent
-      * directories of /proc/self/fd by bind-mounting it over /proc. Since / was
-@@ -3738,6 +3817,14 @@ static void setup_chroot(struct lo_data *lo)
-         exit(1);
-     }
- 
-+    lo->proc_self_task = open("/proc/self/task", O_PATH);
-+    if (lo->proc_self_fd == -1) {
-+        fuse_log(FUSE_LOG_ERR, "open(\"/proc/self/task\", O_PATH): %m\n");
-+        exit(1);
-+    }
-+
-+    lo->use_fscreate = is_fscreate_usable(lo);
-+
-     /*
-      * Make the shared directory the file system root so that FUSE_OPEN
-      * (lo_open()) cannot escape the shared directory by opening a symlink.
-@@ -3923,6 +4010,10 @@ static void fuse_lo_data_cleanup(struct lo_data *lo)
-         close(lo->proc_self_fd);
-     }
- 
-+    if (lo->proc_self_task >= 0) {
-+        close(lo->proc_self_task);
-+    }
-+
-     if (lo->root.fd >= 0) {
-         close(lo->root.fd);
-     }
-@@ -3950,6 +4041,7 @@ int main(int argc, char *argv[])
-         .posix_lock = 0,
-         .allow_direct_io = 0,
-         .proc_self_fd = -1,
-+        .proc_self_task = -1,
-         .user_killpriv_v2 = -1,
-         .user_posix_acl = -1,
-     };
+ out:
 -- 
 2.34.1
 
