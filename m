@@ -2,78 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0484E4AE484
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Feb 2022 23:36:46 +0100 (CET)
-Received: from localhost ([::1]:60010 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F3044AE4D4
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Feb 2022 23:42:43 +0100 (CET)
+Received: from localhost ([::1]:36182 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nHZ6L-0006kP-3s
-	for lists+qemu-devel@lfdr.de; Tue, 08 Feb 2022 17:36:45 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:43526)
+	id 1nHZC4-0001uy-Vh
+	for lists+qemu-devel@lfdr.de; Tue, 08 Feb 2022 17:42:41 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:43652)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nHZ1O-0004h7-J4
- for qemu-devel@nongnu.org; Tue, 08 Feb 2022 17:31:39 -0500
-Received: from [2607:f8b0:4864:20::1034] (port=42619
- helo=mail-pj1-x1034.google.com)
+ id 1nHZ1h-0004zu-MZ
+ for qemu-devel@nongnu.org; Tue, 08 Feb 2022 17:31:58 -0500
+Received: from [2607:f8b0:4864:20::429] (port=41881
+ helo=mail-pf1-x429.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nHZ1M-0003vf-B0
- for qemu-devel@nongnu.org; Tue, 08 Feb 2022 17:31:37 -0500
-Received: by mail-pj1-x1034.google.com with SMTP id
- my12-20020a17090b4c8c00b001b528ba1cd7so420752pjb.1
- for <qemu-devel@nongnu.org>; Tue, 08 Feb 2022 14:31:34 -0800 (PST)
+ id 1nHZ1f-000407-Iy
+ for qemu-devel@nongnu.org; Tue, 08 Feb 2022 17:31:57 -0500
+Received: by mail-pf1-x429.google.com with SMTP id i30so914627pfk.8
+ for <qemu-devel@nongnu.org>; Tue, 08 Feb 2022 14:31:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=mRN23hR4qmqlgJvFkoxtihXVNp1yqruBRnCivwMRN7I=;
- b=Um/Cb04ST55PpRmKpEFNbgL7JbdzVkkaY1jRgHh+zc8pOwvFpKQ/lMYDBuUdKCJ0b0
- Z9aZYTo35rmUUZp2KKl7FhtPRexh+MTV4oCdO8gMhyLzZTipVywaRJ9mYgPrLp0VbjQ/
- kc4DHOW3AFIIgV/FmTVeno8k7et18NGy8hzgSkRlShFp1yWiLm32ihobGBH/HkojfUVd
- QsNZhq0hs9D5m0SSJ70pqAj1YhHJZszk2l9N9qIM47Tfc/TLGhKCE5Q/GZmO8kKEdlrM
- N9p2JYtPgH9FfC8lvs65LcIx4sOIImSl2FMfmd9M4BQ0VrEv3TPGN3AGPpJVIQWAGTvi
- NI+w==
+ bh=eQttTyellAhNPlnsqa7cGjm8nwHf8F4uXask9MOaqRE=;
+ b=XdVfx3uljsAU/fAAIxK6hcH0DTLcMg6DJkcjm5xp9QkNOJFa3eHy2GTVRNWb4pW/Mq
+ uaLKt2w609KXzx9sX5XnO2OabdM1HIRL5Ofk91MkbcebNVVBkVhDlF3E+YaeksXu9VkN
+ 7KVzetEfudNbeo+6L6XgFRIiXn/lkXIN/YOwGrBndB7biHAyCygJjw4xC1TWoZJ3byBr
+ 1+AyKNW0kzpvSrCxy15Sq1nOaTkMH8aFbI5l6LGPlqKLWX0XBa3i6hctFeKezPr1SS+l
+ cWZpdql7O9sOUiMbMtISWuX0xYumN2Q8ZSARcnK6UROx3h2IzpqMrCCBt6eJaSD9ElyH
+ eURg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=mRN23hR4qmqlgJvFkoxtihXVNp1yqruBRnCivwMRN7I=;
- b=boAYkkQ+cUHG8ekm4gDtXLT29oCo4BkWEUs1WSGiXKa535shbrvzrqLQ9TJ54dYfoN
- thAT1zMbcGdFvD7lOswWW14zjT49ckqcQGSBhZqXNg2L/xq0sFrW453U7lOdWtqZiv3e
- xxXIbwkta/NtLaYiruvJ7gz3br/19+ZaxDz4C5IIk3DIrw6q2FJimidUze/hLmrLSjvb
- lA9m8sYOsMOqPkge2VqiNcQz4VVJYj3ZaHNbdlYo+ntxW22HRJHjb63i3FJPDQtMdqH0
- jr2p/pYnuoHBl1/rOy2ykdVOYIaIuhd6y1lk8hgdyE7uqtfBOWU+MA6AOEC6HXR94p7e
- b4aA==
-X-Gm-Message-State: AOAM530cBXAJS81DyICc9GFpr8WN9T4h/rNAfRs9XGp4CIbw7ULZpNkT
- KuSwZK0s2WejdtgbHDkcACy8cw==
-X-Google-Smtp-Source: ABdhPJx7dKkO8zRVm68xtXXNgAbxokTdfP0wO2AjEmrzU6NE1D3uq4k8q7Q3tHjKAAA+FVrvHZt2ag==
-X-Received: by 2002:a17:90b:1b46:: with SMTP id
- nv6mr153634pjb.178.1644359493184; 
- Tue, 08 Feb 2022 14:31:33 -0800 (PST)
+ bh=eQttTyellAhNPlnsqa7cGjm8nwHf8F4uXask9MOaqRE=;
+ b=Ip3xHg2bxuwqF1vxdJw5kkZOQ7VKu8o6u0dKP6ktkMfFaqEe5PlojTjfkY1M1qcdOd
+ hQrHTBtyhqQIcjG+RBmH1maopImFTzF+erVCP4zVJdEZK7geV4xMPD54qQ0GSKjCVoxk
+ kqKJC7LlKRmuZsKefAm4IshTBYk1Dm2LJH87yRdvkQQyUkpQ7HFjtTzcQqOTgfYLR4qh
+ KwA0/e7EwPweCPbR8DEvyfS/kqYWThce75XEZKTZx8vWWfdNTFtOYgWrFu2DBbkiBA3e
+ 3wB+Ey8p0VbIyNLVDjLL8f/6cciHVP4pMwFDJPdMtZz+qhODT6YS5XJFf/8GgrCN1Cjd
+ P+pw==
+X-Gm-Message-State: AOAM530GU9BgNZCiD3Vdgw8C0weeBUMhtayA8PxUBnsgwAbnRLcI7JTn
+ d13y13nukO+ACaDn0UZTX517oA==
+X-Google-Smtp-Source: ABdhPJxITQTEcN3bIhI5r5KON5S1VJUSQ/6XTIQgVobkjDnkZ2Hwy4w3jlYk3+NlEo+JH/959sAlwg==
+X-Received: by 2002:a65:63d2:: with SMTP id n18mr5264976pgv.245.1644359514108; 
+ Tue, 08 Feb 2022 14:31:54 -0800 (PST)
 Received: from [192.168.1.118] (121-45-127-8.tpgi.com.au. [121.45.127.8])
- by smtp.gmail.com with ESMTPSA id a13sm11941332pgv.27.2022.02.08.14.31.30
+ by smtp.gmail.com with ESMTPSA id q17sm17012638pfu.160.2022.02.08.14.31.51
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 08 Feb 2022 14:31:32 -0800 (PST)
-Message-ID: <5e57495a-e03a-3a30-50d1-a9040b8aa9dc@linaro.org>
-Date: Wed, 9 Feb 2022 09:31:27 +1100
+ Tue, 08 Feb 2022 14:31:53 -0800 (PST)
+Message-ID: <47a3b787-00e5-d34f-66b8-089923492bd5@linaro.org>
+Date: Wed, 9 Feb 2022 09:31:49 +1100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.5.0
-Subject: Re: [PATCH 08/13] target: Include missing 'cpu.h'
+Subject: Re: [PATCH 09/13] target: Use forward declared type instead of
+ structure type
 Content-Language: en-US
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
  qemu-devel@nongnu.org
 References: <20220208152243.16452-1-f4bug@amsat.org>
- <20220208152243.16452-9-f4bug@amsat.org>
+ <20220208152243.16452-10-f4bug@amsat.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220208152243.16452-9-f4bug@amsat.org>
+In-Reply-To: <20220208152243.16452-10-f4bug@amsat.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1034
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::429
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1034;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1034.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::429;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x429.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -99,27 +98,13 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 2/9/22 02:22, Philippe Mathieu-Daudé wrote:
-> These target-specific files use the target-specific CPU state
-> but lack to include "cpu.h"; i.e.:
-> 
->      ../target/riscv/pmp.h:61:23: error: unknown type name 'CPURISCVState'
->      void pmpcfg_csr_write(CPURISCVState *env, uint32_t reg_index,
->                            ^
->      ../target/nios2/mmu.h:43:18: error: unknown type name 'CPUNios2State'
->      void mmu_flip_um(CPUNios2State *env, unsigned int um);
->                       ^
->      ../target/microblaze/mmu.h:88:19: error: unknown type name 'CPUMBState'; did you mean 'CPUState'?
->      uint32_t mmu_read(CPUMBState *env, bool ea, uint32_t rn);
->                        ^~~~~~~~~~
->                        CPUState
+> The CPU state is forward declared.
 > 
 > Signed-off-by: Philippe Mathieu-Daudé<f4bug@amsat.org>
 > ---
->   target/microblaze/mmu.h | 2 ++
->   target/mips/internal.h  | 1 +
->   target/nios2/mmu.h      | 2 ++
->   target/riscv/pmp.h      | 2 ++
->   4 files changed, 7 insertions(+)
+>   target/mips/internal.h | 14 +++++++-------
+>   target/xtensa/cpu.h    |  2 +-
+>   2 files changed, 8 insertions(+), 8 deletions(-)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
