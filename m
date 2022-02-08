@@ -2,138 +2,147 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C25F4AD4F0
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Feb 2022 10:32:17 +0100 (CET)
-Received: from localhost ([::1]:51568 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7020E4AD518
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Feb 2022 10:37:31 +0100 (CET)
+Received: from localhost ([::1]:59268 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nHMr9-0003AV-Ty
-	for lists+qemu-devel@lfdr.de; Tue, 08 Feb 2022 04:32:15 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:53942)
+	id 1nHMwD-0000I2-U4
+	for lists+qemu-devel@lfdr.de; Tue, 08 Feb 2022 04:37:30 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:53950)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <elena.ufimtseva@oracle.com>)
- id 1nHKpp-0001tl-Nm
+ id 1nHKpp-0001uD-Vv
  for qemu-devel@nongnu.org; Tue, 08 Feb 2022 02:22:46 -0500
-Received: from mx0a-00069f02.pphosted.com ([205.220.165.32]:44924)
+Received: from mx0a-00069f02.pphosted.com ([205.220.165.32]:45736)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <elena.ufimtseva@oracle.com>)
- id 1nHKpk-0001vT-Sv
+ id 1nHKpk-0001vX-Sw
  for qemu-devel@nongnu.org; Tue, 08 Feb 2022 02:22:45 -0500
-Received: from pps.filterd (m0246617.ppops.net [127.0.0.1])
- by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 2186dmkm012748; 
- Tue, 8 Feb 2022 07:22:37 GMT
+Received: from pps.filterd (m0246629.ppops.net [127.0.0.1])
+ by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 2186sIuw007544; 
+ Tue, 8 Feb 2022 07:22:38 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : cc :
- subject : date : message-id : in-reply-to : references :
- content-transfer-encoding : content-type : mime-version;
- s=corp-2021-07-09; bh=75zix5pcvfxhTthaVfOaxCn0SeQx/g1fvHEB8BH4CLw=;
- b=tvBj6tpv5Ez3Ql/XGhZq9Q3t5ZDX98Kn8cEMPVsu+B5Y73rU+UhT6fZiFCGDNWJ05Tau
- NjQzb7mRCP78E4rJppjtDY2yL8eO/4Yq4iO52UQjulpU85mW0BbevalfcNwaK8nVnnrQ
- puSSsamcQkMxfFjiUGx6TomHHJxvidBudRYxadM+TfCxzZxIuhsgWsPT1A6fXlR+HbFf
- oB6cve7gIPc5JasgLJtOsUchp/R6UVNp98RfOhQmlsB6SixhkJAVbeXRBP9sdZygdZo6
- 5b3uAuhK2ygZ2AWOiCsRiN4r0szsIsYgsrMATGSzHdiTK1vMsIV4MoM6m6/ezVput8vJ Og== 
+ subject : date : message-id : in-reply-to : references : content-type :
+ content-transfer-encoding : mime-version; s=corp-2021-07-09;
+ bh=iBM/s0NYQU/Tz6e/qw94tUQAQt2gq4sv8WKe7gDuVmI=;
+ b=jGJPpJpJDXh84w0Bi0ukzGY4roJwDyq1Mi0BaSMdQczecIyb1RzYZwgPgvo2ZXf6Ic6t
+ lP5RYIe76qpMlUXu83KDVRD7mUhSiriqZfv6I6vi/D0hew4kg/9r4LUk4zL73Rrh0STq
+ R8yj2BGhb/VAiK7cmNDXOjqKSwBzj2wSAZCh540HEfcN4OevCAH2ivmYVhCMxAoa5mHc
+ xtEzHJiuedSIFCuEwOqBq2/H+4ATSK69frXvC6xuRUX7HN29OiZxAZ61GDFPl05e3uAd
+ /50OH99kAztNe/u4bTt9Ak4snkrWgdL0KSXowbIuNVeEnlKg/qni4JJNo0vCVwL/oMZj Ow== 
 Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
- by mx0b-00069f02.pphosted.com with ESMTP id 3e3fpggk45-1
+ by mx0b-00069f02.pphosted.com with ESMTP id 3e368tsxcs-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
  Tue, 08 Feb 2022 07:22:37 +0000
 Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
- by userp3030.oracle.com (8.16.1.2/8.16.1.2) with SMTP id 2187BlYr093365;
- Tue, 8 Feb 2022 07:22:35 GMT
+ by userp3030.oracle.com (8.16.1.2/8.16.1.2) with SMTP id 2187BlYs093365;
+ Tue, 8 Feb 2022 07:22:36 GMT
 Received: from nam10-mw2-obe.outbound.protection.outlook.com
  (mail-mw2nam10lp2104.outbound.protection.outlook.com [104.47.55.104])
- by userp3030.oracle.com with ESMTP id 3e1ebykknc-4
+ by userp3030.oracle.com with ESMTP id 3e1ebykknc-5
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 08 Feb 2022 07:22:35 +0000
+ Tue, 08 Feb 2022 07:22:36 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Zw3W9LjKeigtk1gGUy1Z7cSibqnT+8Xs+14aNMxcKS/l7Eul88YG8V891GWpbTvixGuh6K7ZO2OuScJOL6K9P19RSAG0ByoaF95QxLDlXsciE2wiDFMFGdAQXXrqR307p35PgvzCUwhdVIXqvW+BPvW4XVhvYkSvo6oy7pK0KUm0NmkQbGcxjUeI2OpBINcFZ+QJ94hhJFB0yaCvEgsVgD85kYPI0eK8/rVqEdKRslrgIob3BoGKeKcU8q0iucZalmBbJEaMzbFAu4mzo2zfhGCRfYa5xWUkWO14RoXKBHY1rFY20gLGrit+99gFAS47QkSUuGHjJ+ZNAmsdfSzE5Q==
+ b=bJHnTlRD49C2fh5ICrZiLYjwCGfo7rikrv+a3C5XaybxPRDCRHeiKDD9fFd64aVuZ0qwBNfuwj8o19eZ1IqhhBpTn22OylEq9CSgnLPjS/YJZpP0wiaIwgxqqmW4HWnwhTJodLD5fW1PAuFxkqJE3Fhau1446h4qAHavUQxJj1/R38Aggxt44a5cH3FDSzxYNgi4RY4UixvKqVJQr9LqO96C03K4NdvF/bQLfR4kD56cGHmSnc/N3YPLACsdayruKvmlEbaQ1ON8AlKqVd4grMPP10H2utaXd5NHH/qPSYtoa6RksKhSvFQxCGW/7I8x2yMuAmckos984hJ0LHrX1g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=75zix5pcvfxhTthaVfOaxCn0SeQx/g1fvHEB8BH4CLw=;
- b=iGge5IMXYc8RV5DnXbmpAh8L40ithpFOizh0pOpAkjJjzfzAYDYn3dNlMKWBa9ptUUCgNlvTOpFhv//ShAryz739Jd4GcH+yfP2F2ckyCye6Z2BCP/mTrtrJ2mh3HnP7rL4b+tDspyKaAovNGhNxLsgP8JyxZqMiCU2+V2hx7rkITuLQrJvs0DmccYY6eXVF1ihP2tRrUKls/e+SDzUodhIf5ZABT9lJDFPrAwSCR2Vevw+Xl/uxyyYC12jCS2JMPLf1J8L/seO8T0mweR804LHKjyNCnhRxouwN1c22QislsL04hF2A8yYBK8nuA7dI6Hy1wz5bIywBX1aXMKG+Cg==
+ bh=iBM/s0NYQU/Tz6e/qw94tUQAQt2gq4sv8WKe7gDuVmI=;
+ b=kCVGb2+vRRyNqR/lEgL/iB9a8GnipDkMsN56ll8uHb0sE3NRCCwg43nJtQrx50bsS/nOmkN4Q4UfnuA8xCJQI8eyVpqvTWn85ZOGKIgFEUz/MKUoA+1JrDt8xcthn/unISdx+PmiblHwRrfPcjnGYw/xM4VEteTvArzvL3qX+6dF06i4mSnstvptZxfY96ycffLGBXAhDyC8E5LSR1uhZn6d+A40KyXJvyjoqdploBfCtUJajqkSfebpA/sS/A+gfwoTd7wwqRcjy6uFOLEmkRpNtBrgmYG1DMbCwPBuiLGxWITF83GUY5mD+eVuh7ZLSAZ24iRVCxSJzSJghKMZcg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
  dkim=none; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=75zix5pcvfxhTthaVfOaxCn0SeQx/g1fvHEB8BH4CLw=;
- b=syQQIQ4Sjm7Km4V1Z9PI5r8G9Bou26+VomWzec186jSOR1JFHHI7FE4dKNbeS9vuVU5QzMDJ1UJe0a4exwJPugCVro+wEl+y00oezzhvWclx38ujO3jQx9VxMD7PSYoXc9nrFFNDZXDEWS+CKIO+30Ax5ucwzb/WbT0cWQKmVY0=
+ bh=iBM/s0NYQU/Tz6e/qw94tUQAQt2gq4sv8WKe7gDuVmI=;
+ b=CIZcGrutAYAyue7hMHYQuH3lfnfc2SlftZsgbMu20Jc3rhrqbkCDES7L7hbfNUursJhCnSSjLqUS/cd5npn+WjYzYQ09zeDQ7gAio4kHz/SlXmb58lbgx/eGhTCWSIulBETEg3Fz+1YIZJN/D9x/BD0dlOPWaiyLef9QZMKO3Y4=
 Received: from BYAPR10MB2869.namprd10.prod.outlook.com (2603:10b6:a03:85::17)
  by SN4PR10MB5608.namprd10.prod.outlook.com (2603:10b6:806:20b::8)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4951.18; Tue, 8 Feb
- 2022 07:22:32 +0000
+ 2022 07:22:33 +0000
 Received: from BYAPR10MB2869.namprd10.prod.outlook.com
  ([fe80::4bd:1cfa:5aee:6c81]) by BYAPR10MB2869.namprd10.prod.outlook.com
  ([fe80::4bd:1cfa:5aee:6c81%3]) with mapi id 15.20.4951.019; Tue, 8 Feb 2022
- 07:22:32 +0000
+ 07:22:33 +0000
 From: Elena Ufimtseva <elena.ufimtseva@oracle.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC 3/8] ioregionfd: introduce memory API functions
-Date: Mon,  7 Feb 2022 23:22:17 -0800
-Message-Id: <f0ca2f5797d938425d34517d7c0d9d97fdc0f52f.1644302411.git.elena.ufimtseva@oracle.com>
+Subject: [RFC 4/8] ioregionfd: Introduce IORegionDFObject type
+Date: Mon,  7 Feb 2022 23:22:18 -0800
+Message-Id: <fa5bc2e2773966fd209a2c866eb95ac8ac60a928.1644302411.git.elena.ufimtseva@oracle.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1644302411.git.elena.ufimtseva@oracle.com>
 References: <cover.1644302411.git.elena.ufimtseva@oracle.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
 X-ClientProxiedBy: BY5PR16CA0006.namprd16.prod.outlook.com
  (2603:10b6:a03:1a0::19) To BYAPR10MB2869.namprd10.prod.outlook.com
  (2603:10b6:a03:85::17)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 0d460a26-0e76-447b-f2ca-08d9ead3c5a2
+X-MS-Office365-Filtering-Correlation-Id: 9d7f8f36-ad9e-4112-7632-08d9ead3c609
 X-MS-TrafficTypeDiagnostic: SN4PR10MB5608:EE_
-X-Microsoft-Antispam-PRVS: <SN4PR10MB5608EF76182C6A510C7F5E638C2D9@SN4PR10MB5608.namprd10.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:67;
+X-Microsoft-Antispam-PRVS: <SN4PR10MB560888266AD431D55E08D3688C2D9@SN4PR10MB5608.namprd10.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:418;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: sws4Y1rFvuvw+MR/Vm72p+1NYhZ1Fa06BsKHK2b8v5q5s9x5JSDCphykJBxcIlMe0zANDUBXb9uEgDJKV+NG7Jz8FsF5+IoM7tfS+0FXe0EWClajkreO3VGM2YLDVneDOpN0G2Cw7niPn+fVQgb4dY2zoxP9TZGY7Sio9KnVu2dDR8zpqAQUrzEq3kwreCndtTeS8xILgjiTJJWLjvTvqVOVoSo85CbQriofIYmo+Ck1dhrbTrMtyKB/Df5ndesTIv5VR4IoIBeEoy2Wxw23kADI7QXvPk/Rs3kPMdR6OwDYKlTqYcgylJlHjQS5fPt/xOtnEwJ52G/UTHyFEVjl4YAAVCdth4E6YLufAUsWZETQtMCQqC8e4F/HJ8IeE6UAKipAL0tjrxROKQnwvYBCEJtU94+ihx7/LtEUC9HHSK7Rl+t/ZIFwlazgS9npXJ4UbLqw1KxWbmEwumqvp5t3th1aaWjYeSbJcpvd1tvLty+GPlEXjvg8jM0mQ/xxguO1DSlmPeeQ0DN67e8n2nM8YgJcRe1/IBI39uN8Swub6Z0Lv2JeuW1lwVYeDog7t76i7lnlAveh+ZsDDmJ753lsE3GINfnVjL8CpIFk/jiF+lOXreTMr7YbS5wGbHvZ33nTncA6dUU+gPlpyy3bPxfeZA==
+X-Microsoft-Antispam-Message-Info: WuDSssitUMg2fZGT8BeDIhoH3FM208SqsffF54fN+1Vik7Pcna11YHvrtOlKz2LmVuUByRXkRTDW2Qg3o2CTe4903bmab9hEaPEN5eR+rNvT8NIh38IPPU+SYZBjIt60vfEt82HwfWzZPbn7d2nt6CXKuXP8BWAZtEI7nn3WRfDwm1gZ+QwBVQGTfz7XFFZo9NhQp8b4UOAVr7pBQWPVPSfZ6MoNiNQvXlnY2mDIddgtRF/heAxX8AXbz8svgNJW/XOPzW2vAlY++hiviDoaFXstl7c+LYvGvYa2XQ/RpQzo7BpFYFnzOII1YuHQEjnyBfwNcB2P4soFS6zYtCrGtgAEd5O0uuFuKo5oV7dk6EDNQkHlN8twuaEAFZRVfxyYJ3iMWfU9YTzvqJJHcVF/OENmTzRaXtDQ2iqMF5xA3D78D/gR1WiETlfh9GtkmMwTaq3CkqbB7XscKcHIhyJ6YhJp6A47co57eNfAACV/tnJ1EMcaihOcPxpmxXvpTs21WMRc2pGag5Tupm137ODTw+mSHEuHDVKkfyNTY0JcZS+uJoHllxiDShAi+2bIUzZelN2gDvUIRSHEEb2a+ImG9Jyp0s4JGl/kvv1Sd20O7Lh37melW2fUK6yC7rhOyfIV6omigzLEKULc1hedaxgNCw==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:BYAPR10MB2869.namprd10.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230001)(366004)(6512007)(36756003)(83380400001)(186003)(38100700002)(86362001)(5660300002)(7416002)(2616005)(6486002)(44832011)(508600001)(6666004)(8676002)(4326008)(52116002)(2906002)(66946007)(66476007)(6506007)(66556008)(6916009)(316002)(8936002);
+ SFS:(13230001)(366004)(6512007)(36756003)(83380400001)(186003)(38100700002)(86362001)(5660300002)(7416002)(2616005)(30864003)(6486002)(44832011)(508600001)(6666004)(8676002)(4326008)(52116002)(2906002)(66946007)(66476007)(6506007)(66556008)(6916009)(316002)(8936002);
  DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?WRYzITfucctitW+2dN38A+RTxXl5zUVAWi7cIrNyvba1+Ll51t5Fg6wlUUOh?=
- =?us-ascii?Q?e25eKX43gNVwB4PlW/wQCdaxm2w5rZ6b+AtqDcr0AsTYtzAPwkGzFqSu9Os4?=
- =?us-ascii?Q?sqGDv9gw5TaB4jL5Q5bATd1ZUpwsOEFjZdyXpJvpH//YV7/vxi0C7caPhhPy?=
- =?us-ascii?Q?kDfqMMtZd1uPxE1/jBIZd1bo686pubjG7VeYZcq+nGx2LMDsM1DxrxSmHIxK?=
- =?us-ascii?Q?PP8zlumge1ToA0q5GvdG+oSTQtIv1cxOtbo41o6lO49GMF0lWPksnkdmFtCk?=
- =?us-ascii?Q?5FaNm4VrRumJN+bFUQK5nH+6E96F8Q1ZM6Gnsfp8ayVf6yOYYFKvfabxdaDt?=
- =?us-ascii?Q?uQtJc1vmG6faMmeM3X9bTH3iPk5MNAUdCJlr0+/gkzCwDw+UFQ/A//tD9hzp?=
- =?us-ascii?Q?Q1uwEORDT4Sa0B9MBavodtfdjcL8fiLget9R4nfL/zFNhtfrlS2lYRosMVfr?=
- =?us-ascii?Q?y0ENLFDnEkaRhlmI+0MF1D1yO4PgBd8G9bOR5JLlU5qBJkIU7PClnv0gh5XJ?=
- =?us-ascii?Q?S3t5SRV4nqj5Ir96A0zijhuIPq/ycTDEmGtIfxT7ayYt2ildKnzY214die0B?=
- =?us-ascii?Q?nF31YbnEHjvYDnRQHxIcksafP+CjESmVii3dvW2U4jU8r2wC1HJnTGBjp1Dd?=
- =?us-ascii?Q?v9qeEnzzkZwRT2ofGPiA9/PB37PrDjHnNDdERv7aV2rBqStlI6Ls6oudOkPq?=
- =?us-ascii?Q?GdGs9h0Xx7CR4fItRS8BHh2Wl0dL0kiefdxN8FQzyOdU5Wf3iXm6f18aeikm?=
- =?us-ascii?Q?i6rX+Tw/cqcCkXZMeHtTKg/aMTcKCxihN1wOjyV/SXkerXRftFso4nufA9S9?=
- =?us-ascii?Q?V7O5t8F25Mr8eZSYRUuybWBYU7njC+Wqm6/8ndfTV4LlY4b4kAT02IDF6Bcd?=
- =?us-ascii?Q?xK1q0CzC54GFAjTFclv0YYP+QCP4Z9GOHcg5p8rhDzeCZPEvaRyomxrTu2HL?=
- =?us-ascii?Q?weuRIcwEFrHdfJC5oUvewy+QYnshsX5zPmuSTlOjj++PLGdsLO9gacZNYq2F?=
- =?us-ascii?Q?N7Lyn9hjcplgnyvRGt31RQzSTzZbg3sodb/tO+dZVuCn895ZEQjA/nWvstwV?=
- =?us-ascii?Q?4pvsL3Bu7CpnJLE30fCkmw0q3ZrGfwG2564NEbkoapTg7W1EDBD01nOv1/Pd?=
- =?us-ascii?Q?DN65WnQn7hJApTfjCJXFg3Gtcme9yFt3gseR12ssXtPb57FEjIb53lO20lbK?=
- =?us-ascii?Q?O9svIPMB3XjOc/7x1YWoh4jqxJIFPy8ZtTCll/mUfCd6pBRDIRNESYv/kuMD?=
- =?us-ascii?Q?/rZxPX731c2ska4FMdZ0BaOc/sWiRD9YVNTkED7fq+CksUbnV0zbVc5v8udF?=
- =?us-ascii?Q?Z9gL/Xxy4cxcpTqSyvm4Fph25qYzkN5l+3Hl35OgS+a+CokI7N3SvB6Da69j?=
- =?us-ascii?Q?dbH3j0u2P1+7k/Sp58iPXID/PHUmCH9/QfKs5ALGGqwxtCM6KP7/5FiT4x1Y?=
- =?us-ascii?Q?GhhQfrpoI0ly/E6Cra7wUJVtXOWfXNusVRjcyqtMyWUsFQoH3eZ5aschUugh?=
- =?us-ascii?Q?VH3GjVXm52owl9Bds+b9/aIqfxr1Jy5jf+XloByX8MJ539FQr2ptWEnCj0iF?=
- =?us-ascii?Q?sUs/JAO8WYhEC3HcLJM5ZTSAfByQXy6tLD9XeU4NINiCsTRhfBAPICG5QOpM?=
- =?us-ascii?Q?NaShs/5Pzw+iTOsKJ2akNIL31AUS4P1e2KfZAx/WLy0y7tEPBZYW+osa49iY?=
- =?us-ascii?Q?ywj+PxZp0I9AI5Hts510HCvOGZf0ZJSCgnofZ840lWGe+u77Tz5kx/Cp67La?=
- =?us-ascii?Q?K69Yg05Udw=3D=3D?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?eUtwSDhnSktkMTc5VEV1QVhIZElNQmw0MkhoL20yNm1MWlZkMVZTRVRtVUFD?=
+ =?utf-8?B?M2xpMThCWGxUUSt1RDdKZEJnTHZybk5EMElYMnljTnFVdVowaElOL0NIRXdN?=
+ =?utf-8?B?Z2RDVEJCOTVObzQwdW5pdkJUelBHMDJmL1dHai8za0M4MEJXR3lRZHhUb09I?=
+ =?utf-8?B?R3Z3eWUwQUVjcGFUYUUyK2QwRWs1TXkxNkJtZHFMQXJVK0phQkVnb0Jhancy?=
+ =?utf-8?B?c0VrTDF5b0l0bEEvODBMK0FBczRaQURHTy9jeUN4cS9ZTHpWVmdFTGtwT3pN?=
+ =?utf-8?B?L2NxbnRqdGxTYU81OTBRbGl1OVBuVjBDNnh0YTVRdi9oZVVxVXYwMW5wZHFx?=
+ =?utf-8?B?R3pHaUs3QTVRWVlSN3JkTVNtY1c3UXd3UjIwT0gwV3J0Q1JvRlZnNmFIbyta?=
+ =?utf-8?B?ZG1oMUdDMVU2dFNkSDZLNEtpWEtTcUIzakpwb3ZXMkQvUmtsZCtCcE01dC9h?=
+ =?utf-8?B?QVdCanhoK0FLZEs1NFFBdkV4c3VoQk1RUGxOTFl6ZENpbks3amxzYlBPUDgr?=
+ =?utf-8?B?TzU3S3pZVCtKR29ySFRXeFNobG13Q2FadDVpbUNmTHhTNGRkWC9oRjZoRkgx?=
+ =?utf-8?B?RU11dmQ3M3VTRDF1ODVoNFA1Z29maDBsamdhOExTYThTQTNISmpWaEZjWG8x?=
+ =?utf-8?B?SHlwZmF5MENQM1c5b0dEN3BBc2FaZHdMZ25XTXJJVzZ6d0NHQ0tRVDVQTWlC?=
+ =?utf-8?B?eEh4OFRRb3BFTklJNTdkZDVVQVRRTm03aTZXR2xubkRkMUJZSGlobWV1YlpT?=
+ =?utf-8?B?eUtGcUZvMnBLU3JNVEsxeW1jL2l0NFFvdkhsS3RvOUhPR2lReVhOdi9FdjJN?=
+ =?utf-8?B?K3pBdFZJMmZVbHZ4V2NyTXRvdnc4akRCRXJsVjJ0aTRjcFBYZi9QaXVEVTNW?=
+ =?utf-8?B?QXRvOWpRaHJSRWNGUUtodDkzKzVoVWkwMHdNYkU5MjFXaVVrUzF6YzV1aHJ6?=
+ =?utf-8?B?SXFianFUbllxQ0lpZFArdml1V1EvTnJyYnQrZjE0R2NSMlNzRlI1b2JBL1U1?=
+ =?utf-8?B?eG1iekkzZTFjNGRPSlRERy9YR0l2Ykt3aWJQUTA1V05TRi9Gck5mcjBzS0V0?=
+ =?utf-8?B?MlFVUUlZd2pMdmVrcjNaWlJZZ3BhS1l3c3UwMzRYbnVpK3hWZjRTNUVZcVRC?=
+ =?utf-8?B?ZzNrRFJ1aEVtQ3BPa2lRNFVDL3E2c2d3d3BjOGpBSW5HN2JlQXNhNGhsSUFL?=
+ =?utf-8?B?aGxrOFlLZG04ZHExY1B3VVphRkdCMHQzOUp4bzF0SGx2Um0zWFR4TXNHbkFa?=
+ =?utf-8?B?c3gwRzcvQ1hqL1NJRU8vbmZLYUpjYzdNSXdsYkhrWXdPaXcwMkcxVjBIajdU?=
+ =?utf-8?B?SkQ2bWpYWVRlbU1hejdtY1VVWlp6WW9lYk04eW1jYytjVkJsRFZsZFo1cEU0?=
+ =?utf-8?B?TnNWcmticXRkUjNtN1JOWUNCcVgzTmxTenM2VnMvam1JaVVpOUJGYXZHMzV4?=
+ =?utf-8?B?c3pHNUhsWkhZdmJOeDlUK29jZ0dJQzVTVTlLOU1TdFJ4UTR0Mnl0RVc1N0tE?=
+ =?utf-8?B?ZGV5Q3ovWXJ3Z3IzRE5MSGh2V0hKaCt3SnBIclFLUGt1Uk5tanY0VzFrOVNl?=
+ =?utf-8?B?cm01Q3VUS3pIWjlkdlI2Z1IyNXlKb3FWN29oclB5YWM2NmlSS1NjSG1tbjJT?=
+ =?utf-8?B?bWo3YlpadjVoS0VjNENtMkZKanhJYnl3T1JTSzhucldBdlZFbDVGOEFudXVE?=
+ =?utf-8?B?Y0J0cEp6Zk9GV3Z5SVV4eW1NeUNjQkFydVUySTBETWs0NjRJL3pINzN4MzlU?=
+ =?utf-8?B?Z3hRYmJIN25qd25pbUhGZkpCYzA1SENubTJLWUVhaHByV0VGRDE5YjVCQlJN?=
+ =?utf-8?B?ZUZlZmloWXVBRW5SbE05eFBEb0dDSUprRXlRSWNmRFhWeUdFSC9MdzNrYXM1?=
+ =?utf-8?B?aTJRbEVqTHdNeG0ydEw3WWo2aFZ6M1pGb1JDTFBqdTgwM05OY25YTlFoZHE4?=
+ =?utf-8?B?akFFWmJ5MmdzR2F6WHE2L21mcjZQWUNOYUtDREt5Y2NrWDZTWStremJMcTRV?=
+ =?utf-8?B?MmhFcFpnaWVRNnJqanRnWDRnakE3QUFUMnVjNXkvT1grRy9OVjJlZ3lMSC8y?=
+ =?utf-8?B?eTg2d0trNVMyV2g1Vk95Mm10aHkrcmxnWGVRejRBVGc5Q1hWL2VNU250c2pE?=
+ =?utf-8?B?b3NTMEJmdzJOQmNEemJxM3VjVEJ0WkI2ajBsME1WenJoelpONCtZSWt0d2xS?=
+ =?utf-8?B?R0RGckNpNm5yUU0ySUFPa09NV3paeVV4R0x5Yys0SUhudk1XdCs0NXFDUUF1?=
+ =?utf-8?B?TXVFRXR2Q2Y0cVI5enJWME1aUG5vdTNzc3pjWUNQMys5ejJROUd5eVhtU1NN?=
+ =?utf-8?B?aUJ1cElnQ3N2eGl2TFRDRjdJOU1uUHRtYXVVN3RMd09aSUthd0lxZz09?=
 X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0d460a26-0e76-447b-f2ca-08d9ead3c5a2
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9d7f8f36-ad9e-4112-7632-08d9ead3c609
 X-MS-Exchange-CrossTenant-AuthSource: BYAPR10MB2869.namprd10.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Feb 2022 07:22:32.5987 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Feb 2022 07:22:33.2862 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: xIn8hh64K7SFOpD+oqvy5feUh84Rlz4OEKQSIabKdjk2+G/0HZwM+NDfQCsk2nZreOQN0IA+74vJlFrIfSPiSgyyA9L8hKliqUo9gPKKlQQ=
+X-MS-Exchange-CrossTenant-UserPrincipalName: LlTexBSAn6oNJKjgrqvAPPMROjEQeunDKBYPpGgFm+c/y/tWRTXmeBOKWMRKetBF2gtzskoRJZkyo4Hlpe1defGFBBEuDvKzrvaf8b8++hU=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN4PR10MB5608
 X-Proofpoint-Virus-Version: vendor=nai engine=6300 definitions=10251
  signatures=673430
@@ -142,8 +151,8 @@ X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0
  mlxlogscore=999 mlxscore=0 adultscore=0 malwarescore=0 spamscore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2201110000
  definitions=main-2202080038
-X-Proofpoint-GUID: 5LOI8oXfCN9dGdeZH-tHL0b4qVRj60cF
-X-Proofpoint-ORIG-GUID: 5LOI8oXfCN9dGdeZH-tHL0b4qVRj60cF
+X-Proofpoint-ORIG-GUID: Yg0mxHAGpBvuAm2XZuQvRy4tuL2CoUCr
+X-Proofpoint-GUID: Yg0mxHAGpBvuAm2XZuQvRy4tuL2CoUCr
 Received-SPF: pass client-ip=205.220.165.32;
  envelope-from=elena.ufimtseva@oracle.com; helo=mx0a-00069f02.pphosted.com
 X-Spam_score_int: -27
@@ -174,316 +183,449 @@ Cc: eduardo@habkost.net, john.g.johnson@oracle.com, cohuck@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Similar to ioeventfd, introduce the ioregionfd
-functions to add and delete ioregionfds.
-
 Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
 ---
- softmmu/memory.c | 207 +++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 207 insertions(+)
+ meson.build                    |  15 ++-
+ qapi/qom.json                  |  32 +++++-
+ include/hw/remote/ioregionfd.h |  40 +++++++
+ hw/remote/ioregionfd.c         | 196 +++++++++++++++++++++++++++++++++
+ Kconfig.host                   |   3 +
+ MAINTAINERS                    |   2 +
+ hw/remote/Kconfig              |   4 +
+ hw/remote/meson.build          |   1 +
+ meson_options.txt              |   2 +
+ scripts/meson-buildoptions.sh  |   3 +
+ 10 files changed, 294 insertions(+), 4 deletions(-)
+ create mode 100644 include/hw/remote/ioregionfd.h
+ create mode 100644 hw/remote/ioregionfd.c
 
-diff --git a/softmmu/memory.c b/softmmu/memory.c
-index 7340e19ff5..3618c5d1cf 100644
---- a/softmmu/memory.c
-+++ b/softmmu/memory.c
-@@ -40,6 +40,7 @@ static unsigned memory_region_transaction_depth;
- static bool memory_region_update_pending;
- static bool ioeventfd_update_pending;
- unsigned int global_dirty_tracking;
-+static bool ioregionfd_update_pending;
+diff --git a/meson.build b/meson.build
+index 96de1a6ef9..6483e754bd 100644
+--- a/meson.build
++++ b/meson.build
+@@ -258,6 +258,17 @@ if targetos != 'linux' and get_option('multiprocess').enabled()
+ endif
+ multiprocess_allowed = targetos == 'linux' and not get_option('multiprocess').disabled()
  
- static QTAILQ_HEAD(, MemoryListener) memory_listeners
-     = QTAILQ_HEAD_INITIALIZER(memory_listeners);
-@@ -170,6 +171,13 @@ struct MemoryRegionIoeventfd {
-     EventNotifier *e;
- };
++# TODO: drop this limitation
++if not multiprocess_allowed and not get_option('ioregionfd').disabled()
++  error('To enable ioregiofd support, enable mutliprocess option.')
++endif
++ioregionfd_allowed = multiprocess_allowed and not get_option('ioregionfd').disabled()
++if ioregionfd_allowed
++    config_host += { 'CONFIG_IOREGIONFD': 'y' }
++else
++    config_host += { 'CONFIG_IOREGIONFD': 'n' }
++endif
++
+ libm = cc.find_library('m', required: false)
+ threads = dependency('threads')
+ util = cc.find_library('util', required: false)
+@@ -1837,7 +1848,8 @@ host_kconfig = \
+   (have_virtfs ? ['CONFIG_VIRTFS=y'] : []) + \
+   ('CONFIG_LINUX' in config_host ? ['CONFIG_LINUX=y'] : []) + \
+   ('CONFIG_PVRDMA' in config_host ? ['CONFIG_PVRDMA=y'] : []) + \
+-  (multiprocess_allowed ? ['CONFIG_MULTIPROCESS_ALLOWED=y'] : [])
++  (multiprocess_allowed ? ['CONFIG_MULTIPROCESS_ALLOWED=y'] : []) + \
++  (ioregionfd_allowed ? ['CONFIG_IOREGIONFD=y'] : [])
  
-+struct MemoryRegionIoregionfd {
-+    AddrRange addr;
-+    uint64_t data;
+ ignored = [ 'TARGET_XML_FILES', 'TARGET_ABI_DIR', 'TARGET_ARCH' ]
+ 
+@@ -3315,6 +3327,7 @@ summary_info += {'target list':       ' '.join(target_dirs)}
+ if have_system
+   summary_info += {'default devices':   get_option('default_devices')}
+   summary_info += {'out of process emulation': multiprocess_allowed}
++  summary_info += {'ioregionfd support': ioregionfd_allowed}
+ endif
+ summary(summary_info, bool_yn: true, section: 'Targets and accelerators')
+ 
+diff --git a/qapi/qom.json b/qapi/qom.json
+index eeb5395ff3..439fb94c93 100644
+--- a/qapi/qom.json
++++ b/qapi/qom.json
+@@ -689,6 +689,29 @@
+         'data': { 'chardev': 'str',
+                   '*log': 'str' } }
+ 
++##
++# @IORegionFDObjectProperties:
++#
++# Describes ioregionfd for the device
++#
++# @devid: the id of the device to be associated with the ioregionfd
++#
++# @iofd: File descriptor
++#
++# @bar: BAR number to use with ioregionfd
++#
++# @start: offset from the BAR start address of ioregionfd
++#
++# @size: size of the ioregionfd
++##
++# Since: 2.9
++{ 'struct': 'IORegionFDObjectProperties',
++  'data': { 'devid': 'str',
++            'iofd': 'str',
++            'bar': 'int',
++            '*start': 'int',
++            '*size':'int' } }
++
+ ##
+ # @RemoteObjectProperties:
+ #
+@@ -842,8 +865,10 @@
+     'tls-creds-psk',
+     'tls-creds-x509',
+     'tls-cipher-suites',
+-    { 'name': 'x-remote-object', 'features': [ 'unstable' ] }
+-  ] }
++    { 'name': 'x-remote-object', 'features': [ 'unstable' ] },
++    { 'name' :'ioregionfd-object',
++      'if': 'CONFIG_IOREGIONFD' }
++ ] }
+ 
+ ##
+ # @ObjectOptions:
+@@ -905,7 +930,8 @@
+       'tls-creds-psk':              'TlsCredsPskProperties',
+       'tls-creds-x509':             'TlsCredsX509Properties',
+       'tls-cipher-suites':          'TlsCredsProperties',
+-      'x-remote-object':            'RemoteObjectProperties'
++      'x-remote-object':            'RemoteObjectProperties',
++      'ioregionfd-object':          'IORegionFDObjectProperties'
+   } }
+ 
+ ##
+diff --git a/include/hw/remote/ioregionfd.h b/include/hw/remote/ioregionfd.h
+new file mode 100644
+index 0000000000..c8a8b32ee0
+--- /dev/null
++++ b/include/hw/remote/ioregionfd.h
+@@ -0,0 +1,40 @@
++/*
++ * Ioregionfd headers
++ *
++ * Copyright © 2018, 2022 Oracle and/or its affiliates.
++ *
++ * This work is licensed under the terms of the GNU GPL, version 2 or later.
++ * See the COPYING file in the top-level directory.
++ *
++ */
++
++#ifndef IOREGIONFD_H
++#define IOREGIONFD_H
++
++#define PCI_BARS_NR 6
++
++typedef struct {
++    uint64_t val;
++    bool memory;
++} IORegionFDOp;
++
++typedef struct {
 +    int fd;
-+    bool pio;
++    char *devid;
++    uint32_t bar;
++    uint32_t start;
++    uint32_t size;
++    bool memory;
++} IORegionFD;
++
++struct IORegionFDObject {
++    /* private */
++    Object parent;
++
++    IORegionFD ioregfd;
++    QTAILQ_ENTRY(IORegionFDObject) next;
 +};
 +
- static bool memory_region_ioeventfd_before(MemoryRegionIoeventfd *a,
-                                            MemoryRegionIoeventfd *b)
- {
-@@ -214,6 +222,33 @@ static bool memory_region_ioeventfd_equal(MemoryRegionIoeventfd *a,
-     return false;
- }
- 
-+static bool memory_region_ioregionfd_before(MemoryRegionIoregionfd *a,
-+                                           MemoryRegionIoregionfd *b)
++typedef struct IORegionFDObject IORegionFDObject;
++
++#endif /* IOREGIONFD_H */
+diff --git a/hw/remote/ioregionfd.c b/hw/remote/ioregionfd.c
+new file mode 100644
+index 0000000000..ae95f702a6
+--- /dev/null
++++ b/hw/remote/ioregionfd.c
+@@ -0,0 +1,196 @@
++/*
++ * Memory manager for remote device
++ *
++ * Copyright © 2018, 2021 Oracle and/or its affiliates.
++ *
++ * This work is licensed under the terms of the GNU GPL, version 2 or later.
++ * See the COPYING file in the top-level directory.
++ *
++ */
++
++#include "qemu/osdep.h"
++#include "sysemu/kvm.h"
++#include "linux/kvm.h"
++
++#include "exec/memory.h"
++#include "qapi/error.h"
++#include "qemu/error-report.h"
++#include "qom/object_interfaces.h"
++#include "exec/confidential-guest-support.h"
++#include "io/channel.h"
++#include "qemu/sockets.h"
++#include "qemu/cutils.h"
++#include "io/channel-socket.h"
++#include "monitor/monitor.h"
++#include "hw/remote/ioregionfd.h"
++#include "hw/pci/pci.h"
++#include "qapi/qapi-visit-qom.h"
++#include "hw/remote/remote.h"
++
++#define TYPE_IOREGIONFD_OBJECT "ioregionfd-object"
++OBJECT_DECLARE_TYPE(IORegionFDObject, IORegionFDObjectClass, IOREGIONFD_OBJECT)
++
++struct IORegionFDObjectClass {
++    ObjectClass parent_class;
++
++    unsigned int nr_ioregfds;
++    unsigned int max_ioregfds;
++};
++
++static void ioregionfd_object_init(Object *obj)
 +{
-+    if (int128_lt(a->addr.start, b->addr.start)) {
-+        return true;
-+    } else if (int128_gt(a->addr.start, b->addr.start)) {
-+        return false;
-+    } else if (int128_lt(a->addr.size, b->addr.size)) {
-+        return true;
-+    } else if (int128_gt(a->addr.size, b->addr.size)) {
-+        return false;
-+    }
-+    return false;
-+}
++    IORegionFDObjectClass *k = IOREGIONFD_OBJECT_GET_CLASS(obj);
 +
-+static bool memory_region_ioregionfd_equal(MemoryRegionIoregionfd *a,
-+                                          MemoryRegionIoregionfd *b)
-+{
-+    if (int128_eq(a->addr.start, b->addr.start) &&
-+        (!int128_nz(a->addr.size) || !int128_nz(b->addr.size) ||
-+         (int128_eq(a->addr.size, b->addr.size) &&
-+          (a->fd == b->fd))))
-+        return true;
-+
-+    return false;
-+}
-+
- /* Range of memory in the global map.  Addresses are absolute. */
- struct FlatRange {
-     MemoryRegion *mr;
-@@ -800,6 +835,52 @@ static void address_space_add_del_ioeventfds(AddressSpace *as,
-     }
- }
- 
-+static void address_space_add_del_ioregionfds(AddressSpace *as,
-+                                              MemoryRegionIoregionfd *fds_new,
-+                                              unsigned fds_new_nb,
-+                                              MemoryRegionIoregionfd *fds_old,
-+                                              unsigned fds_old_nb)
-+{
-+    unsigned iold, inew;
-+    MemoryRegionIoregionfd *fd;
-+    MemoryRegionSection section;
-+
-+    iold = inew = 0;
-+    while (iold < fds_old_nb || inew < fds_new_nb) {
-+        if (iold < fds_old_nb
-+            && (inew == fds_new_nb
-+                || memory_region_ioregionfd_before(&fds_old[iold],
-+                                                  &fds_new[inew]))) {
-+            fd = &fds_old[iold];
-+            section = (MemoryRegionSection) {
-+                .fv = address_space_to_flatview(as),
-+                .offset_within_address_space = int128_get64(fd->addr.start),
-+                .size = fd->addr.size,
-+            };
-+            MEMORY_LISTENER_CALL(as, ioregionfd_del, Forward, &section,
-+                                 fd->data, fd->fd);
-+            ++iold;
-+
-+        } else if (inew < fds_new_nb
-+                   && (iold == fds_old_nb
-+                       || memory_region_ioregionfd_before(&fds_new[inew],
-+                                                         &fds_old[iold]))) {
-+            fd = &fds_new[inew];
-+            section = (MemoryRegionSection) {
-+                .fv = address_space_to_flatview(as),
-+                .offset_within_address_space = int128_get64(fd->addr.start),
-+                .size = fd->addr.size,
-+            };
-+            MEMORY_LISTENER_CALL(as, ioregionfd_add, Reverse, &section,
-+                                 fd->data, fd->fd);
-+            ++inew;
-+        } else {
-+            ++iold;
-+            ++inew;
-+        }
++    if (k->nr_ioregfds >= k->max_ioregfds) {
++        error_report("Reached max number of ioregions: %u", k->max_ioregfds);
++        return;
 +    }
 +}
 +
- FlatView *address_space_get_flatview(AddressSpace *as)
- {
-     FlatView *view;
-@@ -814,6 +895,52 @@ FlatView *address_space_get_flatview(AddressSpace *as)
-     return view;
- }
- 
-+static void address_space_update_ioregionfds(AddressSpace *as)
++static void ioregionfd_object_set_fd(Object *obj, const char *str,
++                                     Error **errp)
 +{
-+    FlatView *view;
-+    FlatRange *fr;
-+    unsigned ioregionfd_nb = 0;
-+    unsigned ioregionfd_max;
-+    MemoryRegionIoregionfd *ioregionfds;
-+    AddrRange tmp;
-+    unsigned i;
++    IORegionFDObject *o = IOREGIONFD_OBJECT(obj);
++    int fd = -1;
 +
-+    /*
-+     * It is likely that the number of ioregionfds hasn't changed much, so use
-+     * the previous size as the starting value, with some headroom to avoid
-+     * gratuitous reallocations.
-+     */
-+    ioregionfd_max = QEMU_ALIGN_UP(as->ioregionfd_nb, 4);
-+    ioregionfds = g_new(MemoryRegionIoregionfd, ioregionfd_max);
-+
-+    view = address_space_get_flatview(as);
-+    FOR_EACH_FLAT_RANGE(fr, view) {
-+        for (i = 0; i < fr->mr->ioregionfd_nb; ++i) {
-+            tmp = addrrange_shift(fr->mr->ioregionfds[i].addr,
-+                                  int128_sub(fr->addr.start,
-+                                  int128_make64(fr->offset_in_region)));
-+            if (addrrange_intersects(fr->addr, tmp)) {
-+                ++ioregionfd_nb;
-+                if (ioregionfd_nb > ioregionfd_max) {
-+                    ioregionfd_max = MAX(ioregionfd_max * 2, 4);
-+                    ioregionfds = g_realloc(ioregionfds,
-+                            ioregionfd_max * sizeof(*ioregionfds));
-+                }
-+                ioregionfds[ioregionfd_nb - 1] = fr->mr->ioregionfds[i];
-+                ioregionfds[ioregionfd_nb - 1].addr = tmp;
-+            }
-+        }
++    fd = monitor_fd_param(monitor_cur(), str, errp);
++    if (fd == -1) {
++        error_prepend(errp, "Could not parse ioregionfd fd %s:", str);
++        return;
 +    }
-+
-+    address_space_add_del_ioregionfds(as, ioregionfds, ioregionfd_nb,
-+                                      as->ioregionfds, as->ioregionfd_nb);
-+
-+    g_free(as->ioregionfds);
-+    as->ioregionfds = ioregionfds;
-+    as->ioregionfd_nb = ioregionfd_nb;
-+    flatview_unref(view);
++    o->ioregfd.fd = fd;
 +}
 +
- static void address_space_update_ioeventfds(AddressSpace *as)
- {
-     FlatView *view;
-@@ -1102,15 +1229,22 @@ void memory_region_transaction_commit(void)
-             QTAILQ_FOREACH(as, &address_spaces, address_spaces_link) {
-                 address_space_set_flatview(as);
-                 address_space_update_ioeventfds(as);
-+                address_space_update_ioregionfds(as);
-             }
-             memory_region_update_pending = false;
-             ioeventfd_update_pending = false;
-+            ioregionfd_update_pending = false;
-             MEMORY_LISTENER_CALL_GLOBAL(commit, Forward);
-         } else if (ioeventfd_update_pending) {
-             QTAILQ_FOREACH(as, &address_spaces, address_spaces_link) {
-                 address_space_update_ioeventfds(as);
-             }
-             ioeventfd_update_pending = false;
-+        } else if (ioregionfd_update_pending) {
-+            QTAILQ_FOREACH(as, &address_spaces, address_spaces_link) {
-+                address_space_update_ioregionfds(as);
-+            }
-+            ioregionfd_update_pending = false;
-         }
-    }
- }
-@@ -1757,6 +1891,7 @@ static void memory_region_finalize(Object *obj)
-     memory_region_clear_coalescing(mr);
-     g_free((char *)mr->name);
-     g_free(mr->ioeventfds);
-+    g_free(mr->ioregionfds);
- }
- 
- Object *memory_region_owner(MemoryRegion *mr)
-@@ -2434,6 +2569,42 @@ void memory_region_clear_flush_coalesced(MemoryRegion *mr)
- 
- static bool userspace_eventfd_warning;
- 
-+void memory_region_add_ioregionfd(MemoryRegion *mr,
-+                                  hwaddr addr,
-+                                  unsigned size,
-+                                  uint64_t data,
-+                                  int fd,
-+                                  bool pio)
++static void ioregionfd_object_set_devid(Object *obj, const char *str,
++                                        Error **errp)
 +{
-+    MemoryRegionIoregionfd mriofd = {
-+        .addr.start = int128_make64(addr),
-+        .addr.size = int128_make64(size),
-+        .data = data,
-+        .fd = fd,
-+    };
-+    unsigned i;
++    IORegionFDObject *o = IOREGIONFD_OBJECT(obj);
 +
-+    if (kvm_enabled() && !kvm_ioregionfds_enabled()) {
-+        error_report("KVM does not support KVM_CAP_IOREGIONFD");
-+    }
++    g_free(o->ioregfd.devid);
 +
-+    memory_region_transaction_begin();
-+    for (i = 0; i < mr->ioregionfd_nb; ++i) {
-+        if (memory_region_ioregionfd_before(&mriofd, &mr->ioregionfds[i])) {
-+            break;
-+        }
-+    }
-+    ++mr->ioregionfd_nb;
-+    mr->ioregionfds = g_realloc(mr->ioregionfds,
-+                                sizeof(*mr->ioregionfds) * mr->ioregionfd_nb);
-+    memmove(&mr->ioregionfds[i + 1], &mr->ioregionfds[i],
-+            sizeof(*mr->ioregionfds) * (mr->ioregionfd_nb - 1 - i));
-+    mr->ioregionfds[i] = mriofd;
-+
-+    memory_region_transaction_commit();
-+    ioregionfd_update_pending = true;
++    o->ioregfd.devid = g_strdup(str);
 +}
 +
- void memory_region_add_eventfd(MemoryRegion *mr,
-                                hwaddr addr,
-                                unsigned size,
-@@ -2511,6 +2682,38 @@ void memory_region_del_eventfd(MemoryRegion *mr,
-     memory_region_transaction_commit();
- }
- 
-+void memory_region_del_ioregionfd(MemoryRegion *mr,
-+                                  hwaddr addr,
-+                                  unsigned size,
-+                                  uint64_t data,
-+                                  int fd)
++static char *ioregionfd_object_get_devid(Object *obj, Error **errp)
 +{
-+    MemoryRegionIoregionfd mriofd = {
-+        .addr.start = int128_make64(addr),
-+        .addr.size = int128_make64(size),
-+        .data = data,
-+        .fd = fd,
-+    };
-+    unsigned i;
++    IORegionFDObject *o = IOREGIONFD_OBJECT(obj);
 +
-+    memory_region_transaction_begin();
-+    for (i = 0; i < mr->ioregionfd_nb; ++i) {
-+        if (memory_region_ioregionfd_equal(&mriofd, &mr->ioregionfds[i])) {
-+            break;
-+        }
-+    }
-+    assert(i != mr->ioregionfd_nb);
-+    memmove(&mr->ioregionfds[i], &mr->ioregionfds[i + 1],
-+            sizeof(*mr->ioregionfds) * (mr->ioregionfd_nb - (i + 1)));
-+    --mr->ioregionfd_nb;
-+    mr->ioregionfds = g_realloc(mr->ioregionfds,
-+                                sizeof(*mr->ioregionfds) *
-+                                mr->ioregionfd_nb + 1);
-+    memory_region_transaction_commit();
-+
-+    ioregionfd_update_pending = true;
++    return g_strdup(o->ioregfd.devid);
 +}
 +
- static void memory_region_update_container_subregions(MemoryRegion *subregion)
- {
-     MemoryRegion *mr = subregion->container;
-@@ -2956,11 +3159,14 @@ void address_space_init(AddressSpace *as, MemoryRegion *root, const char *name)
-     as->current_map = NULL;
-     as->ioeventfd_nb = 0;
-     as->ioeventfds = NULL;
-+    as->ioregionfd_nb = 0;
-+    as->ioregionfds = NULL;
-     QTAILQ_INIT(&as->listeners);
-     QTAILQ_INSERT_TAIL(&address_spaces, as, address_spaces_link);
-     as->name = g_strdup(name ? name : "anonymous");
-     address_space_update_topology(as);
-     address_space_update_ioeventfds(as);
-+    address_space_update_ioregionfds(as);
- }
++static void ioregionfd_object_set_bar(Object *obj, Visitor *v,
++                                      const char *name, void *opaque,
++                                      Error **errp)
++{
++    IORegionFDObject *o = IOREGIONFD_OBJECT(obj);
++    uint32_t value;
++
++    if (!visit_type_uint32(v, name, &value, errp)) {
++        return;
++    }
++
++    if (value > PCI_BARS_NR) {
++        error_setg(errp, "BAR number cannot be larger than %d", PCI_BARS_NR);
++        return;
++    }
++
++    o->ioregfd.bar = value;
++}
++
++static void ioregionfd_object_set_start(Object *obj, Visitor *v,
++                                        const char *name, void *opaque,
++                                        Error **errp)
++{
++    IORegionFDObject *o = IOREGIONFD_OBJECT(obj);
++    int64_t value;
++
++    if (!visit_type_int(v, name, &value, errp)) {
++        return;
++    }
++
++    if (value < 0) {
++        error_setg(errp, "BAR start %"PRId64" must be > 0", value);
++        return;
++    }
++
++    if (value > UINT32_MAX) {
++        error_setg(errp, "BAR start %"PRId64" is too big", value);
++        o->ioregfd.start = 0;
++        return;
++    }
++
++    o->ioregfd.start = value;
++}
++
++static void ioregionfd_object_set_size(Object *obj, Visitor *v,
++                                       const char *name, void *opaque,
++                                       Error **errp)
++{
++    IORegionFDObject *o = IOREGIONFD_OBJECT(obj);
++    int64_t value;
++
++    if (!visit_type_int(v, name, &value, errp)) {
++        return;
++    }
++
++    if (value < 0) {
++        error_setg(errp, "Invalid BAR size %"PRId64, value);
++        return;
++    }
++
++    if (value > UINT32_MAX) {
++        error_setg(errp, "BAR size %"PRId64" is too big", value);
++        o->ioregfd.size = 0;
++        return;
++    }
++
++
++    o->ioregfd.size = value;
++}
++
++static void ioregionfd_object_class_init(ObjectClass *klass, void *data)
++{
++    IORegionFDObjectClass *k = IOREGIONFD_OBJECT_CLASS(klass);
++
++    k->nr_ioregfds = 0;
++    k->max_ioregfds = 1;
++
++    object_class_property_add_str(klass, "devid", ioregionfd_object_get_devid,
++                                  ioregionfd_object_set_devid);
++    object_class_property_add_str(klass, "iofd", NULL,
++                                  ioregionfd_object_set_fd);
++    object_class_property_add(klass, "bar", "uint32", NULL,
++                              ioregionfd_object_set_bar, NULL, NULL);
++    object_class_property_add(klass, "start", "uint64", NULL,
++                              ioregionfd_object_set_start, NULL, NULL);
++    object_class_property_add(klass, "size", "uint64", NULL,
++                              ioregionfd_object_set_size, NULL, NULL);
++}
++
++/* Assume that Object user released all allocated structures. */
++static void ioregionfd_object_finalize(Object *obj)
++{
++    IORegionFDObject *o = IOREGIONFD_OBJECT(obj);
++    g_free(o->ioregfd.devid);
++}
++
++static const TypeInfo ioregionfd_object_info = {
++    .name = TYPE_IOREGIONFD_OBJECT,
++    .parent = TYPE_OBJECT,
++    .instance_size = sizeof(IORegionFDObject),
++    .instance_init = ioregionfd_object_init,
++    .instance_finalize = ioregionfd_object_finalize,
++    .class_size = sizeof(IORegionFDObjectClass),
++    .class_init = ioregionfd_object_class_init,
++    .interfaces = (InterfaceInfo[]) {
++        { TYPE_USER_CREATABLE },
++        { }
++    }
++};
++
++static void register_types(void)
++{
++    type_register_static(&ioregionfd_object_info);
++}
++
++type_init(register_types);
+diff --git a/Kconfig.host b/Kconfig.host
+index 60b9c07b5e..af01b75770 100644
+--- a/Kconfig.host
++++ b/Kconfig.host
+@@ -45,3 +45,6 @@ config MULTIPROCESS_ALLOWED
+ config FUZZ
+     bool
+     select SPARSE_MEM
++
++config IOREGIONFD
++    bool
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 3c60a29760..d29fa8a7de 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -3454,6 +3454,8 @@ F: include/hw/remote/proxy-memory-listener.h
+ F: hw/remote/iohub.c
+ F: include/hw/remote/iohub.h
+ F: include/hw/remote/remote.h
++F: include/hw/remote/ioregionfd.h
++F: hw/remote/ioregionfd.c
  
- static void do_address_space_destroy(AddressSpace *as)
-@@ -2970,6 +3176,7 @@ static void do_address_space_destroy(AddressSpace *as)
-     flatview_unref(as->current_map);
-     g_free(as->name);
-     g_free(as->ioeventfds);
-+    g_free(as->ioregionfds);
-     memory_region_unref(as->root);
- }
+ EBPF:
+ M: Jason Wang <jasowang@redhat.com>
+diff --git a/hw/remote/Kconfig b/hw/remote/Kconfig
+index 08c16e235f..caff3427e7 100644
+--- a/hw/remote/Kconfig
++++ b/hw/remote/Kconfig
+@@ -2,3 +2,7 @@ config MULTIPROCESS
+     bool
+     depends on PCI && PCI_EXPRESS && KVM
+     select REMOTE_PCIHOST
++config IOREGIONFD
++    bool
++    default n
++    depends on MULTIPROCESS
+diff --git a/hw/remote/meson.build b/hw/remote/meson.build
+index e6a5574242..b190c520c4 100644
+--- a/hw/remote/meson.build
++++ b/hw/remote/meson.build
+@@ -6,6 +6,7 @@ remote_ss.add(when: 'CONFIG_MULTIPROCESS', if_true: files('message.c'))
+ remote_ss.add(when: 'CONFIG_MULTIPROCESS', if_true: files('remote-obj.c'))
+ remote_ss.add(when: 'CONFIG_MULTIPROCESS', if_true: files('proxy.c'))
+ remote_ss.add(when: 'CONFIG_MULTIPROCESS', if_true: files('iohub.c'))
++specific_ss.add(when: 'CONFIG_IOREGIONFD', if_true: files('ioregionfd.c'))
  
+ specific_ss.add(when: 'CONFIG_MULTIPROCESS', if_true: files('memory.c'))
+ specific_ss.add(when: 'CONFIG_MULTIPROCESS', if_true: files('proxy-memory-listener.c'))
+diff --git a/meson_options.txt b/meson_options.txt
+index e392323732..52b338c1b8 100644
+--- a/meson_options.txt
++++ b/meson_options.txt
+@@ -66,6 +66,8 @@ option('cfi_debug', type: 'boolean', value: 'false',
+        description: 'Verbose errors in case of CFI violation')
+ option('multiprocess', type: 'feature', value: 'auto',
+        description: 'Out of process device emulation support')
++option('ioregionfd', type: 'feature', value: 'auto',
++       description: 'Fast-path IO/MMIO support')
+ 
+ option('attr', type : 'feature', value : 'auto',
+        description: 'attr/xattr support')
+diff --git a/scripts/meson-buildoptions.sh b/scripts/meson-buildoptions.sh
+index 7a17ff4218..1cbd2984f5 100644
+--- a/scripts/meson-buildoptions.sh
++++ b/scripts/meson-buildoptions.sh
+@@ -98,6 +98,7 @@ meson_options_help() {
+   printf "%s\n" '                  Xen PCI passthrough support'
+   printf "%s\n" '  xkbcommon       xkbcommon support'
+   printf "%s\n" '  zstd            zstd compression support'
++  printf "%s\n" '  ioregionfd      ioregionfd support'
+ }
+ _meson_option_parse() {
+   case $1 in
+@@ -270,6 +271,8 @@ _meson_option_parse() {
+     --disable-xkbcommon) printf "%s" -Dxkbcommon=disabled ;;
+     --enable-zstd) printf "%s" -Dzstd=enabled ;;
+     --disable-zstd) printf "%s" -Dzstd=disabled ;;
++    --enable-ioregionfd) printf "%s" -Dioregionfd=enabled ;;
++    --disable-ioregionfd) printf "%s" -Dioregionfd=disabled ;;
+     *) return 1 ;;
+   esac
+ }
 -- 
 2.25.1
 
