@@ -2,71 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32F144ADAD0
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Feb 2022 15:07:43 +0100 (CET)
-Received: from localhost ([::1]:54446 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 84E824ADA82
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Feb 2022 14:58:21 +0100 (CET)
+Received: from localhost ([::1]:45706 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nHR9h-0004uO-Oq
-	for lists+qemu-devel@lfdr.de; Tue, 08 Feb 2022 09:07:41 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:35116)
+	id 1nHR0e-0006rH-Lx
+	for lists+qemu-devel@lfdr.de; Tue, 08 Feb 2022 08:58:20 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:35112)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nHOrS-000162-Va
- for qemu-devel@nongnu.org; Tue, 08 Feb 2022 06:40:45 -0500
-Received: from [2a00:1450:4864:20::42a] (port=37434
- helo=mail-wr1-x42a.google.com)
+ id 1nHOrS-000160-V1
+ for qemu-devel@nongnu.org; Tue, 08 Feb 2022 06:40:44 -0500
+Received: from [2a00:1450:4864:20::433] (port=46723
+ helo=mail-wr1-x433.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nHOqw-0002KW-DY
+ id 1nHOqw-0002Kd-HQ
  for qemu-devel@nongnu.org; Tue, 08 Feb 2022 06:40:17 -0500
-Received: by mail-wr1-x42a.google.com with SMTP id w11so30204855wra.4
- for <qemu-devel@nongnu.org>; Tue, 08 Feb 2022 03:40:09 -0800 (PST)
+Received: by mail-wr1-x433.google.com with SMTP id q7so2005619wrc.13
+ for <qemu-devel@nongnu.org>; Tue, 08 Feb 2022 03:40:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=HSePLC3CQFBtM40/pCnr2cnwRaT/DzoxkqceSrf8Vpc=;
- b=aCscCFKQSmDyCzcPky81DcQWZQjBeD5JevWxSCR+rphNYh0lKaLu68fC9ARi2vjYqQ
- gGl1uUZ25OHBad5seaTsram+kp+xu4Y7j4mTPOOgIdhWhvmkarZcAqv33lLKwV/M0W8b
- 2WJA7b8A6vO0TKMixtqWojDHlzkZLB7xgJ2ZH/G1gCeHJQSitcqInBnyD8K4/N0WuWAb
- ijhNUf7F9DrWT4tIdc5FlXL/+lpHkLUQQmyOXiD1rv+lIyO8rrv7LXXt2ANSwdtL1GBP
- TZlcBxHCIuMqOCs0UTviwutHldaN23/efRkxgj46BI96uffhkYyEvYe5E6K0bRYvWTik
- x9Pw==
+ bh=pp3mTpA7sXqcSdEShjFPNL03srw1TL9PNunr5ys0FH4=;
+ b=MSDAs6eGfdW7CXcqOWmCwB+DWXGL3PeRnM4a3ozP3UVJuxuXiqoNfNTQV9sp+r7SP3
+ DQVjwXpeTbN2WUyhECV1uAITYtLQAg6SZPlsnQq98WU5F1QDulXak1D+ec8X/td+yJJy
+ 1tTnJROtcf7QQBBURtkBuv+OtODkebC/c7M2tZslK5Sf0OyNG7Nc59mnmBhK/0r55ZS0
+ hagFT88eqs0MW5yMnNofOMrdtnFJyx4tmU8vx8mpInGgUvFziXbnHtoK5CnUtxDDl/L7
+ YaoTY5md1QlyyDYrIZUa7A3Hlz9Q32J2WkJhGymsqdPfZIJwMC16nrs09AYLsk3nJo4J
+ UpzQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=HSePLC3CQFBtM40/pCnr2cnwRaT/DzoxkqceSrf8Vpc=;
- b=DiT5aZpin23nXj+f+0T2mMT3w4rdf6WUUeOdxUppaSGNgclo+ZqAiqLgIwrs9acsH7
- xuLyN4hqan2YF1m7UDWR3XarF8TvWS2rKFX+Rvehos46+BeQMiZxALVI/i9BTQdWzvVE
- AVBs8VzMvL1RQoeP/N1DfFAqu1o/In998mfdBuTeyItxHqRRvDRBq/m+5hRncskPN9G6
- OEr7loccKMxLbGxQ9ogP1PMilFT1h2HF69ISbrT4lAm9g7se9hidwguTeK78Wn0HSvvQ
- nSYFqFRUdEfJICh+QTx/LoJUvw1MwkF8Lwv8J9eoahVCOPENkm4JBwIBlYpr+rcQS1f0
- MDWQ==
-X-Gm-Message-State: AOAM533kTLpBZksqAhY9/rpk9FrSCr5m8FntULrZV2cWvaMUClot1bIi
- NkMvI68POucB9dXz+BNOstZ0JivIB82Daw==
-X-Google-Smtp-Source: ABdhPJxJv7u6WUP28GqUOyWVg61I+1XoUTjn3n8syc11THqLINMY2pv6VYe1qiYJ4Bgn+wJj9d2S3w==
-X-Received: by 2002:adf:f981:: with SMTP id f1mr3183563wrr.651.1644320408482; 
- Tue, 08 Feb 2022 03:40:08 -0800 (PST)
+ bh=pp3mTpA7sXqcSdEShjFPNL03srw1TL9PNunr5ys0FH4=;
+ b=f5c8OVUQ/48fQYtVF738VRjfmDZCEqJ7kLELpTIrbc+ktxbD1nl8VOhjQT+/wMxP1h
+ wupfNrkrj8Tfgc0qjyJyAG6YE+cVRT2uErB0HvR1EwOlH1OvuwV/OhKhdbNt7B6I60u2
+ 2sFo4LDH1HFlG5L/YN4gVGXLFDFc8EJu3nDxqI1BUO3hLwsclxFU7jjTynuziRGA3NKp
+ 2TaibpYboHgPzLam7WxVotuhZFvcdVYSWF7Cf4Abc5A+2lpcHzjMreJDEi3UF8fc40Sl
+ Q6ixCrC5gKPOeSxUQ19NpwPz3owDd8SarFY5RQ4gOqSc8IIhjMLkBe7SSBCm/c98zwSl
+ wO5Q==
+X-Gm-Message-State: AOAM530yM4YVMMZNmvcpWH/Adh56LA3QmEdgCAnoBDK5mc8GiJLp9M26
+ lTimEwfsa3XPBX+YRrdU8YTxXN4SAmtLdQ==
+X-Google-Smtp-Source: ABdhPJyDDd7LKcQpGYUk4vNFpTsfSfJKlj9xgwA6l/8ufuK+uxnXDZO3FRdZshIe/qAOIUTGDoFrYw==
+X-Received: by 2002:a05:6000:1846:: with SMTP id
+ c6mr3187345wri.683.1644320409145; 
+ Tue, 08 Feb 2022 03:40:09 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
- by smtp.gmail.com with ESMTPSA id r11sm4245199wrt.28.2022.02.08.03.40.07
+ by smtp.gmail.com with ESMTPSA id r11sm4245199wrt.28.2022.02.08.03.40.08
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Tue, 08 Feb 2022 03:40:08 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 28/39] hw/intc/arm_gicv3_its: Pass DTEntry to update_dte()
-Date: Tue,  8 Feb 2022 11:39:37 +0000
-Message-Id: <20220208113948.3217356-29-peter.maydell@linaro.org>
+Subject: [PULL 29/39] hw/intc/arm_gicv3_its: Keep CTEs as a struct,
+ not a raw uint64_t
+Date: Tue,  8 Feb 2022 11:39:38 +0000
+Message-Id: <20220208113948.3217356-30-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220208113948.3217356-1-peter.maydell@linaro.org>
 References: <20220208113948.3217356-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42a
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::433
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::433;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x433.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -90,95 +92,216 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Make update_dte() take a DTEntry struct rather than all the fields of
-the new DTE as separate arguments.
+In the ITS, a CTE is an entry in the collection table, which contains
+multiple fields. Currently the function get_cte() which reads one
+entry from the device table returns a success/failure boolean and
+passes back the raw 64-bit integer CTE value via a pointer argument.
+We then extract fields from the CTE as we need them.
+
+Create a real C struct with the same fields as the CTE, and
+populate it in get_cte(), so that that function and update_cte()
+are the only ones which need to care about the in-guest-memory
+format of the CTE.
+
+This brings get_cte()'s API into line with get_dte().
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20220201193207.2771604-4-peter.maydell@linaro.org
+Message-id: 20220201193207.2771604-5-peter.maydell@linaro.org
 ---
- hw/intc/arm_gicv3_its.c | 35 ++++++++++++++++++-----------------
- 1 file changed, 18 insertions(+), 17 deletions(-)
+ hw/intc/arm_gicv3_its.c | 96 ++++++++++++++++++++++-------------------
+ 1 file changed, 52 insertions(+), 44 deletions(-)
 
 diff --git a/hw/intc/arm_gicv3_its.c b/hw/intc/arm_gicv3_its.c
-index 6d70d7d59e2..1856210e79a 100644
+index 1856210e79a..482a71ba73c 100644
 --- a/hw/intc/arm_gicv3_its.c
 +++ b/hw/intc/arm_gicv3_its.c
-@@ -465,20 +465,23 @@ static ItsCmdResult process_mapc(GICv3ITSState *s, const uint64_t *cmdpkt)
-     return update_cte(s, icid, valid, rdbase) ? CMD_CONTINUE : CMD_STALL;
+@@ -52,6 +52,11 @@ typedef struct DTEntry {
+     uint64_t ittaddr;
+ } DTEntry;
+ 
++typedef struct CTEntry {
++    bool valid;
++    uint32_t rdbase;
++} CTEntry;
++
+ /*
+  * The ITS spec permits a range of CONSTRAINED UNPREDICTABLE options
+  * if a command parameter is not correct. These include both "stall
+@@ -135,18 +140,32 @@ static uint64_t table_entry_addr(GICv3ITSState *s, TableDesc *td,
+     return (l2 & ((1ULL << 51) - 1)) + (idx % num_l2_entries) * td->entry_sz;
  }
  
--static bool update_dte(GICv3ITSState *s, uint32_t devid, bool valid,
--                       uint8_t size, uint64_t itt_addr)
+-static bool get_cte(GICv3ITSState *s, uint16_t icid, uint64_t *cte,
+-                    MemTxResult *res)
 +/*
-+ * Update the Device Table entry for @devid to @dte. Returns true
-+ * on success, false if there was a memory access error.
++ * Read the Collection Table entry at index @icid. On success (including
++ * successfully determining that there is no valid CTE for this index),
++ * we return MEMTX_OK and populate the CTEntry struct @cte accordingly.
++ * If there is an error reading memory then we return the error code.
 + */
-+static bool update_dte(GICv3ITSState *s, uint32_t devid, const DTEntry *dte)
++static MemTxResult get_cte(GICv3ITSState *s, uint16_t icid, CTEntry *cte)
  {
      AddressSpace *as = &s->gicv3->dma_as;
-     uint64_t entry_addr;
--    uint64_t dte = 0;
-+    uint64_t dteval = 0;
-     MemTxResult res = MEMTX_OK;
+-    uint64_t entry_addr = table_entry_addr(s, &s->ct, icid, res);
++    MemTxResult res = MEMTX_OK;
++    uint64_t entry_addr = table_entry_addr(s, &s->ct, icid, &res);
++    uint64_t cteval;
  
-     if (s->dt.valid) {
--        if (valid) {
-+        if (dte->valid) {
-             /* add mapping entry to device table */
--            dte = FIELD_DP64(dte, DTE, VALID, 1);
--            dte = FIELD_DP64(dte, DTE, SIZE, size);
--            dte = FIELD_DP64(dte, DTE, ITTADDR, itt_addr);
-+            dteval = FIELD_DP64(dteval, DTE, VALID, 1);
-+            dteval = FIELD_DP64(dteval, DTE, SIZE, dte->size);
-+            dteval = FIELD_DP64(dteval, DTE, ITTADDR, dte->ittaddr);
-         }
-     } else {
-         return true;
-@@ -493,27 +496,25 @@ static bool update_dte(GICv3ITSState *s, uint32_t devid, bool valid,
-         /* No L2 table for this index: discard write and continue */
-         return true;
+     if (entry_addr == -1) {
+-        return false; /* not valid */
++        /* No L2 table entry, i.e. no valid CTE, or a memory error */
++        cte->valid = false;
++        return res;
      }
--    address_space_stq_le(as, entry_addr, dte, MEMTXATTRS_UNSPECIFIED, &res);
-+    address_space_stq_le(as, entry_addr, dteval, MEMTXATTRS_UNSPECIFIED, &res);
-     return res == MEMTX_OK;
+ 
+-    *cte = address_space_ldq_le(as, entry_addr, MEMTXATTRS_UNSPECIFIED, res);
+-    return FIELD_EX64(*cte, CTE, VALID);
++    cteval = address_space_ldq_le(as, entry_addr, MEMTXATTRS_UNSPECIFIED, &res);
++    if (res != MEMTX_OK) {
++        return res;
++    }
++    cte->valid = FIELD_EX64(cteval, CTE, VALID);
++    cte->rdbase = FIELD_EX64(cteval, CTE, RDBASE);
++    return MEMTX_OK;
  }
  
- static ItsCmdResult process_mapd(GICv3ITSState *s, const uint64_t *cmdpkt)
- {
-     uint32_t devid;
--    uint8_t size;
--    uint64_t itt_addr;
--    bool valid;
-+    DTEntry dte;
+ static bool update_ite(GICv3ITSState *s, uint32_t eventid, const DTEntry *dte,
+@@ -248,10 +267,8 @@ static ItsCmdResult do_process_its_cmd(GICv3ITSState *s, uint32_t devid,
+     uint16_t icid = 0;
+     uint32_t pIntid = 0;
+     bool ite_valid = false;
+-    uint64_t cte = 0;
+-    bool cte_valid = false;
+-    uint64_t rdbase;
+     DTEntry dte;
++    CTEntry cte;
  
-     devid = (cmdpkt[0] & DEVID_MASK) >> DEVID_SHIFT;
--    size = cmdpkt[1] & SIZE_MASK;
--    itt_addr = (cmdpkt[2] & ITTADDR_MASK) >> ITTADDR_SHIFT;
--    valid = cmdpkt[2] & CMD_FIELD_VALID_MASK;
-+    dte.size = cmdpkt[1] & SIZE_MASK;
-+    dte.ittaddr = (cmdpkt[2] & ITTADDR_MASK) >> ITTADDR_SHIFT;
-+    dte.valid = cmdpkt[2] & CMD_FIELD_VALID_MASK;
- 
-     if ((devid >= s->dt.num_entries) ||
--        (size > FIELD_EX64(s->typer, GITS_TYPER, IDBITS))) {
-+        (dte.size > FIELD_EX64(s->typer, GITS_TYPER, IDBITS))) {
+     if (devid >= s->dt.num_entries) {
          qemu_log_mask(LOG_GUEST_ERROR,
-                       "ITS MAPD: invalid device table attributes "
--                      "devid %d or size %d\n", devid, size);
-+                      "devid %d or size %d\n", devid, dte.size);
-         /*
-          * in this implementation, in case of error
-          * we ignore this command and move onto the next
-@@ -522,7 +523,7 @@ static ItsCmdResult process_mapd(GICv3ITSState *s, const uint64_t *cmdpkt)
+@@ -298,15 +315,13 @@ static ItsCmdResult do_process_its_cmd(GICv3ITSState *s, uint32_t devid,
          return CMD_CONTINUE;
      }
  
--    return update_dte(s, devid, valid, size, itt_addr) ? CMD_CONTINUE : CMD_STALL;
-+    return update_dte(s, devid, &dte) ? CMD_CONTINUE : CMD_STALL;
- }
+-    cte_valid = get_cte(s, icid, &cte, &res);
+-    if (res != MEMTX_OK) {
++    if (get_cte(s, icid, &cte) != MEMTX_OK) {
+         return CMD_STALL;
+     }
+-    if (!cte_valid) {
++    if (!cte.valid) {
+         qemu_log_mask(LOG_GUEST_ERROR,
+-                      "%s: invalid command attributes: "
+-                      "invalid cte: %"PRIx64"\n",
+-                      __func__, cte);
++                      "%s: invalid command attributes: invalid CTE\n",
++                      __func__);
+         return CMD_CONTINUE;
+     }
  
- static ItsCmdResult process_movall(GICv3ITSState *s, const uint64_t *cmdpkt)
+@@ -314,16 +329,14 @@ static ItsCmdResult do_process_its_cmd(GICv3ITSState *s, uint32_t devid,
+      * Current implementation only supports rdbase == procnum
+      * Hence rdbase physical address is ignored
+      */
+-    rdbase = FIELD_EX64(cte, CTE, RDBASE);
+-
+-    if (rdbase >= s->gicv3->num_cpu) {
++    if (cte.rdbase >= s->gicv3->num_cpu) {
+         return CMD_CONTINUE;
+     }
+ 
+     if ((cmd == CLEAR) || (cmd == DISCARD)) {
+-        gicv3_redist_process_lpi(&s->gicv3->cpu[rdbase], pIntid, 0);
++        gicv3_redist_process_lpi(&s->gicv3->cpu[cte.rdbase], pIntid, 0);
+     } else {
+-        gicv3_redist_process_lpi(&s->gicv3->cpu[rdbase], pIntid, 1);
++        gicv3_redist_process_lpi(&s->gicv3->cpu[cte.rdbase], pIntid, 1);
+     }
+ 
+     if (cmd == DISCARD) {
+@@ -564,12 +577,11 @@ static ItsCmdResult process_movi(GICv3ITSState *s, const uint64_t *cmdpkt)
+     MemTxResult res = MEMTX_OK;
+     uint32_t devid, eventid, intid;
+     uint16_t old_icid, new_icid;
+-    uint64_t old_cte, new_cte;
+-    uint64_t old_rdbase, new_rdbase;
+-    bool ite_valid, cte_valid;
++    bool ite_valid;
+     uint64_t num_eventids;
+     IteEntry ite = {};
+     DTEntry dte;
++    CTEntry old_cte, new_cte;
+ 
+     devid = FIELD_EX64(cmdpkt[0], MOVI_0, DEVICEID);
+     eventid = FIELD_EX64(cmdpkt[1], MOVI_1, EVENTID);
+@@ -627,50 +639,46 @@ static ItsCmdResult process_movi(GICv3ITSState *s, const uint64_t *cmdpkt)
+         return CMD_CONTINUE;
+     }
+ 
+-    cte_valid = get_cte(s, old_icid, &old_cte, &res);
+-    if (res != MEMTX_OK) {
++    if (get_cte(s, old_icid, &old_cte) != MEMTX_OK) {
+         return CMD_STALL;
+     }
+-    if (!cte_valid) {
++    if (!old_cte.valid) {
+         qemu_log_mask(LOG_GUEST_ERROR,
+                       "%s: invalid command attributes: "
+-                      "invalid cte: %"PRIx64"\n",
+-                      __func__, old_cte);
++                      "invalid CTE for old ICID 0x%x\n",
++                      __func__, old_icid);
+         return CMD_CONTINUE;
+     }
+ 
+-    cte_valid = get_cte(s, new_icid, &new_cte, &res);
+-    if (res != MEMTX_OK) {
++    if (get_cte(s, new_icid, &new_cte) != MEMTX_OK) {
+         return CMD_STALL;
+     }
+-    if (!cte_valid) {
++    if (!new_cte.valid) {
+         qemu_log_mask(LOG_GUEST_ERROR,
+                       "%s: invalid command attributes: "
+-                      "invalid cte: %"PRIx64"\n",
+-                      __func__, new_cte);
++                      "invalid CTE for new ICID 0x%x\n",
++                      __func__, new_icid);
+         return CMD_CONTINUE;
+     }
+ 
+-    old_rdbase = FIELD_EX64(old_cte, CTE, RDBASE);
+-    if (old_rdbase >= s->gicv3->num_cpu) {
++    if (old_cte.rdbase >= s->gicv3->num_cpu) {
+         qemu_log_mask(LOG_GUEST_ERROR,
+-                      "%s: CTE has invalid rdbase 0x%"PRIx64"\n",
+-                      __func__, old_rdbase);
++                      "%s: CTE has invalid rdbase 0x%x\n",
++                      __func__, old_cte.rdbase);
+         return CMD_CONTINUE;
+     }
+ 
+-    new_rdbase = FIELD_EX64(new_cte, CTE, RDBASE);
+-    if (new_rdbase >= s->gicv3->num_cpu) {
++    if (new_cte.rdbase >= s->gicv3->num_cpu) {
+         qemu_log_mask(LOG_GUEST_ERROR,
+-                      "%s: CTE has invalid rdbase 0x%"PRIx64"\n",
+-                      __func__, new_rdbase);
++                      "%s: CTE has invalid rdbase 0x%x\n",
++                      __func__, new_cte.rdbase);
+         return CMD_CONTINUE;
+     }
+ 
+-    if (old_rdbase != new_rdbase) {
++    if (old_cte.rdbase != new_cte.rdbase) {
+         /* Move the LPI from the old redistributor to the new one */
+-        gicv3_redist_mov_lpi(&s->gicv3->cpu[old_rdbase],
+-                             &s->gicv3->cpu[new_rdbase],
++        gicv3_redist_mov_lpi(&s->gicv3->cpu[old_cte.rdbase],
++                             &s->gicv3->cpu[new_cte.rdbase],
+                              intid);
+     }
+ 
 -- 
 2.25.1
 
