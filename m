@@ -2,80 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD5254AD558
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Feb 2022 11:11:20 +0100 (CET)
-Received: from localhost ([::1]:51792 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 20C994AD5BF
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Feb 2022 11:47:52 +0100 (CET)
+Received: from localhost ([::1]:60742 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nHNSw-0002Lw-QD
-	for lists+qemu-devel@lfdr.de; Tue, 08 Feb 2022 05:11:18 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:37738)
+	id 1nHO2I-0006d6-UR
+	for lists+qemu-devel@lfdr.de; Tue, 08 Feb 2022 05:47:50 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:39206)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nHNPH-00006Y-UJ
- for qemu-devel@nongnu.org; Tue, 08 Feb 2022 05:07:31 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:20791)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nHNUy-0006YJ-1l
+ for qemu-devel@nongnu.org; Tue, 08 Feb 2022 05:13:24 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:32191)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nHNPE-0002aH-BK
- for qemu-devel@nongnu.org; Tue, 08 Feb 2022 05:07:30 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nHNUv-0003V0-Tt
+ for qemu-devel@nongnu.org; Tue, 08 Feb 2022 05:13:23 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1644314846;
+ s=mimecast20190719; t=1644315201;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=VWIeudwvgeboDkbZskokem3hzzm/jFo+1yulhSVfiew=;
- b=Nh5tI/GNxYly9EudTmdXpGtNNxS3xeQqhVvQxAKL0kCkxjmeJiozLy1pDpAI50XzppYyia
- o2tfuvM9FoNtuZKQdHje9mFQA0Q98ZkxcH91CG30nwbRG4++cAkE2q0SZonagdOWjLJVQq
- U08PPEz4wci+H/2HhZYEs+7NOOaqC1Y=
-Received: from mail-pj1-f70.google.com (mail-pj1-f70.google.com
- [209.85.216.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ content-transfer-encoding:content-transfer-encoding;
+ bh=nij32i+24FpxNjeqDJkTsBJNhbrX8Ilr3uNXesaMUyY=;
+ b=ETwLK6ww+NnjpqI9W99rpdfABW2a9KRggeKz5DhXVqz406q5KX8CEovqhCmWngXXGKCdGI
+ 7CxiDj8Eu53TQFKmegxydkgXQkFq9D6AAHC79nKfyDGFNbdOW61DQKmcdd2saa8EZYv3yo
+ 6CMnGsJeCXG4plol9KpfllYuh/X0dbM=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-564-FQFpMAt7MJuGpIIVuAbmnw-1; Tue, 08 Feb 2022 05:07:26 -0500
-X-MC-Unique: FQFpMAt7MJuGpIIVuAbmnw-1
-Received: by mail-pj1-f70.google.com with SMTP id
- j23-20020a17090a7e9700b001b8626c9170so1249934pjl.1
- for <qemu-devel@nongnu.org>; Tue, 08 Feb 2022 02:07:25 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=VWIeudwvgeboDkbZskokem3hzzm/jFo+1yulhSVfiew=;
- b=WcfeAiY2BUe7VfpPsdYsy1lm+1bKsunJ8XPvELIvMNiwlO2uabnbNtCrUyoELqvDWa
- zJXKLOd5ncAolbBFdRZ0wxn1qoNhzH1oxiulNLiJftXjz1G3zoddw+AZsUAyl7egToTr
- UVdS0Err6hkbyNTOlmP+1bpsoW27liDzn44rEYrLg2vJ2WoK/37BrHWkvKQJUmhBrNjy
- kubYnPWMahyPkbVQ9lubKqWnWQ5U/+u96MtglFTMTnT4exUuvt61f3IzJRnWAJCK8Nkj
- fgEWQYasGQYAtj0aZxZBnGlYJC4QkA4PgF9Is733/Eo+yCRLjZZvoaYbh1QoY7+S1RTC
- C1gQ==
-X-Gm-Message-State: AOAM533LfZpJFRcCkcFOVIhOqFv8zcgrWg0lrT8Zm+RU9qYqpKTRoB+o
- skSM8f7awBNhLIH4LLuNAj4IoexSCeSadWjd66WrPkdnstv+/yLOq5khRj6CC/yl+vAhOhKGYoq
- ejPEh07bp+DYJoB8=
-X-Received: by 2002:a62:86c1:: with SMTP id x184mr3841660pfd.26.1644314844663; 
- Tue, 08 Feb 2022 02:07:24 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzxqr/7Vwk/5Oy1pHASxyKvTiXTRFUobGEb+FjdfyqhG39SfdzhRLnJDS3y2YwBLqN/EnYNrQ==
-X-Received: by 2002:a62:86c1:: with SMTP id x184mr3841627pfd.26.1644314844302; 
- Tue, 08 Feb 2022 02:07:24 -0800 (PST)
-Received: from xz-m1.local ([94.177.118.119])
- by smtp.gmail.com with ESMTPSA id c5sm14874999pfc.12.2022.02.08.02.07.22
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 08 Feb 2022 02:07:24 -0800 (PST)
-Date: Tue, 8 Feb 2022 18:07:19 +0800
-From: Peter Xu <peterx@redhat.com>
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Subject: Re: [PATCH RFC 07/15] migration: Introduce postcopy channels on dest
- node
-Message-ID: <YgJA14TsR2lr8BNW@xz-m1.local>
-References: <20220119080929.39485-1-peterx@redhat.com>
- <20220119080929.39485-8-peterx@redhat.com>
- <Yfvv9zYcgJWg+Yy9@work-vm> <YgHjL0VqLCAHxdav@xz-m1.local>
- <YgI7VRjW3zNoztNi@work-vm>
+ us-mta-503-pixaWeWPMO2X_1dr5R2v8A-1; Tue, 08 Feb 2022 05:13:16 -0500
+X-MC-Unique: pixaWeWPMO2X_1dr5R2v8A-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 602A7100CCC0;
+ Tue,  8 Feb 2022 10:13:15 +0000 (UTC)
+Received: from thuth.com (unknown [10.39.192.143])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id CB2122A179;
+ Tue,  8 Feb 2022 10:13:13 +0000 (UTC)
+From: Thomas Huth <thuth@redhat.com>
+To: qemu-block@nongnu.org, Hanna Reitz <hreitz@redhat.com>,
+ Kevin Wolf <kwolf@redhat.com>
+Subject: [PATCH 0/6] Improve integration of iotests in the meson test harness
+Date: Tue,  8 Feb 2022 11:13:05 +0100
+Message-Id: <20220208101311.1511083-1-thuth@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <YgI7VRjW3zNoztNi@work-vm>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -83,7 +62,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -96,25 +75,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org,
- Leonardo Bras Soares Passos <lsoaresp@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Feb 08, 2022 at 09:43:49AM +0000, Dr. David Alan Gilbert wrote:
-> > It'll be cleaned up later here:
-> > 
-> >   loadvm_postcopy_handle_listen
-> >     postcopy_ram_incoming_setup
-> >       postcopy_temp_pages_setup
-> >     postcopy_ram_incoming_cleanup  <---------- if fail above, go here
-> >       postcopy_temp_pages_cleanup
-> 
-> Ah OK, it might still be worth a comment.
+Though "make check-block" is currently already run via the meson test
+runner, it still looks like an oddball in the output of "make check" since
+the tests are still run separately via the check-block.sh script. It would
+be nicer if the iotests would show up like the other tests suites. For this
+we have to tweak the tests/qemu-iotests/check script so that it can already
+be run with "-g auto -n" during the configuration step [*], then we can
+directly add the individual tests in the tests/qemu-iotests/meson.build file
+already and finally get rid of the check-block.sh script.
 
-Will do.
+[*] Alternatively, I think we could also get rid of the "auto" group
+and add the test list to the tests/qemu-iotests/meson.build file
+directly ... not sure whether that's so much nicer, though.
+
+Thomas Huth (6):
+  tests/qemu-iotests: Improve the check for GNU sed
+  tests/qemu-iotests/meson.build: Improve the indentation
+  tests/qemu-iotests: Allow to run "./check -n" from the source
+    directory, too
+  tests/qemu-iotests/meson.build: Call the 'check' script directly
+  tests: Do not treat the iotests as separate meson test target anymore
+  tests: Remove check-block.sh
+
+ meson.build                    |  6 +--
+ scripts/mtest2make.py          |  4 --
+ tests/Makefile.include         |  9 +---
+ tests/check-block.sh           | 85 ----------------------------------
+ tests/qemu-iotests/check       | 52 ++++++++++++---------
+ tests/qemu-iotests/common.rc   | 26 +++++------
+ tests/qemu-iotests/meson.build | 84 ++++++++++++++++++++++-----------
+ 7 files changed, 104 insertions(+), 162 deletions(-)
+ delete mode 100755 tests/check-block.sh
 
 -- 
-Peter Xu
+2.27.0
 
 
