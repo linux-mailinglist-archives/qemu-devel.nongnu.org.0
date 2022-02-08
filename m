@@ -2,88 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36E754ACFD4
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Feb 2022 04:39:40 +0100 (CET)
-Received: from localhost ([::1]:49916 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A8634ACFD5
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Feb 2022 04:40:02 +0100 (CET)
+Received: from localhost ([::1]:50566 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nHHLu-0000YX-Pq
-	for lists+qemu-devel@lfdr.de; Mon, 07 Feb 2022 22:39:38 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:47084)
+	id 1nHHMH-0000zP-2A
+	for lists+qemu-devel@lfdr.de; Mon, 07 Feb 2022 22:40:01 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:47142)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nHHK8-0007kt-JK
- for qemu-devel@nongnu.org; Mon, 07 Feb 2022 22:37:48 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:32740)
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1nHHKh-00080Q-SD
+ for qemu-devel@nongnu.org; Mon, 07 Feb 2022 22:38:24 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:30048)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nHHK6-0003Dz-Cs
- for qemu-devel@nongnu.org; Mon, 07 Feb 2022 22:37:47 -0500
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1nHHKN-0003Ih-QI
+ for qemu-devel@nongnu.org; Mon, 07 Feb 2022 22:38:05 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1644291460;
+ s=mimecast20190719; t=1644291482;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=8PNgm6F8JAUNyldJJuPxi35EI2Kdp5tmxEQNXEZLO+E=;
- b=Foa2YDTehILxb8CII/gGrnbw3FZDrYh6AKxCvLqf+yoGWPHaawC8EshOWVPbQ2aFqdfGk4
- 0Kete5jzdx/SlWZn2kVSRE3/QsVaTP03gMDOHJ4mqM/2G3tBewb660A+o+ZvF0gFOXt8Os
- GCoKCWEdN1P7MVUez8pIJI6DZC78gCs=
-Received: from mail-pf1-f197.google.com (mail-pf1-f197.google.com
- [209.85.210.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=WBJDGjWqVOtiSrvehByB/6mHxa5s6JVt4CfgbH5eOCw=;
+ b=bW5biYQqao7dZCKHwySIbC/pmbIDT+y2VnZdjwDVrzujSq/24QqGvaghBlsZDKFFshBEE6
+ /K0hxEBGzR54X0N+ZULYqQzZM5BwblvgcxwcDB/FyxmAhcL/NMWarVIzcAdaviAdcOX1tR
+ TPo3Z9QqtXVUBCcuR+osWM4Ix0lDk58=
+Received: from mail-pj1-f70.google.com (mail-pj1-f70.google.com
+ [209.85.216.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-362-aj1wlr7qObKtYoTynMR65A-1; Mon, 07 Feb 2022 22:37:38 -0500
-X-MC-Unique: aj1wlr7qObKtYoTynMR65A-1
-Received: by mail-pf1-f197.google.com with SMTP id
- 188-20020a6219c5000000b004ce24bef61fso8702698pfz.9
- for <qemu-devel@nongnu.org>; Mon, 07 Feb 2022 19:37:38 -0800 (PST)
+ us-mta-434-TcJp9UJ_NlOzyzOBq0__Vg-1; Mon, 07 Feb 2022 22:37:59 -0500
+X-MC-Unique: TcJp9UJ_NlOzyzOBq0__Vg-1
+Received: by mail-pj1-f70.google.com with SMTP id
+ iy10-20020a17090b16ca00b001b8a7ed5b2cso674985pjb.7
+ for <qemu-devel@nongnu.org>; Mon, 07 Feb 2022 19:37:59 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=8PNgm6F8JAUNyldJJuPxi35EI2Kdp5tmxEQNXEZLO+E=;
- b=8L0OzA7Q1wAwZ6LfxqnAhvFpzRYrvFU+qrsLAVG2z8DNXB5WFVtzvv5bHc9sk2Qa8G
- ak796OcXIJaWRvZ/UaAavRq3BEYuhLpZBss9hwsm6ywUPM15aZG3/0bbfRiS7clekCbw
- VVH73cws3GF5Z5I1rcNIROnRgMdA3PgHcP2W6h6CxN5hMBkHHJuaClztHAS/KebtKO8u
- sNkdGhLW+vX3p0bf7j/ruPLLo4279eysfGhhhK2GtF61O2tnyvAQPN2yTLBehsvFxt5+
- UxzybQifFd8WJPNTcAciaoUd4OgAvr8vv1VIiS68bNpyC6xOp3Qs8Ok/u/VhBvfPEKy2
- zCzg==
-X-Gm-Message-State: AOAM5303FtGlT+MogdPS5/SYB5dgaebhjIvyXEjwXua8PN7TeGRyfH11
- Dd32XSDqaLrsEXWqiDHc4aUTiDvsMHGFPgV4i57ZquWacgcB+zgz1a1BsVdgRrAEnJbGP/avoMy
- cNR6put2TeaiDLKk=
-X-Received: by 2002:a17:902:be14:: with SMTP id
- r20mr2694533pls.97.1644291457566; 
- Mon, 07 Feb 2022 19:37:37 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxRmqnqpfEsmh3qNV3WKK/wrG+knJHX4sJOn4FpB5tKEtUw3X6q7dXN9SA3MwgiAUJzqMjORQ==
-X-Received: by 2002:a17:902:be14:: with SMTP id
- r20mr2694520pls.97.1644291457225; 
- Mon, 07 Feb 2022 19:37:37 -0800 (PST)
-Received: from xz-m1.local ([94.177.118.121])
- by smtp.gmail.com with ESMTPSA id 76sm9528416pge.93.2022.02.07.19.37.35
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 07 Feb 2022 19:37:36 -0800 (PST)
-Date: Tue, 8 Feb 2022 11:37:32 +0800
-From: Peter Xu <peterx@redhat.com>
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Subject: Re: [PATCH RFC 09/15] migration: Add postcopy_thread_create()
-Message-ID: <YgHlfMEKC+feQgPU@xz-m1.local>
-References: <20220119080929.39485-1-peterx@redhat.com>
- <20220119080929.39485-10-peterx@redhat.com>
- <YfvylA6QEl1YQnKU@work-vm>
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=WBJDGjWqVOtiSrvehByB/6mHxa5s6JVt4CfgbH5eOCw=;
+ b=B9R1oXzjwGG/0T+rZNYHxObn1uXPEHeYZohehL1Nb3ibQ8vpyLW4W8ICG8JPQGAp1N
+ V+n1nVK47/Rj2JqpXHWCz0ASJyhpIEwNYqdYAGQz8D1/YYmnYoZKjyxfPCtjpH0mz3ap
+ uI4OdWRYM7OLzICsdZzBOI58B56nd6zAKHhJ/q5lLW/T2biw5WG3H19PPCP6MJN2zw5v
+ 0G4PGws1Nhb8VZiTmnfzdiTFAcZ1vbFxv7g1+/A5yr4cB+chQaaYV2xthpcJ3oGrMY5w
+ er2CRsbvj/A+e34CaPy5MtUGNi7qXubkiviE561lTahYA3tdto2Qv38imeZtSBepEPgS
+ bdaw==
+X-Gm-Message-State: AOAM533k0xQtX+3LsiZiYCjSE9yp5krMIGk1wAojMvxN4S4CXHmlwNBf
+ sRtdjxA4CoKhC4Y6woPtkW76QuxFF1+Bn65kE8wkylh0qIiHcZi40ON0oSUxwcuNSSb8Aka8XrH
+ fEeIDPCapNP57bVA=
+X-Received: by 2002:a63:8648:: with SMTP id x69mr2012600pgd.25.1644291478521; 
+ Mon, 07 Feb 2022 19:37:58 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxt+5PbADUI11q2peCXupot8uYUWm5YMKSY/KIIntuRrfcbN/FhzVjVKAvRjgqVVgStAK0OYw==
+X-Received: by 2002:a63:8648:: with SMTP id x69mr2012564pgd.25.1644291478117; 
+ Mon, 07 Feb 2022 19:37:58 -0800 (PST)
+Received: from [10.72.13.233] ([209.132.188.80])
+ by smtp.gmail.com with ESMTPSA id f3sm13802408pfe.43.2022.02.07.19.37.49
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 07 Feb 2022 19:37:57 -0800 (PST)
+Message-ID: <74f2ed86-d936-4d0c-83cb-9e5d86425bc1@redhat.com>
+Date: Tue, 8 Feb 2022 11:37:47 +0800
 MIME-Version: 1.0
-In-Reply-To: <YfvylA6QEl1YQnKU@work-vm>
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.5.1
+Subject: Re: [PATCH 11/31] vhost: Add vhost_svq_valid_device_features to
+ shadow vq
+To: Eugenio Perez Martin <eperezma@redhat.com>
+References: <20220121202733.404989-1-eperezma@redhat.com>
+ <20220121202733.404989-12-eperezma@redhat.com>
+ <660257ba-6445-3fb2-1da4-3b141e382191@redhat.com>
+ <CAJaqyWfaf0RG9AzW4ktH2L3wyfOGuSk=rNm-j7xRkpdfVvkY-g@mail.gmail.com>
+ <CAJaqyWc6BqJBDcUE36AQ=bgWjJYkyMo1ZYxRwmc5ZgGj4T-pVg@mail.gmail.com>
+From: Jason Wang <jasowang@redhat.com>
+In-Reply-To: <CAJaqyWc6BqJBDcUE36AQ=bgWjJYkyMo1ZYxRwmc5ZgGj4T-pVg@mail.gmail.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -96,65 +104,202 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org,
- Leonardo Bras Soares Passos <lsoaresp@redhat.com>
+Cc: Laurent Vivier <lvivier@redhat.com>, Parav Pandit <parav@mellanox.com>,
+ Cindy Lu <lulu@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Juan Quintela <quintela@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ qemu-level <qemu-devel@nongnu.org>, Gautam Dawar <gdawar@xilinx.com>,
+ Markus Armbruster <armbru@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ Harpreet Singh Anand <hanand@xilinx.com>, Xiao W Wang <xiao.w.wang@intel.com>,
+ Peter Xu <peterx@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Eli Cohen <eli@mellanox.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Zhu Lingshan <lingshan.zhu@intel.com>,
+ virtualization <virtualization@lists.linux-foundation.org>,
+ Eric Blake <eblake@redhat.com>, Stefano Garzarella <sgarzare@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Feb 03, 2022 at 03:19:48PM +0000, Dr. David Alan Gilbert wrote:
-> * Peter Xu (peterx@redhat.com) wrote:
-> > Postcopy create threads. A common manner is we init a sem and use it to sync
-> > with the thread.  Namely, we have fault_thread_sem and listen_thread_sem and
-> > they're only used for this.
-> > 
-> > Make it a shared infrastructure so it's easier to create yet another thread.
-> > 
-> 
-> It might be worth a note saying you now share that sem, so you can't
-> start two threads in parallel.
 
-I'll squash this into the patch:
+在 2022/2/1 下午6:57, Eugenio Perez Martin 写道:
+> On Mon, Jan 31, 2022 at 4:49 PM Eugenio Perez Martin
+> <eperezma@redhat.com> wrote:
+>> On Sat, Jan 29, 2022 at 9:11 AM Jason Wang <jasowang@redhat.com> wrote:
+>>>
+>>> 在 2022/1/22 上午4:27, Eugenio Pérez 写道:
+>>>> This allows SVQ to negotiate features with the device. For the device,
+>>>> SVQ is a driver. While this function needs to bypass all non-transport
+>>>> features, it needs to disable the features that SVQ does not support
+>>>> when forwarding buffers. This includes packed vq layout, indirect
+>>>> descriptors or event idx.
+>>>>
+>>>> Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
+>>>> ---
+>>>>    hw/virtio/vhost-shadow-virtqueue.h |  2 ++
+>>>>    hw/virtio/vhost-shadow-virtqueue.c | 44 ++++++++++++++++++++++++++++++
+>>>>    hw/virtio/vhost-vdpa.c             | 21 ++++++++++++++
+>>>>    3 files changed, 67 insertions(+)
+>>>>
+>>>> diff --git a/hw/virtio/vhost-shadow-virtqueue.h b/hw/virtio/vhost-shadow-virtqueue.h
+>>>> index c9ffa11fce..d963867a04 100644
+>>>> --- a/hw/virtio/vhost-shadow-virtqueue.h
+>>>> +++ b/hw/virtio/vhost-shadow-virtqueue.h
+>>>> @@ -15,6 +15,8 @@
+>>>>
+>>>>    typedef struct VhostShadowVirtqueue VhostShadowVirtqueue;
+>>>>
+>>>> +bool vhost_svq_valid_device_features(uint64_t *features);
+>>>> +
+>>>>    void vhost_svq_set_svq_kick_fd(VhostShadowVirtqueue *svq, int svq_kick_fd);
+>>>>    void vhost_svq_set_guest_call_notifier(VhostShadowVirtqueue *svq, int call_fd);
+>>>>    const EventNotifier *vhost_svq_get_dev_kick_notifier(
+>>>> diff --git a/hw/virtio/vhost-shadow-virtqueue.c b/hw/virtio/vhost-shadow-virtqueue.c
+>>>> index 9619c8082c..51442b3dbf 100644
+>>>> --- a/hw/virtio/vhost-shadow-virtqueue.c
+>>>> +++ b/hw/virtio/vhost-shadow-virtqueue.c
+>>>> @@ -45,6 +45,50 @@ const EventNotifier *vhost_svq_get_dev_kick_notifier(
+>>>>        return &svq->hdev_kick;
+>>>>    }
+>>>>
+>>>> +/**
+>>>> + * Validate the transport device features that SVQ can use with the device
+>>>> + *
+>>>> + * @dev_features  The device features. If success, the acknowledged features.
+>>>> + *
+>>>> + * Returns true if SVQ can go with a subset of these, false otherwise.
+>>>> + */
+>>>> +bool vhost_svq_valid_device_features(uint64_t *dev_features)
+>>>> +{
+>>>> +    bool r = true;
+>>>> +
+>>>> +    for (uint64_t b = VIRTIO_TRANSPORT_F_START; b <= VIRTIO_TRANSPORT_F_END;
+>>>> +         ++b) {
+>>>> +        switch (b) {
+>>>> +        case VIRTIO_F_NOTIFY_ON_EMPTY:
+>>>> +        case VIRTIO_F_ANY_LAYOUT:
+>>>> +            continue;
+>>>> +
+>>>> +        case VIRTIO_F_ACCESS_PLATFORM:
+>>>> +            /* SVQ does not know how to translate addresses */
+>>>
+>>> I may miss something but any reason that we need to disable
+>>> ACCESS_PLATFORM? I'd expect the vring helper we used for shadow
+>>> virtqueue can deal with vIOMMU perfectly.
+>>>
+>> This function is validating SVQ <-> Device communications features,
+>> that may or may not be the same as guest <-> SVQ. These feature flags
+>> are valid for guest <-> SVQ communication, same as with indirect
+>> descriptors one.
+>>
+>> Having said that, there is a point in the series where
+>> VIRTIO_F_ACCESS_PLATFORM is actually mandatory, so I think we could
+>> use the latter addition of x-svq cmdline parameter and delay the
+>> feature validations where it makes more sense.
+>>
+>>>> +            if (*dev_features & BIT_ULL(b)) {
+>>>> +                clear_bit(b, dev_features);
+>>>> +                r = false;
+>>>> +            }
+>>>> +            break;
+>>>> +
+>>>> +        case VIRTIO_F_VERSION_1:
+>>>
+>>> I had the same question here.
+>>>
+>> For VERSION_1 it's easier to assume that guest is little endian at
+>> some points, but we could try harder to support both endianness if
+>> needed.
+>>
+> Re-thinking the SVQ feature isolation stuff for this first iteration
+> based on your comments.
+>
+> Maybe it's easier to simply fail if the device does not *match* the
+> expected feature set, and add all of the "feature isolation" later.
+> While a lot of guest <-> SVQ communication details are already solved
+> for free with qemu's VirtQueue (indirect, packed, ...), we may
+> simplify this series in particular and add the support for it later.
+>
+> For example, at this moment would be valid for the device to export
+> indirect descriptors feature flag, and SVQ simply forward that feature
+> flag offering to the guest. So the guest <-> SVQ communication could
+> have indirect descriptors (qemu's VirtQueue code handles it for free),
+> but SVQ would not acknowledge it for the device. As a side note, to
+> negotiate it would have been harmless actually, but it's not the case
+> of packed vq.
+>
+> So maybe for the v2 we can simply force the device to just export the
+> strictly needed features and nothing else with qemu cmdline, and then
+> enable the feature negotiation isolation for each side of SVQ?
 
----8<---
-diff --git a/migration/migration.h b/migration/migration.h
-index 845be3463c..2a311fd8d6 100644
---- a/migration/migration.h
-+++ b/migration/migration.h
-@@ -72,7 +72,10 @@ struct MigrationIncomingState {
-     /* A hook to allow cleanup at the end of incoming migration */
-     void *transport_data;
-     void (*transport_cleanup)(void *data);
--    /* Used to sync thread creations */
-+    /*
-+     * Used to sync thread creations.  Note that we can't create threads in
-+     * parallel with this sem.
-+     */
-     QemuSemaphore  thread_sync_sem;
-     /*
-      * Free at the start of the main state load, set as the main thread finishes
-diff --git a/migration/postcopy-ram.c b/migration/postcopy-ram.c
-index 099d8ed478..1a3ba1db84 100644
---- a/migration/postcopy-ram.c
-+++ b/migration/postcopy-ram.c
-@@ -79,6 +79,10 @@ int postcopy_notify(enum PostcopyNotifyReason reason, Error **errp)
-                                             &pnd);
- }
- 
-+/*
-+ * NOTE: this routine is not thread safe, we can't call it concurrently. But it
-+ * should be good enough for migration's purposes.
-+ */
- void postcopy_thread_create(MigrationIncomingState *mis,
-                             QemuThread *thread, const char *name,
-                             void *(*fn)(void *), int joinable)
----8<---
 
-> 
-> Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Yes, that's exactly my point.
 
-Thanks,
+Thanks
 
--- 
-Peter Xu
+
+>
+> Thanks!
+>
+>
+>> Thanks!
+>>
+>>> Thanks
+>>>
+>>>
+>>>> +            /* SVQ trust that guest vring is little endian */
+>>>> +            if (!(*dev_features & BIT_ULL(b))) {
+>>>> +                set_bit(b, dev_features);
+>>>> +                r = false;
+>>>> +            }
+>>>> +            continue;
+>>>> +
+>>>> +        default:
+>>>> +            if (*dev_features & BIT_ULL(b)) {
+>>>> +                clear_bit(b, dev_features);
+>>>> +            }
+>>>> +        }
+>>>> +    }
+>>>> +
+>>>> +    return r;
+>>>> +}
+>>>> +
+>>>>    /* Forward guest notifications */
+>>>>    static void vhost_handle_guest_kick(EventNotifier *n)
+>>>>    {
+>>>> diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
+>>>> index bdb45c8808..9d801cf907 100644
+>>>> --- a/hw/virtio/vhost-vdpa.c
+>>>> +++ b/hw/virtio/vhost-vdpa.c
+>>>> @@ -855,10 +855,31 @@ static int vhost_vdpa_init_svq(struct vhost_dev *hdev, struct vhost_vdpa *v,
+>>>>        size_t n_svqs = v->shadow_vqs_enabled ? hdev->nvqs : 0;
+>>>>        g_autoptr(GPtrArray) shadow_vqs = g_ptr_array_new_full(n_svqs,
+>>>>                                                               vhost_psvq_free);
+>>>> +    uint64_t dev_features;
+>>>> +    uint64_t svq_features;
+>>>> +    int r;
+>>>> +    bool ok;
+>>>> +
+>>>>        if (!v->shadow_vqs_enabled) {
+>>>>            goto out;
+>>>>        }
+>>>>
+>>>> +    r = vhost_vdpa_get_features(hdev, &dev_features);
+>>>> +    if (r != 0) {
+>>>> +        error_setg(errp, "Can't get vdpa device features, got (%d)", r);
+>>>> +        return r;
+>>>> +    }
+>>>> +
+>>>> +    svq_features = dev_features;
+>>>> +    ok = vhost_svq_valid_device_features(&svq_features);
+>>>> +    if (unlikely(!ok)) {
+>>>> +        error_setg(errp,
+>>>> +            "SVQ Invalid device feature flags, offer: 0x%"PRIx64", ok: 0x%"PRIx64,
+>>>> +            hdev->features, svq_features);
+>>>> +        return -1;
+>>>> +    }
+>>>> +
+>>>> +    shadow_vqs = g_ptr_array_new_full(hdev->nvqs, vhost_psvq_free);
+>>>>        for (unsigned n = 0; n < hdev->nvqs; ++n) {
+>>>>            VhostShadowVirtqueue *svq = vhost_svq_new();
+>>>>
 
 
