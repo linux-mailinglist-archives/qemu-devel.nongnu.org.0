@@ -2,93 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C50674ADB72
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Feb 2022 15:44:03 +0100 (CET)
-Received: from localhost ([::1]:48006 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 518374ADB7A
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Feb 2022 15:47:32 +0100 (CET)
+Received: from localhost ([::1]:56744 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nHRis-0008Oa-D1
-	for lists+qemu-devel@lfdr.de; Tue, 08 Feb 2022 09:44:02 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:57306)
+	id 1nHRmF-0006Hm-BL
+	for lists+qemu-devel@lfdr.de; Tue, 08 Feb 2022 09:47:31 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:57866)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1nHQFP-0005KS-OJ
- for qemu-devel@nongnu.org; Tue, 08 Feb 2022 08:09:32 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:27804)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1nHQF7-0000bd-Eu
- for qemu-devel@nongnu.org; Tue, 08 Feb 2022 08:09:14 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1644325752;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=2bTbEl8gYLj6ddVb3wCudTV0J3Pkilyx6hPZngLiU9k=;
- b=awEy89KpZfWPuUADb388YPEsc2n0ASdAtQkSywcPkowBoa5oHOEtBHPZtcteNwlOPQrXrK
- i/R97g1xNdZ7FpWSJyC+yDr+3WnNj+2Vn2VGN4IEpimAtKhdUgFOd1+4N5KsiG4xccCxVr
- t25DYwutTHSQOWBiVVTf9/ERpxCSFrw=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-195-pVe5_B3XMWmTVmfS9JVCAw-1; Tue, 08 Feb 2022 08:09:11 -0500
-X-MC-Unique: pVe5_B3XMWmTVmfS9JVCAw-1
-Received: by mail-wr1-f69.google.com with SMTP id
- v9-20020adfa1c9000000b001e33e5dbd5fso393330wrv.17
- for <qemu-devel@nongnu.org>; Tue, 08 Feb 2022 05:09:11 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1nHQI5-0007J3-Ur; Tue, 08 Feb 2022 08:12:19 -0500
+Received: from [2607:f8b0:4864:20::1034] (port=43683
+ helo=mail-pj1-x1034.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1nHQHy-0001Af-CH; Tue, 08 Feb 2022 08:12:16 -0500
+Received: by mail-pj1-x1034.google.com with SMTP id
+ t14-20020a17090a3e4e00b001b8f6032d96so1469682pjm.2; 
+ Tue, 08 Feb 2022 05:11:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=9/W906GFqZ6vOb0NUjho+AYmp1bR5+TY+jr9WH96xx4=;
+ b=DM6jGy/jDB7/iAJVHiyN5jYRWftINHd655p3DvE5duvSD3BeunsaxQ7GMmHTbEmoFS
+ 6t6v4zETIhwYC2zVJSx8z8rzFfWMBJxwKVhDgbUY4Ei9UyEqXkJmKc7jHdJ8G3elNlss
+ ZkKwBs3B6PddLLoge3jWidTmYQz7UpC0cYH22tylEQGPLcwKB6OGA3/hv6z9FPV55bu0
+ +VuYQtpM5kAxtmTFZbQdkkfs6R9gjCrOHzmgyR9eBbau7KOmtXRiavJRDXuGI8EyRnSW
+ TI7DehlfSjQYbTGShkXJJM8NrwzTPG7ltkjHuWMUbRK1DkWdWUt7uhmqZD4zHcTQgJ+w
+ MGFA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=2bTbEl8gYLj6ddVb3wCudTV0J3Pkilyx6hPZngLiU9k=;
- b=p2eyyJEgm/01H0hDDdcQ8DBCvxCHdhFpzzB2JMbQn32uJ5TW/+qgwItGjI63QrDwne
- HpKvPy9o0/9+58bQBXU+edndvf7DK4sHFtyM2ZW8nIXvrxO8zVFrwgNnPT9sNZ3ArJU5
- JLC3hvkTTWu2ic/eGTk0kLmJjOIxN1rhhC17eUcOF08bWSthyvyV1XvGEQqo5VHsRLBr
- ee0frA6/4BZtDdXNDimtJ9GJenq/A0XLIpwTvrPCEoDSNrYjc0L8AmJ7Nnpp606lHX7a
- w0Rv1r//P7W9iMyxRFfbWG9CG1p59zk8VX+j3c3c72DB57koyuDgP0WK+bfndNBhEXHD
- i0rg==
-X-Gm-Message-State: AOAM530bsgLT0mJnLD7oqpo1WeJG198Od5UWVjupX4HJX8z7OIieq1lZ
- rdscqIC/6tuUFBgwZubKpoCF64D1My8DFZlTH/Kpgwf4SS4/Q9bwILjCp0vKjCtUnws6qWSjXbd
- cHEuoLTzIwLtX4TQ=
-X-Received: by 2002:a5d:5445:: with SMTP id w5mr3552192wrv.680.1644325750578; 
- Tue, 08 Feb 2022 05:09:10 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzDkSdaeZC8QFttgK0CvZ3aWHVDvPowPQ1HpZlwy+Zo1P6mMcqYpPGhmXf5z46Ia2xxNcmJSg==
-X-Received: by 2002:a5d:5445:: with SMTP id w5mr3552171wrv.680.1644325750401; 
- Tue, 08 Feb 2022 05:09:10 -0800 (PST)
-Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
- [82.30.61.225])
- by smtp.gmail.com with ESMTPSA id l11sm14896499wry.50.2022.02.08.05.09.08
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 08 Feb 2022 05:09:08 -0800 (PST)
-Date: Tue, 8 Feb 2022 13:09:07 +0000
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Jean-Philippe Brucker <jean-philippe@linaro.org>
-Subject: Re: [PATCH v2 3/4] virtio-iommu: Support bypass domain
-Message-ID: <YgJrc5USsfszKrTw@work-vm>
-References: <20220127142940.671333-1-jean-philippe@linaro.org>
- <20220127142940.671333-4-jean-philippe@linaro.org>
- <bf447d9b-c039-ccdc-f24f-ab8b56c1b196@redhat.com>
- <YfffLBO47Sh3uq1b@work-vm>
- <140a23d7-d128-1273-6f07-0883e13c4600@redhat.com>
- <YgJiWMcPp5OlCUWY@myrica>
+ h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+ :subject:content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=9/W906GFqZ6vOb0NUjho+AYmp1bR5+TY+jr9WH96xx4=;
+ b=Wbu/D6YRSosu5UVAK5Mg+kfjlN3vt1AgdgowIWw3KAndvO1Yi4EkojV3wi40cz2A74
+ mMVPuyabsS3PKd4YrIEmrGGhgC/NEwWHaGUVRdyYD/3gyvqMaEI5RC4v04qKtRZQ+PjO
+ GX+iVJ9pjIAE5uEp1s8JSTeoCOrLHgKkSGPrNl/FzSm7AgIAZxm8RLQUU9r/164B3+TR
+ EZNiHlaTxgRtYssy76fP7DS6m7/wDOY4x+1esGMVmGhxIRj+tkdDV+SSJ+G/8/Nwh0bp
+ e1ldulkDKrdeUcEvyLXOD6e76F/vKZmkGKLMbXA8A2KkqW0w4Ph7kEjlxT8XpilQxkAK
+ U0hw==
+X-Gm-Message-State: AOAM531jOaiqXf83kj3CWo6xPT93roOuexNlTEs77ph59kJ3vOUgmos/
+ b4W75j0G5FotVWggckvokWidEJIrWDc=
+X-Google-Smtp-Source: ABdhPJxyLGb3jcichr83EE6kFrnY++xnZ3AmjmPVB3J8QNb7jS5qw8DVGLSF/GqiqlnMZb0Odvevag==
+X-Received: by 2002:a17:90b:1805:: with SMTP id
+ lw5mr1263407pjb.219.1644325907266; 
+ Tue, 08 Feb 2022 05:11:47 -0800 (PST)
+Received: from [192.168.71.175] (174.red-95-127-166.staticip.rima-tde.net.
+ [95.127.166.174])
+ by smtp.gmail.com with ESMTPSA id om18sm3154251pjb.39.2022.02.08.05.11.44
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 08 Feb 2022 05:11:46 -0800 (PST)
+Message-ID: <4cc4a814-3dba-11ab-3643-76ba974476c8@amsat.org>
+Date: Tue, 8 Feb 2022 14:11:41 +0100
 MIME-Version: 1.0
-In-Reply-To: <YgJiWMcPp5OlCUWY@myrica>
-User-Agent: Mutt/2.1.5 (2021-12-30)
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.5.1
+Subject: Re: [PATCH 1/6] tests/qemu-iotests: Improve the check for GNU sed
+Content-Language: en-US
+To: Thomas Huth <thuth@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
+ qemu-block@nongnu.org, Kevin Wolf <kwolf@redhat.com>
+Cc: qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>
+References: <20220208101311.1511083-1-thuth@redhat.com>
+ <20220208101311.1511083-2-thuth@redhat.com>
+ <8332fa43-9e77-34f3-c012-062342d62c92@redhat.com>
+ <dd7f32dd-807c-d389-1f19-323141178bba@redhat.com>
+ <1d5f544a-8362-6932-2f2a-6fd5f8e53978@redhat.com>
+ <10264836-2ca6-c134-5eb9-018ef618edc1@redhat.com>
+In-Reply-To: <10264836-2ca6-c134-5eb9-018ef618edc1@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1034
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1034;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pj1-x1034.google.com
+X-Spam_score_int: 8
+X-Spam_score: 0.8
+X-Spam_bar: /
+X-Spam_report: (0.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249, FREEMAIL_FROM=0.001,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.248, NICE_REPLY_A=-0.001,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_SORBS_WEB=1.5,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -101,57 +99,98 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: lvivier@redhat.com, Peter Maydell <peter.maydell@linaro.org>,
- thuth@redhat.com, Juan Quintela <quintela@redhat.com>, mst@redhat.com,
- cohuck@redhat.com, qemu-devel@nongnu.org, pasic@linux.ibm.com,
- Eric Auger <eric.auger@redhat.com>, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
-* Jean-Philippe Brucker (jean-philippe@linaro.org) wrote:
-> On Wed, Feb 02, 2022 at 02:21:37PM +0100, Eric Auger wrote:
-> > >>> diff --git a/hw/virtio/virtio-iommu.c b/hw/virtio/virtio-iommu.c
-> > >>> index ec02029bb6..a112428c65 100644
-> > >>> --- a/hw/virtio/virtio-iommu.c
-> > >>> +++ b/hw/virtio/virtio-iommu.c
-> > >>> @@ -43,6 +43,7 @@
-> > >>>  
-> > >>>  typedef struct VirtIOIOMMUDomain {
-> > >>>      uint32_t id;
-> > >>> +    bool bypass;
-> > >> I am afraid this will break the migration if you don't change
-> > >> vmstate_domain.
-> > >>
-> > >> See static const VMStateDescription vmstate_domain.
-> > >> Also you need to migrate the new bypass field.
-> > >>
-> > >> Logically we should handle this with a vmstate subsection I think to
-> > >> handle migration of older devices. However I doubt the device has been
-> > >> used in production environment supporting migration so my guess is we
-> > >> may skip that burden and just add the missing field. Adding Juan, Dave &
-> > >> Peter for advices.
-> > > I'm not sure about users of this; if no one has used it then yeh; you
-> > > could bump up the version_id to make it a bit clearer.
-> > 
-> > Thank you for your input. Yes to me it sounds OK to only bump the
-> > version_id while adding the new field.
+On 8/2/22 13:38, Thomas Huth wrote:
+> On 08/02/2022 13.28, Hanna Reitz wrote:
+>> On 08.02.22 13:13, Thomas Huth wrote:
+>>> On 08/02/2022 12.46, Hanna Reitz wrote:
+>>>> On 08.02.22 11:13, Thomas Huth wrote:
+>>>>> Instead of failing the iotests if GNU sed is not available (or 
+>>>>> skipping
+>>>>> them completely in the check-block.sh script), it would be better to
+>>>>> simply skip the bash-based tests, so that the python-based tests could
+>>>>> still be run. Thus add the check for BusyBox sed to common.rc and mark
+>>>>> the tests as "not run" if GNU sed is not available. Then we can also
+>>>>> remove the sed checks from the check-block.sh script.
+>>>>>
+>>>>> Signed-off-by: Thomas Huth <thuth@redhat.com>
+>>>>> ---
+>>>>>   tests/check-block.sh         | 12 ------------
+>>>>>   tests/qemu-iotests/common.rc | 26 +++++++++++++-------------
+>>>>>   2 files changed, 13 insertions(+), 25 deletions(-)
+>>>>>
+>>>>> diff --git a/tests/check-block.sh b/tests/check-block.sh
+>>>>> index 720a46bc36..af0c574812 100755
+>>>>> --- a/tests/check-block.sh
+>>>>> +++ b/tests/check-block.sh
+>>>>> @@ -52,18 +52,6 @@ if LANG=C bash --version | grep -q 'GNU bash, 
+>>>>> version [123]' ; then
+>>>>>       skip "bash version too old ==> Not running the qemu-iotests."
+>>>>>   fi
+>>>>> -if ! (sed --version | grep 'GNU sed') > /dev/null 2>&1 ; then
+>>>>
+>>>> This specifically tests for `sed`, whereas...
+>>>
+>>> There was a check for "gsed" one line later:
+>>>
+>>>  if ! command -v gsed >/dev/null 2>&1; then
+>>>
+>>> ... so the check-block.sh script ran the iotests also if "sed" was 
+>>> not GNU, but gsed was available.
+>>
+>> Oh, right.
+>>
+>>>> [...]
+>>>>
+>>>>> diff --git a/tests/qemu-iotests/common.rc 
+>>>>> b/tests/qemu-iotests/common.rc
+>>>>> index 9885030b43..9ea504810c 100644
+>>>>> --- a/tests/qemu-iotests/common.rc
+>>>>> +++ b/tests/qemu-iotests/common.rc
+>>>>> @@ -17,17 +17,27 @@
+>>>>>   # along with this program.  If not, see 
+>>>>> <http://www.gnu.org/licenses/>.
+>>>>>   #
+>>>>> +# bail out, setting up .notrun file
+>>>>> +_notrun()
+>>>>> +{
+>>>>> +    echo "$*" >"$OUTPUT_DIR/$seq.notrun"
+>>>>> +    echo "$seq not run: $*"
+>>>>> +    status=0
+>>>>> +    exit
+>>>>> +}
+>>>>> +
+>>>>> +# We need GNU sed for the iotests. Make sure to not use BusyBox sed
+>>>>> +# which says that "This is not GNU sed version 4.0"
+>>>>>   SED=
+>>>>>   for sed in sed gsed; do
+>>>>> -    ($sed --version | grep 'GNU sed') > /dev/null 2>&1
+>>>>> +    ($sed --version | grep -v "not GNU sed" | grep 'GNU sed') > 
+>>>>> /dev/null 2>&1
+>>>>
+>>>> ...this will accept `gsed`, too.  The problem is that many bash 
+>>>> iotests just use `sed` instead of `$SED`, so I think if we let this 
+>>>> do the gatekeeping, then we should change this to just check for `sed`.
+>>>
+>>> I think we should be fine - at least for the tests in the "auto" 
+>>> group. Otherwise we would have seen test failures on non-Linux 
+>>> systems like *BSD earlier already.
+>>
+>> Makes sense, but I’m quite uncomfortable with this.
 > 
-> Ok. Just to make sure we're on the same page, this means we don't support
-> migration from new->old or old->new instances, since the migration stream
-> doesn't carry a version ID for the virtio-iommu-device and domain
-> vmstates, as far as I understand. I also believe backward-incompatible
-> changes are fine this time around, though I don't have much visibility in
-> what's being used.
-
-I think the stream only has it for top level devices; I've not dug into
-this device.
-
-Dave
-
-> Thanks,
-> Jean
+> The current code with $SED has been introduced almost three years ago 
+> already...
 > 
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+>>   Can’t we just do `alias sed=gsed`?
+> 
+> Maybe ... but let's ask Philippe and Kevin first, who Signed-off commit 
+> bde36af1ab4f476 that introduced the current way with $SED: What's your 
+> opinion about this?
+
+This commit was to have check-block working on the OpenBSD VM image.
 
 
