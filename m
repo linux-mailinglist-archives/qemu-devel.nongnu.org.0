@@ -2,75 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1269E4AD2F5
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Feb 2022 09:18:27 +0100 (CET)
-Received: from localhost ([::1]:55012 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF6AE4AD38A
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Feb 2022 09:33:59 +0100 (CET)
+Received: from localhost ([::1]:38688 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nHLhg-0002Ke-Q5
-	for lists+qemu-devel@lfdr.de; Tue, 08 Feb 2022 03:18:24 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:55298)
+	id 1nHLwk-0002sL-QX
+	for lists+qemu-devel@lfdr.de; Tue, 08 Feb 2022 03:33:58 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:34020)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <apatel@ventanamicro.com>)
- id 1nHL0A-0005yE-A0
- for qemu-devel@nongnu.org; Tue, 08 Feb 2022 02:33:31 -0500
-Received: from [2a00:1450:4864:20::22c] (port=42796
- helo=mail-lj1-x22c.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <apatel@ventanamicro.com>)
- id 1nHKzj-0003Jb-VD
- for qemu-devel@nongnu.org; Tue, 08 Feb 2022 02:33:03 -0500
-Received: by mail-lj1-x22c.google.com with SMTP id a25so23150361lji.9
- for <qemu-devel@nongnu.org>; Mon, 07 Feb 2022 23:32:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ventanamicro.com; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=teBn2gs/mOGngDUEriQQpdd1/dGVQQWNhYE6egkr9cE=;
- b=ky1UamkKyBx0mTqmwZQjdHqTZjAZyvATzk5i2q+s5xlTI4ZogZ6/HEFR3h3S6VENWv
- n6ndFczYTY36umWlXwQtPY0ePe9NZYHT24cZVsHW9G60JWJmXA2vo/MEMfeysZnCaMpZ
- eTQDsLi99Iyaye8dWJTp78yt4TXpc9qL8V6k0uji71/iF/bH89Hu4p2qffSFBceu9h94
- Hzi6L2WEV5WOuTbe0pRR3W6+XSsyV4KuLuI3Km08rQHklT0ow7nmup8G1WLirJw5hk3x
- 8oGQTGAJd9KLSam5ECbOOhoK8uLW/zDFQKTcGqYnanweOsk9kBw+HFPzTW+6l2vqG7lg
- Qasw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=teBn2gs/mOGngDUEriQQpdd1/dGVQQWNhYE6egkr9cE=;
- b=OnvMdFwK6FNvp7oAPERGEL9KL8FZrm6V0j1kfmOajRYW41MKYACiIGe0HyvjLJmKOl
- lo33cQbgbw8uvJ+2EPJUgq+0GShSrWVsuOCIJJIYSv+hvDXvZiPSK3jxdRDgqKxOA8or
- IA1y7snrlgTGEsmN3BLTDBieqBWjWDyVTacH5a4TD6MjW9m1u/bikI269KHvLeU3Cige
- /4Bn+LjwXxjtMnx9l7G0E7lHvn0NnSHMIuFqnT4JbNmjU2V3Rm3EOGJzr2NbR8lAhLSQ
- dJuXRULhK7ttX2oxlzrTadTMDP7UD5WLe51YwJA76NtOkVPV1ZbVIQ06uI/NJT/VrVs3
- 71kg==
-X-Gm-Message-State: AOAM533kNo/H3v3toffbgfPgSVl66ApMUlQZOKIKsnCLk+Q1d6MRMnxk
- /06NyD64RHFMPx+wHw+mc26+0uvPe/nHZ6nP5MIVvw==
-X-Google-Smtp-Source: ABdhPJwYzIyWG2b64y7pU0XlehVVyXkL7RhxCGAj+QAL5Vu4uMdXqmIMcxSTAC3nvGGj1cVFesHR9C4Zu54C44/MOOs=
-X-Received: by 2002:a2e:bc09:: with SMTP id b9mr2034144ljf.24.1644305562930;
- Mon, 07 Feb 2022 23:32:42 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nHLaw-0006W4-0q
+ for qemu-devel@nongnu.org; Tue, 08 Feb 2022 03:11:28 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:47425)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nHLak-0000Te-Fj
+ for qemu-devel@nongnu.org; Tue, 08 Feb 2022 03:11:24 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1644307854;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=+Qpibqf+bnFS14gGbNz5euKOPk+vEUFi8wAHdr5AyCI=;
+ b=hX4Zs0AivDwKu5e2Ql8qjeKAhNH8k7Zu2QCXytxUIXIt5ha1daFaQ708mkC3N8Jz2yBaR/
+ 8rAu5DsGKWIzNrQDwSyNF0/i786fWDIafyfzXNyQPekBQ1S5vvG9wNS6ojMwais1lCbSGJ
+ JUT4fkaHE3ukQLSEdfGO0o/aqeL/WnU=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-490-Epy8Bvn_Ov-ykKgTfT2XcA-1; Tue, 08 Feb 2022 03:10:49 -0500
+X-MC-Unique: Epy8Bvn_Ov-ykKgTfT2XcA-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 14D301091DA2;
+ Tue,  8 Feb 2022 08:10:48 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.36.112.3])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 226657AB5F;
+ Tue,  8 Feb 2022 08:10:32 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 93D7B21E66FF; Tue,  8 Feb 2022 09:10:30 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Subject: Re: [PATCH 08/11] mos6522: add "info via" HMP command for debugging
+References: <20220127205405.23499-1-mark.cave-ayland@ilande.co.uk>
+ <20220127205405.23499-9-mark.cave-ayland@ilande.co.uk>
+ <CAFEAcA8ZiLTgeG_2aUHBoV0io52623VRybG0NL0uY8=9Fg59Kg@mail.gmail.com>
+ <71542eb1-fc8f-8f30-81e0-35c9df764825@amsat.org>
+Date: Tue, 08 Feb 2022 09:10:30 +0100
+In-Reply-To: <71542eb1-fc8f-8f30-81e0-35c9df764825@amsat.org> ("Philippe
+ =?utf-8?Q?Mathieu-Daud=C3=A9=22's?= message of "Tue, 8 Feb 2022 06:14:56
+ +0100")
+Message-ID: <877da5wzgp.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-References: <20220204174700.534953-1-anup@brainfault.org>
- <CAKmqyKO7QnMwSL1Mpa5BJU44EAQxyG2M-sOE8+yAH0SWrmVDug@mail.gmail.com>
- <CAKmqyKOjr3Dcs8_QZKsa=WkBp0BaYghcUNYMEU3RfyJJmcqJOQ@mail.gmail.com>
-In-Reply-To: <CAKmqyKOjr3Dcs8_QZKsa=WkBp0BaYghcUNYMEU3RfyJJmcqJOQ@mail.gmail.com>
-From: Anup Patel <apatel@ventanamicro.com>
-Date: Tue, 8 Feb 2022 13:02:31 +0530
-Message-ID: <CAK9=C2UPEn3qP99QyrJn4w4DxPKH+giwDWNMbBaBVC=ZraDhDQ@mail.gmail.com>
-Subject: Re: [PATCH v9 00/23] QEMU RISC-V AIA support
-To: Alistair Francis <alistair23@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::22c
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::22c;
- envelope-from=apatel@ventanamicro.com; helo=mail-lj1-x22c.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -84,146 +86,118 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Peter Maydell <peter.maydell@linaro.org>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>, Anup Patel <anup@brainfault.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Alistair Francis <Alistair.Francis@wdc.com>,
- Atish Patra <atishp@atishpatra.org>, Palmer Dabbelt <palmer@dabbelt.com>,
- Bin Meng <bmeng.cn@gmail.com>
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Laurent@vivier.eu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Feb 8, 2022 at 12:27 PM Alistair Francis <alistair23@gmail.com> wrote:
+Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org> writes:
+
+> On 7/2/22 20:34, Peter Maydell wrote:
+>> On Thu, 27 Jan 2022 at 21:03, Mark Cave-Ayland
+>> <mark.cave-ayland@ilande.co.uk> wrote:
+>>>
+>>> This displays detailed information about the device registers and timer=
+s to aid
+>>> debugging problems with timers and interrupts.
+>>>
+>>> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+>>> ---
+>>>   hmp-commands-info.hx | 12 ++++++
+>>>   hw/misc/mos6522.c    | 92 +++++++++++++++++++++++++++++++++++++++++++=
++
+>>>   2 files changed, 104 insertions(+)
+>>=20
+>> I'm not sure how keen we are on adding new device-specific
+>> HMP info commands, but it's not my area of expertise. Markus ?
 >
-> On Tue, Feb 8, 2022 at 2:16 PM Alistair Francis <alistair23@gmail.com> wrote:
-> >
-> > On Sat, Feb 5, 2022 at 3:47 AM Anup Patel <anup@brainfault.org> wrote:
-> > >
-> > > From: Anup Patel <anup.patel@wdc.com>
-> > >
-> > > The advanced interrupt architecture (AIA) extends the per-HART local
-> > > interrupt support. Along with this, it also adds IMSIC (MSI contrllor)
-> > > and Advanced PLIC (wired interrupt controller).
-> > >
-> > > The latest AIA draft specification can be found here:
-> > > https://github.com/riscv/riscv-aia/releases/download/0.2-draft.28/riscv-interrupts-028.pdf
-> > >
-> > > This series adds RISC-V AIA support in QEMU which includes emulating all
-> > > AIA local CSRs, APLIC, and IMSIC. Only AIA local interrupt filtering is
-> > > not implemented because we don't have any local interrupt greater than 12.
-> > >
-> > > To enable AIA in QEMU, use one of the following:
-> > > 1) Only AIA local interrupt CSRs: Pass "x-aia=true" as CPU paramenter
-> > >    in the QEMU command-line
-> > > 2) Only APLIC for virt machine: Pass "aia=aplic" as machine parameter
-> > >    in the QEMU command-line
-> > > 3) Both APLIC and IMSIC for virt machine: Pass "aia=aplic-imsic" as
-> > >    machine parameter in the QEMU command-line
-> > > 4) Both APLIC and IMSIC with 2 guest files for virt machine: Pass
-> > >    "aia=aplic-imsic,aia-guests=2" as machine parameter in the QEMU
-> > >    command-line
-> > >
-> > > To test series, we require OpenSBI and Linux with AIA support which can
-> > > be found in:
-> > > riscv_aia_v2 branch at https://github.com/avpatel/opensbi.git
-> > > riscv_aia_v1 branch at https://github.com/avpatel/linux.git
-> > >
-> > > This series can be found riscv_aia_v9 branch at:
-> > > https://github.com/avpatel/qemu.git
-> > >
-> > > Changes since v8:
-> > >  - Use error_setg() in riscv_imsic_realize() added by PATCH20
-> > >
-> > > Changes since v7:
-> > >  - Rebased on latest riscv-to-apply.next branch of Alistair's repo
-> > >  - Improved default priority assignment in PATCH9
-> > >
-> > > Changes since v6:
-> > >  - Fixed priority comparison in riscv_cpu_pending_to_irq() of PATCH9
-> > >  - Fixed typos in comments added by PATCH11
-> > >  - Added "pend = true;" for CSR_MSETEIPNUM case of rmw_xsetclreinum()
-> > >    in PATCH15
-> > >  - Handle ithreshold == 0 case in riscv_aplic_idc_topi() of PATCH18
-> > >  - Allow setting pending bit for Level0 or Level1 interrupts in
-> > >    riscv_aplic_set_pending() of PATCH18
-> > >  - Force DOMAINCFG[31:24] bits to 0x80 in riscv_aplic_read() of PATCH18
-> > >  - For APLIC direct mode, set target.iprio to 1 when zero is writtern
-> > >    in PATCH18
-> > >  - Handle eithreshold == 0 case in riscv_imsic_topei() of PATCH20
-> > >
-> > > Changes since v5:
-> > >  - Moved VSTOPI_NUM_SRCS define to top of the file in PATCH13
-> > >  - Fixed typo in PATCH16
-> > >
-> > > Changes since v4:
-> > >  - Changed IRQ_LOCAL_MAX to 16 in PATCH2
-> > >  - Fixed typo in PATCH10
-> > >  - Replaced TARGET_LONG_BITS with riscv_cpu_mxl_bits(env) in PATCH11
-> > >  - Replaced TARGET_LONG_BITS with riscv_cpu_mxl_bits(env) in PATCH14
-> > >  - Replaced TARGET_LONG_BITS with riscv_cpu_mxl_bits(env) in PATCH15
-> > >  - Replaced TARGET_LONG_BITS with xlen passed via ireg callback in PATCH20
-> > >  - Retrict maximum IMSIC guest files per-HART of virt machine to 7 in
-> > >    PATCH21.
-> > >  - Added separate PATCH23 to increase maximum number of allowed CPUs
-> > >    for virt machine
-> > >
-> > > Changes since v3:
-> > >  - Replaced "aplic,xyz" and "imsic,xyz" DT properties with "riscv,xyz"
-> > >    DT properties because "aplic" and "imsic" are not valid vendor names
-> > >    required by Linux DT schema checker.
-> > >
-> > > Changes since v2:
-> > >  - Update PATCH4 to check and inject interrupt after V=1 when
-> > >    transitioning from V=0 to V=1
-> > >
-> > > Changes since v1:
-> > >  - Revamped whole series and created more granular patches
-> > >  - Added HGEIE and HGEIP CSR emulation for H-extension
-> > >  - Added APLIC emulation
-> > >  - Added IMSIC emulation
-> > >
-> > > Anup Patel (23):
-> > >   target/riscv: Fix trap cause for RV32 HS-mode CSR access from RV64
-> > >     HS-mode
-> > >   target/riscv: Implement SGEIP bit in hip and hie CSRs
-> > >   target/riscv: Implement hgeie and hgeip CSRs
-> > >   target/riscv: Improve delivery of guest external interrupts
-> > >   target/riscv: Allow setting CPU feature from machine/device emulation
-> > >   target/riscv: Add AIA cpu feature
-> > >   target/riscv: Add defines for AIA CSRs
-> > >   target/riscv: Allow AIA device emulation to set ireg rmw callback
-> > >   target/riscv: Implement AIA local interrupt priorities
-> > >   target/riscv: Implement AIA CSRs for 64 local interrupts on RV32
-> > >   target/riscv: Implement AIA hvictl and hviprioX CSRs
-> > >   target/riscv: Implement AIA interrupt filtering CSRs
-> > >   target/riscv: Implement AIA mtopi, stopi, and vstopi CSRs
-> > >   target/riscv: Implement AIA xiselect and xireg CSRs
-> > >   target/riscv: Implement AIA IMSIC interface CSRs
-> > >   hw/riscv: virt: Use AIA INTC compatible string when available
-> > >   target/riscv: Allow users to force enable AIA CSRs in HART
-> > >   hw/intc: Add RISC-V AIA APLIC device emulation
-> > >   hw/riscv: virt: Add optional AIA APLIC support to virt machine
-> > >   hw/intc: Add RISC-V AIA IMSIC device emulation
-> > >   hw/riscv: virt: Add optional AIA IMSIC support to virt machine
-> > >   docs/system: riscv: Document AIA options for virt machine
-> > >   hw/riscv: virt: Increase maximum number of allowed CPUs
->
-> Hey Anup,
->
-> There are lots of checkpatch errors in these patches. In the future
-> can you please make sure you run checkpatch on all patches.
+> HMP is David :)
 
-I had run checkpatch on initial patch revisions but at some point I
-stopped running checkpatch on every patch revision.
+Yes.
 
-I will make sure to run checkpatch on all patch revisions going
-forward.
+>                 IIRC it is OK as long as HMP is a QMP wrapper.
 
->
-> In this case I have manually fixed them up.
+That's "how to do it", and I'll get back to it in a jiffie, but Peter
+was wondering about the "whether to do it".
 
-Thanks and my apologies for the inconvenience.
+Most HMP commands are always there.
 
-Regards,
-Anup
+We have a few specific to compile-time configurable features: TCG, VNC,
+Spice, Slirp, Linux.  Does not apply here.
+
+We have a few specific to targets, such as dump-skeys and info skeys for
+s390.  Target-specific is not quite the same as device-specific.
+
+We have no device-specific commands so far.  However, dump-skeys and
+info skeys appear to be about the skeys *device*, not the s390 target.
+Perhaps any s390 target has such a device?  I don't know.  My point is
+we already have device-specific commands, they're just masquerading as
+target-specific commands.
+
+The proposed device-specific command uses a mechanism originally made
+for modules instead (more on that below).
+
+I think we should make up our minds which way we want device-specific
+commands done, then do *all* of them that way.
+
+
+On to "how to do it", part 1.
+
+Most of the time, the command handler is declared with the command in
+hmp-commands{,-info}.hx, possibly with compile-time conditionals.
+
+But it can also be left null there, and set with monitor_register_hmp()
+or monitor_register_hmp_info_hrt().  This is intended for modules; see
+commit f0e48cbd791^..bca6eb34f03.
+
+Aside: can modules be unloaded?  If yes, we better zap the handler
+then.
+
+The proposed "info via" uses monitor_register_hmp_info_hrt().  No
+objection from me, requires David's ACK.
+
+
+"How to do it", part 2, in reply to Philippe's remark.
+
+Ideally, HMP commands wrap around QMP commands, but we accept exceptions
+for certain use cases where the wrapping is more trouble than it's
+worth, with justification.  I've explained this several times, and I'm
+happy to dig up a reference or explain it again if there's a need.
+
+Justifying an exception is bothersome, too.  Daniel Berrang=C3=A9 recently
+created a way to reduce the wrapping trouble (merge commit
+e86e00a2493).  The proposed "info via" makes use of it.
+
+>> (patch below for context)
+>> thanks
+>> -- PMM
+>>=20
+>>>
+>>> diff --git a/hmp-commands-info.hx b/hmp-commands-info.hx
+>>> index e90f20a107..4e714e79a2 100644
+>>> --- a/hmp-commands-info.hx
+>>> +++ b/hmp-commands-info.hx
+>>> @@ -879,3 +879,15 @@ SRST
+>>>     ``info sgx``
+>>>       Show intel SGX information.
+>>>   ERST
+>>> +
+>>> +    {
+>>> +        .name       =3D "via",
+>>> +        .args_type  =3D "",
+>>> +        .params     =3D "",
+>>> +        .help       =3D "show guest 6522 VIA devices",
+>>> +    },
+>>> +
+>>> +SRST
+>>> +  ``info via``
+>>> +    Show guest 6522 VIA devices.
+>>> +ERST
+
+Should this be conditional on the targets where we actually link the
+device, like info skeys?
+
+[...]
+
 
