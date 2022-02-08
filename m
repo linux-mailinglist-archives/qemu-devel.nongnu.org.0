@@ -2,72 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31AC64AE08B
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Feb 2022 19:18:48 +0100 (CET)
-Received: from localhost ([::1]:56220 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 928C34ADEE1
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Feb 2022 18:05:39 +0100 (CET)
+Received: from localhost ([::1]:45568 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nHV4h-0001O0-AX
-	for lists+qemu-devel@lfdr.de; Tue, 08 Feb 2022 13:18:47 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:47204)
+	id 1nHTvu-0003ls-Ms
+	for lists+qemu-devel@lfdr.de; Tue, 08 Feb 2022 12:05:38 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:51434)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1nHSYb-0000SG-Vq
- for qemu-devel@nongnu.org; Tue, 08 Feb 2022 10:37:30 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:20635)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1nHSYH-0002ei-QX
- for qemu-devel@nongnu.org; Tue, 08 Feb 2022 10:37:29 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1644334628;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=8ScGcYB9BhOfQXboStI0hGCZ92n6rkbvzVu2F1ND7Z0=;
- b=SLPx/R2XU+JUmoF1LFKfaexP94Vy3kMnmx0AfEzKxwCF7tlb7CbrPCXFz+Zl5us+sRKx3I
- 7XRQRso1RRSznOKEj05U44YAxDDrHkiencu33bGrXkwTSRP3lXJvGCo5Natdi/2TvRhEQC
- LIQuAiqkuwzhy+n2uxsUDtjv9Bv2fzM=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-662-D7b9JGZQNZGoibbzlnwd4w-1; Tue, 08 Feb 2022 10:37:05 -0500
-X-MC-Unique: D7b9JGZQNZGoibbzlnwd4w-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 02ADD1091DA1;
- Tue,  8 Feb 2022 15:37:04 +0000 (UTC)
-Received: from virtlab701.virt.lab.eng.bos.redhat.com
- (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3EEAB7D473;
- Tue,  8 Feb 2022 15:37:03 +0000 (UTC)
-From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-To: qemu-block@nongnu.org
-Subject: [PATCH 6/6] jobs: ensure sleep in job_sleep_ns is fully performed
-Date: Tue,  8 Feb 2022 10:36:55 -0500
-Message-Id: <20220208153655.1251658-7-eesposit@redhat.com>
-In-Reply-To: <20220208153655.1251658-1-eesposit@redhat.com>
-References: <20220208153655.1251658-1-eesposit@redhat.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nHSmZ-0007Q7-D1
+ for qemu-devel@nongnu.org; Tue, 08 Feb 2022 10:51:55 -0500
+Received: from [2a00:1450:4864:20::430] (port=33282
+ helo=mail-wr1-x430.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nHSmX-0004y2-I6
+ for qemu-devel@nongnu.org; Tue, 08 Feb 2022 10:51:55 -0500
+Received: by mail-wr1-x430.google.com with SMTP id e3so17603869wra.0
+ for <qemu-devel@nongnu.org>; Tue, 08 Feb 2022 07:51:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=680h9APO9tqvzAsFfCLQjTqiS71XU6tPaRvaITmh+3o=;
+ b=kDydl+jfW9zN/8/IvSeYFezUXHsPrwiFYL26sXpGFYHvCh+J4Yem8/arEYKj2maYJP
+ 3zjkRltH86IYbNhjDb+hTU81ZPyG0EPSPvFbnNLdkPy6j/yHUtOc7t3i0s3+A8JPQaIN
+ smNxHFtqe1hd7DWZBjPvAtuDDodVaUaqPduVy8IpWgjHPrjiEt2BNnFtNiEFDJpYTmow
+ v7BriyMxCoNL6bQCOMDEf4lzokxqIO4xbQA6AQ2cqADiqq+yQJyAXDxxw7Jto9iBOMZl
+ CwXsEiVtQQg7MIZ4U00bwe029XSV3t1kD5a0U704bwGl0kBX8S09uZLF3nx0QdKjsMuT
+ xYkg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=680h9APO9tqvzAsFfCLQjTqiS71XU6tPaRvaITmh+3o=;
+ b=xZHnfS+0mwR0wDZD8o8DWIDatfHnBQCQzKzntmM6ScbYdniPO4jwdnY1eCQb5DKfE5
+ 6pu9oq1QTI/+VxVdJILZlDUTowyv0QDPjd6iTKcMIGre0/hej+2Lk2UlK6Ml+NKGLIoQ
+ nqGnWvH0DjcVoIfAB5r6zQ1CfAvmj62addi/YjhjfCbpJLlSARWpOxkG0OZWRls62Su1
+ Evt5XQXrIcfP3eWv5a8qjYhcBgyOJvr3n5dwoaok2bqKNZL8Ut5vD5n4iWs3scV8r+lm
+ ORBkrErkJMU/15DeJBrSwbkK5ybVOX5sKBT6cIwVsvcJMGB2sBql7foqdyzJG90GjNeI
+ XiaQ==
+X-Gm-Message-State: AOAM533sKHqVqLvertqayP+asWScahtNePAsUTUEgfXDAaRfqNqRpwpY
+ AVfbWi+RZJlCMk81Bz9F5q3DSyeOtZRIQb0QDgfOag==
+X-Google-Smtp-Source: ABdhPJxaqacmx8n4v254WhbgQ/qUu3/CXu1WsdXsZUoz5uolyu59idBs1rkjwa/gCsOZqJDKkIKX1WNwCm3qflsEeKw=
+X-Received: by 2002:a05:6000:258:: with SMTP id
+ m24mr4242642wrz.2.1644335512225; 
+ Tue, 08 Feb 2022 07:51:52 -0800 (PST)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eesposit@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eesposit@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+References: <20220208125909.3031809-1-alex.bennee@linaro.org>
+In-Reply-To: <20220208125909.3031809-1-alex.bennee@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 8 Feb 2022 15:51:41 +0000
+Message-ID: <CAFEAcA-UX4h-vCvQtkyZ803H+HyL_-o+dFgR54BUEAkFSEAoQw@mail.gmail.com>
+Subject: Re: [RFC PATCH] include/exec: fix softmmu version of TARGET_ABI_FMT_lx
+To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::430
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::430;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x430.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -80,140 +83,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Emanuele Giuseppe Esposito <eesposit@redhat.com>, qemu-devel@nongnu.org,
- Hanna Reitz <hreitz@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-If a drain happens while a job is sleeping, the timeout
-gets cancelled and the job continues once the drain ends.
-This is especially bad for the sleep performed in commit and stream
-jobs, since that is dictated by ratelimit to maintain a certain speed.
+On Tue, 8 Feb 2022 at 15:42, Alex Benn=C3=A9e <alex.bennee@linaro.org> wrot=
+e:
+>
+> TARGET_ABI_FMT_lx isn't available for softmmu which causes confusion
+> when trying to print. As abi_ptr =3D=3D target_ulong use its format strin=
+g
+> instead.
+>
+> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+> ---
+>  include/exec/cpu_ldst.h | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/include/exec/cpu_ldst.h b/include/exec/cpu_ldst.h
+> index a878fd0105..da987fe8ad 100644
+> --- a/include/exec/cpu_ldst.h
+> +++ b/include/exec/cpu_ldst.h
+> @@ -121,7 +121,7 @@ static inline bool guest_range_valid_untagged(abi_ulo=
+ng start, abi_ulong len)
+>  })
+>  #else
+>  typedef target_ulong abi_ptr;
+> -#define TARGET_ABI_FMT_ptr TARGET_ABI_FMT_lx
+> +#define TARGET_ABI_FMT_ptr TARGET_FMT_lx
+>  #endif
+>
+>  uint32_t cpu_ldub_data(CPUArchState *env, abi_ptr ptr);
 
-Basically the execution path is the following:
-1. job calls job_sleep_ns, and yield with a timer in @ns ns.
-2. meanwhile, a drain is executed, and
-   child_job_drained_{begin/end} could be executed as ->drained_begin()
-   and ->drained_end() callbacks.
-   Therefore child_job_drained_begin() enters the job, that continues
-   execution in job_sleep_ns() and calls job_pause_point_locked().
-3. job_pause_point_locked() detects that we are in the middle of a
-   drain, and firstly deletes any existing timer and then yields again,
-   waiting for ->drained_end().
-4. Once draining is finished, child_job_drained_end() runs and resumes
-   the job. At this point, the timer has been lost and we just resume
-   without checking if enough time has passed.
+I think this was clearly just a bug that we never noticed because
+we haven't tried using TARGET_ABI_FMT_ptr in softmmu code before.
 
-This fix implies that from now onwards, job_sleep_ns will force the job
-to sleep @ns, even if it is wake up (purposefully or not) in the middle
-of the sleep. Therefore qemu-iotests test might run a little bit slower,
-depending on the speed of the job. Setting a job speed to values like "1"
-is not allowed anymore (unless you want to wait forever).
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
-Because of this fix, test_stream_parallel() in tests/qemu-iotests/030
-takes too long, since speed of stream job is just 1024 and before
-it was skipping all the wait thanks to the drains. Increase the
-speed to 256 * 1024. Exactly the same happens for test 151.
+I do still wonder whether the softmmu code in question really
+ought to be using abi_ptr, though.
 
-Instead we need to sleep less in test_cancel_ready() test-blockjob.c,
-so that the job will be able to exit the sleep and transition to ready
-before the main loop asserts.
-
-Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
----
- job.c                      | 19 +++++++++++--------
- tests/qemu-iotests/030     |  2 +-
- tests/qemu-iotests/151     |  4 ++--
- tests/unit/test-blockjob.c |  2 +-
- 4 files changed, 15 insertions(+), 12 deletions(-)
-
-diff --git a/job.c b/job.c
-index c7a41d88d6..72d6c462ed 100644
---- a/job.c
-+++ b/job.c
-@@ -639,19 +639,22 @@ void job_yield(Job *job)
- 
- void coroutine_fn job_sleep_ns(Job *job, int64_t ns)
- {
-+    int64_t end_ns = qemu_clock_get_ns(QEMU_CLOCK_REALTIME) + ns;
-     JOB_LOCK_GUARD();
-     assert(job->busy);
- 
--    /* Check cancellation *before* setting busy = false, too!  */
--    if (job_is_cancelled_locked(job)) {
--        return;
--    }
-+    do {
-+        /* Check cancellation *before* setting busy = false, too!  */
-+        if (job_is_cancelled_locked(job)) {
-+            return;
-+        }
- 
--    if (!job_should_pause_locked(job)) {
--        job_do_yield_locked(job, qemu_clock_get_ns(QEMU_CLOCK_REALTIME) + ns);
--    }
-+        if (!job_should_pause_locked(job)) {
-+            job_do_yield_locked(job, end_ns);
-+        }
- 
--    job_pause_point_locked(job);
-+        job_pause_point_locked(job);
-+    } while (qemu_clock_get_ns(QEMU_CLOCK_REALTIME) < end_ns);
- }
- 
- /* Assumes the job_mutex is held */
-diff --git a/tests/qemu-iotests/030 b/tests/qemu-iotests/030
-index 567bf1da67..969b246d0f 100755
---- a/tests/qemu-iotests/030
-+++ b/tests/qemu-iotests/030
-@@ -248,7 +248,7 @@ class TestParallelOps(iotests.QMPTestCase):
-             pending_jobs.append(job_id)
-             result = self.vm.qmp('block-stream', device=node_name,
-                                  job_id=job_id, bottom=f'node{i-1}',
--                                 speed=1024)
-+                                 speed=256*1024)
-             self.assert_qmp(result, 'return', {})
- 
-         # Do this in reverse: After unthrottling them, some jobs may finish
-diff --git a/tests/qemu-iotests/151 b/tests/qemu-iotests/151
-index 93d14193d0..5998beb5c4 100755
---- a/tests/qemu-iotests/151
-+++ b/tests/qemu-iotests/151
-@@ -129,7 +129,7 @@ class TestActiveMirror(iotests.QMPTestCase):
-                              sync='full',
-                              copy_mode='write-blocking',
-                              buf_size=(1048576 // 4),
--                             speed=1)
-+                             speed=1024*1024)
-         self.assert_qmp(result, 'return', {})
- 
-         # Start an unaligned request to a dirty area
-@@ -154,7 +154,7 @@ class TestActiveMirror(iotests.QMPTestCase):
-                              target='target-node',
-                              sync='full',
-                              copy_mode='write-blocking',
--                             speed=1)
-+                             speed=1024*1024)
- 
-         self.vm.hmp_qemu_io('source', 'break write_aio A')
-         self.vm.hmp_qemu_io('source', 'aio_write 0 1M')  # 1
-diff --git a/tests/unit/test-blockjob.c b/tests/unit/test-blockjob.c
-index d6fc52f80a..81ebc7d154 100644
---- a/tests/unit/test-blockjob.c
-+++ b/tests/unit/test-blockjob.c
-@@ -184,7 +184,7 @@ static int coroutine_fn cancel_job_run(Job *job, Error **errp)
-             job_transition_to_ready(&s->common.job);
-         }
- 
--        job_sleep_ns(&s->common.job, 100000);
-+        job_sleep_ns(&s->common.job, 100);
-     }
- 
-     return 0;
--- 
-2.31.1
-
+thanks
+-- PMM
 
