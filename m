@@ -2,108 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD7644ADFD9
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Feb 2022 18:44:59 +0100 (CET)
-Received: from localhost ([::1]:33156 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7597A4AE071
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Feb 2022 19:14:12 +0100 (CET)
+Received: from localhost ([::1]:46266 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nHUXy-00063N-Ub
-	for lists+qemu-devel@lfdr.de; Tue, 08 Feb 2022 12:44:58 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:48526)
+	id 1nHV0F-0002HT-ES
+	for lists+qemu-devel@lfdr.de; Tue, 08 Feb 2022 13:14:11 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:48968)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanb@linux.ibm.com>)
- id 1nHU6m-0003lZ-Qz
- for qemu-devel@nongnu.org; Tue, 08 Feb 2022 12:16:52 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:4558
- helo=mx0a-001b2d01.pphosted.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanb@linux.ibm.com>)
- id 1nHU6i-0002NV-PM
- for qemu-devel@nongnu.org; Tue, 08 Feb 2022 12:16:52 -0500
-Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 218FQjxQ022968; 
- Tue, 8 Feb 2022 17:16:33 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=RmqJz7fOOYCZJ/aXTxMGBi2e5cGKKVt2C+s2JgbZ1vk=;
- b=mcdRHBX7ZYJ7UEtmrlCVMRaSRADwY7M/failx08ri4o2D6Y2rBCBqf6toCEK79wM7tD7
- UL8AJ0rTu0g5hYfUAKQuxcBBhbdP9+Ri1pznUs1g+/HhFSXLv/MXjVw8UngwEOwjOKSG
- 1QuEeJJVHJzMs9LDbbm0jly4kQvCq7ogias+pM8ZkdlNOv79hVR9IovzrK3ZVFIihoFd
- zMmifN/cxSCsYrSx4U4p6pQtSMPqX1tzf2O3agZb8YMuYiKsorfpDrcX9jKOj2dvwjJA
- dXbrKFJk9QpYbRa6RLHfyn3Xjlew3MgmmEWSUE00QMTFXQlpSpza3RtIQ0Zo1BGTljlR Qg== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com with ESMTP id 3e22kr0ehw-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 08 Feb 2022 17:16:33 +0000
-Received: from m0098419.ppops.net (m0098419.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 218GcXMr003295;
- Tue, 8 Feb 2022 17:16:32 GMT
-Received: from ppma05wdc.us.ibm.com (1b.90.2fa9.ip4.static.sl-reverse.com
- [169.47.144.27])
- by mx0b-001b2d01.pphosted.com with ESMTP id 3e22kr0ehg-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 08 Feb 2022 17:16:32 +0000
-Received: from pps.filterd (ppma05wdc.us.ibm.com [127.0.0.1])
- by ppma05wdc.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 218HCkHf011825;
- Tue, 8 Feb 2022 17:16:31 GMT
-Received: from b01cxnp23032.gho.pok.ibm.com (b01cxnp23032.gho.pok.ibm.com
- [9.57.198.27]) by ppma05wdc.us.ibm.com with ESMTP id 3e1gvb0jsy-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 08 Feb 2022 17:16:31 +0000
-Received: from b01ledav004.gho.pok.ibm.com (b01ledav004.gho.pok.ibm.com
- [9.57.199.109])
- by b01cxnp23032.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 218HGUCO33816920
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 8 Feb 2022 17:16:30 GMT
-Received: from b01ledav004.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 0FD76112063;
- Tue,  8 Feb 2022 17:16:30 +0000 (GMT)
-Received: from b01ledav004.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id D041C112067;
- Tue,  8 Feb 2022 17:16:29 +0000 (GMT)
-Received: from [9.47.158.152] (unknown [9.47.158.152])
- by b01ledav004.gho.pok.ibm.com (Postfix) with ESMTP;
- Tue,  8 Feb 2022 17:16:29 +0000 (GMT)
-Message-ID: <310e3bd1-0ca8-ddc6-4500-dd1bea589fad@linux.ibm.com>
-Date: Tue, 8 Feb 2022 12:16:29 -0500
+ (Exim 4.90_1) (envelope-from <tsimpson@qualcomm.com>)
+ id 1nHU8D-0006hD-Ab
+ for qemu-devel@nongnu.org; Tue, 08 Feb 2022 12:18:21 -0500
+Received: from alexa-out.qualcomm.com ([129.46.98.28]:61003)
+ by eggs.gnu.org with esmtps (TLS1.2:RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <tsimpson@qualcomm.com>)
+ id 1nHU80-0002Z6-33
+ for qemu-devel@nongnu.org; Tue, 08 Feb 2022 12:18:19 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
+ t=1644340688; x=1675876688;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=01Bbm5zoY43+gfseMEAlRWX3keMDKpLh5hrxe5L2EQE=;
+ b=kJLSuFpk/gcKsU1XtlwVGkqNyyeilm6YS2E7vO9Fa6ioOtzQM3bQrJ82
+ Gy8nP/VcN91Iroul2gMPOp2OXRuBquwhRZxW54rxVx4kGWjsWvw2BIJ77
+ ccLPtT9fXz/2y6eBW9fVH1R1A0aPAY1wUCA1HvgAwHD22nTvGzx78xQOE w=;
+Received: from ironmsg-lv-alpha.qualcomm.com ([10.47.202.13])
+ by alexa-out.qualcomm.com with ESMTP; 08 Feb 2022 09:17:56 -0800
+X-QCInternal: smtphost
+Received: from hu-tsimpson-lv.qualcomm.com (HELO
+ hu-devc-lv-u18-c.qualcomm.com) ([10.47.235.220])
+ by ironmsg-lv-alpha.qualcomm.com with ESMTP; 08 Feb 2022 09:17:56 -0800
+Received: by hu-devc-lv-u18-c.qualcomm.com (Postfix, from userid 47164)
+ id DAA8C500175; Tue,  8 Feb 2022 09:16:55 -0800 (PST)
+From: Taylor Simpson <tsimpson@quicinc.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] Hexagon (tests/tcg/hexagon) fix inline asm in preg_alias.c
+Date: Tue,  8 Feb 2022 09:16:52 -0800
+Message-Id: <20220208171652.31085-1-tsimpson@quicinc.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH v4 1/2] tpm: CRB: Use ram_device for "tpm-crb-cmd" region
-Content-Language: en-US
-To: Eric Auger <eric.auger@redhat.com>, eric.auger.pro@gmail.com,
- stefanb@linux.vnet.ibm.com, qemu-devel@nongnu.org,
- alex.williamson@redhat.com
-References: <20220208133842.112017-1-eric.auger@redhat.com>
- <20220208133842.112017-2-eric.auger@redhat.com>
-From: Stefan Berger <stefanb@linux.ibm.com>
-In-Reply-To: <20220208133842.112017-2-eric.auger@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: Vwm8oE_PCLT8Dq2qRVjuoUKZjRRm3W7N
-X-Proofpoint-ORIG-GUID: i310BVwWpZY9bxz2ueJXUlp2hqliaSER
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.816,Hydra:6.0.425,FMLib:17.11.62.513
- definitions=2022-02-08_06,2022-02-07_02,2021-12-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1011
- priorityscore=1501 bulkscore=0 spamscore=0 impostorscore=0 suspectscore=0
- mlxlogscore=999 lowpriorityscore=0 adultscore=0 malwarescore=0 mlxscore=0
- phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2201110000 definitions=main-2202080103
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=stefanb@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Received-SPF: pass client-ip=129.46.98.28; envelope-from=tsimpson@qualcomm.com;
+ helo=alexa-out.qualcomm.com
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.248,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01,
+ T_SPF_TEMPERROR=0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -116,41 +66,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: quintela@redhat.com, cohuck@redhat.com, f4bug@amsat.org,
- dgilbert@redhat.com, imammedo@redhat.com, david@gibson.dropbear.id.au
+Cc: ale@rev.ng, bcain@quicinc.com, richard.henderson@linaro.org,
+ f4bug@amsat.org, tsimpson@quicinc.com, mlambert@quicinc.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-On 2/8/22 08:38, Eric Auger wrote:
-> Representing the CRB cmd/response buffer as a standard
-> RAM region causes some trouble when the device is used
-> with VFIO. Indeed VFIO attempts to DMA_MAP this region
-> as usual RAM but this latter does not have a valid page
-> size alignment causing such an error report:
-> "vfio_listener_region_add received unaligned region".
-> To allow VFIO to detect that failing dma mapping
-> this region is not an issue, let's use a ram_device
-> memory region type instead.
->
-> Signed-off-by: Eric Auger <eric.auger@redhat.com>
-> Tested-by: Stefan Berger <stefanb@linux.ibm.com>
-> Acked-by: Stefan Berger <stefanb@linux.ibm.com>
-> [PMD: Keep tpm_crb.c in meson's softmmu_ss]
-> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-
-
-v4 doesn't build for me:
-
-../hw/tpm/tpm_crb.c: In function ?tpm_crb_realize?:
-../hw/tpm/tpm_crb.c:297:33: error: implicit declaration of function 
-?HOST_PAGE_ALIGN? [-Werror=implicit-function-declaration]
-   297 | HOST_PAGE_ALIGN(CRB_CTRL_CMD_SIZE));
-       |                                 ^~~~~~~~~~~~~~~
-../hw/tpm/tpm_crb.c:297:33: error: nested extern declaration of 
-?HOST_PAGE_ALIGN? [-Werror=nested-externs]
-cc1: all warnings being treated as errors
-
-
-
+UmVwbGFjZSBjb25zZWN1dGl2ZSBpbmxpbmUgYXNtIGJsb2NrcyB3aXRoIGEgc2luZ2xlIG9uZSB3
+aXRoIHByb3BlcgpvdXRwdXRzL2lucHV0cy9jbG9iYmVycyByYXRoZXIgdGhhbiBtYWtpbmcgYXNz
+dW1wdGlvbnMgYWJvdXQgcmVnaXN0ZXIKdmFsdWVzIGJlaW5nIGNhcnJpZWQgYmV0d2VlbiBzZXBh
+cmF0ZSBibG9ja3MuCgpTaWduZWQtb2ZmLWJ5OiBUYXlsb3IgU2ltcHNvbiA8dHNpbXBzb25AcXVp
+Y2luYy5jb20+Ci0tLQogdGVzdHMvdGNnL2hleGFnb24vcHJlZ19hbGlhcy5jIHwgNDYgKysrKysr
+KysrKysrKysrKy0tLS0tLS0tLS0tLS0tLS0tLQogMSBmaWxlIGNoYW5nZWQsIDIyIGluc2VydGlv
+bnMoKyksIDI0IGRlbGV0aW9ucygtKQoKZGlmZiAtLWdpdCBhL3Rlc3RzL3RjZy9oZXhhZ29uL3By
+ZWdfYWxpYXMuYyBiL3Rlc3RzL3RjZy9oZXhhZ29uL3ByZWdfYWxpYXMuYwppbmRleCAwY2FjNDY5
+Yjc4Li45ZjdiMTI1OTk4IDEwMDY0NAotLS0gYS90ZXN0cy90Y2cvaGV4YWdvbi9wcmVnX2FsaWFz
+LmMKKysrIGIvdGVzdHMvdGNnL2hleGFnb24vcHJlZ19hbGlhcy5jCkBAIC0xLDUgKzEsNSBAQAog
+LyoKLSAqICBDb3B5cmlnaHQoYykgMjAxOS0yMDIxIFF1YWxjb21tIElubm92YXRpb24gQ2VudGVy
+LCBJbmMuIEFsbCBSaWdodHMgUmVzZXJ2ZWQuCisgKiAgQ29weXJpZ2h0KGMpIDIwMTktMjAyMiBR
+dWFsY29tbSBJbm5vdmF0aW9uIENlbnRlciwgSW5jLiBBbGwgUmlnaHRzIFJlc2VydmVkLgogICoK
+ICAqICBUaGlzIHByb2dyYW0gaXMgZnJlZSBzb2Z0d2FyZTsgeW91IGNhbiByZWRpc3RyaWJ1dGUg
+aXQgYW5kL29yIG1vZGlmeQogICogIGl0IHVuZGVyIHRoZSB0ZXJtcyBvZiB0aGUgR05VIEdlbmVy
+YWwgUHVibGljIExpY2Vuc2UgYXMgcHVibGlzaGVkIGJ5CkBAIC01NywxNyArNTcsMTUgQEAgdHlw
+ZWRlZiB1bmlvbiB7CiAKIHN0YXRpYyBpbmxpbmUgdm9pZCBjcmVnX2FsaWFzKGludCBjdmFsLCBQ
+UmVncyAqcHJlZ3MpCiB7Ci0gIHVuc2lnbmVkIGNoYXIgdmFsOwotICBhc20gdm9sYXRpbGUoImM0
+ID0gJTAiIDogOiAiciIoY3ZhbCkpOwotCi0gIGFzbSB2b2xhdGlsZSgiJTAgPSBwMCIgOiAiPXIi
+KHZhbCkpOwotICBwcmVncy0+cHJlZ3MucDAgPSB2YWw7Ci0gIGFzbSB2b2xhdGlsZSgiJTAgPSBw
+MSIgOiAiPXIiKHZhbCkpOwotICBwcmVncy0+cHJlZ3MucDEgPSB2YWw7Ci0gIGFzbSB2b2xhdGls
+ZSgiJTAgPSBwMiIgOiAiPXIiKHZhbCkpOwotICBwcmVncy0+cHJlZ3MucDIgPSB2YWw7Ci0gIGFz
+bSB2b2xhdGlsZSgiJTAgPSBwMyIgOiAiPXIiKHZhbCkpOwotICBwcmVncy0+cHJlZ3MucDMgPSB2
+YWw7CisgIGFzbSgiYzQgPSAlNFxuXHQiCisgICAgICAiJTAgPSBwMFxuXHQiCisgICAgICAiJTEg
+PSBwMVxuXHQiCisgICAgICAiJTIgPSBwMlxuXHQiCisgICAgICAiJTMgPSBwM1xuXHQiCisgICAg
+ICA6ICI9ciIocHJlZ3MtPnByZWdzLnAwKSwgIj1yIihwcmVncy0+cHJlZ3MucDEpLAorICAgICAg
+ICAiPXIiKHByZWdzLT5wcmVncy5wMiksICI9ciIocHJlZ3MtPnByZWdzLnAzKQorICAgICAgOiAi
+ciIoY3ZhbCkKKyAgICAgIDogImM0IiwgInAwIiwgInAxIiwgInAyIiwgInAzIik7CiB9CiAKIGlu
+dCBlcnI7CkBAIC04MywxOSArODEsMTkgQEAgc3RhdGljIHZvaWQgY2hlY2soaW50IHZhbCwgaW50
+IGV4cGVjdCkKIHN0YXRpYyBpbmxpbmUgdm9pZCBjcmVnX2FsaWFzX3BhaXIodW5zaWduZWQgaW50
+IGN2YWwsIFBSZWdzICpwcmVncykKIHsKICAgdW5zaWduZWQgbG9uZyBsb25nIGN2YWxfcGFpciA9
+ICgweGRlYWRiZWVmVUxMIDw8IDMyKSB8IGN2YWw7Ci0gIHVuc2lnbmVkIGNoYXIgdmFsOwogICBp
+bnQgYzU7Ci0gIGFzbSB2b2xhdGlsZSgiYzU6NCA9ICUwIiA6IDogInIiKGN2YWxfcGFpcikpOwot
+Ci0gIGFzbSB2b2xhdGlsZSgiJTAgPSBwMCIgOiAiPXIiKHZhbCkpOwotICBwcmVncy0+cHJlZ3Mu
+cDAgPSB2YWw7Ci0gIGFzbSB2b2xhdGlsZSgiJTAgPSBwMSIgOiAiPXIiKHZhbCkpOwotICBwcmVn
+cy0+cHJlZ3MucDEgPSB2YWw7Ci0gIGFzbSB2b2xhdGlsZSgiJTAgPSBwMiIgOiAiPXIiKHZhbCkp
+OwotICBwcmVncy0+cHJlZ3MucDIgPSB2YWw7Ci0gIGFzbSB2b2xhdGlsZSgiJTAgPSBwMyIgOiAi
+PXIiKHZhbCkpOwotICBwcmVncy0+cHJlZ3MucDMgPSB2YWw7Ci0gIGFzbSB2b2xhdGlsZSgiJTAg
+PSBjNSIgOiAiPXIiKGM1KSk7CisKKyAgYXNtICgiYzU6NCA9ICU1XG5cdCIKKyAgICAgICAiJTAg
+PSBwMFxuXHQiCisgICAgICAgIiUxID0gcDFcblx0IgorICAgICAgICIlMiA9IHAyXG5cdCIKKyAg
+ICAgICAiJTMgPSBwM1xuXHQiCisgICAgICAgIiU0ID0gYzVcblx0IgorICAgICAgIDogIj1yIihw
+cmVncy0+cHJlZ3MucDApLCAiPXIiKHByZWdzLT5wcmVncy5wMSksCisgICAgICAgICAiPXIiKHBy
+ZWdzLT5wcmVncy5wMiksICI9ciIocHJlZ3MtPnByZWdzLnAzKSwgIj1yIihjNSkKKyAgICAgICA6
+ICJyIihjdmFsX3BhaXIpCisgICAgICAgOiAiYzQiLCAiYzUiLCAicDAiLCAicDEiLCAicDIiLCAi
+cDMiKTsKKwogICBjaGVjayhjNSwgMHhkZWFkYmVlZik7CiB9CiAKLS0gCjIuMTcuMQoK
 
