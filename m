@@ -2,71 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB8844ADC7A
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Feb 2022 16:23:38 +0100 (CET)
-Received: from localhost ([::1]:56928 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9817F4ADDEF
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Feb 2022 17:05:56 +0100 (CET)
+Received: from localhost ([::1]:36994 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nHSLC-0006aE-1m
-	for lists+qemu-devel@lfdr.de; Tue, 08 Feb 2022 10:23:38 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:57618)
+	id 1nHT07-0003nj-2p
+	for lists+qemu-devel@lfdr.de; Tue, 08 Feb 2022 11:05:55 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:60734)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nHQGe-00070H-Sx
- for qemu-devel@nongnu.org; Tue, 08 Feb 2022 08:10:49 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:38136)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1nHQT7-00088B-VI
+ for qemu-devel@nongnu.org; Tue, 08 Feb 2022 08:23:46 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:44413)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nHQGa-00011n-92
- for qemu-devel@nongnu.org; Tue, 08 Feb 2022 08:10:48 -0500
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1nHQT3-0002vB-Cm
+ for qemu-devel@nongnu.org; Tue, 08 Feb 2022 08:23:40 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1644325843;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
+ s=mimecast20190719; t=1644326614;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=jcV8U0P6ZmgLC/mU1JxgUn7BpInpLNDlnRJabZQ5ba8=;
- b=NfisuNSix9qB/4MRNPfeFBLnT7BCN2NOxgf+uCcwdPACBXn7/dHoutWtB+e7a8h5mieARf
- 2+7fEi7bvjCW7DM5M4K7CE8oQaDZUtb/U554btWlSNH/ltacfOev2fhyaXIfv89rT8Kvba
- srEyRFyVZZGSpDnQ7Lgs8+lFnaU3i5Y=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=A7lndTzQgkQdalmmceee8xG2mjaEZdBgEYlBKcAFucQ=;
+ b=JeG2+0ZPf9Owtk0hyJ0rW3eM3+ad2M0zA8e/u1JuJLjDmD7n2QRY2AetZTYiwvs3XPUtG6
+ tB9amohRXmX8/PQwVe/GPcxvfDO8t/5I0aanCVQQbrjzhulafRQ1d1IDnGJC08J5tTWGg1
+ x8Z7KO045yDyNSVKrJqrl221u0pyHM8=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-113-RW6buT29MZ6nzyETIjOm9w-1; Tue, 08 Feb 2022 08:10:36 -0500
-X-MC-Unique: RW6buT29MZ6nzyETIjOm9w-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9C49C1006AAE;
- Tue,  8 Feb 2022 13:10:35 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.138])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 99D387C0C7;
- Tue,  8 Feb 2022 13:10:34 +0000 (UTC)
-Date: Tue, 8 Feb 2022 13:10:31 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Subject: Re: [PATCH 08/11] mos6522: add "info via" HMP command for debugging
-Message-ID: <YgJrx2ygQmiF4TYx@redhat.com>
-References: <20220127205405.23499-1-mark.cave-ayland@ilande.co.uk>
- <20220127205405.23499-9-mark.cave-ayland@ilande.co.uk>
- <YgJWPzFczlDBJV/I@redhat.com>
- <77884339-2f51-1ad0-7461-abd79bb36ef1@ilande.co.uk>
- <YgJmz6neLsF2n2u3@redhat.com>
- <f2114228-2243-2b4f-1869-a50d78a5a8d7@ilande.co.uk>
+ us-mta-460-oHWeXUpQMkuIlnve-CfANg-1; Tue, 08 Feb 2022 08:23:33 -0500
+X-MC-Unique: oHWeXUpQMkuIlnve-CfANg-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ i19-20020adfa513000000b001e33749ed31so982119wrb.8
+ for <qemu-devel@nongnu.org>; Tue, 08 Feb 2022 05:23:32 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=A7lndTzQgkQdalmmceee8xG2mjaEZdBgEYlBKcAFucQ=;
+ b=nC7YpMLgtkBlTeVDhifjmSw8A1kVnJfltaJddanxCO+oZb8LlDsW+oQKqA6IhFc5Ss
+ /J9w/BkIEBkPxTGb1F/bLKXAhAkkqtuSo/FVwNBBMikBEMXvXncSofG+qxiRaEGtW28r
+ XkTM0+eFEUiiJs7ay9p6duo1PI7zt2RrP+2x4ZIoiMJZ/Af2r0Rvv7cXdaUqtsBEHsT9
+ tZFV/CRlAMWGt3V5YQZ2V09ILygFICMH53sFNyAHhaHmTZfoNDp4xBCLQKXMz9YAzseM
+ n/aL+xeMFJ7KoOA4hM73oDNoPEBPV0GJSxH5vBj+wZatR6ARjMa8QJRGkCSrTMyc0hXg
+ 2QDg==
+X-Gm-Message-State: AOAM531ZqEoCIS0bh2WEWb/5gtzRhKtTfXxk/4t3KvsCehNIiL5MHiUZ
+ nM/rJE72Qj7QZFj0RZfMUnGbuvmulOfsmYHssbd46TF4FMRVsCEMzwJ5IPiElD8CJwmqZLybCVZ
+ idFTqITwm2gT2FnI=
+X-Received: by 2002:a05:600c:4fc2:: with SMTP id
+ o2mr1112876wmq.145.1644326611871; 
+ Tue, 08 Feb 2022 05:23:31 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwul7Wib8Ab2ljqodT0hv/KDNFOzYTnvO6qSlq+qnuIROswj//LmJ9S1ABLgZs3IowBOGWBow==
+X-Received: by 2002:a05:600c:4fc2:: with SMTP id
+ o2mr1112854wmq.145.1644326611630; 
+ Tue, 08 Feb 2022 05:23:31 -0800 (PST)
+Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
+ [82.30.61.225])
+ by smtp.gmail.com with ESMTPSA id bg23sm2732873wmb.5.2022.02.08.05.23.30
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 08 Feb 2022 05:23:31 -0800 (PST)
+Date: Tue, 8 Feb 2022 13:23:29 +0000
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Peter Xu <peterx@redhat.com>
+Subject: Re: [PATCH RFC 14/15] migration: Postcopy preemption on separate
+ channel
+Message-ID: <YgJu0ZoV/Z4JA4Ye@work-vm>
+References: <20220119080929.39485-1-peterx@redhat.com>
+ <20220119080929.39485-15-peterx@redhat.com>
+ <YfwUvGfE46G1oXOv@work-vm> <YgHv/4Ep4JUhfLB4@xz-m1.local>
+ <YgJS3qUuyopB+JFZ@work-vm> <YgJWeQm3THpv8iG/@xz-m1.local>
 MIME-Version: 1.0
-In-Reply-To: <f2114228-2243-2b4f-1869-a50d78a5a8d7@ilande.co.uk>
+In-Reply-To: <YgJWeQm3THpv8iG/@xz-m1.local>
 User-Agent: Mutt/2.1.5 (2021-12-30)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -87,65 +102,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: laurent@vivier.eu, qemu-devel@nongnu.org
+Cc: Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org,
+ Leonardo Bras Soares Passos <lsoaresp@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Feb 08, 2022 at 01:06:59PM +0000, Mark Cave-Ayland wrote:
-> On 08/02/2022 12:49, Daniel P. Berrangé wrote:
+* Peter Xu (peterx@redhat.com) wrote:
+> On Tue, Feb 08, 2022 at 11:24:14AM +0000, Dr. David Alan Gilbert wrote:
+> > > The current model is we only have 1 postcopy channel and 1 precopy channel, but
+> > > it should be easier if we want to make it N post + 1 pre base on this series.
+> > 
+> > It's not clear to me if we need to be able to do N post + M pre, or
+> > whether we have a rule like always at least 1 post, but if there's more
+> > pagefaults in the queue then you can steal all of the pre channels.
 > 
-> > > I was under the impression that monitor_register_hmp_info_hrt() does all the
-> > > magic here i.e. it declares the underlying QMP command with an x- prefix and
-> > > effectively encapsulates the text field in a way that says "this is an
-> > > unreliable text opaque for humans"?
-> > 
-> > The monitor_register_hmp_info_hrt only does the HMP glue side, and
-> > that's only needed if you must dynamically register the HMP command.
-> > For statically registered commands set '.cmd_info_hrt' directly in
-> > the hml-commands-info.hx for the HMP side.
-> > 
-> > > If a qapi/ schema is needed could you explain what it should look like for
-> > > this example and where it should go? Looking at the existing .json files I
-> > > can't immediately see one which is the right place for this to live.
-> > 
-> > Take a look in qapi/machine.json for anyof the 'x-query-XXXX' commands
-> > there. The QAPI bit is fairly simple.
-> > 
-> > if you want to see an illustration of what's different from a previous
-> > pure HMP impl, look at:
-> > 
-> >    commit dd98234c059e6bdb05a52998270df6d3d990332e
-> >    Author: Daniel P. Berrangé <berrange@redhat.com>
-> >    Date:   Wed Sep 8 10:35:43 2021 +0100
-> > 
-> >      qapi: introduce x-query-roms QMP command
+> Right, >1 queue length should easily happen with workloads in real cloud
+> environment.  Though even with only 1post channel we can already hit at least
+> <~1ms with this series even if there're 16 pending requests per my test.  I
+> think that may cover quite some real workloads.
 > 
-> I see, thanks for the reference. So qapi/machine.json would be the right
-> place to declare the QMP part even for a specific device?
+> One thing to mention is that we should always assume the pre-channels are
+> filled up with tons of pages already in the NIC send buffer, so they won't be
+> good candidate for postcopy requests, IMHO.  So I'm not sure whether we can
+> mixly use the pre/post channels - we may need to leave the post channels idle.
+
+No I'm not sure either; even with separate channels do we have problems
+with contention on the NIC?
+
+Dave
+
+> Then, if we keep some of the multifd channels idle, then it will become some
+> other thing rather than the existing multifd, since we will start to treat
+> threads and channels differently and break the "equality" rule in the strict
+> version of multifd world.
 > 
-> Even this approach still wouldn't work in its current form though, since as
-> mentioned in my previous email it seems that only the target CONFIG_*
-> defines and not the device CONFIG_* defines are present when processing
-> hmp-commands-info.hx.
-
-Yeah, that's where the pain comes in.  While QAPI schema can be made
-conditional on a few CONFIG_* parameters - basically those derived
-from global configure time options, it is impossible for this to be
-with with target specific options like the device CONFIG_* defines.
-
-This is why I suggested in my othuer reply that it would need to be
-done with a generic 'info dev-debug' / 'x-query-dev-debug' command
-that can be registered unconditionally, and then individual devices
-plug into it.
-
-
-
-Regards,
-Daniel
+> > > This also reminded me that, instead of a new capability, should I simply expose
+> > > a parameter "postcopy-channels=N" to CLI so that we can be prepared with multi
+> > > postcopy channels?
+> > 
+> > I'm not sure we know enough yet about what configuration it would have;
+> > I'd be tempted to just make it work for the user by enabling both
+> > multifd and preemption and then using this new mechanism rather than
+> > having to add yet another parameter.
+> 
+> Let me stick with the current capability bit then, so as to make it 1pre+1post.
+> And we can leave Npre+1post for later.
+> 
+> Thanks,
+> 
+> -- 
+> Peter Xu
+> 
 -- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
