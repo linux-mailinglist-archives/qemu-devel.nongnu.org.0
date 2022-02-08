@@ -2,68 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 897FE4AD98B
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Feb 2022 14:21:24 +0100 (CET)
-Received: from localhost ([::1]:41284 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 50DFF4AD9F0
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Feb 2022 14:33:24 +0100 (CET)
+Received: from localhost ([::1]:49958 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nHQQt-0004nF-FA
-	for lists+qemu-devel@lfdr.de; Tue, 08 Feb 2022 08:21:23 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:60704)
+	id 1nHQcU-0002ng-VR
+	for lists+qemu-devel@lfdr.de; Tue, 08 Feb 2022 08:33:23 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:34548)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nHOjf-00017C-DW
- for qemu-devel@nongnu.org; Tue, 08 Feb 2022 06:32:40 -0500
-Received: from [2a00:1450:4864:20::436] (port=45864
- helo=mail-wr1-x436.google.com)
+ id 1nHOql-0000iM-36
+ for qemu-devel@nongnu.org; Tue, 08 Feb 2022 06:40:00 -0500
+Received: from [2a00:1450:4864:20::430] (port=41976
+ helo=mail-wr1-x430.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nHOjc-00017m-JW
- for qemu-devel@nongnu.org; Tue, 08 Feb 2022 06:32:38 -0500
-Received: by mail-wr1-x436.google.com with SMTP id m14so30081950wrg.12
- for <qemu-devel@nongnu.org>; Tue, 08 Feb 2022 03:32:34 -0800 (PST)
+ id 1nHOqh-00023S-0p
+ for qemu-devel@nongnu.org; Tue, 08 Feb 2022 06:39:57 -0500
+Received: by mail-wr1-x430.google.com with SMTP id k1so13650039wrd.8
+ for <qemu-devel@nongnu.org>; Tue, 08 Feb 2022 03:39:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=cg/VNhU72ECPMQPIzA17ca95eqK2z9+Qrah514wURKo=;
- b=cW3hnWvPZNkTKhsKh+fUKWf5CuyTesPHyLLdbOJDQIUBvRELQTHX9jL7a1RtjFpJTK
- 9kzFTO5F5P7zGKMzX+WAiFfu8sYHYSIhvzoINRSBqoFb/6HyqTaqfa5Ao0YdBR0Gfcid
- 1y36ubzqphyTmiChhbSUGV3WA6zvNCpCc2nakoaZ5WStA4+nawcgF7y+pbFPmdo8sZZL
- NRShUQPpiG0yq3/hq45rniR0pZBBpD7NVfD5fJxPpn+oGHro7mvWxraorb+B3QO3H75H
- XRBwcjpTfr3aCDaSkkGHEtVp/tgRZUIV7TysR1Y0eleThhVRUrEN7XEphiUzf14/Ves+
- eYyg==
+ h=from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=X7Rrh0lJtSWpmXtO87Kz9MGXWLKHe7DJRwFSr69atlE=;
+ b=kWJQ51ZtR1/s4ah01VjGOREvddz7LouFkvIc+xMZkJuBUJRyWg7Aj6kvQdM53lUISk
+ 5aLwPgfTbotqEKj8zHp40+H0mOT8s99OHdunuqshaXnrzc7XT+qvO7PkFaGmu0oAmYnB
+ CZT9l7x1J5alAkZttSUiq0RgeDul6Wr1enTcsURQu6ki1C9WHiByNua7HdeZgsuPCQL/
+ c5LgvKC0OOnP9VPnky7n9iOXRw+dZPIDK8AXsIOqFuCEbPTu/3svArvKMkKRM4WHvYXt
+ Ii+t8IReG5RpzZzJE7mqAa2BYiNkuZZE/NI7Bcq8E8IZB4QbfpqlYHQo5s//kyoomqki
+ /TLw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=cg/VNhU72ECPMQPIzA17ca95eqK2z9+Qrah514wURKo=;
- b=kObdx1B+9wr8lIC/eLuivZyu0OV6tZPqJ1H7ve8h4MVwkc3CckQkbygZ6z6uNWo2fp
- ESWQP7EWWD03ZeS8sM/8Z7gAClmLW4lrlx5fVSUxc1FVS8ReK9+uS7pw0tfPSV21Pgwl
- skcyd3JIy+5h16ULvuDmnIND8ecBKTk4N1e7veOX5Tf1J03NbTgF9H0YNHmEs3j2A1Rw
- nGdWo7ZAEBpqqow2yHGwGMdv3ObzSm+bN1tY4LWjljyj4b3S6GzBn5J9IxAByFBbCwlg
- 09Q/QjK6EF/LqKjg7iNMVzxwBa/2tahfSzs7qqumfenIIUaCetQfkgBnEVZ0+hN4p9ON
- lWBw==
-X-Gm-Message-State: AOAM531E8vkplioIJ8Gbs5grIuse2zOhhVfCyiD6X/VqWYKyXZLPQ6nG
- n6o9vSisqwhGP4zeWMA4b1E+uUay6W0pPvD1eZI9Mg==
-X-Google-Smtp-Source: ABdhPJzIutxam7NxX+o3PkH6YsZMAp2fEXEHGne+2uBKrOK7lbeNjd4QYeHPc1UnGVfgghNbp1J936oAM8RziFN/4zM=
-X-Received: by 2002:a05:6000:15c7:: with SMTP id
- y7mr3227654wry.319.1644319953123; 
- Tue, 08 Feb 2022 03:32:33 -0800 (PST)
-MIME-Version: 1.0
-References: <20220208071237.319844-1-richard.henderson@linaro.org>
- <20220208071237.319844-3-richard.henderson@linaro.org>
- <CAFEAcA-Sy8wvO2h1tjNwPcK6j2Tfz-gGY2YTCeQZQEB_1jd=qg@mail.gmail.com>
- <16d22c7c-a81c-9a65-3d46-12ff19d89229@linaro.org>
-In-Reply-To: <16d22c7c-a81c-9a65-3d46-12ff19d89229@linaro.org>
+ h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=X7Rrh0lJtSWpmXtO87Kz9MGXWLKHe7DJRwFSr69atlE=;
+ b=sC1e0hujUZuZelKr5xn0ZrtwuuoQmJNsXBiWqLHl+qyTq+YLlvdRGyOeazGlB2b7lz
+ N1F6IqYq6MDhjOIC1zGQX6IPDesgf8EnpXWcak+ROqelU9rA6mzc3iOEEz4rAFWCWebN
+ s+1kPZNmx8W6hjKGd4eQV62ZCJExa/VpSF8Vm1f8FDpYRGTMiDt1AagsAa7XkAiwnszM
+ Eo+IqQMDsj4UbR9lJmBlzWXA4bcPAXNxsfoJNoo6rwwA8g5NB19e8oqIYLx5JOeTOQyH
+ c1FLyKxY2w0Va1Dv6wQzJX+ecJbJps3bvvwNzboM4jWFBeA1FxoiyK5JsZpvw0o8N/IG
+ nP+A==
+X-Gm-Message-State: AOAM530I69DDlZO0CCgqziOVeevkPe7I6WYJv6TnWyMdprUwbaGhGZ+/
+ OqCZiqZArwbBuk7/siLQDhr/TJGplBGmBA==
+X-Google-Smtp-Source: ABdhPJxd6p4nJ0tk/FuYSbQ2/IoqCviZVuDtBoan4KcWEQIGIWCLu5sgsxLG7CVj6X1OnpB43OZKiA==
+X-Received: by 2002:a5d:64e9:: with SMTP id g9mr3209166wri.341.1644320390588; 
+ Tue, 08 Feb 2022 03:39:50 -0800 (PST)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
+ by smtp.gmail.com with ESMTPSA id r11sm4245199wrt.28.2022.02.08.03.39.49
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 08 Feb 2022 03:39:50 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 8 Feb 2022 11:32:22 +0000
-Message-ID: <CAFEAcA_Ax6=9fhfCAWE11mX6BR9KbXnxBcJiUACAavM5xWwqLQ@mail.gmail.com>
-Subject: Re: [PATCH 2/5] linux-user: Introduce host_signal_mask
-To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::436
+To: qemu-devel@nongnu.org
+Subject: [PULL 00/39] target-arm queue
+Date: Tue,  8 Feb 2022 11:39:09 +0000
+Message-Id: <20220208113948.3217356-1-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.25.1
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::430
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::436;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x436.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::430;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x430.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -84,67 +86,136 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, Laurent@vivier.eu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 8 Feb 2022 at 11:17, Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> On 2/8/22 21:59, Peter Maydell wrote:
-> > On Tue, 8 Feb 2022 at 08:03, Richard Henderson
-> > <richard.henderson@linaro.org> wrote:
-> >>
-> >> Do not directly access the uc_sigmask member.
-> >> This is preparation for a sparc64 fix.
-> >>
-> >> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> >> ---
-> >>   linux-user/include/host/aarch64/host-signal.h  |  5 +++++
-> >>   linux-user/include/host/alpha/host-signal.h    |  5 +++++
-> >>   linux-user/include/host/arm/host-signal.h      |  5 +++++
-> >>   linux-user/include/host/i386/host-signal.h     |  5 +++++
-> >>   .../include/host/loongarch64/host-signal.h     |  5 +++++
-> >>   linux-user/include/host/mips/host-signal.h     |  5 +++++
-> >>   linux-user/include/host/ppc/host-signal.h      |  5 +++++
-> >>   linux-user/include/host/riscv/host-signal.h    |  5 +++++
-> >>   linux-user/include/host/s390/host-signal.h     |  5 +++++
-> >>   linux-user/include/host/sparc/host-signal.h    |  5 +++++
-> >>   linux-user/include/host/x86_64/host-signal.h   |  5 +++++
-> >>   linux-user/signal.c                            | 18 ++++++++----------
-> >>   12 files changed, 63 insertions(+), 10 deletions(-)
-> >>
-> >> diff --git a/linux-user/include/host/aarch64/host-signal.h b/linux-user/include/host/aarch64/host-signal.h
-> >> index 9770b36dc1..76ab078069 100644
-> >> --- a/linux-user/include/host/aarch64/host-signal.h
-> >> +++ b/linux-user/include/host/aarch64/host-signal.h
-> >> @@ -40,6 +40,11 @@ static inline void host_signal_set_pc(ucontext_t *uc, uintptr_t pc)
-> >>       uc->uc_mcontext.pc = pc;
-> >>   }
-> >>
-> >> +static inline void *host_signal_mask(ucontext_t *uc)
-> >> +{
-> >> +    return &uc->uc_sigmask;
-> >> +}
-> >
-> > Why void* rather than sigset_t* ?
->
-> Because it's not really a sigset_t, even when it is in ucontext_t.
-> It's a kernel_sigset_t, as per the comment in host_signal_handler.
+The following changes since commit 55ef0b702bc2c90c3c4ed97f97676d8f139e5ca1:
 
-I guess. handle_sigsegv_accerr_write()'s prototype just calls
-it a sigset_t, though.
+  Merge remote-tracking branch 'remotes/lvivier-gitlab/tags/linux-user-for-7.0-pull-request' into staging (2022-02-07 10:48:25 +0000)
 
-One approach would be to define a typedef for this kernel sigset_t,
-and have wrappers for sigdelset() and sigprocmask() which take that
-type rather than the libc sigset_t (plus a sigfillset that wrapped
-the memset). Then we would avoid the potential bug that the
-WARNING comment is talking about, because code wouldn't have
-a thing that it could pass to sigfillset() without getting a
-compiler complaint about the type. But maybe that's too heavyweight.
+are available in the Git repository at:
 
-For the purposes of this series,
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+  https://git.linaro.org/people/pmaydell/qemu-arm.git tags/pull-target-arm-20220208
 
--- PMM
+for you to fetch changes up to 4fd1ebb10593087d45d2f56f7f3d13447d24802c:
+
+  hw/sensor: Add lsm303dlhc magnetometer device (2022-02-08 10:56:29 +0000)
+
+----------------------------------------------------------------
+target-arm queue:
+ * Fix handling of SVE ZCR_LEN when using VHE
+ * xlnx-zynqmp: 'Or' the QSPI / QSPI DMA IRQs
+ * Don't ever enable PSCI when booting guest in EL3
+ * Adhere to SMCCC 1.3 section 5.2
+ * highbank: Fix issues with booting SMP
+ * midway: Fix issues booting at all
+ * boot: Drop existing dtb /psci node rather than retaining it
+ * versal-virt: Always call arm_load_kernel()
+ * force flag recalculation when messing with DAIF
+ * hw/timer/armv7m_systick: Update clock source before enabling timer
+ * hw/arm/smmuv3: Fix device reset
+ * hw/intc/arm_gicv3_its: refactorings and minor bug fixes
+ * hw/sensor: Add lsm303dlhc magnetometer device
+
+----------------------------------------------------------------
+Alex Bennée (1):
+      arm: force flag recalculation when messing with DAIF
+
+Edgar E. Iglesias (1):
+      hw/arm: versal-virt: Always call arm_load_kernel()
+
+Eric Auger (1):
+      hw/arm/smmuv3: Fix device reset
+
+Francisco Iglesias (1):
+      hw/arm/xlnx-zynqmp: 'Or' the QSPI / QSPI DMA IRQs
+
+Kevin Townsend (1):
+      hw/sensor: Add lsm303dlhc magnetometer device
+
+Peter Maydell (29):
+      target/arm: make psci-conduit settable after realize
+      cpu.c: Make start-powered-off settable after realize
+      hw/arm/boot: Support setting psci-conduit based on guest EL
+      hw/arm: imx: Don't enable PSCI conduit when booting guest in EL3
+      hw/arm: allwinner: Don't enable PSCI conduit when booting guest in EL3
+      hw/arm/xlnx-zcu102: Don't enable PSCI conduit when booting guest in EL3
+      hw/arm/versal: Let boot.c handle PSCI enablement
+      hw/arm/virt: Let boot.c handle PSCI enablement
+      hw/arm: highbank: For EL3 guests, don't enable PSCI, start all cores
+      arm: tcg: Adhere to SMCCC 1.3 section 5.2
+      hw/arm/highbank: Drop use of secure_board_setup
+      hw/arm/boot: Prevent setting both psci_conduit and secure_board_setup
+      hw/arm/boot: Don't write secondary boot stub if using PSCI
+      hw/arm/highbank: Drop unused secondary boot stub code
+      hw/arm/boot: Drop nb_cpus field from arm_boot_info
+      hw/arm/boot: Drop existing dtb /psci node rather than retaining it
+      hw/intc/arm_gicv3_its: Use address_space_map() to access command queue packets
+      hw/intc/arm_gicv3_its: Keep DTEs as a struct, not a raw uint64_t
+      hw/intc/arm_gicv3_its: Pass DTEntry to update_dte()
+      hw/intc/arm_gicv3_its: Keep CTEs as a struct, not a raw uint64_t
+      hw/intc/arm_gicv3_its: Pass CTEntry to update_cte()
+      hw/intc/arm_gicv3_its: Fix address calculation in get_ite() and update_ite()
+      hw/intc/arm_gicv3_its: Avoid nested ifs in get_ite()
+      hw/intc/arm_gicv3_its: Pass ITE values back from get_ite() via a struct
+      hw/intc/arm_gicv3_its: Make update_ite() use ITEntry
+      hw/intc/arm_gicv3_its: Drop TableDesc and CmdQDesc valid fields
+      hw/intc/arm_gicv3_its: In MAPC with V=0, don't check rdbase field
+      hw/intc/arm_gicv3_its: Don't allow intid 1023 in MAPI/MAPTI
+      hw/intc/arm_gicv3_its: Split error checks
+
+Richard Henderson (4):
+      target/arm: Fix sve_zcr_len_for_el for VHE mode running
+      target/arm: Tidy sve_exception_el for CPACR_EL1 access
+      target/arm: Fix {fp, sve}_exception_el for VHE mode running
+      target/arm: Use CPTR_TFP with CPTR_EL3 in fp_exception_el
+
+Richard Petri (1):
+      hw/timer/armv7m_systick: Update clock source before enabling timer
+
+ hw/intc/gicv3_internal.h               |  23 +-
+ include/hw/arm/boot.h                  |  14 +-
+ include/hw/arm/xlnx-versal.h           |   1 -
+ include/hw/arm/xlnx-zynqmp.h           |   2 +
+ include/hw/intc/arm_gicv3_its_common.h |   2 -
+ cpu.c                                  |  22 +-
+ hw/arm/allwinner-h3.c                  |   9 +-
+ hw/arm/aspeed.c                        |   1 -
+ hw/arm/boot.c                          | 107 ++++-
+ hw/arm/exynos4_boards.c                |   1 -
+ hw/arm/fsl-imx6ul.c                    |   2 -
+ hw/arm/fsl-imx7.c                      |   8 +-
+ hw/arm/highbank.c                      |  72 +---
+ hw/arm/imx25_pdk.c                     |   3 +-
+ hw/arm/kzm.c                           |   1 -
+ hw/arm/mcimx6ul-evk.c                  |   2 +-
+ hw/arm/mcimx7d-sabre.c                 |   2 +-
+ hw/arm/npcm7xx.c                       |   3 -
+ hw/arm/orangepi.c                      |   5 +-
+ hw/arm/raspi.c                         |   1 -
+ hw/arm/realview.c                      |   1 -
+ hw/arm/sabrelite.c                     |   1 -
+ hw/arm/sbsa-ref.c                      |   1 -
+ hw/arm/smmuv3.c                        |   6 +
+ hw/arm/vexpress.c                      |   1 -
+ hw/arm/virt.c                          |  13 +-
+ hw/arm/xilinx_zynq.c                   |   1 -
+ hw/arm/xlnx-versal-virt.c              |  17 +-
+ hw/arm/xlnx-versal.c                   |   5 +-
+ hw/arm/xlnx-zcu102.c                   |   1 +
+ hw/arm/xlnx-zynqmp.c                   |  25 +-
+ hw/intc/arm_gicv3_its.c                | 696 +++++++++++++++------------------
+ hw/sensor/lsm303dlhc_mag.c             | 556 ++++++++++++++++++++++++++
+ hw/timer/armv7m_systick.c              |   8 +-
+ target/arm/cpu.c                       |   6 +-
+ target/arm/helper-a64.c                |   2 +
+ target/arm/helper.c                    | 118 ++++--
+ target/arm/psci.c                      |  35 +-
+ tests/qtest/lsm303dlhc-mag-test.c      | 148 +++++++
+ hw/sensor/Kconfig                      |   4 +
+ hw/sensor/meson.build                  |   1 +
+ tests/qtest/meson.build                |   1 +
+ 42 files changed, 1308 insertions(+), 620 deletions(-)
+ create mode 100644 hw/sensor/lsm303dlhc_mag.c
+ create mode 100644 tests/qtest/lsm303dlhc-mag-test.c
 
