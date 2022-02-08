@@ -2,61 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4D3A4ADFD4
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Feb 2022 18:43:18 +0100 (CET)
-Received: from localhost ([::1]:58028 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 520FE4ADFE5
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Feb 2022 18:50:29 +0100 (CET)
+Received: from localhost ([::1]:38758 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nHUWK-0003ml-Ea
-	for lists+qemu-devel@lfdr.de; Tue, 08 Feb 2022 12:43:17 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:35774)
+	id 1nHUdH-0001fy-DY
+	for lists+qemu-devel@lfdr.de; Tue, 08 Feb 2022 12:50:28 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:36464)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1nHS1R-0002RT-1i
- for qemu-devel@nongnu.org; Tue, 08 Feb 2022 10:03:13 -0500
-Received: from kylie.crudebyte.com ([5.189.157.229]:54735)
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1nHS3R-0005Wh-0Y
+ for qemu-devel@nongnu.org; Tue, 08 Feb 2022 10:05:17 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:25031)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1nHS1O-000546-2v
- for qemu-devel@nongnu.org; Tue, 08 Feb 2022 10:03:12 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
- MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
- Content-ID:Content-Description;
- bh=rrv2bIBFpvfayP9At54UY2aXefcnpphKPCckZHz95v4=; b=AOV9iuuh4uKNeXSC/gRoWcqqWp
- rckmJKvnuCNvUN7RuyxFnwzY5rIRN1GPvfw24v8HQ0DMzlXvCwziitwDp2bS/sSdITCmxozBH/HDv
- WLU6cT342ebAaDa50k5S7lWrA07CK4PaSHieU8aE/31K1500mbvMblnwJnkXxO6s/Dtrq8wWSYCr3
- QmH51yLSm+ZI7M7rL1aHyu5WMX6vNy40IL2e891FKLaA6DP8W4C4NQtqvbFyKN0UoNKUnAXYmIhXv
- CCMVfXEv24ehQ2qs3NsiXIIrYQh19c4Z4K8nRyb8m5tIBQg5XxZKUM/Jc1PvbdWEJ3soq4MfoCOGY
- KfCIxXbf8jDHWPy/eY7793/YtdDQO2gtlJrJJbgRRdBOVvThoRcZKZ5mlp+4xNUsZ7ikgkHW+6csu
- XeqzxWNTcSe6XPpVs2u++CU3v23OlNWl+xvZbHs8hHXk/p+ApHmAh091UAXbD96yS9GoNqNnU6x3b
- 1KGzDtps+UPyMlvY7we+Z2UsRPqrNxpJFnQOmjqcLCMe8gjrEdZryytUm1xEM51ZvseGU2WqyIzm5
- gNDy7G+4zCDi8EBsJWUNe7c29ozH6f1/pQGlq1Z3K09tVOnvS95oW9hhysgml/f7Xc4pgBqc1h1lv
- OeyEQuKyfSM8k+ktab0lZmPgjbFHkcHJorNphlyyw=;
-From: Christian Schoenebeck <qemu_oss@crudebyte.com>
-To: Will Cohen <wwcohen@gmail.com>
-Cc: qemu-devel@nongnu.org, hi@alyssa.is, Greg Kurz <groug@kaod.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Laurent Vivier <lvivier@redhat.com>, Keno Fischer <keno@juliacomputing.com>,
- Michael Roitzsch <reactorcontrol@icloud.com>
-Subject: Re: [PATCH v5 09/11] 9p: darwin: Implement compatibility for mknodat
-Date: Tue, 08 Feb 2022 16:02:16 +0100
-Message-ID: <44442748.7pOeeLDITA@silver>
-In-Reply-To: <CAB26zV3fC6YDCjVrez2n4TNVmzSVqCs-hDBM0Vv+wmiQeot9EA@mail.gmail.com>
-References: <20220207224024.87745-1-wwcohen@gmail.com>
- <2714656.jhBehFKKHS@silver>
- <CAB26zV3fC6YDCjVrez2n4TNVmzSVqCs-hDBM0Vv+wmiQeot9EA@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1nHS3J-0005U6-PL
+ for qemu-devel@nongnu.org; Tue, 08 Feb 2022 10:05:15 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1644332708;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:mime-version:mime-version:
+ content-type:content-type; bh=vKPPCFRmmcIf6NWOhQcqEjdqZT2VEGESWhQmL1Cfmks=;
+ b=crSC0DeLy+gpSzVd/VgUH69fIpx8BkcSvuqETPS4rqIeKLkSmn0AlHtRvwEsXMEoV/m81Y
+ zxrvYM7SW9SUUz4xzdB8ohDsdnTwwnJjPluP77jggfd0/023f+D0fp8lKeVK8pNsYjy0Hz
+ V984+WmcpZ1viCLDpFl+uqUEMqEMsC4=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-183-BjATb1fZMSaqrg-pfrjPtQ-1; Tue, 08 Feb 2022 10:05:06 -0500
+X-MC-Unique: BjATb1fZMSaqrg-pfrjPtQ-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ 7-20020a1c1907000000b003471d9bbe8dso245054wmz.0
+ for <qemu-devel@nongnu.org>; Tue, 08 Feb 2022 07:05:06 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:subject:user-agent:reply-to:date
+ :message-id:mime-version;
+ bh=vKPPCFRmmcIf6NWOhQcqEjdqZT2VEGESWhQmL1Cfmks=;
+ b=3gY/E7QfiAxqP88/V4A9UWi7oEwmyxIDnkZM5e0IzYU/nTuD2/oksJXSb4ZsJ/kNi9
+ ecAMTDlGUK1VvfRiUF9dZNIuYl4fz13wfNMuok3k9suzvpYL+GHXDtIRzfZMB2PL3wyA
+ e2CiFYkVUqNPcigX8CepsB/dnUvABrHXppQPpLjZqzup3/nNZPNXY+JL3EiFMOu5/m56
+ nJ/MSyEGtKUX0tlW7brCLdDPgwd8P8ATQ6/zAKANeqBIFzGdZW10i/zkqArg6tIByPX3
+ 6egHrx65e+A7xStn+kH/rR3mHBbIAMu3oJNzcDOXEs8GPD6szxVnl50Wbt7SRODCDVr/
+ /Otg==
+X-Gm-Message-State: AOAM531ZVeFTmt0ywDweExOqfy8BkYdmlEA25uTKXEvCXyrQDRkUvxYD
+ 8hJCj71Bl15YTFR4xUdGAvgRKRKQB9qDZLROeIh75uA7ybt+q1XOA+4TrqexBGvvMlitq9x6H0Z
+ jFC42hznrmy4+Ekk=
+X-Received: by 2002:adf:ee46:: with SMTP id w6mr3771893wro.451.1644332705493; 
+ Tue, 08 Feb 2022 07:05:05 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzeXGFqT/OAm+pEcv7Ihk1SCLekWypHtrByqRNPYLdX+s27Nc67BWakMrixmd8U6atIVjjzow==
+X-Received: by 2002:adf:ee46:: with SMTP id w6mr3771880wro.451.1644332705305; 
+ Tue, 08 Feb 2022 07:05:05 -0800 (PST)
+Received: from localhost ([94.248.65.38])
+ by smtp.gmail.com with ESMTPSA id z17sm2396671wml.38.2022.02.08.07.05.04
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 08 Feb 2022 07:05:04 -0800 (PST)
+From: Juan Quintela <quintela@redhat.com>
+To: kvm-devel <kvm@vger.kernel.org>, qemu-devel@nongnu.org
+Subject: KVM call minutes for 2022-02-08
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+Date: Tue, 08 Feb 2022 16:05:03 +0100
+Message-ID: <87fsot761s.fsf@secure.mitica>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
-Received-SPF: pass client-ip=5.189.157.229;
- envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=quintela@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=quintela@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -69,228 +91,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Dienstag, 8. Februar 2022 14:36:42 CET Will Cohen wrote:
-> On Mon, Feb 7, 2022 at 5:56 PM Christian Schoenebeck
-> <qemu_oss@crudebyte.com>
-> wrote:
-> > On Montag, 7. Februar 2022 23:40:22 CET Will Cohen wrote:
-> > > From: Keno Fischer <keno@juliacomputing.com>
-> > > 
-> > > Darwin does not support mknodat. However, to avoid race conditions
-> > > with later setting the permissions, we must avoid using mknod on
-> > > the full path instead. We could try to fchdir, but that would cause
-> > > problems if multiple threads try to call mknodat at the same time.
-> > > However, luckily there is a solution: Darwin includes a function
-> > > that sets the cwd for the current thread only.
-> > > This should suffice to use mknod safely.
-> > > 
-> > > This function (pthread_fchdir_np) is protected by a check in
-> > > meson in a patch later in tihs series.
-> > > 
-> > > Signed-off-by: Keno Fischer <keno@juliacomputing.com>
-> > > Signed-off-by: Michael Roitzsch <reactorcontrol@icloud.com>
-> > > [Will Cohen: - Adjust coding style
-> > > 
-> > >              - Replace clang references with gcc
-> > >              - Note radar filed with Apple for missing syscall
-> > >              - Replace direct syscall with pthread_fchdir_np and
-> > >              
-> > >                adjust patch notes accordingly
-> > >              
-> > >              - Move qemu_mknodat from 9p-util to osdep and os-posix]
-> > > 
-> > > Signed-off-by: Will Cohen <wwcohen@gmail.com>
-> > > ---
-> > 
-> > Like already mentioned by me moments ago on previous v4 (just echoing) ...
-> > 
-> > >  hw/9pfs/9p-local.c   |  4 ++--
-> > >  include/qemu/osdep.h | 10 ++++++++++
-> > >  os-posix.c           | 34 ++++++++++++++++++++++++++++++++++
-> > >  3 files changed, 46 insertions(+), 2 deletions(-)
-> > > 
-> > > diff --git a/hw/9pfs/9p-local.c b/hw/9pfs/9p-local.c
-> > > index a0d08e5216..d42ce6d8b8 100644
-> > > --- a/hw/9pfs/9p-local.c
-> > > +++ b/hw/9pfs/9p-local.c
-> > > @@ -682,7 +682,7 @@ static int local_mknod(FsContext *fs_ctx, V9fsPath
-> > > *dir_path,
-> > > 
-> > >      if (fs_ctx->export_flags & V9FS_SM_MAPPED ||
-> > >      
-> > >          fs_ctx->export_flags & V9FS_SM_MAPPED_FILE) {
-> > > 
-> > > -        err = mknodat(dirfd, name, fs_ctx->fmode | S_IFREG, 0);
-> > > +        err = qemu_mknodat(dirfd, name, fs_ctx->fmode | S_IFREG, 0);
-> > > 
-> > >          if (err == -1) {
-> > >          
-> > >              goto out;
-> > >          
-> > >          }
-> > > 
-> > > @@ -697,7 +697,7 @@ static int local_mknod(FsContext *fs_ctx, V9fsPath
-> > > *dir_path, }
-> > > 
-> > >      } else if (fs_ctx->export_flags & V9FS_SM_PASSTHROUGH ||
-> > >      
-> > >                 fs_ctx->export_flags & V9FS_SM_NONE) {
-> > > 
-> > > -        err = mknodat(dirfd, name, credp->fc_mode, credp->fc_rdev);
-> > > +        err = qemu_mknodat(dirfd, name, credp->fc_mode,
-> > > credp->fc_rdev);
-> > > 
-> > >          if (err == -1) {
-> > >          
-> > >              goto out;
-> > >          
-> > >          }
-> > > 
-> > > diff --git a/include/qemu/osdep.h b/include/qemu/osdep.h
-> > > index d1660d67fa..f3a8367ece 100644
-> > > --- a/include/qemu/osdep.h
-> > > +++ b/include/qemu/osdep.h
-> > > @@ -810,3 +810,13 @@ static inline int
-> > > platform_does_not_support_system(const char *command) #endif
-> > > 
-> > >  #endif
-> > > 
-> > > +
-> > > +/*
-> > > + * As long as mknodat is not available on macOS, this workaround
-> > > + * using pthread_fchdir_np is needed. qemu_mknodat is defined in
-> > > + * os-posix.c
-> > > + */
-> > > +#ifdef CONFIG_DARWIN
-> > > +int pthread_fchdir_np(int fd);
-> > > +#endif
-> > 
-> > I would make that:
-> > 
-> > #ifdef CONFIG_DARWIN
-> > int pthread_fchdir_np(int fd) API_AVAILABLE(macosx(10.12));
-> > #endif
-> > 
-> > here and ...
-> > 
-> > > +int qemu_mknodat(int dirfd, const char *filename, mode_t mode, dev_t
-> > 
-> > dev);
-> > 
-> > > diff --git a/os-posix.c b/os-posix.c
-> > > index ae6c9f2a5e..95c1607065 100644
-> > > --- a/os-posix.c
-> > > +++ b/os-posix.c
-> > > @@ -24,6 +24,7 @@
-> > > 
-> > >   */
-> > >  
-> > >  #include "qemu/osdep.h"
-> > > 
-> > > +#include <os/availability.h>
-> > > 
-> > >  #include <sys/wait.h>
-> > >  #include <pwd.h>
-> > >  #include <grp.h>
-> > > 
-> > > @@ -332,3 +333,36 @@ int os_mlock(void)
-> > > 
-> > >      return -ENOSYS;
-> > >  
-> > >  #endif
-> > >  }
-> > > 
-> > > +
-> > > +/*
-> > > + * As long as mknodat is not available on macOS, this workaround
-> > > + * using pthread_fchdir_np is needed.
-> > > + *
-> > > + * Radar filed with Apple for implementing mknodat:
-> > > + * rdar://FB9862426 (https://openradar.appspot.com/FB9862426)
-> > > + */
-> > > +#ifdef CONFIG_DARWIN
-> > > +
-> > > +int pthread_fchdir_np(int fd) API_AVAILABLE(macosx(10.12));
-> > 
-> > ... drop the duplicate declaration of pthread_fchdir_np() here.
-> 
-> Trying this out, it reminds me that this use of API_AVAILABLE in os-posix.c
-> relies on the added #include <os/availability.h>.
-> 
-> Leaving the include out leads to:
-> .../include/qemu/osdep.h:820:31: error: expected function body after
-> function declarator
-> int pthread_fchdir_np(int fd) API_AVAILABLE(macosx(10.12));
->                               ^
-> 1 error generated.
-> ninja: build stopped: subcommand failed.
-> make[1]: *** [run-ninja] Error 1
-> make: *** [all] Error 2
-> 
-> The admonition against modifying osdep.h's includes too much led me to
-> steer away from putting it all in there. If there's no issue with adding
-> +#include <os/availability.h> to osdep.h, then this change makes sense to
-> me.
 
-If you embed that include into ifdefs, sure!
 
-#ifdef CONFIG_DARWIN
-/* defines API_AVAILABLE(...) */
-#include <os/availability.h>
-#endif
+Minutes for 2022-02-08
+----------------------
 
-One more thing though ...
+- Greensocs have patches to convert it as a library
+  Are upstream intersted?
 
-> > > +
-> > > +int qemu_mknodat(int dirfd, const char *filename, mode_t mode, dev_t
-> > 
-> > dev)
-> > 
-> > > +{
-> > > +    int preserved_errno, err;
+  Phillipe has some patches to allow to load architectures at runtime,
+  so he only has one binary.
 
-pthread_fchdir_np() is weakly linked. So I guess here should be a check like:
+- Greensocs is finishing the patches to do the configuration
+  They are rebasing
 
-	if (!pthread_fchdir_np) {
-		return -ENOTSUPP;
-	}
+- Changes to startup to allow QMP to start sooner
 
-Before trying to call pthread_fchdir_np() below. As already discussed with the
-Chromium [1] example, some do that a bit differently by using
-__builtin_available():
+  * Create a new binary to experiment
+    Once something is done, we can decide what to do
+  * Make QMP available the sooner possible
+  * Copying the current one and remove stuff also takes too long
+  * Markus started and posted an RFC
+  * He asks to create a new binary
+  * What should the new binary done
+  * Idea is that we will do the minimal possible thing on the new
+    binary, have it on parallel with current one, and we will decide
+    later to/if remove the current one.
 
-	if (__builtin_available(macOS 10.12, *)) {
-		return -ENOTSUPP;
-	}
+- Paolo will post patches that just create a binary than setup a qmp
+  socket
 
-Which makes me wonder why they are not doing a simple NULL check?
+- Markus will rebase its RFC on top of that
 
-[1] https://chromium.googlesource.com/chromium/src/+/lkgr/base/process/launch_mac.cc#110
+- Greensocks will post his series to convert QEMU into one library
 
-> > > +    if (pthread_fchdir_np(dirfd) < 0) {
-> > > +        return -1;
-> > > +    }
-> > > +    err = mknod(filename, mode, dev);
-> > > +    preserved_errno = errno;
-> > > +    /* Stop using the thread-local cwd */
-> > > +    pthread_fchdir_np(-1);
-> > > +    if (err < 0) {
-> > > +        errno = preserved_errno;
-> > > +    }
-> > > +    return err;
-> > > +}
-> > > +#else
-> > > +int qemu_mknodat(int dirfd, const char *filename, mode_t mode, dev_t
-> > 
-> > dev)
-> > 
-> > > +{
-> > > +    return mknodat(dirfd, filename, mode, dev);
-> > > +}
-> > > +#endif
-
+- PhilMD will post his RFC to enable a single binary for all
+  architectures
 
 
