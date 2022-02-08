@@ -2,52 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B31494AE2FD
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Feb 2022 22:10:01 +0100 (CET)
-Received: from localhost ([::1]:42688 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB5B34AE31A
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Feb 2022 22:43:10 +0100 (CET)
+Received: from localhost ([::1]:54432 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nHXkO-0005Iq-OZ
-	for lists+qemu-devel@lfdr.de; Tue, 08 Feb 2022 16:10:00 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:50468)
+	id 1nHYGT-0002SZ-RG
+	for lists+qemu-devel@lfdr.de; Tue, 08 Feb 2022 16:43:09 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:52598)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1nHXaW-0000rQ-2z
- for qemu-devel@nongnu.org; Tue, 08 Feb 2022 15:59:48 -0500
-Received: from [187.72.171.209] (port=29752 helo=outlook.eldorado.org.br)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <matheus.ferst@eldorado.org.br>) id 1nHXaT-0005qQ-3v
- for qemu-devel@nongnu.org; Tue, 08 Feb 2022 15:59:47 -0500
-Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
- secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
- Tue, 8 Feb 2022 17:57:09 -0300
-Received: from [127.0.0.1] (unknown [10.10.70.45])
- by p9ibm (Postfix) with ESMTP id B9910801D19;
- Tue,  8 Feb 2022 17:57:08 -0300 (-03)
-Message-ID: <b321310a-d843-a4e4-d2fa-60f03ae701a7@eldorado.org.br>
-Date: Tue, 8 Feb 2022 17:57:08 -0300
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nHXht-0004a6-Ik
+ for qemu-devel@nongnu.org; Tue, 08 Feb 2022 16:07:27 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:47419)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nHXho-00079o-3X
+ for qemu-devel@nongnu.org; Tue, 08 Feb 2022 16:07:24 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1644354429;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=kD4dNd0ow4bJXx6e3JZZHXwT3MKszQreFGnJrxi1/ZI=;
+ b=UlQFpUi6bx9GbfqxVFqmoreQtOqN/Nl4bwf14t68Ru04RpWwyBi8yVU5IYrBj3B3uMOm0n
+ h17EQKFBKfeWAhXwv9SrwO4asfj5RQt5BfFLHtypgmY98cvqSzNKWf5J+oTcMF0zKt1/6Z
+ eZUYXMclVJQcbIE3LT388OPMqQjbGHI=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-670-ozmHA0w0M6e8xGeUMOdHMw-1; Tue, 08 Feb 2022 16:07:08 -0500
+X-MC-Unique: ozmHA0w0M6e8xGeUMOdHMw-1
+Received: by mail-ed1-f71.google.com with SMTP id
+ m4-20020a50cc04000000b0040edb9d147cso237408edi.15
+ for <qemu-devel@nongnu.org>; Tue, 08 Feb 2022 13:07:08 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=kD4dNd0ow4bJXx6e3JZZHXwT3MKszQreFGnJrxi1/ZI=;
+ b=hdSjei/IVJW+k3p+3jvtpf6Lo7Olv+j+Kuy2ZVdeub708yN1xa5Uce9VeVi/ql5el+
+ mX+AbUah1qiloz5BC7NJdkl13DkjWN+lKkYIqMP9ugsjLfmrEVLCntZNjlJDkSTzheTc
+ vTvZH2XUVfCe609xJ55fhtN7QUvXFZB0agiZN+ns1pHKHmjJv+99UCJicHvXOE50F6Ap
+ bKcbl5pJufFa196AdpnVfQLZz7Efm8KE/Kga+NNvyRKYlNA69+rYv+lyjz+9UnebjSda
+ A6CpaTx3UaG/ogjSWbI4uzR6x65p4LiyyBTzmT6Ww0wFooEXseddcUn2ax2DFkacGUkp
+ t8pg==
+X-Gm-Message-State: AOAM5315iKS81YkfNYRB8sIEQvM+p3HGt+QkomueBfc/tO1I+Z+KhhgV
+ O0SgUihVVght+4XAjvdoFaXsQfrOWJRp60LHCrUAa09Y/+K3MyZ0Y13f9gbdZPmRDwDWkfJUzHt
+ W/6sMEsJLOrY3ZzQ=
+X-Received: by 2002:a17:907:1687:: with SMTP id
+ hc7mr5398919ejc.301.1644354427341; 
+ Tue, 08 Feb 2022 13:07:07 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxPSDo+ytV/smc7SJk46WBcBuexSzuuujNQJGADWLhxq6PgvWyEpuPPz9Zq6qOcMjNzyOFx1A==
+X-Received: by 2002:a17:907:1687:: with SMTP id
+ hc7mr5398901ejc.301.1644354427164; 
+ Tue, 08 Feb 2022 13:07:07 -0800 (PST)
+Received: from redhat.com ([2.52.2.146])
+ by smtp.gmail.com with ESMTPSA id qf6sm1330588ejc.113.2022.02.08.13.07.05
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 08 Feb 2022 13:07:06 -0800 (PST)
+Date: Tue, 8 Feb 2022 16:07:03 -0500
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Cornelia Huck <cohuck@redhat.com>
+Subject: Re: [PATCH v2 2/4] virtio-iommu: Default to bypass during boot
+Message-ID: <20220208160642-mutt-send-email-mst@kernel.org>
+References: <20220127142940.671333-1-jean-philippe@linaro.org>
+ <20220127142940.671333-3-jean-philippe@linaro.org>
+ <87wni5tftq.fsf@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-From: "Matheus K. Ferst" <matheus.ferst@eldorado.org.br>
-Subject: Re: [PATCH v2] Use long endian options for ppc64
-To: Miroslav Rezanina <mrezanin@redhat.com>, qemu-devel@nongnu.org
-References: <20220131091714.4825-1-mrezanin@redhat.com>
-Content-Language: en-US
-In-Reply-To: <20220131091714.4825-1-mrezanin@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-OriginalArrivalTime: 08 Feb 2022 20:57:09.0106 (UTC)
- FILETIME=[6FEEED20:01D81D2E]
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 187.72.171.209 (failed)
-Received-SPF: pass client-ip=187.72.171.209;
- envelope-from=matheus.ferst@eldorado.org.br; helo=outlook.eldorado.org.br
-X-Spam_score_int: -10
-X-Spam_score: -1.1
-X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- PDS_HP_HELO_NORDNS=0.001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+In-Reply-To: <87wni5tftq.fsf@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -60,76 +96,31 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com, richard.henderson@linaro.org, f4bug@amsat.org
+Cc: lvivier@redhat.com, Jean-Philippe Brucker <jean-philippe@linaro.org>,
+ thuth@redhat.com, qemu-devel@nongnu.org, pasic@linux.ibm.com,
+ eric.auger@redhat.com, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 31/01/2022 06:17, Miroslav Rezanina wrote:
-> GCC options pairs -mlittle/-mlittle-endian and -mbig/-mbig-endian are
-> equivalent on ppc64 architecture. However, Clang supports only long
-> version of the options.
+On Tue, Feb 08, 2022 at 06:42:57PM +0100, Cornelia Huck wrote:
+> On Thu, Jan 27 2022, Jean-Philippe Brucker <jean-philippe@linaro.org> wrote:
 > 
-> Use longer form in configure to properly support both GCC and Clang
-> compiler. In addition, fix this issue in tcg test configure.
+> > @@ -988,9 +1025,9 @@ static void virtio_iommu_device_realize(DeviceState *dev, Error **errp)
+> >      virtio_add_feature(&s->features, VIRTIO_IOMMU_F_INPUT_RANGE);
+> >      virtio_add_feature(&s->features, VIRTIO_IOMMU_F_DOMAIN_RANGE);
+> >      virtio_add_feature(&s->features, VIRTIO_IOMMU_F_MAP_UNMAP);
+> > -    virtio_add_feature(&s->features, VIRTIO_IOMMU_F_BYPASS);
+> >      virtio_add_feature(&s->features, VIRTIO_IOMMU_F_MMIO);
+> >      virtio_add_feature(&s->features, VIRTIO_IOMMU_F_PROBE);
+> > +    virtio_add_feature(&s->features, VIRTIO_IOMMU_F_BYPASS_CONFIG);
 > 
-> Signed-off-by: Miroslav Rezanina <mrezanin@redhat.com>
-> 
-> ---
-> This is v2 of configure: Use -mlittle-endian instead of -mlittle for ppc64.
-> 
-> v2:
->   - handle both -mlittle and -mbig usage
->   - fix tests/tcg/configure.sh
-> ---
->   configure              | 4 ++--
->   tests/tcg/configure.sh | 4 ++--
->   2 files changed, 4 insertions(+), 4 deletions(-)
-> 
-> diff --git a/configure b/configure
-> index e6cfc0e4be..066fa29b70 100755
-> --- a/configure
-> +++ b/configure
-> @@ -655,10 +655,10 @@ case "$cpu" in
->     ppc)
->       CPU_CFLAGS="-m32" ;;
->     ppc64)
-> -    CPU_CFLAGS="-m64 -mbig" ;;
-> +    CPU_CFLAGS="-m64 -mbig-endian" ;;
->     ppc64le)
->       cpu="ppc64"
-> -    CPU_CFLAGS="-m64 -mlittle" ;;
-> +    CPU_CFLAGS="-m64 -mlittle-endian" ;;
-> 
->     s390)
->       CPU_CFLAGS="-m31" ;;
-> diff --git a/tests/tcg/configure.sh b/tests/tcg/configure.sh
-> index 309335a2bd..21959e1fde 100755
-> --- a/tests/tcg/configure.sh
-> +++ b/tests/tcg/configure.sh
-> @@ -64,9 +64,9 @@ fi
->   : ${cross_cc_ppc="powerpc-linux-gnu-gcc"}
->   : ${cross_cc_cflags_ppc="-m32"}
->   : ${cross_cc_ppc64="powerpc64-linux-gnu-gcc"}
-> -: ${cross_cc_cflags_ppc64="-m64 -mbig"}
-> +: ${cross_cc_cflags_ppc64="-m64 -mbig-endian"}
->   : ${cross_cc_ppc64le="$cross_cc_ppc64"}
-> -: ${cross_cc_cflags_ppc64le="-m64 -mlittle"}
-> +: ${cross_cc_cflags_ppc64le="-m64 -mlittle-endian"}
->   : ${cross_cc_riscv64="riscv64-linux-gnu-gcc"}
->   : ${cross_cc_s390x="s390x-linux-gnu-gcc"}
->   : ${cross_cc_sh4="sh4-linux-gnu-gcc"}
-> --
-> 2.34.1
-> 
-> 
+> Hm. In the other patch, you say that you don't support cross-version
+> migration (I assume across QEMU versions?)
 
-The patch is fine, but some PPC tests are not compiling with Clang. I've 
-sent an RFC about these issues: 
-https://lists.gnu.org/archive/html/qemu-ppc/2022-02/msg00116.html
+I missed that ... where does it say this?
 
-Thanks,
-Matheus K. Ferst
-Instituto de Pesquisas ELDORADO <http://www.eldorado.org.br/>
-Analista de Software
-Aviso Legal - Disclaimer <https://www.eldorado.org.br/disclaimer.html>
+> Because changing the feature
+> set will be guest-visible, and would need some compat handling if you
+> plan to support this.
+
 
