@@ -2,69 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68C414ADF07
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Feb 2022 18:12:33 +0100 (CET)
-Received: from localhost ([::1]:57436 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 648A84AE10A
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Feb 2022 19:42:54 +0100 (CET)
+Received: from localhost ([::1]:51424 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nHU2a-00050e-Ge
-	for lists+qemu-devel@lfdr.de; Tue, 08 Feb 2022 12:12:32 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:54538)
+	id 1nHVS0-0001ZF-KU
+	for lists+qemu-devel@lfdr.de; Tue, 08 Feb 2022 13:42:52 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:54546)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nHStr-0008MP-Ox
- for qemu-devel@nongnu.org; Tue, 08 Feb 2022 10:59:27 -0500
-Received: from [2a00:1450:4864:20::42e] (port=46723
- helo=mail-wr1-x42e.google.com)
+ id 1nHSts-0008P9-EX
+ for qemu-devel@nongnu.org; Tue, 08 Feb 2022 10:59:31 -0500
+Received: from [2a00:1450:4864:20::42d] (port=43854
+ helo=mail-wr1-x42d.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nHSto-0006Cv-9R
- for qemu-devel@nongnu.org; Tue, 08 Feb 2022 10:59:27 -0500
-Received: by mail-wr1-x42e.google.com with SMTP id q7so3425413wrc.13
- for <qemu-devel@nongnu.org>; Tue, 08 Feb 2022 07:59:14 -0800 (PST)
+ id 1nHSto-0006D5-9U
+ for qemu-devel@nongnu.org; Tue, 08 Feb 2022 10:59:28 -0500
+Received: by mail-wr1-x42d.google.com with SMTP id i14so1954455wrc.10
+ for <qemu-devel@nongnu.org>; Tue, 08 Feb 2022 07:59:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=e1F3cyiPfCm2qK9gtGdMvd6m3L6XeAhMZslq6HsdFCI=;
- b=kbJdx77zrg5OTfkhsZOWHlrxyxfWnozCkf3Br1fkSVC/lQwu6FSxUSHtD30BBDcq/2
- XXWPqPmqGfJfvnVkIyqgwSiGN7sAAOZvh19oGy2uXc8cnXjw7nzutwKXQpywoED2+5Bn
- ltW6vTfiRDvGeMdq6CWiVmG1lJDmX+BpweJqQ4kzqXp40+EQE5AEN0A57CjTvyWBjD+V
- wPaBDeABxt68+tc5nB7I45+nG5MZiBfcL3IBCbbYLx1UKC+mShlaY9Y75Dnup8R5yzil
- KVkWPDgwahWsVi+ZtL697SRMOfK2IWH+G5k9n3Wjv5vvFRQxLFTuTfxekz3lXTZlgZNY
- 1V0g==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=TeGZ3fztF9Kc3mfAQS9k9SzN001AUn+r3TkwGe9HSwM=;
+ b=y5mBnwxtsdEc/etd5FFlV7OqB6PdtHZ2xkQgAEFIdA6mfDVUnQLQdIJiFSQEqDClJw
+ 9kYUlf9qj7FdbQL9NAQsx4k3Z0151D5GmyXwyHZ2fufz67lgWmFfVO6uYfxX0+1RKznu
+ +Hx4NQjsqRb9EAfRPWIka5xZYvu3fzW/WoiasMq552FGXpIhv+8A+KgVNKRRkgSkeU6q
+ kvawiMBwnVQdi+CeB3FoXhF+T07K8LYstOeV05MCrFzW/dGi21BTSfrFcLbhzHkyP4Vr
+ FynouAHWFxYWstFyCtl03Pw/+i7XnqFLwBMStwNY8vQFYJEbPPj9pkxQS5V6srNzJeSl
+ xXIA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=e1F3cyiPfCm2qK9gtGdMvd6m3L6XeAhMZslq6HsdFCI=;
- b=xmSkH88jKJ4N85o2UKP1wnCdWMgnS/+zvrKX7wx+Fu0ynt/0sjEWHlgvnuWOXrc6tN
- IhS+1sNaL7ER3+kXfBYxqPY3p0ukMiZRA/kWm3WrLDp/2g6ZsJ9omyh5yYkb7RS2BsJ/
- MAKDjwlizrMAHqYIHBwgydo8TC7U4N9I+JgZRdoWYd2VewMjlqcXAXF4PEJesD2dRatg
- VH82YTlhzP3atCWNA8tOhFg2CuToY47ToYK3Rw7pMnP70+spTbahVyUukB0CRErXEo3e
- mNHovvKWbNhq1RdCq2oZXp2rH6WYo+o+UgNKwSz+2rYrHfFpG+kvtuUt6oA7srZuPdDj
- goRg==
-X-Gm-Message-State: AOAM531zaJHtEbMteq6J8Ud7Tx8GWNTQE3FyEX7UqGGsOhG6fUS/6BKT
- WsuMt6al+5R3QExH5ASqUpqEUA==
-X-Google-Smtp-Source: ABdhPJx9xDHbFz3DF9frp7FXgVAFhQQO7J7LZTB3ms5AcGj+zEYqW1eS4EyE6Ms+x+JpnY04YiDsqQ==
-X-Received: by 2002:adf:d183:: with SMTP id v3mr4112237wrc.538.1644335953474; 
- Tue, 08 Feb 2022 07:59:13 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=TeGZ3fztF9Kc3mfAQS9k9SzN001AUn+r3TkwGe9HSwM=;
+ b=RwDFg8PErCSDBpMD7r/TqUxCDP46BDrHnH65h08wSIPTFv5biP7IGqgrNNGTAyLyBS
+ EpQl7KeUlZgtQfOB5zP4C0hlvS/wSPazLkIgXN4ZS+p0DXHzKD/eMTlGBOC2VP4Mr82L
+ 8HYu0LY9/zW6NahyBfMIqhn6lhOZCVea3AaQR5XJoYn6cYZV7RpJQmD8m4yMH+frGKaQ
+ 5YQ6Ykq+Kbc3eILIVWEuM2GsF09GBKT1pJDM/QVuqfzs4J41y/fQD56sl+Pw1YWtM/2B
+ vwx1XzBAIyb7H8U6nC6xWHn41f1i/fhZZzBPCJ8GEKp6P3XU4pJ2/bs393A9U13p6XfG
+ Ekaw==
+X-Gm-Message-State: AOAM5318mIsOa6p8jAkKOwGqb21mg4L/IP8VfXqpcWBqusr3ZoTVxnyI
+ a8260Xent5zxJq2Xfp3jAPzQHw==
+X-Google-Smtp-Source: ABdhPJy5fqXg36LcDQ0ZS0ksPEE+SzkgoovaTgJOyUW97sJiHuaRcwejQEyncA9i57YVBHijX5OWIg==
+X-Received: by 2002:a5d:4528:: with SMTP id j8mr4167273wra.544.1644335954279; 
+ Tue, 08 Feb 2022 07:59:14 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
- by smtp.gmail.com with ESMTPSA id f5sm14805125wry.64.2022.02.08.07.59.12
+ by smtp.gmail.com with ESMTPSA id f5sm14805125wry.64.2022.02.08.07.59.13
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Tue, 08 Feb 2022 07:59:13 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
-Subject: [PATCH 0/2] Kconfig: Add an I2C_DEVICES device group
-Date: Tue,  8 Feb 2022 15:59:09 +0000
-Message-Id: <20220208155911.3408455-1-peter.maydell@linaro.org>
+Subject: [PATCH 1/2] Kconfig: Add I2C_DEVICES device group
+Date: Tue,  8 Feb 2022 15:59:10 +0000
+Message-Id: <20220208155911.3408455-2-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20220208155911.3408455-1-peter.maydell@linaro.org>
+References: <20220208155911.3408455-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42e
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42d
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42d.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -91,47 +93,123 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patchset adds a new Kconfig "device group" for I2C devices which
-a user might reasonably want to plug in to an arbitrary i2c bus via
-the command line.  This follows the approach we use for PCI devices:
-generally-usable i2c devices have
-       default y if I2C_DEVICES
-and board models with user-accessible i2c buses have
-       imply I2C_DEVICES
+Currently there is no way for a board model's Kconfig stanza to
+say "I have an i2c bus which the user can plug an i2c device into,
+build all the free-standing i2c devices". The Kconfig mechanism
+for this is the "device group". Add an I2C_DEVICES group along
+the same lines as the existing PCI_DEVICES. Simple free-standing
+i2c devices which a user might plausibly want to be able to
+plug in on the QEMU commandline should have
+   default y if I2C_DEVICES
+and board models which have an i2c bus that is user-accessible
+should use
+   imply I2C_DEVICES
+to cause those pluggable devices to be built.
 
-This means that when building a board model that pulls in the device
-group, the devices are all compiled in and available for use. 
-(Previously they would happen to be present and usable only if some
-other board that explicitly pulled that device in happened to also be
-built into the same QEMU binary.)
+In this commit we mark only a fairly conservative set of i2c devices
+as belonging to the I2C_DEVICES group: the simple sensors and RTCs
+(not including PMBus devices or devices which need GPIO lines to be
+connected).
 
-I have been fairly conservative in marking devices as being in the
-group and in marking board models as pulling in the group; feel free
-to suggest changes.
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+---
+Feel free to suggest other i2c devices that should be marked
+as in the group; as I say, I erred on the side of not putting
+devices in the group.
+---
+ docs/devel/kconfig.rst | 8 ++++++--
+ hw/i2c/Kconfig         | 5 +++++
+ hw/rtc/Kconfig         | 2 ++
+ hw/sensor/Kconfig      | 5 +++++
+ 4 files changed, 18 insertions(+), 2 deletions(-)
 
-In particular I've only added 'imply I2C_DEVICES' to arm boards. 
-Grepping through Kconfig files I only found the PPC boards e500 and
-ppc44x that enable some kind of i2c controller anyway.
-
-The immediate motivation here is that the recently added lsm303dlhc
-magnetometer isn't currently built unless the user manually adds it
-to their config, because as it happens no boards have it as a
-hard-wired device.
-
-thanks
--- PMM
-
-Peter Maydell (2):
-  Kconfig: Add I2C_DEVICES device group
-  Kconfig: Add 'imply I2C_DEVICES' on boards with available i2c bus
-
- docs/devel/kconfig.rst |  8 ++++++--
- hw/arm/Kconfig         | 10 ++++++++++
- hw/i2c/Kconfig         |  5 +++++
- hw/rtc/Kconfig         |  2 ++
- hw/sensor/Kconfig      |  5 +++++
- 5 files changed, 28 insertions(+), 2 deletions(-)
-
+diff --git a/docs/devel/kconfig.rst b/docs/devel/kconfig.rst
+index a1cdbec7512..aa5042f1569 100644
+--- a/docs/devel/kconfig.rst
++++ b/docs/devel/kconfig.rst
+@@ -192,11 +192,15 @@ declares its dependencies in different ways:
+   no directive and are not used in the Makefile either; they only appear
+   as conditions for ``default y`` directives.
+ 
+-  QEMU currently has two device groups, ``PCI_DEVICES`` and
+-  ``TEST_DEVICES``.  PCI devices usually have a ``default y if
++  QEMU currently has three device groups, ``PCI_DEVICES``, ``I2C_DEVICES``,
++  and ``TEST_DEVICES``.  PCI devices usually have a ``default y if
+   PCI_DEVICES`` directive rather than just ``default y``.  This lets
+   some boards (notably s390) easily support a subset of PCI devices,
+   for example only VFIO (passthrough) and virtio-pci devices.
++  ``I2C_DEVICES`` is similar to ``PCI_DEVICES``. It contains i2c devices
++  that users might reasonably want to plug in to an i2c bus on any
++  board (and not ones which are very board-specific or that need
++  to be wired up in a way that can't be done on the command line).
+   ``TEST_DEVICES`` instead is used for devices that are rarely used on
+   production virtual machines, but provide useful hooks to test QEMU
+   or KVM.
+diff --git a/hw/i2c/Kconfig b/hw/i2c/Kconfig
+index 8217cb50411..9bb8870517f 100644
+--- a/hw/i2c/Kconfig
++++ b/hw/i2c/Kconfig
+@@ -1,6 +1,11 @@
+ config I2C
+     bool
+ 
++config I2C_DEVICES
++    # Device group for i2c devices which can reasonably be user-plugged
++    # to any board's i2c bus
++    bool
++
+ config SMBUS
+     bool
+     select I2C
+diff --git a/hw/rtc/Kconfig b/hw/rtc/Kconfig
+index f06e133b8a2..730c272bc54 100644
+--- a/hw/rtc/Kconfig
++++ b/hw/rtc/Kconfig
+@@ -1,10 +1,12 @@
+ config DS1338
+     bool
+     depends on I2C
++    default y if I2C_DEVICES
+ 
+ config M41T80
+     bool
+     depends on I2C
++    default y if I2C_DEVICES
+ 
+ config M48T59
+     bool
+diff --git a/hw/sensor/Kconfig b/hw/sensor/Kconfig
+index b317f91b7b4..215944decc7 100644
+--- a/hw/sensor/Kconfig
++++ b/hw/sensor/Kconfig
+@@ -1,18 +1,22 @@
+ config TMP105
+     bool
+     depends on I2C
++    default y if I2C_DEVICES
+ 
+ config TMP421
+     bool
+     depends on I2C
++    default y if I2C_DEVICES
+ 
+ config DPS310
+     bool
+     depends on I2C
++    default y if I2C_DEVICES
+ 
+ config EMC141X
+     bool
+     depends on I2C
++    default y if I2C_DEVICES
+ 
+ config ADM1272
+     bool
+@@ -25,3 +29,4 @@ config MAX34451
+ config LSM303DLHC_MAG
+     bool
+     depends on I2C
++    default y if I2C_DEVICES
 -- 
 2.25.1
 
