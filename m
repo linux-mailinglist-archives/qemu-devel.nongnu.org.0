@@ -2,61 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 502974ADAF9
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Feb 2022 15:16:42 +0100 (CET)
-Received: from localhost ([::1]:40554 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 88D5A4ADB1C
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Feb 2022 15:26:46 +0100 (CET)
+Received: from localhost ([::1]:53230 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nHRIN-0006Xs-NM
-	for lists+qemu-devel@lfdr.de; Tue, 08 Feb 2022 09:16:40 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:50120)
+	id 1nHRS9-0007u2-L0
+	for lists+qemu-devel@lfdr.de; Tue, 08 Feb 2022 09:26:45 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:55542)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1nHPt0-00013v-HZ
- for qemu-devel@nongnu.org; Tue, 08 Feb 2022 07:46:29 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:50677)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1nHQAz-0008NM-Qn
+ for qemu-devel@nongnu.org; Tue, 08 Feb 2022 08:04:57 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:24756)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1nHPrU-0004xT-D0
- for qemu-devel@nongnu.org; Tue, 08 Feb 2022 07:44:50 -0500
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1nHQAx-0007z7-DA
+ for qemu-devel@nongnu.org; Tue, 08 Feb 2022 08:04:57 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1644324277;
+ s=mimecast20190719; t=1644325492;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=jY1G46jaslXetJ4Arwk3mIXfn43fuCWQjQ0QEpqvj0w=;
- b=hSefxUFxkH/+EI6951GYb5GAuqaSQgpWXFQnApBEf9mzOBqDcOUKyzyskoBdYt2xzHFHiY
- 3xssI33vvnr6+db83pBOfitGh8jgZx2u5xZaSyMVVRakJCLf993P5qJtWKs1IZYghYcl6/
- YnL7TpfjZKJqTJoDKQjDWYz3ifEPM0g=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Z9uBdpYGqjQbwORgu5a58ONe3YAo/EQOww1/4pKivbo=;
+ b=ZRfawf3tUT4WLxhoYpnTgWi79i1dl7FI2kdTNMQdyV6NJpm04jRTgpjI+9At62vALGlM5b
+ CVSRxgqxJzSqiJbnfl1BTmKjuuMaZGSKyrLjarF4pDc8tCYZRqW4B8GkujQGAEdD1CwibM
+ FP2fEwvt0akTBKpLqeoNxy6WCporUy8=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-543-6oPhbwx_NTKo4MbBmWFAig-1; Tue, 08 Feb 2022 07:44:35 -0500
-X-MC-Unique: 6oPhbwx_NTKo4MbBmWFAig-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A1BAD8143E5;
- Tue,  8 Feb 2022 12:44:34 +0000 (UTC)
-Received: from virtlab511.virt.lab.eng.bos.redhat.com
- (virtlab511.virt.lab.eng.bos.redhat.com [10.19.152.198])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 745B72B47B;
- Tue,  8 Feb 2022 12:44:32 +0000 (UTC)
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] Revert "check-block: replace -makecheck with TAP output"
-Date: Tue,  8 Feb 2022 07:44:32 -0500
-Message-Id: <20220208124432.84924-1-pbonzini@redhat.com>
+ us-mta-588-c8FcpZYbP5izlQuRqgZyLw-1; Tue, 08 Feb 2022 08:04:49 -0500
+X-MC-Unique: c8FcpZYbP5izlQuRqgZyLw-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ w7-20020adfbac7000000b001d6f75e4faeso6071515wrg.7
+ for <qemu-devel@nongnu.org>; Tue, 08 Feb 2022 05:04:47 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to:user-agent;
+ bh=Z9uBdpYGqjQbwORgu5a58ONe3YAo/EQOww1/4pKivbo=;
+ b=eKo6Qq2HqDja79Ww6Vmb6o3SYvVL20CciruL0+3L+UlKrlUmhaHPnAwxMLH1A/Tk+m
+ CKxPcS9lFMb1I7yNwCy1vro8wCGjtbkJardI7bz0CrlFi4B/M9CYWiP8L+EppEGcsyoG
+ B12NFxRK+q2TIEYCqQYv93zQBAV2omEtxUFhivmfhDIbTabVfpMPHagjfdzO2kPgVmLY
+ WU5aappRmaQvwhtkbnfEXVv1M2P92923FdyqAnfPgSWM3Pql95wVaNGIthocV28VRr2i
+ b0UHziAdCsS50F9p6r5pRuaMV8X0Kp77pd3ySxvjN2+fBdpO3Atnqsjc5ZYTQJVP/sav
+ 3zIg==
+X-Gm-Message-State: AOAM530maVObnu6VuIdI0Cv63uzXKqX7HcXi5/UE0XK2ZGtGj84VlR0k
+ ELDXwed8sUMmH5prrqffWZrUs965MeyGZdsqmk5Qhowz4GtDRcPgB+J4NWLc/585Y+g2vvTeBzH
+ UIhGWGHBSegk6b6I=
+X-Received: by 2002:a05:6000:1548:: with SMTP id
+ 8mr3429954wry.254.1644325486764; 
+ Tue, 08 Feb 2022 05:04:46 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwK8xGl50IbbzjCfXMx13LLrEyB69z5nQfCFODRqRxRfXeLetm/p3E6aINKMbZhx3FWN6QT8Q==
+X-Received: by 2002:a05:6000:1548:: with SMTP id
+ 8mr3429929wry.254.1644325486557; 
+ Tue, 08 Feb 2022 05:04:46 -0800 (PST)
+Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
+ [82.30.61.225])
+ by smtp.gmail.com with ESMTPSA id i19sm2627224wmq.45.2022.02.08.05.04.45
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 08 Feb 2022 05:04:46 -0800 (PST)
+Date: Tue, 8 Feb 2022 13:04:44 +0000
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Subject: Re: [PATCH 08/11] mos6522: add "info via" HMP command for debugging
+Message-ID: <YgJqbElD7OQM35W7@work-vm>
+References: <20220127205405.23499-1-mark.cave-ayland@ilande.co.uk>
+ <20220127205405.23499-9-mark.cave-ayland@ilande.co.uk>
+ <CAFEAcA8ZiLTgeG_2aUHBoV0io52623VRybG0NL0uY8=9Fg59Kg@mail.gmail.com>
+ <71542eb1-fc8f-8f30-81e0-35c9df764825@amsat.org>
+ <877da5wzgp.fsf@pond.sub.org> <YgJF9SDwb93k5/fg@work-vm>
+ <2cad9b25-620d-66b9-d64f-7a0e3f806952@ilande.co.uk>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+In-Reply-To: <2cad9b25-620d-66b9-d64f-7a0e3f806952@ilande.co.uk>
+User-Agent: Mutt/2.1.5 (2021-12-30)
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -77,236 +106,105 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, thuth@redhat.com
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
+ Laurent@vivier.eu, Gerd Hoffmann <kraxel@redhat.com>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This reverts commit d316859f4e28c74ab8b618895d2a5e0a865d3cf1.  The
-TAP output is inferior in that it does not include the diff for
-failed tests.
+* Mark Cave-Ayland (mark.cave-ayland@ilande.co.uk) wrote:
+> On 08/02/2022 10:29, Dr. David Alan Gilbert wrote:
+> 
+> > * Markus Armbruster (armbru@redhat.com) wrote:
+> > > Philippe Mathieu-Daudé <f4bug@amsat.org> writes:
+> > > 
+> > > > On 7/2/22 20:34, Peter Maydell wrote:
+> > > > > On Thu, 27 Jan 2022 at 21:03, Mark Cave-Ayland
+> > > > > <mark.cave-ayland@ilande.co.uk> wrote:
+> > > > > > 
+> > > > > > This displays detailed information about the device registers and timers to aid
+> > > > > > debugging problems with timers and interrupts.
+> > > > > > 
+> > > > > > Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+> > > > > > ---
+> > > > > >    hmp-commands-info.hx | 12 ++++++
+> > > > > >    hw/misc/mos6522.c    | 92 ++++++++++++++++++++++++++++++++++++++++++++
+> > > > > >    2 files changed, 104 insertions(+)
+> > > > > 
+> > > > > I'm not sure how keen we are on adding new device-specific
+> > > > > HMP info commands, but it's not my area of expertise. Markus ?
+> > > > 
+> > > > HMP is David :)
+> > > 
+> > > Yes.
+> > 
+> > So let me start with an:
+> > 
+> > Acked-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+> > (If it's useful info for the author of the device, then I'm happy for
+> > HMP to have that), but then - (moving the reply around a bit):
+> > 
+> > 
+> > > Should this be conditional on the targets where we actually link the
+> > > device, like info skeys?
+> > > 
+> > 
+> > Yes, I think so; it's a reasonably old/obscure device, there's no reason
+> > everyone having it built in.
+> 
+> Unfortunately that doesn't seem to work: whilst the target CONFIG_* defines
+> are declared when processing hmp-commands-info.hx it seems the the device
+> CONFIG_* defines are missing?
 
-Reported-by: Peter Maydell <peter.maydell@linaro.org>
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
----
- tests/check-block.sh             |  6 ++--
- tests/qemu-iotests/check         |  6 ++--
- tests/qemu-iotests/meson.build   |  1 -
- tests/qemu-iotests/testenv.py    | 30 +++++++++----------
- tests/qemu-iotests/testrunner.py | 49 +++++++++++++++-----------------
- 5 files changed, 44 insertions(+), 48 deletions(-)
+I'd be happy to take it down to the target level.
 
-diff --git a/tests/check-block.sh b/tests/check-block.sh
-index 720a46bc36..88e02453d2 100755
---- a/tests/check-block.sh
-+++ b/tests/check-block.sh
-@@ -14,8 +14,8 @@ else
- fi
- 
- skip() {
--    echo "1..0 #SKIP $*"
--    exit 0
-+    echo "$*"
-+    exit 77
- }
- 
- if grep -q "CONFIG_GPROF=y" config-host.mak 2>/dev/null ; then
-@@ -79,7 +79,7 @@ JOBS=$(echo "$MAKEFLAGS" | sed -n 's/\(^\|.* \)-j\([0-9]\+\)\( .*\|$\)/-j \2/p')
- 
- ret=0
- for fmt in $format_list ; do
--    ${PYTHON} ./check $JOBS -tap -$fmt $group || ret=1
-+    ${PYTHON} ./check $JOBS -makecheck -$fmt $group || ret=1
- done
- 
- exit $ret
-diff --git a/tests/qemu-iotests/check b/tests/qemu-iotests/check
-index 75de1b4691..0c27721a41 100755
---- a/tests/qemu-iotests/check
-+++ b/tests/qemu-iotests/check
-@@ -32,6 +32,8 @@ def make_argparser() -> argparse.ArgumentParser:
- 
-     p.add_argument('-n', '--dry-run', action='store_true',
-                    help='show me, do not run tests')
-+    p.add_argument('-makecheck', action='store_true',
-+                   help='pretty print output for make check')
-     p.add_argument('-j', dest='jobs', type=int, default=1,
-                    help='run tests in multiple parallel jobs')
- 
-@@ -51,8 +53,6 @@ def make_argparser() -> argparse.ArgumentParser:
-     p.add_argument('--color', choices=['on', 'off', 'auto'],
-                    default='auto', help="use terminal colors. The default "
-                    "'auto' value means use colors if terminal stdout detected")
--    p.add_argument('-tap', action='store_true',
--                   help='produce TAP output')
- 
-     g_env = p.add_argument_group('test environment options')
-     mg = g_env.add_mutually_exclusive_group()
-@@ -164,7 +164,7 @@ if __name__ == '__main__':
-     if args.dry_run:
-         print('\n'.join(tests))
-     else:
--        with TestRunner(env, tap=args.tap,
-+        with TestRunner(env, makecheck=args.makecheck,
-                         color=args.color) as tr:
-             paths = [os.path.join(env.source_iotests, t) for t in tests]
-             ok = tr.run_tests(paths, args.jobs)
-diff --git a/tests/qemu-iotests/meson.build b/tests/qemu-iotests/meson.build
-index 5be3c74127..3a9425d15c 100644
---- a/tests/qemu-iotests/meson.build
-+++ b/tests/qemu-iotests/meson.build
-@@ -22,7 +22,6 @@ if have_tools and targetos != 'windows'
-     endif
-     test('qemu-iotests ' + format, sh, args: [files('../check-block.sh'), format],
-          depends: qemu_iotests_binaries, env: qemu_iotests_env,
--         protocol: 'tap',
-          suite: suites,
-          timeout: 0,
-          is_parallel: false)
-diff --git a/tests/qemu-iotests/testenv.py b/tests/qemu-iotests/testenv.py
-index 0f32897fe8..c33454fa68 100644
---- a/tests/qemu-iotests/testenv.py
-+++ b/tests/qemu-iotests/testenv.py
-@@ -287,21 +287,21 @@ def __enter__(self) -> 'TestEnv':
-     def __exit__(self, exc_type: Any, exc_value: Any, traceback: Any) -> None:
-         self.close()
- 
--    def print_env(self, prefix: str = '') -> None:
-+    def print_env(self) -> None:
-         template = """\
--{prefix}QEMU          -- "{QEMU_PROG}" {QEMU_OPTIONS}
--{prefix}QEMU_IMG      -- "{QEMU_IMG_PROG}" {QEMU_IMG_OPTIONS}
--{prefix}QEMU_IO       -- "{QEMU_IO_PROG}" {QEMU_IO_OPTIONS}
--{prefix}QEMU_NBD      -- "{QEMU_NBD_PROG}" {QEMU_NBD_OPTIONS}
--{prefix}IMGFMT        -- {IMGFMT}{imgopts}
--{prefix}IMGPROTO      -- {IMGPROTO}
--{prefix}PLATFORM      -- {platform}
--{prefix}TEST_DIR      -- {TEST_DIR}
--{prefix}SOCK_DIR      -- {SOCK_DIR}
--{prefix}GDB_OPTIONS   -- {GDB_OPTIONS}
--{prefix}VALGRIND_QEMU -- {VALGRIND_QEMU}
--{prefix}PRINT_QEMU_OUTPUT -- {PRINT_QEMU}
--{prefix}"""
-+QEMU          -- "{QEMU_PROG}" {QEMU_OPTIONS}
-+QEMU_IMG      -- "{QEMU_IMG_PROG}" {QEMU_IMG_OPTIONS}
-+QEMU_IO       -- "{QEMU_IO_PROG}" {QEMU_IO_OPTIONS}
-+QEMU_NBD      -- "{QEMU_NBD_PROG}" {QEMU_NBD_OPTIONS}
-+IMGFMT        -- {IMGFMT}{imgopts}
-+IMGPROTO      -- {IMGPROTO}
-+PLATFORM      -- {platform}
-+TEST_DIR      -- {TEST_DIR}
-+SOCK_DIR      -- {SOCK_DIR}
-+GDB_OPTIONS   -- {GDB_OPTIONS}
-+VALGRIND_QEMU -- {VALGRIND_QEMU}
-+PRINT_QEMU_OUTPUT -- {PRINT_QEMU}
-+"""
- 
-         args = collections.defaultdict(str, self.get_env())
- 
-@@ -310,5 +310,5 @@ def print_env(self, prefix: str = '') -> None:
- 
-         u = os.uname()
-         args['platform'] = f'{u.sysname}/{u.machine} {u.nodename} {u.release}'
--        args['prefix'] = prefix
-+
-         print(template.format_map(args))
-diff --git a/tests/qemu-iotests/testrunner.py b/tests/qemu-iotests/testrunner.py
-index 0eace147b8..15788f919e 100644
---- a/tests/qemu-iotests/testrunner.py
-+++ b/tests/qemu-iotests/testrunner.py
-@@ -152,10 +152,10 @@ def run_tests_pool(self, tests: List[str],
- 
-         return results
- 
--    def __init__(self, env: TestEnv, tap: bool = False,
-+    def __init__(self, env: TestEnv, makecheck: bool = False,
-                  color: str = 'auto') -> None:
-         self.env = env
--        self.tap = tap
-+        self.makecheck = makecheck
-         self.last_elapsed = LastElapsedTime('.last-elapsed-cache', env)
- 
-         assert color in ('auto', 'on', 'off')
-@@ -185,16 +185,13 @@ def test_print_one_line(self, test: str,
-         """ Print short test info before/after test run """
-         test = os.path.basename(test)
- 
--        if test_field_width is None:
--            test_field_width = 8
-+        if self.makecheck and status != '...':
-+            if status and status != 'pass':
-+                status = f' [{status}]'
-+            else:
-+                status = ''
- 
--        if self.tap:
--            if status == 'pass':
--                print(f'ok {self.env.imgfmt} {test}')
--            elif status == 'fail':
--                print(f'not ok {self.env.imgfmt} {test}')
--            elif status == 'not run':
--                print(f'ok {self.env.imgfmt} {test} # SKIP')
-+            print(f'  TEST   iotest-{self.env.imgfmt}: {test}{status}')
-             return
- 
-         if lasttime:
-@@ -346,7 +343,7 @@ def run_test(self, test: str,
-         last_el = self.last_elapsed.get(test)
-         start = datetime.datetime.now().strftime('%H:%M:%S')
- 
--        if not self.tap:
-+        if not self.makecheck:
-             self.test_print_one_line(test=test,
-                                      test_field_width=test_field_width,
-                                      status = 'started' if mp else '...',
-@@ -375,9 +372,7 @@ def run_tests(self, tests: List[str], jobs: int = 1) -> bool:
-         notrun = []
-         casenotrun = []
- 
--        if self.tap:
--            self.env.print_env('# ')
--        else:
-+        if not self.makecheck:
-             self.env.print_env()
- 
-         test_field_width = max(len(os.path.basename(t)) for t in tests) + 2
-@@ -403,6 +398,8 @@ def run_tests(self, tests: List[str], jobs: int = 1) -> bool:
- 
-             if res.status == 'fail':
-                 failed.append(name)
-+                if self.makecheck:
-+                    self.env.print_env()
-                 if res.diff:
-                     print('\n'.join(res.diff))
-             elif res.status == 'not run':
-@@ -415,16 +412,16 @@ def run_tests(self, tests: List[str], jobs: int = 1) -> bool:
-             if res.interrupted:
-                 break
- 
--        if not self.tap:
--            if notrun:
--                print('Not run:', ' '.join(notrun))
-+        if notrun:
-+            print('Not run:', ' '.join(notrun))
- 
--            if casenotrun:
--                print('Some cases not run in:', ' '.join(casenotrun))
-+        if casenotrun:
-+            print('Some cases not run in:', ' '.join(casenotrun))
- 
--            if failed:
--                print('Failures:', ' '.join(failed))
--                print(f'Failed {len(failed)} of {n_run} iotests')
--            else:
--                print(f'Passed all {n_run} iotests')
--        return not failed
-+        if failed:
-+            print('Failures:', ' '.join(failed))
-+            print(f'Failed {len(failed)} of {n_run} iotests')
-+            return False
-+        else:
-+            print(f'Passed all {n_run} iotests')
-+            return True
+Dave
+
+> > > >                  IIRC it is OK as long as HMP is a QMP wrapper.
+> > > 
+> > > That's "how to do it", and I'll get back to it in a jiffie, but Peter
+> > > was wondering about the "whether to do it".
+> > > 
+> > > Most HMP commands are always there.
+> > > 
+> > > We have a few specific to compile-time configurable features: TCG, VNC,
+> > > Spice, Slirp, Linux.  Does not apply here.
+> > > 
+> > > We have a few specific to targets, such as dump-skeys and info skeys for
+> > > s390.  Target-specific is not quite the same as device-specific.
+> > > 
+> > > We have no device-specific commands so far.  However, dump-skeys and
+> > > info skeys appear to be about the skeys *device*, not the s390 target.
+> > > Perhaps any s390 target has such a device?  I don't know.  My point is
+> > > we already have device-specific commands, they're just masquerading as
+> > > target-specific commands.
+> > 
+> > Yeh we've got info lapic/ioapic as well.
+> 
+> ... which I suspect is a workaround for only the target CONFIG_* defines being declared.
+> 
+> > > The proposed device-specific command uses a mechanism originally made
+> > > for modules instead (more on that below).
+> > > 
+> > > I think we should make up our minds which way we want device-specific
+> > > commands done, then do *all* of them that way.
+> > 
+> > I think device specific commands make sense, but I think it would
+> > probably be better if we had an 'info dev $name' and that a method on
+> > the device rather than registering each one separately.
+> > I'd assume that this would be a QMP level thing that got unwrapped at
+> > HMP.
+> > 
+> > But that's not a problem for this contribution; someone else can figure
+> > that out later.
+> 
+> 
+> ATB,
+> 
+> Mark.
+> 
 -- 
-2.31.1
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
