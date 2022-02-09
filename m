@@ -2,66 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F9DB4AF294
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Feb 2022 14:23:47 +0100 (CET)
-Received: from localhost ([::1]:34912 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 831A84AF282
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Feb 2022 14:18:58 +0100 (CET)
+Received: from localhost ([::1]:58988 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nHmwk-0001bV-OW
-	for lists+qemu-devel@lfdr.de; Wed, 09 Feb 2022 08:23:46 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:46840)
+	id 1nHms5-0006vi-J1
+	for lists+qemu-devel@lfdr.de; Wed, 09 Feb 2022 08:18:57 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:47010)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1nHmOj-00021k-F9
- for qemu-devel@nongnu.org; Wed, 09 Feb 2022 07:48:37 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:28064)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1nHmPy-0002dd-CF
+ for qemu-devel@nongnu.org; Wed, 09 Feb 2022 07:49:55 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:52744)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1nHmOf-0001YK-Q6
- for qemu-devel@nongnu.org; Wed, 09 Feb 2022 07:48:35 -0500
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1nHmPv-0001cU-IF
+ for qemu-devel@nongnu.org; Wed, 09 Feb 2022 07:49:53 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1644410905;
+ s=mimecast20190719; t=1644410989;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=dLp4Cg1jv2YFe7xWjj0q79odDaNdA/q3J9Zn7C7YD1M=;
- b=ROkiDLFLXUN6Efyn06df+dBh7NTEwfAAEhXfNHKB72DJr6qghTc/o/nQkNytS8P3lLno0Y
- eIIrpIs8l0dKx75MYpvKYjN1cPEtSpUIcUn2+CbKyKXVj8ehHIjDgWzQhs03aHTFysUVrT
- 2s+XFL/6roQLoilTGAhhwGWbx3JpE9c=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=IJF7EW64LhDxzjHF1y+77XxTI2YgzIC8yeuKSel82Z0=;
+ b=J6HDf8yloA4V9mbAGu89BqqWae3NDYvVLC+2sMXaGcXdeQ3NkkQAKVa390Kaqk5UUXARW+
+ 3JP55o2TpWt92nxFJkrUs59N/7ux5Ys1gICvhThAuTfSipx2XsaW9SRDzZ22gCDrffmEBb
+ 1ARXX9Ea4WJJxLlxIypHwNOpwvZ/bxI=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-562-FF8RcTrUNYirMEEkSfmkYA-1; Wed, 09 Feb 2022 07:48:22 -0500
-X-MC-Unique: FF8RcTrUNYirMEEkSfmkYA-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7A6BF39382;
- Wed,  9 Feb 2022 12:48:21 +0000 (UTC)
-Received: from localhost (unknown [10.39.194.43])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 1CED77C0C9;
- Wed,  9 Feb 2022 12:48:20 +0000 (UTC)
-From: Cornelia Huck <cohuck@redhat.com>
-To: eric.auger@redhat.com, "Michael S. Tsirkin" <mst@redhat.com>
-Subject: Re: [PATCH v2 2/4] virtio-iommu: Default to bypass during boot
-In-Reply-To: <6dbd9ef6-99da-850a-114d-53486c91a05f@redhat.com>
-Organization: Red Hat GmbH
-References: <20220127142940.671333-1-jean-philippe@linaro.org>
- <20220127142940.671333-3-jean-philippe@linaro.org>
- <87wni5tftq.fsf@redhat.com>
- <20220208160642-mutt-send-email-mst@kernel.org>
- <87r18cthwd.fsf@redhat.com>
- <6dbd9ef6-99da-850a-114d-53486c91a05f@redhat.com>
-User-Agent: Notmuch/0.34 (https://notmuchmail.org)
-Date: Wed, 09 Feb 2022 13:48:19 +0100
-Message-ID: <87o83gtdd8.fsf@redhat.com>
+ us-mta-272-7V_1C7msPOWA7PIPedssTw-1; Wed, 09 Feb 2022 07:49:47 -0500
+X-MC-Unique: 7V_1C7msPOWA7PIPedssTw-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ n3-20020a05600c294300b0037bc685b717so447437wmd.8
+ for <qemu-devel@nongnu.org>; Wed, 09 Feb 2022 04:49:46 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=IJF7EW64LhDxzjHF1y+77XxTI2YgzIC8yeuKSel82Z0=;
+ b=GDL+1Uh63//+a5gK85SDPVKvxuyy6NkZSGUysp39VUN5JK/U5lijb0Tr88kcLuWqzn
+ ABO0zlef0ChmOEehMaEjx6cuAHa3WrGEu+MYzDTOuukCTc6bm6pYwCsHDD8/FjNuGkUd
+ 1UM32uBCfO/TOcpQQJf/ZjLFtoGJZMdZAvZPqbjBpZmtyyPAy0qFz7wPDRXBhyk84SKt
+ Qc+pK2rRW4O9/LksihUq2pcTEYqTWIoUUMc/y959Wi6zFvFY+zIUYR+//UBJnJcEZOtI
+ O5b3vYUbQ7ZCNkJ3L0xs/GbcwoJmBNRX33oi0VPbbBsWBAf5dMjOpMfCFsSPQJCmE682
+ Rv7Q==
+X-Gm-Message-State: AOAM532NhTxYXuMgn643SihVaSG5VDbY3S4yPRv8RW6kEN0CgblILNyJ
+ R4/cl0ziQ/xFJL/d7ZaFfFPCkgI4AVa4hEsDBKpHAvlbta4anl9aINbA1Wlwm18vOO8UfDVdIN0
+ X3hAZkmj5yUieHPA=
+X-Received: by 2002:a05:600c:19d0:: with SMTP id
+ u16mr2457166wmq.35.1644410985318; 
+ Wed, 09 Feb 2022 04:49:45 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyLHKcYS9UtTKROvjD8UmwYzbg13uPEIbEYh9qKTE5zvjS2SUl/bRqon/0bL0JUn7xvK1mnow==
+X-Received: by 2002:a05:600c:19d0:: with SMTP id
+ u16mr2457156wmq.35.1644410985129; 
+ Wed, 09 Feb 2022 04:49:45 -0800 (PST)
+Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
+ [82.30.61.225])
+ by smtp.gmail.com with ESMTPSA id t4sm15221138wro.71.2022.02.09.04.49.44
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 09 Feb 2022 04:49:44 -0800 (PST)
+Date: Wed, 9 Feb 2022 12:49:42 +0000
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: christian.ehrhardt@canonical.com
+Subject: Re: [PATCH] tools/virtiofsd: Add rseq syscall to the seccomp allowlist
+Message-ID: <YgO4ZrshcZAXP9z6@work-vm>
+References: <20220209111456.3328420-1-christian.ehrhardt@canonical.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+In-Reply-To: <20220209111456.3328420-1-christian.ehrhardt@canonical.com>
+User-Agent: Mutt/2.1.5 (2021-12-30)
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=cohuck@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=cohuck@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -82,60 +98,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: lvivier@redhat.com, Jean-Philippe Brucker <jean-philippe@linaro.org>,
- thuth@redhat.com, qemu-devel@nongnu.org, pasic@linux.ibm.com,
- pbonzini@redhat.com
+Cc: qemu-devel <qemu-devel@nongnu.org>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Michael Hudson-Doyle <michael.hudson@canonical.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Feb 09 2022, Eric Auger <eric.auger@redhat.com> wrote:
+* christian.ehrhardt@canonical.com (christian.ehrhardt@canonical.com) wrote:
+> From: Christian Ehrhardt <christian.ehrhardt@canonical.com>
+> 
+> The virtiofsd currently crashes when used with glibc 2.35.
+> That is due to the rseq system call being added to every thread
+> creation [1][2].
+> 
+> [1]: https://www.efficios.com/blog/2019/02/08/linux-restartable-sequences/
+> [2]: https://sourceware.org/pipermail/libc-alpha/2022-February/136040.html
+> 
+> This happens not at daemon start, but when a guest connects
+> 
+>     /usr/lib/qemu/virtiofsd -f --socket-path=/tmp/testvfsd -o sandbox=chroot \
+>         -o source=/var/guests/j-virtiofs --socket-group=kvm
+>     virtio_session_mount: Waiting for vhost-user socket connection...
+>     # start ok, now guest will connect
+>     virtio_session_mount: Received vhost-user socket connection
+>     virtio_loop: Entry
+>     fv_queue_set_started: qidx=0 started=1
+>     fv_queue_set_started: qidx=1 started=1
+>     Bad system call (core dumped)
+> 
+> We have to put rseq on the seccomp allowlist to avoid that the daemon
+> is crashing in this case.
+> 
+> Reported-by: Michael Hudson-Doyle <michael.hudson@canonical.com>
+> Signed-off-by: Christian Ehrhardt <christian.ehrhardt@canonical.com>
 
-> Hi,
->
-> On 2/9/22 12:10 PM, Cornelia Huck wrote:
->> On Tue, Feb 08 2022, "Michael S. Tsirkin" <mst@redhat.com> wrote:
->>
->>> On Tue, Feb 08, 2022 at 06:42:57PM +0100, Cornelia Huck wrote:
->>>> On Thu, Jan 27 2022, Jean-Philippe Brucker <jean-philippe@linaro.org> wrote:
->>>>
->>>>> @@ -988,9 +1025,9 @@ static void virtio_iommu_device_realize(DeviceState *dev, Error **errp)
->>>>>      virtio_add_feature(&s->features, VIRTIO_IOMMU_F_INPUT_RANGE);
->>>>>      virtio_add_feature(&s->features, VIRTIO_IOMMU_F_DOMAIN_RANGE);
->>>>>      virtio_add_feature(&s->features, VIRTIO_IOMMU_F_MAP_UNMAP);
->>>>> -    virtio_add_feature(&s->features, VIRTIO_IOMMU_F_BYPASS);
->>>>>      virtio_add_feature(&s->features, VIRTIO_IOMMU_F_MMIO);
->>>>>      virtio_add_feature(&s->features, VIRTIO_IOMMU_F_PROBE);
->>>>> +    virtio_add_feature(&s->features, VIRTIO_IOMMU_F_BYPASS_CONFIG);
->>>> Hm. In the other patch, you say that you don't support cross-version
->>>> migration (I assume across QEMU versions?)
->>> I missed that ... where does it say this?
->> In bf447d9b-c039-ccdc-f24f-ab8b56c1b196@redhat.com and follow-ups
->> (unless I misread that; maybe it's more about this concrete boundary and
->> not generally?)
->
-> We were considering the virtio-iommu QEMU device currently isn't used
-> for production yet, as far as we know, because we were missing the ACPI
-> integration.
-> So we envisionned to not care about mig subsections and just add the new
-> field in the VMState.
->
-> would that make sense?
+Thanks! I bet this is going to pop up in zillions of programs.
 
-If people are currently mostly playing with this device, it would not
-hurt too much, I guess. (Should we document expectations somewhere?)
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 
-Adding a compat prop for this feature would be easy enough, but juggling
-subsections is a bit more involved, so I see the argument for not caring
-about them.
-
->
-> Thanks
->
-> Eric
->
->>
->>>> Because changing the feature
->>>> set will be guest-visible, and would need some compat handling if you
->>>> plan to support this.
+> ---
+>  tools/virtiofsd/passthrough_seccomp.c | 3 +++
+>  1 file changed, 3 insertions(+)
+> 
+> diff --git a/tools/virtiofsd/passthrough_seccomp.c b/tools/virtiofsd/passthrough_seccomp.c
+> index a3ce9f898d..21b8f53bd9 100644
+> --- a/tools/virtiofsd/passthrough_seccomp.c
+> +++ b/tools/virtiofsd/passthrough_seccomp.c
+> @@ -116,6 +116,9 @@ static const int syscall_allowlist[] = {
+>      SCMP_SYS(write),
+>      SCMP_SYS(writev),
+>      SCMP_SYS(umask),
+> +#ifdef __NR_rseq
+> +    SCMP_SYS(rseq), /* required since glibc 2.35 */
+> +#endif
+>  };
+>  
+>  /* Syscalls used when --syslog is enabled */
+> -- 
+> 2.35.0
+> 
+> 
+-- 
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
