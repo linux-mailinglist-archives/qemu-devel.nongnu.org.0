@@ -2,60 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94A904AED83
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Feb 2022 10:04:05 +0100 (CET)
-Received: from localhost ([::1]:36150 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 392EE4AEDC7
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Feb 2022 10:17:03 +0100 (CET)
+Received: from localhost ([::1]:42898 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nHitP-0001Ll-Va
-	for lists+qemu-devel@lfdr.de; Wed, 09 Feb 2022 04:04:04 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:38018)
+	id 1nHj5x-0006az-Hq
+	for lists+qemu-devel@lfdr.de; Wed, 09 Feb 2022 04:17:01 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:38256)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1nHhep-0003P7-DR
- for qemu-devel@nongnu.org; Wed, 09 Feb 2022 02:44:57 -0500
-Received: from 3.mo548.mail-out.ovh.net ([188.165.32.156]:48053)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1nHhfK-0003Ro-OT
+ for qemu-devel@nongnu.org; Wed, 09 Feb 2022 02:45:40 -0500
+Received: from smtpout3.mo529.mail-out.ovh.net ([46.105.54.81]:41295)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1nHhek-0005eu-S2
- for qemu-devel@nongnu.org; Wed, 09 Feb 2022 02:44:53 -0500
-Received: from mxplan5.mail.ovh.net (unknown [10.108.20.180])
- by mo548.mail-out.ovh.net (Postfix) with ESMTPS id 5B5FB20F34;
- Wed,  9 Feb 2022 07:44:36 +0000 (UTC)
-Received: from kaod.org (37.59.142.105) by DAG4EX1.mxp5.local (172.16.2.31)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1nHhf9-00062f-2W
+ for qemu-devel@nongnu.org; Wed, 09 Feb 2022 02:45:17 -0500
+Received: from mxplan5.mail.ovh.net (unknown [10.108.1.149])
+ by mo529.mail-out.ovh.net (Postfix) with ESMTPS id 22CF9DE0249F;
+ Wed,  9 Feb 2022 08:45:10 +0100 (CET)
+Received: from kaod.org (37.59.142.98) by DAG4EX1.mxp5.local (172.16.2.31)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.18; Wed, 9 Feb
- 2022 08:44:35 +0100
+ 2022 08:45:09 +0100
 Authentication-Results: garm.ovh; auth=pass
- (GARM-105G006691d3ddc-5c08-425e-9d28-cbf15ef90c06,
- D657DFC387B0B0E2C5DD546C0716E11BBFCF4DEE) smtp.auth=clg@kaod.org
+ (GARM-98R0028447e94b-319f-4798-860e-16c28ba3e5c7,
+ 6011F8B921976590CD78E2F91FBBAF540C01AD6C) smtp.auth=clg@kaod.org
 X-OVh-ClientIp: 90.76.223.183
-Message-ID: <591aedba-0cc8-0907-f55f-1366dfb8b7d3@kaod.org>
-Date: Wed, 9 Feb 2022 08:44:29 +0100
+Message-ID: <136eab40-dc7b-f2d0-6930-08ca507ad19e@kaod.org>
+Date: Wed, 9 Feb 2022 08:45:09 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.3.0
-Subject: Re: [PATCH v2 00/10] target/ppc: powerpc_excp improvements [7xx] (8/n)
+Subject: Re: [PATCH] target/ppc: Change VSX instructions behavior to fill with
+ zeros
 Content-Language: en-US
-To: Fabiano Rosas <farosas@linux.ibm.com>, <qemu-devel@nongnu.org>
-References: <20220204173430.1457358-1-farosas@linux.ibm.com>
+To: =?UTF-8?Q?V=c3=adctor_Colombo?= <victor.colombo@eldorado.org.br>,
+ <qemu-devel@nongnu.org>, <qemu-ppc@nongnu.org>
+References: <20220204181944.65063-1-victor.colombo@eldorado.org.br>
 From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <20220204173430.1457358-1-farosas@linux.ibm.com>
+In-Reply-To: <20220204181944.65063-1-victor.colombo@eldorado.org.br>
 Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [37.59.142.105]
-X-ClientProxiedBy: DAG4EX1.mxp5.local (172.16.2.31) To DAG4EX1.mxp5.local
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [37.59.142.98]
+X-ClientProxiedBy: DAG2EX2.mxp5.local (172.16.2.12) To DAG4EX1.mxp5.local
  (172.16.2.31)
-X-Ovh-Tracer-GUID: 7cf41642-8553-47ec-b4fe-c5e7665d1b7b
-X-Ovh-Tracer-Id: 8134626827225107363
+X-Ovh-Tracer-GUID: 499dd5e2-706c-4fae-a39b-2a89380202ad
+X-Ovh-Tracer-Id: 8144196977644702569
 X-VR-SPAMSTATE: OK
 X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvvddrheekgddutdejucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvfhfhjggtgfhisehtjeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepjedtiedvueekffejtdfhvdfhhfevteefffdtteetueevuefhieekgeeuteffledtnecuffhomhgrihhnpehgihhtlhgrsgdrtghomhdpnhhonhhgnhhurdhorhhgnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrddutdehnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhnsggprhgtphhtthhopedupdhrtghpthhtohepuggrnhhivghlhhgsgedufeesghhmrghilhdrtghomh
-Received-SPF: pass client-ip=188.165.32.156; envelope-from=clg@kaod.org;
- helo=3.mo548.mail-out.ovh.net
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvvddrheekgddutdejucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvfhfhjggtgfhisehtkeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepieegvdffkeegfeetuddttddtveduiefhgeduffekiedtkeekteekhfffleevleelnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrdelkeenucevlhhushhtvghrufhiiigvpedunecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdpnhgspghrtghpthhtohepuddprhgtphhtthhopehgrhhouhhgsehkrghougdrohhrgh
+Received-SPF: pass client-ip=46.105.54.81; envelope-from=clg@kaod.org;
+ helo=smtpout3.mo529.mail-out.ovh.net
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
 X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -69,39 +71,25 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: danielhb413@gmail.com, qemu-ppc@nongnu.org, david@gibson.dropbear.id.au
+Cc: danielhb413@gmail.com, matheus.ferst@eldorado.org.br, groug@kaod.org,
+ david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/4/22 18:34, Fabiano Rosas wrote:
-> This series handles the 7xx family: 740, 745, 750, 750cl, 750cx,
-> 750fx, 750gx and 755.
+On 2/4/22 19:19, Víctor Colombo wrote:
+> ISA v3.1 changed some VSX instructions behavior by changing what the
+> other words/doubleword in the result should contain when the result is
+> only one word/doubleword. e.g. xsmaxdp operates on doubleword 0 and
+> saves the result also in doubleword 0.
+> Before, the second doubleword result was undefined according to the
+> ISA, but now it's stated that it should be zeroed.
 > 
-> changes from v1:
+> Even tough the result was undefined before, hardware implementing these
+> instructions already filled these fields with 0s. Changing every ISA
+> version in QEMU to this behavior makes the results match what happens
+> in hardware.
 > 
-> - add back sc 1 support for pegasos2. I have opened an issue to track
->    this: https://gitlab.com/qemu-project/qemu/-/issues/859
-> 
-> v1:
-> https://lists.nongnu.org/archive/html/qemu-ppc/2022-02/msg00043.html
-> 
-> Fabiano Rosas (10):
->    target/ppc: Merge 7x5 and 7x0 exception model IDs
->    target/ppc: Introduce powerpc_excp_7xx
->    target/ppc: Simplify powerpc_excp_7xx
->    target/ppc: 7xx: Machine Check exception cleanup
->    target/ppc: 7xx: External interrupt cleanup
->    target/ppc: 7xx: Program exception cleanup
->    target/ppc: 7xx: System Call exception cleanup
->    target/ppc: 7xx: System Reset cleanup
->    target/ppc: 7xx: Software TLB cleanup
->    target/ppc: 7xx: Set SRRs directly in exception code
-> 
->   target/ppc/cpu-qom.h     |   6 +-
->   target/ppc/cpu_init.c    |  16 +--
->   target/ppc/excp_helper.c | 207 ++++++++++++++++++++++++++++++++++++++-
->   3 files changed, 216 insertions(+), 13 deletions(-)
-> 
+> Signed-off-by: Víctor Colombo <victor.colombo@eldorado.org.br>
 
 
 Applied to ppc-7.0.
@@ -109,5 +97,6 @@ Applied to ppc-7.0.
 Thanks,
 
 C.
+
 
 
