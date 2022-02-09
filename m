@@ -2,74 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 78E9A4AF3F5
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Feb 2022 15:23:07 +0100 (CET)
-Received: from localhost ([::1]:53890 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B89D4AF3EC
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Feb 2022 15:19:13 +0100 (CET)
+Received: from localhost ([::1]:49456 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nHnsA-0004xW-0n
-	for lists+qemu-devel@lfdr.de; Wed, 09 Feb 2022 09:23:06 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:58700)
+	id 1nHnoN-00014I-KB
+	for lists+qemu-devel@lfdr.de; Wed, 09 Feb 2022 09:19:11 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:33338)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nHn84-0003dY-Ra
- for qemu-devel@nongnu.org; Wed, 09 Feb 2022 08:35:29 -0500
-Received: from [2a00:1450:4864:20::32c] (port=34469
- helo=mail-wm1-x32c.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nHn82-0006CZ-O5
- for qemu-devel@nongnu.org; Wed, 09 Feb 2022 08:35:28 -0500
-Received: by mail-wm1-x32c.google.com with SMTP id
- bg19-20020a05600c3c9300b0034565e837b6so2359934wmb.1
- for <qemu-devel@nongnu.org>; Wed, 09 Feb 2022 05:35:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Ami02QQvhp0Fh4j40WGX7wfQoYqmX+fNZJnee8w0VpM=;
- b=cWkVAOmMqTj48ZS56gs5WoX5y+dgiKxxOYyXfRhRf3PPySX5MBIbOghZ4VrpWBxVLk
- GgpqHvtip/gX+YD76HQoEUp2fp/5E+V4vzK2lza7RAQyBRKhHJWW4Es76ZoaY+gOomP0
- KKincPFIcKc+z+GMWWCi9FCkvCf5FA+gHtyA0sMyOvVYZTfNbN3LSDjsXlM/rQDswbK5
- kcex3LCplQg+1PxaWqWc88/s23dXtpn3R4XI5bNY8tW+9vx3kklD6qSsa9B7qdUH+XYx
- BE0nv/2q06XWELz7tVjwkVBDrNm4fa35u3VgXXkzXrP2NDAZ5RE6WvgRvvqZ7H/qB7n4
- 5ybg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=Ami02QQvhp0Fh4j40WGX7wfQoYqmX+fNZJnee8w0VpM=;
- b=4KsramfyZ50CXH0PYH4DabcgLKSxOjlU5ahKwP/P1nQ8RGYKBJe4lssGRRgXrRabSI
- WGQkSy4jCn5n+3BDN91Jy4XIP1JFwINWd5zYuijtpFrdiN4jGS11EqJt4gBs0rvDTFZC
- vzQvorzmBbCQQy/91w9LN6TtAxdlQanILMMN+LieKTEJ96b6vFSLGdO/GWHvgQl/x8/K
- 3gJot16E0r8OlHJbnhneXjwKdHDNUemn3nA3dTBq5ZZV4Pza5yTCMYZxMCRPi9wjToVa
- bNhswqMu0Ogwg7412UlcBKc7+HnABLiRgOmqVjctuytFQJh5I1d3MVm8jb4X9bF46VBh
- wgCQ==
-X-Gm-Message-State: AOAM5325pu6zjph0VTGCKtet41kV+NmroLjmW/xAacuyBDHDMBeXQGAI
- soIfPUDRWGURG8ASBOyDZeiOqKDMUndqNzJAai9aAw==
-X-Google-Smtp-Source: ABdhPJzxVFc2ym0fVgW+UG6QyUsMuxfAr8SVMU/M9ES2Pn/QuLedkh8sS4+K+ZgmPrBrp7i6jHuZk9lPvKns8/5XVZs=
-X-Received: by 2002:a05:600c:2d05:: with SMTP id
- x5mr2103506wmf.133.1644413725198; 
- Wed, 09 Feb 2022 05:35:25 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nHnG4-0007Zh-I2
+ for qemu-devel@nongnu.org; Wed, 09 Feb 2022 08:43:44 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:29347)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nHnG0-0000Hv-6Z
+ for qemu-devel@nongnu.org; Wed, 09 Feb 2022 08:43:42 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1644414217;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=X1e3BSraEzDjN1P9/W6HnhAYKQNhXqmB/VtmNoxs31M=;
+ b=Jg16Zhhq4lZVoMWeBWMaelUEzVa5Llje78vU1Pkf1irgp+Yc/Yowu9VDR27PgMwrNiZy9H
+ czHH1CAGw4N0YShQBBg4EfSX5IoRJ9CSbA0WmSWuTB34sHjW0p1ZaSkZWNl1OGMRp15eqh
+ iM0lydZZdi/N5j18/QmYqJEb8viY4eY=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-446-HhIbbpdjPkGy7llRCdBCcw-1; Wed, 09 Feb 2022 08:43:34 -0500
+X-MC-Unique: HhIbbpdjPkGy7llRCdBCcw-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 447071091DA1;
+ Wed,  9 Feb 2022 13:43:33 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.36.112.3])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 6158B7B037;
+ Wed,  9 Feb 2022 13:43:15 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id E3ED921E6A00; Wed,  9 Feb 2022 14:43:13 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: Fabian Ebner <f.ebner@proxmox.com>
+Subject: Re: [PATCH v8 2/3] qapi/monitor: refactor set/expire_password with
+ enums
+References: <20220204101220.343526-1-f.ebner@proxmox.com>
+ <20220204101220.343526-3-f.ebner@proxmox.com>
+Date: Wed, 09 Feb 2022 14:43:13 +0100
+In-Reply-To: <20220204101220.343526-3-f.ebner@proxmox.com> (Fabian Ebner's
+ message of "Fri, 4 Feb 2022 11:12:19 +0100")
+Message-ID: <87o83ggnpq.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-References: <20220207213039.2278569-1-jsnow@redhat.com>
-In-Reply-To: <20220207213039.2278569-1-jsnow@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Wed, 9 Feb 2022 13:35:14 +0000
-Message-ID: <CAFEAcA8Diwoioh6U95Q_c8y+cjsuVRv-VvW89Ngp9a2k47UuiQ@mail.gmail.com>
-Subject: Re: [PATCH] Python: discourage direct setup.py install
-To: John Snow <jsnow@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32c
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32c.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -82,38 +81,239 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <eduardo@habkost.net>, Cleber Rosa <crosa@redhat.com>,
- =?UTF-8?Q?Daniel_P_=2E_Berrang=C3=A9?= <berrange@redhat.com>,
- qemu-devel@nongnu.org, Beraldo Leal <bleal@redhat.com>
+Cc: w.bumiller@proxmox.com, berrange@redhat.com, qemu-devel@nongnu.org,
+ armbru@redhat.com, marcandre.lureau@gmail.com, kraxel@redhat.com,
+ pbonzini@redhat.com, marcandre.lureau@redhat.com, eblake@redhat.com,
+ t.lamprecht@proxmox.com, dgilbert@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 7 Feb 2022 at 21:34, John Snow <jsnow@redhat.com> wrote:
+Fabian Ebner <f.ebner@proxmox.com> writes:
+
+> From: Stefan Reiter <s.reiter@proxmox.com>
 >
-> When invoking setup.py directly, the default behavior for 'install' is
-> to run the bdist_egg installation hook, which is ... actually deprecated
-> by setuptools. It doesn't seem to work quite right anymore.
+> 'protocol' and 'connected' are better suited as enums than as strings,
+> make use of that. No functional change intended.
 >
-> By contrast, 'pip install' will invoke the bdist_wheel hook
-> instead. This leads to differences in behavior for the two approaches. I
-> advocate using pip in the documentation in this directory, but the
-> 'setup.py' which has been used for quite a long time in the Python world
-> may deceptively appear to work at first glance.
+> Suggested-by: Markus Armbruster <armbru@redhat.com>
+> Signed-off-by: Stefan Reiter <s.reiter@proxmox.com>
+> [FE: update "Since: " from 6.2 to 7.0
+>      put 'keep' first in enum to ease use as a default]
+> Signed-off-by: Fabian Ebner <f.ebner@proxmox.com>
+> ---
 >
-> Add an error message that will save a bit of time and frustration
-> that points the user towards using the supported installation
-> invocation.
+> v7 -> v8:
+> * drop if conditionals for DisplayProtocol enum, so compilation with
+>   --disable-{spice,vnc} works
+>
+>  monitor/hmp-cmds.c | 29 +++++++++++++++++++++++++++--
+>  monitor/qmp-cmds.c | 37 ++++++++++++-------------------------
+>  qapi/ui.json       | 36 ++++++++++++++++++++++++++++++++++--
+>  3 files changed, 73 insertions(+), 29 deletions(-)
+>
+> diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
+> index 8c384dc1b2..ff78741b75 100644
+> --- a/monitor/hmp-cmds.c
+> +++ b/monitor/hmp-cmds.c
+> @@ -1398,8 +1398,24 @@ void hmp_set_password(Monitor *mon, const QDict *qdict)
+>      const char *password  = qdict_get_str(qdict, "password");
+>      const char *connected = qdict_get_try_str(qdict, "connected");
+>      Error *err = NULL;
+> +    DisplayProtocol proto;
+> +    SetPasswordAction conn;
+>  
+> -    qmp_set_password(protocol, password, !!connected, connected, &err);
+> +    proto = qapi_enum_parse(&DisplayProtocol_lookup, protocol,
+> +                            DISPLAY_PROTOCOL_VNC, &err);
+> +    if (err) {
+> +        goto out;
+> +    }
+> +
+> +    conn = qapi_enum_parse(&SetPasswordAction_lookup, connected,
+> +                           SET_PASSWORD_ACTION_KEEP, &err);
+> +    if (err) {
+> +        goto out;
+> +    }
+> +
+> +    qmp_set_password(proto, password, !!connected, conn, &err);
+> +
+> +out:
+>      hmp_handle_error(mon, err);
+>  }
+>  
+> @@ -1408,8 +1424,17 @@ void hmp_expire_password(Monitor *mon, const QDict *qdict)
+>      const char *protocol  = qdict_get_str(qdict, "protocol");
+>      const char *whenstr = qdict_get_str(qdict, "time");
+>      Error *err = NULL;
+> +    DisplayProtocol proto;
+> +
+> +    proto = qapi_enum_parse(&DisplayProtocol_lookup, protocol,
+> +                            DISPLAY_PROTOCOL_VNC, &err);
+> +    if (err) {
+> +        goto out;
+> +    }
+>  
+> -    qmp_expire_password(protocol, whenstr, &err);
+> +    qmp_expire_password(proto, whenstr, &err);
+> +
+> +out:
+>      hmp_handle_error(mon, err);
+>  }
+>  
+> diff --git a/monitor/qmp-cmds.c b/monitor/qmp-cmds.c
+> index db4d186448..b6e8b57fcc 100644
+> --- a/monitor/qmp-cmds.c
+> +++ b/monitor/qmp-cmds.c
+> @@ -168,33 +168,27 @@ void qmp_system_wakeup(Error **errp)
+>      qemu_system_wakeup_request(QEMU_WAKEUP_REASON_OTHER, errp);
+>  }
+>  
+> -void qmp_set_password(const char *protocol, const char *password,
+> -                      bool has_connected, const char *connected, Error **errp)
+> +void qmp_set_password(DisplayProtocol protocol, const char *password,
+> +                      bool has_connected, SetPasswordAction connected,
+> +                      Error **errp)
+>  {
+>      int disconnect_if_connected = 0;
+>      int fail_if_connected = 0;
+>      int rc;
+>  
+>      if (has_connected) {
+> -        if (strcmp(connected, "fail") == 0) {
+> -            fail_if_connected = 1;
+> -        } else if (strcmp(connected, "disconnect") == 0) {
+> -            disconnect_if_connected = 1;
+> -        } else if (strcmp(connected, "keep") == 0) {
+> -            /* nothing */
+> -        } else {
+> -            error_setg(errp, QERR_INVALID_PARAMETER, "connected");
+> -            return;
+> -        }
+> +        fail_if_connected = connected == SET_PASSWORD_ACTION_FAIL;
+> +        disconnect_if_connected = connected == SET_PASSWORD_ACTION_DISCONNECT;
+>      }
+>  
+> -    if (strcmp(protocol, "spice") == 0) {
+> +    if (protocol == DISPLAY_PROTOCOL_SPICE) {
+>          if (!qemu_using_spice(errp)) {
+>              return;
+>          }
+>          rc = qemu_spice.set_passwd(password, fail_if_connected,
+>                                     disconnect_if_connected);
+> -    } else if (strcmp(protocol, "vnc") == 0) {
+> +    } else {
+> +        assert(protocol == DISPLAY_PROTOCOL_VNC);
+>          if (fail_if_connected || disconnect_if_connected) {
+>              /* vnc supports "connected=keep" only */
+>              error_setg(errp, QERR_INVALID_PARAMETER, "connected");
+> @@ -203,10 +197,6 @@ void qmp_set_password(const char *protocol, const char *password,
+>          /* Note that setting an empty password will not disable login through
+>           * this interface. */
+>          rc = vnc_display_password(NULL, password);
+> -    } else {
+> -        error_setg(errp, QERR_INVALID_PARAMETER_VALUE, "protocol",
+> -                   "'vnc' or 'spice'");
+> -        return;
+>      }
+>  
+>      if (rc != 0) {
+> @@ -214,7 +204,7 @@ void qmp_set_password(const char *protocol, const char *password,
+>      }
+>  }
+>  
+> -void qmp_expire_password(const char *protocol, const char *whenstr,
+> +void qmp_expire_password(DisplayProtocol protocol, const char *whenstr,
+>                           Error **errp)
+>  {
+>      time_t when;
+> @@ -230,17 +220,14 @@ void qmp_expire_password(const char *protocol, const char *whenstr,
+>          when = strtoull(whenstr, NULL, 10);
+>      }
+>  
+> -    if (strcmp(protocol, "spice") == 0) {
+> +    if (protocol == DISPLAY_PROTOCOL_SPICE) {
+>          if (!qemu_using_spice(errp)) {
+>              return;
+>          }
+>          rc = qemu_spice.set_pw_expire(when);
+> -    } else if (strcmp(protocol, "vnc") == 0) {
+> -        rc = vnc_display_pw_expire(NULL, when);
+>      } else {
+> -        error_setg(errp, QERR_INVALID_PARAMETER_VALUE, "protocol",
+> -                   "'vnc' or 'spice'");
+> -        return;
+> +        assert(protocol == DISPLAY_PROTOCOL_VNC);
+> +        rc = vnc_display_pw_expire(NULL, when);
+>      }
+>  
+>      if (rc != 0) {
+> diff --git a/qapi/ui.json b/qapi/ui.json
+> index 9354f4c467..e112409211 100644
+> --- a/qapi/ui.json
+> +++ b/qapi/ui.json
+> @@ -9,6 +9,34 @@
+>  { 'include': 'common.json' }
+>  { 'include': 'sockets.json' }
+>  
+> +##
+> +# @DisplayProtocol:
+> +#
+> +# Display protocols which support changing password options.
 
-While we're on the topic of python installation, is there any way
-to suppress or otherwise deal with the warning Meson prints out?
+This is correct now: the enum is only used in that role.  If we ever use
+DisplayReloadType for other purposes, the comment will become wrong.
+Let's not worry about that now.
 
-WARNING: Broken python installation detected. Python files installed
-by Meson might not be found by python interpreter.
+> +#
+> +# Since: 7.0
+> +#
+> +##
+> +{ 'enum': 'DisplayProtocol',
+> +  'data': [ 'vnc', 'spice' ] }
+> +
+> +##
+> +# @SetPasswordAction:
+> +#
+> +# An action to take on changing a password on a connection with active clients.
+> +#
+> +# @keep: maintain existing clients
+> +#
+> +# @fail: fail the command if clients are connected
+> +#
+> +# @disconnect: disconnect existing clients
+> +#
+> +# Since: 7.0
+> +#
+> +##
+> +{ 'enum': 'SetPasswordAction',
+> +  'data': [ 'keep', 'fail', 'disconnect' ] }
+> +
+>  ##
+>  # @set_password:
+>  #
+> @@ -38,7 +66,9 @@
+>  #
+>  ##
+>  { 'command': 'set_password',
+> -  'data': {'protocol': 'str', 'password': 'str', '*connected': 'str'} }
+> +  'data': { 'protocol': 'DisplayProtocol',
+> +            'password': 'str',
+> +            '*connected': 'SetPasswordAction' } }
+>  
+>  ##
+>  # @expire_password:
+> @@ -71,7 +101,9 @@
+>  # <- { "return": {} }
+>  #
+>  ##
+> -{ 'command': 'expire_password', 'data': {'protocol': 'str', 'time': 'str'} }
+> +{ 'command': 'expire_password',
+> +  'data': { 'protocol': 'DisplayProtocol',
+> +            'time': 'str' } }
+>  
+>  ##
+>  # @screendump:
 
-(I vaguely recall tracking down a meson bug, and this seems to be
-some issue the meson developers have with the way Ubuntu/Debian
-have done their python packaging. But I forget the details.)
+Reviewed-by: Markus Armbruster <armbru@redhat.com>
 
-thanks
--- PMM
 
