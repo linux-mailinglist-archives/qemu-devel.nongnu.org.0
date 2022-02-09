@@ -2,80 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79E8E4AFF6E
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Feb 2022 22:48:44 +0100 (CET)
-Received: from localhost ([::1]:36522 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 177B34AFF7D
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Feb 2022 22:53:01 +0100 (CET)
+Received: from localhost ([::1]:40114 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nHupP-0000Wv-6Q
-	for lists+qemu-devel@lfdr.de; Wed, 09 Feb 2022 16:48:43 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:35018)
+	id 1nHutX-0003A6-Po
+	for lists+qemu-devel@lfdr.de; Wed, 09 Feb 2022 16:52:59 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:35774)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nHunz-0008GD-I6
- for qemu-devel@nongnu.org; Wed, 09 Feb 2022 16:47:15 -0500
-Received: from [2607:f8b0:4864:20::62b] (port=41717
- helo=mail-pl1-x62b.google.com)
+ id 1nHurt-0001kq-07
+ for qemu-devel@nongnu.org; Wed, 09 Feb 2022 16:51:18 -0500
+Received: from [2607:f8b0:4864:20::102e] (port=33963
+ helo=mail-pj1-x102e.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nHunx-0006kI-Gt
- for qemu-devel@nongnu.org; Wed, 09 Feb 2022 16:47:15 -0500
-Received: by mail-pl1-x62b.google.com with SMTP id j4so98304plj.8
- for <qemu-devel@nongnu.org>; Wed, 09 Feb 2022 13:47:09 -0800 (PST)
+ id 1nHurq-0007Ra-TA
+ for qemu-devel@nongnu.org; Wed, 09 Feb 2022 16:51:16 -0500
+Received: by mail-pj1-x102e.google.com with SMTP id
+ ki18-20020a17090ae91200b001b8be87e9abso383383pjb.1
+ for <qemu-devel@nongnu.org>; Wed, 09 Feb 2022 13:51:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=VhzraPX1jCa3/if1zot0SyM6FhdeocupPfAQhJYoXNw=;
- b=IPkZ3E4hAFHvIcEisnLCnDp7y4pM5c71mXumKJOCohWXpUSEUEEDi2fhFWt0AelOk7
- CuiDeNQ3jl06wNqYTs6hUFONAHnz9Yh/x1IHl/mWG47g3pUfz3zO9EOBPRRXEVWupA94
- +oVcaffTowzPkYBmxwBW1dUlRGeb+5oyAxKW4DmIniRwSmo0hmmhoDQCLPR6Q+3t4iXC
- IVcYZ1ZokPYxZYd5ZhSMEi6jiAysqJQRWcoJEqIsGfwncDKCHHwFnb2zP+nngXLdjeYy
- 9xpCOJ+nTOTnh76+p/M9VukQq7Np88lVJZo3lWDn8TbaghepuIP0nJsT+tIGnbE05pJP
- LB5g==
+ bh=8LrQgZaSU0PQJWAz4QLNFLpgibn0MavP/0Vbg0GqZ80=;
+ b=RJDwDKQjyAA6F8Mb0esDYdUUmFqTpimV9iINvJKgCycf5kmzQpMGX0H87gS9Uqa1NL
+ bvbPtqD0n1FkVoPqVPmkZ1z7JdV7jA+ZOiCoRmVYip69RtzUcBB8jM3H9fOl6lUtrUev
+ gTeYsVv0BUrWnwc2UYjOXgvuyRNf21xxkQFsXhC8wHHr8PVQolsfyG9xnVnOhj5PT0s0
+ 2C5S/VgGoUYBq8Gdjg9M0GZJTtvsh19XeYky50N64s3chE+3IPUjbijrGJ32c0SOYbZB
+ mIOwwR4mLZVWq6jRH9XTi02ov8xaXnV8EbzKWjnU16EtFEYnJzM3fdtWWwgEr6w9eHHy
+ 4pTg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
  :subject:content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=VhzraPX1jCa3/if1zot0SyM6FhdeocupPfAQhJYoXNw=;
- b=3AgNMcxupuGwzhyny9ALyOyYfy0BlsgxSfr11bShohvMJbh8KAuoAg4xMJTa1AmM9s
- uXPUyW91gQOIhAwmDwZnF7f96Bd197NJWPC0NPi612B9bHRSTP5WBlGyxhzX7xQK9eii
- Imh/9fSGdfd76iflLOZURjLROJm/WUS/ZLSthcWY5CnUV8tSCxxooEUcvDZu+s5WNlag
- A/o+2xfVyHNtNt0VcRdEhdtajvv5KyD86xsmOgoTAEnhMgltYMRbCs/ZunEta8QybuoU
- j4cA6aOID7vDM+ldq+4EJGIvb0Bf9tICHXJXwFOkUABVToh3RqhTfc4Tm+82/dxXG5T6
- nO2g==
-X-Gm-Message-State: AOAM533iWeTtXZK6azGn7jss1cEIJueckozYujt3mJkOYshdbzT7R3fV
- 6TpraO7dbPVytyRobXQPTIw=
-X-Google-Smtp-Source: ABdhPJzfzw+3+SmiY5yK494ZouGDFi113bRNmJX3WotUMnnM416vdm/TivIlQsMy6qqZXnYqIgsWxA==
-X-Received: by 2002:a17:902:d64f:: with SMTP id
- y15mr4368776plh.145.1644443227922; 
- Wed, 09 Feb 2022 13:47:07 -0800 (PST)
+ bh=8LrQgZaSU0PQJWAz4QLNFLpgibn0MavP/0Vbg0GqZ80=;
+ b=cZx6yJt96ubZji6CcmQnPHl4DBtB/wSPgA7EasjtsbNyN2sWJX03pUCwRLCGovy8zD
+ ray2YVrrUDuJOimQEwl61oTkVE6MwsJL17679b3ZSl+b5Jq0lWJHcTmUlhNRlSYJfAtE
+ LDcstoeSVKZLI+mdlM5pucao0wWEZoGDW/ahI0mrSUvVTmZHN+5+9iYqlwda6fl5shSG
+ 4FwFm7esCXPOsHwwGA8pauyNp49awOfdaaXPcQ7VF0mKiFj4X6S8KygUAkkjDeSg1Hux
+ D2wFYnUNmgxmJYe5244xbxnfQJyPdL1hWEbtdr2yCTAt8x4NdkKY9zxMkuLmJLkjHHuK
+ lSQQ==
+X-Gm-Message-State: AOAM530ZYcmycuXm4GT/n+NgWi5TYW6RwLLnbheNeSTBW7gYW1V3fCG3
+ VSF5gfoVSoVwcSL18U+eENo=
+X-Google-Smtp-Source: ABdhPJyAIbhELnX627iR5d16OY9Iq4r5JJoSzzKd7fqlzsSFwojEQCTQD8bnFfxi4ubEZwGsNOC/Gg==
+X-Received: by 2002:a17:90b:2281:: with SMTP id
+ kx1mr5733217pjb.37.1644443464096; 
+ Wed, 09 Feb 2022 13:51:04 -0800 (PST)
 Received: from [192.168.1.33] (154.red-83-50-83.dynamicip.rima-tde.net.
  [83.50.83.154])
- by smtp.gmail.com with ESMTPSA id nl7sm7291789pjb.5.2022.02.09.13.47.06
+ by smtp.gmail.com with ESMTPSA id g22sm4401407pfk.219.2022.02.09.13.51.02
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 09 Feb 2022 13:47:07 -0800 (PST)
-Message-ID: <c2bf6a19-286d-00a1-218e-9e4070507d3c@amsat.org>
-Date: Wed, 9 Feb 2022 22:47:02 +0100
+ Wed, 09 Feb 2022 13:51:03 -0800 (PST)
+Message-ID: <a02b92b3-1714-147e-d5a4-a2ab41e6fffc@amsat.org>
+Date: Wed, 9 Feb 2022 22:50:58 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
  Gecko/20100101 Thunderbird/91.5.1
-Subject: Re: [PATCH 10/13] target: Use CPUArchState as interface to
- target-specific CPU state
+Subject: Re: [PATCH 13/13] exec: Move translation declarations to
+ 'translate-all.h'
 Content-Language: en-US
 To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
 Cc: Thomas Huth <thuth@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
 References: <20220208152243.16452-1-f4bug@amsat.org>
- <20220208152243.16452-11-f4bug@amsat.org>
- <514ac4e3-73f7-4bed-29cd-390dd75d1901@linaro.org>
-In-Reply-To: <514ac4e3-73f7-4bed-29cd-390dd75d1901@linaro.org>
+ <20220208152243.16452-14-f4bug@amsat.org>
+ <fb446c38-a992-0c4a-dd26-10aa8140833f@linaro.org>
+In-Reply-To: <fb446c38-a992-0c4a-dd26-10aa8140833f@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::62b
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::102e
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62b;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pl1-x62b.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102e;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pj1-x102e.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -102,55 +103,29 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
 From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
-On 8/2/22 23:40, Richard Henderson wrote:
+On 9/2/22 00:00, Richard Henderson wrote:
 > On 2/9/22 02:22, Philippe Mathieu-Daudé wrote:
->> While CPUState is our interface with generic code, CPUArchState is
->> our interface with target-specific code. Use CPUArchState as an
->> abstract type, defined by each target.
+>> Translation declarations are only useful to TCG accelerator.
 >>
 >> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
->> ---
->>   include/exec/poison.h   | 2 --
->>   include/hw/core/cpu.h   | 2 +-
->>   include/qemu/typedefs.h | 1 +
->>   target/alpha/cpu.h      | 6 ++----
->>   target/arm/cpu.h        | 2 +-
->>   target/avr/cpu.h        | 6 ++----
->>   target/cris/cpu.h       | 2 +-
->>   target/hexagon/cpu.h    | 5 ++---
->>   target/hppa/cpu.h       | 6 ++----
->>   target/i386/cpu.h       | 2 +-
->>   target/m68k/cpu.h       | 2 +-
->>   target/microblaze/cpu.h | 4 ++--
->>   target/mips/cpu.h       | 5 ++---
->>   target/nios2/cpu.h      | 4 ++--
->>   target/openrisc/cpu.h   | 2 +-
->>   target/ppc/cpu-qom.h    | 2 +-
->>   target/ppc/cpu.h        | 3 +--
->>   target/riscv/cpu.h      | 4 ++--
->>   target/rx/cpu-qom.h     | 2 --
->>   target/rx/cpu.h         | 2 +-
->>   target/s390x/cpu-qom.h  | 2 +-
->>   target/s390x/cpu.h      | 2 +-
->>   target/sh4/cpu.h        | 2 +-
->>   target/sparc/cpu.h      | 4 ++--
->>   target/tricore/cpu.h    | 5 ++---
->>   target/xtensa/cpu.h     | 6 +++---
->>   26 files changed, 36 insertions(+), 49 deletions(-)
 > 
-> Nice.
+> Ug.
 > 
-> It's tempting to purge CPUFooState entirely, which would eliminate e.g. 
-> patch 8, and put the onus on having cpu.h (and thus the actual 
-> definition of CPUArchState) in scope to the C file that includes those 
-> headers.
+> So, like, what's you vision of exec-all.h vs translate-all.h? Certainly 
+> there's not much in translate-all.h at the moment. Taking a case at 
+> random, what has gdbstub.c got to do with "translation" as opposed to 
+> "execution"?
+> 
+> I would expect some documetation updates to the top of these headers.  I 
+> don't see why everything has to move all at once, especially since 
+> translate-all.h already includes exec-all.h.
+> 
+> I can see that exec-all.h is currently a garbage bag, but I strongly 
+> suspect that you're moving too much here.
 
-I tried but I doubt the result code will please maintainers. I went
-back and inverted the typedef, to keep CPUFooState. Maybe a simple
-aesthetic concern... I can post (on top of the respin) if you are
-interested.
-
-Thanks,
-
-Phil.
+I ended with an almost empty exec-all.h; IOW indeed translate-all.h and
+exec-all.h are the same mixed bag. What I'm pursuing is extract APIs
+such migration and ramblock stuff, but there are so many inter
+dependencies that it is hard to sort the patchset (or split it in
+series on the same topic but no more than 20 patches).
 
