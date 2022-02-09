@@ -2,86 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C45644AF73D
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Feb 2022 17:53:11 +0100 (CET)
-Received: from localhost ([::1]:43656 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C70C64AF63E
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Feb 2022 17:13:26 +0100 (CET)
+Received: from localhost ([::1]:56056 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nHqDO-0006A2-A4
-	for lists+qemu-devel@lfdr.de; Wed, 09 Feb 2022 11:53:10 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:37218)
+	id 1nHpav-0008GC-Ew
+	for lists+qemu-devel@lfdr.de; Wed, 09 Feb 2022 11:13:25 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:46628)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ehabkost@habkost.com>)
- id 1nHouH-0007uK-Cf
- for qemu-devel@nongnu.org; Wed, 09 Feb 2022 10:29:23 -0500
-Received: from [2607:f8b0:4864:20::c2f] (port=41605
- helo=mail-oo1-xc2f.google.com)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1nHpQ9-0000sf-UH
+ for qemu-devel@nongnu.org; Wed, 09 Feb 2022 11:02:18 -0500
+Received: from [2a00:1450:4864:20::532] (port=41591
+ helo=mail-ed1-x532.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ehabkost@habkost.com>)
- id 1nHouD-0005vO-BK
- for qemu-devel@nongnu.org; Wed, 09 Feb 2022 10:29:18 -0500
-Received: by mail-oo1-xc2f.google.com with SMTP id
- q145-20020a4a3397000000b002e85c7234b1so2809704ooq.8
- for <qemu-devel@nongnu.org>; Wed, 09 Feb 2022 07:29:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=habkost-com.20210112.gappssmtp.com; s=20210112;
- h=from:mime-version:references:in-reply-to:date:message-id:subject:to
- :cc; bh=+wby900sSQ2MH+qx1AI2g9uX4NB4oL7kzk5MAE83X/w=;
- b=OJMQ3UClJLlLtMthLPKAkvwK5p0Y9I1aJEWwt7qNvxJmI56dK/sAznWTmEB99zztDo
- dN11Ej7flMUXsTxAX4V7k2/A4a4fLQW/XqitRCPSK7wUf1AqjCnoB8iTwyvmLwGsktHS
- sAO74s8uf/XAyQqpo/kIdsDndQsO3EtINFFlPyd+jYQs7BPcXUNPyJppvYEfdU7+ShrS
- rs1DV6AepWb6QBZdBqBQ9L5S0AHspIi3loVvbfmKzkjB0z7HZ+aYSbVU5eZjs25s/IEl
- Dt35SqUJB1gYRgJGuEvr3zVZjwUx4sbDxzGTT3bw0pJQ2TNQJPis0/gdN07TAq7DWWJ9
- 8osQ==
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1nHpPy-00088e-Dw
+ for qemu-devel@nongnu.org; Wed, 09 Feb 2022 11:02:15 -0500
+Received: by mail-ed1-x532.google.com with SMTP id cz16so6014200edb.8
+ for <qemu-devel@nongnu.org>; Wed, 09 Feb 2022 08:02:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=Iow97c6CW91dEsYjU2ccERfIJeCAGb1ckz4p8yVFaxs=;
+ b=EHFklMkUL7K3ZQG5HC60v/D1oxY1/HBheVL2KNGAw9xwNmiqIcH6jQfexPF0jmHYQA
+ 8aVamHlQ2jPu7FthNLGx7nMBUdFteE9tKL3Ah1u5mjI78eydKqSIDSg03cVGmhQawdWJ
+ X6WZcb0/1/YNzjY722JVVSbVhim7Oagnx85id6fiznYJ5mTV4P2MQb+gqN/YfAof9bjE
+ Plj1idboZ4PfO09UMJFfHpee4WlxV2Dqy47OMjBYmz4Av6EbwtJm9SCOgHdwOkpYeg5b
+ Kj01dEZu/amk76bY4AlKCxvoZSyUWW5HngKVHfrQ4kIZQ9EE9J6sXAAMpM9n74uTAQEI
+ mPtA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:mime-version:references:in-reply-to:date
- :message-id:subject:to:cc;
- bh=+wby900sSQ2MH+qx1AI2g9uX4NB4oL7kzk5MAE83X/w=;
- b=uZFEAii2xLToEElMYnvKdQssfn9ATVODsM3/zMh327tFdz5uYfse821KFSfs0evgal
- uuT1nutSpKkvmIRsc0gK2WPuUSBbWfzjLhVnsNLG/7twrbU69D/ijmiwOvcSpK7ipqWV
- lpHZLNbSTQR4Wlmn0DdpT6aTsVsuWyaMUyfnyUYq3dG2+au0NdaOFqXEgi5Y8l68HBE8
- MxRbzy/OChYSWlK668f/xONMl0R4COKKCtFA7pOaVx+giQXXJflvr129L8Oj9lv8evy/
- 59OxCFzqrOIiVQpmjour+2vNONzhJVHc6isCG4skEITZCMOaesWwhKEL2HaVE8aphQ5T
- a9fw==
-X-Gm-Message-State: AOAM531qeuFYcmndBMC66tSF8cgs+A6bpk8iyKT8FSFhrG8AOtcnfZB7
- bqYlJSgp1gqrNaJJ82edOWiWrUxtqnsuDzq6
-X-Google-Smtp-Source: ABdhPJyH1InqarDbEghOr1YXCssOxaj0Wlt6sWBvN8iUfviSIq58/hHnJCtFiDrBgD3ELctiYIpBJQ==
-X-Received: by 2002:a05:6870:8682:: with SMTP id
- p2mr879224oam.11.1644420555145; 
- Wed, 09 Feb 2022 07:29:15 -0800 (PST)
-Received: from mail-oi1-f181.google.com (mail-oi1-f181.google.com.
- [209.85.167.181])
- by smtp.gmail.com with ESMTPSA id m7sm6663703ots.32.2022.02.09.07.29.12
- for <qemu-devel@nongnu.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 09 Feb 2022 07:29:13 -0800 (PST)
-From: Eduardo Habkost <ehabkost@habkost.com>
-X-Google-Original-From: Eduardo Habkost <eduardo@habkost.net>
-Received: by mail-oi1-f181.google.com with SMTP id q8so2808173oiw.7
- for <qemu-devel@nongnu.org>; Wed, 09 Feb 2022 07:29:12 -0800 (PST)
-X-Received: by 2002:a05:6808:1307:: with SMTP id
- y7mr1154227oiv.249.1644420552670; 
- Wed, 09 Feb 2022 07:29:12 -0800 (PST)
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=Iow97c6CW91dEsYjU2ccERfIJeCAGb1ckz4p8yVFaxs=;
+ b=hPv8zJovbfd9zfkxxsS2xUZnPAmtfy28Ye0hiHZdKnTOAXjv6JhdlXO8/D9wFJ+NcB
+ EW0pfpAdlRbQ7A08hdtMIaRx7gzDwdlwdn4iQwES6UiSogqwozhhWh0ZSMxrwwh1NG6w
+ c/nI0I7SF/can3PD31yKOMo8wMok11YBFvQs1tOA8c9wnVFXfG6RU+1JFsm3FMiW0aV0
+ aGQgXwQO5JE+VVM/ZkGpFCxlBCf1mdMkHPBfxv8FOlxSNtCnekUuIpfxpi2R7TKd9cuR
+ rrYSlfPEq/0D+xp0GFjuxE/KgtGrMaX4KpUnURaUO+uBRJQNtb6AvDM1Y4qEVCZkkFVp
+ mEYw==
+X-Gm-Message-State: AOAM531DOnmbLiUT8zR86Gtdb47Wz4A4bDG9R/AoPwdk/7iGK9sEpANs
+ e7VWADamdaI0zxYc2ErJsb2kGw==
+X-Google-Smtp-Source: ABdhPJz09t6kP0a31rMlFJ64ATOu1bs+nYn1HEhkFkKYcdj5Tq6V/M/6xCoLocPgXFj77nXYUapHYQ==
+X-Received: by 2002:a05:6402:2691:: with SMTP id
+ w17mr3247612edd.126.1644422524509; 
+ Wed, 09 Feb 2022 08:02:04 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id s16sm6431102edy.70.2022.02.09.08.02.03
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 09 Feb 2022 08:02:03 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id A221A1FFB7;
+ Wed,  9 Feb 2022 16:02:02 +0000 (GMT)
+References: <20220208203145.3844662-1-matheus.ferst@eldorado.org.br>
+ <20220208203145.3844662-2-matheus.ferst@eldorado.org.br>
+User-agent: mu4e 1.7.7; emacs 28.0.91
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: matheus.ferst@eldorado.org.br
+Subject: Re: [RFC PATCH 1/3] tests/tcg/ppc64le: use inline asm instead of
+ __builtin_mtfsf
+Date: Wed, 09 Feb 2022 16:01:57 +0000
+In-reply-to: <20220208203145.3844662-2-matheus.ferst@eldorado.org.br>
+Message-ID: <87wni4do5h.fsf@linaro.org>
 MIME-Version: 1.0
-References: <20220208000525.2601011-1-jsnow@redhat.com>
-In-Reply-To: <20220208000525.2601011-1-jsnow@redhat.com>
-Date: Wed, 9 Feb 2022 10:28:56 -0500
-X-Gmail-Original-Message-ID: <CAFszQJg5_Hge=rtBZ0ujjh71WRdpYUcfF_KLW0oAUa7aNs_6TQ@mail.gmail.com>
-Message-ID: <CAFszQJg5_Hge=rtBZ0ujjh71WRdpYUcfF_KLW0oAUa7aNs_6TQ@mail.gmail.com>
-Subject: Re: [PATCH] MAINTAINERS: python - remove ehabkost and add bleal
-To: John Snow <jsnow@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::c2f
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::532
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::c2f;
- envelope-from=ehabkost@habkost.com; helo=mail-oo1-xc2f.google.com
-X-Spam_score_int: -10
-X-Spam_score: -1.1
+Received-SPF: pass client-ip=2a00:1450:4864:20::532;
+ envelope-from=alex.bennee@linaro.org; helo=mail-ed1-x532.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
 X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -95,32 +93,22 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <eduardo@habkost.net>,
- Peter Maydell <peter.maydell@linaro.org>, Beraldo Leal <bleal@redhat.com>,
- qemu-devel developers <qemu-devel@nongnu.org>,
- Stefan Hajnoczi <stefanha@redhat.com>, Cleber Rosa <crosa@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Cc: danielhb413@gmail.com, groug@kaod.org, qemu-devel@nongnu.org,
+ qemu-ppc@nongnu.org, clg@kaod.org, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 7 Feb 2022 at 19:05, John Snow <jsnow@redhat.com> wrote:
->
-> Eduardo Habkost has left Red Hat and has other daily responsibilities to
-> attend to. In order to stop spamming him on every series, remove him as
-> "Reviewer" for the python/ library dir and add Beraldo Leal instead.
->
-> For the "python scripts" stanza (which is separate due to level of
-> support), replace Eduardo as maintainer with myself.
->
-> (Thanks for all of your hard work, Eduardo!)
 
-Thank you! And my apologies for not sending the MAINTAINERS patch
-myself. I'm being unable to deal with the amount of QEMU-related
-traffic directed to my email address.
+matheus.ferst@eldorado.org.br writes:
 
-Acked-by: Eduardo Habkost <eduardo@habkost.net>
+> From: Matheus Ferst <matheus.ferst@eldorado.org.br>
+>
+> LLVM/Clang does not support __builtin_mtfsf.
+>
+> Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
 
---
-Eduardo
+Acked-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+
+--=20
+Alex Benn=C3=A9e
 
