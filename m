@@ -2,63 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6B614AF1D7
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Feb 2022 13:37:30 +0100 (CET)
-Received: from localhost ([::1]:35796 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6695B4AF20E
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Feb 2022 13:47:35 +0100 (CET)
+Received: from localhost ([::1]:39118 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nHmDx-00050E-5Q
-	for lists+qemu-devel@lfdr.de; Wed, 09 Feb 2022 07:37:29 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:43734)
+	id 1nHmNh-0007Zd-OI
+	for lists+qemu-devel@lfdr.de; Wed, 09 Feb 2022 07:47:33 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:44168)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1nHm8t-0002br-KX
- for qemu-devel@nongnu.org; Wed, 09 Feb 2022 07:32:15 -0500
-Received: from 7.mo552.mail-out.ovh.net ([188.165.59.253]:34739)
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1nHmAz-0003ob-T5; Wed, 09 Feb 2022 07:34:25 -0500
+Received: from kylie.crudebyte.com ([5.189.157.229]:52827)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1nHm8k-0002VJ-DO
- for qemu-devel@nongnu.org; Wed, 09 Feb 2022 07:32:15 -0500
-Received: from mxplan5.mail.ovh.net (unknown [10.108.4.92])
- by mo552.mail-out.ovh.net (Postfix) with ESMTPS id E81EA245A4;
- Wed,  9 Feb 2022 12:31:17 +0000 (UTC)
-Received: from kaod.org (37.59.142.106) by DAG4EX1.mxp5.local (172.16.2.31)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.18; Wed, 9 Feb
- 2022 13:31:16 +0100
-Authentication-Results: garm.ovh; auth=pass
- (GARM-106R006323a903d-474f-4b52-8b81-873e2c0340fa,
- D657DFC387B0B0E2C5DD546C0716E11BBFCF4DEE) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 90.76.223.183
-Message-ID: <a2159a5a-18a5-8737-0ac9-df1505f73da1@kaod.org>
-Date: Wed, 9 Feb 2022 13:31:16 +0100
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1nHmAw-0002p6-9P; Wed, 09 Feb 2022 07:34:25 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
+ MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+ Content-ID:Content-Description;
+ bh=yT6gjUafrH61VY9rJX9omIrT4XSs2aee0EH3trEm0T4=; b=M0cUzKCkRXG+4/GBfacRleVo/r
+ 9LEiRrJJL6p9bNIjnWjwotdSxagb6YNXv8l7/MZu+UFsko+5bRqQZAhwdZasrOkr5iE9FQJHTYxNK
+ eCNfh+hmeBIaeoWPZx+YIwhcp9/fK8ObbgPPCuA4DVgihOVSqax5izpYGa9eDRcttK8Be30Hqnrt9
+ M2LYRoWNrLu94MAbeOrMqiGcnNO6GheaOgYTNhYltiifLKXFu/dcTvpLA0swvecFUa8Cqv/cWHtb4
+ 5RxaLg6khFshJKV1u/2eAIPA+rivUTZV5UlwUJlgsC8TBbevoj0Hc/roK7BXnqxrDzIE0aVQNR9dr
+ egSeF9CdgOdxVzYhGnFqyVxHH9pzZW7YiLITLACUSxqzYd78XylmgbOkDHOBuEi5nrPDFsARBpEN8
+ cpm5bxHS6ABhBm0t/7Vn6nAwhNEKb8/SI1F5CVEfJjo1KjyMksU8UHUX8zi+hkLq1x/CDLw+dAwLv
+ 1bnHpB0oLBcfdWTdglxUNY77zCD9J/zSEycSQ/AtGHDkBptdkEtwy1PLtZ5sRPueZCR83DM3D9YIy
+ dbr9l6QUHCnl9aZJ+xj2U2+XU8icttVAYl19/2yeeGcm+sOcM7aaRcOZjCkT+mkHGdmh8q1HJsmDN
+ uWqqv8E3wP6U8iSSXVnSXlNIC83krkLSGyiQsiaf4=;
+From: Christian Schoenebeck <qemu_oss@crudebyte.com>
+To: qemu-devel@nongnu.org
+Cc: Vitaly Chikunov <vt@altlinux.org>, Greg Kurz <groug@kaod.org>,
+ qemu-stable@nongnu.org, "Dmitry V . Levin" <ldv@altlinux.org>,
+ Philippe =?ISO-8859-1?Q?Mathieu=2DDaud=E9?= <f4bug@amsat.org>
+Subject: Re: [PATCH v4] 9pfs: Fix segfault in do_readdir_many caused by struct
+ dirent overread
+Date: Wed, 09 Feb 2022 13:34:08 +0100
+Message-ID: <2508467.LGuOOJKFuP@silver>
+In-Reply-To: <20220206013419.849161-1-vt@altlinux.org>
+References: <20220206013419.849161-1-vt@altlinux.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.0
-Subject: Re: [RFC PATCH 0/3] tests/tcg/ppc64le: fix the build of TCG tests
- with Clang
-Content-Language: en-US
-To: <matheus.ferst@eldorado.org.br>, <qemu-devel@nongnu.org>,
- <qemu-ppc@nongnu.org>
-References: <20220208203145.3844662-1-matheus.ferst@eldorado.org.br>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <20220208203145.3844662-1-matheus.ferst@eldorado.org.br>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [37.59.142.106]
-X-ClientProxiedBy: DAG7EX2.mxp5.local (172.16.2.62) To DAG4EX1.mxp5.local
- (172.16.2.31)
-X-Ovh-Tracer-GUID: 82c9209a-b3dd-4b23-b8bb-f48315efd33b
-X-Ovh-Tracer-Id: 12976277902012418924
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvvddrheelgdeflecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfhfhfgjtgfgihesthejredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpefgjeehvdeltefghfehvdefffetieeggfeihfekiefhudejteehudekleevjedtveenucffohhmrghinhepghhnuhdrohhrghdpghhithhhuhgsrdgtohhmnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrddutdeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhnsggprhgtphhtthhopedupdhrtghpthhtohepghhrohhugheskhgrohgurdhorhhg
-Received-SPF: pass client-ip=188.165.59.253; envelope-from=clg@kaod.org;
- helo=7.mo552.mail-out.ovh.net
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
+Received-SPF: pass client-ip=5.189.157.229;
+ envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -71,86 +65,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Miroslav Rezanina <mrezanin@redhat.com>, danielhb413@gmail.com,
- alex.bennee@linaro.org, groug@kaod.org, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hello Matheus,
+On Sonntag, 6. Februar 2022 02:34:19 CET Vitaly Chikunov wrote:
+> `struct dirent' returned from readdir(3) could be shorter (or longer)
+> than `sizeof(struct dirent)', thus memcpy of sizeof length will overread
+> into unallocated page causing SIGSEGV. Example stack trace:
+> 
+>  #0  0x00005555559ebeed v9fs_co_readdir_many (/usr/bin/qemu-system-x86_64 +
+> 0x497eed) #1  0x00005555559ec2e9 v9fs_readdir (/usr/bin/qemu-system-x86_64
+> + 0x4982e9) #2  0x0000555555eb7983 coroutine_trampoline
+> (/usr/bin/qemu-system-x86_64 + 0x963983) #3  0x00007ffff73e0be0 n/a (n/a +
+> 0x0)
+> 
+> While fixing, provide a helper for any future `struct dirent' cloning.
+> 
+> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/841
+> Cc: qemu-stable@nongnu.org
+> Co-authored-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
+> Reviewed-by: Dmitry V. Levin <ldv@altlinux.org>
+> Signed-off-by: Vitaly Chikunov <vt@altlinux.org>
+> ---
+> Tested on x68-64 Linux with btrfs-progs tests and slow qos-test.
+> Changes since v3:
+> - Update commentary on qemu_dirent_dup logic.
+> - Use g_memdup as suggested by Greg Kurz.
+> 
+>  hw/9pfs/codir.c      |  3 +--
+>  include/qemu/osdep.h | 13 +++++++++++++
+>  util/osdep.c         | 21 +++++++++++++++++++++
+>  3 files changed, 35 insertions(+), 2 deletions(-)
 
-[ Adding Miroslav ]
+Queued on 9p.next:
+https://github.com/cschoenebeck/qemu/commits/9p.next
 
-On 2/8/22 21:31, matheus.ferst@eldorado.org.br wrote:
-> From: Matheus Ferst <matheus.ferst@eldorado.org.br>
-> 
-> Based-on: https://lists.gnu.org/archive/html/qemu-devel/2022-01/msg06506.html
-> 
-> As the configuration scripts used -mbig and -mlittle, building PPC tests
-> with Clang was silently skipped. With the patch to fix these options[1],
-> "make check-tcg" fails because of build and runtime errors. This patch
-> series tries to fix some of these problems.
-> 
-> The first patch fixes "tests/tcg/ppc64le/mtfsf.c" by removing the
-> GCC-only builtins used to emit mtfsf and mffs. We can emit these insns
-> with inline asm instead.
-> 
-> The second patch addresses differences in the output of float_madds.c.
-> The __builtin_fmaf used in this test emits fmadds with GCC and xsmaddasp
-> with LLVM. The first insn had rounding errors fixed in
-> d04ca895dc7f ("target/ppc: Add helpers for fmadds et al"), we apply
-> a similar fix to xsmaddasp.
-> 
-> Then we have the build errors of tests/tcg/ppc64le/bcdsub.c. According
-> to GCC docs[2], the '-mpower8-vector' flag provides some bcdsub
-> builtins, so it'd be reasonable to assume that the rest of the toolchain
-> knows about the insn if the compiler accepts this flag. Clang supports
-> this flag since version 3.6[3], but the insn and builtins were only
-> added in LLVM 14[4]. I couldn't find a good solution. Should we write a
-> test to check for this insn at configuration time? Should we detect the
-> compiler at build time and emit the insns with ".long" and fixed
-> registers?
-> 
-> Even building with Clang 14, the test will fail in runtime because
-> LLVM doesn't like "__int128" in inline asm. No error or warning is
-> emitted, but the generated code only loads one doubleword of the VSR.
-> The third patch of this series avoids this issue by using a vector
-> type for VSR values.
-> 
-> Finally, it seems that the insns tested by
-> tests/tcg/ppc64le/byte_reverse.c are not yet supported by LLVM. Since
-> the configuration script uses '-mpower10' to check for POWER10 support
-> and Clang doesn't support this flag, "make check-tcg" doesn't fail. We
-> should probably change this check in the future, but since LLVM support
-> of POWER10 seems incomplete, I guess we can leave it for now.
+Thanks!
 
-gitlab didn't spot any issues with the 4 patches applied. Should we merge
-all patches :
+I plan to send a PR with my current queue to Peter tomorrow.
 
-   Use long endian options for ppc64
-   tests/tcg/ppc64le: Use vector types instead of __int128
-   target/ppc: change xs[n]madd[am]sp to use float64r32_muladd
-   tests/tcg/ppc64le: use inline asm instead of __builtin_mtfsf
+Best regards,
+Christian Schoenebeck
 
-and see how we can address the LLVM support for P10 later ?
-
-Thanks,
-
-C.
-  
-> [1] https://lists.gnu.org/archive/html/qemu-devel/2022-01/msg06506.html
-> [2] https://gcc.gnu.org/onlinedocs/gcc-8.3.0/gcc/PowerPC-AltiVec_002fVSX-Built-in-Functions.html
-> [3] https://github.com/llvm/llvm-project/commit/59eb767e11d4ffefb5f55409524e5c8416b2b0db
-> [4] https://github.com/llvm/llvm-project/commit/c933c2eb334660c131f4afc9d194fafb0cec0423
-> 
-> Matheus Ferst (3):
->    tests/tcg/ppc64le: use inline asm instead of __builtin_mtfsf
->    target/ppc: change xs[n]madd[am]sp to use float64r32_muladd
->    tests/tcg/ppc64le: Use vector types instead of __int128
-> 
->   target/ppc/fpu_helper.c    | 54 ++++++++--------------
->   tests/tcg/ppc64le/bcdsub.c | 92 +++++++++++++++++++++-----------------
->   tests/tcg/ppc64le/mtfsf.c  | 19 ++++----
->   3 files changed, 80 insertions(+), 85 deletions(-)
-> 
 
 
