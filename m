@@ -2,69 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E4654AFEBA
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Feb 2022 21:50:45 +0100 (CET)
-Received: from localhost ([::1]:38720 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 79E8E4AFF6E
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Feb 2022 22:48:44 +0100 (CET)
+Received: from localhost ([::1]:36522 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nHtvH-0003ow-4I
-	for lists+qemu-devel@lfdr.de; Wed, 09 Feb 2022 15:50:44 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:49848)
+	id 1nHupP-0000Wv-6Q
+	for lists+qemu-devel@lfdr.de; Wed, 09 Feb 2022 16:48:43 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:35018)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nHtsh-0002eJ-HF
- for qemu-devel@nongnu.org; Wed, 09 Feb 2022 15:48:03 -0500
-Received: from [2a00:1450:4864:20::434] (port=44864
- helo=mail-wr1-x434.google.com)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1nHunz-0008GD-I6
+ for qemu-devel@nongnu.org; Wed, 09 Feb 2022 16:47:15 -0500
+Received: from [2607:f8b0:4864:20::62b] (port=41717
+ helo=mail-pl1-x62b.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nHtsf-0003vZ-Ny
- for qemu-devel@nongnu.org; Wed, 09 Feb 2022 15:48:02 -0500
-Received: by mail-wr1-x434.google.com with SMTP id k18so6040583wrg.11
- for <qemu-devel@nongnu.org>; Wed, 09 Feb 2022 12:48:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=54GpJGtyR145B33wSc2aV8lkBniVUGl7MaAv9knKJaM=;
- b=ao6lXMFUyEuLaIQtE0Ex90m6Gchh76LuEuWnbYuJbE5d+s1t186JQWw8Vz0Dzdq7Vz
- EM28Ne0PtK7P6ZapukBL/sRH+Z5W399f61CYdH7MR2/7Ty+wZcJPd5VlB3Rg1EvSNJLk
- zg5hB0vBqm0upMCdkPZ/JnNFVYWIjH1aRpniHX3ioe+REF9wkRMkWmvo2rAKV2abVEhV
- 58bSqXW29HhUHsXjn3awSnM0f6OkM6EbdIT15HuF1ilfFCFkSU9wd6T8cLpVCXRuM8km
- 173qKylDiNSgQio54p8tFFT14FhG09WwU+orCyc1dyDhgQt1fAkS0t9AR5TKlVyR99ew
- Va8A==
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1nHunx-0006kI-Gt
+ for qemu-devel@nongnu.org; Wed, 09 Feb 2022 16:47:15 -0500
+Received: by mail-pl1-x62b.google.com with SMTP id j4so98304plj.8
+ for <qemu-devel@nongnu.org>; Wed, 09 Feb 2022 13:47:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=VhzraPX1jCa3/if1zot0SyM6FhdeocupPfAQhJYoXNw=;
+ b=IPkZ3E4hAFHvIcEisnLCnDp7y4pM5c71mXumKJOCohWXpUSEUEEDi2fhFWt0AelOk7
+ CuiDeNQ3jl06wNqYTs6hUFONAHnz9Yh/x1IHl/mWG47g3pUfz3zO9EOBPRRXEVWupA94
+ +oVcaffTowzPkYBmxwBW1dUlRGeb+5oyAxKW4DmIniRwSmo0hmmhoDQCLPR6Q+3t4iXC
+ IVcYZ1ZokPYxZYd5ZhSMEi6jiAysqJQRWcoJEqIsGfwncDKCHHwFnb2zP+nngXLdjeYy
+ 9xpCOJ+nTOTnh76+p/M9VukQq7Np88lVJZo3lWDn8TbaghepuIP0nJsT+tIGnbE05pJP
+ LB5g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=54GpJGtyR145B33wSc2aV8lkBniVUGl7MaAv9knKJaM=;
- b=pJm41Ohhz3M2oBJPqIuDONcZJ52cYLkqOK8O+5YSBziGP3ct5Q9t6kXYWCJTFwkZK7
- 9FOWB2exMxQY1iZXW3qgwoPn5Z44UxJfW1CKKwehglUSuB/988DLHnunhUlwm5U7U7i1
- AyFyxeWLn2Vpm1p8S5HPOPrw6atOgV8zdY42EPricYXcBWBP3FncZMGhk4uATeRJJs16
- C+D6NGKMDZTbiwUgHQEzqX6u5nJpDvEMOG0mJEjd8HqSrdW0/6MuaIA5Z/nY33yYRi3u
- mOAtxPloqFN2ENb2zbZOu5kjDSmEGaiBZjwwb3bcfjZn76GsMApIFJnYoFgaX+0UjFWE
- Amtg==
-X-Gm-Message-State: AOAM533PT0M+qvEYSOBVo+uckbnQisBJWo/UA4aC5EIA19AjMLeztYKT
- NtR/BecEUzkymUngcscxcfxSW/WtGHqHDheGXO0sjQ==
-X-Google-Smtp-Source: ABdhPJys4hx80fqH1mS7DQbfUpVsCUI7uoL6szNB28+Mzz9DyWFiInlv8vrvvYJJXXUVIDPLiVH9ps1mHorhiGfB67o=
-X-Received: by 2002:a5d:6d09:: with SMTP id e9mr3695039wrq.2.1644439680141;
- Wed, 09 Feb 2022 12:48:00 -0800 (PST)
+ h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+ :subject:content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=VhzraPX1jCa3/if1zot0SyM6FhdeocupPfAQhJYoXNw=;
+ b=3AgNMcxupuGwzhyny9ALyOyYfy0BlsgxSfr11bShohvMJbh8KAuoAg4xMJTa1AmM9s
+ uXPUyW91gQOIhAwmDwZnF7f96Bd197NJWPC0NPi612B9bHRSTP5WBlGyxhzX7xQK9eii
+ Imh/9fSGdfd76iflLOZURjLROJm/WUS/ZLSthcWY5CnUV8tSCxxooEUcvDZu+s5WNlag
+ A/o+2xfVyHNtNt0VcRdEhdtajvv5KyD86xsmOgoTAEnhMgltYMRbCs/ZunEta8QybuoU
+ j4cA6aOID7vDM+ldq+4EJGIvb0Bf9tICHXJXwFOkUABVToh3RqhTfc4Tm+82/dxXG5T6
+ nO2g==
+X-Gm-Message-State: AOAM533iWeTtXZK6azGn7jss1cEIJueckozYujt3mJkOYshdbzT7R3fV
+ 6TpraO7dbPVytyRobXQPTIw=
+X-Google-Smtp-Source: ABdhPJzfzw+3+SmiY5yK494ZouGDFi113bRNmJX3WotUMnnM416vdm/TivIlQsMy6qqZXnYqIgsWxA==
+X-Received: by 2002:a17:902:d64f:: with SMTP id
+ y15mr4368776plh.145.1644443227922; 
+ Wed, 09 Feb 2022 13:47:07 -0800 (PST)
+Received: from [192.168.1.33] (154.red-83-50-83.dynamicip.rima-tde.net.
+ [83.50.83.154])
+ by smtp.gmail.com with ESMTPSA id nl7sm7291789pjb.5.2022.02.09.13.47.06
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 09 Feb 2022 13:47:07 -0800 (PST)
+Message-ID: <c2bf6a19-286d-00a1-218e-9e4070507d3c@amsat.org>
+Date: Wed, 9 Feb 2022 22:47:02 +0100
 MIME-Version: 1.0
-References: <20220209165040.56062-1-dgilbert@redhat.com>
-In-Reply-To: <20220209165040.56062-1-dgilbert@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Wed, 9 Feb 2022 20:47:49 +0000
-Message-ID: <CAFEAcA-JwQDQWQcY7tNSOb5LS8FNBjFi-msTyxUyV_q=OymXaw@mail.gmail.com>
-Subject: Re: [PATCH] Deprecate C virtiofsd
-To: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::434
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.5.1
+Subject: Re: [PATCH 10/13] target: Use CPUArchState as interface to
+ target-specific CPU state
+Content-Language: en-US
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+Cc: Thomas Huth <thuth@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+References: <20220208152243.16452-1-f4bug@amsat.org>
+ <20220208152243.16452-11-f4bug@amsat.org>
+ <514ac4e3-73f7-4bed-29cd-390dd75d1901@linaro.org>
+In-Reply-To: <514ac4e3-73f7-4bed-29cd-390dd75d1901@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::62b
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::434;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x434.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62b;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pl1-x62b.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.248, NICE_REPLY_A=-0.001,
  PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
@@ -80,49 +97,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: virtio-fs@redhat.com, slp@redhat.com, qemu-devel@nongnu.org,
- stefanha@redhat.com, vgoyal@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
-On Wed, 9 Feb 2022 at 16:57, Dr. David Alan Gilbert (git)
-<dgilbert@redhat.com> wrote:
->
-> From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
->
-> There's a nice new Rust implementation out there; recommend people
-> do new work on that.
->
-> Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-> ---
->  docs/about/deprecated.rst | 14 ++++++++++++++
->  1 file changed, 14 insertions(+)
->
-> diff --git a/docs/about/deprecated.rst b/docs/about/deprecated.rst
-> index 47a594a3b6..3a0e15f8f5 100644
-> --- a/docs/about/deprecated.rst
-> +++ b/docs/about/deprecated.rst
-> @@ -454,3 +454,17 @@ nanoMIPS ISA
->
->  The ``nanoMIPS`` ISA has never been upstreamed to any compiler toolchain.
->  As it is hard to generate binaries for it, declare it deprecated.
-> +
-> +Tools
-> +-----
-> +
-> +virtiofsd
-> +'''''''''
-> +
-> +There is a new Rust implementation of ``virtiofs`` at
+On 8/2/22 23:40, Richard Henderson wrote:
+> On 2/9/22 02:22, Philippe Mathieu-Daudé wrote:
+>> While CPUState is our interface with generic code, CPUArchState is
+>> our interface with target-specific code. Use CPUArchState as an
+>> abstract type, defined by each target.
+>>
+>> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+>> ---
+>>   include/exec/poison.h   | 2 --
+>>   include/hw/core/cpu.h   | 2 +-
+>>   include/qemu/typedefs.h | 1 +
+>>   target/alpha/cpu.h      | 6 ++----
+>>   target/arm/cpu.h        | 2 +-
+>>   target/avr/cpu.h        | 6 ++----
+>>   target/cris/cpu.h       | 2 +-
+>>   target/hexagon/cpu.h    | 5 ++---
+>>   target/hppa/cpu.h       | 6 ++----
+>>   target/i386/cpu.h       | 2 +-
+>>   target/m68k/cpu.h       | 2 +-
+>>   target/microblaze/cpu.h | 4 ++--
+>>   target/mips/cpu.h       | 5 ++---
+>>   target/nios2/cpu.h      | 4 ++--
+>>   target/openrisc/cpu.h   | 2 +-
+>>   target/ppc/cpu-qom.h    | 2 +-
+>>   target/ppc/cpu.h        | 3 +--
+>>   target/riscv/cpu.h      | 4 ++--
+>>   target/rx/cpu-qom.h     | 2 --
+>>   target/rx/cpu.h         | 2 +-
+>>   target/s390x/cpu-qom.h  | 2 +-
+>>   target/s390x/cpu.h      | 2 +-
+>>   target/sh4/cpu.h        | 2 +-
+>>   target/sparc/cpu.h      | 4 ++--
+>>   target/tricore/cpu.h    | 5 ++---
+>>   target/xtensa/cpu.h     | 6 +++---
+>>   26 files changed, 36 insertions(+), 49 deletions(-)
+> 
+> Nice.
+> 
+> It's tempting to purge CPUFooState entirely, which would eliminate e.g. 
+> patch 8, and put the onus on having cpu.h (and thus the actual 
+> definition of CPUArchState) in scope to the C file that includes those 
+> headers.
 
-I guess there's a missing "d" here ?
+I tried but I doubt the result code will please maintainers. I went
+back and inverted the typedef, to keep CPUFooState. Maybe a simple
+aesthetic concern... I can post (on top of the respin) if you are
+interested.
 
-> +``https://gitlab.com/virtio-fs/virtiofsd``;
-> +since this is now marked stable, new development should be done on that
-> +rather than the existing C version in the QEMU tree.
-> +The C version will still accept fixes and patches that
-> +are already in development for the moment.
+Thanks,
 
-thanks
--- PMM
+Phil.
 
