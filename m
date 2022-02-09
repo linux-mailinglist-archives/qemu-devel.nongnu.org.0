@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8640C4AF592
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Feb 2022 16:42:09 +0100 (CET)
-Received: from localhost ([::1]:47766 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 73F164AF64B
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Feb 2022 17:16:27 +0100 (CET)
+Received: from localhost ([::1]:59100 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nHp6e-0006cX-En
-	for lists+qemu-devel@lfdr.de; Wed, 09 Feb 2022 10:42:08 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:44470)
+	id 1nHpdp-0001vj-PW
+	for lists+qemu-devel@lfdr.de; Wed, 09 Feb 2022 11:16:25 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:44852)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nHnlN-0002Zy-VQ
- for qemu-devel@nongnu.org; Wed, 09 Feb 2022 09:16:06 -0500
-Received: from [2a00:1450:4864:20::630] (port=42533
- helo=mail-ej1-x630.google.com)
+ id 1nHnll-00030W-QI
+ for qemu-devel@nongnu.org; Wed, 09 Feb 2022 09:16:30 -0500
+Received: from [2a00:1450:4864:20::536] (port=36683
+ helo=mail-ed1-x536.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nHnlJ-0007sf-3n
- for qemu-devel@nongnu.org; Wed, 09 Feb 2022 09:16:05 -0500
-Received: by mail-ej1-x630.google.com with SMTP id m4so7693841ejb.9
- for <qemu-devel@nongnu.org>; Wed, 09 Feb 2022 06:15:54 -0800 (PST)
+ id 1nHnlK-0007sO-Be
+ for qemu-devel@nongnu.org; Wed, 09 Feb 2022 09:16:13 -0500
+Received: by mail-ed1-x536.google.com with SMTP id s7so5409617edd.3
+ for <qemu-devel@nongnu.org>; Wed, 09 Feb 2022 06:15:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=jZCQ7LtYjkNpZcIUcntr9yNzTTMtZKopN6QvGhfoSiw=;
- b=vYpQh95/sMuzoS4QOqzwF4vDmS99XBMPp5ebTmumsXs03kgTsRXhAMvgumAgoxwZXV
- iNv4r6rb1b5YLFJ39l90SkVzfVZMESgEU6SxK+l8gzA8ZPRHxnO1eM/DIVXTUAI6Qxxg
- iw3cYBuDGlLD1baG83TRG3xl0/FgMZfiLSgD7+iFtLBt3On/7SdNZn9+mqpzMwzoLVIZ
- LTQH93imL1eEdAq68IjwXJ5vDzlDRsYAlJydSa+qVmjqHS0xgBTFTx+uo4PK5/iDPMRM
- EDDtbsR7JNIuQAS+tfNnLxzi21yWhyLq8tUYNJIS732yP4+rqTIP/xe8eV9Tkil14cge
- HvxQ==
+ bh=FY3te3zfqLp5nnKkdOF5vtBHhRQZFWMIIuZXZpuWjGs=;
+ b=HfdBd5/4cVkZTHOe3TjmMjjdExy3pep8L7EaL7rn+maOBqJ9UeiXrlgKazuEDVbT7Y
+ Q4hW9JKyC8HtVxPnlaguPm6AKStcFbuJFxtSn4SwWAqMDOcu0AcnseFrRfHkAYhcrQo6
+ UMvXgagQ07DXxKh095uJuYOTlziuKnQzTu3w8d7gvjIEPQ1ySn+iCXr7q3jZGchUhAiy
+ YE73c/mzyJwXJiUdWsBWGzKlQ7+4VBD2VIH9kLEj0IH+oBQCPek85mbG2biwvVZY+ixW
+ lheOCDAd0kxOYyx9j7z2uPFsjlbhmxWeQjk2srpYOnOCPJ0VFOOWssflrwrYDqZ4FJyB
+ GLQg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=jZCQ7LtYjkNpZcIUcntr9yNzTTMtZKopN6QvGhfoSiw=;
- b=SWWMyb/4Q16t6ZiAoTIyuaM0AoNAxDk0FkN6R8a4c09GVjSkF8yEcGpSPGmPqCBqFM
- yFTrCi7NrHpZyT6wrx/QZMgHZfWwIAl0HMPhdrNv0gKMNBBh6j/oiMSuqDwXSvvYNRr4
- 2tUPBqn22bRdN1zU7pMb4M2lTWFhmWQRobFmtOWIp2kyrgHpNIhwePHmRsYmSky++u4n
- /yaw6C/5rRYtdyt13mbAAwcXGZ//eCe2Jp+Q/y6M4kh+WmihnWoRdeVloisST0y/GQ4f
- +dxZdWEHmmEG+crbtp8rQ6kwjZqEVmvvxi+iYsRPMnPxKjL9gIWeoh+HKjCHHEWCL2rd
- cfXg==
-X-Gm-Message-State: AOAM530SCNN6OPnhFKpAsQLoRoWfP281VHZDu4fryJDYV1NLtoOiNUBV
- /w0Wgvc3Ii3iaQpBB+FZSwP/+g==
-X-Google-Smtp-Source: ABdhPJyWOgdgPFVhwfCI8q3rP+pTtL56emW1uD21FTWKxM4Q1p6ae/YfWsZjdirhxeAq5hoAziRHWg==
-X-Received: by 2002:a17:907:9620:: with SMTP id
- gb32mr2195826ejc.546.1644416153048; 
- Wed, 09 Feb 2022 06:15:53 -0800 (PST)
+ bh=FY3te3zfqLp5nnKkdOF5vtBHhRQZFWMIIuZXZpuWjGs=;
+ b=3bAYi2MvJWHDB/fy1ohq74jg1V8LOw1XroHdOg7HyKHdHsxdPmcex6r6TLWKf6VKLF
+ oYbtwNRCQExtHUo1ScyszKlnRu7ZzxMFRzSDYSQIBjz/9QAesuJ1jAhuzXhB3q7UEfcS
+ LjklSmV/M4zIhuqpC4z1fI9yGj94MvzWf3+bydpudKrbMKVjcezYhkMzWeGE9O74GUVe
+ CSB+Z+hpupwUk4DvSBR4/hCcjzywEpdOg0kHXMWgnaIQqVavmPIVKpv6iw0SgTJOOBuG
+ 25ftdU/g5CsQ4DU/GB7LxCnkVttT4Ffj2PujFWsja96XeQOS/T+HFOwCqCYJ+w9/eaB3
+ Bbyw==
+X-Gm-Message-State: AOAM531uvvhLIU6UtXXr6w9xNyWlX8AAp00lSMS9uskJ5Q0P6JBHXCLo
+ vqnhZNhyWkJ5unoBFYMGzicAcQ==
+X-Google-Smtp-Source: ABdhPJyZBhaz0sTz1HAhptueN3j4VAoSS+vyDyHLxId0hEktsGxNZYT1/Ymdcfks/Ac4cGaMoQnq+w==
+X-Received: by 2002:a05:6402:12d5:: with SMTP id
+ k21mr2756794edx.138.1644416150081; 
+ Wed, 09 Feb 2022 06:15:50 -0800 (PST)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id i24sm2043339edt.86.2022.02.09.06.15.37
+ by smtp.gmail.com with ESMTPSA id f19sm4421537edr.96.2022.02.09.06.15.37
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Wed, 09 Feb 2022 06:15:48 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 531361FFCD;
+ by zen.linaroharston (Postfix) with ESMTP id 60B911FFCE;
  Wed,  9 Feb 2022 14:15:31 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org
-Subject: [PULL 22/28] contrib/plugins: add a drcov plugin
-Date: Wed,  9 Feb 2022 14:15:23 +0000
-Message-Id: <20220209141529.3418384-23-alex.bennee@linaro.org>
+Subject: [PULL 23/28] tests/plugin: allow libinsn.so per-CPU counts
+Date: Wed,  9 Feb 2022 14:15:24 +0000
+Message-Id: <20220209141529.3418384-24-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220209141529.3418384-1-alex.bennee@linaro.org>
 References: <20220209141529.3418384-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::630
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::536
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::630;
- envelope-from=alex.bennee@linaro.org; helo=mail-ej1-x630.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::536;
+ envelope-from=alex.bennee@linaro.org; helo=mail-ed1-x536.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -91,205 +91,105 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Ivanov Arkady <arkadiy.ivanov@ispras.ru>,
+Cc: Alexandre Iooss <erdnaxe@crans.org>,
  Mahmoud Mandour <ma.mandourr@gmail.com>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org,
- Alexandre Iooss <erdnaxe@crans.org>
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Ivanov Arkady <arkadiy.ivanov@ispras.ru>
+We won't go fully flexible but for most system emulation 8 vCPUs
+resolution should be enough for anybody ;-)
 
-This patch adds the ability to generate files in drcov format. Primary
-goal this script is to have coverage logfiles thatwork in Lighthouse.
-
-Signed-off-by: Ivanov Arkady <arkadiy.ivanov@ispras.ru>
-Message-Id: <163491884553.304355.13246023070235438959.stgit@pc-System-Product-Name>
-[AJB: use g_ptr_array instead of slist]
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20220204204335.1689602-23-alex.bennee@linaro.org>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Message-Id: <20220204204335.1689602-24-alex.bennee@linaro.org>
 
-diff --git a/contrib/plugins/drcov.c b/contrib/plugins/drcov.c
-new file mode 100644
-index 0000000000..b4a855adaf
---- /dev/null
-+++ b/contrib/plugins/drcov.c
-@@ -0,0 +1,163 @@
-+/*
-+ * Copyright (C) 2021, Ivanov Arkady <arkadiy.ivanov@ispras.ru>
-+ *
-+ * Drcov - a DynamoRIO-based tool that collects coverage information
-+ * from a binary. Primary goal this script is to have coverage log
-+ * files that work in Lighthouse.
-+ *
-+ * License: GNU GPL, version 2 or later.
-+ *   See the COPYING file in the top-level directory.
-+ */
-+
-+#include <inttypes.h>
-+#include <assert.h>
-+#include <stdlib.h>
-+#include <inttypes.h>
-+#include <string.h>
-+#include <unistd.h>
-+#include <stdio.h>
-+#include <glib.h>
-+
-+#include <qemu-plugin.h>
-+
-+QEMU_PLUGIN_EXPORT int qemu_plugin_version = QEMU_PLUGIN_VERSION;
-+
-+static char header[] = "DRCOV VERSION: 2\n"
-+                "DRCOV FLAVOR: drcov-64\n"
-+                "Module Table: version 2, count 1\n"
-+                "Columns: id, base, end, entry, path\n";
-+
-+static FILE *fp;
-+static const char *file_name = "file.drcov.trace";
-+static GMutex lock;
+diff --git a/tests/plugin/insn.c b/tests/plugin/insn.c
+index d229fdc001..d5a0a08cb4 100644
+--- a/tests/plugin/insn.c
++++ b/tests/plugin/insn.c
+@@ -16,22 +16,33 @@
+ 
+ QEMU_PLUGIN_EXPORT int qemu_plugin_version = QEMU_PLUGIN_VERSION;
+ 
+-static uint64_t insn_count;
++#define MAX_CPUS 8 /* lets not go nuts */
 +
 +typedef struct {
-+    uint32_t start;
-+    uint16_t size;
-+    uint16_t mod_id;
-+    bool     exec;
-+} bb_entry_t;
++    uint64_t last_pc;
++    uint64_t insn_count;
++} InstructionCount;
 +
-+/* Translated blocks */
-+static GPtrArray *blocks;
++static InstructionCount counts[MAX_CPUS];
++static uint64_t inline_insn_count;
 +
-+static void printf_header(unsigned long count)
-+{
-+    fprintf(fp, "%s", header);
-+    const char *path = qemu_plugin_path_to_binary();
-+    uint64_t start_code = qemu_plugin_start_code();
-+    uint64_t end_code = qemu_plugin_end_code();
-+    uint64_t entry = qemu_plugin_entry_code();
-+    fprintf(fp, "0, 0x%lx, 0x%lx, 0x%lx, %s\n",
-+            start_code, end_code, entry, path);
-+    fprintf(fp, "BB Table: %ld bbs\n", count);
-+}
-+
-+static void printf_char_array32(uint32_t data)
-+{
-+    const uint8_t *bytes = (const uint8_t *)(&data);
-+    fwrite(bytes, sizeof(char), sizeof(data), fp);
-+}
-+
-+static void printf_char_array16(uint16_t data)
-+{
-+    const uint8_t *bytes = (const uint8_t *)(&data);
-+    fwrite(bytes, sizeof(char), sizeof(data), fp);
-+}
-+
-+
-+static void printf_el(gpointer data, gpointer user_data)
-+{
-+    bb_entry_t *bb = (bb_entry_t *)data;
-+    if (bb->exec) {
-+        printf_char_array32(bb->start);
-+        printf_char_array16(bb->size);
-+        printf_char_array16(bb->mod_id);
-+    }
-+    g_free(bb);
-+}
-+
-+static void count_block(gpointer data, gpointer user_data)
-+{
-+    unsigned long *count = (unsigned long *) user_data;
-+    bb_entry_t *bb = (bb_entry_t *)data;
-+    if (bb->exec) {
-+        *count = *count + 1;
-+    }
-+}
-+
-+static void plugin_exit(qemu_plugin_id_t id, void *p)
-+{
-+    unsigned long count = 0;
-+    g_mutex_lock(&lock);
-+    g_ptr_array_foreach(blocks, count_block, &count);
-+
-+    /* Print function */
-+    printf_header(count);
-+    g_ptr_array_foreach(blocks, printf_el, NULL);
-+
-+    /* Clear */
-+    g_ptr_array_free(blocks, true);
-+
-+    fclose(fp);
-+
-+    g_mutex_unlock(&lock);
-+}
-+
-+static void plugin_init(void)
-+{
-+    fp = fopen(file_name, "wb");
-+    blocks = g_ptr_array_sized_new(128);
-+}
-+
-+static void vcpu_tb_exec(unsigned int cpu_index, void *udata)
-+{
-+    bb_entry_t *bb = (bb_entry_t *) udata;
-+
-+    g_mutex_lock(&lock);
-+    bb->exec = true;
-+    g_mutex_unlock(&lock);
-+}
-+
-+static void vcpu_tb_trans(qemu_plugin_id_t id, struct qemu_plugin_tb *tb)
-+{
-+    uint64_t pc = qemu_plugin_tb_vaddr(tb);
-+    size_t n = qemu_plugin_tb_n_insns(tb);
-+
-+    g_mutex_lock(&lock);
-+
-+    bb_entry_t *bb = g_new0(bb_entry_t, 1);
-+    for (int i = 0; i < n; i++) {
-+        bb->size += qemu_plugin_insn_size(qemu_plugin_tb_get_insn(tb, i));
-+    }
-+
-+    bb->start = pc;
-+    bb->mod_id = 0;
-+    bb->exec = false;
-+    g_ptr_array_add(blocks, bb);
-+
-+    g_mutex_unlock(&lock);
-+    qemu_plugin_register_vcpu_tb_exec_cb(tb, vcpu_tb_exec,
-+                                         QEMU_PLUGIN_CB_NO_REGS,
-+                                         (void *)bb);
-+
-+}
-+
-+QEMU_PLUGIN_EXPORT
-+int qemu_plugin_install(qemu_plugin_id_t id, const qemu_info_t *info,
-+                        int argc, char **argv)
-+{
-+    for (int i = 0; i < argc; i++) {
-+        g_autofree char **tokens = g_strsplit(argv[i], "=", 2);
-+        if (g_strcmp0(tokens[0], "filename") == 0) {
-+            file_name = g_strdup(tokens[1]);
+ static bool do_inline;
+ static bool do_size;
++static bool do_frequency;
+ static GArray *sizes;
+ 
+ static void vcpu_insn_exec_before(unsigned int cpu_index, void *udata)
+ {
+-    static uint64_t last_pc;
++    unsigned int i = cpu_index % MAX_CPUS;
++    InstructionCount *c = &counts[i];
+     uint64_t this_pc = GPOINTER_TO_UINT(udata);
+-    if (this_pc == last_pc) {
++    if (this_pc == c->last_pc) {
+         g_autofree gchar *out = g_strdup_printf("detected repeat execution @ 0x%"
+                                                 PRIx64 "\n", this_pc);
+         qemu_plugin_outs(out);
+     }
+-    last_pc = this_pc;
+-    insn_count++;
++    c->last_pc = this_pc;
++    c->insn_count++;
+ }
+ 
+ static void vcpu_tb_trans(qemu_plugin_id_t id, struct qemu_plugin_tb *tb)
+@@ -44,7 +55,7 @@ static void vcpu_tb_trans(qemu_plugin_id_t id, struct qemu_plugin_tb *tb)
+ 
+         if (do_inline) {
+             qemu_plugin_register_vcpu_insn_exec_inline(
+-                insn, QEMU_PLUGIN_INLINE_ADD_U64, &insn_count, 1);
++                insn, QEMU_PLUGIN_INLINE_ADD_U64, &inline_insn_count, 1);
+         } else {
+             uint64_t vaddr = qemu_plugin_insn_vaddr(insn);
+             qemu_plugin_register_vcpu_insn_exec_cb(
+@@ -66,9 +77,9 @@ static void vcpu_tb_trans(qemu_plugin_id_t id, struct qemu_plugin_tb *tb)
+ static void plugin_exit(qemu_plugin_id_t id, void *p)
+ {
+     g_autoptr(GString) out = g_string_new(NULL);
++    int i;
+ 
+     if (do_size) {
+-        int i;
+         for (i = 0; i <= sizes->len; i++) {
+             unsigned long *cnt = &g_array_index(sizes, unsigned long, i);
+             if (*cnt) {
+@@ -76,8 +87,20 @@ static void plugin_exit(qemu_plugin_id_t id, void *p)
+                                        "len %d bytes: %ld insns\n", i, *cnt);
+             }
+         }
++    } else if (do_inline) {
++        g_string_append_printf(out, "insns: %" PRIu64 "\n", inline_insn_count);
+     } else {
+-        g_string_append_printf(out, "insns: %" PRIu64 "\n", insn_count);
++        uint64_t total_insns = 0;
++        for (i = 0; i < MAX_CPUS; i++) {
++            InstructionCount *c = &counts[i];
++            if (c->insn_count) {
++                g_string_append_printf(out, "cpu %d insns: %" PRIu64 "\n",
++                                       i, c->insn_count);
++                total_insns += c->insn_count;
++            }
 +        }
-+    }
-+
-+    plugin_init();
-+
-+    qemu_plugin_register_vcpu_tb_trans_cb(id, vcpu_tb_trans);
-+    qemu_plugin_register_atexit_cb(id, plugin_exit, NULL);
-+
-+    return 0;
-+}
-diff --git a/contrib/plugins/Makefile b/contrib/plugins/Makefile
-index 54ac5ccd9f..df3499f4f2 100644
---- a/contrib/plugins/Makefile
-+++ b/contrib/plugins/Makefile
-@@ -20,6 +20,7 @@ NAMES += howvec
- NAMES += lockstep
- NAMES += hwprofile
- NAMES += cache
-+NAMES += drcov
- 
- SONAMES := $(addsuffix .so,$(addprefix lib,$(NAMES)))
- 
++        g_string_append_printf(out, "total insns: %" PRIu64 "\n",
++                               total_insns);
+     }
+     qemu_plugin_outs(out->str);
+ }
 -- 
 2.30.2
 
