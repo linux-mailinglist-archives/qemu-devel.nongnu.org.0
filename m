@@ -2,84 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC2FA4AEF22
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Feb 2022 11:19:25 +0100 (CET)
-Received: from localhost ([::1]:52944 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E1A984AEF45
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Feb 2022 11:28:13 +0100 (CET)
+Received: from localhost ([::1]:33320 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nHk4L-0005Qy-1o
-	for lists+qemu-devel@lfdr.de; Wed, 09 Feb 2022 05:19:25 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:56644)
+	id 1nHkCq-0003kq-99
+	for lists+qemu-devel@lfdr.de; Wed, 09 Feb 2022 05:28:12 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:57954)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ilg@livius.net>) id 1nHjyG-0000Z9-Ds
- for qemu-devel@nongnu.org; Wed, 09 Feb 2022 05:13:08 -0500
-Received: from [2a00:1450:4864:20::632] (port=36388
- helo=mail-ej1-x632.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ilg@livius.net>) id 1nHjyD-00046F-Ul
- for qemu-devel@nongnu.org; Wed, 09 Feb 2022 05:13:08 -0500
-Received: by mail-ej1-x632.google.com with SMTP id u20so1487336ejx.3
- for <qemu-devel@nongnu.org>; Wed, 09 Feb 2022 02:13:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=livius-net.20210112.gappssmtp.com; s=20210112;
- h=mime-version:subject:from:in-reply-to:date:cc
- :content-transfer-encoding:message-id:references:to;
- bh=eK7Z0oZG9SQaQpzWRs08gC6bdY6ABdoSJTxL8CPVJeo=;
- b=QLbCgvCk+SgxlJwZ2Tf37gsDDEYgs25BWAeBNhWgZ/cclhew2CA81xd/nCoU+h5rIa
- Du7+POJYgnf4v1TpgqcQZ670HEKWajRwNW9FxtiefsyoPSLU9sQpCmJQJPSVtJ73lDW1
- 2Us+tvYW4uZLM0Yo6c6kpIMVUfvGV9lYtrPuS5QLRlVWdbRupIdlDa02/JJG9W6YX6mP
- s1s5PD4B05GtPvza9uzEraUp9LbZdSPAw1eCHnqLRpo5m4FWBmaHBsfOhath1hlA6e3c
- dgBLVu9qE8yLZK+2iHvz+AB1sY6nlZ62s7JHKKpqUHMKEBkmN4mxHqCga1My4FR3fljh
- vH6w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
- :content-transfer-encoding:message-id:references:to;
- bh=eK7Z0oZG9SQaQpzWRs08gC6bdY6ABdoSJTxL8CPVJeo=;
- b=zXfiv2pqYCFROSfMZPEsb3enfRgWR1uHW3bh6ZHpMwe5Loy3s/CIWpAvhKIo8e/oUs
- pzojcIrhh7DII5KxWUYoPaILbsD4qXT/0YLI2qgX9pJwkoKPVImCtmSm8MgPVCn+FN4G
- pMpIyh7sN3cOnRh/9Wmi0OavuQqjAbOSPgOpG1jgpNswfEIvQzbr6T64iH0RbOd1/fTy
- ce+QOo5n4j55j3gMSzOyIzSpW/T4sm3fj5v4e6Zgjgw1sUiv+kfeOOD+p/98RjXeif8U
- 535DhZpWwzH1nlE3ed6KEhM1yMjJmx0WUNyKNewoX6f7icoknwR0HaIA3Ob1MACXbXXi
- x1NQ==
-X-Gm-Message-State: AOAM532ZAojVOuDVYs/vuwPqOzLj9rYdIHO494vgESc60Aa19lRyMioc
- pcU58oQ3VbqVjFctKmMwzvYM/g==
-X-Google-Smtp-Source: ABdhPJwpB19pN9uYWiCIEAvLJNQa7EIklws1XKSEvBbpVa4ERlENhkN6beMHaWFVrNx6xACtLN49ww==
-X-Received: by 2002:a17:906:94d0:: with SMTP id
- d16mr1219960ejy.412.1644401584279; 
- Wed, 09 Feb 2022 02:13:04 -0800 (PST)
-Received: from smtpclient.apple ([188.25.251.197])
- by smtp.gmail.com with ESMTPSA id q10sm5869841ejn.3.2022.02.09.02.13.03
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Wed, 09 Feb 2022 02:13:03 -0800 (PST)
-Content-Type: text/plain;
-	charset=us-ascii
-Mime-Version: 1.0 (Mac OS X Mail 15.0 \(3693.40.0.1.81\))
-Subject: Re: [PATCH] Add --with-branding-prefix and QEMU_BRANDING_PREFIX
-From: Liviu Ionescu <ilg@livius.net>
-In-Reply-To: <YgOQF0W78MVVsDw6@stefanha-x1.localdomain>
-Date: Wed, 9 Feb 2022 12:13:02 +0200
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <BB942F04-BF20-4531-A356-DDF7931B1DEB@livius.net>
-References: <20220120113545.55820-1-ilg@livius.net>
- <8A1E1B8F-ADA0-4966-A4E9-C0A08EB0A327@livius.net>
- <D6833D18-344A-473E-AC4D-89A64F8AA0EC@livius.net>
- <CAFEAcA91q2t9sVvaW6h3BwFMExgyCdVsb3TozH52EM70aPJt4w@mail.gmail.com>
- <DEEEEB34-BF47-4AD3-99BC-EAB791508D27@livius.net>
- <YgOQF0W78MVVsDw6@stefanha-x1.localdomain>
-To: Stefan Hajnoczi <stefanha@redhat.com>
-X-Mailer: Apple Mail (2.3693.40.0.1.81)
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::632
- (failed)
-Received-SPF: none client-ip=2a00:1450:4864:20::632;
- envelope-from=ilg@livius.net; helo=mail-ej1-x632.google.com
-X-Spam_score_int: -10
-X-Spam_score: -1.1
-X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_NONE=0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nHk15-0003An-F6
+ for qemu-devel@nongnu.org; Wed, 09 Feb 2022 05:16:03 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:20834)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nHk10-0004tP-7b
+ for qemu-devel@nongnu.org; Wed, 09 Feb 2022 05:16:01 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1644401756;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=CsYIoqvzWfeWY428MK8u08ro5f6pUFb0GLMPXSzAmdY=;
+ b=B5K8rEF7WRPuxIMlWqrrffhZU/xGbVWjAeafSGIxlaF4j2IXOoEi53z9SmumhLn5zflcaJ
+ 6QG9hVtk9mEUEOM82XW55Qe/RuHwr9PyAKpomrLD0hqdl54XySwCE8woLxSXFJ1nqBSIhv
+ JKEJguGIQe7x9t/HbWazoJrsLZ/cYAU=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-362-cUergvCEPtygkGn6qFvHIg-1; Wed, 09 Feb 2022 05:15:51 -0500
+X-MC-Unique: cUergvCEPtygkGn6qFvHIg-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 695F184B9AA;
+ Wed,  9 Feb 2022 10:15:50 +0000 (UTC)
+Received: from thuth.com (unknown [10.39.192.117])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 89F8029996;
+ Wed,  9 Feb 2022 10:15:48 +0000 (UTC)
+From: Thomas Huth <thuth@redhat.com>
+To: qemu-block@nongnu.org, Hanna Reitz <hreitz@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
+Subject: [PATCH v2 0/8] Improve integration of iotests in the meson test
+ harness
+Date: Wed,  9 Feb 2022 11:15:22 +0100
+Message-Id: <20220209101530.3442837-1-thuth@redhat.com>
+MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -92,43 +76,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>, Markus Armbruster <armbru@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Though "make check-block" is currently already run via the meson test
+runner, it still looks like an oddball in the output of "make check" since
+the tests are still run separately via the check-block.sh script. It would
+be nicer if the iotests would show up like the other tests suites. For this
+we have to tweak the tests/qemu-iotests/check script so that it can already
+be run with "-g auto -n" during the configuration step [*], then we can
+directly add the individual tests in the tests/qemu-iotests/meson.build file
+already and finally get rid of the check-block.sh script.
 
+[*] Alternatively, we could also get rid of the "auto" group and add
+the test list to the tests/qemu-iotests/meson.build file directly ... 
 
-> On 9 Feb 2022, at 11:57, Stefan Hajnoczi <stefanha@redhat.com> wrote:
->=20
->=20
-> Is the existing ./configure --with-pkgversion=3D option not enough?
+Note: There's still something really weird that happens sometimes after
+running "make check-block" with this patch set: Sometimes the terminal
+is in non-echo mode, so that you have to run "reset" to get the terminal
+back to normal ... I currently don't have clue what's causing that
+issue ... Paolo, did you ever experience something like that with the
+meson test runner?
 
-My understanding of --with-pkgversion=3D, based on the fact that in QEMU =
-this string is appended to the version, was that it is a suffix that =
-describes a specific version.
+v2:
+ - Add new 1st patch to fix "make check-block SPEED=thorough"
+ - Improve bash version check
+ - Rewrite the 'Allow to run "./check -n"' patch to be less ugly
+ - Add patch to print the "diff" of the iotests to stderr, so that
+   it shows up in TAP mode, too
 
-Most GNU tools, including GCC, binutils, etc, use a similar option, but =
-the string is prepended to the greeting message.
+Thomas Huth (8):
+  tests/qemu-iotests/testrunner: Allow parallel test invocations
+  tests/qemu-iotests: Improve the check for GNU sed
+  tests/qemu-iotests/meson.build: Improve the indentation
+  tests/qemu-iotests: Allow to run "./check -n" from the source
+    directory, too
+  tests/qemu-iotests/meson.build: Call the 'check' script directly
+  tests: Do not treat the iotests as separate meson test target anymore
+  tests/qemu-iotests/testrunner: Print diff to stderr in TAP mode
+  tests: Remove check-block.sh
 
-In my use case, --with-branding-prefix does the same, QEMU presents =
-itself with:
+ meson.build                      |  6 +--
+ scripts/mtest2make.py            |  4 --
+ tests/Makefile.include           |  9 +---
+ tests/check-block.sh             | 85 --------------------------------
+ tests/qemu-iotests/check         |  2 +-
+ tests/qemu-iotests/common.rc     | 26 +++++-----
+ tests/qemu-iotests/meson.build   | 83 +++++++++++++++++++++----------
+ tests/qemu-iotests/testenv.py    |  9 +++-
+ tests/qemu-iotests/testrunner.py |  7 ++-
+ 9 files changed, 88 insertions(+), 143 deletions(-)
+ delete mode 100755 tests/check-block.sh
 
-.../xpack-qemu-arm-6.2.0-1/bin/qemu-system-arm --version
-xPack QEMU emulator version 6.2.0 (v6.2.0-1-xpack-arm)
-Copyright (c) 2003-2021 Fabrice Bellard and the QEMU Project developers
-
-All other binary xPacks (https://github.com/xpack-dev-tools/) do the =
-same.
-
-In my opinion, a prefix is preferred, and is consistent with the GNU =
-behaviour.
-
-Anyway, having both does not break any backward compatibility and does =
-not add any significant overhead/complexity.
-
-
-Liviu
+-- 
+2.27.0
 
 
