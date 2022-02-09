@@ -2,43 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8CA224AF477
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Feb 2022 15:54:15 +0100 (CET)
-Received: from localhost ([::1]:40548 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F20A4AF412
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Feb 2022 15:28:54 +0100 (CET)
+Received: from localhost ([::1]:60622 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nHoMI-0002aQ-LK
-	for lists+qemu-devel@lfdr.de; Wed, 09 Feb 2022 09:54:14 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:40204)
+	id 1nHnxl-0001nU-5F
+	for lists+qemu-devel@lfdr.de; Wed, 09 Feb 2022 09:28:53 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:39996)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1nHnZS-0001PD-4x; Wed, 09 Feb 2022 09:03:46 -0500
-Received: from [2a01:111:f400:7d00::715] (port=53856
- helo=EUR05-VI1-obe.outbound.protection.outlook.com)
+ id 1nHnZD-0001Gu-OX; Wed, 09 Feb 2022 09:03:33 -0500
+Received: from [2a01:111:f400:fe07::716] (port=28271
+ helo=EUR02-AM5-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1nHnZP-0000MG-5l; Wed, 09 Feb 2022 09:03:45 -0500
+ id 1nHnZA-0000NJ-V3; Wed, 09 Feb 2022 09:03:31 -0500
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ahwrsSxxets9KFY77LCi28Po7JCu9s1fmyrJswBGv/DyLmphBBTPgBflHljcJpmp35/cDMYQ77EQkZWZXxWxShfft9MT85X6q5hCVx1bxrz69t7IINTPH8nMq8Ml4cHOiUh0DuS3EXKEgqelwaz5IGKRGhmI0pu/lwpfJo9TUSNUylshHyr26khx9o3C3t/2XZFXBk+CFwC98ffs5TUyNBm+J60CvHqErnoZhGfhh0TycWMQHTGRnbUh+ZKONthFSHCu0oLHZUe76HhhowPWzmXuDzcO4xVzdBAzqNF5dGAPJ5xex0A80QuOfT8RtkXkjN6PS5uhTkx8yBQGUwI1mw==
+ b=WyrJ5CfdajTqjZ2HfsGuj1rojEb2nfuEZDHliu82Vdl0KVTvFAMhVosQlCHN7CoittwijMjU6P/qNnKHAGB9zjSm2X2MXVImYCHrSCabARH5ou9eEn/UuTRufwCaAE8+0whMnVI9h9XYFjUQCdqWD3VS6gVZ2lHRM6fIAhdiq8N8NkNy+XkhGLQ+1sPPDCmutOb9iKIAhRS1ueJXjYJmWX4ZE5mgBhLvux+RmqxJ1xmZmLb/lKCGFvYlj8OKB8WXu2Kt6ryKj+rv0GG2kYQEopQxJW/3VCIEQxoyCFs2t3phPymHxPor69f/GSXcA7YAdJESqtPFuMCWE+JzwDYipw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=WK9edGt1q6cyVin2k5QTSlORQ0xxXKO4xMJndvAfEqg=;
- b=ZCKvVxK4ieOvAONeTzJpX3ZlMaOxyixFQ+tvCNytfiI3/NQGSXuo84ZtrUzd6YBNf2REav1z7NjVPlnijvMP8xvqxiaZGeGvyCjsQ4SU5YIMKVTHaoQW7xp1nWhO60xbYpCGH0BhbNWASOzLZjtC45KkCBCecubPWC2+XtcmdBPd7QZczSHZYyM4aUjNDiGJia1X2+AwR/Av/rcUTy624KejI36zP8fnzxdVN75B52ft+M2VCa5rKn55gownsvOc9xUty9UB68v81QFu2dt01JoU/bZvlh9w7uF2rKWgU0p/FRzi79vba7oyBUMtgoA2UQ9Inq+OG+Jx3cg4YF9qvg==
+ bh=58SathTNiJjLK1kvKcTaLJEKMQFocyHEuD1xmtF3GXI=;
+ b=GJMtVS4YI4FDTI86bKwqsp5CsI6+hf0eMCfv2I8xwR0S4kU9HUMAi0CWxzD9IHBDNs52qjSF3waYml0QjWpaWdgpMrk6ShDvg7Tuw8waAnzL2s8Z2gPIyUQehRSJ0vrX/A7Kx1X7IbrF+sGDEYcmS4wok/FkLr036Fyrx6ffKGZk11Wz+/8S9i6MHWATTesGa/YNhjZKS+j9iA9e58kQy5l9OpytEYDcmut5QJid2TF/ruAHKBG9Qkp2wPnQ4VNO/Tm/v5avQyTjEea3n4Ie2KlqHJGHwDDDpDmJUfueANMmI3ZBk/PA4d7kIKiX49gtlhIxvVVgqsEuW+zf6EdlTQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
  dkim=none; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=WK9edGt1q6cyVin2k5QTSlORQ0xxXKO4xMJndvAfEqg=;
- b=mw9vp+5u/UaNsngL8v5d+sCODkbo5Wyptq9+Desdmi35mEyp5MjHqJFMvRAHtk3Vu+WSYJVbj0pT/yYhxBH6LI7H0BXiTgSy7CVIebESGCh/N/UN7eRHYzMQQMnSIuln653v5rlLGj8TcMEO9vAh520dAYR61s1/Wiaaslrrlpk=
+ bh=58SathTNiJjLK1kvKcTaLJEKMQFocyHEuD1xmtF3GXI=;
+ b=mMZ5Nzeu6p+mCEgQg5WIST0RETpCDPGo24DnH4Iom4SzD0N9Y42ENS20qMU6/pfH8UH5mYg6lrpG/nNG55zGJOW/rEBZ0aPEg6nYv+4ZWYnlEMLz3WFZx8S2zZAaMbs/B5ai8myZu707c/zdeMI4x1z9T5yN4t02sNufYJr+KzI=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=virtuozzo.com;
 Received: from AM9PR08MB6737.eurprd08.prod.outlook.com (2603:10a6:20b:304::18)
- by AM8PR08MB5698.eurprd08.prod.outlook.com (2603:10a6:20b:1c6::24)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4975.11; Wed, 9 Feb
- 2022 14:03:12 +0000
+ by DBBPR08MB4460.eurprd08.prod.outlook.com (2603:10a6:10:cc::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4951.18; Wed, 9 Feb
+ 2022 14:03:13 +0000
 Received: from AM9PR08MB6737.eurprd08.prod.outlook.com
  ([fe80::49c:67e9:3e24:8714]) by AM9PR08MB6737.eurprd08.prod.outlook.com
  ([fe80::49c:67e9:3e24:8714%4]) with mapi id 15.20.4975.011; Wed, 9 Feb 2022
@@ -48,9 +48,9 @@ To: qemu-block@nongnu.org
 Cc: qemu-devel@nongnu.org, richard.henderson@linaro.org,
  peter.maydell@linaro.org, vsementsov@virtuozzo.com, eblake@redhat.com,
  Hanna Reitz <hreitz@redhat.com>
-Subject: [PULL 4/7] iotests.py: Add QemuStorageDaemon class
-Date: Wed,  9 Feb 2022 15:02:55 +0100
-Message-Id: <20220209140258.364649-5-vsementsov@virtuozzo.com>
+Subject: [PULL 5/7] iotests/281: Test lingering timers
+Date: Wed,  9 Feb 2022 15:02:56 +0100
+Message-Id: <20220209140258.364649-6-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20220209140258.364649-1-vsementsov@virtuozzo.com>
 References: <20220209140258.364649-1-vsementsov@virtuozzo.com>
@@ -61,63 +61,63 @@ X-ClientProxiedBy: AS9PR06CA0192.eurprd06.prod.outlook.com
  (2603:10a6:20b:304::18)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 7291e80d-a2bc-4445-ab83-08d9ebd4e8fa
-X-MS-TrafficTypeDiagnostic: AM8PR08MB5698:EE_
-X-Microsoft-Antispam-PRVS: <AM8PR08MB56986323D5C2342CE0730ACAC12E9@AM8PR08MB5698.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
+X-MS-Office365-Filtering-Correlation-Id: 0962b4a2-f720-42aa-1cab-08d9ebd4e92f
+X-MS-TrafficTypeDiagnostic: DBBPR08MB4460:EE_
+X-Microsoft-Antispam-PRVS: <DBBPR08MB4460346CA668195F8E40D701C12E9@DBBPR08MB4460.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: JjopW2FzSZXCgnDdUjX/zFXRVyeumZYrgu6jMYpq7Fc6NU+uesr4oI12NJB71CU8RKQQzzVrL33Np6gACHSMD+5MQKqkSRAMg8jcOt1GoOkCUHNl0UKCzErhQgVK2TiZwNtx8sPVksBNKtXZXLwqoqZWHb6bqrclSezooyZjm8IONAohOjfRKIN22fZs6Nf/4g1Zzsp9oIYXCuM4OYBNL51IVkxbAWEGJYKU267zXP29qwhJi/IektLjhO96nd1P86LRLbks/jjtHNUWUQjSyCJ228M3g71mZqJOhvEQmsgGRV9daXiw02xGLuZE5qSIBs/C2XOJ8caz060lvcZ/M1OcNN5SjRFrGSX4D50Qv1V7Q5pbioqhkQ3woUMomC2heFthFmk5IIjxpqD3M+c6L9g82vqs5LuJa0Nbzs20OFgGNJsLdOfaKLB9scYa/DmbELgskprnWqv8hRJCM1b5PdrJKjizv5K3rktYMBt9mtMCF/M+2sprbqUmzar20qAql+PtThgsJQlKwhluIXjSHg7xq9XSRBUEwGn885aIQyHRVfvL3CNscNRmYR1LO6coNnvNAL5Ychjg5xWFhKs4aGKrQ1fcCZ65FSlQ+XZ1A5UetySE0tKmrs2pU2ihHhoQp2UqeUH86WfII0qwGidzh8K+WU8ELCeHfsf2SSP0P6o/KfVJTi3sEO5wWRxijjvvuXk9Sie7lMTqxP31bzPciw==
+X-Microsoft-Antispam-Message-Info: ruHxTRh/FjaOg1yjPCdenefbkJlOEQdL1JjwExYrN8n4Fo8FQioj/DpRRTzNMHcsfWdkCdmBZ7CcowXb76jOVvpgGOWYsaEdzY8yXQ2GVz4+W5utfuUVBMsGxJgNTyX7y70CD5kewRvb3W06TpBqj8UhVoBpbQwUVV0OMUkw18wGzb7MzJ8pdLFLo+ZUvoDUIHl1ZF7kUF8ImrSXObFEc2ngNijRjmiQ9X9uNW7oEjUvzB6ILBfheX7KhFBMswAxwBRIBmIy6TkTd4mobbqIJ1M2jS+tsx6VaDTU3g7Z2aQNuqPimswdtcrwSU/Pxk6Ep5EThdjb4Ou+WUiBgBrqK6grUF/J1wddtQWWBijLRqQq2RWhMe0S1vDWhOJ1OS/EeSE1M3/lXCWeJUilcNiQlPMT76ZtMR5XUkoaWF7fsyHmeZkghQesfF/1+P1CMWEAkp2JmnV/pJuzpbuVDJoAUX5Z1xXSw7G55vP5X8pIlpPfzqJzgsdqzNLkz+ewPHdloTbGh5U0YcdnwP2KwylTKbi/9BB0INoQp+6Y3EMPNeP63dD2SG9z/Pnp3Mtoqeo11l1gUwUCYq463/hwVC0Tqo0tSDKXpacERpsy3Hsa7a+uQ9z8kYPZ0fQqnFuU7tXg2CqsJVlTs7/nqz70u73jd729AOaEf+4+PTcMEczbpRPn4D5PnqRiNcLtgcV/xNL9iU+TOhtZHG/DsqMUtVOPiA==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AM9PR08MB6737.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230001)(4636009)(366004)(2616005)(36756003)(316002)(6512007)(2906002)(5660300002)(6666004)(8936002)(1076003)(38350700002)(66476007)(66556008)(6506007)(8676002)(86362001)(66946007)(38100700002)(4326008)(508600001)(6486002)(26005)(186003)(6916009)(52116002);
+ SFS:(13230001)(4636009)(366004)(6506007)(38100700002)(6916009)(2906002)(6666004)(36756003)(316002)(66946007)(52116002)(38350700002)(6512007)(508600001)(4326008)(6486002)(86362001)(2616005)(66476007)(5660300002)(66556008)(8936002)(8676002)(83380400001)(1076003)(186003)(26005);
  DIR:OUT; SFP:1102; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?ARQi1gTpQZByhvTm/v5fUjobjWmFGgTyzphpXVj2AT2CN8U1uEDi/MIulzOe?=
- =?us-ascii?Q?tw6MmaXWs9+OBgdxVhHTsc1lt43C9nvSZGPl6OmmBLm8OIWqDn/AluOqwupz?=
- =?us-ascii?Q?/baWVFnAIHDm8DN3QkMAQbujwPz/pqSqDDiB/f4GcINbw9PlaZrnklz0MfnN?=
- =?us-ascii?Q?L+8TpkaKRonCthO7dQXJcY6bqHP1RS+iJhdlS1xdWT5YOd+exfN5Zu+DVTlc?=
- =?us-ascii?Q?1WwGehThatqGIFP2fzw4UMUspu71FJBk53DXbAasu1kf/GbiGWYO6j7lOxfc?=
- =?us-ascii?Q?uDUJL/f0I95HOkHYDh7tRVFjWcT5GrT/DktkifpNKLShgDOr9ushpQ+WCeGE?=
- =?us-ascii?Q?bR8kFMrrcj16ad6J6PG7j4s6Hpfi4O2fWQuOzPFAAq/RTIiYYZzngNrTQYIb?=
- =?us-ascii?Q?4Ldm9nmGH7YARYRPYcQvKyw12ipZHMFljwP7YVIYrYInv5q0NCc18+myQiDn?=
- =?us-ascii?Q?7KMUsUw8E/J+aQzEn9W69anXp+cc1nhFP8/HGEDltLX+9ShJZY1EzLcPpncj?=
- =?us-ascii?Q?rDR9KBVQCVM8qZeDpplzX9nV+gQavY0NzLLSSaU/ophNIVaiJRpJOZGc7oWn?=
- =?us-ascii?Q?FWI19FlkQcKJAMqCSRu9HWk4t8W8hIyVHkfGV4+M1ccHTfVPW9h4/dLC6Z+z?=
- =?us-ascii?Q?0/wGEjjoULktdW+MrC7/nIIfmAOhcmaaj/L3YCR72ByTTz2005rfUKZP01CI?=
- =?us-ascii?Q?xXl10iLaaKlpLJlXpgHyqn8OWUYHd5sOwkHwaEFQxXq0onaoKCr+IApeiz0O?=
- =?us-ascii?Q?l4IKUMGgFGEMySwvdRvvRw+L/q5D3gWK4KRY8lV5vjwIVYpK5VxDdl8woGja?=
- =?us-ascii?Q?z4PQ44tWx3BOMsxW6sLXwA0vxWu+4PTvNoEeUOOuAMBPRJZ8ng+pjaozvp58?=
- =?us-ascii?Q?xlVHGQq80Z8n2MQS9X+eiJzowuzVEsLobVjodGCz3k6YATSncTBeeNqspLHT?=
- =?us-ascii?Q?XAd15oGfy+axyEnpuhDYwJMzyP4PgilY8Stubiyq0hH1plHe+1q2nYwyd6Qd?=
- =?us-ascii?Q?ldohLDbLlF0oe/VwHjBp6RqFVOpAAP6XaOrCLaAu79VxggeuQh0qFishTS3S?=
- =?us-ascii?Q?n1At7xd/NE5Xlija0Onm+7W6JzXAgq4rB9+AIaMfnPD04d7iIlK83TAunP9c?=
- =?us-ascii?Q?rlqJWLFnhUL+ZDbEOPXHX2TztxZB1/u7PzBaIsGaiI5Hn5c7ZRZCPD0yE834?=
- =?us-ascii?Q?ddkoM01AJPmP7DIcis5vsbOraYfgPEQn5s8USEkMq0eCf/DMlcrwIOgDcJlb?=
- =?us-ascii?Q?IXYJlwtcLk0IqaTPWUZLC+JGdv27e4M2jdcipugpO57lkdVBKnd/NDPUZLGy?=
- =?us-ascii?Q?3BN1vCtZV0E0/P1UHuVX/jHBdpAxZnwVqZnIUoGw0/UkNjF1qRb1LlPjrypG?=
- =?us-ascii?Q?yrjpJXg1ZYP2dLb0xbMFTdAKbHi715KHcWSGZihUM7u2hVffGwGUa/bR3vdQ?=
- =?us-ascii?Q?HxLTE5OPX7Qt2eGvhmL0qJNmgOAVD0zVI/q+74dCU+fvuuTlER/4pK03xZHF?=
- =?us-ascii?Q?5m/wwJekV3QE0kN3JYt0GhztnlBKGFOWj9sqJAb1fWHhCKDPzarxVNq3JRf3?=
- =?us-ascii?Q?49dEVkGoYI2XeemM/pd5x8gzWYUKI+nbd5KoK30vWkVwoOmfW/x2QaJ7841j?=
- =?us-ascii?Q?n/bm2icI9Ch9If2W6xoYuVaTI1TuBwbRkhK08yhm5dwxriVU+CAahB5feCeP?=
- =?us-ascii?Q?8h/F+A=3D=3D?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?IeL0p/bOfd7vA5/AJo9NfM3og0GI+URg8U6kPSK/2+3OLa0k5HUXudctXj8o?=
+ =?us-ascii?Q?cGFeVo1DmeMSPMQ1yyvnfqqZz5lwhR7u2huFLel98m88RCqnyIaxbimvOCTp?=
+ =?us-ascii?Q?2listhQQBnXfBSK/UZ4/tyJdxHSvr+jFI65jXJh1FpWpaMMpFGweJFVPXXXn?=
+ =?us-ascii?Q?+yCUuR3pQO679sTlwEnSZEGqcSuTfnCbgh/metWeB+jw7Crdsfh9Epwlb6RY?=
+ =?us-ascii?Q?qQIM0ZJPp13W4kZZnTmH2LlceL7Ewi0jTOvyKXdbU2hUwot4VENrnYK6XL27?=
+ =?us-ascii?Q?neWxWlWuo7F08XVehj8Xy8Vyp+Zx+OABFJdyTMeuw9Xmnk7RULu54VH8nL11?=
+ =?us-ascii?Q?/E5X+wvTSrluZujIcFj+TBottJbGtMdl/FL9FWnlGA2hvz0wgbQ/xx0KblMc?=
+ =?us-ascii?Q?BA1bu7Nyg9l4Qa8BWF0d8Ig4SWopUburrXYYbuebcXasmNZ+SLPFS49/AfS9?=
+ =?us-ascii?Q?XCmjYWy3aqTVnKqJ1P3TU9rJxXAKyNUubpZwNFd9WFyFb0AvuJ5vK9hIPFsC?=
+ =?us-ascii?Q?7Th3WQQ3HvytMR4f23UX8QvtAxGA6RunMr6+V0Ub/o2CtC7RpoWaTnj69Ri9?=
+ =?us-ascii?Q?VBCr+GzZ45F5aLLgYyuXDMpUMco2I/Qwm81TeVKbNDc5Gm3NmoOcYXtTXTfM?=
+ =?us-ascii?Q?ARVVFxsqhgSyqrLXdkDwieEXctIf0KpjxTbHeQChWStk5baCbPHTTfqpqwkk?=
+ =?us-ascii?Q?DFrcRc1J7wB1+VgARmG+8ii8ETp0lpSwn1CEHO6nqxQ+ZDsyfn5h1jXrj1mY?=
+ =?us-ascii?Q?1VrOiKrd2+1eP5V6t9NHcXG7qo9Iy9sRGwYb9cJDGYBbQ1TcddJTXM66PK1Z?=
+ =?us-ascii?Q?uRlhiA6OIo4ppR4YOboghyooiXT4ZFKPPGKVARoW8qBvxRBZ6BMlwjLqLO1J?=
+ =?us-ascii?Q?H/ZZCzJV2BGvUiq5K2iq3JrfCHdI5X5psv5yU5U2m0ZZFjJcIBQtC0fQ3H5J?=
+ =?us-ascii?Q?xUcFdE3XiA0gBTKO5XqhEKF0RcL/x6mgCBOkNvfwLQ3/KmzQsAN/Ddv5WI/6?=
+ =?us-ascii?Q?IkUk2wfILsUPC4G48vgDXH/PlcBgNeqiB6Yd0E+UOK3QT7XbaD8GtCOSO1Rn?=
+ =?us-ascii?Q?78yTu2Hjee/mJ9hVrvFnoopbEYb27ywpDf2fygiQnHF05PICUp+Vs2W1Iofu?=
+ =?us-ascii?Q?vQ7qnWOy8lv/WG5HeK+w5ot3n8/rGTsOSAreurOaBvGjaFjxVJa921QEMFdH?=
+ =?us-ascii?Q?nEg9VO8Ue66qBDpNcRIkZRv82gxlwZctQME23585vJ+jaK0zPTIxgTh+8gq4?=
+ =?us-ascii?Q?MIhgvzRtpUFGjw/GNi9Iu90bcOxVv8vAnkONCFOMOXYRtE87WWIrGhUY/v+C?=
+ =?us-ascii?Q?lrwV0ver6Y3AcA7/HzeUruMX/xux6n05KXSNwGLu+msD8IOZjubqzdw39ZhW?=
+ =?us-ascii?Q?hGOvqQCrqLR9mdoKTE8WwXrTkXkL9lCJ1GUHVsrcTL69JCgSDbsClCMV5RQz?=
+ =?us-ascii?Q?6KnF1C2GySZ/mkfy4HbimgaozM3XQ3rCf4IvdCS0CyTrxBsYZLIxydvn9CCz?=
+ =?us-ascii?Q?ybDk8BrMDN4uqQVx0gtyrRz/WGwuaxEtG/WZQuZoZYi7gDWAbQTkA6rKzbvJ?=
+ =?us-ascii?Q?bbiYiOrm5OFAG8ajwltTbB8bn8y51Um8H/yp8LV0w77CaCphWfRtRS1PdzlQ?=
+ =?us-ascii?Q?yY0TyOy4m8uL/nk1HT5aGfR4HueyhcNCOPfuu9JWmk6NOO8tNQhMzI4OYcqs?=
+ =?us-ascii?Q?n2mpDg=3D=3D?=
 X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7291e80d-a2bc-4445-ab83-08d9ebd4e8fa
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0962b4a2-f720-42aa-1cab-08d9ebd4e92f
 X-MS-Exchange-CrossTenant-AuthSource: AM9PR08MB6737.eurprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Feb 2022 14:03:12.4753 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Feb 2022 14:03:12.8814 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: A9aqn5I18ybC/nVtBGw3+7FQxZuoQitihZ6Sw4475Mz/Sjx/8DjtLxqtOdUbDcbOCUc/rXX20Age7F2d4P/6E9HoATEeaG1vJpxJHvaGMaw=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM8PR08MB5698
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a01:111:f400:7d00::715
+X-MS-Exchange-CrossTenant-UserPrincipalName: CxVgZwmhkGsgysk3AlWnizDCwKJwzDnB9iynDZMUfwCtDEzL/cqytfPCk/kxTFErAS0TR/whqRfBoaXGgY4pp3EY8rGZFjzOhlQoGdL5liY=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DBBPR08MB4460
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a01:111:f400:fe07::716
  (failed)
-Received-SPF: pass client-ip=2a01:111:f400:7d00::715;
+Received-SPF: pass client-ip=2a01:111:f400:fe07::716;
  envelope-from=vsementsov@virtuozzo.com;
- helo=EUR05-VI1-obe.outbound.protection.outlook.com
+ helo=EUR02-AM5-obe.outbound.protection.outlook.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -143,79 +143,161 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Hanna Reitz <hreitz@redhat.com>
 
-This is a rather simple class that allows creating a QSD instance
-running in the background and stopping it when no longer needed.
+Prior to "block/nbd: Delete reconnect delay timer when done" and
+"block/nbd: Delete open timer when done", both of those timers would
+remain scheduled even after successfully (re-)connecting to the server,
+and they would not even be deleted when the BDS is deleted.
 
-The __del__ handler is a safety net for when something goes so wrong in
-a test that e.g. the tearDown() method is not called (e.g. setUp()
-launches the QSD, but then launching a VM fails).  We do not want the
-QSD to continue running after the test has failed, so __del__() will
-take care to kill it.
+This test constructs exactly this situation:
+(1) Configure an @open-timeout, so the open timer is armed, and
+(2) Configure a @reconnect-delay and trigger a reconnect situation
+    (which succeeds immediately), so the reconnect delay timer is armed.
+Then we immediately delete the BDS, and sleep for longer than the
+@open-timeout and @reconnect-delay.  Prior to said patches, this caused
+one (or both) of the timer CBs to access already-freed data.
+
+Accessing freed data may or may not crash, so this test can produce
+false successes, but I do not know how to show the problem in a better
+or more reliable way.  If you run this test on "block/nbd: Assert there
+are no timers when closed" and without the fix patches mentioned above,
+you should reliably see an assertion failure.
+(But all other tests that use the reconnect delay timer (264 and 277)
+will fail in that configuration, too; as will nbd-reconnect-on-open,
+which uses the open timer.)
+
+Remove this test from the quick group because of the two second sleep
+this patch introduces.
+
+(I decided to put this test case into 281, because the main bug this
+series addresses is in the interaction of the NBD block driver and I/O
+threads, which is precisely the scope of 281.  The test case for that
+other bug will also be put into the test class added here.
+
+Also, excuse the test class's name, I couldn't come up with anything
+better.  The "yield" part will make sense two patches from now.)
 
 Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 Signed-off-by: Hanna Reitz <hreitz@redhat.com>
 ---
- tests/qemu-iotests/iotests.py | 40 +++++++++++++++++++++++++++++++++++
- 1 file changed, 40 insertions(+)
+ tests/qemu-iotests/281     | 79 +++++++++++++++++++++++++++++++++++++-
+ tests/qemu-iotests/281.out |  4 +-
+ 2 files changed, 79 insertions(+), 4 deletions(-)
 
-diff --git a/tests/qemu-iotests/iotests.py b/tests/qemu-iotests/iotests.py
-index 8cdb381f2a..6ba65eb1ff 100644
---- a/tests/qemu-iotests/iotests.py
-+++ b/tests/qemu-iotests/iotests.py
-@@ -73,6 +73,8 @@
- qemu_prog = os.environ.get('QEMU_PROG', 'qemu')
- qemu_opts = os.environ.get('QEMU_OPTIONS', '').strip().split(' ')
+diff --git a/tests/qemu-iotests/281 b/tests/qemu-iotests/281
+index 318e333939..4fb3cd30dd 100755
+--- a/tests/qemu-iotests/281
++++ b/tests/qemu-iotests/281
+@@ -1,5 +1,5 @@
+ #!/usr/bin/env python3
+-# group: rw quick
++# group: rw
+ #
+ # Test cases for blockdev + IOThread interactions
+ #
+@@ -20,8 +20,9 @@
+ #
  
-+qsd_prog = os.environ.get('QSD_PROG', 'qemu-storage-daemon')
-+
- gdb_qemu_env = os.environ.get('GDB_OPTIONS')
- qemu_gdb = []
- if gdb_qemu_env:
-@@ -345,6 +347,44 @@ def cmd(self, cmd):
-         return self._read_output()
+ import os
++import time
+ import iotests
+-from iotests import qemu_img
++from iotests import qemu_img, QemuStorageDaemon
  
+ image_len = 64 * 1024 * 1024
  
-+class QemuStorageDaemon:
-+    def __init__(self, *args: str, instance_id: str = 'a'):
-+        assert '--pidfile' not in args
-+        self.pidfile = os.path.join(test_dir, f'qsd-{instance_id}-pid')
-+        all_args = [qsd_prog] + list(args) + ['--pidfile', self.pidfile]
+@@ -243,6 +244,80 @@ class TestBlockdevBackupAbort(iotests.QMPTestCase):
+         # Hangs on failure, we expect this error.
+         self.assert_qmp(result, 'error/class', 'GenericError')
+ 
++# Test for RHBZ#2033626
++class TestYieldingAndTimers(iotests.QMPTestCase):
++    sock = os.path.join(iotests.sock_dir, 'nbd.sock')
++    qsd = None
 +
-+        # Cannot use with here, we want the subprocess to stay around
-+        # pylint: disable=consider-using-with
-+        self._p = subprocess.Popen(all_args)
-+        while not os.path.exists(self.pidfile):
-+            if self._p.poll() is not None:
-+                cmd = ' '.join(all_args)
-+                raise RuntimeError(
-+                    'qemu-storage-daemon terminated with exit code ' +
-+                    f'{self._p.returncode}: {cmd}')
++    def setUp(self):
++        self.create_nbd_export()
 +
-+            time.sleep(0.01)
++        # Simple VM with an NBD block device connected to the NBD export
++        # provided by the QSD
++        self.vm = iotests.VM()
++        self.vm.add_blockdev('nbd,node-name=nbd,server.type=unix,' +
++                             f'server.path={self.sock},export=exp,' +
++                             'reconnect-delay=1,open-timeout=1')
 +
-+        with open(self.pidfile, encoding='utf-8') as f:
-+            self._pid = int(f.read().strip())
++        self.vm.launch()
 +
-+        assert self._pid == self._p.pid
++    def tearDown(self):
++        self.stop_nbd_export()
++        self.vm.shutdown()
 +
-+    def stop(self, kill_signal=15):
-+        self._p.send_signal(kill_signal)
-+        self._p.wait()
-+        self._p = None
++    def test_timers_with_blockdev_del(self):
++        # The NBD BDS will have had an active open timer, because setUp() gave
++        # a positive value for @open-timeout.  It should be gone once the BDS
++        # has been opened.
++        # (But there used to be a bug where it remained active, which will
++        # become important below.)
 +
-+        try:
-+            os.remove(self.pidfile)
-+        except OSError:
-+            pass
++        # Stop and restart the NBD server, and do some I/O on the client to
++        # trigger a reconnect and start the reconnect delay timer
++        self.stop_nbd_export()
++        self.create_nbd_export()
 +
-+    def __del__(self):
-+        if self._p is not None:
-+            self.stop(kill_signal=9)
++        result = self.vm.qmp('human-monitor-command',
++                             command_line='qemu-io nbd "write 0 512"')
++        self.assert_qmp(result, 'return', '')
 +
++        # Reconnect is done, so the reconnect delay timer should be gone.
++        # (This is similar to how the open timer should be gone after open,
++        # and similarly there used to be a bug where it was not gone.)
 +
- def qemu_nbd(*args):
-     '''Run qemu-nbd in daemon mode and return the parent's exit code'''
-     return subprocess.call(qemu_nbd_args + ['--fork'] + list(args))
++        # Delete the BDS to see whether both timers are gone.  If they are not,
++        # they will remain active, fire later, and then access freed data.
++        # (Or, with "block/nbd: Assert there are no timers when closed"
++        # applied, the assertions added in that patch will fail.)
++        result = self.vm.qmp('blockdev-del', node_name='nbd')
++        self.assert_qmp(result, 'return', {})
++
++        # Give the timers some time to fire (both have a timeout of 1 s).
++        # (Sleeping in an iotest may ring some alarm bells, but note that if
++        # the timing is off here, the test will just always pass.  If we kill
++        # the VM too early, then we just kill the timers before they can fire,
++        # thus not see the error, and so the test will pass.)
++        time.sleep(2)
++
++    def create_nbd_export(self):
++        assert self.qsd is None
++
++        # Simple NBD export of a null-co BDS
++        self.qsd = QemuStorageDaemon(
++            '--blockdev',
++            'null-co,node-name=null,read-zeroes=true',
++
++            '--nbd-server',
++            f'addr.type=unix,addr.path={self.sock}',
++
++            '--export',
++            'nbd,id=exp,node-name=null,name=exp,writable=true'
++        )
++
++    def stop_nbd_export(self):
++        self.qsd.stop()
++        self.qsd = None
++
+ if __name__ == '__main__':
+     iotests.main(supported_fmts=['qcow2'],
+                  supported_protocols=['file'],
+diff --git a/tests/qemu-iotests/281.out b/tests/qemu-iotests/281.out
+index 89968f35d7..914e3737bd 100644
+--- a/tests/qemu-iotests/281.out
++++ b/tests/qemu-iotests/281.out
+@@ -1,5 +1,5 @@
+-....
++.....
+ ----------------------------------------------------------------------
+-Ran 4 tests
++Ran 5 tests
+ 
+ OK
 -- 
 2.31.1
 
