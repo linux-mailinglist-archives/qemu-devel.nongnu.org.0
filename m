@@ -2,36 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E6AF4AF865
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Feb 2022 18:28:22 +0100 (CET)
-Received: from localhost ([::1]:50638 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 07EB34AF8D0
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Feb 2022 18:54:29 +0100 (CET)
+Received: from localhost ([::1]:58732 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nHqlQ-000606-QT
-	for lists+qemu-devel@lfdr.de; Wed, 09 Feb 2022 12:28:20 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:37708)
+	id 1nHrAh-0006Rs-MR
+	for lists+qemu-devel@lfdr.de; Wed, 09 Feb 2022 12:54:27 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:37898)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <anjo@rev.ng>) id 1nHqNT-00060M-Bc
- for qemu-devel@nongnu.org; Wed, 09 Feb 2022 12:03:35 -0500
-Received: from rev.ng ([5.9.113.41]:53333)
+ (Exim 4.90_1) (envelope-from <anjo@rev.ng>) id 1nHqNn-00063v-Sk
+ for qemu-devel@nongnu.org; Wed, 09 Feb 2022 12:03:56 -0500
+Received: from rev.ng ([5.9.113.41]:47121)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <anjo@rev.ng>) id 1nHqNN-0004YG-S0
- for qemu-devel@nongnu.org; Wed, 09 Feb 2022 12:03:34 -0500
+ (Exim 4.90_1) (envelope-from <anjo@rev.ng>) id 1nHqNP-0004YY-4s
+ for qemu-devel@nongnu.org; Wed, 09 Feb 2022 12:03:48 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=rev.ng;
  s=dkim; h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:
  Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
  Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
  :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
  List-Post:List-Owner:List-Archive;
- bh=i4pM1k0Qo1vVAPF2ZhyISWSHIokslmBVpEws0TKMEuY=; b=nN5AI2oyHql8kBWQxUt83eY80U
- CDepRN2ozR3mINCdbr0LP+in81RD/Ux+KJtldydkY0e7lIRNmlbnpKbqeULY3D27fXJKezK/WsbDR
- u/DwUG6wd6q5hLqb0HAW3NW20rSnAl9ccT5p9Rsd1beLMS+cJwJEREh+igbgPLY0Cdj8=;
+ bh=HFaROpQPGhrHyTCEP6Mn39uX15JNGT6H7AjswqRZzio=; b=jK67GtnVep3oAeJxbCTZQidwhU
+ lRJ8FC/TeDxS6XXTpbfoVJlgnL8+9KQvFUpSz6pxUbPZuAT22D4FV9GBOjBGsGORev0tWEWqEbOzB
+ Zqn1LaCPQAnNnBvfO0Z793Xf/PITKqy6H4GH8BXicTKCUI6/bUMa0MWseR5x1t2q2ccM=;
 To: qemu-devel@nongnu.org
 Cc: ale@rev.ng, tsimpson@quicinc.com, bcain@quicinc.com, mlambert@quicinc.com,
  babush@rev.ng, nizzo@rev.ng, richard.henderson@linaro.org
-Subject: [PATCH v8 08/12] target/hexagon: import flex/bison to docker files
-Date: Wed,  9 Feb 2022 18:03:08 +0100
-Message-Id: <20220209170312.30662-9-anjo@rev.ng>
+Subject: [PATCH v8 09/12] target/hexagon: import lexer for idef-parser
+Date: Wed,  9 Feb 2022 18:03:09 +0100
+Message-Id: <20220209170312.30662-10-anjo@rev.ng>
 In-Reply-To: <20220209170312.30662-1-anjo@rev.ng>
 References: <20220209170312.30662-1-anjo@rev.ng>
 MIME-Version: 1.0
@@ -41,8 +41,9 @@ X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01,
+ T_SPF_HELO_TEMPERROR=0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -60,517 +61,864 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reply-to:  Anton Johansson <anjo@rev.ng>
 From:  Anton Johansson via <qemu-devel@nongnu.org>
 
-Note: In this version of the patchset `tests/lcitool/libvirt-ci` points
-to a fork of libvirt-ci that includes flex/bison. This fork has not been
-merged upstream yet, and can be found at
-
-  https://gitlab.com/AntonJohansson/libvirt-ci/-/tree/mapping-flex-bison
-
-This patch will have to be modified to point to the upstreamed version
-before pulling.
+From: Paolo Montesel <babush@rev.ng>
 
 Signed-off-by: Alessandro Di Federico <ale@rev.ng>
 Signed-off-by: Paolo Montesel <babush@rev.ng>
 Signed-off-by: Anton Johansson <anjo@rev.ng>
 ---
- .gitlab-ci.d/cirrus/freebsd-12.vars                  | 2 +-
- .gitlab-ci.d/cirrus/freebsd-13.vars                  | 2 +-
- .gitlab-ci.d/windows.yml                             | 2 ++
- .gitmodules                                          | 3 ++-
- tests/docker/dockerfiles/alpine.docker               | 5 ++++-
- tests/docker/dockerfiles/centos8.docker              | 7 ++++---
- tests/docker/dockerfiles/debian-amd64.docker         | 2 ++
- tests/docker/dockerfiles/debian-native.docker        | 3 +++
- tests/docker/dockerfiles/debian-riscv64-cross.docker | 3 +++
- tests/docker/dockerfiles/debian-tricore-cross.docker | 1 +
- tests/docker/dockerfiles/debian10.docker             | 3 +++
- tests/docker/dockerfiles/fedora-i386-cross.docker    | 3 +++
- tests/docker/dockerfiles/fedora-win32-cross.docker   | 3 +++
- tests/docker/dockerfiles/fedora-win64-cross.docker   | 3 +++
- tests/docker/dockerfiles/fedora.docker               | 5 +++--
- tests/docker/dockerfiles/opensuse-leap.docker        | 7 ++++---
- tests/docker/dockerfiles/ubuntu1804.docker           | 7 ++++---
- tests/docker/dockerfiles/ubuntu2004.docker           | 7 ++++---
- tests/lcitool/libvirt-ci                             | 2 +-
- tests/lcitool/projects/qemu.yml                      | 2 ++
- tests/lcitool/refresh                                | 2 +-
- 21 files changed, 54 insertions(+), 20 deletions(-)
+ target/hexagon/idef-parser/idef-parser.h   | 254 +++++++++
+ target/hexagon/idef-parser/idef-parser.lex | 566 +++++++++++++++++++++
+ target/hexagon/meson.build                 |   4 +
+ 3 files changed, 824 insertions(+)
+ create mode 100644 target/hexagon/idef-parser/idef-parser.h
+ create mode 100644 target/hexagon/idef-parser/idef-parser.lex
 
-diff --git a/.gitlab-ci.d/cirrus/freebsd-12.vars b/.gitlab-ci.d/cirrus/freebsd-12.vars
-index 9c52266811..f2385c1b4a 100644
---- a/.gitlab-ci.d/cirrus/freebsd-12.vars
-+++ b/.gitlab-ci.d/cirrus/freebsd-12.vars
-@@ -11,6 +11,6 @@ MAKE='/usr/local/bin/gmake'
- NINJA='/usr/local/bin/ninja'
- PACKAGING_COMMAND='pkg'
- PIP3='/usr/local/bin/pip-3.8'
--PKGS='alsa-lib bash bzip2 ca_root_nss capstone4 ccache cdrkit-genisoimage ctags curl cyrus-sasl dbus diffutils dtc gettext git glib gmake gnutls gsed gtk3 libepoxy libffi libgcrypt libjpeg-turbo libnfs libspice-server libssh libtasn1 libxml2 llvm lttng-ust lzo2 meson ncurses nettle ninja opencv p5-Test-Harness perl5 pixman pkgconf png py38-numpy py38-pillow py38-pip py38-sphinx py38-sphinx_rtd_theme py38-virtualenv py38-yaml python3 rpm2cpio sdl2 sdl2_image snappy spice-protocol tesseract texinfo usbredir virglrenderer vte3 zstd'
-+PKGS='alsa-lib bash bzip2 ca_root_nss capstone4 ccache cdrkit-genisoimage ctags curl cyrus-sasl dbus diffutils dtc gettext git glib gmake gnutls gsed gtk3 libepoxy libffi libgcrypt libjpeg-turbo libnfs libspice-server libssh libtasn1 libxml2 llvm lzo2 meson ncurses nettle ninja opencv p5-Test-Harness perl5 pixman pkgconf png py38-numpy py38-pillow py38-pip py38-sphinx py38-sphinx_rtd_theme py38-virtualenv py38-yaml python3 rpm2cpio sdl2 sdl2_image snappy spice-protocol tesseract texinfo usbredir virglrenderer vte3 zstd'
- PYPI_PKGS=''
- PYTHON='/usr/local/bin/python3'
-diff --git a/.gitlab-ci.d/cirrus/freebsd-13.vars b/.gitlab-ci.d/cirrus/freebsd-13.vars
-index 7b44dba324..43904b65fa 100644
---- a/.gitlab-ci.d/cirrus/freebsd-13.vars
-+++ b/.gitlab-ci.d/cirrus/freebsd-13.vars
-@@ -11,6 +11,6 @@ MAKE='/usr/local/bin/gmake'
- NINJA='/usr/local/bin/ninja'
- PACKAGING_COMMAND='pkg'
- PIP3='/usr/local/bin/pip-3.8'
--PKGS='alsa-lib bash bzip2 ca_root_nss capstone4 ccache cdrkit-genisoimage ctags curl cyrus-sasl dbus diffutils dtc gettext git glib gmake gnutls gsed gtk3 libepoxy libffi libgcrypt libjpeg-turbo libnfs libspice-server libssh libtasn1 libxml2 llvm lttng-ust lzo2 meson ncurses nettle ninja opencv p5-Test-Harness perl5 pixman pkgconf png py38-numpy py38-pillow py38-pip py38-sphinx py38-sphinx_rtd_theme py38-virtualenv py38-yaml python3 rpm2cpio sdl2 sdl2_image snappy spice-protocol tesseract texinfo usbredir virglrenderer vte3 zstd'
-+PKGS='alsa-lib bash bzip2 ca_root_nss capstone4 ccache cdrkit-genisoimage ctags curl cyrus-sasl dbus diffutils dtc gettext git glib gmake gnutls gsed gtk3 libepoxy libffi libgcrypt libjpeg-turbo libnfs libspice-server libssh libtasn1 libxml2 llvm lzo2 meson ncurses nettle ninja opencv p5-Test-Harness perl5 pixman pkgconf png py38-numpy py38-pillow py38-pip py38-sphinx py38-sphinx_rtd_theme py38-virtualenv py38-yaml python3 rpm2cpio sdl2 sdl2_image snappy spice-protocol tesseract texinfo usbredir virglrenderer vte3 zstd'
- PYPI_PKGS=''
- PYTHON='/usr/local/bin/python3'
-diff --git a/.gitlab-ci.d/windows.yml b/.gitlab-ci.d/windows.yml
-index 62dd9ed832..4ae49376cf 100644
---- a/.gitlab-ci.d/windows.yml
-+++ b/.gitlab-ci.d/windows.yml
-@@ -33,6 +33,7 @@ msys2-64bit:
-   script:
-   - .\msys64\usr\bin\bash -lc "pacman -Sy --noconfirm --needed
-       diffutils git grep make sed
-+      flex bison
-       mingw-w64-x86_64-capstone
-       mingw-w64-x86_64-curl
-       mingw-w64-x86_64-cyrus-sasl
-@@ -68,6 +69,7 @@ msys2-32bit:
-   script:
-   - .\msys64\usr\bin\bash -lc "pacman -Sy --noconfirm --needed
-       diffutils git grep make sed
-+      flex bison
-       mingw-w64-i686-capstone
-       mingw-w64-i686-curl
-       mingw-w64-i686-cyrus-sasl
-diff --git a/.gitmodules b/.gitmodules
-index 84425d87e2..666e17907f 100644
---- a/.gitmodules
-+++ b/.gitmodules
-@@ -66,4 +66,5 @@
- 	url = https://gitlab.com/qemu-project/vbootrom.git
- [submodule "tests/lcitool/libvirt-ci"]
- 	path = tests/lcitool/libvirt-ci
--	url = http://gitlab.com/libvirt/libvirt-ci
-+	url = http://gitlab.com/AntonJohansson/libvirt-ci
-+        branch = mapping-flex-bison
-diff --git a/tests/docker/dockerfiles/alpine.docker b/tests/docker/dockerfiles/alpine.docker
-index eb2251c81c..d4f0279318 100644
---- a/tests/docker/dockerfiles/alpine.docker
-+++ b/tests/docker/dockerfiles/alpine.docker
-@@ -1,6 +1,6 @@
- # THIS FILE WAS AUTO-GENERATED
- #
--#  $ lcitool dockerfile alpine-edge qemu
-+#  $ lcitool dockerfile --layers all alpine-edge qemu
- #
- # https://gitlab.com/libvirt/libvirt-ci
+diff --git a/target/hexagon/idef-parser/idef-parser.h b/target/hexagon/idef-parser/idef-parser.h
+new file mode 100644
+index 0000000000..106eb3ec98
+--- /dev/null
++++ b/target/hexagon/idef-parser/idef-parser.h
+@@ -0,0 +1,254 @@
++/*
++ *  Copyright(c) 2019-2021 rev.ng Labs Srl. All Rights Reserved.
++ *
++ *  This program is free software; you can redistribute it and/or modify
++ *  it under the terms of the GNU General Public License as published by
++ *  the Free Software Foundation; either version 2 of the License, or
++ *  (at your option) any later version.
++ *
++ *  This program is distributed in the hope that it will be useful,
++ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
++ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++ *  GNU General Public License for more details.
++ *
++ *  You should have received a copy of the GNU General Public License
++ *  along with this program; if not, see <http://www.gnu.org/licenses/>.
++ */
++
++#ifndef IDEF_PARSER_H
++#define IDEF_PARSER_H
++
++#include <inttypes.h>
++#include <stdio.h>
++#include <stdbool.h>
++#include <glib.h>
++
++#define TCGV_NAME_SIZE 7
++#define MAX_WRITTEN_REGS 32
++#define OFFSET_STR_LEN 32
++#define ALLOC_LIST_LEN 32
++#define ALLOC_NAME_SIZE 32
++#define INIT_LIST_LEN 32
++#define OUT_BUF_LEN (1024 * 1024)
++#define SIGNATURE_BUF_LEN (128 * 1024)
++#define HEADER_BUF_LEN (128 * 1024)
++
++/* Variadic macros to wrap the buffer printing functions */
++#define EMIT(c, ...)                                                           \
++    do {                                                                       \
++        g_string_append_printf((c)->out_str, __VA_ARGS__);                     \
++    } while (0)
++
++#define EMIT_SIG(c, ...)                                                       \
++    do {                                                                       \
++        g_string_append_printf((c)->signature_str, __VA_ARGS__);               \
++    } while (0)
++
++#define EMIT_HEAD(c, ...)                                                      \
++    do {                                                                       \
++        g_string_append_printf((c)->header_str, __VA_ARGS__);                  \
++    } while (0)
++
++/**
++ * Type of register, assigned to the HexReg.type field
++ */
++typedef enum { GENERAL_PURPOSE, CONTROL, MODIFIER, DOTNEW } HexRegType;
++
++typedef enum { UNKNOWN_SIGNEDNESS, SIGNED, UNSIGNED } HexSignedness;
++
++/**
++ * Semantic record of the REG tokens, identifying registers
++ */
++typedef struct HexReg {
++    uint8_t id;                 /**< Identifier of the register               */
++    HexRegType type;            /**< Type of the register                     */
++    unsigned bit_width;         /**< Bit width of the reg, 32 or 64 bits      */
++} HexReg;
++
++/**
++ * Data structure, identifying a TCGv temporary value
++ */
++typedef struct HexTmp {
++    unsigned index;             /**< Index of the TCGv temporary value        */
++} HexTmp;
++
++/**
++ * Enum of the possible immediated, an immediate is a value which is known
++ * at tinycode generation time, e.g. an integer value, not a TCGv
++ */
++enum ImmUnionTag {
++    I,
++    VARIABLE,
++    VALUE,
++    QEMU_TMP,
++    IMM_PC,
++    IMM_NPC,
++    IMM_CONSTEXT,
++};
++
++/**
++ * Semantic record of the IMM token, identifying an immediate constant
++ */
++typedef struct HexImm {
++    union {
++        char id;                /**< Identifier, used when type is VARIABLE   */
++        uint64_t value;         /**< Immediate value, used when type is VALUE */
++        uint64_t index;         /**< Index, used when type is QEMU_TMP        */
++    };
++    enum ImmUnionTag type;      /**< Type of the immediate                    */
++} HexImm;
++
++/**
++ * Semantic record of the PRED token, identifying a predicate
++ */
++typedef struct HexPred {
++    char id;                    /**< Identifier of the predicate              */
++} HexPred;
++
++/**
++ * Semantic record of the SAT token, identifying the saturate operator
++ */
++typedef struct HexSat {
++    bool set_overflow;          /**< Should the sat. op. set overflow?        */
++    HexSignedness signedness;   /**< Signedness of the sat. op.               */
++} HexSat;
++
++/**
++ * Semantic record of the CAST token, identifying the cast operator
++ */
++typedef struct HexCast {
++    unsigned bit_width;         /**< Bit width of the cast operator           */
++    HexSignedness signedness;   /**< Unsigned flag for the cast operator      */
++} HexCast;
++
++/**
++ * Semantic record of the EXTRACT token, identifying the cast operator
++ */
++typedef struct HexExtract {
++    unsigned bit_width;         /**< Bit width of the extract operator        */
++    unsigned storage_bit_width; /**< Actual bit width of the extract operator */
++    HexSignedness signedness;   /**< Unsigned flag for the extract operator   */
++} HexExtract;
++
++/**
++ * Semantic record of the MPY token, identifying the fMPY multiplication
++ * operator
++ */
++typedef struct HexMpy {
++    unsigned first_bit_width;        /**< Bit width of 1st operand of fMPY    */
++    unsigned second_bit_width;       /**< Bit width of 2nd operand of fMPY    */
++    HexSignedness first_signedness;  /**< Signedness of 1st operand of fMPY   */
++    HexSignedness second_signedness; /**< Signedness of 2nd operand of fMPY   */
++} HexMpy;
++
++/**
++ * Semantic record of the VARID token, identifying declared variables
++ * of the input language
++ */
++typedef struct HexVar {
++    GString *name;              /**< Name of the VARID variable               */
++} HexVar;
++
++/**
++ * Data structure uniquely identifying a declared VARID variable, used for
++ * keeping track of declared variable, so that any variable is declared only
++ * once, and its properties are propagated through all the subsequent instances
++ * of that variable
++ */
++typedef struct Var {
++    GString *name;              /**< Name of the VARID variable               */
++    uint8_t bit_width;          /**< Bit width of the VARID variable          */
++    HexSignedness signedness;   /**< Unsigned flag for the VARID var          */
++} Var;
++
++/**
++ * Enum of the possible rvalue types, used in the HexValue.type field
++ */
++typedef enum RvalueUnionTag {
++    REGISTER, REGISTER_ARG, TEMP, IMMEDIATE, PREDICATE, VARID
++} RvalueUnionTag;
++
++/**
++ * Semantic record of the rvalue token, identifying any numeric value,
++ * immediate or register based. The rvalue tokens are combined together
++ * through the use of several operators, to encode expressions
++ */
++typedef struct HexValue {
++    union {
++        HexReg reg;             /**< rvalue of register type                  */
++        HexTmp tmp;             /**< rvalue of temporary type                 */
++        HexImm imm;             /**< rvalue of immediate type                 */
++        HexPred pred;           /**< rvalue of predicate type                 */
++        HexVar var;             /**< rvalue of declared variable type         */
++    };
++    RvalueUnionTag type;        /**< Type of the rvalue                       */
++    unsigned bit_width;         /**< Bit width of the rvalue                  */
++    HexSignedness signedness;   /**< Unsigned flag for the rvalue             */
++    bool is_dotnew;             /**< rvalue of predicate type is dotnew?      */
++    bool is_manual;             /**< Opt out of automatic freeing of params   */
++} HexValue;
++
++/**
++ * State of ternary operator
++ */
++typedef enum TernaryState { IN_LEFT, IN_RIGHT } TernaryState;
++
++/**
++ * Data structure used to handle side effects inside ternary operators
++ */
++typedef struct Ternary {
++    TernaryState state;
++    HexValue cond;
++} Ternary;
++
++/**
++ * Operator type, used for referencing the correct operator when calling the
++ * gen_bin_op() function, which in turn will generate the correct code to
++ * execute the operation between the two rvalues
++ */
++typedef enum OpType {
++    ADD_OP, SUB_OP, MUL_OP, ASL_OP, ASR_OP, LSR_OP, ANDB_OP, ORB_OP,
++    XORB_OP, ANDL_OP, MINI_OP, MAXI_OP, MOD_OP
++} OpType;
++
++/**
++ * Data structure including instruction specific information, to be cleared
++ * out after the compilation of each instruction
++ */
++typedef struct Inst {
++    GString *name;              /**< Name of the compiled instruction         */
++    char *code_begin;           /**< Beginning of instruction input code      */
++    char *code_end;             /**< End of instruction input code            */
++    unsigned tmp_count;         /**< Index of the last declared TCGv temp     */
++    unsigned qemu_tmp_count;    /**< Index of the last declared int temp      */
++    unsigned if_count;          /**< Index of the last declared if label      */
++    unsigned error_count;       /**< Number of generated errors               */
++    GArray *allocated;          /**< Allocated declaredVARID vars             */
++    GArray *init_list;          /**< List of initialized registers            */
++    GArray *strings;            /**< Strings allocated by the instruction     */
++} Inst;
++
++/**
++ * Data structure representing the whole translation context, which in a
++ * reentrant flex/bison parser just like ours is passed between the scanner
++ * and the parser, holding all the necessary information to perform the
++ * parsing, this data structure survives between the compilation of different
++ * instructions
++ *
++ */
++typedef struct Context {
++    void *scanner;              /**< Reentrant parser state pointer           */
++    char *input_buffer;         /**< Buffer containing the input code         */
++    GString *out_str;           /**< String containing the output code        */
++    GString *signature_str;     /**< String containing the signatures code    */
++    GString *header_str;        /**< String containing the header code        */
++    FILE *defines_file;         /**< FILE * of the generated header           */
++    FILE *output_file;          /**< FILE * of the C output file              */
++    FILE *enabled_file;         /**< FILE * of the list of enabled inst       */
++    GArray *ternary;            /**< Array to track nesting of ternary ops    */
++    unsigned total_insn;        /**< Number of instructions in input file     */
++    unsigned implemented_insn;  /**< Instruction compiled without errors      */
++    Inst inst;                  /**< Parsing data of the current inst         */
++} Context;
++
++#endif /* IDEF_PARSER_H */
+diff --git a/target/hexagon/idef-parser/idef-parser.lex b/target/hexagon/idef-parser/idef-parser.lex
+new file mode 100644
+index 0000000000..7cdfb22d80
+--- /dev/null
++++ b/target/hexagon/idef-parser/idef-parser.lex
+@@ -0,0 +1,566 @@
++%option noyywrap noinput nounput
++%option 8bit reentrant bison-bridge
++%option warn nodefault
++%option bison-locations
++
++%{
++/*
++ *  Copyright(c) 2019-2021 rev.ng Labs Srl. All Rights Reserved.
++ *
++ *  This program is free software; you can redistribute it and/or modify
++ *  it under the terms of the GNU General Public License as published by
++ *  the Free Software Foundation; either version 2 of the License, or
++ *  (at your option) any later version.
++ *
++ *  This program is distributed in the hope that it will be useful,
++ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
++ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++ *  GNU General Public License for more details.
++ *
++ *  You should have received a copy of the GNU General Public License
++ *  along with this program; if not, see <http://www.gnu.org/licenses/>.
++ */
++
++#include <string.h>
++#include <stdbool.h>
++
++#include "hex_regs.h"
++
++#include "idef-parser.h"
++#include "idef-parser.tab.h"
++
++/* Keep track of scanner position for error message printout */
++#define YY_USER_ACTION yylloc->first_column = yylloc->last_column; \
++    for (int i = 0; yytext[i] != '\0'; i++) {   \
++        yylloc->last_column++;                  \
++    }
++
++/* Global Error Counter */
++int error_count;
++
++%}
++
++/* Definitions */
++DIGIT                    [0-9]
++LOWER_ID                 [a-z]
++UPPER_ID                 [A-Z]
++ID                       LOWER_ID|UPPER_ID
++INST_NAME                [A-Z]+[0-9]_([A-Za-z]|[0-9]|_)+
++HEX_DIGIT                [0-9a-fA-F]
++REG_ID_32                e|s|d|t|u|v|x|y
++REG_ID_64                ee|ss|dd|tt|uu|vv|xx|yy
++SYS_ID_32                s|d
++SYS_ID_64                ss|dd
++PRED_ID                  d|s|t|u|v|e|x|x
++IMM_ID                   r|s|S|u|U
++VAR_ID                   [a-zA-Z_][a-zA-Z0-9_]*
++SIGN_ID                  s|u
++STRING_LIT               \"(\\.|[^"\\])*\"
++
++/* Tokens */
++%%
++
++[ \t\f\v]+                { /* Ignore whitespaces. */ }
++[\n\r]+                   { /* Ignore newlines. */ }
++^#.*$                     { /* Ignore linemarkers. */ }
++
++{INST_NAME}               { yylval->string = g_string_new(yytext);
++                            return INAME; }
++"fFLOAT"                 |
++"fUNFLOAT"               |
++"fDOUBLE"                |
++"fUNDOUBLE"              |
++"0.0"                    |
++"0x1.0p52"               |
++"0x1.0p-52"              { return FAIL; }
++"in"                     { return IN; }
++"R"{REG_ID_32}"V" {
++                           yylval->rvalue.type = REGISTER_ARG;
++                           yylval->rvalue.reg.type = GENERAL_PURPOSE;
++                           yylval->rvalue.reg.id = yytext[1];
++                           yylval->rvalue.reg.bit_width = 32;
++                           yylval->rvalue.bit_width = 32;
++                           yylval->rvalue.is_dotnew = false;
++                           yylval->rvalue.signedness = SIGNED;
++                           return REG; }
++"R"{REG_ID_32}"N" {
++                           yylval->rvalue.type = REGISTER_ARG;
++                           yylval->rvalue.reg.type = DOTNEW;
++                           yylval->rvalue.reg.id = yytext[1];
++                           yylval->rvalue.reg.bit_width = 32;
++                           yylval->rvalue.bit_width = 32;
++                           yylval->rvalue.is_dotnew = true;
++                           yylval->rvalue.signedness = SIGNED;
++                           return REG; }
++"R"{REG_ID_64}"V" {
++                           yylval->rvalue.type = REGISTER_ARG;
++                           yylval->rvalue.reg.type = GENERAL_PURPOSE;
++                           yylval->rvalue.reg.id = yytext[1];
++                           yylval->rvalue.reg.bit_width = 64;
++                           yylval->rvalue.bit_width = 64;
++                           yylval->rvalue.is_dotnew = false;
++                           yylval->rvalue.signedness = SIGNED;
++                           return REG; }
++"R"{REG_ID_64}"N" {
++                           yylval->rvalue.type = REGISTER_ARG;
++                           yylval->rvalue.reg.type = DOTNEW;
++                           yylval->rvalue.reg.id = yytext[1];
++                           yylval->rvalue.reg.bit_width = 64;
++                           yylval->rvalue.bit_width = 64;
++                           yylval->rvalue.is_dotnew = true;
++                           yylval->rvalue.signedness = SIGNED;
++                           return REG; }
++"MuV" {
++                           yylval->rvalue.type = REGISTER_ARG;
++                           yylval->rvalue.reg.type = MODIFIER;
++                           yylval->rvalue.reg.id = 'u';
++                           yylval->rvalue.reg.bit_width = 32;
++                           yylval->rvalue.bit_width = 32;
++                           yylval->rvalue.signedness = SIGNED;
++                           return REG; }
++"C"{REG_ID_32}"V" {
++                           yylval->rvalue.type = REGISTER_ARG;
++                           yylval->rvalue.reg.type = CONTROL;
++                           yylval->rvalue.reg.id = yytext[1];
++                           yylval->rvalue.reg.bit_width = 32;
++                           yylval->rvalue.bit_width = 32;
++                           yylval->rvalue.is_dotnew = false;
++                           yylval->rvalue.signedness = SIGNED;
++                           return REG; }
++"C"{REG_ID_64}"V" {
++                           yylval->rvalue.type = REGISTER_ARG;
++                           yylval->rvalue.reg.type = CONTROL;
++                           yylval->rvalue.reg.id = yytext[1];
++                           yylval->rvalue.reg.bit_width = 64;
++                           yylval->rvalue.bit_width = 64;
++                           yylval->rvalue.is_dotnew = false;
++                           yylval->rvalue.signedness = SIGNED;
++                           return REG; }
++{IMM_ID}"iV" {
++                           yylval->rvalue.type = IMMEDIATE;
++                           yylval->rvalue.signedness = SIGNED;
++                           yylval->rvalue.imm.type = VARIABLE;
++                           yylval->rvalue.imm.id = yytext[0];
++                           yylval->rvalue.bit_width = 32;
++                           yylval->rvalue.is_dotnew = false;
++                           return IMM; }
++"P"{PRED_ID}"V" {
++                           yylval->rvalue.type = PREDICATE;
++                           yylval->rvalue.pred.id = yytext[1];
++                           yylval->rvalue.bit_width = 32;
++                           yylval->rvalue.is_dotnew = false;
++                           yylval->rvalue.signedness = SIGNED;
++                           return PRED; }
++"P"{PRED_ID}"N" {
++                           yylval->rvalue.type = PREDICATE;
++                           yylval->rvalue.pred.id = yytext[1];
++                           yylval->rvalue.bit_width = 32;
++                           yylval->rvalue.is_dotnew = true;
++                           yylval->rvalue.signedness = SIGNED;
++                           return PRED; }
++"IV1DEAD()"              |
++"fPAUSE(uiV);"           { return ';'; }
++"+="                     { return INC; }
++"-="                     { return DEC; }
++"++"                     { return PLUSPLUS; }
++"&="                     { return ANDA; }
++"|="                     { return ORA; }
++"^="                     { return XORA; }
++"<<"                     { return ASL; }
++">>"                     { return ASR; }
++">>>"                    { return LSR; }
++"=="                     { return EQ; }
++"!="                     { return NEQ; }
++"<="                     { return LTE; }
++">="                     { return GTE; }
++"&&"                     { return ANDL; }
++"else"                   { return ELSE; }
++"for"                    { return FOR; }
++"fREAD_IREG"             { return ICIRC; }
++"fPART1"                 { return PART1; }
++"if"                     { return IF; }
++"fFRAME_SCRAMBLE"        { return FSCR; }
++"fFRAME_UNSCRAMBLE"      { return FSCR; }
++"fFRAMECHECK"            { return FCHK; }
++"Constant_extended"      { return CONSTEXT; }
++"fCL1_"{DIGIT}           { return LOCNT; }
++"fbrev"                  { return BREV; }
++"fSXTN"                  { return SXT; }
++"fZXTN"                  { return ZXT; }
++"fDF_MAX"                |
++"fSF_MAX"                |
++"fMAX"                   { return MAX; }
++"fDF_MIN"                |
++"fSF_MIN"                |
++"fMIN"                   { return MIN; }
++"fABS"                   { return ABS; }
++"fRNDN"                  { return ROUND; }
++"fCRND"                  { return CROUND; }
++"fCRNDN"                 { return CROUND; }
++"fPM_CIRI"               { return CIRCADD; }
++"fPM_CIRR"               { return CIRCADD; }
++"fCOUNTONES_"{DIGIT}     { return COUNTONES; }
++"fSATN"                  { yylval->sat.set_overflow = true;
++                           yylval->sat.signedness = SIGNED;
++                           return SAT; }
++"fVSATN"                 { yylval->sat.set_overflow = false;
++                           yylval->sat.signedness = SIGNED;
++                           return SAT; }
++"fSATUN"                 { yylval->sat.set_overflow = true;
++                           yylval->sat.signedness = UNSIGNED;
++                           return SAT; }
++"fCONSTLL"               { yylval->cast.bit_width = 64;
++                           yylval->cast.signedness = SIGNED;
++                           return CAST; }
++"fCONSTULL"              { yylval->cast.bit_width = 64;
++                           yylval->cast.signedness = UNSIGNED;
++                           return CAST; }
++"fSE32_64"               { yylval->cast.bit_width = 64;
++                           yylval->cast.signedness = SIGNED;
++                           return CAST; }
++"fCAST4_4u"              { yylval->cast.bit_width = 32;
++                           yylval->cast.signedness = UNSIGNED;
++                           return CAST; }
++"fCAST4_8s"              { yylval->cast.bit_width = 64;
++                           yylval->cast.signedness = SIGNED;
++                           return CAST; }
++"fCAST4_8u"              { return CAST4_8U; }
++"fCAST4u"                { yylval->cast.bit_width = 32;
++                           yylval->cast.signedness = UNSIGNED;
++                           return CAST; }
++"fNEWREG"                |
++"fCAST4_4s"              |
++"fCAST4s"                { yylval->cast.bit_width = 32;
++                           yylval->cast.signedness = SIGNED;
++                           return CAST; }
++"fCAST8_8u"              { yylval->cast.bit_width = 64;
++                           yylval->cast.signedness = UNSIGNED;
++                           return CAST; }
++"fCAST8u"                { yylval->cast.bit_width = 64;
++                           yylval->cast.signedness = UNSIGNED;
++                           return CAST; }
++"fCAST8_8s"              |
++"fCAST8s"                { yylval->cast.bit_width = 64;
++                           yylval->cast.signedness = SIGNED;
++                           return CAST; }
++"fGETBIT"                { yylval->extract.bit_width = 1;
++                           yylval->extract.storage_bit_width = 1;
++                           yylval->extract.signedness = UNSIGNED;
++                           return EXTRACT; }
++"fGETBYTE"               { yylval->extract.bit_width = 8;
++                           yylval->extract.storage_bit_width = 8;
++                           yylval->extract.signedness = SIGNED;
++                           return EXTRACT; }
++"fGETUBYTE"              { yylval->extract.bit_width = 8;
++                           yylval->extract.storage_bit_width = 8;
++                           yylval->extract.signedness = UNSIGNED;
++                           return EXTRACT; }
++"fGETHALF"               { yylval->extract.bit_width = 16;
++                           yylval->extract.storage_bit_width = 16;
++                           yylval->extract.signedness = SIGNED;
++                           return EXTRACT; }
++"fGETUHALF"              { yylval->extract.bit_width = 16;
++                           yylval->extract.storage_bit_width = 16;
++                           yylval->extract.signedness = UNSIGNED;
++                           return EXTRACT; }
++"fGETWORD"               { yylval->extract.bit_width = 32;
++                           yylval->extract.storage_bit_width = 64;
++                           yylval->extract.signedness = SIGNED;
++                           return EXTRACT; }
++"fGETUWORD"              { yylval->extract.bit_width = 32;
++                           yylval->extract.storage_bit_width = 64;
++                           yylval->extract.signedness = UNSIGNED;
++                           return EXTRACT; }
++"fEXTRACTU_BITS"         { return EXTBITS; }
++"fEXTRACTU_RANGE"        { return EXTRANGE; }
++"fSETBIT"                { yylval->cast.bit_width = 1;
++                           yylval->cast.signedness = SIGNED;
++                           return DEPOSIT; }
++"fSETBYTE"               { yylval->cast.bit_width = 8;
++                           yylval->cast.signedness = SIGNED;
++                           return DEPOSIT; }
++"fSETHALF"               { yylval->cast.bit_width = 16;
++                           yylval->cast.signedness = SIGNED;
++                           return SETHALF; }
++"fSETWORD"               { yylval->cast.bit_width = 32;
++                           yylval->cast.signedness = SIGNED;
++                           return DEPOSIT; }
++"fINSERT_BITS"           { return INSBITS; }
++"fSETBITS"               { return SETBITS; }
++"fMPY8UU"                { yylval->mpy.first_bit_width = 8;
++                           yylval->mpy.second_bit_width = 8;
++                           yylval->mpy.first_signedness = UNSIGNED;
++                           yylval->mpy.second_signedness = UNSIGNED;
++                           return MPY; }
++"fMPY8US"                { yylval->mpy.first_bit_width = 8;
++                           yylval->mpy.second_bit_width = 8;
++                           yylval->mpy.first_signedness = UNSIGNED;
++                           yylval->mpy.second_signedness = SIGNED;
++                           return MPY; }
++"fMPY8SU"                { yylval->mpy.first_bit_width = 8;
++                           yylval->mpy.second_bit_width = 8;
++                           yylval->mpy.first_signedness = SIGNED;
++                           yylval->mpy.second_signedness = UNSIGNED;
++                           return MPY; }
++"fMPY8SS"                { yylval->mpy.first_bit_width = 8;
++                           yylval->mpy.second_bit_width = 8;
++                           yylval->mpy.first_signedness = SIGNED;
++                           yylval->mpy.second_signedness = SIGNED;
++                           return MPY; }
++"fMPY16UU"               { yylval->mpy.first_bit_width = 16;
++                           yylval->mpy.second_bit_width = 16;
++                           yylval->mpy.first_signedness = UNSIGNED;
++                           yylval->mpy.second_signedness = UNSIGNED;
++                           return MPY; }
++"fMPY16US"               { yylval->mpy.first_bit_width = 16;
++                           yylval->mpy.second_bit_width = 16;
++                           yylval->mpy.first_signedness = UNSIGNED;
++                           yylval->mpy.second_signedness = SIGNED;
++                           return MPY; }
++"fMPY16SU"               { yylval->mpy.first_bit_width = 16;
++                           yylval->mpy.second_bit_width = 16;
++                           yylval->mpy.first_signedness = SIGNED;
++                           yylval->mpy.second_signedness = UNSIGNED;
++                           return MPY; }
++"fMPY16SS"               { yylval->mpy.first_bit_width = 16;
++                           yylval->mpy.second_bit_width = 16;
++                           yylval->mpy.first_signedness = SIGNED;
++                           yylval->mpy.second_signedness = SIGNED;
++                           return MPY; }
++"fMPY32UU"               { yylval->mpy.first_bit_width = 32;
++                           yylval->mpy.second_bit_width = 32;
++                           yylval->mpy.first_signedness = UNSIGNED;
++                           yylval->mpy.second_signedness = UNSIGNED;
++                           return MPY; }
++"fMPY32US"               { yylval->mpy.first_bit_width = 32;
++                           yylval->mpy.second_bit_width = 32;
++                           yylval->mpy.first_signedness = UNSIGNED;
++                           yylval->mpy.second_signedness = SIGNED;
++                           return MPY; }
++"fMPY32SU"               { yylval->mpy.first_bit_width = 32;
++                           yylval->mpy.second_bit_width = 32;
++                           yylval->mpy.first_signedness = SIGNED;
++                           yylval->mpy.second_signedness = UNSIGNED;
++                           return MPY; }
++"fSFMPY"                 |
++"fMPY32SS"               { yylval->mpy.first_bit_width = 32;
++                           yylval->mpy.second_bit_width = 32;
++                           yylval->mpy.first_signedness = SIGNED;
++                           yylval->mpy.second_signedness = SIGNED;
++                           return MPY; }
++"fMPY3216SS"             { yylval->mpy.first_bit_width = 32;
++                           yylval->mpy.second_bit_width = 16;
++                           yylval->mpy.first_signedness = SIGNED;
++                           yylval->mpy.second_signedness = SIGNED;
++                           return MPY; }
++"fMPY3216SU"             { yylval->mpy.first_bit_width = 32;
++                           yylval->mpy.second_bit_width = 16;
++                           yylval->mpy.first_signedness = SIGNED;
++                           yylval->mpy.second_signedness = UNSIGNED;
++                           return MPY; }
++"fNEWREG_ST"             |
++"fIMMEXT"                |
++"fMUST_IMMEXT"           |
++"fPASS"                  |
++"fECHO"                  { return IDENTITY; }
++"(size8"[us]"_t)"        { yylval->cast.bit_width = 64;
++                           if (yytext[6] == 'u') {
++                               yylval->cast.signedness = UNSIGNED;
++                           } else {
++                               yylval->cast.signedness = SIGNED;
++                           }
++                           return CAST; }
++"(int)"                  { yylval->cast.bit_width = 32;
++                           yylval->cast.signedness = SIGNED;
++                           return CAST; }
++"(unsigned int)"         { yylval->cast.bit_width = 32;
++                           yylval->cast.signedness = UNSIGNED;
++                           return CAST; }
++"fREAD_PC()"             |
++"PC"                     { return PC; }
++"fREAD_NPC()"            |
++"NPC"                    { return NPC; }
++"fGET_LPCFG"             |
++"USR.LPCFG"              { return LPCFG; }
++"LOAD_CANCEL(EA)"        |
++"STORE_CANCEL(EA)"       |
++"CANCEL"                 { return CANCEL; }
++"N"{LOWER_ID}            { yylval->rvalue.type = REGISTER_ARG;
++                           yylval->rvalue.reg.type = GENERAL_PURPOSE;
++                           yylval->rvalue.reg.id = yytext[1];
++                           yylval->rvalue.reg.bit_width = 32;
++                           yylval->rvalue.bit_width = 32;
++                           yylval->rvalue.signedness = UNSIGNED;
++                           return REG; }
++"N"{LOWER_ID}"N"         { yylval->rvalue.type = REGISTER_ARG;
++                           yylval->rvalue.reg.type = DOTNEW;
++                           yylval->rvalue.reg.id = yytext[1];
++                           yylval->rvalue.reg.bit_width = 32;
++                           yylval->rvalue.bit_width = 32;
++                           yylval->rvalue.signedness = UNSIGNED;
++                           return REG; }
++"fREAD_SP()"             |
++"SP"                     { yylval->rvalue.type = REGISTER;
++                           yylval->rvalue.reg.type = GENERAL_PURPOSE;
++                           yylval->rvalue.reg.id = HEX_REG_SP;
++                           yylval->rvalue.reg.bit_width = 32;
++                           yylval->rvalue.bit_width = 32;
++                           yylval->rvalue.signedness = UNSIGNED;
++                           return REG; }
++"fREAD_FP()"             |
++"FP"                     { yylval->rvalue.type = REGISTER;
++                           yylval->rvalue.reg.type = GENERAL_PURPOSE;
++                           yylval->rvalue.reg.id = HEX_REG_FP;
++                           yylval->rvalue.reg.bit_width = 32;
++                           yylval->rvalue.bit_width = 32;
++                           yylval->rvalue.signedness = UNSIGNED;
++                           return REG; }
++"fREAD_LR()"             |
++"LR"                     { yylval->rvalue.type = REGISTER;
++                           yylval->rvalue.reg.type = GENERAL_PURPOSE;
++                           yylval->rvalue.reg.id = HEX_REG_LR;
++                           yylval->rvalue.reg.bit_width = 32;
++                           yylval->rvalue.bit_width = 32;
++                           yylval->rvalue.signedness = UNSIGNED;
++                           return REG; }
++"fREAD_GP()"             |
++"GP"                     { yylval->rvalue.type = REGISTER;
++                           yylval->rvalue.reg.type = CONTROL;
++                           yylval->rvalue.reg.id = HEX_REG_GP;
++                           yylval->rvalue.reg.bit_width = 32;
++                           yylval->rvalue.bit_width = 32;
++                           yylval->rvalue.signedness = UNSIGNED;
++                           return REG; }
++"fREAD_LC"[01]           { yylval->rvalue.type = REGISTER;
++                           yylval->rvalue.reg.type = CONTROL;
++                           yylval->rvalue.reg.id = HEX_REG_LC0
++                                                 + (yytext[8] - '0') * 2;
++                           yylval->rvalue.reg.bit_width = 32;
++                           yylval->rvalue.bit_width = 32;
++                           yylval->rvalue.signedness = UNSIGNED;
++                           return REG; }
++"LC"[01]                 { yylval->rvalue.type = REGISTER;
++                           yylval->rvalue.reg.type = CONTROL;
++                           yylval->rvalue.reg.id = HEX_REG_LC0
++                                                 + (yytext[2] - '0') * 2;
++                           yylval->rvalue.reg.bit_width = 32;
++                           yylval->rvalue.bit_width = 32;
++                           yylval->rvalue.signedness = UNSIGNED;
++                           return REG; }
++"fREAD_SA"[01]           { yylval->rvalue.type = REGISTER;
++                           yylval->rvalue.reg.type = CONTROL;
++                           yylval->rvalue.reg.id = HEX_REG_SA0
++                                                 + (yytext[8] - '0') * 2;
++                           yylval->rvalue.reg.bit_width = 32;
++                           yylval->rvalue.bit_width = 32;
++                           yylval->rvalue.signedness = UNSIGNED;
++                           return REG; }
++"SA"[01]                 { yylval->rvalue.type = REGISTER;
++                           yylval->rvalue.reg.type = CONTROL;
++                           yylval->rvalue.reg.id = HEX_REG_SA0
++                                                 + (yytext[2] - '0') * 2;
++                           yylval->rvalue.reg.bit_width = 32;
++                           yylval->rvalue.bit_width = 32;
++                           yylval->rvalue.signedness = UNSIGNED;
++                           return REG; }
++"MuN"                    { return MUN; }
++"fREAD_P0()"             { yylval->rvalue.type = PREDICATE;
++                           yylval->rvalue.pred.id = '0';
++                           yylval->rvalue.bit_width = 32;
++                           return PRED; }
++[pP]{DIGIT}              { yylval->rvalue.type = PREDICATE;
++                           yylval->rvalue.pred.id = yytext[1];
++                           yylval->rvalue.bit_width = 32;
++                           yylval->rvalue.is_dotnew = false;
++                           return PRED; }
++[pP]{DIGIT}[nN]          { yylval->rvalue.type = PREDICATE;
++                           yylval->rvalue.pred.id = yytext[1];
++                           yylval->rvalue.bit_width = 32;
++                           yylval->rvalue.is_dotnew = true;
++                           return PRED; }
++"fLSBNEW"                { return LSBNEW; }
++"N"                      { yylval->rvalue.type = IMMEDIATE;
++                           yylval->rvalue.bit_width = 32;
++                           yylval->rvalue.imm.type = VARIABLE;
++                           yylval->rvalue.imm.id = 'N';
++                           return IMM; }
++"i"                      { yylval->rvalue.type = IMMEDIATE;
++                           yylval->rvalue.bit_width = 32;
++                           yylval->rvalue.signedness = SIGNED;
++                           yylval->rvalue.imm.type = I;
++                           return IMM; }
++{SIGN_ID}                { if (yytext[0] == 'u') {
++                               yylval->signedness = UNSIGNED;
++                           } else {
++                               yylval->signedness = SIGNED;
++                           }
++                           return SIGN;
++                         }
++"fSF_BIAS()"             { yylval->rvalue.type = IMMEDIATE;
++                           yylval->rvalue.bit_width = 32;
++                           yylval->rvalue.signedness = SIGNED;
++                           yylval->rvalue.imm.type = VALUE;
++                           yylval->rvalue.imm.value = 127;
++                           return IMM; }
++"0x"{HEX_DIGIT}+         |
++{DIGIT}+                 { yylval->rvalue.type = IMMEDIATE;
++                           yylval->rvalue.bit_width = 32;
++                           yylval->rvalue.signedness = SIGNED;
++                           yylval->rvalue.imm.type = VALUE;
++                           yylval->rvalue.imm.value = strtoull(yytext, NULL, 0);
++                           return IMM; }
++"0x"{HEX_DIGIT}+"LL"     |
++{DIGIT}+"LL"             { yylval->rvalue.type = IMMEDIATE;
++                           yylval->rvalue.bit_width = 64;
++                           yylval->rvalue.signedness = SIGNED;
++                           yylval->rvalue.imm.type = VALUE;
++                           yylval->rvalue.imm.value = strtoull(yytext, NULL, 0);
++                           return IMM; }
++"0x"{HEX_DIGIT}+"ULL"    |
++{DIGIT}+"ULL"            { yylval->rvalue.type = IMMEDIATE;
++                           yylval->rvalue.bit_width = 64;
++                           yylval->rvalue.signedness = UNSIGNED;
++                           yylval->rvalue.imm.type = VALUE;
++                           yylval->rvalue.imm.value = strtoull(yytext, NULL, 0);
++                           return IMM; }
++"fLOAD"                  { return LOAD; }
++"fSTORE"                 { return STORE; }
++"fROTL"                  { return ROTL; }
++"fSET_OVERFLOW"          { return SETOVF; }
++"fCARRY_FROM_ADD"        { return CARRY_FROM_ADD; }
++"fADDSAT64"              { return ADDSAT64; }
++"size"[1248][us]"_t"     { /* Handles "size_t" variants of int types */
++                           const unsigned int bits_per_byte = 8;
++                           const unsigned int bytes = yytext[4] - '0';
++                           yylval->rvalue.bit_width = bits_per_byte * bytes;
++                           if (yytext[5] == 'u') {
++                               yylval->rvalue.signedness = UNSIGNED;
++                           } else {
++                               yylval->rvalue.signedness = SIGNED;
++                           }
++                           return TYPE_SIZE_T; }
++"size16"[us]"_t"         { /* Handles "size_t" variants of int types */
++                           yylval->rvalue.bit_width = 128;
++                           if (yytext[6] == 'u') {
++                               yylval->rvalue.signedness = UNSIGNED;
++                           } else {
++                               yylval->rvalue.signedness = SIGNED;
++                           }
++                           return TYPE_SIZE_T; }
++"signed"                 { return TYPE_SIGNED; }
++"unsigned"               { return TYPE_UNSIGNED; }
++"long"                   { return TYPE_LONG; }
++"int"                    { return TYPE_INT; }
++"const"                  { /* Emit no token */ }
++{VAR_ID}                 { /* Variable name, we adopt the C names convention */
++                           yylval->rvalue.type = VARID;
++                           yylval->rvalue.var.name = g_string_new(yytext);
++                           /* Default to an unknown signedness and 0 width. */
++                           yylval->rvalue.bit_width = 0;
++                           yylval->rvalue.signedness = UNKNOWN_SIGNEDNESS;
++                           return VAR; }
++"fatal("{STRING_LIT}")"  { /* Emit no token */ }
++"fHINTJR(RsV)"           { /* Emit no token */ }
++.                        { return yytext[0]; }
++
++%%
+diff --git a/target/hexagon/meson.build b/target/hexagon/meson.build
+index 5945098cc4..63f13e1d21 100644
+--- a/target/hexagon/meson.build
++++ b/target/hexagon/meson.build
+@@ -196,4 +196,8 @@ preprocessed_idef_parser_input_generated = custom_target(
+     command: [idef_parser_dir / 'prepare', '@INPUT@', '-I' + idef_parser_dir, '-o', '@OUTPUT@'],
+ )
  
-@@ -13,6 +13,7 @@ RUN apk update && \
-         attr-dev \
-         bash \
-         bc \
-+        bison \
-         bzip2 \
-         bzip2-dev \
-         ca-certificates \
-@@ -29,6 +30,7 @@ RUN apk update && \
-         dtc-dev \
-         eudev-dev \
-         findutils \
-+        flex \
-         fuse3-dev \
-         g++ \
-         gcc \
-@@ -109,6 +111,7 @@ RUN apk update && \
-         zlib-dev \
-         zlib-static \
-         zstd-dev && \
-+    apk list | sort > /packages.txt && \
-     mkdir -p /usr/libexec/ccache-wrappers && \
-     ln -s /usr/bin/ccache /usr/libexec/ccache-wrappers/c++ && \
-     ln -s /usr/bin/ccache /usr/libexec/ccache-wrappers/cc && \
-diff --git a/tests/docker/dockerfiles/centos8.docker b/tests/docker/dockerfiles/centos8.docker
-index cbb909d02b..66d1f09a86 100644
---- a/tests/docker/dockerfiles/centos8.docker
-+++ b/tests/docker/dockerfiles/centos8.docker
-@@ -1,10 +1,10 @@
- # THIS FILE WAS AUTO-GENERATED
- #
--#  $ lcitool dockerfile centos-8 qemu
-+#  $ lcitool dockerfile --layers all almalinux-8 qemu
- #
- # https://gitlab.com/libvirt/libvirt-ci
- 
--FROM docker.io/library/centos:8
-+FROM docker.io/library/almalinux:8
- 
- RUN dnf update -y && \
-     dnf install 'dnf-command(config-manager)' -y && \
-@@ -16,6 +16,7 @@ RUN dnf update -y && \
-         alsa-lib-devel \
-         bash \
-         bc \
-+        bison \
-         brlapi-devel \
-         bzip2 \
-         bzip2-devel \
-@@ -30,6 +31,7 @@ RUN dnf update -y && \
-         device-mapper-multipath-devel \
-         diffutils \
-         findutils \
-+        flex \
-         fuse3-devel \
-         gcc \
-         gcc-c++ \
-@@ -69,7 +71,6 @@ RUN dnf update -y && \
-         libssh-devel \
-         libtasn1-devel \
-         libubsan \
--        libudev-devel \
-         liburing-devel \
-         libusbx-devel \
-         libxml2-devel \
-diff --git a/tests/docker/dockerfiles/debian-amd64.docker b/tests/docker/dockerfiles/debian-amd64.docker
-index ed546edcd6..805fd6f981 100644
---- a/tests/docker/dockerfiles/debian-amd64.docker
-+++ b/tests/docker/dockerfiles/debian-amd64.docker
-@@ -14,9 +14,11 @@ RUN apt update && \
- RUN apt update && \
-     DEBIAN_FRONTEND=noninteractive eatmydata \
-     apt install -y --no-install-recommends \
-+        bison \
-         cscope \
-         genisoimage \
-         exuberant-ctags \
-+        flex \
-         global \
-         libbz2-dev \
-         liblzo2-dev \
-diff --git a/tests/docker/dockerfiles/debian-native.docker b/tests/docker/dockerfiles/debian-native.docker
-index efd55cb6e0..02ccaf98fd 100644
---- a/tests/docker/dockerfiles/debian-native.docker
-+++ b/tests/docker/dockerfiles/debian-native.docker
-@@ -26,13 +26,16 @@ RUN apt update && \
- RUN apt update && \
-     DEBIAN_FRONTEND=noninteractive eatmydata \
-     apt install -y --no-install-recommends \
-+        bison \
-         cscope \
-         genisoimage \
-         exuberant-ctags \
-+        flex \
-         global \
-         libbz2-dev \
-         liblzo2-dev \
-         libgcrypt20-dev \
-+        libglib2.0-dev \
-         libfdt-dev \
-         librdmacm-dev \
-         libsasl2-dev \
-diff --git a/tests/docker/dockerfiles/debian-riscv64-cross.docker b/tests/docker/dockerfiles/debian-riscv64-cross.docker
-index 594d97982c..f5553afc2e 100644
---- a/tests/docker/dockerfiles/debian-riscv64-cross.docker
-+++ b/tests/docker/dockerfiles/debian-riscv64-cross.docker
-@@ -17,12 +17,15 @@ RUN apt update && \
- # Install common build utilities
- RUN DEBIAN_FRONTEND=noninteractive eatmydata apt install -yy \
-     bc \
-+    bison \
-     build-essential \
-     ca-certificates \
-     debian-ports-archive-keyring \
-     dpkg-dev \
-+    flex \
-     gettext \
-     git \
-+    libglib2.0-dev \
-     ninja-build \
-     pkg-config \
-     python3
-diff --git a/tests/docker/dockerfiles/debian-tricore-cross.docker b/tests/docker/dockerfiles/debian-tricore-cross.docker
-index 3f6b55562c..9191aafc7f 100644
---- a/tests/docker/dockerfiles/debian-tricore-cross.docker
-+++ b/tests/docker/dockerfiles/debian-tricore-cross.docker
-@@ -20,6 +20,7 @@ RUN apt update && \
-        bzip2 \
-        ca-certificates \
-        ccache \
-+       flex \
-        g++ \
-        gcc \
-        git \
-diff --git a/tests/docker/dockerfiles/debian10.docker b/tests/docker/dockerfiles/debian10.docker
-index b414af1b9f..23285e7aa4 100644
---- a/tests/docker/dockerfiles/debian10.docker
-+++ b/tests/docker/dockerfiles/debian10.docker
-@@ -18,15 +18,18 @@ RUN apt update && \
-     DEBIAN_FRONTEND=noninteractive eatmydata \
-     apt install -y --no-install-recommends \
-         bc \
-+        bison \
-         build-essential \
-         ca-certificates \
-         ccache \
-         clang \
-         dbus \
-+        flex \
-         gdb-multiarch \
-         gettext \
-         git \
-         libffi-dev \
-+        libglib2.0-dev \
-         libncurses5-dev \
-         ninja-build \
-         pkg-config \
-diff --git a/tests/docker/dockerfiles/fedora-i386-cross.docker b/tests/docker/dockerfiles/fedora-i386-cross.docker
-index 13328e6081..ae009a203f 100644
---- a/tests/docker/dockerfiles/fedora-i386-cross.docker
-+++ b/tests/docker/dockerfiles/fedora-i386-cross.docker
-@@ -1,12 +1,15 @@
- FROM registry.fedoraproject.org/fedora:34
- 
- ENV PACKAGES \
-+    bison \
-     bzip2 \
-     ccache \
-     diffutils \
-     findutils \
-+    flex \
-     gcc \
-     git \
-+    glib2-devel \
-     libffi-devel.i686 \
-     libselinux-devel.i686 \
-     libtasn1-devel.i686 \
-diff --git a/tests/docker/dockerfiles/fedora-win32-cross.docker b/tests/docker/dockerfiles/fedora-win32-cross.docker
-index d80e66c651..ed08392657 100644
---- a/tests/docker/dockerfiles/fedora-win32-cross.docker
-+++ b/tests/docker/dockerfiles/fedora-win32-cross.docker
-@@ -3,13 +3,16 @@ FROM registry.fedoraproject.org/fedora:33
- # Please keep this list sorted alphabetically
- ENV PACKAGES \
-     bc \
-+    bison \
-     bzip2 \
-     ccache \
-     diffutils \
-     findutils \
-+    flex \
-     gcc \
-     gettext \
-     git \
-+    glib2-devel \
-     hostname \
-     make \
-     meson \
-diff --git a/tests/docker/dockerfiles/fedora-win64-cross.docker b/tests/docker/dockerfiles/fedora-win64-cross.docker
-index 2b12b94ccf..bc31c66aef 100644
---- a/tests/docker/dockerfiles/fedora-win64-cross.docker
-+++ b/tests/docker/dockerfiles/fedora-win64-cross.docker
-@@ -3,12 +3,15 @@ FROM registry.fedoraproject.org/fedora:33
- # Please keep this list sorted alphabetically
- ENV PACKAGES \
-     bc \
-+    bison \
-     bzip2 \
-     ccache \
-     diffutils \
-     findutils \
-+    flex \
-     gcc \
-     gettext \
-+    glib2-devel \
-     git \
-     hostname \
-     make \
-diff --git a/tests/docker/dockerfiles/fedora.docker b/tests/docker/dockerfiles/fedora.docker
-index 60207f3da3..e2ba993e6b 100644
---- a/tests/docker/dockerfiles/fedora.docker
-+++ b/tests/docker/dockerfiles/fedora.docker
-@@ -1,6 +1,6 @@
- # THIS FILE WAS AUTO-GENERATED
- #
--#  $ lcitool dockerfile fedora-35 qemu
-+#  $ lcitool dockerfile --layers all fedora-35 qemu
- #
- # https://gitlab.com/libvirt/libvirt-ci
- 
-@@ -23,6 +23,7 @@ exec "$@"' > /usr/bin/nosync && \
-         alsa-lib-devel \
-         bash \
-         bc \
-+        bison \
-         brlapi-devel \
-         bzip2 \
-         bzip2-devel \
-@@ -37,6 +38,7 @@ exec "$@"' > /usr/bin/nosync && \
-         device-mapper-multipath-devel \
-         diffutils \
-         findutils \
-+        flex \
-         fuse3-devel \
-         gcc \
-         gcc-c++ \
-@@ -77,7 +79,6 @@ exec "$@"' > /usr/bin/nosync && \
-         libssh-devel \
-         libtasn1-devel \
-         libubsan \
--        libudev-devel \
-         liburing-devel \
-         libusbx-devel \
-         libxml2-devel \
-diff --git a/tests/docker/dockerfiles/opensuse-leap.docker b/tests/docker/dockerfiles/opensuse-leap.docker
-index f57d8cfb29..146cd9f3e3 100644
---- a/tests/docker/dockerfiles/opensuse-leap.docker
-+++ b/tests/docker/dockerfiles/opensuse-leap.docker
-@@ -1,6 +1,6 @@
- # THIS FILE WAS AUTO-GENERATED
- #
--#  $ lcitool dockerfile opensuse-leap-152 qemu
-+#  $ lcitool dockerfile --layers all opensuse-leap-152 qemu
- #
- # https://gitlab.com/libvirt/libvirt-ci
- 
-@@ -12,6 +12,7 @@ RUN zypper update -y && \
-            alsa-lib-devel \
-            bash \
-            bc \
-+           bison \
-            brlapi-devel \
-            bzip2 \
-            ca-certificates \
-@@ -22,6 +23,7 @@ RUN zypper update -y && \
-            dbus-1 \
-            diffutils \
-            findutils \
-+           flex \
-            fuse3-devel \
-            gcc \
-            gcc-c++ \
-@@ -128,8 +130,7 @@ RUN zypper update -y && \
-     ln -s /usr/bin/ccache /usr/libexec/ccache-wrappers/g++ && \
-     ln -s /usr/bin/ccache /usr/libexec/ccache-wrappers/gcc
- 
--RUN pip3 install \
--         meson==0.56.0
-+RUN pip3 install meson==0.56.0
- 
- ENV LANG "en_US.UTF-8"
- ENV MAKE "/usr/bin/make"
-diff --git a/tests/docker/dockerfiles/ubuntu1804.docker b/tests/docker/dockerfiles/ubuntu1804.docker
-index 0ffa3c4d4b..0a5900f203 100644
---- a/tests/docker/dockerfiles/ubuntu1804.docker
-+++ b/tests/docker/dockerfiles/ubuntu1804.docker
-@@ -1,6 +1,6 @@
- # THIS FILE WAS AUTO-GENERATED
- #
--#  $ lcitool dockerfile ubuntu-1804 qemu
-+#  $ lcitool dockerfile --layers all ubuntu-1804 qemu
- #
- # https://gitlab.com/libvirt/libvirt-ci
- 
-@@ -13,6 +13,7 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
-     eatmydata apt-get install --no-install-recommends -y \
-             bash \
-             bc \
-+            bison \
-             bsdmainutils \
-             bzip2 \
-             ca-certificates \
-@@ -23,6 +24,7 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
-             diffutils \
-             exuberant-ctags \
-             findutils \
-+            flex \
-             g++ \
-             gcc \
-             gcovr \
-@@ -134,8 +136,7 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
-     ln -s /usr/bin/ccache /usr/libexec/ccache-wrappers/g++ && \
-     ln -s /usr/bin/ccache /usr/libexec/ccache-wrappers/gcc
- 
--RUN pip3 install \
--         meson==0.56.0
-+RUN pip3 install meson==0.56.0
- 
- ENV LANG "en_US.UTF-8"
- ENV MAKE "/usr/bin/make"
-diff --git a/tests/docker/dockerfiles/ubuntu2004.docker b/tests/docker/dockerfiles/ubuntu2004.docker
-index 4e562dfdcd..75b5eee895 100644
---- a/tests/docker/dockerfiles/ubuntu2004.docker
-+++ b/tests/docker/dockerfiles/ubuntu2004.docker
-@@ -1,6 +1,6 @@
- # THIS FILE WAS AUTO-GENERATED
- #
--#  $ lcitool dockerfile ubuntu-2004 qemu
-+#  $ lcitool dockerfile --layers all ubuntu-2004 qemu
- #
- # https://gitlab.com/libvirt/libvirt-ci
- 
-@@ -13,6 +13,7 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
-     eatmydata apt-get install --no-install-recommends -y \
-             bash \
-             bc \
-+            bison \
-             bsdmainutils \
-             bzip2 \
-             ca-certificates \
-@@ -23,6 +24,7 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
-             diffutils \
-             exuberant-ctags \
-             findutils \
-+            flex \
-             g++ \
-             gcc \
-             gcovr \
-@@ -136,8 +138,7 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
-     ln -s /usr/bin/ccache /usr/libexec/ccache-wrappers/g++ && \
-     ln -s /usr/bin/ccache /usr/libexec/ccache-wrappers/gcc
- 
--RUN pip3 install \
--         meson==0.56.0
-+RUN pip3 install meson==0.56.0
- 
- ENV LANG "en_US.UTF-8"
- ENV MAKE "/usr/bin/make"
-diff --git a/tests/lcitool/libvirt-ci b/tests/lcitool/libvirt-ci
-index 29cec2153b..22a88ac731 160000
---- a/tests/lcitool/libvirt-ci
-+++ b/tests/lcitool/libvirt-ci
-@@ -1 +1 @@
--Subproject commit 29cec2153b9a4dbb2e66f1cbc9866a4eff519cfd
-+Subproject commit 22a88ac73197e6c6b8a319eb92cdbd2ac06eb44a
-diff --git a/tests/lcitool/projects/qemu.yml b/tests/lcitool/projects/qemu.yml
-index ed5ab1407a..f464665990 100644
---- a/tests/lcitool/projects/qemu.yml
-+++ b/tests/lcitool/projects/qemu.yml
-@@ -3,6 +3,7 @@ packages:
-  - alsa
-  - bash
-  - bc
-+ - bison
-  - brlapi
-  - bzip2
-  - bzip2-libs
-@@ -18,6 +19,7 @@ packages:
-  - diffutils
-  - dtrace
-  - findutils
-+ - flex
-  - fuse3
-  - g++
-  - gcc
-diff --git a/tests/lcitool/refresh b/tests/lcitool/refresh
-index 033120e223..4d7e6e8383 100755
---- a/tests/lcitool/refresh
-+++ b/tests/lcitool/refresh
-@@ -77,7 +77,7 @@ ubuntu2004_tsanhack = [
- ]
- 
- try:
--   generate_dockerfile("centos8", "centos-8")
-+   generate_dockerfile("centos8", "almalinux-8")
-    generate_dockerfile("fedora", "fedora-35")
-    generate_dockerfile("ubuntu1804", "ubuntu-1804",
-                        trailer="".join(ubuntu1804_skipssh))
++flex = generator(find_program('flex'),
++                 output: ['@BASENAME@.yy.c', '@BASENAME@.yy.h'],
++                 arguments: ['-o', '@OUTPUT0@', '--header-file=@OUTPUT1@', '@INPUT@'])
++
+ target_arch += {'hexagon': hexagon_ss}
 -- 
 2.34.1
 
