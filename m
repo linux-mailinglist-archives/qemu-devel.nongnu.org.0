@@ -2,73 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 241D54AF4C6
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Feb 2022 16:07:24 +0100 (CET)
-Received: from localhost ([::1]:58406 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F0C24AF4A2
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Feb 2022 16:02:45 +0100 (CET)
+Received: from localhost ([::1]:49352 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nHoZ0-0006rO-3Y
-	for lists+qemu-devel@lfdr.de; Wed, 09 Feb 2022 10:07:22 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:44482)
+	id 1nHoUU-0000O3-CL
+	for lists+qemu-devel@lfdr.de; Wed, 09 Feb 2022 10:02:42 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:44790)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nHnlO-0002b3-MH
- for qemu-devel@nongnu.org; Wed, 09 Feb 2022 09:16:06 -0500
-Received: from [2a00:1450:4864:20::52c] (port=44606
- helo=mail-ed1-x52c.google.com)
+ id 1nHnll-00030Q-H0
+ for qemu-devel@nongnu.org; Wed, 09 Feb 2022 09:16:30 -0500
+Received: from [2a00:1450:4864:20::631] (port=44943
+ helo=mail-ej1-x631.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nHnlJ-0007q8-4Q
- for qemu-devel@nongnu.org; Wed, 09 Feb 2022 09:16:06 -0500
-Received: by mail-ed1-x52c.google.com with SMTP id bx2so5323601edb.11
- for <qemu-devel@nongnu.org>; Wed, 09 Feb 2022 06:15:33 -0800 (PST)
+ id 1nHnlK-0007qi-Ef
+ for qemu-devel@nongnu.org; Wed, 09 Feb 2022 09:16:12 -0500
+Received: by mail-ej1-x631.google.com with SMTP id ka4so7653405ejc.11
+ for <qemu-devel@nongnu.org>; Wed, 09 Feb 2022 06:15:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=B5RpqMQMp/15LOY20o9sAuy94wTtJaj/lIUbswhfDGs=;
- b=BfBED6wbUrKl7iaDv+W/6ME8EdmSZGwWDiM+On8bZLDmkwcCKlK5yVUtJ+ZKes2ULn
- CSyxv/9Av6mCKL0T5M8OLnaSNp/fZiopVFuFbQbIYBKZas6vfxcZKwR+vboczdIBLAr6
- L+rViRxEeIgZQWsI/zHRHIt0Xq++ZPMyGCtwzcA2PG8yq8fu1ALRhi2mXgXYji5qTaZM
- wK7IMRQRIdrBmUJgbWl+0DljCWoZa46kPNeOv7ejcL5swvh8lwDjKDXdw6I1HuunD4q4
- PBNRtmZF6ikQWOgexdNxogzVEAyOPl1bPkSFKQdAw7k/tvBIm6jTmdFIJorSMmp/16IB
- 4ntA==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=87HcQPKX55O5gBg8zHpB1mv+YHA8UaRm2nWImo48Fuk=;
+ b=K7Oy5kfiYfrTkOjygQrKiXGuJ8S2ByBM+rQjArulgoyGluWDCsjfisw4XTvxaPqGF5
+ pZ3nC2wrLCpAYKJtDGJvKmyqHGvno3mamgQapTk+GeuXEUiwNsqfAjIvqEbtfcw9hxqY
+ j2aW07N40yPKhzw1j+hIxDXxa1CNGDbfSQj+tBKKreD4T+soT0jKCtz0ln+Byb2fpW55
+ yd+zmHMCqYv6khOEymfFvNowlc0RAndMcunj+Z46G8IT2UnmjEqtlumGj8dvzBCXB14V
+ ewPuEOjBfH6XpPY82qZ+pCjjggC30eu4rsbLnig0mO5x6H5FCjgsIXao/b0hxIqdQV8A
+ 9jlA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=B5RpqMQMp/15LOY20o9sAuy94wTtJaj/lIUbswhfDGs=;
- b=OoSKbzfMsXfLCKiYgJmKcCXkGev/C0kPSo/YKgWs6qcnHA9Gw0Lf/DuHyQkWCL8glW
- pcWDVBdGXCgraKohtHV9aZeBYf9NsDHfg+etzio7Ud+xRSMuUBC8eoEllKdsX8/Ujbxj
- 2TuMMqCUleSzxoRizgf63/f+omLOfzqBflpr/Ihal06rqBRDygbwuV0Rim7dsWUEhbwD
- EYZETHR0Z23/2sbe9JjMK0FJKaaKU4XLiLYG2IK5FAPHZCWd7yQT/FTR/a/LWH9e7UJv
- 0A7ol3jz2vaq5O+z62BPbjwm7eYGlKb/bHDbPHc+QUVBjC/QsSdBNtC3XN/VeAJ0IJ8l
- 0GJw==
-X-Gm-Message-State: AOAM532muNwXWaxiCZgKRvveXFLAG8Gm6gnZhUCWAm3F2OHQTuNibBA4
- 3fQyPJBdLBba2u3PeLehNAJ0Pg==
-X-Google-Smtp-Source: ABdhPJy+MPojgCSYB8yyCpqOa7nzJT3IIjNmq/UbD2SNtQcVKvDWOChixK+q+rd+/eGmHFnCWeUazQ==
-X-Received: by 2002:a05:6402:4304:: with SMTP id
- m4mr2678094edc.67.1644416132091; 
- Wed, 09 Feb 2022 06:15:32 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=87HcQPKX55O5gBg8zHpB1mv+YHA8UaRm2nWImo48Fuk=;
+ b=weK5hRf9f7faoHxoLxKVFPoLEAYED2MfSzWgdEFcGtAvmrjNwBZpWFrXONGE/V0vs/
+ A+zR1ksaCA6OVJ60F3YMW7PlpoAoLeJAVvB7y3zIWAfk0itCWR1kQx+/voJpP3K4n0O/
+ MUMqacmfgwev66NoFhH+7lvJ/riSmY75mJeX8XD1UYQciPPJmEy7jzedrGKC41wNzHfv
+ rU3dPOkz/RuA7Y43GcrBpfiSHwu3Ls6k7Hr5vTDPFiBLYP8KYfL3RnAZX9rbu9V3X++h
+ mNiJI5bIpMhGr91SMIki9UFAMgxACRiWmV01RPIgbPyMyo0J6dVPbQcLgKHZQrdOZWaR
+ K5lA==
+X-Gm-Message-State: AOAM532BnZabcB3ttrboLl1K1n75zUpsFBBH7JIztGnD9DOukEsJN6J2
+ 6gLUkzABbUNWAyd4uybdqC8eZA==
+X-Google-Smtp-Source: ABdhPJztLWtFLaNMsK0Z1vXYvHb29GXdvGwWQnwj63zRkvYoKC1hrGm6oEvSDney+W00pY6q5AVrmw==
+X-Received: by 2002:a17:907:da3:: with SMTP id
+ go35mr2161293ejc.456.1644416134708; 
+ Wed, 09 Feb 2022 06:15:34 -0800 (PST)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id l9sm3892384ejn.164.2022.02.09.06.15.29
+ by smtp.gmail.com with ESMTPSA id c10sm3926355edr.6.2022.02.09.06.15.30
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 09 Feb 2022 06:15:30 -0800 (PST)
+ Wed, 09 Feb 2022 06:15:31 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 5198F1FFB7;
+ by zen.linaroharston (Postfix) with ESMTP id 7EF1E1FFBB;
  Wed,  9 Feb 2022 14:15:29 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org
-Subject: [PULL 00/28] testing and plugin updates
-Date: Wed,  9 Feb 2022 14:15:01 +0000
-Message-Id: <20220209141529.3418384-1-alex.bennee@linaro.org>
+Subject: [PULL 03/28] Makefile: also remove .gcno files when cleaning
+Date: Wed,  9 Feb 2022 14:15:04 +0000
+Message-Id: <20220209141529.3418384-4-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20220209141529.3418384-1-alex.bennee@linaro.org>
+References: <20220209141529.3418384-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::52c
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::631
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::52c;
- envelope-from=alex.bennee@linaro.org; helo=mail-ed1-x52c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::631;
+ envelope-from=alex.bennee@linaro.org; helo=mail-ej1-x631.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -89,160 +91,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
+Cc: Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit 0a301624c2f4ced3331ffd5bce85b4274fe132af:
+Left over .gcno files from old builds can really confuse gcov and the
+user expects a clean slate after "make clean". Make clean mean clean.
 
-  Merge remote-tracking branch 'remotes/pmaydell/tags/pull-target-arm-20220208' into staging (2022-02-08 11:40:08 +0000)
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Message-Id: <20220204204335.1689602-4-alex.bennee@linaro.org>
 
-are available in the Git repository at:
-
-  https://github.com/stsquad/qemu.git tags/pull-testing-and-plugins-090222-1
-
-for you to fetch changes up to 514f9f8eb64bfd5d6c15024db93f83bd81998de5:
-
-  include/exec: fix softmmu version of TARGET_ABI_FMT_lx (2022-02-09 13:29:38 +0000)
-
-----------------------------------------------------------------
-Testing and plugin updates:
-
-  - include vhost tests in qtest
-  - clean-up gcov ephemera in clean/.gitignore
-  - lcitool and docker updates
-  - mention .editorconfig in devel notes
-  - switch Centos8 to Centos Stream 8
-  - remove TCG tracing support
-  - add coverage plugin using drcov format
-  - expand abilities of libinsn.so plugin
-  - use correct logging for i386 int cases
-  - move reset of plugin data to start of block
-  - deprecate ppc6432abi
-  - fix TARGET_ABI_FMT_ptr for softmmu builds
-
-----------------------------------------------------------------
-Alex Bennée (15):
-      tests/Makefile.include: clean-up old code
-      tests/qtest: enable more vhost-user tests by default
-      Makefile: also remove .gcno files when cleaning
-      .gitignore: add .gcov pattern
-      docs/devel: mention our .editorconfig
-      tests/tcg/sh4: disable another unreliable test
-      docs: remove references to TCG tracing
-      tracing: remove TCG memory access tracing
-      tracing: remove the trace-tcg includes from the build
-      tracing: excise the tcg related from tracetool
-      tests/plugin: allow libinsn.so per-CPU counts
-      tests/plugins: add instruction matching to libinsn.so
-      target/i386: use CPU_LOG_INT for IRQ servicing
-      plugins: move reset of plugin data to tb_start
-      include/exec: fix softmmu version of TARGET_ABI_FMT_lx
-
-Ivanov Arkady (2):
-      plugins: add helper functions for coverage plugins
-      contrib/plugins: add a drcov plugin
-
-Michael Tokarev (1):
-      drop libxml2 checks since libxml is not actually used (for parallels)
-
-Philippe Mathieu-Daudé (6):
-      MAINTAINERS: Cover lcitool submodule with build test / automation
-      gitmodules: Correct libvirt-ci submodule URL
-      tests/lcitool: Include local qemu.yml when refreshing cirrus-ci files
-      tests/lcitool: Refresh submodule and remove libxml2
-      tests: Manually remove libxml2 on MSYS2 runners
-      tests/lcitool: Install libibumad to cover RDMA on Debian based distros
-
-Stefan Hajnoczi (1):
-      gitlab: fall back to commit hash in qemu-setup filename
-
-Thomas Huth (3):
-      tests/lcitool: Allow lcitool-refresh in out-of-tree builds, too
-      tests: Update CentOS 8 container to CentOS Stream 8
-      linux-user: Remove the deprecated ppc64abi32 target
-
- docs/about/deprecated.rst                          |   7 -
- docs/about/removed-features.rst                    |  21 +++
- docs/devel/style.rst                               |   4 +
- docs/devel/tracing.rst                             |  85 -----------
- docs/user/main.rst                                 |   1 -
- configure                                          |  29 +---
- Makefile                                           |   3 +-
- configs/targets/ppc64abi32-linux-user.mak          |   8 -
- meson.build                                        |  10 --
- accel/tcg/atomic_template.h                        |  12 --
- include/exec/cpu_ldst.h                            |   2 +-
- include/exec/helper-gen.h                          |   2 -
- include/exec/helper-proto.h                        |   1 -
- include/exec/helper-tcg.h                          |   1 -
- include/qemu/qemu-plugin.h                         |  34 +++++
- include/trace-tcg.h                                |   6 -
- linux-user/ppc/target_syscall.h                    |   4 +-
- linux-user/syscall_defs.h                          |   6 +-
- accel/tcg/cputlb.c                                 |   2 -
- accel/tcg/plugin-gen.c                             |  31 ++--
- accel/tcg/user-exec.c                              |  14 --
- contrib/plugins/drcov.c                            | 163 +++++++++++++++++++++
- linux-user/elfload.c                               |   4 +-
- linux-user/ppc/signal.c                            |  11 +-
- plugins/api.c                                      |  48 ++++++
- target/i386/tcg/sysemu/seg_helper.c                |   4 +-
- tcg/tcg-op.c                                       |   5 -
- tests/plugin/insn.c                                | 126 +++++++++++++++-
- tests/qtest/vhost-user-test.c                      |  21 ++-
- accel/tcg/atomic_common.c.inc                      |  20 ---
- .cirrus.yml                                        |   1 -
- .gitignore                                         |   1 +
- .gitlab-ci.d/buildtest.yml                         |  27 ----
- .gitlab-ci.d/cirrus/freebsd-12.vars                |   2 +-
- .gitlab-ci.d/cirrus/freebsd-13.vars                |   2 +-
- .gitlab-ci.d/cirrus/macos-11.vars                  |   2 +-
- .gitlab-ci.d/crossbuild-template.yml               |   2 +-
- .gitlab-ci.d/windows.yml                           |   2 -
- .gitmodules                                        |   2 +-
- MAINTAINERS                                        |   1 +
- block/meson.build                                  |   3 +-
- contrib/plugins/Makefile                           |   1 +
- meson_options.txt                                  |   2 -
- plugins/qemu-plugins.symbols                       |   4 +
- scripts/checkpatch.pl                              |   1 -
- scripts/ci/org.centos/stream/8/x86_64/configure    |   1 -
- scripts/coverity-scan/coverity-scan.docker         |   1 -
- scripts/coverity-scan/run-coverity-scan            |   2 +-
- scripts/meson-buildoptions.sh                      |   3 -
- scripts/tracetool/__init__.py                      |  41 +-----
- scripts/tracetool/format/tcg_h.py                  |  83 -----------
- scripts/tracetool/format/tcg_helper_c.py           |  79 ----------
- scripts/tracetool/format/tcg_helper_h.py           |  48 ------
- scripts/tracetool/format/tcg_helper_wrapper_h.py   |  70 ---------
- scripts/tracetool/vcpu.py                          |  14 +-
- tests/Makefile.include                             |   4 -
- tests/docker/dockerfiles/alpine.docker             |   4 +-
- tests/docker/dockerfiles/centos8.docker            |   6 +-
- .../docker/dockerfiles/debian-ppc64el-cross.docker |   2 +-
- tests/docker/dockerfiles/fedora.docker             |   4 +-
- tests/docker/dockerfiles/opensuse-leap.docker      |   3 +-
- tests/docker/dockerfiles/ubuntu1804.docker         |   4 +-
- tests/docker/dockerfiles/ubuntu2004.docker         |   4 +-
- tests/lcitool/Makefile.include                     |   2 +-
- tests/lcitool/libvirt-ci                           |   2 +-
- tests/lcitool/projects/qemu.yml                    |   2 +-
- tests/lcitool/refresh                              |   4 +-
- tests/tcg/configure.sh                             |   2 +-
- tests/tcg/sh4/Makefile.target                      |   4 +
- trace-events                                       |  14 --
- trace/meson.build                                  |  14 --
- 71 files changed, 472 insertions(+), 683 deletions(-)
- delete mode 100644 configs/targets/ppc64abi32-linux-user.mak
- delete mode 100644 include/trace-tcg.h
- create mode 100644 contrib/plugins/drcov.c
- delete mode 100644 scripts/tracetool/format/tcg_h.py
- delete mode 100644 scripts/tracetool/format/tcg_helper_c.py
- delete mode 100644 scripts/tracetool/format/tcg_helper_h.py
- delete mode 100644 scripts/tracetool/format/tcg_helper_wrapper_h.py
-
+diff --git a/Makefile b/Makefile
+index db9a788601..e5fd1ebdf6 100644
+--- a/Makefile
++++ b/Makefile
+@@ -206,7 +206,8 @@ recurse-clean: $(addsuffix /clean, $(ROM_DIRS))
+ clean: recurse-clean
+ 	-$(quiet-@)test -f build.ninja && $(NINJA) $(NINJAFLAGS) -t clean || :
+ 	-$(quiet-@)test -f build.ninja && $(NINJA) $(NINJAFLAGS) clean-ctlist || :
+-	find . \( -name '*.so' -o -name '*.dll' -o -name '*.[oda]' \) -type f \
++	find . \( -name '*.so' -o -name '*.dll' -o \
++		  -name '*.[oda]' -o -name '*.gcno' \) -type f \
+ 		! -path ./roms/edk2/ArmPkg/Library/GccLto/liblto-aarch64.a \
+ 		! -path ./roms/edk2/ArmPkg/Library/GccLto/liblto-arm.a \
+ 		-exec rm {} +
 -- 
 2.30.2
 
