@@ -2,77 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C5CB4B0101
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Feb 2022 00:13:51 +0100 (CET)
-Received: from localhost ([::1]:41336 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E5D104B0110
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Feb 2022 00:17:35 +0100 (CET)
+Received: from localhost ([::1]:49068 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nHw9m-0006NJ-AK
-	for lists+qemu-devel@lfdr.de; Wed, 09 Feb 2022 18:13:50 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:51716)
+	id 1nHwDP-0003GW-0j
+	for lists+qemu-devel@lfdr.de; Wed, 09 Feb 2022 18:17:35 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:51742)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nHvxy-0004UV-Of
- for qemu-devel@nongnu.org; Wed, 09 Feb 2022 18:01:41 -0500
-Received: from [2607:f8b0:4864:20::429] (port=40503
- helo=mail-pf1-x429.google.com)
+ id 1nHvy6-0004ba-L8
+ for qemu-devel@nongnu.org; Wed, 09 Feb 2022 18:01:47 -0500
+Received: from [2607:f8b0:4864:20::631] (port=38640
+ helo=mail-pl1-x631.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nHvxv-00037G-Rs
- for qemu-devel@nongnu.org; Wed, 09 Feb 2022 18:01:37 -0500
-Received: by mail-pf1-x429.google.com with SMTP id a39so6144528pfx.7
- for <qemu-devel@nongnu.org>; Wed, 09 Feb 2022 15:01:34 -0800 (PST)
+ id 1nHvy3-00039B-5h
+ for qemu-devel@nongnu.org; Wed, 09 Feb 2022 18:01:45 -0500
+Received: by mail-pl1-x631.google.com with SMTP id c3so252528pls.5
+ for <qemu-devel@nongnu.org>; Wed, 09 Feb 2022 15:01:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=794y6swXt3Be6ZeeHwqMVlaY+8MqtzyalR1LJBF3V4w=;
- b=M5Fe9yf4/FB6a6L3drLcZjuNvMCCKPneTEvncujVgP8JPg0tjkFUQOSfbIHXfOpIV9
- ZKn9LjoHLYLpSc6xiZNsGCZlXhJeXazZfKnNvIAWEmCzOyFaNP/yLqznSenS7aGfMFIF
- ofi6tbrtn+WHDMp7S1zOIssuW6/wPNTCw6tbRKFLxbsUQRRATiNqt+MHBJZHws27PGJ1
- T4ir8t86h3NaXo9q41+Bfhjm2VAhxrprEkGxW9oPbdkd6+GQcBG1SXj5UFQNvTcny93h
- qxaYPrhAFnBmOkwf2Ef6aXIl2hY6asIYn78PPFX1EXBG1Q013WzN/tGq2HbSlopjOzYe
- H4Vg==
+ bh=DoZtfPkMyT0ZEPfoTcE8wTfI0Jmyll7QV/yvybhBFT0=;
+ b=p8NcTPyKK2ug2tPawOp3yY11LuWetq/YwNU5y9ZZMXN4slmubqRICcWKCwtt2lpbZ6
+ hjiY2dQapRpxcpl4KyLy1oCSBOzZ7AbZ/iFBkcrGHtItBiz8Vve5K16LVbh0jvk1TWMz
+ Gakwy7cTbeLllQTEsWAIHtzVGdzKqiv7ZL3B8mQCMHrz8t/LxzCaURPcukO2LsuvOgpG
+ +QxfyYKLuAL4uuwG3NgpmGEXopkERiQSTCjRRxOvszeDx6/3V6YkcFIzJLWx/nxu29Rn
+ QX/6vIVKPy2BXLDIcW5OpDznZH6hhshkBieVSllfMXpf5gRok0tCe6+cIgBrgkxll3Tz
+ UYHQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=794y6swXt3Be6ZeeHwqMVlaY+8MqtzyalR1LJBF3V4w=;
- b=Xy/sxWLBmcpQHiCWxyL+fxz94tJI+5VsqIlqrVnCzu3NhxBg9aftBuXSR0BM8Zzin8
- tLmDZ3ibet/C9IONuEmyZCWdgK10MJA0ZrFvOoqNKqZ5P+nEuJ+uE6UZOZdyMH0x9L/4
- GECU3HVLGZZer82oqeoT0zSGKebvtzQThPGwFm8by7rBvNE9rdoci/se1usHTS8LU2y0
- b2jDHznhSSvcDVJxNuOmd9ZTNeglcFPNOSFE44YfsLNrExsjKxG49C8V4j3ImeOZBt9E
- QxuZJLtJ2cWywv4Ea1sqhXI/uC9IwyKRBBLjIqpNa4yOKOGBD60e1fIONrHiXR8Pez/y
- 5vog==
-X-Gm-Message-State: AOAM531VbAVPMkoOqd/0yiYerBQjVoSti3PrkL+z91m5tEQn3EhsF1RM
- CtKcjrDi3RDU5cw7AYnZdlobsXtMwoI=
-X-Google-Smtp-Source: ABdhPJwAA+ldiww99dndFX2psHSF4fX7wgFe6pIDcoqTpehKsSM1jSRP3oQ3Nebz0cuoZHySwlxe1g==
-X-Received: by 2002:a05:6a00:230e:: with SMTP id
- h14mr4639140pfh.10.1644447693432; 
- Wed, 09 Feb 2022 15:01:33 -0800 (PST)
+ bh=DoZtfPkMyT0ZEPfoTcE8wTfI0Jmyll7QV/yvybhBFT0=;
+ b=M5j569wjiCssvIPb9VR19J2W3vYHYoK0nZxxsrDMUea9Rp/lsNeqUfzCgVpGv7DznV
+ JulM9YhHNymnNd9WR5skgPONd2umRhIF0J1P5HenCJQyfnvNW/pDiPgjwVYPN2VJbCF1
+ zYbBNW2RhYXlzaoteTiZuFK6jAnAWb2YIRgxR+EuQH8LNR0cu/WNa6+V0/yWmgtC8fyX
+ Nw84lD/HlCdraACKCNRpEoKp/1C9OrJaIVVMxwCmFa+DAVxPXCEM5iher+GjnPWzzzdj
+ +54RyoZhDmN5Bg/QTwZQ4uhAziYvpMQYiXyJTBAotdcIHfEGcP39gPKP/BeJag+YjdDw
+ EDSg==
+X-Gm-Message-State: AOAM531kx1VkaUAA8HD6w2TcaD1qw65ie1JOjtMNENusDixQVPBi0MW4
+ 8KxythcIrXaEI+UlOeXCy2Gay2ScWBE=
+X-Google-Smtp-Source: ABdhPJwxdeI/DJVXaLkoMJR2pFKCcIScnbMj+UaWbOo3XTYZRc8GdcjaFMmB72+GLotYGzOfTMevvw==
+X-Received: by 2002:a17:90a:1984:: with SMTP id
+ 4mr4299239pji.197.1644447701546; 
+ Wed, 09 Feb 2022 15:01:41 -0800 (PST)
 Received: from localhost.localdomain (154.red-83-50-83.dynamicip.rima-tde.net.
  [83.50.83.154])
- by smtp.gmail.com with ESMTPSA id q8sm22475709pfl.143.2022.02.09.15.01.31
+ by smtp.gmail.com with ESMTPSA id oj5sm2728731pjb.29.2022.02.09.15.01.39
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Wed, 09 Feb 2022 15:01:33 -0800 (PST)
+ Wed, 09 Feb 2022 15:01:41 -0800 (PST)
 To: qemu-devel@nongnu.org
 Cc: Riku Voipio <riku.voipio@iki.fi>,
  Richard Henderson <richard.henderson@linaro.org>,
  Laurent Vivier <laurent@vivier.eu>, Paolo Bonzini <pbonzini@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: [PATCH 7/9] user: Declare target-specific prototypes in
- 'user/cpu-target.h'
-Date: Thu, 10 Feb 2022 00:00:28 +0100
-Message-Id: <20220209230030.93987-8-f4bug@amsat.org>
+Subject: [PATCH 8/9] user: Declare target-agnostic prototypes in
+ 'user/cpu-common.h'
+Date: Thu, 10 Feb 2022 00:00:29 +0100
+Message-Id: <20220209230030.93987-9-f4bug@amsat.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220209230030.93987-1-f4bug@amsat.org>
 References: <20220209230030.93987-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::429
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::631
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::429;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pf1-x429.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::631;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pl1-x631.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -99,545 +99,166 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reply-to:  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 From:  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= via <qemu-devel@nongnu.org>
 
-Move user-mode specific prototypes from "exec/exec-all.h"
-to "user/cpu-target.h".
+Move user-mode common prototypes from "exec/exec-all.h"
+to "user/cpu-common.h".
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- accel/tcg/user-exec.c            |  1 +
- bsd-user/elfload.c               |  1 +
- bsd-user/main.c                  |  1 +
- bsd-user/signal.c                |  1 +
- include/exec/exec-all.h          | 41 ------------------------
- include/user/cpu-target.h        | 55 ++++++++++++++++++++++++++++++++
- linux-user/aarch64/cpu_loop.c    |  1 +
- linux-user/alpha/cpu_loop.c      |  1 +
- linux-user/arm/cpu_loop.c        |  1 +
- linux-user/arm/signal.c          |  1 +
- linux-user/cris/cpu_loop.c       |  1 +
- linux-user/elfload.c             |  1 +
- linux-user/hexagon/cpu_loop.c    |  1 +
- linux-user/hppa/cpu_loop.c       |  1 +
- linux-user/hppa/signal.c         |  1 +
- linux-user/i386/cpu_loop.c       |  1 +
- linux-user/linuxload.c           |  1 +
- linux-user/m68k/cpu_loop.c       |  1 +
- linux-user/main.c                |  1 +
- linux-user/microblaze/cpu_loop.c |  1 +
- linux-user/mips/cpu_loop.c       |  1 +
- linux-user/mmap.c                |  1 +
- linux-user/nios2/cpu_loop.c      |  1 +
- linux-user/openrisc/cpu_loop.c   |  1 +
- linux-user/ppc/cpu_loop.c        |  1 +
- linux-user/ppc/signal.c          |  1 +
- linux-user/riscv/cpu_loop.c      |  1 +
- linux-user/s390x/cpu_loop.c      |  1 +
- linux-user/sh4/cpu_loop.c        |  1 +
- linux-user/signal.c              |  1 +
- linux-user/sparc/cpu_loop.c      |  1 +
- linux-user/syscall.c             |  1 +
- linux-user/uaccess.c             |  1 +
- linux-user/xtensa/cpu_loop.c     |  1 +
- 34 files changed, 87 insertions(+), 41 deletions(-)
- create mode 100644 include/user/cpu-target.h
+ bsd-user/qemu.h             |  2 --
+ include/exec/cpu-all.h      |  3 +--
+ include/exec/exec-all.h     | 10 ----------
+ include/user/cpu-common.h   | 36 ++++++++++++++++++++++++++++++++++++
+ include/user/cpu-target.h   |  1 +
+ linux-user/exit.c           |  3 +--
+ linux-user/user-internals.h | 10 ----------
+ 7 files changed, 39 insertions(+), 26 deletions(-)
+ create mode 100644 include/user/cpu-common.h
 
-diff --git a/accel/tcg/user-exec.c b/accel/tcg/user-exec.c
-index 6f5d4933f0..c05bd84f1b 100644
---- a/accel/tcg/user-exec.c
-+++ b/accel/tcg/user-exec.c
-@@ -28,6 +28,7 @@
- #include "qemu/atomic128.h"
- #include "trace/trace-root.h"
- #include "tcg/tcg-ldst.h"
-+#include "user/cpu-target.h"
- #include "internal.h"
+diff --git a/bsd-user/qemu.h b/bsd-user/qemu.h
+index 2f67776b0b..afaf94412e 100644
+--- a/bsd-user/qemu.h
++++ b/bsd-user/qemu.h
+@@ -182,8 +182,6 @@ abi_long do_openbsd_syscall(void *cpu_env, int num, abi_long arg1,
+                             abi_long arg2, abi_long arg3, abi_long arg4,
+                             abi_long arg5, abi_long arg6);
+ void gemu_log(const char *fmt, ...) GCC_FMT_ATTR(1, 2);
+-extern __thread CPUState *thread_cpu;
+-void cpu_loop(CPUArchState *env);
+ char *target_strerror(int err);
+ int get_osversion(void);
+ void fork_start(void);
+diff --git a/include/exec/cpu-all.h b/include/exec/cpu-all.h
+index 08b2894274..e9cf20560f 100644
+--- a/include/exec/cpu-all.h
++++ b/include/exec/cpu-all.h
+@@ -296,9 +296,8 @@ void *page_alloc_target_data(target_ulong address, size_t size);
+  * at @address, as per page_alloc_target_data.
+  */
+ void *page_get_target_data(target_ulong address);
+-#endif
  
- __thread uintptr_t helper_retaddr;
-diff --git a/bsd-user/elfload.c b/bsd-user/elfload.c
-index 142a5bfac2..d64b0de0f4 100644
---- a/bsd-user/elfload.c
-+++ b/bsd-user/elfload.c
-@@ -20,6 +20,7 @@
- #include "qemu/osdep.h"
+-CPUArchState *cpu_copy(CPUArchState *env);
++#endif /* CONFIG_USER_ONLY */
  
- #include "qemu.h"
-+#include "user/cpu-target.h"
- #include "disas/disas.h"
- #include "qemu/path.h"
+ /* Flags for use in ENV->INTERRUPT_PENDING.
  
-diff --git a/bsd-user/main.c b/bsd-user/main.c
-index f1d58e905e..93f7851fdd 100644
---- a/bsd-user/main.c
-+++ b/bsd-user/main.c
-@@ -47,6 +47,7 @@
- #include "trace/control.h"
- #include "crypto/init.h"
- #include "qemu/guest-random.h"
-+#include "user/cpu-target.h"
- 
- #include "host-os.h"
- #include "target_arch_cpu.h"
-diff --git a/bsd-user/signal.c b/bsd-user/signal.c
-index 8a36b696d8..15af69c509 100644
---- a/bsd-user/signal.c
-+++ b/bsd-user/signal.c
-@@ -21,6 +21,7 @@
- #include "qemu/osdep.h"
- #include "qemu/log.h"
- #include "qemu.h"
-+#include "user/cpu-target.h"
- #include "signal-common.h"
- #include "trace.h"
- #include "hw/core/tcg-cpu-ops.h"
 diff --git a/include/exec/exec-all.h b/include/exec/exec-all.h
-index 537f465f54..e8f14b6844 100644
+index e8f14b6844..545cc16a67 100644
 --- a/include/exec/exec-all.h
 +++ b/include/exec/exec-all.h
-@@ -649,47 +649,6 @@ static inline tb_page_addr_t get_page_addr_code_hostp(CPUArchState *env,
-  */
- MMUAccessType adjust_signal_pc(uintptr_t *pc, bool is_write);
+@@ -639,16 +639,6 @@ static inline tb_page_addr_t get_page_addr_code_hostp(CPUArchState *env,
+     return addr;
+ }
  
 -/**
-- * handle_sigsegv_accerr_write:
-- * @cpu: the cpu context
-- * @old_set: the sigset_t from the signal ucontext_t
-- * @host_pc: the host pc, adjusted for the signal
-- * @host_addr: the host address of the fault
+- * adjust_signal_pc:
+- * @pc: raw pc from the host signal ucontext_t.
+- * @is_write: host memory operation was write, or read-modify-write.
 - *
-- * Return true if the write fault has been handled, and should be re-tried.
+- * Alter @pc as required for unwinding.  Return the type of the
+- * guest memory access -- host reads may be for guest execution.
 - */
--bool handle_sigsegv_accerr_write(CPUState *cpu, sigset_t *old_set,
--                                 uintptr_t host_pc, abi_ptr guest_addr);
--
--/**
-- * cpu_loop_exit_sigsegv:
-- * @cpu: the cpu context
-- * @addr: the guest address of the fault
-- * @access_type: access was read/write/execute
-- * @maperr: true for invalid page, false for permission fault
-- * @ra: host pc for unwinding
-- *
-- * Use the TCGCPUOps hook to record cpu state, do guest operating system
-- * specific things to raise SIGSEGV, and jump to the main cpu loop.
-- */
--void QEMU_NORETURN cpu_loop_exit_sigsegv(CPUState *cpu, target_ulong addr,
--                                         MMUAccessType access_type,
--                                         bool maperr, uintptr_t ra);
--
--/**
-- * cpu_loop_exit_sigbus:
-- * @cpu: the cpu context
-- * @addr: the guest address of the alignment fault
-- * @access_type: access was read/write/execute
-- * @ra: host pc for unwinding
-- *
-- * Use the TCGCPUOps hook to record cpu state, do guest operating system
-- * specific things to raise SIGBUS, and jump to the main cpu loop.
-- */
--void QEMU_NORETURN cpu_loop_exit_sigbus(CPUState *cpu, target_ulong addr,
--                                        MMUAccessType access_type,
--                                        uintptr_t ra);
+-MMUAccessType adjust_signal_pc(uintptr_t *pc, bool is_write);
 -
  #else
  static inline void mmap_lock(void) {}
  static inline void mmap_unlock(void) {}
-diff --git a/include/user/cpu-target.h b/include/user/cpu-target.h
+diff --git a/include/user/cpu-common.h b/include/user/cpu-common.h
 new file mode 100644
-index 0000000000..e621fb9f3d
+index 0000000000..267acb143a
 --- /dev/null
-+++ b/include/user/cpu-target.h
-@@ -0,0 +1,55 @@
++++ b/include/user/cpu-common.h
+@@ -0,0 +1,36 @@
 +/* SPDX-License-Identifier: GPL-2.0-or-later */
 +/*
-+ * cpu-target.h: user-mode target-specific execution prototypes
++ * cpu-target.h: user-mode target-agnostic execution prototypes
 + *
 + */
 +
-+#ifndef USER_CPU_TARGET_H
-+#define USER_CPU_TARGET_H
++#ifndef USER_CPU_COMMON_H
++#define USER_CPU_COMMON_H
 +
 +#include "exec/cpu-tlb.h"
-+#include "exec/cpu_ldst.h" /* abi_ptr */
++
++extern __thread CPUState *thread_cpu;
 +
 +/**
-+ * handle_sigsegv_accerr_write:
-+ * @cpu: the cpu context
-+ * @old_set: the sigset_t from the signal ucontext_t
-+ * @host_pc: the host pc, adjusted for the signal
-+ * @host_addr: the host address of the fault
++ * adjust_signal_pc:
++ * @pc: raw pc from the host signal ucontext_t.
++ * @is_write: host memory operation was write, or read-modify-write.
 + *
-+ * Return true if the write fault has been handled, and should be re-tried.
++ * Alter @pc as required for unwinding.  Return the type of the
++ * guest memory access -- host reads may be for guest execution.
 + */
-+bool handle_sigsegv_accerr_write(CPUState *cpu, sigset_t *old_set,
-+                                 uintptr_t host_pc, abi_ptr guest_addr);
++MMUAccessType adjust_signal_pc(uintptr_t *pc, bool is_write);
++
++void QEMU_NORETURN cpu_loop(CPUArchState *env);
++
++CPUArchState *cpu_copy(CPUArchState *env);
 +
 +/**
-+ * cpu_loop_exit_sigsegv:
-+ * @cpu: the cpu context
-+ * @addr: the guest address of the fault
-+ * @access_type: access was read/write/execute
-+ * @maperr: true for invalid page, false for permission fault
-+ * @ra: host pc for unwinding
++ * preexit_cleanup: housekeeping before the guest exits
 + *
-+ * Use the TCGCPUOps hook to record cpu state, do guest operating system
-+ * specific things to raise SIGSEGV, and jump to the main cpu loop.
++ * env: the CPU state
++ * code: the exit code
 + */
-+void QEMU_NORETURN cpu_loop_exit_sigsegv(CPUState *cpu, target_ulong addr,
-+                                         MMUAccessType access_type,
-+                                         bool maperr, uintptr_t ra);
-+
-+/**
-+ * cpu_loop_exit_sigbus:
-+ * @cpu: the cpu context
-+ * @addr: the guest address of the alignment fault
-+ * @access_type: access was read/write/execute
-+ * @ra: host pc for unwinding
-+ *
-+ * Use the TCGCPUOps hook to record cpu state, do guest operating system
-+ * specific things to raise SIGBUS, and jump to the main cpu loop.
-+ */
-+void QEMU_NORETURN cpu_loop_exit_sigbus(CPUState *cpu, target_ulong addr,
-+                                        MMUAccessType access_type,
-+                                        uintptr_t ra);
-+
++void preexit_cleanup(CPUArchState *env, int code);
 +
 +#endif
-diff --git a/linux-user/aarch64/cpu_loop.c b/linux-user/aarch64/cpu_loop.c
-index 1737e2ea65..ce19e2cf7a 100644
---- a/linux-user/aarch64/cpu_loop.c
-+++ b/linux-user/aarch64/cpu_loop.c
-@@ -20,6 +20,7 @@
- #include "qemu/osdep.h"
- #include "qemu-common.h"
- #include "qemu.h"
-+#include "user/cpu-target.h"
- #include "user-internals.h"
- #include "cpu_loop-common.h"
- #include "signal-common.h"
-diff --git a/linux-user/alpha/cpu_loop.c b/linux-user/alpha/cpu_loop.c
-index de6e0c901c..735603f6f1 100644
---- a/linux-user/alpha/cpu_loop.c
-+++ b/linux-user/alpha/cpu_loop.c
-@@ -20,6 +20,7 @@
- #include "qemu/osdep.h"
- #include "qemu-common.h"
- #include "qemu.h"
-+#include "user/cpu-target.h"
- #include "user-internals.h"
- #include "cpu_loop-common.h"
- #include "signal-common.h"
-diff --git a/linux-user/arm/cpu_loop.c b/linux-user/arm/cpu_loop.c
-index 032e1ffddf..268e19cbca 100644
---- a/linux-user/arm/cpu_loop.c
-+++ b/linux-user/arm/cpu_loop.c
-@@ -20,6 +20,7 @@
- #include "qemu/osdep.h"
- #include "qemu-common.h"
- #include "qemu.h"
-+#include "user/cpu-target.h"
- #include "user-internals.h"
- #include "elf.h"
- #include "cpu_loop-common.h"
-diff --git a/linux-user/arm/signal.c b/linux-user/arm/signal.c
-index cf99fd7b8a..0cec11ebe4 100644
---- a/linux-user/arm/signal.c
-+++ b/linux-user/arm/signal.c
-@@ -18,6 +18,7 @@
-  */
- #include "qemu/osdep.h"
- #include "qemu.h"
-+#include "user/cpu-target.h"
- #include "user-internals.h"
- #include "signal-common.h"
- #include "linux-user/trace.h"
-diff --git a/linux-user/cris/cpu_loop.c b/linux-user/cris/cpu_loop.c
-index 0f46b3c1a8..a70b93203c 100644
---- a/linux-user/cris/cpu_loop.c
-+++ b/linux-user/cris/cpu_loop.c
-@@ -20,6 +20,7 @@
- #include "qemu/osdep.h"
- #include "qemu-common.h"
- #include "qemu.h"
-+#include "user/cpu-target.h"
- #include "user-internals.h"
- #include "cpu_loop-common.h"
- #include "signal-common.h"
-diff --git a/linux-user/elfload.c b/linux-user/elfload.c
-index 99829faf89..0f5df23aee 100644
---- a/linux-user/elfload.c
-+++ b/linux-user/elfload.c
-@@ -6,6 +6,7 @@
- #include <sys/shm.h>
+diff --git a/include/user/cpu-target.h b/include/user/cpu-target.h
+index e621fb9f3d..4fbdb35fa4 100644
+--- a/include/user/cpu-target.h
++++ b/include/user/cpu-target.h
+@@ -9,6 +9,7 @@
  
- #include "qemu.h"
-+#include "user/cpu-target.h"
- #include "user-internals.h"
- #include "signal-common.h"
- #include "loader.h"
-diff --git a/linux-user/hexagon/cpu_loop.c b/linux-user/hexagon/cpu_loop.c
-index 0d73934d31..c167da2474 100644
---- a/linux-user/hexagon/cpu_loop.c
-+++ b/linux-user/hexagon/cpu_loop.c
-@@ -21,6 +21,7 @@
- #include "qemu/osdep.h"
- #include "qemu-common.h"
- #include "qemu.h"
-+#include "user/cpu-target.h"
- #include "user-internals.h"
- #include "cpu_loop-common.h"
- #include "signal-common.h"
-diff --git a/linux-user/hppa/cpu_loop.c b/linux-user/hppa/cpu_loop.c
-index a576d1a249..ebec350047 100644
---- a/linux-user/hppa/cpu_loop.c
-+++ b/linux-user/hppa/cpu_loop.c
-@@ -19,6 +19,7 @@
+ #include "exec/cpu-tlb.h"
+ #include "exec/cpu_ldst.h" /* abi_ptr */
++#include "user/cpu-common.h"
  
+ /**
+  * handle_sigsegv_accerr_write:
+diff --git a/linux-user/exit.c b/linux-user/exit.c
+index 10989f17f8..2c8a8dd75d 100644
+--- a/linux-user/exit.c
++++ b/linux-user/exit.c
+@@ -19,8 +19,7 @@
  #include "qemu/osdep.h"
- #include "qemu.h"
-+#include "user/cpu-target.h"
- #include "user-internals.h"
- #include "cpu_loop-common.h"
- #include "signal-common.h"
-diff --git a/linux-user/hppa/signal.c b/linux-user/hppa/signal.c
-index 962f551c04..17dbb96f07 100644
---- a/linux-user/hppa/signal.c
-+++ b/linux-user/hppa/signal.c
-@@ -18,6 +18,7 @@
-  */
- #include "qemu/osdep.h"
- #include "qemu.h"
-+#include "user/cpu-target.h"
- #include "user-internals.h"
- #include "signal-common.h"
- #include "linux-user/trace.h"
-diff --git a/linux-user/i386/cpu_loop.c b/linux-user/i386/cpu_loop.c
-index 90bffc1956..425b898590 100644
---- a/linux-user/i386/cpu_loop.c
-+++ b/linux-user/i386/cpu_loop.c
-@@ -21,6 +21,7 @@
- #include "qemu-common.h"
- #include "qemu.h"
- #include "qemu/timer.h"
-+#include "user/cpu-target.h"
- #include "user-internals.h"
- #include "cpu_loop-common.h"
- #include "signal-common.h"
-diff --git a/linux-user/linuxload.c b/linux-user/linuxload.c
-index 2ed5fc45ed..e7312be184 100644
---- a/linux-user/linuxload.c
-+++ b/linux-user/linuxload.c
-@@ -2,6 +2,7 @@
+ #include "qemu/plugin.h"
+ #include "exec/gdbstub.h"
+-#include "qemu.h"
+-#include "user-internals.h"
++#include "user/cpu-common.h"
+ #ifdef CONFIG_GPROF
+ #include <sys/gmon.h>
+ #endif
+diff --git a/linux-user/user-internals.h b/linux-user/user-internals.h
+index 4d0f682aea..d17f3c9300 100644
+--- a/linux-user/user-internals.h
++++ b/linux-user/user-internals.h
+@@ -63,8 +63,6 @@ abi_long do_syscall(void *cpu_env, int num, abi_long arg1,
+                     abi_long arg2, abi_long arg3, abi_long arg4,
+                     abi_long arg5, abi_long arg6, abi_long arg7,
+                     abi_long arg8);
+-extern __thread CPUState *thread_cpu;
+-void QEMU_NORETURN cpu_loop(CPUArchState *env);
+ const char *target_strerror(int err);
+ int get_osversion(void);
+ void init_qemu_uname_release(void);
+@@ -166,14 +164,6 @@ static inline int regpairs_aligned(void *cpu_env, int num) { return 1; }
+ static inline int regpairs_aligned(void *cpu_env, int num) { return 0; }
+ #endif
  
- #include "qemu/osdep.h"
- #include "qemu.h"
-+#include "user/cpu-target.h"
- #include "user-internals.h"
- #include "loader.h"
- 
-diff --git a/linux-user/m68k/cpu_loop.c b/linux-user/m68k/cpu_loop.c
-index 928a18e3cf..2aec60da0d 100644
---- a/linux-user/m68k/cpu_loop.c
-+++ b/linux-user/m68k/cpu_loop.c
-@@ -20,6 +20,7 @@
- #include "qemu/osdep.h"
- #include "qemu-common.h"
- #include "qemu.h"
-+#include "user/cpu-target.h"
- #include "user-internals.h"
- #include "cpu_loop-common.h"
- #include "signal-common.h"
-diff --git a/linux-user/main.c b/linux-user/main.c
-index 16def5215d..e318dcfcf8 100644
---- a/linux-user/main.c
-+++ b/linux-user/main.c
-@@ -30,6 +30,7 @@
- 
- #include "qapi/error.h"
- #include "qemu.h"
-+#include "user/cpu-target.h"
- #include "user-internals.h"
- #include "qemu/path.h"
- #include "qemu/queue.h"
-diff --git a/linux-user/microblaze/cpu_loop.c b/linux-user/microblaze/cpu_loop.c
-index 1a2556be2c..3023e5691b 100644
---- a/linux-user/microblaze/cpu_loop.c
-+++ b/linux-user/microblaze/cpu_loop.c
-@@ -20,6 +20,7 @@
- #include "qemu/osdep.h"
- #include "qemu-common.h"
- #include "qemu.h"
-+#include "user/cpu-target.h"
- #include "user-internals.h"
- #include "cpu_loop-common.h"
- #include "signal-common.h"
-diff --git a/linux-user/mips/cpu_loop.c b/linux-user/mips/cpu_loop.c
-index 9bb12a07ba..10292a9c40 100644
---- a/linux-user/mips/cpu_loop.c
-+++ b/linux-user/mips/cpu_loop.c
-@@ -20,6 +20,7 @@
- #include "qemu/osdep.h"
- #include "qemu-common.h"
- #include "qemu.h"
-+#include "user/cpu-target.h"
- #include "user-internals.h"
- #include "cpu_loop-common.h"
- #include "signal-common.h"
-diff --git a/linux-user/mmap.c b/linux-user/mmap.c
-index c125031b90..1849bac128 100644
---- a/linux-user/mmap.c
-+++ b/linux-user/mmap.c
-@@ -20,6 +20,7 @@
- #include "trace.h"
- #include "exec/log.h"
- #include "qemu.h"
-+#include "user/cpu-target.h"
- #include "user-internals.h"
- #include "user-mmap.h"
- 
-diff --git a/linux-user/nios2/cpu_loop.c b/linux-user/nios2/cpu_loop.c
-index 1e93ef34e6..f10c28f965 100644
---- a/linux-user/nios2/cpu_loop.c
-+++ b/linux-user/nios2/cpu_loop.c
-@@ -19,6 +19,7 @@
- 
- #include "qemu/osdep.h"
- #include "qemu.h"
-+#include "user/cpu-target.h"
- #include "user-internals.h"
- #include "cpu_loop-common.h"
- #include "signal-common.h"
-diff --git a/linux-user/openrisc/cpu_loop.c b/linux-user/openrisc/cpu_loop.c
-index 7683bea064..137889d7e0 100644
---- a/linux-user/openrisc/cpu_loop.c
-+++ b/linux-user/openrisc/cpu_loop.c
-@@ -20,6 +20,7 @@
- #include "qemu/osdep.h"
- #include "qemu-common.h"
- #include "qemu.h"
-+#include "user/cpu-target.h"
- #include "user-internals.h"
- #include "cpu_loop-common.h"
- #include "signal-common.h"
-diff --git a/linux-user/ppc/cpu_loop.c b/linux-user/ppc/cpu_loop.c
-index ffe39851ed..252ee8efbf 100644
---- a/linux-user/ppc/cpu_loop.c
-+++ b/linux-user/ppc/cpu_loop.c
-@@ -21,6 +21,7 @@
- #include "qemu-common.h"
- #include "qemu.h"
- #include "qemu/timer.h"
-+#include "user/cpu-target.h"
- #include "user-internals.h"
- #include "cpu_loop-common.h"
- #include "signal-common.h"
-diff --git a/linux-user/ppc/signal.c b/linux-user/ppc/signal.c
-index 176c9d8503..541d70b410 100644
---- a/linux-user/ppc/signal.c
-+++ b/linux-user/ppc/signal.c
-@@ -18,6 +18,7 @@
-  */
- #include "qemu/osdep.h"
- #include "qemu.h"
-+#include "user/cpu-target.h"
- #include "user-internals.h"
- #include "signal-common.h"
- #include "linux-user/trace.h"
-diff --git a/linux-user/riscv/cpu_loop.c b/linux-user/riscv/cpu_loop.c
-index 26d446f323..2712f2c675 100644
---- a/linux-user/riscv/cpu_loop.c
-+++ b/linux-user/riscv/cpu_loop.c
-@@ -21,6 +21,7 @@
- #include "qemu-common.h"
- #include "qemu/error-report.h"
- #include "qemu.h"
-+#include "user/cpu-target.h"
- #include "user-internals.h"
- #include "cpu_loop-common.h"
- #include "signal-common.h"
-diff --git a/linux-user/s390x/cpu_loop.c b/linux-user/s390x/cpu_loop.c
-index 7901dfe6f5..37d05f127e 100644
---- a/linux-user/s390x/cpu_loop.c
-+++ b/linux-user/s390x/cpu_loop.c
-@@ -20,6 +20,7 @@
- #include "qemu/osdep.h"
- #include "qemu-common.h"
- #include "qemu.h"
-+#include "user/cpu-target.h"
- #include "user-internals.h"
- #include "cpu_loop-common.h"
- #include "signal-common.h"
-diff --git a/linux-user/sh4/cpu_loop.c b/linux-user/sh4/cpu_loop.c
-index 1bd313cb19..bd52b3be93 100644
---- a/linux-user/sh4/cpu_loop.c
-+++ b/linux-user/sh4/cpu_loop.c
-@@ -20,6 +20,7 @@
- #include "qemu/osdep.h"
- #include "qemu-common.h"
- #include "qemu.h"
-+#include "user/cpu-target.h"
- #include "user-internals.h"
- #include "cpu_loop-common.h"
- #include "signal-common.h"
-diff --git a/linux-user/signal.c b/linux-user/signal.c
-index 32854bb375..c36f7669ad 100644
---- a/linux-user/signal.c
-+++ b/linux-user/signal.c
-@@ -25,6 +25,7 @@
- #include <sys/resource.h>
- 
- #include "qemu.h"
-+#include "user/cpu-target.h"
- #include "user-internals.h"
- #include "strace.h"
- #include "loader.h"
-diff --git a/linux-user/sparc/cpu_loop.c b/linux-user/sparc/cpu_loop.c
-index baf3d9ae01..506d4b49f0 100644
---- a/linux-user/sparc/cpu_loop.c
-+++ b/linux-user/sparc/cpu_loop.c
-@@ -20,6 +20,7 @@
- #include "qemu/osdep.h"
- #include "qemu-common.h"
- #include "qemu.h"
-+#include "user/cpu-target.h"
- #include "user-internals.h"
- #include "cpu_loop-common.h"
- #include "signal-common.h"
-diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index 5950222a77..2cc17c8617 100644
---- a/linux-user/syscall.c
-+++ b/linux-user/syscall.c
-@@ -127,6 +127,7 @@
- #include "uname.h"
- 
- #include "qemu.h"
-+#include "user/cpu-target.h"
- #include "user-internals.h"
- #include "strace.h"
- #include "signal-common.h"
-diff --git a/linux-user/uaccess.c b/linux-user/uaccess.c
-index 425cbf677f..99234c52a0 100644
---- a/linux-user/uaccess.c
-+++ b/linux-user/uaccess.c
-@@ -1,6 +1,7 @@
- /* User memory access */
- #include "qemu/osdep.h"
- #include "qemu/cutils.h"
-+#include "user/cpu-target.h"
- 
- #include "qemu.h"
- #include "user-internals.h"
-diff --git a/linux-user/xtensa/cpu_loop.c b/linux-user/xtensa/cpu_loop.c
-index d51ce05392..829659297b 100644
---- a/linux-user/xtensa/cpu_loop.c
-+++ b/linux-user/xtensa/cpu_loop.c
-@@ -19,6 +19,7 @@
- 
- #include "qemu/osdep.h"
- #include "qemu.h"
-+#include "user/cpu-target.h"
- #include "user-internals.h"
- #include "cpu_loop-common.h"
- #include "signal-common.h"
+-/**
+- * preexit_cleanup: housekeeping before the guest exits
+- *
+- * env: the CPU state
+- * code: the exit code
+- */
+-void preexit_cleanup(CPUArchState *env, int code);
+-
+ /*
+  * Include target-specific struct and function definitions;
+  * they may need access to the target-independent structures
 -- 
 2.34.1
 
