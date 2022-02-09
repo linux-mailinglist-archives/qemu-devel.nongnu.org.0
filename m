@@ -2,85 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3BA74AF894
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Feb 2022 18:35:40 +0100 (CET)
-Received: from localhost ([::1]:57390 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F380E4AF7F7
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Feb 2022 18:21:36 +0100 (CET)
+Received: from localhost ([::1]:39484 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nHqsV-0002Z1-86
-	for lists+qemu-devel@lfdr.de; Wed, 09 Feb 2022 12:35:39 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:55882)
+	id 1nHqer-0006l5-WA
+	for lists+qemu-devel@lfdr.de; Wed, 09 Feb 2022 12:21:34 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:34572)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nHpsc-0001eq-RJ
- for qemu-devel@nongnu.org; Wed, 09 Feb 2022 11:31:42 -0500
-Received: from [2a00:1450:4864:20::432] (port=34402
- helo=mail-wr1-x432.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nHpsZ-00022Z-Rv
- for qemu-devel@nongnu.org; Wed, 09 Feb 2022 11:31:42 -0500
-Received: by mail-wr1-x432.google.com with SMTP id f17so5083719wrx.1
- for <qemu-devel@nongnu.org>; Wed, 09 Feb 2022 08:31:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=aD46pGr9G3RUEsW9PdwwIueEwxm15KKGfxYxya1h0Js=;
- b=ppxA3PHriTrSpO5nP9WF00iDvVhkmCnsxWiNqjQsCWtQAML7fKreBJvKJNJXzkM0st
- fNGxBN1OXy9QTkUH+Ofto7y94Xjnk+wem9JTm9ocN9+0aGlJ4/K8sFLodcXPOlaffWml
- K10QP37Mbjl6GKTjCMTnoAXDdYG9ViRDXNes5gZ5muwVi2lQMA4q5DFdTMXI2OjpMjN4
- zXu/ZyoST+xtT1KXLNTx3/hc6QCpU2GwLFhyMF5wd2vmZWK2isbG4vyfhT+LIGkLHZzn
- B4JrXqFxEtXZ99e92p2ADXVWH+KzIjUpqnntdLzKHt+KoPqbmfAWj1EX58Jho66gbqxl
- 2FMg==
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nHqEV-0001B5-7b
+ for qemu-devel@nongnu.org; Wed, 09 Feb 2022 11:54:20 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:41195)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nHqET-0002j3-4h
+ for qemu-devel@nongnu.org; Wed, 09 Feb 2022 11:54:18 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1644425645;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=RQjpnHFBXFtW0wlQHFBtBaD/xryHNa0T0Z0C+Ngbl0U=;
+ b=cmNeayRkqJAypUicfIURjhyo96rzu+KD1xIzkaLNkQEfYe/6sSeGXNF9J3SMAehA2zzc6/
+ x5AJnQ2Stb1L54EajykAJM35pzgD5NL3BcLip92VZIhP83zLizL+L3rpETzlow4kLuMix5
+ oU4l8BFwEYdFA6zc6tqViIci7iCoUbQ=
+Received: from mail-vs1-f70.google.com (mail-vs1-f70.google.com
+ [209.85.217.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-318-QWoXFsEPNWKOlemtaBiZ1A-1; Wed, 09 Feb 2022 11:54:02 -0500
+X-MC-Unique: QWoXFsEPNWKOlemtaBiZ1A-1
+Received: by mail-vs1-f70.google.com with SMTP id
+ h20-20020a056102215400b0031a81e69805so251257vsg.12
+ for <qemu-devel@nongnu.org>; Wed, 09 Feb 2022 08:54:02 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=aD46pGr9G3RUEsW9PdwwIueEwxm15KKGfxYxya1h0Js=;
- b=31WXLfwAIGsd84pwDO8YyVOqEXFMnuar7qyBxUcHsYiUeWf3IXyRkdZPXCv0YXgzWS
- ooUvDdFbbG8yIoDXZcri+dIzVjW8TbFQtlvkfqK5AOXcwk95012VKkCcEIHTfoCKnwPk
- 7tEAyxVTxeMwlj/BxImfhKPPK4hsrRzOgw94RiJuyf6mBXVfYjZ7gv+LcSpEW0AhM6eA
- BiY2dMvC9WUvDVXxbMaMB6qpCl/UKpM0nZnWnrQ4Av4cTsbeyjopSxd3LlM1Avj2io1T
- gyz9wTGFQauznQ2C4Mt5TQmRfzIis91V0ww2GWY0PZBWpTWtU957Ji7+PlO4qskT+mE6
- Xj4A==
-X-Gm-Message-State: AOAM531FDlMunAJZOy3ch/NtxwEiNuFy5csdLeIxLZRociKXN9X/Wy4i
- cvEO3jwqrv7FMuWEsxkC0wHBog==
-X-Google-Smtp-Source: ABdhPJzfCuYwI1ijQXVh90S/xuEbghyltRXTQy5Vw3QbrDNmwG2nZJDl/cPdmtPI6LhPkefdu1+otA==
-X-Received: by 2002:adf:ebc2:: with SMTP id v2mr2797365wrn.498.1644424298027; 
- Wed, 09 Feb 2022 08:31:38 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id g9sm17106982wri.95.2022.02.09.08.31.36
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 09 Feb 2022 08:31:36 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 278D31FFB7;
- Wed,  9 Feb 2022 16:31:36 +0000 (GMT)
-References: <20210623134756.30930-1-alex.bennee@linaro.org>
- <20210623134756.30930-2-alex.bennee@linaro.org>
- <CAFEAcA8TCTEBnjibsUTyqRXL0tWXGUih-TATNLHuWW-5=VQHLA@mail.gmail.com>
-User-agent: mu4e 1.7.7; emacs 28.0.91
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PATCH v4 1/2] semihosting/arm-compat: replace heuristic for
- softmmu SYS_HEAPINFO
-Date: Wed, 09 Feb 2022 16:29:32 +0000
-In-reply-to: <CAFEAcA8TCTEBnjibsUTyqRXL0tWXGUih-TATNLHuWW-5=VQHLA@mail.gmail.com>
-Message-ID: <87sfssdms7.fsf@linaro.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=RQjpnHFBXFtW0wlQHFBtBaD/xryHNa0T0Z0C+Ngbl0U=;
+ b=qLtHZxZBxRKs4oUbXTYFCSRGK8h7jTXFdEMUZg2chlWpDkPpYm51dpiOzlNHMLCHeK
+ n7JdsFQ1W36+n0saKkQFOvAimFKYorwHZ+12SMwVtKALPWu045LNCeN3ajrg5FUJ5FT0
+ gjsnMIFr/eC2LTxZ4QjQnY1DZOyBHucjDRrPfGwACa8v769pN+DZKX0D+tXKZfOJ1WNo
+ DqOXiS/1isana8WZvDhpRePV/gdk6WPwxiL6afmCC6p6H7wtblDJaL860TgTgPkPXNDV
+ 192tyro5KfiqH5+3N49kVn7BEeiAIcWX9HDeuuB3GFw7P27Y8FHJorRtZpEKeKHF/0gT
+ cIOQ==
+X-Gm-Message-State: AOAM530xilsVBKC840hUVy5aiQ7m/lTbDyqnCBmXwtwY3YLsecgvjFNs
+ IoKuVeRrrNLosqrR8XnRt4ggipnYmJCwshX+XWx5jE4odCbXC+nEbp9zZKh7K8xPBeBRkcs9mga
+ +BZUb9BFsqK3L/l/1ON36MwZzo68DC+c=
+X-Received: by 2002:a05:6122:d07:: with SMTP id
+ az7mr1100765vkb.35.1644425641623; 
+ Wed, 09 Feb 2022 08:54:01 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJybnmcl3F4+mvAVMy2D0g02sFZn8y9Xo8es0XHeKy2K1fXwjeg4vrzJT/ORm8Lcsqf8n9Oq0ImJNJQNQNWtQg8=
+X-Received: by 2002:a05:6122:d07:: with SMTP id
+ az7mr1100761vkb.35.1644425641420; 
+ Wed, 09 Feb 2022 08:54:01 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::432
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::432;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x432.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+References: <20220207213039.2278569-1-jsnow@redhat.com>
+ <CAFEAcA8Diwoioh6U95Q_c8y+cjsuVRv-VvW89Ngp9a2k47UuiQ@mail.gmail.com>
+In-Reply-To: <CAFEAcA8Diwoioh6U95Q_c8y+cjsuVRv-VvW89Ngp9a2k47UuiQ@mail.gmail.com>
+From: John Snow <jsnow@redhat.com>
+Date: Wed, 9 Feb 2022 11:53:51 -0500
+Message-ID: <CAFn=p-Zzwyg2Rb_Dj24BHGGiUOPtZTY1-4PQ8DerZxW14=PUwQ@mail.gmail.com>
+Subject: Re: [PATCH] Python: discourage direct setup.py install
+To: Peter Maydell <peter.maydell@linaro.org>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/alternative; boundary="00000000000037eb7b05d798ae43"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,66 +90,101 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Keith Packard <keithp@keithp.com>, qemu-arm <qemu-arm@nongnu.org>,
- Andrew Strauss <astrauss11@gmail.com>, QEMU Developers <qemu-devel@nongnu.org>
+Cc: Eduardo Habkost <eduardo@habkost.net>, Cleber Rosa <crosa@redhat.com>,
+ =?UTF-8?Q?Daniel_P_=2E_Berrang=C3=A9?= <berrange@redhat.com>,
+ qemu-devel <qemu-devel@nongnu.org>, Beraldo Leal <bleal@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+--00000000000037eb7b05d798ae43
+Content-Type: text/plain; charset="UTF-8"
 
-Peter Maydell <peter.maydell@linaro.org> writes:
+On Wed, Feb 9, 2022, 8:35 AM Peter Maydell <peter.maydell@linaro.org> wrote:
 
-> On Wed, 23 Jun 2021 at 14:47, Alex Benn=C3=A9e <alex.bennee@linaro.org> w=
-rote:
->>
->> The previous numbers were a guess at best and rather arbitrary without
->> taking into account anything that might be loaded. Instead of using
->> guesses based on the state of registers implement a new function that:
->>
->>  a) scans the MemoryRegions for the largest RAM block
->>  b) iterates through all "ROM" blobs looking for the biggest gap
->>
->> The "ROM" blobs include all code loaded via -kernel and the various
->> -device loader techniques.
->>
->> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
->> Cc: Andrew Strauss <astrauss11@gmail.com>
->> Cc: Keith Packard <keithp@keithp.com>
->> Message-Id: <20210601090715.22330-1-alex.bennee@linaro.org>
+> On Mon, 7 Feb 2022 at 21:34, John Snow <jsnow@redhat.com> wrote:
+> >
+> > When invoking setup.py directly, the default behavior for 'install' is
+> > to run the bdist_egg installation hook, which is ... actually deprecated
+> > by setuptools. It doesn't seem to work quite right anymore.
+> >
+> > By contrast, 'pip install' will invoke the bdist_wheel hook
+> > instead. This leads to differences in behavior for the two approaches. I
+> > advocate using pip in the documentation in this directory, but the
+> > 'setup.py' which has been used for quite a long time in the Python world
+> > may deceptively appear to work at first glance.
+> >
+> > Add an error message that will save a bit of time and frustration
+> > that points the user towards using the supported installation
+> > invocation.
 >
->> @@ -349,4 +349,20 @@ int rom_add_option(const char *file, int32_t bootin=
-dex);
->>   * overflow on real hardware too. */
->>  #define UBOOT_MAX_GUNZIP_BYTES (64 << 20)
->>
-<snip>
->> +static gint sort_secs(gconstpointer a, gconstpointer b)
->> +{
->> +    RomSec *ra =3D (RomSec *) a;
->> +    RomSec *rb =3D (RomSec *) b;
+> While we're on the topic of python installation, is there any way
+> to suppress or otherwise deal with the warning Meson prints out?
 >
-> /*
->  * Sort into address order. We break ties between rom-startpoints
->  * and rom-endpoints in favour of the startpoint, by sorting the 0->1
->  * transition before the 1->0 transition. Either way round would
->  * work, but this way saves a little work later by avoiding
->  * dealing with "gaps" of 0 length.
->  */
+> WARNING: Broken python installation detected. Python files installed
+> by Meson might not be found by python interpreter.
 >
->> +
->> +    if (ra->base =3D=3D rb->base) {
->> +        return ra->se > rb->se ? -1 : 1;
->> +    }
->> +    return ra->base > rb->base ? 1 : -1;
+> (I vaguely recall tracking down a meson bug, and this seems to be
+> some issue the meson developers have with the way Ubuntu/Debian
+> have done their python packaging. But I forget the details.)
 >
-> This has forgotten the "equality" case, which you will
-> see if two blobs start at the same address (at least in
-> theory; at the moment the rom blob loader will try to
-> reject overlaps, though it might not do so forever).
+> thanks
+> -- PMM
+>
 
-I'm confused what you mean by equality case. If both RomSecs have the
-same base and the same se flag we need to pick one of them. Are you
-saying when ra->se =3D=3D ra->sb we should take ra?=20
+Unknown, I don't think I see this message on Fedora. Are you seeing it from
+Debian? I'll see if it shows up in any of the VM build tests.
 
---=20
-Alex Benn=C3=A9e
+>
+
+--00000000000037eb7b05d798ae43
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"auto"><div><br><br><div class=3D"gmail_quote"><div dir=3D"ltr" =
+class=3D"gmail_attr">On Wed, Feb 9, 2022, 8:35 AM Peter Maydell &lt;<a href=
+=3D"mailto:peter.maydell@linaro.org">peter.maydell@linaro.org</a>&gt; wrote=
+:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;bor=
+der-left:1px #ccc solid;padding-left:1ex">On Mon, 7 Feb 2022 at 21:34, John=
+ Snow &lt;<a href=3D"mailto:jsnow@redhat.com" target=3D"_blank" rel=3D"nore=
+ferrer">jsnow@redhat.com</a>&gt; wrote:<br>
+&gt;<br>
+&gt; When invoking setup.py directly, the default behavior for &#39;install=
+&#39; is<br>
+&gt; to run the bdist_egg installation hook, which is ... actually deprecat=
+ed<br>
+&gt; by setuptools. It doesn&#39;t seem to work quite right anymore.<br>
+&gt;<br>
+&gt; By contrast, &#39;pip install&#39; will invoke the bdist_wheel hook<br=
+>
+&gt; instead. This leads to differences in behavior for the two approaches.=
+ I<br>
+&gt; advocate using pip in the documentation in this directory, but the<br>
+&gt; &#39;setup.py&#39; which has been used for quite a long time in the Py=
+thon world<br>
+&gt; may deceptively appear to work at first glance.<br>
+&gt;<br>
+&gt; Add an error message that will save a bit of time and frustration<br>
+&gt; that points the user towards using the supported installation<br>
+&gt; invocation.<br>
+<br>
+While we&#39;re on the topic of python installation, is there any way<br>
+to suppress or otherwise deal with the warning Meson prints out?<br>
+<br>
+WARNING: Broken python installation detected. Python files installed<br>
+by Meson might not be found by python interpreter.<br>
+<br>
+(I vaguely recall tracking down a meson bug, and this seems to be<br>
+some issue the meson developers have with the way Ubuntu/Debian<br>
+have done their python packaging. But I forget the details.)<br>
+<br>
+thanks<br>
+-- PMM<br></blockquote></div></div><div dir=3D"auto"><br></div><div dir=3D"=
+auto">Unknown, I don&#39;t think I see this message on Fedora. Are you seei=
+ng it from Debian? I&#39;ll see if it shows up in any of the VM build tests=
+.</div><div dir=3D"auto"><div class=3D"gmail_quote"><blockquote class=3D"gm=
+ail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-le=
+ft:1ex"></blockquote></div></div></div>
+
+--00000000000037eb7b05d798ae43--
+
 
