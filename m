@@ -2,62 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E99384AF52E
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Feb 2022 16:26:43 +0100 (CET)
-Received: from localhost ([::1]:54666 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 485934AF4A3
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Feb 2022 16:02:55 +0100 (CET)
+Received: from localhost ([::1]:49752 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nHori-0007zx-GB
-	for lists+qemu-devel@lfdr.de; Wed, 09 Feb 2022 10:26:42 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:41684)
+	id 1nHoUg-0000e5-37
+	for lists+qemu-devel@lfdr.de; Wed, 09 Feb 2022 10:02:54 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:43132)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1nHneJ-0004kR-LT
- for qemu-devel@nongnu.org; Wed, 09 Feb 2022 09:08:47 -0500
-Received: from kylie.crudebyte.com ([5.189.157.229]:34501)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nHnhz-0000Bf-Ai
+ for qemu-devel@nongnu.org; Wed, 09 Feb 2022 09:12:35 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:26093)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1nHneH-0003m2-P3
- for qemu-devel@nongnu.org; Wed, 09 Feb 2022 09:08:47 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
- MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
- Content-ID:Content-Description;
- bh=WUoApMU0xyceyEAS6n6K0MFuNgwzFseLF26IiGqQmfU=; b=fnWCTYp9cHRVTl++efaJ1zy0bL
- vTNpmMZlW9iUk0m9ya6k0WqkjVtpuFIwKtW+U8x6rAi2XGskmlPjPLGcow9/iDoJ64LvjBGrmHWNx
- 2uW8m9rrlcNGuAf699CN0QOqzf4GUYoMAyTvMGxy7j+YGDWuTaHRhPkZV77BX0e1Eu5gx8+CKjUmR
- U1Vj9JBpI2cktezKK/egFiV14kLwsSkfLf0AnNaiTJ1T+KkhB55EKACH2JScTZpZ9NFr1M2wsivJr
- UpDHDxxFIW/eX4qdzasiHVVwy2ftzO9pTKOnqh+F4Y7iW+ga/h33rfuqeCNIpzejNTbyAr/ZPbNKS
- X5ccHTTrwtBZ3xBUJnf+9gZVYgLTSAmsj7r/J/U1BhhhLFbexUBtG7sm5Q+aQD4P65g6DYzXc0KJI
- jx+HyAT7Kzw9cGD5/xie/vL6wY51gpCXZLAl6Y5ZC6V3BhpXcJwxRk/qM3NbfezXcfzft2uClcK3D
- bTdfBxPBTaYPyBNUpWvcNWwys4proiK63uSYaWMDQwVPaFBNr60KJ5HzNSrRmjCDNrkv1qGn1jfFm
- sEWCEKxnGUsyQBZ5V+EM6+eJwyZNg3kwjA0yvNX7i7rep7q/6lfSUaD4WJr3Ae2Y6YA71PDDq04KJ
- sOu3VTZYD+y7a+RNbwBrGVAf+2oy39BJUUZIyD1G4=;
-From: Christian Schoenebeck <qemu_oss@crudebyte.com>
-To: qemu-devel@nongnu.org
-Cc: Akihiko Odaki <akihiko.odaki@gmail.com>, Will Cohen <wwcohen@gmail.com>,
- Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Greg Kurz <groug@kaod.org>, hi@alyssa.is,
- Michael Roitzsch <reactorcontrol@icloud.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Keno Fischer <keno@juliacomputing.com>
-Subject: Re: [PATCH v5 09/11] 9p: darwin: Implement compatibility for mknodat
-Date: Wed, 09 Feb 2022 15:08:35 +0100
-Message-ID: <7028769.ONZ7M9ntUb@silver>
-In-Reply-To: <CAMVc7JXB4KUFbMDekXiVTVqT_UQVpy-y6C+Z8caaSC3FRwPjWg@mail.gmail.com>
-References: <20220207224024.87745-1-wwcohen@gmail.com>
- <CAB26zV1VMZOjyn1h3fLd7N0rGWxLihv3tJDtRYn3P7muO-ehiw@mail.gmail.com>
- <CAMVc7JXB4KUFbMDekXiVTVqT_UQVpy-y6C+Z8caaSC3FRwPjWg@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nHnhw-0004gm-R3
+ for qemu-devel@nongnu.org; Wed, 09 Feb 2022 09:12:34 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1644415951;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=SwZOrc4vGAoyn5Ss2MfmHmkCv6MC1tzVHZqrYrXtyTc=;
+ b=E+OXcLdJVy+bseOKxJy9Hsk1j2Z08GuxkwvLjz+BPmhfLX5oZNB/uR42T+dFYnfpYRZXzM
+ 6T0qUQV4Uh20l7o8LLDrTnoCGUvC4KKaJChlYxQU4IWEnGMmZ2lczH7GL19x7f+Iqt4wJ+
+ WZCEPvEQbiZCPUrbBX1nz9nQLUwhYUU=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-117-V9Gut_BhN5KOSa3xYchJuA-1; Wed, 09 Feb 2022 09:12:28 -0500
+X-MC-Unique: V9Gut_BhN5KOSa3xYchJuA-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 48DB43E744;
+ Wed,  9 Feb 2022 14:12:27 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.36.112.3])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 3CCFD7D3D0;
+ Wed,  9 Feb 2022 14:12:13 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id DD3C421E6A00; Wed,  9 Feb 2022 15:12:11 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: Fabian Ebner <f.ebner@proxmox.com>
+Subject: Re: [PATCH v8 1/3] monitor/hmp: add support for flag argument with
+ value
+References: <20220204101220.343526-1-f.ebner@proxmox.com>
+ <20220204101220.343526-2-f.ebner@proxmox.com>
+Date: Wed, 09 Feb 2022 15:12:11 +0100
+In-Reply-To: <20220204101220.343526-2-f.ebner@proxmox.com> (Fabian Ebner's
+ message of "Fri, 4 Feb 2022 11:12:18 +0100")
+Message-ID: <87tud8f7t0.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
-Received-SPF: pass client-ip=5.189.157.229;
- envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -70,70 +81,93 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: w.bumiller@proxmox.com, berrange@redhat.com, qemu-devel@nongnu.org,
+ dgilbert@redhat.com, marcandre.lureau@gmail.com, kraxel@redhat.com,
+ pbonzini@redhat.com, marcandre.lureau@redhat.com, eblake@redhat.com,
+ t.lamprecht@proxmox.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mittwoch, 9. Februar 2022 14:33:25 CET Akihiko Odaki wrote:
-> > I like the idea of switching it to __attribute__((weak)). I should note
-> > that I'm not sure that I can actually fully test this out since I'm
-> > getting stuck with the linker noting my undefined fake function during
-> > the build, but the idea does make logical sense to me for the future fail
-> > case and the happy case builds again when implemented with actual
-> > pthread_fchdir_np:
-> > 
-> > [1075/2909] Linking target qemu-nbd
-> > FAILED: qemu-nbd
-> > cc -m64 -mcx16  -o qemu-nbd qemu-nbd.p/qemu-nbd.c.o -Wl,-dead_strip_dylibs
-> > -Wl,-headerpad_max_install_names -Wl,-undefined,error -Wl,-force_load
-> > libblockdev.fa -Wl,-force_load libblock.fa -Wl,-force_load libcrypto.fa
-> > -Wl,-force_load libauthz.fa -Wl,-force_load libqom.fa -Wl,-force_load
-> > libio.fa -fstack-protector-strong
-> > -Wl,-rpath,/usr/local/Cellar/gnutls/3.7.3/lib
-> > -Wl,-rpath,/usr/local/Cellar/pixman/0.40.0/lib libqemuutil.a
-> > libblockdev.fa libblock.fa libcrypto.fa libauthz.fa libqom.fa libio.fa
-> > @block.syms /usr/local/Cellar/gnutls/3.7.3/lib/libgnutls.dylib -lutil
-> > -L/usr/local/Cellar/glib/2.70.3/lib -L/usr/local/opt/gettext/lib
-> > -lgio-2.0 -lgobject-2.0 -lglib-2.0 -lintl
-> > -L/usr/local/Cellar/glib/2.70.3/lib -L/usr/local/opt/gettext/lib
-> > -lgio-2.0 -lgobject-2.0 -lglib-2.0 -lintl -lm
-> > -L/usr/local/Cellar/glib/2.70.3/lib -L/usr/local/opt/gettext/lib
-> > -lgmodule-2.0 -lglib-2.0 -lintl
-> > /usr/local/Cellar/pixman/0.40.0/lib/libpixman-1.dylib -lz -lxml2
-> > -framework CoreFoundation -framework IOKit -lcurl
-> > -L/usr/local/Cellar/glib/2.70.3/lib -L/usr/local/opt/gettext/lib
-> > -lgmodule-2.0 -lglib-2.0 -lintl -lbz2
-> > /usr/local/Cellar/libssh/0.9.6/lib/libssh.dylib -lpam> 
-> > Undefined symbols for architecture x86_64:
-> >   "_pthread_fchdir_npfoo", referenced from:
-> >       _qemu_mknodat in libblockdev.fa(os-posix.c.o)
-> > 
-> > ld: symbol(s) not found for architecture x86_64
-> > clang: error: linker command failed with exit code 1 (use -v to see
-> > invocation) ninja: build stopped: subcommand failed.
-> > make[1]: *** [run-ninja] Error 1
-> > make: *** [all] Error 2
-> > 
-> > With that caveat re testing in mind, unless there's another recommended
-> > path forward, I think it makes sense to stick with __attribute__((weak))
-> > and prepare v6 which incorporates this and all the other feedback from
-> > this round.
-> __attribute__((weak_import)), which explicitly marks the function as
-> external, is more appropriate here. It is feature-equivalent with the
-> availability attribute when the minimum deployment target is lower
-> than the version which introduced the function.
+Fabian Ebner <f.ebner@proxmox.com> writes:
 
-Thanks for chiming in on this macOS issue Akihiko!
+> From: Stefan Reiter <s.reiter@proxmox.com>
+>
+> Adds support for the "-xV" parameter type, where "-x" denotes a flag
+> name and the "V" suffix indicates that this flag is supposed to take
+> an arbitrary string parameter.
+>
+> These parameters are always optional, the entry in the qdict will be
+> omitted if the flag is not given.
+>
+> Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+> Reviewed-by: Eric Blake <eblake@redhat.com>
+> Signed-off-by: Stefan Reiter <s.reiter@proxmox.com>
+> [FE: fixed typo pointed out by Eric Blake]
+> Signed-off-by: Fabian Ebner <f.ebner@proxmox.com>
+> ---
+>  monitor/hmp.c              | 19 ++++++++++++++++++-
+>  monitor/monitor-internal.h |  3 ++-
+>  2 files changed, 20 insertions(+), 2 deletions(-)
+>
+> diff --git a/monitor/hmp.c b/monitor/hmp.c
+> index b20737e63c..fd4f5866c7 100644
+> --- a/monitor/hmp.c
+> +++ b/monitor/hmp.c
+> @@ -981,6 +981,7 @@ static QDict *monitor_parse_arguments(Monitor *mon,
+>              {
+>                  const char *tmp = p;
+>                  int skip_key = 0;
+> +                int ret;
+>                  /* option */
+>  
+>                  c = *typestr++;
+> @@ -1003,11 +1004,27 @@ static QDict *monitor_parse_arguments(Monitor *mon,
+>                      }
+>                      if (skip_key) {
+>                          p = tmp;
+> +                    } else if (*typestr == 'V') {
+> +                        /* has option with string value */
+> +                        typestr++;
+> +                        tmp = p++;
+> +                        while (qemu_isspace(*p)) {
+> +                            p++;
+> +                        }
+> +                        ret = get_str(buf, sizeof(buf), &p);
+> +                        if (ret < 0) {
+> +                            monitor_printf(mon, "%s: value expected for -%c\n",
+> +                                           cmd->name, *tmp);
+> +                            goto fail;
+> +                        }
+> +                        qdict_put_str(qdict, key, buf);
+>                      } else {
+> -                        /* has option */
+> +                        /* has boolean option */
+>                          p++;
+>                          qdict_put_bool(qdict, key, true);
+>                      }
+> +                } else if (*typestr == 'V') {
+> +                    typestr++;
+>                  }
+>              }
+>              break;
+> diff --git a/monitor/monitor-internal.h b/monitor/monitor-internal.h
+> index 3da3f86c6a..a4cb307c8a 100644
+> --- a/monitor/monitor-internal.h
+> +++ b/monitor/monitor-internal.h
+> @@ -63,7 +63,8 @@
+>   * '.'          other form of optional type (for 'i' and 'l')
+>   * 'b'          boolean
+>   *              user mode accepts "on" or "off"
+> - * '-'          optional parameter (eg. '-f')
+> + * '-'          optional parameter (eg. '-f'); if followed by a 'V', it
+> + *              specifies an optional string param (e.g. '-fV' allows '-f foo')
+>   *
+>   */
 
-Are you sure that "weak_import" is still the preferred way? From behaviour PoV 
-I do not see any difference at all. I can't even tell what the intended 
-difference was, and QEMU currently only seems to use "weak" in the entire code 
-base.
+For what it's worth, getopt() uses ':' after the option character for
+"takes an argument".
 
-Googling around, "weak_import" seems to be required on ancient OS X versions 
-only and that it's now deprecated in favour of the more common "weak", no?
-
-Best regards,
-Christian Schoenebeck
-
+Happy to make that tweak in my tree.  But see my review of PATCH 3
+first.
 
 
