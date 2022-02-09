@@ -2,57 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6695B4AF20E
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Feb 2022 13:47:35 +0100 (CET)
-Received: from localhost ([::1]:39118 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2CC294AF212
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Feb 2022 13:47:49 +0100 (CET)
+Received: from localhost ([::1]:39264 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nHmNh-0007Zd-OI
-	for lists+qemu-devel@lfdr.de; Wed, 09 Feb 2022 07:47:33 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:44168)
+	id 1nHmNv-0007fB-15
+	for lists+qemu-devel@lfdr.de; Wed, 09 Feb 2022 07:47:47 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:44394)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1nHmAz-0003ob-T5; Wed, 09 Feb 2022 07:34:25 -0500
-Received: from kylie.crudebyte.com ([5.189.157.229]:52827)
+ (Exim 4.90_1) (envelope-from <bleal@redhat.com>) id 1nHmBj-0005Es-0e
+ for qemu-devel@nongnu.org; Wed, 09 Feb 2022 07:35:11 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:30532)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1nHmAw-0002p6-9P; Wed, 09 Feb 2022 07:34:25 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
- MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
- Content-ID:Content-Description;
- bh=yT6gjUafrH61VY9rJX9omIrT4XSs2aee0EH3trEm0T4=; b=M0cUzKCkRXG+4/GBfacRleVo/r
- 9LEiRrJJL6p9bNIjnWjwotdSxagb6YNXv8l7/MZu+UFsko+5bRqQZAhwdZasrOkr5iE9FQJHTYxNK
- eCNfh+hmeBIaeoWPZx+YIwhcp9/fK8ObbgPPCuA4DVgihOVSqax5izpYGa9eDRcttK8Be30Hqnrt9
- M2LYRoWNrLu94MAbeOrMqiGcnNO6GheaOgYTNhYltiifLKXFu/dcTvpLA0swvecFUa8Cqv/cWHtb4
- 5RxaLg6khFshJKV1u/2eAIPA+rivUTZV5UlwUJlgsC8TBbevoj0Hc/roK7BXnqxrDzIE0aVQNR9dr
- egSeF9CdgOdxVzYhGnFqyVxHH9pzZW7YiLITLACUSxqzYd78XylmgbOkDHOBuEi5nrPDFsARBpEN8
- cpm5bxHS6ABhBm0t/7Vn6nAwhNEKb8/SI1F5CVEfJjo1KjyMksU8UHUX8zi+hkLq1x/CDLw+dAwLv
- 1bnHpB0oLBcfdWTdglxUNY77zCD9J/zSEycSQ/AtGHDkBptdkEtwy1PLtZ5sRPueZCR83DM3D9YIy
- dbr9l6QUHCnl9aZJ+xj2U2+XU8icttVAYl19/2yeeGcm+sOcM7aaRcOZjCkT+mkHGdmh8q1HJsmDN
- uWqqv8E3wP6U8iSSXVnSXlNIC83krkLSGyiQsiaf4=;
-From: Christian Schoenebeck <qemu_oss@crudebyte.com>
-To: qemu-devel@nongnu.org
-Cc: Vitaly Chikunov <vt@altlinux.org>, Greg Kurz <groug@kaod.org>,
- qemu-stable@nongnu.org, "Dmitry V . Levin" <ldv@altlinux.org>,
- Philippe =?ISO-8859-1?Q?Mathieu=2DDaud=E9?= <f4bug@amsat.org>
-Subject: Re: [PATCH v4] 9pfs: Fix segfault in do_readdir_many caused by struct
- dirent overread
-Date: Wed, 09 Feb 2022 13:34:08 +0100
-Message-ID: <2508467.LGuOOJKFuP@silver>
-In-Reply-To: <20220206013419.849161-1-vt@altlinux.org>
-References: <20220206013419.849161-1-vt@altlinux.org>
+ (Exim 4.90_1) (envelope-from <bleal@redhat.com>) id 1nHmBa-0002w3-JN
+ for qemu-devel@nongnu.org; Wed, 09 Feb 2022 07:35:08 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1644410100;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=7gTl6kBXyargwXm4QGmiQVVKWutm4V0FHEGrtVblFZI=;
+ b=h7SVeNnfdwuzkwKK2UdO7mdmtOriWK7ldoRhBjTHcPdnWZlA0nfEXWaAEpFURAflk4mPqb
+ l5dhvKLtWEgjA4SSF39vUYtKKIaaXSlzwSUezCC6REfLnDKV+6ewXRJ2eYBdlbwsjUaF8g
+ 0GMUyz4knluD62rgsHMAIgVxoIZOYcE=
+Received: from mail-ot1-f72.google.com (mail-ot1-f72.google.com
+ [209.85.210.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-316-97eRSCdIMMKfmnIWdmZMWQ-1; Wed, 09 Feb 2022 07:34:59 -0500
+X-MC-Unique: 97eRSCdIMMKfmnIWdmZMWQ-1
+Received: by mail-ot1-f72.google.com with SMTP id
+ k3-20020a9d4b83000000b005a1871e98cbso1317810otf.10
+ for <qemu-devel@nongnu.org>; Wed, 09 Feb 2022 04:34:59 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=7gTl6kBXyargwXm4QGmiQVVKWutm4V0FHEGrtVblFZI=;
+ b=XBK8wfucu+Mm49C/nP9pxqXFB4uGHB56U9xGV3p3UpeeHjn1kQ2sesSUkNoTqfjiz0
+ IrEk3sVkMxAOzwQ/tb9vzdEGXCOJFeFST7yXtmIIvE9E7V0/Y74eDjtE8mecCkPnAk5X
+ cjl4ZOI9zjVPxHkpf1F7v7ROaOHpqNpCj2+hVUVNyTo/cpW0FSDNgqsV0pprJvFk/HFy
+ WkpAJcUr9fLV78+p++8U564D0pSP/69HIhb0yXN1ph5OBa2bFVTS4GSeAR6KibgusUhJ
+ esqPp1c1wgzQ1CpEJqkSO6lxnBXFEx6QBYuoNlSpml0tOaJFeCGFHUW32H4/IU2Nt8Fe
+ Indg==
+X-Gm-Message-State: AOAM533YZwY3bKGUBZR7qi39nsOUD3rhGDvMhGZgzLBk59PCu/SpFM41
+ HtHJl+kLVGJUVVNGwsZrq3QYJgohOIrLrUpZ+G1OOJFjNvEJN6y9/rFi7RFh4Tg8aI/W2kDTomj
+ UFuEXxLJHGdUuC0M=
+X-Received: by 2002:a05:6808:1247:: with SMTP id
+ o7mr1188062oiv.269.1644410098226; 
+ Wed, 09 Feb 2022 04:34:58 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyhb2AWG/TrKRa7mGZuzMpizTA6VLiC8IFUm/8Dfakv0PDnGOV/oUTzn9JthJiHM55juDgglg==
+X-Received: by 2002:a05:6808:1247:: with SMTP id
+ o7mr1188051oiv.269.1644410097990; 
+ Wed, 09 Feb 2022 04:34:57 -0800 (PST)
+Received: from localhost ([191.181.58.94])
+ by smtp.gmail.com with ESMTPSA id e192sm6832941oob.11.2022.02.09.04.34.56
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 09 Feb 2022 04:34:57 -0800 (PST)
+Date: Wed, 9 Feb 2022 09:34:55 -0300
+From: Beraldo Leal <bleal@redhat.com>
+To: John Snow <jsnow@redhat.com>
+Subject: Re: [PATCH] MAINTAINERS: python - remove ehabkost and add bleal
+Message-ID: <20220209123455.ff256wodqp54zgwy@laptop.redhat>
+References: <20220208000525.2601011-1-jsnow@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
-Received-SPF: pass client-ip=5.189.157.229;
- envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+In-Reply-To: <20220208000525.2601011-1-jsnow@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=bleal@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=bleal@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -65,47 +94,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Eduardo Habkost <eduardo@habkost.net>,
+ Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org,
+ Stefan Hajnoczi <stefanha@redhat.com>, Cleber Rosa <crosa@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sonntag, 6. Februar 2022 02:34:19 CET Vitaly Chikunov wrote:
-> `struct dirent' returned from readdir(3) could be shorter (or longer)
-> than `sizeof(struct dirent)', thus memcpy of sizeof length will overread
-> into unallocated page causing SIGSEGV. Example stack trace:
+On Mon, Feb 07, 2022 at 07:05:25PM -0500, John Snow wrote:
+> Eduardo Habkost has left Red Hat and has other daily responsibilities to
+> attend to. In order to stop spamming him on every series, remove him as
+> "Reviewer" for the python/ library dir and add Beraldo Leal instead.
 > 
->  #0  0x00005555559ebeed v9fs_co_readdir_many (/usr/bin/qemu-system-x86_64 +
-> 0x497eed) #1  0x00005555559ec2e9 v9fs_readdir (/usr/bin/qemu-system-x86_64
-> + 0x4982e9) #2  0x0000555555eb7983 coroutine_trampoline
-> (/usr/bin/qemu-system-x86_64 + 0x963983) #3  0x00007ffff73e0be0 n/a (n/a +
-> 0x0)
+> For the "python scripts" stanza (which is separate due to level of
+> support), replace Eduardo as maintainer with myself.
 > 
-> While fixing, provide a helper for any future `struct dirent' cloning.
+> (Thanks for all of your hard work, Eduardo!)
 > 
-> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/841
-> Cc: qemu-stable@nongnu.org
-> Co-authored-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
-> Reviewed-by: Dmitry V. Levin <ldv@altlinux.org>
-> Signed-off-by: Vitaly Chikunov <vt@altlinux.org>
+> Signed-off-by: John Snow <jsnow@redhat.com>
 > ---
-> Tested on x68-64 Linux with btrfs-progs tests and slow qos-test.
-> Changes since v3:
-> - Update commentary on qemu_dirent_dup logic.
-> - Use g_memdup as suggested by Greg Kurz.
+>  MAINTAINERS | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 > 
->  hw/9pfs/codir.c      |  3 +--
->  include/qemu/osdep.h | 13 +++++++++++++
->  util/osdep.c         | 21 +++++++++++++++++++++
->  3 files changed, 35 insertions(+), 2 deletions(-)
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 9814580975..028ac0de25 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -2735,13 +2735,13 @@ F: backends/cryptodev*.c
+>  Python library
+>  M: John Snow <jsnow@redhat.com>
+>  M: Cleber Rosa <crosa@redhat.com>
+> -R: Eduardo Habkost <eduardo@habkost.net>
+> +R: Beraldo Leal <bleal@redhat.com>
+>  S: Maintained
+>  F: python/
+>  T: git https://gitlab.com/jsnow/qemu.git python
+>  
+>  Python scripts
+> -M: Eduardo Habkost <eduardo@habkost.net>
+> +M: John Snow <jsnow@redhat.com>
+>  M: Cleber Rosa <crosa@redhat.com>
+>  S: Odd Fixes
+>  F: scripts/*.py
 
-Queued on 9p.next:
-https://github.com/cschoenebeck/qemu/commits/9p.next
+Reviewed-by: Beraldo Leal <bleal@redhat.com>
 
-Thanks!
-
-I plan to send a PR with my current queue to Peter tomorrow.
-
-Best regards,
-Christian Schoenebeck
-
+Thanks,
+Beraldo
 
 
