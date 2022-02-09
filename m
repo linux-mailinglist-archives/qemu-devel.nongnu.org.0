@@ -2,59 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 501EA4AEFD2
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Feb 2022 12:12:32 +0100 (CET)
-Received: from localhost ([::1]:32894 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D87B44AEF9F
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Feb 2022 12:05:13 +0100 (CET)
+Received: from localhost ([::1]:46966 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nHktj-0000mM-BO
-	for lists+qemu-devel@lfdr.de; Wed, 09 Feb 2022 06:12:31 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:35042)
+	id 1nHkmd-0000TU-Uw
+	for lists+qemu-devel@lfdr.de; Wed, 09 Feb 2022 06:05:12 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:42708)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1nHkJ7-0002r6-5L
- for qemu-devel@nongnu.org; Wed, 09 Feb 2022 05:34:41 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:49949)
+ (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
+ id 1nHkct-00056P-Fs
+ for qemu-devel@nongnu.org; Wed, 09 Feb 2022 05:55:13 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:60936)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1nHkJ2-0003MR-46
- for qemu-devel@nongnu.org; Wed, 09 Feb 2022 05:34:38 -0500
+ (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
+ id 1nHkcp-0003ul-OG
+ for qemu-devel@nongnu.org; Wed, 09 Feb 2022 05:55:05 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1644402875;
+ s=mimecast20190719; t=1644404102;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=dNOyyvBg/LFiGhZIYL+vmXEfhkyOZh/CdhkUz7BJMlY=;
- b=VaeadthcIDLe5bVTJPb5srwiv0d+bG4Q1JQHavtXCXa8WcAsOkB7oA0qGhtM4vbkr6P2gb
- UZIW/k6gL/r5Z5/h0fh1GJFl5LHsCka93OGIPn6Sfs8+J+cP9EktyP57cMJjoe8AqmHDHv
- caD08MIe5pPMTi8fd9Og5aNXvW+AqDE=
+ content-transfer-encoding:content-transfer-encoding;
+ bh=j8roi+oMP/zOn9+pUupOxt5RNbo1S/W20jjwg6oiFHc=;
+ b=UC1tS3SXFpgThL9/iYD7OWM+9TnwAAYN+M0giSlmXJTLiGL2WnVZG04GlRh6R6ihnDiseE
+ cdbGbT+4b9iiAiQQOa5ENXCIDtGbe51Wo729l0gkBjsY7s1qixgmgTLUsX46ephvQlBSd2
+ iT7+fWqq9GFCPdtDRkXjBXGUGEbl/Vk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-507-_bxJcRzAP7238tFbarkIMw-1; Wed, 09 Feb 2022 05:34:31 -0500
-X-MC-Unique: _bxJcRzAP7238tFbarkIMw-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-356-ul6erL8TMvywqjLfNePXdw-1; Wed, 09 Feb 2022 05:54:59 -0500
+X-MC-Unique: ul6erL8TMvywqjLfNePXdw-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 41E4F874980;
- Wed,  9 Feb 2022 10:34:30 +0000 (UTC)
-Received: from localhost (unknown [10.39.193.233])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C462B7B6D4;
- Wed,  9 Feb 2022 10:33:58 +0000 (UTC)
-Date: Wed, 9 Feb 2022 10:33:57 +0000
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Elena Ufimtseva <elena.ufimtseva@oracle.com>
-Subject: Re: [RFC 0/8] ioregionfd introduction
-Message-ID: <YgOYlWl8akWuUCEM@stefanha-x1.localdomain>
-References: <cover.1644302411.git.elena.ufimtseva@oracle.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 577B886A8AD;
+ Wed,  9 Feb 2022 10:54:56 +0000 (UTC)
+Received: from virtlab701.virt.lab.eng.bos.redhat.com
+ (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E64ED5F6A9;
+ Wed,  9 Feb 2022 10:54:53 +0000 (UTC)
+From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+To: qemu-block@nongnu.org
+Subject: [PATCH 0/5] block layer: permission API refactoring in preparation
+Date: Wed,  9 Feb 2022 05:54:47 -0500
+Message-Id: <20220209105452.1694545-1-eesposit@redhat.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="MJAyuJFmPBQhQxDg"
-Content-Disposition: inline
-In-Reply-To: <cover.1644302411.git.elena.ufimtseva@oracle.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eesposit@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eesposit@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -75,42 +77,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: eduardo@habkost.net, john.g.johnson@oracle.com, cohuck@redhat.com,
- jag.raman@oracle.com, john.levon@nutanix.com, eblake@redhat.com,
- david@redhat.com, qemu-devel@nongnu.org, peterx@redhat.com, armbru@redhat.com,
- mst@redhat.com, berrange@redhat.com, pbonzini@redhat.com, philmd@redhat.com
+Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org,
+ Markus Armbruster <armbru@redhat.com>,
+ Daniel Henrique Barboza <danielhb413@gmail.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Greg Kurz <groug@kaod.org>, Hanna Reitz <hreitz@redhat.com>,
+ qemu-ppc@nongnu.org, =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Emanuele Giuseppe Esposito <eesposit@redhat.com>,
+ "Denis V. Lunev" <den@openvz.org>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+This serie aims to refactoring and fixing permission API related bugs that came
+up in the serie "block layer: split block APIs in global state and I/O".
+In that serie, we are splitting all block layer headers in
+Global State (GS) APIs, holding always the BQL and running in the
+main loop, and I/O running in iothreads.
 
---MJAyuJFmPBQhQxDg
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+The patches in this serie are taken from v6 of the API split,
+to reduce its size and apply these fixes independently.
 
-On Mon, Feb 07, 2022 at 11:22:14PM -0800, Elena Ufimtseva wrote:
-> This patchset is an RFC version for the ioregionfd implementation
-> in QEMU. The kernel patches are to be posted with some fixes as a v4.
+Patches 1 and 2 take care of crypto and amend jobs, since they
+incorrectly use the permission API also in iothreads.
+Patches 3-4-5 take care of bdrv_invalidate_cache and callers,
+since this function checks too for permisisons while being
+called by an iothread.
 
-Hi Elena,
-I will review this on Monday. Thanks!
+Emanuele Giuseppe Esposito (5):
+  crypto: perform permission checks under BQL
+  crypto: distinguish between main loop and I/O in
+    block_crypto_amend_options_generic_luks
+  block: introduce bdrv_activate
+  block: rename bdrv_invalidate_cache_all, blk_invalidate_cache and
+    test_sync_op_invalidate_cache
+  block: move BQL logic of bdrv_co_invalidate_cache in bdrv_activate
 
-Stefan
+ block.c                          | 38 +++++++++++++-------
+ block/amend.c                    | 24 +++++++++++++
+ block/block-backend.c            |  4 +--
+ block/crypto.c                   | 62 +++++++++++++++++++++-----------
+ block/export/export.c            |  2 +-
+ block/parallels.c                |  2 +-
+ hw/block/pflash_cfi01.c          |  2 +-
+ hw/nvram/spapr_nvram.c           |  2 +-
+ include/block/block.h            |  3 +-
+ include/block/block_int.h        | 14 ++++++++
+ include/sysemu/block-backend.h   |  2 +-
+ migration/block.c                |  2 +-
+ migration/migration.c            | 14 ++++----
+ migration/savevm.c               |  6 ++--
+ monitor/qmp-cmds.c               |  2 +-
+ tests/unit/test-block-iothread.c |  8 ++---
+ 16 files changed, 131 insertions(+), 56 deletions(-)
 
---MJAyuJFmPBQhQxDg
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmIDmJUACgkQnKSrs4Gr
-c8jsAAf/a9gUfDwMtkUdnRKycEWPLHt+ZA7z9HAOC7IMcWTEn/6lAZohHGJKw9Nl
-1Luux4q0Yh7FRvdM/011BqvE+eAdx8dQ91wna/vDlk90dU+kOSUKVQwS/Y40a+/O
-512QqyVeStFgl4USMLYqIVqaIeQWK6CJDpCuGem/nB4kFVhUF63qrXf6jInALk7s
-U8eOHA+17QQU8ciHbNxOWsmZPJX3dAGbGoH4qe3zvMqMdFzcWz72nmtRyQyoZbXI
-V2ZfFUjpBgHCYG5gaJKYNFn26546FtvKfX0GWjrLEI30sg8A1iPlkGmwMCrF+F8I
-ELRHNutPUFaDH5yxo65wHDv1mbPYOw==
-=YkVG
------END PGP SIGNATURE-----
-
---MJAyuJFmPBQhQxDg--
+-- 
+2.31.1
 
 
