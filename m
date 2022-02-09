@@ -2,55 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E8CC4AED15
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Feb 2022 09:50:15 +0100 (CET)
-Received: from localhost ([::1]:56904 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 94A904AED83
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Feb 2022 10:04:05 +0100 (CET)
+Received: from localhost ([::1]:36150 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nHig1-0003Zg-T7
-	for lists+qemu-devel@lfdr.de; Wed, 09 Feb 2022 03:50:13 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:38702)
+	id 1nHitP-0001Ll-Va
+	for lists+qemu-devel@lfdr.de; Wed, 09 Feb 2022 04:04:04 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:38018)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1nHhhl-0003gc-Fj
- for qemu-devel@nongnu.org; Wed, 09 Feb 2022 02:48:07 -0500
-Received: from 4.mo548.mail-out.ovh.net ([188.165.42.229]:45121)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1nHhep-0003P7-DR
+ for qemu-devel@nongnu.org; Wed, 09 Feb 2022 02:44:57 -0500
+Received: from 3.mo548.mail-out.ovh.net ([188.165.32.156]:48053)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1nHhhI-0006oz-1O
- for qemu-devel@nongnu.org; Wed, 09 Feb 2022 02:47:48 -0500
-Received: from mxplan5.mail.ovh.net (unknown [10.108.16.163])
- by mo548.mail-out.ovh.net (Postfix) with ESMTPS id BC66420FB8;
- Wed,  9 Feb 2022 07:46:26 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1nHhek-0005eu-S2
+ for qemu-devel@nongnu.org; Wed, 09 Feb 2022 02:44:53 -0500
+Received: from mxplan5.mail.ovh.net (unknown [10.108.20.180])
+ by mo548.mail-out.ovh.net (Postfix) with ESMTPS id 5B5FB20F34;
+ Wed,  9 Feb 2022 07:44:36 +0000 (UTC)
 Received: from kaod.org (37.59.142.105) by DAG4EX1.mxp5.local (172.16.2.31)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.18; Wed, 9 Feb
- 2022 08:46:25 +0100
+ 2022 08:44:35 +0100
 Authentication-Results: garm.ovh; auth=pass
- (GARM-105G00631783126-42ba-4eeb-a8da-124be7c89f8d,
+ (GARM-105G006691d3ddc-5c08-425e-9d28-cbf15ef90c06,
  D657DFC387B0B0E2C5DD546C0716E11BBFCF4DEE) smtp.auth=clg@kaod.org
 X-OVh-ClientIp: 90.76.223.183
-Message-ID: <0cce86e2-1efe-cf4a-2052-87f2b35c98ae@kaod.org>
-Date: Wed, 9 Feb 2022 08:46:25 +0100
+Message-ID: <591aedba-0cc8-0907-f55f-1366dfb8b7d3@kaod.org>
+Date: Wed, 9 Feb 2022 08:44:29 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.3.0
-Subject: Re: [PATCH qemu] spapr/vof: Install rom and nvram binaries
+Subject: Re: [PATCH v2 00/10] target/ppc: powerpc_excp improvements [7xx] (8/n)
 Content-Language: en-US
-To: Alexey Kardashevskiy <aik@ozlabs.ru>, <qemu-devel@nongnu.org>
-References: <20220208103751.1587902-1-aik@ozlabs.ru>
+To: Fabiano Rosas <farosas@linux.ibm.com>, <qemu-devel@nongnu.org>
+References: <20220204173430.1457358-1-farosas@linux.ibm.com>
 From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <20220208103751.1587902-1-aik@ozlabs.ru>
+In-Reply-To: <20220204173430.1457358-1-farosas@linux.ibm.com>
 Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
 X-Originating-IP: [37.59.142.105]
-X-ClientProxiedBy: DAG6EX2.mxp5.local (172.16.2.52) To DAG4EX1.mxp5.local
+X-ClientProxiedBy: DAG4EX1.mxp5.local (172.16.2.31) To DAG4EX1.mxp5.local
  (172.16.2.31)
-X-Ovh-Tracer-GUID: accac4ec-296d-459c-b43f-81475574c1e8
-X-Ovh-Tracer-Id: 8165589077622361053
+X-Ovh-Tracer-GUID: 7cf41642-8553-47ec-b4fe-c5e7665d1b7b
+X-Ovh-Tracer-Id: 8134626827225107363
 X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: 0
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvvddrheekgddutdekucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucenucfjughrpefkffggfgfuvfhfhfgjtgfgihesthejredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpefhhfelgeeukedtteffvdffueeiuefgkeekleehleetfedtgfetffefheeugeelheenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddtheenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdpnhgspghrtghpthhtohepuddprhgtphhtthhopehqvghmuhdqphhptgesnhhonhhgnhhurdhorhhg
-Received-SPF: pass client-ip=188.165.42.229; envelope-from=clg@kaod.org;
- helo=4.mo548.mail-out.ovh.net
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvvddrheekgddutdejucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvfhfhjggtgfhisehtjeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepjedtiedvueekffejtdfhvdfhhfevteefffdtteetueevuefhieekgeeuteffledtnecuffhomhgrihhnpehgihhtlhgrsgdrtghomhdpnhhonhhgnhhurdhorhhgnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrddutdehnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhnsggprhgtphhtthhopedupdhrtghpthhtohepuggrnhhivghlhhgsgedufeesghhmrghilhdrtghomh
+Received-SPF: pass client-ip=188.165.32.156; envelope-from=clg@kaod.org;
+ helo=3.mo548.mail-out.ovh.net
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -69,33 +69,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org
+Cc: danielhb413@gmail.com, qemu-ppc@nongnu.org, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/8/22 11:37, Alexey Kardashevskiy wrote:
-> This installs VOF-related binaries (the firmware and the preformatted
-> NVRAM) as those were left out when the VOF was submitted initially.
+On 2/4/22 18:34, Fabiano Rosas wrote:
+> This series handles the 7xx family: 740, 745, 750, 750cl, 750cx,
+> 750fx, 750gx and 755.
 > 
-> Fixes: fc8c745d5015 ("spapr: Implement Open Firmware client interface")
-> Signed-off-by: Alexey Kardashevskiy <aik@ozlabs.ru>
-> ---
->   pc-bios/meson.build | 2 ++
->   1 file changed, 2 insertions(+)
+> changes from v1:
 > 
-> diff --git a/pc-bios/meson.build b/pc-bios/meson.build
-> index 4ac7a5509b69..c86dedf7dff9 100644
-> --- a/pc-bios/meson.build
-> +++ b/pc-bios/meson.build
-> @@ -81,6 +81,8 @@ blobs = files(
->     'opensbi-riscv32-generic-fw_dynamic.bin',
->     'opensbi-riscv64-generic-fw_dynamic.bin',
->     'npcm7xx_bootrom.bin',
-> +  'vof.bin',
-> +  'vof-nvram.bin',
->   )
->   
->   if get_option('install_blobs')
+> - add back sc 1 support for pegasos2. I have opened an issue to track
+>    this: https://gitlab.com/qemu-project/qemu/-/issues/859
+> 
+> v1:
+> https://lists.nongnu.org/archive/html/qemu-ppc/2022-02/msg00043.html
+> 
+> Fabiano Rosas (10):
+>    target/ppc: Merge 7x5 and 7x0 exception model IDs
+>    target/ppc: Introduce powerpc_excp_7xx
+>    target/ppc: Simplify powerpc_excp_7xx
+>    target/ppc: 7xx: Machine Check exception cleanup
+>    target/ppc: 7xx: External interrupt cleanup
+>    target/ppc: 7xx: Program exception cleanup
+>    target/ppc: 7xx: System Call exception cleanup
+>    target/ppc: 7xx: System Reset cleanup
+>    target/ppc: 7xx: Software TLB cleanup
+>    target/ppc: 7xx: Set SRRs directly in exception code
+> 
+>   target/ppc/cpu-qom.h     |   6 +-
+>   target/ppc/cpu_init.c    |  16 +--
+>   target/ppc/excp_helper.c | 207 ++++++++++++++++++++++++++++++++++++++-
+>   3 files changed, 216 insertions(+), 13 deletions(-)
 > 
 
 
