@@ -2,62 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 696574AEF81
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Feb 2022 11:48:45 +0100 (CET)
-Received: from localhost ([::1]:60188 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 018BD4AEF8F
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Feb 2022 11:53:56 +0100 (CET)
+Received: from localhost ([::1]:39978 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nHkWi-0005zY-41
-	for lists+qemu-devel@lfdr.de; Wed, 09 Feb 2022 05:48:44 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:58264)
+	id 1nHkbi-0003eP-Om
+	for lists+qemu-devel@lfdr.de; Wed, 09 Feb 2022 05:53:54 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:34124)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nHk1M-0003Of-TX
- for qemu-devel@nongnu.org; Wed, 09 Feb 2022 05:16:21 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:26673)
+ (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
+ id 1nHkFC-00070Q-CE
+ for qemu-devel@nongnu.org; Wed, 09 Feb 2022 05:30:38 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:36539)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nHk1K-0004xl-Mz
- for qemu-devel@nongnu.org; Wed, 09 Feb 2022 05:16:20 -0500
+ (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
+ id 1nHkF9-0002oR-1z
+ for qemu-devel@nongnu.org; Wed, 09 Feb 2022 05:30:36 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1644401777;
+ s=mimecast20190719; t=1644402631;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=JaHUvzjFbj1WpZOCy8SCdLGzCdMLYST/KTk2UyzmokA=;
- b=hST+pjvvJ0wiLK55v8m4vgnoX5wnbY1IPawfY/bHqoPVx2TLKCJ5aUoyZ6xSIZ0KFYrVWB
- HO9kmGql8brpNEf25OS7mvn7ZNBym2uUwa5Nke/B8feHe+nuSr/YJQL2YeQNvESz04nGON
- AhcqW65ya3GEusVo1QfzUh2ebdHyq28=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=nAvwtPb3s9sVeSO+W3MxfAcX9bWNXjvDWeMiIpP3PjI=;
+ b=OnN5WLn+7qaZhf4nYow+s0rG8s5qJbYL7QStgjQ49FAdp7798KjQbuRRskwZuVgBlyqeM6
+ KHS6DVkhzqBdK6bXUlM2mawdBGvlW1RvZ2mSHnLob52cQuufrIg0sGI81T5TblzF9vgtO6
+ PRCgWW2UbXlcRGXd+yq41QOK5YdgcOM=
+Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
+ [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-195-PFWR95YxMoihU3LhvcDyAg-1; Wed, 09 Feb 2022 05:16:14 -0500
-X-MC-Unique: PFWR95YxMoihU3LhvcDyAg-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4659F1019983;
- Wed,  9 Feb 2022 10:16:13 +0000 (UTC)
-Received: from thuth.com (unknown [10.39.192.117])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A8BDB2856C;
- Wed,  9 Feb 2022 10:16:10 +0000 (UTC)
-From: Thomas Huth <thuth@redhat.com>
-To: qemu-block@nongnu.org, Hanna Reitz <hreitz@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>
-Subject: [PATCH v2 8/8] tests: Remove check-block.sh
-Date: Wed,  9 Feb 2022 11:15:30 +0100
-Message-Id: <20220209101530.3442837-9-thuth@redhat.com>
-In-Reply-To: <20220209101530.3442837-1-thuth@redhat.com>
-References: <20220209101530.3442837-1-thuth@redhat.com>
+ us-mta-319-dAr3me0AOKiI0g1RcifyNQ-1; Wed, 09 Feb 2022 05:30:30 -0500
+X-MC-Unique: dAr3me0AOKiI0g1RcifyNQ-1
+Received: by mail-ej1-f71.google.com with SMTP id
+ z26-20020a1709067e5a00b006cbe0628826so980881ejr.10
+ for <qemu-devel@nongnu.org>; Wed, 09 Feb 2022 02:30:29 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=nAvwtPb3s9sVeSO+W3MxfAcX9bWNXjvDWeMiIpP3PjI=;
+ b=ih38S8wx1CN9BGg7bdobt6uwdlddQ0X3LW4O2b78U1gjp1tYrZ/+VGE2j+5ffDwpwS
+ XG6TKymrAcfm44Tnzarb3LlvjUFciY49IZDZWopVFlldoy3RX1GezfYV/SZTSd293r7P
+ 1215MBjnpEKq49WsixwKTUuwM+nNNS5R76SQhlTUoq5N+lhYhccLCWdaMA1rVM8jvYAP
+ atMZQ6BjKIjLvvsyMZxlEmldHDIbBJsWKECW55LUeb1Ameyx2kO1VXM8/3eSayLzeRn5
+ 3UBTB53M/VGfXJGVWg9PpWmLj2hRfhhu+2lVROHUYOlfqRUnXmN3+T26aUvH+pPxD5fe
+ 9zyQ==
+X-Gm-Message-State: AOAM532AaAhirQAjn+EbzWLF/0xesItnq5nhj418QveySV6gpF4sFanS
+ Z7dYZRJckhh58zIYDWLtT6fw8Dt1mu63U94gkOLEbYIjmq3h0YIq5WAWPofH3FLzwxVRyqKQeyu
+ /H4HUrgynyj7UKYo=
+X-Received: by 2002:a17:907:72d0:: with SMTP id
+ du16mr1298264ejc.506.1644402628954; 
+ Wed, 09 Feb 2022 02:30:28 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzW6Ybo6neLKyFdbG0DIXv+A9eQR9rzkjudxTDa5B/ATKgE/bNrij7vtsRRxABqCJfBHQEFmQ==
+X-Received: by 2002:a17:907:72d0:: with SMTP id
+ du16mr1298243ejc.506.1644402628676; 
+ Wed, 09 Feb 2022 02:30:28 -0800 (PST)
+Received: from gator (cst2-173-70.cust.vodafone.cz. [31.30.173.70])
+ by smtp.gmail.com with ESMTPSA id qf6sm1918676ejc.113.2022.02.09.02.30.28
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 09 Feb 2022 02:30:28 -0800 (PST)
+Date: Wed, 9 Feb 2022 11:30:26 +0100
+From: Andrew Jones <drjones@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PATCH 0/6] target/arm: -cpu host/max KVM and HVF fixes
+Message-ID: <20220209103026.sf2tcko2w5govafq@gator>
+References: <20220204165506.2846058-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+In-Reply-To: <20220204165506.2846058-1-peter.maydell@linaro.org>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=drjones@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=drjones@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -78,100 +96,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
- qemu-devel@nongnu.org
+Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org,
+ Alexander Graf <agraf@csgraf.de>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Now that the iotests are added by the meson.build file already,
-we do not need the check-block.sh wrapper script anymore.
+On Fri, Feb 04, 2022 at 04:55:00PM +0000, Peter Maydell wrote:
+> This patchset fixes various minor bugs in KVM and HVF
+> -cpu host and -cpu max:
+> 
+> (1) KVM -cpu max was incorrectly adding a 'sve-max-vq' property
+> that wouldn't work and which doesn't exist in KVM -cpu host
+> 
+> (2) HVF -cpu max was using all the TCG ID fields and thus
+> promising the guest more than the host CPU can actually do
+> 
+> (3) HVF -cpu host wasn't setting up the PAuth properties, so
+> it defaulted to not telling the guest about PAuth support
+> 
+> This series fixes (1) by moving the '-cpu host' code to
+> cpu64.c since it's aarch64-specific anyway, which lets us
+> reuse it from the '-cpu max' init function. It fixes
+> (2) and (3) mostly by making HVF use the same bits of code
+> that KVM does for -cpu max and PAuth.
+> 
+> thanks
+> -- PMM
+> 
+> Peter Maydell (6):
+>   target/arm: Move '-cpu host' code to cpu64.c
+>   target/arm: Use aarch64_cpu_register() for 'host' CPU type
+>   target/arm: Make KVM -cpu max exactly like -cpu host
+>   target/arm: Unindent unnecessary else-clause
+>   target/arm: Fix '-cpu max' for HVF
+>   target/arm: Support PAuth extension for hvf
+> 
+>  target/arm/cpu.c   |  30 -----
+>  target/arm/cpu64.c | 330 +++++++++++++++++++++++++--------------------
+>  2 files changed, 181 insertions(+), 179 deletions(-)
+> 
+> -- 
+> 2.25.1
+>
 
-Signed-off-by: Thomas Huth <thuth@redhat.com>
----
- tests/check-block.sh | 73 --------------------------------------------
- 1 file changed, 73 deletions(-)
- delete mode 100755 tests/check-block.sh
+For the series
+ 
+Reviewed-by: Andrew Jones <drjones@redhat.com>
 
-diff --git a/tests/check-block.sh b/tests/check-block.sh
-deleted file mode 100755
-index af0c574812..0000000000
---- a/tests/check-block.sh
-+++ /dev/null
-@@ -1,73 +0,0 @@
--#!/bin/sh
--
--if [ "$#" -eq 0 ]; then
--    echo "Usage: $0 fmt..." >&2
--    exit 99
--fi
--
--# Honor the SPEED environment variable, just like we do it for "meson test"
--format_list="$@"
--if [ "$SPEED" = "slow" ] || [ "$SPEED" = "thorough" ]; then
--    group=
--else
--    group="-g auto"
--fi
--
--skip() {
--    echo "1..0 #SKIP $*"
--    exit 0
--}
--
--if grep -q "CONFIG_GPROF=y" config-host.mak 2>/dev/null ; then
--    skip "GPROF is enabled ==> Not running the qemu-iotests."
--fi
--
--# Disable tests with any sanitizer except for specific ones
--SANITIZE_FLAGS=$( grep "CFLAGS.*-fsanitize" config-host.mak 2>/dev/null )
--ALLOWED_SANITIZE_FLAGS="safe-stack cfi-icall"
--#Remove all occurrencies of allowed Sanitize flags
--for j in ${ALLOWED_SANITIZE_FLAGS}; do
--    TMP_FLAGS=${SANITIZE_FLAGS}
--    SANITIZE_FLAGS=""
--    for i in ${TMP_FLAGS}; do
--        if ! echo ${i} | grep -q "${j}" 2>/dev/null; then
--            SANITIZE_FLAGS="${SANITIZE_FLAGS} ${i}"
--        fi
--    done
--done
--if echo ${SANITIZE_FLAGS} | grep -q "\-fsanitize" 2>/dev/null; then
--    # Have a sanitize flag that is not allowed, stop
--    skip "Sanitizers are enabled ==> Not running the qemu-iotests."
--fi
--
--if [ -z "$(find . -name 'qemu-system-*' -print)" ]; then
--    skip "No qemu-system binary available ==> Not running the qemu-iotests."
--fi
--
--if ! command -v bash >/dev/null 2>&1 ; then
--    skip "bash not available ==> Not running the qemu-iotests."
--fi
--
--if LANG=C bash --version | grep -q 'GNU bash, version [123]' ; then
--    skip "bash version too old ==> Not running the qemu-iotests."
--fi
--
--cd tests/qemu-iotests
--
--# QEMU_CHECK_BLOCK_AUTO is used to disable some unstable sub-tests
--export QEMU_CHECK_BLOCK_AUTO=1
--export PYTHONUTF8=1
--# If make was called with -jN we want to call ./check with -j N. Extract the
--# flag from MAKEFLAGS, so that if it absent (or MAKEFLAGS is not defined), JOBS
--# would be an empty line otherwise JOBS is prepared string of flag with value:
--# "-j N"
--# Note, that the following works even if make was called with "-j N" or even
--# "--jobs N", as all these variants becomes simply "-jN" in MAKEFLAGS variable.
--JOBS=$(echo "$MAKEFLAGS" | sed -n 's/\(^\|.* \)-j\([0-9]\+\)\( .*\|$\)/-j \2/p')
--
--ret=0
--for fmt in $format_list ; do
--    ${PYTHON} ./check $JOBS -tap -$fmt $group || ret=1
--done
--
--exit $ret
--- 
-2.27.0
+Thanks,
+drew
 
 
