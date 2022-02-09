@@ -2,98 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33C6D4AF00A
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Feb 2022 12:40:23 +0100 (CET)
-Received: from localhost ([::1]:37254 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D50FD4AF00D
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Feb 2022 12:45:06 +0100 (CET)
+Received: from localhost ([::1]:41772 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nHlKg-0007dx-BZ
-	for lists+qemu-devel@lfdr.de; Wed, 09 Feb 2022 06:40:22 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:53360)
+	id 1nHlPF-0002Rc-Vw
+	for lists+qemu-devel@lfdr.de; Wed, 09 Feb 2022 06:45:06 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:55334)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1nHlD8-0003Ez-RW
- for qemu-devel@nongnu.org; Wed, 09 Feb 2022 06:32:39 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:53978)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1nHlD5-00073g-4F
- for qemu-devel@nongnu.org; Wed, 09 Feb 2022 06:32:32 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1644406349;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=32GIZ5YTh+Q/cB96MQrFU5f1KAH21GWn6uAP2AdhsAc=;
- b=G15OBtoXnNSuQk59MGaUe/b0fPlyV/O1jHEsUHgEna13itje/i/t8/SPvcr0IeTc6nW38m
- iMF8pi+/8W0RF5DcpsYdH6yBqihyZuvu/XSo3D5ryvsSwFFGarDIipeh+EDiQyA2AyXyTd
- RHouAOb/DPvqjoEjwgfFj2DnltsKH1g=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-403-44TyLR2RNwKQyOWkagYTJQ-1; Wed, 09 Feb 2022 06:32:28 -0500
-X-MC-Unique: 44TyLR2RNwKQyOWkagYTJQ-1
-Received: by mail-wr1-f70.google.com with SMTP id
- j8-20020adfa548000000b001e33074ac51so993319wrb.11
- for <qemu-devel@nongnu.org>; Wed, 09 Feb 2022 03:32:28 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nHlJg-0007eE-Kc
+ for qemu-devel@nongnu.org; Wed, 09 Feb 2022 06:39:20 -0500
+Received: from [2a00:1450:4864:20::42c] (port=46802
+ helo=mail-wr1-x42c.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nHlJf-00023q-0w
+ for qemu-devel@nongnu.org; Wed, 09 Feb 2022 06:39:20 -0500
+Received: by mail-wr1-x42c.google.com with SMTP id q7so3440539wrc.13
+ for <qemu-devel@nongnu.org>; Wed, 09 Feb 2022 03:39:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=OPAC9e1APmgXVnMmAPszGZOswHSCbyzNs7Jky8jNi+E=;
+ b=pud6DW/pvIu77/f07W0DKw1LxbuSYIqRbtBCMR5VZqNM9OL678xen7sZXDgrY3iaZr
+ 47OtKGuGZ07L1wiOt0gWccLjaFRmAvGFtzjx40YmvfDATcL1S9VvHiFfV4oQpWUDO5Kx
+ 03Ozrj3g24Z/Z5LceHSoDQCEljtinaAqxsJPO1Jx3r5js9d2OZZ6t87iycp4LUjqs2wp
+ pKofaJFjcJFZeDaYnDCm0jJ3hdNvgAoLN/i0sWxSV+m0Zq0zrHVp87ZZgDcu2hhKwOSL
+ G6yVcJagXce+S2KsU0frelhCDJPRGsVtwxDki+XkCECcRQpJgP4k1Y7Vnkcrqy73CkSj
+ bIAw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:reply-to:subject:to:cc:references:from
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-transfer-encoding:content-language;
- bh=32GIZ5YTh+Q/cB96MQrFU5f1KAH21GWn6uAP2AdhsAc=;
- b=DPFrhjNrA+Ok6qif3t+aSX0TaaupmEPFUJjXOtBtS2ScMZrxcJoKl4K38oJFsBGFra
- PAHxcYB8qtTOwOxUJAX8tb+sZ8YFBaa3oulkbcdR7QhH33ZMFmipSdLGFoyRoj4WHcfg
- o6O3rbtXLUoj1GPvO47tIvv9PM5MT52SaVcjffj1eKsT71ZBTmbrBJoWcPK+D7F2afHG
- 8boK7cqALP77CfFAB7Dv8ow/fShsPcztJ5Q1hquLldLi99P2oBx27OcS8zZ6JeN8ePAl
- 3sVE6HTwqC/yx9ILzHh4jGsddAIdnSefARs+lrt6hxYV/UM5EJQBqw/T5hCSXRGoaUr5
- FQyw==
-X-Gm-Message-State: AOAM530ILtpN1gHhzNq6uTJPR1jUy+9dJ4nDuRe7YWWf1DhE6k6XbfNv
- i4pKNbBVh7lhDVXqVtkgfsvCHszZdVrB4fy9Vf74DZmo0/rjv7VYuqna4694y8zzdTLtJ29AtHl
- xC9a8sXTVVNh54VU=
-X-Received: by 2002:a05:6000:4b:: with SMTP id
- k11mr1707209wrx.144.1644406346862; 
- Wed, 09 Feb 2022 03:32:26 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwqtLFjr8nzOQD6hTBSdfXr5jcqT/vBKK73yy5LwJB3Lvb6oHGZx7sEJxjhZRe6wdrc/gbYmw==
-X-Received: by 2002:a05:6000:4b:: with SMTP id
- k11mr1707192wrx.144.1644406346666; 
- Wed, 09 Feb 2022 03:32:26 -0800 (PST)
-Received: from ?IPv6:2a01:e0a:59e:9d80:527b:9dff:feef:3874?
- ([2a01:e0a:59e:9d80:527b:9dff:feef:3874])
- by smtp.gmail.com with ESMTPSA id az21sm4529849wmb.11.2022.02.09.03.32.22
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 09 Feb 2022 03:32:26 -0800 (PST)
-Subject: Re: [PATCH v2 2/4] virtio-iommu: Default to bypass during boot
-To: Cornelia Huck <cohuck@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>
-References: <20220127142940.671333-1-jean-philippe@linaro.org>
- <20220127142940.671333-3-jean-philippe@linaro.org>
- <87wni5tftq.fsf@redhat.com> <20220208160642-mutt-send-email-mst@kernel.org>
- <87r18cthwd.fsf@redhat.com>
-From: Eric Auger <eric.auger@redhat.com>
-Message-ID: <6dbd9ef6-99da-850a-114d-53486c91a05f@redhat.com>
-Date: Wed, 9 Feb 2022 12:32:13 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=OPAC9e1APmgXVnMmAPszGZOswHSCbyzNs7Jky8jNi+E=;
+ b=klkcr/PXRF5oY7kV9O09YKSGVGMAEZMvVEQNgVei61r49oFaakqOWXR4FZVMMkRbN5
+ fj2FsoOjW+2ovxwzw+WP2/WwBXKJLJdRpA/zNcRDa10Pu5X7s9VJZiZFhb9Wmvr+6IAz
+ 9WoyvAC9tQnR1G7B2idsMDzmHF13KHvk1hVr28Lr8rSJt8V4Bj4go4BDLF/+cqkDRUHr
+ 7yBQWrIu/jvqFfWo6QuCTd3jAb071B1aLQMqDbz1OJjNwO9nT2x2jNaZfEYG2DBCxpae
+ RomBGlj+HEeG/BkkA0LQWSBR9qEFsDI8hO9Y6uhPNDza5vJWQugSa1eKYPVcGXSdKnhq
+ d9Ug==
+X-Gm-Message-State: AOAM531XIkwgk2v+xXk+jAPu5GtXJJBms2o0dNwPPG0+XOXV21GL7Wuu
+ qyBITuIVHHRklS8Al5j2Q5agJ9JasJb2G6RwWFLV7g==
+X-Google-Smtp-Source: ABdhPJxfsfhQCJaP70a0QcrcHrDVNOzmuZsiLSsg3pbUnxaLiM4QZQk4RBx0ZjGEEwiMiq4xHhfv4Q+mlrHDfVZjDvs=
+X-Received: by 2002:a5d:6d8d:: with SMTP id l13mr1699557wrs.295.1644406747172; 
+ Wed, 09 Feb 2022 03:39:07 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <87r18cthwd.fsf@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eric.auger@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-Received-SPF: pass client-ip=170.10.129.124;
- envelope-from=eric.auger@redhat.com; helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+References: <20220209112207.3368139-1-alex.bennee@linaro.org>
+In-Reply-To: <20220209112207.3368139-1-alex.bennee@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Wed, 9 Feb 2022 11:38:56 +0000
+Message-ID: <CAFEAcA8QSX9mfc_vAR6iXKYoPksb8Q3m9=nY97DpcKbT_nJYJA@mail.gmail.com>
+Subject: Re: [RFC PATCH] linux-user: trap internal SIGABRT's
+To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42c
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42c.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -106,51 +82,26 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: eric.auger@redhat.com
-Cc: lvivier@redhat.com, Jean-Philippe Brucker <jean-philippe@linaro.org>,
- thuth@redhat.com, qemu-devel@nongnu.org, pasic@linux.ibm.com,
- pbonzini@redhat.com
+Cc: richard.henderson@linaro.org, qemu-devel@nongnu.org,
+ Laurent Vivier <Laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
+On Wed, 9 Feb 2022 at 11:35, Alex Benn=C3=A9e <alex.bennee@linaro.org> wrot=
+e:
+> linux-user wants to trap all signals in case they are related to the
+> guest. This however results in less than helpful core dumps when the
+> error is internal to QEMU. We can detect when an assert failure is in
+> progress by examining __glib_assert_msg and fall through to
+> cpu_abort() which will pretty print something before restoring the
+> default SIGABRT behaviour and dumping core.
 
-On 2/9/22 12:10 PM, Cornelia Huck wrote:
-> On Tue, Feb 08 2022, "Michael S. Tsirkin" <mst@redhat.com> wrote:
->
->> On Tue, Feb 08, 2022 at 06:42:57PM +0100, Cornelia Huck wrote:
->>> On Thu, Jan 27 2022, Jean-Philippe Brucker <jean-philippe@linaro.org> wrote:
->>>
->>>> @@ -988,9 +1025,9 @@ static void virtio_iommu_device_realize(DeviceState *dev, Error **errp)
->>>>      virtio_add_feature(&s->features, VIRTIO_IOMMU_F_INPUT_RANGE);
->>>>      virtio_add_feature(&s->features, VIRTIO_IOMMU_F_DOMAIN_RANGE);
->>>>      virtio_add_feature(&s->features, VIRTIO_IOMMU_F_MAP_UNMAP);
->>>> -    virtio_add_feature(&s->features, VIRTIO_IOMMU_F_BYPASS);
->>>>      virtio_add_feature(&s->features, VIRTIO_IOMMU_F_MMIO);
->>>>      virtio_add_feature(&s->features, VIRTIO_IOMMU_F_PROBE);
->>>> +    virtio_add_feature(&s->features, VIRTIO_IOMMU_F_BYPASS_CONFIG);
->>> Hm. In the other patch, you say that you don't support cross-version
->>> migration (I assume across QEMU versions?)
->> I missed that ... where does it say this?
-> In bf447d9b-c039-ccdc-f24f-ab8b56c1b196@redhat.com and follow-ups
-> (unless I misread that; maybe it's more about this concrete boundary and
-> not generally?)
+There is definitely a problem here that it would be nice to
+fix, but __glib_assert_msg is as far as I can tell not a
+documented public-facing glib API, and in any case it won't
+catch assertions via plain old assert() or abort() or for
+that matter SIGSEGVs and other kinds of crash in QEMU's own code.
 
-We were considering the virtio-iommu QEMU device currently isn't used
-for production yet, as far as we know, because we were missing the ACPI
-integration.
-So we envisionned to not care about mig subsections and just add the new
-field in the VMState.
-
-would that make sense?
-
-Thanks
-
-Eric
-
->
->>> Because changing the feature
->>> set will be guest-visible, and would need some compat handling if you
->>> plan to support this.
-
+thanks
+-- PMM
 
