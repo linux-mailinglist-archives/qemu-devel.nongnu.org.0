@@ -2,74 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E843B4AFDAE
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Feb 2022 20:47:32 +0100 (CET)
-Received: from localhost ([::1]:48912 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EDBDF4AFDCF
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Feb 2022 20:57:38 +0100 (CET)
+Received: from localhost ([::1]:33000 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nHsw7-00087T-HH
-	for lists+qemu-devel@lfdr.de; Wed, 09 Feb 2022 14:47:31 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:53046)
+	id 1nHt5r-0000Jw-K3
+	for lists+qemu-devel@lfdr.de; Wed, 09 Feb 2022 14:57:37 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:53992)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nHspl-0005Gk-PA
- for qemu-devel@nongnu.org; Wed, 09 Feb 2022 14:40:58 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:23108)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nHsrg-00076J-47
+ for qemu-devel@nongnu.org; Wed, 09 Feb 2022 14:42:57 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:60430)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nHspg-0003QJ-Ez
- for qemu-devel@nongnu.org; Wed, 09 Feb 2022 14:40:54 -0500
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nHsre-0005gc-KL
+ for qemu-devel@nongnu.org; Wed, 09 Feb 2022 14:42:55 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1644435650;
+ s=mimecast20190719; t=1644435774;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=OCjAK8F8H1ZEp/2hvWKkG5ul8FbEzsNUZdeLKcaLe8Y=;
- b=TtcEqIltTD3IKic8JSywNnTmeF2WsQ7DUm1II+qAMtjSENUksz6M41T8qg9bhVtDV8BGWO
- 6g9sx8igkR1IRbA2sMFeyrHdMHUTewo3Pdrf0lZYLGqT8fiAo5WiFG+ARrOOd4O7Ykzr94
- ASWv96dCQqpjHTiL0R/5dJBqPg6x8Dw=
-Received: from mail-ua1-f70.google.com (mail-ua1-f70.google.com
- [209.85.222.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=Ex2rJ0l54VnOb2wZUotjZidi+eyYcGhxKpyM5bKJCVQ=;
+ b=X72LdpJ4CH7KfDW9mPkLGg6Y5ThCJC++4LRfanSa6E0xfSSdAkbZf8s7/o0mVA+4CEXWt9
+ 9K1NZW1ShMDo+s8lfVYQ7gBwqfn7lCzua8vTVaLkmXDszNBME+iK254xp/K3l66JBd6dUG
+ 1CytgD8FxJkcDvvHg1nwSfZEZehq+HY=
+Received: from mail-vk1-f197.google.com (mail-vk1-f197.google.com
+ [209.85.221.197]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-427-W0xaFYFVMSiX5hpxtV5NtA-1; Wed, 09 Feb 2022 14:40:47 -0500
-X-MC-Unique: W0xaFYFVMSiX5hpxtV5NtA-1
-Received: by mail-ua1-f70.google.com with SMTP id
- q19-20020ab04a13000000b002fef2f854a6so1698062uae.7
- for <qemu-devel@nongnu.org>; Wed, 09 Feb 2022 11:40:46 -0800 (PST)
+ us-mta-42--mU3why5N66L3-g1vRugzA-1; Wed, 09 Feb 2022 14:42:53 -0500
+X-MC-Unique: -mU3why5N66L3-g1vRugzA-1
+Received: by mail-vk1-f197.google.com with SMTP id
+ w192-20020a1f30c9000000b0032c4ff280f7so242786vkw.12
+ for <qemu-devel@nongnu.org>; Wed, 09 Feb 2022 11:42:52 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=OCjAK8F8H1ZEp/2hvWKkG5ul8FbEzsNUZdeLKcaLe8Y=;
- b=63uDE6ViN+/EDbxmAWVa0pp2B2mOwElj5LmrPTHBoKbEbjugyBv2jIMBvLAtILRrP2
- V+TniXtAsikYj0zAPXCe0QpJ0H3Y0jsp8PTTiSgUTI/NW0AN8LpYhwtVw/ruKiaIXiTR
- nlSVsNRC2B6c5XhDG1KlOB953YoIF6uedFqLLM31D0gj5iQ6lYskT4Zk+CkdNyYj1o6I
- tVT6HYMS6dcb/nXm8xqloRLqeBIyZ5sR1cHdcbrrmoHAPxhGeLERNktMt4k1x+b5Xwzj
- E3HSBpVjWO27YpjFgWZzEuxy7WmsTng143L3EXmqbqhdbYBfiKYDwP6bwajeCdlkNzqJ
- DlHA==
-X-Gm-Message-State: AOAM531bxSmyKoePPAQ9EjH2+Qdoh7VfiWMv+AcGSAH6Y9YHB4mQIzOz
- 98iSeivrQDhNQbtKcZUTAwbR6KjaGf/H6VDufA0gNMJHYVEHicDTRTArKWgQqN+be7UXXixJuSM
- 36hSAqBWmA7i3HRvlAOjIZU3q98xmrdo=
-X-Received: by 2002:a05:6122:990:: with SMTP id
- g16mr1366769vkd.3.1644435646396; 
- Wed, 09 Feb 2022 11:40:46 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwdsnPLzjYo8qAUxcOsbDNOMOP6Fxt1eF0t0eZb2RJahQ17RXUTMd4tUrcTyQexw72RlE1KXmighQI2JXslTL0=
-X-Received: by 2002:a05:6122:990:: with SMTP id
- g16mr1366758vkd.3.1644435646198; 
- Wed, 09 Feb 2022 11:40:46 -0800 (PST)
+ bh=Ex2rJ0l54VnOb2wZUotjZidi+eyYcGhxKpyM5bKJCVQ=;
+ b=wJwSZx+9wkNQeeTflBlw1z5dz5FbDdrycfpYMpgXtJZeoEWHnUWJ3UMfNrJSPhmPhG
+ SI7Tz34/Fldj/xJ1rnLAO2iQpgXMqiLL9RQkh4RnUvVhoKE6szvJpws9J9iEnxeAk1G2
+ fw5+g3qBY9d1jHbg8MZ+jPyekb0y/tVxg+R45BJU28U1suLYoPIbSOxGCIVgyV130ngi
+ on77CGYGOnqOqs4PknFA9gGJ5Il9mzE9vx5gL7G1K6qqZ1Yx0vRwTu87G1XrmB4/6cbC
+ zIKwzOsi1gNU0n0iH0++RMo6FthW5YzYxpO2AU70t4cL6204yiTdIEvsLRyDvthOz/Rb
+ EkOA==
+X-Gm-Message-State: AOAM532q/K8330U8wRnQfuoDwJz5sv4agelSKz11YdwXb0x+NXT/mCoU
+ QLe8w5feJK2i5H1fpTeTuXzb/jsIg9OtgPeqlb9A+kOjihiiWH5KtCgW9BuD24iGxXiHpDeulfe
+ 2GsvnuIiB9Ftq3b70eOrmQE67pTYVt+U=
+X-Received: by 2002:a1f:e745:: with SMTP id e66mr1452363vkh.24.1644435772419; 
+ Wed, 09 Feb 2022 11:42:52 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyKGRouqJyzgRCh0e0Ke6EW89iEzp4BDRUhthG3HRGyhQWO7eJ1ijQwsMMqlc8dNHShl/M12pO6gf1yjvG3AWw=
+X-Received: by 2002:a1f:e745:: with SMTP id e66mr1452357vkh.24.1644435772208; 
+ Wed, 09 Feb 2022 11:42:52 -0800 (PST)
 MIME-Version: 1.0
-References: <20220208000525.2601011-1-jsnow@redhat.com>
- <CAFszQJg5_Hge=rtBZ0ujjh71WRdpYUcfF_KLW0oAUa7aNs_6TQ@mail.gmail.com>
-In-Reply-To: <CAFszQJg5_Hge=rtBZ0ujjh71WRdpYUcfF_KLW0oAUa7aNs_6TQ@mail.gmail.com>
+References: <20220204221804.2047468-1-jsnow@redhat.com>
+In-Reply-To: <20220204221804.2047468-1-jsnow@redhat.com>
 From: John Snow <jsnow@redhat.com>
-Date: Wed, 9 Feb 2022 14:40:35 -0500
-Message-ID: <CAFn=p-YRtbA8p5int9ceZqDa4xOgohsUxiV3XZazZTQ1k36r0w@mail.gmail.com>
-Subject: Re: [PATCH] MAINTAINERS: python - remove ehabkost and add bleal
-To: Eduardo Habkost <ehabkost@habkost.com>
+Date: Wed, 9 Feb 2022 14:42:41 -0500
+Message-ID: <CAFn=p-b3ZGWWUBZq_s7wdHS4pQy+=Lx5NS4uu0jiXELzAjMAsw@mail.gmail.com>
+Subject: Re: [PATCH v2 0/2] Python: setuptools v60+ workaround
+To: qemu-devel <qemu-devel@nongnu.org>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=jsnow@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -90,38 +87,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <eduardo@habkost.net>,
- Peter Maydell <peter.maydell@linaro.org>, Beraldo Leal <bleal@redhat.com>,
- qemu-devel developers <qemu-devel@nongnu.org>,
- Stefan Hajnoczi <stefanha@redhat.com>, Cleber Rosa <crosa@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Cc: Eduardo Habkost <eduardo@habkost.net>, Beraldo Leal <bleal@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Feb 9, 2022 at 10:29 AM Eduardo Habkost <ehabkost@habkost.com> wrote:
+On Fri, Feb 4, 2022 at 5:18 PM John Snow <jsnow@redhat.com> wrote:
 >
-> On Mon, 7 Feb 2022 at 19:05, John Snow <jsnow@redhat.com> wrote:
-> >
-> > Eduardo Habkost has left Red Hat and has other daily responsibilities to
-> > attend to. In order to stop spamming him on every series, remove him as
-> > "Reviewer" for the python/ library dir and add Beraldo Leal instead.
-> >
-> > For the "python scripts" stanza (which is separate due to level of
-> > support), replace Eduardo as maintainer with myself.
-> >
-> > (Thanks for all of your hard work, Eduardo!)
+> Long story short: Python 3.7/3.8 on Fedora with setuptools v60.0.0+
+> together create a bug that ultimately causes pylint to fail. See the
+> first commit message for more detail.
 >
-> Thank you! And my apologies for not sending the MAINTAINERS patch
-> myself. I'm being unable to deal with the amount of QEMU-related
-> traffic directed to my email address.
+> I sent out a hotfix two weeks ago to fix this behavior on our CI, but
+> there's a better workaround. This adds the better workaround and reverts
+> the hotfix.
 >
-> Acked-by: Eduardo Habkost <eduardo@habkost.net>
+> John Snow (2):
+>   Python: add setuptools v60.0 workaround
+>   Revert "python: pin setuptools below v60.0.0"
+>
+>  python/Makefile                | 2 --
+>  python/setup.cfg               | 1 -
+>  python/tests/iotests-pylint.sh | 3 ++-
+>  python/tests/pylint.sh         | 3 ++-
+>  4 files changed, 4 insertions(+), 5 deletions(-)
+>
+> --
+> 2.34.1
 >
 
-I assure you no apologies are necessary!
+Assuming no news is good news. I'm staging this to my Python branch,
+and intend to send a PR after I get an ACK on '[PATCH 0/4] iotests:
+finalize switch to async QMP' -- so there's time to veto this if you
+have concerns.
 
-Thanks, I've staged this patch to my Python branch.
 --js
 
 
