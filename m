@@ -2,81 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 85F484AEFEF
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Feb 2022 12:27:30 +0100 (CET)
-Received: from localhost ([::1]:51590 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B23A24AEFFE
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Feb 2022 12:34:43 +0100 (CET)
+Received: from localhost ([::1]:59466 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nHl8D-0005YP-1z
-	for lists+qemu-devel@lfdr.de; Wed, 09 Feb 2022 06:27:29 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:50112)
+	id 1nHlFC-0003GU-32
+	for lists+qemu-devel@lfdr.de; Wed, 09 Feb 2022 06:34:42 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:50266)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nHl2x-0003v5-Ja
- for qemu-devel@nongnu.org; Wed, 09 Feb 2022 06:22:03 -0500
-Received: from [2a00:1450:4864:20::535] (port=46831
- helo=mail-ed1-x535.google.com)
+ id 1nHl3R-00049E-Rp
+ for qemu-devel@nongnu.org; Wed, 09 Feb 2022 06:22:45 -0500
+Received: from [2a00:1450:4864:20::636] (port=33291
+ helo=mail-ej1-x636.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nHl2l-00034v-Ko
- for qemu-devel@nongnu.org; Wed, 09 Feb 2022 06:22:03 -0500
-Received: by mail-ed1-x535.google.com with SMTP id m11so4269515edi.13
- for <qemu-devel@nongnu.org>; Wed, 09 Feb 2022 03:21:50 -0800 (PST)
+ id 1nHl3C-0003b0-G3
+ for qemu-devel@nongnu.org; Wed, 09 Feb 2022 06:22:20 -0500
+Received: by mail-ej1-x636.google.com with SMTP id fy20so6490290ejc.0
+ for <qemu-devel@nongnu.org>; Wed, 09 Feb 2022 03:22:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=cJkq9Ju39KsUpL747ow6W8ArRJVwDxPgiiAhCRO0pww=;
- b=vErm5g1Z7PqaJKLisDl1RtbII74yK/ycMjY/qHZnKDLI3VK4M27s0FkgtxABYF8s3j
- k8uQUScKg6gyWyGRLTgad8vf9mqcJOk6yHl67fQQCePzABf3YoH7QIueWKYAc97mN0T6
- D0J4Fj/3AdSsaxZUAC9pA9eac6Mgt0EQZIAXHlI7DWiKlKm2WerVfBz4qoyDp3qxWaWU
- FDZRiE1xgf6fLkurpQs8v+Zxb12nIh5v5CaFrUINEU9LhRS5peLzxoO64l6or1PfIxAr
- A4T+gqDWrmtHDRWJlrhSi2BUubBGJDHWX8EEQk4QQjyF4FYOjUXgWceX3G0Hzvyfppci
- x7yA==
+ bh=Kur3l8p5am4K2Uc1BMSbuTVw72wqKC9/r+/gQVVeNvc=;
+ b=Va+dMTyHgMp8gXUXu+AHv8yZCAOrQhD3c5Sdpj1Djh0amIROlLmZYdCxtwBrTT8HnQ
+ cuEPbv99AhF6ZNajYc/hyA3PAmhErFGAeoj33nJjx9XAbjkqsZWMXS/TB6rWSx7mzZCu
+ WsbMvOLntLhRCC749Pwx0boLarWdjaX/VdX9EtAMx+ccA4KsOAH4dstYvdWd+LQLSH//
+ /kJFIYt/PpJQuEbQcDAnVgTToNq0s0Ee9C3814joAMs2mcY0PSZ5O69iAOIZuXZAd3Jm
+ 6ScEQb2hIDATqYDk0BjxJYNYm7HCmxn3tf8mkISz86r3ZIWJUgFquRxuF1hjlOdyPOj6
+ Ig/g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=cJkq9Ju39KsUpL747ow6W8ArRJVwDxPgiiAhCRO0pww=;
- b=RoDqyXJql6Rt6+m/hSRHI0MGNw89mMYX3pvbmomhoSiXq4lbSkg4Kbm2RriMQN8hfi
- cz4xtE5mesDJhc4TqPSo6NUQmRZ/yCVgIOFwL4Tl2sEWiqWayddfFBeqY6RG+NA40Tzh
- simyqPfVYBuL2c4KmNhp5cJxi5cphTXzHhGgCv7Gfc4g0vUqT1RiK9Lw79/tISHCvPI2
- NrFpO+mJdxzSucNAmgUDl8r6zYPpMvts23qWZeDqpLqEPGUlGpSlzHO5yQe2Wqj7AEff
- Orwn34Y6/ZSctKofIjHOM098G4f2GnqA6jAyRIYJ77HmkPeBBt+1QJxwE4ukcJj5me9n
- wmAA==
-X-Gm-Message-State: AOAM533DuUzYyaNgMNnu3YJrtbwia1xARdCFo2YjfP6C3g5XiiDppFZ4
- r7d0S6njdyOrafDoHtAoJ3RUgA==
-X-Google-Smtp-Source: ABdhPJzF5cFdu64H5XZT7vhcQf9rY4rfeFu/TVWXV5BwjqZRzrnMiAiDbxpimmxNoJXIgt9/dmZeaw==
-X-Received: by 2002:a05:6402:4414:: with SMTP id
- y20mr1892224eda.219.1644405708756; 
- Wed, 09 Feb 2022 03:21:48 -0800 (PST)
+ bh=Kur3l8p5am4K2Uc1BMSbuTVw72wqKC9/r+/gQVVeNvc=;
+ b=Nzix5i7j0Wo8Ojf1sk1aNlz+TV/KvnYH5mP0IB05tG4SWKncpiKlV1pm1opHfrCQd1
+ d/L0Sqf+JWyQNaqggBRnNLDTRInaqkh4QojZKP/W0DGjFv7dJoRrgsnUb0rlCDtG78Cz
+ XHXoLOR0FKku9iTBTuTaSRBCZvVcxH0uCxwPZZn1BjHNZqcbPfPxGDBg6sFl5EE83Asg
+ W4Wb7C29vqDguuTnp3YoaDWo5ThxY2eIfWOFBdz5ESOpQTxrlrVlwmWn8uoxtye1ASN8
+ BOLcmE43BbsBrOJ6IeON0JFr2ecaoN/1LBv8wa3EU2m2zUdgvXeDhiSGoeiwL8mO4YIo
+ 076A==
+X-Gm-Message-State: AOAM533e5NvDQLGNQJpxEO7xlc840+8VeN3+EwKek5fp+4i3GiAtkaUH
+ tQJXHv6vIBWmla+GD6kRmryvZg==
+X-Google-Smtp-Source: ABdhPJzkDYUFZE/duE0JGZnx7YGD1QLa/FLP+FaP94ax+PrfgwsA0STR0zA50MFZCpdMoyhOtxMeZA==
+X-Received: by 2002:a17:907:629f:: with SMTP id
+ nd31mr1453819ejc.693.1644405736246; 
+ Wed, 09 Feb 2022 03:22:16 -0800 (PST)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id k7sm5865948eje.162.2022.02.09.03.21.47
+ by smtp.gmail.com with ESMTPSA id l1sm5876112ejb.81.2022.02.09.03.22.13
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 09 Feb 2022 03:21:47 -0800 (PST)
+ Wed, 09 Feb 2022 03:22:14 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 67BF81FFB7;
- Wed,  9 Feb 2022 11:21:47 +0000 (GMT)
+ by zen.linaroharston (Postfix) with ESMTP id 41A1A1FFB7;
+ Wed,  9 Feb 2022 11:22:13 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org,
 	richard.henderson@linaro.org
-Subject: [RFC PATCH] tcg/optimize: only read val after const check
-Date: Wed,  9 Feb 2022 11:21:42 +0000
-Message-Id: <20220209112142.3367525-1-alex.bennee@linaro.org>
+Subject: [RFC PATCH] linux-user: trap internal SIGABRT's
+Date: Wed,  9 Feb 2022 11:22:07 +0000
+Message-Id: <20220209112207.3368139-1-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::535
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::636
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::535;
- envelope-from=alex.bennee@linaro.org; helo=mail-ed1-x535.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::636;
+ envelope-from=alex.bennee@linaro.org; helo=mail-ej1-x636.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
 X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- PDS_HP_HELO_NORDNS=0.001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -89,47 +90,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-valgrind pointed out that arg_info()->val can be undefined which will
-be the case if the arguments are not constant. The ordering of the
-checks will have ensured we never relied on an undefined value but for
-the sake of completeness re-order the code to be clear.
+linux-user wants to trap all signals in case they are related to the
+guest. This however results in less than helpful core dumps when the
+error is internal to QEMU. We can detect when an assert failure is in
+progress by examining __glib_assert_msg and fall through to
+cpu_abort() which will pretty print something before restoring the
+default SIGABRT behaviour and dumping core.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- tcg/optimize.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ linux-user/signal.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/tcg/optimize.c b/tcg/optimize.c
-index e573000951..06213fd434 100644
---- a/tcg/optimize.c
-+++ b/tcg/optimize.c
-@@ -552,10 +552,10 @@ static bool do_constant_folding_cond_eq(TCGCond c)
- static int do_constant_folding_cond(TCGType type, TCGArg x,
-                                     TCGArg y, TCGCond c)
- {
--    uint64_t xv = arg_info(x)->val;
--    uint64_t yv = arg_info(y)->val;
--
-     if (arg_is_const(x) && arg_is_const(y)) {
-+        uint64_t xv = arg_info(x)->val;
-+        uint64_t yv = arg_info(y)->val;
+diff --git a/linux-user/signal.c b/linux-user/signal.c
+index 32854bb375..8ecc1215f7 100644
+--- a/linux-user/signal.c
++++ b/linux-user/signal.c
+@@ -809,6 +809,8 @@ static inline void rewind_if_in_safe_syscall(void *puc)
+     }
+ }
+ 
++GLIB_VAR char *__glib_assert_msg;
 +
-         switch (type) {
-         case TCG_TYPE_I32:
-             return do_constant_folding_cond_32(xv, yv, c);
-@@ -567,7 +567,7 @@ static int do_constant_folding_cond(TCGType type, TCGArg x,
-         }
-     } else if (args_are_copies(x, y)) {
-         return do_constant_folding_cond_eq(c);
--    } else if (arg_is_const(y) && yv == 0) {
-+    } else if (arg_is_const(y) && arg_info(y)->val == 0) {
-         switch (c) {
-         case TCG_COND_LTU:
-             return 0;
+ static void host_signal_handler(int host_sig, siginfo_t *info, void *puc)
+ {
+     CPUArchState *env = thread_cpu->env_ptr;
+@@ -821,6 +823,10 @@ static void host_signal_handler(int host_sig, siginfo_t *info, void *puc)
+     uintptr_t pc = 0;
+     bool sync_sig = false;
+ 
++    if (__glib_assert_msg) {
++        cpu_abort(cpu, "internal QEMU error, aborting...");
++    }
++
+     /*
+      * Non-spoofed SIGSEGV and SIGBUS are synchronous, and need special
+      * handling wrt signal blocking and unwinding.
 -- 
 2.30.2
 
