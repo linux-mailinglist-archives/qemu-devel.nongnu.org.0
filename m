@@ -2,56 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D9C84AEE67
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Feb 2022 10:49:43 +0100 (CET)
-Received: from localhost ([::1]:46820 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D4E14AEE5D
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Feb 2022 10:44:26 +0100 (CET)
+Received: from localhost ([::1]:39028 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nHjba-0005QA-4u
-	for lists+qemu-devel@lfdr.de; Wed, 09 Feb 2022 04:49:42 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:33138)
+	id 1nHjWT-0008P6-HD
+	for lists+qemu-devel@lfdr.de; Wed, 09 Feb 2022 04:44:25 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:33266)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1nHjDe-0005Jc-M6
- for qemu-devel@nongnu.org; Wed, 09 Feb 2022 04:24:58 -0500
-Received: from us-smtp-delivery-44.mimecast.com ([205.139.111.44]:50125)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1nHjDc-0004Ap-WC
- for qemu-devel@nongnu.org; Wed, 09 Feb 2022 04:24:58 -0500
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-586-9iZbPKTmOpu2YbSsfdV7_A-1; Wed, 09 Feb 2022 04:24:54 -0500
-X-MC-Unique: 9iZbPKTmOpu2YbSsfdV7_A-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9620F84BA43;
- Wed,  9 Feb 2022 09:24:53 +0000 (UTC)
-Received: from bahia (unknown [10.39.192.69])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 020655BC4B;
- Wed,  9 Feb 2022 09:24:51 +0000 (UTC)
-Date: Wed, 9 Feb 2022 10:24:50 +0100
-From: Greg Kurz <groug@kaod.org>
-To: Miroslav Rezanina <mrezanin@redhat.com>
-Subject: Re: [PATCH v2] Use long endian options for ppc64
-Message-ID: <20220209102450.7fd3dfef@bahia>
-In-Reply-To: <20220208144719.1ea88910@bahia>
-References: <20220131091714.4825-1-mrezanin@redhat.com>
- <20220208144719.1ea88910@bahia>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nHjDy-0005VV-Gs
+ for qemu-devel@nongnu.org; Wed, 09 Feb 2022 04:25:19 -0500
+Received: from [2a00:1450:4864:20::429] (port=43874
+ helo=mail-wr1-x429.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nHjDv-0004N1-EN
+ for qemu-devel@nongnu.org; Wed, 09 Feb 2022 04:25:17 -0500
+Received: by mail-wr1-x429.google.com with SMTP id i14so2855685wrc.10
+ for <qemu-devel@nongnu.org>; Wed, 09 Feb 2022 01:25:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=o6Jr4SLb8Ku4LzniSg+241NvwzP5CYahbmslxhsTzIo=;
+ b=CgsTkzvcFSnHLefuLmj8Uu23fxeWsPjTzBt1/awFOV1R6w6n2gzRbsVGfg5IRtVwiP
+ DKrny01BJuzC335kxJ5SgY+DyNHIb3W0YnQmkdt/T2Lq6v0XEvMEPkA6ZspNx2ERVpSn
+ RjEKShPuudcw33hQ4dRniyM8Kye3ZPZPCgZ9J9BP021ynnBPEUbZxyJfD30t9xWGg8vV
+ M4DYbtCJje1V+u5GVf3F/vSYdYjR9LfozlkRrALFohbDejIw/OBz0Z5JxUqh8aKh19XV
+ FrQrKQnlhW6+w3Gu4TZslroc6+oy9129GNeWuO5SU/j9gl8aimleRAahqVKIrMPJ+yLN
+ EJOg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=o6Jr4SLb8Ku4LzniSg+241NvwzP5CYahbmslxhsTzIo=;
+ b=w9KjTThhg1Or1vF3mc5XK8cXovekmR4v7vpAI8+fByWr+n5WlrX9f8kI7r7YN3JI15
+ J+ybX/r9i0gvN73qIHOrzApXdQq7RmRLARVNsIEgm/b7jEl6JYEXbumBoUJ1CI8eesHt
+ izP7q0xBf5XhWXAhQ5sb/PiQ2dIMmMesZb/qy5seOkfA7NYQO695zd+6xRCv2d357fjm
+ cxdnhokM1WHCcOPV0shpf1CzFTTmIDlKL3TJxLcgP+ECkQK8XKhVOOyA/NjTqVO7rn/G
+ AD8SHJflUfW2zR899WhOCxF0t4zORBqikS0QzbvQm6FKxafA0l2ewFQIXgY2i+sV8sy/
+ py/Q==
+X-Gm-Message-State: AOAM533J53Tw2j5BJJMGL2CLla8PdWkLX5GxTrR8JIcohT0/Vyh9WuTc
+ 2oEVnNfvYxAoyoRc6S5lb6/OIIRRzbSpb36AUuWqaA==
+X-Google-Smtp-Source: ABdhPJxrFtuJso71utXFVsq+Q5CF1Aa+HUOQ45njTUB//qsDwmypbPmfBz+Y9gN8UItwU0YQNNMyTxNf8XppmqQ9hng=
+X-Received: by 2002:a5d:6d8d:: with SMTP id l13mr1263342wrs.295.1644398712824; 
+ Wed, 09 Feb 2022 01:25:12 -0800 (PST)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: kaod.org
-Content-Type: text/plain; charset=WINDOWS-1252
+References: <20220208200856.3558249-1-peter.maydell@linaro.org>
+ <20220208200856.3558249-6-peter.maydell@linaro.org>
+ <4a8c6105-b1b2-99a2-27b0-ebb48463a50d@amsat.org>
+In-Reply-To: <4a8c6105-b1b2-99a2-27b0-ebb48463a50d@amsat.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Wed, 9 Feb 2022 09:25:01 +0000
+Message-ID: <CAFEAcA-At8OFF4tU-c3T0simXX5B90ZzJ9Efj573RF6MM3D+JA@mail.gmail.com>
+Subject: Re: [PATCH 5/5] include: Move hardware version declarations to new
+ qemu/hw-version.h
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: softfail client-ip=205.139.111.44; envelope-from=groug@kaod.org;
- helo=us-smtp-delivery-44.mimecast.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::429
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::429;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x429.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
- SPF_HELO_NONE=0.001, SPF_SOFTFAIL=0.665,
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -65,79 +85,75 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: richard.henderson@linaro.org, qemu-devel@nongnu.org, f4bug@amsat.org,
- qemu-ppc@nongnu.org, =?UTF-8?B?Q8OpZHJpYw==?= Le Goater <clg@kaod.org>,
- pbonzini@redhat.com
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 8 Feb 2022 14:47:19 +0100
-Greg Kurz <groug@kaod.org> wrote:
-
-> On Mon, 31 Jan 2022 10:17:14 +0100
-> Miroslav Rezanina <mrezanin@redhat.com> wrote:
->=20
-> > GCC options pairs -mlittle/-mlittle-endian and -mbig/-mbig-endian are
-> > equivalent on ppc64 architecture. However, Clang supports only long
-> > version of the options.
-> >=20
-> > Use longer form in configure to properly support both GCC and Clang
-> > compiler. In addition, fix this issue in tcg test configure.
-> >=20
-> > Signed-off-by: Miroslav Rezanina <mrezanin@redhat.com>
-> >=20
+On Wed, 9 Feb 2022 at 09:20, Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org> =
+wrote:
+>
+> On 8/2/22 21:08, Peter Maydell wrote:
+> > The "hardware version" machinery (qemu_set_hw_version(),
+> > qemu_hw_version(), and the QEMU_HW_VERSION define) is used by fewer
+> > than 10 files.  Move it out from osdep.h into a new
+> > qemu/hw-version.h.
+> >
+> > Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 > > ---
->=20
-> Reviewed-by: Greg Kurz <groug@kaod.org>
->=20
+> >   include/qemu/hw-version.h | 27 +++++++++++++++++++++++++++
+> >   include/qemu/osdep.h      | 16 ----------------
+> >   hw/arm/nseries.c          |  1 +
+> >   hw/ide/core.c             |  1 +
+> >   hw/scsi/megasas.c         |  1 +
+> >   hw/scsi/scsi-bus.c        |  1 +
+> >   hw/scsi/scsi-disk.c       |  1 +
+> >   softmmu/vl.c              |  1 +
+> >   target/i386/cpu.c         |  1 +
+> >   target/s390x/cpu_models.c |  1 +
+> >   util/osdep.c              |  1 +
+> >   11 files changed, 36 insertions(+), 16 deletions(-)
+> >   create mode 100644 include/qemu/hw-version.h
+> >
+> > diff --git a/include/qemu/hw-version.h b/include/qemu/hw-version.h
+> > new file mode 100644
+> > index 00000000000..730a8c904d9
+> > --- /dev/null
+> > +++ b/include/qemu/hw-version.h
+> > @@ -0,0 +1,27 @@
+> > +/*
+> > + * QEMU "hardware version" machinery
+> > + *
+> > + * This work is licensed under the terms of the GNU GPL, version 2 or =
+later.
+> > + * See the COPYING file in the top-level directory.
+> > + */
+> > +#ifndef QEMU_HW_VERSION_H
+> > +#define QEMU_HW_VERSION_H
+> > +
+> > +/*
+> > + * Starting on QEMU 2.5, qemu_hw_version() returns "2.5+" by default
+> > + * instead of QEMU_VERSION, so setting hw_version on MachineClass
+> > + * is no longer mandatory.
+> > + *
+> > + * Do NOT change this string, or it will break compatibility on all
+> > + * machine classes that don't set hw_version.
+> > + */
+> > +#define QEMU_HW_VERSION "2.5+"
+> > +
+> > +/* QEMU "hardware version" setting. Used to replace code that exposed
+> > + * QEMU_VERSION to guests in the past and need to keep compatibility.
+> > + * Do not use qemu_hw_version() in new code.
+>
+> Can you include the "legacy" word somewhere in the include path?
 
-Cc'ing QEMU PPC folks since they're likely the primary users
-of ppc64 hosts.
+I'm not completely convinced that (a) we have a clear idea of
+what of our APIs are legacy and what are not or (b) that we could
+coherently move the 'legacy' ones into separate files.
+If you want to propose something like that as an RFC, I don't
+100% object to it, but I don't want to do a very small subset
+of that as part of what is really just a "get stuff out of osdep"
+series.
 
-> > This is v2 of configure: Use -mlittle-endian instead of -mlittle for pp=
-c64.
-> >=20
-> > v2:
-> >  - handle both -mlittle and -mbig usage
-> >  - fix tests/tcg/configure.sh
-> > ---
-> >  configure              | 4 ++--
-> >  tests/tcg/configure.sh | 4 ++--
-> >  2 files changed, 4 insertions(+), 4 deletions(-)
-> >=20
-> > diff --git a/configure b/configure
-> > index e6cfc0e4be..066fa29b70 100755
-> > --- a/configure
-> > +++ b/configure
-> > @@ -655,10 +655,10 @@ case "$cpu" in
-> >    ppc)
-> >      CPU_CFLAGS=3D"-m32" ;;
-> >    ppc64)
-> > -    CPU_CFLAGS=3D"-m64 -mbig" ;;
-> > +    CPU_CFLAGS=3D"-m64 -mbig-endian" ;;
-> >    ppc64le)
-> >      cpu=3D"ppc64"
-> > -    CPU_CFLAGS=3D"-m64 -mlittle" ;;
-> > +    CPU_CFLAGS=3D"-m64 -mlittle-endian" ;;
-> > =20
-> >    s390)
-> >      CPU_CFLAGS=3D"-m31" ;;
-> > diff --git a/tests/tcg/configure.sh b/tests/tcg/configure.sh
-> > index 309335a2bd..21959e1fde 100755
-> > --- a/tests/tcg/configure.sh
-> > +++ b/tests/tcg/configure.sh
-> > @@ -64,9 +64,9 @@ fi
-> >  : ${cross_cc_ppc=3D"powerpc-linux-gnu-gcc"}
-> >  : ${cross_cc_cflags_ppc=3D"-m32"}
-> >  : ${cross_cc_ppc64=3D"powerpc64-linux-gnu-gcc"}
-> > -: ${cross_cc_cflags_ppc64=3D"-m64 -mbig"}
-> > +: ${cross_cc_cflags_ppc64=3D"-m64 -mbig-endian"}
-> >  : ${cross_cc_ppc64le=3D"$cross_cc_ppc64"}
-> > -: ${cross_cc_cflags_ppc64le=3D"-m64 -mlittle"}
-> > +: ${cross_cc_cflags_ppc64le=3D"-m64 -mlittle-endian"}
-> >  : ${cross_cc_riscv64=3D"riscv64-linux-gnu-gcc"}
-> >  : ${cross_cc_s390x=3D"s390x-linux-gnu-gcc"}
-> >  : ${cross_cc_sh4=3D"sh4-linux-gnu-gcc"}
->=20
-
+thanks
+-- PMM
 
