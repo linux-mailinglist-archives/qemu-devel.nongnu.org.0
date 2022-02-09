@@ -2,85 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9B464AF077
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Feb 2022 12:59:31 +0100 (CET)
-Received: from localhost ([::1]:46046 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC4154AF128
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Feb 2022 13:16:45 +0100 (CET)
+Received: from localhost ([::1]:54098 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nHldC-0006C1-6Q
-	for lists+qemu-devel@lfdr.de; Wed, 09 Feb 2022 06:59:30 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:35120)
+	id 1nHlts-00052U-3K
+	for lists+qemu-devel@lfdr.de; Wed, 09 Feb 2022 07:16:44 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:39618)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nHlZk-0005Na-K8
- for qemu-devel@nongnu.org; Wed, 09 Feb 2022 06:55:56 -0500
-Received: from [2a00:1450:4864:20::436] (port=45715
- helo=mail-wr1-x436.google.com)
+ (Exim 4.90_1) (envelope-from <ilg@livius.net>) id 1nHlmX-0003Nx-En
+ for qemu-devel@nongnu.org; Wed, 09 Feb 2022 07:09:10 -0500
+Received: from [2a00:1450:4864:20::635] (port=37396
+ helo=mail-ej1-x635.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nHlZi-0007d2-8U
- for qemu-devel@nongnu.org; Wed, 09 Feb 2022 06:55:56 -0500
-Received: by mail-wr1-x436.google.com with SMTP id m14so3534718wrg.12
- for <qemu-devel@nongnu.org>; Wed, 09 Feb 2022 03:55:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:to:references:from:in-reply-to
- :content-transfer-encoding;
- bh=f/jFJqSoedTHHQuyXf5Ue2ED8I8LLc8lktyHr5U0/0I=;
- b=c2Vk99F9+xNkcn+pJtXmEK5i0V1UR9RJkLnpbSKSxTHQ5bFyPywo4kjIP3Sd0UMpuW
- jBMcrv/oM+0YKOVTssd1ky7RPMhxYoxxtXGPrzUE043kXroQ7Vzy/AgKoMH1k3KrQ4fE
- AGmOOZywKljT9JwWCTCgygbg+9EdcNfklbXk6dmYm5NnR81it5cNZ3nWsI9tR77Yekp0
- qe43NGY895MUzh4ITfll+bN82LQYGeaTCySVkKlCQL2zxAB5XIlTmQcy5sE8DnmpqIt1
- 5nw/RN3H/zRmhix6ygIcR2gxwVhw2CSoH49n/V+cAWHlwee7E82R+DA8CN3zjSUV5qHX
- 1xdA==
+ (Exim 4.90_1) (envelope-from <ilg@livius.net>) id 1nHlmT-0002Yn-6e
+ for qemu-devel@nongnu.org; Wed, 09 Feb 2022 07:09:07 -0500
+Received: by mail-ej1-x635.google.com with SMTP id fj5so3806912ejc.4
+ for <qemu-devel@nongnu.org>; Wed, 09 Feb 2022 04:09:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=livius-net.20210112.gappssmtp.com; s=20210112;
+ h=mime-version:subject:from:in-reply-to:date:cc
+ :content-transfer-encoding:message-id:references:to;
+ bh=bzFknYgv0qNKFOR2Ylx+sVFiy+hSDHb7B6JlZ06PvfU=;
+ b=EQZFpVIMkdmsDmkXNCRftNl3k7lTvuno3aVLbkqYyTl68ZCeL2nRh4a4VOF2332nxF
+ qYT2KPSElw+yY1lc/mRe2qeVFF48UO8PmPGx4xKx9vImk4dHyNDH639wKqlYyAChbTiG
+ AZkJK78og7wHbg5sX+BNjUfDst9h7aIsQLM5DVzCwts649Jnl9tHzaV0KX0/Y+YXDxP6
+ cqKxeWtpY68JFEoZPDvZ1Myi6Xl4M+KCNnBr7VrBUO6Sn0AE2YJ7hs2sLtw16G29zQkE
+ 4c7l7x8W+J9vVUmBZp35oT10e9uGxcyqcgF91VmSU4SM4/pyo0PL4W6kZ8Htr/22f29k
+ pQhg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:to:references:from:in-reply-to
- :content-transfer-encoding;
- bh=f/jFJqSoedTHHQuyXf5Ue2ED8I8LLc8lktyHr5U0/0I=;
- b=5/pERSraJGzo1imY1oGnCPqUSKNqHFGuZvBL9ug+AE9GtP5DnlpDaBqo4nAE3vskrX
- ZX4wrYsyTEW3jKZw9c+moDUho59D7n74BgGhPx54F7LPp1NbbAQz5ZlAttuoV25vsxk5
- aBpp+RHumg6vSqTnSr3dZLCqH1m9/oiQsojgwr0QDabMw3oPZVCcYkrZE/R0k9HKK/3o
- sPcjoD4+qM3lhU1dB4vSjYxkh4GTT+C5zaq0oDORLnH4hDirj2oCluSe+6762WarWXkh
- SMiRpJq/vzzHh8DMlKdTARKQcFTZ5/63L9N+SJirwic7gqXeOyj51A5sjEUkDC68Y4jL
- IwGg==
-X-Gm-Message-State: AOAM532UUPC+x2kGb6q2hE+FvFvmwWj0xpL8zLriEkl7TJSwwU08bls9
- 8mdNHLgUDtpz5eWgK1jL4DYEpYj3nXw=
-X-Google-Smtp-Source: ABdhPJxGPDgnJEYr60KATaVTr2uB/I9Cr1SBpOaj3tJVwZP9KN64CLFwR1PF/8Ou1TPCbFGOglmySg==
-X-Received: by 2002:a05:6000:1548:: with SMTP id
- 8mr1768660wry.254.1644407751353; 
- Wed, 09 Feb 2022 03:55:51 -0800 (PST)
-Received: from [192.168.1.33] (154.red-83-50-83.dynamicip.rima-tde.net.
- [83.50.83.154])
- by smtp.gmail.com with ESMTPSA id r2sm18392098wrz.76.2022.02.09.03.55.50
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 09 Feb 2022 03:55:51 -0800 (PST)
-Message-ID: <67489570-dc7a-7b58-054e-d4def41ce23c@amsat.org>
-Date: Wed, 9 Feb 2022 12:55:50 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.5.1
-Subject: Re: [RFC PATCH] tcg/optimize: only read val after const check
-Content-Language: en-US
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org, richard.henderson@linaro.org
-References: <20220209112142.3367525-1-alex.bennee@linaro.org>
-In-Reply-To: <20220209112142.3367525-1-alex.bennee@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::436
+ h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
+ :content-transfer-encoding:message-id:references:to;
+ bh=bzFknYgv0qNKFOR2Ylx+sVFiy+hSDHb7B6JlZ06PvfU=;
+ b=kF0+BWXSkbvoX7cMjrKuv5FXGQInbCtaGElIYQZw0rHOR68poSVacNDpd/zTBoyMaC
+ 6XbTBWjaQtg6n1aozjZhOmkRHU+AmUATM+0lcvZoEJ+/znl+l+qSeskm4NvymewzUikX
+ bDT9wMvqdnhkXl0W8D9jf/pCIrkhdF48YUDzu2UdjBb+r4OfVaLK0/5L6BGN3yyxkpiQ
+ kW5+OA66zIlr/HcaJh1+0Ci/lYz/KR/iVO3slRJkkePDSgRO/l/KVbxNV2MkYnIYS3In
+ NLRJuUGfCZAu85Tjc1bqWqifOgHVbirLUr1OskdqoJSEY/kC64hIQmxecl6QY/9qcq8F
+ Wd9A==
+X-Gm-Message-State: AOAM533Rb77Qpil+ssx4V2M90YPKnSJpmr7W3wW8zoA9Q2fH2sd/2J7N
+ wRTRIVEUEw9d4pmXPWMKCykFBQ==
+X-Google-Smtp-Source: ABdhPJyxabCCoIBffkq46tZwS6Oj2SDOIk5MCSuQGdEPHl84IoyOM7eVDMxlpg2R8zvvSUSoOlvbpQ==
+X-Received: by 2002:a17:907:7da4:: with SMTP id
+ oz36mr1678022ejc.416.1644408543080; 
+ Wed, 09 Feb 2022 04:09:03 -0800 (PST)
+Received: from smtpclient.apple ([188.25.251.197])
+ by smtp.gmail.com with ESMTPSA id u18sm5918973eje.37.2022.02.09.04.09.01
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Wed, 09 Feb 2022 04:09:02 -0800 (PST)
+Content-Type: text/plain;
+	charset=us-ascii
+Mime-Version: 1.0 (Mac OS X Mail 15.0 \(3693.40.0.1.81\))
+Subject: Re: [PATCH] Add --with-branding-prefix and QEMU_BRANDING_PREFIX
+From: Liviu Ionescu <ilg@livius.net>
+In-Reply-To: <CAFEAcA_TzC6t=m27ZM=oAPBZwNcPm8b=bne4hb722cMx4vQ0Rw@mail.gmail.com>
+Date: Wed, 9 Feb 2022 14:09:01 +0200
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <D1150E4A-BEAE-4577-86D7-710F3DEE6074@livius.net>
+References: <20220120113545.55820-1-ilg@livius.net>
+ <8A1E1B8F-ADA0-4966-A4E9-C0A08EB0A327@livius.net>
+ <D6833D18-344A-473E-AC4D-89A64F8AA0EC@livius.net>
+ <CAFEAcA91q2t9sVvaW6h3BwFMExgyCdVsb3TozH52EM70aPJt4w@mail.gmail.com>
+ <DEEEEB34-BF47-4AD3-99BC-EAB791508D27@livius.net>
+ <YgOQF0W78MVVsDw6@stefanha-x1.localdomain>
+ <BB942F04-BF20-4531-A356-DDF7931B1DEB@livius.net>
+ <CAFEAcA_TzC6t=m27ZM=oAPBZwNcPm8b=bne4hb722cMx4vQ0Rw@mail.gmail.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+X-Mailer: Apple Mail (2.3693.40.0.1.81)
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::635
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::436;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x436.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.248, NICE_REPLY_A=-0.001,
- PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Received-SPF: none client-ip=2a00:1450:4864:20::635;
+ envelope-from=ilg@livius.net; helo=mail-ej1-x635.google.com
+X-Spam_score_int: -10
+X-Spam_score: -1.1
+X-Spam_bar: -
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_NONE=0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -94,22 +94,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
-On 9/2/22 12:21, Alex Bennée wrote:
-> valgrind pointed out that arg_info()->val can be undefined which will
-> be the case if the arguments are not constant. The ordering of the
-> checks will have ensured we never relied on an undefined value but for
-> the sake of completeness re-order the code to be clear.
-> 
-> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-> ---
->   tcg/optimize.c | 8 ++++----
->   1 file changed, 4 insertions(+), 4 deletions(-)
 
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+
+> On 9 Feb 2022, at 13:30, Peter Maydell <peter.maydell@linaro.org> =
+wrote:
+>=20
+> gcc doesn't prepend the pkgversion string to the greeting. ...
+> ... and 'gcc --version' prints the version as:
+> gcc (Ubuntu 9.3.0-17ubuntu1~20.04) 9.3.0
+
+Right, strictly speaking, GCC prints the program name, then the greeting =
+message, then the version.
+
+The binaries in my distribution look like this:
+
+$ arm-none-eabi-gcc --version
+arm-none-eabi-gcc (xPack GNU Arm Embedded GCC x86_64) 10.3.1 20210824 =
+(release)
+
+$ arm-none-eabi-gdb --version
+GNU gdb (xPack GNU Arm Embedded GCC x86_64) 10.2.90.20210621-git
+
+$ riscv-none-embed-gcc --version
+riscv-none-embed-gcc (xPack GNU RISC-V Embedded GCC x86_64) 10.2.0
+
+$ clang-12 --version
+xPack x86_64 clang version 12.0.1
+
+$ openocd --version
+xPack OpenOCD x86_64 Open On-Chip Debugger 0.11.0+dev (2021-10-17-00:18)
+
+
+and similarly some other build tools:
+
+$ gcc-xbb --version
+gcc-xbb (xPack Build Box x86_64 GCC) 11.2.0
+
+etc
+
+
+> which is fairly similar to what qemu does today:
+> QEMU emulator version 4.2.1 (Debian 1:4.2-3ubuntu6.19)
+
+which is fairly different from the more consistent:
+
+$ qemu-system-arm --version
+xPack QEMU emulator version 6.2.0 (v6.2.0-1-xpack-arm)
+
+
+If you prefer the GNU scheme, we can also start with the program name, =
+and it would look like:
+
+$ qemu-system-arm --version
+qemu-system-arm (xPack QEMU emulator) version 6.2.0 (v6.2.0-1-xpack-arm)
+
+Or something like this, but applied consistently to all binaries.
+
+
+Regards,
+
+Liviu
 
 
