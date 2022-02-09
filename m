@@ -2,36 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 296F04AF8A0
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Feb 2022 18:39:54 +0100 (CET)
-Received: from localhost ([::1]:33280 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E6AF4AF865
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Feb 2022 18:28:22 +0100 (CET)
+Received: from localhost ([::1]:50638 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nHqwb-0005fR-8r
-	for lists+qemu-devel@lfdr.de; Wed, 09 Feb 2022 12:39:53 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:37814)
+	id 1nHqlQ-000606-QT
+	for lists+qemu-devel@lfdr.de; Wed, 09 Feb 2022 12:28:20 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:37708)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <anjo@rev.ng>) id 1nHqNa-00062a-G4
- for qemu-devel@nongnu.org; Wed, 09 Feb 2022 12:03:44 -0500
-Received: from rev.ng ([5.9.113.41]:48201)
+ (Exim 4.90_1) (envelope-from <anjo@rev.ng>) id 1nHqNT-00060M-Bc
+ for qemu-devel@nongnu.org; Wed, 09 Feb 2022 12:03:35 -0500
+Received: from rev.ng ([5.9.113.41]:53333)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <anjo@rev.ng>) id 1nHqNS-0004YC-Jb
- for qemu-devel@nongnu.org; Wed, 09 Feb 2022 12:03:39 -0500
+ (Exim 4.90_1) (envelope-from <anjo@rev.ng>) id 1nHqNN-0004YG-S0
+ for qemu-devel@nongnu.org; Wed, 09 Feb 2022 12:03:34 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=rev.ng;
  s=dkim; h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:
  Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
  Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
  :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
  List-Post:List-Owner:List-Archive;
- bh=8/b2gwKuqK3kzOJ3TeYtKSf5WY1vgGKwdhwh55E2GEY=; b=X07m3Ezi2DIm+I8wxTlQ3x2hUf
- hDqebthTVUoQ+mnbTPpRZTF+fVFLjW101xkrObb80x+7qTveHNKd3sCIato/fWtsb9/KmrZxNtiL8
- n2giF1MNLjAjaUDLichxYQF8QEWvNwiY4Mba+/mms6ZZpMOtlwetMD2JrdK1mxBqxJIw=;
+ bh=i4pM1k0Qo1vVAPF2ZhyISWSHIokslmBVpEws0TKMEuY=; b=nN5AI2oyHql8kBWQxUt83eY80U
+ CDepRN2ozR3mINCdbr0LP+in81RD/Ux+KJtldydkY0e7lIRNmlbnpKbqeULY3D27fXJKezK/WsbDR
+ u/DwUG6wd6q5hLqb0HAW3NW20rSnAl9ccT5p9Rsd1beLMS+cJwJEREh+igbgPLY0Cdj8=;
 To: qemu-devel@nongnu.org
 Cc: ale@rev.ng, tsimpson@quicinc.com, bcain@quicinc.com, mlambert@quicinc.com,
  babush@rev.ng, nizzo@rev.ng, richard.henderson@linaro.org
-Subject: [PATCH v8 07/12] target/hexagon: prepare input for the idef-parser
-Date: Wed,  9 Feb 2022 18:03:07 +0100
-Message-Id: <20220209170312.30662-8-anjo@rev.ng>
+Subject: [PATCH v8 08/12] target/hexagon: import flex/bison to docker files
+Date: Wed,  9 Feb 2022 18:03:08 +0100
+Message-Id: <20220209170312.30662-9-anjo@rev.ng>
 In-Reply-To: <20220209170312.30662-1-anjo@rev.ng>
 References: <20220209170312.30662-1-anjo@rev.ng>
 MIME-Version: 1.0
@@ -60,363 +60,517 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reply-to:  Anton Johansson <anjo@rev.ng>
 From:  Anton Johansson via <qemu-devel@nongnu.org>
 
-From: Alessandro Di Federico <ale@rev.ng>
+Note: In this version of the patchset `tests/lcitool/libvirt-ci` points
+to a fork of libvirt-ci that includes flex/bison. This fork has not been
+merged upstream yet, and can be found at
 
-Introduce infrastructure necessary to produce a file suitable for being
-parsed by the idef-parser.
+  https://gitlab.com/AntonJohansson/libvirt-ci/-/tree/mapping-flex-bison
+
+This patch will have to be modified to point to the upstreamed version
+before pulling.
 
 Signed-off-by: Alessandro Di Federico <ale@rev.ng>
+Signed-off-by: Paolo Montesel <babush@rev.ng>
 Signed-off-by: Anton Johansson <anjo@rev.ng>
 ---
- target/hexagon/gen_idef_parser_funcs.py | 125 +++++++++++++++++++++
- target/hexagon/idef-parser/macros.inc   | 140 ++++++++++++++++++++++++
- target/hexagon/idef-parser/prepare      |  24 ++++
- target/hexagon/meson.build              |  17 +++
- 4 files changed, 306 insertions(+)
- create mode 100644 target/hexagon/gen_idef_parser_funcs.py
- create mode 100644 target/hexagon/idef-parser/macros.inc
- create mode 100755 target/hexagon/idef-parser/prepare
+ .gitlab-ci.d/cirrus/freebsd-12.vars                  | 2 +-
+ .gitlab-ci.d/cirrus/freebsd-13.vars                  | 2 +-
+ .gitlab-ci.d/windows.yml                             | 2 ++
+ .gitmodules                                          | 3 ++-
+ tests/docker/dockerfiles/alpine.docker               | 5 ++++-
+ tests/docker/dockerfiles/centos8.docker              | 7 ++++---
+ tests/docker/dockerfiles/debian-amd64.docker         | 2 ++
+ tests/docker/dockerfiles/debian-native.docker        | 3 +++
+ tests/docker/dockerfiles/debian-riscv64-cross.docker | 3 +++
+ tests/docker/dockerfiles/debian-tricore-cross.docker | 1 +
+ tests/docker/dockerfiles/debian10.docker             | 3 +++
+ tests/docker/dockerfiles/fedora-i386-cross.docker    | 3 +++
+ tests/docker/dockerfiles/fedora-win32-cross.docker   | 3 +++
+ tests/docker/dockerfiles/fedora-win64-cross.docker   | 3 +++
+ tests/docker/dockerfiles/fedora.docker               | 5 +++--
+ tests/docker/dockerfiles/opensuse-leap.docker        | 7 ++++---
+ tests/docker/dockerfiles/ubuntu1804.docker           | 7 ++++---
+ tests/docker/dockerfiles/ubuntu2004.docker           | 7 ++++---
+ tests/lcitool/libvirt-ci                             | 2 +-
+ tests/lcitool/projects/qemu.yml                      | 2 ++
+ tests/lcitool/refresh                                | 2 +-
+ 21 files changed, 54 insertions(+), 20 deletions(-)
 
-diff --git a/target/hexagon/gen_idef_parser_funcs.py b/target/hexagon/gen_idef_parser_funcs.py
-new file mode 100644
-index 0000000000..5a802d08aa
---- /dev/null
-+++ b/target/hexagon/gen_idef_parser_funcs.py
-@@ -0,0 +1,125 @@
-+#!/usr/bin/env python3
-+
-+##
-+##  Copyright(c) 2019-2021 rev.ng Labs Srl. All Rights Reserved.
-+##
-+##  This program is free software; you can redistribute it and/or modify
-+##  it under the terms of the GNU General Public License as published by
-+##  the Free Software Foundation; either version 2 of the License, or
-+##  (at your option) any later version.
-+##
-+##  This program is distributed in the hope that it will be useful,
-+##  but WITHOUT ANY WARRANTY; without even the implied warranty of
-+##  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+##  GNU General Public License for more details.
-+##
-+##  You should have received a copy of the GNU General Public License
-+##  along with this program; if not, see <http://www.gnu.org/licenses/>.
-+##
-+
-+import sys
-+import re
-+import string
-+from io import StringIO
-+
-+import hex_common
-+
-+##
-+## Generate code to be fed to the idef_parser
-+##
-+## Consider A2_add:
-+##
-+##     Rd32=add(Rs32,Rt32), { RdV=RsV+RtV;}
-+##
-+## We produce:
-+##
-+##     A2_add(RdV, in RsV, in RtV) {
-+##       { RdV=RsV+RtV;}
-+##     }
-+##
-+## A2_add represents the instruction tag. Then we have a list of TCGv
-+## that the code generated by the parser can expect in input. Some of
-+## them are inputs ("in" prefix), while some others are outputs.
-+##
-+def main():
-+    hex_common.read_semantics_file(sys.argv[1])
-+    hex_common.read_attribs_file(sys.argv[2])
-+    hex_common.calculate_attribs()
-+    tagregs = hex_common.get_tagregs()
-+    tagimms = hex_common.get_tagimms()
-+
-+    with open(sys.argv[3], 'w') as f:
-+        f.write('#include "macros.inc"\n\n')
-+
-+        for tag in hex_common.tags:
-+            ## Skip the priv instructions
-+            if ( "A_PRIV" in hex_common.attribdict[tag] ) :
-+                continue
-+            ## Skip the guest instructions
-+            if ( "A_GUEST" in hex_common.attribdict[tag] ) :
-+                continue
-+            ## Skip instructions using switch
-+            if ( tag in {'S4_vrcrotate_acc', 'S4_vrcrotate'} ) :
-+                continue
-+            ## Skip trap instructions
-+            if ( tag in {'J2_trap0', 'J2_trap1'} ) :
-+                continue
-+            ## Skip 128-bit instructions
-+            if ( tag in {'A7_croundd_ri', 'A7_croundd_rr'} ) :
-+                continue
-+            if ( tag in {'M7_wcmpyrw', 'M7_wcmpyrwc',
-+                         'M7_wcmpyiw', 'M7_wcmpyiwc',
-+                         'M7_wcmpyrw_rnd', 'M7_wcmpyrwc_rnd',
-+                         'M7_wcmpyiw_rnd', 'M7_wcmpyiwc_rnd'} ) :
-+                continue
-+            ## Skip interleave/deinterleave instructions
-+            if ( tag in {'S2_interleave', 'S2_deinterleave'} ) :
-+                continue
-+            ## Skip instructions using bit reverse
-+            if ( tag in {'S2_brev', 'S2_brevp', 'S2_ct0', 'S2_ct1',
-+                         'S2_ct0p', 'S2_ct1p', 'A4_tlbmatch'} ) :
-+                continue
-+            ## Skip other unsupported instructions
-+            if ( tag == 'S2_cabacdecbin' or tag == 'A5_ACS' ) :
-+                continue
-+            if ( tag.startswith('Y') ) :
-+                continue
-+            if ( tag.startswith('V6_') ) :
-+                continue
-+            if ( tag.startswith('F') ) :
-+                continue
-+            if ( tag.endswith('_locked') ) :
-+                continue
-+
-+            regs = tagregs[tag]
-+            imms = tagimms[tag]
-+
-+            arguments = []
-+            for regtype,regid,toss,numregs in regs:
-+                prefix = "in " if hex_common.is_read(regid) else ""
-+
-+                is_pair = hex_common.is_pair(regid)
-+                is_single_old = (hex_common.is_single(regid)
-+                                 and hex_common.is_old_val(regtype, regid, tag))
-+                is_single_new = (hex_common.is_single(regid)
-+                                 and hex_common.is_new_val(regtype, regid, tag))
-+
-+                if is_pair or is_single_old:
-+                    arguments.append("%s%s%sV" % (prefix, regtype, regid))
-+                elif is_single_new:
-+                    arguments.append("%s%s%sN" % (prefix, regtype, regid))
-+                else:
-+                    print("Bad register parse: ",regtype,regid,toss,numregs)
-+
-+            for immlett,bits,immshift in imms:
-+                arguments.append(hex_common.imm_name(immlett))
-+
-+            f.write("%s(%s) {\n" % (tag, ", ".join(arguments)))
-+            f.write("    ");
-+            if hex_common.need_ea(tag):
-+                f.write("size4u_t EA; ");
-+            f.write("%s\n" % hex_common.semdict[tag])
-+            f.write("}\n\n")
-+
-+if __name__ == "__main__":
-+    main()
-diff --git a/target/hexagon/idef-parser/macros.inc b/target/hexagon/idef-parser/macros.inc
-new file mode 100644
-index 0000000000..b74a8f6f22
---- /dev/null
-+++ b/target/hexagon/idef-parser/macros.inc
-@@ -0,0 +1,140 @@
-+/*
-+ *  Copyright(c) 2019-2021 rev.ng Labs Srl. All Rights Reserved.
-+ *
-+ *  This program is free software; you can redistribute it and/or modify
-+ *  it under the terms of the GNU General Public License as published by
-+ *  the Free Software Foundation; either version 2 of the License, or
-+ *  (at your option) any later version.
-+ *
-+ *  This program is distributed in the hope that it will be useful,
-+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
-+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+ *  GNU General Public License for more details.
-+ *
-+ *  You should have received a copy of the GNU General Public License
-+ *  along with this program; if not, see <http://www.gnu.org/licenses/>.
-+ */
-+
-+/* Copy rules */
-+#define fLSBOLD(VAL) (fGETBIT(0, VAL))
-+#define fSATH(VAL) fSATN(16, VAL)
-+#define fSATUH(VAL) fSATUN(16, VAL)
-+#define fVSATH(VAL) fVSATN(16, VAL)
-+#define fVSATUH(VAL) fVSATUN(16, VAL)
-+#define fSATUB(VAL) fSATUN(8, VAL)
-+#define fSATB(VAL) fSATN(8, VAL)
-+#define fVSATUB(VAL) fVSATUN(8, VAL)
-+#define fVSATB(VAL) fVSATN(8, VAL)
-+#define fCALL(A) fWRITE_LR(fREAD_NPC()); fWRITE_NPC(A);
-+#define fCALLR(A) fWRITE_LR(fREAD_NPC()); fWRITE_NPC(A);
-+#define fCAST2_8s(A) fSXTN(16, 64, A)
-+#define fCAST2_8u(A) fZXTN(16, 64, A)
-+#define fVSATW(A) fVSATN(32, fCAST8_8s(A))
-+#define fSATW(A) fSATN(32, fCAST8_8s(A))
-+#define fVSAT(A) fVSATN(32, A)
-+#define fSAT(A) fSATN(32, A)
-+
-+/* Ease parsing */
-+#define f8BITSOF(VAL) ((VAL) ? 0xff : 0x00)
-+#define fREAD_GP() (Constant_extended ? (0) : GP)
-+#define fCLIP(DST, SRC, U) (DST = fMIN((1 << U) - 1, fMAX(SRC, -(1 << U))))
-+#define fBIDIR_ASHIFTL(SRC, SHAMT, REGSTYPE)                            \
-+    ((SHAMT > 0) ?                                                      \
-+     (fCAST##REGSTYPE##s(SRC) << SHAMT) :                               \
-+     (fCAST##REGSTYPE##s(SRC) >> -SHAMT))
-+
-+#define fBIDIR_LSHIFTL(SRC, SHAMT, REGSTYPE)    \
-+    ((SHAMT > 0) ?                              \
-+     (fCAST##REGSTYPE##u(SRC) << SHAMT) :       \
-+     (fCAST##REGSTYPE##u(SRC) >>> -SHAMT))
-+
-+#define fBIDIR_ASHIFTR(SRC, SHAMT, REGSTYPE)    \
-+    ((SHAMT > 0) ?                              \
-+     (fCAST##REGSTYPE##s(SRC) >> SHAMT) :       \
-+     (fCAST##REGSTYPE##s(SRC) << -SHAMT))
-+
-+#define fBIDIR_SHIFTR(SRC, SHAMT, REGSTYPE) \
-+    (((SHAMT) < 0) ? ((fCAST##REGSTYPE(SRC) << ((-(SHAMT)) - 1)) << 1)  \
-+                   : (fCAST##REGSTYPE(SRC) >> (SHAMT)))
-+
-+#define fBIDIR_LSHIFTR(SRC, SHAMT, REGSTYPE)                            \
-+    fBIDIR_SHIFTR(SRC, SHAMT, REGSTYPE##u)
-+
-+#define fSATVALN(N, VAL)                                                \
-+    fSET_OVERFLOW(                                                      \
-+        ((VAL) < 0) ? (-(1LL << ((N) - 1))) : ((1LL << ((N) - 1)) - 1)  \
-+    )
-+
-+#define fSAT_ORIG_SHL(A, ORIG_REG)                                      \
-+    (((fCAST4s((fSAT(A)) ^ (fCAST4s(ORIG_REG)))) < 0)                   \
-+        ? fSATVALN(32, (fCAST4s(ORIG_REG)))                             \
-+        : ((((ORIG_REG) > 0) && ((A) == 0)) ? fSATVALN(32, (ORIG_REG))  \
-+                                            : fSAT(A)))
-+
-+#define fBIDIR_ASHIFTR_SAT(SRC, SHAMT, REGSTYPE)                        \
-+    (((SHAMT) < 0) ? fSAT_ORIG_SHL((fCAST##REGSTYPE##s(SRC)             \
-+                        << ((-(SHAMT)) - 1)) << 1, (SRC))               \
-+                   : (fCAST##REGSTYPE##s(SRC) >> (SHAMT)))
-+
-+#define fBIDIR_ASHIFTL_SAT(SRC, SHAMT, REGSTYPE)                        \
-+    (((SHAMT) < 0)                                                      \
-+     ? ((fCAST##REGSTYPE##s(SRC) >> ((-(SHAMT)) - 1)) >> 1)             \
-+     : fSAT_ORIG_SHL(fCAST##REGSTYPE##s(SRC) << (SHAMT), (SRC)))
-+
-+#define fEXTRACTU_BIDIR(INREG, WIDTH, OFFSET)                           \
-+    (fZXTN(WIDTH, 32, fBIDIR_LSHIFTR((INREG), (OFFSET), 4_8)))
-+
-+/* Least significant bit operations */
-+#define fLSBNEW0 fLSBNEW(P0N)
-+#define fLSBNEW1 fLSBNEW(P1N)
-+#define fLSBOLDNOT(VAL) fGETBIT(0, ~VAL)
-+#define fLSBNEWNOT(PRED) (fLSBNEW(~PRED))
-+#define fLSBNEW0NOT fLSBNEW(~P0N)
-+#define fLSBNEW1NOT fLSBNEW(~P1N)
-+
-+/* Assignments */
-+#define fPCALIGN(IMM) (IMM = IMM & ~3)
-+#define fWRITE_LR(A) (LR = A)
-+#define fWRITE_FP(A) (FP = A)
-+#define fWRITE_SP(A) (SP = A)
-+/*
-+ * Note: There is a rule in the parser that matches `PC = ...` and emits
-+ * a call to `gen_write_new_pc`. We need to call `gen_write_new_pc` to
-+ * get the correct semantics when there are multiple stores in a packet.
-+ */
-+#define fBRANCH(LOC, TYPE) (PC = LOC)
-+#define fJUMPR(REGNO, TARGET, TYPE) (PC = TARGET)
-+#define fWRITE_LOOP_REGS0(START, COUNT) SA0 = START; (LC0 = COUNT)
-+#define fWRITE_LOOP_REGS1(START, COUNT) SA1 = START; (LC1 = COUNT)
-+#define fWRITE_LC0(VAL) (LC0 = VAL)
-+#define fWRITE_LC1(VAL) (LC1 = VAL)
-+#define fSET_LPCFG(VAL) (USR.LPCFG = VAL)
-+#define fWRITE_P0(VAL) P0 = VAL;
-+#define fWRITE_P1(VAL) P1 = VAL;
-+#define fWRITE_P3(VAL) P3 = VAL;
-+#define fEA_RI(REG, IMM) (EA = REG + IMM)
-+#define fEA_RRs(REG, REG2, SCALE) (EA = REG + (REG2 << SCALE))
-+#define fEA_IRs(IMM, REG, SCALE) (EA = IMM + (REG << SCALE))
-+#define fEA_IMM(IMM) (EA = IMM)
-+#define fEA_REG(REG) (EA = REG)
-+#define fEA_BREVR(REG) (EA = fbrev(REG))
-+#define fEA_GPI(IMM) (EA = fREAD_GP() + IMM)
-+#define fPM_I(REG, IMM) (REG = REG + IMM)
-+#define fPM_M(REG, MVAL) (REG = REG + MVAL)
-+#define fWRITE_NPC(VAL) (PC = VAL)
-+
-+/* Unary operators */
-+#define fROUND(A) (A + 0x8000)
-+
-+/* Binary operators */
-+#define fSCALE(N, A) (A << N)
-+#define fASHIFTR(SRC, SHAMT, REGSTYPE) (fCAST##REGSTYPE##s(SRC) >> SHAMT)
-+#define fLSHIFTR(SRC, SHAMT, REGSTYPE) (SRC >>> SHAMT)
-+#define fROTL(SRC, SHAMT, REGSTYPE) fROTL(SRC, SHAMT)
-+#define fASHIFTL(SRC, SHAMT, REGSTYPE) (fCAST##REGSTYPE##s(SRC) << SHAMT)
-+
-+/* Include fHIDE macros which hide type declarations */
-+#define fHIDE(A) A
-+
-+/* Purge non-relavant parts */
-+#define fBRANCH_SPECULATE_STALL(A, B, C, D, E)
-diff --git a/target/hexagon/idef-parser/prepare b/target/hexagon/idef-parser/prepare
-new file mode 100755
-index 0000000000..72d6fcbd21
---- /dev/null
-+++ b/target/hexagon/idef-parser/prepare
-@@ -0,0 +1,24 @@
-+#!/bin/bash
-+
-+#
-+#  Copyright(c) 2019-2021 rev.ng Labs Srl. All Rights Reserved.
-+#
-+#  This program is free software; you can redistribute it and/or modify
-+#  it under the terms of the GNU General Public License as published by
-+#  the Free Software Foundation; either version 2 of the License, or
-+#  (at your option) any later version.
-+#
-+#  This program is distributed in the hope that it will be useful,
-+#  but WITHOUT ANY WARRANTY; without even the implied warranty of
-+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+#  GNU General Public License for more details.
-+#
-+#  You should have received a copy of the GNU General Public License
-+#  along with this program; if not, see <http://www.gnu.org/licenses/>.
-+#
-+
-+set -e
-+set -o pipefail
-+
-+# Run the preprocessor and drop comments
-+cpp "$@"
-diff --git a/target/hexagon/meson.build b/target/hexagon/meson.build
-index b61243103f..5945098cc4 100644
---- a/target/hexagon/meson.build
-+++ b/target/hexagon/meson.build
-@@ -21,6 +21,7 @@ hex_common_py = 'hex_common.py'
- attribs_def = meson.current_source_dir() / 'attribs_def.h.inc'
- gen_tcg_h = meson.current_source_dir() / 'gen_tcg.h'
- gen_tcg_hvx_h = meson.current_source_dir() / 'gen_tcg_hvx.h'
-+idef_parser_dir = meson.current_source_dir() / 'idef-parser'
- 
+diff --git a/.gitlab-ci.d/cirrus/freebsd-12.vars b/.gitlab-ci.d/cirrus/freebsd-12.vars
+index 9c52266811..f2385c1b4a 100644
+--- a/.gitlab-ci.d/cirrus/freebsd-12.vars
++++ b/.gitlab-ci.d/cirrus/freebsd-12.vars
+@@ -11,6 +11,6 @@ MAKE='/usr/local/bin/gmake'
+ NINJA='/usr/local/bin/ninja'
+ PACKAGING_COMMAND='pkg'
+ PIP3='/usr/local/bin/pip-3.8'
+-PKGS='alsa-lib bash bzip2 ca_root_nss capstone4 ccache cdrkit-genisoimage ctags curl cyrus-sasl dbus diffutils dtc gettext git glib gmake gnutls gsed gtk3 libepoxy libffi libgcrypt libjpeg-turbo libnfs libspice-server libssh libtasn1 libxml2 llvm lttng-ust lzo2 meson ncurses nettle ninja opencv p5-Test-Harness perl5 pixman pkgconf png py38-numpy py38-pillow py38-pip py38-sphinx py38-sphinx_rtd_theme py38-virtualenv py38-yaml python3 rpm2cpio sdl2 sdl2_image snappy spice-protocol tesseract texinfo usbredir virglrenderer vte3 zstd'
++PKGS='alsa-lib bash bzip2 ca_root_nss capstone4 ccache cdrkit-genisoimage ctags curl cyrus-sasl dbus diffutils dtc gettext git glib gmake gnutls gsed gtk3 libepoxy libffi libgcrypt libjpeg-turbo libnfs libspice-server libssh libtasn1 libxml2 llvm lzo2 meson ncurses nettle ninja opencv p5-Test-Harness perl5 pixman pkgconf png py38-numpy py38-pillow py38-pip py38-sphinx py38-sphinx_rtd_theme py38-virtualenv py38-yaml python3 rpm2cpio sdl2 sdl2_image snappy spice-protocol tesseract texinfo usbredir virglrenderer vte3 zstd'
+ PYPI_PKGS=''
+ PYTHON='/usr/local/bin/python3'
+diff --git a/.gitlab-ci.d/cirrus/freebsd-13.vars b/.gitlab-ci.d/cirrus/freebsd-13.vars
+index 7b44dba324..43904b65fa 100644
+--- a/.gitlab-ci.d/cirrus/freebsd-13.vars
++++ b/.gitlab-ci.d/cirrus/freebsd-13.vars
+@@ -11,6 +11,6 @@ MAKE='/usr/local/bin/gmake'
+ NINJA='/usr/local/bin/ninja'
+ PACKAGING_COMMAND='pkg'
+ PIP3='/usr/local/bin/pip-3.8'
+-PKGS='alsa-lib bash bzip2 ca_root_nss capstone4 ccache cdrkit-genisoimage ctags curl cyrus-sasl dbus diffutils dtc gettext git glib gmake gnutls gsed gtk3 libepoxy libffi libgcrypt libjpeg-turbo libnfs libspice-server libssh libtasn1 libxml2 llvm lttng-ust lzo2 meson ncurses nettle ninja opencv p5-Test-Harness perl5 pixman pkgconf png py38-numpy py38-pillow py38-pip py38-sphinx py38-sphinx_rtd_theme py38-virtualenv py38-yaml python3 rpm2cpio sdl2 sdl2_image snappy spice-protocol tesseract texinfo usbredir virglrenderer vte3 zstd'
++PKGS='alsa-lib bash bzip2 ca_root_nss capstone4 ccache cdrkit-genisoimage ctags curl cyrus-sasl dbus diffutils dtc gettext git glib gmake gnutls gsed gtk3 libepoxy libffi libgcrypt libjpeg-turbo libnfs libspice-server libssh libtasn1 libxml2 llvm lzo2 meson ncurses nettle ninja opencv p5-Test-Harness perl5 pixman pkgconf png py38-numpy py38-pillow py38-pip py38-sphinx py38-sphinx_rtd_theme py38-virtualenv py38-yaml python3 rpm2cpio sdl2 sdl2_image snappy spice-protocol tesseract texinfo usbredir virglrenderer vte3 zstd'
+ PYPI_PKGS=''
+ PYTHON='/usr/local/bin/python3'
+diff --git a/.gitlab-ci.d/windows.yml b/.gitlab-ci.d/windows.yml
+index 62dd9ed832..4ae49376cf 100644
+--- a/.gitlab-ci.d/windows.yml
++++ b/.gitlab-ci.d/windows.yml
+@@ -33,6 +33,7 @@ msys2-64bit:
+   script:
+   - .\msys64\usr\bin\bash -lc "pacman -Sy --noconfirm --needed
+       diffutils git grep make sed
++      flex bison
+       mingw-w64-x86_64-capstone
+       mingw-w64-x86_64-curl
+       mingw-w64-x86_64-cyrus-sasl
+@@ -68,6 +69,7 @@ msys2-32bit:
+   script:
+   - .\msys64\usr\bin\bash -lc "pacman -Sy --noconfirm --needed
+       diffutils git grep make sed
++      flex bison
+       mingw-w64-i686-capstone
+       mingw-w64-i686-curl
+       mingw-w64-i686-cyrus-sasl
+diff --git a/.gitmodules b/.gitmodules
+index 84425d87e2..666e17907f 100644
+--- a/.gitmodules
++++ b/.gitmodules
+@@ -66,4 +66,5 @@
+ 	url = https://gitlab.com/qemu-project/vbootrom.git
+ [submodule "tests/lcitool/libvirt-ci"]
+ 	path = tests/lcitool/libvirt-ci
+-	url = http://gitlab.com/libvirt/libvirt-ci
++	url = http://gitlab.com/AntonJohansson/libvirt-ci
++        branch = mapping-flex-bison
+diff --git a/tests/docker/dockerfiles/alpine.docker b/tests/docker/dockerfiles/alpine.docker
+index eb2251c81c..d4f0279318 100644
+--- a/tests/docker/dockerfiles/alpine.docker
++++ b/tests/docker/dockerfiles/alpine.docker
+@@ -1,6 +1,6 @@
+ # THIS FILE WAS AUTO-GENERATED
  #
- #  Step 1
-@@ -179,4 +180,20 @@ hexagon_ss.add(files(
-     'mmvec/system_ext_mmvec.c',
- ))
+-#  $ lcitool dockerfile alpine-edge qemu
++#  $ lcitool dockerfile --layers all alpine-edge qemu
+ #
+ # https://gitlab.com/libvirt/libvirt-ci
  
-+idef_parser_input_generated = custom_target(
-+    'idef_parser_input.h.inc',
-+    output: 'idef_parser_input.h.inc',
-+    depends: [semantics_generated],
-+    depend_files: [hex_common_py],
-+    command: [python, files('gen_idef_parser_funcs.py'), semantics_generated, attribs_def, '@OUTPUT@'],
-+)
-+
-+preprocessed_idef_parser_input_generated = custom_target(
-+    'idef_parser_input.preprocessed.h.inc',
-+    output: 'idef_parser_input.preprocessed.h.inc',
-+    input: idef_parser_input_generated,
-+    depend_files: [idef_parser_dir / 'macros.inc'],
-+    command: [idef_parser_dir / 'prepare', '@INPUT@', '-I' + idef_parser_dir, '-o', '@OUTPUT@'],
-+)
-+
- target_arch += {'hexagon': hexagon_ss}
+@@ -13,6 +13,7 @@ RUN apk update && \
+         attr-dev \
+         bash \
+         bc \
++        bison \
+         bzip2 \
+         bzip2-dev \
+         ca-certificates \
+@@ -29,6 +30,7 @@ RUN apk update && \
+         dtc-dev \
+         eudev-dev \
+         findutils \
++        flex \
+         fuse3-dev \
+         g++ \
+         gcc \
+@@ -109,6 +111,7 @@ RUN apk update && \
+         zlib-dev \
+         zlib-static \
+         zstd-dev && \
++    apk list | sort > /packages.txt && \
+     mkdir -p /usr/libexec/ccache-wrappers && \
+     ln -s /usr/bin/ccache /usr/libexec/ccache-wrappers/c++ && \
+     ln -s /usr/bin/ccache /usr/libexec/ccache-wrappers/cc && \
+diff --git a/tests/docker/dockerfiles/centos8.docker b/tests/docker/dockerfiles/centos8.docker
+index cbb909d02b..66d1f09a86 100644
+--- a/tests/docker/dockerfiles/centos8.docker
++++ b/tests/docker/dockerfiles/centos8.docker
+@@ -1,10 +1,10 @@
+ # THIS FILE WAS AUTO-GENERATED
+ #
+-#  $ lcitool dockerfile centos-8 qemu
++#  $ lcitool dockerfile --layers all almalinux-8 qemu
+ #
+ # https://gitlab.com/libvirt/libvirt-ci
+ 
+-FROM docker.io/library/centos:8
++FROM docker.io/library/almalinux:8
+ 
+ RUN dnf update -y && \
+     dnf install 'dnf-command(config-manager)' -y && \
+@@ -16,6 +16,7 @@ RUN dnf update -y && \
+         alsa-lib-devel \
+         bash \
+         bc \
++        bison \
+         brlapi-devel \
+         bzip2 \
+         bzip2-devel \
+@@ -30,6 +31,7 @@ RUN dnf update -y && \
+         device-mapper-multipath-devel \
+         diffutils \
+         findutils \
++        flex \
+         fuse3-devel \
+         gcc \
+         gcc-c++ \
+@@ -69,7 +71,6 @@ RUN dnf update -y && \
+         libssh-devel \
+         libtasn1-devel \
+         libubsan \
+-        libudev-devel \
+         liburing-devel \
+         libusbx-devel \
+         libxml2-devel \
+diff --git a/tests/docker/dockerfiles/debian-amd64.docker b/tests/docker/dockerfiles/debian-amd64.docker
+index ed546edcd6..805fd6f981 100644
+--- a/tests/docker/dockerfiles/debian-amd64.docker
++++ b/tests/docker/dockerfiles/debian-amd64.docker
+@@ -14,9 +14,11 @@ RUN apt update && \
+ RUN apt update && \
+     DEBIAN_FRONTEND=noninteractive eatmydata \
+     apt install -y --no-install-recommends \
++        bison \
+         cscope \
+         genisoimage \
+         exuberant-ctags \
++        flex \
+         global \
+         libbz2-dev \
+         liblzo2-dev \
+diff --git a/tests/docker/dockerfiles/debian-native.docker b/tests/docker/dockerfiles/debian-native.docker
+index efd55cb6e0..02ccaf98fd 100644
+--- a/tests/docker/dockerfiles/debian-native.docker
++++ b/tests/docker/dockerfiles/debian-native.docker
+@@ -26,13 +26,16 @@ RUN apt update && \
+ RUN apt update && \
+     DEBIAN_FRONTEND=noninteractive eatmydata \
+     apt install -y --no-install-recommends \
++        bison \
+         cscope \
+         genisoimage \
+         exuberant-ctags \
++        flex \
+         global \
+         libbz2-dev \
+         liblzo2-dev \
+         libgcrypt20-dev \
++        libglib2.0-dev \
+         libfdt-dev \
+         librdmacm-dev \
+         libsasl2-dev \
+diff --git a/tests/docker/dockerfiles/debian-riscv64-cross.docker b/tests/docker/dockerfiles/debian-riscv64-cross.docker
+index 594d97982c..f5553afc2e 100644
+--- a/tests/docker/dockerfiles/debian-riscv64-cross.docker
++++ b/tests/docker/dockerfiles/debian-riscv64-cross.docker
+@@ -17,12 +17,15 @@ RUN apt update && \
+ # Install common build utilities
+ RUN DEBIAN_FRONTEND=noninteractive eatmydata apt install -yy \
+     bc \
++    bison \
+     build-essential \
+     ca-certificates \
+     debian-ports-archive-keyring \
+     dpkg-dev \
++    flex \
+     gettext \
+     git \
++    libglib2.0-dev \
+     ninja-build \
+     pkg-config \
+     python3
+diff --git a/tests/docker/dockerfiles/debian-tricore-cross.docker b/tests/docker/dockerfiles/debian-tricore-cross.docker
+index 3f6b55562c..9191aafc7f 100644
+--- a/tests/docker/dockerfiles/debian-tricore-cross.docker
++++ b/tests/docker/dockerfiles/debian-tricore-cross.docker
+@@ -20,6 +20,7 @@ RUN apt update && \
+        bzip2 \
+        ca-certificates \
+        ccache \
++       flex \
+        g++ \
+        gcc \
+        git \
+diff --git a/tests/docker/dockerfiles/debian10.docker b/tests/docker/dockerfiles/debian10.docker
+index b414af1b9f..23285e7aa4 100644
+--- a/tests/docker/dockerfiles/debian10.docker
++++ b/tests/docker/dockerfiles/debian10.docker
+@@ -18,15 +18,18 @@ RUN apt update && \
+     DEBIAN_FRONTEND=noninteractive eatmydata \
+     apt install -y --no-install-recommends \
+         bc \
++        bison \
+         build-essential \
+         ca-certificates \
+         ccache \
+         clang \
+         dbus \
++        flex \
+         gdb-multiarch \
+         gettext \
+         git \
+         libffi-dev \
++        libglib2.0-dev \
+         libncurses5-dev \
+         ninja-build \
+         pkg-config \
+diff --git a/tests/docker/dockerfiles/fedora-i386-cross.docker b/tests/docker/dockerfiles/fedora-i386-cross.docker
+index 13328e6081..ae009a203f 100644
+--- a/tests/docker/dockerfiles/fedora-i386-cross.docker
++++ b/tests/docker/dockerfiles/fedora-i386-cross.docker
+@@ -1,12 +1,15 @@
+ FROM registry.fedoraproject.org/fedora:34
+ 
+ ENV PACKAGES \
++    bison \
+     bzip2 \
+     ccache \
+     diffutils \
+     findutils \
++    flex \
+     gcc \
+     git \
++    glib2-devel \
+     libffi-devel.i686 \
+     libselinux-devel.i686 \
+     libtasn1-devel.i686 \
+diff --git a/tests/docker/dockerfiles/fedora-win32-cross.docker b/tests/docker/dockerfiles/fedora-win32-cross.docker
+index d80e66c651..ed08392657 100644
+--- a/tests/docker/dockerfiles/fedora-win32-cross.docker
++++ b/tests/docker/dockerfiles/fedora-win32-cross.docker
+@@ -3,13 +3,16 @@ FROM registry.fedoraproject.org/fedora:33
+ # Please keep this list sorted alphabetically
+ ENV PACKAGES \
+     bc \
++    bison \
+     bzip2 \
+     ccache \
+     diffutils \
+     findutils \
++    flex \
+     gcc \
+     gettext \
+     git \
++    glib2-devel \
+     hostname \
+     make \
+     meson \
+diff --git a/tests/docker/dockerfiles/fedora-win64-cross.docker b/tests/docker/dockerfiles/fedora-win64-cross.docker
+index 2b12b94ccf..bc31c66aef 100644
+--- a/tests/docker/dockerfiles/fedora-win64-cross.docker
++++ b/tests/docker/dockerfiles/fedora-win64-cross.docker
+@@ -3,12 +3,15 @@ FROM registry.fedoraproject.org/fedora:33
+ # Please keep this list sorted alphabetically
+ ENV PACKAGES \
+     bc \
++    bison \
+     bzip2 \
+     ccache \
+     diffutils \
+     findutils \
++    flex \
+     gcc \
+     gettext \
++    glib2-devel \
+     git \
+     hostname \
+     make \
+diff --git a/tests/docker/dockerfiles/fedora.docker b/tests/docker/dockerfiles/fedora.docker
+index 60207f3da3..e2ba993e6b 100644
+--- a/tests/docker/dockerfiles/fedora.docker
++++ b/tests/docker/dockerfiles/fedora.docker
+@@ -1,6 +1,6 @@
+ # THIS FILE WAS AUTO-GENERATED
+ #
+-#  $ lcitool dockerfile fedora-35 qemu
++#  $ lcitool dockerfile --layers all fedora-35 qemu
+ #
+ # https://gitlab.com/libvirt/libvirt-ci
+ 
+@@ -23,6 +23,7 @@ exec "$@"' > /usr/bin/nosync && \
+         alsa-lib-devel \
+         bash \
+         bc \
++        bison \
+         brlapi-devel \
+         bzip2 \
+         bzip2-devel \
+@@ -37,6 +38,7 @@ exec "$@"' > /usr/bin/nosync && \
+         device-mapper-multipath-devel \
+         diffutils \
+         findutils \
++        flex \
+         fuse3-devel \
+         gcc \
+         gcc-c++ \
+@@ -77,7 +79,6 @@ exec "$@"' > /usr/bin/nosync && \
+         libssh-devel \
+         libtasn1-devel \
+         libubsan \
+-        libudev-devel \
+         liburing-devel \
+         libusbx-devel \
+         libxml2-devel \
+diff --git a/tests/docker/dockerfiles/opensuse-leap.docker b/tests/docker/dockerfiles/opensuse-leap.docker
+index f57d8cfb29..146cd9f3e3 100644
+--- a/tests/docker/dockerfiles/opensuse-leap.docker
++++ b/tests/docker/dockerfiles/opensuse-leap.docker
+@@ -1,6 +1,6 @@
+ # THIS FILE WAS AUTO-GENERATED
+ #
+-#  $ lcitool dockerfile opensuse-leap-152 qemu
++#  $ lcitool dockerfile --layers all opensuse-leap-152 qemu
+ #
+ # https://gitlab.com/libvirt/libvirt-ci
+ 
+@@ -12,6 +12,7 @@ RUN zypper update -y && \
+            alsa-lib-devel \
+            bash \
+            bc \
++           bison \
+            brlapi-devel \
+            bzip2 \
+            ca-certificates \
+@@ -22,6 +23,7 @@ RUN zypper update -y && \
+            dbus-1 \
+            diffutils \
+            findutils \
++           flex \
+            fuse3-devel \
+            gcc \
+            gcc-c++ \
+@@ -128,8 +130,7 @@ RUN zypper update -y && \
+     ln -s /usr/bin/ccache /usr/libexec/ccache-wrappers/g++ && \
+     ln -s /usr/bin/ccache /usr/libexec/ccache-wrappers/gcc
+ 
+-RUN pip3 install \
+-         meson==0.56.0
++RUN pip3 install meson==0.56.0
+ 
+ ENV LANG "en_US.UTF-8"
+ ENV MAKE "/usr/bin/make"
+diff --git a/tests/docker/dockerfiles/ubuntu1804.docker b/tests/docker/dockerfiles/ubuntu1804.docker
+index 0ffa3c4d4b..0a5900f203 100644
+--- a/tests/docker/dockerfiles/ubuntu1804.docker
++++ b/tests/docker/dockerfiles/ubuntu1804.docker
+@@ -1,6 +1,6 @@
+ # THIS FILE WAS AUTO-GENERATED
+ #
+-#  $ lcitool dockerfile ubuntu-1804 qemu
++#  $ lcitool dockerfile --layers all ubuntu-1804 qemu
+ #
+ # https://gitlab.com/libvirt/libvirt-ci
+ 
+@@ -13,6 +13,7 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
+     eatmydata apt-get install --no-install-recommends -y \
+             bash \
+             bc \
++            bison \
+             bsdmainutils \
+             bzip2 \
+             ca-certificates \
+@@ -23,6 +24,7 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
+             diffutils \
+             exuberant-ctags \
+             findutils \
++            flex \
+             g++ \
+             gcc \
+             gcovr \
+@@ -134,8 +136,7 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
+     ln -s /usr/bin/ccache /usr/libexec/ccache-wrappers/g++ && \
+     ln -s /usr/bin/ccache /usr/libexec/ccache-wrappers/gcc
+ 
+-RUN pip3 install \
+-         meson==0.56.0
++RUN pip3 install meson==0.56.0
+ 
+ ENV LANG "en_US.UTF-8"
+ ENV MAKE "/usr/bin/make"
+diff --git a/tests/docker/dockerfiles/ubuntu2004.docker b/tests/docker/dockerfiles/ubuntu2004.docker
+index 4e562dfdcd..75b5eee895 100644
+--- a/tests/docker/dockerfiles/ubuntu2004.docker
++++ b/tests/docker/dockerfiles/ubuntu2004.docker
+@@ -1,6 +1,6 @@
+ # THIS FILE WAS AUTO-GENERATED
+ #
+-#  $ lcitool dockerfile ubuntu-2004 qemu
++#  $ lcitool dockerfile --layers all ubuntu-2004 qemu
+ #
+ # https://gitlab.com/libvirt/libvirt-ci
+ 
+@@ -13,6 +13,7 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
+     eatmydata apt-get install --no-install-recommends -y \
+             bash \
+             bc \
++            bison \
+             bsdmainutils \
+             bzip2 \
+             ca-certificates \
+@@ -23,6 +24,7 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
+             diffutils \
+             exuberant-ctags \
+             findutils \
++            flex \
+             g++ \
+             gcc \
+             gcovr \
+@@ -136,8 +138,7 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
+     ln -s /usr/bin/ccache /usr/libexec/ccache-wrappers/g++ && \
+     ln -s /usr/bin/ccache /usr/libexec/ccache-wrappers/gcc
+ 
+-RUN pip3 install \
+-         meson==0.56.0
++RUN pip3 install meson==0.56.0
+ 
+ ENV LANG "en_US.UTF-8"
+ ENV MAKE "/usr/bin/make"
+diff --git a/tests/lcitool/libvirt-ci b/tests/lcitool/libvirt-ci
+index 29cec2153b..22a88ac731 160000
+--- a/tests/lcitool/libvirt-ci
++++ b/tests/lcitool/libvirt-ci
+@@ -1 +1 @@
+-Subproject commit 29cec2153b9a4dbb2e66f1cbc9866a4eff519cfd
++Subproject commit 22a88ac73197e6c6b8a319eb92cdbd2ac06eb44a
+diff --git a/tests/lcitool/projects/qemu.yml b/tests/lcitool/projects/qemu.yml
+index ed5ab1407a..f464665990 100644
+--- a/tests/lcitool/projects/qemu.yml
++++ b/tests/lcitool/projects/qemu.yml
+@@ -3,6 +3,7 @@ packages:
+  - alsa
+  - bash
+  - bc
++ - bison
+  - brlapi
+  - bzip2
+  - bzip2-libs
+@@ -18,6 +19,7 @@ packages:
+  - diffutils
+  - dtrace
+  - findutils
++ - flex
+  - fuse3
+  - g++
+  - gcc
+diff --git a/tests/lcitool/refresh b/tests/lcitool/refresh
+index 033120e223..4d7e6e8383 100755
+--- a/tests/lcitool/refresh
++++ b/tests/lcitool/refresh
+@@ -77,7 +77,7 @@ ubuntu2004_tsanhack = [
+ ]
+ 
+ try:
+-   generate_dockerfile("centos8", "centos-8")
++   generate_dockerfile("centos8", "almalinux-8")
+    generate_dockerfile("fedora", "fedora-35")
+    generate_dockerfile("ubuntu1804", "ubuntu-1804",
+                        trailer="".join(ubuntu1804_skipssh))
 -- 
 2.34.1
 
