@@ -2,80 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EDBF74B0123
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Feb 2022 00:22:02 +0100 (CET)
-Received: from localhost ([::1]:57838 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE7004B0128
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Feb 2022 00:25:41 +0100 (CET)
+Received: from localhost ([::1]:33834 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nHwHh-0000jq-PH
-	for lists+qemu-devel@lfdr.de; Wed, 09 Feb 2022 18:22:01 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:54284)
+	id 1nHwLF-0004PG-12
+	for lists+qemu-devel@lfdr.de; Wed, 09 Feb 2022 18:25:41 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:54774)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1nHwCb-00044l-Ff
- for qemu-devel@nongnu.org; Wed, 09 Feb 2022 18:16:46 -0500
-Received: from [2a00:1450:4864:20::52b] (port=33506
- helo=mail-ed1-x52b.google.com)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nHwF6-0007ab-0M
+ for qemu-devel@nongnu.org; Wed, 09 Feb 2022 18:19:20 -0500
+Received: from [2607:f8b0:4864:20::62e] (port=47097
+ helo=mail-pl1-x62e.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1nHwCZ-0000zk-AR
- for qemu-devel@nongnu.org; Wed, 09 Feb 2022 18:16:44 -0500
-Received: by mail-ed1-x52b.google.com with SMTP id b13so8180339edn.0
- for <qemu-devel@nongnu.org>; Wed, 09 Feb 2022 15:16:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=date:from:to:cc:subject:user-agent:in-reply-to:references
- :message-id:mime-version:content-transfer-encoding;
- bh=WhpG7YlLa3O3+WuIPyPW31+jWsbpD5DN6k6/uoAurWo=;
- b=k0GgihIwJ/h9Gfibyzz06T+S/xTDTB+Mc8BdxDUVTmn++7gmDONvs1YwjziQf5auhu
- ouedmxFGgjgJfC+1wg7M2MUPBdx72Wi9lXepEf6biy3JNoqVNU6PA11FDijpI9D3ixhl
- 04PS0m5oFq69L30mqqrxTRc0Ze+Y9i2jNfEKs9cowICKbktoMVCTM2qa97g/Nnz7cPiN
- XW7Tafx+bwCG3YYsq90jTkij8lHcufZFHTCArLLy0aEkSm6URZKnsOeYl582rEPum/nW
- gD3fneDJ93iIgG+vXKJRt0ctUFAG53W9Fp9fnwllnHBbNMAGD5nwacjF4uJVt2oWot3F
- SfRA==
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nHwF0-0001O6-Hz
+ for qemu-devel@nongnu.org; Wed, 09 Feb 2022 18:19:17 -0500
+Received: by mail-pl1-x62e.google.com with SMTP id u12so260872plf.13
+ for <qemu-devel@nongnu.org>; Wed, 09 Feb 2022 15:19:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=RH3KaFrhW+1SooyYRBzl+BsyBPOvSC+FE3b17rKX2rU=;
+ b=fN+S9DhrknLo0GBByPfXjRfG9V3sSTWlmZ4PhNO0N28yGLTaGs1OBY8tzKSISiUT1e
+ Kxr8K1wbf7eyKIkQH9FcPYaAc/Kow5n7gQ2+TkcWM0RzpRKEizS8Qv+1o+pDHnH5Wzk/
+ T8w96bxFgiVeNR91PUWduI7A0KT6G3hNI2TZaQPilFEe+5/+RJ0Tj0Di0vNNfqc1eXEa
+ oRfmG6mBsGn4CCffXgbLtqq4oQO95pKSIRmNGIsGZvMpR8TUyAYVcOt310Ihj8hQlMJp
+ ZDV9dG8KBVMu/+0gy9PHuTh/MhfL4XBaUT5fEyjvqc89ipU8DGyKXd4MpXCttczZNatM
+ ZRZw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:user-agent:in-reply-to
- :references:message-id:mime-version:content-transfer-encoding;
- bh=WhpG7YlLa3O3+WuIPyPW31+jWsbpD5DN6k6/uoAurWo=;
- b=dk0Rq6OQRZmyaFdLaWVAEK50OqC30L/i2u7zIciNjH1+k1iL9sX3dM3n3HlVKTSySn
- fA+b2IQH+2x8BaanH44OER9cDnK+Zh2YWfa0UTWSm6q+LXgTSJgVJ8w7qJMIYs1xPtvo
- A7QzxDcDnc24W0CcGqXfe94SExp/u6I986838qVjLhHxru/JdY5X6An69Gwjck57aeuV
- 9/qHjp67TAfP+kS82n7G4pqdb1mQ37GAPK7R/8Q5MYODE+7wZOpH0GB724j4kz71dFo6
- F7pla3EMpr8mVBbkV3cbH++TnKG/KeCS44p5VYMnOIOLPGA8t70QDIoVRw1wCrFA6arw
- 8UbA==
-X-Gm-Message-State: AOAM533JXMhmqH6rr04czV2raIm7amy4m29zPLhe8nLA3q7fjrz9tClE
- P66tQXGnMqFgNCcZaKdM7vc=
-X-Google-Smtp-Source: ABdhPJwLuXJ54OxueiPy7+lpLnxmRwg1ErYnOzpvgFN8acv0vlqmbH3vN8qux1SX5WJrVMt2eYoECg==
-X-Received: by 2002:aa7:d898:: with SMTP id u24mr5288482edq.60.1644448596620; 
- Wed, 09 Feb 2022 15:16:36 -0800 (PST)
-Received: from [127.0.0.1] (dynamic-077-183-173-215.77.183.pool.telefonica.de.
- [77.183.173.215])
- by smtp.gmail.com with ESMTPSA id i18sm2903990ejy.190.2022.02.09.15.16.36
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Wed, 09 Feb 2022 15:16:36 -0800 (PST)
-Date: Thu, 10 Feb 2022 00:16:34 +0100
-From: BB <shentey@gmail.com>
-To: =?ISO-8859-1?Q?Philippe_Mathieu-Daud=E9?= <f4bug@amsat.org>,
- Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PATCH 3/3] isa/piix4: Resolve global variables
-User-Agent: K-9 Mail for Android
-In-Reply-To: <b21fefc6-a7f6-c101-5f1f-99cd3191933b@amsat.org>
-References: <20220112213629.9126-1-shentey@gmail.com>
- <20220112213629.9126-4-shentey@gmail.com>
- <CAFEAcA_HE6UCaeyM7+5n0O+hFKLGk=Sc6Mpr_VBD_RJR=WJg=w@mail.gmail.com>
- <b21fefc6-a7f6-c101-5f1f-99cd3191933b@amsat.org>
-Message-ID: <3DD424F7-FC1C-471E-A5E5-1E06783D7254@gmail.com>
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=RH3KaFrhW+1SooyYRBzl+BsyBPOvSC+FE3b17rKX2rU=;
+ b=8IYQz3Q0yWTN1lZLnUbGEWIVSFk0iF89witPxIR8Zt5+ZeKH4Hm5mgKsObAn00H70D
+ PKBFMyR439HooUYNumJcblGfdfdyDa4gYXC9ebSqNetgv1JWX9rv2LD8deTTwyksyLWv
+ gKyvsDaxLPmLw2rWJ8gLt5JcFmqLc6Vb/dSm/7NxTz7y8cxwcMoT+WV5ZfHJwBRxH4kF
+ 1UY4R+hdecc2ZIhwSYwaJ0xZypxcTYTs+4kEUtMQYA8eeQo7vP4rxTx7B/4SALQLeD4L
+ h95pqiusxGWHlJOkgN437eeKvOmw+Dp7XAot51uco3vb/sS0tXTsRPbwRyf6OIvJT150
+ GIQg==
+X-Gm-Message-State: AOAM532hZ7misiyeFH9aw18mA//fMugpixhVM+pmcLDONCM5j6iHyKzT
+ IvhlFsF9LU8ogZDUNgaMTRkA+A==
+X-Google-Smtp-Source: ABdhPJw5pGIUQFm1V9GyMV2yU2takIGGYfveDD0D5QSd25JwGaC2hl2BtRcQOgBlEzFo3ZeFTo8U/w==
+X-Received: by 2002:a17:902:b495:: with SMTP id
+ y21mr4472516plr.82.1644448739448; 
+ Wed, 09 Feb 2022 15:18:59 -0800 (PST)
+Received: from [10.0.0.163] ([124.189.222.164])
+ by smtp.gmail.com with ESMTPSA id d15sm20484874pfu.127.2022.02.09.15.18.57
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 09 Feb 2022 15:18:59 -0800 (PST)
+Message-ID: <9e1438f9-59a4-3ce4-7c41-832af93acea2@linaro.org>
+Date: Thu, 10 Feb 2022 10:18:50 +1100
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::52b
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [RFC PATCH 12/15] hw/m68k: Restrict M68kCPU type to target/ code
+Content-Language: en-US
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org
+References: <20220209215446.58402-1-f4bug@amsat.org>
+ <20220209215446.58402-13-f4bug@amsat.org>
+ <8070b23a-7072-58a2-f3dd-fbf5f626674a@linaro.org>
+ <40db7e28-2399-9ff5-6d5c-2c61a95a25cf@amsat.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <40db7e28-2399-9ff5-6d5c-2c61a95a25cf@amsat.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::62e
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::52b;
- envelope-from=shentey@gmail.com; helo=mail-ed1-x52b.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62e;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62e.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
 X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
@@ -91,74 +95,97 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?ISO-8859-1?Q?Herv=E9_Poussineau?= <hpoussin@reactos.org>,
- qemu-devel@nongnu.org, Aurelien Jarno <aurelien@aurel32.net>,
- "Michael S. Tsirkin" <mst@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 30=2E Januar 2022 23:53:42 MEZ schrieb "Philippe Mathieu-Daud=C3=A9" <f4=
-bug@amsat=2Eorg>:
->On 14/1/22 14:36, Peter Maydell wrote:
->> On Wed, 12 Jan 2022 at 22:02, Bernhard Beschow <shentey@gmail=2Ecom> wr=
-ote:
->>>
->>> Now that piix4_set_irq's opaque parameter references own PIIX4State,
->>> piix4_dev becomes redundant and pci_irq_levels can be moved into PIIX4=
-State=2E
->>>
->>> Signed-off-by: Bernhard Beschow <shentey@gmail=2Ecom>
+On 2/10/22 10:09, Philippe Mathieu-Daudé wrote:
+> On 9/2/22 23:50, Richard Henderson wrote:
+>> On 2/10/22 08:54, Philippe Mathieu-Daudé wrote:
+>>> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 >>> ---
->>>   hw/isa/piix4=2Ec                | 22 +++++++++-------------
->>>   include/hw/southbridge/piix=2Eh |  2 --
->>>   2 files changed, 9 insertions(+), 15 deletions(-)
+>>>   include/hw/m68k/mcf.h | 3 +--
+>>>   target/m68k/cpu-qom.h | 2 --
+>>>   target/m68k/cpu.h     | 4 ++--
+>>>   3 files changed, 3 insertions(+), 6 deletions(-)
 >>>
->>> diff --git a/hw/isa/piix4=2Ec b/hw/isa/piix4=2Ec
->>> index a31e9714cf=2E=2E964e09cf7f 100644
->>> --- a/hw/isa/piix4=2Ec
->>> +++ b/hw/isa/piix4=2Ec
->>> @@ -39,14 +39,14 @@
->>>   #include "sysemu/runstate=2Eh"
->>>   #include "qom/object=2Eh"
->>>
->>> -PCIDevice *piix4_dev;
+>>> diff --git a/include/hw/m68k/mcf.h b/include/hw/m68k/mcf.h
+>>> index 8cbd587bbf..e84fcfb4ca 100644
+>>> --- a/include/hw/m68k/mcf.h
+>>> +++ b/include/hw/m68k/mcf.h
+>>> @@ -3,7 +3,6 @@
+>>>   /* Motorola ColdFire device prototypes.  */
+>>>   #include "exec/hwaddr.h"
+>>> -#include "target/m68k/cpu-qom.h"
+>>>   /* mcf_uart.c */
+>>>   uint64_t mcf_uart_read(void *opaque, hwaddr addr,
+>>> @@ -16,7 +15,7 @@ void mcf_uart_mm_init(hwaddr base, qemu_irq irq, Chardev *chr);
+>>>   /* mcf_intc.c */
+>>>   qemu_irq *mcf_intc_init(struct MemoryRegion *sysmem,
+>>>                           hwaddr base,
+>>> -                        M68kCPU *cpu);
+>>> +                        ArchCPU *cpu);
+>>>   /* mcf5206.c */
+>>>   #define TYPE_MCF5206_MBAR "mcf5206-mbar"
+>>
+>> This part is ok.
+>>
+>>> diff --git a/target/m68k/cpu-qom.h b/target/m68k/cpu-qom.h
+>>> index c2c0736b3b..ec75adad69 100644
+>>> --- a/target/m68k/cpu-qom.h
+>>> +++ b/target/m68k/cpu-qom.h
+>>> @@ -25,8 +25,6 @@
+>>>   #define TYPE_M68K_CPU "m68k-cpu"
+>>> -typedef struct ArchCPU M68kCPU;
 >>> -
->>>   struct PIIX4State {
->>>       PCIDevice dev;
->>>       qemu_irq cpu_intr;
->>>       qemu_irq *isa;
->>>       qemu_irq i8259[ISA_NUM_IRQS];
->>>
->>> +    int pci_irq_levels[PIIX_NUM_PIRQS];
->>> +
->>=20
->> I wondered how we were migrating this state, and the answer
->> seems to be that we aren't (and weren't before, when it was
->> a global variable, so this is a pre-existing bug)=2E
->
->Indeed the migrated VM starts with PCI IRQ levels zeroed=2E
->
->> Does the malta platform support migration save/load?
->
->Maybe a "best effort" support, but not versioned machines=2E
->
->> We should probably add this field to the vmstate struct
->> (which will be a migration compatibility break, which is OK
->> as the malta board isn't versioned=2E)
->
->Yeah good catch=2E
->
->Bernhard, do you mind adding it?
+>>>   OBJECT_DECLARE_TYPE(ArchCPU, M68kCPUClass,
+>>>                       M68K_CPU)
+>>> diff --git a/target/m68k/cpu.h b/target/m68k/cpu.h
+>>> index 872e8ce637..90be69e714 100644
+>>> --- a/target/m68k/cpu.h
+>>> +++ b/target/m68k/cpu.h
+>>> @@ -156,14 +156,14 @@ typedef struct CPUArchState {
+>>>    *
+>>>    * A Motorola 68k CPU.
+>>>    */
+>>> -struct ArchCPU {
+>>> +typedef struct ArchCPU {
+>>>       /*< private >*/
+>>>       CPUState parent_obj;
+>>>       /*< public >*/
+>>>       CPUNegativeOffsetState neg;
+>>>       CPUM68KState env;
+>>> -};
+>>> +} M68kCPU;
+>>
+>> I don't like these.  Rationale?
+> 
+> Short-term idea: hw/ models only have access to cpu-qom.h declarations
+> and opaque pointers to generic CPU objects.
+> 
+> hw/ should not include cpu.h at all. By restricting FooCPU to target/
+> code, hw/ files fail to compile if using FooCPU and not ArchCPU.
 
-Sure, I'll give it a try=2E Shall I submit a v2 of this patch series then?=
- If so, would it be ok to change the topic of the cover letter or would tha=
-t be confusing?
+Yes, that would be ideal.  If you do want to bring the typedef into cpu.h, please keep it 
+separate; it's easier to read.  Especially since one normally expects
 
-Last but not least: How to treat the version_id and the version parameters=
- of the new and existing fields?
+typedef struct Foo {
+   ...
+} Foo;
 
-Regards,
+and that's not what's happening here.
 
-Bernhard=2E
+> Long-term idea, each target/ is built as a module, exposing an uniform
+> arch-API.
 
+That would be awesome, yes.
+
+> I'm still prototyping to see how to disentangle arch-specific hw which
+> access CPU internals (such ARM NVIC or MIPS ITU).
+
+Complicated, yes.  If it comes to it, I would not be opposed to having these tightly 
+coupled devices live in target/, but let's see if you can avoid it.
+
+
+r~
 
