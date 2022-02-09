@@ -2,39 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41AB14AF8A7
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Feb 2022 18:44:56 +0100 (CET)
-Received: from localhost ([::1]:41992 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A27C54AF8DB
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Feb 2022 18:59:35 +0100 (CET)
+Received: from localhost ([::1]:39448 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nHr1T-0003Mn-3x
-	for lists+qemu-devel@lfdr.de; Wed, 09 Feb 2022 12:44:55 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:37812)
+	id 1nHrFe-0004Id-5R
+	for lists+qemu-devel@lfdr.de; Wed, 09 Feb 2022 12:59:34 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:37964)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <anjo@rev.ng>) id 1nHqNa-00062Z-Fz
- for qemu-devel@nongnu.org; Wed, 09 Feb 2022 12:03:44 -0500
-Received: from rev.ng ([5.9.113.41]:45149)
+ (Exim 4.90_1) (envelope-from <anjo@rev.ng>) id 1nHqNp-00065g-TX
+ for qemu-devel@nongnu.org; Wed, 09 Feb 2022 12:03:57 -0500
+Received: from rev.ng ([5.9.113.41]:36169)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <anjo@rev.ng>) id 1nHqNS-0004Z3-An
- for qemu-devel@nongnu.org; Wed, 09 Feb 2022 12:03:38 -0500
+ (Exim 4.90_1) (envelope-from <anjo@rev.ng>) id 1nHqNd-0004ZE-A4
+ for qemu-devel@nongnu.org; Wed, 09 Feb 2022 12:03:56 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=rev.ng;
- s=dkim; h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:
- Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
+ s=dkim; h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:
+ In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:
  Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
  :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
  List-Post:List-Owner:List-Archive;
- bh=HGWM3Va8G2L4qCkZtXo2gEC7TJXTzPEDRk3Q0vBdbIU=; b=cgJ8hw/1SQ1NAVGBrd6ZD6LI7J
- sMjhsg/h/5OK/A5iDKssFSWcZrbxRC1JlJ40z75eF4cooCM0M/qw+rQtKVj3gJkm7T++yW8SBuMIu
- SzBbxA07+DtWdW4sikCsOrtmB72F/Pu9R4j23vWyJMRChnkHzWY9yUDz1L1SjWBy5a48=;
+ bh=o7VyoyvNIH1V7H2twzHt2wkaQadsBaIPEYzcFKwkFmA=; b=c44ORqKFcGx5xBkc35CzHQnoEf
+ mtAr2mrdnkvQA3QC1nafwUkWRKqM0AUcPZb4P+NkIFSKJquiouIAM09yPZ/Za0kOKusUCRQHyF2Ql
+ jHDnP6lu0oBSfcANWgJ3twJtydENQtCQbflBxtjt2aAnkmilPftG/L60spl+GigviAZM=;
 To: qemu-devel@nongnu.org
 Cc: ale@rev.ng, tsimpson@quicinc.com, bcain@quicinc.com, mlambert@quicinc.com,
  babush@rev.ng, nizzo@rev.ng, richard.henderson@linaro.org
-Subject: [PATCH v8 11/12] target/hexagon: call idef-parser functions
-Date: Wed,  9 Feb 2022 18:03:11 +0100
-Message-Id: <20220209170312.30662-12-anjo@rev.ng>
+Subject: [PATCH v8 12/12] target/hexagon: import additional tests
+Date: Wed,  9 Feb 2022 18:03:12 +0100
+Message-Id: <20220209170312.30662-13-anjo@rev.ng>
 In-Reply-To: <20220209170312.30662-1-anjo@rev.ng>
 References: <20220209170312.30662-1-anjo@rev.ng>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=5.9.113.41; envelope-from=anjo@rev.ng; helo=rev.ng
 X-Spam_score_int: -20
@@ -60,340 +61,1006 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reply-to:  Anton Johansson <anjo@rev.ng>
 From:  Anton Johansson via <qemu-devel@nongnu.org>
 
-From: Alessandro Di Federico <ale@rev.ng>
-
-Extend gen_tcg_funcs.py in order to emit calls to the functions emitted
-by the idef-parser, if available. An option is also added to fully
-disable the output of the idef-parser, which is useful for debugging
-purposes.
+From: Niccolò Izzo <nizzo@rev.ng>
 
 Signed-off-by: Alessandro Di Federico <ale@rev.ng>
+Signed-off-by: Niccolò Izzo <nizzo@rev.ng>
 Signed-off-by: Anton Johansson <anjo@rev.ng>
-Reviewed-by: Taylor Simpson <tsimpson@quicinc.com>
 ---
- meson_options.txt                   |  3 +
- target/hexagon/gen_helper_funcs.py  | 17 +++++-
- target/hexagon/gen_helper_protos.py | 17 +++++-
- target/hexagon/gen_tcg_funcs.py     | 41 ++++++++++++-
- target/hexagon/hex_common.py        | 10 ++++
- target/hexagon/meson.build          | 92 +++++++++++++++++++----------
- 6 files changed, 146 insertions(+), 34 deletions(-)
+ tests/tcg/hexagon/Makefile.target  | 28 ++++++++++++-
+ tests/tcg/hexagon/crt.S            | 14 +++++++
+ tests/tcg/hexagon/test_abs.S       | 17 ++++++++
+ tests/tcg/hexagon/test_bitcnt.S    | 40 +++++++++++++++++++
+ tests/tcg/hexagon/test_bitsplit.S  | 22 ++++++++++
+ tests/tcg/hexagon/test_call.S      | 64 ++++++++++++++++++++++++++++++
+ tests/tcg/hexagon/test_clobber.S   | 29 ++++++++++++++
+ tests/tcg/hexagon/test_cmp.S       | 31 +++++++++++++++
+ tests/tcg/hexagon/test_dotnew.S    | 38 ++++++++++++++++++
+ tests/tcg/hexagon/test_ext.S       | 13 ++++++
+ tests/tcg/hexagon/test_fibonacci.S | 30 ++++++++++++++
+ tests/tcg/hexagon/test_hl.S        | 16 ++++++++
+ tests/tcg/hexagon/test_hwloops.S   | 19 +++++++++
+ tests/tcg/hexagon/test_jmp.S       | 22 ++++++++++
+ tests/tcg/hexagon/test_lsr.S       | 36 +++++++++++++++++
+ tests/tcg/hexagon/test_mpyi.S      | 17 ++++++++
+ tests/tcg/hexagon/test_packet.S    | 29 ++++++++++++++
+ tests/tcg/hexagon/test_reorder.S   | 33 +++++++++++++++
+ tests/tcg/hexagon/test_round.S     | 29 ++++++++++++++
+ tests/tcg/hexagon/test_vavgw.S     | 31 +++++++++++++++
+ tests/tcg/hexagon/test_vcmpb.S     | 30 ++++++++++++++
+ tests/tcg/hexagon/test_vcmpw.S     | 30 ++++++++++++++
+ tests/tcg/hexagon/test_vlsrw.S     | 20 ++++++++++
+ tests/tcg/hexagon/test_vmaxh.S     | 35 ++++++++++++++++
+ tests/tcg/hexagon/test_vminh.S     | 35 ++++++++++++++++
+ tests/tcg/hexagon/test_vpmpyh.S    | 28 +++++++++++++
+ tests/tcg/hexagon/test_vspliceb.S  | 31 +++++++++++++++
+ 27 files changed, 766 insertions(+), 1 deletion(-)
+ create mode 100644 tests/tcg/hexagon/crt.S
+ create mode 100644 tests/tcg/hexagon/test_abs.S
+ create mode 100644 tests/tcg/hexagon/test_bitcnt.S
+ create mode 100644 tests/tcg/hexagon/test_bitsplit.S
+ create mode 100644 tests/tcg/hexagon/test_call.S
+ create mode 100644 tests/tcg/hexagon/test_clobber.S
+ create mode 100644 tests/tcg/hexagon/test_cmp.S
+ create mode 100644 tests/tcg/hexagon/test_dotnew.S
+ create mode 100644 tests/tcg/hexagon/test_ext.S
+ create mode 100644 tests/tcg/hexagon/test_fibonacci.S
+ create mode 100644 tests/tcg/hexagon/test_hl.S
+ create mode 100644 tests/tcg/hexagon/test_hwloops.S
+ create mode 100644 tests/tcg/hexagon/test_jmp.S
+ create mode 100644 tests/tcg/hexagon/test_lsr.S
+ create mode 100644 tests/tcg/hexagon/test_mpyi.S
+ create mode 100644 tests/tcg/hexagon/test_packet.S
+ create mode 100644 tests/tcg/hexagon/test_reorder.S
+ create mode 100644 tests/tcg/hexagon/test_round.S
+ create mode 100644 tests/tcg/hexagon/test_vavgw.S
+ create mode 100644 tests/tcg/hexagon/test_vcmpb.S
+ create mode 100644 tests/tcg/hexagon/test_vcmpw.S
+ create mode 100644 tests/tcg/hexagon/test_vlsrw.S
+ create mode 100644 tests/tcg/hexagon/test_vmaxh.S
+ create mode 100644 tests/tcg/hexagon/test_vminh.S
+ create mode 100644 tests/tcg/hexagon/test_vpmpyh.S
+ create mode 100644 tests/tcg/hexagon/test_vspliceb.S
 
-diff --git a/meson_options.txt b/meson_options.txt
-index 921967eddb..3d66149356 100644
---- a/meson_options.txt
-+++ b/meson_options.txt
-@@ -208,3 +208,6 @@ option('fdt', type: 'combo', value: 'auto',
+diff --git a/tests/tcg/hexagon/Makefile.target b/tests/tcg/hexagon/Makefile.target
+index 8b07a28166..508ab08065 100644
+--- a/tests/tcg/hexagon/Makefile.target
++++ b/tests/tcg/hexagon/Makefile.target
+@@ -24,7 +24,7 @@ CFLAGS += -fno-unroll-loops
+ HEX_SRC=$(SRC_PATH)/tests/tcg/hexagon
+ VPATH += $(HEX_SRC)
  
- option('selinux', type: 'feature', value: 'auto',
-        description: 'SELinux support in qemu-nbd')
+-first: $(HEX_SRC)/first.S
++%: $(HEX_SRC)/%.S $(HEX_SRC)/crt.S
+ 	$(CC) -static -mv67 -nostdlib $^ -o $@
+ 
+ HEX_TESTS = first
+@@ -42,4 +42,30 @@ HEX_TESTS += atomics
+ HEX_TESTS += fpstuff
+ HEX_TESTS += overflow
+ 
++HEX_TESTS += test_abs
++HEX_TESTS += test_bitcnt
++HEX_TESTS += test_bitsplit
++HEX_TESTS += test_call
++HEX_TESTS += test_clobber
++HEX_TESTS += test_cmp
++HEX_TESTS += test_dotnew
++HEX_TESTS += test_ext
++HEX_TESTS += test_fibonacci
++HEX_TESTS += test_hl
++HEX_TESTS += test_hwloops
++HEX_TESTS += test_jmp
++HEX_TESTS += test_lsr
++HEX_TESTS += test_mpyi
++HEX_TESTS += test_packet
++HEX_TESTS += test_reorder
++HEX_TESTS += test_round
++HEX_TESTS += test_vavgw
++HEX_TESTS += test_vcmpb
++HEX_TESTS += test_vcmpw
++HEX_TESTS += test_vlsrw
++HEX_TESTS += test_vmaxh
++HEX_TESTS += test_vminh
++HEX_TESTS += test_vpmpyh
++HEX_TESTS += test_vspliceb
 +
-+option('hexagon_idef_parser_enabled', type : 'boolean', value : true,
-+       description: 'Whether idef-parser should be used to automatically generate TCG code for the Hexagon frontend')
-diff --git a/target/hexagon/gen_helper_funcs.py b/target/hexagon/gen_helper_funcs.py
-index a446c45384..71d611283a 100755
---- a/target/hexagon/gen_helper_funcs.py
-+++ b/target/hexagon/gen_helper_funcs.py
-@@ -287,11 +287,24 @@ def main():
-     hex_common.read_attribs_file(sys.argv[2])
-     hex_common.read_overrides_file(sys.argv[3])
-     hex_common.read_overrides_file(sys.argv[4])
-+    ## Whether or not idef-parser is enabled is
-+    ## determined by the number of arguments to
-+    ## this script:
-+    ##
-+    ##   5 args. -> not enabled,
-+    ##   6 args. -> idef-parser enabled.
-+    ##
-+    ## The 6:th arg. then holds a list of the successfully
-+    ## parsed instructions.
-+    is_idef_parser_enabled = len(sys.argv) > 6
-+    if is_idef_parser_enabled:
-+        hex_common.read_idef_parser_enabled_file(sys.argv[5])
-     hex_common.calculate_attribs()
-     tagregs = hex_common.get_tagregs()
-     tagimms = hex_common.get_tagimms()
- 
--    with open(sys.argv[5], 'w') as f:
-+    output_file = sys.argv[-1]
-+    with open(output_file, 'w') as f:
-         for tag in hex_common.tags:
-             ## Skip the priv instructions
-             if ( "A_PRIV" in hex_common.attribdict[tag] ) :
-@@ -308,6 +321,8 @@ def main():
-                 continue
-             if ( hex_common.skip_qemu_helper(tag) ):
-                 continue
-+            if ( hex_common.is_idef_parser_enabled(tag) ):
-+                continue
- 
-             gen_helper_function(f, tag, tagregs, tagimms)
- 
-diff --git a/target/hexagon/gen_helper_protos.py b/target/hexagon/gen_helper_protos.py
-index 3b4e993fd1..74eff457a6 100755
---- a/target/hexagon/gen_helper_protos.py
-+++ b/target/hexagon/gen_helper_protos.py
-@@ -136,11 +136,24 @@ def main():
-     hex_common.read_attribs_file(sys.argv[2])
-     hex_common.read_overrides_file(sys.argv[3])
-     hex_common.read_overrides_file(sys.argv[4])
-+    ## Whether or not idef-parser is enabled is
-+    ## determined by the number of arguments to
-+    ## this script:
-+    ##
-+    ##   5 args. -> not enabled,
-+    ##   6 args. -> idef-parser enabled.
-+    ##
-+    ## The 6:th arg. then holds a list of the successfully
-+    ## parsed instructions.
-+    is_idef_parser_enabled = len(sys.argv) > 6
-+    if is_idef_parser_enabled:
-+        hex_common.read_idef_parser_enabled_file(sys.argv[5])
-     hex_common.calculate_attribs()
-     tagregs = hex_common.get_tagregs()
-     tagimms = hex_common.get_tagimms()
- 
--    with open(sys.argv[5], 'w') as f:
-+    output_file = sys.argv[-1]
-+    with open(output_file, 'w') as f:
-         for tag in hex_common.tags:
-             ## Skip the priv instructions
-             if ( "A_PRIV" in hex_common.attribdict[tag] ) :
-@@ -158,6 +171,8 @@ def main():
- 
-             if ( hex_common.skip_qemu_helper(tag) ):
-                 continue
-+            if ( hex_common.is_idef_parser_enabled(tag) ):
-+                continue
- 
-             gen_helper_prototype(f, tag, tagregs, tagimms)
- 
-diff --git a/target/hexagon/gen_tcg_funcs.py b/target/hexagon/gen_tcg_funcs.py
-index 1fd9de95d5..4d12e192a7 100755
---- a/target/hexagon/gen_tcg_funcs.py
-+++ b/target/hexagon/gen_tcg_funcs.py
-@@ -610,7 +610,29 @@ def gen_tcg_func(f, tag, regs, imms):
-         if (hex_common.is_read(regid)):
-             genptr_src_read_opn(f,regtype,regid,tag)
- 
--    if ( hex_common.skip_qemu_helper(tag) ):
-+    if hex_common.is_idef_parser_enabled(tag):
-+        declared = []
-+        ## Handle registers
-+        for regtype,regid,toss,numregs in regs:
-+            if (hex_common.is_pair(regid)
-+                or (hex_common.is_single(regid)
-+                    and hex_common.is_old_val(regtype, regid, tag))):
-+                declared.append("%s%sV" % (regtype, regid))
-+                if regtype == "M":
-+                    declared.append("%s%sN" % (regtype, regid))
-+            elif hex_common.is_new_val(regtype, regid, tag):
-+                declared.append("%s%sN" % (regtype,regid))
-+            else:
-+                print("Bad register parse: ",regtype,regid,toss,numregs)
+ TESTS += $(HEX_TESTS)
+diff --git a/tests/tcg/hexagon/crt.S b/tests/tcg/hexagon/crt.S
+new file mode 100644
+index 0000000000..f9e6bc80f7
+--- /dev/null
++++ b/tests/tcg/hexagon/crt.S
+@@ -0,0 +1,14 @@
++#define SYS_exit_group 94
 +
-+        ## Handle immediates
-+        for immlett,bits,immshift in imms:
-+            declared.append(hex_common.imm_name(immlett))
++    .text
++    .globl pass
++pass:
++    r0 = #0
++    r6 = #SYS_exit_group
++    trap0(#1)
 +
-+        arguments = ", ".join(["ctx", "insn", "pkt"] + declared)
-+        f.write("    emit_%s(%s);\n" % (tag, arguments))
++    .globl fail
++fail:
++    r0 = #1
++    r6 = #SYS_exit_group
++    trap0(#1)
+diff --git a/tests/tcg/hexagon/test_abs.S b/tests/tcg/hexagon/test_abs.S
+new file mode 100644
+index 0000000000..d68aea6f64
+--- /dev/null
++++ b/tests/tcg/hexagon/test_abs.S
+@@ -0,0 +1,17 @@
++/* Purpose: test example, verify the soundness of the abs operation */
 +
-+    elif ( hex_common.skip_qemu_helper(tag) ):
-         f.write("    fGEN_TCG_%s(%s);\n" % (tag, hex_common.semdict[tag]))
-     else:
-         ## Generate the call to the helper
-@@ -677,12 +699,27 @@ def main():
-     hex_common.read_overrides_file(sys.argv[3])
-     hex_common.read_overrides_file(sys.argv[4])
-     hex_common.calculate_attribs()
-+    ## Whether or not idef-parser is enabled is
-+    ## determined by the number of arguments to
-+    ## this script:
-+    ##
-+    ##   5 args. -> not enabled,
-+    ##   6 args. -> idef-parser enabled.
-+    ##
-+    ## The 6:th arg. then holds a list of the successfully
-+    ## parsed instructions.
-+    is_idef_parser_enabled = len(sys.argv) > 6
-+    if is_idef_parser_enabled:
-+        hex_common.read_idef_parser_enabled_file(sys.argv[5])
-     tagregs = hex_common.get_tagregs()
-     tagimms = hex_common.get_tagimms()
- 
--    with open(sys.argv[5], 'w') as f:
-+    output_file = sys.argv[-1]
-+    with open(output_file, 'w') as f:
-         f.write("#ifndef HEXAGON_TCG_FUNCS_H\n")
-         f.write("#define HEXAGON_TCG_FUNCS_H\n\n")
-+        if is_idef_parser_enabled:
-+            f.write("#include \"idef-generated-emitter.h.inc\"\n\n")
- 
-         for tag in hex_common.tags:
-             ## Skip the priv instructions
-diff --git a/target/hexagon/hex_common.py b/target/hexagon/hex_common.py
-index c81aca8d2a..901041d557 100755
---- a/target/hexagon/hex_common.py
-+++ b/target/hexagon/hex_common.py
-@@ -28,6 +28,7 @@
- attribinfo = {}       # Register information and misc
- tags = []             # list of all tags
- overrides = {}        # tags with helper overrides
-+idef_parser_enabled = {} # tags enabled for idef-parser
- 
- # We should do this as a hash for performance,
- # but to keep order let's keep it as a list.
-@@ -216,6 +217,9 @@ def is_tmp_result(tag):
- def is_new_result(tag):
-     return ('A_CVI_NEW' in attribdict[tag])
- 
-+def is_idef_parser_enabled(tag):
-+    return tag in idef_parser_enabled
++    .text
++    .globl _start
 +
- def imm_name(immlett):
-     return "%siV" % immlett
- 
-@@ -247,3 +251,9 @@ def read_overrides_file(name):
-             continue
-         tag = overridere.findall(line)[0]
-         overrides[tag] = True
++_start:
++    {
++        r1 = #-2
++        r2 = #2
++    }
++    {
++        r3 = abs(r1)
++    }
++    {
++        p0 = cmp.eq(r3, r2); if (p0.new) jump:t pass
++        jump fail
++    }
+diff --git a/tests/tcg/hexagon/test_bitcnt.S b/tests/tcg/hexagon/test_bitcnt.S
+new file mode 100644
+index 0000000000..624460488e
+--- /dev/null
++++ b/tests/tcg/hexagon/test_bitcnt.S
+@@ -0,0 +1,40 @@
++/*
++ * Purpose: test example, verify the soundness of the cl[01] operations.
++ *
++ * The number 0x000001aa has 23 leading zeroes
++ * they become 55 when considered as 64 bit register
++ * and it has 1 trailing zero.
++ */
++    .text
++    .globl _start
 +
-+def read_idef_parser_enabled_file(name):
-+    global idef_parser_enabled
-+    with open(name, "r") as idef_parser_enabled_file:
-+        lines = idef_parser_enabled_file.read().strip().split("\n")
-+        idef_parser_enabled = set(lines)
-diff --git a/target/hexagon/meson.build b/target/hexagon/meson.build
-index bfc74ba441..6adf7e2464 100644
---- a/target/hexagon/meson.build
-+++ b/target/hexagon/meson.build
-@@ -43,10 +43,7 @@ hexagon_ss.add(semantics_generated)
- # Step 2
- # We use Python scripts to generate the following files
- #     shortcode_generated.h.inc
--#     helper_protos_generated.h.inc
--#     tcg_funcs_generated.c.inc
- #     tcg_func_table_generated.c.inc
--#     helper_funcs_generated.c.inc
- #     printinsn_generated.h.inc
- #     op_regs_generated.h.inc
- #     op_attribs_generated.h.inc
-@@ -61,24 +58,6 @@ shortcode_generated = custom_target(
- )
- hexagon_ss.add(shortcode_generated)
- 
--helper_protos_generated = custom_target(
--    'helper_protos_generated.h.inc',
--    output: 'helper_protos_generated.h.inc',
--    depends: [semantics_generated],
--    depend_files: [hex_common_py, attribs_def, gen_tcg_h, gen_tcg_hvx_h],
--    command: [python, files('gen_helper_protos.py'), semantics_generated, attribs_def, gen_tcg_h, gen_tcg_hvx_h, '@OUTPUT@'],
--)
--hexagon_ss.add(helper_protos_generated)
--
--tcg_funcs_generated = custom_target(
--    'tcg_funcs_generated.c.inc',
--    output: 'tcg_funcs_generated.c.inc',
--    depends: [semantics_generated],
--    depend_files: [hex_common_py, attribs_def, gen_tcg_h, gen_tcg_hvx_h],
--    command: [python, files('gen_tcg_funcs.py'), semantics_generated, attribs_def, gen_tcg_h, gen_tcg_hvx_h, '@OUTPUT@'],
--)
--hexagon_ss.add(tcg_funcs_generated)
--
- tcg_func_table_generated = custom_target(
-     'tcg_func_table_generated.c.inc',
-     output: 'tcg_func_table_generated.c.inc',
-@@ -88,15 +67,6 @@ tcg_func_table_generated = custom_target(
- )
- hexagon_ss.add(tcg_func_table_generated)
- 
--helper_funcs_generated = custom_target(
--    'helper_funcs_generated.c.inc',
--    output: 'helper_funcs_generated.c.inc',
--    depends: [semantics_generated],
--    depend_files: [hex_common_py, attribs_def, gen_tcg_h, gen_tcg_hvx_h],
--    command: [python, files('gen_helper_funcs.py'), semantics_generated, attribs_def, gen_tcg_h, gen_tcg_hvx_h, '@OUTPUT@'],
--)
--hexagon_ss.add(helper_funcs_generated)
--
- printinsn_generated = custom_target(
-     'printinsn_generated.h.inc',
-     output: 'printinsn_generated.h.inc',
-@@ -180,6 +150,8 @@ hexagon_ss.add(files(
-     'mmvec/system_ext_mmvec.c',
- ))
- 
-+idef_parser_enabled = get_option('hexagon_idef_parser_enabled')
++_start:
++    {
++        r0 = #426
++        r1 = #0
++    }
++    {
++        r2 = cl0(r0)
++    }
++    {
++        p0 = cmp.eq(r2, #23); if (p0.new) jump:t test2
++        jump fail
++    }
 +
- idef_parser_input_generated = custom_target(
-     'idef_parser_input.h.inc',
-     output: 'idef_parser_input.h.inc',
-@@ -225,4 +197,64 @@ idef_generated_tcg = custom_target(
-     command: [idef_parser, '@INPUT@', '@OUTPUT0@', '@OUTPUT1@', '@OUTPUT2@'],
- )
- 
-+indent = find_program('indent', required: false)
-+if indent.found()
-+  idef_generated_tcg_c = custom_target('asd',
-+                                       input: idef_generated_tcg[0],
-+                                       output: 'idef-generated-emitter.indented.c',
-+                                       command: [indent, '-linux', '@INPUT@', '-o', '@OUTPUT@'])
-+else
-+  idef_generated_tcg_c = custom_target('asd',
-+                                       input: idef_generated_tcg[0],
-+                                       output: 'idef-generated-emitter.indented.c',
-+                                       command: ['cp', '@INPUT@', '@OUTPUT@'])
-+endif
++test2:
++    {
++        r2 = cl0(r1:0)
++    }
++    {
++        p0 = cmp.eq(r2, #55); if (p0.new) jump:t test3
++        jump fail
++    }
 +
-+idef_generated_list = idef_generated_tcg[2].full_path()
++test3:
++    {
++        r2 = ct0(r0)
++    }
++    {
++        p0 = cmp.eq(r2, #1); if (p0.new) jump:t pass
++        jump fail
++    }
+diff --git a/tests/tcg/hexagon/test_bitsplit.S b/tests/tcg/hexagon/test_bitsplit.S
+new file mode 100644
+index 0000000000..275658e613
+--- /dev/null
++++ b/tests/tcg/hexagon/test_bitsplit.S
+@@ -0,0 +1,22 @@
++/* Purpose: test example, verify the soundness of the bitsplit operation */
 +
-+hexagon_ss.add(idef_generated_tcg_c)
++    .text
++    .globl _start
 +
-+#
-+# Step 5
-+# We use Python scripts to generate the following files
-+#     helper_protos_generated.h.inc
-+#     helper_funcs_generated.c.inc
-+#     tcg_funcs_generated.c.inc
-+#
-+if idef_parser_enabled
-+  helper_dep = [semantics_generated, idef_generated_tcg_c, idef_generated_tcg]
-+  helper_in = [semantics_generated, attribs_def, gen_tcg_h, gen_tcg_hvx_h,
-+               idef_generated_list]
-+else
-+  helper_dep = [semantics_generated]
-+  helper_in = [semantics_generated, attribs_def, gen_tcg_h, gen_tcg_hvx_h]
-+endif
++_start:
++    {
++        r1 = #187
++    }
++    {
++        r3:2 = bitsplit(r1, #3)
++    }
++    {
++        p0 = cmp.eq(r2, #3); if (p0.new) jump:t test2
++        jump fail
++    }
 +
-+helper_protos_generated = custom_target(
-+    'helper_protos_generated.h.inc',
-+    output: 'helper_protos_generated.h.inc',
-+    depends: helper_dep,
-+    depend_files: [hex_common_py, attribs_def, gen_tcg_h, gen_tcg_hvx_h],
-+    command: [python, files('gen_helper_protos.py'), helper_in, '@OUTPUT@'],
-+)
-+hexagon_ss.add(helper_protos_generated)
++test2:
++    {
++        p0 = cmp.eq(r3, #23); if (p0.new) jump:t pass
++        jump fail
++    }
+diff --git a/tests/tcg/hexagon/test_call.S b/tests/tcg/hexagon/test_call.S
+new file mode 100644
+index 0000000000..338cd04e40
+--- /dev/null
++++ b/tests/tcg/hexagon/test_call.S
+@@ -0,0 +1,64 @@
++/*
++ * Purpose: test function calls and duplex instructions.
++ * The string "Hello there, I'm a test string!" with the first letter replaced
++ * with a capital L should be printed out.
++ */
 +
-+helper_funcs_generated = custom_target(
-+    'helper_funcs_generated.c.inc',
-+    output: 'helper_funcs_generated.c.inc',
-+    depends: helper_dep,
-+    depend_files: [hex_common_py, attribs_def, gen_tcg_h, gen_tcg_hvx_h],
-+    command: [python, files('gen_helper_funcs.py'), helper_in, '@OUTPUT@'],
-+)
-+hexagon_ss.add(helper_funcs_generated)
++#define SYS_write 64
++#define FD_STDOUT 1
 +
-+tcg_funcs_generated = custom_target(
-+    'tcg_funcs_generated.c.inc',
-+    output: 'tcg_funcs_generated.c.inc',
-+    depends: helper_dep,
-+    depend_files: [hex_common_py, attribs_def, gen_tcg_h, gen_tcg_hvx_h],
-+    command: [python, files('gen_tcg_funcs.py'), helper_in, '@OUTPUT@'],
-+)
-+hexagon_ss.add(tcg_funcs_generated)
++    .text
++    .globl    test
++test:
++    {
++        jumpr r31
++        memb(r0+#0) = #76
++    }
++.Lfunc_end0:
++.Ltmp0:
++    .size    test, .Ltmp0-test
 +
- target_arch += {'hexagon': hexagon_ss}
++    .globl    _start
++_start:
++    {
++        r0 = ##dummy_buffer
++        allocframe(#0)
++        call test
++    }
++    {
++        call write
++    }
++    {
++        deallocframe
++        jump pass
++    }
++.Lfunc_end1:
++.Ltmp1:
++    .size    _start, .Ltmp1-_start
++
++write:
++    {
++        r6 = #SYS_write
++        r0 = #FD_STDOUT
++        r1 = ##dummy_buffer
++        r2 = #33
++    }
++    {
++        trap0(#1)
++    }
++    {
++        jumpr r31
++    }
++
++.Lfunc_end2:
++.Ltmp2:
++    .size    write, .Ltmp2-write
++
++    .type    dummy_buffer,@object
++    .data
++    .globl    dummy_buffer
++    .p2align    3
++dummy_buffer:
++    .string    "Hello there, I'm a test string!\n"
++    .space 223
++    .size    dummy_buffer, 256
+diff --git a/tests/tcg/hexagon/test_clobber.S b/tests/tcg/hexagon/test_clobber.S
+new file mode 100644
+index 0000000000..a7aeb2b60c
+--- /dev/null
++++ b/tests/tcg/hexagon/test_clobber.S
+@@ -0,0 +1,29 @@
++/*
++ * Purpose: demonstrate the succesful operation of the register save mechanism,
++ * in which the caller saves the registers that will be clobbered, and restores
++ * them after the call.
++ */
++
++    .text
++    .globl _start
++
++_start:
++    allocframe(#8)
++    {
++        r16 = #47
++        r17 = #155
++    }
++    memd(sp+#0) = r17:16
++    {
++        r16 = #255
++        r17 = #42
++    }
++    {
++        deallocframe
++        r17:16 = memd(sp+#0)
++    }
++    {
++        p0 = cmp.eq(r16, #47)
++        p0 = cmp.eq(r17, #155); if (p0.new) jump:t pass
++        jump fail
++    }
+diff --git a/tests/tcg/hexagon/test_cmp.S b/tests/tcg/hexagon/test_cmp.S
+new file mode 100644
+index 0000000000..1db87d3db5
+--- /dev/null
++++ b/tests/tcg/hexagon/test_cmp.S
+@@ -0,0 +1,31 @@
++/* Purpose: test a signed and unsigned comparison */
++
++    .text
++    .globl _start
++
++_start:
++    {
++        jump signed
++    }
++
++    .globl signed
++signed:
++    {
++        r0 = #-2
++        r1 = #0
++    }
++    {
++        p0 = cmp.lt(r0, r1); if (p0.new) jump:t unsigned
++        jump fail
++    }
++
++    .globl unsigned
++unsigned:
++    {
++        r0 = #-2
++        r1 = #0
++    }
++    {
++        p0 = cmp.gtu(r0, r1); if (p0.new) jump:t pass
++        jump fail
++    }
+diff --git a/tests/tcg/hexagon/test_dotnew.S b/tests/tcg/hexagon/test_dotnew.S
+new file mode 100644
+index 0000000000..b18b6a72e2
+--- /dev/null
++++ b/tests/tcg/hexagon/test_dotnew.S
+@@ -0,0 +1,38 @@
++/* Purpose: test the .new operator while performing memory stores. */
++
++    .text
++    .globl _start
++
++_start:
++    {
++        allocframe(#16)
++    }
++    {
++        r0 = #1
++        memw(sp+#0) = r0.new
++    }
++    {
++        r1 = #2
++        memw(sp+#4) = r1.new
++    }
++    {
++        r2 = #3
++        memw(sp+#8) = r2.new
++    }
++    {
++        r0 = memw(sp+#8)
++    }
++    {
++        r1 = memw(sp+#4)
++    }
++    {
++        r2 = memw(sp+#0)
++    }
++    {
++        r3 = mpyi(r1, r2)
++    }
++    {
++        deallocframe
++        p0 = cmp.eq(r3, #2); if (p0.new) jump:t pass
++        jump fail
++    }
+diff --git a/tests/tcg/hexagon/test_ext.S b/tests/tcg/hexagon/test_ext.S
+new file mode 100644
+index 0000000000..03e7bce2a7
+--- /dev/null
++++ b/tests/tcg/hexagon/test_ext.S
+@@ -0,0 +1,13 @@
++/* Purpose: test immediate extender instructions. */
++
++    .text
++    .globl _start
++
++_start:
++    {
++        r2 = ##-559038737
++    }
++    {
++        p0 = cmp.eq(r2, ##-559038737); if (p0.new) jump:t pass
++        jump fail
++    }
+diff --git a/tests/tcg/hexagon/test_fibonacci.S b/tests/tcg/hexagon/test_fibonacci.S
+new file mode 100644
+index 0000000000..4ef2c3896e
+--- /dev/null
++++ b/tests/tcg/hexagon/test_fibonacci.S
+@@ -0,0 +1,30 @@
++/* Purpose: computes the Fibonacci series up to a constant number. */
++
++    .text
++    .globl _start
++
++_start:
++    {
++        r2 = #100
++    }
++    {
++        p0 = cmp.gt(r2, #0); if (!p0.new) jump:nt .LBB0_3
++    }
++    {
++        r3 = #0
++        r4 = #1
++    }
++.LBB0_2:
++    {
++        r5 = r4
++    }
++    {
++        p0 = cmp.gt(r2, r5); if (p0.new) jump:nt .LBB0_2
++        r4 = add(r3, r4)
++        r3 = r5
++    }
++.LBB0_3:
++    {
++        p0 = cmp.eq(r3, #144); if (p0.new) jump:t pass
++        jump fail
++    }
+diff --git a/tests/tcg/hexagon/test_hl.S b/tests/tcg/hexagon/test_hl.S
+new file mode 100644
+index 0000000000..93ace46aeb
+--- /dev/null
++++ b/tests/tcg/hexagon/test_hl.S
+@@ -0,0 +1,16 @@
++/* Purpose: test example, verify the soundness of the high/low assignment */
++
++    .text
++    .globl _start
++
++_start:
++    {
++        r0.H = #42
++    }
++    {
++        r0.L = #69
++    }
++    {
++        p0 = cmp.eq(r0, #2752581); if (p0.new) jump:t pass
++        jump fail
++    }
+diff --git a/tests/tcg/hexagon/test_hwloops.S b/tests/tcg/hexagon/test_hwloops.S
+new file mode 100644
+index 0000000000..42785e6f25
+--- /dev/null
++++ b/tests/tcg/hexagon/test_hwloops.S
+@@ -0,0 +1,19 @@
++/* Purpose: simple C Program to test hardware loops. */
++
++    .text
++    .globl _start
++
++_start:
++    {
++        loop0(.LBB0_1, #10)
++        r2 = #0
++    }
++.LBB0_1:
++    {
++        r2 = add(r2, #1)
++        nop
++    }:endloop0
++    {
++        p0 = cmp.eq(r2, #10); if (p0.new) jump:t pass
++        jump fail
++    }
+diff --git a/tests/tcg/hexagon/test_jmp.S b/tests/tcg/hexagon/test_jmp.S
+new file mode 100644
+index 0000000000..5be25c52b2
+--- /dev/null
++++ b/tests/tcg/hexagon/test_jmp.S
+@@ -0,0 +1,22 @@
++/* Purpose: test example, verify the soundness of the jump operation */
++
++#define SYS_exit_group 94
++
++    .text
++    .globl _start
++
++_start:
++    {
++        jump pass
++    }
++    /*
++     * Inlined fail label in crt.S so we can fail without
++     * having a functioning jump
++     */
++    {
++        r0 = #1
++        r6 = #SYS_exit_group
++    }
++    {
++        trap0(#1)
++    }
+diff --git a/tests/tcg/hexagon/test_lsr.S b/tests/tcg/hexagon/test_lsr.S
+new file mode 100644
+index 0000000000..b30aa64673
+--- /dev/null
++++ b/tests/tcg/hexagon/test_lsr.S
+@@ -0,0 +1,36 @@
++/* Purpose: test the soundness of the lsr operation */
++
++    .text
++    .globl _start
++
++_start:
++    {
++        r0 = #-56984
++        r1 = #2147483647
++    }
++    {
++        r2 = #0x19
++    }
++    {
++        r0 &= lsr(r1, r2)
++    }
++    {
++        p0  =  cmp.eq(r0, #0x28); if (p0.new) jump:t test2
++        jump fail
++    }
++
++test2:
++    {
++        r0 = #0x0000000a
++        r1 = #0x00000000
++    }
++    {
++        r2 = #-1
++    }
++    {
++        r1:0 = lsl(r1:0, r2)
++    }
++    {
++        p0  =  cmp.eq(r0, #0x5); if (p0.new) jump:t pass
++        jump fail
++    }
+diff --git a/tests/tcg/hexagon/test_mpyi.S b/tests/tcg/hexagon/test_mpyi.S
+new file mode 100644
+index 0000000000..953b46e57e
+--- /dev/null
++++ b/tests/tcg/hexagon/test_mpyi.S
+@@ -0,0 +1,17 @@
++/* Purpose: test a simple multiplication operation */
++
++    .text
++    .globl _start
++
++_start:
++    {
++        r1 = #4
++        r2 = #6
++    }
++    {
++        r3 = mpyi(r1, r2)
++    }
++    {
++        p0 = cmp.eq(r3, #24); if (p0.new) jump:t pass
++        jump fail
++    }
+diff --git a/tests/tcg/hexagon/test_packet.S b/tests/tcg/hexagon/test_packet.S
+new file mode 100644
+index 0000000000..9ec9d8d6fb
+--- /dev/null
++++ b/tests/tcg/hexagon/test_packet.S
+@@ -0,0 +1,29 @@
++/*
++ * Purpose: test that writes of a register in a packet are performed only after
++ * that packet has finished its execution.
++ */
++
++    .text
++    .globl _start
++
++_start:
++    {
++        allocframe(#8)
++    }
++    {
++        r2 = #4
++        r3 = #6
++    }
++    {
++        memw(sp+#0) = r2
++    }
++    {
++        r3 = memw(sp+#0)
++        r0 = add(r2, r3)
++    }
++    {
++        deallocframe
++        p0 = cmp.eq(r3, #4)
++        p0 = cmp.eq(r0, #10); if (p0.new) jump:t pass
++        jump fail
++    }
+diff --git a/tests/tcg/hexagon/test_reorder.S b/tests/tcg/hexagon/test_reorder.S
+new file mode 100644
+index 0000000000..5ee0539836
+--- /dev/null
++++ b/tests/tcg/hexagon/test_reorder.S
+@@ -0,0 +1,33 @@
++/*
++ * Purpose: demonstrate handling of .new uses appearing before the associated
++ * definition.
++ * Here we perform a jump that skips the code resetting R2 from 0xDEADBEEF to 0,
++ * only if P0.new is true, but P0 is assigned to 1 (R4) in the next instruction
++ * in the packet.
++ */
++
++    .text
++    .globl _start
++
++_start:
++    {
++        r2 = #-559038737
++    }
++    {
++        r4 = #1
++    }
++    {
++        if (p0.new) jump:nt skip
++        p0 = r4;
++    }
++
++fallthrough:
++    {
++        r2 = #0
++    }
++
++skip:
++    {
++        p0 = cmp.eq(r2, #-559038737); if (p0.new) jump:t pass
++        jump fail
++    }
+diff --git a/tests/tcg/hexagon/test_round.S b/tests/tcg/hexagon/test_round.S
+new file mode 100644
+index 0000000000..3c83812fe8
+--- /dev/null
++++ b/tests/tcg/hexagon/test_round.S
+@@ -0,0 +1,29 @@
++/*
++ * Purpose: test example, verify the soundness of the cround operation
++ * 106 = 0b1101010 with the comma at third digit is 12.5 which is crounded to 12
++ * but rounded to 13.
++ */
++
++    .text
++    .globl _start
++
++_start:
++    {
++        r1 = #200
++    }
++    {
++        r2 = round(r1, #4)
++    }
++    {
++        p0 = cmp.eq(r2, #13); if (p0.new) jump:t test2
++        jump fail
++    }
++
++test2:
++    {
++        r2 = cround(r1, #4)
++    }
++    {
++        p0 = cmp.eq(r2, #12); if (p0.new) jump:t pass
++        jump fail
++    }
+diff --git a/tests/tcg/hexagon/test_vavgw.S b/tests/tcg/hexagon/test_vavgw.S
+new file mode 100644
+index 0000000000..53c9df706a
+--- /dev/null
++++ b/tests/tcg/hexagon/test_vavgw.S
+@@ -0,0 +1,31 @@
++/*
++ * Purpose: test example, verify the soundness of the vavgw operation.
++ *
++ * 0x00030001 averaged with 0x00010003 results 0x00020002.
++ */
++
++    .text
++    .globl _start
++
++_start:
++    {
++        r0 = #3
++        r1 = #1
++    }
++    {
++        r2 = #1
++        r3 = #3
++    }
++    {
++        r1:0 = vavgw(r1:0, r3:2):crnd
++    }
++    {
++        p0 = cmp.eq(r0, #2); if (p0.new) jump:t test2
++        jump fail
++    }
++
++test2:
++    {
++        p0 = cmp.eq(r1, #2); if (p0.new) jump:t pass
++        jump fail
++    }
+diff --git a/tests/tcg/hexagon/test_vcmpb.S b/tests/tcg/hexagon/test_vcmpb.S
+new file mode 100644
+index 0000000000..66d253eb48
+--- /dev/null
++++ b/tests/tcg/hexagon/test_vcmpb.S
+@@ -0,0 +1,30 @@
++/*
++ * Purpose: test example, verify the soundness of the vector compare bytes
++ * operation.
++ *
++ * Vector byte comparison between 0x1234567887654321 and 0x1234567800000000
++ * should result in 0b11110000 in binary, or 0xf0 in hex.
++ */
++
++    .text
++    .globl _start
++
++_start:
++    {
++        r0 = #0x87654321
++        r1 = #0x12345678
++    }
++    {
++        r2 = #0x00000000
++        r3 = #0x12345678
++    }
++    {
++        p2 = vcmpb.eq(r1:0, r3:2)
++    }
++    {
++        r4 = p2
++    }
++    {
++        p0 = cmp.eq(r4, #0xf0); if (p0.new) jump:t pass
++        jump fail
++    }
+diff --git a/tests/tcg/hexagon/test_vcmpw.S b/tests/tcg/hexagon/test_vcmpw.S
+new file mode 100644
+index 0000000000..5be88d1e2e
+--- /dev/null
++++ b/tests/tcg/hexagon/test_vcmpw.S
+@@ -0,0 +1,30 @@
++/*
++ * Purpose: test example, verify the soundness of the vector compare words
++ * operation.
++ *
++ * Vector word comparison between 0x1234567887654321 and 0x1234567800000000
++ * should result in 0b11110000 in binary, or 0xf0 in hex.
++ */
++
++    .text
++    .globl _start
++
++_start:
++    {
++        r0 = #0x87654321
++        r1 = #0x12345678
++    }
++    {
++        r2 = #0x00000000
++        r3 = #0x12345678
++    }
++    {
++        p2 = vcmpw.eq(r1:0, r3:2)
++    }
++    {
++        r4 = p2
++    }
++    {
++        p0 = cmp.eq(r4, #0xf0); if (p0.new) jump:t pass
++        jump fail
++    }
+diff --git a/tests/tcg/hexagon/test_vlsrw.S b/tests/tcg/hexagon/test_vlsrw.S
+new file mode 100644
+index 0000000000..912e49aa0b
+--- /dev/null
++++ b/tests/tcg/hexagon/test_vlsrw.S
+@@ -0,0 +1,20 @@
++/* Purpose: test the soundness of the vlsrw operation */
++
++    .text
++    .globl _start
++
++_start:
++    {
++        r0 = #0x00000001
++        r1 = #0x00000001
++    }
++    {
++        r1:0 = vlsrw(r1:0, #1)
++    }
++    {
++        r0 = add(r0, r1)
++    }
++    {
++        p0 = cmp.eq(r0, #0); if (p0.new) jump:t pass
++        jump fail
++    }
+diff --git a/tests/tcg/hexagon/test_vmaxh.S b/tests/tcg/hexagon/test_vmaxh.S
+new file mode 100644
+index 0000000000..4ea6bd9d96
+--- /dev/null
++++ b/tests/tcg/hexagon/test_vmaxh.S
+@@ -0,0 +1,35 @@
++/*
++ * Purpose: test example, verify the soundness of the vrmaxh operation.
++ *
++ * The maximum between  0x0002000300010005 and 0x0003000200020007 is
++ * 0x0003000300020007.
++ *
++ *      input:  r1 = 0x00010003 r0 = 0x00010005 r3 = 0x00030002 r2 = 0x00020007
++ *     output:  r1 = 0x00030003 r0 = 0x00020007
++ */
++
++    .text
++    .globl _start
++
++_start:
++    {
++        r0 = #65541
++        r1 = #65539
++    }
++    {
++        r2 = #131079
++        r3 = #196610
++    }
++    {
++        r1:0 = vmaxh(r1:0, r3:2)
++    }
++    {
++        p0 = cmp.eq(r0, #131079); if (p0.new) jump:t test2
++        jump fail
++    }
++
++test2:
++    {
++        p0 = cmp.eq(r1, #196611); if (p0.new) jump:t pass
++        jump fail
++    }
+diff --git a/tests/tcg/hexagon/test_vminh.S b/tests/tcg/hexagon/test_vminh.S
+new file mode 100644
+index 0000000000..e5fcf2eb94
+--- /dev/null
++++ b/tests/tcg/hexagon/test_vminh.S
+@@ -0,0 +1,35 @@
++/*
++ * Purpose: test example, verify the soundness of the vrmaxh operation.
++ *
++ * The minimum between  0x0002000300010005 and 0x0003000200020007 is
++ * 0x0003000300020007.
++ *
++ *      input:  r1 = 0x00010003 r0 = 0x00010005 r3 = 0x00030002 r2 = 0x00020007
++ *     output:  r1 = 0x00010002 r0 = 0x00010005
++ */
++
++    .text
++    .globl _start
++
++_start:
++    {
++        r0 = #65541
++        r1 = #65539
++    }
++    {
++        r2 = #131079
++        r3 = #196610
++    }
++    {
++        r1:0 = vminh(r1:0, r3:2)
++    }
++    {
++        p0 = cmp.eq(r0, #65541); if (p0.new) jump:t test2
++        jump fail
++    }
++
++test2:
++    {
++        p0 = cmp.eq(r1, #65538); if (p0.new) jump:t pass
++        jump fail
++    }
+diff --git a/tests/tcg/hexagon/test_vpmpyh.S b/tests/tcg/hexagon/test_vpmpyh.S
+new file mode 100644
+index 0000000000..f02758e449
+--- /dev/null
++++ b/tests/tcg/hexagon/test_vpmpyh.S
+@@ -0,0 +1,28 @@
++/*
++ * Purpose: test example, verify the soundness of the vpmpyh operator.
++ *
++ * 0x01020304 vector polynomial multiplied with 0x04030201 results
++ * 0x000400060b060b04.
++ */
++
++    .text
++    .globl _start
++
++_start:
++    {
++        r0 = #16909060
++        r1 = #67305985
++    }
++    {
++        r1:0 = vpmpyh(r0, r1)
++    }
++    {
++        p0 = cmp.eq(r0, #184945412); if (p0.new) jump:t test2
++        jump fail
++    }
++
++test2:
++    {
++        p0 = cmp.eq(r1, #262150); if (p0.new) jump:t pass
++        jump fail
++    }
+diff --git a/tests/tcg/hexagon/test_vspliceb.S b/tests/tcg/hexagon/test_vspliceb.S
+new file mode 100644
+index 0000000000..53c4a91c51
+--- /dev/null
++++ b/tests/tcg/hexagon/test_vspliceb.S
+@@ -0,0 +1,31 @@
++/*
++ * Purpose: test example, verify the soundness of the vspliceb operation
++ * the operation is a binary splice of two 64bit operators.
++ *
++ *  vspliceb(0xffffffffffffffff,0x0000000000000000,5) = 0x000000ffffffffff.
++ */
++    .text
++    .globl _start
++
++_start:
++    {
++        r0 = #-1
++        r1 = #-1
++    }
++    {
++        r2 = #0
++        r3 = #0
++    }
++    {
++        r5:4 = vspliceb(r1:0, r3:2, #5)
++    }
++    {
++        p0 = cmp.eq(r4, #-1); if (p0.new) jump:t test2
++        jump fail
++    }
++
++test2:
++    {
++        p0 = cmp.eq(r5, #255); if (p0.new) jump:t pass
++        jump fail
++    }
 -- 
 2.34.1
 
