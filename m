@@ -2,75 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A5154AFFE1
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Feb 2022 23:05:59 +0100 (CET)
-Received: from localhost ([::1]:57664 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D3604AFFFA
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Feb 2022 23:16:50 +0100 (CET)
+Received: from localhost ([::1]:46400 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nHv66-0007BQ-4G
-	for lists+qemu-devel@lfdr.de; Wed, 09 Feb 2022 17:05:58 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:37330)
+	id 1nHvGb-0002XM-7H
+	for lists+qemu-devel@lfdr.de; Wed, 09 Feb 2022 17:16:49 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:37356)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nHuxb-0007Gj-R7
- for qemu-devel@nongnu.org; Wed, 09 Feb 2022 16:57:12 -0500
-Received: from [2607:f8b0:4864:20::102b] (port=52033
- helo=mail-pj1-x102b.google.com)
+ id 1nHuxd-0007HY-6C
+ for qemu-devel@nongnu.org; Wed, 09 Feb 2022 16:57:13 -0500
+Received: from [2607:f8b0:4864:20::431] (port=39812
+ helo=mail-pf1-x431.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nHuxC-0008ON-Uw
- for qemu-devel@nongnu.org; Wed, 09 Feb 2022 16:56:48 -0500
-Received: by mail-pj1-x102b.google.com with SMTP id y9so3434105pjf.1
- for <qemu-devel@nongnu.org>; Wed, 09 Feb 2022 13:56:46 -0800 (PST)
+ id 1nHuxV-0008PO-5P
+ for qemu-devel@nongnu.org; Wed, 09 Feb 2022 16:57:12 -0500
+Received: by mail-pf1-x431.google.com with SMTP id r19so6748831pfh.6
+ for <qemu-devel@nongnu.org>; Wed, 09 Feb 2022 13:56:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=wfdvIayZN4rEH4vTf0zIfKGoIUQlbNKVWZXJsjEqejw=;
- b=QJxyGbe5AbC/+N0iX/F96oXI7Fahc1+Ar2Ng3CkQGJ1lf3E8moQiMAz2wOsJtG3yqk
- d4UHJ1vCHoHMdwv3VIwH7hra4i8/X6QzJETVmE803kzovHKy9R25XfN1Xw8CR4P/ZDjp
- oJ0lS/+zPL9prizumU5mpDcBofizsGeylRAidJhbzDdIuw48VcXspZq4xLgLIeJLNm1p
- 7LR1vVaT+hyWMoebHaRky+RFlij7q/vNl7FWmsFOxhzzjhfVPmwPj4wHKvZ44a1DAMzf
- SFTv7g6Vcj8Ik0NvqwTT4SjzBd8du4e6C6p9f4z/j4g7IoEVkj9Yk+JmS4Qb64kf5AsM
- QFow==
+ bh=CXBbohT5DpNOtupUCDmW7tyAHJaQAJL39tzOlvtcajc=;
+ b=OYE8wuf5zHyrnTdIoB2I7Wq3QqJmeZMdobQebv8CD2zgOxOUkiPsRbBuDZhInmdQP+
+ PZSZWZ/UE5pktpC+gw1f27hy+H5slQkNLMA+A3P5ofAdj0O9c4rJ5+6j2m6oGAy5e1vZ
+ 8kMww070NGS1v11BhsHeJnW/CGUVUSt6V8Ft1QMBaAWhMfS4MtjkoXdIZdca4FVRmNxQ
+ TPoYHa1wscsdLxZtjMkR84EAihyLA+x6nmHxIK1oluuSn7B+IPG/JD6+VH4cS2NWElmz
+ wLVwO4yPr0qdJOja+6nCNm8ESmYW5ocQ0gm8VIkgWq9u10dcxxBbrcVnW0te5WJSoDAB
+ 0Owg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=wfdvIayZN4rEH4vTf0zIfKGoIUQlbNKVWZXJsjEqejw=;
- b=jH46mhijKqJQTZ2UpdUSBoBKK3JLUxawGOQSe4vmN+rXsi136aL+hBhXoluJ4Jd4VO
- AnyyGZbAU3/l/N22ZwtqIKP45Mx7bVwZjVFM2MQ8Ts/8t/JqpuefsYe6VSrLtgL8PMd1
- tpZQLh7RPLf1wciwddiubKHdgPx8mnyEGsDs1TmJ+29qSW/BMIwHgy7AKB1oP5E/5que
- MCsvfBgkfNL2bOQPvnT/KFtXSpKQdJvbrNJY7vF0RXjMJFv2sv/j6mubiwnd1/EVQIt7
- c/esykf88Q5/fCOierKPwHWwlUn/82QnqnVR4fVeDFaPL97wwkdmEhfp4fbQ9kaEw2Zj
- NzPw==
-X-Gm-Message-State: AOAM533jRf+tBUguxaKUqSzbZ1xbG5FHgHuh/LNIN+DechiohRS/YvZf
- iO9wgB7AY2frQ55jO2yum6oa5wELPMA=
-X-Google-Smtp-Source: ABdhPJwTYj98zhDeXE6KyiMNLmlNM7gJsdXbahcFDmI4B6B/9CnD0e4uN3rTq0G0FuWwspCsrqt6zg==
-X-Received: by 2002:a17:902:8c87:: with SMTP id
- t7mr4230721plo.170.1644443805593; 
- Wed, 09 Feb 2022 13:56:45 -0800 (PST)
+ bh=CXBbohT5DpNOtupUCDmW7tyAHJaQAJL39tzOlvtcajc=;
+ b=ewKGAX+L8TAzODvE1o3hipgMsndlORHI86JSQsBr6cWyAPvUAIQehCHvUct1N5fKTn
+ 8NcDcwNC728Jq6hZN38VZQ3RUvdMURB81Ez4bHPFrylwWpECAPM5PICRkSUxPn0vmBo9
+ du7x8MivTfNZVsPbg0s2JiYw6bxz4n0ParqYjjmOo0Ux/tYjs4TocyMJA9NBna44aUOK
+ X5uhzjMak2HaaqDpg99m7YWYKo69W2sFsTDTBIwuDuwcIdX32uiHm/03vlsngKI9tOpg
+ HfyGw5jY9xe/z/QQ2a7GLwBFJ/tE+XB3z1MJNdtY77U4ei3+OhXLEhf3i2e2QweBPgY4
+ ieSA==
+X-Gm-Message-State: AOAM532AvwbVIhRXqehuehYWHVrVEKRr+eUDDhqVlrH+rE9f0DLyjzn/
+ xfpasxdzP+/gH/j9KpVMhLvwnqhRbAg=
+X-Google-Smtp-Source: ABdhPJwDDYMioTE1PEDd59lcNXaGjkTZah/V1LuQAstDjTXHA1jaR+wCeo0J7iWJ72duYkdsthU4LA==
+X-Received: by 2002:a63:4641:: with SMTP id v1mr124492pgk.283.1644443813852;
+ Wed, 09 Feb 2022 13:56:53 -0800 (PST)
 Received: from localhost.localdomain (154.red-83-50-83.dynamicip.rima-tde.net.
  [83.50.83.154])
- by smtp.gmail.com with ESMTPSA id ot1sm7399170pjb.22.2022.02.09.13.56.43
+ by smtp.gmail.com with ESMTPSA id 30sm14716844pgq.39.2022.02.09.13.56.51
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Wed, 09 Feb 2022 13:56:45 -0800 (PST)
+ Wed, 09 Feb 2022 13:56:53 -0800 (PST)
 To: qemu-devel@nongnu.org
 Cc: Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: [RFC PATCH 14/15] hw/sparc: Restrict SPARCCPU type to target/ code
-Date: Wed,  9 Feb 2022 22:54:45 +0100
-Message-Id: <20220209215446.58402-15-f4bug@amsat.org>
+Subject: [RFC PATCH 15/15] hw/sh4: Restrict SuperHCPU type to target/ code
+Date: Wed,  9 Feb 2022 22:54:46 +0100
+Message-Id: <20220209215446.58402-16-f4bug@amsat.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220209215446.58402-1-f4bug@amsat.org>
 References: <20220209215446.58402-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::102b
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::431
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102b;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pj1-x102b.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::431;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pf1-x431.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -99,48 +98,52 @@ From:  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= via <qemu-devel@nongnu.org>
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- include/hw/sparc/sparc64.h | 4 +---
- target/sparc/cpu-qom.h     | 2 --
- target/sparc/cpu.h         | 4 ++--
- 3 files changed, 3 insertions(+), 7 deletions(-)
+ include/hw/sh4/sh.h  | 3 +--
+ target/sh4/cpu-qom.h | 2 --
+ target/sh4/cpu.h     | 4 ++--
+ 3 files changed, 3 insertions(+), 6 deletions(-)
 
-diff --git a/include/hw/sparc/sparc64.h b/include/hw/sparc/sparc64.h
-index 4ced36fb5a..605ae4448c 100644
---- a/include/hw/sparc/sparc64.h
-+++ b/include/hw/sparc/sparc64.h
-@@ -1,11 +1,9 @@
- #ifndef HW_SPARC_SPARC64_H
- #define HW_SPARC_SPARC64_H
+diff --git a/include/hw/sh4/sh.h b/include/hw/sh4/sh.h
+index ec716cdd45..a4245399d5 100644
+--- a/include/hw/sh4/sh.h
++++ b/include/hw/sh4/sh.h
+@@ -28,7 +28,6 @@
+ #define QEMU_HW_SH_H
  
--#include "target/sparc/cpu-qom.h"
--
- #define IVEC_MAX             0x40
+ #include "hw/sh4/sh_intc.h"
+-#include "target/sh4/cpu-qom.h"
  
--SPARCCPU *sparc64_cpu_devinit(const char *cpu_type, uint64_t prom_addr);
-+ArchCPU *sparc64_cpu_devinit(const char *cpu_type, uint64_t prom_addr);
+ #define A7ADDR(x) ((x) & 0x1fffffff)
+ #define P4ADDR(x) ((x) | 0xe0000000)
+@@ -36,7 +35,7 @@
+ /* sh7750.c */
+ struct SH7750State;
  
- void sparc64_cpu_set_ivec_irq(void *opaque, int irq, int level);
+-struct SH7750State *sh7750_init(SuperHCPU *cpu, MemoryRegion *sysmem);
++struct SH7750State *sh7750_init(ArchCPU *cpu, MemoryRegion *sysmem);
  
-diff --git a/target/sparc/cpu-qom.h b/target/sparc/cpu-qom.h
-index d5f90cffd4..36ffffcadd 100644
---- a/target/sparc/cpu-qom.h
-+++ b/target/sparc/cpu-qom.h
+ typedef struct {
+     /* The callback will be triggered if any of the designated lines change */
+diff --git a/target/sh4/cpu-qom.h b/target/sh4/cpu-qom.h
+index 64be55a924..d186ad40fa 100644
+--- a/target/sh4/cpu-qom.h
++++ b/target/sh4/cpu-qom.h
 @@ -29,8 +29,6 @@
- #define TYPE_SPARC_CPU "sparc-cpu"
- #endif
+ #define TYPE_SH7751R_CPU SUPERH_CPU_TYPE_NAME("sh7751r")
+ #define TYPE_SH7785_CPU  SUPERH_CPU_TYPE_NAME("sh7785")
  
--typedef struct ArchCPU SPARCCPU;
+-typedef struct ArchCPU SuperHCPU;
 -
- OBJECT_DECLARE_TYPE(ArchCPU, SPARCCPUClass,
-                     SPARC_CPU)
+ OBJECT_DECLARE_TYPE(ArchCPU, SuperHCPUClass,
+                     SUPERH_CPU)
  
-diff --git a/target/sparc/cpu.h b/target/sparc/cpu.h
-index abb38db674..8452a62ea8 100644
---- a/target/sparc/cpu.h
-+++ b/target/sparc/cpu.h
-@@ -556,14 +556,14 @@ struct CPUArchState {
+diff --git a/target/sh4/cpu.h b/target/sh4/cpu.h
+index c72a30edfd..8e49163fb3 100644
+--- a/target/sh4/cpu.h
++++ b/target/sh4/cpu.h
+@@ -195,14 +195,14 @@ typedef struct CPUArchState {
   *
-  * A SPARC CPU.
+  * A SuperH CPU.
   */
 -struct ArchCPU {
 +typedef struct ArchCPU {
@@ -149,12 +152,12 @@ index abb38db674..8452a62ea8 100644
      /*< public >*/
  
      CPUNegativeOffsetState neg;
-     CPUSPARCState env;
+     CPUSH4State env;
 -};
-+} SPARCCPU;
++} SuperHCPU;
  
  
- #ifndef CONFIG_USER_ONLY
+ void superh_cpu_dump_state(CPUState *cpu, FILE *f, int flags);
 -- 
 2.34.1
 
