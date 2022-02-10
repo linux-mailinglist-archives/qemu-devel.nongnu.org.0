@@ -2,76 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79AA44B13FE
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Feb 2022 18:17:17 +0100 (CET)
-Received: from localhost ([::1]:43838 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 594F34B14C0
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Feb 2022 18:58:34 +0100 (CET)
+Received: from localhost ([::1]:45486 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nID4G-00056w-DM
-	for lists+qemu-devel@lfdr.de; Thu, 10 Feb 2022 12:17:16 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:55634)
+	id 1nIDiD-00089E-4V
+	for lists+qemu-devel@lfdr.de; Thu, 10 Feb 2022 12:58:33 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:32848)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wwcohen@gmail.com>) id 1nIBf6-0005Fm-JQ
- for qemu-devel@nongnu.org; Thu, 10 Feb 2022 10:47:12 -0500
-Received: from [2a00:1450:4864:20::12c] (port=35726
- helo=mail-lf1-x12c.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <wwcohen@gmail.com>) id 1nIBf4-0002gV-9W
- for qemu-devel@nongnu.org; Thu, 10 Feb 2022 10:47:12 -0500
-Received: by mail-lf1-x12c.google.com with SMTP id i34so11296274lfv.2
- for <qemu-devel@nongnu.org>; Thu, 10 Feb 2022 07:47:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Vwu/WfbRlyFgIB4vXVMAKk3KDvxsTrSoR/OzH5sCu50=;
- b=pE1hNzHbe9qhRVt9Emz6s02CWodII2Rg+kWNYugT8Ke0YxTZDvvoGEsT59qBCI7Urd
- 1lyu29/g31uxXoObBKwL0jyFnLbAvp51t81KB7vN1avO+X77XuzmWYMlVMXTa7MKUVlH
- SOU1Nftr7MdZlpF0ReKHq18B8UFoeTK6HtONzjp4qoJPqR2gFBr4fi5hsz2baPcNmPnf
- pZrQQj8tP+zjx6y9NEaPcSsf9d+BBGgt0Is9obojNkB7yAXaplWxROTmzFtdtCi5KlUo
- yOg9y0p34jyGJhrj11LPL85lUYwtQ/DRc6ca9HjlDYH6qo2jJDALXQ68yD8V6hjOt7Xb
- nNkw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=Vwu/WfbRlyFgIB4vXVMAKk3KDvxsTrSoR/OzH5sCu50=;
- b=PC3PHYdzuXrcQG5ZOZx++/5AIAhKDDHsZuvyLkrRY/9ahd2n+muWp+GA+PEw1LOGI6
- BOHu1fGHoSemimmR9kNZbfs3LhD6cwdZ+skDXlYIbebMcYTpjW9xyU8H/T1jF+BJsnFQ
- P5lD/sqdcPyCiWv/zw6XS/sVxfL6eJNwFKtn+jXb1PMNni+lfjC2xPMKCAfJPlZ6SLUB
- iGNEInnE8K7qNAeMWLkD3Kn/8rs/Ucod2kutHrcbzPk6zS//iqX70PTdmfw6HsVpQbSC
- I+OUFKOd7MBT4Ok/sX0+sTLk0bJXm/Bl92CdwwTvqMDoL6srNzZfWbsTjBT4aEuEtsgU
- 8iHg==
-X-Gm-Message-State: AOAM530lcFR2L1r/FN616f904BCzZT+E6FEze8eDy8G4bkliWJoR46XC
- 6T/ADLDf+6/hYsI45VXLPvXcxjYAp4yZJ0UUmfE=
-X-Google-Smtp-Source: ABdhPJy1Yip8Gm8eZaiKQ2PAU3T23j4+oAAH5+3Opevij3Wo2J5ytol/QQh+IVsDDSzeBLGBs1srthnNgU94EhdJ92Q=
-X-Received: by 2002:a05:6512:33d4:: with SMTP id
- d20mr5589433lfg.108.1644508027925; 
- Thu, 10 Feb 2022 07:47:07 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <huangy81@chinatelecom.cn>)
+ id 1nIBym-0003Ga-8c
+ for qemu-devel@nongnu.org; Thu, 10 Feb 2022 11:07:34 -0500
+Received: from prt-mail.chinatelecom.cn ([42.123.76.222]:58948
+ helo=chinatelecom.cn) by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <huangy81@chinatelecom.cn>) id 1nIByR-0006XR-0R
+ for qemu-devel@nongnu.org; Thu, 10 Feb 2022 11:07:15 -0500
+HMM_SOURCE_IP: 172.18.0.48:41426.295907247
+HMM_ATTACHE_NUM: 0000
+HMM_SOURCE_TYPE: SMTP
+Received: from clientip-171.223.98.151 (unknown [172.18.0.48])
+ by chinatelecom.cn (HERMES) with SMTP id A61F1280095;
+ Fri, 11 Feb 2022 00:06:50 +0800 (CST)
+X-189-SAVE-TO-SEND: +huangy81@chinatelecom.cn
+Received: from  ([172.18.0.48])
+ by app0024 with ESMTP id 2918946a0f1749e59f2189f2ec3767fb for
+ qemu-devel@nongnu.org; Fri, 11 Feb 2022 00:06:56 CST
+X-Transaction-ID: 2918946a0f1749e59f2189f2ec3767fb
+X-Real-From: huangy81@chinatelecom.cn
+X-Receive-IP: 172.18.0.48
+X-MEDUSA-Status: 0
+From: huangy81@chinatelecom.cn
+To: qemu-devel <qemu-devel@nongnu.org>
+Subject: [PATCH V13 0/7] support dirty restraint on vCPU 
+Date: Fri, 11 Feb 2022 00:06:26 +0800
+Message-Id: <cover.1644506963.git.huangy81@chinatelecom.cn>
+X-Mailer: git-send-email 1.8.3.1
 MIME-Version: 1.0
-References: <20220207224024.87745-1-wwcohen@gmail.com>
- <CAB26zV1VMZOjyn1h3fLd7N0rGWxLihv3tJDtRYn3P7muO-ehiw@mail.gmail.com>
- <CAMVc7JXB4KUFbMDekXiVTVqT_UQVpy-y6C+Z8caaSC3FRwPjWg@mail.gmail.com>
- <7028769.ONZ7M9ntUb@silver>
- <CAB26zV2sdVq41CFdp3uJV76af9T=osNUHKiRpMr0kxS6OH5fGw@mail.gmail.com>
- <CAMVc7JVw-ATMfFTMCBgZEa+xEZFso1=QJAz9JP4AMf86YmRKEg@mail.gmail.com>
-In-Reply-To: <CAMVc7JVw-ATMfFTMCBgZEa+xEZFso1=QJAz9JP4AMf86YmRKEg@mail.gmail.com>
-From: Will Cohen <wwcohen@gmail.com>
-Date: Thu, 10 Feb 2022 10:46:55 -0500
-Message-ID: <CAB26zV2Z1bhQsYPsa4u5GaFfJn5=tR_jv49gdAeg8dvMyCJ0NA@mail.gmail.com>
-Subject: Re: [PATCH v5 09/11] 9p: darwin: Implement compatibility for mknodat
-To: Akihiko Odaki <akihiko.odaki@gmail.com>
-Content-Type: multipart/alternative; boundary="000000000000d5b8f405d7abdc19"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::12c
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::12c;
- envelope-from=wwcohen@gmail.com; helo=mail-lf1-x12c.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=42.123.76.222;
+ envelope-from=huangy81@chinatelecom.cn; helo=chinatelecom.cn
+X-Spam_score_int: -18
+X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -84,263 +60,390 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Christian Schoenebeck <qemu_oss@crudebyte.com>,
- qemu Developers <qemu-devel@nongnu.org>, Greg Kurz <groug@kaod.org>,
- hi@alyssa.is, Michael Roitzsch <reactorcontrol@icloud.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Keno Fischer <keno@juliacomputing.com>
+Cc: Eduardo Habkost <eduardo@habkost.net>, David Hildenbrand <david@redhat.com>,
+ Hyman <huangy81@chinatelecom.cn>, Juan Quintela <quintela@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Markus ArmBruster <armbru@redhat.com>, Peter Xu <peterx@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000d5b8f405d7abdc19
-Content-Type: text/plain; charset="UTF-8"
+From: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
 
-On Wed, Feb 9, 2022 at 6:10 PM Akihiko Odaki <akihiko.odaki@gmail.com>
-wrote:
+v13
+- rebase on master
+- passing NULL to kvm_dirty_ring_reap in commit
+  "refactor per-vcpu dirty ring reaping" to keep the logic unchanged.
+  In other word, we still try the best to reap as much PFNs as possible
+  if dirtylimit not in service.
+- move the cpu list gen id changes into a separate patch.   
+- release the lock before sleep during dirty page rate calculation.
+- move the dirty ring size fetch logic into a separate patch.
+- drop the DIRTYLIMIT_LINEAR_ADJUSTMENT_WATERMARK MACRO .
+- substitute bh with function pointer when implement dirtylimit.
+- merge the dirtylimit_start/stop into dirtylimit_change.
+- fix "cpu-index" parameter type with "int" to keep consistency.
+- fix some syntax error in documents.
 
-> On Thu, Feb 10, 2022 at 3:20 AM Will Cohen <wwcohen@gmail.com> wrote:
-> >
-> > On Wed, Feb 9, 2022 at 9:08 AM Christian Schoenebeck <
-> qemu_oss@crudebyte.com> wrote:
-> >>
-> >> On Mittwoch, 9. Februar 2022 14:33:25 CET Akihiko Odaki wrote:
-> >> > > I like the idea of switching it to __attribute__((weak)). I should
-> note
-> >> > > that I'm not sure that I can actually fully test this out since I'm
-> >> > > getting stuck with the linker noting my undefined fake function
-> during
-> >> > > the build, but the idea does make logical sense to me for the
-> future fail
-> >> > > case and the happy case builds again when implemented with actual
-> >> > > pthread_fchdir_np:
-> >> > >
-> >> > > [1075/2909] Linking target qemu-nbd
-> >> > > FAILED: qemu-nbd
-> >> > > cc -m64 -mcx16  -o qemu-nbd qemu-nbd.p/qemu-nbd.c.o
-> -Wl,-dead_strip_dylibs
-> >> > > -Wl,-headerpad_max_install_names -Wl,-undefined,error
-> -Wl,-force_load
-> >> > > libblockdev.fa -Wl,-force_load libblock.fa -Wl,-force_load
-> libcrypto.fa
-> >> > > -Wl,-force_load libauthz.fa -Wl,-force_load libqom.fa
-> -Wl,-force_load
-> >> > > libio.fa -fstack-protector-strong
-> >> > > -Wl,-rpath,/usr/local/Cellar/gnutls/3.7.3/lib
-> >> > > -Wl,-rpath,/usr/local/Cellar/pixman/0.40.0/lib libqemuutil.a
-> >> > > libblockdev.fa libblock.fa libcrypto.fa libauthz.fa libqom.fa
-> libio.fa
-> >> > > @block.syms /usr/local/Cellar/gnutls/3.7.3/lib/libgnutls.dylib
-> -lutil
-> >> > > -L/usr/local/Cellar/glib/2.70.3/lib -L/usr/local/opt/gettext/lib
-> >> > > -lgio-2.0 -lgobject-2.0 -lglib-2.0 -lintl
-> >> > > -L/usr/local/Cellar/glib/2.70.3/lib -L/usr/local/opt/gettext/lib
-> >> > > -lgio-2.0 -lgobject-2.0 -lglib-2.0 -lintl -lm
-> >> > > -L/usr/local/Cellar/glib/2.70.3/lib -L/usr/local/opt/gettext/lib
-> >> > > -lgmodule-2.0 -lglib-2.0 -lintl
-> >> > > /usr/local/Cellar/pixman/0.40.0/lib/libpixman-1.dylib -lz -lxml2
-> >> > > -framework CoreFoundation -framework IOKit -lcurl
-> >> > > -L/usr/local/Cellar/glib/2.70.3/lib -L/usr/local/opt/gettext/lib
-> >> > > -lgmodule-2.0 -lglib-2.0 -lintl -lbz2
-> >> > > /usr/local/Cellar/libssh/0.9.6/lib/libssh.dylib -lpam>
-> >> > > Undefined symbols for architecture x86_64:
-> >> > >   "_pthread_fchdir_npfoo", referenced from:
-> >> > >       _qemu_mknodat in libblockdev.fa(os-posix.c.o)
-> >> > >
-> >> > > ld: symbol(s) not found for architecture x86_64
-> >> > > clang: error: linker command failed with exit code 1 (use -v to see
-> >> > > invocation) ninja: build stopped: subcommand failed.
-> >> > > make[1]: *** [run-ninja] Error 1
-> >> > > make: *** [all] Error 2
-> >> > >
-> >> > > With that caveat re testing in mind, unless there's another
-> recommended
-> >> > > path forward, I think it makes sense to stick with
-> __attribute__((weak))
-> >> > > and prepare v6 which incorporates this and all the other feedback
-> from
-> >> > > this round.
-> >> > __attribute__((weak_import)), which explicitly marks the function as
-> >> > external, is more appropriate here. It is feature-equivalent with the
-> >> > availability attribute when the minimum deployment target is lower
-> >> > than the version which introduced the function.
-> >>
-> >> Thanks for chiming in on this macOS issue Akihiko!
-> >>
-> >> Are you sure that "weak_import" is still the preferred way? From
-> behaviour PoV
-> >> I do not see any difference at all. I can't even tell what the intended
-> >> difference was, and QEMU currently only seems to use "weak" in the
-> entire code
-> >> base.
-> >>
-> >> Googling around, "weak_import" seems to be required on ancient OS X
-> versions
-> >> only and that it's now deprecated in favour of the more common "weak",
-> no?
-> >>
-> >> Best regards,
-> >> Christian Schoenebeck
-> >
-> >
-> > Either way seems reasonable to me. For reference, what I'm seeing on
-> Google and what Christian may be referring to is a circa-2016 conversation
-> on GCC bugzilla, where a tentative conclusion seems to be that the
-> distinction between the two is small and weak is probably preferred now:
-> https://gcc.gnu.org/bugzilla/show_bug.cgi?id=69179
-> >
->
-> GCC doesn't maintain features specific to Apple well so we should look
-> at clang. Compiling QEMU for macOS with GCC would result in errors
-> anyway because QEMU uses clang extensions like availability checks and
-> blocks for Apple's ABIs/APIs. clang still distinguishes
-> __attribute__((weak)) and __attribute__((weak_import)).
->
-> The present uses of __attribute__((weak)) in QEMU are correct and
-> shouldn't be replaced with __attribute__((weak_import)) even when
-> targeting macOS since they have default implementations and are
-> statically resolved.
->
-> Regards,
-> Akihiko Odaki
->
+Please review. Thanks,
 
-Noted. v6 adjusts to use weak_import. Many thanks!
+Yong
 
---000000000000d5b8f405d7abdc19
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+v12
+- rebase on master
+- add a new commmit to refactor per-vcpu dirty ring reaping, which can resolve 
+  the "vcpu miss the chances to sleep" problem
+- remove the dirtylimit_thread and implemtment throttle in bottom half instead.
+- let the dirty ring reaper thread keep sleeping when dirtylimit is in service 
+- introduce cpu_list_generation_id to identify cpu_list changing. 
+- keep taking the cpu_list_lock during dirty_stat_wait to prevent vcpu plug/unplug
+  when calculating the dirty page rate
+- move the dirtylimit global initializations out of dirtylimit_set_vcpu and do
+  some code clean
+- add DIRTYLIMIT_LINEAR_ADJUSTMENT_WATERMARK in case of oscillation when throttling 
+- remove the unmatched count field in dirtylimit_state
+- add stub to fix build on non-x86
+- refactor the documents
 
-<div dir=3D"ltr"><div dir=3D"ltr">On Wed, Feb 9, 2022 at 6:10 PM Akihiko Od=
-aki &lt;<a href=3D"mailto:akihiko.odaki@gmail.com">akihiko.odaki@gmail.com<=
-/a>&gt; wrote:<br></div><div class=3D"gmail_quote"><blockquote class=3D"gma=
-il_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,2=
-04,204);padding-left:1ex">On Thu, Feb 10, 2022 at 3:20 AM Will Cohen &lt;<a=
- href=3D"mailto:wwcohen@gmail.com" target=3D"_blank">wwcohen@gmail.com</a>&=
-gt; wrote:<br>
-&gt;<br>
-&gt; On Wed, Feb 9, 2022 at 9:08 AM Christian Schoenebeck &lt;<a href=3D"ma=
-ilto:qemu_oss@crudebyte.com" target=3D"_blank">qemu_oss@crudebyte.com</a>&g=
-t; wrote:<br>
-&gt;&gt;<br>
-&gt;&gt; On Mittwoch, 9. Februar 2022 14:33:25 CET Akihiko Odaki wrote:<br>
-&gt;&gt; &gt; &gt; I like the idea of switching it to __attribute__((weak))=
-. I should note<br>
-&gt;&gt; &gt; &gt; that I&#39;m not sure that I can actually fully test thi=
-s out since I&#39;m<br>
-&gt;&gt; &gt; &gt; getting stuck with the linker noting my undefined fake f=
-unction during<br>
-&gt;&gt; &gt; &gt; the build, but the idea does make logical sense to me fo=
-r the future fail<br>
-&gt;&gt; &gt; &gt; case and the happy case builds again when implemented wi=
-th actual<br>
-&gt;&gt; &gt; &gt; pthread_fchdir_np:<br>
-&gt;&gt; &gt; &gt;<br>
-&gt;&gt; &gt; &gt; [1075/2909] Linking target qemu-nbd<br>
-&gt;&gt; &gt; &gt; FAILED: qemu-nbd<br>
-&gt;&gt; &gt; &gt; cc -m64 -mcx16=C2=A0 -o qemu-nbd qemu-nbd.p/qemu-nbd.c.o=
- -Wl,-dead_strip_dylibs<br>
-&gt;&gt; &gt; &gt; -Wl,-headerpad_max_install_names -Wl,-undefined,error -W=
-l,-force_load<br>
-&gt;&gt; &gt; &gt; libblockdev.fa -Wl,-force_load libblock.fa -Wl,-force_lo=
-ad libcrypto.fa<br>
-&gt;&gt; &gt; &gt; -Wl,-force_load libauthz.fa -Wl,-force_load libqom.fa -W=
-l,-force_load<br>
-&gt;&gt; &gt; &gt; libio.fa -fstack-protector-strong<br>
-&gt;&gt; &gt; &gt; -Wl,-rpath,/usr/local/Cellar/gnutls/3.7.3/lib<br>
-&gt;&gt; &gt; &gt; -Wl,-rpath,/usr/local/Cellar/pixman/0.40.0/lib libqemuut=
-il.a<br>
-&gt;&gt; &gt; &gt; libblockdev.fa libblock.fa libcrypto.fa libauthz.fa libq=
-om.fa libio.fa<br>
-&gt;&gt; &gt; &gt; @block.syms /usr/local/Cellar/gnutls/3.7.3/lib/libgnutls=
-.dylib -lutil<br>
-&gt;&gt; &gt; &gt; -L/usr/local/Cellar/glib/2.70.3/lib -L/usr/local/opt/get=
-text/lib<br>
-&gt;&gt; &gt; &gt; -lgio-2.0 -lgobject-2.0 -lglib-2.0 -lintl<br>
-&gt;&gt; &gt; &gt; -L/usr/local/Cellar/glib/2.70.3/lib -L/usr/local/opt/get=
-text/lib<br>
-&gt;&gt; &gt; &gt; -lgio-2.0 -lgobject-2.0 -lglib-2.0 -lintl -lm<br>
-&gt;&gt; &gt; &gt; -L/usr/local/Cellar/glib/2.70.3/lib -L/usr/local/opt/get=
-text/lib<br>
-&gt;&gt; &gt; &gt; -lgmodule-2.0 -lglib-2.0 -lintl<br>
-&gt;&gt; &gt; &gt; /usr/local/Cellar/pixman/0.40.0/lib/libpixman-1.dylib -l=
-z -lxml2<br>
-&gt;&gt; &gt; &gt; -framework CoreFoundation -framework IOKit -lcurl<br>
-&gt;&gt; &gt; &gt; -L/usr/local/Cellar/glib/2.70.3/lib -L/usr/local/opt/get=
-text/lib<br>
-&gt;&gt; &gt; &gt; -lgmodule-2.0 -lglib-2.0 -lintl -lbz2<br>
-&gt;&gt; &gt; &gt; /usr/local/Cellar/libssh/0.9.6/lib/libssh.dylib -lpam&gt=
-;<br>
-&gt;&gt; &gt; &gt; Undefined symbols for architecture x86_64:<br>
-&gt;&gt; &gt; &gt;=C2=A0 =C2=A0&quot;_pthread_fchdir_npfoo&quot;, reference=
-d from:<br>
-&gt;&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0_qemu_mknodat in libblockdev.f=
-a(os-posix.c.o)<br>
-&gt;&gt; &gt; &gt;<br>
-&gt;&gt; &gt; &gt; ld: symbol(s) not found for architecture x86_64<br>
-&gt;&gt; &gt; &gt; clang: error: linker command failed with exit code 1 (us=
-e -v to see<br>
-&gt;&gt; &gt; &gt; invocation) ninja: build stopped: subcommand failed.<br>
-&gt;&gt; &gt; &gt; make[1]: *** [run-ninja] Error 1<br>
-&gt;&gt; &gt; &gt; make: *** [all] Error 2<br>
-&gt;&gt; &gt; &gt;<br>
-&gt;&gt; &gt; &gt; With that caveat re testing in mind, unless there&#39;s =
-another recommended<br>
-&gt;&gt; &gt; &gt; path forward, I think it makes sense to stick with __att=
-ribute__((weak))<br>
-&gt;&gt; &gt; &gt; and prepare v6 which incorporates this and all the other=
- feedback from<br>
-&gt;&gt; &gt; &gt; this round.<br>
-&gt;&gt; &gt; __attribute__((weak_import)), which explicitly marks the func=
-tion as<br>
-&gt;&gt; &gt; external, is more appropriate here. It is feature-equivalent =
-with the<br>
-&gt;&gt; &gt; availability attribute when the minimum deployment target is =
-lower<br>
-&gt;&gt; &gt; than the version which introduced the function.<br>
-&gt;&gt;<br>
-&gt;&gt; Thanks for chiming in on this macOS issue Akihiko!<br>
-&gt;&gt;<br>
-&gt;&gt; Are you sure that &quot;weak_import&quot; is still the preferred w=
-ay? From behaviour PoV<br>
-&gt;&gt; I do not see any difference at all. I can&#39;t even tell what the=
- intended<br>
-&gt;&gt; difference was, and QEMU currently only seems to use &quot;weak&qu=
-ot; in the entire code<br>
-&gt;&gt; base.<br>
-&gt;&gt;<br>
-&gt;&gt; Googling around, &quot;weak_import&quot; seems to be required on a=
-ncient OS X versions<br>
-&gt;&gt; only and that it&#39;s now deprecated in favour of the more common=
- &quot;weak&quot;, no?<br>
-&gt;&gt;<br>
-&gt;&gt; Best regards,<br>
-&gt;&gt; Christian Schoenebeck<br>
-&gt;<br>
-&gt;<br>
-&gt; Either way seems reasonable to me. For reference, what I&#39;m seeing =
-on Google and what Christian may be referring to is a circa-2016 conversati=
-on on GCC bugzilla, where a tentative conclusion seems to be that the disti=
-nction between the two is small and weak is probably preferred now: <a href=
-=3D"https://gcc.gnu.org/bugzilla/show_bug.cgi?id=3D69179" rel=3D"noreferrer=
-" target=3D"_blank">https://gcc.gnu.org/bugzilla/show_bug.cgi?id=3D69179</a=
-><br>
-&gt;<br>
-<br>
-GCC doesn&#39;t maintain features specific to Apple well so we should look<=
-br>
-at clang. Compiling QEMU for macOS with GCC would result in errors<br>
-anyway because QEMU uses clang extensions like availability checks and<br>
-blocks for Apple&#39;s ABIs/APIs. clang still distinguishes<br>
-__attribute__((weak)) and __attribute__((weak_import)).<br>
-<br>
-The present uses of __attribute__((weak)) in QEMU are correct and<br>
-shouldn&#39;t be replaced with __attribute__((weak_import)) even when<br>
-targeting macOS since they have default implementations and are<br>
-statically resolved.<br>
-<br>
-Regards,<br>
-Akihiko Odaki<br></blockquote><div><br></div><div>Noted. v6 adjusts to use =
-weak_import. Many thanks! <br></div></div></div>
+Thanks Peter and Markus for reviewing the previous versions, please review.
 
---000000000000d5b8f405d7abdc19--
+Thanks,
+Yong
+
+v11
+- rebase on master
+- add a commit " refactor dirty page rate calculation"  so that dirty page rate limit
+  can reuse the calculation logic. 
+- handle the cpu hotplug/unplug case in the dirty page rate calculation logic.
+- modify the qmp commands according to Markus's advice.
+- introduce a standalone file dirtylimit.c to implement dirty page rate limit
+- check if dirty limit in service by dirtylimit_state pointer instead of global variable
+- introduce dirtylimit_mutex to protect dirtylimit_state
+- do some code clean and docs
+
+See the commit for more detail, thanks Markus and Peter very mush for the code
+review and give the experienced and insightful advices, most modifications are
+based on these advices.
+
+v10:
+- rebase on master
+- make the following modifications on patch [1/3]:
+  1. Make "dirtylimit-calc" thread joinable and join it after quitting.
+
+  2. Add finalize function to free dirtylimit_calc_state
+
+  3. Do some code clean work
+
+- make the following modifications on patch [2/3]:
+  1. Remove the original implementation of throttle according to
+     Peter's advice.
+     
+  2. Introduce a negative feedback system and implement the throttle
+     on all vcpu in one thread named "dirtylimit". 
+
+  3. Simplify the algo when calculation the throttle_us_per_full:
+     increase/decrease linearly when there exists a wide difference
+     between quota and current dirty page rate, increase/decrease
+     a fixed time slice when the difference is narrow. This makes
+     throttle responds faster and reach the quota smoothly.
+
+  4. Introduce a unfit_cnt in algo to make sure throttle really
+     takes effect.
+
+  5. Set the max sleep time 99 times more than "ring_full_time_us".                                                                                                                                                                          
+                                                                                                                                                                                                                                             
+  6. Make "dirtylimit" thread joinable and join it after quitting.                                                                                                                                                                           
+                                                                                                                                                                                                                                             
+- make the following modifications on patch [3/3]:                                                                                                                                                                                           
+  1. Remove the unplug cpu handling logic.                                                                                                                                                                                                   
+                                                                                                                                                                                                                                             
+  2. "query-vcpu-dirty-limit" only return dirtylimit information of                                                                                                                                                                          
+     vcpus that enable dirtylimit                                                                                                                                                                                                            
+                                                                                                                                                                                                                                             
+  3. Remove the "dirtylimit_setup" function                                                                                                                                                                                                  
+                                                                                                                                                                                                                                             
+  4. Trigger the dirtylimit and initialize the global state only                                                                                                                                                                             
+     when someone enable dirtylimit, and finalize it after the last                                                                                                                                                                          
+     dirtylimit be canceled.                                                                                                                                                                                                                 
+                                                                                                                                                                                                                                             
+  5. Redefine the qmp command vcpu-dirty-limit/query-vcpu-dirty-limit:                                                                                                                                                                       
+     enable/disable dirtylimit use a single command "vcpu-dirty-limit",
+     to enable/disabled dirtylimit on specified vcpu only if "cpu-index"
+     is specified, otherwise, all vcpu will be affected.
+
+  6. Redefine the hmp command vcpu_dirty_limit/info vcpu_dirty_limit
+
+- other points about the code review:
+  1. "merge the code of calculation dirty page rate"
+     I think maybe it's not suitable to touch the 'calc-dirty-rate',
+     because 'calc-dirty-rate' will stop sync log after calculating 
+     the dirtyrate and the 'dirtylimit-cal' will not untill the last
+     dirtylimit be canceled, if we merge the GLOBAL_DIRTY_LIMIT into
+     GLOBAL_DIRTY_DIRTYRATE, the two are interacted with each other.
+
+  2. The new implementaion of throttle algo enlightened by Peter
+     responds faster and consume less cpu resource than the older,
+     we make a impressed progress.
+
+     And there is a viewpoint may be discussed, it is that the new 
+     throttle logic is "passive", vcpu sleeps only after dirty ring,
+     is full, unlike the "auto-converge" which will kick vcpu instead
+     in a fixed slice time. If the vcpu is memory-write intensive
+     and the ring size is large, it will produce dirty memory during
+     the dirty ring full time and the throttle works not so good, it
+     means the throttle depends on the dirty ring size. 
+
+     I actually tested the new algo in two case:
+
+     case 1: dirty-ring-size: 4096, dirtyrate: 1170MB/s 
+     result: minimum quota dirtyrate is 25MB/s or even less
+             minimum vcpu util is 6%
+
+     case 2: dirty-ring-size: 65536, dirtyrate: 1170MB/s 
+     result: minimum quota dirtyrate is 256MB/s
+             minimum vcpu util is 24%
+     
+     I post this just for discussion, i think this is not a big deal
+     beacase if we set the dirty-ring-size to the maximum value(65536),
+     we assume the server's bandwidth is capable of handling it.
+
+  3. I hard-code the acceptable deviation value to 25MB/s, see the
+     macro DIRTYLIMIT_TOLERANCE_RANGE. I'm struggling to decide 
+     whether to let it configurable
+   
+  4. Another point is the unplug cpu handle, current algo affects the
+     unplugged vcpu, if we set dirty limit on it, we should fork 2 
+     thread "dirtylimit" and "dirtylimit-calc" but do nothing, once the
+     vcpu is hot-plugged, dirty limit works, i think the logic is ok
+     but still there can be different advice.
+
+- to let developers play with it easier, i post the hmp usage example:
+  (qemu) vcpu_dirty_limit -g on -1 500
+  [Please use 'info vcpu_dirty_limit' to query dirty limit for virtual CPU]
+  
+  (qemu) info vcpu_dirty_limit 
+  vcpu[0], limit rate 500 (MB/s), current rate 415 (MB/s)
+  vcpu[1], limit rate 500 (MB/s), current rate 496 (MB/s)
+  vcpu[2], limit rate 500 (MB/s), current rate 0 (MB/s)
+  vcpu[3], limit rate 500 (MB/s), current rate 0 (MB/s)
+  (qemu) vcpu_dirty_limit -g off
+  [Please use 'info vcpu_dirty_limit' to query dirty limit for virtual CPU]
+  
+  (qemu) info vcpu_dirty_limit 
+  Dirty page limit not enabled!
+  
+  (qemu) vcpu_dirty_limit on 0 300
+  [Please use 'info vcpu_dirty_limit' to query dirty limit for virtual CPU]
+  
+  (qemu) vcpu_dirty_limit on 1 500
+  [Please use 'info vcpu_dirty_limit' to query dirty limit for virtual CPU]
+  
+  (qemu) info vcpu_dirty_limit 
+  vcpu[0], limit rate 300 (MB/s), current rate 342 (MB/s)
+  vcpu[1], limit rate 500 (MB/s), current rate 485 (MB/s)
+  
+  (qemu) vcpu_dirty_limit off 0
+  [Please use 'info vcpu_dirty_limit' to query dirty limit for virtual CPU]
+  
+  (qemu) info vcpu_dirty_limit 
+  vcpu[1], limit rate 500 (MB/s), current rate 528 (MB/s)
+  
+  (qemu) vcpu_dirty_limit off 1
+  [Please use 'info vcpu_dirty_limit' to query dirty limit for virtual CPU]
+  
+  (qemu) info vcpu_dirty_limit 
+  Dirty page limit not enabled!
+
+Thanks very much for the instructive algo suggestion given by Peter,
+the comment and other code reviews made by Markus.
+
+Please review, thanks!
+
+v9:
+- rebase on master
+- fix the meson directory change, keep it untouched.
+
+v8:
+- rebase on master
+- polish the error message and remove the "unlikely" compilation syntax
+  according to the advice given by Markus.
+- keep the dirty tracking enabled during "dirtylimit-calc" lifecycle
+  so that the overhead can be reduced according to the advice given by
+  Peter. 
+- merge the "set/cancel" qmp commands into one named "vcpu-dirty-limit"
+  and introduce qmp command "query-vcpu-dirty-limit" to query dirty
+  limit information about virtual CPU, according to the advice given by
+  Peter.
+- check if vcpu index is valid and handle the unplug case before
+  enabling, disabling dirty limit for virtual CPU.
+- introduce hmp commands so developers can play with them easier, use
+  "vcpu_dirty_limit" to enable dirty limit and "info vcpu_dirty_limit"
+  to query.
+
+The patch [2/3] has not been touched so far. Any corrections and
+suggetions are welcome. 
+
+Please review, thanks!
+
+v7:
+- rebase on master
+- polish the comments and error message according to the
+  advices given by Markus
+- introduce dirtylimit_enabled function to pre-check if dirty
+  page limit is enabled before canceling.
+
+v6:
+- rebase on master
+- fix dirtylimit setup crash found by Markus
+- polish the comments according to the advice given by Markus
+- adjust the qemu qmp command tag to 7.0
+
+v5:
+- rebase on master
+- adjust the throttle algorithm by removing the tuning in 
+  RESTRAINT_RATIO case so that dirty page rate could reachs the quota
+  more quickly.
+- fix percentage update in throttle iteration.
+
+v4:
+- rebase on master
+- modify the following points according to the advice given by Markus
+  1. move the defination into migration.json
+  2. polish the comments of set-dirty-limit
+  3. do the syntax check and change dirty rate to dirty page rate
+
+Thanks for the carefule reviews made by Markus.
+
+Please review, thanks!
+
+v3:
+- rebase on master
+- modify the following points according to the advice given by Markus
+  1. remove the DirtyRateQuotaVcpu and use its field as option directly
+  2. add comments to show details of what dirtylimit setup do
+  3. explain how to use dirtylimit in combination with existing qmp
+     commands "calc-dirty-rate" and "query-dirty-rate" in documentation.
+
+Thanks for the carefule reviews made by Markus.
+
+Please review, thanks!
+
+Hyman
+
+v2:
+- rebase on master
+- modify the following points according to the advices given by Juan
+  1. rename dirtyrestraint to dirtylimit
+  2. implement the full lifecyle function of dirtylimit_calc, include
+     dirtylimit_calc and dirtylimit_calc_quit
+  3. introduce 'quit' field in dirtylimit_calc_state to implement the
+     dirtylimit_calc_quit
+  4. remove the ready_cond and ready_mtx since it may not be suitable
+  5. put the 'record_dirtypage' function code at the beggining of the
+     file
+  6. remove the unnecesary return;
+- other modifications has been made after code review
+  1. introduce 'bmap' and 'nr' field in dirtylimit_state to record the
+     number of running thread forked by dirtylimit
+  2. stop the dirtyrate calculation thread if all the dirtylimit thread
+     are stopped
+  3. do some renaming works
+     dirtyrate calulation thread -> dirtylimit-calc
+     dirtylimit thread -> dirtylimit-{cpu_index}
+     function name do_dirtyrestraint -> dirtylimit_check
+     qmp command dirty-restraint -> set-drity-limit
+     qmp command dirty-restraint-cancel -> cancel-dirty-limit
+     header file dirtyrestraint.h -> dirtylimit.h
+
+Please review, thanks !
+
+thanks for the accurate and timely advices given by Juan. we really
+appreciate it if corrections and suggetions about this patchset are
+proposed.
+
+Best Regards !
+
+Hyman
+
+v1:
+this patchset introduce a mechanism to impose dirty restraint
+on vCPU, aiming to keep the vCPU running in a certain dirtyrate
+given by user. dirty restraint on vCPU maybe an alternative
+method to implement convergence logic for live migration,
+which could improve guest memory performance during migration
+compared with traditional method in theory.
+
+For the current live migration implementation, the convergence
+logic throttles all vCPUs of the VM, which has some side effects.
+-'read processes' on vCPU will be unnecessarily penalized
+- throttle increase percentage step by step, which seems
+  struggling to find the optimal throttle percentage when
+  dirtyrate is high.
+- hard to predict the remaining time of migration if the
+  throttling percentage reachs 99%
+
+to a certain extent, the dirty restraint machnism can fix these
+effects by throttling at vCPU granularity during migration.
+
+the implementation is rather straightforward, we calculate
+vCPU dirtyrate via the Dirty Ring mechanism periodically
+as the commit 0e21bf246 "implement dirty-ring dirtyrate calculation"
+does, for vCPU that be specified to impose dirty restraint,
+we throttle it periodically as the auto-converge does, once after
+throttling, we compare the quota dirtyrate with current dirtyrate,
+if current dirtyrate is not under the quota, increase the throttling
+percentage until current dirtyrate is under the quota.
+
+this patchset is the basis of implmenting a new auto-converge method
+for live migration, we introduce two qmp commands for impose/cancel
+the dirty restraint on specified vCPU, so it also can be an independent
+api to supply the upper app such as libvirt, which can use it to
+implement the convergence logic during live migration, supplemented
+with the qmp 'calc-dirty-rate' command or whatever.
+
+we post this patchset for RFC and any corrections and suggetions about
+the implementation, api, throttleing algorithm or whatever are very
+appreciated!
+
+Please review, thanks !
+
+Best Regards !
+
+Hyman Huang (7):
+  accel/kvm/kvm-all: Refactor per-vcpu dirty ring reaping
+  cpus: Introduce cpu_list_generation_id
+  migration/dirtyrate: Refactor dirty page rate calculation
+  softmmu/dirtylimit: Implement vCPU dirtyrate calculation periodically
+  accel/kvm/kvm-all: Introduce kvm_dirty_ring_size function
+  softmmu/dirtylimit: Implement virtual CPU throttle
+  softmmu/dirtylimit: Implement dirty page rate limit
+
+ accel/kvm/kvm-all.c         |  40 ++-
+ accel/stubs/kvm-stub.c      |   5 +
+ cpus-common.c               |   8 +
+ hmp-commands-info.hx        |  13 +
+ hmp-commands.hx             |  32 +++
+ include/exec/cpu-common.h   |   1 +
+ include/exec/memory.h       |   5 +-
+ include/hw/core/cpu.h       |   6 +
+ include/monitor/hmp.h       |   3 +
+ include/sysemu/dirtylimit.h |  37 +++
+ include/sysemu/dirtyrate.h  |  29 +++
+ include/sysemu/kvm.h        |   2 +
+ migration/dirtyrate.c       | 222 ++++++++++------
+ migration/dirtyrate.h       |   7 +-
+ qapi/migration.json         |  80 ++++++
+ softmmu/dirtylimit.c        | 619 ++++++++++++++++++++++++++++++++++++++++++++
+ softmmu/meson.build         |   1 +
+ softmmu/trace-events        |   8 +
+ 18 files changed, 1022 insertions(+), 96 deletions(-)
+ create mode 100644 include/sysemu/dirtylimit.h
+ create mode 100644 include/sysemu/dirtyrate.h
+ create mode 100644 softmmu/dirtylimit.c
+
+-- 
+1.8.3.1
+
 
