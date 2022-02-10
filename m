@@ -2,53 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D48624B0477
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Feb 2022 05:28:36 +0100 (CET)
-Received: from localhost ([::1]:57360 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE5F54B03C4
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Feb 2022 04:09:38 +0100 (CET)
+Received: from localhost ([::1]:33180 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nI14N-0006qT-Pi
-	for lists+qemu-devel@lfdr.de; Wed, 09 Feb 2022 23:28:36 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:57864)
+	id 1nHzpx-00018M-BU
+	for lists+qemu-devel@lfdr.de; Wed, 09 Feb 2022 22:09:37 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:44802)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
- id 1nI0yb-0003Ig-P0; Wed, 09 Feb 2022 23:22:39 -0500
-Received: from [2404:9400:2221:ea00::3] (port=44405 helo=gandalf.ozlabs.org)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
- id 1nI0yU-0000kv-9q; Wed, 09 Feb 2022 23:22:36 -0500
-Received: by gandalf.ozlabs.org (Postfix, from userid 1007)
- id 4JvNrF1kclz4xdh; Thu, 10 Feb 2022 15:22:21 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gibson.dropbear.id.au; s=201602; t=1644466941;
- bh=/Kidu7/5A8ZWbVhcwRLR/DpraGUGI4QpbPEidvwKChM=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=DixM9s7KoSvkrMDFmxAd8UYWCH+XSUQuWh9q+oFsu0m+NjkL4xX0NyihxNy0vwuhq
- HBr/PHNk+oma1ay+i2rksJq/L1INXaYCsAVkaAcunumHOxU7O7oevRDQeHO5JsTYLj
- 3JKuY49PW1JwpKsSnYrYs3iCKbfz7gTOB5tI1Slc=
-Date: Thu, 10 Feb 2022 13:20:34 +1100
-From: David Gibson <david@gibson.dropbear.id.au>
-To: Daniel Henrique Barboza <danielhb413@gmail.com>
-Subject: Re: [PATCH v10 1/3] target/ppc: fix indent of function parameters
-Message-ID: <YgR2cteNWWce2BOJ@yekko>
-References: <20220208194838.169257-1-danielhb413@gmail.com>
- <20220208194838.169257-2-danielhb413@gmail.com>
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1nHzoS-00009F-Cm; Wed, 09 Feb 2022 22:08:04 -0500
+Received: from [2607:f8b0:4864:20::d2e] (port=45588
+ helo=mail-io1-xd2e.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1nHzo5-0004BD-3m; Wed, 09 Feb 2022 22:07:44 -0500
+Received: by mail-io1-xd2e.google.com with SMTP id s18so5677254ioa.12;
+ Wed, 09 Feb 2022 19:07:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=5HARNDOch051tubGfEPzahIMKlYtJeCAEKPSJ1brXd0=;
+ b=cMQpRMu3R/Mnvlpxiktspjee7Zu/JttIv+ldBHioukRoq1oGPDHT+S8a3SYuWF7Nvh
+ KL7MWzIQGMXHqcyUiyHcnNB2O26ya0mF1wqo8UC3Ic6LMqueSdtgC0jmRVmRLOOJfcYF
+ H/RlGP/mm04/CwnXjTuKmiarSxKVsGdOKyvkC8gus8mPXJG9niRoona9VgiSG8MLt60+
+ MZHebiLWrw7GMKfy0nde0LjjpI06QewGDwKNbV+rnAHAJ5ghdgGkDyBqxCTLQ7H9XXM+
+ BsSw9gxuzgqhifSVvmkh3jma3/p3Mjh7xzNKQbwLpjoNLHEwKoPiJiTZM/2ejtvE9kXF
+ DHsg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=5HARNDOch051tubGfEPzahIMKlYtJeCAEKPSJ1brXd0=;
+ b=t2WvYkM5Q64c7uJLy9GAiIuj+ii/byZOmw6pz7ML5AYJ+jh9AWG1seXzDRKYY6TqSQ
+ KQhdFuUVq5dN2Kwgr/X7JzbfLvpeinjSoJWD8/uco/uTtCHmp7zbSnq/U04h0u0SLQSq
+ mJPjT6dtIJDJ3w7h3Bw56K6BZSKU0mJplFl+JdJTO5f2I9fOBH32bGF2SVENvb8Fdzjh
+ qRDrLnhKZgxQCD6Js3XqH4DDJItMmktwYoB+jkwyxTzzr171PbrN452Cyu3qZ+to1akW
+ 4+62ryXKpAfyf30q5zO39wsMDpK5358v2nb3UbYRLh286ar39OHO3UF/AqKfusHJKArn
+ CMEg==
+X-Gm-Message-State: AOAM5318ACOjgwc7OeaI7SC+vYlEUfYBL4sp4aN/K9OM6jBs4MW8hhYQ
+ 65yvsACYcX6DoolZMjzkPzz026ssvm8xsy7DkKE=
+X-Google-Smtp-Source: ABdhPJwZOK8U+tYytvP/R7sy3X1VowFIbxUR4+Aqwl1ZheqbDHqIequNHgfN/8tcjLxv5hYKjd/8QdejZMmnudf7ZQ4=
+X-Received: by 2002:a05:6602:727:: with SMTP id
+ g7mr2844061iox.90.1644462459694; 
+ Wed, 09 Feb 2022 19:07:39 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="4wKdktr9MIn+wgx/"
-Content-Disposition: inline
-In-Reply-To: <20220208194838.169257-2-danielhb413@gmail.com>
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2404:9400:2221:ea00::3
+References: <20220204022658.18097-1-liweiwei@iscas.ac.cn>
+In-Reply-To: <20220204022658.18097-1-liweiwei@iscas.ac.cn>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Thu, 10 Feb 2022 13:07:13 +1000
+Message-ID: <CAKmqyKPF7o=if6hR+pZWEgBkwsXgBr1x09f5-ucoAvwpX1Zk5A@mail.gmail.com>
+Subject: Re: [PATCH v9 0/5] support subsets of virtual memory extension
+To: Weiwei Li <liweiwei@iscas.ac.cn>
+Content-Type: text/plain; charset="UTF-8"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::d2e
  (failed)
-Received-SPF: pass client-ip=2404:9400:2221:ea00::3;
- envelope-from=dgibson@gandalf.ozlabs.org; helo=gandalf.ozlabs.org
-X-Spam_score_int: -9
-X-Spam_score: -1.0
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d2e;
+ envelope-from=alistair23@gmail.com; helo=mail-io1-xd2e.google.com
+X-Spam_score_int: -10
+X-Spam_score: -1.1
 X-Spam_bar: -
-X-Spam_report: (-1.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.248,
- RDNS_NONE=0.793, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, PDS_HP_HELO_NORDNS=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -61,83 +79,89 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org, clg@kaod.org
+Cc: =?UTF-8?B?V2VpIFd1ICjlkLTkvJ8p?= <lazyparser@gmail.com>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>, Anup Patel <anup@brainfault.org>,
+ wangjunqiang <wangjunqiang@iscas.ac.cn>, Bin Meng <bin.meng@windriver.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Alistair Francis <alistair.francis@wdc.com>, Guo Ren <ren_guo@c-sky.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Fri, Feb 4, 2022 at 12:32 PM Weiwei Li <liweiwei@iscas.ac.cn> wrote:
+>
+> This patchset implements virtual memory related RISC-V extensions: Svnapot version 1.0, Svinval vesion 1.0, Svpbmt version 1.0.
+>
+> Specification:
+> https://github.com/riscv/virtual-memory/tree/main/specs
+>
+> The port is available here:
+> https://github.com/plctlab/plct-qemu/tree/plct-virtmem-upstream-v9
+>
+> To test this implementation, specify cpu argument with 'svinval=true,svnapot=true,svpbmt=true'.
+>
+> This implementation can pass the riscv-tests for rv64ssvnapot.
+>
+> v9:
+> * delete cast for PTE bits check
+>
+> v8:
+> * rebase on https://lore.kernel.org/qemu-devel/20220131110201.2303275-1-philipp.tomsich@vrull.eu/
+> * move variables to tops of function
+> * add ULL for PTE_N and PTE_PMBT
+> * add mask variable for napot_bits
+>
+> v7:
+> * delete definition of PTE_PPN_MASK for TARGET_RISCV32
+> * make riscv_cpu_sxl works for user mode
+> * add commit msg for patch 2
+>
+> v6:
+> * select ppn mask base on sxl
+>
+> v5:
+> * merge patch https://lore.kernel.org/qemu-devel/1569456861-8502-1-git-send-email-guoren@kernel.org/
+> * relax pte attribute check
+>
+> v4:
+> * fix encodings for hinval_vvma and hinval_gvma
+> * partition inner PTE check into several steps
+> * improve commit messages to describe changes
+>
+> v3:
+> * drop "x-" in exposed properties
+>
+> v2:
+> * add extension check for svnapot and svpbmt
+>
+> Guo Ren (1):
+>   target/riscv: Ignore reserved bits in PTE for RV64
+>
+> Weiwei Li (4):
+>   target/riscv: add PTE_A/PTE_D/PTE_U bits check for inner PTE
+>   target/riscv: add support for svnapot extension
+>   target/riscv: add support for svinval extension
+>   target/riscv: add support for svpbmt extension
 
---4wKdktr9MIn+wgx/
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Thanks!
 
-On Tue, Feb 08, 2022 at 04:48:36PM -0300, Daniel Henrique Barboza wrote:
-> Fix indentation of powerpc_set_excp_state() and ppc_excp_apply_ail()
-> parameters.
->=20
-> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+Applied to riscv-to-apply.next
 
-Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
+Alistair
 
-> ---
->  target/ppc/excp_helper.c | 8 ++++----
->  1 file changed, 4 insertions(+), 4 deletions(-)
->=20
-> diff --git a/target/ppc/excp_helper.c b/target/ppc/excp_helper.c
-> index c107953dec..8a49a4ab90 100644
-> --- a/target/ppc/excp_helper.c
-> +++ b/target/ppc/excp_helper.c
-> @@ -265,9 +265,9 @@ static int powerpc_reset_wakeup(CPUState *cs, CPUPPCS=
-tate *env, int excp,
->   * +--------------------------------------------------------------------+
->   */
->  static void ppc_excp_apply_ail(PowerPCCPU *cpu, int excp_model, int excp,
-> -                                      target_ulong msr,
-> -                                      target_ulong *new_msr,
-> -                                      target_ulong *vector)
-> +                               target_ulong msr,
-> +                               target_ulong *new_msr,
-> +                               target_ulong *vector)
->  {
->  #if defined(TARGET_PPC64)
->      CPUPPCState *env =3D &cpu->env;
-> @@ -362,7 +362,7 @@ static void ppc_excp_apply_ail(PowerPCCPU *cpu, int e=
-xcp_model, int excp,
->  }
-> =20
->  static void powerpc_set_excp_state(PowerPCCPU *cpu,
-> -                                          target_ulong vector, target_ul=
-ong msr)
-> +                                   target_ulong vector, target_ulong msr)
->  {
->      CPUState *cs =3D CPU(cpu);
->      CPUPPCState *env =3D &cpu->env;
-
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
-
---4wKdktr9MIn+wgx/
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEoULxWu4/Ws0dB+XtgypY4gEwYSIFAmIEdmcACgkQgypY4gEw
-YSJRyQ/9GfsX1cOc5RpoWlXbroa/Pk4pY9/vPfO9eZPTiLu9x9jsf7Bo76A3kM9r
-gQ7rQaCUvRWfeQc3whGCwysr1lAG7k4M/101dfejPOKC1XVSF2VdKQ7eNFkiIM/1
-zrMtgf9eTUj70a/bg1fXqhGDP1k2BYSmvywWxM0U4kPC/iMAU8yZaR+oZcJFALKB
-XVq/KO6NzyRsUB0FirEVJCX8BA/aGhIB/hFr2ExVCh9/XWyc8EfI+J9n4hW38JRI
-GNssLheIfDEhARa/5Y3iP4WHg7XIkSu3nS9ulHq5TwOaNi9u0ZMvEJfkvkhljhms
-r+N7vf3/JR71MJaLs+XJ2i0gu7yCXcBwjKheXXl0EgI/07cAjPf3l+N9h0xLNouR
-KbhsTeqGvzQL0F65BRhQpEoQGPPRm6tUt2ALtcGRixzSjxRc+pw772kIUFxDTCNf
-6D+wn8+4UKPkMINbmXbYEBqGPMhbMk5GVj61BcDHLxNGxhaKNJ5X05V1uHxyMdJk
-G6XAaZRC6n7pXebwrMZ8epqttMgYnE417CWv6otjx9QqcSwCMoxmN7pG/ZQ1cyK+
-B86WK+r6Mj6WsRmyNbfR74An8Ffds6aVE/mm2GVhdQYG/W8UwU1OOwuV3XZJzWb7
-0q1K89d988hH9NyTfZ8qdmYy2rkLObtfWSFv5eJAcliWcbfd+rM=
-=GCTQ
------END PGP SIGNATURE-----
-
---4wKdktr9MIn+wgx/--
+>
+>  target/riscv/cpu.c                          |  4 ++
+>  target/riscv/cpu.h                          | 16 +++++
+>  target/riscv/cpu_bits.h                     |  6 ++
+>  target/riscv/cpu_helper.c                   | 34 +++++++++-
+>  target/riscv/insn32.decode                  |  7 ++
+>  target/riscv/insn_trans/trans_svinval.c.inc | 75 +++++++++++++++++++++
+>  target/riscv/translate.c                    |  1 +
+>  7 files changed, 140 insertions(+), 3 deletions(-)
+>  create mode 100644 target/riscv/insn_trans/trans_svinval.c.inc
+>
+> --
+> 2.17.1
+>
+>
 
