@@ -2,48 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A20994B0C8A
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Feb 2022 12:41:22 +0100 (CET)
-Received: from localhost ([::1]:43550 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A7E84B0CA8
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Feb 2022 12:44:29 +0100 (CET)
+Received: from localhost ([::1]:49642 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nI7pB-00050G-E0
-	for lists+qemu-devel@lfdr.de; Thu, 10 Feb 2022 06:41:21 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:43326)
+	id 1nI7sC-0000hK-50
+	for lists+qemu-devel@lfdr.de; Thu, 10 Feb 2022 06:44:28 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:43378)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
- (envelope-from <5279f88ced3f628b475f7b9e1cb3b5f4c0377b8c@lizzy.crudebyte.com>)
- id 1nI7kB-0007eh-UY
+ (envelope-from <de19c79dad6a2cad54ae04ce754d47c07bf9bc93@lizzy.crudebyte.com>)
+ id 1nI7kE-0007ez-Dm
  for qemu-devel@nongnu.org; Thu, 10 Feb 2022 06:36:14 -0500
-Received: from lizzy.crudebyte.com ([91.194.90.13]:46401)
+Received: from lizzy.crudebyte.com ([91.194.90.13]:44165)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
- (envelope-from <5279f88ced3f628b475f7b9e1cb3b5f4c0377b8c@lizzy.crudebyte.com>)
- id 1nI7jp-0003Sk-GD
- for qemu-devel@nongnu.org; Thu, 10 Feb 2022 06:36:07 -0500
+ (envelope-from <de19c79dad6a2cad54ae04ce754d47c07bf9bc93@lizzy.crudebyte.com>)
+ id 1nI7k5-0003Vn-5R
+ for qemu-devel@nongnu.org; Thu, 10 Feb 2022 06:36:10 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=crudebyte.com; s=lizzy; h=Cc:To:Content-Transfer-Encoding:Content-Type:
- MIME-Version:Subject:Date:From:References:In-Reply-To:Message-Id:Content-ID:
- Content-Description; bh=rMf4KtmBn+yyQQHi+FpBQwGipj8F3jW/JGrXe3xFgzc=; b=CXo1H
- zFIpz08LUZc9lINYj1BTXeeZHsVTReRkvoV1IWj1kIHLdUjUCPGJx8lKdxJXM43fNLZGqU3gm0dt4
- y7vcc3QfUbmAh0aaJFpfZHSg0d3QXBK56VCR4UKe8Ee6OWzP8/5MHV0/9UatU0CH2tgMnPv+/AezX
- VaWjIUaJ8/hbV0C5lLCYz2s2cMzb4YuGuEJiVW6m1kn7a3MmFFIudU2RVwUSBD67oeW7nWwnwhvhT
- AMmjIHmnl9mW6JUJr9jdoz6B6L7EUX+PSqyj8kl0azpKaaLrKVKmx8ZPjz5Hwm2JY8LPROnVh0/sq
- zJbyEB6Yw0bMlq40KuB33guxsD3aw==;
-Message-Id: <5279f88ced3f628b475f7b9e1cb3b5f4c0377b8c.1644492115.git.qemu_oss@crudebyte.com>
+ d=crudebyte.com; s=lizzy; h=Cc:To:Subject:Date:From:References:In-Reply-To:
+ Message-Id:Content-Type:Content-Transfer-Encoding:MIME-Version:Content-ID:
+ Content-Description; bh=fOUlgj1WIfegIgJq1TPnqkVSNHErz2qLJSzUUdgRiHc=; b=H/VVi
+ 38RnVURHDJXbsTQGCerRa9/DBWArClSajmEW4wmKbBwtz/fQ5+NWXUzcg3rLroXzNriL08Oe24Rba
+ fT3cRgLc0CqqHP3JpfjF6hamByy4ch3ayi4HABOvwVF9kOMyb/CtLSCgi4t+Uw+NI+0xqnS3jpZTn
+ jTDn7Xw8iP/ShwqcMeuz4hltWv6KlVWVPgPhsCiCxAaaU0Qlf3hqalnWerdovhNLDASiEI38DrOQp
+ 6B0+Cp7XWfH7ULHB6h8757/1Z4z4A/+2Awa0X/PFMPjnZBeB43CH+G6S6MJCtXY1HZX57V8EGm51B
+ Ux4nskNmOn9E1paqc/cYps5uogiZg==;
+Message-Id: <de19c79dad6a2cad54ae04ce754d47c07bf9bc93.1644492115.git.qemu_oss@crudebyte.com>
 In-Reply-To: <cover.1644492115.git.qemu_oss@crudebyte.com>
 References: <cover.1644492115.git.qemu_oss@crudebyte.com>
 From: Christian Schoenebeck <qemu_oss@crudebyte.com>
 Date: Thu, 10 Feb 2022 12:21:55 +0100
-Subject: [PULL 2/5] tests/9pfs: fix mkdir() being called twice
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Subject: [PULL 5/5] 9pfs: Fix segfault in do_readdir_many caused by struct
+ dirent overread
 To: qemu-devel@nongnu.org,
     Peter Maydell <peter.maydell@linaro.org>
 Cc: Greg Kurz <groug@kaod.org>
 Received-SPF: none client-ip=91.194.90.13;
- envelope-from=5279f88ced3f628b475f7b9e1cb3b5f4c0377b8c@lizzy.crudebyte.com;
+ envelope-from=de19c79dad6a2cad54ae04ce754d47c07bf9bc93@lizzy.crudebyte.com;
  helo=lizzy.crudebyte.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -66,62 +64,108 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The 9p test cases use mkdtemp() to create a temporary directory for
-running the 'local' 9p tests with real files/dirs. Unlike mktemp()
-which only generates a unique file name, mkdtemp() also creates the
-directory, therefore the subsequent mkdir() was wrong and caused
-errors on some systems.
+From: Vitaly Chikunov <vt@altlinux.org>
 
+`struct dirent' returned from readdir(3) could be shorter (or longer)
+than `sizeof(struct dirent)', thus memcpy of sizeof length will overread
+into unallocated page causing SIGSEGV. Example stack trace:
+
+ #0  0x00005555559ebeed v9fs_co_readdir_many (/usr/bin/qemu-system-x86_64 + 0x497eed)
+ #1  0x00005555559ec2e9 v9fs_readdir (/usr/bin/qemu-system-x86_64 + 0x4982e9)
+ #2  0x0000555555eb7983 coroutine_trampoline (/usr/bin/qemu-system-x86_64 + 0x963983)
+ #3  0x00007ffff73e0be0 n/a (n/a + 0x0)
+
+While fixing, provide a helper for any future `struct dirent' cloning.
+
+Resolves: https://gitlab.com/qemu-project/qemu/-/issues/841
+Cc: qemu-stable@nongnu.org
+Co-authored-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
+Reviewed-by: Dmitry V. Levin <ldv@altlinux.org>
+Signed-off-by: Vitaly Chikunov <vt@altlinux.org>
+Acked-by: Greg Kurz <groug@kaod.org>
+Reviewed-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
+Message-Id: <20220206013419.849161-1-vt@altlinux.org>
 Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
-Fixes: 136b7af2 (tests/9pfs: fix test dir for parallel tests)
-Reported-by: Daniel P. Berrangé <berrange@redhat.com>
-Resolves: https://gitlab.com/qemu-project/qemu/-/issues/832
-Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
-Reviewed-by: Greg Kurz <Greg Kurz <groug@kaod.org>
-Message-Id: <f6602123c6f7d0d593466231b04fba087817abbd.1642879848.git.qemu_oss@crudebyte.com>
 ---
- tests/qtest/libqos/virtio-9p.c | 18 +++---------------
- 1 file changed, 3 insertions(+), 15 deletions(-)
+ hw/9pfs/codir.c      |  3 +--
+ include/qemu/osdep.h | 13 +++++++++++++
+ util/osdep.c         | 21 +++++++++++++++++++++
+ 3 files changed, 35 insertions(+), 2 deletions(-)
 
-diff --git a/tests/qtest/libqos/virtio-9p.c b/tests/qtest/libqos/virtio-9p.c
-index b4e1143288..ef96ef006a 100644
---- a/tests/qtest/libqos/virtio-9p.c
-+++ b/tests/qtest/libqos/virtio-9p.c
-@@ -37,31 +37,19 @@ static char *concat_path(const char* a, const char* b)
-     return g_build_filename(a, b, NULL);
+diff --git a/hw/9pfs/codir.c b/hw/9pfs/codir.c
+index 032cce04c4..c0873bde16 100644
+--- a/hw/9pfs/codir.c
++++ b/hw/9pfs/codir.c
+@@ -143,8 +143,7 @@ static int do_readdir_many(V9fsPDU *pdu, V9fsFidState *fidp,
+         } else {
+             e = e->next = g_malloc0(sizeof(V9fsDirEnt));
+         }
+-        e->dent = g_malloc0(sizeof(struct dirent));
+-        memcpy(e->dent, dent, sizeof(struct dirent));
++        e->dent = qemu_dirent_dup(dent);
+ 
+         /* perform a full stat() for directory entry if requested by caller */
+         if (dostat) {
+diff --git a/include/qemu/osdep.h b/include/qemu/osdep.h
+index d1660d67fa..ce12f64853 100644
+--- a/include/qemu/osdep.h
++++ b/include/qemu/osdep.h
+@@ -805,6 +805,19 @@ static inline int platform_does_not_support_system(const char *command)
  }
+ #endif /* !HAVE_SYSTEM_FUNCTION */
  
--static void init_local_test_path(void)
-+void virtio_9p_create_local_test_dir(void)
- {
-+    struct stat st;
-     char *pwd = g_get_current_dir();
-     char *template = concat_path(pwd, "qtest-9p-local-XXXXXX");
++/**
++ * Duplicate directory entry @dent.
++ *
++ * It is highly recommended to use this function instead of open coding
++ * duplication of @c dirent objects, because the actual @c struct @c dirent
++ * size may be bigger or shorter than @c sizeof(struct dirent) and correct
++ * handling is platform specific (see gitlab issue #841).
++ *
++ * @dent - original directory entry to be duplicated
++ * @returns duplicated directory entry which should be freed with g_free()
++ */
++struct dirent *qemu_dirent_dup(struct dirent *dent);
 +
-     local_test_path = mkdtemp(template);
-     if (!local_test_path) {
-         g_test_message("mkdtemp('%s') failed: %s", template, strerror(errno));
-     }
--    g_assert(local_test_path);
-     g_free(pwd);
--}
--
--void virtio_9p_create_local_test_dir(void)
--{
--    struct stat st;
--    int res;
--
--    init_local_test_path();
+ #ifdef __cplusplus
+ }
+ #endif
+diff --git a/util/osdep.c b/util/osdep.c
+index 42a0a4986a..67fbf22778 100644
+--- a/util/osdep.c
++++ b/util/osdep.c
+@@ -33,6 +33,7 @@
+ extern int madvise(char *, size_t, int);
+ #endif
  
-     g_assert(local_test_path != NULL);
--    res = mkdir(local_test_path, 0777);
--    if (res < 0) {
--        g_test_message("mkdir('%s') failed: %s", local_test_path,
--                       strerror(errno));
--    }
- 
-     /* ensure test directory exists now ... */
-     g_assert(stat(local_test_path, &st) == 0);
++#include <dirent.h>
+ #include "qemu-common.h"
+ #include "qemu/cutils.h"
+ #include "qemu/sockets.h"
+@@ -615,3 +616,23 @@ writev(int fd, const struct iovec *iov, int iov_cnt)
+     return readv_writev(fd, iov, iov_cnt, true);
+ }
+ #endif
++
++struct dirent *
++qemu_dirent_dup(struct dirent *dent)
++{
++    size_t sz = 0;
++#if defined _DIRENT_HAVE_D_RECLEN
++    /* Avoid use of strlen() if platform supports d_reclen. */
++    sz = dent->d_reclen;
++#endif
++    /*
++     * Test sz for zero even if d_reclen is available
++     * because some drivers may set d_reclen to zero.
++     */
++    if (sz == 0) {
++        /* Fallback to the most portable way. */
++        sz = offsetof(struct dirent, d_name) +
++                      strlen(dent->d_name) + 1;
++    }
++    return g_memdup(dent, sz);
++}
 -- 
 2.20.1
 
