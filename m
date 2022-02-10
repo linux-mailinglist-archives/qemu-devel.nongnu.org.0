@@ -2,71 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 010124B12CB
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Feb 2022 17:32:33 +0100 (CET)
-Received: from localhost ([::1]:34744 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 315AF4B1152
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Feb 2022 16:08:48 +0100 (CET)
+Received: from localhost ([::1]:40300 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nICMy-0000oD-2p
-	for lists+qemu-devel@lfdr.de; Thu, 10 Feb 2022 11:32:32 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:55898)
+	id 1nIB3v-0002ix-8m
+	for lists+qemu-devel@lfdr.de; Thu, 10 Feb 2022 10:08:47 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:34826)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <simon.j.gillespie@gmail.com>)
- id 1nI582-0004aj-4h
- for qemu-devel@nongnu.org; Thu, 10 Feb 2022 03:48:38 -0500
-Received: from [2607:f8b0:4864:20::929] (port=41584
- helo=mail-ua1-x929.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <simon.j.gillespie@gmail.com>)
- id 1nI580-000683-CH
- for qemu-devel@nongnu.org; Thu, 10 Feb 2022 03:48:37 -0500
-Received: by mail-ua1-x929.google.com with SMTP id w18so2638283uar.8
- for <qemu-devel@nongnu.org>; Thu, 10 Feb 2022 00:48:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:from:date:message-id:subject:to;
- bh=C9JkpGMDNKPT5sdGRbY2aIUEhLcHfQX6MusSvSkYJh0=;
- b=SVO+Jz+JkCmprU0RJ+OTlokwvOdS/80XL+GBTnTiw+bqScRfnDrJoGk+OLj7yNv8Qk
- aWNErPt+axcyzqZFThKqkh+Eo0fXTGhtTHISEcYDkwgx75zJCY1twDJ3LQhUsKU2fp0k
- 2q1vpyTVFgwg520zx7CtePk70zblcxqf6Jp85vBKDMXr7wRkK7Nm0b3LjOgmBUERcXYV
- MhuMxPYok2x6V0NbVRZVUqZrNhGIC6gqXeXidoD1m5T5m275yS+GU/7GcO2D8SBUQ9rY
- HBjBND7Y5M+wMmhpFSvkCBr1DyHLJbZM2n1hE3JNlJrhFK26xqunrFRsYlCFDskIzFSu
- yxBA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
- bh=C9JkpGMDNKPT5sdGRbY2aIUEhLcHfQX6MusSvSkYJh0=;
- b=vW1r4u2mqkZlPsCxjYh5apMT76wBjCyXSvKefaIkEco40sEq4oq6Z8zcQufb97BReR
- uy3pLjo0Ixt32r54Icctx9ePFByXijbEbd66Gc7gUNeicELI5VBP6MFD0MESbP+fj1ZI
- 1VBOBOssPgH9vtkmoWT6qIqyH6zsv/ZqvpZ+AQw7UKiuElYGRdOQM6R9Pli2UlU7nQ3R
- vnrwT+/6DOpCSU+ethVGB0T5n2kjFyGNn4l1HsoiD4xqFmUp8YjLwHXxBWjAcgJJ0wp/
- 1LPuT5PbhwM1Qpa2sK5OgERJ5cDsSSEtJl8MRkNotkrHWvu0yWYAihg+t5+5z3M/ejHS
- eaiw==
-X-Gm-Message-State: AOAM532M1K+dcRBG7XQPE1fkJC/gHiJgX7sIK7xtayh1w2hHwMnahBio
- wmndplRBZo3JGJh/7Ns1YMVZGfKwb7pTjosDwBb+kJX7
-X-Google-Smtp-Source: ABdhPJyu1UoSAOYpVsm0/NH2aP6V58iNw3lrB6rhFtCTwkQpBkHrqJtiG7WcD0oAs5pWrYDy152FH3jYGjBvq9TvaDA=
-X-Received: by 2002:ab0:2117:: with SMTP id d23mr2181302ual.28.1644482914123; 
- Thu, 10 Feb 2022 00:48:34 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <matheus.ferst@eldorado.org.br>)
+ id 1nI8sp-0006Ow-F8; Thu, 10 Feb 2022 07:49:11 -0500
+Received: from [187.72.171.209] (port=62981 helo=outlook.eldorado.org.br)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <matheus.ferst@eldorado.org.br>)
+ id 1nI8sn-0001y3-Je; Thu, 10 Feb 2022 07:49:11 -0500
+Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
+ secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
+ Thu, 10 Feb 2022 09:35:27 -0300
+Received: from eldorado.org.br (unknown [10.10.70.45])
+ by p9ibm (Postfix) with ESMTP id 4A31A800502;
+ Thu, 10 Feb 2022 09:35:27 -0300 (-03)
+From: matheus.ferst@eldorado.org.br
+To: qemu-devel@nongnu.org,
+	qemu-ppc@nongnu.org
+Subject: [PATCH v3 11/37] target/ppc: Implement Vector Compare Equal Quadword
+Date: Thu, 10 Feb 2022 09:34:21 -0300
+Message-Id: <20220210123447.3933301-12-matheus.ferst@eldorado.org.br>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20220210123447.3933301-1-matheus.ferst@eldorado.org.br>
+References: <20220210123447.3933301-1-matheus.ferst@eldorado.org.br>
 MIME-Version: 1.0
-From: Simon Gillespie <simon.j.gillespie@gmail.com>
-Date: Thu, 10 Feb 2022 09:48:24 +0100
-Message-ID: <CALvnna2e7a5EiPKWopBcOSGK5QVTyB_8nAp4hJr1ibbTqLuN1A@mail.gmail.com>
-Subject: Anjin Virtual Computer
-To: qemu-devel@nongnu.org
-Content-Type: multipart/alternative; boundary="000000000000ef84e905d7a603d0"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::929
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::929;
- envelope-from=simon.j.gillespie@gmail.com; helo=mail-ua1-x929.google.com
-X-Spam_score_int: 36
-X-Spam_score: 3.6
-X-Spam_bar: +++
-X-Spam_report: (3.6 / 5.0 requ) BAYES_95=3, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+Content-Transfer-Encoding: 8bit
+X-OriginalArrivalTime: 10 Feb 2022 12:35:27.0665 (UTC)
+ FILETIME=[AEE70A10:01D81E7A]
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 187.72.171.209 (failed)
+Received-SPF: pass client-ip=187.72.171.209;
+ envelope-from=matheus.ferst@eldorado.org.br; helo=outlook.eldorado.org.br
+X-Spam_score_int: -10
+X-Spam_score: -1.1
+X-Spam_bar: -
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, PDS_HP_HELO_NORDNS=0.001,
  RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Thu, 10 Feb 2022 09:35:17 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,34 +57,90 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: danielhb413@gmail.com, richard.henderson@linaro.org, groug@kaod.org,
+ clg@kaod.org, Matheus Ferst <matheus.ferst@eldorado.org.br>,
+ david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000ef84e905d7a603d0
-Content-Type: text/plain; charset="UTF-8"
+From: Matheus Ferst <matheus.ferst@eldorado.org.br>
 
-Hello,
+Implement the following PowerISA v3.1 instructions:
+vcmpequq Vector Compare Equal Quadword
 
-Could those interested in my project please contact me at this email
-address.
+Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
+---
+ target/ppc/insn32.decode            |  1 +
+ target/ppc/translate/vmx-impl.c.inc | 43 +++++++++++++++++++++++++++++
+ 2 files changed, 44 insertions(+)
 
-I have been informed there are some interested parties via another channel.
+diff --git a/target/ppc/insn32.decode b/target/ppc/insn32.decode
+index a0adf18671..39730df32d 100644
+--- a/target/ppc/insn32.decode
++++ b/target/ppc/insn32.decode
+@@ -382,6 +382,7 @@ VCMPEQUB        000100 ..... ..... ..... . 0000000110   @VC
+ VCMPEQUH        000100 ..... ..... ..... . 0001000110   @VC
+ VCMPEQUW        000100 ..... ..... ..... . 0010000110   @VC
+ VCMPEQUD        000100 ..... ..... ..... . 0011000111   @VC
++VCMPEQUQ        000100 ..... ..... ..... . 0111000111   @VC
+ 
+ VCMPGTSB        000100 ..... ..... ..... . 1100000110   @VC
+ VCMPGTSH        000100 ..... ..... ..... . 1101000110   @VC
+diff --git a/target/ppc/translate/vmx-impl.c.inc b/target/ppc/translate/vmx-impl.c.inc
+index 67059ed9b2..bdb0b4370b 100644
+--- a/target/ppc/translate/vmx-impl.c.inc
++++ b/target/ppc/translate/vmx-impl.c.inc
+@@ -1112,6 +1112,49 @@ TRANS(VCMPNEZB, do_vcmpnez, MO_8)
+ TRANS(VCMPNEZH, do_vcmpnez, MO_16)
+ TRANS(VCMPNEZW, do_vcmpnez, MO_32)
+ 
++static bool trans_VCMPEQUQ(DisasContext *ctx, arg_VC *a)
++{
++    TCGv_i64 t0, t1;
++    TCGLabel *l1, *l2;
++
++    REQUIRE_INSNS_FLAGS2(ctx, ISA310);
++    REQUIRE_VECTOR(ctx);
++
++    t0 = tcg_temp_new_i64();
++    t1 = tcg_temp_new_i64();
++    l1 = gen_new_label();
++    l2 = gen_new_label();
++
++    get_avr64(t0, a->vra, true);
++    get_avr64(t1, a->vrb, true);
++    tcg_gen_brcond_i64(TCG_COND_NE, t0, t1, l1);
++
++    get_avr64(t0, a->vra, false);
++    get_avr64(t1, a->vrb, false);
++    tcg_gen_brcond_i64(TCG_COND_NE, t0, t1, l1);
++
++    set_avr64(a->vrt, tcg_constant_i64(-1), true);
++    set_avr64(a->vrt, tcg_constant_i64(-1), false);
++    if (a->rc) {
++        tcg_gen_movi_i32(cpu_crf[6], 1 << 3);
++    }
++    tcg_gen_br(l2);
++
++    gen_set_label(l1);
++    set_avr64(a->vrt, tcg_constant_i64(0), true);
++    set_avr64(a->vrt, tcg_constant_i64(0), false);
++    if (a->rc) {
++        tcg_gen_movi_i32(cpu_crf[6], 1 << 1);
++    }
++
++    gen_set_label(l2);
++
++    tcg_temp_free_i64(t0);
++    tcg_temp_free_i64(t1);
++
++    return true;
++}
++
+ GEN_VXRFORM(vcmpeqfp, 3, 3)
+ GEN_VXRFORM(vcmpgefp, 3, 7)
+ GEN_VXRFORM(vcmpgtfp, 3, 11)
+-- 
+2.31.1
 
-Thank you for your interest.
-
-Best,
-
-Simon Gillespie.
-
---000000000000ef84e905d7a603d0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">Hello,<div><br></div><div>Could those interested in my pro=
-ject please contact me at this email address.</div><div><br></div><div>I ha=
-ve been informed there are some interested parties via another channel.</di=
-v><div><br></div><div>Thank you for your interest.</div><div><br></div><div=
->Best,</div><div><br></div><div>Simon Gillespie.</div><div><br></div></div>
-
---000000000000ef84e905d7a603d0--
 
