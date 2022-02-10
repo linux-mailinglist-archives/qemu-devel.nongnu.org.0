@@ -2,78 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A93C4B0D44
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Feb 2022 13:15:53 +0100 (CET)
-Received: from localhost ([::1]:58584 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E9B0B4B0D3E
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Feb 2022 13:12:22 +0100 (CET)
+Received: from localhost ([::1]:54490 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nI8Ma-000321-1R
-	for lists+qemu-devel@lfdr.de; Thu, 10 Feb 2022 07:15:52 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:48368)
+	id 1nI8JC-0000Dk-2i
+	for lists+qemu-devel@lfdr.de; Thu, 10 Feb 2022 07:12:22 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:50546)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nI848-00085x-Ek
- for qemu-devel@nongnu.org; Thu, 10 Feb 2022 06:56:50 -0500
-Received: from [2607:f8b0:4864:20::631] (port=45841
- helo=mail-pl1-x631.google.com)
+ id 1nI8DF-00058K-6T
+ for qemu-devel@nongnu.org; Thu, 10 Feb 2022 07:06:14 -0500
+Received: from [2607:f8b0:4864:20::62c] (port=47041
+ helo=mail-pl1-x62c.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nI846-0002NZ-BY
- for qemu-devel@nongnu.org; Thu, 10 Feb 2022 06:56:48 -0500
-Received: by mail-pl1-x631.google.com with SMTP id w20so1599606plq.12
- for <qemu-devel@nongnu.org>; Thu, 10 Feb 2022 03:56:45 -0800 (PST)
+ id 1nI8DD-0004H1-A2
+ for qemu-devel@nongnu.org; Thu, 10 Feb 2022 07:06:12 -0500
+Received: by mail-pl1-x62c.google.com with SMTP id u12so1616514plf.13
+ for <qemu-devel@nongnu.org>; Thu, 10 Feb 2022 04:06:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=fbMumqmgB/jgg9sMG7RJgnmMFF8fbHgHYcttdEZpLzE=;
- b=Ak0yJJSoqxi1SyxkZRw0oH7s5KETuSE0gqACIKujwQNj0XLPd2yIHP1d5zuDGz76Ph
- dduCL9Kg7Khn9TI37r0erO1RFFKTSCjph+Dju1QJ/kxurTC4SHlp1j63DNHyhxgtFPbL
- 2Ar7usm5529vbucEz/9Z4+4f0c94bL0bIs+USE/AkLdqYmj8/O0/1KU0YbMEgWc5Odr1
- n+etPSZVoJ0Do0dlp/vo0O8mYAZXW8UgD56NK0yJYMYlsbbSkuOQ5h4G1hoVr1TO+ITz
- Cay0rdUiXTttMH4hFNspGl5+YLfaDL3uUsdP6S7tey7sIfgpFXdHDrNzS+nr0oPEGBAa
- p+Mg==
+ bh=zdkc45bxpY3VYTw1OmfWzTxNF5HEjRomir2DQYo1Lx4=;
+ b=TxZHunGdAwJNWyNA9YIddCnamdxrr74iBmnj8w9GsHHcnPsVcY6fl7pCNaYrGIcLlY
+ FxLxwR8xRcnFR5E3J75L4GYzyS317fnNGGRn5EQB7ctNTgN8/Xe3HuFywQQIYzlNlOeB
+ MdARpje7FIaOZzC13XyIkqoPZ8lUZqHNQChq/5RM7W2XVqdHfqeYFBFTGB0PZ/NwNCTo
+ JThaIeg1b5/JxNT0wp6n+iY3mmIeAfb6tAtg0n0/DXC8+wYyVuXP0rdhtj9nI+xwdS4t
+ aPsJBlLB0sx19/2ctKbh/ydtxi4eSHc36e/TYfrVFMBFPycirM2v0G0p2jlFFPOH9r45
+ JOiA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
  :subject:content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=fbMumqmgB/jgg9sMG7RJgnmMFF8fbHgHYcttdEZpLzE=;
- b=y+EULgW2Vwj/6QpYAS6WkxKRi8+iLb5rtiA/nHdJyuZBa5DyqHWYjqzMPMyRiJHmyv
- ShT4bYmvnUd9XimD/yBDkITcnOEElnD0B+tdyPVduzv/fyRLd0DrypDD4gZIZN6losaQ
- mzRXM3kufFBkML/F4oHdUtVGwPYlO1+8XDgkaoAK6aiYIdzIfR7UJo6uyHi/EB2fqCbM
- ZYF+x6hk0xm4vvJTUdrPyCqLFo+0lsU7s4a7Y8cR/QDr1N6hmDAK4Hi3vynGZNEP8o5n
- iKPIRCANIY772c3rozvjcYJC/ZkKO4pJ63Ds9pWs+eL9K+4Bx5Oa1eSdWdqGssg6LpPc
- g8sQ==
-X-Gm-Message-State: AOAM53396e72f3qAwWVXH6trAuOLWVj7v+Oyz5mADAGSWxP9VDlMKmNt
- 6yc3qSEaVnG1pF6DZkbckx4=
-X-Google-Smtp-Source: ABdhPJxB7a/HXwcrqgMsxhrg6w4PMCsVqZAbFRZyNkThz412oFfkikmZ8eAF+XZQqniaR4+Ckq+3Bg==
-X-Received: by 2002:a17:902:c652:: with SMTP id
- s18mr7490911pls.104.1644494204919; 
- Thu, 10 Feb 2022 03:56:44 -0800 (PST)
+ bh=zdkc45bxpY3VYTw1OmfWzTxNF5HEjRomir2DQYo1Lx4=;
+ b=qJz8qKGX7JjPpcwg6OOBt1/alvv2lDWT3A4ZzQlH+vrUX2Rp66OEPmemSNlMLkQmci
+ +JeLOzOwV39Hs+OQfCZFqrDmUKWWpQyXpHXBwed+LlTkQ1gwXWvHtCHWaAlpPAVFPe4i
+ PtZRMMW6ac6YNuInn/5vtqrGWAhvAHW2Ac5DzQpiLnQeuve2gNTG6Fm2FNkk7omjz9ky
+ stMoWsyT3KfLVE0aRx0DNMAp8Lm2wAZd0lH93h9ymBoYFGOV7H04yRkI/FvcMm7eSawn
+ 77he2yr5ysHNtA23a/ulAft3sfEXEilgQcldMS/g22WkimgfUm4bfx9bROEm5iGDgEGa
+ 3lHw==
+X-Gm-Message-State: AOAM53210qQCJO7HY4i0J/OF66BUV9OBdo5BdBh0Hw+BMEyGHyy44KRA
+ BhDIeGcmDHASfIxISS2xbMM=
+X-Google-Smtp-Source: ABdhPJzpc628dNRXYhsutTikrzymW4qL4QNMd83tr8qXMbzisrmp3hhdBtCJG3xYD947l2zSFUreiw==
+X-Received: by 2002:a17:903:2309:: with SMTP id d9mr329993plh.74.1644494769751; 
+ Thu, 10 Feb 2022 04:06:09 -0800 (PST)
 Received: from [192.168.1.33] (154.red-83-50-83.dynamicip.rima-tde.net.
  [83.50.83.154])
- by smtp.gmail.com with ESMTPSA id g12sm22213757pfm.119.2022.02.10.03.56.43
+ by smtp.gmail.com with ESMTPSA id s139sm8773867pfc.152.2022.02.10.04.06.08
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 10 Feb 2022 03:56:44 -0800 (PST)
-Message-ID: <9f4f0f8a-fa0d-7ca6-122c-4fa538109e65@amsat.org>
-Date: Thu, 10 Feb 2022 12:56:41 +0100
+ Thu, 10 Feb 2022 04:06:09 -0800 (PST)
+Message-ID: <e8d5554f-d78d-7711-355b-8795559e6075@amsat.org>
+Date: Thu, 10 Feb 2022 13:06:05 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
  Gecko/20100101 Thunderbird/91.5.1
-Subject: Re: [PATCH 1/2] vhost-user-blk: handle errors in
- vhost_user_blk_connect
+Subject: Re: [PATCH] vhost: fix repeated memory unmap in error paths
 Content-Language: en-US
 To: Konstantin Khlebnikov <khlebnikov@yandex-team.ru>, qemu-devel@nongnu.org
 Cc: yc-core@yandex-team.ru
-References: <164449357269.2210307.9274525043180414283.stgit@dynamic-vpn.dhcp.yndx.net>
-In-Reply-To: <164449357269.2210307.9274525043180414283.stgit@dynamic-vpn.dhcp.yndx.net>
+References: <164449358353.2210343.10106072767435805975.stgit@dynamic-vpn.dhcp.yndx.net>
+In-Reply-To: <164449358353.2210343.10106072767435805975.stgit@dynamic-vpn.dhcp.yndx.net>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::631
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::62c
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::631;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pl1-x631.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62c;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pl1-x62c.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -101,53 +99,44 @@ Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
 From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
 On 10/2/22 12:46, Konstantin Khlebnikov wrote:
-> Cleanup vhost device and update connection state when initialization fails.
+> Fuzzing found that on some error paths vhost_memory_unmap() is called twice or
+> for NULL address. Let's reset pointers after unmap and ingnore unmap for NULL.
 > 
 > Signed-off-by: Konstantin Khlebnikov <khlebnikov@yandex-team.ru>
 > ---
->   hw/block/vhost-user-blk.c |   10 ++++++++--
->   1 file changed, 8 insertions(+), 2 deletions(-)
+>   hw/virtio/vhost.c |    4 +++-
+>   1 file changed, 3 insertions(+), 1 deletion(-)
 > 
-> diff --git a/hw/block/vhost-user-blk.c b/hw/block/vhost-user-blk.c
-> index 1a42ae9187..35ac188ca4 100644
-> --- a/hw/block/vhost-user-blk.c
-> +++ b/hw/block/vhost-user-blk.c
-> @@ -340,18 +340,24 @@ static int vhost_user_blk_connect(DeviceState *dev, Error **errp)
->       ret = vhost_dev_init(&s->dev, &s->vhost_user, VHOST_BACKEND_TYPE_USER, 0,
->                            errp);
->       if (ret < 0) {
-> -        return ret;
-> +        goto err_init;
+> diff --git a/hw/virtio/vhost.c b/hw/virtio/vhost.c
+> index 7b03efccec..4e5d5f2ea4 100644
+> --- a/hw/virtio/vhost.c
+> +++ b/hw/virtio/vhost.c
+> @@ -335,7 +335,7 @@ static void vhost_memory_unmap(struct vhost_dev *dev, void *buffer,
+>                                  hwaddr len, int is_write,
+>                                  hwaddr access_len)
+>   {
+> -    if (!vhost_dev_has_iommu(dev)) {
+> +    if (buffer && !vhost_dev_has_iommu(dev)) {
+
+Shouldn't we simply add an "assert(buffer);" check here instead?
+
+>           cpu_physical_memory_unmap(buffer, len, is_write, access_len);
 >       }
->   
->       /* restore vhost state */
->       if (virtio_device_started(vdev, vdev->status)) {
->           ret = vhost_user_blk_start(vdev, errp);
->           if (ret < 0) {
-> -            return ret;
-> +            goto err_start;
->           }
->       }
-
-What about moving here ...:
-
-     s->connected = true;
-
->   
->       return 0;
-> +
-> +err_start:
-> +    vhost_dev_cleanup(&s->dev);
-> +err_init:
-> +    s->connected = false;
-
-... to have a single 'err' label?
-
-> +    return ret;
+>   }
+> @@ -1191,6 +1191,7 @@ fail_alloc_avail:
+>       vhost_memory_unmap(dev, vq->desc, virtio_queue_get_desc_size(vdev, idx),
+>                          0, 0);
+>   fail_alloc_desc:
+> +    vq->used = vq->avail = vq->desc = NULL;
+>       return r;
 >   }
 >   
->   static void vhost_user_blk_disconnect(DeviceState *dev)
-> 
-> 
+> @@ -1238,6 +1239,7 @@ static void vhost_virtqueue_stop(struct vhost_dev *dev,
+>                          0, virtio_queue_get_avail_size(vdev, idx));
+>       vhost_memory_unmap(dev, vq->desc, virtio_queue_get_desc_size(vdev, idx),
+>                          0, virtio_queue_get_desc_size(vdev, idx));
+> +    vq->used = vq->avail = vq->desc = NULL;
+>   }
 
+This part is OK.
 
