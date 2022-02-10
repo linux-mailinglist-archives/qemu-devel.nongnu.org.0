@@ -2,98 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 362EB4B07DF
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Feb 2022 09:12:54 +0100 (CET)
-Received: from localhost ([::1]:35318 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ED0924B08E3
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Feb 2022 09:52:43 +0100 (CET)
+Received: from localhost ([::1]:38506 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nI4ZQ-0007Zg-Vd
-	for lists+qemu-devel@lfdr.de; Thu, 10 Feb 2022 03:12:53 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:43224)
+	id 1nI5Bx-00065G-UV
+	for lists+qemu-devel@lfdr.de; Thu, 10 Feb 2022 03:52:41 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:49882)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nI4PB-0002qU-UD
- for qemu-devel@nongnu.org; Thu, 10 Feb 2022 03:02:18 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:36763)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nI4mX-0001q1-8F
+ for qemu-devel@nongnu.org; Thu, 10 Feb 2022 03:26:25 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:55100)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nI4P7-0006zR-34
- for qemu-devel@nongnu.org; Thu, 10 Feb 2022 03:02:16 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nI4mU-0006oy-0h
+ for qemu-devel@nongnu.org; Thu, 10 Feb 2022 03:26:23 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1644480131;
+ s=mimecast20190719; t=1644481580;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=M0e79ZRe/vxYfwWsZYQ6cgNaMaRkOFp2lj8FIUk4Wh8=;
- b=Zc7QrTKwCpkcbwbBzy9GYQ5Jno2hdXvg9bUuZ1HLLyFZEBcP3Pfh4Di+nZ4SjyguykHf8B
- W33pxq/xS3A5K4AskMF+M/hNbZMcYJLCj8JVje8f9KU9vupOlg/JzzqVg0c//cbwmGyPiz
- yUYcwBvhySeOI406k+xL2pjazCCfxEk=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=hseZq7a2lxPYo8hUFen1q3BMsz5xUpfzza9DtD2LoHM=;
+ b=O9nUKtjT4XmyElgituSnoM4PNTC+RxZ+2WhVu3bW/mzBiQeV9MalrME4oYTM8quOX/YaxG
+ 7QnL1nzFINcZrH2oDE5sB2sN2uk2xj3a3fzqCt24VbjkukruA+bGHqPsTkrYajii8n6QSu
+ ajLP+7n++3eXTQNNV1dj8L1N5NWHGFg=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-444-sc28JSGoMl-QqO7Nq3OwbA-1; Thu, 10 Feb 2022 03:02:10 -0500
-X-MC-Unique: sc28JSGoMl-QqO7Nq3OwbA-1
-Received: by mail-ed1-f69.google.com with SMTP id
- s7-20020a508dc7000000b0040f29ccd65aso2897874edh.1
- for <qemu-devel@nongnu.org>; Thu, 10 Feb 2022 00:02:10 -0800 (PST)
+ us-mta-156-g_ivqSjQOhSvXRPDkUzNUQ-1; Thu, 10 Feb 2022 03:26:19 -0500
+X-MC-Unique: g_ivqSjQOhSvXRPDkUzNUQ-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ d13-20020adfa34d000000b001e33a1c56f3so2156044wrb.20
+ for <qemu-devel@nongnu.org>; Thu, 10 Feb 2022 00:26:19 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=M0e79ZRe/vxYfwWsZYQ6cgNaMaRkOFp2lj8FIUk4Wh8=;
- b=l14PEOJ8D6kYISSyty1CG2yaN0ihpHywI4Uf5syzw58MV6/zynNJwzsn64KSN0g5jl
- 1kRLGHNzG+4iTVZdp7MT6nQdv52W5NB496V3KlyC8j2ocuNwaEO8jm7WpaqpgCzi5HWc
- LixzlKnlQsPpAZO/8VmNIXEh1tLLCLcq4WyR5aUhpexqFjlEeKw3RbKhfR3UOU6dFzhX
- plUlLd+irBN6ogySVHhSQe/ratPtkcEHrBDFlSHmMINbGahxEjbXqIhueJXf/2hf6Txs
- c4MvVQI1vajvOlrISQAGpF+XM1O8+nJCP1jq0YrfG2+II9ksnfHq6wIYEuMo3jAYBQZf
- DacQ==
-X-Gm-Message-State: AOAM533BQX5qA7qAwXdMGp8u9/IPSH4poivqzGjynjrNqyVkmjq4YFbx
- 6BAPsXZ7MrLOsuT5e9Qalinh1gm1qRp+fXP68Wc++UuQQAz/4JtQ7b53VaX2CNZLPGNLKXHbCPa
- hW1OKudbfeIznHKQ=
-X-Received: by 2002:a17:906:7306:: with SMTP id
- di6mr5338029ejc.521.1644480128790; 
- Thu, 10 Feb 2022 00:02:08 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJztlz/AkGZwkT3kz8Pagb18TOuHOYMfIIyId6xJMa0KXIVIsNRM063/gUIOFPqSp+pWUPurJg==
-X-Received: by 2002:a17:906:7306:: with SMTP id
- di6mr5337995ejc.521.1644480128347; 
- Thu, 10 Feb 2022 00:02:08 -0800 (PST)
-Received: from redhat.com ([2.55.139.162])
- by smtp.gmail.com with ESMTPSA id eg26sm8164587edb.23.2022.02.10.00.02.04
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 10 Feb 2022 00:02:06 -0800 (PST)
-Date: Thu, 10 Feb 2022 03:02:01 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Jag Raman <jag.raman@oracle.com>
-Subject: Re: [PATCH v5 03/18] pci: isolated address space for PCI bus
-Message-ID: <20220210022543-mutt-send-email-mst@kernel.org>
-References: <20220127142253.21ab0025.alex.williamson@redhat.com>
- <YfO00O4sT2UgaW31@stefanha-x1.localdomain>
- <20220131091623.6739464e.alex.williamson@redhat.com>
- <Yfj9u26F6/RdlhoB@stefanha-x1.localdomain>
- <20220201082437.7dd940eb.alex.williamson@redhat.com>
- <9BD98DD7-CC28-49E1-8150-BDECF0324FFA@oracle.com>
- <20220201154736.576e2a7e.alex.williamson@redhat.com>
- <BA348811-5C6D-4F9F-AC3C-824AC1681F1D@oracle.com>
- <20220201223432.4f58518f.alex.williamson@redhat.com>
- <69BE660C-C527-459B-A392-F5546A0BEB5B@oracle.com>
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=hseZq7a2lxPYo8hUFen1q3BMsz5xUpfzza9DtD2LoHM=;
+ b=3bMKv+UP/LWSKzj9bL5XiRCY2qqpGyUABLWQOE1Y3kEMgC5x4QMCmO9n7aiyW2kyN/
+ OwdjSUOiNEkf1UluDCVAW5LUt9ZeJt5SsUbPLK0PV4lYIGQEF6WYNpnH/rf25/f3eLFH
+ ACRQNzjspiFJ478qQAYGNHzC25+Q89VkGXpha2It1XP/Tt7wjDrwv3tvqksOGO5yyrAw
+ 91UjRBAjIGKoo4QNxpX25zGxofuxhAkARiD/mVaPd3tMG3iWYy4uwGa08VaWWxzJY3MC
+ YGnxFHGvo5AQsb2PcGC9mP/CRRBdVTWeSshswFjWtHTX7UAVoUSlGQ65nWyr5z7iG3/o
+ rkZA==
+X-Gm-Message-State: AOAM53365WGpIwh906x+wwvQlpDYxcPy0y4mRzebXN5D5GdYp+J8PbWy
+ Qx93hS/6U2HRVecEpYE18qCG0FBMgz2XezynYGvtEwzIIMnxUXHQIj2iAfwueQngrHA0E/0CDUk
+ Y3IGMyIq7CbeLKL0=
+X-Received: by 2002:a5d:43c6:: with SMTP id v6mr5569470wrr.530.1644481578339; 
+ Thu, 10 Feb 2022 00:26:18 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzTKGYjCKh4Mi7TJY2FgElvQ5l8lN+K0hTqmqZjpjUKHh7+9BMlbLMJ2jOTRru2Y686GxVi3A==
+X-Received: by 2002:a5d:43c6:: with SMTP id v6mr5569444wrr.530.1644481577984; 
+ Thu, 10 Feb 2022 00:26:17 -0800 (PST)
+Received: from [192.168.8.104] (tmo-098-218.customers.d1-online.com.
+ [80.187.98.218])
+ by smtp.gmail.com with ESMTPSA id p27sm1431324wms.1.2022.02.10.00.26.16
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 10 Feb 2022 00:26:17 -0800 (PST)
+Message-ID: <10c05761-6422-48c8-4c53-9e9378b98a4c@redhat.com>
+Date: Thu, 10 Feb 2022 09:26:15 +0100
 MIME-Version: 1.0
-In-Reply-To: <69BE660C-C527-459B-A392-F5546A0BEB5B@oracle.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH 03/15] hw/tricore: Remove unused and incorrect header
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org
+References: <20220209215446.58402-1-f4bug@amsat.org>
+ <20220209215446.58402-4-f4bug@amsat.org>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <20220209215446.58402-4-f4bug@amsat.org>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -106,247 +100,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "eduardo@habkost.net" <eduardo@habkost.net>,
- Elena Ufimtseva <elena.ufimtseva@oracle.com>,
- Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
- Beraldo Leal <bleal@redhat.com>, John Johnson <john.g.johnson@oracle.com>,
- "quintela@redhat.com" <quintela@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>, "armbru@redhat.com" <armbru@redhat.com>,
- Alex Williamson <alex.williamson@redhat.com>,
- =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@gmail.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- "thanos.makatos@nutanix.com" <thanos.makatos@nutanix.com>,
- Eric Blake <eblake@redhat.com>,
- "john.levon@nutanix.com" <john.levon@nutanix.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>
+Cc: QEMU Trivial <qemu-trivial@nongnu.org>, Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Feb 10, 2022 at 12:08:27AM +0000, Jag Raman wrote:
+On 09/02/2022 22.54, Philippe Mathieu-Daudé wrote:
+> TriCore boards certainly don't need the ARM loader API :)
 > 
+> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> ---
+>   include/hw/tricore/triboard.h | 1 -
+>   1 file changed, 1 deletion(-)
 > 
-> > On Feb 2, 2022, at 12:34 AM, Alex Williamson <alex.williamson@redhat.com> wrote:
-> > 
-> > On Wed, 2 Feb 2022 01:13:22 +0000
-> > Jag Raman <jag.raman@oracle.com> wrote:
-> > 
-> >>> On Feb 1, 2022, at 5:47 PM, Alex Williamson <alex.williamson@redhat.com> wrote:
-> >>> 
-> >>> On Tue, 1 Feb 2022 21:24:08 +0000
-> >>> Jag Raman <jag.raman@oracle.com> wrote:
-> >>> 
-> >>>>> On Feb 1, 2022, at 10:24 AM, Alex Williamson <alex.williamson@redhat.com> wrote:
-> >>>>> 
-> >>>>> On Tue, 1 Feb 2022 09:30:35 +0000
-> >>>>> Stefan Hajnoczi <stefanha@redhat.com> wrote:
-> >>>>> 
-> >>>>>> On Mon, Jan 31, 2022 at 09:16:23AM -0700, Alex Williamson wrote:    
-> >>>>>>> On Fri, 28 Jan 2022 09:18:08 +0000
-> >>>>>>> Stefan Hajnoczi <stefanha@redhat.com> wrote:
-> >>>>>>> 
-> >>>>>>>> On Thu, Jan 27, 2022 at 02:22:53PM -0700, Alex Williamson wrote:      
-> >>>>>>>>> If the goal here is to restrict DMA between devices, ie. peer-to-peer
-> >>>>>>>>> (p2p), why are we trying to re-invent what an IOMMU already does?        
-> >>>>>>>> 
-> >>>>>>>> The issue Dave raised is that vfio-user servers run in separate
-> >>>>>>>> processses from QEMU with shared memory access to RAM but no direct
-> >>>>>>>> access to non-RAM MemoryRegions. The virtiofs DAX Window BAR is one
-> >>>>>>>> example of a non-RAM MemoryRegion that can be the source/target of DMA
-> >>>>>>>> requests.
-> >>>>>>>> 
-> >>>>>>>> I don't think IOMMUs solve this problem but luckily the vfio-user
-> >>>>>>>> protocol already has messages that vfio-user servers can use as a
-> >>>>>>>> fallback when DMA cannot be completed through the shared memory RAM
-> >>>>>>>> accesses.
-> >>>>>>>> 
-> >>>>>>>>> In
-> >>>>>>>>> fact, it seems like an IOMMU does this better in providing an IOVA
-> >>>>>>>>> address space per BDF.  Is the dynamic mapping overhead too much?  What
-> >>>>>>>>> physical hardware properties or specifications could we leverage to
-> >>>>>>>>> restrict p2p mappings to a device?  Should it be governed by machine
-> >>>>>>>>> type to provide consistency between devices?  Should each "isolated"
-> >>>>>>>>> bus be in a separate root complex?  Thanks,        
-> >>>>>>>> 
-> >>>>>>>> There is a separate issue in this patch series regarding isolating the
-> >>>>>>>> address space where BAR accesses are made (i.e. the global
-> >>>>>>>> address_space_memory/io). When one process hosts multiple vfio-user
-> >>>>>>>> server instances (e.g. a software-defined network switch with multiple
-> >>>>>>>> ethernet devices) then each instance needs isolated memory and io address
-> >>>>>>>> spaces so that vfio-user clients don't cause collisions when they map
-> >>>>>>>> BARs to the same address.
-> >>>>>>>> 
-> >>>>>>>> I think the the separate root complex idea is a good solution. This
-> >>>>>>>> patch series takes a different approach by adding the concept of
-> >>>>>>>> isolated address spaces into hw/pci/.      
-> >>>>>>> 
-> >>>>>>> This all still seems pretty sketchy, BARs cannot overlap within the
-> >>>>>>> same vCPU address space, perhaps with the exception of when they're
-> >>>>>>> being sized, but DMA should be disabled during sizing.
-> >>>>>>> 
-> >>>>>>> Devices within the same VM context with identical BARs would need to
-> >>>>>>> operate in different address spaces.  For example a translation offset
-> >>>>>>> in the vCPU address space would allow unique addressing to the devices,
-> >>>>>>> perhaps using the translation offset bits to address a root complex and
-> >>>>>>> masking those bits for downstream transactions.
-> >>>>>>> 
-> >>>>>>> In general, the device simply operates in an address space, ie. an
-> >>>>>>> IOVA.  When a mapping is made within that address space, we perform a
-> >>>>>>> translation as necessary to generate a guest physical address.  The
-> >>>>>>> IOVA itself is only meaningful within the context of the address space,
-> >>>>>>> there is no requirement or expectation for it to be globally unique.
-> >>>>>>> 
-> >>>>>>> If the vfio-user server is making some sort of requirement that IOVAs
-> >>>>>>> are unique across all devices, that seems very, very wrong.  Thanks,      
-> >>>>>> 
-> >>>>>> Yes, BARs and IOVAs don't need to be unique across all devices.
-> >>>>>> 
-> >>>>>> The issue is that there can be as many guest physical address spaces as
-> >>>>>> there are vfio-user clients connected, so per-client isolated address
-> >>>>>> spaces are required. This patch series has a solution to that problem
-> >>>>>> with the new pci_isol_as_mem/io() API.    
-> >>>>> 
-> >>>>> Sorry, this still doesn't follow for me.  A server that hosts multiple
-> >>>>> devices across many VMs (I'm not sure if you're referring to the device
-> >>>>> or the VM as a client) needs to deal with different address spaces per
-> >>>>> device.  The server needs to be able to uniquely identify every DMA,
-> >>>>> which must be part of the interface protocol.  But I don't see how that
-> >>>>> imposes a requirement of an isolated address space.  If we want the
-> >>>>> device isolated because we don't trust the server, that's where an IOMMU
-> >>>>> provides per device isolation.  What is the restriction of the
-> >>>>> per-client isolated address space and why do we need it?  The server
-> >>>>> needing to support multiple clients is not a sufficient answer to
-> >>>>> impose new PCI bus types with an implicit restriction on the VM.    
-> >>>> 
-> >>>> Hi Alex,
-> >>>> 
-> >>>> I believe there are two separate problems with running PCI devices in
-> >>>> the vfio-user server. The first one is concerning memory isolation and
-> >>>> second one is vectoring of BAR accesses (as explained below).
-> >>>> 
-> >>>> In our previous patches (v3), we used an IOMMU to isolate memory
-> >>>> spaces. But we still had trouble with the vectoring. So we implemented
-> >>>> separate address spaces for each PCIBus to tackle both problems
-> >>>> simultaneously, based on the feedback we got.
-> >>>> 
-> >>>> The following gives an overview of issues concerning vectoring of
-> >>>> BAR accesses.
-> >>>> 
-> >>>> The device’s BAR regions are mapped into the guest physical address
-> >>>> space. The guest writes the guest PA of each BAR into the device’s BAR
-> >>>> registers. To access the BAR regions of the device, QEMU uses
-> >>>> address_space_rw() which vectors the physical address access to the
-> >>>> device BAR region handlers.  
-> >>> 
-> >>> The guest physical address written to the BAR is irrelevant from the
-> >>> device perspective, this only serves to assign the BAR an offset within
-> >>> the address_space_mem, which is used by the vCPU (and possibly other
-> >>> devices depending on their address space).  There is no reason for the
-> >>> device itself to care about this address.  
-> >> 
-> >> Thank you for the explanation, Alex!
-> >> 
-> >> The confusion at my part is whether we are inside the device already when
-> >> the server receives a request to access BAR region of a device. Based on
-> >> your explanation, I get that your view is the BAR access request has
-> >> propagated into the device already, whereas I was under the impression
-> >> that the request is still on the CPU side of the PCI root complex.
-> > 
-> > If you are getting an access through your MemoryRegionOps, all the
-> > translations have been made, you simply need to use the hwaddr as the
-> > offset into the MemoryRegion for the access.  Perform the read/write to
-> > your device, no further translations required.
-> > 
-> >> Your view makes sense to me - once the BAR access request reaches the
-> >> client (on the other side), we could consider that the request has reached
-> >> the device.
-> >> 
-> >> On a separate note, if devices don’t care about the values in BAR
-> >> registers, why do the default PCI config handlers intercept and map
-> >> the BAR region into address_space_mem?
-> >> (pci_default_write_config() -> pci_update_mappings())
-> > 
-> > This is the part that's actually placing the BAR MemoryRegion as a
-> > sub-region into the vCPU address space.  I think if you track it,
-> > you'll see PCIDevice.io_regions[i].address_space is actually
-> > system_memory, which is used to initialize address_space_system.
-> > 
-> > The machine assembles PCI devices onto buses as instructed by the
-> > command line or hot plug operations.  It's the responsibility of the
-> > guest firmware and guest OS to probe those devices, size the BARs, and
-> > place the BARs into the memory hierarchy of the PCI bus, ie. system
-> > memory.  The BARs are necessarily in the "guest physical memory" for
-> > vCPU access, but it's essentially only coincidental that PCI devices
-> > might be in an address space that provides a mapping to their own BAR.
-> > There's no reason to ever use it.
-> > 
-> > In the vIOMMU case, we can't know that the device address space
-> > includes those BAR mappings or if they do, that they're identity mapped
-> > to the physical address.  Devices really need to not infer anything
-> > about an address.  Think about real hardware, a device is told by
-> > driver programming to perform a DMA operation.  The device doesn't know
-> > the target of that operation, it's the guest driver's responsibility to
-> > make sure the IOVA within the device address space is valid and maps to
-> > the desired target.  Thanks,
-> 
-> Thanks for the explanation, Alex. Thanks to everyone else in the thread who
-> helped to clarify this problem.
-> 
-> We have implemented the memory isolation based on the discussion in the
-> thread. We will send the patches out shortly.
-> 
-> Devices such as “name" and “e1000” worked fine. But I’d like to note that
-> the LSI device (TYPE_LSI53C895A) had some problems - it doesn’t seem
-> to be IOMMU aware. In LSI’s case, the kernel driver is asking the device to
-> read instructions from the CPU VA (lsi_execute_script() -> read_dword()),
-> which is forbidden when IOMMU is enabled. Specifically, the driver is asking
-> the device to access other BAR regions by using the BAR address programmed
-> in the PCI config space. This happens even without vfio-user patches. For example,
-> we could enable IOMMU using “-device intel-iommu” QEMU option and also
-> adding the following to the kernel command-line: “intel_iommu=on iommu=nopt”.
-> In this case, we could see an IOMMU fault.
+> diff --git a/include/hw/tricore/triboard.h b/include/hw/tricore/triboard.h
+> index f3844be447..094c8bd563 100644
+> --- a/include/hw/tricore/triboard.h
+> +++ b/include/hw/tricore/triboard.h
+> @@ -21,7 +21,6 @@
+>   #include "qemu/osdep.h"
+>   #include "qapi/error.h"
+>   #include "hw/boards.h"
+> -#include "hw/arm/boot.h"
+>   #include "sysemu/sysemu.h"
+>   #include "exec/address-spaces.h"
+>   #include "qom/object.h"
 
-So, device accessing its own BAR is different. Basically, these
-transactions never go on the bus at all, never mind get to the IOMMU.
-I think it's just used as a handle to address internal device memory.
-This kind of trick is not universal, but not terribly unusual.
-
-
-> Unfortunately, we started off our project with the LSI device. So that lead to all the
-> confusion about what is expected at the server end in-terms of
-> vectoring/address-translation. It gave an impression as if the request was still on
-> the CPU side of the PCI root complex, but the actual problem was with the
-> device driver itself.
-> 
-> I’m wondering how to deal with this problem. Would it be OK if we mapped the
-> device’s BAR into the IOVA, at the same CPU VA programmed in the BAR registers?
-> This would help devices such as LSI to circumvent this problem. One problem
-> with this approach is that it has the potential to collide with another legitimate
-> IOVA address. Kindly share your thought on this.
-> 
-> Thank you!
-
-I am not 100% sure what do you plan to do but it sounds fine since even
-if it collides, with traditional PCI device must never initiate cycles
-within their own BAR range, and PCIe is software-compatible with PCI. So
-devices won't be able to access this IOVA even if it was programmed in
-the IOMMU.
-
-As was mentioned elsewhere on this thread, devices accessing each
-other's BAR is a different matter.
-
-I do not remember which rules apply to multiple functions of a
-multi-function device though. I think in a traditional PCI
-they will never go out on the bus, but with e.g. SRIOV they
-would probably do go out? Alex, any idea?
-
-
-> --
-> Jag
-> 
-> > 
-> > Alex
-> > 
-> 
+Reviewed-by: Thomas Huth <thuth@redhat.com>
 
 
