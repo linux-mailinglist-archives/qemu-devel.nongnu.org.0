@@ -2,94 +2,97 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81EB64B152C
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Feb 2022 19:23:27 +0100 (CET)
-Received: from localhost ([::1]:34624 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 20C9C4B1548
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Feb 2022 19:33:47 +0100 (CET)
+Received: from localhost ([::1]:50464 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nIE6I-0006lB-KU
-	for lists+qemu-devel@lfdr.de; Thu, 10 Feb 2022 13:23:26 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:52116)
+	id 1nIEGH-0001AH-LC
+	for lists+qemu-devel@lfdr.de; Thu, 10 Feb 2022 13:33:45 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:52158)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1nID0w-0004WR-J5
- for qemu-devel@nongnu.org; Thu, 10 Feb 2022 12:13:50 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:55474)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nID0x-0004ZD-Dy
+ for qemu-devel@nongnu.org; Thu, 10 Feb 2022 12:13:51 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:60378)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1nID0s-0000NS-AJ
- for qemu-devel@nongnu.org; Thu, 10 Feb 2022 12:13:49 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nID0u-0000Nj-I9
+ for qemu-devel@nongnu.org; Thu, 10 Feb 2022 12:13:51 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1644513211;
+ s=mimecast20190719; t=1644513219;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=L69Fkwlej0CBCqgDSPYbrIfqgUhG0u6eQ+8Ko5Vwc4s=;
- b=E560dV6/un20eGWy2q/uK47nNtW7MPW0Ecu/BWm2mCm+L6R5KOnkNqSCSAHyPGeguuWX+H
- BoVeSO/V+GYmPzGHCvh3WBFPnLHuHDPsouMkaSmhU6CaJOe9U/6tpbbbKyNGJvXk0JHYTb
- RbnQPhP7i2Dhg7LX6TWSWqhuBZDK+gQ=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=jmfquqkZm6CRvDk4x7mdCVhV+lb44+Elbx6EJv5hD3w=;
+ b=EiyRlp6eyJnc+BU1fW4B6MXyDS69WV+t7qf5ZOY8rCMIvEas9QCeTUuYJ3ukLwBzrz+N1k
+ tqBuUk3oHVFV1BABrJn3DgCPE3Qu9iWfZaq9uZH9voiyy4ATREu8gJ17KuVPCk6YZjVTQo
+ I3R9EcyxoYs0iSxMyW4Q+QP1GJjG44E=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-561-oxsyi-qfOEaBQTinHspJGg-1; Thu, 10 Feb 2022 12:13:23 -0500
-X-MC-Unique: oxsyi-qfOEaBQTinHspJGg-1
-Received: by mail-wm1-f72.google.com with SMTP id
- j39-20020a05600c1c2700b0037becd18addso1743639wms.4
- for <qemu-devel@nongnu.org>; Thu, 10 Feb 2022 09:13:23 -0800 (PST)
+ us-mta-395-2hiNRZRyMweUD3LcaiMmiQ-1; Thu, 10 Feb 2022 12:13:35 -0500
+X-MC-Unique: 2hiNRZRyMweUD3LcaiMmiQ-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ k3-20020adfb343000000b001e463e6af20so2766858wrd.8
+ for <qemu-devel@nongnu.org>; Thu, 10 Feb 2022 09:13:35 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to:user-agent;
- bh=L69Fkwlej0CBCqgDSPYbrIfqgUhG0u6eQ+8Ko5Vwc4s=;
- b=TOV++9s6rL4RtP3rtTM5avvNptT8cd1YFPSzzSPJBnYSzDMtUkNpWJ5TbEvdAfTN+K
- zg7m2wRiQgsOiy2sxFGXdrSIR+s0uoDj6pEId9fPM68w8OxXCD+COMFnPL0FSYzEQGjE
- UD/cOl0lg0H4QCu32ny5AHUkQAbcZi3Sa8JYr/ftn6UKtvDfyXnNxhKb/bMl233v28fN
- uSTf2dO/4Q7/EZGI0mGmyMffwirIfu0osBYF2t95ihfKQpf9k6gO5/aXn6AOppb8ysSn
- /IRvESWVV/NKR6YAry8hCdTPYs6fhcYBEwtZ/Plt6YqUjGBv2FcebHTkrTBnsgZ9qWoT
- Ld9A==
-X-Gm-Message-State: AOAM530a0csLhUGsvBbTBvjsPMAaiVvKFTMwU4mINN3IDiN6VtKIw1dC
- sbsknjcZPrDDhnS4b3m8FUUyctXAath2X4pbNiap2f8oqDfH01/S3oGQn0aRAL7vEHA6Ng82kwd
- McoUonxnpN29gy44=
-X-Received: by 2002:a05:6000:16c5:: with SMTP id
- h5mr6973940wrf.364.1644513202421; 
- Thu, 10 Feb 2022 09:13:22 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJy0I57UveeoRk7szBSKFYohhX0I7G4BDSyWbuB7BA1oFXgcDXmcrxXMpi+MWw7tv7gRH6Bz1w==
-X-Received: by 2002:a05:6000:16c5:: with SMTP id
- h5mr6973922wrf.364.1644513202161; 
- Thu, 10 Feb 2022 09:13:22 -0800 (PST)
-Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
- [82.30.61.225])
- by smtp.gmail.com with ESMTPSA id u12sm15862729wrs.2.2022.02.10.09.13.21
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 10 Feb 2022 09:13:21 -0800 (PST)
-Date: Thu, 10 Feb 2022 17:13:19 +0000
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
-Subject: Re: [PATCH] Deprecate C virtiofsd
-Message-ID: <YgVHr2zgTrPHVhez@work-vm>
-References: <20220209165040.56062-1-dgilbert@redhat.com>
- <YgTTbAWj1CGlmv/R@redhat.com>
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=jmfquqkZm6CRvDk4x7mdCVhV+lb44+Elbx6EJv5hD3w=;
+ b=kK2AuDJDQlEux4UH7SX0dlxpB15wXzt/vtX7QP4OOLwCxSOEh3mB3yajgG0cqr69Rz
+ ytxWpBg/ErZzaP1WROBsMV51xzy5ioaTbjO4/2vfQ9l1hlKT5G0B7zX+cmXLhlN4VFUy
+ 3GXV773Ybwwf8XzSHF27gCeewjfbrDvhZ2YYlKE1QnuQtYPTQMyRUTAZa5qz7+egE3v3
+ FD/ZMfXFZNoa0hpfx8uG9iri6WSqdWrr25+rvRb/GrYX1CGA7kiuI/6b6VMUW8NmtDqu
+ OdeV3X0r/V3Ofyw/WR5wdCvF5ytmiYYPlcROMuvduCw0uh4CkVzCo3xlFoYt4Z/sa7s7
+ hd9Q==
+X-Gm-Message-State: AOAM533pjC3Wd2PNi5ySDIOoeDRn9rd0Q1xTE8RcazqxWdKtPUZ6RGJL
+ jBMQCJp3KxkVBAfqva/Y1gE9IAGpW0HoWVyGqePUGJrkWOY1CCF9Sti/WQX7r/U0L8aPhvyXC7X
+ mxV54Naf+kNPbOyQ=
+X-Received: by 2002:a05:600c:1ca8:: with SMTP id
+ k40mr2991517wms.62.1644513214293; 
+ Thu, 10 Feb 2022 09:13:34 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxESnytagCmoFwLrRpxOKAAKAAg/hlVzfeKOaEnayjAIcTGhVNL1pIn2p+5WjCBcmjGYn8BSg==
+X-Received: by 2002:a05:600c:1ca8:: with SMTP id
+ k40mr2991503wms.62.1644513214073; 
+ Thu, 10 Feb 2022 09:13:34 -0800 (PST)
+Received: from [192.168.8.104] (tmo-098-218.customers.d1-online.com.
+ [80.187.98.218])
+ by smtp.gmail.com with ESMTPSA id j2sm1883592wms.2.2022.02.10.09.13.32
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 10 Feb 2022 09:13:33 -0800 (PST)
+Message-ID: <a4955275-6cdd-f54d-81b1-8380aad0461f@redhat.com>
+Date: Thu, 10 Feb 2022 18:13:31 +0100
 MIME-Version: 1.0
-In-Reply-To: <YgTTbAWj1CGlmv/R@redhat.com>
-User-Agent: Mutt/2.1.5 (2021-12-30)
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: qemu iotest 161 and make check
+To: Christian Borntraeger <borntraeger@linux.ibm.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-devel@nongnu.org, qemu block <qemu-block@nongnu.org>,
+ qemu-s390x <qemu-s390x@nongnu.org>
+References: <36201311-39e2-0b94-1b06-74a2df988553@linux.ibm.com>
+ <45589fd7-bf18-8950-34f5-86a90b99c8c1@virtuozzo.com>
+ <586f035a-91b7-4743-9285-09996aa32b4f@linux.ibm.com>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <586f035a-91b7-4743-9285-09996aa32b4f@linux.ibm.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=dgilbert@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -102,79 +105,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: virtio-fs@redhat.com, slp@redhat.com, qemu-devel@nongnu.org,
- stefanha@redhat.com, vgoyal@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Daniel P. Berrang� (berrange@redhat.com) wrote:
-> On Wed, Feb 09, 2022 at 04:50:40PM +0000, Dr. David Alan Gilbert (git) wrote:
-> > From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-> > 
-> > There's a nice new Rust implementation out there; recommend people
-> > do new work on that.
-> > 
-> > Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-> > ---
-> >  docs/about/deprecated.rst | 14 ++++++++++++++
-> >  1 file changed, 14 insertions(+)
-> > 
-> > diff --git a/docs/about/deprecated.rst b/docs/about/deprecated.rst
-> > index 47a594a3b6..3a0e15f8f5 100644
-> > --- a/docs/about/deprecated.rst
-> > +++ b/docs/about/deprecated.rst
-> > @@ -454,3 +454,17 @@ nanoMIPS ISA
-> >  
-> >  The ``nanoMIPS`` ISA has never been upstreamed to any compiler toolchain.
-> >  As it is hard to generate binaries for it, declare it deprecated.
-> > +
-> > +Tools
-> > +-----
-> > +
-> > +virtiofsd
-> > +'''''''''
-> > +
-> > +There is a new Rust implementation of ``virtiofs`` at
-> > +``https://gitlab.com/virtio-fs/virtiofsd``;
-> > +since this is now marked stable, new development should be done on that
-> > +rather than the existing C version in the QEMU tree.
-> > +The C version will still accept fixes and patches that
-> > +are already in development for the moment.
+On 10/02/2022 15.51, Christian Borntraeger wrote:
 > 
-> Just to be clear, 'deprecation' is usually expected to turn into
-> 'deletion' a minimum of 2 releases later.  We are targetting the
-> C virtiofsd to be deleted, right ?  The last sentance here gives
-> vibes that we're expecting it to stick around despite deprecation.
-
-I am targeting it to be deleted, but I'm expecting to give it a bit
-more time than 2 releases; how do I do that?
-
-> Assuming we're deleting it after deprecation, then I think thue
-> message should be more direct in telling people they shold be
-> proactively switching to deployment of the rust version. Something
-> along lines of
 > 
->   "The C implementation is in maintenance mode only and will
->    be deleted once the deprecation period is complete. New
->    deployments of virtiofs are strongly recommended to switch
->    to use of the Rust implementation of virtiofsd, which is
->    a drop in replacement will compatible command line and
->    featureset."
-
-Yeh, I'll rework it in that direction; I was trying to be gentle at
-first.
-
-Dave
-
+> Am 10.02.22 um 15:47 schrieb Vladimir Sementsov-Ogievskiy:
+>> 10.02.2022 10:57, Christian Borntraeger wrote:
+>>> Hello,
+>>>
+>>> I do see spurious failures of 161 in our CI, but only when I use
+>>> make check with parallelism (-j).
+>>> I have not yet figured out which other testcase could interfere
+>>>
+>>> @@ -34,6 +34,8 @@
+>>>   *** Commit and then change an option on the backing file
+>>>
+>>>   Formatting 'TEST_DIR/t.IMGFMT.base', fmt=IMGFMT size=1048576
+>>> +qemu-img: TEST_DIR/t.IMGFMT.base: Failed to get "write" lock
+>>> +Is another process using the image [TEST_DIR/t.IMGFMT.base]?
+>>>   Formatting 'TEST_DIR/t.IMGFMT.int', fmt=IMGFMT size=1048576 
+>>> backing_file=TEST_DIR/t.IMGFMT.base backing_fmt=IMGFMT
+>>>   Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=1048576 
+>>> backing_file=TEST_DIR/t.IMGFMT.int backing_fmt=IMGFMT
+>>>   { 'execute': 'qmp_capabilities' }
+>>>
+>>>
+>>> any ideas?
+>>>
+>>
+>> Hmm, interesting.. Is it always 161 and always exactly this diff?
 > 
-> Regards,
-> Daniel
-> -- 
-> |: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-> |: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-> |: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+> Its always 161 and only 161. I would need to check if its always the same 
+> error.
 > 
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+>>
+>> First, this place in 161 is usual: we just create and image, like in many 
+>> other tests.
+>>
+>> Second, why _make_test_img trigger "Failed to get write lock"? It should 
+>> just create an image. Hmm. And probably starts QSD if protocol is fuse. 
+>> So, that start of QSD may probably fail.. Is that the case? What is image 
+>> format and protocol used in test run?
+>>
+>> But anyway, tests running in parallel should not break each other as each 
+>> test has own TEST_DIR and SOCK_DIR..
+
+Unless you run into the issue that Hanna described here:
+
+  https://lists.gnu.org/archive/html/qemu-devel/2022-02/msg01735.html
+
+  Thomas
+
 
 
