@@ -2,85 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13AE64B0765
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Feb 2022 08:43:46 +0100 (CET)
-Received: from localhost ([::1]:40042 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BEB254B07BF
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Feb 2022 09:08:59 +0100 (CET)
+Received: from localhost ([::1]:58416 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nI47E-0006QF-Sm
-	for lists+qemu-devel@lfdr.de; Thu, 10 Feb 2022 02:43:44 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:32952)
+	id 1nI4Ve-0003oN-AM
+	for lists+qemu-devel@lfdr.de; Thu, 10 Feb 2022 03:08:58 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:39232)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nI3jL-0000Zc-Rv
- for qemu-devel@nongnu.org; Thu, 10 Feb 2022 02:19:04 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:51794)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nI4C3-0002TT-3B
+ for qemu-devel@nongnu.org; Thu, 10 Feb 2022 02:48:43 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:59289)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nI3jI-00048N-JG
- for qemu-devel@nongnu.org; Thu, 10 Feb 2022 02:19:01 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nI4Bz-0004I9-6h
+ for qemu-devel@nongnu.org; Thu, 10 Feb 2022 02:48:41 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1644477539;
+ s=mimecast20190719; t=1644479317;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=QFlskR4qnAJ3SrkoAHPxHGP3uT9MK3yYj1p912v7Ju0=;
- b=C1d/M1a2cVYkUKAzg/QCRMaVstwfuKFY3gPAqgQZ+UXOqk2US/Ljajl/zj8UIR9efCTNkP
- dPOBCGpkRFlzOBVQpIj50V1ylSXAK1MrQndBLAYbur0JxzX8c1RHiYmBskFB7LyAkxsyw3
- c96o1E7k5QS4x2ntqOgeovBT47F+Kb0=
-Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
- [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=wzVNXgcFoaWKgVta98D/o/cw+AdsUJLlalCEQI7HgJU=;
+ b=aU4zkOEnusJkowcffkMrV1AovrC79lYP8NMWruTEtVZm8+gcTarVjoFwBOC5c8c0zTzCr9
+ v6+p3CX0TPOblyA7R9/8JR1XSHGqkPfdjcdHEK7oeGjHY7hzARdkDG8EYE3r5RjpfbHyc+
+ rCC6fSMLUCx2iIUWRQPBDUR2Ua0zL38=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-261-aARYiCiXN12fFF2HnRP6Dg-1; Thu, 10 Feb 2022 02:18:58 -0500
-X-MC-Unique: aARYiCiXN12fFF2HnRP6Dg-1
-Received: by mail-ej1-f70.google.com with SMTP id
- m4-20020a170906160400b006be3f85906eso2261202ejd.23
- for <qemu-devel@nongnu.org>; Wed, 09 Feb 2022 23:18:58 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=QFlskR4qnAJ3SrkoAHPxHGP3uT9MK3yYj1p912v7Ju0=;
- b=tOl154PNNcuNctYWX3gHNV7ctL4/Rrc3So/mbeLz3m3n6kcC2aerYNy7RdFpPuRukl
- CeSDioAxksEsvn6mhTFRSpuvSaWhNhMVDm83CDPkLdPVqkdtsX90A7evmJsKOYRANsjv
- yW6Iw+vfV989ErkEhbtFYff+OIo8D7Me2P98XjjzJOn5+zdPEE0t6pOL6TbNSy/3GWoD
- wd7hILiK3jWtQtTxkuhzk3RcDUMI4TOlDqIqLdQNlMoEv7XiBCaeR5fVEDWxZ27FRzs3
- y3Eg0BqLA6b/c3Eukt0r5/qvBHmlk7EmrNIQmycEKL+ZhBxJNzjDLzPbxG9uEcMY5ex/
- tGSQ==
-X-Gm-Message-State: AOAM531lK5O2l2cFsgJI5zektwAeUgTEKGod1aBBOn8s0ieFKw87HBz/
- HEYVt91gbUjlHhOMNl+ly3oujNFFXQtvlzKcxcc9O0vwbkr6PkZLWmy1Vu/p4avIPfnKo+iZ5Ie
- 8NtYa3dJ67NJi9Mo=
-X-Received: by 2002:a17:906:8696:: with SMTP id
- g22mr5127153ejx.436.1644477537106; 
- Wed, 09 Feb 2022 23:18:57 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwi7ckAIlvxEedoC/WBVEgHuuqdhhY2g2E1jB4FW0tCgYhh3+AbUjXxCRHhHk709w2bdj57PA==
-X-Received: by 2002:a17:906:8696:: with SMTP id
- g22mr5127139ejx.436.1644477536878; 
- Wed, 09 Feb 2022 23:18:56 -0800 (PST)
-Received: from redhat.com ([2.55.139.162])
- by smtp.gmail.com with ESMTPSA id jx4sm4706925ejb.218.2022.02.09.23.18.51
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 09 Feb 2022 23:18:52 -0800 (PST)
-Date: Thu, 10 Feb 2022 02:18:49 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: BB <shentey@gmail.com>
-Subject: Re: [PATCH 3/3] isa/piix4: Resolve global variables
-Message-ID: <20220210021821-mutt-send-email-mst@kernel.org>
-References: <20220112213629.9126-1-shentey@gmail.com>
- <20220112213629.9126-4-shentey@gmail.com>
- <CAFEAcA_HE6UCaeyM7+5n0O+hFKLGk=Sc6Mpr_VBD_RJR=WJg=w@mail.gmail.com>
- <b21fefc6-a7f6-c101-5f1f-99cd3191933b@amsat.org>
- <3DD424F7-FC1C-471E-A5E5-1E06783D7254@gmail.com>
+ us-mta-314-nH44138rPlyh0MyBV2b2kg-1; Thu, 10 Feb 2022 02:48:36 -0500
+X-MC-Unique: nH44138rPlyh0MyBV2b2kg-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7A0391927800;
+ Thu, 10 Feb 2022 07:48:35 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.36.112.3])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 60910709AA;
+ Thu, 10 Feb 2022 07:48:25 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id A935F21E6A00; Thu, 10 Feb 2022 08:48:23 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Subject: Re: downstream extensions
+References: <5c95f20c-df30-9d24-0e1b-f82f4d5a798e@virtuozzo.com>
+Date: Thu, 10 Feb 2022 08:48:23 +0100
+In-Reply-To: <5c95f20c-df30-9d24-0e1b-f82f4d5a798e@virtuozzo.com> (Vladimir
+ Sementsov-Ogievskiy's message of "Wed, 9 Feb 2022 15:33:04 +0300")
+Message-ID: <874k57duwo.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-In-Reply-To: <3DD424F7-FC1C-471E-A5E5-1E06783D7254@gmail.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
+Content-Type: text/plain
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -101,72 +79,77 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- =?iso-8859-1?Q?Herv=E9?= Poussineau <hpoussin@reactos.org>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>,
- Aurelien Jarno <aurelien@aurel32.net>, qemu-devel@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
+ Eric Blake <eblake@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
+ qemu block <qemu-block@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Feb 10, 2022 at 12:16:34AM +0100, BB wrote:
-> Am 30. Januar 2022 23:53:42 MEZ schrieb "Philippe Mathieu-Daudé" <f4bug@amsat.org>:
-> >On 14/1/22 14:36, Peter Maydell wrote:
-> >> On Wed, 12 Jan 2022 at 22:02, Bernhard Beschow <shentey@gmail.com> wrote:
-> >>>
-> >>> Now that piix4_set_irq's opaque parameter references own PIIX4State,
-> >>> piix4_dev becomes redundant and pci_irq_levels can be moved into PIIX4State.
-> >>>
-> >>> Signed-off-by: Bernhard Beschow <shentey@gmail.com>
-> >>> ---
-> >>>   hw/isa/piix4.c                | 22 +++++++++-------------
-> >>>   include/hw/southbridge/piix.h |  2 --
-> >>>   2 files changed, 9 insertions(+), 15 deletions(-)
-> >>>
-> >>> diff --git a/hw/isa/piix4.c b/hw/isa/piix4.c
-> >>> index a31e9714cf..964e09cf7f 100644
-> >>> --- a/hw/isa/piix4.c
-> >>> +++ b/hw/isa/piix4.c
-> >>> @@ -39,14 +39,14 @@
-> >>>   #include "sysemu/runstate.h"
-> >>>   #include "qom/object.h"
-> >>>
-> >>> -PCIDevice *piix4_dev;
-> >>> -
-> >>>   struct PIIX4State {
-> >>>       PCIDevice dev;
-> >>>       qemu_irq cpu_intr;
-> >>>       qemu_irq *isa;
-> >>>       qemu_irq i8259[ISA_NUM_IRQS];
-> >>>
-> >>> +    int pci_irq_levels[PIIX_NUM_PIRQS];
-> >>> +
-> >> 
-> >> I wondered how we were migrating this state, and the answer
-> >> seems to be that we aren't (and weren't before, when it was
-> >> a global variable, so this is a pre-existing bug).
-> >
-> >Indeed the migrated VM starts with PCI IRQ levels zeroed.
-> >
-> >> Does the malta platform support migration save/load?
-> >
-> >Maybe a "best effort" support, but not versioned machines.
-> >
-> >> We should probably add this field to the vmstate struct
-> >> (which will be a migration compatibility break, which is OK
-> >> as the malta board isn't versioned.)
-> >
-> >Yeah good catch.
-> >
-> >Bernhard, do you mind adding it?
-> 
-> Sure, I'll give it a try. Shall I submit a v2 of this patch series then? If so, would it be ok to change the topic of the cover letter or would that be confusing?
+Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com> writes:
 
-It's ok to change the subject of the cover letter.
+> Hi all!
+>
+> We declare a kind of __com.redhat_drive-mirror syntax for downstream extensions of QAPI.
+>
+> That's inconvenient:
+>
+> Assume I want to merge now my keep-dirty option for Qcow2 driver "[PATCH v2 0/2] qcow2: add keep-dirty open option" to our downstream. To avoid possible conflicts with upstream in future, I should now call it __com.virtuozzo_keep-dirty. Not saying about this being too awkward, there is a real problem:
+>
+> I want to support dot-object-notation syntax, i.e. something like
+>
+> qemu-img check --image-opts driver=qcow2,keep-dirty=true,file.filename=img.qcow2
+>
+> And this way, a period inside a name looks ambiguous, as it looks like subproperty of "__com" property.
 
-> Last but not least: How to treat the version_id and the version parameters of the new and existing fields?
-> 
-> Regards,
-> 
-> Bernhard.
+The downstream extension prefix predates dotted keys.  Their combination
+is less than ideal, as you point out, but it's not actually ambiguous:
+
+Consider this grammar:
+
+    key               = key-fragment { '.' key-fragment }
+    key-fragment      = [ downstream_prefix ] / [^=,.]+ /
+    downstream_prefix = '__' rfqdn '_'
+    rfqdn             = / [A-Za-z0-9.-] /
+
+When a key-fragment starts with '__', it has a downstream prefix, which
+extends to the next '_'.
+
+parse_qapi_name() implements this, and keyval.c uses it.
+
+The grammar in keyval.c neglects to cover the downstream prefix.  I'll
+fix it.
+
+> I now tested, it still works somehow, and test from my series passes with
+>
+>  keep_dirty_opts="driver=qcow2,__com.virtuozzo_keep-dirty=true,file.filename=$TEST_IMG"
+
+qemu-img --image-opts still uses QemuOpts.  I don't remember more about
+how it parses dotted keys other than "it's complicated", but downstream
+prefixes not working would be a bug.
+
+> But anyway, it looks ambiguous, and I don't want to use it and share with my colleagues.
+>
+> In past, I used x-vz- prefix for downstream names (before I heard about __RFQDN_ notation declared in QAPI spec), that was more convenient. But still, that is not correct..
+>
+> I now think to use just __vz_ prefix. Such name will never appear upstream, and unlikely to be used by Rhel downstream which is our base. And I don't care about any other downstreams.
+>
+>
+> Any thoughts? Should we change the recommendations somehow? I think allowing dots in names in the object model is a bad idea.
+
+Maybe, but that boat sailed long ago.
+
+QAPI's downstream prefix was designed this way to let organizations
+extend the schema without having to worry about clashes regardless of
+how things get rebased or remixed.  That's a feature.
+
+It reuses an existing registry of organization names: domain names.  Not
+needing our own registry is also a feature.
+
+Of course, nothing can stop you from putting something other than RFQDN
+between __ and _.  I'd recommend not to.
+
+We could add a revised downstream prefix syntax, and deprecate the first
+one.  To me, that feels like more trouble and complexity than it's
+worth.  I could be wrong.  Happy to read proposals.
 
 
