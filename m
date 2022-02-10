@@ -2,41 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 806854B0FA8
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Feb 2022 15:06:02 +0100 (CET)
-Received: from localhost ([::1]:55972 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 94CF04B111A
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Feb 2022 15:59:49 +0100 (CET)
+Received: from localhost ([::1]:57032 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nIA58-0000CG-36
-	for lists+qemu-devel@lfdr.de; Thu, 10 Feb 2022 09:05:59 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:60554)
+	id 1nIAvE-0002lo-LH
+	for lists+qemu-devel@lfdr.de; Thu, 10 Feb 2022 09:59:48 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:34812)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1nI8ja-0003bQ-0J; Thu, 10 Feb 2022 07:39:42 -0500
-Received: from [187.72.171.209] (port=24781 helo=outlook.eldorado.org.br)
+ id 1nI8sm-0006NB-Kd; Thu, 10 Feb 2022 07:49:08 -0500
+Received: from [187.72.171.209] (port=62981 helo=outlook.eldorado.org.br)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1nI8jN-0006Kh-E3; Thu, 10 Feb 2022 07:39:29 -0500
+ id 1nI8sh-0001y3-Ek; Thu, 10 Feb 2022 07:49:05 -0500
 Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
  secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
  Thu, 10 Feb 2022 09:35:27 -0300
 Received: from eldorado.org.br (unknown [10.10.70.45])
- by p9ibm (Postfix) with ESMTP id 007C5800172;
- Thu, 10 Feb 2022 09:35:26 -0300 (-03)
+ by p9ibm (Postfix) with ESMTP id 9565D800172;
+ Thu, 10 Feb 2022 09:35:27 -0300 (-03)
 From: matheus.ferst@eldorado.org.br
 To: qemu-devel@nongnu.org,
 	qemu-ppc@nongnu.org
-Subject: [PATCH v3 10/37] target/ppc: Move Vector Compare Not Equal or Zero to
- decodetree
-Date: Thu, 10 Feb 2022 09:34:20 -0300
-Message-Id: <20220210123447.3933301-11-matheus.ferst@eldorado.org.br>
+Subject: [PATCH v3 12/37] target/ppc: Implement Vector Compare Greater Than
+ Quadword
+Date: Thu, 10 Feb 2022 09:34:22 -0300
+Message-Id: <20220210123447.3933301-13-matheus.ferst@eldorado.org.br>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220210123447.3933301-1-matheus.ferst@eldorado.org.br>
 References: <20220210123447.3933301-1-matheus.ferst@eldorado.org.br>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-OriginalArrivalTime: 10 Feb 2022 12:35:27.0415 (UTC)
- FILETIME=[AEC0E470:01D81E7A]
+X-OriginalArrivalTime: 10 Feb 2022 12:35:27.0962 (UTC)
+ FILETIME=[AF145BA0:01D81E7A]
 X-Host-Lookup-Failed: Reverse DNS lookup failed for 187.72.171.209 (failed)
 Received-SPF: pass client-ip=187.72.171.209;
  envelope-from=matheus.ferst@eldorado.org.br; helo=outlook.eldorado.org.br
@@ -66,214 +66,91 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Matheus Ferst <matheus.ferst@eldorado.org.br>
 
+Implement the following PowerISA v3.1 instructions:
+vcmpgtsq: Vector Compare Greater Than Signed Quadword
+vcmpgtuq: Vector Compare Greater Than Unsigned Quadword
+
 Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
 ---
- target/ppc/helper.h                 |  9 ++--
- target/ppc/insn32.decode            |  4 ++
- target/ppc/int_helper.c             | 50 +++++----------------
- target/ppc/translate/vmx-impl.c.inc | 69 +++++++++++++++++++++++++++--
- target/ppc/translate/vmx-ops.c.inc  |  3 --
- 5 files changed, 83 insertions(+), 52 deletions(-)
+ target/ppc/insn32.decode            |  2 ++
+ target/ppc/translate/vmx-impl.c.inc | 49 +++++++++++++++++++++++++++++
+ 2 files changed, 51 insertions(+)
 
-diff --git a/target/ppc/helper.h b/target/ppc/helper.h
-index 4f0f3e3a08..729d7eb608 100644
---- a/target/ppc/helper.h
-+++ b/target/ppc/helper.h
-@@ -141,16 +141,13 @@ DEF_HELPER_3(vabsduw, void, avr, avr, avr)
- DEF_HELPER_3(vavgsb, void, avr, avr, avr)
- DEF_HELPER_3(vavgsh, void, avr, avr, avr)
- DEF_HELPER_3(vavgsw, void, avr, avr, avr)
--DEF_HELPER_4(vcmpnezb, void, env, avr, avr, avr)
--DEF_HELPER_4(vcmpnezh, void, env, avr, avr, avr)
--DEF_HELPER_4(vcmpnezw, void, env, avr, avr, avr)
- DEF_HELPER_4(vcmpeqfp, void, env, avr, avr, avr)
- DEF_HELPER_4(vcmpgefp, void, env, avr, avr, avr)
- DEF_HELPER_4(vcmpgtfp, void, env, avr, avr, avr)
- DEF_HELPER_4(vcmpbfp, void, env, avr, avr, avr)
--DEF_HELPER_4(vcmpnezb_dot, void, env, avr, avr, avr)
--DEF_HELPER_4(vcmpnezh_dot, void, env, avr, avr, avr)
--DEF_HELPER_4(vcmpnezw_dot, void, env, avr, avr, avr)
-+DEF_HELPER_4(VCMPNEZB, void, avr, avr, avr, i32)
-+DEF_HELPER_4(VCMPNEZH, void, avr, avr, avr, i32)
-+DEF_HELPER_4(VCMPNEZW, void, avr, avr, avr, i32)
- DEF_HELPER_4(vcmpeqfp_dot, void, env, avr, avr, avr)
- DEF_HELPER_4(vcmpgefp_dot, void, env, avr, avr, avr)
- DEF_HELPER_4(vcmpgtfp_dot, void, env, avr, avr, avr)
 diff --git a/target/ppc/insn32.decode b/target/ppc/insn32.decode
-index bfb36e6969..a0adf18671 100644
+index 39730df32d..45649f7d1d 100644
 --- a/target/ppc/insn32.decode
 +++ b/target/ppc/insn32.decode
-@@ -397,6 +397,10 @@ VCMPNEB         000100 ..... ..... ..... . 0000000111   @VC
+@@ -388,11 +388,13 @@ VCMPGTSB        000100 ..... ..... ..... . 1100000110   @VC
+ VCMPGTSH        000100 ..... ..... ..... . 1101000110   @VC
+ VCMPGTSW        000100 ..... ..... ..... . 1110000110   @VC
+ VCMPGTSD        000100 ..... ..... ..... . 1111000111   @VC
++VCMPGTSQ        000100 ..... ..... ..... . 1110000111   @VC
+ 
+ VCMPGTUB        000100 ..... ..... ..... . 1000000110   @VC
+ VCMPGTUH        000100 ..... ..... ..... . 1001000110   @VC
+ VCMPGTUW        000100 ..... ..... ..... . 1010000110   @VC
+ VCMPGTUD        000100 ..... ..... ..... . 1011000111   @VC
++VCMPGTUQ        000100 ..... ..... ..... . 1010000111   @VC
+ 
+ VCMPNEB         000100 ..... ..... ..... . 0000000111   @VC
  VCMPNEH         000100 ..... ..... ..... . 0001000111   @VC
- VCMPNEW         000100 ..... ..... ..... . 0010000111   @VC
- 
-+VCMPNEZB        000100 ..... ..... ..... . 0100000111   @VC
-+VCMPNEZH        000100 ..... ..... ..... . 0101000111   @VC
-+VCMPNEZW        000100 ..... ..... ..... . 0110000111   @VC
-+
- ## Vector Bit Manipulation Instruction
- 
- VCFUGED         000100 ..... ..... ..... 10101001101    @VX
-diff --git a/target/ppc/int_helper.c b/target/ppc/int_helper.c
-index 83e718ab0e..1c5e6acda1 100644
---- a/target/ppc/int_helper.c
-+++ b/target/ppc/int_helper.c
-@@ -749,46 +749,18 @@ VCF(ux, uint32_to_float32, u32)
- VCF(sx, int32_to_float32, s32)
- #undef VCF
- 
--#define VCMPNE_DO(suffix, element, etype, cmpzero, record)              \
--void helper_vcmpne##suffix(CPUPPCState *env, ppc_avr_t *r,              \
--                            ppc_avr_t *a, ppc_avr_t *b)                 \
--{                                                                       \
--    etype ones = (etype)-1;                                             \
--    etype all = ones;                                                   \
--    etype result, none = 0;                                             \
--    int i;                                                              \
--                                                                        \
--    for (i = 0; i < ARRAY_SIZE(r->element); i++) {                      \
--        if (cmpzero) {                                                  \
--            result = ((a->element[i] == 0)                              \
--                           || (b->element[i] == 0)                      \
--                           || (a->element[i] != b->element[i]) ?        \
--                           ones : 0x0);                                 \
--        } else {                                                        \
--            result = (a->element[i] != b->element[i]) ? ones : 0x0;     \
--        }                                                               \
--        r->element[i] = result;                                         \
--        all &= result;                                                  \
--        none |= result;                                                 \
--    }                                                                   \
--    if (record) {                                                       \
--        env->crf[6] = ((all != 0) << 3) | ((none == 0) << 1);           \
--    }                                                                   \
-+#define VCMPNEZ(NAME, ELEM) \
-+void helper_##NAME(ppc_vsr_t *t, ppc_vsr_t *a, ppc_vsr_t *b, uint32_t desc) \
-+{                                                                           \
-+    for (int i = 0; i < ARRAY_SIZE(t->ELEM); i++) {                         \
-+        t->ELEM[i] = ((a->ELEM[i] == 0) || (b->ELEM[i] == 0) ||             \
-+                      (a->ELEM[i] != b->ELEM[i])) ? -1 : 0;                 \
-+    }                                                                       \
- }
--
--/*
-- * VCMPNEZ - Vector compare not equal to zero
-- *   suffix  - instruction mnemonic suffix (b: byte, h: halfword, w: word)
-- *   element - element type to access from vector
-- */
--#define VCMPNE(suffix, element, etype, cmpzero)         \
--    VCMPNE_DO(suffix, element, etype, cmpzero, 0)       \
--    VCMPNE_DO(suffix##_dot, element, etype, cmpzero, 1)
--VCMPNE(zb, u8, uint8_t, 1)
--VCMPNE(zh, u16, uint16_t, 1)
--VCMPNE(zw, u32, uint32_t, 1)
--#undef VCMPNE_DO
--#undef VCMPNE
-+VCMPNEZ(VCMPNEZB, u8)
-+VCMPNEZ(VCMPNEZH, u16)
-+VCMPNEZ(VCMPNEZW, u32)
-+#undef VCMPNEZ
- 
- #define VCMPFP_DO(suffix, compare, order, record)                       \
-     void helper_vcmp##suffix(CPUPPCState *env, ppc_avr_t *r,            \
 diff --git a/target/ppc/translate/vmx-impl.c.inc b/target/ppc/translate/vmx-impl.c.inc
-index a32ad92195..67059ed9b2 100644
+index bdb0b4370b..302ef4370a 100644
 --- a/target/ppc/translate/vmx-impl.c.inc
 +++ b/target/ppc/translate/vmx-impl.c.inc
-@@ -985,10 +985,6 @@ static void glue(gen_, name0##_##name1)(DisasContext *ctx)             \
-     }                                                                  \
+@@ -1155,6 +1155,55 @@ static bool trans_VCMPEQUQ(DisasContext *ctx, arg_VC *a)
+     return true;
  }
  
--GEN_VXRFORM(vcmpnezb, 3, 4)
--GEN_VXRFORM(vcmpnezh, 3, 5)
--GEN_VXRFORM(vcmpnezw, 3, 6)
--
- static void do_vcmp_rc(int vrt)
- {
-     TCGv_i64 t0, t1;
-@@ -1051,6 +1047,71 @@ TRANS_FLAGS2(ISA300, VCMPNEB, do_vcmp, TCG_COND_NE, MO_8)
- TRANS_FLAGS2(ISA300, VCMPNEH, do_vcmp, TCG_COND_NE, MO_16)
- TRANS_FLAGS2(ISA300, VCMPNEW, do_vcmp, TCG_COND_NE, MO_32)
- 
-+static void gen_vcmpnez_vec(unsigned vece, TCGv_vec t, TCGv_vec a, TCGv_vec b)
++static bool do_vcmpgtq(DisasContext *ctx, arg_VC *a, bool sign)
 +{
-+    TCGv_vec t0, t1, zero;
++    TCGv_i64 t0, t1;
++    TCGLabel *l1, *l2, *l3;
 +
-+    t0 = tcg_temp_new_vec_matching(t);
-+    t1 = tcg_temp_new_vec_matching(t);
-+    zero = tcg_constant_vec_matching(t, vece, 0);
-+
-+    tcg_gen_cmp_vec(TCG_COND_EQ, vece, t0, a, zero);
-+    tcg_gen_cmp_vec(TCG_COND_EQ, vece, t1, b, zero);
-+    tcg_gen_cmp_vec(TCG_COND_NE, vece, t, a, b);
-+
-+    tcg_gen_or_vec(vece, t, t, t0);
-+    tcg_gen_or_vec(vece, t, t, t1);
-+
-+    tcg_gen_shli_vec(vece, t, t, (8 << vece) - 1);
-+    tcg_gen_sari_vec(vece, t, t, (8 << vece) - 1);
-+
-+    tcg_temp_free_vec(t0);
-+    tcg_temp_free_vec(t1);
-+}
-+
-+static bool do_vcmpnez(DisasContext *ctx, arg_VC *a, int vece)
-+{
-+    static const TCGOpcode vecop_list[] = {
-+        INDEX_op_cmp_vec, INDEX_op_shli_vec, INDEX_op_sari_vec, 0
-+    };
-+    static const GVecGen3 ops[3] = {
-+        {
-+            .fniv = gen_vcmpnez_vec,
-+            .fno = gen_helper_VCMPNEZB,
-+            .opt_opc = vecop_list,
-+            .vece = MO_8
-+        },
-+        {
-+            .fniv = gen_vcmpnez_vec,
-+            .fno = gen_helper_VCMPNEZH,
-+            .opt_opc = vecop_list,
-+            .vece = MO_16
-+        },
-+        {
-+            .fniv = gen_vcmpnez_vec,
-+            .fno = gen_helper_VCMPNEZW,
-+            .opt_opc = vecop_list,
-+            .vece = MO_32
-+        }
-+    };
-+
-+    REQUIRE_INSNS_FLAGS2(ctx, ISA300);
++    REQUIRE_INSNS_FLAGS2(ctx, ISA310);
 +    REQUIRE_VECTOR(ctx);
 +
-+    tcg_gen_gvec_3(avr_full_offset(a->vrt), avr_full_offset(a->vra),
-+                   avr_full_offset(a->vrb), 16, 16, &ops[vece]);
++    t0 = tcg_temp_local_new_i64();
++    t1 = tcg_temp_local_new_i64();
++    l1 = gen_new_label();
++    l2 = gen_new_label();
++    l3 = gen_new_label();
 +
++    get_avr64(t0, a->vra, true);
++    get_avr64(t1, a->vrb, true);
++    tcg_gen_brcond_i64(sign ? TCG_COND_GT : TCG_COND_GTU, t0, t1, l1);
++    tcg_gen_brcond_i64(sign ? TCG_COND_LT : TCG_COND_LTU, t0, t1, l2);
++
++    get_avr64(t0, a->vra, false);
++    get_avr64(t1, a->vrb, false);
++    tcg_gen_brcond_i64(TCG_COND_GTU, t0, t1, l1);
++    tcg_gen_br(l2);
++
++    gen_set_label(l1);
++    set_avr64(a->vrt, tcg_constant_i64(-1), true);
++    set_avr64(a->vrt, tcg_constant_i64(-1), false);
 +    if (a->rc) {
-+        do_vcmp_rc(a->vrt);
++        tcg_gen_movi_i32(cpu_crf[6], 1 << 3);
 +    }
++    tcg_gen_br(l3);
++
++    gen_set_label(l2);
++    set_avr64(a->vrt, tcg_constant_i64(0), true);
++    set_avr64(a->vrt, tcg_constant_i64(0), false);
++    if (a->rc) {
++        tcg_gen_movi_i32(cpu_crf[6], 1 << 1);
++    }
++
++    gen_set_label(l3);
++    tcg_temp_free_i64(t0);
++    tcg_temp_free_i64(t1);
 +
 +    return true;
 +}
 +
-+TRANS(VCMPNEZB, do_vcmpnez, MO_8)
-+TRANS(VCMPNEZH, do_vcmpnez, MO_16)
-+TRANS(VCMPNEZW, do_vcmpnez, MO_32)
++TRANS(VCMPGTSQ, do_vcmpgtq, true)
++TRANS(VCMPGTUQ, do_vcmpgtq, false)
 +
- GEN_VXRFORM(vcmpeqfp, 3, 3)
- GEN_VXRFORM(vcmpgefp, 3, 7)
- GEN_VXRFORM(vcmpgtfp, 3, 11)
-diff --git a/target/ppc/translate/vmx-ops.c.inc b/target/ppc/translate/vmx-ops.c.inc
-index 80d460c34e..cb4c5bb953 100644
---- a/target/ppc/translate/vmx-ops.c.inc
-+++ b/target/ppc/translate/vmx-ops.c.inc
-@@ -184,9 +184,6 @@ GEN_HANDLER2_E(name, str, 0x4, opc2, opc3, 0x00000000, PPC_NONE, PPC2_ISA300),
-     GEN_VXRFORM1_300(name, name, #name, opc2, opc3)                         \
-     GEN_VXRFORM1_300(name##_dot, name##_, #name ".", opc2, (opc3 | (0x1 << 4)))
- 
--GEN_VXRFORM_300(vcmpnezb, 3, 4)
--GEN_VXRFORM_300(vcmpnezh, 3, 5)
--GEN_VXRFORM_300(vcmpnezw, 3, 6)
  GEN_VXRFORM(vcmpeqfp, 3, 3)
  GEN_VXRFORM(vcmpgefp, 3, 7)
  GEN_VXRFORM(vcmpgtfp, 3, 11)
