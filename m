@@ -2,58 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7DA904B1600
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Feb 2022 20:13:02 +0100 (CET)
-Received: from localhost ([::1]:42956 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7BCC24B1608
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Feb 2022 20:16:13 +0100 (CET)
+Received: from localhost ([::1]:47498 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nIEsH-0002wZ-D4
-	for lists+qemu-devel@lfdr.de; Thu, 10 Feb 2022 14:13:01 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:60238)
+	id 1nIEvM-00066y-LR
+	for lists+qemu-devel@lfdr.de; Thu, 10 Feb 2022 14:16:12 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:60502)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nIBwK-0001o9-OI
- for qemu-devel@nongnu.org; Thu, 10 Feb 2022 11:05:00 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:38879)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nIBww-0002FN-Cl
+ for qemu-devel@nongnu.org; Thu, 10 Feb 2022 11:05:39 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:36304)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nIBwF-0005uv-6c
- for qemu-devel@nongnu.org; Thu, 10 Feb 2022 11:05:00 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nIBwq-0006Bi-3e
+ for qemu-devel@nongnu.org; Thu, 10 Feb 2022 11:05:35 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1644509060;
+ s=mimecast20190719; t=1644509131;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=KQLbAF5dKl3tzhAMM4JQPIqs8ivEPhqLYEKIHvqkaLw=;
- b=bWR2HGmnCpQ7IdsFLQOEytNNUamy0pi6Kcs5iovflQzq859nqxEfOn7CnVL79tB7ACbgsH
- Ej7nF0+lHApp+vUYI1EkdeT/XTABB39PRRSUFGy54/flZpthFKohHO+OFsXkfp0lDp9TqA
- vNBNTYNiGYNw+jS95p4wvJkEgZXfUp0=
+ bh=mqgbISiCO3x+dnT9StHZteUnuw89PxlV35mOPj/zViI=;
+ b=gNPejEBL1a0jk3+3dYjYpkiJNjjrDFDLZSrmqonAH3xQ1ve7Vz0yKOxouw1dgK/W2O8IIz
+ 2ajoMzPI+t0gdFKkG8bcfg5kzmUvXQpI+119UIC3/usfMIePWaXhYcf576e/wHa11RLxoH
+ jcePQHuFNwpRVu5uIOxUZYjRUYrjkcg=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-471-jWgrFB2iOE2E_nU6VRZijg-1; Thu, 10 Feb 2022 11:04:17 -0500
-X-MC-Unique: jWgrFB2iOE2E_nU6VRZijg-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-471-rPiK0H-OO4eyyF9uaT0Hkw-1; Thu, 10 Feb 2022 11:05:28 -0500
+X-MC-Unique: rPiK0H-OO4eyyF9uaT0Hkw-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DE694107B276;
- Thu, 10 Feb 2022 16:04:15 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 52A231923B88;
+ Thu, 10 Feb 2022 16:05:26 +0000 (UTC)
 Received: from blackfin.pond.sub.org (unknown [10.36.112.3])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id DCEC87DE43;
- Thu, 10 Feb 2022 16:04:14 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id C5A6384FFB;
+ Thu, 10 Feb 2022 16:05:25 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 69CB521E6A00; Thu, 10 Feb 2022 17:04:13 +0100 (CET)
+ id 7696F21E6A01; Thu, 10 Feb 2022 17:05:24 +0100 (CET)
 From: Markus Armbruster <armbru@redhat.com>
 To: Jonah Palmer <jonah.palmer@oracle.com>
-Subject: Re: [PATCH v11 3/8] qmp: add QMP command x-query-virtio
+Subject: Re: [PATCH v11 4/8] qmp: add QMP command x-query-virtio-status
 References: <1642678168-20447-1-git-send-email-jonah.palmer@oracle.com>
- <1642678168-20447-4-git-send-email-jonah.palmer@oracle.com>
-Date: Thu, 10 Feb 2022 17:04:13 +0100
-In-Reply-To: <1642678168-20447-4-git-send-email-jonah.palmer@oracle.com>
- (Jonah Palmer's message of "Thu, 20 Jan 2022 06:29:23 -0500")
-Message-ID: <87ee4abtdu.fsf@pond.sub.org>
+ <1642678168-20447-5-git-send-email-jonah.palmer@oracle.com>
+Date: Thu, 10 Feb 2022 17:05:24 +0100
+In-Reply-To: <1642678168-20447-5-git-send-email-jonah.palmer@oracle.com>
+ (Jonah Palmer's message of "Thu, 20 Jan 2022 06:29:24 -0500")
+Message-ID: <87a6eybtbv.fsf@pond.sub.org>
 User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -95,26 +95,16 @@ Jonah Palmer <jonah.palmer@oracle.com> writes:
 
 > From: Laurent Vivier <lvivier@redhat.com>
 >
-> This new command lists all the instances of VirtIODevices with
-> their canonical QOM path and name.
+> This new command shows the status of a VirtIODevice, including
+> its corresponding vhost device's status (if active).
 >
-> [Jonah: @virtio_list duplicates information that already exists in
->  the QOM composition tree. However, extracting necessary information
->  from this tree seems to be a bit convoluted.
+> Next patch will improve output by decoding feature bits, including
+> vhost device's feature bits (backend, protocol, acked, and features).
+> Also will decode status bits of a VirtIODevice.
 >
->  Instead, we still create our own list of realized virtio devices
->  but use @qmp_qom_get with the device's canonical QOM path to confirm
->  that the device exists and is realized. If the device exists but
->  is actually not realized, then we remove it from our list (for
->  synchronicity to the QOM composition tree).
->
->  Also, the QMP command @x-query-virtio is redundant as @qom-list
->  and @qom-get are sufficient to search '/machine/' for realized
->  virtio devices. However, @x-query-virtio is much more convenient
->  in listing realized virtio devices.]
-
-Thanks for explaining this.  Whether the convenience is worth the extra
-code is for the virtio maintainer to decide.
+> [Jonah: Similar to previous patch, added a check to @virtio_device_find
+>  to ensure synchronicity between @virtio_list and the devices in the QOM
+>  composition tree.]
 >
 > Signed-off-by: Jonah Palmer <jonah.palmer@oracle.com>
 
