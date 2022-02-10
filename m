@@ -2,88 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE6944B111B
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Feb 2022 15:59:52 +0100 (CET)
-Received: from localhost ([::1]:59242 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 010124B12CB
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Feb 2022 17:32:33 +0100 (CET)
+Received: from localhost ([::1]:34744 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nIAvI-0004Nq-0i
-	for lists+qemu-devel@lfdr.de; Thu, 10 Feb 2022 09:59:52 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:37130)
+	id 1nICMy-0000oD-2p
+	for lists+qemu-devel@lfdr.de; Thu, 10 Feb 2022 11:32:32 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:55898)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1nI93x-0001y2-N3; Thu, 10 Feb 2022 08:00:44 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:7660
- helo=mx0a-001b2d01.pphosted.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1nI93q-0004Ab-QQ; Thu, 10 Feb 2022 08:00:41 -0500
-Received: from pps.filterd (m0098413.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 21AC1Lxm029443; 
- Thu, 10 Feb 2022 13:00:32 GMT
-Received: from ppma01fra.de.ibm.com (46.49.7a9f.ip4.static.sl-reverse.com
- [159.122.73.70])
- by mx0b-001b2d01.pphosted.com with ESMTP id 3e4m98a8be-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 10 Feb 2022 13:00:31 +0000
-Received: from pps.filterd (ppma01fra.de.ibm.com [127.0.0.1])
- by ppma01fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 21ACvPVW001246;
- Thu, 10 Feb 2022 13:00:30 GMT
-Received: from b06cxnps3075.portsmouth.uk.ibm.com
- (d06relay10.portsmouth.uk.ibm.com [9.149.109.195])
- by ppma01fra.de.ibm.com with ESMTP id 3e1gv9x0m0-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 10 Feb 2022 13:00:30 +0000
-Received: from d06av24.portsmouth.uk.ibm.com (d06av24.portsmouth.uk.ibm.com
- [9.149.105.60])
- by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 21AD0Qmp39649570
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 10 Feb 2022 13:00:26 GMT
-Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 3C3764208E;
- Thu, 10 Feb 2022 13:00:26 +0000 (GMT)
-Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id F3D4842057;
- Thu, 10 Feb 2022 13:00:25 +0000 (GMT)
-Received: from smtp.tlslab.ibm.com (unknown [9.101.4.1])
- by d06av24.portsmouth.uk.ibm.com (Postfix) with SMTP;
- Thu, 10 Feb 2022 13:00:25 +0000 (GMT)
-Received: from yukon.ibmuc.com (unknown [9.171.74.250])
- by smtp.tlslab.ibm.com (Postfix) with ESMTP id 3417B22016C;
- Thu, 10 Feb 2022 14:00:25 +0100 (CET)
-From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
-To: qemu-ppc@nongnu.org, qemu-devel@nongnu.org
-Subject: [PULL 18/42] target/ppc: 6xx: Critical exception cleanup
-Date: Thu, 10 Feb 2022 13:59:44 +0100
-Message-Id: <20220210130008.2599950-19-clg@kaod.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220210130008.2599950-1-clg@kaod.org>
-References: <20220210130008.2599950-1-clg@kaod.org>
+ (Exim 4.90_1) (envelope-from <simon.j.gillespie@gmail.com>)
+ id 1nI582-0004aj-4h
+ for qemu-devel@nongnu.org; Thu, 10 Feb 2022 03:48:38 -0500
+Received: from [2607:f8b0:4864:20::929] (port=41584
+ helo=mail-ua1-x929.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <simon.j.gillespie@gmail.com>)
+ id 1nI580-000683-CH
+ for qemu-devel@nongnu.org; Thu, 10 Feb 2022 03:48:37 -0500
+Received: by mail-ua1-x929.google.com with SMTP id w18so2638283uar.8
+ for <qemu-devel@nongnu.org>; Thu, 10 Feb 2022 00:48:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:from:date:message-id:subject:to;
+ bh=C9JkpGMDNKPT5sdGRbY2aIUEhLcHfQX6MusSvSkYJh0=;
+ b=SVO+Jz+JkCmprU0RJ+OTlokwvOdS/80XL+GBTnTiw+bqScRfnDrJoGk+OLj7yNv8Qk
+ aWNErPt+axcyzqZFThKqkh+Eo0fXTGhtTHISEcYDkwgx75zJCY1twDJ3LQhUsKU2fp0k
+ 2q1vpyTVFgwg520zx7CtePk70zblcxqf6Jp85vBKDMXr7wRkK7Nm0b3LjOgmBUERcXYV
+ MhuMxPYok2x6V0NbVRZVUqZrNhGIC6gqXeXidoD1m5T5m275yS+GU/7GcO2D8SBUQ9rY
+ HBjBND7Y5M+wMmhpFSvkCBr1DyHLJbZM2n1hE3JNlJrhFK26xqunrFRsYlCFDskIzFSu
+ yxBA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+ bh=C9JkpGMDNKPT5sdGRbY2aIUEhLcHfQX6MusSvSkYJh0=;
+ b=vW1r4u2mqkZlPsCxjYh5apMT76wBjCyXSvKefaIkEco40sEq4oq6Z8zcQufb97BReR
+ uy3pLjo0Ixt32r54Icctx9ePFByXijbEbd66Gc7gUNeicELI5VBP6MFD0MESbP+fj1ZI
+ 1VBOBOssPgH9vtkmoWT6qIqyH6zsv/ZqvpZ+AQw7UKiuElYGRdOQM6R9Pli2UlU7nQ3R
+ vnrwT+/6DOpCSU+ethVGB0T5n2kjFyGNn4l1HsoiD4xqFmUp8YjLwHXxBWjAcgJJ0wp/
+ 1LPuT5PbhwM1Qpa2sK5OgERJ5cDsSSEtJl8MRkNotkrHWvu0yWYAihg+t5+5z3M/ejHS
+ eaiw==
+X-Gm-Message-State: AOAM532M1K+dcRBG7XQPE1fkJC/gHiJgX7sIK7xtayh1w2hHwMnahBio
+ wmndplRBZo3JGJh/7Ns1YMVZGfKwb7pTjosDwBb+kJX7
+X-Google-Smtp-Source: ABdhPJyu1UoSAOYpVsm0/NH2aP6V58iNw3lrB6rhFtCTwkQpBkHrqJtiG7WcD0oAs5pWrYDy152FH3jYGjBvq9TvaDA=
+X-Received: by 2002:ab0:2117:: with SMTP id d23mr2181302ual.28.1644482914123; 
+ Thu, 10 Feb 2022 00:48:34 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: a6ooZ7AGmpx1qVlh_NmGKgetFImSsEDM
-X-Proofpoint-GUID: a6ooZ7AGmpx1qVlh_NmGKgetFImSsEDM
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.816,Hydra:6.0.425,FMLib:17.11.62.513
- definitions=2022-02-10_05,2022-02-09_01,2021-12-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 mlxscore=0
- spamscore=0 suspectscore=0 adultscore=0 clxscore=1034 impostorscore=0
- priorityscore=1501 bulkscore=0 lowpriorityscore=0 phishscore=0
- mlxlogscore=824 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2201110000 definitions=main-2202100068
-Received-SPF: softfail client-ip=148.163.158.5; envelope-from=clg@kaod.org;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -10
-X-Spam_score: -1.1
-X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, KHOP_HELO_FCRDNS=0.146,
- RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_SOFTFAIL=0.665, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+From: Simon Gillespie <simon.j.gillespie@gmail.com>
+Date: Thu, 10 Feb 2022 09:48:24 +0100
+Message-ID: <CALvnna2e7a5EiPKWopBcOSGK5QVTyB_8nAp4hJr1ibbTqLuN1A@mail.gmail.com>
+Subject: Anjin Virtual Computer
+To: qemu-devel@nongnu.org
+Content-Type: multipart/alternative; boundary="000000000000ef84e905d7a603d0"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::929
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::929;
+ envelope-from=simon.j.gillespie@gmail.com; helo=mail-ua1-x929.google.com
+X-Spam_score_int: 36
+X-Spam_score: 3.6
+X-Spam_bar: +++
+X-Spam_report: (3.6 / 5.0 requ) BAYES_95=3, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Thu, 10 Feb 2022 09:35:17 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -95,63 +78,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
- Fabiano Rosas <farosas@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Fabiano Rosas <farosas@linux.ibm.com>
+--000000000000ef84e905d7a603d0
+Content-Type: text/plain; charset="UTF-8"
 
-This only applies to the G2s, the other 6xx CPUs will not have this
-vector registered.
+Hello,
 
-Signed-off-by: Fabiano Rosas <farosas@linux.ibm.com>
-Message-Id: <20220203200957.1434641-5-farosas@linux.ibm.com>
-Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
----
- target/ppc/excp_helper.c | 15 ---------------
- 1 file changed, 15 deletions(-)
+Could those interested in my project please contact me at this email
+address.
 
-diff --git a/target/ppc/excp_helper.c b/target/ppc/excp_helper.c
-index d855a275ca4d..e27e1c3c705f 100644
---- a/target/ppc/excp_helper.c
-+++ b/target/ppc/excp_helper.c
-@@ -596,20 +596,6 @@ static void powerpc_excp_6xx(PowerPCCPU *cpu, int ex=
-cp)
-=20
-     switch (excp) {
-     case POWERPC_EXCP_CRITICAL:    /* Critical input                    =
-     */
--        switch (excp_model) {
--        case POWERPC_EXCP_40x:
--            srr0 =3D SPR_40x_SRR2;
--            srr1 =3D SPR_40x_SRR3;
--            break;
--        case POWERPC_EXCP_BOOKE:
--            srr0 =3D SPR_BOOKE_CSRR0;
--            srr1 =3D SPR_BOOKE_CSRR1;
--            break;
--        case POWERPC_EXCP_6xx:
--            break;
--        default:
--            goto excp_invalid;
--        }
-         break;
-     case POWERPC_EXCP_MCHECK:    /* Machine check exception             =
-     */
-         if (msr_me =3D=3D 0) {
-@@ -836,7 +822,6 @@ static void powerpc_excp_6xx(PowerPCCPU *cpu, int exc=
-p)
-                   powerpc_excp_name(excp));
-         break;
-     default:
--    excp_invalid:
-         cpu_abort(cs, "Invalid PowerPC exception %d. Aborting\n", excp);
-         break;
-     }
---=20
-2.34.1
+I have been informed there are some interested parties via another channel.
 
+Thank you for your interest.
+
+Best,
+
+Simon Gillespie.
+
+--000000000000ef84e905d7a603d0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">Hello,<div><br></div><div>Could those interested in my pro=
+ject please contact me at this email address.</div><div><br></div><div>I ha=
+ve been informed there are some interested parties via another channel.</di=
+v><div><br></div><div>Thank you for your interest.</div><div><br></div><div=
+>Best,</div><div><br></div><div>Simon Gillespie.</div><div><br></div></div>
+
+--000000000000ef84e905d7a603d0--
 
