@@ -2,66 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63CF54B0752
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Feb 2022 08:36:50 +0100 (CET)
-Received: from localhost ([::1]:36394 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C74D4B06D8
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Feb 2022 08:16:26 +0100 (CET)
+Received: from localhost ([::1]:56888 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nI40W-0003C8-UO
-	for lists+qemu-devel@lfdr.de; Thu, 10 Feb 2022 02:36:48 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:55046)
+	id 1nI3gm-0004js-PU
+	for lists+qemu-devel@lfdr.de; Thu, 10 Feb 2022 02:16:24 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:55068)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <npiggin@gmail.com>)
- id 1nI3Ky-0005YC-RV; Thu, 10 Feb 2022 01:53:52 -0500
-Received: from [2607:f8b0:4864:20::435] (port=37503
- helo=mail-pf1-x435.google.com)
+ id 1nI3L0-0005ZK-LH; Thu, 10 Feb 2022 01:53:54 -0500
+Received: from [2607:f8b0:4864:20::42b] (port=42656
+ helo=mail-pf1-x42b.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <npiggin@gmail.com>)
- id 1nI3Kw-00048v-SW; Thu, 10 Feb 2022 01:53:52 -0500
-Received: by mail-pf1-x435.google.com with SMTP id y5so8596813pfe.4;
- Wed, 09 Feb 2022 22:53:49 -0800 (PST)
+ id 1nI3Ky-000491-Eo; Thu, 10 Feb 2022 01:53:53 -0500
+Received: by mail-pf1-x42b.google.com with SMTP id i6so6684756pfc.9;
+ Wed, 09 Feb 2022 22:53:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=nJ8/Op0gSGtwLjijGZrlTLvbrN1+s/DE0X2WZtKXQeA=;
- b=fuNb8mqj9CeqzfZVtoqQMmanB8BM5RJGqnO8tZQmqLaYyc9CLIJHgdAFmrobbksIRK
- FwJwiHw5oEwqjTlkIPsSdctupUhigVhItkrwUIqGLiNwGaTBWVnPnIdVXv3GxRT1HBFh
- /9c5I1bLS/+XguWcuP88z06f6vkye5ogbYajjiTKtuOlj2ByYVy7eely6qL9nTmloNCu
- om8o13YQmpJscyqTz0Tn9y0VFC4uZXMApEmZcDTsi+gsr2QuVxJOcEgrTi1QKl1m5Qls
- tliPQzWPnA7C2WXCDKMcEJ6p8kSgqrAA007SxgyRmpDg/uXAevGB0O97Pjowby0lBjKd
- z3FA==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=riZs8u+nRa4BArWmeC0AINrsWtXC2wYI/9AhR7r1Ynk=;
+ b=kQqhJ26Cm/gcfmxkraeUzMWSYofixOdprYFhMy8/Ha51IoEb6KMRAVllamXofhSpP0
+ jHOJ8lS7+6+yjdJsQZ3mf+eRbqjpQe60EXalhjc5qnd5yiS/vOijW+17XVv3mORHz0L5
+ 8o4aqhIvTqwlNMRZcF8zlhX2mF6skCAkUT/L0V1swhOqSJxODWbYuon9wWTcxbO+OS9J
+ XYYnmfD8ZC/kUdi/cYSQgZvgNXSbLpqMskYUNrEEUQaPtwOzeevl2Tnuw3wnF1Kvzh13
+ SMPCIJncUiGxpOb+z04aKQqkG+ZhggmIaXEsCHadiohrWrciy3JY0Mp2lJFbMA8RoEmA
+ NNFw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=nJ8/Op0gSGtwLjijGZrlTLvbrN1+s/DE0X2WZtKXQeA=;
- b=F7xwp+dPgBhxY0e2NAlqiJRHZ5yDE4CWVnlgneTmZQD2IQT2V11BSCttwb6WVhAQ4M
- CMhHLZS6t28DgLPYL4ax+Rptz/QuaQzUFMYZN5Seohs2porqOubwsTdBV9+S/fkCvpTf
- Do/QPTBi1KNhF3FQ9tQitL+5Joi8KpQ4q+yIwHmabTuc59faGTHUbhSlpY+EJTSudGFG
- 6J0fVHI9Swxii9oYEvxQ25zAFVuV/Mf5XuchBT9azyHKW8f+zoIz1WlhY4UQLSSfSAFD
- 2pg3cxmcfxuA7uJuaF4iySwCS8UGBIspQ515BZQrCbdomJeIfRPt+uSD+PfFBAa8J/zV
- 00Rg==
-X-Gm-Message-State: AOAM5315DkeAl7v3f2v4EQiDG+BDEwwST9Ng6GY6B9mGmv9cceQ0Y9Ky
- 0U4jWUWRRPTfFM4nGEsJimIojcOW8j0=
-X-Google-Smtp-Source: ABdhPJyf2ghLNGRKI33kG7ZQWmzFR03OlrzFAO75aKqh7xYE6eClVgvandy5bdgQdazCnzcvo3QldQ==
-X-Received: by 2002:a63:d952:: with SMTP id e18mr5012357pgj.290.1644476028335; 
- Wed, 09 Feb 2022 22:53:48 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=riZs8u+nRa4BArWmeC0AINrsWtXC2wYI/9AhR7r1Ynk=;
+ b=pF1E/wO2TN4Cq9XWWBGj74vP3c9qdr0FPDQLg23D9QJskTyhOYrrmtFQglY1YXEteb
+ 2Wg17nrYRx9mbQ7QAmYpqeuK/UzxP5GcU7cTkb/35nQn69RxxmqdrPalfhtu6UFUFhAq
+ ao/qvstwG8xkACMC+4E8kEIMMPU9hf8a2mN13wJAAxGL0uogZe9iyLOy4UnM/IeyhzU/
+ BmPKnX5ymS6Nz+hCfTJCV2FmLQItVIgjkAuK2DEplKxFKNPVh9HZJYOTW7cb11b78xVq
+ 01Qulm99ipz4Hcaa+x55XnrzZVmwwoMVDgsuAAyxVoU7kq9pOwkfs0oUOADdgzf8wwPf
+ mPLg==
+X-Gm-Message-State: AOAM5336Ie8ujzhAlTeUHOelUpZDAKlCLAsbMQYU75nhh7F4T0P4Yp6w
+ Cc8ZiP6Vh87VkjGLmr02IFDu7ondNcQ=
+X-Google-Smtp-Source: ABdhPJxDIrSk7ru93V7ejOJuTdUxX4NprKqni2cGI8rVRpitWzNsgHuXODoctcR7l7DC5+XiOd93kQ==
+X-Received: by 2002:a63:81c3:: with SMTP id t186mr5057754pgd.271.1644476030609; 
+ Wed, 09 Feb 2022 22:53:50 -0800 (PST)
 Received: from bobo.ozlabs.ibm.com (121-44-67-214.tpgi.com.au. [121.44.67.214])
- by smtp.gmail.com with ESMTPSA id mw14sm1147729pjb.6.2022.02.09.22.53.46
+ by smtp.gmail.com with ESMTPSA id mw14sm1147729pjb.6.2022.02.09.22.53.48
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 09 Feb 2022 22:53:48 -0800 (PST)
+ Wed, 09 Feb 2022 22:53:50 -0800 (PST)
 From: Nicholas Piggin <npiggin@gmail.com>
 To: qemu-ppc@nongnu.org
-Subject: [RFC PATCH 0/3] spapr: nested-hv support for TCG
-Date: Thu, 10 Feb 2022 16:53:37 +1000
-Message-Id: <20220210065340.1276367-1-npiggin@gmail.com>
+Subject: [RFC PATCH 1/3] target/ppc: raise HV interrupts for partition table
+ entry problems
+Date: Thu, 10 Feb 2022 16:53:38 +1000
+Message-Id: <20220210065340.1276367-2-npiggin@gmail.com>
 X-Mailer: git-send-email 2.23.0
+In-Reply-To: <20220210065340.1276367-1-npiggin@gmail.com>
+References: <20220210065340.1276367-1-npiggin@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::435
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::42b
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::435;
- envelope-from=npiggin@gmail.com; helo=mail-pf1-x435.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42b;
+ envelope-from=npiggin@gmail.com; helo=mail-pf1-x42b.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -86,42 +89,34 @@ Cc: qemu-devel@nongnu.org, Nicholas Piggin <npiggin@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Here's a little thing I've been hacking on. I was pretty amazed I
-could even get it working, let alone being so small and not too
-horrible to look at. A few people thought it would be useful for
-prototyping and hacking and running kvm tests, etc. So, thoughts
-on the overall idea and code structure?
+These are an HV exception. Not 100% sure what HDSISR bits to set in case of
+an empty table -- not sure what hardware does.
 
-There's possibly a few layering violations there with me short-cutting
-and not calling vhc method for checking cpu in nested at least, and a
-bit of cleanup and few loose ends, but hopefully nothing fundamentally
-terrible.
+not-yet-Signed-off-by: Nicholas Piggin <npiggin@gmail.com>
+---
+ target/ppc/mmu-radix64.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-It works and boots an L2 into a distro with unmodified Linux kernels
-running in the L1 and L2.
-
-Thanks,
-Nick
-
-Nicholas Piggin (3):
-  target/ppc: raise HV interrupts for partition table entry problems
-  spapr: prevent hdec timer being set up under virtual hypervisor
-  spapr: implement nested-hv support for the TCG virtual hypervisor
-
- hw/ppc/ppc.c               |  22 ++-
- hw/ppc/spapr.c             |  16 ++
- hw/ppc/spapr_caps.c        |   5 +-
- hw/ppc/spapr_cpu_core.c    |   6 +-
- hw/ppc/spapr_hcall.c       | 316 +++++++++++++++++++++++++++++++++++++
- include/hw/ppc/ppc.h       |   3 +
- include/hw/ppc/spapr.h     |  75 ++++++++-
- target/ppc/cpu.h           |   6 +
- target/ppc/excp_helper.c   |  60 ++++---
- target/ppc/helper_regs.c   |   1 +
- target/ppc/mmu-book3s-v3.c |  20 ++-
- target/ppc/mmu-radix64.c   |  19 +--
- 12 files changed, 505 insertions(+), 44 deletions(-)
-
+diff --git a/target/ppc/mmu-radix64.c b/target/ppc/mmu-radix64.c
+index 040c055bff..54fb3ce98d 100644
+--- a/target/ppc/mmu-radix64.c
++++ b/target/ppc/mmu-radix64.c
+@@ -560,13 +560,13 @@ static bool ppc_radix64_xlate_impl(PowerPCCPU *cpu, vaddr eaddr,
+     } else {
+         if (!ppc64_v3_get_pate(cpu, lpid, &pate)) {
+             if (guest_visible) {
+-                ppc_radix64_raise_si(cpu, access_type, eaddr, DSISR_NOPTE);
++                ppc_radix64_raise_hsi(cpu, access_type, eaddr, eaddr, DSISR_R_BADCONFIG);
+             }
+             return false;
+         }
+         if (!validate_pate(cpu, lpid, &pate)) {
+             if (guest_visible) {
+-                ppc_radix64_raise_si(cpu, access_type, eaddr, DSISR_R_BADCONFIG);
++                ppc_radix64_raise_hsi(cpu, access_type, eaddr, eaddr, DSISR_R_BADCONFIG);
+             }
+             return false;
+         }
 -- 
 2.23.0
 
