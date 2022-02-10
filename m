@@ -2,77 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 621A64B0B3D
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Feb 2022 11:47:26 +0100 (CET)
-Received: from localhost ([::1]:41022 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F3BA4B0B14
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Feb 2022 11:43:48 +0100 (CET)
+Received: from localhost ([::1]:35474 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nI6yz-0004N5-91
-	for lists+qemu-devel@lfdr.de; Thu, 10 Feb 2022 05:47:25 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:55202)
+	id 1nI6vS-0008Vz-Vq
+	for lists+qemu-devel@lfdr.de; Thu, 10 Feb 2022 05:43:47 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:56340)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <anup@brainfault.org>)
- id 1nI6dU-0001tx-04
- for qemu-devel@nongnu.org; Thu, 10 Feb 2022 05:25:12 -0500
-Received: from [2a00:1450:4864:20::42d] (port=41659
- helo=mail-wr1-x42d.google.com)
+ (Exim 4.90_1) (envelope-from <viresh.kumar@linaro.org>)
+ id 1nI6gX-0006Vs-EY
+ for qemu-devel@nongnu.org; Thu, 10 Feb 2022 05:28:21 -0500
+Received: from [2607:f8b0:4864:20::1033] (port=55940
+ helo=mail-pj1-x1033.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <anup@brainfault.org>)
- id 1nI6dP-00014J-Vo
- for qemu-devel@nongnu.org; Thu, 10 Feb 2022 05:25:11 -0500
-Received: by mail-wr1-x42d.google.com with SMTP id k1so8642697wrd.8
- for <qemu-devel@nongnu.org>; Thu, 10 Feb 2022 02:24:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=brainfault-org.20210112.gappssmtp.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=znHsyHjkEqwu7kVELjfsYjFqo4jsJ7jk+ioSeqZ1JNg=;
- b=n9nWgQHiHf+ok45v43IWPd/nkLSxndg62uHkPuWBCXQWOLmJtWaDr9sECiOe2rsJBS
- EabytwNfrIoRiVvJyBOiFGVPAv+/J2SpvGETvh2sG7hlerO0WTWJ/4S92nLEOTT7xPuT
- NZKG5wbOlOBy/spMLbNbDJo8tiz9yms4sfXqZc4oAO2hVF07tBorPc5mLLp+3aDmbuWe
- SnIzb3ZnIYofxF9fur1zkXEGeGAnu3AgZyy/4VZIHaXGexXs66qKqBZEuhOBohD1sgrE
- gOhMMC86M2kwpxF9/AKve+ZfktUABLTEwtP6OXEKFyrUHN7r/amN89IH2DRavHHbhfo4
- X4Bw==
+ (Exim 4.90_1) (envelope-from <viresh.kumar@linaro.org>)
+ id 1nI6gV-0001ou-Tq
+ for qemu-devel@nongnu.org; Thu, 10 Feb 2022 05:28:21 -0500
+Received: by mail-pj1-x1033.google.com with SMTP id om7so4726494pjb.5
+ for <qemu-devel@nongnu.org>; Thu, 10 Feb 2022 02:28:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to
+ :user-agent; bh=oudmCHG2iWz3aD8q+0GA6JB6a/rBw0O4lkmO3QS5+as=;
+ b=hfaDIeNzBsp3l6XQQNI4UVs3bI3DaQNCrdo30k1eV46VmntwEwQANFdZvh/i6x804b
+ AQKvGjZ+DlIDOuAZ1xz8arqMzQLoSigpzYEVQBSKn7zyRa1Edm09SJc2RUHBA/UjGBCd
+ 2lgt5tVwThZrvVOQ5+HB1Zr2fdp5s2dpVnoBbWY5lCf8uazatziP1wb3Rnd6TZlINTGr
+ entr4GNCSrwOtyBymS2sr29hJszfXloZzbVK+75n40v0kMiCWxaBc/TyF3tmfF/SundI
+ 7NjnKEAXzWyNj460WAj9d0v8sNkuTjqhqZTns74IQnR7paM3AyCMG6Yd+iE0BicGuETS
+ W/kg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=znHsyHjkEqwu7kVELjfsYjFqo4jsJ7jk+ioSeqZ1JNg=;
- b=yvJ2m7/eeIOKvf/wXHH5Q9nlNAZSzcfBTIp/QUyke19Qjun210mOL4pmUOuqMyXVtF
- xAZUCmyNPD6FyHui6Go4yt7zy3yHyB2oNbx8mym/5xY2BF5z43U2aYJKEgivjgSjaYwy
- WoNDV7zR99xw18DzkfPS2OX9IJvYgYUwp4D8RU1sa5sxOuL+0n2dWPfJfwoq+MNKs9El
- PPB6lhjQf0y79rRbAkwOQOF4UZ0sm04ce2+s9SR8826zQykpRZYpHNlslrBUEYthorXO
- +YqWwq3sxVhI+TZH9NmRKu6xxU929CinHMNIqY0rYDmppv1TpcFGaYhQGcsDWMaBqCKR
- WURw==
-X-Gm-Message-State: AOAM5331griXU3Xl7UzSTzSeGTWevJOto/QJtVX4WnHdYX6otFLhobKp
- P0aKtN6MoUeO9I1DmJrUCu8vA6qvYZsFwxPa2grn2g==
-X-Google-Smtp-Source: ABdhPJxr6yOLlqHB1kUVN/bMBjk1Jc9n6MdJvlwpkDV4AqaNQB4ij3j6lE7HiJfuakVBWzTTNybASsWp4++qzokKisI=
-X-Received: by 2002:a05:6000:1e0a:: with SMTP id
- bj10mr5735021wrb.313.1644488688916; 
- Thu, 10 Feb 2022 02:24:48 -0800 (PST)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to:user-agent;
+ bh=oudmCHG2iWz3aD8q+0GA6JB6a/rBw0O4lkmO3QS5+as=;
+ b=ggQzCsUrQIBCOygEdDjmCxnbZB6gtNe+CHsMZiT8LZoAQBqPylUUyNafe00qHufa28
+ bCGYo1MHYKV1Tl3ZQpNEN0x1XmsS7b+2/iLiqRt2WnIGc/Gyx/tCnIyz9w8VF3a76ubZ
+ xJOUN+xstwlnglY/mFIcGrHMhGyo8kbsgoMWp0kL+/8GJCmSSyijRqcbEP2np+UzsGXT
+ lqhZ296PS28VXZ2nKdk8QcaSHz1GDVRZqkJMTUBbJ0IjNltdGoAk9t8lj9weyTQUII4j
+ 8MjkOr/2pEwq9QP8w1tpDEWqxbD73OnijTmzrEecOkOwqnzNKfM0PP01iJQewcveFzzL
+ 2LSw==
+X-Gm-Message-State: AOAM5315CgwI272r8bqa2MOz0uAZp/+PVB1ySuylXvNY/V+iaBKdlT56
+ 2UebiDnTh/KteupikEl8A7zajg==
+X-Google-Smtp-Source: ABdhPJyM5SF9Iav8V6lEKbEIymZgmyOg3WLk7L2DDji8ki3vY/V2HsQ7orqHi7gFDKMk9ICVScCC+w==
+X-Received: by 2002:a17:90a:af97:: with SMTP id
+ w23mr2006140pjq.237.1644488898323; 
+ Thu, 10 Feb 2022 02:28:18 -0800 (PST)
+Received: from localhost ([136.185.132.167])
+ by smtp.gmail.com with ESMTPSA id 142sm14142896pfy.41.2022.02.10.02.28.17
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 10 Feb 2022 02:28:17 -0800 (PST)
+Date: Thu, 10 Feb 2022 15:58:16 +0530
+From: Viresh Kumar <viresh.kumar@linaro.org>
+To: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+Subject: Re: [PATCH] hw/vhost-user-i2c: Add support for
+ VIRTIO_I2C_F_ZERO_LENGTH_REQUEST
+Message-ID: <20220210102816.vp3dcuh4zmpz2wjj@vireshk-i7>
+References: <4f8de2059fc963bb67920a1a2f8481f969a35eec.1641912994.git.viresh.kumar@linaro.org>
+ <87czjvdsxe.fsf@linaro.org>
 MIME-Version: 1.0
-References: <20220204174700.534953-1-anup@brainfault.org>
- <CAKmqyKO7QnMwSL1Mpa5BJU44EAQxyG2M-sOE8+yAH0SWrmVDug@mail.gmail.com>
- <CAKmqyKOjr3Dcs8_QZKsa=WkBp0BaYghcUNYMEU3RfyJJmcqJOQ@mail.gmail.com>
- <CAOnJCUJFQjk_sagCEYYTuD+Gh-9RuD6wsFkdnFhY2kHE7shZtg@mail.gmail.com>
-In-Reply-To: <CAOnJCUJFQjk_sagCEYYTuD+Gh-9RuD6wsFkdnFhY2kHE7shZtg@mail.gmail.com>
-From: Anup Patel <anup@brainfault.org>
-Date: Thu, 10 Feb 2022 15:54:38 +0530
-Message-ID: <CAAhSdy1Xc7k5V55Bkgv1-Z6BGtJ7BsXgLMF437p7mh7QC+H8=A@mail.gmail.com>
-Subject: Re: [PATCH v9 00/23] QEMU RISC-V AIA support
-To: Atish Patra <atishp@atishpatra.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42d
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <87czjvdsxe.fsf@linaro.org>
+User-Agent: NeoMutt/20180716-391-311a52
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1033
  (failed)
-Received-SPF: none client-ip=2a00:1450:4864:20::42d;
- envelope-from=anup@brainfault.org; helo=mail-wr1-x42d.google.com
-X-Spam_score_int: -10
-X-Spam_score: -1.1
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1033;
+ envelope-from=viresh.kumar@linaro.org; helo=mail-pj1-x1033.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
 X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_NONE=0.001,
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -86,194 +92,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Alistair Francis <Alistair.Francis@wdc.com>,
- Alistair Francis <alistair23@gmail.com>, Bin Meng <bmeng.cn@gmail.com>,
- Palmer Dabbelt <palmer@dabbelt.com>
+Cc: stratos-dev@op-lists.linaro.org,
+ Vincent Guittot <vincent.guittot@linaro.org>, qemu-devel@nongnu.org,
+ "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Feb 10, 2022 at 1:58 PM Atish Patra <atishp@atishpatra.org> wrote:
->
-> On Mon, Feb 7, 2022 at 10:51 PM Alistair Francis <alistair23@gmail.com> w=
-rote:
-> >
-> > On Tue, Feb 8, 2022 at 2:16 PM Alistair Francis <alistair23@gmail.com> =
-wrote:
-> > >
-> > > On Sat, Feb 5, 2022 at 3:47 AM Anup Patel <anup@brainfault.org> wrote=
-:
-> > > >
-> > > > From: Anup Patel <anup.patel@wdc.com>
-> > > >
-> > > > The advanced interrupt architecture (AIA) extends the per-HART loca=
-l
-> > > > interrupt support. Along with this, it also adds IMSIC (MSI contrll=
-or)
-> > > > and Advanced PLIC (wired interrupt controller).
-> > > >
-> > > > The latest AIA draft specification can be found here:
-> > > > https://github.com/riscv/riscv-aia/releases/download/0.2-draft.28/r=
-iscv-interrupts-028.pdf
-> > > >
-> > > > This series adds RISC-V AIA support in QEMU which includes emulatin=
-g all
-> > > > AIA local CSRs, APLIC, and IMSIC. Only AIA local interrupt filterin=
-g is
-> > > > not implemented because we don't have any local interrupt greater t=
-han 12.
-> > > >
-> > > > To enable AIA in QEMU, use one of the following:
-> > > > 1) Only AIA local interrupt CSRs: Pass "x-aia=3Dtrue" as CPU parame=
-nter
-> > > >    in the QEMU command-line
-> > > > 2) Only APLIC for virt machine: Pass "aia=3Daplic" as machine param=
-eter
-> > > >    in the QEMU command-line
-> > > > 3) Both APLIC and IMSIC for virt machine: Pass "aia=3Daplic-imsic" =
-as
-> > > >    machine parameter in the QEMU command-line
-> > > > 4) Both APLIC and IMSIC with 2 guest files for virt machine: Pass
-> > > >    "aia=3Daplic-imsic,aia-guests=3D2" as machine parameter in the Q=
-EMU
-> > > >    command-line
-> > > >
-> > > > To test series, we require OpenSBI and Linux with AIA support which=
- can
-> > > > be found in:
-> > > > riscv_aia_v2 branch at https://github.com/avpatel/opensbi.git
-> > > > riscv_aia_v1 branch at https://github.com/avpatel/linux.git
-> > > >
-> > > > This series can be found riscv_aia_v9 branch at:
-> > > > https://github.com/avpatel/qemu.git
-> > > >
-> > > > Changes since v8:
-> > > >  - Use error_setg() in riscv_imsic_realize() added by PATCH20
-> > > >
-> > > > Changes since v7:
-> > > >  - Rebased on latest riscv-to-apply.next branch of Alistair's repo
-> > > >  - Improved default priority assignment in PATCH9
-> > > >
-> > > > Changes since v6:
-> > > >  - Fixed priority comparison in riscv_cpu_pending_to_irq() of PATCH=
-9
-> > > >  - Fixed typos in comments added by PATCH11
-> > > >  - Added "pend =3D true;" for CSR_MSETEIPNUM case of rmw_xsetclrein=
-um()
-> > > >    in PATCH15
-> > > >  - Handle ithreshold =3D=3D 0 case in riscv_aplic_idc_topi() of PAT=
-CH18
-> > > >  - Allow setting pending bit for Level0 or Level1 interrupts in
-> > > >    riscv_aplic_set_pending() of PATCH18
-> > > >  - Force DOMAINCFG[31:24] bits to 0x80 in riscv_aplic_read() of PAT=
-CH18
-> > > >  - For APLIC direct mode, set target.iprio to 1 when zero is writte=
-rn
-> > > >    in PATCH18
-> > > >  - Handle eithreshold =3D=3D 0 case in riscv_imsic_topei() of PATCH=
-20
-> > > >
-> > > > Changes since v5:
-> > > >  - Moved VSTOPI_NUM_SRCS define to top of the file in PATCH13
-> > > >  - Fixed typo in PATCH16
-> > > >
-> > > > Changes since v4:
-> > > >  - Changed IRQ_LOCAL_MAX to 16 in PATCH2
-> > > >  - Fixed typo in PATCH10
-> > > >  - Replaced TARGET_LONG_BITS with riscv_cpu_mxl_bits(env) in PATCH1=
-1
-> > > >  - Replaced TARGET_LONG_BITS with riscv_cpu_mxl_bits(env) in PATCH1=
-4
-> > > >  - Replaced TARGET_LONG_BITS with riscv_cpu_mxl_bits(env) in PATCH1=
-5
-> > > >  - Replaced TARGET_LONG_BITS with xlen passed via ireg callback in =
-PATCH20
-> > > >  - Retrict maximum IMSIC guest files per-HART of virt machine to 7 =
-in
-> > > >    PATCH21.
-> > > >  - Added separate PATCH23 to increase maximum number of allowed CPU=
-s
-> > > >    for virt machine
-> > > >
-> > > > Changes since v3:
-> > > >  - Replaced "aplic,xyz" and "imsic,xyz" DT properties with "riscv,x=
-yz"
-> > > >    DT properties because "aplic" and "imsic" are not valid vendor n=
-ames
-> > > >    required by Linux DT schema checker.
-> > > >
-> > > > Changes since v2:
-> > > >  - Update PATCH4 to check and inject interrupt after V=3D1 when
-> > > >    transitioning from V=3D0 to V=3D1
-> > > >
-> > > > Changes since v1:
-> > > >  - Revamped whole series and created more granular patches
-> > > >  - Added HGEIE and HGEIP CSR emulation for H-extension
-> > > >  - Added APLIC emulation
-> > > >  - Added IMSIC emulation
-> > > >
-> > > > Anup Patel (23):
-> > > >   target/riscv: Fix trap cause for RV32 HS-mode CSR access from RV6=
-4
-> > > >     HS-mode
-> > > >   target/riscv: Implement SGEIP bit in hip and hie CSRs
-> > > >   target/riscv: Implement hgeie and hgeip CSRs
-> > > >   target/riscv: Improve delivery of guest external interrupts
-> > > >   target/riscv: Allow setting CPU feature from machine/device emula=
-tion
-> > > >   target/riscv: Add AIA cpu feature
-> > > >   target/riscv: Add defines for AIA CSRs
-> > > >   target/riscv: Allow AIA device emulation to set ireg rmw callback
-> > > >   target/riscv: Implement AIA local interrupt priorities
-> > > >   target/riscv: Implement AIA CSRs for 64 local interrupts on RV32
-> > > >   target/riscv: Implement AIA hvictl and hviprioX CSRs
-> > > >   target/riscv: Implement AIA interrupt filtering CSRs
-> > > >   target/riscv: Implement AIA mtopi, stopi, and vstopi CSRs
-> > > >   target/riscv: Implement AIA xiselect and xireg CSRs
-> > > >   target/riscv: Implement AIA IMSIC interface CSRs
-> > > >   hw/riscv: virt: Use AIA INTC compatible string when available
-> > > >   target/riscv: Allow users to force enable AIA CSRs in HART
-> > > >   hw/intc: Add RISC-V AIA APLIC device emulation
-> > > >   hw/riscv: virt: Add optional AIA APLIC support to virt machine
-> > > >   hw/intc: Add RISC-V AIA IMSIC device emulation
-> > > >   hw/riscv: virt: Add optional AIA IMSIC support to virt machine
-> > > >   docs/system: riscv: Document AIA options for virt machine
-> > > >   hw/riscv: virt: Increase maximum number of allowed CPUs
-> >
-> > Hey Anup,
-> >
-> > There are lots of checkpatch errors in these patches. In the future
-> > can you please make sure you run checkpatch on all patches.
-> >
-> > In this case I have manually fixed them up.
-> >
-> > Alistair
->
-> I am also getting this error in gcc 11.1.0 on your tree "riscv-to-apply.n=
-ext"
->
-> ../target/riscv/csr.c: In function =E2=80=98rmw_sie=E2=80=99:
-> ../target/riscv/csr.c:1571:18: error: =E2=80=98rval=E2=80=99 may be used =
-uninitialized
-> in this function [-Werror=3Dmaybe-uninitialized]
->  1571 |         *ret_val =3D rval;
->       |         ~~~~~~~~~^~~~~~
-> cc1: all warnings being treated as errors
->
-> I guess you will fix it directly in the correct patch. Let me know if
-> you want me to send a patch.
+On 10-02-22, 08:29, Alex Bennée wrote:
+> 
+> Viresh Kumar <viresh.kumar@linaro.org> writes:
+> > @@ -113,8 +117,10 @@ static void vu_i2c_set_status(VirtIODevice *vdev, uint8_t status)
+> >  static uint64_t vu_i2c_get_features(VirtIODevice *vdev,
+> >                                      uint64_t requested_features, Error **errp)
+> >  {
+> > -    /* No feature bits used yet */
+> > -    return requested_features;
+> > +    VHostUserI2C *i2c = VHOST_USER_I2C(vdev);
+> > +
+> > +    virtio_add_feature(&requested_features, VIRTIO_I2C_F_ZERO_LENGTH_REQUEST);
+> > +    return vhost_get_features(&i2c->vhost_dev, feature_bits, requested_features);
+> >  }
+> 
+> It's a bit weird we set it and then pass it to the vhost-user backend.
+> It does raise the question of why the stub actually cares about feature
+> bits at all when really it's a negotiation with the backend.
+> 
+> IOW what would happen if we just called:
+> 
+>     return vhost_get_features(&i2c->vhost_dev, feature_bits, -1);
 
-I suggest you directly send a fix since you are able to reproduce
-this error.
+That works as well.
 
-Regards,
-Anup
+Also I noticed just now that I haven't added VHOST_INVALID_FEATURE_BIT
+at the end of the feature_bits[]. Will fix that.
 
->
-> --
-> Regards,
-> Atish
+-- 
+viresh
 
