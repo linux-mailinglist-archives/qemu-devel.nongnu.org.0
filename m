@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E32C84B043D
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Feb 2022 05:09:35 +0100 (CET)
-Received: from localhost ([::1]:48430 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 29EC14B043E
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Feb 2022 05:09:37 +0100 (CET)
+Received: from localhost ([::1]:48610 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nI0ly-0006to-O8
-	for lists+qemu-devel@lfdr.de; Wed, 09 Feb 2022 23:09:34 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:53948)
+	id 1nI0m0-00070v-8z
+	for lists+qemu-devel@lfdr.de; Wed, 09 Feb 2022 23:09:36 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:53986)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nI0hE-0003uD-0V
- for qemu-devel@nongnu.org; Wed, 09 Feb 2022 23:04:40 -0500
-Received: from [2607:f8b0:4864:20::636] (port=38788
- helo=mail-pl1-x636.google.com)
+ id 1nI0hG-0003uh-Dt
+ for qemu-devel@nongnu.org; Wed, 09 Feb 2022 23:04:42 -0500
+Received: from [2607:f8b0:4864:20::62b] (port=38778
+ helo=mail-pl1-x62b.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nI0hB-00045r-02
- for qemu-devel@nongnu.org; Wed, 09 Feb 2022 23:04:38 -0500
-Received: by mail-pl1-x636.google.com with SMTP id c3so747255pls.5
- for <qemu-devel@nongnu.org>; Wed, 09 Feb 2022 20:04:36 -0800 (PST)
+ id 1nI0hE-00046X-CK
+ for qemu-devel@nongnu.org; Wed, 09 Feb 2022 23:04:42 -0500
+Received: by mail-pl1-x62b.google.com with SMTP id c3so747323pls.5
+ for <qemu-devel@nongnu.org>; Wed, 09 Feb 2022 20:04:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=AwzX6nehTYEJJpMljDUaZpO2r34jA4Ju646jiPXQlwk=;
- b=fxoubPLNEogn+zHRnWFJWC+02DY723o0fq2mD8X6E2s1xgD8o6Q8a3eI/T8JVd8rtq
- 9ZT1LBBeJTKrH1XeHWmzn1q/QJX9IjQMkZlmav6rW0XnrofDTCUk/+Ck5IJm94cA6Gsg
- SDBBWqh9qQ9RgT+ewtFxdOk4c1Grp9f4tLZH9kDGC4660fg89EMBZNgkruKqmyL8rTIe
- Z1RkqS2X/006oeS+5XAXAivHdihTmQYjNZpGtW9FdDsJjUJDasBgtgXhzbNUUW8L0wxY
- lo4wUWS2/Pa6s2PHUsTMGCJIDeoQLm/Am+lDVd2VJY6vQs7Vi2VAIe0cMqOQO+yIEPkq
- uL8g==
+ bh=6GEKuSQX+CG8gt0Gp9cWbbYI/Mw1WHwT/DCHRQdQ0Wo=;
+ b=C0+Zc979DKm0HtHVIYzphg2iahc5MEGH3giJcDjotVxWiX9WGysmtfpqykIAhJDNqL
+ C6By6zaYx2M5lThzs4F9vLKkudL+HbEvbJB1cZ71+xPRacDan+RLcksfYKa3wkk/T2NF
+ bN3wtfc7hgQtYW19Hea2WUF5y3wEYztDsrZnYHD4zxnqq7FUU4OfK0HBCNCZR2sbqnyf
+ xos1qUn2DKUmsjRenneyiOO4CGbbd/cQhmtnv9os6quloGLDsrZ+8xkIvzmHXCOXAtTB
+ tLcYfP/7TB4ItpRyh0FB6Bf7hRJFqR0On5ZLHIq+Fob8y+m/VNlxw7FParuRUi9JpOhF
+ BdKQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=AwzX6nehTYEJJpMljDUaZpO2r34jA4Ju646jiPXQlwk=;
- b=4BlxNNrOe4T1LXYha8wUgwUwKKDf4z752WxHlvPqODpqRTBJB4gW3ADtyzx/1mJITF
- Jnb8lvVYS6USqPrYq8YpqToYEke8Rw7lTCTPtEA8WZSiG5FhEtd6sAjDxzubJSXuIlbC
- 3xoYM3VtXycguHi+FUY9cVQiWXOB6VsWXBJTkQhlwsu10fAEICzNkYveEveIk4YW24a7
- bcMLWT0borRRQhWKG/nlvoBvaZ74o5jhNY1Gzm0q296H1YAvw8H0REPLno1VhJuJ9azd
- e/slruz8SNs1vQWs75E+NyzLVC+rrrkUTLFyehvbmFoPGM/5HgRPfcEsY31H04uwohN3
- /9GA==
-X-Gm-Message-State: AOAM533hwFxq3037Eyz2C2USm9R1mDzhENRjmusJS58XHe2QnZWRqgWQ
- lBPjGksyNdxRdVnFfEMMbkebSfGVzai8J1oh
-X-Google-Smtp-Source: ABdhPJz0KVvI1mTb0oODJrEK+YKDaIymbE6d50ZoWXQ2NLmSdivXc3vxFLGoaYYn2FgKTCdxQElB7Q==
-X-Received: by 2002:a17:90b:2243:: with SMTP id
- hk3mr750212pjb.244.1644465875665; 
- Wed, 09 Feb 2022 20:04:35 -0800 (PST)
+ bh=6GEKuSQX+CG8gt0Gp9cWbbYI/Mw1WHwT/DCHRQdQ0Wo=;
+ b=JKqYW8Bsfb5tV87JtrfRTBBsKCAE4QQoJ6Udns7VGcBrjtNBRNqN1j4C4OwM1Mozkf
+ U/FJxkoZmSbRltY5X3dSwui/lJh3Tt45MWFiNfwbzJs90SfUYQsLvyIzdWlA8XtJQYua
+ vKQk2Ufe2iaTFM6jVT48w6utlL5ZpsmY90NdmRFZNmlOTf5MN7BhqoZdqqVDc7PoDarH
+ epCD1q5T6L8okMn8/yoArlEJgQniaDuvS3A8d/M5LMsP1dtsNl7t3cf8/5VCEnDHWmKY
+ z+X+AmUlUCxhnBAcRM7spyN5AvJiX/5uDtGVFxEEO4/8Rq82NFvMGk330ylnGl0u7gvn
+ 0dlg==
+X-Gm-Message-State: AOAM533qknUkEKsw6C0A0mGeUvlU7v9Cl1x5TMZ0TUHKzqbkrADVApZS
+ VbsHymgVNAx0bGpE3v8hPCddkfxTpvr4g4QP
+X-Google-Smtp-Source: ABdhPJzVGqBtuSreWgvu904LP4dfn2quNXp3d0Crw2xoyeoJqgE+Gt5mBZmpNSXHpgtwlv+9+JrciA==
+X-Received: by 2002:a17:902:ccc2:: with SMTP id
+ z2mr5498369ple.145.1644465878436; 
+ Wed, 09 Feb 2022 20:04:38 -0800 (PST)
 Received: from localhost.localdomain ([124.189.222.164])
- by smtp.gmail.com with ESMTPSA id y4sm9749814pgp.5.2022.02.09.20.04.33
+ by smtp.gmail.com with ESMTPSA id y4sm9749814pgp.5.2022.02.09.20.04.36
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 09 Feb 2022 20:04:35 -0800 (PST)
+ Wed, 09 Feb 2022 20:04:38 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 01/15] hw/registerfields: Add FIELD_SEX<N> and FIELD_SDP<N>
-Date: Thu, 10 Feb 2022 15:04:09 +1100
-Message-Id: <20220210040423.95120-2-richard.henderson@linaro.org>
+Subject: [PATCH v2 02/15] target/arm: Set TCR_EL1.TSZ for user-only
+Date: Thu, 10 Feb 2022 15:04:10 +1100
+Message-Id: <20220210040423.95120-3-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220210040423.95120-1-richard.henderson@linaro.org>
 References: <20220210040423.95120-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::636
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::62b
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::636;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x636.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62b;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62b.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -91,80 +91,31 @@ Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org, alex.bennee@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add new macros to manipulate signed fields within the register.
+Set this as the kernel would, to 48 bits, to keep the computation
+of the address space correct for PAuth.
 
-Suggested-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- include/hw/registerfields.h | 48 ++++++++++++++++++++++++++++++++++++-
- 1 file changed, 47 insertions(+), 1 deletion(-)
+ target/arm/cpu.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/include/hw/registerfields.h b/include/hw/registerfields.h
-index f2a3c9c41f..3a88e135d0 100644
---- a/include/hw/registerfields.h
-+++ b/include/hw/registerfields.h
-@@ -59,6 +59,19 @@
-     extract64((storage), R_ ## reg ## _ ## field ## _SHIFT,               \
-               R_ ## reg ## _ ## field ## _LENGTH)
+diff --git a/target/arm/cpu.c b/target/arm/cpu.c
+index 5a9c02a256..92f19f919a 100644
+--- a/target/arm/cpu.c
++++ b/target/arm/cpu.c
+@@ -206,10 +206,11 @@ static void arm_cpu_reset(DeviceState *dev)
+                 aarch64_sve_zcr_get_valid_len(cpu, cpu->sve_default_vq - 1);
+         }
+         /*
++         * Enable 48-bit address space (TODO: take reserved_va into account).
+          * Enable TBI0 but not TBI1.
+          * Note that this must match useronly_clean_ptr.
+          */
+-        env->cp15.tcr_el[1].raw_tcr = (1ULL << 37);
++        env->cp15.tcr_el[1].raw_tcr = 5 | (1ULL << 37);
  
-+#define FIELD_SEX8(storage, reg, field)                                   \
-+    sextract8((storage), R_ ## reg ## _ ## field ## _SHIFT,               \
-+              R_ ## reg ## _ ## field ## _LENGTH)
-+#define FIELD_SEX16(storage, reg, field)                                  \
-+    sextract16((storage), R_ ## reg ## _ ## field ## _SHIFT,              \
-+               R_ ## reg ## _ ## field ## _LENGTH)
-+#define FIELD_SEX32(storage, reg, field)                                  \
-+    sextract32((storage), R_ ## reg ## _ ## field ## _SHIFT,              \
-+               R_ ## reg ## _ ## field ## _LENGTH)
-+#define FIELD_SEX64(storage, reg, field)                                  \
-+    sextract64((storage), R_ ## reg ## _ ## field ## _SHIFT,              \
-+               R_ ## reg ## _ ## field ## _LENGTH)
-+
- /* Extract a field from an array of registers */
- #define ARRAY_FIELD_EX32(regs, reg, field)                                \
-     FIELD_EX32((regs)[R_ ## reg], reg, field)
-@@ -95,7 +108,40 @@
-     _d; })
- #define FIELD_DP64(storage, reg, field, val) ({                           \
-     struct {                                                              \
--        uint64_t v:R_ ## reg ## _ ## field ## _LENGTH;                \
-+        uint64_t v:R_ ## reg ## _ ## field ## _LENGTH;                    \
-+    } _v = { .v = val };                                                  \
-+    uint64_t _d;                                                          \
-+    _d = deposit64((storage), R_ ## reg ## _ ## field ## _SHIFT,          \
-+                  R_ ## reg ## _ ## field ## _LENGTH, _v.v);              \
-+    _d; })
-+
-+#define FIELD_SDP8(storage, reg, field, val) ({                           \
-+    struct {                                                              \
-+        signed int v:R_ ## reg ## _ ## field ## _LENGTH;                  \
-+    } _v = { .v = val };                                                  \
-+    uint8_t _d;                                                           \
-+    _d = deposit32((storage), R_ ## reg ## _ ## field ## _SHIFT,          \
-+                  R_ ## reg ## _ ## field ## _LENGTH, _v.v);              \
-+    _d; })
-+#define FIELD_SDP16(storage, reg, field, val) ({                          \
-+    struct {                                                              \
-+        signed int v:R_ ## reg ## _ ## field ## _LENGTH;                  \
-+    } _v = { .v = val };                                                  \
-+    uint16_t _d;                                                          \
-+    _d = deposit32((storage), R_ ## reg ## _ ## field ## _SHIFT,          \
-+                  R_ ## reg ## _ ## field ## _LENGTH, _v.v);              \
-+    _d; })
-+#define FIELD_SDP32(storage, reg, field, val) ({                          \
-+    struct {                                                              \
-+        signed int v:R_ ## reg ## _ ## field ## _LENGTH;                  \
-+    } _v = { .v = val };                                                  \
-+    uint32_t _d;                                                          \
-+    _d = deposit32((storage), R_ ## reg ## _ ## field ## _SHIFT,          \
-+                  R_ ## reg ## _ ## field ## _LENGTH, _v.v);              \
-+    _d; })
-+#define FIELD_SDP64(storage, reg, field, val) ({                          \
-+    struct {                                                              \
-+        int64_t v:R_ ## reg ## _ ## field ## _LENGTH;                     \
-     } _v = { .v = val };                                                  \
-     uint64_t _d;                                                          \
-     _d = deposit64((storage), R_ ## reg ## _ ## field ## _SHIFT,          \
+         /* Enable MTE */
+         if (cpu_isar_feature(aa64_mte, cpu)) {
 -- 
 2.25.1
 
