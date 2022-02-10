@@ -2,40 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 593264B1005
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Feb 2022 15:16:43 +0100 (CET)
-Received: from localhost ([::1]:37160 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 849FA4B1059
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Feb 2022 15:26:50 +0100 (CET)
+Received: from localhost ([::1]:46644 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nIAFU-0008Id-Ra
-	for lists+qemu-devel@lfdr.de; Thu, 10 Feb 2022 09:16:41 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:33088)
+	id 1nIAPJ-0007RG-K8
+	for lists+qemu-devel@lfdr.de; Thu, 10 Feb 2022 09:26:49 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:33116)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1nI8n0-0003z2-UO; Thu, 10 Feb 2022 07:43:12 -0500
+ id 1nI8n5-00040A-VS; Thu, 10 Feb 2022 07:43:16 -0500
 Received: from [187.72.171.209] (port=36571 helo=outlook.eldorado.org.br)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1nI8mz-00079y-08; Thu, 10 Feb 2022 07:43:10 -0500
+ id 1nI8n3-00079y-NV; Thu, 10 Feb 2022 07:43:15 -0500
 Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
  secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
  Thu, 10 Feb 2022 09:35:29 -0300
 Received: from eldorado.org.br (unknown [10.10.70.45])
- by p9ibm (Postfix) with ESMTP id 018D9800502;
- Thu, 10 Feb 2022 09:35:28 -0300 (-03)
+ by p9ibm (Postfix) with ESMTP id 42C2F800172;
+ Thu, 10 Feb 2022 09:35:29 -0300 (-03)
 From: matheus.ferst@eldorado.org.br
 To: qemu-devel@nongnu.org,
 	qemu-ppc@nongnu.org
-Subject: [PATCH v3 17/37] target/ppc: implement vcntmb[bhwd]
-Date: Thu, 10 Feb 2022 09:34:27 -0300
-Message-Id: <20220210123447.3933301-18-matheus.ferst@eldorado.org.br>
+Subject: [PATCH v3 18/37] target/ppc: implement vgnb
+Date: Thu, 10 Feb 2022 09:34:28 -0300
+Message-Id: <20220210123447.3933301-19-matheus.ferst@eldorado.org.br>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220210123447.3933301-1-matheus.ferst@eldorado.org.br>
 References: <20220210123447.3933301-1-matheus.ferst@eldorado.org.br>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-OriginalArrivalTime: 10 Feb 2022 12:35:29.0368 (UTC)
- FILETIME=[AFEAE580:01D81E7A]
+X-OriginalArrivalTime: 10 Feb 2022 12:35:29.0619 (UTC)
+ FILETIME=[B0113230:01D81E7A]
 X-Host-Lookup-Failed: Reverse DNS lookup failed for 187.72.171.209 (failed)
 Received-SPF: pass client-ip=187.72.171.209;
  envelope-from=matheus.ferst@eldorado.org.br; helo=outlook.eldorado.org.br
@@ -67,78 +67,87 @@ From: Matheus Ferst <matheus.ferst@eldorado.org.br>
 
 Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
 ---
- target/ppc/insn32.decode            |  8 ++++++++
- target/ppc/translate/vmx-impl.c.inc | 32 +++++++++++++++++++++++++++++
- 2 files changed, 40 insertions(+)
+ target/ppc/insn32.decode            |  5 ++++
+ target/ppc/translate/vmx-impl.c.inc | 44 +++++++++++++++++++++++++++++
+ 2 files changed, 49 insertions(+)
 
 diff --git a/target/ppc/insn32.decode b/target/ppc/insn32.decode
-index bf2f3b1e0b..0a3e39f3e9 100644
+index 0a3e39f3e9..7b629e81af 100644
 --- a/target/ppc/insn32.decode
 +++ b/target/ppc/insn32.decode
-@@ -63,6 +63,9 @@
- &VX_bf          bf vra vrb
- @VX_bf          ...... bf:3 .. vra:5 vrb:5 ...........          &VX_bf
+@@ -66,6 +66,9 @@
+ &VX_mp          rt mp:bool vrb
+ @VX_mp          ...... rt:5 .... mp:1 vrb:5 ...........         &VX_mp
  
-+&VX_mp          rt mp:bool vrb
-+@VX_mp          ...... rt:5 .... mp:1 vrb:5 ...........         &VX_mp
++&VX_n           rt vrb n
++@VX_n           ...... rt:5 .. n:3 vrb:5 ...........            &VX_n
 +
  &VX_tb_rc       vrt vrb rc:bool
  @VX_tb_rc       ...... vrt:5 ..... vrb:5 rc:1 ..........        &VX_tb_rc
  
-@@ -489,6 +492,11 @@ VEXTRACTWM      000100 ..... 01010 ..... 11001000010    @VX_tb
- VEXTRACTDM      000100 ..... 01011 ..... 11001000010    @VX_tb
- VEXTRACTQM      000100 ..... 01100 ..... 11001000010    @VX_tb
+@@ -418,6 +421,8 @@ VCMPUQ          000100 ... -- ..... ..... 00100000001   @VX_bf
  
-+VCNTMBB         000100 ..... 1100 . ..... 11001000010   @VX_mp
-+VCNTMBH         000100 ..... 1101 . ..... 11001000010   @VX_mp
-+VCNTMBW         000100 ..... 1110 . ..... 11001000010   @VX_mp
-+VCNTMBD         000100 ..... 1111 . ..... 11001000010   @VX_mp
+ ## Vector Bit Manipulation Instruction
+ 
++VGNB            000100 ..... -- ... ..... 10011001100   @VX_n
 +
- ## Vector Multiply-Sum Instructions
- 
- VMSUMCUD        000100 ..... ..... ..... ..... 010111   @VA
+ VCFUGED         000100 ..... ..... ..... 10101001101    @VX
+ VCLZDM          000100 ..... ..... ..... 11110000100    @VX
+ VCTZDM          000100 ..... ..... ..... 11111000100    @VX
 diff --git a/target/ppc/translate/vmx-impl.c.inc b/target/ppc/translate/vmx-impl.c.inc
-index 9ae0ab94ac..78b277466a 100644
+index 78b277466a..43eb7ab70c 100644
 --- a/target/ppc/translate/vmx-impl.c.inc
 +++ b/target/ppc/translate/vmx-impl.c.inc
-@@ -1932,6 +1932,38 @@ static bool trans_MTVSRBMI(DisasContext *ctx, arg_DX_b *a)
-     return true;
- }
+@@ -1438,6 +1438,50 @@ GEN_VXFORM_DUAL(vsplth, PPC_ALTIVEC, PPC_NONE,
+ GEN_VXFORM_DUAL(vspltw, PPC_ALTIVEC, PPC_NONE,
+                 vextractuw, PPC_NONE, PPC2_ISA300);
  
-+static bool do_vcntmb(DisasContext *ctx, arg_VX_mp *a, int vece)
++static bool trans_VGNB(DisasContext *ctx, arg_VX_n *a)
 +{
-+    TCGv_i64 rt, vrb, mask;
-+    rt = tcg_const_i64(0);
-+    vrb = tcg_temp_new_i64();
-+    mask = tcg_constant_i64(dup_const(vece, 1ULL << ((8 << vece) - 1)));
++    TCGv_i64 vrb, tmp, rt;
++    int in = 63, out = 63;
 +
-+    for (int i = 0; i < 2; i++) {
-+        get_avr64(vrb, a->vrb, i);
-+        if (a->mp) {
-+            tcg_gen_and_i64(vrb, mask, vrb);
-+        } else {
-+            tcg_gen_andc_i64(vrb, mask, vrb);
-+        }
-+        tcg_gen_ctpop_i64(vrb, vrb);
-+        tcg_gen_add_i64(rt, rt, vrb);
++    REQUIRE_INSNS_FLAGS2(ctx, ISA310);
++    REQUIRE_VECTOR(ctx);
++
++    if (a->n < 2) {
++        /*
++         * "N can be any value between 2 and 7, inclusive." Otherwise, the
++         * result is undefined, so we don't need to change RT. Also, N > 7 is
++         * impossible since the immediate field is 3 bits only.
++         */
++        return true;
 +    }
 +
-+    tcg_gen_shli_i64(rt, rt, TARGET_LONG_BITS - 8 + vece);
++    vrb = tcg_temp_new_i64();
++    tmp = tcg_temp_new_i64();
++    rt = tcg_const_i64(0);
++
++    for (int dw = 1; dw >= 0; dw--) {
++        get_avr64(vrb, a->vrb, dw);
++        for (; in >= 0; in -= a->n, out--) {
++            if (in > out) {
++                tcg_gen_shri_i64(tmp, vrb, in - out);
++            } else {
++                tcg_gen_shli_i64(tmp, vrb, out - in);
++            }
++            tcg_gen_andi_i64(tmp, tmp, 1ULL << out);
++            tcg_gen_or_i64(rt, rt, tmp);
++        }
++        in += 64;
++    }
++
 +    tcg_gen_trunc_i64_tl(cpu_gpr[a->rt], rt);
 +
 +    tcg_temp_free_i64(vrb);
++    tcg_temp_free_i64(tmp);
 +    tcg_temp_free_i64(rt);
 +
 +    return true;
 +}
 +
-+TRANS(VCNTMBB, do_vcntmb, MO_8)
-+TRANS(VCNTMBH, do_vcntmb, MO_16)
-+TRANS(VCNTMBW, do_vcntmb, MO_32)
-+TRANS(VCNTMBD, do_vcntmb, MO_64)
-+
- static bool do_vstri(DisasContext *ctx, arg_VX_tb_rc *a,
-                      void (*gen_helper)(TCGv_ptr, TCGv_ptr, TCGv_ptr, TCGv))
+ static bool do_vextdx(DisasContext *ctx, arg_VA *a, int size, bool right,
+                void (*gen_helper)(TCGv_ptr, TCGv_ptr, TCGv_ptr, TCGv_ptr, TCGv))
  {
 -- 
 2.31.1
