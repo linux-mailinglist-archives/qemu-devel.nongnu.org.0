@@ -2,50 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3C184B10B5
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Feb 2022 15:45:10 +0100 (CET)
-Received: from localhost ([::1]:37228 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C46A4B0E4B
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Feb 2022 14:20:06 +0100 (CET)
+Received: from localhost ([::1]:42954 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nIAh3-0004ux-Jd
-	for lists+qemu-devel@lfdr.de; Thu, 10 Feb 2022 09:45:09 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:34778)
+	id 1nI9Mj-0002I4-Dy
+	for lists+qemu-devel@lfdr.de; Thu, 10 Feb 2022 08:20:05 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:59506)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1nI8sg-0006MB-AS; Thu, 10 Feb 2022 07:49:08 -0500
-Received: from [187.72.171.209] (port=62981 helo=outlook.eldorado.org.br)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1nI8se-0001y3-Ls; Thu, 10 Feb 2022 07:49:02 -0500
-Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
- secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
- Thu, 10 Feb 2022 09:35:35 -0300
-Received: from eldorado.org.br (unknown [10.10.70.45])
- by p9ibm (Postfix) with ESMTP id 4837B800502;
- Thu, 10 Feb 2022 09:35:35 -0300 (-03)
-From: matheus.ferst@eldorado.org.br
-To: qemu-devel@nongnu.org,
-	qemu-ppc@nongnu.org
-Subject: [PATCH v3 37/37] target/ppc: Implement xvcvbf16spn and xvcvspbf16
- instructions
-Date: Thu, 10 Feb 2022 09:34:47 -0300
-Message-Id: <20220210123447.3933301-38-matheus.ferst@eldorado.org.br>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220210123447.3933301-1-matheus.ferst@eldorado.org.br>
-References: <20220210123447.3933301-1-matheus.ferst@eldorado.org.br>
+ (Exim 4.90_1) (envelope-from <shorne@gmail.com>) id 1nI8g1-0002iN-PI
+ for qemu-devel@nongnu.org; Thu, 10 Feb 2022 07:35:59 -0500
+Received: from [2607:f8b0:4864:20::102a] (port=33084
+ helo=mail-pj1-x102a.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <shorne@gmail.com>) id 1nI8fp-00051G-W3
+ for qemu-devel@nongnu.org; Thu, 10 Feb 2022 07:35:56 -0500
+Received: by mail-pj1-x102a.google.com with SMTP id
+ k60-20020a17090a4cc200b001b932781f3eso1798508pjh.0
+ for <qemu-devel@nongnu.org>; Thu, 10 Feb 2022 04:34:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to;
+ bh=sGyQknuyCzYaU87Fh/CjDkAueFdNxD1aEqzjBuVQnlw=;
+ b=LYs+0eTzVwy00PuTD5/N6w+svYnFUfQvSrmcLPedlbRYDNFPnV/R3KEW4ojoRI52W7
+ cN9XusFV4KZS/c1lND26+Jw6/b9B5o/oWKsH9SbQ+sVbq3ZJEsSv5PVLB8uulPz7XGb5
+ eIcMCG0jeDp7OavWOoxpE8C+Clt+NC6WI5fX+oPNvnr5+vRvdjcI896aDgUtMSvDkURu
+ bZdpY9DutBhf4junn/yKhYm8bJ9I5RfA/AkMvxbUcTg9P5D7sxp9IqB0Pwsq4A535eR/
+ Xpx9wX2p6qFbPzBGm3ODGUNlmat/8uw3/73Af9LlgxoETZ4WG7txm77qaYgldLGqVbFK
+ CpQg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=sGyQknuyCzYaU87Fh/CjDkAueFdNxD1aEqzjBuVQnlw=;
+ b=S27ffR9rCg0Mp/FQpQ8moYVq6+0LhbasqMoFIDBPmlkcHlcvwHXsekQ2ht10Wt2b/a
+ HbJCefnif7eGGwX3Kyt63mwFVdcZFJApN1BkSQ45Q+n9kNp8T/p0g/lmjIpPSHlU0YVT
+ 8fgD7WC8JbcwByBeGYNQSG3guH/4OFdtvkQgz/IlHQHnFI5c0eK8aJIx0RsfhB5AzI5M
+ 2xUTdo62JdL+BF3lST6wwiG5Byw2Y1hP8uH7aNIRX75+MxdaCZq0y1VvbbKaNe7hjqNM
+ 2ZNt9MHAU6OcgwKCjh0yeN3Vn6u02XjyPV4ViflCAvRFvdngNSDGjiuRW8dCkNgJOcTu
+ A29g==
+X-Gm-Message-State: AOAM532FrUdBpLiyaI/M5nakAncWvMWx09mk6shGr/Oz1Qprty8ihZqV
+ eCgXSFB6eKIOtSggaBaT4HlPEYiOivyIuWbs
+X-Google-Smtp-Source: ABdhPJxVTD7Owxlzst7mJrv4FTHwe/PANmSi/HALSjR4D6RERRWcLZHQf4bVpwFSfA9qJ1lyNVusDw==
+X-Received: by 2002:a17:902:c409:: with SMTP id
+ k9mr7240921plk.91.1644496498986; 
+ Thu, 10 Feb 2022 04:34:58 -0800 (PST)
+Received: from localhost ([2409:10:24a0:4700:e8ad:216a:2a9d:6d0c])
+ by smtp.gmail.com with ESMTPSA id l8sm25023576pfc.187.2022.02.10.04.34.57
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 10 Feb 2022 04:34:58 -0800 (PST)
+Date: Thu, 10 Feb 2022 21:34:56 +0900
+From: Stafford Horne <shorne@gmail.com>
+To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>
+Subject: Re: [PATCH 3/4] hw/openrisc/openrisc_sim; Add support for loading a
+ decice tree
+Message-ID: <YgUGcFLa1rvK3g3X@antec>
+References: <20220210063009.1048751-1-shorne@gmail.com>
+ <20220210063009.1048751-4-shorne@gmail.com>
+ <74fb88b1-8d17-b782-22d6-45bfe400bbf9@amsat.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-OriginalArrivalTime: 10 Feb 2022 12:35:35.0677 (UTC)
- FILETIME=[B3AD92D0:01D81E7A]
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 187.72.171.209 (failed)
-Received-SPF: pass client-ip=187.72.171.209;
- envelope-from=matheus.ferst@eldorado.org.br; helo=outlook.eldorado.org.br
-X-Spam_score_int: -10
-X-Spam_score: -1.1
+In-Reply-To: <74fb88b1-8d17-b782-22d6-45bfe400bbf9@amsat.org>
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::102a
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102a;
+ envelope-from=shorne@gmail.com; helo=mail-pj1-x102a.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
 X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, PDS_HP_HELO_NORDNS=0.001,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -59,154 +91,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: danielhb413@gmail.com, richard.henderson@linaro.org, groug@kaod.org,
- =?UTF-8?q?V=C3=ADctor=20Colombo?= <victor.colombo@eldorado.org.br>,
- clg@kaod.org, Matheus Ferst <matheus.ferst@eldorado.org.br>,
- david@gibson.dropbear.id.au
+Cc: QEMU Development <qemu-devel@nongnu.org>, Jia Liu <proljc@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Víctor Colombo <victor.colombo@eldorado.org.br>
+On Thu, Feb 10, 2022 at 12:10:54PM +0100, Philippe Mathieu-Daud� wrote:
+> Typo "device" in subject.
 
-Signed-off-by: Víctor Colombo <victor.colombo@eldorado.org.br>
-Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
----
- target/ppc/fpu_helper.c             | 21 +++++++++++++++++++
- target/ppc/helper.h                 |  1 +
- target/ppc/insn32.decode            | 11 +++++++---
- target/ppc/translate/vsx-impl.c.inc | 31 ++++++++++++++++++++++++++++-
- 4 files changed, 60 insertions(+), 4 deletions(-)
+OK.
 
-diff --git a/target/ppc/fpu_helper.c b/target/ppc/fpu_helper.c
-index c724fa8a8d..f83a80e685 100644
---- a/target/ppc/fpu_helper.c
-+++ b/target/ppc/fpu_helper.c
-@@ -2790,6 +2790,27 @@ VSX_CVT_FP_TO_FP_HP(xscvhpdp, 1, float16, float64, VsrH(3), VsrD(0), 1)
- VSX_CVT_FP_TO_FP_HP(xvcvsphp, 4, float32, float16, VsrW(i), VsrH(2 * i  + 1), 0)
- VSX_CVT_FP_TO_FP_HP(xvcvhpsp, 4, float16, float32, VsrH(2 * i + 1), VsrW(i), 0)
- 
-+void helper_XVCVSPBF16(CPUPPCState *env, ppc_vsr_t *xt, ppc_vsr_t *xb)
-+{
-+    ppc_vsr_t t = { };
-+    int i;
-+
-+    helper_reset_fpstatus(env);
-+    for (i = 0; i < 4; i++) {
-+        if (unlikely(float32_is_signaling_nan(xb->VsrW(i), &env->fp_status))) {
-+            float_invalid_op_vxsnan(env, GETPC());
-+            t.VsrH(2 * i + 1) = float32_to_bfloat16(
-+                float32_snan_to_qnan(xb->VsrW(i)), &env->fp_status);
-+        } else {
-+            t.VsrH(2 * i + 1) =
-+                float32_to_bfloat16(xb->VsrW(i), &env->fp_status);
-+        }
-+    }
-+
-+    *xt = t;
-+    do_float_check_status(env, GETPC());
-+}
-+
- void helper_XSCVQPDP(CPUPPCState *env, uint32_t ro, ppc_vsr_t *xt,
-                      ppc_vsr_t *xb)
- {
-diff --git a/target/ppc/helper.h b/target/ppc/helper.h
-index 9403f43134..82df92b69d 100644
---- a/target/ppc/helper.h
-+++ b/target/ppc/helper.h
-@@ -499,6 +499,7 @@ DEF_HELPER_FLAGS_4(xvcmpnesp, TCG_CALL_NO_RWG, i32, env, vsr, vsr, vsr)
- DEF_HELPER_3(xvcvspdp, void, env, vsr, vsr)
- DEF_HELPER_3(xvcvsphp, void, env, vsr, vsr)
- DEF_HELPER_3(xvcvhpsp, void, env, vsr, vsr)
-+DEF_HELPER_3(XVCVSPBF16, void, env, vsr, vsr)
- DEF_HELPER_3(xvcvspsxds, void, env, vsr, vsr)
- DEF_HELPER_3(xvcvspsxws, void, env, vsr, vsr)
- DEF_HELPER_3(xvcvspuxds, void, env, vsr, vsr)
-diff --git a/target/ppc/insn32.decode b/target/ppc/insn32.decode
-index 0dd54d60c3..ebb5c22ee1 100644
---- a/target/ppc/insn32.decode
-+++ b/target/ppc/insn32.decode
-@@ -152,8 +152,11 @@
- %xx_xb          1:1 11:5
- %xx_xa          2:1 16:5
- %xx_xc          3:1 6:5
--&XX2            xt xb uim:uint8_t
--@XX2            ...... ..... ... uim:2 ..... ......... ..       &XX2 xt=%xx_xt xb=%xx_xb
-+&XX2            xt xb
-+@XX2            ...... ..... ..... ..... ......... ..           &XX2 xt=%xx_xt xb=%xx_xb
-+
-+&XX2_uim2       xt xb uim:uint8_t
-+@XX2_uim2       ...... ..... ... uim:2 ..... ......... ..       &XX2_uim2 xt=%xx_xt xb=%xx_xb
- 
- &XX2_bf_xb      bf xb
- @XX2_bf_xb      ...... bf:3 .. ..... ..... ......... . .        &XX2_bf_xb xb=%xx_xb
-@@ -575,7 +578,7 @@ XSNMSUBQP       111111 ..... ..... ..... 0111100100 .   @X_rc
- ## VSX splat instruction
- 
- XXSPLTIB        111100 ..... 00 ........ 0101101000 .   @X_imm8
--XXSPLTW         111100 ..... ---.. ..... 010100100 . .  @XX2
-+XXSPLTW         111100 ..... ---.. ..... 010100100 . .  @XX2_uim2
- 
- ## VSX Permute Instructions
- 
-@@ -615,6 +618,8 @@ XSCMPGTQP       111111 ..... ..... ..... 0011100100 -   @X
- ## VSX Binary Floating-Point Convert Instructions
- 
- XSCVQPDP        111111 ..... 10100 ..... 1101000100 .   @X_tb_rc
-+XVCVBF16SPN     111100 ..... 10000 ..... 111011011 ..   @XX2
-+XVCVSPBF16      111100 ..... 10001 ..... 111011011 ..   @XX2
- 
- ## VSX Vector Test Least-Significant Bit by Byte Instruction
- 
-diff --git a/target/ppc/translate/vsx-impl.c.inc b/target/ppc/translate/vsx-impl.c.inc
-index a19c828414..7a4f992170 100644
---- a/target/ppc/translate/vsx-impl.c.inc
-+++ b/target/ppc/translate/vsx-impl.c.inc
-@@ -1574,7 +1574,7 @@ static bool trans_XXSEL(DisasContext *ctx, arg_XX4 *a)
-     return true;
- }
- 
--static bool trans_XXSPLTW(DisasContext *ctx, arg_XX2 *a)
-+static bool trans_XXSPLTW(DisasContext *ctx, arg_XX2_uim2 *a)
- {
-     int tofs, bofs;
- 
-@@ -2530,6 +2530,35 @@ TRANS(XSCMPGTQP, do_xscmpqp, gen_helper_XSCMPGTQP)
- TRANS(XSMAXCQP, do_xscmpqp, gen_helper_XSMAXCQP)
- TRANS(XSMINCQP, do_xscmpqp, gen_helper_XSMINCQP)
- 
-+static bool trans_XVCVSPBF16(DisasContext *ctx, arg_XX2 *a)
-+{
-+    TCGv_ptr xt, xb;
-+
-+    REQUIRE_INSNS_FLAGS2(ctx, ISA310);
-+    REQUIRE_VSX(ctx);
-+
-+    xt = gen_vsr_ptr(a->xt);
-+    xb = gen_vsr_ptr(a->xb);
-+
-+    gen_helper_XVCVSPBF16(cpu_env, xt, xb);
-+
-+    tcg_temp_free_ptr(xt);
-+    tcg_temp_free_ptr(xb);
-+
-+    return true;
-+}
-+
-+static bool trans_XVCVBF16SPN(DisasContext *ctx, arg_XX2 *a)
-+{
-+    REQUIRE_INSNS_FLAGS2(ctx, ISA310);
-+    REQUIRE_VSX(ctx);
-+
-+    tcg_gen_gvec_shli(MO_32, vsr_full_offset(a->xt), vsr_full_offset(a->xb),
-+                      16, 16, 16);
-+
-+    return true;
-+}
-+
- #undef GEN_XX2FORM
- #undef GEN_XX3FORM
- #undef GEN_XX2IFORM
--- 
-2.31.1
+> On 10/2/22 07:30, Stafford Horne wrote:
+> > Using the device tree means that qemu can now directly tell
+> > the kernel what hardware is configured rather than use having
+> > to maintain and update a separate device tree file.
+> > 
+> > This patch adds device tree support for the OpenRISC simulator.
+> > A device tree is built up based on the state of the configure
+> > openrisc simulator.
+> > 
+> > This is then dumpt to memory and the load address is passed to the
+> 
+> "dumped"?
 
+Yes.
+
+> > kernel in register r3.
+> > 
+> > Signed-off-by: Stafford Horne <shorne@gmail.com>
+> > ---
+> >   hw/openrisc/openrisc_sim.c | 158 ++++++++++++++++++++++++++++++++++++-
+> >   1 file changed, 154 insertions(+), 4 deletions(-)
+> > 
+> > diff --git a/hw/openrisc/openrisc_sim.c b/hw/openrisc/openrisc_sim.c
+> > index 5a0cc4d27e..d7c26af82c 100644
+> > --- a/hw/openrisc/openrisc_sim.c
+> > +++ b/hw/openrisc/openrisc_sim.c
+> > @@ -29,14 +29,20 @@
+> >   #include "net/net.h"
+> >   #include "hw/loader.h"
+> >   #include "hw/qdev-properties.h"
+> > +#include "exec/address-spaces.h"
+> > +#include "sysemu/device_tree.h"
+> >   #include "sysemu/sysemu.h"
+> >   #include "hw/sysbus.h"
+> >   #include "sysemu/qtest.h"
+> >   #include "sysemu/reset.h"
+> >   #include "hw/core/split-irq.h"
+> > +#include <libfdt.h>
+> 
+> Watch out, you now need to add TARGET_NEED_FDT=y
+> to configs/targets/or1k-softmmu.mak.
+
+OK, I will add it in this patch.  I missed that part.
 
