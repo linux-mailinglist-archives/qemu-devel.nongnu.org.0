@@ -2,66 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E91654B0CC7
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Feb 2022 12:52:17 +0100 (CET)
-Received: from localhost ([::1]:35656 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5030B4B0CC4
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Feb 2022 12:50:02 +0100 (CET)
+Received: from localhost ([::1]:59880 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nI7zl-00021X-2g
-	for lists+qemu-devel@lfdr.de; Thu, 10 Feb 2022 06:52:17 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:45442)
+	id 1nI7xZ-0007n2-DJ
+	for lists+qemu-devel@lfdr.de; Thu, 10 Feb 2022 06:50:01 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:45476)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <khlebnikov@yandex-team.ru>)
- id 1nI7sb-0002pm-Vp
- for qemu-devel@nongnu.org; Thu, 10 Feb 2022 06:44:54 -0500
-Received: from forwardcorp1o.mail.yandex.net ([95.108.205.193]:58174)
+ id 1nI7sf-00034T-A5
+ for qemu-devel@nongnu.org; Thu, 10 Feb 2022 06:44:57 -0500
+Received: from forwardcorp1j.mail.yandex.net ([5.45.199.163]:36036)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <khlebnikov@yandex-team.ru>)
- id 1nI7sY-0007Lx-2P
- for qemu-devel@nongnu.org; Thu, 10 Feb 2022 06:44:52 -0500
-Received: from iva8-c5ee4261001e.qloud-c.yandex.net
- (iva8-c5ee4261001e.qloud-c.yandex.net
- [IPv6:2a02:6b8:c0c:a8a6:0:640:c5ee:4261])
- by forwardcorp1o.mail.yandex.net (Yandex) with ESMTP id 91CFB2E0DC2
- for <qemu-devel@nongnu.org>; Thu, 10 Feb 2022 14:44:43 +0300 (MSK)
-Received: from iva8-3a65cceff156.qloud-c.yandex.net
- (iva8-3a65cceff156.qloud-c.yandex.net [2a02:6b8:c0c:2d80:0:640:3a65:ccef])
- by iva8-c5ee4261001e.qloud-c.yandex.net (mxbackcorp/Yandex) with ESMTP id
- dbonYVdsOk-ihGSvA2f; Thu, 10 Feb 2022 14:44:43 +0300
+ id 1nI7sc-0007Mp-W7
+ for qemu-devel@nongnu.org; Thu, 10 Feb 2022 06:44:57 -0500
+Received: from sas2-3f1ffc04228d.qloud-c.yandex.net
+ (sas2-3f1ffc04228d.qloud-c.yandex.net
+ [IPv6:2a02:6b8:c08:b7a3:0:640:3f1f:fc04])
+ by forwardcorp1j.mail.yandex.net (Yandex) with ESMTP id BAAB72E1C6C
+ for <qemu-devel@nongnu.org>; Thu, 10 Feb 2022 14:44:49 +0300 (MSK)
+Received: from sas1-7470331623bb.qloud-c.yandex.net
+ (sas1-7470331623bb.qloud-c.yandex.net [2a02:6b8:c08:bd1e:0:640:7470:3316])
+ by sas2-3f1ffc04228d.qloud-c.yandex.net (mxbackcorp/Yandex) with ESMTP id
+ lubIAcVuR8-inGunjeJ; Thu, 10 Feb 2022 14:44:49 +0300
 X-Yandex-Fwd: 2
 Precedence: bulk
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
  s=default; 
- t=1644493483; bh=pkXsRZPtJYbYslIag+LWJ4jPqR7UqqIwUKlz4vAAnyQ=;
+ t=1644493489; bh=xi4CFOAZwgMEwDFdk94xfBssDZEFUlaxvQ7/Xng2bmQ=;
  h=Date:To:From:Subject:Message-ID:Cc;
- b=vnbHDJbVPUzCn1Wf16QjC7h0Kt74lzcdAdvbERjr91g3lSdp7conEGRCboVFXnwGo
- 6a6wNMv+DpG8rDF/fuZu9VcuA8BfepoAakLn/pwVNAztGwpIv/9OJQGILIJMUnQxfs
- xE/RrMyemR4ATntiDhVg7zsruzRWg4SlxpXQmWp0=
-Authentication-Results: iva8-c5ee4261001e.qloud-c.yandex.net;
+ b=e1oUSbyxmQDZ3VwOeuNgbC6ug03hZpJbT9b89uIZWJSaBppCJEcNA4E8Zvzh0U93R
+ 9FRiP+3INNgVxEf9JUyBThSXkMvKMBCdbu9CXC68qPX56kbs0yIPKTo0oA49Ghpfwq
+ McBOtzIrYPtyeprsrqlO4pSrGd0mx01G5iyStKAQ=
+Authentication-Results: sas2-3f1ffc04228d.qloud-c.yandex.net;
  dkim=pass header.i=@yandex-team.ru
 Received: from localhost (dynamic-vpn.dhcp.yndx.net [2a02:6b8:b081:8101::1:28])
- by iva8-3a65cceff156.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
- 684zSQ7u6S-ihIKTHuK; Thu, 10 Feb 2022 14:44:43 +0300
+ by sas1-7470331623bb.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
+ FnWPlI575d-inHCmdoG; Thu, 10 Feb 2022 14:44:49 +0300
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
  (Client certificate not present)
-Subject: [PATCH] virtio-net: break gracefully on packet without valid header
+Subject: [PATCH] virtio: update memory region cache when queue size changes
 From: Konstantin Khlebnikov <khlebnikov@yandex-team.ru>
 To: qemu-devel@nongnu.org
-Date: Thu, 10 Feb 2022 14:44:42 +0300
-Message-ID: <164449348255.2210192.2702615307678007456.stgit@dynamic-vpn.dhcp.yndx.net>
+Date: Thu, 10 Feb 2022 14:44:48 +0300
+Message-ID: <164449348845.2210217.11689281350944593511.stgit@dynamic-vpn.dhcp.yndx.net>
 User-Agent: StGit/1.4.dev11+gd5bef96
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=95.108.205.193;
- envelope-from=khlebnikov@yandex-team.ru; helo=forwardcorp1o.mail.yandex.net
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+Received-SPF: pass client-ip=5.45.199.163;
+ envelope-from=khlebnikov@yandex-team.ru; helo=forwardcorp1j.mail.yandex.net
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -77,40 +76,29 @@ Cc: yc-core@yandex-team.ru
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Right now too short packet from guest triggers assert in iov_copy().
-(because requested offset does not fit into io vector)
+Fuzzing found that queue size could be changed after writing queue address.
+Resulting cached regions might be shorter than that and cause assert later.
 
-For legacy virtio without feature VIRTIO_F_ANY_LAYOUT virtio-net header
-must fit exactly in the first descriptor. With features VIRTIO_F_ANY_LAYOUT
-or VIRTIO_F_VERSION_1 header is usually fused with data but sides must
-support any arbitrary layout, so header may not fit into first descriptor.
+Let's update cached memory regions after changing queue size.
+This is no-op if queue address isn't set yet.
 
-Present check verifies only count of descriptors, which isn't helpful.
-Let's check total length to intercept such short packets.
-
-Alternative solution is removing asserts from io vector helpers and
-checking results of copying from io vector where needed.
-
-Buglink: https://gitlab.com/qemu-project/qemu/-/issues/762
+Buglink: https://gitlab.com/qemu-project/qemu/-/issues/781
 Signed-off-by: Konstantin Khlebnikov <khlebnikov@yandex-team.ru>
 ---
- hw/net/virtio-net.c |    4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ hw/virtio/virtio.c |    1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
-index cf8ab0f8af..b47f70076d 100644
---- a/hw/net/virtio-net.c
-+++ b/hw/net/virtio-net.c
-@@ -2533,8 +2533,8 @@ static int32_t virtio_net_flush_tx(VirtIONetQueue *q)
+diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
+index 9e8f51dfb0..cd525a0f9a 100644
+--- a/hw/virtio/virtio.c
++++ b/hw/virtio/virtio.c
+@@ -2245,6 +2245,7 @@ void virtio_queue_set_num(VirtIODevice *vdev, int n, int num)
+         return;
+     }
+     vdev->vq[n].vring.num = num;
++    virtio_init_region_cache(vdev, n);
+ }
  
-         out_num = elem->out_num;
-         out_sg = elem->out_sg;
--        if (out_num < 1) {
--            virtio_error(vdev, "virtio-net header not in first element");
-+        if (iov_size(out_sg, out_num) < n->guest_hdr_len) {
-+            virtio_error(vdev, "virtio-net header is missing");
-             virtqueue_detach_element(q->tx_vq, elem, 0);
-             g_free(elem);
-             return -EINVAL;
+ VirtQueue *virtio_vector_first_queue(VirtIODevice *vdev, uint16_t vector)
 
 
