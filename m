@@ -2,79 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 454B24B0DFA
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Feb 2022 13:58:33 +0100 (CET)
-Received: from localhost ([::1]:56702 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 62EF24B0E2D
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Feb 2022 14:14:22 +0100 (CET)
+Received: from localhost ([::1]:36092 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nI91r-0006rC-9T
-	for lists+qemu-devel@lfdr.de; Thu, 10 Feb 2022 07:58:31 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:59152)
+	id 1nI9H7-0005ti-8r
+	for lists+qemu-devel@lfdr.de; Thu, 10 Feb 2022 08:14:19 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:52938)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <shorne@gmail.com>) id 1nI8eQ-0002Jp-Ar
- for qemu-devel@nongnu.org; Thu, 10 Feb 2022 07:34:18 -0500
-Received: from [2607:f8b0:4864:20::1034] (port=39901
- helo=mail-pj1-x1034.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <shorne@gmail.com>) id 1nI8eO-0004vU-CY
- for qemu-devel@nongnu.org; Thu, 10 Feb 2022 07:34:18 -0500
-Received: by mail-pj1-x1034.google.com with SMTP id
- v13-20020a17090ac90d00b001b87bc106bdso8334026pjt.4
- for <qemu-devel@nongnu.org>; Thu, 10 Feb 2022 04:34:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=+a1/AvqQIHRNVAxSn1EGU2MopJ+WOc+lm0G/tKcRReY=;
- b=jxllV9Osn3fKWDYa1InXAfJ6p04hxUFrmYBK6y7Ey8BThkp2o0JPODQTDniTUKqO1F
- Idq74J8gJphtu6cgqxk1tcrV08jBe1sIJ+7PaLCwhrmTjYcIndbEIfVLirhu+4v/JeJs
- bm2ZbhwcCM9nJLAYFRQXRLHoUjyvj5Z/m9XgaLSx3mcy4VmPFMnhg6Y1/tcJEBXKdXg2
- m/q4NLH1DIXrV0oQdOUxUmPMo963u72GcAgzTaG0M/8EhhOvSoVyTcDvr6RTiiJEwepj
- 8SL8qdsn8xfCQch8viETrAOuvrTpctkkr5lmoRZFFDfv+RoWb69xzEv+Sx4LS1vHmrur
- Clzg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=+a1/AvqQIHRNVAxSn1EGU2MopJ+WOc+lm0G/tKcRReY=;
- b=a/O1JSBgv5pj/XwsHDnGPiWr2tEJWEkd6kKwobbmZmONgoaRLVayqveNEUxXnNr9SE
- nAGqD0nbwmPoUh8/CWKAtdWCWkQ3PciXkhF+M0RDcVUc0yabH3UovypAAoh+890Aw5XK
- IGfdvw58FuLQyYlbRQDnx1L5uQAY4vJ7CXYb6pFF9mDi7qzdilE/+fY/4lM0VWFuRFuE
- 5O0k5+gLnoZw4HPBAWGhMW00kWei7I/HR/dMSbQpyXs9VKzPQgRYL5MEFF8LMwwc559t
- zLynfD5Dqc1QtanJpZYNJ8WknupdKajsKakKSqsuFUe0hM0WWEJbtOkfZB3QDgDqp9If
- TdVQ==
-X-Gm-Message-State: AOAM530bpalKQRfF0kSBxFdi14wi23Ms94aFtVEs0w++g//uESjwnYA/
- vzG0aX+J9Di3N+n376hyHcr1yOiKksjwKvYh
-X-Google-Smtp-Source: ABdhPJyUQBxczAWmfwbBzPq+F1rOFtezKPmOwdymI2ed3RXPsr27FAjwAsG+zHCXeXRhi01E9VF4yQ==
-X-Received: by 2002:a17:902:74c6:: with SMTP id
- f6mr7476376plt.30.1644496453768; 
- Thu, 10 Feb 2022 04:34:13 -0800 (PST)
-Received: from localhost ([2409:10:24a0:4700:e8ad:216a:2a9d:6d0c])
- by smtp.gmail.com with ESMTPSA id l22sm24476042pfc.191.2022.02.10.04.34.12
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 10 Feb 2022 04:34:13 -0800 (PST)
-From: Stafford Horne <shorne@gmail.com>
-To: QEMU Development <qemu-devel@nongnu.org>
-Subject: [PATCH v2 2/4] hw/openrisc/openrisc_sim: Parameterize initialization
-Date: Thu, 10 Feb 2022 21:34:01 +0900
-Message-Id: <20220210123403.2059926-3-shorne@gmail.com>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20220210123403.2059926-1-shorne@gmail.com>
-References: <20220210123403.2059926-1-shorne@gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1034
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1034;
- envelope-from=shorne@gmail.com; helo=mail-pj1-x1034.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+ (Exim 4.90_1)
+ (envelope-from <6d31f5fc56eed4bca8745215ca726c6b74b374ff@lizzy.crudebyte.com>)
+ id 1nI8Iz-0001iD-Ob
+ for qemu-devel@nongnu.org; Thu, 10 Feb 2022 07:12:09 -0500
+Received: from lizzy.crudebyte.com ([91.194.90.13]:56677)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1)
+ (envelope-from <6d31f5fc56eed4bca8745215ca726c6b74b374ff@lizzy.crudebyte.com>)
+ id 1nI8Iu-0007ac-Tp
+ for qemu-devel@nongnu.org; Thu, 10 Feb 2022 07:12:09 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=crudebyte.com; s=lizzy; h=Cc:To:Subject:Date:From:References:In-Reply-To:
+ Message-Id:Content-Type:Content-Transfer-Encoding:MIME-Version:Content-ID:
+ Content-Description; bh=2f/auedyRN5PsjHfuc6bSpPOyeYNidRH6eop1nQv5J8=; b=d8z7X
+ qZ91HKo05ItmX2ij66/OMAk1jY3WtP0ba+N90DKIXIobWlWpEVPjJ0+N4AVt15mVdcXqkZUVIlB0X
+ V0r+ykYE7I6/U55T9yeJ8vgrmlzsxV7tc+XJubF4wlt+1HMTw6xBvuYmWSo/UN4Qy0jVy/WBi1tI5
+ fBZrejgAjjI/BX9k532alu5Vt9SFpAqsqQK/h69BVJSOB0siRa9SqGcHhaI9HkXZKIE/YpJUSBlgU
+ ZajWuPJdHrD/o/MQqvyrimckoGF/4qWyaPJXzudBvXQj0KPqSeYRWoVDBT852h+1Vyr8vpaaq123L
+ ekcetz/ycbBhhngAwonWIeIDi4YeA==;
+Message-Id: <6d31f5fc56eed4bca8745215ca726c6b74b374ff.1644492115.git.qemu_oss@crudebyte.com>
+In-Reply-To: <cover.1644492115.git.qemu_oss@crudebyte.com>
+References: <cover.1644492115.git.qemu_oss@crudebyte.com>
+From: Christian Schoenebeck <qemu_oss@crudebyte.com>
+Date: Thu, 10 Feb 2022 12:21:55 +0100
+Subject: [PULL 1/5] tests/9pfs: use g_autofree where possible
+To: qemu-devel@nongnu.org,
+    Peter Maydell <peter.maydell@linaro.org>
+Cc: Greg Kurz <groug@kaod.org>
+Received-SPF: none client-ip=91.194.90.13;
+ envelope-from=6d31f5fc56eed4bca8745215ca726c6b74b374ff@lizzy.crudebyte.com;
+ helo=lizzy.crudebyte.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -87,89 +60,356 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Stafford Horne <shorne@gmail.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Jia Liu <proljc@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Move magic numbers to variables and enums. These will be reused for
-upcoming fdt initialization.
-
-Signed-off-by: Stafford Horne <shorne@gmail.com>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
+Reviewed-by: Greg Kurz <groug@kaod.org>
+Message-Id: <E1mn1fA-0005qZ-TM@lizzy.crudebyte.com>
 ---
- hw/openrisc/openrisc_sim.c | 42 ++++++++++++++++++++++++++++++--------
- 1 file changed, 34 insertions(+), 8 deletions(-)
+ tests/qtest/virtio-9p-test.c | 90 +++++++++++-------------------------
+ 1 file changed, 27 insertions(+), 63 deletions(-)
 
-diff --git a/hw/openrisc/openrisc_sim.c b/hw/openrisc/openrisc_sim.c
-index 26d2370e60..d12b3e0c5e 100644
---- a/hw/openrisc/openrisc_sim.c
-+++ b/hw/openrisc/openrisc_sim.c
-@@ -49,6 +49,29 @@ typedef struct Or1ksimState {
+diff --git a/tests/qtest/virtio-9p-test.c b/tests/qtest/virtio-9p-test.c
+index 41fed41de1..502e5ad0c7 100644
+--- a/tests/qtest/virtio-9p-test.c
++++ b/tests/qtest/virtio-9p-test.c
+@@ -84,7 +84,7 @@ static void pci_config(void *obj, void *data, QGuestAllocator *t_alloc)
+     QVirtio9P *v9p = obj;
+     alloc = t_alloc;
+     size_t tag_len = qvirtio_config_readw(v9p->vdev, 0);
+-    char *tag;
++    g_autofree char *tag = NULL;
+     int i;
  
- } Or1ksimState;
- 
-+enum {
-+    OR1KSIM_DRAM,
-+    OR1KSIM_UART,
-+    OR1KSIM_ETHOC,
-+    OR1KSIM_OMPIC,
-+};
-+
-+enum {
-+    OR1KSIM_OMPIC_IRQ = 1,
-+    OR1KSIM_UART_IRQ = 2,
-+    OR1KSIM_ETHOC_IRQ = 4,
-+};
-+
-+static const struct MemmapEntry {
-+    hwaddr base;
-+    hwaddr size;
-+} or1ksim_memmap[] = {
-+    [OR1KSIM_DRAM] =      { 0x00000000,          0 },
-+    [OR1KSIM_UART] =      { 0x90000000,      0x100 },
-+    [OR1KSIM_ETHOC] =     { 0x92000000,      0x800 },
-+    [OR1KSIM_OMPIC] =     { 0x98000000,         16 },
-+};
-+
- static struct openrisc_boot_info {
-     uint32_t bootstrap_pc;
- } boot_info;
-@@ -176,21 +199,24 @@ static void openrisc_sim_init(MachineState *machine)
-     memory_region_add_subregion(get_system_memory(), 0, ram);
- 
-     if (nd_table[0].used) {
--        openrisc_sim_net_init(0x92000000, 0x92000400, smp_cpus,
--                              cpus, 4, nd_table);
-+        openrisc_sim_net_init(or1ksim_memmap[OR1KSIM_ETHOC].base,
-+                              or1ksim_memmap[OR1KSIM_ETHOC].base + 0x400,
-+                              smp_cpus, cpus,
-+                              OR1KSIM_ETHOC_IRQ, nd_table);
+     g_assert_cmpint(tag_len, ==, strlen(MOUNT_TAG));
+@@ -94,7 +94,6 @@ static void pci_config(void *obj, void *data, QGuestAllocator *t_alloc)
+         tag[i] = qvirtio_config_readb(v9p->vdev, i + 2);
      }
- 
-     if (smp_cpus > 1) {
--        openrisc_sim_ompic_init(0x98000000, smp_cpus, cpus, 1);
-+        openrisc_sim_ompic_init(or1ksim_memmap[OR1KSIM_OMPIC].base, smp_cpus,
-+                                cpus, OR1KSIM_OMPIC_IRQ);
- 
--        serial_irq = qemu_irq_split(get_cpu_irq(cpus, 0, 2),
--                                    get_cpu_irq(cpus, 1, 2));
-+        serial_irq = qemu_irq_split(get_cpu_irq(cpus, 0, OR1KSIM_UART_IRQ),
-+                                    get_cpu_irq(cpus, 1, OR1KSIM_UART_IRQ));
-     } else {
--        serial_irq = get_cpu_irq(cpus, 0, 2);
-+        serial_irq = get_cpu_irq(cpus, 0, OR1KSIM_UART_IRQ);
-     }
- 
--    serial_mm_init(get_system_memory(), 0x90000000, 0, serial_irq,
--                   115200, serial_hd(0), DEVICE_NATIVE_ENDIAN);
-+    serial_mm_init(get_system_memory(), or1ksim_memmap[OR1KSIM_UART].base, 0,
-+                   serial_irq, 115200, serial_hd(0), DEVICE_NATIVE_ENDIAN);
- 
-     openrisc_load_kernel(ram_size, kernel_filename);
+     g_assert_cmpmem(tag, tag_len, MOUNT_TAG, tag_len);
+-    g_free(tag);
  }
+ 
+ #define P9_MAX_SIZE 4096 /* Max size of a T-message or R-message */
+@@ -580,7 +579,7 @@ static void do_version(QVirtio9P *v9p)
+ {
+     const char *version = "9P2000.L";
+     uint16_t server_len;
+-    char *server_version;
++    g_autofree char *server_version = NULL;
+     P9Req *req;
+ 
+     req = v9fs_tversion(v9p, P9_MAX_SIZE, version, P9_NOTAG);
+@@ -588,8 +587,6 @@ static void do_version(QVirtio9P *v9p)
+     v9fs_rversion(req, &server_len, &server_version);
+ 
+     g_assert_cmpmem(server_version, server_len, version, strlen(version));
+-
+-    g_free(server_version);
+ }
+ 
+ /* utility function: walk to requested dir and return fid for that dir */
+@@ -637,7 +634,7 @@ static void fs_walk(void *obj, void *data, QGuestAllocator *t_alloc)
+     alloc = t_alloc;
+     char *wnames[P9_MAXWELEM];
+     uint16_t nwqid;
+-    v9fs_qid *wqid;
++    g_autofree v9fs_qid *wqid = NULL;
+     int i;
+     P9Req *req;
+ 
+@@ -655,8 +652,6 @@ static void fs_walk(void *obj, void *data, QGuestAllocator *t_alloc)
+     for (i = 0; i < P9_MAXWELEM; i++) {
+         g_free(wnames[i]);
+     }
+-
+-    g_free(wqid);
+ }
+ 
+ static bool fs_dirents_contain_name(struct V9fsDirent *e, const char* name)
+@@ -872,9 +867,9 @@ static void fs_readdir(void *obj, void *data, QGuestAllocator *t_alloc)
+     g_assert_cmpint(fs_dirents_contain_name(entries, "."), ==, true);
+     g_assert_cmpint(fs_dirents_contain_name(entries, ".."), ==, true);
+     for (int i = 0; i < QTEST_V9FS_SYNTH_READDIR_NFILES; ++i) {
+-        char *name = g_strdup_printf(QTEST_V9FS_SYNTH_READDIR_FILE, i);
++        g_autofree char *name =
++            g_strdup_printf(QTEST_V9FS_SYNTH_READDIR_FILE, i);
+         g_assert_cmpint(fs_dirents_contain_name(entries, name), ==, true);
+-        g_free(name);
+     }
+ 
+     v9fs_free_dirents(entries);
+@@ -984,7 +979,8 @@ static void fs_walk_dotdot(void *obj, void *data, QGuestAllocator *t_alloc)
+     QVirtio9P *v9p = obj;
+     alloc = t_alloc;
+     char *const wnames[] = { g_strdup("..") };
+-    v9fs_qid root_qid, *wqid;
++    v9fs_qid root_qid;
++    g_autofree v9fs_qid *wqid = NULL;
+     P9Req *req;
+ 
+     do_version(v9p);
+@@ -998,7 +994,6 @@ static void fs_walk_dotdot(void *obj, void *data, QGuestAllocator *t_alloc)
+ 
+     g_assert_cmpmem(&root_qid, 13, wqid[0], 13);
+ 
+-    g_free(wqid);
+     g_free(wnames[0]);
+ }
+ 
+@@ -1027,7 +1022,7 @@ static void fs_write(void *obj, void *data, QGuestAllocator *t_alloc)
+     alloc = t_alloc;
+     static const uint32_t write_count = P9_MAX_SIZE / 2;
+     char *const wnames[] = { g_strdup(QTEST_V9FS_SYNTH_WRITE_FILE) };
+-    char *buf = g_malloc0(write_count);
++    g_autofree char *buf = g_malloc0(write_count);
+     uint32_t count;
+     P9Req *req;
+ 
+@@ -1045,7 +1040,6 @@ static void fs_write(void *obj, void *data, QGuestAllocator *t_alloc)
+     v9fs_rwrite(req, &count);
+     g_assert_cmpint(count, ==, write_count);
+ 
+-    g_free(buf);
+     g_free(wnames[0]);
+ }
+ 
+@@ -1125,7 +1119,7 @@ static void fs_flush_ignored(void *obj, void *data, QGuestAllocator *t_alloc)
+ 
+ static void do_mkdir(QVirtio9P *v9p, const char *path, const char *cname)
+ {
+-    char *const name = g_strdup(cname);
++    g_autofree char *name = g_strdup(cname);
+     uint32_t fid;
+     P9Req *req;
+ 
+@@ -1134,15 +1128,13 @@ static void do_mkdir(QVirtio9P *v9p, const char *path, const char *cname)
+     req = v9fs_tmkdir(v9p, fid, name, 0750, 0, 0);
+     v9fs_req_wait_for_reply(req, NULL);
+     v9fs_rmkdir(req, NULL);
+-
+-    g_free(name);
+ }
+ 
+ /* create a regular file with Tlcreate and return file's fid */
+ static uint32_t do_lcreate(QVirtio9P *v9p, const char *path,
+                            const char *cname)
+ {
+-    char *const name = g_strdup(cname);
++    g_autofree char *name = g_strdup(cname);
+     uint32_t fid;
+     P9Req *req;
+ 
+@@ -1152,7 +1144,6 @@ static uint32_t do_lcreate(QVirtio9P *v9p, const char *path,
+     v9fs_req_wait_for_reply(req, NULL);
+     v9fs_rlcreate(req, NULL, NULL);
+ 
+-    g_free(name);
+     return fid;
+ }
+ 
+@@ -1160,8 +1151,8 @@ static uint32_t do_lcreate(QVirtio9P *v9p, const char *path,
+ static void do_symlink(QVirtio9P *v9p, const char *path, const char *clink,
+                        const char *to)
+ {
+-    char *const name = g_strdup(clink);
+-    char *const dst = g_strdup(to);
++    g_autofree char *name = g_strdup(clink);
++    g_autofree char *dst = g_strdup(to);
+     uint32_t fid;
+     P9Req *req;
+ 
+@@ -1170,9 +1161,6 @@ static void do_symlink(QVirtio9P *v9p, const char *path, const char *clink,
+     req = v9fs_tsymlink(v9p, fid, name, dst, 0, 0);
+     v9fs_req_wait_for_reply(req, NULL);
+     v9fs_rsymlink(req, NULL);
+-
+-    g_free(dst);
+-    g_free(name);
+ }
+ 
+ /* create a hard link named @a clink in directory @a path pointing to @a to */
+@@ -1193,7 +1181,7 @@ static void do_hardlink(QVirtio9P *v9p, const char *path, const char *clink,
+ static void do_unlinkat(QVirtio9P *v9p, const char *atpath, const char *rpath,
+                         uint32_t flags)
+ {
+-    char *const name = g_strdup(rpath);
++    g_autofree char *name = g_strdup(rpath);
+     uint32_t fid;
+     P9Req *req;
+ 
+@@ -1202,8 +1190,6 @@ static void do_unlinkat(QVirtio9P *v9p, const char *atpath, const char *rpath,
+     req = v9fs_tunlinkat(v9p, fid, name, flags, 0);
+     v9fs_req_wait_for_reply(req, NULL);
+     v9fs_runlinkat(req);
+-
+-    g_free(name);
+ }
+ 
+ static void fs_readdir_split_128(void *obj, void *data,
+@@ -1235,8 +1221,8 @@ static void fs_create_dir(void *obj, void *data, QGuestAllocator *t_alloc)
+     QVirtio9P *v9p = obj;
+     alloc = t_alloc;
+     struct stat st;
+-    char *root_path = virtio_9p_test_path("");
+-    char *new_dir = virtio_9p_test_path("01");
++    g_autofree char *root_path = virtio_9p_test_path("");
++    g_autofree char *new_dir = virtio_9p_test_path("01");
+ 
+     g_assert(root_path != NULL);
+ 
+@@ -1247,9 +1233,6 @@ static void fs_create_dir(void *obj, void *data, QGuestAllocator *t_alloc)
+     g_assert(stat(new_dir, &st) == 0);
+     /* ... and is actually a directory */
+     g_assert((st.st_mode & S_IFMT) == S_IFDIR);
+-
+-    g_free(new_dir);
+-    g_free(root_path);
+ }
+ 
+ static void fs_unlinkat_dir(void *obj, void *data, QGuestAllocator *t_alloc)
+@@ -1257,8 +1240,8 @@ static void fs_unlinkat_dir(void *obj, void *data, QGuestAllocator *t_alloc)
+     QVirtio9P *v9p = obj;
+     alloc = t_alloc;
+     struct stat st;
+-    char *root_path = virtio_9p_test_path("");
+-    char *new_dir = virtio_9p_test_path("02");
++    g_autofree char *root_path = virtio_9p_test_path("");
++    g_autofree char *new_dir = virtio_9p_test_path("02");
+ 
+     g_assert(root_path != NULL);
+ 
+@@ -1273,9 +1256,6 @@ static void fs_unlinkat_dir(void *obj, void *data, QGuestAllocator *t_alloc)
+     do_unlinkat(v9p, "/", "02", AT_REMOVEDIR);
+     /* directory should be gone now */
+     g_assert(stat(new_dir, &st) != 0);
+-
+-    g_free(new_dir);
+-    g_free(root_path);
+ }
+ 
+ static void fs_create_file(void *obj, void *data, QGuestAllocator *t_alloc)
+@@ -1283,7 +1263,7 @@ static void fs_create_file(void *obj, void *data, QGuestAllocator *t_alloc)
+     QVirtio9P *v9p = obj;
+     alloc = t_alloc;
+     struct stat st;
+-    char *new_file = virtio_9p_test_path("03/1st_file");
++    g_autofree char *new_file = virtio_9p_test_path("03/1st_file");
+ 
+     do_attach(v9p);
+     do_mkdir(v9p, "/", "03");
+@@ -1293,8 +1273,6 @@ static void fs_create_file(void *obj, void *data, QGuestAllocator *t_alloc)
+     g_assert(stat(new_file, &st) == 0);
+     /* ... and is a regular file */
+     g_assert((st.st_mode & S_IFMT) == S_IFREG);
+-
+-    g_free(new_file);
+ }
+ 
+ static void fs_unlinkat_file(void *obj, void *data, QGuestAllocator *t_alloc)
+@@ -1302,7 +1280,7 @@ static void fs_unlinkat_file(void *obj, void *data, QGuestAllocator *t_alloc)
+     QVirtio9P *v9p = obj;
+     alloc = t_alloc;
+     struct stat st;
+-    char *new_file = virtio_9p_test_path("04/doa_file");
++    g_autofree char *new_file = virtio_9p_test_path("04/doa_file");
+ 
+     do_attach(v9p);
+     do_mkdir(v9p, "/", "04");
+@@ -1316,8 +1294,6 @@ static void fs_unlinkat_file(void *obj, void *data, QGuestAllocator *t_alloc)
+     do_unlinkat(v9p, "04", "doa_file", 0);
+     /* file should be gone now */
+     g_assert(stat(new_file, &st) != 0);
+-
+-    g_free(new_file);
+ }
+ 
+ static void fs_symlink_file(void *obj, void *data, QGuestAllocator *t_alloc)
+@@ -1325,8 +1301,8 @@ static void fs_symlink_file(void *obj, void *data, QGuestAllocator *t_alloc)
+     QVirtio9P *v9p = obj;
+     alloc = t_alloc;
+     struct stat st;
+-    char *real_file = virtio_9p_test_path("05/real_file");
+-    char *symlink_file = virtio_9p_test_path("05/symlink_file");
++    g_autofree char *real_file = virtio_9p_test_path("05/real_file");
++    g_autofree char *symlink_file = virtio_9p_test_path("05/symlink_file");
+ 
+     do_attach(v9p);
+     do_mkdir(v9p, "/", "05");
+@@ -1338,9 +1314,6 @@ static void fs_symlink_file(void *obj, void *data, QGuestAllocator *t_alloc)
+ 
+     /* check if created link exists now */
+     g_assert(stat(symlink_file, &st) == 0);
+-
+-    g_free(symlink_file);
+-    g_free(real_file);
+ }
+ 
+ static void fs_unlinkat_symlink(void *obj, void *data,
+@@ -1349,8 +1322,8 @@ static void fs_unlinkat_symlink(void *obj, void *data,
+     QVirtio9P *v9p = obj;
+     alloc = t_alloc;
+     struct stat st;
+-    char *real_file = virtio_9p_test_path("06/real_file");
+-    char *symlink_file = virtio_9p_test_path("06/symlink_file");
++    g_autofree char *real_file = virtio_9p_test_path("06/real_file");
++    g_autofree char *symlink_file = virtio_9p_test_path("06/symlink_file");
+ 
+     do_attach(v9p);
+     do_mkdir(v9p, "/", "06");
+@@ -1364,9 +1337,6 @@ static void fs_unlinkat_symlink(void *obj, void *data,
+     do_unlinkat(v9p, "06", "symlink_file", 0);
+     /* symlink should be gone now */
+     g_assert(stat(symlink_file, &st) != 0);
+-
+-    g_free(symlink_file);
+-    g_free(real_file);
+ }
+ 
+ static void fs_hardlink_file(void *obj, void *data, QGuestAllocator *t_alloc)
+@@ -1374,8 +1344,8 @@ static void fs_hardlink_file(void *obj, void *data, QGuestAllocator *t_alloc)
+     QVirtio9P *v9p = obj;
+     alloc = t_alloc;
+     struct stat st_real, st_link;
+-    char *real_file = virtio_9p_test_path("07/real_file");
+-    char *hardlink_file = virtio_9p_test_path("07/hardlink_file");
++    g_autofree char *real_file = virtio_9p_test_path("07/real_file");
++    g_autofree char *hardlink_file = virtio_9p_test_path("07/hardlink_file");
+ 
+     do_attach(v9p);
+     do_mkdir(v9p, "/", "07");
+@@ -1391,9 +1361,6 @@ static void fs_hardlink_file(void *obj, void *data, QGuestAllocator *t_alloc)
+     g_assert((st_link.st_mode & S_IFMT) == S_IFREG);
+     g_assert(st_link.st_dev == st_real.st_dev);
+     g_assert(st_link.st_ino == st_real.st_ino);
+-
+-    g_free(hardlink_file);
+-    g_free(real_file);
+ }
+ 
+ static void fs_unlinkat_hardlink(void *obj, void *data,
+@@ -1402,8 +1369,8 @@ static void fs_unlinkat_hardlink(void *obj, void *data,
+     QVirtio9P *v9p = obj;
+     alloc = t_alloc;
+     struct stat st_real, st_link;
+-    char *real_file = virtio_9p_test_path("08/real_file");
+-    char *hardlink_file = virtio_9p_test_path("08/hardlink_file");
++    g_autofree char *real_file = virtio_9p_test_path("08/real_file");
++    g_autofree char *hardlink_file = virtio_9p_test_path("08/hardlink_file");
+ 
+     do_attach(v9p);
+     do_mkdir(v9p, "/", "08");
+@@ -1419,9 +1386,6 @@ static void fs_unlinkat_hardlink(void *obj, void *data,
+     g_assert(stat(hardlink_file, &st_link) != 0);
+     /* and old file should still exist */
+     g_assert(stat(real_file, &st_real) == 0);
+-
+-    g_free(hardlink_file);
+-    g_free(real_file);
+ }
+ 
+ static void *assign_9p_local_driver(GString *cmd_line, void *arg)
 -- 
-2.31.1
+2.20.1
 
 
