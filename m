@@ -2,39 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE6BA4B0E72
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Feb 2022 14:31:03 +0100 (CET)
-Received: from localhost ([::1]:51238 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 563C04B0F63
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Feb 2022 14:52:53 +0100 (CET)
+Received: from localhost ([::1]:44206 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nI9XI-0000Tf-CB
-	for lists+qemu-devel@lfdr.de; Thu, 10 Feb 2022 08:31:00 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:59714)
+	id 1nI9sS-0007es-3A
+	for lists+qemu-devel@lfdr.de; Thu, 10 Feb 2022 08:52:52 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:59736)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1nI8g9-0002jg-Iw; Thu, 10 Feb 2022 07:36:08 -0500
-Received: from [187.72.171.209] (port=47893 helo=outlook.eldorado.org.br)
+ id 1nI8gB-0002mr-UC; Thu, 10 Feb 2022 07:36:14 -0500
+Received: from [187.72.171.209] (port=58637 helo=outlook.eldorado.org.br)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1nI8g4-00052E-T4; Thu, 10 Feb 2022 07:36:04 -0500
+ id 1nI8g6-0005Ce-HS; Thu, 10 Feb 2022 07:36:06 -0500
 Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
  secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
- Thu, 10 Feb 2022 09:35:22 -0300
+ Thu, 10 Feb 2022 09:35:23 -0300
 Received: from eldorado.org.br (unknown [10.10.70.45])
- by p9ibm (Postfix) with ESMTP id 6ED66800172;
+ by p9ibm (Postfix) with ESMTP id C0899800502;
  Thu, 10 Feb 2022 09:35:22 -0300 (-03)
 From: matheus.ferst@eldorado.org.br
 To: qemu-devel@nongnu.org,
 	qemu-ppc@nongnu.org
-Subject: [PATCH v3 00/37] target/ppc: PowerISA Vector/VSX instruction batch
-Date: Thu, 10 Feb 2022 09:34:10 -0300
-Message-Id: <20220210123447.3933301-1-matheus.ferst@eldorado.org.br>
+Subject: [PATCH v3 01/37] target/ppc: Introduce TRANS*FLAGS macros
+Date: Thu, 10 Feb 2022 09:34:11 -0300
+Message-Id: <20220210123447.3933301-2-matheus.ferst@eldorado.org.br>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20220210123447.3933301-1-matheus.ferst@eldorado.org.br>
+References: <20220210123447.3933301-1-matheus.ferst@eldorado.org.br>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-OriginalArrivalTime: 10 Feb 2022 12:35:22.0893 (UTC)
- FILETIME=[AC0EE3D0:01D81E7A]
+X-OriginalArrivalTime: 10 Feb 2022 12:35:23.0223 (UTC)
+ FILETIME=[AC413E70:01D81E7A]
 X-Host-Lookup-Failed: Reverse DNS lookup failed for 187.72.171.209 (failed)
 Received-SPF: pass client-ip=187.72.171.209;
  envelope-from=matheus.ferst@eldorado.org.br; helo=outlook.eldorado.org.br
@@ -57,86 +58,129 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: danielhb413@gmail.com, richard.henderson@linaro.org, groug@kaod.org,
- clg@kaod.org, Matheus Ferst <matheus.ferst@eldorado.org.br>,
- david@gibson.dropbear.id.au
+ Luis Pires <luis.pires@eldorado.org.br>, clg@kaod.org,
+ Matheus Ferst <matheus.ferst@eldorado.org.br>, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Matheus Ferst <matheus.ferst@eldorado.org.br>
+From: Luis Pires <luis.pires@eldorado.org.br>
 
-This patch series implements 5 missing instructions from PowerISA v3.0
-and 40 new instructions from PowerISA v3.1, moving 62 other instructions
-to decodetree along the way.
+New macros that add FLAGS and FLAGS2 checking were added for
+both TRANS and TRANS64.
 
-v3:
- - Dropped patch 33, which caused a regression in xxperm[r]
+Signed-off-by: Luis Pires <luis.pires@eldorado.org.br>
+[ferst: - TRANS_FLAGS2 instead of TRANS_FLAGS_E
+        - Use the new macros in load/store vector insns ]
+Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+---
+ target/ppc/translate.c              | 19 +++++++++++++++
+ target/ppc/translate/vsx-impl.c.inc | 37 ++++++++++-------------------
+ 2 files changed, 31 insertions(+), 25 deletions(-)
 
-v2:
- - New patch (30) to remove xscmpnedp
-
-Lucas Coutinho (2):
-  target/ppc: Move vexts[bhw]2[wd] to decodetree
-  target/ppc: Implement vextsd2q
-
-Lucas Mateus Castro (alqotel) (3):
-  target/ppc: moved vector even and odd multiplication to decodetree
-  target/ppc: Moved vector multiply high and low to decodetree
-  target/ppc: vmulh* instructions use gvec
-
-Luis Pires (1):
-  target/ppc: Introduce TRANS*FLAGS macros
-
-Matheus Ferst (20):
-  target/ppc: Move Vector Compare Equal/Not Equal/Greater Than to
-    decodetree
-  target/ppc: Move Vector Compare Not Equal or Zero to decodetree
-  target/ppc: Implement Vector Compare Equal Quadword
-  target/ppc: Implement Vector Compare Greater Than Quadword
-  target/ppc: Implement Vector Compare Quadword
-  target/ppc: implement vstri[bh][lr]
-  target/ppc: implement vclrlb
-  target/ppc: implement vclrrb
-  target/ppc: implement vcntmb[bhwd]
-  target/ppc: implement vgnb
-  target/ppc: Move vsel and vperm/vpermr to decodetree
-  target/ppc: Move xxsel to decodetree
-  target/ppc: move xxperm/xxpermr to decodetree
-  target/ppc: Move xxpermdi to decodetree
-  target/ppc: Implement xxpermx instruction
-  tcg/tcg-op-gvec.c: Introduce tcg_gen_gvec_4i
-  target/ppc: Implement xxeval
-  target/ppc: Implement xxgenpcv[bhwd]m instruction
-  target/ppc: move xs[n]madd[am][ds]p/xs[n]msub[am][ds]p to decodetree
-  target/ppc: implement xs[n]maddqp[o]/xs[n]msubqp[o]
-
-Víctor Colombo (11):
-  target/ppc: Implement vmsumcud instruction
-  target/ppc: Implement vmsumudm instruction
-  target/ppc: Implement xvtlsbb instruction
-  target/ppc: Remove xscmpnedp instruction
-  target/ppc: Refactor VSX_SCALAR_CMP_DP
-  target/ppc: Implement xscmp{eq,ge,gt}qp
-  target/ppc: Move xscmp{eq,ge,gt}dp to decodetree
-  target/ppc: Move xs{max,min}[cj]dp to use do_helper_XX3
-  target/ppc: Refactor VSX_MAX_MINC helper
-  target/ppc: Implement xs{max,min}cqp
-  target/ppc: Implement xvcvbf16spn and xvcvspbf16 instructions
-
- include/tcg/tcg-op-gvec.h           |  22 +
- target/ppc/fpu_helper.c             | 171 ++++--
- target/ppc/helper.h                 | 143 ++---
- target/ppc/insn32.decode            | 188 +++++-
- target/ppc/insn64.decode            |  40 +-
- target/ppc/int_helper.c             | 354 ++++++-----
- target/ppc/translate.c              |  19 +
- target/ppc/translate/vmx-impl.c.inc | 894 +++++++++++++++++++++++++---
- target/ppc/translate/vmx-ops.c.inc  |  41 +-
- target/ppc/translate/vsx-impl.c.inc | 543 ++++++++++++++---
- target/ppc/translate/vsx-ops.c.inc  |  67 ---
- tcg/ppc/tcg-target.c.inc            |   6 +
- tcg/tcg-op-gvec.c                   | 146 +++++
- 13 files changed, 2066 insertions(+), 568 deletions(-)
-
+diff --git a/target/ppc/translate.c b/target/ppc/translate.c
+index 40232201bb..4731a2e45a 100644
+--- a/target/ppc/translate.c
++++ b/target/ppc/translate.c
+@@ -7438,10 +7438,29 @@ static int times_16(DisasContext *ctx, int x)
+ #define TRANS(NAME, FUNC, ...) \
+     static bool trans_##NAME(DisasContext *ctx, arg_##NAME *a) \
+     { return FUNC(ctx, a, __VA_ARGS__); }
++#define TRANS_FLAGS(FLAGS, NAME, FUNC, ...) \
++    static bool trans_##NAME(DisasContext *ctx, arg_##NAME *a) \
++    {                                                          \
++        REQUIRE_INSNS_FLAGS(ctx, FLAGS);                       \
++        return FUNC(ctx, a, __VA_ARGS__);                      \
++    }
++#define TRANS_FLAGS2(FLAGS2, NAME, FUNC, ...) \
++    static bool trans_##NAME(DisasContext *ctx, arg_##NAME *a) \
++    {                                                          \
++        REQUIRE_INSNS_FLAGS2(ctx, FLAGS2);                     \
++        return FUNC(ctx, a, __VA_ARGS__);                      \
++    }
+ 
+ #define TRANS64(NAME, FUNC, ...) \
+     static bool trans_##NAME(DisasContext *ctx, arg_##NAME *a) \
+     { REQUIRE_64BIT(ctx); return FUNC(ctx, a, __VA_ARGS__); }
++#define TRANS64_FLAGS2(FLAGS2, NAME, FUNC, ...) \
++    static bool trans_##NAME(DisasContext *ctx, arg_##NAME *a) \
++    {                                                          \
++        REQUIRE_64BIT(ctx);                                    \
++        REQUIRE_INSNS_FLAGS2(ctx, FLAGS2);                     \
++        return FUNC(ctx, a, __VA_ARGS__);                      \
++    }
+ 
+ /* TODO: More TRANS* helpers for extra insn_flags checks. */
+ 
+diff --git a/target/ppc/translate/vsx-impl.c.inc b/target/ppc/translate/vsx-impl.c.inc
+index c636e38164..b89be57272 100644
+--- a/target/ppc/translate/vsx-impl.c.inc
++++ b/target/ppc/translate/vsx-impl.c.inc
+@@ -2070,12 +2070,6 @@ static bool do_lstxv(DisasContext *ctx, int ra, TCGv displ,
+ 
+ static bool do_lstxv_D(DisasContext *ctx, arg_D *a, bool store, bool paired)
+ {
+-    if (paired) {
+-        REQUIRE_INSNS_FLAGS2(ctx, ISA310);
+-    } else {
+-        REQUIRE_INSNS_FLAGS2(ctx, ISA300);
+-    }
+-
+     if (paired || a->rt >= 32) {
+         REQUIRE_VSX(ctx);
+     } else {
+@@ -2089,7 +2083,6 @@ static bool do_lstxv_PLS_D(DisasContext *ctx, arg_PLS_D *a,
+                            bool store, bool paired)
+ {
+     arg_D d;
+-    REQUIRE_INSNS_FLAGS2(ctx, ISA310);
+     REQUIRE_VSX(ctx);
+ 
+     if (!resolve_PLS_D(ctx, &d, a)) {
+@@ -2101,12 +2094,6 @@ static bool do_lstxv_PLS_D(DisasContext *ctx, arg_PLS_D *a,
+ 
+ static bool do_lstxv_X(DisasContext *ctx, arg_X *a, bool store, bool paired)
+ {
+-    if (paired) {
+-        REQUIRE_INSNS_FLAGS2(ctx, ISA310);
+-    } else {
+-        REQUIRE_INSNS_FLAGS2(ctx, ISA300);
+-    }
+-
+     if (paired || a->rt >= 32) {
+         REQUIRE_VSX(ctx);
+     } else {
+@@ -2116,18 +2103,18 @@ static bool do_lstxv_X(DisasContext *ctx, arg_X *a, bool store, bool paired)
+     return do_lstxv(ctx, a->ra, cpu_gpr[a->rb], a->rt, store, paired);
+ }
+ 
+-TRANS(STXV, do_lstxv_D, true, false)
+-TRANS(LXV, do_lstxv_D, false, false)
+-TRANS(STXVP, do_lstxv_D, true, true)
+-TRANS(LXVP, do_lstxv_D, false, true)
+-TRANS(STXVX, do_lstxv_X, true, false)
+-TRANS(LXVX, do_lstxv_X, false, false)
+-TRANS(STXVPX, do_lstxv_X, true, true)
+-TRANS(LXVPX, do_lstxv_X, false, true)
+-TRANS64(PSTXV, do_lstxv_PLS_D, true, false)
+-TRANS64(PLXV, do_lstxv_PLS_D, false, false)
+-TRANS64(PSTXVP, do_lstxv_PLS_D, true, true)
+-TRANS64(PLXVP, do_lstxv_PLS_D, false, true)
++TRANS_FLAGS2(ISA300, STXV, do_lstxv_D, true, false)
++TRANS_FLAGS2(ISA300, LXV, do_lstxv_D, false, false)
++TRANS_FLAGS2(ISA310, STXVP, do_lstxv_D, true, true)
++TRANS_FLAGS2(ISA310, LXVP, do_lstxv_D, false, true)
++TRANS_FLAGS2(ISA300, STXVX, do_lstxv_X, true, false)
++TRANS_FLAGS2(ISA300, LXVX, do_lstxv_X, false, false)
++TRANS_FLAGS2(ISA310, STXVPX, do_lstxv_X, true, true)
++TRANS_FLAGS2(ISA310, LXVPX, do_lstxv_X, false, true)
++TRANS64_FLAGS2(ISA310, PSTXV, do_lstxv_PLS_D, true, false)
++TRANS64_FLAGS2(ISA310, PLXV, do_lstxv_PLS_D, false, false)
++TRANS64_FLAGS2(ISA310, PSTXVP, do_lstxv_PLS_D, true, true)
++TRANS64_FLAGS2(ISA310, PLXVP, do_lstxv_PLS_D, false, true)
+ 
+ static void gen_xxblendv_vec(unsigned vece, TCGv_vec t, TCGv_vec a, TCGv_vec b,
+                              TCGv_vec c)
 -- 
 2.31.1
 
