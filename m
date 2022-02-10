@@ -2,74 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 002A04B0AA7
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Feb 2022 11:32:59 +0100 (CET)
-Received: from localhost ([::1]:51902 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 67B894B0B15
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Feb 2022 11:43:57 +0100 (CET)
+Received: from localhost ([::1]:35928 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nI6l1-0008SD-0H
-	for lists+qemu-devel@lfdr.de; Thu, 10 Feb 2022 05:32:59 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:54724)
+	id 1nI6vc-0000YE-HN
+	for lists+qemu-devel@lfdr.de; Thu, 10 Feb 2022 05:43:56 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:54776)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jonah.palmer@oracle.com>)
- id 1nI6bp-0000cN-7O; Thu, 10 Feb 2022 05:23:29 -0500
-Received: from mx0a-00069f02.pphosted.com ([205.220.165.32]:61308)
+ id 1nI6bx-0000kO-Ii; Thu, 10 Feb 2022 05:23:40 -0500
+Received: from mx0a-00069f02.pphosted.com ([205.220.165.32]:4122)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jonah.palmer@oracle.com>)
- id 1nI6bm-0000up-Gi; Thu, 10 Feb 2022 05:23:28 -0500
+ id 1nI6bt-0000vc-CD; Thu, 10 Feb 2022 05:23:35 -0500
 Received: from pps.filterd (m0246629.ppops.net [127.0.0.1])
- by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 21A8WDAH013360; 
- Thu, 10 Feb 2022 10:23:12 GMT
+ by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 21A8nYZP013354; 
+ Thu, 10 Feb 2022 10:23:16 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references : content-type :
  mime-version; s=corp-2021-07-09;
- bh=dGSfCYH+VYBX/QzCjdnWhzqW7H0CrTTINipkr/xichA=;
- b=l5gY+OJ4BCZm8A39Sfn4aK3CXpY+l0Gt6cejmt4zBM1gF0Z92NTRAFqmKkRNMFgFgK++
- H5va1XnbsioQ0YFGxqHql8ibPbrygaoRfFZ2K3J1aymY1Zj5vcRpU9H7T9oNk1kAD44Y
- S4rQqv1GRkRRNK+ma7SQABLi0tCT0hfeHjwcwBzy8ueT2zLwRXyLibsI8zMkXCJuJKYb
- PRzpy/OyE3PIsGA+xOsYwHwIlLTnqQ9RodOFNcoIez8y+O0zSiNOqVPN9+W7e5k+5jee
- FC1XZB/sx7aeNko2JQ2eIkObPKou/F+Kkgq8xF2kx4UGvX3oWLLxgG6pnF6ariN7BQRc 9Q== 
-Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
- by mx0b-00069f02.pphosted.com with ESMTP id 3e368u0q6p-1
+ bh=VamJNEfyhwrr0aWodf9MIZUnI/sZRbIb5rj6dtei9wo=;
+ b=ei9nfyXK3NNDawfEFXisuoivOCtfCUuqQGHlscKr29KJ3k2al8duCF6ZYOvdlp5t/thb
+ Owl4NErT7jQKSmDinJ4x2t4V3NzpMnPigC1e8uyniVpBoyZ62j5lX+YE/JpkKLydVHbi
+ gfUbjtlyiHWIgxqffcvrfbrZ+Y41hoXWG7P7kGhyWIdLtNGpcoPn2mGVHPP19g1Girq8
+ wZCWsp15tC/tAefFpKPsywpWXlzUNMFjCDgMxPCcuRO9VNiRV5zWYjKKg4I1u9VzstUR
+ jXxJA1WrMWqCDut+itGpwAv4NuLV3gC03beaRR6X6sTU+6TkVkhdnD4C8ky6tyhcMv9D eA== 
+Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
+ by mx0b-00069f02.pphosted.com with ESMTP id 3e368u0q6x-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 10 Feb 2022 10:23:12 +0000
-Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
- by aserp3020.oracle.com (8.16.1.2/8.16.1.2) with SMTP id 21AABeuX191948;
- Thu, 10 Feb 2022 10:23:11 GMT
+ Thu, 10 Feb 2022 10:23:16 +0000
+Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
+ by userp3030.oracle.com (8.16.1.2/8.16.1.2) with SMTP id 21AABsw6130660;
+ Thu, 10 Feb 2022 10:23:15 GMT
 Received: from nam12-mw2-obe.outbound.protection.outlook.com
- (mail-mw2nam12lp2044.outbound.protection.outlook.com [104.47.66.44])
- by aserp3020.oracle.com with ESMTP id 3e1h29x6y2-1
+ (mail-mw2nam12lp2045.outbound.protection.outlook.com [104.47.66.45])
+ by userp3030.oracle.com with ESMTP id 3e1ec4jdfk-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 10 Feb 2022 10:23:10 +0000
+ Thu, 10 Feb 2022 10:23:14 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ibtv1MimYBNz01K1XIs+ozFFhOtACUzbfPrta7/GGdUFG471dMnVkzGFXvXXbYvHH8pD7xEMoOV84iNA8MduSptieO5FTNPQHmnl3xTbZMuEvzcLszDRXQkOQrWPvpe5RpaH8dgliRjsqdRqAM0fKHJjf8/My7D9MJ0tk7t/jpd4P8gjsIqOjF0UPk4b2xa9DXF1sWhQbwhJZA5g/OU08WyXDVYI8lJCMaOJjm1ubex+GREqvgHsO+BURe9v4UmxRyHyjpO8GjIj20xZpIJIySjISoUbH7Oqw1VXN4SlSwKwG9mXYjfdZ+NWl1CUpWoqutRMZvhWI6NfojLlm57Wxg==
+ b=WiGp+7k4mTfMxePezLQSZw+zAzFPgAXVy2PtXP680wZ58wZXcSEQoraA0lkYsEXoYUUViHPjPgpVM5+1oH8/epVZt6V4ba3MWD5/rd8otN1mK0kTvs0mnUS1R68WbKOOyozFdI3IhYw7RiGUPKsnVyPfe83GVcrtk/oRFsJuR8shaPoyAG1ofgh/CTYwp+74IHYcYThkgxflUWnhiLbxNnGrUBHhqhxgaOCAVGqOq7PwVZSSRFrpcjmZZciEbBMkd6P6x6EHj+fgmdiI8t5bPVpBSnJ6ZTNJbz9ycud+SkglazTvCO2gfXaPnel6YcWuxoDWqXv25h/iasshue4G9g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=dGSfCYH+VYBX/QzCjdnWhzqW7H0CrTTINipkr/xichA=;
- b=AqbLtn107pAcBLKfWA57ZPxGRQG1aTBkl+Ujkq2ipYS1Y0a0mnY37AGfdd2nVCNaT7uk+TwFTBUbRbJOgErm19yJLkkiL/Ii/jAJnMEejxx4xlwkfjhcULgioUEfxZT0g1TYSSofelN0eqy91gAa3KyyLR3r7oirzn9WhmdKv7scItkS5bhExpKV4aVm9eqjRtFqMT45ix9SNjEUfsjp2YkH7+6MTA4LRzHNoj++XvkFRHjjfGQI2Mhw2sv/+JVg73Cg4N8ORpa/dCd5cn90DbWC4Qx5VYTzQzpIStopc6Ij1H7w8TebOZSqW9iBx7IlqUxGApOLiqhhWs0T41lONw==
+ bh=VamJNEfyhwrr0aWodf9MIZUnI/sZRbIb5rj6dtei9wo=;
+ b=OkLus5O96r+FkjS8UYfM5NtS+mh9YN70XpFPl6+yvFUvd6SMlcUC4Lv2IrvJDuj/QxzPcufMQ/epRQlWuwSoR/HCtjE82MoGnQ5QvZyED1hjYxBO3K2AggAdrjppRJbD8eltoiUtltPQz7NClhkKrIRwMNZVarzLkKDuddITpQLYUNLawKK5wC9xb03kRVyllEow4mridQn9mWXOoUr6joSyqYws3QpFxu/PFr0vxqGd1e2QmRf3dAr9tFzH6JdWbX7OBTheJzvFZNsYO7c9NLyrai/THE21zAbHvvCjj4yxONDVYPsHoUsrKtuUEmp5koKM6tDRfrWq8EMOW4nc5A==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
  dkim=none; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=dGSfCYH+VYBX/QzCjdnWhzqW7H0CrTTINipkr/xichA=;
- b=DRhATZrgUa5BTMJyo+e8iSmeIrb0Pqpz6UdJVO/CtAO1DCxDkY8MxYv0oqENhkZASZxiS+mlbcHLR/Vso31n++9BZBHgytrHMR1MzUWWSH9rvP8p4SjsDuvzTzU8430PDI35zX8cQsRnkMbTWfvOcpfnqccNLsp7kIcSXW1tWsI=
+ bh=VamJNEfyhwrr0aWodf9MIZUnI/sZRbIb5rj6dtei9wo=;
+ b=Dq1+am4gNfSVNmNhG4VnvNP2lExEx3TKvSkf1x09I4c/RLlmReLkjkCWld2aAulWh4v0MabaK/e5x2UmlfV0VkgvEtv61OyhfwNQshgzXjwtFzX7Ww2QHz02T+J5R6eFixpmT9AV1/+iNXTLi0EpTOoQ5ZQucCbsuJ+DTGBFTnY=
 Received: from PH0PR10MB4664.namprd10.prod.outlook.com (2603:10b6:510:41::11)
  by DM6PR10MB3513.namprd10.prod.outlook.com (2603:10b6:5:17b::19) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4951.17; Thu, 10 Feb
- 2022 10:23:08 +0000
+ 2022 10:23:11 +0000
 Received: from PH0PR10MB4664.namprd10.prod.outlook.com
  ([fe80::b8e3:f092:c0ea:9ddf]) by PH0PR10MB4664.namprd10.prod.outlook.com
  ([fe80::b8e3:f092:c0ea:9ddf%4]) with mapi id 15.20.4951.019; Thu, 10 Feb 2022
- 10:23:08 +0000
+ 10:23:11 +0000
 From: Jonah Palmer <jonah.palmer@oracle.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v12 6/8] qmp: add QMP commands for virtio/vhost queue-status
-Date: Thu, 10 Feb 2022 05:21:58 -0500
-Message-Id: <1644488520-21604-7-git-send-email-jonah.palmer@oracle.com>
+Subject: [PATCH v12 7/8] qmp: add QMP command x-query-virtio-queue-element
+Date: Thu, 10 Feb 2022 05:21:59 -0500
+Message-Id: <1644488520-21604-8-git-send-email-jonah.palmer@oracle.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1644488520-21604-1-git-send-email-jonah.palmer@oracle.com>
 References: <1644488520-21604-1-git-send-email-jonah.palmer@oracle.com>
@@ -79,66 +79,66 @@ X-ClientProxiedBy: BY5PR03CA0024.namprd03.prod.outlook.com
  (2603:10b6:510:41::11)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: b3a92304-7eef-4870-035e-08d9ec7f54e7
+X-MS-Office365-Filtering-Correlation-Id: d75679bd-4f59-4f89-a79c-08d9ec7f56ff
 X-MS-TrafficTypeDiagnostic: DM6PR10MB3513:EE_
-X-Microsoft-Antispam-PRVS: <DM6PR10MB35130FDAE9BBA61491A7353AE82F9@DM6PR10MB3513.namprd10.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:221;
+X-Microsoft-Antispam-PRVS: <DM6PR10MB35131FB29D3511C50BE06352E82F9@DM6PR10MB3513.namprd10.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:2399;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: NtOSeIoxY68MhGWAZ6Znrr7f7h25jkw/OYdVv7xg/z2W7lDxKMoGbCt+xktIiy8aHWbQmU8p8ambFzc6bojPK46dIkuXUd/TrNXx6ysg4wk9DKC2QAYCc8XP1H/eRukgPRCallhVWt/Tsnz04nSKO6XpRj6eSl1vewXQ+lX3+m3Dbgf+Dgr5pZBzD47B1CKRiTJ4r8o9ZkngOLWyaQfteoG35OyRoodi/7sqQRprJnIZEThA3HEvkwD9F9TCLtjRnVYCuzHeRQtfGBhMFcdNKlnjsTHRx7W/+HWzQxPVucmsJlglWScuXf4vKSifkjGifLVcD5efgeNPAeOoK3CWXSscWfW5jkrN2aUlKBJB30Vnq5WyRHJrqqNF5ovAIWYTC82oMch2xjlhLnat5qTNqMHUyy8I6xqEUcUWGQgnZT2jHgXCDZbjpp8FXSQm+DAVHh3hnM8CqSDRuTPQOREcVnXKgserBU/EN8wDbQ5wHUPRwEFWiUrDIHidZdreJNXhn46UPu6VIO6d3lIWLFuQV+9ITubsvUZgGJA+ccGLuhcob3HfviT1/5rd0tAimij22J1iyBw/2NfWW66kY+K17cVQyvsH9AjOXB9VDW+5vsxyViME36cD7uSPb3kDtJKiml/igaYsdsngNv8g0HXNFmvsMs7j6GrjnS+puklfLPuV/FRYPS6EVaouFGuWkjPA
+X-Microsoft-Antispam-Message-Info: qAYr0fUIvq0PKDMn99oAMMdcJg9G24gX3lryVUK5fUfC4r0yVkv9Wf5wFksc2zCHfKXTtDCxqIQsHZVUr0C2Nhq+rLc/y4WY2ozUJcouA4bYyrbm2NXjSvszHyDnPXuZ21wLupspimB5Wsq1SLA0eWHWeReIUWz74TL0/wgI5ZQ2f+S0y3DIss5qfnxGPoXEoS2b/MimCG9lLMzWJ3sJFKglO89km6Y/dpQCL6oUWS4PyemM/LGsfk11qPLrT/OMsV38YpYRA5u0+fKoBuYqhELYtzGB6aa5o8JHyI0cLqSnVMs5dISPh5Yg+Mx9wl1Et562McwmPUZyurVdFKcKI39wtelbQtFXFgvWS8Qqv4NI7BCHGz17oSoqA27JJJJVNxecNf93IkvTZoXbhdQU0+ermL275fRRR0uqMwjvZteifGBvUDscokTfgpjQGld2RcBJmrZrNLs0ZxCFEhcTx7l+riHRdIKqY9V6o2ZNsyj6wMs+zipqyMZ7WwGZEqHKbY2d7xzqIeeTbsYZueuhK4r9kbDO+gzfQKrY8foeSp+dZ8ditdwEZU9rJwmS0xMzrX/Uw6wlGWzJ9ovG315fwroP7e/doiphggv3hAYUh210HpKV9/KROFQlBsADMNponq9CwDFAmmt2mc2GWG/oA5n7QfVLKgYSH5uNZ76929sgHTxoyN1hdgaTqw9uXksTaDudXazNMfPrL38Gt5cvZg==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:PH0PR10MB4664.namprd10.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230001)(366004)(4326008)(6666004)(508600001)(30864003)(44832011)(86362001)(8936002)(8676002)(66476007)(66556008)(66946007)(6486002)(7416002)(5660300002)(316002)(6506007)(38350700002)(2616005)(36756003)(38100700002)(6512007)(52116002)(186003)(6916009)(26005)(2906002);
+ SFS:(13230001)(366004)(4326008)(6666004)(508600001)(44832011)(86362001)(8936002)(8676002)(66476007)(66556008)(66946007)(6486002)(7416002)(83380400001)(5660300002)(316002)(6506007)(38350700002)(2616005)(36756003)(38100700002)(6512007)(52116002)(186003)(6916009)(26005)(2906002);
  DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?MsJlkTQZfApvBa5W4bNkaVoRt3PWGaaamJLbZhylEpNY8AGUW+L+yBG78S76?=
- =?us-ascii?Q?d7+UgbTAAvgVwZhqRn810pkrH+NwzQl0aH3Fn4r7SiSV5C2pyABjlAm+LrHj?=
- =?us-ascii?Q?WuQiSbxUHDxfnSVDq8fvI2Iu7uocrddC5te+6b0/kQwotNnQGKMYsAvxeiSW?=
- =?us-ascii?Q?SkqHy7PdqALbzgklknvm15t0cJl+4RkLRTNjGA02pUNYPOM2v5CRjW7GDu9Q?=
- =?us-ascii?Q?165Gu58neMVr4OxMe82+4ewcHFqgXTQE5cbEWuL/9U7OcollomQJJ10r+rLz?=
- =?us-ascii?Q?tgpKtO/PT14PU4W4eiUUNGjM++xHrDjmf+OCa235sTho1GVTfZf0pba5xe2C?=
- =?us-ascii?Q?xv4jJ9dhLhMfo5zdNVDrsOpAzZO9WAVM+uPIrE3OV86odOZYmw/LPPp1LuFT?=
- =?us-ascii?Q?WGfebvyZZJRaxUsF9J7XNRX9dHQe0lfXFt1JZxbPuPCDcuuThZUT78bzD42/?=
- =?us-ascii?Q?vcvoC9E4+fkCoLGa1XD6dZcyx0UssSQD0c0mT2YJCoj/TZJcXjwXq1qTuqjC?=
- =?us-ascii?Q?JjKZQC7KYYPjVwTzMrlLslKilBiEEr0k06f/l6PEiw/14wbeD3ZXz73Cv2FB?=
- =?us-ascii?Q?giKPDXbpy/H73YVlQoPjOP5p6+sYj7BrZsDT3K7wj+umpwQUzLvCJsnwga/D?=
- =?us-ascii?Q?8sPzX/KXW5lb5+o0rnj6DEVpKIXKERsJr6U8qsLrNBEZIOiI8PcR6v/FLpFE?=
- =?us-ascii?Q?fUrIWD9FA3f3inwpxoYRydSS1PdPhtvZ4/XLWXy8kyGTVBSsHBYp5kHdYInh?=
- =?us-ascii?Q?7Kq5mVNaS4iIOibf+ONXNF+CSZyoxdQtVd4QqmXfzQ9cHd2yNg+eUBMGLptW?=
- =?us-ascii?Q?CxB/FSkZL2eEUFXdKSyVwm7gyU6MrIMjI9V8w87ArpjePEGW/xRB+AEP10ak?=
- =?us-ascii?Q?lYtDBJzK1Grl5+uzHCoEeTCnt/k5ojDsF6pv9eBTKtjhJ+Tjza6M7NOTfDrn?=
- =?us-ascii?Q?vwG5C4b5WLOax9X2P4umF8ib7jMZ3Hm+xzqA0j2THoX9YIw8S+qm582RCpRj?=
- =?us-ascii?Q?Iob0aTM00mvvlTIHcjoeKmirqdxIDVNGZPpqjuqRhYaGMmMJTHcqd7N7MRqh?=
- =?us-ascii?Q?W5KRejTMYSJpea5JjxZyWClRAvK4dSRsqF279t3CUv8aBq+0mTxkOPdF1um4?=
- =?us-ascii?Q?kD/N/14yp0Yr7fOfI6zj3P+YLWQUe4504oB4vOFUSnanOL9Ff6WazmNzd55j?=
- =?us-ascii?Q?91t3g1JHg9V5i0q+IduCXznRcUoJpm9spRSjOs8kJrkSIh0NUWjoP2uFkuD/?=
- =?us-ascii?Q?NBqa7Pet37MCxW9KGhp5GkRsCU5rFd41lI1/dVUu5G0ebr5Qj3uf8wp7phQr?=
- =?us-ascii?Q?pFdr7kVtPhUCgzQGx+QPVpXfd6gEmhRWIcek/ajrsWpJLPK9YlqqRK1TI1mx?=
- =?us-ascii?Q?Oy7bUUb/t5m9AESeaLm5j/pQO+iYFPJj98TjSLSBNlZg6HIHneeJFMmMKgmR?=
- =?us-ascii?Q?DuDQkbNUCH2DctbrDIECi+SpHk83q9MwVpq4P4oaMJ86XIxv790fhNAK59DH?=
- =?us-ascii?Q?Ig2sVHyOR/knKchNPcavW1Feqj6ZKfh0KadPCu3B6AVHDHj8+zjZ1MAKfvbP?=
- =?us-ascii?Q?I8WTjtqLyS0a7mL1xrp0AwbiU5lOlR0FHPzodzCTnlO94ply5ZZCwJq8e4y5?=
- =?us-ascii?Q?iC0I4XH5G75kvMkG5jy2t0k=3D?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?pl1+54THeRmzHAEi7TAbxn0RDVDS8r57Gesf2TSsrgX8ay+cgHLVH9RdHFaH?=
+ =?us-ascii?Q?10+5etv2CnhHKm8RqDVTQ4VB1i/MAjffxhHxEUvzctJw4eO9xjuLHELv9cQF?=
+ =?us-ascii?Q?zg1kLo7eF4rbqVCQ/Kp5eNuivPkhn5UfO09A0AAccOeoLli0RJFz4bsQeDbt?=
+ =?us-ascii?Q?B2KTMDZ1Y07lZla0vPcUhLpDJXiJE/NJjNIOgj6jEdGlKM0XDea9yxmnKtdM?=
+ =?us-ascii?Q?UZlUQMb3N9GLmS9obKQvaD677NA509ypCTMkQlg/yFN9JerlWQcyFrFQv70W?=
+ =?us-ascii?Q?0wRznaDSJQk/fea32OR/zPxvbExkDqTIA9OQfDf/K1n9kpszaTpZSqR56D5A?=
+ =?us-ascii?Q?zNjrW2AYVFRfGVpHW/JWgzHi2nN9vTtQ+mLWLXfgRtyfZ2gwm1+20YAWAV5O?=
+ =?us-ascii?Q?6NlKFwRNTs7fWHPp9I3mIkD84NAN4vi0tVl2On8k7noQYA1rC/xIWDUrdXcB?=
+ =?us-ascii?Q?EWqfeTpExnN9bhIepw0ovqMXGOwNgJv3oTJ7n2vcumlegkYmfkuR0dS4TyT3?=
+ =?us-ascii?Q?ktwhZywrmFVZuEYIbr2TA6q2AZy3RswThvsEXXlbQ26AxXvVsaXFjB6JtLLs?=
+ =?us-ascii?Q?asKxMFIHRznO+dGd0EY84jT1hOm04HkNqEefmRqr8hxjlUTaC0YF/I/Hqpqq?=
+ =?us-ascii?Q?Mv8Kwm0zDkn38SY0nMQXBo7O3g+t4dil+baFTZWV5SBotjpSm41c/PB8fkeN?=
+ =?us-ascii?Q?CKEkM60EYjwsQJ09jwzjvYGuWNpr82Redxo131B/EZVHZe/I8vbmgXSUHW97?=
+ =?us-ascii?Q?loykbcfehAIE+i3554fa8rJHnbvmGccpqzwvtuQXYhcLCSU9v8OPTp2gqblD?=
+ =?us-ascii?Q?5Oqj16EosNcemjm/G3R7ozApWMyKI3xmaabB/aipL8UYlY099JCrtLCvlueb?=
+ =?us-ascii?Q?bQBFzo7jA6YqT4Wq2KbV7Mp2evNz2iUw293dRw0YvZCSV0NqwEDDZQ331myz?=
+ =?us-ascii?Q?otHFfL8qT1zxS6ldw3r7a3kL0JmTeqHXQgDtVJRLbgh3v1m+8VfWuK0iY1NO?=
+ =?us-ascii?Q?XJ16qMQdGGXyijc6jPbPvaYYi0jO7B1f0Eq58tAVQrom4olwtZb/qNRkMcQp?=
+ =?us-ascii?Q?dVehPAcaZJtpNEAB4QkoYzJFyJP+Mj9Ye7vNGPE1CAVktL3ZkYEdHxjzaCQy?=
+ =?us-ascii?Q?FSFOl8HakxVU4KIADXMdSgbqr9yNOG0jXFkUTXoLCv9d7lwiN+o9yuJV+i+p?=
+ =?us-ascii?Q?FkuDF7fjchDip6ye4lPeXs1StySqr8ksi8rLk72exLJbPDtIQkHlSSO8UTNG?=
+ =?us-ascii?Q?WYbD5ec8avnwzaDAKpXQIrJ4roob5mUkvkHQ23JF4NbKcZ1MFCttkplKwfZE?=
+ =?us-ascii?Q?sG18lavSVtS/A90Yxt6uXar2CM77mOGfohB9ukW3/y5UsNKI1aveldJTBnbZ?=
+ =?us-ascii?Q?MbllMNUjmu1f7JCevDLtXJ7iismiSXYno+RtL6fwIwYny4iC1mWjTM8OY//S?=
+ =?us-ascii?Q?F0+9ieqUdoGmR8DflBV6XS8HV6639jiUa8Jeiv9WlZA4TaYpwJNzQLIkmx0n?=
+ =?us-ascii?Q?22BtWzbSjsFPjFDlh6AyoQ+Sw09s+EwEsS2YYbyIz4WKNn2IjqAAuBarHgyc?=
+ =?us-ascii?Q?kcmHYuJFlBEN75ANpCYyUEXes2jrsM6N8Na4J698iPN1LLaAiIobzujacGs9?=
+ =?us-ascii?Q?IyP/2xhzWgKA8PwtoqSxbK4=3D?=
 X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b3a92304-7eef-4870-035e-08d9ec7f54e7
+X-MS-Exchange-CrossTenant-Network-Message-Id: d75679bd-4f59-4f89-a79c-08d9ec7f56ff
 X-MS-Exchange-CrossTenant-AuthSource: PH0PR10MB4664.namprd10.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Feb 2022 10:23:08.0638 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Feb 2022 10:23:11.5170 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: HbpA1F5+jgxGar98Ql1lJstw3h8efpx9stcdusSb7pSWmstVPYGU7B2QJsn3f/909TUd3V/m7nE5/JlIGWK9qQ==
+X-MS-Exchange-CrossTenant-UserPrincipalName: CC3dKEQn0LwsB5hcEn9YLG+gmC8d7n1czY6nodz1drQQ4PX/rs1nBdTkpMrvtuzauqMpDEBs+eXpwk/5Khv1wg==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR10MB3513
 X-Proofpoint-Virus-Version: vendor=nai engine=6300 definitions=10253
  signatures=673431
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
- mlxscore=0 bulkscore=0
- phishscore=0 malwarescore=0 mlxlogscore=999 adultscore=0 spamscore=0
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0
+ bulkscore=0 suspectscore=0
+ mlxlogscore=999 mlxscore=0 adultscore=0 malwarescore=0 spamscore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2201110000
  definitions=main-2202100056
-X-Proofpoint-ORIG-GUID: -DmHoiEWd5VdLFlLgqoE1M5CH_MsKM9Z
-X-Proofpoint-GUID: -DmHoiEWd5VdLFlLgqoE1M5CH_MsKM9Z
+X-Proofpoint-ORIG-GUID: 9468DxILuu4BCjWf5SbqumZdoi7xsbd2
+X-Proofpoint-GUID: 9468DxILuu4BCjWf5SbqumZdoi7xsbd2
 Received-SPF: pass client-ip=205.220.165.32;
  envelope-from=jonah.palmer@oracle.com; helo=mx0a-00069f02.pphosted.com
 X-Spam_score_int: -27
@@ -174,100 +174,111 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Laurent Vivier <lvivier@redhat.com>
 
-These new commands show the internal status of a VirtIODevice's
-VirtQueue and a vhost device's vhost_virtqueue (if active).
+This new command shows the information of a VirtQueue element.
+
+[Note: Up until v10 of this patch series, virtio.json had many (15+)
+ enums defined (e.g. decoded device features, statuses, etc.). In v10
+ most of these enums were removed and replaced with string literals.
+ By doing this we get (1) simpler schema, (2) smaller generated code,
+ and (3) less maintenance burden for when new things are added (e.g.
+ devices, device features, etc.).]
 
 Signed-off-by: Jonah Palmer <jonah.palmer@oracle.com>
 ---
- hw/virtio/virtio-stub.c |  14 +++
- hw/virtio/virtio.c      | 103 ++++++++++++++++++++
- qapi/virtio.json        | 252 ++++++++++++++++++++++++++++++++++++++++++++++++
- 3 files changed, 369 insertions(+)
+ hw/virtio/virtio-stub.c |   9 +++
+ hw/virtio/virtio.c      | 154 ++++++++++++++++++++++++++++++++++++++++
+ qapi/virtio.json        | 183 ++++++++++++++++++++++++++++++++++++++++++++++++
+ 3 files changed, 346 insertions(+)
 
 diff --git a/hw/virtio/virtio-stub.c b/hw/virtio/virtio-stub.c
-index 0b432e8..13e5f93 100644
+index 13e5f93..7ddb22c 100644
 --- a/hw/virtio/virtio-stub.c
 +++ b/hw/virtio/virtio-stub.c
-@@ -17,3 +17,17 @@ VirtioStatus *qmp_x_query_virtio_status(const char *path, Error **errp)
+@@ -31,3 +31,12 @@ VirtQueueStatus *qmp_x_query_virtio_queue_status(const char *path,
  {
      return qmp_virtio_unsupported(errp);
  }
 +
-+VirtVhostQueueStatus *qmp_x_query_virtio_vhost_queue_status(const char *path,
-+                                                            uint16_t queue,
-+                                                            Error **errp)
-+{
-+    return qmp_virtio_unsupported(errp);
-+}
-+
-+VirtQueueStatus *qmp_x_query_virtio_queue_status(const char *path,
-+                                                 uint16_t queue,
-+                                                 Error **errp)
++VirtioQueueElement *qmp_x_query_virtio_queue_element(const char *path,
++                                                     uint16_t queue,
++                                                     bool has_index,
++                                                     uint16_t index,
++                                                     Error **errp)
 +{
 +    return qmp_virtio_unsupported(errp);
 +}
 diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
-index 41823cd..c81210b 100644
+index c81210b..ec37235 100644
 --- a/hw/virtio/virtio.c
 +++ b/hw/virtio/virtio.c
-@@ -4313,6 +4313,109 @@ VirtioStatus *qmp_x_query_virtio_status(const char *path, Error **errp)
+@@ -489,6 +489,19 @@ static inline void vring_used_write(VirtQueue *vq, VRingUsedElem *uelem,
+     address_space_cache_invalidate(&caches->used, pa, sizeof(VRingUsedElem));
+ }
+ 
++/* Called within rcu_read_lock(). */
++static inline uint16_t vring_used_flags(VirtQueue *vq)
++{
++    VRingMemoryRegionCaches *caches = vring_get_region_caches(vq);
++    hwaddr pa = offsetof(VRingUsed, flags);
++
++    if (!caches) {
++        return 0;
++    }
++
++    return virtio_lduw_phys_cached(vq->vdev, &caches->used, pa);
++}
++
+ /* Called within rcu_read_lock().  */
+ static uint16_t vring_used_idx(VirtQueue *vq)
+ {
+@@ -4416,6 +4429,147 @@ VirtQueueStatus *qmp_x_query_virtio_queue_status(const char *path,
      return status;
  }
  
-+VirtVhostQueueStatus *qmp_x_query_virtio_vhost_queue_status(const char *path,
-+                                                            uint16_t queue,
-+                                                            Error **errp)
++static strList *qmp_decode_vring_desc_flags(uint16_t flags)
 +{
-+    VirtIODevice *vdev;
-+    VirtVhostQueueStatus *status;
++    strList *list = NULL;
++    strList *node;
++    int i;
 +
-+    vdev = virtio_device_find(path);
-+    if (vdev == NULL) {
-+        error_setg(errp, "Path %s is not a VirtIODevice", path);
-+        return NULL;
++    struct {
++        uint16_t flag;
++        const char *value;
++    } map[] = {
++        { VRING_DESC_F_NEXT, "next" },
++        { VRING_DESC_F_WRITE, "write" },
++        { VRING_DESC_F_INDIRECT, "indirect" },
++        { 1 << VRING_PACKED_DESC_F_AVAIL, "avail" },
++        { 1 << VRING_PACKED_DESC_F_USED, "used" },
++        { 0, "" }
++    };
++
++    for (i = 0; map[i].flag; i++) {
++        if ((map[i].flag & flags) == 0) {
++            continue;
++        }
++        node = g_malloc0(sizeof(strList));
++        node->value = g_strdup(map[i].value);
++        node->next = list;
++        list = node;
 +    }
 +
-+    if (!vdev->vhost_started) {
-+        error_setg(errp, "Error: vhost device has not started yet");
-+        return NULL;
-+    }
-+
-+    VirtioDeviceClass *vdc = VIRTIO_DEVICE_GET_CLASS(vdev);
-+    struct vhost_dev *hdev = vdc->get_vhost(vdev);
-+
-+    if (queue < hdev->vq_index || queue >= hdev->vq_index + hdev->nvqs) {
-+        error_setg(errp, "Invalid vhost virtqueue number %d", queue);
-+        return NULL;
-+    }
-+
-+    status = g_new0(VirtVhostQueueStatus, 1);
-+    status->name = g_strdup(vdev->name);
-+    status->kick = hdev->vqs[queue].kick;
-+    status->call = hdev->vqs[queue].call;
-+    status->desc = (uint64_t)(unsigned long)hdev->vqs[queue].desc;
-+    status->avail = (uint64_t)(unsigned long)hdev->vqs[queue].avail;
-+    status->used = (uint64_t)(unsigned long)hdev->vqs[queue].used;
-+    status->num = hdev->vqs[queue].num;
-+    status->desc_phys = hdev->vqs[queue].desc_phys;
-+    status->desc_size = hdev->vqs[queue].desc_size;
-+    status->avail_phys = hdev->vqs[queue].avail_phys;
-+    status->avail_size = hdev->vqs[queue].avail_size;
-+    status->used_phys = hdev->vqs[queue].used_phys;
-+    status->used_size = hdev->vqs[queue].used_size;
-+
-+    return status;
++    return list;
 +}
 +
-+VirtQueueStatus *qmp_x_query_virtio_queue_status(const char *path,
-+                                                 uint16_t queue,
-+                                                 Error **errp)
++VirtioQueueElement *qmp_x_query_virtio_queue_element(const char *path,
++                                                     uint16_t queue,
++                                                     bool has_index,
++                                                     uint16_t index,
++                                                     Error **errp)
 +{
 +    VirtIODevice *vdev;
-+    VirtQueueStatus *status;
++    VirtQueue *vq;
++    VirtioQueueElement *element = NULL;
 +
 +    vdev = virtio_device_find(path);
 +    if (vdev == NULL) {
-+        error_setg(errp, "Path %s is not a VirtIODevice", path);
++        error_setg(errp, "Path %s is not a VirtIO device", path);
 +        return NULL;
 +    }
 +
@@ -275,310 +286,289 @@ index 41823cd..c81210b 100644
 +        error_setg(errp, "Invalid virtqueue number %d", queue);
 +        return NULL;
 +    }
++    vq = &vdev->vq[queue];
 +
-+    status = g_new0(VirtQueueStatus, 1);
-+    status->name = g_strdup(vdev->name);
-+    status->queue_index = vdev->vq[queue].queue_index;
-+    status->inuse = vdev->vq[queue].inuse;
-+    status->vring_num = vdev->vq[queue].vring.num;
-+    status->vring_num_default = vdev->vq[queue].vring.num_default;
-+    status->vring_align = vdev->vq[queue].vring.align;
-+    status->vring_desc = vdev->vq[queue].vring.desc;
-+    status->vring_avail = vdev->vq[queue].vring.avail;
-+    status->vring_used = vdev->vq[queue].vring.used;
-+    status->used_idx = vdev->vq[queue].used_idx;
-+    status->signalled_used = vdev->vq[queue].signalled_used;
-+    status->signalled_used_valid = vdev->vq[queue].signalled_used_valid;
-+
-+    if (vdev->vhost_started) {
-+        VirtioDeviceClass *vdc = VIRTIO_DEVICE_GET_CLASS(vdev);
-+        struct vhost_dev *hdev = vdc->get_vhost(vdev);
-+
-+        /* check if vq index exists for vhost as well  */
-+        if (queue >= hdev->vq_index && queue < hdev->vq_index + hdev->nvqs) {
-+            status->has_last_avail_idx = true;
-+
-+            int vhost_vq_index =
-+                hdev->vhost_ops->vhost_get_vq_index(hdev, queue);
-+            struct vhost_vring_state state = {
-+                .index = vhost_vq_index,
-+            };
-+
-+            status->last_avail_idx =
-+                hdev->vhost_ops->vhost_get_vring_base(hdev, &state);
-+        }
++    if (virtio_vdev_has_feature(vdev, VIRTIO_F_RING_PACKED)) {
++        error_setg(errp, "Packed ring not supported");
++        return NULL;
 +    } else {
-+        status->has_shadow_avail_idx = true;
-+        status->has_last_avail_idx = true;
-+        status->last_avail_idx = vdev->vq[queue].last_avail_idx;
-+        status->shadow_avail_idx = vdev->vq[queue].shadow_avail_idx;
++        unsigned int head, i, max;
++        VRingMemoryRegionCaches *caches;
++        MemoryRegionCache indirect_desc_cache = MEMORY_REGION_CACHE_INVALID;
++        MemoryRegionCache *desc_cache;
++        VRingDesc desc;
++        VirtioRingDescList *list = NULL;
++        VirtioRingDescList *node;
++        int rc; int ndescs;
++
++        RCU_READ_LOCK_GUARD();
++
++        max = vq->vring.num;
++
++        if (!has_index) {
++            head = vring_avail_ring(vq, vq->last_avail_idx % vq->vring.num);
++        } else {
++            head = vring_avail_ring(vq, index % vq->vring.num);
++        }
++        i = head;
++
++        caches = vring_get_region_caches(vq);
++        if (!caches) {
++            error_setg(errp, "Region caches not initialized");
++            return NULL;
++        }
++        if (caches->desc.len < max * sizeof(VRingDesc)) {
++            error_setg(errp, "Cannot map descriptor ring");
++            return NULL;
++        }
++
++        desc_cache = &caches->desc;
++        vring_split_desc_read(vdev, &desc, desc_cache, i);
++        if (desc.flags & VRING_DESC_F_INDIRECT) {
++            int64_t len;
++            len = address_space_cache_init(&indirect_desc_cache, vdev->dma_as,
++                                           desc.addr, desc.len, false);
++            desc_cache = &indirect_desc_cache;
++            if (len < desc.len) {
++                error_setg(errp, "Cannot map indirect buffer");
++                goto done;
++            }
++
++            max = desc.len / sizeof(VRingDesc);
++            i = 0;
++            vring_split_desc_read(vdev, &desc, desc_cache, i);
++        }
++
++        element = g_new0(VirtioQueueElement, 1);
++        element->avail = g_new0(VirtioRingAvail, 1);
++        element->used = g_new0(VirtioRingUsed, 1);
++        element->name = g_strdup(vdev->name);
++        element->index = head;
++        element->avail->flags = vring_avail_flags(vq);
++        element->avail->idx = vring_avail_idx(vq);
++        element->avail->ring = head;
++        element->used->flags = vring_used_flags(vq);
++        element->used->idx = vring_used_idx(vq);
++        ndescs = 0;
++
++        do {
++            /* A buggy driver may produce an infinite loop */
++            if (ndescs >= max) {
++                break;
++            }
++            node = g_new0(VirtioRingDescList, 1);
++            node->value = g_new0(VirtioRingDesc, 1);
++            node->value->addr = desc.addr;
++            node->value->len = desc.len;
++            node->value->flags = qmp_decode_vring_desc_flags(desc.flags);
++            node->next = list;
++            list = node;
++
++            ndescs++;
++            rc = virtqueue_split_read_next_desc(vdev, &desc, desc_cache,
++                                                max, &i);
++        } while (rc == VIRTQUEUE_READ_DESC_MORE);
++        element->descs = list;
++done:
++        address_space_cache_destroy(&indirect_desc_cache);
 +    }
 +
-+    return status;
++    return element;
 +}
 +
  static const TypeInfo virtio_device_info = {
      .name = TYPE_VIRTIO_DEVICE,
      .parent = TYPE_DEVICE,
 diff --git a/qapi/virtio.json b/qapi/virtio.json
-index 474a8bd..44cc05c 100644
+index 44cc05c..bb93d6d 100644
 --- a/qapi/virtio.json
 +++ b/qapi/virtio.json
-@@ -404,3 +404,255 @@
-   'data': { 'transports': [ 'str' ],
-             '*dev-features': [ 'str' ],
-             '*unknown-dev-features': 'uint64' } }
+@@ -656,3 +656,186 @@
+   'data': { 'path': 'str', 'queue': 'uint16' },
+   'returns': 'VirtVhostQueueStatus',
+   'features': [ 'unstable' ] }
 +
 +##
-+# @VirtQueueStatus:
++# @VirtioRingDesc:
 +#
-+# Information of a VirtIODevice VirtQueue, including most members of
-+# the VirtQueue data structure.
++# Information regarding the vring descriptor area
 +#
-+# @name: Name of the VirtIODevice that uses this VirtQueue
++# @addr: Guest physical address of the descriptor area
 +#
-+# @queue-index: VirtQueue queue_index
++# @len: Length of the descriptor area
 +#
-+# @inuse: VirtQueue inuse
-+#
-+# @vring-num: VirtQueue vring.num
-+#
-+# @vring-num-default: VirtQueue vring.num_default
-+#
-+# @vring-align: VirtQueue vring.align
-+#
-+# @vring-desc: VirtQueue vring.desc (descriptor area)
-+#
-+# @vring-avail: VirtQueue vring.avail (driver area)
-+#
-+# @vring-used: VirtQueue vring.used (device area)
-+#
-+# @last-avail-idx: VirtQueue last_avail_idx or return of vhost_dev
-+#                  vhost_get_vring_base (if vhost active)
-+#
-+# @shadow-avail-idx: VirtQueue shadow_avail_idx
-+#
-+# @used-idx: VirtQueue used_idx
-+#
-+# @signalled-used: VirtQueue signalled_used
-+#
-+# @signalled-used-valid: VirtQueue signalled_used_valid flag
++# @flags: List of descriptor flags
 +#
 +# Since: 7.0
 +#
 +##
 +
-+{ 'struct': 'VirtQueueStatus',
-+  'data': { 'name': 'str',
-+            'queue-index': 'uint16',
-+            'inuse': 'uint32',
-+            'vring-num': 'uint32',
-+            'vring-num-default': 'uint32',
-+            'vring-align': 'uint32',
-+            'vring-desc': 'uint64',
-+            'vring-avail': 'uint64',
-+            'vring-used': 'uint64',
-+            '*last-avail-idx': 'uint16',
-+            '*shadow-avail-idx': 'uint16',
-+            'used-idx': 'uint16',
-+            'signalled-used': 'uint16',
-+            'signalled-used-valid': 'bool' } }
++{ 'struct': 'VirtioRingDesc',
++  'data': { 'addr': 'uint64',
++            'len': 'uint32',
++            'flags': [ 'str' ] } }
 +
 +##
-+# @x-query-virtio-queue-status:
++# @VirtioRingAvail:
 +#
-+# Return the status of a given VirtIODevice's VirtQueue
++# Information regarding the avail vring (a.k.a. driver area)
++#
++# @flags: VRingAvail flags
++#
++# @idx: VRingAvail index
++#
++# @ring: VRingAvail ring[] entry at provided index
++#
++# Since: 7.0
++#
++##
++
++{ 'struct': 'VirtioRingAvail',
++  'data': { 'flags': 'uint16',
++            'idx': 'uint16',
++            'ring': 'uint16' } }
++
++##
++# @VirtioRingUsed:
++#
++# Information regarding the used vring (a.k.a. device area)
++#
++# @flags: VRingUsed flags
++#
++# @idx: VRingUsed index
++#
++# Since: 7.0
++#
++##
++
++{ 'struct': 'VirtioRingUsed',
++  'data': { 'flags': 'uint16',
++            'idx': 'uint16' } }
++
++##
++# @VirtioQueueElement:
++#
++# Information regarding a VirtQueue's VirtQueueElement including
++# descriptor, driver, and device areas
++#
++# @name: Name of the VirtIODevice that uses this VirtQueue
++#
++# @index: Index of the element in the queue
++#
++# @descs: List of descriptors (VirtioRingDesc)
++#
++# @avail: VRingAvail info
++#
++# @used: VRingUsed info
++#
++# Since: 7.0
++#
++##
++
++{ 'struct': 'VirtioQueueElement',
++  'data': { 'name': 'str',
++            'index': 'uint32',
++            'descs': [ 'VirtioRingDesc' ],
++            'avail': 'VirtioRingAvail',
++            'used': 'VirtioRingUsed' } }
++
++##
++# @x-query-virtio-queue-element:
++#
++# Return the information about a VirtQueue's VirtQueueElement
++# (default: head of the queue)
 +#
 +# @path: VirtIODevice canonical QOM path
 +#
 +# @queue: VirtQueue index to examine
 +#
++# @index: Index of the element in the queue
++#
 +# Features:
 +# @unstable: This command is meant for debugging.
 +#
-+# Returns: VirtQueueStatus of the VirtQueue
-+#
-+# Notes: last_avail_idx will not be displayed in the case where
-+#        the selected VirtIODevice has a running vhost device and
-+#        the VirtIODevice VirtQueue index (queue) does not exist for
-+#        the corresponding vhost device vhost_virtqueue. Also,
-+#        shadow_avail_idx will not be displayed in the case where
-+#        the selected VirtIODevice has a running vhost device.
++# Returns: VirtioQueueElement information
 +#
 +# Since: 7.0
 +#
 +# Examples:
 +#
-+# 1. Get VirtQueueStatus for virtio-vsock (vhost-vsock running)
++# 1. Introspect on virtio-net's VirtQueue 0 at index 5
 +#
-+# -> { "execute": "x-query-virtio-queue-status",
-+#      "arguments": { "path": "/machine/peripheral/vsock0/virtio-backend",
++# -> { "execute": "x-query-virtio-queue-element",
++#      "arguments": { "path": "/machine/peripheral-anon/device[1]/virtio-backend",
++#                     "queue": 0,
++#                     "index": 5 }
++#    }
++# <- { "return": {
++#            "index": 5,
++#            "name": "virtio-net",
++#            "descs": [
++#               { "flags": ["write"], "len": 1536, "addr": 5257305600 }
++#            ],
++#            "avail": {
++#               "idx": 256,
++#               "flags": 0,
++#               "ring": 5
++#            },
++#            "used": {
++#               "idx": 13,
++#               "flags": 0
++#            },
++#    }
++#
++# 2. Introspect on virtio-crypto's VirtQueue 1 at head
++#
++# -> { "execute": "x-query-virtio-queue-element",
++#      "arguments": { "path": "/machine/peripheral/crypto0/virtio-backend",
 +#                     "queue": 1 }
 +#    }
 +# <- { "return": {
-+#            "signalled-used": 0,
-+#            "inuse": 0,
-+#            "vring-align": 4096,
-+#            "vring-desc": 5217370112,
-+#            "signalled-used-valid": false,
-+#            "vring-num-default": 128,
-+#            "vring-avail": 5217372160,
-+#            "queue-index": 1,
-+#            "last-avail-idx": 0,
-+#            "vring-used": 5217372480,
-+#            "used-idx": 0,
-+#            "name": "vhost-vsock",
-+#            "vring-num": 128 }
-+#    }
-+#
-+# 2. Get VirtQueueStatus for virtio-serial (no vhost)
-+#
-+# -> { "execute": "x-query-virtio-queue-status",
-+#      "arguments": { "path": "/machine/peripheral-anon/device[0]/virtio-backend",
-+#                     "queue": 20 }
-+#    }
-+# <- { "return": {
-+#            "signalled-used": 0,
-+#            "inuse": 0,
-+#            "vring-align": 4096,
-+#            "vring-desc": 5182074880,
-+#            "signalled-used-valid": false,
-+#            "vring-num-default": 128,
-+#            "vring-avail": 5182076928,
-+#            "queue-index": 20,
-+#            "last-avail-idx": 0,
-+#            "vring-used": 5182077248,
-+#            "used-idx": 0,
-+#            "name": "virtio-serial",
-+#            "shadow-avail-idx": 0,
-+#            "vring-num": 128 }
-+#    }
-+#
-+##
-+
-+{ 'command': 'x-query-virtio-queue-status',
-+  'data': { 'path': 'str', 'queue': 'uint16' },
-+  'returns': 'VirtQueueStatus',
-+  'features': [ 'unstable' ] }
-+
-+##
-+# @VirtVhostQueueStatus:
-+#
-+# Information of a vhost device's vhost_virtqueue, including most
-+# members of the vhost_dev vhost_virtqueue data structure.
-+#
-+# @name: Name of the VirtIODevice that uses this vhost_virtqueue
-+#
-+# @kick: vhost_virtqueue kick
-+#
-+# @call: vhost_virtqueue call
-+#
-+# @desc: vhost_virtqueue desc
-+#
-+# @avail: vhost_virtqueue avail
-+#
-+# @used: vhost_virtqueue used
-+#
-+# @num: vhost_virtqueue num
-+#
-+# @desc-phys: vhost_virtqueue desc_phys (descriptor area phys. addr.)
-+#
-+# @desc-size: vhost_virtqueue desc_size
-+#
-+# @avail-phys: vhost_virtqueue avail_phys (driver area phys. addr.)
-+#
-+# @avail-size: vhost_virtqueue avail_size
-+#
-+# @used-phys: vhost_virtqueue used_phys (device area phys. addr.)
-+#
-+# @used-size: vhost_virtqueue used_size
-+#
-+# Since: 7.0
-+#
-+##
-+
-+{ 'struct': 'VirtVhostQueueStatus',
-+  'data': { 'name': 'str',
-+            'kick': 'int',
-+            'call': 'int',
-+            'desc': 'uint64',
-+            'avail': 'uint64',
-+            'used': 'uint64',
-+            'num': 'int',
-+            'desc-phys': 'uint64',
-+            'desc-size': 'uint32',
-+            'avail-phys': 'uint64',
-+            'avail-size': 'uint32',
-+            'used-phys': 'uint64',
-+            'used-size': 'uint32' } }
-+
-+##
-+# @x-query-virtio-vhost-queue-status:
-+#
-+# Return information of a given vhost device's vhost_virtqueue
-+#
-+# @path: VirtIODevice canonical QOM path
-+#
-+# @queue: vhost_virtqueue index to examine
-+#
-+# Features:
-+# @unstable: This command is meant for debugging.
-+#
-+# Returns: VirtVhostQueueStatus of the vhost_virtqueue
-+#
-+# Since: 7.0
-+#
-+# Examples:
-+#
-+# 1. Get vhost_virtqueue status for vhost-crypto
-+#
-+# -> { "execute": "x-query-virtio-vhost-queue-status",
-+#      "arguments": { "path": "/machine/peripheral/crypto0/virtio-backend",
-+#                     "queue": 0 }
-+#    }
-+# <- { "return": {
-+#            "avail-phys": 5216124928,
-+#            "used-phys": 5216127040,
-+#            "avail-size": 2054,
-+#            "desc-size": 16384,
-+#            "used-size": 8198,
-+#            "desc": 140141447430144,
-+#            "num": 1024,
++#            "index": 0,
 +#            "name": "virtio-crypto",
-+#            "call": 0,
-+#            "avail": 140141447446528,
-+#            "desc-phys": 5216108544,
-+#            "used": 140141447448640,
-+#            "kick": 0 }
++#            "descs": [
++#               { "flags": [], "len": 0, "addr": 8080268923184214134 }
++#            ],
++#            "avail": {
++#               "idx": 280,
++#               "flags": 0,
++#               "ring": 0
++#            },
++#            "used": {
++#               "idx": 280,
++#               "flags": 0
++#            }
 +#    }
 +#
-+# 2. Get vhost_virtqueue status for vhost-vsock
++# 3. Introspect on virtio-scsi's VirtQueue 2 at head
 +#
-+# -> { "execute": "x-query-virtio-vhost-queue-status",
-+#      "arguments": { "path": "/machine/peripheral/vsock0/virtio-backend",
-+#                     "queue": 0 }
++# -> { "execute": "x-query-virtio-queue-element",
++#      "arguments": { "path": "/machine/peripheral-anon/device[2]/virtio-backend",
++#                     "queue": 2 }
 +#    }
 +# <- { "return": {
-+#            "avail-phys": 5182261248,
-+#            "used-phys": 5182261568,
-+#            "avail-size": 262,
-+#            "desc-size": 2048,
-+#            "used-size": 1030,
-+#            "desc": 140141413580800,
-+#            "num": 128,
-+#            "name": "vhost-vsock",
-+#            "call": 0,
-+#            "avail": 140141413582848,
-+#            "desc-phys": 5182259200,
-+#            "used": 140141413583168,
-+#            "kick": 0 }
++#            "index": 19,
++#            "name": "virtio-scsi",
++#            "descs": [
++#               { "flags": ["used", "indirect", "write"], "len": 4099327944,
++#                 "addr": 12055409292258155293 }
++#            ],
++#            "avail": {
++#               "idx": 1147,
++#               "flags": 0,
++#               "ring": 19
++#            },
++#            "used": {
++#               "idx": 280,
++#               "flags": 0
++#            }
 +#    }
 +#
 +##
 +
-+{ 'command': 'x-query-virtio-vhost-queue-status',
-+  'data': { 'path': 'str', 'queue': 'uint16' },
-+  'returns': 'VirtVhostQueueStatus',
++{ 'command': 'x-query-virtio-queue-element',
++  'data': { 'path': 'str', 'queue': 'uint16', '*index': 'uint16' },
++  'returns': 'VirtioQueueElement',
 +  'features': [ 'unstable' ] }
 -- 
 1.8.3.1
