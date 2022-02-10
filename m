@@ -2,41 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 262AB4B0E5B
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Feb 2022 14:26:11 +0100 (CET)
-Received: from localhost ([::1]:47498 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD1E84B0F36
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Feb 2022 14:51:49 +0100 (CET)
+Received: from localhost ([::1]:42816 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nI9Sb-0005aD-HZ
-	for lists+qemu-devel@lfdr.de; Thu, 10 Feb 2022 08:26:09 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:59856)
+	id 1nI9rQ-0006gD-7C
+	for lists+qemu-devel@lfdr.de; Thu, 10 Feb 2022 08:51:48 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:59824)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1nI8gZ-0002rF-E7; Thu, 10 Feb 2022 07:36:35 -0500
-Received: from [187.72.171.209] (port=9128 helo=outlook.eldorado.org.br)
+ id 1nI8gR-0002qN-Kq; Thu, 10 Feb 2022 07:36:25 -0500
+Received: from [187.72.171.209] (port=47893 helo=outlook.eldorado.org.br)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1nI8gV-0005OW-TM; Thu, 10 Feb 2022 07:36:29 -0500
+ id 1nI8gM-00052E-36; Thu, 10 Feb 2022 07:36:20 -0500
 Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
  secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
- Thu, 10 Feb 2022 09:35:23 -0300
+ Thu, 10 Feb 2022 09:35:24 -0300
 Received: from eldorado.org.br (unknown [10.10.70.45])
- by p9ibm (Postfix) with ESMTP id 7DA92800502;
+ by p9ibm (Postfix) with ESMTP id D60BF800172;
  Thu, 10 Feb 2022 09:35:23 -0300 (-03)
 From: matheus.ferst@eldorado.org.br
 To: qemu-devel@nongnu.org,
 	qemu-ppc@nongnu.org
-Subject: [PATCH v3 03/37] target/ppc: Moved vector multiply high and low to
- decodetree
-Date: Thu, 10 Feb 2022 09:34:13 -0300
-Message-Id: <20220210123447.3933301-4-matheus.ferst@eldorado.org.br>
+Subject: [PATCH v3 04/37] target/ppc: vmulh* instructions use gvec
+Date: Thu, 10 Feb 2022 09:34:14 -0300
+Message-Id: <20220210123447.3933301-5-matheus.ferst@eldorado.org.br>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220210123447.3933301-1-matheus.ferst@eldorado.org.br>
 References: <20220210123447.3933301-1-matheus.ferst@eldorado.org.br>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-OriginalArrivalTime: 10 Feb 2022 12:35:23.0910 (UTC)
- FILETIME=[ACAA1260:01D81E7A]
+X-OriginalArrivalTime: 10 Feb 2022 12:35:24.0270 (UTC)
+ FILETIME=[ACE100E0:01D81E7A]
 X-Host-Lookup-Failed: Reverse DNS lookup failed for 187.72.171.209 (failed)
 Received-SPF: pass client-ip=187.72.171.209;
  envelope-from=matheus.ferst@eldorado.org.br; helo=outlook.eldorado.org.br
@@ -67,154 +66,241 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: "Lucas Mateus Castro (alqotel)" <lucas.castro@eldorado.org.br>
 
-Moved instructions vmulld, vmulhuw, vmulhsw, vmulhud and vmulhsd to
-decodetree
+Changed vmulhuw, vmulhud, vmulhsw, vmulhsd to use
+gvec instructions
 
 Signed-off-by: Lucas Mateus Castro (alqotel) <lucas.araujo@eldorado.org.br>
 Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
 ---
- target/ppc/helper.h                 |  8 ++++----
- target/ppc/insn32.decode            |  6 ++++++
- target/ppc/int_helper.c             |  8 ++++----
- target/ppc/translate/vmx-impl.c.inc | 21 ++++++++++++++++-----
- target/ppc/translate/vmx-ops.c.inc  |  5 -----
- 5 files changed, 30 insertions(+), 18 deletions(-)
+ target/ppc/helper.h                 |   8 +-
+ target/ppc/int_helper.c             |   8 +-
+ target/ppc/translate/vmx-impl.c.inc | 154 +++++++++++++++++++++++++++-
+ 3 files changed, 158 insertions(+), 12 deletions(-)
 
 diff --git a/target/ppc/helper.h b/target/ppc/helper.h
-index debb05c12c..1125a1704d 100644
+index 1125a1704d..92595a42df 100644
 --- a/target/ppc/helper.h
 +++ b/target/ppc/helper.h
 @@ -207,10 +207,10 @@ DEF_HELPER_3(VMULOUB, void, avr, avr, avr)
  DEF_HELPER_3(VMULOUH, void, avr, avr, avr)
  DEF_HELPER_3(VMULOUW, void, avr, avr, avr)
  DEF_HELPER_3(VMULOUD, void, avr, avr, avr)
--DEF_HELPER_3(vmulhsw, void, avr, avr, avr)
--DEF_HELPER_3(vmulhuw, void, avr, avr, avr)
--DEF_HELPER_3(vmulhsd, void, avr, avr, avr)
--DEF_HELPER_3(vmulhud, void, avr, avr, avr)
-+DEF_HELPER_3(VMULHSW, void, avr, avr, avr)
-+DEF_HELPER_3(VMULHUW, void, avr, avr, avr)
-+DEF_HELPER_3(VMULHSD, void, avr, avr, avr)
-+DEF_HELPER_3(VMULHUD, void, avr, avr, avr)
+-DEF_HELPER_3(VMULHSW, void, avr, avr, avr)
+-DEF_HELPER_3(VMULHUW, void, avr, avr, avr)
+-DEF_HELPER_3(VMULHSD, void, avr, avr, avr)
+-DEF_HELPER_3(VMULHUD, void, avr, avr, avr)
++DEF_HELPER_4(VMULHSW, void, avr, avr, avr, i32)
++DEF_HELPER_4(VMULHUW, void, avr, avr, avr, i32)
++DEF_HELPER_4(VMULHSD, void, avr, avr, avr, i32)
++DEF_HELPER_4(VMULHUD, void, avr, avr, avr, i32)
  DEF_HELPER_3(vslo, void, avr, avr, avr)
  DEF_HELPER_3(vsro, void, avr, avr, avr)
  DEF_HELPER_3(vsrv, void, avr, avr, avr)
-diff --git a/target/ppc/insn32.decode b/target/ppc/insn32.decode
-index cab372fa44..4774548b3d 100644
---- a/target/ppc/insn32.decode
-+++ b/target/ppc/insn32.decode
-@@ -497,3 +497,9 @@ VMULESD         000100 ..... ..... ..... 01111001000    @VX
- VMULOSD         000100 ..... ..... ..... 00111001000    @VX
- VMULEUD         000100 ..... ..... ..... 01011001000    @VX
- VMULOUD         000100 ..... ..... ..... 00011001000    @VX
-+
-+VMULHSW         000100 ..... ..... ..... 01110001001    @VX
-+VMULHUW         000100 ..... ..... ..... 01010001001    @VX
-+VMULHSD         000100 ..... ..... ..... 01111001001    @VX
-+VMULHUD         000100 ..... ..... ..... 01011001001    @VX
-+VMULLD          000100 ..... ..... ..... 00111001001    @VX
 diff --git a/target/ppc/int_helper.c b/target/ppc/int_helper.c
-index 56b9e9369b..e134162fdd 100644
+index e134162fdd..79cde68f19 100644
 --- a/target/ppc/int_helper.c
 +++ b/target/ppc/int_helper.c
 @@ -1200,7 +1200,7 @@ void helper_VMULOUD(ppc_avr_t *r, ppc_avr_t *a, ppc_avr_t *b)
      mulu64(&r->VsrD(1), &r->VsrD(0), a->VsrD(1), b->VsrD(1));
  }
  
--void helper_vmulhsw(ppc_avr_t *r, ppc_avr_t *a, ppc_avr_t *b)
-+void helper_VMULHSW(ppc_avr_t *r, ppc_avr_t *a, ppc_avr_t *b)
+-void helper_VMULHSW(ppc_avr_t *r, ppc_avr_t *a, ppc_avr_t *b)
++void helper_VMULHSW(ppc_avr_t *r, ppc_avr_t *a, ppc_avr_t *b, uint32_t desc)
  {
      int i;
  
-@@ -1209,7 +1209,7 @@ void helper_vmulhsw(ppc_avr_t *r, ppc_avr_t *a, ppc_avr_t *b)
+@@ -1209,7 +1209,7 @@ void helper_VMULHSW(ppc_avr_t *r, ppc_avr_t *a, ppc_avr_t *b)
      }
  }
  
--void helper_vmulhuw(ppc_avr_t *r, ppc_avr_t *a, ppc_avr_t *b)
-+void helper_VMULHUW(ppc_avr_t *r, ppc_avr_t *a, ppc_avr_t *b)
+-void helper_VMULHUW(ppc_avr_t *r, ppc_avr_t *a, ppc_avr_t *b)
++void helper_VMULHUW(ppc_avr_t *r, ppc_avr_t *a, ppc_avr_t *b, uint32_t desc)
  {
      int i;
  
-@@ -1219,7 +1219,7 @@ void helper_vmulhuw(ppc_avr_t *r, ppc_avr_t *a, ppc_avr_t *b)
+@@ -1219,7 +1219,7 @@ void helper_VMULHUW(ppc_avr_t *r, ppc_avr_t *a, ppc_avr_t *b)
      }
  }
  
--void helper_vmulhsd(ppc_avr_t *r, ppc_avr_t *a, ppc_avr_t *b)
-+void helper_VMULHSD(ppc_avr_t *r, ppc_avr_t *a, ppc_avr_t *b)
+-void helper_VMULHSD(ppc_avr_t *r, ppc_avr_t *a, ppc_avr_t *b)
++void helper_VMULHSD(ppc_avr_t *r, ppc_avr_t *a, ppc_avr_t *b, uint32_t desc)
  {
      uint64_t discard;
  
-@@ -1227,7 +1227,7 @@ void helper_vmulhsd(ppc_avr_t *r, ppc_avr_t *a, ppc_avr_t *b)
+@@ -1227,7 +1227,7 @@ void helper_VMULHSD(ppc_avr_t *r, ppc_avr_t *a, ppc_avr_t *b)
      muls64(&discard, &r->u64[1], a->s64[1], b->s64[1]);
  }
  
--void helper_vmulhud(ppc_avr_t *r, ppc_avr_t *a, ppc_avr_t *b)
-+void helper_VMULHUD(ppc_avr_t *r, ppc_avr_t *a, ppc_avr_t *b)
+-void helper_VMULHUD(ppc_avr_t *r, ppc_avr_t *a, ppc_avr_t *b)
++void helper_VMULHUD(ppc_avr_t *r, ppc_avr_t *a, ppc_avr_t *b, uint32_t desc)
  {
      uint64_t discard;
  
 diff --git a/target/ppc/translate/vmx-impl.c.inc b/target/ppc/translate/vmx-impl.c.inc
-index 430579addd..62d0642226 100644
+index 62d0642226..bed8df81c4 100644
 --- a/target/ppc/translate/vmx-impl.c.inc
 +++ b/target/ppc/translate/vmx-impl.c.inc
-@@ -799,11 +799,6 @@ static void trans_vclzd(DisasContext *ctx)
- }
+@@ -2126,10 +2126,156 @@ TRANS_FLAGS2(ISA310, VMULOSD, do_vx_helper, gen_helper_VMULOSD)
+ TRANS_FLAGS2(ISA310, VMULEUD, do_vx_helper, gen_helper_VMULEUD)
+ TRANS_FLAGS2(ISA310, VMULOUD, do_vx_helper, gen_helper_VMULOUD)
  
- GEN_VXFORM_V(vmuluwm, MO_32, tcg_gen_gvec_mul, 4, 2);
--GEN_VXFORM_V(vmulld, MO_64, tcg_gen_gvec_mul, 4, 7);
--GEN_VXFORM(vmulhuw, 4, 10);
--GEN_VXFORM(vmulhud, 4, 11);
--GEN_VXFORM(vmulhsw, 4, 14);
--GEN_VXFORM(vmulhsd, 4, 15);
- GEN_VXFORM_V(vslb, MO_8, tcg_gen_gvec_shlv, 2, 4);
- GEN_VXFORM_V(vslh, MO_16, tcg_gen_gvec_shlv, 2, 5);
- GEN_VXFORM_V(vslw, MO_32, tcg_gen_gvec_shlv, 2, 6);
-@@ -2103,6 +2098,17 @@ static bool do_vx_helper(DisasContext *ctx, arg_VX *a,
-     return true;
- }
- 
-+static bool trans_VMULLD(DisasContext *ctx, arg_VX *a)
+-TRANS_FLAGS2(ISA310, VMULHSW, do_vx_helper, gen_helper_VMULHSW)
+-TRANS_FLAGS2(ISA310, VMULHSD, do_vx_helper, gen_helper_VMULHSD)
+-TRANS_FLAGS2(ISA310, VMULHUW, do_vx_helper, gen_helper_VMULHUW)
+-TRANS_FLAGS2(ISA310, VMULHUD, do_vx_helper, gen_helper_VMULHUD)
++static void do_vx_vmulhu_vec(unsigned vece, TCGv_vec t, TCGv_vec a, TCGv_vec b)
++{
++    TCGv_vec a1, b1, mask, w, k;
++    unsigned bits;
++    bits = (vece == MO_32) ? 16 : 32;
++
++    a1 = tcg_temp_new_vec_matching(t);
++    b1 = tcg_temp_new_vec_matching(t);
++    w  = tcg_temp_new_vec_matching(t);
++    k  = tcg_temp_new_vec_matching(t);
++    mask = tcg_temp_new_vec_matching(t);
++
++    tcg_gen_dupi_vec(vece, mask, (vece == MO_32) ? 0xFFFF : 0xFFFFFFFF);
++    tcg_gen_and_vec(vece, a1, a, mask);
++    tcg_gen_and_vec(vece, b1, b, mask);
++    tcg_gen_mul_vec(vece, t, a1, b1);
++    tcg_gen_shri_vec(vece, k, t, bits);
++
++    tcg_gen_shri_vec(vece, a1, a, bits);
++    tcg_gen_mul_vec(vece, t, a1, b1);
++    tcg_gen_add_vec(vece, t, t, k);
++    tcg_gen_and_vec(vece, k, t, mask);
++    tcg_gen_shri_vec(vece, w, t, bits);
++
++    tcg_gen_and_vec(vece, a1, a, mask);
++    tcg_gen_shri_vec(vece, b1, b, bits);
++    tcg_gen_mul_vec(vece, t, a1, b1);
++    tcg_gen_add_vec(vece, t, t, k);
++    tcg_gen_shri_vec(vece, k, t, bits);
++
++    tcg_gen_shri_vec(vece, a1, a, bits);
++    tcg_gen_mul_vec(vece, t, a1, b1);
++    tcg_gen_add_vec(vece, t, t, w);
++    tcg_gen_add_vec(vece, t, t, k);
++
++    tcg_temp_free_vec(a1);
++    tcg_temp_free_vec(b1);
++    tcg_temp_free_vec(w);
++    tcg_temp_free_vec(k);
++    tcg_temp_free_vec(mask);
++}
++
++static bool do_vx_mulhu(DisasContext *ctx, arg_VX *a, unsigned vece)
 +{
 +    REQUIRE_INSNS_FLAGS2(ctx, ISA310);
 +    REQUIRE_VECTOR(ctx);
 +
-+    tcg_gen_gvec_mul(MO_64, avr_full_offset(a->vrt), avr_full_offset(a->vra),
-+                     avr_full_offset(a->vrb), 16, 16);
++    static const TCGOpcode vecop_list[] = {
++        INDEX_op_mul_vec, INDEX_op_add_vec, INDEX_op_shri_vec, 0
++    };
++
++    static const GVecGen3 op[2] = {
++        {
++            .fniv = do_vx_vmulhu_vec,
++            .fno  = gen_helper_VMULHUW,
++            .opt_opc = vecop_list,
++            .vece = MO_32
++        },
++        {
++            .fniv = do_vx_vmulhu_vec,
++            .fno  = gen_helper_VMULHUD,
++            .opt_opc = vecop_list,
++            .vece = MO_64
++        },
++    };
++
++    tcg_gen_gvec_3(avr_full_offset(a->vrt), avr_full_offset(a->vra),
++                    avr_full_offset(a->vrb), 16, 16, &op[vece - MO_32]);
++
++    return true;
++
++}
++
++static void do_vx_vmulhs_vec(unsigned vece, TCGv_vec t, TCGv_vec a, TCGv_vec b)
++{
++    TCGv_vec a1, b1, mask, w, k;
++    unsigned bits;
++    bits = (vece == MO_32) ? 16 : 32;
++
++    a1 = tcg_temp_new_vec_matching(t);
++    b1 = tcg_temp_new_vec_matching(t);
++    w  = tcg_temp_new_vec_matching(t);
++    k  = tcg_temp_new_vec_matching(t);
++    mask = tcg_temp_new_vec_matching(t);
++
++    tcg_gen_dupi_vec(vece, mask, (vece == MO_32) ? 0xFFFF : 0xFFFFFFFF);
++    tcg_gen_and_vec(vece, a1, a, mask);
++    tcg_gen_and_vec(vece, b1, b, mask);
++    tcg_gen_mul_vec(vece, t, a1, b1);
++    tcg_gen_shri_vec(vece, k, t, bits);
++
++    tcg_gen_sari_vec(vece, a1, a, bits);
++    tcg_gen_mul_vec(vece, t, a1, b1);
++    tcg_gen_add_vec(vece, t, t, k);
++    tcg_gen_and_vec(vece, k, t, mask);
++    tcg_gen_sari_vec(vece, w, t, bits);
++
++    tcg_gen_and_vec(vece, a1, a, mask);
++    tcg_gen_sari_vec(vece, b1, b, bits);
++    tcg_gen_mul_vec(vece, t, a1, b1);
++    tcg_gen_add_vec(vece, t, t, k);
++    tcg_gen_sari_vec(vece, k, t, bits);
++
++    tcg_gen_sari_vec(vece, a1, a, bits);
++    tcg_gen_mul_vec(vece, t, a1, b1);
++    tcg_gen_add_vec(vece, t, t, w);
++    tcg_gen_add_vec(vece, t, t, k);
++
++    tcg_temp_free_vec(a1);
++    tcg_temp_free_vec(b1);
++    tcg_temp_free_vec(w);
++    tcg_temp_free_vec(k);
++    tcg_temp_free_vec(mask);
++}
++
++static bool do_vx_mulhs(DisasContext *ctx, arg_VX *a, unsigned vece)
++{
++    REQUIRE_INSNS_FLAGS2(ctx, ISA310);
++    REQUIRE_VECTOR(ctx);
++
++    static const TCGOpcode vecop_list[] = {
++        INDEX_op_mul_vec, INDEX_op_add_vec, INDEX_op_shri_vec,
++        INDEX_op_sari_vec, 0
++    };
++
++    static const GVecGen3 op[2] = {
++        {
++            .fniv = do_vx_vmulhs_vec,
++            .fno  = gen_helper_VMULHSW,
++            .opt_opc = vecop_list,
++            .vece = MO_32
++        },
++        {
++            .fniv = do_vx_vmulhs_vec,
++            .fno  = gen_helper_VMULHSD,
++            .opt_opc = vecop_list,
++            .vece = MO_64
++        },
++    };
++
++    tcg_gen_gvec_3(avr_full_offset(a->vrt), avr_full_offset(a->vra),
++                    avr_full_offset(a->vrb), 16, 16, &op[vece - MO_32]);
 +
 +    return true;
 +}
 +
- TRANS_FLAGS2(ALTIVEC_207, VMULESB, do_vx_helper, gen_helper_VMULESB)
- TRANS_FLAGS2(ALTIVEC_207, VMULOSB, do_vx_helper, gen_helper_VMULOSB)
- TRANS_FLAGS2(ALTIVEC_207, VMULEUB, do_vx_helper, gen_helper_VMULEUB)
-@@ -2120,6 +2126,11 @@ TRANS_FLAGS2(ISA310, VMULOSD, do_vx_helper, gen_helper_VMULOSD)
- TRANS_FLAGS2(ISA310, VMULEUD, do_vx_helper, gen_helper_VMULEUD)
- TRANS_FLAGS2(ISA310, VMULOUD, do_vx_helper, gen_helper_VMULOUD)
++TRANS(VMULHSW, do_vx_mulhs, MO_32)
++TRANS(VMULHSD, do_vx_mulhs, MO_64)
++TRANS(VMULHUW, do_vx_mulhu, MO_32)
++TRANS(VMULHUD, do_vx_mulhu, MO_64)
  
-+TRANS_FLAGS2(ISA310, VMULHSW, do_vx_helper, gen_helper_VMULHSW)
-+TRANS_FLAGS2(ISA310, VMULHSD, do_vx_helper, gen_helper_VMULHSD)
-+TRANS_FLAGS2(ISA310, VMULHUW, do_vx_helper, gen_helper_VMULHUW)
-+TRANS_FLAGS2(ISA310, VMULHUD, do_vx_helper, gen_helper_VMULHUD)
-+
  #undef GEN_VR_LDX
  #undef GEN_VR_STX
- #undef GEN_VR_LVE
-diff --git a/target/ppc/translate/vmx-ops.c.inc b/target/ppc/translate/vmx-ops.c.inc
-index f310b2fbde..914e68e5b0 100644
---- a/target/ppc/translate/vmx-ops.c.inc
-+++ b/target/ppc/translate/vmx-ops.c.inc
-@@ -102,11 +102,6 @@ GEN_VXFORM_300(vextubrx, 6, 28),
- GEN_VXFORM_300(vextuhrx, 6, 29),
- GEN_VXFORM_DUAL(vmrgew, vextuwrx, 6, 30, PPC_NONE, PPC2_ALTIVEC_207),
- GEN_VXFORM_207(vmuluwm, 4, 2),
--GEN_VXFORM_310(vmulld, 4, 7),
--GEN_VXFORM_310(vmulhuw, 4, 10),
--GEN_VXFORM_310(vmulhud, 4, 11),
--GEN_VXFORM_310(vmulhsw, 4, 14),
--GEN_VXFORM_310(vmulhsd, 4, 15),
- GEN_VXFORM(vslb, 2, 4),
- GEN_VXFORM(vslh, 2, 5),
- GEN_VXFORM_DUAL(vslw, vrlwnm, 2, 6, PPC_ALTIVEC, PPC_NONE),
 -- 
 2.31.1
 
