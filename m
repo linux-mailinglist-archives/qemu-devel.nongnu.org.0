@@ -2,82 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A14CD4B0647
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Feb 2022 07:29:38 +0100 (CET)
-Received: from localhost ([::1]:58532 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 721AC4B0644
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Feb 2022 07:26:43 +0100 (CET)
+Received: from localhost ([::1]:55702 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nI2xV-0001Dt-Mc
-	for lists+qemu-devel@lfdr.de; Thu, 10 Feb 2022 01:29:37 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:49292)
+	id 1nI2ug-0007Ty-49
+	for lists+qemu-devel@lfdr.de; Thu, 10 Feb 2022 01:26:42 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:49410)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1nI2m9-0003cL-6b
- for qemu-devel@nongnu.org; Thu, 10 Feb 2022 01:17:58 -0500
-Received: from [2607:f8b0:4864:20::1035] (port=41544
- helo=mail-pj1-x1035.google.com)
+ id 1nI2mP-0003eC-Pf
+ for qemu-devel@nongnu.org; Thu, 10 Feb 2022 01:18:11 -0500
+Received: from [2607:f8b0:4864:20::42c] (port=42774
+ helo=mail-pf1-x42c.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1nI2m6-0001Qq-Od
- for qemu-devel@nongnu.org; Thu, 10 Feb 2022 01:17:52 -0500
-Received: by mail-pj1-x1035.google.com with SMTP id
- r64-20020a17090a43c600b001b8854e682eso4620289pjg.0
- for <qemu-devel@nongnu.org>; Wed, 09 Feb 2022 22:17:50 -0800 (PST)
+ id 1nI2mA-0001Rm-Oq
+ for qemu-devel@nongnu.org; Thu, 10 Feb 2022 01:18:09 -0500
+Received: by mail-pf1-x42c.google.com with SMTP id i6so6554280pfc.9
+ for <qemu-devel@nongnu.org>; Wed, 09 Feb 2022 22:17:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=60nuEGgulJM3JaNaNjaCkKMIpqE50/bKiRGitEwl5Aw=;
- b=AHBokYuwSqx+S6YzjFigBrcmrP2i1gGmjevKljFJKxMTjHhkoOyU3Go7/LI/Wrip9E
- d1cgBUapd4M52lglF3b3BOb4Szn+howM3dszyMW0F86mtAinh6HP3MWigkZH9y4jgpah
- 0vjGwy7C3W+ZpjM5m3VhmVo5ZXpv69T5Abv92W1B2oA4bTv5JRjGiiplU16mgkUa9IKh
- M1KkOKzIEI/r3F898T3VTBsEaK0Ei78nMEqn6rXiwKLK2QY/4u1YbdC/0X/jFKvcimJ+
- UP7enLMT+3XtX5epb/B73paRp4qHSPQKdMqS10U7rg/iQAUZTfLaoLe3OZQUbR5jhGoZ
- Scgw==
+ bh=I68MaYP/47cvyogFQOxoaIKfudeSxoDKYkIw4NjBFh0=;
+ b=Skrce7O3f7pAqHwb9Ayp3OuHahMsNsMAxtCxRq0Pjb99+/+rBMUAfdzpct7TuJPBNW
+ JaP1OwBC6cGOrYZY21fR7du7YCE5JgkNnXFbL6s1AlcPR0U4PR1feSjxzjg5q0ZAKrPl
+ jCGandgKzjzGH9fqIcSkar7GV82lrXnTCmB5oR6yMHaRxDJwnm6bI0UEFIFK92+aEw78
+ g71AoF+V/xXbKSwdXgTWQ3mJa1MloSJQxQiaK89OvK60w1AwiaSFKe9QZLM/km6Thbaa
+ 9IW5twLHSXOvSyVK3WzLKLWXln45FikizE0jezD9+oQfRH4Fge9inTsMrBVZDXNvm/DY
+ XwYg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=60nuEGgulJM3JaNaNjaCkKMIpqE50/bKiRGitEwl5Aw=;
- b=Yrq2Y6c/GKzWLxl89s8S3xStN7YzqVeV14WU5vjZjSFkhH3j98ROX4XZT7HBtdnUm+
- eAGDge7nHo6a6/52klomll+YQAVbwj6SFjpT9zcRnXCJ6MdK8JgCh/XuWDRd2U+wzMMB
- jLv1P6K+WkTBW1d/SfunYAzSbufI41HaQIwzFu4o/OTh9tMoQtPApTWIv6Ex5LZoDZ6I
- qN5+gMfRIYGkLcl2n1OhZUMUraE2GTLAIBfZtc8QaIL77fIxO4IigdX0wM4ZMJSiqPsY
- kKm4RUVbWoacsx8kbz0z0X9FVlX46/5Xv1wbWZkZ491qUfWYhU1v1hJrPh2dhv5kLA49
- cmUA==
-X-Gm-Message-State: AOAM5336YrPkjXeIwyTPks8lSmyKVt5bI2z53K9gOcuamxDPlsw2Uko2
- +0uSckNIh2D9RDk9dEMXAfIJmkQAZUZoYXa+
-X-Google-Smtp-Source: ABdhPJzPMQ8zkFF98yaHZxC1yPMxU/iW0xAJaN3R4ideDEEme3Ny6OmeKXrJ5yG1c44hwXrnEpB/kQ==
-X-Received: by 2002:a17:902:e851:: with SMTP id
- t17mr6077478plg.54.1644473868776; 
- Wed, 09 Feb 2022 22:17:48 -0800 (PST)
+ bh=I68MaYP/47cvyogFQOxoaIKfudeSxoDKYkIw4NjBFh0=;
+ b=i+orfm3++9yTwbICZL/UZI3rL6gJC4gwQQ1fTS4fNO3nb/ec5jPITg2/bntwDc0KbD
+ 3HFnnXpGNTPyqTO9PIoOhVpI5xPq8rOQAD5M6duwz3JZXcf8UEZdSu3SYuLBGKbjFpLq
+ BfNrpdGrBd5+xfekddw6HZIVQXUOP6sms4hlz7GiD3Pu6QnuCOnuc/5ct/V/LT4ZFDkt
+ k74HkvpMTBsQhFiQGb6BGpyNHeJi0/E1sk+tCWdcDPxWP02HsZyMv38dSdwEDmUb/aGr
+ RW9Ai/1z82wTyM+tYweQ5WU4jDy7D/RcgldoPD8TqQGDq8zioybclKuEBDpwccJ5qpaY
+ HkPA==
+X-Gm-Message-State: AOAM531FHVePcdh/WeImKErnMxPMMD6B2b8M9UA9MklqEYHutcnxy6ko
+ ybsinN/3ueavZwGHrSiAWuc8RK4IegOGxCT8
+X-Google-Smtp-Source: ABdhPJw00x5V16QkU/4kMLiLhpAMEGrQ7K/RfLcUlpBPm/uMaWekB9gYeMf7oOCWEoN/ZpFvq0j9EQ==
+X-Received: by 2002:a63:e70b:: with SMTP id b11mr5000458pgi.142.1644473872733; 
+ Wed, 09 Feb 2022 22:17:52 -0800 (PST)
 Received: from hsinchu16.internal.sifive.com
  (59-124-168-89.hinet-ip.hinet.net. [59.124.168.89])
- by smtp.gmail.com with ESMTPSA id q2sm23110266pfj.94.2022.02.09.22.17.46
+ by smtp.gmail.com with ESMTPSA id q2sm23110266pfj.94.2022.02.09.22.17.50
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 09 Feb 2022 22:17:48 -0800 (PST)
+ Wed, 09 Feb 2022 22:17:52 -0800 (PST)
 From: frank.chang@sifive.com
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH v2 2/3] hw/intc: Support 32/64-bit mtimecmp and mtime
- accesses in RISC-V ACLINT
-Date: Thu, 10 Feb 2022 14:17:34 +0800
-Message-Id: <20220210061737.1171-3-frank.chang@sifive.com>
+Subject: [RFC PATCH v2 3/3] hw/intc: Make RISC-V ACLINT mtime MMIO register
+ writable
+Date: Thu, 10 Feb 2022 14:17:35 +0800
+Message-Id: <20220210061737.1171-4-frank.chang@sifive.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20220210061737.1171-1-frank.chang@sifive.com>
 References: <20220210061737.1171-1-frank.chang@sifive.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1035
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::42c
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1035;
- envelope-from=frank.chang@sifive.com; helo=mail-pj1-x1035.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42c;
+ envelope-from=frank.chang@sifive.com; helo=mail-pf1-x42c.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
 X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+ PDS_HP_HELO_NORDNS=0.001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -90,81 +87,224 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-riscv@nongnu.org, Frank Chang <frank.chang@sifive.com>,
- Anup Patel <anup.patel@wdc.com>, Alistair Francis <alistair.francis@wdc.com>,
- Bin Meng <bmeng.cn@gmail.com>, LIU Zhiwei <zhiwei_liu@c-sky.com>
+Cc: Anup Patel <anup.patel@wdc.com>, qemu-riscv@nongnu.org,
+ Frank Chang <frank.chang@sifive.com>, Bin Meng <bin.meng@windriver.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ David Hoppenbrouwers <david@salt-inc.org>, LIU Zhiwei <zhiwei_liu@c-sky.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Frank Chang <frank.chang@sifive.com>
 
-RISC-V privilege spec defines that:
+RISC-V privilege spec defines that mtime is exposed as a memory-mapped
+machine-mode read-write register. However, as QEMU uses host monotonic
+timer as timer source, this makes mtime to be read-only in RISC-V
+ACLINT.
 
-* In RV32, memory-mapped writes to mtimecmp modify only one 32-bit part
-  of the register.
-* For RV64, naturally aligned 64-bit memory accesses to the mtime and
-  mtimecmp registers are additionally supported and are atomic.
-
-It's possible to perform both 32/64-bit read/write accesses to both
-mtimecmp and mtime registers.
+This patch makes mtime to be writable by recording the time delta value
+between the mtime value to be written and the timer value at the time
+mtime is written. Time delta value is then added back whenever the timer
+value is retrieved.
 
 Signed-off-by: Frank Chang <frank.chang@sifive.com>
 ---
- hw/intc/riscv_aclint.c | 26 ++++++++++++++++----------
- 1 file changed, 16 insertions(+), 10 deletions(-)
+ hw/intc/riscv_aclint.c         | 65 ++++++++++++++++++++++------------
+ include/hw/intc/riscv_aclint.h |  1 +
+ target/riscv/cpu.h             |  8 ++---
+ target/riscv/cpu_helper.c      |  4 +--
+ 4 files changed, 50 insertions(+), 28 deletions(-)
 
 diff --git a/hw/intc/riscv_aclint.c b/hw/intc/riscv_aclint.c
-index 3b598d8a7e..e7b103e83a 100644
+index e7b103e83a..2d7d7361be 100644
 --- a/hw/intc/riscv_aclint.c
 +++ b/hw/intc/riscv_aclint.c
-@@ -126,9 +126,9 @@ static uint64_t riscv_aclint_mtimer_read(void *opaque, hwaddr addr,
-             qemu_log_mask(LOG_GUEST_ERROR,
-                           "aclint-mtimer: invalid hartid: %zu", hartid);
-         } else if ((addr & 0x7) == 0) {
--            /* timecmp_lo */
-+            /* timecmp_lo for RV32/RV64 or timecmp for RV64 */
-             uint64_t timecmp = env->timecmp;
--            return timecmp & 0xFFFFFFFF;
-+            return (size == 4) ? (timecmp & 0xFFFFFFFF) : timecmp;
-         } else if ((addr & 0x7) == 4) {
-             /* timecmp_hi */
-             uint64_t timecmp = env->timecmp;
-@@ -139,8 +139,9 @@ static uint64_t riscv_aclint_mtimer_read(void *opaque, hwaddr addr,
-             return 0;
+@@ -38,12 +38,18 @@ typedef struct riscv_aclint_mtimer_callback {
+     int num;
+ } riscv_aclint_mtimer_callback;
+ 
+-static uint64_t cpu_riscv_read_rtc(uint32_t timebase_freq)
++static uint64_t cpu_riscv_read_rtc_raw(uint32_t timebase_freq)
+ {
+     return muldiv64(qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL),
+         timebase_freq, NANOSECONDS_PER_SECOND);
+ }
+ 
++static uint64_t cpu_riscv_read_rtc(void *opaque)
++{
++    RISCVAclintMTimerState *mtimer = opaque;
++    return cpu_riscv_read_rtc_raw(mtimer->timebase_freq) + mtimer->time_delta;
++}
++
+ /*
+  * Called when timecmp is written to update the QEMU timer or immediately
+  * trigger timer interrupt if mtimecmp <= current timer value.
+@@ -51,13 +57,13 @@ static uint64_t cpu_riscv_read_rtc(uint32_t timebase_freq)
+ static void riscv_aclint_mtimer_write_timecmp(RISCVAclintMTimerState *mtimer,
+                                               RISCVCPU *cpu,
+                                               int hartid,
+-                                              uint64_t value,
+-                                              uint32_t timebase_freq)
++                                              uint64_t value)
+ {
++    uint32_t timebase_freq = mtimer->timebase_freq;
+     uint64_t next;
+     uint64_t diff;
+ 
+-    uint64_t rtc_r = cpu_riscv_read_rtc(timebase_freq);
++    uint64_t rtc_r = cpu_riscv_read_rtc(mtimer);
+ 
+     cpu->env.timecmp = value;
+     if (cpu->env.timecmp <= rtc_r) {
+@@ -140,11 +146,11 @@ static uint64_t riscv_aclint_mtimer_read(void *opaque, hwaddr addr,
          }
      } else if (addr == mtimer->time_base) {
--        /* time_lo */
--        return cpu_riscv_read_rtc(mtimer->timebase_freq) & 0xFFFFFFFF;
-+        /* time_lo for RV32/RV64 or timecmp for RV64 */
-+        uint64_t rtc = cpu_riscv_read_rtc(mtimer->timebase_freq);
-+        return (size == 4) ? (rtc & 0xFFFFFFFF) : rtc;
+         /* time_lo for RV32/RV64 or timecmp for RV64 */
+-        uint64_t rtc = cpu_riscv_read_rtc(mtimer->timebase_freq);
++        uint64_t rtc = cpu_riscv_read_rtc(mtimer);
+         return (size == 4) ? (rtc & 0xFFFFFFFF) : rtc;
      } else if (addr == mtimer->time_base + 4) {
          /* time_hi */
-         return (cpu_riscv_read_rtc(mtimer->timebase_freq) >> 32) & 0xFFFFFFFF;
-@@ -167,12 +168,17 @@ static void riscv_aclint_mtimer_write(void *opaque, hwaddr addr,
-             qemu_log_mask(LOG_GUEST_ERROR,
-                           "aclint-mtimer: invalid hartid: %zu", hartid);
-         } else if ((addr & 0x7) == 0) {
--            /* timecmp_lo */
--            uint64_t timecmp_hi = env->timecmp >> 32;
--            riscv_aclint_mtimer_write_timecmp(mtimer, RISCV_CPU(cpu), hartid,
--                timecmp_hi << 32 | (value & 0xFFFFFFFF),
--                mtimer->timebase_freq);
--            return;
-+            if (size == 4) {
-+                /* timecmp_lo for RV32/RV64 */
-+                uint64_t timecmp_hi = env->timecmp >> 32;
-+                riscv_aclint_mtimer_write_timecmp(mtimer, RISCV_CPU(cpu), hartid,
-+                    timecmp_hi << 32 | (value & 0xFFFFFFFF),
-+                    mtimer->timebase_freq);
-+            } else {
-+                /* timecmp for RV64 */
-+                riscv_aclint_mtimer_write_timecmp(mtimer, RISCV_CPU(cpu), hartid,
-+                                                  value, mtimer->timebase_freq);
-+            }
+-        return (cpu_riscv_read_rtc(mtimer->timebase_freq) >> 32) & 0xFFFFFFFF;
++        return (cpu_riscv_read_rtc(mtimer) >> 32) & 0xFFFFFFFF;
+     }
+ 
+     qemu_log_mask(LOG_UNIMP,
+@@ -157,6 +163,7 @@ static void riscv_aclint_mtimer_write(void *opaque, hwaddr addr,
+     uint64_t value, unsigned size)
+ {
+     RISCVAclintMTimerState *mtimer = opaque;
++    int i;
+ 
+     if (addr >= mtimer->timecmp_base &&
+         addr < (mtimer->timecmp_base + (mtimer->num_harts << 3))) {
+@@ -172,35 +179,49 @@ static void riscv_aclint_mtimer_write(void *opaque, hwaddr addr,
+                 /* timecmp_lo for RV32/RV64 */
+                 uint64_t timecmp_hi = env->timecmp >> 32;
+                 riscv_aclint_mtimer_write_timecmp(mtimer, RISCV_CPU(cpu), hartid,
+-                    timecmp_hi << 32 | (value & 0xFFFFFFFF),
+-                    mtimer->timebase_freq);
++                    timecmp_hi << 32 | (value & 0xFFFFFFFF));
+             } else {
+                 /* timecmp for RV64 */
+                 riscv_aclint_mtimer_write_timecmp(mtimer, RISCV_CPU(cpu), hartid,
+-                                                  value, mtimer->timebase_freq);
++                                                  value);
+             }
          } else if ((addr & 0x7) == 4) {
              /* timecmp_hi */
              uint64_t timecmp_lo = env->timecmp;
+             riscv_aclint_mtimer_write_timecmp(mtimer, RISCV_CPU(cpu), hartid,
+-                value << 32 | (timecmp_lo & 0xFFFFFFFF),
+-                mtimer->timebase_freq);
++                value << 32 | (timecmp_lo & 0xFFFFFFFF));
+         } else {
+             qemu_log_mask(LOG_UNIMP,
+                           "aclint-mtimer: invalid timecmp write: %08x",
+                           (uint32_t)addr);
+         }
+         return;
+-    } else if (addr == mtimer->time_base) {
+-        /* time_lo */
+-        qemu_log_mask(LOG_UNIMP,
+-                      "aclint-mtimer: time_lo write not implemented");
+-        return;
+-    } else if (addr == mtimer->time_base + 4) {
+-        /* time_hi */
+-        qemu_log_mask(LOG_UNIMP,
+-                      "aclint-mtimer: time_hi write not implemented");
+-        return;
++    } else if (addr == mtimer->time_base || addr == mtimer->time_base + 4) {
++        uint64_t rtc_r = cpu_riscv_read_rtc_raw(mtimer->timebase_freq);
++
++        if (addr == mtimer->time_base) {
++            if (size == 4) {
++                /* time_lo for RV32/RV64 */
++                mtimer->time_delta = ((rtc_r & ~0xFFFFFFFFULL) | value) - rtc_r;
++            } else {
++                /* time for RV64 */
++                mtimer->time_delta = value - rtc_r;
++            }
++        } else {
++            /* time_hi */
++            mtimer->time_delta = (value << 32 | (rtc_r & 0xFFFFFFFF)) - rtc_r;
++        }
++
++        /* Check if timer interrupt is triggered for each hart. */
++        for (i = 0; i < mtimer->num_harts; i++) {
++            CPUState *cpu = qemu_get_cpu(mtimer->hartid_base + i);
++            CPURISCVState *env = cpu ? cpu->env_ptr : NULL;
++            if (!env) {
++                continue;
++            }
++            riscv_aclint_mtimer_write_timecmp(mtimer, RISCV_CPU(cpu),
++                                              i, env->timecmp);
++        }
+     }
+ 
+     qemu_log_mask(LOG_UNIMP,
+@@ -309,7 +330,7 @@ DeviceState *riscv_aclint_mtimer_create(hwaddr addr, hwaddr size,
+             continue;
+         }
+         if (provide_rdtime) {
+-            riscv_cpu_set_rdtime_fn(env, cpu_riscv_read_rtc, timebase_freq);
++            riscv_cpu_set_rdtime_fn(env, cpu_riscv_read_rtc, dev);
+         }
+ 
+         cb->s = RISCV_ACLINT_MTIMER(dev);
+diff --git a/include/hw/intc/riscv_aclint.h b/include/hw/intc/riscv_aclint.h
+index 229bd08d25..26d4048687 100644
+--- a/include/hw/intc/riscv_aclint.h
++++ b/include/hw/intc/riscv_aclint.h
+@@ -31,6 +31,7 @@
+ typedef struct RISCVAclintMTimerState {
+     /*< private >*/
+     SysBusDevice parent_obj;
++    uint64_t time_delta;
+ 
+     /*< public >*/
+     MemoryRegion mmio;
+diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+index 7ecb1387dd..b5e50d6e75 100644
+--- a/target/riscv/cpu.h
++++ b/target/riscv/cpu.h
+@@ -268,8 +268,8 @@ struct CPURISCVState {
+     target_ulong mseccfg;
+ 
+     /* machine specific rdtime callback */
+-    uint64_t (*rdtime_fn)(uint32_t);
+-    uint32_t rdtime_fn_arg;
++    uint64_t (*rdtime_fn)(void *);
++    void *rdtime_fn_arg;
+ 
+     /* machine specific AIA ireg read-modify-write callback */
+ #define AIA_MAKE_IREG(__isel, __priv, __virt, __vgein, __xlen) \
+@@ -468,8 +468,8 @@ void riscv_cpu_swap_hypervisor_regs(CPURISCVState *env);
+ int riscv_cpu_claim_interrupts(RISCVCPU *cpu, uint64_t interrupts);
+ uint64_t riscv_cpu_update_mip(RISCVCPU *cpu, uint64_t mask, uint64_t value);
+ #define BOOL_TO_MASK(x) (-!!(x)) /* helper for riscv_cpu_update_mip value */
+-void riscv_cpu_set_rdtime_fn(CPURISCVState *env, uint64_t (*fn)(uint32_t),
+-                             uint32_t arg);
++void riscv_cpu_set_rdtime_fn(CPURISCVState *env, uint64_t (*fn)(void *),
++                             void *arg);
+ void riscv_cpu_set_aia_ireg_rmw_fn(CPURISCVState *env, uint32_t priv,
+                                    int (*rmw_fn)(void *arg,
+                                                  target_ulong reg,
+diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
+index 05a90b50ea..3626a3a57e 100644
+--- a/target/riscv/cpu_helper.c
++++ b/target/riscv/cpu_helper.c
+@@ -628,8 +628,8 @@ uint64_t riscv_cpu_update_mip(RISCVCPU *cpu, uint64_t mask, uint64_t value)
+     return old;
+ }
+ 
+-void riscv_cpu_set_rdtime_fn(CPURISCVState *env, uint64_t (*fn)(uint32_t),
+-                             uint32_t arg)
++void riscv_cpu_set_rdtime_fn(CPURISCVState *env, uint64_t (*fn)(void *),
++                             void *arg)
+ {
+     env->rdtime_fn = fn;
+     env->rdtime_fn_arg = arg;
 -- 
 2.31.1
 
