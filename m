@@ -2,76 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 428264B09FD
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Feb 2022 10:51:21 +0100 (CET)
-Received: from localhost ([::1]:54194 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 072E94B09FE
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Feb 2022 10:52:11 +0100 (CET)
+Received: from localhost ([::1]:55328 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nI66h-0005R4-Sz
-	for lists+qemu-devel@lfdr.de; Thu, 10 Feb 2022 04:51:19 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:45594)
+	id 1nI67U-0006De-UL
+	for lists+qemu-devel@lfdr.de; Thu, 10 Feb 2022 04:52:08 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:45686)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nI62d-0004JZ-JK
- for qemu-devel@nongnu.org; Thu, 10 Feb 2022 04:47:08 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:58369)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nI633-0004YU-79
+ for qemu-devel@nongnu.org; Thu, 10 Feb 2022 04:47:33 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:31088)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nI62Z-0007oZ-Eo
- for qemu-devel@nongnu.org; Thu, 10 Feb 2022 04:47:05 -0500
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nI630-0007r1-UA
+ for qemu-devel@nongnu.org; Thu, 10 Feb 2022 04:47:32 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1644486422;
+ s=mimecast20190719; t=1644486450;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=ULaY+VXVMm6bANSo/hom9i6wtEhJUUl5QfBp3m4Svr0=;
- b=aO3Oh96zKIcMX2lr5VNyGZdJd4vuI+XkOZulk7Y2rWhtSk7vNgfu+8bn7veMU0PvM1P2NJ
- vsnnkuXe1jie7+HihL1jdCwG8GB59jSN4w2h5TF3l6355l/Zqn+hC8xbaxeAJlqSElkGqN
- pIfB7eo9b3nDLZokSEuk8iQexTQtvo8=
-Received: from mail-pj1-f70.google.com (mail-pj1-f70.google.com
- [209.85.216.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=kMtjl5mr2zHFie8ZK+tUcLjFlwfAM5RViG25PxeyBuU=;
+ b=FG2i95NjaMGhRfWXzxFzeRDcyJsm2WVcXRF0qcTZTvIF+VvbbC8ukV4WvPkoeaXk38rgZ3
+ ohB+xbHHp30UHwRp/25latSdsGwzvvtsZ6oQ4pyHA8yIIRmrKPy+yEZB1phfj5RWsApaUB
+ wkdAeqKFkBJ0HsbnOJ0rmhek4tqN6Tc=
+Received: from mail-pj1-f69.google.com (mail-pj1-f69.google.com
+ [209.85.216.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-529-mn5iUUmjMRuIqa5Jff593g-1; Thu, 10 Feb 2022 04:47:01 -0500
-X-MC-Unique: mn5iUUmjMRuIqa5Jff593g-1
-Received: by mail-pj1-f70.google.com with SMTP id
- j23-20020a17090a7e9700b001b8626c9170so5848539pjl.1
- for <qemu-devel@nongnu.org>; Thu, 10 Feb 2022 01:47:01 -0800 (PST)
+ us-mta-414-RsZigoeeMgqK3LSoPjJNUA-1; Thu, 10 Feb 2022 04:47:28 -0500
+X-MC-Unique: RsZigoeeMgqK3LSoPjJNUA-1
+Received: by mail-pj1-f69.google.com with SMTP id
+ bj11-20020a17090b088b00b001b8ba3e7ce7so5850254pjb.2
+ for <qemu-devel@nongnu.org>; Thu, 10 Feb 2022 01:47:28 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=ULaY+VXVMm6bANSo/hom9i6wtEhJUUl5QfBp3m4Svr0=;
- b=e/zCiEPL45uF6XuHcYIzPIRwWWOY9Z9+/7wzj+FVmK9VeFn8wM1wvgJJEZmMZA+Glr
- FzU0vib+JFZcG50GLeLKsunLsUDnurEcznpGm4quLXR4LW9XQAT3goF6V8M8pyC617c0
- UESabCWJRGC1nsHA8wgvm3lyvbuztVMQjwVSxBoAbRbXhHEb8ECjt/vY+908tGqRj8a6
- WpG3hWcHhY6eP0eNINpHiY2RQZAcsRkLtAfiD/9Gh5+IkMHUOCgtOXn6UZXt4IUj0ivP
- bvcooubv24ns67pMqzs+uYtl/2KMzQPYtWbzdRz2sRNgNnPIlQPO/ptJiur/TbjEVQQ9
- RBbQ==
-X-Gm-Message-State: AOAM533G+7JYKjzInqf96UPUk/0XRH/2PCjsW0KOcudsPGrKcHoq0XHZ
- rWOnrrHE1iMUpm6EfzwawfroFFM2ysXGgt27ss3i73kjss9aYa0ETwDGM8XH3SP3b7NoKOnF3Yz
- LDsDHkKTC6QjgJPY=
-X-Received: by 2002:a62:80d3:: with SMTP id j202mr6618531pfd.20.1644486420256; 
- Thu, 10 Feb 2022 01:47:00 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzFm7qVqhXeTk00hUjrV5AJ0Tsd4AVMxzatp5vZCCXQawynFxE/nqZ72XtZPW6OhS3azetohA==
-X-Received: by 2002:a62:80d3:: with SMTP id j202mr6618519pfd.20.1644486419977; 
- Thu, 10 Feb 2022 01:46:59 -0800 (PST)
+ bh=kMtjl5mr2zHFie8ZK+tUcLjFlwfAM5RViG25PxeyBuU=;
+ b=D0XSg1tuyaD1R2nt9E7wCupMO7icKF3se/HmlAOp7l4qUVYnmNdq4DQwK4wSBmIEEx
+ u/G5Oz64ZerftpmJCb8cL4Z0jGplEdHYz7G9PVqE+wKV0T5OIXXpCZBGFY08XekCk0HY
+ QYZxSLJCOGT41tq7WDAt7u0homauogxXKPl6HYwxZqtDm5xZ9EwW7objkgRCL1XciUkx
+ J/O3s71GEelKX7Zxha69nOReaHMpxCIs40c0dDigC6km5QrfVnZCSnHKkibBJzgEcH8k
+ Gn8DOWq6NayoeMILLpTr3GQ1OVtJLNWvGtJ+hclGzFDRfURyt6SHOLqZDA7s/K+ZR6SY
+ D6Mg==
+X-Gm-Message-State: AOAM530GRZjxXhqX5LbmMqeG4r5XDTMvi2L0dcbmv24NHcW3J1mndip/
+ qFeIqmjJ58jSnSfrguCTTCyQyOh+BE08qkeZxewMCQ7WEPNVHN4FE0iM1u5KlX2KOOgZ1XiSdxU
+ 4Jmfcei8iMpbl7QI=
+X-Received: by 2002:a17:90b:701:: with SMTP id s1mr1893145pjz.60.1644486447494; 
+ Thu, 10 Feb 2022 01:47:27 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxYokmZSXOIhiaKqe7RxD6juAiBUdqHgHghdh60pCMrrIBddW+o1QriGf9wKnn5xdtG9AjqsQ==
+X-Received: by 2002:a17:90b:701:: with SMTP id s1mr1893131pjz.60.1644486447217; 
+ Thu, 10 Feb 2022 01:47:27 -0800 (PST)
 Received: from xz-m1.local ([94.177.118.72])
- by smtp.gmail.com with ESMTPSA id c8sm23630243pfv.57.2022.02.10.01.46.58
+ by smtp.gmail.com with ESMTPSA id f30sm8595421pgf.7.2022.02.10.01.47.25
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 10 Feb 2022 01:46:59 -0800 (PST)
-Date: Thu, 10 Feb 2022 17:46:55 +0800
+ Thu, 10 Feb 2022 01:47:26 -0800 (PST)
+Date: Thu, 10 Feb 2022 17:47:22 +0800
 From: Peter Xu <peterx@redhat.com>
 To: Jason Wang <jasowang@redhat.com>
-Subject: Re: [PATCH 1/2] intel-iommu: remove VTD_FR_RESERVED_ERR
-Message-ID: <YgTfD3Bo3GRy8gbH@xz-m1.local>
+Subject: Re: [PATCH 2/2] intel-iommu: block output address in interrupt
+ address range
+Message-ID: <YgTfKsgeEWGXYHZm@xz-m1.local>
 References: <20220210092815.45174-1-jasowang@redhat.com>
+ <20220210092815.45174-2-jasowang@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20220210092815.45174-1-jasowang@redhat.com>
+In-Reply-To: <20220210092815.45174-2-jasowang@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=peterx@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -96,9 +98,17 @@ Cc: qemu-devel@nongnu.org, mst@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Feb 10, 2022 at 05:28:14PM +0800, Jason Wang wrote:
-> This fault reason is not used and is duplicated with SPT.2 condition
-> code. So let's remove it.
+On Thu, Feb 10, 2022 at 05:28:15PM +0800, Jason Wang wrote:
+> According to vtd spec v3.3 3.14:
+> 
+> """
+> Software must not program paging-structure entries to remap any
+> address to the interrupt address range. Untranslated requests and
+> translation requests that result in an address in the interrupt range
+> will be blocked with condition code LGN.4 or SGN.8.
+> """
+> 
+> This patch blocks the request that result in interrupt address range.
 > 
 > Signed-off-by: Jason Wang <jasowang@redhat.com>
 
