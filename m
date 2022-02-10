@@ -2,60 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 026164B149E
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Feb 2022 18:53:32 +0100 (CET)
-Received: from localhost ([::1]:58982 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0DB2D4B1491
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Feb 2022 18:49:32 +0100 (CET)
+Received: from localhost ([::1]:55964 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nIDdL-0006Kt-2k
-	for lists+qemu-devel@lfdr.de; Thu, 10 Feb 2022 12:53:31 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:55328)
+	id 1nIDZR-0004K6-QZ
+	for lists+qemu-devel@lfdr.de; Thu, 10 Feb 2022 12:49:29 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:55520)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1nIBea-000481-GV
- for qemu-devel@nongnu.org; Thu, 10 Feb 2022 10:46:40 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:45940)
+ id 1nIBep-000530-Rc
+ for qemu-devel@nongnu.org; Thu, 10 Feb 2022 10:46:56 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:34499)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1nIBeV-000266-CP
- for qemu-devel@nongnu.org; Thu, 10 Feb 2022 10:46:38 -0500
+ id 1nIBeo-0002eg-86
+ for qemu-devel@nongnu.org; Thu, 10 Feb 2022 10:46:55 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1644507993;
+ s=mimecast20190719; t=1644508013;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=zFsD69wKextybj40GJBY+j2m8qQGyDcvDCT3rLGzmAQ=;
- b=Tc88g8oiIv3I0au1magdm8Y/eyCqRfhJdgqHtXnUtHUK6cjEdvD+xAZCMAU4HgGGjCf2nx
- tI+9AxI9UUIG2NSf0IXnQ19VMFoOdlcSQyN+6ukwobyz7iPOqzjUrjLy5yKdwba5XM8DEm
- +bPM0coCBGm7TVQ/AqRkytWVVB7jIBQ=
+ bh=zomOUt2v4IR6qUYZHB5bJZPQPCihiS8yj0eyxSJ0SXg=;
+ b=GZy0LtkAjgdCkGjS/YMhL3DPllGL++cYOfwmXS26xakEgTnJM7VumQ37v5VA/CFACJkvGa
+ dnJsdgck8knn+f2iWahXoNHcFMNIFmFoh9Cc2QwH/8sECCXZ1StWmk/P0L6pfRGT9ML+34
+ Neod1ntGC0jpGpphuUof1sD9L4lBqV8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-451-_BgCsXD2MCiT-XkGt_IxmA-1; Thu, 10 Feb 2022 10:46:32 -0500
-X-MC-Unique: _BgCsXD2MCiT-XkGt_IxmA-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-600-GhhgpvqWMxyW8kkDEU3iGw-1; Thu, 10 Feb 2022 10:46:50 -0500
+X-MC-Unique: GhhgpvqWMxyW8kkDEU3iGw-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 021F81B18BEA;
- Thu, 10 Feb 2022 15:40:41 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6A129100CC90;
+ Thu, 10 Feb 2022 15:43:11 +0000 (UTC)
 Received: from localhost (unknown [10.39.195.225])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 471107CAF7;
- Thu, 10 Feb 2022 15:40:29 +0000 (UTC)
-Date: Thu, 10 Feb 2022 15:40:27 +0000
+ by smtp.corp.redhat.com (Postfix) with ESMTP id EBE6F75749;
+ Thu, 10 Feb 2022 15:43:05 +0000 (UTC)
+Date: Thu, 10 Feb 2022 15:43:04 +0000
 From: Stefan Hajnoczi <stefanha@redhat.com>
 To: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-Subject: Re: [PATCH v5 02/20] job.h: categorize fields in struct Job
-Message-ID: <YgUx60M7dB+VLi3p@stefanha-x1.localdomain>
+Subject: Re: [PATCH v5 03/20] job.c: API functions not used outside should be
+ static
+Message-ID: <YgUyiN0vfIa560wm@stefanha-x1.localdomain>
 References: <20220208143513.1077229-1-eesposit@redhat.com>
- <20220208143513.1077229-3-eesposit@redhat.com>
+ <20220208143513.1077229-4-eesposit@redhat.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="ZvEE6H0UwAtyNIKI"
+ protocol="application/pgp-signature"; boundary="Xt+qxFd+rg/xGZ8t"
 Content-Disposition: inline
-In-Reply-To: <20220208143513.1077229-3-eesposit@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
+In-Reply-To: <20220208143513.1077229-4-eesposit@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -87,49 +88,73 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---ZvEE6H0UwAtyNIKI
+--Xt+qxFd+rg/xGZ8t
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Feb 08, 2022 at 09:34:55AM -0500, Emanuele Giuseppe Esposito wrote:
-> Categorize the fields in struct Job to understand which ones
-> need to be protected by the job mutex and which don't.
+On Tue, Feb 08, 2022 at 09:34:56AM -0500, Emanuele Giuseppe Esposito wrote:
+> job_event_* functions can all be static, as they are not used
+> outside job.c.
+>=20
+> Same applies for job_txn_add_job().
 >=20
 > Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 > ---
->  include/qemu/job.h | 59 ++++++++++++++++++++++++++--------------------
->  1 file changed, 34 insertions(+), 25 deletions(-)
+>  include/qemu/job.h | 18 ------------------
+>  job.c              | 12 +++++++++---
+>  2 files changed, 9 insertions(+), 21 deletions(-)
 >=20
 > diff --git a/include/qemu/job.h b/include/qemu/job.h
-> index d1192ffd61..86ec46c09e 100644
+> index 86ec46c09e..6000463126 100644
 > --- a/include/qemu/job.h
 > +++ b/include/qemu/job.h
-> @@ -40,27 +40,50 @@ typedef struct JobTxn JobTxn;
->   * Long-running operation.
+> @@ -356,18 +356,6 @@ JobTxn *job_txn_new(void);
 >   */
->  typedef struct Job {
-> +
-> +    /* Fields set at initialization (job_create), and never modified */
+>  void job_txn_unref(JobTxn *txn);
+> =20
+> -/**
+> - * @txn: The transaction (may be NULL)
+> - * @job: Job to add to the transaction
+> - *
+> - * Add @job to the transaction.  The @job must not already be in a trans=
+action.
+> - * The caller must call either job_txn_unref() or job_completed() to rel=
+ease
+> - * the reference that is automatically grabbed here.
+> - *
+> - * If @txn is NULL, the function does nothing.
+> - */
+> -void job_txn_add_job(JobTxn *txn, Job *job);
+=2E..
+> diff --git a/job.c b/job.c
+> index d603f9ad1e..f13939d3c6 100644
+> --- a/job.c
+> +++ b/job.c
+> @@ -125,7 +125,7 @@ void job_txn_unref(JobTxn *txn)
+>      }
+>  }
+> =20
+> -void job_txn_add_job(JobTxn *txn, Job *job)
+> +static void job_txn_add_job(JobTxn *txn, Job *job)
 
-Is there a corresponding "Field protected by job_mutex" comment that
-separates fields that need locking?
+Please move the doc comments into the .c file too.
 
---ZvEE6H0UwAtyNIKI
+--Xt+qxFd+rg/xGZ8t
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmIFMesACgkQnKSrs4Gr
-c8iUqwgAnunEf5VndWFbcB3pi7ttiY4l/qbLypjuisr3pGc2APttQcaafoUcFPo3
-6Sg+8ySjNJ3CeoZ8JErTyKdBMHb81QXF1ie9bbBn2ztpHSGF+67BpbSZ+ReankSy
-iH2cXiKAmsZHl5cfZZZ3XbVFyyNQOpfVT9ogAx8f3O9dhFaVd4YNARvJjIz742FD
-/Kbn7QiKWHr5x0eQ5tmChAHhSxIyM/RnO4ll/NTNiKIoR1TqA+9P/NYhQJX2obXI
-kZh8PupDOlDkMaqE439GeDxS3tHJjBxxizPDrdALqWQYeOaWj4cKmHTEkrg49c6M
-AZAc+0+LczCnPjOnDEGWbCpnNM3pCw==
-=II9+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmIFMogACgkQnKSrs4Gr
+c8jdMAf9HaYsWBHpgnZcvw6tryiUzGYS97zSLFNQG3Us2ubCNEeJXrtA6P+yimaQ
+wUxGJGJfPAsskMmDf6TryV4Yr7q2yB/B/szdxR9r7+X/0GpmsjJpgIUaI+Ds6ceF
+HNBbAQ3509XDstoyH+K6RjoGUEb8IIEa6FSMPbxPB60Xk4O09OU5Q08EVgkgB1fr
+fO7jmFisqw6fLsY/uLvfAIAatmJ4n4ORmgK04apwCdj3R7U/OTNVfh4nQcN5hcVH
+aFmLDLAmnxR5VdXmm1yS3ZeRDPGbQSJARc2tBsY4PyI552uB4bnziSMM4IEaUyow
+x9Y2/zbQW8b9zZUjLvq5IjyvXYdLOg==
+=C7+1
 -----END PGP SIGNATURE-----
 
---ZvEE6H0UwAtyNIKI--
+--Xt+qxFd+rg/xGZ8t--
 
 
