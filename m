@@ -2,86 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2DA004B0C40
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Feb 2022 12:22:30 +0100 (CET)
-Received: from localhost ([::1]:47552 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 21DE74B0CC3
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Feb 2022 12:49:56 +0100 (CET)
+Received: from localhost ([::1]:59380 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nI7Wv-0004CJ-9D
-	for lists+qemu-devel@lfdr.de; Thu, 10 Feb 2022 06:22:29 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:39784)
+	id 1nI7xT-0007Sj-7F
+	for lists+qemu-devel@lfdr.de; Thu, 10 Feb 2022 06:49:55 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:43344)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nI7UH-00029u-5W; Thu, 10 Feb 2022 06:19:45 -0500
-Received: from [2607:f8b0:4864:20::633] (port=40849
- helo=mail-pl1-x633.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nI7UF-0000G1-Aq; Thu, 10 Feb 2022 06:19:44 -0500
-Received: by mail-pl1-x633.google.com with SMTP id y17so1538722plg.7;
- Thu, 10 Feb 2022 03:19:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=3OBTDh3vWlqPwn7p6kiDt3hHRWZFLjw2UFZP5XM5Mqk=;
- b=BFhN92Cs6TgdtLXfLTzN1aW586wRxoKYISyMrOHErfjUCAuHHD+rZCAG4GP7MayEpj
- A+cmAeoKM08gPKVCFM0y/HMyNteDl2TNsaVJ/XaUJ7k3gO1w6k6yMjMfkCmHbqbImhg7
- UPZNJV82kRhtoB6nhsqiTKvcae6PLnYmbDjKmHFQaoKk3Ec5HuEhidKcnfa+4mJuz1yJ
- UWhfOIs/VwZmX6iC9ntA7xJXBMFq7g4RnLMllmWk6Jqj+J6ZHNdZYEBo+C+86bDZpeHT
- UirXYtTS44KgFeO7vGOkzN0jK7WS+dM4gEr/r7LRoBVOq/XF0BD0HMW1OzfAxpDs1+aI
- mecw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=3OBTDh3vWlqPwn7p6kiDt3hHRWZFLjw2UFZP5XM5Mqk=;
- b=Xg4QV5kRV8nVplph8TPgWoCmfyqMOrNLcs8ddBfdVj64vg7ohPQ1OxF+aLI/z7AVWD
- WKcYreiFL7yNktdDB5/OWrCjwIVasKe01v0l/qxaX7Ws4wJ9zLFQEqWOLqYR4r2U6vZy
- lZLfFXU5Krz+ILetpRYdnixuIMtkbvmzNqP+H5FF2iqoe9qIYLLAbjClXh/7YbbAhCWr
- PWwLXvQvrPDSwLHBZavOnjjgdSutMpgxZkDegaCZhFws9LXnV5Oi2aEW6kxeg5blBxA0
- 7ptkuNEVTC0cb0AfFh11eX/igxNC8zfImlR+Qrjfzrc+8guU02ZzFNUzE0PZZHj6StaU
- AceQ==
-X-Gm-Message-State: AOAM531ybslNqvAIoxFJEK8yIPHtk/2WBIrOYhVVBFJGreJRv40YIRaV
- yLzJnozV98AmpBpIsCMvke4=
-X-Google-Smtp-Source: ABdhPJxpQbDxBJg6LW2wDZAEAOEpPXF2aBS0cqgNI8tfTWy5QLP9wRVv8sTtxGwYTayLc8nOPxpgOA==
-X-Received: by 2002:a17:90b:3802:: with SMTP id
- mq2mr2243298pjb.236.1644491981728; 
- Thu, 10 Feb 2022 03:19:41 -0800 (PST)
-Received: from [192.168.1.33] (154.red-83-50-83.dynamicip.rima-tde.net.
- [83.50.83.154])
- by smtp.gmail.com with ESMTPSA id b85sm2464527pfb.136.2022.02.10.03.19.39
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 10 Feb 2022 03:19:41 -0800 (PST)
-Message-ID: <2c0a236e-cb5b-5373-4f15-5b2f5b539905@amsat.org>
-Date: Thu, 10 Feb 2022 12:19:37 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.5.1
-Subject: Re: [PATCH 0/2] Kconfig: Add an I2C_DEVICES device group
-Content-Language: en-US
-To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
- qemu-devel@nongnu.org
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- Kevin Townsend <kevin.townsend@linaro.org>
-References: <20220208155911.3408455-1-peter.maydell@linaro.org>
-In-Reply-To: <20220208155911.3408455-1-peter.maydell@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::633
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::633;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pl1-x633.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.248, NICE_REPLY_A=-0.001,
- PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+ (Exim 4.90_1)
+ (envelope-from <7c1101e9be922915491bc9ec2ca2150554192d53@lizzy.crudebyte.com>)
+ id 1nI7kC-0007ej-JT
+ for qemu-devel@nongnu.org; Thu, 10 Feb 2022 06:36:14 -0500
+Received: from lizzy.crudebyte.com ([91.194.90.13]:59481)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1)
+ (envelope-from <7c1101e9be922915491bc9ec2ca2150554192d53@lizzy.crudebyte.com>)
+ id 1nI7jp-0003U0-G9
+ for qemu-devel@nongnu.org; Thu, 10 Feb 2022 06:36:07 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=crudebyte.com; s=lizzy; h=Cc:To:Subject:Date:From:References:In-Reply-To:
+ Message-Id:Content-Type:Content-Transfer-Encoding:MIME-Version:Content-ID:
+ Content-Description; bh=mcbRg2xlZAZHldg9PdPezpruRYnaMN84QxS/hR585+U=; b=hPSY5
+ IwO0dXLNPdNr8awmLIiKCOgB6DPOPIvdWMQushRilJ+rUH9Dy8aKKY0s4lw4bzOgo9aruCD6cXSS+
+ uWn6fzGm93KtIdz/vKa7iEe29VDSOqFWa5M/UUE0ArW+R0ReB/AiX2bMQTkbf45wTftlm9MNguYsm
+ 9WBC9sWvVvQiWmxgIL7qoIJ47H1sSenr7MC6oUygo0cN6G3GwfePVYH7h9a/eNm8oppBX6AGItNjy
+ 3bbJmBYRCCvQO+yYpcFRRLZ9fhRryhLWiCa7jnoqtLnOJyi0NRzNpDoMZ4NI35DamdUfyFoJeKmFM
+ 1v2lJm7qTyYKd82qr3tcsaHBSvdpg==;
+Message-Id: <7c1101e9be922915491bc9ec2ca2150554192d53.1644492115.git.qemu_oss@crudebyte.com>
+In-Reply-To: <cover.1644492115.git.qemu_oss@crudebyte.com>
+References: <cover.1644492115.git.qemu_oss@crudebyte.com>
+From: Christian Schoenebeck <qemu_oss@crudebyte.com>
+Date: Thu, 10 Feb 2022 12:21:55 +0100
+Subject: [PULL 4/5] tests/9pfs: Use g_autofree and g_autoptr where possible
+To: qemu-devel@nongnu.org,
+    Peter Maydell <peter.maydell@linaro.org>
+Cc: Greg Kurz <groug@kaod.org>
+Received-SPF: none client-ip=91.194.90.13;
+ envelope-from=7c1101e9be922915491bc9ec2ca2150554192d53@lizzy.crudebyte.com;
+ helo=lizzy.crudebyte.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -96,24 +62,77 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
-On 8/2/22 16:59, Peter Maydell wrote:
+From: Greg Kurz <groug@kaod.org>
 
-> Peter Maydell (2):
->    Kconfig: Add I2C_DEVICES device group
->    Kconfig: Add 'imply I2C_DEVICES' on boards with available i2c bus
-> 
->   docs/devel/kconfig.rst |  8 ++++++--
->   hw/arm/Kconfig         | 10 ++++++++++
->   hw/i2c/Kconfig         |  5 +++++
->   hw/rtc/Kconfig         |  2 ++
->   hw/sensor/Kconfig      |  5 +++++
->   5 files changed, 28 insertions(+), 2 deletions(-)
+It is recommended to use g_autofree or g_autoptr as it reduces
+the odds of introducing memory leaks in future changes.
 
-Series:
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Signed-off-by: Greg Kurz <groug@kaod.org>
+Message-Id: <20220201151508.190035-3-groug@kaod.org>
+Reviewed-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
+Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
+---
+ tests/qtest/libqos/virtio-9p.c | 13 ++++---------
+ 1 file changed, 4 insertions(+), 9 deletions(-)
 
+diff --git a/tests/qtest/libqos/virtio-9p.c b/tests/qtest/libqos/virtio-9p.c
+index 5d18e5eae5..f51f0635cc 100644
+--- a/tests/qtest/libqos/virtio-9p.c
++++ b/tests/qtest/libqos/virtio-9p.c
+@@ -41,7 +41,7 @@ void virtio_9p_create_local_test_dir(void)
+ {
+     g_assert(local_test_path == NULL);
+     struct stat st;
+-    char *pwd = g_get_current_dir();
++    g_autofree char *pwd = g_get_current_dir();
+     /*
+      * template gets cached into local_test_path and freed in
+      * virtio_9p_remove_local_test_dir().
+@@ -52,7 +52,6 @@ void virtio_9p_create_local_test_dir(void)
+     if (!local_test_path) {
+         g_test_message("mkdtemp('%s') failed: %s", template, strerror(errno));
+     }
+-    g_free(pwd);
+ 
+     g_assert(local_test_path != NULL);
+ 
+@@ -65,12 +64,11 @@ void virtio_9p_create_local_test_dir(void)
+ void virtio_9p_remove_local_test_dir(void)
+ {
+     g_assert(local_test_path != NULL);
+-    char *cmd = g_strdup_printf("rm -fr '%s'\n", local_test_path);
++    g_autofree char *cmd = g_strdup_printf("rm -fr '%s'\n", local_test_path);
+     int res = system(cmd);
+     if (res < 0) {
+         /* ignore error, dummy check to prevent compiler error */
+     }
+-    g_free(cmd);
+     g_free(local_test_path);
+     local_test_path = NULL;
+ }
+@@ -216,8 +214,8 @@ static void *virtio_9p_pci_create(void *pci_bus, QGuestAllocator *t_alloc,
+ static void regex_replace(GString *haystack, const char *pattern,
+                           const char *replace_fmt, ...)
+ {
+-    GRegex *regex;
+-    char *replace, *s;
++    g_autoptr(GRegex) regex = NULL;
++    g_autofree char *replace = NULL, *s = NULL;
+     va_list argp;
+ 
+     va_start(argp, replace_fmt);
+@@ -227,9 +225,6 @@ static void regex_replace(GString *haystack, const char *pattern,
+     regex = g_regex_new(pattern, 0, 0, NULL);
+     s = g_regex_replace(regex, haystack->str, -1, 0, replace, 0, NULL);
+     g_string_assign(haystack, s);
+-    g_free(s);
+-    g_regex_unref(regex);
+-    g_free(replace);
+ }
+ 
+ void virtio_9p_assign_local_driver(GString *cmd_line, const char *args)
+-- 
+2.20.1
 
 
