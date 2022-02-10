@@ -2,74 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67B894B0B15
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Feb 2022 11:43:57 +0100 (CET)
-Received: from localhost ([::1]:35928 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EC3D14B0AFD
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Feb 2022 11:37:25 +0100 (CET)
+Received: from localhost ([::1]:58038 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nI6vc-0000YE-HN
-	for lists+qemu-devel@lfdr.de; Thu, 10 Feb 2022 05:43:56 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:54776)
+	id 1nI6pJ-0004SP-1q
+	for lists+qemu-devel@lfdr.de; Thu, 10 Feb 2022 05:37:25 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:54810)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jonah.palmer@oracle.com>)
- id 1nI6bx-0000kO-Ii; Thu, 10 Feb 2022 05:23:40 -0500
-Received: from mx0a-00069f02.pphosted.com ([205.220.165.32]:4122)
+ id 1nI6c0-0000mH-Uh; Thu, 10 Feb 2022 05:23:41 -0500
+Received: from mx0a-00069f02.pphosted.com ([205.220.165.32]:7194)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jonah.palmer@oracle.com>)
- id 1nI6bt-0000vc-CD; Thu, 10 Feb 2022 05:23:35 -0500
-Received: from pps.filterd (m0246629.ppops.net [127.0.0.1])
- by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 21A8nYZP013354; 
- Thu, 10 Feb 2022 10:23:16 GMT
+ id 1nI6bx-0000w0-Li; Thu, 10 Feb 2022 05:23:40 -0500
+Received: from pps.filterd (m0246627.ppops.net [127.0.0.1])
+ by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 21A7kmNm017470; 
+ Thu, 10 Feb 2022 10:23:20 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references : content-type :
  mime-version; s=corp-2021-07-09;
- bh=VamJNEfyhwrr0aWodf9MIZUnI/sZRbIb5rj6dtei9wo=;
- b=ei9nfyXK3NNDawfEFXisuoivOCtfCUuqQGHlscKr29KJ3k2al8duCF6ZYOvdlp5t/thb
- Owl4NErT7jQKSmDinJ4x2t4V3NzpMnPigC1e8uyniVpBoyZ62j5lX+YE/JpkKLydVHbi
- gfUbjtlyiHWIgxqffcvrfbrZ+Y41hoXWG7P7kGhyWIdLtNGpcoPn2mGVHPP19g1Girq8
- wZCWsp15tC/tAefFpKPsywpWXlzUNMFjCDgMxPCcuRO9VNiRV5zWYjKKg4I1u9VzstUR
- jXxJA1WrMWqCDut+itGpwAv4NuLV3gC03beaRR6X6sTU+6TkVkhdnD4C8ky6tyhcMv9D eA== 
-Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
- by mx0b-00069f02.pphosted.com with ESMTP id 3e368u0q6x-1
+ bh=9euFYXzI0LIjN9h+qE5U9DSIi99JMamiEEWwopR6bDQ=;
+ b=iJs322+0ooWx4YaWz1K5N29NW8pgIuJntyb/1WlFPiKLmCAc4ZPfqo+hN6+GZF4JOwmk
+ psuii899a9XX/XB+Re7zzNkuqeB/XXC9OuMCYGByaICoP14S/tLSdGU25XKKBXFp6YZ9
+ yEy0TyV3m1Ow9hLZFtiUPgSA1l2kMAPTXE6autyOwl5uJqCQ7QfCwid2ulc+lpsg0sbj
+ EJaFnmHJJWLspjo1qFCpTre35ethnHvojFcfUF1d3oB7mBqDzXwx3lpN+g4+dPU6HPR7
+ XvN4bRUCutmqwBiVWSTFgdna0XG17jMQg5Ai2YUDUDsFIAQCSjvBx4wsDXhco6sMhNsA 9g== 
+Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
+ by mx0b-00069f02.pphosted.com with ESMTP id 3e3h28qj3h-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 10 Feb 2022 10:23:16 +0000
-Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
- by userp3030.oracle.com (8.16.1.2/8.16.1.2) with SMTP id 21AABsw6130660;
- Thu, 10 Feb 2022 10:23:15 GMT
+ Thu, 10 Feb 2022 10:23:19 +0000
+Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
+ by aserp3020.oracle.com (8.16.1.2/8.16.1.2) with SMTP id 21AABeeT192012;
+ Thu, 10 Feb 2022 10:23:18 GMT
 Received: from nam12-mw2-obe.outbound.protection.outlook.com
- (mail-mw2nam12lp2045.outbound.protection.outlook.com [104.47.66.45])
- by userp3030.oracle.com with ESMTP id 3e1ec4jdfk-1
+ (mail-mw2nam12lp2042.outbound.protection.outlook.com [104.47.66.42])
+ by aserp3020.oracle.com with ESMTP id 3e1h29x76e-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 10 Feb 2022 10:23:14 +0000
+ Thu, 10 Feb 2022 10:23:18 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=WiGp+7k4mTfMxePezLQSZw+zAzFPgAXVy2PtXP680wZ58wZXcSEQoraA0lkYsEXoYUUViHPjPgpVM5+1oH8/epVZt6V4ba3MWD5/rd8otN1mK0kTvs0mnUS1R68WbKOOyozFdI3IhYw7RiGUPKsnVyPfe83GVcrtk/oRFsJuR8shaPoyAG1ofgh/CTYwp+74IHYcYThkgxflUWnhiLbxNnGrUBHhqhxgaOCAVGqOq7PwVZSSRFrpcjmZZciEbBMkd6P6x6EHj+fgmdiI8t5bPVpBSnJ6ZTNJbz9ycud+SkglazTvCO2gfXaPnel6YcWuxoDWqXv25h/iasshue4G9g==
+ b=DUyU8bbf79uMteESVKFOYEj0yuV7ZP+zwgm6gTp4hEbSCZ0j04ZSFUTpA2qD+P30SPK0eZWo9PM/7AHJqOH44j54UeXZnHDHK9KYlRkt5C1PyGIh5DZ1c402abhLVlFLY/aqeVJsJtfMLAUV+TJcPDvo+qLBeXBdyz11jduKZ3dkyDa6jf1J+1gUwVYnZutgxsFJdcai7vVRvoCzaNUDRV9BN6dzyoa3qjD8xSGMVT5HdUfyxbsImXPJxxFFl5kmBrLiXkiszinsL9TRJIpLJ2MO00gs2GK4l7WTLkn57c+MuURYSXGk4ZExeyG3j7IuHLHol0HS8Fd8LC0VaLgGQA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=VamJNEfyhwrr0aWodf9MIZUnI/sZRbIb5rj6dtei9wo=;
- b=OkLus5O96r+FkjS8UYfM5NtS+mh9YN70XpFPl6+yvFUvd6SMlcUC4Lv2IrvJDuj/QxzPcufMQ/epRQlWuwSoR/HCtjE82MoGnQ5QvZyED1hjYxBO3K2AggAdrjppRJbD8eltoiUtltPQz7NClhkKrIRwMNZVarzLkKDuddITpQLYUNLawKK5wC9xb03kRVyllEow4mridQn9mWXOoUr6joSyqYws3QpFxu/PFr0vxqGd1e2QmRf3dAr9tFzH6JdWbX7OBTheJzvFZNsYO7c9NLyrai/THE21zAbHvvCjj4yxONDVYPsHoUsrKtuUEmp5koKM6tDRfrWq8EMOW4nc5A==
+ bh=9euFYXzI0LIjN9h+qE5U9DSIi99JMamiEEWwopR6bDQ=;
+ b=VhI7jynAX6ZW8aLjQeuNK5zcWWnA1//1XRvha2fO6c6HW4UY5LCVX7bbmGZWywYfcKHv+9guwQlILWrIl+24Rtr9oiq8sOBxQSBJFOfou7acBztAlpnY7PGRdoTibqSkeb4oe4wI9qF+bV48ZUrECWso49tk3/yDwBpYIa6vLtoTuDH0lGWI2iaPB1wxg3+pHj5DYoCuwDKuVDPp6TMmTTalhV2cXhrbEwSvvSalVBfsiTv5doLjMEqVYJdDQsxI09ngHdAl22CHSelXP00KvfWLrB/lSesMdgWYgcHkek/rqUGBtwNy3ulTz0khb682ANKdXU9W2WX9sCTu6od7hQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
  dkim=none; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=VamJNEfyhwrr0aWodf9MIZUnI/sZRbIb5rj6dtei9wo=;
- b=Dq1+am4gNfSVNmNhG4VnvNP2lExEx3TKvSkf1x09I4c/RLlmReLkjkCWld2aAulWh4v0MabaK/e5x2UmlfV0VkgvEtv61OyhfwNQshgzXjwtFzX7Ww2QHz02T+J5R6eFixpmT9AV1/+iNXTLi0EpTOoQ5ZQucCbsuJ+DTGBFTnY=
+ bh=9euFYXzI0LIjN9h+qE5U9DSIi99JMamiEEWwopR6bDQ=;
+ b=0GAhw38cfRUbjkfcsXL7CNqIewCoLtkhf2HmxK0FT1pfLEgeo5h3nHyMoebpJlicfUCHKpCLBpQkDjjMYYZjCNtFgJjObSKl44OPcKUWpCv1lxfKjbtjjhIAyVAFd1kSk+skxEq2r2vhYd2pJ7A/eUNE+XvhM5U5FVXypH/yrYw=
 Received: from PH0PR10MB4664.namprd10.prod.outlook.com (2603:10b6:510:41::11)
  by DM6PR10MB3513.namprd10.prod.outlook.com (2603:10b6:5:17b::19) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4951.17; Thu, 10 Feb
- 2022 10:23:11 +0000
+ 2022 10:23:15 +0000
 Received: from PH0PR10MB4664.namprd10.prod.outlook.com
  ([fe80::b8e3:f092:c0ea:9ddf]) by PH0PR10MB4664.namprd10.prod.outlook.com
  ([fe80::b8e3:f092:c0ea:9ddf%4]) with mapi id 15.20.4951.019; Thu, 10 Feb 2022
- 10:23:11 +0000
+ 10:23:15 +0000
 From: Jonah Palmer <jonah.palmer@oracle.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v12 7/8] qmp: add QMP command x-query-virtio-queue-element
-Date: Thu, 10 Feb 2022 05:21:59 -0500
-Message-Id: <1644488520-21604-8-git-send-email-jonah.palmer@oracle.com>
+Subject: [PATCH v12 8/8] hmp: add virtio commands
+Date: Thu, 10 Feb 2022 05:22:00 -0500
+Message-Id: <1644488520-21604-9-git-send-email-jonah.palmer@oracle.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1644488520-21604-1-git-send-email-jonah.palmer@oracle.com>
 References: <1644488520-21604-1-git-send-email-jonah.palmer@oracle.com>
@@ -79,66 +79,66 @@ X-ClientProxiedBy: BY5PR03CA0024.namprd03.prod.outlook.com
  (2603:10b6:510:41::11)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: d75679bd-4f59-4f89-a79c-08d9ec7f56ff
+X-MS-Office365-Filtering-Correlation-Id: 7c08e011-9db0-48c4-8b9d-08d9ec7f5918
 X-MS-TrafficTypeDiagnostic: DM6PR10MB3513:EE_
-X-Microsoft-Antispam-PRVS: <DM6PR10MB35131FB29D3511C50BE06352E82F9@DM6PR10MB3513.namprd10.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:2399;
+X-Microsoft-Antispam-PRVS: <DM6PR10MB351364EAE4BF455C2FEC1BC6E82F9@DM6PR10MB3513.namprd10.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:120;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: qAYr0fUIvq0PKDMn99oAMMdcJg9G24gX3lryVUK5fUfC4r0yVkv9Wf5wFksc2zCHfKXTtDCxqIQsHZVUr0C2Nhq+rLc/y4WY2ozUJcouA4bYyrbm2NXjSvszHyDnPXuZ21wLupspimB5Wsq1SLA0eWHWeReIUWz74TL0/wgI5ZQ2f+S0y3DIss5qfnxGPoXEoS2b/MimCG9lLMzWJ3sJFKglO89km6Y/dpQCL6oUWS4PyemM/LGsfk11qPLrT/OMsV38YpYRA5u0+fKoBuYqhELYtzGB6aa5o8JHyI0cLqSnVMs5dISPh5Yg+Mx9wl1Et562McwmPUZyurVdFKcKI39wtelbQtFXFgvWS8Qqv4NI7BCHGz17oSoqA27JJJJVNxecNf93IkvTZoXbhdQU0+ermL275fRRR0uqMwjvZteifGBvUDscokTfgpjQGld2RcBJmrZrNLs0ZxCFEhcTx7l+riHRdIKqY9V6o2ZNsyj6wMs+zipqyMZ7WwGZEqHKbY2d7xzqIeeTbsYZueuhK4r9kbDO+gzfQKrY8foeSp+dZ8ditdwEZU9rJwmS0xMzrX/Uw6wlGWzJ9ovG315fwroP7e/doiphggv3hAYUh210HpKV9/KROFQlBsADMNponq9CwDFAmmt2mc2GWG/oA5n7QfVLKgYSH5uNZ76929sgHTxoyN1hdgaTqw9uXksTaDudXazNMfPrL38Gt5cvZg==
+X-Microsoft-Antispam-Message-Info: V1iAfEVuMgpb8Y3+CtU1V5fhysvYFu3nS9cmJ2RHLQawbdJI9gIqsWmgr1FEnIPADfZsrocRt/7rKJ129oTndJS+Dqs6EgYK9AKgV13qUqT+wxF3eADeCkyIQr6dIAx0dLHAdDKLQj7ez3vfPV5ii7AaBVKWmhulyaJDi/v4s6Qs8kNyXmV74IHG8Xd0BEIlLuKfMkMAou6grBTc09j3mzWqRaOHDyzUyUK9wUbgkvt4Z7DaEHDTABPIeDJl02QZLPpPDjaXAf7B0skh46NeFZSJZZ6xUbIUXNWJ20R/E4cKlB1Ty6mbU8nk5SfubK45zMY4GyM/mfbqnODwaso2NtM5CaX0ZsvMpDpWDWthWyO8E4O0/vMc9PPaHv4IPubwIVUm0ilQxtYkt/dHtfXUzGahGN5bOESfKswlf2uWe+D4yDih4cbf9uG+nGv21Zfprgu2rbmCqS4w3cljnb8A/qjSZnL/tnqSsvNe0qde1NuNwibeXlhZxh3O50vrulFkUN30jyfs6f4e+2VfsOFJyyFuEKIzuBh99n8pnYYJ1qRZiDQVIpzlpGK/azPGMRjGZ4ptvcAvp1H3JvCruUe11ZDfoBdKoPEqm6657hJ3CBXSXlNk07cVyhg1ex96yyoM6pBP0+QZ8PTqsh1ftBP8zUxCWGE/Z51ITU3eY3DHECxn1CoYp5srOEzM810YdY3JCTZs0Wll8vPGHs2fYf4WPg==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:PH0PR10MB4664.namprd10.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230001)(366004)(4326008)(6666004)(508600001)(44832011)(86362001)(8936002)(8676002)(66476007)(66556008)(66946007)(6486002)(7416002)(83380400001)(5660300002)(316002)(6506007)(38350700002)(2616005)(36756003)(38100700002)(6512007)(52116002)(186003)(6916009)(26005)(2906002);
+ SFS:(13230001)(366004)(4326008)(6666004)(508600001)(30864003)(44832011)(86362001)(8936002)(8676002)(66476007)(66556008)(66946007)(6486002)(7416002)(83380400001)(5660300002)(316002)(6506007)(38350700002)(2616005)(36756003)(38100700002)(6512007)(52116002)(186003)(6916009)(26005)(2906002);
  DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?pl1+54THeRmzHAEi7TAbxn0RDVDS8r57Gesf2TSsrgX8ay+cgHLVH9RdHFaH?=
- =?us-ascii?Q?10+5etv2CnhHKm8RqDVTQ4VB1i/MAjffxhHxEUvzctJw4eO9xjuLHELv9cQF?=
- =?us-ascii?Q?zg1kLo7eF4rbqVCQ/Kp5eNuivPkhn5UfO09A0AAccOeoLli0RJFz4bsQeDbt?=
- =?us-ascii?Q?B2KTMDZ1Y07lZla0vPcUhLpDJXiJE/NJjNIOgj6jEdGlKM0XDea9yxmnKtdM?=
- =?us-ascii?Q?UZlUQMb3N9GLmS9obKQvaD677NA509ypCTMkQlg/yFN9JerlWQcyFrFQv70W?=
- =?us-ascii?Q?0wRznaDSJQk/fea32OR/zPxvbExkDqTIA9OQfDf/K1n9kpszaTpZSqR56D5A?=
- =?us-ascii?Q?zNjrW2AYVFRfGVpHW/JWgzHi2nN9vTtQ+mLWLXfgRtyfZ2gwm1+20YAWAV5O?=
- =?us-ascii?Q?6NlKFwRNTs7fWHPp9I3mIkD84NAN4vi0tVl2On8k7noQYA1rC/xIWDUrdXcB?=
- =?us-ascii?Q?EWqfeTpExnN9bhIepw0ovqMXGOwNgJv3oTJ7n2vcumlegkYmfkuR0dS4TyT3?=
- =?us-ascii?Q?ktwhZywrmFVZuEYIbr2TA6q2AZy3RswThvsEXXlbQ26AxXvVsaXFjB6JtLLs?=
- =?us-ascii?Q?asKxMFIHRznO+dGd0EY84jT1hOm04HkNqEefmRqr8hxjlUTaC0YF/I/Hqpqq?=
- =?us-ascii?Q?Mv8Kwm0zDkn38SY0nMQXBo7O3g+t4dil+baFTZWV5SBotjpSm41c/PB8fkeN?=
- =?us-ascii?Q?CKEkM60EYjwsQJ09jwzjvYGuWNpr82Redxo131B/EZVHZe/I8vbmgXSUHW97?=
- =?us-ascii?Q?loykbcfehAIE+i3554fa8rJHnbvmGccpqzwvtuQXYhcLCSU9v8OPTp2gqblD?=
- =?us-ascii?Q?5Oqj16EosNcemjm/G3R7ozApWMyKI3xmaabB/aipL8UYlY099JCrtLCvlueb?=
- =?us-ascii?Q?bQBFzo7jA6YqT4Wq2KbV7Mp2evNz2iUw293dRw0YvZCSV0NqwEDDZQ331myz?=
- =?us-ascii?Q?otHFfL8qT1zxS6ldw3r7a3kL0JmTeqHXQgDtVJRLbgh3v1m+8VfWuK0iY1NO?=
- =?us-ascii?Q?XJ16qMQdGGXyijc6jPbPvaYYi0jO7B1f0Eq58tAVQrom4olwtZb/qNRkMcQp?=
- =?us-ascii?Q?dVehPAcaZJtpNEAB4QkoYzJFyJP+Mj9Ye7vNGPE1CAVktL3ZkYEdHxjzaCQy?=
- =?us-ascii?Q?FSFOl8HakxVU4KIADXMdSgbqr9yNOG0jXFkUTXoLCv9d7lwiN+o9yuJV+i+p?=
- =?us-ascii?Q?FkuDF7fjchDip6ye4lPeXs1StySqr8ksi8rLk72exLJbPDtIQkHlSSO8UTNG?=
- =?us-ascii?Q?WYbD5ec8avnwzaDAKpXQIrJ4roob5mUkvkHQ23JF4NbKcZ1MFCttkplKwfZE?=
- =?us-ascii?Q?sG18lavSVtS/A90Yxt6uXar2CM77mOGfohB9ukW3/y5UsNKI1aveldJTBnbZ?=
- =?us-ascii?Q?MbllMNUjmu1f7JCevDLtXJ7iismiSXYno+RtL6fwIwYny4iC1mWjTM8OY//S?=
- =?us-ascii?Q?F0+9ieqUdoGmR8DflBV6XS8HV6639jiUa8Jeiv9WlZA4TaYpwJNzQLIkmx0n?=
- =?us-ascii?Q?22BtWzbSjsFPjFDlh6AyoQ+Sw09s+EwEsS2YYbyIz4WKNn2IjqAAuBarHgyc?=
- =?us-ascii?Q?kcmHYuJFlBEN75ANpCYyUEXes2jrsM6N8Na4J698iPN1LLaAiIobzujacGs9?=
- =?us-ascii?Q?IyP/2xhzWgKA8PwtoqSxbK4=3D?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?EKq2+RrK6DrvzAuZnVWxe/XUQ9JnsxnNjK6yu8zGlO4iGWCsikVrLDADE9Zc?=
+ =?us-ascii?Q?lloxQja1vgSTaSAuWwV2C7twavwL2tu2QD9UsQ6TIm8g3bH1ytDpCWDyeMj2?=
+ =?us-ascii?Q?RDEAG0CPG4msKgLkbxQyMy5zg3doumqlke/D3Pb3s+o/qeIjr0WNhXztjXHm?=
+ =?us-ascii?Q?MZaZt+nFXpuaguBoAVsO1KJpbVJdnYcVsBSvZhkLpRlH48bTAz0wVZTGcqTy?=
+ =?us-ascii?Q?O67B1ROLOGeRNxPWT0aT5ll5Sn9tVzZZhGaa6YQ77Usk2dPj8JrL4MC6FEZR?=
+ =?us-ascii?Q?D/2+RUdzninBzUxdQNgieau+Se5Lzhd1kJskVdFU/KbVLjp+GnSPWSJus4jO?=
+ =?us-ascii?Q?CKhDk4QsJMbiqzpFpwDDnLZG28nNadpPQeKvBx+Ii0TUrlv9DZR6KeE7aJ5c?=
+ =?us-ascii?Q?R81qdGrh7R7a3KIORDSG2MWWOQAb+kjopQqPAEB3W0Uj8r+JPSRrbyTiFs5X?=
+ =?us-ascii?Q?uQqKc/7cCCpgb70m78R24Q09qSoYGd+ChbqQwjgLEoLJguCYQnOto5V8TQWx?=
+ =?us-ascii?Q?bDa1EZsXvIB4Dssw7mGjjz2pEPJfNZDlGYbw4in8z0/+BPh4R58mUjqsX/EU?=
+ =?us-ascii?Q?81M5BmT2cYBRCVUJUDnDI78vKUaQL1jGgdbhsaH0BkQPHAJQALx9zfvrgu5R?=
+ =?us-ascii?Q?LA8gkphMkytR9l6+uShWzXZrNXRB0w+/ibW8AYgWQI2W77tVOsR3ly0th4rw?=
+ =?us-ascii?Q?zPNbjexOe10NE4XbpfmkK930QLPRcGUtYI551SWfI+9pgl2ZrBLetxHgIavW?=
+ =?us-ascii?Q?TrwZMPglGhBNu2T37kl6J7yyzqahpsCOK3u2sclru1FBrxYHFt7011Rd1GxI?=
+ =?us-ascii?Q?idgHRXtypC0dDXqk6ds10n89xtE3lhudUPzoYe+51RNFMVGxQINR76LnLc7H?=
+ =?us-ascii?Q?9IxFqgRFNQnSOcvgFAQqZLXl0nPbYXSLxvS68LMov8poaqb7WGj9nma2Ebx5?=
+ =?us-ascii?Q?MpB5B/Itk25R1IXvPkmKG/jA5kaTsL4ns9hFEWH1KQYRxqg/oCeQWxWBxxtt?=
+ =?us-ascii?Q?KyESu8nhWxpdRuCHA1AYPPhzsrW4ZzwdzqPPavXSki5c0FLlEu2kisW+Gy+X?=
+ =?us-ascii?Q?Cn6ynRcz3ShLCkF8xY6IziI5fFIxweJdc2JwRnaWCHWstVsSy8nByn77qGTH?=
+ =?us-ascii?Q?njzNRasePDstPWAakgk/WmW6s7uA1OeWiltT/mG4NE3w2LZzLOaUvKZN/lv7?=
+ =?us-ascii?Q?FZhKuEXWz2XxX/mxwqUomqz7csiW5UFKkz+auQtHYI3QCj5LLDoDOxxVyxUa?=
+ =?us-ascii?Q?Ffsh5aOOxB3hoyMOpYqBLxrL/9lfKfADrmOCGannaYxunuERUI8I0tqcS5H7?=
+ =?us-ascii?Q?NaZ0+M31ZHJxp9gqIVFUIMLa/WIo//UvYEopKY/cU3lN8XVmA62fZQwdc5cY?=
+ =?us-ascii?Q?i5LcD1WG2A3Fz5xg0avHwiWCCSGeu9Sd+H85QbLN6+fUv8w1Yc9slMHRQWlZ?=
+ =?us-ascii?Q?HWXhYfk1z0nUZtleR0L2zc/PGD9yaOaWKZfaxWpDANFexGgf8PNM0LZYo6nL?=
+ =?us-ascii?Q?YPYH8OKhqzX1V1C7yauSIM7ONVp+F5QCtngGYWOmzKN6nxxNtxg0rOWn32g2?=
+ =?us-ascii?Q?8hKloA3uLcgThiavPQmeckoBxl52iYjIINIi9te64NosIY6mWrAlIX38FFbF?=
+ =?us-ascii?Q?ac5xp/fEPx8D2oiqSllZ/JE=3D?=
 X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d75679bd-4f59-4f89-a79c-08d9ec7f56ff
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7c08e011-9db0-48c4-8b9d-08d9ec7f5918
 X-MS-Exchange-CrossTenant-AuthSource: PH0PR10MB4664.namprd10.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Feb 2022 10:23:11.5170 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Feb 2022 10:23:15.0693 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: CC3dKEQn0LwsB5hcEn9YLG+gmC8d7n1czY6nodz1drQQ4PX/rs1nBdTkpMrvtuzauqMpDEBs+eXpwk/5Khv1wg==
+X-MS-Exchange-CrossTenant-UserPrincipalName: ay28J2GOfoeRE2TnmhgpRCnZ0GEgQ6KFe74wt9Yx/4t2WEe57V56qB4JbkkKw09ss4xZHrHsz8+7TqIgmV4WYw==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR10MB3513
 X-Proofpoint-Virus-Version: vendor=nai engine=6300 definitions=10253
  signatures=673431
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0
- bulkscore=0 suspectscore=0
- mlxlogscore=999 mlxscore=0 adultscore=0 malwarescore=0 spamscore=0
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
+ mlxscore=0 bulkscore=0
+ phishscore=0 malwarescore=0 mlxlogscore=999 adultscore=0 spamscore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2201110000
  definitions=main-2202100056
-X-Proofpoint-ORIG-GUID: 9468DxILuu4BCjWf5SbqumZdoi7xsbd2
-X-Proofpoint-GUID: 9468DxILuu4BCjWf5SbqumZdoi7xsbd2
+X-Proofpoint-ORIG-GUID: TRwM4X-6-FGFxr14zX_gm2fGqX9SJOD0
+X-Proofpoint-GUID: TRwM4X-6-FGFxr14zX_gm2fGqX9SJOD0
 Received-SPF: pass client-ip=205.220.165.32;
  envelope-from=jonah.palmer@oracle.com; helo=mx0a-00069f02.pphosted.com
 X-Spam_score_int: -27
@@ -174,402 +174,437 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Laurent Vivier <lvivier@redhat.com>
 
-This new command shows the information of a VirtQueue element.
+This patch implements the HMP versions of the virtio QMP commands.
 
-[Note: Up until v10 of this patch series, virtio.json had many (15+)
- enums defined (e.g. decoded device features, statuses, etc.). In v10
- most of these enums were removed and replaced with string literals.
- By doing this we get (1) simpler schema, (2) smaller generated code,
- and (3) less maintenance burden for when new things are added (e.g.
- devices, device features, etc.).]
+[Jonah: Fixed virtio hmp command output format (e.g. use PRI types).]
 
 Signed-off-by: Jonah Palmer <jonah.palmer@oracle.com>
 ---
- hw/virtio/virtio-stub.c |   9 +++
- hw/virtio/virtio.c      | 154 ++++++++++++++++++++++++++++++++++++++++
- qapi/virtio.json        | 183 ++++++++++++++++++++++++++++++++++++++++++++++++
- 3 files changed, 346 insertions(+)
+ hmp-commands-info.hx  |  70 ++++++++++++
+ include/monitor/hmp.h |   5 +
+ monitor/hmp-cmds.c    | 311 ++++++++++++++++++++++++++++++++++++++++++++++++++
+ 3 files changed, 386 insertions(+)
 
-diff --git a/hw/virtio/virtio-stub.c b/hw/virtio/virtio-stub.c
-index 13e5f93..7ddb22c 100644
---- a/hw/virtio/virtio-stub.c
-+++ b/hw/virtio/virtio-stub.c
-@@ -31,3 +31,12 @@ VirtQueueStatus *qmp_x_query_virtio_queue_status(const char *path,
- {
-     return qmp_virtio_unsupported(errp);
+diff --git a/hmp-commands-info.hx b/hmp-commands-info.hx
+index 407a1da..e49d852 100644
+--- a/hmp-commands-info.hx
++++ b/hmp-commands-info.hx
+@@ -877,3 +877,73 @@ SRST
+   ``info sgx``
+     Show intel SGX information.
+ ERST
++
++    {
++        .name      = "virtio",
++        .args_type = "",
++        .params    = "",
++        .help      = "List all available virtio devices",
++        .cmd       = hmp_virtio_query,
++        .flags     = "p",
++    },
++
++SRST
++  ``info virtio``
++    List all available virtio devices
++ERST
++
++    {
++        .name      = "virtio-status",
++        .args_type = "path:s",
++        .params    = "path",
++        .help      = "Display status of a given virtio device",
++        .cmd       = hmp_virtio_status,
++        .flags     = "p",
++    },
++
++SRST
++  ``info virtio-status`` *path*
++    Display status of a given virtio device
++ERST
++
++    {
++        .name      = "virtio-queue-status",
++        .args_type = "path:s,queue:i",
++        .params    = "path queue",
++        .help      = "Display status of a given virtio queue",
++        .cmd       = hmp_virtio_queue_status,
++        .flags     = "p",
++    },
++
++SRST
++  ``info virtio-queue-status`` *path* *queue*
++    Display status of a given virtio queue
++ERST
++
++    {
++        .name      = "virtio-vhost-queue-status",
++        .args_type = "path:s,queue:i",
++        .params    = "path queue",
++        .help      = "Display status of a given vhost queue",
++        .cmd       = hmp_vhost_queue_status,
++        .flags     = "p",
++    },
++
++SRST
++  ``info virtio-vhost-queue-status`` *path* *queue*
++    Display status of a given vhost queue
++ERST
++
++    {
++        .name       = "virtio-queue-element",
++        .args_type  = "path:s,queue:i,index:i?",
++        .params     = "path queue [index]",
++        .help       = "Display element of a given virtio queue",
++        .cmd        = hmp_virtio_queue_element,
++        .flags      = "p",
++    },
++
++SRST
++  ``info virtio-queue-element`` *path* *queue* [*index*]
++    Display element of a given virtio queue
++ERST
+diff --git a/include/monitor/hmp.h b/include/monitor/hmp.h
+index 96d0148..47446d8 100644
+--- a/include/monitor/hmp.h
++++ b/include/monitor/hmp.h
+@@ -95,6 +95,11 @@ void hmp_qom_list(Monitor *mon, const QDict *qdict);
+ void hmp_qom_get(Monitor *mon, const QDict *qdict);
+ void hmp_qom_set(Monitor *mon, const QDict *qdict);
+ void hmp_info_qom_tree(Monitor *mon, const QDict *dict);
++void hmp_virtio_query(Monitor *mon, const QDict *qdict);
++void hmp_virtio_status(Monitor *mon, const QDict *qdict);
++void hmp_virtio_queue_status(Monitor *mon, const QDict *qdict);
++void hmp_vhost_queue_status(Monitor *mon, const QDict *qdict);
++void hmp_virtio_queue_element(Monitor *mon, const QDict *qdict);
+ void object_add_completion(ReadLineState *rs, int nb_args, const char *str);
+ void object_del_completion(ReadLineState *rs, int nb_args, const char *str);
+ void device_add_completion(ReadLineState *rs, int nb_args, const char *str);
+diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
+index 2669156..d001238 100644
+--- a/monitor/hmp-cmds.c
++++ b/monitor/hmp-cmds.c
+@@ -42,6 +42,8 @@
+ #include "qapi/qapi-commands-run-state.h"
+ #include "qapi/qapi-commands-tpm.h"
+ #include "qapi/qapi-commands-ui.h"
++#include "qapi/qapi-commands-virtio.h"
++#include "qapi/qapi-visit-virtio.h"
+ #include "qapi/qapi-visit-net.h"
+ #include "qapi/qapi-visit-migration.h"
+ #include "qapi/qmp/qdict.h"
+@@ -2166,3 +2168,312 @@ void hmp_info_memory_size_summary(Monitor *mon, const QDict *qdict)
+     }
+     hmp_handle_error(mon, err);
  }
 +
-+VirtioQueueElement *qmp_x_query_virtio_queue_element(const char *path,
-+                                                     uint16_t queue,
-+                                                     bool has_index,
-+                                                     uint16_t index,
-+                                                     Error **errp)
++static void hmp_virtio_dump_protocols(Monitor *mon,
++                                      VhostDeviceProtocols *pcol)
 +{
-+    return qmp_virtio_unsupported(errp);
-+}
-diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
-index c81210b..ec37235 100644
---- a/hw/virtio/virtio.c
-+++ b/hw/virtio/virtio.c
-@@ -489,6 +489,19 @@ static inline void vring_used_write(VirtQueue *vq, VRingUsedElem *uelem,
-     address_space_cache_invalidate(&caches->used, pa, sizeof(VRingUsedElem));
- }
- 
-+/* Called within rcu_read_lock(). */
-+static inline uint16_t vring_used_flags(VirtQueue *vq)
-+{
-+    VRingMemoryRegionCaches *caches = vring_get_region_caches(vq);
-+    hwaddr pa = offsetof(VRingUsed, flags);
-+
-+    if (!caches) {
-+        return 0;
++    strList *pcol_list = pcol->protocols;
++    while (pcol_list) {
++        monitor_printf(mon, "%s", pcol_list->value);
++        pcol_list = pcol_list->next;
++        if (pcol_list != NULL) {
++            monitor_printf(mon, ", ");
++        }
 +    }
-+
-+    return virtio_lduw_phys_cached(vq->vdev, &caches->used, pa);
++    monitor_printf(mon, "\n");
++    if (pcol->has_unknown_protocols) {
++        monitor_printf(mon, "  unknown-protocols(0x%016"PRIx64")\n",
++                       pcol->unknown_protocols);
++    }
 +}
 +
- /* Called within rcu_read_lock().  */
- static uint16_t vring_used_idx(VirtQueue *vq)
- {
-@@ -4416,6 +4429,147 @@ VirtQueueStatus *qmp_x_query_virtio_queue_status(const char *path,
-     return status;
- }
- 
-+static strList *qmp_decode_vring_desc_flags(uint16_t flags)
++static void hmp_virtio_dump_status(Monitor *mon,
++                                   VirtioDeviceStatus *status)
 +{
-+    strList *list = NULL;
-+    strList *node;
-+    int i;
-+
-+    struct {
-+        uint16_t flag;
-+        const char *value;
-+    } map[] = {
-+        { VRING_DESC_F_NEXT, "next" },
-+        { VRING_DESC_F_WRITE, "write" },
-+        { VRING_DESC_F_INDIRECT, "indirect" },
-+        { 1 << VRING_PACKED_DESC_F_AVAIL, "avail" },
-+        { 1 << VRING_PACKED_DESC_F_USED, "used" },
-+        { 0, "" }
-+    };
-+
-+    for (i = 0; map[i].flag; i++) {
-+        if ((map[i].flag & flags) == 0) {
-+            continue;
++    strList *status_list = status->statuses;
++    while (status_list) {
++        monitor_printf(mon, "%s", status_list->value);
++        status_list = status_list->next;
++        if (status_list != NULL) {
++            monitor_printf(mon, ", ");
 +        }
-+        node = g_malloc0(sizeof(strList));
-+        node->value = g_strdup(map[i].value);
-+        node->next = list;
-+        list = node;
 +    }
-+
-+    return list;
++    monitor_printf(mon, "\n");
++    if (status->has_unknown_statuses) {
++        monitor_printf(mon, "  unknown-statuses(0x%016"PRIx32")\n",
++                       status->unknown_statuses);
++    }
 +}
 +
-+VirtioQueueElement *qmp_x_query_virtio_queue_element(const char *path,
-+                                                     uint16_t queue,
-+                                                     bool has_index,
-+                                                     uint16_t index,
-+                                                     Error **errp)
++static void hmp_virtio_dump_features(Monitor *mon,
++                                     VirtioDeviceFeatures *features)
 +{
-+    VirtIODevice *vdev;
-+    VirtQueue *vq;
-+    VirtioQueueElement *element = NULL;
-+
-+    vdev = virtio_device_find(path);
-+    if (vdev == NULL) {
-+        error_setg(errp, "Path %s is not a VirtIO device", path);
-+        return NULL;
++    strList *transport_list = features->transports;
++    while (transport_list) {
++        monitor_printf(mon, "%s", transport_list->value);
++        transport_list = transport_list->next;
++        if (transport_list != NULL) {
++            monitor_printf(mon, ", ");
++        }
 +    }
 +
-+    if (queue >= VIRTIO_QUEUE_MAX || !virtio_queue_get_num(vdev, queue)) {
-+        error_setg(errp, "Invalid virtqueue number %d", queue);
-+        return NULL;
-+    }
-+    vq = &vdev->vq[queue];
-+
-+    if (virtio_vdev_has_feature(vdev, VIRTIO_F_RING_PACKED)) {
-+        error_setg(errp, "Packed ring not supported");
-+        return NULL;
-+    } else {
-+        unsigned int head, i, max;
-+        VRingMemoryRegionCaches *caches;
-+        MemoryRegionCache indirect_desc_cache = MEMORY_REGION_CACHE_INVALID;
-+        MemoryRegionCache *desc_cache;
-+        VRingDesc desc;
-+        VirtioRingDescList *list = NULL;
-+        VirtioRingDescList *node;
-+        int rc; int ndescs;
-+
-+        RCU_READ_LOCK_GUARD();
-+
-+        max = vq->vring.num;
-+
-+        if (!has_index) {
-+            head = vring_avail_ring(vq, vq->last_avail_idx % vq->vring.num);
-+        } else {
-+            head = vring_avail_ring(vq, index % vq->vring.num);
-+        }
-+        i = head;
-+
-+        caches = vring_get_region_caches(vq);
-+        if (!caches) {
-+            error_setg(errp, "Region caches not initialized");
-+            return NULL;
-+        }
-+        if (caches->desc.len < max * sizeof(VRingDesc)) {
-+            error_setg(errp, "Cannot map descriptor ring");
-+            return NULL;
-+        }
-+
-+        desc_cache = &caches->desc;
-+        vring_split_desc_read(vdev, &desc, desc_cache, i);
-+        if (desc.flags & VRING_DESC_F_INDIRECT) {
-+            int64_t len;
-+            len = address_space_cache_init(&indirect_desc_cache, vdev->dma_as,
-+                                           desc.addr, desc.len, false);
-+            desc_cache = &indirect_desc_cache;
-+            if (len < desc.len) {
-+                error_setg(errp, "Cannot map indirect buffer");
-+                goto done;
++    monitor_printf(mon, "\n");
++    strList *list = features->dev_features;
++    if (list) {
++        monitor_printf(mon, "                    ");
++        while (list) {
++            monitor_printf(mon, "%s", list->value);
++            list = list->next;
++            if (list != NULL) {
++                monitor_printf(mon, ", ");
 +            }
-+
-+            max = desc.len / sizeof(VRingDesc);
-+            i = 0;
-+            vring_split_desc_read(vdev, &desc, desc_cache, i);
 +        }
-+
-+        element = g_new0(VirtioQueueElement, 1);
-+        element->avail = g_new0(VirtioRingAvail, 1);
-+        element->used = g_new0(VirtioRingUsed, 1);
-+        element->name = g_strdup(vdev->name);
-+        element->index = head;
-+        element->avail->flags = vring_avail_flags(vq);
-+        element->avail->idx = vring_avail_idx(vq);
-+        element->avail->ring = head;
-+        element->used->flags = vring_used_flags(vq);
-+        element->used->idx = vring_used_idx(vq);
-+        ndescs = 0;
-+
-+        do {
-+            /* A buggy driver may produce an infinite loop */
-+            if (ndescs >= max) {
-+                break;
-+            }
-+            node = g_new0(VirtioRingDescList, 1);
-+            node->value = g_new0(VirtioRingDesc, 1);
-+            node->value->addr = desc.addr;
-+            node->value->len = desc.len;
-+            node->value->flags = qmp_decode_vring_desc_flags(desc.flags);
-+            node->next = list;
-+            list = node;
-+
-+            ndescs++;
-+            rc = virtqueue_split_read_next_desc(vdev, &desc, desc_cache,
-+                                                max, &i);
-+        } while (rc == VIRTQUEUE_READ_DESC_MORE);
-+        element->descs = list;
-+done:
-+        address_space_cache_destroy(&indirect_desc_cache);
++        monitor_printf(mon, "\n");
 +    }
 +
-+    return element;
++    if (features->has_unknown_dev_features) {
++        monitor_printf(mon, "  unknown-features(0x%016"PRIx64")\n",
++                       features->unknown_dev_features);
++    }
 +}
 +
- static const TypeInfo virtio_device_info = {
-     .name = TYPE_VIRTIO_DEVICE,
-     .parent = TYPE_DEVICE,
-diff --git a/qapi/virtio.json b/qapi/virtio.json
-index 44cc05c..bb93d6d 100644
---- a/qapi/virtio.json
-+++ b/qapi/virtio.json
-@@ -656,3 +656,186 @@
-   'data': { 'path': 'str', 'queue': 'uint16' },
-   'returns': 'VirtVhostQueueStatus',
-   'features': [ 'unstable' ] }
++void hmp_virtio_query(Monitor *mon, const QDict *qdict)
++{
++    Error *err = NULL;
++    VirtioInfoList *list = qmp_x_query_virtio(&err);
++    VirtioInfoList *node;
 +
-+##
-+# @VirtioRingDesc:
-+#
-+# Information regarding the vring descriptor area
-+#
-+# @addr: Guest physical address of the descriptor area
-+#
-+# @len: Length of the descriptor area
-+#
-+# @flags: List of descriptor flags
-+#
-+# Since: 7.0
-+#
-+##
++    if (err != NULL) {
++        hmp_handle_error(mon, err);
++        return;
++    }
 +
-+{ 'struct': 'VirtioRingDesc',
-+  'data': { 'addr': 'uint64',
-+            'len': 'uint32',
-+            'flags': [ 'str' ] } }
++    if (list == NULL) {
++        monitor_printf(mon, "No VirtIO devices\n");
++        return;
++    }
 +
-+##
-+# @VirtioRingAvail:
-+#
-+# Information regarding the avail vring (a.k.a. driver area)
-+#
-+# @flags: VRingAvail flags
-+#
-+# @idx: VRingAvail index
-+#
-+# @ring: VRingAvail ring[] entry at provided index
-+#
-+# Since: 7.0
-+#
-+##
++    node = list;
++    while (node) {
++        monitor_printf(mon, "%s [%s]\n", node->value->path,
++                       node->value->name);
++        node = node->next;
++    }
++    qapi_free_VirtioInfoList(list);
++}
 +
-+{ 'struct': 'VirtioRingAvail',
-+  'data': { 'flags': 'uint16',
-+            'idx': 'uint16',
-+            'ring': 'uint16' } }
++void hmp_virtio_status(Monitor *mon, const QDict *qdict)
++{
++    Error *err = NULL;
++    const char *path = qdict_get_try_str(qdict, "path");
++    VirtioStatus *s = qmp_x_query_virtio_status(path, &err);
 +
-+##
-+# @VirtioRingUsed:
-+#
-+# Information regarding the used vring (a.k.a. device area)
-+#
-+# @flags: VRingUsed flags
-+#
-+# @idx: VRingUsed index
-+#
-+# Since: 7.0
-+#
-+##
++    if (err != NULL) {
++        hmp_handle_error(mon, err);
++        return;
++    }
 +
-+{ 'struct': 'VirtioRingUsed',
-+  'data': { 'flags': 'uint16',
-+            'idx': 'uint16' } }
++    monitor_printf(mon, "%s:\n", path);
++    monitor_printf(mon, "  device_name:             %s %s\n",
++                   s->name, s->has_vhost_dev ? "(vhost)" : "");
++    monitor_printf(mon, "  device_id:               %d\n", s->device_id);
++    monitor_printf(mon, "  vhost_started:           %s\n",
++                   s->vhost_started ? "true" : "false");
++    monitor_printf(mon, "  bus_name:                %s\n", s->bus_name);
++    monitor_printf(mon, "  broken:                  %s\n",
++                   s->broken ? "true" : "false");
++    monitor_printf(mon, "  disabled:                %s\n",
++                   s->disabled ? "true" : "false");
++    monitor_printf(mon, "  disable_legacy_check:    %s\n",
++                   s->disable_legacy_check ? "true" : "false");
++    monitor_printf(mon, "  started:                 %s\n",
++                   s->started ? "true" : "false");
++    monitor_printf(mon, "  use_started:             %s\n",
++                   s->use_started ? "true" : "false");
++    monitor_printf(mon, "  start_on_kick:           %s\n",
++                   s->start_on_kick ? "true" : "false");
++    monitor_printf(mon, "  use_guest_notifier_mask: %s\n",
++                   s->use_guest_notifier_mask ? "true" : "false");
++    monitor_printf(mon, "  vm_running:              %s\n",
++                   s->vm_running ? "true" : "false");
++    monitor_printf(mon, "  num_vqs:                 %"PRId64"\n", s->num_vqs);
++    monitor_printf(mon, "  queue_sel:               %d\n",
++                   s->queue_sel);
++    monitor_printf(mon, "  isr:                     %d\n", s->isr);
++    monitor_printf(mon, "  endianness:              %s\n",
++                   s->device_endian);
++    monitor_printf(mon, "  status: ");
++    hmp_virtio_dump_status(mon, s->status);
++    monitor_printf(mon, "  Guest features:   ");
++    hmp_virtio_dump_features(mon, s->guest_features);
++    monitor_printf(mon, "  Host features:    ");
++    hmp_virtio_dump_features(mon, s->host_features);
++    monitor_printf(mon, "  Backend features: ");
++    hmp_virtio_dump_features(mon, s->backend_features);
 +
-+##
-+# @VirtioQueueElement:
-+#
-+# Information regarding a VirtQueue's VirtQueueElement including
-+# descriptor, driver, and device areas
-+#
-+# @name: Name of the VirtIODevice that uses this VirtQueue
-+#
-+# @index: Index of the element in the queue
-+#
-+# @descs: List of descriptors (VirtioRingDesc)
-+#
-+# @avail: VRingAvail info
-+#
-+# @used: VRingUsed info
-+#
-+# Since: 7.0
-+#
-+##
++    if (s->has_vhost_dev) {
++        monitor_printf(mon, "  VHost:\n");
++        monitor_printf(mon, "    nvqs:           %d\n",
++                       s->vhost_dev->nvqs);
++        monitor_printf(mon, "    vq_index:       %"PRId64"\n",
++                       s->vhost_dev->vq_index);
++        monitor_printf(mon, "    max_queues:     %"PRId64"\n",
++                       s->vhost_dev->max_queues);
++        monitor_printf(mon, "    n_mem_sections: %"PRId64"\n",
++                       s->vhost_dev->n_mem_sections);
++        monitor_printf(mon, "    n_tmp_sections: %"PRId64"\n",
++                       s->vhost_dev->n_tmp_sections);
++        monitor_printf(mon, "    backend_cap:    %"PRId64"\n",
++                       s->vhost_dev->backend_cap);
++        monitor_printf(mon, "    log_enabled:    %s\n",
++                       s->vhost_dev->log_enabled ? "true" : "false");
++        monitor_printf(mon, "    log_size:       %"PRId64"\n",
++                       s->vhost_dev->log_size);
++        monitor_printf(mon, "    Features:          ");
++        hmp_virtio_dump_features(mon, s->vhost_dev->features);
++        monitor_printf(mon, "    Acked features:    ");
++        hmp_virtio_dump_features(mon, s->vhost_dev->acked_features);
++        monitor_printf(mon, "    Backend features:  ");
++        hmp_virtio_dump_features(mon, s->vhost_dev->backend_features);
++        monitor_printf(mon, "    Protocol features: ");
++        hmp_virtio_dump_protocols(mon, s->vhost_dev->protocol_features);
++    }
 +
-+{ 'struct': 'VirtioQueueElement',
-+  'data': { 'name': 'str',
-+            'index': 'uint32',
-+            'descs': [ 'VirtioRingDesc' ],
-+            'avail': 'VirtioRingAvail',
-+            'used': 'VirtioRingUsed' } }
++    qapi_free_VirtioStatus(s);
++}
 +
-+##
-+# @x-query-virtio-queue-element:
-+#
-+# Return the information about a VirtQueue's VirtQueueElement
-+# (default: head of the queue)
-+#
-+# @path: VirtIODevice canonical QOM path
-+#
-+# @queue: VirtQueue index to examine
-+#
-+# @index: Index of the element in the queue
-+#
-+# Features:
-+# @unstable: This command is meant for debugging.
-+#
-+# Returns: VirtioQueueElement information
-+#
-+# Since: 7.0
-+#
-+# Examples:
-+#
-+# 1. Introspect on virtio-net's VirtQueue 0 at index 5
-+#
-+# -> { "execute": "x-query-virtio-queue-element",
-+#      "arguments": { "path": "/machine/peripheral-anon/device[1]/virtio-backend",
-+#                     "queue": 0,
-+#                     "index": 5 }
-+#    }
-+# <- { "return": {
-+#            "index": 5,
-+#            "name": "virtio-net",
-+#            "descs": [
-+#               { "flags": ["write"], "len": 1536, "addr": 5257305600 }
-+#            ],
-+#            "avail": {
-+#               "idx": 256,
-+#               "flags": 0,
-+#               "ring": 5
-+#            },
-+#            "used": {
-+#               "idx": 13,
-+#               "flags": 0
-+#            },
-+#    }
-+#
-+# 2. Introspect on virtio-crypto's VirtQueue 1 at head
-+#
-+# -> { "execute": "x-query-virtio-queue-element",
-+#      "arguments": { "path": "/machine/peripheral/crypto0/virtio-backend",
-+#                     "queue": 1 }
-+#    }
-+# <- { "return": {
-+#            "index": 0,
-+#            "name": "virtio-crypto",
-+#            "descs": [
-+#               { "flags": [], "len": 0, "addr": 8080268923184214134 }
-+#            ],
-+#            "avail": {
-+#               "idx": 280,
-+#               "flags": 0,
-+#               "ring": 0
-+#            },
-+#            "used": {
-+#               "idx": 280,
-+#               "flags": 0
-+#            }
-+#    }
-+#
-+# 3. Introspect on virtio-scsi's VirtQueue 2 at head
-+#
-+# -> { "execute": "x-query-virtio-queue-element",
-+#      "arguments": { "path": "/machine/peripheral-anon/device[2]/virtio-backend",
-+#                     "queue": 2 }
-+#    }
-+# <- { "return": {
-+#            "index": 19,
-+#            "name": "virtio-scsi",
-+#            "descs": [
-+#               { "flags": ["used", "indirect", "write"], "len": 4099327944,
-+#                 "addr": 12055409292258155293 }
-+#            ],
-+#            "avail": {
-+#               "idx": 1147,
-+#               "flags": 0,
-+#               "ring": 19
-+#            },
-+#            "used": {
-+#               "idx": 280,
-+#               "flags": 0
-+#            }
-+#    }
-+#
-+##
++void hmp_vhost_queue_status(Monitor *mon, const QDict *qdict)
++{
++    Error *err = NULL;
++    const char *path = qdict_get_try_str(qdict, "path");
++    int queue = qdict_get_int(qdict, "queue");
++    VirtVhostQueueStatus *s =
++        qmp_x_query_virtio_vhost_queue_status(path, queue, &err);
 +
-+{ 'command': 'x-query-virtio-queue-element',
-+  'data': { 'path': 'str', 'queue': 'uint16', '*index': 'uint16' },
-+  'returns': 'VirtioQueueElement',
-+  'features': [ 'unstable' ] }
++    if (err != NULL) {
++        hmp_handle_error(mon, err);
++        return;
++    }
++
++    monitor_printf(mon, "%s:\n", path);
++    monitor_printf(mon, "  device_name:          %s (vhost)\n",
++                   s->name);
++    monitor_printf(mon, "  kick:                 %"PRId64"\n", s->kick);
++    monitor_printf(mon, "  call:                 %"PRId64"\n", s->call);
++    monitor_printf(mon, "  VRing:\n");
++    monitor_printf(mon, "    num:         %"PRId64"\n", s->num);
++    monitor_printf(mon, "    desc:        0x%016"PRIx64"\n", s->desc);
++    monitor_printf(mon, "    desc_phys:   0x%016"PRIx64"\n",
++                   s->desc_phys);
++    monitor_printf(mon, "    desc_size:   %"PRId32"\n", s->desc_size);
++    monitor_printf(mon, "    avail:       0x%016"PRIx64"\n", s->avail);
++    monitor_printf(mon, "    avail_phys:  0x%016"PRIx64"\n",
++                   s->avail_phys);
++    monitor_printf(mon, "    avail_size:  %"PRId32"\n", s->avail_size);
++    monitor_printf(mon, "    used:        0x%016"PRIx64"\n", s->used);
++    monitor_printf(mon, "    used_phys:   0x%016"PRIx64"\n",
++                   s->used_phys);
++    monitor_printf(mon, "    used_size:   %"PRId32"\n", s->used_size);
++
++    qapi_free_VirtVhostQueueStatus(s);
++}
++
++void hmp_virtio_queue_status(Monitor *mon, const QDict *qdict)
++{
++    Error *err = NULL;
++    const char *path = qdict_get_try_str(qdict, "path");
++    int queue = qdict_get_int(qdict, "queue");
++    VirtQueueStatus *s = qmp_x_query_virtio_queue_status(path, queue, &err);
++
++    if (err != NULL) {
++        hmp_handle_error(mon, err);
++        return;
++    }
++
++    monitor_printf(mon, "%s:\n", path);
++    monitor_printf(mon, "  device_name:          %s\n", s->name);
++    monitor_printf(mon, "  queue_index:          %d\n", s->queue_index);
++    monitor_printf(mon, "  inuse:                %d\n", s->inuse);
++    monitor_printf(mon, "  used_idx:             %d\n", s->used_idx);
++    monitor_printf(mon, "  signalled_used:       %d\n",
++                   s->signalled_used);
++    monitor_printf(mon, "  signalled_used_valid: %s\n",
++                   s->signalled_used_valid ? "true" : "false");
++    if (s->has_last_avail_idx) {
++        monitor_printf(mon, "  last_avail_idx:       %d\n",
++                       s->last_avail_idx);
++    }
++    if (s->has_shadow_avail_idx) {
++        monitor_printf(mon, "  shadow_avail_idx:     %d\n",
++                       s->shadow_avail_idx);
++    }
++    monitor_printf(mon, "  VRing:\n");
++    monitor_printf(mon, "    num:          %"PRId32"\n", s->vring_num);
++    monitor_printf(mon, "    num_default:  %"PRId32"\n",
++                   s->vring_num_default);
++    monitor_printf(mon, "    align:        %"PRId32"\n",
++                   s->vring_align);
++    monitor_printf(mon, "    desc:         0x%016"PRIx64"\n",
++                   s->vring_desc);
++    monitor_printf(mon, "    avail:        0x%016"PRIx64"\n",
++                   s->vring_avail);
++    monitor_printf(mon, "    used:         0x%016"PRIx64"\n",
++                   s->vring_used);
++
++    qapi_free_VirtQueueStatus(s);
++}
++
++void hmp_virtio_queue_element(Monitor *mon, const QDict *qdict)
++{
++    Error *err = NULL;
++    const char *path = qdict_get_try_str(qdict, "path");
++    int queue = qdict_get_int(qdict, "queue");
++    int index = qdict_get_try_int(qdict, "index", -1);
++    VirtioQueueElement *e;
++    VirtioRingDescList *list;
++
++    e = qmp_x_query_virtio_queue_element(path, queue, index != -1,
++                                         index, &err);
++    if (err != NULL) {
++        hmp_handle_error(mon, err);
++        return;
++    }
++
++    monitor_printf(mon, "%s:\n", path);
++    monitor_printf(mon, "  device_name: %s\n", e->name);
++    monitor_printf(mon, "  index:       %d\n", e->index);
++    monitor_printf(mon, "  desc:\n");
++    monitor_printf(mon, "    descs:   ");
++
++    list = e->descs;
++    while (list) {
++        monitor_printf(mon, "addr 0x%"PRIx64" len %d", list->value->addr,
++                       list->value->len);
++        if (list->value->flags) {
++            strList *flag = list->value->flags;
++            monitor_printf(mon, " (");
++            while (flag) {
++                monitor_printf(mon, "%s", flag->value);
++                flag = flag->next;
++                if (flag) {
++                    monitor_printf(mon, ", ");
++                }
++            }
++            monitor_printf(mon, ")");
++        }
++        list = list->next;
++        if (list) {
++            monitor_printf(mon, ", ");
++        }
++    }
++    monitor_printf(mon, "\n");
++    monitor_printf(mon, "  avail:\n");
++    monitor_printf(mon, "    flags: %d\n", e->avail->flags);
++    monitor_printf(mon, "    idx:   %d\n", e->avail->idx);
++    monitor_printf(mon, "    ring:  %d\n", e->avail->ring);
++    monitor_printf(mon, "  used:\n");
++    monitor_printf(mon, "    flags: %d\n", e->used->flags);
++    monitor_printf(mon, "    idx:   %d\n", e->used->idx);
++
++    qapi_free_VirtioQueueElement(e);
++}
 -- 
 1.8.3.1
 
