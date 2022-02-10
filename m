@@ -2,74 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CCDF94B0D91
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Feb 2022 13:28:39 +0100 (CET)
-Received: from localhost ([::1]:41696 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 073D14B0D95
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Feb 2022 13:31:45 +0100 (CET)
+Received: from localhost ([::1]:46250 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nI8Yw-000373-KV
-	for lists+qemu-devel@lfdr.de; Thu, 10 Feb 2022 07:28:38 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:54298)
+	id 1nI8bv-0006Pp-RA
+	for lists+qemu-devel@lfdr.de; Thu, 10 Feb 2022 07:31:43 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:55062)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <shorne@gmail.com>) id 1nI8My-0005dr-Ch
- for qemu-devel@nongnu.org; Thu, 10 Feb 2022 07:16:18 -0500
-Received: from [2607:f8b0:4864:20::42d] (port=45723
- helo=mail-pf1-x42d.google.com)
+ (Exim 4.90_1) (envelope-from <shorne@gmail.com>) id 1nI8Oq-000883-51
+ for qemu-devel@nongnu.org; Thu, 10 Feb 2022 07:18:12 -0500
+Received: from [2607:f8b0:4864:20::42c] (port=39695
+ helo=mail-pf1-x42c.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <shorne@gmail.com>) id 1nI8Mv-0001lG-HG
- for qemu-devel@nongnu.org; Thu, 10 Feb 2022 07:16:16 -0500
-Received: by mail-pf1-x42d.google.com with SMTP id 9so6988593pfx.12
- for <qemu-devel@nongnu.org>; Thu, 10 Feb 2022 04:16:12 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <shorne@gmail.com>) id 1nI8On-0002CL-Jm
+ for qemu-devel@nongnu.org; Thu, 10 Feb 2022 07:18:11 -0500
+Received: by mail-pf1-x42c.google.com with SMTP id r19so9886574pfh.6
+ for <qemu-devel@nongnu.org>; Thu, 10 Feb 2022 04:18:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:content-transfer-encoding:in-reply-to;
- bh=s0DO2y4KJDM7msw2JFOZCIsqOP4uR34mXgzkBoALsGQ=;
- b=cj5tC/zFbB3AM7/zbt3t/xypUPfkwQcX9D2JpMgb9DQm6FK/nQzu4xMAU6It562iAR
- pwboTCHkctxzNfiaYp2cf/qr5yrO1Jqkgjw28byWp8cxgeqL04CpkzW7eIjD/2wygSgq
- bvwBAaUCw0G7nElnuh8k4cUKRPbGEr6uUbqdmocCaxU06pZ4tekSTPAqT2L2oefISBsM
- rI8NPI0v/fWN3CSdc+YtCMFvqaF+788NFBUTDXAE1OX1PmsdOYKPR7W4MGY8CCz2ASdQ
- iEWrz3I5IrPzMRdqrrD5Xt0ImPB79LGg4+neq11im/ktBJooXIa2x4vAWOE9rWAWjKk7
- sMOA==
+ bh=MjFEhHEyyN8cW1P/6h+6/8+RGSArPU650f4sHAQQw+8=;
+ b=UMWtcyZYkd8A4AOYKZlY7SLFzf3M4gU3xOb/5F0MQUmL1qui+dVlm0gqC8b9+nTkfF
+ EvaFLg8ChmeEiK91tKMKQV2wadiPkUJVpMAT4zhlpcnrb0BkNV9CPzdeS9FT00rQUnUp
+ UfXo2O08+dquPgM5PSrnIev7Gaj8JT3vQTrVjyPu/CAAY4RKQG7WmCdHPzSnX7s4poDp
+ NZit1GTa6RCcMX86alHcAWquEYoirUEH/wc8PErwRlxeDebgBvG4qCHcBbR92opYNEFX
+ 1juMMXimOQG2ipzv57L5hTmrjMG5gau3aJFrZ/FeRaZjUi69WnMyKQy/q3X3muASqOFY
+ nnVg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:content-transfer-encoding
  :in-reply-to;
- bh=s0DO2y4KJDM7msw2JFOZCIsqOP4uR34mXgzkBoALsGQ=;
- b=K9FqT8jAi0o2LXyyLDClTMI8sTckwfuHSl201KAF3+zE6ur55Y77BvFWlPN9rwKNuZ
- Ui0L2o40l7S8JH8Lv5nQPNPq5v278FTlykHcdY7689MdKB/gGV5/b4Ktw1GhYgtl2R4W
- nG9xUSQr4RAxgfm6jcLPQ0av+r4krmRdNa9kuk0V2jkhqGxNCG9Vsy/h9F3EofwjsoQ1
- svXaIuZBAYa/STqCNmvkVpV/D7Oy7e21lEtGfWOYg9oiVWbPGJgU8a2Q/GKyVY1dNQ5A
- QsJcYuyWWFXDD0oxvSopsVMF+0mRzEobm8geY/oyO+grlGw6gldTuxVn7xXRoX5l0fsa
- LZEA==
-X-Gm-Message-State: AOAM533Px1a7smZ7+TxvaISmsi8FMbMKB0m0X87wJC90Y08pR9jcBs05
- Z15tqcp4VBWPBFuMUAGCgq8=
-X-Google-Smtp-Source: ABdhPJy3fwuAqpOnHumyf5ejCjDQRILIPlXGAWWKb/bfdNUOd0vN15ILdPrR8J8mnvDVBYJc6BSMQA==
-X-Received: by 2002:a05:6a00:1914:: with SMTP id
- y20mr7242897pfi.39.1644495371247; 
- Thu, 10 Feb 2022 04:16:11 -0800 (PST)
+ bh=MjFEhHEyyN8cW1P/6h+6/8+RGSArPU650f4sHAQQw+8=;
+ b=B4WjZwuBdauENmCaud5dapNIXLA3cUYBw7oCgUn/3A7OBXI8+uNAd+dJJa/cjfaQq5
+ pPP+7Vo7DvCEvlkah6/Q45x6NPreEpqh7LmK8p8zpmOW4dd5bFS947r0TrD2EYgO1H2y
+ u494izpI1CkwUfaAKc7FqBbMK3QANrd9z+gsT04ZqIq/s3Iwc8vC/Zu/qB7lo7qBKvhF
+ HFHUG9mYVb/8GVcoBQuYCsegvXh+JURUapL26dC5Vxrtk8J2FurwFzLDvioGaKFqenQL
+ Zp02vwFXpbXVWxB5CU/OGXmzxp1DsSGKeX7fje9QbJvUkMSsuH0/+5IqsrrDR6mzMML8
+ ytHg==
+X-Gm-Message-State: AOAM533WX3xbGzZf3nfr0kVh29EHol+ih9JwWs1X23Ec4Qu35NWwwKI8
+ L4xwfc5nAQuIJB1q0n+XFLg=
+X-Google-Smtp-Source: ABdhPJz/W5V2w1A5Eu1jXO4ToZ5L0M+pWxuqo5XGbeS4vxj4ctulngcKC/4+j3cmn28qTJE9UmZV1Q==
+X-Received: by 2002:a05:6a00:181f:: with SMTP id
+ y31mr7206630pfa.35.1644495488319; 
+ Thu, 10 Feb 2022 04:18:08 -0800 (PST)
 Received: from localhost ([2409:10:24a0:4700:e8ad:216a:2a9d:6d0c])
- by smtp.gmail.com with ESMTPSA id 13sm22868117pfm.161.2022.02.10.04.16.10
+ by smtp.gmail.com with ESMTPSA id s32sm16770994pfw.80.2022.02.10.04.18.07
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 10 Feb 2022 04:16:10 -0800 (PST)
-Date: Thu, 10 Feb 2022 21:16:08 +0900
+ Thu, 10 Feb 2022 04:18:07 -0800 (PST)
+Date: Thu, 10 Feb 2022 21:18:05 +0900
 From: Stafford Horne <shorne@gmail.com>
 To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>
-Subject: Re: [PATCH 1/4] hw/openrisc/openrisc_sim: Create machine state for
- or1ksim
-Message-ID: <YgUCCOmt2J83ii/p@antec>
+Subject: Re: [PATCH 2/4] hw/openrisc/openrisc_sim: Paramatarize initialization
+Message-ID: <YgUCfWa1xCRLIc8Z@antec>
 References: <20220210063009.1048751-1-shorne@gmail.com>
- <20220210063009.1048751-2-shorne@gmail.com>
- <e0ea2b85-1ba3-c9d2-3afb-a3eb3ed4aea3@amsat.org>
+ <20220210063009.1048751-3-shorne@gmail.com>
+ <ac0eb0a2-8a8e-c95c-08a4-4dfe07862f9b@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <e0ea2b85-1ba3-c9d2-3afb-a3eb3ed4aea3@amsat.org>
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::42d
+In-Reply-To: <ac0eb0a2-8a8e-c95c-08a4-4dfe07862f9b@amsat.org>
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::42c
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42d;
- envelope-from=shorne@gmail.com; helo=mail-pf1-x42d.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42c;
+ envelope-from=shorne@gmail.com; helo=mail-pf1-x42c.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -94,36 +93,21 @@ Cc: QEMU Development <qemu-devel@nongnu.org>, Jia Liu <proljc@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Feb 10, 2022 at 12:05:22PM +0100, Philippe Mathieu-Daudé wrote:
+On Thu, Feb 10, 2022 at 12:07:02PM +0100, Philippe Mathieu-Daudé wrote:
 > On 10/2/22 07:30, Stafford Horne wrote:
-> > This will allow us to attach machine state attributes like
-> > the device tree fdt.
+> > Move magic numbers to variables and enums. These will be
+> > reused for upcoming fdt initialization.
 > > 
 > > Signed-off-by: Stafford Horne <shorne@gmail.com>
 > > ---
-> >   hw/openrisc/openrisc_sim.c | 31 +++++++++++++++++++++++++++++--
-> >   1 file changed, 29 insertions(+), 2 deletions(-)
+> >   hw/openrisc/openrisc_sim.c | 42 ++++++++++++++++++++++++++++++--------
+> >   1 file changed, 34 insertions(+), 8 deletions(-)
 > 
-> > @@ -141,6 +153,7 @@ static void openrisc_sim_init(MachineState *machine)
-> >       ram_addr_t ram_size = machine->ram_size;
-> >       const char *kernel_filename = machine->kernel_filename;
-> >       OpenRISCCPU *cpus[2] = {};
-> > +    Or1ksimState *s = OR1KSIM_MACHINE(machine);
-> 
-> This change belong to patch #3.
+> Typo "Parameterize" in subject.
 
-Yes, when I was splitting this patch out I left it here because I was
-"preparing".  But it is not being used, so fair enough.
+Yes.
 
-> Otherwise:
 > Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-Thanks
-
-> >       MemoryRegion *ram;
-> >       qemu_irq serial_irq;
-> >       int n;
-> > @@ -183,8 +196,10 @@ static void openrisc_sim_init(MachineState *machine)
-> >       openrisc_load_kernel(ram_size, kernel_filename);
-> >   }
+Thank you.
 
