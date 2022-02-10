@@ -2,84 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D292D4B08F6
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Feb 2022 09:56:49 +0100 (CET)
-Received: from localhost ([::1]:41366 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 959CB4B0922
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Feb 2022 10:07:13 +0100 (CET)
+Received: from localhost ([::1]:56970 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nI5Fw-0008Ex-UI
-	for lists+qemu-devel@lfdr.de; Thu, 10 Feb 2022 03:56:48 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:51124)
+	id 1nI5Q0-0002Gy-0l
+	for lists+qemu-devel@lfdr.de; Thu, 10 Feb 2022 04:07:12 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:51844)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nI4rD-0004sP-R6
- for qemu-devel@nongnu.org; Thu, 10 Feb 2022 03:31:15 -0500
-Received: from [2a00:1450:4864:20::32d] (port=55984
- helo=mail-wm1-x32d.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nI4rB-0007wm-Dx
- for qemu-devel@nongnu.org; Thu, 10 Feb 2022 03:31:15 -0500
-Received: by mail-wm1-x32d.google.com with SMTP id i19so1549616wmq.5
- for <qemu-devel@nongnu.org>; Thu, 10 Feb 2022 00:31:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=n/R7ZF0tBS7/9sAfWpN7KVWaDhjixKByg8AKymqJ+wQ=;
- b=OA6MLzhrrO/klQTor3MkNbjapd7IKZ+ZLfmTD2LK/qquxJ4nQ3LId25D3NlA4MG7wJ
- lX4Tq/mD2R9XBJMN2YDZO4BTOCR8PaAuD/9e3u1ZtnSAdYVZ30zT+bZOV7RRXggFweMS
- xYkV1GYhJjLFx4dU29BcBO3GZDzbS0FYAxdnv2fuRFcLta/PwxZWkoT1lKQfOtZMNVsv
- 2aQXkzeOoEHqvwGDTwi6GGdyCwStJ+peqkHnTD/RS6261tXihY6XsLP7xoE/XevTALtQ
- N2XkOeul+ITvsCR/mrxtjrmOKQlaH7cdUjR9mkfSQphlI77g1PQ4VDPaURmkPOZ6s57j
- q1Bg==
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nI4uG-00068d-US
+ for qemu-devel@nongnu.org; Thu, 10 Feb 2022 03:34:25 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:34422)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nI4uD-0008GO-Ix
+ for qemu-devel@nongnu.org; Thu, 10 Feb 2022 03:34:22 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1644482060;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=E8Z4/u73WcTAbRBQAt6lJZa00PxzNAbHl3tAc4layOA=;
+ b=dF1zhQ4YEfTPGju+qBGQhHLk6W1ESsiD8n/VxqHICOaJTVhjTmV0Nkdeq6llNVZtiDMWun
+ SY17YOV5jIPxhs7iAoMj7ru39ayI71vUg++5RovH7Ih1dZOSk4WYlfRGIrvgPcgFNXrD90
+ To64lAwmLnNPXka4UCu9+dz+YPPohwI=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-504-U8PR7fCuMU2J3R2_fScJnw-1; Thu, 10 Feb 2022 03:34:19 -0500
+X-MC-Unique: U8PR7fCuMU2J3R2_fScJnw-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ w5-20020a1cf605000000b00354d2d83490so528399wmc.4
+ for <qemu-devel@nongnu.org>; Thu, 10 Feb 2022 00:34:19 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=n/R7ZF0tBS7/9sAfWpN7KVWaDhjixKByg8AKymqJ+wQ=;
- b=UmoKYon2yS12UjhmB+pKe1f8wNIFIOJSKr7PVxaU+L03bqqwSvwwMEAGNh2/9t3WG4
- cz035KatyaJGxHbSryPVrk2XWLoVF1WGRoSbJhUFmUSx/ao5avPzttXr/IjMJJUTOQXL
- vk1HiEvVQSAeNKr1EKDj+E/x22CG+9cwYvhkVgcAmSRnwxgcoeUPy+dpaLM67FlroiyV
- yQ1AzSRBFGgr43DF8laC6S1qh+Irz5F9vbUReRzv1SL1nx+HsaOH7v8tfwO/VadWMYc6
- 18wC9Dpaqz/lqUCRgTVHTxeOLh5K7IEFGAOpSBf0qQJ3kI7YqOGBPszAK+AIw07zf/Dz
- vjYA==
-X-Gm-Message-State: AOAM533EGrJRiIE5txjk49GoLYQyOQonUybcuSBR5OVfTcMPkDkHyrqk
- FuQc4GBa1K1hk5/u1Lu6gDLtGw==
-X-Google-Smtp-Source: ABdhPJyZsrMuTHPgdExkx1mnxvBm5j5zuqBj42GFm7M5MQXx/Cv1DHqB168051YsxqCru4dpNwMsZg==
-X-Received: by 2002:a05:600c:4f84:: with SMTP id
- n4mr1207169wmq.106.1644481871800; 
- Thu, 10 Feb 2022 00:31:11 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id o7sm10681810wrp.25.2022.02.10.00.31.10
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 10 Feb 2022 00:31:10 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id A46D01FFB7;
- Thu, 10 Feb 2022 08:31:09 +0000 (GMT)
-References: <4f8de2059fc963bb67920a1a2f8481f969a35eec.1641912994.git.viresh.kumar@linaro.org>
-User-agent: mu4e 1.7.7; emacs 28.0.91
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Viresh Kumar <viresh.kumar@linaro.org>
-Subject: Re: [PATCH] hw/vhost-user-i2c: Add support for
- VIRTIO_I2C_F_ZERO_LENGTH_REQUEST
-Date: Thu, 10 Feb 2022 08:29:19 +0000
-In-reply-to: <4f8de2059fc963bb67920a1a2f8481f969a35eec.1641912994.git.viresh.kumar@linaro.org>
-Message-ID: <87czjvdsxe.fsf@linaro.org>
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=E8Z4/u73WcTAbRBQAt6lJZa00PxzNAbHl3tAc4layOA=;
+ b=POB72de4szp+OMO/VnkETysmhC971/6PpS9nmhfN+dzSYoMPEAhOQ4DNOK4b2blaX9
+ 47+Tm3bJyd32vlVTphnZagEf5VkM+40QhE7OKcNmgpwQjZzLBgAasHzsM1V3ym23vEdo
+ 6GpKnAPp/pbph1khWTH77DVX8vKLa2dCoi9ofYJG//0M+U/YdkkKBD6Dpn13Syi7CXSI
+ 55ZYoKfAsv8G7BiVxkknTXUj0f1jV7tPYZZaY1zaLuKynAX16a4iiTv4XcQyzHCYm0GP
+ GuLRQ8mNOeaIoYRzVR6OUcd/Fp0ZRNrNe2J4OBTZNaeFqQnMXUm8FLdtrBsN834NVmz6
+ b8Cg==
+X-Gm-Message-State: AOAM5313NZP88Y2FKKad/W2y+v/0atxt4cz7DyV197s98X9aYjh+b8pi
+ d88vLTVIvXHzh6mlqlisizU8/ops+AxFS0GEkSvdO31OnRWpyAhykkOV/SIeDU0oPJKWtbtk9PG
+ vWtwax2E91nCVMns=
+X-Received: by 2002:a5d:5988:: with SMTP id n8mr1487039wri.193.1644482058376; 
+ Thu, 10 Feb 2022 00:34:18 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJx1A98GhlTzYjKjcAoFmocTOEF3tdCkWO+1GT16fi8ZrsI55mXkFGzNQfrUIRpMxoShSrc/6w==
+X-Received: by 2002:a5d:5988:: with SMTP id n8mr1487019wri.193.1644482058112; 
+ Thu, 10 Feb 2022 00:34:18 -0800 (PST)
+Received: from [192.168.8.104] (tmo-098-218.customers.d1-online.com.
+ [80.187.98.218])
+ by smtp.gmail.com with ESMTPSA id f2sm19431178wri.49.2022.02.10.00.34.16
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 10 Feb 2022 00:34:17 -0800 (PST)
+Message-ID: <3d648897-99cc-4078-0016-0b4a0856dff1@redhat.com>
+Date: Thu, 10 Feb 2022 09:34:15 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32d
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32d.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH 02/15] hw/m68k/mcf: Add missing 'exec/hwaddr.h' header
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org
+References: <20220209215446.58402-1-f4bug@amsat.org>
+ <20220209215446.58402-3-f4bug@amsat.org>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <20220209215446.58402-3-f4bug@amsat.org>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -92,67 +101,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: stratos-dev@op-lists.linaro.org,
- Vincent Guittot <vincent.guittot@linaro.org>, qemu-devel@nongnu.org,
- "Michael S. Tsirkin" <mst@redhat.com>
+Cc: QEMU Trivial <qemu-trivial@nongnu.org>, Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 09/02/2022 22.54, Philippe Mathieu-Daudé wrote:
+> hwaddr type is defined in "exec/hwaddr.h".
+> 
+> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> ---
+>   include/hw/m68k/mcf.h | 1 +
+>   1 file changed, 1 insertion(+)
+> 
+> diff --git a/include/hw/m68k/mcf.h b/include/hw/m68k/mcf.h
+> index decf17ce42..8cbd587bbf 100644
+> --- a/include/hw/m68k/mcf.h
+> +++ b/include/hw/m68k/mcf.h
+> @@ -2,6 +2,7 @@
+>   #define HW_MCF_H
+>   /* Motorola ColdFire device prototypes.  */
+>   
+> +#include "exec/hwaddr.h"
+>   #include "target/m68k/cpu-qom.h"
+>   
+>   /* mcf_uart.c */
 
-Viresh Kumar <viresh.kumar@linaro.org> writes:
+Reviewed-by: Thomas Huth <thuth@redhat.com>
 
-> VIRTIO_I2C_F_ZERO_LENGTH_REQUEST is a mandatory feature, that must be
-> implemented by everyone. Add its support.
->
-> Signed-off-by: Viresh Kumar <viresh.kumar@linaro.org>
-
-Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-
-but...
-
-<snip>
->      BusState *qbus =3D BUS(qdev_get_parent_bus(DEVICE(vdev)));
-> @@ -113,8 +117,10 @@ static void vu_i2c_set_status(VirtIODevice *vdev, ui=
-nt8_t status)
->  static uint64_t vu_i2c_get_features(VirtIODevice *vdev,
->                                      uint64_t requested_features, Error *=
-*errp)
->  {
-> -    /* No feature bits used yet */
-> -    return requested_features;
-> +    VHostUserI2C *i2c =3D VHOST_USER_I2C(vdev);
-> +
-> +    virtio_add_feature(&requested_features, VIRTIO_I2C_F_ZERO_LENGTH_REQ=
-UEST);
-> +    return vhost_get_features(&i2c->vhost_dev, feature_bits, requested_f=
-eatures);
->  }
-
-It's a bit weird we set it and then pass it to the vhost-user backend.
-It does raise the question of why the stub actually cares about feature
-bits at all when really it's a negotiation with the backend.
-
-IOW what would happen if we just called:
-
-    return vhost_get_features(&i2c->vhost_dev, feature_bits, -1);
-
->=20=20
->  static void vu_i2c_handle_output(VirtIODevice *vdev, VirtQueue *vq)
-> diff --git a/include/hw/virtio/vhost-user-i2c.h b/include/hw/virtio/vhost=
--user-i2c.h
-> index deae47a76d55..d8372f3b43ea 100644
-> --- a/include/hw/virtio/vhost-user-i2c.h
-> +++ b/include/hw/virtio/vhost-user-i2c.h
-> @@ -25,4 +25,7 @@ struct VHostUserI2C {
->      bool connected;
->  };
->=20=20
-> +/* Virtio Feature bits */
-> +#define VIRTIO_I2C_F_ZERO_LENGTH_REQUEST		0
-> +
->  #endif /* _QEMU_VHOST_USER_I2C_H */
-
-
---=20
-Alex Benn=C3=A9e
 
