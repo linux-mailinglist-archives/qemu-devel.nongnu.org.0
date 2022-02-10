@@ -2,78 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1FDC84B0D0D
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Feb 2022 12:59:44 +0100 (CET)
-Received: from localhost ([::1]:44896 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A6B24B0D3A
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Feb 2022 13:11:05 +0100 (CET)
+Received: from localhost ([::1]:51916 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nI86x-0000SU-8w
-	for lists+qemu-devel@lfdr.de; Thu, 10 Feb 2022 06:59:43 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:46420)
+	id 1nI8Hu-0006O5-QM
+	for lists+qemu-devel@lfdr.de; Thu, 10 Feb 2022 07:11:02 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:47378)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nI7w9-0006jk-4D; Thu, 10 Feb 2022 06:48:33 -0500
-Received: from [2607:f8b0:4864:20::435] (port=45893
- helo=mail-pf1-x435.google.com)
+ id 1nI7zv-0004Qu-59
+ for qemu-devel@nongnu.org; Thu, 10 Feb 2022 06:52:27 -0500
+Received: from [2607:f8b0:4864:20::42a] (port=44855
+ helo=mail-pf1-x42a.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nI7w7-0008H6-2l; Thu, 10 Feb 2022 06:48:32 -0500
-Received: by mail-pf1-x435.google.com with SMTP id 9so6868192pfx.12;
- Thu, 10 Feb 2022 03:48:29 -0800 (PST)
+ id 1nI7zt-0000kF-6p
+ for qemu-devel@nongnu.org; Thu, 10 Feb 2022 06:52:26 -0500
+Received: by mail-pf1-x42a.google.com with SMTP id y8so7041235pfa.11
+ for <qemu-devel@nongnu.org>; Thu, 10 Feb 2022 03:52:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=ig9kZqZZfQ9sqdXBPM1U4qU1I9hGNtkiVI/BPqhhhKc=;
- b=gHjRR3KMMjr4GXyMMVsj3qIoQ3XUIZ2LRHojh/SBKk1/ArKNECiBKc5YaqBzLpyafw
- ctys2nLhQQJGtWNe/3YCjlaj5BbUhLndnm9jW774Y1ZJpyiS2f6a/1DxUQgTNNYJamMP
- Mc03HT5MjPZae88D4Busv49cFPFInz22dvTl+0C77PE1n38BdM8/MhKvt5syZBIA2sxX
- gVBKC79gv+bwdPxd8OH4DOJanVUyWNarHLWtAijgFSgLNsPO/Dr5ziEmdIQNuZUulHyM
- 0uhJvvHjo2h8BBqTB1ZEHPSDrtA805xtP7TTNInMHO/BQX85U1iU0EG/xwgnnAhzxmAk
- CCRA==
+ bh=t4VpQBYAlTYgr5cwfncMpF3h/VRdgtp+KVSUqDwUPz8=;
+ b=QZ5+E/Ql3gZdR8f3C9SUyAASYR2IRntXowEEts7opK6zjhghp2qbafAGmsPPMCAv1x
+ Pqu6RaEGoU7LQPyesrN9WVqmEXAyUndARsQMwTlD79eFH7NW97fFx+kgDiUGqqSU5FRd
+ BN+87Nd+8MFOLjqDz1TezGy5wc8gzt8hW8Uf9v+8VAy039kcl7HNtMSGmZxLVDabsX2t
+ vEH6RsUxPLiDFo3d2RSkcKvooWWI7pbJetcT3ec+NsD+w5e4x0zKn/bRvFdToeKmgv1W
+ F3DcDqUUAOmY88aNZSO/2L/m1YUkkmguHQZKJRUeToSTz3W/L72F8JNpnET9ExC4//BE
+ MZmw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
  :subject:content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=ig9kZqZZfQ9sqdXBPM1U4qU1I9hGNtkiVI/BPqhhhKc=;
- b=4mb7MWiaRSarMuc5xKA8jxO0CpknMNNF+S9yGPxYD2bNNIs0EDJ2Uk0rf/qoiRZGYi
- t82zhrC1wJrYOazoMCpgFXPhJjYLxFrch7lSTQ2dBI4r4kv8axF0dVzR65N0dBqwP/9N
- Ql9rn7d3kdouIxSWcHgOM9TITruBJxACIok60pyqi9Kle0w2dVUZeEG6tIO7JHpZlDU/
- hyzqLHByNoRgKIBqO/m6UmhX4AsRph8z4kyxOd5XzJVp9w/jbW9lL1Vj57qkyk2AzYyr
- 8XhQFXhO52cofjvqRbHAp4SL+Xr802BPKXndoR69ppMrjs+MXkoRbeJADx9M4Y1K1Tfn
- r+uw==
-X-Gm-Message-State: AOAM533DgiY4menQUt8+gJjzopGidXxt1e9HYcbdPGk9ypG/iE+W3Smg
- tIMyOf7BjkBzipE9ioRE80Q=
-X-Google-Smtp-Source: ABdhPJyNmSG1WvX/xGGiQo/Pq5Dam0pcZhc5srG3p4my1VTiE6XGONLTPkpC3kWLf0Vf6ceOEUA/jw==
-X-Received: by 2002:a63:28d:: with SMTP id 135mr5934362pgc.517.1644493708996; 
- Thu, 10 Feb 2022 03:48:28 -0800 (PST)
+ bh=t4VpQBYAlTYgr5cwfncMpF3h/VRdgtp+KVSUqDwUPz8=;
+ b=yfhHVPf8gepfRyeDwGrcx0S1Or+5BIVnkv93pHrxhuJdAAmnpIVYurgQ78L+51SzV5
+ yYGrDcPwokCmWXvw7Pvw/jM7PlnXQesycPIz52MUiCHrBaKrohkkKvjcMdPYW5ueED0Q
+ YZBumTFqXLg7bJlqdEoAYhNoX0oOJIx7xBnFEhBgZWlndosFCNBQ0QkQamrzKEjvcl8B
+ cKbJp3HsYXbRIJiDhfRUvlBaf/qAHEIvA/eky/AcvL4nlB9+Or6IOQCQjijZzXL4migZ
+ VUOILwdtY3g7v+Fsc68eUHFdX1aIBsuDofaZvvuaD61G3Q5iq7QYarhyrJFCUvy09Jzy
+ X/cg==
+X-Gm-Message-State: AOAM5326aTxXf/89o1gKK7utXzfyCS6d94HrY6aL/6Dkaes1CbcfUR99
+ l95t2xTaRsEy91pD9c2OlpqUCuDbp3M=
+X-Google-Smtp-Source: ABdhPJxje4ZUoUBM9rHBnXSqzw/JBJ+W88gvu9Ji0yM4+kusjGrOXxdqMoq/15hW7k56C5IlmSWuyA==
+X-Received: by 2002:a63:1c1:: with SMTP id 184mr5912859pgb.66.1644493943276;
+ Thu, 10 Feb 2022 03:52:23 -0800 (PST)
 Received: from [192.168.1.33] (154.red-83-50-83.dynamicip.rima-tde.net.
  [83.50.83.154])
- by smtp.gmail.com with ESMTPSA id k12sm24462870pfc.107.2022.02.10.03.48.26
+ by smtp.gmail.com with ESMTPSA id oo7sm2543736pjb.33.2022.02.10.03.52.21
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 10 Feb 2022 03:48:28 -0800 (PST)
-Message-ID: <8b6fca38-8a4e-af35-f202-86a5a3f98e47@amsat.org>
-Date: Thu, 10 Feb 2022 12:48:24 +0100
+ Thu, 10 Feb 2022 03:52:22 -0800 (PST)
+Message-ID: <793c7d61-88ed-2820-5866-c0236cd5ebea@amsat.org>
+Date: Thu, 10 Feb 2022 12:52:19 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
  Gecko/20100101 Thunderbird/91.5.1
-Subject: Re: [PATCH v5 1/2] semihosting/arm-compat: replace heuristic for
- softmmu SYS_HEAPINFO
+Subject: Re: [PATCH] meson: put custom CFLAGS after default CFLAGS
 Content-Language: en-US
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org, peter.maydell@linaro.org
-Cc: Andrew Strauss <astrauss11@gmail.com>, Keith Packard <keithp@keithp.com>, 
- qemu-arm@nongnu.org
-References: <20220210113021.3799514-1-alex.bennee@linaro.org>
- <20220210113021.3799514-2-alex.bennee@linaro.org>
-In-Reply-To: <20220210113021.3799514-2-alex.bennee@linaro.org>
+To: Konstantin Khlebnikov <khlebnikov@yandex-team.ru>, qemu-devel@nongnu.org
+Cc: yc-core@yandex-team.ru, Paolo Bonzini <pbonzini@redhat.com>
+References: <164449347000.2210159.3879447183273643758.stgit@dynamic-vpn.dhcp.yndx.net>
+In-Reply-To: <164449347000.2210159.3879447183273643758.stgit@dynamic-vpn.dhcp.yndx.net>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::435
+Content-Transfer-Encoding: 7bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::42a
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::435;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pf1-x435.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42a;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pf1-x42a.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -100,73 +98,38 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
 From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
-Hi Alex,
+Hi Konstantin,
 
-On 10/2/22 12:30, Alex Bennée wrote:
-> The previous numbers were a guess at best and rather arbitrary without
-> taking into account anything that might be loaded. Instead of using
-> guesses based on the state of registers implement a new function that:
+On 10/2/22 12:44, Konstantin Khlebnikov wrote:
+> Flags passed to configure must be at the end to override defaults.
 > 
->   a) scans the MemoryRegions for the largest RAM block
->   b) iterates through all "ROM" blobs looking for the biggest gap
+> Signed-off-by: Konstantin Khlebnikov <khlebnikov@yandex-team.ru>
+> ---
+>   meson.build |   12 ++++++------
+>   1 file changed, 6 insertions(+), 6 deletions(-)
 > 
-> The "ROM" blobs include all code loaded via -kernel and the various
-> -device loader techniques.
-> 
-> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-> Cc: Andrew Strauss <astrauss11@gmail.com>
-> Cc: Keith Packard <keithp@keithp.com>
-> Message-Id: <20210601090715.22330-1-alex.bennee@linaro.org>
+> diff --git a/meson.build b/meson.build
+> index 5f43355071..d94f3ee3e3 100644
+> --- a/meson.build
+> +++ b/meson.build
+> @@ -3293,13 +3293,13 @@ if targetos == 'windows'
+>       summary_info += {'Windows SDK':   config_host['WIN_SDK']}
+>     endif
+>   endif
+> -summary_info += {'CFLAGS':            ' '.join(get_option('c_args')
+> -                                               + ['-O' + get_option('optimization')]
+> -                                               + (get_option('debug') ? ['-g'] : []))}
+> +summary_info += {'CFLAGS':            ' '.join(['-O' + get_option('optimization')]
+> +                                               + (get_option('debug') ? ['-g'] : [])
+> +                                               + get_option('c_args'))}
+>   if link_language == 'cpp'
+> -  summary_info += {'CXXFLAGS':        ' '.join(get_option('cpp_args')
+> -                                               + ['-O' + get_option('optimization')]
+> -                                               + (get_option('debug') ? ['-g'] : []))}
+> +  summary_info += {'CXXFLAGS':        ' '.join(['-O' + get_option('optimization')]
+> +                                               + (get_option('debug') ? ['-g'] : [])
+> +                                               + get_option('cpp_args'))}
 
-> +static LayoutInfo common_semi_find_bases(CPUState *cs)
->   {
-> -    MemoryRegion *subregion;
-> +    FlatView *fv;
-> +    LayoutInfo info = { 0, 0, 0, 0 };
-> +
-> +    RCU_READ_LOCK_GUARD();
-> +
-> +    fv = address_space_to_flatview(cs->as);
-
-Why are we using the CPU view and not address_space_memory?
-
-Does this function really need a CPUState argument?
-
-Trying to find a counter example, if used on the ZynqMP, could a
-A-profile core would report one heap layout, and a R-profile core
-another layout?
-
-Now if we want the per-CPU AS, shouldn't we pass the CPU AS ID and
-call cpu_get_address_space() instead of cs->as?
-
-> +    flatview_for_each_range(fv, find_ram_cb, &info);
->   
->       /*
-> -     * Find the chunk of R/W memory containing the address.  This is
-> -     * used for the SYS_HEAPINFO semihosting call, which should
-> -     * probably be using information from the loaded application.
-> +     * If we have found the RAM lets iterate through the ROM blobs to
-> +     * workout the best place for the remainder of RAM and split it
-> +     * equally between stack and heap.
->        */
-> -    QTAILQ_FOREACH(subregion, &get_system_memory()->subregions,
-> -                   subregions_link) {
-> -        if (subregion->ram && !subregion->readonly) {
-> -            Int128 top128 = int128_add(int128_make64(subregion->addr),
-> -                                       subregion->size);
-> -            Int128 addr128 = int128_make64(addr);
-> -            if (subregion->addr <= addr && int128_lt(addr128, top128)) {
-> -                return subregion->addr;
-> -            }
-> -        }
-> +    if (info.rambase || info.ramsize > 0) {
-> +        RomGap gap = rom_find_largest_gap_between(info.rambase, info.ramsize);
-> +        info.heapbase = gap.base;
-> +        info.heaplimit = gap.base + gap.size;
->       }
-> -    return 0;
-> +
-> +    return info;
->   }
-
+These are just informative... What is your problem? AFAIU This patch
+doesn't have any logical impact on the build system.
 
