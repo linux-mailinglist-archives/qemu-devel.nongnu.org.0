@@ -2,56 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 62EF24B0E2D
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Feb 2022 14:14:22 +0100 (CET)
-Received: from localhost ([::1]:36092 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 97E674B0E28
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Feb 2022 14:11:21 +0100 (CET)
+Received: from localhost ([::1]:60378 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nI9H7-0005ti-8r
-	for lists+qemu-devel@lfdr.de; Thu, 10 Feb 2022 08:14:19 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:52938)
+	id 1nI9EE-0001bH-2m
+	for lists+qemu-devel@lfdr.de; Thu, 10 Feb 2022 08:11:19 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:55726)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <6d31f5fc56eed4bca8745215ca726c6b74b374ff@lizzy.crudebyte.com>)
- id 1nI8Iz-0001iD-Ob
- for qemu-devel@nongnu.org; Thu, 10 Feb 2022 07:12:09 -0500
-Received: from lizzy.crudebyte.com ([91.194.90.13]:56677)
+ (Exim 4.90_1) (envelope-from <khlebnikov@yandex-team.ru>)
+ id 1nI8Qm-0000TD-Me
+ for qemu-devel@nongnu.org; Thu, 10 Feb 2022 07:20:12 -0500
+Received: from forwardcorp1j.mail.yandex.net ([5.45.199.163]:53038)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <6d31f5fc56eed4bca8745215ca726c6b74b374ff@lizzy.crudebyte.com>)
- id 1nI8Iu-0007ac-Tp
- for qemu-devel@nongnu.org; Thu, 10 Feb 2022 07:12:09 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=crudebyte.com; s=lizzy; h=Cc:To:Subject:Date:From:References:In-Reply-To:
- Message-Id:Content-Type:Content-Transfer-Encoding:MIME-Version:Content-ID:
- Content-Description; bh=2f/auedyRN5PsjHfuc6bSpPOyeYNidRH6eop1nQv5J8=; b=d8z7X
- qZ91HKo05ItmX2ij66/OMAk1jY3WtP0ba+N90DKIXIobWlWpEVPjJ0+N4AVt15mVdcXqkZUVIlB0X
- V0r+ykYE7I6/U55T9yeJ8vgrmlzsxV7tc+XJubF4wlt+1HMTw6xBvuYmWSo/UN4Qy0jVy/WBi1tI5
- fBZrejgAjjI/BX9k532alu5Vt9SFpAqsqQK/h69BVJSOB0siRa9SqGcHhaI9HkXZKIE/YpJUSBlgU
- ZajWuPJdHrD/o/MQqvyrimckoGF/4qWyaPJXzudBvXQj0KPqSeYRWoVDBT852h+1Vyr8vpaaq123L
- ekcetz/ycbBhhngAwonWIeIDi4YeA==;
-Message-Id: <6d31f5fc56eed4bca8745215ca726c6b74b374ff.1644492115.git.qemu_oss@crudebyte.com>
-In-Reply-To: <cover.1644492115.git.qemu_oss@crudebyte.com>
-References: <cover.1644492115.git.qemu_oss@crudebyte.com>
-From: Christian Schoenebeck <qemu_oss@crudebyte.com>
-Date: Thu, 10 Feb 2022 12:21:55 +0100
-Subject: [PULL 1/5] tests/9pfs: use g_autofree where possible
-To: qemu-devel@nongnu.org,
-    Peter Maydell <peter.maydell@linaro.org>
-Cc: Greg Kurz <groug@kaod.org>
-Received-SPF: none client-ip=91.194.90.13;
- envelope-from=6d31f5fc56eed4bca8745215ca726c6b74b374ff@lizzy.crudebyte.com;
- helo=lizzy.crudebyte.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <khlebnikov@yandex-team.ru>)
+ id 1nI8Qh-0002QQ-O0
+ for qemu-devel@nongnu.org; Thu, 10 Feb 2022 07:20:10 -0500
+Received: from sas2-3f1ffc04228d.qloud-c.yandex.net
+ (sas2-3f1ffc04228d.qloud-c.yandex.net
+ [IPv6:2a02:6b8:c08:b7a3:0:640:3f1f:fc04])
+ by forwardcorp1j.mail.yandex.net (Yandex) with ESMTP id 57BF02E1AD1;
+ Thu, 10 Feb 2022 15:20:04 +0300 (MSK)
+Received: from 2a02:6b8:c08:8889:0:640:bf93:f901
+ (2a02:6b8:c08:8889:0:640:bf93:f901 [2a02:6b8:c08:8889:0:640:bf93:f901])
+ by sas2-3f1ffc04228d.qloud-c.yandex.net (mxbackcorp/Yandex) with HTTP id
+ 2KZKkA0Gaa61-K4GOIWKA; Thu, 10 Feb 2022 15:20:04 +0300
+X-Yandex-Fwd: 2
+Precedence: bulk
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
+ s=default; 
+ t=1644495604; bh=enUOyr67vDYVpitu3Y0sTad92M0F272QMsGUhiC8wds=;
+ h=Subject:In-Reply-To:Cc:Date:References:To:From:Message-Id;
+ b=eJVlHYf4YwOg2O7WoR/61aEa6nEXeDudVl1I7iO7IFc/fJ38TIHhpcroTUYZS9flS
+ ElGA/ju+EQ/nn2uDeEipK/Cqabrop6FRMnLFIjY+Iz+jPVJk0wmvhwfVmwut+T1QtE
+ x4bpyn1Mv4YHGqJTYzLsvw9s6Ip14iepgoyY44TE=
+Authentication-Results: sas2-3f1ffc04228d.qloud-c.yandex.net;
+ dkim=pass header.i=@yandex-team.ru
+Received: from myt5-132c43df2a33.qloud-c.yandex.net
+ (myt5-132c43df2a33.qloud-c.yandex.net [2a02:6b8:c12:3e23:0:640:132c:43df])
+ by myt6-79704c0e15e4.qloud-c.yandex.net (mxbackcorp/Yandex) with HTTP id
+ mJZa5C0HDeA1-JsEdNPCv
+ for <khlebnikov@yandex-team.ru>; Thu, 10 Feb 2022 15:19:54 +0300
+Received: by myt5-132c43df2a33.qloud-c.yandex.net with HTTP;
+ Thu, 10 Feb 2022 15:19:54 +0300
+From: Konstantin Khlebnikov <khlebnikov@yandex-team.ru>
+To: =?utf-8?B?UGhpbGlwcGUgTWF0aGlldS1EYXVkw6k=?= <f4bug@amsat.org>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+In-Reply-To: <e8d5554f-d78d-7711-355b-8795559e6075@amsat.org>
+References: <164449358353.2210343.10106072767435805975.stgit@dynamic-vpn.dhcp.yndx.net>
+ <e8d5554f-d78d-7711-355b-8795559e6075@amsat.org>
+Subject: Re: [PATCH] vhost: fix repeated memory unmap in error paths
+MIME-Version: 1.0
+X-Mailer: Yamail [ http://yandex.ru ] 5.0
+Date: Thu, 10 Feb 2022 15:20:04 +0300
+Message-Id: <271611644494912@mail.yandex-team.ru>
+Content-Transfer-Encoding: base64
+Content-Type: text/html; charset=utf-8
+Received-SPF: pass client-ip=5.45.199.163;
+ envelope-from=khlebnikov@yandex-team.ru; helo=forwardcorp1j.mail.yandex.net
+X-Spam_score_int: -15
+X-Spam_score: -1.6
+X-Spam_bar: -
+X-Spam_report: (-1.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, HTML_MESSAGE=0.001,
+ HTML_MIME_NO_HTML_TAG=0.377, MIME_HTML_ONLY=0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -60,356 +79,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: "yc-core@yandex-team.ru" <yc-core@yandex-team.ru>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
-Reviewed-by: Greg Kurz <groug@kaod.org>
-Message-Id: <E1mn1fA-0005qZ-TM@lizzy.crudebyte.com>
----
- tests/qtest/virtio-9p-test.c | 90 +++++++++++-------------------------
- 1 file changed, 27 insertions(+), 63 deletions(-)
-
-diff --git a/tests/qtest/virtio-9p-test.c b/tests/qtest/virtio-9p-test.c
-index 41fed41de1..502e5ad0c7 100644
---- a/tests/qtest/virtio-9p-test.c
-+++ b/tests/qtest/virtio-9p-test.c
-@@ -84,7 +84,7 @@ static void pci_config(void *obj, void *data, QGuestAllocator *t_alloc)
-     QVirtio9P *v9p = obj;
-     alloc = t_alloc;
-     size_t tag_len = qvirtio_config_readw(v9p->vdev, 0);
--    char *tag;
-+    g_autofree char *tag = NULL;
-     int i;
- 
-     g_assert_cmpint(tag_len, ==, strlen(MOUNT_TAG));
-@@ -94,7 +94,6 @@ static void pci_config(void *obj, void *data, QGuestAllocator *t_alloc)
-         tag[i] = qvirtio_config_readb(v9p->vdev, i + 2);
-     }
-     g_assert_cmpmem(tag, tag_len, MOUNT_TAG, tag_len);
--    g_free(tag);
- }
- 
- #define P9_MAX_SIZE 4096 /* Max size of a T-message or R-message */
-@@ -580,7 +579,7 @@ static void do_version(QVirtio9P *v9p)
- {
-     const char *version = "9P2000.L";
-     uint16_t server_len;
--    char *server_version;
-+    g_autofree char *server_version = NULL;
-     P9Req *req;
- 
-     req = v9fs_tversion(v9p, P9_MAX_SIZE, version, P9_NOTAG);
-@@ -588,8 +587,6 @@ static void do_version(QVirtio9P *v9p)
-     v9fs_rversion(req, &server_len, &server_version);
- 
-     g_assert_cmpmem(server_version, server_len, version, strlen(version));
--
--    g_free(server_version);
- }
- 
- /* utility function: walk to requested dir and return fid for that dir */
-@@ -637,7 +634,7 @@ static void fs_walk(void *obj, void *data, QGuestAllocator *t_alloc)
-     alloc = t_alloc;
-     char *wnames[P9_MAXWELEM];
-     uint16_t nwqid;
--    v9fs_qid *wqid;
-+    g_autofree v9fs_qid *wqid = NULL;
-     int i;
-     P9Req *req;
- 
-@@ -655,8 +652,6 @@ static void fs_walk(void *obj, void *data, QGuestAllocator *t_alloc)
-     for (i = 0; i < P9_MAXWELEM; i++) {
-         g_free(wnames[i]);
-     }
--
--    g_free(wqid);
- }
- 
- static bool fs_dirents_contain_name(struct V9fsDirent *e, const char* name)
-@@ -872,9 +867,9 @@ static void fs_readdir(void *obj, void *data, QGuestAllocator *t_alloc)
-     g_assert_cmpint(fs_dirents_contain_name(entries, "."), ==, true);
-     g_assert_cmpint(fs_dirents_contain_name(entries, ".."), ==, true);
-     for (int i = 0; i < QTEST_V9FS_SYNTH_READDIR_NFILES; ++i) {
--        char *name = g_strdup_printf(QTEST_V9FS_SYNTH_READDIR_FILE, i);
-+        g_autofree char *name =
-+            g_strdup_printf(QTEST_V9FS_SYNTH_READDIR_FILE, i);
-         g_assert_cmpint(fs_dirents_contain_name(entries, name), ==, true);
--        g_free(name);
-     }
- 
-     v9fs_free_dirents(entries);
-@@ -984,7 +979,8 @@ static void fs_walk_dotdot(void *obj, void *data, QGuestAllocator *t_alloc)
-     QVirtio9P *v9p = obj;
-     alloc = t_alloc;
-     char *const wnames[] = { g_strdup("..") };
--    v9fs_qid root_qid, *wqid;
-+    v9fs_qid root_qid;
-+    g_autofree v9fs_qid *wqid = NULL;
-     P9Req *req;
- 
-     do_version(v9p);
-@@ -998,7 +994,6 @@ static void fs_walk_dotdot(void *obj, void *data, QGuestAllocator *t_alloc)
- 
-     g_assert_cmpmem(&root_qid, 13, wqid[0], 13);
- 
--    g_free(wqid);
-     g_free(wnames[0]);
- }
- 
-@@ -1027,7 +1022,7 @@ static void fs_write(void *obj, void *data, QGuestAllocator *t_alloc)
-     alloc = t_alloc;
-     static const uint32_t write_count = P9_MAX_SIZE / 2;
-     char *const wnames[] = { g_strdup(QTEST_V9FS_SYNTH_WRITE_FILE) };
--    char *buf = g_malloc0(write_count);
-+    g_autofree char *buf = g_malloc0(write_count);
-     uint32_t count;
-     P9Req *req;
- 
-@@ -1045,7 +1040,6 @@ static void fs_write(void *obj, void *data, QGuestAllocator *t_alloc)
-     v9fs_rwrite(req, &count);
-     g_assert_cmpint(count, ==, write_count);
- 
--    g_free(buf);
-     g_free(wnames[0]);
- }
- 
-@@ -1125,7 +1119,7 @@ static void fs_flush_ignored(void *obj, void *data, QGuestAllocator *t_alloc)
- 
- static void do_mkdir(QVirtio9P *v9p, const char *path, const char *cname)
- {
--    char *const name = g_strdup(cname);
-+    g_autofree char *name = g_strdup(cname);
-     uint32_t fid;
-     P9Req *req;
- 
-@@ -1134,15 +1128,13 @@ static void do_mkdir(QVirtio9P *v9p, const char *path, const char *cname)
-     req = v9fs_tmkdir(v9p, fid, name, 0750, 0, 0);
-     v9fs_req_wait_for_reply(req, NULL);
-     v9fs_rmkdir(req, NULL);
--
--    g_free(name);
- }
- 
- /* create a regular file with Tlcreate and return file's fid */
- static uint32_t do_lcreate(QVirtio9P *v9p, const char *path,
-                            const char *cname)
- {
--    char *const name = g_strdup(cname);
-+    g_autofree char *name = g_strdup(cname);
-     uint32_t fid;
-     P9Req *req;
- 
-@@ -1152,7 +1144,6 @@ static uint32_t do_lcreate(QVirtio9P *v9p, const char *path,
-     v9fs_req_wait_for_reply(req, NULL);
-     v9fs_rlcreate(req, NULL, NULL);
- 
--    g_free(name);
-     return fid;
- }
- 
-@@ -1160,8 +1151,8 @@ static uint32_t do_lcreate(QVirtio9P *v9p, const char *path,
- static void do_symlink(QVirtio9P *v9p, const char *path, const char *clink,
-                        const char *to)
- {
--    char *const name = g_strdup(clink);
--    char *const dst = g_strdup(to);
-+    g_autofree char *name = g_strdup(clink);
-+    g_autofree char *dst = g_strdup(to);
-     uint32_t fid;
-     P9Req *req;
- 
-@@ -1170,9 +1161,6 @@ static void do_symlink(QVirtio9P *v9p, const char *path, const char *clink,
-     req = v9fs_tsymlink(v9p, fid, name, dst, 0, 0);
-     v9fs_req_wait_for_reply(req, NULL);
-     v9fs_rsymlink(req, NULL);
--
--    g_free(dst);
--    g_free(name);
- }
- 
- /* create a hard link named @a clink in directory @a path pointing to @a to */
-@@ -1193,7 +1181,7 @@ static void do_hardlink(QVirtio9P *v9p, const char *path, const char *clink,
- static void do_unlinkat(QVirtio9P *v9p, const char *atpath, const char *rpath,
-                         uint32_t flags)
- {
--    char *const name = g_strdup(rpath);
-+    g_autofree char *name = g_strdup(rpath);
-     uint32_t fid;
-     P9Req *req;
- 
-@@ -1202,8 +1190,6 @@ static void do_unlinkat(QVirtio9P *v9p, const char *atpath, const char *rpath,
-     req = v9fs_tunlinkat(v9p, fid, name, flags, 0);
-     v9fs_req_wait_for_reply(req, NULL);
-     v9fs_runlinkat(req);
--
--    g_free(name);
- }
- 
- static void fs_readdir_split_128(void *obj, void *data,
-@@ -1235,8 +1221,8 @@ static void fs_create_dir(void *obj, void *data, QGuestAllocator *t_alloc)
-     QVirtio9P *v9p = obj;
-     alloc = t_alloc;
-     struct stat st;
--    char *root_path = virtio_9p_test_path("");
--    char *new_dir = virtio_9p_test_path("01");
-+    g_autofree char *root_path = virtio_9p_test_path("");
-+    g_autofree char *new_dir = virtio_9p_test_path("01");
- 
-     g_assert(root_path != NULL);
- 
-@@ -1247,9 +1233,6 @@ static void fs_create_dir(void *obj, void *data, QGuestAllocator *t_alloc)
-     g_assert(stat(new_dir, &st) == 0);
-     /* ... and is actually a directory */
-     g_assert((st.st_mode & S_IFMT) == S_IFDIR);
--
--    g_free(new_dir);
--    g_free(root_path);
- }
- 
- static void fs_unlinkat_dir(void *obj, void *data, QGuestAllocator *t_alloc)
-@@ -1257,8 +1240,8 @@ static void fs_unlinkat_dir(void *obj, void *data, QGuestAllocator *t_alloc)
-     QVirtio9P *v9p = obj;
-     alloc = t_alloc;
-     struct stat st;
--    char *root_path = virtio_9p_test_path("");
--    char *new_dir = virtio_9p_test_path("02");
-+    g_autofree char *root_path = virtio_9p_test_path("");
-+    g_autofree char *new_dir = virtio_9p_test_path("02");
- 
-     g_assert(root_path != NULL);
- 
-@@ -1273,9 +1256,6 @@ static void fs_unlinkat_dir(void *obj, void *data, QGuestAllocator *t_alloc)
-     do_unlinkat(v9p, "/", "02", AT_REMOVEDIR);
-     /* directory should be gone now */
-     g_assert(stat(new_dir, &st) != 0);
--
--    g_free(new_dir);
--    g_free(root_path);
- }
- 
- static void fs_create_file(void *obj, void *data, QGuestAllocator *t_alloc)
-@@ -1283,7 +1263,7 @@ static void fs_create_file(void *obj, void *data, QGuestAllocator *t_alloc)
-     QVirtio9P *v9p = obj;
-     alloc = t_alloc;
-     struct stat st;
--    char *new_file = virtio_9p_test_path("03/1st_file");
-+    g_autofree char *new_file = virtio_9p_test_path("03/1st_file");
- 
-     do_attach(v9p);
-     do_mkdir(v9p, "/", "03");
-@@ -1293,8 +1273,6 @@ static void fs_create_file(void *obj, void *data, QGuestAllocator *t_alloc)
-     g_assert(stat(new_file, &st) == 0);
-     /* ... and is a regular file */
-     g_assert((st.st_mode & S_IFMT) == S_IFREG);
--
--    g_free(new_file);
- }
- 
- static void fs_unlinkat_file(void *obj, void *data, QGuestAllocator *t_alloc)
-@@ -1302,7 +1280,7 @@ static void fs_unlinkat_file(void *obj, void *data, QGuestAllocator *t_alloc)
-     QVirtio9P *v9p = obj;
-     alloc = t_alloc;
-     struct stat st;
--    char *new_file = virtio_9p_test_path("04/doa_file");
-+    g_autofree char *new_file = virtio_9p_test_path("04/doa_file");
- 
-     do_attach(v9p);
-     do_mkdir(v9p, "/", "04");
-@@ -1316,8 +1294,6 @@ static void fs_unlinkat_file(void *obj, void *data, QGuestAllocator *t_alloc)
-     do_unlinkat(v9p, "04", "doa_file", 0);
-     /* file should be gone now */
-     g_assert(stat(new_file, &st) != 0);
--
--    g_free(new_file);
- }
- 
- static void fs_symlink_file(void *obj, void *data, QGuestAllocator *t_alloc)
-@@ -1325,8 +1301,8 @@ static void fs_symlink_file(void *obj, void *data, QGuestAllocator *t_alloc)
-     QVirtio9P *v9p = obj;
-     alloc = t_alloc;
-     struct stat st;
--    char *real_file = virtio_9p_test_path("05/real_file");
--    char *symlink_file = virtio_9p_test_path("05/symlink_file");
-+    g_autofree char *real_file = virtio_9p_test_path("05/real_file");
-+    g_autofree char *symlink_file = virtio_9p_test_path("05/symlink_file");
- 
-     do_attach(v9p);
-     do_mkdir(v9p, "/", "05");
-@@ -1338,9 +1314,6 @@ static void fs_symlink_file(void *obj, void *data, QGuestAllocator *t_alloc)
- 
-     /* check if created link exists now */
-     g_assert(stat(symlink_file, &st) == 0);
--
--    g_free(symlink_file);
--    g_free(real_file);
- }
- 
- static void fs_unlinkat_symlink(void *obj, void *data,
-@@ -1349,8 +1322,8 @@ static void fs_unlinkat_symlink(void *obj, void *data,
-     QVirtio9P *v9p = obj;
-     alloc = t_alloc;
-     struct stat st;
--    char *real_file = virtio_9p_test_path("06/real_file");
--    char *symlink_file = virtio_9p_test_path("06/symlink_file");
-+    g_autofree char *real_file = virtio_9p_test_path("06/real_file");
-+    g_autofree char *symlink_file = virtio_9p_test_path("06/symlink_file");
- 
-     do_attach(v9p);
-     do_mkdir(v9p, "/", "06");
-@@ -1364,9 +1337,6 @@ static void fs_unlinkat_symlink(void *obj, void *data,
-     do_unlinkat(v9p, "06", "symlink_file", 0);
-     /* symlink should be gone now */
-     g_assert(stat(symlink_file, &st) != 0);
--
--    g_free(symlink_file);
--    g_free(real_file);
- }
- 
- static void fs_hardlink_file(void *obj, void *data, QGuestAllocator *t_alloc)
-@@ -1374,8 +1344,8 @@ static void fs_hardlink_file(void *obj, void *data, QGuestAllocator *t_alloc)
-     QVirtio9P *v9p = obj;
-     alloc = t_alloc;
-     struct stat st_real, st_link;
--    char *real_file = virtio_9p_test_path("07/real_file");
--    char *hardlink_file = virtio_9p_test_path("07/hardlink_file");
-+    g_autofree char *real_file = virtio_9p_test_path("07/real_file");
-+    g_autofree char *hardlink_file = virtio_9p_test_path("07/hardlink_file");
- 
-     do_attach(v9p);
-     do_mkdir(v9p, "/", "07");
-@@ -1391,9 +1361,6 @@ static void fs_hardlink_file(void *obj, void *data, QGuestAllocator *t_alloc)
-     g_assert((st_link.st_mode & S_IFMT) == S_IFREG);
-     g_assert(st_link.st_dev == st_real.st_dev);
-     g_assert(st_link.st_ino == st_real.st_ino);
--
--    g_free(hardlink_file);
--    g_free(real_file);
- }
- 
- static void fs_unlinkat_hardlink(void *obj, void *data,
-@@ -1402,8 +1369,8 @@ static void fs_unlinkat_hardlink(void *obj, void *data,
-     QVirtio9P *v9p = obj;
-     alloc = t_alloc;
-     struct stat st_real, st_link;
--    char *real_file = virtio_9p_test_path("08/real_file");
--    char *hardlink_file = virtio_9p_test_path("08/hardlink_file");
-+    g_autofree char *real_file = virtio_9p_test_path("08/real_file");
-+    g_autofree char *hardlink_file = virtio_9p_test_path("08/hardlink_file");
- 
-     do_attach(v9p);
-     do_mkdir(v9p, "/", "08");
-@@ -1419,9 +1386,6 @@ static void fs_unlinkat_hardlink(void *obj, void *data,
-     g_assert(stat(hardlink_file, &st_link) != 0);
-     /* and old file should still exist */
-     g_assert(stat(real_file, &st_real) == 0);
--
--    g_free(hardlink_file);
--    g_free(real_file);
- }
- 
- static void *assign_9p_local_driver(GString *cmd_line, void *arg)
--- 
-2.20.1
-
+PGRpdj4xMC4wMi4yMDIyLCAxNTowNiwgIlBoaWxpcHBlIE1hdGhpZXUtRGF1ZMOpIiAmbHQ7ZjRi
+dWdAYW1zYXQub3JnJmd0Ozo8L2Rpdj48YmxvY2txdW90ZT48cD5PbiAxMC8yLzIyIDEyOjQ2LCBL
+b25zdGFudGluIEtobGVibmlrb3Ygd3JvdGU6PC9wPjxibG9ja3F1b3RlPsKgRnV6emluZyBmb3Vu
+ZCB0aGF0IG9uIHNvbWUgZXJyb3IgcGF0aHMgdmhvc3RfbWVtb3J5X3VubWFwKCkgaXMgY2FsbGVk
+IHR3aWNlIG9yPGJyIC8+wqBmb3IgTlVMTCBhZGRyZXNzLiBMZXQncyByZXNldCBwb2ludGVycyBh
+ZnRlciB1bm1hcCBhbmQgaW5nbm9yZSB1bm1hcCBmb3IgTlVMTC48YnIgLz7CoDxiciAvPsKgU2ln
+bmVkLW9mZi1ieTogS29uc3RhbnRpbiBLaGxlYm5pa292ICZsdDs8YSBocmVmPSJtYWlsdG86a2hs
+ZWJuaWtvdkB5YW5kZXgtdGVhbS5ydSIgcmVsPSJub29wZW5lciBub3JlZmVycmVyIj5raGxlYm5p
+a292QHlhbmRleC10ZWFtLnJ1PC9hPiZndDs8YnIgLz7CoC0tLTxiciAvPsKgwqDCoGh3L3ZpcnRp
+by92aG9zdC5jIHwgNCArKystPGJyIC8+wqDCoMKgMSBmaWxlIGNoYW5nZWQsIDMgaW5zZXJ0aW9u
+cygrKSwgMSBkZWxldGlvbigtKTxiciAvPsKgPGJyIC8+wqBkaWZmIC0tZ2l0IGEvaHcvdmlydGlv
+L3Zob3N0LmMgYi9ody92aXJ0aW8vdmhvc3QuYzxiciAvPsKgaW5kZXggN2IwM2VmY2NlYy4uNGU1
+ZDVmMmVhNCAxMDA2NDQ8YnIgLz7CoC0tLSBhL2h3L3ZpcnRpby92aG9zdC5jPGJyIC8+wqArKysg
+Yi9ody92aXJ0aW8vdmhvc3QuYzxiciAvPsKgQEAgLTMzNSw3ICszMzUsNyBAQCBzdGF0aWMgdm9p
+ZCB2aG9zdF9tZW1vcnlfdW5tYXAoc3RydWN0IHZob3N0X2RldiAqZGV2LCB2b2lkICpidWZmZXIs
+PGJyIC8+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqBod2FkZHIgbGVuLCBpbnQgaXNfd3JpdGUsPGJyIC8+wqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqBod2FkZHIgYWNjZXNzX2xlbik8YnIgLz7CoMKgwqB7PCEtLSAtLT48YnIgLz7CoC0gaWYgKCF2
+aG9zdF9kZXZfaGFzX2lvbW11KGRldikpIHs8IS0tIC0tPjxiciAvPsKgKyBpZiAoYnVmZmVyICZh
+bXA7JmFtcDsgIXZob3N0X2Rldl9oYXNfaW9tbXUoZGV2KSkgezwhLS0gLS0+PC9ibG9ja3F1b3Rl
+PjxwPjxiciAvPlNob3VsZG4ndCB3ZSBzaW1wbHkgYWRkIGFuICJhc3NlcnQoYnVmZmVyKTsiIGNo
+ZWNrIGhlcmUgaW5zdGVhZD88L3A+PC9ibG9ja3F1b3RlPjxkaXY+wqA8L2Rpdj48ZGl2Plllcywg
+cHJvYmFibHkgZXJyb3IgcGF0aCBpbiBxdWV1ZSBtYW5hZ2VtZW50IHNob3VsZCBiZSBmaXhlZCBp
+bnN0ZWFkLjwvZGl2PjxkaXY+QnV0IGhhbmRsaW5nIE5VTEwgcG9pbnRlcnMgaW4gZnVuY3Rpb25z
+IGxpa2UgZnJlZSgpIG1ha2UgY29kZSBjbGVhbmVyLjwvZGl2PjxkaXY+wqA8L2Rpdj48YmxvY2tx
+dW90ZT48cD7CoDwvcD48YmxvY2txdW90ZT7CoMKgwqDCoMKgwqDCoMKgwqDCoMKgY3B1X3BoeXNp
+Y2FsX21lbW9yeV91bm1hcChidWZmZXIsIGxlbiwgaXNfd3JpdGUsIGFjY2Vzc19sZW4pOzxiciAv
+PsKgwqDCoMKgwqDCoMKgfTxiciAvPsKgwqDCoH08YnIgLz7CoEBAIC0xMTkxLDYgKzExOTEsNyBA
+QCBmYWlsX2FsbG9jX2F2YWlsOjxiciAvPsKgwqDCoMKgwqDCoMKgdmhvc3RfbWVtb3J5X3VubWFw
+KGRldiwgdnEtJmd0O2Rlc2MsIHZpcnRpb19xdWV1ZV9nZXRfZGVzY19zaXplKHZkZXYsIGlkeCks
+PGJyIC8+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oDAsIDApOzxiciAvPsKgwqDCoGZhaWxfYWxsb2NfZGVzYzo8YnIgLz7CoCsgdnEtJmd0O3VzZWQg
+PSB2cS0mZ3Q7YXZhaWwgPSB2cS0mZ3Q7ZGVzYyA9IE5VTEw7PGJyIC8+wqDCoMKgwqDCoMKgwqBy
+ZXR1cm4gcjs8YnIgLz7CoMKgwqB9PGJyIC8+wqDCoMKgPGJyIC8+wqBAQCAtMTIzOCw2ICsxMjM5
+LDcgQEAgc3RhdGljIHZvaWQgdmhvc3RfdmlydHF1ZXVlX3N0b3Aoc3RydWN0IHZob3N0X2RldiAq
+ZGV2LDxiciAvPsKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqAwLCB2aXJ0aW9fcXVldWVfZ2V0X2F2YWlsX3NpemUodmRldiwgaWR4KSk7PGJyIC8+wqDC
+oMKgwqDCoMKgwqB2aG9zdF9tZW1vcnlfdW5tYXAoZGV2LCB2cS0mZ3Q7ZGVzYywgdmlydGlvX3F1
+ZXVlX2dldF9kZXNjX3NpemUodmRldiwgaWR4KSw8YnIgLz7CoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgMCwgdmlydGlvX3F1ZXVlX2dldF9kZXNjX3Np
+emUodmRldiwgaWR4KSk7PGJyIC8+wqArIHZxLSZndDt1c2VkID0gdnEtJmd0O2F2YWlsID0gdnEt
+Jmd0O2Rlc2MgPSBOVUxMOzxiciAvPsKgwqDCoH08L2Jsb2NrcXVvdGU+PHA+PGJyIC8+VGhpcyBw
+YXJ0IGlzIE9LLjwvcD48L2Jsb2NrcXVvdGU+PGRpdj7CoDwvZGl2PjxkaXY+wqA8L2Rpdj48ZGl2
+Pi0twqA8L2Rpdj48ZGl2PtCa0L7QvdGB0YLQsNC90YLQuNC9INCl0LvQtdCx0L3QuNC60L7Qsjwv
+ZGl2PjxkaXY+aHR0cHM6Ly9zdGFmZi55YW5kZXgtdGVhbS5ydS9raGxlYm5pa292PC9kaXY+PGRp
+dj7CoDwvZGl2Pg==
 
