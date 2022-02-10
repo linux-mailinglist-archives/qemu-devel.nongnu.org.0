@@ -2,84 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DBA904B038E
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Feb 2022 03:52:29 +0100 (CET)
-Received: from localhost ([::1]:57002 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D48624B0477
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Feb 2022 05:28:36 +0100 (CET)
+Received: from localhost ([::1]:57360 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nHzZM-0005CC-HB
-	for lists+qemu-devel@lfdr.de; Wed, 09 Feb 2022 21:52:28 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:41816)
+	id 1nI14N-0006qT-Pi
+	for lists+qemu-devel@lfdr.de; Wed, 09 Feb 2022 23:28:36 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:57864)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nHzWS-0004Ot-3W
- for qemu-devel@nongnu.org; Wed, 09 Feb 2022 21:49:28 -0500
-Received: from [2607:f8b0:4864:20::102d] (port=52160
- helo=mail-pj1-x102d.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nHzWO-0000ae-A6
- for qemu-devel@nongnu.org; Wed, 09 Feb 2022 21:49:27 -0500
-Received: by mail-pj1-x102d.google.com with SMTP id y9so3932151pjf.1
- for <qemu-devel@nongnu.org>; Wed, 09 Feb 2022 18:49:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=y7M48qwBZjwUHOp87U8zKnX3mys1H1TPBaeobzC85U4=;
- b=Br/9MJNX8rdJXG0bHJKs5XhDr2dsgStEiz3mceVFMnDGrG+0AY1XIyjjaeLBb0ApCk
- KZiZvwSk3tuDHrm/KBiHXxiKff3wRl3du5EVhCQhbuZ3EptzfkW4No8kd56j+keoYuow
- QBdfiGNnaI0zRiyiXKT2WV1q3g1b5jidI7MKHKbPD0x/a17oLSRJsxXpCUmNCOJuTOrQ
- 7/xP2ebHNuXESKUErC68RUSMnoLBbKlcS3qsQLjxT5bDTS9KDoN8oXdfRQkuxbKtG152
- 0GW/j/AEdX/FrKRjJe9FK1dg+JtKf8FBHgWIzGNjcHqRnMoBP5zXpSneO2WLTETd8PWT
- cuPQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=y7M48qwBZjwUHOp87U8zKnX3mys1H1TPBaeobzC85U4=;
- b=aIuRN3W9er8N5aCDmf6TgGSGpXv51zAdOuwk7b+PK72O/i6ky+XbsEsucw14+zm0dJ
- yErZJIClPI2E6MPGx9+mteXcJ3yStl5eKiJxyBufrLrk9WALM/QVjtUrcVZvoKoataRZ
- AksRtESozOpwqa9CNLa2XYADmFxhCbH9JivLqKNySxiW6v5WXCZ7Z2VmqTmXY/IiSo6E
- w/gtRwOQ12O0UtzT6KtkeaSR4L3S8O1TXwh2FXsRzaE8RnX3XNfctsznLBj5Zrdd7efr
- K7B9Xb2nS0XW70Z3iLzF/xu4PPeJHCprW7CeLouLcbEj0HIGA9uPA4NZaTxhCO/DBczm
- inZA==
-X-Gm-Message-State: AOAM531Op5XKvxuOWDpCrFD7jkLvKVeoAcpuVs0f0HsT8xpAehlokamr
- LNpeYgF/9gV58Fks5i1kjTvLMg==
-X-Google-Smtp-Source: ABdhPJzSwrQDj3b/nq4uCMRzdxwOc8IwtFvCsgAaGw/KZwzgOVTFxgYjlwXcA/av8PN/FSeV+Cw07w==
-X-Received: by 2002:a17:902:6b8c:: with SMTP id
- p12mr5515623plk.51.1644461345889; 
- Wed, 09 Feb 2022 18:49:05 -0800 (PST)
-Received: from [10.0.0.163] ([124.189.222.164])
- by smtp.gmail.com with ESMTPSA id p6sm8402453pfo.73.2022.02.09.18.49.04
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 09 Feb 2022 18:49:05 -0800 (PST)
-Message-ID: <2ffb2ef6-7d54-227f-43e9-bfe6b75134d0@linaro.org>
-Date: Thu, 10 Feb 2022 13:48:59 +1100
+ (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
+ id 1nI0yb-0003Ig-P0; Wed, 09 Feb 2022 23:22:39 -0500
+Received: from [2404:9400:2221:ea00::3] (port=44405 helo=gandalf.ozlabs.org)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
+ id 1nI0yU-0000kv-9q; Wed, 09 Feb 2022 23:22:36 -0500
+Received: by gandalf.ozlabs.org (Postfix, from userid 1007)
+ id 4JvNrF1kclz4xdh; Thu, 10 Feb 2022 15:22:21 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gibson.dropbear.id.au; s=201602; t=1644466941;
+ bh=/Kidu7/5A8ZWbVhcwRLR/DpraGUGI4QpbPEidvwKChM=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=DixM9s7KoSvkrMDFmxAd8UYWCH+XSUQuWh9q+oFsu0m+NjkL4xX0NyihxNy0vwuhq
+ HBr/PHNk+oma1ay+i2rksJq/L1INXaYCsAVkaAcunumHOxU7O7oevRDQeHO5JsTYLj
+ 3JKuY49PW1JwpKsSnYrYs3iCKbfz7gTOB5tI1Slc=
+Date: Thu, 10 Feb 2022 13:20:34 +1100
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Daniel Henrique Barboza <danielhb413@gmail.com>
+Subject: Re: [PATCH v10 1/3] target/ppc: fix indent of function parameters
+Message-ID: <YgR2cteNWWce2BOJ@yekko>
+References: <20220208194838.169257-1-danielhb413@gmail.com>
+ <20220208194838.169257-2-danielhb413@gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH 6/6] target/arm: Implement FEAT_LPA2
-Content-Language: en-US
-To: Peter Maydell <peter.maydell@linaro.org>
-References: <20211208231154.392029-1-richard.henderson@linaro.org>
- <20211208231154.392029-7-richard.henderson@linaro.org>
- <CAFEAcA9+2Mt2uui06J1ONxFGS_hb3tEJt8nxNHBjjAyaHrvr3g@mail.gmail.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <CAFEAcA9+2Mt2uui06J1ONxFGS_hb3tEJt8nxNHBjjAyaHrvr3g@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::102d
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="4wKdktr9MIn+wgx/"
+Content-Disposition: inline
+In-Reply-To: <20220208194838.169257-2-danielhb413@gmail.com>
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2404:9400:2221:ea00::3
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102d;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102d.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
+Received-SPF: pass client-ip=2404:9400:2221:ea00::3;
+ envelope-from=dgibson@gandalf.ozlabs.org; helo=gandalf.ozlabs.org
+X-Spam_score_int: -9
+X-Spam_score: -1.0
 X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-1.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.248,
+ RDNS_NONE=0.793, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -93,29 +61,83 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org, clg@kaod.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/8/22 01:39, Peter Maydell wrote:
-> (1) The handling of the BaseADDR field for TLB range
-> invalidates needs updating (there's a TODO to this effect in
-> tlbi_aa64_range_get_base()).
-> 
-> Side note: in that function, we shift the field by TARGET_PAGE_BITS,
-> but the docs say that the shift should depend on the configured
-> translation granule. Is that a bug?
 
-Yes.
+--4wKdktr9MIn+wgx/
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> (2) There are some new long-form fault status codes with FEAT_LPA2,
-> corresponding to various fault types that can now occur at level -1.
-> arm_fi_to_lfsc() needs updating to handle fi->level being -1.
-> (You could do this bit as a preceding patch; it doesn't need to
-> be squashed into this one.)
+On Tue, Feb 08, 2022 at 04:48:36PM -0300, Daniel Henrique Barboza wrote:
+> Fix indentation of powerpc_set_excp_state() and ppc_excp_apply_ail()
+> parameters.
+>=20
+> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 
-Yep, thanks.
+Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
 
+> ---
+>  target/ppc/excp_helper.c | 8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
+>=20
+> diff --git a/target/ppc/excp_helper.c b/target/ppc/excp_helper.c
+> index c107953dec..8a49a4ab90 100644
+> --- a/target/ppc/excp_helper.c
+> +++ b/target/ppc/excp_helper.c
+> @@ -265,9 +265,9 @@ static int powerpc_reset_wakeup(CPUState *cs, CPUPPCS=
+tate *env, int excp,
+>   * +--------------------------------------------------------------------+
+>   */
+>  static void ppc_excp_apply_ail(PowerPCCPU *cpu, int excp_model, int excp,
+> -                                      target_ulong msr,
+> -                                      target_ulong *new_msr,
+> -                                      target_ulong *vector)
+> +                               target_ulong msr,
+> +                               target_ulong *new_msr,
+> +                               target_ulong *vector)
+>  {
+>  #if defined(TARGET_PPC64)
+>      CPUPPCState *env =3D &cpu->env;
+> @@ -362,7 +362,7 @@ static void ppc_excp_apply_ail(PowerPCCPU *cpu, int e=
+xcp_model, int excp,
+>  }
+> =20
+>  static void powerpc_set_excp_state(PowerPCCPU *cpu,
+> -                                          target_ulong vector, target_ul=
+ong msr)
+> +                                   target_ulong vector, target_ulong msr)
+>  {
+>      CPUState *cs =3D CPU(cpu);
+>      CPUPPCState *env =3D &cpu->env;
 
-r~
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
+
+--4wKdktr9MIn+wgx/
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEoULxWu4/Ws0dB+XtgypY4gEwYSIFAmIEdmcACgkQgypY4gEw
+YSJRyQ/9GfsX1cOc5RpoWlXbroa/Pk4pY9/vPfO9eZPTiLu9x9jsf7Bo76A3kM9r
+gQ7rQaCUvRWfeQc3whGCwysr1lAG7k4M/101dfejPOKC1XVSF2VdKQ7eNFkiIM/1
+zrMtgf9eTUj70a/bg1fXqhGDP1k2BYSmvywWxM0U4kPC/iMAU8yZaR+oZcJFALKB
+XVq/KO6NzyRsUB0FirEVJCX8BA/aGhIB/hFr2ExVCh9/XWyc8EfI+J9n4hW38JRI
+GNssLheIfDEhARa/5Y3iP4WHg7XIkSu3nS9ulHq5TwOaNi9u0ZMvEJfkvkhljhms
+r+N7vf3/JR71MJaLs+XJ2i0gu7yCXcBwjKheXXl0EgI/07cAjPf3l+N9h0xLNouR
+KbhsTeqGvzQL0F65BRhQpEoQGPPRm6tUt2ALtcGRixzSjxRc+pw772kIUFxDTCNf
+6D+wn8+4UKPkMINbmXbYEBqGPMhbMk5GVj61BcDHLxNGxhaKNJ5X05V1uHxyMdJk
+G6XAaZRC6n7pXebwrMZ8epqttMgYnE417CWv6otjx9QqcSwCMoxmN7pG/ZQ1cyK+
+B86WK+r6Mj6WsRmyNbfR74An8Ffds6aVE/mm2GVhdQYG/W8UwU1OOwuV3XZJzWb7
+0q1K89d988hH9NyTfZ8qdmYy2rkLObtfWSFv5eJAcliWcbfd+rM=
+=GCTQ
+-----END PGP SIGNATURE-----
+
+--4wKdktr9MIn+wgx/--
 
