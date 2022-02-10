@@ -2,82 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 415DB4B12D6
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Feb 2022 17:34:36 +0100 (CET)
-Received: from localhost ([::1]:40538 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 194034B1249
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Feb 2022 17:03:54 +0100 (CET)
+Received: from localhost ([::1]:52438 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nICOx-0004we-C5
-	for lists+qemu-devel@lfdr.de; Thu, 10 Feb 2022 11:34:35 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:37630)
+	id 1nIBvE-0007YQ-TB
+	for lists+qemu-devel@lfdr.de; Thu, 10 Feb 2022 11:03:53 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:44230)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1nI95E-0002Ee-6D; Thu, 10 Feb 2022 08:02:00 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:59944)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1nI94e-0004Nu-2y; Thu, 10 Feb 2022 08:01:35 -0500
-Received: from pps.filterd (m0098394.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 21ABvaEF022529; 
- Thu, 10 Feb 2022 13:01:00 GMT
-Received: from ppma03fra.de.ibm.com (6b.4a.5195.ip4.static.sl-reverse.com
- [149.81.74.107])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3e529tsdae-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 10 Feb 2022 13:01:00 +0000
-Received: from pps.filterd (ppma03fra.de.ibm.com [127.0.0.1])
- by ppma03fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 21ACvkaH022910;
- Thu, 10 Feb 2022 13:00:46 GMT
-Received: from b06avi18626390.portsmouth.uk.ibm.com
- (b06avi18626390.portsmouth.uk.ibm.com [9.149.26.192])
- by ppma03fra.de.ibm.com with ESMTP id 3e1gv9x44p-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 10 Feb 2022 13:00:45 +0000
-Received: from d06av21.portsmouth.uk.ibm.com (d06av21.portsmouth.uk.ibm.com
- [9.149.105.232])
- by b06avi18626390.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
- id 21ACoYh737159314
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 10 Feb 2022 12:50:34 GMT
-Received: from d06av21.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 9D24452067;
- Thu, 10 Feb 2022 13:00:43 +0000 (GMT)
-Received: from smtp.tlslab.ibm.com (unknown [9.101.4.1])
- by d06av21.portsmouth.uk.ibm.com (Postfix) with SMTP id 5AF2952050;
- Thu, 10 Feb 2022 13:00:43 +0000 (GMT)
-Received: from yukon.ibmuc.com (unknown [9.171.74.250])
- by smtp.tlslab.ibm.com (Postfix) with ESMTP id 8AEFC22016C;
- Thu, 10 Feb 2022 14:00:42 +0100 (CET)
-From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
-To: qemu-ppc@nongnu.org, qemu-devel@nongnu.org
-Subject: [PULL 42/42] spapr/vof: Install rom and nvram binaries
-Date: Thu, 10 Feb 2022 14:00:08 +0100
-Message-Id: <20220210130008.2599950-43-clg@kaod.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220210130008.2599950-1-clg@kaod.org>
-References: <20220210130008.2599950-1-clg@kaod.org>
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1nI9V7-0001vE-RB
+ for qemu-devel@nongnu.org; Thu, 10 Feb 2022 08:28:46 -0500
+Received: from [2607:f8b0:4864:20::102a] (port=42923
+ helo=mail-pj1-x102a.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1nI9V5-00041g-N6
+ for qemu-devel@nongnu.org; Thu, 10 Feb 2022 08:28:45 -0500
+Received: by mail-pj1-x102a.google.com with SMTP id
+ h7-20020a17090a648700b001b927560c2bso4366730pjj.1
+ for <qemu-devel@nongnu.org>; Thu, 10 Feb 2022 05:28:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=fRe7wvaOS3tj5buP5SOWcFUHCR9DPpBo2aZFgzLGlbw=;
+ b=0W52cZxFiq9/TaS35h/TdVcKOt2AZz2nJzIai8j8OE/rTohhlY39M8tfWhDxIAdw3M
+ lN9JrCnjMJQgg8tYPo2FzfuhoyLwXkiUlI0QqsHuZeg9rX4cTYJnubOI9/+ylBwKs7jq
+ iulXsUztPhoB5uu1p/d3A6h620x3vta3yJEV6AUsJKlGktn0WaAu0Dt7eaDcNKkk8XeV
+ m6grcwgIYQitg+Ugm9+2VEShFaTrvt8fniveQEucJna5F/Kn1NULHAsd2kxsLzkhDwGL
+ yhv8gN48w3A+EakGXl5B6aPW9yAd1CyuxAKDBMRw710aroNeCJ6tBkPK7YJv/WJkVK5p
+ p1Hw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=fRe7wvaOS3tj5buP5SOWcFUHCR9DPpBo2aZFgzLGlbw=;
+ b=V7K0BfFkNd4UZ4dEpoKgQKxBtYX2kvmFYFziJc+MUPABGwN9NwuxWGdGtSZp6RN2xa
+ +LIw2Vv2Sar42B2Q56HpGr7+cDkzvEqe/7rsvM+kGgldjwHjpkXAWda/u5IYRcm3MM/y
+ M791jhHHxo8iIQ0flmjQgn1RmDHsx1d6exobDFue8q/3VLEh8SsBRRK412hKVnyAaux+
+ BEhrOQ0VvKYQ0T/KXGUSaiOn2DSJu1HjRTCB4i8JU1VsCp3aO51Zb2ndaQj0UA1/eMI5
+ tys2TLssGGGyrI/YFcy3YuliEie84vGUoTfP5pghLnhaySPKFpu+Az5JLdGgJ+05bfg6
+ 7+pw==
+X-Gm-Message-State: AOAM531EjE/uizKBuyGPOrFhzUWjTFpiCZo9am1O1f+t8BtoLfz7HFFv
+ rKZTn3RXHI/NI44w47w6e1mpoX/aI7Wn6F/t4TFteA==
+X-Google-Smtp-Source: ABdhPJwGJ61vSIOZ1p4aPtNY4pGcEcyaEJ6rOvwoeq0pm7+6Bx6R5l3rphN095BGOZDjpMmdQVwtrg==
+X-Received: by 2002:a17:90b:1b52:: with SMTP id
+ nv18mr2828543pjb.136.1644499721997; 
+ Thu, 10 Feb 2022 05:28:41 -0800 (PST)
+Received: from anisinha-lenovo.ba.nuagenetworks.net ([115.96.148.209])
+ by smtp.googlemail.com with ESMTPSA id 16sm2440603pje.34.2022.02.10.05.28.38
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 10 Feb 2022 05:28:41 -0800 (PST)
+From: Ani Sinha <ani@anisinha.ca>
+To: qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Eduardo Habkost <eduardo@habkost.net>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
+Subject: [PATCH] hw/i386/pc: when adding reserved E820 entries do not allocate
+ dynamic entries
+Date: Thu, 10 Feb 2022 18:58:21 +0530
+Message-Id: <20220210132822.2969324-1-ani@anisinha.ca>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: FrDor4TtTz9_ztqFK7Onj86PmhUHCr2i
-X-Proofpoint-ORIG-GUID: FrDor4TtTz9_ztqFK7Onj86PmhUHCr2i
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.816,Hydra:6.0.425,FMLib:17.11.62.513
- definitions=2022-02-10_05,2022-02-09_01,2021-12-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0
- impostorscore=0 lowpriorityscore=0 malwarescore=0 priorityscore=1501
- adultscore=0 mlxscore=0 bulkscore=0 mlxlogscore=660 clxscore=1034
- phishscore=0 spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2201110000 definitions=main-2202100071
-Received-SPF: softfail client-ip=148.163.156.1; envelope-from=clg@kaod.org;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -11
-X-Spam_score: -1.2
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::102a
+ (failed)
+Received-SPF: none client-ip=2607:f8b0:4864:20::102a;
+ envelope-from=ani@anisinha.ca; helo=mail-pj1-x102a.google.com
+X-Spam_score_int: -10
+X-Spam_score: -1.1
 X-Spam_bar: -
-X-Spam_report: (-1.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_SOFTFAIL=0.665,
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_NONE=0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -91,40 +89,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alexey Kardashevskiy <aik@ozlabs.ru>,
- Peter Maydell <peter.maydell@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
+Cc: Ani Sinha <ani@anisinha.ca>, kraxel@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Alexey Kardashevskiy <aik@ozlabs.ru>
+When adding E820_RESERVED entries we also accidentally allocate dynamic
+entries. This is incorrect. We should simply return early with the count of
+the number of reserved entries added.
 
-This installs VOF-related binaries (the firmware and the preformatted
-NVRAM) as those were left out when the VOF was submitted initially.
-
-Fixes: fc8c745d5015 ("spapr: Implement Open Firmware client interface")
-Signed-off-by: Alexey Kardashevskiy <aik@ozlabs.ru>
-Message-Id: <20220208103751.1587902-1-aik@ozlabs.ru>
-Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
+fixes: 7d67110f2d9a6("pc: add etc/e820 fw_cfg file")
+cc: kraxel@redhat.com
+Signed-off-by: Ani Sinha <ani@anisinha.ca>
 ---
- pc-bios/meson.build | 2 ++
+ hw/i386/e820_memory_layout.c | 2 ++
  1 file changed, 2 insertions(+)
 
-diff --git a/pc-bios/meson.build b/pc-bios/meson.build
-index 4ac7a5509b69..c86dedf7dff9 100644
---- a/pc-bios/meson.build
-+++ b/pc-bios/meson.build
-@@ -81,6 +81,8 @@ blobs =3D files(
-   'opensbi-riscv32-generic-fw_dynamic.bin',
-   'opensbi-riscv64-generic-fw_dynamic.bin',
-   'npcm7xx_bootrom.bin',
-+  'vof.bin',
-+  'vof-nvram.bin',
- )
-=20
- if get_option('install_blobs')
---=20
-2.34.1
+diff --git a/hw/i386/e820_memory_layout.c b/hw/i386/e820_memory_layout.c
+index bcf9eaf837..afb08253a4 100644
+--- a/hw/i386/e820_memory_layout.c
++++ b/hw/i386/e820_memory_layout.c
+@@ -31,6 +31,8 @@ int e820_add_entry(uint64_t address, uint64_t length, uint32_t type)
+         entry->type = cpu_to_le32(type);
+ 
+         e820_reserve.count = cpu_to_le32(index);
++
++        return index;
+     }
+ 
+     /* new "etc/e820" file -- include ram too */
+-- 
+2.25.1
 
 
