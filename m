@@ -2,69 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC2844B1736
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Feb 2022 21:47:14 +0100 (CET)
-Received: from localhost ([::1]:48554 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C4D84B176B
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Feb 2022 22:06:01 +0100 (CET)
+Received: from localhost ([::1]:58750 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nIGLR-0000QJ-AF
-	for lists+qemu-devel@lfdr.de; Thu, 10 Feb 2022 15:47:13 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:60754)
+	id 1nIGdc-0007yJ-2z
+	for lists+qemu-devel@lfdr.de; Thu, 10 Feb 2022 16:06:00 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:37786)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <rjones@redhat.com>) id 1nIGIa-0007ue-SO
- for qemu-devel@nongnu.org; Thu, 10 Feb 2022 15:44:17 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:46574)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <rjones@redhat.com>) id 1nIGIX-0007tM-42
- for qemu-devel@nongnu.org; Thu, 10 Feb 2022 15:44:14 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1644525851;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=1NebaQJGnMdiEbCsFi9N9t54DNBDadNplG9DLXMtqGY=;
- b=ajwIoV4VcePO/GjwT/Dya7SZo3iX5A3gMzdp5KWe7TZS0sheC+GPiqfJZLP5WJA0yYJiXk
- N2rCQNVCj4nNUYO8yXWISMXt1eu7QgW05iWFbZtln8R0qV79P5/DAYcUW8ioW2MyFUvI2Y
- 6kAQJj36VN8K+Zt+d5ORU6yHb0vMAJQ=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-22-_FQNX303PEmSJ7R4QMifgQ-1; Thu, 10 Feb 2022 15:44:07 -0500
-X-MC-Unique: _FQNX303PEmSJ7R4QMifgQ-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 488001018722
- for <qemu-devel@nongnu.org>; Thu, 10 Feb 2022 20:44:06 +0000 (UTC)
-Received: from localhost (unknown [10.39.194.34])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C261549A7;
- Thu, 10 Feb 2022 20:44:05 +0000 (UTC)
-Date: Thu, 10 Feb 2022 20:44:04 +0000
-From: "Richard W.M. Jones" <rjones@redhat.com>
-To: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
-Subject: Re: [PATCH v2] Deprecate C virtiofsd
-Message-ID: <20220210204404.GA22879@redhat.com>
-References: <20220210174714.19843-1-dgilbert@redhat.com>
+ (Exim 4.90_1) (envelope-from <jimmy.brisson@linaro.org>)
+ id 1nIGaR-0005pr-2Q
+ for qemu-devel@nongnu.org; Thu, 10 Feb 2022 16:02:43 -0500
+Received: from [2607:f8b0:4864:20::22e] (port=42942
+ helo=mail-oi1-x22e.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <jimmy.brisson@linaro.org>)
+ id 1nIGaO-0003xf-0Y
+ for qemu-devel@nongnu.org; Thu, 10 Feb 2022 16:02:41 -0500
+Received: by mail-oi1-x22e.google.com with SMTP id v67so7347594oie.9
+ for <qemu-devel@nongnu.org>; Thu, 10 Feb 2022 13:02:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=/HLq/gHeUXvoR0qXgOV5J7lPCXpIMXUke6vhLjSZEdA=;
+ b=gNeRDJgIw47tJ+MZ1k54Z/fb7FJlm42rlOe3y57olkx7R42T5zZcVrH/TogUVMyg/j
+ uWU9cDyifyJTwoNywSo0ArzHzbOMTzuz2mvApLWryi0awk3CNjYVPHpQZUnjTTAhnlCu
+ EzOJRtQpIZbooI5g2auh2QRaMqRzGqHmic6D7+uBE+UZToD3GccdlA62pu0tlmilWEPb
+ sZ6wWVyTHHDOX2RtmBAay1dIJxpwCRdd3PHCnKl55RDv96Tm+FjeiTJ0YqOqgg9ViAel
+ 3vAXSZju5MiA5Ksxzd1qUe2pU0TBhSXPZZkZiLRhgZTiE4pSHKc7StogfZizLdd1SDV5
+ 37NA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=/HLq/gHeUXvoR0qXgOV5J7lPCXpIMXUke6vhLjSZEdA=;
+ b=t8MIbM0UX67axHsL85LB4rbY9fcLUkqJP2vM7c6soI/JIvRE8Uriw2QRm2nd+gm/HN
+ Ef57wia2nMmUF3THInclw67EdKX+h6bdxSuw6xX+cdvG4YxvBWKXxvnuS76ZedXiO6eL
+ koHn02bVjYfvqGwHUKimSOHR6F+7mSDVi8aGZrRzeLbb5aIGYEpW72ZTo+SCkLkLiGU5
+ exi57blKPHsqgZ2cqKOhz9JNpfKzULtCEVSXIKt8OOzJKz13DCQd8fvU4ace78F4nI8Y
+ LzEmzZ6eFG1RdiXTHefQAMzY0l8NqZa7XbSFcBqfnZV18KZayeJeWEeNCbUZeYmI4Mc+
+ icVw==
+X-Gm-Message-State: AOAM5309cU1wrSO2PdnrAbwdj4mPKv2lmKuoEE+jYxtIOQuypnjHiGrz
+ ONHxgNYh0EnaOmo5PO6JGBpMjw==
+X-Google-Smtp-Source: ABdhPJwtNd62CQF4XRuCr3+ZWRSYwmV35Ka8Jb6fXZIk+JuTelHk87R7jVa17hrzHIoNUsNjADdXHw==
+X-Received: by 2002:a05:6808:168b:: with SMTP id
+ bb11mr1840510oib.184.1644526957885; 
+ Thu, 10 Feb 2022 13:02:37 -0800 (PST)
+Received: from localhost.localdomain (24-155-109-70.dyn.grandenetworks.net.
+ [24.155.109.70])
+ by smtp.googlemail.com with ESMTPSA id b6sm8221642otl.0.2022.02.10.13.02.37
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 10 Feb 2022 13:02:37 -0800 (PST)
+From: Jimmy Brisson <jimmy.brisson@linaro.org>
+To: 
+Subject: [PATCH] mps3-an547: Add missing user ahb interfaces
+Date: Thu, 10 Feb 2022 15:02:27 -0600
+Message-Id: <20220210210227.3203883-1-jimmy.brisson@linaro.org>
+X-Mailer: git-send-email 2.33.1
 MIME-Version: 1.0
-In-Reply-To: <20220210174714.19843-1-dgilbert@redhat.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=rjones@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=rjones@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::22e
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::22e;
+ envelope-from=jimmy.brisson@linaro.org; helo=mail-oi1-x22e.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -77,63 +86,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: berrange@redhat.com, slp@redhat.com, qemu-devel@nongnu.org,
- virtio-fs@redhat.com, stefanha@redhat.com, vgoyal@redhat.com
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ "open list:MPS2" <qemu-arm@nongnu.org>,
+ "open list:All patches CC here" <qemu-devel@nongnu.org>,
+ Jimmy Brisson <jimmy.brisson@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Feb 10, 2022 at 05:47:14PM +0000, Dr. David Alan Gilbert (git) wrote:
-> From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-> 
-> There's a nice new Rust implementation out there; recommend people
-> do new work on that.
-> 
-> Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-> ---
->  docs/about/deprecated.rst | 17 +++++++++++++++++
->  1 file changed, 17 insertions(+)
-> 
-> diff --git a/docs/about/deprecated.rst b/docs/about/deprecated.rst
-> index 47a594a3b6..3c73d22729 100644
-> --- a/docs/about/deprecated.rst
-> +++ b/docs/about/deprecated.rst
-> @@ -454,3 +454,20 @@ nanoMIPS ISA
->  
->  The ``nanoMIPS`` ISA has never been upstreamed to any compiler toolchain.
->  As it is hard to generate binaries for it, declare it deprecated.
-> +
-> +Tools
-> +-----
-> +
-> +virtiofsd
-> +'''''''''
-> +
-> +There is a new Rust implementation of ``virtiofsd`` at
-> +``https://gitlab.com/virtio-fs/virtiofsd``;
-> +since this is now marked stable, new development should be done on that
-> +rather than the existing C version in the QEMU tree.
-> +The C version will still accept fixes and patches that
-> +are already in development for the moment, but will eventually
-> +be deleted from this tree.
-> +New deployments should use the Rust version, and existing systems
-> +should consider moving to it.  The command line and feature set
-> +is very close and moving should be simple.
+With these interfaces missing, TFM would delegate peripherals 0, 1,
+2, 3 and 8, and qemu would ignore the delegation of interface 8, as
+it thought interface 4 was eth & USB.
 
-I'm not qualified to say if the Rust impl is complete enough
-to replace the C version, so I won't add a reviewed tag.
+This patch corrects this behavior and allows TFM to delegate the
+eth & USB peripheral to NS mode.
 
-However I want to say that from the point of view of downstream
-packagers of qemu -- especially Fedora -- it would be helpful if we
-could direct both upstream development effort and downstream packaging
-into just the one virtiofsd.  So I agree in principle with this.
+Signed-off-by: Jimmy Brisson <jimmy.brisson@linaro.org>
+---
+ hw/arm/mps2-tz.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-Rich.
-
+diff --git a/hw/arm/mps2-tz.c b/hw/arm/mps2-tz.c
+index f40e854dec..e287ad4d06 100644
+--- a/hw/arm/mps2-tz.c
++++ b/hw/arm/mps2-tz.c
+@@ -1078,6 +1078,10 @@ static void mps2tz_common_init(MachineState *machine)
+                 { "gpio1", make_unimp_dev, &mms->gpio[1], 0x41101000, 0x1000 },
+                 { "gpio2", make_unimp_dev, &mms->gpio[2], 0x41102000, 0x1000 },
+                 { "gpio3", make_unimp_dev, &mms->gpio[3], 0x41103000, 0x1000 },
++                { /* port 4 USER AHB interface 0 */ },
++                { /* port 5 USER AHB interface 1 */ },
++                { /* port 6 USER AHB interface 2 */ },
++                { /* port 7 USER AHB interface 3 */ },
+                 { "eth-usb", make_eth_usb, NULL, 0x41400000, 0x200000, { 49 } },
+             },
+         },
 -- 
-Richard Jones, Virtualization Group, Red Hat http://people.redhat.com/~rjones
-Read my programming and virtualization blog: http://rwmj.wordpress.com
-virt-p2v converts physical machines to virtual machines.  Boot with a
-live CD or over the network (PXE) and turn machines into KVM guests.
-http://libguestfs.org/virt-v2v
+2.33.1
 
 
