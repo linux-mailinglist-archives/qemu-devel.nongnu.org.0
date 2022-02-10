@@ -2,56 +2,146 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 746114B1674
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Feb 2022 20:38:40 +0100 (CET)
-Received: from localhost ([::1]:34262 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ABE604B169C
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Feb 2022 20:55:46 +0100 (CET)
+Received: from localhost ([::1]:53490 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nIFH4-0000WA-Ru
-	for lists+qemu-devel@lfdr.de; Thu, 10 Feb 2022 14:38:38 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:36926)
+	id 1nIFXd-0006E5-AO
+	for lists+qemu-devel@lfdr.de; Thu, 10 Feb 2022 14:55:45 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:35170)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <huangy81@chinatelecom.cn>)
- id 1nIC9z-0007Nd-Lh
- for qemu-devel@nongnu.org; Thu, 10 Feb 2022 11:19:07 -0500
-Received: from prt-mail.chinatelecom.cn ([42.123.76.221]:34357
- helo=chinatelecom.cn) by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <huangy81@chinatelecom.cn>) id 1nIC9v-00039I-Jx
- for qemu-devel@nongnu.org; Thu, 10 Feb 2022 11:19:07 -0500
-HMM_SOURCE_IP: 172.18.0.188:39144.1058093567
-HMM_ATTACHE_NUM: 0000
-HMM_SOURCE_TYPE: SMTP
-Received: from clientip-171.223.98.151 (unknown [172.18.0.188])
- by chinatelecom.cn (HERMES) with SMTP id 31A242800A3;
- Fri, 11 Feb 2022 00:18:40 +0800 (CST)
-X-189-SAVE-TO-SEND: +huangy81@chinatelecom.cn
-Received: from  ([172.18.0.188])
- by app0023 with ESMTP id 8ba8960b87314e9a906336cdc8adcf09 for
- qemu-devel@nongnu.org; Fri, 11 Feb 2022 00:18:46 CST
-X-Transaction-ID: 8ba8960b87314e9a906336cdc8adcf09
-X-Real-From: huangy81@chinatelecom.cn
-X-Receive-IP: 172.18.0.188
-X-MEDUSA-Status: 0
-From: huangy81@chinatelecom.cn
-To: qemu-devel <qemu-devel@nongnu.org>
-Subject: [PATCH v14 7/7] softmmu/dirtylimit: Implement dirty page rate limit
-Date: Fri, 11 Feb 2022 00:17:41 +0800
-Message-Id: <32a65f0fbb691aa66094fc9162bff4daa6d7771d.1644509582.git.huangy81@chinatelecom.cn>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <cover.1644509582.git.huangy81@chinatelecom.cn>
-References: <cover.1644509582.git.huangy81@chinatelecom.cn>
-In-Reply-To: <cover.1644509582.git.huangy81@chinatelecom.cn>
-References: <cover.1644509582.git.huangy81@chinatelecom.cn>
+ (Exim 4.90_1) (envelope-from <tsimpson@quicinc.com>)
+ id 1nIDXZ-0002Sa-1R
+ for qemu-devel@nongnu.org; Thu, 10 Feb 2022 12:47:33 -0500
+Received: from esa.hc3962-90.iphmx.com ([216.71.142.165]:49900)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <tsimpson@quicinc.com>)
+ id 1nIDLw-0005yf-6k
+ for qemu-devel@nongnu.org; Thu, 10 Feb 2022 12:35:34 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qccesdkim1;
+ t=1644514532; x=1645119332;
+ h=from:to:cc:subject:date:message-id:references:
+ in-reply-to:content-transfer-encoding:mime-version;
+ bh=GKn/s2OAsEmT85WKAi4vJfS0ApdHbiY97L18SL0xk00=;
+ b=MPDVRaXoL/jCkLkXa6OtSGipMoco7tRJr/3H+Siw6NB1P3pLxiZHJ3up
+ 4lLaxJ6ApwrgCNw7+oRiSzoGayk/mrNwDJoB/Aogg60/yhe0bV8UyOv+X
+ 9QZ8U2tmdYujUzgE+CmNKG08/qga2DrWwFgKB6rEICAm40c8snkqqqdgt M=;
+Received: from mail-dm6nam10lp2104.outbound.protection.outlook.com (HELO
+ NAM10-DM6-obe.outbound.protection.outlook.com) ([104.47.58.104])
+ by ob1.hc3962-90.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Feb 2022 17:35:27 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=NpdNH/Z6N/fuonR/gUYxU0gpdbRzIB6/l5jG9OWMDoBRDV0xFS1Q/CeAI9otz0uQtwmzhn9so6c2qqG/nXMWisXeXS2/heHzW0mKM1kXd4nThxm9POXFIyFA2LFeRiM3hEa0Qa6LO92MnO8tBOod8MvpgcmS+Hm/1ol67i56j1dS/6RZ9NTaYNITqDFhnFj5+Litpe2PK9ebjUbiu/MbPfbdvZkjpgviUG73rj8e7NZcRntmyDB6nyCmzVAphMTXrh/HtHki4MDyZxFoIQ83hyAtwvpZowD5RK9QD2z+i1gmvl/VoArQZA6QhFt4mRp2r/eLws40tWYV2a9qzsmGnQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=GKn/s2OAsEmT85WKAi4vJfS0ApdHbiY97L18SL0xk00=;
+ b=Fce7MJSeeialSLiDjCLNTzts544Hm3fAL1aSxF+l5ygYELwsdahVjoJ45FSc8HQ87bcDImefamxhdj+qdI0qr5dMieyXYe6L5fRjZEWvf9QghPVMKm7m/hda9CfsHloxK5iuB1JCh9Xo9GrusSC/eeayPrCBfcLrP4EUToYuhh7qax8yTC/8z0qeBxsFg4Kpa+SIXQ+NZeSoT/OogLLdNyi3cAvlu1b5wCVUt6DOeor59v9vYs/s+79ENWV6ml8PBaQRQIrAL8JHmI9BJalVFhT574eT/05xktEvJJFKhMUk/YtVoE59ad7/wfZwfgZXEQ8vlJUAKcbNPOdOs0SAEg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+Received: from SN4PR0201MB8808.namprd02.prod.outlook.com
+ (2603:10b6:806:203::12) by DM6PR02MB6345.namprd02.prod.outlook.com
+ (2603:10b6:5:1fc::21) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4951.12; Thu, 10 Feb
+ 2022 17:35:24 +0000
+Received: from SN4PR0201MB8808.namprd02.prod.outlook.com
+ ([fe80::bd2b:92ca:d25e:9d10]) by SN4PR0201MB8808.namprd02.prod.outlook.com
+ ([fe80::bd2b:92ca:d25e:9d10%9]) with mapi id 15.20.4951.014; Thu, 10 Feb 2022
+ 17:35:24 +0000
+From: Taylor Simpson <tsimpson@quicinc.com>
+To: Richard Henderson <richard.henderson@linaro.org>,
+ =?utf-8?B?UGhpbGlwcGUgTWF0aGlldS1EYXVkw6k=?= <f4bug@amsat.org>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Subject: RE: [PATCH 11/15] target: Use ArchCPU as interface to target CPU
+Thread-Topic: [PATCH 11/15] target: Use ArchCPU as interface to target CPU
+Thread-Index: AQHYHgF2SVTRlM5SbUGKmF4H97ngoayL0hWAgAE1szA=
+Date: Thu, 10 Feb 2022 17:35:23 +0000
+Message-ID: <SN4PR0201MB8808BEEAFCF4A89EDBB2165DDE2F9@SN4PR0201MB8808.namprd02.prod.outlook.com>
+References: <20220209215446.58402-1-f4bug@amsat.org>
+ <20220209215446.58402-12-f4bug@amsat.org>
+ <83e91592-af1b-de86-83ce-a3fcf467fdf7@linaro.org>
+In-Reply-To: <83e91592-af1b-de86-83ce-a3fcf467fdf7@linaro.org>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=quicinc.com;
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 023896b3-2780-4245-df26-08d9ecbbb857
+x-ms-traffictypediagnostic: DM6PR02MB6345:EE_
+x-microsoft-antispam-prvs: <DM6PR02MB6345AC6C162B598C258C971CDE2F9@DM6PR02MB6345.namprd02.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:7219;
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: wJcqFtXdDeKOz8dR0vYmXa3wyHUSmdmVfiV6jN1Vc0Vgb9KPDNxfAwxSM+z4M3wbu7tR5LQ9yLRhc8EpZIQI8w6JZJLYQW92krhrkZnDtdx6MbG117MHmnDY0EaU/EJKbRDaRAg9CbXPPGyaqZPBW07Fsroiinoq8bLnfpZPdrhZdrX7tavKIfEQUKzqdKoBLBZVooo+YnObybXrYT4noeJ6xd4/xw3XSeYF2DwqSWVbJLRqqDCoomQbbRyUUFIEjO3fhbeHjJk9nHa87NS+Xj92YmzUzNfW9DlxIXnFwjODmy2jlkTOltQcOqACBZCMe3JsK7Zz1iXUx5Mz1ns/j1vm9nyHo1Sh4bfDJFRQrr3HKoal++VXyCEtHsRp82IHUbli2U5xej4YhI5q8DvS9Ld+cgHPV3kfZgIf9/yl65axvMNOfo/srFGnMHOMQ626cwvUWBIyDSWA6PLvf9n1SCNB+2iCrOyni4d781c9zHxTRvkVbr3WOZDyEqBNINYQiRb/ZJ+Rt0irGZsFBZL22gehwgIvkTWBww68Ut5RwnQwn8WYwF08S8G3nNNvldtToQ1leftOqGWvQFN0zaaIG7T3iC/DPjxpvAUT2Oq2qLZkCefdPlFQjPce+7aqfpTD9H+4gZsBEvOz3QlUqnVOvg4hQDW7vRvpHsdr0KmQuiWohuTCdWsCi+UxaRlEq59bwkp9xSoOnIotJIXSfzjVQQ==
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SN4PR0201MB8808.namprd02.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230001)(4636009)(366004)(64756008)(76116006)(66556008)(53546011)(55016003)(38100700002)(52536014)(66476007)(54906003)(86362001)(8936002)(4326008)(8676002)(316002)(2906002)(71200400001)(122000001)(6506007)(7696005)(38070700005)(66946007)(110136005)(83380400001)(5660300002)(186003)(33656002)(26005)(508600001)(66446008)(9686003);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?cEFJeXhQVnpaNWxkVSs0MzdGVStiY3M1V2p1c3ppOElnK09nVTNmVEFscjd4?=
+ =?utf-8?B?Ujkvd21pSXNKUGt6Zlc4UStsQ1BQS3orME5UUnh2aHRUSWk2RGlFNkRpQzlj?=
+ =?utf-8?B?NTJlYUFzTTU5WlM2LzI1V3lJcVdTTjRaR1M1SzZPYTRzajBsRm5yWHdNR0xQ?=
+ =?utf-8?B?eFJKUG0wT3FQTlpYWGtIV2U1RG1mbmYwZnBVMzN0ejhvMHdjWXlTSFo5T0d6?=
+ =?utf-8?B?Ly9wRU1sRDcvazZ3UEdxUExxTm5SalhTR09jR1dUaS9neGtQaitlRjRybGNu?=
+ =?utf-8?B?RmVQeWl1Z1BkamdPWUViUGZuckFRV0JVcU5IMUtVNjJHcTdodWdqQ0t2OHZz?=
+ =?utf-8?B?dVF2K1RDRGM3WVRvMnh2Q3VCamJ1TDVsNW1aNDFPRWJYRVNqSjd2TjhhMWJI?=
+ =?utf-8?B?Y3NHTG14L2V5NnNmRnMxeWVSRVQrUkU3VlVsRHVScXhqd0pLOW83T3JFd21D?=
+ =?utf-8?B?UUVYWlJWMTRic042bE9FVnQxSXRSRHVxRjF5RXpnRmhJTmRQK1dMSGpMMmlt?=
+ =?utf-8?B?TTRWYUNkWnRDb04zbkNnbXRTN1dBckJPaC9xcnhUazFJRjdSMFMrWE9KSE1q?=
+ =?utf-8?B?b0RKK0g2WG1PTUJnVFYrU2hBSEtpUjQwclJmWFFVV0ZidlFPaHRGOFdFbm5W?=
+ =?utf-8?B?R2lCTnBqbDc4dHNLaS9qTG9CRlFqWnVua2lOeXV2SjRmL0cxK3N5d21hWHhh?=
+ =?utf-8?B?bDQ1WGMwL2hqYW01dDhxVkF5ZDNwVlp6NG5QZUVRQkVNOUNqOUl0cHFEekVr?=
+ =?utf-8?B?QjA5OVltZFhicTV0R01QcEMxRGVGQzZudG5KR3JKeEVrZGdQS1Y5QmhaNmo5?=
+ =?utf-8?B?V2hzamZjQUFKVUNDKzJRZmtOM3J3Wk55NlpsT2Z2ZHBEeGREWFZIM1FmcFJl?=
+ =?utf-8?B?djRYL0NDaG9aYkd3UjlDelJLb3NFckY5ZGwrTTdSUlkvNnJvL2JyRGVvMGRW?=
+ =?utf-8?B?VkFYa1BRUTdadkRYbUlTYnRtWjBac21FaVQ4d0lTa3VrbTludHNIVkJwOHBH?=
+ =?utf-8?B?K3grUE1ySC9PS2VvMjYrSjRvZ1IyV0p6S0VESERyc01iUFYvNUQ2dC9mZVJV?=
+ =?utf-8?B?UjY2alRYUUdwMFVvZ04yck55Nnh6KzI3ZXh1eHhlTldFMFZodHNEWk4zZHll?=
+ =?utf-8?B?OEZrRTRqQStkTUk0WS84RHNZQmRtL3ZlaUZkVlNQa3hTeVZsMjA3RFFMeWVU?=
+ =?utf-8?B?MGZCekI5T1N3MGxIVTE4Z0crNTlWNngvWlFoMGJ6NUxVZCs1c3JTOVZVSXZG?=
+ =?utf-8?B?MkNvVi95eUIvTGdMNFJEcGQwYlQ0UWJDb0YvT29TWmZXRTl4c1V2ZWpFMUI0?=
+ =?utf-8?B?Uzl2VzFEa0JUdEprNUlPV2N2ZC9IV21VcE1qcjJwWG5VcDFweUQrazFCcWhn?=
+ =?utf-8?B?bm5ndW15OGZiMm5GUEZsVzN5ald2TTk0VGtsRVUvMlQ1YkhFb2VNRCswRnhw?=
+ =?utf-8?B?ZFBRVkhxSlBDaTFmMnJxQzFlVW0yUGpyWTc2N3VpWTFWKzl1ZG5XYmwxTHM4?=
+ =?utf-8?B?T1NTMlI3bmpTWnU4Y0hrbFNnaVFkM3JId0RBWHVsdmk5bDlsTXl0VXdjd2JQ?=
+ =?utf-8?B?eEtrRURnSHd0U3FlOHFpbjBzT1lLcHBlUzdOa3N2YjR0MU0ydTJUaTNnTnIr?=
+ =?utf-8?B?a3UvbG9TNTV2Q1hBMksrK0drMXVmVm1Eamc1ZnRCL3pkU0tURzVva2EwWGhD?=
+ =?utf-8?B?VmtYZy9RaStDZUx1YU1oWkVEZ2YvRGJLekdOOUVYbFN3dWtRc083eEhFRmpI?=
+ =?utf-8?B?NjNxNmlYdE00VC9GUG9mU1A3elpHYTV5SThUUitSY0NBOXNOb2hBQ0tCa1VM?=
+ =?utf-8?B?VXlva2RuKzVEakU5bnJrdFgxRFl6SExuaUJYc1NSdjg2OXhsTVhaSXU0RVVS?=
+ =?utf-8?B?SzZUd3EwL1FobFFCcEpZMFJrNUQ0a2NZcnhORXQ3Mzk5K2VKNmR3UEFrTjZQ?=
+ =?utf-8?B?alZWQ3dweGZWeXBQMGwzenk3QmFZbTFkQXFnUm94QlAyekZJYjU1U3YyOGgx?=
+ =?utf-8?B?NGlZVU5ROGRWK042TEk4SExNeG5YeEw5ZDdxSUtodWtJZHdwd3NMNkRKYnFm?=
+ =?utf-8?B?Ui9QQUdDeC9PT29nRlNOWlBDY3cyNzBIVWVReittUUdUcUZVdmhjbnNWQ1Bj?=
+ =?utf-8?B?eThXK3ZhdnN5aXhyalQ5a1EwVG1KY2dRNkwxT2g1WHg4ajRZNEF4RXd0MktM?=
+ =?utf-8?Q?eUgfzizo3eJkYG3CnQeoA3k=3D?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=42.123.76.221;
- envelope-from=huangy81@chinatelecom.cn; helo=chinatelecom.cn
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-OriginatorOrg: quicinc.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: SN4PR0201MB8808.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 023896b3-2780-4245-df26-08d9ecbbb857
+X-MS-Exchange-CrossTenant-originalarrivaltime: 10 Feb 2022 17:35:23.9661 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 98e9ba89-e1a1-4e38-9007-8bdabc25de1d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: rXVOElFtb1l4cZnkvDj2AjXa6ct+daEabLKg9S5TP4bIsOnxkIPuXi+m/gWH3RStHS0iQBNI+WuKmZhL/k6dyA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR02MB6345
+Received-SPF: pass client-ip=216.71.142.165; envelope-from=tsimpson@quicinc.com;
+ helo=esa.hc3962-90.iphmx.com
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -64,420 +154,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <eduardo@habkost.net>, David Hildenbrand <david@redhat.com>,
- Hyman <huangy81@chinatelecom.cn>, Juan Quintela <quintela@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Markus ArmBruster <armbru@redhat.com>, Peter Xu <peterx@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
-
-Implement dirtyrate calculation periodically basing on
-dirty-ring and throttle virtual CPU until it reachs the quota
-dirty page rate given by user.
-
-Introduce qmp commands "set-vcpu-dirty-limit",
-"cancel-vcpu-dirty-limit", "query-vcpu-dirty-limit"
-to enable, disable, query dirty page limit for virtual CPU.
-
-Meanwhile, introduce corresponding hmp commands
-"set_vcpu_dirty_limit", "cancel_vcpu_dirty_limit",
-"info vcpu_dirty_limit" so the feature can be more usable.
-
-Signed-off-by: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
----
- hmp-commands-info.hx  |  13 ++++
- hmp-commands.hx       |  32 +++++++++
- include/monitor/hmp.h |   3 +
- qapi/migration.json   |  80 +++++++++++++++++++++
- softmmu/dirtylimit.c  | 194 ++++++++++++++++++++++++++++++++++++++++++++++++++
- 5 files changed, 322 insertions(+)
-
-diff --git a/hmp-commands-info.hx b/hmp-commands-info.hx
-index e90f20a..61b23d2 100644
---- a/hmp-commands-info.hx
-+++ b/hmp-commands-info.hx
-@@ -865,6 +865,19 @@ SRST
-     Display the vcpu dirty rate information.
- ERST
- 
-+    {
-+        .name       = "vcpu_dirty_limit",
-+        .args_type  = "",
-+        .params     = "",
-+        .help       = "show dirty page limit information of all vCPU",
-+        .cmd        = hmp_info_vcpu_dirty_limit,
-+    },
-+
-+SRST
-+  ``info vcpu_dirty_limit``
-+    Display the vcpu dirty page limit information.
-+ERST
-+
- #if defined(TARGET_I386)
-     {
-         .name       = "sgx",
-diff --git a/hmp-commands.hx b/hmp-commands.hx
-index 70a9136..3fef976 100644
---- a/hmp-commands.hx
-+++ b/hmp-commands.hx
-@@ -1744,3 +1744,35 @@ ERST
-                       "\n\t\t\t -b to specify dirty bitmap as method of calculation)",
-         .cmd        = hmp_calc_dirty_rate,
-     },
-+
-+SRST
-+``set_vcpu_dirty_limit``
-+  Set dirty page rate limit on virtual CPU, the information about all the
-+  virtual CPU dirty limit status can be observed with ``info vcpu_dirty_limit``
-+  command.
-+ERST
-+
-+    {
-+        .name       = "set_vcpu_dirty_limit",
-+        .args_type  = "dirty_rate:l,cpu_index:l?",
-+        .params     = "dirty_rate [cpu_index]",
-+        .help       = "set dirty page rate limit, use cpu_index to set limit"
-+                      "\n\t\t\t\t on a specified virtual cpu",
-+        .cmd        = hmp_set_vcpu_dirty_limit,
-+    },
-+
-+SRST
-+``cancel_vcpu_dirty_limit``
-+  Cancel dirty page rate limit on virtual CPU, the information about all the
-+  virtual CPU dirty limit status can be observed with ``info vcpu_dirty_limit``
-+  command.
-+ERST
-+
-+    {
-+        .name       = "cancel_vcpu_dirty_limit",
-+        .args_type  = "cpu_index:l?",
-+        .params     = "[cpu_index]",
-+        .help       = "cancel dirty page rate limit, use cpu_index to cancel"
-+                      "\n\t\t\t\t limit on a specified virtual cpu",
-+        .cmd        = hmp_cancel_vcpu_dirty_limit,
-+    },
-diff --git a/include/monitor/hmp.h b/include/monitor/hmp.h
-index 96d0148..478820e 100644
---- a/include/monitor/hmp.h
-+++ b/include/monitor/hmp.h
-@@ -131,6 +131,9 @@ void hmp_replay_delete_break(Monitor *mon, const QDict *qdict);
- void hmp_replay_seek(Monitor *mon, const QDict *qdict);
- void hmp_info_dirty_rate(Monitor *mon, const QDict *qdict);
- void hmp_calc_dirty_rate(Monitor *mon, const QDict *qdict);
-+void hmp_set_vcpu_dirty_limit(Monitor *mon, const QDict *qdict);
-+void hmp_cancel_vcpu_dirty_limit(Monitor *mon, const QDict *qdict);
-+void hmp_info_vcpu_dirty_limit(Monitor *mon, const QDict *qdict);
- void hmp_human_readable_text_helper(Monitor *mon,
-                                     HumanReadableText *(*qmp_handler)(Error **));
- 
-diff --git a/qapi/migration.json b/qapi/migration.json
-index 5975a0e..2ccbb92 100644
---- a/qapi/migration.json
-+++ b/qapi/migration.json
-@@ -1861,6 +1861,86 @@
- { 'command': 'query-dirty-rate', 'returns': 'DirtyRateInfo' }
- 
- ##
-+# @DirtyLimitInfo:
-+#
-+# Dirty page rate limit information of a virtual CPU.
-+#
-+# @cpu-index: index of a virtual CPU.
-+#
-+# @limit-rate: upper limit of dirty page rate (MB/s) for a virtual
-+#              CPU, 0 means unlimited.
-+#
-+# @current-rate: current dirty page rate (MB/s) for a virtual CPU.
-+#
-+# Since: 7.0
-+#
-+##
-+{ 'struct': 'DirtyLimitInfo',
-+  'data': { 'cpu-index': 'int',
-+            'limit-rate': 'uint64',
-+            'current-rate': 'uint64' } }
-+
-+##
-+# @set-vcpu-dirty-limit:
-+#
-+# Set the upper limit of dirty page rate for virtual CPUs.
-+#
-+# Requires KVM with accelerator property "dirty-ring-size" set.
-+# A virtual CPU's dirty page rate is a measure of its memory load.
-+# To observe dirty page rates, use @calc-dirty-rate.
-+#
-+# @cpu-index: index of a virtual CPU, default is all.
-+#
-+# @dirty-rate: upper limit of dirty page rate (MB/s) for virtual CPUs.
-+#
-+# Since: 7.0
-+#
-+# Example:
-+#   {"execute": "set-vcpu-dirty-limit"}
-+#    "arguments": { "dirty-rate": 200,
-+#                   "cpu-index": 1 } }
-+#
-+##
-+{ 'command': 'set-vcpu-dirty-limit',
-+  'data': { '*cpu-index': 'int',
-+            'dirty-rate': 'uint64' } }
-+
-+##
-+# @cancel-vcpu-dirty-limit:
-+#
-+# Cancel the upper limit of dirty page rate for virtual CPUs.
-+#
-+# Cancel the dirty page limit for the vCPU which has been set with
-+# set-vcpu-dirty-limit command. Note that this command requires
-+# support from dirty ring, same as the "set-vcpu-dirty-limit".
-+#
-+# @cpu-index: index of a virtual CPU, default is all.
-+#
-+# Since: 7.0
-+#
-+# Example:
-+#   {"execute": "cancel-vcpu-dirty-limit"}
-+#    "arguments": { "cpu-index": 1 } }
-+#
-+##
-+{ 'command': 'cancel-vcpu-dirty-limit',
-+  'data': { '*cpu-index': 'int'} }
-+
-+##
-+# @query-vcpu-dirty-limit:
-+#
-+# Returns information about virtual CPU dirty page rate limits, if any.
-+#
-+# Since: 7.0
-+#
-+# Example:
-+#   {"execute": "query-vcpu-dirty-limit"}
-+#
-+##
-+{ 'command': 'query-vcpu-dirty-limit',
-+  'returns': [ 'DirtyLimitInfo' ] }
-+
-+##
- # @snapshot-save:
- #
- # Save a VM snapshot
-diff --git a/softmmu/dirtylimit.c b/softmmu/dirtylimit.c
-index 8b8d8d7..32e3575 100644
---- a/softmmu/dirtylimit.c
-+++ b/softmmu/dirtylimit.c
-@@ -14,8 +14,12 @@
- #include "qapi/error.h"
- #include "qemu/main-loop.h"
- #include "qapi/qapi-commands-migration.h"
-+#include "qapi/qmp/qdict.h"
-+#include "qapi/error.h"
- #include "sysemu/dirtyrate.h"
- #include "sysemu/dirtylimit.h"
-+#include "monitor/hmp.h"
-+#include "monitor/monitor.h"
- #include "exec/memory.h"
- #include "hw/boards.h"
- #include "sysemu/kvm.h"
-@@ -424,3 +428,193 @@ void dirtylimit_vcpu_execute(CPUState *cpu)
-         usleep(cpu->throttle_us_per_full);
-     }
- }
-+
-+static void dirtylimit_init(void)
-+{
-+    dirtylimit_state_initialize();
-+    dirtylimit_change(true);
-+    vcpu_dirty_rate_stat_initialize();
-+    vcpu_dirty_rate_stat_start();
-+}
-+
-+static void dirtylimit_cleanup(void)
-+{
-+    vcpu_dirty_rate_stat_stop();
-+    vcpu_dirty_rate_stat_finalize();
-+    dirtylimit_change(false);
-+    dirtylimit_state_finalize();
-+}
-+
-+void qmp_cancel_vcpu_dirty_limit(bool has_cpu_index,
-+                                 int64_t cpu_index,
-+                                 Error **errp)
-+{
-+    if (!kvm_enabled() || !kvm_dirty_ring_enabled()) {
-+        return;
-+    }
-+
-+    if (has_cpu_index && !dirtylimit_vcpu_index_valid(cpu_index)) {
-+        error_setg(errp, "incorrect cpu index specified");
-+        return;
-+    }
-+
-+    if (!dirtylimit_in_service()) {
-+        return;
-+    }
-+
-+    dirtylimit_state_lock();
-+
-+    if (has_cpu_index) {
-+        dirtylimit_set_vcpu(cpu_index, 0, false);
-+    } else {
-+        dirtylimit_set_all(0, false);
-+    }
-+
-+    if (!dirtylimit_state->limited_nvcpu) {
-+        dirtylimit_cleanup();
-+    }
-+
-+    dirtylimit_state_unlock();
-+}
-+
-+void hmp_cancel_vcpu_dirty_limit(Monitor *mon, const QDict *qdict)
-+{
-+    int64_t cpu_index = qdict_get_try_int(qdict, "cpu_index", -1);
-+    Error *err = NULL;
-+
-+    qmp_cancel_vcpu_dirty_limit(!!(cpu_index != -1), cpu_index, &err);
-+    if (err) {
-+        hmp_handle_error(mon, err);
-+        return;
-+    }
-+
-+    monitor_printf(mon, "[Please use 'info vcpu_dirty_limit' to query "
-+                   "dirty limit for virtual CPU]\n");
-+}
-+
-+void qmp_set_vcpu_dirty_limit(bool has_cpu_index,
-+                              int64_t cpu_index,
-+                              uint64_t dirty_rate,
-+                              Error **errp)
-+{
-+    if (!kvm_enabled() || !kvm_dirty_ring_enabled()) {
-+        error_setg(errp, "dirty page limit feature requires KVM with"
-+                   " accelerator property 'dirty-ring-size' set'");
-+        return;
-+    }
-+
-+    if (has_cpu_index && !dirtylimit_vcpu_index_valid(cpu_index)) {
-+        error_setg(errp, "incorrect cpu index specified");
-+        return;
-+    }
-+
-+    if (!dirty_rate) {
-+        qmp_cancel_vcpu_dirty_limit(has_cpu_index, cpu_index, errp);
-+        return;
-+    }
-+
-+    dirtylimit_state_lock();
-+
-+    if (!dirtylimit_in_service()) {
-+        dirtylimit_init();
-+    }
-+
-+    if (has_cpu_index) {
-+        dirtylimit_set_vcpu(cpu_index, dirty_rate, true);
-+    } else {
-+        dirtylimit_set_all(dirty_rate, true);
-+    }
-+
-+    dirtylimit_state_unlock();
-+}
-+
-+void hmp_set_vcpu_dirty_limit(Monitor *mon, const QDict *qdict)
-+{
-+    int64_t dirty_rate = qdict_get_int(qdict, "dirty_rate");
-+    int64_t cpu_index = qdict_get_try_int(qdict, "cpu_index", -1);
-+    Error *err = NULL;
-+
-+    qmp_set_vcpu_dirty_limit(!!(cpu_index != -1), cpu_index, dirty_rate, &err);
-+    if (err) {
-+        hmp_handle_error(mon, err);
-+        return;
-+    }
-+
-+    monitor_printf(mon, "[Please use 'info vcpu_dirty_limit' to query "
-+                   "dirty limit for virtual CPU]\n");
-+}
-+
-+static struct DirtyLimitInfo *dirtylimit_query_vcpu(int cpu_index)
-+{
-+    DirtyLimitInfo *info = NULL;
-+
-+    info = g_malloc0(sizeof(*info));
-+    info->cpu_index = cpu_index;
-+    info->limit_rate = dirtylimit_vcpu_get_state(cpu_index)->quota;
-+    info->current_rate = vcpu_dirty_rate_get(cpu_index);
-+
-+    return info;
-+}
-+
-+static struct DirtyLimitInfoList *dirtylimit_query_all(void)
-+{
-+    int i, index;
-+    DirtyLimitInfo *info = NULL;
-+    DirtyLimitInfoList *head = NULL, **tail = &head;
-+
-+    dirtylimit_state_lock();
-+
-+    if (!dirtylimit_in_service()) {
-+        return NULL;
-+    }
-+
-+    for (i = 0; i < dirtylimit_state->max_cpus; i++) {
-+        index = dirtylimit_state->states[i].cpu_index;
-+        if (dirtylimit_vcpu_get_state(index)->enabled) {
-+            info = dirtylimit_query_vcpu(index);
-+            QAPI_LIST_APPEND(tail, info);
-+        }
-+    }
-+
-+    dirtylimit_state_unlock();
-+
-+    return head;
-+}
-+
-+struct DirtyLimitInfoList *qmp_query_vcpu_dirty_limit(Error **errp)
-+{
-+    if (!dirtylimit_in_service()) {
-+        error_setg(errp, "dirty page limit not enabled");
-+        return NULL;
-+    }
-+
-+    return dirtylimit_query_all();
-+}
-+
-+void hmp_info_vcpu_dirty_limit(Monitor *mon, const QDict *qdict)
-+{
-+    DirtyLimitInfoList *limit, *head, *info = NULL;
-+    Error *err = NULL;
-+
-+    if (!dirtylimit_in_service()) {
-+        monitor_printf(mon, "Dirty page limit not enabled!\n");
-+        return;
-+    }
-+
-+    info = qmp_query_vcpu_dirty_limit(&err);
-+    if (err) {
-+        hmp_handle_error(mon, err);
-+        return;
-+    }
-+
-+    head = info;
-+    for (limit = head; limit != NULL; limit = limit->next) {
-+        monitor_printf(mon, "vcpu[%"PRIi64"], limit rate %"PRIi64 " (MB/s),"
-+                            " current rate %"PRIi64 " (MB/s)\n",
-+                            limit->value->cpu_index,
-+                            limit->value->limit_rate,
-+                            limit->value->current_rate);
-+    }
-+
-+    g_free(info);
-+}
--- 
-1.8.3.1
-
+DQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogUmljaGFyZCBIZW5kZXJz
+b24gPHJpY2hhcmQuaGVuZGVyc29uQGxpbmFyby5vcmc+DQo+IFNlbnQ6IFdlZG5lc2RheSwgRmVi
+cnVhcnkgOSwgMjAyMiA0OjQ4IFBNDQo+IFRvOiBQaGlsaXBwZSBNYXRoaWV1LURhdWTDqSA8ZjRi
+dWdAYW1zYXQub3JnPjsgcWVtdS1kZXZlbEBub25nbnUub3JnDQo+IENjOiBQYW9sbyBCb256aW5p
+IDxwYm9uemluaUByZWRoYXQuY29tPjsgVGhvbWFzIEh1dGgNCj4gPHRodXRoQHJlZGhhdC5jb20+
+OyBUYXlsb3IgU2ltcHNvbiA8dHNpbXBzb25AcXVpY2luYy5jb20+DQo+IFN1YmplY3Q6IFJlOiBb
+UEFUQ0ggMTEvMTVdIHRhcmdldDogVXNlIEFyY2hDUFUgYXMgaW50ZXJmYWNlIHRvIHRhcmdldCBD
+UFUNCj4gDQo+IE9uIDIvMTAvMjIgMDg6NTQsIFBoaWxpcHBlIE1hdGhpZXUtRGF1ZMOpIHdyb3Rl
+Og0KPiA+IGRpZmYgLS1naXQgYS90YXJnZXQvaGV4YWdvbi9jcHUuaCBiL3RhcmdldC9oZXhhZ29u
+L2NwdS5oIGluZGV4DQo+ID4gMjVjNjdlNDNhMi4uNGRjZTQwYTM2MCAxMDA2NDQNCj4gPiAtLS0g
+YS90YXJnZXQvaGV4YWdvbi9jcHUuaA0KPiA+ICsrKyBiL3RhcmdldC9oZXhhZ29uL2NwdS5oDQo+
+ID4gQEAgLTE0Myw3ICsxNDMsNyBAQCB0eXBlZGVmIHN0cnVjdCBIZXhhZ29uQ1BVQ2xhc3Mgew0K
+PiA+ICAgICAgIERldmljZVJlc2V0IHBhcmVudF9yZXNldDsNCj4gPiAgIH0gSGV4YWdvbkNQVUNs
+YXNzOw0KPiA+DQo+ID4gLXR5cGVkZWYgc3RydWN0IEhleGFnb25DUFUgew0KPiA+ICt0eXBlZGVm
+IHN0cnVjdCBBcmNoQ1BVIHsNCj4gPiAgICAgICAvKjwgcHJpdmF0ZSA+Ki8NCj4gPiAgICAgICBD
+UFVTdGF0ZSBwYXJlbnRfb2JqOw0KPiA+ICAgICAgIC8qPCBwdWJsaWMgPiovDQo+IA0KPiBUaGVy
+ZSdzIHN0aWxsIHRoZSB0eXBlZGVmIG9mIEFyY2hDUFUgYmVsb3csIHdoaWNoIG91Z2h0IHRvIGJl
+IHJlZHVuZGFudA0KPiBub3cuDQo+IEl0IG1heSBvciBtYXkgbm90IGJlIGxlc3MgY29uZnVzaW5n
+IHRvIHNlcGFyYXRlIG91dCB0aGUgdHlwZWRlZiBmb3INCj4gSGV4YWdvbkNQVS4NCj4gSXQgZGVm
+aW5pdGVseSB3b3VsZCBiZSB3b3J0aHdoaWxlIHRvIGNvbnZlcnQgaGV4YWdvbiB0bw0KPiBPQkpF
+Q1RfREVDTEFSRV9UWVBFIChjYyBUYXlsb3IpLg0KDQpJSVVDLCB0aGUgY2hhbmdlIHRvIGNvbnZl
+cnQgdG8gT0JKRUNUX0RFQ0xBUkVfVFlQRSB3b3VsZCBiZQ0KZGlmZiAtLWdpdCBhL3RhcmdldC9o
+ZXhhZ29uL2NwdS5oIGIvdGFyZ2V0L2hleGFnb24vY3B1LmgNCmluZGV4IGMwNjhlMjE5ZjEuLjNi
+NjM2NTk1YTMgMTAwNjQ0DQotLS0gYS90YXJnZXQvaGV4YWdvbi9jcHUuaA0KKysrIGIvdGFyZ2V0
+L2hleGFnb24vY3B1LmgNCkBAIC0xMzEsMTIgKzEzMSw3IEBAIHN0cnVjdCBDUFVIZXhhZ29uU3Rh
+dGUgew0KICAgICBWVENNU3RvcmVMb2cgdnRjbV9sb2c7DQogfTsNCiANCi0jZGVmaW5lIEhFWEFH
+T05fQ1BVX0NMQVNTKGtsYXNzKSBcDQotICAgIE9CSkVDVF9DTEFTU19DSEVDSyhIZXhhZ29uQ1BV
+Q2xhc3MsIChrbGFzcyksIFRZUEVfSEVYQUdPTl9DUFUpDQotI2RlZmluZSBIRVhBR09OX0NQVShv
+YmopIFwNCi0gICAgT0JKRUNUX0NIRUNLKEhleGFnb25DUFUsIChvYmopLCBUWVBFX0hFWEFHT05f
+Q1BVKQ0KLSNkZWZpbmUgSEVYQUdPTl9DUFVfR0VUX0NMQVNTKG9iaikgXA0KLSAgICBPQkpFQ1Rf
+R0VUX0NMQVNTKEhleGFnb25DUFVDbGFzcywgKG9iaiksIFRZUEVfSEVYQUdPTl9DUFUpDQorT0JK
+RUNUX0RFQ0xBUkVfVFlQRShIZXhhZ29uQ1BVLCBIZXhhZ29uQ1BVQ2xhc3MsIEhFWEFHT05fQ1BV
+KQ0KIA0KIHR5cGVkZWYgc3RydWN0IEhleGFnb25DUFVDbGFzcyB7DQogICAgIC8qPCBwcml2YXRl
+ID4qLw0KDQpJZiB0aGF0J3MgY29ycmVjdCwgdGhlIHR5cGVkZWYgc3RydWN0IEhleGFnb25DUFVD
+bGFzcyBzaG91bGQgTk9UIGNoYW5nZSB0byB0eXBlZGVmIHN0cnVjdCBBcmNoQ1BVLCBhbmQgdGhl
+IHR5cGRlZiBvZiBBcmNoQ1BVIGJlbG93IHdvdWxkIHN0YXkuDQoNCg0KU28sIElmIEkgc3VibWl0
+IHRoZSBhYm92ZSBhcyBhIHN0YW5kYWxvbmUgcGF0Y2gsIHRoZW4gUGhpbGlwcGUgd291bGRuJ3Qg
+bmVlZCB0byBtb2RpZnkgdGFyZ2V0L2hleGFnb24vY3B1LmguICBDb3JyZWN0Pw0KDQpUaGFua3Ms
+DQpUYXlsb3INCg0K
 
