@@ -2,109 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C0684B1230
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Feb 2022 16:58:50 +0100 (CET)
-Received: from localhost ([::1]:46880 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 121214B12FD
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Feb 2022 17:39:25 +0100 (CET)
+Received: from localhost ([::1]:47446 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nIBqL-0003c9-Jh
-	for lists+qemu-devel@lfdr.de; Thu, 10 Feb 2022 10:58:49 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:47998)
+	id 1nICTc-0001JQ-7E
+	for lists+qemu-devel@lfdr.de; Thu, 10 Feb 2022 11:39:24 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:44696)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pasic@linux.ibm.com>)
- id 1nI9ew-0006vI-NL
- for qemu-devel@nongnu.org; Thu, 10 Feb 2022 08:38:55 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:32648
- helo=mx0a-001b2d01.pphosted.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pasic@linux.ibm.com>)
- id 1nI9ei-0007QC-5O
- for qemu-devel@nongnu.org; Thu, 10 Feb 2022 08:38:54 -0500
-Received: from pps.filterd (m0098413.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 21ADc2Fg017999; 
- Thu, 10 Feb 2022 13:38:06 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=date : from : to : cc :
- subject : message-id : in-reply-to : references : mime-version :
- content-type : content-transfer-encoding; s=pp1;
- bh=mXKi63LkPpNp57iKnZDY9dh3Lu6gtCVC8rGWi+GDvCQ=;
- b=FztqsCLcQcXhAmel7GODuPQaIcXFOgRVdtEzYO3r59hJQOjiC1Y7jkCZaC/akQz0EJ0E
- BHpgY7Cm/W6DZ8LgY4YuuUOH1+0VMs0qwq1YszDi/caKJt1MV4s2hWO0i9QF7Mb7WwrK
- qJATgKjIlU3PbgkHiC3rCWTzCtPUWtgR3mKUHWFocB4hI0dwmd5qYRtOA0ic0m80Yk8+
- f0C2TghRjt2f2OAV2lYmhWJCF3jnkAJqpIiPXpZ2lFBTJyTAWAeO9jNUkK8qCMChgZrj
- EGsGy2PH8znDqad0zeGmp025KZwGg5xk0hBlMhYETmNNmrckafVdFcyrVva8iwRRIqWP 0Q== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com with ESMTP id 3e4m98aunx-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 10 Feb 2022 13:38:06 +0000
-Received: from m0098413.ppops.net (m0098413.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 21ADc5cm018345;
- Thu, 10 Feb 2022 13:38:05 GMT
-Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.102])
- by mx0b-001b2d01.pphosted.com with ESMTP id 3e4m98atvg-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 10 Feb 2022 13:38:05 +0000
-Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
- by ppma06ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 21ADC6bK031096;
- Thu, 10 Feb 2022 13:29:35 GMT
-Received: from b06cxnps3074.portsmouth.uk.ibm.com
- (d06relay09.portsmouth.uk.ibm.com [9.149.109.194])
- by ppma06ams.nl.ibm.com with ESMTP id 3e1ggkgh0g-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 10 Feb 2022 13:29:35 +0000
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com
- (b06wcsmtp001.portsmouth.uk.ibm.com [9.149.105.160])
- by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 21ADTX4I41484734
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 10 Feb 2022 13:29:33 GMT
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id E0222A405B;
- Thu, 10 Feb 2022 13:29:32 +0000 (GMT)
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 744EBA4054;
- Thu, 10 Feb 2022 13:29:32 +0000 (GMT)
-Received: from li-e979b1cc-23ba-11b2-a85c-dfd230f6cf82 (unknown [9.171.70.232])
- by b06wcsmtp001.portsmouth.uk.ibm.com (Postfix) with SMTP;
- Thu, 10 Feb 2022 13:29:32 +0000 (GMT)
-Date: Thu, 10 Feb 2022 14:29:29 +0100
-From: Halil Pasic <pasic@linux.ibm.com>
-To: Cornelia Huck <cohuck@redhat.com>
-Subject: Re: [PATCH 1/1] virtio: fix feature negotiation for ACCESS_PLATFORM
-Message-ID: <20220210142929.668a1f3d.pasic@linux.ibm.com>
-In-Reply-To: <877da3t1du.fsf@redhat.com>
-References: <20220209124534.1206993-1-pasic@linux.ibm.com>
- <87leykt0k7.fsf@redhat.com>
- <20220209212750.25ddcebe.pasic@linux.ibm.com>
- <87fsort5a6.fsf@redhat.com>
- <20220210113258.1e90af05.pasic@linux.ibm.com>
- <877da3t1du.fsf@redhat.com>
-Organization: IBM
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+ (Exim 4.90_1) (envelope-from <wwcohen@gmail.com>) id 1nI9WN-0002xE-FI
+ for qemu-devel@nongnu.org; Thu, 10 Feb 2022 08:30:03 -0500
+Received: from [2607:f8b0:4864:20::832] (port=41518
+ helo=mail-qt1-x832.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <wwcohen@gmail.com>) id 1nI9WL-0004Cb-Fy
+ for qemu-devel@nongnu.org; Thu, 10 Feb 2022 08:30:03 -0500
+Received: by mail-qt1-x832.google.com with SMTP id y8so5138832qtn.8
+ for <qemu-devel@nongnu.org>; Thu, 10 Feb 2022 05:30:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=YGTBh0r/qBn9R7FOXrrwAJK0z7eMBhOQCM4KptCKBg8=;
+ b=p1flewHXdHQcOC3+OVJwfVZ8MSAICU7HMSBoa0hVWw96d8dcT7WiDkliHSlTAN0v2s
+ yOI3mASbDSkSlXSZM5mgbRgIW04yx+Mp56r5+E861HDgkZ6fVtxZcwOSQ0ptC0dqVei2
+ KGA4x/Z9bwjDYCGYTtkvDnKvv3RAdMBnkp34qvjo8aVwOc1eZJNpjQDye4A4E3zRWhMi
+ YSTg4Li44nafxZkyaXvpXrtu34GffDBg8cGoddx6xRwrHsGyN2gzVyQdMwpQmPQ3R2r0
+ jU7vdnwjKuhk+v5HF951vnMJw3rSbN5Yqgj/xj1GeqAluAiYuMJ3XoPsrpwXn6u8vHJi
+ E2QQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=YGTBh0r/qBn9R7FOXrrwAJK0z7eMBhOQCM4KptCKBg8=;
+ b=Or/3sH/To5HZSzWHLuswFOvTtiilrS/KK96xCs6noVOFxt3Po7r1SUc8wEcalSM7MJ
+ lCqNVICDmLjJv8rGEXLj7b+QjwjRRPz1C310nW92sTELJBr0NeEdLCkmj9REOi6D2grm
+ xGegW0GkThjtak1Ws2zYTMd3R1d/Z+0JNhdDkuMHDZUvOKDQAX7s50WZ3K9zWupH9fif
+ P/HnjDCZ5E7VRvOCq+m1wW2tm61wB7qSTop2Z8cObTAIUPdN5dBzIvpVXHYtUL/UCHiN
+ UZMUbKVtkjYLnpEC8afMV8iLmxv7s8O4n/GOOk6lvzOtywiBp6/6UAapjnUTg69+SvT1
+ BGjw==
+X-Gm-Message-State: AOAM533PIdFu7+Hj/hXr+XrvUeOYnyepxbkbSjqpZc1JOUcF93yrbOt3
+ j2VRvkvy+Hj9+BZo4jT6Iz8zPTbv7trbbw==
+X-Google-Smtp-Source: ABdhPJxuOUTXXkemRiE15kIm+0fr8V2ow5gtC9D5HsF/w1YmpTSdhUTFTSPYAOevFvOTQTUoWOWQdA==
+X-Received: by 2002:a05:622a:2d0:: with SMTP id
+ a16mr4796287qtx.136.1644499799597; 
+ Thu, 10 Feb 2022 05:29:59 -0800 (PST)
+Received: from localhost.localdomain
+ (209-6-248-219.s2265.c3-0.wrx-ubr1.sbo-wrx.ma.cable.rcncustomer.com.
+ [209.6.248.219])
+ by smtp.gmail.com with ESMTPSA id t1sm11289616qtc.48.2022.02.10.05.29.55
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 10 Feb 2022 05:29:56 -0800 (PST)
+From: Will Cohen <wwcohen@gmail.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v6 00/11] 9p: Add support for darwin
+Date: Thu, 10 Feb 2022 08:29:35 -0500
+Message-Id: <20220210132946.2303-1-wwcohen@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: PdLjC3_XaDDBN9AR1o0s9rHHRtARfUSC
-X-Proofpoint-GUID: si2UaIYPZFoFwNfaUh4byA3It47AFPiy
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.816,Hydra:6.0.425,FMLib:17.11.62.513
- definitions=2022-02-10_06,2022-02-09_01,2021-12-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 mlxscore=0
- spamscore=0 suspectscore=0 adultscore=0 clxscore=1015 impostorscore=0
- priorityscore=1501 bulkscore=0 lowpriorityscore=0 phishscore=0
- mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2201110000 definitions=main-2202100074
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=pasic@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::832
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::832;
+ envelope-from=wwcohen@gmail.com; helo=mail-qt1-x832.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -117,62 +86,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Brijesh Singh <brijesh.singh@amd.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
- Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-devel@nongnu.org,
- Halil Pasic <pasic@linux.ibm.com>
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Christian Schoenebeck <qemu_oss@crudebyte.com>, Greg Kurz <groug@kaod.org>,
+ hi@alyssa.is, Will Cohen <wwcohen@gmail.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 10 Feb 2022 12:19:25 +0100
-Cornelia Huck <cohuck@redhat.com> wrote:
+This is a followup to https://lists.gnu.org/archive/html/qemu-devel/2022-02/msg01506.html,
+adding 9p server support for Darwin.
 
-[..]
-> 
-> Nope, that's not my problem. We make sure that the bit is persistent, we
-> fail realization if the bit got removed by the callback when required,
-> and we fail feature validation if the driver removes the bit, which is
-> in a different code path. We should not talk about FEATURES_OK in this
-> code.
+Since v5, the following changes have been made to the following patches:
 
-I agree. I changed my mind. Expanation follows...
+Patch 6/11: 9p: darwin: Move XATTR_SIZE_MAX->P9_XATTR_SIZE_MAX
+- For P9_XATTR_SIZE_MAX, ensure that Linux uses XATTR_SIZE_MAX, Darwin uses 64k, and error out for undefined hosts
 
-> 
-> We force-add the bit, and then still might fail realization. The
-> important condition is the has_iommu one, not the checks later on. I
-> find it very confusing to talk about what a potential driver might do in
-> that context.
-> 
+Patch 9/11: 9p: darwin: Implement compatibility for mknodat
+- Move pthread_fchdir_np declaration only to osdep
+- Declare pthread_fchdir_np with __attribute__((weak)) to allow checking for its presence before usage
+- Move declarations above cplusplus guard
 
-I assumed stuff like virtiofs+SE regressed with commit 04ceb61a40
-("virtio: Fail if iommu_platform is requested, but unsupported") but I
-think, I was wrong. It didn't work before that, because we did not
-present ACCESS_PLATFORM to the guest. I operated under the assumption
-that virtio_add_feature(&vdev->host_features, VIRTIO_F_IOMMU_PLATFORM)
-does not impact the set of features offered to the driver by the device,
-but it does.
+Patch 10/11: 9p: darwin: Adjust assumption on virtio-9p-test (formerly v5 Patch 11/11)
+- Move this patch before 9p: darwin: meson patch to avoid qtest breakage during bisecting
 
-So we need both this patch and "[PATCH v5 1/1] virtio: fix the condition
-for iommu_platform not supported" to get virtiofs to work with SE/SEV/Secure VM.
+Patch 11/11: 9p: darwin: meson: Allow VirtFS on Darwin (formerly v5 Patch 10/11)
+- Fully adjust meson virtfs error note to specify macOS
 
-I have to admit I only tested for the error message, and not with a full
-SE setup.
+Keno Fischer (10):
+  9p: linux: Fix a couple Linux assumptions
+  9p: Rename 9p-util -> 9p-util-linux
+  9p: darwin: Handle struct stat(fs) differences
+  9p: darwin: Handle struct dirent differences
+  9p: darwin: Ignore O_{NOATIME, DIRECT}
+  9p: darwin: Move XATTR_SIZE_MAX->P9_XATTR_SIZE_MAX
+  9p: darwin: *xattr_nofollow implementations
+  9p: darwin: Compatibility for f/l*xattr
+  9p: darwin: Implement compatibility for mknodat
+  9p: darwin: meson: Allow VirtFS on Darwin
 
-I agree my comment was inadequate. Can we use
+Will Cohen (1):
+  9p: darwin: Adjust assumption on virtio-9p-test
 
-/* make sure that the device did not drop a required IOMMU_PLATFORM */
+ fsdev/file-op-9p.h                     |  9 +++-
+ fsdev/meson.build                      |  1 +
+ hw/9pfs/9p-local.c                     | 27 ++++++++---
+ hw/9pfs/9p-proxy.c                     | 38 +++++++++++++--
+ hw/9pfs/9p-synth.c                     |  6 +++
+ hw/9pfs/9p-util-darwin.c               | 64 ++++++++++++++++++++++++++
+ hw/9pfs/{9p-util.c => 9p-util-linux.c} |  2 +-
+ hw/9pfs/9p-util.h                      | 35 ++++++++++++++
+ hw/9pfs/9p.c                           | 42 ++++++++++++++---
+ hw/9pfs/9p.h                           | 18 ++++++++
+ hw/9pfs/codir.c                        |  4 +-
+ hw/9pfs/meson.build                    |  3 +-
+ include/qemu/osdep.h                   | 12 +++++
+ include/qemu/xattr.h                   |  4 +-
+ meson.build                            | 14 ++++--
+ os-posix.c                             | 35 ++++++++++++++
+ tests/qtest/virtio-9p-test.c           |  2 +-
+ 17 files changed, 291 insertions(+), 25 deletions(-)
+ create mode 100644 hw/9pfs/9p-util-darwin.c
+ rename hw/9pfs/{9p-util.c => 9p-util-linux.c} (97%)
 
-I will think some more though. This is again about the dual nature
-of ACCESS_PLATFORM...
-
-> What about moving the virtio_add_feature() after the if
-> (klass->get_dma_as) check, and adding a comment
-> 
-> /* we want to always force IOMMU_PLATFORM here */
-> 
-> [I'll withdraw from this discussion for now, I fear I might just add
-> confusion.]
-> 
-> 
+-- 
+2.34.1
 
 
