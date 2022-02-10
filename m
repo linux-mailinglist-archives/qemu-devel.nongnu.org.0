@@ -2,78 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05DF14B1950
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Feb 2022 00:18:37 +0100 (CET)
-Received: from localhost ([::1]:36318 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 13E864B194B
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Feb 2022 00:18:22 +0100 (CET)
+Received: from localhost ([::1]:35556 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nIIhw-0001Dl-5s
-	for lists+qemu-devel@lfdr.de; Thu, 10 Feb 2022 18:18:36 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:39504)
+	id 1nIIhh-0000gY-6k
+	for lists+qemu-devel@lfdr.de; Thu, 10 Feb 2022 18:18:21 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:39762)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nIId2-0006I0-O4
- for qemu-devel@nongnu.org; Thu, 10 Feb 2022 18:13:32 -0500
-Received: from [2607:f8b0:4864:20::102a] (port=52145
- helo=mail-pj1-x102a.google.com)
+ id 1nIIeI-0006wZ-Vw
+ for qemu-devel@nongnu.org; Thu, 10 Feb 2022 18:14:51 -0500
+Received: from [2607:f8b0:4864:20::634] (port=42610
+ helo=mail-pl1-x634.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nIId1-0002Rf-8w
- for qemu-devel@nongnu.org; Thu, 10 Feb 2022 18:13:32 -0500
-Received: by mail-pj1-x102a.google.com with SMTP id y9so6540950pjf.1
- for <qemu-devel@nongnu.org>; Thu, 10 Feb 2022 15:13:30 -0800 (PST)
+ id 1nIIeF-0002Ww-Ui
+ for qemu-devel@nongnu.org; Thu, 10 Feb 2022 18:14:49 -0500
+Received: by mail-pl1-x634.google.com with SMTP id z17so3180097plb.9
+ for <qemu-devel@nongnu.org>; Thu, 10 Feb 2022 15:14:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=BdV0p4hdIdK+u4Qk3zkoP3VfC9oQg4dbxD2/kAsnZuw=;
- b=sZ2lLkC54a/WNNB33+I/sYPDjqJwyDVm6dIEybifUdrUBogNLPoD5dMVbSB/7k6WDl
- jBH6sWIn14bjgrKPJ1j1cWO7TQYiocymUXFhl4kswtU9Xvxo+mSR0NRmUFIb3VsTMNNI
- EHYcSv5ntyKsPsUbDyvYfmLVJII/svrrRSZNqk4Y9Ha5O3W27XTyrvz9mOmLKbsjsHtx
- B/saGOJWKGxlOBGH91KqMrW2px/xMHVsVS+3vdXa/mrQtKWzuWqzAQTpW0ZrdpMxUVxB
- aZuGqkoR1z4g89EpFUz+mmQurdp+gMjgY20JxgqMG90TmBQ8U+tDIK9b66feIkVROxQd
- bMKg==
+ bh=vq3oAay5hY1I8kNiGnd2uH/JmRpBF81A4E3JSlPheHw=;
+ b=bHJcdQGQ/FYxVa66n3GNvGo9nqTHKWId34WpaiVxLgDKtee0X3sLeayUR+SgHwMr2Y
+ qCAtcDF0xAxOUcAmbzTaoQosgayLibz6oBjig1gpiCNpORSmPc4Om2KgFWCtZcSbHp0o
+ tGogM4+z1LW61x1Kzbqgk/JvVQ1IaJ+c7dRmX84jpFPzLO/D69z7Ti22+uxZoy0M6D8S
+ 32bQR7KrSm4MPx2ElxSNHvYFkOaEonP4dXyF9IsskQIbeUQp+bF4wON95qCBBstXPWlI
+ 1cLdjISNtovG233fwaeBnJtJnDoT6RHyptdT3WwAMcVgJz6qzvXZ5ZXp076VoTATRyLd
+ 3Nrg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=BdV0p4hdIdK+u4Qk3zkoP3VfC9oQg4dbxD2/kAsnZuw=;
- b=o3xjKBpKaZew7P1wHhuF72o6iKn0+Pj3gmblE7PicP7V9qYnQ4N4XpMQ7L5nHH59JP
- KkiBiIVAh9Y3+SEhl89Eo8miQnMn1jc+CA/+ZOJfUp8sR6PJTv2b2W3M6KDpcqRmcLh1
- zzLBlqKA9JgggxPamUw64WcvoluqrrtIx+aeqzniCumCbNgwvLWAi+pbcY1rezU5ilvc
- dQXkNjAkvEo3GB11KieFA6CWOToAAfkY0sLzsrL4UOtBdvi4JIAwRaAUJE3Qkf8m8huQ
- Jxi1qD0Obw7qVgeqNKhjrCQ6pXDX/UtDNMPSMhcKo0Clzj2TwHEe6qSn8W4+91EFm0qM
- 2Eug==
-X-Gm-Message-State: AOAM533dN2/AMgNKl9l7BnLUKWs2L9R7nkMj0mXd//9WE+wfpSOiwLwW
- qQWLBZY2AJ3JLgR4t3eoSBkiTw==
-X-Google-Smtp-Source: ABdhPJzdW3p3MLmicO6qPO03ACZyTYMIx5kfew7+g00IKtY40qUpANphf7eQZqITA6D7DqtyRDmgrg==
-X-Received: by 2002:a17:90b:4c8e:: with SMTP id
- my14mr5217682pjb.243.1644534809942; 
- Thu, 10 Feb 2022 15:13:29 -0800 (PST)
+ bh=vq3oAay5hY1I8kNiGnd2uH/JmRpBF81A4E3JSlPheHw=;
+ b=T5spQmSHLnNdlXwNgdJz2py1rRtLBvS10LCJuhQXQQXtSfNur7vkYTk7xADKDsHEDc
+ 6I9VPZvW0uOPul0uOuffkCdvpV6rOYp/WCq6z23pwVdXZltZtpUmZ1Rat4ZN4eVrwyUs
+ RNftajQ0AOhO15tRNBsfROVRz9a6Whf/rqfgULDbVrEgrLtucoM+reQLd83aBwa6PRds
+ djvzfLUDFycGkd8T8dyprmh8wjjsD1HAH23bCl2oD0NuB9vvlO46m+ObSeX3iVyfTFUq
+ Y8IBvC7avzXP115sfrYMmhNA0OxldjwvdCBFQKiQhPRxSk9cXxzvDVatBwS1lYWq3Qk0
+ +h3Q==
+X-Gm-Message-State: AOAM531LTszZt+/Gcu0MMLpH2QYwSotfUgYtbBR6LmUtTRauat8txJKz
+ 14bz5WUVjcr/ZOhBnny7tdlqww==
+X-Google-Smtp-Source: ABdhPJxaRfdIq2fylI3D/sIAsZim3IcVj1JIV0lWMpCi+Y3ikmo7GTaf2TFObE+Sjj1WrhuZ+e2oPw==
+X-Received: by 2002:a17:903:1c4:: with SMTP id
+ e4mr9765362plh.147.1644534886592; 
+ Thu, 10 Feb 2022 15:14:46 -0800 (PST)
 Received: from [10.0.0.163] ([124.189.222.164])
- by smtp.gmail.com with ESMTPSA id f12sm25877916pfj.37.2022.02.10.15.13.26
+ by smtp.gmail.com with ESMTPSA id g12sm23443121pfm.119.2022.02.10.15.14.43
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 10 Feb 2022 15:13:29 -0800 (PST)
-Message-ID: <e1fe54bb-6a2b-e8d8-5fed-dc80893a7bde@linaro.org>
-Date: Fri, 11 Feb 2022 10:13:24 +1100
+ Thu, 10 Feb 2022 15:14:46 -0800 (PST)
+Message-ID: <64b84847-5d18-4713-e383-a1185937addb@linaro.org>
+Date: Fri, 11 Feb 2022 10:14:40 +1100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.5.0
-Subject: Re: [PATCH 5/9] linux-user/cpu_loop: Add missing 'exec/cpu-all.h'
- header
+Subject: Re: [PATCH 6/9] exec: Define MMUAccessType in 'exec/cpu-tlb.h' header
 Content-Language: en-US
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
  qemu-devel@nongnu.org
 References: <20220209230030.93987-1-f4bug@amsat.org>
- <20220209230030.93987-6-f4bug@amsat.org>
+ <20220209230030.93987-7-f4bug@amsat.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220209230030.93987-6-f4bug@amsat.org>
+In-Reply-To: <20220209230030.93987-7-f4bug@amsat.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::102a
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::634
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102a;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102a.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::634;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x634.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -100,14 +99,14 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 2/10/22 10:00, Philippe Mathieu-Daudé wrote:
-> env_cpu() is declared in "exec/cpu-all.h".
+> To reduce the inclusion of "hw/core/cpu.h", extract
+> MMUAccessType to its own "exec/cpu-tlb.h" header.
 > 
 > Signed-off-by: Philippe Mathieu-Daudé<f4bug@amsat.org>
 > ---
->   linux-user/cpu_loop-common.h | 1 +
->   1 file changed, 1 insertion(+)
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Not keen on the name, unless you plan to put something else in there.
+
 
 r~
 
