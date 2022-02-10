@@ -2,76 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D82B4B0E2B
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Feb 2022 14:13:04 +0100 (CET)
-Received: from localhost ([::1]:34502 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE6BA4B0E72
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Feb 2022 14:31:03 +0100 (CET)
+Received: from localhost ([::1]:51238 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nI9Fv-0004hl-NT
-	for lists+qemu-devel@lfdr.de; Thu, 10 Feb 2022 08:13:03 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:59298)
+	id 1nI9XI-0000Tf-CB
+	for lists+qemu-devel@lfdr.de; Thu, 10 Feb 2022 08:31:00 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:59714)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <shorne@gmail.com>) id 1nI8eX-0002X7-8y
- for qemu-devel@nongnu.org; Thu, 10 Feb 2022 07:34:25 -0500
-Received: from [2607:f8b0:4864:20::42e] (port=43967
- helo=mail-pf1-x42e.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <shorne@gmail.com>) id 1nI8eU-0004wq-G9
- for qemu-devel@nongnu.org; Thu, 10 Feb 2022 07:34:24 -0500
-Received: by mail-pf1-x42e.google.com with SMTP id d187so9930083pfa.10
- for <qemu-devel@nongnu.org>; Thu, 10 Feb 2022 04:34:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=Ws/n5TeF+Rc5l/irILflhDF6sca8Ug7Y9ekpBzlYtfk=;
- b=emzlia5p8qVEsOfVXZv+C8v5aqddRtD6BRmMgZruBmVRESa00qbEyba/dWpiHyquIB
- YIPmJIu4OmjuO3SB5JBTA8ZuNswHUdBfvTiTZPx+ETRRmD+NiNfHafdbN7vm5504cjNT
- NSsCczvG3/XmEvxynDkp9h8Caz02lyHG9KAzvcufnnyRq+jxFLqDW9CXtVfylfOL9wrB
- Ax1d6EUOE7++sBUQIY96qb12b32UBDU/49n0c0HkdiYGxMjPWG23DMsNKH15DRsijEUO
- k6tUuGTlItvJ7EU/YuhOK9LPhPtsHA99rbNwegnBpeylk14jFGz1ZzDYy3DoyX9YiLiL
- 7LUQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=Ws/n5TeF+Rc5l/irILflhDF6sca8Ug7Y9ekpBzlYtfk=;
- b=2xnkugeGPHwjldHWWSGwfzSI7TxCWkkZK+vq0MVDCB4QvYoFGq+OeOpGp41BjiN2j2
- OHPmdK9TE0EcLoc4A12rlimwEXSvOv2Cmv8/wBYP48fPR7n7nQqgaUWbCw12W89GqnWv
- A7/f/V6hdYgbhAWi4sdlag1SMddCn0Ibaf2U24XapXtYMnXFxzWvi4qiC45RQBxdyOrm
- u45s8rvo1YEVnxl3gUQxngdczf6AsHgMAA4TPBfgGlrSN54+KuUCwlD+pDq3BXR/nrR8
- vnslQ2Vm3TEhQYNF4Raf/1eHYOyeDlK8V9TFOcdoMsCFL3qtRTdiVGXMFPWq1axRocVY
- JJkQ==
-X-Gm-Message-State: AOAM530vHdftHe4fbGozHs8ar7ksRqNHMzUxuGWjy9W4XVxTErAu2ZLY
- ml/bpatVpyaCS6DznzQDhnnOWdLCBjK7uoP+
-X-Google-Smtp-Source: ABdhPJwTYk4ymAN6GnJm4ENlU9jGsIhaVM5+Ua03lm14v4iK1ZoGJYutEby1S7A6CqqsV5JHLKKK2Q==
-X-Received: by 2002:a62:8c57:: with SMTP id m84mr7154141pfd.28.1644496459852; 
- Thu, 10 Feb 2022 04:34:19 -0800 (PST)
-Received: from localhost ([2409:10:24a0:4700:e8ad:216a:2a9d:6d0c])
- by smtp.gmail.com with ESMTPSA id r10sm8001220pgk.74.2022.02.10.04.34.18
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 10 Feb 2022 04:34:19 -0800 (PST)
-From: Stafford Horne <shorne@gmail.com>
-To: QEMU Development <qemu-devel@nongnu.org>
-Subject: [PATCH v2 4/4] hw/openrisc/openrisc_sim: Add support for initrd
- loading
-Date: Thu, 10 Feb 2022 21:34:03 +0900
-Message-Id: <20220210123403.2059926-5-shorne@gmail.com>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20220210123403.2059926-1-shorne@gmail.com>
-References: <20220210123403.2059926-1-shorne@gmail.com>
+ (Exim 4.90_1) (envelope-from <matheus.ferst@eldorado.org.br>)
+ id 1nI8g9-0002jg-Iw; Thu, 10 Feb 2022 07:36:08 -0500
+Received: from [187.72.171.209] (port=47893 helo=outlook.eldorado.org.br)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <matheus.ferst@eldorado.org.br>)
+ id 1nI8g4-00052E-T4; Thu, 10 Feb 2022 07:36:04 -0500
+Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
+ secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
+ Thu, 10 Feb 2022 09:35:22 -0300
+Received: from eldorado.org.br (unknown [10.10.70.45])
+ by p9ibm (Postfix) with ESMTP id 6ED66800172;
+ Thu, 10 Feb 2022 09:35:22 -0300 (-03)
+From: matheus.ferst@eldorado.org.br
+To: qemu-devel@nongnu.org,
+	qemu-ppc@nongnu.org
+Subject: [PATCH v3 00/37] target/ppc: PowerISA Vector/VSX instruction batch
+Date: Thu, 10 Feb 2022 09:34:10 -0300
+Message-Id: <20220210123447.3933301-1-matheus.ferst@eldorado.org.br>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::42e
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42e;
- envelope-from=shorne@gmail.com; helo=mail-pf1-x42e.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
+X-OriginalArrivalTime: 10 Feb 2022 12:35:22.0893 (UTC)
+ FILETIME=[AC0EE3D0:01D81E7A]
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 187.72.171.209 (failed)
+Received-SPF: pass client-ip=187.72.171.209;
+ envelope-from=matheus.ferst@eldorado.org.br; helo=outlook.eldorado.org.br
+X-Spam_score_int: -10
+X-Spam_score: -1.1
 X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, PDS_HP_HELO_NORDNS=0.001,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -85,76 +56,87 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Stafford Horne <shorne@gmail.com>, Jia Liu <proljc@gmail.com>
+Cc: danielhb413@gmail.com, richard.henderson@linaro.org, groug@kaod.org,
+ clg@kaod.org, Matheus Ferst <matheus.ferst@eldorado.org.br>,
+ david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The initrd passed via the command line is loaded into memory.  It's
-location and size is then added to the device tree so the kernel knows
-where to find it.
+From: Matheus Ferst <matheus.ferst@eldorado.org.br>
 
-Signed-off-by: Stafford Horne <shorne@gmail.com>
----
- hw/openrisc/openrisc_sim.c | 32 +++++++++++++++++++++++++++++++-
- 1 file changed, 31 insertions(+), 1 deletion(-)
+This patch series implements 5 missing instructions from PowerISA v3.0
+and 40 new instructions from PowerISA v3.1, moving 62 other instructions
+to decodetree along the way.
 
-diff --git a/hw/openrisc/openrisc_sim.c b/hw/openrisc/openrisc_sim.c
-index d7c26af82c..5354797e20 100644
---- a/hw/openrisc/openrisc_sim.c
-+++ b/hw/openrisc/openrisc_sim.c
-@@ -187,6 +187,32 @@ static hwaddr openrisc_load_kernel(ram_addr_t ram_size,
-     return 0;
- }
- 
-+static hwaddr openrisc_load_initrd(Or1ksimState *s, const char *filename,
-+    hwaddr load_start, uint64_t mem_size)
-+{
-+    int size;
-+    hwaddr start;
-+
-+    /* We put the initrd right after the kernel; page aligned. */
-+    start = TARGET_PAGE_ALIGN(load_start);
-+
-+    size = load_ramdisk(filename, start, mem_size - start);
-+    if (size < 0) {
-+        size = load_image_targphys(filename, start, mem_size - start);
-+        if (size < 0) {
-+            error_report("could not load ramdisk '%s'", filename);
-+            exit(1);
-+        }
-+    }
-+
-+    qemu_fdt_setprop_cell(s->fdt, "/chosen",
-+                          "linux,initrd-start", start);
-+    qemu_fdt_setprop_cell(s->fdt, "/chosen",
-+                          "linux,initrd-end", start + size);
-+
-+    return start + size;
-+}
-+
- static uint32_t openrisc_load_fdt(Or1ksimState *s, hwaddr load_start,
-     uint64_t mem_size)
- {
-@@ -198,7 +224,7 @@ static uint32_t openrisc_load_fdt(Or1ksimState *s, hwaddr load_start,
-         exit(1);
-     }
- 
--    /* We should put fdt right after the kernel */
-+    /* We put fdt right after the kernel and/or initrd. */
-     fdt_addr = ROUND_UP(load_start, 4);
- 
-     fdt_pack(s->fdt);
-@@ -369,6 +395,10 @@ static void openrisc_sim_init(MachineState *machine)
-                         machine->kernel_cmdline);
- 
-     load_addr = openrisc_load_kernel(ram_size, kernel_filename);
-+    if (machine->initrd_filename) {
-+        load_addr = openrisc_load_initrd(s, machine->initrd_filename,
-+                                         load_addr, machine->ram_size);
-+    }
-     boot_info.fdt_addr = openrisc_load_fdt(s, load_addr, machine->ram_size);
- }
- 
+v3:
+ - Dropped patch 33, which caused a regression in xxperm[r]
+
+v2:
+ - New patch (30) to remove xscmpnedp
+
+Lucas Coutinho (2):
+  target/ppc: Move vexts[bhw]2[wd] to decodetree
+  target/ppc: Implement vextsd2q
+
+Lucas Mateus Castro (alqotel) (3):
+  target/ppc: moved vector even and odd multiplication to decodetree
+  target/ppc: Moved vector multiply high and low to decodetree
+  target/ppc: vmulh* instructions use gvec
+
+Luis Pires (1):
+  target/ppc: Introduce TRANS*FLAGS macros
+
+Matheus Ferst (20):
+  target/ppc: Move Vector Compare Equal/Not Equal/Greater Than to
+    decodetree
+  target/ppc: Move Vector Compare Not Equal or Zero to decodetree
+  target/ppc: Implement Vector Compare Equal Quadword
+  target/ppc: Implement Vector Compare Greater Than Quadword
+  target/ppc: Implement Vector Compare Quadword
+  target/ppc: implement vstri[bh][lr]
+  target/ppc: implement vclrlb
+  target/ppc: implement vclrrb
+  target/ppc: implement vcntmb[bhwd]
+  target/ppc: implement vgnb
+  target/ppc: Move vsel and vperm/vpermr to decodetree
+  target/ppc: Move xxsel to decodetree
+  target/ppc: move xxperm/xxpermr to decodetree
+  target/ppc: Move xxpermdi to decodetree
+  target/ppc: Implement xxpermx instruction
+  tcg/tcg-op-gvec.c: Introduce tcg_gen_gvec_4i
+  target/ppc: Implement xxeval
+  target/ppc: Implement xxgenpcv[bhwd]m instruction
+  target/ppc: move xs[n]madd[am][ds]p/xs[n]msub[am][ds]p to decodetree
+  target/ppc: implement xs[n]maddqp[o]/xs[n]msubqp[o]
+
+Víctor Colombo (11):
+  target/ppc: Implement vmsumcud instruction
+  target/ppc: Implement vmsumudm instruction
+  target/ppc: Implement xvtlsbb instruction
+  target/ppc: Remove xscmpnedp instruction
+  target/ppc: Refactor VSX_SCALAR_CMP_DP
+  target/ppc: Implement xscmp{eq,ge,gt}qp
+  target/ppc: Move xscmp{eq,ge,gt}dp to decodetree
+  target/ppc: Move xs{max,min}[cj]dp to use do_helper_XX3
+  target/ppc: Refactor VSX_MAX_MINC helper
+  target/ppc: Implement xs{max,min}cqp
+  target/ppc: Implement xvcvbf16spn and xvcvspbf16 instructions
+
+ include/tcg/tcg-op-gvec.h           |  22 +
+ target/ppc/fpu_helper.c             | 171 ++++--
+ target/ppc/helper.h                 | 143 ++---
+ target/ppc/insn32.decode            | 188 +++++-
+ target/ppc/insn64.decode            |  40 +-
+ target/ppc/int_helper.c             | 354 ++++++-----
+ target/ppc/translate.c              |  19 +
+ target/ppc/translate/vmx-impl.c.inc | 894 +++++++++++++++++++++++++---
+ target/ppc/translate/vmx-ops.c.inc  |  41 +-
+ target/ppc/translate/vsx-impl.c.inc | 543 ++++++++++++++---
+ target/ppc/translate/vsx-ops.c.inc  |  67 ---
+ tcg/ppc/tcg-target.c.inc            |   6 +
+ tcg/tcg-op-gvec.c                   | 146 +++++
+ 13 files changed, 2066 insertions(+), 568 deletions(-)
+
 -- 
 2.31.1
 
