@@ -2,63 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EBE874B093E
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Feb 2022 10:14:08 +0100 (CET)
-Received: from localhost ([::1]:36862 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C2074B0983
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Feb 2022 10:32:27 +0100 (CET)
+Received: from localhost ([::1]:44980 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nI5Wh-0008Hh-JL
-	for lists+qemu-devel@lfdr.de; Thu, 10 Feb 2022 04:14:07 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:58702)
+	id 1nI5oO-0006Ky-7A
+	for lists+qemu-devel@lfdr.de; Thu, 10 Feb 2022 04:32:24 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:40178)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nI5HA-0003dK-Pp
- for qemu-devel@nongnu.org; Thu, 10 Feb 2022 03:58:04 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:37313)
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1nI5lB-0004zM-Dz
+ for qemu-devel@nongnu.org; Thu, 10 Feb 2022 04:29:05 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:35910)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nI5H7-0007wK-Ku
- for qemu-devel@nongnu.org; Thu, 10 Feb 2022 03:58:03 -0500
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1nI5l7-0000fw-GP
+ for qemu-devel@nongnu.org; Thu, 10 Feb 2022 04:29:03 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1644483480;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=Dq+bmNDNmVXm/OBCOnxJl0AOM9gl94prQIt1dG/SnJ8=;
- b=ZmImilnnTp/9tDXNu9RdWFemyN8D8PO2U5WYO+gCkAKI0RjuWjULVil4yTzQ3Xst/Z5vCR
- FMZHLladyOlHJuS9i0czsZltuM1/e21aO9NgrI8UvBo4UhihCnRU2q0VOZ3rI9HK3rtaX6
- yhPHacuH9yMDn42VG5AgNIOGAlw3Vq0=
+ s=mimecast20190719; t=1644485339;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=mZMIKxbvNlsLehUcHzqSzz/f66FVRhvK7vTyoxDc7kA=;
+ b=fmj3eljhctsXomOSzane08qbQ27Qi8hbXbqICmv1udSlIfxVwGlhun/l0o/I/nH+9fZmaD
+ kRRiR2iKnuQbox04SnPF230p2Oj6YavNnt+KK6CFHHOlHJ0yVb6am0VWklqnZG9M/xy6W0
+ mAlL27OPwNY657J+OwcIUP3UdodFroA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-587-rE2TN-X0PXO6C_3F8maYAQ-1; Thu, 10 Feb 2022 03:57:59 -0500
-X-MC-Unique: rE2TN-X0PXO6C_3F8maYAQ-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-50-cHe39-DIPIuD-NpVx81VLg-1; Thu, 10 Feb 2022 04:28:55 -0500
+X-MC-Unique: cHe39-DIPIuD-NpVx81VLg-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7A6E01124C41
- for <qemu-devel@nongnu.org>; Thu, 10 Feb 2022 08:57:58 +0000 (UTC)
-Received: from redhat.com (unknown [10.39.193.239])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 9E17B27CC1;
- Thu, 10 Feb 2022 08:57:19 +0000 (UTC)
-Date: Thu, 10 Feb 2022 08:57:16 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
-Subject: Re: [PATCH] Deprecate C virtiofsd
-Message-ID: <YgTTbAWj1CGlmv/R@redhat.com>
-References: <20220209165040.56062-1-dgilbert@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F36855F9CA
+ for <qemu-devel@nongnu.org>; Thu, 10 Feb 2022 09:28:54 +0000 (UTC)
+Received: from localhost.localdomain (ovpn-12-134.pek2.redhat.com
+ [10.72.12.134])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B356A54554;
+ Thu, 10 Feb 2022 09:28:20 +0000 (UTC)
+From: Jason Wang <jasowang@redhat.com>
+To: mst@redhat.com,
+	peterx@redhat.com
+Subject: [PATCH 1/2] intel-iommu: remove VTD_FR_RESERVED_ERR
+Date: Thu, 10 Feb 2022 17:28:14 +0800
+Message-Id: <20220210092815.45174-1-jasowang@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20220209165040.56062-1-dgilbert@redhat.com>
-User-Agent: Mutt/2.1.5 (2021-12-30)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -79,67 +78,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: virtio-fs@redhat.com, slp@redhat.com, qemu-devel@nongnu.org,
- stefanha@redhat.com, vgoyal@redhat.com
+Cc: Jason Wang <jasowang@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Feb 09, 2022 at 04:50:40PM +0000, Dr. David Alan Gilbert (git) wrote:
-> From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-> 
-> There's a nice new Rust implementation out there; recommend people
-> do new work on that.
-> 
-> Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-> ---
->  docs/about/deprecated.rst | 14 ++++++++++++++
->  1 file changed, 14 insertions(+)
-> 
-> diff --git a/docs/about/deprecated.rst b/docs/about/deprecated.rst
-> index 47a594a3b6..3a0e15f8f5 100644
-> --- a/docs/about/deprecated.rst
-> +++ b/docs/about/deprecated.rst
-> @@ -454,3 +454,17 @@ nanoMIPS ISA
->  
->  The ``nanoMIPS`` ISA has never been upstreamed to any compiler toolchain.
->  As it is hard to generate binaries for it, declare it deprecated.
-> +
-> +Tools
-> +-----
-> +
-> +virtiofsd
-> +'''''''''
-> +
-> +There is a new Rust implementation of ``virtiofs`` at
-> +``https://gitlab.com/virtio-fs/virtiofsd``;
-> +since this is now marked stable, new development should be done on that
-> +rather than the existing C version in the QEMU tree.
-> +The C version will still accept fixes and patches that
-> +are already in development for the moment.
+This fault reason is not used and is duplicated with SPT.2 condition
+code. So let's remove it.
 
-Just to be clear, 'deprecation' is usually expected to turn into
-'deletion' a minimum of 2 releases later.  We are targetting the
-C virtiofsd to be deleted, right ?  The last sentance here gives
-vibes that we're expecting it to stick around despite deprecation.
+Signed-off-by: Jason Wang <jasowang@redhat.com>
+---
+ hw/i386/intel_iommu.c          | 6 ------
+ hw/i386/intel_iommu_internal.h | 5 -----
+ 2 files changed, 11 deletions(-)
 
-Assuming we're deleting it after deprecation, then I think thue
-message should be more direct in telling people they shold be
-proactively switching to deployment of the rust version. Something
-along lines of
-
-  "The C implementation is in maintenance mode only and will
-   be deleted once the deprecation period is complete. New
-   deployments of virtiofs are strongly recommended to switch
-   to use of the Rust implementation of virtiofsd, which is
-   a drop in replacement will compatible command line and
-   featureset."
-
-Regards,
-Daniel
+diff --git a/hw/i386/intel_iommu.c b/hw/i386/intel_iommu.c
+index 5b865ac08c..55281ee1b4 100644
+--- a/hw/i386/intel_iommu.c
++++ b/hw/i386/intel_iommu.c
+@@ -469,11 +469,6 @@ static void vtd_report_dmar_fault(IntelIOMMUState *s, uint16_t source_id,
+ 
+     assert(fault < VTD_FR_MAX);
+ 
+-    if (fault == VTD_FR_RESERVED_ERR) {
+-        /* This is not a normal fault reason case. Drop it. */
+-        return;
+-    }
+-
+     trace_vtd_dmar_fault(source_id, fault, addr, is_write);
+ 
+     if (fsts_reg & VTD_FSTS_PFO) {
+@@ -1629,7 +1624,6 @@ static const bool vtd_qualified_faults[] = {
+     [VTD_FR_PAGING_ENTRY_RSVD] = true,
+     [VTD_FR_CONTEXT_ENTRY_TT] = true,
+     [VTD_FR_PASID_TABLE_INV] = false,
+-    [VTD_FR_RESERVED_ERR] = false,
+     [VTD_FR_MAX] = false,
+ };
+ 
+diff --git a/hw/i386/intel_iommu_internal.h b/hw/i386/intel_iommu_internal.h
+index a6c788049b..d0bb43ae87 100644
+--- a/hw/i386/intel_iommu_internal.h
++++ b/hw/i386/intel_iommu_internal.h
+@@ -303,11 +303,6 @@ typedef enum VTDFaultReason {
+ 
+     VTD_FR_PASID_TABLE_INV = 0x58,  /*Invalid PASID table entry */
+ 
+-    /* This is not a normal fault reason. We use this to indicate some faults
+-     * that are not referenced by the VT-d specification.
+-     * Fault event with such reason should not be recorded.
+-     */
+-    VTD_FR_RESERVED_ERR,
+     VTD_FR_MAX,                 /* Guard */
+ } VTDFaultReason;
+ 
 -- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+2.25.1
 
 
