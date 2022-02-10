@@ -2,75 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8A824B15A4
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Feb 2022 19:58:34 +0100 (CET)
-Received: from localhost ([::1]:45216 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D2404B1557
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Feb 2022 19:36:39 +0100 (CET)
+Received: from localhost ([::1]:56486 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nIEeH-0001Zc-MJ
-	for lists+qemu-devel@lfdr.de; Thu, 10 Feb 2022 13:58:33 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:40830)
+	id 1nIEJ4-0005QM-1B
+	for lists+qemu-devel@lfdr.de; Thu, 10 Feb 2022 13:36:38 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:41418)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1nIAp5-0005mk-Si
- for qemu-devel@nongnu.org; Thu, 10 Feb 2022 09:53:27 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:24233)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1nIAp1-00047u-7X
- for qemu-devel@nongnu.org; Thu, 10 Feb 2022 09:53:27 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1644504801;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=+aCh2kkJvhknLLztC2p4DXn6jhAqv+mgMprKYHjVA/w=;
- b=YirukMHWu078nol1U34TavY78IP9WBhduO09EeB/mlMMljONwTGyxN1YJtFFm3mO8AbZy1
- L9HuUmPTW8ZNU2nruQsAulD5OO831i/fBAYXCVkLq3NaF6wr4OFIkNAC2SyrDZwQdHHU7J
- mPdv+m/2eUKnFS3ElGRsvgEOYT5jQ1A=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-638-kw47Dy0nNbiYbKVgoRIk-Q-1; Thu, 10 Feb 2022 09:53:18 -0500
-X-MC-Unique: kw47Dy0nNbiYbKVgoRIk-Q-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1329F83DEA8;
- Thu, 10 Feb 2022 14:53:17 +0000 (UTC)
-Received: from laptop.redhat.com (unknown [10.39.195.249])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4B23470D5F;
- Thu, 10 Feb 2022 14:53:14 +0000 (UTC)
-From: Eric Auger <eric.auger@redhat.com>
-To: eric.auger.pro@gmail.com, eric.auger@redhat.com, pbonzini@redhat.com,
- qemu-arm@nongnu.org, qemu-devel@nongnu.org, mst@redhat.com,
- david@gibson.dropbear.id.au, clg@kaod.org, eesposit@redhat.com,
- Coiby.Xu@gmail.com, stefanha@redhat.com
-Subject: [PATCH v3 5/5] tests/qtest/libqos: Add generic pci host bridge in
- arm-virt machine
-Date: Thu, 10 Feb 2022 15:52:54 +0100
-Message-Id: <20220210145254.157790-6-eric.auger@redhat.com>
-In-Reply-To: <20220210145254.157790-1-eric.auger@redhat.com>
-References: <20220210145254.157790-1-eric.auger@redhat.com>
+ (Exim 4.90_1) (envelope-from <pankaj.gupta.linux@gmail.com>)
+ id 1nIArO-0001Ec-9M; Thu, 10 Feb 2022 09:55:51 -0500
+Received: from [2607:f8b0:4864:20::d31] (port=37865
+ helo=mail-io1-xd31.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <pankaj.gupta.linux@gmail.com>)
+ id 1nIArL-0004bi-A8; Thu, 10 Feb 2022 09:55:49 -0500
+Received: by mail-io1-xd31.google.com with SMTP id n17so7576711iod.4;
+ Thu, 10 Feb 2022 06:55:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=wgzQQKystqcIvVk9MLa0sDRuKKxmvIUNYQAhvbmtRiE=;
+ b=neQEOVVRoRgGgeG5sDgQdUZ4x0+/qHO5pi1vOmnxGCQDiY9UgfY7BU7OUEeVfc3ZDh
+ paRC03hvU//CeyYpG4hJ0tB8+T5TuUgNXCcVFRbLUu0ovaO/eglbf1VqShyRl+mVkMh4
+ uSuNtbUmc7gX8bgvSFnwo6YRotPVNz5cgwHKaSF//23a7DOC+8ja9BLivU/qhWO0WfSC
+ wFMtvJepl2J+icC7+f7meOyFtK6DB+Rj5nQaQdpAm65pNjWjtW1DaXZCY69r6KefDLBn
+ Qe21j20sa0T3CekoU9XDp4urtx6vtOlzyD08HCcFzakMrL9LdaObOwJl3kv8mCFLshSK
+ erow==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=wgzQQKystqcIvVk9MLa0sDRuKKxmvIUNYQAhvbmtRiE=;
+ b=HXM0YZw91tTLEtymrIQlQtJOPsn3SkS5XlkHIVe7w/DG3u/gc9nhrBGNZq7SmoxRJ7
+ /kwBw8xNxPF16qgsSXImpSzHiQyO7VZTwl/IQJQ7FKAO4WOIn/ARAa1ay9ZcjpY7z7Dh
+ gzv2lG1zH+prp4GxCgLfKAFvPD6J0rOYsoNvAIZXgEzqPXHTzhYjyorRQG0iXsp3sgSX
+ eOYfE//yRk3woTisGFmXSmzWzjIRREnhGAwqNZ9Qa9yKBz5kd5Z6ToAMOA3R0C5EJD4D
+ 7agHpmhVlBUElALEIm3Q5b7Cy9Z8X6tD6ShC+luP3uj8XsXWRzQhwBwVOB80coUWFsgJ
+ eD3g==
+X-Gm-Message-State: AOAM532t8G/eOSodI8fNfFKJSBwnBtPmqYRVVl+o5QlS3V9PEMr/Pw4D
+ jyE1SnsPWG30hfx7vewvXvjAqz9/6/VU/xccpVo=
+X-Google-Smtp-Source: ABdhPJybnmxIGEPqeiVS6BN6zcrLB0amigpdyrGVIJbF08bY5s13Pz9vQGzLVpJ9BGIekQS9PYnyz9TyREnT5n3+i9Y=
+X-Received: by 2002:a05:6638:1409:: with SMTP id
+ k9mr4276906jad.54.1644504925044; 
+ Thu, 10 Feb 2022 06:55:25 -0800 (PST)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eric.auger@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124;
- envelope-from=eric.auger@redhat.com; helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+References: <1644488520-21604-1-git-send-email-jonah.palmer@oracle.com>
+ <1644488520-21604-2-git-send-email-jonah.palmer@oracle.com>
+In-Reply-To: <1644488520-21604-2-git-send-email-jonah.palmer@oracle.com>
+From: Pankaj Gupta <pankaj.gupta.linux@gmail.com>
+Date: Thu, 10 Feb 2022 15:55:13 +0100
+Message-ID: <CAM9Jb+jiPcOH2SucihTEMT9DSKsnineV+uSz+AgE-eY4ax3NJg@mail.gmail.com>
+Subject: Re: [PATCH v12 1/8] virtio: drop name parameter for virtio_init()
+To: Jonah Palmer <jonah.palmer@oracle.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::d31
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d31;
+ envelope-from=pankaj.gupta.linux@gmail.com; helo=mail-io1-xd31.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -83,427 +80,478 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: jean-philippe@linaro.org
+Cc: "Michael S . Tsirkin" <mst@redhat.com>, qemu_oss@crudebyte.com,
+ Qemu Developers <qemu-devel@nongnu.org>, Gerd Hoffmann <kraxel@redhat.com>,
+ si-wei.liu@oracle.com, joao.m.martins@oracle.com,
+ Eric Blake <eblake@redhat.com>, qemu-block@nongnu.org,
+ David Hildenbrand <david@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ Gonglei <arei.gonglei@huawei.com>,
+ =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>,
+ Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ michael.roth@amd.com, Greg Kurz <groug@kaod.org>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Auger Eric <eric.auger@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Boris Ostrovsky <boris.ostrovsky@oracle.com>, Kevin Wolf <kwolf@redhat.com>,
+ Mathieu Poirier <mathieu.poirier@linaro.org>,
+ Raphael Norwitz <raphael.norwitz@nutanix.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Up to now the virt-machine node contains a virtio-mmio node.
-However no driver produces any PCI interface node. Hence, PCI
-tests cannot be run with aarch64 binary.
+> This patch drops the name parameter for the virtio_init function.
+>
+> The pair between the numeric device ID and the string device ID
+> (name) of a virtio device already exists, but not in a way that
+> lets us map between them.
+>
+> This patch lets us do this and removes the need for the name
+> parameter in the virtio_init function.
+>
+> [Jonah: added new virtio IDs to virtio device list from rebase].
+>
+> Signed-off-by: Jonah Palmer <jonah.palmer@oracle.com>
+> ---
+>  hw/9pfs/virtio-9p-device.c             |  2 +-
+>  hw/block/vhost-user-blk.c              |  2 +-
+>  hw/block/virtio-blk.c                  |  2 +-
+>  hw/char/virtio-serial-bus.c            |  3 +-
+>  hw/display/virtio-gpu-base.c           |  2 +-
+>  hw/input/virtio-input.c                |  3 +-
+>  hw/net/virtio-net.c                    |  2 +-
+>  hw/scsi/virtio-scsi.c                  |  3 +-
+>  hw/virtio/vhost-user-fs.c              |  3 +-
+>  hw/virtio/vhost-user-i2c.c             |  7 +----
+>  hw/virtio/vhost-user-rng.c             |  2 +-
+>  hw/virtio/vhost-user-vsock.c           |  2 +-
+>  hw/virtio/vhost-vsock-common.c         |  5 ++--
+>  hw/virtio/vhost-vsock.c                |  2 +-
+>  hw/virtio/virtio-balloon.c             |  3 +-
+>  hw/virtio/virtio-crypto.c              |  2 +-
+>  hw/virtio/virtio-iommu.c               |  3 +-
+>  hw/virtio/virtio-mem.c                 |  3 +-
+>  hw/virtio/virtio-pmem.c                |  3 +-
+>  hw/virtio/virtio-rng.c                 |  2 +-
+>  hw/virtio/virtio.c                     | 55 ++++++++++++++++++++++++++++++++--
+>  include/hw/virtio/vhost-vsock-common.h |  2 +-
+>  include/hw/virtio/virtio-gpu.h         |  3 +-
+>  include/hw/virtio/virtio.h             |  4 +--
+>  24 files changed, 77 insertions(+), 43 deletions(-)
+>
+> diff --git a/hw/9pfs/virtio-9p-device.c b/hw/9pfs/virtio-9p-device.c
+> index 54ee93b..5f522e6 100644
+> --- a/hw/9pfs/virtio-9p-device.c
+> +++ b/hw/9pfs/virtio-9p-device.c
+> @@ -216,7 +216,7 @@ static void virtio_9p_device_realize(DeviceState *dev, Error **errp)
+>      }
+>
+>      v->config_size = sizeof(struct virtio_9p_config) + strlen(s->fsconf.tag);
+> -    virtio_init(vdev, "virtio-9p", VIRTIO_ID_9P, v->config_size);
+> +    virtio_init(vdev, VIRTIO_ID_9P, v->config_size);
+>      v->vq = virtio_add_queue(vdev, MAX_REQ, handle_9p_output);
+>  }
+>
+> diff --git a/hw/block/vhost-user-blk.c b/hw/block/vhost-user-blk.c
+> index 1a42ae9..e8cb170 100644
+> --- a/hw/block/vhost-user-blk.c
+> +++ b/hw/block/vhost-user-blk.c
+> @@ -491,7 +491,7 @@ static void vhost_user_blk_device_realize(DeviceState *dev, Error **errp)
+>          return;
+>      }
+>
+> -    virtio_init(vdev, "virtio-blk", VIRTIO_ID_BLOCK,
+> +    virtio_init(vdev, VIRTIO_ID_BLOCK,
+>                  sizeof(struct virtio_blk_config));
+>
+>      s->virtqs = g_new(VirtQueue *, s->num_queues);
+> diff --git a/hw/block/virtio-blk.c b/hw/block/virtio-blk.c
+> index 82676cd..2e3809d 100644
+> --- a/hw/block/virtio-blk.c
+> +++ b/hw/block/virtio-blk.c
+> @@ -1205,7 +1205,7 @@ static void virtio_blk_device_realize(DeviceState *dev, Error **errp)
+>
+>      virtio_blk_set_config_size(s, s->host_features);
+>
+> -    virtio_init(vdev, "virtio-blk", VIRTIO_ID_BLOCK, s->config_size);
+> +    virtio_init(vdev, VIRTIO_ID_BLOCK, s->config_size);
+>
+>      s->blk = conf->conf.blk;
+>      s->rq = NULL;
+> diff --git a/hw/char/virtio-serial-bus.c b/hw/char/virtio-serial-bus.c
+> index f01ec21..9f19fd0 100644
+> --- a/hw/char/virtio-serial-bus.c
+> +++ b/hw/char/virtio-serial-bus.c
+> @@ -1044,8 +1044,7 @@ static void virtio_serial_device_realize(DeviceState *dev, Error **errp)
+>                              VIRTIO_CONSOLE_F_EMERG_WRITE)) {
+>          config_size = offsetof(struct virtio_console_config, emerg_wr);
+>      }
+> -    virtio_init(vdev, "virtio-serial", VIRTIO_ID_CONSOLE,
+> -                config_size);
+> +    virtio_init(vdev, VIRTIO_ID_CONSOLE, config_size);
+>
+>      /* Spawn a new virtio-serial bus on which the ports will ride as devices */
+>      qbus_init(&vser->bus, sizeof(vser->bus), TYPE_VIRTIO_SERIAL_BUS,
+> diff --git a/hw/display/virtio-gpu-base.c b/hw/display/virtio-gpu-base.c
+> index fff0fb4..8ba5da4 100644
+> --- a/hw/display/virtio-gpu-base.c
+> +++ b/hw/display/virtio-gpu-base.c
+> @@ -173,7 +173,7 @@ virtio_gpu_base_device_realize(DeviceState *qdev,
+>      }
+>
+>      g->virtio_config.num_scanouts = cpu_to_le32(g->conf.max_outputs);
+> -    virtio_init(VIRTIO_DEVICE(g), "virtio-gpu", VIRTIO_ID_GPU,
+> +    virtio_init(VIRTIO_DEVICE(g), VIRTIO_ID_GPU,
+>                  sizeof(struct virtio_gpu_config));
+>
+>      if (virtio_gpu_virgl_enabled(g->conf)) {
+> diff --git a/hw/input/virtio-input.c b/hw/input/virtio-input.c
+> index 54bcb46..5b5398b 100644
+> --- a/hw/input/virtio-input.c
+> +++ b/hw/input/virtio-input.c
+> @@ -257,8 +257,7 @@ static void virtio_input_device_realize(DeviceState *dev, Error **errp)
+>      vinput->cfg_size += 8;
+>      assert(vinput->cfg_size <= sizeof(virtio_input_config));
+>
+> -    virtio_init(vdev, "virtio-input", VIRTIO_ID_INPUT,
+> -                vinput->cfg_size);
+> +    virtio_init(vdev, VIRTIO_ID_INPUT, vinput->cfg_size);
+>      vinput->evt = virtio_add_queue(vdev, 64, virtio_input_handle_evt);
+>      vinput->sts = virtio_add_queue(vdev, 64, virtio_input_handle_sts);
+>  }
+> diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
+> index cf8ab0f..25f494c 100644
+> --- a/hw/net/virtio-net.c
+> +++ b/hw/net/virtio-net.c
+> @@ -3388,7 +3388,7 @@ static void virtio_net_device_realize(DeviceState *dev, Error **errp)
+>      }
+>
+>      virtio_net_set_config_size(n, n->host_features);
+> -    virtio_init(vdev, "virtio-net", VIRTIO_ID_NET, n->config_size);
+> +    virtio_init(vdev, VIRTIO_ID_NET, n->config_size);
+>
+>      /*
+>       * We set a lower limit on RX queue size to what it always was.
+> diff --git a/hw/scsi/virtio-scsi.c b/hw/scsi/virtio-scsi.c
+> index 34a968e..2a6141d 100644
+> --- a/hw/scsi/virtio-scsi.c
+> +++ b/hw/scsi/virtio-scsi.c
+> @@ -972,8 +972,7 @@ void virtio_scsi_common_realize(DeviceState *dev,
+>      VirtIOSCSICommon *s = VIRTIO_SCSI_COMMON(dev);
+>      int i;
+>
+> -    virtio_init(vdev, "virtio-scsi", VIRTIO_ID_SCSI,
+> -                sizeof(VirtIOSCSIConfig));
+> +    virtio_init(vdev, VIRTIO_ID_SCSI, sizeof(VirtIOSCSIConfig));
+>
+>      if (s->conf.num_queues == VIRTIO_SCSI_AUTO_NUM_QUEUES) {
+>          s->conf.num_queues = 1;
+> diff --git a/hw/virtio/vhost-user-fs.c b/hw/virtio/vhost-user-fs.c
+> index c595957..b875640 100644
+> --- a/hw/virtio/vhost-user-fs.c
+> +++ b/hw/virtio/vhost-user-fs.c
+> @@ -219,8 +219,7 @@ static void vuf_device_realize(DeviceState *dev, Error **errp)
+>          return;
+>      }
+>
+> -    virtio_init(vdev, "vhost-user-fs", VIRTIO_ID_FS,
+> -                sizeof(struct virtio_fs_config));
+> +    virtio_init(vdev, VIRTIO_ID_FS, sizeof(struct virtio_fs_config));
+>
+>      /* Hiprio queue */
+>      fs->hiprio_vq = virtio_add_queue(vdev, fs->conf.queue_size, vuf_handle_output);
+> diff --git a/hw/virtio/vhost-user-i2c.c b/hw/virtio/vhost-user-i2c.c
+> index d172632..58fd729 100644
+> --- a/hw/virtio/vhost-user-i2c.c
+> +++ b/hw/virtio/vhost-user-i2c.c
+> @@ -14,11 +14,6 @@
+>  #include "qemu/error-report.h"
+>  #include "standard-headers/linux/virtio_ids.h"
+>
+> -/* Remove this once the header is updated in Linux kernel */
+> -#ifndef VIRTIO_ID_I2C_ADAPTER
+> -#define VIRTIO_ID_I2C_ADAPTER                34
+> -#endif
+> -
+>  static void vu_i2c_start(VirtIODevice *vdev)
+>  {
+>      BusState *qbus = BUS(qdev_get_parent_bus(DEVICE(vdev)));
+> @@ -220,7 +215,7 @@ static void vu_i2c_device_realize(DeviceState *dev, Error **errp)
+>          return;
+>      }
+>
+> -    virtio_init(vdev, "vhost-user-i2c", VIRTIO_ID_I2C_ADAPTER, 0);
+> +    virtio_init(vdev, VIRTIO_ID_I2C_ADAPTER, 0);
+>
+>      i2c->vhost_dev.nvqs = 1;
+>      i2c->vq = virtio_add_queue(vdev, 4, vu_i2c_handle_output);
+> diff --git a/hw/virtio/vhost-user-rng.c b/hw/virtio/vhost-user-rng.c
+> index 209ee5b..08bccba 100644
+> --- a/hw/virtio/vhost-user-rng.c
+> +++ b/hw/virtio/vhost-user-rng.c
+> @@ -203,7 +203,7 @@ static void vu_rng_device_realize(DeviceState *dev, Error **errp)
+>          return;
+>      }
+>
+> -    virtio_init(vdev, "vhost-user-rng", VIRTIO_ID_RNG, 0);
+> +    virtio_init(vdev, VIRTIO_ID_RNG, 0);
+>
+>      rng->req_vq = virtio_add_queue(vdev, 4, vu_rng_handle_output);
+>      if (!rng->req_vq) {
+> diff --git a/hw/virtio/vhost-user-vsock.c b/hw/virtio/vhost-user-vsock.c
+> index 52bd682..0f8ff99 100644
+> --- a/hw/virtio/vhost-user-vsock.c
+> +++ b/hw/virtio/vhost-user-vsock.c
+> @@ -107,7 +107,7 @@ static void vuv_device_realize(DeviceState *dev, Error **errp)
+>          return;
+>      }
+>
+> -    vhost_vsock_common_realize(vdev, "vhost-user-vsock");
+> +    vhost_vsock_common_realize(vdev);
+>
+>      vhost_dev_set_config_notifier(&vvc->vhost_dev, &vsock_ops);
+>
+> diff --git a/hw/virtio/vhost-vsock-common.c b/hw/virtio/vhost-vsock-common.c
+> index 3f37712..6146d25 100644
+> --- a/hw/virtio/vhost-vsock-common.c
+> +++ b/hw/virtio/vhost-vsock-common.c
+> @@ -220,12 +220,11 @@ int vhost_vsock_common_post_load(void *opaque, int version_id)
+>      return 0;
+>  }
+>
+> -void vhost_vsock_common_realize(VirtIODevice *vdev, const char *name)
+> +void vhost_vsock_common_realize(VirtIODevice *vdev)
+>  {
+>      VHostVSockCommon *vvc = VHOST_VSOCK_COMMON(vdev);
+>
+> -    virtio_init(vdev, name, VIRTIO_ID_VSOCK,
+> -                sizeof(struct virtio_vsock_config));
+> +    virtio_init(vdev, VIRTIO_ID_VSOCK, sizeof(struct virtio_vsock_config));
+>
+>      /* Receive and transmit queues belong to vhost */
+>      vvc->recv_vq = virtio_add_queue(vdev, VHOST_VSOCK_QUEUE_SIZE,
+> diff --git a/hw/virtio/vhost-vsock.c b/hw/virtio/vhost-vsock.c
+> index 433d42d..696635b 100644
+> --- a/hw/virtio/vhost-vsock.c
+> +++ b/hw/virtio/vhost-vsock.c
+> @@ -166,7 +166,7 @@ static void vhost_vsock_device_realize(DeviceState *dev, Error **errp)
+>          qemu_set_nonblock(vhostfd);
+>      }
+>
+> -    vhost_vsock_common_realize(vdev, "vhost-vsock");
+> +    vhost_vsock_common_realize(vdev);
+>
+>      ret = vhost_dev_init(&vvc->vhost_dev, (void *)(uintptr_t)vhostfd,
+>                           VHOST_BACKEND_TYPE_KERNEL, 0, errp);
+> diff --git a/hw/virtio/virtio-balloon.c b/hw/virtio/virtio-balloon.c
+> index 9a4f491..236542f 100644
+> --- a/hw/virtio/virtio-balloon.c
+> +++ b/hw/virtio/virtio-balloon.c
+> @@ -888,8 +888,7 @@ static void virtio_balloon_device_realize(DeviceState *dev, Error **errp)
+>      VirtIOBalloon *s = VIRTIO_BALLOON(dev);
+>      int ret;
+>
+> -    virtio_init(vdev, "virtio-balloon", VIRTIO_ID_BALLOON,
+> -                virtio_balloon_config_size(s));
+> +    virtio_init(vdev, VIRTIO_ID_BALLOON, virtio_balloon_config_size(s));
+>
+>      ret = qemu_add_balloon_handler(virtio_balloon_to_target,
+>                                     virtio_balloon_stat, s);
+> diff --git a/hw/virtio/virtio-crypto.c b/hw/virtio/virtio-crypto.c
+> index 54f9bbb..cca5237 100644
+> --- a/hw/virtio/virtio-crypto.c
+> +++ b/hw/virtio/virtio-crypto.c
+> @@ -810,7 +810,7 @@ static void virtio_crypto_device_realize(DeviceState *dev, Error **errp)
+>          return;
+>      }
+>
+> -    virtio_init(vdev, "virtio-crypto", VIRTIO_ID_CRYPTO, vcrypto->config_size);
+> +    virtio_init(vdev, VIRTIO_ID_CRYPTO, vcrypto->config_size);
+>      vcrypto->curr_queues = 1;
+>      vcrypto->vqs = g_malloc0(sizeof(VirtIOCryptoQueue) * vcrypto->max_queues);
+>      for (i = 0; i < vcrypto->max_queues; i++) {
+> diff --git a/hw/virtio/virtio-iommu.c b/hw/virtio/virtio-iommu.c
+> index aa9c16a..15b3fa0 100644
+> --- a/hw/virtio/virtio-iommu.c
+> +++ b/hw/virtio/virtio-iommu.c
+> @@ -968,8 +968,7 @@ static void virtio_iommu_device_realize(DeviceState *dev, Error **errp)
+>      VirtIODevice *vdev = VIRTIO_DEVICE(dev);
+>      VirtIOIOMMU *s = VIRTIO_IOMMU(dev);
+>
+> -    virtio_init(vdev, "virtio-iommu", VIRTIO_ID_IOMMU,
+> -                sizeof(struct virtio_iommu_config));
+> +    virtio_init(vdev, VIRTIO_ID_IOMMU, sizeof(struct virtio_iommu_config));
+>
+>      memset(s->iommu_pcibus_by_bus_num, 0, sizeof(s->iommu_pcibus_by_bus_num));
+>
+> diff --git a/hw/virtio/virtio-mem.c b/hw/virtio/virtio-mem.c
+> index 04c223b..e886e5b 100644
+> --- a/hw/virtio/virtio-mem.c
+> +++ b/hw/virtio/virtio-mem.c
+> @@ -858,8 +858,7 @@ static void virtio_mem_device_realize(DeviceState *dev, Error **errp)
+>                          vmem->block_size;
+>      vmem->bitmap = bitmap_new(vmem->bitmap_size);
+>
+> -    virtio_init(vdev, TYPE_VIRTIO_MEM, VIRTIO_ID_MEM,
+> -                sizeof(struct virtio_mem_config));
+> +    virtio_init(vdev, VIRTIO_ID_MEM, sizeof(struct virtio_mem_config));
+>      vmem->vq = virtio_add_queue(vdev, 128, virtio_mem_handle_request);
+>
+>      host_memory_backend_set_mapped(vmem->memdev, true);
+> diff --git a/hw/virtio/virtio-pmem.c b/hw/virtio/virtio-pmem.c
+> index d1aeb90..8cbbd78 100644
+> --- a/hw/virtio/virtio-pmem.c
+> +++ b/hw/virtio/virtio-pmem.c
+> @@ -123,8 +123,7 @@ static void virtio_pmem_realize(DeviceState *dev, Error **errp)
+>      }
+>
+>      host_memory_backend_set_mapped(pmem->memdev, true);
+> -    virtio_init(vdev, TYPE_VIRTIO_PMEM, VIRTIO_ID_PMEM,
+> -                sizeof(struct virtio_pmem_config));
+> +    virtio_init(vdev, VIRTIO_ID_PMEM, sizeof(struct virtio_pmem_config));
+>      pmem->rq_vq = virtio_add_queue(vdev, 128, virtio_pmem_flush);
+>  }
+>
+> diff --git a/hw/virtio/virtio-rng.c b/hw/virtio/virtio-rng.c
+> index cc8e9f7..7e12fc0 100644
+> --- a/hw/virtio/virtio-rng.c
+> +++ b/hw/virtio/virtio-rng.c
+> @@ -215,7 +215,7 @@ static void virtio_rng_device_realize(DeviceState *dev, Error **errp)
+>          return;
+>      }
+>
+> -    virtio_init(vdev, "virtio-rng", VIRTIO_ID_RNG, 0);
+> +    virtio_init(vdev, VIRTIO_ID_RNG, 0);
+>
+>      vrng->vq = virtio_add_queue(vdev, 8, handle_input);
+>      vrng->quota_remaining = vrng->conf.max_bytes;
+> diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
+> index aae72fb..734b7fb 100644
+> --- a/hw/virtio/virtio.c
+> +++ b/hw/virtio/virtio.c
+> @@ -132,6 +132,56 @@ struct VirtQueue
+>      QLIST_ENTRY(VirtQueue) node;
+>  };
+>
+> +const char *virtio_device_names[] = {
+> +    [VIRTIO_ID_NET] = "virtio-net",
+> +    [VIRTIO_ID_BLOCK] = "virtio-blk",
+> +    [VIRTIO_ID_CONSOLE] = "virtio-serial",
+> +    [VIRTIO_ID_RNG] = "virtio-rng",
+> +    [VIRTIO_ID_BALLOON] = "virtio-balloon",
+> +    [VIRTIO_ID_IOMEM] = "virtio-iomem",
+> +    [VIRTIO_ID_RPMSG] = "virtio-rpmsg",
+> +    [VIRTIO_ID_SCSI] = "virtio-scsi",
+> +    [VIRTIO_ID_9P] = "virtio-9p",
+> +    [VIRTIO_ID_MAC80211_WLAN] = "virtio-mac-wlan",
+> +    [VIRTIO_ID_RPROC_SERIAL] = "virtio-rproc-serial",
+> +    [VIRTIO_ID_CAIF] = "virtio-caif",
+> +    [VIRTIO_ID_MEMORY_BALLOON] = "virtio-mem-balloon",
+> +    [VIRTIO_ID_GPU] = "virtio-gpu",
+> +    [VIRTIO_ID_CLOCK] = "virtio-clk",
+> +    [VIRTIO_ID_INPUT] = "virtio-input",
+> +    [VIRTIO_ID_VSOCK] = "vhost-vsock",
+> +    [VIRTIO_ID_CRYPTO] = "virtio-crypto",
+> +    [VIRTIO_ID_SIGNAL_DIST] = "virtio-signal",
+> +    [VIRTIO_ID_PSTORE] = "virtio-pstore",
+> +    [VIRTIO_ID_IOMMU] = "virtio-iommu",
+> +    [VIRTIO_ID_MEM] = "virtio-mem",
+> +    [VIRTIO_ID_SOUND] = "virtio-sound",
+> +    [VIRTIO_ID_FS] = "virtio-user-fs",
+> +    [VIRTIO_ID_PMEM] = "virtio-pmem",
+> +    [VIRTIO_ID_RPMB] = "virtio-rpmb",
+> +    [VIRTIO_ID_MAC80211_HWSIM] = "virtio-mac-hwsim",
+> +    [VIRTIO_ID_VIDEO_ENCODER] = "virtio-vid-encoder",
+> +    [VIRTIO_ID_VIDEO_DECODER] = "virtio-vid-decoder",
+> +    [VIRTIO_ID_SCMI] = "virtio-scmi",
+> +    [VIRTIO_ID_NITRO_SEC_MOD] = "virtio-nitro-sec-mod",
+> +    [VIRTIO_ID_I2C_ADAPTER] = "vhost-user-i2c",
+> +    [VIRTIO_ID_WATCHDOG] = "virtio-watchdog",
+> +    [VIRTIO_ID_CAN] = "virtio-can",
+> +    [VIRTIO_ID_DMABUF] = "virtio-dmabuf",
+> +    [VIRTIO_ID_PARAM_SERV] = "virtio-param-serv",
+> +    [VIRTIO_ID_AUDIO_POLICY] = "virtio-audio-pol",
+> +    [VIRTIO_ID_BT] = "virtio-bluetooth",
+> +    [VIRTIO_ID_GPIO] = "virtio-gpio"
+> +};
+> +
+> +static const char *virtio_id_to_name(uint16_t device_id)
+> +{
+> +    assert(device_id < G_N_ELEMENTS(virtio_device_names));
+> +    const char *name = virtio_device_names[device_id];
+> +    assert(name != NULL);
+> +    return name;
+> +}
+> +
+>  /* Called within call_rcu().  */
+>  static void virtio_free_region_cache(VRingMemoryRegionCaches *caches)
+>  {
+> @@ -3209,8 +3259,7 @@ void virtio_instance_init_common(Object *proxy_obj, void *data,
+>      qdev_alias_all_properties(vdev, proxy_obj);
+>  }
+>
+> -void virtio_init(VirtIODevice *vdev, const char *name,
+> -                 uint16_t device_id, size_t config_size)
+> +void virtio_init(VirtIODevice *vdev, uint16_t device_id, size_t config_size)
+>  {
+>      BusState *qbus = qdev_get_parent_bus(DEVICE(vdev));
+>      VirtioBusClass *k = VIRTIO_BUS_GET_CLASS(qbus);
+> @@ -3239,7 +3288,7 @@ void virtio_init(VirtIODevice *vdev, const char *name,
+>          vdev->vq[i].host_notifier_enabled = false;
+>      }
+>
+> -    vdev->name = name;
+> +    vdev->name = virtio_id_to_name(device_id);
+>      vdev->config_len = config_size;
+>      if (vdev->config_len) {
+>          vdev->config = g_malloc0(config_size);
+> diff --git a/include/hw/virtio/vhost-vsock-common.h b/include/hw/virtio/vhost-vsock-common.h
+> index d8b565b..076b7ab 100644
+> --- a/include/hw/virtio/vhost-vsock-common.h
+> +++ b/include/hw/virtio/vhost-vsock-common.h
+> @@ -44,7 +44,7 @@ int vhost_vsock_common_start(VirtIODevice *vdev);
+>  void vhost_vsock_common_stop(VirtIODevice *vdev);
+>  int vhost_vsock_common_pre_save(void *opaque);
+>  int vhost_vsock_common_post_load(void *opaque, int version_id);
+> -void vhost_vsock_common_realize(VirtIODevice *vdev, const char *name);
+> +void vhost_vsock_common_realize(VirtIODevice *vdev);
+>  void vhost_vsock_common_unrealize(VirtIODevice *vdev);
+>  uint64_t vhost_vsock_common_get_features(VirtIODevice *vdev, uint64_t features,
+>                                           Error **errp);
+> diff --git a/include/hw/virtio/virtio-gpu.h b/include/hw/virtio/virtio-gpu.h
+> index 2179b75..afff9e1 100644
+> --- a/include/hw/virtio/virtio-gpu.h
+> +++ b/include/hw/virtio/virtio-gpu.h
+> @@ -22,6 +22,7 @@
+>  #include "sysemu/vhost-user-backend.h"
+>
+>  #include "standard-headers/linux/virtio_gpu.h"
+> +#include "standard-headers/linux/virtio_ids.h"
+>  #include "qom/object.h"
+>
+>  #define TYPE_VIRTIO_GPU_BASE "virtio-gpu-base"
+> @@ -37,8 +38,6 @@ OBJECT_DECLARE_SIMPLE_TYPE(VirtIOGPUGL, VIRTIO_GPU_GL)
+>  #define TYPE_VHOST_USER_GPU "vhost-user-gpu"
+>  OBJECT_DECLARE_SIMPLE_TYPE(VhostUserGPU, VHOST_USER_GPU)
+>
+> -#define VIRTIO_ID_GPU 16
+> -
+>  struct virtio_gpu_simple_resource {
+>      uint32_t resource_id;
+>      uint32_t width;
+> diff --git a/include/hw/virtio/virtio.h b/include/hw/virtio/virtio.h
+> index f095637..2a0be70 100644
+> --- a/include/hw/virtio/virtio.h
+> +++ b/include/hw/virtio/virtio.h
+> @@ -165,8 +165,8 @@ struct VirtioDeviceClass {
+>  void virtio_instance_init_common(Object *proxy_obj, void *data,
+>                                   size_t vdev_size, const char *vdev_name);
+>
+> -void virtio_init(VirtIODevice *vdev, const char *name,
+> -                         uint16_t device_id, size_t config_size);
+> +void virtio_init(VirtIODevice *vdev, uint16_t device_id, size_t config_size);
+> +
+>  void virtio_cleanup(VirtIODevice *vdev);
+>
+>  void virtio_error(VirtIODevice *vdev, const char *fmt, ...) GCC_FMT_ATTR(2, 3);
 
-Add a GPEX driver node that produces a pci interface node. This latter
-then can be consumed by all the pci tests. One of the first motivation
-was to be able to run the virtio-iommu-pci tests.
-
-We still face an issue with pci hotplug tests as hotplug cannot happen
-on the pcie root bus and require a generic root port. This will be
-addressed later on.
-
-We force cpu=max along with aarch64/virt machine as some PCI tests
-require high MMIO regions to be available.
-
-Signed-off-by: Eric Auger <eric.auger@redhat.com>
-
----
-v2 -> v3:
-- force cpu=max with aarch64/virt
-
-v1 -> v2:
-- copyright updated to 2022
-- QPCIBusARM renamed into QGenericPCIBus
-- QGenericPCIHost declarations and definitions moved in the same
-  place as the generic pci implementation
-- rename pci-arm.c/h in generic-pcihost.c/h and remove any ref to
-  ARM there
-- remove qos_node_produces_opts, qpci_new_arm, qpci_free_arm
-- ecam_alloc_ptr now is a field of QGenericPCIBus and not QPCIBus
-- new libqos_init to create generic-pcihost driver that contains
-  pci-bus-generic
-- QGenericPCIHost moved in the same place as the generic pci
-  bindings
-
-Signed-off-by: Eric Auger <eric.auger@redhat.com>
----
- tests/qtest/libqos/arm-virt-machine.c |  19 ++-
- tests/qtest/libqos/generic-pcihost.c  | 231 ++++++++++++++++++++++++++
- tests/qtest/libqos/generic-pcihost.h  |  54 ++++++
- tests/qtest/libqos/meson.build        |   1 +
- 4 files changed, 301 insertions(+), 4 deletions(-)
- create mode 100644 tests/qtest/libqos/generic-pcihost.c
- create mode 100644 tests/qtest/libqos/generic-pcihost.h
-
-diff --git a/tests/qtest/libqos/arm-virt-machine.c b/tests/qtest/libqos/arm-virt-machine.c
-index e0f5932284..96da0dde54 100644
---- a/tests/qtest/libqos/arm-virt-machine.c
-+++ b/tests/qtest/libqos/arm-virt-machine.c
-@@ -22,6 +22,8 @@
- #include "malloc.h"
- #include "qgraph.h"
- #include "virtio-mmio.h"
-+#include "generic-pcihost.h"
-+#include "hw/pci/pci_regs.h"
- 
- #define ARM_PAGE_SIZE               4096
- #define VIRTIO_MMIO_BASE_ADDR       0x0A003E00
-@@ -35,6 +37,7 @@ struct QVirtMachine {
-     QOSGraphObject obj;
-     QGuestAllocator alloc;
-     QVirtioMMIODevice virtio_mmio;
-+    QGenericPCIHost bridge;
- };
- 
- static void virt_destructor(QOSGraphObject *obj)
-@@ -57,11 +60,13 @@ static void *virt_get_driver(void *object, const char *interface)
- static QOSGraphObject *virt_get_device(void *obj, const char *device)
- {
-     QVirtMachine *machine = obj;
--    if (!g_strcmp0(device, "virtio-mmio")) {
-+    if (!g_strcmp0(device, "generic-pcihost")) {
-+        return &machine->bridge.obj;
-+    } else if (!g_strcmp0(device, "virtio-mmio")) {
-         return &machine->virtio_mmio.obj;
-     }
- 
--    fprintf(stderr, "%s not present in arm/virtio\n", device);
-+    fprintf(stderr, "%s not present in arm/virt\n", device);
-     g_assert_not_reached();
- }
- 
-@@ -76,16 +81,22 @@ static void *qos_create_machine_arm_virt(QTestState *qts)
-     qvirtio_mmio_init_device(&machine->virtio_mmio, qts, VIRTIO_MMIO_BASE_ADDR,
-                              VIRTIO_MMIO_SIZE);
- 
-+    qos_create_generic_pcihost(&machine->bridge, qts, &machine->alloc);
-+
-     machine->obj.get_device = virt_get_device;
-     machine->obj.get_driver = virt_get_driver;
-     machine->obj.destructor = virt_destructor;
-     return machine;
- }
- 
--static void virtio_mmio_register_nodes(void)
-+static void virt_machine_register_nodes(void)
- {
-     qos_node_create_machine("arm/virt", qos_create_machine_arm_virt);
-     qos_node_contains("arm/virt", "virtio-mmio", NULL);
-+
-+    qos_node_create_machine_args("aarch64/virt", qos_create_machine_arm_virt,
-+                                 " -cpu max");
-+    qos_node_contains("aarch64/virt", "generic-pcihost", NULL);
- }
- 
--libqos_init(virtio_mmio_register_nodes);
-+libqos_init(virt_machine_register_nodes);
-diff --git a/tests/qtest/libqos/generic-pcihost.c b/tests/qtest/libqos/generic-pcihost.c
-new file mode 100644
-index 0000000000..704bbc3473
---- /dev/null
-+++ b/tests/qtest/libqos/generic-pcihost.c
-@@ -0,0 +1,231 @@
-+/*
-+ * libqos PCI bindings for generic PCI
-+ *
-+ * Copyright Red Hat Inc., 2022
-+ *
-+ * Authors:
-+ *  Eric Auger   <eric.auger@redhat.com>
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or later.
-+ * See the COPYING file in the top-level directory.
-+ */
-+
-+#include "qemu/osdep.h"
-+#include "libqtest.h"
-+#include "generic-pcihost.h"
-+#include "qapi/qmp/qdict.h"
-+#include "hw/pci/pci_regs.h"
-+
-+#include "qemu/module.h"
-+
-+/* QGenericPCIHost */
-+
-+QOSGraphObject *generic_pcihost_get_device(void *obj, const char *device)
-+{
-+    QGenericPCIHost *host = obj;
-+    if (!g_strcmp0(device, "pci-bus-generic")) {
-+        return &host->pci.obj;
-+    }
-+    fprintf(stderr, "%s not present in generic-pcihost\n", device);
-+    g_assert_not_reached();
-+}
-+
-+void qos_create_generic_pcihost(QGenericPCIHost *host,
-+                                QTestState *qts,
-+                                QGuestAllocator *alloc)
-+{
-+    host->obj.get_device = generic_pcihost_get_device;
-+    qpci_init_generic(&host->pci, qts, alloc, false);
-+}
-+
-+static uint8_t qpci_generic_pio_readb(QPCIBus *bus, uint32_t addr)
-+{
-+    QGenericPCIBus *s = container_of(bus, QGenericPCIBus, bus);
-+
-+    return qtest_readb(bus->qts, s->gpex_pio_base + addr);
-+}
-+
-+static void qpci_generic_pio_writeb(QPCIBus *bus, uint32_t addr, uint8_t val)
-+{
-+    QGenericPCIBus *s = container_of(bus, QGenericPCIBus, bus);
-+
-+    qtest_writeb(bus->qts, s->gpex_pio_base + addr,  val);
-+}
-+
-+static uint16_t qpci_generic_pio_readw(QPCIBus *bus, uint32_t addr)
-+{
-+    QGenericPCIBus *s = container_of(bus, QGenericPCIBus, bus);
-+
-+    return qtest_readw(bus->qts, s->gpex_pio_base + addr);
-+}
-+
-+static void qpci_generic_pio_writew(QPCIBus *bus, uint32_t addr, uint16_t val)
-+{
-+    QGenericPCIBus *s = container_of(bus, QGenericPCIBus, bus);
-+
-+    qtest_writew(bus->qts, s->gpex_pio_base + addr, val);
-+}
-+
-+static uint32_t qpci_generic_pio_readl(QPCIBus *bus, uint32_t addr)
-+{
-+    QGenericPCIBus *s = container_of(bus, QGenericPCIBus, bus);
-+
-+    return qtest_readl(bus->qts, s->gpex_pio_base + addr);
-+}
-+
-+static void qpci_generic_pio_writel(QPCIBus *bus, uint32_t addr, uint32_t val)
-+{
-+    QGenericPCIBus *s = container_of(bus, QGenericPCIBus, bus);
-+
-+    qtest_writel(bus->qts, s->gpex_pio_base + addr, val);
-+}
-+
-+static uint64_t qpci_generic_pio_readq(QPCIBus *bus, uint32_t addr)
-+{
-+    QGenericPCIBus *s = container_of(bus, QGenericPCIBus, bus);
-+
-+    return qtest_readq(bus->qts, s->gpex_pio_base + addr);
-+}
-+
-+static void qpci_generic_pio_writeq(QPCIBus *bus, uint32_t addr, uint64_t val)
-+{
-+    QGenericPCIBus *s = container_of(bus, QGenericPCIBus, bus);
-+
-+    qtest_writeq(bus->qts, s->gpex_pio_base + addr, val);
-+}
-+
-+static void qpci_generic_memread(QPCIBus *bus, uint32_t addr, void *buf, size_t len)
-+{
-+    qtest_memread(bus->qts, addr, buf, len);
-+}
-+
-+static void qpci_generic_memwrite(QPCIBus *bus, uint32_t addr,
-+                                  const void *buf, size_t len)
-+{
-+    qtest_memwrite(bus->qts, addr, buf, len);
-+}
-+
-+static uint8_t qpci_generic_config_readb(QPCIBus *bus, int devfn, uint8_t offset)
-+{
-+    QGenericPCIBus *gbus = container_of(bus, QGenericPCIBus, bus);
-+    uint64_t addr = gbus->ecam_alloc_ptr + ((0 << 20) | (devfn << 12) | offset);
-+    uint8_t val;
-+
-+    qtest_memread(bus->qts, addr, &val, 1);
-+    return val;
-+}
-+
-+static uint16_t qpci_generic_config_readw(QPCIBus *bus, int devfn, uint8_t offset)
-+{
-+    QGenericPCIBus *gbus = container_of(bus, QGenericPCIBus, bus);
-+    uint64_t addr = gbus->ecam_alloc_ptr + ((0 << 20) | (devfn << 12) | offset);
-+    uint16_t val;
-+
-+    qtest_memread(bus->qts, addr, &val, 2);
-+    return val;
-+}
-+
-+static uint32_t qpci_generic_config_readl(QPCIBus *bus, int devfn, uint8_t offset)
-+{
-+    QGenericPCIBus *gbus = container_of(bus, QGenericPCIBus, bus);
-+    uint64_t addr = gbus->ecam_alloc_ptr + ((0 << 20) | (devfn << 12) | offset);
-+    uint32_t val;
-+
-+    qtest_memread(bus->qts, addr, &val, 4);
-+    return val;
-+}
-+
-+static void
-+qpci_generic_config_writeb(QPCIBus *bus, int devfn, uint8_t offset, uint8_t value)
-+{
-+    QGenericPCIBus *gbus = container_of(bus, QGenericPCIBus, bus);
-+    uint64_t addr = gbus->ecam_alloc_ptr + ((0 << 20) | (devfn << 12) | offset);
-+    uint32_t val = value;
-+
-+    qtest_memwrite(bus->qts, addr, &val, 1);
-+}
-+
-+static void
-+qpci_generic_config_writew(QPCIBus *bus, int devfn, uint8_t offset, uint16_t value)
-+{
-+    QGenericPCIBus *gbus = container_of(bus, QGenericPCIBus, bus);
-+    uint64_t addr = gbus->ecam_alloc_ptr + ((0 << 20) | (devfn << 12) | offset);
-+    uint32_t val = value;
-+
-+    qtest_memwrite(bus->qts, addr, &val, 2);
-+}
-+
-+static void
-+qpci_generic_config_writel(QPCIBus *bus, int devfn, uint8_t offset, uint32_t value)
-+{
-+    QGenericPCIBus *gbus = container_of(bus, QGenericPCIBus, bus);
-+    uint64_t addr = gbus->ecam_alloc_ptr + ((0 << 20) | (devfn << 12) | offset);
-+    uint32_t val = value;
-+
-+    qtest_memwrite(bus->qts, addr, &val, 4);
-+}
-+
-+static void *qpci_generic_get_driver(void *obj, const char *interface)
-+{
-+    QGenericPCIBus *qpci = obj;
-+    if (!g_strcmp0(interface, "pci-bus")) {
-+        return &qpci->bus;
-+    }
-+    fprintf(stderr, "%s not present in pci-bus-generic\n", interface);
-+    g_assert_not_reached();
-+}
-+
-+void qpci_init_generic(QGenericPCIBus *qpci, QTestState *qts,
-+                       QGuestAllocator *alloc, bool hotpluggable)
-+{
-+    assert(qts);
-+
-+    qpci->gpex_pio_base = 0x3eff0000;
-+    qpci->bus.not_hotpluggable = !hotpluggable;
-+    qpci->bus.has_buggy_msi = false;
-+
-+    qpci->bus.pio_readb = qpci_generic_pio_readb;
-+    qpci->bus.pio_readw = qpci_generic_pio_readw;
-+    qpci->bus.pio_readl = qpci_generic_pio_readl;
-+    qpci->bus.pio_readq = qpci_generic_pio_readq;
-+
-+    qpci->bus.pio_writeb = qpci_generic_pio_writeb;
-+    qpci->bus.pio_writew = qpci_generic_pio_writew;
-+    qpci->bus.pio_writel = qpci_generic_pio_writel;
-+    qpci->bus.pio_writeq = qpci_generic_pio_writeq;
-+
-+    qpci->bus.memread = qpci_generic_memread;
-+    qpci->bus.memwrite = qpci_generic_memwrite;
-+
-+    qpci->bus.config_readb = qpci_generic_config_readb;
-+    qpci->bus.config_readw = qpci_generic_config_readw;
-+    qpci->bus.config_readl = qpci_generic_config_readl;
-+
-+    qpci->bus.config_writeb = qpci_generic_config_writeb;
-+    qpci->bus.config_writew = qpci_generic_config_writew;
-+    qpci->bus.config_writel = qpci_generic_config_writel;
-+
-+    qpci->bus.qts = qts;
-+    qpci->bus.pio_alloc_ptr = 0x0000;
-+    qpci->bus.pio_limit = 0x10000;
-+    qpci->bus.mmio_alloc_ptr = 0x10000000;
-+    qpci->bus.mmio_limit = 0x2eff0000;
-+    qpci->ecam_alloc_ptr = 0x4010000000;
-+
-+    qpci->obj.get_driver = qpci_generic_get_driver;
-+}
-+
-+static void qpci_generic_register_nodes(void)
-+{
-+    qos_node_create_driver("pci-bus-generic", NULL);
-+    qos_node_produces("pci-bus-generic", "pci-bus");
-+}
-+
-+static void qpci_generic_pci_register_nodes(void)
-+{
-+    qos_node_create_driver("generic-pcihost", NULL);
-+    qos_node_contains("generic-pcihost", "pci-bus-generic", NULL);
-+}
-+
-+libqos_init(qpci_generic_register_nodes);
-+libqos_init(qpci_generic_pci_register_nodes);
-diff --git a/tests/qtest/libqos/generic-pcihost.h b/tests/qtest/libqos/generic-pcihost.h
-new file mode 100644
-index 0000000000..c693c769df
---- /dev/null
-+++ b/tests/qtest/libqos/generic-pcihost.h
-@@ -0,0 +1,54 @@
-+/*
-+ * libqos Generic PCI bindings and generic pci host bridge
-+ *
-+ * Copyright Red Hat Inc., 2022
-+ *
-+ * Authors:
-+ *  Eric Auger <eric.auger@redhat.com>
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or later.
-+ * See the COPYING file in the top-level directory.
-+ */
-+
-+#ifndef LIBQOS_GENERIC_PCIHOST_H
-+#define LIBQOS_GENERIC_PCIHOST_H
-+
-+#include "pci.h"
-+#include "malloc.h"
-+#include "qgraph.h"
-+
-+typedef struct QGenericPCIBus {
-+    QOSGraphObject obj;
-+    QPCIBus bus;
-+    uint64_t gpex_pio_base;
-+    uint64_t ecam_alloc_ptr;
-+} QGenericPCIBus;
-+
-+/*
-+ * qpci_init_generic():
-+ * @ret: A valid QGenericPCIBus * pointer
-+ * @qts: The %QTestState
-+ * @alloc: A previously initialized @alloc providing memory for @qts
-+ * @bool: devices can be hotplugged on this bus
-+ *
-+ * This function initializes an already allocated
-+ * QGenericPCIBus object.
-+ */
-+void qpci_init_generic(QGenericPCIBus *ret, QTestState *qts,
-+                       QGuestAllocator *alloc, bool hotpluggable);
-+
-+/* QGenericPCIHost */
-+
-+typedef struct QGenericPCIHost QGenericPCIHost;
-+
-+struct QGenericPCIHost {
-+    QOSGraphObject obj;
-+    QGenericPCIBus pci;
-+};
-+
-+QOSGraphObject *generic_pcihost_get_device(void *obj, const char *device);
-+void qos_create_generic_pcihost(QGenericPCIHost *host,
-+                                QTestState *qts,
-+                                QGuestAllocator *alloc);
-+
-+#endif
-diff --git a/tests/qtest/libqos/meson.build b/tests/qtest/libqos/meson.build
-index e988d15791..8c8ee15553 100644
---- a/tests/qtest/libqos/meson.build
-+++ b/tests/qtest/libqos/meson.build
-@@ -42,6 +42,7 @@ libqos_srcs = files('../libqtest.c',
-         'virtio-scsi.c',
-         'virtio-serial.c',
-         'virtio-iommu.c',
-+        'generic-pcihost.c',
- 
-         # qgraph machines:
-         'aarch64-xlnx-zcu102-machine.c',
--- 
-2.26.3
-
+Reviewed-by: Pankaj Gupta <pankaj.gupta@ionos.com
 
