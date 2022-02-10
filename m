@@ -2,29 +2,29 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA5DC4B140F
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Feb 2022 18:22:18 +0100 (CET)
-Received: from localhost ([::1]:54056 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E00F4B1436
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Feb 2022 18:28:30 +0100 (CET)
+Received: from localhost ([::1]:34118 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nID97-0003vf-Hq
-	for lists+qemu-devel@lfdr.de; Thu, 10 Feb 2022 12:22:17 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:45570)
+	id 1nIDF7-0001If-Md
+	for lists+qemu-devel@lfdr.de; Thu, 10 Feb 2022 12:28:29 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:45572)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <f.ebner@proxmox.com>)
- id 1nI9Y4-0003ow-BW; Thu, 10 Feb 2022 08:31:52 -0500
-Received: from proxmox-new.maurer-it.com ([94.136.29.106]:51161)
+ id 1nI9Y4-0003oz-H2; Thu, 10 Feb 2022 08:31:52 -0500
+Received: from proxmox-new.maurer-it.com ([94.136.29.106]:50075)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <f.ebner@proxmox.com>)
- id 1nI9Xx-0004md-Jx; Thu, 10 Feb 2022 08:31:47 -0500
+ id 1nI9Xx-0004mb-MK; Thu, 10 Feb 2022 08:31:48 -0500
 Received: from proxmox-new.maurer-it.com (localhost.localdomain [127.0.0.1])
- by proxmox-new.maurer-it.com (Proxmox) with ESMTP id 124F846DCD;
+ by proxmox-new.maurer-it.com (Proxmox) with ESMTP id 03BEE46DD6;
  Thu, 10 Feb 2022 14:31:31 +0100 (CET)
 From: Fabian Ebner <f.ebner@proxmox.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 2/4] qemu-img: dd: add isize parameter
-Date: Thu, 10 Feb 2022 14:31:21 +0100
-Message-Id: <20220210133123.347350-3-f.ebner@proxmox.com>
+Subject: [PATCH 3/4] qemu-img: dd: add -n option (skip target volume creation)
+Date: Thu, 10 Feb 2022 14:31:22 +0100
+Message-Id: <20220210133123.347350-4-f.ebner@proxmox.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220210133123.347350-1-f.ebner@proxmox.com>
 References: <20220210133123.347350-1-f.ebner@proxmox.com>
@@ -54,151 +54,117 @@ Cc: kwolf@redhat.com, w.bumiller@proxmox.com, qemu-block@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Wolfgang Bumiller <w.bumiller@proxmox.com>
+From: Alexandre Derumier <aderumier@odiso.com>
 
-for writing small images from stdin to bigger ones.
+Same rationale as in
+b2e10493c7 ("add qemu-img convert -n option (skip target volume creation)")
 
-In order to distinguish between an actually unexpected and
-an expected end of input.
-
-Signed-off-by: Wolfgang Bumiller <w.bumiller@proxmox.com>
+Originally-by: Alexandre Derumier <aderumier@odiso.com>
 Signed-off-by: Thomas Lamprecht <t.lamprecht@proxmox.com>
-[FE: override size earlier
-     use flag to detect parameter
-     add documenation]
+[FE: avoid wrong colon in getopt's optstring
+     add documentation + commit message]
 Signed-off-by: Fabian Ebner <f.ebner@proxmox.com>
 ---
- docs/tools/qemu-img.rst | 10 ++++++++--
+ docs/tools/qemu-img.rst |  6 +++++-
  qemu-img-cmds.hx        |  4 ++--
- qemu-img.c              | 24 +++++++++++++++++++++++-
- 3 files changed, 33 insertions(+), 5 deletions(-)
+ qemu-img.c              | 23 ++++++++++++++---------
+ 3 files changed, 21 insertions(+), 12 deletions(-)
 
 diff --git a/docs/tools/qemu-img.rst b/docs/tools/qemu-img.rst
-index 775eaf3097..43328fe108 100644
+index 43328fe108..9b022d9363 100644
 --- a/docs/tools/qemu-img.rst
 +++ b/docs/tools/qemu-img.rst
-@@ -230,6 +230,10 @@ Parameters to dd subcommand:
+@@ -210,6 +210,10 @@ Parameters to dd subcommand:
  
-   Sets the number of input blocks to skip
+ .. program:: qemu-img-dd
  
-+.. option:: isize=INPUT_SIZE
++.. option:: -n
 +
-+  Treat the input image or stream as if it had this size
++  Skip the creation of the target volume
 +
- .. option:: osize=OUTPUT_SIZE
+ .. option:: bs=BLOCK_SIZE
  
-   Sets the output image's size
-@@ -492,7 +496,7 @@ Command description:
+   Defines the block size
+@@ -496,7 +500,7 @@ Command description:
    it doesn't need to be specified separately in this case.
  
  
--.. option:: dd [--image-opts] [-U] [-f FMT] [-O OUTPUT_FMT] [bs=BLOCK_SIZE] [count=BLOCKS] [skip=BLOCKS] [osize=OUTPUT_SIZE] [if=INPUT] [of=OUTPUT]
-+.. option:: dd [--image-opts] [-U] [-f FMT] [-O OUTPUT_FMT] [bs=BLOCK_SIZE] [count=BLOCKS] [skip=BLOCKS] [isize=INPUT_SIZE] [osize=OUTPUT_SIZE] [if=INPUT] [of=OUTPUT]
+-.. option:: dd [--image-opts] [-U] [-f FMT] [-O OUTPUT_FMT] [bs=BLOCK_SIZE] [count=BLOCKS] [skip=BLOCKS] [isize=INPUT_SIZE] [osize=OUTPUT_SIZE] [if=INPUT] [of=OUTPUT]
++.. option:: dd [--image-opts] [-U] [-f FMT] [-O OUTPUT_FMT] [-n] [bs=BLOCK_SIZE] [count=BLOCKS] [skip=BLOCKS] [isize=INPUT_SIZE] [osize=OUTPUT_SIZE] [if=INPUT] [of=OUTPUT]
  
    dd copies from *INPUT* file (default: STDIN) to *OUTPUT* file (default:
    STDOUT) converting it from *FMT* format to *OUTPUT_FMT* format.
-@@ -504,7 +508,9 @@ Command description:
-   The size syntax is similar to :manpage:`dd(1)`'s size syntax.
- 
-   The output image will be created with size *OUTPUT_SIZE* and at most this many
--  bytes will be copied.
-+  bytes will be copied. When *INPUT_SIZE* is positive, it overrides the input
-+  image's size for the copy operation. When *INPUT_SIZE* is zero and reading
-+  from STDIN, do not treat premature end of the input stream as an error.
- 
- .. option:: info [--object OBJECTDEF] [--image-opts] [-f FMT] [--output=OFMT] [--backing-chain] [-U] FILENAME
- 
 diff --git a/qemu-img-cmds.hx b/qemu-img-cmds.hx
-index e4935365c9..50993e6c47 100644
+index 50993e6c47..97e750623f 100644
 --- a/qemu-img-cmds.hx
 +++ b/qemu-img-cmds.hx
 @@ -58,9 +58,9 @@ SRST
  ERST
  
  DEF("dd", img_dd,
--    "dd [--image-opts] [-U] [-f fmt] [-O output_fmt] [bs=block_size] [count=blocks] [skip=blocks] [osize=output_size] [if=input] [of=output]")
-+    "dd [--image-opts] [-U] [-f fmt] [-O output_fmt] [bs=block_size] [count=blocks] [skip=blocks] [isize=input_size] [osize=output_size] [if=input] [of=output]")
+-    "dd [--image-opts] [-U] [-f fmt] [-O output_fmt] [bs=block_size] [count=blocks] [skip=blocks] [isize=input_size] [osize=output_size] [if=input] [of=output]")
++    "dd [--image-opts] [-U] [-f fmt] [-O output_fmt] [-n] [bs=block_size] [count=blocks] [skip=blocks] [isize=input_size] [osize=output_size] [if=input] [of=output]")
  SRST
--.. option:: dd [--image-opts] [-U] [-f FMT] [-O OUTPUT_FMT] [bs=BLOCK_SIZE] [count=BLOCKS] [skip=BLOCKS] [osize=OUTPUT_SIZE] [if=INPUT] [of=OUTPUT]
-+.. option:: dd [--image-opts] [-U] [-f FMT] [-O OUTPUT_FMT] [bs=BLOCK_SIZE] [count=BLOCKS] [skip=BLOCKS] [isize=INPUT_SIZE] [osize=OUTPUT_SIZE] [if=INPUT] [of=OUTPUT]
+-.. option:: dd [--image-opts] [-U] [-f FMT] [-O OUTPUT_FMT] [bs=BLOCK_SIZE] [count=BLOCKS] [skip=BLOCKS] [isize=INPUT_SIZE] [osize=OUTPUT_SIZE] [if=INPUT] [of=OUTPUT]
++.. option:: dd [--image-opts] [-U] [-f FMT] [-O OUTPUT_FMT] [-n] [bs=BLOCK_SIZE] [count=BLOCKS] [skip=BLOCKS] [isize=INPUT_SIZE] [osize=OUTPUT_SIZE] [if=INPUT] [of=OUTPUT]
  ERST
  
  DEF("info", img_info,
 diff --git a/qemu-img.c b/qemu-img.c
-index ea488fd190..630928773d 100644
+index 630928773d..89bf6fd087 100644
 --- a/qemu-img.c
 +++ b/qemu-img.c
-@@ -4820,11 +4820,13 @@ static int img_bitmap(int argc, char **argv)
- #define C_OF      010
- #define C_SKIP    020
- #define C_OSIZE   040
-+#define C_ISIZE   0100
- 
- struct DdInfo {
-     unsigned int flags;
-     int64_t count;
-     int64_t osize;
-+    int64_t isize;
- };
- 
- struct DdIo {
-@@ -4913,6 +4915,19 @@ static int img_dd_osize(const char *arg,
-     return 0;
- }
- 
-+static int img_dd_isize(const char *arg,
-+                        struct DdIo *in, struct DdIo *out,
-+                        struct DdInfo *dd)
-+{
-+    dd->isize = cvtnum("isize", arg);
-+
-+    if (dd->isize < 0) {
-+        return 1;
-+    }
-+
-+    return 0;
-+}
-+
- static int img_dd(int argc, char **argv)
- {
-     int ret = 0;
-@@ -4934,6 +4949,7 @@ static int img_dd(int argc, char **argv)
+@@ -4944,7 +4944,7 @@ static int img_dd(int argc, char **argv)
+     const char *fmt = NULL;
+     int64_t size = 0, readsize = 0;
+     int64_t block_count = 0, out_pos, in_pos;
+-    bool force_share = false;
++    bool force_share = false, skip_create = false;
+     struct DdInfo dd = {
          .flags = 0,
          .count = 0,
-         .osize = 0,
-+        .isize = 0,
+@@ -4982,7 +4982,7 @@ static int img_dd(int argc, char **argv)
+         { 0, 0, 0, 0 }
      };
-     struct DdIo in = {
-         .bsz = 512, /* Block size is by default 512 bytes */
-@@ -4955,6 +4971,7 @@ static int img_dd(int argc, char **argv)
-         { "of", img_dd_of, C_OF },
-         { "skip", img_dd_skip, C_SKIP },
-         { "osize", img_dd_osize, C_OSIZE },
-+        { "isize", img_dd_isize, C_ISIZE },
-         { NULL, NULL, 0 }
-     };
-     const struct option long_options[] = {
-@@ -5061,7 +5078,9 @@ static int img_dd(int argc, char **argv)
-         }
-     }
  
--    if (dd.flags & C_IF) {
-+    if (dd.flags & C_ISIZE && dd.isize > 0) {
-+        size = dd.isize;
-+    } else if (dd.flags & C_IF) {
-         size = blk_getlength(blk1);
-         if (size < 0) {
-             error_report("Failed to get size for '%s'", in.filename);
-@@ -5174,6 +5193,9 @@ static int img_dd(int argc, char **argv)
-         } else {
-             in_ret = read(STDIN_FILENO, in.buf, in_bsz);
-             if (in_ret == 0) {
-+                if (dd.flags & C_ISIZE && dd.isize == 0) {
-+                    goto out;
-+                }
-                 /* early EOF is considered an error */
-                 error_report("Input ended unexpectedly");
-                 ret = -1;
+-    while ((c = getopt_long(argc, argv, ":hf:O:U", long_options, NULL))) {
++    while ((c = getopt_long(argc, argv, ":hf:O:Un", long_options, NULL))) {
+         if (c == EOF) {
+             break;
+         }
+@@ -5002,6 +5002,9 @@ static int img_dd(int argc, char **argv)
+         case 'h':
+             help();
+             break;
++        case 'n':
++            skip_create = true;
++            break;
+         case 'U':
+             force_share = true;
+             break;
+@@ -5144,13 +5147,15 @@ static int img_dd(int argc, char **argv)
+                                 size - in.bsz * in.offset, &error_abort);
+         }
+ 
+-        ret = bdrv_create(drv, out.filename, opts, &local_err);
+-        if (ret < 0) {
+-            error_reportf_err(local_err,
+-                              "%s: error while creating output image: ",
+-                              out.filename);
+-            ret = -1;
+-            goto out;
++        if (!skip_create) {
++            ret = bdrv_create(drv, out.filename, opts, &local_err);
++            if (ret < 0) {
++                error_reportf_err(local_err,
++                                  "%s: error while creating output image: ",
++                                  out.filename);
++                ret = -1;
++                goto out;
++            }
+         }
+ 
+         /* TODO, we can't honour --image-opts for the target,
 -- 
 2.30.2
 
