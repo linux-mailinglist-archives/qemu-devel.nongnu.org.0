@@ -2,71 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A4D454B0C43
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Feb 2022 12:22:35 +0100 (CET)
-Received: from localhost ([::1]:48106 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2DA004B0C40
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Feb 2022 12:22:30 +0100 (CET)
+Received: from localhost ([::1]:47552 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nI7X0-0004Yb-PI
-	for lists+qemu-devel@lfdr.de; Thu, 10 Feb 2022 06:22:34 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:39816)
+	id 1nI7Wv-0004CJ-9D
+	for lists+qemu-devel@lfdr.de; Thu, 10 Feb 2022 06:22:29 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:39784)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1nI7UM-0002EM-Ao
- for qemu-devel@nongnu.org; Thu, 10 Feb 2022 06:19:50 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:50544)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1nI7UG-0000GE-LI
- for qemu-devel@nongnu.org; Thu, 10 Feb 2022 06:19:47 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1644491983;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=jb+Fn9xOPXKpnDymfSM7r8zigYiCGgIiZR+gFEnU148=;
- b=CJXoRzbBnMo53u1diTuB+9VoXvptr3u4OPFf0m9sYSk8tMiqgOnpX0R7B8ikosjzDUbubX
- Mhs2kPyzyKOLHFVIQSCDSHTyc+4iMn7C/LeHFEUTm/XDc8gCiK3/lHvL9koUVhzR4YQSgn
- VeWkaxjBeioD0YsKif1xXJj36MoS2V4=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-303-GuhIZrUMM5SRzUYC8wYvpw-1; Thu, 10 Feb 2022 06:19:40 -0500
-X-MC-Unique: GuhIZrUMM5SRzUYC8wYvpw-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0BC618143E5;
- Thu, 10 Feb 2022 11:19:39 +0000 (UTC)
-Received: from localhost (unknown [10.39.193.206])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 9E91E60C57;
- Thu, 10 Feb 2022 11:19:27 +0000 (UTC)
-From: Cornelia Huck <cohuck@redhat.com>
-To: Halil Pasic <pasic@linux.ibm.com>
-Subject: Re: [PATCH 1/1] virtio: fix feature negotiation for ACCESS_PLATFORM
-In-Reply-To: <20220210113258.1e90af05.pasic@linux.ibm.com>
-Organization: Red Hat GmbH
-References: <20220209124534.1206993-1-pasic@linux.ibm.com>
- <87leykt0k7.fsf@redhat.com> <20220209212750.25ddcebe.pasic@linux.ibm.com>
- <87fsort5a6.fsf@redhat.com> <20220210113258.1e90af05.pasic@linux.ibm.com>
-User-Agent: Notmuch/0.34 (https://notmuchmail.org)
-Date: Thu, 10 Feb 2022 12:19:25 +0100
-Message-ID: <877da3t1du.fsf@redhat.com>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1nI7UH-00029u-5W; Thu, 10 Feb 2022 06:19:45 -0500
+Received: from [2607:f8b0:4864:20::633] (port=40849
+ helo=mail-pl1-x633.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1nI7UF-0000G1-Aq; Thu, 10 Feb 2022 06:19:44 -0500
+Received: by mail-pl1-x633.google.com with SMTP id y17so1538722plg.7;
+ Thu, 10 Feb 2022 03:19:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=3OBTDh3vWlqPwn7p6kiDt3hHRWZFLjw2UFZP5XM5Mqk=;
+ b=BFhN92Cs6TgdtLXfLTzN1aW586wRxoKYISyMrOHErfjUCAuHHD+rZCAG4GP7MayEpj
+ A+cmAeoKM08gPKVCFM0y/HMyNteDl2TNsaVJ/XaUJ7k3gO1w6k6yMjMfkCmHbqbImhg7
+ UPZNJV82kRhtoB6nhsqiTKvcae6PLnYmbDjKmHFQaoKk3Ec5HuEhidKcnfa+4mJuz1yJ
+ UWhfOIs/VwZmX6iC9ntA7xJXBMFq7g4RnLMllmWk6Jqj+J6ZHNdZYEBo+C+86bDZpeHT
+ UirXYtTS44KgFeO7vGOkzN0jK7WS+dM4gEr/r7LRoBVOq/XF0BD0HMW1OzfAxpDs1+aI
+ mecw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+ :subject:content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=3OBTDh3vWlqPwn7p6kiDt3hHRWZFLjw2UFZP5XM5Mqk=;
+ b=Xg4QV5kRV8nVplph8TPgWoCmfyqMOrNLcs8ddBfdVj64vg7ohPQ1OxF+aLI/z7AVWD
+ WKcYreiFL7yNktdDB5/OWrCjwIVasKe01v0l/qxaX7Ws4wJ9zLFQEqWOLqYR4r2U6vZy
+ lZLfFXU5Krz+ILetpRYdnixuIMtkbvmzNqP+H5FF2iqoe9qIYLLAbjClXh/7YbbAhCWr
+ PWwLXvQvrPDSwLHBZavOnjjgdSutMpgxZkDegaCZhFws9LXnV5Oi2aEW6kxeg5blBxA0
+ 7ptkuNEVTC0cb0AfFh11eX/igxNC8zfImlR+Qrjfzrc+8guU02ZzFNUzE0PZZHj6StaU
+ AceQ==
+X-Gm-Message-State: AOAM531ybslNqvAIoxFJEK8yIPHtk/2WBIrOYhVVBFJGreJRv40YIRaV
+ yLzJnozV98AmpBpIsCMvke4=
+X-Google-Smtp-Source: ABdhPJxpQbDxBJg6LW2wDZAEAOEpPXF2aBS0cqgNI8tfTWy5QLP9wRVv8sTtxGwYTayLc8nOPxpgOA==
+X-Received: by 2002:a17:90b:3802:: with SMTP id
+ mq2mr2243298pjb.236.1644491981728; 
+ Thu, 10 Feb 2022 03:19:41 -0800 (PST)
+Received: from [192.168.1.33] (154.red-83-50-83.dynamicip.rima-tde.net.
+ [83.50.83.154])
+ by smtp.gmail.com with ESMTPSA id b85sm2464527pfb.136.2022.02.10.03.19.39
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 10 Feb 2022 03:19:41 -0800 (PST)
+Message-ID: <2c0a236e-cb5b-5373-4f15-5b2f5b539905@amsat.org>
+Date: Thu, 10 Feb 2022 12:19:37 +0100
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=cohuck@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=cohuck@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.5.1
+Subject: Re: [PATCH 0/2] Kconfig: Add an I2C_DEVICES device group
+Content-Language: en-US
+To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ Kevin Townsend <kevin.townsend@linaro.org>
+References: <20220208155911.3408455-1-peter.maydell@linaro.org>
+In-Reply-To: <20220208155911.3408455-1-peter.maydell@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::633
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::633;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pl1-x633.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.248, NICE_REPLY_A=-0.001,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -79,179 +94,26 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Brijesh Singh <brijesh.singh@amd.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
- Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-devel@nongnu.org,
- Halil Pasic <pasic@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
-On Thu, Feb 10 2022, Halil Pasic <pasic@linux.ibm.com> wrote:
+On 8/2/22 16:59, Peter Maydell wrote:
 
-> On Thu, 10 Feb 2022 10:55:13 +0100
-> Cornelia Huck <cohuck@redhat.com> wrote:
->
->> On Wed, Feb 09 2022, Halil Pasic <pasic@linux.ibm.com> wrote:
->> 
->> > On Wed, 09 Feb 2022 18:24:56 +0100
->> > Cornelia Huck <cohuck@redhat.com> wrote:
->> >  
->> >> On Wed, Feb 09 2022, Halil Pasic <pasic@linux.ibm.com> wrote:  
->> >> > @@ -78,16 +78,19 @@ void virtio_bus_device_plugged(VirtIODevice *vdev, Error **errp)
->> >> >          return;
->> >> >      }
->> >> >  
->> >> > -    vdev_has_iommu = virtio_host_has_feature(vdev, VIRTIO_F_IOMMU_PLATFORM);
->> >> > -    if (klass->get_dma_as != NULL && has_iommu) {
->> >> > +    vdev->dma_as = &address_space_memory;
->> >> > +    if (has_iommu) {
->> >> > +        vdev_has_iommu = virtio_host_has_feature(vdev, VIRTIO_F_IOMMU_PLATFORM);
->> >> > +        /* Fail FEATURE_OK if the device tries to drop IOMMU_PLATFORM */    
->> >> 
->> >> I must admit that the more I stare at this code, the more confused I
->> >> get. We run this function during device realization, and the reason that
->> >> the feature bit might have gotten lost is that the ->get_features()
->> >> device callback dropped it. This happens before the driver is actually
->> >> involved; the check whether the *driver* dropped the feature is done
->> >> during feature validation, which is another code path.   
->> > [moved text from here]  
->> >>   
->> >> >          virtio_add_feature(&vdev->host_features, VIRTIO_F_IOMMU_PLATFORM); [Mark 1]  
->> >
->> >
->> > Let us have a look at 
->> > static int virtio_validate_features(VirtIODevice *vdev)                         
->> > {                                                                               
->> >     VirtioDeviceClass *k = VIRTIO_DEVICE_GET_CLASS(vdev);                       
->> >                                                                                 
->> >     if (virtio_host_has_feature(vdev, VIRTIO_F_IOMMU_PLATFORM) &&               
->> >         !virtio_vdev_has_feature(vdev, VIRTIO_F_IOMMU_PLATFORM)) {              
->> >         return -EFAULT;                                                         [Mark 2]                  
->> >     }                                                                           
->> > [..]
->> >
->> > So were it not of the [Mark 1] we could not hit [Mark 2] if the feature
->> > bit was lost because the ->get_features() callback dropped it. Yes,
->> > feature negotiation is another code path, but the two are interdependent
->> > in a non-trivial way. That is why I added that comment.  
->> 
->> Yes, of course we need to offer the bit to the driver in the first
->> place. My point is that the code here is not what makes us fail
->> FEATURES_OK; we won't even get to that point because the device will
->> fail realization.
->
-> I disagree! Have you tested your hypothesis? Which line of code does
-> cause the device realization to fail? Where is that check?
+> Peter Maydell (2):
+>    Kconfig: Add I2C_DEVICES device group
+>    Kconfig: Add 'imply I2C_DEVICES' on boards with available i2c bus
+> 
+>   docs/devel/kconfig.rst |  8 ++++++--
+>   hw/arm/Kconfig         | 10 ++++++++++
+>   hw/i2c/Kconfig         |  5 +++++
+>   hw/rtc/Kconfig         |  2 ++
+>   hw/sensor/Kconfig      |  5 +++++
+>   5 files changed, 28 insertions(+), 2 deletions(-)
 
-Because this function is called from the device realization function?
+Series:
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-(I do not have time to play with this, sorry.)
-
->
->> 
->> >
->> > [moved here]  
->> >> So what we do
->> >> here is failing device realization if a backend doesn't support
->> >> IOMMU_PLATFORM, isn't it?  
->> >
->> > Not really. We fail the device realization if !vdev_has_iommu &&
->> > vdev->dma_as != &address_space_memory, that is the device does not
->> > support address translation, but we need it to support address
->> > translation because ->dma_as != &address_space memory. If however  
->> > ->dma_as == &address_space memory we carry on happily even if ->get_features() dropped  
->> > IOMMU_PLATFORM, because we don't actually need an iova -> gpa
->> > translation. This is the case with virtiofs confidential guests for
->> > example.
->> >  
->> 
->> Well yes, that's what I meant, I just did not spell out all of the
->> conditions...
->> 
->> > But we still don't want the guest dropping ACCESS_PLATFORM, because it is
->> > still mandatory, because the device won't operate correctly unless the
->> > driver grants access to the pieces of memory that the device needs to
->> > access. The underlying mechanism of granting access may not have
->> > anything to do with an IOMMU though.
->> >
->> > Does it make sense now?  
->> 
->> The code yes, the comment no. What we are actually doing is failing
->> realization so we don't end up offering a device without IOMMU_PLATFORM
->> that would need it. 
->
-> I don't understand. That is only one of the possible cases IMHO.
->
-> Do you mean the check
->         if (klass->get_dma_as) {                                                
->             vdev->dma_as = klass->get_dma_as(qbus->parent);                     
->             if (!vdev_has_iommu && vdev->dma_as != &address_space_memory) {     
->                 error_setg(errp,                                                
->                        "iommu_platform=true is not supported by the device");   
->                 return;                                                         
->             }                                                                   
->         }
-> or something different? If yo mean that check, it does not cover all
-> cases where has_iommu.
-
-No.
-
->
-> Please note that the line in question is
->
->     if (has_iommu) {                                                            
->         vdev_has_iommu = virtio_host_has_feature(vdev, VIRTIO_F_IOMMU_PLATFORM);
->         /* Fail FEATURE_OK if the device tries to drop IOMMU_PLATFORM */        
->         virtio_add_feature(&vdev->host_features, VIRTIO_F_IOMMU_PLATFORM);  
-> only conditional on has_iommu.
->
-> But we want the guest to *never* drop ACCESS_PLATFORM, regardless of 
-> vdev_has_iommu and ->dma_as.
-
-I think that's the base issue: sometimes, you talk about ACCESS,
-sometimes, you talk about IOMMU. These are the same feature bit, but
-used for different purposes. For one condition, the device never gets
-realized, and the driver never gets to it. For the other, the driver
-will see a device, and it's up to the driver whether it can support it
-or not.
-
->
-> Please also note that the comment 
-> /* Fail FEATURE_OK if the device tries to drop IOMMU_PLATFORM */
-> is intended to document why do we do 
-> virtio_add_feature(&vdev->host_features, VIRTIO_F_IOMMU_PLATFORM);  
-> _only_ and is not intended to document the entire code that follows:
->
->         virtio_add_feature(&vdev->host_features, VIRTIO_F_IOMMU_PLATFORM);      
->         if (klass->get_dma_as) {                                                
->             vdev->dma_as = klass->get_dma_as(qbus->parent);                     
->             if (!vdev_has_iommu && vdev->dma_as != &address_space_memory) {     
->                 error_setg(errp,                                                
->                        "iommu_platform=true is not supported by the device");   
->                 return;                                                         
->             }                                                                   
->         }
->
-> Is that the source of the confusion? If yes, maybe I should add a blank
-> line after virtio_add_feature().
-
-Nope, that's not my problem. We make sure that the bit is persistent, we
-fail realization if the bit got removed by the callback when required,
-and we fail feature validation if the driver removes the bit, which is
-in a different code path. We should not talk about FEATURES_OK in this
-code.
-
-We force-add the bit, and then still might fail realization. The
-important condition is the has_iommu one, not the checks later on. I
-find it very confusing to talk about what a potential driver might do in
-that context.
-
-What about moving the virtio_add_feature() after the if
-(klass->get_dma_as) check, and adding a comment
-
-/* we want to always force IOMMU_PLATFORM here */
-
-[I'll withdraw from this discussion for now, I fear I might just add
-confusion.]
 
 
