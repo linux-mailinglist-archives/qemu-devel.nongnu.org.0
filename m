@@ -2,85 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 236924B0182
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Feb 2022 01:18:56 +0100 (CET)
-Received: from localhost ([::1]:54376 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 87F5C4B01A5
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Feb 2022 01:47:52 +0100 (CET)
+Received: from localhost ([::1]:58186 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nHxAk-0004jY-LU
-	for lists+qemu-devel@lfdr.de; Wed, 09 Feb 2022 19:18:54 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:41908)
+	id 1nHxcl-000158-3q
+	for lists+qemu-devel@lfdr.de; Wed, 09 Feb 2022 19:47:51 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:46162)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nHx9f-0003sG-TO
- for qemu-devel@nongnu.org; Wed, 09 Feb 2022 19:17:47 -0500
-Received: from [2607:f8b0:4864:20::629] (port=39557
- helo=mail-pl1-x629.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nHx9e-0003Fh-6y
- for qemu-devel@nongnu.org; Wed, 09 Feb 2022 19:17:47 -0500
-Received: by mail-pl1-x629.google.com with SMTP id w1so377866plb.6
- for <qemu-devel@nongnu.org>; Wed, 09 Feb 2022 16:17:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=8KWDcMgKGrdPSxTS6x+lvstAvPINZ/yvDe29gT8rFVA=;
- b=FkEGsz9NqEeCO4rLDiMmQC33LPggt8QrPPwFNj1xmjyLO/hX/AQHA5MNg0OiDayCuy
- qR6YQ/lk+uZsamw9q5tOzgiobaOXLZqbGg5vS1bhpiToOryw83KNReA7ApINaej6VCKQ
- ksQLpXZmEwKPIodtFy65dSKdDTtV5QCPDy+f/ugcUSlwqeOYGWYGD6yDcO2LF0vMU8Fk
- JqpwEeTNmUqvsCH8nOxQTJdKdDl2gHjXNyg3CERAlpK9vZ3NgaaXwk+VH+ZTtHKWotdl
- owI3FlfDc4GgNH1Xkf71Zw3gJ7NGunkYdpdJs1w2pphl4Bm8/gqFjXHwNmzMOwkNToZb
- lPhw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=8KWDcMgKGrdPSxTS6x+lvstAvPINZ/yvDe29gT8rFVA=;
- b=CDsAb4x+tt4CbKKEyy2Qm4ubllqAJJJmwl45pmCK+nOWhyYJrJgXCZZ8v7hkD2kkqp
- bEwK147dEHDxNLnV968lDPlUn3JGTVqnnCDNqvhYO67U3wpfhKdvd83ntqFP+J+v6PdW
- +Qg7QmMSYDY1ddgVwSptPx874IK+Zk9A5xndbUuPCy3gs+xepq9sycvyqOSUyeiyUuNl
- S9D2KKKDJtBweMq9I5WsnrJp8IXGwQyQgs9WzZVayx7CJW6jLMvaWWKPLgK6th7n5HLt
- G4mxQNZyluI5qrwYXeiO5JzLa0AFSJIg3JPKCs4EdzFLXvZPI3tDIozpQ+/hglvZQWdT
- lLow==
-X-Gm-Message-State: AOAM531V/GiGwoUdW6mFZnPm+qTDQIuTA1cx8qbscU/JikGRwHzEFaQF
- /a+glEoiHHbHe7J/5lBnbPskCw==
-X-Google-Smtp-Source: ABdhPJxfUd7pO/GtzflA+M64sudBN3HAJVjR8fX0PJEgSzOtl7j9kuWTJJMAD9+Nk9i15DQtXXCZhg==
-X-Received: by 2002:a17:90a:2fc5:: with SMTP id
- n5mr5432624pjm.67.1644452264677; 
- Wed, 09 Feb 2022 16:17:44 -0800 (PST)
-Received: from [10.0.0.163] ([124.189.222.164])
- by smtp.gmail.com with ESMTPSA id p6sm8198542pfo.73.2022.02.09.16.17.43
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 09 Feb 2022 16:17:44 -0800 (PST)
-Message-ID: <e2ea001c-7c42-f49d-29ec-94372f3e9be7@linaro.org>
-Date: Thu, 10 Feb 2022 11:17:36 +1100
+ (Exim 4.90_1) (envelope-from <weijiang.yang@intel.com>)
+ id 1nHxU1-0008WI-PM
+ for qemu-devel@nongnu.org; Wed, 09 Feb 2022 19:38:50 -0500
+Received: from mga01.intel.com ([192.55.52.88]:10870)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <weijiang.yang@intel.com>)
+ id 1nHxTU-0002YA-4b
+ for qemu-devel@nongnu.org; Wed, 09 Feb 2022 19:38:19 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1644453496; x=1675989496;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=zB6AoUKvVij7NWzZ9PeCjkUlZ2UWAt5KrXtxCVaMnF4=;
+ b=QsnSSJWeKby8LN4eIEmLf+lx5ewTj4i7mLgKecYH9icUwFxAdchtnhWe
+ erLixuIkINth8wT1iDulOb9hnUaoehY1tnMp2duLugmYtNbknZIZ7GaeE
+ 9u0IFhxInl1TI4vxg9bKCWDDXGNXsMKZ1YPPXy/GVtAVtBug1P+yOjsvd
+ 2yrX2uc5y7s9IiQlDTFQEkRkWyL+LaNOuGTS6xTA2U3iPxA8q3y872GdN
+ Lt+QjKUVPpzbkBetcmvnPPI5o3tW21R+ZYw6giYJtRDEWQc+VP8MgupUd
+ 2EbZotQ+ETOzuS0QcXW3LLPDS/TaXaFR+9SJV3Fdtl3icNMNx1cxWNZlM g==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10253"; a="273921788"
+X-IronPort-AV: E=Sophos;i="5.88,357,1635231600"; d="scan'208";a="273921788"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Feb 2022 16:38:06 -0800
+X-IronPort-AV: E=Sophos;i="5.88,357,1635231600"; d="scan'208";a="541377323"
+Received: from yangweij-mobl.ccr.corp.intel.com (HELO [10.255.28.189])
+ ([10.255.28.189])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Feb 2022 16:38:01 -0800
+Message-ID: <d5e051cd-a4ff-6816-a279-92e97b57e7c8@intel.com>
+Date: Thu, 10 Feb 2022 08:37:58 +0800
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
  Thunderbird/91.5.0
-Subject: Re: [PATCH 4/6] target/arm: Implement FEAT_LVA
+Subject: Re: [PATCH v5 0/2] Enable legacy LBR support for guest
 Content-Language: en-US
-To: Peter Maydell <peter.maydell@linaro.org>
-References: <20211208231154.392029-1-richard.henderson@linaro.org>
- <20211208231154.392029-5-richard.henderson@linaro.org>
- <CAFEAcA8u3cnEzoXGk5upgTg1L+gzuERo-mbKrK5sjY22gp40cg@mail.gmail.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <CAFEAcA8u3cnEzoXGk5upgTg1L+gzuERo-mbKrK5sjY22gp40cg@mail.gmail.com>
+To: Like Xu <like.xu.linux@gmail.com>
+References: <20220122161201.73528-1-weijiang.yang@intel.com>
+ <e2c18d80-7c4e-6a0a-d37e-3a585d53d3f2@gmail.com>
+From: "Yang, Weijiang" <weijiang.yang@intel.com>
+In-Reply-To: <e2c18d80-7c4e-6a0a-d37e-3a585d53d3f2@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::629
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::629;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x629.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=192.55.52.88;
+ envelope-from=weijiang.yang@intel.com; helo=mga01.intel.com
+X-Spam_score_int: -70
+X-Spam_score: -7.1
+X-Spam_bar: -------
+X-Spam_report: (-7.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,43 +77,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: ehabkost@redhat.com, kvm@vger.kernel.org, mtosatti@redhat.com,
+ richard.henderson@linaro.org, qemu-devel@nongnu.org, wei.w.wang@intel.com,
+ likexu@tencent.com, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/7/22 07:23, Peter Maydell wrote:
-> On Wed, 8 Dec 2021 at 23:16, Richard Henderson
-> <richard.henderson@linaro.org> wrote:
+
+On 2/9/2022 5:14 PM, Like Xu wrote:
+> Hi Weijiang,
+>
+> On 23/1/2022 12:11 am, Yang Weijiang wrote:
+>> KVM legacy LBR patches have been merged in kernel 5.12, this patchset
+>> is to expose the feature to guest from the perf capability MSR. Qemu can
+>> add LBR format in cpu option to achieve it, e.g., -cpu host,lbr-fmt=0x5,
+>
+> Some older Intel CPUs may have lbr-fmt=LBR_FORMAT_32 (which is 0), would
+> you help verify that KVM is supported on these platforms ? If so, how 
+> do we enable
+> guest LBR form the QEMU side, w/ -cpu host,lbr-fmt=0x0 ?
+
+Hi, Like, do you know which cpu model or platform so that I can have a 
+test on?
+
+>
+>> the format should match host value in IA32_PERF_CAPABILITIES.
 >>
->> This feature is relatively small, as it applies only to
->> 64k pages and thus requires no additional changes to the
->> table descriptor walking algorithm, only a change to the
->> minimum TSZ (which is the inverse of the maximum virtual
->> address space size).
+>> Note, KVM legacy LBR solution accelerates guest perf performace by 
+>> LBR MSR
+>> passthrough so it requires guest cpu model matches that of host's, i.e.,
+>
+> Would you help add live migration support across host/guest CPU models 
+> when
+> hosts at both ends have the same number of LBR entries and the same 
+> lbr-fmt ?
+Yes, I'm working on this part for Arch LBR, then enable it for legacy 
+LBR as well.
+>
+> Thanks,
+> Like Xu
+>
+>> only -cpu host is supported.
 >>
->> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> 
-> FEAT_LVA also expands the size of the VA field in
-> DBGBVR<n>_EL1. We currently hardcode the size of that
-> in hw_breakpoint_update() where we do:
->          addr = sextract64(bvr, 0, 49) & ~3ULL;
-> 
-> This is also true of DBGWVR<n>_EL1, except that there
-> we seem to have chosen to take advantage of the spec
-> defining the high bits of the register as RESS (ie
-> sign-extended) and we always use all of the address bits
-> regardless. Maybe we could do something similar with DBGBVR.
-
-We treat DBGBVR and DBGWVR similarly, with the exception that DVGBVR is context dependent, 
-so we must wait until we interpret it together with DBGBCR.
-
-However, I think the combination of IMPLEMENTATION DEFINED for storing the value as 
-written and CONSTRAINED UNPREDICTABLE for comparing the RESS bits means that we're allowed 
-to rely on Software to perform the appropriate extension and store and compare the entire 
-register.
-
-I'll fix this in a separate patch.
-
-
-r~
+>> Change in v5:
+>>     1. This patchset is rebased on tip : 6621441db5
+>>     2. No functional change since v4.
 
