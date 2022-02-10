@@ -2,45 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21DE74B0CC3
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Feb 2022 12:49:56 +0100 (CET)
-Received: from localhost ([::1]:59380 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A20994B0C8A
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Feb 2022 12:41:22 +0100 (CET)
+Received: from localhost ([::1]:43550 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nI7xT-0007Sj-7F
-	for lists+qemu-devel@lfdr.de; Thu, 10 Feb 2022 06:49:55 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:43344)
+	id 1nI7pB-00050G-E0
+	for lists+qemu-devel@lfdr.de; Thu, 10 Feb 2022 06:41:21 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:43326)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
- (envelope-from <7c1101e9be922915491bc9ec2ca2150554192d53@lizzy.crudebyte.com>)
- id 1nI7kC-0007ej-JT
+ (envelope-from <5279f88ced3f628b475f7b9e1cb3b5f4c0377b8c@lizzy.crudebyte.com>)
+ id 1nI7kB-0007eh-UY
  for qemu-devel@nongnu.org; Thu, 10 Feb 2022 06:36:14 -0500
-Received: from lizzy.crudebyte.com ([91.194.90.13]:59481)
+Received: from lizzy.crudebyte.com ([91.194.90.13]:46401)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
- (envelope-from <7c1101e9be922915491bc9ec2ca2150554192d53@lizzy.crudebyte.com>)
- id 1nI7jp-0003U0-G9
+ (envelope-from <5279f88ced3f628b475f7b9e1cb3b5f4c0377b8c@lizzy.crudebyte.com>)
+ id 1nI7jp-0003Sk-GD
  for qemu-devel@nongnu.org; Thu, 10 Feb 2022 06:36:07 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=crudebyte.com; s=lizzy; h=Cc:To:Subject:Date:From:References:In-Reply-To:
- Message-Id:Content-Type:Content-Transfer-Encoding:MIME-Version:Content-ID:
- Content-Description; bh=mcbRg2xlZAZHldg9PdPezpruRYnaMN84QxS/hR585+U=; b=hPSY5
- IwO0dXLNPdNr8awmLIiKCOgB6DPOPIvdWMQushRilJ+rUH9Dy8aKKY0s4lw4bzOgo9aruCD6cXSS+
- uWn6fzGm93KtIdz/vKa7iEe29VDSOqFWa5M/UUE0ArW+R0ReB/AiX2bMQTkbf45wTftlm9MNguYsm
- 9WBC9sWvVvQiWmxgIL7qoIJ47H1sSenr7MC6oUygo0cN6G3GwfePVYH7h9a/eNm8oppBX6AGItNjy
- 3bbJmBYRCCvQO+yYpcFRRLZ9fhRryhLWiCa7jnoqtLnOJyi0NRzNpDoMZ4NI35DamdUfyFoJeKmFM
- 1v2lJm7qTyYKd82qr3tcsaHBSvdpg==;
-Message-Id: <7c1101e9be922915491bc9ec2ca2150554192d53.1644492115.git.qemu_oss@crudebyte.com>
+ d=crudebyte.com; s=lizzy; h=Cc:To:Content-Transfer-Encoding:Content-Type:
+ MIME-Version:Subject:Date:From:References:In-Reply-To:Message-Id:Content-ID:
+ Content-Description; bh=rMf4KtmBn+yyQQHi+FpBQwGipj8F3jW/JGrXe3xFgzc=; b=CXo1H
+ zFIpz08LUZc9lINYj1BTXeeZHsVTReRkvoV1IWj1kIHLdUjUCPGJx8lKdxJXM43fNLZGqU3gm0dt4
+ y7vcc3QfUbmAh0aaJFpfZHSg0d3QXBK56VCR4UKe8Ee6OWzP8/5MHV0/9UatU0CH2tgMnPv+/AezX
+ VaWjIUaJ8/hbV0C5lLCYz2s2cMzb4YuGuEJiVW6m1kn7a3MmFFIudU2RVwUSBD67oeW7nWwnwhvhT
+ AMmjIHmnl9mW6JUJr9jdoz6B6L7EUX+PSqyj8kl0azpKaaLrKVKmx8ZPjz5Hwm2JY8LPROnVh0/sq
+ zJbyEB6Yw0bMlq40KuB33guxsD3aw==;
+Message-Id: <5279f88ced3f628b475f7b9e1cb3b5f4c0377b8c.1644492115.git.qemu_oss@crudebyte.com>
 In-Reply-To: <cover.1644492115.git.qemu_oss@crudebyte.com>
 References: <cover.1644492115.git.qemu_oss@crudebyte.com>
 From: Christian Schoenebeck <qemu_oss@crudebyte.com>
 Date: Thu, 10 Feb 2022 12:21:55 +0100
-Subject: [PULL 4/5] tests/9pfs: Use g_autofree and g_autoptr where possible
+Subject: [PULL 2/5] tests/9pfs: fix mkdir() being called twice
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 To: qemu-devel@nongnu.org,
     Peter Maydell <peter.maydell@linaro.org>
 Cc: Greg Kurz <groug@kaod.org>
 Received-SPF: none client-ip=91.194.90.13;
- envelope-from=7c1101e9be922915491bc9ec2ca2150554192d53@lizzy.crudebyte.com;
+ envelope-from=5279f88ced3f628b475f7b9e1cb3b5f4c0377b8c@lizzy.crudebyte.com;
  helo=lizzy.crudebyte.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -63,75 +66,62 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Greg Kurz <groug@kaod.org>
+The 9p test cases use mkdtemp() to create a temporary directory for
+running the 'local' 9p tests with real files/dirs. Unlike mktemp()
+which only generates a unique file name, mkdtemp() also creates the
+directory, therefore the subsequent mkdir() was wrong and caused
+errors on some systems.
 
-It is recommended to use g_autofree or g_autoptr as it reduces
-the odds of introducing memory leaks in future changes.
-
-Signed-off-by: Greg Kurz <groug@kaod.org>
-Message-Id: <20220201151508.190035-3-groug@kaod.org>
-Reviewed-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
 Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
+Fixes: 136b7af2 (tests/9pfs: fix test dir for parallel tests)
+Reported-by: Daniel P. Berrangé <berrange@redhat.com>
+Resolves: https://gitlab.com/qemu-project/qemu/-/issues/832
+Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+Reviewed-by: Greg Kurz <Greg Kurz <groug@kaod.org>
+Message-Id: <f6602123c6f7d0d593466231b04fba087817abbd.1642879848.git.qemu_oss@crudebyte.com>
 ---
- tests/qtest/libqos/virtio-9p.c | 13 ++++---------
- 1 file changed, 4 insertions(+), 9 deletions(-)
+ tests/qtest/libqos/virtio-9p.c | 18 +++---------------
+ 1 file changed, 3 insertions(+), 15 deletions(-)
 
 diff --git a/tests/qtest/libqos/virtio-9p.c b/tests/qtest/libqos/virtio-9p.c
-index 5d18e5eae5..f51f0635cc 100644
+index b4e1143288..ef96ef006a 100644
 --- a/tests/qtest/libqos/virtio-9p.c
 +++ b/tests/qtest/libqos/virtio-9p.c
-@@ -41,7 +41,7 @@ void virtio_9p_create_local_test_dir(void)
+@@ -37,31 +37,19 @@ static char *concat_path(const char* a, const char* b)
+     return g_build_filename(a, b, NULL);
+ }
+ 
+-static void init_local_test_path(void)
++void virtio_9p_create_local_test_dir(void)
  {
-     g_assert(local_test_path == NULL);
-     struct stat st;
--    char *pwd = g_get_current_dir();
-+    g_autofree char *pwd = g_get_current_dir();
-     /*
-      * template gets cached into local_test_path and freed in
-      * virtio_9p_remove_local_test_dir().
-@@ -52,7 +52,6 @@ void virtio_9p_create_local_test_dir(void)
++    struct stat st;
+     char *pwd = g_get_current_dir();
+     char *template = concat_path(pwd, "qtest-9p-local-XXXXXX");
++
+     local_test_path = mkdtemp(template);
      if (!local_test_path) {
          g_test_message("mkdtemp('%s') failed: %s", template, strerror(errno));
      }
--    g_free(pwd);
+-    g_assert(local_test_path);
+     g_free(pwd);
+-}
+-
+-void virtio_9p_create_local_test_dir(void)
+-{
+-    struct stat st;
+-    int res;
+-
+-    init_local_test_path();
  
      g_assert(local_test_path != NULL);
+-    res = mkdir(local_test_path, 0777);
+-    if (res < 0) {
+-        g_test_message("mkdir('%s') failed: %s", local_test_path,
+-                       strerror(errno));
+-    }
  
-@@ -65,12 +64,11 @@ void virtio_9p_create_local_test_dir(void)
- void virtio_9p_remove_local_test_dir(void)
- {
-     g_assert(local_test_path != NULL);
--    char *cmd = g_strdup_printf("rm -fr '%s'\n", local_test_path);
-+    g_autofree char *cmd = g_strdup_printf("rm -fr '%s'\n", local_test_path);
-     int res = system(cmd);
-     if (res < 0) {
-         /* ignore error, dummy check to prevent compiler error */
-     }
--    g_free(cmd);
-     g_free(local_test_path);
-     local_test_path = NULL;
- }
-@@ -216,8 +214,8 @@ static void *virtio_9p_pci_create(void *pci_bus, QGuestAllocator *t_alloc,
- static void regex_replace(GString *haystack, const char *pattern,
-                           const char *replace_fmt, ...)
- {
--    GRegex *regex;
--    char *replace, *s;
-+    g_autoptr(GRegex) regex = NULL;
-+    g_autofree char *replace = NULL, *s = NULL;
-     va_list argp;
- 
-     va_start(argp, replace_fmt);
-@@ -227,9 +225,6 @@ static void regex_replace(GString *haystack, const char *pattern,
-     regex = g_regex_new(pattern, 0, 0, NULL);
-     s = g_regex_replace(regex, haystack->str, -1, 0, replace, 0, NULL);
-     g_string_assign(haystack, s);
--    g_free(s);
--    g_regex_unref(regex);
--    g_free(replace);
- }
- 
- void virtio_9p_assign_local_driver(GString *cmd_line, const char *args)
+     /* ensure test directory exists now ... */
+     g_assert(stat(local_test_path, &st) == 0);
 -- 
 2.20.1
 
