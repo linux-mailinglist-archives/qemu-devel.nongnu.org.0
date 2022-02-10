@@ -2,153 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC3D14B0AFD
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Feb 2022 11:37:25 +0100 (CET)
-Received: from localhost ([::1]:58038 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 621A64B0B3D
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Feb 2022 11:47:26 +0100 (CET)
+Received: from localhost ([::1]:41022 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nI6pJ-0004SP-1q
-	for lists+qemu-devel@lfdr.de; Thu, 10 Feb 2022 05:37:25 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:54810)
+	id 1nI6yz-0004N5-91
+	for lists+qemu-devel@lfdr.de; Thu, 10 Feb 2022 05:47:25 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:55202)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonah.palmer@oracle.com>)
- id 1nI6c0-0000mH-Uh; Thu, 10 Feb 2022 05:23:41 -0500
-Received: from mx0a-00069f02.pphosted.com ([205.220.165.32]:7194)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonah.palmer@oracle.com>)
- id 1nI6bx-0000w0-Li; Thu, 10 Feb 2022 05:23:40 -0500
-Received: from pps.filterd (m0246627.ppops.net [127.0.0.1])
- by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 21A7kmNm017470; 
- Thu, 10 Feb 2022 10:23:20 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=from : to : cc :
- subject : date : message-id : in-reply-to : references : content-type :
- mime-version; s=corp-2021-07-09;
- bh=9euFYXzI0LIjN9h+qE5U9DSIi99JMamiEEWwopR6bDQ=;
- b=iJs322+0ooWx4YaWz1K5N29NW8pgIuJntyb/1WlFPiKLmCAc4ZPfqo+hN6+GZF4JOwmk
- psuii899a9XX/XB+Re7zzNkuqeB/XXC9OuMCYGByaICoP14S/tLSdGU25XKKBXFp6YZ9
- yEy0TyV3m1Ow9hLZFtiUPgSA1l2kMAPTXE6autyOwl5uJqCQ7QfCwid2ulc+lpsg0sbj
- EJaFnmHJJWLspjo1qFCpTre35ethnHvojFcfUF1d3oB7mBqDzXwx3lpN+g4+dPU6HPR7
- XvN4bRUCutmqwBiVWSTFgdna0XG17jMQg5Ai2YUDUDsFIAQCSjvBx4wsDXhco6sMhNsA 9g== 
-Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
- by mx0b-00069f02.pphosted.com with ESMTP id 3e3h28qj3h-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 10 Feb 2022 10:23:19 +0000
-Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
- by aserp3020.oracle.com (8.16.1.2/8.16.1.2) with SMTP id 21AABeeT192012;
- Thu, 10 Feb 2022 10:23:18 GMT
-Received: from nam12-mw2-obe.outbound.protection.outlook.com
- (mail-mw2nam12lp2042.outbound.protection.outlook.com [104.47.66.42])
- by aserp3020.oracle.com with ESMTP id 3e1h29x76e-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 10 Feb 2022 10:23:18 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=DUyU8bbf79uMteESVKFOYEj0yuV7ZP+zwgm6gTp4hEbSCZ0j04ZSFUTpA2qD+P30SPK0eZWo9PM/7AHJqOH44j54UeXZnHDHK9KYlRkt5C1PyGIh5DZ1c402abhLVlFLY/aqeVJsJtfMLAUV+TJcPDvo+qLBeXBdyz11jduKZ3dkyDa6jf1J+1gUwVYnZutgxsFJdcai7vVRvoCzaNUDRV9BN6dzyoa3qjD8xSGMVT5HdUfyxbsImXPJxxFFl5kmBrLiXkiszinsL9TRJIpLJ2MO00gs2GK4l7WTLkn57c+MuURYSXGk4ZExeyG3j7IuHLHol0HS8Fd8LC0VaLgGQA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=9euFYXzI0LIjN9h+qE5U9DSIi99JMamiEEWwopR6bDQ=;
- b=VhI7jynAX6ZW8aLjQeuNK5zcWWnA1//1XRvha2fO6c6HW4UY5LCVX7bbmGZWywYfcKHv+9guwQlILWrIl+24Rtr9oiq8sOBxQSBJFOfou7acBztAlpnY7PGRdoTibqSkeb4oe4wI9qF+bV48ZUrECWso49tk3/yDwBpYIa6vLtoTuDH0lGWI2iaPB1wxg3+pHj5DYoCuwDKuVDPp6TMmTTalhV2cXhrbEwSvvSalVBfsiTv5doLjMEqVYJdDQsxI09ngHdAl22CHSelXP00KvfWLrB/lSesMdgWYgcHkek/rqUGBtwNy3ulTz0khb682ANKdXU9W2WX9sCTu6od7hQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
+ (Exim 4.90_1) (envelope-from <anup@brainfault.org>)
+ id 1nI6dU-0001tx-04
+ for qemu-devel@nongnu.org; Thu, 10 Feb 2022 05:25:12 -0500
+Received: from [2a00:1450:4864:20::42d] (port=41659
+ helo=mail-wr1-x42d.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <anup@brainfault.org>)
+ id 1nI6dP-00014J-Vo
+ for qemu-devel@nongnu.org; Thu, 10 Feb 2022 05:25:11 -0500
+Received: by mail-wr1-x42d.google.com with SMTP id k1so8642697wrd.8
+ for <qemu-devel@nongnu.org>; Thu, 10 Feb 2022 02:24:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=9euFYXzI0LIjN9h+qE5U9DSIi99JMamiEEWwopR6bDQ=;
- b=0GAhw38cfRUbjkfcsXL7CNqIewCoLtkhf2HmxK0FT1pfLEgeo5h3nHyMoebpJlicfUCHKpCLBpQkDjjMYYZjCNtFgJjObSKl44OPcKUWpCv1lxfKjbtjjhIAyVAFd1kSk+skxEq2r2vhYd2pJ7A/eUNE+XvhM5U5FVXypH/yrYw=
-Received: from PH0PR10MB4664.namprd10.prod.outlook.com (2603:10b6:510:41::11)
- by DM6PR10MB3513.namprd10.prod.outlook.com (2603:10b6:5:17b::19) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4951.17; Thu, 10 Feb
- 2022 10:23:15 +0000
-Received: from PH0PR10MB4664.namprd10.prod.outlook.com
- ([fe80::b8e3:f092:c0ea:9ddf]) by PH0PR10MB4664.namprd10.prod.outlook.com
- ([fe80::b8e3:f092:c0ea:9ddf%4]) with mapi id 15.20.4951.019; Thu, 10 Feb 2022
- 10:23:15 +0000
-From: Jonah Palmer <jonah.palmer@oracle.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v12 8/8] hmp: add virtio commands
-Date: Thu, 10 Feb 2022 05:22:00 -0500
-Message-Id: <1644488520-21604-9-git-send-email-jonah.palmer@oracle.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1644488520-21604-1-git-send-email-jonah.palmer@oracle.com>
-References: <1644488520-21604-1-git-send-email-jonah.palmer@oracle.com>
-Content-Type: text/plain
-X-ClientProxiedBy: BY5PR03CA0024.namprd03.prod.outlook.com
- (2603:10b6:a03:1e0::34) To PH0PR10MB4664.namprd10.prod.outlook.com
- (2603:10b6:510:41::11)
+ d=brainfault-org.20210112.gappssmtp.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=znHsyHjkEqwu7kVELjfsYjFqo4jsJ7jk+ioSeqZ1JNg=;
+ b=n9nWgQHiHf+ok45v43IWPd/nkLSxndg62uHkPuWBCXQWOLmJtWaDr9sECiOe2rsJBS
+ EabytwNfrIoRiVvJyBOiFGVPAv+/J2SpvGETvh2sG7hlerO0WTWJ/4S92nLEOTT7xPuT
+ NZKG5wbOlOBy/spMLbNbDJo8tiz9yms4sfXqZc4oAO2hVF07tBorPc5mLLp+3aDmbuWe
+ SnIzb3ZnIYofxF9fur1zkXEGeGAnu3AgZyy/4VZIHaXGexXs66qKqBZEuhOBohD1sgrE
+ gOhMMC86M2kwpxF9/AKve+ZfktUABLTEwtP6OXEKFyrUHN7r/amN89IH2DRavHHbhfo4
+ X4Bw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=znHsyHjkEqwu7kVELjfsYjFqo4jsJ7jk+ioSeqZ1JNg=;
+ b=yvJ2m7/eeIOKvf/wXHH5Q9nlNAZSzcfBTIp/QUyke19Qjun210mOL4pmUOuqMyXVtF
+ xAZUCmyNPD6FyHui6Go4yt7zy3yHyB2oNbx8mym/5xY2BF5z43U2aYJKEgivjgSjaYwy
+ WoNDV7zR99xw18DzkfPS2OX9IJvYgYUwp4D8RU1sa5sxOuL+0n2dWPfJfwoq+MNKs9El
+ PPB6lhjQf0y79rRbAkwOQOF4UZ0sm04ce2+s9SR8826zQykpRZYpHNlslrBUEYthorXO
+ +YqWwq3sxVhI+TZH9NmRKu6xxU929CinHMNIqY0rYDmppv1TpcFGaYhQGcsDWMaBqCKR
+ WURw==
+X-Gm-Message-State: AOAM5331griXU3Xl7UzSTzSeGTWevJOto/QJtVX4WnHdYX6otFLhobKp
+ P0aKtN6MoUeO9I1DmJrUCu8vA6qvYZsFwxPa2grn2g==
+X-Google-Smtp-Source: ABdhPJxr6yOLlqHB1kUVN/bMBjk1Jc9n6MdJvlwpkDV4AqaNQB4ij3j6lE7HiJfuakVBWzTTNybASsWp4++qzokKisI=
+X-Received: by 2002:a05:6000:1e0a:: with SMTP id
+ bj10mr5735021wrb.313.1644488688916; 
+ Thu, 10 Feb 2022 02:24:48 -0800 (PST)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 7c08e011-9db0-48c4-8b9d-08d9ec7f5918
-X-MS-TrafficTypeDiagnostic: DM6PR10MB3513:EE_
-X-Microsoft-Antispam-PRVS: <DM6PR10MB351364EAE4BF455C2FEC1BC6E82F9@DM6PR10MB3513.namprd10.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:120;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: V1iAfEVuMgpb8Y3+CtU1V5fhysvYFu3nS9cmJ2RHLQawbdJI9gIqsWmgr1FEnIPADfZsrocRt/7rKJ129oTndJS+Dqs6EgYK9AKgV13qUqT+wxF3eADeCkyIQr6dIAx0dLHAdDKLQj7ez3vfPV5ii7AaBVKWmhulyaJDi/v4s6Qs8kNyXmV74IHG8Xd0BEIlLuKfMkMAou6grBTc09j3mzWqRaOHDyzUyUK9wUbgkvt4Z7DaEHDTABPIeDJl02QZLPpPDjaXAf7B0skh46NeFZSJZZ6xUbIUXNWJ20R/E4cKlB1Ty6mbU8nk5SfubK45zMY4GyM/mfbqnODwaso2NtM5CaX0ZsvMpDpWDWthWyO8E4O0/vMc9PPaHv4IPubwIVUm0ilQxtYkt/dHtfXUzGahGN5bOESfKswlf2uWe+D4yDih4cbf9uG+nGv21Zfprgu2rbmCqS4w3cljnb8A/qjSZnL/tnqSsvNe0qde1NuNwibeXlhZxh3O50vrulFkUN30jyfs6f4e+2VfsOFJyyFuEKIzuBh99n8pnYYJ1qRZiDQVIpzlpGK/azPGMRjGZ4ptvcAvp1H3JvCruUe11ZDfoBdKoPEqm6657hJ3CBXSXlNk07cVyhg1ex96yyoM6pBP0+QZ8PTqsh1ftBP8zUxCWGE/Z51ITU3eY3DHECxn1CoYp5srOEzM810YdY3JCTZs0Wll8vPGHs2fYf4WPg==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH0PR10MB4664.namprd10.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230001)(366004)(4326008)(6666004)(508600001)(30864003)(44832011)(86362001)(8936002)(8676002)(66476007)(66556008)(66946007)(6486002)(7416002)(83380400001)(5660300002)(316002)(6506007)(38350700002)(2616005)(36756003)(38100700002)(6512007)(52116002)(186003)(6916009)(26005)(2906002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?EKq2+RrK6DrvzAuZnVWxe/XUQ9JnsxnNjK6yu8zGlO4iGWCsikVrLDADE9Zc?=
- =?us-ascii?Q?lloxQja1vgSTaSAuWwV2C7twavwL2tu2QD9UsQ6TIm8g3bH1ytDpCWDyeMj2?=
- =?us-ascii?Q?RDEAG0CPG4msKgLkbxQyMy5zg3doumqlke/D3Pb3s+o/qeIjr0WNhXztjXHm?=
- =?us-ascii?Q?MZaZt+nFXpuaguBoAVsO1KJpbVJdnYcVsBSvZhkLpRlH48bTAz0wVZTGcqTy?=
- =?us-ascii?Q?O67B1ROLOGeRNxPWT0aT5ll5Sn9tVzZZhGaa6YQ77Usk2dPj8JrL4MC6FEZR?=
- =?us-ascii?Q?D/2+RUdzninBzUxdQNgieau+Se5Lzhd1kJskVdFU/KbVLjp+GnSPWSJus4jO?=
- =?us-ascii?Q?CKhDk4QsJMbiqzpFpwDDnLZG28nNadpPQeKvBx+Ii0TUrlv9DZR6KeE7aJ5c?=
- =?us-ascii?Q?R81qdGrh7R7a3KIORDSG2MWWOQAb+kjopQqPAEB3W0Uj8r+JPSRrbyTiFs5X?=
- =?us-ascii?Q?uQqKc/7cCCpgb70m78R24Q09qSoYGd+ChbqQwjgLEoLJguCYQnOto5V8TQWx?=
- =?us-ascii?Q?bDa1EZsXvIB4Dssw7mGjjz2pEPJfNZDlGYbw4in8z0/+BPh4R58mUjqsX/EU?=
- =?us-ascii?Q?81M5BmT2cYBRCVUJUDnDI78vKUaQL1jGgdbhsaH0BkQPHAJQALx9zfvrgu5R?=
- =?us-ascii?Q?LA8gkphMkytR9l6+uShWzXZrNXRB0w+/ibW8AYgWQI2W77tVOsR3ly0th4rw?=
- =?us-ascii?Q?zPNbjexOe10NE4XbpfmkK930QLPRcGUtYI551SWfI+9pgl2ZrBLetxHgIavW?=
- =?us-ascii?Q?TrwZMPglGhBNu2T37kl6J7yyzqahpsCOK3u2sclru1FBrxYHFt7011Rd1GxI?=
- =?us-ascii?Q?idgHRXtypC0dDXqk6ds10n89xtE3lhudUPzoYe+51RNFMVGxQINR76LnLc7H?=
- =?us-ascii?Q?9IxFqgRFNQnSOcvgFAQqZLXl0nPbYXSLxvS68LMov8poaqb7WGj9nma2Ebx5?=
- =?us-ascii?Q?MpB5B/Itk25R1IXvPkmKG/jA5kaTsL4ns9hFEWH1KQYRxqg/oCeQWxWBxxtt?=
- =?us-ascii?Q?KyESu8nhWxpdRuCHA1AYPPhzsrW4ZzwdzqPPavXSki5c0FLlEu2kisW+Gy+X?=
- =?us-ascii?Q?Cn6ynRcz3ShLCkF8xY6IziI5fFIxweJdc2JwRnaWCHWstVsSy8nByn77qGTH?=
- =?us-ascii?Q?njzNRasePDstPWAakgk/WmW6s7uA1OeWiltT/mG4NE3w2LZzLOaUvKZN/lv7?=
- =?us-ascii?Q?FZhKuEXWz2XxX/mxwqUomqz7csiW5UFKkz+auQtHYI3QCj5LLDoDOxxVyxUa?=
- =?us-ascii?Q?Ffsh5aOOxB3hoyMOpYqBLxrL/9lfKfADrmOCGannaYxunuERUI8I0tqcS5H7?=
- =?us-ascii?Q?NaZ0+M31ZHJxp9gqIVFUIMLa/WIo//UvYEopKY/cU3lN8XVmA62fZQwdc5cY?=
- =?us-ascii?Q?i5LcD1WG2A3Fz5xg0avHwiWCCSGeu9Sd+H85QbLN6+fUv8w1Yc9slMHRQWlZ?=
- =?us-ascii?Q?HWXhYfk1z0nUZtleR0L2zc/PGD9yaOaWKZfaxWpDANFexGgf8PNM0LZYo6nL?=
- =?us-ascii?Q?YPYH8OKhqzX1V1C7yauSIM7ONVp+F5QCtngGYWOmzKN6nxxNtxg0rOWn32g2?=
- =?us-ascii?Q?8hKloA3uLcgThiavPQmeckoBxl52iYjIINIi9te64NosIY6mWrAlIX38FFbF?=
- =?us-ascii?Q?ac5xp/fEPx8D2oiqSllZ/JE=3D?=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7c08e011-9db0-48c4-8b9d-08d9ec7f5918
-X-MS-Exchange-CrossTenant-AuthSource: PH0PR10MB4664.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Feb 2022 10:23:15.0693 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: ay28J2GOfoeRE2TnmhgpRCnZ0GEgQ6KFe74wt9Yx/4t2WEe57V56qB4JbkkKw09ss4xZHrHsz8+7TqIgmV4WYw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR10MB3513
-X-Proofpoint-Virus-Version: vendor=nai engine=6300 definitions=10253
- signatures=673431
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
- mlxscore=0 bulkscore=0
- phishscore=0 malwarescore=0 mlxlogscore=999 adultscore=0 spamscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2201110000
- definitions=main-2202100056
-X-Proofpoint-ORIG-GUID: TRwM4X-6-FGFxr14zX_gm2fGqX9SJOD0
-X-Proofpoint-GUID: TRwM4X-6-FGFxr14zX_gm2fGqX9SJOD0
-Received-SPF: pass client-ip=205.220.165.32;
- envelope-from=jonah.palmer@oracle.com; helo=mx0a-00069f02.pphosted.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+References: <20220204174700.534953-1-anup@brainfault.org>
+ <CAKmqyKO7QnMwSL1Mpa5BJU44EAQxyG2M-sOE8+yAH0SWrmVDug@mail.gmail.com>
+ <CAKmqyKOjr3Dcs8_QZKsa=WkBp0BaYghcUNYMEU3RfyJJmcqJOQ@mail.gmail.com>
+ <CAOnJCUJFQjk_sagCEYYTuD+Gh-9RuD6wsFkdnFhY2kHE7shZtg@mail.gmail.com>
+In-Reply-To: <CAOnJCUJFQjk_sagCEYYTuD+Gh-9RuD6wsFkdnFhY2kHE7shZtg@mail.gmail.com>
+From: Anup Patel <anup@brainfault.org>
+Date: Thu, 10 Feb 2022 15:54:38 +0530
+Message-ID: <CAAhSdy1Xc7k5V55Bkgv1-Z6BGtJ7BsXgLMF437p7mh7QC+H8=A@mail.gmail.com>
+Subject: Re: [PATCH v9 00/23] QEMU RISC-V AIA support
+To: Atish Patra <atishp@atishpatra.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42d
+ (failed)
+Received-SPF: none client-ip=2a00:1450:4864:20::42d;
+ envelope-from=anup@brainfault.org; helo=mail-wr1-x42d.google.com
+X-Spam_score_int: -10
+X-Spam_score: -1.1
+X-Spam_bar: -
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_NONE=0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -161,451 +86,194 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: mst@redhat.com, qemu_oss@crudebyte.com, kraxel@redhat.com,
- si-wei.liu@oracle.com, joao.m.martins@oracle.com, eblake@redhat.com,
- qemu-block@nongnu.org, david@redhat.com, armbru@redhat.com,
- arei.gonglei@huawei.com, marcandre.lureau@redhat.com, lvivier@redhat.com,
- thuth@redhat.com, michael.roth@amd.com, groug@kaod.org, dgilbert@redhat.com,
- eric.auger@redhat.com, stefanha@redhat.com, boris.ostrovsky@oracle.com,
- kwolf@redhat.com, mathieu.poirier@linaro.org, raphael.norwitz@nutanix.com,
- pbonzini@redhat.com
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Alistair Francis <Alistair.Francis@wdc.com>,
+ Alistair Francis <alistair23@gmail.com>, Bin Meng <bmeng.cn@gmail.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Laurent Vivier <lvivier@redhat.com>
+On Thu, Feb 10, 2022 at 1:58 PM Atish Patra <atishp@atishpatra.org> wrote:
+>
+> On Mon, Feb 7, 2022 at 10:51 PM Alistair Francis <alistair23@gmail.com> w=
+rote:
+> >
+> > On Tue, Feb 8, 2022 at 2:16 PM Alistair Francis <alistair23@gmail.com> =
+wrote:
+> > >
+> > > On Sat, Feb 5, 2022 at 3:47 AM Anup Patel <anup@brainfault.org> wrote=
+:
+> > > >
+> > > > From: Anup Patel <anup.patel@wdc.com>
+> > > >
+> > > > The advanced interrupt architecture (AIA) extends the per-HART loca=
+l
+> > > > interrupt support. Along with this, it also adds IMSIC (MSI contrll=
+or)
+> > > > and Advanced PLIC (wired interrupt controller).
+> > > >
+> > > > The latest AIA draft specification can be found here:
+> > > > https://github.com/riscv/riscv-aia/releases/download/0.2-draft.28/r=
+iscv-interrupts-028.pdf
+> > > >
+> > > > This series adds RISC-V AIA support in QEMU which includes emulatin=
+g all
+> > > > AIA local CSRs, APLIC, and IMSIC. Only AIA local interrupt filterin=
+g is
+> > > > not implemented because we don't have any local interrupt greater t=
+han 12.
+> > > >
+> > > > To enable AIA in QEMU, use one of the following:
+> > > > 1) Only AIA local interrupt CSRs: Pass "x-aia=3Dtrue" as CPU parame=
+nter
+> > > >    in the QEMU command-line
+> > > > 2) Only APLIC for virt machine: Pass "aia=3Daplic" as machine param=
+eter
+> > > >    in the QEMU command-line
+> > > > 3) Both APLIC and IMSIC for virt machine: Pass "aia=3Daplic-imsic" =
+as
+> > > >    machine parameter in the QEMU command-line
+> > > > 4) Both APLIC and IMSIC with 2 guest files for virt machine: Pass
+> > > >    "aia=3Daplic-imsic,aia-guests=3D2" as machine parameter in the Q=
+EMU
+> > > >    command-line
+> > > >
+> > > > To test series, we require OpenSBI and Linux with AIA support which=
+ can
+> > > > be found in:
+> > > > riscv_aia_v2 branch at https://github.com/avpatel/opensbi.git
+> > > > riscv_aia_v1 branch at https://github.com/avpatel/linux.git
+> > > >
+> > > > This series can be found riscv_aia_v9 branch at:
+> > > > https://github.com/avpatel/qemu.git
+> > > >
+> > > > Changes since v8:
+> > > >  - Use error_setg() in riscv_imsic_realize() added by PATCH20
+> > > >
+> > > > Changes since v7:
+> > > >  - Rebased on latest riscv-to-apply.next branch of Alistair's repo
+> > > >  - Improved default priority assignment in PATCH9
+> > > >
+> > > > Changes since v6:
+> > > >  - Fixed priority comparison in riscv_cpu_pending_to_irq() of PATCH=
+9
+> > > >  - Fixed typos in comments added by PATCH11
+> > > >  - Added "pend =3D true;" for CSR_MSETEIPNUM case of rmw_xsetclrein=
+um()
+> > > >    in PATCH15
+> > > >  - Handle ithreshold =3D=3D 0 case in riscv_aplic_idc_topi() of PAT=
+CH18
+> > > >  - Allow setting pending bit for Level0 or Level1 interrupts in
+> > > >    riscv_aplic_set_pending() of PATCH18
+> > > >  - Force DOMAINCFG[31:24] bits to 0x80 in riscv_aplic_read() of PAT=
+CH18
+> > > >  - For APLIC direct mode, set target.iprio to 1 when zero is writte=
+rn
+> > > >    in PATCH18
+> > > >  - Handle eithreshold =3D=3D 0 case in riscv_imsic_topei() of PATCH=
+20
+> > > >
+> > > > Changes since v5:
+> > > >  - Moved VSTOPI_NUM_SRCS define to top of the file in PATCH13
+> > > >  - Fixed typo in PATCH16
+> > > >
+> > > > Changes since v4:
+> > > >  - Changed IRQ_LOCAL_MAX to 16 in PATCH2
+> > > >  - Fixed typo in PATCH10
+> > > >  - Replaced TARGET_LONG_BITS with riscv_cpu_mxl_bits(env) in PATCH1=
+1
+> > > >  - Replaced TARGET_LONG_BITS with riscv_cpu_mxl_bits(env) in PATCH1=
+4
+> > > >  - Replaced TARGET_LONG_BITS with riscv_cpu_mxl_bits(env) in PATCH1=
+5
+> > > >  - Replaced TARGET_LONG_BITS with xlen passed via ireg callback in =
+PATCH20
+> > > >  - Retrict maximum IMSIC guest files per-HART of virt machine to 7 =
+in
+> > > >    PATCH21.
+> > > >  - Added separate PATCH23 to increase maximum number of allowed CPU=
+s
+> > > >    for virt machine
+> > > >
+> > > > Changes since v3:
+> > > >  - Replaced "aplic,xyz" and "imsic,xyz" DT properties with "riscv,x=
+yz"
+> > > >    DT properties because "aplic" and "imsic" are not valid vendor n=
+ames
+> > > >    required by Linux DT schema checker.
+> > > >
+> > > > Changes since v2:
+> > > >  - Update PATCH4 to check and inject interrupt after V=3D1 when
+> > > >    transitioning from V=3D0 to V=3D1
+> > > >
+> > > > Changes since v1:
+> > > >  - Revamped whole series and created more granular patches
+> > > >  - Added HGEIE and HGEIP CSR emulation for H-extension
+> > > >  - Added APLIC emulation
+> > > >  - Added IMSIC emulation
+> > > >
+> > > > Anup Patel (23):
+> > > >   target/riscv: Fix trap cause for RV32 HS-mode CSR access from RV6=
+4
+> > > >     HS-mode
+> > > >   target/riscv: Implement SGEIP bit in hip and hie CSRs
+> > > >   target/riscv: Implement hgeie and hgeip CSRs
+> > > >   target/riscv: Improve delivery of guest external interrupts
+> > > >   target/riscv: Allow setting CPU feature from machine/device emula=
+tion
+> > > >   target/riscv: Add AIA cpu feature
+> > > >   target/riscv: Add defines for AIA CSRs
+> > > >   target/riscv: Allow AIA device emulation to set ireg rmw callback
+> > > >   target/riscv: Implement AIA local interrupt priorities
+> > > >   target/riscv: Implement AIA CSRs for 64 local interrupts on RV32
+> > > >   target/riscv: Implement AIA hvictl and hviprioX CSRs
+> > > >   target/riscv: Implement AIA interrupt filtering CSRs
+> > > >   target/riscv: Implement AIA mtopi, stopi, and vstopi CSRs
+> > > >   target/riscv: Implement AIA xiselect and xireg CSRs
+> > > >   target/riscv: Implement AIA IMSIC interface CSRs
+> > > >   hw/riscv: virt: Use AIA INTC compatible string when available
+> > > >   target/riscv: Allow users to force enable AIA CSRs in HART
+> > > >   hw/intc: Add RISC-V AIA APLIC device emulation
+> > > >   hw/riscv: virt: Add optional AIA APLIC support to virt machine
+> > > >   hw/intc: Add RISC-V AIA IMSIC device emulation
+> > > >   hw/riscv: virt: Add optional AIA IMSIC support to virt machine
+> > > >   docs/system: riscv: Document AIA options for virt machine
+> > > >   hw/riscv: virt: Increase maximum number of allowed CPUs
+> >
+> > Hey Anup,
+> >
+> > There are lots of checkpatch errors in these patches. In the future
+> > can you please make sure you run checkpatch on all patches.
+> >
+> > In this case I have manually fixed them up.
+> >
+> > Alistair
+>
+> I am also getting this error in gcc 11.1.0 on your tree "riscv-to-apply.n=
+ext"
+>
+> ../target/riscv/csr.c: In function =E2=80=98rmw_sie=E2=80=99:
+> ../target/riscv/csr.c:1571:18: error: =E2=80=98rval=E2=80=99 may be used =
+uninitialized
+> in this function [-Werror=3Dmaybe-uninitialized]
+>  1571 |         *ret_val =3D rval;
+>       |         ~~~~~~~~~^~~~~~
+> cc1: all warnings being treated as errors
+>
+> I guess you will fix it directly in the correct patch. Let me know if
+> you want me to send a patch.
 
-This patch implements the HMP versions of the virtio QMP commands.
+I suggest you directly send a fix since you are able to reproduce
+this error.
 
-[Jonah: Fixed virtio hmp command output format (e.g. use PRI types).]
+Regards,
+Anup
 
-Signed-off-by: Jonah Palmer <jonah.palmer@oracle.com>
----
- hmp-commands-info.hx  |  70 ++++++++++++
- include/monitor/hmp.h |   5 +
- monitor/hmp-cmds.c    | 311 ++++++++++++++++++++++++++++++++++++++++++++++++++
- 3 files changed, 386 insertions(+)
-
-diff --git a/hmp-commands-info.hx b/hmp-commands-info.hx
-index 407a1da..e49d852 100644
---- a/hmp-commands-info.hx
-+++ b/hmp-commands-info.hx
-@@ -877,3 +877,73 @@ SRST
-   ``info sgx``
-     Show intel SGX information.
- ERST
-+
-+    {
-+        .name      = "virtio",
-+        .args_type = "",
-+        .params    = "",
-+        .help      = "List all available virtio devices",
-+        .cmd       = hmp_virtio_query,
-+        .flags     = "p",
-+    },
-+
-+SRST
-+  ``info virtio``
-+    List all available virtio devices
-+ERST
-+
-+    {
-+        .name      = "virtio-status",
-+        .args_type = "path:s",
-+        .params    = "path",
-+        .help      = "Display status of a given virtio device",
-+        .cmd       = hmp_virtio_status,
-+        .flags     = "p",
-+    },
-+
-+SRST
-+  ``info virtio-status`` *path*
-+    Display status of a given virtio device
-+ERST
-+
-+    {
-+        .name      = "virtio-queue-status",
-+        .args_type = "path:s,queue:i",
-+        .params    = "path queue",
-+        .help      = "Display status of a given virtio queue",
-+        .cmd       = hmp_virtio_queue_status,
-+        .flags     = "p",
-+    },
-+
-+SRST
-+  ``info virtio-queue-status`` *path* *queue*
-+    Display status of a given virtio queue
-+ERST
-+
-+    {
-+        .name      = "virtio-vhost-queue-status",
-+        .args_type = "path:s,queue:i",
-+        .params    = "path queue",
-+        .help      = "Display status of a given vhost queue",
-+        .cmd       = hmp_vhost_queue_status,
-+        .flags     = "p",
-+    },
-+
-+SRST
-+  ``info virtio-vhost-queue-status`` *path* *queue*
-+    Display status of a given vhost queue
-+ERST
-+
-+    {
-+        .name       = "virtio-queue-element",
-+        .args_type  = "path:s,queue:i,index:i?",
-+        .params     = "path queue [index]",
-+        .help       = "Display element of a given virtio queue",
-+        .cmd        = hmp_virtio_queue_element,
-+        .flags      = "p",
-+    },
-+
-+SRST
-+  ``info virtio-queue-element`` *path* *queue* [*index*]
-+    Display element of a given virtio queue
-+ERST
-diff --git a/include/monitor/hmp.h b/include/monitor/hmp.h
-index 96d0148..47446d8 100644
---- a/include/monitor/hmp.h
-+++ b/include/monitor/hmp.h
-@@ -95,6 +95,11 @@ void hmp_qom_list(Monitor *mon, const QDict *qdict);
- void hmp_qom_get(Monitor *mon, const QDict *qdict);
- void hmp_qom_set(Monitor *mon, const QDict *qdict);
- void hmp_info_qom_tree(Monitor *mon, const QDict *dict);
-+void hmp_virtio_query(Monitor *mon, const QDict *qdict);
-+void hmp_virtio_status(Monitor *mon, const QDict *qdict);
-+void hmp_virtio_queue_status(Monitor *mon, const QDict *qdict);
-+void hmp_vhost_queue_status(Monitor *mon, const QDict *qdict);
-+void hmp_virtio_queue_element(Monitor *mon, const QDict *qdict);
- void object_add_completion(ReadLineState *rs, int nb_args, const char *str);
- void object_del_completion(ReadLineState *rs, int nb_args, const char *str);
- void device_add_completion(ReadLineState *rs, int nb_args, const char *str);
-diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
-index 2669156..d001238 100644
---- a/monitor/hmp-cmds.c
-+++ b/monitor/hmp-cmds.c
-@@ -42,6 +42,8 @@
- #include "qapi/qapi-commands-run-state.h"
- #include "qapi/qapi-commands-tpm.h"
- #include "qapi/qapi-commands-ui.h"
-+#include "qapi/qapi-commands-virtio.h"
-+#include "qapi/qapi-visit-virtio.h"
- #include "qapi/qapi-visit-net.h"
- #include "qapi/qapi-visit-migration.h"
- #include "qapi/qmp/qdict.h"
-@@ -2166,3 +2168,312 @@ void hmp_info_memory_size_summary(Monitor *mon, const QDict *qdict)
-     }
-     hmp_handle_error(mon, err);
- }
-+
-+static void hmp_virtio_dump_protocols(Monitor *mon,
-+                                      VhostDeviceProtocols *pcol)
-+{
-+    strList *pcol_list = pcol->protocols;
-+    while (pcol_list) {
-+        monitor_printf(mon, "%s", pcol_list->value);
-+        pcol_list = pcol_list->next;
-+        if (pcol_list != NULL) {
-+            monitor_printf(mon, ", ");
-+        }
-+    }
-+    monitor_printf(mon, "\n");
-+    if (pcol->has_unknown_protocols) {
-+        monitor_printf(mon, "  unknown-protocols(0x%016"PRIx64")\n",
-+                       pcol->unknown_protocols);
-+    }
-+}
-+
-+static void hmp_virtio_dump_status(Monitor *mon,
-+                                   VirtioDeviceStatus *status)
-+{
-+    strList *status_list = status->statuses;
-+    while (status_list) {
-+        monitor_printf(mon, "%s", status_list->value);
-+        status_list = status_list->next;
-+        if (status_list != NULL) {
-+            monitor_printf(mon, ", ");
-+        }
-+    }
-+    monitor_printf(mon, "\n");
-+    if (status->has_unknown_statuses) {
-+        monitor_printf(mon, "  unknown-statuses(0x%016"PRIx32")\n",
-+                       status->unknown_statuses);
-+    }
-+}
-+
-+static void hmp_virtio_dump_features(Monitor *mon,
-+                                     VirtioDeviceFeatures *features)
-+{
-+    strList *transport_list = features->transports;
-+    while (transport_list) {
-+        monitor_printf(mon, "%s", transport_list->value);
-+        transport_list = transport_list->next;
-+        if (transport_list != NULL) {
-+            monitor_printf(mon, ", ");
-+        }
-+    }
-+
-+    monitor_printf(mon, "\n");
-+    strList *list = features->dev_features;
-+    if (list) {
-+        monitor_printf(mon, "                    ");
-+        while (list) {
-+            monitor_printf(mon, "%s", list->value);
-+            list = list->next;
-+            if (list != NULL) {
-+                monitor_printf(mon, ", ");
-+            }
-+        }
-+        monitor_printf(mon, "\n");
-+    }
-+
-+    if (features->has_unknown_dev_features) {
-+        monitor_printf(mon, "  unknown-features(0x%016"PRIx64")\n",
-+                       features->unknown_dev_features);
-+    }
-+}
-+
-+void hmp_virtio_query(Monitor *mon, const QDict *qdict)
-+{
-+    Error *err = NULL;
-+    VirtioInfoList *list = qmp_x_query_virtio(&err);
-+    VirtioInfoList *node;
-+
-+    if (err != NULL) {
-+        hmp_handle_error(mon, err);
-+        return;
-+    }
-+
-+    if (list == NULL) {
-+        monitor_printf(mon, "No VirtIO devices\n");
-+        return;
-+    }
-+
-+    node = list;
-+    while (node) {
-+        monitor_printf(mon, "%s [%s]\n", node->value->path,
-+                       node->value->name);
-+        node = node->next;
-+    }
-+    qapi_free_VirtioInfoList(list);
-+}
-+
-+void hmp_virtio_status(Monitor *mon, const QDict *qdict)
-+{
-+    Error *err = NULL;
-+    const char *path = qdict_get_try_str(qdict, "path");
-+    VirtioStatus *s = qmp_x_query_virtio_status(path, &err);
-+
-+    if (err != NULL) {
-+        hmp_handle_error(mon, err);
-+        return;
-+    }
-+
-+    monitor_printf(mon, "%s:\n", path);
-+    monitor_printf(mon, "  device_name:             %s %s\n",
-+                   s->name, s->has_vhost_dev ? "(vhost)" : "");
-+    monitor_printf(mon, "  device_id:               %d\n", s->device_id);
-+    monitor_printf(mon, "  vhost_started:           %s\n",
-+                   s->vhost_started ? "true" : "false");
-+    monitor_printf(mon, "  bus_name:                %s\n", s->bus_name);
-+    monitor_printf(mon, "  broken:                  %s\n",
-+                   s->broken ? "true" : "false");
-+    monitor_printf(mon, "  disabled:                %s\n",
-+                   s->disabled ? "true" : "false");
-+    monitor_printf(mon, "  disable_legacy_check:    %s\n",
-+                   s->disable_legacy_check ? "true" : "false");
-+    monitor_printf(mon, "  started:                 %s\n",
-+                   s->started ? "true" : "false");
-+    monitor_printf(mon, "  use_started:             %s\n",
-+                   s->use_started ? "true" : "false");
-+    monitor_printf(mon, "  start_on_kick:           %s\n",
-+                   s->start_on_kick ? "true" : "false");
-+    monitor_printf(mon, "  use_guest_notifier_mask: %s\n",
-+                   s->use_guest_notifier_mask ? "true" : "false");
-+    monitor_printf(mon, "  vm_running:              %s\n",
-+                   s->vm_running ? "true" : "false");
-+    monitor_printf(mon, "  num_vqs:                 %"PRId64"\n", s->num_vqs);
-+    monitor_printf(mon, "  queue_sel:               %d\n",
-+                   s->queue_sel);
-+    monitor_printf(mon, "  isr:                     %d\n", s->isr);
-+    monitor_printf(mon, "  endianness:              %s\n",
-+                   s->device_endian);
-+    monitor_printf(mon, "  status: ");
-+    hmp_virtio_dump_status(mon, s->status);
-+    monitor_printf(mon, "  Guest features:   ");
-+    hmp_virtio_dump_features(mon, s->guest_features);
-+    monitor_printf(mon, "  Host features:    ");
-+    hmp_virtio_dump_features(mon, s->host_features);
-+    monitor_printf(mon, "  Backend features: ");
-+    hmp_virtio_dump_features(mon, s->backend_features);
-+
-+    if (s->has_vhost_dev) {
-+        monitor_printf(mon, "  VHost:\n");
-+        monitor_printf(mon, "    nvqs:           %d\n",
-+                       s->vhost_dev->nvqs);
-+        monitor_printf(mon, "    vq_index:       %"PRId64"\n",
-+                       s->vhost_dev->vq_index);
-+        monitor_printf(mon, "    max_queues:     %"PRId64"\n",
-+                       s->vhost_dev->max_queues);
-+        monitor_printf(mon, "    n_mem_sections: %"PRId64"\n",
-+                       s->vhost_dev->n_mem_sections);
-+        monitor_printf(mon, "    n_tmp_sections: %"PRId64"\n",
-+                       s->vhost_dev->n_tmp_sections);
-+        monitor_printf(mon, "    backend_cap:    %"PRId64"\n",
-+                       s->vhost_dev->backend_cap);
-+        monitor_printf(mon, "    log_enabled:    %s\n",
-+                       s->vhost_dev->log_enabled ? "true" : "false");
-+        monitor_printf(mon, "    log_size:       %"PRId64"\n",
-+                       s->vhost_dev->log_size);
-+        monitor_printf(mon, "    Features:          ");
-+        hmp_virtio_dump_features(mon, s->vhost_dev->features);
-+        monitor_printf(mon, "    Acked features:    ");
-+        hmp_virtio_dump_features(mon, s->vhost_dev->acked_features);
-+        monitor_printf(mon, "    Backend features:  ");
-+        hmp_virtio_dump_features(mon, s->vhost_dev->backend_features);
-+        monitor_printf(mon, "    Protocol features: ");
-+        hmp_virtio_dump_protocols(mon, s->vhost_dev->protocol_features);
-+    }
-+
-+    qapi_free_VirtioStatus(s);
-+}
-+
-+void hmp_vhost_queue_status(Monitor *mon, const QDict *qdict)
-+{
-+    Error *err = NULL;
-+    const char *path = qdict_get_try_str(qdict, "path");
-+    int queue = qdict_get_int(qdict, "queue");
-+    VirtVhostQueueStatus *s =
-+        qmp_x_query_virtio_vhost_queue_status(path, queue, &err);
-+
-+    if (err != NULL) {
-+        hmp_handle_error(mon, err);
-+        return;
-+    }
-+
-+    monitor_printf(mon, "%s:\n", path);
-+    monitor_printf(mon, "  device_name:          %s (vhost)\n",
-+                   s->name);
-+    monitor_printf(mon, "  kick:                 %"PRId64"\n", s->kick);
-+    monitor_printf(mon, "  call:                 %"PRId64"\n", s->call);
-+    monitor_printf(mon, "  VRing:\n");
-+    monitor_printf(mon, "    num:         %"PRId64"\n", s->num);
-+    monitor_printf(mon, "    desc:        0x%016"PRIx64"\n", s->desc);
-+    monitor_printf(mon, "    desc_phys:   0x%016"PRIx64"\n",
-+                   s->desc_phys);
-+    monitor_printf(mon, "    desc_size:   %"PRId32"\n", s->desc_size);
-+    monitor_printf(mon, "    avail:       0x%016"PRIx64"\n", s->avail);
-+    monitor_printf(mon, "    avail_phys:  0x%016"PRIx64"\n",
-+                   s->avail_phys);
-+    monitor_printf(mon, "    avail_size:  %"PRId32"\n", s->avail_size);
-+    monitor_printf(mon, "    used:        0x%016"PRIx64"\n", s->used);
-+    monitor_printf(mon, "    used_phys:   0x%016"PRIx64"\n",
-+                   s->used_phys);
-+    monitor_printf(mon, "    used_size:   %"PRId32"\n", s->used_size);
-+
-+    qapi_free_VirtVhostQueueStatus(s);
-+}
-+
-+void hmp_virtio_queue_status(Monitor *mon, const QDict *qdict)
-+{
-+    Error *err = NULL;
-+    const char *path = qdict_get_try_str(qdict, "path");
-+    int queue = qdict_get_int(qdict, "queue");
-+    VirtQueueStatus *s = qmp_x_query_virtio_queue_status(path, queue, &err);
-+
-+    if (err != NULL) {
-+        hmp_handle_error(mon, err);
-+        return;
-+    }
-+
-+    monitor_printf(mon, "%s:\n", path);
-+    monitor_printf(mon, "  device_name:          %s\n", s->name);
-+    monitor_printf(mon, "  queue_index:          %d\n", s->queue_index);
-+    monitor_printf(mon, "  inuse:                %d\n", s->inuse);
-+    monitor_printf(mon, "  used_idx:             %d\n", s->used_idx);
-+    monitor_printf(mon, "  signalled_used:       %d\n",
-+                   s->signalled_used);
-+    monitor_printf(mon, "  signalled_used_valid: %s\n",
-+                   s->signalled_used_valid ? "true" : "false");
-+    if (s->has_last_avail_idx) {
-+        monitor_printf(mon, "  last_avail_idx:       %d\n",
-+                       s->last_avail_idx);
-+    }
-+    if (s->has_shadow_avail_idx) {
-+        monitor_printf(mon, "  shadow_avail_idx:     %d\n",
-+                       s->shadow_avail_idx);
-+    }
-+    monitor_printf(mon, "  VRing:\n");
-+    monitor_printf(mon, "    num:          %"PRId32"\n", s->vring_num);
-+    monitor_printf(mon, "    num_default:  %"PRId32"\n",
-+                   s->vring_num_default);
-+    monitor_printf(mon, "    align:        %"PRId32"\n",
-+                   s->vring_align);
-+    monitor_printf(mon, "    desc:         0x%016"PRIx64"\n",
-+                   s->vring_desc);
-+    monitor_printf(mon, "    avail:        0x%016"PRIx64"\n",
-+                   s->vring_avail);
-+    monitor_printf(mon, "    used:         0x%016"PRIx64"\n",
-+                   s->vring_used);
-+
-+    qapi_free_VirtQueueStatus(s);
-+}
-+
-+void hmp_virtio_queue_element(Monitor *mon, const QDict *qdict)
-+{
-+    Error *err = NULL;
-+    const char *path = qdict_get_try_str(qdict, "path");
-+    int queue = qdict_get_int(qdict, "queue");
-+    int index = qdict_get_try_int(qdict, "index", -1);
-+    VirtioQueueElement *e;
-+    VirtioRingDescList *list;
-+
-+    e = qmp_x_query_virtio_queue_element(path, queue, index != -1,
-+                                         index, &err);
-+    if (err != NULL) {
-+        hmp_handle_error(mon, err);
-+        return;
-+    }
-+
-+    monitor_printf(mon, "%s:\n", path);
-+    monitor_printf(mon, "  device_name: %s\n", e->name);
-+    monitor_printf(mon, "  index:       %d\n", e->index);
-+    monitor_printf(mon, "  desc:\n");
-+    monitor_printf(mon, "    descs:   ");
-+
-+    list = e->descs;
-+    while (list) {
-+        monitor_printf(mon, "addr 0x%"PRIx64" len %d", list->value->addr,
-+                       list->value->len);
-+        if (list->value->flags) {
-+            strList *flag = list->value->flags;
-+            monitor_printf(mon, " (");
-+            while (flag) {
-+                monitor_printf(mon, "%s", flag->value);
-+                flag = flag->next;
-+                if (flag) {
-+                    monitor_printf(mon, ", ");
-+                }
-+            }
-+            monitor_printf(mon, ")");
-+        }
-+        list = list->next;
-+        if (list) {
-+            monitor_printf(mon, ", ");
-+        }
-+    }
-+    monitor_printf(mon, "\n");
-+    monitor_printf(mon, "  avail:\n");
-+    monitor_printf(mon, "    flags: %d\n", e->avail->flags);
-+    monitor_printf(mon, "    idx:   %d\n", e->avail->idx);
-+    monitor_printf(mon, "    ring:  %d\n", e->avail->ring);
-+    monitor_printf(mon, "  used:\n");
-+    monitor_printf(mon, "    flags: %d\n", e->used->flags);
-+    monitor_printf(mon, "    idx:   %d\n", e->used->idx);
-+
-+    qapi_free_VirtioQueueElement(e);
-+}
--- 
-1.8.3.1
-
+>
+> --
+> Regards,
+> Atish
 
