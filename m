@@ -2,80 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 073D14B0D95
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Feb 2022 13:31:45 +0100 (CET)
-Received: from localhost ([::1]:46250 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C8344B0DCD
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Feb 2022 13:51:31 +0100 (CET)
+Received: from localhost ([::1]:53714 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nI8bv-0006Pp-RA
-	for lists+qemu-devel@lfdr.de; Thu, 10 Feb 2022 07:31:43 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:55062)
+	id 1nI8v4-00043F-1M
+	for lists+qemu-devel@lfdr.de; Thu, 10 Feb 2022 07:51:30 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:58616)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <shorne@gmail.com>) id 1nI8Oq-000883-51
- for qemu-devel@nongnu.org; Thu, 10 Feb 2022 07:18:12 -0500
-Received: from [2607:f8b0:4864:20::42c] (port=39695
- helo=mail-pf1-x42c.google.com)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1nI8dQ-0000j2-44
+ for qemu-devel@nongnu.org; Thu, 10 Feb 2022 07:33:18 -0500
+Received: from [2607:f8b0:4864:20::1035] (port=35609
+ helo=mail-pj1-x1035.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <shorne@gmail.com>) id 1nI8On-0002CL-Jm
- for qemu-devel@nongnu.org; Thu, 10 Feb 2022 07:18:11 -0500
-Received: by mail-pf1-x42c.google.com with SMTP id r19so9886574pfh.6
- for <qemu-devel@nongnu.org>; Thu, 10 Feb 2022 04:18:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=MjFEhHEyyN8cW1P/6h+6/8+RGSArPU650f4sHAQQw+8=;
- b=UMWtcyZYkd8A4AOYKZlY7SLFzf3M4gU3xOb/5F0MQUmL1qui+dVlm0gqC8b9+nTkfF
- EvaFLg8ChmeEiK91tKMKQV2wadiPkUJVpMAT4zhlpcnrb0BkNV9CPzdeS9FT00rQUnUp
- UfXo2O08+dquPgM5PSrnIev7Gaj8JT3vQTrVjyPu/CAAY4RKQG7WmCdHPzSnX7s4poDp
- NZit1GTa6RCcMX86alHcAWquEYoirUEH/wc8PErwRlxeDebgBvG4qCHcBbR92opYNEFX
- 1juMMXimOQG2ipzv57L5hTmrjMG5gau3aJFrZ/FeRaZjUi69WnMyKQy/q3X3muASqOFY
- nnVg==
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1nI8dM-0004nO-8P
+ for qemu-devel@nongnu.org; Thu, 10 Feb 2022 07:33:15 -0500
+Received: by mail-pj1-x1035.google.com with SMTP id
+ a11-20020a17090a740b00b001b8b506c42fso8449432pjg.0
+ for <qemu-devel@nongnu.org>; Thu, 10 Feb 2022 04:32:55 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
+ h=from:date:to:cc:subject:in-reply-to:message-id:references
+ :user-agent:mime-version;
+ bh=8ObZGsvRcZQsCY6LjM3+OBO86CqdVLdS81leK0T+21M=;
+ b=mt/Nuc7oHqHgNDx6owC2TNxvjjzKgkL+Z9Bgp5nmxNgh7j6jZtbm32UvLjwB7HWvZr
+ EpN54oPO66MbAIdq9OZVUjj5zAqap+CVG4N01SUSdnGmZ2qvNyMTa8HmaigJ/NDKVZ0B
+ 7JL1EjPO12wET9O8nI9tCXTW3scP7X3YYi7KvO9GJ8P/TbABbbWYRQXZd2xfzTIb4TNB
+ djHHgG9EbhtnpvlC17JpHZ4aAiX9dEkbKGOZhOBlLPYW7I9CXJdsTqTd3wAvU7DMazj4
+ V9lG/dtqIHqQ7YwHINA6J9DHtRgbafvdWc3CrG+5KeN7CV6dkrC4W69iHu1txEryWStW
+ BYew==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=MjFEhHEyyN8cW1P/6h+6/8+RGSArPU650f4sHAQQw+8=;
- b=B4WjZwuBdauENmCaud5dapNIXLA3cUYBw7oCgUn/3A7OBXI8+uNAd+dJJa/cjfaQq5
- pPP+7Vo7DvCEvlkah6/Q45x6NPreEpqh7LmK8p8zpmOW4dd5bFS947r0TrD2EYgO1H2y
- u494izpI1CkwUfaAKc7FqBbMK3QANrd9z+gsT04ZqIq/s3Iwc8vC/Zu/qB7lo7qBKvhF
- HFHUG9mYVb/8GVcoBQuYCsegvXh+JURUapL26dC5Vxrtk8J2FurwFzLDvioGaKFqenQL
- Zp02vwFXpbXVWxB5CU/OGXmzxp1DsSGKeX7fje9QbJvUkMSsuH0/+5IqsrrDR6mzMML8
- ytHg==
-X-Gm-Message-State: AOAM533WX3xbGzZf3nfr0kVh29EHol+ih9JwWs1X23Ec4Qu35NWwwKI8
- L4xwfc5nAQuIJB1q0n+XFLg=
-X-Google-Smtp-Source: ABdhPJz/W5V2w1A5Eu1jXO4ToZ5L0M+pWxuqo5XGbeS4vxj4ctulngcKC/4+j3cmn28qTJE9UmZV1Q==
-X-Received: by 2002:a05:6a00:181f:: with SMTP id
- y31mr7206630pfa.35.1644495488319; 
- Thu, 10 Feb 2022 04:18:08 -0800 (PST)
-Received: from localhost ([2409:10:24a0:4700:e8ad:216a:2a9d:6d0c])
- by smtp.gmail.com with ESMTPSA id s32sm16770994pfw.80.2022.02.10.04.18.07
+ h=x-gm-message-state:from:date:to:cc:subject:in-reply-to:message-id
+ :references:user-agent:mime-version;
+ bh=8ObZGsvRcZQsCY6LjM3+OBO86CqdVLdS81leK0T+21M=;
+ b=IPcgE7xvsDQmjOTl9i4woA/IqTQBNAb+WHd9RXClFEjNK4XlTrInMR+Hnrr8QKM+pc
+ g3hpJTnXjrMToq7N4/6GrT12CxkEI8pZqLT9iRtbRet2ZlqsHzPeQgnvbrUm1C8WvzS+
+ BVSRkgupEq1XJ6YmblqBPyVAzLTSss3jKmFz3dWndoupXHjRdK/n5rJS4A0WmVjB2MQZ
+ sDAzcEtw+Gj0Dx4nvDQX2sxBaUX0DxEaRLP7qDWOhp74cNKcjTuMFwAWc7cnOYBq8ZFO
+ BnAZR8RvOyDV6mN8mmcOmph8QflDiYP9Ke9zSKxhWxf4/ZwnrxVJxzIQxAuwKpqjtnB8
+ 8zQA==
+X-Gm-Message-State: AOAM533Depv39WGf/Os6TQn0brpg5Q1fF49qbnn2CVDnpheS5d/LjDU7
+ rzJ4WC6IkruXgazb+NIzmPCE0w==
+X-Google-Smtp-Source: ABdhPJw/ovLdO9r/R+0YBIOQJWlTQOdcm7R+N5mamlawbIO8Dd+h0sdyr7tba0cXIEoruAuFfba9/w==
+X-Received: by 2002:a17:902:e54d:: with SMTP id
+ n13mr7367677plf.120.1644496374267; 
+ Thu, 10 Feb 2022 04:32:54 -0800 (PST)
+Received: from anisinha-lenovo ([115.96.148.209])
+ by smtp.googlemail.com with ESMTPSA id 142sm15060022pfy.11.2022.02.10.04.32.51
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 10 Feb 2022 04:18:07 -0800 (PST)
-Date: Thu, 10 Feb 2022 21:18:05 +0900
-From: Stafford Horne <shorne@gmail.com>
-To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>
-Subject: Re: [PATCH 2/4] hw/openrisc/openrisc_sim: Paramatarize initialization
-Message-ID: <YgUCfWa1xCRLIc8Z@antec>
-References: <20220210063009.1048751-1-shorne@gmail.com>
- <20220210063009.1048751-3-shorne@gmail.com>
- <ac0eb0a2-8a8e-c95c-08a4-4dfe07862f9b@amsat.org>
+ Thu, 10 Feb 2022 04:32:53 -0800 (PST)
+From: Ani Sinha <ani@anisinha.ca>
+X-Google-Original-From: Ani Sinha <anisinha@anisinha.ca>
+Date: Thu, 10 Feb 2022 18:02:48 +0530 (IST)
+X-X-Sender: anisinha@anisinha-lenovo
+To: Ani Sinha <ani@anisinha.ca>
+Subject: Re: [PATCH v2] hw/smbios: fix memory corruption for large guests
+ due to handle overlap
+In-Reply-To: <CAARzgwzRRzt_oBaYFbmD+cpGeNgHMq5TcOvWiSVZ8eL159XERQ@mail.gmail.com>
+Message-ID: <alpine.DEB.2.22.394.2202101802140.2941252@anisinha-lenovo>
+References: <20220203130957.2248949-1-ani@anisinha.ca>
+ <20220204103423.71ec5c6b@redhat.com>
+ <20220204110558.h3246jyelrvhto5q@sirius.home.kraxel.org>
+ <20220204131805.3a225566@redhat.com>
+ <CAARzgwzRRzt_oBaYFbmD+cpGeNgHMq5TcOvWiSVZ8eL159XERQ@mail.gmail.com>
+User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <ac0eb0a2-8a8e-c95c-08a4-4dfe07862f9b@amsat.org>
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::42c
+Content-Type: text/plain; charset=US-ASCII
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1035
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42c;
- envelope-from=shorne@gmail.com; helo=mail-pf1-x42c.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
+Received-SPF: none client-ip=2607:f8b0:4864:20::1035;
+ envelope-from=ani@anisinha.ca; helo=mail-pj1-x1035.google.com
+X-Spam_score_int: -10
+X-Spam_score: -1.1
 X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_NONE=0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -89,25 +93,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Development <qemu-devel@nongnu.org>, Jia Liu <proljc@gmail.com>
+Cc: qemu-devel@nongnu.org, Igor Mammedov <imammedo@redhat.com>,
+ gsomlo@gmail.com, Gerd Hoffmann <kraxel@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Feb 10, 2022 at 12:07:02PM +0100, Philippe Mathieu-Daudé wrote:
-> On 10/2/22 07:30, Stafford Horne wrote:
-> > Move magic numbers to variables and enums. These will be
-> > reused for upcoming fdt initialization.
-> > 
-> > Signed-off-by: Stafford Horne <shorne@gmail.com>
-> > ---
-> >   hw/openrisc/openrisc_sim.c | 42 ++++++++++++++++++++++++++++++--------
-> >   1 file changed, 34 insertions(+), 8 deletions(-)
-> 
-> Typo "Parameterize" in subject.
 
-Yes.
 
-> Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+On Fri, 4 Feb 2022, Ani Sinha wrote:
 
-Thank you.
+> On Fri, Feb 4, 2022 at 17:48 Igor Mammedov <imammedo@redhat.com> wrote:
+>
+> > On Fri, 4 Feb 2022 12:05:58 +0100
+> > Gerd Hoffmann <kraxel@redhat.com> wrote:
+> >
+> > >   Hi,
+> > >
+> > > > Another question is why we split memory on 16Gb chunks, to begin with.
+> > > > Maybe instead of doing so, we should just add 1 type17 entry describing
+> > > > whole system RAM size. In which case we don't need this dance around
+> > > > handle offsets anymore.
+> > >
+> > > Maybe to make the entries look like they do on physical hardware?
+> > > i.e. DIMM size is a power of two?  Also physical 1TB DIMMs just
+> > > don't exist?
+> >
+> > Does it have to be a DIMM, we can make it Other/Unknown/Row of chips/Chip
+> > to more close to builtin memory that's is our main ram is.
+>
+>
+> My concern here is even though the spec has provisions for those form
+> factors I wonder if the guests only expect dimm ? Will it break some guest
+> operating system?
+
+I am not sure if we have come to any conclusion here. However, I have sent
+a v2 patch series with Igor's suggestion addressed.
 
