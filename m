@@ -2,60 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C1F734B11EA
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Feb 2022 16:45:01 +0100 (CET)
-Received: from localhost ([::1]:49412 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD2FD4B11A6
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Feb 2022 16:27:20 +0100 (CET)
+Received: from localhost ([::1]:47320 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nIBcy-0000al-T3
-	for lists+qemu-devel@lfdr.de; Thu, 10 Feb 2022 10:45:00 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:37122)
+	id 1nIBLr-0002d7-G9
+	for lists+qemu-devel@lfdr.de; Thu, 10 Feb 2022 10:27:19 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:37192)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1nI93x-0001xY-7r; Thu, 10 Feb 2022 08:00:44 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:33144)
+ id 1nI941-00021c-7l; Thu, 10 Feb 2022 08:00:51 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:25988)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1nI93q-0004AR-P0; Thu, 10 Feb 2022 08:00:40 -0500
-Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 21ABvh1p007859; 
- Thu, 10 Feb 2022 13:00:25 GMT
-Received: from ppma01fra.de.ibm.com (46.49.7a9f.ip4.static.sl-reverse.com
- [159.122.73.70])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3e4crymyfc-1
+ id 1nI93q-0004AL-DY; Thu, 10 Feb 2022 08:00:44 -0500
+Received: from pps.filterd (m0098399.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 21ACSsuo031521; 
+ Thu, 10 Feb 2022 13:00:29 GMT
+Received: from ppma06fra.de.ibm.com (48.49.7a9f.ip4.static.sl-reverse.com
+ [159.122.73.72])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3e52r70p8t-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 10 Feb 2022 13:00:25 +0000
-Received: from pps.filterd (ppma01fra.de.ibm.com [127.0.0.1])
- by ppma01fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 21ACvOnO001241;
- Thu, 10 Feb 2022 13:00:23 GMT
-Received: from b06avi18626390.portsmouth.uk.ibm.com
- (b06avi18626390.portsmouth.uk.ibm.com [9.149.26.192])
- by ppma01fra.de.ibm.com with ESMTP id 3e1gv9x0fg-1
+ Thu, 10 Feb 2022 13:00:29 +0000
+Received: from pps.filterd (ppma06fra.de.ibm.com [127.0.0.1])
+ by ppma06fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 21ACvuqR006262;
+ Thu, 10 Feb 2022 13:00:26 GMT
+Received: from b06cxnps3075.portsmouth.uk.ibm.com
+ (d06relay10.portsmouth.uk.ibm.com [9.149.109.195])
+ by ppma06fra.de.ibm.com with ESMTP id 3e1ggjp66t-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 10 Feb 2022 13:00:22 +0000
-Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com
- [9.149.105.58])
- by b06avi18626390.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
- id 21ACoB7348038316
+ Thu, 10 Feb 2022 13:00:26 +0000
+Received: from d06av26.portsmouth.uk.ibm.com (d06av26.portsmouth.uk.ibm.com
+ [9.149.105.62])
+ by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 21AD0MQd32899464
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 10 Feb 2022 12:50:11 GMT
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 767C64C050;
- Thu, 10 Feb 2022 13:00:20 +0000 (GMT)
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 3B7014C06D;
- Thu, 10 Feb 2022 13:00:20 +0000 (GMT)
+ Thu, 10 Feb 2022 13:00:22 GMT
+Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 34C31AE070;
+ Thu, 10 Feb 2022 13:00:22 +0000 (GMT)
+Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id EE397AE059;
+ Thu, 10 Feb 2022 13:00:21 +0000 (GMT)
 Received: from smtp.tlslab.ibm.com (unknown [9.101.4.1])
- by d06av22.portsmouth.uk.ibm.com (Postfix) with SMTP;
- Thu, 10 Feb 2022 13:00:20 +0000 (GMT)
+ by d06av26.portsmouth.uk.ibm.com (Postfix) with SMTP;
+ Thu, 10 Feb 2022 13:00:21 +0000 (GMT)
 Received: from yukon.ibmuc.com (unknown [9.171.74.250])
- by smtp.tlslab.ibm.com (Postfix) with ESMTP id 70E002201DC;
- Thu, 10 Feb 2022 14:00:19 +0100 (CET)
+ by smtp.tlslab.ibm.com (Postfix) with ESMTP id 2C73D2201DC;
+ Thu, 10 Feb 2022 14:00:21 +0100 (CET)
 From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 To: qemu-ppc@nongnu.org, qemu-devel@nongnu.org
-Subject: [PULL 11/42] target/ppc: booke: Watchdog Timer interrupt
-Date: Thu, 10 Feb 2022 13:59:37 +0100
-Message-Id: <20220210130008.2599950-12-clg@kaod.org>
+Subject: [PULL 13/42] target/ppc: Fix radix logging
+Date: Thu, 10 Feb 2022 13:59:39 +0100
+Message-Id: <20220210130008.2599950-14-clg@kaod.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220210130008.2599950-1-clg@kaod.org>
 References: <20220210130008.2599950-1-clg@kaod.org>
@@ -63,19 +63,19 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: 754JhdVWeSNNQmlY0f6YVJPc-0m-4Tu4
-X-Proofpoint-ORIG-GUID: 754JhdVWeSNNQmlY0f6YVJPc-0m-4Tu4
+X-Proofpoint-GUID: ZwPCAEIqbBfO7Rnao9RpcrBfa-XUL1vq
+X-Proofpoint-ORIG-GUID: ZwPCAEIqbBfO7Rnao9RpcrBfa-XUL1vq
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.816,Hydra:6.0.425,FMLib:17.11.62.513
  definitions=2022-02-10_05,2022-02-09_01,2021-12-02_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0
- lowpriorityscore=0 clxscore=1034 adultscore=0 priorityscore=1501
- phishscore=0 suspectscore=0 mlxlogscore=644 malwarescore=0 mlxscore=0
- bulkscore=0 impostorscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2201110000 definitions=main-2202100068
-Received-SPF: softfail client-ip=148.163.158.5; envelope-from=clg@kaod.org;
- helo=mx0b-001b2d01.pphosted.com
+ bulkscore=0 suspectscore=0
+ adultscore=0 spamscore=0 mlxscore=0 lowpriorityscore=0 impostorscore=0
+ mlxlogscore=654 clxscore=1034 malwarescore=0 priorityscore=1501
+ phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2201110000 definitions=main-2202100068
+Received-SPF: softfail client-ip=148.163.156.1; envelope-from=clg@kaod.org;
+ helo=mx0a-001b2d01.pphosted.com
 X-Spam_score_int: -11
 X-Spam_score: -1.2
 X-Spam_bar: -
@@ -97,55 +97,44 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Cc: Peter Maydell <peter.maydell@linaro.org>,
  Richard Henderson <richard.henderson@linaro.org>,
  =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
- Fabiano Rosas <farosas@linux.ibm.com>
+ Greg Kurz <groug@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Fabiano Rosas <farosas@linux.ibm.com>
+ppc_radix64_partition_scoped_xlate() logs the host page protection
+bits variable but it is uninitialized. The value is set later on in
+ppc_radix64_check_prot(). Remove the output.
 
-Remove the switch as this function applies to BookE only.
-
-Signed-off-by: Fabiano Rosas <farosas@linux.ibm.com>
-Message-Id: <20220128224018.1228062-11-farosas@linux.ibm.com>
+Fixes: Coverity CID 1468942
+Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
+Reviewed-by: Greg Kurz <groug@kaod.org>
+Message-Id: <20220203142145.1301749-1-clg@kaod.org>
 Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
 ---
- target/ppc/excp_helper.c | 11 ++---------
- 1 file changed, 2 insertions(+), 9 deletions(-)
+ target/ppc/mmu-radix64.c | 8 ++------
+ 1 file changed, 2 insertions(+), 6 deletions(-)
 
-diff --git a/target/ppc/excp_helper.c b/target/ppc/excp_helper.c
-index a5134e360cf7..7c228dac58a0 100644
---- a/target/ppc/excp_helper.c
-+++ b/target/ppc/excp_helper.c
-@@ -749,7 +749,6 @@ static void powerpc_excp_booke(PowerPCCPU *cpu, int e=
-xcp)
- {
-     CPUState *cs =3D CPU(cpu);
-     CPUPPCState *env =3D &cpu->env;
--    int excp_model =3D env->excp_model;
-     target_ulong msr, new_msr, vector;
-     int srr0, srr1;
+diff --git a/target/ppc/mmu-radix64.c b/target/ppc/mmu-radix64.c
+index 040c055bff65..d4e16bd7db50 100644
+--- a/target/ppc/mmu-radix64.c
++++ b/target/ppc/mmu-radix64.c
+@@ -327,13 +327,9 @@ static int ppc_radix64_partition_scoped_xlate(PowerP=
+CCPU *cpu,
+     uint64_t pte;
 =20
-@@ -902,14 +901,8 @@ static void powerpc_excp_booke(PowerPCCPU *cpu, int =
-excp)
-         break;
-     case POWERPC_EXCP_WDT:       /* Watchdog timer interrupt            =
-     */
-         trace_ppc_excp_print("WDT");
--        switch (excp_model) {
--        case POWERPC_EXCP_BOOKE:
--            srr0 =3D SPR_BOOKE_CSRR0;
--            srr1 =3D SPR_BOOKE_CSRR1;
--            break;
--        default:
--            break;
--        }
-+        srr0 =3D SPR_BOOKE_CSRR0;
-+        srr1 =3D SPR_BOOKE_CSRR1;
-         break;
-     case POWERPC_EXCP_DTLB:      /* Data TLB error                      =
-     */
-     case POWERPC_EXCP_ITLB:      /* Instruction TLB error               =
-     */
+     qemu_log_mask(CPU_LOG_MMU, "%s for %s @0x%"VADDR_PRIx
+-                  " mmu_idx %u (prot %c%c%c) 0x%"HWADDR_PRIx"\n",
++                  " mmu_idx %u 0x%"HWADDR_PRIx"\n",
+                   __func__, access_str(access_type),
+-                  eaddr, mmu_idx,
+-                  *h_prot & PAGE_READ ? 'r' : '-',
+-                  *h_prot & PAGE_WRITE ? 'w' : '-',
+-                  *h_prot & PAGE_EXEC ? 'x' : '-',
+-                  g_raddr);
++                  eaddr, mmu_idx, g_raddr);
+=20
+     *h_page_size =3D PRTBE_R_GET_RTS(pate.dw0);
+     /* No valid pte or access denied due to protection */
 --=20
 2.34.1
 
