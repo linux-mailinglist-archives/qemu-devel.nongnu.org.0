@@ -2,55 +2,97 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68F614B14E2
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Feb 2022 19:03:57 +0100 (CET)
-Received: from localhost ([::1]:56396 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 25F464B151E
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Feb 2022 19:19:06 +0100 (CET)
+Received: from localhost ([::1]:54044 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nIDnP-0007Eo-Hb
-	for lists+qemu-devel@lfdr.de; Thu, 10 Feb 2022 13:03:55 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:36862)
+	id 1nIE24-0000Mu-S8
+	for lists+qemu-devel@lfdr.de; Thu, 10 Feb 2022 13:19:04 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:37006)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <huangy81@chinatelecom.cn>)
- id 1nIC9v-0007JB-Qr
- for qemu-devel@nongnu.org; Thu, 10 Feb 2022 11:19:04 -0500
-Received: from prt-mail.chinatelecom.cn ([42.123.76.221]:34338
- helo=chinatelecom.cn) by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <huangy81@chinatelecom.cn>) id 1nIC9Z-00038W-9m
- for qemu-devel@nongnu.org; Thu, 10 Feb 2022 11:18:44 -0500
-HMM_SOURCE_IP: 172.18.0.188:39144.1058093567
-HMM_ATTACHE_NUM: 0000
-HMM_SOURCE_TYPE: SMTP
-Received: from clientip-171.223.98.151 (unknown [172.18.0.188])
- by chinatelecom.cn (HERMES) with SMTP id 6E5A82800A2;
- Fri, 11 Feb 2022 00:18:34 +0800 (CST)
-X-189-SAVE-TO-SEND: +huangy81@chinatelecom.cn
-Received: from  ([172.18.0.188])
- by app0023 with ESMTP id 5d8667821046418b8f5ddf3f33af9839 for
- qemu-devel@nongnu.org; Fri, 11 Feb 2022 00:18:39 CST
-X-Transaction-ID: 5d8667821046418b8f5ddf3f33af9839
-X-Real-From: huangy81@chinatelecom.cn
-X-Receive-IP: 172.18.0.188
-X-MEDUSA-Status: 0
-From: huangy81@chinatelecom.cn
-To: qemu-devel <qemu-devel@nongnu.org>
-Subject: [PATCH v14 6/7] softmmu/dirtylimit: Implement virtual CPU throttle
-Date: Fri, 11 Feb 2022 00:17:40 +0800
-Message-Id: <ad0a6e05b5bec2c2c8dd3a7663e39e3cf9af71a3.1644509582.git.huangy81@chinatelecom.cn>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <cover.1644509582.git.huangy81@chinatelecom.cn>
-References: <cover.1644509582.git.huangy81@chinatelecom.cn>
-In-Reply-To: <cover.1644509582.git.huangy81@chinatelecom.cn>
-References: <cover.1644509582.git.huangy81@chinatelecom.cn>
+ (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
+ id 1nICAQ-0007e5-Pn
+ for qemu-devel@nongnu.org; Thu, 10 Feb 2022 11:19:37 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:51291)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
+ id 1nICAE-0003Bw-Rz
+ for qemu-devel@nongnu.org; Thu, 10 Feb 2022 11:19:33 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1644509956;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=FtY/UooAPoho79vyI+WsJOyq9jR7SrD3fX5bT+4/XtA=;
+ b=eXhuBtu3o6uHaZLSkfBCNZl5VsHqoyN/wvJ4ou5tbTVMAzf/vFvYD2lsdGfIdAav6af8t6
+ Y0SzYHT7rw/mqnYShMIv5gAY2UdzLvVU8EzyTTasPb/sKd5nlBzPxlkmMH5WVHv3DZiwGx
+ FTf9ftX1gtEJoLfQM9ikB9o7hDtXYmA=
+Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
+ [209.85.160.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-68-QH6pVTr2PBOjXEicpnbl2Q-1; Thu, 10 Feb 2022 11:19:15 -0500
+X-MC-Unique: QH6pVTr2PBOjXEicpnbl2Q-1
+Received: by mail-qt1-f200.google.com with SMTP id
+ d25-20020ac84e39000000b002d1cf849207so4699282qtw.19
+ for <qemu-devel@nongnu.org>; Thu, 10 Feb 2022 08:19:15 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=FtY/UooAPoho79vyI+WsJOyq9jR7SrD3fX5bT+4/XtA=;
+ b=FayUSKGyUAL0+QrwMtybpGyw6uG7S5pEqqQvLGwS9o6Fdu+ZqrqdUGD6IEdti+ZU8o
+ kYWeH1+AtWEkgCP0JQkA04XbitHFOZ9vTfnpeLzFKMSM2tYxhrFJyFpSvUQCMDI5e7XN
+ DA+59qZg/IihPVo25Kzvjaf/mZeN0yJVNH7uuBlXvLZ+Uq8XA7CsGb6A+AidTZcsGIRp
+ bB/3aOfKSQhbQOtd+ux8TQ3Xlo5zuYmr+yFTkdttGK+rFWbda2yPI8f9xXPQIZuGFPA5
+ TRwFvILBsVUURS8JLiSLUkNIkqP9KBRY/yoipQ97rBBkr8y4LunU5Xx7FdQQ2QLPizhh
+ JsAQ==
+X-Gm-Message-State: AOAM530Pds1EfU5HXMSEOH2AKxNiWjVQfdaoMVvmHZ+BUWnLcryVSkLk
+ 41FdtN9UMYZEd5/lGklmTyYPakFeBOoGyBbUZ2F2zJhRx10ma5fZC7pijRgacDK2m5AUlrRd9a/
+ dOAxaYtkRLW6hyXY=
+X-Received: by 2002:a05:620a:4145:: with SMTP id
+ k5mr4288158qko.737.1644509954735; 
+ Thu, 10 Feb 2022 08:19:14 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJx7/mXmZ2SEcRuSV7g1DzaLkENuPfqGYmi61irv3lEUV8DnCqQgIESqQm8zLWRRoKhK7OGpfg==
+X-Received: by 2002:a05:620a:4145:: with SMTP id
+ k5mr4288137qko.737.1644509954509; 
+ Thu, 10 Feb 2022 08:19:14 -0800 (PST)
+Received: from ?IPV6:2a04:ee41:4:31cb:e591:1e1e:abde:a8f1?
+ ([2a04:ee41:4:31cb:e591:1e1e:abde:a8f1])
+ by smtp.gmail.com with ESMTPSA id g11sm11150540qtg.49.2022.02.10.08.19.08
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 10 Feb 2022 08:19:12 -0800 (PST)
+Message-ID: <204d1a78-64e3-c8b0-b327-8769e93fbc7a@redhat.com>
+Date: Thu, 10 Feb 2022 17:19:07 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.2.0
+Subject: Re: [PATCH v6 00/33] block layer: split block APIs in global state
+ and I/O
+To: Kevin Wolf <kwolf@redhat.com>
+References: <20220121170544.2049944-1-eesposit@redhat.com>
+ <YgFlQrmGXcOO9P/4@redhat.com>
+ <1f3d2562-c355-4295-77b5-088d2ed49023@redhat.com>
+ <YgJrPL7k+D1t1Ubm@redhat.com>
+From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+In-Reply-To: <YgJrPL7k+D1t1Ubm@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eesposit@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=42.123.76.221;
- envelope-from=huangy81@chinatelecom.cn; helo=chinatelecom.cn
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eesposit@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -64,483 +106,81 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <eduardo@habkost.net>, David Hildenbrand <david@redhat.com>,
- Hyman <huangy81@chinatelecom.cn>, Juan Quintela <quintela@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Markus ArmBruster <armbru@redhat.com>, Peter Xu <peterx@redhat.com>,
+Cc: Fam Zheng <fam@euphon.net>, qemu-devel@nongnu.org,
+ "Denis V. Lunev" <den@openvz.org>, Eric Blake <eblake@redhat.com>,
+ qemu-block@nongnu.org, Juan Quintela <quintela@redhat.com>,
+ Daniel Henrique Barboza <danielhb413@gmail.com>,
+ Markus Armbruster <armbru@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, Greg Kurz <groug@kaod.org>,
  "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+ =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
+ Stefan Hajnoczi <stefanha@redhat.com>, John Snow <jsnow@redhat.com>,
+ David Gibson <david@gibson.dropbear.id.au>,
+ Eduardo Habkost <eduardo@habkost.net>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ Hanna Reitz <hreitz@redhat.com>, qemu-ppc@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
 
-Setup a negative feedback system when vCPU thread
-handling KVM_EXIT_DIRTY_RING_FULL exit by introducing
-throttle_us_per_full field in struct CPUState. Sleep
-throttle_us_per_full microseconds to throttle vCPU
-if dirtylimit is in service.
 
-Signed-off-by: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
----
- accel/kvm/kvm-all.c         |  14 +-
- include/hw/core/cpu.h       |   6 +
- include/sysemu/dirtylimit.h |  15 +++
- softmmu/dirtylimit.c        | 306 ++++++++++++++++++++++++++++++++++++++++++++
- softmmu/trace-events        |   8 ++
- 5 files changed, 348 insertions(+), 1 deletion(-)
+On 08/02/2022 14:08, Kevin Wolf wrote:
+> Am 08.02.2022 um 12:42 hat Emanuele Giuseppe Esposito geschrieben:
+>>
+>>
+>> On 07/02/2022 19:30, Kevin Wolf wrote:
+>>> Am 21.01.2022 um 18:05 hat Emanuele Giuseppe Esposito geschrieben:
+>>>> Each function in the GS API will have an assertion, checking
+>>>> that it is always running under BQL.
+>>>> I/O functions are instead thread safe (or so should be), meaning
+>>>> that they *can* run under BQL, but also in an iothread in another
+>>>> AioContext. Therefore they do not provide any assertion, and
+>>>> need to be audited manually to verify the correctness.
+>>>
+>>> I wonder if we could actually do something to catch at least some kinds
+>>> of bugs. The first conclusion from thinking about it is that we probably
+>>> shouldn't open-code assert(qemu_in_main_thread()) everywhere, but have a
+>>> macro or inline function for each category to be called in each function.
+>>>
+>>> So an IO_CODE() macro could increase a counter in the coroutine object
+>>> (that is decreased again at the end of the function with g_auto), and
+>>> then GLOBAL_STATE_CODE() could not only assert that we're holding the
+>>> BQL, but also that the counter is still 0, i.e. it is not (indirectly)
+>>> called by an I/O function.
+>>>
+>>> We may want to enable this only in debug builds, but maybe still worth a
+>>> thought anyway?
+>>
+>> I don't understand what is the point of the counter, do you want to use
+>> it as a boolean flag?
+> 
+> It would only be checked as a boolean flag, but it needs to be a counter
+> because of nesting where e.g. one I/O function calls another I/O
+> function.
+> 
+>> Would a single counter work in a multi-threaded context? Shouldn't we
+>> have it per-thread? And why you increase it only in coroutines?
+> 
+> I don't mean increasing it only in coroutine context, but having a
+> per-coroutine counter, including the leader coroutine which exists for
+> non-coroutine context in every thread.
+> 
 
-diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
-index 8821d80..5ca752b 100644
---- a/accel/kvm/kvm-all.c
-+++ b/accel/kvm/kvm-all.c
-@@ -45,6 +45,7 @@
- #include "qemu/guest-random.h"
- #include "sysemu/hw_accel.h"
- #include "kvm-cpus.h"
-+#include "sysemu/dirtylimit.h"
- 
- #include "hw/boards.h"
- 
-@@ -476,6 +477,7 @@ int kvm_init_vcpu(CPUState *cpu, Error **errp)
-     cpu->kvm_state = s;
-     cpu->vcpu_dirty = true;
-     cpu->dirty_pages = 0;
-+    cpu->throttle_us_per_full = 0;
- 
-     mmap_size = kvm_ioctl(s, KVM_GET_VCPU_MMAP_SIZE, 0);
-     if (mmap_size < 0) {
-@@ -1469,6 +1471,11 @@ static void *kvm_dirty_ring_reaper_thread(void *data)
-          */
-         sleep(1);
- 
-+        /* keep sleeping so that dirtylimit not be interfered by reaper */
-+        if (dirtylimit_in_service()) {
-+            continue;
-+        }
-+
-         trace_kvm_dirty_ring_reaper("wakeup");
-         r->reaper_state = KVM_DIRTY_RING_REAPER_REAPING;
- 
-@@ -2964,8 +2971,13 @@ int kvm_cpu_exec(CPUState *cpu)
-              */
-             trace_kvm_dirty_ring_full(cpu->cpu_index);
-             qemu_mutex_lock_iothread();
--            kvm_dirty_ring_reap(kvm_state, NULL);
-+            if (dirtylimit_in_service()) {
-+                kvm_dirty_ring_reap(kvm_state, cpu);
-+            } else {
-+                kvm_dirty_ring_reap(kvm_state, NULL);
-+            }
-             qemu_mutex_unlock_iothread();
-+            dirtylimit_vcpu_execute(cpu);
-             ret = 0;
-             break;
-         case KVM_EXIT_SYSTEM_EVENT:
-diff --git a/include/hw/core/cpu.h b/include/hw/core/cpu.h
-index 76ab3b8..dbeb31a 100644
---- a/include/hw/core/cpu.h
-+++ b/include/hw/core/cpu.h
-@@ -411,6 +411,12 @@ struct CPUState {
-      */
-     bool throttle_thread_scheduled;
- 
-+    /*
-+     * Sleep throttle_us_per_full microseconds once dirty ring is full
-+     * if dirty page rate limit is enabled.
-+     */
-+    int64_t throttle_us_per_full;
-+
-     bool ignore_memory_transaction_failures;
- 
-     /* Used for user-only emulation of prctl(PR_SET_UNALIGN). */
-diff --git a/include/sysemu/dirtylimit.h b/include/sysemu/dirtylimit.h
-index da459f0..4b7effe 100644
---- a/include/sysemu/dirtylimit.h
-+++ b/include/sysemu/dirtylimit.h
-@@ -19,4 +19,19 @@ void vcpu_dirty_rate_stat_start(void);
- void vcpu_dirty_rate_stat_stop(void);
- void vcpu_dirty_rate_stat_initialize(void);
- void vcpu_dirty_rate_stat_finalize(void);
-+
-+void dirtylimit_state_lock(void);
-+void dirtylimit_state_unlock(void);
-+void dirtylimit_state_initialize(void);
-+void dirtylimit_state_finalize(void);
-+bool dirtylimit_in_service(void);
-+bool dirtylimit_vcpu_index_valid(int cpu_index);
-+void dirtylimit_setup(void);
-+void dirtylimit_change(bool start);
-+void dirtylimit_set_vcpu(int cpu_index,
-+                         uint64_t quota,
-+                         bool enable);
-+void dirtylimit_set_all(uint64_t quota,
-+                        bool enable);
-+void dirtylimit_vcpu_execute(CPUState *cpu);
- #endif
-diff --git a/softmmu/dirtylimit.c b/softmmu/dirtylimit.c
-index a10ac6f..8b8d8d7 100644
---- a/softmmu/dirtylimit.c
-+++ b/softmmu/dirtylimit.c
-@@ -18,6 +18,26 @@
- #include "sysemu/dirtylimit.h"
- #include "exec/memory.h"
- #include "hw/boards.h"
-+#include "sysemu/kvm.h"
-+#include "trace.h"
-+
-+/*
-+ * Dirtylimit stop working if dirty page rate error
-+ * value less than DIRTYLIMIT_TOLERANCE_RANGE
-+ */
-+#define DIRTYLIMIT_TOLERANCE_RANGE  25  /* MB/s */
-+/*
-+ * Plus or minus vcpu sleep time linearly if dirty
-+ * page rate error value percentage over
-+ * DIRTYLIMIT_LINEAR_ADJUSTMENT_PCT.
-+ * Otherwise, plus or minus a fixed vcpu sleep time.
-+ */
-+#define DIRTYLIMIT_LINEAR_ADJUSTMENT_PCT     50
-+/*
-+ * Max vcpu sleep time percentage during a cycle
-+ * composed of dirty ring full and sleep time.
-+ */
-+#define DIRTYLIMIT_THROTTLE_PCT_MAX 99
- 
- struct {
-     VcpuStat stat;
-@@ -25,6 +45,34 @@ struct {
-     QemuThread thread;
- } *vcpu_dirty_rate_stat;
- 
-+typedef struct VcpuDirtyLimitState {
-+    int cpu_index;
-+    bool enabled;
-+    /*
-+     * Quota dirty page rate, unit is MB/s
-+     * zero if not enabled.
-+     */
-+    uint64_t quota;
-+} VcpuDirtyLimitState;
-+
-+typedef void (*DirtyLimitFunc)(void);
-+
-+struct {
-+    VcpuDirtyLimitState *states;
-+    /* Max cpus number configured by user */
-+    int max_cpus;
-+    /* Number of vcpu under dirtylimit */
-+    int limited_nvcpu;
-+    /* Function to implement throttle set up */
-+    DirtyLimitFunc setup;
-+} *dirtylimit_state;
-+
-+/* protect dirtylimit_state */
-+static QemuMutex dirtylimit_mutex;
-+
-+/* dirtylimit thread quit if dirtylimit_quit is true */
-+static bool dirtylimit_quit;
-+
- static void vcpu_dirty_rate_stat_collect(void)
- {
-     int64_t start_time;
-@@ -58,6 +106,10 @@ static void *vcpu_dirty_rate_stat_thread(void *opaque)
- 
-     while (qatomic_read(&vcpu_dirty_rate_stat->running)) {
-         vcpu_dirty_rate_stat_collect();
-+        if (dirtylimit_in_service() &&
-+            dirtylimit_state->setup) {
-+            dirtylimit_state->setup();
-+        }
-     }
- 
-     /* stop log sync */
-@@ -90,9 +142,11 @@ void vcpu_dirty_rate_stat_start(void)
- void vcpu_dirty_rate_stat_stop(void)
- {
-     qatomic_set(&vcpu_dirty_rate_stat->running, 0);
-+    dirtylimit_state_unlock();
-     qemu_mutex_unlock_iothread();
-     qemu_thread_join(&vcpu_dirty_rate_stat->thread);
-     qemu_mutex_lock_iothread();
-+    dirtylimit_state_lock();
- }
- 
- void vcpu_dirty_rate_stat_initialize(void)
-@@ -118,3 +172,255 @@ void vcpu_dirty_rate_stat_finalize(void)
-     free(vcpu_dirty_rate_stat);
-     vcpu_dirty_rate_stat = NULL;
- }
-+
-+void dirtylimit_state_lock(void)
-+{
-+    qemu_mutex_lock(&dirtylimit_mutex);
-+}
-+
-+void dirtylimit_state_unlock(void)
-+{
-+    qemu_mutex_unlock(&dirtylimit_mutex);
-+}
-+
-+static void
-+__attribute__((__constructor__)) dirtylimit_mutex_init(void)
-+{
-+    qemu_mutex_init(&dirtylimit_mutex);
-+}
-+
-+static inline VcpuDirtyLimitState *dirtylimit_vcpu_get_state(int cpu_index)
-+{
-+    return &dirtylimit_state->states[cpu_index];
-+}
-+
-+void dirtylimit_state_initialize(void)
-+{
-+    MachineState *ms = MACHINE(qdev_get_machine());
-+    int max_cpus = ms->smp.max_cpus;
-+    int i;
-+
-+    dirtylimit_state = g_malloc0(sizeof(*dirtylimit_state));
-+
-+    dirtylimit_state->states =
-+            g_malloc0(sizeof(VcpuDirtyLimitState) * max_cpus);
-+
-+    for (i = 0; i < max_cpus; i++) {
-+        dirtylimit_state->states[i].cpu_index = i;
-+    }
-+
-+    dirtylimit_state->max_cpus = max_cpus;
-+    dirtylimit_state->setup = dirtylimit_setup;
-+    trace_dirtylimit_state_initialize(max_cpus);
-+}
-+
-+void dirtylimit_state_finalize(void)
-+{
-+    free(dirtylimit_state->states);
-+    dirtylimit_state->states = NULL;
-+    dirtylimit_state->setup = NULL;
-+
-+    free(dirtylimit_state);
-+    dirtylimit_state = NULL;
-+
-+    trace_dirtylimit_state_finalize();
-+}
-+
-+bool dirtylimit_in_service(void)
-+{
-+    return !!dirtylimit_state;
-+}
-+
-+bool dirtylimit_vcpu_index_valid(int cpu_index)
-+{
-+    MachineState *ms = MACHINE(qdev_get_machine());
-+
-+    return !(cpu_index < 0 ||
-+             cpu_index >= ms->smp.max_cpus);
-+}
-+
-+static inline void dirtylimit_vcpu_set_quota(int cpu_index,
-+                                             uint64_t quota,
-+                                             bool on)
-+{
-+    if (on) {
-+        dirtylimit_state->states[cpu_index].quota = quota;
-+        if (!dirtylimit_vcpu_get_state(cpu_index)->enabled) {
-+            dirtylimit_state->limited_nvcpu++;
-+        }
-+    } else {
-+        dirtylimit_state->states[cpu_index].quota = 0;
-+        if (dirtylimit_state->states[cpu_index].enabled) {
-+            dirtylimit_state->limited_nvcpu--;
-+        }
-+    }
-+
-+    dirtylimit_state->states[cpu_index].enabled = on;
-+}
-+
-+static inline int64_t dirtylimit_dirty_ring_full_time(uint64_t dirtyrate)
-+{
-+    static uint64_t max_dirtyrate;
-+    uint32_t dirty_ring_size = kvm_dirty_ring_size();
-+    uint64_t dirty_ring_size_meory_MB =
-+        dirty_ring_size * TARGET_PAGE_SIZE >> 20;
-+
-+    if (max_dirtyrate < dirtyrate) {
-+        max_dirtyrate = dirtyrate;
-+    }
-+
-+    return dirty_ring_size_meory_MB * 1000000 / max_dirtyrate;
-+}
-+
-+static inline bool dirtylimit_done(uint64_t quota,
-+                                   uint64_t current)
-+{
-+    uint64_t min, max;
-+
-+    min = MIN(quota, current);
-+    max = MAX(quota, current);
-+
-+    return ((max - min) <= DIRTYLIMIT_TOLERANCE_RANGE) ? true : false;
-+}
-+
-+static inline bool
-+dirtylimit_need_linear_adjustment(uint64_t quota,
-+                                  uint64_t current)
-+{
-+    uint64_t min, max;
-+
-+    min = MIN(quota, current);
-+    max = MAX(quota, current);
-+
-+    return ((max - min) * 100 / max) > DIRTYLIMIT_LINEAR_ADJUSTMENT_PCT;
-+}
-+
-+static void dirtylimit_set_throttle(CPUState *cpu,
-+                                    uint64_t quota,
-+                                    uint64_t current)
-+{
-+    int64_t ring_full_time_us = 0;
-+    uint64_t sleep_pct = 0;
-+    uint64_t throttle_us = 0;
-+
-+    ring_full_time_us = dirtylimit_dirty_ring_full_time(current);
-+
-+    if (dirtylimit_need_linear_adjustment(quota, current)) {
-+        if (quota < current) {
-+            sleep_pct = (current - quota) * 100 / current;
-+            throttle_us =
-+                ring_full_time_us * sleep_pct / (double)(100 - sleep_pct);
-+            cpu->throttle_us_per_full += throttle_us;
-+        } else {
-+            sleep_pct = (quota - current) * 100 / quota;
-+            throttle_us =
-+                ring_full_time_us * sleep_pct / (double)(100 - sleep_pct);
-+            cpu->throttle_us_per_full -= throttle_us;
-+        }
-+
-+        trace_dirtylimit_throttle_pct(cpu->cpu_index,
-+                                      sleep_pct,
-+                                      throttle_us);
-+    } else {
-+        if (quota < current) {
-+            cpu->throttle_us_per_full += ring_full_time_us / 10;
-+        } else {
-+            cpu->throttle_us_per_full -= ring_full_time_us / 10;
-+        }
-+    }
-+
-+    /*
-+     * TODO: in the big kvm_dirty_ring_size case (eg: 65536, or other scenario),
-+     *       current dirty page rate may never reach the quota, we should stop
-+     *       increasing sleep time?
-+     */
-+    cpu->throttle_us_per_full = MIN(cpu->throttle_us_per_full,
-+        ring_full_time_us * DIRTYLIMIT_THROTTLE_PCT_MAX);
-+
-+    cpu->throttle_us_per_full = MAX(cpu->throttle_us_per_full, 0);
-+}
-+
-+static void dirtylimit_adjust_throttle(CPUState *cpu)
-+{
-+    uint64_t quota = 0;
-+    uint64_t current = 0;
-+    int cpu_index = cpu->cpu_index;
-+
-+    quota = dirtylimit_vcpu_get_state(cpu_index)->quota;
-+    current = vcpu_dirty_rate_get(cpu_index);
-+
-+    if (current == 0) {
-+        cpu->throttle_us_per_full = 0;
-+        goto end;
-+    } else if (dirtylimit_done(quota, current)) {
-+        goto end;
-+    } else {
-+        dirtylimit_set_throttle(cpu, quota, current);
-+    }
-+end:
-+    trace_dirtylimit_adjust_throttle(cpu_index,
-+                                     quota, current,
-+                                     cpu->throttle_us_per_full);
-+    return;
-+}
-+
-+void dirtylimit_setup(void)
-+{
-+    CPUState *cpu;
-+
-+    if (!qatomic_read(&dirtylimit_quit)) {
-+        dirtylimit_state_lock();
-+
-+        if (!dirtylimit_in_service()) {
-+            dirtylimit_state_unlock();
-+        }
-+
-+        CPU_FOREACH(cpu) {
-+            if (!dirtylimit_vcpu_get_state(cpu->cpu_index)->enabled) {
-+                continue;
-+            }
-+            dirtylimit_adjust_throttle(cpu);
-+        }
-+        dirtylimit_state_unlock();
-+    }
-+}
-+
-+void dirtylimit_change(bool start)
-+{
-+    if (start) {
-+        qatomic_set(&dirtylimit_quit, 0);
-+    } else {
-+        qatomic_set(&dirtylimit_quit, 1);
-+    }
-+}
-+
-+void dirtylimit_set_vcpu(int cpu_index,
-+                         uint64_t quota,
-+                         bool enable)
-+{
-+    dirtylimit_vcpu_set_quota(cpu_index, quota, enable);
-+    trace_dirtylimit_set_vcpu(cpu_index, quota);
-+}
-+
-+void dirtylimit_set_all(uint64_t quota,
-+                        bool enable)
-+{
-+    MachineState *ms = MACHINE(qdev_get_machine());
-+    int max_cpus = ms->smp.max_cpus;
-+    int i;
-+
-+    for (i = 0; i < max_cpus; i++) {
-+        dirtylimit_set_vcpu(i, quota, enable);
-+    }
-+}
-+
-+void dirtylimit_vcpu_execute(CPUState *cpu)
-+{
-+    if (dirtylimit_in_service() &&
-+        dirtylimit_vcpu_get_state(cpu->cpu_index)->enabled &&
-+        cpu->throttle_us_per_full) {
-+        trace_dirtylimit_vcpu_execute(cpu->cpu_index,
-+                cpu->throttle_us_per_full);
-+        usleep(cpu->throttle_us_per_full);
-+    }
-+}
-diff --git a/softmmu/trace-events b/softmmu/trace-events
-index 9c88887..ff441ac 100644
---- a/softmmu/trace-events
-+++ b/softmmu/trace-events
-@@ -31,3 +31,11 @@ runstate_set(int current_state, const char *current_state_str, int new_state, co
- system_wakeup_request(int reason) "reason=%d"
- qemu_system_shutdown_request(int reason) "reason=%d"
- qemu_system_powerdown_request(void) ""
-+
-+#dirtylimit.c
-+dirtylimit_state_initialize(int max_cpus) "dirtylimit state initialize: max cpus %d"
-+dirtylimit_state_finalize(void)
-+dirtylimit_adjust_throttle(int cpu_index, uint64_t quota, uint64_t current, int64_t time_us) "CPU[%d] throttle: quota %" PRIu64 ", current %" PRIu64 ", throttle %"PRIi64 " us"
-+dirtylimit_throttle_pct(int cpu_index, uint64_t pct, int64_t time_us) "CPU[%d] throttle percent: %" PRIu64 ", throttle adjust time %"PRIi64 " us"
-+dirtylimit_set_vcpu(int cpu_index, uint64_t quota) "CPU[%d] set dirty page rate limit %"PRIu64
-+dirtylimit_vcpu_execute(int cpu_index, int64_t sleep_time_us) "CPU[%d] sleep %"PRIi64 " us"
--- 
-1.8.3.1
+As agreed also on IRC, while we wait also additional feedback from
+others on the counter logic, I am going to add GLOBAL_STATE_CODE,
+IO_CODE and IO_OR_GS_CODE macros in the respective functions.
+
+GLOBAL_STATE_CODE will just replace the assert(qemu_in_main_thread()),
+while IO_CODE and IO_OR_GS_CODE will be nop.
+
+This will also visually help understanding in which category each
+function is, without looking at the header.
+In the future we can extend the macro to support also additional logic,
+like counters.
+
+Emanuele
 
 
