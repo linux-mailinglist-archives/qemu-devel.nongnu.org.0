@@ -2,61 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7AC594B0350
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Feb 2022 03:26:08 +0100 (CET)
-Received: from localhost ([::1]:43458 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DBA904B038E
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Feb 2022 03:52:29 +0100 (CET)
+Received: from localhost ([::1]:57002 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nHz9r-0002vD-IJ
-	for lists+qemu-devel@lfdr.de; Wed, 09 Feb 2022 21:26:07 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:36080)
+	id 1nHzZM-0005CC-HB
+	for lists+qemu-devel@lfdr.de; Wed, 09 Feb 2022 21:52:28 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:41816)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <tsimpson@qualcomm.com>)
- id 1nHz13-0007DD-B2
- for qemu-devel@nongnu.org; Wed, 09 Feb 2022 21:17:02 -0500
-Received: from alexa-out.qualcomm.com ([129.46.98.28]:16931)
- by eggs.gnu.org with esmtps (TLS1.2:RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <tsimpson@qualcomm.com>)
- id 1nHz0z-0000Af-9L
- for qemu-devel@nongnu.org; Wed, 09 Feb 2022 21:17:00 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1644459417; x=1675995417;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=uSeizUsDcPuFWEPIhe1yoHzeBvunT6nwaaWt3ITPh4c=;
- b=fQhdjtK7M43IldZt1v+g9PR18wGOzYzazPe6bKXHREYVtAofMZHbz38H
- aqO11R7Q03Jdk2+/kjRDzAmR92I/y2KkIBJp476nJR/zhIuds8NrgQn4Z
- vnrEdJQXQj66Q48HLSph9jqRe4q8LYEqmhZQdz9CX4UmmT4D0VckZVn7r 8=;
-Received: from ironmsg08-lv.qualcomm.com ([10.47.202.152])
- by alexa-out.qualcomm.com with ESMTP; 09 Feb 2022 18:16:02 -0800
-X-QCInternal: smtphost
-Received: from hu-tsimpson-lv.qualcomm.com (HELO
- hu-devc-lv-u18-c.qualcomm.com) ([10.47.235.220])
- by ironmsg08-lv.qualcomm.com with ESMTP; 09 Feb 2022 18:16:02 -0800
-Received: by hu-devc-lv-u18-c.qualcomm.com (Postfix, from userid 47164)
- id 0A5015005A3; Wed,  9 Feb 2022 18:16:02 -0800 (PST)
-From: Taylor Simpson <tsimpson@quicinc.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2 12/12] Hexagon (target/hexagon) assignment to c4 should
- wait until packet commit
-Date: Wed,  9 Feb 2022 18:15:56 -0800
-Message-Id: <20220210021556.9217-13-tsimpson@quicinc.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20220210021556.9217-1-tsimpson@quicinc.com>
-References: <20220210021556.9217-1-tsimpson@quicinc.com>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nHzWS-0004Ot-3W
+ for qemu-devel@nongnu.org; Wed, 09 Feb 2022 21:49:28 -0500
+Received: from [2607:f8b0:4864:20::102d] (port=52160
+ helo=mail-pj1-x102d.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nHzWO-0000ae-A6
+ for qemu-devel@nongnu.org; Wed, 09 Feb 2022 21:49:27 -0500
+Received: by mail-pj1-x102d.google.com with SMTP id y9so3932151pjf.1
+ for <qemu-devel@nongnu.org>; Wed, 09 Feb 2022 18:49:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=y7M48qwBZjwUHOp87U8zKnX3mys1H1TPBaeobzC85U4=;
+ b=Br/9MJNX8rdJXG0bHJKs5XhDr2dsgStEiz3mceVFMnDGrG+0AY1XIyjjaeLBb0ApCk
+ KZiZvwSk3tuDHrm/KBiHXxiKff3wRl3du5EVhCQhbuZ3EptzfkW4No8kd56j+keoYuow
+ QBdfiGNnaI0zRiyiXKT2WV1q3g1b5jidI7MKHKbPD0x/a17oLSRJsxXpCUmNCOJuTOrQ
+ 7/xP2ebHNuXESKUErC68RUSMnoLBbKlcS3qsQLjxT5bDTS9KDoN8oXdfRQkuxbKtG152
+ 0GW/j/AEdX/FrKRjJe9FK1dg+JtKf8FBHgWIzGNjcHqRnMoBP5zXpSneO2WLTETd8PWT
+ cuPQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=y7M48qwBZjwUHOp87U8zKnX3mys1H1TPBaeobzC85U4=;
+ b=aIuRN3W9er8N5aCDmf6TgGSGpXv51zAdOuwk7b+PK72O/i6ky+XbsEsucw14+zm0dJ
+ yErZJIClPI2E6MPGx9+mteXcJ3yStl5eKiJxyBufrLrk9WALM/QVjtUrcVZvoKoataRZ
+ AksRtESozOpwqa9CNLa2XYADmFxhCbH9JivLqKNySxiW6v5WXCZ7Z2VmqTmXY/IiSo6E
+ w/gtRwOQ12O0UtzT6KtkeaSR4L3S8O1TXwh2FXsRzaE8RnX3XNfctsznLBj5Zrdd7efr
+ K7B9Xb2nS0XW70Z3iLzF/xu4PPeJHCprW7CeLouLcbEj0HIGA9uPA4NZaTxhCO/DBczm
+ inZA==
+X-Gm-Message-State: AOAM531Op5XKvxuOWDpCrFD7jkLvKVeoAcpuVs0f0HsT8xpAehlokamr
+ LNpeYgF/9gV58Fks5i1kjTvLMg==
+X-Google-Smtp-Source: ABdhPJzSwrQDj3b/nq4uCMRzdxwOc8IwtFvCsgAaGw/KZwzgOVTFxgYjlwXcA/av8PN/FSeV+Cw07w==
+X-Received: by 2002:a17:902:6b8c:: with SMTP id
+ p12mr5515623plk.51.1644461345889; 
+ Wed, 09 Feb 2022 18:49:05 -0800 (PST)
+Received: from [10.0.0.163] ([124.189.222.164])
+ by smtp.gmail.com with ESMTPSA id p6sm8402453pfo.73.2022.02.09.18.49.04
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 09 Feb 2022 18:49:05 -0800 (PST)
+Message-ID: <2ffb2ef6-7d54-227f-43e9-bfe6b75134d0@linaro.org>
+Date: Thu, 10 Feb 2022 13:48:59 +1100
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Received-SPF: pass client-ip=129.46.98.28; envelope-from=tsimpson@qualcomm.com;
- helo=alexa-out.qualcomm.com
-X-Spam_score_int: -40
-X-Spam_score: -4.1
-X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.248,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH 6/6] target/arm: Implement FEAT_LPA2
+Content-Language: en-US
+To: Peter Maydell <peter.maydell@linaro.org>
+References: <20211208231154.392029-1-richard.henderson@linaro.org>
+ <20211208231154.392029-7-richard.henderson@linaro.org>
+ <CAFEAcA9+2Mt2uui06J1ONxFGS_hb3tEJt8nxNHBjjAyaHrvr3g@mail.gmail.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <CAFEAcA9+2Mt2uui06J1ONxFGS_hb3tEJt8nxNHBjjAyaHrvr3g@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::102d
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102d;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102d.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -69,76 +93,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: ale@rev.ng, bcain@quicinc.com, richard.henderson@linaro.org,
- f4bug@amsat.org, tsimpson@quicinc.com, mlambert@quicinc.com
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-T24gSGV4YWdvbiwgYzQgaXMgYW4gYWxpYXMgZm9yIHByZWRpY2F0ZSByZWdpc3RlcnMgUDM6MC4g
-IElmIHdlIGFzc2lnbiB0bwpjNCBpbnNpZGUgYSBwYWNrZXQgd2l0aCByZWFkcyBmcm9tIHByZWRp
-Y2F0ZSByZWdpc3RlcnMsIHRoZSBwcmVkaWNhdGUKcmVhZHMgc2hvdWxkIGdldCB0aGUgb2xkIHZh
-bHVlcy4KClRlc3QgY2FzZSBhZGRlZCB0byB0ZXN0cy90Y2cvaGV4YWdvbi9wcmVnX2FsaWFzLmMK
-CkNvLWF1dGhvcmVkLWJ5OiBNaWNoYWVsIExhbWJlcnQgPG1sYW1iZXJ0QGN1aWNpbmMuY29tPgpT
-aWduZWQtb2ZmLWJ5OiBUYXlsb3IgU2ltcHNvbiA8dHNpbXBzb25AcXVpY2luYy5jb20+Ci0tLQog
-dGFyZ2V0L2hleGFnb24vZ2VucHRyLmMgICAgICAgIHwgMTQgKysrKysrKystLS0tLQogdGVzdHMv
-dGNnL2hleGFnb24vcHJlZ19hbGlhcy5jIHwgMzggKysrKysrKysrKysrKysrKysrKysrKysrKysr
-KysrKysrKwogMiBmaWxlcyBjaGFuZ2VkLCA0NyBpbnNlcnRpb25zKCspLCA1IGRlbGV0aW9ucygt
-KQoKZGlmZiAtLWdpdCBhL3RhcmdldC9oZXhhZ29uL2dlbnB0ci5jIGIvdGFyZ2V0L2hleGFnb24v
-Z2VucHRyLmMKaW5kZXggNDQxOWQzMGUyMy4uY2Q2YWY0YmNlYiAxMDA2NDQKLS0tIGEvdGFyZ2V0
-L2hleGFnb24vZ2VucHRyLmMKKysrIGIvdGFyZ2V0L2hleGFnb24vZ2VucHRyLmMKQEAgLTEsNSAr
-MSw1IEBACiAvKgotICogIENvcHlyaWdodChjKSAyMDE5LTIwMjEgUXVhbGNvbW0gSW5ub3ZhdGlv
-biBDZW50ZXIsIEluYy4gQWxsIFJpZ2h0cyBSZXNlcnZlZC4KKyAqICBDb3B5cmlnaHQoYykgMjAx
-OS0yMDIyIFF1YWxjb21tIElubm92YXRpb24gQ2VudGVyLCBJbmMuIEFsbCBSaWdodHMgUmVzZXJ2
-ZWQuCiAgKgogICogIFRoaXMgcHJvZ3JhbSBpcyBmcmVlIHNvZnR3YXJlOyB5b3UgY2FuIHJlZGlz
-dHJpYnV0ZSBpdCBhbmQvb3IgbW9kaWZ5CiAgKiAgaXQgdW5kZXIgdGhlIHRlcm1zIG9mIHRoZSBH
-TlUgR2VuZXJhbCBQdWJsaWMgTGljZW5zZSBhcyBwdWJsaXNoZWQgYnkKQEAgLTIxMCwxMSArMjEw
-LDE1IEBAIHN0YXRpYyBpbmxpbmUgdm9pZCBnZW5fcmVhZF9jdHJsX3JlZ19wYWlyKERpc2FzQ29u
-dGV4dCAqY3R4LCBjb25zdCBpbnQgcmVnX251bSwKICAgICB9CiB9CiAKLXN0YXRpYyBpbmxpbmUg
-dm9pZCBnZW5fd3JpdGVfcDNfMChUQ0d2IGNvbnRyb2xfcmVnKQorc3RhdGljIHZvaWQgZ2VuX3dy
-aXRlX3AzXzAoRGlzYXNDb250ZXh0ICpjdHgsIFRDR3YgY29udHJvbF9yZWcpCiB7CisgICAgVENH
-diBoZXhfcDggPSB0Y2dfdGVtcF9uZXcoKTsKICAgICBmb3IgKGludCBpID0gMDsgaSA8IE5VTV9Q
-UkVHUzsgaSsrKSB7Ci0gICAgICAgIHRjZ19nZW5fZXh0cmFjdF90bChoZXhfcHJlZFtpXSwgY29u
-dHJvbF9yZWcsIGkgKiA4LCA4KTsKKyAgICAgICAgdGNnX2dlbl9leHRyYWN0X3RsKGhleF9wOCwg
-Y29udHJvbF9yZWcsIGkgKiA4LCA4KTsKKyAgICAgICAgZ2VuX2xvZ19wcmVkX3dyaXRlKGN0eCwg
-aSwgaGV4X3A4KTsKKyAgICAgICAgY3R4X2xvZ19wcmVkX3dyaXRlKGN0eCwgaSk7CiAgICAgfQor
-ICAgIHRjZ190ZW1wX2ZyZWUoaGV4X3A4KTsKIH0KIAogLyoKQEAgLTIyOCw3ICsyMzIsNyBAQCBz
-dGF0aWMgaW5saW5lIHZvaWQgZ2VuX3dyaXRlX2N0cmxfcmVnKERpc2FzQ29udGV4dCAqY3R4LCBp
-bnQgcmVnX251bSwKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgVENHdiB2
-YWwpCiB7CiAgICAgaWYgKHJlZ19udW0gPT0gSEVYX1JFR19QM18wKSB7Ci0gICAgICAgIGdlbl93
-cml0ZV9wM18wKHZhbCk7CisgICAgICAgIGdlbl93cml0ZV9wM18wKGN0eCwgdmFsKTsKICAgICB9
-IGVsc2UgewogICAgICAgICBnZW5fbG9nX3JlZ193cml0ZShyZWdfbnVtLCB2YWwpOwogICAgICAg
-ICBjdHhfbG9nX3JlZ193cml0ZShjdHgsIHJlZ19udW0pOwpAQCAtMjUwLDcgKzI1NCw3IEBAIHN0
-YXRpYyBpbmxpbmUgdm9pZCBnZW5fd3JpdGVfY3RybF9yZWdfcGFpcihEaXNhc0NvbnRleHQgKmN0
-eCwgaW50IHJlZ19udW0sCiAgICAgaWYgKHJlZ19udW0gPT0gSEVYX1JFR19QM18wKSB7CiAgICAg
-ICAgIFRDR3YgdmFsMzIgPSB0Y2dfdGVtcF9uZXcoKTsKICAgICAgICAgdGNnX2dlbl9leHRybF9p
-NjRfaTMyKHZhbDMyLCB2YWwpOwotICAgICAgICBnZW5fd3JpdGVfcDNfMCh2YWwzMik7CisgICAg
-ICAgIGdlbl93cml0ZV9wM18wKGN0eCwgdmFsMzIpOwogICAgICAgICB0Y2dfZ2VuX2V4dHJoX2k2
-NF9pMzIodmFsMzIsIHZhbCk7CiAgICAgICAgIGdlbl9sb2dfcmVnX3dyaXRlKHJlZ19udW0gKyAx
-LCB2YWwzMik7CiAgICAgICAgIHRjZ190ZW1wX2ZyZWUodmFsMzIpOwpkaWZmIC0tZ2l0IGEvdGVz
-dHMvdGNnL2hleGFnb24vcHJlZ19hbGlhcy5jIGIvdGVzdHMvdGNnL2hleGFnb24vcHJlZ19hbGlh
-cy5jCmluZGV4IDlmN2IxMjU5OTguLmIwNGM0NTYzMmMgMTAwNjQ0Ci0tLSBhL3Rlc3RzL3RjZy9o
-ZXhhZ29uL3ByZWdfYWxpYXMuYworKysgYi90ZXN0cy90Y2cvaGV4YWdvbi9wcmVnX2FsaWFzLmMK
-QEAgLTk3LDYgKzk3LDQyIEBAIHN0YXRpYyBpbmxpbmUgdm9pZCBjcmVnX2FsaWFzX3BhaXIodW5z
-aWduZWQgaW50IGN2YWwsIFBSZWdzICpwcmVncykKICAgY2hlY2soYzUsIDB4ZGVhZGJlZWYpOwog
-fQogCitzdGF0aWMgdm9pZCB0ZXN0X3BhY2tldCh2b2lkKQoreworICAgIC8qCisgICAgICogVGVz
-dCB0aGF0IHNldHRpbmcgYzQgaW5zaWRlIGEgcGFja2V0IGRvZXNuJ3QgaW1wYWN0IHRoZSBwcmVk
-aWNhdGVzCisgICAgICogdGhhdCBhcmUgcmVhZCBkdXJpbmcgdGhlIHBhY2tldC4KKyAgICAgKi8K
-KworICAgIGludCByZXN1bHQ7CisgICAgaW50IG9sZF92YWwgPSAweDAwMDAwMDFjOworCisgICAg
-LyogVGVzdCBhIHByZWRpY2F0ZWQgcmVnaXN0ZXIgdHJhbnNmZXIgKi8KKyAgICByZXN1bHQgPSBv
-bGRfdmFsOworICAgIGFzbSAoCisgICAgICAgICAiYzQgPSAlMVxuXHQiCisgICAgICAgICAie1xu
-XHQiCisgICAgICAgICAiICAgIGM0ID0gJTJcblx0IgorICAgICAgICAgIiAgICBpZiAoIXAyKSAl
-MCA9ICUzXG5cdCIKKyAgICAgICAgICJ9XG5cdCIKKyAgICAgICAgIDogIityIihyZXN1bHQpCisg
-ICAgICAgICA6ICJyIigweGZmZmZmZmZmKSwgInIiKDB4ZmYwMGZmZmYpLCAiciIoMHg4MzdlZDY1
-MykKKyAgICAgICAgIDogImM0IiwgInAwIiwgInAxIiwgInAyIiwgInAzIik7CisgICAgY2hlY2so
-cmVzdWx0LCBvbGRfdmFsKTsKKworICAgIC8qIFRlc3QgYSBwcmVkaWNhdGVkIHN0b3JlICovCisg
-ICAgcmVzdWx0ID0gMHhmZmZmZmZmZjsKKyAgICBhc20gKCJjNCA9ICUwXG5cdCIKKyAgICAgICAg
-ICJ7XG5cdCIKKyAgICAgICAgICIgICAgYzQgPSAlMVxuXHQiCisgICAgICAgICAiICAgIGlmICgh
-cDIpIG1lbXcoJTIpID0gIzBcblx0IgorICAgICAgICAgIn1cblx0IgorICAgICAgICAgOgorICAg
-ICAgICAgOiAiciIoMCksICJyIigweGZmZmZmZmZmKSwgInIiKCZyZXN1bHQpCisgICAgICAgICA6
-ICJjNCIsICJwMCIsICJwMSIsICJwMiIsICJwMyIsICJtZW1vcnkiKTsKKyAgICBjaGVjayhyZXN1
-bHQsIDB4MCk7Cit9CisKIGludCBtYWluKCkKIHsKICAgICBpbnQgYzQ7CkBAIC0xNjIsNiArMTk4
-LDggQEAgaW50IG1haW4oKQogICAgIGNyZWdfYWxpYXNfcGFpcigweGZmZmZmZmZmLCAmcHJlZ3Mp
-OwogICAgIGNoZWNrKHByZWdzLmNyZWcsIDB4ZmZmZmZmZmYpOwogCisgICAgdGVzdF9wYWNrZXQo
-KTsKKwogICAgIHB1dHMoZXJyID8gIkZBSUwiIDogIlBBU1MiKTsKICAgICByZXR1cm4gZXJyOwog
-fQotLSAKMi4xNy4xCgo=
+On 1/8/22 01:39, Peter Maydell wrote:
+> (1) The handling of the BaseADDR field for TLB range
+> invalidates needs updating (there's a TODO to this effect in
+> tlbi_aa64_range_get_base()).
+> 
+> Side note: in that function, we shift the field by TARGET_PAGE_BITS,
+> but the docs say that the shift should depend on the configured
+> translation granule. Is that a bug?
+
+Yes.
+
+> (2) There are some new long-form fault status codes with FEAT_LPA2,
+> corresponding to various fault types that can now occur at level -1.
+> arm_fi_to_lfsc() needs updating to handle fi->level being -1.
+> (You could do this bit as a preceding patch; it doesn't need to
+> be squashed into this one.)
+
+Yep, thanks.
+
+
+r~
 
