@@ -2,60 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0605D4B15B8
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Feb 2022 20:03:18 +0100 (CET)
-Received: from localhost ([::1]:56022 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 026164B149E
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Feb 2022 18:53:32 +0100 (CET)
+Received: from localhost ([::1]:58982 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nIEir-0000YL-5X
-	for lists+qemu-devel@lfdr.de; Thu, 10 Feb 2022 14:03:17 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:55316)
+	id 1nIDdL-0006Kt-2k
+	for lists+qemu-devel@lfdr.de; Thu, 10 Feb 2022 12:53:31 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:55328)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1nIBeZ-00047U-MX
- for qemu-devel@nongnu.org; Thu, 10 Feb 2022 10:46:39 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:37004)
+ id 1nIBea-000481-GV
+ for qemu-devel@nongnu.org; Thu, 10 Feb 2022 10:46:40 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:45940)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1nIBeV-00026B-N3
+ id 1nIBeV-000266-CP
  for qemu-devel@nongnu.org; Thu, 10 Feb 2022 10:46:38 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1644507994;
+ s=mimecast20190719; t=1644507993;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=2hdSAlk9L+XeKCXQR9zHeFdOaXL6MXMUhfvXOIqeaZQ=;
- b=Ub+391gS1/ZpMjjpYXtbaJVYHgBC4BYxJEP/sfUc6IAZxfuQX5VD5ryfb3rbABgP0yeeEj
- 5I/c76cx/EWApr+EXNlPRCi0qxK8I0QwbOdpGXXO9Yklg+U+oOUeV4ASFAyL/dLciJ8Jfg
- 6KZWwt6gl6rF7uVVkZ1Dx+JMFG8+lLs=
+ bh=zFsD69wKextybj40GJBY+j2m8qQGyDcvDCT3rLGzmAQ=;
+ b=Tc88g8oiIv3I0au1magdm8Y/eyCqRfhJdgqHtXnUtHUK6cjEdvD+xAZCMAU4HgGGjCf2nx
+ tI+9AxI9UUIG2NSf0IXnQ19VMFoOdlcSQyN+6ukwobyz7iPOqzjUrjLy5yKdwba5XM8DEm
+ +bPM0coCBGm7TVQ/AqRkytWVVB7jIBQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-389-M5GQiqVPMSyzVPfxDgv9Pg-1; Thu, 10 Feb 2022 10:46:30 -0500
-X-MC-Unique: M5GQiqVPMSyzVPfxDgv9Pg-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-451-_BgCsXD2MCiT-XkGt_IxmA-1; Thu, 10 Feb 2022 10:46:32 -0500
+X-MC-Unique: _BgCsXD2MCiT-XkGt_IxmA-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 665C261195;
- Thu, 10 Feb 2022 15:38:21 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 021F81B18BEA;
+ Thu, 10 Feb 2022 15:40:41 +0000 (UTC)
 Received: from localhost (unknown [10.39.195.225])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E97792B59A;
- Thu, 10 Feb 2022 15:38:19 +0000 (UTC)
-Date: Thu, 10 Feb 2022 15:38:18 +0000
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 471107CAF7;
+ Thu, 10 Feb 2022 15:40:29 +0000 (UTC)
+Date: Thu, 10 Feb 2022 15:40:27 +0000
 From: Stefan Hajnoczi <stefanha@redhat.com>
 To: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-Subject: Re: [PATCH v5 01/20] job.c: make job_mutex and job_lock/unlock()
- public
-Message-ID: <YgUxap+8eWQVM+TN@stefanha-x1.localdomain>
+Subject: Re: [PATCH v5 02/20] job.h: categorize fields in struct Job
+Message-ID: <YgUx60M7dB+VLi3p@stefanha-x1.localdomain>
 References: <20220208143513.1077229-1-eesposit@redhat.com>
- <20220208143513.1077229-2-eesposit@redhat.com>
+ <20220208143513.1077229-3-eesposit@redhat.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="Z/TeX53vXRV7W6/C"
+ protocol="application/pgp-signature"; boundary="ZvEE6H0UwAtyNIKI"
 Content-Disposition: inline
-In-Reply-To: <20220208143513.1077229-2-eesposit@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+In-Reply-To: <20220208143513.1077229-3-eesposit@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
@@ -88,54 +87,49 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---Z/TeX53vXRV7W6/C
+--ZvEE6H0UwAtyNIKI
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Feb 08, 2022 at 09:34:54AM -0500, Emanuele Giuseppe Esposito wrote:
-> job mutex will be used to protect the job struct elements and list,
-> replacing AioContext locks.
->=20
-> Right now use a shared lock for all jobs, in order to keep things
-> simple. Once the AioContext lock is gone, we can introduce per-job
-> locks.
->=20
-> To simplify the switch from aiocontext to job lock, introduce
-> *nop* lock/unlock functions and macros.
-> We want to always call job_lock/unlock outside the AioContext locks,
-> and not vice-versa, otherwise we might get a deadlock. This is not
-> straightforward to do, and that's why we start with nop functions.
-> Once everything is protected by job_lock/unlock, we can change the nop in=
-to
-> an actual mutex and remove the aiocontext lock.
->=20
-> Since job_mutex is already being used, add static
-> real_job_{lock/unlock} for the existing usage.
+On Tue, Feb 08, 2022 at 09:34:55AM -0500, Emanuele Giuseppe Esposito wrote:
+> Categorize the fields in struct Job to understand which ones
+> need to be protected by the job mutex and which don't.
 >=20
 > Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 > ---
->  include/qemu/job.h | 24 ++++++++++++++++++++++++
->  job.c              | 35 +++++++++++++++++++++++------------
->  2 files changed, 47 insertions(+), 12 deletions(-)
+>  include/qemu/job.h | 59 ++++++++++++++++++++++++++--------------------
+>  1 file changed, 34 insertions(+), 25 deletions(-)
+>=20
+> diff --git a/include/qemu/job.h b/include/qemu/job.h
+> index d1192ffd61..86ec46c09e 100644
+> --- a/include/qemu/job.h
+> +++ b/include/qemu/job.h
+> @@ -40,27 +40,50 @@ typedef struct JobTxn JobTxn;
+>   * Long-running operation.
+>   */
+>  typedef struct Job {
+> +
+> +    /* Fields set at initialization (job_create), and never modified */
 
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+Is there a corresponding "Field protected by job_mutex" comment that
+separates fields that need locking?
 
---Z/TeX53vXRV7W6/C
+--ZvEE6H0UwAtyNIKI
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmIFMWoACgkQnKSrs4Gr
-c8hGbAf/fYVpd2s4kfz3jQodoffX6BeFUDv3cGZxpe8e1Vixp29A3ru2jfcPKGy5
-lbC8hEfOQy8NgYpOb3jLfbF0UCiQvoIvj63yJIrjfp4c0W8RGvhvNmjTeF0dkkPL
-skjY2UJvxB/2imdO2SLJX7btxt6LeSS+iFdNeUowCMwtF6PTa3fzRcGvsLemrSAM
-wWlRbfmJnENVfqTvCe1gWVeQ00H/C3o6xtkvNQ4fV+oKv5bI6JZ3JYOs5wKfkAtk
-GY21zunjK2fLorP+dKi+c3Ttg0ZQdINg/kMkyU57J5VTzd0AOa68rp6Z3Kaz8LiB
-KDQzmhxCO7u1XmE74E286xvqtpfCLg==
-=el3x
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmIFMesACgkQnKSrs4Gr
+c8iUqwgAnunEf5VndWFbcB3pi7ttiY4l/qbLypjuisr3pGc2APttQcaafoUcFPo3
+6Sg+8ySjNJ3CeoZ8JErTyKdBMHb81QXF1ie9bbBn2ztpHSGF+67BpbSZ+ReankSy
+iH2cXiKAmsZHl5cfZZZ3XbVFyyNQOpfVT9ogAx8f3O9dhFaVd4YNARvJjIz742FD
+/Kbn7QiKWHr5x0eQ5tmChAHhSxIyM/RnO4ll/NTNiKIoR1TqA+9P/NYhQJX2obXI
+kZh8PupDOlDkMaqE439GeDxS3tHJjBxxizPDrdALqWQYeOaWj4cKmHTEkrg49c6M
+AZAc+0+LczCnPjOnDEGWbCpnNM3pCw==
+=II9+
 -----END PGP SIGNATURE-----
 
---Z/TeX53vXRV7W6/C--
+--ZvEE6H0UwAtyNIKI--
 
 
