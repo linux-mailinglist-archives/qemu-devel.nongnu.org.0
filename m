@@ -2,85 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E154B4B1198
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Feb 2022 16:23:26 +0100 (CET)
-Received: from localhost ([::1]:36912 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B16DC4B117B
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Feb 2022 16:18:19 +0100 (CET)
+Received: from localhost ([::1]:53176 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nIBI6-0003cN-1m
-	for lists+qemu-devel@lfdr.de; Thu, 10 Feb 2022 10:23:26 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:37062)
+	id 1nIBD8-0003aO-QF
+	for lists+qemu-devel@lfdr.de; Thu, 10 Feb 2022 10:18:18 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:36950)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1nI93v-0001vr-Gs; Thu, 10 Feb 2022 08:00:40 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:37276)
+ id 1nI93r-0001v9-Sf; Thu, 10 Feb 2022 08:00:36 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:21190
+ helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1nI93p-00049G-6r; Thu, 10 Feb 2022 08:00:38 -0500
-Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 21AAMgpt000435; 
- Thu, 10 Feb 2022 13:00:19 GMT
-Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.102])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3e4r7jpm52-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 10 Feb 2022 13:00:19 +0000
-Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
- by ppma06ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 21ACw2pI030325;
+ id 1nI93m-00048E-SJ; Thu, 10 Feb 2022 08:00:35 -0500
+Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 21ACpU8O017971; 
  Thu, 10 Feb 2022 13:00:17 GMT
+Received: from ppma06fra.de.ibm.com (48.49.7a9f.ip4.static.sl-reverse.com
+ [159.122.73.72])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 3e4cb7du6x-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 10 Feb 2022 13:00:17 +0000
+Received: from pps.filterd (ppma06fra.de.ibm.com [127.0.0.1])
+ by ppma06fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 21ACvuq8006262;
+ Thu, 10 Feb 2022 13:00:15 GMT
 Received: from b06cxnps3075.portsmouth.uk.ibm.com
  (d06relay10.portsmouth.uk.ibm.com [9.149.109.195])
- by ppma06ams.nl.ibm.com with ESMTP id 3e1ggkg4cj-1
+ by ppma06fra.de.ibm.com with ESMTP id 3e1ggjp62f-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 10 Feb 2022 13:00:16 +0000
-Received: from d06av24.portsmouth.uk.ibm.com (d06av24.portsmouth.uk.ibm.com
- [9.149.105.60])
+ Thu, 10 Feb 2022 13:00:15 +0000
+Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com
+ [9.149.105.61])
  by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 21AD0DBn40567184
+ 21AD0DLW24904106
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
  Thu, 10 Feb 2022 13:00:13 GMT
-Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 92D2342061;
- Thu, 10 Feb 2022 13:00:12 +0000 (GMT)
-Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 6199042056;
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 18A8711C05B;
+ Thu, 10 Feb 2022 13:00:13 +0000 (GMT)
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id C9B6211C04C;
  Thu, 10 Feb 2022 13:00:12 +0000 (GMT)
 Received: from smtp.tlslab.ibm.com (unknown [9.101.4.1])
- by d06av24.portsmouth.uk.ibm.com (Postfix) with SMTP;
+ by d06av25.portsmouth.uk.ibm.com (Postfix) with SMTP;
  Thu, 10 Feb 2022 13:00:12 +0000 (GMT)
 Received: from yukon.ibmuc.com (unknown [9.171.74.250])
- by smtp.tlslab.ibm.com (Postfix) with ESMTP id 5E52C22016C;
+ by smtp.tlslab.ibm.com (Postfix) with ESMTP id 089F22201DC;
  Thu, 10 Feb 2022 14:00:11 +0100 (CET)
 From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 To: qemu-ppc@nongnu.org, qemu-devel@nongnu.org
-Subject: [PULL 00/42] ppc queue
-Date: Thu, 10 Feb 2022 13:59:26 +0100
-Message-Id: <20220210130008.2599950-1-clg@kaod.org>
+Subject: [PULL 01/42] target/ppc: Remove 440x4 CPU
+Date: Thu, 10 Feb 2022 13:59:27 +0100
+Message-Id: <20220210130008.2599950-2-clg@kaod.org>
 X-Mailer: git-send-email 2.34.1
-Content-Type: text/plain; charset=UTF-8
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: WE-olIssG94419CWmIam9n9HEb-nnAYB
-X-Proofpoint-ORIG-GUID: WE-olIssG94419CWmIam9n9HEb-nnAYB
-Content-Transfer-Encoding: quoted-printable
-X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+In-Reply-To: <20220210130008.2599950-1-clg@kaod.org>
+References: <20220210130008.2599950-1-clg@kaod.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: nHonm9tD5TUD7aCsyELUQToSGbRjA6aO
+X-Proofpoint-GUID: nHonm9tD5TUD7aCsyELUQToSGbRjA6aO
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.816,Hydra:6.0.425,FMLib:17.11.62.513
  definitions=2022-02-10_05,2022-02-09_01,2021-12-02_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1034 impostorscore=0
- priorityscore=1501 suspectscore=0 phishscore=0 spamscore=0 mlxscore=0
- mlxlogscore=974 malwarescore=0 lowpriorityscore=0 bulkscore=0 adultscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2201110000
- definitions=main-2202100068
-Received-SPF: softfail client-ip=148.163.156.1; envelope-from=clg@kaod.org;
+ lowpriorityscore=0
+ suspectscore=0 bulkscore=0 mlxlogscore=962 phishscore=0 impostorscore=0
+ mlxscore=0 spamscore=0 malwarescore=0 priorityscore=1501 clxscore=1034
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2201110000 definitions=main-2202100068
+Received-SPF: softfail client-ip=148.163.158.5; envelope-from=clg@kaod.org;
  helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -11
-X-Spam_score: -1.2
+X-Spam_score_int: -10
+X-Spam_score: -1.1
 X-Spam_bar: -
-X-Spam_report: (-1.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_SOFTFAIL=0.665,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, KHOP_HELO_FCRDNS=0.146,
+ RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_SOFTFAIL=0.665, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,121 +97,119 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Peter Maydell <peter.maydell@linaro.org>,
  Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
+ =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
+ Fabiano Rosas <farosas@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit 0a301624c2f4ced3331ffd5bce85b4274fe132af:
+From: Fabiano Rosas <farosas@linux.ibm.com>
 
-  Merge remote-tracking branch 'remotes/pmaydell/tags/pull-target-arm-20220=
-208' into staging (2022-02-08 11:40:08 +0000)
+This CPU was partially removed due to lack of support in 2017 by commit
+aef7796057 ("ppc: remove non implemented cpu models").
 
-are available in the Git repository at:
+Signed-off-by: Fabiano Rosas <farosas@linux.ibm.com>
+Reviewed-by: C=C3=A9dric Le Goater <clg@kaod.org>
+Message-Id: <20220128221611.1221715-1-farosas@linux.ibm.com>
+Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
+---
+ target/ppc/cpu_init.c | 83 -------------------------------------------
+ 1 file changed, 83 deletions(-)
 
-  https://github.com/legoater/qemu/ tags/pull-ppc-20220210
+diff --git a/target/ppc/cpu_init.c b/target/ppc/cpu_init.c
+index bf60529d3715..b4f0835849a6 100644
+--- a/target/ppc/cpu_init.c
++++ b/target/ppc/cpu_init.c
+@@ -2703,89 +2703,6 @@ POWERPC_FAMILY(440GP)(ObjectClass *oc, void *data)
+                  POWERPC_FLAG_DE | POWERPC_FLAG_BUS_CLK;
+ }
+=20
+-static void init_proc_440x4(CPUPPCState *env)
+-{
+-    /* Time base */
+-    register_tbl(env);
+-    register_BookE_sprs(env, 0x000000000000FFFFULL);
+-    register_440_sprs(env);
+-    register_usprgh_sprs(env);
+-    /* Processor identification */
+-    spr_register(env, SPR_BOOKE_PIR, "PIR",
+-                 SPR_NOACCESS, SPR_NOACCESS,
+-                 &spr_read_generic, &spr_write_pir,
+-                 0x00000000);
+-    /* XXX : not implemented */
+-    spr_register(env, SPR_BOOKE_IAC3, "IAC3",
+-                 SPR_NOACCESS, SPR_NOACCESS,
+-                 &spr_read_generic, &spr_write_generic,
+-                 0x00000000);
+-    /* XXX : not implemented */
+-    spr_register(env, SPR_BOOKE_IAC4, "IAC4",
+-                 SPR_NOACCESS, SPR_NOACCESS,
+-                 &spr_read_generic, &spr_write_generic,
+-                 0x00000000);
+-    /* XXX : not implemented */
+-    spr_register(env, SPR_BOOKE_DVC1, "DVC1",
+-                 SPR_NOACCESS, SPR_NOACCESS,
+-                 &spr_read_generic, &spr_write_generic,
+-                 0x00000000);
+-    /* XXX : not implemented */
+-    spr_register(env, SPR_BOOKE_DVC2, "DVC2",
+-                 SPR_NOACCESS, SPR_NOACCESS,
+-                 &spr_read_generic, &spr_write_generic,
+-                 0x00000000);
+-    /* Memory management */
+-#if !defined(CONFIG_USER_ONLY)
+-    env->nb_tlb =3D 64;
+-    env->nb_ways =3D 1;
+-    env->id_tlbs =3D 0;
+-    env->tlb_type =3D TLB_EMB;
+-#endif
+-    init_excp_BookE(env);
+-    env->dcache_line_size =3D 32;
+-    env->icache_line_size =3D 32;
+-    /* XXX: TODO: allocate internal IRQ controller */
+-
+-    SET_FIT_PERIOD(12, 16, 20, 24);
+-    SET_WDT_PERIOD(20, 24, 28, 32);
+-}
+-
+-POWERPC_FAMILY(440x4)(ObjectClass *oc, void *data)
+-{
+-    DeviceClass *dc =3D DEVICE_CLASS(oc);
+-    PowerPCCPUClass *pcc =3D POWERPC_CPU_CLASS(oc);
+-
+-    dc->desc =3D "PowerPC 440x4";
+-    pcc->init_proc =3D init_proc_440x4;
+-    pcc->check_pow =3D check_pow_nocheck;
+-    pcc->insns_flags =3D PPC_INSNS_BASE | PPC_STRING |
+-                       PPC_DCR | PPC_WRTEE |
+-                       PPC_CACHE | PPC_CACHE_ICBI |
+-                       PPC_CACHE_DCBZ | PPC_CACHE_DCBA |
+-                       PPC_MEM_TLBSYNC | PPC_MFTB |
+-                       PPC_BOOKE | PPC_4xx_COMMON | PPC_405_MAC |
+-                       PPC_440_SPEC;
+-    pcc->msr_mask =3D (1ull << MSR_POW) |
+-                    (1ull << MSR_CE) |
+-                    (1ull << MSR_EE) |
+-                    (1ull << MSR_PR) |
+-                    (1ull << MSR_FP) |
+-                    (1ull << MSR_ME) |
+-                    (1ull << MSR_FE0) |
+-                    (1ull << MSR_DWE) |
+-                    (1ull << MSR_DE) |
+-                    (1ull << MSR_FE1) |
+-                    (1ull << MSR_IR) |
+-                    (1ull << MSR_DR);
+-    pcc->mmu_model =3D POWERPC_MMU_BOOKE;
+-    pcc->excp_model =3D POWERPC_EXCP_BOOKE;
+-    pcc->bus_model =3D PPC_FLAGS_INPUT_BookE;
+-    pcc->bfd_mach =3D bfd_mach_ppc_403;
+-    pcc->flags =3D POWERPC_FLAG_CE | POWERPC_FLAG_DWE |
+-                 POWERPC_FLAG_DE | POWERPC_FLAG_BUS_CLK;
+-}
+-
+ static void init_proc_440x5(CPUPPCState *env)
+ {
+     /* Time base */
+--=20
+2.34.1
 
-for you to fetch changes up to 10717c26dbe1c138ba6af6d09a3bb9958d4fe3f2:
-
-  spapr/vof: Install rom and nvram binaries (2022-02-09 09:08:56 +0100)
-
-----------------------------------------------------------------
-ppc-7.0 queue
-
-* Exception model rework (Fabiano)
-* Unused CPU models removal (Fabiano and C=C3=A9dric)
-* Fix for VOF installation (Alexey)
-* Misc fixes
-
-----------------------------------------------------------------
-Alexey Kardashevskiy (1):
-      spapr/vof: Install rom and nvram binaries
-
-Cornelia Huck (1):
-      docs: rstfy confidential guest documentation
-
-C=C3=A9dric Le Goater (2):
-      target/ppc: Fix radix logging
-      target/ppc: Remove PowerPC 601 CPUs
-
-Fabiano Rosas (37):
-      target/ppc: Remove 440x4 CPU
-      target/ppc: Introduce powerpc_excp_booke
-      target/ppc: Simplify powerpc_excp_booke
-      target/ppc: booke: Critical exception cleanup
-      target/ppc: booke: Machine Check cleanups
-      target/ppc: booke: Data Storage exception cleanup
-      target/ppc: booke: Instruction storage exception cleanup
-      target/ppc: booke: External interrupt cleanup
-      target/ppc: booke: Alignment interrupt cleanup
-      target/ppc: booke: System Call exception cleanup
-      target/ppc: booke: Watchdog Timer interrupt
-      target/ppc: booke: System Reset exception cleanup
-      target/ppc: Merge exception model IDs for 6xx CPUs
-      target/ppc: Introduce powerpc_excp_6xx
-      target/ppc: Simplify powerpc_excp_6xx
-      target/ppc: 6xx: Critical exception cleanup
-      target/ppc: 6xx: Machine Check exception cleanup
-      target/ppc: 6xx: External interrupt cleanup
-      target/ppc: 6xx: Program exception cleanup
-      target/ppc: 6xx: System Call exception cleanup
-      target/ppc: 6xx: System Reset interrupt cleanup
-      target/ppc: 6xx: Software TLB exceptions cleanup
-      target/ppc: 6xx: Set SRRs directly in exception code
-      target/ppc: Merge 7x5 and 7x0 exception model IDs
-      target/ppc: Introduce powerpc_excp_7xx
-      target/ppc: Simplify powerpc_excp_7xx
-      target/ppc: 7xx: Machine Check exception cleanup
-      target/ppc: 7xx: External interrupt cleanup
-      target/ppc: 7xx: Program exception cleanup
-      target/ppc: 7xx: System Call exception cleanup
-      target/ppc: 7xx: System Reset cleanup
-      target/ppc: 7xx: Software TLB cleanup
-      target/ppc: 7xx: Set SRRs directly in exception code
-      target/ppc: Remove powerpc_excp_legacy
-      target/ppc: powerpc_excp: Move common code to the caller function
-      target/ppc: Assert if MSR bits differ from msr_mask during exceptions
-      target/ppc: books: Remove excp_model argument from ppc_excp_apply_ail
-
-V=C3=ADctor Colombo (1):
-      target/ppc: Change VSX instructions behavior to fill with zeros
-
- .../confidential-guest-support.rst}                |  15 +-
- .../i386/amd-memory-encryption.rst}                | 102 ++-
- docs/system/index.rst                              |   1 +
- docs/system/ppc/pseries.rst                        |   2 +
- docs/system/target-i386.rst                        |   1 +
- target/ppc/cpu-models.h                            |   3 -
- target/ppc/cpu-qom.h                               |  20 +-
- target/ppc/cpu.h                                   |  39 +-
- target/ppc/helper.h                                |  13 -
- target/ppc/mmu-hash32.h                            |   9 -
- target/ppc/spr_tcg.h                               |   8 -
- hw/ppc/ppc.c                                       |  21 -
- hw/ppc/prep.c                                      |   9 +-
- linux-user/ppc/cpu_loop.c                          |  16 -
- target/ppc/cpu-models.c                            |   8 -
- target/ppc/cpu_init.c                              | 331 +-------
- target/ppc/excp_helper.c                           | 917 +++++++++++------=
-----
- target/ppc/fpu_helper.c                            |  26 +-
- target/ppc/helper_regs.c                           |  10 -
- target/ppc/int_helper.c                            |  66 --
- target/ppc/machine.c                               |   5 +-
- target/ppc/misc_helper.c                           |  40 -
- target/ppc/mmu-hash32.c                            |  48 +-
- target/ppc/mmu-radix64.c                           |   8 +-
- target/ppc/mmu_common.c                            |  21 -
- target/ppc/mmu_helper.c                            |  84 --
- target/ppc/timebase_helper.c                       |  20 -
- target/ppc/translate.c                             | 842 -----------------=
---
- target/ppc/translate/fp-impl.c.inc                 | 179 ----
- target/ppc/translate/vsx-impl.c.inc                |   4 +-
- MAINTAINERS                                        |   2 +-
- pc-bios/meson.build                                |   2 +
- 32 files changed, 607 insertions(+), 2265 deletions(-)
- rename docs/{confidential-guest-support.txt =3D> system/confidential-guest=
--support.rst} (77%)
- rename docs/{amd-memory-encryption.txt =3D> system/i386/amd-memory-encrypt=
-ion.rst} (62%)
 
