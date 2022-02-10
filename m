@@ -2,70 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BEB254B07BF
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Feb 2022 09:08:59 +0100 (CET)
-Received: from localhost ([::1]:58416 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7DA2B4B0809
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Feb 2022 09:20:32 +0100 (CET)
+Received: from localhost ([::1]:41814 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nI4Ve-0003oN-AM
-	for lists+qemu-devel@lfdr.de; Thu, 10 Feb 2022 03:08:58 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:39232)
+	id 1nI4gp-00040r-1C
+	for lists+qemu-devel@lfdr.de; Thu, 10 Feb 2022 03:20:31 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:41540)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nI4C3-0002TT-3B
- for qemu-devel@nongnu.org; Thu, 10 Feb 2022 02:48:43 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:59289)
+ (Exim 4.90_1) (envelope-from <borntraeger@linux.ibm.com>)
+ id 1nI4Kz-0000Oh-PX; Thu, 10 Feb 2022 02:58:02 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:8264)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nI4Bz-0004I9-6h
- for qemu-devel@nongnu.org; Thu, 10 Feb 2022 02:48:41 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1644479317;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=wzVNXgcFoaWKgVta98D/o/cw+AdsUJLlalCEQI7HgJU=;
- b=aU4zkOEnusJkowcffkMrV1AovrC79lYP8NMWruTEtVZm8+gcTarVjoFwBOC5c8c0zTzCr9
- v6+p3CX0TPOblyA7R9/8JR1XSHGqkPfdjcdHEK7oeGjHY7hzARdkDG8EYE3r5RjpfbHyc+
- rCC6fSMLUCx2iIUWRQPBDUR2Ua0zL38=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-314-nH44138rPlyh0MyBV2b2kg-1; Thu, 10 Feb 2022 02:48:36 -0500
-X-MC-Unique: nH44138rPlyh0MyBV2b2kg-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7A0391927800;
- Thu, 10 Feb 2022 07:48:35 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.36.112.3])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 60910709AA;
- Thu, 10 Feb 2022 07:48:25 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id A935F21E6A00; Thu, 10 Feb 2022 08:48:23 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Subject: Re: downstream extensions
-References: <5c95f20c-df30-9d24-0e1b-f82f4d5a798e@virtuozzo.com>
-Date: Thu, 10 Feb 2022 08:48:23 +0100
-In-Reply-To: <5c95f20c-df30-9d24-0e1b-f82f4d5a798e@virtuozzo.com> (Vladimir
- Sementsov-Ogievskiy's message of "Wed, 9 Feb 2022 15:33:04 +0300")
-Message-ID: <874k57duwo.fsf@pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <borntraeger@linux.ibm.com>)
+ id 1nI4Kx-00067R-OC; Thu, 10 Feb 2022 02:57:57 -0500
+Received: from pps.filterd (m0127361.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 21A5WoTa032855; 
+ Thu, 10 Feb 2022 07:57:53 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : date :
+ mime-version : to : from : subject : content-type :
+ content-transfer-encoding; s=pp1;
+ bh=aaWZIQs+H0zIr6nMTp63bWdM5NJILH5UrPttBMEnutQ=;
+ b=AqseuWRBvy5nEZ/HRr2N3Y2M/NIW/miIzEjsrSi7oModsIfK9sXL2xE75dcd7iJZT4Gu
+ CG68cnyQTkRRTY0QCVFbK9+YHJ4PKWDjDKvCseeiH/Odq0DSMyVpVzPH3hp2idIFjsPW
+ 9buXzHizp4+ERHgYRURFKdRXs+7CthWiYsHoBX/+AWo1B0qTJrzvXhi1b2SzDk3O9WRH
+ WhF93DgSeXwJeN0bqgIKzmBnxHUFDr7VCyGs2aLjtUx32CdSdBOIeaufwXjfVawLuh6R
+ YF3oZiEObu/zZ+LVEo6dvodUH5DdtQX+qcyt+v38nXlQwiE0QPNVUPrrZ1F1AFyrbllW Pw== 
+Received: from ppma06fra.de.ibm.com (48.49.7a9f.ip4.static.sl-reverse.com
+ [159.122.73.72])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3e4rn1eyff-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 10 Feb 2022 07:57:53 +0000
+Received: from pps.filterd (ppma06fra.de.ibm.com [127.0.0.1])
+ by ppma06fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 21A7vpww001830;
+ Thu, 10 Feb 2022 07:57:51 GMT
+Received: from b06cxnps4074.portsmouth.uk.ibm.com
+ (d06relay11.portsmouth.uk.ibm.com [9.149.109.196])
+ by ppma06fra.de.ibm.com with ESMTP id 3e1ggjknja-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 10 Feb 2022 07:57:51 +0000
+Received: from d06av24.portsmouth.uk.ibm.com (d06av24.portsmouth.uk.ibm.com
+ [9.149.105.60])
+ by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 21A7vnfc44040604
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 10 Feb 2022 07:57:49 GMT
+Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 4133642041;
+ Thu, 10 Feb 2022 07:57:49 +0000 (GMT)
+Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 103E942047;
+ Thu, 10 Feb 2022 07:57:49 +0000 (GMT)
+Received: from [9.171.15.77] (unknown [9.171.15.77])
+ by d06av24.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Thu, 10 Feb 2022 07:57:48 +0000 (GMT)
+Message-ID: <36201311-39e2-0b94-1b06-74a2df988553@linux.ibm.com>
+Date: Thu, 10 Feb 2022 08:57:48 +0100
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+To: qemu-devel@nongnu.org, qemu block <qemu-block@nongnu.org>,
+ qemu-s390x <qemu-s390x@nongnu.org>
+Content-Language: en-US
+From: Christian Borntraeger <borntraeger@linux.ibm.com>
+Subject: qemu iotest 161 and make check
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: ZVUYn_uy0TI8ZAv1uSsegVby5u21J0TK
+X-Proofpoint-ORIG-GUID: ZVUYn_uy0TI8ZAv1uSsegVby5u21J0TK
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.816,Hydra:6.0.425,FMLib:17.11.62.513
+ definitions=2022-02-10_02,2022-02-09_01,2021-12-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0 impostorscore=0
+ malwarescore=0 suspectscore=0 adultscore=0 clxscore=1011 phishscore=0
+ mlxscore=0 mlxlogscore=726 priorityscore=1501 bulkscore=0
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2201110000 definitions=main-2202100039
+Received-SPF: pass client-ip=148.163.158.5;
+ envelope-from=borntraeger@linux.ibm.com; helo=mx0b-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H5=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -79,77 +103,27 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
- Eric Blake <eblake@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
- qemu block <qemu-block@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com> writes:
+Hello,
 
-> Hi all!
->
-> We declare a kind of __com.redhat_drive-mirror syntax for downstream extensions of QAPI.
->
-> That's inconvenient:
->
-> Assume I want to merge now my keep-dirty option for Qcow2 driver "[PATCH v2 0/2] qcow2: add keep-dirty open option" to our downstream. To avoid possible conflicts with upstream in future, I should now call it __com.virtuozzo_keep-dirty. Not saying about this being too awkward, there is a real problem:
->
-> I want to support dot-object-notation syntax, i.e. something like
->
-> qemu-img check --image-opts driver=qcow2,keep-dirty=true,file.filename=img.qcow2
->
-> And this way, a period inside a name looks ambiguous, as it looks like subproperty of "__com" property.
+I do see spurious failures of 161 in our CI, but only when I use
+make check with parallelism (-j).
+I have not yet figured out which other testcase could interfere
 
-The downstream extension prefix predates dotted keys.  Their combination
-is less than ideal, as you point out, but it's not actually ambiguous:
+@@ -34,6 +34,8 @@
+  *** Commit and then change an option on the backing file
 
-Consider this grammar:
+  Formatting 'TEST_DIR/t.IMGFMT.base', fmt=IMGFMT size=1048576
++qemu-img: TEST_DIR/t.IMGFMT.base: Failed to get "write" lock
++Is another process using the image [TEST_DIR/t.IMGFMT.base]?
+  Formatting 'TEST_DIR/t.IMGFMT.int', fmt=IMGFMT size=1048576 backing_file=TEST_DIR/t.IMGFMT.base backing_fmt=IMGFMT
+  Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=1048576 backing_file=TEST_DIR/t.IMGFMT.int backing_fmt=IMGFMT
+  { 'execute': 'qmp_capabilities' }
 
-    key               = key-fragment { '.' key-fragment }
-    key-fragment      = [ downstream_prefix ] / [^=,.]+ /
-    downstream_prefix = '__' rfqdn '_'
-    rfqdn             = / [A-Za-z0-9.-] /
 
-When a key-fragment starts with '__', it has a downstream prefix, which
-extends to the next '_'.
+any ideas?
 
-parse_qapi_name() implements this, and keyval.c uses it.
-
-The grammar in keyval.c neglects to cover the downstream prefix.  I'll
-fix it.
-
-> I now tested, it still works somehow, and test from my series passes with
->
->  keep_dirty_opts="driver=qcow2,__com.virtuozzo_keep-dirty=true,file.filename=$TEST_IMG"
-
-qemu-img --image-opts still uses QemuOpts.  I don't remember more about
-how it parses dotted keys other than "it's complicated", but downstream
-prefixes not working would be a bug.
-
-> But anyway, it looks ambiguous, and I don't want to use it and share with my colleagues.
->
-> In past, I used x-vz- prefix for downstream names (before I heard about __RFQDN_ notation declared in QAPI spec), that was more convenient. But still, that is not correct..
->
-> I now think to use just __vz_ prefix. Such name will never appear upstream, and unlikely to be used by Rhel downstream which is our base. And I don't care about any other downstreams.
->
->
-> Any thoughts? Should we change the recommendations somehow? I think allowing dots in names in the object model is a bad idea.
-
-Maybe, but that boat sailed long ago.
-
-QAPI's downstream prefix was designed this way to let organizations
-extend the schema without having to worry about clashes regardless of
-how things get rebased or remixed.  That's a feature.
-
-It reuses an existing registry of organization names: domain names.  Not
-needing our own registry is also a feature.
-
-Of course, nothing can stop you from putting something other than RFQDN
-between __ and _.  I'd recommend not to.
-
-We could add a revised downstream prefix syntax, and deprecate the first
-one.  To me, that feels like more trouble and complexity than it's
-worth.  I could be wrong.  Happy to read proposals.
-
+Christian
 
