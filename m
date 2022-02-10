@@ -2,71 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E55B24B03CB
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Feb 2022 04:12:51 +0100 (CET)
-Received: from localhost ([::1]:35510 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A47BE4B043C
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Feb 2022 05:09:33 +0100 (CET)
+Received: from localhost ([::1]:48296 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nHzt5-0002rD-0T
-	for lists+qemu-devel@lfdr.de; Wed, 09 Feb 2022 22:12:51 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:45180)
+	id 1nI0lw-0006oi-BK
+	for lists+qemu-devel@lfdr.de; Wed, 09 Feb 2022 23:09:32 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:53914)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1nHzry-00022x-K3; Wed, 09 Feb 2022 22:11:42 -0500
-Received: from [2607:f8b0:4864:20::d33] (port=39546
- helo=mail-io1-xd33.google.com)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nI0hA-0003tw-R9
+ for qemu-devel@nongnu.org; Wed, 09 Feb 2022 23:04:36 -0500
+Received: from [2607:f8b0:4864:20::432] (port=46696
+ helo=mail-pf1-x432.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1nHzr8-0000GV-QP; Wed, 09 Feb 2022 22:10:52 -0500
-Received: by mail-io1-xd33.google.com with SMTP id c188so5718063iof.6;
- Wed, 09 Feb 2022 19:10:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=3Hi/Hg8MZVewyscOvnt7jDWUCFlPbP4AQTFDFfTqW94=;
- b=oIcuxP5Q8cI3fExZ7DfbWUchIOUyjMdfvpBoYWJP7soW/Z8EaiwW1JXu4yCltCC3Qa
- 5MlZjXzNGucASNluOdX4nBDs1LJmHuq+/8xlH7A2q38W8+EJfQze3oRv/6KNZ6JI7Kq1
- C7dZ/zzTO7VIP1UsR30czhr1neIzt4JU3uEb7a7kB4NTLa60m8uvjltka6tBdK7UzXMR
- KntELmy/3LDaX+7eSSvnRLkHMZTIiEJWSmuKiVVsiyWRybPHiCJ7j9KyObNWnnmihA/r
- Hhr90YoxnueO4CVDgtHFEnpuAqNirYrpMx/HospUAQ6PPNFy1gayZVurVM6fapq0hcjI
- /JLQ==
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nI0h9-00045i-7L
+ for qemu-devel@nongnu.org; Wed, 09 Feb 2022 23:04:36 -0500
+Received: by mail-pf1-x432.google.com with SMTP id i21so6500550pfd.13
+ for <qemu-devel@nongnu.org>; Wed, 09 Feb 2022 20:04:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=JBv8QVPyT6gYycDLYC5k+pqAGDzqvUkpcUy2Ood6pn8=;
+ b=pzwKf2zck0ziE0CNJKVWDiLQRCdqeDoJRIA+mEhoOq7We2iirlHJABaRtxBkXIYP5Q
+ dr7XBMlx6MBgHxqLzN8XXX6vcS6yGOPDcEyx1e+gFaYD4/3o5DsusM3wEb0RiDmoFw5x
+ nkeUgoo/nvCD/hUKLEsASPdahqOsVGGW5rNtDs5/35fX04Ya3QQOuW7LALbaE9n4A6FP
+ ajLCrug4BS2M0a5+RZZZnBZ06GjhgA5CHSCDFyapWkkAFZTsfiikAkXv207dGPKGBxO/
+ ykz8iMzQvHhOjwP/kzCvwWva6Tv6bjsNKBg0+Vh5/kQErOjPgOgHPzM4EApE7V63CFKf
+ j1aw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=3Hi/Hg8MZVewyscOvnt7jDWUCFlPbP4AQTFDFfTqW94=;
- b=aU0HPdG5Ri5WChNBubLnF90tgMbp1lxaTLiAvFm0XM+Q8KwtyCMsA0Xblvp9Z6cLNf
- t5wchKxoVchDl2zp4pkXBmprdeXHzkk1ht0MGOD0Pl7n6+GGFdP/+n7ipViTVbJ5Cn/G
- 4gyyjN1O5yyLGkhViy781wOliSUeYTA/jO1lAdRhiD1KLoWmqjw2uxvHnOqXuyHDkNFK
- EunSgc+qq5zeBcsCTTGfW8tzyxIf22nz1DJEX+Msr07dLWGY9dIWMq8krpcl02Fwt/s3
- 73yGe8ybHA3tJJhXaflvqGXpCB7rOPtRTqH4b9U0GX3nea9bvY8ubVZiVSQjcAjpHAbG
- 2RrA==
-X-Gm-Message-State: AOAM532Cf8KOg3EKtr/ujmm2JtYetDRbQifJRBiOLi7VCjFinZG/h/KX
- xZSLYRFl5XZkTqJHgqXAHHEdJqSDRWJ0FtD8UFc=
-X-Google-Smtp-Source: ABdhPJzxZ5ZGlfes2EA/RkV78yYYjFzsYEF4mpVRgoPgs+5BlcQ3vPdJ4Pka8TqAOdlG2zuLwvL6T5NvMmQUcpcV4ng=
-X-Received: by 2002:a05:6638:2609:: with SMTP id
- m9mr1394630jat.169.1644462632256; 
- Wed, 09 Feb 2022 19:10:32 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=JBv8QVPyT6gYycDLYC5k+pqAGDzqvUkpcUy2Ood6pn8=;
+ b=U3ZI+pESubhWoFdhQr5gzwiQLcL0KCezB9BzYXQd6Z7exjSbY2PNOCTBVw/P00mN+J
+ nyJWMBdvMfcBISwMCo0Mx7vd7nGEIBOByrTn/dYI5s0+D5DYiRFJqcW5IDDMbDWb/6mo
+ QIT09zIA0Idpuj1j0BQxPw7m0aH/L7ZAZXkGnTMooZ08KWjnNFXdxS2OKST0yIWSardC
+ mTjvJJct7N2pJvieQut6jvDRK9IvauBcP86DEowj6mYFgfJSlVkXESIevD2r3SA3pL8H
+ s3mINnEkqkvYxsQfSHQFM7Vegj79q9sEriTCQ/SSt4joQ9v6wVGz2qH3n2QyWW/rv/7Q
+ 34xQ==
+X-Gm-Message-State: AOAM5334aRuHwHMqUo0A9RqIzPF1FTA0DKiEkGZBpa2Z4ftj/hT2zOnO
+ sezZ5GcmILEZ3BU827MQZ7B/V4EQkgirPMU4
+X-Google-Smtp-Source: ABdhPJy3IK6l5Ey5uGUCNTyNXqXYOSq3is/yqxM6s/cKqHXsu0WGei8AWanRjyL8Ofiwg5MJrbGdZw==
+X-Received: by 2002:a63:8942:: with SMTP id v63mr4631816pgd.222.1644465872899; 
+ Wed, 09 Feb 2022 20:04:32 -0800 (PST)
+Received: from localhost.localdomain ([124.189.222.164])
+ by smtp.gmail.com with ESMTPSA id y4sm9749814pgp.5.2022.02.09.20.04.29
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 09 Feb 2022 20:04:32 -0800 (PST)
+From: Richard Henderson <richard.henderson@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2 00/15] target/arm: Implement LVA, LPA, LPA2 features
+Date: Thu, 10 Feb 2022 15:04:08 +1100
+Message-Id: <20220210040423.95120-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <9040401e-8f87-ef4a-d840-6703f08d068c@bytedance.com>
-In-Reply-To: <9040401e-8f87-ef4a-d840-6703f08d068c@bytedance.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Thu, 10 Feb 2022 13:10:05 +1000
-Message-ID: <CAKmqyKP8sQpr64qUpTgUa-JaSRCHJf5AgYntb0+6v1_C64Vjvg@mail.gmail.com>
-Subject: Re: [PATCH] docs/system: riscv: Update description of CPU
-To: Yu Li <liyu.yukiteru@bytedance.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::d33
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::432
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d33;
- envelope-from=alistair23@gmail.com; helo=mail-io1-xd33.google.com
-X-Spam_score_int: -10
-X-Spam_score: -1.1
+Received-SPF: pass client-ip=2607:f8b0:4864:20::432;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x432.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
 X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, PDS_HP_HELO_NORDNS=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -79,48 +85,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alistair Francis <alistair.francis@wdc.com>, Bin Meng <bmeng.cn@gmail.com>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
+Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org, alex.bennee@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Feb 9, 2022 at 1:49 AM Yu Li <liyu.yukiteru@bytedance.com> wrote:
->
-> Since the hypervisor extension been non experimental and enabled for
-> default CPU, the previous command is no longer available and the
-> option `x-h=true` or `h=true` is also no longer required.
->
-> Signed-off-by: Yu Li <liyu.yukiteru@bytedance.com>
+Changes for v2:
+  * Introduce FIELD_SEX64, instead of open-coding w/ sextract64.
+  * Set TCR_EL1 more completely for user-only.
+  * Continue to bound tsz within aa64_va_parameters;
+    provide an out-of-bound indicator for raising AddressSize fault.
+  * Split IPS patch.
+  * Fix debug registers for LVA.
+  * Fix long-format fsc for LPA2.
+  * Fix TLBI page shift.
+  * Validate TLBI granule vs TCR granule.
 
-Thanks!
+Not done:
+  * Validate translation levels which accept blocks.
 
-Applied to riscv-to-apply.next
+There is still no upstream kernel support for FEAT_LPA2,
+so that is essentially untested.
 
-Alistair
 
-> ---
->   docs/system/riscv/virt.rst | 6 +++---
->   1 file changed, 3 insertions(+), 3 deletions(-)
->
-> diff --git a/docs/system/riscv/virt.rst b/docs/system/riscv/virt.rst
-> index fa016584bf..08ce3c4177 100644
-> --- a/docs/system/riscv/virt.rst
-> +++ b/docs/system/riscv/virt.rst
-> @@ -23,9 +23,9 @@ The ``virt`` machine supports the following devices:
->   * 1 generic PCIe host bridge
->   * The fw_cfg device that allows a guest to obtain data from QEMU
->
-> -Note that the default CPU is a generic RV32GC/RV64GC. Optional extensions
-> -can be enabled via command line parameters, e.g.: ``-cpu rv64,x-h=true``
-> -enables the hypervisor extension for RV64.
-> +The hypervisor extension has been enabled for the default CPU, so virtual
-> +machines with hypervisor extension can simply be used without explicitly
-> +declaring.
->
->   Hardware configuration information
->   ----------------------------------
-> --
-> 2.20.1
->
+r~
+
+
+Richard Henderson (15):
+  hw/registerfields: Add FIELD_SEX<N> and FIELD_SDP<N>
+  target/arm: Set TCR_EL1.TSZ for user-only
+  target/arm: Fault on invalid TCR_ELx.TxSZ
+  target/arm: Move arm_pamax out of line
+  target/arm: Pass outputsize down to check_s2_mmu_setup
+  target/arm: Use MAKE_64BIT_MASK to compute indexmask
+  target/arm: Honor TCR_ELx.{I}PS
+  target/arm: Prepare DBGBVR and DBGWVR for FEAT_LVA
+  target/arm: Implement FEAT_LVA
+  target/arm: Implement FEAT_LPA
+  target/arm: Extend arm_fi_to_lfsc to level -1
+  target/arm: Introduce tlbi_aa64_get_range
+  target/arm: Fix TLBIRange.base for 16k and 64k pages
+  target/arm: Validate tlbi TG matches translation granule in use
+  target/arm: Implement FEAT_LPA2
+
+ include/hw/registerfields.h |  48 +++++-
+ target/arm/cpu-param.h      |   4 +-
+ target/arm/cpu.h            |  27 +++
+ target/arm/internals.h      |  58 ++++---
+ target/arm/cpu.c            |   3 +-
+ target/arm/cpu64.c          |   7 +-
+ target/arm/helper.c         | 332 ++++++++++++++++++++++++++++--------
+ 7 files changed, 378 insertions(+), 101 deletions(-)
+
+-- 
+2.25.1
+
 
