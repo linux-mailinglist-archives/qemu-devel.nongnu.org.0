@@ -2,76 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1686A4B2254
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Feb 2022 10:43:20 +0100 (CET)
-Received: from localhost ([::1]:32946 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D978D4B2258
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Feb 2022 10:45:11 +0100 (CET)
+Received: from localhost ([::1]:35152 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nISSV-0008Gd-57
-	for lists+qemu-devel@lfdr.de; Fri, 11 Feb 2022 04:43:19 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:33548)
+	id 1nISUJ-0001Qk-1K
+	for lists+qemu-devel@lfdr.de; Fri, 11 Feb 2022 04:45:11 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:34974)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nISPX-0006sh-3B; Fri, 11 Feb 2022 04:40:15 -0500
-Received: from [2607:f8b0:4864:20::830] (port=33741
- helo=mail-qt1-x830.google.com)
+ id 1nISSV-0000TV-GP
+ for qemu-devel@nongnu.org; Fri, 11 Feb 2022 04:43:19 -0500
+Received: from [2607:f8b0:4864:20::736] (port=39858
+ helo=mail-qk1-x736.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nISPU-0008C2-Cr; Fri, 11 Feb 2022 04:40:13 -0500
-Received: by mail-qt1-x830.google.com with SMTP id p14so8570909qtx.0;
- Fri, 11 Feb 2022 01:40:11 -0800 (PST)
+ id 1nISST-0000To-8b
+ for qemu-devel@nongnu.org; Fri, 11 Feb 2022 04:43:18 -0500
+Received: by mail-qk1-x736.google.com with SMTP id b35so7819209qkp.6
+ for <qemu-devel@nongnu.org>; Fri, 11 Feb 2022 01:43:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=aJfSBGp2vOTKBGUMIbKWNoUFwfdnRHNGvs2QGPGUpOE=;
- b=g3+1hqbctTfLTePv/xAMlJmVDm+FMJGh1p0Dq8lJmFOvMwsoXsMPLs3EiLe2wvZOqA
- DwKWV4QQsMEeK9R/bytYhxnj9/VhXwq0tuSDcZE1fSJI5UFDir/rxh482VTQpqqDHyxa
- u14EhOYRpnbCgVgx/FlqKjVN+2FWP/VLmaZbbfCBke5Vt5AD3fZYWZC+mOLch68Izz3n
- YHkXiR50g5yN+ekxF8p8ai2yvDlw6QqEDwWm5zCZKsV3NsIaBfrIL37Ie5hqRTeCURdS
- THp7t6nRNWQeDhXOS/pwJeNYSkfVKcBEhNx6KpCR47fmblV3zha4b5oSXJ9nREvPpzZX
- DHnA==
+ bh=xa2h5Iu4fSnOA645R2aEvGvJXhS14Qv8IX+0F2UBZyI=;
+ b=omCWeKsw+3smwEBbWHc0zQTmN1xilMIkIv5i+82rrccDRUplWVCL7JrF9Ef8rb0PaW
+ djEB9yBeEhQpexJEB+d+UdwwHTwZmzi0d9lGjZMKZ4qY0dCNAWVNMw9q0Lfv9YO+Il69
+ UyscUTKFBAGte4ss7O7l5FfC+ISeVNs3bnSputLKXu8zk6auWZTbhHhquTqKAVTHmJWe
+ P6i2RMhN6wMRtwDyRwp8DoXD9gJT6B92ZiJEARMWYS9jZkYYyCuv/jYseEprP5NRBruD
+ NMmgxCAv+Pizt5frNu/l/QjYwZzkRdkw+aDTB9Xlp6fXmjFG6dynEysvLU/jOHCeS3x3
+ /OhQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
  :subject:content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=aJfSBGp2vOTKBGUMIbKWNoUFwfdnRHNGvs2QGPGUpOE=;
- b=ZWQ066XXI32/Jox3AcKS7Kh7V+m4Tx/gdh33bWnowDpbnMZmQU3dtf5eM4wpNYM47d
- 3WJb32/1Vx1rRKJBuqfxDatUz8EG+1EU0JmORfgaHcYc3Knv2T22cfxovO+j4bBFeJu9
- bQqAQCfmhRd22bneY6VY0VH5yaKgiSh9MTqRptdOsf1dBhr+t4T3+LTaKrAduIT4DqZh
- 6kXIVyzVw1jjSDyJkWJ2FrWJAxqs412uRyEmyhl6b6fCVkYzXsXsElJKJo/FUmcs5k3l
- 9jsazilCn9WsPqzBWp6OXuHfKP0uLTF9WPXqjeFGAxL5SEIzvqeOF+dOL0Zq3iKMYWtC
- V6IQ==
-X-Gm-Message-State: AOAM530KM03gD2k9Ze5Azcct0l6N9b5TiX7uXbOAmUsfccs0QTUicFS6
- dXGfbpbpzbuokS61iv2jGE4=
-X-Google-Smtp-Source: ABdhPJwbs8Uc2qpAniDkBzBZG3lwvsJd/jtsRaC3zsw2R3E/s2mOw5lUD5r+6MkaiJP1icFvTR6xeg==
-X-Received: by 2002:ac8:5f4a:: with SMTP id y10mr486422qta.378.1644572410961; 
- Fri, 11 Feb 2022 01:40:10 -0800 (PST)
+ bh=xa2h5Iu4fSnOA645R2aEvGvJXhS14Qv8IX+0F2UBZyI=;
+ b=1a1/guN8oQ7S23HOgO2+/1BTUj3C54mhTyGHPLoEuwqq+H8tZ8obxXYBz4+pzT/Axn
+ eW5wugQsiATlwyXRBN7rG7iaxzCJPHUce8vqri/7b+tKxX9WNSNTVXbl4SVhhS0Br2R2
+ ZM3c8q03z6Kvs4k0DGBbsdZjdssDMVDByeSxYsBfsCIONhcW3DuA/5+BUPxC+Hma+wt9
+ pjvic9EK1lsiZs8CqP3hA2dHur+K8SNCkLAfyzo11LsZ8s7LSj3dOUmd+zcwBWJMJjjM
+ c2nMoDyVr/oeDwWPxmbM9ez6j/Y4N+7Obi7d895oNQdA2Bl4TBu0NwxjwBHzR8ghRRnk
+ FU+A==
+X-Gm-Message-State: AOAM5338QCvFiVdvxx/EFSyUgXQYIsHhtpa+3JhSRAAZZKQATRUL2AvF
+ i+da5oYj5s5cnYBFQQ1/UMg=
+X-Google-Smtp-Source: ABdhPJwXGyCCaZWL2q361iF181KBorJqKz2wWd+mRFCOLPkDCOHj4OOhG5pPQcNHOI2voJhXerDCLw==
+X-Received: by 2002:a37:a7c6:: with SMTP id q189mr288122qke.126.1644572593625; 
+ Fri, 11 Feb 2022 01:43:13 -0800 (PST)
 Received: from [192.168.1.33] (154.red-83-50-83.dynamicip.rima-tde.net.
  [83.50.83.154])
- by smtp.gmail.com with ESMTPSA id t15sm6363527qkp.48.2022.02.11.01.40.08
+ by smtp.gmail.com with ESMTPSA id u35sm12611321qtc.26.2022.02.11.01.43.11
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 11 Feb 2022 01:40:10 -0800 (PST)
-Message-ID: <c93b74e7-e166-fbef-7ecb-dc7856cd49a1@amsat.org>
-Date: Fri, 11 Feb 2022 10:40:05 +0100
+ Fri, 11 Feb 2022 01:43:13 -0800 (PST)
+Message-ID: <cb2ca72a-5a61-917c-27c4-4827158c89e8@amsat.org>
+Date: Fri, 11 Feb 2022 10:43:10 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
  Gecko/20100101 Thunderbird/91.5.1
-Subject: Re: [PATCH v3 1/2] hvf: arm: Use macros for sysreg shift/masking
+Subject: Re: [PATCH] Hexagon (target/hexagon) convert to OBJECT_DECLARE_TYPE
 Content-Language: en-US
-To: Alexander Graf <agraf@csgraf.de>, Peter Maydell <peter.maydell@linaro.org>
-Cc: Roman Bolshakov <r.bolshakov@yadro.com>, qemu-arm@nongnu.org,
- qemu-devel@nongnu.org, Cameron Esfahani <dirty@apple.com>,
- Ivan Babrou <ivan@cloudflare.com>
-References: <20220209124135.69183-1-agraf@csgraf.de>
-In-Reply-To: <20220209124135.69183-1-agraf@csgraf.de>
+To: Taylor Simpson <tsimpson@quicinc.com>, qemu-devel@nongnu.org
+Cc: richard.henderson@linaro.org, ale@rev.ng, bcain@quicinc.com,
+ mlambert@quicinc.com
+References: <20220211033034.21107-1-tsimpson@quicinc.com>
+In-Reply-To: <20220211033034.21107-1-tsimpson@quicinc.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::830
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::736
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::830;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-qt1-x830.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::736;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-qk1-x736.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -98,52 +99,37 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
 From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
-On 9/2/22 13:41, Alexander Graf wrote:
-> We are parsing the syndrome field for sysregs in multiple places across
-> the hvf code, but repeat shift/mask operations with hard coded constants
-> every time. This is an error prone approach and makes it harder to reason
-> about the correctness of these operations.
-> 
-> Let's introduce macros that allow us to unify the constants used as well
-> as create new helpers to extract fields from the sysreg value.
-> 
-> Suggested-by: Peter Maydell <peter.maydell@linaro.org>
-> Signed-off-by: Alexander Graf <agraf@csgraf.de>
+On 11/2/22 04:30, Taylor Simpson wrote:
+> Suggested-by: Richard Henderson <richard.henderson@linaro.org>
+> Signed-off-by: Taylor Simpson <tsimpson@quicinc.com>
 > ---
->   target/arm/hvf/hvf.c | 69 ++++++++++++++++++++++++++++++--------------
->   1 file changed, 47 insertions(+), 22 deletions(-)
+>   target/hexagon/cpu.h | 9 ++-------
+>   1 file changed, 2 insertions(+), 7 deletions(-)
 > 
-> diff --git a/target/arm/hvf/hvf.c b/target/arm/hvf/hvf.c
-> index 92ad0d29c4..8d0447ab01 100644
-> --- a/target/arm/hvf/hvf.c
-> +++ b/target/arm/hvf/hvf.c
-> @@ -35,9 +35,34 @@
->           ENCODE_AA64_CP_REG(CP_REG_ARM64_SYSREG_CP, crn, crm, op0, op1, op2)
->   #define PL1_WRITE_MASK 0x4
+> diff --git a/target/hexagon/cpu.h b/target/hexagon/cpu.h
+> index 58a0d3870b..e3efbb2303 100644
+> --- a/target/hexagon/cpu.h
+> +++ b/target/hexagon/cpu.h
+> @@ -1,5 +1,5 @@
+>   /*
+> - *  Copyright(c) 2019-2021 Qualcomm Innovation Center, Inc. All Rights Reserved.
+> + *  Copyright(c) 2019-2022 Qualcomm Innovation Center, Inc. All Rights Reserved.
+>    *
+>    *  This program is free software; you can redistribute it and/or modify
+>    *  it under the terms of the GNU General Public License as published by
+> @@ -131,12 +131,7 @@ struct CPUHexagonState {
+>       VTCMStoreLog vtcm_log;
+>   };
 >   
-> +#define SYSREG_OP0_SHIFT      20
-> +#define SYSREG_OP0_MASK       0x3
-> +#define SYSREG_OP0(sysreg)    ((sysreg >> SYSREG_OP0_SHIFT) & SYSREG_OP0_MASK)
-> +#define SYSREG_OP1_SHIFT      14
-> +#define SYSREG_OP1_MASK       0x7
-> +#define SYSREG_OP1(sysreg)    ((sysreg >> SYSREG_OP1_SHIFT) & SYSREG_OP1_MASK)
-> +#define SYSREG_CRN_SHIFT      10
-> +#define SYSREG_CRN_MASK       0xf
-> +#define SYSREG_CRN(sysreg)    ((sysreg >> SYSREG_CRN_SHIFT) & SYSREG_CRN_MASK)
-> +#define SYSREG_CRM_SHIFT      1
-> +#define SYSREG_CRM_MASK       0xf
-> +#define SYSREG_CRM(sysreg)    ((sysreg >> SYSREG_CRM_SHIFT) & SYSREG_CRM_MASK)
-> +#define SYSREG_OP2_SHIFT      17
-> +#define SYSREG_OP2_MASK       0x7
-> +#define SYSREG_OP2(sysreg)    ((sysreg >> SYSREG_OP2_SHIFT) & SYSREG_OP2_MASK)
+> -#define HEXAGON_CPU_CLASS(klass) \
+> -    OBJECT_CLASS_CHECK(HexagonCPUClass, (klass), TYPE_HEXAGON_CPU)
+> -#define HEXAGON_CPU(obj) \
+> -    OBJECT_CHECK(HexagonCPU, (obj), TYPE_HEXAGON_CPU)
+> -#define HEXAGON_CPU_GET_CLASS(obj) \
+> -    OBJECT_GET_CLASS(HexagonCPUClass, (obj), TYPE_HEXAGON_CPU)
+> +OBJECT_DECLARE_TYPE(HexagonCPU, HexagonCPUClass, HEXAGON_CPU)
 
-Alternatively easier to read using the "hw/registerfields.h" macros:
-
-FIELD(SYSREG, OP0, 20, 2)
-FIELD(SYSREG, OP2, 17, 3)
-FIELD(SYSREG, OP1, 14, 3)
-FIELD(SYSREG, CRN, 10, 4)
-FIELD(SYSREG, CRM,  1, 4)
+Including "qom/object.h":
 
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
