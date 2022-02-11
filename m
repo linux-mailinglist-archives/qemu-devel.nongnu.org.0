@@ -2,97 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF9054B2A29
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Feb 2022 17:24:15 +0100 (CET)
-Received: from localhost ([::1]:54682 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 687894B2A30
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Feb 2022 17:26:56 +0100 (CET)
+Received: from localhost ([::1]:58576 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nIYiV-0000sm-2W
-	for lists+qemu-devel@lfdr.de; Fri, 11 Feb 2022 11:24:15 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:48928)
+	id 1nIYl5-0003kU-I6
+	for lists+qemu-devel@lfdr.de; Fri, 11 Feb 2022 11:26:55 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:50014)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nIYZK-0007Bp-Qq
- for qemu-devel@nongnu.org; Fri, 11 Feb 2022 11:14:46 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:57886)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nIYZH-0006sk-2c
- for qemu-devel@nongnu.org; Fri, 11 Feb 2022 11:14:45 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1644596082;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=kJMDvkH5B5kDYUnBh8kc1Shi1cjgNIU+DVh4qAU57TI=;
- b=M1j5fInqAVdgHm09o0aFCKslOGTrDbqnFRJAe4ojYMOmYi9D5uQj6rwHSypG5bCNAjrbsQ
- wjcCoPA8NJ3LOGrfxDrG5rohEbtXoMoDdbpqmRb1YBwV0VavVOJprKO6F+bvI4LXxmKNaS
- xIQ/O+/3dJl0lZ4dszNj+IY437Vtaq0=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-616-La4M3U5HPtCG0zWNS5rddw-1; Fri, 11 Feb 2022 11:14:41 -0500
-X-MC-Unique: La4M3U5HPtCG0zWNS5rddw-1
-Received: by mail-ed1-f71.google.com with SMTP id
- x6-20020a05640226c600b0040fe1993eebso4897408edd.6
- for <qemu-devel@nongnu.org>; Fri, 11 Feb 2022 08:14:40 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1nIYcc-0004XH-KV; Fri, 11 Feb 2022 11:18:10 -0500
+Received: from [2607:f8b0:4864:20::430] (port=33761
+ helo=mail-pf1-x430.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1nIYcY-0007iX-Gj; Fri, 11 Feb 2022 11:18:09 -0500
+Received: by mail-pf1-x430.google.com with SMTP id t36so6292133pfg.0;
+ Fri, 11 Feb 2022 08:18:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=kJMDvkH5B5kDYUnBh8kc1Shi1cjgNIU+DVh4qAU57TI=;
- b=J9Lv4mu2V1d+hJfYhiOEefWPdHzrPoJGzYR7VJZQPp+fOhzXN6g3OX3pNyf5Ori0Nl
- i5xPwufQH3pAr0gYOrE2Pun/KoULwdDN4U6d+cNrtyvNY63yQHr5kW4q0ocM8hyG4c/c
- NFsQGpsqR4ULj+LzjVEgD2GXTwGTRaDpBFFmFiwWIhSAP+OJiyC4shUMfxTztknroz9s
- 6WgiB8pp2X+sBAdu3hz+0x5UflkoyxjXOX5p00/QTttyr++HL9cCv9Ugk0WZtnJi6pkX
- mDICBDC0SxDwdTfBuMHZFbhISWoKpUr4OzJwZqgwUONs9iIPuE7qUizI82RSM33ucALK
- sgyw==
-X-Gm-Message-State: AOAM530l9mR3RS2v0FvF1Qw1FGfgFhpCIo25Snas/hwxA4JAbRz7S8UB
- JV6OjSnoOdQ547lQnMWoBU/uQtjAYP8r87Da5Z5pXpyuBiNLmOG7hAxCF+9+RcrnmtworCuVjAv
- N/AKbpHTI7qFSp10=
-X-Received: by 2002:a17:907:2d08:: with SMTP id
- gs8mr2076953ejc.106.1644596079923; 
- Fri, 11 Feb 2022 08:14:39 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzGoiqLWIcaj+DPkpptCytz+9ynPnSsGg4g5z4kgfiXeXMmCpb47rJa8WEUGh36oF6M7WzN+g==
-X-Received: by 2002:a17:907:2d08:: with SMTP id
- gs8mr2076937ejc.106.1644596079689; 
- Fri, 11 Feb 2022 08:14:39 -0800 (PST)
-Received: from ?IPV6:2a02:8071:5055:3f20:7ad9:a400:6d51:83e6?
- ([2a02:8071:5055:3f20:7ad9:a400:6d51:83e6])
- by smtp.gmail.com with ESMTPSA id q4sm8037266ejb.109.2022.02.11.08.14.38
+ bh=HKy+54r3kPvEsdRKeUwuulEqApURLp9eG6DA0mzLXC4=;
+ b=pWal7Qk+qeuCmVjHdOdt/Ztk9gewSx3H6R5+kjA7V6qICO3qI29t9GCBDpaQmm6+Is
+ cjoaV5ZSlXheQ+ioWMeRzNL9emXDs5gv8+dZO5gOTm1SJKpx8AZGzbC5DyJOCrsb6sQJ
+ Z6FHPUbOB6tR7H3H2r33OIucuCsemNGepPxNLlSBgDbmPRiHnNQeYky0dLgry/EtgiXh
+ uvkI9AuMUMcs23RIIvoEY9O4NRlYWjNk7v1vnRXfze4Kltp8oX1764EKBpMMdG47Ion+
+ eQ9C28PAhvkravMq9mN5MyXoA3x7qXSpicGyMUb57MkpVTEUr3MvwajH00XMCWdRyBaC
+ ZNLw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+ :subject:content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=HKy+54r3kPvEsdRKeUwuulEqApURLp9eG6DA0mzLXC4=;
+ b=a9bvmvY2w9VGh/oKPp7ZrPXdQpH9YX+jstUZ4FtkidUEBGTdFLMbh2DueH1vk46QGY
+ 70zYpsOS1Oem/Uiy3gCR06J0V5bn3bFIvoKe2BQJOQ4Vxj4k0y1HzxkbWSbGUj+Ub7/x
+ GWqCDdtO2+j2ZMCiqyaOfdy5OUhLI0lIO6dUb5HxmHb6ApVehguXTc0q1CJDwiZ7G6bH
+ 2radnPfWwlGZaav1VDb4iL1rcdKcIZiw0UGHVAFDKjOR9KZ2lJBNgu4LlINs/5XU1Okr
+ kHICzrQIfyT1PxxrsotcweUOwXjJZC6sqv5YhAfapJv5kROLDDkeJrUDKjhqmsPfvHmU
+ chWQ==
+X-Gm-Message-State: AOAM53228towHmRINE9rmadnhVEoadIw3Z3Cfxsx/8g5t7oVkB/JpbW+
+ 0ZNmHGm+tQ5wIZQHXK8p+rA=
+X-Google-Smtp-Source: ABdhPJyi7RCE+MQ+I+jMRFmYj4IKZXuof6CW7+znZJMNLvgS5wBOp+d3K95kem/Tv1bqNvhNLHpb1Q==
+X-Received: by 2002:a65:6ccf:: with SMTP id g15mr1937037pgw.105.1644596284176; 
+ Fri, 11 Feb 2022 08:18:04 -0800 (PST)
+Received: from [192.168.1.33] (154.red-83-50-83.dynamicip.rima-tde.net.
+ [83.50.83.154])
+ by smtp.gmail.com with ESMTPSA id h25sm25466813pfn.208.2022.02.11.08.18.02
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 11 Feb 2022 08:14:39 -0800 (PST)
-Message-ID: <66487f51-1fdd-3a49-bc6f-b89ab3d2e54c@redhat.com>
-Date: Fri, 11 Feb 2022 17:14:38 +0100
+ Fri, 11 Feb 2022 08:18:03 -0800 (PST)
+Message-ID: <a45108c0-c5ed-3d98-77d2-c8b9c5c26be8@amsat.org>
+Date: Fri, 11 Feb 2022 17:18:00 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH v2 1/8] tests/qemu-iotests/testrunner: Allow parallel test
- invocations
-To: Kevin Wolf <kwolf@redhat.com>, Thomas Huth <thuth@redhat.com>
-References: <20220209101530.3442837-1-thuth@redhat.com>
- <20220209101530.3442837-2-thuth@redhat.com> <YgYsbRc9XNYjUH2L@redhat.com>
- <362412d7-4676-1733-fef6-825fda8e34a0@redhat.com>
- <YgaIISPltMU4GWsG@redhat.com>
-From: Hanna Reitz <hreitz@redhat.com>
-In-Reply-To: <YgaIISPltMU4GWsG@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.5.1
+Subject: Re: [PATCH v5 1/2] semihosting/arm-compat: replace heuristic for
+ softmmu SYS_HEAPINFO
 Content-Language: en-US
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Peter Maydell <peter.maydell@linaro.org>
+Cc: qemu-devel@nongnu.org, Andrew Strauss <astrauss11@gmail.com>,
+ Keith Packard <keithp@keithp.com>, qemu-arm@nongnu.org
+References: <20220210113021.3799514-1-alex.bennee@linaro.org>
+ <20220210113021.3799514-2-alex.bennee@linaro.org>
+ <8b6fca38-8a4e-af35-f202-86a5a3f98e47@amsat.org>
+ <CAFEAcA-2=TD9FeOn9ZJLBmJJBfQhOKSTRWpOXEw0AVktWmE6vA@mail.gmail.com>
+ <878ruhedv0.fsf@linaro.org>
+In-Reply-To: <878ruhedv0.fsf@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=hreitz@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::430
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::430;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pf1-x430.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -105,71 +98,67 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org,
- qemu-block@nongnu.org, Peter Maydell <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
-On 11.02.22 17:00, Kevin Wolf wrote:
-> Am 11.02.2022 um 14:53 hat Thomas Huth geschrieben:
->> On 11/02/2022 10.29, Kevin Wolf wrote:
->>> Am 09.02.2022 um 11:15 hat Thomas Huth geschrieben:
->>>> If multiple tests run in parallel, they must use unique file
->>>> names for the test output.
->>>>
->>>> Suggested-by: Hanna Reitz <hreitz@redhat.com>
->>>> Signed-off-by: Thomas Huth <thuth@redhat.com>
->>>> ---
->>>>    tests/qemu-iotests/testrunner.py | 2 +-
->>>>    1 file changed, 1 insertion(+), 1 deletion(-)
->>>>
->>>> diff --git a/tests/qemu-iotests/testrunner.py b/tests/qemu-iotests/testrunner.py
->>>> index 0eace147b8..9d20f51bb1 100644
->>>> --- a/tests/qemu-iotests/testrunner.py
->>>> +++ b/tests/qemu-iotests/testrunner.py
->>>> @@ -259,7 +259,7 @@ def do_run_test(self, test: str, mp: bool) -> TestResult:
->>>>            """
->>>>            f_test = Path(test)
->>>> -        f_bad = Path(f_test.name + '.out.bad')
->>>> +        f_bad = Path(f'{os.getpid()}-{f_test.name}.out.bad')
->>>>            f_notrun = Path(f_test.name + '.notrun')
->>>>            f_casenotrun = Path(f_test.name + '.casenotrun')
->>>>            f_reference = Path(self.find_reference(test))
->>> Hmm... It does make sense, but nobody ever cleans those files up.
->>> Currently, the next run of the test will just overwrite the existing
->>> file or delete it when the test succeeds. So after running the test
->>> suite, you have .out.bad files for every failed test, but not for those
->>> that succeeded.
+On 11/2/22 14:22, Alex Bennée wrote:
+> 
+> Peter Maydell <peter.maydell@linaro.org> writes:
+> 
+>> On Thu, 10 Feb 2022 at 11:48, Philippe Mathieu-Daudé <f4bug@amsat.org> wrote:
 >>>
->>> After this change, won't the test directory accumulate tons of .out.bad
->>> files over time?
->> True ... but we certainly want to keep the file for failed tests for further
->> analysis instead of immediately deleting them ... maybe it would be enough
->> to encode the image format (qcow2, qed, vmdk, ...) into the output name,
->> instead of using the PID, so that "make check SPEED=thorough" works as
->> expected here?
-> It depends on what the supported use case for test suites running in
-> parallel is. If it's just for testing multiple formats at the same time,
-> then this would work, yes.
->
-> I could think of more test runs that you might want to do in parallel,
-> like different protocols, different image format options, maybe even
-> different host file system. I'm not sure if all (or any) of these are
-> relevant, though.
->
-> Supporting only things that "make check" uses might be a good
-> compromise.
+>>> Hi Alex,
+>>>
+>>> On 10/2/22 12:30, Alex Bennée wrote:
+>>>> The previous numbers were a guess at best and rather arbitrary without
+>>>> taking into account anything that might be loaded. Instead of using
+>>>> guesses based on the state of registers implement a new function that:
+>>>>
+>>>>    a) scans the MemoryRegions for the largest RAM block
+>>>>    b) iterates through all "ROM" blobs looking for the biggest gap
+>>>>
+>>>> The "ROM" blobs include all code loaded via -kernel and the various
+>>>> -device loader techniques.
+>>>>
+>>>> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+>>>> Cc: Andrew Strauss <astrauss11@gmail.com>
+>>>> Cc: Keith Packard <keithp@keithp.com>
+>>>> Message-Id: <20210601090715.22330-1-alex.bennee@linaro.org>
+>>>
+>>>> +static LayoutInfo common_semi_find_bases(CPUState *cs)
+>>>>    {
+>>>> -    MemoryRegion *subregion;
+>>>> +    FlatView *fv;
+>>>> +    LayoutInfo info = { 0, 0, 0, 0 };
+>>>> +
+>>>> +    RCU_READ_LOCK_GUARD();
+>>>> +
+>>>> +    fv = address_space_to_flatview(cs->as);
+>>>
+>>> Why are we using the CPU view and not address_space_memory?
+>>
+>> If you have a choice between "use the right view of an
+>> address space" and "use the global address_space_memory",
+>> it's better to prefer the former, I think. We use the
+>> latter in lots of places, but it's not conceptually the
+>> right way to think about how the memory system works IMHO.
 
-Personally and originally, I wrote that diff to allow me to actually run 
-the very same test many times in parallel.  If an error occurs only very 
-rarely, then I like running like 24 loops of the same test with exactly 
-the same configuration (just different TEST_DIRs, of course) in parallel.
+Yes I agree.
 
-The fact that the .out.bad files tend to accumulate is why I haven’t 
-sent it upstream so far.  Personally, I like Vladimir’s idea to put them 
-into TEST_DIR, but probably just because this works so well for my usual 
-case where TEST_DIR is on tmpfs and I thus don’t have to clean it up.
+For user-mode, this patch makes sense. For system-mode it is
+not obvious to make sense of SYS_HEAPINFO (except focusing in
+cores targeting embedded systems eventually).
 
-Hanna
+> In this case the addresses have to be as the CPU sees them because it's
+> between the CPU and the semihosting backend to share data.
 
+Beside the sysemu curiosity, the patch logic is fine, so:
+
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+
+Thanks,
+
+Phil.
 
