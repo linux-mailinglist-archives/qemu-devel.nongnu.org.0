@@ -2,87 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B1B74B26F5
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Feb 2022 14:19:14 +0100 (CET)
-Received: from localhost ([::1]:41312 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 968884B273E
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Feb 2022 14:34:25 +0100 (CET)
+Received: from localhost ([::1]:55994 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nIVpQ-0003FB-VQ
-	for lists+qemu-devel@lfdr.de; Fri, 11 Feb 2022 08:19:13 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:45210)
+	id 1nIW48-0005go-AR
+	for lists+qemu-devel@lfdr.de; Fri, 11 Feb 2022 08:34:24 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:48440)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nIVCb-0005Nm-SR
- for qemu-devel@nongnu.org; Fri, 11 Feb 2022 07:39:06 -0500
-Received: from [2607:f8b0:4864:20::633] (port=34561
- helo=mail-pl1-x633.google.com)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nIVPn-0004J6-B8
+ for qemu-devel@nongnu.org; Fri, 11 Feb 2022 07:52:43 -0500
+Received: from [2a00:1450:4864:20::429] (port=34364
+ helo=mail-wr1-x429.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nIVCV-0008BG-CF
- for qemu-devel@nongnu.org; Fri, 11 Feb 2022 07:39:02 -0500
-Received: by mail-pl1-x633.google.com with SMTP id 10so4594454plj.1
- for <qemu-devel@nongnu.org>; Fri, 11 Feb 2022 04:38:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=K0xiEl9+0mZf7txOWGCrYVWJzza6Qg2vfChZx5Q4aw0=;
- b=kTlWAVKyFxcArhCeT6RVAOE07U9CTZja6bg01ifSEjMiuf1Mw0Qmt62FHOZeyNa8qC
- YgCF4yVSl0L1NVT1JJvZh3sGXkF90S9JUKMVTwRu6T/VrR7G8OXAtLertexEdv9WE9Ec
- kSRLK3XdZlQyg39RoP3knqY3nb7jG4Ne3CROLDbxLoj/1pwh07a6fKgNfZpMBnQ6Ynzn
- JCN+P5/i4oQauvCxWjovlDqFin/opiX5VogzFDchLd2ugdZdyRuu+/c+i+SgcCofQnqs
- H3FnDX6YQ0C1qWoeFKuvfiHfXUT70z6E24DIOEYDyTX83m95xi1GeBwLKMNQcVl8ERLs
- SlEw==
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nIVPi-0002bU-VO
+ for qemu-devel@nongnu.org; Fri, 11 Feb 2022 07:52:41 -0500
+Received: by mail-wr1-x429.google.com with SMTP id s10so1558751wrb.1
+ for <qemu-devel@nongnu.org>; Fri, 11 Feb 2022 04:52:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=fZZkVQt9cNPfiNjE6LEU/I/S/34h6LKQaHp9nVjyl/Y=;
+ b=oR5LomUeyeNvP+sAtE1u+h+tTLCRs7MMIGYvTZuSwo3GhIz9rU8SQQ6pITVajv6cYN
+ 7sPQPA9tRmAWSoOiWCoU8RhnUwXUHj9NfO+66vZz9+t8o4WkK8U1JctRu+26Z+bEPy37
+ c3SBGzNP95mthxGIjmJWRMw2QBohhnocQ0kIbcDvc27P4VyDoC+WdQExStXXzzlDZs0p
+ Ct3r/Ft6+C82k4j9XcnuUFCEDh8TC1znEl+2jSWHEudGqdEhbyGEbBevjXElSLPU43sD
+ j5LTdmTO09aslLNvArowWAvVI0pzLJENsoPi8qh5R3QV5QT/h5esp6MouV5y3YlKhhYr
+ 2sKw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=K0xiEl9+0mZf7txOWGCrYVWJzza6Qg2vfChZx5Q4aw0=;
- b=nmtUbcxmXNage58xOjA+vhKO/KquMb4rLJSoyPj+6OqJAi3/7xBY0kOwulTi+TX1sJ
- TvVLpyUcYG5Mhjlr+bujaz9JW8mQ1TjuIK3IDHn66bgqn+spc/Z6jg1sSWo2sAgzxQcz
- RGhMQQAt0Zly06rAR9sEW/oYlixzXdJFCDeykQ7rpZC7+QLV50rjKWU1Igsr0qq/6ItI
- Uu0pRC8FfIUPoPv8wP380JxGr5KBcBGMyMleDOZBqH0Ma4QHHuMUiWI0AdKBaBzwTwC1
- Ki3LPuX+MtV5D3GDfvYnt3qGND6qPQ76MjIrlr3w6+sk83RUUhFPFKg0o7nblMsb9P9G
- 2ptQ==
-X-Gm-Message-State: AOAM532jn/5qogvaJ3GvtMdkEUc7DUuFuchXw9tny1dl94eaA3Zklxc0
- xTc+nQReOguRSjL0hpZYwGI=
-X-Google-Smtp-Source: ABdhPJwTHNgEcRqVz2GqX6g6cvyPPvuKQjzBGQIVBGqEy0NaPMXgGA/MPQqOkx8ZfAPWm4wNMhQYiw==
-X-Received: by 2002:a17:902:6a81:: with SMTP id
- n1mr1292014plk.105.1644583110889; 
- Fri, 11 Feb 2022 04:38:30 -0800 (PST)
-Received: from [192.168.1.33] (154.red-83-50-83.dynamicip.rima-tde.net.
- [83.50.83.154])
- by smtp.gmail.com with ESMTPSA id p1sm29130383pfh.98.2022.02.11.04.38.28
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 11 Feb 2022 04:38:30 -0800 (PST)
-Message-ID: <54ea7876-e1e0-193d-31fc-da2f360c7d7a@amsat.org>
-Date: Fri, 11 Feb 2022 13:38:26 +0100
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=fZZkVQt9cNPfiNjE6LEU/I/S/34h6LKQaHp9nVjyl/Y=;
+ b=MpUVxcVzzUB1umIEFsfMjUnMvoi6NHEjxioym4EqkQ3QShokdKsp1Obcinx60LyuZx
+ 0eeUZH0sMAfcan274RnCAzJvViYrhh32g2JHVK2bv55ZPwgHvPshtLi8gBK8s/G5n62d
+ ORWEJ+Sl2TG5HxbqBR2yxjBqTc7Xeef2a04mldOp0zMF6zqGeLD/nmob+WY0bcQSZWqC
+ DzDY0Vr8CfjZ5KVUyPXEQMIBIEiDoqc7W3wPbdE+YXL2fbjIUXRJmCGhMGXAPX//kTaQ
+ QVtqLW50aMWRbqqn6T/9EN1ntmGpCGQealVmMY27NWKtqkqgiAoeuG0ueQzBmts7G3qx
+ 2w1w==
+X-Gm-Message-State: AOAM532eoNBEBMX/iq4Om/mGEWWolv0jRPamr/cu0VwA96M8Gpkj3GMQ
+ qTjyj0/nKItzXYHX0Jgs7yoAt0N+cgDDdpqYVaC4gg==
+X-Google-Smtp-Source: ABdhPJwv5YdorEB37/2e+sVJfBQSTxqEMhc3S7uzxLpB4QZXxXq49AVhUjICjDCQd78pikjpec9Jl1Vu7ljsymAB2/8=
+X-Received: by 2002:a5d:62c4:: with SMTP id o4mr1293405wrv.319.1644583956446; 
+ Fri, 11 Feb 2022 04:52:36 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.5.1
-Subject: Re: [PATCH 2/9] coverity-scan: Cover common-user/
-Content-Language: en-US
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: qemu-devel@nongnu.org, Riku Voipio <riku.voipio@iki.fi>,
- Richard Henderson <richard.henderson@linaro.org>,
- Laurent Vivier <Laurent@vivier.eu>, Paolo Bonzini <pbonzini@redhat.com>
-References: <20220209230030.93987-1-f4bug@amsat.org>
- <20220209230030.93987-3-f4bug@amsat.org>
- <CAFEAcA_DYEKgn31ULPVZzR9kQ32FZe+MBdkbC8cRNjy4Oa=7iA@mail.gmail.com>
-In-Reply-To: <CAFEAcA_DYEKgn31ULPVZzR9kQ32FZe+MBdkbC8cRNjy4Oa=7iA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::633
+References: <20220209140258.364649-1-vsementsov@virtuozzo.com>
+In-Reply-To: <20220209140258.364649-1-vsementsov@virtuozzo.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 11 Feb 2022 12:52:25 +0000
+Message-ID: <CAFEAcA-12iJfa7F-zGBb--V3yehi3iV2A6u_BPuEFb-9kjHBVw@mail.gmail.com>
+Subject: Re: [PULL 0/7] nbd: handle AioContext change correctly
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::429
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::633;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pl1-x633.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+Received-SPF: pass client-ip=2a00:1450:4864:20::429;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x429.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
@@ -98,41 +80,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: eblake@redhat.com, richard.henderson@linaro.org, qemu-devel@nongnu.org,
+ qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
-On 11/2/22 12:56, Peter Maydell wrote:
-> On Wed, 9 Feb 2022 at 23:12, Philippe Mathieu-Daudé via
-> <qemu-devel@nongnu.org> wrote:
->>
->> common-user/ has been added in commit bbf15aaf7c
->> ("common-user: Move safe-syscall.* from linux-user").
->>
->> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
->> ---
->>   scripts/coverity-scan/COMPONENTS.md | 2 +-
->>   1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/scripts/coverity-scan/COMPONENTS.md b/scripts/coverity-scan/COMPONENTS.md
->> index 183f26a32c..cea6695ecd 100644
->> --- a/scripts/coverity-scan/COMPONENTS.md
->> +++ b/scripts/coverity-scan/COMPONENTS.md
->> @@ -127,7 +127,7 @@ usb
->>     ~ (/qemu)?(/hw/usb/.*|/include/hw/usb/.*)
->>
->>   user
->> -  ~ (/qemu)?(/linux-user/.*|/bsd-user/.*|/user-exec\.c|/thunk\.c|/include/exec/user/.*)
->> +  ~ (/qemu)?(/common-user/.*|/linux-user/.*|/bsd-user/.*|/user-exec\.c|/thunk\.c|/include/exec/user/.*)
->>
->>   util
->>     ~ (/qemu)?(/util/.*|/include/qemu/.*)
-> 
-> Note that there is no automatic process by which changes to this
-> file get applied to the coverity scan config, so hiding changes
-> to it inside a larger patchset increases the chance they get
-> overlooked (by Paolo, who gets to do the manual config update)...
+On Wed, 9 Feb 2022 at 14:03, Vladimir Sementsov-Ogievskiy
+<vsementsov@virtuozzo.com> wrote:
+>
+> The following changes since commit 0a301624c2f4ced3331ffd5bce85b4274fe132af:
+>
+>   Merge remote-tracking branch 'remotes/pmaydell/tags/pull-target-arm-20220208' into staging (2022-02-08 11:40:08 +0000)
+>
+> are available in the Git repository at:
+>
+>   https://src.openvz.org/scm/~vsementsov/qemu.git tags/pull-nbd-2022-02-09
+>
+> for you to fetch changes up to 1bd4523c2ded28b7805b971b9d3d746beabd0a94:
+>
+>   iotests/281: Let NBD connection yield in iothread (2022-02-09 14:15:29 +0100)
+>
+> ----------------------------------------------------------------
+> nbd: handle AioContext change correctly
+>
 
-Oh OK, I thought this was consumed by a script.
+Hi; this pullreq is OK content-wise, but the commits are missing
+your Signed-off-by: line as the submaintainer/submitter of the
+pull request. Could you add them and resend, please?
+
+thanks
+-- PMM
 
