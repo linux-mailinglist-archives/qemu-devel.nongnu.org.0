@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 580374B2599
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Feb 2022 13:26:07 +0100 (CET)
-Received: from localhost ([::1]:44348 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD2354B259A
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Feb 2022 13:26:33 +0100 (CET)
+Received: from localhost ([::1]:44744 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nIUzy-0002gF-JW
-	for lists+qemu-devel@lfdr.de; Fri, 11 Feb 2022 07:26:02 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:39364)
+	id 1nIV0S-0002wa-Gf
+	for lists+qemu-devel@lfdr.de; Fri, 11 Feb 2022 07:26:32 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:39782)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1nIUoG-0003p5-5L
- for qemu-devel@nongnu.org; Fri, 11 Feb 2022 07:13:56 -0500
-Received: from frasgout.his.huawei.com ([185.176.79.56]:2288)
+ id 1nIUpl-00078x-0M
+ for qemu-devel@nongnu.org; Fri, 11 Feb 2022 07:15:29 -0500
+Received: from frasgout.his.huawei.com ([185.176.79.56]:2291)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1nIUoE-0003jI-En
- for qemu-devel@nongnu.org; Fri, 11 Feb 2022 07:13:55 -0500
-Received: from fraeml739-chm.china.huawei.com (unknown [172.18.147.206])
- by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4JwCFg2xGlz67Y9y;
- Fri, 11 Feb 2022 20:13:43 +0800 (CST)
+ id 1nIUpi-0004Bk-U5
+ for qemu-devel@nongnu.org; Fri, 11 Feb 2022 07:15:28 -0500
+Received: from fraeml737-chm.china.huawei.com (unknown [172.18.147.207])
+ by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4JwCBl6b2wz684m4;
+ Fri, 11 Feb 2022 20:11:11 +0800 (CST)
 Received: from lhreml710-chm.china.huawei.com (10.201.108.61) by
- fraeml739-chm.china.huawei.com (10.206.15.220) with Microsoft SMTP Server
+ fraeml737-chm.china.huawei.com (10.206.15.218) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.21; Fri, 11 Feb 2022 13:13:52 +0100
+ 15.1.2308.21; Fri, 11 Feb 2022 13:15:25 +0100
 Received: from SecurePC-101-06.china.huawei.com (10.122.247.231) by
  lhreml710-chm.china.huawei.com (10.201.108.61) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.21; Fri, 11 Feb 2022 12:13:51 +0000
+ 15.1.2308.21; Fri, 11 Feb 2022 12:15:24 +0000
 To: <qemu-devel@nongnu.org>, =?UTF-8?q?Alex=20Benn=C3=A9e?=
  <alex.bennee@linaro.org>, Marcel Apfelbaum <marcel@redhat.com>, "Michael S .
  Tsirkin" <mst@redhat.com>, Igor Mammedov <imammedo@redhat.com>
@@ -40,15 +40,15 @@ CC: <linux-cxl@vger.kernel.org>, Ben Widawsky <ben.widawsky@intel.com>, "Peter
  <saransh@ibm.com>, Shreyas Shah <shreyas.shah@elastics.cloud>, Chris Browy
  <cbrowy@avery-design.com>, Samarth Saxena <samarths@cadence.com>, "Dan
  Williams" <dan.j.williams@intel.com>
-Subject: [PATCH v6 12/43] hw/pci/cxl: Create a CXL bus type
-Date: Fri, 11 Feb 2022 12:07:16 +0000
-Message-ID: <20220211120747.3074-13-Jonathan.Cameron@huawei.com>
+Subject: [PATCH v6 15/43] qtest/cxl: Introduce initial test for pxb-cxl only.
+Date: Fri, 11 Feb 2022 12:07:19 +0000
+Message-ID: <20220211120747.3074-16-Jonathan.Cameron@huawei.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20220211120747.3074-1-Jonathan.Cameron@huawei.com>
 References: <20220211120747.3074-1-Jonathan.Cameron@huawei.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 X-Originating-IP: [10.122.247.231]
 X-ClientProxiedBy: lhreml743-chm.china.huawei.com (10.201.108.193) To
  lhreml710-chm.china.huawei.com (10.201.108.61)
@@ -78,84 +78,66 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reply-to:  Jonathan Cameron <Jonathan.Cameron@huawei.com>
 From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 
-From: Ben Widawsky <ben.widawsky@intel.com>
+Initial test with just pxb-cxl.  Other tests will be added
+alongside functionality.
 
-The easiest way to differentiate a CXL bus, and a PCIE bus is using a
-flag. A CXL bus, in hardware, is backward compatible with PCIE, and
-therefore the code tries pretty hard to keep them in sync as much as
-possible.
-
-The other way to implement this would be to try to cast the bus to the
-correct type. This is less code and useful for debugging via simply
-looking at the flags.
-
-Signed-off-by: Ben Widawsky <ben.widawsky@intel.com>
 Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- hw/pci-bridge/pci_expander_bridge.c | 9 ++++++++-
- include/hw/pci/pci_bus.h            | 7 +++++++
- 2 files changed, 15 insertions(+), 1 deletion(-)
+ tests/qtest/cxl-test.c  | 23 +++++++++++++++++++++++
+ tests/qtest/meson.build |  4 ++++
+ 2 files changed, 27 insertions(+)
 
-diff --git a/hw/pci-bridge/pci_expander_bridge.c b/hw/pci-bridge/pci_expander_bridge.c
-index d4514227a8..a6caa1e7b5 100644
---- a/hw/pci-bridge/pci_expander_bridge.c
-+++ b/hw/pci-bridge/pci_expander_bridge.c
-@@ -24,7 +24,7 @@
- #include "hw/boards.h"
- #include "qom/object.h"
- 
--enum BusType { PCI, PCIE };
-+enum BusType { PCI, PCIE, CXL };
- 
- #define TYPE_PXB_BUS "pxb-bus"
- typedef struct PXBBus PXBBus;
-@@ -35,6 +35,10 @@ DECLARE_INSTANCE_CHECKER(PXBBus, PXB_BUS,
- DECLARE_INSTANCE_CHECKER(PXBBus, PXB_PCIE_BUS,
-                          TYPE_PXB_PCIE_BUS)
- 
-+#define TYPE_PXB_CXL_BUS "pxb-cxl-bus"
-+DECLARE_INSTANCE_CHECKER(PXBBus, PXB_CXL_BUS,
-+                         TYPE_PXB_CXL_BUS)
+diff --git a/tests/qtest/cxl-test.c b/tests/qtest/cxl-test.c
+new file mode 100644
+index 0000000000..1006c8ae4e
+--- /dev/null
++++ b/tests/qtest/cxl-test.c
+@@ -0,0 +1,23 @@
++/*
++ * QTest testcase for CXL
++ *
++ * This work is licensed under the terms of the GNU GPL, version 2 or later.
++ * See the COPYING file in the top-level directory.
++ */
 +
- struct PXBBus {
-     /*< private >*/
-     PCIBus parent_obj;
-@@ -251,6 +255,9 @@ static void pxb_dev_realize_common(PCIDevice *dev, enum BusType type,
-     ds = qdev_new(TYPE_PXB_HOST);
-     if (type == PCIE) {
-         bus = pci_root_bus_new(ds, dev_name, NULL, NULL, 0, TYPE_PXB_PCIE_BUS);
-+    } else if (type == CXL) {
-+        bus = pci_root_bus_new(ds, dev_name, NULL, NULL, 0, TYPE_PXB_CXL_BUS);
-+        bus->flags |= PCI_BUS_CXL;
-     } else {
-         bus = pci_root_bus_new(ds, "pxb-internal", NULL, NULL, 0, TYPE_PXB_BUS);
-         bds = qdev_new("pci-bridge");
-diff --git a/include/hw/pci/pci_bus.h b/include/hw/pci/pci_bus.h
-index 347440d42c..eb94e7e85c 100644
---- a/include/hw/pci/pci_bus.h
-+++ b/include/hw/pci/pci_bus.h
-@@ -24,6 +24,8 @@ enum PCIBusFlags {
-     PCI_BUS_IS_ROOT                                         = 0x0001,
-     /* PCIe extended configuration space is accessible on this bus */
-     PCI_BUS_EXTENDED_CONFIG_SPACE                           = 0x0002,
-+    /* This is a CXL Type BUS */
-+    PCI_BUS_CXL                                             = 0x0004,
- };
- 
- struct PCIBus {
-@@ -53,6 +55,11 @@ struct PCIBus {
-     Notifier machine_done;
- };
- 
-+static inline bool pci_bus_is_cxl(PCIBus *bus)
++#include "qemu/osdep.h"
++#include "libqtest-single.h"
++
++
++static void cxl_basic_pxb(void)
 +{
-+    return !!(bus->flags & PCI_BUS_CXL);
++    qtest_start("-machine q35,cxl=on -device pxb-cxl,bus=pcie.0");
++    qtest_end();
 +}
 +
- static inline bool pci_bus_is_root(PCIBus *bus)
- {
-     return !!(bus->flags & PCI_BUS_IS_ROOT);
++int main(int argc, char **argv)
++{
++    g_test_init(&argc, &argv, NULL);
++    qtest_add_func("/pci/cxl/basic_pxb", cxl_basic_pxb);
++    return g_test_run();
++}
+diff --git a/tests/qtest/meson.build b/tests/qtest/meson.build
+index f33d84d19b..2ed69fbd13 100644
+--- a/tests/qtest/meson.build
++++ b/tests/qtest/meson.build
+@@ -41,6 +41,9 @@ qtests_pci = \
+   (config_all_devices.has_key('CONFIG_VGA') ? ['display-vga-test'] : []) +                  \
+   (config_all_devices.has_key('CONFIG_IVSHMEM_DEVICE') ? ['ivshmem-test'] : [])
+ 
++qtests_cxl = \
++  (config_all_devices.has_key('CONFIG_CXL') ? ['cxl-test'] : [])
++
+ qtests_i386 = \
+   (slirp.found() ? ['pxe-test', 'test-netfilter'] : []) +             \
+   (config_host.has_key('CONFIG_POSIX') ? ['test-filter-mirror'] : []) +                     \
+@@ -75,6 +78,7 @@ qtests_i386 = \
+    slirp.found() ? ['virtio-net-failover'] : []) +                                          \
+   (unpack_edk2_blobs ? ['bios-tables-test'] : []) +                                         \
+   qtests_pci +                                                                              \
++  qtests_cxl +                                                                              \
+   ['fdc-test',
+    'ide-test',
+    'hd-geo-test',
 -- 
 2.32.0
 
