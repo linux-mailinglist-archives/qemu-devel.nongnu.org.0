@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25C114B25BA
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Feb 2022 13:28:15 +0100 (CET)
-Received: from localhost ([::1]:47812 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 942DB4B25CC
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Feb 2022 13:30:23 +0100 (CET)
+Received: from localhost ([::1]:52836 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nIV26-0005Gw-6B
-	for lists+qemu-devel@lfdr.de; Fri, 11 Feb 2022 07:28:14 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:39322)
+	id 1nIV4A-0000Ro-EV
+	for lists+qemu-devel@lfdr.de; Fri, 11 Feb 2022 07:30:22 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:39490)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1nIUnl-00037w-BV
- for qemu-devel@nongnu.org; Fri, 11 Feb 2022 07:13:25 -0500
-Received: from frasgout.his.huawei.com ([185.176.79.56]:2287)
+ id 1nIUol-0004hc-NK
+ for qemu-devel@nongnu.org; Fri, 11 Feb 2022 07:14:28 -0500
+Received: from frasgout.his.huawei.com ([185.176.79.56]:2289)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1nIUnj-0003gF-KK
- for qemu-devel@nongnu.org; Fri, 11 Feb 2022 07:13:25 -0500
-Received: from fraeml741-chm.china.huawei.com (unknown [172.18.147.201])
- by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4JwCF43n7gz67QKq;
- Fri, 11 Feb 2022 20:13:12 +0800 (CST)
+ id 1nIUoj-0003n4-4n
+ for qemu-devel@nongnu.org; Fri, 11 Feb 2022 07:14:27 -0500
+Received: from fraeml740-chm.china.huawei.com (unknown [172.18.147.207])
+ by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4JwC9Z161Xz683T0;
+ Fri, 11 Feb 2022 20:10:10 +0800 (CST)
 Received: from lhreml710-chm.china.huawei.com (10.201.108.61) by
- fraeml741-chm.china.huawei.com (10.206.15.222) with Microsoft SMTP Server
+ fraeml740-chm.china.huawei.com (10.206.15.221) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.21; Fri, 11 Feb 2022 13:13:21 +0100
+ 15.1.2308.21; Fri, 11 Feb 2022 13:14:23 +0100
 Received: from SecurePC-101-06.china.huawei.com (10.122.247.231) by
  lhreml710-chm.china.huawei.com (10.201.108.61) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.21; Fri, 11 Feb 2022 12:13:21 +0000
+ 15.1.2308.21; Fri, 11 Feb 2022 12:14:22 +0000
 To: <qemu-devel@nongnu.org>, =?UTF-8?q?Alex=20Benn=C3=A9e?=
  <alex.bennee@linaro.org>, Marcel Apfelbaum <marcel@redhat.com>, "Michael S .
  Tsirkin" <mst@redhat.com>, Igor Mammedov <imammedo@redhat.com>
@@ -40,9 +40,10 @@ CC: <linux-cxl@vger.kernel.org>, Ben Widawsky <ben.widawsky@intel.com>, "Peter
  <saransh@ibm.com>, Shreyas Shah <shreyas.shah@elastics.cloud>, Chris Browy
  <cbrowy@avery-design.com>, Samarth Saxena <samarths@cadence.com>, "Dan
  Williams" <dan.j.williams@intel.com>
-Subject: [PATCH v6 11/43] hw/pxb: Use a type for realizing expanders
-Date: Fri, 11 Feb 2022 12:07:15 +0000
-Message-ID: <20220211120747.3074-12-Jonathan.Cameron@huawei.com>
+Subject: [PATCH v6 13/43] cxl: Machine level control on whether CXL support is
+ enabled
+Date: Fri, 11 Feb 2022 12:07:17 +0000
+Message-ID: <20220211120747.3074-14-Jonathan.Cameron@huawei.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20220211120747.3074-1-Jonathan.Cameron@huawei.com>
 References: <20220211120747.3074-1-Jonathan.Cameron@huawei.com>
@@ -78,68 +79,133 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reply-to:  Jonathan Cameron <Jonathan.Cameron@huawei.com>
 From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 
-From: Ben Widawsky <ben.widawsky@intel.com>
+From: Jonathan Cameron <jonathan.cameron@huawei.com>
 
-This opens up the possibility for more types of expanders (other than
-PCI and PCIe). We'll need this to create a CXL expander.
+There are going to be some potential overheads to CXL enablement,
+for example the host bridge region reserved in memory maps.
+Add a machine level control so that CXL is disabled by default.
 
-Signed-off-by: Ben Widawsky <ben.widawsky@intel.com>
-Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Signed-off-by: Jonathan Cameron <jonathan.cameron@huawei.com>
 Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- hw/pci-bridge/pci_expander_bridge.c | 11 +++++++----
- 1 file changed, 7 insertions(+), 4 deletions(-)
+ hw/core/machine.c    | 28 ++++++++++++++++++++++++++++
+ hw/i386/pc.c         |  1 +
+ include/hw/boards.h  |  2 ++
+ include/hw/cxl/cxl.h |  4 ++++
+ 4 files changed, 35 insertions(+)
 
-diff --git a/hw/pci-bridge/pci_expander_bridge.c b/hw/pci-bridge/pci_expander_bridge.c
-index de932286b5..d4514227a8 100644
---- a/hw/pci-bridge/pci_expander_bridge.c
-+++ b/hw/pci-bridge/pci_expander_bridge.c
-@@ -24,6 +24,8 @@
- #include "hw/boards.h"
- #include "qom/object.h"
+diff --git a/hw/core/machine.c b/hw/core/machine.c
+index d856485cb4..6ff5dba64e 100644
+--- a/hw/core/machine.c
++++ b/hw/core/machine.c
+@@ -31,6 +31,7 @@
+ #include "sysemu/qtest.h"
+ #include "hw/pci/pci.h"
+ #include "hw/mem/nvdimm.h"
++#include "hw/cxl/cxl.h"
+ #include "migration/global_state.h"
+ #include "migration/vmstate.h"
+ #include "exec/confidential-guest-support.h"
+@@ -545,6 +546,20 @@ static void machine_set_nvdimm_persistence(Object *obj, const char *value,
+     nvdimms_state->persistence_string = g_strdup(value);
+ }
  
-+enum BusType { PCI, PCIE };
++static bool machine_get_cxl(Object *obj, Error **errp)
++{
++    MachineState *ms = MACHINE(obj);
 +
- #define TYPE_PXB_BUS "pxb-bus"
- typedef struct PXBBus PXBBus;
- DECLARE_INSTANCE_CHECKER(PXBBus, PXB_BUS,
-@@ -221,7 +223,8 @@ static gint pxb_compare(gconstpointer a, gconstpointer b)
-            0;
- }
- 
--static void pxb_dev_realize_common(PCIDevice *dev, bool pcie, Error **errp)
-+static void pxb_dev_realize_common(PCIDevice *dev, enum BusType type,
-+                                   Error **errp)
++    return ms->cxl_devices_state->is_enabled;
++}
++
++static void machine_set_cxl(Object *obj, bool value, Error **errp)
++{
++    MachineState *ms = MACHINE(obj);
++
++    ms->cxl_devices_state->is_enabled = value;
++}
++
+ void machine_class_allow_dynamic_sysbus_dev(MachineClass *mc, const char *type)
  {
-     PXBDev *pxb = convert_to_pxb(dev);
-     DeviceState *ds, *bds = NULL;
-@@ -246,7 +249,7 @@ static void pxb_dev_realize_common(PCIDevice *dev, bool pcie, Error **errp)
+     QAPI_LIST_PREPEND(mc->allowed_dynamic_sysbus_devices, g_strdup(type));
+@@ -777,6 +792,8 @@ static void machine_class_init(ObjectClass *oc, void *data)
+     mc->default_ram_size = 128 * MiB;
+     mc->rom_file_has_mr = true;
+ 
++    /* Few machines support CXL, so default to off */
++    mc->cxl_supported = false;
+     /* numa node memory size aligned on 8MB by default.
+      * On Linux, each node's border has to be 8MB aligned
+      */
+@@ -922,6 +939,16 @@ static void machine_initfn(Object *obj)
+                                         "Valid values are cpu, mem-ctrl");
      }
  
-     ds = qdev_new(TYPE_PXB_HOST);
--    if (pcie) {
-+    if (type == PCIE) {
-         bus = pci_root_bus_new(ds, dev_name, NULL, NULL, 0, TYPE_PXB_PCIE_BUS);
-     } else {
-         bus = pci_root_bus_new(ds, "pxb-internal", NULL, NULL, 0, TYPE_PXB_BUS);
-@@ -295,7 +298,7 @@ static void pxb_dev_realize(PCIDevice *dev, Error **errp)
-         return;
-     }
- 
--    pxb_dev_realize_common(dev, false, errp);
-+    pxb_dev_realize_common(dev, PCI, errp);
++    if (mc->cxl_supported) {
++        Object *obj = OBJECT(ms);
++
++        ms->cxl_devices_state = g_new0(CXLState, 1);
++        object_property_add_bool(obj, "cxl", machine_get_cxl, machine_set_cxl);
++        object_property_set_description(obj, "cxl",
++                                        "Set on/off to enable/disable "
++                                        "CXL instantiation");
++    }
++
+     if (mc->cpu_index_to_instance_props && mc->get_default_cpu_node_id) {
+         ms->numa_state = g_new0(NumaState, 1);
+         object_property_add_bool(obj, "hmat",
+@@ -956,6 +983,7 @@ static void machine_finalize(Object *obj)
+     g_free(ms->device_memory);
+     g_free(ms->nvdimms_state);
+     g_free(ms->numa_state);
++    g_free(ms->cxl_devices_state);
  }
  
- static void pxb_dev_exitfn(PCIDevice *pci_dev)
-@@ -348,7 +351,7 @@ static void pxb_pcie_dev_realize(PCIDevice *dev, Error **errp)
-         return;
-     }
+ bool machine_usb(MachineState *machine)
+diff --git a/hw/i386/pc.c b/hw/i386/pc.c
+index c8696ac01e..b6800a511a 100644
+--- a/hw/i386/pc.c
++++ b/hw/i386/pc.c
+@@ -1739,6 +1739,7 @@ static void pc_machine_class_init(ObjectClass *oc, void *data)
+     mc->default_cpu_type = TARGET_DEFAULT_CPU_TYPE;
+     mc->nvdimm_supported = true;
+     mc->smp_props.dies_supported = true;
++    mc->cxl_supported = true;
+     mc->default_ram_id = "pc.ram";
  
--    pxb_dev_realize_common(dev, true, errp);
-+    pxb_dev_realize_common(dev, PCIE, errp);
- }
+     object_class_property_add(oc, PC_MACHINE_MAX_RAM_BELOW_4G, "size",
+diff --git a/include/hw/boards.h b/include/hw/boards.h
+index c92ac8815c..680718dafc 100644
+--- a/include/hw/boards.h
++++ b/include/hw/boards.h
+@@ -269,6 +269,7 @@ struct MachineClass {
+     bool ignore_boot_device_suffixes;
+     bool smbus_no_migration_support;
+     bool nvdimm_supported;
++    bool cxl_supported;
+     bool numa_mem_supported;
+     bool auto_enable_numa;
+     SMPCompatProps smp_props;
+@@ -360,6 +361,7 @@ struct MachineState {
+     CPUArchIdList *possible_cpus;
+     CpuTopology smp;
+     struct NVDIMMState *nvdimms_state;
++    struct CXLState *cxl_devices_state;
+     struct NumaState *numa_state;
+ };
  
- static void pxb_pcie_dev_class_init(ObjectClass *klass, void *data)
+diff --git a/include/hw/cxl/cxl.h b/include/hw/cxl/cxl.h
+index 554ad93b6b..31af92fd5e 100644
+--- a/include/hw/cxl/cxl.h
++++ b/include/hw/cxl/cxl.h
+@@ -17,4 +17,8 @@
+ #define CXL_COMPONENT_REG_BAR_IDX 0
+ #define CXL_DEVICE_REG_BAR_IDX 2
+ 
++typedef struct CXLState {
++    bool is_enabled;
++} CXLState;
++
+ #endif
 -- 
 2.32.0
 
