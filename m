@@ -2,71 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65D504B1D03
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Feb 2022 04:42:53 +0100 (CET)
-Received: from localhost ([::1]:36576 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E3F004B1D29
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Feb 2022 04:53:48 +0100 (CET)
+Received: from localhost ([::1]:39158 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nIMpg-0006ch-Hc
-	for lists+qemu-devel@lfdr.de; Thu, 10 Feb 2022 22:42:52 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:40528)
+	id 1nIN0F-0000Sj-Px
+	for lists+qemu-devel@lfdr.de; Thu, 10 Feb 2022 22:53:47 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:42114)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nIMoK-00057l-AC
- for qemu-devel@nongnu.org; Thu, 10 Feb 2022 22:41:28 -0500
-Received: from [2607:f8b0:4864:20::632] (port=35626
+ id 1nIMyx-0007xc-H2
+ for qemu-devel@nongnu.org; Thu, 10 Feb 2022 22:52:27 -0500
+Received: from [2607:f8b0:4864:20::632] (port=33545
  helo=mail-pl1-x632.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nIMoI-0002uO-Hu
- for qemu-devel@nongnu.org; Thu, 10 Feb 2022 22:41:28 -0500
-Received: by mail-pl1-x632.google.com with SMTP id y7so3629742plp.2
- for <qemu-devel@nongnu.org>; Thu, 10 Feb 2022 19:41:26 -0800 (PST)
+ id 1nIMyv-0005Al-Rm
+ for qemu-devel@nongnu.org; Thu, 10 Feb 2022 22:52:27 -0500
+Received: by mail-pl1-x632.google.com with SMTP id l9so2031645plg.0
+ for <qemu-devel@nongnu.org>; Thu, 10 Feb 2022 19:52:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=6yxVVQwRaxPG0htdm64W7X46JQvDP9bkHkUHM+cd59I=;
- b=hESSoc6Exmta1gugmgzNfpbeWMDcMk1X5f3QPHqNNKl0VfvlkbQ/CHgpru9QgsvGcr
- 54ONnL7z6kRgdJgwmedwEoYUAq2oeCVlym7zgj0zF0jYHxSQEP8JEgeJsaZXP7UTtsCv
- p+/aip2wwlqljycPMCcueqiceWSRWJDyyO7siMa37pjM9pi0A57Cp74ww0mC0xVo/TSn
- QAyrIKdSkG0FC9zANXCX0BOYKarVowV2ycAyY6VYhtQT2+wSgupzt+RRpbjtsRztOxjw
- KKoSenQ1SNvPEuoiWiO+Z5IykYTP28eYhIV9foUhX57mT+FuRtbaJsxEiWYgJbmBnQDG
- SKaw==
+ bh=sSu1a1KQQ/eDTJcOjvdAIGV7t54+8rFvvIkenrPawzk=;
+ b=APzZnFw+fbn9srt08hBuDabl9FYAoeajXCg6+XTtvcUqamsV4oak3jxjuofDF4qdwR
+ XTuSGteydi0eO6IrSV8cWWoa6rUin21JQXHGTj+aNY4W71FetxCsEDKaacBpWnYHyW5j
+ kzr1ao76YsJDzBXxkdg8nEYhtBtXJ74GOhw6Cukly2qlCaHOnw9kWUu5NX31N9YnZxfi
+ CDrWQJnArZJW36riKcXCnSZ9P69/TUJ1jNFzdhcGIco46PMeEylypZftaTCOjYqg310L
+ KoWNJWTffWr3Xtq1emqCxAggWNx3SceMH/wbKnU7T7vEhjWkvOGCCVEGWdymDLDeiqyB
+ uNGw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=6yxVVQwRaxPG0htdm64W7X46JQvDP9bkHkUHM+cd59I=;
- b=SNMZTxc+AqFk3uUdV8ZlfdTz3GnxtqI/9tn8IhVrH3DMgkPWA0DdLYq+bLqMIerytb
- 8iyWSDIGyPby4N7t6mgDOmP8SHNyLHijWj+PuZBdaUUJkmkw5XU9D8jwtHA2NjmWN8NB
- syppryeHn3GPn2qaEd9omk3RLkf8S+LfS+H7zrJ6SGU83CKoJhMyjQpwage6RBHuCxeF
- FQdEgMi8q+1pLfX9taSKfmYAIrgAX8hD0SneUI3fcYArpvB/TrwEsPURr+FSFYKWzJyQ
- fhJpi16mUNvgT6PP54ALV9fL1EEtZCf/+ame+rCZ93qC6ciPOzT4FfKfk9XgyARf4HD7
- lSYQ==
-X-Gm-Message-State: AOAM532NKykQtxggJ2WsxilO2T4OlfuJHsnU3OKODnHQ8eFt7aqB94P9
- QS0AVmADFOCJ1t/t5SkD25eZww==
-X-Google-Smtp-Source: ABdhPJzWPsvhWCKPz80BQ4/Vpv1e/pCb177b3t8kKj9jIsv6/r6B+6Rg/xa+RZpIpauCUGZIBVMCJw==
-X-Received: by 2002:a17:90b:4d82:: with SMTP id
- oj2mr644993pjb.79.1644550885210; 
- Thu, 10 Feb 2022 19:41:25 -0800 (PST)
+ bh=sSu1a1KQQ/eDTJcOjvdAIGV7t54+8rFvvIkenrPawzk=;
+ b=6pifDXyJ8XoXSB92NuwW5hzASIMDzICD7AE4UFqDkbexAC+8TpeTpbOoOgLRCwmuLs
+ Rd1HAveohLyrCw78wgQQD7ew9LFde+RWDFdvVBAWnOR6UGR3ev0YSISnrP0rQFoulrg1
+ GgvsqSlx5tt2GKGLLF+FbNd/HGONFusfxhOlMSGBXVgtaPm+7lltMOwjWt4FMImxPf9U
+ trTgg7crEner3vNJo6UHfRDvOjaw0T0BHCvzhoYeh5HJn6wAmQUZks9XHwR00AZFLT9U
+ +TXkqB2AUUIvUbaOO++gsGWDlbinLVYlanXAPW2O6x5QaCg6BIK6M6N2qX/XuI4xvv6L
+ B+JQ==
+X-Gm-Message-State: AOAM532WhfqIgGzqaYAPFBl//+0y8c08Kozfq/j7mRSg6GmKZkmxHSZu
+ Tl5tE0uQpwKSqjq33WoQjs3prg==
+X-Google-Smtp-Source: ABdhPJy2rkG90tKY60hQ4R1LiMWTcZ9WMOIQZwWSmzcKPM/Z+QsFF1bB+pGsae4y1LaROfaHP8KU7w==
+X-Received: by 2002:a17:90a:311:: with SMTP id 17mr684006pje.200.1644551544225; 
+ Thu, 10 Feb 2022 19:52:24 -0800 (PST)
 Received: from [10.0.0.163] ([124.189.222.164])
- by smtp.gmail.com with ESMTPSA id d15sm24484709pfu.127.2022.02.10.19.41.21
+ by smtp.gmail.com with ESMTPSA id 10sm24504295pfm.56.2022.02.10.19.52.20
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 10 Feb 2022 19:41:24 -0800 (PST)
-Message-ID: <7695d8fb-466e-f9e0-2770-6a6234551a95@linaro.org>
-Date: Fri, 11 Feb 2022 14:41:18 +1100
+ Thu, 10 Feb 2022 19:52:23 -0800 (PST)
+Message-ID: <95cf54b7-14f8-5fdd-5943-58574467b8fb@linaro.org>
+Date: Fri, 11 Feb 2022 14:51:34 +1100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.5.0
-Subject: Re: [PATCH v3 03/37] target/ppc: Moved vector multiply high and low
- to decodetree
+Subject: Re: [PATCH v3 04/37] target/ppc: vmulh* instructions use gvec
 Content-Language: en-US
 To: matheus.ferst@eldorado.org.br, qemu-devel@nongnu.org, qemu-ppc@nongnu.org
 References: <20220210123447.3933301-1-matheus.ferst@eldorado.org.br>
- <20220210123447.3933301-4-matheus.ferst@eldorado.org.br>
+ <20220210123447.3933301-5-matheus.ferst@eldorado.org.br>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220210123447.3933301-4-matheus.ferst@eldorado.org.br>
+In-Reply-To: <20220210123447.3933301-5-matheus.ferst@eldorado.org.br>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::632
@@ -101,22 +99,65 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 2/10/22 23:34, matheus.ferst@eldorado.org.br wrote:
-> From: "Lucas Mateus Castro (alqotel)"<lucas.castro@eldorado.org.br>
-> 
-> Moved instructions vmulld, vmulhuw, vmulhsw, vmulhud and vmulhsd to
-> decodetree
-> 
-> Signed-off-by: Lucas Mateus Castro (alqotel)<lucas.araujo@eldorado.org.br>
-> Signed-off-by: Matheus Ferst<matheus.ferst@eldorado.org.br>
-> ---
->   target/ppc/helper.h                 |  8 ++++----
->   target/ppc/insn32.decode            |  6 ++++++
->   target/ppc/int_helper.c             |  8 ++++----
->   target/ppc/translate/vmx-impl.c.inc | 21 ++++++++++++++++-----
->   target/ppc/translate/vmx-ops.c.inc  |  5 -----
->   5 files changed, 30 insertions(+), 18 deletions(-)
+> +static void do_vx_vmulhu_vec(unsigned vece, TCGv_vec t, TCGv_vec a, TCGv_vec b)
+> +{
+> +    TCGv_vec a1, b1, mask, w, k;
+> +    unsigned bits;
+> +    bits = (vece == MO_32) ? 16 : 32;
+> +
+> +    a1 = tcg_temp_new_vec_matching(t);
+> +    b1 = tcg_temp_new_vec_matching(t);
+> +    w  = tcg_temp_new_vec_matching(t);
+> +    k  = tcg_temp_new_vec_matching(t);
+> +    mask = tcg_temp_new_vec_matching(t);
+> +
+> +    tcg_gen_dupi_vec(vece, mask, (vece == MO_32) ? 0xFFFF : 0xFFFFFFFF);
+> +    tcg_gen_and_vec(vece, a1, a, mask);
+> +    tcg_gen_and_vec(vece, b1, b, mask);
+> +    tcg_gen_mul_vec(vece, t, a1, b1);
+> +    tcg_gen_shri_vec(vece, k, t, bits);
+> +
+> +    tcg_gen_shri_vec(vece, a1, a, bits);
+> +    tcg_gen_mul_vec(vece, t, a1, b1);
+> +    tcg_gen_add_vec(vece, t, t, k);
+> +    tcg_gen_and_vec(vece, k, t, mask);
+> +    tcg_gen_shri_vec(vece, w, t, bits);
+> +
+> +    tcg_gen_and_vec(vece, a1, a, mask);
+> +    tcg_gen_shri_vec(vece, b1, b, bits);
+> +    tcg_gen_mul_vec(vece, t, a1, b1);
+> +    tcg_gen_add_vec(vece, t, t, k);
+> +    tcg_gen_shri_vec(vece, k, t, bits);
+> +
+> +    tcg_gen_shri_vec(vece, a1, a, bits);
+> +    tcg_gen_mul_vec(vece, t, a1, b1);
+> +    tcg_gen_add_vec(vece, t, t, w);
+> +    tcg_gen_add_vec(vece, t, t, k);
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+I don't think that you should decompose 4 high-part 32-bit multiplies into 4 32-bit 
+multiplies plus lots of arithmetic.  This is not a win.  You're actually better off with 
+pure integer arithmetic here.
+
+You could instead widen these into 2 64-bit multiplies, plus some arithmetic.  That's 
+certainly closer to the break-even point.
+
+> +        {
+> +            .fniv = do_vx_vmulhu_vec,
+> +            .fno  = gen_helper_VMULHUD,
+> +            .opt_opc = vecop_list,
+> +            .vece = MO_64
+> +        },
+> +    };
+
+As for the two high-part 64-bit multiplies, I think that should definitely remain an 
+integer operation.
+
+You probably want to expand these with inline integer operations using .fni[48].
+
+> +static void do_vx_vmulhs_vec(unsigned vece, TCGv_vec t, TCGv_vec a, TCGv_vec b)
+
+Very much likewise.
+
 
 r~
 
