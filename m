@@ -2,66 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60B7B4B25ED
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Feb 2022 13:37:44 +0100 (CET)
-Received: from localhost ([::1]:39018 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2EE4E4B25D8
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Feb 2022 13:34:32 +0100 (CET)
+Received: from localhost ([::1]:33372 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nIVBH-0002C7-GC
-	for lists+qemu-devel@lfdr.de; Fri, 11 Feb 2022 07:37:43 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:41164)
+	id 1nIV8B-0006fP-A6
+	for lists+qemu-devel@lfdr.de; Fri, 11 Feb 2022 07:34:31 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:38908)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1nIUvC-0006nq-Vl
- for qemu-devel@nongnu.org; Fri, 11 Feb 2022 07:21:07 -0500
-Received: from frasgout.his.huawei.com ([185.176.79.56]:2302)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nIUkz-0007fx-JO
+ for qemu-devel@nongnu.org; Fri, 11 Feb 2022 07:10:36 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:42384)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1nIUvA-0005K0-Uo
- for qemu-devel@nongnu.org; Fri, 11 Feb 2022 07:21:06 -0500
-Received: from fraeml702-chm.china.huawei.com (unknown [172.18.147.200])
- by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4JwCKF6mLvz683T0;
- Fri, 11 Feb 2022 20:16:49 +0800 (CST)
-Received: from lhreml710-chm.china.huawei.com (10.201.108.61) by
- fraeml702-chm.china.huawei.com (10.206.15.51) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.2308.21; Fri, 11 Feb 2022 13:21:02 +0100
-Received: from SecurePC-101-06.china.huawei.com (10.122.247.231) by
- lhreml710-chm.china.huawei.com (10.201.108.61) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.21; Fri, 11 Feb 2022 12:21:02 +0000
-To: <qemu-devel@nongnu.org>, =?UTF-8?q?Alex=20Benn=C3=A9e?=
- <alex.bennee@linaro.org>, Marcel Apfelbaum <marcel@redhat.com>, "Michael S .
- Tsirkin" <mst@redhat.com>, Igor Mammedov <imammedo@redhat.com>
-CC: <linux-cxl@vger.kernel.org>, Ben Widawsky <ben.widawsky@intel.com>, "Peter
- Maydell" <peter.maydell@linaro.org>, <linuxarm@huawei.com>, "Shameerali
- Kolothum Thodi" <shameerali.kolothum.thodi@huawei.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>, Saransh Gupta1
- <saransh@ibm.com>, Shreyas Shah <shreyas.shah@elastics.cloud>, Chris Browy
- <cbrowy@avery-design.com>, Samarth Saxena <samarths@cadence.com>, "Dan
- Williams" <dan.j.williams@intel.com>
-Subject: [PATCH v6 26/43] hw/cxl/component: Add utils for interleave parameter
- encoding/decoding
-Date: Fri, 11 Feb 2022 12:07:30 +0000
-Message-ID: <20220211120747.3074-27-Jonathan.Cameron@huawei.com>
-X-Mailer: git-send-email 2.32.0
-In-Reply-To: <20220211120747.3074-1-Jonathan.Cameron@huawei.com>
-References: <20220211120747.3074-1-Jonathan.Cameron@huawei.com>
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nIUkv-0002yK-NQ
+ for qemu-devel@nongnu.org; Fri, 11 Feb 2022 07:10:32 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1644581429;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=FObOxnkxrxu7KBW1F0VwISDoVU4FJD6n4cfO04cXx/c=;
+ b=TOBMxy3Hcip9aTHYRzXK2Gmvs633krVG9yPlEze8ovY5LJjH0ilUcK6MnuIb+ipPQNDULf
+ yKMESseccOOY2Ii+QXabAKUh3gGwynWuYUtUCC07BHAhikIim+8V43ESDVrBS/MtNmFYVW
+ YHygxXvDRk1BTlsDZYXub4TpZSKstPM=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-451-2LdGF2vXMhGV1mK8USDeaQ-1; Fri, 11 Feb 2022 07:10:21 -0500
+X-MC-Unique: 2LdGF2vXMhGV1mK8USDeaQ-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C96BB86A8A2;
+ Fri, 11 Feb 2022 12:10:18 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.36.112.3])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 35FF96E1EC;
+ Fri, 11 Feb 2022 12:10:13 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id D4AE621E6A00; Fri, 11 Feb 2022 13:10:11 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: Jonah Palmer <jonah.palmer@oracle.com>
+Subject: Re: [PATCH v12 7/8] qmp: add QMP command x-query-virtio-queue-element
+References: <1644488520-21604-1-git-send-email-jonah.palmer@oracle.com>
+ <1644488520-21604-8-git-send-email-jonah.palmer@oracle.com>
+Date: Fri, 11 Feb 2022 13:10:11 +0100
+In-Reply-To: <1644488520-21604-8-git-send-email-jonah.palmer@oracle.com>
+ (Jonah Palmer's message of "Thu, 10 Feb 2022 05:21:59 -0500")
+Message-ID: <87tud57gf0.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain
-X-Originating-IP: [10.122.247.231]
-X-ClientProxiedBy: lhreml743-chm.china.huawei.com (10.201.108.193) To
- lhreml710-chm.china.huawei.com (10.201.108.61)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=185.176.79.56;
- envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -74,92 +80,233 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: mst@redhat.com, qemu_oss@crudebyte.com, qemu-devel@nongnu.org,
+ kraxel@redhat.com, si-wei.liu@oracle.com, joao.m.martins@oracle.com,
+ eblake@redhat.com, qemu-block@nongnu.org, david@redhat.com,
+ arei.gonglei@huawei.com, marcandre.lureau@redhat.com, lvivier@redhat.com,
+ thuth@redhat.com, michael.roth@amd.com, groug@kaod.org, dgilbert@redhat.com,
+ eric.auger@redhat.com, stefanha@redhat.com, boris.ostrovsky@oracle.com,
+ kwolf@redhat.com, mathieu.poirier@linaro.org, raphael.norwitz@nutanix.com,
+ pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  Jonathan Cameron <Jonathan.Cameron@huawei.com>
-From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 
-From: Jonathan Cameron <jonathan.cameron@huawei.com>
+Jonah Palmer <jonah.palmer@oracle.com> writes:
 
-Both registers and the CFMWS entries in CDAT use simple encodings
-for the number of interleave ways and the interleave granularity.
-Introduce simple conversion functions to/from the unencoded
-number / size.  So far the iw decode has not been needed so is
-it not implemented.
+> From: Laurent Vivier <lvivier@redhat.com>
+>
+> This new command shows the information of a VirtQueue element.
+>
+> [Note: Up until v10 of this patch series, virtio.json had many (15+)
+>  enums defined (e.g. decoded device features, statuses, etc.). In v10
+>  most of these enums were removed and replaced with string literals.
+>  By doing this we get (1) simpler schema, (2) smaller generated code,
+>  and (3) less maintenance burden for when new things are added (e.g.
+>  devices, device features, etc.).]
+>
+> Signed-off-by: Jonah Palmer <jonah.palmer@oracle.com>
 
-Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
----
- hw/cxl/cxl-component-utils.c   | 34 ++++++++++++++++++++++++++++++++++
- include/hw/cxl/cxl_component.h |  8 ++++++++
- 2 files changed, 42 insertions(+)
+[...]
 
-diff --git a/hw/cxl/cxl-component-utils.c b/hw/cxl/cxl-component-utils.c
-index 07297b3bbe..795dbc7561 100644
---- a/hw/cxl/cxl-component-utils.c
-+++ b/hw/cxl/cxl-component-utils.c
-@@ -9,6 +9,7 @@
- 
- #include "qemu/osdep.h"
- #include "qemu/log.h"
-+#include "qapi/error.h"
- #include "hw/pci/pci.h"
- #include "hw/cxl/cxl.h"
- 
-@@ -217,3 +218,36 @@ void cxl_component_create_dvsec(CXLComponentState *cxl, uint16_t length,
-     range_init_nofail(&cxl->dvsecs[type], cxl->dvsec_offset, length);
-     cxl->dvsec_offset += length;
- }
-+
-+uint8_t cxl_interleave_ways_enc(int iw, Error **errp)
-+{
-+    switch (iw) {
-+    case 1: return 0x0;
-+    case 2: return 0x1;
-+    case 4: return 0x2;
-+    case 8: return 0x3;
-+    case 16: return 0x4;
-+    case 3: return 0x8;
-+    case 6: return 0x9;
-+    case 12: return 0xa;
-+    default:
-+        error_setg(errp, "Interleave ways: %d not supported", iw);
-+        return 0;
-+    }
-+}
-+
-+uint8_t cxl_interleave_granularity_enc(uint64_t gran, Error **errp)
-+{
-+    switch (gran) {
-+    case 256: return 0;
-+    case 512: return 1;
-+    case 1024: return 2;
-+    case 2048: return 3;
-+    case 4096: return 4;
-+    case 8192: return 5;
-+    case 16384: return 6;
-+    default:
-+        error_setg(errp, "Interleave granularity: %" PRIu64 " invalid", gran);
-+        return 0;
-+    }
-+}
-diff --git a/include/hw/cxl/cxl_component.h b/include/hw/cxl/cxl_component.h
-index 33aeab9b99..42cd140f75 100644
---- a/include/hw/cxl/cxl_component.h
-+++ b/include/hw/cxl/cxl_component.h
-@@ -193,4 +193,12 @@ void cxl_component_register_init_common(uint32_t *reg_state,
- void cxl_component_create_dvsec(CXLComponentState *cxl_cstate, uint16_t length,
-                                 uint16_t type, uint8_t rev, uint8_t *body);
- 
-+uint8_t cxl_interleave_ways_enc(int iw, Error **errp);
-+uint8_t cxl_interleave_granularity_enc(uint64_t gran, Error **errp);
-+
-+static inline hwaddr cxl_decode_ig(int ig)
-+{
-+    return 1 << (ig + 8);
-+}
-+
- #endif
--- 
-2.32.0
+> diff --git a/qapi/virtio.json b/qapi/virtio.json
+> index 44cc05c..bb93d6d 100644
+> --- a/qapi/virtio.json
+> +++ b/qapi/virtio.json
+> @@ -656,3 +656,186 @@
+>    'data': { 'path': 'str', 'queue': 'uint16' },
+>    'returns': 'VirtVhostQueueStatus',
+>    'features': [ 'unstable' ] }
+> +
+> +##
+> +# @VirtioRingDesc:
+> +#
+> +# Information regarding the vring descriptor area
+> +#
+> +# @addr: Guest physical address of the descriptor area
+> +#
+> +# @len: Length of the descriptor area
+> +#
+> +# @flags: List of descriptor flags
+> +#
+> +# Since: 7.0
+> +#
+> +##
+> +
+> +{ 'struct': 'VirtioRingDesc',
+> +  'data': { 'addr': 'uint64',
+> +            'len': 'uint32',
+> +            'flags': [ 'str' ] } }
+> +
+> +##
+> +# @VirtioRingAvail:
+> +#
+> +# Information regarding the avail vring (a.k.a. driver area)
+> +#
+> +# @flags: VRingAvail flags
+> +#
+> +# @idx: VRingAvail index
+> +#
+> +# @ring: VRingAvail ring[] entry at provided index
+> +#
+> +# Since: 7.0
+> +#
+> +##
+> +
+> +{ 'struct': 'VirtioRingAvail',
+> +  'data': { 'flags': 'uint16',
+> +            'idx': 'uint16',
+> +            'ring': 'uint16' } }
+> +
+> +##
+> +# @VirtioRingUsed:
+> +#
+> +# Information regarding the used vring (a.k.a. device area)
+> +#
+> +# @flags: VRingUsed flags
+> +#
+> +# @idx: VRingUsed index
+> +#
+> +# Since: 7.0
+> +#
+> +##
+> +
+> +{ 'struct': 'VirtioRingUsed',
+> +  'data': { 'flags': 'uint16',
+> +            'idx': 'uint16' } }
+> +
+> +##
+> +# @VirtioQueueElement:
+> +#
+> +# Information regarding a VirtQueue's VirtQueueElement including
+> +# descriptor, driver, and device areas
+> +#
+> +# @name: Name of the VirtIODevice that uses this VirtQueue
+> +#
+> +# @index: Index of the element in the queue
+> +#
+> +# @descs: List of descriptors (VirtioRingDesc)
+> +#
+> +# @avail: VRingAvail info
+> +#
+> +# @used: VRingUsed info
+> +#
+> +# Since: 7.0
+> +#
+> +##
+> +
+> +{ 'struct': 'VirtioQueueElement',
+> +  'data': { 'name': 'str',
+> +            'index': 'uint32',
+> +            'descs': [ 'VirtioRingDesc' ],
+> +            'avail': 'VirtioRingAvail',
+> +            'used': 'VirtioRingUsed' } }
+> +
+> +##
+> +# @x-query-virtio-queue-element:
+> +#
+> +# Return the information about a VirtQueue's VirtQueueElement
+> +# (default: head of the queue)
+
+I'd put this line ...
+
+> +#
+> +# @path: VirtIODevice canonical QOM path
+> +#
+> +# @queue: VirtQueue index to examine
+> +#
+> +# @index: Index of the element in the queue
+
+... here.
+
+> +#
+> +# Features:
+> +# @unstable: This command is meant for debugging.
+> +#
+> +# Returns: VirtioQueueElement information
+> +#
+> +# Since: 7.0
+> +#
+> +# Examples:
+> +#
+> +# 1. Introspect on virtio-net's VirtQueue 0 at index 5
+> +#
+> +# -> { "execute": "x-query-virtio-queue-element",
+> +#      "arguments": { "path": "/machine/peripheral-anon/device[1]/virtio-backend",
+> +#                     "queue": 0,
+> +#                     "index": 5 }
+> +#    }
+> +# <- { "return": {
+> +#            "index": 5,
+> +#            "name": "virtio-net",
+> +#            "descs": [
+> +#               { "flags": ["write"], "len": 1536, "addr": 5257305600 }
+> +#            ],
+> +#            "avail": {
+> +#               "idx": 256,
+> +#               "flags": 0,
+> +#               "ring": 5
+> +#            },
+> +#            "used": {
+> +#               "idx": 13,
+> +#               "flags": 0
+> +#            },
+> +#    }
+> +#
+> +# 2. Introspect on virtio-crypto's VirtQueue 1 at head
+> +#
+> +# -> { "execute": "x-query-virtio-queue-element",
+> +#      "arguments": { "path": "/machine/peripheral/crypto0/virtio-backend",
+> +#                     "queue": 1 }
+> +#    }
+> +# <- { "return": {
+> +#            "index": 0,
+> +#            "name": "virtio-crypto",
+> +#            "descs": [
+> +#               { "flags": [], "len": 0, "addr": 8080268923184214134 }
+> +#            ],
+> +#            "avail": {
+> +#               "idx": 280,
+> +#               "flags": 0,
+> +#               "ring": 0
+> +#            },
+> +#            "used": {
+> +#               "idx": 280,
+> +#               "flags": 0
+> +#            }
+> +#    }
+> +#
+> +# 3. Introspect on virtio-scsi's VirtQueue 2 at head
+> +#
+> +# -> { "execute": "x-query-virtio-queue-element",
+> +#      "arguments": { "path": "/machine/peripheral-anon/device[2]/virtio-backend",
+> +#                     "queue": 2 }
+> +#    }
+> +# <- { "return": {
+> +#            "index": 19,
+> +#            "name": "virtio-scsi",
+> +#            "descs": [
+> +#               { "flags": ["used", "indirect", "write"], "len": 4099327944,
+> +#                 "addr": 12055409292258155293 }
+> +#            ],
+> +#            "avail": {
+> +#               "idx": 1147,
+> +#               "flags": 0,
+> +#               "ring": 19
+> +#            },
+> +#            "used": {
+> +#               "idx": 280,
+> +#               "flags": 0
+> +#            }
+> +#    }
+> +#
+> +##
+> +
+> +{ 'command': 'x-query-virtio-queue-element',
+> +  'data': { 'path': 'str', 'queue': 'uint16', '*index': 'uint16' },
+> +  'returns': 'VirtioQueueElement',
+> +  'features': [ 'unstable' ] }
+
+Preferably with my doc tweak, QAPI schema
+Acked-by: Markus Armbruster <armbru@redhat.com>
 
 
