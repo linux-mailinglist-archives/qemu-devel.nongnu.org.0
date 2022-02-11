@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3287E4B2615
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Feb 2022 13:44:45 +0100 (CET)
-Received: from localhost ([::1]:42450 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A59074B2688
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Feb 2022 13:55:48 +0100 (CET)
+Received: from localhost ([::1]:54520 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nIVI4-0004kL-0t
-	for lists+qemu-devel@lfdr.de; Fri, 11 Feb 2022 07:44:44 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:40154)
+	id 1nIVSl-0005pD-PQ
+	for lists+qemu-devel@lfdr.de; Fri, 11 Feb 2022 07:55:47 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:40382)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1nIUrF-0000b1-Kd
- for qemu-devel@nongnu.org; Fri, 11 Feb 2022 07:17:03 -0500
-Received: from frasgout.his.huawei.com ([185.176.79.56]:2294)
+ id 1nIUsl-0002i2-2i
+ for qemu-devel@nongnu.org; Fri, 11 Feb 2022 07:18:35 -0500
+Received: from frasgout.his.huawei.com ([185.176.79.56]:2297)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1nIUrD-0004Vo-At
- for qemu-devel@nongnu.org; Fri, 11 Feb 2022 07:17:01 -0500
-Received: from fraeml713-chm.china.huawei.com (unknown [172.18.147.226])
- by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4JwCJW3GR2z688s4;
- Fri, 11 Feb 2022 20:16:11 +0800 (CST)
+ id 1nIUsi-0004eE-Jk
+ for qemu-devel@nongnu.org; Fri, 11 Feb 2022 07:18:34 -0500
+Received: from fraeml708-chm.china.huawei.com (unknown [172.18.147.201])
+ by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4JwCGJ1Xk1z689Nw;
+ Fri, 11 Feb 2022 20:14:16 +0800 (CST)
 Received: from lhreml710-chm.china.huawei.com (10.201.108.61) by
- fraeml713-chm.china.huawei.com (10.206.15.32) with Microsoft SMTP Server
+ fraeml708-chm.china.huawei.com (10.206.15.36) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.21; Fri, 11 Feb 2022 13:16:57 +0100
+ 15.1.2308.21; Fri, 11 Feb 2022 13:18:29 +0100
 Received: from SecurePC-101-06.china.huawei.com (10.122.247.231) by
  lhreml710-chm.china.huawei.com (10.201.108.61) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.21; Fri, 11 Feb 2022 12:16:56 +0000
+ 15.1.2308.21; Fri, 11 Feb 2022 12:18:28 +0000
 To: <qemu-devel@nongnu.org>, =?UTF-8?q?Alex=20Benn=C3=A9e?=
  <alex.bennee@linaro.org>, Marcel Apfelbaum <marcel@redhat.com>, "Michael S .
  Tsirkin" <mst@redhat.com>, Igor Mammedov <imammedo@redhat.com>
@@ -40,9 +40,10 @@ CC: <linux-cxl@vger.kernel.org>, Ben Widawsky <ben.widawsky@intel.com>, "Peter
  <saransh@ibm.com>, Shreyas Shah <shreyas.shah@elastics.cloud>, Chris Browy
  <cbrowy@avery-design.com>, Samarth Saxena <samarths@cadence.com>, "Dan
  Williams" <dan.j.williams@intel.com>
-Subject: [PATCH v6 18/43] qtests/cxl: Add initial root port and CXL type3 tests
-Date: Fri, 11 Feb 2022 12:07:22 +0000
-Message-ID: <20220211120747.3074-19-Jonathan.Cameron@huawei.com>
+Subject: [PATCH v6 21/43] hw/cxl/device: Plumb real Label Storage Area (LSA)
+ sizing
+Date: Fri, 11 Feb 2022 12:07:25 +0000
+Message-ID: <20220211120747.3074-22-Jonathan.Cameron@huawei.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20220211120747.3074-1-Jonathan.Cameron@huawei.com>
 References: <20220211120747.3074-1-Jonathan.Cameron@huawei.com>
@@ -78,162 +79,136 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reply-to:  Jonathan Cameron <Jonathan.Cameron@huawei.com>
 From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 
-At this stage we can boot configurations with host bridges,
-root ports and type 3 memory devices, so add appropriate
-tests.
+From: Ben Widawsky <ben.widawsky@intel.com>
 
+This should introduce no change. Subsequent work will make use of this
+new class member.
+
+Signed-off-by: Ben Widawsky <ben.widawsky@intel.com>
 Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
 ---
- tests/qtest/cxl-test.c | 126 +++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 126 insertions(+)
+ hw/cxl/cxl-mailbox-utils.c  |  3 +++
+ hw/mem/cxl_type3.c          | 24 +++++++++---------------
+ include/hw/cxl/cxl_device.h | 29 +++++++++++++++++++++++++++++
+ 3 files changed, 41 insertions(+), 15 deletions(-)
 
-diff --git a/tests/qtest/cxl-test.c b/tests/qtest/cxl-test.c
-index 1006c8ae4e..1436de40e2 100644
---- a/tests/qtest/cxl-test.c
-+++ b/tests/qtest/cxl-test.c
-@@ -8,6 +8,47 @@
- #include "qemu/osdep.h"
- #include "libqtest-single.h"
+diff --git a/hw/cxl/cxl-mailbox-utils.c b/hw/cxl/cxl-mailbox-utils.c
+index d022711b2a..ccf9c3d794 100644
+--- a/hw/cxl/cxl-mailbox-utils.c
++++ b/hw/cxl/cxl-mailbox-utils.c
+@@ -278,6 +278,8 @@ static ret_code cmd_identify_memory_device(struct cxl_cmd *cmd,
+     } __attribute__((packed)) *id;
+     _Static_assert(sizeof(*id) == 0x43, "Bad identify size");
  
-+#define QEMU_PXB_CMD "-machine q35,cxl=on " \
-+                     "-device pxb-cxl,id=cxl.0,bus=pcie.0,bus_nr=52 "
-+
-+#define QEMU_2PXB_CMD "-machine q35,cxl=on " \
-+                      "-device pxb-cxl,id=cxl.0,bus=pcie.0,bus_nr=52 "  \
-+                      "-device pxb-cxl,id=cxl.1,bus=pcie.0,bus_nr=53 "
-+
-+#define QEMU_RP "-device cxl-rp,id=rp0,bus=cxl.0,chassis=0,slot=0 "
-+
-+/* Dual ports on first pxb */
-+#define QEMU_2RP "-device cxl-rp,id=rp0,bus=cxl.0,chassis=0,slot=0 " \
-+                 "-device cxl-rp,id=rp1,bus=cxl.0,chassis=0,slot=1 "
-+
-+/* Dual ports on each of the pxb instances */
-+#define QEMU_4RP "-device cxl-rp,id=rp0,bus=cxl.0,chassis=0,slot=0 " \
-+                 "-device cxl-rp,id=rp1,bus=cxl.0,chassis=0,slot=1 " \
-+                 "-device cxl-rp,id=rp2,bus=cxl.1,chassis=0,slot=2 " \
-+                 "-device cxl-rp,id=rp3,bus=cxl.1,chassis=0,slot=3 "
-+
-+#define QEMU_T3D "-object memory-backend-file,id=cxl-mem0,mem-path=%s,size=256M " \
-+                 "-device cxl-type3,bus=rp0,memdev=cxl-mem0,id=cxl-pmem0,size=256M "
-+
-+#define QEMU_2T3D "-object memory-backend-file,id=cxl-mem0,mem-path=%s,size=256M "    \
-+                  "-device cxl-type3,bus=rp0,memdev=cxl-mem0,id=cxl-pmem0,size=256M " \
-+                  "-object memory-backend-file,id=cxl-mem1,mem-path=%s,size=256M "    \
-+                  "-device cxl-type3,bus=rp1,memdev=cxl-mem1,id=cxl-pmem1,size=256M "
-+
-+#define QEMU_4T3D "-object memory-backend-file,id=cxl-mem0,mem-path=%s,size=256M "    \
-+                  "-device cxl-type3,bus=rp0,memdev=cxl-mem0,id=cxl-pmem0,size=256M " \
-+                  "-object memory-backend-file,id=cxl-mem1,mem-path=%s,size=256M "    \
-+                  "-device cxl-type3,bus=rp1,memdev=cxl-mem1,id=cxl-pmem1,size=256M " \
-+                  "-object memory-backend-file,id=cxl-mem2,mem-path=%s,size=256M "    \
-+                  "-device cxl-type3,bus=rp2,memdev=cxl-mem2,id=cxl-pmem2,size=256M " \
-+                  "-object memory-backend-file,id=cxl-mem3,mem-path=%s,size=256M "    \
-+                  "-device cxl-type3,bus=rp3,memdev=cxl-mem3,id=cxl-pmem3,size=256M "
-+
-+static void cxl_basic_hb(void)
-+{
-+    qtest_start("-machine q35,cxl=on");
-+    qtest_end();
-+}
++    CXLType3Dev *ct3d = container_of(cxl_dstate, CXLType3Dev, cxl_dstate);
++    CXLType3Class *cvc = CXL_TYPE3_DEV_GET_CLASS(ct3d);
+     uint64_t size = cxl_dstate->pmem_size;
  
- static void cxl_basic_pxb(void)
+     if (!QEMU_IS_ALIGNED(size, 256 << 20)) {
+@@ -292,6 +294,7 @@ static ret_code cmd_identify_memory_device(struct cxl_cmd *cmd,
+ 
+     id->total_capacity = size / (256 << 20);
+     id->persistent_capacity = size / (256 << 20);
++    id->lsa_size = cvc->get_lsa_size(ct3d);
+ 
+     *len = sizeof(*id);
+     return CXL_MBOX_SUCCESS;
+diff --git a/hw/mem/cxl_type3.c b/hw/mem/cxl_type3.c
+index da091157f2..b16262d3cc 100644
+--- a/hw/mem/cxl_type3.c
++++ b/hw/mem/cxl_type3.c
+@@ -13,21 +13,6 @@
+ #include "sysemu/hostmem.h"
+ #include "hw/cxl/cxl.h"
+ 
+-typedef struct cxl_type3_dev {
+-    /* Private */
+-    PCIDevice parent_obj;
+-
+-    /* Properties */
+-    uint64_t size;
+-    HostMemoryBackend *hostmem;
+-
+-    /* State */
+-    CXLComponentState cxl_cstate;
+-    CXLDeviceState cxl_dstate;
+-} CXLType3Dev;
+-
+-#define CT3(obj) OBJECT_CHECK(CXLType3Dev, (obj), TYPE_CXL_TYPE3_DEV)
+-
+ static void build_dvsecs(CXLType3Dev *ct3d)
  {
-@@ -15,9 +56,94 @@ static void cxl_basic_pxb(void)
-     qtest_end();
+     CXLComponentState *cxl_cstate = &ct3d->cxl_cstate;
+@@ -186,10 +171,16 @@ static Property ct3_props[] = {
+     DEFINE_PROP_END_OF_LIST(),
+ };
+ 
++static uint64_t get_lsa_size(CXLType3Dev *ct3d)
++{
++    return 0;
++}
++
+ static void ct3_class_init(ObjectClass *oc, void *data)
+ {
+     DeviceClass *dc = DEVICE_CLASS(oc);
+     PCIDeviceClass *pc = PCI_DEVICE_CLASS(oc);
++    CXLType3Class *cvc = CXL_TYPE3_DEV_CLASS(oc);
+ 
+     pc->realize = ct3_realize;
+     pc->class_id = PCI_CLASS_STORAGE_EXPRESS;
+@@ -201,11 +192,14 @@ static void ct3_class_init(ObjectClass *oc, void *data)
+     dc->desc = "CXL PMEM Device (Type 3)";
+     dc->reset = ct3d_reset;
+     device_class_set_props(dc, ct3_props);
++
++    cvc->get_lsa_size = get_lsa_size;
  }
  
-+static void cxl_pxb_with_window(void)
-+{
-+    qtest_start(QEMU_PXB_CMD);
-+    qtest_end();
-+}
+ static const TypeInfo ct3d_info = {
+     .name = TYPE_CXL_TYPE3_DEV,
+     .parent = TYPE_PCI_DEVICE,
++    .class_size = sizeof(struct CXLType3Class),
+     .class_init = ct3_class_init,
+     .instance_size = sizeof(CXLType3Dev),
+     .instance_finalize = ct3_finalize,
+diff --git a/include/hw/cxl/cxl_device.h b/include/hw/cxl/cxl_device.h
+index 8102d2a813..ebb391153a 100644
+--- a/include/hw/cxl/cxl_device.h
++++ b/include/hw/cxl/cxl_device.h
+@@ -230,4 +230,33 @@ REG64(CXL_MEM_DEV_STS, 0)
+     FIELD(CXL_MEM_DEV_STS, MBOX_READY, 4, 1)
+     FIELD(CXL_MEM_DEV_STS, RESET_NEEDED, 5, 3)
+ 
++typedef struct cxl_type3_dev {
++    /* Private */
++    PCIDevice parent_obj;
 +
-+static void cxl_2pxb_with_window(void)
-+{
-+    qtest_start(QEMU_2PXB_CMD);
-+    qtest_end();
-+}
++    /* Properties */
++    uint64_t size;
++    HostMemoryBackend *hostmem;
++    HostMemoryBackend *lsa;
 +
-+static void cxl_root_port(void)
-+{
-+    qtest_start(QEMU_PXB_CMD QEMU_RP);
-+    qtest_end();
-+}
++    /* State */
++    CXLComponentState cxl_cstate;
++    CXLDeviceState cxl_dstate;
++} CXLType3Dev;
 +
-+static void cxl_2root_port(void)
-+{
-+    qtest_start(QEMU_PXB_CMD QEMU_2RP);
-+    qtest_end();
-+}
++#ifndef TYPE_CXL_TYPE3_DEV
++#define TYPE_CXL_TYPE3_DEV "cxl-type3"
++#endif
 +
-+static void cxl_t3d(void)
-+{
-+    GString *cmdline;
-+    char template[] = "/tmp/cxl-test-XXXXXX";
-+    const char *tmpfs;
++#define CT3(obj) OBJECT_CHECK(CXLType3Dev, (obj), TYPE_CXL_TYPE3_DEV)
++OBJECT_DECLARE_TYPE(CXLType3Device, CXLType3Class, CXL_TYPE3_DEV)
 +
-+    tmpfs = mkdtemp(template);
++struct CXLType3Class {
++    /* Private */
++    PCIDeviceClass parent_class;
 +
-+    cmdline = g_string_new(NULL);
-+    g_string_printf(cmdline, QEMU_PXB_CMD QEMU_RP QEMU_T3D, tmpfs);
++    /* public */
++    uint64_t (*get_lsa_size)(CXLType3Dev *ct3d);
++};
 +
-+    qtest_start(cmdline->str);
-+    qtest_end();
-+
-+    g_string_free(cmdline, TRUE);
-+}
-+
-+static void cxl_1pxb_2rp_2t3d(void)
-+{
-+    GString *cmdline;
-+    char template[] = "/tmp/cxl-test-XXXXXX";
-+    const char *tmpfs;
-+
-+    tmpfs = mkdtemp(template);
-+
-+    cmdline = g_string_new(NULL);
-+    g_string_printf(cmdline, QEMU_PXB_CMD QEMU_2RP QEMU_2T3D, tmpfs, tmpfs);
-+
-+    qtest_start(cmdline->str);
-+    qtest_end();
-+
-+    g_string_free(cmdline, TRUE);
-+}
-+
-+static void cxl_2pxb_4rp_4t3d(void)
-+{
-+    GString *cmdline;
-+    char template[] = "/tmp/cxl-test-XXXXXX";
-+    const char *tmpfs;
-+
-+    tmpfs = mkdtemp(template);
-+
-+    cmdline = g_string_new(NULL);
-+    g_string_printf(cmdline, QEMU_2PXB_CMD QEMU_4RP QEMU_4T3D,
-+                    tmpfs, tmpfs, tmpfs, tmpfs);
-+
-+    qtest_start(cmdline->str);
-+    qtest_end();
-+
-+    g_string_free(cmdline, TRUE);
-+}
-+
- int main(int argc, char **argv)
- {
-     g_test_init(&argc, &argv, NULL);
-+
-+    qtest_add_func("/pci/cxl/basic_hostbridge", cxl_basic_hb);
-     qtest_add_func("/pci/cxl/basic_pxb", cxl_basic_pxb);
-+    qtest_add_func("/pci/cxl/pxb_with_window", cxl_pxb_with_window);
-+    qtest_add_func("/pci/cxl/pxb_x2_with_window", cxl_2pxb_with_window);
-+    qtest_add_func("/pci/cxl/rp", cxl_root_port);
-+    qtest_add_func("/pci/cxl/rp_x2", cxl_2root_port);
-+    qtest_add_func("/pci/cxl/type3_device", cxl_t3d);
-+    qtest_add_func("/pci/cxl/rp_x2_type3_x2", cxl_1pxb_2rp_2t3d);
-+    qtest_add_func("/pci/cxl/pxb_x2_root_port_x4_type3_x4", cxl_2pxb_4rp_4t3d);
-     return g_test_run();
- }
+ #endif
 -- 
 2.32.0
 
