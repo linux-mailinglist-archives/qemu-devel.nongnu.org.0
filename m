@@ -2,91 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 750AD4B2202
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Feb 2022 10:32:54 +0100 (CET)
-Received: from localhost ([::1]:49142 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 546124B220B
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Feb 2022 10:34:33 +0100 (CET)
+Received: from localhost ([::1]:51174 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nISIP-0007ef-B3
-	for lists+qemu-devel@lfdr.de; Fri, 11 Feb 2022 04:32:53 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:58348)
+	id 1nISK0-0000ey-FT
+	for lists+qemu-devel@lfdr.de; Fri, 11 Feb 2022 04:34:32 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:58390)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nISFt-0005L4-VJ
- for qemu-devel@nongnu.org; Fri, 11 Feb 2022 04:30:17 -0500
-Received: from [2607:f8b0:4864:20::1035] (port=54240
- helo=mail-pj1-x1035.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nISFs-0005t0-Fz
- for qemu-devel@nongnu.org; Fri, 11 Feb 2022 04:30:17 -0500
-Received: by mail-pj1-x1035.google.com with SMTP id qe15so7568816pjb.3
+ (Exim 4.90_1) (envelope-from <nsaenzju@redhat.com>)
+ id 1nISFx-0005Nk-8H
+ for qemu-devel@nongnu.org; Fri, 11 Feb 2022 04:30:21 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:52916)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <nsaenzju@redhat.com>)
+ id 1nISFu-0005tD-5p
+ for qemu-devel@nongnu.org; Fri, 11 Feb 2022 04:30:19 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1644571817;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=gUml+dxBLecm+sRcUaN2lnV6JDme1HQw9M7wfPZPlA0=;
+ b=bjYMu6pXIn0q0n39RYenfE5/4ax53DwSTbZ2Tx0mzwzqZq41GpzZFjZZPnTA3RZaggmO2J
+ 619XGE5+R5nL/TZPpX5fzBbVdp9v1P8ZuKCMzUql1QS0Zg37/ag3rh4J5CvFYQAiEXQHgY
+ 05dr8oMAPeIMI7Re1kCNweIq7xVZggk=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-468-DskChZAqMSqM6tahA6vGow-1; Fri, 11 Feb 2022 04:30:16 -0500
+X-MC-Unique: DskChZAqMSqM6tahA6vGow-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ i10-20020adfaaca000000b001e4b2db0303so1683527wrc.23
  for <qemu-devel@nongnu.org>; Fri, 11 Feb 2022 01:30:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=QDKJzCezhB8HP6DgVp1eIStuzv9CaD7y/W3ToopzSq0=;
- b=QxwRhhv6aYHpqMtqDnKoRGCtkBqiRvsT4CRIuB4YKD8p7nBtyaOFNF80Ly1gE1532M
- lYBhJUwrN505KuQephysDLm244d+GJriPxBBkSaMrH76sYlxP2LdFuY81xh7tZ6suQwP
- GBZnhmy8qv+sFO6Bpo2xpfsyGql58W2SQWlQ8gNUFZCgb9WgbQGQ0y1SAaORupkxRqft
- 1IGB2lUgz7cdJKmHUjKtpsQtGt7o9uWRUpfOfozbpDKS0aVJiF0+fFQP8cJ6p4elYRcp
- UQxl1qBvD/J3FIBydRA/8k5TjpXfDCg4U8tA1uFYKnOyRwa2TwBCok0WfYyCz041m9Oq
- MO0A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=QDKJzCezhB8HP6DgVp1eIStuzv9CaD7y/W3ToopzSq0=;
- b=dIdy7ytZJaII6WNKw384jXz9xzPwuuLwj0SLvg6rn06xSN6VKqRusfoqtP/clKQ3sI
- T7zKeIulap1RpJXATxIhT2hcAiCfbMEsqXfRoX3FnOlbQfeE2HYlTeeFFzxuf+mtvVjs
- /h53M2ri7bl0KFy9+Ql9NL8cczy/8VsbtoS38AItOnDGEwfGfBQSZbeXmmOTaFUwtxKC
- OQNJDtQfs3R0fgBGdobDDPmrThdiqajFXtRE5lpn0JsQ/C6U4A8qmUFt/8IfNgqMwDc8
- ogNvmR4UDeIxYYWYvgJ1nxD9oUuN1A2NMQsS4/EVwy+wfuWaH3W9d7o4gPFOQQUE48OG
- xzoQ==
-X-Gm-Message-State: AOAM532Asx7+jfvpL0LJSS2B+7wOOM3nULylF8qIiqhy3KEm3Nq6B8rM
- cNBOAxEuSv24mJ6Qj47WR5o=
-X-Google-Smtp-Source: ABdhPJxtDTAsZ/8VkQDZImFKaNFykEnGlLqhdqFL6JqblOw8G8ejx4V4+Lk3qeE6iSRli2BOv+R0vg==
-X-Received: by 2002:a17:902:dcca:: with SMTP id
- t10mr600962pll.133.1644571814973; 
+ h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+ :references:user-agent:mime-version:content-transfer-encoding;
+ bh=gUml+dxBLecm+sRcUaN2lnV6JDme1HQw9M7wfPZPlA0=;
+ b=QDsC1h4COFoIyxI7sFH9WHKrh4YVtueiT85wC98avrkoRk7Rq18YFd0Qb5kaynaR9Y
+ Y4LEa9+hz5ddOy5ms0C1rLfe57uKzmH1k627XcOURTBPkyvSx+5iErSLu88bNAUgUfRO
+ 9MuLe3vnzQzyVNuUUtFYu1ZyheuKeaN+isWLZYj1RgYbsIONxQde7d/PYKXIcEqV7pcy
+ BtuARjdX5b1hp5Vo5fC+E8DstNBac9Z0oeI9noHr1uuLiZ2c+jS81jHnraAuN2ETdPVg
+ 0XJ1R0p+qNZ+SdbqxVi81eOslvJWwyfnXa2LQdfH29ndqnurOfixRDHYM6GtttsEAvma
+ KlZw==
+X-Gm-Message-State: AOAM532GsI6UyL4hSZTgEDKK6ajoCOS+yzEeQdTa7nEOmSQ8ArjiUclR
+ EFqZ5UGBtljA2CPKF1KWhcPwu+DF8FaZc9QPk4MOQgw8gzECTJYzYDLRTWW3f+JL7yKhHpWpwPM
+ hxFnq4nuG3cQCMbo=
+X-Received: by 2002:a05:6000:186a:: with SMTP id
+ d10mr596846wri.621.1644571815001; 
+ Fri, 11 Feb 2022 01:30:15 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxl5JGrHXWLaReUzQGGykMFBgkH1Q/n03vhfCBO8KBfA9ONIuUGH5z8Jhg/baNkp56y2pV1nQ==
+X-Received: by 2002:a05:6000:186a:: with SMTP id
+ d10mr596815wri.621.1644571814650; 
  Fri, 11 Feb 2022 01:30:14 -0800 (PST)
-Received: from [192.168.1.33] (154.red-83-50-83.dynamicip.rima-tde.net.
- [83.50.83.154])
- by smtp.gmail.com with ESMTPSA id q16sm26948764pfu.194.2022.02.11.01.30.12
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 11 Feb 2022 01:30:14 -0800 (PST)
-Message-ID: <aecd54d8-a159-7dbb-7361-879096497359@amsat.org>
-Date: Fri, 11 Feb 2022 10:30:09 +0100
+Received: from ?IPv6:2a0c:5a80:1204:1500:37e7:8150:d9df:36f?
+ ([2a0c:5a80:1204:1500:37e7:8150:d9df:36f])
+ by smtp.gmail.com with ESMTPSA id j15sm1012346wmq.2.2022.02.11.01.30.13
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 11 Feb 2022 01:30:13 -0800 (PST)
+Message-ID: <b3c4a45867c6fc452af41f91f7bda482a882c766.camel@redhat.com>
+Subject: Re: [RFC] thread-pool: Add option to fix the pool size
+From: Nicolas Saenz Julienne <nsaenzju@redhat.com>
+To: Stefan Hajnoczi <stefanha@redhat.com>, "Daniel P."
+ =?ISO-8859-1?Q?Berrang=E9?= <berrange@redhat.com>
+Date: Fri, 11 Feb 2022 10:30:13 +0100
+In-Reply-To: <Yfvkf1cBPGc4TR49@stefanha-x1.localdomain>
+References: <20220202175234.656711-1-nsaenzju@redhat.com>
+ <Yfu0E5LwZ/x0EZrl@stefanha-x1.localdomain> <Yfu08bAJKnRC3eFD@redhat.com>
+ <Yfvkf1cBPGc4TR49@stefanha-x1.localdomain>
+User-Agent: Evolution 3.42.3 (3.42.3-1.fc35)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.5.1
-Subject: Re: [PATCH 7/9] user: Declare target-specific prototypes in
- 'user/cpu-target.h'
-Content-Language: en-US
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Thomas Huth <thuth@redhat.com>
-Cc: Riku Voipio <riku.voipio@iki.fi>, Laurent Vivier <laurent@vivier.eu>,
- Paolo Bonzini <pbonzini@redhat.com>
-References: <20220209230030.93987-1-f4bug@amsat.org>
- <20220209230030.93987-8-f4bug@amsat.org>
- <cdd11da9-a90d-75ac-40f7-7086e7e40f66@linaro.org>
-In-Reply-To: <cdd11da9-a90d-75ac-40f7-7086e7e40f66@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=nsaenzju@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1035
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1035;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pj1-x1035.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.248, NICE_REPLY_A=-0.001,
- PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=nsaenzju@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -99,33 +102,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: kwolf@redhat.com, qemu-block@nongnu.org, mtosatti@redhat.com,
+ qemu-devel@nongnu.org, hreitz@redhat.com, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
-+Thomas
-
-On 11/2/22 00:19, Richard Henderson wrote:
-> On 2/10/22 10:00, Philippe Mathieu-Daudé wrote:
->> Move user-mode specific prototypes from "exec/exec-all.h"
->> to "user/cpu-target.h".
->>
->> Signed-off-by: Philippe Mathieu-Daudé<f4bug@amsat.org>
->> ---
+On Thu, 2022-02-03 at 14:19 +0000, Stefan Hajnoczi wrote:
+> Yep, I didn't comment on this because I don't have a good suggestion.
 > 
-> Why a new cpu-target.h, and what is it supposed to mean?  What else is 
-> going in there?  It all looks cpu_loop related so far.
+> In terms of semantics I think we should have:
+> 
+> 1. A global default value that all new AioContext take. The QEMU main
+>    loop's qemu_aio_context will use this and all IOThread AioContext
+>    will use it (unless they have been overridden).
+> 
+>    I would define it on --machine because that's the "global" object for
+>    a guest, but that's not very satisfying.
 
-I'd like to put all declarations using target_ulong in foo-target.h and
-the ones which don't in foo-common.h (cpu, user,  exec).
+So I tried to implement this. One problem arouse:
+ - The thread pool properties are now part of the MachineState. So as to
+   properly use QOM.
+ - Sadly, the main loop is initialized before the machine class options are
+   populated. See 'qemu_init_main_loop()' and 'qemu_apply_machine_options()' in
+   'softmmu/vl.c'.
+ - Short of manually parsing the options, which IMO defeats the purpose of
+   using QOM, or changing the initialization order, which I'm sure won't be
+   easy, I can't access the properties early enough.
 
-That way I can move implementations from target-specific to target
-agnostic meson source set, and better isolate the target-specific APIs.
+Any ideas?
 
-> Why is this separate from the next patch, with "cpu-common.h", which 
-> also appears to be basically cpu_loop related?
+Thanks!
 
-I can squash both. The commit description could be "Move APIs using
-target_ulong to cpu-target.h, keep the rest in cpu-common.h".
+-- 
+Nicolás Sáenz
+
 
