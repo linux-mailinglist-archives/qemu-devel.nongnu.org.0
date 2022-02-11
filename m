@@ -2,82 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5125B4B243A
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Feb 2022 12:24:12 +0100 (CET)
-Received: from localhost ([::1]:42812 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 21C464B2499
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Feb 2022 12:41:17 +0100 (CET)
+Received: from localhost ([::1]:42830 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nIU27-0007lB-EN
-	for lists+qemu-devel@lfdr.de; Fri, 11 Feb 2022 06:24:11 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:56254)
+	id 1nIUIe-0002XT-65
+	for lists+qemu-devel@lfdr.de; Fri, 11 Feb 2022 06:41:16 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:58972)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1nITxQ-0000ev-VN
- for qemu-devel@nongnu.org; Fri, 11 Feb 2022 06:19:25 -0500
-Received: from [2607:f8b0:4864:20::632] (port=46804
- helo=mail-pl1-x632.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1nITxP-0001IP-1Z
- for qemu-devel@nongnu.org; Fri, 11 Feb 2022 06:19:20 -0500
-Received: by mail-pl1-x632.google.com with SMTP id u12so4396742plf.13
- for <qemu-devel@nongnu.org>; Fri, 11 Feb 2022 03:19:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
- h=from:date:to:cc:subject:in-reply-to:message-id:references
- :user-agent:mime-version;
- bh=aW1CzZLQSL856yTTb5rMCEv0Q4Z9HzR24X8S9mi2KL0=;
- b=6kbHIkt8Cj0GkMd5086F5Gu+ILl7r9polNccEw7yZjkMhXq0U5vEsO8iXfzs4w05W5
- UNC5WABj/F8Y26zuutd0Ze/oR4cgh/UnkIMb7YrQCBFXZKagxfQMiz66b6lQbChRf7GE
- upysGIcctcxa8ToZq7utox/TlgkmQAEt1HzYmcMy65nypd/0FquT6MyAdUhAu8McG/RK
- iwj1b7o/Rp4uMNYEk7blzNZq9GnPp78vLQxfTadSed6+J9L6w14Prnl8eyrvDy6PTpH3
- X8Qx2LqrFJ0SbNOT7Hmyx7us1Xqc86e39uzlbevDz9UUS+7c6vLUyhnYnWWESp/YKwHf
- MPhg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:date:to:cc:subject:in-reply-to:message-id
- :references:user-agent:mime-version;
- bh=aW1CzZLQSL856yTTb5rMCEv0Q4Z9HzR24X8S9mi2KL0=;
- b=lv40+MdQEyw8kJzh3FuuMMclJYQ+9i6fLY5aMcyxGofBY2zOFJ2jvKmPVD11XWJJWS
- Q7e+6D1p7UAhz7YG9DCmIElFCu9vDu6qLA3LmwE2LVfGPoB0IxIEHJf1Db2LzlvVTNoa
- wfD6w51LkNpuAIVx/oEldDX5dH2h1ZdyGNajJPM7nhFqjRAg0yediZjC3PCbOnQbynmR
- Lfmr1XahtM1t+VpzybK3uuBhNW5eG349mZ0FqbVkGOUlQhQV/0Go+oCBhP+8JcQ6IgxN
- ovvvuxXm9gJWgy2hIP0L5agRImpqTt4oAOsj/Iit1ZgCl2cnkDZ7PQ+nsXVIxwQMjVmO
- rtdg==
-X-Gm-Message-State: AOAM531VN7n6o/3UZF0eR4nzeGp9ZNOnliLbWqhKaTgvteHABb3AAUuQ
- zovkb4kavNamTSv3pHxKie0HlQ==
-X-Google-Smtp-Source: ABdhPJy/zgBtar249n4FVo9PRG6Vq2LYvIMkbRBXROZAnd9+cph1ZIwq26Nvsdo6KKi9DPUHu1QV3g==
-X-Received: by 2002:a17:90b:4f85:: with SMTP id
- qe5mr2119804pjb.142.1644578357156; 
- Fri, 11 Feb 2022 03:19:17 -0800 (PST)
-Received: from anisinha-lenovo ([115.96.197.200])
- by smtp.googlemail.com with ESMTPSA id u37sm19559758pga.2.2022.02.11.03.19.13
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 11 Feb 2022 03:19:16 -0800 (PST)
-From: Ani Sinha <ani@anisinha.ca>
-X-Google-Original-From: Ani Sinha <anisinha@anisinha.ca>
-Date: Fri, 11 Feb 2022 16:49:12 +0530 (IST)
-X-X-Sender: anisinha@anisinha-lenovo
-To: =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <f4bug@amsat.org>
-Subject: Re: [PATCH] hw/i386/pc: when adding reserved E820 entries do not
- allocate dynamic entries
-In-Reply-To: <aaaf4fe9-525f-c54b-a7c7-3c7195dff37a@amsat.org>
-Message-ID: <alpine.DEB.2.22.394.2202111644300.2941252@anisinha-lenovo>
-References: <20220210132822.2969324-1-ani@anisinha.ca>
- <aaaf4fe9-525f-c54b-a7c7-3c7195dff37a@amsat.org>
-User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1nIUB1-0003Ut-OH
+ for qemu-devel@nongnu.org; Fri, 11 Feb 2022 06:33:23 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:37065)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1nIUAy-0003rp-HK
+ for qemu-devel@nongnu.org; Fri, 11 Feb 2022 06:33:21 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1644579199;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=/VDmHnDJdGKtyZdb6G4r1rkMHsqIzRpKeaRiSXf0cUw=;
+ b=E7ZR+uxbAQyMEkYSlD+RP3XkOqtpwQhKjygI8Sw9356+DEJca2DJRb5uwnpop27w31O6n1
+ J6wl0v6zpwEXglCEKjo1nJPHiclXFM82AGefO42DUhkaw6DkMKk6j9nbQ0BtzsAsl5JzIY
+ rSWb2UZB6BEchv/HKfKbpJuMEMetPdQ=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-564-RV6x7hwVNf-F3M8lgRm6BA-1; Fri, 11 Feb 2022 06:33:16 -0500
+X-MC-Unique: RV6x7hwVNf-F3M8lgRm6BA-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 91BB285B6F5;
+ Fri, 11 Feb 2022 11:33:15 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.194.97])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id BCDA46F167;
+ Fri, 11 Feb 2022 11:32:59 +0000 (UTC)
+Date: Fri, 11 Feb 2022 12:32:57 +0100
+From: Kevin Wolf <kwolf@redhat.com>
+To: Stefan Hajnoczi <stefanha@redhat.com>
+Subject: Re: [RFC] thread-pool: Add option to fix the pool size
+Message-ID: <YgZJaTtoHN8hzrvk@redhat.com>
+References: <20220202175234.656711-1-nsaenzju@redhat.com>
+ <Yfu0E5LwZ/x0EZrl@stefanha-x1.localdomain>
+ <Yfu08bAJKnRC3eFD@redhat.com>
+ <Yfvkf1cBPGc4TR49@stefanha-x1.localdomain>
 MIME-Version: 1.0
-Content-Type: multipart/mixed;
- boundary="2088271309-1294814942-1644578358=:2941252"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::632
- (failed)
-Received-SPF: none client-ip=2607:f8b0:4864:20::632;
- envelope-from=ani@anisinha.ca; helo=mail-pl1-x632.google.com
-X-Spam_score_int: -10
-X-Spam_score: -1.1
-X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_NONE=0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="1rcxSEDwgsiNY/Ar"
+Content-Disposition: inline
+In-Reply-To: <Yfvkf1cBPGc4TR49@stefanha-x1.localdomain>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -90,43 +76,163 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <eduardo@habkost.net>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- kraxel@redhat.com, Ani Sinha <ani@anisinha.ca>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
+ qemu-block@nongnu.org, mtosatti@redhat.com, qemu-devel@nongnu.org,
+ hreitz@redhat.com, pbonzini@redhat.com,
+ Nicolas Saenz Julienne <nsaenzju@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
 
---2088271309-1294814942-1644578358=:2941252
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8BIT
+--1rcxSEDwgsiNY/Ar
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
+Am 03.02.2022 um 15:19 hat Stefan Hajnoczi geschrieben:
+> On Thu, Feb 03, 2022 at 10:56:49AM +0000, Daniel P. Berrang=E9 wrote:
+> > On Thu, Feb 03, 2022 at 10:53:07AM +0000, Stefan Hajnoczi wrote:
+> > > On Wed, Feb 02, 2022 at 06:52:34PM +0100, Nicolas Saenz Julienne wrot=
+e:
+> > > > The thread pool regulates itself: when idle, it kills threads until
+> > > > empty, when in demand, it creates new threads until full. This beha=
+viour
+> > > > doesn't play well with latency sensitive workloads where the price =
+of
+> > > > creating a new thread is too high. For example, when paired with qe=
+mu's
+> > > > '-mlock', or using safety features like SafeStack, creating a new t=
+hread
+> > > > has been measured take multiple milliseconds.
+> > > >=20
+> > > > In order to mitigate this let's introduce a new option to set a fix=
+ed
+> > > > pool size. The threads will be created during the pool's initializa=
+tion,
+> > > > remain available during its lifetime regardless of demand, and dest=
+royed
+> > > > upon freeing it. A properly characterized workload will then be abl=
+e to
+> > > > configure the pool to avoid any latency spike.
+> > > >=20
+> > > > Signed-off-by: Nicolas Saenz Julienne <nsaenzju@redhat.com>
+> > > >=20
+> > > > ---
+> > > >=20
+> > > > The fix I propose here works for my specific use-case, but I'm pret=
+ty
+> > > > sure it'll need to be a bit more versatile to accommodate other
+> > > > use-cases.
+> > > >=20
+> > > > Some questions:
+> > > >=20
+> > > > - Is unanimously setting these parameters for any pool instance too
+> > > >   limiting? It'd make sense to move the options into the AioContext=
+ the
+> > > >   pool belongs to. IIUC, for the general block use-case, this would=
+ be
+> > > >   'qemu_aio_context' as initialized in qemu_init_main_loop().
+> > >=20
+> > > Yes, qemu_aio_context is the main loop's AioContext. It's used unless
+> > > IOThreads are configured.
+> > >=20
+> > > It's nice to have global settings that affect all AioContexts, so I
+> > > think this patch is fine for now.
+> > >=20
+> > > In the future IOThread-specific parameters could be added if individu=
+al
+> > > IOThread AioContexts need tuning (similar to how poll-max-ns works
+> > > today).
+> > >=20
+> > > > - Currently I'm setting two pool properties through a single qemu
+> > > >   option. The pool's size and dynamic behaviour, or lack thereof. I
+> > > >   think it'd be better to split them into separate options. I thoug=
+ht of
+> > > >   different ways of expressing this (min/max-size where static happ=
+ens
+> > > >   when min-size=3Dmax-size, size and static/dynamic, etc..), but yo=
+u might
+> > > >   have ideas on what could be useful to other use-cases.
+> > >=20
+> > > Yes, "min" and "max" is more flexible than fixed-size=3Dn. fixed-size=
+=3Dn is
+> > > equivalent to min=3Dn,max=3Dn. The current default policy is min=3D0,=
+max=3D64.
+> > > If you want more threads you could do min=3D0,max=3D128. If you want =
+to
+> > > reserve 1 thread all the time use min=3D1,max=3D64.
+> > >=20
+> > > I would go with min and max.
+> >=20
+> > This commit also exposes this as a new top level command line
+> > argument. Given our aim to eliminate QemuOpts and use QAPI/QOM
+> > properties for everything I think we need a different approach.
+> >=20
+> > I'm not sure which exisiting QAPI/QOM option it most appropriate
+> > to graft these tunables onto ?  -machine ?  -accel ?  Or is there
+> > no good fit yet ?
 
+I would agree that it should be QAPI, but just like QemuOpts doesn't
+require that you shoehorn it into an existing option, QAPI doesn't
+necessarily either if that's the interface that we want. You could just
+create a new QAPI struct for it and parse the new option into that. This
+would already be an improvement over this RFC.
 
-On Thu, 10 Feb 2022, Philippe Mathieu-Daudé wrote:
+Now, whether we actually want a new top-level option is a different
+question (we usually try to avoid it), but it's not related to QAPI vs.
+QemuOpts.
 
-> On 10/2/22 14:28, Ani Sinha wrote:
-> > When adding E820_RESERVED entries we also accidentally allocate dynamic
-> > entries. This is incorrect. We should simply return early with the count of
-> > the number of reserved entries added.
-> >
-> > fixes: 7d67110f2d9a6("pc: add etc/e820 fw_cfg file")
->
-> 8 years old, so this path is clearly untested (unused...?).
->
+> Yep, I didn't comment on this because I don't have a good suggestion.
+>=20
+> In terms of semantics I think we should have:
+>=20
+> 1. A global default value that all new AioContext take. The QEMU main
+>    loop's qemu_aio_context will use this and all IOThread AioContext
+>    will use it (unless they have been overridden).
+>=20
+>    I would define it on --machine because that's the "global" object for
+>    a guest, but that's not very satisfying.
 
-untested, yes. unused? nope!
+Semantically, -machine is about the virtual hardware where as iothreads
+are about the backend, so I agree it's not a good fit.
 
-$ git grep e820_add_entry  2>/dev/null | grep E820_RESERVED
-hw/i386/pc.c:        e820_add_entry(pcms->sgx_epc.base,
-pcms->sgx_epc.size, E820_RESERVED);
-target/i386/kvm/kvm.c:    ret = e820_add_entry(identity_base, 0x4000,
-E820_RESERVED);
+For the main thread, you may want to configure all the same options that
+you can configure for an iothread. So to me that sounds like we would
+want to allow using an iothread object for the main thread, too.
 
-particulatly the kvm code path.
---2088271309-1294814942-1644578358=:2941252--
+That would still require us to tell QEMU which iothread object should be
+used for the main thread, though.
+
+> 2. (Future patch) --object iothread,thread-pool-min=3DN,thread-pool-max=
+=3DM
+>    just like poll-max-ns and friends. This allows the values to be set
+>    on a per-IOThread basis.
+
+And to be updated with qom-set. (Which is again something that you'll
+want for the main thread, too.)
+
+Kevin
+
+--1rcxSEDwgsiNY/Ar
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEE3D3rFZqa+V09dFb+fwmycsiPL9YFAmIGSWkACgkQfwmycsiP
+L9bqKQ/9EMkboR+codwHiSdmWWFsZS9gGQhq8oaGeGLEuGGNuJfRe7KLXjiO/76H
+X1X25BMS9D2LksNgBXRCy1Ye+9OnT1Ce2/x1JHrILSXGuukOyX7FDAIHVBj8Y+Hq
+6JsqF2icKvQlT9Xm6Mq/9XNIr4D7A69XVC1MUrp4wdjBS394A3rN0NgpVm98YFdG
+uM8+ZvoCt4bvsB2tDAUktFCOa2VQCCP9GVHy6k2kH0n3Hmw4lOMQFjJObYnpNTI4
+5KWJD89ptcGOb3HMp34nEPdeQv2jJF1fU25wQsTXHb4JbgTPMRQJAm/grxHyJmOZ
+zcwoeOh0sGem5Mj8WICQJdSagaZGfmtaek3jlaHdLokn33iJrv0Oe42NXFBGRhOJ
+NRzxqIZvOP6+P7zqPpOr7PWtgCc9Bfrg/I/GJg3zLZAkC33nIiRtf/GoB1UW90xD
+XOH/xrusNeu1KYjiv82iev+Tjg4kEUcOyKJfJaTkC9EnT5FKqku10x5ZxaeG6EXg
+d9ontQfllWqfbA1WFUopL+YRVSSl77+MuvQCcdOLbk1Ao9iCht6n6+j+VWoDo5r0
+Ck1EGbqNAtSvha33gMJxTk/srHDFcZTlj6BUdhf7jj1OwqLNoGLlDWc56lAdoG2S
+vL/KZ0UceRxZVA5JG8QOxpoOAXLnW0xPek/PkQ9BGqVxt1OUbDY=
+=pqOb
+-----END PGP SIGNATURE-----
+
+--1rcxSEDwgsiNY/Ar--
+
 
