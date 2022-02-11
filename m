@@ -2,72 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2250F4B3054
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Feb 2022 23:22:20 +0100 (CET)
-Received: from localhost ([::1]:47440 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B17274B3065
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Feb 2022 23:26:30 +0100 (CET)
+Received: from localhost ([::1]:55628 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nIeJ1-00055y-7h
-	for lists+qemu-devel@lfdr.de; Fri, 11 Feb 2022 17:22:19 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:41912)
+	id 1nIeN3-0002Dn-KP
+	for lists+qemu-devel@lfdr.de; Fri, 11 Feb 2022 17:26:29 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:41966)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <chouhan.shreyansh2702@gmail.com>)
- id 1nIeBw-00053G-GX
- for qemu-devel@nongnu.org; Fri, 11 Feb 2022 17:15:00 -0500
-Received: from [2607:f8b0:4864:20::42a] (port=37547
- helo=mail-pf1-x42a.google.com)
+ id 1nIeC2-00059f-9G
+ for qemu-devel@nongnu.org; Fri, 11 Feb 2022 17:15:06 -0500
+Received: from [2607:f8b0:4864:20::634] (port=40944
+ helo=mail-pl1-x634.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <chouhan.shreyansh2702@gmail.com>)
- id 1nIeBu-0002mD-0W
- for qemu-devel@nongnu.org; Fri, 11 Feb 2022 17:15:00 -0500
-Received: by mail-pf1-x42a.google.com with SMTP id y5so18599119pfe.4
- for <qemu-devel@nongnu.org>; Fri, 11 Feb 2022 14:14:57 -0800 (PST)
+ id 1nIeC0-0002qy-A4
+ for qemu-devel@nongnu.org; Fri, 11 Feb 2022 17:15:05 -0500
+Received: by mail-pl1-x634.google.com with SMTP id y17so5737839plg.7
+ for <qemu-devel@nongnu.org>; Fri, 11 Feb 2022 14:15:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=WWOGkVLVwAb/2x/bKAHDTmTkcbyoqFPfG2HRBJD6ZGo=;
- b=kXZD8lnVKfq3oV+I1flNqIKd/yal8d9b3u0TB57xnVeNUbCnZNllly1LX+fIWtdnlr
- m5GMTajnul+k9E7SEb5IScJiDe4LFiZNUjgIonBnSzX7jTDFn1ZmnOkm704l0lh+d9fa
- qCm9/LFNLHtquTyjpUsBBZn2bfhzbMPUAFRVn6kGBe3SnLgifwPger+wIPo2trrQoTuH
- 4ebUfeBYO0tovci5vzXqiImQxIXGCPyzesgYUJMxz1qfVkqyz2uQJuTTe1cyTwrvqa7y
- BBmtacQcaiXaGrHWFCAOD9L3N5vtcVo3sq8etdWKRYf9nLpANsCYhSISdyRgcMq3SXK5
- fNSA==
+ bh=aGClOHN7GG+aZ6hxDiFXoXxNY0G3eZiRVwIAS9Xw/V4=;
+ b=AQbbcwemFY6b4SJb4um9B+5UYVWnAdhCmZrgLfMDP07m3dDnIb8XKi8qsCUSMrsGSq
+ FSgpF/B46C/ZDClxfUaQopDxQ7H6ZVq0TgiQDhHB+zDfylknngnVKN0BjR4FVyXsgCG5
+ 1KvrYDUlbeonJLg7uHi5v2f9TJkZTGURlE4V+zPchPFHpJsS4ZJ4fpvFudbyZLfa4w65
+ lPdnTTi1rJLgx84ljvk8m+/vrobFZs8U6W9MvnJdKFG2wMaX6Bo877pjiVuOjglJ6Apo
+ CEYSvXhBpHolvmSnfSL42tIexd5eQ1Krz5QBNowJfGbjNISn5knX448hTrV9Wfto06q2
+ 1sSA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=WWOGkVLVwAb/2x/bKAHDTmTkcbyoqFPfG2HRBJD6ZGo=;
- b=ORX8hGrhnbCM0nNPQlhid7VYB6e6McaIlPMQ4QXSDPIcBo/w6dTCiMKn7wMhEXLu1Y
- yRzgeYKk4hFKzRozKDlMCrHrWfm8XQZvSsVZaoVyGubklGasOqo86Pfqc02iniEcwHI4
- GbwGk6oK/Q23enE6I1toOML1qcP1L9+Me5xB0ZgVmPtc2wtiS/OHc/E+XeKz803jdhXP
- hyNR87nyxhwEjpWSZBNCqFQvnm0q4IkxJF0jLZ+6A4hI7mc9AfzaOpggQDn4md9D7SKv
- EFo5uDGfAi1vlXG6p9yYSuszusorI5ESXtiNvfPA1EntAST+2QrPs70UKXKVVEw1/D+h
- tAxA==
-X-Gm-Message-State: AOAM532/88kLEMcKOhIxjMdXgpO+uVOipbx+Ax2Y4bE4zLrEz4qXTbfZ
- o2vnZ69HRkbrOX1JpNCgxQ4=
-X-Google-Smtp-Source: ABdhPJxANWaastschMSEZMi869/9iSf4JytMjIGbxVFYVpusMvLl/FtB05CInw496jhxFZ86TDKThw==
-X-Received: by 2002:a63:7103:: with SMTP id m3mr2977709pgc.501.1644617696719; 
- Fri, 11 Feb 2022 14:14:56 -0800 (PST)
+ bh=aGClOHN7GG+aZ6hxDiFXoXxNY0G3eZiRVwIAS9Xw/V4=;
+ b=IAIBGTKTeXGiI8/+7xa10eSvpPPGU1H/25XqvAaVG1v3VCa5begHQ+6VLpAH1SwVwO
+ Vwr75ZIIqh12nwaxZAYM1RI8ejjBdxFPlcWoWlhKN/ut3nfhEbLVZY6JOZm/avuGJNT0
+ jWhc6+f1JdahXTsNeGKoLgapY84zFTA2L1kyYh108QFH7fTUlBl9iVBeKizzEZoRHL2s
+ GRgi6ioalIckvRAcN6E197apXE/hO2IjMn0Xvr4aTXuUA/plwJfpNb0iXHbHzhK2qy18
+ hibraCzry7F7gQsRsuzPLyFrkO/dk9EOfa2CfZIws+AZZCw3136zrCti4P2EQ2WsxEhw
+ ntOA==
+X-Gm-Message-State: AOAM532kjHjB9d0jCleaoYHOCubvcPTxaFotk3KhL0taQ2pSg0uraEpX
+ YQwjUS3GduM5frLu9kxD43s=
+X-Google-Smtp-Source: ABdhPJxOX+CfgpuIXMquAdI7MbOZFqMyTJBP+Q3akV4FxoVJPi3et++6kF/1uKZYoR/aA7qmVYJEKQ==
+X-Received: by 2002:a17:90a:1a54:: with SMTP id
+ 20mr2500254pjl.232.1644617703021; 
+ Fri, 11 Feb 2022 14:15:03 -0800 (PST)
 Received: from fedora.. ([2405:201:6008:6f15:d26f:133e:cd11:90dd])
- by smtp.googlemail.com with ESMTPSA id j23sm20623576pgb.75.2022.02.11.14.14.52
+ by smtp.googlemail.com with ESMTPSA id j23sm20623576pgb.75.2022.02.11.14.14.57
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 11 Feb 2022 14:14:56 -0800 (PST)
+ Fri, 11 Feb 2022 14:15:02 -0800 (PST)
 From: Shreyansh Chouhan <chouhan.shreyansh2702@gmail.com>
 To: kraxel@redhat.com,
 	mst@redhat.com,
 	laurent@vivier.eu
-Subject: [RFC PATCH 05/25] virtio-snd: Add device implementation structures
-Date: Sat, 12 Feb 2022 03:42:59 +0530
-Message-Id: <20220211221319.193404-6-chouhan.shreyansh2702@gmail.com>
+Subject: [RFC PATCH 06/25] virtio-snd: Add PCI wrapper code for VirtIOSound
+Date: Sat, 12 Feb 2022 03:43:00 +0530
+Message-Id: <20220211221319.193404-7-chouhan.shreyansh2702@gmail.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210429120445.694420-1-chouhan.shreyansh2702@gmail.com>
 References: <20210429120445.694420-1-chouhan.shreyansh2702@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::42a
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::634
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42a;
- envelope-from=chouhan.shreyansh2702@gmail.com; helo=mail-pf1-x42a.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::634;
+ envelope-from=chouhan.shreyansh2702@gmail.com; helo=mail-pl1-x634.google.com
 X-Spam_score_int: -10
 X-Spam_score: -1.1
 X-Spam_bar: -
@@ -92,96 +93,106 @@ Cc: Shreyansh Chouhan <chouhan.shreyansh2702@gmail.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Added jacks, pcm streams and the VirtIOSound structure for actual
-device implementation.
+Added the virito-snd.c file which contains a wrapper
+for combining the device with the VirtIOPCIProxy.
 
 Signed-off-by: Shreyansh Chouhan <chouhan.shreyansh2702@gmail.com>
 ---
- include/hw/virtio/virtio-snd.h | 66 ++++++++++++++++++++++++++++++++++
- 1 file changed, 66 insertions(+)
+ hw/virtio/meson.build      |  1 +
+ hw/virtio/virtio-snd-pci.c | 72 ++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 73 insertions(+)
+ create mode 100644 hw/virtio/virtio-snd-pci.c
 
-diff --git a/include/hw/virtio/virtio-snd.h b/include/hw/virtio/virtio-snd.h
-index 3c16609a25..4d800a9626 100644
---- a/include/hw/virtio/virtio-snd.h
-+++ b/include/hw/virtio/virtio-snd.h
-@@ -13,6 +13,9 @@
+diff --git a/hw/virtio/meson.build b/hw/virtio/meson.build
+index 521f7d64a8..86d6594c20 100644
+--- a/hw/virtio/meson.build
++++ b/hw/virtio/meson.build
+@@ -49,6 +49,7 @@ virtio_pci_ss.add(when: 'CONFIG_VIRTIO_SERIAL', if_true: files('virtio-serial-pc
+ virtio_pci_ss.add(when: 'CONFIG_VIRTIO_PMEM', if_true: files('virtio-pmem-pci.c'))
+ virtio_pci_ss.add(when: 'CONFIG_VIRTIO_IOMMU', if_true: files('virtio-iommu-pci.c'))
+ virtio_pci_ss.add(when: 'CONFIG_VIRTIO_MEM', if_true: files('virtio-mem-pci.c'))
++virtio_pci_ss.add(when: 'CONFIG_VIRTIO_SND', if_true: files('virtio-snd-pci.c'))
  
- #define VIRTIO_ID_SOUND 25
+ virtio_ss.add_all(when: 'CONFIG_VIRTIO_PCI', if_true: virtio_pci_ss)
  
-+#define TYPE_VIRTIO_SOUND "virtio-sound-device"
-+OBJECT_DECLARE_SIMPLE_TYPE(VirtIOSound, VIRTIO_SOUND)
+diff --git a/hw/virtio/virtio-snd-pci.c b/hw/virtio/virtio-snd-pci.c
+new file mode 100644
+index 0000000000..8d8e4ffa51
+--- /dev/null
++++ b/hw/virtio/virtio-snd-pci.c
+@@ -0,0 +1,72 @@
++/*
++ * Virtio sound PCI Bindings
++ */
 +
- /* CONFIGURATION SPACE */
- 
- typedef struct virtio_snd_config {
-@@ -314,4 +317,67 @@ typedef struct virtio_snd_chmap_info {
-     uint8_t positions[VIRTIO_SND_CHMAP_MAX_SIZE];
- } virtio_snd_chmap_info;
- 
-+/* VIRTIO SOUND DEVICE */
++#include "qemu/osdep.h"
++#include "hw/virtio/virtio-snd.h"
++#include "hw/virtio/virtio-pci.h"
++#include "qapi/error.h"
++#include "qemu/module.h"
++#include "qom/object.h"
 +
-+/* Jacks */
-+typedef struct virtio_snd_jack {
-+    uint32_t features; /* 1 << VIRTIO_SND_JACK_F_XXX */
-+    uint32_t hda_fn_nid;
-+    uint32_t hda_reg_defconf;
-+    uint32_t hda_reg_caps;
-+    uint8_t connected;
-+} virtio_snd_jack;
++typedef struct VirtIOSoundPCI VirtIOSoundPCI;
 +
-+/* Streams */
-+typedef struct virtio_snd_pcm_stream {
-+    uint32_t hda_fn_nid;
-+    uint32_t buffer_bytes;
-+    uint32_t period_bytes;
-+    uint32_t features; /* 1 << VIRTIO_SND_PCM_F_XXX */
-+    uint32_t flags; /* 1 << VIRTIO_SND_PCM_FL_XXX */
-+    uint32_t direction;
-+    uint8_t channels_min;
-+    uint8_t channels_max;
-+    uint64_t formats; /* 1 << VIRTIO_SND_PCM_FMT_XXX */
-+    uint64_t rates; /* 1 << VIRTIO_SND_PCM_RATE_XXX */
-+    uint32_t r_pos, w_pos;
-+    bool flushing;
-+    uint8_t chmap[VIRTIO_SND_CHMAP_MAX_SIZE];
-+    VirtQueueElement **elems;
-+    VirtIOSound *s;
-+    union {
-+        SWVoiceIn *in;
-+        SWVoiceOut *out;
-+    } voice;
-+} virtio_snd_pcm_stream;
++/*
++ * virtio-snd-pci: This extends VirtioPCIProxy.
++ */
++#define TYPE_VIRTIO_SOUND_PCI "virtio-sound-pci-base"
++DECLARE_INSTANCE_CHECKER(VirtIOSoundPCI, VIRTIO_SOUND_PCI,
++                         TYPE_VIRTIO_SOUND_PCI)
 +
-+/* Stream params */
-+typedef struct virtio_snd_pcm_params {
-+    uint32_t features;
-+    uint32_t buffer_bytes;          /* size of hardware buffer in bytes */
-+    uint32_t period_bytes;          /* size of hardware period in bytes */
-+    uint8_t channel;
-+    uint8_t format;
-+    uint8_t rate;
-+} virtio_snd_pcm_params;
-+
-+/* Sound device */
-+struct VirtIOSound {
-+    /* Parent VirtIODevice object */
-+    VirtIODevice parent_obj;
-+    virtio_snd_config snd_conf;
-+
-+    VirtQueue *ctrl_vq;
-+    VirtQueue *event_vq;
-+    VirtQueue *tx_vq;
-+    VirtQueue *rx_vq;
-+
-+    QEMUSoundCard card;
-+    size_t config_size;
-+
-+    virtio_snd_pcm_params **pcm_params;
-+    virtio_snd_pcm_stream **streams;
-+    virtio_snd_jack **jacks;
++struct VirtIOSoundPCI {
++    VirtIOPCIProxy parent_obj;
++    VirtIOSound vdev;
 +};
 +
- #endif
++static Property virtio_sound_properties[] = {
++    DEFINE_PROP_BIT("ioeventfd", VirtIOPCIProxy, flags,
++                    VIRTIO_PCI_FLAG_USE_IOEVENTFD_BIT, true),
++    DEFINE_PROP_END_OF_LIST(),
++};
++
++static void virtio_snd_pci_realize(VirtIOPCIProxy *vpci_dev, Error **errp)
++{
++    VirtIOSoundPCI *dev = VIRTIO_SOUND_PCI(vpci_dev);
++    DeviceState *vdev = DEVICE(&dev->vdev);
++
++    qdev_realize(vdev, BUS(&vpci_dev->bus), errp);
++}
++
++static void virtio_snd_pci_class_init(ObjectClass *klass, void *data)
++{
++    DeviceClass *dc = DEVICE_CLASS(klass);
++    PCIDeviceClass *k = PCI_DEVICE_CLASS(klass);
++    VirtioPCIClass *vpciklass = VIRTIO_PCI_CLASS(klass);
++
++    k->class_id = PCI_CLASS_MULTIMEDIA_AUDIO;
++    set_bit(DEVICE_CATEGORY_SOUND, dc->categories);
++    device_class_set_props(dc, virtio_sound_properties);
++    vpciklass->realize = virtio_snd_pci_realize;
++}
++
++static void virtio_snd_pci_instance_init(Object *obj)
++{
++    VirtIOSoundPCI *dev = VIRTIO_SOUND_PCI(obj);
++    virtio_instance_init_common(obj, &dev->vdev, sizeof(dev->vdev),
++                                TYPE_VIRTIO_SOUND);
++}
++
++static const VirtioPCIDeviceTypeInfo virtio_snd_pci_info = {
++    .base_name              = TYPE_VIRTIO_SOUND_PCI,
++    .generic_name           = "virtio-snd-pci",
++    .instance_size = sizeof(VirtIOSoundPCI),
++    .instance_init = virtio_snd_pci_instance_init,
++    .class_init    = virtio_snd_pci_class_init,
++};
++
++static void virtio_snd_pci_register(void)
++{
++    virtio_pci_types_register(&virtio_snd_pci_info);
++}
++
++type_init(virtio_snd_pci_register);
 -- 
 2.31.1
 
