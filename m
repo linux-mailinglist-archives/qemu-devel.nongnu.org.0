@@ -2,77 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74CF54B24F5
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Feb 2022 12:55:58 +0100 (CET)
-Received: from localhost ([::1]:52070 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B9BC14B2501
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Feb 2022 12:57:03 +0100 (CET)
+Received: from localhost ([::1]:53800 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nIUWr-0001PF-Fu
-	for lists+qemu-devel@lfdr.de; Fri, 11 Feb 2022 06:55:57 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:34756)
+	id 1nIUXu-0002f2-Tb
+	for lists+qemu-devel@lfdr.de; Fri, 11 Feb 2022 06:57:02 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:35138)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nIUTN-0000MD-03
- for qemu-devel@nongnu.org; Fri, 11 Feb 2022 06:52:21 -0500
-Received: from [2a00:1450:4864:20::434] (port=41648
- helo=mail-wr1-x434.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nIUTK-0007WR-UN
- for qemu-devel@nongnu.org; Fri, 11 Feb 2022 06:52:20 -0500
-Received: by mail-wr1-x434.google.com with SMTP id k1so14784162wrd.8
- for <qemu-devel@nongnu.org>; Fri, 11 Feb 2022 03:52:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=wamW7hYAj2E7NHVJ2kYlcGI8TPeS64VluiCzCHS51oI=;
- b=xLNBooLr6KuTl6f/e1XHGlMiXJVdUJONyS0+8dMQ3IkYgfayel6eQkVAJTLxSWgvqi
- tOeleLrLTdFSC7GUtW+tfGbmwpiTOmTsWLCZDSAzwqZVzc39+KZOjy7Z4e7KRPgy59bk
- IHAnuxwLlD4GVvO8pcWKwN81SWn16kG52s/nYQB/geVBd+j/HZz3NDu8zaA9uhE5g2VX
- GIE33h5fWl1ilHcc2vlY+sz3Doc/vxobz01kcOaq+QyAnnPah8uHTufzXh4IyGyIdGcg
- 3dWkLrbou1pRz9zGfEGS1Ug1Bxaf5pH3ABEkr7bSxr5g+McSVlLF512pBH5JtAQ6UpW+
- h7DA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=wamW7hYAj2E7NHVJ2kYlcGI8TPeS64VluiCzCHS51oI=;
- b=xk9vTV6aj15McnTIEME8uo8bLb4i2hA8QD1QaGbeTrBxzcRgwWTsmpZsKSyMUax5Tb
- C5EKQzEm+FVGZMQhq0YzbRcwhb8xMInjIEcjB1+HNk6hgmqwOoyopUZU7ntgZnGsrPvL
- ne64/3oQBW/ZAFSj4iK41k5QagbtFJUBC10MdmpX/qRcU03AngOHCTucxbtnpFZgmxXW
- W5LUw2CE9R4Qqzf6G0sqTlmR4hkig3n7uzqQBBZGtE6qIIs68PJGLzBTtcItWO+IzvuY
- /C1N//R/NIdWcHxTnDBSsoEKH0fus1IZmYCtiNt9ayvxflOXpnoxCVytX5NbaUo7EEfp
- 7Y0g==
-X-Gm-Message-State: AOAM530mC0y9pV7feN7zxmsxvmLVeCKm76RVNoC8vQKsBtsjqAyexnf5
- PjbHecLhlW0/ufB1185UV61Rnfe/lFF6HRhhj+2kAQ==
-X-Google-Smtp-Source: ABdhPJxbeCvTZjttlZl3PL4Kr5CseBKn9piBHnaBNLLOuO0a4qNPkAaphzqoOH5L2fJLw0HydLBRYpFiRRv51yywhio=
-X-Received: by 2002:a5d:62c4:: with SMTP id o4mr1096694wrv.319.1644580337492; 
- Fri, 11 Feb 2022 03:52:17 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1nIUVf-00017a-Qc
+ for qemu-devel@nongnu.org; Fri, 11 Feb 2022 06:54:43 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:31534)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1nIUVc-0007g2-Io
+ for qemu-devel@nongnu.org; Fri, 11 Feb 2022 06:54:42 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1644580478;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=w72ONOiYvw75ZOHe2ORIlweVqO3P1Xf/1XXkGdpxqiE=;
+ b=SSDnD4Xu0FCutO2IR01Tj4llybHbvvaJYFVyV9FjL5GYFKemsRpehqFa5zSABc/EGZqkAc
+ 1gY3SeGB1UYFZoQaAH0TTn6wK3lvzLOXJPoPbiWimH2Ijq5ma68J63KB6wcANDNzOrQx1h
+ X4rOE4yGOe4W4hwtSN4n0oxpvF0dpIw=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-202-EKOnlJk_OAS_WN4-3a-33w-1; Fri, 11 Feb 2022 06:54:35 -0500
+X-MC-Unique: EKOnlJk_OAS_WN4-3a-33w-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6514E192D787;
+ Fri, 11 Feb 2022 11:54:34 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.194.97])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 1A09E7C0F9;
+ Fri, 11 Feb 2022 11:54:31 +0000 (UTC)
+Date: Fri, 11 Feb 2022 12:54:30 +0100
+From: Kevin Wolf <kwolf@redhat.com>
+To: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+Subject: Re: [PATCH 1/6] block/io.c: fix bdrv_child_cb_drained_begin
+ invocations from a coroutine
+Message-ID: <YgZOdni4B7/mIQQ6@redhat.com>
+References: <20220208153655.1251658-1-eesposit@redhat.com>
+ <20220208153655.1251658-2-eesposit@redhat.com>
 MIME-Version: 1.0
-References: <20220210113021.3799514-1-alex.bennee@linaro.org>
- <20220210113021.3799514-2-alex.bennee@linaro.org>
- <8b6fca38-8a4e-af35-f202-86a5a3f98e47@amsat.org>
-In-Reply-To: <8b6fca38-8a4e-af35-f202-86a5a3f98e47@amsat.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 11 Feb 2022 11:52:06 +0000
-Message-ID: <CAFEAcA-2=TD9FeOn9ZJLBmJJBfQhOKSTRWpOXEw0AVktWmE6vA@mail.gmail.com>
-Subject: Re: [PATCH v5 1/2] semihosting/arm-compat: replace heuristic for
- softmmu SYS_HEAPINFO
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::434
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::434;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x434.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+In-Reply-To: <20220208153655.1251658-2-eesposit@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -85,50 +78,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Keith Packard <keithp@keithp.com>, Andrew Strauss <astrauss11@gmail.com>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org,
- qemu-arm@nongnu.org
+Cc: Fam Zheng <fam@euphon.net>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-block@nongnu.org,
+ qemu-devel@nongnu.org, Hanna Reitz <hreitz@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 10 Feb 2022 at 11:48, Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>=
- wrote:
->
-> Hi Alex,
->
-> On 10/2/22 12:30, Alex Benn=C3=A9e wrote:
-> > The previous numbers were a guess at best and rather arbitrary without
-> > taking into account anything that might be loaded. Instead of using
-> > guesses based on the state of registers implement a new function that:
-> >
-> >   a) scans the MemoryRegions for the largest RAM block
-> >   b) iterates through all "ROM" blobs looking for the biggest gap
-> >
-> > The "ROM" blobs include all code loaded via -kernel and the various
-> > -device loader techniques.
-> >
-> > Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-> > Cc: Andrew Strauss <astrauss11@gmail.com>
-> > Cc: Keith Packard <keithp@keithp.com>
-> > Message-Id: <20210601090715.22330-1-alex.bennee@linaro.org>
->
-> > +static LayoutInfo common_semi_find_bases(CPUState *cs)
-> >   {
-> > -    MemoryRegion *subregion;
-> > +    FlatView *fv;
-> > +    LayoutInfo info =3D { 0, 0, 0, 0 };
-> > +
-> > +    RCU_READ_LOCK_GUARD();
-> > +
-> > +    fv =3D address_space_to_flatview(cs->as);
->
-> Why are we using the CPU view and not address_space_memory?
+Am 08.02.2022 um 16:36 hat Emanuele Giuseppe Esposito geschrieben:
+> Using bdrv_do_drained_begin_quiesce() in bdrv_child_cb_drained_begin()
+> is not a good idea: the callback might be called when running
+> a drain in a coroutine, and bdrv_drained_begin_poll() does not
+> handle that case, resulting in assertion failure.
 
-If you have a choice between "use the right view of an
-address space" and "use the global address_space_memory",
-it's better to prefer the former, I think. We use the
-latter in lots of places, but it's not conceptually the
-right way to think about how the memory system works IMHO.
+I remembered that we talked about this only recently on IRC, but it
+didn't make any sense to me again when I read this commit message. So I
+think we need --verbose.
 
--- PMM
+The .drained_begin callback was always meant to run outside of coroutine
+context, so the unexpected part isn't that it calls a function that
+can't run in coroutine context, but that it is already called itself in
+coroutine context.
+
+The problematic path is bdrv_replace_child_noperm() which then calls
+bdrv_parent_drained_begin_single(poll=true). Polling in coroutine
+context is dangerous, it can cause deadlocks because the caller of the
+coroutine can't make progress. So I believe this call is already wrong
+in coroutine context.
+
+Now I don't know the call path up to bdrv_replace_child_noperm(), but as
+far as I remember, that was another function that was originally never
+run in coroutine context. Maybe we have good reason to change this, I
+can't point to anything that would be inherently wrong with it, but I
+would still be curious in which context it does run in a coroutine now.
+
+Anyway, whatever the specific place is, I believe we must drop out of
+coroutine context _before_ calling bdrv_parent_drained_begin_single(),
+not only in callbacks called by it.
+
+> Instead, bdrv_do_drained_begin with no recursion and poll
+> will accomplish the same thing (invoking bdrv_do_drained_begin_quiesce)
+> but will firstly check if we are already in a coroutine, and exit
+> from that via bdrv_co_yield_to_drain().
+> 
+> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+
+Kevin
+
 
