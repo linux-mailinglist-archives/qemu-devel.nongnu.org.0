@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32DD84B25BC
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Feb 2022 13:28:52 +0100 (CET)
-Received: from localhost ([::1]:49184 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 25C114B25BA
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Feb 2022 13:28:15 +0100 (CET)
+Received: from localhost ([::1]:47812 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nIV2h-0006EK-AB
-	for lists+qemu-devel@lfdr.de; Fri, 11 Feb 2022 07:28:51 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:38648)
+	id 1nIV26-0005Gw-6B
+	for lists+qemu-devel@lfdr.de; Fri, 11 Feb 2022 07:28:14 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:39322)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1nIUkM-0006lt-Fi
- for qemu-devel@nongnu.org; Fri, 11 Feb 2022 07:09:55 -0500
-Received: from frasgout.his.huawei.com ([185.176.79.56]:2280)
+ id 1nIUnl-00037w-BV
+ for qemu-devel@nongnu.org; Fri, 11 Feb 2022 07:13:25 -0500
+Received: from frasgout.his.huawei.com ([185.176.79.56]:2287)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1nIUkJ-0002Ue-Hg
- for qemu-devel@nongnu.org; Fri, 11 Feb 2022 07:09:53 -0500
-Received: from fraeml705-chm.china.huawei.com (unknown [172.18.147.207])
- by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4JwC8D4w4hz67mgD;
- Fri, 11 Feb 2022 20:09:00 +0800 (CST)
+ id 1nIUnj-0003gF-KK
+ for qemu-devel@nongnu.org; Fri, 11 Feb 2022 07:13:25 -0500
+Received: from fraeml741-chm.china.huawei.com (unknown [172.18.147.201])
+ by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4JwCF43n7gz67QKq;
+ Fri, 11 Feb 2022 20:13:12 +0800 (CST)
 Received: from lhreml710-chm.china.huawei.com (10.201.108.61) by
- fraeml705-chm.china.huawei.com (10.206.15.54) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.2308.21; Fri, 11 Feb 2022 13:09:46 +0100
+ fraeml741-chm.china.huawei.com (10.206.15.222) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.21; Fri, 11 Feb 2022 13:13:21 +0100
 Received: from SecurePC-101-06.china.huawei.com (10.122.247.231) by
  lhreml710-chm.china.huawei.com (10.201.108.61) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.21; Fri, 11 Feb 2022 12:09:45 +0000
+ 15.1.2308.21; Fri, 11 Feb 2022 12:13:21 +0000
 To: <qemu-devel@nongnu.org>, =?UTF-8?q?Alex=20Benn=C3=A9e?=
  <alex.bennee@linaro.org>, Marcel Apfelbaum <marcel@redhat.com>, "Michael S .
  Tsirkin" <mst@redhat.com>, Igor Mammedov <imammedo@redhat.com>
@@ -40,9 +40,9 @@ CC: <linux-cxl@vger.kernel.org>, Ben Widawsky <ben.widawsky@intel.com>, "Peter
  <saransh@ibm.com>, Shreyas Shah <shreyas.shah@elastics.cloud>, Chris Browy
  <cbrowy@avery-design.com>, Samarth Saxena <samarths@cadence.com>, "Dan
  Williams" <dan.j.williams@intel.com>
-Subject: [PATCH v6 04/43] hw/cxl/device: Introduce a CXL device (8.2.8)
-Date: Fri, 11 Feb 2022 12:07:08 +0000
-Message-ID: <20220211120747.3074-5-Jonathan.Cameron@huawei.com>
+Subject: [PATCH v6 11/43] hw/pxb: Use a type for realizing expanders
+Date: Fri, 11 Feb 2022 12:07:15 +0000
+Message-ID: <20220211120747.3074-12-Jonathan.Cameron@huawei.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20220211120747.3074-1-Jonathan.Cameron@huawei.com>
 References: <20220211120747.3074-1-Jonathan.Cameron@huawei.com>
@@ -80,205 +80,66 @@ From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 
 From: Ben Widawsky <ben.widawsky@intel.com>
 
-A CXL device is a type of CXL component. Conceptually, a CXL device
-would be a leaf node in a CXL topology. From an emulation perspective,
-CXL devices are the most complex and so the actual implementation is
-reserved for discrete commits.
-
-This new device type is specifically catered towards the eventual
-implementation of a Type3 CXL.mem device, 8.2.8.5 in the CXL 2.0
-specification.
+This opens up the possibility for more types of expanders (other than
+PCI and PCIe). We'll need this to create a CXL expander.
 
 Signed-off-by: Ben Widawsky <ben.widawsky@intel.com>
 Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
 Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- include/hw/cxl/cxl.h        |   1 +
- include/hw/cxl/cxl_device.h | 165 ++++++++++++++++++++++++++++++++++++
- 2 files changed, 166 insertions(+)
+ hw/pci-bridge/pci_expander_bridge.c | 11 +++++++----
+ 1 file changed, 7 insertions(+), 4 deletions(-)
 
-diff --git a/include/hw/cxl/cxl.h b/include/hw/cxl/cxl.h
-index 8c738c7a2b..b9d1ac3fad 100644
---- a/include/hw/cxl/cxl.h
-+++ b/include/hw/cxl/cxl.h
-@@ -12,5 +12,6 @@
+diff --git a/hw/pci-bridge/pci_expander_bridge.c b/hw/pci-bridge/pci_expander_bridge.c
+index de932286b5..d4514227a8 100644
+--- a/hw/pci-bridge/pci_expander_bridge.c
++++ b/hw/pci-bridge/pci_expander_bridge.c
+@@ -24,6 +24,8 @@
+ #include "hw/boards.h"
+ #include "qom/object.h"
  
- #include "cxl_pci.h"
- #include "cxl_component.h"
-+#include "cxl_device.h"
++enum BusType { PCI, PCIE };
++
+ #define TYPE_PXB_BUS "pxb-bus"
+ typedef struct PXBBus PXBBus;
+ DECLARE_INSTANCE_CHECKER(PXBBus, PXB_BUS,
+@@ -221,7 +223,8 @@ static gint pxb_compare(gconstpointer a, gconstpointer b)
+            0;
+ }
  
- #endif
-diff --git a/include/hw/cxl/cxl_device.h b/include/hw/cxl/cxl_device.h
-new file mode 100644
-index 0000000000..b2416e45bf
---- /dev/null
-+++ b/include/hw/cxl/cxl_device.h
-@@ -0,0 +1,165 @@
-+/*
-+ * QEMU CXL Devices
-+ *
-+ * Copyright (c) 2020 Intel
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2. See the
-+ * COPYING file in the top-level directory.
-+ */
-+
-+#ifndef CXL_DEVICE_H
-+#define CXL_DEVICE_H
-+
-+#include "hw/register.h"
-+
-+/*
-+ * The following is how a CXL device's MMIO space is laid out. The only
-+ * requirement from the spec is that the capabilities array and the capability
-+ * headers start at offset 0 and are contiguously packed. The headers themselves
-+ * provide offsets to the register fields. For this emulation, registers will
-+ * start at offset 0x80 (m == 0x80). No secondary mailbox is implemented which
-+ * means that n = m + sizeof(mailbox registers) + sizeof(device registers).
-+ *
-+ * This is roughly described in 8.2.8 Figure 138 of the CXL 2.0 spec.
-+ *
-+ *                       +---------------------------------+
-+ *                       |                                 |
-+ *                       |    Memory Device Registers      |
-+ *                       |                                 |
-+ * n + PAYLOAD_SIZE_MAX  -----------------------------------
-+ *                  ^    |                                 |
-+ *                  |    |                                 |
-+ *                  |    |                                 |
-+ *                  |    |                                 |
-+ *                  |    |                                 |
-+ *                  |    |         Mailbox Payload         |
-+ *                  |    |                                 |
-+ *                  |    |                                 |
-+ *                  |    |                                 |
-+ *                  |    -----------------------------------
-+ *                  |    |       Mailbox Registers         |
-+ *                  |    |                                 |
-+ *                  n    -----------------------------------
-+ *                  ^    |                                 |
-+ *                  |    |        Device Registers         |
-+ *                  |    |                                 |
-+ *                  m    ---------------------------------->
-+ *                  ^    |  Memory Device Capability Header|
-+ *                  |    -----------------------------------
-+ *                  |    |     Mailbox Capability Header   |
-+ *                  |    -------------- --------------------
-+ *                  |    |     Device Capability Header    |
-+ *                  |    -----------------------------------
-+ *                  |    |                                 |
-+ *                  |    |                                 |
-+ *                  |    |      Device Cap Array[0..n]     |
-+ *                  |    |                                 |
-+ *                  |    |                                 |
-+ *                       |                                 |
-+ *                  0    +---------------------------------+
-+ *
-+ */
-+
-+#define CXL_DEVICE_CAP_HDR1_OFFSET 0x10 /* Figure 138 */
-+#define CXL_DEVICE_CAP_REG_SIZE 0x10 /* 8.2.8.2 */
-+#define CXL_DEVICE_CAPS_MAX 4 /* 8.2.8.2.1 + 8.2.8.5 */
-+
-+#define CXL_DEVICE_REGISTERS_OFFSET 0x80 /* Read comment above */
-+#define CXL_DEVICE_REGISTERS_LENGTH 0x8 /* 8.2.8.3.1 */
-+
-+#define CXL_MAILBOX_REGISTERS_OFFSET \
-+    (CXL_DEVICE_REGISTERS_OFFSET + CXL_DEVICE_REGISTERS_LENGTH)
-+#define CXL_MAILBOX_REGISTERS_SIZE 0x20 /* 8.2.8.4, Figure 139 */
-+#define CXL_MAILBOX_PAYLOAD_SHIFT 11
-+#define CXL_MAILBOX_MAX_PAYLOAD_SIZE (1 << CXL_MAILBOX_PAYLOAD_SHIFT)
-+#define CXL_MAILBOX_REGISTERS_LENGTH \
-+    (CXL_MAILBOX_REGISTERS_SIZE + CXL_MAILBOX_MAX_PAYLOAD_SIZE)
-+
-+typedef struct cxl_device_state {
-+    MemoryRegion device_registers;
-+
-+    /* mmio for device capabilities array - 8.2.8.2 */
-+    MemoryRegion device;
-+    MemoryRegion caps;
-+
-+    /* mmio for the mailbox registers 8.2.8.4 */
-+    MemoryRegion mailbox;
-+
-+    /* memory region for persistent memory, HDM */
-+    uint64_t pmem_size;
-+} CXLDeviceState;
-+
-+/* Initialize the register block for a device */
-+void cxl_device_register_block_init(Object *obj, CXLDeviceState *dev);
-+
-+/* Set up default values for the register block */
-+void cxl_device_register_init_common(CXLDeviceState *dev);
-+
-+/*
-+ * CXL 2.0 - 8.2.8.1 including errata F4
-+ * Documented as a 128 bit register, but 64 bit accesses and the second
-+ * 64 bits are currently reserved.
-+ */
-+REG64(CXL_DEV_CAP_ARRAY, 0) /* Documented as 128 bit register but 64 byte accesses */
-+    FIELD(CXL_DEV_CAP_ARRAY, CAP_ID, 0, 16)
-+    FIELD(CXL_DEV_CAP_ARRAY, CAP_VERSION, 16, 8)
-+    FIELD(CXL_DEV_CAP_ARRAY, CAP_COUNT, 32, 16)
-+
-+/*
-+ * Helper macro to initialize capability headers for CXL devices.
-+ *
-+ * In the 8.2.8.2, this is listed as a 128b register, but in 8.2.8, it says:
-+ * > No registers defined in Section 8.2.8 are larger than 64-bits wide so that
-+ * > is the maximum access size allowed for these registers. If this rule is not
-+ * > followed, the behavior is undefined
-+ *
-+ * CXL 2.0 Errata F4 states futher that the layouts in the specification are
-+ * shown as greater than 128 bits, but implementations are expected to
-+ * use any size of access up to 64 bits.
-+ *
-+ * Here we've chosen to make it 4 dwords. The spec allows any pow2 multiple
-+ * access to be used for a register up to 64 bits.
-+ */
-+#define CXL_DEVICE_CAPABILITY_HEADER_REGISTER(n, offset)  \
-+    REG32(CXL_DEV_##n##_CAP_HDR0, offset)                 \
-+        FIELD(CXL_DEV_##n##_CAP_HDR0, CAP_ID, 0, 16)      \
-+        FIELD(CXL_DEV_##n##_CAP_HDR0, CAP_VERSION, 16, 8) \
-+    REG32(CXL_DEV_##n##_CAP_HDR1, offset + 4)             \
-+        FIELD(CXL_DEV_##n##_CAP_HDR1, CAP_OFFSET, 0, 32)  \
-+    REG32(CXL_DEV_##n##_CAP_HDR2, offset + 8)             \
-+        FIELD(CXL_DEV_##n##_CAP_HDR2, CAP_LENGTH, 0, 32)
-+
-+CXL_DEVICE_CAPABILITY_HEADER_REGISTER(DEVICE, CXL_DEVICE_CAP_HDR1_OFFSET)
-+CXL_DEVICE_CAPABILITY_HEADER_REGISTER(MAILBOX, CXL_DEVICE_CAP_HDR1_OFFSET + \
-+                                               CXL_DEVICE_CAP_REG_SIZE)
-+
-+REG32(CXL_DEV_MAILBOX_CAP, 0)
-+    FIELD(CXL_DEV_MAILBOX_CAP, PAYLOAD_SIZE, 0, 5)
-+    FIELD(CXL_DEV_MAILBOX_CAP, INT_CAP, 5, 1)
-+    FIELD(CXL_DEV_MAILBOX_CAP, BG_INT_CAP, 6, 1)
-+    FIELD(CXL_DEV_MAILBOX_CAP, MSI_N, 7, 4)
-+
-+REG32(CXL_DEV_MAILBOX_CTRL, 4)
-+    FIELD(CXL_DEV_MAILBOX_CTRL, DOORBELL, 0, 1)
-+    FIELD(CXL_DEV_MAILBOX_CTRL, INT_EN, 1, 1)
-+    FIELD(CXL_DEV_MAILBOX_CTRL, BG_INT_EN, 2, 1)
-+
-+REG64(CXL_DEV_MAILBOX_CMD, 8)
-+    FIELD(CXL_DEV_MAILBOX_CMD, COMMAND, 0, 8)
-+    FIELD(CXL_DEV_MAILBOX_CMD, COMMAND_SET, 8, 8)
-+    FIELD(CXL_DEV_MAILBOX_CMD, LENGTH, 16, 20)
-+
-+REG64(CXL_DEV_MAILBOX_STS, 0x10)
-+    FIELD(CXL_DEV_MAILBOX_STS, BG_OP, 0, 1)
-+    FIELD(CXL_DEV_MAILBOX_STS, ERRNO, 32, 16)
-+    FIELD(CXL_DEV_MAILBOX_STS, VENDOR_ERRNO, 48, 16)
-+
-+REG64(CXL_DEV_BG_CMD_STS, 0x18)
-+    FIELD(CXL_DEV_BG_CMD_STS, BG, 0, 16)
-+    FIELD(CXL_DEV_BG_CMD_STS, DONE, 16, 7)
-+    FIELD(CXL_DEV_BG_CMD_STS, ERRNO, 32, 16)
-+    FIELD(CXL_DEV_BG_CMD_STS, VENDOR_ERRNO, 48, 16)
-+
-+REG32(CXL_DEV_CMD_PAYLOAD, 0x20)
-+
-+#endif
+-static void pxb_dev_realize_common(PCIDevice *dev, bool pcie, Error **errp)
++static void pxb_dev_realize_common(PCIDevice *dev, enum BusType type,
++                                   Error **errp)
+ {
+     PXBDev *pxb = convert_to_pxb(dev);
+     DeviceState *ds, *bds = NULL;
+@@ -246,7 +249,7 @@ static void pxb_dev_realize_common(PCIDevice *dev, bool pcie, Error **errp)
+     }
+ 
+     ds = qdev_new(TYPE_PXB_HOST);
+-    if (pcie) {
++    if (type == PCIE) {
+         bus = pci_root_bus_new(ds, dev_name, NULL, NULL, 0, TYPE_PXB_PCIE_BUS);
+     } else {
+         bus = pci_root_bus_new(ds, "pxb-internal", NULL, NULL, 0, TYPE_PXB_BUS);
+@@ -295,7 +298,7 @@ static void pxb_dev_realize(PCIDevice *dev, Error **errp)
+         return;
+     }
+ 
+-    pxb_dev_realize_common(dev, false, errp);
++    pxb_dev_realize_common(dev, PCI, errp);
+ }
+ 
+ static void pxb_dev_exitfn(PCIDevice *pci_dev)
+@@ -348,7 +351,7 @@ static void pxb_pcie_dev_realize(PCIDevice *dev, Error **errp)
+         return;
+     }
+ 
+-    pxb_dev_realize_common(dev, true, errp);
++    pxb_dev_realize_common(dev, PCIE, errp);
+ }
+ 
+ static void pxb_pcie_dev_class_init(ObjectClass *klass, void *data)
 -- 
 2.32.0
 
