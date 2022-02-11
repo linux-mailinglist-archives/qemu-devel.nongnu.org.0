@@ -2,57 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 932404B2AC7
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Feb 2022 17:46:28 +0100 (CET)
-Received: from localhost ([::1]:58014 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CB33E4B2B17
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Feb 2022 17:57:56 +0100 (CET)
+Received: from localhost ([::1]:45508 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nIZ3z-0006Hk-NP
-	for lists+qemu-devel@lfdr.de; Fri, 11 Feb 2022 11:46:27 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:55106)
+	id 1nIZF5-0000X9-Vm
+	for lists+qemu-devel@lfdr.de; Fri, 11 Feb 2022 11:57:56 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:55140)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nIYuD-0000Wf-7L
- for qemu-devel@nongnu.org; Fri, 11 Feb 2022 11:36:21 -0500
-Received: from [2607:f8b0:4864:20::431] (port=40732
+ id 1nIYuK-0000f4-Kc
+ for qemu-devel@nongnu.org; Fri, 11 Feb 2022 11:36:28 -0500
+Received: from [2607:f8b0:4864:20::431] (port=40734
  helo=mail-pf1-x431.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nIYuB-0002PZ-83
- for qemu-devel@nongnu.org; Fri, 11 Feb 2022 11:36:20 -0500
-Received: by mail-pf1-x431.google.com with SMTP id a39so16371580pfx.7
- for <qemu-devel@nongnu.org>; Fri, 11 Feb 2022 08:36:17 -0800 (PST)
+ id 1nIYuJ-0002QB-2X
+ for qemu-devel@nongnu.org; Fri, 11 Feb 2022 11:36:28 -0500
+Received: by mail-pf1-x431.google.com with SMTP id a39so16372304pfx.7
+ for <qemu-devel@nongnu.org>; Fri, 11 Feb 2022 08:36:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=hZyGzPEisEdB5PdeTihzhFaa05yodaju2Fp/TghNxIc=;
- b=SG8JrUD2fWWBw8VF6r5mDCtjVkiin3eO2yd7/fIo2nRQxxbueywGWqI/vYnSmqA4N7
- RO0XZEELyR06Jmd36bI80m63bmAgT/5T9zdo8FB8TgoWHeZKQFwUDEOtYxPyT+l0x7gC
- HB8uTVUlTerClsA9u/d7ik+9OEMyl1gbbwRFDj2OrOosx8QvV+ODrZAvPaN0cng5YC/D
- vW5acJxIDWTMCb7ohPVZvYxT++vPlDbqnnUOZxeORmDKcN94/ynoVIrWA2tfjEd+/Vee
- 6F0JewGrYNag0snE8pKTfv02ujdbhX5hEvRlgyIjG52vLuEhxOVaMr5QcH1JY96Npwh6
- Q2XQ==
+ bh=ueFe30KAYoKjPHZOLv0QgRUmcJTyJH01k8g/Vbuxj28=;
+ b=M9IhfeGEzCS7txqpK8JfxYzN0zGve+ov50Y5HuUmy3XKeoZUt1oW+tbafTLlsIhGJZ
+ kOwqOzGhScvrNXMe7+dpUeCpEHl5OG9SexJMdu2sc3ua9LH09CiSGJBIpqpDpPQiYE6e
+ 20MI8MP15u4D1dVrLWDRlsEgcD+HGASyFeBbQR3f9FqS9WPYjoMJYmzD2NDD6yNXsHTS
+ nVMjMHuOvV1yJP/q0ko+UYKJ8JXtxjFx8TccKztgnh671UeabW/QNWvl1XmKeoqURwb3
+ kcNOqaGhF7V81quUPTh1E0EQzcFCSb3+boe7as6K9TTLx96SgYQUDtfZyxItiDiSMw+w
+ Fy2w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=hZyGzPEisEdB5PdeTihzhFaa05yodaju2Fp/TghNxIc=;
- b=vKl9+LTTHsz/7h7W4+r4IsplmrzKv9bQs0lL8C5TQaz9WZ5Ea8VOh7XZPBFcYpENX6
- WvzuJwTUjld5rIvZUYT3nBofG3RpOeNz6CGNlz/x91xjkvo8CIuWvzh94hJn0LzH0htA
- hNJAiYNEIsZhoYZLcjdYCF/2WikyUqEA1tXtuIKeLr1mB3/5IgVl3sED+K6kV5jxcEEB
- dMmltHnkc3ZzvvIxdETwSb5Ckampbo4ePF+KHrXFygK3qhFydC/e8iInRtC0yQwCcH89
- CTYwQG4BMIyUodPAM5CsifI8iXt1+BZ6j8/u008F35bjJUZNOR1oy62+6ODjETl+sPVl
- mryQ==
-X-Gm-Message-State: AOAM530UV7Eyhe3ebTECambLPBBjzdXDP7jPtTF0ZWfj8DaIl5J68FN1
- NMl85e6sZYYgIHCNh4w90RJlT6TLZic=
-X-Google-Smtp-Source: ABdhPJxydASZEfHPxrfF0itHkcVyHUl+2gTEx8/fLAtPOhwLOaooMoH4HlLNe6hBYiXvZ+eX6tKV9A==
-X-Received: by 2002:a63:e207:: with SMTP id q7mr1999565pgh.593.1644597376744; 
- Fri, 11 Feb 2022 08:36:16 -0800 (PST)
+ bh=ueFe30KAYoKjPHZOLv0QgRUmcJTyJH01k8g/Vbuxj28=;
+ b=X612gnUTQVcMlQOeeCGj1EVfjrP0hjMI4/YVM+tiqPJNLP0/thEb++L6J4H6/UEp5Q
+ Y/yRt3NpFxyLM5bOe8PFPM2HF8BHcPFBZGfbchnvwXBRC4zH5SyuDmvFSkyIYjEE5Ur/
+ sEIUak9/rCnWnZjNSoa1WWEqT2AqG3e1mCsPe1rGWjM4rH4q3B3/dNIBx9FGiEhN/opC
+ dIqHcvYUzcg++uY0PsiJQe8n9yOW7mzgCvVvzg01SwAncgY8rf/MxkGm5Dz6kQBs87Q+
+ i9wDxYjJQxLF7dzz7eg5O4IAgAq19CAdFOcjaquUXwpPN90EWj47+LkneZ49vMuzdCoP
+ LznA==
+X-Gm-Message-State: AOAM532mL/UjtD53e+neE+N8C18giM83OT/KNAWHSr9Or6BbCUFKq/Ey
+ GR7LEMdbagQv57gDh33BXo8BLYHfseU=
+X-Google-Smtp-Source: ABdhPJwV5N1BASOfi0vqB0CIT5JmE8RVFMRQzg+SRKQpUjysPfk77Ql7wyVNx0iEYaLM4HZFklmjbA==
+X-Received: by 2002:a05:6a00:a8e:: with SMTP id
+ b14mr2414582pfl.32.1644597385800; 
+ Fri, 11 Feb 2022 08:36:25 -0800 (PST)
 Received: from localhost.localdomain (154.red-83-50-83.dynamicip.rima-tde.net.
  [83.50.83.154])
- by smtp.gmail.com with ESMTPSA id rj12sm5859278pjb.41.2022.02.11.08.36.13
+ by smtp.gmail.com with ESMTPSA id rj1sm6191919pjb.49.2022.02.11.08.36.22
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Fri, 11 Feb 2022 08:36:16 -0800 (PST)
+ Fri, 11 Feb 2022 08:36:25 -0800 (PST)
 To: qemu-devel@nongnu.org
 Cc: Cameron Esfahani <dirty@apple.com>,
  Peter Maydell <peter.maydell@linaro.org>, Will Cohen <wwcohen@gmail.com>,
@@ -60,12 +61,10 @@ Cc: Cameron Esfahani <dirty@apple.com>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  Christian Schoenebeck <qemu_oss@crudebyte.com>,
  Roman Bolshakov <r.bolshakov@yadro.com>, Li Zhang <lizhang@suse.de>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Roman Bolshakov <roman@roolebo.dev>
-Subject: [PATCH v4 10/13] audio/coreaudio: Remove a deprecation warning on
- macOS 12
-Date: Fri, 11 Feb 2022 17:34:31 +0100
-Message-Id: <20220211163434.58423-11-f4bug@amsat.org>
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Subject: [PATCH v4 11/13] audio/dbus: Fix building with modules on macOS
+Date: Fri, 11 Feb 2022 17:34:32 +0100
+Message-Id: <20220211163434.58423-12-f4bug@amsat.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220211163434.58423-1-f4bug@amsat.org>
 References: <20220211163434.58423-1-f4bug@amsat.org>
@@ -102,93 +101,34 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reply-to:  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 From:  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= via <qemu-devel@nongnu.org>
 
-When building on macOS 12 we get:
+When configuring QEMU with --enable-modules we get on macOS:
 
-  audio/coreaudio.c:50:5: error: 'kAudioObjectPropertyElementMaster' is deprecated: first deprecated in macOS 12.0 [-Werror,-Wdeprecated-declarations]
-      kAudioObjectPropertyElementMaster
-      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      kAudioObjectPropertyElementMain
-  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/CoreAudio.framework/Headers/AudioHardwareBase.h:208:5: note: 'kAudioObjectPropertyElementMaster' has been explicitly marked deprecated here
-      kAudioObjectPropertyElementMaster API_DEPRECATED_WITH_REPLACEMENT("kAudioObjectPropertyElementMain", macos(10.0, 12.0), ios(2.0, 15.0), watchos(1.0, 8.0), tvos(9.0, 15.0)) = kAudioObjectPropertyElementMain
-      ^
+  --- stderr ---
+  Dependency ui-dbus cannot be satisfied
 
-Replace by kAudioObjectPropertyElementMain, redefining it to
-kAudioObjectPropertyElementMaster if not available.
+ui-dbus depends on pixman and opengl, so add these dependencies
+to audio-dbus.
 
-Suggested-by: Akihiko Odaki <akihiko.odaki@gmail.com>
-Suggested-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
-Suggested-by: Roman Bolshakov <roman@roolebo.dev>
+Fixes: 739362d420 ("audio: add "dbus" audio backend")
+Reviewed-by: Li Zhang <lizhang@suse.de>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- audio/coreaudio.c | 17 +++++++++++------
- 1 file changed, 11 insertions(+), 6 deletions(-)
+ audio/meson.build | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/audio/coreaudio.c b/audio/coreaudio.c
-index d8a21d3e50..5b3aeaced0 100644
---- a/audio/coreaudio.c
-+++ b/audio/coreaudio.c
-@@ -44,10 +44,15 @@ typedef struct coreaudioVoiceOut {
-     bool enabled;
- } coreaudioVoiceOut;
+diff --git a/audio/meson.build b/audio/meson.build
+index 0ac3791d0b..d9b295514f 100644
+--- a/audio/meson.build
++++ b/audio/meson.build
+@@ -28,7 +28,7 @@ endforeach
  
-+#if !defined(MAC_OS_VERSION_12_0) \
-+    || (MAC_OS_X_VERSION_MAX_ALLOWED < MAC_OS_VERSION_12_0)
-+#define kAudioObjectPropertyElementMain kAudioObjectPropertyElementMaster
-+#endif
-+
- static const AudioObjectPropertyAddress voice_addr = {
-     kAudioHardwarePropertyDefaultOutputDevice,
-     kAudioObjectPropertyScopeGlobal,
--    kAudioObjectPropertyElementMaster
-+    kAudioObjectPropertyElementMain
- };
+ if dbus_display
+     module_ss = ss.source_set()
+-    module_ss.add(when: gio, if_true: files('dbusaudio.c'))
++    module_ss.add(when: [gio, pixman, opengl, 'CONFIG_GIO'], if_true: files('dbusaudio.c'))
+     audio_modules += {'dbus': module_ss}
+ endif
  
- static OSStatus coreaudio_get_voice(AudioDeviceID *id)
-@@ -69,7 +74,7 @@ static OSStatus coreaudio_get_framesizerange(AudioDeviceID id,
-     AudioObjectPropertyAddress addr = {
-         kAudioDevicePropertyBufferFrameSizeRange,
-         kAudioDevicePropertyScopeOutput,
--        kAudioObjectPropertyElementMaster
-+        kAudioObjectPropertyElementMain
-     };
- 
-     return AudioObjectGetPropertyData(id,
-@@ -86,7 +91,7 @@ static OSStatus coreaudio_get_framesize(AudioDeviceID id, UInt32 *framesize)
-     AudioObjectPropertyAddress addr = {
-         kAudioDevicePropertyBufferFrameSize,
-         kAudioDevicePropertyScopeOutput,
--        kAudioObjectPropertyElementMaster
-+        kAudioObjectPropertyElementMain
-     };
- 
-     return AudioObjectGetPropertyData(id,
-@@ -103,7 +108,7 @@ static OSStatus coreaudio_set_framesize(AudioDeviceID id, UInt32 *framesize)
-     AudioObjectPropertyAddress addr = {
-         kAudioDevicePropertyBufferFrameSize,
-         kAudioDevicePropertyScopeOutput,
--        kAudioObjectPropertyElementMaster
-+        kAudioObjectPropertyElementMain
-     };
- 
-     return AudioObjectSetPropertyData(id,
-@@ -121,7 +126,7 @@ static OSStatus coreaudio_set_streamformat(AudioDeviceID id,
-     AudioObjectPropertyAddress addr = {
-         kAudioDevicePropertyStreamFormat,
-         kAudioDevicePropertyScopeOutput,
--        kAudioObjectPropertyElementMaster
-+        kAudioObjectPropertyElementMain
-     };
- 
-     return AudioObjectSetPropertyData(id,
-@@ -138,7 +143,7 @@ static OSStatus coreaudio_get_isrunning(AudioDeviceID id, UInt32 *result)
-     AudioObjectPropertyAddress addr = {
-         kAudioDevicePropertyDeviceIsRunning,
-         kAudioDevicePropertyScopeOutput,
--        kAudioObjectPropertyElementMaster
-+        kAudioObjectPropertyElementMain
-     };
- 
-     return AudioObjectGetPropertyData(id,
 -- 
 2.34.1
 
