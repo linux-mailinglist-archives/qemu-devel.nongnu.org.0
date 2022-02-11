@@ -2,58 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 161074B1CF6
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Feb 2022 04:32:31 +0100 (CET)
-Received: from localhost ([::1]:57588 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E99764B1CFA
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Feb 2022 04:35:49 +0100 (CET)
+Received: from localhost ([::1]:59844 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nIMfd-0000oI-Nl
-	for lists+qemu-devel@lfdr.de; Thu, 10 Feb 2022 22:32:29 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:38370)
+	id 1nIMiq-0002xq-J7
+	for lists+qemu-devel@lfdr.de; Thu, 10 Feb 2022 22:35:48 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:38956)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <tsimpson@qualcomm.com>)
- id 1nIMdw-0008Qz-5f
- for qemu-devel@nongnu.org; Thu, 10 Feb 2022 22:30:44 -0500
-Received: from alexa-out.qualcomm.com ([129.46.98.28]:43819)
- by eggs.gnu.org with esmtps (TLS1.2:RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <tsimpson@qualcomm.com>)
- id 1nIMdt-0000K9-Tf
- for qemu-devel@nongnu.org; Thu, 10 Feb 2022 22:30:43 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1644550242; x=1676086242;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=aglzCQAllTtYT1KBWznnI4qmsENKqBT/HTV75/c5yW4=;
- b=PH8u2Bu2bpDTtfwIy5JBauEyZiEEKJ6e093FkNvqq0sMiQ8M4/4ZIYvg
- Y433ooKipFCoTvU6nsQeoc3JgSNV8sKYSUSyMZjnZWTcp2aZkeH+/mu4Y
- R15LwPjF5NbfDK2y4pxnYWx4EQPE+4fJSjS+H0s1RzirlHSr2BLm+Z5Zf E=;
-Received: from ironmsg-lv-alpha.qualcomm.com ([10.47.202.13])
- by alexa-out.qualcomm.com with ESMTP; 10 Feb 2022 19:30:37 -0800
-X-QCInternal: smtphost
-Received: from hu-tsimpson-lv.qualcomm.com (HELO
- hu-devc-lv-u18-c.qualcomm.com) ([10.47.235.220])
- by ironmsg-lv-alpha.qualcomm.com with ESMTP; 10 Feb 2022 19:30:36 -0800
-Received: by hu-devc-lv-u18-c.qualcomm.com (Postfix, from userid 47164)
- id 97CC9500583; Thu, 10 Feb 2022 19:30:36 -0800 (PST)
-From: Taylor Simpson <tsimpson@quicinc.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] Hexagon (target/hexagon) convert to OBJECT_DECLARE_TYPE
-Date: Thu, 10 Feb 2022 19:30:34 -0800
-Message-Id: <20220211033034.21107-1-tsimpson@quicinc.com>
-X-Mailer: git-send-email 2.17.1
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nIMgh-0001s1-Nz
+ for qemu-devel@nongnu.org; Thu, 10 Feb 2022 22:33:35 -0500
+Received: from [2607:f8b0:4864:20::42e] (port=45629
+ helo=mail-pf1-x42e.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nIMgg-0000b7-4Z
+ for qemu-devel@nongnu.org; Thu, 10 Feb 2022 22:33:35 -0500
+Received: by mail-pf1-x42e.google.com with SMTP id 9so11022144pfx.12
+ for <qemu-devel@nongnu.org>; Thu, 10 Feb 2022 19:33:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=lROn3cSfRDU8gI5izpOOqSipofUN8L8jNPRfpHEW2WU=;
+ b=ZfgWIeMahKT+KhEu9m+m1MZJDOBIes/VBYvcuIg2EnYVK8E/J4Rmdi+mr4oWE5mvBt
+ Ju+/D/JYoiCu16hdirIsJIT+z+MsddrMiZ4WQLlu+WOkhDek+U4YTV1zKcmP0W/+eJk2
+ 41R7bhU246BU48bdteFExE8ugF/jBagul3/fMlW+PA2QG9sdJwv6gOQW5ay+6PV2cnSm
+ V2Pl0ljMnf14xM/MY7pXR+C4MBA42oPv33ouDvNXIB0hzxQnMX9qWNI4/KIBmCaJdANB
+ 1DbhZnwS+OMeyOg9yZlWppWAbzof7Y3AZKmjqfgU5yPkMYhxJ6LALBnMEO3h1VAL+OcH
+ pUFQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=lROn3cSfRDU8gI5izpOOqSipofUN8L8jNPRfpHEW2WU=;
+ b=acbMoEmo7fvCM9qw4stJXgo4qeC4sTeWbitkwTl9wpRCCR/1gM0KvJ/RqANvmyHMkx
+ EZ2esZd8d/m1ZtM1/ba/8dwhaw9N6hQkLN8Wn3cMf3dkgMYfZ872/5oxPUMxD9yJqqLa
+ f1AP5AUPPUZMU4Rq9yJdQJBnDHgHX01vDxYhK/A8pMcAyBWL5TicD5V7rQyPYA9B62Au
+ 5NON93UbNjf6AGDKZLlTJ9ffPr+0RlHzeXVi40u2M2hx7H6D9sLzN+4o+YxE3msOJgki
+ jkcMF2YLk24obMALOJLa85aE/anVA6z5cs+HGOmD5DODLKPSW3tyhXcEGQ6kkVnqSiX/
+ 2PGw==
+X-Gm-Message-State: AOAM5335EH2ZVaSgrZWye9p3zUCqf+O53eSlI8smuJIDZ36AL8NM859x
+ IFmv2SWro8ciferbryph2ANgDg==
+X-Google-Smtp-Source: ABdhPJy9yhKq/WyREv/ih8vI6DLlgX8L20JCSmDa7IWrQaWuACbEeuFrMn4arUr+uYTgW9J/A3N+1w==
+X-Received: by 2002:a63:6806:: with SMTP id d6mr8664368pgc.62.1644550412596;
+ Thu, 10 Feb 2022 19:33:32 -0800 (PST)
+Received: from [10.0.0.163] ([124.189.222.164])
+ by smtp.gmail.com with ESMTPSA id y30sm4615791pfq.142.2022.02.10.19.33.29
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 10 Feb 2022 19:33:32 -0800 (PST)
+Message-ID: <d7694a46-8ed2-9e7a-feb1-7129a4aae0db@linaro.org>
+Date: Fri, 11 Feb 2022 14:32:43 +1100
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Received-SPF: pass client-ip=129.46.98.28; envelope-from=tsimpson@qualcomm.com;
- helo=alexa-out.qualcomm.com
-X-Spam_score_int: -40
-X-Spam_score: -4.1
-X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.248,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH] Hexagon (target/hexagon) convert to OBJECT_DECLARE_TYPE
+Content-Language: en-US
+To: Taylor Simpson <tsimpson@quicinc.com>, qemu-devel@nongnu.org
+References: <20220211033034.21107-1-tsimpson@quicinc.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20220211033034.21107-1-tsimpson@quicinc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::42e
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42e;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42e.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -66,30 +90,18 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: ale@rev.ng, bcain@quicinc.com, richard.henderson@linaro.org,
- f4bug@amsat.org, tsimpson@quicinc.com, mlambert@quicinc.com
+Cc: ale@rev.ng, bcain@quicinc.com, mlambert@quicinc.com, f4bug@amsat.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-U3VnZ2VzdGVkLWJ5OiBSaWNoYXJkIEhlbmRlcnNvbiA8cmljaGFyZC5oZW5kZXJzb25AbGluYXJv
-Lm9yZz4KU2lnbmVkLW9mZi1ieTogVGF5bG9yIFNpbXBzb24gPHRzaW1wc29uQHF1aWNpbmMuY29t
-PgotLS0KIHRhcmdldC9oZXhhZ29uL2NwdS5oIHwgOSArKy0tLS0tLS0KIDEgZmlsZSBjaGFuZ2Vk
-LCAyIGluc2VydGlvbnMoKyksIDcgZGVsZXRpb25zKC0pCgpkaWZmIC0tZ2l0IGEvdGFyZ2V0L2hl
-eGFnb24vY3B1LmggYi90YXJnZXQvaGV4YWdvbi9jcHUuaAppbmRleCA1OGEwZDM4NzBiLi5lM2Vm
-YmIyMzAzIDEwMDY0NAotLS0gYS90YXJnZXQvaGV4YWdvbi9jcHUuaAorKysgYi90YXJnZXQvaGV4
-YWdvbi9jcHUuaApAQCAtMSw1ICsxLDUgQEAKIC8qCi0gKiAgQ29weXJpZ2h0KGMpIDIwMTktMjAy
-MSBRdWFsY29tbSBJbm5vdmF0aW9uIENlbnRlciwgSW5jLiBBbGwgUmlnaHRzIFJlc2VydmVkLgor
-ICogIENvcHlyaWdodChjKSAyMDE5LTIwMjIgUXVhbGNvbW0gSW5ub3ZhdGlvbiBDZW50ZXIsIElu
-Yy4gQWxsIFJpZ2h0cyBSZXNlcnZlZC4KICAqCiAgKiAgVGhpcyBwcm9ncmFtIGlzIGZyZWUgc29m
-dHdhcmU7IHlvdSBjYW4gcmVkaXN0cmlidXRlIGl0IGFuZC9vciBtb2RpZnkKICAqICBpdCB1bmRl
-ciB0aGUgdGVybXMgb2YgdGhlIEdOVSBHZW5lcmFsIFB1YmxpYyBMaWNlbnNlIGFzIHB1Ymxpc2hl
-ZCBieQpAQCAtMTMxLDEyICsxMzEsNyBAQCBzdHJ1Y3QgQ1BVSGV4YWdvblN0YXRlIHsKICAgICBW
-VENNU3RvcmVMb2cgdnRjbV9sb2c7CiB9OwogCi0jZGVmaW5lIEhFWEFHT05fQ1BVX0NMQVNTKGts
-YXNzKSBcCi0gICAgT0JKRUNUX0NMQVNTX0NIRUNLKEhleGFnb25DUFVDbGFzcywgKGtsYXNzKSwg
-VFlQRV9IRVhBR09OX0NQVSkKLSNkZWZpbmUgSEVYQUdPTl9DUFUob2JqKSBcCi0gICAgT0JKRUNU
-X0NIRUNLKEhleGFnb25DUFUsIChvYmopLCBUWVBFX0hFWEFHT05fQ1BVKQotI2RlZmluZSBIRVhB
-R09OX0NQVV9HRVRfQ0xBU1Mob2JqKSBcCi0gICAgT0JKRUNUX0dFVF9DTEFTUyhIZXhhZ29uQ1BV
-Q2xhc3MsIChvYmopLCBUWVBFX0hFWEFHT05fQ1BVKQorT0JKRUNUX0RFQ0xBUkVfVFlQRShIZXhh
-Z29uQ1BVLCBIZXhhZ29uQ1BVQ2xhc3MsIEhFWEFHT05fQ1BVKQogCiB0eXBlZGVmIHN0cnVjdCBI
-ZXhhZ29uQ1BVQ2xhc3MgewogICAgIC8qPCBwcml2YXRlID4qLwotLSAKMi4xNy4xCgo=
+On 2/11/22 14:30, Taylor Simpson wrote:
+> Suggested-by: Richard Henderson<richard.henderson@linaro.org>
+> Signed-off-by: Taylor Simpson<tsimpson@quicinc.com>
+> ---
+>   target/hexagon/cpu.h | 9 ++-------
+>   1 file changed, 2 insertions(+), 7 deletions(-)
+
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+
+r~
 
