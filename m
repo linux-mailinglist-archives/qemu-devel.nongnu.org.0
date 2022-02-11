@@ -2,60 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D6B04B242E
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Feb 2022 12:21:35 +0100 (CET)
-Received: from localhost ([::1]:34026 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5125B4B243A
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Feb 2022 12:24:12 +0100 (CET)
+Received: from localhost ([::1]:42812 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nITza-0001sF-5V
-	for lists+qemu-devel@lfdr.de; Fri, 11 Feb 2022 06:21:34 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:55800)
+	id 1nIU27-0007lB-EN
+	for lists+qemu-devel@lfdr.de; Fri, 11 Feb 2022 06:24:11 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:56254)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <tsimpson@qualcomm.com>)
- id 1nITvx-0007OQ-NY
- for qemu-devel@nongnu.org; Fri, 11 Feb 2022 06:17:50 -0500
-Received: from alexa-out.qualcomm.com ([129.46.98.28]:11021)
- by eggs.gnu.org with esmtps (TLS1.2:RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <tsimpson@qualcomm.com>)
- id 1nITvs-00015m-15
- for qemu-devel@nongnu.org; Fri, 11 Feb 2022 06:17:48 -0500
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1nITxQ-0000ev-VN
+ for qemu-devel@nongnu.org; Fri, 11 Feb 2022 06:19:25 -0500
+Received: from [2607:f8b0:4864:20::632] (port=46804
+ helo=mail-pl1-x632.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1nITxP-0001IP-1Z
+ for qemu-devel@nongnu.org; Fri, 11 Feb 2022 06:19:20 -0500
+Received: by mail-pl1-x632.google.com with SMTP id u12so4396742plf.13
+ for <qemu-devel@nongnu.org>; Fri, 11 Feb 2022 03:19:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1644578264; x=1676114264;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=npPzdry6WJimJkfyL+daXIoJ7iKkVnFctPYsD+j94bk=;
- b=GeRyBKFaqBcfw9ykNQwbn4Kaz4S3OKvoqR7tYzinYNyeOuslet1WlQiO
- APhucauEMg8QQY8nttMm4a29+A6tHbWLRJu98eTrcLNqYH8PjPqx6A/1/
- 5k21PxCbvyYL4hDDH+AMZCmxNCU/x4aAKFltLz4IJYNP1vYRmvFcQl28B A=;
-Received: from ironmsg09-lv.qualcomm.com ([10.47.202.153])
- by alexa-out.qualcomm.com with ESMTP; 11 Feb 2022 03:17:25 -0800
-X-QCInternal: smtphost
-Received: from hu-tsimpson-lv.qualcomm.com (HELO
- hu-devc-lv-u18-c.qualcomm.com) ([10.47.235.220])
- by ironmsg09-lv.qualcomm.com with ESMTP; 11 Feb 2022 03:17:24 -0800
-Received: by hu-devc-lv-u18-c.qualcomm.com (Postfix, from userid 47164)
- id AB52C50059D; Fri, 11 Feb 2022 03:17:24 -0800 (PST)
-From: Taylor Simpson <tsimpson@quicinc.com>
-To: qemu-devel@nongnu.org
-Subject: [PULL 12/12] target/hexagon: remove unused variable
-Date: Fri, 11 Feb 2022 03:17:22 -0800
-Message-Id: <20220211111722.31036-13-tsimpson@quicinc.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20220211111722.31036-1-tsimpson@quicinc.com>
-References: <20220211111722.31036-1-tsimpson@quicinc.com>
+ d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
+ h=from:date:to:cc:subject:in-reply-to:message-id:references
+ :user-agent:mime-version;
+ bh=aW1CzZLQSL856yTTb5rMCEv0Q4Z9HzR24X8S9mi2KL0=;
+ b=6kbHIkt8Cj0GkMd5086F5Gu+ILl7r9polNccEw7yZjkMhXq0U5vEsO8iXfzs4w05W5
+ UNC5WABj/F8Y26zuutd0Ze/oR4cgh/UnkIMb7YrQCBFXZKagxfQMiz66b6lQbChRf7GE
+ upysGIcctcxa8ToZq7utox/TlgkmQAEt1HzYmcMy65nypd/0FquT6MyAdUhAu8McG/RK
+ iwj1b7o/Rp4uMNYEk7blzNZq9GnPp78vLQxfTadSed6+J9L6w14Prnl8eyrvDy6PTpH3
+ X8Qx2LqrFJ0SbNOT7Hmyx7us1Xqc86e39uzlbevDz9UUS+7c6vLUyhnYnWWESp/YKwHf
+ MPhg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:date:to:cc:subject:in-reply-to:message-id
+ :references:user-agent:mime-version;
+ bh=aW1CzZLQSL856yTTb5rMCEv0Q4Z9HzR24X8S9mi2KL0=;
+ b=lv40+MdQEyw8kJzh3FuuMMclJYQ+9i6fLY5aMcyxGofBY2zOFJ2jvKmPVD11XWJJWS
+ Q7e+6D1p7UAhz7YG9DCmIElFCu9vDu6qLA3LmwE2LVfGPoB0IxIEHJf1Db2LzlvVTNoa
+ wfD6w51LkNpuAIVx/oEldDX5dH2h1ZdyGNajJPM7nhFqjRAg0yediZjC3PCbOnQbynmR
+ Lfmr1XahtM1t+VpzybK3uuBhNW5eG349mZ0FqbVkGOUlQhQV/0Go+oCBhP+8JcQ6IgxN
+ ovvvuxXm9gJWgy2hIP0L5agRImpqTt4oAOsj/Iit1ZgCl2cnkDZ7PQ+nsXVIxwQMjVmO
+ rtdg==
+X-Gm-Message-State: AOAM531VN7n6o/3UZF0eR4nzeGp9ZNOnliLbWqhKaTgvteHABb3AAUuQ
+ zovkb4kavNamTSv3pHxKie0HlQ==
+X-Google-Smtp-Source: ABdhPJy/zgBtar249n4FVo9PRG6Vq2LYvIMkbRBXROZAnd9+cph1ZIwq26Nvsdo6KKi9DPUHu1QV3g==
+X-Received: by 2002:a17:90b:4f85:: with SMTP id
+ qe5mr2119804pjb.142.1644578357156; 
+ Fri, 11 Feb 2022 03:19:17 -0800 (PST)
+Received: from anisinha-lenovo ([115.96.197.200])
+ by smtp.googlemail.com with ESMTPSA id u37sm19559758pga.2.2022.02.11.03.19.13
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 11 Feb 2022 03:19:16 -0800 (PST)
+From: Ani Sinha <ani@anisinha.ca>
+X-Google-Original-From: Ani Sinha <anisinha@anisinha.ca>
+Date: Fri, 11 Feb 2022 16:49:12 +0530 (IST)
+X-X-Sender: anisinha@anisinha-lenovo
+To: =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <f4bug@amsat.org>
+Subject: Re: [PATCH] hw/i386/pc: when adding reserved E820 entries do not
+ allocate dynamic entries
+In-Reply-To: <aaaf4fe9-525f-c54b-a7c7-3c7195dff37a@amsat.org>
+Message-ID: <alpine.DEB.2.22.394.2202111644300.2941252@anisinha-lenovo>
+References: <20220210132822.2969324-1-ani@anisinha.ca>
+ <aaaf4fe9-525f-c54b-a7c7-3c7195dff37a@amsat.org>
+User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Received-SPF: pass client-ip=129.46.98.28; envelope-from=tsimpson@qualcomm.com;
- helo=alexa-out.qualcomm.com
-X-Spam_score_int: -40
-X-Spam_score: -4.1
-X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.248,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Type: multipart/mixed;
+ boundary="2088271309-1294814942-1644578358=:2941252"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::632
+ (failed)
+Received-SPF: none client-ip=2607:f8b0:4864:20::632;
+ envelope-from=ani@anisinha.ca; helo=mail-pl1-x632.google.com
+X-Spam_score_int: -10
+X-Spam_score: -1.1
+X-Spam_bar: -
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_NONE=0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -68,41 +90,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, tsimpson@quicinc.com,
- richard.henderson@linaro.org, f4bug@amsat.org, zongyuan.li@smartx.com
+Cc: Eduardo Habkost <eduardo@habkost.net>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ kraxel@redhat.com, Ani Sinha <ani@anisinha.ca>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-RnJvbTogWm9uZ3l1YW4gTGkgPHpvbmd5dWFuLmxpQHNtYXJ0eC5jb20+CgpXaGVuIGJ1aWxkaW5n
-IHdpdGggY2xhbmcgdmVyc2lvbiAxMy4wLjAgKGVnLiBGZWRvcmEgMTMuMC4wLTMuZmMzNSksCnR3
-byB1bnVzZWQgdmFyaWFibGVzIGludHJvZHVjZWQgYnkgbWFjcm8gR0FUSEVSX0ZVTkNUSU9OIGFu
-ZApTQ0FUVEVSX0ZVTkNUSU9OIHdpbGwgY2F1c2UgYnVpbGRpbmcgcHJvY2VzcyBmYWlsdXJlIGR1
-ZSB0bwpbLVdlcnJvciAtV3VudXNlZC12YXJpYWJsZV0uCgpTaWduZWQtb2ZmLWJ5OiBab25neXVh
-biBMaSA8em9uZ3l1YW4ubGlAc21hcnR4LmNvbT4KUmVzb2x2ZXM6IGh0dHBzOi8vZ2l0bGFiLmNv
-bS9xZW11LXByb2plY3QvcWVtdS8tL2lzc3Vlcy84MzEKTWVzc2FnZS1JZDogPDIwMjIwMTI0MDY0
-MzM5LjU2MDI3LTEtem9uZ3l1YW4ubGlAc21hcnR4LmNvbT4KUmV2aWV3ZWQtYnk6IFRob21hcyBI
-dXRoIDx0aHV0aEByZWRoYXQuY29tPgpSZXZpZXdlZC1ieTogVGF5bG9yIFNpbXBzb24gPHRzaW1w
-c29uQHF1aWNpbmMuY29tPgpTaWduZWQtb2ZmLWJ5OiBUYXlsb3IgU2ltcHNvbiA8dHNpbXBzb25A
-cXVpY2luYy5jb20+Ci0tLQogdGFyZ2V0L2hleGFnb24vbW12ZWMvbWFjcm9zLmggfCA0IC0tLS0K
-IDEgZmlsZSBjaGFuZ2VkLCA0IGRlbGV0aW9ucygtKQoKZGlmZiAtLWdpdCBhL3RhcmdldC9oZXhh
-Z29uL21tdmVjL21hY3Jvcy5oIGIvdGFyZ2V0L2hleGFnb24vbW12ZWMvbWFjcm9zLmgKaW5kZXgg
-MTBmNDYzMDM2NC4uNDQ3ODFjZmI0YSAxMDA2NDQKLS0tIGEvdGFyZ2V0L2hleGFnb24vbW12ZWMv
-bWFjcm9zLmgKKysrIGIvdGFyZ2V0L2hleGFnb24vbW12ZWMvbWFjcm9zLmgKQEAgLTE2NCwxMSAr
-MTY0LDkgQEAKICAgICAgICAgdGFyZ2V0X3Vsb25nIHZhID0gRUE7IFwKICAgICAgICAgdGFyZ2V0
-X3Vsb25nIHZhX2hpZ2ggPSBFQSArIExFTjsgXAogICAgICAgICB1aW50cHRyX3QgcmEgPSBHRVRQ
-QygpOyBcCi0gICAgICAgIGludCBsb2dfYmFuayA9IDA7IFwKICAgICAgICAgaW50IGxvZ19ieXRl
-ID0gMDsgXAogICAgICAgICBmb3IgKGkwID0gMDsgaTAgPCBFTEVNRU5UX1NJWkU7IGkwKyspIHsg
-XAogICAgICAgICAgICAgbG9nX2J5dGUgPSAoKHZhICsgaTApIDw9IHZhX2hpZ2gpICYmIFFWQUw7
-IFwKLSAgICAgICAgICAgIGxvZ19iYW5rIHw9IChsb2dfYnl0ZSA8PCBpMCk7IFwKICAgICAgICAg
-ICAgIHVpbnQ4X3QgQjsgXAogICAgICAgICAgICAgQiA9IGNwdV9sZHViX2RhdGFfcmEoZW52LCBF
-QSArIGkwLCByYSk7IFwKICAgICAgICAgICAgIGVudi0+dG1wX1ZSZWdzWzBdLnViW0VMRU1FTlRf
-U0laRSAqIElEWCArIGkwXSA9IEI7IFwKQEAgLTI0MywxMSArMjQxLDkgQEAKICAgICAgICAgaW50
-IGkwOyBcCiAgICAgICAgIHRhcmdldF91bG9uZyB2YSA9IEVBOyBcCiAgICAgICAgIHRhcmdldF91
-bG9uZyB2YV9oaWdoID0gRUEgKyBMRU47IFwKLSAgICAgICAgaW50IGxvZ19iYW5rID0gMDsgXAog
-ICAgICAgICBpbnQgbG9nX2J5dGUgPSAwOyBcCiAgICAgICAgIGZvciAoaTAgPSAwOyBpMCA8IEVM
-RU1fU0laRTsgaTArKykgeyBcCiAgICAgICAgICAgICBsb2dfYnl0ZSA9ICgodmEgKyBpMCkgPD0g
-dmFfaGlnaCkgJiYgUVZBTDsgXAotICAgICAgICAgICAgbG9nX2JhbmsgfD0gKGxvZ19ieXRlIDw8
-IGkwKTsgXAogICAgICAgICAgICAgTE9HX1ZUQ01fQllURSh2YSArIGkwLCBsb2dfYnl0ZSwgSU4u
-dWJbRUxFTV9TSVpFICogSURYICsgaTBdLCBcCiAgICAgICAgICAgICAgICAgICAgICAgICAgIEVM
-RU1fU0laRSAqIElEWCArIGkwKTsgXAogICAgICAgICB9IFwKLS0gCjIuMTcuMQoK
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
+
+--2088271309-1294814942-1644578358=:2941252
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8BIT
+
+
+
+On Thu, 10 Feb 2022, Philippe Mathieu-Daudé wrote:
+
+> On 10/2/22 14:28, Ani Sinha wrote:
+> > When adding E820_RESERVED entries we also accidentally allocate dynamic
+> > entries. This is incorrect. We should simply return early with the count of
+> > the number of reserved entries added.
+> >
+> > fixes: 7d67110f2d9a6("pc: add etc/e820 fw_cfg file")
+>
+> 8 years old, so this path is clearly untested (unused...?).
+>
+
+untested, yes. unused? nope!
+
+$ git grep e820_add_entry  2>/dev/null | grep E820_RESERVED
+hw/i386/pc.c:        e820_add_entry(pcms->sgx_epc.base,
+pcms->sgx_epc.size, E820_RESERVED);
+target/i386/kvm/kvm.c:    ret = e820_add_entry(identity_base, 0x4000,
+E820_RESERVED);
+
+particulatly the kvm code path.
+--2088271309-1294814942-1644578358=:2941252--
 
