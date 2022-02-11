@@ -2,62 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F21CD4B1D6B
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Feb 2022 05:44:54 +0100 (CET)
-Received: from localhost ([::1]:40694 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 266744B1DE8
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Feb 2022 06:31:30 +0100 (CET)
+Received: from localhost ([::1]:59944 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nINni-0007I9-1r
-	for lists+qemu-devel@lfdr.de; Thu, 10 Feb 2022 23:44:54 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:50926)
+	id 1nIOWm-0006aR-QG
+	for lists+qemu-devel@lfdr.de; Fri, 11 Feb 2022 00:31:28 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:59256)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
- id 1nINiu-0001tM-Sv; Thu, 10 Feb 2022 23:39:56 -0500
-Received: from smtp21.cstnet.cn ([159.226.251.21]:36244 helo=cstnet.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <liweiwei@iscas.ac.cn>)
- id 1nINis-0005nk-Ff; Thu, 10 Feb 2022 23:39:56 -0500
-Received: from localhost.localdomain (unknown [180.156.147.178])
- by APP-01 (Coremail) with SMTP id qwCowAA3PvqN6AViFBirAA--.58859S8;
- Fri, 11 Feb 2022 12:39:49 +0800 (CST)
-From: Weiwei Li <liweiwei@iscas.ac.cn>
-To: richard.henderson@linaro.org, palmer@dabbelt.com, alistair.francis@wdc.com,
- bin.meng@windriver.com, qemu-riscv@nongnu.org, qemu-devel@nongnu.org
-Subject: [PATCH v6 6/6] target/riscv: expose zfinx, zdinx,
- zhinx{min} properties
-Date: Fri, 11 Feb 2022 12:39:20 +0800
-Message-Id: <20220211043920.28981-7-liweiwei@iscas.ac.cn>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20220211043920.28981-1-liweiwei@iscas.ac.cn>
-References: <20220211043920.28981-1-liweiwei@iscas.ac.cn>
-X-CM-TRANSID: qwCowAA3PvqN6AViFBirAA--.58859S8
-X-Coremail-Antispam: 1UD129KBjvdXoW7GFyrJF43Ww4xXrW7Cry7GFg_yoWkWrX_Gr
- y09F1kA34UXFy29r4DAw1jgr4Fkr9YgFZ0gF4ayay8GFW8WFy5Aw1vkw4fGr1UKr43CF1f
- AFyxJFZrKFnIvjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
- 9fnUUIcSsGvfJTRUUUbqxFF20E14v26rWj6s0DM7CY07I20VC2zVCF04k26cxKx2IYs7xG
- 6rWj6s0DM7CIcVAFz4kK6r1j6r18M28IrcIa0xkI8VA2jI8067AKxVWUAVCq3wA2048vs2
- IY020Ec7CjxVAFwI0_Xr0E3s1l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28E
- F7xvwVC0I7IYx2IY67AKxVWUCVW8JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVWxJVW8Jr
- 1l84ACjcxK6I8E87Iv67AKxVWxJVW8Jr1l84ACjcxK6I8E87Iv6xkF7I0E14v26r4UJVWx
- Jr1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2I
- x0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJVW8
- JwACjcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lFIxGxcIEc7CjxVA2Y2
- ka0xkIwI1l42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG
- 67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MI
- IYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_JFI_Gr1lIxAIcVC0I7IYx2IY6xkF7I0E
- 14v26F4j6r4UJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr
- 0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7VUbmZ
- X7UUUUU==
-X-Originating-IP: [180.156.147.178]
-X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
-Received-SPF: pass client-ip=159.226.251.21; envelope-from=liweiwei@iscas.ac.cn;
- helo=cstnet.cn
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nIOUV-0003ve-9I
+ for qemu-devel@nongnu.org; Fri, 11 Feb 2022 00:29:07 -0500
+Received: from [2607:f8b0:4864:20::434] (port=37466
+ helo=mail-pf1-x434.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nIOUT-0007Xv-Lq
+ for qemu-devel@nongnu.org; Fri, 11 Feb 2022 00:29:06 -0500
+Received: by mail-pf1-x434.google.com with SMTP id y5so14318387pfe.4
+ for <qemu-devel@nongnu.org>; Thu, 10 Feb 2022 21:29:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=YNrCVzUUFWxMOG/bWT/1cRIBSFDIKjZU5g18hyG/afw=;
+ b=WuuglQ03ZMCGmIYMF7nruA56VBogOIXvSSGxIr2zyw5nnPMRj7uiA0lcOoIMz2eExT
+ 6CUE5htvCC1C7S4LPBQf5WKlv0QNpYoVCwXTweDcKOe7rZmCvFcVlmIjUEdGcPyvkOJY
+ 5d7C9qVsncYIjA74naIs+BTTQYDu96Oq7GcZ+P2YJ4L0gRDM3kSx/ZmS6JDTUwQh5jcF
+ yS3rmQOuTHp/Q395RR2/RjeLuDsb2v5dHGRI8zHda3nTGtByXhXkcK/SFY5bbmgckjLN
+ S7FP/kAlMlNB2JD9MtjZnUUj6rEch+nV42wR+gTrUwX+ARW+FbtHKWF2eQZqkOHrO6BP
+ we9A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=YNrCVzUUFWxMOG/bWT/1cRIBSFDIKjZU5g18hyG/afw=;
+ b=WLE4hafJNB2tY7HGRmygfYatZE3S7hlZG5QkNPA0wU9fHDQ2/Cm25rPqLdqiBganAB
+ lTnxfRfI4oPC4r6HpFf87LCCgZRViC0thmXtYRxHifzuU7nbOEEaKpJ7IES6J26OUGD8
+ UjTs9Oh9GtmRhqVu1WKAo/409zebhb8tPRCH+OUH8RPiAfvqgQAEcaAaZfEEs93m1pKE
+ izsC7a4UdY3Zz4ddGUPjW2FivSsNnnFDSZ565api8EhMjIPnF3d7p+PburqIiYsYrlsC
+ uS+SzuXUt7QRsGqxiAZ14E+ywD3/TKkZXlenX4PWj05/F88PveelEG0CkhoTp94SkiSH
+ hDog==
+X-Gm-Message-State: AOAM5310pgSmahf8rjKzYstwRylEXCJ9UpeaJhmgdSk/qOqYOCpzVPd8
+ K2jPpW72/uPOYnG7tS/kab+Elg==
+X-Google-Smtp-Source: ABdhPJyXdcl70DcgYUKFCglWim17jfkvvcBz9Q1x2OiwKvFaKEZ6zVUQrP5atZus55qGM0MUZajLlQ==
+X-Received: by 2002:a63:1c42:: with SMTP id c2mr37059pgm.356.1644557343094;
+ Thu, 10 Feb 2022 21:29:03 -0800 (PST)
+Received: from [10.0.0.163] ([124.189.222.164])
+ by smtp.gmail.com with ESMTPSA id q17sm18288976pgh.58.2022.02.10.21.28.59
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 10 Feb 2022 21:29:02 -0800 (PST)
+Message-ID: <59ea114f-199c-518d-a570-19d091d90831@linaro.org>
+Date: Fri, 11 Feb 2022 15:41:20 +1100
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH v3 10/37] target/ppc: Move Vector Compare Not Equal or
+ Zero to decodetree
+Content-Language: en-US
+To: matheus.ferst@eldorado.org.br, qemu-devel@nongnu.org, qemu-ppc@nongnu.org
+References: <20220210123447.3933301-1-matheus.ferst@eldorado.org.br>
+ <20220210123447.3933301-11-matheus.ferst@eldorado.org.br>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20220210123447.3933301-11-matheus.ferst@eldorado.org.br>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::434
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::434;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x434.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -70,37 +92,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: wangjunqiang@iscas.ac.cn, Weiwei Li <liweiwei@iscas.ac.cn>,
- lazyparser@gmail.com, ardxwe@gmail.com
+Cc: groug@kaod.org, danielhb413@gmail.com, clg@kaod.org,
+ david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Co-authored-by: ardxwe <ardxwe@gmail.com>
-Signed-off-by: Weiwei Li <liweiwei@iscas.ac.cn>
-Signed-off-by: Junqiang Wang <wangjunqiang@iscas.ac.cn>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
----
- target/riscv/cpu.c | 5 +++++
- 1 file changed, 5 insertions(+)
+On 2/10/22 23:34, matheus.ferst@eldorado.org.br wrote:
+> +static void gen_vcmpnez_vec(unsigned vece, TCGv_vec t, TCGv_vec a, TCGv_vec b)
+> +{
+> +    TCGv_vec t0, t1, zero;
+> +
+> +    t0 = tcg_temp_new_vec_matching(t);
+> +    t1 = tcg_temp_new_vec_matching(t);
+> +    zero = tcg_constant_vec_matching(t, vece, 0);
+> +
+> +    tcg_gen_cmp_vec(TCG_COND_EQ, vece, t0, a, zero);
+> +    tcg_gen_cmp_vec(TCG_COND_EQ, vece, t1, b, zero);
+> +    tcg_gen_cmp_vec(TCG_COND_NE, vece, t, a, b);
+> +
+> +    tcg_gen_or_vec(vece, t, t, t0);
+> +    tcg_gen_or_vec(vece, t, t, t1);
+> +
+> +    tcg_gen_shli_vec(vece, t, t, (8 << vece) - 1);
+> +    tcg_gen_sari_vec(vece, t, t, (8 << vece) - 1);
 
-diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-index 55371b1aa5..ddda4906ff 100644
---- a/target/riscv/cpu.c
-+++ b/target/riscv/cpu.c
-@@ -795,6 +795,11 @@ static Property riscv_cpu_properties[] = {
-     DEFINE_PROP_BOOL("zbc", RISCVCPU, cfg.ext_zbc, true),
-     DEFINE_PROP_BOOL("zbs", RISCVCPU, cfg.ext_zbs, true),
- 
-+    DEFINE_PROP_BOOL("zdinx", RISCVCPU, cfg.ext_zdinx, false),
-+    DEFINE_PROP_BOOL("zfinx", RISCVCPU, cfg.ext_zfinx, false),
-+    DEFINE_PROP_BOOL("zhinx", RISCVCPU, cfg.ext_zhinx, false),
-+    DEFINE_PROP_BOOL("zhinxmin", RISCVCPU, cfg.ext_zhinxmin, false),
-+
-     /* Vendor-specific custom extensions */
-     DEFINE_PROP_BOOL("xventanacondops", RISCVCPU, cfg.ext_XVentanaCondOps, false),
- 
--- 
-2.17.1
+No shifting required, only the cmp.
 
+> +static bool do_vcmpnez(DisasContext *ctx, arg_VC *a, int vece)
+> +{
+> +    static const TCGOpcode vecop_list[] = {
+> +        INDEX_op_cmp_vec, INDEX_op_shli_vec, INDEX_op_sari_vec, 0
+> +    };
+
+Therefore no vecop_list required (cmp itself is mandatory).
+
+r~
 
