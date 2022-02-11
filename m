@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D281C4B29F4
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Feb 2022 17:16:38 +0100 (CET)
-Received: from localhost ([::1]:40076 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AFE394B29E2
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Feb 2022 17:14:51 +0100 (CET)
+Received: from localhost ([::1]:37130 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nIYb7-0007Pc-TW
-	for lists+qemu-devel@lfdr.de; Fri, 11 Feb 2022 11:16:37 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:46092)
+	id 1nIYZO-0005OV-QL
+	for lists+qemu-devel@lfdr.de; Fri, 11 Feb 2022 11:14:50 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:46040)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nIYOf-0007U4-UU
- for qemu-devel@nongnu.org; Fri, 11 Feb 2022 11:03:45 -0500
-Received: from [2a00:1450:4864:20::62f] (port=41593
- helo=mail-ej1-x62f.google.com)
+ id 1nIYOe-0007Rv-MW
+ for qemu-devel@nongnu.org; Fri, 11 Feb 2022 11:03:44 -0500
+Received: from [2a00:1450:4864:20::52f] (port=37588
+ helo=mail-ed1-x52f.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nIYOb-0005BV-Pl
- for qemu-devel@nongnu.org; Fri, 11 Feb 2022 11:03:45 -0500
-Received: by mail-ej1-x62f.google.com with SMTP id a8so23890034ejc.8
+ id 1nIYOY-0005Bc-I0
+ for qemu-devel@nongnu.org; Fri, 11 Feb 2022 11:03:40 -0500
+Received: by mail-ed1-x52f.google.com with SMTP id da4so17152465edb.4
  for <qemu-devel@nongnu.org>; Fri, 11 Feb 2022 08:03:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=UTRCyQOf19YxllG63yzv6vaS7/CLeP7yg7egCWkgLEI=;
- b=aQt3qGt2wZzIWDspxAVAE/LXEPi+mUPus0lWHPyix3z1EzgvZNOXpjgbDKSs1G/M3d
- rNKVqu7Rsd0bWuLZDfzx1o1EbGcN3hUT5mUhPmm7bB61HNy4mXTXDtyh8FJOC/9lWI3W
- rncq+Z3nqwyb8rAbUFJnxETxJRHXGY9Q0zgOlvbvsJjjXP+7gPfbJo8Wr0ov/lirK/9o
- SqYX2pFNcELRQqYG7v7NnEAjFyCmJvSglixR1Q/OHabuCyMl08BWtvZic4NNewQb3kf3
- Kk0E6p9nxpubI4mVI+ycLnCuuaCA9wWffKvVBBh1VT+YWFj8rryVnNHq/NofkavhL2VS
- mG1w==
+ bh=YXsis8WuMNaivDbN1qF2633lGkq2Q3P7dp1n5KkzK9E=;
+ b=ilN8hcA7C6Dn9hsO6+gYi5aNzONSJEkQyd/B0MMunRlCNhtrJCWKTrj1PWgk9u2K/6
+ DUC3TcmqhpI3K9n1873zW873pnahWrmUCPbGmw/tTvzzUFt7fcPIqLqsdbMZxvIPtFBj
+ uO9SmDzcw5pJc9OvXjsZoQZi0YnxGeeKan9ls9FNHajbYbW7DT8xW5sfdgn9e4rEnPSW
+ HWMRqYKF9/xMLNKeW+sTPg1giK50UvqUd5P9cdFGwfOJhaRbSRLffmWx2lEjvAAfvmis
+ 0sY+KM4s7KrPcY/5RZm438kv0A+cMg2lHzkDFO35t5oUxO/28WwyrkYoDz3T0K+6YfPv
+ w8uQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=UTRCyQOf19YxllG63yzv6vaS7/CLeP7yg7egCWkgLEI=;
- b=CUfiQqvUm+tcIPxGvTeQOQOuW/q2yUhPxJr+Xam30tStxaRqwGk2jz0Z/utYAXfGLI
- swt+DO8+XXrDZaceKk4Unz/WXcAuU6Fydjiuo+u59PboMZcfr8EUZpVHc64ndLqu0/un
- XLYvRMCkjO1GKjdqevVn7ng8qpK/UUiYfWkV1A57kh5riHwYKg7XEF2uhkyeKcZUxLbs
- Z8LbRJJlUVkY3v10U/YxbLZ/0TbGEg8y+fSm/402oPlmCwQDCbOhuwgxBmgnWR5/IOm3
- 4pg7FPX1ZYj18uQ4wgkDk0hTpTWlOxFRKRkZnM3XsjMGqTE2jKlgqqpgwezHUaa+XvNS
- WIeA==
-X-Gm-Message-State: AOAM531RoR8zpvB70EAbbiEHT5giUu5yvyUJrbOg+QkF4NZ3SoYW2SZi
- sczT/kxf+bl0Rx8cYnpLPGOp1A==
-X-Google-Smtp-Source: ABdhPJxfPXkle0CqgPWW0fMRP+b56fyOItxRfvOTO1sMlLjicZPfisVdEJYQGgvEoxDqZ6tJ4JCBuA==
-X-Received: by 2002:a17:906:29cb:: with SMTP id
- y11mr2053904eje.49.1644595399078; 
+ bh=YXsis8WuMNaivDbN1qF2633lGkq2Q3P7dp1n5KkzK9E=;
+ b=EyUkizL2raV/Uy8KvPTYxahTu8UTkjDv3+IqXpgMEQdiYh2KxpihHrHEyxl5Og3UBp
+ XNAlzpoovqsuCFmmdu3N51uPvwFXnQeogMssrnbB7w+QjbaCRxEB/jVz7aB38Lvcy9eB
+ yb9nBagsx9RGmGV7TMeEX5YzcfpfW25P1jFlAvgUCGb5groEBJDKq7E6WO59RaiMXa4k
+ hMpqK+ggOW9iBYIC13RcCB6bbUSOGtcHlOtOvwa/OJYAFrfzEuRYuivw+AAEPRbpE0fZ
+ bB+C77Tq5nnrKHdcQrFF+2hTwbi0r/jY3cx3uDgTdI1NQlrrxhrUlTKnMHqXKb3/Ad0o
+ luGA==
+X-Gm-Message-State: AOAM530MeVQ+/zjzMknP+wlO84mpzcLLymIFUsftdjSccNTEHKhrzOYD
+ 3OpUfYkhTT9HbQU75TXlSZOGiQ==
+X-Google-Smtp-Source: ABdhPJxnChx+l+XdAJN0yQO0BoANGyANUBeNPpxxKhCjPaAKqk/gKc+glDURUCJt23kCWrug+/qPtg==
+X-Received: by 2002:a50:d70e:: with SMTP id t14mr2698223edi.19.1644595399844; 
  Fri, 11 Feb 2022 08:03:19 -0800 (PST)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id c1sm8209726ejn.203.2022.02.11.08.03.11
+ by smtp.gmail.com with ESMTPSA id j6sm11090893edl.98.2022.02.11.08.03.11
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Fri, 11 Feb 2022 08:03:14 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 343671FFBD;
+ by zen.linaroharston (Postfix) with ESMTP id 4ACC41FFBE;
  Fri, 11 Feb 2022 16:03:10 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH  v1 05/11] tests/docker: introduce debian-riscv64-test-cross
-Date: Fri, 11 Feb 2022 16:03:03 +0000
-Message-Id: <20220211160309.335014-6-alex.bennee@linaro.org>
+Subject: [PATCH v1 06/11] scripts/ci: add build env rules for aarch32 on
+ aarch64
+Date: Fri, 11 Feb 2022 16:03:04 +0000
+Message-Id: <20220211160309.335014-7-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220211160309.335014-1-alex.bennee@linaro.org>
 References: <20220211160309.335014-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::62f
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::52f
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::62f;
- envelope-from=alex.bennee@linaro.org; helo=mail-ej1-x62f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::52f;
+ envelope-from=alex.bennee@linaro.org; helo=mail-ed1-x52f.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -99,88 +99,61 @@ Cc: fam@euphon.net, Thomas Huth <thuth@redhat.com>, berrange@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Cross building QEMU for riscv64 still involves messing about with sid
-and ports. However for building tests we can have a slimmer compiler
-only container which should be more stable.
+At least the current crop of Aarch64 HW can support running 32 bit EL0
+code. Before we can build and test we need a minimal set of packages
+installed. We can't use "apt build-dep" because it currently gets
+confused trying to keep two sets of build-deps installed at once.
+Instead we install a minimal set of libraries that will allow us to
+continue.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- .gitlab-ci.d/container-cross.yml                     |  7 +++++++
- tests/docker/Makefile.include                        |  2 ++
- .../dockerfiles/debian-riscv64-test-cross.docker     | 12 ++++++++++++
- tests/tcg/configure.sh                               |  2 +-
- 4 files changed, 22 insertions(+), 1 deletion(-)
- create mode 100644 tests/docker/dockerfiles/debian-riscv64-test-cross.docker
+ scripts/ci/setup/build-environment.yml | 25 +++++++++++++++++++++++++
+ 1 file changed, 25 insertions(+)
 
-diff --git a/.gitlab-ci.d/container-cross.yml b/.gitlab-ci.d/container-cross.yml
-index ed620620f8..65fc689a6b 100644
---- a/.gitlab-ci.d/container-cross.yml
-+++ b/.gitlab-ci.d/container-cross.yml
-@@ -131,6 +131,13 @@ riscv64-debian-cross-container:
-   variables:
-     NAME: debian-riscv64-cross
+diff --git a/scripts/ci/setup/build-environment.yml b/scripts/ci/setup/build-environment.yml
+index 599896cc5b..9182e0c253 100644
+--- a/scripts/ci/setup/build-environment.yml
++++ b/scripts/ci/setup/build-environment.yml
+@@ -19,6 +19,13 @@
+           - '((ansible_version.major == 2) and (ansible_version.minor >= 8)) or (ansible_version.major >= 3)'
+         msg: "Unsuitable ansible version, please use version 2.8.0 or later"
  
-+# we can however build TCG tests using a non-sid base
-+riscv64-debian-test-cross-container:
-+  extends: .container_job_template
-+  stage: containers-layer2
-+  variables:
-+    NAME: debian-riscv64-test-cross
++    - name: Add armhf foreign architecture to aarch64 hosts
++      command: dpkg --add-architecture armhf
++      when:
++        - ansible_facts['distribution'] == 'Ubuntu'
++        - ansible_facts['architecture'] == 'aarch64'
++        - ansible_facts['distribution_version'] == '20.04'
 +
- s390x-debian-cross-container:
-   extends: .container_job_template
-   stage: containers-layer2
-diff --git a/tests/docker/Makefile.include b/tests/docker/Makefile.include
-index eeee1e6bdf..2ac2ea95f9 100644
---- a/tests/docker/Makefile.include
-+++ b/tests/docker/Makefile.include
-@@ -215,6 +215,7 @@ docker-image-debian-all-test-cross: docker-image-debian10
- docker-image-debian-microblaze-cross: docker-image-debian10
- docker-image-debian-nios2-cross: docker-image-debian10
- docker-image-debian-powerpc-test-cross: docker-image-debian11
-+docker-image-debian-riscv64-test-cross: docker-image-debian11
+     - name: Update apt cache / upgrade packages via apt
+       apt:
+         update_cache: yes
+@@ -115,6 +122,24 @@
+         - ansible_facts['distribution'] == 'Ubuntu'
+         - ansible_facts['distribution_version'] == '20.04'
  
- # These images may be good enough for building tests but not for test builds
- DOCKER_PARTIAL_IMAGES += debian-alpha-cross
-@@ -223,6 +224,7 @@ DOCKER_PARTIAL_IMAGES += debian-hppa-cross
- DOCKER_PARTIAL_IMAGES += debian-m68k-cross debian-mips64-cross
- DOCKER_PARTIAL_IMAGES += debian-microblaze-cross
- DOCKER_PARTIAL_IMAGES += debian-nios2-cross
-+DOCKER_PARTIAL_IMAGES += debian-riscv64-test-cross
- DOCKER_PARTIAL_IMAGES += debian-sh4-cross debian-sparc64-cross
- DOCKER_PARTIAL_IMAGES += debian-tricore-cross
- DOCKER_PARTIAL_IMAGES += debian-xtensa-cross
-diff --git a/tests/docker/dockerfiles/debian-riscv64-test-cross.docker b/tests/docker/dockerfiles/debian-riscv64-test-cross.docker
-new file mode 100644
-index 0000000000..1d90901298
---- /dev/null
-+++ b/tests/docker/dockerfiles/debian-riscv64-test-cross.docker
-@@ -0,0 +1,12 @@
-+#
-+# Docker cross-compiler target
-+#
-+# This docker target builds on the Debian Bullseye base image.
-+#
-+FROM qemu/debian11
++    - name: Install armhf cross-compile packages to build QEMU on AArch64 Ubuntu 20.04
++      package:
++        name:
++          - binutils-arm-linux-gnueabihf
++          - gcc-arm-linux-gnueabihf
++          - libblkid-dev:armhf
++          - libc6-dev:armhf
++          - libffi-dev:armhf
++          - libglib2.0-dev:armhf
++          - libmount-dev:armhf
++          - libpcre2-dev:armhf
++          - libpixman-1-dev:armhf
++          - zlib1g-dev:armhf
++      when:
++        - ansible_facts['distribution'] == 'Ubuntu'
++        - ansible_facts['distribution_version'] == '20.04'
++        - ansible_facts['architecture'] == 'aarch64'
 +
-+RUN apt update && \
-+    DEBIAN_FRONTEND=noninteractive eatmydata \
-+    apt install -y --no-install-recommends \
-+        gcc-riscv64-linux-gnu \
-+        libc6-dev-riscv64-cross
-diff --git a/tests/tcg/configure.sh b/tests/tcg/configure.sh
-index adc95d6a44..0663bd19f4 100755
---- a/tests/tcg/configure.sh
-+++ b/tests/tcg/configure.sh
-@@ -180,7 +180,7 @@ for target in $target_list; do
-       ;;
-     riscv64-*)
-       container_hosts=x86_64
--      container_image=debian-riscv64-cross
-+      container_image=debian-riscv64-test-cross
-       container_cross_cc=riscv64-linux-gnu-gcc
-       ;;
-     s390x-*)
+     - name: Install basic packages to build QEMU on EL8
+       dnf:
+         # This list of packages start with tests/docker/dockerfiles/centos8.docker
 -- 
 2.30.2
 
