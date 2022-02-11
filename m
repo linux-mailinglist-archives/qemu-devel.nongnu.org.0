@@ -2,65 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E9034B2925
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Feb 2022 16:32:37 +0100 (CET)
-Received: from localhost ([::1]:53098 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 74A2A4B292E
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Feb 2022 16:40:06 +0100 (CET)
+Received: from localhost ([::1]:59826 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nIXuW-0000ve-EW
-	for lists+qemu-devel@lfdr.de; Fri, 11 Feb 2022 10:32:36 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:53812)
+	id 1nIY1l-0005pV-4J
+	for lists+qemu-devel@lfdr.de; Fri, 11 Feb 2022 10:40:05 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:36810)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1nIXJR-0006R5-Pn
- for qemu-devel@nongnu.org; Fri, 11 Feb 2022 09:54:17 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:55751)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1nIY0t-00056N-1x
+ for qemu-devel@nongnu.org; Fri, 11 Feb 2022 10:39:11 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:23971)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1nIXJO-00021U-D2
- for qemu-devel@nongnu.org; Fri, 11 Feb 2022 09:54:17 -0500
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1nIY0o-0000uW-7D
+ for qemu-devel@nongnu.org; Fri, 11 Feb 2022 10:39:10 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1644591243;
+ s=mimecast20190719; t=1644593945;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=IWO9NSVEaTkE7QzxrRrebueQT29gfk2saO2rOvbc2u8=;
- b=Dbtbx5oI2gI79/NqNvGiQfE2cg7jwS15/eST+kt01sqqEZ3ie+l4satpwqAwaP9Vo9yAD7
- de7w4PMkNVnidkf0I/qeKCkDV8oUHW59llxBdjRj4vtGfd2GVTQ5pJJroqyWl928KSHU6M
- ngkwv3ORG3GWm8wKzAcMEKgLQTmyv0E=
+ bh=k/5hRW7aVMYzTtAqBMEg4rCDo84D27mcwdcQcjfEGys=;
+ b=R/Ytj4pHovSyAuL6M3Uzz0tz8AUYOwxfT0q+la33X/mss1Jkfe03XdaWW37jsuMGFH40Tu
+ mg7EFZhrZn+3M3uSthnUDjnOu1TVel3k5Te/G96wY6hc+QIvqlHtfYK5dvR9ElA0d5+X0E
+ 34ZT8NSpkMXWTGGYPgh9uGjokxSaes8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-320-AYg2NT3wPlaO49AHOozmFw-1; Fri, 11 Feb 2022 09:54:00 -0500
-X-MC-Unique: AYg2NT3wPlaO49AHOozmFw-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-638-HScg0Sx1PRis8QfbOfWczA-1; Fri, 11 Feb 2022 10:39:02 -0500
+X-MC-Unique: HScg0Sx1PRis8QfbOfWczA-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9F85886A8A1;
- Fri, 11 Feb 2022 14:53:59 +0000 (UTC)
-Received: from virtlab701.virt.lab.eng.bos.redhat.com
- (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 746617C0E8;
- Fri, 11 Feb 2022 14:53:58 +0000 (UTC)
-From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-To: qemu-block@nongnu.org
-Subject: [PATCH v7 31/31] job.h: assertions in the callers of JobDriver
- function pointers
-Date: Fri, 11 Feb 2022 09:51:53 -0500
-Message-Id: <20220211145153.2861415-32-eesposit@redhat.com>
-In-Reply-To: <20220211145153.2861415-1-eesposit@redhat.com>
-References: <20220211145153.2861415-1-eesposit@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5752018460E6;
+ Fri, 11 Feb 2022 15:38:50 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.194.97])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 41D78798A6;
+ Fri, 11 Feb 2022 15:38:48 +0000 (UTC)
+Date: Fri, 11 Feb 2022 16:38:46 +0100
+From: Kevin Wolf <kwolf@redhat.com>
+To: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+Subject: Re: [PATCH 5/6] test-bdrv-drain.c: remove test_detach_by_parent_cb()
+Message-ID: <YgaDBkblIA6wu82p@redhat.com>
+References: <20220208153655.1251658-1-eesposit@redhat.com>
+ <20220208153655.1251658-6-eesposit@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+In-Reply-To: <20220208153655.1251658-6-eesposit@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eesposit@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eesposit@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -68,7 +64,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -81,103 +77,121 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org,
- John Snow <jsnow@redhat.com>, Emanuele Giuseppe Esposito <eesposit@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Markus Armbruster <armbru@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Eduardo Habkost <eduardo@habkost.net>, Hanna Reitz <hreitz@redhat.com>,
+Cc: Fam Zheng <fam@euphon.net>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-block@nongnu.org,
+ qemu-devel@nongnu.org, Hanna Reitz <hreitz@redhat.com>,
  Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Eric Blake <eblake@redhat.com>
+ John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
----
- job.c | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+Am 08.02.2022 um 16:36 hat Emanuele Giuseppe Esposito geschrieben:
+> This test uses a callback of an I/O function (blk_aio_preadv)
+> to modify the graph, using bdrv_attach_child.
+> This is simply not allowed anymore. I/O cannot change the graph.
 
-diff --git a/job.c b/job.c
-index 54db80df66..075c6f3a20 100644
---- a/job.c
-+++ b/job.c
-@@ -381,6 +381,8 @@ void job_ref(Job *job)
- 
- void job_unref(Job *job)
- {
-+    GLOBAL_STATE_CODE();
-+
-     if (--job->refcnt == 0) {
-         assert(job->status == JOB_STATUS_NULL);
-         assert(!timer_pending(&job->sleep_timer));
-@@ -602,6 +604,7 @@ bool job_user_paused(Job *job)
- void job_user_resume(Job *job, Error **errp)
- {
-     assert(job);
-+    GLOBAL_STATE_CODE();
-     if (!job->user_paused || job->pause_count <= 0) {
-         error_setg(errp, "Can't resume a job that was not paused");
-         return;
-@@ -672,6 +675,7 @@ static void job_update_rc(Job *job)
- static void job_commit(Job *job)
- {
-     assert(!job->ret);
-+    GLOBAL_STATE_CODE();
-     if (job->driver->commit) {
-         job->driver->commit(job);
-     }
-@@ -680,6 +684,7 @@ static void job_commit(Job *job)
- static void job_abort(Job *job)
- {
-     assert(job->ret);
-+    GLOBAL_STATE_CODE();
-     if (job->driver->abort) {
-         job->driver->abort(job);
-     }
-@@ -687,6 +692,7 @@ static void job_abort(Job *job)
- 
- static void job_clean(Job *job)
- {
-+    GLOBAL_STATE_CODE();
-     if (job->driver->clean) {
-         job->driver->clean(job);
-     }
-@@ -726,6 +732,7 @@ static int job_finalize_single(Job *job)
- 
- static void job_cancel_async(Job *job, bool force)
- {
-+    GLOBAL_STATE_CODE();
-     if (job->driver->cancel) {
-         force = job->driver->cancel(job, force);
-     } else {
-@@ -825,6 +832,7 @@ static void job_completed_txn_abort(Job *job)
- 
- static int job_prepare(Job *job)
- {
-+    GLOBAL_STATE_CODE();
-     if (job->ret == 0 && job->driver->prepare) {
-         job->ret = job->driver->prepare(job);
-         job_update_rc(job);
-@@ -952,6 +960,7 @@ static void coroutine_fn job_co_entry(void *opaque)
-     Job *job = opaque;
- 
-     assert(job && job->driver && job->driver->run);
-+    assert(job->aio_context == qemu_get_current_aio_context());
-     job_pause_point(job);
-     job->ret = job->driver->run(job, &job->err);
-     job->deferred_to_main_loop = true;
-@@ -1054,6 +1063,7 @@ void job_complete(Job *job, Error **errp)
- {
-     /* Should not be reachable via external interface for internal jobs */
-     assert(job->id);
-+    GLOBAL_STATE_CODE();
-     if (job_apply_verb(job, JOB_VERB_COMPLETE, errp)) {
-         return;
-     }
--- 
-2.31.1
+The callback of an I/O function isn't I/O, though. It is code _after_
+the I/O has completed. If this doesn't work any more, it feels like this
+is a bug.
+
+I think it becomes a bit more obvious when you translate the AIO into
+the equivalent coroutine function:
+
+    void coroutine_fn foo(...)
+    {
+        GLOBAL_STATE_CODE();
+
+        blk_co_preadv(...);
+        detach_by_parent_aio_cb(...);
+    }
+
+This is obviously correct code that must work. Calling an I/O function
+from a GS function is allowed, and of course the GS function may
+continue to do GS stuff after the I/O function returned.
+
+(Actually, I'm not sure if it really works when blk is not in the main
+AioContext, but your API split patches claim that it does, so let's
+assume for the moment that this is already true :-))
+
+> Before "block/io.c: make bdrv_do_drained_begin_quiesce static
+> and introduce bdrv_drained_begin_no_poll", the test would simply
+> be at risk of failure, because if bdrv_replace_child_noperm()
+> (called to modify the graph) would call a drain,
+> then one callback of .drained_begin() is bdrv_do_drained_begin_quiesce,
+> that specifically asserts that we are not in a coroutine.
+> 
+> Now that we fixed the behavior, the drain will invoke a bh in the
+> main loop, so we don't have such problem. However, this test is still
+> illegal and fails because we forbid graph changes from I/O paths.
+> 
+> Once we add the required subtree_drains to protect
+> bdrv_replace_child_noperm(), the key problem in this test is in:
+
+Probably a question for a different patch, but why is a subtree drain
+required instead of just a normal node drain? It feels like a bigger
+hammer than what is needed for replacing a single child.
+
+> acb = blk_aio_preadv(blk, 0, &qiov, 0, detach_by_parent_aio_cb, NULL);
+> /* Drain and check the expected result */
+> bdrv_subtree_drained_begin(parent_b);
+> 
+> because the detach_by_parent_aio_cb calls detach_indirect_bh(), that
+> modifies the graph and is invoked during bdrv_subtree_drained_begin().
+> The call stack is the following:
+> 1. blk_aio_preadv() creates a coroutine, increments in_flight counter
+> and enters the coroutine running blk_aio_read_entry()
+> 2. blk_aio_read_entry() performs the read and then schedules a bh to
+>    complete (blk_aio_complete)
+> 3. at this point, subtree_drained_begin() kicks in and waits for all
+>    in_flight requests, polling
+> 4. polling allows the bh to be scheduled, so blk_aio_complete runs
+> 5. blk_aio_complete *first* invokes the callback
+>    (detach_by_parent_aio_cb) and then decrements the in_flight counter
+> 6. Here we have the problem: detach_by_parent_aio_cb modifies the graph,
+>    so both bdrv_unref_child() and bdrv_attach_child() will have
+>    subtree_drains inside. And this causes a deadlock, because the
+>    nested drain will wait for in_flight counter to go to zero, which
+>    is only happening once the drain itself finishes.
+
+So the problem has nothing to do with detach_by_parent_aio_cb() being
+an I/O function in the sense of locking rules (which it isn't), but with
+calling a drain operation while having the in_flight counter increased.
+
+In other words, an AIO callback like detach_by_parent_aio_cb() must
+never call drain - and it doesn't before your changes to
+bdrv_replace_child_noperm() break it. How confident are we that this
+only breaks tests and not real code?
+
+Part of the problem is probably that drain is serving two slightly
+different purposes inside the block layer (just make sure that nothing
+touches the node any more) and callers outside of the block layer (make
+sure that everything has completed and no more callbacks will be
+called). This bug sits exactly in the difference between those two
+concepts - we're waiting for more than we would have to wait for, and it
+causes a deadlock in this combination.
+
+I guess it could be fixed if BlockBackend accounted for requests that
+are already completed, but their callback hasn't yet. blk_drain() would
+then have to wait for those requests, but blk_root_drained_poll()
+wouldn't because these requests don't affect the root node any more.
+
+> Different story is test_detach_by_driver_cb(): in this case,
+> detach_by_parent_aio_cb() does not call detach_indirect_bh(),
+> but it is instead called as a bh running in the main loop by
+> detach_by_driver_cb_drained_begin(), the callback for
+> .drained_begin().
+> 
+> This test was added in 231281ab42 and part of the series
+> "Drain fixes and cleanups, part 3"
+> https://lists.nongnu.org/archive/html/qemu-block/2018-05/msg01132.html
+> but as explained above I believe that it is not valid anymore, and
+> can be discarded.
+> 
+> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+
+I feel throwing tests away just because they don't pass any more is a
+bit too simple. :-)
+
+Kevin
 
 
