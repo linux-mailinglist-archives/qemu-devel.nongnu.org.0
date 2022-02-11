@@ -2,142 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39A2A4B2239
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Feb 2022 10:40:32 +0100 (CET)
-Received: from localhost ([::1]:58736 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1686A4B2254
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Feb 2022 10:43:20 +0100 (CET)
+Received: from localhost ([::1]:32946 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nISPn-0006UX-AG
-	for lists+qemu-devel@lfdr.de; Fri, 11 Feb 2022 04:40:31 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:33026)
+	id 1nISSV-0008Gd-57
+	for lists+qemu-devel@lfdr.de; Fri, 11 Feb 2022 04:43:19 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:33548)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1nISOC-0005ex-AM; Fri, 11 Feb 2022 04:38:52 -0500
-Received: from [2a01:111:f400:fe0d::70d] (port=61153
- helo=EUR04-HE1-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1nISO9-0007nv-0G; Fri, 11 Feb 2022 04:38:51 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ICwSwQA17hlxTtsS3zoSp6Ix5opmSrxXO61FCXP5SfuFvhZWb+cxDvb0Vl+EzTnv8jyt/Ddq4MrR6nUIpuhoIKM2i+ypNjtOTzfMkJ/a329iihOYTesbHntKgzJ4Ml6y7p2gMck1fUCXLSgKz8Kt4cXzZGJCyztq1cx6wrHi8FGFzLL9t+5pMSXtzCWH3M8Hw9JjWSeAB58vMqy5UgRsxG9Y/cRgwWedAjAJI2SKYIdQWfWVPSoOjIBg9Z0LQ68l/FDKYDmqYugo08wZa3crQP7KkyEp5jWCoPeaA30+hjF5SV8DMc1DCT0FT/BoliaXZ1YIpQ13zwR4vAyCSaEtog==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=u2O+LhLX0inGz4G0lYIk0Ct/vJf04+SA5j4wxiL3KYg=;
- b=HrOnVfvHba5JK57Xh1VMfyD6AbfN02f5Cx0kCcA6ma9borjARvNNh6HjdXpFXH2ky7YuFbnvpQyQrdK1b2mNwlyrTTdYboGjLGpdElbMJCgHUkz7NdeAYw3pQw1Y3K3HNzG+lbfaJ0i845cupyLDHgK3P7qfxQZP1Nzbv8/bd/qen1jBoGlxG6rmriJQYA70YuXl+39yTaR2mDAGIRIi2XbDy8mqkASjRhRKPkapmO8W65+G3UdPNMVMgyuq0p+d+O6PJLIPZ0UCQs+jrIJv7B5NlWHXB27OgTh96/4u98tzsmj0QoSFFlnBHIqEKnjnY0otlvHfnBYSpJgCGCFV0Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=u2O+LhLX0inGz4G0lYIk0Ct/vJf04+SA5j4wxiL3KYg=;
- b=nKjjAdBWDqztd96sFbF6GTWa2dY+rIQ+G4ccz9bHGe1oplWeYv4G7OpakKNz2/lIpQVK8dWcP373Y3sUtFOMgbNuaS8uo7gCBvDlK4poRjBUb/P7+KPJkRFQ/1bnl002bkSce3Dm65BGx3GN15shuol5bV7EAXdgRRbCerYkl6E=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=virtuozzo.com;
-Received: from AM9PR08MB6737.eurprd08.prod.outlook.com (2603:10a6:20b:304::18)
- by AM6PR08MB4581.eurprd08.prod.outlook.com (2603:10a6:20b:83::25)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4975.11; Fri, 11 Feb
- 2022 09:38:29 +0000
-Received: from AM9PR08MB6737.eurprd08.prod.outlook.com
- ([fe80::49c:67e9:3e24:8714]) by AM9PR08MB6737.eurprd08.prod.outlook.com
- ([fe80::49c:67e9:3e24:8714%4]) with mapi id 15.20.4975.011; Fri, 11 Feb 2022
- 09:38:29 +0000
-Message-ID: <387be0c9-f293-fabd-7401-3f70bb42801f@virtuozzo.com>
-Date: Fri, 11 Feb 2022 12:38:27 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [PATCH v2 1/8] tests/qemu-iotests/testrunner: Allow parallel test
- invocations
-Content-Language: en-US
-To: Kevin Wolf <kwolf@redhat.com>, Thomas Huth <thuth@redhat.com>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
- qemu-devel@nongnu.org, qemu-block@nongnu.org,
- Peter Maydell <peter.maydell@linaro.org>
-References: <20220209101530.3442837-1-thuth@redhat.com>
- <20220209101530.3442837-2-thuth@redhat.com> <YgYsbRc9XNYjUH2L@redhat.com>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-In-Reply-To: <YgYsbRc9XNYjUH2L@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: AM5PR1001CA0012.EURPRD10.PROD.OUTLOOK.COM
- (2603:10a6:206:2::25) To AM9PR08MB6737.eurprd08.prod.outlook.com
- (2603:10a6:20b:304::18)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1nISPX-0006sh-3B; Fri, 11 Feb 2022 04:40:15 -0500
+Received: from [2607:f8b0:4864:20::830] (port=33741
+ helo=mail-qt1-x830.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1nISPU-0008C2-Cr; Fri, 11 Feb 2022 04:40:13 -0500
+Received: by mail-qt1-x830.google.com with SMTP id p14so8570909qtx.0;
+ Fri, 11 Feb 2022 01:40:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=aJfSBGp2vOTKBGUMIbKWNoUFwfdnRHNGvs2QGPGUpOE=;
+ b=g3+1hqbctTfLTePv/xAMlJmVDm+FMJGh1p0Dq8lJmFOvMwsoXsMPLs3EiLe2wvZOqA
+ DwKWV4QQsMEeK9R/bytYhxnj9/VhXwq0tuSDcZE1fSJI5UFDir/rxh482VTQpqqDHyxa
+ u14EhOYRpnbCgVgx/FlqKjVN+2FWP/VLmaZbbfCBke5Vt5AD3fZYWZC+mOLch68Izz3n
+ YHkXiR50g5yN+ekxF8p8ai2yvDlw6QqEDwWm5zCZKsV3NsIaBfrIL37Ie5hqRTeCURdS
+ THp7t6nRNWQeDhXOS/pwJeNYSkfVKcBEhNx6KpCR47fmblV3zha4b5oSXJ9nREvPpzZX
+ DHnA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+ :subject:content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=aJfSBGp2vOTKBGUMIbKWNoUFwfdnRHNGvs2QGPGUpOE=;
+ b=ZWQ066XXI32/Jox3AcKS7Kh7V+m4Tx/gdh33bWnowDpbnMZmQU3dtf5eM4wpNYM47d
+ 3WJb32/1Vx1rRKJBuqfxDatUz8EG+1EU0JmORfgaHcYc3Knv2T22cfxovO+j4bBFeJu9
+ bQqAQCfmhRd22bneY6VY0VH5yaKgiSh9MTqRptdOsf1dBhr+t4T3+LTaKrAduIT4DqZh
+ 6kXIVyzVw1jjSDyJkWJ2FrWJAxqs412uRyEmyhl6b6fCVkYzXsXsElJKJo/FUmcs5k3l
+ 9jsazilCn9WsPqzBWp6OXuHfKP0uLTF9WPXqjeFGAxL5SEIzvqeOF+dOL0Zq3iKMYWtC
+ V6IQ==
+X-Gm-Message-State: AOAM530KM03gD2k9Ze5Azcct0l6N9b5TiX7uXbOAmUsfccs0QTUicFS6
+ dXGfbpbpzbuokS61iv2jGE4=
+X-Google-Smtp-Source: ABdhPJwbs8Uc2qpAniDkBzBZG3lwvsJd/jtsRaC3zsw2R3E/s2mOw5lUD5r+6MkaiJP1icFvTR6xeg==
+X-Received: by 2002:ac8:5f4a:: with SMTP id y10mr486422qta.378.1644572410961; 
+ Fri, 11 Feb 2022 01:40:10 -0800 (PST)
+Received: from [192.168.1.33] (154.red-83-50-83.dynamicip.rima-tde.net.
+ [83.50.83.154])
+ by smtp.gmail.com with ESMTPSA id t15sm6363527qkp.48.2022.02.11.01.40.08
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 11 Feb 2022 01:40:10 -0800 (PST)
+Message-ID: <c93b74e7-e166-fbef-7ecb-dc7856cd49a1@amsat.org>
+Date: Fri, 11 Feb 2022 10:40:05 +0100
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: f9454fc2-3246-4257-ad92-08d9ed4242b8
-X-MS-TrafficTypeDiagnostic: AM6PR08MB4581:EE_
-X-Microsoft-Antispam-PRVS: <AM6PR08MB45819D7D9DC7896DAA0ECAADC1309@AM6PR08MB4581.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 9AJ5F05Acnr3Te/1Hcq2/b7n087TO/gPhmh9PbuRZL5QpWK9V/gTKBvwthBsxzI73x5ILWabv9SNYquihvURZhlhrRgUtljF5StthnYY37JJH6XZQpD85OLeX1JwZ/docr4fQWVEt4TWUlguybYmk1SQbA7fQ3GEkBqMAQxuPgq9H/Da+ZevBXR+bqNxC94OFXbdryxmf+r6eAsZWryh2DK5gGF7fUJSc6HTuqtJH0hB/XYSdwSbwhI1YY1+AsH70L+ZBeXyeTardqipTTrSRALA+06yH+Z5bqzAblwTIaMzm26ESGQYmVaPZBcfFERHXUHe+s1DEol+XUaAvq1pFcQmfKe4nL0t9ljMNzVOjpfjCy5mdD68fzjS3zIiwWUBDLPKsrBqP0S7q3br0Nw7jQC90HBRMjO+x5dxAcnNykRz2/pXyg/8FCG/drYPnA5G/a9hf+9SGm/u4ilcoINAVC2NYCtuPeosHWIOLzhWhIsdylFAdChe5Oy/RvmrAYKKmeePnzDXktWyfQ0ELZjJPDDMsE40b6xNMTPbLOidUy8vePefRQIV6NHTO6JVyFEbeQUiIo1Lokx4jcRzC+8E3QCIl5LSgx4QphYrDfhPADaTR5ZbThVb1EV1tW81nW+/hRF89+VPH6qk8hSyJooZVWFYYDeHAP6cGPrzyfKa+sYJ4baDKsC2/DiLwSk5DI4GKDmlkuQJPvymLaJFFO/Pyvu/ZcKj4dtjjvSpKsAUmBoys5g3M1oNSDswFpjCIGPk6IaBn4rizp9kNgdFiFmRzA==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM9PR08MB6737.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230001)(4636009)(366004)(6512007)(36756003)(38350700002)(38100700002)(66476007)(31686004)(66556008)(66946007)(8676002)(4326008)(508600001)(2906002)(2616005)(52116002)(316002)(54906003)(6486002)(26005)(6506007)(31696002)(186003)(110136005)(8936002)(86362001)(83380400001)(5660300002)(45980500001)(43740500002);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?VEN4TUlSNWo3RnkwVmNlWkthOUsrYXF3d2JDZWt0YmhBZkdQbmlRZXgxWXhy?=
- =?utf-8?B?YmF6eDFlUU9jOW9TcUNlc3dYcml6cXZncktDa1Z3cUg3ekprUSs4bExvcWho?=
- =?utf-8?B?UmdHTEtucG94eDhIZHBHZlVVaU5sY2RTam9tRHZMSE1CZXYzUE1EZ0ZOMGxr?=
- =?utf-8?B?MG1HdjhzekQ1aFpIVjdDM3VLaTRHc3M3ZEF3a2RDUFN6ZkdreDA2dGZCVWV2?=
- =?utf-8?B?YXo3dDltWXZWNkRUVGY0ZCtzeFFUUGNKSXZPNkdIRnJhTVFkQ3E1ZU9aUGp4?=
- =?utf-8?B?OVRZb2IxVGVpdWJOMVNWeXcxZzB4ZGFjV1BTcEtDZHMwdmFkRFRWRDM0ZGpD?=
- =?utf-8?B?ZXNTSFFoM0lseFduckxnRTROdDRoV3hybWhrcUpmTE54R2YxaEIzVDdxWkJO?=
- =?utf-8?B?TFVMc2hycEZOcFNsTVhwQkxtM0xjRHpBUkxkeG0zMUp5b2xoWTAxbTZ6blpr?=
- =?utf-8?B?ODBTMGJXTWhVeVl6U3Y5RXZVcVVrZUdKSjRqaWpMVVBLWGZLQm5idzVDOG95?=
- =?utf-8?B?UzFRRGNVTWFoeEd4VGNLd1RiM0U1TFZ3dk1BdXk5NmRLT0lwYTJudWI3VGpa?=
- =?utf-8?B?MUlnK3A3ajErNGRXNDZTWG5xRDhqQUdIZ0lxc05NaFBTUnEvRWN6S2ZoZjB2?=
- =?utf-8?B?Zm5PeitVN1k2eUNJakhuMnRvOTdjRUovWUZjaEEwUzlpcnMyQVdkS0tqbmlG?=
- =?utf-8?B?YTVqS1BwcXVRU1dGVnFZbDlzZjNRSmdJOXE1elhxOStvY1N0eThZUGc0ZmxT?=
- =?utf-8?B?cUdFMzBTbFp4NklNUDAxNjBzemxTcHRtRSt4MERWbU9EWlErQmVqeE5yNkdo?=
- =?utf-8?B?Q2c3L2VHREhiOFVaS3V1cFdFSEgxK3U0L0ozNE1sTlRLbjgwVENXNXRXVzF3?=
- =?utf-8?B?ZURiUDJmTC8zTkE2K3UxNHhOaUx1dDNpUzM3YmVzd0xjU3NRLzJSWEl5ZFVS?=
- =?utf-8?B?Zjl6VVV5WDdwanBkVjF6bk40WXBKNVJzaU1GZUxaSlA5TzhGeDVacWlpWUNp?=
- =?utf-8?B?QUFXU3lQOU9KQVF6dTZZcGYzeTNYS0R0cUVLT3NyRHB4TW1EUVdNVE90Um1s?=
- =?utf-8?B?WkJ0ZzEzMmorVFU0VDFPb0RRYUZVQ3VXUVRndW9YTXJpeE1MRlgxVTFkOXFV?=
- =?utf-8?B?aWl6dkU5NVYzaTVjeUZ2Q0VVWTNYT3F4blQrUi9ZL0lTL1pXeUNEZkZpM0ti?=
- =?utf-8?B?SWxTQ1o1UGJ3bEpwVHZVUnJ2K293RkRMWm1udTdWeUtnZDcwZlVibUVPczVH?=
- =?utf-8?B?U1NkdlNLWEZYejl1Q2VIZVRhMzJaV1VieXFrdy8wbE1GVE5NbEJ6S0FTWmRY?=
- =?utf-8?B?NHdDd0I0S3lZZW9tMEprU1l5ZXFJMEp6dWxLbUxJbzQvYkZ4cTNNL2REMXQv?=
- =?utf-8?B?UXBackJ3N1ovcVdLR3JkMFRFcE43eTV3TU1NTVB1bHYrUnREdUk4VUpMVzNk?=
- =?utf-8?B?VWpIMEhibC9OckdITnY1dTQyMXAvTjFtMVlUOGNRM2xiTmVpNmcyRzJjU1Qz?=
- =?utf-8?B?aXYzcjhoUmN2VFFBaHBjTHFCWkF0czZXUFA4RUpaeE9BbU1rS2kwRS9KRmlM?=
- =?utf-8?B?RmR3UjJaTjlvbVZtZjA1Qi9ocE1EN3VxbTFabnBqYzUyMHozRENlWTA2Zi9Y?=
- =?utf-8?B?VFovMW50dkVKMzRkNEtaM3NVVWtWN2tTWndHSFBhcEVRSTg4RjBQN1M4UlVj?=
- =?utf-8?B?QTR6eXVVYVVxYTZhR0I2dXppZkxaNHBFa0NmREkySlZsUjhSOHVob1hFRHBh?=
- =?utf-8?B?REVkYzMwenNFQUx5LzNYaGpzYitMNlVTb1NwbSt2YkRYbnlKNjI1U01qTVhS?=
- =?utf-8?B?L1dad3gwOEtGM1oranNRVVpIWm92MjZQTmY5ai9xUHFialZFc0Y5V0JCTFlw?=
- =?utf-8?B?Q2QrSWtYdzFCQVlYeU9EdjlkUWZyRi9XZ2VZait2dE5Sb2hBMGc0L0RNczd2?=
- =?utf-8?B?MGNENDlUM0FFWDZsWGZwTG5HNnBFemJNYUhUMHEvQ2VmUkIwZE1sYkpFUXBN?=
- =?utf-8?B?YzQreEJtVXVwRlMvTUxNNzNTY0hYN21YbkxMYVUvREpBUElDVndoZ2RXNmRX?=
- =?utf-8?B?MVRhdDN4WFBvSTZzdDBpUldKZ0h4SzFHU2l0REhid000Ump2WFlqczJzTkxM?=
- =?utf-8?B?VXE3elVBNjV2dTdGWE5scThxYUxGZ2tjVDJlbFNtbmJLZ2lycy9odUlkWVlT?=
- =?utf-8?B?dGFBdXlnWlVLVm1yaUk2RTF2TVRmekc4Nnpib1dzR3ltRW56WndNQmFjamtj?=
- =?utf-8?B?akRvUnZ1ZFQvMmZWZ0NwSlYvamp3PT0=?=
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f9454fc2-3246-4257-ad92-08d9ed4242b8
-X-MS-Exchange-CrossTenant-AuthSource: AM9PR08MB6737.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Feb 2022 09:38:29.7189 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Jtrp8NlQl1U1fvSOOumYML8Snhnoc3ok+EtbGG02DF10oiKOvRzRvHwaLlNHQqjQ0uCuEoF/3LY81QvjIjU8ZgIprNy5rMGQiz3GvG+7qnA=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB4581
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a01:111:f400:fe0d::70d
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.5.1
+Subject: Re: [PATCH v3 1/2] hvf: arm: Use macros for sysreg shift/masking
+Content-Language: en-US
+To: Alexander Graf <agraf@csgraf.de>, Peter Maydell <peter.maydell@linaro.org>
+Cc: Roman Bolshakov <r.bolshakov@yadro.com>, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org, Cameron Esfahani <dirty@apple.com>,
+ Ivan Babrou <ivan@cloudflare.com>
+References: <20220209124135.69183-1-agraf@csgraf.de>
+In-Reply-To: <20220209124135.69183-1-agraf@csgraf.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::830
  (failed)
-Received-SPF: pass client-ip=2a01:111:f400:fe0d::70d;
- envelope-from=vsementsov@virtuozzo.com;
- helo=EUR04-HE1-obe.outbound.protection.outlook.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+Received-SPF: pass client-ip=2607:f8b0:4864:20::830;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-qt1-x830.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.248, NICE_REPLY_A=-0.001,
  PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -153,48 +95,55 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
-11.02.2022 12:29, Kevin Wolf wrote:
-> Am 09.02.2022 um 11:15 hat Thomas Huth geschrieben:
->> If multiple tests run in parallel, they must use unique file
->> names for the test output.
->>
->> Suggested-by: Hanna Reitz <hreitz@redhat.com>
->> Signed-off-by: Thomas Huth <thuth@redhat.com>
->> ---
->>   tests/qemu-iotests/testrunner.py | 2 +-
->>   1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/tests/qemu-iotests/testrunner.py b/tests/qemu-iotests/testrunner.py
->> index 0eace147b8..9d20f51bb1 100644
->> --- a/tests/qemu-iotests/testrunner.py
->> +++ b/tests/qemu-iotests/testrunner.py
->> @@ -259,7 +259,7 @@ def do_run_test(self, test: str, mp: bool) -> TestResult:
->>           """
->>   
->>           f_test = Path(test)
->> -        f_bad = Path(f_test.name + '.out.bad')
->> +        f_bad = Path(f'{os.getpid()}-{f_test.name}.out.bad')
->>           f_notrun = Path(f_test.name + '.notrun')
->>           f_casenotrun = Path(f_test.name + '.casenotrun')
->>           f_reference = Path(self.find_reference(test))
+On 9/2/22 13:41, Alexander Graf wrote:
+> We are parsing the syndrome field for sysregs in multiple places across
+> the hvf code, but repeat shift/mask operations with hard coded constants
+> every time. This is an error prone approach and makes it harder to reason
+> about the correctness of these operations.
 > 
-> Hmm... It does make sense, but nobody ever cleans those files up.
-> Currently, the next run of the test will just overwrite the existing
-> file or delete it when the test succeeds. So after running the test
-> suite, you have .out.bad files for every failed test, but not for those
-> that succeeded.
+> Let's introduce macros that allow us to unify the constants used as well
+> as create new helpers to extract fields from the sysreg value.
 > 
-> After this change, won't the test directory accumulate tons of .out.bad
-> files over time?
+> Suggested-by: Peter Maydell <peter.maydell@linaro.org>
+> Signed-off-by: Alexander Graf <agraf@csgraf.de>
+> ---
+>   target/arm/hvf/hvf.c | 69 ++++++++++++++++++++++++++++++--------------
+>   1 file changed, 47 insertions(+), 22 deletions(-)
 > 
+> diff --git a/target/arm/hvf/hvf.c b/target/arm/hvf/hvf.c
+> index 92ad0d29c4..8d0447ab01 100644
+> --- a/target/arm/hvf/hvf.c
+> +++ b/target/arm/hvf/hvf.c
+> @@ -35,9 +35,34 @@
+>           ENCODE_AA64_CP_REG(CP_REG_ARM64_SYSREG_CP, crn, crm, op0, op1, op2)
+>   #define PL1_WRITE_MASK 0x4
+>   
+> +#define SYSREG_OP0_SHIFT      20
+> +#define SYSREG_OP0_MASK       0x3
+> +#define SYSREG_OP0(sysreg)    ((sysreg >> SYSREG_OP0_SHIFT) & SYSREG_OP0_MASK)
+> +#define SYSREG_OP1_SHIFT      14
+> +#define SYSREG_OP1_MASK       0x7
+> +#define SYSREG_OP1(sysreg)    ((sysreg >> SYSREG_OP1_SHIFT) & SYSREG_OP1_MASK)
+> +#define SYSREG_CRN_SHIFT      10
+> +#define SYSREG_CRN_MASK       0xf
+> +#define SYSREG_CRN(sysreg)    ((sysreg >> SYSREG_CRN_SHIFT) & SYSREG_CRN_MASK)
+> +#define SYSREG_CRM_SHIFT      1
+> +#define SYSREG_CRM_MASK       0xf
+> +#define SYSREG_CRM(sysreg)    ((sysreg >> SYSREG_CRM_SHIFT) & SYSREG_CRM_MASK)
+> +#define SYSREG_OP2_SHIFT      17
+> +#define SYSREG_OP2_MASK       0x7
+> +#define SYSREG_OP2(sysreg)    ((sysreg >> SYSREG_OP2_SHIFT) & SYSREG_OP2_MASK)
 
-Actually, .out.bad files are put not to TEST_DIR but to build/tests/qemu-iotests..
+Alternatively easier to read using the "hw/registerfields.h" macros:
 
-If we want to do several runs in parallel, I think all files that test-run produces should be in TEST_DIR and SOCK_DIR. And we should care to keep TEST_DIR/*.out.bad after test-run, so user can examine them.
+FIELD(SYSREG, OP0, 20, 2)
+FIELD(SYSREG, OP2, 17, 3)
+FIELD(SYSREG, OP1, 14, 3)
+FIELD(SYSREG, CRN, 10, 4)
+FIELD(SYSREG, CRM,  1, 4)
 
-
--- 
-Best regards,
-Vladimir
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
