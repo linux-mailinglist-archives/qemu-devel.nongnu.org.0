@@ -2,57 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3EFD4B2D21
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Feb 2022 19:50:49 +0100 (CET)
-Received: from localhost ([::1]:32884 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D43D4B2DE5
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Feb 2022 20:41:45 +0100 (CET)
+Received: from localhost ([::1]:52020 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nIb0K-00047q-St
-	for lists+qemu-devel@lfdr.de; Fri, 11 Feb 2022 13:50:48 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:57192)
+	id 1nIbnc-000342-8M
+	for lists+qemu-devel@lfdr.de; Fri, 11 Feb 2022 14:41:44 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:40488)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nIamy-000812-Iw
- for qemu-devel@nongnu.org; Fri, 11 Feb 2022 13:37:01 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:47296)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nIbkc-0002Lk-QN
+ for qemu-devel@nongnu.org; Fri, 11 Feb 2022 14:38:39 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:27035)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nIamt-0004ei-Py
- for qemu-devel@nongnu.org; Fri, 11 Feb 2022 13:36:57 -0500
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nIbkZ-00057E-Bv
+ for qemu-devel@nongnu.org; Fri, 11 Feb 2022 14:38:37 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1644604615;
+ s=mimecast20190719; t=1644608313;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=J5ef6i/mbyNM0l9bIy34qCbfHrdVkcKLN/NaLJw1vqc=;
- b=f52kZR6/3K0j1rmF5ESR4ZHzmjGPWxtfYBq4LXfPAPCYyJqp5rARgCtshQHPC1xSmXBki2
- G3uxCSlkMKOeSRAHkq0WfLDfGXCIqZtRukDnb8yW+FmOgfSIKe5/KksoazPpexw40CEV5X
- tBod1TeDd8b4sMgT4fGhv3+cMxfBi30=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ in-reply-to:in-reply-to:references:references;
+ bh=n/oeRASI9IPw5n3Y0y5AxYzsBrP/xkE+Y3g1kO5ub5k=;
+ b=VwANkvEJ3vGrrq1ps7soFXDdWRvBkq3IquQKkI936o8FJwS09tMPk9Hk9mZvfPy0aojM1U
+ AEfw513cdlYkbs2i1L5jtqKGs74ARdV6hyBEIvacKdiDZ9iMwSP/RCwrFCZZCj1DvOO5CG
+ onGVJudp3wrVcZSNrUFq1nIO9toweMY=
+Received: from mail-ua1-f72.google.com (mail-ua1-f72.google.com
+ [209.85.222.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-142-DXRuAnPQMQ-NWJN_G6WefQ-1; Fri, 11 Feb 2022 13:36:52 -0500
-X-MC-Unique: DXRuAnPQMQ-NWJN_G6WefQ-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3AE1E1015DCE;
- Fri, 11 Feb 2022 18:36:51 +0000 (UTC)
-Received: from scv.redhat.com (unknown [10.22.16.166])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9D247753E7;
- Fri, 11 Feb 2022 18:36:50 +0000 (UTC)
-From: John Snow <jsnow@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2] scripts/qapi: minor delinting
-Date: Fri, 11 Feb 2022 13:36:50 -0500
-Message-Id: <20220211183650.2946895-1-jsnow@redhat.com>
+ us-mta-628-fJ4O9WxVO-aae05l5gl59w-1; Fri, 11 Feb 2022 14:38:32 -0500
+X-MC-Unique: fJ4O9WxVO-aae05l5gl59w-1
+Received: by mail-ua1-f72.google.com with SMTP id
+ z38-20020ab04929000000b0030ef21ee1eeso4777989uac.17
+ for <qemu-devel@nongnu.org>; Fri, 11 Feb 2022 11:38:32 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=n/oeRASI9IPw5n3Y0y5AxYzsBrP/xkE+Y3g1kO5ub5k=;
+ b=fnD31zHjEJQdUQCb8aWwR1OwKXzI056e2qcQHRwS1osgyr4/LDLYSjfGIJaUUVDEYc
+ Q/6OI0/C5ActPIazFxfePIAWOnyhTIR/2gA0tFWkpObuGL4BR2SsdoFH3NqA8guIPYn/
+ J0rzwbNLQhwBE+7HWWUJm9nY9NAlZGz609UFYBBg70FKqmTKfnDPTb7CGszrvMkil9vW
+ KnadE9QqBqgA03yMAk7+k8Au3psxCFktEU5YWIjl+4/oLxVvQ/4GlExO8G9AJhSvSqPs
+ M6G18PuTI7SYtTqsPdpt2FZsmiYcqoLjoz09aEnc4lQ4mtFh44vnQpT3ti9mkOHIHlL3
+ nleg==
+X-Gm-Message-State: AOAM532znuOtQStoLAb+ktqtxrMBU5VJUBRQEcUNCDdbbiKjewN+txil
+ RR7t2KZRznMGN+ZOyuYsG1sW5BJJwzoXiXAV+YdkSuyKYch4eZMcbkuSKrk+gDRRFgm63uF3aBQ
+ ofsSsujAhu8DFVxAaCA8m8fP3JDKGoU8=
+X-Received: by 2002:a1f:ee83:: with SMTP id m125mr1031753vkh.26.1644608311708; 
+ Fri, 11 Feb 2022 11:38:31 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzpAyo0psGnQAU3MNzsB5/XXwaMQHE1Snh/pRDWaQa2ksnPCPuOrsLybTuc1/JUPQORwlOqHzYWAixO5nyshm4=
+X-Received: by 2002:a1f:ee83:: with SMTP id m125mr1031745vkh.26.1644608311461; 
+ Fri, 11 Feb 2022 11:38:31 -0800 (PST)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+References: <CAFn=p-anWO3dpvcECpW6J1ExJLw01DhXvTYtC5FUi5p7kQ2tig@mail.gmail.com>
+ <87pmnwqzq7.fsf@pond.sub.org>
+ <CAFn=p-YVdQDbzUsQm97=FyuZN_m3jCsFzjTpguRPjtH3PezTMg@mail.gmail.com>
+ <87zgmze0im.fsf@pond.sub.org>
+In-Reply-To: <87zgmze0im.fsf@pond.sub.org>
+From: John Snow <jsnow@redhat.com>
+Date: Fri, 11 Feb 2022 14:38:20 -0500
+Message-ID: <CAFn=p-b-gfeDgFfivtJ6tOixyydRb1kS8rS+H41RjiVZ-3Sgsw@mail.gmail.com>
+Subject: Adding a handshake to qemu-guest-agent
+To: Markus Armbruster <armbru@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
+Content-Type: text/plain; charset="UTF-8"
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
@@ -74,96 +90,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Michael Roth <michael.roth@amd.com>, John Snow <jsnow@redhat.com>,
- Markus Armbruster <armbru@redhat.com>
+Cc: qemu-devel <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Get isort and pylint tools passing again.
+[Moving our discussion upstream, because it stopped being brief and simple.]
 
-Signed-off-by: John Snow <jsnow@redhat.com>
----
- scripts/qapi/commands.py |  2 +-
- scripts/qapi/pylintrc    | 15 +++++----------
- scripts/qapi/types.py    |  6 +++++-
- scripts/qapi/visit.py    |  6 +++++-
- 4 files changed, 16 insertions(+), 13 deletions(-)
+What about something like this:
 
-diff --git a/scripts/qapi/commands.py b/scripts/qapi/commands.py
-index 869d799ed22..38ca38a7b9d 100644
---- a/scripts/qapi/commands.py
-+++ b/scripts/qapi/commands.py
-@@ -25,8 +25,8 @@
-     QAPIGenC,
-     QAPISchemaModularCVisitor,
-     build_params,
--    ifcontext,
-     gen_special_features,
-+    ifcontext,
- )
- from .schema import (
-     QAPISchema,
-diff --git a/scripts/qapi/pylintrc b/scripts/qapi/pylintrc
-index b259531a726..1fed2e69620 100644
---- a/scripts/qapi/pylintrc
-+++ b/scripts/qapi/pylintrc
-@@ -34,16 +34,11 @@ disable=fixme,
- 
- [BASIC]
- 
--# Good variable names which should always be accepted, separated by a comma.
--good-names=i,
--           j,
--           k,
--           ex,
--           Run,
--           _,
--           fp,  # fp = open(...)
--           fd,  # fd = os.open(...)
--           ch,
-+# Good variable names regexes, separated by a comma. If names match any regex,
-+# they will always be accepted
-+
-+# Allow just about anything, as per Markus's preference.
-+good-names-rgxs=^[_a-z][_a-z0-9]?$
- 
- [VARIABLES]
- 
-diff --git a/scripts/qapi/types.py b/scripts/qapi/types.py
-index 3013329c248..477d0270013 100644
---- a/scripts/qapi/types.py
-+++ b/scripts/qapi/types.py
-@@ -16,7 +16,11 @@
- from typing import List, Optional
- 
- from .common import c_enum_const, c_name, mcgen
--from .gen import QAPISchemaModularCVisitor, gen_special_features, ifcontext
-+from .gen import (
-+    QAPISchemaModularCVisitor,
-+    gen_special_features,
-+    ifcontext,
-+)
- from .schema import (
-     QAPISchema,
-     QAPISchemaEnumMember,
-diff --git a/scripts/qapi/visit.py b/scripts/qapi/visit.py
-index e13bbe42925..380fa197f58 100644
---- a/scripts/qapi/visit.py
-+++ b/scripts/qapi/visit.py
-@@ -21,7 +21,11 @@
-     indent,
-     mcgen,
- )
--from .gen import QAPISchemaModularCVisitor, gen_special_features, ifcontext
-+from .gen import (
-+    QAPISchemaModularCVisitor,
-+    gen_special_features,
-+    ifcontext,
-+)
- from .schema import (
-     QAPISchema,
-     QAPISchemaEnumMember,
--- 
-2.34.1
+Add a new "request-negotiation" command to qemu-guest-agent 7.0.0.
+
+[Modern client to unknown server]
+1. A modern client connects to a server of unknown version, and
+without waiting, issues the "request-negotiation" command.
+2. An old server will reply with CommandNotFound. We are done negotiating.
+3. A modern server will reply with the greeting in the traditional
+format, but as a reply object (to preserve "execute" semantics.)
+4. The modern client will now issue qmp-capabilities as normal.
+5. The server replies with success or failure as normal.
+6. Connection is fully established.
+
+[Old client to unknown server]
+1. An old client connects to an unknown version server.
+2. A command is issued some time later.
+  2a. The server is old, the command worked as anticipated.
+  2b. The server is new, the command fails with CommandNotFound and
+urges the use of 'request-negotiation'.
+
+Compatibility matrix summary:
+Old client on old server: Works just fine, as always.
+Old client on new server: Will fail; the new server requires the
+negotiation step to be performed. This is a tractable problem.
+POSSIBLY we need to send some kind of "warning event" for two versions
+before making it genuinely mandatory. Also tractable.
+New client on old server: Works, albeit with a single failed execute
+command now in the log file.
+New client on new server: Works, though handshaking is now permanently
+a little chattier than with any other QMP server.
+
+***The QMP spec will need to be updated*** to state: the asynchronous
+greeting is mandatory on all QMP implementations, EXCEPT for the
+qemu-guest-agent, which for historical reasons, uses an alternate
+handshaking process, ...
+
+Compatibility concerns:
+- We must never remove the 'request-negotiation' command from QGA,
+forever-and-ever, unless we also make a new error class for
+"NegotiationRequired" that's distinct from "CommandNotFound", but
+that's more divergence. Supporting the negotiation request command
+forever-and-ever is probably fine.
+- QGA is now officially on a different flavor of QMP protocol. You
+still need to know in advance if you are connecting to QGA or anything
+else. That's still a little sad, but maybe that's just simply an
+impossible goal.
+
+Bonus:
+- If an execution ID is used when sending "request-negotiation", we
+know that the server is at least version 4.0.0 if it responds to us
+using that ID. A modern client can then easily distinguish between
+pre-4.0, post-4.0 and post-7.0 servers. It's a useful probe.
+
+--js
 
 
