@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60B7B4B25ED
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Feb 2022 13:37:44 +0100 (CET)
-Received: from localhost ([::1]:39018 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B9CD4B26C9
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Feb 2022 14:07:56 +0100 (CET)
+Received: from localhost ([::1]:53146 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nIVBH-0002C7-GC
-	for lists+qemu-devel@lfdr.de; Fri, 11 Feb 2022 07:37:43 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:41164)
+	id 1nIVeV-0007yP-C2
+	for lists+qemu-devel@lfdr.de; Fri, 11 Feb 2022 08:07:55 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:42000)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1nIUvC-0006nq-Vl
- for qemu-devel@nongnu.org; Fri, 11 Feb 2022 07:21:07 -0500
-Received: from frasgout.his.huawei.com ([185.176.79.56]:2302)
+ id 1nIUyq-00044X-CG
+ for qemu-devel@nongnu.org; Fri, 11 Feb 2022 07:24:53 -0500
+Received: from frasgout.his.huawei.com ([185.176.79.56]:2309)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1nIUvA-0005K0-Uo
- for qemu-devel@nongnu.org; Fri, 11 Feb 2022 07:21:06 -0500
-Received: from fraeml702-chm.china.huawei.com (unknown [172.18.147.200])
- by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4JwCKF6mLvz683T0;
- Fri, 11 Feb 2022 20:16:49 +0800 (CST)
+ id 1nIUyl-0005lW-0b
+ for qemu-devel@nongnu.org; Fri, 11 Feb 2022 07:24:50 -0500
+Received: from fraeml740-chm.china.huawei.com (unknown [172.18.147.226])
+ by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4JwCPP3gGTz68287;
+ Fri, 11 Feb 2022 20:20:25 +0800 (CST)
 Received: from lhreml710-chm.china.huawei.com (10.201.108.61) by
- fraeml702-chm.china.huawei.com (10.206.15.51) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.2308.21; Fri, 11 Feb 2022 13:21:02 +0100
+ fraeml740-chm.china.huawei.com (10.206.15.221) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.21; Fri, 11 Feb 2022 13:24:38 +0100
 Received: from SecurePC-101-06.china.huawei.com (10.122.247.231) by
  lhreml710-chm.china.huawei.com (10.201.108.61) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.21; Fri, 11 Feb 2022 12:21:02 +0000
+ 15.1.2308.21; Fri, 11 Feb 2022 12:24:38 +0000
 To: <qemu-devel@nongnu.org>, =?UTF-8?q?Alex=20Benn=C3=A9e?=
  <alex.bennee@linaro.org>, Marcel Apfelbaum <marcel@redhat.com>, "Michael S .
  Tsirkin" <mst@redhat.com>, Igor Mammedov <imammedo@redhat.com>
@@ -40,10 +40,9 @@ CC: <linux-cxl@vger.kernel.org>, Ben Widawsky <ben.widawsky@intel.com>, "Peter
  <saransh@ibm.com>, Shreyas Shah <shreyas.shah@elastics.cloud>, Chris Browy
  <cbrowy@avery-design.com>, Samarth Saxena <samarths@cadence.com>, "Dan
  Williams" <dan.j.williams@intel.com>
-Subject: [PATCH v6 26/43] hw/cxl/component: Add utils for interleave parameter
- encoding/decoding
-Date: Fri, 11 Feb 2022 12:07:30 +0000
-Message-ID: <20220211120747.3074-27-Jonathan.Cameron@huawei.com>
+Subject: [PATCH v6 33/43] cxl/cxl-host: Add memops for CFMWS region.
+Date: Fri, 11 Feb 2022 12:07:37 +0000
+Message-ID: <20220211120747.3074-34-Jonathan.Cameron@huawei.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20220211120747.3074-1-Jonathan.Cameron@huawei.com>
 References: <20220211120747.3074-1-Jonathan.Cameron@huawei.com>
@@ -81,82 +80,165 @@ From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 
 From: Jonathan Cameron <jonathan.cameron@huawei.com>
 
-Both registers and the CFMWS entries in CDAT use simple encodings
-for the number of interleave ways and the interleave granularity.
-Introduce simple conversion functions to/from the unencoded
-number / size.  So far the iw decode has not been needed so is
-it not implemented.
+These memops perform interleave decoding, walking down the
+CXL topology from CFMWS described host interleave
+decoder via CXL host bridge HDM decoders, through the CXL
+root ports and finally call CXL type 3 specific read and write
+functions.
 
-Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Note that, whilst functional the current implementation does
+not support:
+* switches
+* multiple HDM decoders at a given level.
+* unaligned accesses across the interleave boundaries
+
+Signed-off-by: Jonathan Cameron <jonathan.cameron@huawei.com>
 ---
- hw/cxl/cxl-component-utils.c   | 34 ++++++++++++++++++++++++++++++++++
- include/hw/cxl/cxl_component.h |  8 ++++++++
- 2 files changed, 42 insertions(+)
+ hw/cxl/cxl-host.c    | 124 +++++++++++++++++++++++++++++++++++++++++++
+ include/hw/cxl/cxl.h |   2 +
+ 2 files changed, 126 insertions(+)
 
-diff --git a/hw/cxl/cxl-component-utils.c b/hw/cxl/cxl-component-utils.c
-index 07297b3bbe..795dbc7561 100644
---- a/hw/cxl/cxl-component-utils.c
-+++ b/hw/cxl/cxl-component-utils.c
-@@ -9,6 +9,7 @@
- 
- #include "qemu/osdep.h"
- #include "qemu/log.h"
-+#include "qapi/error.h"
- #include "hw/pci/pci.h"
- #include "hw/cxl/cxl.h"
- 
-@@ -217,3 +218,36 @@ void cxl_component_create_dvsec(CXLComponentState *cxl, uint16_t length,
-     range_init_nofail(&cxl->dvsecs[type], cxl->dvsec_offset, length);
-     cxl->dvsec_offset += length;
+diff --git a/hw/cxl/cxl-host.c b/hw/cxl/cxl-host.c
+index 9f303e6d8e..ec6871ff36 100644
+--- a/hw/cxl/cxl-host.c
++++ b/hw/cxl/cxl-host.c
+@@ -136,3 +136,127 @@ void cxl_fixed_memory_window_link_targets(Error **errp)
+         }
+     }
  }
 +
-+uint8_t cxl_interleave_ways_enc(int iw, Error **errp)
++/* TODO: support, multiple hdm decoders */
++static bool cxl_hdm_find_target(uint32_t *cache_mem, hwaddr addr,
++                                uint8_t *target)
 +{
-+    switch (iw) {
-+    case 1: return 0x0;
-+    case 2: return 0x1;
-+    case 4: return 0x2;
-+    case 8: return 0x3;
-+    case 16: return 0x4;
-+    case 3: return 0x8;
-+    case 6: return 0x9;
-+    case 12: return 0xa;
-+    default:
-+        error_setg(errp, "Interleave ways: %d not supported", iw);
-+        return 0;
++    uint32_t ctrl;
++    uint32_t ig_enc;
++    uint32_t iw_enc;
++    uint32_t target_reg;
++    uint32_t target_idx;
++
++    ctrl = cache_mem[R_CXL_HDM_DECODER0_CTRL];
++    if (!FIELD_EX32(ctrl, CXL_HDM_DECODER0_CTRL, COMMITTED)) {
++        return false;
 +    }
++
++    ig_enc = FIELD_EX32(ctrl, CXL_HDM_DECODER0_CTRL, IG);
++    iw_enc = FIELD_EX32(ctrl, CXL_HDM_DECODER0_CTRL, IW);
++    target_idx = (addr / cxl_decode_ig(ig_enc)) % (1 << iw_enc);
++
++    if (target_idx > 4) {
++        target_reg = cache_mem[R_CXL_HDM_DECODER0_TARGET_LIST_LO];
++        target_reg >>= target_idx * 8;
++    } else {
++        target_reg = cache_mem[R_CXL_HDM_DECODER0_TARGET_LIST_LO];
++        target_reg >>= (target_idx - 4) * 8;
++    }
++    *target = target_reg & 0xff;
++
++    return true;
 +}
 +
-+uint8_t cxl_interleave_granularity_enc(uint64_t gran, Error **errp)
++static PCIDevice *cxl_cfmws_find_device(CXLFixedWindow *fw, hwaddr addr)
 +{
-+    switch (gran) {
-+    case 256: return 0;
-+    case 512: return 1;
-+    case 1024: return 2;
-+    case 2048: return 3;
-+    case 4096: return 4;
-+    case 8192: return 5;
-+    case 16384: return 6;
-+    default:
-+        error_setg(errp, "Interleave granularity: %" PRIu64 " invalid", gran);
-+        return 0;
++    CXLComponentState *hb_cstate;
++    PCIHostState *hb;
++    int rb_index;
++    uint32_t *cache_mem;
++    uint8_t target;
++    bool target_found;
++    PCIDevice *rp, *d;
++
++    /* Address is relative to memory region. Convert to HPA */
++    addr += fw->base;
++
++    rb_index = (addr / cxl_decode_ig(fw->enc_int_gran)) % fw->num_targets;
++    hb = PCI_HOST_BRIDGE(fw->target_hbs[rb_index]->cxl.cxl_host_bridge);
++    if (!hb || !hb->bus || !pci_bus_is_cxl(hb->bus)) {
++        return NULL;
 +    }
++
++    hb_cstate = cxl_get_hb_cstate(hb);
++    if (!hb_cstate) {
++        return NULL;
++    }
++
++    cache_mem = hb_cstate->crb.cache_mem_registers;
++
++    target_found = cxl_hdm_find_target(cache_mem, addr, &target);
++    if (!target_found) {
++        return NULL;
++    }
++
++    rp = pcie_find_port_by_pn(hb->bus, target);
++    if (!rp) {
++        return NULL;
++    }
++
++    d = pci_bridge_get_sec_bus(PCI_BRIDGE(rp))->devices[0];
++
++    if (!d || !object_dynamic_cast(OBJECT(d), TYPE_CXL_TYPE3_DEV)) {
++        return NULL;
++    }
++
++    return d;
 +}
-diff --git a/include/hw/cxl/cxl_component.h b/include/hw/cxl/cxl_component.h
-index 33aeab9b99..42cd140f75 100644
---- a/include/hw/cxl/cxl_component.h
-+++ b/include/hw/cxl/cxl_component.h
-@@ -193,4 +193,12 @@ void cxl_component_register_init_common(uint32_t *reg_state,
- void cxl_component_create_dvsec(CXLComponentState *cxl_cstate, uint16_t length,
-                                 uint16_t type, uint8_t rev, uint8_t *body);
++
++static MemTxResult cxl_read_cfmws(void *opaque, hwaddr addr, uint64_t *data,
++                                  unsigned size, MemTxAttrs attrs)
++{
++    CXLFixedWindow *fw = opaque;
++    PCIDevice *d;
++
++    d = cxl_cfmws_find_device(fw, addr);
++    if (d == NULL) {
++        *data = 0;
++        /* Reads to invalid address return poison */
++        return MEMTX_ERROR;
++    }
++
++    return cxl_type3_read(d, addr + fw->base, data, size, attrs);
++}
++
++static MemTxResult cxl_write_cfmws(void *opaque, hwaddr addr,
++                                   uint64_t data, unsigned size,
++                                   MemTxAttrs attrs)
++{
++    CXLFixedWindow *fw = opaque;
++    PCIDevice *d;
++
++    d = cxl_cfmws_find_device(fw, addr);
++    if (d == NULL) {
++        /* Writes to invalid address are silent */
++        return MEMTX_OK;
++    }
++
++    return cxl_type3_write(d, addr + fw->base, data, size, attrs);
++}
++
++const MemoryRegionOps cfmws_ops = {
++    .read_with_attrs = cxl_read_cfmws,
++    .write_with_attrs = cxl_write_cfmws,
++    .endianness = DEVICE_LITTLE_ENDIAN,
++    .valid = {
++        .min_access_size = 1,
++        .max_access_size = 8,
++        .unaligned = true,
++    },
++    .impl = {
++        .min_access_size = 1,
++        .max_access_size = 8,
++        .unaligned = true,
++    },
++};
+diff --git a/include/hw/cxl/cxl.h b/include/hw/cxl/cxl.h
+index 1b72c0b7b7..260d602ec9 100644
+--- a/include/hw/cxl/cxl.h
++++ b/include/hw/cxl/cxl.h
+@@ -46,4 +46,6 @@ extern QemuOptsList qemu_cxl_fixed_window_opts;
+ void parse_cxl_fixed_memory_window_opts(MachineState *ms);
+ void cxl_fixed_memory_window_link_targets(Error **errp);
  
-+uint8_t cxl_interleave_ways_enc(int iw, Error **errp);
-+uint8_t cxl_interleave_granularity_enc(uint64_t gran, Error **errp);
-+
-+static inline hwaddr cxl_decode_ig(int ig)
-+{
-+    return 1 << (ig + 8);
-+}
++extern const MemoryRegionOps cfmws_ops;
 +
  #endif
 -- 
