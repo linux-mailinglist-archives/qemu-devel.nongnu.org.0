@@ -2,68 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 618DE4B27A0
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Feb 2022 15:14:46 +0100 (CET)
-Received: from localhost ([::1]:52954 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D6624B2777
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Feb 2022 14:57:39 +0100 (CET)
+Received: from localhost ([::1]:58414 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nIWhB-00036L-7t
-	for lists+qemu-devel@lfdr.de; Fri, 11 Feb 2022 09:14:45 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:60454)
+	id 1nIWQb-0003aY-Sd
+	for lists+qemu-devel@lfdr.de; Fri, 11 Feb 2022 08:57:37 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:33792)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nIWAl-00076B-Gd
- for qemu-devel@nongnu.org; Fri, 11 Feb 2022 08:41:15 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:49322)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nIWGy-0006J3-Ps
+ for qemu-devel@nongnu.org; Fri, 11 Feb 2022 08:47:40 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:43986)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nIWAh-00040V-AR
- for qemu-devel@nongnu.org; Fri, 11 Feb 2022 08:41:13 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nIWGu-0005Qb-FS
+ for qemu-devel@nongnu.org; Fri, 11 Feb 2022 08:47:38 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1644586868;
+ s=mimecast20190719; t=1644587255;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=YxK0qZkwoopLRxeP/+QtCp71zKezZJaHA8YHXMzyQmQ=;
- b=Tu6j2qCleWrYgNHN3hifyfrt4brUNjahvylx9HrNBPMUGl/QEF//TCTJy+jp5yfK4HjSlz
- GmnP+5dR6L8LcHgm7zdcrdtTE4VfxsER4DC9g24VPgj9vRyXyeVGDZvCuJ4ss5Mv7xZGbj
- x3K5tnVKWwDOXdru9tfMocgHfpifw5U=
+ bh=cZL/WW2lUtszw9ENo3hi++j6ZCrv5P7QlbtYPwQYCfM=;
+ b=M8yACIi10Ih9UDP4omrVIlg8QdRrKGWo1SWQX0RNq+86Wn5bRVzOUt/u/DBvxzlFTUAXWB
+ nc42kKU3dpivY7mexgXY477cID/j6VKmiwEfTo7bdwfzf6ygoeGAbDt1jNK7X0svOr7hxv
+ MkGsOD7VzBGZNrsnhLBbGwBGftquiBw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-230-Kp4AOAsRPFKCFgUupoKOww-1; Fri, 11 Feb 2022 08:41:02 -0500
-X-MC-Unique: Kp4AOAsRPFKCFgUupoKOww-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-299-x9TuS4vpM7-oNss4SdNZ3g-1; Fri, 11 Feb 2022 08:47:32 -0500
+X-MC-Unique: x9TuS4vpM7-oNss4SdNZ3g-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C2EC510066FF;
- Fri, 11 Feb 2022 13:40:45 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DA4E384DA48;
+ Fri, 11 Feb 2022 13:47:30 +0000 (UTC)
 Received: from blackfin.pond.sub.org (unknown [10.36.112.3])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 1B69A2B4B7;
- Fri, 11 Feb 2022 13:40:23 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id B93B06E20B;
+ Fri, 11 Feb 2022 13:46:48 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id AC1DA21E6A00; Fri, 11 Feb 2022 14:40:21 +0100 (CET)
+ id 38A1C21E6A00; Fri, 11 Feb 2022 14:46:47 +0100 (CET)
 From: Markus Armbruster <armbru@redhat.com>
-To: huangy81@chinatelecom.cn
-Subject: Re: [PATCH v14 7/7] softmmu/dirtylimit: Implement dirty page rate
- limit
-References: <cover.1644509582.git.huangy81@chinatelecom.cn>
- <cover.1644509582.git.huangy81@chinatelecom.cn>
- <32a65f0fbb691aa66094fc9162bff4daa6d7771d.1644509582.git.huangy81@chinatelecom.cn>
-Date: Fri, 11 Feb 2022 14:40:21 +0100
-In-Reply-To: <32a65f0fbb691aa66094fc9162bff4daa6d7771d.1644509582.git.huangy81@chinatelecom.cn>
- (huangy's message of "Fri, 11 Feb 2022 00:17:41 +0800")
-Message-ID: <87a6exo722.fsf@pond.sub.org>
+To: Elena Ufimtseva <elena.ufimtseva@oracle.com>
+Subject: Re: [RFC 4/8] ioregionfd: Introduce IORegionDFObject type
+References: <cover.1644302411.git.elena.ufimtseva@oracle.com>
+ <fa5bc2e2773966fd209a2c866eb95ac8ac60a928.1644302411.git.elena.ufimtseva@oracle.com>
+Date: Fri, 11 Feb 2022 14:46:47 +0100
+In-Reply-To: <fa5bc2e2773966fd209a2c866eb95ac8ac60a928.1644302411.git.elena.ufimtseva@oracle.com>
+ (Elena Ufimtseva's message of "Mon, 7 Feb 2022 23:22:18 -0800")
+Message-ID: <874k55o6rc.fsf@pond.sub.org>
 User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -84,34 +82,129 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <eduardo@habkost.net>, David Hildenbrand <david@redhat.com>,
- Juan Quintela <quintela@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- qemu-devel <qemu-devel@nongnu.org>, Peter Xu <peterx@redhat.com>, "Dr. David
- Alan Gilbert" <dgilbert@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud?= =?utf-8?Q?=C3=A9?= <philmd@redhat.com>
+Cc: eduardo@habkost.net, john.g.johnson@oracle.com, cohuck@redhat.com,
+ jag.raman@oracle.com, john.levon@nutanix.com, eblake@redhat.com,
+ david@redhat.com, qemu-devel@nongnu.org, peterx@redhat.com, mst@redhat.com,
+ berrange@redhat.com, stefanha@redhat.com, pbonzini@redhat.com,
+ philmd@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-huangy81@chinatelecom.cn writes:
+Elena Ufimtseva <elena.ufimtseva@oracle.com> writes:
 
-> From: Hyman Huang(=E9=BB=84=E5=8B=87) <huangy81@chinatelecom.cn>
->
-> Implement dirtyrate calculation periodically basing on
-> dirty-ring and throttle virtual CPU until it reachs the quota
-> dirty page rate given by user.
->
-> Introduce qmp commands "set-vcpu-dirty-limit",
-> "cancel-vcpu-dirty-limit", "query-vcpu-dirty-limit"
-> to enable, disable, query dirty page limit for virtual CPU.
->
-> Meanwhile, introduce corresponding hmp commands
-> "set_vcpu_dirty_limit", "cancel_vcpu_dirty_limit",
-> "info vcpu_dirty_limit" so the feature can be more usable.
->
-> Signed-off-by: Hyman Huang(=E9=BB=84=E5=8B=87) <huangy81@chinatelecom.cn>
+> Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
 
-QAPI schema
-Acked-by: Markus Armbruster <armbru@redhat.com>
+[...]
+
+> diff --git a/qapi/qom.json b/qapi/qom.json
+> index eeb5395ff3..439fb94c93 100644
+> --- a/qapi/qom.json
+> +++ b/qapi/qom.json
+> @@ -689,6 +689,29 @@
+>          'data': { 'chardev': 'str',
+>                    '*log': 'str' } }
+> =20
+> +##
+> +# @IORegionFDObjectProperties:
+> +#
+> +# Describes ioregionfd for the device
+> +#
+> +# @devid: the id of the device to be associated with the ioregionfd
+> +#
+> +# @iofd: File descriptor
+> +#
+> +# @bar: BAR number to use with ioregionfd
+> +#
+> +# @start: offset from the BAR start address of ioregionfd
+> +#
+> +# @size: size of the ioregionfd
+> +##
+> +# Since: 2.9
+> +{ 'struct': 'IORegionFDObjectProperties',
+> +  'data': { 'devid': 'str',
+> +            'iofd': 'str',
+> +            'bar': 'int',
+> +            '*start': 'int',
+> +            '*size':'int' } }
+
+Should these three be 'uint32' to match struct IORegionFD?
+
+> +
+>  ##
+>  # @RemoteObjectProperties:
+>  #
+> @@ -842,8 +865,10 @@
+>      'tls-creds-psk',
+>      'tls-creds-x509',
+>      'tls-cipher-suites',
+> -    { 'name': 'x-remote-object', 'features': [ 'unstable' ] }
+> -  ] }
+> +    { 'name': 'x-remote-object', 'features': [ 'unstable' ] },
+> +    { 'name' :'ioregionfd-object',
+> +      'if': 'CONFIG_IOREGIONFD' }
+> + ] }
+> =20
+>  ##
+>  # @ObjectOptions:
+> @@ -905,7 +930,8 @@
+>        'tls-creds-psk':              'TlsCredsPskProperties',
+>        'tls-creds-x509':             'TlsCredsX509Properties',
+>        'tls-cipher-suites':          'TlsCredsProperties',
+> -      'x-remote-object':            'RemoteObjectProperties'
+> +      'x-remote-object':            'RemoteObjectProperties',
+> +      'ioregionfd-object':          'IORegionFDObjectProperties'
+>    } }
+> =20
+>  ##
+> diff --git a/include/hw/remote/ioregionfd.h b/include/hw/remote/ioregionf=
+d.h
+> new file mode 100644
+> index 0000000000..c8a8b32ee0
+> --- /dev/null
+> +++ b/include/hw/remote/ioregionfd.h
+> @@ -0,0 +1,40 @@
+> +/*
+> + * Ioregionfd headers
+> + *
+> + * Copyright =C2=A9 2018, 2022 Oracle and/or its affiliates.
+> + *
+> + * This work is licensed under the terms of the GNU GPL, version 2 or la=
+ter.
+> + * See the COPYING file in the top-level directory.
+> + *
+> + */
+> +
+> +#ifndef IOREGIONFD_H
+> +#define IOREGIONFD_H
+> +
+> +#define PCI_BARS_NR 6
+> +
+> +typedef struct {
+> +    uint64_t val;
+> +    bool memory;
+> +} IORegionFDOp;
+> +
+> +typedef struct {
+> +    int fd;
+> +    char *devid;
+> +    uint32_t bar;
+> +    uint32_t start;
+> +    uint32_t size;
+> +    bool memory;
+> +} IORegionFD;
+> +
+> +struct IORegionFDObject {
+> +    /* private */
+> +    Object parent;
+> +
+> +    IORegionFD ioregfd;
+> +    QTAILQ_ENTRY(IORegionFDObject) next;
+> +};
+> +
+> +typedef struct IORegionFDObject IORegionFDObject;
+> +
+> +#endif /* IOREGIONFD_H */
+
+[...]
 
 
