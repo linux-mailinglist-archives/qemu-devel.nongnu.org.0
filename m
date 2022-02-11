@@ -2,55 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27EBE4B255E
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Feb 2022 13:13:27 +0100 (CET)
-Received: from localhost ([::1]:45662 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D24CA4B2587
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Feb 2022 13:23:23 +0100 (CET)
+Received: from localhost ([::1]:39624 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nIUnm-0000Zq-7m
-	for lists+qemu-devel@lfdr.de; Fri, 11 Feb 2022 07:13:26 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:38562)
+	id 1nIUxP-0007on-00
+	for lists+qemu-devel@lfdr.de; Fri, 11 Feb 2022 07:23:23 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:38600)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nIUjt-00065N-8L
- for qemu-devel@nongnu.org; Fri, 11 Feb 2022 07:09:25 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:51302)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nIUk4-0006bq-LL
+ for qemu-devel@nongnu.org; Fri, 11 Feb 2022 07:09:36 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:40599)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nIUjq-0002N7-P1
- for qemu-devel@nongnu.org; Fri, 11 Feb 2022 07:09:24 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nIUk0-0002QU-2K
+ for qemu-devel@nongnu.org; Fri, 11 Feb 2022 07:09:36 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1644581361;
+ s=mimecast20190719; t=1644581371;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=SKG0HzGJSvFylW9vBIuCGuPp8hRW9aPlUbqtp+ngbj4=;
- b=MQqZXE1ikGOCgQeRjfmJXqcvorKxutceVyGsUdZDNuftw7dheDjYShM08O4C7m1iqQkKXe
- i0dUgxTOeAfmoK9bt9Lh0Azv1azZymXj1VhL08hEW+gj11Gg3B6W7q7xiTHYGLkQ0Jbmhk
- frji/4mfotUD59FmheyfsWgAzMcYHxQ=
+ bh=upg7VS+Jlm3OIe30jv8f2iOQg1V2+A/pIZx8SqXAVgY=;
+ b=gFW8vmOZ4ZxgExxdpmI/tyjua1MqRH1T7ExXW02t6mAgyG/+QqYWh0BwjgZzyVUol/wg0A
+ ghPeD7PIZ978bgXEF2BtC09uCQ2Vcw7hCw+BxaVdRhL/TsQhxv2s7TmyMzvk4cn1SAyXcU
+ JeJEn60da6J7uN2g9jGEypcVFdrCDEA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-263-XDCfzJKAN_mAsScQsS9xsw-1; Fri, 11 Feb 2022 07:09:18 -0500
-X-MC-Unique: XDCfzJKAN_mAsScQsS9xsw-1
+ us-mta-630-KEhJADmFPQy_P38b4HR_7g-1; Fri, 11 Feb 2022 07:09:28 -0500
+X-MC-Unique: KEhJADmFPQy_P38b4HR_7g-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6AB7B86A8A1;
- Fri, 11 Feb 2022 12:09:16 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9F4B81091DA1;
+ Fri, 11 Feb 2022 12:09:26 +0000 (UTC)
 Received: from blackfin.pond.sub.org (unknown [10.36.112.3])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 4304160C5A;
- Fri, 11 Feb 2022 12:08:06 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 16BA06128B;
+ Fri, 11 Feb 2022 12:09:03 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id D74A621E6A01; Fri, 11 Feb 2022 13:08:04 +0100 (CET)
+ id B330621E6A00; Fri, 11 Feb 2022 13:09:01 +0100 (CET)
 From: Markus Armbruster <armbru@redhat.com>
 To: Jonah Palmer <jonah.palmer@oracle.com>
-Subject: Re: [PATCH v11 7/8] qmp: add QMP command x-query-virtio-queue-element
-References: <1642678168-20447-1-git-send-email-jonah.palmer@oracle.com>
- <1642678168-20447-8-git-send-email-jonah.palmer@oracle.com>
-Date: Fri, 11 Feb 2022 13:08:04 +0100
-In-Reply-To: <1642678168-20447-8-git-send-email-jonah.palmer@oracle.com>
- (Jonah Palmer's message of "Thu, 20 Jan 2022 06:29:27 -0500")
-Message-ID: <874k558v2z.fsf@pond.sub.org>
+Subject: Re: [PATCH v12 6/8] qmp: add QMP commands for virtio/vhost
+ queue-status
+References: <1644488520-21604-1-git-send-email-jonah.palmer@oracle.com>
+ <1644488520-21604-7-git-send-email-jonah.palmer@oracle.com>
+Date: Fri, 11 Feb 2022 13:09:01 +0100
+In-Reply-To: <1644488520-21604-7-git-send-email-jonah.palmer@oracle.com>
+ (Jonah Palmer's message of "Thu, 10 Feb 2022 05:21:58 -0500")
+Message-ID: <87y22h7ggy.fsf@pond.sub.org>
 User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
@@ -59,15 +60,15 @@ Authentication-Results: relay.mimecast.com;
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01,
+ T_SPF_HELO_TEMPERROR=0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,218 +96,12 @@ Jonah Palmer <jonah.palmer@oracle.com> writes:
 
 > From: Laurent Vivier <lvivier@redhat.com>
 >
-> This new command shows the information of a VirtQueue element.
->
-> [Note: Up until v10 of this patch series, virtio.json had many (15+)
->  enums defined (e.g. decoded device features, statuses, etc.). In v10
->  most of these enums were removed and replaced with string literals.
->  By doing this we get (1) simpler schema, (2) smaller generated code,
->  and (3) less maintenance burden for when new things are added (e.g.
->  devices, device features, etc.).]
+> These new commands show the internal status of a VirtIODevice's
+> VirtQueue and a vhost device's vhost_virtqueue (if active).
 >
 > Signed-off-by: Jonah Palmer <jonah.palmer@oracle.com>
 
-[...]
-
-> diff --git a/qapi/virtio.json b/qapi/virtio.json
-> index 44cc05c..bb93d6d 100644
-> --- a/qapi/virtio.json
-> +++ b/qapi/virtio.json
-> @@ -656,3 +656,186 @@
->    'data': { 'path': 'str', 'queue': 'uint16' },
->    'returns': 'VirtVhostQueueStatus',
->    'features': [ 'unstable' ] }
-> +
-> +##
-> +# @VirtioRingDesc:
-> +#
-> +# Information regarding the vring descriptor area
-> +#
-> +# @addr: Guest physical address of the descriptor area
-> +#
-> +# @len: Length of the descriptor area
-> +#
-> +# @flags: List of descriptor flags
-> +#
-> +# Since: 7.0
-> +#
-> +##
-> +
-> +{ 'struct': 'VirtioRingDesc',
-> +  'data': { 'addr': 'uint64',
-> +            'len': 'uint32',
-> +            'flags': [ 'str' ] } }
-> +
-> +##
-> +# @VirtioRingAvail:
-> +#
-> +# Information regarding the avail vring (a.k.a. driver area)
-> +#
-> +# @flags: VRingAvail flags
-> +#
-> +# @idx: VRingAvail index
-> +#
-> +# @ring: VRingAvail ring[] entry at provided index
-> +#
-> +# Since: 7.0
-> +#
-> +##
-> +
-> +{ 'struct': 'VirtioRingAvail',
-> +  'data': { 'flags': 'uint16',
-> +            'idx': 'uint16',
-> +            'ring': 'uint16' } }
-> +
-> +##
-> +# @VirtioRingUsed:
-> +#
-> +# Information regarding the used vring (a.k.a. device area)
-> +#
-> +# @flags: VRingUsed flags
-> +#
-> +# @idx: VRingUsed index
-> +#
-> +# Since: 7.0
-> +#
-> +##
-> +
-> +{ 'struct': 'VirtioRingUsed',
-> +  'data': { 'flags': 'uint16',
-> +            'idx': 'uint16' } }
-> +
-> +##
-> +# @VirtioQueueElement:
-> +#
-> +# Information regarding a VirtQueue's VirtQueueElement including
-> +# descriptor, driver, and device areas
-> +#
-> +# @name: Name of the VirtIODevice that uses this VirtQueue
-> +#
-> +# @index: Index of the element in the queue
-> +#
-> +# @descs: List of descriptors (VirtioRingDesc)
-> +#
-> +# @avail: VRingAvail info
-> +#
-> +# @used: VRingUsed info
-> +#
-> +# Since: 7.0
-> +#
-> +##
-> +
-> +{ 'struct': 'VirtioQueueElement',
-> +  'data': { 'name': 'str',
-> +            'index': 'uint32',
-> +            'descs': [ 'VirtioRingDesc' ],
-> +            'avail': 'VirtioRingAvail',
-> +            'used': 'VirtioRingUsed' } }
-> +
-> +##
-> +# @x-query-virtio-queue-element:
-> +#
-> +# Return the information about a VirtQueue's VirtQueueElement
-> +# (default: head of the queue)
-
-I'd put this ...
-
-> +#
-> +# @path: VirtIODevice canonical QOM path
-> +#
-> +# @queue: VirtQueue index to examine
-> +#
-> +# @index: Index of the element in the queue
-
-... here.
-
-> +#
-> +# Features:
-> +# @unstable: This command is meant for debugging.
-> +#
-> +# Returns: VirtioQueueElement information
-> +#
-> +# Since: 7.0
-> +#
-> +# Examples:
-> +#
-> +# 1. Introspect on virtio-net's VirtQueue 0 at index 5
-> +#
-> +# -> { "execute": "x-query-virtio-queue-element",
-> +#      "arguments": { "path": "/machine/peripheral-anon/device[1]/virtio-backend",
-> +#                     "queue": 0,
-> +#                     "index": 5 }
-> +#    }
-> +# <- { "return": {
-> +#            "index": 5,
-> +#            "name": "virtio-net",
-> +#            "descs": [
-> +#               { "flags": ["write"], "len": 1536, "addr": 5257305600 }
-> +#            ],
-> +#            "avail": {
-> +#               "idx": 256,
-> +#               "flags": 0,
-> +#               "ring": 5
-> +#            },
-> +#            "used": {
-> +#               "idx": 13,
-> +#               "flags": 0
-> +#            },
-> +#    }
-> +#
-> +# 2. Introspect on virtio-crypto's VirtQueue 1 at head
-> +#
-> +# -> { "execute": "x-query-virtio-queue-element",
-> +#      "arguments": { "path": "/machine/peripheral/crypto0/virtio-backend",
-> +#                     "queue": 1 }
-> +#    }
-> +# <- { "return": {
-> +#            "index": 0,
-> +#            "name": "virtio-crypto",
-> +#            "descs": [
-> +#               { "flags": [], "len": 0, "addr": 8080268923184214134 }
-> +#            ],
-> +#            "avail": {
-> +#               "idx": 280,
-> +#               "flags": 0,
-> +#               "ring": 0
-> +#            },
-> +#            "used": {
-> +#               "idx": 280,
-> +#               "flags": 0
-> +#            }
-> +#    }
-> +#
-> +# 3. Introspect on virtio-scsi's VirtQueue 2 at head
-> +#
-> +# -> { "execute": "x-query-virtio-queue-element",
-> +#      "arguments": { "path": "/machine/peripheral-anon/device[2]/virtio-backend",
-> +#                     "queue": 2 }
-> +#    }
-> +# <- { "return": {
-> +#            "index": 19,
-> +#            "name": "virtio-scsi",
-> +#            "descs": [
-> +#               { "flags": ["used", "indirect", "write"], "len": 4099327944,
-> +#                 "addr": 12055409292258155293 }
-> +#            ],
-> +#            "avail": {
-> +#               "idx": 1147,
-> +#               "flags": 0,
-> +#               "ring": 19
-> +#            },
-> +#            "used": {
-> +#               "idx": 280,
-> +#               "flags": 0
-> +#            }
-> +#    }
-> +#
-> +##
-> +
-> +{ 'command': 'x-query-virtio-queue-element',
-> +  'data': { 'path': 'str', 'queue': 'uint16', '*index': 'uint16' },
-> +  'returns': 'VirtioQueueElement',
-> +  'features': [ 'unstable' ] }
-
-Preferably with my doc tweak, QAPI schema
+QAPI schema
 Acked-by: Markus Armbruster <armbru@redhat.com>
 
 
