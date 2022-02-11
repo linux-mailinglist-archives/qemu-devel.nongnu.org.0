@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A6C74B2D0D
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Feb 2022 19:37:14 +0100 (CET)
-Received: from localhost ([::1]:53190 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C5C94B2D0C
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Feb 2022 19:37:13 +0100 (CET)
+Received: from localhost ([::1]:53164 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nIanA-0006mJ-8b
-	for lists+qemu-devel@lfdr.de; Fri, 11 Feb 2022 13:37:12 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:56478)
+	id 1nIan9-0006lc-TT
+	for lists+qemu-devel@lfdr.de; Fri, 11 Feb 2022 13:37:11 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:56492)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1nIakL-0004FA-Jv; Fri, 11 Feb 2022 13:34:17 -0500
-Received: from [2607:f8b0:4864:20::22c] (port=38879
- helo=mail-oi1-x22c.google.com)
+ id 1nIakN-0004Ge-Nc; Fri, 11 Feb 2022 13:34:19 -0500
+Received: from [2607:f8b0:4864:20::235] (port=34537
+ helo=mail-oi1-x235.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1nIakJ-00046V-DS; Fri, 11 Feb 2022 13:34:17 -0500
-Received: by mail-oi1-x22c.google.com with SMTP id u13so10526858oie.5;
- Fri, 11 Feb 2022 10:34:14 -0800 (PST)
+ id 1nIakL-00046n-FQ; Fri, 11 Feb 2022 13:34:19 -0500
+Received: by mail-oi1-x235.google.com with SMTP id i5so10555439oih.1;
+ Fri, 11 Feb 2022 10:34:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=GpJuGvr7mh5zyLB3hjnj75ImlfXDY9lwn6KVAYwwpKs=;
- b=KsQElMC5DVO7/TjaYzWTZaqJBZxNjY4xByinJeHNIyOyYl9+TGIq55pCFywykXzsrx
- qtEN2KE9WYL3RnWhRDwlofoRS0QKXgLrzKnOzaJZ1lB0+UiZsl/oFWvBN1D3Vt9XQ+KM
- +WrDJziiHPNjxWGKDsPFA+EOMsf1uxDzamNbYkhJD/1sYKfMuuRE2/OTwBmFRqWYPkRg
- vXNTmpKIAh0aJqAkVKLq77WwP1qRnPXTtsCyuvtitQ0IoGPxPMEly8kScST11qpBjDYX
- AbA7TFbUV9KQsGb9U1TgojHJMCYwsoo+s+3hOLQxUjniY9UOdenD2Ij3oKmdVNvinsbt
- StwQ==
+ bh=fZPI2m+wUmzdQWIlgl7wmaSuMlcvFlJcfg619/oCuhk=;
+ b=i5O65RAHoqhfxd/xCNd0bYuQVebjiiyt9a1PHcuDiVImgLa74q5Bs695QPY65FEm7V
+ S4UjmEeOA+WwNtmHjY0XHC3R8WNTe8kcsvN6KW4GLTzKyIstSmFS99G60tycBp5Mb50W
+ MOs8SdCxhGLd2RD76PRdox9TJCArX7EXmdgUjQnxzU2Xowxt8dE9M8qBRwZKzY4sIf6o
+ qfhhmbh+C70j+eMeej/i9o3vp8tNIyCFfitlUzyr5knnxvE5j4GpLeZ7Et5lsbFudjNy
+ pXUY4lNm+EEJDAUqK/K9dwsKidMGey7D9tKyG+Ev6dhW72BjsEryIGbdOxXPBOcGVLNd
+ yXuw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=GpJuGvr7mh5zyLB3hjnj75ImlfXDY9lwn6KVAYwwpKs=;
- b=5Vk9EBOUikKRF2S7niY7F4KhTBLjk6I+3096AGnKNp+/Et+naIiBVOxFlYz8oUhjTO
- y5xNzXYigwzNtHAmokbCcwKdgoUOD3ZNSlLuTvQcIsmz3pDUBMVgI90e5erz5bl3fZaI
- K/177sRpcSmFxqJtV+b4QCAz6dMOm1jXRYDnwiXmymtYe8n/gzdqzaHyu16S25qa3Gn3
- VAU4bW1NJcWUSFFn4j6+wWZ+4hagQWxAxjY5atO1VNP2loNW+w8xmEiHEEC0o6cb3SSg
- Yu1WBzJxmJRurWvVaYnuvQqfbqOFxq8M1wY7wsJWN4qynLzuhIo6BcuAitmKAuMdKU0g
- fjMg==
-X-Gm-Message-State: AOAM533TKcZVkA5Ab1VoV+R4J7855tmGbLKa3wmKR1suW4oaZLp5rdyK
- exk45fJpOFVHcIe/aUC6T+IOUQ1rJhs=
-X-Google-Smtp-Source: ABdhPJzcX3oEUhaGLaTf/Lp98hSsO3+sVTnEKgrfTM8IPDm5gLhHcKXmhzvoW4C9UTZOwwJgJHxtpQ==
+ bh=fZPI2m+wUmzdQWIlgl7wmaSuMlcvFlJcfg619/oCuhk=;
+ b=ZSwn2GYFQCzJqiTqhXd8mLw6PiET6Oz0ZqHHGm1l5IJ9IDSS/SVPQ7zGqczj/D1MgN
+ EzbGzS3SLHnpa3aU/F1iGp9gctfCvUWV/2M/APQvLbU8NeFAWUx9RnCApnrSFcYctHb1
+ HZ3Oa1NmGmyN0y//VmL0QKyvUxayemGfWlGk/QeLjtKwv3sKXPSUH4vw7uIWj7JqsPB1
+ rDMQe9UdX1UXJtR5hIZ3MTKqGP9cr9vsF7QXUN59PX7AiynzikQX6XV3e/NyxEMckV3c
+ IM2263R0wo5ZxZC83vvB4T0dXf8eO1QDEvZWe8NKFHVYLWcm0IiKb9CJBPB6j1XyTBZT
+ ggQQ==
+X-Gm-Message-State: AOAM533yZiHsBolhE8gt7PeWwJjRidJF2XyR5Q83UqJMgS/iPXmOykWu
+ Y02kQc8hCEOxRS0pthE/+M7H4Pr9y2M=
+X-Google-Smtp-Source: ABdhPJx5Bv6w8domOn3UDHQDsORweNleKjVhFbbK0xcN/WsqXXfPBXjohFFZBb8lTIgDdqmfhrr/lg==
 X-Received: by 2002:a05:6808:148e:: with SMTP id
- e14mr855318oiw.180.1644604453898; 
- Fri, 11 Feb 2022 10:34:13 -0800 (PST)
+ e14mr819096oiw.188.1644604456045; 
+ Fri, 11 Feb 2022 10:34:16 -0800 (PST)
 Received: from rekt.COMFAST ([191.205.140.35])
- by smtp.gmail.com with ESMTPSA id t22sm10008145oiw.2.2022.02.11.10.34.12
+ by smtp.gmail.com with ESMTPSA id t22sm10008145oiw.2.2022.02.11.10.34.14
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 11 Feb 2022 10:34:13 -0800 (PST)
+ Fri, 11 Feb 2022 10:34:15 -0800 (PST)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v11 1/4] target/ppc: fix indent of function parameters
-Date: Fri, 11 Feb 2022 15:33:51 -0300
-Message-Id: <20220211183354.563602-2-danielhb413@gmail.com>
+Subject: [PATCH v11 2/4] target/ppc: finalize pre-EBB PMU logic
+Date: Fri, 11 Feb 2022 15:33:52 -0300
+Message-Id: <20220211183354.563602-3-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220211183354.563602-1-danielhb413@gmail.com>
 References: <20220211183354.563602-1-danielhb413@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::22c
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::235
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::22c;
- envelope-from=danielhb413@gmail.com; helo=mail-oi1-x22c.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::235;
+ envelope-from=danielhb413@gmail.com; helo=mail-oi1-x235.google.com
 X-Spam_score_int: -10
 X-Spam_score: -1.1
 X-Spam_bar: -
@@ -90,41 +90,74 @@ Cc: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-ppc@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Fix indentation of powerpc_set_excp_state() and ppc_excp_apply_ail()
-parameters.
+There are still PMU exclusive bits to handle in fire_PMC_interrupt()
+before implementing the EBB support. Let's finalize it now to avoid
+dealing with PMU and EBB logic at the same time in the next patches.
 
-Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
+fire_PMC_interrupt() will fire an Performance Monitor alert depending on
+MMCR0_PMAE. If we are required to freeze the timers (MMCR0_FCECE) we'll
+also need to update summaries and delete the existing overflow timers.
+In all cases we're going to update the cycle counters.
+
 Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 ---
- target/ppc/excp_helper.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ target/ppc/power8-pmu.c | 36 ++++++++++++++++++++++++++++++++++--
+ 1 file changed, 34 insertions(+), 2 deletions(-)
 
-diff --git a/target/ppc/excp_helper.c b/target/ppc/excp_helper.c
-index c107953dec..8a49a4ab90 100644
---- a/target/ppc/excp_helper.c
-+++ b/target/ppc/excp_helper.c
-@@ -265,9 +265,9 @@ static int powerpc_reset_wakeup(CPUState *cs, CPUPPCState *env, int excp,
-  * +--------------------------------------------------------------------+
-  */
- static void ppc_excp_apply_ail(PowerPCCPU *cpu, int excp_model, int excp,
--                                      target_ulong msr,
--                                      target_ulong *new_msr,
--                                      target_ulong *vector)
-+                               target_ulong msr,
-+                               target_ulong *new_msr,
-+                               target_ulong *vector)
- {
- #if defined(TARGET_PPC64)
-     CPUPPCState *env = &cpu->env;
-@@ -362,7 +362,7 @@ static void ppc_excp_apply_ail(PowerPCCPU *cpu, int excp_model, int excp,
+diff --git a/target/ppc/power8-pmu.c b/target/ppc/power8-pmu.c
+index 236e8e66e9..d245663158 100644
+--- a/target/ppc/power8-pmu.c
++++ b/target/ppc/power8-pmu.c
+@@ -222,6 +222,20 @@ static void pmu_update_overflow_timers(CPUPPCState *env)
+     }
  }
  
- static void powerpc_set_excp_state(PowerPCCPU *cpu,
--                                          target_ulong vector, target_ulong msr)
-+                                   target_ulong vector, target_ulong msr)
++static void pmu_delete_timers(CPUPPCState *env)
++{
++    QEMUTimer *pmc_overflow_timer;
++    int sprn;
++
++    for (sprn = SPR_POWER_PMC1; sprn <= SPR_POWER_PMC6; sprn++) {
++        pmc_overflow_timer = get_cyc_overflow_timer(env, sprn);
++
++        if (pmc_overflow_timer) {
++            timer_del(pmc_overflow_timer);
++        }
++    }
++}
++
+ void helper_store_mmcr0(CPUPPCState *env, target_ulong value)
  {
-     CPUState *cs = CPU(cpu);
+     bool hflags_pmcc0 = (value & MMCR0_PMCC0) != 0;
+@@ -271,8 +285,26 @@ static void fire_PMC_interrupt(PowerPCCPU *cpu)
+ {
      CPUPPCState *env = &cpu->env;
+ 
+-    if (!(env->spr[SPR_POWER_MMCR0] & MMCR0_EBE)) {
+-        return;
++    pmu_update_cycles(env);
++
++    if (env->spr[SPR_POWER_MMCR0] & MMCR0_FCECE) {
++        env->spr[SPR_POWER_MMCR0] &= ~MMCR0_FCECE;
++        env->spr[SPR_POWER_MMCR0] |= MMCR0_FC;
++
++        /* Changing MMCR0_FC requires a new HFLAGS_INSN_CNT calc */
++        pmu_update_summaries(env);
++
++        /*
++         * Delete all pending timers if we need to freeze
++         * the PMC. We'll restart them when the PMC starts
++         * running again.
++         */
++        pmu_delete_timers(env);
++    }
++
++    if (env->spr[SPR_POWER_MMCR0] & MMCR0_PMAE) {
++        env->spr[SPR_POWER_MMCR0] &= ~MMCR0_PMAE;
++        env->spr[SPR_POWER_MMCR0] |= MMCR0_PMAO;
+     }
+ 
+     /* PMC interrupt not implemented yet */
 -- 
 2.34.1
 
