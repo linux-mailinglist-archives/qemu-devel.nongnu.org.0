@@ -2,72 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E0904B2990
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Feb 2022 17:03:02 +0100 (CET)
-Received: from localhost ([::1]:42680 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B88E94B29AF
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Feb 2022 17:08:23 +0100 (CET)
+Received: from localhost ([::1]:48230 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nIYNw-0006UE-Ri
-	for lists+qemu-devel@lfdr.de; Fri, 11 Feb 2022 11:03:00 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:44688)
+	id 1nIYT8-00029X-GB
+	for lists+qemu-devel@lfdr.de; Fri, 11 Feb 2022 11:08:22 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:45730)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1nIYMX-0005Zn-0p
- for qemu-devel@nongnu.org; Fri, 11 Feb 2022 11:01:33 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:53869)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1nIYMT-0004qE-H6
- for qemu-devel@nongnu.org; Fri, 11 Feb 2022 11:01:31 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1644595287;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=gcr2QD4o2WjUfJNxm76M+hKf+VaqUAtAFtIHgXxpd1c=;
- b=FWhfiJrKx3Bd+HLK6wNxf6SBfwWnF4/S1xBFC44MpLHGYOOtYrddBgW6f5dyhhBzSuseuN
- KhC9lVmu3gKDm1IBSqoZZhhkAxclzo6q6lOt2QyiY0QeZrT0+pVShFApS2RrEUdMwPXQUQ
- oKjjQl+rH1e+r+iEAxI5VNI+UXpHc1w=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-564-k0Ed6VYnPgm52BIw08w0BA-1; Fri, 11 Feb 2022 11:01:26 -0500
-X-MC-Unique: k0Ed6VYnPgm52BIw08w0BA-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EEC6618B614D;
- Fri, 11 Feb 2022 16:00:36 +0000 (UTC)
-Received: from redhat.com (unknown [10.39.194.97])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 64F25838E0;
- Fri, 11 Feb 2022 16:00:35 +0000 (UTC)
-Date: Fri, 11 Feb 2022 17:00:33 +0100
-From: Kevin Wolf <kwolf@redhat.com>
-To: Thomas Huth <thuth@redhat.com>
-Subject: Re: [PATCH v2 1/8] tests/qemu-iotests/testrunner: Allow parallel
- test invocations
-Message-ID: <YgaIISPltMU4GWsG@redhat.com>
-References: <20220209101530.3442837-1-thuth@redhat.com>
- <20220209101530.3442837-2-thuth@redhat.com>
- <YgYsbRc9XNYjUH2L@redhat.com>
- <362412d7-4676-1733-fef6-825fda8e34a0@redhat.com>
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1nIYOT-0007NM-CH
+ for qemu-devel@nongnu.org; Fri, 11 Feb 2022 11:03:36 -0500
+Received: from [2a00:1450:4864:20::532] (port=37589
+ helo=mail-ed1-x532.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1nIYOK-0005Ad-NN
+ for qemu-devel@nongnu.org; Fri, 11 Feb 2022 11:03:28 -0500
+Received: by mail-ed1-x532.google.com with SMTP id da4so17151896edb.4
+ for <qemu-devel@nongnu.org>; Fri, 11 Feb 2022 08:03:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=MqG1bXlPPbXvN4Vb7Log6kjEHeVsV4s59HtXDd3EXzk=;
+ b=uVWYSZJxLJ2TbG4crverXeVUT6DvsjX4wPbcjTLSy9H572QLDrAaMTtx4yDk2iAlQ5
+ ouYl0JksURpZsndfeFkY4rEzCCL4taZXvDlvQ79Ce2pOa1lyXmO11DycuccQeNMW/zHC
+ i2k62Mb8sJTbTOU8MfmhPsFAv89VV7SYuF2HG/OyobVhegGDzuPLIjevnSNnmcrHP3jv
+ 90kSb7X7A0zEppu3NfYbwV3PnkIU6PUvHB+Tv/yw5BvChzAI3zp5DmWNvG93raVlRKXQ
+ BWycMAxyeLONgc7WQOSoyJtx2pJmN85o70/or9aeju3HMKqkHs26B8FRh7HbJkjIgvpp
+ ufzQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=MqG1bXlPPbXvN4Vb7Log6kjEHeVsV4s59HtXDd3EXzk=;
+ b=vTZL4drTWwWh6v8fKKMva1ly5KyyR+iZurRXzNVjkLt3QU6d9BCpKMfxqYEmPJAgGi
+ Xzom5UzpUg/If2AzpcgxHJAM9kwNGzfsfxrNedvci6xTj0lGu7veud1dmY2uCZmDGOKR
+ 3UC/P6fIedli9C/BuqZOf9You4bNCLuk31rSI1nGtfUGDvXGSJHUuiWUOAbHQqK+0i4s
+ 9lHM0RLAyXQVlwVGd785QybBRpdyqKL/wmx69xbB7yf6yciYvx1U+M34MVF6TA/vrQ9B
+ A45blfInVYMA2tks0Le/UZToADjwxqeDLIZ/rKoB5UFOKwnE3LsodNIVlysUF0C5j6YX
+ eqdQ==
+X-Gm-Message-State: AOAM5321KzUpD6Ml8kcXsMNU08ogixBi+ovk6vb6fYhIvDGRisoKDrDB
+ 80tQBhMOjhQXH+yhD5VgP/3jtA==
+X-Google-Smtp-Source: ABdhPJxRBYW8v53nwK5ZTV/oCmwOFRYbWrPDsvmWTE86U4DZwfT+hLVDit1VoOXdKMYFnrft3vMLtw==
+X-Received: by 2002:a05:6402:3c3:: with SMTP id
+ t3mr2686425edw.444.1644595392362; 
+ Fri, 11 Feb 2022 08:03:12 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id 5sm22328ejr.200.2022.02.11.08.03.10
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 11 Feb 2022 08:03:10 -0800 (PST)
+Received: from zen.lan (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 9A2F21FFB7;
+ Fri, 11 Feb 2022 16:03:09 +0000 (GMT)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH  v1 00/11] testing/next (docker, lcitool, ci, tcg)
+Date: Fri, 11 Feb 2022 16:02:58 +0000
+Message-Id: <20220211160309.335014-1-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-In-Reply-To: <362412d7-4676-1733-fef6-825fda8e34a0@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::532
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::532;
+ envelope-from=alex.bennee@linaro.org; helo=mail-ed1-x532.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -80,64 +89,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
- qemu-devel@nongnu.org, qemu-block@nongnu.org,
- Peter Maydell <peter.maydell@linaro.org>
+Cc: fam@euphon.net, berrange@redhat.com, f4bug@amsat.org, qemu-arm@nongnu.org,
+ stefanha@redhat.com, crosa@redhat.com, pbonzini@redhat.com,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 11.02.2022 um 14:53 hat Thomas Huth geschrieben:
-> On 11/02/2022 10.29, Kevin Wolf wrote:
-> > Am 09.02.2022 um 11:15 hat Thomas Huth geschrieben:
-> > > If multiple tests run in parallel, they must use unique file
-> > > names for the test output.
-> > > 
-> > > Suggested-by: Hanna Reitz <hreitz@redhat.com>
-> > > Signed-off-by: Thomas Huth <thuth@redhat.com>
-> > > ---
-> > >   tests/qemu-iotests/testrunner.py | 2 +-
-> > >   1 file changed, 1 insertion(+), 1 deletion(-)
-> > > 
-> > > diff --git a/tests/qemu-iotests/testrunner.py b/tests/qemu-iotests/testrunner.py
-> > > index 0eace147b8..9d20f51bb1 100644
-> > > --- a/tests/qemu-iotests/testrunner.py
-> > > +++ b/tests/qemu-iotests/testrunner.py
-> > > @@ -259,7 +259,7 @@ def do_run_test(self, test: str, mp: bool) -> TestResult:
-> > >           """
-> > >           f_test = Path(test)
-> > > -        f_bad = Path(f_test.name + '.out.bad')
-> > > +        f_bad = Path(f'{os.getpid()}-{f_test.name}.out.bad')
-> > >           f_notrun = Path(f_test.name + '.notrun')
-> > >           f_casenotrun = Path(f_test.name + '.casenotrun')
-> > >           f_reference = Path(self.find_reference(test))
-> > 
-> > Hmm... It does make sense, but nobody ever cleans those files up.
-> > Currently, the next run of the test will just overwrite the existing
-> > file or delete it when the test succeeds. So after running the test
-> > suite, you have .out.bad files for every failed test, but not for those
-> > that succeeded.
-> > 
-> > After this change, won't the test directory accumulate tons of .out.bad
-> > files over time?
-> 
-> True ... but we certainly want to keep the file for failed tests for further
-> analysis instead of immediately deleting them ... maybe it would be enough
-> to encode the image format (qcow2, qed, vmdk, ...) into the output name,
-> instead of using the PID, so that "make check SPEED=thorough" works as
-> expected here?
+Hi,
 
-It depends on what the supported use case for test suites running in
-parallel is. If it's just for testing multiple formats at the same time,
-then this would work, yes.
+This is the current state of my testing/next tree which introduces a
+few different things:
 
-I could think of more test runs that you might want to do in parallel,
-like different protocols, different image format options, maybe even
-different host file system. I'm not sure if all (or any) of these are
-relevant, though.
+ - some cleanups to IMAGE/TEST filtering
+ - use lcitool to generate a new debian-arm64-cross
+ - a messy attempt to enable aarch32 gitlab runners
+ - some tests to better exercise TCGv_vec code
 
-Supporting only things that "make check" uses might be a good
-compromise.
+All patches could do with some review.
 
-Kevin
+Alex Bennée (11):
+  tests/docker: restore TESTS/IMAGES filtering
+  tests/docker: add NOUSER for alpine image
+  tests/lcitool: update to latest version
+  tests/docker: update debian-arm64-cross with lci-tool
+  tests/docker: introduce debian-riscv64-test-cross
+  scripts/ci: add build env rules for aarch32 on aarch64
+  scripts/ci: allow for a secondary runner
+  gitlab: add a new aarch32 custom runner definition
+  tests/tcg: build sha1-vector with O3 and compare
+  tests/tcg: add sha512 test
+  tests/tcg: add vectorised sha512 versions
+
+ docs/devel/ci-jobs.rst.inc                    |   7 +
+ tests/tcg/multiarch/sha512.c                  | 990 ++++++++++++++++++
+ .gitlab-ci.d/container-cross.yml              |  17 +-
+ .../custom-runners/ubuntu-20.40-aarch32.yml   |  23 +
+ scripts/ci/setup/build-environment.yml        |  25 +
+ scripts/ci/setup/gitlab-runner.yml            |  34 +
+ tests/docker/Makefile.include                 |  28 +-
+ .../dockerfiles/debian-arm64-cross.docker     | 186 +++-
+ .../debian-arm64-test-cross.docker            |  13 -
+ .../debian-riscv64-test-cross.docker          |  12 +
+ tests/docker/dockerfiles/opensuse-leap.docker |   3 +-
+ tests/docker/dockerfiles/ubuntu1804.docker    |   3 +-
+ tests/docker/dockerfiles/ubuntu2004.docker    |   3 +-
+ tests/lcitool/libvirt-ci                      |   2 +-
+ tests/lcitool/refresh                         |  11 +
+ tests/tcg/aarch64/Makefile.target             |  17 +
+ tests/tcg/arm/Makefile.target                 |  17 +
+ tests/tcg/configure.sh                        |   4 +-
+ tests/tcg/i386/Makefile.target                |   6 +
+ tests/tcg/ppc64le/Makefile.target             |   5 +-
+ tests/tcg/s390x/Makefile.target               |   9 +
+ tests/tcg/x86_64/Makefile.target              |   7 +
+ 22 files changed, 1353 insertions(+), 69 deletions(-)
+ create mode 100644 tests/tcg/multiarch/sha512.c
+ create mode 100644 .gitlab-ci.d/custom-runners/ubuntu-20.40-aarch32.yml
+ delete mode 100644 tests/docker/dockerfiles/debian-arm64-test-cross.docker
+ create mode 100644 tests/docker/dockerfiles/debian-riscv64-test-cross.docker
+
+-- 
+2.30.2
 
 
