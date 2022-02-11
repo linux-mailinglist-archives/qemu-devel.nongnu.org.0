@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 088424B269C
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Feb 2022 14:00:31 +0100 (CET)
-Received: from localhost ([::1]:39470 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E1CC4B2687
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Feb 2022 13:55:47 +0100 (CET)
+Received: from localhost ([::1]:54218 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nIVXK-0006cU-1K
-	for lists+qemu-devel@lfdr.de; Fri, 11 Feb 2022 08:00:30 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:42306)
+	id 1nIVSk-0005aM-1v
+	for lists+qemu-devel@lfdr.de; Fri, 11 Feb 2022 07:55:46 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:42614)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1nIV0B-0005KJ-53
- for qemu-devel@nongnu.org; Fri, 11 Feb 2022 07:26:17 -0500
-Received: from frasgout.his.huawei.com ([185.176.79.56]:2312)
+ id 1nIV1B-0006Ja-1x
+ for qemu-devel@nongnu.org; Fri, 11 Feb 2022 07:27:17 -0500
+Received: from frasgout.his.huawei.com ([185.176.79.56]:2314)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1nIV08-0006He-OS
- for qemu-devel@nongnu.org; Fri, 11 Feb 2022 07:26:14 -0500
-Received: from fraeml735-chm.china.huawei.com (unknown [172.18.147.207])
- by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4JwCR94qnMz682sD;
- Fri, 11 Feb 2022 20:21:57 +0800 (CST)
+ id 1nIV18-0006OV-EM
+ for qemu-devel@nongnu.org; Fri, 11 Feb 2022 07:27:16 -0500
+Received: from fraeml714-chm.china.huawei.com (unknown [172.18.147.201])
+ by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4JwCSM2xP0z67NsV;
+ Fri, 11 Feb 2022 20:22:59 +0800 (CST)
 Received: from lhreml710-chm.china.huawei.com (10.201.108.61) by
- fraeml735-chm.china.huawei.com (10.206.15.216) with Microsoft SMTP Server
+ fraeml714-chm.china.huawei.com (10.206.15.33) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.21; Fri, 11 Feb 2022 13:26:10 +0100
+ 15.1.2308.21; Fri, 11 Feb 2022 13:27:12 +0100
 Received: from SecurePC-101-06.china.huawei.com (10.122.247.231) by
  lhreml710-chm.china.huawei.com (10.201.108.61) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.21; Fri, 11 Feb 2022 12:26:10 +0000
+ 15.1.2308.21; Fri, 11 Feb 2022 12:27:11 +0000
 To: <qemu-devel@nongnu.org>, =?UTF-8?q?Alex=20Benn=C3=A9e?=
  <alex.bennee@linaro.org>, Marcel Apfelbaum <marcel@redhat.com>, "Michael S .
  Tsirkin" <mst@redhat.com>, Igor Mammedov <imammedo@redhat.com>
@@ -40,9 +40,10 @@ CC: <linux-cxl@vger.kernel.org>, Ben Widawsky <ben.widawsky@intel.com>, "Peter
  <saransh@ibm.com>, Shreyas Shah <shreyas.shah@elastics.cloud>, Chris Browy
  <cbrowy@avery-design.com>, Samarth Saxena <samarths@cadence.com>, "Dan
  Williams" <dan.j.williams@intel.com>
-Subject: [PATCH v6 36/43] i386/pc: Enable CXL fixed memory windows
-Date: Fri, 11 Feb 2022 12:07:40 +0000
-Message-ID: <20220211120747.3074-37-Jonathan.Cameron@huawei.com>
+Subject: [PATCH v6 38/43] qtests/bios-tables-test: Add a test for CXL
+ emulation.
+Date: Fri, 11 Feb 2022 12:07:42 +0000
+Message-ID: <20220211120747.3074-39-Jonathan.Cameron@huawei.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20220211120747.3074-1-Jonathan.Cameron@huawei.com>
 References: <20220211120747.3074-1-Jonathan.Cameron@huawei.com>
@@ -78,79 +79,75 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reply-to:  Jonathan Cameron <Jonathan.Cameron@huawei.com>
 From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 
-From: Jonathan Cameron <jonathan.cameron@huawei.com>
+The DSDT includes several CXL specific elements and the CEDT
+table is only present if we enable CXL.
 
-Add the CFMWs memory regions to the memorymap and adjust the
-PCI window to avoid hitting the same memory.
+The test exercises all current functionality with several
+CFMWS, CHBS structures in CEDT and ACPI0016/ACPI00017 and _OSC
+entries in DSDT.
 
-Signed-off-by: Jonathan Cameron <jonathan.cameron@huawei.com>
+Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
 ---
- hw/i386/pc.c | 31 ++++++++++++++++++++++++++++++-
- 1 file changed, 30 insertions(+), 1 deletion(-)
+ tests/qtest/bios-tables-test.c | 39 ++++++++++++++++++++++++++++++++++
+ 1 file changed, 39 insertions(+)
 
-diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-index 7a18dce529..5ece806d2b 100644
---- a/hw/i386/pc.c
-+++ b/hw/i386/pc.c
-@@ -816,7 +816,7 @@ void pc_memory_init(PCMachineState *pcms,
-     MachineClass *mc = MACHINE_GET_CLASS(machine);
-     PCMachineClass *pcmc = PC_MACHINE_GET_CLASS(pcms);
-     X86MachineState *x86ms = X86_MACHINE(pcms);
--    hwaddr cxl_base;
-+    hwaddr cxl_base, cxl_resv_end = 0;
+diff --git a/tests/qtest/bios-tables-test.c b/tests/qtest/bios-tables-test.c
+index c4a2d1e166..d020caf3b3 100644
+--- a/tests/qtest/bios-tables-test.c
++++ b/tests/qtest/bios-tables-test.c
+@@ -1537,6 +1537,44 @@ static void test_acpi_q35_viot(void)
+     free_test_data(&data);
+ }
  
-     assert(machine->ram_size == x86ms->below_4g_mem_size +
-                                 x86ms->above_4g_mem_size);
-@@ -924,6 +924,24 @@ void pc_memory_init(PCMachineState *pcms,
-         e820_add_entry(cxl_base, cxl_size, E820_RESERVED);
-         memory_region_init(mr, OBJECT(machine), "cxl_host_reg", cxl_size);
-         memory_region_add_subregion(system_memory, cxl_base, mr);
-+        cxl_resv_end = cxl_base + cxl_size;
-+        if (machine->cxl_devices_state->fixed_windows) {
-+            hwaddr cxl_fmw_base;
-+            GList *it;
++static void test_acpi_q35_cxl(void)
++{
++    gchar *tmp_path = g_dir_make_tmp("qemu-test-cxl.XXXXXX", NULL);
++    gchar *params;
 +
-+            cxl_fmw_base = ROUND_UP(cxl_base + cxl_size, 256 * MiB);
-+            for (it = machine->cxl_devices_state->fixed_windows; it; it = it->next) {
-+                CXLFixedWindow *fw = it->data;
++    test_data data = {
++        .machine = MACHINE_Q35,
++        .variant = ".cxl",
++    };
++    /*
++     * A complex CXL setup.
++     */
++    params = g_strdup_printf(" -machine cxl=on"
++                             " -object memory-backend-file,id=cxl-mem1,mem-path=%s,size=256M"
++                             " -object memory-backend-file,id=cxl-mem2,mem-path=%s,size=256M"
++                             " -object memory-backend-file,id=cxl-mem3,mem-path=%s,size=256M"
++                             " -object memory-backend-file,id=cxl-mem4,mem-path=%s,size=256M"
++                             " -device pxb-cxl,bus_nr=12,bus=pcie.0,id=cxl.1"
++                             " -device pxb-cxl,bus_nr=222,bus=pcie.0,id=cxl.2"
++                             " -device cxl-rp,port=0,bus=cxl.1,id=rp1,chassis=0,slot=2"
++                             " -device cxl-type3,bus=rp1,memdev=cxl-mem1,size=256M"
++                             " -device cxl-rp,port=1,bus=cxl.1,id=rp2,chassis=0,slot=3"
++                             " -device cxl-type3,bus=rp2,memdev=cxl-mem2,size=256M"
++                             " -device cxl-rp,port=0,bus=cxl.2,id=rp3,chassis=0,slot=5"
++                             " -device cxl-type3,bus=rp3,memdev=cxl-mem3,size=256M"
++                             " -device cxl-rp,port=1,bus=cxl.2,id=rp4,chassis=0,slot=6"
++                             " -device cxl-type3,bus=rp4,memdev=cxl-mem4,size=256M"
++                             " -cxl-fixed-memory-window targets=cxl.1,size=4G,interleave-granularity=8k"
++                             " -cxl-fixed-memory-window targets=cxl.1,targets=cxl.2,size=4G,interleave-granularity=8k",
++                             tmp_path, tmp_path, tmp_path, tmp_path);
++    test_acpi_one(params, &data);
 +
-+                fw->base = cxl_fmw_base;
-+                memory_region_init_io(&fw->mr, OBJECT(machine), &cfmws_ops, fw,
-+                                      "cxl-fixed-memory-region", fw->size);
-+                memory_region_add_subregion(system_memory, fw->base, &fw->mr);
-+                e820_add_entry(fw->base, fw->size, E820_RESERVED);
-+                cxl_fmw_base += fw->size;
-+                cxl_resv_end = cxl_fmw_base;
-+            }
-+        }
-     }
- 
-     /* Initialize PC system firmware */
-@@ -953,6 +971,10 @@ void pc_memory_init(PCMachineState *pcms,
-         if (!pcmc->broken_reserved_end) {
-             res_mem_end += memory_region_size(&machine->device_memory->mr);
++    g_free(params);
++    g_assert(g_rmdir(tmp_path) == 0);
++    g_free(tmp_path);
++    free_test_data(&data);
++}
++
+ static void test_acpi_virt_viot(void)
+ {
+     test_data data = {
+@@ -1742,6 +1780,7 @@ int main(int argc, char *argv[])
+             qtest_add_func("acpi/q35/kvm/dmar", test_acpi_q35_kvm_dmar);
          }
-+
-+        if (machine->cxl_devices_state->is_enabled) {
-+            res_mem_end = cxl_resv_end;
-+        }
-         *val = cpu_to_le64(ROUND_UP(res_mem_end, 1 * GiB));
-         fw_cfg_add_file(fw_cfg, "etc/reserved-memory-end", val, sizeof(*val));
-     }
-@@ -989,6 +1011,13 @@ uint64_t pc_pci_hole64_start(void)
-     if (ms->cxl_devices_state->host_mr.addr) {
-         hole64_start = ms->cxl_devices_state->host_mr.addr +
-             memory_region_size(&ms->cxl_devices_state->host_mr);
-+        if (ms->cxl_devices_state->fixed_windows) {
-+            GList *it;
-+            for (it = ms->cxl_devices_state->fixed_windows; it; it = it->next) {
-+                CXLFixedWindow *fw = it->data;
-+                hole64_start = fw->mr.addr + memory_region_size(&fw->mr);
-+            }
-+        }
-     } else if (pcmc->has_reserved_memory && ms->device_memory->base) {
-         hole64_start = ms->device_memory->base;
-         if (!pcmc->broken_reserved_end) {
+         qtest_add_func("acpi/q35/viot", test_acpi_q35_viot);
++        qtest_add_func("acpi/q35/cxl", test_acpi_q35_cxl);
+         qtest_add_func("acpi/q35/slic", test_acpi_q35_slic);
+     } else if (strcmp(arch, "aarch64") == 0) {
+         if (has_tcg) {
 -- 
 2.32.0
 
