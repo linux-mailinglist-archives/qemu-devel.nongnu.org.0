@@ -2,77 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B5CDC4B22CA
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Feb 2022 11:09:11 +0100 (CET)
-Received: from localhost ([::1]:40534 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 81EB64B2452
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Feb 2022 12:33:14 +0100 (CET)
+Received: from localhost ([::1]:57564 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nISrW-0006Y8-CO
-	for lists+qemu-devel@lfdr.de; Fri, 11 Feb 2022 05:09:10 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:40232)
+	id 1nIUAr-0001MD-J5
+	for lists+qemu-devel@lfdr.de; Fri, 11 Feb 2022 06:33:13 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:56004)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nISpb-0005n0-8K
- for qemu-devel@nongnu.org; Fri, 11 Feb 2022 05:07:11 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:31278)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nISpX-0004h7-VG
- for qemu-devel@nongnu.org; Fri, 11 Feb 2022 05:07:09 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1644574027;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=BOzr4KQp0OY4ksAld1eKLc0C9OZl3YpePIu89qBOMFU=;
- b=E28dyxXlOCc0T5KA5Rsa1kCxnWRNlGtZYHzkESTjUXXxMRR0v5vhY+cnSV7UiCJniJWMht
- nntzb48gSlUvL5kKCuX460s55TKlITbuYa6OXPJqmWYVjZ33aN78W0stvXLBGfJ14pUj/l
- qvPReF2y9MP4IT5hXJDiWCzesFXoZlQ=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-84-EeTcEn7bNrKHJy4DEwKlKA-1; Fri, 11 Feb 2022 05:07:04 -0500
-X-MC-Unique: EeTcEn7bNrKHJy4DEwKlKA-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DFA791091DB8;
- Fri, 11 Feb 2022 10:07:02 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.156])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 4D7ED66E14;
- Fri, 11 Feb 2022 10:07:00 +0000 (UTC)
-Date: Fri, 11 Feb 2022 10:06:57 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Subject: Re: [PATCH] qapi, i386/sev: Add debug-launch-digest to
- launch-measure response
-Message-ID: <YgY1QU/9JfwvFT+5@redhat.com>
-References: <20220131111539.3091765-1-dovmurik@linux.ibm.com>
- <YffLgx48+mM2SiIX@redhat.com>
- <5f08d6d3-0279-50ed-5223-a9f3217e555d@linux.ibm.com>
- <YffxpK99EibxdXG4@redhat.com> <YgVp1UN8t/nKq2+x@work-vm>
+ (Exim 4.90_1) (envelope-from <tsimpson@qualcomm.com>)
+ id 1nITwK-0007kr-Bj
+ for qemu-devel@nongnu.org; Fri, 11 Feb 2022 06:18:12 -0500
+Received: from alexa-out.qualcomm.com ([129.46.98.28]:17131)
+ by eggs.gnu.org with esmtps (TLS1.2:RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <tsimpson@qualcomm.com>)
+ id 1nITwE-00017S-Qs
+ for qemu-devel@nongnu.org; Fri, 11 Feb 2022 06:18:09 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
+ t=1644578286; x=1676114286;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=acRRcnrLATBML4MoBxB0rPaz8m8kZt6vaPFq00uCNns=;
+ b=p4rCUBXQFY9rAD3YTI8IqnvP4oUUdUU9t+ypyJVCTyebr+3tO/9bhSO4
+ D7AAGhqO3rDfGYT7wNB3l4drtcEh/CgoQXHD4VKpl4WYzrUoeUf14tLBp
+ Td1wOPtGeibv9fxo0nqygjnqSc2bPG9oNjgmTH9SrUUNVtX4U5s3suPiV 0=;
+Received: from ironmsg07-lv.qualcomm.com ([10.47.202.151])
+ by alexa-out.qualcomm.com with ESMTP; 11 Feb 2022 03:17:44 -0800
+X-QCInternal: smtphost
+Received: from hu-tsimpson-lv.qualcomm.com (HELO
+ hu-devc-lv-u18-c.qualcomm.com) ([10.47.235.220])
+ by ironmsg07-lv.qualcomm.com with ESMTP; 11 Feb 2022 03:17:44 -0800
+Received: by hu-devc-lv-u18-c.qualcomm.com (Postfix, from userid 47164)
+ id 8BCA1500175; Fri, 11 Feb 2022 03:17:24 -0800 (PST)
+From: Taylor Simpson <tsimpson@quicinc.com>
+To: qemu-devel@nongnu.org
+Subject: [PULL 00/12] Hexagon (target/hexagon) queue
+Date: Fri, 11 Feb 2022 03:17:10 -0800
+Message-Id: <20220211111722.31036-1-tsimpson@quicinc.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-In-Reply-To: <YgVp1UN8t/nKq2+x@work-vm>
-User-Agent: Mutt/2.1.5 (2021-12-30)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Received-SPF: pass client-ip=129.46.98.28; envelope-from=tsimpson@qualcomm.com;
+ helo=alexa-out.qualcomm.com
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.248,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -86,62 +66,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Tom Lendacky <thomas.lendacky@amd.com>, Ashish Kalra <ashish.kalra@amd.com>,
- Brijesh Singh <brijesh.singh@amd.com>, James Bottomley <jejb@linux.ibm.com>,
- Marcelo Tosatti <mtosatti@redhat.com>, qemu-devel@nongnu.org,
- Markus Armbruster <armbru@redhat.com>, Dov Murik <dovmurik@linux.ibm.com>,
- Tobin Feldman-Fitzthum <tobin@linux.ibm.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Eric Blake <eblake@redhat.com>
+Cc: peter.maydell@linaro.org, tsimpson@quicinc.com,
+ richard.henderson@linaro.org, f4bug@amsat.org, zongyuan.li@smartx.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Feb 10, 2022 at 07:39:01PM +0000, Dr. David Alan Gilbert wrote:
-> * Daniel P. Berrangé (berrange@redhat.com) wrote:
-> > I wonder if we're thinking of this at the wrong level though. Does
-> > it actually need to be QEMU providing this info to the guest owner ?
-> > 
-> > Guest owners aren't going to be interacting with QEMU / QMP directly,
-> > nor are they likely to be interacting with libvirt directly. Their
-> > way into the public cloud will be via some high level API. eg the
-> > OpenStack Nova REST API, or the IBM Cloud API (whatever that may
-> > be). This high level mgmt infra is likely what is deciding which
-> > of the 'N' possible OVMF builds to pick for a given VM launch. It
-> > could easily just expose the full OVMF data to the user via its
-> > own API regardless of what query-sev does.
-> > 
-> > Similarly if the cloud is choosing which kernel, out of N possible
-> > kernels to boot with, they could expose the raw kernel data somewhere
-> > in their API - we don't neccessarily need to expose that from QEMU.
-> 
-> It gets more interesting where it's the guest which picks the
-> kernel/initrd; imagine the setup where the cloud reads the kernel/initrd
-> from the guest disk and passes that to qemu; one of the update ideas
-> would be just to let the guest update from a repo at it's own pace;
-> so the attestor doesn't know whether to expect a new or old kernel
-> from the guest; but it does know it should be one of the approved
-> set of kernels.
-
-So that scenario would effectively be the old Xen style pygrub where
-you have some script on the host to pull the kernel/initrd out of
-the guest /boot.
-
-On the plus side that would enable you to use a "normal" guest disk
-image with unencrypted /boot, instead of encrypting everything.
-
-The risk though is that you need a strong guarantee that the *only* data
-from /boot that is used is the kernel+initrd+cmdline that get included
-in the measurement. If the guest boot process reads anything else from
-/boot then your confidentiality is potentially doomed. This feels like
-quite a risky setup, as I don't know how you'd achieve the high level of
-confidence that stuff in /boot isn't going to cause danger to the guest
-during boot, or after boot.
-
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
-
+VGhlIGZvbGxvd2luZyBjaGFuZ2VzIHNpbmNlIGNvbW1pdCAwYTMwMTYyNGMyZjRjZWQzMzMxZmZk
+NWJjZTg1YjQyNzRmZTEzMmFmOgoKICBNZXJnZSByZW1vdGUtdHJhY2tpbmcgYnJhbmNoICdyZW1v
+dGVzL3BtYXlkZWxsL3RhZ3MvcHVsbC10YXJnZXQtYXJtLTIwMjIwMjA4JyBpbnRvIHN0YWdpbmcg
+KDIwMjItMDItMDggMTE6NDA6MDggKzAwMDApCgphcmUgYXZhaWxhYmxlIGluIHRoZSBHaXQgcmVw
+b3NpdG9yeSBhdDoKCiAgaHR0cHM6Ly9naXRodWIuY29tL3F1aWMvcWVtdSB0YWdzL3B1bGwtaGV4
+LTIwMjIwMjExCgpmb3IgeW91IHRvIGZldGNoIGNoYW5nZXMgdXAgdG8gZWZmZGVkZTdhNGIwNGNh
+Y2VhMTQ2MTgwMTBjY2M3Nzc1YmIxOTE5NjoKCiAgdGFyZ2V0L2hleGFnb246IHJlbW92ZSB1bnVz
+ZWQgdmFyaWFibGUgKDIwMjItMDItMTEgMDI6MTc6NTQgLTA4MDApCgotLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tCkhleGFnb24g
+YnVnIGZpeGVzIGFuZCBhZGRpdGlvbmFsIHRlc3RzCgpBbHNvIGluY2x1ZGVzIGEgcGF0Y2ggZnJv
+bSBab25neXVhbiBMaSA8em9uZ3l1YW4ubGlAc21hcnR4LmNvbT4KdG8gcmVtb3ZlIGFuIHVudXNl
+ZCB2YXJpYWJsZQoKLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLQpNaWNoYWVsIExhbWJlcnQgKDEpOgogICAgICBIZXhhZ29uICh0
+YXJnZXQvaGV4YWdvbikgZml4IGJ1ZyBpbiBjaXJjdWxhciBhZGRyZXNzaW5nCgpUYXlsb3IgU2lt
+cHNvbiAoMTApOgogICAgICBIZXhhZ29uIEhWWCAodGFyZ2V0L2hleGFnb24pIGZpeCBidWcgaW4g
+SFZYIHNhdHVyYXRlIGluc3RydWN0aW9ucwogICAgICBIZXhhZ29uICh0YXJnZXQvaGV4YWdvbikg
+cHJvcGVybHkgc2V0IEZQSU5WRiBiaXQgaW4gc2ZjbXAudW8gYW5kIGRmY21wLnVvCiAgICAgIEhl
+eGFnb24gKHRhcmdldC9oZXhhZ29uKSBwcm9wZXJseSBoYW5kbGUgZGVub3JtIGluIGFyY2hfc2Zf
+cmVjaXBfY29tbW9uCiAgICAgIEhleGFnb24gKHRlc3RzL3RjZy9oZXhhZ29uKSB0ZXN0IGluc3Ry
+dWN0aW9ucyB0aGF0IG1pZ2h0IHNldCBiaXRzIGluIFVTUgogICAgICBIZXhhZ29uICh0ZXN0cy90
+Y2cvaGV4YWdvbikgYWRkIGZsb2F0aW5nIHBvaW50IGluc3RydWN0aW9ucyB0byB1c3IuYwogICAg
+ICBIZXhhZ29uICh0ZXN0cy90Y2cvaGV4YWdvbikgdXBkYXRlIG92ZXJmbG93IHRlc3QKICAgICAg
+SGV4YWdvbiAodGVzdHMvdGNnL2hleGFnb24pIGZpeCBpbmxpbmUgYXNtIGluIHByZWdfYWxpYXMu
+YwogICAgICBIZXhhZ29uICh0YXJnZXQvaGV4YWdvbikgZml4IGJ1ZyBpbiBjb252X2RmMnV3X2No
+b3AKICAgICAgSGV4YWdvbiAodGFyZ2V0L2hleGFnb24pIGFzc2lnbm1lbnQgdG8gYzQgc2hvdWxk
+IHdhaXQgdW50aWwgcGFja2V0IGNvbW1pdAogICAgICBIZXhhZ29uICh0YXJnZXQvaGV4YWdvbikg
+Y29udmVydCB0byBPQkpFQ1RfREVDTEFSRV9UWVBFCgpab25neXVhbiBMaSAoMSk6CiAgICAgIHRh
+cmdldC9oZXhhZ29uOiByZW1vdmUgdW51c2VkIHZhcmlhYmxlCgogdGFyZ2V0L2hleGFnb24vY3B1
+LmggICAgICAgICAgICAgIHwgICAgOSArLQogdGFyZ2V0L2hleGFnb24vZm1hX2VtdS5oICAgICAg
+ICAgIHwgICAgNiArLQogdGFyZ2V0L2hleGFnb24vbWFjcm9zLmggICAgICAgICAgIHwgICAgNCAr
+LQogdGFyZ2V0L2hleGFnb24vbW12ZWMvbWFjcm9zLmggICAgIHwgICAgNCAtCiB0YXJnZXQvaGV4
+YWdvbi9hcmNoLmMgICAgICAgICAgICAgfCAgICA2ICstCiB0YXJnZXQvaGV4YWdvbi9nZW5wdHIu
+YyAgICAgICAgICAgfCAgIDE0ICstCiB0YXJnZXQvaGV4YWdvbi9vcF9oZWxwZXIuYyAgICAgICAg
+fCAgIDE0ICstCiB0ZXN0cy90Y2cvaGV4YWdvbi9jaXJjLmMgICAgICAgICAgfCAgICA1ICstCiB0
+ZXN0cy90Y2cvaGV4YWdvbi9mcHN0dWZmLmMgICAgICAgfCAgIDQ0ICstCiB0ZXN0cy90Y2cvaGV4
+YWdvbi9odnhfbWlzYy5jICAgICAgfCAgIDcxICsrLQogdGVzdHMvdGNnL2hleGFnb24vb3ZlcmZs
+b3cuYyAgICAgIHwgICA2MSArLQogdGVzdHMvdGNnL2hleGFnb24vcHJlZ19hbGlhcy5jICAgIHwg
+ICA4NCArKy0KIHRlc3RzL3RjZy9oZXhhZ29uL3Vzci5jICAgICAgICAgICB8IDExNDEgKysrKysr
+KysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKwogdGVzdHMvdGNnL2hleGFnb24vTWFrZWZp
+bGUudGFyZ2V0IHwgICAgOCArLQogMTQgZmlsZXMgY2hhbmdlZCwgMTQwOSBpbnNlcnRpb25zKCsp
+LCA2MiBkZWxldGlvbnMoLSkKIGNyZWF0ZSBtb2RlIDEwMDY0NCB0ZXN0cy90Y2cvaGV4YWdvbi91
+c3IuYwo=
 
