@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4CD5A4B26A3
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Feb 2022 14:02:35 +0100 (CET)
-Received: from localhost ([::1]:43422 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 46B7E4B2655
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Feb 2022 13:50:54 +0100 (CET)
+Received: from localhost ([::1]:47820 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nIVZK-000113-Ch
-	for lists+qemu-devel@lfdr.de; Fri, 11 Feb 2022 08:02:34 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:40922)
+	id 1nIVO0-0000gX-0d
+	for lists+qemu-devel@lfdr.de; Fri, 11 Feb 2022 07:50:53 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:41318)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1nIUuS-0005Fi-Ne
- for qemu-devel@nongnu.org; Fri, 11 Feb 2022 07:20:21 -0500
-Received: from frasgout.his.huawei.com ([185.176.79.56]:2300)
+ id 1nIUvi-0008BJ-4M
+ for qemu-devel@nongnu.org; Fri, 11 Feb 2022 07:21:38 -0500
+Received: from frasgout.his.huawei.com ([185.176.79.56]:2303)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1nIUuO-0004qU-K9
- for qemu-devel@nongnu.org; Fri, 11 Feb 2022 07:20:19 -0500
-Received: from fraeml704-chm.china.huawei.com (unknown [172.18.147.206])
- by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4JwCN35fwhz67m6y;
- Fri, 11 Feb 2022 20:19:15 +0800 (CST)
+ id 1nIUvf-0005Nk-AU
+ for qemu-devel@nongnu.org; Fri, 11 Feb 2022 07:21:37 -0500
+Received: from fraeml701-chm.china.huawei.com (unknown [172.18.147.200])
+ by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4JwCQX1k8Jz67Scv;
+ Fri, 11 Feb 2022 20:21:24 +0800 (CST)
 Received: from lhreml710-chm.china.huawei.com (10.201.108.61) by
- fraeml704-chm.china.huawei.com (10.206.15.53) with Microsoft SMTP Server
+ fraeml701-chm.china.huawei.com (10.206.15.50) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.2308.21; Fri, 11 Feb 2022 13:20:01 +0100
+ 15.1.2308.21; Fri, 11 Feb 2022 13:21:33 +0100
 Received: from SecurePC-101-06.china.huawei.com (10.122.247.231) by
  lhreml710-chm.china.huawei.com (10.201.108.61) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.21; Fri, 11 Feb 2022 12:20:01 +0000
+ 15.1.2308.21; Fri, 11 Feb 2022 12:21:32 +0000
 To: <qemu-devel@nongnu.org>, =?UTF-8?q?Alex=20Benn=C3=A9e?=
  <alex.bennee@linaro.org>, Marcel Apfelbaum <marcel@redhat.com>, "Michael S .
  Tsirkin" <mst@redhat.com>, Igor Mammedov <imammedo@redhat.com>
@@ -40,9 +40,10 @@ CC: <linux-cxl@vger.kernel.org>, Ben Widawsky <ben.widawsky@intel.com>, "Peter
  <saransh@ibm.com>, Shreyas Shah <shreyas.shah@elastics.cloud>, Chris Browy
  <cbrowy@avery-design.com>, Samarth Saxena <samarths@cadence.com>, "Dan
  Williams" <dan.j.williams@intel.com>
-Subject: [PATCH v6 24/43] acpi/cxl: Add _OSC implementation (9.14.2)
-Date: Fri, 11 Feb 2022 12:07:28 +0000
-Message-ID: <20220211120747.3074-25-Jonathan.Cameron@huawei.com>
+Subject: [PATCH v6 27/43] hw/cxl/host: Add support for CXL Fixed Memory
+ Windows.
+Date: Fri, 11 Feb 2022 12:07:31 +0000
+Message-ID: <20220211120747.3074-28-Jonathan.Cameron@huawei.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20220211120747.3074-1-Jonathan.Cameron@huawei.com>
 References: <20220211120747.3074-1-Jonathan.Cameron@huawei.com>
@@ -78,252 +79,419 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reply-to:  Jonathan Cameron <Jonathan.Cameron@huawei.com>
 From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 
-From: Ben Widawsky <ben.widawsky@intel.com>
+From: Jonathan Cameron <jonathan.cameron@huawei.com>
 
-CXL 2.0 specification adds 2 new dwords to the existing _OSC definition
-from PCIe. The new dwords are accessed with a new uuid. This
-implementation supports what is in the specification.
+The concept of these is introduced in [1] in terms of the
+description the CEDT ACPI table. The principal is more general.
+Unlike once traffic hits the CXL root bridges, the host system
+memory address routing is implementation defined and effectively
+static once observable by standard / generic system software.
+Each CXL Fixed Memory Windows (CFMW) is a region of PA space
+which has fixed system dependent routing configured so that
+accesses can be routed to the CXL devices below a set of target
+root bridges. The accesses may be interleaved across multiple
+root bridges.
 
-Signed-off-by: Ben Widawsky <ben.widawsky@intel.com>
-Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+For QEMU we could have fully specified these regions in terms
+of a base PA + size, but as the absolute address does not matter
+it is simpler to let individual platforms place the memory regions.
+
+ExampleS:
+-cxl-fixed-memory-window targets=cxl.0,size=128G
+-cxl-fixed-memory-window targets=cxl.1,size=128G
+-cxl-fixed-memory-window targets=cxl0,targets=cxl.1,size=256G,interleave-granularity=2k
+
+Specifies
+* 2x 128G regions not interleaved across root bridges, one for each of
+  the root bridges with ids cxl.0 and cxl.1
+* 256G region interleaved across root bridges with ids cxl.0 and cxl.1
+with a 2k interleave granularity.
+
+When system software enumerates the devices below a given root bridge
+it can then decide which CFMW to use. If non interleave is desired
+(or possible) it can use the appropriate CFMW for the root bridge in
+question.  If there are suitable devices to interleave across the
+two root bridges then it may use the 3rd CFMS.
+
+A number of other designs were considered but the following constraints
+made it hard to adapt existing QEMU approaches to this particular problem.
+1) The size must be known before a specific architecture / board brings
+   up it's PA memory map.  We need to set up an appropriate region.
+2) Using links to the host bridges provides a clean command line interface
+   but these links cannot be established until command line devices have
+   been added.
+
+Hence the two step process used here of first establishing the size,
+interleave-ways and granularity + caching the ids of the host bridges
+and then, once available finding the actual host bridges so they can
+be used later to support interleave decoding.
+
+[1] CXL 2.0 ECN: CEDT CFMWS & QTG DSM (computeexpresslink.org / specifications)
+
+Signed-off-by: Jonathan Cameron <jonathan.cameron@huawei.com>
 ---
- hw/acpi/Kconfig       |   5 ++
- hw/acpi/cxl-stub.c    |  12 +++++
- hw/acpi/cxl.c         | 104 ++++++++++++++++++++++++++++++++++++++++++
- hw/acpi/meson.build   |   4 +-
- hw/i386/acpi-build.c  |  15 ++++--
- include/hw/acpi/cxl.h |  23 ++++++++++
- 6 files changed, 157 insertions(+), 6 deletions(-)
+ hw/cxl/cxl-host-stubs.c |  22 +++++++
+ hw/cxl/cxl-host.c       | 138 ++++++++++++++++++++++++++++++++++++++++
+ hw/cxl/meson.build      |   6 ++
+ include/hw/cxl/cxl.h    |  20 ++++++
+ qapi/machine.json       |  15 +++++
+ qemu-options.hx         |  37 +++++++++++
+ softmmu/vl.c            |  11 ++++
+ 7 files changed, 249 insertions(+)
 
-diff --git a/hw/acpi/Kconfig b/hw/acpi/Kconfig
-index 19caebde6c..3703aca212 100644
---- a/hw/acpi/Kconfig
-+++ b/hw/acpi/Kconfig
-@@ -5,6 +5,7 @@ config ACPI_X86
-     bool
-     select ACPI
-     select ACPI_NVDIMM
-+    select ACPI_CXL
-     select ACPI_CPU_HOTPLUG
-     select ACPI_MEMORY_HOTPLUG
-     select ACPI_HMAT
-@@ -66,3 +67,7 @@ config ACPI_ERST
-     bool
-     default y
-     depends on ACPI && PCI
-+
-+config ACPI_CXL
-+    bool
-+    depends on ACPI
-diff --git a/hw/acpi/cxl-stub.c b/hw/acpi/cxl-stub.c
+diff --git a/hw/cxl/cxl-host-stubs.c b/hw/cxl/cxl-host-stubs.c
 new file mode 100644
-index 0000000000..15bc21076b
+index 0000000000..f942dda41b
 --- /dev/null
-+++ b/hw/acpi/cxl-stub.c
-@@ -0,0 +1,12 @@
-+
++++ b/hw/cxl/cxl-host-stubs.c
+@@ -0,0 +1,22 @@
 +/*
-+ * Stubs for ACPI platforms that don't support CXl
++ * CXL host parameter parsing routine stubs
++ *
++ * Copyright (c) 2022 Huawei
 + */
 +#include "qemu/osdep.h"
-+#include "hw/acpi/aml-build.h"
-+#include "hw/acpi/cxl.h"
-+
-+void build_cxl_osc_method(Aml *dev)
-+{
-+    g_assert_not_reached();
-+}
-diff --git a/hw/acpi/cxl.c b/hw/acpi/cxl.c
-new file mode 100644
-index 0000000000..7124d5a1a3
---- /dev/null
-+++ b/hw/acpi/cxl.c
-@@ -0,0 +1,104 @@
-+/*
-+ * CXL ACPI Implementation
-+ *
-+ * Copyright(C) 2020 Intel Corporation.
-+ *
-+ * This library is free software; you can redistribute it and/or
-+ * modify it under the terms of the GNU Lesser General Public
-+ * License as published by the Free Software Foundation; either
-+ * version 2 of the License, or (at your option) any later version.
-+ *
-+ * This library is distributed in the hope that it will be useful,
-+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
-+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-+ * Lesser General Public License for more details.
-+ *
-+ * You should have received a copy of the GNU Lesser General Public
-+ * License along with this library; if not, see <http://www.gnu.org/licenses/>
-+ */
-+
-+#include "qemu/osdep.h"
-+#include "hw/cxl/cxl.h"
-+#include "hw/acpi/acpi.h"
-+#include "hw/acpi/aml-build.h"
-+#include "hw/acpi/bios-linker-loader.h"
-+#include "hw/acpi/cxl.h"
 +#include "qapi/error.h"
-+#include "qemu/uuid.h"
++#include "qemu/option.h"
++#include "hw/cxl/cxl.h"
 +
-+static Aml *__build_cxl_osc_method(void)
-+{
-+    Aml *method, *if_uuid, *else_uuid, *if_arg1_not_1, *if_cxl, *if_caps_masked;
-+    Aml *a_ctrl = aml_local(0);
-+    Aml *a_cdw1 = aml_name("CDW1");
++QemuOptsList qemu_cxl_fixed_window_opts = {
++    .name = "cxl-fixed-memory-window",
++    .implied_opt_name = "type",
++    .head = QTAILQ_HEAD_INITIALIZER(qemu_cxl_fixed_window_opts.head),
++    .desc = { { 0 } }
++};
 +
-+    method = aml_method("_OSC", 4, AML_NOTSERIALIZED);
-+    aml_append(method, aml_create_dword_field(aml_arg(3), aml_int(0), "CDW1"));
++void parse_cxl_fixed_memory_window_opts(MachineState *ms) {};
 +
-+    /* 9.14.2.1.4 */
-+    if_uuid = aml_if(
-+        aml_lor(aml_equal(aml_arg(0),
-+                          aml_touuid("33DB4D5B-1FF7-401C-9657-7441C03DD766")),
-+                aml_equal(aml_arg(0),
-+                          aml_touuid("68F2D50B-C469-4D8A-BD3D-941A103FD3FC"))));
-+    aml_append(if_uuid, aml_create_dword_field(aml_arg(3), aml_int(4), "CDW2"));
-+    aml_append(if_uuid, aml_create_dword_field(aml_arg(3), aml_int(8), "CDW3"));
++void cxl_fixed_memory_window_link_targets(Error **errp) {};
 +
-+    aml_append(if_uuid, aml_store(aml_name("CDW3"), a_ctrl));
-+
-+    /* This is all the same as what's used for PCIe */
-+    aml_append(if_uuid,
-+               aml_and(aml_name("CTRL"), aml_int(0x1F), aml_name("CTRL")));
-+
-+    if_arg1_not_1 = aml_if(aml_lnot(aml_equal(aml_arg(1), aml_int(0x1))));
-+    /* Unknown revision */
-+    aml_append(if_arg1_not_1, aml_or(a_cdw1, aml_int(0x08), a_cdw1));
-+    aml_append(if_uuid, if_arg1_not_1);
-+
-+    if_caps_masked = aml_if(aml_lnot(aml_equal(aml_name("CDW3"), a_ctrl)));
-+    /* Capability bits were masked */
-+    aml_append(if_caps_masked, aml_or(a_cdw1, aml_int(0x10), a_cdw1));
-+    aml_append(if_uuid, if_caps_masked);
-+
-+    aml_append(if_uuid, aml_store(aml_name("CDW2"), aml_name("SUPP")));
-+    aml_append(if_uuid, aml_store(aml_name("CDW3"), aml_name("CTRL")));
-+
-+    if_cxl = aml_if(aml_equal(
-+        aml_arg(0), aml_touuid("68F2D50B-C469-4D8A-BD3D-941A103FD3FC")));
-+    /* CXL support field */
-+    aml_append(if_cxl, aml_create_dword_field(aml_arg(3), aml_int(12), "CDW4"));
-+    /* CXL capabilities */
-+    aml_append(if_cxl, aml_create_dword_field(aml_arg(3), aml_int(16), "CDW5"));
-+    aml_append(if_cxl, aml_store(aml_name("CDW4"), aml_name("SUPC")));
-+    aml_append(if_cxl, aml_store(aml_name("CDW5"), aml_name("CTRC")));
-+
-+    /* CXL 2.0 Port/Device Register access */
-+    aml_append(if_cxl,
-+               aml_or(aml_name("CDW5"), aml_int(0x1), aml_name("CDW5")));
-+    aml_append(if_uuid, if_cxl);
-+
-+    /* Update DWORD3 (the return value) */
-+    aml_append(if_uuid, aml_store(a_ctrl, aml_name("CDW3")));
-+
-+    aml_append(if_uuid, aml_return(aml_arg(3)));
-+    aml_append(method, if_uuid);
-+
-+    else_uuid = aml_else();
-+
-+    /* unrecognized uuid */
-+    aml_append(else_uuid,
-+               aml_or(aml_name("CDW1"), aml_int(0x4), aml_name("CDW1")));
-+    aml_append(else_uuid, aml_return(aml_arg(3)));
-+    aml_append(method, else_uuid);
-+
-+    return method;
-+}
-+
-+void build_cxl_osc_method(Aml *dev)
-+{
-+    aml_append(dev, aml_name_decl("SUPP", aml_int(0)));
-+    aml_append(dev, aml_name_decl("CTRL", aml_int(0)));
-+    aml_append(dev, aml_name_decl("SUPC", aml_int(0)));
-+    aml_append(dev, aml_name_decl("CTRC", aml_int(0)));
-+    aml_append(dev, __build_cxl_osc_method());
-+}
-diff --git a/hw/acpi/meson.build b/hw/acpi/meson.build
-index f5b22983bb..d9f09d91bc 100644
---- a/hw/acpi/meson.build
-+++ b/hw/acpi/meson.build
-@@ -13,6 +13,7 @@ acpi_ss.add(when: 'CONFIG_ACPI_MEMORY_HOTPLUG', if_false: files('acpi-mem-hotplu
- acpi_ss.add(when: 'CONFIG_ACPI_NVDIMM', if_true: files('nvdimm.c'))
- acpi_ss.add(when: 'CONFIG_ACPI_NVDIMM', if_false: files('acpi-nvdimm-stub.c'))
- acpi_ss.add(when: 'CONFIG_ACPI_PCI', if_true: files('pci.c'))
-+acpi_ss.add(when: 'CONFIG_ACPI_CXL', if_true: files('cxl.c'), if_false: files('cxl-stub.c'))
- acpi_ss.add(when: 'CONFIG_ACPI_VMGENID', if_true: files('vmgenid.c'))
- acpi_ss.add(when: 'CONFIG_ACPI_HW_REDUCED', if_true: files('generic_event_device.c'))
- acpi_ss.add(when: 'CONFIG_ACPI_HMAT', if_true: files('hmat.c'))
-@@ -31,4 +32,5 @@ softmmu_ss.add_all(when: 'CONFIG_ACPI', if_true: acpi_ss)
- softmmu_ss.add(when: 'CONFIG_ALL', if_true: files('acpi-stub.c', 'aml-build-stub.c',
-                                                   'acpi-x86-stub.c', 'ipmi-stub.c', 'ghes-stub.c',
-                                                   'acpi-mem-hotplug-stub.c', 'acpi-cpu-hotplug-stub.c',
--                                                  'acpi-pci-hotplug-stub.c', 'acpi-nvdimm-stub.c'))
-+                                                  'acpi-pci-hotplug-stub.c', 'acpi-nvdimm-stub.c',
-+                                                  'cxl-stub.c'))
-diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
-index 0a28dd6d4e..b5a4b663f2 100644
---- a/hw/i386/acpi-build.c
-+++ b/hw/i386/acpi-build.c
-@@ -66,6 +66,7 @@
- #include "hw/acpi/aml-build.h"
- #include "hw/acpi/utils.h"
- #include "hw/acpi/pci.h"
-+#include "hw/acpi/cxl.h"
- 
- #include "qom/qom-qobject.h"
- #include "hw/i386/amd_iommu.h"
-@@ -1574,11 +1575,15 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
-             aml_append(dev, aml_name_decl("_UID", aml_int(bus_num)));
-             aml_append(dev, aml_name_decl("_BBN", aml_int(bus_num)));
-             if (pci_bus_is_cxl(bus)) {
--                aml_append(dev, aml_name_decl("_HID", aml_eisaid("PNP0A08")));
--                aml_append(dev, aml_name_decl("_CID", aml_eisaid("PNP0A03")));
--
--                /* Expander bridges do not have ACPI PCI Hot-plug enabled */
--                aml_append(dev, build_q35_osc_method(true));
-+                struct Aml *pkg = aml_package(2);
-+
-+                aml_append(dev, aml_name_decl("_HID", aml_string("ACPI0016")));
-+                aml_append(pkg, aml_eisaid("PNP0A08"));
-+                aml_append(pkg, aml_eisaid("PNP0A03"));
-+                aml_append(dev, aml_name_decl("_CID", pkg));
-+                aml_append(dev, aml_name_decl("_ADR", aml_int(0)));
-+                aml_append(dev, aml_name_decl("_UID", aml_int(bus_num)));
-+                build_cxl_osc_method(dev);
-             } else if (pci_bus_is_express(bus)) {
-                 aml_append(dev, aml_name_decl("_HID", aml_eisaid("PNP0A08")));
-                 aml_append(dev, aml_name_decl("_CID", aml_eisaid("PNP0A03")));
-diff --git a/include/hw/acpi/cxl.h b/include/hw/acpi/cxl.h
++const MemoryRegionOps cfmws_ops;
+diff --git a/hw/cxl/cxl-host.c b/hw/cxl/cxl-host.c
 new file mode 100644
-index 0000000000..7b8f3b8a2e
+index 0000000000..9f303e6d8e
 --- /dev/null
-+++ b/include/hw/acpi/cxl.h
-@@ -0,0 +1,23 @@
++++ b/hw/cxl/cxl-host.c
+@@ -0,0 +1,138 @@
 +/*
-+ * Copyright (C) 2020 Intel Corporation
++ * CXL host parameter parsing routines
 + *
-+ * This program is free software; you can redistribute it and/or modify
-+ * it under the terms of the GNU General Public License as published by
-+ * the Free Software Foundation; either version 2 of the License, or
-+ * (at your option) any later version.
-+
-+ * This program is distributed in the hope that it will be useful,
-+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
-+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+ * GNU General Public License for more details.
-+
-+ * You should have received a copy of the GNU General Public License along
-+ * with this program; if not, see <http://www.gnu.org/licenses/>.
++ * Copyright (c) 2022 Huawei
++ * Modeled loosely on the NUMA options handling in hw/core/numa.c
 + */
 +
-+#ifndef HW_ACPI_CXL_H
-+#define HW_ACPI_CXL_H
++#include "qemu/osdep.h"
++#include "qemu/units.h"
++#include "qemu/bitmap.h"
++#include "qemu/error-report.h"
++#include "qapi/error.h"
++#include "sysemu/qtest.h"
++#include "hw/boards.h"
 +
-+void build_cxl_osc_method(Aml *dev);
++#include "qapi/opts-visitor.h"
++#include "qapi/qapi-visit-machine.h"
++#include "qemu/option.h"
++#include "hw/cxl/cxl.h"
++#include "hw/pci/pci_bus.h"
++#include "hw/pci/pci_bridge.h"
++#include "hw/pci/pci_host.h"
++#include "hw/pci/pcie_port.h"
 +
-+#endif
++QemuOptsList qemu_cxl_fixed_window_opts = {
++    .name = "cxl-fixed-memory-window",
++    .implied_opt_name = "type",
++    .head = QTAILQ_HEAD_INITIALIZER(qemu_cxl_fixed_window_opts.head),
++    .desc = { { 0 } }
++};
++
++static void set_cxl_fixed_memory_window_options(MachineState *ms,
++                                                CXLFixedMemoryWindowOptions *object,
++                                                Error **errp)
++{
++    CXLFixedWindow *fw = g_malloc0(sizeof(*fw));
++    strList *target;
++    int i;
++
++    for (target = object->targets; target; target = target->next) {
++        fw->num_targets++;
++    }
++
++    fw->enc_int_ways = cxl_interleave_ways_enc(fw->num_targets, errp);
++    if (*errp) {
++        return;
++    }
++
++    fw->targets = g_malloc0_n(fw->num_targets, sizeof(*fw->targets));
++    for (i = 0, target = object->targets; target; i++, target = target->next) {
++        /* This link cannot be resolved yet, so stash the name for now */
++        fw->targets[i] = g_strdup(target->value);
++    }
++
++    if (object->size % (256 * MiB)) {
++        error_setg(errp,
++                   "Size of a CXL fixed memory window must my a multiple of 256MiB");
++        return;
++    }
++    fw->size = object->size;
++
++    if (object->has_interleave_granularity) {
++        fw->enc_int_gran =
++            cxl_interleave_granularity_enc(object->interleave_granularity,
++                                           errp);
++        if (*errp) {
++            return;
++        }
++    } else {
++        /* Default to 256 byte interleave */
++        fw->enc_int_gran = 0;
++    }
++
++    ms->cxl_devices_state->fixed_windows =
++        g_list_append(ms->cxl_devices_state->fixed_windows, fw);
++
++    return;
++}
++
++static int parse_cxl_fixed_memory_window(void *opaque, QemuOpts *opts,
++                                         Error **errp)
++{
++    CXLFixedMemoryWindowOptions *object = NULL;
++    MachineState *ms = MACHINE(opaque);
++    Error *err = NULL;
++    Visitor *v = opts_visitor_new(opts);
++
++    visit_type_CXLFixedMemoryWindowOptions(v, NULL, &object, errp);
++    visit_free(v);
++    if (!object) {
++        return -1;
++    }
++
++    set_cxl_fixed_memory_window_options(ms, object, &err);
++
++    qapi_free_CXLFixedMemoryWindowOptions(object);
++    if (err) {
++        error_propagate(errp, err);
++        return -1;
++    }
++
++    return 0;
++}
++
++void parse_cxl_fixed_memory_window_opts(MachineState *ms)
++{
++    qemu_opts_foreach(qemu_find_opts("cxl-fixed-memory-window"),
++                      parse_cxl_fixed_memory_window, ms, &error_fatal);
++}
++
++void cxl_fixed_memory_window_link_targets(Error **errp)
++{
++    MachineState *ms = MACHINE(qdev_get_machine());
++
++    if (ms->cxl_devices_state && ms->cxl_devices_state->fixed_windows) {
++        GList *it;
++
++        for (it = ms->cxl_devices_state->fixed_windows; it; it = it->next) {
++            CXLFixedWindow *fw = it->data;
++            int i;
++
++            for (i = 0; i < fw->num_targets; i++) {
++                Object *o;
++                bool ambig;
++
++                o = object_resolve_path_type(fw->targets[i],
++                                             TYPE_PXB_CXL_DEVICE,
++                                             &ambig);
++                if (!o) {
++                    error_setg(errp, "Could not resolve CXLFM target %s",
++                               fw->targets[i]);
++                    return;
++                }
++                fw->target_hbs[i] = PXB_CXL_DEV(o);
++            }
++        }
++    }
++}
+diff --git a/hw/cxl/meson.build b/hw/cxl/meson.build
+index e68eea2358..f117b99949 100644
+--- a/hw/cxl/meson.build
++++ b/hw/cxl/meson.build
+@@ -3,4 +3,10 @@ softmmu_ss.add(when: 'CONFIG_CXL',
+                    'cxl-component-utils.c',
+                    'cxl-device-utils.c',
+                    'cxl-mailbox-utils.c',
++                   'cxl-host.c',
++               ),
++               if_false: files(
++                   'cxl-host-stubs.c',
+                ))
++
++softmmu_ss.add(when: 'CONFIG_ALL', if_true: files('cxl-host-stubs.c'))
+diff --git a/include/hw/cxl/cxl.h b/include/hw/cxl/cxl.h
+index 6889362230..1b72c0b7b7 100644
+--- a/include/hw/cxl/cxl.h
++++ b/include/hw/cxl/cxl.h
+@@ -10,6 +10,9 @@
+ #ifndef CXL_H
+ #define CXL_H
+ 
++#include "qapi/qapi-types-machine.h"
++#include "qemu/option.h"
++#include "hw/pci/pci_bridge.h"
+ #include "cxl_pci.h"
+ #include "cxl_component.h"
+ #include "cxl_device.h"
+@@ -20,10 +23,27 @@
+ #define TYPE_CXL_TYPE3_DEV "cxl-type3"
+ #define CXL_WINDOW_MAX 10
+ 
++typedef struct CXLFixedWindow {
++    uint64_t size;
++    char **targets;
++    struct PXBDev *target_hbs[8];
++    uint8_t num_targets;
++    uint8_t enc_int_ways;
++    uint8_t enc_int_gran;
++    /* Todo: XOR based interleaving */
++    MemoryRegion mr;
++    hwaddr base;
++} CXLFixedWindow;
++
+ typedef struct CXLState {
+     bool is_enabled;
+     MemoryRegion host_mr;
+     unsigned int next_mr_idx;
++    GList *fixed_windows;
+ } CXLState;
+ 
++extern QemuOptsList qemu_cxl_fixed_window_opts;
++void parse_cxl_fixed_memory_window_opts(MachineState *ms);
++void cxl_fixed_memory_window_link_targets(Error **errp);
++
+ #endif
+diff --git a/qapi/machine.json b/qapi/machine.json
+index 42fc68403d..0998a9128d 100644
+--- a/qapi/machine.json
++++ b/qapi/machine.json
+@@ -504,6 +504,21 @@
+    'dst': 'uint16',
+    'val': 'uint8' }}
+ 
++##
++# @CXLFixedMemoryWindowOptions:
++#
++# Create a CXL Fixed Memory Window (for OptsVisitor)
++#
++# @targets: Target root bridge IDs
++#
++# Since X.X //fixme
++##
++{ 'struct': 'CXLFixedMemoryWindowOptions',
++  'data': {
++      'size': 'size',
++      '*interleave-granularity': 'size',
++      'targets': ['str'] }}
++
+ ##
+ # @X86CPURegister32:
+ #
+diff --git a/qemu-options.hx b/qemu-options.hx
+index ba3ae6a42a..b4d2cc6f48 100644
+--- a/qemu-options.hx
++++ b/qemu-options.hx
+@@ -467,6 +467,43 @@ SRST
+         -numa hmat-cache,node-id=1,size=10K,level=1,associativity=direct,policy=write-back,line=8
+ ERST
+ 
++DEF("cxl-fixed-memory-window", HAS_ARG, QEMU_OPTION_cxl_fixed_memory_window,
++    "-cxl-fixed-memory-window targets=firsttarget,targets=secondtarget,size=size[,interleave-granularity=granularity]\n",
++    QEMU_ARCH_ALL)
++SRST
++``-cxl-fixed-memory-window targets=firsttarget,targets=secondtarget,size=size[,interleave-granularity=granularity]``
++    Define a CXL Fixed Memory Window (CFMW).
++
++    Described in the CXL 2.0 ECN: CEDT CFMWS & QTG _DSM.
++
++    They are regions of Host Physical Addresses (HPA) on a system which
++    may be interleaved across one or more CXL host bridges.  The system
++    software will assign particular devices into these windows and
++    configure the downstream Host-managed Device Memory (HDM) decoders
++    in root ports, switch ports and devices appropriately to meet the
++    interleave requirements before enabling the memory devices.
++
++    ``targets=firsttarget`` provides the mapping to CXL host bridges
++    which may be identified by the id provied in the -device entry.
++    Multiple entries are needed to specify all the targets when
++    the fixed memory window represents interleaved memory.
++
++    ``size=size`` sets the size of the CFMW. This must be a multiple of
++    256MiB. The region will be aligned to 256MiB but the location is
++    platform and configuration dependent.
++
++    ``interleave-granularity=granularity`` sets the granularity of
++    interleave. Default 256KiB. Only 256KiB, 512KiB, 1024KiB, 2048KiB
++    4096KiB, 8192KiB and 16384KiB granularities supported.
++
++    Example:
++
++    ::
++
++        -cxl-fixed-memory-window -targets=cxl.0,-targets=cxl.1,size=128G,interleave-granularity=512k
++
++ERST
++
+ DEF("add-fd", HAS_ARG, QEMU_OPTION_add_fd,
+     "-add-fd fd=fd,set=set[,opaque=opaque]\n"
+     "                Add 'fd' to fd 'set'\n", QEMU_ARCH_ALL)
+diff --git a/softmmu/vl.c b/softmmu/vl.c
+index 5e1b35ba48..f83f158fff 100644
+--- a/softmmu/vl.c
++++ b/softmmu/vl.c
+@@ -91,6 +91,7 @@
+ #include "qemu/config-file.h"
+ #include "qemu/qemu-options.h"
+ #include "qemu/main-loop.h"
++#include "hw/cxl/cxl.h"
+ #ifdef CONFIG_VIRTFS
+ #include "fsdev/qemu-fsdev.h"
+ #endif
+@@ -2744,6 +2745,7 @@ void qmp_x_exit_preconfig(Error **errp)
+ 
+     qemu_init_board();
+     qemu_create_cli_devices();
++    cxl_fixed_memory_window_link_targets(errp);
+     qemu_machine_creation_done();
+ 
+     if (loadvm) {
+@@ -2805,6 +2807,7 @@ void qemu_init(int argc, char **argv, char **envp)
+     qemu_add_opts(&qemu_msg_opts);
+     qemu_add_opts(&qemu_name_opts);
+     qemu_add_opts(&qemu_numa_opts);
++    qemu_add_opts(&qemu_cxl_fixed_window_opts);
+     qemu_add_opts(&qemu_icount_opts);
+     qemu_add_opts(&qemu_semihosting_config_opts);
+     qemu_add_opts(&qemu_fw_cfg_opts);
+@@ -2927,6 +2930,13 @@ void qemu_init(int argc, char **argv, char **envp)
+                     exit(1);
+                 }
+                 break;
++            case QEMU_OPTION_cxl_fixed_memory_window:
++                opts = qemu_opts_parse_noisily(qemu_find_opts("cxl-fixed-memory-window"),
++                                               optarg, true);
++                if (!opts) {
++                    exit(1);
++                }
++                break;
+             case QEMU_OPTION_display:
+                 parse_display(optarg);
+                 break;
+@@ -3764,6 +3774,7 @@ void qemu_init(int argc, char **argv, char **envp)
+ 
+     qemu_resolve_machine_memdev();
+     parse_numa_opts(current_machine);
++    parse_cxl_fixed_memory_window_opts(current_machine);
+ 
+     if (vmstate_dump_file) {
+         /* dump and exit */
 -- 
 2.32.0
 
