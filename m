@@ -2,71 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9E004B1B66
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Feb 2022 02:42:06 +0100 (CET)
-Received: from localhost ([::1]:58718 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 334A84B1B6C
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Feb 2022 02:43:41 +0100 (CET)
+Received: from localhost ([::1]:33526 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nIKwn-0004Qg-R4
-	for lists+qemu-devel@lfdr.de; Thu, 10 Feb 2022 20:42:05 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:38442)
+	id 1nIKyK-0006Y1-A7
+	for lists+qemu-devel@lfdr.de; Thu, 10 Feb 2022 20:43:40 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:38488)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nIKml-0003t4-IY
- for qemu-devel@nongnu.org; Thu, 10 Feb 2022 20:31:44 -0500
-Received: from [2607:f8b0:4864:20::435] (port=35339
- helo=mail-pf1-x435.google.com)
+ id 1nIKmo-0003uj-OS
+ for qemu-devel@nongnu.org; Thu, 10 Feb 2022 20:31:48 -0500
+Received: from [2607:f8b0:4864:20::102d] (port=44979
+ helo=mail-pj1-x102d.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nIKmi-0007Hq-7p
- for qemu-devel@nongnu.org; Thu, 10 Feb 2022 20:31:42 -0500
-Received: by mail-pf1-x435.google.com with SMTP id l19so7678276pfu.2
- for <qemu-devel@nongnu.org>; Thu, 10 Feb 2022 17:31:39 -0800 (PST)
+ id 1nIKml-0007Jw-CD
+ for qemu-devel@nongnu.org; Thu, 10 Feb 2022 20:31:45 -0500
+Received: by mail-pj1-x102d.google.com with SMTP id
+ d9-20020a17090a498900b001b8bb1d00e7so7346873pjh.3
+ for <qemu-devel@nongnu.org>; Thu, 10 Feb 2022 17:31:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=MExGM3MYFPcI7+Ux4ttjU7B5pEnYQhssTtf96VqegiE=;
- b=jfhmKXJw+nLERJWyHeRP067AURB6tZOxV41T/QhHeeTaBbxC+ks0FtL8sK+qjjemSS
- AWYyHA3cMPAkCoaVirGzAop6w/5jnLHkBUmvmIRudv5Lk6JcYHN2ozEgrbgxD1f7+2se
- j2e/G9vIpYRSykPogUM+baeYoRzACYtlsUX/86jAJU2XTyND819FR43siB/o29czXfl6
- RF2OBLagVrGQzqE91j9hsj1LmflfQPTT1SwfTSaM2voDMAihvwZ6WgyciusoiuAx2Dnp
- EKOZ37P0X+VUypAdua402eVdEr5+E2TQ6O56eefX8feRkdT+XhIBW6pGBq1gvlvoLhvj
- OAHg==
+ bh=AtGuFC3UKK0Idn4w3teyZ8nMq31tfjbJpMimKivxIv0=;
+ b=F8Q1dUMmfsxxA5W5oCNR1T6uemG52YLV4GONAmncF6M7AV9y+JgA0wdntquRulxIrk
+ YvnbMMt9bzQHpcznFCgYcTn74RXOeF3Psj2m5GEdJgQlRhdfdxMSP86Tv1AjmEvufoSG
+ UdvseZ0p34gXolq2ztBzeYSOY1PI0MA29wOjuskxHv1IG6l4AxXWFDToOfrTRmT7n6PX
+ GOgXcPJAOtd4TJrfz4Z2XTByvBSFhaGjhoZ58FB6luuzwqAlzzixiLeXtHeSrD2rWZKk
+ tcpgKgtw7pWeMFov5o9EwnPwUcba+cAtZbA8KEZLnG/eYkVWcoUK1YCuJouO8dssMytp
+ Ld5g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=MExGM3MYFPcI7+Ux4ttjU7B5pEnYQhssTtf96VqegiE=;
- b=dgOMiVw30J4/pr+/ouOTrZan/ER+rqYAuteUGGnosrrix3u2vfS6pYAmCMU4ESLUiR
- g2jm1+Um2PJXcwCAjClqL5voQHe9SzawozDWNGJxpIFKugurwvmRHyndoh18Ruj3bLQR
- CAHoLSi0irjYDYnI9GlKQmbmfZsj7w/MjUdYOCS1ADnpWFGZVN6tMQIJjiEPn+vgwhOo
- op8GD57g7RH/soZblcyNmNolxmppWTnj0HHNDkKxOY6+1lPDEelsRW/ji8dxCR5DzE3k
- OV4IICFhvp5UDA7iSivhapH16FJnE+QvABZtu6jDlTS/hbTIb4MokQDWUaZ3NZWnyC/4
- +fqQ==
-X-Gm-Message-State: AOAM531EA9ssC5hXdi6YUvqegHF3TN4t7GokZqyEfg9cTifi7QYi2Tg2
- +08er4thGFx6y9wFru8HQCxX1yWaDiyzJgEU
-X-Google-Smtp-Source: ABdhPJyP3PGdfeY2dpfVV8BMpyh3QB8WClQ2+oBqFRbQQxRqWYALmrYFom9h5KbUccljbjD5uditwA==
-X-Received: by 2002:a63:1d26:: with SMTP id d38mr8222904pgd.301.1644543098642; 
- Thu, 10 Feb 2022 17:31:38 -0800 (PST)
+ bh=AtGuFC3UKK0Idn4w3teyZ8nMq31tfjbJpMimKivxIv0=;
+ b=D/+CU26aHuLTHeEa0VL4trUsgFTbD+CabOVRtVgGsCLRy0vmPv+kW/Nbf/uJ1qCExS
+ z3w40ZWQZ87nwRWN387oav8e0no2D7sicBnJEl7jtydc9V91nFBL5AIYI2p9dGlBbFUo
+ t34/Zd0c8py5C8s4W6LgO1qV5AnveDvWOzEEImCaFTw9yNI+q4MeEiRt9WccDA4KX5FF
+ 0KxBh70DxL5Y97LGu9UFWZh+kIvkSoDtddnXQnvFD6msGmIgw/QYYpc+NJo7hWc1RZB1
+ 6JekCTVl1/Qi6/sSvo0ysidNzMuu40sKJRoZOm2L8QGaQrKuIHlYFcTPBoe9MiypEnOX
+ lVXg==
+X-Gm-Message-State: AOAM533PqEDkvnSOdA/yXj20wxHzRJPGN28K01ZX787WroAL6iZnAUAz
+ RQj0m39kS9PCY9Vc60TpbLTMS42t4KDvpggi
+X-Google-Smtp-Source: ABdhPJzvUXQHvWqZ43D3rqoLsOdRLCD6Zq/ThsCA0kDywjF3x9/x7DWha12vxxJIMRwe4Oj5+CAmkw==
+X-Received: by 2002:a17:90a:190e:: with SMTP id
+ 14mr210941pjg.210.1644543101436; 
+ Thu, 10 Feb 2022 17:31:41 -0800 (PST)
 Received: from localhost.localdomain ([124.189.222.164])
- by smtp.gmail.com with ESMTPSA id h5sm25738788pfi.111.2022.02.10.17.31.36
+ by smtp.gmail.com with ESMTPSA id h5sm25738788pfi.111.2022.02.10.17.31.39
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 10 Feb 2022 17:31:38 -0800 (PST)
+ Thu, 10 Feb 2022 17:31:41 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 02/34] linux-user: Introduce host_signal_mask
-Date: Fri, 11 Feb 2022 12:30:27 +1100
-Message-Id: <20220211013059.17994-3-richard.henderson@linaro.org>
+Subject: [PULL 03/34] linux-user: Introduce host_sigcontext
+Date: Fri, 11 Feb 2022 12:30:28 +1100
+Message-Id: <20220211013059.17994-4-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220211013059.17994-1-richard.henderson@linaro.org>
 References: <20220211013059.17994-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::435
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::102d
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::435;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x435.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102d;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102d.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -92,260 +94,448 @@ Cc: peter.maydell@linaro.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Do not directly access the uc_sigmask member.
+Do not directly access ucontext_t as the third signal parameter.
 This is preparation for a sparc64 fix.
 
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- linux-user/include/host/aarch64/host-signal.h  |  5 +++++
- linux-user/include/host/alpha/host-signal.h    |  5 +++++
- linux-user/include/host/arm/host-signal.h      |  5 +++++
- linux-user/include/host/i386/host-signal.h     |  5 +++++
- .../include/host/loongarch64/host-signal.h     |  5 +++++
- linux-user/include/host/mips/host-signal.h     |  5 +++++
- linux-user/include/host/ppc/host-signal.h      |  5 +++++
- linux-user/include/host/riscv/host-signal.h    |  5 +++++
- linux-user/include/host/s390/host-signal.h     |  5 +++++
- linux-user/include/host/sparc/host-signal.h    |  5 +++++
- linux-user/include/host/x86_64/host-signal.h   |  5 +++++
- linux-user/signal.c                            | 18 ++++++++----------
- 12 files changed, 63 insertions(+), 10 deletions(-)
+ linux-user/include/host/aarch64/host-signal.h     | 13 ++++++++-----
+ linux-user/include/host/alpha/host-signal.h       | 11 +++++++----
+ linux-user/include/host/arm/host-signal.h         | 11 +++++++----
+ linux-user/include/host/i386/host-signal.h        | 11 +++++++----
+ linux-user/include/host/loongarch64/host-signal.h | 11 +++++++----
+ linux-user/include/host/mips/host-signal.h        | 11 +++++++----
+ linux-user/include/host/ppc/host-signal.h         | 11 +++++++----
+ linux-user/include/host/riscv/host-signal.h       | 11 +++++++----
+ linux-user/include/host/s390/host-signal.h        | 11 +++++++----
+ linux-user/include/host/sparc/host-signal.h       | 11 +++++++----
+ linux-user/include/host/x86_64/host-signal.h      | 11 +++++++----
+ linux-user/signal.c                               |  4 ++--
+ 12 files changed, 80 insertions(+), 47 deletions(-)
 
 diff --git a/linux-user/include/host/aarch64/host-signal.h b/linux-user/include/host/aarch64/host-signal.h
-index 9770b36dc1..76ab078069 100644
+index 76ab078069..be079684a2 100644
 --- a/linux-user/include/host/aarch64/host-signal.h
 +++ b/linux-user/include/host/aarch64/host-signal.h
-@@ -40,6 +40,11 @@ static inline void host_signal_set_pc(ucontext_t *uc, uintptr_t pc)
+@@ -11,6 +11,9 @@
+ #ifndef AARCH64_HOST_SIGNAL_H
+ #define AARCH64_HOST_SIGNAL_H
+ 
++/* The third argument to a SA_SIGINFO handler is ucontext_t. */
++typedef ucontext_t host_sigcontext;
++
+ /* Pre-3.16 kernel headers don't have these, so provide fallback definitions */
+ #ifndef ESR_MAGIC
+ #define ESR_MAGIC 0x45535201
+@@ -20,7 +23,7 @@ struct esr_context {
+ };
+ #endif
+ 
+-static inline struct _aarch64_ctx *first_ctx(ucontext_t *uc)
++static inline struct _aarch64_ctx *first_ctx(host_sigcontext *uc)
+ {
+     return (struct _aarch64_ctx *)&uc->uc_mcontext.__reserved;
+ }
+@@ -30,22 +33,22 @@ static inline struct _aarch64_ctx *next_ctx(struct _aarch64_ctx *hdr)
+     return (struct _aarch64_ctx *)((char *)hdr + hdr->size);
+ }
+ 
+-static inline uintptr_t host_signal_pc(ucontext_t *uc)
++static inline uintptr_t host_signal_pc(host_sigcontext *uc)
+ {
+     return uc->uc_mcontext.pc;
+ }
+ 
+-static inline void host_signal_set_pc(ucontext_t *uc, uintptr_t pc)
++static inline void host_signal_set_pc(host_sigcontext *uc, uintptr_t pc)
+ {
      uc->uc_mcontext.pc = pc;
  }
  
-+static inline void *host_signal_mask(ucontext_t *uc)
-+{
-+    return &uc->uc_sigmask;
-+}
-+
- static inline bool host_signal_write(siginfo_t *info, ucontext_t *uc)
+-static inline void *host_signal_mask(ucontext_t *uc)
++static inline void *host_signal_mask(host_sigcontext *uc)
+ {
+     return &uc->uc_sigmask;
+ }
+ 
+-static inline bool host_signal_write(siginfo_t *info, ucontext_t *uc)
++static inline bool host_signal_write(siginfo_t *info, host_sigcontext *uc)
  {
      struct _aarch64_ctx *hdr;
+     uint32_t insn;
 diff --git a/linux-user/include/host/alpha/host-signal.h b/linux-user/include/host/alpha/host-signal.h
-index f4c942948a..a44d670f2b 100644
+index a44d670f2b..4f9e2abc4b 100644
 --- a/linux-user/include/host/alpha/host-signal.h
 +++ b/linux-user/include/host/alpha/host-signal.h
-@@ -21,6 +21,11 @@ static inline void host_signal_set_pc(ucontext_t *uc, uintptr_t pc)
+@@ -11,22 +11,25 @@
+ #ifndef ALPHA_HOST_SIGNAL_H
+ #define ALPHA_HOST_SIGNAL_H
+ 
+-static inline uintptr_t host_signal_pc(ucontext_t *uc)
++/* The third argument to a SA_SIGINFO handler is ucontext_t. */
++typedef ucontext_t host_sigcontext;
++
++static inline uintptr_t host_signal_pc(host_sigcontext *uc)
+ {
+     return uc->uc_mcontext.sc_pc;
+ }
+ 
+-static inline void host_signal_set_pc(ucontext_t *uc, uintptr_t pc)
++static inline void host_signal_set_pc(host_sigcontext *uc, uintptr_t pc)
+ {
      uc->uc_mcontext.sc_pc = pc;
  }
  
-+static inline void *host_signal_mask(ucontext_t *uc)
-+{
-+    return &uc->uc_sigmask;
-+}
-+
- static inline bool host_signal_write(siginfo_t *info, ucontext_t *uc)
+-static inline void *host_signal_mask(ucontext_t *uc)
++static inline void *host_signal_mask(host_sigcontext *uc)
+ {
+     return &uc->uc_sigmask;
+ }
+ 
+-static inline bool host_signal_write(siginfo_t *info, ucontext_t *uc)
++static inline bool host_signal_write(siginfo_t *info, host_sigcontext *uc)
  {
      uint32_t *pc = (uint32_t *)host_signal_pc(uc);
+     uint32_t insn = *pc;
 diff --git a/linux-user/include/host/arm/host-signal.h b/linux-user/include/host/arm/host-signal.h
-index 6c095773c0..bbeb4ffefb 100644
+index bbeb4ffefb..faba496d24 100644
 --- a/linux-user/include/host/arm/host-signal.h
 +++ b/linux-user/include/host/arm/host-signal.h
-@@ -21,6 +21,11 @@ static inline void host_signal_set_pc(ucontext_t *uc, uintptr_t pc)
+@@ -11,22 +11,25 @@
+ #ifndef ARM_HOST_SIGNAL_H
+ #define ARM_HOST_SIGNAL_H
+ 
+-static inline uintptr_t host_signal_pc(ucontext_t *uc)
++/* The third argument to a SA_SIGINFO handler is ucontext_t. */
++typedef ucontext_t host_sigcontext;
++
++static inline uintptr_t host_signal_pc(host_sigcontext *uc)
+ {
+     return uc->uc_mcontext.arm_pc;
+ }
+ 
+-static inline void host_signal_set_pc(ucontext_t *uc, uintptr_t pc)
++static inline void host_signal_set_pc(host_sigcontext *uc, uintptr_t pc)
+ {
      uc->uc_mcontext.arm_pc = pc;
  }
  
-+static inline void *host_signal_mask(ucontext_t *uc)
-+{
-+    return &uc->uc_sigmask;
-+}
-+
- static inline bool host_signal_write(siginfo_t *info, ucontext_t *uc)
+-static inline void *host_signal_mask(ucontext_t *uc)
++static inline void *host_signal_mask(host_sigcontext *uc)
+ {
+     return &uc->uc_sigmask;
+ }
+ 
+-static inline bool host_signal_write(siginfo_t *info, ucontext_t *uc)
++static inline bool host_signal_write(siginfo_t *info, host_sigcontext *uc)
  {
      /*
+      * In the FSR, bit 11 is WnR, assuming a v6 or
 diff --git a/linux-user/include/host/i386/host-signal.h b/linux-user/include/host/i386/host-signal.h
-index abe1ece5c9..fd36f06bda 100644
+index fd36f06bda..e2b64f077f 100644
 --- a/linux-user/include/host/i386/host-signal.h
 +++ b/linux-user/include/host/i386/host-signal.h
-@@ -21,6 +21,11 @@ static inline void host_signal_set_pc(ucontext_t *uc, uintptr_t pc)
+@@ -11,22 +11,25 @@
+ #ifndef I386_HOST_SIGNAL_H
+ #define I386_HOST_SIGNAL_H
+ 
+-static inline uintptr_t host_signal_pc(ucontext_t *uc)
++/* The third argument to a SA_SIGINFO handler is ucontext_t. */
++typedef ucontext_t host_sigcontext;
++
++static inline uintptr_t host_signal_pc(host_sigcontext *uc)
+ {
+     return uc->uc_mcontext.gregs[REG_EIP];
+ }
+ 
+-static inline void host_signal_set_pc(ucontext_t *uc, uintptr_t pc)
++static inline void host_signal_set_pc(host_sigcontext *uc, uintptr_t pc)
+ {
      uc->uc_mcontext.gregs[REG_EIP] = pc;
  }
  
-+static inline void *host_signal_mask(ucontext_t *uc)
-+{
-+    return &uc->uc_sigmask;
-+}
-+
- static inline bool host_signal_write(siginfo_t *info, ucontext_t *uc)
+-static inline void *host_signal_mask(ucontext_t *uc)
++static inline void *host_signal_mask(host_sigcontext *uc)
+ {
+     return &uc->uc_sigmask;
+ }
+ 
+-static inline bool host_signal_write(siginfo_t *info, ucontext_t *uc)
++static inline bool host_signal_write(siginfo_t *info, host_sigcontext *uc)
  {
      return uc->uc_mcontext.gregs[REG_TRAPNO] == 0xe
+         && (uc->uc_mcontext.gregs[REG_ERR] & 0x2);
 diff --git a/linux-user/include/host/loongarch64/host-signal.h b/linux-user/include/host/loongarch64/host-signal.h
-index 7effa24251..a9dfe0c688 100644
+index a9dfe0c688..d33c3fc03e 100644
 --- a/linux-user/include/host/loongarch64/host-signal.h
 +++ b/linux-user/include/host/loongarch64/host-signal.h
-@@ -21,6 +21,11 @@ static inline void host_signal_set_pc(ucontext_t *uc, uintptr_t pc)
+@@ -11,22 +11,25 @@
+ #ifndef LOONGARCH64_HOST_SIGNAL_H
+ #define LOONGARCH64_HOST_SIGNAL_H
+ 
+-static inline uintptr_t host_signal_pc(ucontext_t *uc)
++/* The third argument to a SA_SIGINFO handler is ucontext_t. */
++typedef ucontext_t host_sigcontext;
++
++static inline uintptr_t host_signal_pc(host_sigcontext *uc)
+ {
+     return uc->uc_mcontext.__pc;
+ }
+ 
+-static inline void host_signal_set_pc(ucontext_t *uc, uintptr_t pc)
++static inline void host_signal_set_pc(host_sigcontext *uc, uintptr_t pc)
+ {
      uc->uc_mcontext.__pc = pc;
  }
  
-+static inline void *host_signal_mask(ucontext_t *uc)
-+{
-+    return &uc->uc_sigmask;
-+}
-+
- static inline bool host_signal_write(siginfo_t *info, ucontext_t *uc)
+-static inline void *host_signal_mask(ucontext_t *uc)
++static inline void *host_signal_mask(host_sigcontext *uc)
+ {
+     return &uc->uc_sigmask;
+ }
+ 
+-static inline bool host_signal_write(siginfo_t *info, ucontext_t *uc)
++static inline bool host_signal_write(siginfo_t *info, host_sigcontext *uc)
  {
      const uint32_t *pinsn = (const uint32_t *)host_signal_pc(uc);
+     uint32_t insn = pinsn[0];
 diff --git a/linux-user/include/host/mips/host-signal.h b/linux-user/include/host/mips/host-signal.h
-index c666ed8c3f..ff840dd491 100644
+index ff840dd491..0dbc5cecfd 100644
 --- a/linux-user/include/host/mips/host-signal.h
 +++ b/linux-user/include/host/mips/host-signal.h
-@@ -21,6 +21,11 @@ static inline void host_signal_set_pc(ucontext_t *uc, uintptr_t pc)
+@@ -11,17 +11,20 @@
+ #ifndef MIPS_HOST_SIGNAL_H
+ #define MIPS_HOST_SIGNAL_H
+ 
+-static inline uintptr_t host_signal_pc(ucontext_t *uc)
++/* The third argument to a SA_SIGINFO handler is ucontext_t. */
++typedef ucontext_t host_sigcontext;
++
++static inline uintptr_t host_signal_pc(host_sigcontext *uc)
+ {
+     return uc->uc_mcontext.pc;
+ }
+ 
+-static inline void host_signal_set_pc(ucontext_t *uc, uintptr_t pc)
++static inline void host_signal_set_pc(host_sigcontext *uc, uintptr_t pc)
+ {
      uc->uc_mcontext.pc = pc;
  }
  
-+static inline void *host_signal_mask(ucontext_t *uc)
-+{
-+    return &uc->uc_sigmask;
-+}
-+
- #if defined(__misp16) || defined(__mips_micromips)
+-static inline void *host_signal_mask(ucontext_t *uc)
++static inline void *host_signal_mask(host_sigcontext *uc)
+ {
+     return &uc->uc_sigmask;
+ }
+@@ -30,7 +33,7 @@ static inline void *host_signal_mask(ucontext_t *uc)
  #error "Unsupported encoding"
  #endif
+ 
+-static inline bool host_signal_write(siginfo_t *info, ucontext_t *uc)
++static inline bool host_signal_write(siginfo_t *info, host_sigcontext *uc)
+ {
+     uint32_t insn = *(uint32_t *)host_signal_pc(uc);
+ 
 diff --git a/linux-user/include/host/ppc/host-signal.h b/linux-user/include/host/ppc/host-signal.h
-index 1d8e658ff7..730a321d98 100644
+index 730a321d98..b80384d135 100644
 --- a/linux-user/include/host/ppc/host-signal.h
 +++ b/linux-user/include/host/ppc/host-signal.h
-@@ -21,6 +21,11 @@ static inline void host_signal_set_pc(ucontext_t *uc, uintptr_t pc)
+@@ -11,22 +11,25 @@
+ #ifndef PPC_HOST_SIGNAL_H
+ #define PPC_HOST_SIGNAL_H
+ 
+-static inline uintptr_t host_signal_pc(ucontext_t *uc)
++/* The third argument to a SA_SIGINFO handler is ucontext_t. */
++typedef ucontext_t host_sigcontext;
++
++static inline uintptr_t host_signal_pc(host_sigcontext *uc)
+ {
+     return uc->uc_mcontext.regs->nip;
+ }
+ 
+-static inline void host_signal_set_pc(ucontext_t *uc, uintptr_t pc)
++static inline void host_signal_set_pc(host_sigcontext *uc, uintptr_t pc)
+ {
      uc->uc_mcontext.regs->nip = pc;
  }
  
-+static inline void *host_signal_mask(ucontext_t *uc)
-+{
-+    return &uc->uc_sigmask;
-+}
-+
- static inline bool host_signal_write(siginfo_t *info, ucontext_t *uc)
+-static inline void *host_signal_mask(ucontext_t *uc)
++static inline void *host_signal_mask(host_sigcontext *uc)
+ {
+     return &uc->uc_sigmask;
+ }
+ 
+-static inline bool host_signal_write(siginfo_t *info, ucontext_t *uc)
++static inline bool host_signal_write(siginfo_t *info, host_sigcontext *uc)
  {
      return uc->uc_mcontext.regs->trap != 0x400
+         && (uc->uc_mcontext.regs->dsisr & 0x02000000);
 diff --git a/linux-user/include/host/riscv/host-signal.h b/linux-user/include/host/riscv/host-signal.h
-index a4f170efb0..aceae544f2 100644
+index aceae544f2..decacb2325 100644
 --- a/linux-user/include/host/riscv/host-signal.h
 +++ b/linux-user/include/host/riscv/host-signal.h
-@@ -21,6 +21,11 @@ static inline void host_signal_set_pc(ucontext_t *uc, uintptr_t pc)
+@@ -11,22 +11,25 @@
+ #ifndef RISCV_HOST_SIGNAL_H
+ #define RISCV_HOST_SIGNAL_H
+ 
+-static inline uintptr_t host_signal_pc(ucontext_t *uc)
++/* The third argument to a SA_SIGINFO handler is ucontext_t. */
++typedef ucontext_t host_sigcontext;
++
++static inline uintptr_t host_signal_pc(host_sigcontext *uc)
+ {
+     return uc->uc_mcontext.__gregs[REG_PC];
+ }
+ 
+-static inline void host_signal_set_pc(ucontext_t *uc, uintptr_t pc)
++static inline void host_signal_set_pc(host_sigcontext *uc, uintptr_t pc)
+ {
      uc->uc_mcontext.__gregs[REG_PC] = pc;
  }
  
-+static inline void *host_signal_mask(ucontext_t *uc)
-+{
-+    return &uc->uc_sigmask;
-+}
-+
- static inline bool host_signal_write(siginfo_t *info, ucontext_t *uc)
+-static inline void *host_signal_mask(ucontext_t *uc)
++static inline void *host_signal_mask(host_sigcontext *uc)
+ {
+     return &uc->uc_sigmask;
+ }
+ 
+-static inline bool host_signal_write(siginfo_t *info, ucontext_t *uc)
++static inline bool host_signal_write(siginfo_t *info, host_sigcontext *uc)
  {
      /*
+      * Detect store by reading the instruction at the program counter.
 diff --git a/linux-user/include/host/s390/host-signal.h b/linux-user/include/host/s390/host-signal.h
-index a524f2ab00..e454cea54a 100644
+index e454cea54a..6f191e64d7 100644
 --- a/linux-user/include/host/s390/host-signal.h
 +++ b/linux-user/include/host/s390/host-signal.h
-@@ -21,6 +21,11 @@ static inline void host_signal_set_pc(ucontext_t *uc, uintptr_t pc)
+@@ -11,22 +11,25 @@
+ #ifndef S390_HOST_SIGNAL_H
+ #define S390_HOST_SIGNAL_H
+ 
+-static inline uintptr_t host_signal_pc(ucontext_t *uc)
++/* The third argument to a SA_SIGINFO handler is ucontext_t. */
++typedef ucontext_t host_sigcontext;
++
++static inline uintptr_t host_signal_pc(host_sigcontext *uc)
+ {
+     return uc->uc_mcontext.psw.addr;
+ }
+ 
+-static inline void host_signal_set_pc(ucontext_t *uc, uintptr_t pc)
++static inline void host_signal_set_pc(host_sigcontext *uc, uintptr_t pc)
+ {
      uc->uc_mcontext.psw.addr = pc;
  }
  
-+static inline void *host_signal_mask(ucontext_t *uc)
-+{
-+    return &uc->uc_sigmask;
-+}
-+
- static inline bool host_signal_write(siginfo_t *info, ucontext_t *uc)
+-static inline void *host_signal_mask(ucontext_t *uc)
++static inline void *host_signal_mask(host_sigcontext *uc)
+ {
+     return &uc->uc_sigmask;
+ }
+ 
+-static inline bool host_signal_write(siginfo_t *info, ucontext_t *uc)
++static inline bool host_signal_write(siginfo_t *info, host_sigcontext *uc)
  {
      uint16_t *pinsn = (uint16_t *)host_signal_pc(uc);
+ 
 diff --git a/linux-user/include/host/sparc/host-signal.h b/linux-user/include/host/sparc/host-signal.h
-index 7342936071..158918f2ec 100644
+index 158918f2ec..871b6bb269 100644
 --- a/linux-user/include/host/sparc/host-signal.h
 +++ b/linux-user/include/host/sparc/host-signal.h
-@@ -29,6 +29,11 @@ static inline void host_signal_set_pc(ucontext_t *uc, uintptr_t pc)
+@@ -11,7 +11,10 @@
+ #ifndef SPARC_HOST_SIGNAL_H
+ #define SPARC_HOST_SIGNAL_H
+ 
+-static inline uintptr_t host_signal_pc(ucontext_t *uc)
++/* FIXME: the third argument to a SA_SIGINFO handler is *not* ucontext_t. */
++typedef ucontext_t host_sigcontext;
++
++static inline uintptr_t host_signal_pc(host_sigcontext *uc)
+ {
+ #ifdef __arch64__
+     return uc->uc_mcontext.mc_gregs[MC_PC];
+@@ -20,7 +23,7 @@ static inline uintptr_t host_signal_pc(ucontext_t *uc)
  #endif
  }
  
-+static inline void *host_signal_mask(ucontext_t *uc)
-+{
-+    return &uc->uc_sigmask;
-+}
-+
- static inline bool host_signal_write(siginfo_t *info, ucontext_t *uc)
+-static inline void host_signal_set_pc(ucontext_t *uc, uintptr_t pc)
++static inline void host_signal_set_pc(host_sigcontext *uc, uintptr_t pc)
+ {
+ #ifdef __arch64__
+     uc->uc_mcontext.mc_gregs[MC_PC] = pc;
+@@ -29,12 +32,12 @@ static inline void host_signal_set_pc(ucontext_t *uc, uintptr_t pc)
+ #endif
+ }
+ 
+-static inline void *host_signal_mask(ucontext_t *uc)
++static inline void *host_signal_mask(host_sigcontext *uc)
+ {
+     return &uc->uc_sigmask;
+ }
+ 
+-static inline bool host_signal_write(siginfo_t *info, ucontext_t *uc)
++static inline bool host_signal_write(siginfo_t *info, host_sigcontext *uc)
  {
      uint32_t insn = *(uint32_t *)host_signal_pc(uc);
+ 
 diff --git a/linux-user/include/host/x86_64/host-signal.h b/linux-user/include/host/x86_64/host-signal.h
-index c71d597eb2..d64d076625 100644
+index d64d076625..5a7627fedc 100644
 --- a/linux-user/include/host/x86_64/host-signal.h
 +++ b/linux-user/include/host/x86_64/host-signal.h
-@@ -20,6 +20,11 @@ static inline void host_signal_set_pc(ucontext_t *uc, uintptr_t pc)
+@@ -10,22 +10,25 @@
+ #ifndef X86_64_HOST_SIGNAL_H
+ #define X86_64_HOST_SIGNAL_H
+ 
+-static inline uintptr_t host_signal_pc(ucontext_t *uc)
++/* The third argument to a SA_SIGINFO handler is ucontext_t. */
++typedef ucontext_t host_sigcontext;
++
++static inline uintptr_t host_signal_pc(host_sigcontext *uc)
+ {
+     return uc->uc_mcontext.gregs[REG_RIP];
+ }
+ 
+-static inline void host_signal_set_pc(ucontext_t *uc, uintptr_t pc)
++static inline void host_signal_set_pc(host_sigcontext *uc, uintptr_t pc)
+ {
      uc->uc_mcontext.gregs[REG_RIP] = pc;
  }
  
-+static inline void *host_signal_mask(ucontext_t *uc)
-+{
-+    return &uc->uc_sigmask;
-+}
-+
- static inline bool host_signal_write(siginfo_t *info, ucontext_t *uc)
+-static inline void *host_signal_mask(ucontext_t *uc)
++static inline void *host_signal_mask(host_sigcontext *uc)
+ {
+     return &uc->uc_sigmask;
+ }
+ 
+-static inline bool host_signal_write(siginfo_t *info, ucontext_t *uc)
++static inline bool host_signal_write(siginfo_t *info, host_sigcontext *uc)
  {
      return uc->uc_mcontext.gregs[REG_TRAPNO] == 0xe
+         && (uc->uc_mcontext.gregs[REG_ERR] & 0x2);
 diff --git a/linux-user/signal.c b/linux-user/signal.c
-index 32854bb375..0c61459d4a 100644
+index 0c61459d4a..27a0ff30e9 100644
 --- a/linux-user/signal.c
 +++ b/linux-user/signal.c
-@@ -820,6 +820,7 @@ static void host_signal_handler(int host_sig, siginfo_t *info, void *puc)
+@@ -800,7 +800,7 @@ void queue_signal(CPUArchState *env, int sig, int si_type,
+ /* Adjust the signal context to rewind out of safe-syscall if we're in it */
+ static inline void rewind_if_in_safe_syscall(void *puc)
+ {
+-    ucontext_t *uc = (ucontext_t *)puc;
++    host_sigcontext *uc = (host_sigcontext *)puc;
+     uintptr_t pcreg = host_signal_pc(uc);
+ 
+     if (pcreg > (uintptr_t)safe_syscall_start
+@@ -815,7 +815,7 @@ static void host_signal_handler(int host_sig, siginfo_t *info, void *puc)
+     CPUState *cpu = env_cpu(env);
+     TaskState *ts = cpu->opaque;
+     target_siginfo_t tinfo;
+-    ucontext_t *uc = puc;
++    host_sigcontext *uc = puc;
+     struct emulated_sigtable *k;
      int guest_sig;
      uintptr_t pc = 0;
-     bool sync_sig = false;
-+    void *sigmask = host_signal_mask(uc);
- 
-     /*
-      * Non-spoofed SIGSEGV and SIGBUS are synchronous, and need special
-@@ -849,8 +850,7 @@ static void host_signal_handler(int host_sig, siginfo_t *info, void *puc)
-             if (info->si_code == SEGV_ACCERR && h2g_valid(host_addr)) {
-                 /* If this was a write to a TB protected page, restart. */
-                 if (is_write &&
--                    handle_sigsegv_accerr_write(cpu, &uc->uc_sigmask,
--                                                pc, guest_addr)) {
-+                    handle_sigsegv_accerr_write(cpu, sigmask, pc, guest_addr)) {
-                     return;
-                 }
- 
-@@ -865,10 +865,10 @@ static void host_signal_handler(int host_sig, siginfo_t *info, void *puc)
-                 }
-             }
- 
--            sigprocmask(SIG_SETMASK, &uc->uc_sigmask, NULL);
-+            sigprocmask(SIG_SETMASK, sigmask, NULL);
-             cpu_loop_exit_sigsegv(cpu, guest_addr, access_type, maperr, pc);
-         } else {
--            sigprocmask(SIG_SETMASK, &uc->uc_sigmask, NULL);
-+            sigprocmask(SIG_SETMASK, sigmask, NULL);
-             if (info->si_code == BUS_ADRALN) {
-                 cpu_loop_exit_sigbus(cpu, guest_addr, access_type, pc);
-             }
-@@ -909,17 +909,15 @@ static void host_signal_handler(int host_sig, siginfo_t *info, void *puc)
-      * now and it getting out to the main loop. Signals will be
-      * unblocked again in process_pending_signals().
-      *
--     * WARNING: we cannot use sigfillset() here because the uc_sigmask
-+     * WARNING: we cannot use sigfillset() here because the sigmask
-      * field is a kernel sigset_t, which is much smaller than the
-      * libc sigset_t which sigfillset() operates on. Using sigfillset()
-      * would write 0xff bytes off the end of the structure and trash
-      * data on the struct.
--     * We can't use sizeof(uc->uc_sigmask) either, because the libc
--     * headers define the struct field with the wrong (too large) type.
-      */
--    memset(&uc->uc_sigmask, 0xff, SIGSET_T_SIZE);
--    sigdelset(&uc->uc_sigmask, SIGSEGV);
--    sigdelset(&uc->uc_sigmask, SIGBUS);
-+    memset(sigmask, 0xff, SIGSET_T_SIZE);
-+    sigdelset(sigmask, SIGSEGV);
-+    sigdelset(sigmask, SIGBUS);
- 
-     /* interrupt the virtual CPU as soon as possible */
-     cpu_exit(thread_cpu);
 -- 
 2.25.1
 
