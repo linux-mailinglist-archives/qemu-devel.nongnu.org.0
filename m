@@ -2,77 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 973954B2785
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Feb 2022 15:07:55 +0100 (CET)
-Received: from localhost ([::1]:44646 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 807CE4B277E
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Feb 2022 15:02:51 +0100 (CET)
+Received: from localhost ([::1]:37296 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nIWaY-0005Vj-OD
-	for lists+qemu-devel@lfdr.de; Fri, 11 Feb 2022 09:07:54 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:34844)
+	id 1nIWVb-0000ML-8s
+	for lists+qemu-devel@lfdr.de; Fri, 11 Feb 2022 09:02:48 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:35658)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nIWKp-0001Fw-5J
- for qemu-devel@nongnu.org; Fri, 11 Feb 2022 08:51:39 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:56305)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nIWNH-0003BZ-CZ
+ for qemu-devel@nongnu.org; Fri, 11 Feb 2022 08:54:13 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:26118)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nIWKn-0006Pw-1e
- for qemu-devel@nongnu.org; Fri, 11 Feb 2022 08:51:38 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nIWNB-0006jQ-HC
+ for qemu-devel@nongnu.org; Fri, 11 Feb 2022 08:54:08 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1644587496;
+ s=mimecast20190719; t=1644587640;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=xE64NEKlxtwEgpaQOgJM74Rb1eZaFpvOf4XBFHZwJcM=;
- b=GTV5PCCpMdS4LctWYgkAX3Yua/yJFyysQX6aUoV6dEPLAwZLBZwqdFFltkfqQAHbZGq+L2
- XFyeMglm0yk+45XfScBk0N+WXtXveGtR683th7piLTfKNP8DD/lngQHnoEonakRWpcVsLz
- FZn4jlIoVnZvatRB6LMuipslX1CAmMk=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=sdCikF8rBB7yeeFFiIPDUdq4ZLrmRAahw5KAhQ6MJwQ=;
+ b=KefJNz3FvFvOINAtCu8tbcHmWFAaGejWEI/jxy29GOEvjpJMVWpjdN+iHgJBJfcqxizFqB
+ 6zWlstVqmimyX8+TcinY8fdFNys8AgnQcXxjAfyU8Jg7FQxAtjGXxxaOWR0/XGnNP089dY
+ 8Vc/7luCcYdqST5PpW/uWtssSvEpQp8=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-225-F7zxm9ObMW6vR9QoGz0z1A-1; Fri, 11 Feb 2022 08:51:35 -0500
-X-MC-Unique: F7zxm9ObMW6vR9QoGz0z1A-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A3C3F81F03E;
- Fri, 11 Feb 2022 13:51:32 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.36.112.3])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 5D48E7B9D8;
- Fri, 11 Feb 2022 13:51:32 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 0039A21E6A00; Fri, 11 Feb 2022 14:51:30 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: Daniel P. =?utf-8?Q?Berrang=C3=A9?= <berrange@redhat.com>
-Subject: Re: [PATCH v3 1/3] qmp: Support for querying stats
-References: <20220131194312.1192626-1-mark.kanda@oracle.com>
- <20220131194312.1192626-2-mark.kanda@oracle.com>
- <5c635615-e5be-8c3c-6146-cac70c326cf5@redhat.com>
- <YfkTCCFU0vg/PwgQ@redhat.com>
-Date: Fri, 11 Feb 2022 14:51:30 +0100
-In-Reply-To: <YfkTCCFU0vg/PwgQ@redhat.com> ("Daniel P. =?utf-8?Q?Berrang?=
- =?utf-8?Q?=C3=A9=22's?= message of
- "Tue, 1 Feb 2022 11:01:28 +0000")
-Message-ID: <87zgmxmrz1.fsf@pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ us-mta-80--QeaklFINWqEsu_q73Xy9Q-1; Fri, 11 Feb 2022 08:53:59 -0500
+X-MC-Unique: -QeaklFINWqEsu_q73Xy9Q-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ m3-20020a7bcb83000000b0034f75d92f27so2550013wmi.2
+ for <qemu-devel@nongnu.org>; Fri, 11 Feb 2022 05:53:58 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=sdCikF8rBB7yeeFFiIPDUdq4ZLrmRAahw5KAhQ6MJwQ=;
+ b=vgnPMgQTnl36NWJiluiLtx4O4HJyVbxUBFTwhC5I5gGp3oYm1WZXmBkE+R4g4lG5Gz
+ IM/hEmz/KZwE8M6OOJv/EQvjnn732ZFcb/1kFIIqpL6DAo2NL20g/DE5IpW1wVmG0M2F
+ e6a2nGNHkVHgzHwKRanPHOiq+8SF/ZVJbbnSv0FXBLr8h+celu8LJYaplVSIJOX7oZtl
+ q2d/NLAtncApW0CLecOGLLx/omBIh5WdIsd/4trk0gvBCNMRqJ1lqu8Ve4HhkydzP7k1
+ 2L5lkE5vPaOOiVVLtdnHkM1RpRPVVi3WDHjJj4xlgdbuDkme/SquVytWk6wCBc1BIf8v
+ 26aQ==
+X-Gm-Message-State: AOAM532aTxDE92SDfmneoBTwXPHmzE5rJF1GX92t01+dyuIjEHHGrXms
+ vTkSR3IKRbbN8yGxdjZvNabpQQJh+NRylUmiD6i0jUQtTRlsLXE4k+bBpwvTSvttuQ/30JIpxF/
+ 2cxidgsCKdfZ/sPM=
+X-Received: by 2002:a05:600c:4fcf:: with SMTP id
+ o15mr355131wmq.145.1644587637881; 
+ Fri, 11 Feb 2022 05:53:57 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxcb5xY6ufEL86JS/EVfFHXN5llhMxYWb9epeP6WwBXZ0avNg9wE72QOCQlPxtXgvmzyl6IUg==
+X-Received: by 2002:a05:600c:4fcf:: with SMTP id
+ o15mr355112wmq.145.1644587637603; 
+ Fri, 11 Feb 2022 05:53:57 -0800 (PST)
+Received: from [192.168.8.104] (tmo-098-218.customers.d1-online.com.
+ [80.187.98.218])
+ by smtp.gmail.com with ESMTPSA id m12sm25521990wrp.61.2022.02.11.05.53.56
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 11 Feb 2022 05:53:56 -0800 (PST)
+Message-ID: <362412d7-4676-1733-fef6-825fda8e34a0@redhat.com>
+Date: Fri, 11 Feb 2022 14:53:55 +0100
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH v2 1/8] tests/qemu-iotests/testrunner: Allow parallel test
+ invocations
+To: Kevin Wolf <kwolf@redhat.com>
+References: <20220209101530.3442837-1-thuth@redhat.com>
+ <20220209101530.3442837-2-thuth@redhat.com> <YgYsbRc9XNYjUH2L@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <YgYsbRc9XNYjUH2L@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -85,72 +103,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org,
- armbru@redhat.com
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
+ qemu-devel@nongnu.org, qemu-block@nongnu.org,
+ Peter Maydell <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Daniel P. Berrang=C3=A9 <berrange@redhat.com> writes:
+On 11/02/2022 10.29, Kevin Wolf wrote:
+> Am 09.02.2022 um 11:15 hat Thomas Huth geschrieben:
+>> If multiple tests run in parallel, they must use unique file
+>> names for the test output.
+>>
+>> Suggested-by: Hanna Reitz <hreitz@redhat.com>
+>> Signed-off-by: Thomas Huth <thuth@redhat.com>
+>> ---
+>>   tests/qemu-iotests/testrunner.py | 2 +-
+>>   1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/tests/qemu-iotests/testrunner.py b/tests/qemu-iotests/testrunner.py
+>> index 0eace147b8..9d20f51bb1 100644
+>> --- a/tests/qemu-iotests/testrunner.py
+>> +++ b/tests/qemu-iotests/testrunner.py
+>> @@ -259,7 +259,7 @@ def do_run_test(self, test: str, mp: bool) -> TestResult:
+>>           """
+>>   
+>>           f_test = Path(test)
+>> -        f_bad = Path(f_test.name + '.out.bad')
+>> +        f_bad = Path(f'{os.getpid()}-{f_test.name}.out.bad')
+>>           f_notrun = Path(f_test.name + '.notrun')
+>>           f_casenotrun = Path(f_test.name + '.casenotrun')
+>>           f_reference = Path(self.find_reference(test))
+> 
+> Hmm... It does make sense, but nobody ever cleans those files up.
+> Currently, the next run of the test will just overwrite the existing
+> file or delete it when the test succeeds. So after running the test
+> suite, you have .out.bad files for every failed test, but not for those
+> that succeeded.
+> 
+> After this change, won't the test directory accumulate tons of .out.bad
+> files over time?
 
-> On Tue, Feb 01, 2022 at 11:51:26AM +0100, Paolo Bonzini wrote:
->> On 1/31/22 20:43, Mark Kanda wrote:
->> >=20
->> > { "execute": "query-stats", "arguments" : { "target": "vm" } }
->> > { "return": {
->> >      "list": [
->> >        { "provider": "kvm",
->> >          "stats": [
->> >            { "name": "max_mmu_page_hash_collisions", "value": 0 },
->> >            { "name": "max_mmu_rmap_size", "value": 0 },
->> >            { "name": "nx_lpage_splits", "value": 131 },
->> >           ...
->> >          ] }
->> >        { "provider": "provider XYZ",
->> >        ...
->> >      ],
->> >      "target": "vm"
->> >    }
->> > }
->>=20
->> Perhaps it's better to have a better name than "list" for clarity, like =
-you
->> already did with 'stats':
->>=20
->> { 'struct': 'VCPUResultsEntry',
->>   'data': { 'path': 'str',
->>             'providers': [ 'StatsResultsEntry' ] } }
->>=20
->> { 'struct': 'VCPUStatsResults',
->>   'data': { 'objects': [ 'VCPUResultsEntry' ] } }
->>=20
->>=20
->> { 'struct': 'VMStatsResults',
->>   'data': { 'providers' : [ 'StatsResultsEntry' ] } }
->>=20
->> Also, here:
->>=20
->> > +{ 'alternate': 'StatsValue',
->> > +  'data': { 'scalar': 'uint64',
->> > +            'list': 'StatsValueArray' } }
->>=20
->> is it possible to just do
->>=20
->> { 'alternate': 'StatsValue',
->>   'data': { 'scalar': 'uint64',
->>             'list': ['uint64'] } }
->
-> No, the QAPI generator throws its toys out of the pram.
->
-> It claims you can have any set of data types which have a
-> distinct representation on the wire, so this is valid from
-> that POV.  Something about the parser/code generator can't
-> cope with this inline array though - it wants a named type
-> which means a built-in scalar, or a compound type, but not
-> an array :-(
+True ... but we certainly want to keep the file for failed tests for further 
+analysis instead of immediately deleting them ... maybe it would be enough 
+to encode the image format (qcow2, qed, vmdk, ...) into the output name, 
+instead of using the PID, so that "make check SPEED=thorough" works as 
+expected here?
 
-Array is not implemented, simply because we haven't had a use for it.
-
-Should not make you settle for an inferior schema design!  Implementing
-array alternates shouldn't be hard.
+  Thomas
 
 
