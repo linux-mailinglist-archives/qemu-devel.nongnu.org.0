@@ -2,98 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1EE7F4B20EA
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Feb 2022 10:03:33 +0100 (CET)
-Received: from localhost ([::1]:35256 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 882934B21FF
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Feb 2022 10:32:06 +0100 (CET)
+Received: from localhost ([::1]:45796 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nIRq0-0004nN-7D
-	for lists+qemu-devel@lfdr.de; Fri, 11 Feb 2022 04:03:32 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:45128)
+	id 1nISHc-0005Is-Jb
+	for lists+qemu-devel@lfdr.de; Fri, 11 Feb 2022 04:32:04 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:57840)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1nIRnX-0003YM-JO
- for qemu-devel@nongnu.org; Fri, 11 Feb 2022 04:01:00 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:54526)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1nISF9-0004PB-2i
+ for qemu-devel@nongnu.org; Fri, 11 Feb 2022 04:29:31 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:24002)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1nIRnV-0007DW-Qh
- for qemu-devel@nongnu.org; Fri, 11 Feb 2022 04:00:59 -0500
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1nISF5-0005Yc-Ni
+ for qemu-devel@nongnu.org; Fri, 11 Feb 2022 04:29:29 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1644570051;
+ s=mimecast20190719; t=1644571765;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=72uAjeR7UqRHRI0BLjqqTsP8sZWxdn3ydz1sAp/jZ6E=;
- b=DsUv93kSQbdUiHhGHwflJufXVKzsIJGb3dtW7QXeen38ksko+QF5iccU4DQEbyv9TzA17O
- KWuMO0KKe2RwpLlyFv7cJ89b0cdbkSherJnNO7snTcdykm1SX19E62fGTlgTfFAkIbsyt7
- Nq1pZzunM3QEgCjBiPEFTSwMEptqXR4=
-Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
- [209.85.222.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=E6ZWlwXxoeCnIC16q/zDRFslz/6rCjh01VMeW6KGktM=;
+ b=Pq1JXdRZk2SXx4Y+v9pn+hjYpmpGqk4evr9LCwwLxHaLht04W+WCulKyBYvHBLh40moKBs
+ cl+AIM3PTGrcKR7oVYlWmZxvaMxbign3Wy+cfcKCX4Pu1InO5wNKbiJsoxJf25foCzJMpR
+ tnGMN8HJAS2XcbKWZ2r9HTp3XMxm0u8=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-365-NAEOLVbrNnieJFEII_1RNg-1; Fri, 11 Feb 2022 04:00:50 -0500
-X-MC-Unique: NAEOLVbrNnieJFEII_1RNg-1
-Received: by mail-qk1-f199.google.com with SMTP id
- p20-20020a05620a22b400b0047ecab0db4fso5251688qkh.2
- for <qemu-devel@nongnu.org>; Fri, 11 Feb 2022 01:00:50 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=72uAjeR7UqRHRI0BLjqqTsP8sZWxdn3ydz1sAp/jZ6E=;
- b=gZjIU0FOxP1g8nlEd9XChuKx5bhPcJegpyT05KWveheQ2zb0xv8NbKJUJW5IsCyZ/Y
- m4sGXbw+w+2BcwwtcDTRmcVPdc210RbpnT3kDXLaM3buIWfOWa41pMLW2u5McygMYkYS
- e+BcqFlBEzXcUNmGteeVcyO9KHmZb/WkMwjdXqeoAE56WRgrwSRcC00E+Fb2i9pMiXjc
- wFbZfKhNcpBWNkGkee7r9rnCXvB3AgvYGBabjbSU1TCVigFc8X9cCUWX+15MOp77AHKK
- h5sq2k4OGDGMb2JA4LsnYYqxu+re7pD7o8fTtJJqTHyZeRjaE8CIJqOKcZo+LPhNKsdU
- AXAA==
-X-Gm-Message-State: AOAM531ukeTaRW4KdBRV5FkYAZ/pbY6jZWtZicjESk4hlHdidJfGP0BR
- NcfVE+0opozACeFgugrjIGz5PAnGIMoSt1o9tCQT3hNQkX76Ud8tGv3T+YGGlB8K1rsN3IVV/7Q
- qqvb1qNys6lEGAKw=
-X-Received: by 2002:a05:622a:2ca:: with SMTP id
- a10mr387346qtx.298.1644570049560; 
- Fri, 11 Feb 2022 01:00:49 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyksteUhGsdZl/7pPo6q7JECGEFhDwN42UjOcExbefbHdGNMlxoH5DpYyX7PyvrAb4f51LdsA==
-X-Received: by 2002:a05:622a:2ca:: with SMTP id
- a10mr387338qtx.298.1644570049377; 
- Fri, 11 Feb 2022 01:00:49 -0800 (PST)
-Received: from ?IPV6:2a04:ee41:4:31cb:e591:1e1e:abde:a8f1?
- ([2a04:ee41:4:31cb:e591:1e1e:abde:a8f1])
- by smtp.gmail.com with ESMTPSA id k9sm11060976qkj.31.2022.02.11.01.00.47
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 11 Feb 2022 01:00:48 -0800 (PST)
-Message-ID: <66060a56-25de-fc8a-d6d5-a33e1d5e0359@redhat.com>
-Date: Fri, 11 Feb 2022 10:00:45 +0100
+ us-mta-347-qU_ooi3GNIywjx_l-tE-ng-1; Fri, 11 Feb 2022 04:29:22 -0500
+X-MC-Unique: qU_ooi3GNIywjx_l-tE-ng-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B27BD1808337;
+ Fri, 11 Feb 2022 09:29:21 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.193.193])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id A409254558;
+ Fri, 11 Feb 2022 09:29:19 +0000 (UTC)
+Date: Fri, 11 Feb 2022 10:29:17 +0100
+From: Kevin Wolf <kwolf@redhat.com>
+To: Thomas Huth <thuth@redhat.com>
+Subject: Re: [PATCH v2 1/8] tests/qemu-iotests/testrunner: Allow parallel
+ test invocations
+Message-ID: <YgYsbRc9XNYjUH2L@redhat.com>
+References: <20220209101530.3442837-1-thuth@redhat.com>
+ <20220209101530.3442837-2-thuth@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [PATCH v5 02/20] job.h: categorize fields in struct Job
-To: Stefan Hajnoczi <stefanha@redhat.com>
-References: <20220208143513.1077229-1-eesposit@redhat.com>
- <20220208143513.1077229-3-eesposit@redhat.com>
- <YgUx60M7dB+VLi3p@stefanha-x1.localdomain>
- <8607b985-22a9-c256-af1f-ff3ba250701f@redhat.com>
- <YgVM77u1XTlVbHbB@stefanha-x1.localdomain>
-From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-In-Reply-To: <YgVM77u1XTlVbHbB@stefanha-x1.localdomain>
+In-Reply-To: <20220209101530.3442837-2-thuth@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eesposit@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=eesposit@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=kwolf@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -106,79 +78,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-block@nongnu.org,
- Wen Congyang <wencongyang2@huawei.com>,
- Xie Changlong <xiechanglong.d@gmail.com>,
- Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
- Hanna Reitz <hreitz@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- John Snow <jsnow@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
+ qemu-devel@nongnu.org, qemu-block@nongnu.org,
+ Peter Maydell <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-
-On 10/02/2022 18:35, Stefan Hajnoczi wrote:
-> On Thu, Feb 10, 2022 at 05:26:52PM +0100, Emanuele Giuseppe Esposito wrote:
->>
->>
->> On 10/02/2022 16:40, Stefan Hajnoczi wrote:
->>> On Tue, Feb 08, 2022 at 09:34:55AM -0500, Emanuele Giuseppe Esposito wrote:
->>>> Categorize the fields in struct Job to understand which ones
->>>> need to be protected by the job mutex and which don't.
->>>>
->>>> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
->>>> ---
->>>>  include/qemu/job.h | 59 ++++++++++++++++++++++++++--------------------
->>>>  1 file changed, 34 insertions(+), 25 deletions(-)
->>>>
->>>> diff --git a/include/qemu/job.h b/include/qemu/job.h
->>>> index d1192ffd61..86ec46c09e 100644
->>>> --- a/include/qemu/job.h
->>>> +++ b/include/qemu/job.h
->>>> @@ -40,27 +40,50 @@ typedef struct JobTxn JobTxn;
->>>>   * Long-running operation.
->>>>   */
->>>>  typedef struct Job {
->>>> +
->>>> +    /* Fields set at initialization (job_create), and never modified */
->>>
->>> Is there a corresponding "Field protected by job_mutex" comment that
->>> separates fields that need locking?
->>>
->>
->> That would be the comment
->>
->>     /** Protected by job_mutex */
->>
->> situated right after the field "ProgressMeter progress;".
->>
->> Do you want me to change it in "Fields protected by job_mutex"?
+Am 09.02.2022 um 11:15 hat Thomas Huth geschrieben:
+> If multiple tests run in parallel, they must use unique file
+> names for the test output.
 > 
-> I don't see it:
+> Suggested-by: Hanna Reitz <hreitz@redhat.com>
+> Signed-off-by: Thomas Huth <thuth@redhat.com>
+> ---
+>  tests/qemu-iotests/testrunner.py | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> +    /** The opaque value that is passed to the completion function.  */
-> +    void *opaque;
-> +
-> +    /* ProgressMeter API is thread-safe */
-> +    ProgressMeter progress;
-> +
-> +
-> +    /** AioContext to run the job coroutine in */
-> +    AioContext *aio_context;
-> +
-> +    /** Reference count of the block job */
-> +    int refcnt;
-> 
-> Is it added by a later patch or did I miss it?
-> 
+> diff --git a/tests/qemu-iotests/testrunner.py b/tests/qemu-iotests/testrunner.py
+> index 0eace147b8..9d20f51bb1 100644
+> --- a/tests/qemu-iotests/testrunner.py
+> +++ b/tests/qemu-iotests/testrunner.py
+> @@ -259,7 +259,7 @@ def do_run_test(self, test: str, mp: bool) -> TestResult:
+>          """
+>  
+>          f_test = Path(test)
+> -        f_bad = Path(f_test.name + '.out.bad')
+> +        f_bad = Path(f'{os.getpid()}-{f_test.name}.out.bad')
+>          f_notrun = Path(f_test.name + '.notrun')
+>          f_casenotrun = Path(f_test.name + '.casenotrun')
+>          f_reference = Path(self.find_reference(test))
 
-Yes sorry I forgot: it is added in patch 19, when the lock is not a nop
-anymore.
+Hmm... It does make sense, but nobody ever cleans those files up.
+Currently, the next run of the test will just overwrite the existing
+file or delete it when the test succeeds. So after running the test
+suite, you have .out.bad files for every failed test, but not for those
+that succeeded.
 
-I think this was suggested in one of the previous reviews, to avoid
-having a misleading comment when the fields are not yet protected.
+After this change, won't the test directory accumulate tons of .out.bad
+files over time?
 
-Emanuele
+Kevin
 
 
