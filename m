@@ -2,60 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D3744B2B5E
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Feb 2022 18:09:45 +0100 (CET)
-Received: from localhost ([::1]:37190 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A3E104B2B7B
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Feb 2022 18:13:29 +0100 (CET)
+Received: from localhost ([::1]:41694 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nIZQV-0005lU-N2
-	for lists+qemu-devel@lfdr.de; Fri, 11 Feb 2022 12:09:43 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:33786)
+	id 1nIZU8-0000Uo-Ha
+	for lists+qemu-devel@lfdr.de; Fri, 11 Feb 2022 12:13:28 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:34698)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
- id 1nIZPB-0003oY-IL
- for qemu-devel@nongnu.org; Fri, 11 Feb 2022 12:08:21 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:45743)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nIZSW-0008DU-Oy
+ for qemu-devel@nongnu.org; Fri, 11 Feb 2022 12:11:49 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:32065)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
- id 1nIZP8-0007A2-34
- for qemu-devel@nongnu.org; Fri, 11 Feb 2022 12:08:19 -0500
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nIZST-0007pe-S7
+ for qemu-devel@nongnu.org; Fri, 11 Feb 2022 12:11:47 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1644599295;
+ s=mimecast20190719; t=1644599504;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=ThB8GFXpbTlXrtJdhck51agzQka8yf4YYpivZCVNXDI=;
- b=AKTOoqBLScu/jqxdUKVNWs+VbXu2l/G/CfUPapx7URomQO874sPbFXOzTp2pUTTkktRwJQ
- /Asc9hwZ1v2eXcxrmwsNTj1vAOn/GlgKcbjWVdQPVj06BE/pDzfQYyyOTcPJQqp51j3OQ2
- mayelo+6pmXnuKN/yCjq+YCh/Qs2fT0=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ in-reply-to:in-reply-to:references:references;
+ bh=snKOfOeEfWG8V0v7xp3ZFe3QjScqadvdHG+VwZhOJoY=;
+ b=LPBaKMxU/YWBIWfXtZtD+U1Vwqy9T4KHglKv8cp+llK6RFjgndC8UV61mIBrou2E8+2CNZ
+ 3o2Gkhb6w3T15yg6U1Mwhx0inM8WsQlsaRwFpN8l/6IXq3XUWAoqmoGV/N8Vxf7EIG6/o9
+ JXt53741qTOc20HXwMQLqRGgtaOBURI=
+Received: from mail-vs1-f72.google.com (mail-vs1-f72.google.com
+ [209.85.217.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-636-j1aoYiMBMPmTzZaJf0ie8A-1; Fri, 11 Feb 2022 12:03:41 -0500
-X-MC-Unique: j1aoYiMBMPmTzZaJf0ie8A-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B36CA193F565
- for <qemu-devel@nongnu.org>; Fri, 11 Feb 2022 17:03:39 +0000 (UTC)
-Received: from thinkpad.redhat.com (unknown [10.39.193.0])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E900F5E4BA;
- Fri, 11 Feb 2022 17:03:00 +0000 (UTC)
-From: Laurent Vivier <lvivier@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] hw/virtio: vdpa: Fix leak of host-notifier memory-region
-Date: Fri, 11 Feb 2022 18:02:59 +0100
-Message-Id: <20220211170259.1388734-1-lvivier@redhat.com>
+ us-mta-64-eQImakjbM9CMZjGGLanvcA-1; Fri, 11 Feb 2022 12:11:38 -0500
+X-MC-Unique: eQImakjbM9CMZjGGLanvcA-1
+Received: by mail-vs1-f72.google.com with SMTP id
+ b4-20020a67f844000000b0030ea275970dso868158vsp.4
+ for <qemu-devel@nongnu.org>; Fri, 11 Feb 2022 09:11:37 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=snKOfOeEfWG8V0v7xp3ZFe3QjScqadvdHG+VwZhOJoY=;
+ b=dIYlPVdlqZyUgyw2+ADYskPkzR4VjNByH5Z34+YRDLxBOUds/sl7r7jBA33EJFKJFu
+ kD8247PLPO2LfUwJYoX0yul69cztkTmIPcjdvsXmjGoZRLXkeElU0t+5VnMhP7EhEj/z
+ jre4QNAqhFpQNQTAvP+SKOIxs43RlshZPZj6mP4WQbpx8EE2aKfv/dlFoGDX1qsX2sSS
+ 6JAZVpG7G9uPy1TQ+9UDRNjnMp/u+ngsR4BPxSHzHwgGDTzXmExyrdgqRaMUDkxpbv98
+ I3x+AUW31YxTXHIMbOaV9awKRac8pa22Xkie5XXJi8QNfC2pMwaWxccenLLgLgiVrAoo
+ 6OWg==
+X-Gm-Message-State: AOAM533McjdxOZ3Y22nuxKJOzA6z+oergZaiM83btjgyLw59D2dwRtni
+ P94ykibFlJQF/vpvcbE57DGK3w2hue+1Y+GK5210UZhwkAlUjeHthX5Bg4AD8CDiXN5DZd/JuAm
+ WAN8I4HBnooihceT1Yq11KQx/dMBXaqw=
+X-Received: by 2002:a1f:a857:: with SMTP id r84mr784432vke.24.1644599497370;
+ Fri, 11 Feb 2022 09:11:37 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJx+VqKCDBrElvNxUQWlU7zFm7ZZT2tmSJ7tZ8n93T9kKm++MjVb2g3L07hvXuEH6u11uS+Npn5V6GgpflW2fO4=
+X-Received: by 2002:a1f:a857:: with SMTP id r84mr784427vke.24.1644599497054;
+ Fri, 11 Feb 2022 09:11:37 -0800 (PST)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+References: <20220204225230.2114135-1-jsnow@redhat.com>
+ <87leyibtqz.fsf@pond.sub.org>
+ <CAFn=p-YSAe7Q+usWEv4b7UciYjm5iso9LH-pd-VbDoV196PfvQ@mail.gmail.com>
+ <87o83d8vij.fsf@pond.sub.org>
+In-Reply-To: <87o83d8vij.fsf@pond.sub.org>
+From: John Snow <jsnow@redhat.com>
+Date: Fri, 11 Feb 2022 12:11:26 -0500
+Message-ID: <CAFn=p-ZcCjx5eeVcZm0fnc_bzFoffx_GGnCAgQKngGcOXrFLBw@mail.gmail.com>
+Subject: Re: [PATCH] scripts/qapi: minor delinting
+To: Markus Armbruster <armbru@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lvivier@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=lvivier@redhat.com;
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -76,42 +90,163 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Jason Wang <jasowang@redhat.com>,
- Cindy Lu <lulu@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>
+Cc: Michael Roth <michael.roth@amd.com>, qemu-devel <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-If call virtio_queue_set_host_notifier_mr fails, should free
-host-notifier memory-region.
+On Fri, Feb 11, 2022 at 6:58 AM Markus Armbruster <armbru@redhat.com> wrote:
+>
+> John Snow <jsnow@redhat.com> writes:
+>
+> > On Thu, Feb 10, 2022 at 10:56 AM Markus Armbruster <armbru@redhat.com> wrote:
+> >>
+> >> John Snow <jsnow@redhat.com> writes:
+> >>
+> >> > Just cleaning up some cobwebs.
+> >> >
+> >> > Signed-off-by: John Snow <jsnow@redhat.com>
+> >> > ---
+> >> >  scripts/qapi/commands.py | 2 +-
+> >> >  scripts/qapi/events.py   | 6 +++---
+> >> >  scripts/qapi/types.py    | 6 +++++-
+> >> >  scripts/qapi/visit.py    | 6 +++++-
+> >> >  4 files changed, 14 insertions(+), 6 deletions(-)
+> >> >
+> >> > diff --git a/scripts/qapi/commands.py b/scripts/qapi/commands.py
+> >> > index 869d799ed2..38ca38a7b9 100644
+> >> > --- a/scripts/qapi/commands.py
+> >> > +++ b/scripts/qapi/commands.py
+> >> > @@ -25,8 +25,8 @@
+> >> >      QAPIGenC,
+> >> >      QAPISchemaModularCVisitor,
+> >> >      build_params,
+> >> > -    ifcontext,
+> >> >      gen_special_features,
+> >> > +    ifcontext,
+> >> >  )
+> >> >  from .schema import (
+> >> >      QAPISchema,
+> >> > diff --git a/scripts/qapi/events.py b/scripts/qapi/events.py
+> >> > index 27b44c49f5..8edf43d8da 100644
+> >> > --- a/scripts/qapi/events.py
+> >> > +++ b/scripts/qapi/events.py
+> >> > @@ -109,15 +109,15 @@ def gen_event_send(name: str,
+> >> >          if not boxed:
+> >> >              ret += gen_param_var(arg_type)
+> >> >
+> >> > -    for f in features:
+> >> > -        if f.is_special():
+> >> > +    for feat in features:
+> >> > +        if feat.is_special():
+> >> >              ret += mcgen('''
+> >> >
+> >> >      if (compat_policy.%(feat)s_output == COMPAT_POLICY_OUTPUT_HIDE) {
+> >> >          return;
+> >> >      }
+> >> >  ''',
+> >> > -                         feat=f.name)
+> >> > +                         feat=feat.name)
+> >> >
+> >> >      ret += mcgen('''
+> >> >
+> >>
+> >> Meh.  Expressive variable names are good when there's something useful
+> >> to express.  But what's the added value in such a simple, obvious loop?
+> >>
+> >> Besides:
+> >>
+> >>     $ git-grep 'for . in' scripts/qapi | wc -l
+> >>     42
+> >>     $ git-grep -E 'for [A-Za-z0-9]{2,} in' scripts/qapi | wc -l
+> >>     31
+> >>
+> >> > diff --git a/scripts/qapi/types.py b/scripts/qapi/types.py
+> >> > index 3013329c24..477d027001 100644
+> >> > --- a/scripts/qapi/types.py
+> >> > +++ b/scripts/qapi/types.py
+> >> > @@ -16,7 +16,11 @@
+> >> >  from typing import List, Optional
+> >> >
+> >> >  from .common import c_enum_const, c_name, mcgen
+> >> > -from .gen import QAPISchemaModularCVisitor, gen_special_features, ifcontext
+> >> > +from .gen import (
+> >> > +    QAPISchemaModularCVisitor,
+> >> > +    gen_special_features,
+> >> > +    ifcontext,
+> >> > +)
+> >> >  from .schema import (
+> >> >      QAPISchema,
+> >> >      QAPISchemaEnumMember,
+> >> > diff --git a/scripts/qapi/visit.py b/scripts/qapi/visit.py
+> >> > index e13bbe4292..380fa197f5 100644
+> >> > --- a/scripts/qapi/visit.py
+> >> > +++ b/scripts/qapi/visit.py
+> >> > @@ -21,7 +21,11 @@
+> >> >      indent,
+> >> >      mcgen,
+> >> >  )
+> >> > -from .gen import QAPISchemaModularCVisitor, gen_special_features, ifcontext
+> >> > +from .gen import (
+> >> > +    QAPISchemaModularCVisitor,
+> >> > +    gen_special_features,
+> >> > +    ifcontext,
+> >> > +)
+> >> >  from .schema import (
+> >> >      QAPISchema,
+> >> >      QAPISchemaEnumMember,
+> >>
+> >> Everything else, gladly
+> >> Reviewed-by: Markus Armbruster <armbru@redhat.com>
+> >
+> > The problem with whitelisting single-letter variable names is that
+> > it's done on a per-name basis, like allowing "x, y, z" or "i, j, k". I
+> > could whitelist "f", "m", etc but there's no way to whitelist "for f
+> > in features" or "for m im members" ... So admittedly, I just stuck
+> > with the default, even though it's a little annoying. It's what I use
+> > for python/, and I had previously used it for ./scripts/qapi/, so I
+> > was just carrying on.
+>
+> There are only 26 single-letter variable names.  Whitelist them all?
+>
+> > In general: I like the idea of forbidding single-letter variable names
+> > because I prefer things to be more verbose than terse as a habit. In
+> > practice: yeah, it's hard to strictly defend any one change as
+> > obviously superior. I preferred "for feature in features", which you
+> > did not like because the plural wasn't distinct enough (fair!), so I
+> > started using "for feat in features" as a compromise.
+>
+> @feat is a perfectly adequate name.  So is @f as long as the loop is
+> small.  What annoys me here is the churn.
+>
+> Sadly, pylint's invalid-name mixes up two things: PEP-8 conventions like
+> "use CamelCase for class names", and its own style rules like "names
+> should be least three characters long".  The former is easy to decide,
+> and welcome help.  The latter is actually a proxy for "use sensible
+> names to make the code easier to read", because pylint isn't smart
+> enough to judge "easy to read".  Fine, leave it to reviewers then!
+>
+> > If on third thought you don't like any of this, we can change course,
+> > but then maybe we should also undo the other changes we already
+> > checked in. (At this point, I feel like it's maybe less churn to
+> > continue on the path I have been, but... you're the boss here.)
+>
+> I don't think we need to undo.
+>
+> Several of the names in scripts/qapi/pylintrc's good-names don't
+> actually occur in the code.
+>
+> Could I persuade you to replace it with something like
+>
+>     good-names-rgxs=^[_a-z][_a-z0-9]?$
+>
+> and call it a day?
+>
 
-This problem can trigger a coredump with some vDPA drivers (mlx5,
-but not with the vdpasim), if we unplug the virtio-net card from
-the guest after a stop/start.
-
-The same fix has been done for vhost-user:
-  1f89d3b91e3e ("hw/virtio: Fix leak of host-notifier memory-region")
-
-Fixes: d0416d487bd5 ("vhost-vdpa: map virtqueue notification area if possible")
-Cc: jasowang@redhat.com
-Resolves: https://bugzilla.redhat.com/2027208
-Signed-off-by: Laurent Vivier <lvivier@redhat.com>
----
- hw/virtio/vhost-vdpa.c | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
-index 04ea43704f5d..11f696468dc1 100644
---- a/hw/virtio/vhost-vdpa.c
-+++ b/hw/virtio/vhost-vdpa.c
-@@ -431,6 +431,7 @@ static int vhost_vdpa_host_notifier_init(struct vhost_dev *dev, int queue_index)
-     g_free(name);
- 
-     if (virtio_queue_set_host_notifier_mr(vdev, queue_index, &n->mr, true)) {
-+        object_unparent(OBJECT(&n->mr));
-         munmap(addr, page_size);
-         goto err;
-     }
--- 
-2.34.1
+I've been growing that good-names list out from python/, so they
+probably appear over in there somewhere. And uh, eh. In the interest
+of just moving on to something more interesting, sure. (I reserve the
+right to change my mind when I attempt to get the CI system protecting
+the type safety of qapi-gen, when we'll need a single configuration
+for everything. We can fight about it then.)
 
 
