@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D1BD4B28FB
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Feb 2022 16:18:01 +0100 (CET)
-Received: from localhost ([::1]:53476 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 442554B28EF
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Feb 2022 16:16:48 +0100 (CET)
+Received: from localhost ([::1]:50774 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nIXgO-00079V-9R
-	for lists+qemu-devel@lfdr.de; Fri, 11 Feb 2022 10:18:00 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:53100)
+	id 1nIXfD-0005Lb-C0
+	for lists+qemu-devel@lfdr.de; Fri, 11 Feb 2022 10:16:47 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:53126)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1nIXHx-0003f6-PU
+ id 1nIXHy-0003fA-LR
  for qemu-devel@nongnu.org; Fri, 11 Feb 2022 09:52:48 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:36990)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:41588)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1nIXHo-0001mF-3z
- for qemu-devel@nongnu.org; Fri, 11 Feb 2022 09:52:45 -0500
+ id 1nIXHu-0001pi-8X
+ for qemu-devel@nongnu.org; Fri, 11 Feb 2022 09:52:46 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1644591153;
+ s=mimecast20190719; t=1644591160;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=HDKIaaQgVJLBJz0IvME5ELmCNVbFD5gLL0P9gARQ7Lg=;
- b=C53EhZmpeM/EDj91ZLV8UrJz83/qn2j+2DTRwSUYc5NbwiLhzF7lMp9R+g1UmPo7kgYmJa
- hoY3KmrVkYFkcMu/HGlLHkvT6Gtyc+SNAddckPcXxrxm/bJHI/16aLojcRdsLkfOI8GLGV
- Jmyv3ZvtEijcoSaz8fUtTz0h2gyA370=
+ bh=T748naRNE3IAN+K95wteq4/X227iYKeLaCY/MhXS17I=;
+ b=IaPUCLyKnAUiNk8gYTW9JauU0XnCLdsBkLNHR2rQ96Z3UWiGOH5qp2P/5j8R+rf80534uv
+ T5CV9LzVWD7Ou0YC5mkDK9hQMe8cLHLeQxYnKMKMG1KGEArI6pnF1XfZ0upnJ1pnu31QdC
+ 4a2WvkzaFpPXArM6f83g2uDr4ShJkj4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-167-rgYjb27HObGU2y5LtTzx7Q-1; Fri, 11 Feb 2022 09:52:32 -0500
-X-MC-Unique: rgYjb27HObGU2y5LtTzx7Q-1
+ us-mta-356-z_PbHDLpP9eCOO-00uFYZA-1; Fri, 11 Feb 2022 09:52:37 -0500
+X-MC-Unique: z_PbHDLpP9eCOO-00uFYZA-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AE5CF18C8C00;
- Fri, 11 Feb 2022 14:52:30 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4355985EE66;
+ Fri, 11 Feb 2022 14:52:36 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8215E7C0E8;
- Fri, 11 Feb 2022 14:52:29 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C85207C0E8;
+ Fri, 11 Feb 2022 14:52:30 +0000 (UTC)
 From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH v7 20/31] include/sysemu/blockdev.h: global state API
-Date: Fri, 11 Feb 2022 09:51:42 -0500
-Message-Id: <20220211145153.2861415-21-eesposit@redhat.com>
+Subject: [PATCH v7 21/31] assertions for blockdev.h global state API
+Date: Fri, 11 Feb 2022 09:51:43 -0500
+Message-Id: <20220211145153.2861415-22-eesposit@redhat.com>
 In-Reply-To: <20220211145153.2861415-1-eesposit@redhat.com>
 References: <20220211145153.2861415-1-eesposit@redhat.com>
 MIME-Version: 1.0
@@ -59,7 +59,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=eesposit@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eesposit@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -67,7 +67,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,44 +94,123 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-blockdev functions run always under the BQL lock.
-
 Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 ---
- include/sysemu/blockdev.h | 13 ++++++++++---
- 1 file changed, 10 insertions(+), 3 deletions(-)
+ block/block-backend.c |  3 +++
+ blockdev.c            | 16 ++++++++++++++++
+ 2 files changed, 19 insertions(+)
 
-diff --git a/include/sysemu/blockdev.h b/include/sysemu/blockdev.h
-index f9fb54d437..3211b16513 100644
---- a/include/sysemu/blockdev.h
-+++ b/include/sysemu/blockdev.h
-@@ -13,9 +13,6 @@
- #include "block/block.h"
- #include "qemu/queue.h"
+diff --git a/block/block-backend.c b/block/block-backend.c
+index e5708702db..d8a77a5832 100644
+--- a/block/block-backend.c
++++ b/block/block-backend.c
+@@ -810,6 +810,7 @@ bool bdrv_is_root_node(BlockDriverState *bs)
+  */
+ DriveInfo *blk_legacy_dinfo(BlockBackend *blk)
+ {
++    GLOBAL_STATE_CODE();
+     return blk->legacy_dinfo;
+ }
  
--void blockdev_mark_auto_del(BlockBackend *blk);
--void blockdev_auto_del(BlockBackend *blk);
--
- typedef enum {
-     IF_DEFAULT = -1,            /* for use with drive_add() only */
-     /*
-@@ -38,6 +35,16 @@ struct DriveInfo {
-     QTAILQ_ENTRY(DriveInfo) next;
- };
+@@ -821,6 +822,7 @@ DriveInfo *blk_legacy_dinfo(BlockBackend *blk)
+ DriveInfo *blk_set_legacy_dinfo(BlockBackend *blk, DriveInfo *dinfo)
+ {
+     assert(!blk->legacy_dinfo);
++    GLOBAL_STATE_CODE();
+     return blk->legacy_dinfo = dinfo;
+ }
  
-+/*
-+ * Global state (GS) API. These functions run under the BQL.
-+ *
-+ * See include/block/block-global-state.h for more information about
-+ * the GS API.
-+ */
+@@ -831,6 +833,7 @@ DriveInfo *blk_set_legacy_dinfo(BlockBackend *blk, DriveInfo *dinfo)
+ BlockBackend *blk_by_legacy_dinfo(DriveInfo *dinfo)
+ {
+     BlockBackend *blk = NULL;
++    GLOBAL_STATE_CODE();
+ 
+     while ((blk = blk_next(blk)) != NULL) {
+         if (blk->legacy_dinfo == dinfo) {
+diff --git a/blockdev.c b/blockdev.c
+index 9e638f1982..ba20f5f1ab 100644
+--- a/blockdev.c
++++ b/blockdev.c
+@@ -113,6 +113,8 @@ void override_max_devs(BlockInterfaceType type, int max_devs)
+     BlockBackend *blk;
+     DriveInfo *dinfo;
+ 
++    GLOBAL_STATE_CODE();
 +
-+void blockdev_mark_auto_del(BlockBackend *blk);
-+void blockdev_auto_del(BlockBackend *blk);
+     if (max_devs <= 0) {
+         return;
+     }
+@@ -142,6 +144,8 @@ void blockdev_mark_auto_del(BlockBackend *blk)
+     DriveInfo *dinfo = blk_legacy_dinfo(blk);
+     BlockJob *job;
+ 
++    GLOBAL_STATE_CODE();
 +
- DriveInfo *blk_legacy_dinfo(BlockBackend *blk);
- DriveInfo *blk_set_legacy_dinfo(BlockBackend *blk, DriveInfo *dinfo);
- BlockBackend *blk_by_legacy_dinfo(DriveInfo *dinfo);
+     if (!dinfo) {
+         return;
+     }
+@@ -163,6 +167,7 @@ void blockdev_mark_auto_del(BlockBackend *blk)
+ void blockdev_auto_del(BlockBackend *blk)
+ {
+     DriveInfo *dinfo = blk_legacy_dinfo(blk);
++    GLOBAL_STATE_CODE();
+ 
+     if (dinfo && dinfo->auto_del) {
+         monitor_remove_blk(blk);
+@@ -187,6 +192,8 @@ QemuOpts *drive_add(BlockInterfaceType type, int index, const char *file,
+ {
+     QemuOpts *opts;
+ 
++    GLOBAL_STATE_CODE();
++
+     opts = qemu_opts_parse_noisily(qemu_find_opts("drive"), optstr, false);
+     if (!opts) {
+         return NULL;
+@@ -207,6 +214,8 @@ DriveInfo *drive_get(BlockInterfaceType type, int bus, int unit)
+     BlockBackend *blk;
+     DriveInfo *dinfo;
+ 
++    GLOBAL_STATE_CODE();
++
+     for (blk = blk_next(NULL); blk; blk = blk_next(blk)) {
+         dinfo = blk_legacy_dinfo(blk);
+         if (dinfo && dinfo->type == type
+@@ -229,6 +238,8 @@ void drive_check_orphaned(void)
+     Location loc;
+     bool orphans = false;
+ 
++    GLOBAL_STATE_CODE();
++
+     for (blk = blk_next(NULL); blk; blk = blk_next(blk)) {
+         dinfo = blk_legacy_dinfo(blk);
+         /*
+@@ -262,6 +273,7 @@ void drive_check_orphaned(void)
+ 
+ DriveInfo *drive_get_by_index(BlockInterfaceType type, int index)
+ {
++    GLOBAL_STATE_CODE();
+     return drive_get(type,
+                      drive_index_to_bus_id(type, index),
+                      drive_index_to_unit_id(type, index));
+@@ -273,6 +285,8 @@ int drive_get_max_bus(BlockInterfaceType type)
+     BlockBackend *blk;
+     DriveInfo *dinfo;
+ 
++    GLOBAL_STATE_CODE();
++
+     max_bus = -1;
+     for (blk = blk_next(NULL); blk; blk = blk_next(blk)) {
+         dinfo = blk_legacy_dinfo(blk);
+@@ -759,6 +773,8 @@ DriveInfo *drive_new(QemuOpts *all_opts, BlockInterfaceType block_default_type,
+     const char *filename;
+     int i;
+ 
++    GLOBAL_STATE_CODE();
++
+     /* Change legacy command line options into QMP ones */
+     static const struct {
+         const char *from;
 -- 
 2.31.1
 
